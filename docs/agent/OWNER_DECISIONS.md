@@ -1,3 +1,7 @@
+#22Oct — owner package B209 authorized after A delivery
+
+A PR14/main d7779f5 exact FULL39/secrets accepted. B only in codex/trial-sale-methods:complete C8 parcel_only,209 DB guards/locks/replay/legacy/replacement/import plus unified product sale-method section (parcel/single required-one,formed capability via existing owner RPC or real state+direct family link). Own PR/FULLCI/merge/mainCI/Gitleaks0/checkpoint. Owner209 command prepared only;no hostedaccess/deploy. Initial ceiling208 until additive209 is introduced;001-208/oldpins/references immutable. Read TRIAL_OWNER_B.md and design/PARCEL_ONLY_C8_DESIGN_AR.md.
+
 #22Oct — trial owner packages A then B authorized
 
 Owner explicitly authorizes A1-A4 presentation/read-only receipt search first,separate worktree/PR/FULLCI;then full parcel_only design in B/migration209,separate worktree/PR/FULLCI. Current A ceiling208;no B source implementation yet. No Frankfurt/hostedaccess or deployment. See TRIAL_OWNER_A.md. A132bothengine+22focused/types/strictlint passed;final source evidence/units/CI pending.

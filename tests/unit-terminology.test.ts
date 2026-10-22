@@ -23,6 +23,10 @@ test('no generic piece terminology in UI source; exact import-only compatibility
       assert.equal(text.split('كم حبة بالطرد').length-1,1,file+' exact owner phrase once');
       text=text.replace('كم حبة بالطرد','');
     }
+    if(file==='src/features/products/ProductFormModal.tsx'){
+      assert.equal(text.split('حبة مفردة').length-1,2,'exact owner sale-method label and validation');
+      text=text.replaceAll('حبة مفردة','');
+    }
     return forbidden.test(text);
   });
   assert.ok(forbidden.test('حبة')&&forbidden.test('عدد الحبات'));

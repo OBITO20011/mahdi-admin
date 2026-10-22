@@ -46,19 +46,19 @@ test('171 admission rejects client/PUBLIC correction grants,legacy EXECUTE bypas
 
 test('historical171 real evidence has exact current-source query coverage,no errors,and closed RPC-only correction/legacy writers',async()=>{
  const source=await inventory(),proof=JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_AFTER_171.json','utf8'));
- assert.equal(source.migrationCeiling,208);assert.equal(proof.migrationCeiling,171);assert.equal(proof.managedAccess,false);
+ assert.equal(source.migrationCeiling,209);assert.equal(proof.migrationCeiling,171);assert.equal(proof.managedAccess,false);
  assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);assert.deepEqual(proof.sourceHashes,await sourceBefore198Presentation(source.sources));
  assert.deepEqual(verifyProbeCoverage(source,proof.results),proof.coverage);assert.ok(proof.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));
  assertProduct171Catalog(proof.catalog);
  const services=JSON.parse(readFileSync('docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json','utf8'));
- assert.equal(services.migrationCeiling,208);assert.equal(services.ok,true);
+ assert.equal(services.migrationCeiling,209);assert.equal(services.ok,true);
  assert.deepEqual(services.results.filter((r:{sqlstate:string|null})=>r.sqlstate==='42501').map((r:{name:string;appRole:string})=>[r.name,r.appRole]).sort(),[['get_supplier_replacements_page_v1','admin'],['get_supplier_replacements_page_v1','cashier']]);
 });
 
 test('all frontend RPC callsites exclude unversioned product writers,not only products.service',async()=>{
  const source=await serviceInventory();
  for(const name of ['update_product_master_v3','update_product_flavor_v1'])assert.ok(!source.functionNames.includes(name),name);
- for(const name of ['update_product_master_v4','update_product_flavor_v2','get_product_cost_state_v1','correct_product_cost_v1'])assert.ok(source.functionNames.includes(name),name);
+ for(const name of ['update_product_master_v5','update_product_flavor_v2','get_product_cost_state_v1','correct_product_cost_v1'])assert.ok(source.functionNames.includes(name),name);
  const workflow=readFileSync('.github/workflows/quality.yml','utf8');
  assert.match(workflow,/run-frankfurt-upgrade171-runtime.mjs/u);assert.match(workflow,/Require real application table access through198/u);
 });

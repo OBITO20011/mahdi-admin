@@ -9,7 +9,7 @@ import {verifyHistoricalWarehouseCoverage as verifyProbeCoverage} from '../scrip
 test('195 reference rejects obsolete ceilings;actual SDK evidence exactly covers current source and no cheque table leaks',async()=>{
   assert.throws(()=>assertChequesReference({format:7,migrationCeiling:182},[],null,null),/READY_CHEQUES_REFERENCE_REQUIRED/u);
   const source=await inventory(),proof=JSON.parse(await readFile('docs/operations/TABLE_ACCESS_AFTER_195.json','utf8'));
-  assert.equal(source.migrationCeiling,208);assert.equal(proof.migrationCeiling,195);assert.equal(proof.managedAccess,false);
+  assert.equal(source.migrationCeiling,209);assert.equal(proof.migrationCeiling,195);assert.equal(proof.managedAccess,false);
   assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);assert.deepEqual(proof.sourceHashes,await sourceBefore198Presentation(source.sources));
   assert.deepEqual(proof.coverage,verifyProbeCoverage(source,proof.results));
   assert.ok(proof.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));

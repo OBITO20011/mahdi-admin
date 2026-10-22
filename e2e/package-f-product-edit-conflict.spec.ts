@@ -49,7 +49,7 @@ for(const theme of ['light','dark'] as const)for(const width of [390,820,1440]){
     const panel=page.getByTestId('product-edit-conflict');
     await expect(panel).toBeVisible();
     await expect(panel).toContainText('عدّل مستخدم آخر هذا المنتج قبل قليل');
-    const [refused]=await calls(page,'update_product_master_v4');
+    const [refused]=await calls(page,'update_product_master_v5');
     expect(refused.args.p_expected_updated_at).toBe(opened);
     expect((await row(page,productId)).name_ar,'nothing was overwritten').toBe('عصير برتقال - تعديل الزميل');
     expect((await row(page,productId)).default_sale_price_in_minor_units).toBe(21600);
@@ -70,7 +70,7 @@ for(const theme of ['light','dark'] as const)for(const width of [390,820,1440]){
     const final=await row(page,productId);
     expect(final.name_ar,'the other user\'s change survives').toBe('عصير برتقال - تعديل الزميل');
     expect(final.default_sale_price_in_minor_units,'my change is applied').toBe(23500);
-    const saves=await calls(page,'update_product_master_v4');
+    const saves=await calls(page,'update_product_master_v5');
     expect(saves).toHaveLength(2);
     expect(saves[1].args.p_expected_updated_at).not.toBe(opened);
   });
@@ -91,7 +91,7 @@ test('حالة الإخفاء التي غيّرها مستخدم آخر لا ت�
   await expect(page.getByTestId('product-edit-closed')).toBeVisible();
   const final=await row(page,productId);
   expect(final.is_active,'the hidden status from the other user is kept').toBe(false);
-  expect((await calls(page,'update_product_master_v4')).at(-1)?.args.p_is_active).toBe(false);
+  expect((await calls(page,'update_product_master_v5')).at(-1)?.args.p_is_active).toBe(false);
 });
 
 test('تعديل النكهة من تبويبين: الثاني يرى القيم الحالية ويعيد التطبيق دون مسح تعديل الأول',async({page,context})=>{
@@ -114,3 +114,36 @@ test('تعديل النكهة من تبويبين: الثاني يرى القي�
   await expect.poll(async()=>(await row(page,flavorId)).flavor_name_ar).toBe('جبنة حارة');
   expect((await row(page,flavorId)).barcode,'the first tab\'s barcode survives').toBe('6251234500999');
 });
+
+for(const width of [390,1440]){
+ test('209 unified sale methods parcel only and unit only '+width,async({page})=>{
+  await page.setViewportSize({width,height:1000});await page.goto(url('reset=1'));
+  const section=page.getByRole('group',{name:'طريقة البيع',exact:true});
+  await expect(section.getByRole('checkbox',{name:/^طرد \(/u})).toBeChecked();await expect(section.getByRole('checkbox',{name:'حبة مفردة',exact:true})).toBeChecked();
+  await expect(page.getByText('مسموح طرد مشكّل بالنكهات',{exact:true})).toHaveCount(0);
+  await section.getByRole('checkbox',{name:'حبة مفردة',exact:true}).uncheck();await save(page);
+  await expect(page.getByTestId('product-edit-closed')).toBeVisible();expect((await calls(page,'update_product_master_v5'))[0].args.p_parcel_only).toBe(true);
+  await page.goto(url('parcelOnly=1'));
+  await expect(page.getByRole('checkbox',{name:'حبة مفردة',exact:true})).not.toBeChecked();
+  await page.getByRole('checkbox',{name:'حبة مفردة',exact:true}).check();await page.getByRole('checkbox',{name:/^طرد \(/u}).uncheck();await save(page);
+  const last=(await calls(page,'update_product_master_v5')).at(-1)!;expect(last.args.p_parcel_only).toBe(false);expect(last.args.p_units_per_sale_unit).toBe(1);expect(last.args.p_units_per_purchase_unit).toBe(1);
+ });
+ test('209 at least one sale method prevents RPC '+width,async({page})=>{
+  await page.setViewportSize({width,height:1000});await page.goto(url('reset=1'));
+  await page.getByRole('checkbox',{name:'حبة مفردة',exact:true}).uncheck();await page.getByRole('checkbox',{name:/^طرد \(/u}).uncheck();await save(page);
+  await expect(page.getByRole('alert').filter({hasText:'اختر طريقة بيع واحدة على الأقل'}).first()).toBeVisible();expect(await calls(page,'update_product_master_v5')).toHaveLength(0);
+ });
+ test('209 formed state reads actual owner config and dirty changes disable direct link '+width,async({page})=>{
+  await page.setViewportSize({width,height:1000});await page.goto(url('reset=1&familyForm=1'));
+  await expect(page.getByRole('checkbox',{name:'مسموح طرد مشكّل بالنكهات',exact:true})).toBeChecked();
+  const link=page.getByRole('button',{name:'فتح إعداد الطرد المشكّل لهذا المنتج',exact:true});await expect(link).toBeEnabled();
+  expect(await calls(page,'get_admin_parcel_configuration_context_v1')).toHaveLength(1);
+  await link.click();expect(await page.evaluate(()=>(window as unknown as {__currentModal:()=>unknown}).__currentModal())).toEqual({name:'parcel_configuration',data:{familyProductId:'88888888-8888-4888-8888-000000000005'}});
+  await page.getByLabel('اسم المنتج').fill('عائلة معدلة');await expect(link).toBeDisabled();await expect(page.getByText('احفظ تعديلات المنتج أولاً حتى لا تفقدها عند فتح الإعداد.')).toBeVisible();
+  expect(await calls(page,'save_product_parcel_configuration_v1')).toHaveLength(0);
+ });
+ test('209 nonowner family does not read owner configuration '+width,async({page})=>{
+  await page.setViewportSize({width,height:1000});await page.goto(url('reset=1&familyForm=1&role=manager'));
+  await expect(page.getByText('السماح بالطرد المشكّل وإعداده للمالك فقط.')).toBeVisible();expect(await calls(page,'get_admin_parcel_configuration_context_v1')).toHaveLength(0);
+ });
+}

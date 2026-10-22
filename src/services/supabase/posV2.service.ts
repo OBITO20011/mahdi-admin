@@ -97,6 +97,10 @@ const recoveryInstruction: PosV2RecoveryInstruction = {
 };
 
 const knownErrors: Record<string, string> = {
+  PARCEL209_UNIT_SALE_FORBIDDEN:
+    'هذا الصنف بيتباع بالطرد بس. احذف سطر المفرد وأضفه كطرد؛ لا تتغيّر السلة تلقائياً.',
+  PARCEL209_FAMILY_CHANGED_RETRY:
+    'تغيّرت نكهات المنتج. حدّث البيانات وراجع السلة قبل بدء محاولة جديدة.',
   PHASE3_IDEMPOTENCY_CONFLICT:
     'مفتاح إعادة المحاولة مرتبط بطلب مختلف. راجع البيع الموجود قبل أي محاولة جديدة.',
   CONFIGURABLE_PARCEL_DISABLED:

@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "status": "LOCAL_GATES_ACCEPTED_PENDING_FEATURE_AND_MAIN_FULL40",
+  "recordedAt": "2026-10-22T06:53:23.823Z",
+  "branch": "codex/trial-sale-methods",
+  "baselineSha": "d7779f56dc0bdfe77091bb4881cbae4ad50ced3a",
+  "managedAccess": false,
+  "deployed": false,
+  "scope": {
+    "parcelOnly": true,
+    "unifiedSaleMethods": true,
+    "atLeastOne": true,
+    "ownerOnlyMixedRealStateAndDirectFamilyLink": true,
+    "legacyPurchase10Sale1Preserved": true,
+    "optionalExcel": true,
+    "allAdmissionPaths": true,
+    "oldHistoryReplayReturnsPreserved": true
+  },
+  "migration": {
+    "ceiling": 209,
+    "file": "209_product_sale_methods.sql",
+    "canonicalLfSha256": "15a81c0d43bb9377b676d76fddbefc83939d30ecc47817af207c6215f5bcfcd7",
+    "historical001Through208Unchanged": true
+  },
+  "verification": {
+    "adminUnits": {
+      "passed": 1348,
+      "failed": 0,
+      "skipped": 0
+    },
+    "customerUnits": {
+      "passed": 197,
+      "failed": 0,
+      "skipped": 0
+    },
+    "types": true,
+    "strictEslint": true,
+    "adminBuild": true,
+    "isolatedCustomerBuild": true,
+    "networkEscapes": 0,
+    "browsers": {
+      "initialAffected": 66,
+      "new209": 24,
+      "finalSaleMethodSubset": 36,
+      "explicitPurchasePriceSubset": 2,
+      "engines": [
+        "Chromium",
+        "WebKit"
+      ],
+      "retries": 0
+    },
+    "nativePartition": {
+      "full": 1400,
+      "core": 432,
+      "packageF": 968,
+      "shards": [
+        194,
+        194,
+        194,
+        194,
+        192
+      ]
+    },
+    "sdk": {
+      "sources": 320,
+      "sites": 51,
+      "passed": 148,
+      "errors": 0,
+      "access": {
+        "ok": true,
+        "ownerV5RestMutation": true,
+        "publicInheritedMethods": [
+          {
+            "role": "anon",
+            "rows": 3,
+            "parcelOnly": true
+          },
+          {
+            "role": "authenticated",
+            "rows": 3,
+            "parcelOnly": true
+          }
+        ],
+        "adminBarcodeMethod": true,
+        "noRoleRefused": true,
+        "readZeroWrites": true
+      }
+    },
+    "rpc": {
+      "probes": 525,
+      "expectedPrivateReaderDenials": 2
+    },
+    "database": {
+      "groups": 16,
+      "realBlockingRaces": 7,
+      "zeroWriteRefusals": true,
+      "oldUnitRefundInMinorUnits": 1000,
+      "currentUnitQuoteInMinorUnits": 900,
+      "restore": {
+        "logicalCatalogDifferences": 0,
+        "allPublicDataAndSequencesIdentical": true,
+        "replayZeroWrites": true
+      }
+    }
+  },
+  "ownerPreparation": {
+    "referenceName": "local-reference-through209-ready.json",
+    "referenceSha256": "fb3c820d74d37320932e946ffc27609d9853adade1205e53b755071269722b86",
+    "migrations": 171,
+    "functions": 546,
+    "realtimeMembers": 13,
+    "onlyNewPublishedColumn": "products.parcel_only",
+    "freshIncrementalCatalogDifferences": 0,
+    "localUpgrade": {
+      "applied": [
+        "209"
+      ],
+      "recorded": [
+        "209"
+      ],
+      "replayWrites": false
+    },
+    "localReset": {
+      "catalogDifferences": 0,
+      "ownerRetained": true,
+      "totpRetained": true,
+      "storageBytesDeleted": true,
+      "staffDeleted": true,
+      "actualAuthenticatedRest209": true
+    },
+    "guide": "docs/operations/TRIAL_OWNER_UPGRADE209_AR.md",
+    "hostedCommandsExecuted": false
+  },
+  "remaining": [
+    "Exact feature push and PR FULL40 plus secret scans",
+    "Genuine merge and exact main FULL40 plus secret scan",
+    "Copy validated final209 reference into owner local workspace;never execute hosted commands"
+  ]
+}

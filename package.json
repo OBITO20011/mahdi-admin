@@ -98,7 +98,10 @@
     "agent:verify-handoff": "node scripts/agent/verify-handoff.mjs",
     "test:supplier-replacement208:runtime": "node scripts/testing/run-supplier-replacement208-runtime.mjs",
     "test:supplier-replacement208:gates": "node scripts/testing/run-supplier-replacement208-gates.mjs",
-    "frankfurt-owner-upgrade208": "node scripts/operations/frankfurt-owner-upgrade208.mjs"
+    "frankfurt-owner-upgrade208": "node scripts/operations/frankfurt-owner-upgrade208.mjs",
+    "test:parcel209:runtime": "node scripts/testing/run-parcel209-runtime.mjs",
+    "test:parcel209:gates": "node scripts/testing/run-parcel209-gates.mjs",
+    "frankfurt-owner-upgrade209": "node scripts/operations/frankfurt-owner-upgrade209.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1128.0",

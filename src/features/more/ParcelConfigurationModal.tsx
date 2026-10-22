@@ -8,7 +8,7 @@ const inputClass = 'mt-1 w-full rounded-lg border border-nw-border bg-nw-surface
 const labels = {OFF:'متوقفة',OWNER_PILOT:'تجربة المالك فقط',ENABLED:'مفعّلة للجميع'};
 const flavorFamilies = (data: ParcelConfigurationContext) => data.products.filter(p =>
   p.isFlavorMaster && p.components.some(c => c.productId !== p.familyProductId));
-export function ParcelConfigurationModal() {
+export function ParcelConfigurationModal({initialFamilyProductId}:{initialFamilyProductId?:string}) {
   const {roleName:role} = useAuthStore();
   const [context,setContext] = useState<ParcelConfigurationContext | null>(null);
   const [form,setForm] = useState<ParcelConfigurationInput | null>(null);
@@ -28,10 +28,10 @@ export function ParcelConfigurationModal() {
   useEffect(() => {
     if (role !== 'owner') return;
     let active = true;
-    void fetchParcelConfigurationContext().then(data => {if (active) {setContext(data);setNextState(data.featureState);select(data,data.products[0]?.familyProductId ?? '');}})
+    void fetchParcelConfigurationContext().then(data => {if (active) {setContext(data);setNextState(data.featureState);select(data,initialFamilyProductId ?? data.products[0]?.familyProductId ?? '');}})
       .catch(reason => {if (active) setError(reason instanceof Error ? reason.message : 'تعذر تحميل الإعداد.');});
     return () => {active=false;};
-  },[role]);
+  },[role,initialFamilyProductId]);
   const reload = async () => {
     setBusy(true);setError('');
     try {const data=await fetchParcelConfigurationContext();setContext(data);setNextState(data.featureState);

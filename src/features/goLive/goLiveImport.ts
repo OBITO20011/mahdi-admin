@@ -34,6 +34,7 @@ export const GO_LIVE_COLUMNS: Readonly<Record<GoLiveKind, readonly GoLiveColumn[
     { key: 'purchase_package_price', header: 'سعر شراء الطرد (د.أ)', required: false, example: '4.800' },
     { key: 'cost_per_base_unit', header: 'تكلفة الباكيت (د.أ)', required: true, example: '0.200' },
     { key: 'min_stock_level', header: 'الحد الأدنى للمخزون (باكيت)', required: false, example: '48' },
+    { key: 'parcel_only', header: 'بيتباع بالطرد بس', required: false, example: 'لا' },
   ],
   stock: [
     { key: 'code', header: 'الباركود أو SKU', required: true, example: 'CHO-001' },
@@ -165,6 +166,7 @@ export interface StockProductRef {
 export interface PreparedRows<T> { payload: (T & { sourceRow: number })[]; errors: RowError[] }
 
 export interface ProductPayload {
+  parcel_only?: boolean;
   sku: string; barcode: string; name_ar: string; category_name: string; base_unit_name: string;
   purchase_unit_name: string; units_per_purchase_unit: string; sale_unit_name: string; units_per_sale_unit: string;
   sale_package_price_in_minor_units: string; purchase_package_price_in_minor_units: string;
@@ -192,7 +194,11 @@ export function prepareProducts(rows: readonly SheetRow[]): PreparedRows<Product
     const purchasePrice = values.purchase_package_price ? parseJodToMinor(values.purchase_package_price) : '0';
     const cost = parseJodToMinor(values.cost_per_base_unit);
     const minStock = values.min_stock_level ? parseWholeNumber(values.min_stock_level) : 0;
+    const methodValue=(values.parcel_only??'').trim().toLowerCase();
+    const parcelOnly=['نعم','true','1'].includes(methodValue);
+    if(!['','نعم','لا','true','false','1','0'].includes(methodValue)){fail('بيتباع بالطرد بس: اكتب نعم أو لا.');continue;}
     if (perPurchase === null || perSale === null) { fail('عدد الباكيتات في الطرد يجب أن يكون رقماً صحيحاً أكبر من صفر.'); continue; }
+    if(parcelOnly&&perSale<=1){fail('الطرد فقط يحتاج أكثر من وحدة في طرد البيع.');continue;}
     if (salePrice === null || salePrice === '0') { fail('سعر بيع الطرد يجب أن يكون مبلغاً أكبر من صفر بثلاث منازل كحد أقصى.'); continue; }
     if (purchasePrice === null || cost === null) { fail('سعر الشراء والتكلفة يجب أن تكون مبالغ صحيحة بثلاث منازل كحد أقصى.'); continue; }
     if (minStock === null) { fail('الحد الأدنى للمخزون يجب أن يكون رقماً صحيحاً.'); continue; }
@@ -200,6 +206,7 @@ export function prepareProducts(rows: readonly SheetRow[]): PreparedRows<Product
     if (seen.has(sku)) { fail(`رمز SKU مكرر داخل الملف (السطر ${seen.get(sku)}).`); continue; }
     seen.set(sku, row);
     result.payload.push({ sourceRow: row, sku: values.sku, barcode: values.barcode, name_ar: values.name_ar,
+      ...(methodValue?{parcel_only:parcelOnly}:{}),
       category_name: values.category_name, base_unit_name: values.base_unit_name,
       purchase_unit_name: values.purchase_unit_name, units_per_purchase_unit: String(perPurchase),
       sale_unit_name: values.sale_unit_name, units_per_sale_unit: String(perSale),

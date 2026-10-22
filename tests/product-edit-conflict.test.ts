@@ -86,7 +86,7 @@ test('service maps the database conflict to PRODUCT_EDIT_CONFLICT with the curre
 
 test('product and flavor saves call only the versioned RPCs and send the opened version', () => {
   const service = readFileSync('src/services/supabase/products.service.ts', 'utf8').replaceAll('\r\n','\n');
-  assert.match(service, /rpc\('update_product_master_v4', \{\n\s+p_product_id: input\.productId,\n\s+p_expected_updated_at: input\.expectedUpdatedAt,/u);
+  assert.match(service, /rpc\('update_product_master_v5', \{\n\s+p_parcel_only: input\.parcelOnly \?\? null,\n\s+p_product_id: input\.productId,\n\s+p_expected_updated_at: input\.expectedUpdatedAt,/u);
   assert.match(service, /rpc\('update_product_flavor_v2', \{\n\s+p_flavor_product_id: input\.flavorProductId,\n\s+p_expected_updated_at: input\.expectedUpdatedAt,/u);
   assert.doesNotMatch(service, /rpc\('update_product_master_v3'|rpc\('update_product_flavor_v1'/u);
   const form = readFileSync('src/features/products/ProductFormModal.tsx', 'utf8').replaceAll('\r\n','\n');

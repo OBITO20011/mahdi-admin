@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-10-22T03:04:36.998Z",
-  "migrationCeiling": 208,
+  "startedAt": "2026-10-22T06:43:58.628Z",
+  "migrationCeiling": 209,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-Moht3r",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-FWSngf",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -59,7 +59,7 @@
     },
     {
       "file": "src/components/modals/AllModals.tsx",
-      "sha256": "f9186561a9dc6c41ba8fbcf7c8365f276819102cab360120fcd1cad9481a8f53"
+      "sha256": "806a4f46f1776a774d500ee6f00f60c248cdf7149d2ebc10f4cf4a242ed19bfc"
     },
     {
       "file": "src/components/modals/BrandsModal.tsx",
@@ -303,7 +303,7 @@
     },
     {
       "file": "src/features/goLive/goLiveImport.ts",
-      "sha256": "762495484f270ce785a3ecdaff34b03bfc1924997a94d5c4c5394247191a0985"
+      "sha256": "0b99b2cc61c724e6eb6da28d38931ed717aaf76dcb45470fe7b37f0f1145a11e"
     },
     {
       "file": "src/features/goLive/GoLiveSetupView.tsx",
@@ -371,7 +371,7 @@
     },
     {
       "file": "src/features/more/ParcelConfigurationModal.tsx",
-      "sha256": "ee137fff81edfe7305241e05893260d95302d4328b3c465ff5f81ef8d511ac49"
+      "sha256": "ecf475a11a0837dc7cf0700e7b8db4b5f29fd57bab656522d01823309878d47c"
     },
     {
       "file": "src/features/more/ProfileModal.tsx",
@@ -391,11 +391,11 @@
     },
     {
       "file": "src/features/orders/AdminAftercarePanel.tsx",
-      "sha256": "57814a8a7c6c9336dd3ab729ec50de5e814dbcfab854bca29703e6efdac0bae2"
+      "sha256": "1e813e207cc36690ee0f9b541b55fdf18d1722484e1ea501635c426121991f51"
     },
     {
       "file": "src/features/orders/aftercarePresentation.ts",
-      "sha256": "4e5bf8faa1fce7d06a5d5600f6b863759f732b0a6f62e1e946f2c4c194b7bded"
+      "sha256": "9cad4d4727ab70bb87fa9cba9b5d30afafc11a11fafdf429a4e883fceea482d5"
     },
     {
       "file": "src/features/orders/CustomerLocationCard.tsx",
@@ -435,7 +435,11 @@
     },
     {
       "file": "src/features/pos/PosView.tsx",
-      "sha256": "3862d856d20d6c9de4a9145d29344a65280e4de0569c08a53332085a4f0d6e83"
+      "sha256": "17f36f9f5ac87c4aa1cbbfd3b454b09bc10f4768231a96c65a1e94953e9bdbf1"
+    },
+    {
+      "file": "src/features/pos/saleMethods.ts",
+      "sha256": "1e8a9c68d969b4dbabb7479c1bbac6d0e4ea03d4dd6a79e271f7d545cb4c8774"
     },
     {
       "file": "src/features/products/ProductCostCorrectionPanel.tsx",
@@ -451,7 +455,11 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "sha256": "4a3ae8b63a84245dfcb6964b9f6ca760f5033ec5f986f7b2ec6db7078b9fae19"
+      "sha256": "a20395c45d31bb05e684044411bc0378f17f3ca55d4fd927abbd300034952bb3"
+    },
+    {
+      "file": "src/features/products/ProductFormParcelCapability.tsx",
+      "sha256": "66fa9d03f7f19fc418cecf38d1a6bea6b7c5a0da9648596a65ebbba4ac04f865"
     },
     {
       "file": "src/features/products/ProductsView.tsx",
@@ -627,7 +635,7 @@
     },
     {
       "file": "src/services/supabase/adminAftercareRecovery.ts",
-      "sha256": "335fba4cb8092d76118731948931a1fe3887d9de8af7858eb08834bec5f7ac45"
+      "sha256": "661c6326e0965e542b9eb7ad8542b0a65e02212754a85ea2d1e198b14b46b10d"
     },
     {
       "file": "src/services/supabase/adminAssistant.service.ts",
@@ -731,11 +739,11 @@
     },
     {
       "file": "src/services/supabase/posV2.service.ts",
-      "sha256": "92a4031fb6fe3cdfa3007352dde60f93a4d18ca12f005d6669fc790325a3c1ba"
+      "sha256": "59cd6c4de80d37f54f81a0e5b9a4d557d00cb2e9d6f6d638f38f2dae4c5494fa"
     },
     {
       "file": "src/services/supabase/posV2Recovery.ts",
-      "sha256": "615902519112cb8a8d74357ad70ffc9cdcc4c4d61ddabc403b73324092c2cb34"
+      "sha256": "656e222f935bfc0575d6dcbdeb66c66482760aa05e91c99c8ae689ecb2b64680"
     },
     {
       "file": "src/services/supabase/posV2Validation.ts",
@@ -751,7 +759,7 @@
     },
     {
       "file": "src/services/supabase/products.service.ts",
-      "sha256": "806bc5981332f6ac4686e08e0b1dade16b8ce1b9b4ffd576b53777977b41af66"
+      "sha256": "5104aca3528ea7fe18ce813f19945543a2c616b257694a234549b79bc9b3b5ec"
     },
     {
       "file": "src/services/supabase/promotions.service.ts",
@@ -775,7 +783,7 @@
     },
     {
       "file": "src/services/supabase/salesAftercare.service.ts",
-      "sha256": "ade5738d66af92e957111d2f5d5a8e0128ee0541bf5d23574908795ef7d4f276"
+      "sha256": "0ac3f693a3fd9387d82f621452e300e452912b36d532ca49c5a5b9617734a6b1"
     },
     {
       "file": "src/services/supabase/salesHistory.service.ts",
@@ -815,7 +823,7 @@
     },
     {
       "file": "src/stores/modalTypes.ts",
-      "sha256": "5f5286e04608ed94ec96399db0f07b6a3dad7a84294bfbee85e37d569c68fbe8"
+      "sha256": "5d55c1b4b8cdf6e0da7e65e2a86a12a861162bca07e4124f62db24f4898b5add"
     },
     {
       "file": "src/stores/referenceData.storeSlice.ts",
@@ -831,7 +839,7 @@
     },
     {
       "file": "src/stores/useAppStore.ts",
-      "sha256": "f6cbe1059ce7c4f3282d8f85f540bba7905c3265abc65d07831ee2fcdd5197c2"
+      "sha256": "487f3bd44cb3b0f49c3c3060835485f4a96dbe3aee62fecc8cb4374d910fc705"
     },
     {
       "file": "src/stores/useAuthStore.ts",
@@ -855,7 +863,7 @@
     },
     {
       "file": "src/types/index.ts",
-      "sha256": "6f077b9614de0caae67bc4e84e93b3c05568ec4b2a12b0e8c689ea20e0d39133"
+      "sha256": "21337767b707861f36ddf2afdff18b2632b217af8a5d112a088e5f6f1458a980"
     },
     {
       "file": "src/types/monitoring.ts",
@@ -883,7 +891,7 @@
     },
     {
       "file": "src/utils/businessError.ts",
-      "sha256": "c2777f9f4630dfa2af6ea546f2176ec69e1850da580c09188e40333408075a25"
+      "sha256": "6e9a4d0561fdee7a8fad6d888bf1d28ed99d88f8e9809b3088d92ffddfb3412e"
     },
     {
       "file": "src/utils/customerCollections.ts",
@@ -931,7 +939,7 @@
     },
     {
       "file": "src/utils/productEditConflict.ts",
-      "sha256": "921042aab679dfe9d28ab552715a4d77006165c606649e5b048218f1b9ec5a78"
+      "sha256": "820a7a95f9e899d795a6d6aabb6f52df63e9839b97f4433958f55453f610c839"
     },
     {
       "file": "src/utils/productIdentifiers.ts",
@@ -991,7 +999,7 @@
     },
     {
       "file": "customer-web/src/App.tsx",
-      "sha256": "cb5cb21a9b051d50c939ebf7fc2c03157aeaa09045d0638067fb97b1a1f98e9e"
+      "sha256": "33c2f1108e4b1773367d7cd2c9ccc51cd690c23fec5263275a87542d713552a4"
     },
     {
       "file": "customer-web/src/components/AboutStorePage.tsx",
@@ -1083,7 +1091,7 @@
     },
     {
       "file": "customer-web/src/components/ProductDetailsModal.tsx",
-      "sha256": "c69b251b0650226b2f4ebe47e57808c018ccdb6c43be5028309cc46738d147ba"
+      "sha256": "d0278f74113e3b2b540d8da83777f31f9a320e9a6c80158e63dd47c7f31f55d7"
     },
     {
       "file": "customer-web/src/components/ProductImage.tsx",
@@ -1167,7 +1175,7 @@
     },
     {
       "file": "customer-web/src/services/catalog.service.ts",
-      "sha256": "c8992f9c7bd987ede8e2026e86e00bda513533ef3c00631d5fb8a1de98f31cc5"
+      "sha256": "4da530b39146d8d3c9736a73f25241f403b176e4056a71dcc42d15f2677b6def"
     },
     {
       "file": "customer-web/src/services/checkoutRecoveryCoordinator.ts",
@@ -1195,7 +1203,7 @@
     },
     {
       "file": "customer-web/src/types/catalog.ts",
-      "sha256": "5ec3b91eaa3e01c499258fdcbb2ead70f391fc38c80f15bf9f9c78e2e05905fc"
+      "sha256": "f55c64fc40254816deb09d0e13d178af4520b479b3c3a0a8c158d35e251c56e8"
     },
     {
       "file": "customer-web/src/types/checkout.ts",
@@ -1215,7 +1223,7 @@
     },
     {
       "file": "customer-web/src/utils/cart.ts",
-      "sha256": "79808b19bd962d6aba652295400ec969a25a1022edc4aa3ff99c3f07a2d4148e"
+      "sha256": "aa7c52d1db568f72f8fd5ef615a06ba02e1676cb665cf5a555df64b7fd4f0677"
     },
     {
       "file": "customer-web/src/utils/catalogView.ts",
@@ -1271,7 +1279,7 @@
     },
     {
       "file": "supabase/functions/submit-guest-order/index.ts",
-      "sha256": "1af19700fd850058e89602bc112161985d2656af2994e2e5733e552800c5a9d2"
+      "sha256": "4cae3f7df1a46cf5ec7b043e1a0d9beaf7b38939cfc26331b5d9f3feccb9d9ec"
     },
     {
       "file": "supabase/functions/submit-guest-order/security.ts",
@@ -4721,6 +4729,64 @@
         "postgres=X/postgres",
         "authenticated=X/postgres"
       ],
+      "name": "create_product_family_with_flavors_v2",
+      "names": [
+        "p_sku",
+        "p_barcode",
+        "p_name_ar",
+        "p_description",
+        "p_category_id",
+        "p_brand_id",
+        "p_unit_id",
+        "p_purchase_unit_id",
+        "p_units_per_purchase_unit",
+        "p_default_purchase_price_in_minor_units",
+        "p_sale_unit_id",
+        "p_units_per_sale_unit",
+        "p_default_sale_price_in_minor_units",
+        "p_cost_price_in_minor_units",
+        "p_min_stock_level",
+        "p_max_stock_level",
+        "p_warehouse_id",
+        "p_image_url",
+        "p_flavors",
+        "p_parcel_only"
+      ],
+      "owner": "postgres",
+      "types": [
+        "text",
+        "text",
+        "text",
+        "text",
+        "uuid",
+        "uuid",
+        "uuid",
+        "uuid",
+        "integer",
+        "bigint",
+        "uuid",
+        "integer",
+        "bigint",
+        "bigint",
+        "integer",
+        "integer",
+        "uuid",
+        "text",
+        "jsonb",
+        "boolean"
+      ],
+      "identity": "create_product_family_with_flavors_v2(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,text,jsonb,boolean)",
+      "returnType": "jsonb",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
       "name": "create_product_flavor_v1",
       "names": [
         "p_master_product_id",
@@ -4960,6 +5026,66 @@
         "text"
       ],
       "identity": "create_product_with_opening_stock_v4(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,integer,text,text)",
+      "returnType": "jsonb",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "name": "create_product_with_opening_stock_v5",
+      "names": [
+        "p_sku",
+        "p_barcode",
+        "p_name_ar",
+        "p_description",
+        "p_category_id",
+        "p_brand_id",
+        "p_unit_id",
+        "p_purchase_unit_id",
+        "p_units_per_purchase_unit",
+        "p_default_purchase_price_in_minor_units",
+        "p_sale_unit_id",
+        "p_units_per_sale_unit",
+        "p_default_sale_price_in_minor_units",
+        "p_cost_price_in_minor_units",
+        "p_min_stock_level",
+        "p_max_stock_level",
+        "p_warehouse_id",
+        "p_opening_quantity",
+        "p_notes",
+        "p_image_url",
+        "p_parcel_only"
+      ],
+      "owner": "postgres",
+      "types": [
+        "text",
+        "text",
+        "text",
+        "text",
+        "uuid",
+        "uuid",
+        "uuid",
+        "uuid",
+        "integer",
+        "bigint",
+        "uuid",
+        "integer",
+        "bigint",
+        "bigint",
+        "integer",
+        "integer",
+        "uuid",
+        "integer",
+        "text",
+        "text",
+        "boolean"
+      ],
+      "identity": "create_product_with_opening_stock_v5(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,integer,text,text,boolean)",
       "returnType": "jsonb",
       "configuration": [
         "search_path=public, pg_temp"
@@ -8506,6 +8632,219 @@
       ],
       "identity": "package_d_validate_configurable_parcel_before_policy_internal(text,uuid,uuid,uuid,integer,jsonb)",
       "returnType": "jsonb",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres"
+      ],
+      "name": "parcel209_effective_only_internal",
+      "names": [
+        "p_product_id"
+      ],
+      "owner": "postgres",
+      "types": [
+        "uuid"
+      ],
+      "identity": "parcel209_effective_only_internal(uuid)",
+      "returnType": "boolean",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres"
+      ],
+      "name": "parcel209_guard_legacy_items_internal",
+      "names": [
+        "p_items"
+      ],
+      "owner": "postgres",
+      "types": [
+        "jsonb"
+      ],
+      "identity": "parcel209_guard_legacy_items_internal(jsonb)",
+      "returnType": "void",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres"
+      ],
+      "name": "parcel209_guard_modern_lines_internal",
+      "names": [
+        "p_lines"
+      ],
+      "owner": "postgres",
+      "types": [
+        "jsonb"
+      ],
+      "identity": "parcel209_guard_modern_lines_internal(jsonb)",
+      "returnType": "void",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres"
+      ],
+      "name": "parcel209_guard_replacement_internal",
+      "names": [
+        "p_prepared"
+      ],
+      "owner": "postgres",
+      "types": [
+        "jsonb"
+      ],
+      "identity": "parcel209_guard_replacement_internal(jsonb)",
+      "returnType": "void",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres"
+      ],
+      "name": "parcel209_inventory_family_set_internal",
+      "names": [
+        "p_ids"
+      ],
+      "owner": "postgres",
+      "types": [
+        "uuid[]"
+      ],
+      "identity": "parcel209_inventory_family_set_internal(uuid[])",
+      "returnType": "uuid[]",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres"
+      ],
+      "name": "parcel209_pos_customer_internal",
+      "names": [
+        "p_warehouse_id",
+        "p_branch_id",
+        "p_customer_id",
+        "p_customer_name",
+        "p_payment_method",
+        "p_lines",
+        "p_discount_in_minor_units",
+        "p_amount_received_in_minor_units",
+        "p_idempotency_key"
+      ],
+      "owner": "postgres",
+      "types": [
+        "uuid",
+        "uuid",
+        "uuid",
+        "text",
+        "text",
+        "jsonb",
+        "bigint",
+        "bigint",
+        "text"
+      ],
+      "identity": "parcel209_pos_customer_internal(uuid,uuid,uuid,text,text,jsonb,bigint,bigint,text)",
+      "returnType": "jsonb",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres"
+      ],
+      "name": "parcel209_pos_sale_internal",
+      "names": [
+        "p_warehouse_id",
+        "p_branch_id",
+        "p_customer_id",
+        "p_customer_name",
+        "p_payment_method",
+        "p_lines",
+        "p_discount_in_minor_units",
+        "p_amount_received_in_minor_units",
+        "p_idempotency_key"
+      ],
+      "owner": "postgres",
+      "types": [
+        "uuid",
+        "uuid",
+        "uuid",
+        "text",
+        "text",
+        "jsonb",
+        "bigint",
+        "bigint",
+        "text"
+      ],
+      "identity": "parcel209_pos_sale_internal(uuid,uuid,uuid,text,text,jsonb,bigint,bigint,text)",
+      "returnType": "jsonb",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres"
+      ],
+      "name": "parcel209_replacement_issuer_internal",
+      "names": [
+        "p_order_id",
+        "p_idempotency_key",
+        "p_items",
+        "p_reason",
+        "p_notes"
+      ],
+      "owner": "postgres",
+      "types": [
+        "uuid",
+        "text",
+        "jsonb",
+        "text",
+        "text"
+      ],
+      "identity": "parcel209_replacement_issuer_internal(uuid,text,jsonb,text,text)",
+      "returnType": "jsonb",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres"
+      ],
+      "name": "parcel209_set_flag_internal",
+      "names": [
+        "p_product_id",
+        "p_value"
+      ],
+      "owner": "postgres",
+      "types": [
+        "uuid",
+        "boolean"
+      ],
+      "identity": "parcel209_set_flag_internal(uuid,boolean)",
+      "returnType": "void",
       "configuration": [
         "search_path=public, pg_temp"
       ],
@@ -13440,6 +13779,66 @@
         "postgres=X/postgres",
         "authenticated=X/postgres"
       ],
+      "name": "update_product_master_v5",
+      "names": [
+        "p_product_id",
+        "p_expected_updated_at",
+        "p_sku",
+        "p_barcode",
+        "p_name_ar",
+        "p_description",
+        "p_category_id",
+        "p_brand_id",
+        "p_unit_id",
+        "p_purchase_unit_id",
+        "p_units_per_purchase_unit",
+        "p_default_purchase_price_in_minor_units",
+        "p_sale_unit_id",
+        "p_units_per_sale_unit",
+        "p_default_sale_price_in_minor_units",
+        "p_cost_price_in_minor_units",
+        "p_min_stock_level",
+        "p_max_stock_level",
+        "p_is_active",
+        "p_image_url",
+        "p_parcel_only"
+      ],
+      "owner": "postgres",
+      "types": [
+        "uuid",
+        "timestamp with time zone",
+        "text",
+        "text",
+        "text",
+        "text",
+        "uuid",
+        "uuid",
+        "uuid",
+        "uuid",
+        "integer",
+        "bigint",
+        "uuid",
+        "integer",
+        "bigint",
+        "bigint",
+        "integer",
+        "integer",
+        "boolean",
+        "text",
+        "boolean"
+      ],
+      "identity": "update_product_master_v5(uuid,timestamp with time zone,text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,boolean,text,boolean)",
+      "returnType": "jsonb",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
       "name": "update_purchase_order",
       "names": [
         "p_purchase_order_id",
@@ -13726,7 +14125,7 @@
   ],
   "probes": [
     {
-      "site": "src/features/pos/PosView.tsx:167",
+      "site": "src/features/pos/PosView.tsx:168",
       "name": "get_pos_configurable_parcel_options_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -13738,7 +14137,7 @@
       "command": "SELECT public.\"get_pos_configurable_parcel_options_v1\"('92600000-0000-4000-8000-000000000201'::uuid)"
     },
     {
-      "site": "src/features/pos/PosView.tsx:167",
+      "site": "src/features/pos/PosView.tsx:168",
       "name": "get_pos_configurable_parcel_options_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -13750,7 +14149,7 @@
       "command": "SELECT public.\"get_pos_configurable_parcel_options_v1\"('92600000-0000-4000-8000-000000000201'::uuid)"
     },
     {
-      "site": "src/features/pos/PosView.tsx:167",
+      "site": "src/features/pos/PosView.tsx:168",
       "name": "get_pos_configurable_parcel_options_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -18151,7 +18550,7 @@
       "command": "SELECT public.\"get_or_create_pos_receipt_token\"(NULL::uuid)"
     },
     {
-      "site": "src/services/supabase/posV2.service.ts:220",
+      "site": "src/services/supabase/posV2.service.ts:224",
       "name": "create_pos_sale_v2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -18171,7 +18570,7 @@
       "command": "SELECT public.\"create_pos_sale_v2\"('92600000-0000-4000-8000-000000000201'::uuid,'92600000-0000-4000-8000-000000000200'::uuid,'92600000-0000-4000-8000-000000000401'::uuid,NULL::text,NULL::text,'[]'::jsonb,0::bigint,0::bigint,'isolated-service-audit-0000000000000000000001')"
     },
     {
-      "site": "src/services/supabase/posV2.service.ts:220",
+      "site": "src/services/supabase/posV2.service.ts:224",
       "name": "create_pos_sale_v2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -18191,7 +18590,7 @@
       "command": "SELECT public.\"create_pos_sale_v2\"('92600000-0000-4000-8000-000000000201'::uuid,'92600000-0000-4000-8000-000000000200'::uuid,'92600000-0000-4000-8000-000000000401'::uuid,NULL::text,NULL::text,'[]'::jsonb,0::bigint,0::bigint,'isolated-service-audit-0000000000000000000001')"
     },
     {
-      "site": "src/services/supabase/posV2.service.ts:220",
+      "site": "src/services/supabase/posV2.service.ts:224",
       "name": "create_pos_sale_v2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -18211,7 +18610,7 @@
       "command": "SELECT public.\"create_pos_sale_v2\"('92600000-0000-4000-8000-000000000201'::uuid,'92600000-0000-4000-8000-000000000200'::uuid,'92600000-0000-4000-8000-000000000401'::uuid,NULL::text,NULL::text,'[]'::jsonb,0::bigint,0::bigint,'isolated-service-audit-0000000000000000000001')"
     },
     {
-      "site": "src/services/supabase/posV2Recovery.ts:89",
+      "site": "src/services/supabase/posV2Recovery.ts:90",
       "name": "get_pos_sale_attempt_state_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -18224,7 +18623,7 @@
       "command": "SELECT public.\"get_pos_sale_attempt_state_v1\"('isolated-service-audit-0000000000000000000001','isolated-service-audit-0000000000000000000001')"
     },
     {
-      "site": "src/services/supabase/posV2Recovery.ts:89",
+      "site": "src/services/supabase/posV2Recovery.ts:90",
       "name": "get_pos_sale_attempt_state_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -18237,7 +18636,7 @@
       "command": "SELECT public.\"get_pos_sale_attempt_state_v1\"('isolated-service-audit-0000000000000000000001','isolated-service-audit-0000000000000000000001')"
     },
     {
-      "site": "src/services/supabase/posV2Recovery.ts:89",
+      "site": "src/services/supabase/posV2Recovery.ts:90",
       "name": "get_pos_sale_attempt_state_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -18250,7 +18649,7 @@
       "command": "SELECT public.\"get_pos_sale_attempt_state_v1\"('isolated-service-audit-0000000000000000000001','isolated-service-audit-0000000000000000000001')"
     },
     {
-      "site": "src/services/supabase/posV2Recovery.ts:96",
+      "site": "src/services/supabase/posV2Recovery.ts:97",
       "name": "cancel_uncommitted_pos_sale_attempt_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -18264,7 +18663,7 @@
       "command": "SELECT public.\"cancel_uncommitted_pos_sale_attempt_v1\"('isolated-service-audit-0000000000000000000001','isolated-service-audit-0000000000000000000001',false)"
     },
     {
-      "site": "src/services/supabase/posV2Recovery.ts:96",
+      "site": "src/services/supabase/posV2Recovery.ts:97",
       "name": "cancel_uncommitted_pos_sale_attempt_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -18278,7 +18677,7 @@
       "command": "SELECT public.\"cancel_uncommitted_pos_sale_attempt_v1\"('isolated-service-audit-0000000000000000000001','isolated-service-audit-0000000000000000000001',false)"
     },
     {
-      "site": "src/services/supabase/posV2Recovery.ts:96",
+      "site": "src/services/supabase/posV2Recovery.ts:97",
       "name": "cancel_uncommitted_pos_sale_attempt_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -18292,7 +18691,7 @@
       "command": "SELECT public.\"cancel_uncommitted_pos_sale_attempt_v1\"('isolated-service-audit-0000000000000000000001','isolated-service-audit-0000000000000000000001',false)"
     },
     {
-      "site": "src/services/supabase/posV2Recovery.ts:145",
+      "site": "src/services/supabase/posV2Recovery.ts:146",
       "name": "create_pos_sale_v2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -18312,7 +18711,7 @@
       "command": "SELECT public.\"create_pos_sale_v2\"('92600000-0000-4000-8000-000000000201'::uuid,'92600000-0000-4000-8000-000000000200'::uuid,'92600000-0000-4000-8000-000000000401'::uuid,NULL::text,NULL::text,'[]'::jsonb,0::bigint,0::bigint,'isolated-service-audit-0000000000000000000001')"
     },
     {
-      "site": "src/services/supabase/posV2Recovery.ts:145",
+      "site": "src/services/supabase/posV2Recovery.ts:146",
       "name": "create_pos_sale_v2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -18332,7 +18731,7 @@
       "command": "SELECT public.\"create_pos_sale_v2\"('92600000-0000-4000-8000-000000000201'::uuid,'92600000-0000-4000-8000-000000000200'::uuid,'92600000-0000-4000-8000-000000000401'::uuid,NULL::text,NULL::text,'[]'::jsonb,0::bigint,0::bigint,'isolated-service-audit-0000000000000000000001')"
     },
     {
-      "site": "src/services/supabase/posV2Recovery.ts:145",
+      "site": "src/services/supabase/posV2Recovery.ts:146",
       "name": "create_pos_sale_v2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -18433,7 +18832,7 @@
       "command": "SELECT public.\"correct_product_cost_v1\"(NULL::uuid,0::numeric,NULL::text,'isolated-service-audit-0000000000000000000001')"
     },
     {
-      "site": "src/services/supabase/products.service.ts:378",
+      "site": "src/services/supabase/products.service.ts:387",
       "name": "get_admin_product_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -18450,7 +18849,7 @@
       "command": "SELECT public.\"get_admin_product_page\"(1::integer,25::integer,NULL::text,NULL::uuid,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/products.service.ts:378",
+      "site": "src/services/supabase/products.service.ts:387",
       "name": "get_admin_product_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -18467,7 +18866,7 @@
       "command": "SELECT public.\"get_admin_product_page\"(1::integer,25::integer,NULL::text,NULL::uuid,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/products.service.ts:378",
+      "site": "src/services/supabase/products.service.ts:387",
       "name": "get_admin_product_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -18484,7 +18883,7 @@
       "command": "SELECT public.\"get_admin_product_page\"(1::integer,25::integer,NULL::text,NULL::uuid,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/products.service.ts:419",
+      "site": "src/services/supabase/products.service.ts:428",
       "name": "search_admin_products",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -18500,7 +18899,7 @@
       "command": "SELECT public.\"search_admin_products\"(NULL::text,25::integer,NULL::uuid,NULL::text,NULL::uuid)"
     },
     {
-      "site": "src/services/supabase/products.service.ts:419",
+      "site": "src/services/supabase/products.service.ts:428",
       "name": "search_admin_products",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -18516,7 +18915,7 @@
       "command": "SELECT public.\"search_admin_products\"(NULL::text,25::integer,NULL::uuid,NULL::text,NULL::uuid)"
     },
     {
-      "site": "src/services/supabase/products.service.ts:419",
+      "site": "src/services/supabase/products.service.ts:428",
       "name": "search_admin_products",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -18532,7 +18931,7 @@
       "command": "SELECT public.\"search_admin_products\"(NULL::text,25::integer,NULL::uuid,NULL::text,NULL::uuid)"
     },
     {
-      "site": "src/services/supabase/products.service.ts:475",
+      "site": "src/services/supabase/products.service.ts:484",
       "name": "search_admin_products",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -18548,7 +18947,7 @@
       "command": "SELECT public.\"search_admin_products\"(NULL::text,25::integer,NULL::uuid,NULL::text,NULL::uuid)"
     },
     {
-      "site": "src/services/supabase/products.service.ts:475",
+      "site": "src/services/supabase/products.service.ts:484",
       "name": "search_admin_products",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -18564,7 +18963,7 @@
       "command": "SELECT public.\"search_admin_products\"(NULL::text,25::integer,NULL::uuid,NULL::text,NULL::uuid)"
     },
     {
-      "site": "src/services/supabase/products.service.ts:475",
+      "site": "src/services/supabase/products.service.ts:484",
       "name": "search_admin_products",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -18580,12 +18979,12 @@
       "command": "SELECT public.\"search_admin_products\"(NULL::text,25::integer,NULL::uuid,NULL::text,NULL::uuid)"
     },
     {
-      "site": "src/services/supabase/products.service.ts:671",
-      "name": "create_product_with_opening_stock_v4",
+      "site": "src/services/supabase/products.service.ts:680",
+      "name": "create_product_with_opening_stock_v5",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
       "appRole": "owner",
-      "identity": "create_product_with_opening_stock_v4(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,integer,text,text)",
+      "identity": "create_product_with_opening_stock_v5(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,integer,text,text,boolean)",
       "args": [
         "NULL::text",
         "NULL::text",
@@ -18606,17 +19005,18 @@
         "'92600000-0000-4000-8000-000000000201'::uuid",
         "1::integer",
         "NULL::text",
-        "NULL::text"
+        "NULL::text",
+        "false"
       ],
-      "command": "SELECT public.\"create_product_with_opening_stock_v4\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,1::integer,NULL::text,NULL::text)"
+      "command": "SELECT public.\"create_product_with_opening_stock_v5\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,1::integer,NULL::text,NULL::text,false)"
     },
     {
-      "site": "src/services/supabase/products.service.ts:671",
-      "name": "create_product_with_opening_stock_v4",
+      "site": "src/services/supabase/products.service.ts:680",
+      "name": "create_product_with_opening_stock_v5",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
       "appRole": "admin",
-      "identity": "create_product_with_opening_stock_v4(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,integer,text,text)",
+      "identity": "create_product_with_opening_stock_v5(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,integer,text,text,boolean)",
       "args": [
         "NULL::text",
         "NULL::text",
@@ -18637,17 +19037,18 @@
         "'92600000-0000-4000-8000-000000000201'::uuid",
         "1::integer",
         "NULL::text",
-        "NULL::text"
+        "NULL::text",
+        "false"
       ],
-      "command": "SELECT public.\"create_product_with_opening_stock_v4\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,1::integer,NULL::text,NULL::text)"
+      "command": "SELECT public.\"create_product_with_opening_stock_v5\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,1::integer,NULL::text,NULL::text,false)"
     },
     {
-      "site": "src/services/supabase/products.service.ts:671",
-      "name": "create_product_with_opening_stock_v4",
+      "site": "src/services/supabase/products.service.ts:680",
+      "name": "create_product_with_opening_stock_v5",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
       "appRole": "cashier",
-      "identity": "create_product_with_opening_stock_v4(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,integer,text,text)",
+      "identity": "create_product_with_opening_stock_v5(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,integer,text,text,boolean)",
       "args": [
         "NULL::text",
         "NULL::text",
@@ -18668,12 +19069,13 @@
         "'92600000-0000-4000-8000-000000000201'::uuid",
         "1::integer",
         "NULL::text",
-        "NULL::text"
+        "NULL::text",
+        "false"
       ],
-      "command": "SELECT public.\"create_product_with_opening_stock_v4\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,1::integer,NULL::text,NULL::text)"
+      "command": "SELECT public.\"create_product_with_opening_stock_v5\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,1::integer,NULL::text,NULL::text,false)"
     },
     {
-      "site": "src/services/supabase/products.service.ts:741",
+      "site": "src/services/supabase/products.service.ts:750",
       "name": "create_product_flavor_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -18690,7 +19092,7 @@
       "command": "SELECT public.\"create_product_flavor_v1\"(NULL::uuid,NULL::text,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/products.service.ts:741",
+      "site": "src/services/supabase/products.service.ts:750",
       "name": "create_product_flavor_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -18707,7 +19109,7 @@
       "command": "SELECT public.\"create_product_flavor_v1\"(NULL::uuid,NULL::text,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/products.service.ts:741",
+      "site": "src/services/supabase/products.service.ts:750",
       "name": "create_product_flavor_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -18724,12 +19126,12 @@
       "command": "SELECT public.\"create_product_flavor_v1\"(NULL::uuid,NULL::text,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/products.service.ts:851",
-      "name": "create_product_family_with_flavors_v1",
+      "site": "src/services/supabase/products.service.ts:860",
+      "name": "create_product_family_with_flavors_v2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
       "appRole": "owner",
-      "identity": "create_product_family_with_flavors_v1(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,text,jsonb)",
+      "identity": "create_product_family_with_flavors_v2(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,text,jsonb,boolean)",
       "args": [
         "NULL::text",
         "NULL::text",
@@ -18749,17 +19151,18 @@
         "0::integer",
         "'92600000-0000-4000-8000-000000000201'::uuid",
         "NULL::text",
-        "'{}'::jsonb"
+        "'{}'::jsonb",
+        "false"
       ],
-      "command": "SELECT public.\"create_product_family_with_flavors_v1\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text,'{}'::jsonb)"
+      "command": "SELECT public.\"create_product_family_with_flavors_v2\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text,'{}'::jsonb,false)"
     },
     {
-      "site": "src/services/supabase/products.service.ts:851",
-      "name": "create_product_family_with_flavors_v1",
+      "site": "src/services/supabase/products.service.ts:860",
+      "name": "create_product_family_with_flavors_v2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
       "appRole": "admin",
-      "identity": "create_product_family_with_flavors_v1(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,text,jsonb)",
+      "identity": "create_product_family_with_flavors_v2(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,text,jsonb,boolean)",
       "args": [
         "NULL::text",
         "NULL::text",
@@ -18779,17 +19182,18 @@
         "0::integer",
         "'92600000-0000-4000-8000-000000000201'::uuid",
         "NULL::text",
-        "'{}'::jsonb"
+        "'{}'::jsonb",
+        "false"
       ],
-      "command": "SELECT public.\"create_product_family_with_flavors_v1\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text,'{}'::jsonb)"
+      "command": "SELECT public.\"create_product_family_with_flavors_v2\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text,'{}'::jsonb,false)"
     },
     {
-      "site": "src/services/supabase/products.service.ts:851",
-      "name": "create_product_family_with_flavors_v1",
+      "site": "src/services/supabase/products.service.ts:860",
+      "name": "create_product_family_with_flavors_v2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
       "appRole": "cashier",
-      "identity": "create_product_family_with_flavors_v1(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,text,jsonb)",
+      "identity": "create_product_family_with_flavors_v2(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,text,jsonb,boolean)",
       "args": [
         "NULL::text",
         "NULL::text",
@@ -18809,12 +19213,13 @@
         "0::integer",
         "'92600000-0000-4000-8000-000000000201'::uuid",
         "NULL::text",
-        "'{}'::jsonb"
+        "'{}'::jsonb",
+        "false"
       ],
-      "command": "SELECT public.\"create_product_family_with_flavors_v1\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text,'{}'::jsonb)"
+      "command": "SELECT public.\"create_product_family_with_flavors_v2\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text,'{}'::jsonb,false)"
     },
     {
-      "site": "src/services/supabase/products.service.ts:926",
+      "site": "src/services/supabase/products.service.ts:936",
       "name": "update_product_flavor_v2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -18831,7 +19236,7 @@
       "command": "SELECT public.\"update_product_flavor_v2\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,false)"
     },
     {
-      "site": "src/services/supabase/products.service.ts:926",
+      "site": "src/services/supabase/products.service.ts:936",
       "name": "update_product_flavor_v2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -18848,7 +19253,7 @@
       "command": "SELECT public.\"update_product_flavor_v2\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,false)"
     },
     {
-      "site": "src/services/supabase/products.service.ts:926",
+      "site": "src/services/supabase/products.service.ts:936",
       "name": "update_product_flavor_v2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -18865,7 +19270,7 @@
       "command": "SELECT public.\"update_product_flavor_v2\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,false)"
     },
     {
-      "site": "src/services/supabase/products.service.ts:961",
+      "site": "src/services/supabase/products.service.ts:971",
       "name": "reorder_product_flavors_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -18878,7 +19283,7 @@
       "command": "SELECT public.\"reorder_product_flavors_v1\"(NULL::uuid,ARRAY[]::uuid[])"
     },
     {
-      "site": "src/services/supabase/products.service.ts:961",
+      "site": "src/services/supabase/products.service.ts:971",
       "name": "reorder_product_flavors_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -18891,7 +19296,7 @@
       "command": "SELECT public.\"reorder_product_flavors_v1\"(NULL::uuid,ARRAY[]::uuid[])"
     },
     {
-      "site": "src/services/supabase/products.service.ts:961",
+      "site": "src/services/supabase/products.service.ts:971",
       "name": "reorder_product_flavors_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -18904,12 +19309,12 @@
       "command": "SELECT public.\"reorder_product_flavors_v1\"(NULL::uuid,ARRAY[]::uuid[])"
     },
     {
-      "site": "src/services/supabase/products.service.ts:1046",
-      "name": "update_product_master_v4",
+      "site": "src/services/supabase/products.service.ts:1056",
+      "name": "update_product_master_v5",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
       "appRole": "owner",
-      "identity": "update_product_master_v4(uuid,timestamp with time zone,text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,boolean,text)",
+      "identity": "update_product_master_v5(uuid,timestamp with time zone,text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,boolean,text,boolean)",
       "args": [
         "NULL::uuid",
         "CURRENT_TIMESTAMP",
@@ -18930,17 +19335,18 @@
         "0::integer",
         "0::integer",
         "false",
-        "NULL::text"
+        "NULL::text",
+        "false"
       ],
-      "command": "SELECT public.\"update_product_master_v4\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,false,NULL::text)"
+      "command": "SELECT public.\"update_product_master_v5\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,false,NULL::text,false)"
     },
     {
-      "site": "src/services/supabase/products.service.ts:1046",
-      "name": "update_product_master_v4",
+      "site": "src/services/supabase/products.service.ts:1056",
+      "name": "update_product_master_v5",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
       "appRole": "admin",
-      "identity": "update_product_master_v4(uuid,timestamp with time zone,text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,boolean,text)",
+      "identity": "update_product_master_v5(uuid,timestamp with time zone,text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,boolean,text,boolean)",
       "args": [
         "NULL::uuid",
         "CURRENT_TIMESTAMP",
@@ -18961,17 +19367,18 @@
         "0::integer",
         "0::integer",
         "false",
-        "NULL::text"
+        "NULL::text",
+        "false"
       ],
-      "command": "SELECT public.\"update_product_master_v4\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,false,NULL::text)"
+      "command": "SELECT public.\"update_product_master_v5\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,false,NULL::text,false)"
     },
     {
-      "site": "src/services/supabase/products.service.ts:1046",
-      "name": "update_product_master_v4",
+      "site": "src/services/supabase/products.service.ts:1056",
+      "name": "update_product_master_v5",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
       "appRole": "cashier",
-      "identity": "update_product_master_v4(uuid,timestamp with time zone,text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,boolean,text)",
+      "identity": "update_product_master_v5(uuid,timestamp with time zone,text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,boolean,text,boolean)",
       "args": [
         "NULL::uuid",
         "CURRENT_TIMESTAMP",
@@ -18992,9 +19399,10 @@
         "0::integer",
         "0::integer",
         "false",
-        "NULL::text"
+        "NULL::text",
+        "false"
       ],
-      "command": "SELECT public.\"update_product_master_v4\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,false,NULL::text)"
+      "command": "SELECT public.\"update_product_master_v5\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,false,NULL::text,false)"
     },
     {
       "site": "src/services/supabase/promotions.service.ts:80",
@@ -20236,7 +20644,7 @@
       "command": "SELECT public.\"get_operational_business_report\"('92600000-0000-4000-8000-000000000200'::uuid,CURRENT_DATE,CURRENT_DATE)"
     },
     {
-      "site": "src/services/supabase/salesAftercare.service.ts:131",
+      "site": "src/services/supabase/salesAftercare.service.ts:133",
       "name": "get_admin_sales_aftercare_context_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -20248,7 +20656,7 @@
       "command": "SELECT public.\"get_admin_sales_aftercare_context_v1\"(NULL::uuid)"
     },
     {
-      "site": "src/services/supabase/salesAftercare.service.ts:131",
+      "site": "src/services/supabase/salesAftercare.service.ts:133",
       "name": "get_admin_sales_aftercare_context_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -20260,7 +20668,7 @@
       "command": "SELECT public.\"get_admin_sales_aftercare_context_v1\"(NULL::uuid)"
     },
     {
-      "site": "src/services/supabase/salesAftercare.service.ts:131",
+      "site": "src/services/supabase/salesAftercare.service.ts:133",
       "name": "get_admin_sales_aftercare_context_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -20272,7 +20680,7 @@
       "command": "SELECT public.\"get_admin_sales_aftercare_context_v1\"(NULL::uuid)"
     },
     {
-      "site": "src/services/supabase/salesAftercare.service.ts:166",
+      "site": "src/services/supabase/salesAftercare.service.ts:168",
       "name": "settle_sales_replacement_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -20288,7 +20696,7 @@
       "command": "SELECT public.\"settle_sales_replacement_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/salesAftercare.service.ts:166",
+      "site": "src/services/supabase/salesAftercare.service.ts:168",
       "name": "settle_sales_replacement_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -20304,7 +20712,7 @@
       "command": "SELECT public.\"settle_sales_replacement_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/salesAftercare.service.ts:166",
+      "site": "src/services/supabase/salesAftercare.service.ts:168",
       "name": "settle_sales_replacement_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -20320,7 +20728,7 @@
       "command": "SELECT public.\"settle_sales_replacement_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/salesAftercare.service.ts:204",
+      "site": "src/services/supabase/salesAftercare.service.ts:206",
       "name": "settle_admin_sales_return_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -20339,7 +20747,7 @@
       "command": "SELECT public.\"settle_admin_sales_return_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,'{}'::jsonb,NULL::text,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/salesAftercare.service.ts:204",
+      "site": "src/services/supabase/salesAftercare.service.ts:206",
       "name": "settle_admin_sales_return_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -20358,7 +20766,7 @@
       "command": "SELECT public.\"settle_admin_sales_return_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,'{}'::jsonb,NULL::text,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/salesAftercare.service.ts:204",
+      "site": "src/services/supabase/salesAftercare.service.ts:206",
       "name": "settle_admin_sales_return_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -20377,7 +20785,7 @@
       "command": "SELECT public.\"settle_admin_sales_return_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,'{}'::jsonb,NULL::text,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/salesAftercare.service.ts:245",
+      "site": "src/services/supabase/salesAftercare.service.ts:247",
       "name": "settle_sales_replacement_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -20393,7 +20801,7 @@
       "command": "SELECT public.\"settle_sales_replacement_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/salesAftercare.service.ts:245",
+      "site": "src/services/supabase/salesAftercare.service.ts:247",
       "name": "settle_sales_replacement_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -20409,7 +20817,7 @@
       "command": "SELECT public.\"settle_sales_replacement_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/salesAftercare.service.ts:245",
+      "site": "src/services/supabase/salesAftercare.service.ts:247",
       "name": "settle_sales_replacement_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -20425,7 +20833,7 @@
       "command": "SELECT public.\"settle_sales_replacement_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/salesAftercare.service.ts:255",
+      "site": "src/services/supabase/salesAftercare.service.ts:257",
       "name": "settle_admin_sales_return_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -20444,7 +20852,7 @@
       "command": "SELECT public.\"settle_admin_sales_return_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,'{}'::jsonb,NULL::text,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/salesAftercare.service.ts:255",
+      "site": "src/services/supabase/salesAftercare.service.ts:257",
       "name": "settle_admin_sales_return_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -20463,7 +20871,7 @@
       "command": "SELECT public.\"settle_admin_sales_return_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,'{}'::jsonb,NULL::text,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/salesAftercare.service.ts:255",
+      "site": "src/services/supabase/salesAftercare.service.ts:257",
       "name": "settle_admin_sales_return_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -21016,7 +21424,7 @@
       "command": "SELECT public.\"save_owner_warehouse_v1\"(NULL::uuid,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,false,CURRENT_TIMESTAMP)"
     },
     {
-      "site": "customer-web/src/services/catalog.service.ts:165",
+      "site": "customer-web/src/services/catalog.service.ts:166",
       "name": "get_public_configurable_parcel_options",
       "role": "anon",
       "actor": null,
@@ -21028,7 +21436,7 @@
       "command": "SELECT public.\"get_public_configurable_parcel_options\"(ARRAY[]::uuid[])"
     },
     {
-      "site": "customer-web/src/services/catalog.service.ts:388",
+      "site": "customer-web/src/services/catalog.service.ts:389",
       "name": "get_public_storefront_catalog_page",
       "role": "anon",
       "actor": null,
@@ -21048,7 +21456,7 @@
       "command": "SELECT public.\"get_public_storefront_catalog_page\"(25::integer,0::integer,NULL::uuid,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,ARRAY[]::uuid[])"
     },
     {
-      "site": "customer-web/src/services/catalog.service.ts:446",
+      "site": "customer-web/src/services/catalog.service.ts:447",
       "name": "get_public_storefront_merchandising",
       "role": "anon",
       "actor": null,
@@ -21636,7 +22044,7 @@
   ],
   "results": [
     {
-      "site": "src/features/pos/PosView.tsx:167",
+      "site": "src/features/pos/PosView.tsx:168",
       "name": "get_pos_configurable_parcel_options_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -21652,7 +22060,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/features/pos/PosView.tsx:167",
+      "site": "src/features/pos/PosView.tsx:168",
       "name": "get_pos_configurable_parcel_options_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -21668,7 +22076,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/features/pos/PosView.tsx:167",
+      "site": "src/features/pos/PosView.tsx:168",
       "name": "get_pos_configurable_parcel_options_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -26902,7 +27310,7 @@
       ],
       "command": "SELECT public.\"save_product_parcel_configuration_v1\"(NULL::uuid,NULL::text,false)",
       "probe": 282,
-      "message": "PARCEL_CONFIGURATION_INVALID: راجع إعداد الطرد.",
+      "message": "PHASE2_PRODUCT_LOCK_SET_EMPTY: مجموعة منتجات الاستلام فارغة.",
       "outcome": "body_validation_or_error",
       "sqlstate": "22023"
     },
@@ -27273,7 +27681,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/posV2.service.ts:220",
+      "site": "src/services/supabase/posV2.service.ts:224",
       "name": "create_pos_sale_v2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -27297,7 +27705,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/posV2.service.ts:220",
+      "site": "src/services/supabase/posV2.service.ts:224",
       "name": "create_pos_sale_v2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -27321,7 +27729,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/posV2.service.ts:220",
+      "site": "src/services/supabase/posV2.service.ts:224",
       "name": "create_pos_sale_v2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -27345,7 +27753,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/posV2Recovery.ts:89",
+      "site": "src/services/supabase/posV2Recovery.ts:90",
       "name": "get_pos_sale_attempt_state_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -27362,7 +27770,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/posV2Recovery.ts:89",
+      "site": "src/services/supabase/posV2Recovery.ts:90",
       "name": "get_pos_sale_attempt_state_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -27379,7 +27787,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/posV2Recovery.ts:89",
+      "site": "src/services/supabase/posV2Recovery.ts:90",
       "name": "get_pos_sale_attempt_state_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -27396,7 +27804,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/posV2Recovery.ts:96",
+      "site": "src/services/supabase/posV2Recovery.ts:97",
       "name": "cancel_uncommitted_pos_sale_attempt_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -27414,7 +27822,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/posV2Recovery.ts:96",
+      "site": "src/services/supabase/posV2Recovery.ts:97",
       "name": "cancel_uncommitted_pos_sale_attempt_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -27432,7 +27840,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/posV2Recovery.ts:96",
+      "site": "src/services/supabase/posV2Recovery.ts:97",
       "name": "cancel_uncommitted_pos_sale_attempt_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -27450,7 +27858,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/posV2Recovery.ts:145",
+      "site": "src/services/supabase/posV2Recovery.ts:146",
       "name": "create_pos_sale_v2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -27474,7 +27882,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/posV2Recovery.ts:145",
+      "site": "src/services/supabase/posV2Recovery.ts:146",
       "name": "create_pos_sale_v2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -27498,7 +27906,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/posV2Recovery.ts:145",
+      "site": "src/services/supabase/posV2Recovery.ts:146",
       "name": "create_pos_sale_v2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -27627,7 +28035,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/products.service.ts:378",
+      "site": "src/services/supabase/products.service.ts:387",
       "name": "get_admin_product_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -27648,7 +28056,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/products.service.ts:378",
+      "site": "src/services/supabase/products.service.ts:387",
       "name": "get_admin_product_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -27669,7 +28077,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/products.service.ts:378",
+      "site": "src/services/supabase/products.service.ts:387",
       "name": "get_admin_product_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -27690,7 +28098,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/products.service.ts:419",
+      "site": "src/services/supabase/products.service.ts:428",
       "name": "search_admin_products",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -27710,7 +28118,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/products.service.ts:419",
+      "site": "src/services/supabase/products.service.ts:428",
       "name": "search_admin_products",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -27730,7 +28138,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/products.service.ts:419",
+      "site": "src/services/supabase/products.service.ts:428",
       "name": "search_admin_products",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -27750,7 +28158,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/products.service.ts:475",
+      "site": "src/services/supabase/products.service.ts:484",
       "name": "search_admin_products",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -27770,7 +28178,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/products.service.ts:475",
+      "site": "src/services/supabase/products.service.ts:484",
       "name": "search_admin_products",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -27790,7 +28198,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/products.service.ts:475",
+      "site": "src/services/supabase/products.service.ts:484",
       "name": "search_admin_products",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -27810,12 +28218,12 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/products.service.ts:671",
-      "name": "create_product_with_opening_stock_v4",
+      "site": "src/services/supabase/products.service.ts:680",
+      "name": "create_product_with_opening_stock_v5",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
       "appRole": "owner",
-      "identity": "create_product_with_opening_stock_v4(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,integer,text,text)",
+      "identity": "create_product_with_opening_stock_v5(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,integer,text,text,boolean)",
       "args": [
         "NULL::text",
         "NULL::text",
@@ -27836,21 +28244,22 @@
         "'92600000-0000-4000-8000-000000000201'::uuid",
         "1::integer",
         "NULL::text",
-        "NULL::text"
+        "NULL::text",
+        "false"
       ],
-      "command": "SELECT public.\"create_product_with_opening_stock_v4\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,1::integer,NULL::text,NULL::text)",
+      "command": "SELECT public.\"create_product_with_opening_stock_v5\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,1::integer,NULL::text,NULL::text,false)",
       "probe": 330,
       "message": "لا يُضاف مخزون أثناء إنشاء المنتج؛ استخدم الاستلام أو تهيئة المخزون الموثقة.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/products.service.ts:671",
-      "name": "create_product_with_opening_stock_v4",
+      "site": "src/services/supabase/products.service.ts:680",
+      "name": "create_product_with_opening_stock_v5",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
       "appRole": "admin",
-      "identity": "create_product_with_opening_stock_v4(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,integer,text,text)",
+      "identity": "create_product_with_opening_stock_v5(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,integer,text,text,boolean)",
       "args": [
         "NULL::text",
         "NULL::text",
@@ -27871,21 +28280,22 @@
         "'92600000-0000-4000-8000-000000000201'::uuid",
         "1::integer",
         "NULL::text",
-        "NULL::text"
+        "NULL::text",
+        "false"
       ],
-      "command": "SELECT public.\"create_product_with_opening_stock_v4\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,1::integer,NULL::text,NULL::text)",
+      "command": "SELECT public.\"create_product_with_opening_stock_v5\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,1::integer,NULL::text,NULL::text,false)",
       "probe": 331,
       "message": "لا يُضاف مخزون أثناء إنشاء المنتج؛ استخدم الاستلام أو تهيئة المخزون الموثقة.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/products.service.ts:671",
-      "name": "create_product_with_opening_stock_v4",
+      "site": "src/services/supabase/products.service.ts:680",
+      "name": "create_product_with_opening_stock_v5",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
       "appRole": "cashier",
-      "identity": "create_product_with_opening_stock_v4(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,integer,text,text)",
+      "identity": "create_product_with_opening_stock_v5(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,integer,text,text,boolean)",
       "args": [
         "NULL::text",
         "NULL::text",
@@ -27906,16 +28316,17 @@
         "'92600000-0000-4000-8000-000000000201'::uuid",
         "1::integer",
         "NULL::text",
-        "NULL::text"
+        "NULL::text",
+        "false"
       ],
-      "command": "SELECT public.\"create_product_with_opening_stock_v4\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,1::integer,NULL::text,NULL::text)",
+      "command": "SELECT public.\"create_product_with_opening_stock_v5\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,1::integer,NULL::text,NULL::text,false)",
       "probe": 332,
-      "message": "ليس لديك صلاحية إضافة منتج جملة.",
+      "message": "ليس لديك صلاحية تعريف منتج وطرق بيعه.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/products.service.ts:741",
+      "site": "src/services/supabase/products.service.ts:750",
       "name": "create_product_flavor_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -27936,7 +28347,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/products.service.ts:741",
+      "site": "src/services/supabase/products.service.ts:750",
       "name": "create_product_flavor_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -27957,7 +28368,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/products.service.ts:741",
+      "site": "src/services/supabase/products.service.ts:750",
       "name": "create_product_flavor_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -27978,12 +28389,12 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/products.service.ts:851",
-      "name": "create_product_family_with_flavors_v1",
+      "site": "src/services/supabase/products.service.ts:860",
+      "name": "create_product_family_with_flavors_v2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
       "appRole": "owner",
-      "identity": "create_product_family_with_flavors_v1(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,text,jsonb)",
+      "identity": "create_product_family_with_flavors_v2(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,text,jsonb,boolean)",
       "args": [
         "NULL::text",
         "NULL::text",
@@ -28003,21 +28414,22 @@
         "0::integer",
         "'92600000-0000-4000-8000-000000000201'::uuid",
         "NULL::text",
-        "'{}'::jsonb"
+        "'{}'::jsonb",
+        "false"
       ],
-      "command": "SELECT public.\"create_product_family_with_flavors_v1\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text,'{}'::jsonb)",
+      "command": "SELECT public.\"create_product_family_with_flavors_v2\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text,'{}'::jsonb,false)",
       "probe": 336,
       "message": "قائمة النكهات غير صالحة.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/products.service.ts:851",
-      "name": "create_product_family_with_flavors_v1",
+      "site": "src/services/supabase/products.service.ts:860",
+      "name": "create_product_family_with_flavors_v2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
       "appRole": "admin",
-      "identity": "create_product_family_with_flavors_v1(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,text,jsonb)",
+      "identity": "create_product_family_with_flavors_v2(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,text,jsonb,boolean)",
       "args": [
         "NULL::text",
         "NULL::text",
@@ -28037,21 +28449,22 @@
         "0::integer",
         "'92600000-0000-4000-8000-000000000201'::uuid",
         "NULL::text",
-        "'{}'::jsonb"
+        "'{}'::jsonb",
+        "false"
       ],
-      "command": "SELECT public.\"create_product_family_with_flavors_v1\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text,'{}'::jsonb)",
+      "command": "SELECT public.\"create_product_family_with_flavors_v2\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text,'{}'::jsonb,false)",
       "probe": 337,
       "message": "قائمة النكهات غير صالحة.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/products.service.ts:851",
-      "name": "create_product_family_with_flavors_v1",
+      "site": "src/services/supabase/products.service.ts:860",
+      "name": "create_product_family_with_flavors_v2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
       "appRole": "cashier",
-      "identity": "create_product_family_with_flavors_v1(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,text,jsonb)",
+      "identity": "create_product_family_with_flavors_v2(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,text,jsonb,boolean)",
       "args": [
         "NULL::text",
         "NULL::text",
@@ -28071,16 +28484,17 @@
         "0::integer",
         "'92600000-0000-4000-8000-000000000201'::uuid",
         "NULL::text",
-        "'{}'::jsonb"
+        "'{}'::jsonb",
+        "false"
       ],
-      "command": "SELECT public.\"create_product_family_with_flavors_v1\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text,'{}'::jsonb)",
+      "command": "SELECT public.\"create_product_family_with_flavors_v2\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text,'{}'::jsonb,false)",
       "probe": 338,
-      "message": "ليس لديك صلاحية إنشاء منتج بنكهات.",
+      "message": "ليس لديك صلاحية تعريف منتج وطرق بيعه.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/products.service.ts:926",
+      "site": "src/services/supabase/products.service.ts:936",
       "name": "update_product_flavor_v2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -28096,12 +28510,12 @@
       ],
       "command": "SELECT public.\"update_product_flavor_v2\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,false)",
       "probe": 339,
-      "message": "المنتج المحدد غير موجود.",
+      "message": "PHASE2_PRODUCT_LOCK_SET_EMPTY: مجموعة منتجات الاستلام فارغة.",
       "outcome": "body_validation_or_error",
-      "sqlstate": "P0001"
+      "sqlstate": "22023"
     },
     {
-      "site": "src/services/supabase/products.service.ts:926",
+      "site": "src/services/supabase/products.service.ts:936",
       "name": "update_product_flavor_v2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -28117,12 +28531,12 @@
       ],
       "command": "SELECT public.\"update_product_flavor_v2\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,false)",
       "probe": 340,
-      "message": "المنتج المحدد غير موجود.",
+      "message": "PHASE2_PRODUCT_LOCK_SET_EMPTY: مجموعة منتجات الاستلام فارغة.",
       "outcome": "body_validation_or_error",
-      "sqlstate": "P0001"
+      "sqlstate": "22023"
     },
     {
-      "site": "src/services/supabase/products.service.ts:926",
+      "site": "src/services/supabase/products.service.ts:936",
       "name": "update_product_flavor_v2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -28143,7 +28557,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/products.service.ts:961",
+      "site": "src/services/supabase/products.service.ts:971",
       "name": "reorder_product_flavors_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -28160,7 +28574,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/products.service.ts:961",
+      "site": "src/services/supabase/products.service.ts:971",
       "name": "reorder_product_flavors_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -28177,7 +28591,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/products.service.ts:961",
+      "site": "src/services/supabase/products.service.ts:971",
       "name": "reorder_product_flavors_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -28194,12 +28608,12 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/products.service.ts:1046",
-      "name": "update_product_master_v4",
+      "site": "src/services/supabase/products.service.ts:1056",
+      "name": "update_product_master_v5",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
       "appRole": "owner",
-      "identity": "update_product_master_v4(uuid,timestamp with time zone,text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,boolean,text)",
+      "identity": "update_product_master_v5(uuid,timestamp with time zone,text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,boolean,text,boolean)",
       "args": [
         "NULL::uuid",
         "CURRENT_TIMESTAMP",
@@ -28220,21 +28634,22 @@
         "0::integer",
         "0::integer",
         "false",
-        "NULL::text"
+        "NULL::text",
+        "false"
       ],
-      "command": "SELECT public.\"update_product_master_v4\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,false,NULL::text)",
+      "command": "SELECT public.\"update_product_master_v5\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,false,NULL::text,false)",
       "probe": 345,
-      "message": "المنتج المحدد غير موجود.",
+      "message": "PHASE2_PRODUCT_LOCK_SET_EMPTY: مجموعة منتجات الاستلام فارغة.",
       "outcome": "body_validation_or_error",
-      "sqlstate": "P0001"
+      "sqlstate": "22023"
     },
     {
-      "site": "src/services/supabase/products.service.ts:1046",
-      "name": "update_product_master_v4",
+      "site": "src/services/supabase/products.service.ts:1056",
+      "name": "update_product_master_v5",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
       "appRole": "admin",
-      "identity": "update_product_master_v4(uuid,timestamp with time zone,text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,boolean,text)",
+      "identity": "update_product_master_v5(uuid,timestamp with time zone,text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,boolean,text,boolean)",
       "args": [
         "NULL::uuid",
         "CURRENT_TIMESTAMP",
@@ -28255,21 +28670,22 @@
         "0::integer",
         "0::integer",
         "false",
-        "NULL::text"
+        "NULL::text",
+        "false"
       ],
-      "command": "SELECT public.\"update_product_master_v4\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,false,NULL::text)",
+      "command": "SELECT public.\"update_product_master_v5\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,false,NULL::text,false)",
       "probe": 346,
-      "message": "المنتج المحدد غير موجود.",
+      "message": "PHASE2_PRODUCT_LOCK_SET_EMPTY: مجموعة منتجات الاستلام فارغة.",
       "outcome": "body_validation_or_error",
-      "sqlstate": "P0001"
+      "sqlstate": "22023"
     },
     {
-      "site": "src/services/supabase/products.service.ts:1046",
-      "name": "update_product_master_v4",
+      "site": "src/services/supabase/products.service.ts:1056",
+      "name": "update_product_master_v5",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
       "appRole": "cashier",
-      "identity": "update_product_master_v4(uuid,timestamp with time zone,text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,boolean,text)",
+      "identity": "update_product_master_v5(uuid,timestamp with time zone,text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,boolean,text,boolean)",
       "args": [
         "NULL::uuid",
         "CURRENT_TIMESTAMP",
@@ -28290,11 +28706,12 @@
         "0::integer",
         "0::integer",
         "false",
-        "NULL::text"
+        "NULL::text",
+        "false"
       ],
-      "command": "SELECT public.\"update_product_master_v4\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,false,NULL::text)",
+      "command": "SELECT public.\"update_product_master_v5\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,false,NULL::text,false)",
       "probe": 347,
-      "message": "ليس لديك صلاحية تعديل منتج جملة.",
+      "message": "ليس لديك صلاحية تعديل منتج وطرق بيعه.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
     },
@@ -29850,7 +30267,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/salesAftercare.service.ts:131",
+      "site": "src/services/supabase/salesAftercare.service.ts:133",
       "name": "get_admin_sales_aftercare_context_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -29866,7 +30283,7 @@
       "sqlstate": "23503"
     },
     {
-      "site": "src/services/supabase/salesAftercare.service.ts:131",
+      "site": "src/services/supabase/salesAftercare.service.ts:133",
       "name": "get_admin_sales_aftercare_context_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -29882,7 +30299,7 @@
       "sqlstate": "23503"
     },
     {
-      "site": "src/services/supabase/salesAftercare.service.ts:131",
+      "site": "src/services/supabase/salesAftercare.service.ts:133",
       "name": "get_admin_sales_aftercare_context_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -29898,7 +30315,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/salesAftercare.service.ts:166",
+      "site": "src/services/supabase/salesAftercare.service.ts:168",
       "name": "settle_sales_replacement_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -29918,7 +30335,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/salesAftercare.service.ts:166",
+      "site": "src/services/supabase/salesAftercare.service.ts:168",
       "name": "settle_sales_replacement_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -29938,7 +30355,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/salesAftercare.service.ts:166",
+      "site": "src/services/supabase/salesAftercare.service.ts:168",
       "name": "settle_sales_replacement_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -29958,7 +30375,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/salesAftercare.service.ts:204",
+      "site": "src/services/supabase/salesAftercare.service.ts:206",
       "name": "settle_admin_sales_return_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -29981,7 +30398,7 @@
       "sqlstate": "22023"
     },
     {
-      "site": "src/services/supabase/salesAftercare.service.ts:204",
+      "site": "src/services/supabase/salesAftercare.service.ts:206",
       "name": "settle_admin_sales_return_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -30004,7 +30421,7 @@
       "sqlstate": "22023"
     },
     {
-      "site": "src/services/supabase/salesAftercare.service.ts:204",
+      "site": "src/services/supabase/salesAftercare.service.ts:206",
       "name": "settle_admin_sales_return_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -30027,7 +30444,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/salesAftercare.service.ts:245",
+      "site": "src/services/supabase/salesAftercare.service.ts:247",
       "name": "settle_sales_replacement_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -30047,7 +30464,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/salesAftercare.service.ts:245",
+      "site": "src/services/supabase/salesAftercare.service.ts:247",
       "name": "settle_sales_replacement_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -30067,7 +30484,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/salesAftercare.service.ts:245",
+      "site": "src/services/supabase/salesAftercare.service.ts:247",
       "name": "settle_sales_replacement_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -30087,7 +30504,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/salesAftercare.service.ts:255",
+      "site": "src/services/supabase/salesAftercare.service.ts:257",
       "name": "settle_admin_sales_return_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -30110,7 +30527,7 @@
       "sqlstate": "22023"
     },
     {
-      "site": "src/services/supabase/salesAftercare.service.ts:255",
+      "site": "src/services/supabase/salesAftercare.service.ts:257",
       "name": "settle_admin_sales_return_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -30133,7 +30550,7 @@
       "sqlstate": "22023"
     },
     {
-      "site": "src/services/supabase/salesAftercare.service.ts:255",
+      "site": "src/services/supabase/salesAftercare.service.ts:257",
       "name": "settle_admin_sales_return_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -30834,7 +31251,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "customer-web/src/services/catalog.service.ts:165",
+      "site": "customer-web/src/services/catalog.service.ts:166",
       "name": "get_public_configurable_parcel_options",
       "role": "anon",
       "actor": null,
@@ -30850,7 +31267,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "customer-web/src/services/catalog.service.ts:388",
+      "site": "customer-web/src/services/catalog.service.ts:389",
       "name": "get_public_storefront_catalog_page",
       "role": "anon",
       "actor": null,
@@ -30874,7 +31291,7 @@
       "sqlstate": null
     },
     {
-      "site": "customer-web/src/services/catalog.service.ts:446",
+      "site": "customer-web/src/services/catalog.service.ts:447",
       "name": "get_public_storefront_merchandising",
       "role": "anon",
       "actor": null,
@@ -33718,6 +34135,21 @@
     {
       "role": "anon",
       "allowed": false,
+      "identity": "create_product_family_with_flavors_v2(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,text,jsonb,boolean)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": true,
+      "identity": "create_product_family_with_flavors_v2(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,text,jsonb,boolean)"
+    },
+    {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "create_product_family_with_flavors_v2(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,text,jsonb,boolean)"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
       "identity": "create_product_flavor_v1(uuid,text,integer,uuid,text,text)"
     },
     {
@@ -33789,6 +34221,21 @@
       "role": "service_role",
       "allowed": false,
       "identity": "create_product_with_opening_stock_v4(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,integer,text,text)"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
+      "identity": "create_product_with_opening_stock_v5(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,integer,text,text,boolean)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": true,
+      "identity": "create_product_with_opening_stock_v5(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,integer,text,text,boolean)"
+    },
+    {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "create_product_with_opening_stock_v5(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,integer,text,text,boolean)"
     },
     {
       "role": "anon",
@@ -36354,6 +36801,141 @@
       "role": "service_role",
       "allowed": false,
       "identity": "package_d_validate_configurable_parcel_before_policy_internal(text,uuid,uuid,uuid,integer,jsonb)"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
+      "identity": "parcel209_effective_only_internal(uuid)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": false,
+      "identity": "parcel209_effective_only_internal(uuid)"
+    },
+    {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "parcel209_effective_only_internal(uuid)"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
+      "identity": "parcel209_guard_legacy_items_internal(jsonb)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": false,
+      "identity": "parcel209_guard_legacy_items_internal(jsonb)"
+    },
+    {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "parcel209_guard_legacy_items_internal(jsonb)"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
+      "identity": "parcel209_guard_modern_lines_internal(jsonb)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": false,
+      "identity": "parcel209_guard_modern_lines_internal(jsonb)"
+    },
+    {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "parcel209_guard_modern_lines_internal(jsonb)"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
+      "identity": "parcel209_guard_replacement_internal(jsonb)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": false,
+      "identity": "parcel209_guard_replacement_internal(jsonb)"
+    },
+    {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "parcel209_guard_replacement_internal(jsonb)"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
+      "identity": "parcel209_inventory_family_set_internal(uuid[])"
+    },
+    {
+      "role": "authenticated",
+      "allowed": false,
+      "identity": "parcel209_inventory_family_set_internal(uuid[])"
+    },
+    {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "parcel209_inventory_family_set_internal(uuid[])"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
+      "identity": "parcel209_pos_customer_internal(uuid,uuid,uuid,text,text,jsonb,bigint,bigint,text)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": false,
+      "identity": "parcel209_pos_customer_internal(uuid,uuid,uuid,text,text,jsonb,bigint,bigint,text)"
+    },
+    {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "parcel209_pos_customer_internal(uuid,uuid,uuid,text,text,jsonb,bigint,bigint,text)"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
+      "identity": "parcel209_pos_sale_internal(uuid,uuid,uuid,text,text,jsonb,bigint,bigint,text)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": false,
+      "identity": "parcel209_pos_sale_internal(uuid,uuid,uuid,text,text,jsonb,bigint,bigint,text)"
+    },
+    {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "parcel209_pos_sale_internal(uuid,uuid,uuid,text,text,jsonb,bigint,bigint,text)"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
+      "identity": "parcel209_replacement_issuer_internal(uuid,text,jsonb,text,text)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": false,
+      "identity": "parcel209_replacement_issuer_internal(uuid,text,jsonb,text,text)"
+    },
+    {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "parcel209_replacement_issuer_internal(uuid,text,jsonb,text,text)"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
+      "identity": "parcel209_set_flag_internal(uuid,boolean)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": false,
+      "identity": "parcel209_set_flag_internal(uuid,boolean)"
+    },
+    {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "parcel209_set_flag_internal(uuid,boolean)"
     },
     {
       "role": "anon",
@@ -39429,6 +40011,21 @@
       "role": "service_role",
       "allowed": false,
       "identity": "update_product_master_v4(uuid,timestamp with time zone,text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,boolean,text)"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
+      "identity": "update_product_master_v5(uuid,timestamp with time zone,text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,boolean,text,boolean)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": true,
+      "identity": "update_product_master_v5(uuid,timestamp with time zone,text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,boolean,text,boolean)"
+    },
+    {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "update_product_master_v5(uuid,timestamp with time zone,text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,boolean,text,boolean)"
     },
     {
       "role": "anon",
@@ -39755,7 +40352,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-10-22T03:06:21.576Z",
+  "endedAt": "2026-10-22T06:45:36.940Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {
@@ -40119,7 +40716,7 @@
     {
       "file": "docs/agent/OWNER_DECISIONS.md",
       "lines": [
-        683
+        687
       ],
       "category": "HISTORICAL_DOCUMENTATION"
     },
@@ -40290,7 +40887,7 @@
     }
   ],
   "supplementProvenance": {
-    "historicalSavedCatalog": "Preserved immutable offline assessment from accepted208;no new managed reading",
-    "sevenFunctions": "Same seven historical ACL subjects;current sites/EXECUTE/dispatch rederived from this real local run"
+    "historicalSavedCatalog": "Immutable saved offline assessment preserved from accepted A/main d7779f5;no new hosted reading",
+    "sevenFunctions": "Same seven historical subjects;current sites/EXECUTE/dispatch independently observed through209"
   }
 }

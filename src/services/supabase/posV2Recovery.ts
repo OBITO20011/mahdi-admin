@@ -17,6 +17,7 @@ interface Attempt {
 }
 const prefix = 'nawasrah:pos-v2:attempt:v1:';
 const rejectionIdentities = new Set([
+  'PARCEL209_UNIT_SALE_FORBIDDEN','PARCEL209_FAMILY_CHANGED_RETRY',
   'CONFIGURABLE_PARCEL_DISABLED', 'PARCEL_CONFIGURATION_STALE', 'PARCEL_CAPACITY_MISMATCH',
   'PARCEL_COMPONENT_FAMILY_MISMATCH', 'PARCEL_COMPONENT_NOT_ALLOWED', 'PARCEL_COMPONENT_NOT_STOCKED',
   'PHASE3_POS_INSUFFICIENT_INVENTORY', 'PHASE3_POS_OPEN_SHIFT_REQUIRED', 'PHASE3_POS_LOCATION_INVALID',
@@ -152,7 +153,10 @@ export async function runPosV2Attempt(
       persist(storageKey, {...a, status: 'SUCCEEDED', result: outcome.data, rejectionIdentity: undefined}, raw);
       return outcome;
     }
-    const definitive = !a.hadUnknown && ['P0001', '22023'].includes(outcome.rejectionCode || '')
+    const knownCode=['P0001','22023'].includes(outcome.rejectionCode||'')
+      || outcome.rejectionCode==='23514'&&outcome.errorIdentity==='PARCEL209_UNIT_SALE_FORBIDDEN'
+      || outcome.rejectionCode==='40001'&&outcome.errorIdentity==='PARCEL209_FAMILY_CHANGED_RETRY';
+    const definitive = !a.hadUnknown && knownCode
       && rejectionIdentities.has(outcome.errorIdentity);
     persist(storageKey, {...a, status: definitive ? 'DEFINITIVELY_REJECTED' : 'OUTCOME_UNKNOWN',
       hadUnknown: !definitive, rejectionIdentity: definitive ? outcome.errorIdentity : undefined}, raw);

@@ -1,0 +1,2152 @@
+{
+  "baseline": "d7779f56dc0bdfe77091bb4881cbae4ad50ced3a",
+  "entries": {
+    ".github/workflows/quality.yml": {
+      "before": "dc798cd8c52d1b1ad23db97a8fe950b637ba8054c6e65177474edfc7e6aa0bbb",
+      "after": "06d24766f44f9ccec345c4fd771f89afcb733308080fe782c8e265ac9f552387",
+      "errorPrefix": "TRIAL_A_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 250,
+          "before": [
+            "        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset, warehouse-management, owner-withdrawals, deferred-cheques, opening-cheques, legacy-product-cost, home-damage201, all-collections202, all-collections203, sales-history204, product-receiving205, navigation-cash206, document-corrections207, supplier-replacement208]"
+          ],
+          "after": [
+            "        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset, warehouse-management, owner-withdrawals, deferred-cheques, opening-cheques, legacy-product-cost, home-damage201, all-collections202, all-collections203, sales-history204, product-receiving205, navigation-cash206, document-corrections207, supplier-replacement208, parcel209]"
+          ]
+        },
+        {
+          "at": 322,
+          "before": [],
+          "after": [
+            "      - name: Parcel209 methods admission races restore upgrade reset and current SDK",
+            "        if: matrix.suite == 'parcel209'",
+            "        run: node scripts/testing/run-parcel209-gates.mjs",
+            ""
+          ]
+        }
+      ]
+    },
+    "customer-web/src/App.tsx": {
+      "before": "cb5cb21a9b051d50c939ebf7fc2c03157aeaa09045d0638067fb97b1a1f98e9e",
+      "after": "33c2f1108e4b1773367d7cd2c9ccc51cd690c23fec5263275a87542d713552a4",
+      "errorPrefix": "STOREFRONT_C6_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 905,
+          "before": [],
+          "after": [
+            "    if(product.parcelOnly){showToast('هذا الصنف بيتباع بالطرد بس؛ اختر طرداً.','info');return;}"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/components/ProductDetailsModal.tsx": {
+      "before": "c69b251b0650226b2f4ebe47e57808c018ccdb6c43be5028309cc46738d147ba",
+      "after": "d0278f74113e3b2b540d8da83777f31f9a320e9a6c80158e63dd47c7f31f55d7",
+      "errorPrefix": "STOREFRONT_C6_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 512,
+          "before": [
+            "          <div className={`mx-auto grid max-w-3xl gap-2 ${product.unitsPerSalePackage > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>"
+          ],
+          "after": [
+            "          <div className={`mx-auto grid max-w-3xl gap-2 ${!product.parcelOnly&&product.unitsPerSalePackage > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>"
+          ]
+        },
+        {
+          "at": 516,
+          "before": [
+            "            {product.unitsPerSalePackage > 1 && <ProductPurchaseControl label={storefrontUnitName(product.unitNameAr)} unit={storefrontUnitName(product.unitNameAr)} productName={product.nameAr}"
+          ],
+          "after": [
+            "            {!product.parcelOnly&&product.unitsPerSalePackage > 1 && <ProductPurchaseControl label={storefrontUnitName(product.unitNameAr)} unit={storefrontUnitName(product.unitNameAr)} productName={product.nameAr}"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/services/catalog.service.ts": {
+      "before": "c8992f9c7bd987ede8e2026e86e00bda513533ef3c00631d5fb8a1de98f31cc5",
+      "after": "4da530b39146d8d3c9736a73f25241f403b176e4056a71dcc42d15f2677b6def",
+      "errorPrefix": "TERMINOLOGY_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 79,
+          "before": [],
+          "after": [
+            "    parcelOnly: item.parcelOnly === true,"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/types/catalog.ts": {
+      "before": "5ec3b91eaa3e01c499258fdcbb2ead70f391fc38c80f15bf9f9c78e2e05905fc",
+      "after": "f55c64fc40254816deb09d0e13d178af4520b479b3c3a0a8c158d35e251c56e8",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 17,
+          "before": [],
+          "after": [
+            "  parcelOnly?: boolean;"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/utils/cart.ts": {
+      "before": "79808b19bd962d6aba652295400ec969a25a1022edc4aa3ff99c3f07a2d4148e",
+      "after": "aa7c52d1db568f72f8fd5ef615a06ba02e1676cb665cf5a555df64b7fd4f0677",
+      "errorPrefix": "STOREFRONT_C6_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 88,
+          "before": [],
+          "after": [
+            "  if(product.parcelOnly)throw new Error('هذا الصنف بيتباع بالطرد بس؛ اختر طرداً.');"
+          ]
+        },
+        {
+          "at": 282,
+          "before": [],
+          "after": [
+            "    if(isBaseUnit&&product?.parcelOnly)return [...result,item];"
+          ]
+        },
+        {
+          "at": 356,
+          "before": [],
+          "after": [
+            "    if(item.commercialLineKind==='base_unit'&&product?.parcelOnly){",
+            "      throw new Error(`${item.nameAr} بيتباع بالطرد بس. احذف سطر المفرد واختر طرداً؛ لم تتغيّر السلة تلقائياً.`);",
+            "    }"
+          ]
+        }
+      ]
+    },
+    "e2e/customer-storefront-c6.spec.ts": {
+      "before": "fa8a51326eb1cfcef922e94b9a8f0aa3b17f029caf02a8e74ea45ed0941019d5",
+      "after": "51d7489e50469c7cceeeba41418d7f8665c783e143f95681557dbf9a56d38914",
+      "errorPrefix": "STOREFRONT_C6_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 77,
+          "before": [],
+          "after": [
+            "",
+            "for(const width of [390,1440])test('209 parcel only has no unit or unavailable mixed control '+width,async({page})=>{",
+            " await page.setViewportSize({width,height:1000});const dialog=await setup(page,{parcelOnly:true});",
+            " await expect(dialog.getByRole('region',{name:'إضافة باكيت',exact:true})).toHaveCount(0);await expect(dialog.getByText('الطرد المختلط غير متاح',{exact:true})).toHaveCount(0);await expect(dialog.getByRole('button',{name:'كوّن طردًا بالنكهات',exact:true})).toHaveCount(0);",
+            " await dialog.getByRole('region',{name:'إضافة طرد',exact:true}).getByRole('button',{name:/إضافة .* طرد من/}).click();",
+            " await expect.poll(()=>savedLines(page)).toMatchObject([{commercialLineKind:'legacy_single_sku_parcel',quantity:1,unitsPerSalePackage:10,unitPriceInMinorUnits:5500}]);",
+            "});"
+          ]
+        }
+      ]
+    },
+    "e2e/package-f-pos-harness.tsx": {
+      "before": "a29c384af6c0896d9128c2d4112e0f15f1858061e177aac98310093c5d204d2f",
+      "after": "1929a6d0dedf707654426a22f8d7becbc9549f1c131bb4278ab6704e555274ed",
+      "errorPrefix": "TERMINOLOGY_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 46,
+          "before": [
+            "      `${product.name_ar} ${product.sku} ${product.barcode}`.toLowerCase().includes(search)).map(product=>params.get('base-unit')==='sack'?{...product,base_unit:{code:'SACK',name_ar:'شوال'}}:product));"
+          ],
+          "after": [
+            "      `${product.name_ar} ${product.sku} ${product.barcode}`.toLowerCase().includes(search)).map(product=>({...product,...(params.has('parcelOnly')?{parcel_only:true}:{}),...(params.get('base-unit')==='sack'?{base_unit:{code:'SACK',name_ar:'شوال'}}:{})})));"
+          ]
+        }
+      ]
+    },
+    "e2e/package-f-pos.spec.ts": {
+      "before": "2b15cc02c33b131582d19cfc4ba0fe5f693e98b0fd7661cc65df5550fd5640e4",
+      "after": "900afef69d7120011ebf47e190d032fa195648aaa0ea66e5cdbf77c9ac70a2c7",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 120,
+          "before": [],
+          "after": [
+            "",
+            "for(const width of [390,1440])test('209 POS parcel only barcode search and selection keeps parcel quantity and price '+width,async({page})=>{",
+            " await page.setViewportSize({width,height:1000});await page.goto(url('parcelOnly=1'));",
+            " await expect(product(page,0)).toContainText('طرد فقط');await expect(page.getByRole('radio',{name:'باكيت',exact:true})).toHaveCount(0);",
+            " const search=page.getByPlaceholder('ابحث باسم المنتج أو الباركود أو رمز الصنف...');await search.fill(posFixtureProducts[0].barcode);",
+            " await expect(page.locator('[data-pos-product-card]:visible')).toHaveCount(1);await product(page,0).click();",
+            " if(width===390)await page.getByRole('button',{name:'مراجعة السلة والعميل',exact:true}).click();",
+            " const cart=page.getByTestId('pos-workbench');await expect(cart).toContainText('طرد');await expect(cart).toContainText(posFixtureProducts[0].name_ar);",
+            " await expect(page.locator('[data-pos-quantity]:visible')).toHaveText('1');",
+            " await expect(cart).toContainText('21.600');",
+            "});"
+          ]
+        }
+      ]
+    },
+    "e2e/package-f-product-edit-conflict-harness.tsx": {
+      "before": "274db4f66e53c512e829cb1b85689f25c0e905ef13eee93a5cc938b980da2a1f",
+      "after": "ed710ba7a2cbf23722aef61651bdf4479f9f28de9a21d29f4b5a4cb070cc2dc1",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 30,
+          "before": [
+            "    purchase_unit:unit('كرتونة','CTN'),sale_unit:unit('كرتونة','CTN'),updated_at:'2026-10-15T09:00:00.000001+00:00'};"
+          ],
+          "after": [
+            "    purchase_unit:unit('كرتونة','CTN'),sale_unit:unit('كرتونة','CTN'),parcel_only:params.has('parcelOnly'),updated_at:'2026-10-15T09:00:00.000001+00:00'};"
+          ]
+        },
+        {
+          "at": 43,
+          "before": [
+            "const snapshot=(row:Row)=>({productId:row.id,updatedAt:row.updated_at,nameAr:row.name_ar,sku:row.sku,barcode:row.barcode||null,"
+          ],
+          "after": [
+            "const snapshot=(row:Row)=>({productId:row.id,updatedAt:row.updated_at,parcelOnly:row.parcel_only===true,nameAr:row.name_ar,sku:row.sku,barcode:row.barcode||null,"
+          ]
+        },
+        {
+          "at": 53,
+          "before": [
+            "Object.assign(window,{__editCalls:calls,__db:load,"
+          ],
+          "after": [
+            "Object.assign(window,{__editCalls:calls,__db:load,__currentModal:()=>({name:storeEngine.getState().currentModal,data:storeEngine.getState().modalData}),"
+          ]
+        },
+        {
+          "at": 63,
+          "before": [],
+          "after": [
+            "  if(name==='get_admin_parcel_configuration_context_v1')return Promise.resolve({data:{featureState:'ENABLED',products:[{",
+            "    familyProductId:familyId,nameAr:'عائلة شيبس',sku:'MIX-001',isFlavorMaster:true,unitsPerParcel:10,parcelPriceInMinorUnits:21600,",
+            "    configuration:{id:'99999999-9999-4999-8999-000000000001',composition_mode:'configurable_mix',is_active:true,configuration_revision:1},allowedProductIds:[],components:[]}]},error:null});"
+          ]
+        },
+        {
+          "at": 85,
+          "before": [
+            "  if(name==='update_product_master_v4'){"
+          ],
+          "after": [
+            "  if(name==='update_product_master_v5'){"
+          ]
+        },
+        {
+          "at": 88,
+          "before": [
+            "    Object.assign(row,{name_ar:args.p_name_ar,sku:args.p_sku,barcode:args.p_barcode??'',description:args.p_description,"
+          ],
+          "after": [
+            "    Object.assign(row,{parcel_only:args.p_parcel_only??row.parcel_only,name_ar:args.p_name_ar,sku:args.p_sku,barcode:args.p_barcode??'',description:args.p_description,"
+          ]
+        },
+        {
+          "at": 93,
+          "before": [
+            "    save(rows);return Promise.resolve({data:{success:true,productId:row.id,updatedAt:row.updated_at},error:null});"
+          ],
+          "after": [
+            "    save(rows);return Promise.resolve({data:{success:true,productId:row.id,parcelOnly:row.parcel_only,updatedAt:row.updated_at},error:null});"
+          ]
+        },
+        {
+          "at": 131,
+          "before": [
+            "  const [opened]=React.useState(()=>products.find(p=>p.id===(view==='detail'&&!params.has('plain')?familyId:inventoryProducts[0].id))!);"
+          ],
+          "after": [
+            "  const [opened]=React.useState(()=>products.find(p=>p.id===((view==='detail'&&!params.has('plain')||params.has('familyForm'))?familyId:inventoryProducts[0].id))!);"
+          ]
+        }
+      ]
+    },
+    "e2e/package-f-product-edit-conflict.spec.ts": {
+      "before": "0356f2288dae11abe465eac4a08fffa9c6c3429494c9c23740315ba8b6138547",
+      "after": "481f66825748d0f709263bfd9ebb81b4b22074063fa834f08b691b1473f9f349",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 52,
+          "before": [
+            "    const [refused]=await calls(page,'update_product_master_v4');"
+          ],
+          "after": [
+            "    const [refused]=await calls(page,'update_product_master_v5');"
+          ]
+        },
+        {
+          "at": 73,
+          "before": [
+            "    const saves=await calls(page,'update_product_master_v4');"
+          ],
+          "after": [
+            "    const saves=await calls(page,'update_product_master_v5');"
+          ]
+        },
+        {
+          "at": 94,
+          "before": [
+            "  expect((await calls(page,'update_product_master_v4')).at(-1)?.args.p_is_active).toBe(false);"
+          ],
+          "after": [
+            "  expect((await calls(page,'update_product_master_v5')).at(-1)?.args.p_is_active).toBe(false);"
+          ]
+        },
+        {
+          "at": 117,
+          "before": [],
+          "after": [
+            "",
+            "for(const width of [390,1440]){",
+            " test('209 unified sale methods parcel only and unit only '+width,async({page})=>{",
+            "  await page.setViewportSize({width,height:1000});await page.goto(url('reset=1'));",
+            "  const section=page.getByRole('group',{name:'طريقة البيع',exact:true});",
+            "  await expect(section.getByRole('checkbox',{name:/^طرد \\(/u})).toBeChecked();await expect(section.getByRole('checkbox',{name:'حبة مفردة',exact:true})).toBeChecked();",
+            "  await expect(page.getByText('مسموح طرد مشكّل بالنكهات',{exact:true})).toHaveCount(0);",
+            "  await section.getByRole('checkbox',{name:'حبة مفردة',exact:true}).uncheck();await save(page);",
+            "  await expect(page.getByTestId('product-edit-closed')).toBeVisible();expect((await calls(page,'update_product_master_v5'))[0].args.p_parcel_only).toBe(true);",
+            "  await page.goto(url('parcelOnly=1'));",
+            "  await expect(page.getByRole('checkbox',{name:'حبة مفردة',exact:true})).not.toBeChecked();",
+            "  await page.getByRole('checkbox',{name:'حبة مفردة',exact:true}).check();await page.getByRole('checkbox',{name:/^طرد \\(/u}).uncheck();await save(page);",
+            "  const last=(await calls(page,'update_product_master_v5')).at(-1)!;expect(last.args.p_parcel_only).toBe(false);expect(last.args.p_units_per_sale_unit).toBe(1);expect(last.args.p_units_per_purchase_unit).toBe(1);",
+            " });",
+            " test('209 at least one sale method prevents RPC '+width,async({page})=>{",
+            "  await page.setViewportSize({width,height:1000});await page.goto(url('reset=1'));",
+            "  await page.getByRole('checkbox',{name:'حبة مفردة',exact:true}).uncheck();await page.getByRole('checkbox',{name:/^طرد \\(/u}).uncheck();await save(page);",
+            "  await expect(page.getByRole('alert').filter({hasText:'اختر طريقة بيع واحدة على الأقل'}).first()).toBeVisible();expect(await calls(page,'update_product_master_v5')).toHaveLength(0);",
+            " });",
+            " test('209 formed state reads actual owner config and dirty changes disable direct link '+width,async({page})=>{",
+            "  await page.setViewportSize({width,height:1000});await page.goto(url('reset=1&familyForm=1'));",
+            "  await expect(page.getByRole('checkbox',{name:'مسموح طرد مشكّل بالنكهات',exact:true})).toBeChecked();",
+            "  const link=page.getByRole('button',{name:'فتح إعداد الطرد المشكّل لهذا المنتج',exact:true});await expect(link).toBeEnabled();",
+            "  expect(await calls(page,'get_admin_parcel_configuration_context_v1')).toHaveLength(1);",
+            "  await link.click();expect(await page.evaluate(()=>(window as unknown as {__currentModal:()=>unknown}).__currentModal())).toEqual({name:'parcel_configuration',data:{familyProductId:'88888888-8888-4888-8888-000000000005'}});",
+            "  await page.getByLabel('اسم المنتج').fill('عائلة معدلة');await expect(link).toBeDisabled();await expect(page.getByText('احفظ تعديلات المنتج أولاً حتى لا تفقدها عند فتح الإعداد.')).toBeVisible();",
+            "  expect(await calls(page,'save_product_parcel_configuration_v1')).toHaveLength(0);",
+            " });",
+            " test('209 nonowner family does not read owner configuration '+width,async({page})=>{",
+            "  await page.setViewportSize({width,height:1000});await page.goto(url('reset=1&familyForm=1&role=manager'));",
+            "  await expect(page.getByText('السماح بالطرد المشكّل وإعداده للمالك فقط.')).toBeVisible();expect(await calls(page,'get_admin_parcel_configuration_context_v1')).toHaveLength(0);",
+            " });",
+            "}"
+          ]
+        }
+      ]
+    },
+    "e2e/package-f-product-receiving205.spec.ts": {
+      "before": "f196a0127d6106f18b80c57341cf23b39bea04a8d7581867f560bc7c7f02db5d",
+      "after": "d538b56c714e43cbb79728739e9aeb18f991f95e608f1556ca56b1c07765bba6",
+      "errorPrefix": "TRIAL_A_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 30,
+          "before": [
+            "  await page.route('**/rest/v1/rpc/update_product_master_v4',async route=>{saved=route.request().postDataJSON();await page.evaluate(()=>{(window as unknown as {__receiving205UpdateSale:(price:number)=>void}).__receiving205UpdateSale(800);});return route.fulfill({status:200,json:{success:true,productId:saved!.p_product_id,updatedAt:'2026-10-20T09:00:00Z'}});});"
+          ],
+          "after": [
+            "  await page.route('**/rest/v1/rpc/update_product_master_v5',async route=>{saved=route.request().postDataJSON();await page.evaluate(()=>{(window as unknown as {__receiving205UpdateSale:(price:number)=>void}).__receiving205UpdateSale(800);});return route.fulfill({status:200,json:{success:true,productId:saved!.p_product_id,updatedAt:'2026-10-20T09:00:00Z'}});});"
+          ]
+        },
+        {
+          "at": 51,
+          "before": [
+            "  await editor.getByRole('checkbox',{name:'بيتباع بدون طرد',exact:true}).check();await expect(editor.getByLabel('عدد باكيت في طرد الشراء',{exact:true})).toHaveCount(0);await expect(editor.getByLabel('سعر شراء الطرد',{exact:true})).toHaveCount(0);await expect(editor.getByLabel('سعر شراء باكيت',{exact:true})).toHaveValue('0.55');await expect(editor.getByLabel('سعر بيع باكيت',{exact:true})).toHaveValue('0.65');",
+            "  await editor.getByRole('checkbox',{name:'بيتباع بدون طرد',exact:true}).uncheck();await expect(editor.getByLabel('عدد باكيت في طرد الشراء',{exact:true})).toHaveValue('20');await editor.getByText('متقدم: التغليف والمخزون والصورة',{exact:true}).click();await expect(editor.getByLabel('نوع طرد الشراء')).toHaveCount(0);await expect(editor.getByLabel('نوع طرد البيع')).toHaveCount(0);"
+          ],
+          "after": [
+            "  await editor.getByRole('checkbox',{name:/^طرد \\(/u}).uncheck();await expect(editor.getByLabel('عدد باكيت في طرد الشراء',{exact:true})).toHaveCount(0);await expect(editor.getByLabel('سعر شراء الطرد',{exact:true})).toHaveCount(0);await expect(editor.getByLabel('سعر شراء باكيت',{exact:true})).toHaveValue('0.55');await expect(editor.getByLabel('سعر بيع باكيت',{exact:true})).toHaveValue('0.65');",
+            "  await editor.getByRole('checkbox',{name:/^طرد \\(/u}).check();await expect(editor.getByLabel('عدد باكيت في طرد الشراء',{exact:true})).toHaveValue('20');await editor.getByText('متقدم: التغليف والمخزون والصورة',{exact:true}).click();await expect(editor.getByLabel('نوع طرد الشراء')).toHaveCount(0);await expect(editor.getByLabel('نوع طرد البيع')).toHaveCount(0);"
+          ]
+        },
+        {
+          "at": 68,
+          "before": [
+            "  await reads(page);await page.goto(url('create-direct','light','&purchaseUnitOnly205=1'));const row=await addProduct(page);await expect(row.getByLabel('سعر باكيت',{exact:true})).toHaveValue('0.5');await row.getByLabel('سعر باكيت',{exact:true}).fill('0.7');await row.getByRole('button',{name:'تعديل سعر البيع'}).click();const editor=page.getByRole('dialog',{name:'تعديل سعر البيع مع إبقاء الاستلام'});await expect(editor.getByRole('checkbox',{name:'بيتباع بدون طرد',exact:true})).not.toBeChecked();await editor.getByText('متقدم: التغليف والمخزون والصورة',{exact:true}).click();await expect(editor.getByRole('checkbox',{name:'طرد بيع مختلف عن طرد الشراء',exact:true})).toBeChecked();await expect(editor.getByLabel('عدد باكيت في طرد البيع',{exact:true})).toHaveValue('10');"
+          ],
+          "after": [
+            "  await reads(page);await page.goto(url('create-direct','light','&purchaseUnitOnly205=1'));const row=await addProduct(page);await expect(row.getByLabel('سعر باكيت',{exact:true})).toHaveValue('0.5');await row.getByLabel('سعر باكيت',{exact:true}).fill('0.7');await row.getByRole('button',{name:'تعديل سعر البيع'}).click();const editor=page.getByRole('dialog',{name:'تعديل سعر البيع مع إبقاء الاستلام'});await expect(editor.getByRole('checkbox',{name:/^طرد \\(/u})).toBeChecked();await editor.getByText('متقدم: التغليف والمخزون والصورة',{exact:true}).click();await expect(editor.getByRole('checkbox',{name:'طرد بيع مختلف عن طرد الشراء',exact:true})).toBeChecked();await expect(editor.getByLabel('عدد باكيت في طرد البيع',{exact:true})).toHaveValue('10');"
+          ]
+        },
+        {
+          "at": 72,
+          "before": [
+            "  await page.route('**/rest/v1/rpc/update_product_master_v4',route=>{saved=route.request().postDataJSON();return route.fulfill({status:400,json:{code:'P0001',message:'ISOLATED_LEGACY_SALE_UNIT_CAPTURE'}});});",
+            "  await page.goto(url('create-direct','light','&legacySaleBase205=1'));const row=await addProduct(page);await expect(row.getByLabel('سعر طرد',{exact:true})).toHaveValue('5');await row.getByLabel('سعر طرد',{exact:true}).fill('7');await row.getByRole('button',{name:'تعديل سعر البيع'}).click();const editor=page.getByRole('dialog',{name:'تعديل سعر البيع مع إبقاء الاستلام'});await expect(editor.getByLabel('سعر بيع الطرد',{exact:true})).toHaveValue('0.6');await editor.getByLabel('سعر بيع الطرد',{exact:true}).fill('0.8');await editor.getByRole('button',{name:'حفظ التعديلات',exact:true}).click();await expect.poll(()=>saved?.p_sale_unit_id).toBe('88888888-8888-4888-8888-000000000081');expect(saved?.p_purchase_unit_id).toBe('88888888-8888-4888-8888-000000000082');expect(saved?.p_units_per_sale_unit).toBe(1);expect(saved?.p_units_per_purchase_unit).toBe(10);expect(saved?.p_expected_updated_at).toBe('2026-10-20T08:00:00Z');"
+          ],
+          "after": [
+            "  await page.route('**/rest/v1/rpc/update_product_master_v5',route=>{saved=route.request().postDataJSON();return route.fulfill({status:400,json:{code:'P0001',message:'ISOLATED_LEGACY_SALE_UNIT_CAPTURE'}});});",
+            "  await page.goto(url('create-direct','light','&legacySaleBase205=1'));const row=await addProduct(page);await expect(row.getByLabel('سعر طرد',{exact:true})).toHaveValue('5');await row.getByLabel('سعر طرد',{exact:true}).fill('7');await row.getByRole('button',{name:'تعديل سعر البيع'}).click();const editor=page.getByRole('dialog',{name:'تعديل سعر البيع مع إبقاء الاستلام'});await expect(editor.getByRole('checkbox',{name:/^طرد \\(/u})).not.toBeChecked();await expect(editor.getByRole('checkbox',{name:'حبة مفردة',exact:true})).toBeChecked();await expect(editor.getByLabel('سعر بيع الطرد',{exact:true})).toBeDisabled();await expect(editor.getByLabel('سعر بيع باكيت',{exact:true})).toHaveValue('0.6');await editor.getByLabel('سعر بيع باكيت',{exact:true}).fill('0.8');await editor.getByRole('button',{name:'حفظ التعديلات',exact:true}).click();await expect.poll(()=>saved?.p_sale_unit_id).toBe('88888888-8888-4888-8888-000000000081');expect(saved?.p_purchase_unit_id).toBe('88888888-8888-4888-8888-000000000082');expect(saved?.p_units_per_sale_unit).toBe(1);expect(saved?.p_units_per_purchase_unit).toBe(10);expect(saved?.p_default_purchase_price_in_minor_units).toBe(3000);expect(saved?.p_expected_updated_at).toBe('2026-10-20T08:00:00Z');expect(saved?.p_default_sale_price_in_minor_units).toBe(800);expect(saved?.p_parcel_only).toBe(false);",
+            "  await editor.getByRole('checkbox',{name:/^طرد \\(/u}).check();await expect(editor.getByLabel('سعر بيع الطرد',{exact:true})).toHaveValue('8');await editor.getByRole('checkbox',{name:'حبة مفردة',exact:true}).uncheck();await editor.getByRole('button',{name:'حفظ التعديلات',exact:true}).click();await expect.poll(()=>saved?.p_units_per_sale_unit).toBe(10);expect(saved?.p_sale_unit_id).toBe('88888888-8888-4888-8888-000000000082');expect(saved?.p_purchase_unit_id).toBe('88888888-8888-4888-8888-000000000082');expect(saved?.p_units_per_purchase_unit).toBe(10);expect(saved?.p_default_purchase_price_in_minor_units).toBe(3000);expect(saved?.p_default_sale_price_in_minor_units).toBe(8000);expect(saved?.p_parcel_only).toBe(true);"
+          ]
+        },
+        {
+          "at": 77,
+          "before": [
+            "  await reads(page);let writes=0;await page.route('**/rest/v1/rpc/update_product_master_v4',route=>{writes++;return route.fulfill({status:400,json:{code:'P0001',message:'UNEXPECTED_INVALID_FORM_WRITE'}});});"
+          ],
+          "after": [
+            "  await reads(page);let writes=0;await page.route('**/rest/v1/rpc/update_product_master_v5',route=>{writes++;return route.fulfill({status:400,json:{code:'P0001',message:'UNEXPECTED_INVALID_FORM_WRITE'}});});"
+          ]
+        }
+      ]
+    },
+    "scripts/agent/lib.mjs": {
+      "before": "faee40adb03343ebe273f9c2ae321a95522623112f56c3366ec7bef9615a7939",
+      "after": "9c1bb88b8d8bd82ffd6393946c3ebc5cad3f3e6dcd5ec56da678191b2c4c88e9",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 112,
+          "before": [
+            "    integrationPins: Object.fromEntries([160,161,162,163,164,170,171,180,181,182,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208].map(number => {"
+          ],
+          "after": [
+            "    integrationPins: Object.fromEntries([160,161,162,163,164,170,171,180,181,182,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209].map(number => {"
+          ]
+        }
+      ]
+    },
+    "scripts/agent/preflight.mjs": {
+      "before": "d709e28575e6d56d9154f8a7f09a6fbf36b32744928ba8aa79fdcee718f65b60",
+      "after": "56966730f979d81ba45d47e4ad50a6f590f30c4c813f03a6bbda21cc6a0a3586",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 11,
+          "before": [
+            "for(const number of [160,161,162,163,164,170,171,180,181,182,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208]) {"
+          ],
+          "after": [
+            "for(const number of [160,161,162,163,164,170,171,180,181,182,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209]) {"
+          ]
+        }
+      ]
+    },
+    "scripts/operations/build-acl-reference209.mjs": {
+      "added": true,
+      "before": null,
+      "after": "eb85d5134a64e189c710fb0c98ad1751b1d51638f288ce3bd05b1e52dd8860e9",
+      "hunks": []
+    },
+    "scripts/operations/frankfurt-owner-build.mjs": {
+      "before": "031a798ca588b65b07d6c2fe9a26853b12361439d065869decbbd38252c5334b",
+      "after": "f970c5e56e36ea8ce6b71e6189c9ddbc4c7fea4df804a54b2e6e4e8b1ec90606",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 157,
+          "before": [],
+          "after": [
+            " }else if(ceiling===208){",
+            "  // Frozen delivered A/main d7779f5 manual; 209 must never repin this catalog.",
+            "  const ordered=[...functions].sort((a,b)=>a.identity<b.identity?-1:a.identity>b.identity?1:0);assert.equal(functions.length,534,'FROZEN208_FUNCTION_COUNT');assert.equal(digest(JSON.stringify(ordered)),'8ea6acf0e80da468eabf6cd08a4dd7237ea69091f665af538de2ec8959c3c390','FROZEN208_FUNCTIONS_CHANGED');"
+          ]
+        },
+        {
+          "at": 161,
+          "before": [
+            "  assert.equal(ceiling,208,'UNAPPROVED_FUNCTION_REFERENCE');"
+          ],
+          "after": [
+            "  assert.equal(ceiling,209,'UNAPPROVED_FUNCTION_REFERENCE');"
+          ]
+        }
+      ]
+    },
+    "scripts/operations/frankfurt-owner-upgrade209.mjs": {
+      "added": true,
+      "before": null,
+      "after": "defc451b2ee3deab1d582e7559467b225ab1c8f26a660914e82a52ed4d69d339",
+      "hunks": []
+    },
+    "scripts/operations/frankfurt-reference209.mjs": {
+      "added": true,
+      "before": null,
+      "after": "bc98c04ca793ba56d5ba9978707e332819e3ef23d6968c0201c0afefe1dcfeb8",
+      "hunks": []
+    },
+    "scripts/operations/frankfurt-trial-reset.mjs": {
+      "before": "56bc942df180bb6549772dfae2b0a0e9e6d10a4bb018a6afc8198dd9a2cea105",
+      "after": "73b1ba56cab595e23b137845dfc276657bacc39739213d34064a969b301d40b5",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 11,
+          "before": [
+            "import {readReady208Reference,ready208ReferenceName} from './frankfurt-reference208.mjs';"
+          ],
+          "after": [
+            "import {readReady209Reference,ready209ReferenceName} from './frankfurt-reference209.mjs';"
+          ]
+        },
+        {
+          "at": 31,
+          "before": [
+            " const reference=await readReady208Reference(root,path.join(workdir,ready208ReferenceName));await resetUnits(root,reference);"
+          ],
+          "after": [
+            " const reference=await readReady209Reference(root,path.join(workdir,ready209ReferenceName));await resetUnits(root,reference);"
+          ]
+        },
+        {
+          "at": 36,
+          "before": [
+            "  if(!options.apply){Object.assign(report,{ok:true,networkAccess:false,migrationCeiling:208,migrations:170,",
+            "   plan:['verify current208/history/hold and exact BR-MAIN/WH-MAIN','empty product-images via Storage API using official CLI','disable five jobs;drop/recreate public only',"
+          ],
+          "after": [
+            "  if(!options.apply){Object.assign(report,{ok:true,networkAccess:false,migrationCeiling:209,migrations:170,",
+            "   plan:['verify current209/history/hold and exact BR-MAIN/WH-MAIN','empty product-images via Storage API using official CLI','disable five jobs;drop/recreate public only',"
+          ]
+        },
+        {
+          "at": 51,
+          "before": [
+            "  assert.deepEqual(JSON.parse(await sql(historySql)),reference.appliedVersions,'RESET_REQUIRES_COMPLETE208_HISTORY');"
+          ],
+          "after": [
+            "  assert.deepEqual(JSON.parse(await sql(historySql)),reference.appliedVersions,'RESET_REQUIRES_COMPLETE209_HISTORY');"
+          ]
+        },
+        {
+          "at": 69,
+          "before": [
+            "  report.functions=await functionReference(executor,208);"
+          ],
+          "after": [
+            "  report.functions=await functionReference(executor,209);"
+          ]
+        }
+      ]
+    },
+    "scripts/operations/trial-reset-core.mjs": {
+      "before": "fc91fe1447edee7644499452c4207e364abb2687a172121aa8de5087b01fea1f",
+      "after": "fc71817b6e4e0ab22621eee9fa9ddf085e33a4a68f0826afa9459cd9dc16e580",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 14,
+          "before": [
+            "const resetFileCounts=Object.freeze({182:151,199:161,200:162,201:163,202:164,203:165,204:166,205:167,206:168,207:169,208:170});"
+          ],
+          "after": [
+            "const resetFileCounts=Object.freeze({182:151,199:161,200:162,201:163,202:164,203:165,204:166,205:167,206:168,207:169,208:170,209:171});"
+          ]
+        }
+      ]
+    },
+    "scripts/testing/historical-reset-source.mjs": {
+      "before": "f6cacbf2fd68701bbc10681982372d2591aee3f9a7a0ebf457e344a34e3ed4f0",
+      "after": "0a4fc4cdce09456b0b6d9f798d6b8b61300273861226bf7604bdac966d9d8ce1",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 9,
+          "before": [
+            " const counts={182:151,199:161,200:162,201:163,202:164,203:165,204:166,205:167,206:168,207:169},ceiling=reference.migrationCeiling;"
+          ],
+          "after": [
+            " const counts={182:151,199:161,200:162,201:163,202:164,203:165,204:166,205:167,206:168,207:169,208:170},ceiling=reference.migrationCeiling;"
+          ]
+        }
+      ]
+    },
+    "scripts/testing/maintenance-db-contract.mjs": {
+      "before": "761cf3d04d655243f13ba8f085108491e91eee54cb79e56bfcbed5614414912f",
+      "after": "3ddb8d449ac6d2b0895f2bdd64353fa80e9e765eb1921d312e72fc182979942d",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 53,
+          "before": [
+            "  if (/\\b(?:replace|regexp_replace)\"?\\s*\\(/iu.test(code) && /\\bexecute\\b/iu.test(code)) errors.push('TEXT_PATCH_WITH_DYNAMIC_EXECUTION');"
+          ],
+          "after": [
+            "  // Privilege declarations (EXECUTE ON) and static trigger declarations",
+            "  // (EXECUTE FUNCTION/PROCEDURE) are not dynamic statement execution.",
+            "  const dynamicExecute=/\\bexecute\\b(?!\\s+(?:on|function|procedure)\\b)/iu;",
+            "  if (/\\b(?:replace|regexp_replace)\"?\\s*\\(/iu.test(code) && dynamicExecute.test(code)) errors.push('TEXT_PATCH_WITH_DYNAMIC_EXECUTION');"
+          ]
+        }
+      ]
+    },
+    "scripts/testing/parcel209-access-contract.mjs": {
+      "added": true,
+      "before": null,
+      "after": "195391f768288903298d42cac92d0e744f0456e7686c5cbdf6bb11252ecfef96",
+      "hunks": []
+    },
+    "scripts/testing/parcel209-restore.mjs": {
+      "added": true,
+      "before": null,
+      "after": "53c0796581d675036d9f037cddcc381a6d6b4f263873c7fee2d730c673667b5e",
+      "hunks": []
+    },
+    "scripts/testing/run-parcel-upgrade209-runtime.mjs": {
+      "added": true,
+      "before": null,
+      "after": "63113787fbc305538c77602fa4e3720fef1b39058137ed923722bf79b80227b2",
+      "hunks": []
+    },
+    "scripts/testing/run-parcel209-gates.mjs": {
+      "added": true,
+      "before": null,
+      "after": "6170195b6b54154a8166bcba6c2856ab7311f1896576b2501ea76a7ede19b635",
+      "hunks": []
+    },
+    "scripts/testing/run-parcel209-runtime.mjs": {
+      "added": true,
+      "before": null,
+      "after": "27fe7b62921164c978e34c637b05337320e6e3d0a407b41fe03723c4f5c4e92d",
+      "hunks": []
+    },
+    "scripts/testing/run-trial-reset-runtime.mjs": {
+      "before": "53f17ae0ff2dea41c7d8ce5c2084a69a6cb148af0e372527e101e4dcbc392689",
+      "after": "a20dcf08a0eb34e2884aee7bfe8cd51320ca2e371cc7a9d01509ece3b55566a1",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {readReady209Reference,assertReady209Catalog} from '../operations/frankfurt-reference209.mjs';"
+          ]
+        },
+        {
+          "at": 39,
+          "before": [],
+          "after": [
+            " const latest209=process.argv.includes('--current209');"
+          ]
+        },
+        {
+          "at": 48,
+          "before": [
+            " assert.ok([latest208,latest207,latest206,latest205,latest204,latest203,latest202,latest201,latest,process.argv.includes('--current199')].filter(Boolean).length<=1,'ONE_RESET_CEILING_REQUIRED');",
+            " const current=latest208||latest207||latest206||latest205||latest204||latest203||latest202||latest201||latest||process.argv.includes('--current199'),explicit=process.argv.slice(2).find(arg=>!['--current199','--current200','--current201','--current202','--current203','--current204','--current205','--current206','--current207','--current208'].includes(arg));"
+          ],
+          "after": [
+            " assert.ok([latest209,latest208,latest207,latest206,latest205,latest204,latest203,latest202,latest201,latest,process.argv.includes('--current199')].filter(Boolean).length<=1,'ONE_RESET_CEILING_REQUIRED');",
+            " const current=latest209||latest208||latest207||latest206||latest205||latest204||latest203||latest202||latest201||latest||process.argv.includes('--current199'),explicit=process.argv.slice(2).find(arg=>!['--current199','--current200','--current201','--current202','--current203','--current204','--current205','--current206','--current207','--current208','--current209'].includes(arg));"
+          ]
+        },
+        {
+          "at": 53,
+          "before": [
+            " const reference=await (latest208?readReady208Reference:latest207?readReady207Reference:latest206?readReady206Reference:latest205?readReady205Reference:latest204?readReady204Reference:latest203?readReady203Reference:latest202?readReady202Reference:latest201?readReady201Reference:latest?readReady200Reference:current?readReady199Reference:readReference182)(root,referencePath);"
+          ],
+          "after": [
+            " const reference=await (latest209?readReady209Reference:latest208?readReady208Reference:latest207?readReady207Reference:latest206?readReady206Reference:latest205?readReady205Reference:latest204?readReady204Reference:latest203?readReady203Reference:latest202?readReady202Reference:latest201?readReady201Reference:latest?readReady200Reference:current?readReady199Reference:readReference182)(root,referencePath);"
+          ]
+        },
+        {
+          "at": 56,
+          "before": [
+            " const sourceRoot=latest208?root:await stageHistoricalResetSource(root,reference);"
+          ],
+          "after": [
+            " const sourceRoot=latest209?root:await stageHistoricalResetSource(root,reference);"
+          ]
+        },
+        {
+          "at": 93,
+          "before": [
+            " if(latest208||latest207||latest206||latest205||latest204||latest203||latest202||latest201){await call(`adjust_inventory_stock(${q(warehouse)},${q(product)},7,'تلف تخزين (تجربة التصفير)','damage')`);assert.equal(await sql('SELECT count(*) FROM inventory_damage_events;'),'1');report.damageEvidenceBeforeReset=1;}",
+            " if(latest208){"
+          ],
+          "after": [
+            " if(latest209||latest208||latest207||latest206||latest205||latest204||latest203||latest202||latest201){await call(`adjust_inventory_stock(${q(warehouse)},${q(product)},7,'تلف تخزين (تجربة التصفير)','damage')`);assert.equal(await sql('SELECT count(*) FROM inventory_damage_events;'),'1');report.damageEvidenceBeforeReset=1;}",
+            " if(latest209||latest208){"
+          ]
+        },
+        {
+          "at": 102,
+          "before": [
+            " if(latest208||latest207||latest206||latest205||latest204||latest203){"
+          ],
+          "after": [
+            " if(latest209||latest208||latest207||latest206||latest205||latest204||latest203){"
+          ]
+        },
+        {
+          "at": 108,
+          "before": [
+            " if(latest208||latest207||latest206||latest205||latest204||latest203||latest202){"
+          ],
+          "after": [
+            " if(latest209||latest208||latest207||latest206||latest205||latest204||latest203||latest202){"
+          ]
+        },
+        {
+          "at": 111,
+          "before": [
+            "  const home=await call('get_home_dashboard()');assert.equal(home.summary.todayCollections.totalInMinorUnits,latest208||latest207||latest206||latest205||latest204||latest203?3500:3000);"
+          ],
+          "after": [
+            "  const home=await call('get_home_dashboard()');assert.equal(home.summary.todayCollections.totalInMinorUnits,latest209||latest208||latest207||latest206||latest205||latest204||latest203?3500:3000);"
+          ]
+        },
+        {
+          "at": 114,
+          "before": [
+            " if(latest208||latest207||latest206||latest205||latest204){const history=await call('get_sales_history_page()');assert.equal(history.summary.salesInMinorUnits,2000);assert.equal(history.totalCount,2);report.historyBeforeReset={sales:2000,invoices:2};}"
+          ],
+          "after": [
+            " if(latest209||latest208||latest207||latest206||latest205||latest204){const history=await call('get_sales_history_page()');assert.equal(history.summary.salesInMinorUnits,2000);assert.equal(history.totalCount,2);report.historyBeforeReset={sales:2000,invoices:2};}"
+          ]
+        },
+        {
+          "at": 135,
+          "before": [
+            " report.functions=await functionReference(executor,reference.migrationCeiling);assert.equal(report.functions,latest208?534:latest207?523:latest206?520:latest205?519:latest204?517:latest203||latest202||latest201?516:current?513:468);",
+            " if(latest208||latest207||latest206||latest205||latest204||latest203||latest202||latest201){assertReady201Catalog(await json(schemaCatalogSql));assert.equal(await sql('SELECT count(*) FROM inventory_damage_events;'),'0');report.damageEvidenceEmpty=true;}",
+            " if(latest208||latest207||latest206||latest205||latest204||latest203||latest202){assert.equal(await sql('SELECT count(*) FROM customer_collection_opening_allocations;'),'0');assert.equal(await sql('SELECT count(*) FROM customer_collection_operations;'),'0');report.openingCollectionsEmpty=true;}"
+          ],
+          "after": [
+            " report.functions=await functionReference(executor,reference.migrationCeiling);assert.equal(report.functions,latest209?546:latest208?534:latest207?523:latest206?520:latest205?519:latest204?517:latest203||latest202||latest201?516:current?513:468);",
+            " if(latest209||latest208||latest207||latest206||latest205||latest204||latest203||latest202||latest201){assertReady201Catalog(await json(schemaCatalogSql));assert.equal(await sql('SELECT count(*) FROM inventory_damage_events;'),'0');report.damageEvidenceEmpty=true;}",
+            " if(latest209||latest208||latest207||latest206||latest205||latest204||latest203||latest202){assert.equal(await sql('SELECT count(*) FROM customer_collection_opening_allocations;'),'0');assert.equal(await sql('SELECT count(*) FROM customer_collection_operations;'),'0');report.openingCollectionsEmpty=true;}"
+          ]
+        },
+        {
+          "at": 140,
+          "before": [
+            " if(latest208||latest207||latest206||latest205){const contexts=await call(`get_receiving_purchase_context(ARRAY[${q(product)}]::uuid[])`);assert.equal(contexts.products[0].lastPurchase,null);report.purchaseHistoryEmptyAfterReset=true;}",
+            " if(latest208||latest207||latest206||latest205||latest204){const history=await call('get_sales_history_page()');assert.deepEqual(history.rows,[]);assert.equal(history.summary.salesInMinorUnits,0);report.historyEmptyAfterReset=true;}"
+          ],
+          "after": [
+            " if(latest209||latest208||latest207||latest206||latest205){const contexts=await call(`get_receiving_purchase_context(ARRAY[${q(product)}]::uuid[])`);assert.equal(contexts.products[0].lastPurchase,null);report.purchaseHistoryEmptyAfterReset=true;}",
+            " if(latest209||latest208||latest207||latest206||latest205||latest204){const history=await call('get_sales_history_page()');assert.deepEqual(history.rows,[]);assert.equal(history.summary.salesInMinorUnits,0);report.historyEmptyAfterReset=true;}"
+          ]
+        },
+        {
+          "at": 146,
+          "before": [
+            " if(latest208){assertReady208Catalog(await json(schemaCatalogSql));for(const t of ['supplier_replacement_cases','supplier_replacement_events','supplier_replacement_inventory_effects'])assert.equal(await sql('SELECT count(*) FROM '+t+';'),'0');const held=await call('get_supplier_replacements_page_v1()');assert.equal(held.pendingQuantity,0);assert.equal(Number(held.pendingValueInMinorUnitsExact),0);report.replacement208Empty=true;const wire=await ownerSession.rpc('get_supplier_replacements_page_v1');assert.equal(wire.error,null,'ACTUAL_OWNER208_REST_READ');assert.equal(wire.data.contractVersion,208);assert.equal(wire.data.pendingQuantity,0);assert.equal(Number(wire.data.pendingValueInMinorUnitsExact),0);report.rest208OwnerRead=true;}"
+          ],
+          "after": [
+            " if(latest209||latest208){assertReady208Catalog(await json(schemaCatalogSql));for(const t of ['supplier_replacement_cases','supplier_replacement_events','supplier_replacement_inventory_effects'])assert.equal(await sql('SELECT count(*) FROM '+t+';'),'0');const held=await call('get_supplier_replacements_page_v1()');assert.equal(held.pendingQuantity,0);assert.equal(Number(held.pendingValueInMinorUnitsExact),0);report.replacement208Empty=true;const wire=await ownerSession.rpc('get_supplier_replacements_page_v1');assert.equal(wire.error,null,'ACTUAL_OWNER208_REST_READ');assert.equal(wire.data.contractVersion,208);assert.equal(wire.data.pendingQuantity,0);assert.equal(Number(wire.data.pendingValueInMinorUnitsExact),0);report.rest208OwnerRead=true;}",
+            " if(latest209){assertReady209Catalog(await json(schemaCatalogSql));const wire=await ownerSession.rpc('get_public_storefront_catalog_page');assert.equal(wire.error,null,'ACTUAL_OWNER209_REST_READ');assert.deepEqual(wire.data.items,[]);report.rest209CatalogRead=true;}"
+          ]
+        }
+      ]
+    },
+    "src/components/modals/AllModals.tsx": {
+      "before": "f9186561a9dc6c41ba8fbcf7c8365f276819102cab360120fcd1cad9481a8f53",
+      "after": "806a4f46f1776a774d500ee6f00f60c248cdf7149d2ebc10f4cf4a242ed19bfc",
+      "errorPrefix": "NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 213,
+          "before": [
+            "        <ParcelConfigurationModal />"
+          ],
+          "after": [
+            "        <ParcelConfigurationModal initialFamilyProductId={modalData&&'familyProductId' in modalData?modalData.familyProductId:undefined}/>"
+          ]
+        }
+      ]
+    },
+    "src/features/goLive/goLiveImport.ts": {
+      "before": "762495484f270ce785a3ecdaff34b03bfc1924997a94d5c4c5394247191a0985",
+      "after": "0b99b2cc61c724e6eb6da28d38931ed717aaf76dcb45470fe7b37f0f1145a11e",
+      "errorPrefix": "RECEIVING205_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 37,
+          "before": [],
+          "after": [
+            "    { key: 'parcel_only', header: 'بيتباع بالطرد بس', required: false, example: 'لا' },"
+          ]
+        },
+        {
+          "at": 169,
+          "before": [],
+          "after": [
+            "  parcel_only?: boolean;"
+          ]
+        },
+        {
+          "at": 197,
+          "before": [],
+          "after": [
+            "    const methodValue=(values.parcel_only??'').trim().toLowerCase();",
+            "    const parcelOnly=['نعم','true','1'].includes(methodValue);",
+            "    if(!['','نعم','لا','true','false','1','0'].includes(methodValue)){fail('بيتباع بالطرد بس: اكتب نعم أو لا.');continue;}"
+          ]
+        },
+        {
+          "at": 201,
+          "before": [],
+          "after": [
+            "    if(parcelOnly&&perSale<=1){fail('الطرد فقط يحتاج أكثر من وحدة في طرد البيع.');continue;}"
+          ]
+        },
+        {
+          "at": 209,
+          "before": [],
+          "after": [
+            "      ...(methodValue?{parcel_only:parcelOnly}:{}),"
+          ]
+        }
+      ]
+    },
+    "src/features/more/ParcelConfigurationModal.tsx": {
+      "before": "ee137fff81edfe7305241e05893260d95302d4328b3c465ff5f81ef8d511ac49",
+      "after": "ecf475a11a0837dc7cf0700e7b8db4b5f29fd57bab656522d01823309878d47c",
+      "errorPrefix": "TRIAL_A_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 11,
+          "before": [
+            "export function ParcelConfigurationModal() {"
+          ],
+          "after": [
+            "export function ParcelConfigurationModal({initialFamilyProductId}:{initialFamilyProductId?:string}) {"
+          ]
+        },
+        {
+          "at": 31,
+          "before": [
+            "    void fetchParcelConfigurationContext().then(data => {if (active) {setContext(data);setNextState(data.featureState);select(data,data.products[0]?.familyProductId ?? '');}})"
+          ],
+          "after": [
+            "    void fetchParcelConfigurationContext().then(data => {if (active) {setContext(data);setNextState(data.featureState);select(data,initialFamilyProductId ?? data.products[0]?.familyProductId ?? '');}})"
+          ]
+        },
+        {
+          "at": 34,
+          "before": [
+            "  },[role]);"
+          ],
+          "after": [
+            "  },[role,initialFamilyProductId]);"
+          ]
+        }
+      ]
+    },
+    "src/features/orders/AdminAftercarePanel.tsx": {
+      "before": "57814a8a7c6c9336dd3ab729ec50de5e814dbcfab854bca29703e6efdac0bae2",
+      "after": "1e813e207cc36690ee0f9b541b55fdf18d1722484e1ea501635c426121991f51",
+      "errorPrefix": "SUPPLIER_REPLACEMENT208_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 9,
+          "before": [
+            "import {allocateBaseReturn, assertReturnCapacityUnchanged, singleSkuPhysicalQuantity} from './aftercarePresentation';"
+          ],
+          "after": [
+            "import {allocateBaseReturn, assertReturnCapacityUnchanged, singleSkuPhysicalQuantity,wholeParcelReplacementItems} from './aftercarePresentation';"
+          ]
+        },
+        {
+          "at": 63,
+          "before": [],
+          "after": [
+            "  const [replacementParcel,setReplacementParcel]=useState<AdminAftercareContext['parcelInstances'][number]|null>(null);"
+          ]
+        },
+        {
+          "at": 98,
+          "before": [
+            "        setError('لقطات حجم الكرتونة أو كميتها غير متطابقة؛ لا يمكن إجراء مرتجع أو استبدال.');"
+          ],
+          "after": [
+            "        setError('لقطات حجم الطرد أو كميتها غير متطابقة؛ لا يمكن إجراء مرتجع أو استبدال.');"
+          ]
+        },
+        {
+          "at": 143,
+          "before": [],
+          "after": [
+            "    setReplacementParcel(null);"
+          ]
+        },
+        {
+          "at": 150,
+          "before": [
+            "    if (!replacementSource || reason.trim().length < 3) {"
+          ],
+          "after": [
+            "    if ((!replacementSource&&!replacementParcel) || reason.trim().length < 3) {"
+          ]
+        },
+        {
+          "at": 153,
+          "before": [
+            "    const factor = replacementSource.unitsPerParcel || 1;",
+            "    if (!Number.isSafeInteger(replacementQuantity) || replacementQuantity < 1",
+            "      || replacementQuantity * factor > replacementSource.remainingQuantity) {",
+            "      notify('اختر عدداً صحيحاً من الكراتين المتاحة.', 'error'); return;"
+          ],
+          "after": [
+            "    const factor = replacementSource?.unitsPerParcel || 1;",
+            "    if (!replacementParcel&&replacementSource&&(!Number.isSafeInteger(replacementQuantity) || replacementQuantity < 1",
+            "      || replacementQuantity * factor > replacementSource.remainingQuantity)) {",
+            "      notify('اختر عدداً صحيحاً من الطرود المتاحة.', 'error'); return;"
+          ]
+        },
+        {
+          "at": 161,
+          "before": [
+            "        items: [{sourceKind: replacementSource.sourceKind,",
+            "          sourceId: replacementSource.sourceId, quantity: replacementQuantity * factor}],"
+          ],
+          "after": [
+            "        items: replacementParcel?wholeParcelReplacementItems(replacementParcel):replacementSource?[{sourceKind: replacementSource.sourceKind,",
+            "          sourceId: replacementSource.sourceId, quantity: replacementQuantity * factor}]:[],"
+          ]
+        },
+        {
+          "at": 187,
+          "before": [
+            "            throw new Error('PHASE43_RETURN_ALLOCATION_INVALID: صنّف كامل كمية الكرتونة.');"
+          ],
+          "after": [
+            "            throw new Error('PHASE43_RETURN_ALLOCATION_INVALID: صنّف كامل كمية الطرد.');"
+          ]
+        },
+        {
+          "at": 196,
+          "before": [
+            "          'افحص ضرر العميل بمرتجع مستقل لكل كرتونة حتى لا يتجاوز الخصم استحقاقها الأصلي.');"
+          ],
+          "after": [
+            "          'افحص ضرر العميل بمرتجع مستقل لكل طرد حتى لا يتجاوز الخصم استحقاقها الأصلي.');"
+          ]
+        },
+        {
+          "at": 354,
+          "before": [
+            "        && !replacementSource && !returnDraft && ("
+          ],
+          "after": [
+            "        && !replacementSource && !replacementParcel && !returnDraft && ("
+          ]
+        },
+        {
+          "at": 361,
+          "before": [
+            "              <div className=\"flex flex-wrap items-center justify-between gap-2\"><span>{order.items.find(line => line.id === item.orderItemId)?.productName || 'وحدة أساسية'} · المتبقي {quantity} {item.commercialLineKind === 'legacy_single_sku_parcel' ? 'كرتونة كاملة' : 'وحدة'}</span>"
+          ],
+          "after": [
+            "              <div className=\"flex flex-wrap items-center justify-between gap-2\"><span>{order.items.find(line => line.id === item.orderItemId)?.productName || 'وحدة أساسية'} · المتبقي {quantity} {item.commercialLineKind === 'legacy_single_sku_parcel' ? 'طرد كاملة' : 'وحدة'}</span>"
+          ]
+        },
+        {
+          "at": 372,
+          "before": [
+            "                  <UiButton variant=\"primary\" type=\"button\" onClick={() => {"
+          ],
+          "after": [
+            "                  {!(item.parcelOnly&&item.commercialLineKind==='base_unit')&&<UiButton variant=\"primary\" type=\"button\" onClick={() => {"
+          ]
+        },
+        {
+          "at": 376,
+          "before": [
+            "                  }} className=\"min-h-11 rounded bg-nw-primary px-3 py-2 text-nw-on-primary\">{item.commercialLineKind === 'legacy_single_sku_parcel' ? 'استبدال كرتونة' : 'استبدال وحدة'}</UiButton>"
+          ],
+          "after": [
+            "                  }} className=\"min-h-11 rounded bg-nw-primary px-3 py-2 text-nw-on-primary\">{item.commercialLineKind === 'legacy_single_sku_parcel' ? 'استبدال طرد' : 'استبدال وحدة'}</UiButton>}"
+          ]
+        },
+        {
+          "at": 393,
+          "before": [
+            "                  className=\"min-h-11 rounded bg-nw-primary px-3 py-2 text-nw-on-primary\">مرتجع الطرد</UiButton></div>"
+          ],
+          "after": [
+            "                  className=\"min-h-11 rounded bg-nw-primary px-3 py-2 text-nw-on-primary\">مرتجع الطرد</UiButton>",
+            "                <UiButton variant=\"primary\" type=\"button\" onClick={()=>{setReplacementSource(null);setReplacementParcel(parcel);}}",
+            "                  className=\"min-h-11 rounded bg-nw-primary px-3 py-2 text-nw-on-primary\">استبدال الطرد كاملاً</UiButton></div>"
+          ]
+        },
+        {
+          "at": 397,
+          "before": [
+            "                {parcel.components.flatMap((component) => component.physicalRepresentatives"
+          ],
+          "after": [
+            "                {parcel.components.filter(component=>!component.parcelOnly).flatMap((component) => component.physicalRepresentatives"
+          ]
+        },
+        {
+          "at": 407,
+          "before": [
+            "      {replacementSource && <div className=\"space-y-2 rounded-xl border border-nw-info bg-nw-surface-2 p-3\">",
+            "        <b className=\"text-nw-text\">إصدار بديل من نفس الصنف — {replacementSource.isSingleSkuParcel ? 'كراتين كاملة' : 'وحدة واحدة'}</b>",
+            "        {replacementSource.isSingleSkuParcel && <label className=\"block\">عدد كراتين الاستبدال",
+            "          <input aria-label=\"عدد كراتين الاستبدال\" type=\"number\" min={1} step={1}"
+          ],
+          "after": [
+            "      {(replacementSource||replacementParcel) && <div className=\"space-y-2 rounded-xl border border-nw-info bg-nw-surface-2 p-3\">",
+            "        <b className=\"text-nw-text\">إصدار بديل من نفس الصنف — {replacementParcel?'طرد مشكّل كامل':replacementSource?.isSingleSkuParcel ? 'طرود كاملة' : 'وحدة واحدة'}</b>",
+            "        {replacementSource?.isSingleSkuParcel && <label className=\"block\">عدد طرود الاستبدال",
+            "          <input aria-label=\"عدد طرود الاستبدال\" type=\"number\" min={1} step={1}"
+          ]
+        },
+        {
+          "at": 424,
+          "before": [
+            "        <b className=\"text-nw-text\">{returnDraft.kind === 'base' && returnDraft.isSingleSkuParcel ? 'مرتجع كراتين كاملة من الصنف الحالي' : 'مرتجع من القطعة الحالية'}</b>",
+            "        {returnDraft.kind === 'base' && <label className=\"block text-sm\">{returnDraft.isSingleSkuParcel ? 'عدد كراتين المرتجع' : 'كمية المرتجع'} (المتبقي {rootQuantity(returnDraft.representatives) / returnDraft.unitsPerParcel})",
+            "          <input aria-label={returnDraft.isSingleSkuParcel ? 'عدد كراتين المرتجع' : 'كمية المرتجع'} type=\"number\" min={1} step={1}"
+          ],
+          "after": [
+            "        <b className=\"text-nw-text\">{returnDraft.kind === 'base' && returnDraft.isSingleSkuParcel ? 'مرتجع طرود كاملة من الصنف الحالي' : 'مرتجع من القطعة الحالية'}</b>",
+            "        {returnDraft.kind === 'base' && <label className=\"block text-sm\">{returnDraft.isSingleSkuParcel ? 'عدد طرود المرتجع' : 'كمية المرتجع'} (المتبقي {rootQuantity(returnDraft.representatives) / returnDraft.unitsPerParcel})",
+            "          <input aria-label={returnDraft.isSingleSkuParcel ? 'عدد طرود المرتجع' : 'كمية المرتجع'} type=\"number\" min={1} step={1}"
+          ]
+        }
+      ]
+    },
+    "src/features/orders/aftercarePresentation.ts": {
+      "before": "4e5bf8faa1fce7d06a5d5600f6b863759f732b0a6f62e1e946f2c4c194b7bded",
+      "after": "9cad4d4727ab70bb87fa9cba9b5d30afafc11a11fafdf429a4e883fceea482d5",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [
+            "import type {AftercarePhysicalRepresentative, ReturnPhysicalSource} from '../../services/supabase/salesAftercare.service';"
+          ],
+          "after": [
+            "import type {AdminAftercareContext,AftercarePhysicalRepresentative,ReplacementRequestItem,ReturnPhysicalSource} from '../../services/supabase/salesAftercare.service';",
+            "",
+            "/** Use all current physical leaves of the actual saved parcel instance. The",
+            " * server independently validates lineage, full commercial scope and capacity. */",
+            "export function wholeParcelReplacementItems(parcel:AdminAftercareContext['parcelInstances'][number]):ReplacementRequestItem[] {",
+            "  if(!parcel.components.length)throw new Error('بيانات الطرد غير مكتملة. حدّث الطلب.');",
+            "  const seen=new Set<string>();",
+            "  return parcel.components.flatMap(component=>{",
+            "    if(component.physicalRepresentatives.some(source=>!Number.isSafeInteger(source.remainingQuantity)||source.remainingQuantity<0)){throw new Error('سلسلة قطع الطرد غير متطابقة. حدّث الطلب.');}",
+            "    const total=component.physicalRepresentatives.reduce((sum,source)=>sum+source.remainingQuantity,0);",
+            "    if(!Number.isSafeInteger(component.quantity)||component.quantity<1||total!==component.quantity){",
+            "      throw new Error('الطرد لم يعد كاملاً؛ راجع القطع الحالية قبل الاستبدال.');",
+            "    }",
+            "    return component.physicalRepresentatives.filter(source=>source.remainingQuantity>0).map(source=>{",
+            "      const key=source.sourceKind+':'+source.sourceId;",
+            "      if(seen.has(key)||source.productId!==component.productId||!Number.isSafeInteger(source.remainingQuantity)){",
+            "        throw new Error('سلسلة قطع الطرد غير متطابقة. حدّث الطلب.');",
+            "      }",
+            "      seen.add(key);return {sourceKind:source.sourceKind,sourceId:source.sourceId,quantity:source.remainingQuantity};",
+            "    });",
+            "  });",
+            "}"
+          ]
+        }
+      ]
+    },
+    "src/features/pos/PosView.tsx": {
+      "before": "3862d856d20d6c9de4a9145d29344a65280e4de0569c08a53332085a4f0d6e83",
+      "after": "17f36f9f5ac87c4aa1cbbfd3b454b09bc10f4768231a96c65a1e94953e9bdbf1",
+      "errorPrefix": "WAREHOUSE_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 18,
+          "before": [],
+          "after": [
+            "import {posSaleModeForProduct,posCartSaleMethodConflict} from './saleMethods';"
+          ]
+        },
+        {
+          "at": 316,
+          "before": [],
+          "after": [
+            "    const productSaleMode=posSaleModeForProduct(prod,saleMode);"
+          ]
+        },
+        {
+          "at": 321,
+          "before": [
+            "    const unitsPerSalePackage = saleMode === 'base_unit' ? 1 : Math.max("
+          ],
+          "after": [
+            "    const unitsPerSalePackage = productSaleMode === 'base_unit' ? 1 : Math.max("
+          ]
+        },
+        {
+          "at": 329,
+          "before": [
+            "    const existingIndex = cartItems.findIndex((item) => item.productId === prod.id && item.v2Line.commercial_line_kind === saleMode);"
+          ],
+          "after": [
+            "    const existingIndex = cartItems.findIndex((item) => item.productId === prod.id && item.v2Line.commercial_line_kind === productSaleMode);"
+          ]
+        },
+        {
+          "at": 345,
+          "before": [
+            "      const unitPrice = saleMode === 'base_unit' ? prod.retailPrice : prod.salePackagePrice;"
+          ],
+          "after": [
+            "      const unitPrice = productSaleMode === 'base_unit' ? prod.retailPrice : prod.salePackagePrice;"
+          ]
+        },
+        {
+          "at": 348,
+          "before": [
+            "        v2Line: saleMode === 'base_unit' ? {commercial_line_kind: saleMode, product_id: prod.id, base_quantity: 1}",
+            "          : {commercial_line_kind: saleMode, product_id: prod.id, parcel_quantity: 1, units_per_parcel: unitsPerSalePackage},"
+          ],
+          "after": [
+            "        v2Line: productSaleMode === 'base_unit' ? {commercial_line_kind: productSaleMode, product_id: prod.id, base_quantity: 1}",
+            "          : {commercial_line_kind: productSaleMode, product_id: prod.id, parcel_quantity: 1, units_per_parcel: unitsPerSalePackage},"
+          ]
+        },
+        {
+          "at": 355,
+          "before": [
+            "        unit: saleMode === 'base_unit' ? prod.unit : prod.salePackage || 'طرد',"
+          ],
+          "after": [
+            "        unit: productSaleMode === 'base_unit' ? prod.unit : 'طرد',"
+          ]
+        },
+        {
+          "at": 440,
+          "before": [],
+          "after": [
+            "    const methodConflict=posCartSaleMethodConflict(cartItems,knownProductsRef.current);",
+            "    if(methodConflict){setToast(methodConflict,'error');return;}"
+          ]
+        },
+        {
+          "at": 632,
+          "before": [],
+          "after": [
+            "  const cartMethodConflict=recoveryBlocked?null:posCartSaleMethodConflict(cartItems,knownProductsRef.current);",
+            "  const hasUnitMethod=filteredProducts.length===0||filteredProducts.some(product=>!product.parcelOnly);",
+            "  const hasParcelMethod=filteredProducts.length===0||filteredProducts.some(product=>(product.unitsPerSalePackage??1)>1);",
+            "  const saleModeOptions:Array<{value:'base_unit'|'legacy_single_sku_parcel'|'configurable_parcel';label:string}>=[",
+            "    ...(hasUnitMethod?[{value:'base_unit' as const,label:saleUnitLabel}]:[]),",
+            "    ...(hasParcelMethod?[{value:'legacy_single_sku_parcel' as const,label:'طرد'}]:[]),",
+            "    ...(parcelOptions.length?[{value:'configurable_parcel' as const,label:'طرد مشكّل'}]:[]),",
+            "  ];"
+          ]
+        },
+        {
+          "at": 646,
+          "before": [
+            " options={[{value: 'base_unit', label: saleUnitLabel}, {value: 'legacy_single_sku_parcel', label: 'طرد'}, {value: 'configurable_parcel', label: 'طرد مشكّل'}]}",
+            " value={showParcelCatalog ? 'configurable_parcel' : saleMode}"
+          ],
+          "after": [
+            " options={saleModeOptions}",
+            " value={showParcelCatalog ? 'configurable_parcel' : !hasParcelMethod?'base_unit':!hasUnitMethod?'legacy_single_sku_parcel':saleMode}"
+          ]
+        },
+        {
+          "at": 766,
+          "before": [
+            "                const currentItem = cartItems.find(item => item.productId === prod.id && item.v2Line.commercial_line_kind === saleMode);"
+          ],
+          "after": [
+            "                const productSaleMode=posSaleModeForProduct(prod,saleMode);",
+            "                const currentItem = cartItems.find(item => item.productId === prod.id && item.v2Line.commercial_line_kind === productSaleMode);"
+          ]
+        },
+        {
+          "at": 782,
+          "before": [
+            "                        <span>{prod.unit} <MoneyText amount={prod.retailPrice} className=\"font-bold text-nw-text\" /></span>",
+            "                        <span>طرد {typeof prod.salePackagePrice === 'number' && Number.isFinite(prod.salePackagePrice) ? <MoneyText amount={prod.salePackagePrice} className=\"font-bold text-nw-text\" /> : 'غير متاح'}</span>"
+          ],
+          "after": [
+            "                        {!prod.parcelOnly&&<span>{prod.unit} <MoneyText amount={prod.retailPrice} className=\"font-bold text-nw-text\" /></span>}",
+            "                        {(prod.unitsPerSalePackage??1)>1&&<span>طرد {typeof prod.salePackagePrice === 'number' && Number.isFinite(prod.salePackagePrice) ? <MoneyText amount={prod.salePackagePrice} className=\"font-bold text-nw-text\" /> : 'غير متاح'}</span>}",
+            "                        {prod.parcelOnly&&<span className=\"font-bold text-nw-info\">طرد فقط</span>}"
+          ]
+        },
+        {
+          "at": 804,
+          "before": [],
+          "after": [
+            "            {cartMethodConflict&&<p role=\"alert\" className=\"rounded-lg bg-nw-bad-bg p-3 text-sm text-nw-bad\">{cartMethodConflict}</p>}"
+          ]
+        }
+      ]
+    },
+    "src/features/pos/saleMethods.ts": {
+      "added": true,
+      "before": null,
+      "after": "1e8a9c68d969b4dbabb7479c1bbac6d0e4ea03d4dd6a79e271f7d545cb4c8774",
+      "hunks": []
+    },
+    "src/features/products/ProductFormModal.tsx": {
+      "before": "4a3ae8b63a84245dfcb6964b9f6ca760f5033ec5f986f7b2ec6db7078b9fae19",
+      "after": "a20395c45d31bb05e684044411bc0378f17f3ca55d4fd927abbd300034952bb3",
+      "errorPrefix": "RECEIVING205_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 37,
+          "before": [],
+          "after": [
+            "import {ProductFormParcelCapability} from './ProductFormParcelCapability';"
+          ]
+        },
+        {
+          "at": 216,
+          "before": [],
+          "after": [
+            "  const [allowSingle,setAllowSingle]=useState(initialProduct?.parcelOnly!==true);",
+            "  const [formChanged,setFormChanged]=useState(false);"
+          ]
+        },
+        {
+          "at": 330,
+          "before": [],
+          "after": [
+            "  // Sale N1 can coexist with a saved purchase parcel. Show the sale method",
+            "  // truthfully without rewriting the purchase quantity or its saved price.",
+            "  const parcelMethodSelected = !withoutParcel && validUnitsPerSalePackage > 1;",
+            "  const parcelMethodSize = parcelMethodSelected ? validUnitsPerSalePackage",
+            "    : Math.max(2, validUnitsPerPackage > 1 ? validUnitsPerPackage : previousParcelContents.current);"
+          ]
+        },
+        {
+          "at": 441,
+          "before": [],
+          "after": [
+            "  const selectParcelMethod = (enabled: boolean) => {",
+            "    if (!enabled) {toggleWithoutParcel(true);return;}",
+            "    const count = parcelMethodSize;",
+            "    const purchaseName = validUnitsPerPackage > 1 ? purchasePackage",
+            "      : ['PCS','HABBA','UNIT'].includes(initialProduct?.purchaseUnitCode ?? '')",
+            "        ? units.find(item => item.code === 'PARCEL')?.nameAr",
+            "          ?? units.find(item => item.code === 'CTN')?.nameAr ?? 'طرد'",
+            "        : purchasePackage;",
+            "    setWithoutParcel(false);",
+            "    if (validUnitsPerPackage <= 1) {",
+            "      setPurchasePackage(purchaseName);setUnitsPerPackage(count);",
+            "      setDefaultPurchasePrice(unitPurchasePrice === '' ? '' : calculatePackagePrice(Number(unitPurchasePrice), count));",
+            "    }",
+            "    setDifferentSaleParcel(false);setSalePackage(purchaseName);",
+            "    setUnitsPerSalePackage(count);",
+            "    setSalePackagePrice(salePackagePrice === '' ? '' : calculatePackagePrice(derivedSalePricePerUnit, count));",
+            "  };"
+          ]
+        },
+        {
+          "at": 572,
+          "before": [],
+          "after": [
+            "    parcelOnly: !allowSingle,"
+          ]
+        },
+        {
+          "at": 598,
+          "before": [],
+          "after": [
+            "    setAllowSingle(fields.parcelOnly!==true);"
+          ]
+        },
+        {
+          "at": 629,
+          "before": [],
+          "after": [
+            "    if(row.field==='parcelOnly')return value===true?'طرد فقط':'المفرد مسموح';"
+          ]
+        },
+        {
+          "at": 658,
+          "before": [],
+          "after": [
+            "    if(!parcelMethodSelected&&!allowSingle){",
+            "      setSubmitError({message:'اختر طريقة بيع واحدة على الأقل: طرد أو حبة مفردة.'});return;",
+            "    }",
+            "    if(!allowSingle&&validUnitsPerSalePackage<=1){",
+            "      setSubmitError({message:'الطرد فقط يحتاج أكثر من وحدة في طرد البيع.'});return;",
+            "    }"
+          ]
+        },
+        {
+          "at": 742,
+          "before": [],
+          "after": [
+            "      parcelOnly: !allowSingle,"
+          ]
+        },
+        {
+          "at": 846,
+          "before": [],
+          "after": [
+            "          parcelOnly: !allowSingle,"
+          ]
+        },
+        {
+          "at": 903,
+          "before": [
+            "    <FormFields className=\"nw-products-fields min-w-0\"><form onSubmit={handleSubmit} onInvalidCapture={event=>{const details=(event.target as HTMLElement).closest('details');if(details)details.open=true;}} aria-busy={isSubmitting} data-unsaved={hasFlavors} dir=\"rtl\" className=\"nw-products-fields min-w-0 space-y-4 text-nw-text text-sm\">"
+          ],
+          "after": [
+            "    <FormFields className=\"nw-products-fields min-w-0\"><form onSubmit={handleSubmit} onChangeCapture={()=>setFormChanged(true)} onInvalidCapture={event=>{const details=(event.target as HTMLElement).closest('details');if(details)details.open=true;}} aria-busy={isSubmitting} data-unsaved={hasFlavors} dir=\"rtl\" className=\"nw-products-fields min-w-0 space-y-4 text-nw-text text-sm\">"
+          ]
+        },
+        {
+          "at": 1090,
+          "before": [
+            "        <h4 className=\"font-black\">الطرد</h4>",
+            "        <label className=\"flex min-h-11 items-center gap-2 font-bold\"><input type=\"checkbox\" checked={withoutParcel} onChange={event=>toggleWithoutParcel(event.target.checked)}/>بيتباع بدون طرد</label>"
+          ],
+          "after": [
+            "        <h4 className=\"font-black\">طريقة البيع</h4>",
+            "        <fieldset className=\"grid min-w-0 gap-3 sm:grid-cols-2\" aria-label=\"طريقة البيع\">",
+            "          <div className=\"min-w-0 space-y-2 rounded-lg border border-nw-border p-3\">",
+            "            <label className=\"flex min-h-11 items-center gap-2 font-bold\"><input type=\"checkbox\" checked={parcelMethodSelected} onChange={event=>selectParcelMethod(event.target.checked)}/>طرد ({parcelMethodSize} {unit})</label>",
+            "            <label className=\"block space-y-1 text-xs font-bold\">سعر بيع الطرد<input aria-label=\"سعر بيع الطرد\" type=\"number\" min=\"0.001\" step=\"0.001\" required disabled={!parcelMethodSelected} value={salePackagePrice === '' ? '' : parcelMethodSelected ? salePackagePrice : calculatePackagePrice(derivedSalePricePerUnit,parcelMethodSize)} onChange={event=>setSalePackagePrice(event.target.value===''?'':Number.parseFloat(event.target.value))} className={numberInputClass}/></label>",
+            "          </div>",
+            "          <div className=\"min-w-0 space-y-2 rounded-lg border border-nw-border p-3\">",
+            "            <label className=\"flex min-h-11 items-center gap-2 font-bold\"><input type=\"checkbox\" checked={allowSingle} onChange={event=>setAllowSingle(event.target.checked)}/>حبة مفردة</label>",
+            "            <label className=\"block space-y-1 text-xs font-bold\">سعر بيع {unit}<input aria-label={'سعر بيع '+unit} type=\"number\" min=\"0\" step=\"0.0001\" required disabled={!allowSingle} value={salePackagePrice===''?'':derivedSalePricePerUnit} onChange={event=>setSalePackagePrice(event.target.value===''?'':calculatePackagePrice(Number.parseFloat(event.target.value)||0,validUnitsPerSalePackage))} className={numberInputClass}/></label>",
+            "          </div>",
+            "        </fieldset>",
+            "        {!parcelMethodSelected&&!allowSingle&&<p role=\"alert\" className=\"text-nw-bad\">اختر طريقة بيع واحدة على الأقل.</p>}",
+            "        {(isFlavorMaster||hasFlavors)&&<ProductFormParcelCapability familyId={initialProduct?.id} dirty={formChanged} busy={isSubmitting} onOpen={familyProductId=>openModal('parcel_configuration',{familyProductId})}/>}"
+          ]
+        },
+        {
+          "at": 1107,
+          "before": [
+            "        <h4 className=\"border-t border-nw-border pt-3 font-black\">الأسعار</h4>"
+          ],
+          "after": [
+            "        <h4 className=\"border-t border-nw-border pt-3 font-black\">سعر الشراء المقترح</h4>"
+          ]
+        },
+        {
+          "at": 1112,
+          "before": [
+            "          <strong className=\"py-3 text-xs\">بيع</strong>",
+            "          {!withoutParcel&&<label className=\"min-w-0 space-y-1 text-xs font-bold\">سعر بيع الطرد<input aria-label={\"سعر بيع الطرد\"} type=\"number\" min=\"0.001\" step=\"0.001\" required value={salePackagePrice} onChange={event=>setSalePackagePrice(event.target.value===''?'':Number.parseFloat(event.target.value))} className={numberInputClass}/></label>}",
+            "          <label className=\"min-w-0 space-y-1 text-xs font-bold\">سعر بيع {unit}<input aria-label={'سعر بيع '+unit} type=\"number\" min=\"0\" step=\"0.0001\" required value={salePackagePrice===''?'':derivedSalePricePerUnit} onChange={event=>setSalePackagePrice(event.target.value===''?'':calculatePackagePrice(Number.parseFloat(event.target.value)||0,validUnitsPerSalePackage))} className={numberInputClass}/></label>"
+          ],
+          "after": []
+        },
+        {
+          "at": 1114,
+          "before": [
+            "        {differentSaleParcel&&<p className=\"text-xs text-nw-muted\">طرد الشراء {validUnitsPerPackage} {unit}؛طرد البيع {validUnitsPerSalePackage} {unit}.</p>}",
+            "        <ProfitCard label={withoutParcel?'ربح '+unit+' التقريبي':'ربح الطرد التقريبي'} profit={purchaseQuoteProfit.profitPerUnit} margin={purchaseQuoteProfit.marginPercentage}/>"
+          ],
+          "after": [
+            "        {differentSaleParcel&&<p className=\"text-xs text-nw-muted\">طرد الشراء {validUnitsPerPackage} {unit}؛{parcelMethodSelected?'طرد البيع '+validUnitsPerSalePackage+' '+unit:'البيع بالمفرد' }.</p>}",
+            "        <ProfitCard label={!parcelMethodSelected?'ربح '+unit+' التقريبي':'ربح الطرد التقريبي'} profit={purchaseQuoteProfit.profitPerUnit} margin={purchaseQuoteProfit.marginPercentage}/>"
+          ]
+        }
+      ]
+    },
+    "src/features/products/ProductFormParcelCapability.tsx": {
+      "added": true,
+      "before": null,
+      "after": "66fa9d03f7f19fc418cecf38d1a6bea6b7c5a0da9648596a65ebbba4ac04f865",
+      "hunks": []
+    },
+    "src/services/supabase/adminAftercareRecovery.ts": {
+      "before": "335fba4cb8092d76118731948931a1fe3887d9de8af7858eb08834bec5f7ac45",
+      "after": "661c6326e0965e542b9eb7ad8542b0a65e02212754a85ea2d1e198b14b46b10d",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 36,
+          "before": [],
+          "after": [
+            "    'PARCEL209_REPLACEMENT_WHOLE_PARCEL_REQUIRED',"
+          ]
+        },
+        {
+          "at": 108,
+          "before": [],
+          "after": [
+            "  // Named209 guard rolls back before writes; other serialization failures keep recovery.",
+            "  if(error.code==='40001'&&identity==='PARCEL209_FAMILY_CHANGED_RETRY')return true;"
+          ]
+        }
+      ]
+    },
+    "src/services/supabase/posV2.service.ts": {
+      "before": "92a4031fb6fe3cdfa3007352dde60f93a4d18ca12f005d6669fc790325a3c1ba",
+      "after": "59cd6c4de80d37f54f81a0e5b9a4d557d00cb2e9d6f6d638f38f2dae4c5494fa",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 100,
+          "before": [],
+          "after": [
+            "  PARCEL209_UNIT_SALE_FORBIDDEN:",
+            "    'هذا الصنف بيتباع بالطرد بس. احذف سطر المفرد وأضفه كطرد؛ لا تتغيّر السلة تلقائياً.',",
+            "  PARCEL209_FAMILY_CHANGED_RETRY:",
+            "    'تغيّرت نكهات المنتج. حدّث البيانات وراجع السلة قبل بدء محاولة جديدة.',"
+          ]
+        }
+      ]
+    },
+    "src/services/supabase/posV2Recovery.ts": {
+      "before": "615902519112cb8a8d74357ad70ffc9cdcc4c4d61ddabc403b73324092c2cb34",
+      "after": "656e222f935bfc0575d6dcbdeb66c66482760aa05e91c99c8ae689ecb2b64680",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 20,
+          "before": [],
+          "after": [
+            "  'PARCEL209_UNIT_SALE_FORBIDDEN','PARCEL209_FAMILY_CHANGED_RETRY',"
+          ]
+        },
+        {
+          "at": 156,
+          "before": [
+            "    const definitive = !a.hadUnknown && ['P0001', '22023'].includes(outcome.rejectionCode || '')"
+          ],
+          "after": [
+            "    const knownCode=['P0001','22023'].includes(outcome.rejectionCode||'')",
+            "      || outcome.rejectionCode==='23514'&&outcome.errorIdentity==='PARCEL209_UNIT_SALE_FORBIDDEN'",
+            "      || outcome.rejectionCode==='40001'&&outcome.errorIdentity==='PARCEL209_FAMILY_CHANGED_RETRY';",
+            "    const definitive = !a.hadUnknown && knownCode"
+          ]
+        }
+      ]
+    },
+    "src/services/supabase/products.service.ts": {
+      "before": "806bc5981332f6ac4686e08e0b1dade16b8ce1b9b4ffd576b53777977b41af66",
+      "after": "5104aca3528ea7fe18ce813f19945543a2c616b257694a234549b79bc9b3b5ec",
+      "errorPrefix": "TERMINOLOGY_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 3,
+          "before": [],
+          "after": [
+            "import { businessErrorMessage } from '../../utils/businessError';"
+          ]
+        },
+        {
+          "at": 11,
+          "before": [],
+          "after": [
+            "  parcelOnly?: boolean;"
+          ]
+        },
+        {
+          "at": 116,
+          "before": [
+            "  if (searchable.includes('product_edit_version_required')) {"
+          ],
+          "after": [
+            "  const methodCode = rawMessage.match(/\\bPARCEL209_(?:PARCEL_SIZE_REQUIRED|INHERITED_METHOD|METHOD_INVALID|FAMILY_CHANGED_RETRY)\\b/u)?.[0];",
+            "  if (methodCode) {",
+            "    code = methodCode;",
+            "    message = businessErrorMessage(methodCode);",
+            "  } else if (searchable.includes('product_edit_version_required')) {"
+          ]
+        },
+        {
+          "at": 182,
+          "before": [],
+          "after": [
+            "  /** Omission preserves the existing server flag. */",
+            "  parcelOnly?: boolean;"
+          ]
+        },
+        {
+          "at": 337,
+          "before": [],
+          "after": [
+            "    parcelOnly: record.parcel_only === true,"
+          ]
+        },
+        {
+          "at": 681,
+          "before": [
+            "      'create_product_with_opening_stock_v4',",
+            "      rpcParams"
+          ],
+          "after": [
+            "      'create_product_with_opening_stock_v5',",
+            "      {...rpcParams, p_parcel_only: input.parcelOnly ?? false}"
+          ]
+        },
+        {
+          "at": 861,
+          "before": [
+            "      'create_product_family_with_flavors_v1',"
+          ],
+          "after": [
+            "      'create_product_family_with_flavors_v2',"
+          ]
+        },
+        {
+          "at": 863,
+          "before": [],
+          "after": [
+            "        p_parcel_only: input.parcelOnly ?? false,"
+          ]
+        },
+        {
+          "at": 1056,
+          "before": [
+            "    const { data, error } = await supabase.rpc('update_product_master_v4', {"
+          ],
+          "after": [
+            "    const { data, error } = await supabase.rpc('update_product_master_v5', {",
+            "      p_parcel_only: input.parcelOnly ?? null,"
+          ]
+        }
+      ]
+    },
+    "src/services/supabase/salesAftercare.service.ts": {
+      "before": "ade5738d66af92e957111d2f5d5a8e0128ee0541bf5d23574908795ef7d4f276",
+      "after": "0ac3f693a3fd9387d82f621452e300e452912b36d532ca49c5a5b9617734a6b1",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 25,
+          "before": [],
+          "after": [
+            "  parcelOnly?: boolean;"
+          ]
+        },
+        {
+          "at": 37,
+          "before": [],
+          "after": [
+            "    parcelOnly?: boolean;"
+          ]
+        }
+      ]
+    },
+    "src/stores/modalTypes.ts": {
+      "before": "5f5286e04608ed94ec96399db0f07b6a3dad7a84294bfbee85e37d569c68fbe8",
+      "after": "5d55c1b4b8cdf6e0da7e65e2a86a12a861162bca07e4124f62db24f4898b5add",
+      "errorPrefix": "NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 37,
+          "before": [
+            "  parcel_configuration: ModalPayloadContract<null, 'none'>;"
+          ],
+          "after": [
+            "  parcel_configuration: ModalPayloadContract<{familyProductId:string}|null, 'optional'>;"
+          ]
+        }
+      ]
+    },
+    "src/stores/useAppStore.ts": {
+      "before": "f6cbe1059ce7c4f3282d8f85f540bba7905c3265abc65d07831ee2fcdd5197c2",
+      "after": "487f3bd44cb3b0f49c3c3060835485f4a96dbe3aee62fecc8cb4374d910fc705",
+      "errorPrefix": "UNAPPROVED_PRODUCT_EDIT_CHANGE:",
+      "hunks": [
+        {
+          "at": 1073,
+          "before": [],
+          "after": [
+            "          parcelOnly: productData.parcelOnly,"
+          ]
+        },
+        {
+          "at": 1176,
+          "before": [],
+          "after": [
+            "      parcelOnly: updates.parcelOnly,"
+          ]
+        }
+      ]
+    },
+    "src/types/index.ts": {
+      "before": "6f077b9614de0caae67bc4e84e93b3c05568ec4b2a12b0e8c689ea20e0d39133",
+      "after": "21337767b707861f36ddf2afdff18b2632b217af8a5d112a088e5f6f1458a980",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 138,
+          "before": [],
+          "after": [
+            "  /** New sale admission only; flavor children inherit their master. */",
+            "  parcelOnly?: boolean;"
+          ]
+        }
+      ]
+    },
+    "src/utils/businessError.ts": {
+      "before": "c2777f9f4630dfa2af6ea546f2176ec69e1850da580c09188e40333408075a25",
+      "after": "6e9a4d0561fdee7a8fad6d888bf1d28ed99d88f8e9809b3088d92ffddfb3412e",
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 8,
+          "before": [],
+          "after": [
+            "    [/PARCEL209_UNIT_SALE_FORBIDDEN/u,'هذا الصنف بيتباع بالطرد بس. احذف المفرد من السلة وأضفه كطرد.'],",
+            "    [/PARCEL209_LEGACY_PARCEL_EVIDENCE_REQUIRED/u,'هذا الصنف يحتاج البيع الحديث بالطرد. حدّث التطبيق وأعد اختيار الطرد.'],",
+            "    [/PARCEL209_REPLACEMENT_WHOLE_PARCEL_REQUIRED/u,'الاستبدال لهذا الصنف يحتاج طرداً كاملاً مثبتاً في الفاتورة، بكل نكهاته إن كان مشكّلاً.'],",
+            "    [/PARCEL209_PARCEL_SIZE_REQUIRED/u,'الطرد فقط يحتاج أكثر من وحدة في طرد البيع. راجع طريقة البيع وحجم الطرد.'],",
+            "    [/PARCEL209_FAMILY_CHANGED_RETRY/u,'تغيّرت نكهات المنتج. حدّث البيانات ثم راجع المحاولة قبل إرسالها من جديد.'],",
+            "    [/PARCEL209_INHERITED_METHOD/u,'طريقة بيع النكهة تتبع المنتج الأساسي. افتح المنتج الأساسي لتعديلها.'],",
+            "    [/PARCEL209_METHOD_INVALID/u,'اختر طريقة بيع صحيحة واحدة على الأقل.'],"
+          ]
+        }
+      ]
+    },
+    "src/utils/productEditConflict.ts": {
+      "before": "921042aab679dfe9d28ab552715a4d77006165c606649e5b048218f1b9ec5a78",
+      "after": "820a7a95f9e899d795a6d6aabb6f52df63e9839b97f4433958f55453f610c839",
+      "errorPrefix": "TERMINOLOGY_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 5,
+          "before": [],
+          "after": [
+            "  parcelOnly?: boolean;"
+          ]
+        },
+        {
+          "at": 31,
+          "before": [],
+          "after": [
+            "  parcelOnly?: boolean;"
+          ]
+        },
+        {
+          "at": 68,
+          "before": [],
+          "after": [
+            "    parcelOnly: s.parcelOnly === true,"
+          ]
+        },
+        {
+          "at": 99,
+          "before": [],
+          "after": [
+            "    parcelOnly: product.parcelOnly === true,"
+          ]
+        },
+        {
+          "at": 121,
+          "before": [],
+          "after": [
+            "    parcelOnly: snapshot.parcelOnly === true,"
+          ]
+        },
+        {
+          "at": 141,
+          "before": [],
+          "after": [
+            "  parcelOnly: 'طريقة البيع',"
+          ]
+        },
+        {
+          "at": 160,
+          "before": [],
+          "after": [
+            "  typeof a === 'boolean' || typeof b === 'boolean'",
+            "    ? Boolean(a) === Boolean(b)",
+            "    :"
+          ]
+        }
+      ]
+    },
+    "supabase/functions/submit-guest-order/index.ts": {
+      "before": "1af19700fd850058e89602bc112161985d2656af2994e2e5733e552800c5a9d2",
+      "after": "4cae3f7df1a46cf5ec7b043e1a0d9beaf7b38939cfc26331b5d9f3feccb9d9ec",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 369,
+          "before": [],
+          "after": [
+            "    const message=typeof orderResult.message==='string'?orderResult.message:'';",
+            "    const parcelOnly=orderResult.code==='23514'&&message.startsWith('PARCEL209_UNIT_SALE_FORBIDDEN:');",
+            "    const changedFamily=orderResult.code==='40001'&&message.startsWith('PARCEL209_FAMILY_CHANGED_RETRY:');"
+          ]
+        },
+        {
+          "at": 373,
+          "before": [
+            "      error: 'تعذر إكمال الطلب بهذه البيانات. راجع الكميات وحاول مرة أخرى.',",
+            "      code: 'order_rejected',"
+          ],
+          "after": [
+            "      error: parcelOnly?'أحد الأصناف بيتباع بالطرد بس. احذف سطر المفرد واختر طرداً؛ لم تتغيّر السلة تلقائياً.'",
+            "        :changedFamily?'تغيّرت نكهات أحد الأصناف. حدّث السلة وراجعها قبل إرسال طلب جديد.'",
+            "        :'تعذر إكمال الطلب بهذه البيانات. راجع الكميات وحاول مرة أخرى.',",
+            "      code: parcelOnly?'parcel_only_sale_required':changedFamily?'product_methods_changed':'order_rejected',"
+          ]
+        }
+      ]
+    },
+    "tests/all-customer-collections203.test.ts": {
+      "before": "40f38181bc7a2d42ff7d402c7c32631fde5dffd8b63d656eb6142dd679127a42",
+      "after": "daac35fd44713c845f6bd048cd646055d3dde078546bc958367005db4a092be6",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 17,
+          "before": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,208);assert.equal(state.migration203CanonicalLfSha256,createHash('sha256').update(after).digest('hex').toUpperCase());"
+          ],
+          "after": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,209);assert.equal(state.migration203CanonicalLfSha256,createHash('sha256').update(after).digest('hex').toUpperCase());"
+          ]
+        }
+      ]
+    },
+    "tests/canonical-receivables197.test.ts": {
+      "before": "f5c34f6acc78146278b414d16cbdf3ad795dd31c9977aeab80685c620bbca318",
+      "after": "b68840da7b701c86212f79644c2f5cad048711e268272a3a4d074141610145e8",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 56,
+          "before": [
+            " assert.equal(state.migrationCeiling,208);assert.equal(state.migration197CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());"
+          ],
+          "after": [
+            " assert.equal(state.migrationCeiling,209);assert.equal(state.migration197CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());"
+          ]
+        },
+        {
+          "at": 68,
+          "before": [
+            " assert.equal(source.migrationCeiling,208);assert.equal(proof.migrationCeiling,197);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,209);assert.equal(proof.migrationCeiling,197);assert.equal(proof.managedAccess,false);"
+          ]
+        }
+      ]
+    },
+    "tests/cashier-collections198.test.ts": {
+      "before": "98b60108d152f9b0c537b67a79dab91636ca8d933e10e7fd26d8f545d9932f67",
+      "after": "9f66d86ef80988321df2005814356267bd8cb30725a5dd5c1800514c4ab4b397",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 23,
+          "before": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,208);"
+          ],
+          "after": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,209);"
+          ]
+        }
+      ]
+    },
+    "tests/cheques195-admission.test.ts": {
+      "before": "a82694e940a69b707322d4a1b61f39ba613de535dbb7f851a8aa4b3092542a36",
+      "after": "9bb9600bf9e223265970c61261240c529636ad9fd8e03ed22409c0dfc63d50cb",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 12,
+          "before": [
+            "  assert.equal(source.migrationCeiling,208);assert.equal(proof.migrationCeiling,195);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            "  assert.equal(source.migrationCeiling,209);assert.equal(proof.migrationCeiling,195);assert.equal(proof.managedAccess,false);"
+          ]
+        }
+      ]
+    },
+    "tests/go-live-integration164.test.ts": {
+      "before": "ec0c100c888ff11be5767e5ce0036767864ac4b285a154f2014b7366aebd454e",
+      "after": "62df879cfff92a2ade2d1a230281474ce8c2e7f238790b0cbb35bf06916275fb",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 29,
+          "before": [
+            " assert.equal(source.migrationCeiling,208);assert.equal(proof.migrationCeiling,164);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,209);assert.equal(proof.migrationCeiling,164);assert.equal(proof.managedAccess,false);"
+          ]
+        }
+      ]
+    },
+    "tests/historical-reset-source.test.ts": {
+      "before": "6779385a5425bc25ad5fd3e59d2f999ea405da35d30284154e6d02fd64a0cf3c",
+      "after": "f568b482da16ffe5f80036b9c6a059238a1e6c1c33abada51dc43e8b29bc212f",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 26,
+          "before": [
+            " await assert.rejects(stageHistoricalResetSource(root,{migrationCeiling:208,manifest}),/HISTORICAL_RESET_CEILING/u);"
+          ],
+          "after": [
+            " await assert.rejects(stageHistoricalResetSource(root,{migrationCeiling:209,manifest}),/HISTORICAL_RESET_CEILING/u);"
+          ]
+        }
+      ]
+    },
+    "tests/maintenance-guide.test.ts": {
+      "before": "8e87998179f403f90687cab63a96413a8d4d5baa8b390cd0cccd85f4c286cd39",
+      "after": "89b42a16b6e24a35f040af25a0d3b29ceafaa605499ab559951a524da7f01726",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 49,
+          "before": [],
+          "after": [
+            "    'GRANT EXECUTE ON FUNCTION public.f() TO authenticated; DO $$ BEGIN v_sql := replace(v_sql,\\'a\\',\\'b\\'); EXECUTE v_sql; END $$;',"
+          ]
+        },
+        {
+          "at": 56,
+          "before": [],
+          "after": [
+            "    \"SELECT regexp_replace(customer_name,'a','b'); GRANT EXECUTE ON FUNCTION public.f() TO authenticated;\",",
+            "    \"SELECT replace(customer_name,'a','b'); CREATE TRIGGER t AFTER UPDATE ON public.x FOR EACH ROW EXECUTE FUNCTION public.f();\","
+          ]
+        }
+      ]
+    },
+    "tests/opening-cheques196.test.ts": {
+      "before": "23ec1e83e33301b1663664b152a4d32a466318253028d0c9856d7947ada54fb2",
+      "after": "a6992259623f106ce3441dffbc32d50b33df4ab635f881ebe1f2d449fb06799b",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 22,
+          "before": [
+            " assert.equal(source.migrationCeiling,208);assert.equal(proof.migrationCeiling,196);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,209);assert.equal(proof.migrationCeiling,196);assert.equal(proof.managedAccess,false);"
+          ]
+        }
+      ]
+    },
+    "tests/parcel209-recovery.test.ts": {
+      "added": true,
+      "before": null,
+      "after": "93096dd6cc94e05afad8c3140b4d693c8b1e1037621636439e96072147f8d44d",
+      "hunks": []
+    },
+    "tests/parcel209.test.ts": {
+      "added": true,
+      "before": null,
+      "after": "a4c5c988ba1b464b451a80e1cc2a32ab8ca08a2b9f21beb496cc862449194e96",
+      "hunks": []
+    },
+    "tests/pretrial-p1.test.ts": {
+      "before": "69fe8fafbcc6d7e297c28dedc43b1a3335e30c850c78aceb3217ce75bcf2c1d6",
+      "after": "086f277738133f96ab0d36f3e84ce4c974f241da9a65d1ff3aafbf9ffc7691b5",
+      "errorPrefix": "TRIAL_A_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 51,
+          "before": [
+            "  assert.equal(JSON.parse(read('docs/agent/project-state.json')).currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_TRIAL_A.json');"
+          ],
+          "after": [
+            "  assert.equal(JSON.parse(read('docs/agent/project-state.json')).currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_209.json');"
+          ]
+        }
+      ]
+    },
+    "tests/product-edit-conflict.test.ts": {
+      "before": "cc81d529d8547e77c22678d6f17ab0f5a38ffdee79a5c28f9b87928c62fef1d6",
+      "after": "aba982a5a3bfb3835d13fe7578688aa351d0dee624128838c6426935c06615df",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 89,
+          "before": [
+            "  assert.match(service, /rpc\\('update_product_master_v4', \\{\\n\\s+p_product_id: input\\.productId,\\n\\s+p_expected_updated_at: input\\.expectedUpdatedAt,/u);"
+          ],
+          "after": [
+            "  assert.match(service, /rpc\\('update_product_master_v5', \\{\\n\\s+p_parcel_only: input\\.parcelOnly \\?\\? null,\\n\\s+p_product_id: input\\.productId,\\n\\s+p_expected_updated_at: input\\.expectedUpdatedAt,/u);"
+          ]
+        }
+      ]
+    },
+    "tests/product-integration171.test.ts": {
+      "before": "e70bf37087425bee99fa7897748c7754ae637b9a0e745500f85653879a66b717",
+      "after": "213568f35718d3aa2efc09e65cba58dbd7cf4faacfbaace2b1ec3dd14b429e2e",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 49,
+          "before": [
+            " assert.equal(source.migrationCeiling,208);assert.equal(proof.migrationCeiling,171);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,209);assert.equal(proof.migrationCeiling,171);assert.equal(proof.managedAccess,false);"
+          ]
+        },
+        {
+          "at": 54,
+          "before": [
+            " assert.equal(services.migrationCeiling,208);assert.equal(services.ok,true);"
+          ],
+          "after": [
+            " assert.equal(services.migrationCeiling,209);assert.equal(services.ok,true);"
+          ]
+        },
+        {
+          "at": 61,
+          "before": [
+            " for(const name of ['update_product_master_v4','update_product_flavor_v2','get_product_cost_state_v1','correct_product_cost_v1'])assert.ok(source.functionNames.includes(name),name);"
+          ],
+          "after": [
+            " for(const name of ['update_product_master_v5','update_product_flavor_v2','get_product_cost_state_v1','correct_product_cost_v1'])assert.ok(source.functionNames.includes(name),name);"
+          ]
+        }
+      ]
+    },
+    "tests/product-receiving205.test.ts": {
+      "before": "4cda30a916bcc23232e0b0c4c2063ffe489de175c8acd798ce4813e23fd1175d",
+      "after": "e737b105f6c5c8dae397228046e978cfb7f46255c43dd5ef777f12ac52bbc3fc",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 48,
+          "before": [
+            "  const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,208);assert.equal(state.migration205CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());"
+          ],
+          "after": [
+            "  const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,209);assert.equal(state.migration205CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());"
+          ]
+        }
+      ]
+    },
+    "tests/receiving-unit-pricing.test.ts": {
+      "before": "18ea110b976e6d2a57ae8b076f9696718931bf4b0824ff7b898cd6ae37fcd1c1",
+      "after": "7ff2f4b86e85cf4ac34d4a6dbd1b8ba504ecd633486faddb4ff269d9075f3501",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 11,
+          "before": [],
+          "after": [
+            "import {sourceBeforeParcel209} from '../scripts/audit/source-before-parcel209.mjs';"
+          ]
+        },
+        {
+          "at": 61,
+          "before": [
+            " const before=extract(execFileSync('git',['show',`d293ec38d29ba7d3dd74e0c4b732edf9e01ad469:${file}`],{encoding:'utf8'})),after=extract(readFileSync(file,'utf8'));"
+          ],
+          "after": [
+            " const before=extract(execFileSync('git',['show',`d293ec38d29ba7d3dd74e0c4b732edf9e01ad469:${file}`],{encoding:'utf8'})),after=extract(sourceBeforeParcel209(file,readFileSync(file,'utf8'))!);"
+          ]
+        }
+      ]
+    },
+    "tests/sales-history204-evidence.test.ts": {
+      "before": "85d1a1261f8cec71ace957ec7da90214ad0b4e182abe80f44d04607e25fc6a41",
+      "after": "0b3b849c3f0f70d4dcafb749ccc416bdbaf5f6152659dde191266c20a90e3e3b",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 24,
+          "before": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,208);"
+          ],
+          "after": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,209);"
+          ]
+        }
+      ]
+    },
+    "tests/service-access-inventory.test.ts": {
+      "before": "103c511011c19c1d907ffc3053b3a93dedc001d8204bac9151c42ff07123833c",
+      "after": "dd1f5089b7826062a081e1a4bafaca203e7a09c6be135fbad22d6e05f5a94eba",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 49,
+          "before": [
+            " assert.match(source,/\\[198,199,200,201,202,203,204,205,206,207,208\\]\\.includes\\(migrationCeiling\\)/u);"
+          ],
+          "after": [
+            " assert.match(source,/\\[198,199,200,201,202,203,204,205,206,207,208,209\\]\\.includes\\(migrationCeiling\\)/u);"
+          ]
+        }
+      ]
+    },
+    "tests/supplier-replacement208-evidence.test.ts": {
+      "before": "a605a7cc691d4d97e25c75af10a61750ced4716380fac3daa1fc0cb7332a82f0",
+      "after": "342f0ae0ea2126aa64a3b64618e8ce01c57b3cee0da63a5bdbf91b7365a2a2b6",
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 16,
+          "before": [
+            " assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_TRIAL_A.json');assert.equal(state.migrationCeiling,208);"
+          ],
+          "after": [
+            " assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_209.json');assert.equal(state.migrationCeiling,209);"
+          ]
+        },
+        {
+          "at": 22,
+          "before": [
+            " const current=await serviceInventory(),proof=json('docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json');assert.equal(proof.ok,true);assert.equal(proof.migrationCeiling,208);assert.equal(proof.managedAccess,false);assert.deepEqual(proof.sourceHashes,current.sourceHashes);"
+          ],
+          "after": [
+            " const current=await serviceInventory(),proof=json('docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json');assert.equal(proof.ok,true);assert.equal(proof.migrationCeiling,209);assert.equal(proof.managedAccess,false);assert.deepEqual(proof.sourceHashes,current.sourceHashes);"
+          ]
+        },
+        {
+          "at": 29,
+          "before": [
+            " const history=(await migrationManifest(process.cwd())).map((m:{name:string})=>m.name.slice(0,3));assert.equal(history.length,170);const reference={appliedVersions:history,prefixes:{199:{appliedVersions:history.slice(0,161)}}};"
+          ],
+          "after": [
+            " const history=(await migrationManifest(process.cwd())).filter((m:{name:string})=>Number(m.name.slice(0,3))<=208).map((m:{name:string})=>m.name.slice(0,3));assert.equal(history.length,170);const reference={appliedVersions:history,prefixes:{199:{appliedVersions:history.slice(0,161)}}};"
+          ]
+        }
+      ]
+    },
+    "tests/trial-owner-a.test.ts": {
+      "before": "b135d6b77d6c1dacb85becf7a60de56bb73f7822f3da14e8ba7086bd8e191ed0",
+      "after": "86c0f2d6507f44930575ef726cf0a47ed4d5db5346b213332d1909df1ef234ff",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 10,
+          "before": [
+            "import {inventory} from '../scripts/audit/table-access-inventory.mjs';"
+          ],
+          "after": [
+            "import {inventoryBeforeParcel209} from '../scripts/audit/source-before-parcel209.mjs';"
+          ]
+        },
+        {
+          "at": 49,
+          "before": [
+            " assert.equal(execFileSync('git',['diff','--name-only','4795e70e40b0462100e92fe5006b61cd62df1b9d','--','supabase/migrations'],{encoding:'utf8'}).trim(),'');"
+          ],
+          "after": [
+            " assert.equal(execFileSync('git',['diff','--name-only','4795e70e40b0462100e92fe5006b61cd62df1b9d','d7779f56dc0bdfe77091bb4881cbae4ad50ced3a','--','supabase/migrations'],{encoding:'utf8'}).trim(),'');"
+          ]
+        },
+        {
+          "at": 51,
+          "before": [
+            "test('trial A current SDK proof binds every source and all real queries including server receipt search',async()=>{",
+            " const current=await inventory(),proof=JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_AFTER_TRIAL_A.json','utf8'));"
+          ],
+          "after": [
+            "test('trial A frozen SDK proof retains every accepted source and real query behind exact209 inverse',async()=>{",
+            " const current=await inventoryBeforeParcel209(),proof=JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_AFTER_TRIAL_A.json','utf8'));"
+          ]
+        },
+        {
+          "at": 54,
+          "before": [
+            " assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_TRIAL_A.json');",
+            " assert.equal(state.migrationCeiling,208);assert.deepEqual(current.sources,proof.sourceHashes);"
+          ],
+          "after": [
+            " assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_209.json');",
+            " assert.equal(state.migrationCeiling,209);assert.deepEqual(current.sources,proof.sourceHashes);"
+          ]
+        }
+      ]
+    },
+    "tests/trial-reset.test.ts": {
+      "before": "46f49a5f976805e9815a84f18bffdb23a805cc0f1fb8047c3080ee5c322ea1c1",
+      "after": "baeb6ec694258b41d2c70ba304fd8e9a8d92d1fa6fdaf2233709e9db83221c7b",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 26,
+          "before": [
+            " assert.match(source,/readReady208Reference/u);assert.match(source,/RESET_REQUIRES_COMPLETE208_HISTORY/u);assert.match(source,/functionReference\\(executor,208\\)/u);"
+          ],
+          "after": [
+            " assert.match(source,/readReady209Reference/u);assert.match(source,/RESET_REQUIRES_COMPLETE209_HISTORY/u);assert.match(source,/functionReference\\(executor,209\\)/u);"
+          ]
+        },
+        {
+          "at": 75,
+          "before": [
+            "test('reset admits approved frozen prefixes and current208 only and preserves the named main warehouse,not trial locations',()=>{"
+          ],
+          "after": [
+            "test('reset admits approved frozen prefixes and current209 only and preserves the named main warehouse,not trial locations',()=>{"
+          ]
+        },
+        {
+          "at": 86,
+          "before": [
+            " for(const migrationCeiling of [138,198,209])assert.throws(()=>assertResetCeiling({migrationCeiling}));"
+          ],
+          "after": [
+            " assert.equal(assertResetCeiling({migrationCeiling:209}),171);",
+            " for(const migrationCeiling of [138,198,210])assert.throws(()=>assertResetCeiling({migrationCeiling}));"
+          ]
+        }
+      ]
+    },
+    "tests/unit-terminology.test.ts": {
+      "before": "af4d43a3a9a461f40d9d1b6d8839c553a3ed5e9cc04e0a3e5ce694fef105bc16",
+      "after": "486c0e1a88205667e838def84f1c6716fdc1dcae6089f10d70f1c3d6b67932cf",
+      "errorPrefix": "TRIAL_A_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 26,
+          "before": [],
+          "after": [
+            "    if(file==='src/features/products/ProductFormModal.tsx'){",
+            "      assert.equal(text.split('حبة مفردة').length-1,2,'exact owner sale-method label and validation');",
+            "      text=text.replaceAll('حبة مفردة','');",
+            "    }"
+          ]
+        }
+      ]
+    },
+    "tests/withdrawals-integration182.test.ts": {
+      "before": "0fb9338742aa50ff2433df6e36af9be62a5543bf16012264fe32e1493baabd7f",
+      "after": "849dc4a6e2cc137fbbdd3147132b43a7fd3b7e0485d2c1a31d82df0aa77bcb7b",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 2,
+          "before": [],
+          "after": [
+            "import {parcel209Pins} from '../scripts/audit/source-before-parcel209.mjs';"
+          ]
+        },
+        {
+          "at": 24,
+          "before": [],
+          "after": [
+            " else if(Object.hasOwn(parcel209Pins,file))assert.throws(()=>approvedWithdrawals182Source(file,outside),/PARCEL209_ENTIRE_CURRENT_FILE_CHANGED/u,'new exact209 whole-file pin rejects extra logic');"
+          ]
+        }
+      ]
+    },
+    "tests/withdrawals182-admission.test.ts": {
+      "before": "d8fca32e7733d49bb36439992cd1e77f350a0d6644103de135fac9b29b407640",
+      "after": "5e41c9591d63acc0fe617d797238b28480111ffa3f6d1c554a80962230370b5c",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 20,
+          "before": [
+            " assert.equal(source.migrationCeiling,208);assert.equal(proof.migrationCeiling,182);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,209);assert.equal(proof.migrationCeiling,182);assert.equal(proof.managedAccess,false);"
+          ]
+        },
+        {
+          "at": 31,
+          "before": [
+            " assert.equal(services.migrationCeiling,208);assert.equal(services.ok,true);"
+          ],
+          "after": [
+            " assert.equal(services.migrationCeiling,209);assert.equal(services.ok,true);"
+          ]
+        }
+      ]
+    }
+  }
+}

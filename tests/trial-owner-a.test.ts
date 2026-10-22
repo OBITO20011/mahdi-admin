@@ -7,7 +7,7 @@ import type {SupplierReceiptItem} from '../src/types/directReceiving';
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {trialOwnerAPins,sourceBeforeTrialOwnerA} from '../scripts/audit/source-before-trial-owner-a.mjs';
-import {inventory} from '../scripts/audit/table-access-inventory.mjs';
+import {inventoryBeforeParcel209} from '../scripts/audit/source-before-parcel209.mjs';
 import {verifyProbeCoverage} from '../scripts/audit/table-access-probes.mjs';
 
 const item=(id:string,productId:string,name:string,quantity:number,size:number,unit='باكيت'):SupplierReceiptItem=>({
@@ -46,13 +46,13 @@ test('trial A exact inverse preserves every delivered source byte and rejects cu
    assert.equal(restored,baseline);assert.throws(()=>sourceBeforeTrialOwnerA(file,baseline+'\nvoid unapproved;\n'));
   }
  }
- assert.equal(execFileSync('git',['diff','--name-only','4795e70e40b0462100e92fe5006b61cd62df1b9d','--','supabase/migrations'],{encoding:'utf8'}).trim(),'');
+ assert.equal(execFileSync('git',['diff','--name-only','4795e70e40b0462100e92fe5006b61cd62df1b9d','d7779f56dc0bdfe77091bb4881cbae4ad50ced3a','--','supabase/migrations'],{encoding:'utf8'}).trim(),'');
 });
-test('trial A current SDK proof binds every source and all real queries including server receipt search',async()=>{
- const current=await inventory(),proof=JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_AFTER_TRIAL_A.json','utf8'));
+test('trial A frozen SDK proof retains every accepted source and real query behind exact209 inverse',async()=>{
+ const current=await inventoryBeforeParcel209(),proof=JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_AFTER_TRIAL_A.json','utf8'));
  const state=JSON.parse(readFileSync('docs/agent/project-state.json','utf8'));
- assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_TRIAL_A.json');
- assert.equal(state.migrationCeiling,208);assert.deepEqual(current.sources,proof.sourceHashes);
+ assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_209.json');
+ assert.equal(state.migrationCeiling,209);assert.deepEqual(current.sources,proof.sourceHashes);
  assert.deepEqual(verifyProbeCoverage(current,proof.results),proof.coverage);
  assert.equal(proof.results.length,148);assert.ok(proof.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));
  assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);assert.equal(proof.managedAccess,false);
