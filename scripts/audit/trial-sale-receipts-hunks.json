@@ -744,11 +744,18 @@
     },
     "scripts/audit/run-table-access-diagnostic.mjs": {
       "before": "48afcd1c249424fbca7ec765404526c0a43cae7657431a915e1f554fa91ba969",
-      "after": "3d17b3d8f9de251e81775ea510626946b79abd4b9fd5eb5e413830724634c13e",
+      "after": "a59f04c46f9cb3eead9459ac75e529ae86a2956bf309d6cb45095586d1e9865a",
       "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
       "hunks": [
         {
-          "at": 17,
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {loadPinnedPostgrestImage} from '../testing/pinned-postgrest-image.mjs';"
+          ]
+        },
+        {
+          "at": 18,
           "before": [
             "assert.ok([138,150,164,171,182,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209].includes(ceiling),'ONLY_APPROVED_AUDIT_CEILINGS');"
           ],
@@ -757,12 +764,20 @@
           ]
         },
         {
-          "at": 81,
+          "at": 77,
+          "before": [],
+          "after": [
+            " report.stage='verified-postgrest-fixture';",
+            " const localPostgrestImage=await loadPinnedPostgrestImage();"
+          ]
+        },
+        {
+          "at": 84,
           "before": [
             "  '-e','PGRST_DB_ANON_ROLE=anon','-e','PGRST_JWT_SECRET='+secret,'ghcr.io/supabase/postgrest:v16.1@sha256:5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d'],{windowsHide:true});restStarted=true;"
           ],
           "after": [
-            "  '-e','PGRST_DB_ANON_ROLE=anon','-e','PGRST_JWT_SECRET='+secret,'public.ecr.aws/supabase/postgrest:v16.1@sha256:5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d'],{windowsHide:true});restStarted=true;"
+            "  '-e','PGRST_DB_ANON_ROLE=anon','-e','PGRST_JWT_SECRET='+secret,localPostgrestImage],{windowsHide:true});restStarted=true;"
           ]
         }
       ]
@@ -929,6 +944,12 @@
           ]
         }
       ]
+    },
+    "scripts/testing/pinned-postgrest-image.mjs": {
+      "added": true,
+      "before": null,
+      "after": "5fde942eac5d9f69668fdecad95c2dac0c8ec7766f0d8f5c28fb928b21612c1c",
+      "hunks": []
     },
     "scripts/testing/receipt210-restore.mjs": {
       "added": true,
@@ -2055,9 +2076,15 @@
         }
       ]
     },
+    "tests/postgrest-bundled-image.test.ts": {
+      "added": true,
+      "before": null,
+      "after": "07dfa2e2a8c48b1fb6785589180ce66e5fc3cd59e3033278e519c642209620ed",
+      "hunks": []
+    },
     "tests/postgrest-registry-image.test.ts": {
       "before": "491ef47f828f88855ee2914bc21a313fde6d75c6db4fcac67c81b67f016cc9ef",
-      "after": "024c6a148d00ce2ba6a5d31b2ecb51895f1689690dfbd8cb23c30082f84ff4ed",
+      "after": "d92e4a6672b9376197426871afb2729c52d7e2eba407e423913d82b6092d39d2",
       "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
       "hunks": [
         {
@@ -2075,7 +2102,17 @@
             "test('registry repair changes ONLY the Docker image argument,not launch env,port,readiness or probe contracts',()=>{"
           ],
           "after": [
-            "test('current immutable ECR pin changes ONLY the Docker image argument,not launch env,port,readiness or probe contracts',()=>{"
+            "test('verified local immutable image changes ONLY the Docker image argument,not launch env,port,readiness or probe contracts',()=>{"
+          ]
+        },
+        {
+          "at": 26,
+          "before": [
+            " const after=block(current);assert.equal(after.split(pinned).length,2);"
+          ],
+          "after": [
+            " const actual=block(current);assert.equal(actual.split('localPostgrestImage').length,2);",
+            " const after=actual.replace('localPostgrestImage',\"'\"+pinned+\"'\");assert.equal(after.split(pinned).length,2);"
           ]
         }
       ]

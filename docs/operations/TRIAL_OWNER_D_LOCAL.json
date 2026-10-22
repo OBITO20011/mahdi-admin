@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "D210_LOCAL_VERIFIED_REGISTRY_AND_HISTORICAL209_RESET_REPAIRS_FINAL_FULL_CI_PENDING",
-  "recordedAt": "2026-10-22T16:50:13.078Z",
+  "status": "D210_LOCAL_VERIFIED_OFFLINE_IMAGE_FINAL_FULL_CI_PENDING",
+  "recordedAt": "2026-10-22T18:54:12.122Z",
   "branch": "codex/trial-sale-receipts",
   "baselineSha": "581cb972a247ef13dbdc697b75bcc5c674bfa97d",
   "managedAccess": false,
@@ -23,7 +23,7 @@
   },
   "verification": {
     "adminUnits": {
-      "passed": 1357,
+      "passed": 1361,
       "failed": 0,
       "skipped": 0
     },
@@ -120,6 +120,10 @@
       "rest209CatalogRead": true,
       "allDataCleared": true,
       "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-trial-reset-ghgQi3"
+    },
+    "finalGitleaks": {
+      "exitCode": 0,
+      "files": 112
     }
   },
   "owner209": {
@@ -147,7 +151,6 @@
     }
   },
   "pending": [
-    "Final checkpoint and corrected test-staging commit",
     "New exact push+PR FULL41/secrets,merge/main FULL41",
     "Then J211 and H only after D delivery"
   ],
@@ -181,5 +184,144 @@
     "guide": "docs/operations/TRIAL_OWNER_UPGRADE210_AR.md",
     "hostedCommandsExecuted": false
   },
-  "ciRepair": "docs/operations/TRIAL_OWNER_D_CI_REPAIR.json"
+  "ciRepair": "docs/operations/TRIAL_OWNER_D_CI_REPAIR.json",
+  "registryIndependentFixture": {
+    "supersededSha": "c2a38d6c886441056572f7111ad0faa1504fdf54",
+    "runs": [
+      39829357854,
+      39829364217
+    ],
+    "failure": "ECR Data limit exceeded at local-postgrest before queries",
+    "stoppedBeforeEdits": true,
+    "archive": "tests/fixtures/postgrest-v16.1-linux-amd64.tar.gz",
+    "compressedBytes": 6503741,
+    "archiveSha256": "f68c7e96cf47296e13b2db0a4b52fd040df216bc082c8218621bf5b8a33d1d91",
+    "officialIndexDigest": "sha256:5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d",
+    "actualLocalLoadAndOfflineVersion": true,
+    "version": "PostgREST 16.1",
+    "runtimeRegistryPulls": 0,
+    "registryAuth": 0,
+    "newRetries": 0,
+    "originalImageBlobsRetained": true,
+    "allSdkLaunchEnvironmentPortReadinessAndProbeContractsUnchanged": true,
+    "cryptoAndNegativeContractTests": 6,
+    "license": "tests/fixtures/postgrest-v16.1.LICENSE",
+    "notice": "tests/fixtures/POSTGREST_IMAGE_NOTICE.md",
+    "validation": {
+      "sdk": [
+        {
+          "migrationCeiling": 209,
+          "migrations": 171,
+          "sourceTotals": {
+            "queries": 51,
+            "tableNames": [
+              "branches",
+              "brands",
+              "business_operations",
+              "categories",
+              "customer_addresses",
+              "customers",
+              "inventory_balances",
+              "order_items",
+              "order_parcel_components",
+              "order_parcel_instances",
+              "order_status_history",
+              "orders",
+              "product_images",
+              "products",
+              "profiles",
+              "purchase_order_items",
+              "purchase_orders",
+              "purchase_receipt_items",
+              "purchase_receipts",
+              "push_dispatches",
+              "push_subscriptions",
+              "roles",
+              "sales_returns",
+              "supplier_payments",
+              "supplier_receipt_items",
+              "supplier_receipts",
+              "suppliers",
+              "units",
+              "user_roles",
+              "warehouses"
+            ],
+            "authenticated": 44,
+            "service_role": 7,
+            "anon": 0,
+            "subscriptions": 20
+          },
+          "querySites": 51,
+          "success": 148,
+          "permissionDenied": 0,
+          "otherError": 0,
+          "applicationReady": true,
+          "sourceHashesSha256": "05390f6707686c3a93653c6b1d742a351f6f5acd92233233a0554b48c5508045",
+          "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-eYbmlN"
+        },
+        {
+          "migrationCeiling": 210,
+          "migrations": 172,
+          "sourceTotals": {
+            "queries": 51,
+            "tableNames": [
+              "branches",
+              "brands",
+              "business_operations",
+              "categories",
+              "customer_addresses",
+              "customers",
+              "inventory_balances",
+              "order_items",
+              "order_parcel_components",
+              "order_parcel_instances",
+              "order_status_history",
+              "orders",
+              "product_images",
+              "products",
+              "profiles",
+              "purchase_order_items",
+              "purchase_orders",
+              "purchase_receipt_items",
+              "purchase_receipts",
+              "push_dispatches",
+              "push_subscriptions",
+              "roles",
+              "sales_returns",
+              "supplier_payments",
+              "supplier_receipt_items",
+              "supplier_receipts",
+              "suppliers",
+              "units",
+              "user_roles",
+              "warehouses"
+            ],
+            "authenticated": 44,
+            "service_role": 7,
+            "anon": 0,
+            "subscriptions": 20
+          },
+          "querySites": 51,
+          "success": 148,
+          "permissionDenied": 0,
+          "otherError": 0,
+          "applicationReady": true,
+          "sourceHashesSha256": "05390f6707686c3a93653c6b1d742a351f6f5acd92233233a0554b48c5508045",
+          "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-pIBhka"
+        }
+      ],
+      "adminUnits": {
+        "passed": 1361,
+        "failed": 0,
+        "skipped": 0
+      },
+      "customerUnits": {
+        "passed": 197,
+        "failed": 0,
+        "skipped": 0
+      },
+      "types": true,
+      "strictLint": true
+    }
+  }
 }

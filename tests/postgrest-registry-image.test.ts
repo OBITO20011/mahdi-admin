@@ -18,12 +18,13 @@ test('official GHCR16.1 pin identifies the exact prior ECR multiarch bytes,not a
   {platform:'linux/arm64',digest:'sha256:2fa40bb679b2a731f6ffe7dc9db6c15d57fd4e329e59e6362f9307630323535f'},
  ]);
 });
-test('current immutable ECR pin changes ONLY the Docker image argument,not launch env,port,readiness or probe contracts',()=>{
+test('verified local immutable image changes ONLY the Docker image argument,not launch env,port,readiness or probe contracts',()=>{
  const file='scripts/audit/run-table-access-diagnostic.mjs',current=read(file);
  const previous=execFileSync('git',['show',`f8a48d5:${file}`],{encoding:'utf8'}).replaceAll('\r\n','\n');
  const block=(source:string)=>{const start=source.indexOf(" report.stage='local-postgrest';"),end=source.indexOf(" report.stage='actual-original-queries';",start);
   assert.ok(start>0&&end>start);return source.slice(start,end);};
- const after=block(current);assert.equal(after.split(pinned).length,2);
+ const actual=block(current);assert.equal(actual.split('localPostgrestImage').length,2);
+ const after=actual.replace('localPostgrestImage',"'"+pinned+"'");assert.equal(after.split(pinned).length,2);
  assert.equal(after.replace(pinned,proof.legacy),block(previous));
  assert.equal([...after.matchAll(/await exec\('docker',\['run'/gu)].length,1);
  assert.doesNotMatch(after,/docker\.io|latest|--pull=always|retry/iu);

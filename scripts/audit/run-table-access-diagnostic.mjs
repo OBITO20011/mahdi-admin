@@ -1,3 +1,4 @@
+import {loadPinnedPostgrestImage} from '../testing/pinned-postgrest-image.mjs';
 // Diagnostic, not a grant repair: fresh local001-138, real JWT/PostgREST roles.
 // Expected permission denials are findings, not a passing application-readiness gate.
 import assert from 'node:assert/strict';
@@ -73,12 +74,14 @@ try{
  const instances=await json(`SELECT jsonb_agg(id ORDER BY id) FROM order_parcel_instances WHERE order_id=${q(sale.orderId)};`);assert.ok(instances.length);
  const ids={orderId:sale.orderId,operationId:sale.operationId,receiptId:received.receipt_id,poId:po.purchase_order_id,subscriptionId:id(701),instances};
  report.fixture=ids;
+ report.stage='verified-postgrest-fixture';
+ const localPostgrestImage=await loadPinnedPostgrestImage();
  report.stage='local-postgrest';
  // Fixed public TEST signing material;not a managed credential. Tokens stay in RAM.
  const secret='isolated-table-access-audit-signing-material-only';
  await exec('docker',['run','-d','--name',rest,'--network','supabase_network_'+project,'-p','127.0.0.1:25421:3000',
   '-e','PGRST_DB_URI=postgresql://authenticator:postgres@db:5432/postgres','-e','PGRST_DB_SCHEMAS=public',
-  '-e','PGRST_DB_ANON_ROLE=anon','-e','PGRST_JWT_SECRET='+secret,'public.ecr.aws/supabase/postgrest:v16.1@sha256:5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d'],{windowsHide:true});restStarted=true;
+  '-e','PGRST_DB_ANON_ROLE=anon','-e','PGRST_JWT_SECRET='+secret,localPostgrestImage],{windowsHide:true});restStarted=true;
  const deadline=Date.now()+15000;while(true){try{const r=await fetch('http://127.0.0.1:25421/');if(r.status===200)break;}catch{/* readiness only */}
   if(Date.now()>deadline)throw Error('LOCAL_POSTGREST_NOT_READY');await new Promise(resolve=>setTimeout(resolve,100));}
  report.stage='actual-original-queries';console.log(JSON.stringify({stage:report.stage,queries:source.entries.length}));
