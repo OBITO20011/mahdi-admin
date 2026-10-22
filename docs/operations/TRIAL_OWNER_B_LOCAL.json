@@ -175,5 +175,33 @@
     "gitleaks": 0,
     "productionAndSqlUnchanged": true,
     "retriesSkipsTimeoutsChanged": false
+  },
+  "featureCiPosLabelRepair": {
+    "supersededSha": "bfc802ac0a298ae4ebccc9f82d3459db7abe72c2",
+    "cancelledRuns": [
+      39740406817,
+      39740412916
+    ],
+    "correction": "Only3 exact button/input selectors from old carton terminology to current owner طرد",
+    "fullRealPosBrowserPassed": 8,
+    "scenariosPerEngine": 4,
+    "engines": [
+      "Chromium",
+      "WebKit"
+    ],
+    "realPublicRpc": true,
+    "realIsolatedDatabase": true,
+    "productionRequests": 0,
+    "retries": 0,
+    "refund4500": true,
+    "damageEntitlement2700AndDeduction1800": true,
+    "replayLineageZeroWritesPreserved": true,
+    "focusedContractTestsPassed": 23,
+    "types": true,
+    "strictEslint": true,
+    "gitleaks": 0,
+    "productionAndSqlUnchanged": true,
+    "assertionsWeakened": false,
+    "retriesSkipsTimeoutsChanged": false
   }
 }

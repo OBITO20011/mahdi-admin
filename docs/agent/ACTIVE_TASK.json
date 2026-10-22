@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner package B209:full parcel_only C8 design plus unified sale-method section(parcel/single required-one,mixed capability via existing owner RPC or real state/direct family link).DB admission/locks/replay/legacy/replacement/flavor/import guards;separate PR/FULLCI/merge/owner209 commands.No hostedaccess.",
-  "baselineSha": "d591fc7e6d0adf95d6289c778a823171ca6c6b1d",
+  "baselineSha": "bfc802ac0a298ae4ebccc9f82d3459db7abe72c2",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "codex/trial-sale-methods",
   "phase": "PACKAGE_F",
@@ -16,7 +16,7 @@
     "209 fresh-incremental0diff/546functions/13members plus owner apply209/replay0 and full resetREST/TOTP/Storage PASS"
   ],
   "inProgress": [
-    "PR15 old candidates stopped;exact owner terminology checkbox correction accepted24browsers/23contract tests/types/lint/Gitleaks0"
+    "PR15 three obsolete candidates stopped;exact historical170/ownerlabel24/realPOS8 test corrections accepted;production/209/ref unchanged"
   ],
   "notStarted": [
     "Feature/PR/main exactFULL40 acceptance;no hostedcommands authorized"
@@ -27,7 +27,8 @@
     "Current SDK148/320sources/actual209REST noRole0writes;RPC525",
     "DB16groups/7realraces/old1000refund/restore0diff/replay0",
     "Final209 reference171migrations/546functions/13Realtime/fresh-incremental0diff;owner localapply/replay/resetREST/TOTP/Storage PASS",
-    "Gitleaks final96files exit0"
+    "Gitleaks final96files exit0",
+    "Full real isolated POS8 bothengines:refund4500/damage2700-1800/lineage/replay/absence0writes PASS;Gitleaks98files0"
   ],
   "testsRemaining": [
     "Exact feature push+PR FULL40 and both secret scans",
@@ -48,12 +49,12 @@
     "No financial policy change;preserve171 cost/CAS and old invoices/replay/returns",
     "One writer;no tracked edits during verification;no weaker asserts/retries/skips/timeouts"
   ],
-  "nextExactAction": "Commit accepted24bothengine terminology test repair;push PR15;fresh exact push+PR FULL40/secrets then merge/mainFULL40. No hostedaccess.",
+  "nextExactAction": "Commit accepted realPOS8 exactlabel test repair;push PR15;fresh exact push+PR FULL40/secrets then merge/mainFULL40. No hostedaccess.",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "checkpointedAt": "2026-10-22T07:25:32.266Z",
+  "checkpointedAt": "2026-10-22T07:50:08.380Z",
   "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "404c6535e92fa74cb574b2bf52450592f07878c9da5d5368bfea266ff7aff513",
-  "workingTreeFingerprint": "938BB98A38547AA22E991800BE13DAB1FDD773185D172315F106F4A23C7B3961"
+  "filesTouchedManifestSha256": "f5904e221974d86bf00d84c82007bea381db2f367d6b2c599822c5346f221680",
+  "workingTreeFingerprint": "752B49DFE6DA836DCCCE0A448219771371B746E087FF86BC197BD9286D05D8A0"
 }

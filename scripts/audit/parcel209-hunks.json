@@ -144,6 +144,33 @@
         }
       ]
     },
+    "e2e/package-d-pos-fullstack.spec.ts": {
+      "before": "160c29708db897de3acb0df63e251f3a6920286bcc72a80126da7d1b368d126f",
+      "after": "0235d4826b7e19c664a2790689a52324380ae7724b787939877bb2fa99e70c6f",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 153,
+          "before": [
+            "    await page.getByRole('button',{name:'استبدال كرتونة',exact:true}).click();",
+            "    await expect(page.getByLabel('عدد كراتين الاستبدال')).toHaveValue('1');"
+          ],
+          "after": [
+            "    await page.getByRole('button',{name:'استبدال طرد',exact:true}).click();",
+            "    await expect(page.getByLabel('عدد طرود الاستبدال')).toHaveValue('1');"
+          ]
+        },
+        {
+          "at": 163,
+          "before": [
+            "    await expect(page.getByLabel('عدد كراتين المرتجع')).toHaveValue('1');"
+          ],
+          "after": [
+            "    await expect(page.getByLabel('عدد طرود المرتجع')).toHaveValue('1');"
+          ]
+        }
+      ]
+    },
     "e2e/package-f-pos-harness.tsx": {
       "before": "a29c384af6c0896d9128c2d4112e0f15f1858061e177aac98310093c5d204d2f",
       "after": "1929a6d0dedf707654426a22f8d7becbc9549f1c131bb4278ab6704e555274ed",
