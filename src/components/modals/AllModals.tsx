@@ -209,7 +209,7 @@ export const AllModals: React.FC = () => {
         {currentModal==='supplier_replacement'&&<SupplierReplacementPanel {...(modalData&&'damageOnly' in modalData?modalData:modalData&&'supplierId' in modalData?modalData:modalData&&'productId' in modalData?{productId:modalData.productId}:{})}/>}
       </Modal>
       <Modal isOpen={currentModal === 'parcel_configuration'} onClose={closeModal}
-        title="إعداد الطرود المرنة" subtitle="الأصناف والعدد والنكهات وحالة الميزة — للمالك فقط">
+        title="الطرد المشكّل (خلط النكهات)" subtitle="النكهات وكم حبة بالطرد — للمالك فقط">
         <ParcelConfigurationModal />
       </Modal>
 

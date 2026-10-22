@@ -57,7 +57,7 @@
     },
     {
       "file": "src/components/modals/AllModals.tsx",
-      "sha256": "2d6e80fccf277db571adb62bcf15d2c116d98355176526365370b125e3b173a0"
+      "sha256": "f9186561a9dc6c41ba8fbcf7c8365f276819102cab360120fcd1cad9481a8f53"
     },
     {
       "file": "src/components/modals/BrandsModal.tsx",
@@ -273,7 +273,7 @@
     },
     {
       "file": "src/features/directReceiving/DirectReceivingView.tsx",
-      "sha256": "a751598e367a18d71e46ec32ecd395ab435f63880f606fda1811e60658a61991"
+      "sha256": "be388ae692d48a7d568d974e91cb6de1497225d4308d33cc96507a923a14e783"
     },
     {
       "file": "src/features/directReceiving/RecordSupplierPaymentModal.tsx",
@@ -282,6 +282,10 @@
     {
       "file": "src/features/directReceiving/SupplierReceiptDetailView.tsx",
       "sha256": "05d786499ae7469151ceafad0f1def09d1d08499da8522a65dbe6ddcaaced82e"
+    },
+    {
+      "file": "src/features/directReceiving/SupplierReceiptItemsPreview.tsx",
+      "sha256": "7db554563d60e725ed02e23240b3884573c24da9603b00ff2deaf0bd8274e7c5"
     },
     {
       "file": "src/features/directReceiving/SupplierReceiptLines.tsx",
@@ -345,7 +349,7 @@
     },
     {
       "file": "src/features/more/adminNavigation.config.ts",
-      "sha256": "eb4b212340af0903dbb9b40a974bc721381b6ef6402cde92e0bb9a5bd64fda77"
+      "sha256": "f69efb0fc768c729c971c5ee82db65475fdbd628f972f39152322d1de851d991"
     },
     {
       "file": "src/features/more/DamageProductSelection.tsx",
@@ -365,7 +369,7 @@
     },
     {
       "file": "src/features/more/ParcelConfigurationModal.tsx",
-      "sha256": "641c6160e9c1d56f8c8e51b2fd6f40c1e7e340f2bac325e64881204b0d6d6dd6"
+      "sha256": "ee137fff81edfe7305241e05893260d95302d4328b3c465ff5f81ef8d511ac49"
     },
     {
       "file": "src/features/more/ProfileModal.tsx",
@@ -445,7 +449,7 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "sha256": "d77bb2e3e36c2c59230ec9f97c9f770bf3b1195ba43573c4558dc9ac4de362af"
+      "sha256": "4a3ae8b63a84245dfcb6964b9f6ca760f5033ec5f986f7b2ec6db7078b9fae19"
     },
     {
       "file": "src/features/products/ProductsView.tsx",
@@ -665,7 +669,7 @@
     },
     {
       "file": "src/services/supabase/directReceiving.service.ts",
-      "sha256": "9c6a75283a2060049d0fee91ae436806f1de4ffe9825b464e341a5e216baa246"
+      "sha256": "c685687284e83f8ee732aafa252fbdcd9c79dfee04cb8810b94fa62262bb01cc"
     },
     {
       "file": "src/services/supabase/documentCorrections.service.ts",
@@ -786,6 +790,10 @@
     {
       "file": "src/services/supabase/storefront-settings.service.ts",
       "sha256": "ea2ea5e5d41b0f024055ccab9932dd12a343464256a458edcfe2047322148470"
+    },
+    {
+      "file": "src/services/supabase/supplierReceiptSearch.ts",
+      "sha256": "e73e0e5384fe7b677fe1400835ffb2604df85f9f68f0359297af35291187cfd2"
     },
     {
       "file": "src/services/supabase/supplierReplacement.service.ts",
@@ -1073,7 +1081,7 @@
     },
     {
       "file": "customer-web/src/components/ProductDetailsModal.tsx",
-      "sha256": "736c33e60587fe760b4ec84d844c32457b5a791e1245a6dee812c05174fc4e7f"
+      "sha256": "c69b251b0650226b2f4ebe47e57808c018ccdb6c43be5028309cc46738d147ba"
     },
     {
       "file": "customer-web/src/components/ProductImage.tsx",
@@ -1714,9 +1722,9 @@
       "source": "client.rpc('get_home_dashboard')"
     },
     {
-      "id": "src/services/supabase/directReceiving.service.ts:23",
+      "id": "src/services/supabase/directReceiving.service.ts:24",
       "file": "src/services/supabase/directReceiving.service.ts",
-      "line": 23,
+      "line": 24,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "previewSupplierReceiptCancellation",
@@ -1728,23 +1736,23 @@
       "source": "supabase.rpc('preview_supplier_receipt_cancellation', {p_receipt_id: receiptId})"
     },
     {
-      "id": "src/services/supabase/directReceiving.service.ts:156",
+      "id": "src/services/supabase/directReceiving.service.ts:161",
       "file": "src/services/supabase/directReceiving.service.ts",
-      "line": 156,
+      "line": 161,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "fetchSupplierReceiptsFromSupabase",
       "name": "get_supplier_receipts_page",
       "dynamic": "'get_supplier_receipts_page'",
       "arguments": [
-        "{\n      p_page: page,\n      p_page_size: pageSize,\n      p_search: params?.search?.trim() || null,\n      p_supplier_id: params?.supplierId || null,\n      p_warehouse_id: params?.warehouseId || null,\n      p_payment_status: params?.paymentStatus || 'all',\n      p_is_archived: params?.isArchived ?? false,\n    }"
+        "{\n      p_page: page,\n      p_page_size: pageSize,\n      p_search: null,\n      p_supplier_id: params?.supplierId || null,\n      p_warehouse_id: params?.warehouseId || null,\n      p_payment_status: params?.paymentStatus || 'all',\n      p_is_archived: params?.isArchived ?? false,\n    }"
       ],
-      "source": "supabase.rpc('get_supplier_receipts_page', {\n      p_page: page,\n      p_page_size: pageSize,\n      p_search: params?.search?.trim() || null,\n      p_supplier_id: params?.supplierId || null,\n      p_warehouse_id: params?.warehouseId || null,\n      p_payment_status: params?.paymentStatus || 'all',\n      p_is_archived: params?.isArchived ?? false,\n    })"
+      "source": "supabase.rpc('get_supplier_receipts_page', {\n      p_page: page,\n      p_page_size: pageSize,\n      p_search: null,\n      p_supplier_id: params?.supplierId || null,\n      p_warehouse_id: params?.warehouseId || null,\n      p_payment_status: params?.paymentStatus || 'all',\n      p_is_archived: params?.isArchived ?? false,\n    })"
     },
     {
-      "id": "src/services/supabase/directReceiving.service.ts:265",
+      "id": "src/services/supabase/directReceiving.service.ts:283",
       "file": "src/services/supabase/directReceiving.service.ts",
-      "line": 265,
+      "line": 283,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "resolveLegacySupplierReceiptReplayInSupabase",
@@ -1756,9 +1764,9 @@
       "source": "supabase.rpc(\n    'resolve_legacy_supplier_receipt_replay_v1',\n    { p_idempotency_key: idempotencyKey }\n  )"
     },
     {
-      "id": "src/services/supabase/directReceiving.service.ts:375",
+      "id": "src/services/supabase/directReceiving.service.ts:393",
       "file": "src/services/supabase/directReceiving.service.ts",
-      "line": 375,
+      "line": 393,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "createDirectSupplierReceiptInSupabase",
@@ -1770,9 +1778,9 @@
       "source": "supabase.rpc('create_direct_supplier_receipt_v2', payload)"
     },
     {
-      "id": "src/services/supabase/directReceiving.service.ts:436",
+      "id": "src/services/supabase/directReceiving.service.ts:454",
       "file": "src/services/supabase/directReceiving.service.ts",
-      "line": 436,
+      "line": 454,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "recordSupplierReceiptPaymentInSupabase",
@@ -1784,9 +1792,9 @@
       "source": "supabase.rpc('record_supplier_receipt_payment', {\n      p_receipt_id: receiptId,\n      p_amount_in_minor_units: amountInMinorUnits,\n      p_payment_method: paymentMethod,\n      p_reference_number: referenceNumber || null,\n      p_notes: notes || null,\n      p_idempotency_key: idempotencyKey,\n    })"
     },
     {
-      "id": "src/services/supabase/directReceiving.service.ts:467",
+      "id": "src/services/supabase/directReceiving.service.ts:485",
       "file": "src/services/supabase/directReceiving.service.ts",
-      "line": 467,
+      "line": 485,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "archiveSupplierReceiptInSupabase",
@@ -1798,9 +1806,9 @@
       "source": "supabase.rpc('archive_supplier_receipt', {\n      p_receipt_id: receiptId,\n      p_is_archived: isArchived,\n    })"
     },
     {
-      "id": "src/services/supabase/directReceiving.service.ts:500",
+      "id": "src/services/supabase/directReceiving.service.ts:518",
       "file": "src/services/supabase/directReceiving.service.ts",
-      "line": 500,
+      "line": 518,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "cancelSupplierReceiptInSupabase",
@@ -3822,7 +3830,7 @@
     },
     {
       "file": "src/services/supabase/directReceiving.service.ts",
-      "line": 679,
+      "line": 697,
       "role": "authenticated",
       "source": "client\n    .channel('supplier-receipts-changes')"
     },

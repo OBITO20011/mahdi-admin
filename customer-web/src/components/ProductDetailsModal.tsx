@@ -519,11 +519,11 @@ export function ProductDetailsModal({
               onChange={next => setUnitQuantity(clampProductSelectionQuantity(next, remainingUnits, 0))}
               onAdd={() => onAddBaseUnit(product, unitQuantity)} />}
           </div>
-          {familyProduct.variants.length > 0 && <button type="button"
+          {familyProduct.variants.length > 0 && parcelOption && <button type="button"
             onClick={() => parcelOption && onOpenParcelBuilder(familyProduct, parcelOption)}
             disabled={!parcelOption || parcelOptionLoading}
             className="mx-auto mt-2 block min-h-11 w-full max-w-3xl rounded-2xl bg-violet-700 px-3 text-xs font-black text-white disabled:bg-slate-300 disabled:text-slate-700">
-            {parcelOptionLoading ? 'جارٍ تحميل خيارات الطرد...' : parcelOption ? 'كوّن طردًا بالنكهات' : 'الطرد المختلط غير متاح'}
+            {parcelOptionLoading ? 'جارٍ تحميل خيارات الطرد...' : 'كوّن طردًا بالنكهات'}
           </button>}
           {!product.isAvailable && <a href={buildWhatsAppUrl(storeWhatsAppNumber, `مرحبًا، أريد الاستفسار عن توفر ${product.nameAr} (${product.sku}).`)} target="_blank" rel="noreferrer" className="mx-auto mt-2 flex min-h-11 max-w-3xl items-center justify-center gap-2 rounded-2xl bg-emerald-700 px-4 text-xs font-black text-white"><MessageCircle className="h-4 w-4" />اسألنا على واتساب</a>}
           <p className="mt-2 text-center text-[9px] font-bold text-slate-600">

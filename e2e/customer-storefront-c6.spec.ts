@@ -70,7 +70,7 @@ test('C6 real flavor identity remains selected and capability absence is distinc
  const child={...product,id:'00000000-0000-4000-8000-000000000692',sku:'C6-FLAVOR',nameAr:'مياه اختبار المتجر - ليمون',flavorMasterProductId:product.id,flavorNameAr:'ليمون'};
  const dialog=await setup(page,{isFlavorMaster:true},[child]);
  await expect(dialog.getByText('اختر النكهة',{exact:true})).toBeVisible();
- await expect(dialog.getByRole('button',{name:'الطرد المختلط غير متاح',exact:true})).toBeDisabled();
+ await expect(dialog.getByRole('button',{name:'الطرد المختلط غير متاح',exact:true})).toHaveCount(0);
  await dialog.getByRole('region',{name:'إضافة باكيت',exact:true}).getByRole('button',{name:/إضافة .* باكيت من/}).click();
  await expect.poll(()=>savedLines(page)).toMatchObject([{commercialLineKind:'base_unit',productId:child.id,quantity:1,unitPriceInMinorUnits:550}]);
 });

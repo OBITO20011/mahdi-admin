@@ -1,0 +1,295 @@
+{
+  "ok": true,
+  "managedAccess": false,
+  "sqlExecuted": false,
+  "databaseConnected": false,
+  "evidence": [
+    {
+      "file": "C:\\Users\\TOP\\NawasrahFrankfurt\\nawasrah-fra-001-138\\acl-alignment-2026-10-15T06-54-58-324Z\\source-catalog.json",
+      "sha256": "0d617d9c721ebb2deff908f60a6270fd2edc2d077b6a400719c63729253e8f81",
+      "readers": [
+        {
+          "identity": "get_cash_shift_closing_report(p_shift_id uuid)",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "authenticated=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        {
+          "identity": "get_operational_orders_page(p_page integer, p_page_size integer, p_filter text, p_search text, p_sort text)",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "authenticated=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        {
+          "identity": "get_supplier_receipts_page(p_page integer, p_page_size integer, p_search text, p_supplier_id uuid, p_warehouse_id uuid, p_payment_status text, p_is_archived boolean)",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "authenticated=X/postgres",
+            "service_role=X/postgres"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "C:\\Users\\TOP\\NawasrahFrankfurt\\nawasrah-fra-001-138\\upgrade199-2026-10-19T14-53-12-547Z\\preflight-prefix\\catalog-observed.json",
+      "sha256": "dc9a1ed3e311d7641ccd2e382da3b12f849eda2c9c04f0a060faed541f0f3fe2",
+      "readers": [
+        {
+          "identity": "get_cash_shift_closing_report(p_shift_id uuid)",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "authenticated=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        {
+          "identity": "get_operational_orders_page(p_page integer, p_page_size integer, p_filter text, p_search text, p_sort text)",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "authenticated=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        {
+          "identity": "get_supplier_receipts_page(p_page integer, p_page_size integer, p_search text, p_supplier_id uuid, p_warehouse_id uuid, p_payment_status text, p_is_archived boolean)",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "authenticated=X/postgres",
+            "service_role=X/postgres"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "C:\\Users\\TOP\\NawasrahFrankfurt\\nawasrah-fra-001-138\\upgrade208-2026-10-21T20-59-44-950Z\\preflight-prefix\\catalog-observed.json",
+      "sha256": "5303339feefb75113b13f7e34d640941248ae212e81f4d5c66146977508bd6fe",
+      "readers": [
+        {
+          "identity": "get_cash_shift_closing_report(p_shift_id uuid)",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "authenticated=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        {
+          "identity": "get_operational_orders_page(p_page integer, p_page_size integer, p_filter text, p_search text, p_sort text)",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "authenticated=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        {
+          "identity": "get_supplier_receipts_page(p_page integer, p_page_size integer, p_search text, p_supplier_id uuid, p_warehouse_id uuid, p_payment_status text, p_is_archived boolean)",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "authenticated=X/postgres",
+            "service_role=X/postgres"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "C:\\Users\\TOP\\NawasrahFrankfurt\\nawasrah-fra-001-138\\upgrade208-2026-10-21T20-59-44-950Z\\catalog-observed.json",
+      "sha256": "29271fa6435bb8ab4ce342a765d8b4ea27b0a353cfb6525e13c6f1f7274c7dec",
+      "readers": [
+        {
+          "identity": "execute_document_correction_once(p_action text, p_record_id uuid, p_reason text, p_idempotency_key text, p_preview_fingerprint text)",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "authenticated=X/postgres"
+          ]
+        },
+        {
+          "identity": "get_cash_shift_closing_report(p_shift_id uuid)",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "authenticated=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        {
+          "identity": "get_cash_shift_movement_page(p_shift_id uuid, p_kind text, p_method text, p_page integer, p_page_size integer)",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "authenticated=X/postgres"
+          ]
+        },
+        {
+          "identity": "get_document_correction_preview(p_action text, p_record_id uuid)",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "authenticated=X/postgres"
+          ]
+        },
+        {
+          "identity": "get_operational_orders_page(p_page integer, p_page_size integer, p_filter text, p_search text, p_sort text)",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "authenticated=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        {
+          "identity": "get_receiving_purchase_context(p_product_ids uuid[])",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "authenticated=X/postgres"
+          ]
+        },
+        {
+          "identity": "get_sales_history_page(p_page integer, p_page_size integer, p_period text, p_from_date date, p_to_date date, p_payment_method text, p_source text, p_customer_search text, p_number_search text, p_sales_only boolean)",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "authenticated=X/postgres"
+          ]
+        },
+        {
+          "identity": "get_supplier_receipt_display_context(p_receipt_id uuid)",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "authenticated=X/postgres"
+          ]
+        },
+        {
+          "identity": "get_supplier_receipts_page(p_page integer, p_page_size integer, p_search text, p_supplier_id uuid, p_warehouse_id uuid, p_payment_status text, p_is_archived boolean)",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "authenticated=X/postgres",
+            "service_role=X/postgres"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "C:\\Users\\TOP\\NawasrahFrankfurt\\nawasrah-fra-001-138\\local-reference-through208-ready.json",
+      "sha256": "0ab1e910ec2fd63ddd30684ed8c8e8b46c0afe4f86f9cfaa4aad4f087dd65cf1",
+      "readers": [
+        {
+          "identity": "execute_document_correction_once(p_action text, p_record_id uuid, p_reason text, p_idempotency_key text, p_preview_fingerprint text)",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "authenticated=X/postgres"
+          ]
+        },
+        {
+          "identity": "get_cash_shift_closing_report(p_shift_id uuid)",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "authenticated=X/postgres"
+          ]
+        },
+        {
+          "identity": "get_cash_shift_movement_page(p_shift_id uuid, p_kind text, p_method text, p_page integer, p_page_size integer)",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "authenticated=X/postgres"
+          ]
+        },
+        {
+          "identity": "get_document_correction_preview(p_action text, p_record_id uuid)",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "authenticated=X/postgres"
+          ]
+        },
+        {
+          "identity": "get_operational_orders_page(p_page integer, p_page_size integer, p_filter text, p_search text, p_sort text)",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "authenticated=X/postgres"
+          ]
+        },
+        {
+          "identity": "get_receiving_purchase_context(p_product_ids uuid[])",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "authenticated=X/postgres"
+          ]
+        },
+        {
+          "identity": "get_sales_history_page(p_page integer, p_page_size integer, p_period text, p_from_date date, p_to_date date, p_payment_method text, p_source text, p_customer_search text, p_number_search text, p_sales_only boolean)",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "authenticated=X/postgres"
+          ]
+        },
+        {
+          "identity": "get_supplier_receipt_display_context(p_receipt_id uuid)",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "authenticated=X/postgres"
+          ]
+        },
+        {
+          "identity": "get_supplier_receipts_page(p_page integer, p_page_size integer, p_search text, p_supplier_id uuid, p_warehouse_id uuid, p_payment_status text, p_is_archived boolean)",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "authenticated=X/postgres"
+          ]
+        }
+      ]
+    }
+  ],
+  "sqlFile": "C:\\Users\\TOP\\mahdi-admin\\docs\\operations\\FRANKFURT_READER_ACL208_OWNER.sql",
+  "sqlSha256": "bf12f43f9f49449f2edb01684a877189428882a2132af25f8175a99654039ae6",
+  "completeSqlFile": "C:\\Users\\TOP\\mahdi-admin\\docs\\operations\\FRANKFURT_LEGACY_READERS208_OWNER.sql",
+  "completeSqlSha256": "15af055c4b06567cde352d0d25ec9b260947799d2ba0f9ef2ab6bba4aa1cf04d",
+  "reproducedErrors": [
+    "SALES204_SAME_ORDER_READER_ACL",
+    "RECEIVING205_SAME_RECEIPT_READER_ACL",
+    "CASH206_SAME_REPORT_ACL"
+  ],
+  "inMemoryPrediction": {
+    "legacyReaderAclAtomsRemoved": [
+      {
+        "name": "get_operational_orders_page(",
+        "acl": "service_role=X/postgres"
+      },
+      {
+        "name": "get_supplier_receipts_page(",
+        "acl": "service_role=X/postgres"
+      },
+      {
+        "name": "get_cash_shift_closing_report(",
+        "acl": "service_role=X/postgres"
+      }
+    ],
+    "strictReady208": true,
+    "exactNineAclsMatchReference": true,
+    "otherCatalogChanges": 0
+  },
+  "scope": "Preparation and saved-catalog reasoning only;not live repair acceptance"
+}

@@ -7,4 +7,4 @@ import {Modal} from '../src/components/common/Modal';
 const engine=authStoreEngine as unknown as {state:AuthState;getState:()=>AuthState;initAuth:()=>Promise<void>};
 engine.state={...engine.getState(),roleName:new URLSearchParams(location.search).get('role') ?? 'owner',isLoading:false};
 engine.initAuth=async()=>undefined;
-createRoot(document.getElementById('root')!).render(<Modal isOpen onClose={()=>undefined} title="إعداد الطرود المرنة"><ParcelConfigurationModal/></Modal>);
+createRoot(document.getElementById('root')!).render(<Modal isOpen onClose={()=>undefined} title="الطرد المشكّل (خلط النكهات)"><ParcelConfigurationModal/></Modal>);

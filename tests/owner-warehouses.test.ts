@@ -13,6 +13,7 @@ import {assert199History} from '../scripts/operations/frankfurt-owner-upgrade199
 import {inventory} from '../scripts/audit/table-access-inventory.mjs';
 import {verifyProbeCoverage} from '../scripts/audit/table-access-probes.mjs';
 import {projectHistoricalWarehouseQuerySites,verifyHistoricalWarehouseCoverage} from '../scripts/audit/historical-warehouse-query-sites.mjs';
+import {inventoryBeforeTrialOwnerA} from '../scripts/audit/source-before-trial-owner-a.mjs';
 
 test('sole active branch warehouse only, never an arbitrary warehouse in another branch',()=>{
   const one={id:'one',branchId:'a',name:'المستودع الرئيسي'},two={id:'two',branchId:'b',name:'مستودع آخر'};
@@ -89,7 +90,7 @@ test('historical line-ID projection proves exact query content;current real gate
  const source=await inventory(),old=JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_AFTER_198.json','utf8'));
  assert.throws(()=>verifyProbeCoverage(source,old.results),/INCOMPLETE_QUERY_PROBE_COVERAGE/u);
  assert.deepEqual(verifyHistoricalWarehouseCoverage(source,old.results),old.coverage);
- assert.equal(projectHistoricalWarehouseQuerySites(source).entries.length,source.entries.length);
+ assert.equal(projectHistoricalWarehouseQuerySites(source).entries.length,(await inventoryBeforeTrialOwnerA()).entries.length);
  assert.throws(()=>verifyHistoricalWarehouseCoverage(source,old.results.slice(1)),/INCOMPLETE_QUERY_PROBE_COVERAGE/u);
  assert.throws(()=>verifyHistoricalWarehouseCoverage(source,[...old.results,old.results[0]]),/DUPLICATE_QUERY_PROBE/u);
  const changed=structuredClone(source),entry=changed.entries.find(e=>e.file==='src/features/pos/PosView.tsx')!;

@@ -5,7 +5,8 @@ import {MobileActionMenu, FormFields, Card, UiButton, formatJod, formatUiDate} f
  * Subtitle: "تسجيل البضاعة الواردة، تحديث المخزون، وحساب مستحقات الموردين"
  */
 
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import {SupplierReceiptItemsPreview} from './SupplierReceiptItemsPreview';
 import { ReceivingProduct, SupplierReceipt } from '../../types/directReceiving';
 import { Supplier, Warehouse } from '../../types';
 import {
@@ -47,6 +48,8 @@ export const DirectReceivingView: React.FC = () => {
   const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
   const [products, setProducts] = useState<ReceivingProduct[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [receiptError, setReceiptError] = useState('');
+  const receiptRequest = useRef(0);
   const [inventoryProductsLoading, setInventoryProductsLoading] = useState(false);
 
   // Active View State
@@ -87,6 +90,8 @@ export const DirectReceivingView: React.FC = () => {
 
   // Load Data
   const loadData = useCallback(async (isSilent = false) => {
+    const request = ++receiptRequest.current;
+    setReceiptError('');
     if (!isSilent) setLoading(true);
     try {
       const [receiptsRes, supsData, whsData] = await Promise.all([
@@ -103,7 +108,9 @@ export const DirectReceivingView: React.FC = () => {
         fetchWarehousesForReceivingFromSupabase(),
       ]);
 
-      if (receiptsRes.success && receiptsRes.data) {
+      if (request !== receiptRequest.current) return;
+      if (!receiptsRes.success) throw new Error(receiptsRes.error || 'تعذر تحميل سندات الاستلام.');
+      if (receiptsRes.data) {
         setReceipts(receiptsRes.data);
         setReceiptTotalCount(receiptsRes.totalCount);
         setReceiptTotalPages(receiptsRes.totalPages);
@@ -112,9 +119,11 @@ export const DirectReceivingView: React.FC = () => {
       setSuppliers(supsData);
       setWarehouses(whsData);
     } catch (err) {
+      if (request !== receiptRequest.current) return;
+      setReceiptError(err instanceof Error ? err.message : 'تعذر تحميل سندات الاستلام.');
       console.error('Error loading supplier receipts:', err);
     } finally {
-      if (!isSilent) setLoading(false);
+      if (request === receiptRequest.current) setLoading(false);
     }
   }, [activeTab, receiptPage, selectedSupplierFilter, selectedWarehouseFilter, searchTerm]);
 
@@ -334,6 +343,8 @@ export const DirectReceivingView: React.FC = () => {
       </Card>
 
       {/* KPI Summary Cards Grid */}
+      {receiptError ? <p role="alert" className="text-nw-bad">تعذر تحميل الاستلامات: {receiptError}</p> : <>
+      {searchTerm.trim() && <p className="text-xs text-nw-muted">الملخص لكل السندات ضمن الفلاتر المختارة؛ البحث يحدد قائمة السندات أدناه.</p>}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
         <Card padded={false} className="bg-nw-surface border border-nw-border p-3 rounded-2xl shadow space-y-1">
           <span className="text-[10px] text-nw-muted font-bold block">استلامات اليوم</span>
@@ -373,6 +384,7 @@ export const DirectReceivingView: React.FC = () => {
       </div>
 
       {/* Main Filter Tabs */}
+      </>}
       <Card padded={false} className="flex flex-wrap items-center justify-between gap-2 bg-nw-surface border border-nw-border p-1.5 rounded-2xl text-xs font-bold">
         <div className="flex items-center gap-1 overflow-x-auto">
           <UiButton variant="plain" type="button"
@@ -460,11 +472,11 @@ export const DirectReceivingView: React.FC = () => {
         <Card padded={false} className="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-nw-surface border border-nw-border p-2.5 rounded-2xl">
           <div className="flex items-center bg-nw-bg border border-nw-border rounded-xl px-3 py-1.5 text-xs">
             <Search className="w-3.5 h-3.5 text-nw-muted ml-2" />
-            <input aria-label="ابحث برقم السند أو فاتورة المورد..."
+            <input aria-label="ابحث باسم الصنف أو المورد أو رقم السند"
               type="text"
               value={searchTerm}
               onChange={(e) => { setSearchTerm(e.target.value); setReceiptPage(1); }}
-              placeholder="ابحث برقم السند أو فاتورة المورد..."
+              placeholder="اسم الصنف أو المورد أو رقم السند"
               className="w-full bg-transparent text-nw-text placeholder-nw-muted outline-none font-bold"
             />
           </div>
@@ -833,7 +845,7 @@ export const DirectReceivingView: React.FC = () => {
               <Loader2 className="w-6 h-6 animate-spin text-nw-info mx-auto" />
               <p className="text-xs font-bold">جاري تحميل سندات استلام البضائع...</p>
             </div>
-          ) : receipts.length === 0 ? (
+          ) : receiptError ? null : receipts.length === 0 ? (
             <Card padded={false} className="bg-nw-surface border border-dashed border-nw-border p-12 rounded-2xl text-center space-y-3">
               <PackageCheck className="w-10 h-10 text-nw-muted mx-auto" />
               <h3 className="font-bold text-nw-text text-xs">لا توجد سندات استلام بضائع مطابقة</h3>
@@ -912,6 +924,8 @@ export const DirectReceivingView: React.FC = () => {
                         </strong>
                       </div>
                     </div>
+
+                    <SupplierReceiptItemsPreview items={r.items || []} displayLines={r.displayLines} error={r.displayError} />
 
                     {/* Financial Numbers */}
                     <div className="bg-nw-bg p-2.5 rounded-xl border border-nw-border space-y-1 text-xs">

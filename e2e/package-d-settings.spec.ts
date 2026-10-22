@@ -14,12 +14,13 @@ test('owner saves exact parcel flavor/quantity and must confirm feature activati
     expect(route.request().postDataJSON()).toEqual({p_state:'ENABLED'});featureState='ENABLED';writes++;return route.fulfill({json:{success:true,feature_state:featureState}});
   });
   await page.goto('/e2e/package-d-settings-harness.html');
-  await expect(page.getByText('حالة الطرود المرنة — متوقفة')).toBeVisible();expect(writes).toBe(0);
-  await page.getByLabel('عدد القطع في الطرد').fill('6');await page.getByLabel('متاح للبيع كطرد').check();await page.getByLabel('نكهة الاختبار',{exact:true}).check();
+  await page.getByText('متقدم: حالة الطرد المشكّل',{exact:true}).click();
+  await expect(page.getByText('حالة الطرد المشكّل — متوقفة')).toBeVisible();expect(writes).toBe(0);
+  await page.getByLabel('كم حبة بالطرد').fill('6');await page.getByLabel('متاح للبيع كطرد').check();await page.getByLabel('نكهة الاختبار',{exact:true}).check();
   await page.getByRole('button',{name:'حفظ إعداد الطرد'}).click();await expect(page.getByRole('status')).toHaveText('تم حفظ إعداد الطرد.');
   await page.getByLabel('حالة الميزة',{exact:true}).selectOption('ENABLED');await expect(page.getByRole('button',{name:'تأكيد تغيير حالة الميزة'})).toBeDisabled();expect(writes).toBe(1);
   await page.getByLabel('أؤكد تغيير الحالة إلى مفعّلة للجميع').check();await page.getByRole('button',{name:'تأكيد تغيير حالة الميزة'}).click();
-  await expect(page.getByText('حالة الطرود المرنة — مفعّلة للجميع')).toBeVisible();expect(writes).toBe(2);
+  await expect(page.getByText('حالة الطرد المشكّل — مفعّلة للجميع')).toBeVisible();expect(writes).toBe(2);
 });
 test('non-owner cannot load or mutate configuration',async({page})=>{
   let calls=0;await page.route('**/rest/v1/rpc/*',route=>{calls++;return route.fulfill({status:403,json:{message:'forbidden'}});});
@@ -27,8 +28,8 @@ test('non-owner cannot load or mutate configuration',async({page})=>{
 });
 test('uncertain settings save requires authoritative reload before another mutation',async({page})=>{
   let writes=0;
-  const data={featureState:'OFF',products:[{familyProductId:family,nameAr:'صنف',sku:'D3',isFlavorMaster:false,unitsPerParcel:5,parcelPriceInMinorUnits:10000,
-    configuration:null,allowedProductIds:[],components:[{productId:family,nameAr:'صنف',sku:'D3',flavorNameAr:null}]}]};
+  const data={featureState:'OFF',products:[{familyProductId:family,nameAr:'عائلة',sku:'D3',isFlavorMaster:true,unitsPerParcel:5,parcelPriceInMinorUnits:10000,
+    configuration:null,allowedProductIds:[],components:[{productId:child,nameAr:'نكهة',sku:'D3-A',flavorNameAr:'نكهة'}]}]};
   await page.route('**/rest/v1/rpc/get_admin_parcel_configuration_context_v1',route=>route.fulfill({json:data}));
   await page.route('**/rest/v1/rpc/save_product_parcel_configuration_v1',route=>{writes++;return route.abort('failed');});
   await page.goto('/e2e/package-d-settings-harness.html');

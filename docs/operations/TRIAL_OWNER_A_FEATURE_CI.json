@@ -1,0 +1,432 @@
+{
+  "sha": "f1417c5942939e68f28bff8a882e68a0e22982dc",
+  "recordedAt": "2026-10-22T03:55:21.505Z",
+  "managedAccess": false,
+  "quality": [
+    {
+      "id": 39716006755,
+      "event": "push",
+      "sha": "f1417c5942939e68f28bff8a882e68a0e22982dc",
+      "attempt": 2,
+      "jobs": 39,
+      "strictFullVerified": true,
+      "actualReset208": {
+        "publicReport": true,
+        "authenticatedRestRead": true,
+        "ownerTotpStoragePreserved": true
+      },
+      "actualFull208": {
+        "passed": 21,
+        "readScale": {
+          "realWriterCases": 200,
+          "pageSize": 25,
+          "samplesMs": [
+            221,
+            224,
+            224,
+            223,
+            222
+          ],
+          "statementDeadlineMs": 5000
+        },
+        "restore": {
+          "logicalCatalogDifferences": 0,
+          "allPublicDataAndSequencesIdentical": true,
+          "replayZeroWrites": true
+        }
+      }
+    },
+    {
+      "id": 39716012316,
+      "event": "pull_request",
+      "sha": "f1417c5942939e68f28bff8a882e68a0e22982dc",
+      "attempt": 1,
+      "jobs": 39,
+      "strictFullVerified": true,
+      "actualReset208": {
+        "publicReport": true,
+        "authenticatedRestRead": true,
+        "ownerTotpStoragePreserved": true
+      },
+      "actualFull208": {
+        "passed": 21,
+        "readScale": {
+          "realWriterCases": 200,
+          "pageSize": 25,
+          "samplesMs": [
+            226,
+            226,
+            228,
+            226,
+            226
+          ],
+          "statementDeadlineMs": 5000
+        },
+        "restore": {
+          "logicalCatalogDifferences": 0,
+          "allPublicDataAndSequencesIdentical": true,
+          "replayZeroWrites": true
+        }
+      }
+    }
+  ],
+  "secrets": [
+    {
+      "id": 39716006772,
+      "event": "push",
+      "sha": "f1417c5942939e68f28bff8a882e68a0e22982dc",
+      "conclusion": "success"
+    },
+    {
+      "id": 39716012185,
+      "event": "pull_request",
+      "sha": "f1417c5942939e68f28bff8a882e68a0e22982dc",
+      "conclusion": "success"
+    }
+  ],
+  "browser": [
+    {
+      "run": 39716006755,
+      "job": 119625162658,
+      "name": "Package F browser QA (1/5)",
+      "skipped": 0,
+      "passed": 190,
+      "summaries": 2,
+      "duration": "5.0m+7.1m",
+      "flaky": 0,
+      "logSha256": "897a23e11d2591bbafd36ec0e73413f37fb87e88be8731fb9dccfb7792caa892"
+    },
+    {
+      "run": 39716006755,
+      "job": 119625163440,
+      "name": "Lint, test, build and browser QA",
+      "skipped": 59,
+      "passed": 369,
+      "summaries": 1,
+      "duration": "13.5m",
+      "flaky": 0,
+      "logSha256": "e121cf1978d3ac692a317c908801139f3c6d5e005a8923aeef35f2e16970e22c"
+    },
+    {
+      "run": 39716006755,
+      "job": 119625163539,
+      "name": "Package F browser QA (3/5)",
+      "skipped": 0,
+      "passed": 190,
+      "summaries": 2,
+      "duration": "4.4m+6.1m",
+      "flaky": 0,
+      "logSha256": "81205e1219a54db23fa0855e3bfc9880014e856c2f884e7f03729f659d4e20cf"
+    },
+    {
+      "run": 39716006755,
+      "job": 119625163580,
+      "name": "Package F browser QA (2/5)",
+      "skipped": 0,
+      "passed": 190,
+      "summaries": 2,
+      "duration": "5.6m+8.1m",
+      "flaky": 0,
+      "logSha256": "96135afdc7e581f12631e7ad7502ba3b9bd5cb478241adf94b2ce50e1626d442"
+    },
+    {
+      "run": 39716006755,
+      "job": 119625203224,
+      "name": "Package F browser QA (4/5)",
+      "skipped": 0,
+      "passed": 190,
+      "summaries": 2,
+      "duration": "5.8m+8.8m",
+      "flaky": 0,
+      "logSha256": "467e03b92737bc61773b8bef412fe91a208b854aab842b817a845f52a3a0c6b6"
+    },
+    {
+      "run": 39716006755,
+      "job": 119625203442,
+      "name": "Package F browser QA (5/5)",
+      "skipped": 0,
+      "passed": 188,
+      "summaries": 2,
+      "duration": "4.9m+6.6m",
+      "flaky": 0,
+      "logSha256": "9f02b993536412d5fefa52ee8d59981f81b79f4ceaa897d62f9cc3465a3d1dee"
+    },
+    {
+      "run": 39716012316,
+      "job": 119618223768,
+      "name": "Lint, test, build and browser QA",
+      "skipped": 59,
+      "passed": 369,
+      "summaries": 1,
+      "duration": "11.3m",
+      "flaky": 0,
+      "logSha256": "0fbb4cfe682a0c3d333124f424e10832242dfbc934bbcf556c392720d61b00b2"
+    },
+    {
+      "run": 39716012316,
+      "job": 119618223837,
+      "name": "Package F browser QA (4/5)",
+      "skipped": 0,
+      "passed": 190,
+      "summaries": 2,
+      "duration": "6.1m+9.6m",
+      "flaky": 0,
+      "logSha256": "8213e3eadb813178ac0cd78c5bc242509263e092b70ae2c54ef698006f230b16"
+    },
+    {
+      "run": 39716012316,
+      "job": 119618223845,
+      "name": "Package F browser QA (1/5)",
+      "skipped": 0,
+      "passed": 190,
+      "summaries": 2,
+      "duration": "6.7m+10.4m",
+      "flaky": 0,
+      "logSha256": "ad23ae17abcea27c98eefb3fd19c4b2d019048c96b74e8c730d0039730d905e4"
+    },
+    {
+      "run": 39716012316,
+      "job": 119618223928,
+      "name": "Package F browser QA (2/5)",
+      "skipped": 0,
+      "passed": 190,
+      "summaries": 2,
+      "duration": "5.5m+8.4m",
+      "flaky": 0,
+      "logSha256": "5577938f36304517428dfec679a1f7d2f6ee5376de4c4c9d818118410a4954c7"
+    },
+    {
+      "run": 39716012316,
+      "job": 119618223949,
+      "name": "Package F browser QA (3/5)",
+      "skipped": 0,
+      "passed": 190,
+      "summaries": 2,
+      "duration": "4.4m+5.8m",
+      "flaky": 0,
+      "logSha256": "65f9793f22b9b56c4d6f1fc954e48082073c42fb8465a83949e29ed2a64e54c7"
+    },
+    {
+      "run": 39716012316,
+      "job": 119618223967,
+      "name": "Package F browser QA (5/5)",
+      "skipped": 0,
+      "passed": 188,
+      "summaries": 2,
+      "duration": "5.9m+9.1m",
+      "flaky": 0,
+      "logSha256": "f5f32f5189e08fd13726ae12d1eae957ccad5db142842b35bfc5be9d6ffaa083"
+    }
+  ],
+  "browserTotals": [
+    {
+      "run": 39716006755,
+      "passed": 1317,
+      "legacyConditionalSkipped": 59,
+      "flaky": 0
+    },
+    {
+      "run": 39716012316,
+      "passed": 1317,
+      "legacyConditionalSkipped": 59,
+      "flaky": 0
+    }
+  ],
+  "pwa": [
+    {
+      "run": 39716006755,
+      "job": 119625203791,
+      "mode": "full",
+      "scenarios": [
+        {
+          "browser": "Chromium",
+          "scenario": "automatic",
+          "ok": true,
+          "cacheCleanup": true,
+          "reopenedOnReleaseB": true
+        },
+        {
+          "browser": "Chromium",
+          "scenario": "waiting-worker",
+          "ok": true,
+          "cacheCleanup": true,
+          "reopenedOnReleaseB": true
+        },
+        {
+          "browser": "WebKit",
+          "scenario": "automatic",
+          "ok": true,
+          "cacheCleanup": true,
+          "reopenedOnReleaseB": true
+        },
+        {
+          "browser": "WebKit",
+          "scenario": "waiting-worker",
+          "ok": true,
+          "cacheCleanup": true,
+          "reopenedOnReleaseB": true
+        }
+      ],
+      "network": {
+        "denied": [],
+        "blockedCanaryAttempts": [],
+        "deniedUnexpectedAttempts": [],
+        "escapedExternalRequests": []
+      }
+    },
+    {
+      "run": 39716012316,
+      "job": 119618223852,
+      "mode": "full",
+      "scenarios": [
+        {
+          "browser": "Chromium",
+          "scenario": "automatic",
+          "ok": true,
+          "cacheCleanup": true,
+          "reopenedOnReleaseB": true
+        },
+        {
+          "browser": "Chromium",
+          "scenario": "waiting-worker",
+          "ok": true,
+          "cacheCleanup": true,
+          "reopenedOnReleaseB": true
+        },
+        {
+          "browser": "WebKit",
+          "scenario": "automatic",
+          "ok": true,
+          "cacheCleanup": true,
+          "reopenedOnReleaseB": true
+        },
+        {
+          "browser": "WebKit",
+          "scenario": "waiting-worker",
+          "ok": true,
+          "cacheCleanup": true,
+          "reopenedOnReleaseB": true
+        }
+      ],
+      "network": {
+        "denied": [],
+        "blockedCanaryAttempts": [],
+        "deniedUnexpectedAttempts": [],
+        "escapedExternalRequests": []
+      }
+    }
+  ],
+  "trialASearch": [
+    {
+      "run": 39716006755,
+      "job": 119625165580,
+      "ok": true,
+      "managedAccess": false,
+      "realPostgrest": true,
+      "matchingOutsideFirstPage": true,
+      "pages": 2,
+      "fullItemsRetained": true,
+      "exactCount": 32,
+      "filtersAndQuotedSearch": true,
+      "zeroWrites": true,
+      "singleSkuHasNoDuplicateParcel": true,
+      "cases": [
+        {
+          "role": "owner",
+          "passed": true,
+          "matchingOutsideFirstPage": true
+        },
+        {
+          "role": "admin",
+          "passed": true,
+          "matchingOutsideFirstPage": true
+        },
+        {
+          "role": "manager",
+          "passed": true,
+          "matchingOutsideFirstPage": true
+        },
+        {
+          "role": "warehouse_keeper",
+          "passed": true,
+          "matchingOutsideFirstPage": true
+        },
+        {
+          "role": "accountant",
+          "passed": true,
+          "matchingOutsideFirstPage": true
+        },
+        {
+          "role": "cashier",
+          "existingReaderDenied": true,
+          "passed": true
+        },
+        {
+          "role": "no-role",
+          "existingReaderDenied": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "run": 39716012316,
+      "job": 119618224490,
+      "ok": true,
+      "managedAccess": false,
+      "realPostgrest": true,
+      "matchingOutsideFirstPage": true,
+      "pages": 2,
+      "fullItemsRetained": true,
+      "exactCount": 32,
+      "filtersAndQuotedSearch": true,
+      "zeroWrites": true,
+      "singleSkuHasNoDuplicateParcel": true,
+      "cases": [
+        {
+          "role": "owner",
+          "passed": true,
+          "matchingOutsideFirstPage": true
+        },
+        {
+          "role": "admin",
+          "passed": true,
+          "matchingOutsideFirstPage": true
+        },
+        {
+          "role": "manager",
+          "passed": true,
+          "matchingOutsideFirstPage": true
+        },
+        {
+          "role": "warehouse_keeper",
+          "passed": true,
+          "matchingOutsideFirstPage": true
+        },
+        {
+          "role": "accountant",
+          "passed": true,
+          "matchingOutsideFirstPage": true
+        },
+        {
+          "role": "cashier",
+          "existingReaderDenied": true,
+          "passed": true
+        },
+        {
+          "role": "no-role",
+          "existingReaderDenied": true,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "pr": {
+    "number": 14,
+    "url": "https://github.com/OBITO20011/mahdi-admin/pull/14",
+    "base": "4795e70e40b0462100e92fe5006b61cd62df1b9d",
+    "head": "f1417c5942939e68f28bff8a882e68a0e22982dc",
+    "merged": false,
+    "mergeSha": "092e366bd910960945fb9d6100e2f67b4a68357b"
+  },
+  "ok": true
+}

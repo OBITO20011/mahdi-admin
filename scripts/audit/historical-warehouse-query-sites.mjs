@@ -2,6 +2,7 @@
 // warehouse presentation layer, while proving every original query is identical.
 // Current runtime coverage always uses the unprojected default verifier.
 import {sourceBeforeSales204} from './source-before-sales-history204.mjs';
+import {sourceBeforeTrialOwnerA,projectTrialOwnerAQuerySites} from './source-before-trial-owner-a.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -11,9 +12,10 @@ import {verifyProbeCoverage} from './table-access-probes.mjs';
 const hash=text=>createHash('sha256').update(text).digest('hex');
 const semantic=entry=>({...entry,id:null,line:null,extensions:entry.extensions.map(e=>({...e,line:null}))});
 export function projectHistoricalWarehouseQuerySites(source){
+ source=projectTrialOwnerAQuerySites(source,parseSource);
  const entries=source.entries.map(e=>({...e})),sources=source.sources.map(s=>({...s}));
  for(const file of new Set(entries.map(e=>e.file))){
-  const raw=readFileSync(new URL('../../'+file,import.meta.url),'utf8').replaceAll('\r\n','\n'),before=sourceBeforeSales204(file,raw);
+  const raw=sourceBeforeTrialOwnerA(file,readFileSync(new URL('../../'+file,import.meta.url),'utf8')),before=sourceBeforeSales204(file,raw);
   assert.ok(before!==null,'HISTORICAL204_QUERY_FILE_NOT_ADDED');
   const entry=sources.find(s=>s.file===file);assert.ok(entry,'HISTORICAL204_SOURCE_REQUIRED');
   if(entry.sha256===hash(before))continue;

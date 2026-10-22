@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "FEATURE_ACCEPTED_MAIN_CI_PENDING",
+  "status": "DELIVERED_EXACT_MAIN_FULL39_ACCEPTED",
   "baseline": "b79a9e7bc5e4ff9551c8dab111edb6c04fc17dd3",
   "branch": "codex/pretrial-p1",
   "managedAccess": false,
@@ -113,7 +113,23 @@
     "flaky": 0,
     "pwaScenariosPerRun": 4
   },
-  "mainCi": "PENDING",
+  "mainCi": {
+    "sha": "4795e70e40b0462100e92fe5006b61cd62df1b9d",
+    "pr": 13,
+    "merged": true,
+    "proof": "docs/operations/PRETRIAL_P1_MAIN_CI.json",
+    "qualityRun": 39698097462,
+    "secretsRun": 39698097601,
+    "jobs": 39,
+    "deliveryReady": true,
+    "adminUnits": 1330,
+    "customerUnits": 195,
+    "browserPassed": 1305,
+    "legacyConditionalSkipped": 59,
+    "flaky": 0,
+    "pwaScenarios": 4,
+    "full208Cases": 21
+  },
   "ownerCommand": "frankfurt-owner-upgrade208",
   "ownerCommandExecuted": false,
   "parcelOnlyImplemented": false,
@@ -134,5 +150,7 @@
     "gitleaksFindings": 0,
     "diffCheck": true,
     "sourceEqualsAcceptedFeature": "ed13ffbbcc149a89b277a5205c8782f87905b20d"
-  }
+  },
+  "agentStoppedAfterP1": true,
+  "newFrankfurtAclRequestDeferredByOwner": true
 }

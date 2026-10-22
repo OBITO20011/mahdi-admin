@@ -1,5 +1,5 @@
 {
-  "status": "EXACT_FEATURE_FULL39_ACCEPTED_MAIN_PENDING",
+  "status": "EXACT_FEATURE_AND_MAIN_FULL39_ACCEPTED",
   "supersededSha": "28b897da4eb361f8e82f25e2c19201b7ddb87a4c",
   "supersededQualityRuns": [
     39685000919,
@@ -106,5 +106,7 @@
       "files": 84
     }
   },
-  "acceptedFeatureSha": "ed13ffbbcc149a89b277a5205c8782f87905b20d"
+  "acceptedFeatureSha": "ed13ffbbcc149a89b277a5205c8782f87905b20d",
+  "acceptedMainSha": "4795e70e40b0462100e92fe5006b61cd62df1b9d",
+  "mainCiProof": "docs/operations/PRETRIAL_P1_MAIN_CI.json"
 }

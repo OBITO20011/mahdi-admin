@@ -1,3 +1,23 @@
+#22Oct — trial package A exact feature FULL39 accepted
+
+PR14/headf1417c5 push+PR FULL39 and both secret scans accepted;1335Admin/195store/1317browser/0flaky/59unchangedconditionals,actual A search/148SDK/zeroWrites,PWA4/full20821/resetREST verified. Genuine main integration changes docs/state only;source/tests/tools/SQL equal acceptedfeature. Main FULL39/secrets required before B209. No hostedaccess/deploy;owner208 unchanged.
+
+#22Oct — trial owner packages A then B authorized
+
+Owner explicitly authorizes A1-A4 presentation/read-only receipt search first,separate worktree/PR/FULLCI;then full parcel_only design in B/migration209,separate worktree/PR/FULLCI. Current A ceiling208;no B source implementation yet. No Frankfurt/hostedaccess or deployment. See TRIAL_OWNER_A.md. A local accepted:1335Admin/195store,132+22bothengine browsers,types/strictlint/build,SDK148/RPC525/318sources,network0/native1376/offline208. Exact feature/PR/main FULLCI pending.
+
+#22Oct — owner trial-day checklist prepared
+
+Owner reports Frankfurt through208/verify-only ok:true and preview4795e70;not independently verified by agent. Documentation-only TRIAL_DAY_CHECKLIST_AR.md provides41numbered steps over one day,phone/desktop/printer/barcode,no-role/MFA,C9 immediate/pending/partial/refusal/roles,and final cash/three-stock/customer/supplier/profit worksheets. No hostedaccess,application/SQL/migrationchange or execution. Owner manual outcomes pending;P2/parcel-only unapproved.
+
+#22Oct — owner Frankfurt208 ACL repair prepared only
+
+Owner resumed deferred diagnosis/preparation;no hostedconnection or SQLexecution. Saved15Oct/pre199 prove old service_role grants;default functionprivileges explain likelyorigin,not historical GRANT audit. In-memory correction exposes204/205/206 sequentially;three named legacy-reader ACL atom removals pass strict208/nineACL parity. Guarded owner SQL and Arabic guide FRANKFURT_READER_ACL208_AR.md prepared;no source/migration/reference changes. Owner execution and verify-only pending;P1 remains delivered.
+
+#22Oct — seven P1 delivered;owner STOP
+
+PR13 merged main4795e70;exact FULL39 run39698097462 and secrets39698097601 SUCCESS. Strict deliveryReady true;actual1330Admin/195store/1305browser/0flaky/59historical conditionals,4PWA scenarios,full20821/resetREST verified. Ceiling208/SQL unchanged. Owner latest instruction:finish previous P1 and STOP;new Frankfurt ACL diagnosis/fix deferred. No hostedaccess/deploy/P2/parcel-only. See PRETRIAL_P1_MAIN_CI.json.
+
 #22Oct — P1 feature exact FULL39 accepted;genuine main integration
 
 PR13/headed13ffb push+PR FULL39 and bothsecret scans SUCCESS;actualPWA4/full20821/resetREST and1305browser/0flaky/59unchangedconditionals verified per run. Main integration changes docs/state only;source/tests/SQL/tools equal acceptedfeature. Main FULL39/secrets required before delivery. Ceiling/owner208;no hostedaccess/deploy/P2/parcel-only. Original19 primary reports preserved in named stash and carried in feature.

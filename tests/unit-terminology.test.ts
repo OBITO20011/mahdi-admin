@@ -13,7 +13,19 @@ import {sourceBeforeUnitTerminology} from '../scripts/audit/source-before-unit-t
 function sources(dir:string):string[]{return readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?sources(`${dir}/${e.name}`):/\.[jt]sx?$/u.test(e.name)?[`${dir}/${e.name}`]:[]);}
 test('no generic piece terminology in UI source; exact import-only compatibility exception',()=>{
   const compatibility='src/utils/legacyUnitImportHeaders.ts';
-  const violations=[...sources('src'),...sources('customer-web/src')].filter(file=>file!==compatibility && /حبة|حبات|الحبة|الحبات|وحدة الصنف|الوحدة الصغرى|وحدات صغرى|الوحدات الصغرى/u.test(readFileSync(file,'utf8')));
+  // Owner's exact trial-day wording; no other piece terminology is allowed.
+  const approved=new Set(['src/components/modals/AllModals.tsx','src/features/more/ParcelConfigurationModal.tsx']);
+  const forbidden=/حبة|حبات|الحبة|الحبات|وحدة الصنف|الوحدة الصغرى|وحدات صغرى|الوحدات الصغرى/u;
+  const violations=[...sources('src'),...sources('customer-web/src')].filter(file=>{
+    if(file===compatibility)return false;
+    let text=readFileSync(file,'utf8');
+    if(approved.has(file)){
+      assert.equal(text.split('كم حبة بالطرد').length-1,1,file+' exact owner phrase once');
+      text=text.replace('كم حبة بالطرد','');
+    }
+    return forbidden.test(text);
+  });
+  assert.ok(forbidden.test('حبة')&&forbidden.test('عدد الحبات'));
   assert.deepEqual(violations,[]);
   // This module may only declare compatibility constants, not render labels.
   assert.doesNotMatch(readFileSync(compatibility,'utf8'),/return|\.map\(|React|jsx|document/u);

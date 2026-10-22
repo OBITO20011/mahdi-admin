@@ -1,0 +1,10 @@
+{
+  "sha": "f1417c5942939e68f28bff8a882e68a0e22982dc",
+  "run": 39716006755,
+  "job": 119618211191,
+  "counterpart": 119618223845,
+  "identicalPrShardPassed": true,
+  "passedBeforeExternal20mCancellation": 174,
+  "reason": "One evidence-backed environmental job rerun under standing owner authorization;no source/assertion/timeout/retry change",
+  "result": {}
+}
