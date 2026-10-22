@@ -62,6 +62,16 @@ export async function fetchPublicPosReceipt(
               row.packagePriceInMinorUnits
             ),
             lineTotalInMinorUnits: integerValue(row.lineTotalInMinorUnits),
+            commercialLineKind: stringValue(row.commercialLineKind) || undefined,
+            baseQuantity: row.baseQuantity == null ? undefined : integerValue(row.baseQuantity),
+            baseUnitName: stringValue(row.baseUnitName) || undefined,
+            parcelInstances: Array.isArray(row.parcelInstances) ? row.parcelInstances.map((parcel) => {
+              const saved = recordValue(parcel);
+              return { components: Array.isArray(saved.components) ? saved.components.map((component) => {
+                const value = recordValue(component);
+                return { name: stringValue(value.name), quantity: integerValue(value.quantity), unitName: stringValue(value.unitName) };
+              }) : [] };
+            }) : [],
           };
         })
       : [],

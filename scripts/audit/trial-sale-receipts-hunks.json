@@ -1,6 +1,270 @@
 {
   "baseline": "581cb972a247ef13dbdc697b75bcc5c674bfa97d",
   "entries": {
+    ".github/workflows/quality.yml": {
+      "before": "06d24766f44f9ccec345c4fd771f89afcb733308080fe782c8e265ac9f552387",
+      "after": "855d5ff73c244b622596a36dd1ad063f7468d1395a093199beba8bea5c28d8f4",
+      "errorPrefix": "TRIAL_A_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 250,
+          "before": [
+            "        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset, warehouse-management, owner-withdrawals, deferred-cheques, opening-cheques, legacy-product-cost, home-damage201, all-collections202, all-collections203, sales-history204, product-receiving205, navigation-cash206, document-corrections207, supplier-replacement208, parcel209]"
+          ],
+          "after": [
+            "        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset, warehouse-management, owner-withdrawals, deferred-cheques, opening-cheques, legacy-product-cost, home-damage201, all-collections202, all-collections203, sales-history204, product-receiving205, navigation-cash206, document-corrections207, supplier-replacement208, parcel209, receipt210]"
+          ]
+        },
+        {
+          "at": 326,
+          "before": [],
+          "after": [
+            "      - name: Receipt210 read-only saved public receipt restore upgrade and current SDK",
+            "        if: matrix.suite == 'receipt210'",
+            "        run: node scripts/testing/run-receipt210-gates.mjs",
+            ""
+          ]
+        }
+      ]
+    },
+    "customer-web/src/components/PublicPosReceiptPage.tsx": {
+      "before": "ae31fd2500894a418bfac62fd2d2318c2f4552a67f0c42ecd52a483946617adc",
+      "after": "303d9d5d297d8684df9fdceca4f79ca1675d13bf069ce0c92ced1cd82714fd02",
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [
+            "import {",
+            "  AlertTriangle,",
+            "  ArrowRight,",
+            "  Loader2,",
+            "  PackageCheck,",
+            "  Printer,",
+            "  ReceiptText,",
+            "  Share2,",
+            "  ShieldCheck,",
+            "} from 'lucide-react';"
+          ],
+          "after": [
+            "import { AlertTriangle, ArrowRight, Loader2, Printer, Share2 } from 'lucide-react';"
+          ]
+        },
+        {
+          "at": 5,
+          "before": [
+            "",
+            "const money = (minorUnits: number) =>",
+            "  `${(minorUnits / 1000).toLocaleString('ar-JO', {",
+            "    minimumFractionDigits: 3,",
+            "    maximumFractionDigits: 3,",
+            "  })} د.أ`;",
+            "",
+            "const paymentLabel = (method: string) =>",
+            "  ({",
+            "    cash: 'كاش',",
+            "    cliq: 'CliQ',",
+            "    card: 'بطاقة',",
+            "    bank_transfer: 'تحويل بنكي',",
+            "    debt: 'آجل على الحساب',",
+            "    mixed: 'دفع مختلط',",
+            "  })[method] || method || 'غير محدد';"
+          ],
+          "after": [
+            "import { ReceiptDocument, ReceiptPrintStyle } from '../receipts/ReceiptDocument';",
+            "import { receiptDocumentShareText } from '../receipts/commercialReceipt';",
+            "import { publicReceiptDocument } from '../receipts/publicReceipt';"
+          ]
+        },
+        {
+          "at": 10,
+          "before": [
+            "  const [receipt, setReceipt] = useState<PublicPosReceipt | null>(null);",
+            "  const [error, setError] = useState('');",
+            "  const [isLoading, setIsLoading] = useState(true);",
+            "",
+            "  useEffect(() => {",
+            "    let active = true;",
+            "    setIsLoading(true);",
+            "    setError('');",
+            "    fetchPublicPosReceipt(token)",
+            "      .then((result) => {",
+            "        if (!active) return;",
+            "        setReceipt(result);",
+            "        document.title = `إيصال ${result.orderNumber} | محلات النواصرة التجارية`;",
+            "      })",
+            "      .catch((loadError) => {",
+            "        if (!active) return;",
+            "        setError(",
+            "          loadError instanceof Error",
+            "            ? loadError.message",
+            "            : 'تعذر تحميل الإيصال.'",
+            "        );",
+            "      })",
+            "      .finally(() => {",
+            "        if (active) setIsLoading(false);",
+            "      });",
+            "    return () => {",
+            "      active = false;",
+            "    };",
+            "  }, [token]);",
+            "",
+            "  const shareReceipt = async () => {",
+            "    if (!receipt) return;",
+            "    const text = `إيصال ${receipt.orderNumber} من ${receipt.branch.name}\\nالإجمالي: ${money(receipt.totalInMinorUnits)}`;",
+            "    if (navigator.share) {",
+            "      await navigator.share({",
+            "        title: `إيصال ${receipt.orderNumber}`,",
+            "        text,",
+            "        url: window.location.href,",
+            "      });",
+            "      return;",
+            "    }",
+            "    await navigator.clipboard.writeText(window.location.href);"
+          ],
+          "after": [
+            "  const [receipt,setReceipt]=useState<PublicPosReceipt|null>(null);",
+            "  const [error,setError]=useState(''),[isLoading,setIsLoading]=useState(true);",
+            "  useEffect(()=>{",
+            "    let active=true;setIsLoading(true);setError('');setReceipt(null);",
+            "    fetchPublicPosReceipt(token).then(result=>{if(active){setReceipt(result);document.title=`إيصال ${result.orderNumber} | محلات النواصرة التجارية`;}})",
+            "      .catch(loadError=>{if(active)setError(loadError instanceof Error?loadError.message:'تعذر تحميل الإيصال.');})",
+            "      .finally(()=>{if(active)setIsLoading(false);});",
+            "    return()=>{active=false;};",
+            "  },[token]);",
+            "  const receiptDocument=receipt?publicReceiptDocument(receipt):null;",
+            "  const shareReceipt=async()=>{",
+            "    if(!receiptDocument)return;",
+            "    const text=receiptDocumentShareText(receiptDocument,window.location.href);",
+            "    try{",
+            "      if(navigator.share)await navigator.share({title:`إيصال ${receiptDocument.number}`,text,url:window.location.href});",
+            "      else await navigator.clipboard.writeText(text);",
+            "    }catch(shareError){if(!(shareError instanceof DOMException&&shareError.name==='AbortError'))setError('تعذر مشاركة الوصل.');}"
+          ]
+        },
+        {
+          "at": 28,
+          "before": [
+            "",
+            "  return (",
+            "    <div className=\"min-h-screen bg-slate-100 px-3 py-6 text-slate-950\" dir=\"rtl\">",
+            "      <style>{`",
+            "        @media print {",
+            "          @page { size: A4 portrait; margin: 12mm; }",
+            "          body { background: #fff !important; }",
+            "          .receipt-actions { display: none !important; }",
+            "          .public-pos-receipt { box-shadow: none !important; border: 0 !important; }",
+            "        }",
+            "      `}</style>",
+            "",
+            "      <main className=\"public-pos-receipt mx-auto max-w-2xl overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-xl\">",
+            "        <header className=\"bg-gradient-to-br from-blue-950 via-blue-900 to-blue-700 px-5 py-6 text-white\">",
+            "          <div className=\"flex items-start justify-between gap-4\">",
+            "            <div>",
+            "              <div className=\"mb-2 flex items-center gap-2 text-xs font-black text-blue-200\">",
+            "                <ReceiptText className=\"h-4 w-4\" />",
+            "                إيصال إلكتروني موثّق",
+            "              </div>",
+            "              <h1 className=\"text-2xl font-black\">{receipt?.branch.name || 'محلات النواصرة التجارية'}</h1>",
+            "              <p className=\"mt-1 text-xs text-blue-100\">تجارة الجملة والمواد الغذائية</p>",
+            "            </div>",
+            "            <div className=\"rounded-2xl border border-white/20 bg-white/10 p-3\">",
+            "              <ShieldCheck className=\"h-7 w-7 text-emerald-300\" />",
+            "            </div>",
+            "          </div>",
+            "        </header>",
+            "",
+            "        {isLoading && (",
+            "          <div className=\"flex min-h-72 flex-col items-center justify-center gap-3 text-slate-500\">",
+            "            <Loader2 className=\"h-8 w-8 animate-spin text-blue-600\" />",
+            "            <p className=\"text-sm font-bold\">جاري تحميل الإيصال من Supabase...</p>",
+            "          </div>",
+            "        )}",
+            "",
+            "        {!isLoading && error && (",
+            "          <div className=\"flex min-h-72 flex-col items-center justify-center gap-3 px-6 text-center\">",
+            "            <AlertTriangle className=\"h-10 w-10 text-amber-500\" />",
+            "            <h2 className=\"text-lg font-black\">تعذر فتح الإيصال</h2>",
+            "            <p className=\"text-sm leading-7 text-slate-500\">{error}</p>",
+            "            <a href=\"/products\" className=\"mt-2 rounded-xl bg-blue-700 px-5 py-3 text-sm font-black text-white\">العودة إلى المتجر</a>",
+            "          </div>",
+            "        )}",
+            "",
+            "        {!isLoading && receipt && (",
+            "          <div className=\"space-y-5 p-5 sm:p-7\">",
+            "            <section className=\"grid grid-cols-2 gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-xs\">",
+            "              <div><span className=\"block text-slate-500\">رقم الإيصال</span><b className=\"mt-1 block font-mono text-blue-800\">{receipt.orderNumber}</b></div>",
+            "              <div><span className=\"block text-slate-500\">التاريخ</span><b className=\"mt-1 block\">{new Date(receipt.createdAt).toLocaleString('ar-JO')}</b></div>",
+            "              <div><span className=\"block text-slate-500\">طريقة الدفع</span><b className=\"mt-1 block\">{paymentLabel(receipt.paymentMethod)}</b></div>",
+            "              <div><span className=\"block text-slate-500\">الحالة</span><b className=\"mt-1 block text-emerald-700\">{receipt.status === 'returned' ? 'مرتجع' : 'مكتمل'}</b></div>",
+            "            </section>",
+            "",
+            "            {receipt.status === 'returned' && (",
+            "              <div className=\"rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs font-bold text-amber-800\">هذه الفاتورة مسجلة كمرتجعة في نظام الإدارة.</div>",
+            "            )}",
+            "",
+            "            <section>",
+            "              <h2 className=\"mb-3 flex items-center gap-2 text-base font-black\"><PackageCheck className=\"h-5 w-5 text-blue-700\" />أصناف الجملة</h2>",
+            "              <div className=\"overflow-hidden rounded-2xl border border-slate-200\">",
+            "                {receipt.items.map((item, index) => (",
+            "                  <article key={`${item.sku}-${index}`} className=\"grid grid-cols-[1fr_auto] gap-3 border-t border-slate-200 p-4 first:border-0\">",
+            "                    <div className=\"min-w-0\">",
+            "                      <h3 className=\"font-black\">{item.productName}</h3>",
+            "                      <p className=\"mt-1 text-[11px] text-slate-500\">{item.packageQuantity} {item.packageName} × {money(item.packagePriceInMinorUnits)} · محتوى الطرد {item.unitsPerPackage}</p>",
+            "                      {item.sku && <small className=\"font-mono text-[10px] text-slate-400\">{item.sku}</small>}",
+            "                    </div>",
+            "                    <b className=\"text-sm text-blue-900\">{money(item.lineTotalInMinorUnits)}</b>",
+            "                  </article>",
+            "                ))}",
+            "              </div>",
+            "            </section>",
+            "",
+            "            <section className=\"space-y-2 rounded-2xl bg-slate-950 p-5 text-sm text-white\">",
+            "              <div className=\"flex justify-between text-slate-300\"><span>المجموع الفرعي</span><b>{money(receipt.subtotalInMinorUnits)}</b></div>",
+            "              {receipt.discountInMinorUnits > 0 && <div className=\"flex justify-between text-emerald-300\"><span>الخصم</span><b>-{money(receipt.discountInMinorUnits)}</b></div>}",
+            "              <div className=\"flex justify-between border-t border-slate-700 pt-3 text-lg font-black\"><span>الإجمالي</span><b className=\"text-amber-300\">{money(receipt.totalInMinorUnits)}</b></div>",
+            "            </section>",
+            "",
+            "            <footer className=\"text-center text-xs leading-6 text-slate-500\">",
+            "              {receipt.branch.address && <p>{receipt.branch.address}</p>}",
+            "              {receipt.branch.phone && <p dir=\"ltr\">{receipt.branch.phone}</p>}",
+            "              <p className=\"mt-2 flex items-center justify-center gap-1 font-bold text-emerald-700\"><ShieldCheck className=\"h-4 w-4\" />تم تحميل الإيصال مباشرة من نظام نواصرة</p>",
+            "            </footer>",
+            "",
+            "            <div className=\"receipt-actions grid grid-cols-3 gap-2\">",
+            "              <button type=\"button\" onClick={() => window.print()} className=\"flex items-center justify-center gap-1 rounded-xl bg-blue-700 px-2 py-3 text-xs font-black text-white\"><Printer className=\"h-4 w-4\" />طباعة</button>",
+            "              <button type=\"button\" onClick={() => void shareReceipt()} className=\"flex items-center justify-center gap-1 rounded-xl border border-blue-200 bg-blue-50 px-2 py-3 text-xs font-black text-blue-800\"><Share2 className=\"h-4 w-4\" />مشاركة</button>",
+            "              <a href=\"/products\" className=\"flex items-center justify-center gap-1 rounded-xl border border-slate-200 px-2 py-3 text-xs font-black text-slate-700\"><ArrowRight className=\"h-4 w-4\" />المتجر</a>",
+            "            </div>",
+            "          </div>",
+            "        )}",
+            "      </main>",
+            "    </div>",
+            "  );"
+          ],
+          "after": [
+            "  return <div className=\"min-h-screen bg-slate-100 px-3 py-6 text-slate-950\" dir=\"rtl\">",
+            "    <ReceiptPrintStyle/>",
+            "    <main className=\"public-pos-receipt mx-auto max-w-2xl rounded-2xl border border-slate-200 bg-white p-4 shadow-xl sm:p-7\">",
+            "      {isLoading&&<div role=\"status\" className=\"flex min-h-72 flex-col items-center justify-center gap-3 text-slate-500\"><Loader2 className=\"h-8 w-8 animate-spin\"/><p>جاري تحميل الإيصال...</p></div>}",
+            "      {!isLoading&&!receiptDocument&&<div className=\"space-y-3 py-12 text-center\"><AlertTriangle className=\"mx-auto h-10 w-10 text-amber-500\"/><h1>تعذر فتح الإيصال</h1><p role=\"alert\">{error}</p><a href=\"/products\">العودة إلى المتجر</a></div>}",
+            "      {!isLoading&&receiptDocument&&<>",
+            "        <p className=\"receipt-actions mb-3 text-center text-sm font-bold\">إيصال إلكتروني موثّق</p>",
+            "        {receipt?.status==='returned'&&<p className=\"receipt-actions mb-3 rounded-xl bg-amber-50 p-3 text-sm text-amber-800\">هذه الفاتورة مسجلة كمرتجعة في نظام الإدارة.</p>}",
+            "        <ReceiptDocument receipt={receiptDocument}/>",
+            "        {error&&<p role=\"alert\" className=\"receipt-actions\">{error}</p>}",
+            "        <div className=\"receipt-actions mt-5 grid grid-cols-3 gap-2 text-center text-xs font-bold\">",
+            "          <button type=\"button\" onClick={()=>window.print()} className=\"rounded-xl bg-blue-700 p-3 text-white\"><Printer className=\"mx-auto mb-1 h-4 w-4\"/>طباعة الوصل</button>",
+            "          <button type=\"button\" onClick={()=>void shareReceipt()} className=\"rounded-xl border border-blue-200 p-3\"><Share2 className=\"mx-auto mb-1 h-4 w-4\"/>مشاركة الوصل</button>",
+            "          <a href=\"/products\" className=\"rounded-xl border border-slate-200 p-3\"><ArrowRight className=\"mx-auto mb-1 h-4 w-4\"/>المتجر</a>",
+            "        </div>",
+            "      </>}",
+            "    </main>",
+            "  </div>;"
+          ]
+        }
+      ]
+    },
     "customer-web/src/receipts/ReceiptDocument.tsx": {
       "added": true,
       "before": null,
@@ -12,6 +276,60 @@
       "before": null,
       "after": "08a9f5d6908321de6c331ac567b67f5aaa057e0ad3529ecf640a8813cbc5be57",
       "hunks": []
+    },
+    "customer-web/src/receipts/publicReceipt.ts": {
+      "added": true,
+      "before": null,
+      "after": "0dfbc28692a9b941030f92a9abbddf63983268dcc29660c1ee7a4d4584c21b5a",
+      "hunks": []
+    },
+    "customer-web/src/services/receipts.service.ts": {
+      "before": "1feadd0aff5cc3496a64f3398fadb4ffc90b2f91559212e029cc0b6cc92402af",
+      "after": "23fb6b38b13fa8916b6ba06cabd6ef5b872aa7450f3134ba3d98db7b19615a16",
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 65,
+          "before": [],
+          "after": [
+            "            commercialLineKind: stringValue(row.commercialLineKind) || undefined,",
+            "            baseQuantity: row.baseQuantity == null ? undefined : integerValue(row.baseQuantity),",
+            "            baseUnitName: stringValue(row.baseUnitName) || undefined,",
+            "            parcelInstances: Array.isArray(row.parcelInstances) ? row.parcelInstances.map((parcel) => {",
+            "              const saved = recordValue(parcel);",
+            "              return { components: Array.isArray(saved.components) ? saved.components.map((component) => {",
+            "                const value = recordValue(component);",
+            "                return { name: stringValue(value.name), quantity: integerValue(value.quantity), unitName: stringValue(value.unitName) };",
+            "              }) : [] };",
+            "            }) : [],"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/types/receipt.ts": {
+      "before": "c55a282643737a574cf0807fd47e2c463e7d903ab77c24d53ca5e0bc91008dc3",
+      "after": "751a383ce93bc71df5789e0e7be427b425744ab40c591632705ceeca22274dfd",
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import type { ReceiptParcel } from '../receipts/commercialReceipt';",
+            ""
+          ]
+        },
+        {
+          "at": 11,
+          "before": [],
+          "after": [
+            "  commercialLineKind?: string;",
+            "  baseQuantity?: number;",
+            "  baseUnitName?: string;",
+            "  parcelInstances?: ReceiptParcel[];"
+          ]
+        }
+      ]
     },
     "e2e/admin-large-catalog-performance.spec.ts": {
       "before": "865196446b54a9ca977f7a9f0860e31294c53772ed940184ee3152484485fea0",
@@ -292,6 +610,12 @@
         }
       ]
     },
+    "e2e/package-f-public-receipt210.spec.ts": {
+      "added": true,
+      "before": null,
+      "after": "977aac81565a03b3515d521ab3c3dd59ec6cd8de9d8069219dd91e1a58cbc234",
+      "hunks": []
+    },
     "e2e/package-f-sales-history204.spec.ts": {
       "before": "31e060d3ee68e406ba2ce0f8932de3e4610608f380f152e98fd64a9fd80b6c77",
       "after": "904d856d5e3bd0a39bf99b15f94728bc47f2c878a94cbf9b38628a8f29a3d849",
@@ -370,6 +694,70 @@
       "after": "50bf11d6e3829ae39e30e90d35dbf466d58a656a58ebceac414eac25846b9e01",
       "hunks": []
     },
+    "scripts/agent/lib.mjs": {
+      "before": "9c1bb88b8d8bd82ffd6393946c3ebc5cad3f3e6dcd5ec56da678191b2c4c88e9",
+      "after": "c91aa371d403b5555641187fdc2484109522cb4ae83e97cb51126062297788f8",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 112,
+          "before": [
+            "    integrationPins: Object.fromEntries([160,161,162,163,164,170,171,180,181,182,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209].map(number => {"
+          ],
+          "after": [
+            "    integrationPins: Object.fromEntries([160,161,162,163,164,170,171,180,181,182,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210].map(number => {"
+          ]
+        }
+      ]
+    },
+    "scripts/agent/preflight.mjs": {
+      "before": "56966730f979d81ba45d47e4ad50a6f590f30c4c813f03a6bbda21cc6a0a3586",
+      "after": "7582fec2ae50003a07fa211e54ce7223535256a34a10f768acf3a33089b1fa28",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 11,
+          "before": [
+            "for(const number of [160,161,162,163,164,170,171,180,181,182,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209]) {"
+          ],
+          "after": [
+            "for(const number of [160,161,162,163,164,170,171,180,181,182,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210]) {"
+          ]
+        }
+      ]
+    },
+    "scripts/audit/run-service-access-diagnostic.mjs": {
+      "before": "19d9dbfdb5712e338745e614cd46760d75d77e7ab2ca13cc5f10432a26916244",
+      "after": "6ee493ca133f9695706cfb4c70714eb29af5ec06ead96d8b33e4e4b434f6d313",
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 16,
+          "before": [
+            "assert.ok([198,199,200,201,202,203,204,205,206,207,208,209].includes(migrationCeiling),'APPROVED_SERVICE_AUDIT_CEILING_REQUIRED');"
+          ],
+          "after": [
+            "assert.ok([198,199,200,201,202,203,204,205,206,207,208,209,210].includes(migrationCeiling),'APPROVED_SERVICE_AUDIT_CEILING_REQUIRED');"
+          ]
+        }
+      ]
+    },
+    "scripts/audit/run-table-access-diagnostic.mjs": {
+      "before": "48afcd1c249424fbca7ec765404526c0a43cae7657431a915e1f554fa91ba969",
+      "after": "5ec0e56f200333219b0fa6672e085ad961cec1b14a18e54bb649268350e9c4e3",
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 17,
+          "before": [
+            "assert.ok([138,150,164,171,182,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209].includes(ceiling),'ONLY_APPROVED_AUDIT_CEILINGS');"
+          ],
+          "after": [
+            "assert.ok([138,150,164,171,182,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210].includes(ceiling),'ONLY_APPROVED_AUDIT_CEILINGS');"
+          ]
+        }
+      ]
+    },
     "scripts/audit/source-before-parcel209.mjs": {
       "before": "fed0c6eb6b03bbb1b68330845ab15bf1846b7e113cb3d46c130b7c73526924c8",
       "after": "53bdac897bf8a38fc6b7deb9d066a61520ba0ed59960b9342835a107b4dcb633",
@@ -442,6 +830,43 @@
         }
       ]
     },
+    "scripts/operations/build-acl-reference210.mjs": {
+      "added": true,
+      "before": null,
+      "after": "a3430cdbbe427965587c8f7c2e2ca12928d391654981f46e5373d0b7bfaf516b",
+      "hunks": []
+    },
+    "scripts/operations/frankfurt-owner-build.mjs": {
+      "before": "f970c5e56e36ea8ce6b71e6189c9ddbc4c7fea4df804a54b2e6e4e8b1ec90606",
+      "after": "368bd2b90e4f51830c4e5f54f29e44be2f00fbef7cd1107f27b3d7abaecc5170",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 160,
+          "before": [],
+          "after": [
+            " }else if(ceiling===209){",
+            "  // Frozen delivered B/main581cb97 manual;210 changes only its public receipt reader.",
+            "  const ordered=[...functions].sort((a,b)=>a.identity<b.identity?-1:a.identity>b.identity?1:0);assert.equal(functions.length,546,'FROZEN209_FUNCTION_COUNT');assert.equal(digest(JSON.stringify(ordered)),'c11cd51b4ac4afc10b1f9fb024b7ee5dddc6e3572e0c046cd7dba1eca9d622f9','FROZEN209_FUNCTIONS_CHANGED');"
+          ]
+        },
+        {
+          "at": 164,
+          "before": [
+            "  assert.equal(ceiling,209,'UNAPPROVED_FUNCTION_REFERENCE');"
+          ],
+          "after": [
+            "  assert.equal(ceiling,210,'UNAPPROVED_FUNCTION_REFERENCE');"
+          ]
+        }
+      ]
+    },
+    "scripts/operations/frankfurt-owner-upgrade210.mjs": {
+      "added": true,
+      "before": null,
+      "after": "5f31570aea93e6b6571e6db126eeb85b65ff28200b972194c3ef99741e158173",
+      "hunks": []
+    },
     "scripts/operations/frankfurt-reference209.mjs": {
       "before": "bc98c04ca793ba56d5ba9978707e332819e3ef23d6968c0201c0afefe1dcfeb8",
       "after": "17590a64a9c8961562b47d2524d8a0707db9b0a8dce86ca0f230ca9234f8632a",
@@ -454,6 +879,101 @@
           ],
           "after": [
             "import {verifiedInventoryBeforeTrialD as inventory} from '../audit/source-before-trial-sale-receipts.mjs';"
+          ]
+        }
+      ]
+    },
+    "scripts/operations/frankfurt-reference210.mjs": {
+      "added": true,
+      "before": null,
+      "after": "75f6f7078d115cc82d3912376690c1e7ba2ee36e653521917fd88cc11b0adda2",
+      "hunks": []
+    },
+    "scripts/operations/trial-reset-core.mjs": {
+      "before": "fc71817b6e4e0ab22621eee9fa9ddf085e33a4a68f0826afa9459cd9dc16e580",
+      "after": "50e6ddd0adc5038495a72f91582113959c09ad5f78c69d2ec40044c7d7931102",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 14,
+          "before": [
+            "const resetFileCounts=Object.freeze({182:151,199:161,200:162,201:163,202:164,203:165,204:166,205:167,206:168,207:169,208:170,209:171});"
+          ],
+          "after": [
+            "const resetFileCounts=Object.freeze({182:151,199:161,200:162,201:163,202:164,203:165,204:166,205:167,206:168,207:169,208:170,209:171,210:172});"
+          ]
+        }
+      ]
+    },
+    "scripts/testing/receipt210-restore.mjs": {
+      "added": true,
+      "before": null,
+      "after": "3fa8ce31b0509fbf427df200fdd441f4016f550fe0471d510d65bc3682d1b55e",
+      "hunks": []
+    },
+    "scripts/testing/run-receipt-upgrade210-runtime.mjs": {
+      "added": true,
+      "before": null,
+      "after": "c8cfd53a001248d11f2240091942cc93f9825913d87dfe18f523e4a28ce1aeea",
+      "hunks": []
+    },
+    "scripts/testing/run-receipt210-gates.mjs": {
+      "added": true,
+      "before": null,
+      "after": "dc24ae0cfd23635024f9eac8b5cd46093e641748fb439d9387a33b3ce3f561dd",
+      "hunks": []
+    },
+    "scripts/testing/run-receipt210-runtime.mjs": {
+      "added": true,
+      "before": null,
+      "after": "e920fd5eec1efc36f211c8b690a508539081b208aa8f27073e225c53976a317c",
+      "hunks": []
+    },
+    "scripts/testing/run-trial-reset-runtime.mjs": {
+      "before": "a20dcf08a0eb34e2884aee7bfe8cd51320ca2e371cc7a9d01509ece3b55566a1",
+      "after": "0e97e6fce275bcaf331ef99ac45b7586df7c6f63f4bb43647a5cfd07d2aba9c1",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {readReady210Reference,assertReady210Catalog} from '../operations/frankfurt-reference210.mjs';"
+          ]
+        },
+        {
+          "at": 40,
+          "before": [
+            " const latest209=process.argv.includes('--current209');"
+          ],
+          "after": [
+            " const latest210=process.argv.includes('--current210');",
+            " const latest209=latest210||process.argv.includes('--current209');"
+          ]
+        },
+        {
+          "at": 51,
+          "before": [
+            " const current=latest209||latest208||latest207||latest206||latest205||latest204||latest203||latest202||latest201||latest||process.argv.includes('--current199'),explicit=process.argv.slice(2).find(arg=>!['--current199','--current200','--current201','--current202','--current203','--current204','--current205','--current206','--current207','--current208','--current209'].includes(arg));"
+          ],
+          "after": [
+            " const current=latest209||latest208||latest207||latest206||latest205||latest204||latest203||latest202||latest201||latest||process.argv.includes('--current199'),explicit=process.argv.slice(2).find(arg=>!['--current199','--current200','--current201','--current202','--current203','--current204','--current205','--current206','--current207','--current208','--current209','--current210'].includes(arg));"
+          ]
+        },
+        {
+          "at": 55,
+          "before": [
+            " const reference=await (latest209?readReady209Reference:latest208?readReady208Reference:latest207?readReady207Reference:latest206?readReady206Reference:latest205?readReady205Reference:latest204?readReady204Reference:latest203?readReady203Reference:latest202?readReady202Reference:latest201?readReady201Reference:latest?readReady200Reference:current?readReady199Reference:readReference182)(root,referencePath);"
+          ],
+          "after": [
+            " const reference=await (latest210?readReady210Reference:latest209?readReady209Reference:latest208?readReady208Reference:latest207?readReady207Reference:latest206?readReady206Reference:latest205?readReady205Reference:latest204?readReady204Reference:latest203?readReady203Reference:latest202?readReady202Reference:latest201?readReady201Reference:latest?readReady200Reference:current?readReady199Reference:readReference182)(root,referencePath);"
+          ]
+        },
+        {
+          "at": 149,
+          "before": [],
+          "after": [
+            " if(latest210){assertReady210Catalog(await json(schemaCatalogSql));const wire=await ownerSession.rpc('get_public_pos_receipt',{p_receipt_token:null});assert.equal(wire.error,null,'ACTUAL_OWNER210_REST_READ');assert.equal(wire.data.success,false);report.rest210ReceiptRead=true;}"
           ]
         }
       ]
@@ -1224,6 +1744,111 @@
         }
       ]
     },
+    "tests/all-customer-collections203.test.ts": {
+      "before": "daac35fd44713c845f6bd048cd646055d3dde078546bc958367005db4a092be6",
+      "after": "3366a67ffd6194eb9209fba49da09f4d039de08e4e93a8c123be3dbd6a077e30",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 17,
+          "before": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,209);assert.equal(state.migration203CanonicalLfSha256,createHash('sha256').update(after).digest('hex').toUpperCase());"
+          ],
+          "after": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,210);assert.equal(state.migration203CanonicalLfSha256,createHash('sha256').update(after).digest('hex').toUpperCase());"
+          ]
+        }
+      ]
+    },
+    "tests/canonical-receivables197.test.ts": {
+      "before": "b68840da7b701c86212f79644c2f5cad048711e268272a3a4d074141610145e8",
+      "after": "922134f6ffffee58783d116993bf5efe04115b7a7f66696fb49fd62cb1bfa3a8",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 56,
+          "before": [
+            " assert.equal(state.migrationCeiling,209);assert.equal(state.migration197CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());"
+          ],
+          "after": [
+            " assert.equal(state.migrationCeiling,210);assert.equal(state.migration197CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());"
+          ]
+        },
+        {
+          "at": 68,
+          "before": [
+            " assert.equal(source.migrationCeiling,209);assert.equal(proof.migrationCeiling,197);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,210);assert.equal(proof.migrationCeiling,197);assert.equal(proof.managedAccess,false);"
+          ]
+        }
+      ]
+    },
+    "tests/cashier-collections198.test.ts": {
+      "before": "9f66d86ef80988321df2005814356267bd8cb30725a5dd5c1800514c4ab4b397",
+      "after": "55550db22b6b4043f2eb4b7b09bbee8cb657e765c556e0b4294ef9b9308b8138",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 23,
+          "before": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,209);"
+          ],
+          "after": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,210);"
+          ]
+        }
+      ]
+    },
+    "tests/cheques195-admission.test.ts": {
+      "before": "9bb9600bf9e223265970c61261240c529636ad9fd8e03ed22409c0dfc63d50cb",
+      "after": "770eed8f194ea3bb9b2f7471697784f86f39eac41e68add32401d9e2f3de803e",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 12,
+          "before": [
+            "  assert.equal(source.migrationCeiling,209);assert.equal(proof.migrationCeiling,195);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            "  assert.equal(source.migrationCeiling,210);assert.equal(proof.migrationCeiling,195);assert.equal(proof.managedAccess,false);"
+          ]
+        }
+      ]
+    },
+    "tests/go-live-integration164.test.ts": {
+      "before": "62df879cfff92a2ade2d1a230281474ce8c2e7f238790b0cbb35bf06916275fb",
+      "after": "172d5426e9ddbba72c1de1ba7b3982bcb94ef1266c9c34751e6e9530dac1e38e",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 29,
+          "before": [
+            " assert.equal(source.migrationCeiling,209);assert.equal(proof.migrationCeiling,164);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,210);assert.equal(proof.migrationCeiling,164);assert.equal(proof.managedAccess,false);"
+          ]
+        }
+      ]
+    },
+    "tests/opening-cheques196.test.ts": {
+      "before": "a6992259623f106ce3441dffbc32d50b33df4ab635f881ebe1f2d449fb06799b",
+      "after": "1cbfee51e660df53919c210c2c51ab174a9e7b45b2c13b4cf8df8fe21466a848",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 22,
+          "before": [
+            " assert.equal(source.migrationCeiling,209);assert.equal(proof.migrationCeiling,196);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,210);assert.equal(proof.migrationCeiling,196);assert.equal(proof.managedAccess,false);"
+          ]
+        }
+      ]
+    },
     "tests/package-f-inventory.test.ts": {
       "before": "b30a2ba4511b6a35dd111aa57ed801af04e440692cb0198f9f2f6ef8892fb112",
       "after": "332f4e8bccfb6dccbb9232e0dd19d04bf568e4c13cb9188d4125c4e8352bb52a",
@@ -1363,7 +1988,7 @@
     },
     "tests/pretrial-p1.test.ts": {
       "before": "e3c459d3b44045527b5cd20c23bd49d86107d3a8a97f052309577dabe0ca2b26",
-      "after": "57e5b3cc1f0f004bb252eee34048fd067db35705b9d8f5d14e02764041863c7d",
+      "after": "fd74609362d0210d332c867b3b6fd9e1a0cc527622f69b6a65f3b6c9049415f5",
       "errorPrefix": "TRIAL_A_ENTIRE_CURRENT_FILE_CHANGED:",
       "hunks": [
         {
@@ -1372,14 +1997,93 @@
             "  assert.equal(JSON.parse(read('docs/agent/project-state.json')).currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_209.json');"
           ],
           "after": [
-            "  assert.equal(JSON.parse(read('docs/agent/project-state.json')).currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_TRIAL_D.json');"
+            "  assert.equal(JSON.parse(read('docs/agent/project-state.json')).currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_210.json');"
+          ]
+        }
+      ]
+    },
+    "tests/product-integration171.test.ts": {
+      "before": "213568f35718d3aa2efc09e65cba58dbd7cf4faacfbaace2b1ec3dd14b429e2e",
+      "after": "083c5097479e2b4155923370432ff55a9c8738d63bdca227de2cafae459a5dff",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 49,
+          "before": [
+            " assert.equal(source.migrationCeiling,209);assert.equal(proof.migrationCeiling,171);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,210);assert.equal(proof.migrationCeiling,171);assert.equal(proof.managedAccess,false);"
+          ]
+        },
+        {
+          "at": 54,
+          "before": [
+            " assert.equal(services.migrationCeiling,209);assert.equal(services.ok,true);"
+          ],
+          "after": [
+            " assert.equal(services.migrationCeiling,210);assert.equal(services.ok,true);"
+          ]
+        }
+      ]
+    },
+    "tests/product-receiving205.test.ts": {
+      "before": "e737b105f6c5c8dae397228046e978cfb7f46255c43dd5ef777f12ac52bbc3fc",
+      "after": "092303fedf5e7a7e0c841e41858dd72d96d73b431e20a5608aaf24a13211c573",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 48,
+          "before": [
+            "  const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,209);assert.equal(state.migration205CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());"
+          ],
+          "after": [
+            "  const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,210);assert.equal(state.migration205CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());"
+          ]
+        }
+      ]
+    },
+    "tests/receipt210.test.ts": {
+      "added": true,
+      "before": null,
+      "after": "2138a5854e2d7cc0fc635fbde0ec4af5c85c1114adb6b44ffef8f0e34589fb9e",
+      "hunks": []
+    },
+    "tests/sales-history204-evidence.test.ts": {
+      "before": "0b3b849c3f0f70d4dcafb749ccc416bdbaf5f6152659dde191266c20a90e3e3b",
+      "after": "513116a30be4d8ddd6e5a76dc1dade050e59cdd79056c773d45bce4d4acf15ae",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 24,
+          "before": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,209);"
+          ],
+          "after": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,210);"
+          ]
+        }
+      ]
+    },
+    "tests/service-access-inventory.test.ts": {
+      "before": "dd1f5089b7826062a081e1a4bafaca203e7a09c6be135fbad22d6e05f5a94eba",
+      "after": "6e68f8c2d3a3f5390e6fec07b129e7b904a747d66686d0edabdcb254232a6d5b",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 49,
+          "before": [
+            " assert.match(source,/\\[198,199,200,201,202,203,204,205,206,207,208,209\\]\\.includes\\(migrationCeiling\\)/u);"
+          ],
+          "after": [
+            " assert.match(source,/\\[198,199,200,201,202,203,204,205,206,207,208,209,210\\]\\.includes\\(migrationCeiling\\)/u);"
           ]
         }
       ]
     },
     "tests/supplier-replacement208-evidence.test.ts": {
       "before": "342f0ae0ea2126aa64a3b64618e8ce01c57b3cee0da63a5bdbf91b7365a2a2b6",
-      "after": "b098beb2d42a05ba884a6d20e5606f87c8a186ffe79956eb53d28001884a6acf",
+      "after": "a6c73be30270920341fe41bb3c5694d6649c469d41ffe7b6ab4ff2cbf6ef4379",
       "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
       "hunks": [
         {
@@ -1388,23 +2092,69 @@
             " assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_209.json');assert.equal(state.migrationCeiling,209);"
           ],
           "after": [
-            " assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_TRIAL_D.json');assert.equal(state.migrationCeiling,209);"
+            " assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_210.json');assert.equal(state.migrationCeiling,210);"
+          ]
+        },
+        {
+          "at": 22,
+          "before": [
+            " const current=await serviceInventory(),proof=json('docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json');assert.equal(proof.ok,true);assert.equal(proof.migrationCeiling,209);assert.equal(proof.managedAccess,false);assert.deepEqual(proof.sourceHashes,current.sourceHashes);"
+          ],
+          "after": [
+            " const current=await serviceInventory(),proof=json('docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json');assert.equal(proof.ok,true);assert.equal(proof.migrationCeiling,210);assert.equal(proof.managedAccess,false);assert.deepEqual(proof.sourceHashes,current.sourceHashes);"
+          ]
+        },
+        {
+          "at": 43,
+          "before": [
+            "});"
+          ],
+          "after": [
+            "});"
           ]
         }
       ]
     },
     "tests/trial-owner-a.test.ts": {
       "before": "86c0f2d6507f44930575ef726cf0a47ed4d5db5346b213332d1909df1ef234ff",
-      "after": "4d842ee4d769f91eabbdaef5e5629ac18128f50686c036288b6ea0e5f951dab8",
+      "after": "950a27e821965b68c12bb32e8cc51657643cb1bc7a253056e7805730d455103e",
       "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
       "hunks": [
         {
           "at": 54,
           "before": [
-            " assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_209.json');"
+            " assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_209.json');",
+            " assert.equal(state.migrationCeiling,209);assert.deepEqual(current.sources,proof.sourceHashes);"
           ],
           "after": [
-            " assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_TRIAL_D.json');"
+            " assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_210.json');",
+            " assert.equal(state.migrationCeiling,210);assert.deepEqual(current.sources,proof.sourceHashes);"
+          ]
+        }
+      ]
+    },
+    "tests/trial-reset.test.ts": {
+      "before": "baeb6ec694258b41d2c70ba304fd8e9a8d92d1fa6fdaf2233709e9db83221c7b",
+      "after": "ed986cbabd71282669dd932b201c287613431d5e9be7f9f634cf129704e32d15",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 75,
+          "before": [
+            "test('reset admits approved frozen prefixes and current209 only and preserves the named main warehouse,not trial locations',()=>{"
+          ],
+          "after": [
+            "test('reset admits approved frozen prefixes and current210 only and preserves the named main warehouse,not trial locations',()=>{"
+          ]
+        },
+        {
+          "at": 87,
+          "before": [
+            " for(const migrationCeiling of [138,198,210])assert.throws(()=>assertResetCeiling({migrationCeiling}));"
+          ],
+          "after": [
+            " assert.equal(assertResetCeiling({migrationCeiling:210}),172);",
+            " for(const migrationCeiling of [138,198,211])assert.throws(()=>assertResetCeiling({migrationCeiling}));"
           ]
         }
       ]
@@ -1412,7 +2162,7 @@
     "tests/trial-sale-receipts.test.ts": {
       "added": true,
       "before": null,
-      "after": "c41079525e110c92d97f3ec8bbbf7965f7b6d4800375e8776e93cbb0a0dd7c15",
+      "after": "52a8562acdec9bef34805c4595790ab1fb36fe947a236d44d3a1e1627f238621",
       "hunks": []
     },
     "tests/unit-terminology.test.ts": {
@@ -1430,6 +2180,31 @@
             "      // D uses the same owner label in the editable form and saved legacy view.",
             "      assert.equal(text.split('كم حبة بالطرد').length-1,file==='src/features/more/ParcelConfigurationModal.tsx'?2:1,file+' exact owner phrase count');",
             "      text=text.replaceAll('كم حبة بالطرد','');"
+          ]
+        }
+      ]
+    },
+    "tests/withdrawals182-admission.test.ts": {
+      "before": "5e41c9591d63acc0fe617d797238b28480111ffa3f6d1c554a80962230370b5c",
+      "after": "33e28136260a335cf8c355c027baa7274aac081c6a4580e99a6946a8b75aa02f",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 20,
+          "before": [
+            " assert.equal(source.migrationCeiling,209);assert.equal(proof.migrationCeiling,182);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,210);assert.equal(proof.migrationCeiling,182);assert.equal(proof.managedAccess,false);"
+          ]
+        },
+        {
+          "at": 31,
+          "before": [
+            " assert.equal(services.migrationCeiling,209);assert.equal(services.ok,true);"
+          ],
+          "after": [
+            " assert.equal(services.migrationCeiling,210);assert.equal(services.ok,true);"
           ]
         }
       ]

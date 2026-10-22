@@ -1,3 +1,7 @@
+#22Oct — owner approved read-only210 and adopted current D tree
+
+Implement only saved public receipt commercial kind/quantity/unit/composition in same STABLE token-gated reader,unchanged ACL and no writes/cost/profit. Complete D verification/PR16 FULL CI/merge/mainCI,then J from211,then H. No hostedaccess/deploy.
+
 #22Oct — owner trial batch2 authorized: D then J then H
 
 A/B delivered main581cb97. Implement separate D UI-only receipts/card methods/reprint/formed configuration,then J approved supplier disposition/reclassification DB,then H official brand/assets/SEO. Own worktree/PR/FULLCI/merge/mainCI/Gitleaks0/checkpoint each. No hostedaccess/deploy. D public legacy reader lacks saved kind/composition;bounded read-only210 proposal awaits owner approval (no SQL implemented). Read TRIAL_OWNER_D_J_H_AR.md.

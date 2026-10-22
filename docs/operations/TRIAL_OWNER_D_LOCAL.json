@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "INDEPENDENT_D_LOCAL_VERIFIED_PUBLIC210_AND_FULL_CI_PENDING",
-  "recordedAt": "2026-10-22T14:50:07.610Z",
+  "status": "D_COMPLETE_LOCAL210_VERIFIED_FINAL_FEATURE_AND_MAIN_CI_PENDING",
+  "recordedAt": "2026-10-22T16:50:13.078Z",
   "branch": "codex/trial-sale-receipts",
   "baselineSha": "581cb972a247ef13dbdc697b75bcc5c674bfa97d",
   "managedAccess": false,
@@ -11,15 +11,19 @@
     "d3SharedSavedReceiptAndReadOnlyReprint": true,
     "d4MixedOnlyWithLegacyReadDisable": true,
     "internalCommercialKinds": true,
-    "publicReader210Implemented": false,
-    "publicReader210Approved": false,
+    "publicReader210Implemented": true,
+    "publicReader210Approved": true,
     "saleRpcChanged": false,
     "pricesChanged": false,
-    "migrationsAdded": []
+    "migrationsAdded": [
+      210
+    ],
+    "permissionsChanged": false,
+    "financialWritersChanged": false
   },
   "verification": {
     "adminUnits": {
-      "passed": 1353,
+      "passed": 1356,
       "failed": 0,
       "skipped": 0
     },
@@ -44,26 +48,29 @@
         "Chromium",
         "WebKit"
       ],
-      "retries": 0
+      "retries": 0,
+      "internalReprint20After210": true,
+      "publicReceipt210Cases6": true
     },
     "native": {
-      "full": 1420,
+      "full": 1426,
       "core": 432,
-      "packageF": 988,
+      "packageF": 994,
       "shards": [
+        200,
+        200,
         198,
         198,
-        198,
-        198,
-        196
+        198
       ]
     },
     "sdk": {
-      "sources": 325,
+      "sources": 326,
       "sites": 51,
       "results": 148,
       "errors": 0,
-      "sourceHashesSha256": "f998a5ccb9a91264136afb9230987084a18a94eb6424792df41f0f9fd53087d2"
+      "sourceHashesSha256": "05390f6707686c3a93653c6b1d742a351f6f5acd92233233a0554b48c5508045",
+      "migrationCeiling": 210
     },
     "rpc": {
       "dispatches": 525,
@@ -71,7 +78,25 @@
       "allProbesRollback": true
     },
     "historicalSql001Through209Unchanged": true,
-    "oldPinJsonUnchanged": true
+    "oldPinJsonUnchanged": true,
+    "receipt210": {
+      "cases": 7,
+      "allPassed": true,
+      "stableReadOnly": true,
+      "sameTokenGateAndAcl": true,
+      "onlyOneFunctionDefinitionDelta": true,
+      "allDataAndSequencesUnchanged": true,
+      "restore": {
+        "logicalCatalogDifferences": 0,
+        "allPublicDataAndSequencesIdentical": true,
+        "replayZeroWrites": true
+      }
+    },
+    "gitleaks": {
+      "exitCode": 0,
+      "scope": "all changed and untracked files against delivered main581cb97",
+      "files": 101
+    }
   },
   "owner209": {
     "ok": true,
@@ -88,12 +113,48 @@
     "phoneDrawerNavigation": true,
     "uniqueInventoryFixtureNameInsteadOfHiddenSku": true,
     "productionAuthUnchanged": true,
-    "assertionBudgetsUnchanged": true
+    "assertionBudgetsUnchanged": true,
+    "receipt210Fixtures": {
+      "publicLayoutUsesExistingRootGuard": true,
+      "strictModeExactlyFourReadsOverTwoLoads": true,
+      "refusalUsesValidNewStatus": true,
+      "serviceRoleStillDenied": true,
+      "resetAcceptsApproved210Rejects211": true
+    }
   },
   "pending": [
-    "Owner decision on bounded read-only public receipt210;no SQL implemented",
-    "Exact feature push and draft PR FULL40 plus both secret scans",
-    "No merge before210 decision and final complete D verification",
-    "J then H only after D merge/main CI"
-  ]
+    "Final checkpoint;exact feature push+PR FULL41/secrets",
+    "D merge and exact main FULL41/secrets",
+    "J211 then H only after D delivery"
+  ],
+  "owner210": {
+    "offlineOnly": true,
+    "migrationCeiling": 210,
+    "migrations": 172,
+    "functions": 546,
+    "realtimeMembers": 13,
+    "freshIncrementalDifferenceCount": 0,
+    "referenceSha256": "247f57bb3433c4ab0c0810f17547610657f6b33a81efb36fe44f37e874bc0420",
+    "previous208And209ReferencesUnchanged": true,
+    "localOwnerPipeline": {
+      "applied": [
+        "209",
+        "210"
+      ],
+      "recorded": [
+        "209",
+        "210"
+      ],
+      "replayZeroWrites": true
+    },
+    "localReset": {
+      "ownerRetained": true,
+      "totpRetained": true,
+      "storageBytesDeleted": true,
+      "staffDeleted": true,
+      "rest210ReceiptRead": true
+    },
+    "guide": "docs/operations/TRIAL_OWNER_UPGRADE210_AR.md",
+    "hostedCommandsExecuted": false
+  }
 }

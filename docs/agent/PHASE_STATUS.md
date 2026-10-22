@@ -1,3 +1,11 @@
+#22Oct — D210 complete local gates;final FULL41 pending
+
+Owner approved read-only210. D1-D4 complete;1356admin/197store,public6/internal20 both engines,currentSDK326/148 andRPC525,DB7/read-only/ACL/restore0,fresh-incremental172/546/13,local apply/replay/resetREST/TOTP/Storage PASS. Owner210 guide/reference prepared only,old208/209 preserved. Final Gitleaks/exact push+PR16 FULL41 then merge/mainCI before J211 then H. No hostedaccess/deploy.
+
+#22Oct — owner approved read-only210 and adopted current D tree
+
+Implement only saved public receipt commercial kind/quantity/unit/composition in same STABLE token-gated reader,unchanged ACL and no writes/cost/profit. Complete D verification/PR16 FULL CI/merge/mainCI,then J from211,then H. No hostedaccess/deploy.
+
 #22Oct — D internal parts locally verified;public210 decision pending
 
 Owner adopted current tree. D2/D3/D4/internal saved receipt implemented;1353admin/197store,96+130browser batches/5kCatalog2/realPOS8,325source SDK148/RPC525,types/strictlint/builds/network0/native1420 PASS. No SQL/sale RPC/price/permission changes;old001-209/pins/owner209 reference preserved. Public-reader210 remains unapproved;no D merge before decision. Draft PR/exact feature FULL40 and secrets next. See TRIAL_OWNER_D_LOCAL.json.

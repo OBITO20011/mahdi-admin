@@ -71,13 +71,13 @@ test('D exact additive inverse preserves delivered209 source and rejects current
       assert.equal(restored,before,file);assert.throws(()=>sourceBeforeTrialD(file,before+'\nvoid unapproved;\n'));
     }
   }
-  assert.equal(execFileSync('git',['diff','--name-only',baseline,'--','supabase/migrations'],{encoding:'utf8'}).trim(),'');
+  assert.deepEqual(execFileSync('git',['diff','--name-only',baseline,'--','supabase/migrations'],{encoding:'utf8'}).trim().split('\n').filter(f=>f&&Number(f.split('/').at(-1)!.slice(0,3))<=209),[],'001-209 immutable;only approved210 additive');
 });
 
 test('D actual SDK evidence covers saved unit/token columns for all existing actors and keeps frozen209 separate',async()=>{
   const read=(path:string)=>JSON.parse(readFileSync(path,'utf8'));
-  const current=await inventory(),proof=read('docs/operations/TABLE_ACCESS_AFTER_TRIAL_D.json');
-  assert.equal(proof.migrationCeiling,209);assert.equal(proof.managedAccess,false);
+  const current=await inventory(),proof=read('docs/operations/TABLE_ACCESS_AFTER_210.json');
+  assert.equal(proof.migrationCeiling,210);assert.equal(proof.managedAccess,false);
   assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);
   assert.deepEqual(proof.sourceHashes,current.sources);assert.deepEqual(proof.coverage,verifyProbeCoverage(current,proof.results));
   assert.ok(proof.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "migrationCeiling": 209,
+  "migrationCeiling": 210,
   "managedAccess": false,
   "sources": [
     {
@@ -1117,7 +1117,7 @@
     },
     {
       "file": "customer-web/src/components/PublicPosReceiptPage.tsx",
-      "sha256": "ae31fd2500894a418bfac62fd2d2318c2f4552a67f0c42ecd52a483946617adc"
+      "sha256": "303d9d5d297d8684df9fdceca4f79ca1675d13bf069ce0c92ced1cd82714fd02"
     },
     {
       "file": "customer-web/src/components/StoreErrorBoundary.tsx",
@@ -1188,6 +1188,10 @@
       "sha256": "08a9f5d6908321de6c331ac567b67f5aaa057e0ad3529ecf640a8813cbc5be57"
     },
     {
+      "file": "customer-web/src/receipts/publicReceipt.ts",
+      "sha256": "0dfbc28692a9b941030f92a9abbddf63983268dcc29660c1ee7a4d4584c21b5a"
+    },
+    {
       "file": "customer-web/src/receipts/ReceiptDocument.tsx",
       "sha256": "f554e7931b2e07f8cc01c37269343741f42da0e4cfd93f8f4b6578ecd416c02d"
     },
@@ -1213,7 +1217,7 @@
     },
     {
       "file": "customer-web/src/services/receipts.service.ts",
-      "sha256": "1feadd0aff5cc3496a64f3398fadb4ffc90b2f91559212e029cc0b6cc92402af"
+      "sha256": "23fb6b38b13fa8916b6ba06cabd6ef5b872aa7450f3134ba3d98db7b19615a16"
     },
     {
       "file": "customer-web/src/services/storefront-settings.service.ts",
@@ -1233,7 +1237,7 @@
     },
     {
       "file": "customer-web/src/types/receipt.ts",
-      "sha256": "c55a282643737a574cf0807fd47e2c463e7d903ab77c24d53ca5e0bc91008dc3"
+      "sha256": "751a383ce93bc71df5789e0e7be427b425744ab40c591632705ceeca22274dfd"
     },
     {
       "file": "customer-web/src/types/storefront.ts",

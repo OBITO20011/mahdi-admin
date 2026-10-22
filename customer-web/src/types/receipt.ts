@@ -1,3 +1,5 @@
+import type { ReceiptParcel } from '../receipts/commercialReceipt';
+
 export interface PublicPosReceiptItem {
   productName: string;
   sku: string;
@@ -6,6 +8,10 @@ export interface PublicPosReceiptItem {
   unitsPerPackage: number;
   packagePriceInMinorUnits: number;
   lineTotalInMinorUnits: number;
+  commercialLineKind?: string;
+  baseQuantity?: number;
+  baseUnitName?: string;
+  parcelInstances?: ReceiptParcel[];
 }
 
 export interface PublicPosReceipt {

@@ -2,56 +2,57 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner batch2:D then J then H,separate worktree/PR/FULLCI/mainCI. Current D receipts,explicit POS methods,reprint,mixed-only config. No hosted access/deploy. Public-reader210 requires explicit exception to D no-migration rule.",
-  "baselineSha": "581cb972a247ef13dbdc697b75bcc5c674bfa97d",
+  "objective": "Owner D then J then H,separate worktree/PR/FULLCI/mainCI. D read-only210 explicitly approved;same token/STABLE/ACL,no writes/cost/profit. No hosted access/deploy.",
+  "baselineSha": "3305b92af8df06871a59f7ed55c26f34b5e29dbe",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "codex/trial-sale-receipts",
   "phase": "PACKAGE_F",
   "completed": [
-    "A PR14 and B PR15/main581cb97 FULL40/secrets delivered;own9 final metadata carried from primary",
-    "D2/D3/D4/internal receipt locally verified;public getter and merge explicitly held"
+    "A PR14/B PR15 delivered main581cb97;current D tree and read-only210 explicitly approved",
+    "D1-D4 complete;shared saved/public receipt;explicit sale cards;history reprint;mixed-only config;no financial writer/ACL change"
   ],
   "inProgress": [
-    "Independent D exact feature push/draft PR FULL40 and secrets;no merge"
+    "Final D Gitleaks/checkpoint,feature commit/push and PR16 exact FULL41/secrets"
   ],
   "notStarted": [
-    "Public-reader210 and owner upgrade command only if owner approves",
-    "D final complete CI/merge/mainCI after210 decision",
-    "J then H after D delivery"
+    "D merge/main FULL41 after exact feature acceptance",
+    "J211 then H separate worktrees/PRs/full CI after D"
   ],
   "testsPassed": [
-    "1353 admin/197store units,0fail/skip;types/strictlint/both builds/isolated SEO",
-    "96 and132 both-engine browser batches;separate settings/capacity16;real current POS8,0retries",
-    "Actual SDK325sources/51sites/148 success;525 real RPC dispatch probes/exact2 expected denials",
-    "Native1420 identities partition exactly;network escapes0;owner209 offline reference SHA unchanged"
+    "1356admin/197store all units,0fail/skip;types/strictlint/builds/isolated SEO",
+    "Public2106+internal20 both-engine PASS;prior affected96/130/5k2/realPOS8 preserved",
+    "Current210 SDK326sources/51sites/148success;RPC525/exact2 expected denials",
+    "210 real DB7groups/unchanged ACL/token/STABLE/zero writes/full restore0diff",
+    "Reference172migrations/546functions/13Realtime,fresh-incremental0;local apply209+210/replay0/resetREST+TOTP/Storage PASS",
+    "Native1426 disjoint identities/core432/F994/all5shards;no escaped production requests",
+    "Final changed+untracked101-file Gitleaks exit0;preflight/diff-check PASS;no task-owned processes"
   ],
   "testsRemaining": [
-    "Gitleaks0/preflight/checkpoint and exact feature push+draftPR FULL40/secrets",
-    "Owner210 decision;then final D complete verification before merge/mainCI"
+    "Final Gitleaks0/preflight/checkpoint;exact feature push+PR FULL41/secrets",
+    "Merge and exact main FULL41/secrets,then J211 and H"
   ],
   "findings": [
-    "Owner adopted current D tree;continue independent D2/D3/D4. Public210 remains unapproved",
-    "Internal reprint shares POS template,reads loaded snapshots/existing public link only;no sale/payment/movement/token creation",
-    "D exact inverse keeps all historical001-209/pins/references unchanged;actual current SDK evidence separate TABLE_ACCESS_AFTER_TRIAL_D.json",
-    "Financial-call trace normalizes only exact added saved-unit column selection;all other actual awaited calls/args retain original hash"
+    "Read-only210 is explicit owner exception to D no-migration rule;J starts211",
+    "001-209 migrations/oldpins/208-209 owner references unchanged;new210 reference prepared locally only",
+    "Public reprint/share uses saved sanitized evidence only;no cost/profit/internal IDs or token creation",
+    "Actual current evidence TABLE_ACCESS_AFTER_210.json remains independent of frozen209/D-before210 proof",
+    "Final report records bounded fixture corrections;no assertion/retry/skip/timeout weakening"
   ],
-  "blockers": [
-    "Only public-reader210 and D merge await owner decision;continue independent D2/D3/D4 and internal saved receipt"
-  ],
+  "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "No Frankfurt/Production/hosted/secrets/deploy",
-    "D UI-only,no migration/sale RPC/payload/prices/permissions change",
+    "D exception210 read-only saved receipt projection only;no sale RPC/payload/prices/ACL change",
     "Historical001-209 migrations,pins and references immutable;preserve replay/history",
     "One writer;no tracked edits during verification;no weaker asserts/retries/skips/timeouts",
     "Only requested screens;always طرد;J finance limited to explicit owner decisions;video/WhatsApp unchanged"
   ],
-  "nextExactAction": "Independent D local gates passed;commit and push this source,create draft PR,verify exact push/PR FULL40 plus secrets. No SQL210 and no merge until owner decision.",
-  "checkpointedAt": "2026-10-22T14:52:04.624Z",
+  "nextExactAction": "Commit and push complete D210;update PR16;verify exact push+PR FULL41 and secret scans,then merge and main FULL41;J211 and H only after D delivery. No hosted access/deploy.",
+  "checkpointedAt": "2026-10-22T16:51:04.673Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 60,
-  "filesTouchedManifestSha256": "d92c3096b0e33ef4a562bbfad1e3839df8751a08d4b848c757e80736e8bbff08",
-  "workingTreeFingerprint": "B5646006B18F1B9B1F6E302980424E6EE1FC4DB7D5BDA160E630E0EAE17BB286"
+  "filesTouchedCount": 54,
+  "filesTouchedManifestSha256": "6d3b14730671b28dd26cf9f2d92c2951f9560c8e52154c4933194cacbe52e77e",
+  "workingTreeFingerprint": "094AAFC025075F1A64EC84F90B100F6ECC779407C94C7C19BC531F1B4AFEA07B"
 }
