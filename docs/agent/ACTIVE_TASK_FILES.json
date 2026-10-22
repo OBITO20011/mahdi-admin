@@ -3,83 +3,11 @@
   "files": [
     {
       "code": " M",
-      "path": ".github/workflows/quality.yml"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/components/PublicPosReceiptPage.tsx"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/services/receipts.service.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/types/receipt.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/tests/public-pos-receipt.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/OWNER_DECISIONS.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/PROJECT_OVERVIEW.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/project-state.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/TRIAL_OWNER_D_J_H_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/generated/DB_FUNCTIONS.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TRIAL_OWNER_D_LOCAL_AR.md"
+      "path": "docs/operations/POSTGREST_TEST_REGISTRY_AR.md"
     },
     {
       "code": " M",
       "path": "docs/operations/TRIAL_OWNER_D_LOCAL.json"
-    },
-    {
-      "code": " M",
-      "path": "package.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/agent/lib.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/agent/preflight.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/run-service-access-diagnostic.mjs"
     },
     {
       "code": " M",
@@ -91,131 +19,15 @@
     },
     {
       "code": " M",
-      "path": "scripts/operations/frankfurt-owner-build.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/trial-reset-core.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-trial-reset-runtime.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/all-customer-collections203.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/canonical-receivables197.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/cashier-collections198.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/cheques195-admission.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/go-live-integration164.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/opening-cheques196.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/pretrial-p1.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/product-integration171.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/product-receiving205.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/sales-history204-evidence.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/service-access-inventory.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/supplier-replacement208-evidence.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/trial-owner-a.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/trial-reset.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/trial-sale-receipts.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/withdrawals182-admission.test.ts"
+      "path": "tests/postgrest-registry-image.test.ts"
     },
     {
       "code": "??",
-      "path": "customer-web/src/receipts/publicReceipt.ts"
+      "path": "docs/operations/TRIAL_OWNER_D_CI_REPAIR_AR.md"
     },
     {
       "code": "??",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_210.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/TRIAL_OWNER_UPGRADE210_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "e2e/package-f-public-receipt210.spec.ts"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/build-acl-reference210.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/frankfurt-owner-upgrade210.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/frankfurt-reference210.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/receipt210-restore.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/run-receipt-upgrade210-runtime.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/run-receipt210-gates.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/run-receipt210-runtime.mjs"
-    },
-    {
-      "code": "??",
-      "path": "supabase/migrations/210_public_pos_receipt_commercial_lines.sql"
-    },
-    {
-      "code": "??",
-      "path": "tests/receipt210.test.ts"
+      "path": "docs/operations/TRIAL_OWNER_D_CI_REPAIR.json"
     }
   ]
 }

@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-22T17:26:47.356Z",
+  "supersededSha": "73c308040d5a75c0a16f0bef28541970d8035f7e",
+  "managedAccess": false,
+  "deployed": false,
+  "failures": {
+    "push": 39817588705,
+    "pr": 39817593699,
+    "reason": "GHCR anonymous pinned PostgREST image pull429 before access queries",
+    "oneUnchangedPushRerunAlsoFailed": true,
+    "oldJobStatusAnomaly": {
+      "job": 119960123334,
+      "financialStep": "success",
+      "completeJob": "success",
+      "rawJobResult": null
+    },
+    "oldCandidatesNotAccepted": true,
+    "cancelledBeforeEdits": true
+  },
+  "change": {
+    "file": "scripts/audit/run-table-access-diagnostic.mjs",
+    "onlyImageArgument": true,
+    "versionUnchanged": "v16.1",
+    "digestUnchanged": "sha256:5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d",
+    "environmentPortReadinessTimeoutProbeContractsUnchanged": true,
+    "noFallbackOrNewRetry": true,
+    "productionSourceFinancialRpcAndSqlUnchanged": true
+  },
+  "imageParity": {
+    "recordedAt": "2026-10-22T17:25:20.455Z",
+    "localOnly": true,
+    "from": "ghcr.io/supabase/postgrest:v16.1@sha256:5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d",
+    "to": "public.ecr.aws/supabase/postgrest:v16.1@sha256:5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d",
+    "digest": "sha256:5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d",
+    "actualPinnedEcrPull": true,
+    "imageId": "sha256:5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d",
+    "os": "linux",
+    "architecture": "amd64",
+    "identicalRootFs": true,
+    "rootFsSha256": "62dd676b6f41e8129ca317da286574fb5f5a382ed5178f710e6766e3d951ba0c",
+    "identicalConfiguration": true,
+    "configurationSha256": "d47d9f402c7b8d5d22b8f2a9eb7853e40100f20456f0a10dbf1a985965eb8fbd",
+    "bothRepositoryDigestsPresent": true
+  },
+  "additionalFrozen209Reference": {
+    "migrations": 171,
+    "functions": 546,
+    "realtimeMembers": 13,
+    "freshIncrementalDifferenceCount": 0,
+    "ownerSaved209Unchanged": true
+  },
+  "pending": [
+    "Final checkpoint and image-only repair commit/push",
+    "New exact feature push+PR FULL41/secrets,merge and main FULL41"
+  ],
+  "priorIndependentEvidence": {
+    "feature210BothRuns7DbGroups": true,
+    "feature210BothRunsRestore0AndResetRest": true,
+    "featureBothRunsBrowser1367Flaky0": true,
+    "notFinalFullAcceptance": true
+  },
+  "validation": {
+    "actualEcr": [
+      {
+        "migrationCeiling": 209,
+        "actualPinnedEcrImage": true,
+        "sourceFiles": 326,
+        "sourceHashesSha256": "05390f6707686c3a93653c6b1d742a351f6f5acd92233233a0554b48c5508045",
+        "querySites": 51,
+        "results": 148,
+        "errors": 0,
+        "allExistingActorVariants": true,
+        "sourceHashesMatchCurrent210Readiness": true,
+        "methods": {
+          "ok": true,
+          "ownerV5RestMutation": true,
+          "publicInheritedMethods": [
+            {
+              "role": "anon",
+              "rows": 3,
+              "parcelOnly": true
+            },
+            {
+              "role": "authenticated",
+              "rows": 3,
+              "parcelOnly": true
+            }
+          ],
+          "adminBarcodeMethod": true,
+          "noRoleRefused": true,
+          "readZeroWrites": true
+        },
+        "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-z82JuQ"
+      },
+      {
+        "migrationCeiling": 210,
+        "actualPinnedEcrImage": true,
+        "sourceFiles": 326,
+        "sourceHashesSha256": "05390f6707686c3a93653c6b1d742a351f6f5acd92233233a0554b48c5508045",
+        "querySites": 51,
+        "results": 148,
+        "errors": 0,
+        "allExistingActorVariants": true,
+        "sourceHashesMatchCurrent210Readiness": true,
+        "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-mWu8S5"
+      }
+    ],
+    "adminUnits": {
+      "passed": 1356,
+      "failed": 0,
+      "skipped": 0
+    },
+    "customerUnits": {
+      "passed": 197,
+      "failed": 0,
+      "skipped": 0
+    },
+    "bothTypechecks": true,
+    "strictLint": true,
+    "exactDiagnosticChangeVerified": true,
+    "productionSqlWorkflowDependenciesUnchanged": true,
+    "registryContractTestsPassed": 2,
+    "gitleaks": {
+      "exitCode": 0,
+      "files": 105
+    }
+  }
+}

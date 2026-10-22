@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "D_COMPLETE_LOCAL210_VERIFIED_FINAL_FEATURE_AND_MAIN_CI_PENDING",
+  "status": "D210_COMPLETE_LOCAL_WITH_VERIFIED_PINNED_ECR_REPAIR_FINAL_FULL_CI_PENDING",
   "recordedAt": "2026-10-22T16:50:13.078Z",
   "branch": "codex/trial-sale-receipts",
   "baselineSha": "581cb972a247ef13dbdc697b75bcc5c674bfa97d",
@@ -94,8 +94,16 @@
     },
     "gitleaks": {
       "exitCode": 0,
-      "scope": "all changed and untracked files against delivered main581cb97",
-      "files": 101
+      "files": 105,
+      "scope": "all changed/untracked against delivered main581cb97"
+    },
+    "registryRepair": {
+      "actualEcr209And210": true,
+      "querySuccessesEach": 148,
+      "allSourceHashesUnchanged": true,
+      "onlyImageArgumentChanged": true,
+      "imageDigestUnchanged": "sha256:5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d",
+      "registryContractTestsPassed": 2
     }
   },
   "owner209": {
@@ -123,8 +131,8 @@
     }
   },
   "pending": [
-    "Final checkpoint;exact feature push+PR FULL41/secrets",
-    "D merge and exact main FULL41/secrets",
+    "Final checkpoint and bounded image-only repair commit",
+    "New exact feature push+PR FULL41/secrets,merge and main FULL41",
     "J211 then H only after D delivery"
   ],
   "owner210": {
@@ -156,5 +164,6 @@
     },
     "guide": "docs/operations/TRIAL_OWNER_UPGRADE210_AR.md",
     "hostedCommandsExecuted": false
-  }
+  },
+  "ciRepair": "docs/operations/TRIAL_OWNER_D_CI_REPAIR.json"
 }

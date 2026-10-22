@@ -744,7 +744,7 @@
     },
     "scripts/audit/run-table-access-diagnostic.mjs": {
       "before": "48afcd1c249424fbca7ec765404526c0a43cae7657431a915e1f554fa91ba969",
-      "after": "5ec0e56f200333219b0fa6672e085ad961cec1b14a18e54bb649268350e9c4e3",
+      "after": "3d17b3d8f9de251e81775ea510626946b79abd4b9fd5eb5e413830724634c13e",
       "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
       "hunks": [
         {
@@ -754,6 +754,15 @@
           ],
           "after": [
             "assert.ok([138,150,164,171,182,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210].includes(ceiling),'ONLY_APPROVED_AUDIT_CEILINGS');"
+          ]
+        },
+        {
+          "at": 81,
+          "before": [
+            "  '-e','PGRST_DB_ANON_ROLE=anon','-e','PGRST_JWT_SECRET='+secret,'ghcr.io/supabase/postgrest:v16.1@sha256:5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d'],{windowsHide:true});restStarted=true;"
+          ],
+          "after": [
+            "  '-e','PGRST_DB_ANON_ROLE=anon','-e','PGRST_JWT_SECRET='+secret,'public.ecr.aws/supabase/postgrest:v16.1@sha256:5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d'],{windowsHide:true});restStarted=true;"
           ]
         }
       ]
@@ -1982,6 +1991,31 @@
           "after": [
             " assert.match(view,/SaleReceiptDialog/);",
             " const adapter=readFileSync('src/features/receipts/saleReceipt.ts','utf8');assert.match(adapter,/baseUnitName:item.baseUnitName/);"
+          ]
+        }
+      ]
+    },
+    "tests/postgrest-registry-image.test.ts": {
+      "before": "491ef47f828f88855ee2914bc21a313fde6d75c6db4fcac67c81b67f016cc9ef",
+      "after": "024c6a148d00ce2ba6a5d31b2ecb51895f1689690dfbd8cb23c30082f84ff4ed",
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 9,
+          "before": [
+            "const pinned=proof.mirror+'@'+proof.digest;"
+          ],
+          "after": [
+            "const pinned=proof.legacy+'@'+proof.digest;"
+          ]
+        },
+        {
+          "at": 21,
+          "before": [
+            "test('registry repair changes ONLY the Docker image argument,not launch env,port,readiness or probe contracts',()=>{"
+          ],
+          "after": [
+            "test('current immutable ECR pin changes ONLY the Docker image argument,not launch env,port,readiness or probe contracts',()=>{"
           ]
         }
       ]

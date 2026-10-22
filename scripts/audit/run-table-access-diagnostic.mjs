@@ -78,7 +78,7 @@ try{
  const secret='isolated-table-access-audit-signing-material-only';
  await exec('docker',['run','-d','--name',rest,'--network','supabase_network_'+project,'-p','127.0.0.1:25421:3000',
   '-e','PGRST_DB_URI=postgresql://authenticator:postgres@db:5432/postgres','-e','PGRST_DB_SCHEMAS=public',
-  '-e','PGRST_DB_ANON_ROLE=anon','-e','PGRST_JWT_SECRET='+secret,'ghcr.io/supabase/postgrest:v16.1@sha256:5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d'],{windowsHide:true});restStarted=true;
+  '-e','PGRST_DB_ANON_ROLE=anon','-e','PGRST_JWT_SECRET='+secret,'public.ecr.aws/supabase/postgrest:v16.1@sha256:5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d'],{windowsHide:true});restStarted=true;
  const deadline=Date.now()+15000;while(true){try{const r=await fetch('http://127.0.0.1:25421/');if(r.status===200)break;}catch{/* readiness only */}
   if(Date.now()>deadline)throw Error('LOCAL_POSTGREST_NOT_READY');await new Promise(resolve=>setTimeout(resolve,100));}
  report.stage='actual-original-queries';console.log(JSON.stringify({stage:report.stage,queries:source.entries.length}));
