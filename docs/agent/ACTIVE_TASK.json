@@ -2,60 +2,54 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner D then J then H,separate worktree/PR/FULLCI/mainCI. D read-only210 explicitly approved;same token/STABLE/ACL,no writes/cost/profit. No hosted access/deploy.",
-  "baselineSha": "73c308040d5a75c0a16f0bef28541970d8035f7e",
+  "objective": "Owner D then J then H,separate worktree/PR/FULL CI/main CI. Current D read-only210 approved;no hosted access/deploy.",
+  "baselineSha": "ff38c81651dd1adb701cad673f372fd79b1151a8",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "codex/trial-sale-receipts",
   "phase": "PACKAGE_F",
   "completed": [
-    "A PR14/B PR15 delivered main581cb97;current D tree and read-only210 explicitly approved",
-    "D1-D4 complete;shared saved/public receipt;explicit sale cards;history reprint;mixed-only config;no financial writer/ACL change"
+    "A/B delivered main581cb97;owner adopted D tree and approved bounded read-only210",
+    "D1-D4 complete;210 SQL7/restore0/ref17254613/local owner pipeline/reset210 verified"
   ],
   "inProgress": [
-    "Final Gitleaks/checkpoint and image-argument-only repair commit/push;new exact FULL41"
+    "Final secret scan/checkpoint and corrected historical209 staging commit/push",
+    "New exact push+PR FULL41/secrets;main FULL41 before J211/H"
   ],
   "notStarted": [
-    "D merge/main FULL41 after exact feature acceptance",
-    "J211 then H separate worktrees/PRs/full CI after D"
+    "D merge/main FULL41 acceptance",
+    "J211 then H after D delivery"
   ],
   "testsPassed": [
-    "1356admin/197store all units,0fail/skip;types/strictlint/builds/isolated SEO",
-    "Public2106+internal20 both-engine PASS;prior affected96/130/5k2/realPOS8 preserved",
-    "Current210 SDK326sources/51sites/148success;RPC525/exact2 expected denials",
-    "210 real DB7groups/unchanged ACL/token/STABLE/zero writes/full restore0diff",
-    "Reference172migrations/546functions/13Realtime,fresh-incremental0;local apply209+210/replay0/resetREST+TOTP/Storage PASS",
-    "Native1426 disjoint identities/core432/F994/all5shards;no escaped production requests",
-    "Pinned ECR209 and210 actual148 SDK successes each;209 inherited methods/no-role denial/zero-write guards PASS;identical image/config/RootFS;all1356+197units/types/strictlint PASS",
-    "Final105-file changed/untracked Gitleaks0;preflight/diff-check PASS;no task-owned processes"
+    "ECR identical pinned image/files/config;SDK209/210 each148 successes;no app/SQL/ACL change",
+    "Current326source/51site SDK and525RPC/exact2 expected denials;frozen209 reference17154613/0diff",
+    "Prior public6/internal20 both engines,realPOS8,5k2;native1426 identities;PWA/full1367browser CI on superseded heads not final acceptance",
+    "Actual209 reset with hash-bound171-file historical view PASS:catalog0,owner/TOTP/warehouse/Storage/staff/REST preserved;source-root210 rejects extra file unchanged;all1357/197 units/types/strictlint PASS",
+    "Final107-file changed/untracked Gitleaks0;preflight/diff-check PASS;no task processes"
   ],
   "testsRemaining": [
-    "Final Gitleaks0/preflight/checkpoint;new exact feature push+PR FULL41/secrets",
-    "Merge/main exact FULL41,secrets,then J211/H"
+    "Final Gitleaks0/preflight/checkpoint;new exact push+PR FULL41/secrets",
+    "Merge and main FULL41/secrets,then J211/H"
   ],
   "findings": [
-    "Read-only210 is explicit owner exception to D no-migration rule;J starts211",
-    "001-209 migrations/oldpins/208-209 owner references unchanged;new210 reference prepared locally only",
-    "Public reprint/share uses saved sanitized evidence only;no cost/profit/internal IDs or token creation",
-    "Actual current evidence TABLE_ACCESS_AFTER_210.json remains independent of frozen209/D-before210 proof",
-    "Final report records bounded fixture corrections;no assertion/retry/skip/timeout weakening",
-    "Known-own complete D210 candidate 73c308040d5a75c0a16f0bef28541970d8035f7e committed after local gates/Gitleaks0;baseline synchronized under owner standing delegation.",
-    "73c3080 superseded after persistent GHCR429 and one actual unchanged push rerun;both stopped before edits. Same immutable ECR digest only,SDK209/210 validated. No source/SQL/workflow/financial/ACL/dependency change."
+    "Historical001-210/oldpins/owner208-210 references preserved;210 reader same token/STABLE/ACL,zero writes",
+    "73c3080 superseded after GHCR429 and one unchanged rerun;ff38c81 superseded for test-only RESET_MANIFEST_CHANGED staging defect",
+    "Read checkout ceiling for current source;stage older exact hash-bound SQL only.No owner guard or live CLI change",
+    "Detailed evidence:docs/operations/TRIAL_OWNER_D_LOCAL.json and TRIAL_OWNER_D_CI_REPAIR.json"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "No Frankfurt/Production/hosted/secrets/deploy",
-    "D exception210 read-only saved receipt projection only;no sale RPC/payload/prices/ACL change",
-    "Historical001-209 migrations,pins and references immutable;preserve replay/history",
-    "One writer;no tracked edits during verification;no weaker asserts/retries/skips/timeouts",
-    "Only requested screens;always طرد;J finance limited to explicit owner decisions;video/WhatsApp unchanged"
+    "No financial writer,pricing,ACL or historical SQL change",
+    "One writer;no tracked edits during verification;no weaker assertions/retries/skips/timeouts",
+    "Only requested screens;always طرد;J finance only owner decisions;video/WhatsApp unchanged"
   ],
-  "nextExactAction": "Commit and push exact-image ECR CI repair;verify new push+PR16 FULL41/secrets,then merge/main FULL41;J211/H after D delivery.",
-  "checkpointedAt": "2026-10-22T17:40:29.561Z",
+  "nextExactAction": "Commit/push corrected historical209 staging;verify exact new push+PR16 FULL41/secrets,then ready/merge and mainFULL41;J211/H only after D delivery.",
+  "checkpointedAt": "2026-10-22T18:12:19.497Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 7,
-  "filesTouchedManifestSha256": "e7e22011827f0bd4ba295beac8ff92bf334ea7f35813a60932dd66a982ba9d8f",
-  "workingTreeFingerprint": "51736101C76417D3B5B2152A5E309337138C9819FF409159EA9C207BC1C137B2"
+  "filesTouchedCount": 8,
+  "filesTouchedManifestSha256": "1078998e8205eca1e4cd821836296d5a53588dcec8af935361d036f8f963b9b4",
+  "workingTreeFingerprint": "5E16037E89105DE05D754240E8FCF5580FD129E8CD215B804DDA98E4D2E653BC"
 }

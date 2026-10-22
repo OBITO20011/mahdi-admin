@@ -914,6 +914,22 @@
         }
       ]
     },
+    "scripts/testing/historical-reset-source.mjs": {
+      "before": "0a4fc4cdce09456b0b6d9f798d6b8b61300273861226bf7604bdac966d9d8ce1",
+      "after": "751601ba3a73ad4d8344358bf36591dafd24cdc647b5705b4a04db12cc91791c",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 9,
+          "before": [
+            " const counts={182:151,199:161,200:162,201:163,202:164,203:165,204:166,205:167,206:168,207:169,208:170},ceiling=reference.migrationCeiling;"
+          ],
+          "after": [
+            " const counts={182:151,199:161,200:162,201:163,202:164,203:165,204:166,205:167,206:168,207:169,208:170,209:171,210:172},ceiling=reference.migrationCeiling;"
+          ]
+        }
+      ]
+    },
     "scripts/testing/receipt210-restore.mjs": {
       "added": true,
       "before": null,
@@ -940,7 +956,7 @@
     },
     "scripts/testing/run-trial-reset-runtime.mjs": {
       "before": "a20dcf08a0eb34e2884aee7bfe8cd51320ca2e371cc7a9d01509ece3b55566a1",
-      "after": "0e97e6fce275bcaf331ef99ac45b7586df7c6f63f4bb43647a5cfd07d2aba9c1",
+      "after": "10d128200d552cd84b3ae9adb1052207cca7408aca87889655dae6c0bd576c59",
       "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
       "hunks": [
         {
@@ -948,6 +964,15 @@
           "before": [],
           "after": [
             "import {readReady210Reference,assertReady210Catalog} from '../operations/frankfurt-reference210.mjs';"
+          ]
+        },
+        {
+          "at": 14,
+          "before": [
+            "import {mkdtemp,writeFile,copyFile} from 'node:fs/promises';"
+          ],
+          "after": [
+            "import {mkdtemp,writeFile,copyFile,readFile} from 'node:fs/promises';"
           ]
         },
         {
@@ -979,7 +1004,17 @@
           ]
         },
         {
-          "at": 149,
+          "at": 58,
+          "before": [
+            " const sourceRoot=latest209?root:await stageHistoricalResetSource(root,reference);"
+          ],
+          "after": [
+            " const checkoutCeiling=JSON.parse(await readFile(path.join(root,'docs/agent/project-state.json'),'utf8')).migrationCeiling;",
+            " const sourceRoot=reference.migrationCeiling===checkoutCeiling?root:await stageHistoricalResetSource(root,reference);"
+          ]
+        },
+        {
+          "at": 150,
           "before": [],
           "after": [
             " if(latest210){assertReady210Catalog(await json(schemaCatalogSql));const wire=await ownerSession.rpc('get_public_pos_receipt',{p_receipt_token:null});assert.equal(wire.error,null,'ACTUAL_OWNER210_REST_READ');assert.equal(wire.data.success,false);report.rest210ReceiptRead=true;}"
@@ -1838,6 +1873,31 @@
           ],
           "after": [
             " assert.equal(source.migrationCeiling,210);assert.equal(proof.migrationCeiling,164);assert.equal(proof.managedAccess,false);"
+          ]
+        }
+      ]
+    },
+    "tests/historical-reset-source.test.ts": {
+      "before": "f568b482da16ffe5f80036b9c6a059238a1e6c1c33abada51dc43e8b29bc212f",
+      "after": "f44478030d49a3f6d05607950777d4641d1f6128aaac64d76eccdef396a0c928",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 9,
+          "before": [
+            "for(const [ceiling,count] of [[182,151],[199,161],[200,162],[201,163],[202,164],[203,165],[204,166],[205,167],[206,168]])test(`historical reset rehearses exact${ceiling} bytes while live owner reset still rejects newer files`,async()=>{"
+          ],
+          "after": [
+            "for(const [ceiling,count] of [[182,151],[199,161],[200,162],[201,163],[202,164],[203,165],[204,166],[205,167],[206,168],[209,171]])test(`historical reset rehearses exact${ceiling} bytes while live owner reset still rejects newer files`,async()=>{"
+          ]
+        },
+        {
+          "at": 26,
+          "before": [
+            " await assert.rejects(stageHistoricalResetSource(root,{migrationCeiling:209,manifest}),/HISTORICAL_RESET_CEILING/u);"
+          ],
+          "after": [
+            " await assert.rejects(stageHistoricalResetSource(root,{migrationCeiling:211,manifest}),/HISTORICAL_RESET_CEILING/u);"
           ]
         }
       ]

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "D210_COMPLETE_LOCAL_WITH_VERIFIED_PINNED_ECR_REPAIR_FINAL_FULL_CI_PENDING",
+  "status": "D210_LOCAL_VERIFIED_REGISTRY_AND_HISTORICAL209_RESET_REPAIRS_FINAL_FULL_CI_PENDING",
   "recordedAt": "2026-10-22T16:50:13.078Z",
   "branch": "codex/trial-sale-receipts",
   "baselineSha": "581cb972a247ef13dbdc697b75bcc5c674bfa97d",
@@ -23,7 +23,7 @@
   },
   "verification": {
     "adminUnits": {
-      "passed": 1356,
+      "passed": 1357,
       "failed": 0,
       "skipped": 0
     },
@@ -94,7 +94,7 @@
     },
     "gitleaks": {
       "exitCode": 0,
-      "files": 105,
+      "files": 107,
       "scope": "all changed/untracked against delivered main581cb97"
     },
     "registryRepair": {
@@ -104,6 +104,22 @@
       "onlyImageArgumentChanged": true,
       "imageDigestUnchanged": "sha256:5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d",
       "registryContractTestsPassed": 2
+    },
+    "historical209Reset": {
+      "sourceCeiling": 209,
+      "files": 171,
+      "exactHashBoundHistoricalView": true,
+      "actualFullLocalReset": true,
+      "catalogDifferences": 0,
+      "ownerRetained": true,
+      "verifiedTotpRetained": true,
+      "mainWarehousePreserved": true,
+      "storageBytesDeleted": true,
+      "staffDeleted": true,
+      "rest208OwnerRead": true,
+      "rest209CatalogRead": true,
+      "allDataCleared": true,
+      "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-trial-reset-ghgQi3"
     }
   },
   "owner209": {
@@ -131,9 +147,9 @@
     }
   },
   "pending": [
-    "Final checkpoint and bounded image-only repair commit",
-    "New exact feature push+PR FULL41/secrets,merge and main FULL41",
-    "J211 then H only after D delivery"
+    "Final checkpoint and corrected test-staging commit",
+    "New exact push+PR FULL41/secrets,merge/main FULL41",
+    "Then J211 and H only after D delivery"
   ],
   "owner210": {
     "offlineOnly": true,

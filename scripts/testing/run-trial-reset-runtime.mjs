@@ -11,7 +11,7 @@ import {readReady202Reference} from '../operations/frankfurt-reference202.mjs';
 import assert from 'node:assert/strict';
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
-import {mkdtemp,writeFile,copyFile} from 'node:fs/promises';
+import {mkdtemp,writeFile,copyFile,readFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {randomUUID} from 'node:crypto';
 import path from 'node:path';
@@ -55,7 +55,8 @@ try{
  const reference=await (latest210?readReady210Reference:latest209?readReady209Reference:latest208?readReady208Reference:latest207?readReady207Reference:latest206?readReady206Reference:latest205?readReady205Reference:latest204?readReady204Reference:latest203?readReady203Reference:latest202?readReady202Reference:latest201?readReady201Reference:latest?readReady200Reference:current?readReady199Reference:readReference182)(root,referencePath);
  // Exercise the exact182/199 owner pipeline using a byte-identical historical
  // source view, not the newer checkout. The production manifest guard stays strict.
- const sourceRoot=latest209?root:await stageHistoricalResetSource(root,reference);
+ const checkoutCeiling=JSON.parse(await readFile(path.join(root,'docs/agent/project-state.json'),'utf8')).migrationCeiling;
+ const sourceRoot=reference.migrationCeiling===checkoutCeiling?root:await stageHistoricalResetSource(root,reference);
  report.historicalSource={root:sourceRoot,ceiling:reference.migrationCeiling,files:reference.manifest.length};
  const boot=await exec(process.execPath,[path.join(root,'scripts/testing/bootstrap-isolated-supabase.mjs')],{cwd:root,windowsHide:true,maxBuffer:8*1024**2,env:{...process.env,
   NAWASRAH_ISOLATED_PROJECT_ID:project,NAWASRAH_MAX_MIGRATION:String(reference.migrationCeiling),NAWASRAH_SKIP_REDUNDANT_DB_RESET:'true',TURNSTILE_SECRET:'isolated-reset-captcha-not-invoked',
