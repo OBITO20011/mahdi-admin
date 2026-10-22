@@ -135,5 +135,24 @@
     "Exact feature push and PR FULL40 plus secret scans",
     "Genuine merge and exact main FULL40 plus secret scan",
     "Copy validated final209 reference into owner local workspace;never execute hosted commands"
-  ]
+  ],
+  "featureCiScopeRepair": {
+    "supersededSha": "bdf1e4f61c613f4fc5037da6462bcff88acf4cfd",
+    "cancelledRuns": [
+      39737114212,
+      39737122154
+    ],
+    "cause": "Historical P1 migration comparison included additive209 absent from its accepted208 baseline",
+    "correction": "Exact170 historical filename set plus every historical byte compared;nonmigration inverses and independent209 gates retained",
+    "productionAndSqlUnchanged": true,
+    "adminUnitsWith209Tracked": {
+      "passed": 1348,
+      "failed": 0,
+      "skipped": 0
+    },
+    "typesAndStrictLint": true,
+    "gitleaks": 0,
+    "assertionsWeakened": false,
+    "retriesSkipsTimeoutsChanged": false
+  }
 }

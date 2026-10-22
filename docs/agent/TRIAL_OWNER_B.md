@@ -27,3 +27,7 @@ Tentative technical review during A main CI (not implementation, must verify aga
 ## Verified local implementation
 
 Additive209 LF 15a81c0d43bb9377b676d76fddbefc83939d30ecc47817af207c6215f5bcfcd7;001-208 and historical source pins/reference bytes unchanged. Effective sale N1 is shown as single-only even with purchase N10;unchanged edits retain purchase3000 and UUIDs. Explicit parcel selection uses the existing unit-price multiplication. Realtime remains13members;the sole208->209 publication-column delta is products.parcel_only. Named209 refusals preserve any prior unknown attempt. Local gates and remaining exact CI are recorded in TRIAL_OWNER_B_LOCAL.json.
+
+## First feature CI scope repair
+
+Feature bdf1e4f push39737114212 and PR39737122154 were cancelled and are not accepted. The postcommit P1 historical migration assertion tried git-show of new209 against its accepted208 baseline. Restrict the historical set to all170 baseline migrations, assert the exact current001-208 filename set, and compare every historical file byte-for-byte; retain all service/calculation inverse assertions and independent209 gates. No production/SQL/permission change, weaker assertion, timeout/retry/skip change or CI rerun of the obsolete commit. Full1348 units must pass with209 tracked before the replacement feature commit and fresh FULL40 push+PR/main gates.

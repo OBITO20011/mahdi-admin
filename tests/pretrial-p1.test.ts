@@ -31,7 +31,12 @@ test('P1 worker only promotes the exact matching release message',async()=>{
 });
 
 test('P1 preserves all service contracts,money/quantity calculations and historical migrations byte-for-byte',()=>{
-  const paths=['src/services/supabase','supabase/migrations','src/utils/receivingCalculations.ts','src/utils/supplierReplacement.ts','src/utils/documentCorrection.ts'];
+  const historicalMigrations=execFileSync('git',['ls-tree','-r','--name-only',base,'--','supabase/migrations'],{encoding:'utf8'}).trim().split('\n').filter(file=>/\/\d+_[^/]+\.sql$/u.test(file)).sort();
+  const currentHistoricalMigrations=execFileSync('git',['ls-files','--','supabase/migrations'],{encoding:'utf8'}).trim().split('\n').filter(file=>{const version=file.match(/\/(\d+)_[^/]+\.sql$/u)?.[1];return version!==undefined&&Number(version)<=208;}).sort();
+  assert.equal(historicalMigrations.length,170);
+  assert.deepEqual(currentHistoricalMigrations,historicalMigrations);
+  for(const file of historicalMigrations)assert.equal(read(file),execFileSync('git',['show',base+':'+file],{encoding:'utf8',maxBuffer:32*1024**2}).replaceAll('\r\n','\n'),file);
+  const paths=['src/services/supabase','src/utils/receivingCalculations.ts','src/utils/supplierReplacement.ts','src/utils/documentCorrection.ts'];
   const changed=execFileSync('git',['diff','--name-only',base,'--',...paths],{encoding:'utf8'}).trim().split('\n').filter(Boolean);
   for(const file of changed){const restored=sourceBeforeTrialOwnerA(file,read(file));if(restored!==null)assert.equal(restored,execFileSync('git',['show',base+':'+file],{encoding:'utf8',maxBuffer:32*1024**2}).replaceAll('\r\n','\n'));}
 });

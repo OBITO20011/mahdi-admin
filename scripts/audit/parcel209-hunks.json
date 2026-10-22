@@ -1834,11 +1834,25 @@
     },
     "tests/pretrial-p1.test.ts": {
       "before": "69fe8fafbcc6d7e297c28dedc43b1a3335e30c850c78aceb3217ce75bcf2c1d6",
-      "after": "086f277738133f96ab0d36f3e84ce4c974f241da9a65d1ff3aafbf9ffc7691b5",
+      "after": "e3c459d3b44045527b5cd20c23bd49d86107d3a8a97f052309577dabe0ca2b26",
       "errorPrefix": "TRIAL_A_ENTIRE_CURRENT_FILE_CHANGED:",
       "hunks": [
         {
-          "at": 51,
+          "at": 34,
+          "before": [
+            "  const paths=['src/services/supabase','supabase/migrations','src/utils/receivingCalculations.ts','src/utils/supplierReplacement.ts','src/utils/documentCorrection.ts'];"
+          ],
+          "after": [
+            "  const historicalMigrations=execFileSync('git',['ls-tree','-r','--name-only',base,'--','supabase/migrations'],{encoding:'utf8'}).trim().split('\\n').filter(file=>/\\/\\d+_[^/]+\\.sql$/u.test(file)).sort();",
+            "  const currentHistoricalMigrations=execFileSync('git',['ls-files','--','supabase/migrations'],{encoding:'utf8'}).trim().split('\\n').filter(file=>{const version=file.match(/\\/(\\d+)_[^/]+\\.sql$/u)?.[1];return version!==undefined&&Number(version)<=208;}).sort();",
+            "  assert.equal(historicalMigrations.length,170);",
+            "  assert.deepEqual(currentHistoricalMigrations,historicalMigrations);",
+            "  for(const file of historicalMigrations)assert.equal(read(file),execFileSync('git',['show',base+':'+file],{encoding:'utf8',maxBuffer:32*1024**2}).replaceAll('\\r\\n','\\n'),file);",
+            "  const paths=['src/services/supabase','src/utils/receivingCalculations.ts','src/utils/supplierReplacement.ts','src/utils/documentCorrection.ts'];"
+          ]
+        },
+        {
+          "at": 56,
           "before": [
             "  assert.equal(JSON.parse(read('docs/agent/project-state.json')).currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_TRIAL_A.json');"
           ],

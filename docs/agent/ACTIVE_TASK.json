@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner package B209:full parcel_only C8 design plus unified sale-method section(parcel/single required-one,mixed capability via existing owner RPC or real state/direct family link).DB admission/locks/replay/legacy/replacement/flavor/import guards;separate PR/FULLCI/merge/owner209 commands.No hostedaccess.",
-  "baselineSha": "d7779f56dc0bdfe77091bb4881cbae4ad50ced3a",
+  "baselineSha": "bdf1e4f61c613f4fc5037da6462bcff88acf4cfd",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "codex/trial-sale-methods",
   "phase": "PACKAGE_F",
@@ -16,7 +16,7 @@
     "209 fresh-incremental0diff/546functions/13members plus owner apply209/replay0 and full resetREST/TOTP/Storage PASS"
   ],
   "inProgress": [
-    "All local gates accepted;prepare feature commit and exact push/PR FULL40/secrets"
+    "PR15 old bdf feature runs cancelled;historical P1 exact170-file scope repaired;fresh1348/lint/Gitleaks0 accepted"
   ],
   "notStarted": [
     "Feature/PR/main exactFULL40 acceptance;no hostedcommands authorized"
@@ -48,12 +48,12 @@
     "No financial policy change;preserve171 cost/CAS and old invoices/replay/returns",
     "One writer;no tracked edits during verification;no weaker asserts/retries/skips/timeouts"
   ],
-  "nextExactAction": "Alllocal1348/197/90UI/SDK148/RPC525/16DB/7races/ref209/resetREST/Gitleaks0 accepted.Stage own B files,commit,push,create separatePR;require exact push+PR FULL40/secrets before merge,then mainFULL40.No hostedaccess.",
+  "nextExactAction": "Commit accepted test-only historical170-file scope correction;push PR15 and fresh exact push+PR FULL40/secrets. No hostedaccess.",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "checkpointedAt": "2026-10-22T06:55:14.589Z",
-  "filesTouchedCount": 94,
-  "filesTouchedManifestSha256": "4e694f6b37bb5b3839920918b92af796d96b568b9bc6cadd6f3d7e92040d07f6",
-  "workingTreeFingerprint": "A4D4CBFC6A961B13FC44D96FB06ED15B2A0E73D66033EB422D7A5D77C1F301FC"
+  "checkpointedAt": "2026-10-22T07:10:09.662Z",
+  "filesTouchedCount": 4,
+  "filesTouchedManifestSha256": "e8f61107b262889956c2223ec1133de1a3c32f6ae8c4744c3df60169dd043816",
+  "workingTreeFingerprint": "60FFC75774C85B2A9626CD7129D60143FACAA2EEE4F9DFA2FCC9C7FD5F274E98"
 }
