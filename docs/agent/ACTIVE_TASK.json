@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner D then J then H,separate worktree/PR/FULL CI/main CI. Current D read-only210 approved;no hosted access/deploy.",
-  "baselineSha": "c2a38d6c886441056572f7111ad0faa1504fdf54",
+  "baselineSha": "5b1eea360116e813614434c391822984dd7c5668",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "codex/trial-sale-receipts",
   "phase": "PACKAGE_F",
@@ -12,27 +12,28 @@
     "D1-D4 complete;210 SQL7/restore0/ref17254613/local owner pipeline/reset210 verified"
   ],
   "inProgress": [
-    "Final Gitleaks/checkpoint;commit offline exact-image QA fixture",
-    "Exact push+PR FULL41/secrets then merge/main FULL41"
+    "Commit and push verified browser mirrorlist CI correction",
+    "New exact FULL41 push+PR/secrets then merge/main FULL41"
   ],
   "notStarted": [
     "D merge/main FULL41 acceptance",
     "J211 then H after D delivery"
   ],
   "testsPassed": [
-    "D1-D4 complete;210 DB7/restore0/fresh-incremental172-546-13/upgrade209+210/replay0/resetREST PASS",
-    "Exact offline official PostgREST fixture:SDK209 and210 each148 success/allroles;6crypto/negative guards PASS",
-    "1361admin/197store units,types/strictlint PASS;earlier bothengine/realPOS/native/browser gates preserved",
-    "Historical209 full reset exact171-file view PASS;current210 rejects extra source;no owner guard change"
+    "D1-D4 complete;read-only210 DB7/restore0/reference172-546-13/upgrade209+210/replay0/resetREST PASS",
+    "1361admin/197store/types/strictlint/Gitleaks112files0 PASS after final mirrorlist correction",
+    "Actual workflow Bash3positive/2negative:only Azure entry removed;official HTTPS mirrors/priorities/sources/keyring retained",
+    "Offline pinned PostgREST SDK209/210 each148;historical209 hash-bound171-file reset verified",
+    "Superseded5b PR attempt2 strict FULL41/PWA4/1367browser0flaky/realPOS8/all208-210 PASS;not new-candidate delivery acceptance"
   ],
   "testsRemaining": [
-    "Final Gitleaks0;exact feature push+PR/main FULL41,secrets"
+    "Exact new feature push+PR/main FULL41 and secrets"
   ],
   "findings": [
-    "Product/financial/SQL/ACL/source inventories unchanged by QA fixes;001-210/oldpins/owner208-210 references immutable",
-    "c2a38d6 superseded after ECR anonymous quota;both runs stopped before edits;no earlier fullCI acceptance",
-    "6.5MB hash-bound official image loads offline by immutableID;no auth/pull/retry/timeout/assertion change",
-    "Detailed evidence:TRIAL_OWNER_D_LOCAL.json and TRIAL_OWNER_D_CI_REPAIR.json"
+    "Historical001-210,old pins and owner208-210 references immutable;no app/SQL/ACL/pricing change in CI repairs",
+    "5b push POS twice exceeded35min downloading Azure Ubuntu apt packages before tests;one unchanged rerun exhausted",
+    "Official runner uses apt-mirrors.txt indirection;remove only Azure entry,keep HTTPS archives;existing Playwright command/assertions/retries/time budgets unchanged",
+    "Evidence:TRIAL_OWNER_D_CI_REPAIR.json and TRIAL_OWNER_D_LOCAL.json"
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -42,12 +43,12 @@
     "One writer;no tracked edits during verification;no weaker assertions/retries/skips/timeouts",
     "Only requested screens;always طرد;J finance only owner decisions;video/WhatsApp unchanged"
   ],
-  "nextExactAction": "Commit verified offline exact PostgREST QA fixture;push PR16 and require exact FULL41 push/PR/secrets then merge/main FULL41 before J211/H.",
-  "checkpointedAt": "2026-10-22T18:54:44.854Z",
+  "nextExactAction": "Commit verified bounded apt mirrorlist fix;push PR16 and require exact FULL41 push/PR/secrets then merge/main FULL41 before J211/H.",
+  "checkpointedAt": "2026-10-22T20:20:01.733Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 10,
-  "filesTouchedManifestSha256": "2ec595b9140f318147fa7f3515ebbb9d84f3c92de039f47eb1a580e223722e34",
-  "workingTreeFingerprint": "C742FF928E4404B813043330F5A41CF146CA7F0BB87B7D19CB592A6871E2DE26"
+  "filesTouchedCount": 4,
+  "filesTouchedManifestSha256": "f48b325351d6e447c168535fe31136ea24c474fdf95eba589b386328fc433165",
+  "workingTreeFingerprint": "70FFF60D31F149CB14180006E511040B6D37F1B9F962EDA78085E5C486517CCF"
 }

@@ -300,5 +300,420 @@
         "files": 112
       }
     }
+  },
+  "browserDependencyMirror": {
+    "supersededSha": "5b1eea360116e813614434c391822984dd7c5668",
+    "pushRun": 39835562459,
+    "attempts": [
+      {
+        "attempt": 1,
+        "job": 120022922139,
+        "result": "cancelled",
+        "reason": "35min deadline while apt downloaded official Ubuntu packages from azure.archive.ubuntu.com;POS test skipped",
+        "lastPackage": 130
+      },
+      {
+        "attempt": 2,
+        "job": 120041495352,
+        "result": "cancelled",
+        "reason": "One unchanged environmental rerun;35min deadline again in the same apt phase;POS test skipped",
+        "lastPackage": 150
+      }
+    ],
+    "previousPrStrictProof": {
+      "sha": "5b1eea360116e813614434c391822984dd7c5668",
+      "recordedAt": "2026-10-22T20:00:47.311Z",
+      "managedAccess": false,
+      "quality": [
+        {
+          "id": 39835569335,
+          "event": "pull_request",
+          "sha": "5b1eea360116e813614434c391822984dd7c5668",
+          "attempt": 2,
+          "jobs": 41,
+          "strictFullVerified": true,
+          "actualReset208": {
+            "publicReport": true,
+            "authenticatedRestRead": true,
+            "ownerTotpStoragePreserved": true
+          },
+          "actualFull208": {
+            "passed": 21,
+            "readScale": {
+              "realWriterCases": 200,
+              "pageSize": 25,
+              "samplesMs": [
+                222,
+                221,
+                221,
+                221,
+                223
+              ],
+              "statementDeadlineMs": 5000
+            },
+            "restore": {
+              "logicalCatalogDifferences": 0,
+              "allPublicDataAndSequencesIdentical": true,
+              "replayZeroWrites": true
+            }
+          }
+        }
+      ],
+      "secrets": [
+        {
+          "id": 39835562176,
+          "event": "push",
+          "sha": "5b1eea360116e813614434c391822984dd7c5668",
+          "conclusion": "success"
+        },
+        {
+          "id": 39835569535,
+          "event": "pull_request",
+          "sha": "5b1eea360116e813614434c391822984dd7c5668",
+          "conclusion": "success"
+        }
+      ],
+      "browser": [
+        {
+          "run": 39835569335,
+          "job": 120038663667,
+          "name": "Lint, test, build and browser QA",
+          "skipped": 59,
+          "passed": 373,
+          "summaries": 1,
+          "duration": "11.3m",
+          "flaky": 0,
+          "logSha256": "e613e10ba29a222e1c9055b5516ed928550f5af3de1a9358ed5256de4e1ff3a7"
+        },
+        {
+          "run": 39835569335,
+          "job": 120038663860,
+          "name": "Package F browser QA (5/5)",
+          "skipped": 0,
+          "passed": 198,
+          "summaries": 2,
+          "duration": "5.3m+7.4m",
+          "flaky": 0,
+          "logSha256": "f608240b46ea6dc269320767f909ec44605a5ca596134b0906edf7be21d0c920"
+        },
+        {
+          "run": 39835569335,
+          "job": 120038663896,
+          "name": "Package F browser QA (2/5)",
+          "skipped": 0,
+          "passed": 200,
+          "summaries": 2,
+          "duration": "4.6m+6.3m",
+          "flaky": 0,
+          "logSha256": "496061ad78f1531e667131525ff458093f3d7850abe32a6e6dea26393523d1f3"
+        },
+        {
+          "run": 39835569335,
+          "job": 120038663911,
+          "name": "Package F browser QA (4/5)",
+          "skipped": 0,
+          "passed": 198,
+          "summaries": 2,
+          "duration": "5.1m+7.3m",
+          "flaky": 0,
+          "logSha256": "0704ee89a2902d7eac2d299d6baac267e8d1a736122dfb9a981501fd709427a9"
+        },
+        {
+          "run": 39835569335,
+          "job": 120038663916,
+          "name": "Package F browser QA (3/5)",
+          "skipped": 0,
+          "passed": 198,
+          "summaries": 2,
+          "duration": "4.9m+6.7m",
+          "flaky": 0,
+          "logSha256": "1f052434298920d73f974f408b5cfc2408401253496465725cb5311facfad411"
+        },
+        {
+          "run": 39835569335,
+          "job": 120038663996,
+          "name": "Package F browser QA (1/5)",
+          "skipped": 0,
+          "passed": 200,
+          "summaries": 2,
+          "duration": "5.9m+8.7m",
+          "flaky": 0,
+          "logSha256": "4b8890a5303ceeb0f92fbcc4077db444d58a86d5e59e89e08a34dc6fc0e63728"
+        }
+      ],
+      "browserTotals": [
+        {
+          "run": 39835569335,
+          "passed": 1367,
+          "legacyConditionalSkipped": 59,
+          "flaky": 0
+        }
+      ],
+      "pwa": [
+        {
+          "run": 39835569335,
+          "job": 120038663981,
+          "mode": "full",
+          "scenarios": [
+            {
+              "browser": "Chromium",
+              "scenario": "automatic",
+              "ok": true,
+              "cacheCleanup": true,
+              "reopenedOnReleaseB": true
+            },
+            {
+              "browser": "Chromium",
+              "scenario": "waiting-worker",
+              "ok": true,
+              "cacheCleanup": true,
+              "reopenedOnReleaseB": true
+            },
+            {
+              "browser": "WebKit",
+              "scenario": "automatic",
+              "ok": true,
+              "cacheCleanup": true,
+              "reopenedOnReleaseB": true
+            },
+            {
+              "browser": "WebKit",
+              "scenario": "waiting-worker",
+              "ok": true,
+              "cacheCleanup": true,
+              "reopenedOnReleaseB": true
+            }
+          ],
+          "network": {
+            "denied": [],
+            "blockedCanaryAttempts": [],
+            "deniedUnexpectedAttempts": [],
+            "escapedExternalRequests": []
+          }
+        }
+      ],
+      "trialASearch": [
+        {
+          "run": 39835569335,
+          "job": 120038664682,
+          "ok": true,
+          "managedAccess": false,
+          "realPostgrest": true,
+          "matchingOutsideFirstPage": true,
+          "pages": 2,
+          "fullItemsRetained": true,
+          "exactCount": 32,
+          "filtersAndQuotedSearch": true,
+          "zeroWrites": true,
+          "singleSkuHasNoDuplicateParcel": true,
+          "cases": [
+            {
+              "role": "owner",
+              "passed": true,
+              "matchingOutsideFirstPage": true
+            },
+            {
+              "role": "admin",
+              "passed": true,
+              "matchingOutsideFirstPage": true
+            },
+            {
+              "role": "manager",
+              "passed": true,
+              "matchingOutsideFirstPage": true
+            },
+            {
+              "role": "warehouse_keeper",
+              "passed": true,
+              "matchingOutsideFirstPage": true
+            },
+            {
+              "role": "accountant",
+              "passed": true,
+              "matchingOutsideFirstPage": true
+            },
+            {
+              "role": "cashier",
+              "existingReaderDenied": true,
+              "passed": true
+            },
+            {
+              "role": "no-role",
+              "existingReaderDenied": true,
+              "passed": true
+            }
+          ]
+        }
+      ],
+      "actualPosBrowser": [
+        {
+          "run": 39835569335,
+          "job": 120038664415,
+          "passed": 8,
+          "scenariosPerEngine": 4,
+          "engines": [
+            "Chromium",
+            "WebKit"
+          ],
+          "realPublicRpc": true,
+          "realIsolatedDatabase": true,
+          "productionRequests": 0
+        }
+      ],
+      "parcel209": [
+        {
+          "run": 39835569335,
+          "job": 120038664690,
+          "cases": 16,
+          "races": 7,
+          "restore": {
+            "logicalCatalogDifferences": 0,
+            "allPublicDataAndSequencesIdentical": true,
+            "replayZeroWrites": true
+          },
+          "access": {
+            "ok": true,
+            "ownerV5RestMutation": true,
+            "publicInheritedMethods": [
+              {
+                "role": "anon",
+                "rows": 3,
+                "parcelOnly": true
+              },
+              {
+                "role": "authenticated",
+                "rows": 3,
+                "parcelOnly": true
+              }
+            ],
+            "adminBarcodeMethod": true,
+            "noRoleRefused": true,
+            "readZeroWrites": true
+          },
+          "reference": {
+            "migrations": 171,
+            "functions": 546,
+            "realtimeMembers": 13,
+            "freshIncrementalDifferenceCount": 0
+          },
+          "upgrade": {
+            "applied": [
+              "209"
+            ],
+            "recorded": [
+              "209"
+            ],
+            "replayWrite": false
+          },
+          "reset": {
+            "ownerRetained": true,
+            "totp": true,
+            "storageDeleted": true,
+            "rest209": true
+          }
+        }
+      ],
+      "receipt210": [
+        {
+          "run": 39835569335,
+          "job": 120038665256,
+          "cases": 7,
+          "restore": {
+            "logicalCatalogDifferences": 0,
+            "allPublicDataAndSequencesIdentical": true,
+            "replayZeroWrites": true
+          },
+          "reference": {
+            "migrations": 172,
+            "functions": 546,
+            "realtimeMembers": 13,
+            "freshIncrementalDifferenceCount": 0
+          },
+          "upgrade": {
+            "applied": [
+              "209",
+              "210"
+            ],
+            "recorded": [
+              "209",
+              "210"
+            ],
+            "replayWrite": false
+          },
+          "reset": {
+            "ownerRetained": true,
+            "totp": true,
+            "storageDeleted": true,
+            "rest210": true
+          }
+        }
+      ],
+      "pr": {
+        "number": 16,
+        "url": "https://github.com/OBITO20011/mahdi-admin/pull/16",
+        "base": "581cb972a247ef13dbdc697b75bcc5c674bfa97d",
+        "head": "5b1eea360116e813614434c391822984dd7c5668",
+        "merged": false,
+        "mergeSha": "effce0758962dcb40798a7d034fb319c23bc87d7"
+      },
+      "ok": true
+    },
+    "allRemoteVerificationStoppedBeforeEdits": true,
+    "correction": "Exclude only Azure entry from actual /etc/apt/apt-mirrors.txt used by official GitHub Ubuntu image;keep official HTTPS archive/security entries and their priorities. Guard retained archive and refuse unremoved Azure. Sources,suites,components,keyring and existing Playwright command stay unchanged.",
+    "noMoreUnchangedReruns": true,
+    "noSourceSqlFinancialPermissionChange": true,
+    "noTimeoutRetrySkipOrAssertionChange": true,
+    "verification": {
+      "actualWorkflowBlockTested": true,
+      "target": "/etc/apt/apt-mirrors.txt",
+      "onlyAzureMirrorRemoved": true,
+      "officialArchiveAndSecurityEntriesUnchanged": true,
+      "prioritiesRetained": true,
+      "sourcesFileSuitesComponentsAndSigningKeyUntouched": true,
+      "playwrightInstallCommandUnchanged": true,
+      "positiveCases": 3,
+      "negativeCases": 2,
+      "unknownAzureLayoutAndMissingArchiveRefused": true,
+      "officialRunnerSource": {
+        "url": "https://raw.githubusercontent.com/actions/runner-images/main/images/ubuntu/scripts/build/configure-apt-sources.sh",
+        "sha256": "90b1cde55a1daacb8b65efd19faa3a1fe61c24353c3fef829da2104ff6be5f16",
+        "indirectionConfirmed": true
+      },
+      "officialHttpsRelease": {
+        "url": "https://archive.ubuntu.com/ubuntu/dists/noble/InRelease",
+        "status": 200,
+        "bytes": 255850,
+        "sha256": "cdb2f31d809f589719a53c6ad15f255b27569c4059542ada282aaa21b8e164b0",
+        "signedEnvelope": true,
+        "codename": "noble"
+      }
+    },
+    "localValidation": {
+      "adminUnits": {
+        "passed": 1361,
+        "failed": 0,
+        "skipped": 0
+      },
+      "storeUnits": {
+        "passed": 197,
+        "failed": 0,
+        "skipped": 0
+      },
+      "bothTypechecks": true,
+      "strictLint": true,
+      "gitleaks": {
+        "files": 112,
+        "exitCode": 0
+      },
+      "changedPaths": [
+        ".github/workflows/quality.yml",
+        "scripts/audit/trial-sale-receipts-hunks.json",
+        "docs/agent/ACTIVE_TASK.json",
+        "docs/agent/ACTIVE_TASK_FILES.json",
+        "docs/operations/TRIAL_OWNER_D_CI_REPAIR.json",
+        "docs/operations/TRIAL_OWNER_D_LOCAL.json"
+      ],
+      "productionSourceSqlAndRpcUnchanged": true
+    }
   }
 }

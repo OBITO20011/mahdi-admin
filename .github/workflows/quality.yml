@@ -493,7 +493,16 @@ jobs:
 
       - name: Install fullstack browsers
         if: matrix.suite == 'pos-browser'
-        run: npx playwright install --with-deps chromium webkit
+        run: |
+          # Keep Ubuntu's signed packages; avoid the Azure mirror that exhausted
+          # the job budget twice while downloading browser system dependencies.
+          sudo sed -i '\|^https\?://azure\.archive\.ubuntu\.com/ubuntu/[[:space:]]|d' /etc/apt/apt-mirrors.txt
+          grep -q '^https://archive\.ubuntu\.com/ubuntu/' /etc/apt/apt-mirrors.txt
+          if grep -Fq 'azure.archive.ubuntu.com' /etc/apt/apt-mirrors.txt; then
+            echo '::error::Azure apt mirror was not removed'
+            exit 1
+          fi
+          npx playwright install --with-deps chromium webkit
 
       - name: Run POS132 browser RPC carton and cancellation evidence
         if: matrix.suite == 'pos-browser'

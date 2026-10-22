@@ -3,7 +3,7 @@
   "entries": {
     ".github/workflows/quality.yml": {
       "before": "06d24766f44f9ccec345c4fd771f89afcb733308080fe782c8e265ac9f552387",
-      "after": "855d5ff73c244b622596a36dd1ad063f7468d1395a093199beba8bea5c28d8f4",
+      "after": "e64711e0f6297ff8130b974596b02ece9065a058c80715d33349e490f9072af3",
       "errorPrefix": "TRIAL_A_ENTIRE_CURRENT_FILE_CHANGED:",
       "hunks": [
         {
@@ -23,6 +23,24 @@
             "        if: matrix.suite == 'receipt210'",
             "        run: node scripts/testing/run-receipt210-gates.mjs",
             ""
+          ]
+        },
+        {
+          "at": 496,
+          "before": [
+            "        run: npx playwright install --with-deps chromium webkit"
+          ],
+          "after": [
+            "        run: |",
+            "          # Keep Ubuntu's signed packages; avoid the Azure mirror that exhausted",
+            "          # the job budget twice while downloading browser system dependencies.",
+            "          sudo sed -i '\\|^https\\?://azure\\.archive\\.ubuntu\\.com/ubuntu/[[:space:]]|d' /etc/apt/apt-mirrors.txt",
+            "          grep -q '^https://archive\\.ubuntu\\.com/ubuntu/' /etc/apt/apt-mirrors.txt",
+            "          if grep -Fq 'azure.archive.ubuntu.com' /etc/apt/apt-mirrors.txt; then",
+            "            echo '::error::Azure apt mirror was not removed'",
+            "            exit 1",
+            "          fi",
+            "          npx playwright install --with-deps chromium webkit"
           ]
         }
       ]

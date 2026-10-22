@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "D210_LOCAL_VERIFIED_OFFLINE_IMAGE_FINAL_FULL_CI_PENDING",
-  "recordedAt": "2026-10-22T18:54:12.122Z",
+  "status": "D210_MIRRORLIST_LOCAL_VERIFIED_NEW_EXACT_FULL_CI_PENDING",
+  "recordedAt": "2026-10-22T20:19:57.532Z",
   "branch": "codex/trial-sale-receipts",
   "baselineSha": "581cb972a247ef13dbdc697b75bcc5c674bfa97d",
   "managedAccess": false,
@@ -151,8 +151,9 @@
     }
   },
   "pending": [
+    "Commit final bounded mirrorlist correction",
     "New exact push+PR FULL41/secrets,merge/main FULL41",
-    "Then J211 and H only after D delivery"
+    "Then J211 and H after D delivery"
   ],
   "owner210": {
     "offlineOnly": true,
@@ -323,5 +324,13 @@
       "types": true,
       "strictLint": true
     }
+  },
+  "browserDependencyMirror": {
+    "proof": "TRIAL_OWNER_D_CI_REPAIR.json",
+    "productUnchanged": true,
+    "previousPrFull41Success": true,
+    "previousPushFailedBeforePosTests": true,
+    "newExactPushPrMainRequired": true,
+    "localVerified": true
   }
 }

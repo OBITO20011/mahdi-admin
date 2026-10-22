@@ -3,6 +3,10 @@
   "files": [
     {
       "code": " M",
+      "path": ".github/workflows/quality.yml"
+    },
+    {
+      "code": " M",
       "path": "docs/operations/TRIAL_OWNER_D_CI_REPAIR.json"
     },
     {
@@ -11,35 +15,7 @@
     },
     {
       "code": " M",
-      "path": "scripts/audit/run-table-access-diagnostic.mjs"
-    },
-    {
-      "code": " M",
       "path": "scripts/audit/trial-sale-receipts-hunks.json"
-    },
-    {
-      "code": " M",
-      "path": "tests/postgrest-registry-image.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/pinned-postgrest-image.mjs"
-    },
-    {
-      "code": "??",
-      "path": "tests/fixtures/POSTGREST_IMAGE_NOTICE.md"
-    },
-    {
-      "code": "??",
-      "path": "tests/fixtures/postgrest-v16.1-linux-amd64.tar.gz"
-    },
-    {
-      "code": "??",
-      "path": "tests/fixtures/postgrest-v16.1.LICENSE"
-    },
-    {
-      "code": "??",
-      "path": "tests/postgrest-bundled-image.test.ts"
     }
   ]
 }
