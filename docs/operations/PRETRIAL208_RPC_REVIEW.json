@@ -1,0 +1,611 @@
+{
+  "sourceRevision": "b79a9e7bc5e4ff9551c8dab111edb6c04fc17dd3",
+  "managedAccess": false,
+  "method": "Saved reference208 catalog and current source inventory;absence from RPC name inventory does not prove no SDK/DB caller",
+  "exposed": 200,
+  "sourceRpcNames": 173,
+  "notDirectRpcNameCount": 32,
+  "rows": [
+    {
+      "name": "cancel_purchase_receipt_v2",
+      "identity": "cancel_purchase_receipt_v2(p_purchase_receipt_id uuid, p_reason text)",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [
+        "execute_document_correction_once(p_action text, p_record_id uuid, p_reason text, p_idempotency_key text, p_preview_fingerprint text)"
+      ],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": [],
+      "classification": "called by DB wrapper;not evidence of missing UI"
+    },
+    {
+      "name": "create_customer_order",
+      "identity": "create_customer_order(p_customer_full_name text, p_customer_phone text, p_customer_email text, p_governorate text, p_city text, p_area text, p_street text, p_building text, p_floor text, p_apartment text, p_address_notes text, p_latitude double precision, p_longitude double precision, p_formatted_address text, p_google_maps_url text, p_location_source text, p_branch_id uuid, p_warehouse_id uuid, p_items jsonb, p_delivery_fee_in_minor_units bigint, p_discount_in_minor_units bigint, p_customer_notes text, p_internal_notes text, p_source text)",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [
+        "submit_guest_customer_order_core(p_idempotency_key text, p_customer_full_name text, p_customer_phone text, p_governorate text, p_city text, p_area text, p_street text, p_building text, p_address_notes text, p_google_maps_url text, p_latitude double precision, p_longitude double precision, p_customer_notes text, p_items jsonb, p_promotion_code text)"
+      ],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": [],
+      "classification": "called by DB wrapper;not evidence of missing UI"
+    },
+    {
+      "name": "create_direct_supplier_receipt",
+      "identity": "create_direct_supplier_receipt(p_supplier_id uuid, p_warehouse_id uuid, p_branch_id uuid, p_supplier_invoice_number text, p_supplier_invoice_date date, p_received_at timestamp with time zone, p_delivery_fee_in_minor_units bigint, p_discount_in_minor_units bigint, p_tax_in_minor_units bigint, p_amount_paid_in_minor_units bigint, p_payment_method text, p_payment_reference text, p_notes text, p_internal_notes text, p_idempotency_key uuid, p_items jsonb)",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": [
+        {
+          "file": "src/services/supabase/directReceiving.service.ts",
+          "lines": [
+            375,
+            385
+          ]
+        }
+      ],
+      "classification": "manual comparison with current service path needed;no grant change authorized by audit"
+    },
+    {
+      "name": "create_product_with_opening_stock",
+      "identity": "create_product_with_opening_stock(p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_warehouse_id uuid, p_opening_quantity integer, p_notes text)",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [
+        "create_product_with_opening_stock_v2(p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_wholesale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_warehouse_id uuid, p_opening_quantity integer, p_notes text)"
+      ],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": [
+        {
+          "file": "src/services/supabase/products.service.ts",
+          "lines": [
+            547,
+            672,
+            678
+          ]
+        }
+      ],
+      "classification": "called by DB wrapper;not evidence of missing UI"
+    },
+    {
+      "name": "create_product_with_opening_stock_v2",
+      "identity": "create_product_with_opening_stock_v2(p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_wholesale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_warehouse_id uuid, p_opening_quantity integer, p_notes text)",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [
+        "create_product_with_opening_stock_v3(p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_wholesale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_warehouse_id uuid, p_opening_quantity integer, p_notes text, p_image_url text)"
+      ],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": [],
+      "classification": "called by DB wrapper;not evidence of missing UI"
+    },
+    {
+      "name": "create_product_with_opening_stock_v3",
+      "identity": "create_product_with_opening_stock_v3(p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_wholesale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_warehouse_id uuid, p_opening_quantity integer, p_notes text, p_image_url text)",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [
+        "create_product_with_opening_stock_v4(p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_sale_unit_id uuid, p_units_per_sale_unit integer, p_default_sale_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_warehouse_id uuid, p_opening_quantity integer, p_notes text, p_image_url text)"
+      ],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": [],
+      "classification": "called by DB wrapper;not evidence of missing UI"
+    },
+    {
+      "name": "create_purchase_order_v2",
+      "identity": "create_purchase_order_v2(p_supplier_id uuid, p_branch_id uuid, p_warehouse_id uuid, p_expected_delivery_date timestamp with time zone, p_expected_header_discount_in_minor_units bigint, p_expected_supplier_freight_in_minor_units bigint, p_notes text, p_internal_notes text, p_idempotency_key text, p_lines jsonb)",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": [],
+      "classification": "manual comparison with current service path needed;no grant change authorized by audit"
+    },
+    {
+      "name": "enforce_customer_for_debt_order",
+      "identity": "enforce_customer_for_debt_order()",
+      "roles": [
+        "PUBLIC"
+      ],
+      "dbCallers": [],
+      "policyCallers": [],
+      "triggerCallers": [
+        "public.orders.trg_require_customer_for_debt_order"
+      ],
+      "sourceMentions": [],
+      "classification": "trigger entrypoint;not a missing UI"
+    },
+    {
+      "name": "enforce_product_flavor_inheritance",
+      "identity": "enforce_product_flavor_inheritance()",
+      "roles": [
+        "PUBLIC"
+      ],
+      "dbCallers": [],
+      "policyCallers": [],
+      "triggerCallers": [
+        "public.products.trg_products_flavor_inheritance"
+      ],
+      "sourceMentions": [],
+      "classification": "trigger entrypoint;not a missing UI"
+    },
+    {
+      "name": "get_admin_product_listing",
+      "identity": "get_admin_product_listing()",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": [],
+      "classification": "manual comparison with current service path needed;no grant change authorized by audit"
+    },
+    {
+      "name": "get_cash_shift_display_summary",
+      "identity": "get_cash_shift_display_summary(p_shift_id uuid)",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [
+        "_cancel_empty_cash_shift_before_return_events(p_shift_id uuid, p_reason text)",
+        "_get_expense_shift_center_v1(p_branch_id uuid, p_expense_limit integer)",
+        "get_cash_shift_archive_page(p_branch_id uuid, p_cashier_id uuid, p_status text, p_shift_number text, p_date_from date, p_date_to date, p_limit integer, p_offset integer)",
+        "get_expense_shift_center(p_branch_id uuid, p_expense_limit integer)"
+      ],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": [],
+      "classification": "called by DB wrapper;not evidence of missing UI"
+    },
+    {
+      "name": "get_cash_shift_summary",
+      "identity": "get_cash_shift_summary(p_shift_id uuid)",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [
+        "_close_cash_shift_before_closing_report_snapshot(p_shift_id uuid, p_actual_cash_in_minor_units bigint, p_discrepancy_reason text)",
+        "_get_cash_shift_closing_report_before_return_events(p_shift_id uuid)",
+        "_get_cash_shift_closing_report_v1(p_shift_id uuid)",
+        "_reverse_operational_expense_before_phase4_lock(p_expense_id uuid, p_reason text)",
+        "create_operational_expense(p_branch_id uuid, p_category text, p_description text, p_amount_in_minor_units bigint, p_payment_method text, p_reference_number text)",
+        "create_owner_cash_withdrawal_v1(p_shift_id uuid, p_amount_in_minor_units bigint, p_reason text, p_idempotency_key text)",
+        "get_cash_shift_display_summary(p_shift_id uuid)",
+        "get_cash_shift_movement_page(p_shift_id uuid, p_kind text, p_method text, p_page integer, p_page_size integer)",
+        "open_cash_shift(p_branch_id uuid, p_opening_cash_in_minor_units bigint)",
+        "reverse_owner_cash_withdrawal_v1(p_withdrawal_id uuid, p_reason text, p_idempotency_key text)"
+      ],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": [],
+      "classification": "called by DB wrapper;not evidence of missing UI"
+    },
+    {
+      "name": "get_configurable_parcel_feature_state",
+      "identity": "get_configurable_parcel_feature_state()",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "dbCallers": [
+        "assert_configurable_parcel_creation_allowed()",
+        "get_admin_parcel_configuration_context_v1()",
+        "get_pos_configurable_parcel_options_v1(p_warehouse_id uuid)",
+        "package_d_public_parcel_options_before_policy_internal(p_family_product_ids uuid[])",
+        "phase3_assert_configurable_parcel_creation_allowed_internal(p_actor_scope_type text, p_actor_user_id uuid)",
+        "preview_guest_promotion_v2(p_lines jsonb, p_promotion_code text, p_customer_phone text)"
+      ],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": [],
+      "classification": "called by DB wrapper;not evidence of missing UI"
+    },
+    {
+      "name": "get_dashboard_analytics",
+      "identity": "get_dashboard_analytics()",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": [],
+      "classification": "manual comparison with current service path needed;no grant change authorized by audit"
+    },
+    {
+      "name": "get_public_product_catalog",
+      "identity": "get_public_product_catalog(p_limit integer, p_offset integer, p_category_id uuid, p_search text)",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "dbCallers": [
+        "get_public_storefront_catalog(p_limit integer, p_offset integer, p_category_id uuid, p_search text)"
+      ],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": [],
+      "classification": "called by DB wrapper;not evidence of missing UI"
+    },
+    {
+      "name": "get_public_storefront_catalog",
+      "identity": "get_public_storefront_catalog(p_limit integer, p_offset integer, p_category_id uuid, p_search text)",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "dbCallers": [],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": [
+        {
+          "file": "customer-web/src/services/catalog.service.ts",
+          "lines": [
+            388
+          ]
+        }
+      ],
+      "classification": "manual comparison with current service path needed;no grant change authorized by audit"
+    },
+    {
+      "name": "guard_cash_shift_closing_report_snapshot",
+      "identity": "guard_cash_shift_closing_report_snapshot()",
+      "roles": [
+        "PUBLIC"
+      ],
+      "dbCallers": [],
+      "policyCallers": [],
+      "triggerCallers": [
+        "public.cash_shifts.trg_guard_cash_shift_closing_report_snapshot"
+      ],
+      "sourceMentions": [],
+      "classification": "trigger entrypoint;not a missing UI"
+    },
+    {
+      "name": "has_erp_role",
+      "identity": "has_erp_role(p_allowed_roles text[])",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [
+        "assert_configurable_parcel_creation_allowed()",
+        "execute_supplier_replacement_v1(p_action text, p_payload jsonb, p_idempotency_key text)",
+        "get_home_dashboard()",
+        "get_operational_business_report(p_branch_id uuid, p_date_from date, p_date_to date)",
+        "get_pos_configurable_parcel_options_v1(p_warehouse_id uuid)",
+        "get_supplier_replacements_page_v1(p_supplier_id uuid, p_branch_id uuid, p_status text, p_page integer, p_page_size integer)",
+        "phase3_assert_configurable_parcel_creation_allowed_internal(p_actor_scope_type text, p_actor_user_id uuid)",
+        "preview_supplier_replacement_v1(p_action text, p_payload jsonb)",
+        "sr208_assert_role_internal(p_action text)"
+      ],
+      "policyCallers": [
+        "storage.objects.ERP staff can delete own product images",
+        "storage.objects.ERP staff can update own product images",
+        "storage.objects.ERP staff can upload own product images"
+      ],
+      "triggerCallers": [],
+      "sourceMentions": [],
+      "classification": "RLS helper;not a missing UI"
+    },
+    {
+      "name": "is_active_erp_staff",
+      "identity": "is_active_erp_staff()",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [
+        "phase3_assert_configurable_parcel_creation_allowed_internal(p_actor_scope_type text, p_actor_user_id uuid)"
+      ],
+      "policyCallers": [
+        "public.audit_logs.Require active ERP staff membership",
+        "public.branches.Require active ERP staff membership",
+        "public.brands.Require active ERP staff membership",
+        "public.business_operations.Active ERP staff can read parcel foundation",
+        "public.categories.Require active ERP staff membership",
+        "public.configurable_parcel_feature_settings.Active ERP staff can read parcel foundation",
+        "public.customer_addresses.Require active ERP staff membership",
+        "public.customer_payments.Require active ERP staff membership",
+        "public.customers.Require active ERP staff membership",
+        "public.inventory_balances.Require active ERP staff membership",
+        "public.inventory_movements.Require active ERP staff membership",
+        "public.order_inventory_reservations.Active ERP staff can read parcel foundation",
+        "public.order_items.Require active ERP staff membership",
+        "public.order_parcel_components.Active ERP staff can read parcel foundation",
+        "public.order_parcel_instances.Active ERP staff can read parcel foundation",
+        "public.order_status_history.Require active ERP staff membership",
+        "public.orders.Require active ERP staff membership",
+        "public.phase2_receipt_wac_snapshots.Active ERP staff can read Phase 2 receipt history",
+        "public.phase42_return_inventory_effects.Active ERP staff can read Phase 4.2 Return inventory effects",
+        "public.product_images.Require active ERP staff membership",
+        "public.product_parcel_allowed_components.Active staff read parcel component policy",
+        "public.product_parcel_configurations.Active ERP staff can read parcel foundation",
+        "public.products.Require active ERP staff membership",
+        "public.profiles.Require active ERP staff membership",
+        "public.promotion_codes.Require active ERP staff membership",
+        "public.promotion_redemptions.Require active ERP staff membership",
+        "public.purchase_order_item_components.Active ERP staff can read Phase 2 receipt history",
+        "public.purchase_order_items.Require active ERP staff membership",
+        "public.purchase_orders.Require active ERP staff membership",
+        "public.purchase_receipt_commercial_lines.Active ERP staff can read Phase 2 receipt history",
+        "public.purchase_receipt_items.Require active ERP staff membership",
+        "public.purchase_receipts.Require active ERP staff membership",
+        "public.push_subscriptions.Require active ERP staff membership",
+        "public.roles.Require active ERP staff membership",
+        "public.sales_aftercare_consumptions.Active ERP staff can read Phase 4 foundation",
+        "public.sales_replacement_events.Active ERP staff can read Phase 4 foundation",
+        "public.sales_replacement_items.Active ERP staff can read Phase 4 foundation",
+        "public.sales_return_component_inspections.Active ERP staff can read Phase 4 foundation",
+        "public.sales_return_events.Active ERP staff can read parcel foundation",
+        "public.sales_return_items.Active ERP staff can read parcel foundation",
+        "public.sales_returns.Active ERP staff can read sales returns",
+        "public.stock_alert_reads.Require active ERP staff membership",
+        "public.stock_alerts.Require active ERP staff membership",
+        "public.supplier_financial_invoice_identities.Active ERP staff can read Phase 2 receipt history",
+        "public.supplier_payments.Require active ERP staff membership",
+        "public.supplier_receipt_commercial_lines.Active ERP staff can read parcel foundation",
+        "public.supplier_receipt_items.Require active ERP staff membership",
+        "public.supplier_receipts.Require active ERP staff membership",
+        "public.suppliers.Require active ERP staff membership",
+        "public.units.Require active ERP staff membership",
+        "public.user_roles.Require active ERP staff membership",
+        "public.warehouses.Require active ERP staff membership"
+      ],
+      "triggerCallers": [],
+      "sourceMentions": [],
+      "classification": "RLS helper;not a missing UI"
+    },
+    {
+      "name": "is_authenticated",
+      "identity": "is_authenticated()",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": [],
+      "classification": "manual comparison with current service path needed;no grant change authorized by audit"
+    },
+    {
+      "name": "is_mfa_policy_satisfied",
+      "identity": "is_mfa_policy_satisfied()",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [
+        "assert_erp_role(p_allowed_roles text[], p_operation text)",
+        "has_erp_role(p_allowed_roles text[])",
+        "is_active_erp_staff()"
+      ],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": [],
+      "classification": "called by DB wrapper;not evidence of missing UI"
+    },
+    {
+      "name": "receive_inventory",
+      "identity": "receive_inventory(p_warehouse_id uuid, p_product_id uuid, p_quantity integer, p_reference_type text, p_reference_id uuid, p_notes text)",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": [
+        {
+          "file": "src/features/dashboard/QuickActions.tsx",
+          "lines": [
+            53
+          ]
+        }
+      ],
+      "classification": "manual comparison with current service path needed;no grant change authorized by audit"
+    },
+    {
+      "name": "receive_purchase_order",
+      "identity": "receive_purchase_order(p_purchase_order_id uuid, p_warehouse_id uuid, p_supplier_delivery_note text, p_notes text, p_items jsonb)",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": [
+        {
+          "file": "src/services/supabase/purchases.service.ts",
+          "lines": [
+            752,
+            763,
+            773
+          ]
+        }
+      ],
+      "classification": "manual comparison with current service path needed;no grant change authorized by audit"
+    },
+    {
+      "name": "record_customer_order_payment",
+      "identity": "record_customer_order_payment(p_order_id uuid, p_amount_in_minor_units bigint, p_payment_method text, p_reference_number text, p_notes text)",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [
+        "_complete_website_order_with_settlement_before_phase4_lock(p_order_id uuid, p_payment_method text, p_amount_collected_in_minor_units bigint, p_delivery_fee_in_minor_units bigint, p_reference_number text, p_notes text)",
+        "_complete_website_order_with_settlement_v2_before_phase4_lock(p_order_id uuid, p_idempotency_key text, p_payment_method text, p_amount_collected_in_minor_units bigint, p_delivery_fee_in_minor_units bigint, p_reference_number text, p_notes text)",
+        "record_customer_order_payment_once(p_order_id uuid, p_amount_in_minor_units bigint, p_payment_method text, p_reference_number text, p_notes text, p_idempotency_key text)"
+      ],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": [
+        {
+          "file": "src/services/supabase/customerAccounts.service.ts",
+          "lines": [
+            136
+          ]
+        }
+      ],
+      "classification": "called by DB wrapper;not evidence of missing UI"
+    },
+    {
+      "name": "reverse_customer_order_payment",
+      "identity": "reverse_customer_order_payment(p_payment_id uuid, p_reason text)",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [
+        "execute_document_correction_once(p_action text, p_record_id uuid, p_reason text, p_idempotency_key text, p_preview_fingerprint text)",
+        "reverse_customer_collection_v1(p_operation_id uuid, p_reason text)"
+      ],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": [],
+      "classification": "called by DB wrapper;not evidence of missing UI"
+    },
+    {
+      "name": "reverse_pos_sale",
+      "identity": "reverse_pos_sale(p_order_id uuid, p_reason text, p_idempotency_key text)",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [
+        "_reverse_cash_shift_with_operations_before_phase4_lock(p_shift_id uuid, p_reason text, p_idempotency_key text)",
+        "execute_document_correction_once(p_action text, p_record_id uuid, p_reason text, p_idempotency_key text, p_preview_fingerprint text)"
+      ],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": [],
+      "classification": "called by DB wrapper;not evidence of missing UI"
+    },
+    {
+      "name": "reverse_supplier_payment",
+      "identity": "reverse_supplier_payment(p_supplier_payment_id uuid, p_reason text, p_idempotency_key text)",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [
+        "_reverse_cash_shift_with_operations_before_phase4_lock(p_shift_id uuid, p_reason text, p_idempotency_key text)",
+        "execute_document_correction_once(p_action text, p_record_id uuid, p_reason text, p_idempotency_key text, p_preview_fingerprint text)"
+      ],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": [],
+      "classification": "called by DB wrapper;not evidence of missing UI"
+    },
+    {
+      "name": "set_product_primary_image",
+      "identity": "set_product_primary_image(p_product_id uuid, p_image_url text)",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [
+        "create_product_with_opening_stock_v3(p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_wholesale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_warehouse_id uuid, p_opening_quantity integer, p_notes text, p_image_url text)",
+        "update_product_flavor_v1(p_flavor_product_id uuid, p_flavor_name_ar text, p_barcode text, p_image_url text, p_is_active boolean)",
+        "update_product_master(p_product_id uuid, p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_is_active boolean, p_image_url text)"
+      ],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": [],
+      "classification": "called by DB wrapper;not evidence of missing UI"
+    },
+    {
+      "name": "set_website_new_order_reservation_expiry",
+      "identity": "set_website_new_order_reservation_expiry()",
+      "roles": [
+        "PUBLIC"
+      ],
+      "dbCallers": [],
+      "policyCallers": [],
+      "triggerCallers": [
+        "public.orders.trg_set_website_new_order_reservation_expiry"
+      ],
+      "sourceMentions": [],
+      "classification": "trigger entrypoint;not a missing UI"
+    },
+    {
+      "name": "settle_sales_return_v1",
+      "identity": "settle_sales_return_v1(p_order_id uuid, p_idempotency_key text, p_items jsonb, p_reason text, p_refund_method text, p_reference_number text, p_notes text)",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [
+        "settle_admin_sales_return_v1(p_order_id uuid, p_idempotency_key text, p_items jsonb, p_physical_sources jsonb, p_reason text, p_refund_method text, p_reference_number text, p_notes text)"
+      ],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": [],
+      "classification": "called by DB wrapper;not evidence of missing UI"
+    },
+    {
+      "name": "sync_order_payment_state",
+      "identity": "sync_order_payment_state()",
+      "roles": [
+        "PUBLIC"
+      ],
+      "dbCallers": [],
+      "policyCallers": [],
+      "triggerCallers": [
+        "public.orders.trg_sync_order_payment_state"
+      ],
+      "sourceMentions": [],
+      "classification": "trigger entrypoint;not a missing UI"
+    },
+    {
+      "name": "sync_product_flavor_commercial_settings",
+      "identity": "sync_product_flavor_commercial_settings()",
+      "roles": [
+        "PUBLIC"
+      ],
+      "dbCallers": [],
+      "policyCallers": [],
+      "triggerCallers": [
+        "public.products.trg_products_sync_flavor_settings"
+      ],
+      "sourceMentions": [],
+      "classification": "trigger entrypoint;not a missing UI"
+    }
+  ],
+  "specialChecks": [
+    {
+      "name": "send_test_push_notification",
+      "exists": false,
+      "clientRoles": []
+    },
+    {
+      "name": "build_business_summary",
+      "exists": true,
+      "clientRoles": []
+    },
+    {
+      "name": "save_storefront_settings",
+      "exists": true,
+      "clientRoles": []
+    },
+    {
+      "name": "update_product_master_v3",
+      "exists": true,
+      "clientRoles": []
+    },
+    {
+      "name": "update_product_flavor_v1",
+      "exists": true,
+      "clientRoles": []
+    }
+  ],
+  "sourceMentionLimit": "sourceMentions uses substring discovery only:for example get_public_storefront_catalog matches get_public_storefront_catalog_page;do not infer direct invocation from mention. Direct RPC name inventory and actual service calls govern."
+}

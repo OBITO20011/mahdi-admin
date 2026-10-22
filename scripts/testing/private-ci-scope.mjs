@@ -9,7 +9,7 @@ export function ciRoute({flag, isPrivate, event}) {
 
 const sourceExtensions = ['.ts', '.tsx', '.mjs', '.js', '.jsx', '.css', '.html', '.json'];
 const normalize = file => file.replaceAll('\\', '/').replace(/^\.\//u, '');
-export const isPackageFSpec = file => /(?:^|\/)package-f-[^/]+\.spec\.ts$/u.test(file);
+export {isPackageFSpec} from './package-f-ci-shards.mjs';
 
 // Resolve literal imports AND runtime harness/HTML links. Unresolved local
 // paths / computed runtime imports fall back to the complete browser set.
@@ -116,7 +116,7 @@ export function selectAffectedSpecs(files, changed, {typescript: ts = null, disc
 
 export function verifyCiBranches(needs, route) {
   if (!['full', 'affected'].includes(route.mode) || typeof route.packageFNeeded !== 'boolean') throw new Error('Invalid CI route');
-  const required = ['scope', 'quality', 'package-f-browser', 'database-runtime', 'current-database-runtime'];
+  const required = ['scope', 'quality', 'package-f-browser', 'database-runtime', 'current-database-runtime', 'pwa-release-update'];
   if (Object.keys(needs).sort().join() !== [...required].sort().join()) throw new Error('CI branch inventory differs');
   for (const name of required) {
     const expected = route.mode === 'full' || name === 'scope' || name === 'quality'

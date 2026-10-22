@@ -308,7 +308,7 @@ export const StockCountModal: React.FC<StockCountModalProps> = ({
             type="search"
             value={productSearch}
             onChange={(event) => setProductSearch(event.target.value)}
-            placeholder="ابحث بالاسم أو SKU أو الباركود"
+            placeholder="ابحث بالاسم أو رمز الصنف أو الباركود"
             className="w-full rounded-xl border border-nw-border bg-nw-bg py-2.5 pl-3 pr-9 text-xs text-nw-text outline-none focus:border-nw-info"
           />
         </div>

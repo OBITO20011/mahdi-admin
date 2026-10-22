@@ -1,0 +1,1201 @@
+{
+  "baseline": "b79a9e7bc5e4ff9551c8dab111edb6c04fc17dd3",
+  "entries": {
+    "e2e/admin-large-catalog-performance.spec.ts": {
+      "before": "6997d89968b63adc2140907f18258f9713a3e2174eb712ca5d629553bc81606c",
+      "after": "865196446b54a9ca977f7a9f0860e31294c53772ed940184ee3152484485fea0",
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 81,
+          "before": [
+            "    const productSearch = page.getByPlaceholder('اسم المنتج، SKU أو الباركود');"
+          ],
+          "after": [
+            "    const productSearch = page.getByPlaceholder('اسم المنتج، رمز الصنف أو الباركود');"
+          ]
+        },
+        {
+          "at": 97,
+          "before": [
+            "    const inventorySearch = page.getByPlaceholder('ابحث باسم المنتج، الكود SKU، أو الباركود...');"
+          ],
+          "after": [
+            "    const inventorySearch = page.getByPlaceholder('ابحث باسم المنتج، رمز الصنف، أو الباركود...');"
+          ]
+        },
+        {
+          "at": 108,
+          "before": [
+            "    const posSearch = page.getByPlaceholder('ابحث باسم المنتج أو الباركود أو SKU...');"
+          ],
+          "after": [
+            "    const posSearch = page.getByPlaceholder('ابحث باسم المنتج أو الباركود أو رمز الصنف...');"
+          ]
+        },
+        {
+          "at": 116,
+          "before": [
+            "    const receivingSearch = page.getByPlaceholder(/SKU، أو الباركود لإضافته لسند الاستلام/);"
+          ],
+          "after": [
+            "    const receivingSearch = page.getByPlaceholder(/رمز الصنف، أو الباركود لإضافته لسند الاستلام/);"
+          ]
+        }
+      ]
+    },
+    "e2e/package-f-pretrial-p1.spec.ts": {
+      "added": true,
+      "before": null,
+      "after": "1dd26196f0195f17c78d6d7be92bf6b57c35f268d4dbb82e0893ae7660262aa9",
+      "hunks": []
+    },
+    "e2e/package-f-purchasing.spec.ts": {
+      "before": "3015a837a80a8350ab9c78885b674d63b638aefffaf70587aa46e7436cc5a2a4",
+      "after": "d2d74f3ba51ee2c232456edc3ce4b235c4daa6d9b7ad6bfc5745c09e4fa932e0",
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 39,
+          "before": [
+            "  const title=page.getByRole('heading',{name:'إذن استلام بضائع من مورد (Direct Goods Receipt)',exact:true});"
+          ],
+          "after": [
+            "  const title=page.getByRole('heading',{name:'سند استلام بضاعة',exact:true});"
+          ]
+        }
+      ]
+    },
+    "e2e/package-f-supplier-replacement208.spec.ts": {
+      "before": "e6b4deeb9a9bfb063d9991342ec86b6760d62965bfb7130d93a01472489db220",
+      "after": "8791a880752451e22d779972551d8059d6633ee5190d6f7e76a62c582031893e",
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 22,
+          "before": [
+            " await page.goto(url);await fill(page);await page.getByRole('button',{name:'تأكيد وحفظ العملية'}).click();await expect(page.getByRole('alert')).toBeVisible();await page.reload();await expect(page.getByTestId('replacement-recovery')).toContainText('لم تُحسم');"
+          ],
+          "after": [
+            " await page.goto(url);await fill(page);await page.getByRole('button',{name:'تأكيد وحفظ العملية'}).click();await expect(page.getByRole('alert')).toBeVisible();await page.reload();await expect(page.getByTestId('replacement-recovery')).toContainText('لم تتأكد نتيجة الحفظ بعد');"
+          ]
+        },
+        {
+          "at": 37,
+          "before": [
+            " await page.reload();await expect(page.getByTestId('replacement-recovery')).toContainText('لم تُحسم');await page.getByRole('button',{name:'استعادة نفس المحاولة'}).click();await expect(page.getByTestId('saved')).toHaveText('1');expect(requests[1]).toEqual(requests[0]);"
+          ],
+          "after": [
+            " await page.reload();await expect(page.getByTestId('replacement-recovery')).toContainText('لم تتأكد نتيجة الحفظ بعد');await page.getByRole('button',{name:'استعادة نفس المحاولة'}).click();await expect(page.getByTestId('saved')).toHaveText('1');expect(requests[1]).toEqual(requests[0]);"
+          ]
+        },
+        {
+          "at": 52,
+          "before": [
+            "  await expect(second.getByRole('alert')).toContainText('تغيّرت المحاولة');expect(requests.length).toBe(1);await expect(second.getByTestId('replacement-recovery')).toContainText('آخر عملية مثبتة');"
+          ],
+          "after": [
+            "  await expect(second.getByRole('alert')).toContainText('تغيّرت المحاولة');expect(requests.length).toBe(1);await expect(second.getByTestId('replacement-recovery')).toContainText('آخر عملية محفوظة');"
+          ]
+        }
+      ]
+    },
+    "e2e/phase6-package-c.spec.ts": {
+      "before": "f8fef6274e77a6c5e788ad7b6014e25f7b31f5f22617692add8ea5dbdaf18f61",
+      "after": "d4c993fe2cee69fd5b34ad5d7a136f5806b581e3e768be2ad3595d37c606b16e",
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 19,
+          "before": [
+            "  const search = page.getByPlaceholder('ابحث باسم المنتج أو الباركود أو SKU...');"
+          ],
+          "after": [
+            "  const search = page.getByPlaceholder('ابحث باسم المنتج أو الباركود أو رمز الصنف...');"
+          ]
+        }
+      ]
+    },
+    "e2e/pretrial-p1-harness.tsx": {
+      "added": true,
+      "before": null,
+      "after": "95f59a13aa8806b370ffaa76631c671867f1968785ff3e1dee122eb9bf5e20dd",
+      "hunks": []
+    },
+    "public/sw.js": {
+      "before": "d1a259d1a612b90c4a1be4197c40f85fa3681684e236286b5efe4a65c492a840",
+      "after": "650bc85afbfa8120078415fd75b288a340c602988cdc2ae11d36db87df8f7423",
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 19,
+          "before": [],
+          "after": [
+            "// Recover an installed release that remained waiting. A stale tab cannot",
+            "// promote a different release: both the message and worker identity must match.",
+            "self.addEventListener('message', (event) => {",
+            "  if (event.data?.type === 'NAWASRAH_ACTIVATE_RELEASE' && event.data.buildId === buildId) {",
+            "    event.waitUntil(self.skipWaiting());",
+            "  }",
+            "});",
+            ""
+          ]
+        }
+      ]
+    },
+    "scripts/testing/private-ci-scope.mjs": {
+      "before": "e0ac8ebe288b2f1609e48cb67a7f9ff28e414a25c8ad8ad74ea19c9737b3ad19",
+      "after": "5cba8d0daa43cf840d097b30ecf0bd9b54587220eb46aee293644ab9ed71b266",
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 12,
+          "before": [
+            "export const isPackageFSpec = file => /(?:^|\\/)package-f-[^/]+\\.spec\\.ts$/u.test(file);"
+          ],
+          "after": [
+            "export {isPackageFSpec} from './package-f-ci-shards.mjs';"
+          ]
+        },
+        {
+          "at": 119,
+          "before": [
+            "  const required = ['scope', 'quality', 'package-f-browser', 'database-runtime', 'current-database-runtime'];"
+          ],
+          "after": [
+            "  const required = ['scope', 'quality', 'package-f-browser', 'database-runtime', 'current-database-runtime', 'pwa-release-update'];"
+          ]
+        }
+      ]
+    },
+    "src/components/common/RejectionNotice.tsx": {
+      "added": true,
+      "before": null,
+      "after": "6d1aaee309cf8e784f52875a6f99096ae08e57a8ebc1b9fefacb39952beb23df",
+      "hunks": []
+    },
+    "src/features/corrections/DocumentCorrectionAction.tsx": {
+      "before": "01bd2b71584c88411fe5066a234bfbc07eefda73032b2da9e243f0e0959d0f81",
+      "after": "141c7dd98d5821a08e4f3a2b0d77aeddbab73703efeb2902558f57b799ef82f0",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 3,
+          "before": [],
+          "after": [
+            "import {RejectionNotice} from '../../components/common/RejectionNotice';"
+          ]
+        },
+        {
+          "at": 35,
+          "before": [
+            "      {error&&<p role=\"alert\" className=\"text-sm text-nw-warn\">{error}</p>}"
+          ],
+          "after": [
+            "      {error&&<RejectionNotice reason={error}/>}"
+          ]
+        },
+        {
+          "at": 41,
+          "before": [
+            "            :!preview.eligible?<p role=\"status\" className=\"rounded-xl bg-nw-warn-bg p-3 text-sm\">{preview.blockedReason}</p>:<p className=\"text-sm text-nw-muted\">معاينة من قاعدة البيانات؛ يعاد فحصها عند التأكيد.</p>}"
+          ],
+          "after": [
+            "            :!preview.eligible?<RejectionNotice reason={preview.blockedReason} role=\"status\"/>:<p className=\"text-sm text-nw-muted\">معاينة من قاعدة البيانات؛ يعاد فحصها عند التأكيد.</p>}"
+          ]
+        }
+      ]
+    },
+    "src/features/crm/CustomerAging.tsx": {
+      "before": "b9ca6627282aaeecdf0b7301ece26aca3bcf0e46318b0300204b8f0f6bea8c20",
+      "after": "1bfcb74b7138ab15f859b6048d56613fb3c92c5311c32091819b5937108cd2d2",
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 10,
+          "before": [
+            "      <KpiCard label=\"تحصيل هذا الشهر\" value=\"غير متاح\" note=\"لا يرجعه قارئ العملاء الحالي\" />"
+          ],
+          "after": []
+        }
+      ]
+    },
+    "src/features/dashboard/ChartsSection.tsx": {
+      "before": "2e03f3458252b50ed337c8ac79265285992078c72b6fa311c5921d07a8f9ba0f",
+      "after": "1b96b19a5a0e12732992c394656acadb565e4c5957eadce6d29cc203a8419436",
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 233,
+          "before": [
+            "                    <span className=\"text-[9px] text-nw-muted font-mono\">SKU: {p.sku}</span>"
+          ],
+          "after": [
+            "                    <span className=\"text-[9px] text-nw-muted font-mono\">رمز الصنف: {p.sku}</span>"
+          ]
+        }
+      ]
+    },
+    "src/features/directReceiving/CreateDirectReceiptModal.tsx": {
+      "before": "a4aad3eeb55c8df892164b6bb3a38266f873efc70bc7363998f08d0a7b72c2c5",
+      "after": "212677ab9a8bfb24cab4f7ae989f9a1fae57a751fe6e9ea463c0688e868dce07",
+      "errorPrefix": "RECEIVING205_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 753,
+          "before": [
+            "            <input aria-label=\"ابحث باسم المنتج، SKU، أو الباركود لإضافته لسند الاستلام...\""
+          ],
+          "after": [
+            "            <input aria-label=\"ابحث باسم المنتج، رمز الصنف، أو الباركود لإضافته لسند الاستلام...\""
+          ]
+        },
+        {
+          "at": 758,
+          "before": [
+            "              placeholder=\"ابحث باسم المنتج، SKU، أو الباركود لإضافته لسند الاستلام...\""
+          ],
+          "after": [
+            "              placeholder=\"ابحث باسم المنتج، رمز الصنف، أو الباركود لإضافته لسند الاستلام...\""
+          ]
+        },
+        {
+          "at": 804,
+          "before": [
+            "                          <span>SKU: {prod.sku}</span>"
+          ],
+          "after": [
+            "                          <span>رمز الصنف: {prod.sku}</span>"
+          ]
+        },
+        {
+          "at": 1021,
+          "before": [
+            "        <p role=\"status\" className=\"text-sm text-nw-info\">إجمالي الوحدات الداخلة: <bdi>{items.reduce((sum,item)=>sum+item.packageQuantity*item.unitsPerPackage,0)}</bdi> وحدة — {Array.from(new Set(items.map(item=>item.baseUnitName))).map(name=>`${items.filter(item=>item.baseUnitName===name).reduce((sum,item)=>sum+item.packageQuantity*item.unitsPerPackage,0)} ${name}`).join('، ')}</p>"
+          ],
+          "after": [
+            "        <div role=\"status\" className=\"space-y-1 text-sm text-nw-info\" aria-label=\"الكميات الداخلة حسب الصنف\">{items.map(item=><p key={item.tempId}>{item.productName}: <bdi>{item.packageQuantity*item.unitsPerPackage}</bdi> {item.baseUnitName}</p>)}</div>"
+          ]
+        }
+      ]
+    },
+    "src/features/directReceiving/DirectReceivingView.tsx": {
+      "before": "71099afdfeb95455c59683a347c54ef88a6df811e25d9e0eca717031ed6ac290",
+      "after": "a751598e367a18d71e46ec32ecd395ab435f63880f606fda1811e60658a61991",
+      "errorPrefix": "TERMINOLOGY_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 557,
+          "before": [
+            "                <input aria-label=\"ابحث باسم الصنف أو SKU أو الباركود...\""
+          ],
+          "after": [
+            "                <input aria-label=\"ابحث باسم الصنف أو رمز الصنف أو الباركود...\""
+          ]
+        },
+        {
+          "at": 560,
+          "before": [
+            "                  placeholder=\"ابحث باسم الصنف أو SKU أو الباركود...\""
+          ],
+          "after": [
+            "                  placeholder=\"ابحث باسم الصنف أو رمز الصنف أو الباركود...\""
+          ]
+        },
+        {
+          "at": 666,
+          "before": [
+            "                          SKU: {product.sku}"
+          ],
+          "after": [
+            "                          رمز الصنف: {product.sku}"
+          ]
+        }
+      ]
+    },
+    "src/features/directReceiving/SupplierReceiptDetailView.tsx": {
+      "before": "17d398fb916f3203e73f29082f757199d572d21dbb9c2e55e2e26d03de036a43",
+      "after": "05d786499ae7469151ceafad0f1def09d1d08499da8522a65dbe6ddcaaced82e",
+      "errorPrefix": "RECEIVING205_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 150,
+          "before": [
+            "              <span>إذن استلام بضائع من مورد (Direct Goods Receipt)</span>"
+          ],
+          "after": [
+            "              <span>سند استلام بضاعة</span>"
+          ]
+        }
+      ]
+    },
+    "src/features/inventory/ClearInventoryBalanceDialog.tsx": {
+      "before": "88decb6f8157e71ce393d3de87e505208b016b9eb0c44d9cc0f36e1d9d557e46",
+      "after": "f672730b45f6536e3464345c54b76adc37d7f24894063966d4c8a8ad2bae4ad5",
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 62,
+          "before": [
+            "      setToast('اكتب رمز SKU كما هو لتأكيد العملية.', 'error');"
+          ],
+          "after": [
+            "      setToast('اكتب رمز الصنف كما هو لتأكيد العملية.', 'error');"
+          ]
+        },
+        {
+          "at": 134,
+          "before": [
+            "                  SKU: {product.sku}"
+          ],
+          "after": [
+            "                  رمز الصنف: {product.sku}"
+          ]
+        }
+      ]
+    },
+    "src/features/inventory/InventoryOpeningSetupModal.tsx": {
+      "before": "2cb7c33bffc98e3e3bdf129e0bc9408762157388d7dcfd442cae43e8e06a357d",
+      "after": "169cf7cf8c9740cce42c3cd49d56503e1b2d62d743f7510ef071026e0d6ba40d",
+      "errorPrefix": "RECEIVING205_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 315,
+          "before": [
+            "          'استخدم القالب المعتمد؛ الأعمدة المطلوبة: SKU، عدد الطرود، الباكيتات المتبقية.'"
+          ],
+          "after": [
+            "          'استخدم القالب المعتمد؛ الأعمدة المطلوبة: رمز الصنف، عدد الطرود، الباكيتات المتبقية.'"
+          ]
+        },
+        {
+          "at": 341,
+          "before": [
+            "          problems.push(`السطر ${rowIndex + 2}: SKU غير موجود.`);"
+          ],
+          "after": [
+            "          problems.push(`السطر ${rowIndex + 2}: رمز الصنف غير موجود.`);"
+          ]
+        },
+        {
+          "at": 497,
+          "before": [
+            "        القالب بصيغة CSV المتوافقة مع Excel. لا تغيّر SKU؛ عبّئ فقط عدد الطرود"
+          ],
+          "after": [
+            "        القالب بصيغة CSV المتوافقة مع Excel. لا تغيّر رمز الصنف؛ عبّئ فقط عدد الطرود"
+          ]
+        },
+        {
+          "at": 507,
+          "before": [
+            "            placeholder=\"ابحث باسم الصنف أو SKU أو الباركود...\""
+          ],
+          "after": [
+            "            placeholder=\"ابحث باسم الصنف أو رمز الصنف أو الباركود...\""
+          ]
+        }
+      ]
+    },
+    "src/features/inventory/InventoryView.tsx": {
+      "before": "53043d60c8bbbaeea4131f17068b93cb754a916c8986e842fe6de91590188c65",
+      "after": "52b9eef8a0994af82f11dbaadfe7021212c48e22b081a37b1e5d055625f07813",
+      "errorPrefix": "RECEIVING205_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 299,
+          "before": [
+            "            <SearchField label=\"البحث في المخزون\" placeholder=\"ابحث باسم المنتج، الكود SKU، أو الباركود...\" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className=\"w-full md:max-w-sm\" />"
+          ],
+          "after": [
+            "            <SearchField label=\"البحث في المخزون\" placeholder=\"ابحث باسم المنتج، رمز الصنف، أو الباركود...\" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className=\"w-full md:max-w-sm\" />"
+          ]
+        },
+        {
+          "at": 349,
+          "before": [
+            "            <div className=\"flex items-start gap-3\"><ProductGlyph name={product.nameAr} image={product.imageUrl} /><div className=\"min-w-0 space-y-1 text-xs text-nw-muted\"><p className=\"m-0 break-all\">SKU: <bdi dir=\"ltr\">{product.sku}</bdi></p><p className=\"m-0 break-all\">الباركود: <bdi dir=\"ltr\">{product.barcode || 'غير محدد'}</bdi></p></div></div>"
+          ],
+          "after": [
+            "            <div className=\"flex items-start gap-3\"><ProductGlyph name={product.nameAr} image={product.imageUrl} /><div className=\"min-w-0 space-y-1 text-xs text-nw-muted\"><p className=\"m-0 break-all\">رمز الصنف: <bdi dir=\"ltr\">{product.sku}</bdi></p><p className=\"m-0 break-all\">الباركود: <bdi dir=\"ltr\">{product.barcode || 'غير محدد'}</bdi></p></div></div>"
+          ]
+        }
+      ]
+    },
+    "src/features/inventory/StockCountModal.tsx": {
+      "before": "32aa2bb6b417b5bd430b95d7d54b91c8ed4debb56e4dfc1439961125deda8d8d",
+      "after": "b282341e51d13b85d741d8e84b3309ac97275a3e56554a531b2c33be748c4299",
+      "errorPrefix": "WAREHOUSE_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 311,
+          "before": [
+            "            placeholder=\"ابحث بالاسم أو SKU أو الباركود\""
+          ],
+          "after": [
+            "            placeholder=\"ابحث بالاسم أو رمز الصنف أو الباركود\""
+          ]
+        }
+      ]
+    },
+    "src/features/inventory/SupplierReplacementPanel.tsx": {
+      "before": "7ea3b27f700fb806bef0fa1d7d17ca0d7c08201e7b6d5e2a9b69aec80d210e21",
+      "after": "120cd16e686b1a10078831494b0d6d720a4de0fbb7200a86db5dbc111d0c66c2",
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 4,
+          "before": [],
+          "after": [
+            "import {RejectionNotice} from '../../components/common/RejectionNotice';",
+            "import {SupplierReplacementQuantities} from './SupplierReplacementQuantities';"
+          ]
+        },
+        {
+          "at": 13,
+          "before": [],
+          "after": [
+            "type CaseSelection={action:'receive'|'writeoff';item:SupplierReplacementCase}|{action:'reverse';eventId:string};"
+          ]
+        },
+        {
+          "at": 24,
+          "before": [],
+          "after": [
+            "  const [selection,setSelection]=useState<CaseSelection|null>(null);",
+            "  const reasonInput=useRef<HTMLTextAreaElement>(null);",
+            "  useEffect(()=>{if(selection)reasonInput.current?.focus();},[selection]);"
+          ]
+        },
+        {
+          "at": 33,
+          "before": [
+            "  useEffect(()=>{const generation=++version.current;setAttempt(null);setRecoveryReady(false);setPreview(null);setDraft(null);setBusy(false);let active=true;"
+          ],
+          "after": [
+            "  useEffect(()=>{const generation=++version.current;setAttempt(null);setRecoveryReady(false);setPreview(null);setDraft(null);setSelection(null);setBusy(false);let active=true;"
+          ]
+        },
+        {
+          "at": 56,
+          "before": [],
+          "after": [
+            "  const quantityUnit=selection&&'item' in selection?selection.item.baseUnitName:product?.baseUnitName??'باكيت';"
+          ]
+        },
+        {
+          "at": 76,
+          "before": [
+            "      setToast('تم حفظ العملية وأدلتها دون تكرار.','success');setDraft(null);setPreview(null);"
+          ],
+          "after": [
+            "      setToast('تم حفظ العملية.','success');setDraft(null);setPreview(null);setSelection(null);"
+          ]
+        },
+        {
+          "at": 86,
+          "before": [],
+          "after": [
+            "  const previewSelection=()=>{",
+            "    if(!selection)return;",
+            "    if(selection.action==='reverse')void inspect({action:'reverse',payload:{eventId:selection.eventId,reason:reason.trim()},label:'عكس الحدث'});",
+            "    else caseAction(selection.item,selection.action);",
+            "  };"
+          ]
+        },
+        {
+          "at": 92,
+          "before": [
+            "    {supplierAllowed&&!damageOnly&&<div className=\"flex flex-wrap gap-2\">{([['new','عملية جديدة'],['pending','المعلّق'],['history','السجل']] as const).map(([value,label])=><UiButton key={value} disabled={busy} onClick={()=>{setTab(value);setPageNo(1);setPreview(null);setDraft(null);setError('');}}>{label}</UiButton>)}</div>}",
+            "    <p className=\"text-sm text-nw-muted\">نفس الصنف والكمية. لا دفعة أو ذمة مورد. المعلّق خارج المتاح ويعود بقيمته التاريخية.</p>",
+            "    {error&&<p role=\"alert\" className=\"text-sm text-nw-bad\">{error} <UiButton disabled={busy} onClick={()=>{setError('');setRevision(n=>n+1);}}>تحديث القراءة</UiButton></p>}"
+          ],
+          "after": [
+            "    {supplierAllowed&&!damageOnly&&<div className=\"flex flex-wrap gap-2\">{([['new','عملية جديدة'],['pending','المعلّق'],['history','السجل']] as const).map(([value,label])=><UiButton key={value} disabled={busy} onClick={()=>{setTab(value);setPageNo(1);setPreview(null);setDraft(null);setSelection(null);setError('');}}>{label}</UiButton>)}</div>}",
+            "    <p className=\"text-sm text-nw-muted\">{damageOnly?'سجّل العدد التالف بالوحدة الظاهرة للصنف، واختر سبب التلف.':'تبديل بنفس الصنف والعدد، بلا دفعة أو دين للمورد. البضاعة المعلّقة ليست جاهزة للبيع؛ عند استلامها تعود بتكلفتها وقت الإرسال.'}</p>",
+            "    {error&&<RejectionNotice reason={error}><UiButton disabled={busy} onClick={()=>{setError('');setRevision(n=>n+1);}}>تحديث القراءة</UiButton></RejectionNotice>}"
+          ]
+        },
+        {
+          "at": 96,
+          "before": [
+            "      <p className=\"text-sm\">{unresolved?'توجد محاولة لم تُحسم. استعدها قبل تسجيل عملية جديدة.':attempt.status==='succeeded'?'آخر عملية مثبتة. يمكنك معاينة عملية جديدة صراحةً.':'آخر محاولة رُفضت دون حفظ؛ راجع بيانات العملية الجديدة.'}</p>"
+          ],
+          "after": [
+            "      <p className=\"text-sm\">{unresolved?'لم تتأكد نتيجة الحفظ بعد. استعد نفس المحاولة قبل تسجيل عملية جديدة.':attempt.status==='succeeded'?'آخر عملية محفوظة. يمكنك معاينة عملية جديدة.':'آخر محاولة مرفوضة؛ راجع البيانات قبل عملية جديدة.'}</p>"
+          ]
+        },
+        {
+          "at": 102,
+          "before": [
+            "        {optionsError?<p role=\"alert\">{optionsError} <UiButton onClick={()=>setRevision(n=>n+1)}>إعادة المحاولة</UiButton></p>:!options?<p role=\"status\">جاري تحميل الأصناف والموردين…</p>:<>"
+          ],
+          "after": [
+            "        {optionsError?<RejectionNotice reason={optionsError}><UiButton onClick={()=>setRevision(n=>n+1)}>إعادة المحاولة</UiButton></RejectionNotice>:!options?<p role=\"status\">جاري تحميل الأصناف والموردين…</p>:<>"
+          ]
+        },
+        {
+          "at": 113,
+          "before": [
+            "    <FormFields><fieldset className=\"space-y-3\" disabled={busy||unresolved||!recoveryReady||Boolean(draft)}>",
+            "      <label className=\"block text-sm\">{tab==='new'?'العدد':'كمية العملية بالوحدة الحقيقية للصنف'}<input inputMode=\"numeric\" type=\"number\" min=\"1\" step=\"1\" value={quantity} onChange={e=>{setQuantity(e.target.value);setPreview(null);setDraft(null);}}/></label>",
+            "      <label className=\"block text-sm\">{action==='shop_damage'?'ملاحظة التلف':'سبب العملية'}<textarea required={action==='shop_damage'&&reasonCode==='other'} maxLength={500} value={reason} onChange={e=>{setReason(e.target.value);setPreview(null);setDraft(null);}}/></label>",
+            "    </fieldset></FormFields>"
+          ],
+          "after": [
+            "    {(tab==='new'||selection&&(selection.action==='receive'||owner))&&<FormFields><fieldset className=\"space-y-3\" disabled={busy||unresolved||!recoveryReady||Boolean(draft)}>",
+            "      {selection&&<p className=\"font-bold\">{selection.action==='reverse'?'سبب عكس العملية':`${selection.action==='receive'?'استلام جزئي':'رفض المورد'} · ${selection.item.productName}`}</p>}",
+            "      {selection?.action!=='reverse'&&<label className=\"block text-sm\">{tab==='new'?'العدد':`العدد (${quantityUnit})`}<input inputMode=\"numeric\" type=\"number\" min=\"1\" step=\"1\" value={quantity} onChange={e=>{setQuantity(e.target.value);setPreview(null);setDraft(null);}}/></label>}",
+            "      <label className=\"block text-sm\">{action==='shop_damage'?'ملاحظة التلف':'سبب العملية'}<textarea ref={reasonInput} required={action==='shop_damage'&&reasonCode==='other'} maxLength={500} value={reason} onChange={e=>{setReason(e.target.value);setPreview(null);setDraft(null);}}/></label>",
+            "      {selection&&<UiButton disabled={reason.trim().length<3} onClick={previewSelection}>معاينة التفاصيل</UiButton>}",
+            "    </fieldset></FormFields>}"
+          ]
+        },
+        {
+          "at": 121,
+          "before": [
+            "      <p className=\"text-sm\">المعلّق: {page.pendingQuantity}{owner&&page.pendingValueInMinorUnitsExact!==undefined&&<> · <MoneyText amount={replacementMoney(page.pendingValueInMinorUnitsExact)} currency /></>}</p>"
+          ],
+          "after": [
+            "      <SupplierReplacementQuantities data={page}/>{owner&&page.pendingValueInMinorUnitsExact!==undefined&&<p className=\"text-sm\">القيمة الإجمالية للمعلّق: <MoneyText amount={replacementMoney(page.pendingValueInMinorUnitsExact)} currency /></p>}"
+          ]
+        },
+        {
+          "at": 123,
+          "before": [
+            "        <p className=\"font-bold\">{c.productName} · {c.supplierName??'تلف المحل'}</p><p className=\"text-sm\">المعلّق {c.pendingQuantity} {c.baseUnitName} · استُلم {c.receivedQuantity} · رُفض {c.writtenOffQuantity}</p>"
+          ],
+          "after": [
+            "        <p className=\"font-bold\">{c.productName} · {c.supplierName??'تلف المحل'}</p><p className=\"text-sm\">المعلّق {c.pendingQuantity} {c.baseUnitName} · استُلم {c.receivedQuantity} {c.baseUnitName} · رُفض {c.writtenOffQuantity} {c.baseUnitName}</p>"
+          ]
+        },
+        {
+          "at": 126,
+          "before": [
+            "        {c.pendingQuantity>0&&<div className=\"flex flex-wrap gap-2\"><UiButton disabled={busy||unresolved} onClick={()=>{setQuantity(String(c.pendingQuantity));void inspect({action:'receive',payload:{caseId:c.id,quantity:c.pendingQuantity,reason:reason.trim()||'استلام بديل المورد'},label:'استلام كل المتبقي'});}}>استلام المتبقي ({c.pendingQuantity})</UiButton><UiButton disabled={busy||unresolved||!reason.trim()} onClick={()=>caseAction(c,'receive')}>معاينة استلام جزئي</UiButton></div>}"
+          ],
+          "after": [
+            "        {c.pendingQuantity>0&&<div className=\"flex flex-wrap gap-2\"><UiButton disabled={busy||unresolved} onClick={()=>{setSelection(null);setQuantity(String(c.pendingQuantity));void inspect({action:'receive',payload:{caseId:c.id,quantity:c.pendingQuantity,reason:reason.trim()||'استلام بديل المورد'},label:'استلام كل المتبقي'});}}>استلام المتبقي ({c.pendingQuantity})</UiButton><UiButton disabled={busy||unresolved} onClick={()=>{setSelection({action:'receive',item:c});setQuantity(String(c.pendingQuantity));setPreview(null);setDraft(null);}}>معاينة استلام جزئي</UiButton></div>}"
+          ]
+        },
+        {
+          "at": 128,
+          "before": [
+            "          {owner&&c.pendingQuantity>0&&<UiButton disabled={busy||unresolved} onClick={()=>caseAction(c,'writeoff')}>معاينة رفض المورد</UiButton>}"
+          ],
+          "after": [
+            "          {owner&&c.pendingQuantity>0&&<UiButton disabled={busy||unresolved} onClick={()=>{setSelection({action:'writeoff',item:c});setQuantity(String(c.pendingQuantity));setPreview(null);setDraft(null);}}>معاينة رفض المورد</UiButton>}"
+          ]
+        },
+        {
+          "at": 130,
+          "before": [
+            "            {owner&&e.reason&&<p className=\"text-xs text-nw-muted\">{e.reason}</p>}{owner&&!e.isReversed&&e.action!=='reverse'&&<UiButton disabled={busy||unresolved||reason.trim().length<3} onClick={()=>void inspect({action:'reverse',payload:{eventId:e.id,reason:reason.trim()},label:'عكس الحدث'})}>معاينة العكس</UiButton>}</li>)}</ul>"
+          ],
+          "after": [
+            "            {owner&&e.reason&&<p className=\"text-xs text-nw-muted\">{e.reason}</p>}{owner&&!e.isReversed&&e.action!=='reverse'&&<UiButton disabled={busy||unresolved} onClick={()=>{setSelection({action:'reverse',eventId:e.id});setPreview(null);setDraft(null);}}>معاينة العكس</UiButton>}</li>)}</ul>"
+          ]
+        },
+        {
+          "at": 133,
+          "before": [
+            "      <div className=\"flex gap-2\"><UiButton disabled={busy||pageNo===1} onClick={()=>setPageNo(n=>n-1)}>السابق</UiButton><span>{pageNo}</span><UiButton disabled={busy||pageNo*25>=page.totalCount} onClick={()=>setPageNo(n=>n+1)}>التالي</UiButton></div>"
+          ],
+          "after": [
+            "      <div className=\"flex gap-2\"><UiButton disabled={busy||pageNo===1} onClick={()=>{setSelection(null);setPageNo(n=>n-1);}}>السابق</UiButton><span>{pageNo}</span><UiButton disabled={busy||pageNo*25>=page.totalCount} onClick={()=>{setSelection(null);setPageNo(n=>n+1);}}>التالي</UiButton></div>"
+          ]
+        },
+        {
+          "at": 136,
+          "before": [
+            "      {preview.eligible?<><p className=\"text-sm\">الكمية: {String(draft.payload.quantity??'كما في الحدث الأصلي')} · السبب: {String(draft.payload.reason)}</p>{owner&&typeof preview.valueInMinorUnitsExact==='string'&&<MoneyText amount={replacementMoney(preview.valueInMinorUnitsExact)} currency/>}<UiButton disabled={busy||unresolved} onClick={()=>void execute()}>تأكيد وحفظ العملية</UiButton></>:<p role=\"alert\">{String(preview.blockedReason)}</p>}"
+          ],
+          "after": [
+            "      {preview.eligible?<><p className=\"text-sm\">الكمية: {String(draft.payload.quantity??'كما في الحدث الأصلي')} · السبب: {String(draft.payload.reason)}</p>{owner&&typeof preview.valueInMinorUnitsExact==='string'&&<MoneyText amount={replacementMoney(preview.valueInMinorUnitsExact)} currency/>}<UiButton disabled={busy||unresolved} onClick={()=>void execute()}>تأكيد وحفظ العملية</UiButton></>:<RejectionNotice reason={preview.blockedReason}/>}"
+          ]
+        }
+      ]
+    },
+    "src/features/inventory/SupplierReplacementQuantities.tsx": {
+      "added": true,
+      "before": null,
+      "after": "e72e9f11133257d0f5c1618182187852914cc136f358cbe82593f3a6ad4fa14a",
+      "hunks": []
+    },
+    "src/features/inventory/SupplierReplacementSummary.tsx": {
+      "before": "94a7cd7965e326fde08a9ae06aac5b02aab796a7a61565f8290ae1be4ce36e9d",
+      "after": "40db75c9f74c57200d2e51ee4beaf3f8db955c0a700c6069fddec5346d1f81b4",
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 7,
+          "before": [],
+          "after": [
+            "import {SupplierReplacementQuantities} from './SupplierReplacementQuantities';"
+          ]
+        },
+        {
+          "at": 24,
+          "before": [
+            "      :data?<p className=\"text-sm\">مجموع كميات الأصناف المعلّقة: {data.pendingQuantity}{owner&&data.pendingValueInMinorUnitsExact!==undefined&&<> · <MoneyText amount={replacementMoney(data.pendingValueInMinorUnitsExact)} currency /></>}</p>"
+          ],
+          "after": [
+            "      :data?<><SupplierReplacementQuantities data={data}/>{owner&&data.pendingValueInMinorUnitsExact!==undefined&&<p className=\"text-sm\">القيمة الإجمالية للمعلّق: <MoneyText amount={replacementMoney(data.pendingValueInMinorUnitsExact)} currency /></p>}</>"
+          ]
+        }
+      ]
+    },
+    "src/features/inventory/WarehouseTransferModal.tsx": {
+      "before": "430c2c42b470eb329ad67e900c8c1d0af31b18f83248dfcf6f08e2d87a0a7a33",
+      "after": "b20bb57b797b0ddfd320ceb86129653248e19eda50438e63855ebc8ac19cb87a",
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 157,
+          "before": [
+            "            placeholder=\"ابحث بالاسم أو SKU أو الباركود\""
+          ],
+          "after": [
+            "            placeholder=\"ابحث بالاسم أو رمز الصنف أو الباركود\""
+          ]
+        },
+        {
+          "at": 189,
+          "before": [
+            "              <p className=\"text-[10px] text-nw-muted font-mono\">SKU: {selectedProduct.sku}</p>"
+          ],
+          "after": [
+            "              <p className=\"text-[10px] text-nw-muted font-mono\">رمز الصنف: {selectedProduct.sku}</p>"
+          ]
+        }
+      ]
+    },
+    "src/features/pos/BarcodeScannerModal.tsx": {
+      "before": "32ee8ec8e6f954724d9320156a228f2635240c1c7e7e88c5399ec97a35694e98",
+      "after": "56768f2f300e7575aed8f9e0aabcc042777d3afa54cc4343d99ab2fa22055e91",
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 130,
+          "before": [
+            "      setToast('هذا الرمز يطابق أكثر من منتج؛ راجع SKU والباركود.', 'error');"
+          ],
+          "after": [
+            "      setToast('هذا الرمز يطابق أكثر من منتج؛ راجع رمز الصنف والباركود.', 'error');"
+          ]
+        }
+      ]
+    },
+    "src/features/pos/PosView.tsx": {
+      "before": "0f2919d3b6167b4ea7990dbb417c764e0cff6c41d4c2d1e23ef4afdff4ec1f74",
+      "after": "3862d856d20d6c9de4a9145d29344a65280e4de0569c08a53332085a4f0d6e83",
+      "errorPrefix": "WAREHOUSE_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 723,
+          "before": [
+            "                placeholder=\"ابحث باسم المنتج أو الباركود أو SKU...\" value={searchQuery}"
+          ],
+          "after": [
+            "                placeholder=\"ابحث باسم المنتج أو الباركود أو رمز الصنف...\" value={searchQuery}"
+          ]
+        }
+      ]
+    },
+    "src/features/products/ProductDetailModal.tsx": {
+      "before": "c5365ff995a16906bad93f6f2263976a27ceb4ff626c6fc725a4d79c9381dca6",
+      "after": "3e6ffa5fe59a2249a532f9dde82a405a3ac050cf22105c6ec9f844929b6acc4f",
+      "errorPrefix": "RECEIVING205_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 483,
+          "before": [
+            "              SKU: {product.sku}"
+          ],
+          "after": [
+            "              رمز الصنف: {product.sku}"
+          ]
+        }
+      ]
+    },
+    "src/features/products/ProductFormModal.tsx": {
+      "before": "367556192edcc5bd8311c0ee26fef76d179f385e22712cb0571c39bd18073d27",
+      "after": "d77bb2e3e36c2c59230ec9f97c9f770bf3b1195ba43573c4558dc9ac4de362af",
+      "errorPrefix": "RECEIVING205_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 389,
+          "before": [
+            "          : 'تعذر توليد SKU فريد. حاول مرة أخرى.',"
+          ],
+          "after": [
+            "          : 'تعذر توليد رمز صنف فريد. حاول مرة أخرى.',"
+          ]
+        },
+        {
+          "at": 637,
+          "before": [
+            "      setToast('اسم المنتج ورمز الصنف SKU مطلوبان.', 'error');"
+          ],
+          "after": [
+            "      setToast('اسم المنتج ورمز الصنف مطلوبان.', 'error');"
+          ]
+        },
+        {
+          "at": 994,
+          "before": [
+            "              SKU داخلي، والباركود اختياري"
+          ],
+          "after": [
+            "              رمز داخلي للصنف، والباركود اختياري"
+          ]
+        },
+        {
+          "at": 1002,
+          "before": [
+            "                SKU *"
+          ],
+          "after": [
+            "                رمز الصنف *"
+          ]
+        },
+        {
+          "at": 1008,
+          "before": [
+            "                  className=\"text-xs font-bold text-nw-info\""
+          ],
+          "after": [
+            "                  className=\"min-w-11 px-2 text-xs font-bold text-nw-info\""
+          ]
+        },
+        {
+          "at": 1014,
+          "before": [
+            "            <input aria-label=\"SKU\""
+          ],
+          "after": [
+            "            <input aria-label=\"رمز الصنف\""
+          ]
+        },
+        {
+          "at": 1500,
+          "before": [
+            "                  كل نكهة SKU مستقل وله مخزون وتكلفة خاصة به."
+          ],
+          "after": [
+            "                  لكل نكهة رمز صنف مستقل ومخزون وتكلفة خاصة بها."
+          ]
+        },
+        {
+          "at": 1535,
+          "before": [
+            "                    SKU: {flavor.sku}"
+          ],
+          "after": [
+            "                    رمز الصنف: {flavor.sku}"
+          ]
+        }
+      ]
+    },
+    "src/features/products/ProductsView.tsx": {
+      "before": "d5fa3a9c490e939f66edd3237570966270c0c9551fc5fbb767bce883423b2454",
+      "after": "640b638372973abf04ff6edb482dd14b0c4109cf8d13b11c4464ac63b172dd2a",
+      "errorPrefix": "RECEIVING205_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 338,
+          "before": [
+            "            placeholder=\"اسم المنتج، SKU أو الباركود\""
+          ],
+          "after": [
+            "            placeholder=\"اسم المنتج، رمز الصنف أو الباركود\""
+          ]
+        }
+      ]
+    },
+    "src/features/purchases/CreatePurchaseOrderModal.tsx": {
+      "before": "b13084cc5d0b8809ee784ffd96229abe79324b67a42c465b7e8c5bd29b19c088",
+      "after": "239aef7ee3eb5e53cce427f2c62ea8c4652f04f53efb203d0f9d7e284e4bb81d",
+      "errorPrefix": "WAREHOUSE_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 582,
+          "before": [
+            "                <input aria-label=\"ابحث عن منتج بإدخال الاسم، الرمز SKU، أو الباركود لإضافته للجدول...\""
+          ],
+          "after": [
+            "                <input aria-label=\"ابحث عن منتج بإدخال الاسم، الرمز الصنف، أو الباركود لإضافته للجدول...\""
+          ]
+        },
+        {
+          "at": 590,
+          "before": [
+            "                  placeholder=\"ابحث عن منتج بإدخال الاسم، الرمز SKU، أو الباركود لإضافته للجدول...\""
+          ],
+          "after": [
+            "                  placeholder=\"ابحث عن منتج بإدخال الاسم، الرمز الصنف، أو الباركود لإضافته للجدول...\""
+          ]
+        },
+        {
+          "at": 640,
+          "before": [
+            "                                <span>SKU: {p.sku || 'غير محدد'}</span>"
+          ],
+          "after": [
+            "                                <span>رمز الصنف: {p.sku || 'غير محدد'}</span>"
+          ]
+        },
+        {
+          "at": 678,
+          "before": [
+            "                      <Th className=\"p-3\">اسم المنتج / SKU</Th>"
+          ],
+          "after": [
+            "                      <Th className=\"p-3\">اسم المنتج / رمز الصنف</Th>"
+          ]
+        },
+        {
+          "at": 709,
+          "before": [
+            "                                SKU: {item.sku} ({item.unit})"
+          ],
+          "after": [
+            "                                رمز الصنف: {item.sku} ({item.unit})"
+          ]
+        }
+      ]
+    },
+    "src/features/purchases/PurchaseOrderDetailView.tsx": {
+      "before": "6f797658c2520adaec1eb9b266fcfdfd2507b05133d05f5a72e66c90eafd979c",
+      "after": "f58789e21a3b4af4be83bd3ec87224b54245104888b098de72ce8f49707b76f3",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 600,
+          "before": [
+            "                                  <span>SKU: {item.sku || 'غير محدد'}</span>"
+          ],
+          "after": [
+            "                                  <span>رمز الصنف: {item.sku || 'غير محدد'}</span>"
+          ]
+        }
+      ]
+    },
+    "src/features/purchases/ReceiveGoodsModal.tsx": {
+      "before": "96769afa0cd3d21ca113d3737d412f34464ace604db6c513efb2c5b3b51619be",
+      "after": "1d24f6b6ec91df402e70812c9bbf9393b115f19a5eabbc84524943cf00c7e231",
+      "errorPrefix": "RECEIVING205_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 256,
+          "before": [
+            "                <span>استلام بضائع لمخزن (Goods Receipt Note)</span>"
+          ],
+          "after": [
+            "                <span>استلام بضاعة</span>"
+          ]
+        },
+        {
+          "at": 313,
+          "before": [
+            "              <label className=\"font-bold text-nw-text block mb-1\">إشعار تسليم المورد (Delivery Note):</label>",
+            "              <input aria-label=\"رقم بوليصة / وصل السائق\""
+          ],
+          "after": [
+            "              <label className=\"font-bold text-nw-text block mb-1\">رقم وصل المورد (اختياري)</label>",
+            "              <input aria-label=\"رقم وصل المورد (اختياري)\""
+          ]
+        },
+        {
+          "at": 318,
+          "before": [
+            "                placeholder=\"رقم بوليصة / وصل السائق\""
+          ],
+          "after": [
+            "                placeholder=\"رقم وصل المورد (اختياري)\""
+          ]
+        },
+        {
+          "at": 328,
+          "before": [
+            "              <p className=\"text-sm text-nw-muted\">المطلوب: {item.orderedQuantity} {item.unit} · المستلم: {item.previouslyReceivedQuantity} · المتبقي: {item.remainingQuantity} {item.unit}</p>"
+          ],
+          "after": [
+            "              <p className=\"text-sm text-nw-muted\">المطلوب: {item.orderedQuantity} {item.unit} · المستلم: {item.previouslyReceivedQuantity} {item.unit} · المتبقي: {item.remainingQuantity} {item.unit}</p>"
+          ]
+        },
+        {
+          "at": 342,
+          "before": [
+            "            <p role=\"status\" className=\"text-sm font-semibold text-nw-info\">إجمالي الوحدات الداخلة: {totalReceivingNow} وحدة</p>"
+          ],
+          "after": [
+            "            <div role=\"status\" className=\"space-y-1 text-sm font-semibold text-nw-info\" aria-label=\"الكميات الداخلة حسب الصنف\">{items.filter(item=>item.thisReceiptQuantity>0).map(item=><p key={item.purchaseOrderItemId}>{item.productName}: {item.thisReceiptQuantity} {item.unit}</p>)}</div>"
+          ]
+        },
+        {
+          "at": 350,
+          "before": [
+            "                إجمالي قطع الاستلام الحالي: {totalReceivingNow} قطعة"
+          ],
+          "after": [
+            "                الكميات حسب الصنف ووحدته"
+          ]
+        },
+        {
+          "at": 373,
+          "before": [
+            "                            SKU: {item.sku} ({item.unit})"
+          ],
+          "after": [
+            "                            رمز الصنف: {item.sku} ({item.unit})"
+          ]
+        }
+      ]
+    },
+    "src/pwa/pwa.ts": {
+      "before": "7a92f8b181c89d5cc9107729efbb0e2702b6a0b60c781f461ec6d9c60bc9ef63",
+      "after": "dd313fba1bbfb217757796763cba59c54f8f2a54109dcb203c425b31be86d48d",
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 33,
+          "before": [
+            "        window.location.reload();"
+          ],
+          "after": [
+            "        // Let the current document's fonts finish before the intentional reload.",
+            "        // Otherwise WebKit can cancel its own in-flight shell requests.",
+            "        void document.fonts.ready.then(() => window.location.reload());"
+          ]
+        },
+        {
+          "at": 50,
+          "before": [
+            "      .then((registration) => registration.update())"
+          ],
+          "after": [
+            "      .then((registration) => {",
+            "        const activateWaitingRelease = () => {",
+            "          const waiting = registration.waiting;",
+            "          if (waiting?.scriptURL === serviceWorkerUrl.href) {",
+            "            waiting.postMessage({type: 'NAWASRAH_ACTIVATE_RELEASE', buildId: __NAWASRAH_BUILD_ID__});",
+            "          }",
+            "        };",
+            "        registration.addEventListener('updatefound', () => {",
+            "          registration.installing?.addEventListener('statechange', activateWaitingRelease);",
+            "        });",
+            "        // Registration may resolve with an already-installed waiting worker.",
+            "        registration.installing?.addEventListener('statechange', activateWaitingRelease);",
+            "        activateWaitingRelease();",
+            "        // register() already checks a new script. Do not race a second update",
+            "        // against its installation; still check an existing active registration.",
+            "        if (!registration.installing && !registration.waiting) return registration.update();",
+            "      })"
+          ]
+        }
+      ]
+    },
+    "src/utils/businessError.ts": {
+      "before": "a5874bdbad120aedd2a1e6edb3c352e70de8c92d1aee1edc4db936cb6d3d8103",
+      "after": "c2777f9f4630dfa2af6ea546f2176ec69e1850da580c09188e40333408075a25",
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {rejectionMessages} from './rejectionMessage';"
+          ]
+        },
+        {
+          "at": 5,
+          "before": [],
+          "after": [
+            "  const rejectionCode=text.match(/\\b(?:CORRECTION|SUPPLIER_REPLACEMENT)_[A-Z_]+\\b/u)?.[0];",
+            "  if(rejectionCode&&rejectionMessages[rejectionCode])return rejectionMessages[rejectionCode];"
+          ]
+        }
+      ]
+    },
+    "src/utils/rejectionMessage.ts": {
+      "added": true,
+      "before": null,
+      "after": "0730bb29d9d53add372e5a9f084d156c2de8976e6b58c434b1a20c2582dda755",
+      "hunks": []
+    },
+    "tests/admin-mobile-ux-characterization.test.ts": {
+      "before": "2b5aa4fe7e308fb4e01cf3dca451b3ae7a95569c64cfbbd89e510dc778fbfb42",
+      "after": "cfe6434d3775318f5c2dfe99eb11aebaedc59d168d37e56b8e1c260a213854a0",
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 39,
+          "before": [
+            "  assert.match(productForm, /رمز الصنف SKU/);"
+          ],
+          "after": [
+            "  assert.match(productForm, /aria-label=\"رمز الصنف\"/);",
+            "  assert.match(productForm, /onClick=\\{generateSku\\}/);"
+          ]
+        }
+      ]
+    },
+    "tests/cheques195-parity.test.ts": {
+      "before": "3d5a0c6847e7371bdef17495feacc2edbc4d044e0f560603a09b52f493f37862",
+      "after": "a0e71cc493b6d4d78e85a10e56e82cbc77d8e868dbd299cca32b63f3e100d1f1",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {pretrialP1Pins} from '../scripts/audit/source-before-pretrial-p1.mjs';"
+          ]
+        },
+        {
+          "at": 27,
+          "before": [],
+          "after": [
+            "  else if(Object.hasOwn(pretrialP1Pins,file))assert.throws(()=>approvedCheques195Source(file,source+'\\n// unapproved mutation\\n'),/PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED/u,'P1 exact entire-file guard rejects mutation before legacy hunks');"
+          ]
+        }
+      ]
+    },
+    "tests/package-f-ci-shards.test.ts": {
+      "before": "ed5ca8bf0d14ff47d123d3b56faf38f90b58d0fabd1babe1f5f2f7efafef8fce",
+      "after": "6c493300727f8fb5f997a1e04fc8bbed4a544975987943707dcb16deb1799c1e",
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 6,
+          "before": [
+            "import {packageFShardCount,packageFShards} from '../scripts/testing/package-f-ci-shards.mjs';"
+          ],
+          "after": [
+            "import {packageFShardCount,packageFShards,isPackageFSpec,packageFSpecPattern,notPackageFSpecPattern} from '../scripts/testing/package-f-ci-shards.mjs';"
+          ]
+        },
+        {
+          "at": 10,
+          "before": [],
+          "after": [
+            "test('206/207 interface suites share existing F shards with exact historical filenames on both path styles',()=>{",
+            "  for(const file of ['package-f-future.spec.ts','admin-navigation-cash206.spec.ts','document-corrections207.spec.ts']){",
+            "    for(const prefix of ['e2e/','C:\\\\repo\\\\e2e\\\\']){",
+            "      assert.equal(isPackageFSpec(prefix+file),true);",
+            "      assert.equal(packageFSpecPattern.test(prefix+file),true);",
+            "      assert.equal(notPackageFSpecPattern.test(prefix+file),false);",
+            "    }",
+            "  }",
+            "  for(const file of ['regular.spec.ts','document-corrections207.spec.ts.extra','other-document-corrections207.spec.ts']){",
+            "    assert.equal(isPackageFSpec('e2e/'+file),false);",
+            "    assert.equal(notPackageFSpecPattern.test('/repo/e2e/'+file),true);",
+            "  }",
+            "});",
+            ""
+          ]
+        },
+        {
+          "at": 57,
+          "before": [
+            "  assert.match(workflow,/needs: \\[scope, quality, package-f-browser, database-runtime, current-database-runtime\\]/);"
+          ],
+          "after": [
+            "  assert.match(workflow,/needs: \\[scope, quality, package-f-browser, database-runtime, current-database-runtime, pwa-release-update\\]/);"
+          ]
+        }
+      ]
+    },
+    "tests/pretrial-p1.test.ts": {
+      "added": true,
+      "before": null,
+      "after": "0821bfd2d2987c9bee5cbd0d988ca262618721c6b1a63c463a4dad9450aafffd",
+      "hunks": []
+    },
+    "tests/private-ci-budget.test.ts": {
+      "before": "3a4d3882905e60ae4b13d9c48c762478cd3eebe1a268d94acc8aec28e299dff8",
+      "after": "e8a35f2208084d1444b21ffa6378ddc45a7c419af8f22c4b448ce55b1abddfd0",
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 47,
+          "before": [
+            "  const full = Object.fromEntries(['scope', 'quality', 'package-f-browser', 'database-runtime', 'current-database-runtime'].map(name => [name, {result: 'success'}]));"
+          ],
+          "after": [
+            "  const full = Object.fromEntries(['scope', 'quality', 'package-f-browser', 'database-runtime', 'current-database-runtime', 'pwa-release-update'].map(name => [name, {result: 'success'}]));"
+          ]
+        },
+        {
+          "at": 51,
+          "before": [
+            "  const light = {...full, 'database-runtime': {result: 'skipped'}, 'current-database-runtime': {result: 'skipped'}};"
+          ],
+          "after": [
+            "  const light = {...full, 'database-runtime': {result: 'skipped'}, 'current-database-runtime': {result: 'skipped'}, 'pwa-release-update': {result:'skipped'}};"
+          ]
+        },
+        {
+          "at": 73,
+          "before": [
+            "  const names = ['CI full or affected scope','Complete quality delivery gate','Isolated database runtime regression',"
+          ],
+          "after": [
+            "  const names = ['CI full or affected scope','Complete quality delivery gate','Isolated database runtime regression','Installed admin app release update',"
+          ]
+        }
+      ]
+    },
+    "tests/product-flavors.test.ts": {
+      "before": "39315cbfa48467e033f0bb675431a5d192d37aea113d3622b97587faa4a61673",
+      "after": "d1244c3fe8003d3d7f976f6c721fd40886854f6924ed5f431b5988f901438ac8",
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 169,
+          "before": [
+            "  assert.match(adminForm, /SKU: \\{flavor\\.sku\\}/);"
+          ],
+          "after": [
+            "  assert.match(adminForm, /رمز الصنف: \\{flavor\\.sku\\}/);"
+          ]
+        }
+      ]
+    },
+    "tests/supplier-replacement208-evidence.test.ts": {
+      "before": "96b851c10d847c90206c94b2f7c5c26c9b86b38865e927ee69a21aece5f22c34",
+      "after": "38e819899c425d48d1d53b7fdfee7f4bb4be080ae2d820cac1e13ccc7c34398d",
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 5,
+          "before": [
+            "import {inventory} from '../scripts/audit/table-access-inventory.mjs';"
+          ],
+          "after": [
+            "import {inventoryBeforePretrialP1 as inventory} from '../scripts/audit/source-before-pretrial-p1.mjs';"
+          ]
+        },
+        {
+          "at": 14,
+          "before": [
+            "test('208 current SDK evidence binds every current production source and all142 real probes',async()=>{"
+          ],
+          "after": [
+            "test('208 immutable SDK evidence binds every accepted208 source restored before P1 and all142 real probes',async()=>{"
+          ]
+        },
+        {
+          "at": 16,
+          "before": [
+            " assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_208.json');assert.equal(state.migrationCeiling,208);"
+          ],
+          "after": [
+            " assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_PRETRIAL_P1.json');assert.equal(state.migrationCeiling,208);"
+          ]
+        }
+      ]
+    }
+  }
+}

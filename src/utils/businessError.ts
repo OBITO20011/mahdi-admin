@@ -1,6 +1,9 @@
+import {rejectionMessages} from './rejectionMessage';
 /** Human-facing text only. Never use this to classify or change recovery state. */
 export function businessErrorMessage(message: unknown): string {
   const text = message instanceof Error ? message.message : String(message ?? '');
+  const rejectionCode=text.match(/\b(?:CORRECTION|SUPPLIER_REPLACEMENT)_[A-Z_]+\b/u)?.[0];
+  if(rejectionCode&&rejectionMessages[rejectionCode])return rejectionMessages[rejectionCode];
   const known: Array<[RegExp, string]> = [
     [/PACKAGE_D_CARTON_DAMAGE_PRICE_MISSING/u,
       'هذا البيع القديم لا يحتوي سعر القطعة التاريخي؛ لا يمكن تسوية ضرر العميل. مرتجع السليم وعيب المورد متاحان.'],

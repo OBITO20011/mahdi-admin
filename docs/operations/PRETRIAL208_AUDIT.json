@@ -1,0 +1,48 @@
+{
+  "recordedAt": "2026-10-21T20:18:30.734Z",
+  "sourceRevision": "b79a9e7bc5e4ff9551c8dab111edb6c04fc17dd3",
+  "managedAccess": false,
+  "productChanges": false,
+  "parcelOnlyImplemented": false,
+  "reportOnly": true,
+  "exactMainCI": {
+    "run": 39665806828,
+    "jobs": 38,
+    "secrets": 39665806800,
+    "browserPassed": 1293,
+    "legacyConditionalSkipped": 59,
+    "flaky": 0,
+    "actualFull208Groups": 21
+  },
+  "ui": {
+    "sourceFiles": 110,
+    "sourceEntries": 1584,
+    "uniqueViews": 128,
+    "widths": [
+      390,
+      1440
+    ],
+    "pageErrors": 0,
+    "externalRequests": 0,
+    "horizontalDocumentOverflow": 0,
+    "initialAuditLocatorFailures": 2,
+    "resolvedUsingExistingDesktopUI": true
+  },
+  "clicks": {
+    "sale": 3,
+    "receiving": 5,
+    "collection": 4,
+    "shiftClose": 2,
+    "productWithOpen": 3,
+    "method": "Activations only;all financial writes rejected before transport;not business/auth acceptance"
+  },
+  "pwa": {
+    "status": "LOCAL_PWA_RELEASE_UPDATE_NOT_ACCEPTED",
+    "externalEscaped": 0,
+    "unresolved": true,
+    "productChanged": false,
+    "report": "docs/operations/PRETRIAL208_PWA.json"
+  },
+  "artifactDirectory": "C:/Users/TOP/NawasrahReview/pretrial208-20261021-b79a9e7",
+  "approvalBoundary": "Report-only review before UI changes;parcel-only implementation forbidden until owner approval"
+}

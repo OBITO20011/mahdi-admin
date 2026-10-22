@@ -59,7 +59,7 @@ export const ClearInventoryBalanceDialog: React.FC<
       return;
     }
     if (!confirmationMatches) {
-      setToast('اكتب رمز SKU كما هو لتأكيد العملية.', 'error');
+      setToast('اكتب رمز الصنف كما هو لتأكيد العملية.', 'error');
       return;
     }
     if (reason.trim().length < 5) {
@@ -131,7 +131,7 @@ export const ClearInventoryBalanceDialog: React.FC<
               <div>
                 <p className="font-black text-nw-text">{product.nameAr}</p>
                 <p className="mt-1 font-mono text-[10px] text-nw-info">
-                  SKU: {product.sku}
+                  رمز الصنف: {product.sku}
                 </p>
               </div>
               <span className="rounded-full border border-nw-bad/30 bg-nw-bad-bg px-2.5 py-1 text-[9px] font-black text-nw-bad">

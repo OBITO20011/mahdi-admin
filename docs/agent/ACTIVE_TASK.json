@@ -2,54 +2,49 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Integrate accepted C9 supplierreplacement/damage208;genuine mainmerge/exactmainFULL38+secrets then owner208 guide and Prompt5 audit.No hostedaccess/deploy.",
-  "baselineSha": "7e325a00bbeea7711ae1f2e650848fe61ec99f93",
+  "objective": "Implement owner-approved seven pretrial P1 items:PWA update bothengines,per-product/unit pendingquantities,hide unsupported CRMcard,receiving terms,Arabic productcode,plain replacement copy,known rejection messages.No money/RPC/migration change.",
+  "baselineSha": "b79a9e7bc5e4ff9551c8dab111edb6c04fc17dd3",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "C8 PR11/main7e325 deliveredFULL37+secrets",
-    "C9 supplierreplacement/damage208 localgates accepted;see SUPPLIER_REPLACEMENT208_DELIVERY.json",
-    "Feature ec18333df7e1f0e58d0af5d820fd9a75fe396dd9 exact push+PR FULL38+secrets strictlyverified"
+    "C9 PR12/main208 exactFULL38+secrets;owner208guide and Prompt5 report",
+    "Owner-approved seven P1 implemented and local gates accepted;details PRETRIAL_P1_DELIVERY.json",
+    "PR13/headed13ffb exact push+PR FULL39 and both secrets accepted;actualPWA4/full20821/reset/browser1305 each"
   ],
   "inProgress": [
-    "GenuineC9 mainmerge,exactmainFULL38+secrets next"
+    "Genuine main merge;docs/state only;local metadata gates then exact mainFULL39"
   ],
   "notStarted": [
-    "Owner208 guide then Prompt5 audit;no parcel-only implementation"
+    "Exact mainFULL39/secrets and final owner report/checkpoint"
   ],
   "testsPassed": [
-    "Types/strictlint/build,1324units/0skip,15finalfocusedunits",
-    "18focused208browser plus56prioraffected;Chromium/WebKit retries0;network0escape",
-    "SQL19functional plusfocused200shipment/readscale501-528ms/fullrestore0diff+replay0writes at9741B818",
-    "SDK142/RPC525 complete313sourcehashes;only2 expected208reader role denials",
-    "Reference170migrations534functions13Realtime/freshincremental0;upgrade200..208+replay0writes",
-    "Actualreset208 owner/TOTP/WHMAIN preserved,Storage removed,ledgerempty,publicreport208;offline203-208localonly",
-    "Final corrective fixtures:70both-engine affectedcases/retries0,1324units/0skip,types/stricteslint PASS",
-    "Final classification+sharedguard:1352discovered/no loss/duplicate;14browser/retries0,1324units/0skip,types/strictlint PASS"
+    "All1330Adminunits/0skip;types/strictlint;52CIrepairfocused",
+    "Native1364 exactsameidentities;428core+936F;44movedspec bytesunchanged;actualCIconfig44bothengine PASS/worker1/retries0",
+    "P1 production gates preserved:SDK142/RPC525/316sourcehashes,build/networkisolation/PWA4;no production changes in CIrepair"
   ],
   "testsRemaining": [
-    "Exact mainFULL38+secrets"
+    "Mainintegration types/strictlint/all1330units/Gitleaks/diffcheck;mainFULL39/secrets"
   ],
   "findings": [
-    "001-207/oldpins/references unchanged;no hostedaccess/deploy",
-    "C9 reader fixtures corrected;70affectedbrowser/1324units priorpass;actual208full21+resetREST passed on oldpush",
-    "Two oldPRcore20min cutoffs;oneenvretry consumed.Classification moved14cases;required existing layoutguard now executed;1324units+14browser PASS.No weaker assertions/skips/timeouts.See CI_REPAIR/ENVIRONMENT."
+    "HistoricalC9/P1 evidence and oldpins retained;no service/SQL changes",
+    "Old28b superseded for core20m;accepted redistribution preserves1364identities/core428/F936",
+    "Original19 primary reports preserved in namedstash and carried in feature"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "No hosted/Frankfurt/Production/secrets/deploy",
-    "001-207/oldpins/references immutable;no121financialwriter change",
-    "Onewriter;no tracked editsduringverification/CI;no weaker assertions/retries/skips/timeouts",
-    "No parcel-only implementation without explicit ownerapproval"
+    "No money/RPC/migration/permission/auth logic change;ask if needed",
+    "P2 deferred;no parcel-only implementation",
+    "One writer;no tracked edits during verification;no weakened assertions/retries/skips/timeouts"
   ],
-  "nextExactAction": "Commit/push genuineC9 mainmerge;exactmainFULL38+secrets then owner208guide and Prompt5audit only.",
-  "checkpointedAt": "2026-10-21T19:54:54.670Z",
+  "nextExactAction": "P1 main local gates PASS1330/195/types/strictlint/Gitleaks0;commit genuine PR13 merge,push main,verify exact FULL39/secrets/PWA4/full20821/reset/browser1305,then owner report and STOP.Defer new Frankfurt ACL request;no hostedaccess.",
+  "checkpointedAt": "2026-10-22T00:10:23.020Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 97,
-  "filesTouchedManifestSha256": "be79ba741d1f649ee9404ca1a99f9d5d6494eb88efa0cb9710329265028ff5a9",
-  "workingTreeFingerprint": "6F63FC09BA229CD02EA2EA59E12F19F3D98013F3A58DEDBB9C41EC4A263ED833"
+  "filesTouchedCount": 84,
+  "filesTouchedManifestSha256": "539475fa65b2f1b6b79b11904c7d1313ee273bbdcd7be14dfd499a4203c57023",
+  "workingTreeFingerprint": "137686A83D446E33849A2AE26A0D7321E9C4E17A3EE3F0F9884DAE2F15026594"
 }

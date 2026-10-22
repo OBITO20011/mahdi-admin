@@ -579,7 +579,7 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
             <div className="relative" ref={dropdownRef}>
               <div className="relative">
                 <Search className="w-4 h-4 text-nw-muted absolute right-3 top-2.5" />
-                <input aria-label="ابحث عن منتج بإدخال الاسم، الرمز SKU، أو الباركود لإضافته للجدول..."
+                <input aria-label="ابحث عن منتج بإدخال الاسم، الرمز الصنف، أو الباركود لإضافته للجدول..."
                   type="text"
                   value={productSearch}
                   onFocus={() => setIsProductDropdownOpen(true)}
@@ -587,7 +587,7 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
                     setProductSearch(e.target.value);
                     setIsProductDropdownOpen(true);
                   }}
-                  placeholder="ابحث عن منتج بإدخال الاسم، الرمز SKU، أو الباركود لإضافته للجدول..."
+                  placeholder="ابحث عن منتج بإدخال الاسم، الرمز الصنف، أو الباركود لإضافته للجدول..."
                   className="w-full bg-nw-surface-2 border border-nw-border rounded-xl pr-9 pl-3 py-2 text-nw-text focus:outline-none focus:border-nw-border"
                 />
               </div>
@@ -637,7 +637,7 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
                                 {p.nameAr}
                               </div>
                               <div className="text-[10px] text-nw-muted flex flex-wrap items-center gap-2 mt-0.5 font-mono">
-                                <span>SKU: {p.sku || 'غير محدد'}</span>
+                                <span>رمز الصنف: {p.sku || 'غير محدد'}</span>
                                 {p.barcode && <span>• باركود: {p.barcode}</span>}
                                 {p.unit && (
                                   <span className="bg-nw-surface-2 border border-nw-border px-1.5 py-0.2 rounded text-[9px] text-nw-text font-sans">
@@ -675,7 +675,7 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
                 <DataTable caption="أصناف الطلب" className="w-full text-right text-xs">
                   <thead className="bg-nw-surface-2 text-nw-text font-bold border-b border-nw-border">
                     <Tr>
-                      <Th className="p-3">اسم المنتج / SKU</Th>
+                      <Th className="p-3">اسم المنتج / رمز الصنف</Th>
                       <Th className="p-3 w-28 text-center">الكمية المطلوب شراءها</Th>
                       <Th className="p-3 w-32 text-center">سعر الشراء الفردي ({CURRENCY})</Th>
                       <Th className="p-3 w-28 text-center">الخصم ({CURRENCY})</Th>
@@ -706,7 +706,7 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
                             <Td className="p-3 font-semibold text-nw-text">
                               <div>{item.productName}</div>
                               <div className="text-[10px] text-nw-muted font-mono">
-                                SKU: {item.sku} ({item.unit})
+                                رمز الصنف: {item.sku} ({item.unit})
                               </div>
                             </Td>
                             <Td className="p-3">

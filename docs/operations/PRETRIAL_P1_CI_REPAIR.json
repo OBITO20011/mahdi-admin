@@ -1,0 +1,110 @@
+{
+  "status": "EXACT_FEATURE_FULL39_ACCEPTED_MAIN_PENDING",
+  "supersededSha": "28b897da4eb361f8e82f25e2c19201b7ddb87a4c",
+  "supersededQualityRuns": [
+    39685000919,
+    39685021609
+  ],
+  "noCiAcceptanceClaimed": true,
+  "coreBudgetMinutes": 20,
+  "push": {
+    "adminUnits": 1329,
+    "storeUnits": 195,
+    "browserPassed": 413,
+    "unchangedSkipped": 59,
+    "browserMinutes": 16.6,
+    "conclusion": "cancelled by total job budget after passing browser summary"
+  },
+  "pullRequest": {
+    "adminUnits": 1329,
+    "storeUnits": 195,
+    "browserFinalSummary": false,
+    "conclusion": "core total20min cancellation;remaining obsolete jobs then explicitly cancelled"
+  },
+  "repair": "Route byte-identical206/207 interface specs across the existing five F shards;shared predicate for planning,Playwright selection,and identity verification",
+  "before": {
+    "full": 1364,
+    "core": 472,
+    "packageF": 892,
+    "fullIdentitySha256": "7c6f31cda2f3a0fb562487da8cc027160145b19d21e43b29e094548827419abf"
+  },
+  "moved": [
+    {
+      "file": "e2e/admin-navigation-cash206.spec.ts",
+      "sha256": "b5811fa003c1a4c1ae290fc70bb72930ab8983cf435dec2bc29de465fc3c735d",
+      "cases": 22
+    },
+    {
+      "file": "e2e/document-corrections207.spec.ts",
+      "sha256": "7d96fd02321fe21e3b1b2828ab91eaa76f7370bd5e6fa9b721ff361645156280",
+      "cases": 22
+    }
+  ],
+  "noAssertionsChanged": true,
+  "noTimeoutChanges": true,
+  "noRetryChanges": true,
+  "noSkipChanges": true,
+  "noWorkerChanges": true,
+  "noFinancialOrRpcOrMigrationChanges": true,
+  "managedAccess": false,
+  "identityProof": {
+    "ok": true,
+    "full": 1364,
+    "core": 428,
+    "packageF": 936,
+    "allBeforeIdentitiesUnchanged": true,
+    "fullIdentitySha256": "7c6f31cda2f3a0fb562487da8cc027160145b19d21e43b29e094548827419abf",
+    "movedCases": 44,
+    "movedFilesByteIdentical": [
+      {
+        "file": "e2e/admin-navigation-cash206.spec.ts",
+        "sha256": "b5811fa003c1a4c1ae290fc70bb72930ab8983cf435dec2bc29de465fc3c735d",
+        "cases": 22
+      },
+      {
+        "file": "e2e/document-corrections207.spec.ts",
+        "sha256": "7d96fd02321fe21e3b1b2828ab91eaa76f7370bd5e6fa9b721ff361645156280",
+        "cases": 22
+      }
+    ],
+    "noSourceOrSqlChange": true
+  },
+  "after": {
+    "full": 1364,
+    "core": 428,
+    "packageF": 936,
+    "shards": [
+      188,
+      188,
+      188,
+      186,
+      186
+    ]
+  },
+  "local": {
+    "types": true,
+    "strictLint": true,
+    "units": 1330,
+    "failed": 0,
+    "skipped": 0,
+    "focused": 52,
+    "browser44": {
+      "passed": 44,
+      "failed": 0,
+      "skipped": 0,
+      "retries": 0,
+      "workers": 1,
+      "browsers": [
+        "Chromium",
+        "WebKit"
+      ],
+      "configuration": "playwright.ci.config.ts/package-f",
+      "durationMinutes": 2.9
+    },
+    "gitleaks": {
+      "exitCode": 0,
+      "files": 84
+    }
+  },
+  "acceptedFeatureSha": "ed13ffbbcc149a89b277a5205c8782f87905b20d"
+}

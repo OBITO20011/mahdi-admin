@@ -253,7 +253,7 @@ export const ReceiveGoodsModal = ({
             </div>
             <div>
               <h2 className="text-base font-bold text-nw-text flex items-center gap-2">
-                <span>استلام بضائع لمخزن (Goods Receipt Note)</span>
+                <span>استلام بضاعة</span>
                 <span className="text-xs bg-nw-surface-2 px-2 py-0.5 rounded border border-nw-border text-nw-info">
                   {po.purchaseOrderNumber}
                 </span>
@@ -310,12 +310,12 @@ export const ReceiveGoodsModal = ({
             </div>
 
             <div>
-              <label className="font-bold text-nw-text block mb-1">إشعار تسليم المورد (Delivery Note):</label>
-              <input aria-label="رقم بوليصة / وصل السائق"
+              <label className="font-bold text-nw-text block mb-1">رقم وصل المورد (اختياري)</label>
+              <input aria-label="رقم وصل المورد (اختياري)"
                 type="text"
                 value={supplierDeliveryNote}
                 onChange={(e) => setSupplierDeliveryNote(e.target.value)}
-                placeholder="رقم بوليصة / وصل السائق"
+                placeholder="رقم وصل المورد (اختياري)"
                 className="w-full bg-nw-surface-2 border border-nw-border rounded-xl px-2.5 py-1.5 text-nw-text focus:outline-none focus:border-nw-border"
               />
             </div>
@@ -325,7 +325,7 @@ export const ReceiveGoodsModal = ({
           <div className="space-y-3">
             {items.map((item,index)=><Card key={item.purchaseOrderItemId} data-receiving-line={item.purchaseOrderItemId}>
               <h3 className="mb-2 text-sm font-bold text-nw-text">{item.productName}</h3>
-              <p className="text-sm text-nw-muted">المطلوب: {item.orderedQuantity} {item.unit} · المستلم: {item.previouslyReceivedQuantity} · المتبقي: {item.remainingQuantity} {item.unit}</p>
+              <p className="text-sm text-nw-muted">المطلوب: {item.orderedQuantity} {item.unit} · المستلم: {item.previouslyReceivedQuantity} {item.unit} · المتبقي: {item.remainingQuantity} {item.unit}</p>
               <ReceivingUnitFields unitName={item.unit} mode={item.receivingMode}
                 hasPackage={(item.productDefaults?.unitsPerPackage??1)>1} minimum={0} disabled={isSubmitting}
                 quantity={item.receivingMode==='package'?item.packageQuantity:item.thisReceiptQuantity}
@@ -339,7 +339,7 @@ export const ReceiveGoodsModal = ({
                 onPackageName={value=>changePackage(index,'name',value)}/>
               <ReceivingPurchaseHint status={purchaseRead.status} error={purchaseRead.error} quote={purchaseRead.quotes[item.productId]} unitName={item.unit} units={item.receivingMode==='package'?item.unitsPerPackage:1} priceInMinorUnits={jodToMinorUnits(item.receivingMode==='package'?item.packagePriceJod:item.unitCost)} saleQuote={item.productDefaults?.saleQuote??null} onEditSale={canEditSale&&!isSubmitting?()=>setEditingProductId(item.productId):undefined}/>
             </Card>)}
-            <p role="status" className="text-sm font-semibold text-nw-info">إجمالي الوحدات الداخلة: {totalReceivingNow} وحدة</p>
+            <div role="status" className="space-y-1 text-sm font-semibold text-nw-info" aria-label="الكميات الداخلة حسب الصنف">{items.filter(item=>item.thisReceiptQuantity>0).map(item=><p key={item.purchaseOrderItemId}>{item.productName}: {item.thisReceiptQuantity} {item.unit}</p>)}</div>
           </div>
           <details>
           <summary className="text-sm text-nw-muted">تفاصيل أمر الشراء بمحتوى الطرود</summary>
@@ -347,7 +347,7 @@ export const ReceiveGoodsModal = ({
             <h3 className="font-bold text-nw-text text-sm flex items-center justify-between">
               <span>جدول فحص واستلام الأصناف:</span>
               <span className="text-xs text-nw-info font-normal">
-                إجمالي قطع الاستلام الحالي: {totalReceivingNow} قطعة
+                الكميات حسب الصنف ووحدته
               </span>
             </h3>
 
@@ -370,7 +370,7 @@ export const ReceiveGoodsModal = ({
                         <Td className="p-3 font-semibold text-nw-text">
                           <div>{item.productName}</div>
                           <div className="text-[10px] text-nw-muted font-mono">
-                            SKU: {item.sku} ({item.unit})
+                            رمز الصنف: {item.sku} ({item.unit})
                           </div>
                         </Td>
                         <Td className="p-3 text-center font-bold text-nw-text">{item.orderedQuantity}</Td>

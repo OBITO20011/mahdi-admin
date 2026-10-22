@@ -1,0 +1,64 @@
+{
+  "sourceRevision": "b79a9e7bc5e4ff9551c8dab111edb6c04fc17dd3",
+  "managedAccess": false,
+  "status": "LOCAL_PWA_RELEASE_UPDATE_NOT_ACCEPTED",
+  "originalAssertionsUnchanged": true,
+  "retriesAdded": 0,
+  "timeoutsIncreased": false,
+  "productChanges": false,
+  "attempts": [
+    {
+      "phase": "Original assertions with loopback proxy",
+      "sourceSha": "b79a9e7bc5e4ff9551c8dab111edb6c04fc17dd3",
+      "managedAccess": false,
+      "originalAssertionsUnchanged": true,
+      "adaptations": [
+        "Explicit project root and package resolution for TEMP copy",
+        "Loopback-only public configuration and fail-closed browser proxy including ServiceWorker"
+      ],
+      "startedAt": "2026-10-21T19:56:57.613Z",
+      "ok": false,
+      "error": "Command failed: C:\\Program Files\\nodejs\\node.exe C:\\Users\\TOP\\AppData\\Local\\Temp/nw-pretrial208-pwa.mjs",
+      "stderr": "file:///C:/Users/TOP/AppData/Local/Temp/nw-pretrial208-pwa.mjs:138\r\n    throw new Error(\r\n          ^\r\n\r\nError: Controller did not reach 2222222222222222222222222222222222222222: {\"controllerUrl\":\"http://127.0.0.1:57889/sw.js?build=1111111111111111111111111111111111111111\",\"registrations\":[{\"active\":\"http://127.0.0.1:57889/sw.js?build=1111111111111111111111111111111111111111\",\"waiting\":\"http://127.0.0.1:57889/sw.js?build=2222222222222222222222222222222222222222\",\"installing\":null}],\"caches\":[\"nawasrah-admin-shell-1111111111111111111111111111111111111111\",\"nawasrah-admin-shell-2222222222222222222222222222222222222222\"]}; TimeoutError: page.waitForFunction: Timeout 30000ms exceeded.\r\n    at waitForControllerRelease (file:///C:/Users/TOP/AppData/Local/Temp/nw-pretrial208-pwa.mjs:138:11)\r\n    at async runBrowserScenario (file:///C:/Users/TOP/AppData/Local/Temp/nw-pretrial208-pwa.mjs:247:5)\r\n    at async file:///C:/Users/TOP/AppData/Local/Temp/nw-pretrial208-pwa.mjs:299:7 {\r\n  [cause]: page.waitForFunction: Timeout 30000ms exceeded.\r\n      at waitForControllerRelease (C:\\Users\\TOP\\AppData\\Local\\Temp\\nw-pretrial208-pwa.mjs:118:16)\r\n      at runBrowserScenario (C:\\Users\\TOP\\AppData\\Local\\Temp\\nw-pretrial208-pwa.mjs:247:11)\r\n      at async file:///C:/Users/TOP/AppData/Local/Temp/nw-pretrial208-pwa.mjs:299:7 {\r\n    log: [],\r\n    name: 'TimeoutError'\r\n  }\r\n}\r\n\r\nNode.js v24.18.0\r\n",
+      "endedAt": "2026-10-21T19:57:44.059Z"
+    },
+    {
+      "phase": "Same assertions with browser console instrumentation;Chromium progressed and WebKit request cancellation detected",
+      "sourceSha": "b79a9e7bc5e4ff9551c8dab111edb6c04fc17dd3",
+      "managedAccess": false,
+      "originalAssertionsUnchanged": true,
+      "adaptations": [
+        "Explicit project root and package resolution for TEMP copy",
+        "Loopback-only public configuration and fail-closed browser proxy including ServiceWorker"
+      ],
+      "startedAt": "2026-10-21T19:59:59.671Z",
+      "ok": false,
+      "error": "Command failed: C:\\Program Files\\nodejs\\node.exe C:\\Users\\TOP\\AppData\\Local\\Temp/nw-pretrial208-pwa-diag.mjs",
+      "stderr": "node:internal/modules/run_main:107\r\n    triggerUncaughtException(\r\n    ^\r\n\r\nAssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\r\n+ actual - expected\r\n\r\n+ [\r\n+   'http://127.0.0.1:63928/assets/ibm-plex-sans-arabic-latin-500-normal-Cd6jVIg7.woff2',\r\n+   'http://127.0.0.1:63928/assets/ibm-plex-sans-arabic-arabic-400-normal-CyU-ddYS.woff2',\r\n+   'http://127.0.0.1:63928/assets/ibm-plex-sans-arabic-latin-600-normal-KrqB56Mw.woff2',\r\n+   'http://127.0.0.1:63928/assets/ibm-plex-sans-arabic-arabic-600-normal-0pRdybE_.woff2',\r\n+   'http://127.0.0.1:63928/assets/ibm-plex-sans-arabic-arabic-500-normal-C4MQITzh.woff2',\r\n+   'http://127.0.0.1:63928/assets/ibm-plex-sans-arabic-latin-400-normal-Bo5KPYvw.woff2'\r\n+ ]\r\n- []\r\n\r\n    at runBrowserScenario (file:///C:/Users/TOP/AppData/Local/Temp/nw-pretrial208-pwa-diag.mjs:275:12)\r\n    at async file:///C:/Users/TOP/AppData/Local/Temp/nw-pretrial208-pwa-diag.mjs:304:7 {\r\n  generatedMessage: true,\r\n  code: 'ERR_ASSERTION',\r\n  actual: [\r\n    'http://127.0.0.1:63928/assets/ibm-plex-sans-arabic-latin-500-normal-Cd6jVIg7.woff2',\r\n    'http://127.0.0.1:63928/assets/ibm-plex-sans-arabic-arabic-400-normal-CyU-ddYS.woff2',\r\n    'http://127.0.0.1:63928/assets/ibm-plex-sans-arabic-latin-600-normal-KrqB56Mw.woff2',\r\n    'http://127.0.0.1:63928/assets/ibm-plex-sans-arabic-arabic-600-normal-0pRdybE_.woff2',\r\n    'http://127.0.0.1:63928/assets/ibm-plex-sans-arabic-arabic-500-normal-C4MQITzh.woff2',\r\n    'http://127.0.0.1:63928/assets/ibm-plex-sans-arabic-latin-400-normal-Bo5KPYvw.woff2'\r\n  ],\r\n  expected: [],\r\n  operator: 'deepStrictEqual',\r\n  diff: 'simple'\r\n}\r\n\r\nNode.js v24.18.0\r\n",
+      "endedAt": "2026-10-21T20:00:17.895Z"
+    },
+    {
+      "phase": "Turnstile render-only no-verification in-memory fixture and await original A fonts;all original assertions unchanged",
+      "sourceSha": "b79a9e7bc5e4ff9551c8dab111edb6c04fc17dd3",
+      "managedAccess": false,
+      "originalAssertionsUnchanged": true,
+      "adaptations": [
+        "Explicit project root and package resolution for TEMP copy",
+        "Loopback-only public configuration and fail-closed browser proxy including ServiceWorker"
+      ],
+      "startedAt": "2026-10-21T20:01:43.182Z",
+      "ok": false,
+      "error": "Command failed: C:\\Program Files\\nodejs\\node.exe C:\\Users\\TOP\\AppData\\Local\\Temp/nw-pretrial208-pwa-isolated.mjs",
+      "stderr": "file:///C:/Users/TOP/AppData/Local/Temp/nw-pretrial208-pwa-isolated.mjs:138\r\n    throw new Error(\r\n          ^\r\n\r\nError: Controller did not reach 2222222222222222222222222222222222222222: {\"controllerUrl\":\"http://127.0.0.1:49996/sw.js?build=1111111111111111111111111111111111111111\",\"registrations\":[{\"active\":\"http://127.0.0.1:49996/sw.js?build=1111111111111111111111111111111111111111\",\"waiting\":\"http://127.0.0.1:49996/sw.js?build=2222222222222222222222222222222222222222\",\"installing\":null}],\"caches\":[\"nawasrah-admin-shell-1111111111111111111111111111111111111111\",\"nawasrah-admin-shell-2222222222222222222222222222222222222222\"]}; TimeoutError: page.waitForFunction: Timeout 30000ms exceeded.\r\n    at waitForControllerRelease (file:///C:/Users/TOP/AppData/Local/Temp/nw-pretrial208-pwa-isolated.mjs:138:11)\r\n    at async runBrowserScenario (file:///C:/Users/TOP/AppData/Local/Temp/nw-pretrial208-pwa-isolated.mjs:251:5)\r\n    at async file:///C:/Users/TOP/AppData/Local/Temp/nw-pretrial208-pwa-isolated.mjs:303:7 {\r\n  [cause]: page.waitForFunction: Timeout 30000ms exceeded.\r\n      at waitForControllerRelease (C:\\Users\\TOP\\AppData\\Local\\Temp\\nw-pretrial208-pwa-isolated.mjs:118:16)\r\n      at runBrowserScenario (C:\\Users\\TOP\\AppData\\Local\\Temp\\nw-pretrial208-pwa-isolated.mjs:251:11)\r\n      at async file:///C:/Users/TOP/AppData/Local/Temp/nw-pretrial208-pwa-isolated.mjs:303:7 {\r\n    log: [],\r\n    name: 'TimeoutError'\r\n  }\r\n}\r\n\r\nNode.js v24.18.0\r\n",
+      "network": {
+        "denied": [],
+        "blockedCanaryAttempts": [],
+        "deniedUnexpectedAttempts": [],
+        "escapedExternalRequests": []
+      },
+      "endedAt": "2026-10-21T20:02:26.883Z"
+    }
+  ],
+  "limits": "Standalone diagnostic is not run by current npm quality CI;no hosted replication or root-cause claim;owner pretrial review required",
+  "next": "Diagnose PWA transition and restore passing unweakened Chromium+WebKit release-update checks before installed-app trial"
+}

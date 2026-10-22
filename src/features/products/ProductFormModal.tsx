@@ -386,7 +386,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
       setToast(
         error instanceof Error
           ? error.message
-          : 'تعذر توليد SKU فريد. حاول مرة أخرى.',
+          : 'تعذر توليد رمز صنف فريد. حاول مرة أخرى.',
         'error'
       );
     }
@@ -634,7 +634,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     event.preventDefault();
 
     if (!nameAr.trim() || !sku.trim()) {
-      setToast('اسم المنتج ورمز الصنف SKU مطلوبان.', 'error');
+      setToast('اسم المنتج ورمز الصنف مطلوبان.', 'error');
       return;
     }
     const identifierValidation = validateProductIdentifiers(products, {
@@ -991,7 +991,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           <div>
             <h4 className="font-black text-nw-text">التعريف والتتبع</h4>
             <p className="text-xs text-nw-muted">
-              SKU داخلي، والباركود اختياري
+              رمز داخلي للصنف، والباركود اختياري
             </p>
           </div>
         </div>
@@ -999,19 +999,19 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           <div>
             <div className="mb-1.5 flex items-center justify-between">
               <label className="text-xs font-bold text-nw-text">
-                SKU *
+                رمز الصنف *
               </label>
               {!isEditing && (
                 <UiButton variant="plain"
                   type="button"
                   onClick={generateSku}
-                  className="text-xs font-bold text-nw-info"
+                  className="min-w-11 px-2 text-xs font-bold text-nw-info"
                 >
                   توليد
                 </UiButton>
               )}
             </div>
-            <input aria-label="SKU"
+            <input aria-label="رمز الصنف"
               required
               value={sku}
               onChange={(event) => setSku(event.target.value)}
@@ -1497,7 +1497,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
                   </h4>
                 </div>
                 <p className="mt-1 text-xs leading-4 text-nw-muted">
-                  كل نكهة SKU مستقل وله مخزون وتكلفة خاصة به.
+                  لكل نكهة رمز صنف مستقل ومخزون وتكلفة خاصة بها.
                 </p>
               </div>
               <UiButton variant="plain"
@@ -1532,7 +1532,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
                     </span>
                   </div>
                   <p className="mt-1 truncate font-mono text-xs text-nw-muted">
-                    SKU: {flavor.sku}
+                    رمز الصنف: {flavor.sku}
                     {flavor.barcode ? ` • ${flavor.barcode}` : ''}
                   </p>
                 </div>

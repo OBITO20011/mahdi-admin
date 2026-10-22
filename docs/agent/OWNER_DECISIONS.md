@@ -1,3 +1,8 @@
+#22Oct — owner approved seven pretrial P1 items
+
+Implement PWA update repair and both-engine acceptance;per-product/unit held quantities;hide unsupported CRMmonthlycollection card;receiving terminology/units;Arabic product code with small generator;plain replacement text;known rejection messages.
+Presentation only:no money/RPC/migration changes;if required stop for owner decision.P2 deferred;parcel-only forbidden. Worktree/fullCI/Gitleaks0/checkpoint;standing commit/PR/merge/mainCI process remains. No hostedaccess/deploy.
+
 # Current owner — C9 checkpoint and delivery, then Prompt5
 
 Owner explicitly approves the current uncommitted C9 tree as solely our work after

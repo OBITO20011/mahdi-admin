@@ -30,7 +30,9 @@ export const registerAdminServiceWorker = (): void => {
       () => {
         if (isReloadingAfterServiceWorkerUpdate) return;
         isReloadingAfterServiceWorkerUpdate = true;
-        window.location.reload();
+        // Let the current document's fonts finish before the intentional reload.
+        // Otherwise WebKit can cancel its own in-flight shell requests.
+        void document.fonts.ready.then(() => window.location.reload());
       },
       {once: true},
     );
@@ -45,7 +47,23 @@ export const registerAdminServiceWorker = (): void => {
         scope: '/',
         updateViaCache: 'none',
       })
-      .then((registration) => registration.update())
+      .then((registration) => {
+        const activateWaitingRelease = () => {
+          const waiting = registration.waiting;
+          if (waiting?.scriptURL === serviceWorkerUrl.href) {
+            waiting.postMessage({type: 'NAWASRAH_ACTIVATE_RELEASE', buildId: __NAWASRAH_BUILD_ID__});
+          }
+        };
+        registration.addEventListener('updatefound', () => {
+          registration.installing?.addEventListener('statechange', activateWaitingRelease);
+        });
+        // Registration may resolve with an already-installed waiting worker.
+        registration.installing?.addEventListener('statechange', activateWaitingRelease);
+        activateWaitingRelease();
+        // register() already checks a new script. Do not race a second update
+        // against its installation; still check an existing active registration.
+        if (!registration.installing && !registration.waiting) return registration.update();
+      })
       .catch(() => undefined);
   };
 

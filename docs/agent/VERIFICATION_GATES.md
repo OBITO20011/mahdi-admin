@@ -70,7 +70,10 @@ the actual selected columns, not an invented `SELECT *`.
 ## Exact-SHA delivery after the Package F browser split
 
 Local `npm run quality` remains the complete unsplit gate. CI selects browser
-files automatically: `e2e/package-f-*.spec.ts` in Package F, all others in core.
+files automatically: `e2e/package-f-*.spec.ts` plus the historical `admin-navigation-cash206.spec.ts` and
+`document-corrections207.spec.ts` suites in Package F; all others remain in core.
+The shared classifier in `scripts/testing/package-f-ci-shards.mjs` drives planning,
+Playwright selection and native partition verification.
 Dynamic Playwright discovery must prove the disjoint union equals full discovery
 by test identity and browser project (no fixed count). Both independent pinned
 containers retain the original configuration and20m limit. Package F now runs

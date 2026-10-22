@@ -154,7 +154,7 @@ export const WarehouseTransferModal: React.FC<WarehouseTransferModalProps> = ({
             type="search"
             value={productSearch}
             onChange={(event) => setProductSearch(event.target.value)}
-            placeholder="ابحث بالاسم أو SKU أو الباركود"
+            placeholder="ابحث بالاسم أو رمز الصنف أو الباركود"
             className="w-full rounded-xl border border-nw-border bg-nw-bg py-2.5 pl-3 pr-9 text-xs text-nw-text outline-none focus:border-nw-info"
           />
         </div>
@@ -186,7 +186,7 @@ export const WarehouseTransferModal: React.FC<WarehouseTransferModalProps> = ({
             />
             <div>
               <h5 className="font-bold text-nw-text text-xs">{selectedProduct.nameAr}</h5>
-              <p className="text-[10px] text-nw-muted font-mono">SKU: {selectedProduct.sku}</p>
+              <p className="text-[10px] text-nw-muted font-mono">رمز الصنف: {selectedProduct.sku}</p>
             </div>
           </div>
           <div className="text-left">

@@ -312,7 +312,7 @@ export const InventoryOpeningSetupModal: React.FC<
       ]);
       if (skuIndex < 0 || packagesIndex < 0 || looseIndex < 0) {
         throw new Error(
-          'استخدم القالب المعتمد؛ الأعمدة المطلوبة: SKU، عدد الطرود، الباكيتات المتبقية.'
+          'استخدم القالب المعتمد؛ الأعمدة المطلوبة: رمز الصنف، عدد الطرود، الباكيتات المتبقية.'
         );
       }
 
@@ -338,7 +338,7 @@ export const InventoryOpeningSetupModal: React.FC<
         const product = productsBySku.get(sku);
         if (!product) {
           ignored += 1;
-          problems.push(`السطر ${rowIndex + 2}: SKU غير موجود.`);
+          problems.push(`السطر ${rowIndex + 2}: رمز الصنف غير موجود.`);
           return;
         }
         if (!/^\d+$/.test(packageText || '0') || !/^\d+$/.test(looseText || '0')) {
@@ -494,7 +494,7 @@ export const InventoryOpeningSetupModal: React.FC<
 
       <div className="rounded-xl border border-nw-warn/20 bg-nw-warn-bg p-3 text-[11px] leading-5 text-nw-warn">
         <FileSpreadsheet className="ml-1 inline h-4 w-4" />
-        القالب بصيغة CSV المتوافقة مع Excel. لا تغيّر SKU؛ عبّئ فقط عدد الطرود
+        القالب بصيغة CSV المتوافقة مع Excel. لا تغيّر رمز الصنف؛ عبّئ فقط عدد الطرود
         والباكيتات المتبقية ثم احفظ الملف بصيغة CSV.
       </div>
 
@@ -504,7 +504,7 @@ export const InventoryOpeningSetupModal: React.FC<
           <input
             value={searchQuery}
             onChange={(event) => setSearchQuery(event.target.value)}
-            placeholder="ابحث باسم الصنف أو SKU أو الباركود..."
+            placeholder="ابحث باسم الصنف أو رمز الصنف أو الباركود..."
             className="w-full rounded-xl border border-nw-border bg-nw-bg py-2.5 pr-9 pl-3 text-nw-text focus:border-nw-info focus:outline-none"
           />
         </label>

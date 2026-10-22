@@ -335,7 +335,7 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
           <input aria-label="بحث المنتجات"
             value={searchQuery}
             onChange={(event) => setSearchQuery(event.target.value)}
-            placeholder="اسم المنتج، SKU أو الباركود"
+            placeholder="اسم المنتج، رمز الصنف أو الباركود"
             className="w-full rounded-xl border border-nw-border bg-nw-surface-2 py-2.5 pl-3 pr-9 font-semibold text-nw-text outline-none placeholder:text-nw-muted focus:border-nw-border"
           />
         </div>

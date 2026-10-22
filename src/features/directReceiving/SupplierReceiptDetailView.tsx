@@ -147,7 +147,7 @@ export const SupplierReceiptDetailView: React.FC<SupplierReceiptDetailViewProps>
           <div>
             <h2 className="text-base font-black text-nw-text print:text-nw-text flex items-center gap-2">
               <Building2 className="w-5 h-5 text-nw-info print:hidden" />
-              <span>إذن استلام بضائع من مورد (Direct Goods Receipt)</span>
+              <span>سند استلام بضاعة</span>
             </h2>
             <p className="text-[11px] text-nw-muted print:text-nw-muted font-mono mt-0.5">
               رقم السند: <strong className="text-nw-info print:text-nw-text">{receipt.receiptNumber}</strong>

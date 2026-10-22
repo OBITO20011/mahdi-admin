@@ -20,6 +20,10 @@
       "sha256": "6d6a6d4d73d17d20ef2622669841ad7bd7156a0f9caf064176a207aa9ebc7de5"
     },
     {
+      "file": "src/components/common/RejectionNotice.tsx",
+      "sha256": "6d1aaee309cf8e784f52875a6f99096ae08e57a8ebc1b9fefacb39952beb23df"
+    },
+    {
       "file": "src/components/layout/AdminToast.tsx",
       "sha256": "b49370de28d33b69b374813b93e8868fbd49928aab4ed5ab2ea29c0327cc9c67"
     },
@@ -193,7 +197,7 @@
     },
     {
       "file": "src/features/corrections/DocumentCorrectionAction.tsx",
-      "sha256": "01bd2b71584c88411fe5066a234bfbc07eefda73032b2da9e243f0e0959d0f81"
+      "sha256": "141c7dd98d5821a08e4f3a2b0d77aeddbab73703efeb2902558f57b799ef82f0"
     },
     {
       "file": "src/features/crm/AddAddressModal.tsx",
@@ -209,7 +213,7 @@
     },
     {
       "file": "src/features/crm/CustomerAging.tsx",
-      "sha256": "b9ca6627282aaeecdf0b7301ece26aca3bcf0e46318b0300204b8f0f6bea8c20"
+      "sha256": "1bfcb74b7138ab15f859b6048d56613fb3c92c5311c32091819b5937108cd2d2"
     },
     {
       "file": "src/features/crm/CustomerCollectionModal.tsx",
@@ -237,7 +241,7 @@
     },
     {
       "file": "src/features/dashboard/ChartsSection.tsx",
-      "sha256": "2e03f3458252b50ed337c8ac79265285992078c72b6fa311c5921d07a8f9ba0f"
+      "sha256": "1b96b19a5a0e12732992c394656acadb565e4c5957eadce6d29cc203a8419436"
     },
     {
       "file": "src/features/dashboard/DashboardHome.tsx",
@@ -265,11 +269,11 @@
     },
     {
       "file": "src/features/directReceiving/CreateDirectReceiptModal.tsx",
-      "sha256": "a4aad3eeb55c8df892164b6bb3a38266f873efc70bc7363998f08d0a7b72c2c5"
+      "sha256": "212677ab9a8bfb24cab4f7ae989f9a1fae57a751fe6e9ea463c0688e868dce07"
     },
     {
       "file": "src/features/directReceiving/DirectReceivingView.tsx",
-      "sha256": "71099afdfeb95455c59683a347c54ef88a6df811e25d9e0eca717031ed6ac290"
+      "sha256": "a751598e367a18d71e46ec32ecd395ab435f63880f606fda1811e60658a61991"
     },
     {
       "file": "src/features/directReceiving/RecordSupplierPaymentModal.tsx",
@@ -277,7 +281,7 @@
     },
     {
       "file": "src/features/directReceiving/SupplierReceiptDetailView.tsx",
-      "sha256": "17d398fb916f3203e73f29082f757199d572d21dbb9c2e55e2e26d03de036a43"
+      "sha256": "05d786499ae7469151ceafad0f1def09d1d08499da8522a65dbe6ddcaaced82e"
     },
     {
       "file": "src/features/directReceiving/SupplierReceiptLines.tsx",
@@ -309,31 +313,35 @@
     },
     {
       "file": "src/features/inventory/ClearInventoryBalanceDialog.tsx",
-      "sha256": "88decb6f8157e71ce393d3de87e505208b016b9eb0c44d9cc0f36e1d9d557e46"
+      "sha256": "f672730b45f6536e3464345c54b76adc37d7f24894063966d4c8a8ad2bae4ad5"
     },
     {
       "file": "src/features/inventory/InventoryOpeningSetupModal.tsx",
-      "sha256": "2cb7c33bffc98e3e3bdf129e0bc9408762157388d7dcfd442cae43e8e06a357d"
+      "sha256": "169cf7cf8c9740cce42c3cd49d56503e1b2d62d743f7510ef071026e0d6ba40d"
     },
     {
       "file": "src/features/inventory/InventoryView.tsx",
-      "sha256": "53043d60c8bbbaeea4131f17068b93cb754a916c8986e842fe6de91590188c65"
+      "sha256": "52b9eef8a0994af82f11dbaadfe7021212c48e22b081a37b1e5d055625f07813"
     },
     {
       "file": "src/features/inventory/StockCountModal.tsx",
-      "sha256": "32aa2bb6b417b5bd430b95d7d54b91c8ed4debb56e4dfc1439961125deda8d8d"
+      "sha256": "b282341e51d13b85d741d8e84b3309ac97275a3e56554a531b2c33be748c4299"
     },
     {
       "file": "src/features/inventory/SupplierReplacementPanel.tsx",
-      "sha256": "7ea3b27f700fb806bef0fa1d7d17ca0d7c08201e7b6d5e2a9b69aec80d210e21"
+      "sha256": "120cd16e686b1a10078831494b0d6d720a4de0fbb7200a86db5dbc111d0c66c2"
+    },
+    {
+      "file": "src/features/inventory/SupplierReplacementQuantities.tsx",
+      "sha256": "e72e9f11133257d0f5c1618182187852914cc136f358cbe82593f3a6ad4fa14a"
     },
     {
       "file": "src/features/inventory/SupplierReplacementSummary.tsx",
-      "sha256": "94a7cd7965e326fde08a9ae06aac5b02aab796a7a61565f8290ae1be4ce36e9d"
+      "sha256": "40db75c9f74c57200d2e51ee4beaf3f8db955c0a700c6069fddec5346d1f81b4"
     },
     {
       "file": "src/features/inventory/WarehouseTransferModal.tsx",
-      "sha256": "430c2c42b470eb329ad67e900c8c1d0af31b18f83248dfcf6f08e2d87a0a7a33"
+      "sha256": "b20bb57b797b0ddfd320ceb86129653248e19eda50438e63855ebc8ac19cb87a"
     },
     {
       "file": "src/features/more/adminNavigation.config.ts",
@@ -409,7 +417,7 @@
     },
     {
       "file": "src/features/pos/BarcodeScannerModal.tsx",
-      "sha256": "32ee8ec8e6f954724d9320156a228f2635240c1c7e7e88c5399ec97a35694e98"
+      "sha256": "56768f2f300e7575aed8f9e0aabcc042777d3afa54cc4343d99ab2fa22055e91"
     },
     {
       "file": "src/features/pos/PosParcelBuilder.tsx",
@@ -421,7 +429,7 @@
     },
     {
       "file": "src/features/pos/PosView.tsx",
-      "sha256": "0f2919d3b6167b4ea7990dbb417c764e0cff6c41d4c2d1e23ef4afdff4ec1f74"
+      "sha256": "3862d856d20d6c9de4a9145d29344a65280e4de0569c08a53332085a4f0d6e83"
     },
     {
       "file": "src/features/products/ProductCostCorrectionPanel.tsx",
@@ -429,7 +437,7 @@
     },
     {
       "file": "src/features/products/ProductDetailModal.tsx",
-      "sha256": "c5365ff995a16906bad93f6f2263976a27ceb4ff626c6fc725a4d79c9381dca6"
+      "sha256": "3e6ffa5fe59a2249a532f9dde82a405a3ac050cf22105c6ec9f844929b6acc4f"
     },
     {
       "file": "src/features/products/ProductEditConflictPanel.tsx",
@@ -437,11 +445,11 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "sha256": "367556192edcc5bd8311c0ee26fef76d179f385e22712cb0571c39bd18073d27"
+      "sha256": "d77bb2e3e36c2c59230ec9f97c9f770bf3b1195ba43573c4558dc9ac4de362af"
     },
     {
       "file": "src/features/products/ProductsView.tsx",
-      "sha256": "d5fa3a9c490e939f66edd3237570966270c0c9551fc5fbb767bce883423b2454"
+      "sha256": "640b638372973abf04ff6edb482dd14b0c4109cf8d13b11c4464ac63b172dd2a"
     },
     {
       "file": "src/features/products/StockAdjustmentModal.tsx",
@@ -449,7 +457,7 @@
     },
     {
       "file": "src/features/purchases/CreatePurchaseOrderModal.tsx",
-      "sha256": "b13084cc5d0b8809ee784ffd96229abe79324b67a42c465b7e8c5bd29b19c088"
+      "sha256": "239aef7ee3eb5e53cce427f2c62ea8c4652f04f53efb203d0f9d7e284e4bb81d"
     },
     {
       "file": "src/features/purchases/CreateSupplierModal.tsx",
@@ -461,7 +469,7 @@
     },
     {
       "file": "src/features/purchases/PurchaseOrderDetailView.tsx",
-      "sha256": "6f797658c2520adaec1eb9b266fcfdfd2507b05133d05f5a72e66c90eafd979c"
+      "sha256": "f58789e21a3b4af4be83bd3ec87224b54245104888b098de72ce8f49707b76f3"
     },
     {
       "file": "src/features/purchases/PurchasesView.tsx",
@@ -469,7 +477,7 @@
     },
     {
       "file": "src/features/purchases/ReceiveGoodsModal.tsx",
-      "sha256": "96769afa0cd3d21ca113d3737d412f34464ace604db6c513efb2c5b3b51619be"
+      "sha256": "1d24f6b6ec91df402e70812c9bbf9393b115f19a5eabbc84524943cf00c7e231"
     },
     {
       "file": "src/features/purchases/ReceivingProductPriceEditor.tsx",
@@ -597,7 +605,7 @@
     },
     {
       "file": "src/pwa/pwa.ts",
-      "sha256": "7a92f8b181c89d5cc9107729efbb0e2702b6a0b60c781f461ec6d9c60bc9ef63"
+      "sha256": "dd313fba1bbfb217757796763cba59c54f8f2a54109dcb203c425b31be86d48d"
     },
     {
       "file": "src/services/deviceBiometrics.service.ts",
@@ -865,7 +873,7 @@
     },
     {
       "file": "src/utils/businessError.ts",
-      "sha256": "a5874bdbad120aedd2a1e6edb3c352e70de8c92d1aee1edc4db936cb6d3d8103"
+      "sha256": "c2777f9f4630dfa2af6ea546f2176ec69e1850da580c09188e40333408075a25"
     },
     {
       "file": "src/utils/customerCollections.ts",
@@ -938,6 +946,10 @@
     {
       "file": "src/utils/receivingV2.ts",
       "sha256": "1fcb7262d6e1d58eddd19d16cf600e001385922f4d57c050a4f2a52b5962579b"
+    },
+    {
+      "file": "src/utils/rejectionMessage.ts",
+      "sha256": "0730bb29d9d53add372e5a9f084d156c2de8976e6b58c434b1a20c2582dda755"
     },
     {
       "file": "src/utils/roleLabels.ts",

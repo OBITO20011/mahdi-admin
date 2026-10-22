@@ -1,8 +1,7 @@
 import assert from 'node:assert/strict';
-import {packageFShardCount,packageFShards} from './package-f-ci-shards.mjs';
+import {packageFShardCount,packageFShards,isPackageFSpec} from './package-f-ci-shards.mjs';
 import {listBrowserTests} from './ci-browser-discovery.mjs';
 
-const packageF=/(?:^|\/)package-f-[^/]+\.spec\.ts$/u;
 const list=(group,shard)=>listBrowserTests(group,{shard,ci:true});
 function verify(full,core,shards){
   assert.equal(shards.length,packageFShardCount,'Every approved actual Playwright shard list required');
@@ -10,8 +9,8 @@ function verify(full,core,shards){
   const keys=rows=>rows.map(r=>r.key);
   for(const rows of [full,core,...shards,extra])assert.equal(new Set(keys(rows)).size,rows.length,'Duplicate test identity');
   assert.ok(full.length>0&&core.length>0&&shards.every(rows=>rows.length>0),'Empty discovery/group/shard is not a passing partition');
-  assert.ok(core.every(r=>!packageF.test(r.file)),'Package F leaked into core');
-  assert.ok(extra.every(r=>packageF.test(r.file)),'Non-Package F leaked into Package F');
+  assert.ok(core.every(r=>!isPackageFSpec(r.file)),'Package F leaked into core');
+  assert.ok(extra.every(r=>isPackageFSpec(r.file)),'Non-Package F leaked into Package F');
   assert.deepEqual(keys([...core,...extra]).sort(),keys(full).sort(),'Partition union differs from full discovery');
   for(const project of new Set(extra.map(row=>row.project))){
     const counts=shards.map(rows=>rows.filter(row=>row.project===project).length);

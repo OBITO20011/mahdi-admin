@@ -21,7 +21,7 @@ export function verifyFullDeliveryJobs(jobs){
   const suites=readFileSync(path.join(root,'.github/workflows/quality.yml'),'utf8')
     .match(/suite: \[([^\]]+)\]/u)?.[1].split(',').map(name=>name.trim());
   assert.ok(suites?.length,'Full DB matrix discovery required');
-  for(const name of ['CI full or affected scope','Complete quality delivery gate','Isolated database runtime regression',
+  for(const name of ['CI full or affected scope','Complete quality delivery gate','Isolated database runtime regression','Installed admin app release update',
     ...suites.map(suite=>`Isolated current contracts (${suite})`)]){
     const matches=jobs.filter(job=>job.name===name);
     assert.equal(matches.length,1,`Full release job missing/duplicated:${name}`);

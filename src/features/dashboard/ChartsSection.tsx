@@ -230,7 +230,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
                   </span>
                   <div>
                     <h4 className="font-bold text-nw-text">{p.nameAr}</h4>
-                    <span className="text-[9px] text-nw-muted font-mono">SKU: {p.sku}</span>
+                    <span className="text-[9px] text-nw-muted font-mono">رمز الصنف: {p.sku}</span>
                   </div>
                 </div>
                 <div className="text-left">

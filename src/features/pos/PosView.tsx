@@ -720,7 +720,7 @@ export const PosView: React.FC = () => {
           <section className="min-w-0 space-y-4" aria-label="منتجات نقطة البيع">
             <div className="flex min-w-0 items-center gap-2">
               <SearchField emphasis ref={searchInputRef} label="البحث في منتجات نقطة البيع"
-                placeholder="ابحث باسم المنتج أو الباركود أو SKU..." value={searchQuery}
+                placeholder="ابحث باسم المنتج أو الباركود أو رمز الصنف..." value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)} className="min-w-0 flex-1" />
               <UiButton aria-label="مسح بالباركود (الكاميرا)" onClick={() => setIsBarcodeScannerOpen(true)} className="shrink-0 px-3">
                 <Camera className="h-5 w-5" /><span className="hidden sm:inline">مسح الباركود</span>

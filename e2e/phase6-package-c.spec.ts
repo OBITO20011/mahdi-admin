@@ -16,7 +16,7 @@ test('POS product keyboard activation adds once per Enter or Space and retains c
   else await expect(page.getByRole('button', {name: 'مراجعة السلة والعميل'})).toContainText('صنف واحد');
   const quantity = page.locator('[data-pos-quantity]:visible, [data-pos-product-quantity="keyboard-product"]:visible');
   await expect(quantity).toHaveText('1');
-  const search = page.getByPlaceholder('ابحث باسم المنتج أو الباركود أو SKU...');
+  const search = page.getByPlaceholder('ابحث باسم المنتج أو الباركود أو رمز الصنف...');
   await expect(search).toBeFocused();
   // Held Enter cannot repeatedly activate the card, even when delivered there.
   await card.dispatchEvent('keydown', {key: 'Enter', repeat: true});
