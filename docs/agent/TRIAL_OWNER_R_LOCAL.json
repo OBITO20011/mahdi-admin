@@ -112,7 +112,8 @@
   ],
   "delivery": {
     "status": "PENDING_EXACT_PUSH_PR_MAIN_FULL43_AND_GITLEAKS",
-    "ownerUpgradeExecuted": false
+    "ownerUpgradeExecuted": false,
+    "ciRepair": "docs/agent/TRIAL_OWNER_R_CI_REPAIR.json"
   },
   "recordedAt": "2026-10-23T23:15:07.652Z"
 }

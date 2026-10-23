@@ -1687,6 +1687,24 @@
           ]
         }
       ]
+    },
+    "tests/trial-brand-identity.test.ts": {
+      "errorPrefix": "TRIAL_H_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "736c2ea2fd32876f13aee1d96af78909a34661e4cf197322428830bb3eda93e9",
+      "before": "c18c029bf4a85d6eb598f60cde984ceb8db602dae2740ffda8f90c0bfd03422c",
+      "hunks": [
+        {
+          "at": 33,
+          "before": [
+            " assert.deepEqual(changed.filter(f=>!['scripts/audit/trial-brand-hunks.json','scripts/audit/trial-owner-w-hunks.json'].includes(f)),[]);"
+          ],
+          "after": [
+            " const approvedR='supabase/migrations/212_trial_readable_cash_product_choices_damage_history.sql';",
+            " assert.deepEqual(changed.filter(f=>!['scripts/audit/trial-brand-hunks.json','scripts/audit/trial-owner-w-hunks.json','scripts/audit/trial-owner-r-hunks.json',approvedR].includes(f)),[]);",
+            " assert.equal(hash(read(approvedR).replaceAll('\\r\\n','\\n')),'d1954438b5db8f5781eb537d9f3332974947c77ad13212457691060baceb1c04','Only the exact owner-approved read-only212 is admitted');"
+          ]
+        }
+      ]
     }
   }
 }

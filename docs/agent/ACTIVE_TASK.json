@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner-approved R1/R3/R4 UI and read-only212;full local/feature/main CI and owner upgrade command;no hosted access",
-  "baselineSha": "88c7bd446ab19338d320108a86ea25cddcbf6d2d",
+  "baselineSha": "421e11824a45a8f38232cdba9b483dfb15650a90",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "codex/trial-owner-r",
   "phase": "PACKAGE_F",
@@ -11,7 +11,7 @@
     "R1/R3/R4 and approved read-only212;all local gates pass"
   ],
   "inProgress": [
-    "Gitleaks and exact feature push+PR FULL43 before merge and mainFULL43"
+    "Commit/push exact H evidence guard correction and new FULL43 push/PR"
   ],
   "notStarted": [
     "Genuine merge and exact main CI delivery"
@@ -19,14 +19,16 @@
   "testsPassed": [
     "R26 plus120 affected browser passes;6unchanged conditionals;197store;types/strictlint/build/SEO/network0",
     "Actual SDK154/537RPC with10expected role denials;SQL10/full restore0;ref174-556-13/diff0;local upgrade/replay/resetREST/ownerTOTP/Storage/offline212",
-    "1383Admin/197store clean final pass;22 targeted evidence correction tests pass;preflight212 hash admitted"
+    "1383Admin/197store clean final pass;22 targeted evidence correction tests pass;preflight212 hash admitted",
+    "Gitleaks staged scan0;feature421e118 pushed;PR20 draft attached"
   ],
   "testsRemaining": [
     "Gitleaks and exact feature push+PR/main FULL43"
   ],
   "findings": [
     "New clean isolated owner-authorized R worktree from delivered88c7bd4;inherited W checkpoint reset for new task;primary H/ACL211 and W closure left untouched",
-    "Local sources only;old migrations/pins retained;scoped nested invoice layer and pre-paint selection focus verified"
+    "Local sources only;old migrations/pins retained;scoped nested invoice layer and pre-paint selection focus verified",
+    "Exact421e118 CI caught H tracked-addition guard;bounded test-only repair admits exact212 hash and R inverse;old runs not accepted;10focused pass;application/SQL unchanged"
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -36,12 +38,12 @@
     "Only approved read-only212;historical migrations immutable",
     "Single writer;no tracked edits during verification"
   ],
-  "nextExactAction": "Local R212 gates complete;stage/Gitleaks0,commit,push draft PR,require exact push+PR FULL43 and secrets before merge,then exact main FULL43;no hosted access",
-  "checkpointedAt": "2026-10-23T23:15:08.811Z",
+  "nextExactAction": "Test-only H212 tracked-addition guard repaired;10focused pass,app/SQL identical421e118;Gitleaks,commit/push new exact PR20 FULL43 then merge/main FULL43",
+  "checkpointedAt": "2026-10-23T23:21:47.391Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 82,
-  "filesTouchedManifestSha256": "1cbb6af5483c990cd229f855e8cd37f88eb0ab8660c5f81f51e66abe928a26f7",
-  "workingTreeFingerprint": "1DE8C04D6CE717BBFBE9E5F4F753EEB1B3728608A238E9BF08C92E2C9E65EB54"
+  "filesTouchedCount": 5,
+  "filesTouchedManifestSha256": "c1a82e0cd82d5107e36735fe441b77757153b020aa0ab8b25ed974767deea53d",
+  "workingTreeFingerprint": "0DC59252B64AAEC98E068802391C234A495E3BC79D105F69EC5C9708ECFAECA4"
 }
