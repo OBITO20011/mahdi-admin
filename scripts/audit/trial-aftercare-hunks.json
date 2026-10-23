@@ -1,0 +1,1449 @@
+{
+  "baseline": "74cc431e9b8d4bf01c03c65e5d1740a61647fd56",
+  "entries": {
+    ".github/workflows/quality.yml": {
+      "before": "e64711e0f6297ff8130b974596b02ece9065a058c80715d33349e490f9072af3",
+      "after": "5f630a117c6c2b4e89970cbbf24818ef7518a7c50ae7df3d245b988a3ccc5842",
+      "errorPrefix": "TRIAL_A_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 250,
+          "before": [
+            "        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset, warehouse-management, owner-withdrawals, deferred-cheques, opening-cheques, legacy-product-cost, home-damage201, all-collections202, all-collections203, sales-history204, product-receiving205, navigation-cash206, document-corrections207, supplier-replacement208, parcel209, receipt210]"
+          ],
+          "after": [
+            "        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset, warehouse-management, owner-withdrawals, deferred-cheques, opening-cheques, legacy-product-cost, home-damage201, all-collections202, all-collections203, sales-history204, product-receiving205, navigation-cash206, document-corrections207, supplier-replacement208, parcel209, receipt210, aftercare211]"
+          ]
+        },
+        {
+          "at": 330,
+          "before": [],
+          "after": [
+            "      - name: Aftercare211 supplier disposition roles races restore upgrade reset and current SDK",
+            "        if: matrix.suite == 'aftercare211'",
+            "        run: node scripts/testing/run-aftercare211-gates.mjs",
+            ""
+          ]
+        }
+      ]
+    },
+    "e2e/phase6-package-b-harness.tsx": {
+      "before": "9b560c55ea2965d3e03a8d6e9f6b5fd9dfb819897148f765df631709e5b12321",
+      "after": "a4f857bb3ea8a25b4b92e99bf881fdd20414f51b09133d3ad190e3dfe1ea2735",
+      "errorPrefix": "TRIAL_J_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 18,
+          "before": [
+            "auth.state = {...auth.getState(), roleName: 'owner', roles: ['owner'], isAuthenticated: true, isLoading: false};"
+          ],
+          "after": [
+            "const role = new URLSearchParams(location.search).get('role') === 'admin' ? 'admin' : 'owner';",
+            "auth.state = {...auth.getState(), roleName: role, roles: [role], isAuthenticated: true, isLoading: false};"
+          ]
+        }
+      ]
+    },
+    "e2e/phase6-package-b.spec.ts": {
+      "before": "e2cb82a9a9e7bc69a7234b43040f47d8dd074c2cfd6be8b77b172dbfe5ba54fd",
+      "after": "a2541fcee1d320e1998e9f43d6025388322237394b4c3c5267f3f534dc7146c0",
+      "errorPrefix": "STOREFRONT_C6_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 26,
+          "before": [],
+          "after": [
+            "",
+            "const supplier211='88880000-0000-4000-8000-000000000003';",
+            "const options211={contractVersion:208,products:[{id:'juice',name:'عصير برتقال',sku:'JUICE',baseUnitName:'باكيت',unitsPerParcel:1}],suppliers:[{id:supplier211,name:'المورد الموثق'}],warehouses:[],lastSuppliers:[{productId:'juice',supplierId:supplier211,supplierName:'المورد الموثق'}]};",
+            "const case211={id:'supplier-case',supplierId:supplier211,supplierName:'المورد الموثق',productId:'juice',productName:'عصير برتقال',warehouseId:'warehouse',branchId:'branch',origin:'customer_replacement',quantity:1,commercialQuantity:1,unitsPerCommercialUnit:1,unitName:'باكيت',baseUnitName:'باكيت',pendingQuantity:1,receivedQuantity:0,writtenOffQuantity:0,occurredAt:'2026-10-23T01:00:00Z',events:[],unitCostInMinorUnitsExact:'1000.000000',pendingValueInMinorUnitsExact:'1000.000000'};",
+            "",
+            "test('J saved flavor names hide parcel UUID; incomplete whole return names the missing piece with zero mutation',async({page})=>{",
+            "  const fresh=structuredClone(context),internal='41bb6c3c-cdc3-4240-8000-000000000001';fresh.parcelInstances[0].parcelInstanceId=internal;",
+            "  await page.route('**/rest/v1/rpc/get_admin_sales_aftercare_context_v1',route=>route.fulfill({json:fresh}));",
+            "  let writes=0;await page.route('**/rest/v1/rpc/settle_admin_sales_return_v1',route=>{writes++;return route.abort();});",
+            "  await page.goto(url);await expect(page.getByText('طرد مشكّل: عصير برتقال',{exact:true})).toBeVisible();await expect(page.locator('body')).not.toContainText(internal);",
+            "  await expect(page.getByRole('button',{name:'استبدال وحدة · عصير برتقال · البديل الذي أعطيته',exact:true})).toBeVisible();",
+            "  await page.getByRole('button',{name:'إرجاع الطرد كاملاً',exact:true}).click();await expect(page.getByText('إرجاع الطرد كاملاً (كل حباته)',{exact:true})).toBeVisible();",
+            "  await expect(page.getByText('صنّف كل حبات الطرد:',{exact:false})).toContainText('ضرر العميل يُخصم من المبلغ المرجع');",
+            "  await page.getByRole('spinbutton').first().fill('0');await page.getByPlaceholder('سبب المرتجع',{exact:true}).fill('إرجاع كامل الطرد');await page.getByRole('button',{name:'اعتماد المرتجع',exact:true}).click();",
+            "  await expect(page.getByTestId('notice')).toContainText('أكمل تصنيف «عصير برتقال»');await expect(page.getByTestId('notice')).not.toContainText('PHASE43');expect(writes).toBe(0);",
+            "});",
+            "",
+            "test('J owner supplier replacement uses one atomic call and exact lost-response recovery across reload',async({page})=>{",
+            "  const requests:Record<string,unknown>[]=[];let oldWrites=0;",
+            "  await page.route('**/rest/v1/rpc/get_supplier_replacement_options_v1',route=>route.fulfill({json:options211}));",
+            "  await page.route('**/rest/v1/rpc/settle_admin_sales_replacement_v1',route=>{oldWrites++;return route.abort();});",
+            "  await page.route('**/rest/v1/rpc/execute_aftercare_supplier_v1',route=>{const req=route.request().postDataJSON();requests.push(req);if(requests.length===1)return route.abort();return route.fulfill({json:{success:true,contractVersion:208,action:req.p_action,idempotencyKey:req.p_idempotency_key,idempotent:true,operationId:'atomic-op',cases:[case211]}});});",
+            "  await page.goto(url);await page.getByRole('button',{name:'استبدال وحدة · عصير برتقال · البديل الذي أعطيته',exact:true}).click();",
+            "  await page.getByLabel('مصير الحبة المعيبة',{exact:true}).selectOption('supplier');await expect(page.getByLabel('المورد',{exact:true})).toHaveValue(supplier211);",
+            "  await expect(page.getByText('قيمة الحبة المعيبة تبقى معلّقة؛',{exact:false})).toContainText('فرق تكلفة البديل يبقى على الربح');",
+            "  await page.getByPlaceholder('سبب العيب/الاستبدال',{exact:true}).fill('عيب المورد في الحبة');await page.getByRole('button',{name:'اعتماد الاستبدال',exact:true}).click();",
+            "  await expect(page.getByRole('button',{name:'استعادة الاستبدال المرسل للمورد',exact:true})).toBeVisible();expect(oldWrites).toBe(0);expect(requests.length).toBe(1);",
+            "  await page.reload();await page.getByRole('button',{name:'استعادة الاستبدال المرسل للمورد',exact:true}).click();await expect(page.getByTestId('notice')).toContainText('استرداد نتيجة الاستبدال المرتبط بالمورد');",
+            "  expect(requests.length).toBe(2);expect(requests[1]).toEqual(requests[0]);expect(requests[0].p_action).toBe('replacement_supplier');",
+            "  expect(requests[0].p_payload).toEqual({orderId:context.order.id,items:[{sourceKind:'replacement_item',sourceId:'leaf',quantity:1}],reason:'عيب المورد في الحبة',notes:null,supplierId:supplier211});expect(oldWrites).toBe(0);",
+            "});",
+            "",
+            "test('J safety action stays in options; real service preview precedes confirmation; lost-response recovery repeats exact request',async({page})=>{",
+            "  const sourceId='41bb6c3c-cdc3-4240-8000-000000000001',requests:Record<string,unknown>[]=[];let previews=0;",
+            "  await page.route('**/rest/v1/rpc/get_aftercare_damage_candidates_v1',route=>route.fulfill({json:{contractVersion:211,candidates:[{kind:'replacement',id:sourceId,productId:'juice',productName:'عصير برتقال',quantity:1,occurredAt:'2026-10-23T01:00:00Z',blockedReason:null}]}}));",
+            "  await page.route('**/rest/v1/rpc/get_supplier_replacement_options_v1',route=>route.fulfill({json:options211}));",
+            "  await page.route('**/rest/v1/rpc/preview_aftercare_supplier_v1',route=>{previews++;expect(route.request().postDataJSON()).toEqual({p_kind:'replacement',p_source_id:sourceId,p_supplier_id:supplier211});return route.fulfill({json:{contractVersion:211,sourceKind:'replacement',sourceId,supplierId:supplier211,quantity:1,reclassifiedInMinorUnits:1000,previewFingerprint:'a'.repeat(64),eligible:true,blockedReason:null}});});",
+            "  await page.route('**/rest/v1/rpc/execute_aftercare_supplier_v1',route=>{const req=route.request().postDataJSON();requests.push(req);if(requests.length===1)return route.abort();return route.fulfill({json:{success:true,contractVersion:208,action:req.p_action,idempotencyKey:req.p_idempotency_key,idempotent:true,operationId:'convert-op',cases:[case211]}});});",
+            "  await page.goto(url);await expect(page.getByRole('button',{name:'حوّله للمورد بانتظار البديل',exact:true})).toHaveCount(0);",
+            "  await page.getByRole('button',{name:'خيارات التالف النهائي',exact:true}).click();await page.getByRole('button',{name:'حوّله للمورد بانتظار البديل',exact:true}).click();await expect(page.locator('body')).not.toContainText(sourceId);",
+            "  await expect(page.getByLabel('مورد التالف',{exact:true})).toHaveValue(supplier211);await page.getByLabel('سبب تحويل التالف',{exact:true}).fill('اتفقنا مع المورد على الاستبدال');",
+            "  await page.getByRole('button',{name:'معاينة تحويل التالف',exact:true}).click();await expect(page.getByText('سيُعلّق 1 حبة للمورد بقيمة تاريخية 1.000 د.أ.',{exact:true})).toBeVisible();expect(previews).toBe(1);expect(requests.length).toBe(0);",
+            "  await page.getByRole('button',{name:'اعتماد تحويل التالف',exact:true}).click();await expect(page.getByRole('button',{name:'استعادة تحويل التالف للمورد',exact:true})).toBeVisible();",
+            "  await page.reload();await page.getByRole('button',{name:'استعادة تحويل التالف للمورد',exact:true}).click();await expect(page.getByTestId('notice')).toContainText('استرداد نتيجة تحويل التالف للمورد');",
+            "  expect(requests.length).toBe(2);expect(requests[1]).toEqual(requests[0]);expect(requests[0].p_payload).toEqual({sourceId,supplierId:supplier211,reason:'اتفقنا مع المورد على الاستبدال',previewFingerprint:'a'.repeat(64)});expect(requests[0].p_action).toBe('reclassify_replacement');",
+            "});",
+            "",
+            "test('J supplier disposition and safety actions are absent for admin; final replacement remains available',async({page})=>{",
+            "  let supplierReads=0;await page.route('**/rest/v1/rpc/get_aftercare_damage_candidates_v1',route=>{supplierReads++;return route.abort();});",
+            "  await page.goto(url+'?role=admin');await expect(page.getByRole('button',{name:'خيارات التالف النهائي',exact:true})).toHaveCount(0);",
+            "  await page.getByRole('button',{name:'استبدال وحدة · عصير برتقال · البديل الذي أعطيته',exact:true}).click();",
+            "  await expect(page.getByLabel('مصير الحبة المعيبة',{exact:true})).toHaveCount(0);await expect(page.getByRole('button',{name:'اعتماد الاستبدال',exact:true})).toBeVisible();expect(supplierReads).toBe(0);",
+            "});"
+          ]
+        },
+        {
+          "at": 127,
+          "before": [
+            "  await page.getByRole('button', {name: 'مرتجع الطرد', exact: true}).click();"
+          ],
+          "after": [
+            "  await page.getByRole('button', {name: 'إرجاع الطرد كاملاً', exact: true}).click();"
+          ]
+        },
+        {
+          "at": 130,
+          "before": [
+            "  const leaf = page.locator('div').filter({has: page.getByText('القطعة الحالية 1 · بديل صادر · 3 وحدة', {exact: true})}).filter({has: page.getByText('مجموع التصنيف: 3 / 3', {exact: true})}).last();"
+          ],
+          "after": [
+            "  const leaf = page.locator('div').filter({has: page.getByText('القطعة الحالية 1 · البديل الذي أعطيته · 3 وحدة', {exact: true})}).filter({has: page.getByText('مجموع التصنيف: 3 / 3', {exact: true})}).last();"
+          ]
+        },
+        {
+          "at": 201,
+          "before": [],
+          "after": [
+            "",
+            "for(const only of [false,true])for(const action of ['unit','whole','return'] as const)test(`J defective ordinary parcel parcelOnly=${only} ${action}:fragmented leaves keep full money refund boundary`,async({page})=>{",
+            " const fresh={...structuredClone(context),order:{...context.order,completedAt:'2026-09-30T10:00:00Z'},",
+            "  baseItems:[{...context.baseItems[0],quantity:10,remainingQuantity:10,commercialLineKind:'legacy_single_sku_parcel',unitsPerParcel:10,commercialQuantity:1,parcelOnly:only,",
+            "   physicalRepresentatives:context.baseItems[0].physicalRepresentatives.map((source,i)=>({...source,remainingQuantity:i===0?9:1}))}],parcelInstances:[]};",
+            " await page.route('**/rest/v1/rpc/get_admin_sales_aftercare_context_v1',route=>route.fulfill({json:fresh}));",
+            " let request:Record<string,unknown>|null=null;",
+            " await page.route('**/rest/v1/rpc/settle_sales_replacement_v1',route=>{request=route.request().postDataJSON();return route.fulfill({json:{success:true,operationalCoordinatorVersion:403,operationId:'replacement',issuedQuantity:action==='unit'?1:10,moneyRefundInMinorUnits:0,debtReductionInMinorUnits:0}});});",
+            " await page.route('**/rest/v1/rpc/settle_admin_sales_return_v1',route=>{request=route.request().postDataJSON();return route.fulfill({json:{success:true,operationId:'return'}});});",
+            " await page.goto(url);await expect(page.getByText('عصير فراولة · المتبقي 1 طرد',{exact:true})).toBeVisible();",
+            " if(action==='return'){",
+            "  await page.getByRole('button',{name:'مرتجع',exact:true}).click();",
+            "  const quantity=page.getByRole('spinbutton').first();await expect(quantity).toHaveAttribute('min','1');await expect(quantity).toHaveAttribute('max','1');",
+            "  await page.getByPlaceholder('سبب المرتجع',{exact:true}).fill('إرجاع الطرد بكل حباته');await page.getByRole('button',{name:'اعتماد المرتجع',exact:true}).click();",
+            "  await expect.poll(()=>request).not.toBeNull();expect(request!.p_items).toEqual([{return_scope:'base_unit',order_item_id:'base-root',quantity:10,stock_disposition:'restock'}]);",
+            "  expect((request!.p_physical_sources as Array<{source_id:string;quantity:number}>).map(x=>[x.source_id,x.quantity])).toEqual([['a',9],['b',1]]);",
+            " }else{",
+            "  await page.getByRole('button',{name:action==='unit'?'تبديل حبة معيبة':'استبدال طرد',exact:true}).click();",
+            "  await expect(page.getByText('التبديل من نفس الصنف والكمية فقط. لا يُرد مال عن حبة من طرد.',{exact:true})).toBeVisible();",
+            "  if(action==='unit')await expect(page.getByLabel('عدد طرود الاستبدال',{exact:true})).toHaveCount(0);",
+            "  await page.getByPlaceholder('سبب العيب/الاستبدال',{exact:true}).fill('حبة معيبة من الطرد');await page.getByRole('button',{name:'اعتماد الاستبدال',exact:true}).click();",
+            "  await expect.poll(()=>request).not.toBeNull();expect(request!.p_items).toEqual(action==='unit'?[{sourceKind:'base_order_item',sourceId:'a',quantity:1}]:[{sourceKind:'base_order_item',sourceId:'a',quantity:9},{sourceKind:'replacement_item',sourceId:'b',quantity:1}]);",
+            " }",
+            "});",
+            "",
+            "test('J parcel-only mixed component still exposes defective-unit exchange without a partial return action',async({page})=>{",
+            " const fresh=structuredClone(context);const parcel={...fresh.parcelInstances[0],components:fresh.parcelInstances[0].components.map(c=>({...c,parcelOnly:true}))};fresh.parcelInstances=[parcel];",
+            " await page.route('**/rest/v1/rpc/get_admin_sales_aftercare_context_v1',route=>route.fulfill({json:fresh}));await page.goto(url);",
+            " await expect(page.getByRole('button',{name:'إرجاع الطرد كاملاً',exact:true})).toBeVisible();",
+            " await page.getByRole('button',{name:'استبدال وحدة · عصير برتقال · البديل الذي أعطيته',exact:true}).click();",
+            " await expect(page.getByText('إصدار بديل من نفس الصنف — وحدة واحدة',{exact:true})).toBeVisible();",
+            " await expect(page.getByLabel('كمية المرتجع',{exact:true})).toHaveCount(0);",
+            "});"
+          ]
+        }
+      ]
+    },
+    "scripts/agent/lib.mjs": {
+      "before": "c91aa371d403b5555641187fdc2484109522cb4ae83e97cb51126062297788f8",
+      "after": "6f97e667336fd66f24ec562a422294aa371b22ca0c255e2aadfdfbcafd7280a5",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 112,
+          "before": [
+            "    integrationPins: Object.fromEntries([160,161,162,163,164,170,171,180,181,182,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210].map(number => {"
+          ],
+          "after": [
+            "    integrationPins: Object.fromEntries([160,161,162,163,164,170,171,180,181,182,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211].map(number => {"
+          ]
+        }
+      ]
+    },
+    "scripts/agent/preflight.mjs": {
+      "before": "7582fec2ae50003a07fa211e54ce7223535256a34a10f768acf3a33089b1fa28",
+      "after": "71ddcd800759a95dc9ed396325098dad4fe791287ed3ef39f1b95a0539a3feea",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 11,
+          "before": [
+            "for(const number of [160,161,162,163,164,170,171,180,181,182,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210]) {"
+          ],
+          "after": [
+            "for(const number of [160,161,162,163,164,170,171,180,181,182,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211]) {"
+          ]
+        }
+      ]
+    },
+    "scripts/audit/run-service-access-diagnostic.mjs": {
+      "before": "6ee493ca133f9695706cfb4c70714eb29af5ec06ead96d8b33e4e4b434f6d313",
+      "after": "396f61bf91fe2ebf5a363149e65ccfc85cc4e815db35107905f15206822c8bb8",
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 16,
+          "before": [
+            "assert.ok([198,199,200,201,202,203,204,205,206,207,208,209,210].includes(migrationCeiling),'APPROVED_SERVICE_AUDIT_CEILING_REQUIRED');"
+          ],
+          "after": [
+            "assert.ok([198,199,200,201,202,203,204,205,206,207,208,209,210,211].includes(migrationCeiling),'APPROVED_SERVICE_AUDIT_CEILING_REQUIRED');"
+          ]
+        }
+      ]
+    },
+    "scripts/audit/run-table-access-diagnostic.mjs": {
+      "before": "a59f04c46f9cb3eead9459ac75e529ae86a2956bf309d6cb45095586d1e9865a",
+      "after": "959c43977eb46ba915ae373485dd7eb299b2bac9060a2bd0fd045399653b909e",
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 18,
+          "before": [
+            "assert.ok([138,150,164,171,182,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210].includes(ceiling),'ONLY_APPROVED_AUDIT_CEILINGS');"
+          ],
+          "after": [
+            "assert.ok([138,150,164,171,182,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211].includes(ceiling),'ONLY_APPROVED_AUDIT_CEILINGS');"
+          ]
+        }
+      ]
+    },
+    "scripts/audit/source-before-trial-aftercare.mjs": {
+      "added": true,
+      "before": null,
+      "after": "0b20367702cf29fede2921027d8342aa951b12552faea2ec32c94a9a993346e1",
+      "hunks": []
+    },
+    "scripts/audit/source-before-trial-sale-receipts.mjs": {
+      "before": "5ef0ba729185b6e74be8b56219e8021b7c8d2426697fbacaf68a3586fa97bbba",
+      "after": "9337872321aea43dac739cfbd9ade1d3371bc3c4bb4c345da1d8938fe1d5a803",
+      "errorPrefix": "TRIAL_J_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 3,
+          "before": [],
+          "after": [
+            "import {sourceBeforeTrialJ,restoreTrialJSourceHashes,projectTrialJQuerySites} from './source-before-trial-aftercare.mjs';"
+          ]
+        },
+        {
+          "at": 14,
+          "before": [
+            " const source=text.replaceAll('\\r\\n','\\n'),pin=trialDPins[file];if(!pin)return source;"
+          ],
+          "after": [
+            " const source=sourceBeforeTrialJ(file,text);if(source===null)return null;const pin=trialDPins[file];if(!pin)return source;"
+          ]
+        },
+        {
+          "at": 24,
+          "before": [
+            "export function restoreTrialDSourceHashes(sources){return sources.flatMap(s=>{"
+          ],
+          "after": [
+            "export function restoreTrialDSourceHashes(sources){return restoreTrialJSourceHashes(sources).flatMap(s=>{"
+          ]
+        },
+        {
+          "at": 34,
+          "before": [],
+          "after": [
+            " source=projectTrialJQuerySites(source,parseSource);"
+          ]
+        },
+        {
+          "at": 39,
+          "before": [
+            "  const raw=readFileSync(new URL('../../'+file,import.meta.url),'utf8').replaceAll('\\r\\n','\\n');"
+          ],
+          "after": [
+            "  const raw=sourceBeforeTrialJ(file,readFileSync(new URL('../../'+file,import.meta.url),'utf8'));assert.notEqual(raw,null,'TRIAL_D_QUERY_FILE_REQUIRED');"
+          ]
+        }
+      ]
+    },
+    "scripts/operations/build-acl-reference210.mjs": {
+      "before": "a3430cdbbe427965587c8f7c2e2ca12928d391654981f46e5373d0b7bfaf516b",
+      "after": "9686304cbfe04e9d91eacfa26553a67deaffe2a33425ca25c6d3811322d861d4",
+      "errorPrefix": "TRIAL_J_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 16,
+          "before": [
+            "import {inventory} from '../audit/table-access-inventory.mjs';"
+          ],
+          "after": [
+            "import {verifiedInventoryBeforeTrialJ as inventory} from '../audit/source-before-trial-aftercare.mjs';"
+          ]
+        }
+      ]
+    },
+    "scripts/operations/build-acl-reference211.mjs": {
+      "added": true,
+      "before": null,
+      "after": "831babb98c5ae93d8497021a55df809e7dafca50febeca2cfcb081f1aa69100d",
+      "hunks": []
+    },
+    "scripts/operations/frankfurt-owner-build.mjs": {
+      "before": "368bd2b90e4f51830c4e5f54f29e44be2f00fbef7cd1107f27b3d7abaecc5170",
+      "after": "9a7ef2c971085cab3eb4adf232f9e517da5b86963777040708a925741077dc1a",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 163,
+          "before": [],
+          "after": [
+            " }else if(ceiling===210){",
+            "  const ordered=[...functions].sort((a,b)=>a.identity<b.identity?-1:a.identity>b.identity?1:0);assert.equal(functions.length,546,'FROZEN210_FUNCTION_COUNT');",
+            "  assert.equal(digest(JSON.stringify(ordered)),'5d93bb94acaf2ba7049abb22c469ddeb85e3b5db57af5a8d1d2df6ae53ac95d6','FROZEN210_FUNCTIONS_CHANGED');"
+          ]
+        },
+        {
+          "at": 167,
+          "before": [
+            "  assert.equal(ceiling,210,'UNAPPROVED_FUNCTION_REFERENCE');"
+          ],
+          "after": [
+            "  assert.equal(ceiling,211,'UNAPPROVED_FUNCTION_REFERENCE');"
+          ]
+        }
+      ]
+    },
+    "scripts/operations/frankfurt-owner-upgrade211.mjs": {
+      "added": true,
+      "before": null,
+      "after": "72b0fd5389d6280b29e702746ea77557147a2be86536ec890d043df06a35b177",
+      "hunks": []
+    },
+    "scripts/operations/frankfurt-reference210.mjs": {
+      "before": "75f6f7078d115cc82d3912376690c1e7ba2ee36e653521917fd88cc11b0adda2",
+      "after": "1b59e332bdb67807176c3dd661c30509a74b91cf1708b1e9dd2d7f90ba36b7bb",
+      "errorPrefix": "TRIAL_J_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 5,
+          "before": [
+            "import {inventory} from '../audit/table-access-inventory.mjs';import {verifyProbeCoverage} from '../audit/table-access-probes.mjs';"
+          ],
+          "after": [
+            "import {inventoryBeforeTrialJ as inventory} from '../audit/source-before-trial-aftercare.mjs';import {verifyProbeCoverage} from '../audit/table-access-probes.mjs';"
+          ]
+        }
+      ]
+    },
+    "scripts/operations/frankfurt-reference211.mjs": {
+      "added": true,
+      "before": null,
+      "after": "1066669b63da65dd5239a83fe4475b710f670e5af41533eb2ed92386903f56f0",
+      "hunks": []
+    },
+    "scripts/operations/trial-reset-core.mjs": {
+      "before": "50e6ddd0adc5038495a72f91582113959c09ad5f78c69d2ec40044c7d7931102",
+      "after": "b3d5fe96b3f004452f08eb64e17483d3f45004d3e778bfc3240fd83b98f952e2",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 14,
+          "before": [
+            "const resetFileCounts=Object.freeze({182:151,199:161,200:162,201:163,202:164,203:165,204:166,205:167,206:168,207:169,208:170,209:171,210:172});"
+          ],
+          "after": [
+            "const resetFileCounts=Object.freeze({182:151,199:161,200:162,201:163,202:164,203:165,204:166,205:167,206:168,207:169,208:170,209:171,210:172,211:173});"
+          ]
+        }
+      ]
+    },
+    "scripts/testing/aftercare211-defective-units.mjs": {
+      "added": true,
+      "before": null,
+      "after": "09d26d2e7e960c611692559eaa738f221839859f25b9fea18a58a2082a02f098",
+      "hunks": []
+    },
+    "scripts/testing/aftercare211-restore.mjs": {
+      "added": true,
+      "before": null,
+      "after": "3b97b685c9f87cdc8311c275925a223bbeeedc468960f187a4eb00cb23ea818c",
+      "hunks": []
+    },
+    "scripts/testing/historical-reset-source.mjs": {
+      "before": "751601ba3a73ad4d8344358bf36591dafd24cdc647b5705b4a04db12cc91791c",
+      "after": "6705c533dd539f7f25c59e2e5e0c1737d19d61192f678e2d224421d96244e8bb",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 9,
+          "before": [
+            " const counts={182:151,199:161,200:162,201:163,202:164,203:165,204:166,205:167,206:168,207:169,208:170,209:171,210:172},ceiling=reference.migrationCeiling;"
+          ],
+          "after": [
+            " const counts={182:151,199:161,200:162,201:163,202:164,203:165,204:166,205:167,206:168,207:169,208:170,209:171,210:172,211:173},ceiling=reference.migrationCeiling;"
+          ]
+        }
+      ]
+    },
+    "scripts/testing/run-aftercare-upgrade211-runtime.mjs": {
+      "added": true,
+      "before": null,
+      "after": "db625235f6c5cf0376ef5b38a9fe56623a1c4ebaa236637f11e61561b31fb111",
+      "hunks": []
+    },
+    "scripts/testing/run-aftercare211-gates.mjs": {
+      "added": true,
+      "before": null,
+      "after": "a04af4cfee0544751c87bcc15226d68c1bfa69ffe6460377c5742bbece5f7e82",
+      "hunks": []
+    },
+    "scripts/testing/run-aftercare211-runtime.mjs": {
+      "added": true,
+      "before": null,
+      "after": "4042e968cde3e476cd5554cd5b2a421e7246f5823b55b03d85fb3dece0c76490",
+      "hunks": []
+    },
+    "scripts/testing/run-trial-reset-runtime.mjs": {
+      "before": "10d128200d552cd84b3ae9adb1052207cca7408aca87889655dae6c0bd576c59",
+      "after": "75dcb9bc8a362cea3ae146c972894aac3d4483bff60f41b79b445f8b0912b827",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 2,
+          "before": [],
+          "after": [
+            "import {readReady211Reference,assertReady211Catalog} from '../operations/frankfurt-reference211.mjs';"
+          ]
+        },
+        {
+          "at": 41,
+          "before": [
+            " const latest210=process.argv.includes('--current210');"
+          ],
+          "after": [
+            " const latest211=process.argv.includes('--current211');",
+            " const latest210=latest211||process.argv.includes('--current210');"
+          ]
+        },
+        {
+          "at": 53,
+          "before": [
+            " const current=latest209||latest208||latest207||latest206||latest205||latest204||latest203||latest202||latest201||latest||process.argv.includes('--current199'),explicit=process.argv.slice(2).find(arg=>!['--current199','--current200','--current201','--current202','--current203','--current204','--current205','--current206','--current207','--current208','--current209','--current210'].includes(arg));"
+          ],
+          "after": [
+            " const current=latest209||latest208||latest207||latest206||latest205||latest204||latest203||latest202||latest201||latest||process.argv.includes('--current199'),explicit=process.argv.slice(2).find(arg=>!['--current199','--current200','--current201','--current202','--current203','--current204','--current205','--current206','--current207','--current208','--current209','--current210','--current211'].includes(arg));"
+          ]
+        },
+        {
+          "at": 57,
+          "before": [
+            " const reference=await (latest210?readReady210Reference:latest209?readReady209Reference:latest208?readReady208Reference:latest207?readReady207Reference:latest206?readReady206Reference:latest205?readReady205Reference:latest204?readReady204Reference:latest203?readReady203Reference:latest202?readReady202Reference:latest201?readReady201Reference:latest?readReady200Reference:current?readReady199Reference:readReference182)(root,referencePath);"
+          ],
+          "after": [
+            " const reference=await (latest211?readReady211Reference:latest210?readReady210Reference:latest209?readReady209Reference:latest208?readReady208Reference:latest207?readReady207Reference:latest206?readReady206Reference:latest205?readReady205Reference:latest204?readReady204Reference:latest203?readReady203Reference:latest202?readReady202Reference:latest201?readReady201Reference:latest?readReady200Reference:current?readReady199Reference:readReference182)(root,referencePath);"
+          ]
+        },
+        {
+          "at": 107,
+          "before": [],
+          "after": [
+            " if(latest211){",
+            "  const sold=await json(`SELECT jsonb_build_object('orderId',order_id,'itemId',id) FROM public.order_items WHERE product_id=${q(product)};`);",
+            "  const held=await call(`execute_aftercare_supplier_v1('replacement_supplier','trial-reset-aftercare211-00001',${q(JSON.stringify({orderId:sold.orderId,items:[{sourceKind:'base_order_item',sourceId:sold.itemId,quantity:1}],reason:'عيب للمورد تجربة التصفير',supplierId:supplier}))}::jsonb)`);",
+            "  assert.equal(held.success,true);assert.equal(held.cases[0].pendingQuantity,1);",
+            "  assert.equal(await sql('SELECT count(*) FROM aftercare_supplier_links;'),'1');",
+            "  report.aftercare211BeforeReset={links:1,pendingQuantity:1};",
+            " }"
+          ]
+        },
+        {
+          "at": 147,
+          "before": [
+            " report.functions=await functionReference(executor,reference.migrationCeiling);assert.equal(report.functions,latest209?546:latest208?534:latest207?523:latest206?520:latest205?519:latest204?517:latest203||latest202||latest201?516:current?513:468);"
+          ],
+          "after": [
+            " report.functions=await functionReference(executor,reference.migrationCeiling);assert.equal(report.functions,latest211?554:latest209?546:latest208?534:latest207?523:latest206?520:latest205?519:latest204?517:latest203||latest202||latest201?516:current?513:468);"
+          ]
+        },
+        {
+          "at": 160,
+          "before": [],
+          "after": [
+            " if(latest211){assertReady211Catalog(await json(schemaCatalogSql));assert.equal(await sql('SELECT count(*) FROM aftercare_supplier_links;'),'0');const wire=await ownerSession.rpc('get_aftercare_damage_candidates_v1',{p_order_id:null});assert.equal(wire.error,null,'ACTUAL_OWNER211_REST_READ');assert.deepEqual(wire.data,{contractVersion:211,candidates:[]});report.rest211AftercareRead=true;report.aftercare211Empty=true;}"
+          ]
+        }
+      ]
+    },
+    "src/features/orders/AdminAftercarePanel.tsx": {
+      "before": "1e813e207cc36690ee0f9b541b55fdf18d1722484e1ea501635c426121991f51",
+      "after": "ed721c6bfe482aa2f3ce7a0fc62da04aa38a844f4d64ca50e7a14c1f573a8114",
+      "errorPrefix": "SUPPLIER_REPLACEMENT208_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 9,
+          "before": [
+            "import {allocateBaseReturn, assertReturnCapacityUnchanged, singleSkuPhysicalQuantity,wholeParcelReplacementItems} from './aftercarePresentation';"
+          ],
+          "after": [
+            "import {allocateBaseReturn, assertCompleteReturnAllocation, assertReturnCapacityUnchanged, singleSkuPhysicalQuantity,wholeParcelReplacementItems} from './aftercarePresentation';"
+          ]
+        },
+        {
+          "at": 11,
+          "before": [],
+          "after": [
+            "import {AftercareSupplierSafety} from './AftercareSupplierSafety';"
+          ]
+        },
+        {
+          "at": 60,
+          "before": [],
+          "after": [
+            "  const [safetyBlocked, setSafetyBlocked] = useState(true);"
+          ]
+        },
+        {
+          "at": 63,
+          "before": [
+            "    useState<AftercarePhysicalRepresentative | null>(null);"
+          ],
+          "after": [
+            "    useState<(AftercarePhysicalRepresentative & {representatives?: AftercarePhysicalRepresentative[]; orderItemId?: string}) | null>(null);"
+          ]
+        },
+        {
+          "at": 82,
+          "before": [
+            "  const suggestedProduct=returnDraft?.kind==='base'?returnDraft.productId:returnDraft?.parcel.components[0]?.productId;"
+          ],
+          "after": [
+            "  const suggestedProduct=returnDraft?.kind==='base'?returnDraft.productId:returnDraft?.parcel.components[0]?.productId",
+            "    ??replacementSource?.productId??replacementParcel?.components[0]?.productId;"
+          ]
+        },
+        {
+          "at": 100,
+          "before": [
+            "          || item.physicalRepresentatives.some(source => source.remainingQuantity % item.unitsPerParcel! !== 0)))) {"
+          ],
+          "after": [
+            "          || rootQuantity(item.physicalRepresentatives) % item.unitsPerParcel! !== 0))) {"
+          ]
+        },
+        {
+          "at": 127,
+          "before": [
+            "    || recoveryStates.replacement?.recoverable === true||supplierAttempt?.status==='unknown'||supplierAttempt?.status==='prepared';"
+          ],
+          "after": [
+            "    || recoveryStates.replacement?.recoverable === true||supplierAttempt?.status==='unknown'||supplierAttempt?.status==='prepared'",
+            "    ||(isOwner&&safetyBlocked);"
+          ]
+        },
+        {
+          "at": 146,
+          "before": [],
+          "after": [
+            "  const componentName = (componentId: string) => order.items.flatMap(line => line.parcelInstances || [])",
+            "    .flatMap(parcel => parcel.components).find(component => component.id === componentId)?.name || 'حبة من الطرد';",
+            "  const baseItemName = (orderItemId: string) => order.items.find(line => line.id === orderItemId)?.productName || 'الصنف';",
+            ""
+          ]
+        },
+        {
+          "at": 168,
+          "before": [
+            "      const result = await settleAdminReplacement({orderId: order.id,",
+            "        items: replacementParcel?wholeParcelReplacementItems(replacementParcel):replacementSource?[{sourceKind: replacementSource.sourceKind,",
+            "          sourceId: replacementSource.sourceId, quantity: replacementQuantity * factor}]:[],",
+            "        reason, notes});"
+          ],
+          "after": [
+            "      const items = replacementParcel?wholeParcelReplacementItems(replacementParcel):replacementSource?.representatives&&replacementSource.orderItemId",
+            "        ? allocateBaseReturn(replacementSource.orderItemId,replacementSource.representatives,replacementQuantity*factor,",
+            "          'damaged',context.replacements,context.order.completedAt).map(source=>({sourceKind:source.source_kind,sourceId:source.source_id,quantity:source.quantity}))",
+            "        :replacementSource?[{sourceKind: replacementSource.sourceKind,",
+            "        sourceId: replacementSource.sourceId, quantity: replacementQuantity * factor}]:[];",
+            "      if(destination==='supplier') {",
+            "        if(!isOwner||!returnSupplier)throw new Error('اختر المورد قبل اعتماد الاستبدال.');",
+            "        await submitSupplierReplacement(supplierScope,{expectedNonce:supplierAttempt?.nonce??null,action:'replacement_supplier',",
+            "          payload:{orderId:order.id,items,reason:reason.trim(),notes:notes.trim()||null,supplierId:returnSupplier}});",
+            "        notify('تم إعطاء البديل وتعليق الحبة المعيبة للمورد بقيمتها التاريخية. فرق تكلفة البديل يبقى على الربح.');",
+            "        resetForm();await load();await onChanged?.();return;",
+            "      }",
+            "      const result = await settleAdminReplacement({orderId: order.id, items, reason, notes});"
+          ]
+        },
+        {
+          "at": 201,
+          "before": [
+            "          if (!allocation || ![allocation.sellableRestock,allocation.defectNonSellable,allocation.customerDamage]",
+            "            .every(value => Number.isSafeInteger(value) && value >= 0)",
+            "            || allocation.sellableRestock + allocation.defectNonSellable + allocation.customerDamage !== source.quantity) {",
+            "            throw new Error('PHASE43_RETURN_ALLOCATION_INVALID: صنّف كامل كمية الطرد.');",
+            "          }"
+          ],
+          "after": [
+            "          assertCompleteReturnAllocation(baseItemName(returnDraft.orderItemId), allocation, source.quantity);"
+          ]
+        },
+        {
+          "at": 224,
+          "before": [
+            "           const allocations = component.physicalRepresentatives.map((source) =>",
+            "             returnDraft.allocations[source.sourceId]);",
+            "           if (allocations.some((allocation) => !allocation)) throw new Error(",
+            "             'PHASE43_RETURN_ALLOCATION_MISSING: تصنيف الممثل الفيزيائي غير مكتمل.',",
+            "           );"
+          ],
+          "after": [
+            "           const allocations = component.physicalRepresentatives.map((source) => {",
+            "             const allocation = returnDraft.allocations[source.sourceId];",
+            "             assertCompleteReturnAllocation(componentName(component.parcelComponentId), allocation, source.remainingQuantity);",
+            "             return allocation;",
+            "           });"
+          ]
+        },
+        {
+          "at": 247,
+          "before": [
+            "           if (!allocation || ![allocation.sellableRestock, allocation.defectNonSellable,",
+            "             allocation.customerDamage].every((quantity) => Number.isSafeInteger(quantity)",
+            "               && quantity >= 0)",
+            "             || allocation.sellableRestock + allocation.defectNonSellable",
+            "               + allocation.customerDamage !== source.remainingQuantity) {",
+            "             throw new Error(",
+            "               'PHASE43_RETURN_ALLOCATION_INVALID: يجب تصنيف كامل كمية كل ممثل فيزيائي.',",
+            "             );",
+            "           }"
+          ],
+          "after": [
+            "           assertCompleteReturnAllocation(componentName(component.parcelComponentId), allocation, source.remainingQuantity);"
+          ]
+        },
+        {
+          "at": 343,
+          "before": [
+            "        {isOwner&&(supplierAttempt?.status==='unknown'||supplierAttempt?.status==='prepared')&&<UiButton disabled={busy} onClick={()=>void(async()=>{setBusy(true);try{await submitSupplierReplacement(supplierScope);notify('تم استرداد نتيجة المرتجع المرتبط بالمورد.');resetForm();await load();await onChanged?.();}catch(cause){notify(businessErrorMessage(cause),'error');}finally{await refreshRecoveryStates();setBusy(false);}})()}>استعادة المرتجع المرسل للمورد</UiButton>}"
+          ],
+          "after": [
+            "        {isOwner&&(supplierAttempt?.status==='unknown'||supplierAttempt?.status==='prepared')&&<UiButton disabled={busy} onClick={()=>void(async()=>{setBusy(true);try{await submitSupplierReplacement(supplierScope);notify(supplierAttempt.action==='replacement_supplier'?'تم استرداد نتيجة الاستبدال المرتبط بالمورد.':'تم استرداد نتيجة المرتجع المرتبط بالمورد.');resetForm();await load();await onChanged?.();}catch(cause){notify(businessErrorMessage(cause),'error');}finally{await refreshRecoveryStates();setBusy(false);}})()}>{supplierAttempt.action==='replacement_supplier'?'استعادة الاستبدال المرسل للمورد':'استعادة المرتجع المرسل للمورد'}</UiButton>}"
+          ]
+        },
+        {
+          "at": 366,
+          "before": [
+            "              <div className=\"flex flex-wrap items-center justify-between gap-2\"><span>{order.items.find(line => line.id === item.orderItemId)?.productName || 'وحدة أساسية'} · المتبقي {quantity} {item.commercialLineKind === 'legacy_single_sku_parcel' ? 'طرد كاملة' : 'وحدة'}</span>",
+            "                <div className=\"flex gap-1\">"
+          ],
+          "after": [
+            "              <div className=\"flex flex-wrap items-center justify-between gap-2\"><span>{baseItemName(item.orderItemId)} · المتبقي {quantity} {item.commercialLineKind === 'legacy_single_sku_parcel' ? 'طرد' : 'وحدة'}</span>",
+            "                <div className=\"flex flex-wrap gap-1\">"
+          ]
+        },
+        {
+          "at": 377,
+          "before": [
+            "                  {!(item.parcelOnly&&item.commercialLineKind==='base_unit')&&<UiButton variant=\"primary\" type=\"button\" onClick={() => {",
+            "                    const source = item.physicalRepresentatives.find(value => value.remainingQuantity >= factor);",
+            "                    setReplacementSource(source ? {...source, unitsPerParcel: factor,"
+          ],
+          "after": [
+            "                  <UiButton variant=\"primary\" type=\"button\" onClick={() => {",
+            "                    const source = item.physicalRepresentatives.find(value => value.remainingQuantity > 0);",
+            "                    setReplacementSource(source ? {...source, remainingQuantity:rootQuantity(item.physicalRepresentatives),",
+            "                      representatives:item.physicalRepresentatives,orderItemId:item.orderItemId,unitsPerParcel: factor,"
+          ]
+        },
+        {
+          "at": 382,
+          "before": [
+            "                  }} className=\"min-h-11 rounded bg-nw-primary px-3 py-2 text-nw-on-primary\">{item.commercialLineKind === 'legacy_single_sku_parcel' ? 'استبدال طرد' : 'استبدال وحدة'}</UiButton>}"
+          ],
+          "after": [
+            "                  }} className=\"min-h-11 rounded bg-nw-primary px-3 py-2 text-nw-on-primary\">{item.commercialLineKind === 'legacy_single_sku_parcel' ? 'استبدال طرد' : 'استبدال وحدة'}</UiButton>"
+          ]
+        },
+        {
+          "at": 385,
+          "before": [],
+          "after": [
+            "              {item.commercialLineKind==='legacy_single_sku_parcel'&&<div className=\"mt-2 flex flex-wrap gap-1\">",
+            "                {item.physicalRepresentatives.filter(source=>source.remainingQuantity>0).map(source=><UiButton key={source.sourceId} type=\"button\"",
+            "                  onClick={()=>{setReplacementSource({...source,unitsPerParcel:1,isSingleSkuParcel:false});setReplacementQuantity(1);}}",
+            "                  className=\"min-h-11 rounded border border-nw-info px-3 py-2 text-nw-text\">تبديل حبة معيبة{source.sourceKind==='replacement_item'?' · البديل الذي أعطيته':''}</UiButton>)}",
+            "              </div>}"
+          ]
+        },
+        {
+          "at": 396,
+          "before": [
+            "              <div className=\"flex flex-wrap items-center justify-between gap-2\"><span>{order.items.find(line => line.id === parcel.orderItemId)?.productName || 'طرد'} · طرد كامل · {parcel.components.length} مكونات · <bdi dir=\"ltr\" className=\"select-text break-all font-mono\">{parcel.parcelInstanceId}</bdi></span>"
+          ],
+          "after": [
+            "              <div className=\"flex flex-wrap items-center justify-between gap-2\"><span>طرد مشكّل: {parcel.components.map(component => componentName(component.parcelComponentId)).join(' + ')}</span>"
+          ]
+        },
+        {
+          "at": 404,
+          "before": [
+            "                  className=\"min-h-11 rounded bg-nw-primary px-3 py-2 text-nw-on-primary\">مرتجع الطرد</UiButton>"
+          ],
+          "after": [
+            "                  className=\"min-h-11 rounded bg-nw-primary px-3 py-2 text-nw-on-primary\">إرجاع الطرد كاملاً</UiButton>"
+          ]
+        },
+        {
+          "at": 408,
+          "before": [
+            "                {parcel.components.filter(component=>!component.parcelOnly).flatMap((component) => component.physicalRepresentatives"
+          ],
+          "after": [
+            "                {parcel.components.flatMap((component) => component.physicalRepresentatives.filter(source=>source.remainingQuantity>0)"
+          ]
+        },
+        {
+          "at": 410,
+          "before": [
+            "                    onClick={() => setReplacementSource(source)}",
+            "                    className=\"min-h-11 rounded border border-nw-info px-3 py-2 text-nw-text\">استبدال وحدة · {order.items.find(line => line.id === parcel.orderItemId)?.parcelInstances?.find(instance => instance.id === parcel.parcelInstanceId)?.components.find(value => value.id === component.parcelComponentId)?.name || 'مكوّن'}{source.sourceKind === 'replacement_item' ? ' · بديل حالي' : ''}</UiButton>))}"
+          ],
+          "after": [
+            "                    onClick={() => {setReplacementSource({...source,unitsPerParcel:1,isSingleSkuParcel:false});setReplacementQuantity(1);}}",
+            "                    className=\"min-h-11 rounded border border-nw-info px-3 py-2 text-nw-text\">استبدال وحدة · {componentName(component.parcelComponentId)}{source.sourceKind === 'replacement_item' ? ' · البديل الذي أعطيته' : ''}</UiButton>))}"
+          ]
+        },
+        {
+          "at": 420,
+          "before": [],
+          "after": [
+            "        <p className=\"text-sm text-nw-muted\">التبديل من نفس الصنف والكمية فقط. لا يُرد مال عن حبة من طرد.</p>",
+            "        {isOwner&&<div className=\"space-y-2 rounded-xl border border-nw-border p-3\">",
+            "          <label className=\"block text-sm\">مصير الحبة المعيبة<select aria-label=\"مصير الحبة المعيبة\" disabled={busy} value={destination} onChange={event=>setDestination(event.target.value as 'final'|'supplier')} className=\"min-h-11 w-full rounded bg-nw-surface p-2\">",
+            "            <option value=\"final\">عيب من عندي ← تالف نهائي</option><option value=\"supplier\">عيب من المورد ← للمورد بانتظار البديل</option>",
+            "          </select></label>",
+            "          {destination==='supplier'&&<>{supplierOptionsError?<p role=\"alert\">{supplierOptionsError}</p>:!supplierOptions?<p role=\"status\">جاري قراءة الموردين…</p>:<>",
+            "            <label className=\"block text-sm\">بحث المورد<input value={supplierSearch} onChange={event=>setSupplierSearch(event.target.value)} className=\"min-h-11 w-full rounded bg-nw-surface p-2\"/></label>",
+            "            <label className=\"block text-sm\">المورد<select aria-label=\"المورد\" value={returnSupplier} onChange={event=>setReturnSupplier(event.target.value)} className=\"min-h-11 w-full rounded bg-nw-surface p-2\"><option value=\"\">اختر المورد</option>{supplierOptions.suppliers.map(s=><option key={s.id} value={s.id}>{s.name}</option>)}</select></label>",
+            "            <p className=\"text-sm text-nw-muted\">آخر مورد مستلم للصنف: {supplierOptions.lastSuppliers.find(s=>s.productId===suggestedProduct)?.supplierName??'لا يوجد دليل استلام'}. قيمة الحبة المعيبة تبقى معلّقة؛ فرق تكلفة البديل يبقى على الربح.</p>",
+            "          </>}</>}",
+            "        </div>}"
+          ]
+        },
+        {
+          "at": 446,
+          "before": [
+            "        <b className=\"text-nw-text\">{returnDraft.kind === 'base' && returnDraft.isSingleSkuParcel ? 'مرتجع طرود كاملة من الصنف الحالي' : 'مرتجع من القطعة الحالية'}</b>"
+          ],
+          "after": [
+            "        <b className=\"text-nw-text\">{returnDraft.kind === 'parcel' || returnDraft.isSingleSkuParcel ? 'إرجاع الطرد كاملاً (كل حباته)' : 'مرتجع من القطعة الحالية'}</b>",
+            "        {(returnDraft.kind === 'parcel' || returnDraft.isSingleSkuParcel) && <p className=\"text-sm text-nw-muted\">",
+            "          صنّف كل حبات الطرد: السليم يعود للمخزون، والعيب للمورد أو تالف، وضرر العميل يُخصم من المبلغ المرجع.",
+            "        </p>}"
+          ]
+        },
+        {
+          "at": 485,
+          "before": [
+            "              <p className=\"col-span-3 text-sm text-nw-muted\">مجموع التصنيف: {selected} قطعة؛ يجب أن يطابق كمية الممثل المختار.</p>"
+          ],
+          "after": [
+            "              <p className=\"col-span-3 text-sm text-nw-muted\">مجموع التصنيف: {selected} حبة؛ صنّف كل الحبات التي تعيدها.</p>"
+          ]
+        },
+        {
+          "at": 502,
+          "before": [
+            "                <p className=\"mb-1 text-sm text-nw-muted\">القطعة الحالية {sourceIndex + 1}{source.sourceKind === 'replacement_item' ? ' · بديل صادر' : ' · الأصل'} · {source.remainingQuantity} وحدة</p>"
+          ],
+          "after": [
+            "                <p className=\"mb-1 text-sm text-nw-muted\">القطعة الحالية {sourceIndex + 1}{source.sourceKind === 'replacement_item' ? ' · البديل الذي أعطيته' : ' · الأصل'} · {source.remainingQuantity} وحدة</p>"
+          ]
+        },
+        {
+          "at": 547,
+          "before": [],
+          "after": [
+            "      {isOwner&&<AftercareSupplierSafety orderId={order.id} disabled={busy||recoveryStates.return?.recoverable===true",
+            "        ||recoveryStates.replacement?.recoverable===true||supplierAttempt?.status==='unknown'||supplierAttempt?.status==='prepared'}",
+            "        onPendingChange={setSafetyBlocked} onChanged={async()=>{await load();await onChanged?.();}} notify={notify}/>}"
+          ]
+        }
+      ]
+    },
+    "src/features/orders/AftercareSupplierSafety.tsx": {
+      "added": true,
+      "before": null,
+      "after": "743a85cded0a7d49a9054f9789c004b2b625b5c15f020452a531cd4aed2f9193",
+      "hunks": []
+    },
+    "src/features/orders/OrderDetailModal.tsx": {
+      "before": "2db81bd98ea239388d457be71640e2127331502e5512c2d520616d744e11d240",
+      "after": "8906183ae353e37a773368f937537a279c2bea9344ec22e5bd12ca19d1228a89",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 1084,
+          "before": [
+            "                    {item.commercialLineKind === 'configurable_parcel' ? 'طرد مشكّل' : item.commercialLineKind === 'legacy_single_sku_parcel' ? 'كرتونة' : item.unit} · {item.quantity} × {item.unitPrice.toFixed(3)}"
+          ],
+          "after": [
+            "                    {item.commercialLineKind === 'configurable_parcel' ? 'طرد مشكّل' : item.commercialLineKind === 'legacy_single_sku_parcel' ? 'طرد' : item.unit} · {item.quantity} × {item.unitPrice.toFixed(3)}"
+          ]
+        }
+      ]
+    },
+    "src/features/orders/aftercarePresentation.ts": {
+      "before": "9cad4d4727ab70bb87fa9cba9b5d30afafc11a11fafdf429a4e883fceea482d5",
+      "after": "c8598aab2048edae41d94d56e8e6fda2177a0022ae4ad76f1770065e84b5d96b",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 3,
+          "before": [],
+          "after": [
+            "/** A missing allocation names the saved physical piece; no internal ID is shown. */",
+            "export function assertCompleteReturnAllocation(name: string, allocation: {",
+            "  sellableRestock: number; defectNonSellable: number; customerDamage: number;",
+            "} | undefined, quantity: number): void {",
+            "  if (!allocation || ![allocation.sellableRestock, allocation.defectNonSellable,",
+            "    allocation.customerDamage].every(value => Number.isSafeInteger(value) && value >= 0)",
+            "    || allocation.sellableRestock + allocation.defectNonSellable + allocation.customerDamage !== quantity) {",
+            "    throw new Error(`أكمل تصنيف «${name}»: مجموع السليم والعيب وضرر العميل يجب أن يساوي ${quantity} حبة.`);",
+            "  }",
+            "}",
+            ""
+          ]
+        },
+        {
+          "at": 40,
+          "before": [
+            "    throw new Error('اختر عدداً صحيحاً من الكراتين الكاملة؛ حجم الكرتونة من لقطة البيع الأصلية.');"
+          ],
+          "after": [
+            "    throw new Error('اختر عدداً صحيحاً من الطرود الكاملة؛ حجم الطرد من لقطة البيع الأصلية.');"
+          ]
+        }
+      ]
+    },
+    "src/features/purchases/PurchaseOrderDetailView.tsx": {
+      "before": "f58789e21a3b4af4be83bd3ec87224b54245104888b098de72ce8f49707b76f3",
+      "after": "84243f1504c985918de2fc7cb87f4da7a4a7af78ad0680a9478375c3a0dc8c67",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 49,
+          "before": [
+            "    if (num === 1) return 'كرتونة واحدة';",
+            "    if (num === 2) return 'كرتونتان';",
+            "    if (num >= 3 && num <= 10) return `${num} كراتين`;",
+            "    return `${num} كرتونة`;"
+          ],
+          "after": [
+            "    if (num === 1) return 'طرد واحد';",
+            "    if (num === 2) return 'طردان';",
+            "    if (num >= 3 && num <= 10) return `${num} طرود`;",
+            "    return `${num} طرد`;"
+          ]
+        }
+      ]
+    },
+    "src/features/reports/DamageLossReportSection.tsx": {
+      "before": "aa57e90bddda001133f9e0757d2831b7506056fd8de5cb40b1da160cce03fda4",
+      "after": "8c1575d3aaf34fbc37d7b20ae95253294d11c8c10fa2928d6bc7fa50550b16c6",
+      "errorPrefix": "HOME_DAMAGE201_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 7,
+          "before": [
+            "  supplier_writeoff:'رفض المورد للاستبدال',customer_return_supplier_hold:'إعادة تصنيف مرتجع إلى معلّق',",
+            "  supplier_writeoff_reversal:'عكس رفض المورد',shop_damage_reversal:'عكس تلف المحل',customer_return_supplier_hold_reversal:'عكس تعليق المرتجع لدى المورد',"
+          ],
+          "after": [
+            "  supplier_writeoff:'رفض المورد للاستبدال',customer_return_supplier_hold:'إعادة تصنيف عيب إلى معلّق',",
+            "  supplier_writeoff_reversal:'عكس رفض المورد',shop_damage_reversal:'عكس تلف المحل',customer_return_supplier_hold_reversal:'عكس تعليق العيب لدى المورد',"
+          ]
+        }
+      ]
+    },
+    "src/services/supabase/supplierReplacement.service.ts": {
+      "before": "abdf50da4907fe901cdb56359857c691c4596f40a2bc28630402c9a200f11109",
+      "after": "f2147c025752446ba64e5cd8c233aaa8ad3f63ab9b4309c3a457feafb34782a3",
+      "errorPrefix": "SUPPLIER_REPLACEMENT208_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 19,
+          "before": [],
+          "after": [
+            "  AFTERCARE211_ALREADY_CLASSIFIED:'سبق تحويل هذا التالف للمورد. راجع قضيته الحالية؛ لا يمكن تحويله مرة ثانية.',",
+            "  AFTERCARE211_DEPENDENCY:'البديل الذي أعطيته استُخدم في مرتجع أو استبدال لاحق؛ التحويل غير متاح.',",
+            "  AFTERCARE211_PREVIEW_REQUIRED:'عاين التحويل أولاً قبل الاعتماد.',AFTERCARE211_PREVIEW_CHANGED:'تغيّر دليل التحويل. أعد المعاينة قبل الاعتماد.',",
+            "  AFTERCARE211_SOURCE_INVALID:'التالف المطلوب غير متاح أو لم يثبت إصداره.',AFTERCARE211_EVIDENCE_INVALID:'دليل تحويل التالف غير متطابق. راجع المالك قبل المتابعة.',",
+            "  AFTERCARE211_STANDALONE_IDENTITY:'سُجّل هذا الاستبدال مسبقاً كتالف نهائي. استخدم تحويل التالف من الخيارات الإضافية.',"
+          ]
+        },
+        {
+          "at": 25,
+          "before": [
+            "const rpcError=(error:{message?:string;code?:string})=>new Error(['42883','PGRST202'].includes(error.code??'')?'قدرة استبدال المورد غير متاحة بعد. يلزم تجهيز إصدار 208.':"
+          ],
+          "after": [
+            "const rpcError=(error:{message?:string;code?:string})=>new Error(['42883','PGRST202'].includes(error.code??'')?'قدرة استبدال المورد غير متاحة بعد. يلزم تحديث قاعدة البيانات للإصدار الحالي.':"
+          ]
+        },
+        {
+          "at": 62,
+          "before": [
+            "    try{response=await client().rpc('execute_supplier_replacement_v1',{p_action:attempt.action,p_payload:attempt.payload,p_idempotency_key:attempt.key});}"
+          ],
+          "after": [
+            "    try{",
+            "      if(['replacement_supplier','reclassify_replacement','reclassify_return'].includes(attempt.action))response=await client().rpc('execute_aftercare_supplier_v1',{p_action:attempt.action,p_payload:attempt.payload,p_idempotency_key:attempt.key});",
+            "      else response=await client().rpc('execute_supplier_replacement_v1',{p_action:attempt.action,p_payload:attempt.payload,p_idempotency_key:attempt.key});",
+            "    }"
+          ]
+        },
+        {
+          "at": 77,
+          "before": [],
+          "after": [
+            "",
+            "export interface AftercareDamageCandidate {",
+            "  kind:'replacement'|'return';id:string;productId:string;productName:string;quantity:number;occurredAt:string;blockedReason:string|null;",
+            "}",
+            "export interface AftercareSupplierPreview {",
+            "  eligible:boolean;blockedReason:string|null;previewFingerprint:string;quantity:number;reclassifiedInMinorUnits:number;",
+            "}",
+            "export async function fetchAftercareDamageCandidates(orderId:string):Promise<AftercareDamageCandidate[]> {",
+            "  const {data,error}=await client().rpc('get_aftercare_damage_candidates_v1',{p_order_id:orderId});if(error)throw rpcError(error);",
+            "  if(!replacementRecord(data)||data.contractVersion!==211||!Array.isArray(data.candidates)||data.candidates.some(v=>!replacementRecord(v)",
+            "    ||!['replacement','return'].includes(String(v.kind))||typeof v.id!=='string'||typeof v.productId!=='string'||typeof v.productName!=='string'",
+            "    ||!Number.isSafeInteger(v.quantity)||Number(v.quantity)<1||typeof v.occurredAt!=='string'||(v.blockedReason!==null&&typeof v.blockedReason!=='string')))throw new Error('سجل التالف غير مكتمل. أعد تحميله.');",
+            "  return data.candidates as AftercareDamageCandidate[];",
+            "}",
+            "export async function fetchAftercareSupplierPreview(candidate:AftercareDamageCandidate,supplierId:string):Promise<AftercareSupplierPreview> {",
+            "  const {data,error}=await client().rpc('preview_aftercare_supplier_v1',{p_kind:candidate.kind,p_source_id:candidate.id,p_supplier_id:supplierId});if(error)throw rpcError(error);",
+            "  if(!replacementRecord(data)||data.contractVersion!==211||data.sourceId!==candidate.id||data.sourceKind!==candidate.kind||data.supplierId!==supplierId",
+            "    ||typeof data.eligible!=='boolean'||(data.blockedReason!==null&&typeof data.blockedReason!=='string')||typeof data.previewFingerprint!=='string'",
+            "    ||!/^[0-9a-f]{64}$/u.test(data.previewFingerprint)||!Number.isSafeInteger(data.quantity)||Number(data.quantity)<1",
+            "    ||!Number.isSafeInteger(data.reclassifiedInMinorUnits)||Number(data.reclassifiedInMinorUnits)<0)throw new Error('معاينة تحويل التالف غير مكتملة.');",
+            "  return data as unknown as AftercareSupplierPreview;",
+            "}",
+            "export const aftercareSupplierBlockedMessage=(code:string)=>messages[code]??'التحويل غير متاح. حدّث السجل وراجع المالك.';"
+          ]
+        }
+      ]
+    },
+    "src/services/supabase/supplierReplacementIntent.ts": {
+      "before": "44d74f97e11c917ede322ab710a9b301b4767783237d0b5b5125ce5028d78a5f",
+      "after": "68a072ac47d88081a68f8a29bda65b68fa9fa984301210822e144f3d2dbc73f5",
+      "errorPrefix": "SUPPLIER_REPLACEMENT208_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 8,
+          "before": [
+            "const actions=['shop_pending','shop_immediate','shop_damage','receive','writeoff','reverse','customer_return'];"
+          ],
+          "after": [
+            "const actions=['shop_pending','shop_immediate','shop_damage','receive','writeoff','reverse','customer_return','replacement_supplier','reclassify_replacement','reclassify_return'];"
+          ]
+        }
+      ]
+    },
+    "src/utils/businessError.ts": {
+      "before": "6e9a4d0561fdee7a8fad6d888bf1d28ed99d88f8e9809b3088d92ffddfb3412e",
+      "after": "0eb3efba1430ff180274ea19339829390f2d9a6ce0436f32ccf9ad052dd9b9e9",
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 18,
+          "before": [
+            "      'افحص ضرر العميل بمرتجع مستقل لكل كرتونة حتى يبقى الخصم ضمن استحقاقها الأصلي.'],"
+          ],
+          "after": [
+            "      'افحص ضرر العميل بمرتجع مستقل لكل طرد حتى يبقى الخصم ضمن استحقاقه الأصلي.'],"
+          ]
+        }
+      ]
+    },
+    "src/utils/supplierReplacement.ts": {
+      "before": "254b67d84a6a6a592e8b668bf71bc6880604389bdafccc8aca99e8bda6863fdd",
+      "after": "647503ff1a1a0c389573e3faa8683b6cd30ef6e2b9abc9387bce5d8f74226bd4",
+      "errorPrefix": "SUPPLIER_REPLACEMENT208_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [
+            "export type SupplierReplacementAction = 'shop_pending'|'shop_immediate'|'shop_damage'|'receive'|'writeoff'|'reverse'|'customer_return';"
+          ],
+          "after": [
+            "export type SupplierReplacementAction = 'shop_pending'|'shop_immediate'|'shop_damage'|'receive'|'writeoff'|'reverse'|'customer_return'|'replacement_supplier'|'reclassify_replacement'|'reclassify_return';"
+          ]
+        },
+        {
+          "at": 9,
+          "before": [
+            "  origin:'shop'|'customer_return'|'shop_damage';quantity:number;commercialQuantity:number;unitsPerCommercialUnit:number;"
+          ],
+          "after": [
+            "  origin:'shop'|'customer_return'|'shop_damage'|'customer_replacement';quantity:number;commercialQuantity:number;unitsPerCommercialUnit:number;"
+          ]
+        },
+        {
+          "at": 26,
+          "before": [
+            "  if(!replacementRecord(v)||!['shop','customer_return','shop_damage'].includes(String(v.origin))||!Array.isArray(v.events))throw invalid();"
+          ],
+          "after": [
+            "  if(!replacementRecord(v)||!['shop','customer_return','shop_damage','customer_replacement'].includes(String(v.origin))||!Array.isArray(v.events))throw invalid();"
+          ]
+        }
+      ]
+    },
+    "src/utils/unitLabels.ts": {
+      "before": "8ffd0b47e4ad8b25184085bdb9d83ea167b1c68c1d9471922ba402fca8fff026",
+      "after": "33c12742419d4e0ab00291d5afd39411a07f6692c18e4754705d1487a242ecf9",
+      "errorPrefix": "RECEIVING205_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 4,
+          "before": [
+            "  طرد: 'طرود', كرتونة: 'كراتين', قطعة: 'قطع',"
+          ],
+          "after": [
+            "  طرد: 'طرود', قطعة: 'قطع',"
+          ]
+        },
+        {
+          "at": 6,
+          "before": [],
+          "after": [
+            "export function displayUnitName(name: string): string {",
+            "  return ['كرتونة','كرتون','كراتين','كرتونتان'].includes(name.trim()) ? 'طرد' : name;",
+            "}"
+          ]
+        },
+        {
+          "at": 10,
+          "before": [
+            "  return count >= 3 && count <= 10 && Number.isInteger(count) ? (plurals[name] ?? name) : name;"
+          ],
+          "after": [
+            "  const shown = displayUnitName(name);",
+            "  return count >= 3 && count <= 10 && Number.isInteger(count) ? (plurals[shown] ?? shown) : shown;"
+          ]
+        }
+      ]
+    },
+    "tests/all-customer-collections203.test.ts": {
+      "before": "3366a67ffd6194eb9209fba49da09f4d039de08e4e93a8c123be3dbd6a077e30",
+      "after": "9f3a79c37f0bd7276aa66b32fabd1e342e0cccd09d1fb680f1c820957978e02b",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 17,
+          "before": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,210);assert.equal(state.migration203CanonicalLfSha256,createHash('sha256').update(after).digest('hex').toUpperCase());"
+          ],
+          "after": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,211);assert.equal(state.migration203CanonicalLfSha256,createHash('sha256').update(after).digest('hex').toUpperCase());"
+          ]
+        }
+      ]
+    },
+    "tests/canonical-receivables197.test.ts": {
+      "before": "922134f6ffffee58783d116993bf5efe04115b7a7f66696fb49fd62cb1bfa3a8",
+      "after": "b63f6afcbdd376708b2da92a63eb30b84cc1d342181f405c78a1efb44b007ef8",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 56,
+          "before": [
+            " assert.equal(state.migrationCeiling,210);assert.equal(state.migration197CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());"
+          ],
+          "after": [
+            " assert.equal(state.migrationCeiling,211);assert.equal(state.migration197CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());"
+          ]
+        },
+        {
+          "at": 68,
+          "before": [
+            " assert.equal(source.migrationCeiling,210);assert.equal(proof.migrationCeiling,197);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,211);assert.equal(proof.migrationCeiling,197);assert.equal(proof.managedAccess,false);"
+          ]
+        }
+      ]
+    },
+    "tests/cashier-collections198.test.ts": {
+      "before": "55550db22b6b4043f2eb4b7b09bbee8cb657e765c556e0b4294ef9b9308b8138",
+      "after": "486e72d3ac0566731fc9fe699bdcc56aefcf6022b8ad6a3291fac5a26fb9a70c",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 23,
+          "before": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,210);"
+          ],
+          "after": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,211);"
+          ]
+        }
+      ]
+    },
+    "tests/cheques195-admission.test.ts": {
+      "before": "770eed8f194ea3bb9b2f7471697784f86f39eac41e68add32401d9e2f3de803e",
+      "after": "5e045d1843d6979f0114a6a8764f2bb149b131233f93753783989e796c10dacb",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 12,
+          "before": [
+            "  assert.equal(source.migrationCeiling,210);assert.equal(proof.migrationCeiling,195);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            "  assert.equal(source.migrationCeiling,211);assert.equal(proof.migrationCeiling,195);assert.equal(proof.managedAccess,false);"
+          ]
+        }
+      ]
+    },
+    "tests/go-live-integration164.test.ts": {
+      "before": "172d5426e9ddbba72c1de1ba7b3982bcb94ef1266c9c34751e6e9530dac1e38e",
+      "after": "ab17d3bef0e12bd0f87f9d41c50ad328eb5591c5780ecdd56e31c23f2a12ec35",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 29,
+          "before": [
+            " assert.equal(source.migrationCeiling,210);assert.equal(proof.migrationCeiling,164);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,211);assert.equal(proof.migrationCeiling,164);assert.equal(proof.managedAccess,false);"
+          ]
+        }
+      ]
+    },
+    "tests/historical-reset-source.test.ts": {
+      "before": "f44478030d49a3f6d05607950777d4641d1f6128aaac64d76eccdef396a0c928",
+      "after": "115e0926807d85f7d04dc96455dedc5542c74501ebbad548503a726eff50f3ec",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 9,
+          "before": [
+            "for(const [ceiling,count] of [[182,151],[199,161],[200,162],[201,163],[202,164],[203,165],[204,166],[205,167],[206,168],[209,171]])test(`historical reset rehearses exact${ceiling} bytes while live owner reset still rejects newer files`,async()=>{"
+          ],
+          "after": [
+            "for(const [ceiling,count] of [[182,151],[199,161],[200,162],[201,163],[202,164],[203,165],[204,166],[205,167],[206,168],[207,169],[208,170],[209,171],[210,172]])test(`historical reset rehearses exact${ceiling} bytes while live owner reset still rejects newer files`,async()=>{"
+          ]
+        },
+        {
+          "at": 26,
+          "before": [
+            " await assert.rejects(stageHistoricalResetSource(root,{migrationCeiling:211,manifest}),/HISTORICAL_RESET_CEILING/u);"
+          ],
+          "after": [
+            " await assert.rejects(stageHistoricalResetSource(root,{migrationCeiling:212,manifest}),/HISTORICAL_RESET_CEILING/u);"
+          ]
+        }
+      ]
+    },
+    "tests/opening-cheques196.test.ts": {
+      "before": "1cbfee51e660df53919c210c2c51ab174a9e7b45b2c13b4cf8df8fe21466a848",
+      "after": "9b85dcec03905a5b67c4b73b9ed4bfaa11f9166d696c64f88bf8282705cc07d7",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 22,
+          "before": [
+            " assert.equal(source.migrationCeiling,210);assert.equal(proof.migrationCeiling,196);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,211);assert.equal(proof.migrationCeiling,196);assert.equal(proof.managedAccess,false);"
+          ]
+        }
+      ]
+    },
+    "tests/pretrial-p1.test.ts": {
+      "before": "fd74609362d0210d332c867b3b6fd9e1a0cc527622f69b6a65f3b6c9049415f5",
+      "after": "9b0c3ff3a827c52733256b249d0876cccd6f36f2b614ff07e952de574e584ee5",
+      "errorPrefix": "TRIAL_A_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 56,
+          "before": [
+            "  assert.equal(JSON.parse(read('docs/agent/project-state.json')).currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_210.json');"
+          ],
+          "after": [
+            "  assert.equal(JSON.parse(read('docs/agent/project-state.json')).currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_211.json');"
+          ]
+        }
+      ]
+    },
+    "tests/product-integration171.test.ts": {
+      "before": "083c5097479e2b4155923370432ff55a9c8738d63bdca227de2cafae459a5dff",
+      "after": "0f24048ed5f32dfd1597414e5e8ab9a68531abe090f2160c6d49e8cdef82dc47",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 49,
+          "before": [
+            " assert.equal(source.migrationCeiling,210);assert.equal(proof.migrationCeiling,171);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,211);assert.equal(proof.migrationCeiling,171);assert.equal(proof.managedAccess,false);"
+          ]
+        },
+        {
+          "at": 54,
+          "before": [
+            " assert.equal(services.migrationCeiling,210);assert.equal(services.ok,true);",
+            " assert.deepEqual(services.results.filter((r:{sqlstate:string|null})=>r.sqlstate==='42501').map((r:{name:string;appRole:string})=>[r.name,r.appRole]).sort(),[['get_supplier_replacements_page_v1','admin'],['get_supplier_replacements_page_v1','cashier']]);"
+          ],
+          "after": [
+            " assert.equal(services.migrationCeiling,211);assert.equal(services.ok,true);",
+            " assert.deepEqual(services.results.filter((r:{sqlstate:string|null})=>r.sqlstate==='42501').map((r:{name:string;appRole:string})=>[r.name,r.appRole]).sort(),['get_supplier_replacements_page_v1','execute_aftercare_supplier_v1','preview_aftercare_supplier_v1','get_aftercare_damage_candidates_v1'].flatMap(name=>['admin','cashier'].map(role=>[name,role])).sort());"
+          ]
+        }
+      ]
+    },
+    "tests/product-receiving205.test.ts": {
+      "before": "092303fedf5e7a7e0c841e41858dd72d96d73b431e20a5608aaf24a13211c573",
+      "after": "5b7a173d78ecc241a977998725a2b7bddc758744ce8514438c9fbf6735ed88c7",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 48,
+          "before": [
+            "  const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,210);assert.equal(state.migration205CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());"
+          ],
+          "after": [
+            "  const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,211);assert.equal(state.migration205CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());"
+          ]
+        }
+      ]
+    },
+    "tests/receipt210.test.ts": {
+      "before": "2138a5854e2d7cc0fc635fbde0ec4af5c85c1114adb6b44ffef8f0e34589fb9e",
+      "after": "b77d438ef239b5b099a40936a9ad90a16cb1417392bb489d20fd14d8d5932a84",
+      "errorPrefix": "TRIAL_J_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 8,
+          "before": [
+            " assert.equal(createHash('sha256').update(sql).digest('hex').toUpperCase(),state.migration210CanonicalLfSha256);assert.equal(state.migrationCeiling,210);"
+          ],
+          "after": [
+            " assert.equal(createHash('sha256').update(sql).digest('hex').toUpperCase(),state.migration210CanonicalLfSha256);assert.equal(state.migrationCeiling,211);"
+          ]
+        }
+      ]
+    },
+    "tests/sales-history204-evidence.test.ts": {
+      "before": "513116a30be4d8ddd6e5a76dc1dade050e59cdd79056c773d45bce4d4acf15ae",
+      "after": "cabf0a7274c31c936c4f5554a7e0d6fc448bbcee85d0825e1269b3fc846e26a8",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 24,
+          "before": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,210);"
+          ],
+          "after": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,211);"
+          ]
+        }
+      ]
+    },
+    "tests/service-access-inventory.test.ts": {
+      "before": "6e68f8c2d3a3f5390e6fec07b129e7b904a747d66686d0edabdcb254232a6d5b",
+      "after": "7c3396974d3eb91a64dbad248659d614b5ae728a995b1147d99e77340b853f88",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 49,
+          "before": [
+            " assert.match(source,/\\[198,199,200,201,202,203,204,205,206,207,208,209,210\\]\\.includes\\(migrationCeiling\\)/u);"
+          ],
+          "after": [
+            " assert.match(source,/\\[198,199,200,201,202,203,204,205,206,207,208,209,210,211\\]\\.includes\\(migrationCeiling\\)/u);"
+          ]
+        }
+      ]
+    },
+    "tests/supplier-replacement208-evidence.test.ts": {
+      "before": "a6c73be30270920341fe41bb3c5694d6649c469d41ffe7b6ab4ff2cbf6ef4379",
+      "after": "264465fda34f81b1a24fefd8c8d3cb4c218853c263875491a3a44314eb7c6ffc",
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 16,
+          "before": [
+            " assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_210.json');assert.equal(state.migrationCeiling,210);"
+          ],
+          "after": [
+            " assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_211.json');assert.equal(state.migrationCeiling,211);"
+          ]
+        },
+        {
+          "at": 22,
+          "before": [
+            " const current=await serviceInventory(),proof=json('docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json');assert.equal(proof.ok,true);assert.equal(proof.migrationCeiling,210);assert.equal(proof.managedAccess,false);assert.deepEqual(proof.sourceHashes,current.sourceHashes);",
+            " const denied=proof.results.filter((r:{sqlstate:string|null})=>r.sqlstate==='42501');assert.deepEqual(denied.map((r:{name:string;appRole:string})=>[r.name,r.appRole]).sort(),[['get_supplier_replacements_page_v1','admin'],['get_supplier_replacements_page_v1','cashier']]);"
+          ],
+          "after": [
+            " const current=await serviceInventory(),proof=json('docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json');assert.equal(proof.ok,true);assert.equal(proof.migrationCeiling,211);assert.equal(proof.managedAccess,false);assert.deepEqual(proof.sourceHashes,current.sourceHashes);",
+            " const denied=proof.results.filter((r:{sqlstate:string|null})=>r.sqlstate==='42501');assert.deepEqual(denied.map((r:{name:string;appRole:string})=>[r.name,r.appRole]).sort(),['get_supplier_replacements_page_v1','execute_aftercare_supplier_v1','preview_aftercare_supplier_v1','get_aftercare_damage_candidates_v1'].flatMap(name=>['admin','cashier'].map(role=>[name,role])).sort());"
+          ]
+        }
+      ]
+    },
+    "tests/trial-aftercare-supplier.test.ts": {
+      "added": true,
+      "before": null,
+      "after": "1e9cf763637a5edab46f904951196a888426ac3174c0173b5949b66b868217ef",
+      "hunks": []
+    },
+    "tests/trial-owner-a.test.ts": {
+      "before": "950a27e821965b68c12bb32e8cc51657643cb1bc7a253056e7805730d455103e",
+      "after": "355848736981c9974d9dcbbfec35e7b512a61599235a8d2b7effb9d3fd030c5b",
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 54,
+          "before": [
+            " assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_210.json');",
+            " assert.equal(state.migrationCeiling,210);assert.deepEqual(current.sources,proof.sourceHashes);"
+          ],
+          "after": [
+            " assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_211.json');",
+            " assert.equal(state.migrationCeiling,211);assert.deepEqual(current.sources,proof.sourceHashes);"
+          ]
+        }
+      ]
+    },
+    "tests/trial-reset.test.ts": {
+      "before": "ed986cbabd71282669dd932b201c287613431d5e9be7f9f634cf129704e32d15",
+      "after": "8e9e591cf0f6a3e2642b94c078471093b545cf188bbd2c87e63517f79e6265a3",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 75,
+          "before": [
+            "test('reset admits approved frozen prefixes and current210 only and preserves the named main warehouse,not trial locations',()=>{"
+          ],
+          "after": [
+            "test('reset admits approved frozen prefixes and current211 only and preserves the named main warehouse,not trial locations',()=>{"
+          ]
+        },
+        {
+          "at": 88,
+          "before": [
+            " for(const migrationCeiling of [138,198,211])assert.throws(()=>assertResetCeiling({migrationCeiling}));"
+          ],
+          "after": [
+            " assert.equal(assertResetCeiling({migrationCeiling:211}),173);",
+            " for(const migrationCeiling of [138,198,212])assert.throws(()=>assertResetCeiling({migrationCeiling}));"
+          ]
+        }
+      ]
+    },
+    "tests/trial-sale-receipts.test.ts": {
+      "before": "52a8562acdec9bef34805c4595790ab1fb36fe947a236d44d3a1e1627f238621",
+      "after": "5f0b33fee5c15362f6385b4218dedb5be9a03f628388f232a8e2354263096bb4",
+      "errorPrefix": "TRIAL_J_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 15,
+          "before": [
+            "import {inventory} from '../scripts/audit/table-access-inventory.mjs';"
+          ],
+          "after": [
+            "import {inventoryBeforeTrialJ} from '../scripts/audit/source-before-trial-aftercare.mjs';"
+          ]
+        },
+        {
+          "at": 79,
+          "before": [
+            "  const current=await inventory(),proof=read('docs/operations/TABLE_ACCESS_AFTER_210.json');"
+          ],
+          "after": [
+            "  const current=await inventoryBeforeTrialJ(),proof=read('docs/operations/TABLE_ACCESS_AFTER_210.json');"
+          ]
+        }
+      ]
+    },
+    "tests/unit-terminology.test.ts": {
+      "before": "6eb24ae6f5a910ba8c70605292ffe588aaae09ce716676fa8461574202841d58",
+      "after": "ba8fcfff0a8f16f5b789fa48df282166558932f83412641743ee2f0b55584302",
+      "errorPrefix": "TRIAL_A_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 2,
+          "before": [],
+          "after": [
+            "import {sourceBeforeTrialJ} from '../scripts/audit/source-before-trial-aftercare.mjs';"
+          ]
+        },
+        {
+          "at": 22,
+          "before": [
+            "    let text=readFileSync(file,'utf8');"
+          ],
+          "after": [
+            "    // J uses the owner's explicit \"الحبة المعيبة/كل حباته\" copy. Its exact",
+            "    // whole-file inverse rejects every other byte before this older guard.",
+            "    let text=sourceBeforeTrialJ(file,readFileSync(file,'utf8'));if(text===null)return false;"
+          ]
+        }
+      ]
+    },
+    "tests/withdrawals182-admission.test.ts": {
+      "before": "33e28136260a335cf8c355c027baa7274aac081c6a4580e99a6946a8b75aa02f",
+      "after": "132d32420487edb165d42a191bf4e925184286404aa2cf1221e72a05cca166f8",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 20,
+          "before": [
+            " assert.equal(source.migrationCeiling,210);assert.equal(proof.migrationCeiling,182);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,211);assert.equal(proof.migrationCeiling,182);assert.equal(proof.managedAccess,false);"
+          ]
+        },
+        {
+          "at": 31,
+          "before": [
+            " assert.equal(services.migrationCeiling,210);assert.equal(services.ok,true);",
+            " assert.deepEqual(services.results.filter((r:{sqlstate:string|null})=>r.sqlstate==='42501').map((r:{name:string;appRole:string})=>[r.name,r.appRole]).sort(),[['get_supplier_replacements_page_v1','admin'],['get_supplier_replacements_page_v1','cashier']]);"
+          ],
+          "after": [
+            " assert.equal(services.migrationCeiling,211);assert.equal(services.ok,true);",
+            " assert.deepEqual(services.results.filter((r:{sqlstate:string|null})=>r.sqlstate==='42501').map((r:{name:string;appRole:string})=>[r.name,r.appRole]).sort(),['get_supplier_replacements_page_v1','execute_aftercare_supplier_v1','preview_aftercare_supplier_v1','get_aftercare_damage_candidates_v1'].flatMap(name=>['admin','cashier'].map(role=>[name,role])).sort());"
+          ]
+        }
+      ]
+    }
+  }
+}

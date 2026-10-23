@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';import {readFile} from 'node:fs/promises
 import {migrationManifest,manifestDigest,canonicalLf,sha256} from '../testing/maintenance-db-contract.mjs';
 import {schemaCatalogSql,catalogDifference} from '../testing/schema-catalog.mjs';
 import {realtimePublicationSql,realtime151Tables} from '../testing/realtime151-contract.mjs';
-import {inventory} from '../audit/table-access-inventory.mjs';import {verifyProbeCoverage} from '../audit/table-access-probes.mjs';
+import {inventoryBeforeTrialJ as inventory} from '../audit/source-before-trial-aftercare.mjs';import {verifyProbeCoverage} from '../audit/table-access-probes.mjs';
 import {assertReady209Catalog,assert209PublicationTransition} from './frankfurt-reference209.mjs';
 import {aclEntries,compareManagedCatalog} from './managed-catalog-policy.mjs';
 export const ready210Ceiling=210,ready210ReferenceName='local-reference-through210-ready.json';

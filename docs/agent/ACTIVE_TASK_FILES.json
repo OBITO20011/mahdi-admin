@@ -7,15 +7,299 @@
     },
     {
       "code": " M",
-      "path": "docs/operations/TRIAL_OWNER_D_CI_REPAIR.json"
+      "path": "docs/agent/OWNER_DECISIONS.md"
     },
     {
       "code": " M",
-      "path": "docs/operations/TRIAL_OWNER_D_LOCAL.json"
+      "path": "docs/agent/PHASE_STATUS.md"
     },
     {
       "code": " M",
-      "path": "scripts/audit/trial-sale-receipts-hunks.json"
+      "path": "docs/agent/PROJECT_OVERVIEW.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/generated/DB_FUNCTIONS.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_AUDIT.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.md"
+    },
+    {
+      "code": " M",
+      "path": "e2e/phase6-package-b-harness.tsx"
+    },
+    {
+      "code": " M",
+      "path": "e2e/phase6-package-b.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "package.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/agent/lib.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/agent/preflight.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/run-service-access-diagnostic.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/run-table-access-diagnostic.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-trial-sale-receipts.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/build-acl-reference210.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/frankfurt-owner-build.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/frankfurt-reference210.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/trial-reset-core.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/historical-reset-source.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-trial-reset-runtime.mjs"
+    },
+    {
+      "code": " M",
+      "path": "src/features/orders/AdminAftercarePanel.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/orders/aftercarePresentation.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/features/orders/OrderDetailModal.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/purchases/PurchaseOrderDetailView.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/reports/DamageLossReportSection.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/services/supabase/supplierReplacement.service.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/services/supabase/supplierReplacementIntent.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/utils/businessError.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/utils/supplierReplacement.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/utils/unitLabels.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/all-customer-collections203.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/canonical-receivables197.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/cashier-collections198.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/cheques195-admission.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/go-live-integration164.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/historical-reset-source.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/opening-cheques196.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/pretrial-p1.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/product-integration171.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/product-receiving205.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/receipt210.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/sales-history204-evidence.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/service-access-inventory.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/supplier-replacement208-evidence.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-owner-a.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-reset.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-sale-receipts.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/unit-terminology.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/withdrawals182-admission.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "docs/agent/TRIAL_OWNER_J_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_211.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/TRIAL_OWNER_D_DELIVERY.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/TRIAL_OWNER_D_FEATURE_CI.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/TRIAL_OWNER_D_MAIN_CI.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/TRIAL_OWNER_J_DB211.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/TRIAL_OWNER_J_LOCAL.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/TRIAL_OWNER_UPGRADE211_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-trial-aftercare.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/trial-aftercare-hunks.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/build-acl-reference211.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/frankfurt-owner-upgrade211.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/frankfurt-reference211.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/aftercare211-defective-units.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/aftercare211-restore.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-aftercare-upgrade211-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-aftercare211-gates.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-aftercare211-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "src/features/orders/AftercareSupplierSafety.tsx"
+    },
+    {
+      "code": "??",
+      "path": "supabase/migrations/211_aftercare_supplier_disposition.sql"
+    },
+    {
+      "code": "??",
+      "path": "tests/trial-aftercare-supplier.test.ts"
     }
   ]
 }

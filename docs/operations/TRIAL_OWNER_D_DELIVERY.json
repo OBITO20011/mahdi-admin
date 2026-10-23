@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-22T22:04:09.537Z",
+  "delivered": true,
+  "pr": 16,
+  "mainSha": "74cc431e9b8d4bf01c03c65e5d1740a61647fd56",
+  "featureSha": "4e255f0c179569b0812b0b87c942eb52a07084b0",
+  "featureQuality": [
+    {
+      "id": 39847958846,
+      "event": "push",
+      "sha": "4e255f0c179569b0812b0b87c942eb52a07084b0",
+      "attempt": 1,
+      "jobs": 41,
+      "strictFullVerified": true,
+      "actualReset208": {
+        "publicReport": true,
+        "authenticatedRestRead": true,
+        "ownerTotpStoragePreserved": true
+      },
+      "actualFull208": {
+        "passed": 21,
+        "readScale": {
+          "realWriterCases": 200,
+          "pageSize": 25,
+          "samplesMs": [
+            233,
+            219,
+            218,
+            219,
+            219
+          ],
+          "statementDeadlineMs": 5000
+        },
+        "restore": {
+          "logicalCatalogDifferences": 0,
+          "allPublicDataAndSequencesIdentical": true,
+          "replayZeroWrites": true
+        }
+      }
+    },
+    {
+      "id": 39847970428,
+      "event": "pull_request",
+      "sha": "4e255f0c179569b0812b0b87c942eb52a07084b0",
+      "attempt": 1,
+      "jobs": 41,
+      "strictFullVerified": true,
+      "actualReset208": {
+        "publicReport": true,
+        "authenticatedRestRead": true,
+        "ownerTotpStoragePreserved": true
+      },
+      "actualFull208": {
+        "passed": 21,
+        "readScale": {
+          "realWriterCases": 200,
+          "pageSize": 25,
+          "samplesMs": [
+            220,
+            219,
+            220,
+            220,
+            220
+          ],
+          "statementDeadlineMs": 5000
+        },
+        "restore": {
+          "logicalCatalogDifferences": 0,
+          "allPublicDataAndSequencesIdentical": true,
+          "replayZeroWrites": true
+        }
+      }
+    }
+  ],
+  "mainQuality": [
+    {
+      "id": 39853215039,
+      "event": "push",
+      "sha": "74cc431e9b8d4bf01c03c65e5d1740a61647fd56",
+      "attempt": 2,
+      "jobs": 41,
+      "strictFullVerified": true,
+      "actualReset208": {
+        "publicReport": true,
+        "authenticatedRestRead": true,
+        "ownerTotpStoragePreserved": true
+      },
+      "actualFull208": {
+        "passed": 21,
+        "readScale": {
+          "realWriterCases": 200,
+          "pageSize": 25,
+          "samplesMs": [
+            124,
+            126,
+            117,
+            122,
+            122
+          ],
+          "statementDeadlineMs": 5000
+        },
+        "restore": {
+          "logicalCatalogDifferences": 0,
+          "allPublicDataAndSequencesIdentical": true,
+          "replayZeroWrites": true
+        }
+      }
+    }
+  ],
+  "secrets": [
+    {
+      "id": 39853215186,
+      "event": "push",
+      "sha": "74cc431e9b8d4bf01c03c65e5d1740a61647fd56",
+      "conclusion": "success"
+    }
+  ],
+  "localUnits": [
+    1361,
+    197
+  ],
+  "browserPerRun": 1367,
+  "flaky": 0,
+  "gitleaks": {
+    "files": 112,
+    "exitCode": 0
+  },
+  "migrationCeiling": 210,
+  "ownerCommand": "frankfurt-owner-upgrade210",
+  "guide": "docs/operations/TRIAL_OWNER_UPGRADE210_AR.md",
+  "managedAccess": false,
+  "deployed": false,
+  "hostedCommandsExecuted": false,
+  "mainEnvironmentalRerun": {
+    "sha": "74cc431e9b8d4bf01c03c65e5d1740a61647fd56",
+    "run": 39853215039,
+    "requestedAt": "2026-10-22T21:21:42.077Z",
+    "priorAttempt": 1,
+    "scope": "Only failed aging/navigation and dependent complete gate;38 prior successes retained",
+    "evidence": {
+      "aging": "Fixture captured Amman22 before21UTC and tested new sale on Amman23 after21UTC against closed22 period;exact1000 assertion retained",
+      "network": "Realtime image pull rate/data quota before205 bootstrap/SQL"
+    },
+    "codeChanges": 0,
+    "assertionChanges": 0,
+    "timeoutChanges": 0,
+    "otherReruns": 0
+  },
+  "preservedPrimary": "4aa5069ee7fe1a159000648a240cbbbc6db36810"
+}

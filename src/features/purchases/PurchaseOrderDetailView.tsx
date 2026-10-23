@@ -46,10 +46,10 @@ function formatHumanQuantity(qty: number, unitName?: string): string {
   const num = Math.round(qty * 100) / 100;
 
   if (unit === 'كرتونة' || unit === 'كرتون' || unit === 'كراتين') {
-    if (num === 1) return 'كرتونة واحدة';
-    if (num === 2) return 'كرتونتان';
-    if (num >= 3 && num <= 10) return `${num} كراتين`;
-    return `${num} كرتونة`;
+    if (num === 1) return 'طرد واحد';
+    if (num === 2) return 'طردان';
+    if (num >= 3 && num <= 10) return `${num} طرود`;
+    return `${num} طرد`;
   }
   if (unit === 'علبة' || unit === 'علبه' || unit === 'علب') {
     if (num === 1) return 'علبة واحدة';

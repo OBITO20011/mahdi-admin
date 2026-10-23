@@ -2,53 +2,56 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner D then J then H,separate worktree/PR/FULL CI/main CI. Current D read-only210 approved;no hosted access/deploy.",
-  "baselineSha": "5b1eea360116e813614434c391822984dd7c5668",
+  "objective": "Owner J1-J5:aftercare parcel presentation and owner-only supplier disposition/reclassification211;then separate H.No hosted access/deploy.",
+  "baselineSha": "74cc431e9b8d4bf01c03c65e5d1740a61647fd56",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
-  "branch": "codex/trial-sale-receipts",
+  "branch": "codex/trial-aftercare-supplier",
   "phase": "PACKAGE_F",
   "completed": [
-    "A/B delivered main581cb97;owner adopted D tree and approved bounded read-only210",
-    "D1-D4 complete;210 SQL7/restore0/ref17254613/local owner pipeline/reset210 verified"
+    "A/B delivered main581cb97",
+    "D PR16/main74cc431 exact push+PR+main FULL41/secrets strictly accepted;owner210 guide prepared only"
   ],
   "inProgress": [
-    "Commit and push verified browser mirrorlist CI correction",
-    "New exact FULL41 push+PR/secrets then merge/main FULL41"
+    "J211 local accepted;final secrets/diff/commit/push/draftPR and exact feature/main FULL42"
   ],
   "notStarted": [
-    "D merge/main FULL41 acceptance",
-    "J211 then H after D delivery"
+    "J exact push+PR/full main CI and merge;owner211 final reference/delivery",
+    "H after J delivered"
   ],
   "testsPassed": [
-    "D1-D4 complete;read-only210 DB7/restore0/reference172-546-13/upgrade209+210/replay0/resetREST PASS",
-    "1361admin/197store/types/strictlint/Gitleaks112files0 PASS after final mirrorlist correction",
-    "Actual workflow Bash3positive/2negative:only Azure entry removed;official HTTPS mirrors/priorities/sources/keyring retained",
-    "Offline pinned PostgREST SDK209/210 each148;historical209 hash-bound171-file reset verified",
-    "Superseded5b PR attempt2 strict FULL41/PWA4/1367browser0flaky/realPOS8/all208-210 PASS;not new-candidate delivery acceptance"
+    "D PR16/main74cc431 exact FULL41/secrets accepted",
+    "Final211 B3018E78:30actualDBgroups/strictlint/full logical restore0diff/replay0;whole return9@1000+1@1500 correct",
+    "36aftercare bothengine browsers0retry;150unchanged affected identities accepted with one Vite502 local environmental rerun",
+    "1370Admin/197store units0skip;types/strictlint/build;native1448 partition complete",
+    "SDK327sources/148realqueries0errors;RPC534/8exact owner-only denials;generated554",
+    "Fresh/incremental173migrations/554functions/13Realtime/diff0;local upgrade209-211/replay0;populated211 reset/OwnerTOTP/Storage/actualREST211 PASS",
+    "Final Gitleaks changed/untracked77files:0findings;diff whitespace normalized"
   ],
   "testsRemaining": [
-    "Exact new feature push+PR/main FULL41 and secrets"
+    "Exact feature push+PR FULL42/secrets then merge/genuine main FULL42",
+    "Copy final owner211 reference/Arabic guide after accepted main;then separate H"
   ],
   "findings": [
-    "Historical001-210,old pins and owner208-210 references immutable;no app/SQL/ACL/pricing change in CI repairs",
-    "5b push POS twice exceeded35min downloading Azure Ubuntu apt packages before tests;one unchanged rerun exhausted",
-    "Official runner uses apt-mirrors.txt indirection;remove only Azure entry,keep HTTPS archives;existing Playwright command/assertions/retries/time budgets unchanged",
-    "Evidence:TRIAL_OWNER_D_CI_REPAIR.json and TRIAL_OWNER_D_LOCAL.json"
+    "Both owner decisions implemented:retain signed cost difference and permit defective same-SKU parcel-unit replacement only",
+    "Only two issuer admission sites changed;full monetary parcel refund guards,121/drawer/debts remain",
+    "No hostedaccess/deploy;owner210 until J acceptedmain;001-210/oldpins/references immutable",
+    "Earlier pre-exception211 proofs superseded by final B3018E78 full30/current554/reference6Mbdrw;old reports not alleged final"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No Frankfurt/Production/hosted/secrets/deploy",
-    "No financial writer,pricing,ACL or historical SQL change",
-    "One writer;no tracked edits during verification;no weaker assertions/retries/skips/timeouts",
-    "Only requested screens;always طرد;J finance only owner decisions;video/WhatsApp unchanged"
+    "No Frankfurt/Production/secrets/deploy",
+    "Never edit historical001-210 or settlement121/drawer/debts",
+    "Owner-only supplier option/reclassification;no single unit monetary refund from parcel",
+    "One writer;no tracked edits during verification;no weaker assertions/retry/skip/timeouts",
+    "Only J screens;always طرد;H only after J delivery"
   ],
-  "nextExactAction": "Commit verified bounded apt mirrorlist fix;push PR16 and require exact FULL41 push/PR/secrets then merge/main FULL41 before J211/H.",
-  "checkpointedAt": "2026-10-22T20:20:01.733Z",
+  "nextExactAction": "Final J211 local gates/Gitleaks0 accepted. Commit75known-owned paths,push codex/trial-aftercare-supplier,create draftPR and attach;require exact push+PR FULL42/secrets before merge,then genuine mainFULL42. Final owner211 reference/guide after acceptedmain;H next separate. No hostedaccess/deploy.",
+  "checkpointedAt": "2026-10-23T01:13:56.204Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "f48b325351d6e447c168535fe31136ea24c474fdf95eba589b386328fc433165",
-  "workingTreeFingerprint": "70FFF60D31F149CB14180006E511040B6D37F1B9F962EDA78085E5C486517CCF"
+  "filesTouchedCount": 75,
+  "filesTouchedManifestSha256": "8263c3803cc3760cce667acbaa3ac747cdab9c0ed4ebcbad0c91887f8ca64daf",
+  "workingTreeFingerprint": "E2010A236C8FED4D0542F971EA41B913AE1CF2A69EC6B6AC12D5CC7C4D063198"
 }

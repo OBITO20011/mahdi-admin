@@ -1,3 +1,15 @@
+#23Oct — owner approves defective-unit replacement exception
+
+Direct owner answer: «نعم، اسمح بتبديل الحبة المعيبة فقط». Same-product defective physical unit replacement is permitted for ordinary saved parcels and effective parcel_only products,including saved mixed components. Sales/base-unit admission and monetary partial-parcel refunds remain forbidden. Existing owner/admin issuer roles,48hour window,canonical lock/replay,capacity and historical valuation remain authoritative. Supplier destination/reclassification owner-only. Full-parcel return after a unit replacement must consume current original+replacement leaves at their own historical costs. No client GUC bypass or blanket shared whole-quantity guard relaxation.
+
+#23Oct — J historical defect value and replacement cost difference
+
+Direct owner answer: «أعتمد بقاء فرق التكلفة». Defective leaf historical1.000,
+newly issued replacement1.500:hold/reclassify1.000 only;0.500 remains in profit.
+Supplier refusal recognizes1.000 once;receipt restores historical1.000 value.
+Applies equally to immediate supplier routing and later final-damage conversion.
+No rewriting sale/issuance/return evidence,121/drawer/debts. See TRIAL_OWNER_J_AR.md.
+
 #22Oct — owner approved read-only210 and adopted current D tree
 
 Implement only saved public receipt commercial kind/quantity/unit/composition in same STABLE token-gated reader,unchanged ACL and no writes/cost/profit. Complete D verification/PR16 FULL CI/merge/mainCI,then J from211,then H. No hostedaccess/deploy.

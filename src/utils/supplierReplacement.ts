@@ -1,4 +1,4 @@
-export type SupplierReplacementAction = 'shop_pending'|'shop_immediate'|'shop_damage'|'receive'|'writeoff'|'reverse'|'customer_return';
+export type SupplierReplacementAction = 'shop_pending'|'shop_immediate'|'shop_damage'|'receive'|'writeoff'|'reverse'|'customer_return'|'replacement_supplier'|'reclassify_replacement'|'reclassify_return';
 export type SupplierReplacementPayload = Record<string,unknown>;
 export interface SupplierReplacementEvent {
   id:string;action:'send'|'immediate'|'receive'|'writeoff'|'damage'|'reverse';quantity:number;heldDelta:number;
@@ -6,7 +6,7 @@ export interface SupplierReplacementEvent {
 }
 export interface SupplierReplacementCase {
   id:string;supplierId:string|null;supplierName:string|null;productId:string;productName:string;warehouseId:string;branchId:string;
-  origin:'shop'|'customer_return'|'shop_damage';quantity:number;commercialQuantity:number;unitsPerCommercialUnit:number;
+  origin:'shop'|'customer_return'|'shop_damage'|'customer_replacement';quantity:number;commercialQuantity:number;unitsPerCommercialUnit:number;
   unitName:string;baseUnitName:string;pendingQuantity:number;receivedQuantity:number;writtenOffQuantity:number;occurredAt:string;
   events:SupplierReplacementEvent[];unitCostInMinorUnitsExact?:string;pendingValueInMinorUnitsExact?:string;
 }
@@ -23,7 +23,7 @@ export function exactReplacementAmount(v:unknown):string {
   if(typeof v!=='string'||!/^\d+(?:\.\d{1,6})?$/u.test(v))throw invalid();return v;
 }
 export function readReplacementCase(v:unknown):SupplierReplacementCase {
-  if(!replacementRecord(v)||!['shop','customer_return','shop_damage'].includes(String(v.origin))||!Array.isArray(v.events))throw invalid();
+  if(!replacementRecord(v)||!['shop','customer_return','shop_damage','customer_replacement'].includes(String(v.origin))||!Array.isArray(v.events))throw invalid();
   const hasValues=v.unitCostInMinorUnitsExact!==undefined;
   if(hasValues!==(v.pendingValueInMinorUnitsExact!==undefined))throw invalid();
   const result:SupplierReplacementCase={id:string(v.id),supplierId:nullableString(v.supplierId),supplierName:nullableString(v.supplierName),

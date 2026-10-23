@@ -160,8 +160,11 @@ export async function functionReference(executor,ceiling=139){
  }else if(ceiling===209){
   // Frozen delivered B/main581cb97 manual;210 changes only its public receipt reader.
   const ordered=[...functions].sort((a,b)=>a.identity<b.identity?-1:a.identity>b.identity?1:0);assert.equal(functions.length,546,'FROZEN209_FUNCTION_COUNT');assert.equal(digest(JSON.stringify(ordered)),'c11cd51b4ac4afc10b1f9fb024b7ee5dddc6e3572e0c046cd7dba1eca9d622f9','FROZEN209_FUNCTIONS_CHANGED');
+ }else if(ceiling===210){
+  const ordered=[...functions].sort((a,b)=>a.identity<b.identity?-1:a.identity>b.identity?1:0);assert.equal(functions.length,546,'FROZEN210_FUNCTION_COUNT');
+  assert.equal(digest(JSON.stringify(ordered)),'5d93bb94acaf2ba7049abb22c469ddeb85e3b5db57af5a8d1d2df6ae53ac95d6','FROZEN210_FUNCTIONS_CHANGED');
  }else{
-  assert.equal(ceiling,210,'UNAPPROVED_FUNCTION_REFERENCE');
+  assert.equal(ceiling,211,'UNAPPROVED_FUNCTION_REFERENCE');
   const rendered=renderFunctionReference(await migrationManifest(root),functions);
   assert.equal(rendered,canonicalLf(await readFile(path.join(root,'docs/generated/DB_FUNCTIONS.md'),'utf8')),'DB_FUNCTIONS_STALE');
  }

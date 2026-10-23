@@ -1,5 +1,16 @@
 import type {AdminAftercareContext,AftercarePhysicalRepresentative,ReplacementRequestItem,ReturnPhysicalSource} from '../../services/supabase/salesAftercare.service';
 
+/** A missing allocation names the saved physical piece; no internal ID is shown. */
+export function assertCompleteReturnAllocation(name: string, allocation: {
+  sellableRestock: number; defectNonSellable: number; customerDamage: number;
+} | undefined, quantity: number): void {
+  if (!allocation || ![allocation.sellableRestock, allocation.defectNonSellable,
+    allocation.customerDamage].every(value => Number.isSafeInteger(value) && value >= 0)
+    || allocation.sellableRestock + allocation.defectNonSellable + allocation.customerDamage !== quantity) {
+    throw new Error(`أكمل تصنيف «${name}»: مجموع السليم والعيب وضرر العميل يجب أن يساوي ${quantity} حبة.`);
+  }
+}
+
 /** Use all current physical leaves of the actual saved parcel instance. The
  * server independently validates lineage, full commercial scope and capacity. */
 export function wholeParcelReplacementItems(parcel:AdminAftercareContext['parcelInstances'][number]):ReplacementRequestItem[] {
@@ -26,7 +37,7 @@ export function singleSkuPhysicalQuantity(cartons: number, unitsPerParcel: numbe
   const quantity = cartons * unitsPerParcel;
   if (!Number.isSafeInteger(cartons) || cartons < 1 || !Number.isSafeInteger(unitsPerParcel)
     || unitsPerParcel < 1 || !Number.isSafeInteger(quantity) || quantity > 2147483647) {
-    throw new Error('اختر عدداً صحيحاً من الكراتين الكاملة؛ حجم الكرتونة من لقطة البيع الأصلية.');
+    throw new Error('اختر عدداً صحيحاً من الطرود الكاملة؛ حجم الطرد من لقطة البيع الأصلية.');
   }
   return quantity;
 }

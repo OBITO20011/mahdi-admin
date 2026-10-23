@@ -12,7 +12,7 @@ import {buildReceiptShareText} from '../src/utils/receipt';
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {trialDPins,sourceBeforeTrialD,inventoryBeforeTrialD} from '../scripts/audit/source-before-trial-sale-receipts.mjs';
-import {inventory} from '../scripts/audit/table-access-inventory.mjs';
+import {inventoryBeforeTrialJ} from '../scripts/audit/source-before-trial-aftercare.mjs';
 import {verifyProbeCoverage} from '../scripts/audit/table-access-probes.mjs';
 
 test('D saved commercial evidence formats mixed invoice without changing quantities or amounts',()=>{
@@ -76,7 +76,7 @@ test('D exact additive inverse preserves delivered209 source and rejects current
 
 test('D actual SDK evidence covers saved unit/token columns for all existing actors and keeps frozen209 separate',async()=>{
   const read=(path:string)=>JSON.parse(readFileSync(path,'utf8'));
-  const current=await inventory(),proof=read('docs/operations/TABLE_ACCESS_AFTER_210.json');
+  const current=await inventoryBeforeTrialJ(),proof=read('docs/operations/TABLE_ACCESS_AFTER_210.json');
   assert.equal(proof.migrationCeiling,210);assert.equal(proof.managedAccess,false);
   assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);
   assert.deepEqual(proof.sourceHashes,current.sources);assert.deepEqual(proof.coverage,verifyProbeCoverage(current,proof.results));

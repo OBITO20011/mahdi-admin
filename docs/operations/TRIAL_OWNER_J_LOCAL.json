@@ -1,0 +1,125 @@
+{
+  "managedAccess": false,
+  "deliveryReady": false,
+  "migration211CanonicalLfSha256": "b3018e787225a5bebe30e2adec0241d562687886e144c1fe59822a748b9f26a5",
+  "adminUnits": {
+    "passed": 1370,
+    "failed": 0,
+    "skipped": 0
+  },
+  "customerUnits": {
+    "passed": 197,
+    "failed": 0,
+    "skipped": 0
+  },
+  "focusedAftercareBrowsers": {
+    "passed": 36,
+    "retries": 0
+  },
+  "affectedBrowsers": {
+    "initialPassed": 149,
+    "initialFailed": 1,
+    "initialFailure": "Local /@vite/client HTTP502 at6381.9ms before rendering EXP-10481",
+    "unchangedIsolatedRerunPassed": 1,
+    "environmentalReruns": 1,
+    "selectionCorrection": "First anchored grep selected zero tests;no test executed;unanchored exact title listed1 before the sole rerun",
+    "sourceHashes": [
+      {
+        "file": "e2e/package-f-financial.spec.ts",
+        "sha256": "1EECF80ADD9C4000E827E9BCECE9F98CA56B1B9B1DB1582CC097C67E7C5EFB5B"
+      },
+      {
+        "file": "e2e/package-f-financial-harness.tsx",
+        "sha256": "E566F60FF7C5B4E09559B5A1222AF1011CDFE48CC5F5E1300CE888D939A4F33E"
+      },
+      {
+        "file": "playwright.config.ts",
+        "sha256": "329A4199CD93058DEB0496C7BC47FE7ECAE5960A649176FB5F384F4A91929FF2"
+      },
+      {
+        "file": "e2e/isolated-test.ts",
+        "sha256": "C7F1C8D96194CF8355F42A3CD4F2F25681F99F5D3B83318B0CF55166D6D233F8"
+      }
+    ]
+  },
+  "db211": {
+    "report": "docs/operations/TRIAL_OWNER_J_DB211.json",
+    "mode": "full",
+    "groups": 30,
+    "passed": 30,
+    "restoreCatalogDifferences": 0,
+    "replayZeroWrites": true
+  },
+  "sdk": {
+    "sources": 327,
+    "queries": 148,
+    "errors": 0
+  },
+  "rpc": {
+    "dispatches": 534,
+    "expectedOwnerOnlyDenials": 8
+  },
+  "reference": {
+    "migrations": 173,
+    "functions": 554,
+    "realtime": 13,
+    "freshIncrementalDifferences": 0,
+    "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-reference211-5cnmV1"
+  },
+  "ownerUpgrade": {
+    "local": true,
+    "appliedAndRecorded": [
+      "209",
+      "210",
+      "211"
+    ],
+    "replayWrites": 0,
+    "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-document-replacement-upgrade211-T9dayA"
+  },
+  "gitleaks": {
+    "findings": 0,
+    "scopeFiles": 77,
+    "exitCode": 0,
+    "scope": "Changed and untracked J files from74cc431"
+  },
+  "pending": [
+    "Exact feature push+PR FULL42 and main FULL42/secrets/merge"
+  ],
+  "ownerDecision": {
+    "costDifference": "approved signed difference remains",
+    "unitDefectException": "approved defective-unit exchange only;unit sales and partial monetary parcel refunds remain forbidden"
+  },
+  "hStarted": false,
+  "updatedAt": "2026-10-23T01:13:12.495Z",
+  "nativeBrowserPartition": {
+    "full": 1448,
+    "core": 454,
+    "packageF": 994,
+    "shards": [
+      200,
+      200,
+      198,
+      198,
+      198
+    ]
+  },
+  "ownerReset": {
+    "local": true,
+    "ok": true,
+    "populatedAftercareLinkBeforeReset": 1,
+    "aftercareEmpty": true,
+    "ownerRetained": true,
+    "verifiedTotpRetained": true,
+    "staffDeleted": true,
+    "storageBytesDeleted": true,
+    "rest208": true,
+    "rest209": true,
+    "rest210": true,
+    "rest211": true,
+    "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-trial-reset-dloYSq",
+    "reportSha256": "986927ed8a9f39d1dfd5dd4ed3f5063a82252b6e0c294665b71cca57b451ff5e"
+  },
+  "types": true,
+  "strictLint": true,
+  "adminBuild": true
+}

@@ -1,0 +1,135 @@
+{
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-aftercare211-NHi3Xg",
+  "managedAccess": false,
+  "mode": "full",
+  "cases": [
+    {
+      "name": "additive211;all old application rows/sequences unchanged;only approved defective replacement admission/physical-leaf proofs changed;financial121 and sale writers unchanged",
+      "passed": true
+    },
+    {
+      "name": "real pre211 shop/return208 cases preserve exact manifests and replay zero writes;old supplier-routed defect cannot classify twice",
+      "passed": true
+    },
+    {
+      "name": "atomic real replacement;original1000 held while new WAC difference remains in profit;one stock out;cash/debts zero;exact replay zero writes",
+      "passed": true
+    },
+    {
+      "name": "owner-only writer/preview/candidates and replay;staff quantitative208 reader no values;anon/service/noRole denied;enrolled MFA enforced before replay",
+      "passed": true
+    },
+    {
+      "name": "private links/helpers deny every client role;former owner cannot replay saved owner request",
+      "passed": true
+    },
+    {
+      "name": "existing208 warehouse receipt restores one historical1000 asset with weighted WAC;no excess or second stock out",
+      "passed": true
+    },
+    {
+      "name": "original more expensive than replacement;writeoff historical2000 once;combined loss exact replacement COGS;no inventory out at refusal",
+      "passed": true
+    },
+    {
+      "name": "three units;partial receipt/refusal/final receipt preserve historical asset and exact profit;dependent send reversal and extra refusal denied",
+      "passed": true
+    },
+    {
+      "name": "replacement-of-replacement uses consumed leaf six-decimal snapshot, not original sale/current WAC;profit retains signed cost difference",
+      "passed": true
+    },
+    {
+      "name": "J5 read-only preview;append-only one-time reclassification;original exact;stock unchanged;new key duplicate refused;exact replay zero writes",
+      "passed": true
+    },
+    {
+      "name": "owner208 reversal offsets classification once without changing original or stock;even reversed source cannot classify twice",
+      "passed": true
+    },
+    {
+      "name": "existing standalone replacement cannot acquire a supplier tail by reusing its canonical key",
+      "passed": true
+    },
+    {
+      "name": "supplier coordinator wins canonical key race;standalone exact replay one issuance/one hold",
+      "passed": true
+    },
+    {
+      "name": "standalone wins canonical key race;supplier tail refuses with one issuance/no hold",
+      "passed": true
+    },
+    {
+      "name": "final defect return converts once at original1000;201 evidence/refund/debts/drawer exact;no second refund or movement",
+      "passed": true
+    },
+    {
+      "name": "dependent current replacement leaf blocks preview and conversion atomically",
+      "passed": true
+    },
+    {
+      "name": "two independent sessions real order-lock wait;one conversion wins and one refuses;exactly one source link",
+      "passed": true
+    },
+    {
+      "name": "invalid supplier/client cost/reason/missing or stale preview all refuse with zero application/sequence writes",
+      "passed": true
+    },
+    {
+      "name": "tampered link evidence fails closed;transaction restores original data and trigger state",
+      "passed": true
+    },
+    {
+      "name": "ordinary parcel_only=false:defective1 exchanges with no money;partial1/9 refund denied;whole10 refund consumes original9@1000+replacement1@1500;historical replay unchanged",
+      "passed": true
+    },
+    {
+      "name": "ordinary parcel_only=true:defective1 exchanges with no money;partial1/9 refund denied;whole10 refund consumes original9@1000+replacement1@1500;historical replay unchanged",
+      "passed": true
+    },
+    {
+      "name": "parcel_only defective unit atomic supplier hold1000 leaves500;replacement-of-replacement1 and historical receipt remain exact",
+      "passed": true
+    },
+    {
+      "name": "full ordinary parcel replacement after unit exchange accepts original9+current replacement1 under same capacity and canonical locks",
+      "passed": true
+    },
+    {
+      "name": "real concurrent whole-parcel vs defective-unit order/source locks;wholeFirst=true;only remaining capacity wins,no extra issue",
+      "passed": true
+    },
+    {
+      "name": "real concurrent whole-parcel vs defective-unit order/source locks;wholeFirst=false;only remaining capacity wins,no extra issue",
+      "passed": true
+    },
+    {
+      "name": "defective parcel-unit supplier hold reversal/replay:historical1000 offset once;issued1500 loss retained;one stock out unchanged",
+      "passed": true
+    },
+    {
+      "name": "ordinary defective-unit issuer keeps owner/admin only;all other roles deny writes;private root helper never callable by clients",
+      "passed": true
+    },
+    {
+      "name": "parcel_only mixed family:one defective component exchanges;flavor inherits parcel-only and single-unit sale still refuses",
+      "passed": true
+    },
+    {
+      "name": "full strict DB lint",
+      "passed": true
+    },
+    {
+      "name": "full roles/owners/ACL/catalog/data/sequences logical restore and owner replay zero writes",
+      "passed": true
+    }
+  ],
+  "migrationCanonicalLfSha256": "b3018e787225a5bebe30e2adec0241d562687886e144c1fe59822a748b9f26a5",
+  "restore": {
+    "logicalCatalogDifferences": 0,
+    "allPublicDataAndSequencesIdentical": true,
+    "replayZeroWrites": true
+  },
+  "ok": true,
+  "endedAt": "2026-10-23T00:41:20.201Z"
+}

@@ -5,7 +5,7 @@ import {trialDItems,trialDDescriptions} from '../e2e/trial-d-receipt.fixture';
 const read=(p:string)=>readFileSync(p,'utf8').replaceAll('\r\n','\n');
 test('210 only replaces same read-only token reader;no grants/table/writer change',()=>{
  const sql=read('supabase/migrations/210_public_pos_receipt_commercial_lines.sql'),state=JSON.parse(read('docs/agent/project-state.json'));
- assert.equal(createHash('sha256').update(sql).digest('hex').toUpperCase(),state.migration210CanonicalLfSha256);assert.equal(state.migrationCeiling,210);
+ assert.equal(createHash('sha256').update(sql).digest('hex').toUpperCase(),state.migration210CanonicalLfSha256);assert.equal(state.migrationCeiling,211);
  assert.equal((sql.match(/CREATE OR REPLACE FUNCTION/g)||[]).length,1);assert.match(sql,/get_public_pos_receipt\(p_receipt_token UUID\)/);assert.match(sql,/STABLE SECURITY DEFINER/);assert.match(sql,/o.public_receipt_token = p_receipt_token/);assert.match(sql,/o.source = 'pos' AND o.status IN \('completed', 'returned'\)/);
  assert.doesNotMatch(sql,/^\s*(?:GRANT|REVOKE|ALTER|INSERT|UPDATE|DELETE|DROP|TRUNCATE)\b/gm);assert.doesNotMatch(sql,/'(?:cost|cogs|profit|wac|customer|id|productId|operationId)[^']*'/i);
  assert.match(sql,/oi.commercial_line_kind/);assert.match(sql,/c.product_name_snapshot/);assert.match(sql,/c.base_quantity/);assert.doesNotMatch(sql,/JOIN public.products|FROM public.products/);
