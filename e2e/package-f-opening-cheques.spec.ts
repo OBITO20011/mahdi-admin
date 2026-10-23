@@ -4,10 +4,11 @@ import {checkLayout} from './package-f-layout';
 import {analyzePackageFAccessibility} from './package-f-accessibility';
 import {writeXlsx,XLSX_MIME} from '../src/lib/xlsx';
 import {openingChequeTemplateRows} from '../src/features/goLive/openingChequesImport';
+import {chooseOpeningMainBranch} from './opening-cheque-readiness';
 
 const url=(theme:string)=>`/e2e/package-f-go-live-harness.html?seeded=1&theme=${theme}`;
 const card=(page:Page)=>page.getByTestId('go-live-card-cheques');
-async function branch(page:Page){const c=page.getByTestId('go-live-main-branch');await c.getByRole('combobox').selectOption('golive-branch');await c.getByRole('button').click();}
+const branch=chooseOpeningMainBranch;
 async function audit(page:Page){await checkLayout(page,card(page));expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  const result=await analyzePackageFAccessibility(page,new AxeBuilder({page}).include('[data-testid="go-live-page"]'));expect(result.violations.filter(v=>['serious','critical'].includes(v.impact??''))).toEqual([]);
  await expect(card(page)).not.toContainText(/[٠-٩]/u);

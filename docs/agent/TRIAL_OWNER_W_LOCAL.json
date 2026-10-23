@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 1,
+  "package": "W",
+  "baseline": "e96efc13ebf27b82217b856f8e6152de8bcc6c55",
+  "branch": "codex/trial-owner-w",
+  "migrationCeiling": 211,
+  "managedAccess": false,
+  "deployed": false,
+  "scope": [
+    "W1",
+    "W4",
+    "W5",
+    "W5+",
+    "W3"
+  ],
+  "deferred": [
+    "W2 by explicit owner decision; no migration212"
+  ],
+  "gates": {
+    "adminUnits": {
+      "passed": 1376,
+      "failed": 0,
+      "skipped": 0
+    },
+    "customerUnits": {
+      "passed": 197,
+      "failed": 0
+    },
+    "typecheck": true,
+    "strictLint": true,
+    "adminBuild": true,
+    "isolatedCustomerBuildAndSeo": true,
+    "browser": {
+      "affectedIdentities": 370,
+      "firstBatch": {
+        "passed": 369,
+        "failed": 1,
+        "reason": "Synthetic branch choice before initial effect reconciliation; trace preserved"
+      },
+      "finalAffectedSubset": {
+        "passed": 68,
+        "failed": 0,
+        "retries": 0,
+        "engines": [
+          "Chromium",
+          "WebKit"
+        ],
+        "measurement": "Waits for completed modal open state and fonts;original44/96px bounds unchanged"
+      },
+      "allOriginalAndNewCasesCovered": true,
+      "viewport390": true,
+      "barcode1440": true,
+      "physicalIphoneKeyboard": false
+    },
+    "sdk": {
+      "sources": 328,
+      "successfulQueries": 148,
+      "sqlErrors": 0
+    },
+    "rpc": {
+      "dispatches": 534,
+      "expectedOwnerOnlyDenials": 8,
+      "functionDefinitionsUnchanged": true
+    },
+    "network": {
+      "externalRequestsEscaped": 0,
+      "productionRequestsEscaped": 0
+    },
+    "hintOnlyAst": {
+      "checked": 30,
+      "hintsOnly": [
+        "src/components/modals/UnitsModal.tsx",
+        "src/components/ui/CashDenominationCounter.tsx",
+        "src/components/ui/Controls.tsx",
+        "src/components/ui/ReceivingUnitFields.tsx",
+        "src/features/accounts/RecordCustomerPaymentModal.tsx",
+        "src/features/cheques/ChequeRegistrationForm.tsx",
+        "src/features/cheques/ChequesView.tsx",
+        "src/features/crm/AddAddressModal.tsx",
+        "src/features/crm/CustomerCollectionModal.tsx",
+        "src/features/directReceiving/CreateDirectReceiptModal.tsx",
+        "src/features/directReceiving/RecordSupplierPaymentModal.tsx",
+        "src/features/expenses/ExpenseFormModal.tsx",
+        "src/features/goLive/GoLiveSetupView.tsx",
+        "src/features/goLive/OpeningChequesCard.tsx",
+        "src/features/inventory/InventoryOpeningSetupModal.tsx",
+        "src/features/inventory/StockCountModal.tsx",
+        "src/features/inventory/WarehouseTransferModal.tsx",
+        "src/features/more/ParcelConfigurationModal.tsx",
+        "src/features/more/PromotionCodesModal.tsx",
+        "src/features/more/StorefrontSettingsModal.tsx",
+        "src/features/orders/EditAddressModal.tsx",
+        "src/features/orders/OrderDetailModal.tsx",
+        "src/features/pos/PosParcelBuilder.tsx",
+        "src/features/products/ProductCostCorrectionPanel.tsx",
+        "src/features/products/StockAdjustmentModal.tsx",
+        "src/features/purchases/CreatePurchaseOrderModal.tsx",
+        "src/features/purchases/ReceiveGoodsModal.tsx",
+        "src/features/purchases/SupplierPaymentModal.tsx",
+        "src/features/shifts/OwnerWithdrawalsPanel.tsx",
+        "src/features/shifts/ShiftsView.tsx"
+      ],
+      "different": []
+    },
+    "realPos8": {
+      "passed": 8,
+      "browsers": [
+        "Chromium",
+        "WebKit"
+      ],
+      "realPublicRpc": true,
+      "realIsolatedDatabase": true,
+      "productionRequests": 0
+    },
+    "gitleaks": {
+      "exitCode": 0,
+      "scope": "all changed and non-ignored untracked files",
+      "files": 72
+    },
+    "exactCi": "pending",
+    "nativeBrowserDiscovery": {
+      "full": 1500,
+      "core": 454,
+      "packageF": 1046,
+      "shards": [
+        210,
+        210,
+        210,
+        208,
+        208
+      ],
+      "identitiesSha256": "c094919a04621d67eab709d9cdcc57460edc8851bcd5c0668462100c30499d72"
+    }
+  },
+  "logs": [
+    {
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp\\trial-w-affected-browser-final.log",
+      "sha256": "04584f855c967ec67f42674b3258c3e05a90644cfc2e6939c4a6ae693cfffa14"
+    },
+    {
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp\\trial-w-browser-acceptance.log",
+      "sha256": "b22f833ec1d34868171d801f106775791a8446eb85b6586c350fa711e9248e0e"
+    },
+    {
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp\\trial-w-all-admin-accepted.log",
+      "sha256": "5eaf80f5efdc3d8f3a106b0b6526fde8f7513ec8f076bb755233ed4c2bb0d3bf"
+    },
+    {
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp\\trial-w-final-types.log",
+      "sha256": "91b00536c6650e03c6bd8bfeebeccef00d12da68e0c3dc72b8a126a2540da2da"
+    },
+    {
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp\\trial-w-types-final3.log",
+      "sha256": "91b00536c6650e03c6bd8bfeebeccef00d12da68e0c3dc72b8a126a2540da2da"
+    },
+    {
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp\\trial-w-lint-accepted.log",
+      "sha256": "9fd44403fa50d3921aad2357d34f9b6d706c4e91743ed978d828ecd1e4f08a6e"
+    },
+    {
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp\\trial-w-admin-build-final.log",
+      "sha256": "01145980602dc8944ec0a9bd7fda0198585f3075c19160ddc229b19814284b3a"
+    },
+    {
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp\\trial-w-customer-build.log",
+      "sha256": "a99f7f0581fb047612661ed3da17875402de030231c764a4200bdffb3eb48b56"
+    },
+    {
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp\\trial-w-customer-units.log",
+      "sha256": "486f2b799b5c83d1cb7947b556d558d2fc325d7e598ac6d8a26ce803b58fc1e4"
+    },
+    {
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp\\trial-w-sdk211-final.log",
+      "sha256": "9e6f95db42624aa5512e14a952f060906c80571d2e1df21ebb17649f803800fb"
+    },
+    {
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp\\trial-w-rpc211-final.log",
+      "sha256": "1360bd2fd362ac3d357ac7a52b3474813888d905b556d50d25b02ba44eb0b632"
+    },
+    {
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp\\trial-w-isolation.log",
+      "sha256": "085dcc4e02dfd9be4196d2c270b5b8a7fe22c256d117f808ca1f1b5229d8d1f5"
+    },
+    {
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp\\trial-w-real-pos8.log",
+      "sha256": "6182a0d47d6f8d092d60d76f7efa0a89d27b0e3e331af8594f3f4152c11de4be"
+    },
+    {
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp\\trial-w-native-discovery.json",
+      "sha256": "d34be2ad0933ce65dbdc78dfe9b417669df784db96f16272ff0c2c7d079c00e7"
+    }
+  ],
+  "visualEvidence": "C:\\Users\\TOP\\AppData\\Local\\Temp\\trial-w-final-qa",
+  "notes": [
+    "All old migrations and historical pin JSON files unchanged",
+    "Actual current SDK/RPC proofs refreshed independently; no stale historical readiness relabelled",
+    "Historical comparisons now compose exact W inverse before comparing the same old expected bytes and thresholds",
+    "No retries/skips/worker/deadline increases; modal geometry waits for actual open state and fonts"
+  ],
+  "sourceInverseFiles": 50
+}

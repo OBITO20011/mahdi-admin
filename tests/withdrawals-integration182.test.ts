@@ -1,3 +1,4 @@
+import {trialWPins} from '../scripts/audit/source-before-trial-owner-w.mjs';
 import {navigation206Pins} from '../scripts/audit/source-before-navigation-cash206.mjs';
 import {parcel209Pins} from '../scripts/audit/source-before-parcel209.mjs';
 import {receiving205Pins} from '../scripts/audit/source-before-product-receiving205.mjs';
@@ -22,10 +23,11 @@ for(const file of withdrawals182Files)test('withdrawals182 exact approved additi
  else if(['src/features/goLive/GoLiveSetupView.tsx','src/features/reports/ReportsCenterView.tsx'].includes(file))
   assert.throws(()=>approvedWithdrawals182Source(file,outside),/TERMINOLOGY_ENTIRE_CURRENT_FILE_CHANGED/u,'whole-file terminology pin rejects unapproved logic before normalization');
  else if(Object.hasOwn(parcel209Pins,file))assert.throws(()=>approvedWithdrawals182Source(file,outside),/PARCEL209_ENTIRE_CURRENT_FILE_CHANGED/u,'new exact209 whole-file pin rejects extra logic');
+ else if(Object.hasOwn(trialWPins,file))assert.throws(()=>approvedWithdrawals182Source(file,outside),new RegExp(trialWPins[file].errorPrefix),'W exact entire-file guard rejects extra logic');
  else assert.notEqual(approvedWithdrawals182Source(file,outside),before,'Unapproved logic outside an approved hunk must remain visible');
 });
 test('withdrawals182 mapping rejects changed approved RPC arguments or money,not a blanket source exemption',()=>{
  const file='src/features/purchases/SupplierPaymentModal.tsx',source=readFileSync(file,'utf8');
  const marker="drawer.confirmCash(Number(amount), paymentMethod === 'cash')";assert.ok(source.includes(marker));
- assert.throws(()=>approvedWithdrawals182Source(file,source.replace(marker,"drawer.confirmCash(Number(amount)+1, paymentMethod === 'cash')")),/EXACT_APPROVED_WITHDRAWALS_HUNK/u);
+ assert.throws(()=>approvedWithdrawals182Source(file,source.replace(marker,"drawer.confirmCash(Number(amount)+1, paymentMethod === 'cash')")),Object.hasOwn(trialWPins,file)?new RegExp(trialWPins[file].errorPrefix):/EXACT_APPROVED_WITHDRAWALS_HUNK/u);
 });

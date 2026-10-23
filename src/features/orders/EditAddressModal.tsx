@@ -259,7 +259,7 @@ export const EditAddressModal: React.FC<EditAddressModalProps> = ({
               </UiButton>
             </div>
             <div className="grid grid-cols-2 gap-2">
-              <input
+              <input inputMode="decimal" enterKeyHint="next"
                 type="number"
                 step="any"
                 value={latitude}
@@ -267,7 +267,7 @@ export const EditAddressModal: React.FC<EditAddressModalProps> = ({
                 placeholder="خط العرض"
                 className="rounded-xl border border-nw-border bg-nw-surface p-2 text-nw-text"
               />
-              <input
+              <input inputMode="decimal" enterKeyHint="next"
                 type="number"
                 step="any"
                 value={longitude}

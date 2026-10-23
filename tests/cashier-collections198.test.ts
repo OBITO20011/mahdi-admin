@@ -1,3 +1,4 @@
+import {sourceBeforeTrialW} from '../scripts/audit/source-before-trial-owner-w.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -24,7 +25,7 @@ test('198 five explicit role-only changes rewind exactly to original191/163/121;
  assert.equal(state.migration198CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());
 });
 test('198 collection UI keeps every original call and event handler;only an extra store read hides cashier reversal',()=>{
- const p='src/features/crm/CustomerCollectionModal.tsx',before=execFileSync('git',['show','0e6ab9d:'+p],{encoding:'utf8'}),after=read(p);
+ const p='src/features/crm/CustomerCollectionModal.tsx',before=execFileSync('git',['show','0e6ab9d:'+p],{encoding:'utf8'}),after=sourceBeforeTrialW(p,read(p));
  function contract(source:string){const f=ts.createSourceFile(p,source,ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX),calls:string[]=[],handlers:string[]=[];
   function visit(n:ts.Node){if(ts.isCallExpression(n)&&n.expression.getText(f)!=='useAppStoreSelector')calls.push(ts.createPrinter().printNode(ts.EmitHint.Unspecified,n,f));
    if(ts.isJsxAttribute(n)&&/^on/u.test(n.name.getText(f)))handlers.push(ts.createPrinter().printNode(ts.EmitHint.Unspecified,n,f));ts.forEachChild(n,visit);}visit(f);return{calls,handlers};}

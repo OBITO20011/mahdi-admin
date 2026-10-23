@@ -710,7 +710,7 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
                               </div>
                             </Td>
                             <Td className="p-3">
-                              <input aria-label="الكمية المطلوبة"
+                              <input inputMode="numeric" enterKeyHint="next" aria-label="الكمية المطلوبة"
                                 type="number"
                                 min="1"
                                 value={item.orderedQuantity}
@@ -721,7 +721,7 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
                               />
                             </Td>
                             <Td className="p-3">
-                              <input aria-label="سعر الشراء"
+                              <input inputMode="decimal" enterKeyHint="next" aria-label="سعر الشراء"
                                 type="number"
                                 step="0.001"
                                 min="0"
@@ -733,7 +733,7 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
                               />
                             </Td>
                             <Td className="p-3">
-                              <input aria-label="خصم السطر"
+                              <input inputMode="decimal" enterKeyHint="next" aria-label="خصم السطر"
                                 type="number"
                                 step="0.001"
                                 min="0"
@@ -805,7 +805,7 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
               <div className="flex items-center justify-between gap-2">
                 <span className="text-nw-muted">خصم إضافي على الفاتورة:</span>
                 <div className="flex items-center gap-1 w-32">
-                  <input aria-label="خصم الفاتورة"
+                  <input inputMode="decimal" enterKeyHint="next" aria-label="خصم الفاتورة"
                     type="number"
                     step="0.001"
                     min="0"
@@ -820,7 +820,7 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
               <div className="flex items-center justify-between gap-2">
                 <span className="text-nw-muted">رسوم الشحن والتوصيل:</span>
                 <div className="flex items-center gap-1 w-32">
-                  <input aria-label="رسوم التوصيل"
+                  <input inputMode="decimal" enterKeyHint="next" aria-label="رسوم التوصيل"
                     type="number"
                     step="0.001"
                     min="0"

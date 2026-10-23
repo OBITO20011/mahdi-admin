@@ -288,7 +288,7 @@ export const SupplierPaymentModal = ({
               </UiButton>
             </label>
             <div className="relative">
-              <input aria-label="0.000"
+              <input inputMode="decimal" enterKeyHint="next" aria-label="0.000"
                 type="number"
                 step="0.001"
                 min="0.001"

@@ -10,7 +10,7 @@ import type {ReplacementAttempt} from '../../services/supabase/supplierReplaceme
 import {canUseSupplierReplacement,replacementMoney,type SupplierReplacementAction,type SupplierReplacementCase,type SupplierReplacementPage,type SupplierReplacementPayload} from '../../utils/supplierReplacement';
 
 const eventLabels:Record<string,string>={send:'إرسال للمورد',immediate:'استبدال فوري',receive:'استلام البديل',writeoff:'رفض المورد',damage:'تلف نهائي',reverse:'عكس حدث'};
-type CaseSelection={action:'receive'|'writeoff';item:SupplierReplacementCase}|{action:'reverse';eventId:string};
+type CaseSelection={action:'receive'|'writeoff';item:SupplierReplacementCase}|{action:'reverse';eventId:string;item:SupplierReplacementCase};
 export interface SupplierReplacementPanelProps {productId?:string;supplierId?:string;damageOnly?:boolean}
 export function SupplierReplacementPanel({productId:initialProductId,supplierId:initialSupplierId,damageOnly=false}:SupplierReplacementPanelProps) {
   const {user,roles,roleName}=useAuthStore(),owner=roles.includes('owner')||roleName==='owner';
@@ -22,8 +22,8 @@ export function SupplierReplacementPanel({productId:initialProductId,supplierId:
   const [productSearch,setProductSearch]=useState(''),[supplierSearch,setSupplierSearch]=useState(''),[quantity,setQuantity]=useState('1'),[unit,setUnit]=useState('base');
   const [reason,setReason]=useState(''),[reasonCode,setReasonCode]=useState('shop_breakage');
   const [selection,setSelection]=useState<CaseSelection|null>(null);
-  const reasonInput=useRef<HTMLTextAreaElement>(null);
-  useEffect(()=>{if(selection)reasonInput.current?.focus();},[selection]);
+  const reasonInput=useRef<HTMLTextAreaElement>(null),quantityInput=useRef<HTMLInputElement>(null),actionPanel=useRef<HTMLDivElement>(null);
+  useEffect(()=>{if(selection){actionPanel.current?.scrollIntoView({block:'nearest'});actionPanel.current?.focus({preventScroll:true});}},[selection]);
   const [options,setOptions]=useState<ReplacementOptions|null>(null),[page,setPage]=useState<SupplierReplacementPage|null>(null),[pageNo,setPageNo]=useState(1);
   const [error,setError]=useState(''),[optionsError,setOptionsError]=useState(''),[busy,setBusy]=useState(false),[revision,setRevision]=useState(0);
   const [attempt,setAttempt]=useState<ReplacementAttempt|null>(null),[recoveryReady,setRecoveryReady]=useState(false);
@@ -53,12 +53,14 @@ export function SupplierReplacementPanel({productId:initialProductId,supplierId:
   },[tab,pageNo,supplierAllowed,initialSupplierId,user?.id,roleKey,revision]);
   if(!damageAllowed)return <p role="alert">لا تملك صلاحية الاستبدال أو تسجيل التلف.</p>;
   const product=options?.products.find(p=>p.id===productId);
-  const quantityUnit=selection&&'item' in selection?selection.item.baseUnitName:product?.baseUnitName??'باكيت';
   const chooseProduct=(id:string)=>{setProductId(id);const last=options?.lastSuppliers.find(v=>v.productId===id);if(!initialSupplierId&&last?.supplierId&&options?.suppliers.some(s=>s.id===last.supplierId))setSupplierId(last.supplierId);};
   const formPayload=():SupplierReplacementPayload=>{
     const amount=Number(quantity),damageReason=({shop_breakage:'انكسر بالمحل',expired:'انتهت الصلاحية',storage_damage:'تلف تخزين',other:''} as Record<string,string>)[reasonCode];
     const finalReason=reason.trim()||(action==='shop_damage'?damageReason:'');
-    if(!Number.isSafeInteger(amount)||amount<1||!productId||!warehouseId||finalReason.length<3)throw new Error('اختر الصنف وأكمل الكمية والمستودع والسبب؛ تحتاج «أخرى» إلى ملاحظة.');
+    if(!productId)throw new Error('الصنف: اختر الصنف.');
+    if(!warehouseId)throw new Error('المستودع: اختر المستودع.');
+    if(!Number.isSafeInteger(amount)||amount<1)throw new Error('العدد: أدخل عدداً صحيحاً أكبر من صفر.');
+    if(finalReason.length<3)throw new Error('سبب العملية: اكتب 3 أحرف على الأقل؛ تحتاج «أخرى» إلى ملاحظة.');
     if(action!=='shop_damage'&&!supplierId)throw new Error('اختر المورد.');
     return {productId,warehouseId,quantity:amount,unit,reason:finalReason,...(action==='shop_damage'?{reasonCode}:{supplierId})};
   };
@@ -80,18 +82,43 @@ export function SupplierReplacementPanel({productId:initialProductId,supplierId:
     finally{working.current=false;if(current===version.current){try{setAttempt(await supplierReplacementRecovery(scope));}catch(cause){setRecoveryReady(false);setError(cause instanceof Error?cause.message:'تعذر قراءة المحاولة.');}setBusy(false);}}
   };
   const caseAction=(c:SupplierReplacementCase,next:'receive'|'writeoff')=>{
-    const qty=Number(quantity);if(!Number.isSafeInteger(qty)||qty<1||reason.trim().length<3){setError('أكمل كمية العملية وسببها.');return;}
+    const qty=Number(quantity);if(!Number.isSafeInteger(qty)||qty<1){setError('العدد: أدخل عدداً صحيحاً أكبر من صفر.');quantityInput.current?.focus();return;}
+    if(qty>c.pendingQuantity){setError('العدد: لا يتجاوز المعلّق المتبقي ('+c.pendingQuantity+' '+c.baseUnitName+').');quantityInput.current?.focus();return;}
+    if(reason.trim().length<3){setError('سبب العملية: اكتب 3 أحرف على الأقل.');reasonInput.current?.focus();return;}
     void inspect({action:next,payload:{caseId:c.id,quantity:qty,reason:reason.trim()},label:next==='receive'?'استلام البديل':'تحويل المعلّق إلى خسارة'});
   };
   const previewSelection=()=>{
     if(!selection)return;
+    if(reason.trim().length<3){setError('سبب العملية: اكتب 3 أحرف على الأقل.');reasonInput.current?.focus();return;}
     if(selection.action==='reverse')void inspect({action:'reverse',payload:{eventId:selection.eventId,reason:reason.trim()},label:'عكس الحدث'});
     else caseAction(selection.item,selection.action);
   };
+  const openCase=(item:SupplierReplacementCase,next:'receive'|'writeoff'|'reverse',eventId?:string,inspectAll=false)=>{
+    if(working.current||unresolved||!recoveryReady)return;
+    const defaultReason=next==='receive'?'وصل البديل من المورد':'';
+    setSelection(next==='reverse'?{action:next,item,eventId:eventId!}:{action:next,item});
+    setQuantity(String(item.pendingQuantity));setReason(defaultReason);setPreview(null);setDraft(null);setError('');
+    if(inspectAll)void inspect({action:'receive',payload:{caseId:item.id,quantity:item.pendingQuantity,reason:defaultReason},label:'استلام كل المتبقي'});
+  };
+  const renderPreview=()=>draft&&preview?<Card className="space-y-3" data-testid="replacement-preview"><p className="font-bold">{draft.label}</p>
+      {preview.eligible?<><p className="text-sm">الكمية: {String(draft.payload.quantity??'كما في الحدث الأصلي')} · السبب: {String(draft.payload.reason)}</p>{owner&&typeof preview.valueInMinorUnitsExact==='string'&&<MoneyText amount={replacementMoney(preview.valueInMinorUnitsExact)} currency/>}<UiButton disabled={busy||unresolved} onClick={()=>void execute()}>{draft.action==='receive'?'تأكيد الاستلام':draft.action==='writeoff'?'تأكيد رفض المورد':draft.action==='reverse'?'تأكيد العكس':'تأكيد وحفظ العملية'}</UiButton></>:<RejectionNotice reason={preview.blockedReason}/>}
+      <UiButton disabled={busy} onClick={()=>{setPreview(null);setDraft(null);}}>إلغاء المعاينة</UiButton>
+    </Card> : null;
+  const renderCaseWorkflow=()=>selection&&<FormFields ref={actionPanel} tabIndex={-1} role="region" aria-label="تفاصيل عملية المعلّق" className="space-y-3 rounded-xl border border-nw-border p-3" data-testid="replacement-case-workflow">
+    <p className="font-bold">{selection.action==='reverse'?'عكس الحدث':selection.action==='receive'?'استلام البديل':'رفض المورد'} · {selection.item.productName}</p>
+    {error&&<RejectionNotice reason={error}/>}
+    <fieldset className="space-y-3" disabled={busy||unresolved||!recoveryReady||Boolean(draft)}>
+      {selection.action!=='reverse'&&<label className="block text-sm">العدد ({selection.item.baseUnitName})<input enterKeyHint="next" ref={quantityInput} inputMode="numeric" type="number" min="1" max={selection.item.pendingQuantity} step="1" value={quantity} onChange={e=>{setQuantity(e.target.value);setError('');}}/></label>}
+      <label className="block text-sm"><span>سبب العملية</span><textarea aria-label="سبب العملية" ref={reasonInput} maxLength={500} value={reason} onChange={e=>{setReason(e.target.value);setError('');}}/></label>
+      {!draft&&<UiButton onClick={previewSelection}>معاينة التفاصيل</UiButton>}
+    </fieldset>
+    {renderPreview()}
+    {!draft&&<UiButton disabled={busy} onClick={()=>{setSelection(null);setError('');}}>إلغاء العملية</UiButton>}
+  </FormFields>;
   return <div dir="rtl" aria-busy={busy} data-testid="supplier-replacement-panel" className="space-y-4">
     {supplierAllowed&&!damageOnly&&<div className="flex flex-wrap gap-2">{([['new','عملية جديدة'],['pending','المعلّق'],['history','السجل']] as const).map(([value,label])=><UiButton key={value} disabled={busy} onClick={()=>{setTab(value);setPageNo(1);setPreview(null);setDraft(null);setSelection(null);setError('');}}>{label}</UiButton>)}</div>}
     <p className="text-sm text-nw-muted">{damageOnly?'سجّل العدد التالف بالوحدة الظاهرة للصنف، واختر سبب التلف.':'تبديل بنفس الصنف والعدد، بلا دفعة أو دين للمورد. البضاعة المعلّقة ليست جاهزة للبيع؛ عند استلامها تعود بتكلفتها وقت الإرسال.'}</p>
-    {error&&<RejectionNotice reason={error}><UiButton disabled={busy} onClick={()=>{setError('');setRevision(n=>n+1);}}>تحديث القراءة</UiButton></RejectionNotice>}
+    {error&&!selection&&<RejectionNotice reason={error}><UiButton disabled={busy} onClick={()=>{setError('');setRevision(n=>n+1);}}>تحديث القراءة</UiButton></RejectionNotice>}
     {!recoveryReady?<p role="status">جاري التحقق من سجل المحاولة…</p>:attempt&&<Card className="space-y-2" data-testid="replacement-recovery">
       <p className="text-sm">{unresolved?'لم تتأكد نتيجة الحفظ بعد. استعد نفس المحاولة قبل تسجيل عملية جديدة.':attempt.status==='succeeded'?'آخر عملية محفوظة. يمكنك معاينة عملية جديدة.':'آخر محاولة مرفوضة؛ راجع البيانات قبل عملية جديدة.'}</p>
       {attempt.status!=='rejected'&&<UiButton disabled={busy} onClick={()=>void execute(true)}>استعادة نفس المحاولة</UiButton>}
@@ -110,31 +137,28 @@ export function SupplierReplacementPanel({productId:initialProductId,supplierId:
         </>}
       </fieldset>
     </FormFields>}
-    {(tab==='new'||selection&&(selection.action==='receive'||owner))&&<FormFields><fieldset className="space-y-3" disabled={busy||unresolved||!recoveryReady||Boolean(draft)}>
-      {selection&&<p className="font-bold">{selection.action==='reverse'?'سبب عكس العملية':`${selection.action==='receive'?'استلام جزئي':'رفض المورد'} · ${selection.item.productName}`}</p>}
-      {selection?.action!=='reverse'&&<label className="block text-sm">{tab==='new'?'العدد':`العدد (${quantityUnit})`}<input inputMode="numeric" type="number" min="1" step="1" value={quantity} onChange={e=>{setQuantity(e.target.value);setPreview(null);setDraft(null);}}/></label>}
+    {tab==='new'&&<FormFields><fieldset className="space-y-3" disabled={busy||unresolved||!recoveryReady||Boolean(draft)}>
+      <label className="block text-sm">العدد<input enterKeyHint="next" inputMode="numeric" type="number" min="1" step="1" ref={quantityInput} value={quantity} onChange={e=>{setQuantity(e.target.value);setPreview(null);setDraft(null);}}/></label>
       <label className="block text-sm">{action==='shop_damage'?'ملاحظة التلف':'سبب العملية'}<textarea ref={reasonInput} required={action==='shop_damage'&&reasonCode==='other'} maxLength={500} value={reason} onChange={e=>{setReason(e.target.value);setPreview(null);setDraft(null);}}/></label>
-      {selection&&<UiButton disabled={reason.trim().length<3} onClick={previewSelection}>معاينة التفاصيل</UiButton>}
     </fieldset></FormFields>}
     {tab==='new'&&<UiButton disabled={busy||unresolved||!recoveryReady||!options} onClick={()=>void inspect()}>معاينة العملية</UiButton>}
     {tab!=='new'&&(page?<>
       <SupplierReplacementQuantities data={page}/>{owner&&page.pendingValueInMinorUnitsExact!==undefined&&<p className="text-sm">القيمة الإجمالية للمعلّق: <MoneyText amount={replacementMoney(page.pendingValueInMinorUnitsExact)} currency /></p>}
-      {page.cases.length===0?<p role="status">لا توجد عمليات مطابقة.</p>:page.cases.map(c=><Card key={c.id} className="space-y-2">
+      {page.cases.length===0?<p role="status">لا توجد عمليات مطابقة.</p>:page.cases.map(c=><Card key={c.id} className="space-y-2" data-testid="replacement-case">
         <p className="font-bold">{c.productName} · {c.supplierName??'تلف المحل'}</p><p className="text-sm">المعلّق {c.pendingQuantity} {c.baseUnitName} · استُلم {c.receivedQuantity} {c.baseUnitName} · رُفض {c.writtenOffQuantity} {c.baseUnitName}</p>
         <p className="text-xs text-nw-muted">منذ {formatUiDate(c.occurredAt,{day:'numeric',month:'short',year:'numeric'})}</p>
         {owner&&c.pendingValueInMinorUnitsExact!==undefined&&<p className="text-sm">قيمة الأصل المعلّق: <MoneyText amount={replacementMoney(c.pendingValueInMinorUnitsExact)} currency /></p>}
-        {c.pendingQuantity>0&&<div className="flex flex-wrap gap-2"><UiButton disabled={busy||unresolved} onClick={()=>{setSelection(null);setQuantity(String(c.pendingQuantity));void inspect({action:'receive',payload:{caseId:c.id,quantity:c.pendingQuantity,reason:reason.trim()||'استلام بديل المورد'},label:'استلام كل المتبقي'});}}>استلام المتبقي ({c.pendingQuantity})</UiButton><UiButton disabled={busy||unresolved} onClick={()=>{setSelection({action:'receive',item:c});setQuantity(String(c.pendingQuantity));setPreview(null);setDraft(null);}}>معاينة استلام جزئي</UiButton></div>}
+        {c.pendingQuantity>0&&<div className="flex flex-wrap gap-2"><UiButton disabled={busy||unresolved} onClick={()=>openCase(c,'receive',undefined,true)}>استلام المتبقي ({c.pendingQuantity})</UiButton><UiButton disabled={busy||unresolved} onClick={()=>openCase(c,'receive')}>معاينة استلام جزئي</UiButton></div>}
+        {selection?.item.id===c.id&&selection.action==='receive'&&renderCaseWorkflow()}
         <details><summary className="min-h-11 cursor-pointer text-sm">⋯ السجل{owner?' والخسارة والعكس':''}</summary>
-          {owner&&c.pendingQuantity>0&&<UiButton disabled={busy||unresolved} onClick={()=>{setSelection({action:'writeoff',item:c});setQuantity(String(c.pendingQuantity));setPreview(null);setDraft(null);}}>معاينة رفض المورد</UiButton>}
+          {owner&&c.pendingQuantity>0&&<UiButton disabled={busy||unresolved} onClick={()=>openCase(c,'writeoff')}>معاينة رفض المورد</UiButton>}
+          {selection?.item.id===c.id&&selection.action==='writeoff'&&renderCaseWorkflow()}
           <ul className="space-y-2">{c.events.map(e=><li key={e.id} className="text-sm">{eventLabels[e.action]} · {e.quantity} {c.baseUnitName} · {formatUiDate(e.occurredAt,{day:'numeric',month:'short',year:'numeric'})}{e.isReversed?' · معكوس':''}
-            {owner&&e.reason&&<p className="text-xs text-nw-muted">{e.reason}</p>}{owner&&!e.isReversed&&e.action!=='reverse'&&<UiButton disabled={busy||unresolved} onClick={()=>{setSelection({action:'reverse',eventId:e.id});setPreview(null);setDraft(null);}}>معاينة العكس</UiButton>}</li>)}</ul>
+            {owner&&e.reason&&<p className="text-xs text-nw-muted">{e.reason}</p>}{owner&&!e.isReversed&&e.action!=='reverse'&&<UiButton disabled={busy||unresolved} onClick={()=>openCase(c,'reverse',e.id)}>معاينة العكس</UiButton>}{selection?.action==='reverse'&&selection.eventId===e.id&&renderCaseWorkflow()}</li>)}</ul>
         </details>
       </Card>)}
       <div className="flex gap-2"><UiButton disabled={busy||pageNo===1} onClick={()=>{setSelection(null);setPageNo(n=>n-1);}}>السابق</UiButton><span>{pageNo}</span><UiButton disabled={busy||pageNo*25>=page.totalCount} onClick={()=>{setSelection(null);setPageNo(n=>n+1);}}>التالي</UiButton></div>
     </>:!error&&<p role="status">جاري قراءة السجل…</p>)}
-    {draft&&preview&&<Card className="space-y-3" data-testid="replacement-preview"><p className="font-bold">{draft.label}</p>
-      {preview.eligible?<><p className="text-sm">الكمية: {String(draft.payload.quantity??'كما في الحدث الأصلي')} · السبب: {String(draft.payload.reason)}</p>{owner&&typeof preview.valueInMinorUnitsExact==='string'&&<MoneyText amount={replacementMoney(preview.valueInMinorUnitsExact)} currency/>}<UiButton disabled={busy||unresolved} onClick={()=>void execute()}>تأكيد وحفظ العملية</UiButton></>:<RejectionNotice reason={preview.blockedReason}/>}
-      <UiButton disabled={busy} onClick={()=>{setPreview(null);setDraft(null);}}>إلغاء المعاينة</UiButton>
-    </Card>}
+    {tab==='new'&&renderPreview()}
   </div>;
 }

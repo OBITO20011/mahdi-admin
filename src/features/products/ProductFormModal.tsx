@@ -101,6 +101,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   onClose,
   startBarcodeScanner,
 }) => {
+  const imageUploadInput=useRef<HTMLInputElement>(null),cameraImageInput=useRef<HTMLInputElement>(null);
   const {
     categories,
     units,
@@ -924,21 +925,20 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           </span>
         </div>
 
-        <div className="space-y-3 p-3.5">
-          <div className="flex items-start gap-3">
-            <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-nw-border bg-nw-surface-2">
-              {imagePreviewSource && !imageFailed ? (
-                <img
-                  src={imagePreviewSource}
-                  alt={nameAr ? `صورة ${nameAr}` : 'معاينة صورة المنتج'}
-                  onError={() => setImageFailed(true)}
-                  className="h-full w-full object-cover"
-                />
-              ) : (
-                <Image className="h-6 w-6 text-nw-muted" />
-              )}
+        <div className="space-y-3 p-3.5" data-testid="product-identity-fields">
+          <div className="flex min-w-0 items-start gap-3">
+            <div className="w-24 shrink-0 space-y-2">
+              <UiButton type="button" variant="plain" aria-label="اختيار صورة المنتج" style={{height:96}} onClick={()=>imageUploadInput.current?.click()}
+                className="relative h-24 w-24 overflow-hidden rounded-2xl border border-nw-border bg-nw-surface-2 p-0">
+                {imagePreviewSource&&!imageFailed?<img src={imagePreviewSource} alt={nameAr?'صورة '+nameAr:'معاينة صورة المنتج'} onError={()=>setImageFailed(true)} className="h-full w-full object-cover"/>:<Image className="h-7 w-7 text-nw-muted"/>}
+                <span className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-1 bg-nw-surface/90 py-1 text-xs text-nw-text"><Upload className="h-3 w-3"/>{selectedImageFile||imageUrl?'تغيير الصورة':'صورة اختيارية'}</span>
+              </UiButton>
+              <input ref={imageUploadInput} id="product-image-upload" aria-label="صورة المنتج من الاستديو" type="file" accept="image/*" onChange={handleImageSelection} className="sr-only"/>
+              <UiButton type="button" variant="plain" onClick={()=>cameraImageInput.current?.click()} className="w-full gap-1 px-1 text-xs sm:hidden" aria-label="تصوير صورة المنتج بالكاميرا"><Camera className="h-4 w-4"/>الكاميرا</UiButton>
+              <input ref={cameraImageInput} id="product-image-camera" aria-label="صورة المنتج بالكاميرا" type="file" accept="image/*" capture="environment" onChange={handleImageSelection} className="sr-only"/>
             </div>
-            <div className="flex-1 space-y-1.5">
+            <div className="min-w-0 flex-1 space-y-3">
+              <div className="space-y-1.5">
               <label className="block text-xs font-bold text-nw-text">
                 اسم المنتج *
               </label>
@@ -949,9 +949,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
                 placeholder="مثال: مياه 330 مل"
                 className={inputClass}
               />
-            </div>
-          </div>
-
+              </div>
           <div>
             <div className="mb-1.5 flex items-center justify-between">
               <label className="text-xs font-bold text-nw-text">
@@ -1012,6 +1010,38 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
               </div>
             )}
           </div>
+            </div>
+          </div>
+          <p className="text-xs text-nw-muted">الصورة اختيارية · JPG أو PNG أو WebP · بحد أقصى 5 ميجابايت.</p>
+            {selectedImageFile && (
+              <div className="mt-2 flex items-center justify-between rounded-lg bg-nw-surface px-2.5 py-2">
+                <span
+                  className="min-w-0 truncate text-xs font-bold text-nw-ok"
+                  title={selectedImageFile.name}
+                >
+                  جاهزة للرفع: {selectedImageFile.name}
+                </span>
+                <UiButton variant="plain"
+                  type="button"
+                  onClick={() => {
+                    setSelectedImageFile(null);
+                    setImageError('');
+                    setImageFailed(false);
+                  }}
+                  className="mr-2 flex shrink-0 items-center gap-1 text-xs font-bold text-nw-muted hover:text-nw-bad"
+                >
+                  <X className="h-3 w-3" />
+                  إلغاء الصورة المختارة
+                </UiButton>
+              </div>
+            )}
+
+            {imageError && (
+              <p role="alert" className="mt-2 text-xs font-bold text-nw-bad">
+                {imageError}
+              </p>
+            )}
+
 
         </div>
       </Card>
@@ -1091,25 +1121,25 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         <fieldset className="grid min-w-0 gap-3 sm:grid-cols-2" aria-label="طريقة البيع">
           <div className="min-w-0 space-y-2 rounded-lg border border-nw-border p-3">
             <label className="flex min-h-11 items-center gap-2 font-bold"><input type="checkbox" checked={parcelMethodSelected} onChange={event=>selectParcelMethod(event.target.checked)}/>طرد ({parcelMethodSize} {unit})</label>
-            <label className="block space-y-1 text-xs font-bold">سعر بيع الطرد<input aria-label="سعر بيع الطرد" type="number" min="0.001" step="0.001" required disabled={!parcelMethodSelected} value={salePackagePrice === '' ? '' : parcelMethodSelected ? salePackagePrice : calculatePackagePrice(derivedSalePricePerUnit,parcelMethodSize)} onChange={event=>setSalePackagePrice(event.target.value===''?'':Number.parseFloat(event.target.value))} className={numberInputClass}/></label>
+            <label className="block space-y-1 text-xs font-bold">سعر بيع الطرد<input inputMode="decimal" enterKeyHint="next" aria-label="سعر بيع الطرد" type="number" min="0.001" step="0.001" required disabled={!parcelMethodSelected} value={salePackagePrice === '' ? '' : parcelMethodSelected ? salePackagePrice : calculatePackagePrice(derivedSalePricePerUnit,parcelMethodSize)} onChange={event=>setSalePackagePrice(event.target.value===''?'':Number.parseFloat(event.target.value))} className={numberInputClass}/></label>
           </div>
           <div className="min-w-0 space-y-2 rounded-lg border border-nw-border p-3">
             <label className="flex min-h-11 items-center gap-2 font-bold"><input type="checkbox" checked={allowSingle} onChange={event=>setAllowSingle(event.target.checked)}/>حبة مفردة</label>
-            <label className="block space-y-1 text-xs font-bold">سعر بيع {unit}<input aria-label={'سعر بيع '+unit} type="number" min="0" step="0.0001" required disabled={!allowSingle} value={salePackagePrice===''?'':derivedSalePricePerUnit} onChange={event=>setSalePackagePrice(event.target.value===''?'':calculatePackagePrice(Number.parseFloat(event.target.value)||0,validUnitsPerSalePackage))} className={numberInputClass}/></label>
+            <label className="block space-y-1 text-xs font-bold">سعر بيع {unit}<input inputMode="decimal" enterKeyHint="next" aria-label={'سعر بيع '+unit} type="number" min="0" step="0.0001" required disabled={!allowSingle} value={salePackagePrice===''?'':derivedSalePricePerUnit} onChange={event=>setSalePackagePrice(event.target.value===''?'':calculatePackagePrice(Number.parseFloat(event.target.value)||0,validUnitsPerSalePackage))} className={numberInputClass}/></label>
           </div>
         </fieldset>
         {!parcelMethodSelected&&!allowSingle&&<p role="alert" className="text-nw-bad">اختر طريقة بيع واحدة على الأقل.</p>}
         {(isFlavorMaster||hasFlavors)&&<ProductFormParcelCapability familyId={initialProduct?.id} dirty={formChanged} busy={isSubmitting} onOpen={familyProductId=>openModal('parcel_configuration',{familyProductId})}/>}
         <div className="flex flex-wrap items-end gap-2">
-          {!withoutParcel && <label className="min-w-0 flex-1 text-xs font-bold">الطرد فيه<input aria-label={'عدد '+unit+' في طرد الشراء'} type="number" min="1" step="1" required value={unitsPerPackage} onChange={event=>changeParcelContents(event.target.value)} className={numberInputClass}/></label>}
+          {!withoutParcel && <label className="min-w-0 flex-1 text-xs font-bold">الطرد فيه<input inputMode="numeric" enterKeyHint="next" aria-label={'عدد '+unit+' في طرد الشراء'} type="number" min="1" step="1" required value={unitsPerPackage} onChange={event=>changeParcelContents(event.target.value)} className={numberInputClass}/></label>}
           <label className="min-w-0 flex-1 text-xs font-bold">{withoutParcel?'البيع بالوحدة':'محتوى الطرد'}<select aria-label="الوحدة الأساسية" className={inputClass} value={unit} onChange={event=>setUnit(event.target.value)} disabled={isEditing}>{Array.from(new Set([unit,...units.filter(isContentUnitOption).map(item=>item.nameAr)])).map(name=><option key={name} value={name}>{name}</option>)}</select></label>
         </div>
         <h4 className="border-t border-nw-border pt-3 font-black">سعر الشراء المقترح</h4>
         <div className={"grid min-w-0 items-end gap-2 "+(withoutParcel?"grid-cols-[auto_minmax(0,1fr)]":"grid-cols-[auto_minmax(0,1fr)_minmax(0,1fr)]")} role="group" aria-label="أسعار الشراء والبيع">
           <span/>{!withoutParcel&&<span className="text-center text-xs font-bold">الطرد</span>}<span className="text-center text-xs font-bold">{unit}</span>
           <strong className="py-3 text-xs">شراء</strong>
-          {!withoutParcel&&<label className="min-w-0 space-y-1 text-xs font-bold">سعر شراء الطرد<input aria-label={"سعر شراء الطرد"} type="number" min="0.001" step="0.001" required value={defaultPurchasePrice} onChange={event=>changePackagePurchasePrice(event.target.value)} className={numberInputClass}/></label>}
-          <label className="min-w-0 space-y-1 text-xs font-bold">{`سعر شراء ${unit}`}<input aria-label={`سعر شراء ${unit}`} type="number" min="0" step="0.0001" required value={unitPurchasePrice} onChange={event=>changeUnitPurchasePrice(event.target.value)} className={numberInputClass}/></label>
+          {!withoutParcel&&<label className="min-w-0 space-y-1 text-xs font-bold">سعر شراء الطرد<input inputMode="decimal" enterKeyHint="next" aria-label={"سعر شراء الطرد"} type="number" min="0.001" step="0.001" required value={defaultPurchasePrice} onChange={event=>changePackagePurchasePrice(event.target.value)} className={numberInputClass}/></label>}
+          <label className="min-w-0 space-y-1 text-xs font-bold">{`سعر شراء ${unit}`}<input inputMode="decimal" enterKeyHint="next" aria-label={`سعر شراء ${unit}`} type="number" min="0" step="0.0001" required value={unitPurchasePrice} onChange={event=>changeUnitPurchasePrice(event.target.value)} className={numberInputClass}/></label>
         </div>
         {differentSaleParcel&&<p className="text-xs text-nw-muted">طرد الشراء {validUnitsPerPackage} {unit}؛{parcelMethodSelected?'طرد البيع '+validUnitsPerSalePackage+' '+unit:'البيع بالمفرد' }.</p>}
         <ProfitCard label={!parcelMethodSelected?'ربح '+unit+' التقريبي':'ربح الطرد التقريبي'} profit={purchaseQuoteProfit.profitPerUnit} margin={purchaseQuoteProfit.marginPercentage}/>
@@ -1132,7 +1162,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
       <details className="space-y-3 rounded-2xl border border-nw-border bg-nw-surface p-3.5">
         <summary className="min-h-11 cursor-pointer font-bold">متقدم: التغليف والمخزون والصورة</summary>
         <label className="flex min-h-11 items-center gap-2 font-bold"><input type="checkbox" checked={differentSaleParcel} disabled={withoutParcel} onChange={event=>{setDifferentSaleParcel(event.target.checked);if(!event.target.checked){setUnitsPerSalePackage(validUnitsPerPackage);setSalePackagePrice(calculatePackagePrice(derivedSalePricePerUnit,validUnitsPerPackage));}}}/>طرد بيع مختلف عن طرد الشراء</label>
-        {differentSaleParcel&&<label className="block text-xs font-bold">عدد {unit} في طرد البيع<input aria-label={'عدد '+unit+' في طرد البيع'} type="number" min="1" step="1" required value={unitsPerSalePackage} onChange={event=>setUnitsPerSalePackage(event.target.value===''?'':Number.parseInt(event.target.value,10))} className={numberInputClass}/></label>}
+        {differentSaleParcel&&<label className="block text-xs font-bold">عدد {unit} في طرد البيع<input inputMode="numeric" enterKeyHint="next" aria-label={'عدد '+unit+' في طرد البيع'} type="number" min="1" step="1" required value={unitsPerSalePackage} onChange={event=>setUnitsPerSalePackage(event.target.value===''?'':Number.parseInt(event.target.value,10))} className={numberInputClass}/></label>}
           <div>
             <label className="mb-1.5 block text-xs font-bold text-nw-text">
               العلامة التجارية
@@ -1164,61 +1194,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             />
           </div>
 
-          <div className="rounded-xl border border-dashed border-nw-border bg-nw-info-bg p-3">
-            <div className="flex items-center justify-between gap-2">
-              <div>
-                <p className="font-black text-nw-text">صورة المنتج</p>
-                <p className="mt-0.5 text-xs text-nw-muted">
-                  JPG أو PNG أو WebP — بحد أقصى 5 ميجابايت
-                </p>
-              </div>
-              <label
-                htmlFor="product-image-upload"
-                className="flex cursor-pointer items-center gap-1.5 rounded-xl bg-nw-primary px-3 py-2 text-xs font-black text-nw-on-primary transition hover:opacity-95"
-              >
-                <Upload className="h-3.5 w-3.5" />
-                {selectedImageFile || imageUrl
-                  ? 'تغيير الصورة'
-                  : 'اختيار من الاستديو'}
-              </label>
-              <input
-                id="product-image-upload"
-                type="file"
-                accept="image/jpeg,image/png,image/webp"
-                onChange={handleImageSelection}
-                className="sr-only"
-              />
-            </div>
-
-            {selectedImageFile && (
-              <div className="mt-2 flex items-center justify-between rounded-lg bg-nw-surface px-2.5 py-2">
-                <span
-                  className="min-w-0 truncate text-xs font-bold text-nw-ok"
-                  title={selectedImageFile.name}
-                >
-                  جاهزة للرفع: {selectedImageFile.name}
-                </span>
-                <UiButton variant="plain"
-                  type="button"
-                  onClick={() => {
-                    setSelectedImageFile(null);
-                    setImageError('');
-                    setImageFailed(false);
-                  }}
-                  className="mr-2 flex shrink-0 items-center gap-1 text-xs font-bold text-nw-muted hover:text-nw-bad"
-                >
-                  <X className="h-3 w-3" />
-                  إلغاء
-                </UiButton>
-              </div>
-            )}
-
-            {imageError && (
-              <p className="mt-2 text-xs font-bold text-nw-bad">
-                {imageError}
-              </p>
-            )}
-
+          <div className="space-y-2">
             <UiButton variant="plain"
               type="button"
               onClick={() => setShowImageUrlInput((value) => !value)}
@@ -1291,7 +1267,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             <label className="mb-1.5 block text-xs font-bold text-nw-warn">
               تنبيه عند (طرد)
             </label>
-            <input aria-label="حد الطلب"
+            <input inputMode="numeric" enterKeyHint="next" aria-label="حد الطلب"
               type="number"
               min="0"
               step="1"
@@ -1311,7 +1287,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             <label className="mb-1.5 block text-xs font-bold text-nw-muted">
               سقف المستودع (طرد)
             </label>
-            <input aria-label="سقف المستودع"
+            <input inputMode="numeric" enterKeyHint="next" aria-label="سقف المستودع"
               type="number"
               min="0"
               step="1"

@@ -1,4 +1,4 @@
-import { UiButton } from '../../components/ui';
+import {FormFields, UiButton } from '../../components/ui';
 import {useAuthStore} from '../../stores/useAuthStore';
 import {fetchSupplierReplacementOptions,submitSupplierReplacement,supplierReplacementRecovery,type ReplacementOptions} from '../../services/supabase/supplierReplacement.service';
 import type {ReplacementAttempt} from '../../services/supabase/supplierReplacementIntent';
@@ -319,7 +319,7 @@ export const AdminAftercarePanel: React.FC<Props> = ({
   };
 
   return (
-    <section data-testid="phase43-admin-aftercare" aria-busy={busy}
+    <FormFields><section data-testid="phase43-admin-aftercare" aria-busy={busy}
       className="space-y-3 rounded-2xl border border-nw-info bg-nw-info-bg p-3">
       <div className="flex items-start justify-between gap-2">
         <div>
@@ -429,7 +429,7 @@ export const AdminAftercarePanel: React.FC<Props> = ({
           </>}</>}
         </div>}
         {replacementSource?.isSingleSkuParcel && <label className="block">عدد طرود الاستبدال
-          <input aria-label="عدد طرود الاستبدال" type="number" min={1} step={1}
+          <input inputMode="numeric" enterKeyHint="next" aria-label="عدد طرود الاستبدال" type="number" min={1} step={1}
             max={replacementSource.remainingQuantity / replacementSource.unitsPerParcel!}
             value={replacementQuantity} disabled={busy} onChange={e => setReplacementQuantity(Number(e.target.value))}
             className="mt-1 w-full rounded bg-nw-surface p-2"/></label>}
@@ -448,7 +448,7 @@ export const AdminAftercarePanel: React.FC<Props> = ({
           صنّف كل حبات الطرد: السليم يعود للمخزون، والعيب للمورد أو تالف، وضرر العميل يُخصم من المبلغ المرجع.
         </p>}
         {returnDraft.kind === 'base' && <label className="block text-sm">{returnDraft.isSingleSkuParcel ? 'عدد طرود المرتجع' : 'كمية المرتجع'} (المتبقي {rootQuantity(returnDraft.representatives) / returnDraft.unitsPerParcel})
-          <input aria-label={returnDraft.isSingleSkuParcel ? 'عدد طرود المرتجع' : 'كمية المرتجع'} type="number" min={1} step={1}
+          <input inputMode="numeric" enterKeyHint="next" aria-label={returnDraft.isSingleSkuParcel ? 'عدد طرود المرتجع' : 'كمية المرتجع'} type="number" min={1} step={1}
             max={rootQuantity(returnDraft.representatives) / returnDraft.unitsPerParcel} value={returnDraft.quantity}
             disabled={busy} onChange={event => {
               const quantity = Number(event.target.value);
@@ -478,7 +478,7 @@ export const AdminAftercarePanel: React.FC<Props> = ({
             return <div key={sourceId} className="grid grid-cols-3 gap-2 rounded-lg border border-nw-border p-2">
               {([['sellableRestock','سليم'],['defectNonSellable','عيب/غير قابل للبيع'],
                 ['customerDamage','ضرر عميل']] as const).map(([field,label]) => <label key={field}>{label}
-                <input type="number" min={0} value={allocation[field]} disabled={busy || (field==='customerDamage' && returnDraft.standalonePrice == null)}
+                <input inputMode="numeric" enterKeyHint="next" type="number" min={0} value={allocation[field]} disabled={busy || (field==='customerDamage' && returnDraft.standalonePrice == null)}
                   onChange={event => setReturnDraft({...returnDraft,allocations:{...returnDraft.allocations,
                     [sourceId]:{...allocation,[field]:Number(event.target.value)}}})}
                   className="mt-1 min-h-11 w-full rounded bg-nw-surface p-2"/></label>)}
@@ -502,15 +502,15 @@ export const AdminAftercarePanel: React.FC<Props> = ({
                 <p className="mb-1 text-sm text-nw-muted">القطعة الحالية {sourceIndex + 1}{source.sourceKind === 'replacement_item' ? ' · البديل الذي أعطيته' : ' · الأصل'} · {source.remainingQuantity} وحدة</p>
                 <p role="status" className={`mb-2 text-sm ${allocation.sellableRestock + allocation.defectNonSellable + allocation.customerDamage === source.remainingQuantity ? 'text-nw-text' : 'text-nw-text'}`}>مجموع التصنيف: {allocation.sellableRestock + allocation.defectNonSellable + allocation.customerDamage} / {source.remainingQuantity}</p>
                 <div className="grid grid-cols-1 gap-2 min-[420px]:grid-cols-3 text-sm">
-                  <label>سليم<input type="number" min={0} max={source.remainingQuantity}
+                  <label>سليم<input inputMode="numeric" enterKeyHint="next" type="number" min={0} max={source.remainingQuantity}
                     value={allocation.sellableRestock}
                     onChange={(event) => update('sellableRestock', Number(event.target.value))}
                     className="mt-1 min-h-11 w-full rounded bg-nw-surface p-2"/></label>
-                  <label>عيب/غير قابل للبيع<input type="number" min={0} max={source.remainingQuantity}
+                  <label>عيب/غير قابل للبيع<input inputMode="numeric" enterKeyHint="next" type="number" min={0} max={source.remainingQuantity}
                     value={allocation.defectNonSellable}
                     onChange={(event) => update('defectNonSellable', Number(event.target.value))}
                     className="mt-1 min-h-11 w-full rounded bg-nw-surface p-2"/></label>
-                  <label>ضرر عميل<input type="number" min={0} max={source.remainingQuantity}
+                  <label>ضرر عميل<input inputMode="numeric" enterKeyHint="next" type="number" min={0} max={source.remainingQuantity}
                     value={allocation.customerDamage}
                     onChange={(event) => update('customerDamage', Number(event.target.value))}
                     className="mt-1 min-h-11 w-full rounded bg-nw-surface p-2"/></label>
@@ -551,6 +551,6 @@ export const AdminAftercarePanel: React.FC<Props> = ({
         <span>{context.returns.length} مرتجع · {context.replacements.length} استبدال</span>
         <UiButton type="button" onClick={() => void load()} className="flex items-center gap-1"><RefreshCw className="h-3 w-3"/>تحديث</UiButton>
       </div>
-    </section>
+    </section></FormFields>
   );
 };

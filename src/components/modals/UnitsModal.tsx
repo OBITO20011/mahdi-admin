@@ -159,7 +159,7 @@ export const UnitsModal: React.FC<{ onClose: () => void }> = () => {
             <span className="mb-1 block text-[9px] font-bold text-nw-muted">
               معامل التعبئة الافتراضي
             </span>
-            <input
+            <input inputMode="numeric" enterKeyHint="next"
               type="number"
               min={1}
               step={1}

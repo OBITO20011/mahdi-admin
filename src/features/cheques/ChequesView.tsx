@@ -196,7 +196,7 @@ export function ChequesView() {
     </Modal>
     <Modal isOpen={payment!==null} onClose={()=>setPayment(null)} title="سداد قيد ذمة المورد" closeDisabled={busy} confirmUnsavedClose>
       {payment&&<FormFields><form className="space-y-3 text-sm" onSubmit={e=>void pay(e)} aria-busy={busy}>{errors}{drawer.warningNode}<p>{payment.reference}</p>
-        <label className="block" htmlFor={`${ids}-pay-amount`}>المبلغ (د.أ)</label><input id={`${ids}-pay-amount`} className={field} value={paymentAmount} onChange={e=>setPaymentAmount(e.target.value)} inputMode="decimal" dir="ltr" required disabled={busy} />
+        <label className="block" htmlFor={`${ids}-pay-amount`}>المبلغ (د.أ)</label><input enterKeyHint="next" id={`${ids}-pay-amount`} className={field} value={paymentAmount} onChange={e=>setPaymentAmount(e.target.value)} inputMode="decimal" dir="ltr" required disabled={busy} />
         <label className="block" htmlFor={`${ids}-pay-method`}>طريقة الدفع</label><select id={`${ids}-pay-method`} className={field} value={paymentMethod} onChange={e=>{const v=e.target.value;if(v==='cash'||v==='cliq'||v==='bank_transfer')setPaymentMethod(v);}} disabled={busy}>
           <option value="cash">كاش من وردية الفرع</option><option value="cliq">CliQ من وردية الفرع</option><option value="bank_transfer">تحويل بنكي بلا وردية</option></select>
         <label className="block" htmlFor={`${ids}-pay-reference`}>المرجع</label><input id={`${ids}-pay-reference`} className={field} value={paymentReference} onChange={e=>setPaymentReference(e.target.value)} disabled={busy} />

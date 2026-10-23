@@ -250,7 +250,7 @@ export const WarehouseTransferModal: React.FC<WarehouseTransferModalProps> = ({
           >
             -
           </button>
-          <input
+          <input inputMode="numeric" enterKeyHint="next"
             type="number"
             min="1"
             required

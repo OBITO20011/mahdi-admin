@@ -17,6 +17,7 @@ import {PosParcelBuilder, type PosParcelOption} from './PosParcelBuilder';
 import {posCartLines, posStockDemand, posWarehouseAvailable, posV2Invoice, receiptBaseUnitNames, type PosCartItem} from './posV2Cart';
 import {posSaleModeForProduct,posCartSaleMethodConflict,type PosSingleProductMode} from './saleMethods';
 import {PosProductCard} from './PosProductCard';
+import {shouldRestorePosSearchFocus,type PosAdditionSource} from './posSearchFocus';
 import {jodToMinorUnits} from '../../utils/receivingCalculations';
 import { Card, PageHeader, StatusBadge, MoneyText, SearchField, FilterChips, SegmentedControl, UiButton, StickyActionBar, ResponsiveCartPanel, formatItemCount } from '../../components/ui';
 import {SaleReceiptDialog} from '../receipts/SaleReceiptDialog';
@@ -306,7 +307,12 @@ export const PosView: React.FC = () => {
     return resolvePosProductCode(matches, code);
   };
 
-  const addToCart = (prod: Product,preferred:PosSingleProductMode='legacy_single_sku_parcel') => {
+  const restoreSearchFocus=(source:PosAdditionSource)=>{
+    if(shouldRestorePosSearchFocus(source,{coarse:window.matchMedia('(pointer: coarse)').matches,
+      touchPoints:navigator.maxTouchPoints??0,width:window.innerWidth}))searchInputRef.current?.focus({preventScroll: true});
+    else searchInputRef.current?.blur();
+  };
+  const addToCart = (prod: Product,preferred:PosSingleProductMode='legacy_single_sku_parcel',source:PosAdditionSource='pointer') => {
     const productSaleMode=posSaleModeForProduct(prod,preferred);
     if (isSubmitting || recoveryBlocked || !warehouseId) {setToast('حدد المستودع واسترجع أي محاولة معلقة قبل البيع.', 'error'); return;}
     if (cartItems.length && cartWarehouseRef.current !== warehouseId) {setToast('تغير مستودع البيع؛ أفرغ السلة ثم أعد تركيبها.', 'error'); return;}
@@ -359,7 +365,7 @@ export const PosView: React.FC = () => {
       if (!cartFits([...cartItems, newItem])) {setToast('الكمية المشتركة تتجاوز مخزون المستودع.', 'error'); return;}
       setCartItems([...cartItems, newItem]);
     }
-    searchInputRef.current?.focus({preventScroll: true});
+    restoreSearchFocus(source);
   };
 
   const updateQuantity = (itemId: string, delta: number) => {
@@ -416,7 +422,7 @@ export const PosView: React.FC = () => {
     const next = editingParcelId ? cartItems.map(c => c.id === editingParcelId ? {...item, id: c.id} : c) : [...cartItems, item];
     if (!cartFits(next)) {setToast('مكونات السلة تتجاوز المخزون المتاح.', 'error'); return;}
     cartWarehouseRef.current = warehouseId;
-    setCartItems(next); setParcelOption(null); setEditingParcelId(null); searchInputRef.current?.focus();
+    setCartItems(next); setParcelOption(null); setEditingParcelId(null); restoreSearchFocus('pointer');
   };
 
   const posSummary = calculatePosSummary(
@@ -713,6 +719,13 @@ export const PosView: React.FC = () => {
             <div className="flex min-w-0 items-center gap-2">
               <SearchField emphasis ref={searchInputRef} label="البحث في منتجات نقطة البيع"
                 placeholder="ابحث باسم المنتج أو الباركود أو رمز الصنف..." value={searchQuery}
+                onKeyDown={event=>{
+                  if(event.key!=='Enter'||event.nativeEvent.isComposing)return;
+                  event.preventDefault();
+                  const lookup=resolvePosProductCode(filteredProducts,searchQuery);
+                  if(lookup.status==='found'){addToCart(lookup.product,'legacy_single_sku_parcel','search');setSearchQuery('');}
+                  else setToast('انتظر ظهور الصنف المطابق للباركود أو رمز الصنف، أو اختره من البطاقات.','info');
+                }}
                 onChange={(e) => setSearchQuery(e.target.value)} className="min-w-0 flex-1" />
               <UiButton aria-label="مسح بالباركود (الكاميرا)" onClick={() => setIsBarcodeScannerOpen(true)} className="shrink-0 px-3">
                 <Camera className="h-5 w-5" /><span className="hidden sm:inline">مسح الباركود</span>
@@ -892,7 +905,7 @@ export const PosView: React.FC = () => {
                 <span className="text-[11px] text-nw-text font-bold block">المبلغ المستلم:</span>
                 <span className="text-[10px] text-nw-ok">الباقي: {changeDue.toFixed(3)} {CURRENCY}</span>
               </div>
-              <input aria-label="المبلغ المستلم"
+              <input inputMode="decimal" enterKeyHint="done" aria-label="المبلغ المستلم"
                 type="number"
                 value={cashReceived || ''}
                 onChange={(e) => setCashReceived(parseFloat(e.target.value) || 0)}
@@ -936,7 +949,7 @@ export const PosView: React.FC = () => {
             isOpen={isBarcodeScannerOpen}
             onClose={() => setIsBarcodeScannerOpen(false)}
             resolveProductCode={resolveScannedProductCode}
-            onProductScanned={(scannedProduct) => addToCart(scannedProduct)}
+            onProductScanned={(scannedProduct) => addToCart(scannedProduct,'legacy_single_sku_parcel','barcode')}
             setToast={setToast}
           />
         </Suspense>

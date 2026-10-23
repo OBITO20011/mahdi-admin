@@ -185,7 +185,7 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
           >
             -
           </UiButton>
-          <input aria-label="الكمية"
+          <input inputMode="numeric" enterKeyHint="next" aria-label="الكمية"
             type="number"
             min="0"
             value={quantityValue}

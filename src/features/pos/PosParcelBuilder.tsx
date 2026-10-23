@@ -24,7 +24,7 @@ export function PosParcelBuilder({option, initialComponents, onClose, onAdd}: {o
       <p role="status">المختار: {total} / {option.unitsPerParcel} قطعة — السعر {(option.parcelPriceInMinorUnits / 1000).toFixed(3)} د.أ</p>
       {option.components.map(c => <label key={c.productId} className="flex items-center justify-between gap-3">
         <span>{c.flavorNameAr || c.nameAr} <small>المتاح: {c.availableQuantity}</small></span>
-        <input type="number" min={0} max={c.availableQuantity} step={1} value={quantities[c.productId] || 0}
+        <input inputMode="numeric" enterKeyHint="next" type="number" min={0} max={c.availableQuantity} step={1} value={quantities[c.productId] || 0}
           aria-label={`كمية ${c.flavorNameAr || c.nameAr}`} className="min-h-11 w-20 rounded-xl border border-nw-border bg-nw-surface-2 p-2 text-nw-text"
           onChange={e => setQuantities(q => ({...q, [c.productId]: Number(e.target.value)}))}/>
       </label>)}

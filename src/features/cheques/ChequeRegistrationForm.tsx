@@ -21,7 +21,7 @@ export function ChequeRegistrationForm({direction,parties,partyId,claimId,purcha
   const current=preview?.identity===identity;
   const input=(name:string,label:string,value:string,set:(value:string)=>void,props:React.InputHTMLAttributes<HTMLInputElement>={})=><div>
     <label className="mb-1 block text-sm font-semibold" htmlFor={`${prefix}-${name}`}>{label}</label>
-    <input {...props} id={`${prefix}-${name}`} className={field} value={value} onChange={e=>set(e.target.value)} disabled={busy} required={name!=='notes'} />
+    <input enterKeyHint="next" {...props} id={`${prefix}-${name}`} className={field} value={value} onChange={e=>set(e.target.value)} disabled={busy} required={name!=='notes'} />
   </div>;
   const run=async(event:React.FormEvent)=>{
     event.preventDefault();setError('');

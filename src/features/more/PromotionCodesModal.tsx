@@ -316,7 +316,7 @@ export const PromotionCodesModal: React.FC = () => {
                 ? 'قيمة الخصم (د.أ) *'
                 : 'نسبة الخصم % *'}
             </span>
-            <input
+            <input inputMode="decimal" enterKeyHint="next"
               type="number"
               min="0.001"
               step={form.discountType === 'fixed' ? '0.001' : '0.01'}
@@ -331,7 +331,7 @@ export const PromotionCodesModal: React.FC = () => {
             <span className="mb-1 block font-bold text-nw-muted">
               أقل طلب (د.أ)
             </span>
-            <input
+            <input inputMode="decimal" enterKeyHint="next"
               type="number"
               min="0"
               step="0.001"
@@ -347,7 +347,7 @@ export const PromotionCodesModal: React.FC = () => {
               <span className="mb-1 block font-bold text-nw-muted">
                 أعلى خصم (د.أ) — اختياري
               </span>
-              <input
+              <input inputMode="decimal" enterKeyHint="next"
                 type="number"
                 min="0.001"
                 step="0.001"
@@ -396,7 +396,7 @@ export const PromotionCodesModal: React.FC = () => {
             <span className="mb-1 block font-bold text-nw-muted">
               أقصى استخدام إجمالي
             </span>
-            <input
+            <input inputMode="numeric" enterKeyHint="next"
               type="number"
               min="1"
               step="1"
@@ -415,7 +415,7 @@ export const PromotionCodesModal: React.FC = () => {
             <span className="mb-1 block font-bold text-nw-muted">
               لكل رقم هاتف
             </span>
-            <input
+            <input inputMode="numeric" enterKeyHint="next"
               type="number"
               min="1"
               step="1"

@@ -88,7 +88,7 @@ export const ProductCostCorrectionPanel: React.FC<ProductCostCorrectionPanelProp
           )}
           <div>
             <label htmlFor={ids.cost} className="mb-1 block text-xs font-bold text-nw-muted">التكلفة الصحيحة لكل {unitName} ({CURRENCY}) *</label>
-            <input id={ids.cost} className={fieldClass} dir="ltr" inputMode="decimal" value={cost} placeholder="0.000"
+            <input enterKeyHint="next" id={ids.cost} className={fieldClass} dir="ltr" inputMode="decimal" value={cost} placeholder="0.000"
               onChange={event => setCost(event.target.value)} required />
           </div>
           <div className="sm:col-span-2">

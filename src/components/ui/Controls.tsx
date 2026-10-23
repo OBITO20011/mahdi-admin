@@ -120,6 +120,7 @@ export const SearchField = React.forwardRef<HTMLInputElement, SearchFieldProps>(
       <input
         ref={ref}
         type="search"
+        enterKeyHint="search"
         {...rest}
         className="min-w-0 flex-1 border-0 bg-transparent text-sm text-nw-text outline-none placeholder:text-nw-muted"
       />

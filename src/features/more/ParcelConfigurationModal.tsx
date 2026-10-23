@@ -96,7 +96,7 @@ export function ParcelConfigurationModal({initialFamilyProductId}:{initialFamily
             {flavorFamilies(context).map(p=><option key={p.familyProductId} value={p.familyProductId}>{p.nameAr} — {p.sku}</option>)}
           </select></label>
           {form && product && <>
-            <label>كم حبة بالطرد<input className={inputClass} required type="number" min="1" step="1" value={form.units} onChange={e=>setForm({...form,units:Number(e.target.value)})}/></label>
+            <label>كم حبة بالطرد<input inputMode="numeric" enterKeyHint="next" className={inputClass} required type="number" min="1" step="1" value={form.units} onChange={e=>setForm({...form,units:Number(e.target.value)})}/></label>
             <label className="flex gap-2"><input type="checkbox" checked={form.active} onChange={e=>setForm({...form,active:e.target.checked})}/>متاح للبيع كطرد مشكّل</label>
             {form.mode==='configurable_mix' && <fieldset className="space-y-2"><legend>النكهات المسموحة</legend>
               {product.components.filter(p=>p.productId!==product.familyProductId).map(component=><label className="flex gap-2" key={component.productId}>

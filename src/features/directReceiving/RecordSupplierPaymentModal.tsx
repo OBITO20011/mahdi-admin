@@ -102,7 +102,7 @@ export const RecordSupplierPaymentModal: React.FC<RecordSupplierPaymentModalProp
           <label className="text-[11px] font-bold text-nw-muted block mb-1">
             مبلغ الدفعة المراد سدادها ({CURRENCY}) *
           </label>
-          <input aria-label="مبلغ الدفعة المراد سدادها ( ) *"
+          <input inputMode="decimal" enterKeyHint="next" aria-label="مبلغ الدفعة المراد سدادها ( ) *"
             type="number"
             min="0.001"
             max={remainingDueJod}

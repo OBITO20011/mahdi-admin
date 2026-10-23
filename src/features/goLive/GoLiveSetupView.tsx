@@ -292,7 +292,7 @@ const ManualOpeningForm: React.FC<ManualOpeningFormProps> = ({ kind, disabled, o
         )}
         <div>
           <label htmlFor={ids.amount} className="mb-1 block text-[13px] font-semibold">المبلغ (د.أ)</label>
-          <input id={ids.amount} className={fieldClass} inputMode="decimal" dir="ltr" value={amount} onChange={event => setAmount(event.target.value)} placeholder="0.000" required />
+          <input enterKeyHint="next" id={ids.amount} className={fieldClass} inputMode="decimal" dir="ltr" value={amount} onChange={event => setAmount(event.target.value)} placeholder="0.000" required />
         </div>
         <div>
           <label htmlFor={ids.date} className="mb-1 block text-[13px] font-semibold">التاريخ الأصلي</label>
@@ -354,7 +354,7 @@ const SupplierOpeningPayForm: React.FC<{ entry: OpeningEntry; onDone: () => void
       <p className="m-0 text-[13px] sm:col-span-2">المتبقي من الرصيد السابق: {remaining === null ? '…' : <Money minor={remaining} />}</p>
       <div>
         <label htmlFor={ids.amount} className="mb-1 block text-[13px] font-semibold">المبلغ (د.أ)</label>
-        <input id={ids.amount} className={fieldClass} inputMode="decimal" dir="ltr" value={amount} onChange={event => setAmount(event.target.value)} />
+        <input enterKeyHint="next" id={ids.amount} className={fieldClass} inputMode="decimal" dir="ltr" value={amount} onChange={event => setAmount(event.target.value)} />
       </div>
       <div>
         <label htmlFor={ids.method} className="mb-1 block text-[13px] font-semibold">طريقة الدفع</label>

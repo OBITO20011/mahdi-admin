@@ -255,7 +255,7 @@ export const RecordCustomerPaymentModal: React.FC<
           <label htmlFor={`${fieldId}-amount`} className="mb-1 block font-bold text-nw-text">
             مبلغ الدفعة ({CURRENCY}) *
           </label>
-          <input
+          <input inputMode="decimal" enterKeyHint="next"
             id={`${fieldId}-amount`}
             type="number"
             min="0.001"

@@ -83,7 +83,7 @@ export const OwnerWithdrawalsPanel: React.FC<OwnerWithdrawalsPanelProps> = ({ sh
         <form className="mt-3 grid gap-2 sm:grid-cols-2" onSubmit={event => void submit(event)} aria-busy={busy}>
           <div>
             <label htmlFor={ids.amount} className="mb-1 block text-xs font-bold text-nw-muted">مبلغ السحب (د.أ) *</label>
-            <input id={ids.amount} className={fieldClass} dir="ltr" inputMode="decimal" placeholder="0.000" value={amount}
+            <input enterKeyHint="next" id={ids.amount} className={fieldClass} dir="ltr" inputMode="decimal" placeholder="0.000" value={amount}
               onChange={event => setAmount(event.target.value)} required />
             <p className="m-0 mt-1 text-xs text-nw-muted">بالدرج الآن <bdi dir="ltr"><MoneyText amount={shift.expectedCash} /></bdi></p>
           </div>

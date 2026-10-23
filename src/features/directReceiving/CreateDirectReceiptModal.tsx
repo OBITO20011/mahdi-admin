@@ -912,7 +912,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
                     {/* Discount (JOD) */}
                     <div className="space-y-0.5">
                       <label className="text-[10px] font-bold text-nw-muted">خصم الصنف ({CURRENCY})</label>
-                      <input aria-label="خصم الصنف ( )"
+                      <input inputMode="decimal" enterKeyHint="next" aria-label="خصم الصنف ( )"
                         type="number"
                         min="0"
                         step="0.001"
@@ -1054,7 +1054,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
             <div className="grid grid-cols-2 gap-2">
               <div>
                 <label className="text-[10px] font-bold text-nw-muted">أجور التوصيل/النقل</label>
-                <input aria-label="أجور التوصيل/النقل"
+                <input inputMode="decimal" enterKeyHint="next" aria-label="أجور التوصيل/النقل"
                   type="number"
                   min="0"
                   step="0.001"
@@ -1066,7 +1066,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
 
               <div>
                 <label className="text-[10px] font-bold text-nw-muted">الضريبة ({CURRENCY})</label>
-                <input aria-label="الضريبة ( )"
+                <input inputMode="decimal" enterKeyHint="next" aria-label="الضريبة ( )"
                   type="number"
                   min="0"
                   step="0.001"
@@ -1118,7 +1118,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
             <div className="grid grid-cols-2 gap-2">
               <div>
                 <label className="text-[10px] font-bold text-nw-muted">المبلغ المدفوع الآن ({CURRENCY})</label>
-                <input aria-label="المبلغ المدفوع الآن ( )"
+                <input inputMode="decimal" enterKeyHint="next" aria-label="المبلغ المدفوع الآن ( )"
                   type="number"
                   min="0"
                   max={grandTotalJod}
