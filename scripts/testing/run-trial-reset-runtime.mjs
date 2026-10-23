@@ -1,4 +1,5 @@
 import {readReady210Reference,assertReady210Catalog} from '../operations/frankfurt-reference210.mjs';
+import {readReady211Reference,assertReady211Catalog} from '../operations/frankfurt-reference211.mjs';
 import {readReady209Reference,assertReady209Catalog} from '../operations/frankfurt-reference209.mjs';
 import {readReady208Reference,assertReady208Catalog} from '../operations/frankfurt-reference208.mjs';
 import {readReady207Reference,assertReady207Catalog} from '../operations/frankfurt-reference207.mjs';
@@ -37,7 +38,8 @@ const sql=async input=>{const r=await executeInput(executor,input);assert.equal(
 const json=async input=>JSON.parse(await sql(input));
 const cliCall=args=>exec(process.execPath,[cli,...args,'--local','--workdir',local,'--agent','no'],{cwd:root,windowsHide:true,maxBuffer:8*1024**2});
 try{
- const latest210=process.argv.includes('--current210');
+ const latest211=process.argv.includes('--current211');
+ const latest210=latest211||process.argv.includes('--current210');
  const latest209=latest210||process.argv.includes('--current209');
  const latest208=process.argv.includes('--current208');
  const latest207=process.argv.includes('--current207');
@@ -48,11 +50,11 @@ try{
  const latest202=process.argv.includes('--current202');
  const latest201=process.argv.includes('--current201'),latest=process.argv.includes('--current200');
  assert.ok([latest209,latest208,latest207,latest206,latest205,latest204,latest203,latest202,latest201,latest,process.argv.includes('--current199')].filter(Boolean).length<=1,'ONE_RESET_CEILING_REQUIRED');
- const current=latest209||latest208||latest207||latest206||latest205||latest204||latest203||latest202||latest201||latest||process.argv.includes('--current199'),explicit=process.argv.slice(2).find(arg=>!['--current199','--current200','--current201','--current202','--current203','--current204','--current205','--current206','--current207','--current208','--current209','--current210'].includes(arg));
+ const current=latest209||latest208||latest207||latest206||latest205||latest204||latest203||latest202||latest201||latest||process.argv.includes('--current199'),explicit=process.argv.slice(2).find(arg=>!['--current199','--current200','--current201','--current202','--current203','--current204','--current205','--current206','--current207','--current208','--current209','--current210','--current211'].includes(arg));
  assert.ok(!current||explicit,'CURRENT199_REFERENCE_PATH_REQUIRED');
  const referencePath=explicit??path.join(output,readyReference182Name);
  if(!process.argv[2])await buildReference182(['--output',referencePath]);
- const reference=await (latest210?readReady210Reference:latest209?readReady209Reference:latest208?readReady208Reference:latest207?readReady207Reference:latest206?readReady206Reference:latest205?readReady205Reference:latest204?readReady204Reference:latest203?readReady203Reference:latest202?readReady202Reference:latest201?readReady201Reference:latest?readReady200Reference:current?readReady199Reference:readReference182)(root,referencePath);
+ const reference=await (latest211?readReady211Reference:latest210?readReady210Reference:latest209?readReady209Reference:latest208?readReady208Reference:latest207?readReady207Reference:latest206?readReady206Reference:latest205?readReady205Reference:latest204?readReady204Reference:latest203?readReady203Reference:latest202?readReady202Reference:latest201?readReady201Reference:latest?readReady200Reference:current?readReady199Reference:readReference182)(root,referencePath);
  // Exercise the exact182/199 owner pipeline using a byte-identical historical
  // source view, not the newer checkout. The production manifest guard stays strict.
  const checkoutCeiling=JSON.parse(await readFile(path.join(root,'docs/agent/project-state.json'),'utf8')).migrationCeiling;
@@ -102,6 +104,13 @@ try{
   assert.equal(await sql('SELECT count(*) FROM supplier_replacement_cases;'),'1');assert.equal(await sql('SELECT count(*) FROM supplier_replacement_events;'),'3');assert.equal(await sql('SELECT count(*) FROM supplier_replacement_inventory_effects;'),'3');report.replacement208BeforeReset={cases:1,events:3,effects:3};
   const actualReport208=await call(`get_operational_business_report(${q(branch)},CURRENT_DATE,CURRENT_DATE)`);assert.equal(actualReport208.sales.damageLosses.contractVersion,208);report.publicReport208=true;
  }
+ if(latest211){
+  const sold=await json(`SELECT jsonb_build_object('orderId',order_id,'itemId',id) FROM public.order_items WHERE product_id=${q(product)};`);
+  const held=await call(`execute_aftercare_supplier_v1('replacement_supplier','trial-reset-aftercare211-00001',${q(JSON.stringify({orderId:sold.orderId,items:[{sourceKind:'base_order_item',sourceId:sold.itemId,quantity:1}],reason:'عيب للمورد تجربة التصفير',supplierId:supplier}))}::jsonb)`);
+  assert.equal(held.success,true);assert.equal(held.cases[0].pendingQuantity,1);
+  assert.equal(await sql('SELECT count(*) FROM aftercare_supplier_links;'),'1');
+  report.aftercare211BeforeReset={links:1,pendingQuantity:1};
+ }
  if(latest209||latest208||latest207||latest206||latest205||latest204||latest203){
   const legacy=randomUUID();
   await sql(`INSERT INTO orders(id,order_number,customer_id,customer_name_snapshot,branch_id,status,source,payment_method,total_in_minor_units,amount_paid_in_minor_units) VALUES(${q(legacy)},'RESET-UNDATED-203',${q(customer)},'قديم بلا إكمال',${q(branch)},'completed','website','debt',1000,0);`);
@@ -135,7 +144,7 @@ try{
   clearHistory:async()=>{await cliCall(['migration','repair','--status','reverted',...reference.appliedVersions]);await sql('DELETE FROM supabase_migrations.seed_files;');},
   repair:async version=>{const unit=reference.manifest.find(m=>m.name.startsWith(version+'_'));await copyFile(path.join(sourceRoot,'supabase/migrations',unit.name),path.join(local,'supabase/migrations',unit.name));await cliCall(['migration','repair','--status','applied',version]);},
   finalDryRun:async()=>{const r=await cliCall(['db','push','--dry-run','--skip-vault']);assert.match(r.stdout+r.stderr,/up to date/iu);}});
- report.functions=await functionReference(executor,reference.migrationCeiling);assert.equal(report.functions,latest209?546:latest208?534:latest207?523:latest206?520:latest205?519:latest204?517:latest203||latest202||latest201?516:current?513:468);
+ report.functions=await functionReference(executor,reference.migrationCeiling);assert.equal(report.functions,latest211?554:latest209?546:latest208?534:latest207?523:latest206?520:latest205?519:latest204?517:latest203||latest202||latest201?516:current?513:468);
  if(latest209||latest208||latest207||latest206||latest205||latest204||latest203||latest202||latest201){assertReady201Catalog(await json(schemaCatalogSql));assert.equal(await sql('SELECT count(*) FROM inventory_damage_events;'),'0');report.damageEvidenceEmpty=true;}
  if(latest209||latest208||latest207||latest206||latest205||latest204||latest203||latest202){assert.equal(await sql('SELECT count(*) FROM customer_collection_opening_allocations;'),'0');assert.equal(await sql('SELECT count(*) FROM customer_collection_operations;'),'0');report.openingCollectionsEmpty=true;}
  if(latest){assertReady200Catalog(await json(schemaCatalogSql));report.legacyCostWritersStillClosed=true;}
@@ -148,6 +157,7 @@ try{
  if(latest207){assertReady207Catalog(await json(schemaCatalogSql));report.correction207CatalogPreserved=true;}
  if(latest209||latest208){assertReady208Catalog(await json(schemaCatalogSql));for(const t of ['supplier_replacement_cases','supplier_replacement_events','supplier_replacement_inventory_effects'])assert.equal(await sql('SELECT count(*) FROM '+t+';'),'0');const held=await call('get_supplier_replacements_page_v1()');assert.equal(held.pendingQuantity,0);assert.equal(Number(held.pendingValueInMinorUnitsExact),0);report.replacement208Empty=true;const wire=await ownerSession.rpc('get_supplier_replacements_page_v1');assert.equal(wire.error,null,'ACTUAL_OWNER208_REST_READ');assert.equal(wire.data.contractVersion,208);assert.equal(wire.data.pendingQuantity,0);assert.equal(Number(wire.data.pendingValueInMinorUnitsExact),0);report.rest208OwnerRead=true;}
  if(latest210){assertReady210Catalog(await json(schemaCatalogSql));const wire=await ownerSession.rpc('get_public_pos_receipt',{p_receipt_token:null});assert.equal(wire.error,null,'ACTUAL_OWNER210_REST_READ');assert.equal(wire.data.success,false);report.rest210ReceiptRead=true;}
+ if(latest211){assertReady211Catalog(await json(schemaCatalogSql));assert.equal(await sql('SELECT count(*) FROM aftercare_supplier_links;'),'0');const wire=await ownerSession.rpc('get_aftercare_damage_candidates_v1',{p_order_id:null});assert.equal(wire.error,null,'ACTUAL_OWNER211_REST_READ');assert.deepEqual(wire.data,{contractVersion:211,candidates:[]});report.rest211AftercareRead=true;report.aftercare211Empty=true;}
  if(latest209){assertReady209Catalog(await json(schemaCatalogSql));const wire=await ownerSession.rpc('get_public_storefront_catalog_page');assert.equal(wire.error,null,'ACTUAL_OWNER209_REST_READ');assert.deepEqual(wire.data.items,[]);report.rest209CatalogRead=true;}
  report.ok=true;report.storageBytesDeleted=true;report.ownerRetained=true;report.verifiedTotpRetained=true;report.staffDeleted=true;
 }catch(error){report.ok=false;report.stage=stage;report.error=error.message.split('\n')[0];process.exitCode=1;}

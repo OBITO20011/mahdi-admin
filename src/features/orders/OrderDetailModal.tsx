@@ -1081,7 +1081,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
                     {item.productName}
                   </h5>
                   <span className="text-[10px] text-nw-muted">
-                    {item.commercialLineKind === 'configurable_parcel' ? 'طرد مشكّل' : item.commercialLineKind === 'legacy_single_sku_parcel' ? 'كرتونة' : item.unit} · {item.quantity} × {item.unitPrice.toFixed(3)}
+                    {item.commercialLineKind === 'configurable_parcel' ? 'طرد مشكّل' : item.commercialLineKind === 'legacy_single_sku_parcel' ? 'طرد' : item.unit} · {item.quantity} × {item.unitPrice.toFixed(3)}
                   </span>
                 </div>
               </div>

@@ -1,4 +1,5 @@
 import {sourceBeforeProductReceiving205} from '../scripts/audit/source-before-product-receiving205.mjs';
+import {sourceBeforeTrialJ} from '../scripts/audit/source-before-trial-aftercare.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
@@ -18,7 +19,9 @@ test('no generic piece terminology in UI source; exact import-only compatibility
   const forbidden=/حبة|حبات|الحبة|الحبات|وحدة الصنف|الوحدة الصغرى|وحدات صغرى|الوحدات الصغرى/u;
   const violations=[...sources('src'),...sources('customer-web/src')].filter(file=>{
     if(file===compatibility)return false;
-    let text=readFileSync(file,'utf8');
+    // J uses the owner's explicit "الحبة المعيبة/كل حباته" copy. Its exact
+    // whole-file inverse rejects every other byte before this older guard.
+    let text=sourceBeforeTrialJ(file,readFileSync(file,'utf8'));if(text===null)return false;
     if(approved.has(file)){
       // D uses the same owner label in the editable form and saved legacy view.
       assert.equal(text.split('كم حبة بالطرد').length-1,file==='src/features/more/ParcelConfigurationModal.tsx'?2:1,file+' exact owner phrase count');

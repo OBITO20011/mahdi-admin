@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "migrationCeiling": 210,
+  "migrationCeiling": 211,
   "managedAccess": false,
   "sources": [
     {
@@ -389,11 +389,15 @@
     },
     {
       "file": "src/features/orders/AdminAftercarePanel.tsx",
-      "sha256": "1e813e207cc36690ee0f9b541b55fdf18d1722484e1ea501635c426121991f51"
+      "sha256": "ed721c6bfe482aa2f3ce7a0fc62da04aa38a844f4d64ca50e7a14c1f573a8114"
     },
     {
       "file": "src/features/orders/aftercarePresentation.ts",
-      "sha256": "9cad4d4727ab70bb87fa9cba9b5d30afafc11a11fafdf429a4e883fceea482d5"
+      "sha256": "c8598aab2048edae41d94d56e8e6fda2177a0022ae4ad76f1770065e84b5d96b"
+    },
+    {
+      "file": "src/features/orders/AftercareSupplierSafety.tsx",
+      "sha256": "743a85cded0a7d49a9054f9789c004b2b625b5c15f020452a531cd4aed2f9193"
     },
     {
       "file": "src/features/orders/CustomerLocationCard.tsx",
@@ -409,7 +413,7 @@
     },
     {
       "file": "src/features/orders/OrderDetailModal.tsx",
-      "sha256": "2db81bd98ea239388d457be71640e2127331502e5512c2d520616d744e11d240"
+      "sha256": "8906183ae353e37a773368f937537a279c2bea9344ec22e5bd12ca19d1228a89"
     },
     {
       "file": "src/features/orders/OrdersCenterView.tsx",
@@ -485,7 +489,7 @@
     },
     {
       "file": "src/features/purchases/PurchaseOrderDetailView.tsx",
-      "sha256": "f58789e21a3b4af4be83bd3ec87224b54245104888b098de72ce8f49707b76f3"
+      "sha256": "84243f1504c985918de2fc7cb87f4da7a4a7af78ad0680a9478375c3a0dc8c67"
     },
     {
       "file": "src/features/purchases/PurchasesView.tsx",
@@ -521,7 +525,7 @@
     },
     {
       "file": "src/features/reports/DamageLossReportSection.tsx",
-      "sha256": "aa57e90bddda001133f9e0757d2831b7506056fd8de5cb40b1da160cce03fda4"
+      "sha256": "8c1575d3aaf34fbc37d7b20ae95253294d11c8c10fa2928d6bc7fa50550b16c6"
     },
     {
       "file": "src/features/reports/OwnerWithdrawalsReportSection.tsx",
@@ -817,11 +821,11 @@
     },
     {
       "file": "src/services/supabase/supplierReplacement.service.ts",
-      "sha256": "abdf50da4907fe901cdb56359857c691c4596f40a2bc28630402c9a200f11109"
+      "sha256": "f2147c025752446ba64e5cd8c233aaa8ad3f63ab9b4309c3a457feafb34782a3"
     },
     {
       "file": "src/services/supabase/supplierReplacementIntent.ts",
-      "sha256": "44d74f97e11c917ede322ab710a9b301b4767783237d0b5b5125ce5028d78a5f"
+      "sha256": "68a072ac47d88081a68f8a29bda65b68fa9fa984301210822e144f3d2dbc73f5"
     },
     {
       "file": "src/services/supabase/warehouses.service.ts",
@@ -901,7 +905,7 @@
     },
     {
       "file": "src/utils/businessError.ts",
-      "sha256": "6e9a4d0561fdee7a8fad6d888bf1d28ed99d88f8e9809b3088d92ffddfb3412e"
+      "sha256": "0eb3efba1430ff180274ea19339829390f2d9a6ce0436f32ccf9ad052dd9b9e9"
     },
     {
       "file": "src/utils/customerCollections.ts",
@@ -997,11 +1001,11 @@
     },
     {
       "file": "src/utils/supplierReplacement.ts",
-      "sha256": "254b67d84a6a6a592e8b668bf71bc6880604389bdafccc8aca99e8bda6863fdd"
+      "sha256": "647503ff1a1a0c389573e3faa8683b6cd30ef6e2b9abc9387bce5d8f74226bd4"
     },
     {
       "file": "src/utils/unitLabels.ts",
-      "sha256": "8ffd0b47e4ad8b25184085bdb9d83ea167b1c68c1d9471922ba402fca8fff026"
+      "sha256": "33c12742419d4e0ab00291d5afd39411a07f6692c18e4754705d1487a242ecf9"
     },
     {
       "file": "src/vite-env.d.ts",

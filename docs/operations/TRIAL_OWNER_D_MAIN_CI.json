@@ -1,0 +1,337 @@
+{
+  "sha": "74cc431e9b8d4bf01c03c65e5d1740a61647fd56",
+  "recordedAt": "2026-10-22T22:03:30.365Z",
+  "managedAccess": false,
+  "quality": [
+    {
+      "id": 39853215039,
+      "event": "push",
+      "sha": "74cc431e9b8d4bf01c03c65e5d1740a61647fd56",
+      "attempt": 2,
+      "jobs": 41,
+      "strictFullVerified": true,
+      "actualReset208": {
+        "publicReport": true,
+        "authenticatedRestRead": true,
+        "ownerTotpStoragePreserved": true
+      },
+      "actualFull208": {
+        "passed": 21,
+        "readScale": {
+          "realWriterCases": 200,
+          "pageSize": 25,
+          "samplesMs": [
+            124,
+            126,
+            117,
+            122,
+            122
+          ],
+          "statementDeadlineMs": 5000
+        },
+        "restore": {
+          "logicalCatalogDifferences": 0,
+          "allPublicDataAndSequencesIdentical": true,
+          "replayZeroWrites": true
+        }
+      }
+    }
+  ],
+  "secrets": [
+    {
+      "id": 39853215186,
+      "event": "push",
+      "sha": "74cc431e9b8d4bf01c03c65e5d1740a61647fd56",
+      "conclusion": "success"
+    }
+  ],
+  "browser": [
+    {
+      "run": 39853215039,
+      "job": 120096366962,
+      "name": "Package F browser QA (1/5)",
+      "skipped": 0,
+      "passed": 200,
+      "summaries": 2,
+      "duration": "4.2m+5.5m",
+      "flaky": 0,
+      "logSha256": "b2b997b251b364597b17ca88764d6c3c3da0a2d0e9a0c75028f6b23b410841f4"
+    },
+    {
+      "run": 39853215039,
+      "job": 120096367558,
+      "name": "Package F browser QA (4/5)",
+      "skipped": 0,
+      "passed": 198,
+      "summaries": 2,
+      "duration": "5.7m+7.7m",
+      "flaky": 0,
+      "logSha256": "ea92709c911efa6e6da7ea3b8f4abd4f0579fe40846fb67019f7135c469e087e"
+    },
+    {
+      "run": 39853215039,
+      "job": 120096367610,
+      "name": "Package F browser QA (5/5)",
+      "skipped": 0,
+      "passed": 198,
+      "summaries": 2,
+      "duration": "5.6m+8.3m",
+      "flaky": 0,
+      "logSha256": "0b73ef20c8c791e32f1e01e5fb6816b8a994fe4bbda24fb3a13a8eeb10c0ee16"
+    },
+    {
+      "run": 39853215039,
+      "job": 120096368429,
+      "name": "Package F browser QA (3/5)",
+      "skipped": 0,
+      "passed": 198,
+      "summaries": 2,
+      "duration": "4.3m+5.5m",
+      "flaky": 0,
+      "logSha256": "6bdaba954719bd7cbe63f306c2c91b7214e4f4ad1b9a8e58ca2d4afc5d9ee8d6"
+    },
+    {
+      "run": 39853215039,
+      "job": 120096426537,
+      "name": "Lint, test, build and browser QA",
+      "skipped": 59,
+      "passed": 373,
+      "summaries": 1,
+      "duration": "14.2m",
+      "flaky": 0,
+      "logSha256": "c8da3a637e372aab35e2c2177839b8a9c983d721393ca3b5bf433f0b12b4e12e"
+    },
+    {
+      "run": 39853215039,
+      "job": 120096428169,
+      "name": "Package F browser QA (2/5)",
+      "skipped": 0,
+      "passed": 200,
+      "summaries": 2,
+      "duration": "5.7m+7.9m",
+      "flaky": 0,
+      "logSha256": "241d3afd2aba58d0cc30ec72b5807712ca76394720d878f3f3db511506bb6e93"
+    }
+  ],
+  "browserTotals": [
+    {
+      "run": 39853215039,
+      "passed": 1367,
+      "legacyConditionalSkipped": 59,
+      "flaky": 0
+    }
+  ],
+  "qualityRun": 39853215039,
+  "qualityEvent": "push",
+  "secretsRun": 39853215186,
+  "jobs": 41,
+  "deliveryReady": true,
+  "pwa": [
+    {
+      "run": 39853215039,
+      "job": 120096412645,
+      "mode": "full",
+      "scenarios": [
+        {
+          "browser": "Chromium",
+          "scenario": "automatic",
+          "ok": true,
+          "cacheCleanup": true,
+          "reopenedOnReleaseB": true
+        },
+        {
+          "browser": "Chromium",
+          "scenario": "waiting-worker",
+          "ok": true,
+          "cacheCleanup": true,
+          "reopenedOnReleaseB": true
+        },
+        {
+          "browser": "WebKit",
+          "scenario": "automatic",
+          "ok": true,
+          "cacheCleanup": true,
+          "reopenedOnReleaseB": true
+        },
+        {
+          "browser": "WebKit",
+          "scenario": "waiting-worker",
+          "ok": true,
+          "cacheCleanup": true,
+          "reopenedOnReleaseB": true
+        }
+      ],
+      "network": {
+        "denied": [],
+        "blockedCanaryAttempts": [],
+        "deniedUnexpectedAttempts": [],
+        "escapedExternalRequests": []
+      }
+    }
+  ],
+  "trialASearch": [
+    {
+      "run": 39853215039,
+      "job": 120096373003,
+      "ok": true,
+      "managedAccess": false,
+      "realPostgrest": true,
+      "matchingOutsideFirstPage": true,
+      "pages": 2,
+      "fullItemsRetained": true,
+      "exactCount": 32,
+      "filtersAndQuotedSearch": true,
+      "zeroWrites": true,
+      "singleSkuHasNoDuplicateParcel": true,
+      "cases": [
+        {
+          "role": "owner",
+          "passed": true,
+          "matchingOutsideFirstPage": true
+        },
+        {
+          "role": "admin",
+          "passed": true,
+          "matchingOutsideFirstPage": true
+        },
+        {
+          "role": "manager",
+          "passed": true,
+          "matchingOutsideFirstPage": true
+        },
+        {
+          "role": "warehouse_keeper",
+          "passed": true,
+          "matchingOutsideFirstPage": true
+        },
+        {
+          "role": "accountant",
+          "passed": true,
+          "matchingOutsideFirstPage": true
+        },
+        {
+          "role": "cashier",
+          "existingReaderDenied": true,
+          "passed": true
+        },
+        {
+          "role": "no-role",
+          "existingReaderDenied": true,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "actualPosBrowser": [
+    {
+      "run": 39853215039,
+      "job": 120096371023,
+      "passed": 8,
+      "scenariosPerEngine": 4,
+      "engines": [
+        "Chromium",
+        "WebKit"
+      ],
+      "realPublicRpc": true,
+      "realIsolatedDatabase": true,
+      "productionRequests": 0
+    }
+  ],
+  "parcel209": [
+    {
+      "run": 39853215039,
+      "job": 120096373645,
+      "cases": 16,
+      "races": 7,
+      "restore": {
+        "logicalCatalogDifferences": 0,
+        "allPublicDataAndSequencesIdentical": true,
+        "replayZeroWrites": true
+      },
+      "access": {
+        "ok": true,
+        "ownerV5RestMutation": true,
+        "publicInheritedMethods": [
+          {
+            "role": "anon",
+            "rows": 3,
+            "parcelOnly": true
+          },
+          {
+            "role": "authenticated",
+            "rows": 3,
+            "parcelOnly": true
+          }
+        ],
+        "adminBarcodeMethod": true,
+        "noRoleRefused": true,
+        "readZeroWrites": true
+      },
+      "reference": {
+        "migrations": 171,
+        "functions": 546,
+        "realtimeMembers": 13,
+        "freshIncrementalDifferenceCount": 0
+      },
+      "upgrade": {
+        "applied": [
+          "209"
+        ],
+        "recorded": [
+          "209"
+        ],
+        "replayWrite": false
+      },
+      "reset": {
+        "ownerRetained": true,
+        "totp": true,
+        "storageDeleted": true,
+        "rest209": true
+      }
+    }
+  ],
+  "receipt210": [
+    {
+      "run": 39853215039,
+      "job": 120096374296,
+      "cases": 7,
+      "restore": {
+        "logicalCatalogDifferences": 0,
+        "allPublicDataAndSequencesIdentical": true,
+        "replayZeroWrites": true
+      },
+      "reference": {
+        "migrations": 172,
+        "functions": 546,
+        "realtimeMembers": 13,
+        "freshIncrementalDifferenceCount": 0
+      },
+      "upgrade": {
+        "applied": [
+          "209",
+          "210"
+        ],
+        "recorded": [
+          "209",
+          "210"
+        ],
+        "replayWrite": false
+      },
+      "reset": {
+        "ownerRetained": true,
+        "totp": true,
+        "storageDeleted": true,
+        "rest210": true
+      }
+    }
+  ],
+  "pr": {
+    "number": 16,
+    "url": "https://github.com/OBITO20011/mahdi-admin/pull/16",
+    "base": "581cb972a247ef13dbdc697b75bcc5c674bfa97d",
+    "head": "4e255f0c179569b0812b0b87c942eb52a07084b0",
+    "merged": true,
+    "mergeSha": "74cc431e9b8d4bf01c03c65e5d1740a61647fd56"
+  },
+  "ok": true
+}

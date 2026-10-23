@@ -4,8 +4,8 @@ import type {DamageLosses} from '../../types/reports';
 const reasons: Record<string,string> = {
   shop_breakage: 'انكسر بالمحل', expired: 'انتهت الصلاحية', storage_damage: 'تلف تخزين',
   other: 'أخرى', customer_return_final: 'مرتجع زبون تالف نهائي',
-  supplier_writeoff:'رفض المورد للاستبدال',customer_return_supplier_hold:'إعادة تصنيف مرتجع إلى معلّق',
-  supplier_writeoff_reversal:'عكس رفض المورد',shop_damage_reversal:'عكس تلف المحل',customer_return_supplier_hold_reversal:'عكس تعليق المرتجع لدى المورد',
+  supplier_writeoff:'رفض المورد للاستبدال',customer_return_supplier_hold:'إعادة تصنيف عيب إلى معلّق',
+  supplier_writeoff_reversal:'عكس رفض المورد',shop_damage_reversal:'عكس تلف المحل',customer_return_supplier_hold_reversal:'عكس تعليق العيب لدى المورد',
 };
 
 export function DamageLossReportSection({losses}: {losses?: DamageLosses}) {

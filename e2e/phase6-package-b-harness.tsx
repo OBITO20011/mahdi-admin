@@ -15,7 +15,8 @@ const actorId = '66660000-0000-4000-8000-000000000001';
 // Synthetic authentication only. Requests still traverse the actual public service/recovery adapter.
 if (supabase) supabase.auth.getUser = async () => ({data: {user: {id: actorId}}, error: null}) as Awaited<ReturnType<NonNullable<typeof supabase>['auth']['getUser']>>;
 const auth = authStoreEngine as unknown as {state: AuthState; getState: () => AuthState; initAuth: () => Promise<void>};
-auth.state = {...auth.getState(), roleName: 'owner', roles: ['owner'], isAuthenticated: true, isLoading: false};
+const role = new URLSearchParams(location.search).get('role') === 'admin' ? 'admin' : 'owner';
+auth.state = {...auth.getState(), roleName: role, roles: [role], isAuthenticated: true, isLoading: false};
 auth.initAuth = async () => undefined;
 storeEngine.setCurrentUser({id: actorId, name: 'المالك', role: 'Owner', avatarUrl: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=='});
 const order = {id: '66660000-0000-4000-8000-000000000002', items: [
