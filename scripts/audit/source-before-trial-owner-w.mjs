@@ -1,3 +1,4 @@
+import {sourceBeforeTrialR,restoreTrialRSourceHashes,projectTrialRQuerySites} from './source-before-trial-owner-r.mjs';
 // Exact additive inverse over delivered maine96efc1. All old pins are immutable.
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -11,7 +12,7 @@ for(const name of ['trial-brand','trial-aftercare','trial-sale-receipts','parcel
 }
 for(const [file,pin]of Object.entries(trialWPins)){for(const snapshot of pin.approvedHistoricalSnapshots??[]){const hashes=olderHashes.get(file)??new Set();hashes.add(snapshot.sha256);olderHashes.set(file,hashes);}}
 export function sourceBeforeTrialW(file,text){
- const source=text.replaceAll('\r\n','\n'),pin=trialWPins[file];if(!pin)return source;
+ const source=sourceBeforeTrialR(file,text);if(source===null)return null;const pin=trialWPins[file];if(!pin)return source;
  const digest=hash(source);if(digest===pin.before||olderHashes.get(file)?.has(digest))return source;
  assert.equal(digest,pin.after,(pin.errorPrefix??'TRIAL_W_ENTIRE_CURRENT_FILE_CHANGED:')+file);
  if(pin.added)return null;
@@ -21,17 +22,17 @@ export function sourceBeforeTrialW(file,text){
  }
  const restored=lines.join('\n');assert.equal(hash(restored),pin.before,'TRIAL_W_ENTIRE_RESTORED_FILE_CHANGED:'+file);return restored;
 }
-export function restoreTrialWSourceHashes(sources){return sources.flatMap(s=>{
+export function restoreTrialWSourceHashes(sources){return restoreTrialRSourceHashes(sources).flatMap(s=>{
  const pin=trialWPins[s.file];if(!pin||s.sha256===pin.before||olderHashes.get(s.file)?.has(s.sha256))return [s];
  assert.equal(s.sha256,pin.after,'TRIAL_W_SOURCE_HASH:'+s.file);
  const text=sourceBeforeTrialW(s.file,readFileSync(new URL('../../'+s.file,import.meta.url),'utf8'));
  return text===null?[]:[{...s,sha256:hash(text)}];
 });}
 export function projectTrialWQuerySites(source,parseSource){
- assert.equal(typeof parseSource,'function','TRIAL_W_SOURCE_PARSER_REQUIRED');const entries=[];
+ assert.equal(typeof parseSource,'function','TRIAL_W_SOURCE_PARSER_REQUIRED');source=projectTrialRQuerySites(source,parseSource);const entries=[];
  for(const file of new Set(source.entries.map(e=>e.file))){
   const supplied=source.entries.filter(e=>e.file===file),pin=trialWPins[file];if(!pin){entries.push(...supplied);continue;}
-  const raw=readFileSync(new URL('../../'+file,import.meta.url),'utf8').replaceAll('\r\n','\n'),before=sourceBeforeTrialW(file,raw),entry=source.sources.find(s=>s.file===file);
+  const raw=sourceBeforeTrialR(file,readFileSync(new URL('../../'+file,import.meta.url),'utf8'))??'',before=sourceBeforeTrialW(file,raw),entry=source.sources.find(s=>s.file===file);
   assert.ok(entry,'HISTORICAL_QUERY_SOURCE_REQUIRED:TRIAL_W:'+file);
   if(entry.sha256!==hash(raw)){assert.ok((before!==null&&entry.sha256===hash(before))||olderHashes.get(file)?.has(entry.sha256),'HISTORICAL_QUERY_SOURCE_HASH:TRIAL_W:'+file);entries.push(...supplied);continue;}
   const current=parseSource(file,raw).entries,keys=Object.keys(current[0]??{}),pick=e=>Object.fromEntries(keys.map(k=>[k,e[k]]));

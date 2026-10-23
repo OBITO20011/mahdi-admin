@@ -8,7 +8,7 @@ import {OrderDetailModal} from '../orders/OrderDetailModal';
 import type {Order} from '../../types';
 import './salesHistory.css';
 
-export function SalesInvoiceDialog({orderId,onClose,onChanged,returnContext=false}:{orderId:string;onClose:()=>void;onChanged?:()=>Promise<void>;returnContext?:boolean}) {
+export function SalesInvoiceDialog({orderId,onClose,onChanged,returnContext=false,nested=false}:{orderId:string;onClose:()=>void;onChanged?:()=>Promise<void>;returnContext?:boolean;nested?:boolean}) {
   const [order,setOrder]=useState<Order|null>(null),[error,setError]=useState<string|null>(null),[loading,setLoading]=useState(true);
   const version=useRef(0),restorePrint=useRef<(()=>void)|null>(null);
   // Preserve the embedded order's existing busy close lock at this outer focus boundary.
@@ -30,7 +30,7 @@ export function SalesInvoiceDialog({orderId,onClose,onChanged,returnContext=fals
     const restore=()=>{closed.forEach(element=>{element.open=false;});window.removeEventListener('afterprint',restore);restorePrint.current=null;};
     restorePrint.current=restore;window.addEventListener('afterprint',restore,{once:true});window.print();
   };
-  return createPortal(<div className="sales-invoice-backdrop fixed inset-0 z-40 overflow-y-auto bg-black/60 p-2 sm:p-5" dir="rtl">
+  return createPortal(<div className={`sales-invoice-backdrop fixed inset-0 ${nested?'z-50':'z-40'} overflow-y-auto bg-black/60 p-2 sm:p-5`} dir="rtl">
     <div ref={panel as React.RefObject<HTMLDivElement>} role="dialog" aria-modal="true" aria-label={order?`الفاتورة ${order.orderNumber}`:'تفاصيل الفاتورة'} className="sales-invoice-dialog mx-auto min-w-0 max-w-3xl bg-nw-surface p-4 text-nw-text">
       {loading?<div role="status" className="space-y-4 py-8 text-center"><RefreshCw className="mx-auto h-6 w-6 animate-spin" aria-hidden="true"/>جاري تحميل الفاتورة…<div><UiButton onClick={onClose}>إغلاق</UiButton></div></div>
         :error||!order?<div role="alert" className="space-y-3"><p>{error||'تعذر تحميل الفاتورة.'}</p><UiButton onClick={()=>void load()}>إعادة المحاولة</UiButton><UiButton onClick={onClose}>إغلاق</UiButton></div>

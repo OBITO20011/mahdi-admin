@@ -3,6 +3,8 @@ import type {CashFlowKind} from '../../features/shifts/cashFlowModel';
 
 export interface CashShiftMovement {
   source:string;id:string;reference:string;at:string;method:string;amountInMinorUnits:number;note:string|null;
+  displayTitle?:string;itemsPreview?:Array<{name:string;quantity:number;unit:string}>;itemCount?:number;
+  document?:{type:'order'|'supplier_receipt'|'purchase_order'|'supplier_payment'|'customer_collection'|'expense'|'owner_withdrawal'|'owner_withdrawal_return';id:string};
 }
 export interface CashShiftMovementPage {
   shiftId:string;kind:CashFlowKind;method:'cash'|'cliq'|'card';generatedAt:string;shiftStatus:string;
@@ -21,7 +23,17 @@ export function parseCashShiftMovementPage(value:unknown):CashShiftMovementPage 
     canonicalAmountInMinorUnits:row.canonicalAmountInMinorUnits===null?null:integer(row.canonicalAmountInMinorUnits),
     totalAmountInMinorUnits:integer(row.totalAmountInMinorUnits),totalCount:integer(row.totalCount),page:integer(row.page),pageSize:integer(row.pageSize),totalPages:integer(row.totalPages),
     rows:row.rows.map(item=>{if(!item||typeof item!=='object'||Array.isArray(item))throw new Error('سطر حركة غير صالح.');const r=item as Record<string,unknown>;
-      return {source:text(r.source),id:text(r.id),reference:text(r.reference),at:text(r.at),method:text(r.method),amountInMinorUnits:integer(r.amountInMinorUnits),note:r.note===null?null:text(r.note)};})} as CashShiftMovementPage;
+      const metadata:Partial<CashShiftMovement>={};
+      if(r.displayTitle!==undefined){
+        if(!Array.isArray(r.itemsPreview)||r.itemsPreview.length>2||typeof r.document!=='object'||r.document===null||Array.isArray(r.document))throw new Error('هوية مستند الحركة غير مكتملة.');
+        const document=r.document as Record<string,unknown>;
+        if(!['order','supplier_receipt','purchase_order','supplier_payment','customer_collection','expense','owner_withdrawal','owner_withdrawal_return'].includes(String(document.type)))throw new Error('نوع المستند غير صالح.');
+        metadata.displayTitle=text(r.displayTitle);metadata.itemCount=integer(r.itemCount);
+        metadata.itemsPreview=r.itemsPreview.map(item=>{if(typeof item!=='object'||item===null||Array.isArray(item))throw new Error('ملخص أصناف الحركة غير صالح.');const line=item as Record<string,unknown>;const quantity=integer(line.quantity);if(quantity<1)throw new Error('كمية ملخص الحركة غير صالحة.');return {name:text(line.name),quantity,unit:text(line.unit)};});
+        if(metadata.itemCount!<metadata.itemsPreview.length||metadata.itemCount!<0)throw new Error('عدد أصناف الحركة غير مطابق.');
+        metadata.document={type:document.type as NonNullable<CashShiftMovement['document']>['type'],id:text(document.id)};
+      }
+      return {source:text(r.source),id:text(r.id),reference:text(r.reference),at:text(r.at),method:text(r.method),amountInMinorUnits:integer(r.amountInMinorUnits),note:r.note===null?null:text(r.note),...metadata};})} as CashShiftMovementPage;
   if(result.page<1||result.pageSize<1||result.pageSize>100||result.totalCount<0||result.totalPages!==Math.max(1,Math.ceil(result.totalCount/result.pageSize))
     ||result.rows.length!==Math.max(0,Math.min(result.pageSize,result.totalCount-(result.page-1)*result.pageSize))
     ||!Number.isFinite(Date.parse(result.generatedAt))||result.rows.some(item=>item.method!==result.method||!Number.isFinite(Date.parse(item.at)))

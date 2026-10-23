@@ -1,0 +1,1692 @@
+{
+  "baseline": "88c7bd446ab19338d320108a86ea25cddcbf6d2d",
+  "entries": {
+    ".github/workflows/quality.yml": {
+      "errorPrefix": "TRIAL_A_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "fc20e93b5a4c2afedc669c08b7f735f478eb9b5d4a088327c6bd348b57974ca8",
+      "before": "5f630a117c6c2b4e89970cbbf24818ef7518a7c50ae7df3d245b988a3ccc5842",
+      "hunks": [
+        {
+          "at": 250,
+          "before": [
+            "        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset, warehouse-management, owner-withdrawals, deferred-cheques, opening-cheques, legacy-product-cost, home-damage201, all-collections202, all-collections203, sales-history204, product-receiving205, navigation-cash206, document-corrections207, supplier-replacement208, parcel209, receipt210, aftercare211]"
+          ],
+          "after": [
+            "        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset, warehouse-management, owner-withdrawals, deferred-cheques, opening-cheques, legacy-product-cost, home-damage201, all-collections202, all-collections203, sales-history204, product-receiving205, navigation-cash206, document-corrections207, supplier-replacement208, parcel209, receipt210, aftercare211, trial212]"
+          ]
+        },
+        {
+          "at": 330,
+          "before": [],
+          "after": [
+            "      - name: Trial212 read-only roles source metadata restore upgrade reset and current SDK",
+            "        if: matrix.suite == 'trial212'",
+            "        run: node scripts/testing/run-trial212-gates.mjs",
+            ""
+          ]
+        }
+      ]
+    },
+    "scripts/audit/run-table-access-diagnostic.mjs": {
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "f2fd696a2ac4181170cd3bbb6c7dc5df232d4941c4f6f91fe34c081fe1ced702",
+      "before": "959c43977eb46ba915ae373485dd7eb299b2bac9060a2bd0fd045399653b909e",
+      "hunks": [
+        {
+          "at": 18,
+          "before": [
+            "assert.ok([138,150,164,171,182,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211].includes(ceiling),'ONLY_APPROVED_AUDIT_CEILINGS');"
+          ],
+          "after": [
+            "assert.ok([138,150,164,171,182,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212].includes(ceiling),'ONLY_APPROVED_AUDIT_CEILINGS');"
+          ]
+        }
+      ]
+    },
+    "scripts/audit/source-before-trial-owner-w.mjs": {
+      "errorPrefix": "TRIAL_R_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "4bbdb7828c72cb78524e7c47dc31ad77f454a2bce49c9fcf537b53f312122576",
+      "before": "40c90214b59c24c5377f070060f9b3c816d506e4a1f57cfff9780e97f5dc2579",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {sourceBeforeTrialR,restoreTrialRSourceHashes,projectTrialRQuerySites} from './source-before-trial-owner-r.mjs';"
+          ]
+        },
+        {
+          "at": 15,
+          "before": [
+            " const source=text.replaceAll('\\r\\n','\\n'),pin=trialWPins[file];if(!pin)return source;"
+          ],
+          "after": [
+            " const source=sourceBeforeTrialR(file,text);if(source===null)return null;const pin=trialWPins[file];if(!pin)return source;"
+          ]
+        },
+        {
+          "at": 25,
+          "before": [
+            "export function restoreTrialWSourceHashes(sources){return sources.flatMap(s=>{"
+          ],
+          "after": [
+            "export function restoreTrialWSourceHashes(sources){return restoreTrialRSourceHashes(sources).flatMap(s=>{"
+          ]
+        },
+        {
+          "at": 32,
+          "before": [
+            " assert.equal(typeof parseSource,'function','TRIAL_W_SOURCE_PARSER_REQUIRED');const entries=[];"
+          ],
+          "after": [
+            " assert.equal(typeof parseSource,'function','TRIAL_W_SOURCE_PARSER_REQUIRED');source=projectTrialRQuerySites(source,parseSource);const entries=[];"
+          ]
+        },
+        {
+          "at": 35,
+          "before": [
+            "  const raw=readFileSync(new URL('../../'+file,import.meta.url),'utf8').replaceAll('\\r\\n','\\n'),before=sourceBeforeTrialW(file,raw),entry=source.sources.find(s=>s.file===file);"
+          ],
+          "after": [
+            "  const raw=sourceBeforeTrialR(file,readFileSync(new URL('../../'+file,import.meta.url),'utf8'))??'',before=sourceBeforeTrialW(file,raw),entry=source.sources.find(s=>s.file===file);"
+          ]
+        }
+      ]
+    },
+    "scripts/testing/aftercare211-restore.mjs": {
+      "errorPrefix": "TRIAL_J_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "f2e6c1f7a4f71c397334e3e22cde9af93955571c955ab989455755d28a5959b0",
+      "before": "3b97b685c9f87cdc8311c275925a223bbeeedc468960f187a4eb00cb23ea818c",
+      "hunks": [
+        {
+          "at": 15,
+          "before": [
+            "  assert.equal(container,'supabase_db_nawasrah-aftercare211-test');"
+          ],
+          "after": [
+            "  assert.ok(['supabase_db_nawasrah-aftercare211-test','supabase_db_nawasrah-trial212-test'].includes(container),'EXACT_APPROVED_LOCAL_RESTORE_CONTAINER');"
+          ]
+        }
+      ]
+    },
+    "scripts/testing/run-trial-reset-runtime.mjs": {
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "029fb7f54f7bd0c99b2f31a0d9dcee5d0305507f5db12730a3e7a07dbb73c987",
+      "before": "75dcb9bc8a362cea3ae146c972894aac3d4483bff60f41b79b445f8b0912b827",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {readReady212Reference,assertReady212Catalog} from '../operations/frankfurt-reference212.mjs';"
+          ]
+        },
+        {
+          "at": 42,
+          "before": [
+            " const latest211=process.argv.includes('--current211');"
+          ],
+          "after": [
+            " const latest212=process.argv.includes('--current212');",
+            " const latest211=latest212||process.argv.includes('--current211');"
+          ]
+        },
+        {
+          "at": 55,
+          "before": [
+            " const current=latest209||latest208||latest207||latest206||latest205||latest204||latest203||latest202||latest201||latest||process.argv.includes('--current199'),explicit=process.argv.slice(2).find(arg=>!['--current199','--current200','--current201','--current202','--current203','--current204','--current205','--current206','--current207','--current208','--current209','--current210','--current211'].includes(arg));"
+          ],
+          "after": [
+            " const current=latest209||latest208||latest207||latest206||latest205||latest204||latest203||latest202||latest201||latest||process.argv.includes('--current199'),explicit=process.argv.slice(2).find(arg=>!['--current199','--current200','--current201','--current202','--current203','--current204','--current205','--current206','--current207','--current208','--current209','--current210','--current211','--current212'].includes(arg));"
+          ]
+        },
+        {
+          "at": 59,
+          "before": [
+            " const reference=await (latest211?readReady211Reference:latest210?readReady210Reference:latest209?readReady209Reference:latest208?readReady208Reference:latest207?readReady207Reference:latest206?readReady206Reference:latest205?readReady205Reference:latest204?readReady204Reference:latest203?readReady203Reference:latest202?readReady202Reference:latest201?readReady201Reference:latest?readReady200Reference:current?readReady199Reference:readReference182)(root,referencePath);"
+          ],
+          "after": [
+            " const reference=await (latest212?readReady212Reference:latest211?readReady211Reference:latest210?readReady210Reference:latest209?readReady209Reference:latest208?readReady208Reference:latest207?readReady207Reference:latest206?readReady206Reference:latest205?readReady205Reference:latest204?readReady204Reference:latest203?readReady203Reference:latest202?readReady202Reference:latest201?readReady201Reference:latest?readReady200Reference:current?readReady199Reference:readReference182)(root,referencePath);"
+          ]
+        },
+        {
+          "at": 149,
+          "before": [
+            " report.functions=await functionReference(executor,reference.migrationCeiling);assert.equal(report.functions,latest211?554:latest209?546:latest208?534:latest207?523:latest206?520:latest205?519:latest204?517:latest203||latest202||latest201?516:current?513:468);"
+          ],
+          "after": [
+            " report.functions=await functionReference(executor,reference.migrationCeiling);assert.equal(report.functions,latest212?556:latest211?554:latest209?546:latest208?534:latest207?523:latest206?520:latest205?519:latest204?517:latest203||latest202||latest201?516:current?513:468);"
+          ]
+        },
+        {
+          "at": 163,
+          "before": [],
+          "after": [
+            " if(latest212){assertReady212Catalog(await json(schemaCatalogSql));const wire=await ownerSession.rpc('get_damage_history_page_v1',{});assert.equal(wire.error,null,'ACTUAL_OWNER212_DAMAGE_REST_READ');assert.equal(wire.data.contractVersion,212);assert.deepEqual(wire.data.rows,[]);assert.equal(wire.data.totalCount,0);report.rest212DamageRead=true;}"
+          ]
+        }
+      ]
+    },
+    "src/features/directReceiving/CreateDirectReceiptModal.tsx": {
+      "errorPrefix": "RECEIVING205_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "8fc57e0d3d5b0452f27eaa90556d59a638aaf7fbdc2a7c5b97931d0ffb33b8fd",
+      "before": "1b052eda1c8635502d5080ce8aba7fc0db28bf330711bf6f76e2cbad3a43a5e8",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {ProductChoiceList} from '../../components/ui/ProductPicker';"
+          ]
+        },
+        {
+          "at": 789,
+          "before": [
+            "                filteredProducts.map((prod) => {",
+            "                  const warehouseBalance = prod.inventoryBalances.find(",
+            "                    (balance) => balance.warehouseId === selectedWarehouseId",
+            "                  );",
+            "                  const warehouseAvailable = warehouseBalance?.availableQuantity ?? 0;",
+            "",
+            "                  return (",
+            "                    <FormFields",
+            "                      key={prod.id}",
+            "                      data-receiving-product-result={prod.id}",
+            "                      onClick={() => handleSelectProduct(prod)}",
+            "                      className=\"nw-purchasing-fields flex items-center justify-between p-2.5 rounded-xl hover:bg-nw-surface border border-transparent hover:border-nw-border transition cursor-pointer\"",
+            "                    >",
+            "                      <div>",
+            "                        <h4 className=\"font-bold text-nw-text text-xs\">{prod.nameAr}</h4>",
+            "                        <div className=\"flex items-center gap-2 text-[10px] text-nw-muted\">",
+            "                          <span>رمز الصنف: {prod.sku}</span>",
+            "                          {prod.barcode && <span>| الباركود: {prod.barcode}</span>}",
+            "                          <span>| الوحدة الأساسية: {prod.baseUnitName}</span>",
+            "                          <span>| طرد الشراء: {prod.purchaseUnitName} × {prod.unitsPerPackage}</span>",
+            "                        </div>",
+            "                        <p className=\"mt-1 text-[10px] font-bold text-nw-info\">",
+            "                          المتاح الآن في {selectedWarehouse?.nameAr || 'المستودع'}:{' '}",
+            "                          {formatWholesaleInventory(",
+            "                            warehouseAvailable,",
+            "                            prod.unitsPerPackage,",
+            "                            prod.purchaseUnitName,",
+            "                            prod.baseUnitName",
+            "                          ).fullFormatted}",
+            "                        </p>",
+            "                      </div>",
+            "                      <div className=\"text-left\">",
+            "                        <span className=\"text-nw-ok font-extrabold text-xs block\">",
+            "                          {formatJod(minorUnitsToJod(prod.costPriceInMinorUnits))} {CURRENCY}",
+            "                        </span>",
+            "                        <span className=\"text-[10px] text-nw-muted font-semibold\">اضغط للإضافة +</span>",
+            "                      </div>",
+            "                    </FormFields>",
+            "                  );",
+            "                })"
+          ],
+          "after": [
+            "                <ProductChoiceList label=\"أصناف استلام البضاعة\" options={filteredProducts.map(prod=>({id:prod.id,name:prod.nameAr,image:prod.imageUrl,unit:prod.baseUnitName,available:prod.inventoryBalances.find(balance=>balance.warehouseId===selectedWarehouseId)?.availableQuantity??0}))}",
+            "                  onChoose={id=>{const product=filteredProducts.find(item=>item.id===id);if(product)handleSelectProduct(product);}}/>"
+          ]
+        }
+      ]
+    },
+    "src/features/inventory/StockCountModal.tsx": {
+      "errorPrefix": "WAREHOUSE_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "f800e073bdb38ab5bc7e7cb62fa29e90f30de05d199d096ec267ff2eadcd0c0d",
+      "before": "b5af70a40540646079ad3ee81552e8ae3e389ef079dca6c186ed1fbff14c71ad",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {ProductPicker} from '../../components/ui/ProductPicker';",
+            "import {productPickerOption} from '../../components/ui/productPickerModel';"
+          ]
+        },
+        {
+          "at": 18,
+          "before": [
+            "  Package,"
+          ],
+          "after": []
+        },
+        {
+          "at": 21,
+          "before": [
+            "  Search,"
+          ],
+          "after": []
+        },
+        {
+          "at": 173,
+          "before": [
+            "      {/* Product Selection */}",
+            "      <div className=\"space-y-1\">",
+            "        <label className=\"text-[11px] font-bold text-nw-text block flex items-center gap-1\">",
+            "          <Package className=\"w-3.5 h-3.5 text-nw-info\" />",
+            "          <span>اختر المنتج المراد جرده *</span>",
+            "        </label>",
+            "        <select",
+            "          value={selectedProductId}",
+            "          onChange={(e) => handleProductChange(e.target.value)}",
+            "          className=\"w-full bg-nw-bg border border-nw-border rounded-xl px-3 py-2.5 text-nw-text text-xs font-semibold focus:outline-none focus:border-nw-info\"",
+            "        >",
+            "          {stockableProducts.map((p) => (",
+            "            <option key={p.id} value={p.id}>",
+            "              {p.nameAr} - (الرمز: {p.sku}) - بالنظام: {formatProductInventory(p).fullFormatted}",
+            "            </option>",
+            "          ))}",
+            "        </select>",
+            "      </div>"
+          ],
+          "after": [
+            "      <ProductPicker label=\"اختر الصنف المراد جرده\" search={productSearch} onSearch={setProductSearch}",
+            "        options={stockableProducts.map(product=>productPickerOption(product))} value={selectedProductId}",
+            "        loading={isProductsLoading} disabled={isSubmitting} onChoose={handleProductChange}/>"
+          ]
+        },
+        {
+          "at": 189,
+          "before": [
+            "                الرمز: <span className=\"font-mono\">{selectedProduct.sku}</span> | الباركود: {selectedProduct.barcode}"
+          ],
+          "after": [
+            "                {selectedProduct.unit}"
+          ]
+        },
+        {
+          "at": 289,
+          "before": [
+            "        <div className=\"relative mb-2\">",
+            "          <Search className=\"pointer-events-none absolute right-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-nw-muted\" />",
+            "          <input",
+            "            type=\"search\"",
+            "            value={productSearch}",
+            "            onChange={(event) => setProductSearch(event.target.value)}",
+            "            placeholder=\"ابحث بالاسم أو رمز الصنف أو الباركود\"",
+            "            className=\"w-full rounded-xl border border-nw-border bg-nw-bg py-2.5 pl-3 pr-9 text-xs text-nw-text outline-none focus:border-nw-info\"",
+            "          />",
+            "        </div>"
+          ],
+          "after": []
+        }
+      ]
+    },
+    "src/features/inventory/SupplierReplacementPanel.tsx": {
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "db35baaab24068f647c2f43080f0c4370d13d794f7cc061abed15049c4de2b94",
+      "before": "f5271cf222e11589684525e943a1629f32bf173d076d8215b7d8a97def5b1ea8",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [
+            "import {useCallback,useEffect,useRef,useState} from 'react';"
+          ],
+          "after": [
+            "import {useCallback,useEffect,useLayoutEffect,useRef,useState} from 'react';",
+            "import {ProductPicker} from '../../components/ui/ProductPicker';"
+          ]
+        },
+        {
+          "at": 15,
+          "before": [
+            "export interface SupplierReplacementPanelProps {productId?:string;supplierId?:string;damageOnly?:boolean}",
+            "export function SupplierReplacementPanel({productId:initialProductId,supplierId:initialSupplierId,damageOnly=false}:SupplierReplacementPanelProps) {"
+          ],
+          "after": [
+            "export interface SupplierReplacementPanelProps {productId?:string;supplierId?:string;damageOnly?:boolean;initialReversal?:{item:SupplierReplacementCase;eventId:string};onSaved?:()=>void;onPendingChange?:(pending:boolean)=>void}",
+            "export function SupplierReplacementPanel({productId:initialProductId,supplierId:initialSupplierId,damageOnly=false,initialReversal,onSaved,onPendingChange}:SupplierReplacementPanelProps) {"
+          ]
+        },
+        {
+          "at": 27,
+          "before": [
+            "  useEffect(()=>{if(selection){actionPanel.current?.scrollIntoView({block:'nearest'});actionPanel.current?.focus({preventScroll:true});}},[selection]);"
+          ],
+          "after": [
+            "  useLayoutEffect(()=>{if(selection){actionPanel.current?.scrollIntoView({block:'nearest'});actionPanel.current?.focus({preventScroll:true});}},[selection]);"
+          ]
+        },
+        {
+          "at": 34,
+          "before": [],
+          "after": [
+            "  useEffect(()=>{onPendingChange?.(busy||unresolved||!recoveryReady);},[busy,unresolved,recoveryReady,onPendingChange]);",
+            "  useEffect(()=>{if(initialReversal&&owner&&recoveryReady){setSelection({action:'reverse',item:initialReversal.item,eventId:initialReversal.eventId});}},[initialReversal,owner,recoveryReady]);"
+          ]
+        },
+        {
+          "at": 84,
+          "before": [],
+          "after": [
+            "      onSaved?.();"
+          ]
+        },
+        {
+          "at": 122,
+          "before": [],
+          "after": [
+            "  if(initialReversal)return !owner?<p role=\"alert\">هذه العملية متاحة للمالك فقط.</p>:<div dir=\"rtl\" className=\"space-y-3\" aria-busy={busy}>",
+            "    {!recoveryReady&&<p role=\"status\">جاري التحقق من المحاولة السابقة…</p>}",
+            "    {unresolved&&<UiButton disabled={busy} onClick={()=>void execute(true)}>استعادة العملية المحفوظة</UiButton>}",
+            "    {!selection&&error&&<RejectionNotice reason={error}/>}{renderCaseWorkflow()}",
+            "  </div>;"
+          ]
+        },
+        {
+          "at": 139,
+          "before": [
+            "          {!initialProductId&&<SearchField label=\"ابحث عن الصنف\" value={productSearch} onChange={e=>setProductSearch(e.target.value)}/>}",
+            "          <label className=\"block text-sm\">الصنف<select value={productId} onChange={e=>chooseProduct(e.target.value)}><option value=\"\">اختر الصنف</option>{options.products.map(p=><option key={p.id} value={p.id}>{p.name} · {p.sku}</option>)}</select></label>"
+          ],
+          "after": [
+            "          <ProductPicker label=\"الصنف\" search={productSearch} onSearch={setProductSearch} value={productId} onChoose={chooseProduct}",
+            "            options={options.products.map(p=>({id:p.id,name:p.name,image:p.imageUrl??undefined,available:p.availableQuantity??null,unit:p.baseUnitName}))}/>"
+          ]
+        }
+      ]
+    },
+    "src/features/inventory/WarehouseTransferModal.tsx": {
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "af94c43253a8b3e95b096bcc82cf09df8c1d6a963e3d069c74b23a2f58420c92",
+      "before": "7a0957bd4611823d6a50658071c4e0d39f2b335197ebf6d0977320f9317581dc",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {ProductPicker} from '../../components/ui/ProductPicker';",
+            "import {productPickerOption} from '../../components/ui/productPickerModel';"
+          ]
+        },
+        {
+          "at": 18,
+          "before": [
+            "  Package,",
+            "  Search,"
+          ],
+          "after": []
+        },
+        {
+          "at": 145,
+          "before": [
+            "      {/* Select Product */}",
+            "      <div className=\"space-y-1\">",
+            "        <label className=\"text-[11px] font-bold text-nw-text block flex items-center gap-1\">",
+            "          <Package className=\"w-3.5 h-3.5 text-nw-info\" />",
+            "          <span>اختر المنتج المراد تحويله *</span>",
+            "        </label>",
+            "        <div className=\"relative mb-2\">",
+            "          <Search className=\"pointer-events-none absolute right-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-nw-muted\" />",
+            "          <input",
+            "            type=\"search\"",
+            "            value={productSearch}",
+            "            onChange={(event) => setProductSearch(event.target.value)}",
+            "            placeholder=\"ابحث بالاسم أو رمز الصنف أو الباركود\"",
+            "            className=\"w-full rounded-xl border border-nw-border bg-nw-bg py-2.5 pl-3 pr-9 text-xs text-nw-text outline-none focus:border-nw-info\"",
+            "          />",
+            "        </div>",
+            "        <select",
+            "          value={selectedProductId}",
+            "          onChange={(e) => {",
+            "            setSelectedProductId(e.target.value);",
+            "            selectedProductRef.current =",
+            "              stockableProducts.find((product) => product.id === e.target.value) || null;",
+            "          }}",
+            "          className=\"w-full bg-nw-bg border border-nw-border rounded-xl px-3 py-2.5 text-nw-text text-xs font-semibold focus:outline-none focus:border-nw-info\"",
+            "        >",
+            "          {stockableProducts.map((p) => (",
+            "            <option key={p.id} value={p.id}>",
+            "              {p.nameAr} - (الباركود: {p.barcode}) - المخزون المتوفر: {formatProductInventory(p).fullFormatted}",
+            "            </option>",
+            "          ))}",
+            "        </select>",
+            "      </div>"
+          ],
+          "after": [
+            "      <ProductPicker label=\"اختر الصنف المراد تحويله\" search={productSearch} onSearch={setProductSearch}",
+            "        options={stockableProducts.map(product=>productPickerOption(product,fromWarehouseId))} value={selectedProductId}",
+            "        loading={isProductsLoading} disabled={isSubmitting} onChoose={id=>{setSelectedProductId(id);selectedProductRef.current=stockableProducts.find(product=>product.id===id)||null;}}/>"
+          ]
+        },
+        {
+          "at": 160,
+          "before": [
+            "              <p className=\"text-[10px] text-nw-muted font-mono\">رمز الصنف: {selectedProduct.sku}</p>"
+          ],
+          "after": [
+            "              <p className=\"text-xs text-nw-muted\">{selectedProduct.unit}</p>"
+          ]
+        }
+      ]
+    },
+    "src/features/more/DamageProductSelection.tsx": {
+      "errorPrefix": "NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "9d85ef445989edfba56210dab6f4de717c974e0412a6a3c654422a1a3669d575",
+      "before": "8ca7c6006a206291fed06faf6ba36dd4b1165a6fae76473bfd1b1b6fe941eeea",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {ProductPicker} from '../../components/ui/ProductPicker';",
+            "import {productPickerOption} from '../../components/ui/productPickerModel';"
+          ]
+        },
+        {
+          "at": 7,
+          "before": [
+            "import {SearchField, UiButton} from '../../components/ui';"
+          ],
+          "after": [
+            "import {UiButton} from '../../components/ui';"
+          ]
+        },
+        {
+          "at": 10,
+          "before": [],
+          "after": [
+            "import {canUseSupplierReplacement} from '../../utils/supplierReplacement';",
+            "import {DamageHistoryPanel} from './DamageHistoryPanel';"
+          ]
+        },
+        {
+          "at": 21,
+          "before": [],
+          "after": [
+            "  const [tab,setTab]=useState<'register'|'history'>('register');",
+            "  const canRead=canUseSupplierReplacement(roles,roleName);"
+          ]
+        },
+        {
+          "at": 42,
+          "before": [
+            "    <SearchField label=\"ابحث عن الصنف التالف\" placeholder=\"اسم الصنف أو الباركود\" value={search} disabled={busy} onChange={event=>setSearch(event.target.value)}/>"
+          ],
+          "after": [
+            "    <div role=\"tablist\" aria-label=\"بضاعة تالفة\" className=\"flex flex-wrap gap-2\">",
+            "      <UiButton role=\"tab\" aria-selected={tab==='register'} disabled={busy} onClick={()=>setTab('register')}>تسجيل تالف</UiButton>",
+            "      {canRead&&<UiButton role=\"tab\" aria-selected={tab==='history'} disabled={busy} onClick={()=>setTab('history')}>سجل التالف</UiButton>}",
+            "    </div>",
+            "    {tab==='history'&&canRead?<DamageHistoryPanel/>:<>"
+          ]
+        },
+        {
+          "at": 48,
+          "before": [
+            "    {loading?<p role=\"status\">جاري البحث…</p>:products.length===0&&!error?<p role=\"status\" className=\"text-sm text-nw-muted\">لا توجد أصناف مطابقة.</p>:<ul className=\"m-0 space-y-2 p-0\">",
+            "      {products.map(product=><li key={product.id} className=\"list-none\"><UiButton variant=\"plain\" disabled={busy} onClick={()=>void select(product.id)} className=\"!h-auto flex min-h-14 w-full items-center justify-between gap-3 rounded-xl border border-nw-border px-3 py-2 text-right\">",
+            "        <span className=\"min-w-0\"><b className=\"block break-words text-sm\">{product.nameAr}</b><span className=\"text-xs text-nw-muted\">{product.sku} · المتاح {product.availableQuantity} {product.unit}</span></span>",
+            "      </UiButton></li>)}",
+            "    </ul>}"
+          ],
+          "after": [
+            "    <ProductPicker label=\"اختر الصنف التالف\" search={search} onSearch={setSearch} disabled={busy} loading={loading}",
+            "      options={products.map(product=>productPickerOption(product))} onChoose={id=>void select(id)}/>",
+            "    </>}"
+          ]
+        }
+      ]
+    },
+    "src/features/orders/AftercareSupplierSafety.tsx": {
+      "errorPrefix": "TRIAL_J_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "0b4009e97541720fb881cbf2cd34b584803bcfdbd559be723f9eed17f0817ac2",
+      "before": "f5938c9e27931a746acc77122b3fe82f208651b4cb594a739ac505eb868426be",
+      "hunks": [
+        {
+          "at": 9,
+          "before": [
+            "interface Props {orderId:string;disabled:boolean;onPendingChange:(pending:boolean)=>void;onChanged:()=>Promise<void>;notify:(message:string,type?:'success'|'error'|'info')=>void}"
+          ],
+          "after": [
+            "interface Props {orderId:string;disabled:boolean;onPendingChange:(pending:boolean)=>void;onChanged:()=>Promise<void>;notify:(message:string,type?:'success'|'error'|'info')=>void;initialCandidate?:AftercareDamageCandidate}"
+          ]
+        },
+        {
+          "at": 13,
+          "before": [
+            "export function AftercareSupplierSafety({orderId,disabled,onPendingChange,onChanged,notify}:Props) {"
+          ],
+          "after": [
+            "export function AftercareSupplierSafety({orderId,disabled,onPendingChange,onChanged,notify,initialCandidate}:Props) {"
+          ]
+        },
+        {
+          "at": 22,
+          "before": [
+            "  useEffect(()=>{let active=true;setChecking(true);setRecoveryError('');setAttempt(null);setOpen(false);setCandidate(null);setCandidates(null);"
+          ],
+          "after": [
+            "  useEffect(()=>{let active=true;setChecking(true);setRecoveryError('');setAttempt(null);setOpen(Boolean(initialCandidate));setCandidate(initialCandidate??null);setCandidates(null);"
+          ]
+        },
+        {
+          "at": 25,
+          "before": [
+            "  },[scope,user?.id]);"
+          ],
+          "after": [
+            "  },[scope,user?.id,initialCandidate]);"
+          ]
+        }
+      ]
+    },
+    "src/features/purchases/CreatePurchaseOrderModal.tsx": {
+      "errorPrefix": "WAREHOUSE_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "ce15e94727651070cf7db8735edc05b4fedc57f70c9f651d2356dbcb2baa5af1",
+      "before": "4ac760a64d9a0e616238d5c2b35fbc58cb7a709ddcb921c7f671c794724159da",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {ProductChoiceList} from '../../components/ui/ProductPicker';",
+            "import {productPickerOption} from '../../components/ui/productPickerModel';"
+          ]
+        },
+        {
+          "at": 617,
+          "before": [
+            "                    <div className=\"max-h-60 overflow-y-auto space-y-1 pr-1\">",
+            "                      {filteredProducts.map((p) => (",
+            "                        <UiButton variant=\"plain\"",
+            "                          type=\"button\"",
+            "                          key={p.id}",
+            "                          onClick={() => handleAddProduct(p)}",
+            "                          className=\"w-full text-right p-2.5 rounded-xl hover:bg-nw-surface-2 flex items-center justify-between gap-3 transition group border border-transparent hover:border-nw-border h-auto min-h-11 min-w-0 whitespace-normal\"",
+            "                        >",
+            "                          <div className=\"flex items-center gap-2.5 min-w-0\">",
+            "                            {p.imageUrl ? (",
+            "                              <img",
+            "                                src={p.imageUrl}",
+            "                                alt={p.nameAr}",
+            "                                className=\"w-9 h-9 rounded-lg object-cover border border-nw-border shrink-0\"",
+            "                              />",
+            "                            ) : (",
+            "                              <div className=\"w-9 h-9 rounded-lg bg-nw-surface-2 border border-nw-border flex items-center justify-center shrink-0 text-nw-muted\">",
+            "                                <Package className=\"w-4 h-4\" />",
+            "                              </div>",
+            "                            )}",
+            "                            <div className=\"min-w-0\">",
+            "                              <div className=\"font-bold text-nw-text group-hover:text-nw-ok transition truncate\">",
+            "                                {p.nameAr}",
+            "                              </div>",
+            "                              <div className=\"text-[10px] text-nw-muted flex flex-wrap items-center gap-2 mt-0.5 font-mono\">",
+            "                                <span>رمز الصنف: {p.sku || 'غير محدد'}</span>",
+            "                                {p.barcode && <span>• باركود: {p.barcode}</span>}",
+            "                                {p.unit && (",
+            "                                  <span className=\"bg-nw-surface-2 border border-nw-border px-1.5 py-0.2 rounded text-[9px] text-nw-text font-sans\">",
+            "                                    {p.unit}",
+            "                                  </span>",
+            "                                )}",
+            "                              </div>",
+            "                            </div>",
+            "                          </div>",
+            "",
+            "                          <div className=\"flex items-center gap-3 shrink-0 text-left\">",
+            "                            <div className=\"text-[10px]\">",
+            "                              <div className=\"text-nw-ok font-bold\">",
+            "                                تكلفة: {formatJod((p.costPrice || 0))} {CURRENCY}",
+            "                              </div>",
+            "                              <div className=\"text-nw-muted font-sans\">",
+            "                                المخزون: <span className={(p.onHandQuantity || 0) > 0 ? 'text-nw-text font-bold' : 'text-nw-warn font-bold'}>{p.onHandQuantity || 0}</span>",
+            "                              </div>",
+            "                            </div>",
+            "                            <span className=\"bg-nw-info-bg text-nw-info border border-nw-border group-hover:bg-nw-info-bg group-hover:text-nw-text px-2.5 py-1 rounded-lg font-bold text-[10px] transition\">",
+            "                              + إضافة",
+            "                            </span>",
+            "                          </div>",
+            "                        </UiButton>",
+            "                      ))}",
+            "                    </div>"
+          ],
+          "after": [
+            "                    <ProductChoiceList label=\"أصناف طلب الشراء\" options={filteredProducts.map(product=>productPickerOption(product))}",
+            "                      onChoose={id=>{const product=filteredProducts.find(item=>item.id===id);if(product)handleAddProduct(product);}}/>"
+          ]
+        }
+      ]
+    },
+    "src/features/shifts/CashFlowDetails.tsx": {
+      "errorPrefix": "NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "1bec40d4fd37dc3bacdd6340767f461362a7e154f659fc96791e46130719ef68",
+      "before": "407f257d29f9da83440ab9122345f935cc0c1c69387de10ee05cf17bbaa7b945",
+      "hunks": [
+        {
+          "at": 7,
+          "before": [
+            "import {fetchCashShiftMovementPage,type CashShiftMovementPage} from '../../services/supabase/cashShiftMovements.service';"
+          ],
+          "after": [
+            "import {fetchCashShiftMovementPage,type CashShiftMovementPage,type CashShiftMovement} from '../../services/supabase/cashShiftMovements.service';",
+            "import {CashMovementDocument} from './CashMovementDocument';"
+          ]
+        },
+        {
+          "at": 18,
+          "before": [],
+          "after": [
+            "  const [selectedDocument,setDocument]=useState<CashShiftMovement|null>(null);"
+          ]
+        },
+        {
+          "at": 20,
+          "before": [
+            "    const controller=new AbortController();setData(null);setError('');setLoading(true);"
+          ],
+          "after": [
+            "    const controller=new AbortController();setData(null);setDocument(null);setError('');setLoading(true);"
+          ]
+        },
+        {
+          "at": 32,
+          "before": [
+            "      {!data.rows.length?<p role=\"status\">لا توجد عمليات في هذه الصفحة.</p>:<ul className=\"m-0 list-none space-y-2 p-0\">{data.rows.map(item=><li key={`${item.source}:${item.id}`} className=\"rounded-xl border border-nw-border p-3 text-sm\"><div className=\"flex flex-wrap items-center justify-between gap-2\"><bdi className=\"break-all\">{item.reference}</bdi><MoneyText amount={item.amountInMinorUnits/1000}/></div><p className=\"mt-1 text-xs text-nw-muted\">{formatUiDate(item.at,{dateStyle:'short',timeStyle:'short'})} · {item.method==='cash'?'كاش':item.method==='cliq'?'CliQ':'بطاقة'}</p>{item.note&&<p className=\"mt-1 break-words text-xs text-nw-muted\">{item.note}</p>}</li>)}</ul>}"
+          ],
+          "after": [
+            "      {!data.rows.length?<p role=\"status\">لا توجد عمليات في هذه الصفحة.</p>:<ul className=\"m-0 list-none space-y-2 p-0\">{data.rows.map(item=><li key={`${item.source}:${item.id}`} className=\"rounded-xl border border-nw-border text-sm\">",
+            "        <button type=\"button\" disabled={!item.document} onClick={()=>setDocument(item)} className=\"block min-h-14 w-full min-w-0 space-y-2 p-3 text-right\" aria-label={`فتح مستند ${item.displayTitle??item.reference}`}>",
+            "          <span className=\"flex flex-wrap items-start justify-between gap-2\"><strong className=\"min-w-0 break-words text-base\">{item.displayTitle??item.note??'حركة مسجّلة'}</strong><MoneyText amount={item.amountInMinorUnits/1000}/></span>",
+            "          {Boolean(item.itemsPreview?.length)&&<span className=\"block break-words text-sm\">{item.itemsPreview!.map(line=>`${line.quantity} ${line.unit} ${line.name}`).join(' + ')}{(item.itemCount??0)>2?` · +${item.itemCount!-2} أصناف أخرى`:''}</span>}",
+            "          <span className=\"block break-words text-xs text-nw-muted\"><bdi>{item.reference}</bdi> · {formatUiDate(item.at,{dateStyle:'short',timeStyle:'short'})} · {item.method==='cash'?'كاش':item.method==='cliq'?'CliQ':'بطاقة'}</span>",
+            "          {item.note&&item.note!==item.displayTitle&&<span className=\"block break-words text-xs text-nw-muted\">{item.note}</span>}",
+            "        </button>",
+            "      </li>)}</ul>}"
+          ]
+        },
+        {
+          "at": 42,
+          "before": [],
+          "after": [
+            "    {selectedDocument&&allowed&&loadedScope===scope&&<CashMovementDocument movement={selectedDocument} onClose={()=>setDocument(null)}/>}"
+          ]
+        }
+      ]
+    },
+    "src/services/supabase/cashShiftMovements.service.ts": {
+      "errorPrefix": "NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "08caf1f298db15ebcb282e970fb50c73488ea8e1d2a7c4b13016b5ce626c31af",
+      "before": "e36805c6f9610d5c30a9bdc76aad5e8b913dc0003e45ceb94d9370be440c7e3c",
+      "hunks": [
+        {
+          "at": 6,
+          "before": [],
+          "after": [
+            "  displayTitle?:string;itemsPreview?:Array<{name:string;quantity:number;unit:string}>;itemCount?:number;",
+            "  document?:{type:'order'|'supplier_receipt'|'purchase_order'|'supplier_payment'|'customer_collection'|'expense'|'owner_withdrawal'|'owner_withdrawal_return';id:string};"
+          ]
+        },
+        {
+          "at": 26,
+          "before": [
+            "      return {source:text(r.source),id:text(r.id),reference:text(r.reference),at:text(r.at),method:text(r.method),amountInMinorUnits:integer(r.amountInMinorUnits),note:r.note===null?null:text(r.note)};})} as CashShiftMovementPage;"
+          ],
+          "after": [
+            "      const metadata:Partial<CashShiftMovement>={};",
+            "      if(r.displayTitle!==undefined){",
+            "        if(!Array.isArray(r.itemsPreview)||r.itemsPreview.length>2||typeof r.document!=='object'||r.document===null||Array.isArray(r.document))throw new Error('هوية مستند الحركة غير مكتملة.');",
+            "        const document=r.document as Record<string,unknown>;",
+            "        if(!['order','supplier_receipt','purchase_order','supplier_payment','customer_collection','expense','owner_withdrawal','owner_withdrawal_return'].includes(String(document.type)))throw new Error('نوع المستند غير صالح.');",
+            "        metadata.displayTitle=text(r.displayTitle);metadata.itemCount=integer(r.itemCount);",
+            "        metadata.itemsPreview=r.itemsPreview.map(item=>{if(typeof item!=='object'||item===null||Array.isArray(item))throw new Error('ملخص أصناف الحركة غير صالح.');const line=item as Record<string,unknown>;const quantity=integer(line.quantity);if(quantity<1)throw new Error('كمية ملخص الحركة غير صالحة.');return {name:text(line.name),quantity,unit:text(line.unit)};});",
+            "        if(metadata.itemCount!<metadata.itemsPreview.length||metadata.itemCount!<0)throw new Error('عدد أصناف الحركة غير مطابق.');",
+            "        metadata.document={type:document.type as NonNullable<CashShiftMovement['document']>['type'],id:text(document.id)};",
+            "      }",
+            "      return {source:text(r.source),id:text(r.id),reference:text(r.reference),at:text(r.at),method:text(r.method),amountInMinorUnits:integer(r.amountInMinorUnits),note:r.note===null?null:text(r.note),...metadata};})} as CashShiftMovementPage;"
+          ]
+        }
+      ]
+    },
+    "src/services/supabase/directReceiving.service.ts": {
+      "errorPrefix": "RECEIVING205_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "62f1b1d863d3aad853f937a1a9c430bcd82d59d5dedc1a8f8fde0108eaf3ba6b",
+      "before": "c685687284e83f8ee732aafa252fbdcd9c79dfee04cb8810b94fa62262bb01cc",
+      "hunks": [
+        {
+          "at": 584,
+          "before": [],
+          "after": [
+            "    imageUrl: product.imageUrl,"
+          ]
+        }
+      ]
+    },
+    "src/services/supabase/supplierReplacement.service.ts": {
+      "errorPrefix": "SUPPLIER_REPLACEMENT208_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "888af486a20fdc6b21bcc7533fd444e3c63ccc756f92261a634675187777c8ea",
+      "before": "f2147c025752446ba64e5cd8c233aaa8ad3f63ab9b4309c3a457feafb34782a3",
+      "hunks": [
+        {
+          "at": 32,
+          "before": [
+            "  products:Array<{id:string;name:string;sku:string;baseUnitName:string;unitsPerParcel:number}>;"
+          ],
+          "after": [
+            "  products:Array<{id:string;name:string;sku:string;baseUnitName:string;unitsPerParcel:number;imageUrl?:string|null;availableQuantity?:number}>;"
+          ]
+        },
+        {
+          "at": 44,
+          "before": [],
+          "after": [
+            "  if(data.products.some(v=>!replacementRecord(v)||(v.imageUrl!==undefined&&v.imageUrl!==null&&typeof v.imageUrl!=='string')",
+            "    ||(v.availableQuantity!==undefined&&(!Number.isSafeInteger(v.availableQuantity)||Number(v.availableQuantity)<0))))throw new Error('صور وأرصدة خيارات الصنف غير صالحة.');"
+          ]
+        }
+      ]
+    },
+    "src/types/directReceiving.ts": {
+      "errorPrefix": "RECEIVING205_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "8c5ae54f724239f8e44fc89c2a70902bd3b8fc2d368b405118238d39bbb10b5e",
+      "before": "715fedd580b94fca92c68208c8edad545a142e538c798b0a24cecd36e0b8e310",
+      "hunks": [
+        {
+          "at": 138,
+          "before": [],
+          "after": [
+            "  imageUrl?: string;"
+          ]
+        }
+      ]
+    },
+    "tests/trial-owner-w.test.ts": {
+      "errorPrefix": "TRIAL_R_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "e3235ad56ff8c12e40196b4032b6eb8e0d494d12e1b26d9fc54a1f7c3174e031",
+      "before": "ff5149ac5ac6fffa81649da611dbdc90e1599b093d11ed3dbc9c5e4627ff1c3b",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {sourceBeforeTrialR,trialRPins} from '../scripts/audit/source-before-trial-owner-r.mjs';"
+          ]
+        },
+        {
+          "at": 28,
+          "before": [
+            " assert.deepEqual(changed.filter(file=>file!=='scripts/audit/trial-owner-w-hunks.json'),[],'No SQL/RPC changes or edits to earlier immutable source pins');",
+            " const state=JSON.parse(readFileSync('docs/agent/project-state.json','utf8'));assert.equal(state.migrationCeiling,211);"
+          ],
+          "after": [
+            " assert.deepEqual(changed.filter(file=>!['scripts/audit/trial-owner-w-hunks.json','scripts/audit/trial-owner-r-hunks.json','supabase/migrations/212_trial_readable_cash_product_choices_damage_history.sql'].includes(file)),[],'No SQL/RPC changes or edits to earlier immutable source pins');",
+            " const state=JSON.parse(readFileSync('docs/agent/project-state.json','utf8'));assert.equal(state.migrationCeiling,212);"
+          ]
+        },
+        {
+          "at": 53,
+          "before": [
+            "  assert.deepEqual(calls(file,readFileSync(file,'utf8')),calls(file,before),file);"
+          ],
+          "after": [
+            "  assert.deepEqual(calls(file,sourceBeforeTrialR(file,readFileSync(file,'utf8'))!),calls(file,before),file);"
+          ]
+        },
+        {
+          "at": 55,
+          "before": [
+            " const authority=execFileSync('git',['diff','--name-only',base,'--','supabase','src/services','src/utils','src/stores','src/lib'],{encoding:'utf8'}).trim();"
+          ],
+          "after": [
+            " const authority=execFileSync('git',['diff','--name-only',base,'--','supabase','src/services','src/utils','src/stores','src/lib'],{encoding:'utf8'}).trim().split('\\n').filter(Boolean).filter(file=>!trialRPins[file]&&file!=='supabase/migrations/212_trial_readable_cash_product_choices_damage_history.sql').join('\\n');"
+          ]
+        }
+      ]
+    },
+    "src/components/ui/ProductPicker.tsx": {
+      "added": true,
+      "after": "a213b1bf1bd9ec43c333a6b3df1b324b5e8658583327281fd9dd7b23d84c0471",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {useId,useState} from 'react';",
+            "import {ProductGlyph} from './ProductGlyph';",
+            "import {SearchField} from './Controls';",
+            "",
+            "export type {ProductPickerOption} from './productPickerModel';",
+            "import {orderProductChoices,type ProductPickerOption} from './productPickerModel';",
+            "",
+            "function PickerImage({name,image}:{name:string;image?:string}) {",
+            "  const [failed,setFailed]=useState<string>();",
+            "  return <span className=\"shrink-0\" onErrorCapture={()=>setFailed(image)}><ProductGlyph name={name} image={failed===image?undefined:image} className=\"h-10 w-10\"/></span>;",
+            "}",
+            "",
+            "/** Search remains controlled by the caller's existing server read. No stock,",
+            " * price, eligibility or selection mutation is inferred by this presentation. */",
+            "export function ProductChoiceList({label,options,value,onChoose,disabled=false,loading=false,empty='لا توجد أصناف مطابقة.'}:{",
+            "  label:string;options:readonly ProductPickerOption[];value?:string;onChoose:(id:string)=>void;",
+            "  disabled?:boolean;loading?:boolean;empty?:string;",
+            "}) {",
+            "  const id=useId(),ordered=orderProductChoices(options);",
+            "  return <div className=\"min-w-0 space-y-2\" aria-busy={loading}>",
+            "    {loading?<p role=\"status\" className=\"text-sm text-nw-muted\">جاري البحث في الأصناف…</p>:ordered.length===0?<p role=\"status\" className=\"text-sm text-nw-muted\">{empty}</p>:<ul",
+            "      id={id} aria-label={label} className=\"m-0 max-h-64 list-none space-y-1 overflow-y-auto overscroll-contain p-0\">",
+            "      {ordered.map(option=><li key={option.id}>",
+            "        <button type=\"button\" disabled={disabled} aria-pressed={value===undefined?undefined:value===option.id}",
+            "          data-product-choice={option.id} data-receiving-product-result={option.id} onClick={()=>onChoose(option.id)}",
+            "          className={`flex min-h-14 w-full min-w-0 items-center gap-3 rounded-xl border p-3 text-right disabled:cursor-wait ${value===option.id?'border-nw-primary bg-nw-sel-row':'border-nw-border bg-nw-surface hover:bg-nw-surface-2'} ${option.available===0?'opacity-60':''}`}>",
+            "          <PickerImage name={option.name} image={option.image}/>",
+            "          <span className=\"min-w-0 flex-1\"><b className=\"block break-words text-sm text-nw-text\">{option.name}</b>",
+            "            {option.available!==null&&<span className=\"block text-xs text-nw-muted\">المتاح {option.available} {option.unit}</span>}",
+            "          </span>",
+            "          {value===option.id&&<span aria-label=\"الصنف المحدد\" className=\"shrink-0 text-nw-primary\">✓</span>}",
+            "        </button>",
+            "      </li>)}",
+            "    </ul>}",
+            "  </div>;",
+            "}",
+            "",
+            "export function ProductPicker({label,search,onSearch,...props}:{label:string;search:string;onSearch:(value:string)=>void}&Omit<Parameters<typeof ProductChoiceList>[0],'label'>) {",
+            "  return <section className=\"min-w-0 space-y-2\" aria-label={label}>",
+            "    <h4 className=\"text-sm font-semibold text-nw-text\">{label}</h4>",
+            "    <SearchField label={`بحث ${label}`} placeholder=\"اسم الصنف أو الباركود أو رمز الصنف\" value={search}",
+            "      disabled={props.disabled} onChange={event=>onSearch(event.target.value)}/>",
+            "    <ProductChoiceList {...props} label={`خيارات ${label}`}/>",
+            "  </section>;",
+            "}",
+            ""
+          ]
+        }
+      ]
+    },
+    "src/components/ui/productPickerModel.ts": {
+      "added": true,
+      "after": "fe07cab6a67bdc3384dd5aab07f0b13d5c5048e7f34fb0c53f0760824c866762",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import type {Product} from '../../types';",
+            "",
+            "/** Only non-financial display facts cross the shared product-picker boundary. */",
+            "export interface ProductPickerOption {",
+            "  id:string;name:string;image?:string;available:number|null;unit:string;",
+            "}",
+            "export const productPickerOption=(product:Product,warehouseId?:string):ProductPickerOption=>({",
+            "  id:product.id,name:product.nameAr,image:product.imageUrl,unit:product.unit,",
+            "  available:warehouseId?product.warehouseBalances?.find(balance=>balance.warehouseId===warehouseId)?.availableQuantity??0:product.availableQuantity,",
+            "});",
+            "export function orderProductChoices(options:readonly ProductPickerOption[]) {",
+            "  return options.map((item,index)=>({item,index})).sort((a,b)=>{",
+            "    const rank=(value:number|null)=>value===null?1:value>0?0:2;",
+            "    return rank(a.item.available)-rank(b.item.available)||a.index-b.index;",
+            "  }).map(({item})=>item);",
+            "}",
+            "",
+            ""
+          ]
+        }
+      ]
+    },
+    "src/features/more/DamageHistoryPanel.tsx": {
+      "added": true,
+      "after": "35e7246e2f51ffacd93895f8e4d032a5976ace12b827a040cd4b113059a79317",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {useCallback,useEffect,useMemo,useState} from 'react';",
+            "import {Modal} from '../../components/common/Modal';",
+            "import {Card,FormFields,MoneyText,UiButton,formatUiDate} from '../../components/ui';",
+            "import {useAuthStore} from '../../stores/useAuthStore';",
+            "import {useAppStoreActions} from '../../stores/useAppStore';",
+            "import {canUseSupplierReplacement} from '../../utils/supplierReplacement';",
+            "import {damageHistoryReasons,fetchDamageHistoryPage,type DamageHistoryPage,type DamageHistoryPeriod,type DamageHistoryRow} from '../../services/supabase/damageHistory.service';",
+            "import {aftercareSupplierBlockedMessage} from '../../services/supabase/supplierReplacement.service';",
+            "import {SupplierReplacementPanel} from '../inventory/SupplierReplacementPanel';",
+            "import {AftercareSupplierSafety} from '../orders/AftercareSupplierSafety';",
+            "",
+            "export function DamageHistoryPanel() {",
+            "  const {user,roleName,roles}=useAuthStore(),allowed=canUseSupplierReplacement(roles,roleName),owner=roleName==='owner'||roles.includes('owner');",
+            "  const {setToast}=useAppStoreActions();",
+            "  const [period,setPeriod]=useState<DamageHistoryPeriod>('today'),[reason,setReason]=useState('all'),[from,setFrom]=useState(''),[to,setTo]=useState(''),[page,setPage]=useState(1),[revision,setRevision]=useState(0);",
+            "  const [state,setState]=useState<{scope:string;data?:DamageHistoryPage;error?:string}>({scope:''});",
+            "  const scope=[user?.id,roleName,roles.join(','),period,reason,from,to,page,revision].join('|');",
+            "  const [action,setAction]=useState<{row:DamageHistoryRow;type:'reverse'|'reclassify';scope:string}|null>(null),[actionBusy,setActionBusy]=useState(false);",
+            "  const valid=period!=='range'||(/^\\d{4}-\\d{2}-\\d{2}$/u.test(from)&&/^\\d{4}-\\d{2}-\\d{2}$/u.test(to)&&from<=to);",
+            "  useEffect(()=>{if(!allowed||!valid)return;const controller=new AbortController();",
+            "    void fetchDamageHistoryPage({period,reason,page,fromDate:from,toDate:to},controller.signal)",
+            "      .then(data=>{if(!controller.signal.aborted){if(!owner&&data.rows.some(row=>row.lossAtRegistrationInMinorUnits!==undefined||row.reversal||row.reclassification))throw new Error('قراءة سجل التالف لا تطابق دور المستخدم.');setState({scope,data});}})",
+            "      .catch(error=>{if(!controller.signal.aborted)setState({scope,error:error instanceof Error?error.message:'تعذر قراءة سجل التالف.'});});",
+            "    return()=>controller.abort();",
+            "  },[scope,allowed,valid,period,reason,page,from,to,owner]);",
+            "  const changed=useCallback(async()=>{setAction(null);setActionBusy(false);setRevision(value=>value+1);},[]);",
+            "  const candidate=useMemo(()=>action?.type==='reclassify'&&action.row.reclassification?{",
+            "    kind:action.row.reclassification.kind,id:action.row.reclassification.sourceId,productId:action.row.productId,",
+            "    productName:action.row.productName,quantity:action.row.quantity,occurredAt:action.row.occurredAt,blockedReason:action.row.reclassification.blockedReason,",
+            "  }:undefined,[action]);",
+            "  if(!allowed)return <p role=\"alert\">لا تملك صلاحية قراءة سجل التالف.</p>;",
+            "  const data=state.scope===scope?state.data:undefined,error=state.scope===scope?state.error:undefined;",
+            "  return <FormFields className=\"space-y-3\" data-testid=\"damage-history\">",
+            "    <div className=\"grid gap-3 sm:grid-cols-2\">",
+            "      <label>الفترة<select aria-label=\"الفترة\" value={period} onChange={e=>{setPeriod(e.target.value as DamageHistoryPeriod);setPage(1);}}>",
+            "        <option value=\"today\">اليوم</option><option value=\"week\">الأسبوع</option><option value=\"month\">الشهر</option><option value=\"range\">مخصص</option>",
+            "      </select></label>",
+            "      <label>سبب التلف<select aria-label=\"سبب التلف\" value={reason} onChange={e=>{setReason(e.target.value);setPage(1);}}><option value=\"all\">كل الأسباب</option>{Object.entries(damageHistoryReasons).map(([value,label])=><option key={value} value={value}>{label}</option>)}</select></label>",
+            "      {period==='range'&&<><label>من تاريخ<input aria-label=\"من تاريخ\" type=\"date\" value={from} onChange={e=>{setFrom(e.target.value);setPage(1);}}/></label><label>إلى تاريخ<input aria-label=\"إلى تاريخ\" type=\"date\" min={from||undefined} value={to} onChange={e=>{setTo(e.target.value);setPage(1);}}/></label></>}",
+            "    </div>",
+            "    {!valid?<p role=\"status\">اختر تاريخ البداية والنهاية بترتيب صحيح، وبفترة لا تتجاوز سنة.</p>:error?<div role=\"alert\"><p>{error}</p><UiButton onClick={()=>setRevision(n=>n+1)}>إعادة المحاولة</UiButton></div>:!data?<p role=\"status\">جاري قراءة سجل التالف…</p>:<>",
+            "      {!data.rows.length?<p role=\"status\">لا يوجد تالف مسجّل في هذه الفترة.</p>:data.rows.map(row=><Card key={row.source+row.id} className=\"space-y-2\" data-damage-history-row={row.id}>",
+            "        <h4 className=\"break-words text-base font-bold\">{row.productName} · {row.quantity} {row.unitName}</h4>",
+            "        <p className=\"break-words text-sm\">{row.reason}</p>",
+            "        <p className=\"text-xs text-nw-muted\">{row.origin==='shop'?'محل':row.origin==='supplier_rejected'?'مورد مرفوض':'مرتجع زبون'} · {formatUiDate(row.occurredAt,{dateStyle:'short',timeStyle:'short'})}</p>",
+            "        {row.isReversed&&<p className=\"text-sm text-nw-info\">أُلغيت الحركة بالعكس؛ الحدث الأصلي محفوظ.</p>}",
+            "        {row.isReclassified&&<p className=\"text-sm text-nw-info\">حُوّلت للمورد؛ راجع سجل استبدال المورد لمعرفة حالتها.</p>}",
+            "        {owner&&row.lossAtRegistrationInMinorUnits!==undefined&&<p className=\"text-sm\">الخسارة عند التسجيل: <MoneyText amount={row.lossAtRegistrationInMinorUnits/1000} currency/>{(row.isReversed||row.isReclassified)&&<span className=\"block text-xs text-nw-muted\">قيمة الحدث الأصلي؛ العكس أو التحويل يظهر بحالته أعلاه.</span>}</p>}",
+            "        {owner&&(row.reversal||row.reclassification)&&<details><summary className=\"min-h-11 cursor-pointer py-2 text-sm\">⋯ خيارات الحركة</summary>",
+            "          {row.reversal&&<UiButton onClick={()=>setAction({row,type:'reverse',scope})}>إلغاء الحركة (عكس)</UiButton>}",
+            "          {row.reclassification&&(row.reclassification.blockedReason?<p className=\"text-sm text-nw-muted\">{aftercareSupplierBlockedMessage(row.reclassification.blockedReason)}</p>:<UiButton onClick={()=>setAction({row,type:'reclassify',scope})}>حوّلها للمورد بانتظار البديل</UiButton>)}",
+            "        </details>}",
+            "      </Card>)}",
+            "      <nav aria-label=\"صفحات سجل التالف\" className=\"flex flex-wrap items-center justify-center gap-3\"><UiButton disabled={page<=1} onClick={()=>setPage(n=>n-1)}>السابق</UiButton><span>{page} / {Math.max(1,Math.ceil(data.totalCount/data.pageSize))}</span><UiButton disabled={page*data.pageSize>=data.totalCount} onClick={()=>setPage(n=>n+1)}>التالي</UiButton></nav>",
+            "    </>}",
+            "    {owner&&action&&action.scope===scope&&<Modal isOpen onClose={()=>{if(!actionBusy)setAction(null);}} trackChanges={false} title={action.type==='reverse'?'معاينة إلغاء حركة التالف':'تحويل التالف للمورد'}>",
+            "      {action.type==='reverse'&&action.row.reversal?<SupplierReplacementPanel initialReversal={action.row.reversal} onPendingChange={setActionBusy} onSaved={()=>void changed()}/>:candidate&&action.row.reclassification?<AftercareSupplierSafety orderId={action.row.reclassification.orderId} initialCandidate={candidate} disabled={false} onPendingChange={setActionBusy} onChanged={changed} notify={setToast}/>:null}",
+            "    </Modal>}",
+            "  </FormFields>;",
+            "}",
+            ""
+          ]
+        }
+      ]
+    },
+    "src/features/shifts/CashMovementDocument.tsx": {
+      "added": true,
+      "after": "8459eb6d184765d4cf165e1abffb0e646b1a7c6e4394972d87cb17346825d5f0",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {CashSourceDocumentLines} from './CashSourceDocumentLines';",
+            "import {Modal} from '../../components/common/Modal';",
+            "import {MoneyText,formatUiDate} from '../../components/ui';",
+            "import type {CashShiftMovement} from '../../services/supabase/cashShiftMovements.service';",
+            "import {lazy,Suspense} from 'react';",
+            "const SalesInvoiceDialog=lazy(()=>import('../salesHistory/SalesInvoiceDialog').then(module=>({default:module.SalesInvoiceDialog}))); ",
+            "",
+            "const names:Record<NonNullable<CashShiftMovement['document']>['type'],string>={order:'فاتورة البيع',supplier_receipt:'سند استلام بضاعة',purchase_order:'طلب الشراء',supplier_payment:'دفعة المورد',customer_collection:'سند قبض الزبون',expense:'سند المصروف',owner_withdrawal:'سند سحب المالك',owner_withdrawal_return:'سند إرجاع سحب المالك'};",
+            "export function CashMovementDocument({movement,onClose}:{movement:CashShiftMovement;onClose:()=>void}) {",
+            "  if(movement.document?.type==='order')return <Suspense fallback={<p role=\"status\">جاري فتح الفاتورة…</p>}><SalesInvoiceDialog nested orderId={movement.document.id} onClose={onClose}/></Suspense>;",
+            "  return <Modal isOpen onClose={onClose} trackChanges={false} title={movement.document?names[movement.document.type]:'المستند'}>",
+            "    <article className=\"space-y-4\" data-testid=\"cash-movement-document\">",
+            "      <h3 className=\"break-words text-lg font-bold\">{movement.displayTitle}</h3>",
+            "      <p className=\"text-xs text-nw-muted\"><bdi>{movement.reference}</bdi> · {formatUiDate(movement.at,{dateStyle:'short',timeStyle:'short'})}</p>",
+            "      <dl className=\"space-y-3 text-sm\"><div><dt>مبلغ الحركة</dt><dd><MoneyText amount={movement.amountInMinorUnits/1000} currency/></dd></div>",
+            "        <div><dt>طريقة الدفع</dt><dd>{movement.method==='cash'?'كاش':movement.method==='cliq'?'CliQ':'بطاقة'}</dd></div>",
+            "        {movement.note&&<div><dt>البيان</dt><dd className=\"break-words\">{movement.note}</dd></div>}",
+            "      </dl>",
+            "      {movement.document&&['supplier_receipt','purchase_order'].includes(movement.document.type)&&<CashSourceDocumentLines document={movement.document}/>}",
+            "    </article>",
+            "  </Modal>;",
+            "}",
+            ""
+          ]
+        }
+      ]
+    },
+    "src/services/supabase/damageHistory.service.ts": {
+      "added": true,
+      "after": "5f43a7e6602276ec4ae4719d12bb9906bae9f92e174a9363bcaa93253ae8956c",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {supabase,isSupabaseConfigured} from '../../lib/supabase';",
+            "import {readReplacementCase,type SupplierReplacementCase} from '../../utils/supplierReplacement';",
+            "export const damageHistoryReasons={shop_breakage:'انكسر بالمحل',expired:'انتهت الصلاحية',storage_damage:'تلف تخزين',other:'أخرى',customer_return_final:'مرتجع زبون',supplier_writeoff:'رفض المورد',customer_replacement:'استبدال حبة معيبة'} as const;",
+            "export type DamageHistoryPeriod='today'|'week'|'month'|'range';",
+            "export interface DamageHistoryInput {period:DamageHistoryPeriod;fromDate?:string;toDate?:string;reason:string;page:number}",
+            "export interface DamageHistoryRow {",
+            "  source:'damage'|'replacement'|'supplier_writeoff';id:string;productId:string;productName:string;unitName:string;",
+            "  quantity:number;reasonCode:string;reason:string;occurredAt:string;origin:'shop'|'customer_return'|'supplier_rejected';",
+            "  isReversed:boolean;isReclassified:boolean;lossAtRegistrationInMinorUnits?:number;",
+            "  reversal?:{item:SupplierReplacementCase;eventId:string};",
+            "  reclassification?:{kind:'replacement'|'return';sourceId:string;orderId:string;blockedReason:string|null};",
+            "}",
+            "export interface DamageHistoryPage {rows:DamageHistoryRow[];page:number;pageSize:number;totalCount:number;fromDate:string;toDate:string}",
+            "const invalid=()=>new Error('سجل التالف غير مكتمل. أعد تحميله.');",
+            "const record=(v:unknown):v is Record<string,unknown>=>Boolean(v)&&typeof v==='object'&&!Array.isArray(v);",
+            "const text=(v:unknown)=>{if(typeof v!=='string'||!v.trim())throw invalid();return v;};",
+            "const integer=(v:unknown,min=0)=>{if(typeof v!=='number'||!Number.isSafeInteger(v)||v<min)throw invalid();return v;};",
+            "export function parseDamageHistoryPage(value:unknown):DamageHistoryPage {",
+            "  if(!record(value)||value.contractVersion!==212||!Array.isArray(value.rows))throw invalid();",
+            "  const page=integer(value.page,1),pageSize=integer(value.pageSize,1),totalCount=integer(value.totalCount);",
+            "  if(pageSize>100||value.rows.length!==Math.max(0,Math.min(pageSize,totalCount-(page-1)*pageSize)))throw invalid();",
+            "  const rows=value.rows.map((v):DamageHistoryRow=>{",
+            "    if(!record(v)||!['damage','replacement','supplier_writeoff'].includes(String(v.source))||!['shop','customer_return','supplier_rejected'].includes(String(v.origin))",
+            "      ||typeof v.isReversed!=='boolean'||typeof v.isReclassified!=='boolean')throw invalid();",
+            "    const r:DamageHistoryRow={source:v.source as DamageHistoryRow['source'],id:text(v.id),productId:text(v.productId),productName:text(v.productName),unitName:text(v.unitName),quantity:integer(v.quantity,1),reasonCode:text(v.reasonCode),reason:text(v.reason),occurredAt:text(v.occurredAt),origin:v.origin as DamageHistoryRow['origin'],isReversed:v.isReversed,isReclassified:v.isReclassified};",
+            "    if(!Number.isFinite(Date.parse(r.occurredAt)))throw invalid();",
+            "    if(v.lossAtRegistrationInMinorUnits!==undefined)r.lossAtRegistrationInMinorUnits=integer(v.lossAtRegistrationInMinorUnits);",
+            "    if(v.reversal!==undefined){if(!record(v.reversal))throw invalid();r.reversal={item:readReplacementCase(v.reversal.case),eventId:text(v.reversal.eventId)};}",
+            "    if(v.reclassification!==undefined){const action=v.reclassification;if(!record(action)||!['replacement','return'].includes(String(action.kind))||(action.blockedReason!==null&&typeof action.blockedReason!=='string'))throw invalid();r.reclassification={kind:action.kind as 'replacement'|'return',sourceId:text(action.sourceId),orderId:text(action.orderId),blockedReason:action.blockedReason as string|null};}",
+            "    return r;",
+            "  });",
+            "  if(new Set(rows.map(r=>r.source+':'+r.id)).size!==rows.length)throw invalid();",
+            "  return {page,pageSize,totalCount,rows,fromDate:text(value.fromDate),toDate:text(value.toDate)};",
+            "}",
+            "export async function fetchDamageHistoryPage(input:DamageHistoryInput,signal:AbortSignal) {",
+            "  if(!supabase||!isSupabaseConfigured)throw new Error('سجل التالف غير متاح حالياً.');",
+            "  const {data,error}=await supabase.rpc('get_damage_history_page_v1',{p_period:input.period,p_from_date:input.period==='range'?input.fromDate:null,",
+            "    p_to_date:input.period==='range'?input.toDate:null,p_reason:input.reason,p_page:input.page,p_page_size:25}).abortSignal(signal);",
+            "  if(error)throw new Error(error.code==='PGRST202'?'سجل التالف يحتاج ترقية المالك إلى 212.':error.code==='42501'?'لا تملك صلاحية قراءة سجل التالف.':error.message||'تعذر تحميل سجل التالف.');",
+            "  const result=parseDamageHistoryPage(data);if(result.page!==input.page)throw invalid();return result;",
+            "}",
+            ""
+          ]
+        }
+      ]
+    },
+    "e2e/admin-large-catalog-performance.spec.ts": {
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "6aa6710e70c8ecc2b4f574454cf07239b779e3986b246524b36770c754b36392",
+      "before": "732829a76aab91ae41721a859b12e6dcdf56c9fc3740dfc8ba0cc7e044dcb507",
+      "hunks": [
+        {
+          "at": 127,
+          "before": [
+            "    await expect(page.locator('[data-receiving-product-result]:visible').filter({hasText: 'LCAT-004444'}))"
+          ],
+          "after": [
+            "    await expect(page.locator('[data-receiving-product-result]:visible').filter({hasText: '4444'}))"
+          ]
+        }
+      ]
+    },
+    "e2e/admin-navigation-cash206.spec.ts": {
+      "errorPrefix": "NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "941862326525001c961439e67fea523c8117e9d939bba1a4a011eb56c8e2c17d",
+      "before": "b5811fa003c1a4c1ae290fc70bb72930ab8983cf435dec2bc29de465fc3c735d",
+      "hunks": [
+        {
+          "at": 52,
+          "before": [
+            "  await page.goto(url('start=more'));await page.locator('[data-navigation-id=\"inventory-damage\"]').click();await expect(page.getByRole('searchbox',{name:'ابحث عن الصنف التالف'})).toBeVisible();",
+            "  await page.getByRole('button',{name:/عصير برتقال 250مل/}).click();await expect(page.locator('[aria-busy=\"true\"]')).toBeVisible();await page.keyboard.press('Escape');await page.getByRole('button',{name:'إغلاق',exact:true}).click();await expect(page.getByRole('searchbox',{name:'ابحث عن الصنف التالف'})).toBeVisible();",
+            "  release();await expect(page.getByRole('searchbox',{name:'ابحث عن الصنف التالف'})).toHaveCount(0);await expect(page.getByRole('combobox',{name:'سبب التلف',exact:true})).toHaveValue('shop_breakage');await expect(page.getByRole('combobox',{name:'الصنف',exact:true})).toHaveValue(inventoryProducts[0].id);await expect(page.getByRole('combobox',{name:'الصنف',exact:true}).getByRole('option',{selected:true})).toHaveText('عصير برتقال 250مل · INV-0001');"
+          ],
+          "after": [
+            "  await page.goto(url('start=more'));await page.locator('[data-navigation-id=\"inventory-damage\"]').click();await expect(page.getByRole('searchbox',{name:'بحث اختر الصنف التالف'})).toBeVisible();",
+            "  await page.getByRole('button',{name:/عصير برتقال 250مل/}).click();await expect(page.locator('[aria-busy=\"true\"]')).toBeVisible();await page.keyboard.press('Escape');await page.getByRole('button',{name:'إغلاق',exact:true}).click();await expect(page.getByRole('searchbox',{name:'بحث اختر الصنف التالف'})).toBeVisible();",
+            "  release();await expect(page.getByRole('searchbox',{name:'بحث اختر الصنف التالف'})).toHaveCount(0);await expect(page.getByRole('combobox',{name:'سبب التلف',exact:true})).toHaveValue('shop_breakage');await expect(page.locator(`[data-product-choice=\"${inventoryProducts[0].id}\"]`)).toHaveAttribute('aria-pressed','true');await expect(page.getByRole('region',{name:'الصنف',exact:true})).not.toContainText('INV-0001');"
+          ]
+        }
+      ]
+    },
+    "e2e/package-f-supplier-replacement208.spec.ts": {
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "ac50eac0b206e6b2f7fe1422956741d0a9f619525ea7af660b7a0968533478f0",
+      "before": "8791a880752451e22d779972551d8059d6633ee5190d6f7e76a62c582031893e",
+      "hunks": [
+        {
+          "at": 11,
+          "before": [
+            "const fill=async(page:Page)=>{await expect(page.getByRole('button',{name:'معاينة العملية',exact:true})).toBeEnabled();await page.getByRole('combobox',{name:'الصنف',exact:true}).selectOption(product);await page.getByLabel('العدد',{exact:true}).fill('2');await page.getByLabel('سبب العملية',{exact:true}).fill('نفس البضاعة إلى المورد');await page.getByRole('button',{name:'معاينة العملية',exact:true}).click();await expect(page.getByRole('button',{name:'تأكيد وحفظ العملية'})).toBeVisible();};"
+          ],
+          "after": [
+            "const fill=async(page:Page)=>{await expect(page.getByRole('button',{name:'معاينة العملية',exact:true})).toBeEnabled();await page.locator(`[data-product-choice=\"${product}\"]`).click();await page.getByLabel('العدد',{exact:true}).fill('2');await page.getByLabel('سبب العملية',{exact:true}).fill('نفس البضاعة إلى المورد');await page.getByRole('button',{name:'معاينة العملية',exact:true}).click();await expect(page.getByRole('button',{name:'تأكيد وحفظ العملية'})).toBeVisible();};"
+          ]
+        }
+      ]
+    },
+    "scripts/agent/lib.mjs": {
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "ce313f06a635ea5246465071d22e06a8fe38100cccff27c7cee435f0194a9aba",
+      "before": "6f97e667336fd66f24ec562a422294aa371b22ca0c255e2aadfdfbcafd7280a5",
+      "hunks": [
+        {
+          "at": 112,
+          "before": [
+            "    integrationPins: Object.fromEntries([160,161,162,163,164,170,171,180,181,182,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211].map(number => {"
+          ],
+          "after": [
+            "    integrationPins: Object.fromEntries([160,161,162,163,164,170,171,180,181,182,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212].map(number => {"
+          ]
+        }
+      ]
+    },
+    "scripts/audit/run-service-access-diagnostic.mjs": {
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "e680bad449f2602b5f2c6089d99a4ccfcdcfd236d24864d3b676380a612147e0",
+      "before": "396f61bf91fe2ebf5a363149e65ccfc85cc4e815db35107905f15206822c8bb8",
+      "hunks": [
+        {
+          "at": 16,
+          "before": [
+            "assert.ok([198,199,200,201,202,203,204,205,206,207,208,209,210,211].includes(migrationCeiling),'APPROVED_SERVICE_AUDIT_CEILING_REQUIRED');"
+          ],
+          "after": [
+            "assert.ok([198,199,200,201,202,203,204,205,206,207,208,209,210,211,212].includes(migrationCeiling),'APPROVED_SERVICE_AUDIT_CEILING_REQUIRED');"
+          ]
+        }
+      ]
+    },
+    "scripts/operations/frankfurt-owner-build.mjs": {
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "2dc6e425b355eacad863829e30085def46728b02026144edac7bf8f96b2e0e54",
+      "before": "9a7ef2c971085cab3eb4adf232f9e517da5b86963777040708a925741077dc1a",
+      "hunks": [
+        {
+          "at": 166,
+          "before": [],
+          "after": [
+            " }else if(ceiling===211){",
+            "  const ordered=[...functions].sort((a,b)=>a.identity<b.identity?-1:a.identity>b.identity?1:0);assert.equal(functions.length,554,'FROZEN211_FUNCTION_COUNT');",
+            "  assert.equal(digest(JSON.stringify(ordered)),'dd893f1216b7618d6d34d1c08cd585a30d4052d912065395a8646c82df9a08f2','FROZEN211_FUNCTIONS_CHANGED');"
+          ]
+        },
+        {
+          "at": 170,
+          "before": [
+            "  assert.equal(ceiling,211,'UNAPPROVED_FUNCTION_REFERENCE');"
+          ],
+          "after": [
+            "  assert.equal(ceiling,212,'UNAPPROVED_FUNCTION_REFERENCE');"
+          ]
+        }
+      ]
+    },
+    "scripts/operations/trial-reset-core.mjs": {
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "35d8b6e3e961625fdb4942f3b4da5380b1a51d660a6abaf9c2f7ea34468a1bff",
+      "before": "b3d5fe96b3f004452f08eb64e17483d3f45004d3e778bfc3240fd83b98f952e2",
+      "hunks": [
+        {
+          "at": 14,
+          "before": [
+            "const resetFileCounts=Object.freeze({182:151,199:161,200:162,201:163,202:164,203:165,204:166,205:167,206:168,207:169,208:170,209:171,210:172,211:173});"
+          ],
+          "after": [
+            "const resetFileCounts=Object.freeze({182:151,199:161,200:162,201:163,202:164,203:165,204:166,205:167,206:168,207:169,208:170,209:171,210:172,211:173,212:174});"
+          ]
+        }
+      ]
+    },
+    "scripts/operations/build-acl-reference211.mjs": {
+      "errorPrefix": "TRIAL_J_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "68f3c2e3efd212c63c7b4faa7278bd28a16933a2c610c63e8d47b1cea7250cd5",
+      "before": "831babb98c5ae93d8497021a55df809e7dafca50febeca2cfcb081f1aa69100d",
+      "hunks": [
+        {
+          "at": 16,
+          "before": [
+            "import {inventory} from '../audit/table-access-inventory.mjs';"
+          ],
+          "after": [
+            "import {verifiedInventoryBeforeTrialR as inventory} from '../audit/source-before-trial-owner-r.mjs';"
+          ]
+        }
+      ]
+    },
+    "scripts/operations/frankfurt-reference211.mjs": {
+      "errorPrefix": "TRIAL_J_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "e0ea90b8e14962e09aa02842e2db033d3992b7cb180f407c7b92b8d8266e2102",
+      "before": "1066669b63da65dd5239a83fe4475b710f670e5af41533eb2ed92386903f56f0",
+      "hunks": [
+        {
+          "at": 5,
+          "before": [
+            "import {inventory} from '../audit/table-access-inventory.mjs';import {verifyProbeCoverage} from '../audit/table-access-probes.mjs';"
+          ],
+          "after": [
+            "import {verifiedInventoryBeforeTrialR as inventory} from '../audit/source-before-trial-owner-r.mjs';import {verifyProbeCoverage} from '../audit/table-access-probes.mjs';"
+          ]
+        }
+      ]
+    },
+    "tests/all-customer-collections203.test.ts": {
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "fc13f808ccffca5ff52419dde9afae3cc282ff957ae2d0ce80f23634eab7675a",
+      "before": "9f3a79c37f0bd7276aa66b32fabd1e342e0cccd09d1fb680f1c820957978e02b",
+      "hunks": [
+        {
+          "at": 17,
+          "before": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,211);assert.equal(state.migration203CanonicalLfSha256,createHash('sha256').update(after).digest('hex').toUpperCase());"
+          ],
+          "after": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,212);assert.equal(state.migration203CanonicalLfSha256,createHash('sha256').update(after).digest('hex').toUpperCase());"
+          ]
+        }
+      ]
+    },
+    "tests/canonical-receivables197.test.ts": {
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "6b65cf93c42e5c796740269d3d4b7979c2b3fa58499ea9d7e2e460529f3d36fa",
+      "before": "b63f6afcbdd376708b2da92a63eb30b84cc1d342181f405c78a1efb44b007ef8",
+      "hunks": [
+        {
+          "at": 56,
+          "before": [
+            " assert.equal(state.migrationCeiling,211);assert.equal(state.migration197CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());"
+          ],
+          "after": [
+            " assert.equal(state.migrationCeiling,212);assert.equal(state.migration197CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());"
+          ]
+        },
+        {
+          "at": 68,
+          "before": [
+            " assert.equal(source.migrationCeiling,211);assert.equal(proof.migrationCeiling,197);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,212);assert.equal(proof.migrationCeiling,197);assert.equal(proof.managedAccess,false);"
+          ]
+        }
+      ]
+    },
+    "tests/cashier-collections198.test.ts": {
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "57b9e887da0c63c3f540f4d7df628fdff83c1cee5e461ef79f95b8f5aac7fe42",
+      "before": "c8c06f1f76a892a80f333253b56176a3cef0a04ad9c5afd4d9f86dff61518ae5",
+      "hunks": [
+        {
+          "at": 24,
+          "before": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,211);"
+          ],
+          "after": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,212);"
+          ]
+        }
+      ]
+    },
+    "tests/cheques195-admission.test.ts": {
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "d57ce31ce5d336d752cea443798e0b83dfc96d876f03ebf954d3aaf3ba799ee6",
+      "before": "5e045d1843d6979f0114a6a8764f2bb149b131233f93753783989e796c10dacb",
+      "hunks": [
+        {
+          "at": 12,
+          "before": [
+            "  assert.equal(source.migrationCeiling,211);assert.equal(proof.migrationCeiling,195);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            "  assert.equal(source.migrationCeiling,212);assert.equal(proof.migrationCeiling,195);assert.equal(proof.managedAccess,false);"
+          ]
+        }
+      ]
+    },
+    "tests/go-live-integration164.test.ts": {
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "67a732aa754b64d968bf164dc9218aeff76f71c10b9f9471fb4f2c61fab1fdcf",
+      "before": "ab17d3bef0e12bd0f87f9d41c50ad328eb5591c5780ecdd56e31c23f2a12ec35",
+      "hunks": [
+        {
+          "at": 29,
+          "before": [
+            " assert.equal(source.migrationCeiling,211);assert.equal(proof.migrationCeiling,164);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,212);assert.equal(proof.migrationCeiling,164);assert.equal(proof.managedAccess,false);"
+          ]
+        }
+      ]
+    },
+    "tests/opening-cheques196.test.ts": {
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "a3097074a3ea57f8a222430b78b0a2548bef35c28566c2101acf8c84ff29b392",
+      "before": "9b85dcec03905a5b67c4b73b9ed4bfaa11f9166d696c64f88bf8282705cc07d7",
+      "hunks": [
+        {
+          "at": 22,
+          "before": [
+            " assert.equal(source.migrationCeiling,211);assert.equal(proof.migrationCeiling,196);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,212);assert.equal(proof.migrationCeiling,196);assert.equal(proof.managedAccess,false);"
+          ]
+        }
+      ]
+    },
+    "tests/pretrial-p1.test.ts": {
+      "errorPrefix": "TRIAL_A_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "0b9ea675789ead69567475dc409b301f44f713d7075ee24a06148feee4912075",
+      "before": "9b0c3ff3a827c52733256b249d0876cccd6f36f2b614ff07e952de574e584ee5",
+      "hunks": [
+        {
+          "at": 56,
+          "before": [
+            "  assert.equal(JSON.parse(read('docs/agent/project-state.json')).currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_211.json');"
+          ],
+          "after": [
+            "  assert.equal(JSON.parse(read('docs/agent/project-state.json')).currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_212.json');"
+          ]
+        }
+      ]
+    },
+    "tests/product-integration171.test.ts": {
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "8d9f9db8bce59344c45ef8281a4eb415dd2c7655992b4ae87fa9f307a6293cc6",
+      "before": "0f24048ed5f32dfd1597414e5e8ab9a68531abe090f2160c6d49e8cdef82dc47",
+      "hunks": [
+        {
+          "at": 49,
+          "before": [
+            " assert.equal(source.migrationCeiling,211);assert.equal(proof.migrationCeiling,171);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,212);assert.equal(proof.migrationCeiling,171);assert.equal(proof.managedAccess,false);"
+          ]
+        },
+        {
+          "at": 54,
+          "before": [
+            " assert.equal(services.migrationCeiling,211);assert.equal(services.ok,true);",
+            " assert.deepEqual(services.results.filter((r:{sqlstate:string|null})=>r.sqlstate==='42501').map((r:{name:string;appRole:string})=>[r.name,r.appRole]).sort(),['get_supplier_replacements_page_v1','execute_aftercare_supplier_v1','preview_aftercare_supplier_v1','get_aftercare_damage_candidates_v1'].flatMap(name=>['admin','cashier'].map(role=>[name,role])).sort());"
+          ],
+          "after": [
+            " assert.equal(services.migrationCeiling,212);assert.equal(services.ok,true);",
+            " assert.deepEqual(services.results.filter((r:{sqlstate:string|null})=>r.sqlstate==='42501').map((r:{name:string;appRole:string})=>[r.name,r.appRole]).sort(),['get_supplier_replacements_page_v1','execute_aftercare_supplier_v1','preview_aftercare_supplier_v1','get_aftercare_damage_candidates_v1','get_damage_history_page_v1'].flatMap(name=>['admin','cashier'].map(role=>[name,role])).sort());"
+          ]
+        }
+      ]
+    },
+    "tests/product-receiving205.test.ts": {
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "43424a2711ae853587fd5bebb6afb5f2b2cab7bb00f150319849d2336778839e",
+      "before": "5b7a173d78ecc241a977998725a2b7bddc758744ce8514438c9fbf6735ed88c7",
+      "hunks": [
+        {
+          "at": 48,
+          "before": [
+            "  const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,211);assert.equal(state.migration205CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());"
+          ],
+          "after": [
+            "  const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,212);assert.equal(state.migration205CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());"
+          ]
+        }
+      ]
+    },
+    "tests/receipt210.test.ts": {
+      "errorPrefix": "TRIAL_J_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "10d9f4a798d3a5f94471ff3645368dfc103ef9f8707a31f3517c0448712ce29a",
+      "before": "b77d438ef239b5b099a40936a9ad90a16cb1417392bb489d20fd14d8d5932a84",
+      "hunks": [
+        {
+          "at": 8,
+          "before": [
+            " assert.equal(createHash('sha256').update(sql).digest('hex').toUpperCase(),state.migration210CanonicalLfSha256);assert.equal(state.migrationCeiling,211);"
+          ],
+          "after": [
+            " assert.equal(createHash('sha256').update(sql).digest('hex').toUpperCase(),state.migration210CanonicalLfSha256);assert.equal(state.migrationCeiling,212);"
+          ]
+        }
+      ]
+    },
+    "tests/sales-history204-evidence.test.ts": {
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "48a7fad1afaa7cb3b53acd2c9e7a5c6d1ec93ac848795d8f69272ba079d7944c",
+      "before": "cabf0a7274c31c936c4f5554a7e0d6fc448bbcee85d0825e1269b3fc846e26a8",
+      "hunks": [
+        {
+          "at": 24,
+          "before": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,211);"
+          ],
+          "after": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,212);"
+          ]
+        }
+      ]
+    },
+    "tests/service-access-inventory.test.ts": {
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "bdd68a6f3e3a01c093d7df1836642e39537147d9d228fe18059c2d6f7ae44517",
+      "before": "7c3396974d3eb91a64dbad248659d614b5ae728a995b1147d99e77340b853f88",
+      "hunks": [
+        {
+          "at": 49,
+          "before": [
+            " assert.match(source,/\\[198,199,200,201,202,203,204,205,206,207,208,209,210,211\\]\\.includes\\(migrationCeiling\\)/u);"
+          ],
+          "after": [
+            " assert.match(source,/\\[198,199,200,201,202,203,204,205,206,207,208,209,210,211,212\\]\\.includes\\(migrationCeiling\\)/u);"
+          ]
+        }
+      ]
+    },
+    "tests/supplier-replacement208-evidence.test.ts": {
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "f58859b368940154d29852a093aa6f493eda831d8b11a312175bc8d18f4bda9e",
+      "before": "264465fda34f81b1a24fefd8c8d3cb4c218853c263875491a3a44314eb7c6ffc",
+      "hunks": [
+        {
+          "at": 16,
+          "before": [
+            " assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_211.json');assert.equal(state.migrationCeiling,211);"
+          ],
+          "after": [
+            " assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_212.json');assert.equal(state.migrationCeiling,212);"
+          ]
+        },
+        {
+          "at": 22,
+          "before": [
+            " const current=await serviceInventory(),proof=json('docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json');assert.equal(proof.ok,true);assert.equal(proof.migrationCeiling,211);assert.equal(proof.managedAccess,false);assert.deepEqual(proof.sourceHashes,current.sourceHashes);",
+            " const denied=proof.results.filter((r:{sqlstate:string|null})=>r.sqlstate==='42501');assert.deepEqual(denied.map((r:{name:string;appRole:string})=>[r.name,r.appRole]).sort(),['get_supplier_replacements_page_v1','execute_aftercare_supplier_v1','preview_aftercare_supplier_v1','get_aftercare_damage_candidates_v1'].flatMap(name=>['admin','cashier'].map(role=>[name,role])).sort());",
+            " assert.ok(denied.every((r:{site:string})=>r.site.startsWith('src/services/supabase/supplierReplacement.service.ts:')));"
+          ],
+          "after": [
+            " const current=await serviceInventory(),proof=json('docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json');assert.equal(proof.ok,true);assert.equal(proof.migrationCeiling,212);assert.equal(proof.managedAccess,false);assert.deepEqual(proof.sourceHashes,current.sourceHashes);",
+            " const denied=proof.results.filter((r:{sqlstate:string|null})=>r.sqlstate==='42501');assert.deepEqual(denied.map((r:{name:string;appRole:string})=>[r.name,r.appRole]).sort(),['get_supplier_replacements_page_v1','execute_aftercare_supplier_v1','preview_aftercare_supplier_v1','get_aftercare_damage_candidates_v1','get_damage_history_page_v1'].flatMap(name=>['admin','cashier'].map(role=>[name,role])).sort());",
+            " assert.ok(denied.every((r:{site:string;name:string})=>r.site.startsWith(r.name==='get_damage_history_page_v1'?'src/services/supabase/damageHistory.service.ts:':'src/services/supabase/supplierReplacement.service.ts:')));"
+          ]
+        }
+      ]
+    },
+    "tests/trial-aftercare-supplier.test.ts": {
+      "errorPrefix": "TRIAL_J_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "c2aeaddaaf8676c2f5e5d9e9971b97be16bf25105bc2ff77736c56c3d37622d5",
+      "before": "1e9cf763637a5edab46f904951196a888426ac3174c0173b5949b66b868217ef",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {verifiedInventoryBeforeTrialR} from '../scripts/audit/source-before-trial-owner-r.mjs';"
+          ]
+        },
+        {
+          "at": 9,
+          "before": [
+            "import {inventory} from '../scripts/audit/table-access-inventory.mjs';"
+          ],
+          "after": []
+        },
+        {
+          "at": 51,
+          "before": [
+            "  const proof=JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_AFTER_211.json','utf8')),current=await inventory();"
+          ],
+          "after": [
+            "  const proof=JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_AFTER_211.json','utf8')),current=await verifiedInventoryBeforeTrialR();"
+          ]
+        }
+      ]
+    },
+    "tests/trial-owner-a.test.ts": {
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "e950eadc1e326395a6a9a00b6c4a12e86f4d05a90fb393f96ebdf04a7fd22839",
+      "before": "355848736981c9974d9dcbbfec35e7b512a61599235a8d2b7effb9d3fd030c5b",
+      "hunks": [
+        {
+          "at": 54,
+          "before": [
+            " assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_211.json');",
+            " assert.equal(state.migrationCeiling,211);assert.deepEqual(current.sources,proof.sourceHashes);"
+          ],
+          "after": [
+            " assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_212.json');",
+            " assert.equal(state.migrationCeiling,212);assert.deepEqual(current.sources,proof.sourceHashes);"
+          ]
+        }
+      ]
+    },
+    "tests/trial-reset.test.ts": {
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "9809e2bf469b3c195c60a653c9b3470b2209e14aea8f9c8eb92e5ca307d526d2",
+      "before": "8e9e591cf0f6a3e2642b94c078471093b545cf188bbd2c87e63517f79e6265a3",
+      "hunks": [
+        {
+          "at": 75,
+          "before": [
+            "test('reset admits approved frozen prefixes and current211 only and preserves the named main warehouse,not trial locations',()=>{"
+          ],
+          "after": [
+            "test('reset admits approved frozen prefixes and current212 only and preserves the named main warehouse,not trial locations',()=>{"
+          ]
+        },
+        {
+          "at": 89,
+          "before": [
+            " for(const migrationCeiling of [138,198,212])assert.throws(()=>assertResetCeiling({migrationCeiling}));"
+          ],
+          "after": [
+            " assert.equal(assertResetCeiling({migrationCeiling:212}),174);",
+            " for(const migrationCeiling of [138,198,213])assert.throws(()=>assertResetCeiling({migrationCeiling}));"
+          ]
+        }
+      ]
+    },
+    "tests/withdrawals182-admission.test.ts": {
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "e4d85426d7991a32749b7326ca4a1903b77308f045dc3b1bfe932b0ef46e0f79",
+      "before": "132d32420487edb165d42a191bf4e925184286404aa2cf1221e72a05cca166f8",
+      "hunks": [
+        {
+          "at": 20,
+          "before": [
+            " assert.equal(source.migrationCeiling,211);assert.equal(proof.migrationCeiling,182);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,212);assert.equal(proof.migrationCeiling,182);assert.equal(proof.managedAccess,false);"
+          ]
+        },
+        {
+          "at": 31,
+          "before": [
+            " assert.equal(services.migrationCeiling,211);assert.equal(services.ok,true);",
+            " assert.deepEqual(services.results.filter((r:{sqlstate:string|null})=>r.sqlstate==='42501').map((r:{name:string;appRole:string})=>[r.name,r.appRole]).sort(),['get_supplier_replacements_page_v1','execute_aftercare_supplier_v1','preview_aftercare_supplier_v1','get_aftercare_damage_candidates_v1'].flatMap(name=>['admin','cashier'].map(role=>[name,role])).sort());"
+          ],
+          "after": [
+            " assert.equal(services.migrationCeiling,212);assert.equal(services.ok,true);",
+            " assert.deepEqual(services.results.filter((r:{sqlstate:string|null})=>r.sqlstate==='42501').map((r:{name:string;appRole:string})=>[r.name,r.appRole]).sort(),['get_supplier_replacements_page_v1','execute_aftercare_supplier_v1','preview_aftercare_supplier_v1','get_aftercare_damage_candidates_v1','get_damage_history_page_v1'].flatMap(name=>['admin','cashier'].map(role=>[name,role])).sort());"
+          ]
+        }
+      ]
+    },
+    "src/features/shifts/CashSourceDocumentLines.tsx": {
+      "added": true,
+      "after": "07696975ec54a643926d2b772572fcac27b807f679d9e264727b1a55501ace80",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {useEffect,useState} from 'react';",
+            "import {useAuthStore} from '../../stores/useAuthStore';",
+            "import {fetchCashReceiptDocument,fetchCashPurchaseDocument,type CashDocumentDisplay} from '../../services/supabase/cashDocumentDisplay.service';",
+            "import type {CashShiftMovement} from '../../services/supabase/cashShiftMovements.service';",
+            "/** Existing document reads,displayed without edit/payment/cancellation controls. */",
+            "export function CashSourceDocumentLines({document}:{document:NonNullable<CashShiftMovement['document']>}){",
+            " const {user,roleName,roles}=useAuthStore(),scope=[user?.id,roleName,roles.join(','),document.type,document.id].join('|');",
+            " const [state,setState]=useState<{scope:string;data?:CashDocumentDisplay;error?:string}>({scope:''});",
+            " useEffect(()=>{let active=true;",
+            "  const load=()=>document.type==='supplier_receipt'?fetchCashReceiptDocument(document.id):fetchCashPurchaseDocument(document.id);",
+            "  void load().then(data=>{if(active)setState({scope,data});}).catch(error=>{if(active)setState({scope,error:error instanceof Error?error.message:'تعذر فتح المستند.'});});",
+            "  return()=>{active=false;};",
+            " },[scope,document.type,document.id]);",
+            " const data=state.scope===scope?state.data:undefined,error=state.scope===scope?state.error:undefined;",
+            " return <section className=\"space-y-2 border-t border-nw-border pt-3\" aria-label=\"تفاصيل المستند الأصلي\">",
+            "  {error?<p role=\"alert\">{error}</p>:!data?<p role=\"status\">جاري قراءة المستند الأصلي…</p>:<><h4 className=\"font-bold\">{data.party}</h4><p className=\"text-xs text-nw-muted\"><bdi>{data.reference}</bdi>{data.location?' · '+data.location:''}</p>",
+            "  {!data.lines.length?<p>لا توجد أصناف محفوظة في هذا المستند.</p>:<ul className=\"space-y-2\">{data.lines.map(line=><li key={line.id}>{line.name} · {line.quantity} {line.unit}</li>)}</ul>}</>}",
+            " </section>;",
+            "}",
+            ""
+          ]
+        }
+      ]
+    },
+    "src/features/salesHistory/SalesInvoiceDialog.tsx": {
+      "errorPrefix": "NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "7f28fff7005c6ce927664469c32b478e16c3e1b185895b6a75090bb1f5fd56d0",
+      "before": "a30a54215519e0a8132b0219591548f89db6ec68ec39a3d9ca8f49de7a1f1bd1",
+      "hunks": [
+        {
+          "at": 11,
+          "before": [
+            "export function SalesInvoiceDialog({orderId,onClose,onChanged,returnContext=false}:{orderId:string;onClose:()=>void;onChanged?:()=>Promise<void>;returnContext?:boolean}) {"
+          ],
+          "after": [
+            "export function SalesInvoiceDialog({orderId,onClose,onChanged,returnContext=false,nested=false}:{orderId:string;onClose:()=>void;onChanged?:()=>Promise<void>;returnContext?:boolean;nested?:boolean}) {"
+          ]
+        },
+        {
+          "at": 33,
+          "before": [
+            "  return createPortal(<div className=\"sales-invoice-backdrop fixed inset-0 z-40 overflow-y-auto bg-black/60 p-2 sm:p-5\" dir=\"rtl\">"
+          ],
+          "after": [
+            "  return createPortal(<div className={`sales-invoice-backdrop fixed inset-0 ${nested?'z-50':'z-40'} overflow-y-auto bg-black/60 p-2 sm:p-5`} dir=\"rtl\">"
+          ]
+        }
+      ]
+    },
+    "src/services/supabase/cashDocumentDisplay.service.ts": {
+      "added": true,
+      "after": "9493527e78e3aeda2393750a594bfb924fb6738e0297ef664d01e265d3bc6aa6",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {supabase,isSupabaseConfigured} from '../../lib/supabase';",
+            "export interface CashDocumentDisplay {id:string;reference:string;party:string;location?:string;lines:{id:string;name:string;quantity:number;unit:string}[]}",
+            "const object=(v:unknown):Record<string,unknown>=>{if(!v||typeof v!=='object'||Array.isArray(v))throw new Error('تفاصيل المستند غير مكتملة.');return v as Record<string,unknown>;};",
+            "const text=(v:unknown)=>{if(typeof v!=='string'||!v.trim())throw new Error('هوية المستند غير مكتملة.');return v;};",
+            "export function parseCashDocumentDisplay(value:unknown,id:string,kind:'supplier_receipt'|'purchase_order'):CashDocumentDisplay {",
+            " const r=object(value);if(r.id!==id)throw new Error('المستند المقروء لا يطابق الحركة.');",
+            " const receipt=kind==='supplier_receipt',lines=r[receipt?'supplier_receipt_items':'purchase_order_items'];if(!Array.isArray(lines))throw new Error('أصناف المستند غير مكتملة.');",
+            " const party=r.suppliers?text(object(r.suppliers).company_name):'المورد',location=r.warehouses?text(object(r.warehouses).name_ar):undefined;",
+            " return {id,reference:text(r[receipt?'receipt_number':'purchase_order_number']),party,location,lines:lines.map(value=>{const line=object(value),product=object(line.products),quantity=line[receipt?'total_base_units':'ordered_quantity'];if(typeof quantity!=='number'||!Number.isSafeInteger(quantity)||quantity<=0)throw new Error('كمية المستند غير صالحة.');return {id:text(line.id),name:text(product.name_ar),quantity,unit:receipt?text(line.base_unit_name):text(object(product.base_unit).name_ar)};})};",
+            "}",
+            "/** Existing table ACL/RLS; only document identity and quantities are selected. */",
+            "export async function fetchCashReceiptDocument(receiptId:string) {",
+            " if(!supabase||!isSupabaseConfigured)throw new Error('قراءة المستند غير متاحة.');",
+            " const {data,error}=await supabase.from('supplier_receipts').select('id,receipt_number,suppliers(company_name),warehouses(name_ar),supplier_receipt_items(id,total_base_units,base_unit_name,products(name_ar))').eq('id',receiptId).single();",
+            " if(error)throw new Error('تعذر فتح سند الاستلام. أعد المحاولة.');return parseCashDocumentDisplay(data,receiptId,'supplier_receipt');",
+            "}",
+            "export async function fetchCashPurchaseDocument(poId:string) {",
+            " if(!supabase||!isSupabaseConfigured)throw new Error('قراءة المستند غير متاحة.');",
+            " const {data,error}=await supabase.from('purchase_orders').select('id,purchase_order_number,suppliers(company_name),warehouses(name_ar),purchase_order_items(id,ordered_quantity,products!purchase_order_items_product_id_fkey(name_ar,base_unit:units!products_unit_id_fkey(name_ar)))').eq('id',poId).single();",
+            " if(error)throw new Error('تعذر فتح طلب الشراء. أعد المحاولة.');return parseCashDocumentDisplay(data,poId,'purchase_order');",
+            "}",
+            ""
+          ]
+        }
+      ]
+    },
+    "scripts/agent/preflight.mjs": {
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "2f7e127434b601c2fb73f71c7fae6fc373ae6cdbe76d3435354d7ff366b2ac37",
+      "before": "71ddcd800759a95dc9ed396325098dad4fe791287ed3ef39f1b95a0539a3feea",
+      "hunks": [
+        {
+          "at": 11,
+          "before": [
+            "for(const number of [160,161,162,163,164,170,171,180,181,182,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211]) {"
+          ],
+          "after": [
+            "for(const number of [160,161,162,163,164,170,171,180,181,182,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212]) {"
+          ]
+        }
+      ]
+    }
+  }
+}

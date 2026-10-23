@@ -89,7 +89,7 @@ for(const width of [390,1440])test(`W4 ${width} barcode/Enter in search keeps co
 
 test('W5 supplier form labels, fields, boundaries and comfortable reason area at390',async({page},info)=>{
   await page.setViewportSize({width:390,height:844});await supplierMocks(page);await page.goto('/e2e/supplier-replacement208-harness.html');
-  await expect(page.getByRole('combobox',{name:'الصنف',exact:true})).toBeVisible();await fieldGeometry(page);await checkLayout(page,page.getByRole('dialog'));
+  await expect(page.getByRole('region',{name:'الصنف',exact:true})).toBeVisible();await fieldGeometry(page);await checkLayout(page,page.getByRole('dialog'));
   await page.getByRole('dialog').screenshot({path:info.outputPath('supplier-form390.png')});
 });
 

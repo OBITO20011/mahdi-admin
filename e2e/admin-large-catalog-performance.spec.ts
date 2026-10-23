@@ -124,7 +124,7 @@ test.describe('isolated Admin 5k catalog performance', () => {
     await page.getByRole('button', {name: 'استلام بضاعة جديد'}).first().click();
     const receivingSearch = page.getByPlaceholder(/رمز الصنف، أو الباركود لإضافته لسند الاستلام/);
     await receivingSearch.fill('LCAT-004444');
-    await expect(page.locator('[data-receiving-product-result]:visible').filter({hasText: 'LCAT-004444'}))
+    await expect(page.locator('[data-receiving-product-result]:visible').filter({hasText: '4444'}))
       .toHaveCount(1, {timeout: 15_000});
 
     for (const sizes of Object.values(rpcPayloadBytes)) {

@@ -1,3 +1,5 @@
+import {ProductPicker} from '../../components/ui/ProductPicker';
+import {productPickerOption} from '../../components/ui/productPickerModel';
 /**
  * Nawasrah Business Manager - Warehouse Transfer Modal
  */
@@ -14,8 +16,6 @@ import {
   ArrowLeftRight,
   Check,
   LoaderCircle,
-  Package,
-  Search,
   Warehouse as WarehouseIcon,
 } from 'lucide-react';
 
@@ -142,38 +142,9 @@ export const WarehouseTransferModal: React.FC<WarehouseTransferModalProps> = ({
         </div>
       </div>
 
-      {/* Select Product */}
-      <div className="space-y-1">
-        <label className="text-[11px] font-bold text-nw-text block flex items-center gap-1">
-          <Package className="w-3.5 h-3.5 text-nw-info" />
-          <span>اختر المنتج المراد تحويله *</span>
-        </label>
-        <div className="relative mb-2">
-          <Search className="pointer-events-none absolute right-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-nw-muted" />
-          <input
-            type="search"
-            value={productSearch}
-            onChange={(event) => setProductSearch(event.target.value)}
-            placeholder="ابحث بالاسم أو رمز الصنف أو الباركود"
-            className="w-full rounded-xl border border-nw-border bg-nw-bg py-2.5 pl-3 pr-9 text-xs text-nw-text outline-none focus:border-nw-info"
-          />
-        </div>
-        <select
-          value={selectedProductId}
-          onChange={(e) => {
-            setSelectedProductId(e.target.value);
-            selectedProductRef.current =
-              stockableProducts.find((product) => product.id === e.target.value) || null;
-          }}
-          className="w-full bg-nw-bg border border-nw-border rounded-xl px-3 py-2.5 text-nw-text text-xs font-semibold focus:outline-none focus:border-nw-info"
-        >
-          {stockableProducts.map((p) => (
-            <option key={p.id} value={p.id}>
-              {p.nameAr} - (الباركود: {p.barcode}) - المخزون المتوفر: {formatProductInventory(p).fullFormatted}
-            </option>
-          ))}
-        </select>
-      </div>
+      <ProductPicker label="اختر الصنف المراد تحويله" search={productSearch} onSearch={setProductSearch}
+        options={stockableProducts.map(product=>productPickerOption(product,fromWarehouseId))} value={selectedProductId}
+        loading={isProductsLoading} disabled={isSubmitting} onChoose={id=>{setSelectedProductId(id);selectedProductRef.current=stockableProducts.find(product=>product.id===id)||null;}}/>
 
       {/* Selected Product Card */}
       {selectedProduct && (
@@ -186,7 +157,7 @@ export const WarehouseTransferModal: React.FC<WarehouseTransferModalProps> = ({
             />
             <div>
               <h5 className="font-bold text-nw-text text-xs">{selectedProduct.nameAr}</h5>
-              <p className="text-[10px] text-nw-muted font-mono">رمز الصنف: {selectedProduct.sku}</p>
+              <p className="text-xs text-nw-muted">{selectedProduct.unit}</p>
             </div>
           </div>
           <div className="text-left">

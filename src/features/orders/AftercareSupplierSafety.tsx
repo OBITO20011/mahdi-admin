@@ -6,11 +6,11 @@ import {aftercareSupplierBlockedMessage,fetchAftercareDamageCandidates,fetchAfte
   submitSupplierReplacement,supplierReplacementRecovery,type AftercareDamageCandidate,type AftercareSupplierPreview,type ReplacementOptions} from '../../services/supabase/supplierReplacement.service';
 import type {ReplacementAttempt} from '../../services/supabase/supplierReplacementIntent';
 
-interface Props {orderId:string;disabled:boolean;onPendingChange:(pending:boolean)=>void;onChanged:()=>Promise<void>;notify:(message:string,type?:'success'|'error'|'info')=>void}
+interface Props {orderId:string;disabled:boolean;onPendingChange:(pending:boolean)=>void;onChanged:()=>Promise<void>;notify:(message:string,type?:'success'|'error'|'info')=>void;initialCandidate?:AftercareDamageCandidate}
 
 /** Owner-only, infrequent safety action. Durable recovery remains visible even
  * with the disclosure closed; no business ID is rendered as a product name. */
-export function AftercareSupplierSafety({orderId,disabled,onPendingChange,onChanged,notify}:Props) {
+export function AftercareSupplierSafety({orderId,disabled,onPendingChange,onChanged,notify,initialCandidate}:Props) {
   const {user}=useAuthStore(),scope=`aftercare211:safety:${orderId}`;
   const [open,setOpen]=useState(false),[busy,setBusy]=useState(false),[checking,setChecking]=useState(true);
   const [attempt,setAttempt]=useState<ReplacementAttempt|null>(null),[recoveryError,setRecoveryError]=useState('');
@@ -19,10 +19,10 @@ export function AftercareSupplierSafety({orderId,disabled,onPendingChange,onChan
   const [options,setOptions]=useState<ReplacementOptions|null>(null),[search,setSearch]=useState(''),[reason,setReason]=useState('');
   const [preview,setPreview]=useState<AftercareSupplierPreview|null>(null);
   const pending=attempt?.status==='prepared'||attempt?.status==='unknown';
-  useEffect(()=>{let active=true;setChecking(true);setRecoveryError('');setAttempt(null);setOpen(false);setCandidate(null);setCandidates(null);
+  useEffect(()=>{let active=true;setChecking(true);setRecoveryError('');setAttempt(null);setOpen(Boolean(initialCandidate));setCandidate(initialCandidate??null);setCandidates(null);
     void supplierReplacementRecovery(scope).then(value=>{if(active)setAttempt(value);}).catch(cause=>{if(active)setRecoveryError(businessErrorMessage(cause));}).finally(()=>{if(active)setChecking(false);});
     return()=>{active=false;};
-  },[scope,user?.id]);
+  },[scope,user?.id,initialCandidate]);
   useEffect(()=>{onPendingChange(checking||busy||pending||!!recoveryError);},[checking,busy,pending,recoveryError,onPendingChange]);
   useEffect(()=>{let active=true;setOptions(null);if(!candidate)return;
     const timer=setTimeout(()=>{void fetchSupplierReplacementOptions('customer_return','',search,candidate.productId).then(value=>{if(active){setOptions(value);const last=value.lastSuppliers.find(s=>s.productId===candidate.productId);if(last?.supplierId&&value.suppliers.some(s=>s.id===last.supplierId)){const selected=last.supplierId;setSupplierId(current=>current||selected);}}}).catch(cause=>{if(active)setError(businessErrorMessage(cause));});},search?250:0);

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "migrationCeiling": 211,
+  "migrationCeiling": 212,
   "managedAccess": false,
   "sources": [
     {
@@ -102,6 +102,14 @@
     {
       "file": "src/components/ui/ProductGlyph.tsx",
       "sha256": "b28f37c9dd12ce880dd9c18b22697261b2017b0606b44ba4a25e43ac36df39e4"
+    },
+    {
+      "file": "src/components/ui/ProductPicker.tsx",
+      "sha256": "a213b1bf1bd9ec43c333a6b3df1b324b5e8658583327281fd9dd7b23d84c0471"
+    },
+    {
+      "file": "src/components/ui/productPickerModel.ts",
+      "sha256": "fe07cab6a67bdc3384dd5aab07f0b13d5c5048e7f34fb0c53f0760824c866762"
     },
     {
       "file": "src/components/ui/ReceivingUnitFields.tsx",
@@ -269,7 +277,7 @@
     },
     {
       "file": "src/features/directReceiving/CreateDirectReceiptModal.tsx",
-      "sha256": "1b052eda1c8635502d5080ce8aba7fc0db28bf330711bf6f76e2cbad3a43a5e8"
+      "sha256": "8fc57e0d3d5b0452f27eaa90556d59a638aaf7fbdc2a7c5b97931d0ffb33b8fd"
     },
     {
       "file": "src/features/directReceiving/DirectReceivingView.tsx",
@@ -329,11 +337,11 @@
     },
     {
       "file": "src/features/inventory/StockCountModal.tsx",
-      "sha256": "b5af70a40540646079ad3ee81552e8ae3e389ef079dca6c186ed1fbff14c71ad"
+      "sha256": "f800e073bdb38ab5bc7e7cb62fa29e90f30de05d199d096ec267ff2eadcd0c0d"
     },
     {
       "file": "src/features/inventory/SupplierReplacementPanel.tsx",
-      "sha256": "f5271cf222e11589684525e943a1629f32bf173d076d8215b7d8a97def5b1ea8"
+      "sha256": "db35baaab24068f647c2f43080f0c4370d13d794f7cc061abed15049c4de2b94"
     },
     {
       "file": "src/features/inventory/SupplierReplacementQuantities.tsx",
@@ -345,15 +353,19 @@
     },
     {
       "file": "src/features/inventory/WarehouseTransferModal.tsx",
-      "sha256": "7a0957bd4611823d6a50658071c4e0d39f2b335197ebf6d0977320f9317581dc"
+      "sha256": "af94c43253a8b3e95b096bcc82cf09df8c1d6a963e3d069c74b23a2f58420c92"
     },
     {
       "file": "src/features/more/adminNavigation.config.ts",
       "sha256": "f69efb0fc768c729c971c5ee82db65475fdbd628f972f39152322d1de851d991"
     },
     {
+      "file": "src/features/more/DamageHistoryPanel.tsx",
+      "sha256": "35e7246e2f51ffacd93895f8e4d032a5976ace12b827a040cd4b113059a79317"
+    },
+    {
       "file": "src/features/more/DamageProductSelection.tsx",
-      "sha256": "8ca7c6006a206291fed06faf6ba36dd4b1165a6fae76473bfd1b1b6fe941eeea"
+      "sha256": "9d85ef445989edfba56210dab6f4de717c974e0412a6a3c654422a1a3669d575"
     },
     {
       "file": "src/features/more/InstallAppPanel.tsx",
@@ -397,7 +409,7 @@
     },
     {
       "file": "src/features/orders/AftercareSupplierSafety.tsx",
-      "sha256": "f5938c9e27931a746acc77122b3fe82f208651b4cb594a739ac505eb868426be"
+      "sha256": "0b4009e97541720fb881cbf2cd34b584803bcfdbd559be723f9eed17f0817ac2"
     },
     {
       "file": "src/features/orders/CustomerLocationCard.tsx",
@@ -481,7 +493,7 @@
     },
     {
       "file": "src/features/purchases/CreatePurchaseOrderModal.tsx",
-      "sha256": "4ac760a64d9a0e616238d5c2b35fbc58cb7a709ddcb921c7f671c794724159da"
+      "sha256": "ce15e94727651070cf7db8735edc05b4fedc57f70c9f651d2356dbcb2baa5af1"
     },
     {
       "file": "src/features/purchases/CreateSupplierModal.tsx",
@@ -549,11 +561,11 @@
     },
     {
       "file": "src/features/salesHistory/SalesInvoiceDialog.tsx",
-      "sha256": "a30a54215519e0a8132b0219591548f89db6ec68ec39a3d9ca8f49de7a1f1bd1"
+      "sha256": "7f28fff7005c6ce927664469c32b478e16c3e1b185895b6a75090bb1f5fd56d0"
     },
     {
       "file": "src/features/shifts/CashFlowDetails.tsx",
-      "sha256": "407f257d29f9da83440ab9122345f935cc0c1c69387de10ee05cf17bbaa7b945"
+      "sha256": "1bec40d4fd37dc3bacdd6340767f461362a7e154f659fc96791e46130719ef68"
     },
     {
       "file": "src/features/shifts/cashFlowModel.ts",
@@ -562,6 +574,14 @@
     {
       "file": "src/features/shifts/CashFlowSummary.tsx",
       "sha256": "908daa59ee136c102b2e9418741b494f3ad6968b780f80810122a7ed264c4fcd"
+    },
+    {
+      "file": "src/features/shifts/CashMovementDocument.tsx",
+      "sha256": "8459eb6d184765d4cf165e1abffb0e646b1a7c6e4394972d87cb17346825d5f0"
+    },
+    {
+      "file": "src/features/shifts/CashSourceDocumentLines.tsx",
+      "sha256": "07696975ec54a643926d2b772572fcac27b807f679d9e264727b1a55501ace80"
     },
     {
       "file": "src/features/shifts/OwnerWithdrawalsPanel.tsx",
@@ -668,8 +688,12 @@
       "sha256": "54f4b09369865e042f375d2507ba67b429e1dc7e7cae20a387870eb6d617b3ea"
     },
     {
+      "file": "src/services/supabase/cashDocumentDisplay.service.ts",
+      "sha256": "9493527e78e3aeda2393750a594bfb924fb6738e0297ef664d01e265d3bc6aa6"
+    },
+    {
       "file": "src/services/supabase/cashShiftMovements.service.ts",
-      "sha256": "e36805c6f9610d5c30a9bdc76aad5e8b913dc0003e45ceb94d9370be440c7e3c"
+      "sha256": "08caf1f298db15ebcb282e970fb50c73488ea8e1d2a7c4b13016b5ce626c31af"
     },
     {
       "file": "src/services/supabase/cheques.service.ts",
@@ -692,12 +716,16 @@
       "sha256": "6d029b95c2abde98d6291e41e1383a707271306d6807dfef21b73e49ac442a58"
     },
     {
+      "file": "src/services/supabase/damageHistory.service.ts",
+      "sha256": "5f43a7e6602276ec4ae4719d12bb9906bae9f92e174a9363bcaa93253ae8956c"
+    },
+    {
       "file": "src/services/supabase/dashboard.service.ts",
       "sha256": "ff38d28eb554223af227f7cae66b836c31dead27d80692e9d298cca2fafe64a1"
     },
     {
       "file": "src/services/supabase/directReceiving.service.ts",
-      "sha256": "c685687284e83f8ee732aafa252fbdcd9c79dfee04cb8810b94fa62262bb01cc"
+      "sha256": "62f1b1d863d3aad853f937a1a9c430bcd82d59d5dedc1a8f8fde0108eaf3ba6b"
     },
     {
       "file": "src/services/supabase/documentCorrections.service.ts",
@@ -825,7 +853,7 @@
     },
     {
       "file": "src/services/supabase/supplierReplacement.service.ts",
-      "sha256": "f2147c025752446ba64e5cd8c233aaa8ad3f63ab9b4309c3a457feafb34782a3"
+      "sha256": "888af486a20fdc6b21bcc7533fd444e3c63ccc756f92261a634675187777c8ea"
     },
     {
       "file": "src/services/supabase/supplierReplacementIntent.ts",
@@ -877,7 +905,7 @@
     },
     {
       "file": "src/types/directReceiving.ts",
-      "sha256": "715fedd580b94fca92c68208c8edad545a142e538c798b0a24cecd36e0b8e310"
+      "sha256": "8c5ae54f724239f8e44fc89c2a70902bd3b8fc2d368b405118238d39bbb10b5e"
     },
     {
       "file": "src/types/index.ts",
@@ -1528,6 +1556,101 @@
       "reachability": "has-source-consumer"
     },
     {
+      "id": "src/services/supabase/cashDocumentDisplay.service.ts:14",
+      "file": "src/services/supabase/cashDocumentDisplay.service.ts",
+      "line": 14,
+      "table": "supplier_receipts",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "cashDocumentDisplay",
+      "function": "fetchCashReceiptDocument",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'id,receipt_number,suppliers(company_name),warehouses(name_ar),supplier_receipt_items(id,total_base_units,base_unit_name,products(name_ar))'"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'id'",
+            "receiptId"
+          ]
+        },
+        {
+          "method": "single",
+          "args": []
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase.from('supplier_receipts').select('id,receipt_number,suppliers(company_name),warehouses(name_ar),supplier_receipt_items(id,total_base_units,base_unit_name,products(name_ar))').eq('id',receiptId).single()",
+      "embeddedTables": [
+        "products",
+        "supplier_receipt_items",
+        "suppliers",
+        "warehouses"
+      ],
+      "callers": [
+        "src/features/shifts/CashSourceDocumentLines.tsx"
+      ],
+      "screenPaths": [
+        "shifts"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/cashDocumentDisplay.service.ts:19",
+      "file": "src/services/supabase/cashDocumentDisplay.service.ts",
+      "line": 19,
+      "table": "purchase_orders",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "cashDocumentDisplay",
+      "function": "fetchCashPurchaseDocument",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'id,purchase_order_number,suppliers(company_name),warehouses(name_ar),purchase_order_items(id,ordered_quantity,products!purchase_order_items_product_id_fkey(name_ar,base_unit:units!products_unit_id_fkey(name_ar)))'"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'id'",
+            "poId"
+          ]
+        },
+        {
+          "method": "single",
+          "args": []
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase.from('purchase_orders').select('id,purchase_order_number,suppliers(company_name),warehouses(name_ar),purchase_order_items(id,ordered_quantity,products!purchase_order_items_product_id_fkey(name_ar,base_unit:units!products_unit_id_fkey(name_ar)))').eq('id',poId).single()",
+      "embeddedTables": [
+        "products",
+        "purchase_order_items",
+        "suppliers",
+        "units",
+        "warehouses"
+      ],
+      "callers": [
+        "src/features/shifts/CashSourceDocumentLines.tsx"
+      ],
+      "screenPaths": [
+        "shifts"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
       "id": "src/services/supabase/directReceiving.service.ts:229",
       "file": "src/services/supabase/directReceiving.service.ts",
       "line": 229,
@@ -1627,9 +1750,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/directReceiving.service.ts:630",
+      "id": "src/services/supabase/directReceiving.service.ts:631",
       "file": "src/services/supabase/directReceiving.service.ts",
-      "line": 630,
+      "line": 631,
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -1666,9 +1789,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/directReceiving.service.ts:645",
+      "id": "src/services/supabase/directReceiving.service.ts:646",
       "file": "src/services/supabase/directReceiving.service.ts",
-      "line": 645,
+      "line": 646,
       "table": "warehouses",
       "operation": "select",
       "role": "authenticated",
@@ -1713,9 +1836,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/directReceiving.service.ts:665",
+      "id": "src/services/supabase/directReceiving.service.ts:666",
       "file": "src/services/supabase/directReceiving.service.ts",
-      "line": 665,
+      "line": 666,
       "table": "branches",
       "operation": "select",
       "role": "authenticated",
@@ -3649,7 +3772,7 @@
     },
     {
       "file": "src/services/supabase/directReceiving.service.ts",
-      "line": 697,
+      "line": 698,
       "event": "*",
       "schema": "public",
       "table": "supplier_payments",
@@ -3659,7 +3782,7 @@
     },
     {
       "file": "src/services/supabase/directReceiving.service.ts",
-      "line": 697,
+      "line": 698,
       "event": "*",
       "schema": "public",
       "table": "supplier_receipt_items",
@@ -3669,7 +3792,7 @@
     },
     {
       "file": "src/services/supabase/directReceiving.service.ts",
-      "line": 697,
+      "line": 698,
       "event": "*",
       "schema": "public",
       "table": "supplier_receipts",
@@ -3945,7 +4068,7 @@
     }
   ],
   "totals": {
-    "queries": 51,
+    "queries": 53,
     "tableNames": [
       "branches",
       "brands",
@@ -3978,7 +4101,7 @@
       "user_roles",
       "warehouses"
     ],
-    "authenticated": 44,
+    "authenticated": 46,
     "service_role": 7,
     "anon": 0,
     "subscriptions": 20

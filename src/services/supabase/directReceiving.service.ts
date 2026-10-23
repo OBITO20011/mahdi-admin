@@ -581,6 +581,7 @@ const mapProductToReceivingProduct = (product: Product): ReceivingProduct => {
   return {
     id: product.id,
     nameAr: product.nameAr,
+    imageUrl: product.imageUrl,
     sku: product.sku,
     barcode: product.barcode,
     baseUnitId: product.baseUnitId,

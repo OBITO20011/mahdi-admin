@@ -3,19 +3,331 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/TRIAL_OWNER_W_AR.md"
+      "path": ".github/workflows/quality.yml"
     },
     {
       "code": " M",
-      "path": "docs/agent/TRIAL_OWNER_W_LOCAL.json"
+      "path": "docs/agent/OWNER_DECISIONS.md"
     },
     {
       "code": " M",
-      "path": "e2e/phase6-package-c.spec.ts"
+      "path": "docs/agent/PHASE_STATUS.md"
     },
     {
       "code": " M",
-      "path": "scripts/audit/trial-owner-w-hunks.json"
+      "path": "docs/agent/PROJECT_OVERVIEW.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/generated/DB_FUNCTIONS.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_AUDIT.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.md"
+    },
+    {
+      "code": " M",
+      "path": "e2e/admin-large-catalog-performance.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/admin-navigation-cash206.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/package-f-supplier-replacement208.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/package-f-trial-owner-w.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "package.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/agent/lib.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/agent/preflight.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/run-service-access-diagnostic.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/run-table-access-diagnostic.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-trial-owner-w.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/build-acl-reference211.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/frankfurt-owner-build.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/frankfurt-reference211.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/trial-reset-core.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/aftercare211-restore.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-trial-reset-runtime.mjs"
+    },
+    {
+      "code": " M",
+      "path": "src/features/directReceiving/CreateDirectReceiptModal.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/inventory/StockCountModal.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/inventory/SupplierReplacementPanel.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/inventory/WarehouseTransferModal.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/more/DamageProductSelection.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/orders/AftercareSupplierSafety.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/purchases/CreatePurchaseOrderModal.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/salesHistory/SalesInvoiceDialog.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/shifts/CashFlowDetails.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/services/supabase/cashShiftMovements.service.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/services/supabase/directReceiving.service.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/services/supabase/supplierReplacement.service.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/types/directReceiving.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/all-customer-collections203.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/canonical-receivables197.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/cashier-collections198.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/cheques195-admission.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/go-live-integration164.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/opening-cheques196.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/pretrial-p1.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/product-integration171.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/product-receiving205.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/receipt210.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/sales-history204-evidence.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/service-access-inventory.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/supplier-replacement208-evidence.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-aftercare-supplier.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-owner-a.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-owner-w.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-reset.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/withdrawals182-admission.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "docs/agent/TRIAL_OWNER_R_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "docs/agent/TRIAL_OWNER_R_LOCAL.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_212.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/TRIAL_OWNER_UPGRADE212_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "e2e/package-f-trial-owner-r-harness.html"
+    },
+    {
+      "code": "??",
+      "path": "e2e/package-f-trial-owner-r-harness.tsx"
+    },
+    {
+      "code": "??",
+      "path": "e2e/package-f-trial-owner-r.spec.ts"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-trial-owner-r.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/trial-owner-r-hunks.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/build-acl-reference212.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/frankfurt-owner-upgrade212.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/frankfurt-reference212.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-trial-upgrade212-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-trial212-gates.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-trial212-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "src/components/ui/ProductPicker.tsx"
+    },
+    {
+      "code": "??",
+      "path": "src/components/ui/productPickerModel.ts"
+    },
+    {
+      "code": "??",
+      "path": "src/features/more/DamageHistoryPanel.tsx"
+    },
+    {
+      "code": "??",
+      "path": "src/features/shifts/CashMovementDocument.tsx"
+    },
+    {
+      "code": "??",
+      "path": "src/features/shifts/CashSourceDocumentLines.tsx"
+    },
+    {
+      "code": "??",
+      "path": "src/services/supabase/cashDocumentDisplay.service.ts"
+    },
+    {
+      "code": "??",
+      "path": "src/services/supabase/damageHistory.service.ts"
+    },
+    {
+      "code": "??",
+      "path": "supabase/migrations/212_trial_readable_cash_product_choices_damage_history.sql"
+    },
+    {
+      "code": "??",
+      "path": "tests/trial-owner-r.test.ts"
     }
   ]
 }

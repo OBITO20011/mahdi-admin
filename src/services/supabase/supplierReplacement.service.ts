@@ -29,7 +29,7 @@ export async function fetchSupplierReplacementPage(supplierId?:string,status:'pe
   if(error)throw rpcError(error);return readReplacementPage(data);
 }
 export interface ReplacementOptions {
-  products:Array<{id:string;name:string;sku:string;baseUnitName:string;unitsPerParcel:number}>;
+  products:Array<{id:string;name:string;sku:string;baseUnitName:string;unitsPerParcel:number;imageUrl?:string|null;availableQuantity?:number}>;
   suppliers:Array<{id:string;name:string}>;warehouses:Array<{id:string;name:string;branchId:string}>;
   lastSuppliers:Array<{productId:string;supplierId:string|null;supplierName:string|null}>;
 }
@@ -41,6 +41,8 @@ export async function fetchSupplierReplacementOptions(action:SupplierReplacement
   if(data.products.some(v=>!replacementRecord(v)||typeof v.baseUnitName!=='string'||!Number.isSafeInteger(v.unitsPerParcel)||Number(v.unitsPerParcel)<1)
     ||data.warehouses.some(v=>!replacementRecord(v)||typeof v.branchId!=='string')
     ||data.lastSuppliers.some(v=>!replacementRecord(v)||typeof v.productId!=='string'||(v.supplierId!==null&&typeof v.supplierId!=='string')||(v.supplierName!==null&&typeof v.supplierName!=='string')))throw new Error('خيارات الاستبدال غير مكتملة.');
+  if(data.products.some(v=>!replacementRecord(v)||(v.imageUrl!==undefined&&v.imageUrl!==null&&typeof v.imageUrl!=='string')
+    ||(v.availableQuantity!==undefined&&(!Number.isSafeInteger(v.availableQuantity)||Number(v.availableQuantity)<0))))throw new Error('صور وأرصدة خيارات الصنف غير صالحة.');
   return {products:data.products,suppliers:data.suppliers,warehouses:data.warehouses,lastSuppliers:data.lastSuppliers} as ReplacementOptions;
 }
 export async function fetchSupplierReplacementPreview(action:SupplierReplacementAction,payload:SupplierReplacementPayload) {

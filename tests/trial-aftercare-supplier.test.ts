@@ -1,3 +1,4 @@
+import {verifiedInventoryBeforeTrialR} from '../scripts/audit/source-before-trial-owner-r.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {assertCompleteReturnAllocation} from '../src/features/orders/aftercarePresentation';
@@ -6,7 +7,6 @@ import {unitCountLabel} from '../src/utils/unitLabels';
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {trialJPins,sourceBeforeTrialJ,inventoryBeforeTrialJ} from '../scripts/audit/source-before-trial-aftercare.mjs';
-import {inventory} from '../scripts/audit/table-access-inventory.mjs';
 import {verifyProbeCoverage} from '../scripts/audit/table-access-probes.mjs';
 
 test('whole-parcel allocation identifies the missing saved flavor without losing its name in notifications', () => {
@@ -48,7 +48,7 @@ test('J exact additive inverse preserves delivered210 sources and fails closed o
 });
 
 test('J current actual SDK evidence covers every real source/actor/variant while frozen210 remains exact',async()=>{
-  const proof=JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_AFTER_211.json','utf8')),current=await inventory();
+  const proof=JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_AFTER_211.json','utf8')),current=await verifiedInventoryBeforeTrialR();
   assert.equal(proof.migrationCeiling,211);assert.equal(proof.managedAccess,false);assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);
   assert.deepEqual(proof.sourceHashes,current.sources);assert.deepEqual(proof.coverage,verifyProbeCoverage(current,proof.results));assert.ok(proof.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));
   assert.deepEqual((await inventoryBeforeTrialJ()).sources,JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_AFTER_210.json','utf8')).sourceHashes);

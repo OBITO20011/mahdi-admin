@@ -1,3 +1,5 @@
+import {ProductPicker} from '../../components/ui/ProductPicker';
+import {productPickerOption} from '../../components/ui/productPickerModel';
 /**
  * Nawasrah Business Manager - Stock Count / Audit Modal
  */
@@ -14,11 +16,9 @@ import { Product } from '../../types';
 import {
   ClipboardCheck,
   Check,
-  Package,
   AlertTriangle,
   ChevronLeft,
   Loader2,
-  Search,
 } from 'lucide-react';
 
 interface StockCountModalProps {
@@ -170,24 +170,9 @@ export const StockCountModal: React.FC<StockCountModalProps> = ({
         </div>
       </div>
 
-      {/* Product Selection */}
-      <div className="space-y-1">
-        <label className="text-[11px] font-bold text-nw-text block flex items-center gap-1">
-          <Package className="w-3.5 h-3.5 text-nw-info" />
-          <span>اختر المنتج المراد جرده *</span>
-        </label>
-        <select
-          value={selectedProductId}
-          onChange={(e) => handleProductChange(e.target.value)}
-          className="w-full bg-nw-bg border border-nw-border rounded-xl px-3 py-2.5 text-nw-text text-xs font-semibold focus:outline-none focus:border-nw-info"
-        >
-          {stockableProducts.map((p) => (
-            <option key={p.id} value={p.id}>
-              {p.nameAr} - (الرمز: {p.sku}) - بالنظام: {formatProductInventory(p).fullFormatted}
-            </option>
-          ))}
-        </select>
-      </div>
+      <ProductPicker label="اختر الصنف المراد جرده" search={productSearch} onSearch={setProductSearch}
+        options={stockableProducts.map(product=>productPickerOption(product))} value={selectedProductId}
+        loading={isProductsLoading} disabled={isSubmitting} onChoose={handleProductChange}/>
 
       {/* Selected Product Card */}
       {selectedProduct && (
@@ -201,7 +186,7 @@ export const StockCountModal: React.FC<StockCountModalProps> = ({
             <div>
               <h5 className="font-bold text-nw-text text-xs">{selectedProduct.nameAr}</h5>
               <p className="text-[10px] text-nw-muted">
-                الرمز: <span className="font-mono">{selectedProduct.sku}</span> | الباركود: {selectedProduct.barcode}
+                {selectedProduct.unit}
               </p>
             </div>
           </div>
@@ -302,16 +287,6 @@ export const StockCountModal: React.FC<StockCountModalProps> = ({
         <label className="text-[11px] font-bold text-nw-text block">
           نوع التسوية:
         </label>
-        <div className="relative mb-2">
-          <Search className="pointer-events-none absolute right-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-nw-muted" />
-          <input
-            type="search"
-            value={productSearch}
-            onChange={(event) => setProductSearch(event.target.value)}
-            placeholder="ابحث بالاسم أو رمز الصنف أو الباركود"
-            className="w-full rounded-xl border border-nw-border bg-nw-bg py-2.5 pl-3 pr-9 text-xs text-nw-text outline-none focus:border-nw-info"
-          />
-        </div>
         <select
           value={adjustmentType}
           onChange={(event) =>

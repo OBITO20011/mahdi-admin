@@ -1,55 +1,47 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
+  "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner trial W UI only: W1 inline supplier operations, W4 touch POS focus, W5 unified mobile fields, W3 top photo. W2 deferred by owner. Separate PR/full CI; no hosted/deploy.",
-  "baselineSha": "807685c4bf8c404380f0fc51bc60f0f97c0e7787",
+  "objective": "Owner-approved R1/R3/R4 UI and read-only212;full local/feature/main CI and owner upgrade command;no hosted access",
+  "baselineSha": "88c7bd446ab19338d320108a86ea25cddcbf6d2d",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
-  "branch": "codex/trial-owner-w",
+  "branch": "codex/trial-owner-r",
   "phase": "PACKAGE_F",
   "completed": [
-    "W1 inline workflow, W4 source-aware focus, W5/W5+ mobile fields/keyboards, W3 top optional photo",
-    "Current SDK/RPC proof and exact historical comparison composition"
+    "R1/R3/R4 and approved read-only212;all local gates pass"
   ],
   "inProgress": [
-    "Exact second corrected feature push/PR full CI"
+    "Gitleaks and exact feature push+PR FULL43 before merge and mainFULL43"
   ],
   "notStarted": [
-    "W2 deferred by owner; no grouping or reader expansion"
+    "Genuine merge and exact main CI delivery"
   ],
   "testsPassed": [
-    "1376 Admin/197 Customer units, types/strict lint/builds/isolated SEO",
-    "370 affected browser identities covered; final68 both engines passed; physical keyboard not emulated",
-    "SDK148/328 sources, RPC534/8 expected denials; database function definitions unchanged; network escapes0",
-    "Real POS8 both engines/public RPC/localDB,ProductionRequests0;native1500 exactly core454+F1046/all5shards",
-    "Corrective P1/W1 UI test28/28 both engines;1376Admin/types/strictlint pass;app source identical to08b",
-    "Second corrective browser40/40 both engines;1376Admin/types/strictlint PASS;source unchanged08b"
+    "R26 plus120 affected browser passes;6unchanged conditionals;197store;types/strictlint/build/SEO/network0",
+    "Actual SDK154/537RPC with10expected role denials;SQL10/full restore0;ref174-556-13/diff0;local upgrade/replay/resetREST/ownerTOTP/Storage/offline212",
+    "1383Admin/197store clean final pass;22 targeted evidence correction tests pass;preflight212 hash admitted"
   ],
   "testsRemaining": [
-    "New exact feature push/PR FULL42 and secrets",
-    "Standing merge/main FULL42"
+    "Gitleaks and exact feature push+PR/main FULL43"
   ],
   "findings": [
-    "Owner reports Frankfurt211 verify-only true after ACL211;preview e96efc1.These are owner-provided state,not a new hosted check",
-    "Primary prior H closure/ACL211 files preserved unmodified;new isolated worktree from e96efc1",
-    "W2 saved reader lacks source operation/order identity;asked owner before any contract/migration change",
-    "Owner deferred W2 explicitly; no 212 or read contract changes",
-    "W5+ explicitly approved by owner in same W package; no viewport zoom restrictions",
-    "Known own approved W commit08b836a; local gates accepted; exact CI/delivery remain pending"
+    "New clean isolated owner-authorized R worktree from delivered88c7bd4;inherited W checkpoint reset for new task;primary H/ACL211 and W closure left untouched",
+    "Local sources only;old migrations/pins retained;scoped nested invoice layer and pre-paint selection focus verified"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "No Frankfurt/Production/deploy",
-    "No migration/RPC/financial/permission changes;ask before required exception",
-    "One writer;no tracked edits during verification;no weaker checks/retries/timeouts"
+    "No writer RPC/accounting/permission changes",
+    "Only approved read-only212;historical migrations immutable",
+    "Single writer;no tracked edits during verification"
   ],
-  "nextExactAction": "Commit corrected keyboard test and exact inverse;push PR19 then accept exact push/PR FULL42 and secrets;standing merge/mainFULL42;W2 deferred,no hosted/deploy",
-  "checkpointedAt": "2026-10-23T19:09:48.659Z",
+  "nextExactAction": "Local R212 gates complete;stage/Gitleaks0,commit,push draft PR,require exact push+PR FULL43 and secrets before merge,then exact main FULL43;no hosted access",
+  "checkpointedAt": "2026-10-23T23:15:08.811Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "d1fbbe9b47737c63b75f779f575ff742b4566b5f9630f8e2f1472b714212f996",
-  "workingTreeFingerprint": "820A398FF1850F36383D47891062516FE937D9D70D69423C82050774BBFC475D"
+  "filesTouchedCount": 82,
+  "filesTouchedManifestSha256": "1cbb6af5483c990cd229f855e8cd37f88eb0ab8660c5f81f51e66abe928a26f7",
+  "workingTreeFingerprint": "1DE8C04D6CE717BBFBE9E5F4F753EEB1B3728608A238E9BF08C92E2C9E65EB54"
 }
