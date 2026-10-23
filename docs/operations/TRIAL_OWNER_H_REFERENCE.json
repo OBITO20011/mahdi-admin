@@ -1,0 +1,12 @@
+{
+  "startedAt": "2026-10-23T10:46:57.830Z",
+  "managedAccess": false,
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-reference211-0kqlYv",
+  "target": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-h211-reference-qcRW4w\\local-reference-through211-ready.json",
+  "ok": true,
+  "migrations": 173,
+  "functions": 554,
+  "realtimeMembers": 13,
+  "freshIncrementalDifferenceCount": 0,
+  "endedAt": "2026-10-23T10:50:58.785Z"
+}

@@ -224,7 +224,7 @@ export function useStorefrontSeo({activePage, category, product, offers = [], pr
       title = SEO_BRAND.aboutTitle;
       description = SEO_BRAND.aboutDescription;
       structuredData = graphSchema(
-        pageSchema('WebPage', 'عن محلات النواصرة التجارية', '/about/'),
+        pageSchema('WebPage', 'عن النواصرة لتجارة الجملة والمواد الغذائية', '/about/'),
         breadcrumbSchema([
           {name: 'الرئيسية', path: '/'},
           {name: 'عن المحل', path: '/about/'},

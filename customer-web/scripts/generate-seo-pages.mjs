@@ -5,13 +5,13 @@ import {fileURLToPath} from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'dist');
 const siteOrigin = (process.env.VITE_PUBLIC_SITE_ORIGIN || 'https://alnawasreh.com').replace(/\/+$/, '');
-const officialName = 'محلات النواصرة التجارية';
-const alternateName = 'محلات مهدي النواصرة التجارية';
+const officialName = 'النواصرة لتجارة الجملة والمواد الغذائية';
+const alternateName = 'النواصرة لتجارة الجملة والمواد الغذائية';
 const socialProfiles = ['https://www.facebook.com/profile.php?id=100042236486849'];
 const homepageTitle = `${officialName} | مواد غذائية ومشروبات بالجملة`;
-const homepageDescription = 'تصفح منتجات الجملة من محلات النواصرة التجارية، واطلب المواد الغذائية والمشروبات المتوفرة مباشرة من المتجر.';
+const homepageDescription = 'تصفح منتجات الجملة من النواصرة لتجارة الجملة والمواد الغذائية، واطلب المواد الغذائية والمشروبات المتوفرة مباشرة من المتجر.';
 const aboutTitle = `عن ${officialName} | تجارة الجملة في الرمثا`;
-const aboutDescription = `تعرف على ${officialName}، المعروفة أيضًا باسم ${alternateName}، لتجارة المواد الغذائية والسكاكر والعصائر بالجملة في الرمثا، الأردن.`;
+const aboutDescription = `تعرف على ${officialName}، لتجارة المواد الغذائية والسكاكر والعصائر بالجملة في الرمثا، الأردن.`;
 const defaultImage = `${siteOrigin}/nawasrah-store-logo.jpg`;
 const storefrontImage = `${siteOrigin}/nawasrah-storefront.webp`;
 const config = await readFile(path.join(root, 'src', 'config', 'supabase-public-config.ts'), 'utf8');
@@ -197,7 +197,7 @@ await writeRoute('/about/', injectHead(shell, {
   canonical: routeUrl('/about/'),
   image: storefrontImage,
   schema: graphSchema(
-    pageSchema('AboutPage', 'عن محلات النواصرة التجارية', '/about/'),
+    pageSchema('AboutPage', 'عن النواصرة لتجارة الجملة والمواد الغذائية', '/about/'),
     breadcrumbSchema([{name: 'الرئيسية', route: '/'}, {name: 'عن المحل', route: '/about/'}]),
   ),
 }));

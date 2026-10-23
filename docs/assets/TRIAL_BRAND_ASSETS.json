@@ -1,0 +1,154 @@
+{
+  "sourceSha256": "10160ee26ebc78fcd2b2d40830fc533b4eee55c9f04d0184cf6dc625936a57c0",
+  "sourceFile": "nawasrah-logo-square.png",
+  "policy": "Owner-approved artwork preserved;contain resize,no crop;maskable artwork in central55percent;wide banner archive only",
+  "archive": {
+    "file": "docs/assets/archive/nawasrah-banner-wide.webp",
+    "sha256": "54b1c9efb25575582c09105a798cd0fed320d3cfb9effc8961d71b93e04a630f"
+  },
+  "assets": [
+    {
+      "file": "public/nawasrah-logo-square.png",
+      "sha256": "10160ee26ebc78fcd2b2d40830fc533b4eee55c9f04d0184cf6dc625936a57c0",
+      "original": true
+    },
+    {
+      "file": "public/favicon-48.png",
+      "width": 48,
+      "height": 48,
+      "sha256": "6305a06f3c2b2d7f26603fd05bfc846aee827f1c760b4d9f133bc800115b0bdb",
+      "maskable": false
+    },
+    {
+      "file": "public/favicon-96.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "4d7e3e0b854c11fcda52e8533daf0ac63c2f707244c96a7ff717879dec2ea581",
+      "maskable": false
+    },
+    {
+      "file": "public/favicon-192.png",
+      "width": 192,
+      "height": 192,
+      "sha256": "45f6c556a6b1a7c57267e11dab3607ddea72d3943c493fabb23ddd5c2ccd29d0",
+      "maskable": false
+    },
+    {
+      "file": "public/favicon-512.png",
+      "width": 512,
+      "height": 512,
+      "sha256": "b43a2e77842c2a463b8d315783ac475d1b14f3bc37e4800d5e3273cd0d155662",
+      "maskable": false
+    },
+    {
+      "file": "public/apple-touch-icon.png",
+      "width": 180,
+      "height": 180,
+      "sha256": "58fce9c43e2ceda1bc7b0247648e8c5bc59bbaeeb40040b6cb27e220a572da37",
+      "maskable": false
+    },
+    {
+      "file": "public/nawasrah-store-logo.jpg",
+      "width": 750,
+      "height": 750,
+      "sha256": "1098887596d89e42904b9ccd353ded74bc2108fdd3c3cbbeb4f7c42190ae6f36",
+      "maskable": false
+    },
+    {
+      "file": "public/nawasrah-receipt-logo.png",
+      "width": 256,
+      "height": 256,
+      "sha256": "aa9554e90b8ac9752c109e829baaf620dda4c9899608a014719beed48fe3f233",
+      "maskable": false
+    },
+    {
+      "file": "public/icons/maskable-512.png",
+      "width": 512,
+      "height": 512,
+      "sha256": "271aa29b34a5d287b75b38540ad5370135602014efa4e9baea270b6692fb1162",
+      "maskable": true
+    },
+    {
+      "file": "customer-web/public/nawasrah-logo-square.png",
+      "sha256": "10160ee26ebc78fcd2b2d40830fc533b4eee55c9f04d0184cf6dc625936a57c0",
+      "original": true
+    },
+    {
+      "file": "customer-web/public/favicon-48.png",
+      "width": 48,
+      "height": 48,
+      "sha256": "6305a06f3c2b2d7f26603fd05bfc846aee827f1c760b4d9f133bc800115b0bdb",
+      "maskable": false
+    },
+    {
+      "file": "customer-web/public/favicon-96.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "4d7e3e0b854c11fcda52e8533daf0ac63c2f707244c96a7ff717879dec2ea581",
+      "maskable": false
+    },
+    {
+      "file": "customer-web/public/favicon-192.png",
+      "width": 192,
+      "height": 192,
+      "sha256": "45f6c556a6b1a7c57267e11dab3607ddea72d3943c493fabb23ddd5c2ccd29d0",
+      "maskable": false
+    },
+    {
+      "file": "customer-web/public/favicon-512.png",
+      "width": 512,
+      "height": 512,
+      "sha256": "b43a2e77842c2a463b8d315783ac475d1b14f3bc37e4800d5e3273cd0d155662",
+      "maskable": false
+    },
+    {
+      "file": "customer-web/public/apple-touch-icon.png",
+      "width": 180,
+      "height": 180,
+      "sha256": "58fce9c43e2ceda1bc7b0247648e8c5bc59bbaeeb40040b6cb27e220a572da37",
+      "maskable": false
+    },
+    {
+      "file": "customer-web/public/nawasrah-store-logo.jpg",
+      "width": 750,
+      "height": 750,
+      "sha256": "1098887596d89e42904b9ccd353ded74bc2108fdd3c3cbbeb4f7c42190ae6f36",
+      "maskable": false
+    },
+    {
+      "file": "customer-web/public/nawasrah-receipt-logo.png",
+      "width": 256,
+      "height": 256,
+      "sha256": "aa9554e90b8ac9752c109e829baaf620dda4c9899608a014719beed48fe3f233",
+      "maskable": false
+    },
+    {
+      "file": "customer-web/public/icons/maskable-512.png",
+      "width": 512,
+      "height": 512,
+      "sha256": "271aa29b34a5d287b75b38540ad5370135602014efa4e9baea270b6692fb1162",
+      "maskable": true
+    },
+    {
+      "file": "public/icons/admin-icon-192.png",
+      "width": 192,
+      "height": 192,
+      "sha256": "45f6c556a6b1a7c57267e11dab3607ddea72d3943c493fabb23ddd5c2ccd29d0",
+      "maskable": false
+    },
+    {
+      "file": "public/icons/admin-icon-512.png",
+      "width": 512,
+      "height": 512,
+      "sha256": "b43a2e77842c2a463b8d315783ac475d1b14f3bc37e4800d5e3273cd0d155662",
+      "maskable": false
+    },
+    {
+      "file": "public/icons/apple-touch-icon-180.png",
+      "width": 180,
+      "height": 180,
+      "sha256": "58fce9c43e2ceda1bc7b0247648e8c5bc59bbaeeb40040b6cb27e220a572da37",
+      "maskable": false
+    }
+  ]
+}

@@ -104,7 +104,7 @@ for(const theme of ['light','dark'])for(const width of [390,820,1440]){
   test(`Install and Push ${theme} ${width}: existing install help and capability states`,async({page})=>{
     await page.setViewportSize({width,height:900});await page.goto(url(theme,'install'));
     await page.getByRole('button',{name:/تثبيت التطبيق على iPhone/}).click();
-    const dialog=await stableDialog(page,'تثبيت تطبيق إدارة النواصرة');await audit(page);
+    const dialog=await stableDialog(page,'تثبيت تطبيق إدارة النواصرة لتجارة الجملة والمواد الغذائية');await audit(page);
     await dialog.getByRole('button',{name:'فهمت، سأثبت التطبيق'}).click();await expect(dialog).toHaveCount(0);
     for(const push of ['default','enabled','denied','unsupported']){
       await page.goto(url(theme,'push',`&push=${push}`));

@@ -83,7 +83,7 @@ test('Header uses Package F tokens without overriding them, retaining existing d
   assert.doesNotMatch(header, /(?:bg|text|border)-(?:slate|blue|gray|violet|red|white)-/);
   assert.match(header, /bg-nw-accent text-nw-on-accent/);
   assert.match(header, /className="min-w-0 flex-1 px-2 text-center lg:hidden"/);
-  assert.match(header, />النواصرة<\/span>/);
+  assert.match(header, />النواصرة لتجارة الجملة والمواد الغذائية<\/span>/);
   assert.match(header, /aria-label=\{`الملف الشخصي: \$\{currentUserName\}`\}[\s\S]*?lg:hidden/);
   assert.match(header, /openModal\('notifications'\)/);
   assert.match(header, /openModal\('profile'\)/);

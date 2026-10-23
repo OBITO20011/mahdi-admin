@@ -4,6 +4,7 @@ const APP_SHELL = [
   '/manifest.webmanifest',
   '/icons/admin-icon-192.png',
   '/icons/admin-icon-512.png',
+  '/icons/maskable-512.png',
   '/icons/apple-touch-icon-180.png',
 ];
 
@@ -84,7 +85,7 @@ self.addEventListener('push', (event) => {
     payload = {body: event.data ? event.data.text() : ''};
   }
 
-  const title = payload.title || 'إدارة محلات النواصرة';
+  const title = payload.title || 'إدارة النواصرة لتجارة الجملة والمواد الغذائية';
   const options = {
     body: payload.body || 'لديك تحديث جديد في لوحة الإدارة.',
     icon: payload.icon || '/icons/admin-icon-192.png',

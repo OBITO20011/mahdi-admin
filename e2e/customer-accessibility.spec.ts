@@ -31,7 +31,7 @@ test('about page has accessible landmarks, contrast, RTL, and mobile layout', as
   for (const width of [360, 390, 430]) {
     await page.setViewportSize({width, height: 844});
     await page.goto(`${customerBaseUrl}/about/`, {waitUntil: 'domcontentloaded'});
-    await expect(page.getByRole('heading', {name: 'محلات النواصرة التجارية', level: 1})).toBeVisible();
+    await expect(page.getByRole('heading', {name: 'النواصرة لتجارة الجملة والمواد الغذائية', level: 1})).toBeVisible();
     await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
     await expect(page.locator('main')).toHaveCount(1);
     await expect(page.getByRole('navigation', {name: 'التنقل السريع'})).toBeVisible();

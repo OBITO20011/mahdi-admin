@@ -1,0 +1,886 @@
+{
+  "baseline": "6a7d99e48d6fff5299eb2bc4550d67a8b8908bfb",
+  "entries": {
+    "customer-web/src/App.tsx": {
+      "before": "33c2f1108e4b1773367d7cd2c9ccc51cd690c23fec5263275a87542d713552a4",
+      "after": "4d5c39ebdb0f9bd15558da39f1bf49717eb9148e366076e2578420c0136cf78e",
+      "errorPrefix": "STOREFRONT_C6_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 39,
+          "before": [],
+          "after": [
+            "import { SEO_BRAND } from './config/seoBrand';"
+          ]
+        },
+        {
+          "at": 821,
+          "before": [
+            "  const storeWhatsappUrl = buildWhatsAppUrl(storefrontSettings.whatsappNumber, `مرحبًا ${storefrontSettings.storeNameAr}، أريد الاستفسار عن أصناف الجملة.`);"
+          ],
+          "after": [
+            "  const storeWhatsappUrl = buildWhatsAppUrl(storefrontSettings.whatsappNumber, `مرحبًا ${SEO_BRAND.officialName}، أريد الاستفسار عن أصناف الجملة.`);"
+          ]
+        },
+        {
+          "at": 2260,
+          "before": [
+            "        storeName={storefrontSettings.storeNameAr}"
+          ],
+          "after": [
+            "        storeName={SEO_BRAND.officialName}"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/components/AboutStorePage.tsx": {
+      "before": "520f9c6cf741f9229bb8ec2b6721d46ddcc0821e1503821cb98861ee47a05fca",
+      "after": "3109129e6e4243e08cb33318433d10ed4847a21436a0e37e8b70f01b7f46dfc0",
+      "errorPrefix": "TRIAL_H_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 16,
+          "before": [
+            "      <section aria-label=\"نبذة عن محلات النواصرة التجارية\" className=\"min-h-[70vh] bg-gradient-to-b from-blue-50/60 to-[#fbf7f0] py-10 sm:py-16\">"
+          ],
+          "after": [
+            "      <section aria-label=\"نبذة عن النواصرة لتجارة الجملة والمواد الغذائية\" className=\"min-h-[70vh] bg-gradient-to-b from-blue-50/60 to-[#fbf7f0] py-10 sm:py-16\">"
+          ]
+        },
+        {
+          "at": 22,
+          "before": [
+            "              alt=\"واجهة محلات النواصرة التجارية في الرمثا\""
+          ],
+          "after": [
+            "              alt=\"واجهة النواصرة لتجارة الجملة والمواد الغذائية في الرمثا\""
+          ]
+        },
+        {
+          "at": 29,
+          "before": [
+            "              محلات النواصرة التجارية — الرمثا، الأردن"
+          ],
+          "after": [
+            "              النواصرة لتجارة الجملة والمواد الغذائية — الرمثا، الأردن"
+          ]
+        },
+        {
+          "at": 35,
+          "before": [
+            "              محلات النواصرة التجارية"
+          ],
+          "after": [
+            "              النواصرة لتجارة الجملة والمواد الغذائية"
+          ]
+        },
+        {
+          "at": 38,
+          "before": [
+            "              المعروفة أيضًا باسم محلات مهدي النواصرة التجارية"
+          ],
+          "after": [
+            "              مواد غذائية ومشروبات بالجملة في الرمثا"
+          ]
+        },
+        {
+          "at": 56,
+          "before": [
+            "              {icon: Building2, title: 'اسم موحّد وموثوق', text: 'الاسم الرسمي محلات النواصرة التجارية، والاسم المعروف محليًا محلات مهدي النواصرة التجارية.'},"
+          ],
+          "after": [
+            "              {icon: Building2, title: 'اسم موحّد وموثوق', text: 'الاسم الرسمي النواصرة لتجارة الجملة والمواد الغذائية.'},"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/components/CategoryShowcase.tsx": {
+      "before": "05ed255ca079dc77ad9c5d173a6be0a25145ceaf7d05c7e5d262cf9b84cf0f1f",
+      "after": "563b264544af8f09b91e1122d49965aabcbb8165e29530325f5acabacfcbce34",
+      "errorPrefix": "TRIAL_H_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 143,
+          "before": [
+            "              أقسام متجر نواصرة"
+          ],
+          "after": [
+            "              أقسام النواصرة لتجارة الجملة والمواد الغذائية"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/components/FloatingContactActions.tsx": {
+      "before": "9f050de465b08f20d5b92c7aa1e12500ea5194bbe6e565064cbe3cc9938ad531",
+      "after": "38b995e0eb4e0e9e9adee6f6a6e2ec6db475ea0c8bbcd3b61e871b82029da03f",
+      "errorPrefix": "TRIAL_H_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 18,
+          "before": [
+            "          aria-label=\"متابعة محلات النواصرة على فيسبوك\""
+          ],
+          "after": [
+            "          aria-label=\"متابعة النواصرة لتجارة الجملة والمواد الغذائية على فيسبوك\""
+          ]
+        }
+      ]
+    },
+    "customer-web/src/components/GuidedStoreAssistant.tsx": {
+      "before": "d7128bc9fd91e9ae9de98c277328e099183e916c7ad9d9f129c3adc67765fa18",
+      "after": "daaa0ebe002ebbae2bc442b792a7f1aa1c8231c723c5d03b8952822e5227d366",
+      "errorPrefix": "TRIAL_H_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 153,
+          "before": [
+            "                <p className=\"text-[10px] font-black text-amber-700\">مساعد النواصرة</p>"
+          ],
+          "after": [
+            "                <p className=\"text-[10px] font-black text-amber-700\">مساعد النواصرة لتجارة الجملة والمواد الغذائية</p>"
+          ]
+        },
+        {
+          "at": 155,
+          "before": [
+            "                  أهلًا بك في محلات النواصرة التجارية 👋"
+          ],
+          "after": [
+            "                  أهلًا بك في النواصرة لتجارة الجملة والمواد الغذائية 👋"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/components/PublicPosReceiptPage.tsx": {
+      "before": "303d9d5d297d8684df9fdceca4f79ca1675d13bf069ce0c92ced1cd82714fd02",
+      "after": "a7570652154a9f9eb9f9500732057ff3c78959b0ea19724be31721ce012d35e8",
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 14,
+          "before": [
+            "    fetchPublicPosReceipt(token).then(result=>{if(active){setReceipt(result);document.title=`إيصال ${result.orderNumber} | محلات النواصرة التجارية`;}})"
+          ],
+          "after": [
+            "    fetchPublicPosReceipt(token).then(result=>{if(active){setReceipt(result);document.title=`إيصال ${result.orderNumber} | النواصرة لتجارة الجملة والمواد الغذائية`;}})"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/components/StoreErrorBoundary.tsx": {
+      "before": "c7137411d9875807dc35646387294094a2800b944cfcf0bb9ce46ec6c6d62f98",
+      "after": "f12a6de644559f313f5ca2f40677fb53a98bdc073c9005a62a675afea4811698",
+      "errorPrefix": "TRIAL_H_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 43,
+          "before": [
+            "            تواصل مع محلات النواصرة التجارية."
+          ],
+          "after": [
+            "            تواصل مع النواصرة لتجارة الجملة والمواد الغذائية."
+          ]
+        }
+      ]
+    },
+    "customer-web/src/components/StoreFooter.tsx": {
+      "before": "bd860d282b43e81107cd7c66e7fdbdc9a3988648f09bbe8d84bb9a09b9b3aed0",
+      "after": "5f15fb35fbbf67c9819c06b644425faf1541899f6bd2c03cfd39303484cfdb32",
+      "errorPrefix": "TRIAL_H_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 43,
+          "before": [
+            "              <a href={SEO_BRAND.socialProfiles[0]} target=\"_blank\" rel=\"noreferrer\" aria-label=\"صفحة محلات النواصرة على فيسبوك\" className=\"inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#1877f2] px-3 text-xs font-black text-white transition hover:bg-[#0f68da]\">"
+          ],
+          "after": [
+            "              <a href={SEO_BRAND.socialProfiles[0]} target=\"_blank\" rel=\"noreferrer\" aria-label=\"صفحة النواصرة لتجارة الجملة والمواد الغذائية على فيسبوك\" className=\"inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#1877f2] px-3 text-xs font-black text-white transition hover:bg-[#0f68da]\">"
+          ]
+        },
+        {
+          "at": 46,
+          "before": [
+            "              <a href={whatsappUrl} target=\"_blank\" rel=\"noreferrer\" aria-label=\"التواصل مع محلات النواصرة عبر واتساب\" className=\"inline-flex min-h-11 items-center gap-2 rounded-xl bg-emerald-600 px-3 text-xs font-black text-white transition hover:bg-emerald-700\">"
+          ],
+          "after": [
+            "              <a href={whatsappUrl} target=\"_blank\" rel=\"noreferrer\" aria-label=\"التواصل مع النواصرة لتجارة الجملة والمواد الغذائية عبر واتساب\" className=\"inline-flex min-h-11 items-center gap-2 rounded-xl bg-emerald-600 px-3 text-xs font-black text-white transition hover:bg-emerald-700\">"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/components/StoreHeader.tsx": {
+      "before": "45d460b8ca71d490a352d4d7e9b4b94e53cdf61a9ad3ebf1ee99f816495058b6",
+      "after": "fc763d50d126951df5b08cfcba13566859db2954238e40149c7044fdfff964f5",
+      "errorPrefix": "STOREFRONT_C6_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 130,
+          "before": [
+            "          الأسعار والكميات تُحدّث مباشرة من مخزون محلات النواصرة التجارية"
+          ],
+          "after": [
+            "          الأسعار والكميات تُحدّث مباشرة من مخزون النواصرة لتجارة الجملة والمواد الغذائية"
+          ]
+        },
+        {
+          "at": 153,
+          "before": [
+            "              <p className=\"text-lg font-black leading-tight text-blue-900\">نواصرة</p>",
+            "              <p className=\"text-[9px] font-bold text-amber-700\">تجارة الجملة والمواد الغذائية</p>"
+          ],
+          "after": [
+            "              <p className=\"max-w-44 text-sm font-black leading-snug text-blue-900\">النواصرة لتجارة الجملة والمواد الغذائية</p>",
+            ""
+          ]
+        }
+      ]
+    },
+    "customer-web/src/components/StoreHero.tsx": {
+      "before": "fafc86281fd5dcb42bdc82d2dc5c1f5d430d2fdbb7c8f22cbe4aabcb2f0a841b",
+      "after": "8f801149669598ddb1954e7e4f3ec76541ec7147a69ceac0568b8966b2bef937",
+      "errorPrefix": "TRIAL_H_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 139,
+          "before": [
+            "            اختر الطرود المتوفرة فعليًا لدى محلات مهدي النواصرة التجارية. السعر، نوع الطرد،"
+          ],
+          "after": [
+            "            اختر الطرود المتوفرة فعليًا لدى النواصرة لتجارة الجملة والمواد الغذائية. السعر، نوع الطرد،"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/config/seoBrand.ts": {
+      "before": "b662649550cebbfc0bf8c4f89f5634481d6e95b63b4782681ce97ac0abd162c6",
+      "after": "954fc9dd3d7fedeaee440a8a02140bac0ccfced1b0c007da9ff1d1a0df2ad46d",
+      "errorPrefix": "TRIAL_H_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 2,
+          "before": [
+            "  officialName: 'محلات النواصرة التجارية',",
+            "  alternateName: 'محلات مهدي النواصرة التجارية',",
+            "  homepageTitle: 'محلات النواصرة التجارية | مواد غذائية ومشروبات بالجملة',"
+          ],
+          "after": [
+            "  officialName: 'النواصرة لتجارة الجملة والمواد الغذائية',",
+            "  alternateName: 'النواصرة لتجارة الجملة والمواد الغذائية',",
+            "  homepageTitle: 'النواصرة لتجارة الجملة والمواد الغذائية | مواد غذائية ومشروبات بالجملة',"
+          ]
+        },
+        {
+          "at": 6,
+          "before": [
+            "    'تصفح منتجات الجملة من محلات النواصرة التجارية، واطلب المواد الغذائية والمشروبات المتوفرة مباشرة من المتجر.',",
+            "  aboutTitle: 'عن محلات النواصرة التجارية | تجارة الجملة في الرمثا',"
+          ],
+          "after": [
+            "    'تصفح منتجات الجملة من النواصرة لتجارة الجملة والمواد الغذائية، واطلب المواد الغذائية والمشروبات المتوفرة مباشرة من المتجر.',",
+            "  aboutTitle: 'عن النواصرة لتجارة الجملة والمواد الغذائية | تجارة الجملة في الرمثا',"
+          ]
+        },
+        {
+          "at": 9,
+          "before": [
+            "    'تعرف على محلات النواصرة التجارية، المعروفة أيضًا باسم محلات مهدي النواصرة التجارية، لتجارة المواد الغذائية والسكاكر والعصائر بالجملة في الرمثا، الأردن.',"
+          ],
+          "after": [
+            "    'تعرف على النواصرة لتجارة الجملة والمواد الغذائية، لتجارة المواد الغذائية والسكاكر والعصائر بالجملة في الرمثا، الأردن.',"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/config/store.ts": {
+      "before": "b32b3ea3e24c0189489a480a214c4805beb63135bcbd88f9f1053a779ae1d8ea",
+      "after": "52793eb1406ad350d08eeaa38b31513993ba906e3dd043b9d6951e17573bff10",
+      "errorPrefix": "TRIAL_H_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 18,
+          "before": [
+            "  storeNameAr: 'محلات النواصرة التجارية',"
+          ],
+          "after": [
+            "  storeNameAr: 'النواصرة لتجارة الجملة والمواد الغذائية',"
+          ]
+        },
+        {
+          "at": 22,
+          "before": [
+            "  announcementText: 'الأسعار والكميات تُحدّث مباشرة من مخزون محلات النواصرة التجارية',"
+          ],
+          "after": [
+            "  announcementText: 'الأسعار والكميات تُحدّث مباشرة من مخزون النواصرة لتجارة الجملة والمواد الغذائية',"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/receipts/ReceiptDocument.tsx": {
+      "before": "f554e7931b2e07f8cc01c37269343741f42da0e4cfd93f8f4b6578ecd416c02d",
+      "after": "63137e9dbc9a16b3fd5811f49c6df9be64ecca9c955cfab07bc859169cda361b",
+      "errorPrefix": "TRIAL_H_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 8,
+          "before": [],
+          "after": [
+            "      <img src=\"/nawasrah-receipt-logo.png\" alt=\"\" width=\"96\" height=\"96\" style={{display:'block',objectFit:'contain',margin:'0 auto 4px'}}/>"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/receipts/publicReceipt.ts": {
+      "before": "0dfbc28692a9b941030f92a9abbddf63983268dcc29660c1ee7a4d4584c21b5a",
+      "after": "f7d4dcf2119e5a9c37550b7c2f75d4b0a3dd9c7fe649a5ba4035076b878b32bb",
+      "errorPrefix": "TRIAL_H_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 8,
+          "before": [
+            "  return {businessName:'محلات النواصرة',number:receipt.orderNumber,createdAt:receipt.createdAt,branch:receipt.branch,"
+          ],
+          "after": [
+            "  return {businessName:'النواصرة لتجارة الجملة والمواد الغذائية',number:receipt.orderNumber,createdAt:receipt.createdAt,branch:receipt.branch,"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/services/receipts.service.ts": {
+      "before": "23fb6b38b13fa8916b6ba06cabd6ef5b872aa7450f3134ba3d98db7b19615a16",
+      "after": "ebb895a3909d58a800de8794201bcae931c5eb91d7026a6c829734bb1f421290",
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 48,
+          "before": [
+            "      name: stringValue(branch.name) || 'محلات النواصرة التجارية',"
+          ],
+          "after": [
+            "      name: stringValue(branch.name) || 'النواصرة لتجارة الجملة والمواد الغذائية',"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/utils/storefrontSeo.ts": {
+      "before": "f26c18b84b28ea7cdb7f95f4d7c78ddc49c76839e8566fb2e6ae12ad4ede3bee",
+      "after": "d904477e9eb171605edd5d4f837a56391eef3ec01fdd20420539e62eddf7dac9",
+      "errorPrefix": "TRIAL_H_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 227,
+          "before": [
+            "        pageSchema('WebPage', 'عن محلات النواصرة التجارية', '/about/'),"
+          ],
+          "after": [
+            "        pageSchema('WebPage', 'عن النواصرة لتجارة الجملة والمواد الغذائية', '/about/'),"
+          ]
+        }
+      ]
+    },
+    "e2e/customer-accessibility.spec.ts": {
+      "before": "2dbb9269d077b9698dc57c9819077b0edc4e1718017c6645f29ee9c585690065",
+      "after": "259cce68e738384e91630db367f615b847f8c64970f0872265a0b8eda0f93cb8",
+      "errorPrefix": "TRIAL_H_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 34,
+          "before": [
+            "    await expect(page.getByRole('heading', {name: 'محلات النواصرة التجارية', level: 1})).toBeVisible();"
+          ],
+          "after": [
+            "    await expect(page.getByRole('heading', {name: 'النواصرة لتجارة الجملة والمواد الغذائية', level: 1})).toBeVisible();"
+          ]
+        }
+      ]
+    },
+    "e2e/customer-category-grid.spec.ts": {
+      "before": "8577591095805f99625efbba44976b84c534531f0b3d22e630de3a834090823f",
+      "after": "061b4819922c737cdf5aa61e95ca3a2d32e179b3912afc686e582b89b86c4e6b",
+      "errorPrefix": "TRIAL_H_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 172,
+          "before": [
+            "      await expect(page.getByRole('heading', { name: 'أقسام متجر نواصرة' })).toBeVisible();"
+          ],
+          "after": [
+            "      await expect(page.getByRole('heading', { name: 'أقسام النواصرة لتجارة الجملة والمواد الغذائية' })).toBeVisible();"
+          ]
+        }
+      ]
+    },
+    "e2e/package-f-home.spec.ts": {
+      "before": "5920cc7614f6f09f3f1f59c41e73abf4fb9aa7fcabab0bc9da9fca7ddc6c62f6",
+      "after": "ce477badf831b41408bb55e43543dc0266b2a1683f39378f1142f134754a0b90",
+      "errorPrefix": "NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 93,
+          "before": [
+            "  await expect(header.getByRole('heading', { name: 'النواصرة', exact: true })).toBeVisible();"
+          ],
+          "after": [
+            "  await expect(header.getByRole('heading', { name: 'النواصرة لتجارة الجملة والمواد الغذائية', exact: true })).toBeVisible();"
+          ]
+        },
+        {
+          "at": 115,
+          "before": [
+            "  await expect(header.getByRole('heading', { name: 'النواصرة', exact: true })).toBeHidden();"
+          ],
+          "after": [
+            "  await expect(header.getByRole('heading', { name: 'النواصرة لتجارة الجملة والمواد الغذائية', exact: true })).toBeHidden();"
+          ]
+        }
+      ]
+    },
+    "e2e/package-f-more.spec.ts": {
+      "before": "bea026ad15dc3e7563aa7cc5ed02263ae2544903b9f8588761821359f708034c",
+      "after": "76f68d4b70b13d3ec8b0b9ce49fd6a9110fc0cfd560ef5dcadca66c8a46f7075",
+      "errorPrefix": "NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 107,
+          "before": [
+            "    const dialog=await stableDialog(page,'تثبيت تطبيق إدارة النواصرة');await audit(page);"
+          ],
+          "after": [
+            "    const dialog=await stableDialog(page,'تثبيت تطبيق إدارة النواصرة لتجارة الجملة والمواد الغذائية');await audit(page);"
+          ]
+        }
+      ]
+    },
+    "e2e/package-f-public-receipt210.spec.ts": {
+      "before": "977aac81565a03b3515d521ab3c3dd59ec6cd8de9d8069219dd91e1a58cbc234",
+      "after": "360a9017958d533f0f81c5250d238a682ddcabee4d4c71f274f9e61c22acffbc",
+      "errorPrefix": "TRIAL_H_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 10,
+          "before": [
+            " const receipt=page.getByTestId('sale-receipt-document');await expect(receipt).toBeVisible();for(const d of trialDDescriptions)await expect(receipt.locator('[data-receipt-line-description]').filter({hasText:d})).toHaveCount(1);"
+          ],
+          "after": [
+            " const receipt=page.getByTestId('sale-receipt-document');await expect(receipt).toBeVisible();await expect(receipt.getByRole('heading',{name:'النواصرة لتجارة الجملة والمواد الغذائية',exact:true})).toBeVisible();const logo=receipt.locator('img[src=\"/nawasrah-receipt-logo.png\"]');await expect.poll(()=>logo.evaluate((img:HTMLImageElement)=>img.complete&&img.naturalWidth===256)).toBe(true);for(const d of trialDDescriptions)await expect(receipt.locator('[data-receipt-line-description]').filter({hasText:d})).toHaveCount(1);"
+          ]
+        }
+      ]
+    },
+    "public/sw.js": {
+      "before": "650bc85afbfa8120078415fd75b288a340c602988cdc2ae11d36db87df8f7423",
+      "after": "6deeefec77b21ff5d1f0d79ccdb5148bc8ef3a032123df72381ef1449ba6f3ce",
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 7,
+          "before": [],
+          "after": [
+            "  '/icons/maskable-512.png',"
+          ]
+        },
+        {
+          "at": 88,
+          "before": [
+            "  const title = payload.title || 'إدارة محلات النواصرة';"
+          ],
+          "after": [
+            "  const title = payload.title || 'إدارة النواصرة لتجارة الجملة والمواد الغذائية';"
+          ]
+        }
+      ]
+    },
+    "scripts/audit/source-before-trial-aftercare.mjs": {
+      "before": "0b20367702cf29fede2921027d8342aa951b12552faea2ec32c94a9a993346e1",
+      "after": "7f57cb24fdf5f63f2bb7fcfde9cc72c1d9da78f3972bb89d861cd12cc281f480",
+      "errorPrefix": "TRIAL_J_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 3,
+          "before": [],
+          "after": [
+            "import {sourceBeforeTrialH,restoreTrialHSourceHashes,projectTrialHQuerySites} from './source-before-trial-brand.mjs';"
+          ]
+        },
+        {
+          "at": 14,
+          "before": [
+            " const source=text.replaceAll('\\r\\n','\\n'),pin=trialJPins[file];if(!pin)return source;"
+          ],
+          "after": [
+            " const source=sourceBeforeTrialH(file,text);if(source===null)return null;const pin=trialJPins[file];if(!pin)return source;"
+          ]
+        },
+        {
+          "at": 24,
+          "before": [
+            "export function restoreTrialJSourceHashes(sources){return sources.flatMap(s=>{"
+          ],
+          "after": [
+            "export function restoreTrialJSourceHashes(sources){return restoreTrialHSourceHashes(sources).flatMap(s=>{"
+          ]
+        },
+        {
+          "at": 31,
+          "before": [
+            " assert.equal(typeof parseSource,'function','TRIAL_J_SOURCE_PARSER_REQUIRED');const entries=[];"
+          ],
+          "after": [
+            " assert.equal(typeof parseSource,'function','TRIAL_J_SOURCE_PARSER_REQUIRED');source=projectTrialHQuerySites(source,parseSource);const entries=[];"
+          ]
+        },
+        {
+          "at": 34,
+          "before": [
+            "  const raw=readFileSync(new URL('../../'+file,import.meta.url),'utf8').replaceAll('\\r\\n','\\n'),before=sourceBeforeTrialJ(file,raw),entry=source.sources.find(s=>s.file===file);"
+          ],
+          "after": [
+            "  const raw=sourceBeforeTrialH(file,readFileSync(new URL('../../'+file,import.meta.url),'utf8'));assert.notEqual(raw,null,'TRIAL_J_QUERY_FILE_REQUIRED');const before=sourceBeforeTrialJ(file,raw),entry=source.sources.find(s=>s.file===file);"
+          ]
+        }
+      ]
+    },
+    "scripts/audit/source-before-trial-brand.mjs": {
+      "added": true,
+      "before": null,
+      "after": "d4f98636d20d1dcb9e1d1aa4d0027789f3ba81a8a4b735d94b85135dbb4c2e4c",
+      "hunks": []
+    },
+    "src/components/common/Header.tsx": {
+      "before": "9f527bcc60fcabc31052980240673f9e673e35c99ec409032f44d0217873956f",
+      "after": "e2de0b5b53e7f763aa48abdecf97d3642da7945766ec33c8df4cc804a0f90eed",
+      "errorPrefix": "NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 148,
+          "before": [
+            "        <h1 className=\"flex items-center justify-center gap-1 truncate text-[11px] font-black tracking-tight text-nw-text\">",
+            "          <span className=\"truncate\">النواصرة</span>"
+          ],
+          "after": [
+            "        <h1 className=\"flex items-center justify-center gap-1 text-[10px] font-black tracking-tight text-nw-text\">",
+            "          <span className=\"line-clamp-2\">النواصرة لتجارة الجملة والمواد الغذائية</span>"
+          ]
+        }
+      ]
+    },
+    "src/components/layout/SideNav.tsx": {
+      "before": "720fcde77b325e07aacb38c45c2fa341ba1e47c191959f33a0c0c80cc3a4c5af",
+      "after": "2aceaa8f5ddda44c2662ef41c8a2a6f6c148f18c840a48d39dc78fcae70a5dff",
+      "errorPrefix": "NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 128,
+          "before": [
+            "          ن"
+          ],
+          "after": [
+            "          <img src=\"/nawasrah-store-logo.jpg\" alt=\"\" className=\"h-full w-full rounded-xl object-contain\" />"
+          ]
+        },
+        {
+          "at": 132,
+          "before": [
+            "            <span className=\"text-base font-bold\">النواصرة</span>"
+          ],
+          "after": [
+            "            <span className=\"text-sm font-bold leading-6\">النواصرة لتجارة الجملة والمواد الغذائية</span>"
+          ]
+        }
+      ]
+    },
+    "src/components/modals/AllModals.tsx": {
+      "before": "806a4f46f1776a774d500ee6f00f60c248cdf7149d2ebc10f4cf4a242ed19bfc",
+      "after": "957a0be7b175081947f3420a5e5ce912e0e4a4e35741184c67915673829c9962",
+      "errorPrefix": "NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 346,
+          "before": [
+            "        subtitle=\"تسجيل بيانات الزبون الجديد ودليله في قاعدة بيانات النواصرة\""
+          ],
+          "after": [
+            "        subtitle=\"تسجيل بيانات الزبون الجديد ودليله في قاعدة بيانات النواصرة لتجارة الجملة والمواد الغذائية\""
+          ]
+        }
+      ]
+    },
+    "src/constants/index.ts": {
+      "before": "3c75513da4b822ac83f857162700bcf8bdd13bd719b4bab43384ca673d66b58f",
+      "after": "b4e72befb22f9d9248c746552f3330e6bd10abb37909bab94cd44f6cd8029286",
+      "errorPrefix": "TERMINOLOGY_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 24,
+          "before": [
+            "export const APP_NAME_AR = 'نواصرة للمحاسبة والإدارة';"
+          ],
+          "after": [
+            "export const APP_NAME_AR = 'النواصرة لتجارة الجملة والمواد الغذائية';"
+          ]
+        },
+        {
+          "at": 134,
+          "before": [
+            "    name: 'محلات النواصرة - الرمثا',",
+            "    address: 'الرمثا - محلات النواصرة',"
+          ],
+          "after": [
+            "    name: 'النواصرة لتجارة الجملة والمواد الغذائية - الرمثا',",
+            "    address: 'الرمثا - النواصرة لتجارة الجملة والمواد الغذائية',"
+          ]
+        },
+        {
+          "at": 159,
+          "before": [
+            "  { id: 'w-main', name: 'مستودع محلات النواصرة - الرمثا', branchId: 'b-ramtha-main', location: 'الرمثا - محلات النواصرة' },"
+          ],
+          "after": [
+            "  { id: 'w-main', name: 'مستودع النواصرة لتجارة الجملة والمواد الغذائية - الرمثا', branchId: 'b-ramtha-main', location: 'الرمثا - النواصرة لتجارة الجملة والمواد الغذائية' },"
+          ]
+        }
+      ]
+    },
+    "src/features/auth/LoginView.tsx": {
+      "before": "8d719f108cdbbfc766f6621fbb98f96a2f81eb40c5b851a4340d580e60fdac54",
+      "after": "f74b3ad29e8ed0091c2d8a75f3c3cf100547db9834e099a61863e59ebaee10bf",
+      "errorPrefix": "TRIAL_H_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 13,
+          "before": [
+            "  Building2,"
+          ],
+          "after": []
+        },
+        {
+          "at": 113,
+          "before": [
+            "            <Building2 className=\"w-8 h-8\" />"
+          ],
+          "after": [
+            "            <img src=\"/nawasrah-store-logo.jpg\" alt=\"\" className=\"h-full w-full rounded-2xl object-contain\" />"
+          ]
+        },
+        {
+          "at": 117,
+          "before": [
+            "            النواصرة"
+          ],
+          "after": [
+            "            النواصرة لتجارة الجملة والمواد الغذائية"
+          ]
+        },
+        {
+          "at": 310,
+          "before": [
+            "          <p>جميع الحقوق محفوظة لمؤسسة نواصرة التجارية © 2026</p>"
+          ],
+          "after": [
+            "          <p>جميع الحقوق محفوظة للنواصرة لتجارة الجملة والمواد الغذائية © 2026</p>"
+          ]
+        }
+      ]
+    },
+    "src/features/dashboard/DashboardHome.tsx": {
+      "before": "09f7c4abebb036344913f3b758ea7045d6338f75cc6627c8c4feae6941937f51",
+      "after": "99f3990f40b67a2e9885ff1e6d0718eac2dcd805da8a7462a3d1a33788d51423",
+      "errorPrefix": "NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 61,
+          "before": [
+            "          <div className=\"min-w-0\"><h1 id=\"home-title\" className=\"m-0 break-words text-lg font-bold lg:text-2xl\">أهلاً {currentUserName || 'بإدارة النواصرة'}</h1>"
+          ],
+          "after": [
+            "          <div className=\"min-w-0\"><h1 id=\"home-title\" className=\"m-0 break-words text-lg font-bold lg:text-2xl\">أهلاً {currentUserName || 'بإدارة النواصرة لتجارة الجملة والمواد الغذائية'}</h1>"
+          ]
+        }
+      ]
+    },
+    "src/features/more/InstallAppPanel.tsx": {
+      "before": "343014c3e3eee60dc59b83b642179889cf6347d5d2905c386f7ce95ea3a26fe4",
+      "after": "c98919df9464e176d93c8e853e78e49bf5d555d2bedcc396c158b9d6683719a6",
+      "errorPrefix": "TRIAL_H_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 90,
+          "before": [
+            "        title=\"تثبيت تطبيق إدارة النواصرة\""
+          ],
+          "after": [
+            "        title=\"تثبيت تطبيق إدارة النواصرة لتجارة الجملة والمواد الغذائية\""
+          ]
+        },
+        {
+          "at": 122,
+          "before": [
+            "              description=\"ستظهر أيقونة إدارة النواصرة بين تطبيقات الجهاز.\""
+          ],
+          "after": [
+            "              description=\"ستظهر أيقونة إدارة النواصرة لتجارة الجملة والمواد الغذائية بين تطبيقات الجهاز.\""
+          ]
+        }
+      ]
+    },
+    "src/features/more/PushNotificationControls.tsx": {
+      "before": "4d9d225de721c1d24b096ea50f6b6da9685d3c4cbf7899e00e1402a8fffdadde",
+      "after": "f7c81ca5a13bf222bdf8d8c18af3c7900a088871ecf304da4a009379508a2a36",
+      "errorPrefix": "TRIAL_H_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 102,
+          "before": [
+            "                ? 'الإذن مرفوض. فعّله من إعدادات iPhone ← الإشعارات ← إدارة النواصرة.'"
+          ],
+          "after": [
+            "                ? 'الإذن مرفوض. فعّله من إعدادات iPhone ← الإشعارات ← إدارة النواصرة لتجارة الجملة والمواد الغذائية.'"
+          ]
+        }
+      ]
+    },
+    "src/features/more/StorefrontSettingsModal.tsx": {
+      "before": "c752cb8a20d96a02c1b09c2956beb2f0e86967aa20f42874dacf64e348e61630",
+      "after": "d731e7f988e228645099dcc640dd48540df1b08770dc131094765d65c1646f08",
+      "errorPrefix": "TRIAL_H_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 28,
+          "before": [
+            "  storeNameAr: 'محلات النواصرة',"
+          ],
+          "after": [
+            "  storeNameAr: 'النواصرة لتجارة الجملة والمواد الغذائية',"
+          ]
+        },
+        {
+          "at": 32,
+          "before": [
+            "  announcementText: 'الأسعار والكميات تُحدّث مباشرة من مخزون محلات النواصرة',"
+          ],
+          "after": [
+            "  announcementText: 'الأسعار والكميات تُحدّث مباشرة من مخزون النواصرة لتجارة الجملة والمواد الغذائية',"
+          ]
+        }
+      ]
+    },
+    "src/features/orders/CustomerLocationCard.tsx": {
+      "before": "e1e23d7cec1fe066ef6e58aff5cbb8e5243e36cb7304515133feeea6c4200af1",
+      "after": "7e35b12f5a82c14311859dda69aadff082d38d364953c3e30ab6973278a80675",
+      "errorPrefix": "TRIAL_H_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 119,
+          "before": [
+            "      `معك فريق التوصيل في *نواصرة للمحاسبة والإدارة*، بخصوص طلبك رقم *${order.orderNumber}*.\\n` +"
+          ],
+          "after": [
+            "      `معك فريق التوصيل في *النواصرة لتجارة الجملة والمواد الغذائية*، بخصوص طلبك رقم *${order.orderNumber}*.\\n` +"
+          ]
+        }
+      ]
+    },
+    "src/features/pos/PosView.tsx": {
+      "before": "28a31b9de6ab0c3e8d1fbfcc33f93bf74efab8674f85a88324b9eccc048154cc",
+      "after": "363edfac6a6af24a8f814058a7e8cd3d514f40ee9b766189561208e5dc20fb93",
+      "errorPrefix": "WAREHOUSE_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 568,
+          "before": [
+            "      businessName: 'محلات النواصرة',"
+          ],
+          "after": [
+            "      businessName: 'النواصرة لتجارة الجملة والمواد الغذائية',"
+          ]
+        }
+      ]
+    },
+    "src/features/purchases/PurchasesView.tsx": {
+      "before": "ff7b936b248d310c9c14a1dc65ccbebaafa07720aa33597f6e71736d2455293f",
+      "after": "3ed965da08ad371339f99ec3198f2727459fd40d5fc3a70693e7343e7c467dfd",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 1340,
+          "before": [
+            "              <h2 className=\"text-base font-black\">شركة النواصرة للتجارة والجملة</h2>"
+          ],
+          "after": [
+            "              <h2 className=\"text-base font-black\">النواصرة لتجارة الجملة والمواد الغذائية</h2>"
+          ]
+        }
+      ]
+    },
+    "src/features/receipts/saleReceipt.ts": {
+      "before": "da21a2d76131acff033794327e54bd22f733a6b739e9263b4183104330b1d581",
+      "after": "e56b2fd11f11a655afa175ba1c617ff4c74fd0b07d9df8e2fea1d3d7497c2fe3",
+      "errorPrefix": "TRIAL_H_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 14,
+          "before": [
+            "  return {businessName:'محلات النواصرة',number:invoice.invoiceNumber,createdAt:invoice.createdAt,"
+          ],
+          "after": [
+            "  return {businessName:'النواصرة لتجارة الجملة والمواد الغذائية',number:invoice.invoiceNumber,createdAt:invoice.createdAt,"
+          ]
+        }
+      ]
+    },
+    "src/features/reports/ReportsCenterView.tsx": {
+      "before": "04d321207a4baf53d24a1fd64bfae5cb072bd31d8fc992bcdc61ccd046a4d874",
+      "after": "e2bce6f8683f55e7994fff7004b28a38121d87d93f431947538bcb4d47b1e72e",
+      "errorPrefix": "COLLECTIONS202_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 314,
+          "before": [
+            "                <p className=\"text-[10px] font-black text-nw-info\">مؤسسة نواصرة التجارية</p>"
+          ],
+          "after": [
+            "                <p className=\"text-[10px] font-black text-nw-info\">النواصرة لتجارة الجملة والمواد الغذائية</p>"
+          ]
+        }
+      ]
+    },
+    "src/utils/receipt.ts": {
+      "before": "6e46eca879d74f94fabd20cbcf4aa35f6fa2ff4a4af707994bf5f9e7905c5297",
+      "after": "332f9643c3e4ccca5229e73990bfaaa0326d9f64c9489e4a8db095e64891880d",
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 77,
+          "before": [
+            "    'شكرًا لتعاملكم مع محلات النواصرة.',"
+          ],
+          "after": [
+            "    'شكرًا لتعاملكم مع النواصرة لتجارة الجملة والمواد الغذائية.',"
+          ]
+        }
+      ]
+    },
+    "tests/package-f-shell.test.ts": {
+      "before": "faa2469b15aa49498cd148d4d7acb3b90c7a3c9f47839baae767252d24195c8a",
+      "after": "fa03eb8fbdefd6cc5b197897b5b9301173148027f2c7109cba2881e7bdf19cab",
+      "errorPrefix": "TRIAL_H_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 86,
+          "before": [
+            "  assert.match(header, />النواصرة<\\/span>/);"
+          ],
+          "after": [
+            "  assert.match(header, />النواصرة لتجارة الجملة والمواد الغذائية<\\/span>/);"
+          ]
+        }
+      ]
+    },
+    "tests/trial-brand-identity.test.ts": {
+      "added": true,
+      "before": null,
+      "after": "226519e72cac57e07ad15241cd58adbe746e3c30c93d5bb63268fdd82b52d216",
+      "hunks": []
+    }
+  }
+}

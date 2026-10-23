@@ -1,5 +1,6 @@
 // Exact additive inverse over delivered main74cc431. All old pins are immutable.
 import assert from 'node:assert/strict';
+import {sourceBeforeTrialH,restoreTrialHSourceHashes,projectTrialHQuerySites} from './source-before-trial-brand.mjs';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 export const trialJPins=JSON.parse(readFileSync(new URL('./trial-aftercare-hunks.json',import.meta.url),'utf8')).entries;
@@ -10,7 +11,7 @@ for(const name of ['trial-sale-receipts','parcel209','trial-owner-a','pretrial-p
  }
 }
 export function sourceBeforeTrialJ(file,text){
- const source=text.replaceAll('\r\n','\n'),pin=trialJPins[file];if(!pin)return source;
+ const source=sourceBeforeTrialH(file,text);if(source===null)return null;const pin=trialJPins[file];if(!pin)return source;
  const digest=hash(source);if(digest===pin.before||olderHashes.get(file)?.has(digest))return source;
  assert.equal(digest,pin.after,(pin.errorPrefix??'TRIAL_J_ENTIRE_CURRENT_FILE_CHANGED:')+file);
  if(pin.added)return null;
@@ -20,17 +21,17 @@ export function sourceBeforeTrialJ(file,text){
  }
  const restored=lines.join('\n');assert.equal(hash(restored),pin.before,'TRIAL_J_ENTIRE_RESTORED_FILE_CHANGED:'+file);return restored;
 }
-export function restoreTrialJSourceHashes(sources){return sources.flatMap(s=>{
+export function restoreTrialJSourceHashes(sources){return restoreTrialHSourceHashes(sources).flatMap(s=>{
  const pin=trialJPins[s.file];if(!pin||s.sha256===pin.before||olderHashes.get(s.file)?.has(s.sha256))return [s];
  assert.equal(s.sha256,pin.after,'TRIAL_J_SOURCE_HASH:'+s.file);
  const text=sourceBeforeTrialJ(s.file,readFileSync(new URL('../../'+s.file,import.meta.url),'utf8'));
  return text===null?[]:[{...s,sha256:hash(text)}];
 });}
 export function projectTrialJQuerySites(source,parseSource){
- assert.equal(typeof parseSource,'function','TRIAL_J_SOURCE_PARSER_REQUIRED');const entries=[];
+ assert.equal(typeof parseSource,'function','TRIAL_J_SOURCE_PARSER_REQUIRED');source=projectTrialHQuerySites(source,parseSource);const entries=[];
  for(const file of new Set(source.entries.map(e=>e.file))){
   const supplied=source.entries.filter(e=>e.file===file),pin=trialJPins[file];if(!pin){entries.push(...supplied);continue;}
-  const raw=readFileSync(new URL('../../'+file,import.meta.url),'utf8').replaceAll('\r\n','\n'),before=sourceBeforeTrialJ(file,raw),entry=source.sources.find(s=>s.file===file);
+  const raw=sourceBeforeTrialH(file,readFileSync(new URL('../../'+file,import.meta.url),'utf8'));assert.notEqual(raw,null,'TRIAL_J_QUERY_FILE_REQUIRED');const before=sourceBeforeTrialJ(file,raw),entry=source.sources.find(s=>s.file===file);
   assert.ok(entry,'HISTORICAL_QUERY_SOURCE_REQUIRED:TRIAL_J:'+file);
   if(entry.sha256!==hash(raw)){assert.ok((before!==null&&entry.sha256===hash(before))||olderHashes.get(file)?.has(entry.sha256),'HISTORICAL_QUERY_SOURCE_HASH:TRIAL_J:'+file);entries.push(...supplied);continue;}
   const current=parseSource(file,raw).entries,keys=Object.keys(current[0]??{}),pick=e=>Object.fromEntries(keys.map(k=>[k,e[k]]));

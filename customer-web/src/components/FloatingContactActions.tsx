@@ -15,7 +15,7 @@ export function FloatingContactActions({
           href={SEO_BRAND.socialProfiles[0]}
           target="_blank"
           rel="noreferrer"
-          aria-label="متابعة محلات النواصرة على فيسبوك"
+          aria-label="متابعة النواصرة لتجارة الجملة والمواد الغذائية على فيسبوك"
           className="group flex h-12 min-w-12 items-center overflow-hidden rounded-2xl bg-[#1877f2] px-3.5 text-white transition hover:-translate-y-0.5 hover:bg-[#0f68da] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-200"
         >
           <span aria-hidden="true" className="grid h-6 w-6 shrink-0 place-items-center font-serif text-[1.7rem] font-black leading-none">f</span>

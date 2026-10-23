@@ -74,7 +74,7 @@ export function buildReceiptShareText(input: ReceiptShareInput): string {
     input.changeDue > 0 ? `الباقي للعميل: ${money(input.changeDue)}` : '',
     input.publicReceiptUrl ? `رابط الإيصال الإلكتروني: ${input.publicReceiptUrl}` : '',
     '',
-    'شكرًا لتعاملكم مع محلات النواصرة.',
+    'شكرًا لتعاملكم مع النواصرة لتجارة الجملة والمواد الغذائية.',
   ]
     .filter((line) => line !== '')
     .join('\n');

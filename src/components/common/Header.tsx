@@ -145,8 +145,8 @@ export const Header: React.FC = () => {
 
       {/* Center Logo / Title */}
       <div className="min-w-0 flex-1 px-2 text-center lg:hidden">
-        <h1 className="flex items-center justify-center gap-1 truncate text-[11px] font-black tracking-tight text-nw-text">
-          <span className="truncate">النواصرة</span>
+        <h1 className="flex items-center justify-center gap-1 text-[10px] font-black tracking-tight text-nw-text">
+          <span className="line-clamp-2">النواصرة لتجارة الجملة والمواد الغذائية</span>
         </h1>
       </div>
 

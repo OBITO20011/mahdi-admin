@@ -1,4 +1,4 @@
-const PUBLIC_ROUTE = /^\/(?:$|products\/?$|offers\/?$|about\/?$|product\/[^/]+\/?$|category\/[^/]+\/?$|robots\.txt$|sitemap\.xml$|site\.webmanifest$|apple-touch-icon\.png$|favicon-(?:48|96|192|512)\.png$|assets\/|nawasrah-[^/]+\.(?:jpg|webp|mp4)$)/u;
+const PUBLIC_ROUTE = /^\/(?:$|products\/?$|offers\/?$|about\/?$|product\/[^/]+\/?$|category\/[^/]+\/?$|robots\.txt$|sitemap\.xml$|site\.webmanifest$|apple-touch-icon\.png$|favicon-(?:48|96|192|512)\.png$|icons\/maskable-512\.png$|assets\/|nawasrah-[^/]+\.(?:jpg|png|webp|mp4)$)/u;
 
 const NOT_FOUND_HTML = `<!doctype html>
 <html lang="ar" dir="rtl">
@@ -6,7 +6,7 @@ const NOT_FOUND_HTML = `<!doctype html>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex, nofollow, noarchive" />
-    <title>الصفحة غير موجودة | محلات النواصرة التجارية</title>
+    <title>الصفحة غير موجودة | النواصرة لتجارة الجملة والمواد الغذائية</title>
   </head>
   <body style="margin:0;background:#f8fafc;color:#0f172a;font-family:system-ui,sans-serif">
     <main style="min-height:100vh;display:grid;place-items:center;padding:24px;text-align:center">

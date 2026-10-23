@@ -169,7 +169,7 @@ test.describe('شبكة تصنيفات متجر العملاء', () => {
       await page.goto(`${customerBaseUrl}/#categories`, {
         waitUntil: 'domcontentloaded',
       });
-      await expect(page.getByRole('heading', { name: 'أقسام متجر نواصرة' })).toBeVisible();
+      await expect(page.getByRole('heading', { name: 'أقسام النواصرة لتجارة الجملة والمواد الغذائية' })).toBeVisible();
       await waitForStableCategoryGrid(page);
 
       const grid = page.getByTestId('category-grid');

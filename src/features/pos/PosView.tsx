@@ -565,7 +565,7 @@ export const PosView: React.FC = () => {
     }
 
     const text = buildReceiptShareText({
-      businessName: 'محلات النواصرة',
+      businessName: 'النواصرة لتجارة الجملة والمواد الغذائية',
       branchName: receiptBranch?.name || lastInvoice.branchId,
       invoiceNumber: lastInvoice.invoiceNumber,
       customerName: lastInvoice.customerName,

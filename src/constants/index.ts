@@ -21,7 +21,7 @@ export const PURCHASE_PACKAGE_OPTIONS = [
 ] as const;
 
 export const APP_NAME = 'Nawasrah Business Manager';
-export const APP_NAME_AR = 'نواصرة للمحاسبة والإدارة';
+export const APP_NAME_AR = 'النواصرة لتجارة الجملة والمواد الغذائية';
 
 export const COLORS = {
   navyDark: 'var(--nw-side)',
@@ -131,8 +131,8 @@ export const ROLE_PERMISSIONS_MAP: Record<Role, Permission[]> = {
 export const DEFAULT_BRANCHES = [
   {
     id: 'b-ramtha-main',
-    name: 'محلات النواصرة - الرمثا',
-    address: 'الرمثا - محلات النواصرة',
+    name: 'النواصرة لتجارة الجملة والمواد الغذائية - الرمثا',
+    address: 'الرمثا - النواصرة لتجارة الجملة والمواد الغذائية',
     city: 'الرمثا',
     phone: '065800111',
     isMain: true,
@@ -156,7 +156,7 @@ export const DEFAULT_BRANCHES = [
 ];
 
 export const DEFAULT_WAREHOUSES = [
-  { id: 'w-main', name: 'مستودع محلات النواصرة - الرمثا', branchId: 'b-ramtha-main', location: 'الرمثا - محلات النواصرة' },
+  { id: 'w-main', name: 'مستودع النواصرة لتجارة الجملة والمواد الغذائية - الرمثا', branchId: 'b-ramtha-main', location: 'الرمثا - النواصرة لتجارة الجملة والمواد الغذائية' },
   { id: 'w-irbid', name: 'مستودع فرع إربد', branchId: 'b-irbid', location: 'إربد - المدينة الصناعية' },
   { id: 'w-zarqa', name: 'مستودع فرع الزرقاء', branchId: 'b-zarqa', location: 'الزرقاء - المنطقة الحرة' },
   { id: 'w-cold', name: 'مستودع التبريد المركزي', branchId: 'b-ramtha-main', location: 'الرمثا' },

@@ -1337,7 +1337,7 @@ export const PurchasesView: React.FC = () => {
         <div className="fixed inset-0 z-[80] flex items-center justify-center bg-nw-overlay backdrop-blur-sm p-4">
           <div className="bg-nw-surface text-nw-muted rounded-3xl p-6 max-w-lg w-full space-y-4 shadow-2xl">
             <div className="text-center border-b pb-3 border-nw-border">
-              <h2 className="text-base font-black">شركة النواصرة للتجارة والجملة</h2>
+              <h2 className="text-base font-black">النواصرة لتجارة الجملة والمواد الغذائية</h2>
               <p className="text-xs text-nw-muted">سند صرف للمورد - Supplier Payment Voucher</p>
             </div>
 

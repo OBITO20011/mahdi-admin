@@ -11,7 +11,6 @@ import {
   ShieldCheck,
   LogIn,
   Loader2,
-  Building2,
   Smartphone,
   ArrowRight,
 } from 'lucide-react';
@@ -111,11 +110,11 @@ export const LoginView: React.FC = () => {
         {/* App Logo & Header */}
         <div className="text-center space-y-2">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-nw-primary text-nw-on-primary shadow-sm mb-1">
-            <Building2 className="w-8 h-8" />
+            <img src="/nawasrah-store-logo.jpg" alt="" className="h-full w-full rounded-2xl object-contain" />
           </div>
 
           <h1 className="text-xl font-black text-nw-text tracking-tight">
-            النواصرة
+            النواصرة لتجارة الجملة والمواد الغذائية
           </h1>
           <p className="text-xs text-nw-muted font-medium">
             النظام السحابي الموحد لإدارة الفروع والمبيعات والمخزون
@@ -308,7 +307,7 @@ export const LoginView: React.FC = () => {
         {/* Footer info */}
         <div className="text-center space-y-1 text-[10px] text-nw-muted">
           <p className="font-semibold text-nw-muted">نظام إدارة المحاسبة والمبيعات الموحد</p>
-          <p>جميع الحقوق محفوظة لمؤسسة نواصرة التجارية © 2026</p>
+          <p>جميع الحقوق محفوظة للنواصرة لتجارة الجملة والمواد الغذائية © 2026</p>
         </div>
       </div>
     </FormFields>
