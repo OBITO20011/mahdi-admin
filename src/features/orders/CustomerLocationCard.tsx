@@ -116,7 +116,7 @@ export const CustomerLocationCard: React.FC<CustomerLocationCardProps> = ({
   const handleRequestLocationFromCustomer = () => {
     const requestMessage = encodeURIComponent(
       `أهلاً بك عزيزي العميل ${order.customerName} 🌸\n` +
-      `معك فريق التوصيل في *نواصرة للمحاسبة والإدارة*، بخصوص طلبك رقم *${order.orderNumber}*.\n` +
+      `معك فريق التوصيل في *النواصرة لتجارة الجملة والمواد الغذائية*، بخصوص طلبك رقم *${order.orderNumber}*.\n` +
       `يرجى مشاركة موقعك الدقيق (Pin Location) عبر الواتساب لتأكيد عنوان التوصيل وتسليمه بأسرع وقت.\n` +
       `شكراً لتسوقك معنا!`
     );

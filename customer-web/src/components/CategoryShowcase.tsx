@@ -140,7 +140,7 @@ export function CategoryShowcase({
               id="catalog-categories-heading"
               className="text-xl font-black text-blue-950 sm:text-2xl"
             >
-              أقسام متجر نواصرة
+              أقسام النواصرة لتجارة الجملة والمواد الغذائية
             </h3>
             <p className="mt-2 text-[11px] font-bold leading-5 text-slate-500">
               اختر القسم الذي تريده وسننقلك مباشرة إلى أصنافه المتوفرة

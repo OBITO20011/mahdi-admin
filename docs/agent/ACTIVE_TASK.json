@@ -2,56 +2,51 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner J1-J5:aftercare parcel presentation and owner-only supplier disposition/reclassification211;then separate H.No hosted access/deploy.",
-  "baselineSha": "74cc431e9b8d4bf01c03c65e5d1740a61647fd56",
+  "objective": "Owner H:official shop identity/assets/SEO;preserve video/trial WhatsApp;separate PR FULL42.No hosted access/deploy.",
+  "baselineSha": "6a7d99e48d6fff5299eb2bc4550d67a8b8908bfb",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
-  "branch": "codex/trial-aftercare-supplier",
+  "branch": "codex/trial-brand-identity",
   "phase": "PACKAGE_F",
   "completed": [
     "A/B delivered main581cb97",
-    "D PR16/main74cc431 exact push+PR+main FULL41/secrets strictly accepted;owner210 guide prepared only"
+    "D PR16/main74cc431 exact push+PR+main FULL41/secrets strictly accepted;owner210 guide prepared only",
+    "J PR17/main6a7d99e exact feature+main FULL42/secrets accepted;owner211 current"
   ],
   "inProgress": [
-    "J211 local accepted;final secrets/diff/commit/push/draftPR and exact feature/main FULL42"
+    "H local gates accepted;final Gitleaks/commit/push/PR/exactFULL42"
   ],
   "notStarted": [
-    "J exact push+PR/full main CI and merge;owner211 final reference/delivery",
-    "H after J delivered"
+    "H exact feature push+PR FULL42 then merge/genuine main FULL42"
   ],
   "testsPassed": [
-    "D PR16/main74cc431 exact FULL41/secrets accepted",
-    "Final211 B3018E78:30actualDBgroups/strictlint/full logical restore0diff/replay0;whole return9@1000+1@1500 correct",
-    "36aftercare bothengine browsers0retry;150unchanged affected identities accepted with one Vite502 local environmental rerun",
-    "1370Admin/197store units0skip;types/strictlint/build;native1448 partition complete",
-    "SDK327sources/148realqueries0errors;RPC534/8exact owner-only denials;generated554",
-    "Fresh/incremental173migrations/554functions/13Realtime/diff0;local upgrade209-211/replay0;populated211 reset/OwnerTOTP/Storage/actualREST211 PASS",
-    "Final Gitleaks changed/untracked77files:0findings;diff whitespace normalized"
+    "1373Admin/197store units0fail/0skip;types/strictlint/build/SEO",
+    "Full1448browser identities:1387pass+two unchanged environmental rerunPASS;59unchanged conditional;network0",
+    "PWA4 automatic/waiting Chromium/WebKit PASS;SDK327/148actualqueries/RPC534/8expected ownerdenials",
+    "Ref211173migrations/554functions/13Realtime/freshincremental0;SQL001-211/oldpins/video/contact unchanged"
   ],
   "testsRemaining": [
-    "Exact feature push+PR FULL42/secrets then merge/genuine main FULL42",
-    "Copy final owner211 reference/Arabic guide after accepted main;then separate H"
+    "Final Gitleaks/diff/commit/push/PR",
+    "Exact push+PR FULL42/secrets then merge/mainFULL42;refreshcurrentowner211ref preservingold"
   ],
   "findings": [
-    "Both owner decisions implemented:retain signed cost difference and permit defective same-SKU parcel-unit replacement only",
-    "Only two issuer admission sites changed;full monetary parcel refund guards,121/drawer/debts remain",
-    "No hostedaccess/deploy;owner210 until J acceptedmain;001-210/oldpins/references immutable",
-    "Earlier pre-exception211 proofs superseded by final B3018E78 full30/current554/reference6Mbdrw;old reports not alleged final"
+    "H new clean worktree main6a known delivered baseline synchronized under standing owner2026-10-15",
+    "One manual-preview-polluted browser run abandoned/0externalescapes;cleanfull and two trace-proven environmental cases rerun once unchangedPASS",
+    "No Frankfurt/Production/deploy;owner211 remains current;official phone launch-only"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "No Frankfurt/Production/secrets/deploy",
-    "Never edit historical001-210 or settlement121/drawer/debts",
-    "Owner-only supplier option/reclassification;no single unit monetary refund from parcel",
-    "One writer;no tracked edits during verification;no weaker assertions/retry/skip/timeouts",
-    "Only J screens;always طرد;H only after J delivery"
+    "No SQL/RPC/financial/permission changes",
+    "Preserve video and trial WhatsApp0772838886",
+    "One writer;no tracked edits during verification;no weaker assertions/retries/skips/timeouts"
   ],
-  "nextExactAction": "Final J211 local gates/Gitleaks0 accepted. Commit75known-owned paths,push codex/trial-aftercare-supplier,create draftPR and attach;require exact push+PR FULL42/secrets before merge,then genuine mainFULL42. Final owner211 reference/guide after acceptedmain;H next separate. No hostedaccess/deploy.",
-  "checkpointedAt": "2026-10-23T01:13:56.204Z",
+  "nextExactAction": "H local gates/Gitleaks0 accepted;normalize only new-file LF whitespace,commit known95paths,push/create draftPR;exact feature FULL42 then merge/mainFULL42.",
+  "checkpointedAt": "2026-10-23T13:19:20.418Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 75,
-  "filesTouchedManifestSha256": "8263c3803cc3760cce667acbaa3ac747cdab9c0ed4ebcbad0c91887f8ca64daf",
-  "workingTreeFingerprint": "E2010A236C8FED4D0542F971EA41B913AE1CF2A69EC6B6AC12D5CC7C4D063198"
+  "filesTouchedCount": 93,
+  "filesTouchedManifestSha256": "cafdc9532fdf564aeb19532f49106d887cbdfaabf45ba13ba2d9765764b6638d",
+  "workingTreeFingerprint": "39DA82EEFBDD6F7633FB9A70788DDD88C4EC4B0B55CDBD649C224DEEAB688BF4"
 }

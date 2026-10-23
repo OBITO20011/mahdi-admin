@@ -2,304 +2,376 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": " M",
-      "path": ".github/workflows/quality.yml"
+      "code": "A ",
+      "path": "customer-web/public/icons/maskable-512.png"
     },
     {
-      "code": " M",
-      "path": "docs/agent/OWNER_DECISIONS.md"
+      "code": "A ",
+      "path": "customer-web/public/nawasrah-logo-square.png"
     },
     {
-      "code": " M",
+      "code": "A ",
+      "path": "customer-web/public/nawasrah-receipt-logo.png"
+    },
+    {
+      "code": "A ",
+      "path": "docs/assets/archive/nawasrah-banner-wide.webp"
+    },
+    {
+      "code": "A ",
+      "path": "docs/assets/TRIAL_BRAND_ASSETS.json"
+    },
+    {
+      "code": "A ",
+      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
+    },
+    {
+      "code": "A ",
+      "path": "docs/operations/TRIAL_OWNER_H_AR.md"
+    },
+    {
+      "code": "A ",
+      "path": "docs/operations/TRIAL_OWNER_H_LOCAL.json"
+    },
+    {
+      "code": "A ",
+      "path": "docs/operations/TRIAL_OWNER_H_PWA.json"
+    },
+    {
+      "code": "A ",
+      "path": "docs/operations/TRIAL_OWNER_H_REFERENCE.json"
+    },
+    {
+      "code": "A ",
+      "path": "docs/operations/TRIAL_OWNER_J_DELIVERY.json"
+    },
+    {
+      "code": "A ",
+      "path": "docs/operations/TRIAL_OWNER_J_FEATURE_CI.json"
+    },
+    {
+      "code": "A ",
+      "path": "docs/operations/TRIAL_OWNER_J_MAIN_CI.json"
+    },
+    {
+      "code": "A ",
+      "path": "public/apple-touch-icon.png"
+    },
+    {
+      "code": "A ",
+      "path": "public/favicon-192.png"
+    },
+    {
+      "code": "A ",
+      "path": "public/favicon-48.png"
+    },
+    {
+      "code": "A ",
+      "path": "public/favicon-512.png"
+    },
+    {
+      "code": "A ",
+      "path": "public/favicon-96.png"
+    },
+    {
+      "code": "A ",
+      "path": "public/icons/maskable-512.png"
+    },
+    {
+      "code": "A ",
+      "path": "public/nawasrah-logo-square.png"
+    },
+    {
+      "code": "A ",
+      "path": "public/nawasrah-receipt-logo.png"
+    },
+    {
+      "code": "A ",
+      "path": "public/nawasrah-store-logo.jpg"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/assets/generate-trial-brand.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/audit/source-before-trial-brand.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/audit/trial-brand-hunks.json"
+    },
+    {
+      "code": "A ",
+      "path": "tests/trial-brand-identity.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/functions/[[path]].js"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/index.html"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/public/apple-touch-icon.png"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/public/favicon-192.png"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/public/favicon-48.png"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/public/favicon-512.png"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/public/favicon-96.png"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/public/nawasrah-store-logo.jpg"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/public/site.webmanifest"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/scripts/generate-seo-pages.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/scripts/verify-seo-output.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/App.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/components/AboutStorePage.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/components/CategoryShowcase.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/components/FloatingContactActions.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/components/GuidedStoreAssistant.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/components/PublicPosReceiptPage.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/components/StoreErrorBoundary.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/components/StoreFooter.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/components/StoreHeader.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/components/StoreHero.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/config/seoBrand.ts"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/config/store.ts"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/receipts/publicReceipt.ts"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/receipts/ReceiptDocument.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/services/receipts.service.ts"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/utils/storefrontSeo.ts"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/tests/floating-contact-actions.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/tests/seo-part2.test.ts"
+    },
+    {
+      "code": "M ",
       "path": "docs/agent/PHASE_STATUS.md"
     },
     {
-      "code": " M",
+      "code": "M ",
       "path": "docs/agent/PROJECT_OVERVIEW.md"
     },
     {
-      "code": " M",
+      "code": "M ",
       "path": "docs/agent/project-state.json"
     },
     {
-      "code": " M",
-      "path": "docs/generated/DB_FUNCTIONS.md"
-    },
-    {
-      "code": " M",
+      "code": "M ",
       "path": "docs/operations/SERVICE_ACCESS_AUDIT.md"
     },
     {
-      "code": " M",
+      "code": "M ",
       "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
     },
     {
-      "code": " M",
+      "code": "M ",
       "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
     },
     {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.md"
-    },
-    {
-      "code": " M",
-      "path": "e2e/phase6-package-b-harness.tsx"
-    },
-    {
-      "code": " M",
-      "path": "e2e/phase6-package-b.spec.ts"
-    },
-    {
-      "code": " M",
-      "path": "package.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/agent/lib.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/agent/preflight.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/run-service-access-diagnostic.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/run-table-access-diagnostic.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/source-before-trial-sale-receipts.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/build-acl-reference210.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-owner-build.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-reference210.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/trial-reset-core.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/historical-reset-source.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-trial-reset-runtime.mjs"
-    },
-    {
-      "code": " M",
-      "path": "src/features/orders/AdminAftercarePanel.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/features/orders/aftercarePresentation.ts"
-    },
-    {
-      "code": " M",
-      "path": "src/features/orders/OrderDetailModal.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/features/purchases/PurchaseOrderDetailView.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/features/reports/DamageLossReportSection.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/services/supabase/supplierReplacement.service.ts"
-    },
-    {
-      "code": " M",
-      "path": "src/services/supabase/supplierReplacementIntent.ts"
-    },
-    {
-      "code": " M",
-      "path": "src/utils/businessError.ts"
-    },
-    {
-      "code": " M",
-      "path": "src/utils/supplierReplacement.ts"
-    },
-    {
-      "code": " M",
-      "path": "src/utils/unitLabels.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/all-customer-collections203.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/canonical-receivables197.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/cashier-collections198.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/cheques195-admission.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/go-live-integration164.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/historical-reset-source.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/opening-cheques196.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/pretrial-p1.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/product-integration171.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/product-receiving205.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/receipt210.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/sales-history204-evidence.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/service-access-inventory.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/supplier-replacement208-evidence.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/trial-owner-a.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/trial-reset.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/trial-sale-receipts.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/unit-terminology.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/withdrawals182-admission.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "docs/agent/TRIAL_OWNER_J_AR.md"
-    },
-    {
-      "code": "??",
+      "code": "M ",
       "path": "docs/operations/TABLE_ACCESS_AFTER_211.json"
     },
     {
-      "code": "??",
-      "path": "docs/operations/TRIAL_OWNER_D_DELIVERY.json"
+      "code": "M ",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
     },
     {
-      "code": "??",
-      "path": "docs/operations/TRIAL_OWNER_D_FEATURE_CI.json"
+      "code": "M ",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.md"
     },
     {
-      "code": "??",
-      "path": "docs/operations/TRIAL_OWNER_D_MAIN_CI.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/TRIAL_OWNER_J_DB211.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/TRIAL_OWNER_J_LOCAL.json"
-    },
-    {
-      "code": "??",
+      "code": "M ",
       "path": "docs/operations/TRIAL_OWNER_UPGRADE211_AR.md"
     },
     {
-      "code": "??",
+      "code": "M ",
+      "path": "e2e/customer-accessibility.spec.ts"
+    },
+    {
+      "code": "M ",
+      "path": "e2e/customer-category-grid.spec.ts"
+    },
+    {
+      "code": "M ",
+      "path": "e2e/package-f-home.spec.ts"
+    },
+    {
+      "code": "M ",
+      "path": "e2e/package-f-more.spec.ts"
+    },
+    {
+      "code": "M ",
+      "path": "e2e/package-f-public-receipt210.spec.ts"
+    },
+    {
+      "code": "M ",
+      "path": "index.html"
+    },
+    {
+      "code": "M ",
+      "path": "public/icons/admin-icon-192.png"
+    },
+    {
+      "code": "M ",
+      "path": "public/icons/admin-icon-512.png"
+    },
+    {
+      "code": "M ",
+      "path": "public/icons/apple-touch-icon-180.png"
+    },
+    {
+      "code": "M ",
+      "path": "public/manifest.webmanifest"
+    },
+    {
+      "code": "M ",
+      "path": "public/sw.js"
+    },
+    {
+      "code": "M ",
       "path": "scripts/audit/source-before-trial-aftercare.mjs"
     },
     {
-      "code": "??",
-      "path": "scripts/audit/trial-aftercare-hunks.json"
+      "code": "M ",
+      "path": "src/components/common/Header.tsx"
     },
     {
-      "code": "??",
-      "path": "scripts/operations/build-acl-reference211.mjs"
+      "code": "M ",
+      "path": "src/components/layout/SideNav.tsx"
     },
     {
-      "code": "??",
-      "path": "scripts/operations/frankfurt-owner-upgrade211.mjs"
+      "code": "M ",
+      "path": "src/components/modals/AllModals.tsx"
     },
     {
-      "code": "??",
-      "path": "scripts/operations/frankfurt-reference211.mjs"
+      "code": "M ",
+      "path": "src/constants/index.ts"
     },
     {
-      "code": "??",
-      "path": "scripts/testing/aftercare211-defective-units.mjs"
+      "code": "M ",
+      "path": "src/features/auth/LoginView.tsx"
     },
     {
-      "code": "??",
-      "path": "scripts/testing/aftercare211-restore.mjs"
+      "code": "M ",
+      "path": "src/features/dashboard/DashboardHome.tsx"
     },
     {
-      "code": "??",
-      "path": "scripts/testing/run-aftercare-upgrade211-runtime.mjs"
+      "code": "M ",
+      "path": "src/features/more/InstallAppPanel.tsx"
     },
     {
-      "code": "??",
-      "path": "scripts/testing/run-aftercare211-gates.mjs"
+      "code": "M ",
+      "path": "src/features/more/PushNotificationControls.tsx"
     },
     {
-      "code": "??",
-      "path": "scripts/testing/run-aftercare211-runtime.mjs"
+      "code": "M ",
+      "path": "src/features/more/StorefrontSettingsModal.tsx"
     },
     {
-      "code": "??",
-      "path": "src/features/orders/AftercareSupplierSafety.tsx"
+      "code": "M ",
+      "path": "src/features/orders/CustomerLocationCard.tsx"
     },
     {
-      "code": "??",
-      "path": "supabase/migrations/211_aftercare_supplier_disposition.sql"
+      "code": "M ",
+      "path": "src/features/pos/PosView.tsx"
     },
     {
-      "code": "??",
-      "path": "tests/trial-aftercare-supplier.test.ts"
+      "code": "M ",
+      "path": "src/features/purchases/PurchasesView.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/features/receipts/saleReceipt.ts"
+    },
+    {
+      "code": "M ",
+      "path": "src/features/reports/ReportsCenterView.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/utils/receipt.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/package-f-shell.test.ts"
     }
   ]
 }

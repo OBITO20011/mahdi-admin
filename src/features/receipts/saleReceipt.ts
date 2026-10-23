@@ -11,7 +11,7 @@ export function savedReceiptLine(item:OrderItem):CommercialReceiptLine {
 }
 type ReceiptInvoice=Invoice&{changeDue?:number;deliveryFee?:number};
 export function invoiceReceipt(invoice:ReceiptInvoice,branch?:Pick<Branch,'name'|'address'|'phone'>):ReceiptDocumentData {
-  return {businessName:'محلات النواصرة',number:invoice.invoiceNumber,createdAt:invoice.createdAt,
+  return {businessName:'النواصرة لتجارة الجملة والمواد الغذائية',number:invoice.invoiceNumber,createdAt:invoice.createdAt,
     customerName:invoice.customerName||'زبون نقدي',branch:{name:branch?.name||'',address:branch?.address,phone:branch?.phone},
     lines:invoice.items.map(savedReceiptLine),subtotalInMinorUnits:jodToMinorUnits(invoice.subtotal),
     discountInMinorUnits:jodToMinorUnits(invoice.discount),deliveryInMinorUnits:jodToMinorUnits(invoice.deliveryFee??0),

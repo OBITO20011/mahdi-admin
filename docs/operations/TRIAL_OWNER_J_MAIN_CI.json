@@ -1,0 +1,98 @@
+{
+  "sha": "6a7d99e48d6fff5299eb2bc4550d67a8b8908bfb",
+  "quality": [
+    {
+      "id": 39886180810,
+      "event": "push",
+      "attempt": 1,
+      "jobs": 42,
+      "browserPassed": 1389,
+      "legacyConditionalSkipped": 59,
+      "flaky": 0,
+      "strictFullVerified": true
+    }
+  ],
+  "secrets": [
+    {
+      "id": 39886180787,
+      "event": "push",
+      "conclusion": "success"
+    }
+  ],
+  "browser": [
+    {
+      "run": 39886180810,
+      "job": 120194830232,
+      "name": "Package F browser QA (4/5)",
+      "passed": 198,
+      "logSha256": "9596c67c4517ff1b3686616e8e7338d37fafb20eb49714e0b5636e13930a3123"
+    },
+    {
+      "run": 39886180810,
+      "job": 120194830251,
+      "name": "Package F browser QA (2/5)",
+      "passed": 200,
+      "logSha256": "770b7263b3ca3cec4ff71f5775121fcbf6d78d1a608f906bd2cf110dfd563ff0"
+    },
+    {
+      "run": 39886180810,
+      "job": 120194830256,
+      "name": "Lint, test, build and browser QA",
+      "passed": 395,
+      "logSha256": "888793b6f47ef29ba852966c4cbf62bfbce93757fae018f53ac0f228f224c4a4"
+    },
+    {
+      "run": 39886180810,
+      "job": 120194830260,
+      "name": "Package F browser QA (1/5)",
+      "passed": 200,
+      "logSha256": "617a4ec22d5726fba2e0df049b577fe653a8ba2c387f0bc97b03bd8e309a5972"
+    },
+    {
+      "run": 39886180810,
+      "job": 120194830291,
+      "name": "Package F browser QA (3/5)",
+      "passed": 198,
+      "logSha256": "98aeeebb1297047817c9788f0adbe1e71c5ec072398faf2ce9ba3f814dfd4102"
+    },
+    {
+      "run": 39886180810,
+      "job": 120194830305,
+      "name": "Package F browser QA (5/5)",
+      "passed": 198,
+      "logSha256": "47ceaf6f55e82dee8c76772e695fa42b53fc524c3b0f3270d6195ce5a7ba39d1"
+    }
+  ],
+  "aftercare211": [
+    {
+      "run": 39886180810,
+      "job": 120194830955,
+      "cases": 30,
+      "restore": {
+        "logicalCatalogDifferences": 0,
+        "allPublicDataAndSequencesIdentical": true,
+        "replayZeroWrites": true
+      },
+      "functions": 554,
+      "migrations": 173,
+      "realtime": 13,
+      "upgrade": [
+        "209",
+        "210",
+        "211"
+      ],
+      "replayWrites": 0,
+      "resetPopulated211": true,
+      "ownerTotpStorage": true
+    }
+  ],
+  "pr": {
+    "number": 17,
+    "url": "https://github.com/OBITO20011/mahdi-admin/pull/17",
+    "head": "e4b7ac1b7688c875888ad3a39bd38277eb1e9192",
+    "base": "74cc431e9b8d4bf01c03c65e5d1740a61647fd56",
+    "merged": true,
+    "mergeSha": "6a7d99e48d6fff5299eb2bc4550d67a8b8908bfb"
+  },
+  "ok": true
+}

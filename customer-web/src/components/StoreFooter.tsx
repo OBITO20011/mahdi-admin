@@ -40,10 +40,10 @@ export function StoreFooter({whatsappUrl, onNavigate, onTrackOrder, onOpenPrivac
               مواد غذائية وسكاكر وعصائر ومشروبات بالجملة لخدمة المحلات في جميع مناطق المملكة.
             </p>
             <div className="mt-4 flex flex-wrap gap-2">
-              <a href={SEO_BRAND.socialProfiles[0]} target="_blank" rel="noreferrer" aria-label="صفحة محلات النواصرة على فيسبوك" className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#1877f2] px-3 text-xs font-black text-white transition hover:bg-[#0f68da]">
+              <a href={SEO_BRAND.socialProfiles[0]} target="_blank" rel="noreferrer" aria-label="صفحة النواصرة لتجارة الجملة والمواد الغذائية على فيسبوك" className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#1877f2] px-3 text-xs font-black text-white transition hover:bg-[#0f68da]">
                 <span aria-hidden="true" className="font-serif text-xl font-black">f</span>فيسبوك
               </a>
-              <a href={whatsappUrl} target="_blank" rel="noreferrer" aria-label="التواصل مع محلات النواصرة عبر واتساب" className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-emerald-600 px-3 text-xs font-black text-white transition hover:bg-emerald-700">
+              <a href={whatsappUrl} target="_blank" rel="noreferrer" aria-label="التواصل مع النواصرة لتجارة الجملة والمواد الغذائية عبر واتساب" className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-emerald-600 px-3 text-xs font-black text-white transition hover:bg-emerald-700">
                 <MessageCircle className="h-4 w-4" />واتساب
               </a>
             </div>

@@ -36,6 +36,7 @@ import { StoreFooter } from './components/StoreFooter';
 import { StoreHero } from './components/StoreHero';
 import { AboutStorePage } from './components/AboutStorePage';
 import { DEFAULT_STOREFRONT_SETTINGS } from './config/store';
+import { SEO_BRAND } from './config/seoBrand';
 import {
   fetchPublicCartSnapshot,
   fetchPublicProductLink,
@@ -817,7 +818,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   const lowStockProducts = featuredProducts.lowStock;
   const cartSubtotal = calculateCartSubtotal(cartItems);
   const settingsTrusted = !settingsUnavailable && !isLoadingStorefrontSettings;
-  const storeWhatsappUrl = buildWhatsAppUrl(storefrontSettings.whatsappNumber, `مرحبًا ${storefrontSettings.storeNameAr}، أريد الاستفسار عن أصناف الجملة.`);
+  const storeWhatsappUrl = buildWhatsAppUrl(storefrontSettings.whatsappNumber, `مرحبًا ${SEO_BRAND.officialName}، أريد الاستفسار عن أصناف الجملة.`);
 
   useStorefrontSeo({
     activePage,
@@ -2256,7 +2257,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       <PrivacyPolicyModal
         isOpen={privacyPolicyOpen}
         onClose={() => setPrivacyPolicyOpen(false)}
-        storeName={storefrontSettings.storeNameAr}
+        storeName={SEO_BRAND.officialName}
         whatsappNumber={storefrontSettings.whatsappNumber}
       />
 

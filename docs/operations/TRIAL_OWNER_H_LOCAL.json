@@ -1,0 +1,61 @@
+{
+  "status": "LOCAL_GATES_ACCEPTED_CI_PENDING",
+  "baseline": "6a7d99e48d6fff5299eb2bc4550d67a8b8908bfb",
+  "scope": "Owner H official name/logo/assets/SEO;no SQL/RPC/finance/permissions/video/contact change",
+  "adminUnits": 1373,
+  "customerUnits": 197,
+  "browser": {
+    "nativeIdentities": 1448,
+    "initialComplete": {
+      "passed": 1387,
+      "failed": 2,
+      "unchangedHistoricalConditional": 59
+    },
+    "environmentalRerun": {
+      "cases": 2,
+      "passed": 2,
+      "retries": 0,
+      "sourceChanged": false,
+      "assertionsChanged": false,
+      "timeoutChanged": false,
+      "failuresPreserved": true
+    },
+    "acceptedUniquePassed": 1389,
+    "firstManualPreviewPollutedRunAccepted": false,
+    "cleanCompleteNetworkAudit": true
+  },
+  "pwa": {
+    "scenarios": 4,
+    "passed": 4,
+    "engines": [
+      "Chromium",
+      "WebKit"
+    ],
+    "network": {
+      "denied": [],
+      "blockedCanaryAttempts": [],
+      "deniedUnexpectedAttempts": [],
+      "escapedExternalRequests": []
+    }
+  },
+  "sourceEvidence": {
+    "sources": 327,
+    "actualSDKQueries": 148,
+    "rpcDispatches": 534,
+    "expectedOwner42501": 8
+  },
+  "reference": {
+    "migrations": 173,
+    "functions": 554,
+    "realtimeMembers": 13,
+    "freshIncrementalDifferences": 0,
+    "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-h211-reference-qcRW4w\\local-reference-through211-ready.json",
+    "sha256": "72ef17b252f27c751020ea9e3f702ce666bc15bdf2f48c088c87e5ff03b4e1cd"
+  },
+  "migrationCeiling": 211,
+  "managedAccess": false,
+  "deployed": false,
+  "ownerCommand": "frankfurt-owner-upgrade211",
+  "ownerHostedCommandExecuted": false,
+  "verifiedAt": "2026-10-23T13:18:09.669Z"
+}

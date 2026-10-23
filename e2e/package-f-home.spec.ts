@@ -90,7 +90,7 @@ test('token Header keeps branch, notifications, profile and assistant actions an
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(url('theme=light'));
   const header = page.locator('.admin-app-header');
-  await expect(header.getByRole('heading', { name: 'النواصرة', exact: true })).toBeVisible();
+  await expect(header.getByRole('heading', { name: 'النواصرة لتجارة الجملة والمواد الغذائية', exact: true })).toBeVisible();
   const avatar = header.getByRole('img', { name: 'مهدي النواصرة' });
   await expect(avatar).toHaveText('م');
   expect(await avatar.evaluate((element) => element.tagName)).toBe('SPAN');
@@ -112,7 +112,7 @@ test('token Header keeps branch, notifications, profile and assistant actions an
   await expect(header.getByRole('button', { name: 'فتح المساعد الإداري الذكي' })).toHaveCount(0);
   await page.goto(url('theme=dark'));
   await page.setViewportSize({ width: 1440, height: 1000 });
-  await expect(header.getByRole('heading', { name: 'النواصرة', exact: true })).toBeHidden();
+  await expect(header.getByRole('heading', { name: 'النواصرة لتجارة الجملة والمواد الغذائية', exact: true })).toBeHidden();
   await expect(header.getByRole('button', { name: 'الملف الشخصي: مهدي النواصرة' })).toBeHidden();
   await expect(page.getByRole('navigation', { name: 'القائمة الجانبية' }).getByRole('button', { name: 'الملف الشخصي: مهدي النواصرة' })).toBeVisible();
   await expect(header.getByRole('button', { name: 'فتح المساعد الإداري الذكي' })).toBeHidden();

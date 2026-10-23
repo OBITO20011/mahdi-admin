@@ -125,11 +125,11 @@ export const SideNav: React.FC<SideNavProps> = ({ collapsed = false, mobile = fa
     >
       <div className={join('flex items-center gap-2.5', collapsed ? 'mb-3' : 'px-2 pb-3')}>
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-nw-accent text-lg font-bold text-nw-on-accent">
-          ن
+          <img src="/nawasrah-store-logo.jpg" alt="" className="h-full w-full rounded-xl object-contain" />
         </div>
         {!collapsed && (
           <div className="flex min-w-0 flex-col">
-            <span className="text-base font-bold">النواصرة</span>
+            <span className="text-sm font-bold leading-6">النواصرة لتجارة الجملة والمواد الغذائية</span>
             <span className="text-xs text-nw-side-muted">لوحة الإدارة</span>
           </div>
         )}

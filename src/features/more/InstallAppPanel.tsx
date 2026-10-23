@@ -87,7 +87,7 @@ export const InstallAppPanel: React.FC = () => {
       <Modal
         isOpen={isHelpOpen}
         onClose={() => setIsHelpOpen(false)}
-        title="تثبيت تطبيق إدارة النواصرة"
+        title="تثبيت تطبيق إدارة النواصرة لتجارة الجملة والمواد الغذائية"
         subtitle="يُثبت مباشرة من Safari ويعمل من الشاشة الرئيسية"
         maxHeight="max-h-[82vh]"
       >
@@ -119,7 +119,7 @@ export const InstallAppPanel: React.FC = () => {
               number="3"
               icon={<CheckCircle2 className="h-4 w-4" />}
               title="اضغط إضافة"
-              description="ستظهر أيقونة إدارة النواصرة بين تطبيقات الجهاز."
+              description="ستظهر أيقونة إدارة النواصرة لتجارة الجملة والمواد الغذائية بين تطبيقات الجهاز."
             />
           </ol>
 

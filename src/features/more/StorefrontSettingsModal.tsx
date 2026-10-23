@@ -25,11 +25,11 @@ import { useAppStoreActions } from '../../stores/useAppStore';
 import { StorefrontSettingsInput } from '../../types/storefront';
 
 const EMPTY_SETTINGS: StorefrontSettingsInput = {
-  storeNameAr: 'محلات النواصرة',
+  storeNameAr: 'النواصرة لتجارة الجملة والمواد الغذائية',
   whatsappNumber: '0772838886',
   cliqAlias: '',
   ordersEnabled: true,
-  announcementText: 'الأسعار والكميات تُحدّث مباشرة من مخزون محلات النواصرة',
+  announcementText: 'الأسعار والكميات تُحدّث مباشرة من مخزون النواصرة لتجارة الجملة والمواد الغذائية',
   businessHoursText: 'يُؤكد وقت التجهيز والتوصيل بعد مراجعة الطلب.',
   deliveryAreasText: 'الرمثا وإربد والمناطق المحيطة، وتُؤكد المنطقة مع الإدارة.',
   deliveryEtaText: 'تعتمد على المنطقة وتوفر الأصناف ويؤكدها فريق المتجر.',

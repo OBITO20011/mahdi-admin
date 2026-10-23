@@ -13,29 +13,29 @@ interface AboutStorePageProps {
 export function AboutStorePage({onBrowseProducts, whatsappUrl, onTrackOrder, settings}: AboutStorePageProps) {
   return (
     <>
-      <section aria-label="نبذة عن محلات النواصرة التجارية" className="min-h-[70vh] bg-gradient-to-b from-blue-50/60 to-[#fbf7f0] py-10 sm:py-16">
+      <section aria-label="نبذة عن النواصرة لتجارة الجملة والمواد الغذائية" className="min-h-[70vh] bg-gradient-to-b from-blue-50/60 to-[#fbf7f0] py-10 sm:py-16">
         <div className="mx-auto max-w-5xl px-4 lg:px-8">
         <div className="overflow-hidden rounded-[2rem] border border-white bg-white shadow-xl shadow-slate-900/5">
           <figure className="relative overflow-hidden bg-slate-950">
             <img
               src={SEO_BRAND.storefrontImagePath}
-              alt="واجهة محلات النواصرة التجارية في الرمثا"
+              alt="واجهة النواصرة لتجارة الجملة والمواد الغذائية في الرمثا"
               width="1412"
               height="820"
               fetchPriority="high"
               className="aspect-[16/9] w-full object-cover object-center"
             />
             <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/90 to-transparent px-5 pb-4 pt-12 text-xs font-bold text-white sm:px-8">
-              محلات النواصرة التجارية — الرمثا، الأردن
+              النواصرة لتجارة الجملة والمواد الغذائية — الرمثا، الأردن
             </figcaption>
           </figure>
           <div className="bg-[#081835] px-6 py-10 text-white sm:px-10 sm:py-14">
             <p className="text-xs font-black text-amber-300">تجارة الجملة في الرمثا</p>
             <h1 className="mt-3 text-3xl font-black leading-tight sm:text-5xl">
-              محلات النواصرة التجارية
+              النواصرة لتجارة الجملة والمواد الغذائية
             </h1>
             <p className="mt-3 text-sm font-bold text-blue-100 sm:text-base">
-              المعروفة أيضًا باسم محلات مهدي النواصرة التجارية
+              مواد غذائية ومشروبات بالجملة في الرمثا
             </p>
             <p className="mt-6 max-w-3xl text-sm font-semibold leading-8 text-blue-100/85 sm:text-base">
               نوفر تشكيلة من المواد الغذائية والسكاكر والعصائر والمشروبات واحتياجات المحلات
@@ -53,7 +53,7 @@ export function AboutStorePage({onBrowseProducts, whatsappUrl, onTrackOrder, set
 
           <div className="grid gap-4 p-5 sm:grid-cols-3 sm:p-8">
             {[
-              {icon: Building2, title: 'اسم موحّد وموثوق', text: 'الاسم الرسمي محلات النواصرة التجارية، والاسم المعروف محليًا محلات مهدي النواصرة التجارية.'},
+              {icon: Building2, title: 'اسم موحّد وموثوق', text: 'الاسم الرسمي النواصرة لتجارة الجملة والمواد الغذائية.'},
               {icon: PackageCheck, title: 'منتجات الجملة', text: 'مواد غذائية وسكاكر وعصائر ومشروبات ضمن طرود ووحدات بيع واضحة.'},
               {icon: ShieldCheck, title: 'معلومات مباشرة', text: 'الأسعار والتوفر المعروضان في المتجر مرتبطان بنظام إدارة المخزون.'},
             ].map((item) => {

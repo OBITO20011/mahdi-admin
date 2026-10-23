@@ -311,7 +311,7 @@ export const ReportsCenterView: React.FC = () => {
           <header className="print-section rounded-2xl border border-nw-border bg-nw-surface p-4">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="text-[10px] font-black text-nw-info">مؤسسة نواصرة التجارية</p>
+                <p className="text-[10px] font-black text-nw-info">النواصرة لتجارة الجملة والمواد الغذائية</p>
                 <h1 className="mt-1 text-base font-black text-nw-text">التقرير المالي والتشغيلي</h1>
                 <p className="mt-1 text-[10px] text-nw-muted">{report.period.branchName}</p>
               </div>

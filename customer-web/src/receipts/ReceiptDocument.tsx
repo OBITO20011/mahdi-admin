@@ -5,6 +5,7 @@ import {receiptLineDescription,receiptMoney,type ReceiptDocumentData} from './co
 export function ReceiptDocument({receipt}:{receipt:ReceiptDocumentData}){
   return <article dir="rtl" data-testid="sale-receipt-document" className="pos-receipt-print" style={{background:'#fff',color:'#111827',padding:'12px',fontFamily:'Arial,Tahoma,sans-serif',fontSize:'12px',lineHeight:1.8,overflowWrap:'anywhere'}}>
     <header style={{textAlign:'center',borderBottom:'1px dashed #9ca3af',paddingBottom:8}}>
+      <img src="/nawasrah-receipt-logo.png" alt="" width="96" height="96" style={{display:'block',objectFit:'contain',margin:'0 auto 4px'}}/>
       <h2 style={{fontSize:15,fontWeight:800,margin:0}}>{receipt.businessName}</h2>
       {receipt.branch.name&&<p style={{margin:0}}>{receipt.branch.name}</p>}
       {(receipt.branch.address||receipt.branch.phone)&&<p style={{margin:0}}>{[receipt.branch.address,receipt.branch.phone].filter(Boolean).join(' | ')}</p>}

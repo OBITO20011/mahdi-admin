@@ -99,7 +99,7 @@ export const PushNotificationControls: React.FC = () => {
             </h4>
             <p className="mt-1 text-xs leading-5 text-nw-muted">
               {isDenied
-                ? 'الإذن مرفوض. فعّله من إعدادات iPhone ← الإشعارات ← إدارة النواصرة.'
+                ? 'الإذن مرفوض. فعّله من إعدادات iPhone ← الإشعارات ← إدارة النواصرة لتجارة الجملة والمواد الغذائية.'
                 : isEnabled
                   ? `سيصلك الطلب حتى لو كان التطبيق مغلقًا. الأجهزة المفعلة: ${state.activeDeviceCount}`
                   : 'استلم تنبيهًا فور وصول طلب جديد من موقع الزبائن.'}

@@ -58,7 +58,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ data, currentUserN
     <div dir="rtl" data-testid="dashboard-home" className="min-w-0 bg-nw-bg text-nw-text">
       <section data-testid="dashboard-hero" aria-labelledby="home-title" className="px-4 pb-3 pt-3 lg:px-8 lg:pt-6">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <div className="min-w-0"><h1 id="home-title" className="m-0 break-words text-lg font-bold lg:text-2xl">أهلاً {currentUserName || 'بإدارة النواصرة'}</h1>
+          <div className="min-w-0"><h1 id="home-title" className="m-0 break-words text-lg font-bold lg:text-2xl">أهلاً {currentUserName || 'بإدارة النواصرة لتجارة الجملة والمواد الغذائية'}</h1>
             <p className="mt-1 text-xs text-nw-muted">{formatUiDate(date, {weekday:'long',day:'numeric',month:'long'})} · مركز اليوم · {realtimeConnected?'تحديث مباشر':'آخر نسخة محمّلة'}</p></div>
           <UiButton aria-label="تحديث مركز اليوم" disabled={loading} onClick={onRefresh}><RefreshCw aria-hidden="true" className={`h-4 w-4 ${loading?'animate-spin':''}`}/></UiButton>
         </div>

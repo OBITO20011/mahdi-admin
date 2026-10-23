@@ -11,7 +11,7 @@ export function PublicPosReceiptPage({ token }: { token: string }) {
   const [error,setError]=useState(''),[isLoading,setIsLoading]=useState(true);
   useEffect(()=>{
     let active=true;setIsLoading(true);setError('');setReceipt(null);
-    fetchPublicPosReceipt(token).then(result=>{if(active){setReceipt(result);document.title=`إيصال ${result.orderNumber} | محلات النواصرة التجارية`;}})
+    fetchPublicPosReceipt(token).then(result=>{if(active){setReceipt(result);document.title=`إيصال ${result.orderNumber} | النواصرة لتجارة الجملة والمواد الغذائية`;}})
       .catch(loadError=>{if(active)setError(loadError instanceof Error?loadError.message:'تعذر تحميل الإيصال.');})
       .finally(()=>{if(active)setIsLoading(false);});
     return()=>{active=false;};

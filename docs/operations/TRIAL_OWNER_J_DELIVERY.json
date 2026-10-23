@@ -1,0 +1,83 @@
+{
+  "status": "MERGED_MAIN_FULL42_ACCEPTED",
+  "pr": "https://github.com/OBITO20011/mahdi-admin/pull/17",
+  "featureSha": "e4b7ac1b7688c875888ad3a39bd38277eb1e9192",
+  "mainSha": "6a7d99e48d6fff5299eb2bc4550d67a8b8908bfb",
+  "featureCi": [
+    {
+      "id": 39882966191,
+      "event": "push",
+      "attempt": 1,
+      "jobs": 42,
+      "browserPassed": 1389,
+      "legacyConditionalSkipped": 59,
+      "flaky": 0,
+      "strictFullVerified": true
+    },
+    {
+      "id": 39882974926,
+      "event": "pull_request",
+      "attempt": 1,
+      "jobs": 42,
+      "browserPassed": 1389,
+      "legacyConditionalSkipped": 59,
+      "flaky": 0,
+      "strictFullVerified": true
+    }
+  ],
+  "mainCi": [
+    {
+      "id": 39886180810,
+      "event": "push",
+      "attempt": 1,
+      "jobs": 42,
+      "browserPassed": 1389,
+      "legacyConditionalSkipped": 59,
+      "flaky": 0,
+      "strictFullVerified": true
+    }
+  ],
+  "secrets": [
+    {
+      "id": 39882966309,
+      "event": "push",
+      "conclusion": "success"
+    },
+    {
+      "id": 39882974934,
+      "event": "pull_request",
+      "conclusion": "success"
+    },
+    {
+      "id": 39886180787,
+      "event": "push",
+      "conclusion": "success"
+    }
+  ],
+  "adminUnits": 1370,
+  "customerUnits": 197,
+  "browserPassedPerRun": 1389,
+  "browserFlaky": 0,
+  "legacyConditionalSkipped": 59,
+  "db211Groups": 30,
+  "migrationCeiling": 211,
+  "migration211CanonicalLfSha256": "b3018e787225a5bebe30e2adec0241d562687886e144c1fe59822a748b9f26a5",
+  "ownerCommand": "frankfurt-owner-upgrade211",
+  "ownerReference": {
+    "path": "C:\\Users\\TOP\\NawasrahFrankfurt\\nawasrah-fra-001-138\\local-reference-through211-ready.json",
+    "sha256": "2724a29fb5b6ebf275ea81f18e260d50ef6f48ba3b35779aad843da43dc3e93f",
+    "migrations": 173,
+    "functions": 554,
+    "realtime": 13,
+    "oldReferencesPreserved": {
+      "208": "0ab1e910ec2fd63ddd30684ed8c8e8b46c0afe4f86f9cfaa4aad4f087dd65cf1",
+      "209": "fb3c820d74d37320932e946ffc27609d9853adade1205e53b755071269722b86",
+      "210": "247f57bb3433c4ab0c0810f17547610657f6b33a81efb36fe44f37e874bc0420"
+    }
+  },
+  "ownerHostedCommandExecuted": false,
+  "managedAccess": false,
+  "deployed": false,
+  "hStarted": false,
+  "verifiedAt": "2026-10-23T02:15:04.264Z"
+}

@@ -150,9 +150,9 @@ export function GuidedStoreAssistant({
                 <Sparkles className="h-5 w-5" aria-hidden="true" />
               </div>
               <div>
-                <p className="text-[10px] font-black text-amber-700">مساعد النواصرة</p>
+                <p className="text-[10px] font-black text-amber-700">مساعد النواصرة لتجارة الجملة والمواد الغذائية</p>
                 <h2 id="guided-store-assistant-title" className="mt-1 text-base font-black text-slate-950">
-                  أهلًا بك في محلات النواصرة التجارية 👋
+                  أهلًا بك في النواصرة لتجارة الجملة والمواد الغذائية 👋
                 </h2>
                 <p className="mt-1 text-xs font-semibold text-slate-500">كيف نقدر نساعدك؟</p>
               </div>

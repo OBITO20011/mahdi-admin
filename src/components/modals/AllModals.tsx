@@ -343,7 +343,7 @@ export const AllModals: React.FC = () => {
         isOpen={currentModal === 'add_customer'}
         onClose={closeModal}
         title="إضافة عميل جديد"
-        subtitle="تسجيل بيانات الزبون الجديد ودليله في قاعدة بيانات النواصرة"
+        subtitle="تسجيل بيانات الزبون الجديد ودليله في قاعدة بيانات النواصرة لتجارة الجملة والمواد الغذائية"
       >
         <AddCustomerModalContent onClose={closeModal} />
       </Modal>
