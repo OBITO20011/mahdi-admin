@@ -3,7 +3,7 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner trial W UI only: W1 inline supplier operations, W4 touch POS focus, W5 unified mobile fields, W3 top photo. W2 deferred by owner. Separate PR/full CI; no hosted/deploy.",
-  "baselineSha": "e96efc13ebf27b82217b856f8e6152de8bcc6c55",
+  "baselineSha": "08b836ac433a1864fa26b15469c694f2e1230012",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "codex/trial-owner-w",
   "phase": "PACKAGE_F",
@@ -12,7 +12,7 @@
     "Current SDK/RPC proof and exact historical comparison composition"
   ],
   "inProgress": [
-    "Gitleaks then feature PR/FULL CI and standing main delivery"
+    "Ordinary test-only corrective commit and exact new full CI"
   ],
   "notStarted": [
     "W2 deferred by owner; no grouping or reader expansion"
@@ -21,19 +21,20 @@
     "1376 Admin/197 Customer units, types/strict lint/builds/isolated SEO",
     "370 affected browser identities covered; final68 both engines passed; physical keyboard not emulated",
     "SDK148/328 sources, RPC534/8 expected denials; database function definitions unchanged; network escapes0",
-    "Real POS8 both engines/public RPC/localDB,ProductionRequests0;native1500 exactly core454+F1046/all5shards"
+    "Real POS8 both engines/public RPC/localDB,ProductionRequests0;native1500 exactly core454+F1046/all5shards",
+    "Corrective P1/W1 UI test28/28 both engines;1376Admin/types/strictlint pass;app source identical to08b"
   ],
   "testsRemaining": [
-    "Gitleaks0",
-    "Exact feature push/PR FULL CI",
-    "Merge/main FULL CI"
+    "New exact feature push/PR FULL CI",
+    "Standing merge/main FULL CI"
   ],
   "findings": [
     "Owner reports Frankfurt211 verify-only true after ACL211;preview e96efc1.These are owner-provided state,not a new hosted check",
     "Primary prior H closure/ACL211 files preserved unmodified;new isolated worktree from e96efc1",
     "W2 saved reader lacks source operation/order identity;asked owner before any contract/migration change",
     "Owner deferred W2 explicitly; no 212 or read contract changes",
-    "W5+ explicitly approved by owner in same W package; no viewport zoom restrictions"
+    "W5+ explicitly approved by owner in same W package; no viewport zoom restrictions",
+    "Known own approved W commit08b836a; local gates accepted; exact CI/delivery remain pending"
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -42,12 +43,12 @@
     "No migration/RPC/financial/permission changes;ask before required exception",
     "One writer;no tracked edits during verification;no weaker checks/retries/timeouts"
   ],
-  "nextExactAction": "Local gates complete and Gitleaks0; commit and push approved W UI-only scope, open separate PR, accept exact push/PR FULL42+secrets before standing merge/mainFULL42. W2 deferred;ceiling211;no hosted/deploy",
-  "checkpointedAt": "2026-10-23T18:19:01.379Z",
+  "nextExactAction": "Corrective P1 test28 and all1376 units/types/lint passed;Gitleaks then normal commit/push to PR19;require NEW exact FULL42 push/PR and secrets,then standing merge/mainFULL42. Old08b CI cancelled/not accepted",
+  "checkpointedAt": "2026-10-23T18:39:07.623Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 70,
-  "filesTouchedManifestSha256": "0034c8637a1156f056efff3bc000d417d07aa725f73a1f2c9bc643406511ade1",
-  "workingTreeFingerprint": "1C368CBD588564061AF6F5163AD23411661D9121217A375924E72C96C4C10D8A"
+  "filesTouchedCount": 4,
+  "filesTouchedManifestSha256": "72e802ab671a9afb306629ee960468bdddeac73db15061176341dc2eeea08716",
+  "workingTreeFingerprint": "BD107618C9144EE14DF8AAC041BAC4D086ECA7460CB6D09106A941C9C7A80BE6"
 }

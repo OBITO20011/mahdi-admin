@@ -31,7 +31,7 @@
     "adminBuild": true,
     "isolatedCustomerBuildAndSeo": true,
     "browser": {
-      "affectedIdentities": 370,
+      "affectedIdentities": 382,
       "firstBatch": {
         "passed": 369,
         "failed": 1,
@@ -50,7 +50,17 @@
       "allOriginalAndNewCasesCovered": true,
       "viewport390": true,
       "barcode1440": true,
-      "physicalIphoneKeyboard": false
+      "physicalIphoneKeyboard": false,
+      "correctiveSubset": {
+        "passed": 28,
+        "failed": 0,
+        "retries": 0,
+        "engines": [
+          "Chromium",
+          "WebKit"
+        ],
+        "contract": "Approved W1 defaults/region focus/named validation;known denial has zero execute requests"
+      }
     },
     "sdk": {
       "sources": 328,
@@ -115,9 +125,24 @@
     "gitleaks": {
       "exitCode": 0,
       "scope": "all changed and non-ignored untracked files",
-      "files": 72
+      "files": 73
     },
-    "exactCi": "pending",
+    "exactCi": {
+      "status": "pending new corrective candidate",
+      "superseded": {
+        "status": "superseded;not accepted",
+        "sha": "08b836ac433a1864fa26b15469c694f2e1230012",
+        "qualityRuns": [
+          40002401140,
+          40002445139
+        ],
+        "reason": "P1 historical UI expectation superseded by approved W1:region focus/default reason/explicit invalid-field message;no application or financial change required",
+        "secrets": [
+          40002401142,
+          40002445340
+        ]
+      }
+    },
     "nativeBrowserDiscovery": {
       "full": 1500,
       "core": 454,
@@ -188,6 +213,22 @@
     {
       "path": "C:\\Users\\TOP\\AppData\\Local\\Temp\\trial-w-native-discovery.json",
       "sha256": "d34be2ad0933ce65dbdc78dfe9b417669df784db96f16272ff0c2c7d079c00e7"
+    },
+    {
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp/trial-w-p1-correction-browser.log",
+      "sha256": "027d98804115c1c627b2ce5a4e1e0a74b5a418e23d03e35d2e64a65a171698d5"
+    },
+    {
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp/trial-w-p1-correction-units.log",
+      "sha256": "3a990b8dca5085bf4281915ec66616b13d31c2ab7827a1f020d4958c5c8134dc"
+    },
+    {
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp/trial-w-p1-correction-types.log",
+      "sha256": "91b00536c6650e03c6bd8bfeebeccef00d12da68e0c3dc72b8a126a2540da2da"
+    },
+    {
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp/trial-w-p1-correction-lint.log",
+      "sha256": "9fd44403fa50d3921aad2357d34f9b6d706c4e91743ed978d828ecd1e4f08a6e"
     }
   ],
   "visualEvidence": "C:\\Users\\TOP\\AppData\\Local\\Temp\\trial-w-final-qa",
@@ -197,5 +238,9 @@
     "Historical comparisons now compose exact W inverse before comparing the same old expected bytes and thresholds",
     "No retries/skips/worker/deadline increases; modal geometry waits for actual open state and fonts"
   ],
-  "sourceInverseFiles": 50
+  "sourceInverseFiles": 51,
+  "correction": {
+    "applicationSourcesIdenticalTo": "08b836ac433a1864fa26b15469c694f2e1230012",
+    "changes": "test and exact source pin/documentation only"
+  }
 }

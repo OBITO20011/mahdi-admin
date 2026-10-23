@@ -1747,6 +1747,46 @@
           ]
         }
       ]
+    },
+    "e2e/package-f-pretrial-p1.spec.ts": {
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "9df5d940038c1b3b870214384927893f08daa07cd14af9d8ff3e6a4079bd12e9",
+      "before": "1dd26196f0195f17c78d6d7be92bf6b57c35f268d4dbb82e0893ae7660262aa9",
+      "hunks": [
+        {
+          "at": 56,
+          "before": [
+            "  const calls:Record<string,unknown>[]=[];await page.route('**/rest/v1/rpc/preview_supplier_replacement_v1',r=>{calls.push(r.request().postDataJSON());return r.fulfill({json:{contractVersion:208,action:'receive',eligible:false,blockedReason:'SUPPLIER_REPLACEMENT_EXCEEDS_PENDING'}});});"
+          ],
+          "after": [
+            "  const calls:Record<string,unknown>[]=[],writes:Record<string,unknown>[]=[];await page.route('**/rest/v1/rpc/preview_supplier_replacement_v1',r=>{calls.push(r.request().postDataJSON());return r.fulfill({json:{contractVersion:208,action:'receive',eligible:false,blockedReason:'SUPPLIER_REPLACEMENT_EXCEEDS_PENDING'}});});",
+            "  await page.route('**/rest/v1/rpc/execute_supplier_replacement_v1',r=>{writes.push(r.request().postDataJSON());return r.abort('blockedbyclient');});"
+          ]
+        },
+        {
+          "at": 61,
+          "before": [
+            "  const reason=page.getByLabel('سبب العملية',{exact:true});await expect(reason).toBeFocused();",
+            "  await expect(page.getByRole('button',{name:'معاينة التفاصيل'})).toBeDisabled();expect(calls).toHaveLength(0);"
+          ],
+          "after": [
+            "  const flow=page.getByTestId('replacement-case-workflow'),reason=flow.getByLabel('سبب العملية',{exact:true});",
+            "  await expect(flow).toBeFocused();await expect(reason).not.toBeFocused();await expect(reason).toHaveValue('وصل البديل من المورد');",
+            "  await expect(flow.getByRole('button',{name:'معاينة التفاصيل'})).toBeEnabled();expect(calls).toHaveLength(0);",
+            "  await reason.fill('');await flow.getByRole('button',{name:'معاينة التفاصيل'}).click();",
+            "  await expect(flow.getByRole('alert')).toContainText('سبب العملية');expect(calls).toHaveLength(0);"
+          ]
+        },
+        {
+          "at": 69,
+          "before": [
+            "  await expect(page.getByRole('button',{name:'تأكيد وحفظ العملية'})).toHaveCount(0);"
+          ],
+          "after": [
+            "  await expect(flow.getByRole('button',{name:'تأكيد الاستلام',exact:true})).toHaveCount(0);expect(writes).toHaveLength(0);"
+          ]
+        }
+      ]
     }
   }
 }
