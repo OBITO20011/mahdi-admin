@@ -1,9 +1,11 @@
 import ts from 'typescript';
+import {sourceBeforeTrialW} from '../audit/source-before-trial-owner-w.mjs';
 import {createHash} from 'node:crypto';
 import {financialUiContract} from './package-f-financial-ui-contract.mjs';
 
 /** Display evidence only. The single named date formatter is not a business guard. */
 export function administrationUiContract(file,source){
+ source=sourceBeforeTrialW(file,source);
  const ast=ts.createSourceFile(file,source,ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX);
  const printer=ts.createPrinter({removeComments:true});
  const policies=[];let displayDate;

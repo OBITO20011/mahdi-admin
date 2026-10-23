@@ -1,3 +1,7 @@
+#23Oct — owner trial W authorized UI-only
+
+One isolated worktree/PR/fullCI;priority W1,W4,W5,W3;W2 explicitly deferred. W5+ approved:16px mobile input floor without viewport zoom restrictions,decimal/numeric keyboards and Enter hints across financial forms. Inline supplier receipt/refusal/reversal;touch POS focus preserving scanner/Enter;shared form fields and390 both-engine visual review;source-aware grouping only if existing evidence suffices;top optional product image. No migration/RPC/accounting/permission changes or hosted/deploy. W2 deferred by explicit owner decision; no grouping, reader expansion or migration212. See TRIAL_OWNER_W_AR.md.
+
 #23Oct — owner approves defective-unit replacement exception
 
 Direct owner answer: «نعم، اسمح بتبديل الحبة المعيبة فقط». Same-product defective physical unit replacement is permitted for ordinary saved parcels and effective parcel_only products,including saved mixed components. Sales/base-unit admission and monetary partial-parcel refunds remain forbidden. Existing owner/admin issuer roles,48hour window,canonical lock/replay,capacity and historical valuation remain authoritative. Supplier destination/reclassification owner-only. Full-parcel return after a unit replacement must consume current original+replacement leaves at their own historical costs. No client GUC bypass or blanket shared whole-quantity guard relaxation.

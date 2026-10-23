@@ -111,7 +111,7 @@ export const ExpenseFormModal: React.FC<ExpenseFormModalProps> = ({
 
       <div>
         <label htmlFor="expense-amount" className="mb-1 block font-bold text-nw-muted">المبلغ (د.أ) *</label>
-        <input
+        <input inputMode="decimal" enterKeyHint="next"
           id="expense-amount"
           type="number"
           min="0.001"

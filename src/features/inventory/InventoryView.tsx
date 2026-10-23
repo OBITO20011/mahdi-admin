@@ -6,7 +6,7 @@ import {formatProductInventory, formatWholesaleInventory} from '../../utils/inve
 import {ClearInventoryBalanceDialog} from './ClearInventoryBalanceDialog';
 import {SupplierReplacementSummary} from './SupplierReplacementSummary';
 import {fetchInventoryProductPageFromSupabase, type InventoryProductPage, type InventoryProduct} from '../../services/supabase/inventory.service';
-import {Card, PageHeader, SectionHeader, DetailLayout, MainColumn, DetailPanel, KpiGrid, KpiCard, MoneyText, StatusBadge, StockBar, FilterChips, SegmentedControl, SearchField, UiButton, ProductGlyph, formatUiDate, type UiTone} from '../../components/ui';
+import {FormFields,Card, PageHeader, SectionHeader, DetailLayout, MainColumn, DetailPanel, KpiGrid, KpiCard, MoneyText, StatusBadge, StockBar, FilterChips, SegmentedControl, SearchField, UiButton, ProductGlyph, formatUiDate, type UiTone} from '../../components/ui';
 import {TableShell, Th, Tr, Td} from '../../components/ui';
 import {useDialogFocus} from '../../hooks/useDialogFocus';
 import {Truck, ClipboardCheck, FileSpreadsheet, ChevronLeft, ChevronRight, RefreshCw, History, Trash2, ArrowRight} from 'lucide-react';
@@ -271,7 +271,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
     <UiButton onClick={() => setMovementPageNumber((current) => Math.min(movementPage.totalPages, current + 1))} disabled={movementPage.page >= movementPage.totalPages}>الأقدم</UiButton>
   </div>;
 
-  return <div ref={rootRef} dir="rtl" data-testid="inventory-workbench" className="min-w-0 bg-nw-bg text-nw-text">
+  return <FormFields ref={rootRef} dir="rtl" data-testid="inventory-workbench" className="min-w-0 bg-nw-bg text-nw-text">
     <PageHeader title="المخزون الفعلي" description="راقب المتاح بالطرود والباكيتات؛ كل تعديل محفوظ بحركة موثقة." actions={<>
       <UiButton variant="primary" onClick={() => openModal('receive_goods')}><Truck className="h-4 w-4" />استلام بضاعة</UiButton>
       <UiButton onClick={() => openModal('stock_count')}><ClipboardCheck className="h-4 w-4" />بدء جرد</UiButton>
@@ -376,5 +376,5 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
       warehouseName={warehouses.find(warehouse => warehouse.id === clearInventoryProduct.warehouseId)?.name || 'المستودع الرئيسي'}
       movementCount={inventoryProductPage.products.find(product => product.id === clearInventoryProduct.id)?.movementCount || 0}
       onClose={() => setClearInventoryProduct(null)} />}
-  </div>;
+  </FormFields>;
 };

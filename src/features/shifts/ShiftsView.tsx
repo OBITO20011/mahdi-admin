@@ -506,7 +506,7 @@ export const ShiftsView: React.FC = () => {
             {hasCountedCash?<div className="flex justify-between gap-2 border-t border-nw-border pt-2"><span>الفرق</span><StatusBadge tone={needsReason?'warn':'ok'}>{!needsReason?'مطابق':discrepancy<0?'عجز':'زيادة'} <MoneyText amount={Math.abs(discrepancy)}/></StatusBadge></div>:<p className="border-t border-nw-border pt-2 text-nw-muted">أدخل المبلغ المعدود</p>}
           </Card>
           <label className="block space-y-2 text-xs text-nw-muted"><span>الكاش الفعلي بعد عدّ الصندوق</span>
-            <input type="number" min="0" step="0.001" value={actualCashInput} onChange={(event) => setActualCashInput(event.target.value)}
+            <input inputMode="decimal" enterKeyHint="done" type="number" min="0" step="0.001" value={actualCashInput} onChange={(event) => setActualCashInput(event.target.value)}
               className="h-11 w-full rounded-xl border border-nw-border bg-nw-surface-2 px-3 text-sm font-bold text-nw-text" /></label>
           {needsReason&&<div className="space-y-2 rounded-xl border border-nw-border bg-nw-warn-bg p-3 text-nw-warn">
             <div className="flex flex-wrap items-center gap-2 text-sm font-bold"><AlertCircle className="h-4 w-4"/>فرق الصندوق: <MoneyText amount={discrepancy}/></div>
@@ -519,7 +519,7 @@ export const ShiftsView: React.FC = () => {
       </DetailLayout> : <Card className="space-y-4 text-center">
         <CheckCircle2 className="mx-auto h-10 w-10 text-nw-muted"/><SectionHeader title="لا توجد وردية مفتوحة حاليًا" hint="أدخل الكاش الموجود فعليًا في الدرج عند بداية العمل."/>
         <div className="mx-auto max-w-xs space-y-3"><label className="block space-y-2 text-right text-xs text-nw-muted"><span>العهدة الافتتاحية (د.أ)</span>
-          <input type="number" min="0" step="0.001" value={openingCashInput} onChange={(event) => setOpeningCashInput(event.target.value)} placeholder="0.000"
+          <input inputMode="decimal" enterKeyHint="done" type="number" min="0" step="0.001" value={openingCashInput} onChange={(event) => setOpeningCashInput(event.target.value)} placeholder="0.000"
             className="h-11 w-full rounded-xl border border-nw-border bg-nw-surface-2 px-3 text-center font-bold text-nw-text"/></label>
           <UiButton variant="accent" className="w-full" disabled={isSubmitting||openingCashInput===''||!Number.isFinite(Number(openingCashInput))||Number(openingCashInput)<0}
             onClick={() => void handleOpen()}>{isSubmitting?'جاري الفتح...':'فتح وردية جديدة'}</UiButton>

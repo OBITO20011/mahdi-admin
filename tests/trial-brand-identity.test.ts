@@ -30,7 +30,7 @@ test('H live identity is official while trial contacts, video and historical SQL
  assert.equal(APP_NAME_AR,official);assert.equal(SEO_BRAND.officialName,official);assert.equal(SEO_BRAND.alternateName,official);
  assert.match(read('customer-web/src/config/store.ts'),/DEFAULT_STORE_WHATSAPP_NUMBER = '0772838886'/u);
  const changed=execFileSync('git',['diff','--name-only','6a7d99e48d6fff5299eb2bc4550d67a8b8908bfb','--','supabase/migrations','scripts/audit/*-hunks.json','customer-web/public/*.mp4','customer-web/public/nawasrah-hero-poster.webp'],{encoding:'utf8'}).trim().split('\n').filter(Boolean);
- assert.deepEqual(changed.filter(f=>f!=='scripts/audit/trial-brand-hunks.json'),[]);
+ assert.deepEqual(changed.filter(f=>!['scripts/audit/trial-brand-hunks.json','scripts/audit/trial-owner-w-hunks.json'].includes(f)),[]);
  for(const f of ['customer-web/src/App.tsx','customer-web/src/config/seoBrand.ts','customer-web/src/components/StoreHero.tsx'])assert.ok(!read(f).includes('nawasrah-banner-wide.webp'));
  assert.match(read('docs/operations/GO_LIVE_CUTOVER_AR.md'),/962785857700/u);
 });

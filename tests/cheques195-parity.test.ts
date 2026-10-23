@@ -1,3 +1,4 @@
+import {trialWPins} from '../scripts/audit/source-before-trial-owner-w.mjs';
 import {pretrialP1Pins} from '../scripts/audit/source-before-pretrial-p1.mjs';
 import {corrections207Pins} from '../scripts/audit/source-before-corrections207.mjs';
 import {navigation206Pins} from '../scripts/audit/source-before-navigation-cash206.mjs';
@@ -25,6 +26,7 @@ for(const file of cheques195Files)test('cheques: every byte outside exact approv
   else if(['src/App.tsx','src/components/layout/sideNavigationModel.ts','src/features/more/adminNavigation.config.ts','src/features/pos/PosView.tsx','src/stores/appStorePreferences.ts'].includes(file))assert.throws(()=>approvedCheques195Source(file,source+'\n// unapproved mutation\n'),/WAREHOUSE_ENTIRE_CURRENT_FILE_CHANGED/u,'newer whole-file warehouse pin rejects mutation before legacy projection');
   else if(file==='src/features/goLive/GoLiveSetupView.tsx') assert.throws(()=>approvedCheques195Source(file,source+'\n// unapproved mutation\n'),/TERMINOLOGY_ENTIRE_CURRENT_FILE_CHANGED/u,'whole-file presentation pin rejects mutation');
   else if(Object.hasOwn(pretrialP1Pins,file))assert.throws(()=>approvedCheques195Source(file,source+'\n// unapproved mutation\n'),/PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED/u,'P1 exact entire-file guard rejects mutation before legacy hunks');
+  else if(Object.hasOwn(trialWPins,file))assert.throws(()=>approvedCheques195Source(file,source+'\n// unapproved mutation\n'),new RegExp(trialWPins[file].errorPrefix),'W exact entire-file guard rejects extra logic');
   else assert.notEqual(approvedCheques195Source(file,source+'\n// unapproved mutation\n'),before,'outside-hunk changes remain observable');
 });
 test('cheques parity rejects a changed original sale callback or new authorization boundary',()=>{

@@ -1,3 +1,7 @@
+#23Oct — owner trial W authorized UI-only
+
+One isolated worktree/PR/fullCI;priority W1,W4,W5,W3;W2 explicitly deferred. W5+ approved:16px mobile input floor without viewport zoom restrictions,decimal/numeric keyboards and Enter hints across financial forms. Inline supplier receipt/refusal/reversal;touch POS focus preserving scanner/Enter;shared form fields and390 both-engine visual review;source-aware grouping only if existing evidence suffices;top optional product image. No migration/RPC/accounting/permission changes or hosted/deploy. W2 deferred by explicit owner decision; no grouping, reader expansion or migration212. See TRIAL_OWNER_W_AR.md.
+
 #23Oct — H official identity local gates accepted;exact FULL42 delivery pending
 
 Official Arabic name and owner square logo derivatives/manifest/receipt/SEO updated;video and trialWhatsApp0772838886 preserved,official phone launch-only documented.1373Admin/197store,types/strictlint/build/SEO,PWA4,SDK327/148/RPC534/8expected denials,ref211173/554/13/diff0 PASS.Full1448browser identities:1387pass+2unchanged environmental rerunPASS/59unchanged conditionals;first polluted manualpreview run not accepted.See TRIAL_OWNER_H_LOCAL.json.No SQL/RPC/permission/financial change or hostedaccess/deploy.Next Gitleaks/PR/exact push+PR FULL42 then merge/mainFULL42.

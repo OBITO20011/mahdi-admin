@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';import test from 'node:test';import {readFileSync} from 'node:fs';import {createHash} from 'node:crypto';import ts from 'typescript';
+import {sourceBeforeTrialW} from '../scripts/audit/source-before-trial-owner-w.mjs';
 // Captured from d8bc619 BEFORE the approved display/focus repair,not current source.
 const baseline=[
  {file:'src/features/crm/CustomerEditModal.tsx',calls:33,callHash:'7f291fa15cbf5654003afdd90cad278eefe5a508814f680ed1c24938928bd308',formHash:'fa36e1c6a7f34620a2072a9cb4a284666f2204cfb38984aec15ced090eb596ab',bodyHash:'326a95e7835d8025652ecc26afd664b921da757ecfc54a391343073e9ccf8457'},
@@ -6,7 +7,7 @@ const baseline=[
 ];
 const hash=(v:unknown)=>createHash('sha256').update(JSON.stringify(v)).digest('hex');
 for(const expected of baseline)test(`focus repair preserves ALL calls,full form and validation/location bodies:${expected.file}`,()=>{
- const ast=ts.createSourceFile(expected.file,readFileSync(expected.file,'utf8'),ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX),printer=ts.createPrinter({removeComments:true});
+ const ast=ts.createSourceFile(expected.file,sourceBeforeTrialW(expected.file,readFileSync(expected.file,'utf8')),ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX),printer=ts.createPrinter({removeComments:true});
  const calls:string[]=[],forms:string[]=[],bodies:Record<string,string>={};const print=(n:ts.Node)=>printer.printNode(ts.EmitHint.Unspecified,n,ast);
  const visit=(n:ts.Node)=>{if(ts.isCallExpression(n))calls.push(print(n));
   if(ts.isVariableDeclaration(n)&&['submit','getLocation'].includes(n.name.getText(ast))&&n.initializer)bodies[n.name.getText(ast)]=print(n.initializer);

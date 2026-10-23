@@ -377,7 +377,7 @@ export const ReceiveGoodsModal = ({
                         <Td className="p-3 text-center text-nw-muted">{item.previouslyReceivedQuantity}</Td>
                         <Td className="p-3 text-center font-black text-nw-warn">{item.remainingQuantity}</Td>
                         <Td className="p-3">
-                          <input aria-label="الكمية المستلمة الآن" disabled={item.receivingMode==='package'||isSubmitting}
+                          <input inputMode="numeric" enterKeyHint="next" aria-label="الكمية المستلمة الآن" disabled={item.receivingMode==='package'||isSubmitting}
                             type="number"
                             min="0"
                             max={item.remainingQuantity}
@@ -387,7 +387,7 @@ export const ReceiveGoodsModal = ({
                           />
                         </Td>
                         <Td className="p-3">
-                          <input aria-label="تكلفة الوحدة" disabled={item.receivingMode==='package'||isSubmitting}
+                          <input inputMode="decimal" enterKeyHint="next" aria-label="تكلفة الوحدة" disabled={item.receivingMode==='package'||isSubmitting}
                             type="number"
                             step="0.001"
                             min="0"

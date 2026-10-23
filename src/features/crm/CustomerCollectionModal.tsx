@@ -96,7 +96,7 @@ export const CustomerCollectionModal: React.FC<CustomerCollectionModalProps> = (
         <form className="grid gap-3 sm:grid-cols-2" onSubmit={event => void save(event)} aria-busy={busy}>
           <div>
             <label htmlFor={ids.amount} className="mb-1 block text-[13px] font-semibold">المبلغ المقبوض (د.أ) *</label>
-            <input id={ids.amount} className={fieldClass} inputMode="decimal" dir="ltr" value={amount}
+            <input enterKeyHint="next" id={ids.amount} className={fieldClass} inputMode="decimal" dir="ltr" value={amount}
               onChange={event => { setAmount(event.target.value); }} placeholder="0.000" required />
           </div>
           <div>

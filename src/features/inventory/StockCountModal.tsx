@@ -227,7 +227,7 @@ export const StockCountModal: React.FC<StockCountModalProps> = ({
           >
             -
           </button>
-          <input
+          <input inputMode="numeric" enterKeyHint="next"
             type="number"
             min="0"
             required

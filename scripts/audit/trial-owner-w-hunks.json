@@ -1,0 +1,1832 @@
+{
+  "baseline": "e96efc13ebf27b82217b856f8e6152de8bcc6c55",
+  "entries": {
+    "e2e/phase6-package-b.spec.ts": {
+      "before": "a2541fcee1d320e1998e9f43d6025388322237394b4c3c5267f3f534dc7146c0",
+      "after": "d2f0c232ee943d06fd99fe1c162a7486b5289696a9dd30063e6e549100f32db1",
+      "errorPrefix": "STOREFRONT_C6_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 4,
+          "before": [
+            "const context = {",
+            "  contractVersion: 403, supported: true, capability: 'phase43_modern',",
+            "  order: {id: '66660000-0000-4000-8000-000000000002', orderNumber: 'P6-B', withinWindow: true, deadlineAt: '2026-10-08T08:00:00Z'},",
+            "  financial: {merchandiseDebtInMinorUnits: 0, refundableCollectedInMinorUnits: 5000, deliveryFeeInMinorUnits: 0},",
+            "  baseItems: [{orderItemId: 'base-root', productId: 'juice', quantity: 5, remainingQuantity: 5,",
+            "    physicalRepresentatives: [",
+            "      {sourceKind: 'base_order_item', sourceId: 'a', productId: 'juice', remainingQuantity: 2, parentReplacementItemId: null},",
+            "      {sourceKind: 'replacement_item', sourceId: 'b', productId: 'juice', remainingQuantity: 3, parentReplacementItemId: 'prior'},",
+            "    ]}],",
+            "  parcelInstances: [{orderItemId: 'parcel-root', parcelInstanceId: 'parcel', components: [",
+            "    {parcelComponentId: 'component', productId: 'juice', quantity: 3, physicalRepresentatives: [",
+            "      {sourceKind: 'replacement_item', sourceId: 'leaf', productId: 'juice', remainingQuantity: 3, parentReplacementItemId: 'old-leaf'},",
+            "    ]},",
+            "  ]}], returns: [], replacements: [",
+            "    {operationalStatus: 'issued', issuedAt: '2026-10-01T10:00:00Z', items: [",
+            "      {replacementItemId: 'prior', parentReplacementItemId: null, rootOrderItemId: 'base-root'},",
+            "    ]},",
+            "    {operationalStatus: 'issued', issuedAt: '2026-10-02T10:00:00Z', items: [",
+            "      {replacementItemId: 'b', parentReplacementItemId: 'prior', rootOrderItemId: 'base-root'},",
+            "    ]},",
+            "  ],",
+            "};"
+          ],
+          "after": [
+            "import {phase6AftercareFixture as context} from './phase6-package-b.fixture';",
+            ""
+          ]
+        }
+      ]
+    },
+    "src/components/ui/form-fields.css": {
+      "before": "b89000cbc19e6230e2be928f4126e7e9dfc2841051e9aa8d2ab7f5a0706b7be9",
+      "after": "113c13594abb3b293cb568d9a8823a5f3a87f9a4a6e272b51ba5a674437535d4",
+      "errorPrefix": "TRIAL_W_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 3,
+          "before": [
+            ".nw-form-fields.nw-form-fields :is(input,select,textarea):not([type=\"checkbox\"]):not([type=\"radio\"]):not([type=\"range\"]):not([type=\"file\"]) {",
+            "  min-height: 44px;"
+          ],
+          "after": [
+            ".nw-form-fields.nw-form-fields :is(input,select,textarea):not([type=\"checkbox\"]):not([type=\"radio\"]):not([type=\"range\"]):not([type=\"file\"]):not([type=\"hidden\"]):not([type=\"search\"]) {",
+            "  display: block;",
+            "  box-sizing: border-box;",
+            "  width: 100%;",
+            "  min-height: var(--nw-field-min-height,44px);"
+          ]
+        },
+        {
+          "at": 10,
+          "before": [],
+          "after": [
+            "  border-width: 1px;",
+            "  border-style: solid;",
+            "  border-radius: 12px;",
+            "  padding: 10px 12px;",
+            "  font-size: 16px;",
+            "  line-height: 1.5;"
+          ]
+        },
+        {
+          "at": 22,
+          "before": [],
+          "after": [
+            ".nw-form-fields label:has(> :is(input,select,textarea):not([type=\"checkbox\"]):not([type=\"radio\"]):not([type=\"range\"]):not([type=\"file\"]):not([type=\"hidden\"]):not([type=\"search\"])) {",
+            "  display: flex;",
+            "  flex-direction: column;",
+            "  align-items: stretch;",
+            "  gap: 6px;",
+            "  min-width: 0;",
+            "}",
+            ".nw-form-fields.nw-form-fields textarea { --nw-field-min-height: 96px; }",
+            "/* iOS native select paints its text inside a platform box. Vertical padding",
+            " * can clip Arabic glyphs even when the outer control meets the touch height. */",
+            ".nw-form-fields.nw-form-fields select:not([multiple]) {",
+            "  appearance: none;",
+            "  height: 44px;",
+            "  padding-block: 0;",
+            "  padding-inline-end: 36px;",
+            "  line-height: normal;",
+            "  background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364758b' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E\");",
+            "  background-repeat: no-repeat;",
+            "  background-position: left 12px center;",
+            "  background-size: 16px;",
+            "}",
+            ".nw-form-fields.nw-form-fields select:not([multiple]):dir(ltr) { background-position: right 12px center; }",
+            "/* A 16px floor prevents iOS focus zoom, including legacy fields outside the",
+            " * FormFields scope. The viewport remains freely zoomable. */",
+            "@media screen and (max-width: 767px), screen and (pointer: coarse) {",
+            "  html body :is(input,select,textarea):not(.text-lg):not(.text-xl):not(.text-2xl):not(.text-3xl):not(.text-4xl) {",
+            "    font-size: 16px !important;",
+            "  }",
+            "  html body :is(input,select,textarea) { min-width: 0; max-width: 100%; }",
+            "}",
+            "/* SearchField owns its integrated icon/frame/row layout. */",
+            ".nw-form-fields input[type=\"search\"] { font-size:16px; }"
+          ]
+        }
+      ]
+    },
+    "src/features/inventory/InventoryView.tsx": {
+      "before": "52b9eef8a0994af82f11dbaadfe7021212c48e22b081a37b1e5d055625f07813",
+      "after": "13e051e6167c78c41e88ae35082224337632f46af8138b2f74e6cb48d5357a0f",
+      "errorPrefix": "RECEIVING205_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 9,
+          "before": [
+            "import {Card, PageHeader, SectionHeader, DetailLayout, MainColumn, DetailPanel, KpiGrid, KpiCard, MoneyText, StatusBadge, StockBar, FilterChips, SegmentedControl, SearchField, UiButton, ProductGlyph, formatUiDate, type UiTone} from '../../components/ui';"
+          ],
+          "after": [
+            "import {FormFields,Card, PageHeader, SectionHeader, DetailLayout, MainColumn, DetailPanel, KpiGrid, KpiCard, MoneyText, StatusBadge, StockBar, FilterChips, SegmentedControl, SearchField, UiButton, ProductGlyph, formatUiDate, type UiTone} from '../../components/ui';"
+          ]
+        },
+        {
+          "at": 274,
+          "before": [
+            "  return <div ref={rootRef} dir=\"rtl\" data-testid=\"inventory-workbench\" className=\"min-w-0 bg-nw-bg text-nw-text\">"
+          ],
+          "after": [
+            "  return <FormFields ref={rootRef} dir=\"rtl\" data-testid=\"inventory-workbench\" className=\"min-w-0 bg-nw-bg text-nw-text\">"
+          ]
+        },
+        {
+          "at": 379,
+          "before": [
+            "  </div>;"
+          ],
+          "after": [
+            "  </FormFields>;"
+          ]
+        }
+      ]
+    },
+    "src/features/inventory/SupplierReplacementPanel.tsx": {
+      "before": "120cd16e686b1a10078831494b0d6d720a4de0fbb7200a86db5dbc111d0c66c2",
+      "after": "f5271cf222e11589684525e943a1629f32bf173d076d8215b7d8a97def5b1ea8",
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 13,
+          "before": [
+            "type CaseSelection={action:'receive'|'writeoff';item:SupplierReplacementCase}|{action:'reverse';eventId:string};"
+          ],
+          "after": [
+            "type CaseSelection={action:'receive'|'writeoff';item:SupplierReplacementCase}|{action:'reverse';eventId:string;item:SupplierReplacementCase};"
+          ]
+        },
+        {
+          "at": 25,
+          "before": [
+            "  const reasonInput=useRef<HTMLTextAreaElement>(null);",
+            "  useEffect(()=>{if(selection)reasonInput.current?.focus();},[selection]);"
+          ],
+          "after": [
+            "  const reasonInput=useRef<HTMLTextAreaElement>(null),quantityInput=useRef<HTMLInputElement>(null),actionPanel=useRef<HTMLDivElement>(null);",
+            "  useEffect(()=>{if(selection){actionPanel.current?.scrollIntoView({block:'nearest'});actionPanel.current?.focus({preventScroll:true});}},[selection]);"
+          ]
+        },
+        {
+          "at": 55,
+          "before": [
+            "  const quantityUnit=selection&&'item' in selection?selection.item.baseUnitName:product?.baseUnitName??'باكيت';"
+          ],
+          "after": []
+        },
+        {
+          "at": 60,
+          "before": [
+            "    if(!Number.isSafeInteger(amount)||amount<1||!productId||!warehouseId||finalReason.length<3)throw new Error('اختر الصنف وأكمل الكمية والمستودع والسبب؛ تحتاج «أخرى» إلى ملاحظة.');"
+          ],
+          "after": [
+            "    if(!productId)throw new Error('الصنف: اختر الصنف.');",
+            "    if(!warehouseId)throw new Error('المستودع: اختر المستودع.');",
+            "    if(!Number.isSafeInteger(amount)||amount<1)throw new Error('العدد: أدخل عدداً صحيحاً أكبر من صفر.');",
+            "    if(finalReason.length<3)throw new Error('سبب العملية: اكتب 3 أحرف على الأقل؛ تحتاج «أخرى» إلى ملاحظة.');"
+          ]
+        },
+        {
+          "at": 85,
+          "before": [
+            "    const qty=Number(quantity);if(!Number.isSafeInteger(qty)||qty<1||reason.trim().length<3){setError('أكمل كمية العملية وسببها.');return;}"
+          ],
+          "after": [
+            "    const qty=Number(quantity);if(!Number.isSafeInteger(qty)||qty<1){setError('العدد: أدخل عدداً صحيحاً أكبر من صفر.');quantityInput.current?.focus();return;}",
+            "    if(qty>c.pendingQuantity){setError('العدد: لا يتجاوز المعلّق المتبقي ('+c.pendingQuantity+' '+c.baseUnitName+').');quantityInput.current?.focus();return;}",
+            "    if(reason.trim().length<3){setError('سبب العملية: اكتب 3 أحرف على الأقل.');reasonInput.current?.focus();return;}"
+          ]
+        },
+        {
+          "at": 92,
+          "before": [],
+          "after": [
+            "    if(reason.trim().length<3){setError('سبب العملية: اكتب 3 أحرف على الأقل.');reasonInput.current?.focus();return;}"
+          ]
+        },
+        {
+          "at": 96,
+          "before": [],
+          "after": [
+            "  const openCase=(item:SupplierReplacementCase,next:'receive'|'writeoff'|'reverse',eventId?:string,inspectAll=false)=>{",
+            "    if(working.current||unresolved||!recoveryReady)return;",
+            "    const defaultReason=next==='receive'?'وصل البديل من المورد':'';",
+            "    setSelection(next==='reverse'?{action:next,item,eventId:eventId!}:{action:next,item});",
+            "    setQuantity(String(item.pendingQuantity));setReason(defaultReason);setPreview(null);setDraft(null);setError('');",
+            "    if(inspectAll)void inspect({action:'receive',payload:{caseId:item.id,quantity:item.pendingQuantity,reason:defaultReason},label:'استلام كل المتبقي'});",
+            "  };",
+            "  const renderPreview=()=>draft&&preview?<Card className=\"space-y-3\" data-testid=\"replacement-preview\"><p className=\"font-bold\">{draft.label}</p>",
+            "      {preview.eligible?<><p className=\"text-sm\">الكمية: {String(draft.payload.quantity??'كما في الحدث الأصلي')} · السبب: {String(draft.payload.reason)}</p>{owner&&typeof preview.valueInMinorUnitsExact==='string'&&<MoneyText amount={replacementMoney(preview.valueInMinorUnitsExact)} currency/>}<UiButton disabled={busy||unresolved} onClick={()=>void execute()}>{draft.action==='receive'?'تأكيد الاستلام':draft.action==='writeoff'?'تأكيد رفض المورد':draft.action==='reverse'?'تأكيد العكس':'تأكيد وحفظ العملية'}</UiButton></>:<RejectionNotice reason={preview.blockedReason}/>}",
+            "      <UiButton disabled={busy} onClick={()=>{setPreview(null);setDraft(null);}}>إلغاء المعاينة</UiButton>",
+            "    </Card> : null;",
+            "  const renderCaseWorkflow=()=>selection&&<FormFields ref={actionPanel} tabIndex={-1} role=\"region\" aria-label=\"تفاصيل عملية المعلّق\" className=\"space-y-3 rounded-xl border border-nw-border p-3\" data-testid=\"replacement-case-workflow\">",
+            "    <p className=\"font-bold\">{selection.action==='reverse'?'عكس الحدث':selection.action==='receive'?'استلام البديل':'رفض المورد'} · {selection.item.productName}</p>",
+            "    {error&&<RejectionNotice reason={error}/>}",
+            "    <fieldset className=\"space-y-3\" disabled={busy||unresolved||!recoveryReady||Boolean(draft)}>",
+            "      {selection.action!=='reverse'&&<label className=\"block text-sm\">العدد ({selection.item.baseUnitName})<input enterKeyHint=\"next\" ref={quantityInput} inputMode=\"numeric\" type=\"number\" min=\"1\" max={selection.item.pendingQuantity} step=\"1\" value={quantity} onChange={e=>{setQuantity(e.target.value);setError('');}}/></label>}",
+            "      <label className=\"block text-sm\"><span>سبب العملية</span><textarea aria-label=\"سبب العملية\" ref={reasonInput} maxLength={500} value={reason} onChange={e=>{setReason(e.target.value);setError('');}}/></label>",
+            "      {!draft&&<UiButton onClick={previewSelection}>معاينة التفاصيل</UiButton>}",
+            "    </fieldset>",
+            "    {renderPreview()}",
+            "    {!draft&&<UiButton disabled={busy} onClick={()=>{setSelection(null);setError('');}}>إلغاء العملية</UiButton>}",
+            "  </FormFields>;"
+          ]
+        },
+        {
+          "at": 121,
+          "before": [
+            "    {error&&<RejectionNotice reason={error}><UiButton disabled={busy} onClick={()=>{setError('');setRevision(n=>n+1);}}>تحديث القراءة</UiButton></RejectionNotice>}"
+          ],
+          "after": [
+            "    {error&&!selection&&<RejectionNotice reason={error}><UiButton disabled={busy} onClick={()=>{setError('');setRevision(n=>n+1);}}>تحديث القراءة</UiButton></RejectionNotice>}"
+          ]
+        },
+        {
+          "at": 140,
+          "before": [
+            "    {(tab==='new'||selection&&(selection.action==='receive'||owner))&&<FormFields><fieldset className=\"space-y-3\" disabled={busy||unresolved||!recoveryReady||Boolean(draft)}>",
+            "      {selection&&<p className=\"font-bold\">{selection.action==='reverse'?'سبب عكس العملية':`${selection.action==='receive'?'استلام جزئي':'رفض المورد'} · ${selection.item.productName}`}</p>}",
+            "      {selection?.action!=='reverse'&&<label className=\"block text-sm\">{tab==='new'?'العدد':`العدد (${quantityUnit})`}<input inputMode=\"numeric\" type=\"number\" min=\"1\" step=\"1\" value={quantity} onChange={e=>{setQuantity(e.target.value);setPreview(null);setDraft(null);}}/></label>}"
+          ],
+          "after": [
+            "    {tab==='new'&&<FormFields><fieldset className=\"space-y-3\" disabled={busy||unresolved||!recoveryReady||Boolean(draft)}>",
+            "      <label className=\"block text-sm\">العدد<input enterKeyHint=\"next\" inputMode=\"numeric\" type=\"number\" min=\"1\" step=\"1\" ref={quantityInput} value={quantity} onChange={e=>{setQuantity(e.target.value);setPreview(null);setDraft(null);}}/></label>"
+          ]
+        },
+        {
+          "at": 142,
+          "before": [
+            "      {selection&&<UiButton disabled={reason.trim().length<3} onClick={previewSelection}>معاينة التفاصيل</UiButton>}"
+          ],
+          "after": []
+        },
+        {
+          "at": 147,
+          "before": [
+            "      {page.cases.length===0?<p role=\"status\">لا توجد عمليات مطابقة.</p>:page.cases.map(c=><Card key={c.id} className=\"space-y-2\">"
+          ],
+          "after": [
+            "      {page.cases.length===0?<p role=\"status\">لا توجد عمليات مطابقة.</p>:page.cases.map(c=><Card key={c.id} className=\"space-y-2\" data-testid=\"replacement-case\">"
+          ]
+        },
+        {
+          "at": 151,
+          "before": [
+            "        {c.pendingQuantity>0&&<div className=\"flex flex-wrap gap-2\"><UiButton disabled={busy||unresolved} onClick={()=>{setSelection(null);setQuantity(String(c.pendingQuantity));void inspect({action:'receive',payload:{caseId:c.id,quantity:c.pendingQuantity,reason:reason.trim()||'استلام بديل المورد'},label:'استلام كل المتبقي'});}}>استلام المتبقي ({c.pendingQuantity})</UiButton><UiButton disabled={busy||unresolved} onClick={()=>{setSelection({action:'receive',item:c});setQuantity(String(c.pendingQuantity));setPreview(null);setDraft(null);}}>معاينة استلام جزئي</UiButton></div>}"
+          ],
+          "after": [
+            "        {c.pendingQuantity>0&&<div className=\"flex flex-wrap gap-2\"><UiButton disabled={busy||unresolved} onClick={()=>openCase(c,'receive',undefined,true)}>استلام المتبقي ({c.pendingQuantity})</UiButton><UiButton disabled={busy||unresolved} onClick={()=>openCase(c,'receive')}>معاينة استلام جزئي</UiButton></div>}",
+            "        {selection?.item.id===c.id&&selection.action==='receive'&&renderCaseWorkflow()}"
+          ]
+        },
+        {
+          "at": 154,
+          "before": [
+            "          {owner&&c.pendingQuantity>0&&<UiButton disabled={busy||unresolved} onClick={()=>{setSelection({action:'writeoff',item:c});setQuantity(String(c.pendingQuantity));setPreview(null);setDraft(null);}}>معاينة رفض المورد</UiButton>}"
+          ],
+          "after": [
+            "          {owner&&c.pendingQuantity>0&&<UiButton disabled={busy||unresolved} onClick={()=>openCase(c,'writeoff')}>معاينة رفض المورد</UiButton>}",
+            "          {selection?.item.id===c.id&&selection.action==='writeoff'&&renderCaseWorkflow()}"
+          ]
+        },
+        {
+          "at": 157,
+          "before": [
+            "            {owner&&e.reason&&<p className=\"text-xs text-nw-muted\">{e.reason}</p>}{owner&&!e.isReversed&&e.action!=='reverse'&&<UiButton disabled={busy||unresolved} onClick={()=>{setSelection({action:'reverse',eventId:e.id});setPreview(null);setDraft(null);}}>معاينة العكس</UiButton>}</li>)}</ul>"
+          ],
+          "after": [
+            "            {owner&&e.reason&&<p className=\"text-xs text-nw-muted\">{e.reason}</p>}{owner&&!e.isReversed&&e.action!=='reverse'&&<UiButton disabled={busy||unresolved} onClick={()=>openCase(c,'reverse',e.id)}>معاينة العكس</UiButton>}{selection?.action==='reverse'&&selection.eventId===e.id&&renderCaseWorkflow()}</li>)}</ul>"
+          ]
+        },
+        {
+          "at": 162,
+          "before": [
+            "    {draft&&preview&&<Card className=\"space-y-3\" data-testid=\"replacement-preview\"><p className=\"font-bold\">{draft.label}</p>",
+            "      {preview.eligible?<><p className=\"text-sm\">الكمية: {String(draft.payload.quantity??'كما في الحدث الأصلي')} · السبب: {String(draft.payload.reason)}</p>{owner&&typeof preview.valueInMinorUnitsExact==='string'&&<MoneyText amount={replacementMoney(preview.valueInMinorUnitsExact)} currency/>}<UiButton disabled={busy||unresolved} onClick={()=>void execute()}>تأكيد وحفظ العملية</UiButton></>:<RejectionNotice reason={preview.blockedReason}/>}",
+            "      <UiButton disabled={busy} onClick={()=>{setPreview(null);setDraft(null);}}>إلغاء المعاينة</UiButton>",
+            "    </Card>}"
+          ],
+          "after": [
+            "    {tab==='new'&&renderPreview()}"
+          ]
+        }
+      ]
+    },
+    "src/features/orders/AdminAftercarePanel.tsx": {
+      "before": "ed721c6bfe482aa2f3ce7a0fc62da04aa38a844f4d64ca50e7a14c1f573a8114",
+      "after": "54d0a338ec984b67efcded4527a09b0375199def322b0deb1da0650dafb62dcd",
+      "errorPrefix": "SUPPLIER_REPLACEMENT208_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [
+            "import { UiButton } from '../../components/ui';"
+          ],
+          "after": [
+            "import {FormFields, UiButton } from '../../components/ui';"
+          ]
+        },
+        {
+          "at": 322,
+          "before": [
+            "    <section data-testid=\"phase43-admin-aftercare\" aria-busy={busy}"
+          ],
+          "after": [
+            "    <FormFields><section data-testid=\"phase43-admin-aftercare\" aria-busy={busy}"
+          ]
+        },
+        {
+          "at": 432,
+          "before": [
+            "          <input aria-label=\"عدد طرود الاستبدال\" type=\"number\" min={1} step={1}"
+          ],
+          "after": [
+            "          <input inputMode=\"numeric\" enterKeyHint=\"next\" aria-label=\"عدد طرود الاستبدال\" type=\"number\" min={1} step={1}"
+          ]
+        },
+        {
+          "at": 451,
+          "before": [
+            "          <input aria-label={returnDraft.isSingleSkuParcel ? 'عدد طرود المرتجع' : 'كمية المرتجع'} type=\"number\" min={1} step={1}"
+          ],
+          "after": [
+            "          <input inputMode=\"numeric\" enterKeyHint=\"next\" aria-label={returnDraft.isSingleSkuParcel ? 'عدد طرود المرتجع' : 'كمية المرتجع'} type=\"number\" min={1} step={1}"
+          ]
+        },
+        {
+          "at": 481,
+          "before": [
+            "                <input type=\"number\" min={0} value={allocation[field]} disabled={busy || (field==='customerDamage' && returnDraft.standalonePrice == null)}"
+          ],
+          "after": [
+            "                <input inputMode=\"numeric\" enterKeyHint=\"next\" type=\"number\" min={0} value={allocation[field]} disabled={busy || (field==='customerDamage' && returnDraft.standalonePrice == null)}"
+          ]
+        },
+        {
+          "at": 505,
+          "before": [
+            "                  <label>سليم<input type=\"number\" min={0} max={source.remainingQuantity}"
+          ],
+          "after": [
+            "                  <label>سليم<input inputMode=\"numeric\" enterKeyHint=\"next\" type=\"number\" min={0} max={source.remainingQuantity}"
+          ]
+        },
+        {
+          "at": 509,
+          "before": [
+            "                  <label>عيب/غير قابل للبيع<input type=\"number\" min={0} max={source.remainingQuantity}"
+          ],
+          "after": [
+            "                  <label>عيب/غير قابل للبيع<input inputMode=\"numeric\" enterKeyHint=\"next\" type=\"number\" min={0} max={source.remainingQuantity}"
+          ]
+        },
+        {
+          "at": 513,
+          "before": [
+            "                  <label>ضرر عميل<input type=\"number\" min={0} max={source.remainingQuantity}"
+          ],
+          "after": [
+            "                  <label>ضرر عميل<input inputMode=\"numeric\" enterKeyHint=\"next\" type=\"number\" min={0} max={source.remainingQuantity}"
+          ]
+        },
+        {
+          "at": 554,
+          "before": [
+            "    </section>"
+          ],
+          "after": [
+            "    </section></FormFields>"
+          ]
+        }
+      ]
+    },
+    "src/features/orders/AftercareSupplierSafety.tsx": {
+      "before": "743a85cded0a7d49a9054f9789c004b2b625b5c15f020452a531cd4aed2f9193",
+      "after": "f5938c9e27931a746acc77122b3fe82f208651b4cb594a739ac505eb868426be",
+      "errorPrefix": "TRIAL_J_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 2,
+          "before": [
+            "import {UiButton} from '../../components/ui';"
+          ],
+          "after": [
+            "import {FormFields,UiButton} from '../../components/ui';"
+          ]
+        },
+        {
+          "at": 39,
+          "before": [
+            "  return <div className=\"space-y-2\" data-testid=\"aftercare-supplier-safety\">"
+          ],
+          "after": [
+            "  return <FormFields className=\"space-y-2\" data-testid=\"aftercare-supplier-safety\">"
+          ]
+        },
+        {
+          "at": 71,
+          "before": [
+            "  </div>;"
+          ],
+          "after": [
+            "  </FormFields>;"
+          ]
+        }
+      ]
+    },
+    "src/features/pos/PosView.tsx": {
+      "before": "363edfac6a6af24a8f814058a7e8cd3d514f40ee9b766189561208e5dc20fb93",
+      "after": "d4d9a5209ccf8bee0e8af1df2264374f14721877706ce0ed99978594b0b4d9e0",
+      "errorPrefix": "WAREHOUSE_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 20,
+          "before": [],
+          "after": [
+            "import {shouldRestorePosSearchFocus,type PosAdditionSource} from './posSearchFocus';"
+          ]
+        },
+        {
+          "at": 310,
+          "before": [
+            "  const addToCart = (prod: Product,preferred:PosSingleProductMode='legacy_single_sku_parcel') => {"
+          ],
+          "after": [
+            "  const restoreSearchFocus=(source:PosAdditionSource)=>{",
+            "    if(shouldRestorePosSearchFocus(source,{coarse:window.matchMedia('(pointer: coarse)').matches,",
+            "      touchPoints:navigator.maxTouchPoints??0,width:window.innerWidth}))searchInputRef.current?.focus({preventScroll: true});",
+            "    else searchInputRef.current?.blur();",
+            "  };",
+            "  const addToCart = (prod: Product,preferred:PosSingleProductMode='legacy_single_sku_parcel',source:PosAdditionSource='pointer') => {"
+          ]
+        },
+        {
+          "at": 368,
+          "before": [
+            "    searchInputRef.current?.focus({preventScroll: true});"
+          ],
+          "after": [
+            "    restoreSearchFocus(source);"
+          ]
+        },
+        {
+          "at": 425,
+          "before": [
+            "    setCartItems(next); setParcelOption(null); setEditingParcelId(null); searchInputRef.current?.focus();"
+          ],
+          "after": [
+            "    setCartItems(next); setParcelOption(null); setEditingParcelId(null); restoreSearchFocus('pointer');"
+          ]
+        },
+        {
+          "at": 722,
+          "before": [],
+          "after": [
+            "                onKeyDown={event=>{",
+            "                  if(event.key!=='Enter'||event.nativeEvent.isComposing)return;",
+            "                  event.preventDefault();",
+            "                  const lookup=resolvePosProductCode(filteredProducts,searchQuery);",
+            "                  if(lookup.status==='found'){addToCart(lookup.product,'legacy_single_sku_parcel','search');setSearchQuery('');}",
+            "                  else setToast('انتظر ظهور الصنف المطابق للباركود أو رمز الصنف، أو اختره من البطاقات.','info');",
+            "                }}"
+          ]
+        },
+        {
+          "at": 908,
+          "before": [
+            "              <input aria-label=\"المبلغ المستلم\""
+          ],
+          "after": [
+            "              <input inputMode=\"decimal\" enterKeyHint=\"done\" aria-label=\"المبلغ المستلم\""
+          ]
+        },
+        {
+          "at": 952,
+          "before": [
+            "            onProductScanned={(scannedProduct) => addToCart(scannedProduct)}"
+          ],
+          "after": [
+            "            onProductScanned={(scannedProduct) => addToCart(scannedProduct,'legacy_single_sku_parcel','barcode')}"
+          ]
+        }
+      ]
+    },
+    "src/features/products/ProductFormModal.tsx": {
+      "before": "a20395c45d31bb05e684044411bc0378f17f3ca55d4fd927abbd300034952bb3",
+      "after": "64df669faf6f612ff34277871c4ed6cb0980117732d4b04d80ab59ae7b2f13fc",
+      "errorPrefix": "RECEIVING205_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 104,
+          "before": [],
+          "after": [
+            "  const imageUploadInput=useRef<HTMLInputElement>(null),cameraImageInput=useRef<HTMLInputElement>(null);"
+          ]
+        },
+        {
+          "at": 928,
+          "before": [
+            "        <div className=\"space-y-3 p-3.5\">",
+            "          <div className=\"flex items-start gap-3\">",
+            "            <div className=\"flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-nw-border bg-nw-surface-2\">",
+            "              {imagePreviewSource && !imageFailed ? (",
+            "                <img",
+            "                  src={imagePreviewSource}",
+            "                  alt={nameAr ? `صورة ${nameAr}` : 'معاينة صورة المنتج'}",
+            "                  onError={() => setImageFailed(true)}",
+            "                  className=\"h-full w-full object-cover\"",
+            "                />",
+            "              ) : (",
+            "                <Image className=\"h-6 w-6 text-nw-muted\" />",
+            "              )}"
+          ],
+          "after": [
+            "        <div className=\"space-y-3 p-3.5\" data-testid=\"product-identity-fields\">",
+            "          <div className=\"flex min-w-0 items-start gap-3\">",
+            "            <div className=\"w-24 shrink-0 space-y-2\">",
+            "              <UiButton type=\"button\" variant=\"plain\" aria-label=\"اختيار صورة المنتج\" style={{height:96}} onClick={()=>imageUploadInput.current?.click()}",
+            "                className=\"relative h-24 w-24 overflow-hidden rounded-2xl border border-nw-border bg-nw-surface-2 p-0\">",
+            "                {imagePreviewSource&&!imageFailed?<img src={imagePreviewSource} alt={nameAr?'صورة '+nameAr:'معاينة صورة المنتج'} onError={()=>setImageFailed(true)} className=\"h-full w-full object-cover\"/>:<Image className=\"h-7 w-7 text-nw-muted\"/>}",
+            "                <span className=\"absolute inset-x-0 bottom-0 flex items-center justify-center gap-1 bg-nw-surface/90 py-1 text-xs text-nw-text\"><Upload className=\"h-3 w-3\"/>{selectedImageFile||imageUrl?'تغيير الصورة':'صورة اختيارية'}</span>",
+            "              </UiButton>",
+            "              <input ref={imageUploadInput} id=\"product-image-upload\" aria-label=\"صورة المنتج من الاستديو\" type=\"file\" accept=\"image/*\" onChange={handleImageSelection} className=\"sr-only\"/>",
+            "              <UiButton type=\"button\" variant=\"plain\" onClick={()=>cameraImageInput.current?.click()} className=\"w-full gap-1 px-1 text-xs sm:hidden\" aria-label=\"تصوير صورة المنتج بالكاميرا\"><Camera className=\"h-4 w-4\"/>الكاميرا</UiButton>",
+            "              <input ref={cameraImageInput} id=\"product-image-camera\" aria-label=\"صورة المنتج بالكاميرا\" type=\"file\" accept=\"image/*\" capture=\"environment\" onChange={handleImageSelection} className=\"sr-only\"/>"
+          ]
+        },
+        {
+          "at": 940,
+          "before": [
+            "            <div className=\"flex-1 space-y-1.5\">"
+          ],
+          "after": [
+            "            <div className=\"min-w-0 flex-1 space-y-3\">",
+            "              <div className=\"space-y-1.5\">"
+          ]
+        },
+        {
+          "at": 952,
+          "before": [
+            "            </div>",
+            "          </div>",
+            ""
+          ],
+          "after": [
+            "              </div>"
+          ]
+        },
+        {
+          "at": 1013,
+          "before": [],
+          "after": [
+            "            </div>",
+            "          </div>",
+            "          <p className=\"text-xs text-nw-muted\">الصورة اختيارية · JPG أو PNG أو WebP · بحد أقصى 5 ميجابايت.</p>",
+            "            {selectedImageFile && (",
+            "              <div className=\"mt-2 flex items-center justify-between rounded-lg bg-nw-surface px-2.5 py-2\">",
+            "                <span",
+            "                  className=\"min-w-0 truncate text-xs font-bold text-nw-ok\"",
+            "                  title={selectedImageFile.name}",
+            "                >",
+            "                  جاهزة للرفع: {selectedImageFile.name}",
+            "                </span>",
+            "                <UiButton variant=\"plain\"",
+            "                  type=\"button\"",
+            "                  onClick={() => {",
+            "                    setSelectedImageFile(null);",
+            "                    setImageError('');",
+            "                    setImageFailed(false);",
+            "                  }}",
+            "                  className=\"mr-2 flex shrink-0 items-center gap-1 text-xs font-bold text-nw-muted hover:text-nw-bad\"",
+            "                >",
+            "                  <X className=\"h-3 w-3\" />",
+            "                  إلغاء الصورة المختارة",
+            "                </UiButton>",
+            "              </div>",
+            "            )}",
+            "",
+            "            {imageError && (",
+            "              <p role=\"alert\" className=\"mt-2 text-xs font-bold text-nw-bad\">",
+            "                {imageError}",
+            "              </p>",
+            "            )}",
+            ""
+          ]
+        },
+        {
+          "at": 1124,
+          "before": [
+            "            <label className=\"block space-y-1 text-xs font-bold\">سعر بيع الطرد<input aria-label=\"سعر بيع الطرد\" type=\"number\" min=\"0.001\" step=\"0.001\" required disabled={!parcelMethodSelected} value={salePackagePrice === '' ? '' : parcelMethodSelected ? salePackagePrice : calculatePackagePrice(derivedSalePricePerUnit,parcelMethodSize)} onChange={event=>setSalePackagePrice(event.target.value===''?'':Number.parseFloat(event.target.value))} className={numberInputClass}/></label>"
+          ],
+          "after": [
+            "            <label className=\"block space-y-1 text-xs font-bold\">سعر بيع الطرد<input inputMode=\"decimal\" enterKeyHint=\"next\" aria-label=\"سعر بيع الطرد\" type=\"number\" min=\"0.001\" step=\"0.001\" required disabled={!parcelMethodSelected} value={salePackagePrice === '' ? '' : parcelMethodSelected ? salePackagePrice : calculatePackagePrice(derivedSalePricePerUnit,parcelMethodSize)} onChange={event=>setSalePackagePrice(event.target.value===''?'':Number.parseFloat(event.target.value))} className={numberInputClass}/></label>"
+          ]
+        },
+        {
+          "at": 1128,
+          "before": [
+            "            <label className=\"block space-y-1 text-xs font-bold\">سعر بيع {unit}<input aria-label={'سعر بيع '+unit} type=\"number\" min=\"0\" step=\"0.0001\" required disabled={!allowSingle} value={salePackagePrice===''?'':derivedSalePricePerUnit} onChange={event=>setSalePackagePrice(event.target.value===''?'':calculatePackagePrice(Number.parseFloat(event.target.value)||0,validUnitsPerSalePackage))} className={numberInputClass}/></label>"
+          ],
+          "after": [
+            "            <label className=\"block space-y-1 text-xs font-bold\">سعر بيع {unit}<input inputMode=\"decimal\" enterKeyHint=\"next\" aria-label={'سعر بيع '+unit} type=\"number\" min=\"0\" step=\"0.0001\" required disabled={!allowSingle} value={salePackagePrice===''?'':derivedSalePricePerUnit} onChange={event=>setSalePackagePrice(event.target.value===''?'':calculatePackagePrice(Number.parseFloat(event.target.value)||0,validUnitsPerSalePackage))} className={numberInputClass}/></label>"
+          ]
+        },
+        {
+          "at": 1134,
+          "before": [
+            "          {!withoutParcel && <label className=\"min-w-0 flex-1 text-xs font-bold\">الطرد فيه<input aria-label={'عدد '+unit+' في طرد الشراء'} type=\"number\" min=\"1\" step=\"1\" required value={unitsPerPackage} onChange={event=>changeParcelContents(event.target.value)} className={numberInputClass}/></label>}"
+          ],
+          "after": [
+            "          {!withoutParcel && <label className=\"min-w-0 flex-1 text-xs font-bold\">الطرد فيه<input inputMode=\"numeric\" enterKeyHint=\"next\" aria-label={'عدد '+unit+' في طرد الشراء'} type=\"number\" min=\"1\" step=\"1\" required value={unitsPerPackage} onChange={event=>changeParcelContents(event.target.value)} className={numberInputClass}/></label>}"
+          ]
+        },
+        {
+          "at": 1141,
+          "before": [
+            "          {!withoutParcel&&<label className=\"min-w-0 space-y-1 text-xs font-bold\">سعر شراء الطرد<input aria-label={\"سعر شراء الطرد\"} type=\"number\" min=\"0.001\" step=\"0.001\" required value={defaultPurchasePrice} onChange={event=>changePackagePurchasePrice(event.target.value)} className={numberInputClass}/></label>}",
+            "          <label className=\"min-w-0 space-y-1 text-xs font-bold\">{`سعر شراء ${unit}`}<input aria-label={`سعر شراء ${unit}`} type=\"number\" min=\"0\" step=\"0.0001\" required value={unitPurchasePrice} onChange={event=>changeUnitPurchasePrice(event.target.value)} className={numberInputClass}/></label>"
+          ],
+          "after": [
+            "          {!withoutParcel&&<label className=\"min-w-0 space-y-1 text-xs font-bold\">سعر شراء الطرد<input inputMode=\"decimal\" enterKeyHint=\"next\" aria-label={\"سعر شراء الطرد\"} type=\"number\" min=\"0.001\" step=\"0.001\" required value={defaultPurchasePrice} onChange={event=>changePackagePurchasePrice(event.target.value)} className={numberInputClass}/></label>}",
+            "          <label className=\"min-w-0 space-y-1 text-xs font-bold\">{`سعر شراء ${unit}`}<input inputMode=\"decimal\" enterKeyHint=\"next\" aria-label={`سعر شراء ${unit}`} type=\"number\" min=\"0\" step=\"0.0001\" required value={unitPurchasePrice} onChange={event=>changeUnitPurchasePrice(event.target.value)} className={numberInputClass}/></label>"
+          ]
+        },
+        {
+          "at": 1165,
+          "before": [
+            "        {differentSaleParcel&&<label className=\"block text-xs font-bold\">عدد {unit} في طرد البيع<input aria-label={'عدد '+unit+' في طرد البيع'} type=\"number\" min=\"1\" step=\"1\" required value={unitsPerSalePackage} onChange={event=>setUnitsPerSalePackage(event.target.value===''?'':Number.parseInt(event.target.value,10))} className={numberInputClass}/></label>}"
+          ],
+          "after": [
+            "        {differentSaleParcel&&<label className=\"block text-xs font-bold\">عدد {unit} في طرد البيع<input inputMode=\"numeric\" enterKeyHint=\"next\" aria-label={'عدد '+unit+' في طرد البيع'} type=\"number\" min=\"1\" step=\"1\" required value={unitsPerSalePackage} onChange={event=>setUnitsPerSalePackage(event.target.value===''?'':Number.parseInt(event.target.value,10))} className={numberInputClass}/></label>}"
+          ]
+        },
+        {
+          "at": 1197,
+          "before": [
+            "          <div className=\"rounded-xl border border-dashed border-nw-border bg-nw-info-bg p-3\">",
+            "            <div className=\"flex items-center justify-between gap-2\">",
+            "              <div>",
+            "                <p className=\"font-black text-nw-text\">صورة المنتج</p>",
+            "                <p className=\"mt-0.5 text-xs text-nw-muted\">",
+            "                  JPG أو PNG أو WebP — بحد أقصى 5 ميجابايت",
+            "                </p>",
+            "              </div>",
+            "              <label",
+            "                htmlFor=\"product-image-upload\"",
+            "                className=\"flex cursor-pointer items-center gap-1.5 rounded-xl bg-nw-primary px-3 py-2 text-xs font-black text-nw-on-primary transition hover:opacity-95\"",
+            "              >",
+            "                <Upload className=\"h-3.5 w-3.5\" />",
+            "                {selectedImageFile || imageUrl",
+            "                  ? 'تغيير الصورة'",
+            "                  : 'اختيار من الاستديو'}",
+            "              </label>",
+            "              <input",
+            "                id=\"product-image-upload\"",
+            "                type=\"file\"",
+            "                accept=\"image/jpeg,image/png,image/webp\"",
+            "                onChange={handleImageSelection}",
+            "                className=\"sr-only\"",
+            "              />",
+            "            </div>",
+            "",
+            "            {selectedImageFile && (",
+            "              <div className=\"mt-2 flex items-center justify-between rounded-lg bg-nw-surface px-2.5 py-2\">",
+            "                <span",
+            "                  className=\"min-w-0 truncate text-xs font-bold text-nw-ok\"",
+            "                  title={selectedImageFile.name}",
+            "                >",
+            "                  جاهزة للرفع: {selectedImageFile.name}",
+            "                </span>",
+            "                <UiButton variant=\"plain\"",
+            "                  type=\"button\"",
+            "                  onClick={() => {",
+            "                    setSelectedImageFile(null);",
+            "                    setImageError('');",
+            "                    setImageFailed(false);",
+            "                  }}",
+            "                  className=\"mr-2 flex shrink-0 items-center gap-1 text-xs font-bold text-nw-muted hover:text-nw-bad\"",
+            "                >",
+            "                  <X className=\"h-3 w-3\" />",
+            "                  إلغاء",
+            "                </UiButton>",
+            "              </div>",
+            "            )}",
+            "",
+            "            {imageError && (",
+            "              <p className=\"mt-2 text-xs font-bold text-nw-bad\">",
+            "                {imageError}",
+            "              </p>",
+            "            )}",
+            ""
+          ],
+          "after": [
+            "          <div className=\"space-y-2\">"
+          ]
+        },
+        {
+          "at": 1270,
+          "before": [
+            "            <input aria-label=\"حد الطلب\""
+          ],
+          "after": [
+            "            <input inputMode=\"numeric\" enterKeyHint=\"next\" aria-label=\"حد الطلب\""
+          ]
+        },
+        {
+          "at": 1290,
+          "before": [
+            "            <input aria-label=\"سقف المستودع\""
+          ],
+          "after": [
+            "            <input inputMode=\"numeric\" enterKeyHint=\"next\" aria-label=\"سقف المستودع\""
+          ]
+        }
+      ]
+    },
+    "src/features/salesHistory/SalesHistoryView.tsx": {
+      "before": "d85a99bb3d5252f8fb0a4a9f2a53908c5aaaeb4edb1e570cae614c27ee61860b",
+      "after": "7207e7f62977463f0400d2fa5a67606eef777597f721c4531655f723450d4229",
+      "errorPrefix": "NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 4,
+          "before": [
+            "import {Card,PageHeader,UiButton,MoneyText,StatusBadge,TableShell,Th,Td,Tr,formatUiDate} from '../../components/ui';"
+          ],
+          "after": [
+            "import {FormFields,Card,PageHeader,UiButton,MoneyText,StatusBadge,TableShell,Th,Td,Tr,formatUiDate} from '../../components/ui';"
+          ]
+        },
+        {
+          "at": 33,
+          "before": [
+            "  return <div dir=\"rtl\" data-testid=\"sales-history\" className=\"min-w-0 space-y-4 p-4 pb-24 lg:p-8\">"
+          ],
+          "after": [
+            "  return <FormFields dir=\"rtl\" data-testid=\"sales-history\" className=\"min-w-0 space-y-4 p-4 pb-24 lg:p-8\">"
+          ]
+        },
+        {
+          "at": 57,
+          "before": [
+            "  </div>;"
+          ],
+          "after": [
+            "  </FormFields>;"
+          ]
+        }
+      ]
+    },
+    "e2e/phase6-package-b.fixture.ts": {
+      "added": true,
+      "after": "3d0fd1232f08e64006d0e5c7ee50591c694201dcc8c0ffa4c75e661fb13b6aa7",
+      "errorPrefix": "TRIAL_W_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "export const phase6AftercareFixture = {",
+            "  contractVersion: 403, supported: true, capability: 'phase43_modern',",
+            "  order: {id: '66660000-0000-4000-8000-000000000002', orderNumber: 'P6-B', withinWindow: true, deadlineAt: '2026-10-08T08:00:00Z'},",
+            "  financial: {merchandiseDebtInMinorUnits: 0, refundableCollectedInMinorUnits: 5000, deliveryFeeInMinorUnits: 0},",
+            "  baseItems: [{orderItemId: 'base-root', productId: 'juice', quantity: 5, remainingQuantity: 5,",
+            "    physicalRepresentatives: [",
+            "      {sourceKind: 'base_order_item', sourceId: 'a', productId: 'juice', remainingQuantity: 2, parentReplacementItemId: null},",
+            "      {sourceKind: 'replacement_item', sourceId: 'b', productId: 'juice', remainingQuantity: 3, parentReplacementItemId: 'prior'},",
+            "    ]}],",
+            "  parcelInstances: [{orderItemId: 'parcel-root', parcelInstanceId: 'parcel', components: [",
+            "    {parcelComponentId: 'component', productId: 'juice', quantity: 3, physicalRepresentatives: [",
+            "      {sourceKind: 'replacement_item', sourceId: 'leaf', productId: 'juice', remainingQuantity: 3, parentReplacementItemId: 'old-leaf'},",
+            "    ]},",
+            "  ]}], returns: [], replacements: [",
+            "    {operationalStatus: 'issued', issuedAt: '2026-10-01T10:00:00Z', items: [",
+            "      {replacementItemId: 'prior', parentReplacementItemId: null, rootOrderItemId: 'base-root'},",
+            "    ]},",
+            "    {operationalStatus: 'issued', issuedAt: '2026-10-02T10:00:00Z', items: [",
+            "      {replacementItemId: 'b', parentReplacementItemId: 'prior', rootOrderItemId: 'base-root'},",
+            "    ]},",
+            "  ],",
+            "};",
+            ""
+          ]
+        }
+      ]
+    },
+    "src/features/pos/posSearchFocus.ts": {
+      "added": true,
+      "after": "b0b31f92ab76a176e3b3e9942724ece1e2dceb09391f8de0a8efd45b857cde42",
+      "errorPrefix": "TRIAL_W_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "export type PosAdditionSource = 'pointer' | 'search' | 'barcode';",
+            "",
+            "/** Pointer additions on phones must not summon the software keyboard.",
+            " * Explicit search/scanner additions keep their consecutive-input workflow. */",
+            "export function shouldRestorePosSearchFocus(source:PosAdditionSource,device:{coarse:boolean;touchPoints:number;width:number}) {",
+            "  return source!=='pointer'||(!device.coarse&&device.touchPoints===0&&device.width>=768);",
+            "}",
+            ""
+          ]
+        }
+      ]
+    },
+    "scripts/audit/source-before-trial-brand.mjs": {
+      "errorPrefix": "TRIAL_H_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "3224e586550dd2688e754abf455cedd69831d169084afe4f991ed15d4de324f2",
+      "before": "d4f98636d20d1dcb9e1d1aa4d0027789f3ba81a8a4b735d94b85135dbb4c2e4c",
+      "hunks": [
+        {
+          "at": 3,
+          "before": [],
+          "after": [
+            "import {sourceBeforeTrialW,restoreTrialWSourceHashes,projectTrialWQuerySites} from './source-before-trial-owner-w.mjs';"
+          ]
+        },
+        {
+          "at": 14,
+          "before": [
+            " const source=text.replaceAll('\\r\\n','\\n'),pin=trialHPins[file];if(!pin)return source;"
+          ],
+          "after": [
+            " const source=sourceBeforeTrialW(file,text);if(source===null)return null;const pin=trialHPins[file];if(!pin)return source;"
+          ]
+        },
+        {
+          "at": 24,
+          "before": [
+            "export function restoreTrialHSourceHashes(sources){return sources.flatMap(s=>{"
+          ],
+          "after": [
+            "export function restoreTrialHSourceHashes(sources){return restoreTrialWSourceHashes(sources).flatMap(s=>{"
+          ]
+        },
+        {
+          "at": 31,
+          "before": [
+            " assert.equal(typeof parseSource,'function','TRIAL_H_SOURCE_PARSER_REQUIRED');const entries=[];"
+          ],
+          "after": [
+            " assert.equal(typeof parseSource,'function','TRIAL_H_SOURCE_PARSER_REQUIRED');source=projectTrialWQuerySites(source,parseSource);const entries=[];"
+          ]
+        },
+        {
+          "at": 34,
+          "before": [
+            "  const raw=readFileSync(new URL('../../'+file,import.meta.url),'utf8').replaceAll('\\r\\n','\\n'),before=sourceBeforeTrialH(file,raw),entry=source.sources.find(s=>s.file===file);"
+          ],
+          "after": [
+            "  const raw=sourceBeforeTrialW(file,readFileSync(new URL('../../'+file,import.meta.url),'utf8'));assert.notEqual(raw,null,'TRIAL_H_QUERY_FILE_REQUIRED');const before=sourceBeforeTrialH(file,raw),entry=source.sources.find(s=>s.file===file);"
+          ]
+        }
+      ]
+    },
+    "tests/trial-brand-identity.test.ts": {
+      "errorPrefix": "TRIAL_H_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "c18c029bf4a85d6eb598f60cde984ceb8db602dae2740ffda8f90c0bfd03422c",
+      "before": "226519e72cac57e07ad15241cd58adbe746e3c30c93d5bb63268fdd82b52d216",
+      "hunks": [
+        {
+          "at": 33,
+          "before": [
+            " assert.deepEqual(changed.filter(f=>f!=='scripts/audit/trial-brand-hunks.json'),[]);"
+          ],
+          "after": [
+            " assert.deepEqual(changed.filter(f=>!['scripts/audit/trial-brand-hunks.json','scripts/audit/trial-owner-w-hunks.json'].includes(f)),[]);"
+          ]
+        }
+      ]
+    },
+    "src/components/modals/UnitsModal.tsx": {
+      "errorPrefix": "TRIAL_W_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "33ec9093653f7b64b20ecc266126b9ff565eab0a01c1171d71427ed1b98d6083",
+      "before": "dd0a557d7d8afa247e304978fd30958929d97f0fa276599952211f30f72cb619",
+      "hunks": [
+        {
+          "at": 162,
+          "before": [
+            "            <input"
+          ],
+          "after": [
+            "            <input inputMode=\"numeric\" enterKeyHint=\"next\""
+          ]
+        }
+      ]
+    },
+    "src/components/ui/CashDenominationCounter.tsx": {
+      "errorPrefix": "TRIAL_W_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "eeffdef6f2dae5e5eb4384c0139513e264543836b67e29dc5170740e070c58bc",
+      "before": "442e829d8da9327b440cba99ba303e9eb4aeef74eddbfa982162a3c3576309cf",
+      "hunks": [
+        {
+          "at": 12,
+          "before": [
+            "      <span>{value} دينار</span><input aria-label={`عدد فئة ${value} دينار`} inputMode=\"numeric\" type=\"number\" min=\"0\" step=\"1\""
+          ],
+          "after": [
+            "      <span>{value} دينار</span><input enterKeyHint=\"next\" aria-label={`عدد فئة ${value} دينار`} inputMode=\"numeric\" type=\"number\" min=\"0\" step=\"1\""
+          ]
+        },
+        {
+          "at": 18,
+          "before": [
+            "      <input aria-label=\"الفكة كمبلغ\" type=\"number\" inputMode=\"decimal\" min=\"0\" step=\"0.001\" value={coins} onChange={e=>setCoins(e.target.value)}"
+          ],
+          "after": [
+            "      <input enterKeyHint=\"next\" aria-label=\"الفكة كمبلغ\" type=\"number\" inputMode=\"decimal\" min=\"0\" step=\"0.001\" value={coins} onChange={e=>setCoins(e.target.value)}"
+          ]
+        }
+      ]
+    },
+    "src/components/ui/Controls.tsx": {
+      "errorPrefix": "TRIAL_W_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "5d48571bcba95e2da2cca06700c414665c0792bd7f122956025370a95e626eeb",
+      "before": "ab6dcf83db41030519ab8971dbb5b12d5dc2378cc6de5b4d29d4fe42d5bcf04c",
+      "hunks": [
+        {
+          "at": 123,
+          "before": [],
+          "after": [
+            "        enterKeyHint=\"search\""
+          ]
+        }
+      ]
+    },
+    "src/components/ui/ReceivingUnitFields.tsx": {
+      "errorPrefix": "RECEIVING205_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "1cdf2883258a427a5a9d84ab23357da569b3cc935bf19e03edd9389c369aee71",
+      "before": "a3fff1030bd060e892ff4e3bb4baba9b1153cb777a9ba3d74f1d3420ecbbec44",
+      "hunks": [
+        {
+          "at": 19,
+          "before": [
+            "   <label className=\"min-w-0 space-y-1 text-sm\">كم {label}؟<input className=\"w-full\" aria-label={`كم ${label}؟`} type=\"number\" inputMode=\"numeric\" step=\"1\" min={p.minimum??1} max={p.maximum} disabled={p.disabled} value={p.quantity} onChange={e=>p.onQuantity(Number(e.target.value))}/></label>",
+            "   {p.mode==='package'&&<div className=\"min-w-0 space-y-1 text-sm\"><div className=\"flex flex-wrap items-center gap-2\"><span>الطرد فيه {p.unitsPerPackage} {p.unitName}</span><UiButton type=\"button\" variant=\"plain\" disabled={p.disabled} aria-expanded={editingContents} onClick={()=>setEditingContents(value=>!value)}>{editingContents?'تم':'تعديل محتوى الطرد'}</UiButton></div>{editingContents&&<label className=\"block\">كم {p.unitName} بالطرد؟<input className=\"w-full\" aria-label={`كم ${p.unitName} بالطرد؟`} type=\"number\" inputMode=\"numeric\" min=\"1\" step=\"1\" disabled={p.disabled} value={p.unitsPerPackage} onChange={e=>p.onContents(Number(e.target.value))}/></label>}</div>}",
+            "   <label className=\"min-w-0 space-y-1 text-sm\">سعر {label}<input className=\"w-full\" aria-label={`سعر ${label}`} type=\"number\" min=\"0\" step=\"0.001\" disabled={p.disabled} value={p.priceJod} onChange={e=>p.onPrice(Number(e.target.value))}/></label>"
+          ],
+          "after": [
+            "   <label className=\"min-w-0 space-y-1 text-sm\">كم {label}؟<input enterKeyHint=\"next\" className=\"w-full\" aria-label={`كم ${label}؟`} type=\"number\" inputMode=\"numeric\" step=\"1\" min={p.minimum??1} max={p.maximum} disabled={p.disabled} value={p.quantity} onChange={e=>p.onQuantity(Number(e.target.value))}/></label>",
+            "   {p.mode==='package'&&<div className=\"min-w-0 space-y-1 text-sm\"><div className=\"flex flex-wrap items-center gap-2\"><span>الطرد فيه {p.unitsPerPackage} {p.unitName}</span><UiButton type=\"button\" variant=\"plain\" disabled={p.disabled} aria-expanded={editingContents} onClick={()=>setEditingContents(value=>!value)}>{editingContents?'تم':'تعديل محتوى الطرد'}</UiButton></div>{editingContents&&<label className=\"block\">كم {p.unitName} بالطرد؟<input enterKeyHint=\"next\" className=\"w-full\" aria-label={`كم ${p.unitName} بالطرد؟`} type=\"number\" inputMode=\"numeric\" min=\"1\" step=\"1\" disabled={p.disabled} value={p.unitsPerPackage} onChange={e=>p.onContents(Number(e.target.value))}/></label>}</div>}",
+            "   <label className=\"min-w-0 space-y-1 text-sm\">سعر {label}<input inputMode=\"decimal\" enterKeyHint=\"next\" className=\"w-full\" aria-label={`سعر ${label}`} type=\"number\" min=\"0\" step=\"0.001\" disabled={p.disabled} value={p.priceJod} onChange={e=>p.onPrice(Number(e.target.value))}/></label>"
+          ]
+        }
+      ]
+    },
+    "src/features/accounts/RecordCustomerPaymentModal.tsx": {
+      "errorPrefix": "TRIAL_W_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "59252febc3bf31643c7b8b2a08e7e3bb20edaa0bd2958bdcf6ad628ad5f68764",
+      "before": "af24b481a68c0a80dbe4f025d9cb7b86527f576857a8fd1170af10a9563a34c5",
+      "hunks": [
+        {
+          "at": 258,
+          "before": [
+            "          <input"
+          ],
+          "after": [
+            "          <input inputMode=\"decimal\" enterKeyHint=\"next\""
+          ]
+        }
+      ]
+    },
+    "src/features/cheques/ChequeRegistrationForm.tsx": {
+      "errorPrefix": "TRIAL_W_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "1e65c20918052e9f042595ced67997dd089aa4c5f1d678bc19a2db2cf93cc75d",
+      "before": "cf5137cb2a3dd80748e31246e9ae4fbfbd60ba9a6fd7099f13c2d3e7214056b0",
+      "hunks": [
+        {
+          "at": 24,
+          "before": [
+            "    <input {...props} id={`${prefix}-${name}`} className={field} value={value} onChange={e=>set(e.target.value)} disabled={busy} required={name!=='notes'} />"
+          ],
+          "after": [
+            "    <input enterKeyHint=\"next\" {...props} id={`${prefix}-${name}`} className={field} value={value} onChange={e=>set(e.target.value)} disabled={busy} required={name!=='notes'} />"
+          ]
+        }
+      ]
+    },
+    "src/features/cheques/ChequesView.tsx": {
+      "errorPrefix": "TRIAL_W_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "4059055146c3e283fb3bdd5f9df42d890a4a9d6bb946e419b09818efd7a7dbb6",
+      "before": "26ab51ce7098901f7f7b7d04f34e971ec3aaf3bd403cf16448d59f5456b2906b",
+      "hunks": [
+        {
+          "at": 199,
+          "before": [
+            "        <label className=\"block\" htmlFor={`${ids}-pay-amount`}>المبلغ (د.أ)</label><input id={`${ids}-pay-amount`} className={field} value={paymentAmount} onChange={e=>setPaymentAmount(e.target.value)} inputMode=\"decimal\" dir=\"ltr\" required disabled={busy} />"
+          ],
+          "after": [
+            "        <label className=\"block\" htmlFor={`${ids}-pay-amount`}>المبلغ (د.أ)</label><input enterKeyHint=\"next\" id={`${ids}-pay-amount`} className={field} value={paymentAmount} onChange={e=>setPaymentAmount(e.target.value)} inputMode=\"decimal\" dir=\"ltr\" required disabled={busy} />"
+          ]
+        }
+      ]
+    },
+    "src/features/crm/AddAddressModal.tsx": {
+      "errorPrefix": "TRIAL_W_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "61a5d11c1d85a586adc257cc1fbd0ce6693540af48cc35d7fd77b8062aad2669",
+      "before": "b02d0cf1447a02eee4e97d7fbe41840054548f179e12e95613dd1d5cc495e6fa",
+      "hunks": [
+        {
+          "at": 211,
+          "before": [
+            "              <input"
+          ],
+          "after": [
+            "              <input inputMode=\"decimal\" enterKeyHint=\"next\""
+          ]
+        },
+        {
+          "at": 219,
+          "before": [
+            "              <input"
+          ],
+          "after": [
+            "              <input inputMode=\"decimal\" enterKeyHint=\"next\""
+          ]
+        }
+      ]
+    },
+    "src/features/crm/CustomerCollectionModal.tsx": {
+      "errorPrefix": "TRIAL_W_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "ffa2dac897149f9cb8bd3b187fa869efed9aa1d531423916130fb8f300945633",
+      "before": "aa61f9395c5f7b9fa797821aa70f2be911573db95c72845d4074caed21962368",
+      "hunks": [
+        {
+          "at": 99,
+          "before": [
+            "            <input id={ids.amount} className={fieldClass} inputMode=\"decimal\" dir=\"ltr\" value={amount}"
+          ],
+          "after": [
+            "            <input enterKeyHint=\"next\" id={ids.amount} className={fieldClass} inputMode=\"decimal\" dir=\"ltr\" value={amount}"
+          ]
+        }
+      ],
+      "approvedHistoricalSnapshots": [
+        {
+          "ref": "0e6ab9d",
+          "sha256": "a9ad147f82c4c6160ca5f8a20b616351ef06f4e26ffd839d50d26f4c414a4f0b"
+        }
+      ]
+    },
+    "src/features/directReceiving/CreateDirectReceiptModal.tsx": {
+      "errorPrefix": "RECEIVING205_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "1b052eda1c8635502d5080ce8aba7fc0db28bf330711bf6f76e2cbad3a43a5e8",
+      "before": "212677ab9a8bfb24cab4f7ae989f9a1fae57a751fe6e9ea463c0688e868dce07",
+      "hunks": [
+        {
+          "at": 915,
+          "before": [
+            "                      <input aria-label=\"خصم الصنف ( )\""
+          ],
+          "after": [
+            "                      <input inputMode=\"decimal\" enterKeyHint=\"next\" aria-label=\"خصم الصنف ( )\""
+          ]
+        },
+        {
+          "at": 1057,
+          "before": [
+            "                <input aria-label=\"أجور التوصيل/النقل\""
+          ],
+          "after": [
+            "                <input inputMode=\"decimal\" enterKeyHint=\"next\" aria-label=\"أجور التوصيل/النقل\""
+          ]
+        },
+        {
+          "at": 1069,
+          "before": [
+            "                <input aria-label=\"الضريبة ( )\""
+          ],
+          "after": [
+            "                <input inputMode=\"decimal\" enterKeyHint=\"next\" aria-label=\"الضريبة ( )\""
+          ]
+        },
+        {
+          "at": 1121,
+          "before": [
+            "                <input aria-label=\"المبلغ المدفوع الآن ( )\""
+          ],
+          "after": [
+            "                <input inputMode=\"decimal\" enterKeyHint=\"next\" aria-label=\"المبلغ المدفوع الآن ( )\""
+          ]
+        }
+      ]
+    },
+    "src/features/directReceiving/RecordSupplierPaymentModal.tsx": {
+      "errorPrefix": "TRIAL_W_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "548a18abdf1f2762b6bb3200673e5bda9abc30f194ed1db3f6051b026664398c",
+      "before": "8905d56d8d6924836260dd969990eeb3e8f2beefa03e92068be0f7cbb46a5027",
+      "hunks": [
+        {
+          "at": 105,
+          "before": [
+            "          <input aria-label=\"مبلغ الدفعة المراد سدادها ( ) *\""
+          ],
+          "after": [
+            "          <input inputMode=\"decimal\" enterKeyHint=\"next\" aria-label=\"مبلغ الدفعة المراد سدادها ( ) *\""
+          ]
+        }
+      ]
+    },
+    "src/features/expenses/ExpenseFormModal.tsx": {
+      "errorPrefix": "TRIAL_W_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "186237990e30bba01a8454b43a6fc4a3974713beef773e28b855f124daa66a56",
+      "before": "9fccc1f51ae1859f46f53beff46a3bdb9b740847be164c2d91cda382d3bb4661",
+      "hunks": [
+        {
+          "at": 114,
+          "before": [
+            "        <input"
+          ],
+          "after": [
+            "        <input inputMode=\"decimal\" enterKeyHint=\"next\""
+          ]
+        }
+      ]
+    },
+    "src/features/goLive/GoLiveSetupView.tsx": {
+      "errorPrefix": "TERMINOLOGY_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "0e08425fddc64daaf89a535da073b648a399455291c55cc4dfb78dd0ba83ae4b",
+      "before": "c53be0c012b36edb9f40cdb0bf5933f8c37bdae6f017a2179323881de7fe5c1e",
+      "hunks": [
+        {
+          "at": 295,
+          "before": [
+            "          <input id={ids.amount} className={fieldClass} inputMode=\"decimal\" dir=\"ltr\" value={amount} onChange={event => setAmount(event.target.value)} placeholder=\"0.000\" required />"
+          ],
+          "after": [
+            "          <input enterKeyHint=\"next\" id={ids.amount} className={fieldClass} inputMode=\"decimal\" dir=\"ltr\" value={amount} onChange={event => setAmount(event.target.value)} placeholder=\"0.000\" required />"
+          ]
+        },
+        {
+          "at": 357,
+          "before": [
+            "        <input id={ids.amount} className={fieldClass} inputMode=\"decimal\" dir=\"ltr\" value={amount} onChange={event => setAmount(event.target.value)} />"
+          ],
+          "after": [
+            "        <input enterKeyHint=\"next\" id={ids.amount} className={fieldClass} inputMode=\"decimal\" dir=\"ltr\" value={amount} onChange={event => setAmount(event.target.value)} />"
+          ]
+        }
+      ]
+    },
+    "src/features/goLive/OpeningChequesCard.tsx": {
+      "errorPrefix": "TRIAL_W_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "6e6a2a8c2eb7c8a279d27b22a82004e25968917a77979f67a9dcf066499dccbe",
+      "before": "8383808167773ee5873817dd1e66b82a1cca2f155416260b8373532f3823b59a",
+      "hunks": [
+        {
+          "at": 57,
+          "before": [
+            " const input=(name:keyof typeof blank,label:string,type='text',required=false)=><label className=\"block min-w-0 space-y-1 text-sm\">{label}<input className={field} type={type} value={form[name]} required={required} disabled={disabled} onChange={e=>change(name,e.target.value)} maxLength={name==='notes'?500:undefined} inputMode={name==='amount'?'decimal':undefined}/></label>;"
+          ],
+          "after": [
+            " const input=(name:keyof typeof blank,label:string,type='text',required=false)=><label className=\"block min-w-0 space-y-1 text-sm\">{label}<input className={field} type={type} value={form[name]} required={required} disabled={disabled} onChange={e=>change(name,e.target.value)} maxLength={name==='notes'?500:undefined} inputMode={name==='amount'?'decimal':undefined} enterKeyHint=\"next\"/></label>;"
+          ]
+        }
+      ]
+    },
+    "src/features/inventory/InventoryOpeningSetupModal.tsx": {
+      "errorPrefix": "RECEIVING205_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "a2d297dfe204ffe05e7020403b579c6238d07676840adf1a78c4c98e5f44f4eb",
+      "before": "169cf7cf8c9740cce42c3cd49d56503e1b2d62d743f7510ef071026e0d6ba40d",
+      "hunks": [
+        {
+          "at": 606,
+          "before": [
+            "                      <input"
+          ],
+          "after": [
+            "                      <input inputMode=\"numeric\" enterKeyHint=\"next\""
+          ]
+        },
+        {
+          "at": 627,
+          "before": [
+            "                      <input"
+          ],
+          "after": [
+            "                      <input inputMode=\"numeric\" enterKeyHint=\"next\""
+          ]
+        }
+      ]
+    },
+    "src/features/inventory/StockCountModal.tsx": {
+      "errorPrefix": "WAREHOUSE_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "b5af70a40540646079ad3ee81552e8ae3e389ef079dca6c186ed1fbff14c71ad",
+      "before": "b282341e51d13b85d741d8e84b3309ac97275a3e56554a531b2c33be748c4299",
+      "hunks": [
+        {
+          "at": 230,
+          "before": [
+            "          <input"
+          ],
+          "after": [
+            "          <input inputMode=\"numeric\" enterKeyHint=\"next\""
+          ]
+        }
+      ]
+    },
+    "src/features/inventory/WarehouseTransferModal.tsx": {
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "7a0957bd4611823d6a50658071c4e0d39f2b335197ebf6d0977320f9317581dc",
+      "before": "b20bb57b797b0ddfd320ceb86129653248e19eda50438e63855ebc8ac19cb87a",
+      "hunks": [
+        {
+          "at": 253,
+          "before": [
+            "          <input"
+          ],
+          "after": [
+            "          <input inputMode=\"numeric\" enterKeyHint=\"next\""
+          ]
+        }
+      ]
+    },
+    "src/features/more/ParcelConfigurationModal.tsx": {
+      "errorPrefix": "TRIAL_A_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "0b67ab2653f3cdd48a83b41327747834bec5e824d3719b13f3fb03e9e348bf98",
+      "before": "7d438540dbf2d0c6342d336f05907eab469aa917b084282ef195a0a953515ef9",
+      "hunks": [
+        {
+          "at": 99,
+          "before": [
+            "            <label>كم حبة بالطرد<input className={inputClass} required type=\"number\" min=\"1\" step=\"1\" value={form.units} onChange={e=>setForm({...form,units:Number(e.target.value)})}/></label>"
+          ],
+          "after": [
+            "            <label>كم حبة بالطرد<input inputMode=\"numeric\" enterKeyHint=\"next\" className={inputClass} required type=\"number\" min=\"1\" step=\"1\" value={form.units} onChange={e=>setForm({...form,units:Number(e.target.value)})}/></label>"
+          ]
+        }
+      ]
+    },
+    "src/features/more/PromotionCodesModal.tsx": {
+      "errorPrefix": "TRIAL_W_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "4ccc3939a6e66fc7cd32f595552bc4baceeb0c233dba6c1a27aada85e578889a",
+      "before": "1ea417320c1d21d7de8798fc5082268d6f45a1b195c09dbb6700228496a5fe0f",
+      "hunks": [
+        {
+          "at": 319,
+          "before": [
+            "            <input"
+          ],
+          "after": [
+            "            <input inputMode=\"decimal\" enterKeyHint=\"next\""
+          ]
+        },
+        {
+          "at": 334,
+          "before": [
+            "            <input"
+          ],
+          "after": [
+            "            <input inputMode=\"decimal\" enterKeyHint=\"next\""
+          ]
+        },
+        {
+          "at": 350,
+          "before": [
+            "              <input"
+          ],
+          "after": [
+            "              <input inputMode=\"decimal\" enterKeyHint=\"next\""
+          ]
+        },
+        {
+          "at": 399,
+          "before": [
+            "            <input"
+          ],
+          "after": [
+            "            <input inputMode=\"numeric\" enterKeyHint=\"next\""
+          ]
+        },
+        {
+          "at": 418,
+          "before": [
+            "            <input"
+          ],
+          "after": [
+            "            <input inputMode=\"numeric\" enterKeyHint=\"next\""
+          ]
+        }
+      ]
+    },
+    "src/features/more/StorefrontSettingsModal.tsx": {
+      "errorPrefix": "TRIAL_H_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "2acc4db74469a06760908d26b9306cbba725a701d90cee10ce1ce8f4bdf46025",
+      "before": "d731e7f988e228645099dcc640dd48540df1b08770dc131094765d65c1646f08",
+      "hunks": [
+        {
+          "at": 189,
+          "before": [
+            "          <label className=\"text-xs font-black text-nw-text\">الحد الأدنى للطلب (د.أ)<input type=\"number\" min=\"0\" step=\"0.001\" value={form.minimumOrder} onChange={(event) => update('minimumOrder', Number(event.target.value))} className={`${inputClass} mt-2`} /></label>",
+            "          <label className=\"text-xs font-black text-nw-text\">توصيل داخل الرمثا (د.أ)<input type=\"number\" min=\"0\" step=\"0.001\" value={form.insideRamthaDeliveryFee} onChange={(event) => update('insideRamthaDeliveryFee', Number(event.target.value))} className={`${inputClass} mt-2`} /></label>",
+            "          <label className=\"text-xs font-black text-nw-text\">توصيل خارج الرمثا (د.أ)<input type=\"number\" min=\"0\" step=\"0.001\" value={form.outsideRamthaDeliveryFee} onChange={(event) => update('outsideRamthaDeliveryFee', Number(event.target.value))} className={`${inputClass} mt-2`} /></label>"
+          ],
+          "after": [
+            "          <label className=\"text-xs font-black text-nw-text\">الحد الأدنى للطلب (د.أ)<input inputMode=\"decimal\" enterKeyHint=\"next\" type=\"number\" min=\"0\" step=\"0.001\" value={form.minimumOrder} onChange={(event) => update('minimumOrder', Number(event.target.value))} className={`${inputClass} mt-2`} /></label>",
+            "          <label className=\"text-xs font-black text-nw-text\">توصيل داخل الرمثا (د.أ)<input inputMode=\"decimal\" enterKeyHint=\"next\" type=\"number\" min=\"0\" step=\"0.001\" value={form.insideRamthaDeliveryFee} onChange={(event) => update('insideRamthaDeliveryFee', Number(event.target.value))} className={`${inputClass} mt-2`} /></label>",
+            "          <label className=\"text-xs font-black text-nw-text\">توصيل خارج الرمثا (د.أ)<input inputMode=\"decimal\" enterKeyHint=\"next\" type=\"number\" min=\"0\" step=\"0.001\" value={form.outsideRamthaDeliveryFee} onChange={(event) => update('outsideRamthaDeliveryFee', Number(event.target.value))} className={`${inputClass} mt-2`} /></label>"
+          ]
+        }
+      ]
+    },
+    "src/features/orders/EditAddressModal.tsx": {
+      "errorPrefix": "TRIAL_W_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "28d8942eecf945e530b67047692c1ceb09bb233a001b2760e665820e3fedc638",
+      "before": "109a32038531e6236fd1293a954a85415eb97941ab212fc61320b1bbdd7b24c0",
+      "hunks": [
+        {
+          "at": 262,
+          "before": [
+            "              <input"
+          ],
+          "after": [
+            "              <input inputMode=\"decimal\" enterKeyHint=\"next\""
+          ]
+        },
+        {
+          "at": 270,
+          "before": [
+            "              <input"
+          ],
+          "after": [
+            "              <input inputMode=\"decimal\" enterKeyHint=\"next\""
+          ]
+        }
+      ]
+    },
+    "src/features/orders/OrderDetailModal.tsx": {
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "7ebb16551daacddd6c654e291880f2ac97f66d5675518d3996330644925e64ab",
+      "before": "8906183ae353e37a773368f937537a279c2bea9344ec22e5bd12ca19d1228a89",
+      "hunks": [
+        {
+          "at": 583,
+          "before": [
+            "                  <input"
+          ],
+          "after": [
+            "                  <input inputMode=\"numeric\" enterKeyHint=\"next\""
+          ]
+        },
+        {
+          "at": 699,
+          "before": [
+            "              <input"
+          ],
+          "after": [
+            "              <input inputMode=\"decimal\" enterKeyHint=\"next\""
+          ]
+        },
+        {
+          "at": 753,
+          "before": [
+            "                <input"
+          ],
+          "after": [
+            "                <input inputMode=\"decimal\" enterKeyHint=\"next\""
+          ]
+        }
+      ]
+    },
+    "src/features/pos/PosParcelBuilder.tsx": {
+      "errorPrefix": "TRIAL_W_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "03b81cf41f5e0907f3d67d33b27d4309e5175977a8d3bf6ff95b432f5860be43",
+      "before": "29f358a6c1b316d0c3f537e2cd69c0a7a23397c3a9103e0955490b0ab1e0cd72",
+      "hunks": [
+        {
+          "at": 27,
+          "before": [
+            "        <input type=\"number\" min={0} max={c.availableQuantity} step={1} value={quantities[c.productId] || 0}"
+          ],
+          "after": [
+            "        <input inputMode=\"numeric\" enterKeyHint=\"next\" type=\"number\" min={0} max={c.availableQuantity} step={1} value={quantities[c.productId] || 0}"
+          ]
+        }
+      ]
+    },
+    "src/features/products/ProductCostCorrectionPanel.tsx": {
+      "errorPrefix": "TERMINOLOGY_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "e0acc44140c6bdaaf049b6c869213fa8804f6d4139d94c027ccbe5f506490a71",
+      "before": "5aee8a9385ea6182ac067d8767ce529f708c777bda5c07b0bcb41aef1a8da57a",
+      "hunks": [
+        {
+          "at": 91,
+          "before": [
+            "            <input id={ids.cost} className={fieldClass} dir=\"ltr\" inputMode=\"decimal\" value={cost} placeholder=\"0.000\""
+          ],
+          "after": [
+            "            <input enterKeyHint=\"next\" id={ids.cost} className={fieldClass} dir=\"ltr\" inputMode=\"decimal\" value={cost} placeholder=\"0.000\""
+          ]
+        }
+      ]
+    },
+    "src/features/products/StockAdjustmentModal.tsx": {
+      "errorPrefix": "HOME_DAMAGE201_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "fa8dfa2fd906d0bedabdacf0063c9b2bb53cbaea5feefd3f269d52c974e44796",
+      "before": "31c187136f29f23ddabcb2351ac8285db5525a19823d5817390c296de5212596",
+      "hunks": [
+        {
+          "at": 188,
+          "before": [
+            "          <input aria-label=\"الكمية\""
+          ],
+          "after": [
+            "          <input inputMode=\"numeric\" enterKeyHint=\"next\" aria-label=\"الكمية\""
+          ]
+        }
+      ]
+    },
+    "src/features/purchases/CreatePurchaseOrderModal.tsx": {
+      "errorPrefix": "WAREHOUSE_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "4ac760a64d9a0e616238d5c2b35fbc58cb7a709ddcb921c7f671c794724159da",
+      "before": "239aef7ee3eb5e53cce427f2c62ea8c4652f04f53efb203d0f9d7e284e4bb81d",
+      "hunks": [
+        {
+          "at": 713,
+          "before": [
+            "                              <input aria-label=\"الكمية المطلوبة\""
+          ],
+          "after": [
+            "                              <input inputMode=\"numeric\" enterKeyHint=\"next\" aria-label=\"الكمية المطلوبة\""
+          ]
+        },
+        {
+          "at": 724,
+          "before": [
+            "                              <input aria-label=\"سعر الشراء\""
+          ],
+          "after": [
+            "                              <input inputMode=\"decimal\" enterKeyHint=\"next\" aria-label=\"سعر الشراء\""
+          ]
+        },
+        {
+          "at": 736,
+          "before": [
+            "                              <input aria-label=\"خصم السطر\""
+          ],
+          "after": [
+            "                              <input inputMode=\"decimal\" enterKeyHint=\"next\" aria-label=\"خصم السطر\""
+          ]
+        },
+        {
+          "at": 808,
+          "before": [
+            "                  <input aria-label=\"خصم الفاتورة\""
+          ],
+          "after": [
+            "                  <input inputMode=\"decimal\" enterKeyHint=\"next\" aria-label=\"خصم الفاتورة\""
+          ]
+        },
+        {
+          "at": 823,
+          "before": [
+            "                  <input aria-label=\"رسوم التوصيل\""
+          ],
+          "after": [
+            "                  <input inputMode=\"decimal\" enterKeyHint=\"next\" aria-label=\"رسوم التوصيل\""
+          ]
+        }
+      ]
+    },
+    "src/features/purchases/ReceiveGoodsModal.tsx": {
+      "errorPrefix": "RECEIVING205_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "746253abefd21183266c21b50fdc41a10e3cae752e8ee7e755cc69b67284c48f",
+      "before": "1d24f6b6ec91df402e70812c9bbf9393b115f19a5eabbc84524943cf00c7e231",
+      "hunks": [
+        {
+          "at": 380,
+          "before": [
+            "                          <input aria-label=\"الكمية المستلمة الآن\" disabled={item.receivingMode==='package'||isSubmitting}"
+          ],
+          "after": [
+            "                          <input inputMode=\"numeric\" enterKeyHint=\"next\" aria-label=\"الكمية المستلمة الآن\" disabled={item.receivingMode==='package'||isSubmitting}"
+          ]
+        },
+        {
+          "at": 390,
+          "before": [
+            "                          <input aria-label=\"تكلفة الوحدة\" disabled={item.receivingMode==='package'||isSubmitting}"
+          ],
+          "after": [
+            "                          <input inputMode=\"decimal\" enterKeyHint=\"next\" aria-label=\"تكلفة الوحدة\" disabled={item.receivingMode==='package'||isSubmitting}"
+          ]
+        }
+      ]
+    },
+    "src/features/purchases/SupplierPaymentModal.tsx": {
+      "errorPrefix": "TRIAL_W_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "89ae723824cfe24e011f239d9e2a2fc75ba357a5ae105559e3184a0143b49127",
+      "before": "ed70fc3f51dc6b59a069f0e06620929bf8fecddc1928fc973d10c371c22255bb",
+      "hunks": [
+        {
+          "at": 291,
+          "before": [
+            "              <input aria-label=\"0.000\""
+          ],
+          "after": [
+            "              <input inputMode=\"decimal\" enterKeyHint=\"next\" aria-label=\"0.000\""
+          ]
+        }
+      ]
+    },
+    "src/features/shifts/OwnerWithdrawalsPanel.tsx": {
+      "errorPrefix": "TRIAL_W_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "e3c6f3dbbe7b3449fb7024177b4c1ff6793093708d9ed2e777f48d3a19332d70",
+      "before": "50e36c2dd2b4dc79a5a8323ed4a2aee37b59ea5f72448c8df24a47e1ed69f182",
+      "hunks": [
+        {
+          "at": 86,
+          "before": [
+            "            <input id={ids.amount} className={fieldClass} dir=\"ltr\" inputMode=\"decimal\" placeholder=\"0.000\" value={amount}"
+          ],
+          "after": [
+            "            <input enterKeyHint=\"next\" id={ids.amount} className={fieldClass} dir=\"ltr\" inputMode=\"decimal\" placeholder=\"0.000\" value={amount}"
+          ]
+        }
+      ]
+    },
+    "src/features/shifts/ShiftsView.tsx": {
+      "errorPrefix": "NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "6913f89ab01a5340691132d02511bb16e615ec5f90f495399101007cb2c1a4e9",
+      "before": "a04e4ee286ef590c45a9c9ad183930de5ee8e5e4d31fe70f06777539346a1688",
+      "hunks": [
+        {
+          "at": 509,
+          "before": [
+            "            <input type=\"number\" min=\"0\" step=\"0.001\" value={actualCashInput} onChange={(event) => setActualCashInput(event.target.value)}"
+          ],
+          "after": [
+            "            <input inputMode=\"decimal\" enterKeyHint=\"done\" type=\"number\" min=\"0\" step=\"0.001\" value={actualCashInput} onChange={(event) => setActualCashInput(event.target.value)}"
+          ]
+        },
+        {
+          "at": 522,
+          "before": [
+            "          <input type=\"number\" min=\"0\" step=\"0.001\" value={openingCashInput} onChange={(event) => setOpeningCashInput(event.target.value)} placeholder=\"0.000\""
+          ],
+          "after": [
+            "          <input inputMode=\"decimal\" enterKeyHint=\"done\" type=\"number\" min=\"0\" step=\"0.001\" value={openingCashInput} onChange={(event) => setOpeningCashInput(event.target.value)} placeholder=\"0.000\""
+          ]
+        }
+      ]
+    },
+    "e2e/package-f-opening-cheques.spec.ts": {
+      "errorPrefix": "TRIAL_W_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "619c43ac4109127bb31c8a1293a6aa2899fa4182ca1830de3a900afc23340fbe",
+      "before": "18b3aa49ffb0cdb4b01bc463d53635b2d61030358b1a068cf674fbd1304ba1ff",
+      "hunks": [
+        {
+          "at": 7,
+          "before": [],
+          "after": [
+            "import {chooseOpeningMainBranch} from './opening-cheque-readiness';"
+          ]
+        },
+        {
+          "at": 11,
+          "before": [
+            "async function branch(page:Page){const c=page.getByTestId('go-live-main-branch');await c.getByRole('combobox').selectOption('golive-branch');await c.getByRole('button').click();}"
+          ],
+          "after": [
+            "const branch=chooseOpeningMainBranch;"
+          ]
+        }
+      ]
+    },
+    "scripts/audit/source-before198-presentation.mjs": {
+      "errorPrefix": "TRIAL_W_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "1a957d651b2936c3d13ac6005d302f57edcbcbad760e4c69c311c936039209f0",
+      "before": "b7e2d918867248ddda07615f9de60a9d12ce4e0a1b7108ab149740ee154b8cef",
+      "hunks": [
+        {
+          "at": 5,
+          "before": [],
+          "after": [
+            "import {sourceBeforeTrialW,restoreTrialWSourceHashes} from './source-before-trial-owner-w.mjs';"
+          ]
+        },
+        {
+          "at": 14,
+          "before": [
+            " const current=source.replaceAll('\\r\\n','\\n');"
+          ],
+          "after": [
+            " const current=sourceBeforeTrialW(file,source);"
+          ]
+        },
+        {
+          "at": 20,
+          "before": [
+            " const current=(await readFile(file,'utf8')).replaceAll('\\r\\n','\\n'),old=restore198CollectionPresentation(current);"
+          ],
+          "after": [
+            " sources=restoreTrialWSourceHashes(sources);",
+            " const current=sourceBeforeTrialW(file,await readFile(file,'utf8')),old=restore198CollectionPresentation(current);"
+          ]
+        }
+      ]
+    },
+    "scripts/testing/package-f-administration-ui-contract.mjs": {
+      "errorPrefix": "TRIAL_W_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "0c3694f704b7d39fa2da462d460ea20e4601e270e029054c0f0f32ca9a2f94be",
+      "before": "f460488ea4a34f943921817eb1ddfebf304d17edef26014169a362df04cd9bc4",
+      "hunks": [
+        {
+          "at": 2,
+          "before": [],
+          "after": [
+            "import {sourceBeforeTrialW} from '../audit/source-before-trial-owner-w.mjs';"
+          ]
+        },
+        {
+          "at": 8,
+          "before": [],
+          "after": [
+            " source=sourceBeforeTrialW(file,source);"
+          ]
+        }
+      ]
+    },
+    "tests/admin-focus-business-parity.test.ts": {
+      "errorPrefix": "TRIAL_W_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "0dd3504a28aac82259e60ff20488aa6cae429a9b251834ffb5bfe06d5649b949",
+      "before": "28dff02a4e826ea590917cb13d1d7e449612bb36acf9f1af9042507e81b991e2",
+      "hunks": [
+        {
+          "at": 2,
+          "before": [],
+          "after": [
+            "import {sourceBeforeTrialW} from '../scripts/audit/source-before-trial-owner-w.mjs';"
+          ]
+        },
+        {
+          "at": 10,
+          "before": [
+            " const ast=ts.createSourceFile(expected.file,readFileSync(expected.file,'utf8'),ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX),printer=ts.createPrinter({removeComments:true});"
+          ],
+          "after": [
+            " const ast=ts.createSourceFile(expected.file,sourceBeforeTrialW(expected.file,readFileSync(expected.file,'utf8')),ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX),printer=ts.createPrinter({removeComments:true});"
+          ]
+        }
+      ]
+    },
+    "tests/cashier-collections198.test.ts": {
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "c8c06f1f76a892a80f333253b56176a3cef0a04ad9c5afd4d9f86dff61518ae5",
+      "before": "486e72d3ac0566731fc9fe699bdcc56aefcf6022b8ad6a3291fac5a26fb9a70c",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {sourceBeforeTrialW} from '../scripts/audit/source-before-trial-owner-w.mjs';"
+          ]
+        },
+        {
+          "at": 28,
+          "before": [
+            " const p='src/features/crm/CustomerCollectionModal.tsx',before=execFileSync('git',['show','0e6ab9d:'+p],{encoding:'utf8'}),after=read(p);"
+          ],
+          "after": [
+            " const p='src/features/crm/CustomerCollectionModal.tsx',before=execFileSync('git',['show','0e6ab9d:'+p],{encoding:'utf8'}),after=sourceBeforeTrialW(p,read(p));"
+          ]
+        }
+      ]
+    },
+    "tests/cheques195-parity.test.ts": {
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "85cb5d6ad6f7e14dac003aca089ddfadfec8df864e9662425e491abded9de6fc",
+      "before": "a0e71cc493b6d4d78e85a10e56e82cbc77d8e868dbd299cca32b63f3e100d1f1",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {trialWPins} from '../scripts/audit/source-before-trial-owner-w.mjs';"
+          ]
+        },
+        {
+          "at": 29,
+          "before": [],
+          "after": [
+            "  else if(Object.hasOwn(trialWPins,file))assert.throws(()=>approvedCheques195Source(file,source+'\\n// unapproved mutation\\n'),new RegExp(trialWPins[file].errorPrefix),'W exact entire-file guard rejects extra logic');"
+          ]
+        }
+      ]
+    },
+    "tests/withdrawals-integration182.test.ts": {
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "32d1bc441557df3ee3dc224054865e6bf6771525ed1bc0ad005784a792135e6c",
+      "before": "849dc4a6e2cc137fbbdd3147132b43a7fd3b7e0485d2c1a31d82df0aa77bcb7b",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {trialWPins} from '../scripts/audit/source-before-trial-owner-w.mjs';"
+          ]
+        },
+        {
+          "at": 26,
+          "before": [],
+          "after": [
+            " else if(Object.hasOwn(trialWPins,file))assert.throws(()=>approvedWithdrawals182Source(file,outside),new RegExp(trialWPins[file].errorPrefix),'W exact entire-file guard rejects extra logic');"
+          ]
+        },
+        {
+          "at": 32,
+          "before": [
+            " assert.throws(()=>approvedWithdrawals182Source(file,source.replace(marker,\"drawer.confirmCash(Number(amount)+1, paymentMethod === 'cash')\")),/EXACT_APPROVED_WITHDRAWALS_HUNK/u);"
+          ],
+          "after": [
+            " assert.throws(()=>approvedWithdrawals182Source(file,source.replace(marker,\"drawer.confirmCash(Number(amount)+1, paymentMethod === 'cash')\")),Object.hasOwn(trialWPins,file)?new RegExp(trialWPins[file].errorPrefix):/EXACT_APPROVED_WITHDRAWALS_HUNK/u);"
+          ]
+        }
+      ]
+    },
+    "e2e/package-f-pretrial-p1.spec.ts": {
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "9df5d940038c1b3b870214384927893f08daa07cd14af9d8ff3e6a4079bd12e9",
+      "before": "1dd26196f0195f17c78d6d7be92bf6b57c35f268d4dbb82e0893ae7660262aa9",
+      "hunks": [
+        {
+          "at": 56,
+          "before": [
+            "  const calls:Record<string,unknown>[]=[];await page.route('**/rest/v1/rpc/preview_supplier_replacement_v1',r=>{calls.push(r.request().postDataJSON());return r.fulfill({json:{contractVersion:208,action:'receive',eligible:false,blockedReason:'SUPPLIER_REPLACEMENT_EXCEEDS_PENDING'}});});"
+          ],
+          "after": [
+            "  const calls:Record<string,unknown>[]=[],writes:Record<string,unknown>[]=[];await page.route('**/rest/v1/rpc/preview_supplier_replacement_v1',r=>{calls.push(r.request().postDataJSON());return r.fulfill({json:{contractVersion:208,action:'receive',eligible:false,blockedReason:'SUPPLIER_REPLACEMENT_EXCEEDS_PENDING'}});});",
+            "  await page.route('**/rest/v1/rpc/execute_supplier_replacement_v1',r=>{writes.push(r.request().postDataJSON());return r.abort('blockedbyclient');});"
+          ]
+        },
+        {
+          "at": 61,
+          "before": [
+            "  const reason=page.getByLabel('سبب العملية',{exact:true});await expect(reason).toBeFocused();",
+            "  await expect(page.getByRole('button',{name:'معاينة التفاصيل'})).toBeDisabled();expect(calls).toHaveLength(0);"
+          ],
+          "after": [
+            "  const flow=page.getByTestId('replacement-case-workflow'),reason=flow.getByLabel('سبب العملية',{exact:true});",
+            "  await expect(flow).toBeFocused();await expect(reason).not.toBeFocused();await expect(reason).toHaveValue('وصل البديل من المورد');",
+            "  await expect(flow.getByRole('button',{name:'معاينة التفاصيل'})).toBeEnabled();expect(calls).toHaveLength(0);",
+            "  await reason.fill('');await flow.getByRole('button',{name:'معاينة التفاصيل'}).click();",
+            "  await expect(flow.getByRole('alert')).toContainText('سبب العملية');expect(calls).toHaveLength(0);"
+          ]
+        },
+        {
+          "at": 69,
+          "before": [
+            "  await expect(page.getByRole('button',{name:'تأكيد وحفظ العملية'})).toHaveCount(0);"
+          ],
+          "after": [
+            "  await expect(flow.getByRole('button',{name:'تأكيد الاستلام',exact:true})).toHaveCount(0);expect(writes).toHaveLength(0);"
+          ]
+        }
+      ]
+    },
+    "e2e/phase6-package-c.spec.ts": {
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "a4a5bd606d57fe19033f3dc85e7cef4d17b8684c60b7d5346ebf090e8ac3ea6b",
+      "before": "35fc82523c2aa46b547c345fbc5648fe91e0d3171760bef0ecb5340ea726238e",
+      "hunks": [
+        {
+          "at": 20,
+          "before": [
+            "  await expect(search).toBeFocused();"
+          ],
+          "after": [
+            "  if (page.viewportSize()!.width < 768) await expect(search).not.toBeFocused();",
+            "  else await expect(search).toBeFocused();"
+          ]
+        },
+        {
+          "at": 24,
+          "before": [
+            "  // Keyboard-wedge scanner types into search, not the previously selected card.",
+            "  await page.keyboard.type('123'); await page.keyboard.press('Enter');",
+            "  await expect(search).toHaveValue('123'); await expect(quantity).toHaveText('1');",
+            "  await search.fill('');"
+          ],
+          "after": []
+        },
+        {
+          "at": 27,
+          "before": [],
+          "after": [
+            "  if (page.viewportSize()!.width < 768) await expect(search).not.toBeFocused();",
+            "  else await expect(search).toBeFocused();",
+            "  // W4 keeps explicit search/scanner Enter focused and clears the code. At",
+            "  // capacity it must still refuse a third item, rather than replaying the card.",
+            "  await search.focus(); await page.keyboard.type('123'); await page.keyboard.press('Enter');",
+            "  await expect(search).toHaveValue(''); await expect(search).toBeFocused();",
+            "  await expect(quantity).toHaveText('2');"
+          ]
+        }
+      ]
+    }
+  }
+}

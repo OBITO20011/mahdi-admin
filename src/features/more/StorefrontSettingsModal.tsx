@@ -186,9 +186,9 @@ export function StorefrontSettingsModal() {
       <Card>
         <MobileDisclosure title="قواعد الطلب والتوصيل" header={<h4 className="mb-4 flex items-center gap-2 text-xs font-black text-nw-text"><Banknote className="h-4 w-4 text-nw-ok" />قواعد الطلب والتوصيل</h4>}>
         <div className="grid gap-3 sm:grid-cols-3">
-          <label className="text-xs font-black text-nw-text">الحد الأدنى للطلب (د.أ)<input type="number" min="0" step="0.001" value={form.minimumOrder} onChange={(event) => update('minimumOrder', Number(event.target.value))} className={`${inputClass} mt-2`} /></label>
-          <label className="text-xs font-black text-nw-text">توصيل داخل الرمثا (د.أ)<input type="number" min="0" step="0.001" value={form.insideRamthaDeliveryFee} onChange={(event) => update('insideRamthaDeliveryFee', Number(event.target.value))} className={`${inputClass} mt-2`} /></label>
-          <label className="text-xs font-black text-nw-text">توصيل خارج الرمثا (د.أ)<input type="number" min="0" step="0.001" value={form.outsideRamthaDeliveryFee} onChange={(event) => update('outsideRamthaDeliveryFee', Number(event.target.value))} className={`${inputClass} mt-2`} /></label>
+          <label className="text-xs font-black text-nw-text">الحد الأدنى للطلب (د.أ)<input inputMode="decimal" enterKeyHint="next" type="number" min="0" step="0.001" value={form.minimumOrder} onChange={(event) => update('minimumOrder', Number(event.target.value))} className={`${inputClass} mt-2`} /></label>
+          <label className="text-xs font-black text-nw-text">توصيل داخل الرمثا (د.أ)<input inputMode="decimal" enterKeyHint="next" type="number" min="0" step="0.001" value={form.insideRamthaDeliveryFee} onChange={(event) => update('insideRamthaDeliveryFee', Number(event.target.value))} className={`${inputClass} mt-2`} /></label>
+          <label className="text-xs font-black text-nw-text">توصيل خارج الرمثا (د.أ)<input inputMode="decimal" enterKeyHint="next" type="number" min="0" step="0.001" value={form.outsideRamthaDeliveryFee} onChange={(event) => update('outsideRamthaDeliveryFee', Number(event.target.value))} className={`${inputClass} mt-2`} /></label>
         </div>
         <p className="mt-3 flex items-start gap-2 rounded-xl border border-nw-ok bg-nw-ok-bg p-3 text-xs font-bold leading-5 text-nw-ok"><ShieldCheck className="mt-0.5 h-4 w-4 shrink-0" />العميل يختار داخل أو خارج الرمثا، وقاعدة البيانات تضيف السعر المحفوظ هنا إلى إجمالي الطلب؛ لا يمكن تغييره من المتصفح.</p>
         </MobileDisclosure>

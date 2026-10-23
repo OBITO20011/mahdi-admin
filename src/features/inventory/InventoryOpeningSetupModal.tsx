@@ -603,7 +603,7 @@ export const InventoryOpeningSetupModal: React.FC<
                       <span className="block text-[9px] font-bold text-nw-muted">
                         عدد طرد
                       </span>
-                      <input
+                      <input inputMode="numeric" enterKeyHint="next"
                         type="number"
                         min="0"
                         step="1"
@@ -624,7 +624,7 @@ export const InventoryOpeningSetupModal: React.FC<
                       <span className="block text-[9px] font-bold text-nw-muted">
                         باقي {product.baseUnitName}
                       </span>
-                      <input
+                      <input inputMode="numeric" enterKeyHint="next"
                         type="number"
                         min="0"
                         max={product.unitsPerPackage - 1}

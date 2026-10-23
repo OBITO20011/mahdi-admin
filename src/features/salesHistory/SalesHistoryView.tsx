@@ -1,7 +1,7 @@
 import {useEffect,useRef,useState} from 'react';
 import {useNavigationDrawer} from '../../components/layout/navigationDrawerContext';
 import {ChevronLeft,ChevronRight,RefreshCw} from 'lucide-react';
-import {Card,PageHeader,UiButton,MoneyText,StatusBadge,TableShell,Th,Td,Tr,formatUiDate} from '../../components/ui';
+import {FormFields,Card,PageHeader,UiButton,MoneyText,StatusBadge,TableShell,Th,Td,Tr,formatUiDate} from '../../components/ui';
 import {useAuthStore} from '../../stores/useAuthStore';
 import {useSalesHistory} from '../../hooks/useSalesHistory';
 import {canReadSalesHistory,type SalesHistoryPeriod,type SalesHistoryMethod,type SalesHistorySource,type SalesHistoryItem} from '../../utils/salesHistory';
@@ -30,7 +30,7 @@ export function SalesHistoryView() {
   const inputClass='min-h-11 w-full rounded-xl border border-nw-border bg-nw-surface px-3 py-2 text-sm text-nw-text';
   const openButton=(row:SalesHistoryItem)=><button onClick={()=>setSelected(row.id)} className="min-h-11 break-all font-semibold text-nw-primary" aria-label={`فتح الفاتورة ${row.orderNumber}`}><bdi>{row.orderNumber}</bdi></button>;
   const date=(row:SalesHistoryItem)=><><bdi>{formatUiDate(row.listedAt,{dateStyle:'short',timeStyle:'short'})}</bdi>{row.dateBasis==='creation'&&<span className="mt-1 block text-xs text-nw-muted">تاريخ الإنشاء{['completed','returned'].includes(row.status)?' · وقت البيع غير مسجّل':''}</span>}</>;
-  return <div dir="rtl" data-testid="sales-history" className="min-w-0 space-y-4 p-4 pb-24 lg:p-8">
+  return <FormFields dir="rtl" data-testid="sales-history" className="min-w-0 space-y-4 p-4 pb-24 lg:p-8">
     <PageHeader title="سجل المبيعات" description="كل الفواتير من نقطة البيع والمتجر" actions={<UiButton disabled={state.loading} onClick={()=>void state.reload()} aria-label="تحديث سجل المبيعات"><RefreshCw className="h-4 w-4" aria-hidden="true"/>تحديث</UiButton>}/>
     <Card className="space-y-4 print:hidden">
       <fieldset><legend className="mb-2 text-sm font-semibold">الفترة</legend><div className="flex flex-wrap gap-2">{periods.map(([value,label])=><UiButton key={value} aria-pressed={period===value} variant={period===value?'primary':'secondary'} onClick={()=>change(()=>setPeriod(value))}>{label}</UiButton>)}</div></fieldset>
@@ -54,5 +54,5 @@ export function SalesHistoryView() {
       <nav aria-label="صفحات سجل المبيعات" className="flex flex-wrap items-center justify-center gap-3"><UiButton disabled={page<=1} onClick={()=>setPage(v=>v-1)}><ChevronRight className="h-4 w-4" aria-hidden="true"/>السابق</UiButton><span className="text-sm">صفحة {page} من {state.data.totalPages}</span><UiButton disabled={page>=state.data.totalPages} onClick={()=>setPage(v=>v+1)}>التالي<ChevronLeft className="h-4 w-4" aria-hidden="true"/></UiButton></nav>
     </>}
     {selected&&<SalesInvoiceDialog orderId={selected} returnContext={returnContext} onClose={()=>setSelected(null)} onChanged={state.reload}/>}
-  </div>;
+  </FormFields>;
 }

@@ -1,5 +1,5 @@
 import {useEffect,useState} from 'react';
-import {UiButton} from '../../components/ui';
+import {FormFields,UiButton} from '../../components/ui';
 import {useAuthStore} from '../../stores/useAuthStore';
 import {businessErrorMessage} from '../../utils/businessError';
 import {aftercareSupplierBlockedMessage,fetchAftercareDamageCandidates,fetchAftercareSupplierPreview,fetchSupplierReplacementOptions,
@@ -36,7 +36,7 @@ export function AftercareSupplierSafety({orderId,disabled,onPendingChange,onChan
       payload:{sourceId:candidate.id,supplierId,reason:reason.trim(),previewFingerprint:preview.previewFingerprint}});
     setAttempt(await supplierReplacementRecovery(scope));setCandidate(null);setPreview(null);setCandidates(await fetchAftercareDamageCandidates(orderId));notify('تم تحويل التالف للمورد بالقيمة التاريخية مرة واحدة، مع حفظ الحدث الأصلي.');await onChanged();
   }catch(cause){setError(businessErrorMessage(cause));try{setAttempt(await supplierReplacementRecovery(scope));}catch(readError){setRecoveryError(businessErrorMessage(readError));}}finally{setBusy(false);}};
-  return <div className="space-y-2" data-testid="aftercare-supplier-safety">
+  return <FormFields className="space-y-2" data-testid="aftercare-supplier-safety">
     {checking&&<p role="status">جاري التحقق من محاولة تحويل التالف…</p>}
     {recoveryError&&<p role="alert">{recoveryError}</p>}
     {pending&&<UiButton disabled={busy||disabled} onClick={()=>void recover()}>استعادة تحويل التالف للمورد</UiButton>}
@@ -68,5 +68,5 @@ export function AftercareSupplierSafety({orderId,disabled,onPendingChange,onChan
         <UiButton disabled={busy} onClick={()=>{setCandidate(null);setPreview(null);setError('');}}>رجوع لسجل التالف</UiButton>
       </div>}
     </div>}
-  </div>;
+  </FormFields>;
 }

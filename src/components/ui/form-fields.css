@@ -1,15 +1,56 @@
 /* Scoped to shared dialogs; overrides historical field colours without touching
  * their state, disabled/required attributes or submit/value forwarding. */
-.nw-form-fields.nw-form-fields :is(input,select,textarea):not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]) {
-  min-height: 44px;
+.nw-form-fields.nw-form-fields :is(input,select,textarea):not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="hidden"]):not([type="search"]) {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: var(--nw-field-min-height,44px);
   min-width: 0;
   max-width: 100%;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 16px;
+  line-height: 1.5;
   background-color: var(--nw-surface) !important;
   border-color: var(--nw-border) !important;
   color: var(--nw-text) !important;
   caret-color: var(--nw-text);
   box-shadow: none;
 }
+.nw-form-fields label:has(> :is(input,select,textarea):not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="hidden"]):not([type="search"])) {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  min-width: 0;
+}
+.nw-form-fields.nw-form-fields textarea { --nw-field-min-height: 96px; }
+/* iOS native select paints its text inside a platform box. Vertical padding
+ * can clip Arabic glyphs even when the outer control meets the touch height. */
+.nw-form-fields.nw-form-fields select:not([multiple]) {
+  appearance: none;
+  height: 44px;
+  padding-block: 0;
+  padding-inline-end: 36px;
+  line-height: normal;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364758b' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: left 12px center;
+  background-size: 16px;
+}
+.nw-form-fields.nw-form-fields select:not([multiple]):dir(ltr) { background-position: right 12px center; }
+/* A 16px floor prevents iOS focus zoom, including legacy fields outside the
+ * FormFields scope. The viewport remains freely zoomable. */
+@media screen and (max-width: 767px), screen and (pointer: coarse) {
+  html body :is(input,select,textarea):not(.text-lg):not(.text-xl):not(.text-2xl):not(.text-3xl):not(.text-4xl) {
+    font-size: 16px !important;
+  }
+  html body :is(input,select,textarea) { min-width: 0; max-width: 100%; }
+}
+/* SearchField owns its integrated icon/frame/row layout. */
+.nw-form-fields input[type="search"] { font-size:16px; }
 .nw-form-fields.nw-form-fields :is(input,textarea)::placeholder {
   color: var(--nw-muted);
   opacity: 1;

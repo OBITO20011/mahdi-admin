@@ -580,7 +580,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
                 </div>
                 <label className="block text-[10px] font-bold text-nw-muted">
                   أو مدة مخصصة بالدقائق
-                  <input
+                  <input inputMode="numeric" enterKeyHint="next"
                     type="number"
                     min={5}
                     max={360}
@@ -696,7 +696,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
               <span className="mb-1 block font-bold text-nw-text">
                 أجرة التوصيل ({CURRENCY})
               </span>
-              <input
+              <input inputMode="decimal" enterKeyHint="next"
                 type="number"
                 min="0"
                 step="0.001"
@@ -750,7 +750,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
                 <span className="mb-1 block font-bold text-nw-text">
                   المبلغ المقبوض الآن ({CURRENCY}) *
                 </span>
-                <input
+                <input inputMode="decimal" enterKeyHint="next"
                   type="number"
                   min="0.001"
                   step="0.001"

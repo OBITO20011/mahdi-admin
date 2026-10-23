@@ -1,52 +1,55 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner H:official shop identity/assets/SEO;preserve video/trial WhatsApp;separate PR FULL42.No hosted access/deploy.",
-  "baselineSha": "6a7d99e48d6fff5299eb2bc4550d67a8b8908bfb",
+  "objective": "Owner trial W UI only: W1 inline supplier operations, W4 touch POS focus, W5 unified mobile fields, W3 top photo. W2 deferred by owner. Separate PR/full CI; no hosted/deploy.",
+  "baselineSha": "807685c4bf8c404380f0fc51bc60f0f97c0e7787",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
-  "branch": "codex/trial-brand-identity",
+  "branch": "codex/trial-owner-w",
   "phase": "PACKAGE_F",
   "completed": [
-    "A/B delivered main581cb97",
-    "D PR16/main74cc431 exact push+PR+main FULL41/secrets strictly accepted;owner210 guide prepared only",
-    "J PR17/main6a7d99e exact feature+main FULL42/secrets accepted;owner211 current"
+    "W1 inline workflow, W4 source-aware focus, W5/W5+ mobile fields/keyboards, W3 top optional photo",
+    "Current SDK/RPC proof and exact historical comparison composition"
   ],
   "inProgress": [
-    "H local gates accepted;final Gitleaks/commit/push/PR/exactFULL42"
+    "Exact second corrected feature push/PR full CI"
   ],
   "notStarted": [
-    "H exact feature push+PR FULL42 then merge/genuine main FULL42"
+    "W2 deferred by owner; no grouping or reader expansion"
   ],
   "testsPassed": [
-    "1373Admin/197store units0fail/0skip;types/strictlint/build/SEO",
-    "Full1448browser identities:1387pass+two unchanged environmental rerunPASS;59unchanged conditional;network0",
-    "PWA4 automatic/waiting Chromium/WebKit PASS;SDK327/148actualqueries/RPC534/8expected ownerdenials",
-    "Ref211173migrations/554functions/13Realtime/freshincremental0;SQL001-211/oldpins/video/contact unchanged"
+    "1376 Admin/197 Customer units, types/strict lint/builds/isolated SEO",
+    "370 affected browser identities covered; final68 both engines passed; physical keyboard not emulated",
+    "SDK148/328 sources, RPC534/8 expected denials; database function definitions unchanged; network escapes0",
+    "Real POS8 both engines/public RPC/localDB,ProductionRequests0;native1500 exactly core454+F1046/all5shards",
+    "Corrective P1/W1 UI test28/28 both engines;1376Admin/types/strictlint pass;app source identical to08b",
+    "Second corrective browser40/40 both engines;1376Admin/types/strictlint PASS;source unchanged08b"
   ],
   "testsRemaining": [
-    "Final Gitleaks/diff/commit/push/PR",
-    "Exact push+PR FULL42/secrets then merge/mainFULL42;refreshcurrentowner211ref preservingold"
+    "New exact feature push/PR FULL42 and secrets",
+    "Standing merge/main FULL42"
   ],
   "findings": [
-    "H new clean worktree main6a known delivered baseline synchronized under standing owner2026-10-15",
-    "One manual-preview-polluted browser run abandoned/0externalescapes;cleanfull and two trace-proven environmental cases rerun once unchangedPASS",
-    "No Frankfurt/Production/deploy;owner211 remains current;official phone launch-only"
+    "Owner reports Frankfurt211 verify-only true after ACL211;preview e96efc1.These are owner-provided state,not a new hosted check",
+    "Primary prior H closure/ACL211 files preserved unmodified;new isolated worktree from e96efc1",
+    "W2 saved reader lacks source operation/order identity;asked owner before any contract/migration change",
+    "Owner deferred W2 explicitly; no 212 or read contract changes",
+    "W5+ explicitly approved by owner in same W package; no viewport zoom restrictions",
+    "Known own approved W commit08b836a; local gates accepted; exact CI/delivery remain pending"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No Frankfurt/Production/secrets/deploy",
-    "No SQL/RPC/financial/permission changes",
-    "Preserve video and trial WhatsApp0772838886",
-    "One writer;no tracked edits during verification;no weaker assertions/retries/skips/timeouts"
+    "No Frankfurt/Production/deploy",
+    "No migration/RPC/financial/permission changes;ask before required exception",
+    "One writer;no tracked edits during verification;no weaker checks/retries/timeouts"
   ],
-  "nextExactAction": "H local gates/Gitleaks0 accepted;normalize only new-file LF whitespace,commit known95paths,push/create draftPR;exact feature FULL42 then merge/mainFULL42.",
-  "checkpointedAt": "2026-10-23T13:19:20.418Z",
+  "nextExactAction": "Commit corrected keyboard test and exact inverse;push PR19 then accept exact push/PR FULL42 and secrets;standing merge/mainFULL42;W2 deferred,no hosted/deploy",
+  "checkpointedAt": "2026-10-23T19:09:48.659Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 93,
-  "filesTouchedManifestSha256": "cafdc9532fdf564aeb19532f49106d887cbdfaabf45ba13ba2d9765764b6638d",
-  "workingTreeFingerprint": "39DA82EEFBDD6F7633FB9A70788DDD88C4EC4B0B55CDBD649C224DEEAB688BF4"
+  "filesTouchedCount": 4,
+  "filesTouchedManifestSha256": "d1fbbe9b47737c63b75f779f575ff742b4566b5f9630f8e2f1472b714212f996",
+  "workingTreeFingerprint": "820A398FF1850F36383D47891062516FE937D9D70D69423C82050774BBFC475D"
 }

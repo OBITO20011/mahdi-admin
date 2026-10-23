@@ -69,7 +69,7 @@
     },
     {
       "file": "src/components/modals/UnitsModal.tsx",
-      "sha256": "dd0a557d7d8afa247e304978fd30958929d97f0fa276599952211f30f72cb619"
+      "sha256": "33ec9093653f7b64b20ecc266126b9ff565eab0a01c1171d71427ed1b98d6083"
     },
     {
       "file": "src/components/ui/cashCounting.ts",
@@ -77,11 +77,11 @@
     },
     {
       "file": "src/components/ui/CashDenominationCounter.tsx",
-      "sha256": "442e829d8da9327b440cba99ba303e9eb4aeef74eddbfa982162a3c3576309cf"
+      "sha256": "eeffdef6f2dae5e5eb4384c0139513e264543836b67e29dc5170740e070c58bc"
     },
     {
       "file": "src/components/ui/Controls.tsx",
-      "sha256": "ab6dcf83db41030519ab8971dbb5b12d5dc2378cc6de5b4d29d4fe42d5bcf04c"
+      "sha256": "5d48571bcba95e2da2cca06700c414665c0792bd7f122956025370a95e626eeb"
     },
     {
       "file": "src/components/ui/DataDisplay.tsx",
@@ -105,7 +105,7 @@
     },
     {
       "file": "src/components/ui/ReceivingUnitFields.tsx",
-      "sha256": "a3fff1030bd060e892ff4e3bb4baba9b1153cb777a9ba3d74f1d3420ecbbec44"
+      "sha256": "1cdf2883258a427a5a9d84ab23357da569b3cc935bf19e03edd9389c369aee71"
     },
     {
       "file": "src/components/ui/ResponsiveActionPanel.tsx",
@@ -165,7 +165,7 @@
     },
     {
       "file": "src/features/accounts/RecordCustomerPaymentModal.tsx",
-      "sha256": "af24b481a68c0a80dbe4f025d9cb7b86527f576857a8fd1170af10a9563a34c5"
+      "sha256": "59252febc3bf31643c7b8b2a08e7e3bb20edaa0bd2958bdcf6ad628ad5f68764"
     },
     {
       "file": "src/features/assistant/AdminAssistantView.tsx",
@@ -189,11 +189,11 @@
     },
     {
       "file": "src/features/cheques/ChequeRegistrationForm.tsx",
-      "sha256": "cf5137cb2a3dd80748e31246e9ae4fbfbd60ba9a6fd7099f13c2d3e7214056b0"
+      "sha256": "1e65c20918052e9f042595ced67997dd089aa4c5f1d678bc19a2db2cf93cc75d"
     },
     {
       "file": "src/features/cheques/ChequesView.tsx",
-      "sha256": "26ab51ce7098901f7f7b7d04f34e971ec3aaf3bd403cf16448d59f5456b2906b"
+      "sha256": "4059055146c3e283fb3bdd5f9df42d890a4a9d6bb946e419b09818efd7a7dbb6"
     },
     {
       "file": "src/features/corrections/DocumentCorrectionAction.tsx",
@@ -201,7 +201,7 @@
     },
     {
       "file": "src/features/crm/AddAddressModal.tsx",
-      "sha256": "b02d0cf1447a02eee4e97d7fbe41840054548f179e12e95613dd1d5cc495e6fa"
+      "sha256": "61a5d11c1d85a586adc257cc1fbd0ce6693540af48cc35d7fd77b8062aad2669"
     },
     {
       "file": "src/features/crm/AddCustomerModalContent.tsx",
@@ -217,7 +217,7 @@
     },
     {
       "file": "src/features/crm/CustomerCollectionModal.tsx",
-      "sha256": "aa61f9395c5f7b9fa797821aa70f2be911573db95c72845d4074caed21962368"
+      "sha256": "ffa2dac897149f9cb8bd3b187fa869efed9aa1d531423916130fb8f300945633"
     },
     {
       "file": "src/features/crm/CustomerDetailView.tsx",
@@ -269,7 +269,7 @@
     },
     {
       "file": "src/features/directReceiving/CreateDirectReceiptModal.tsx",
-      "sha256": "212677ab9a8bfb24cab4f7ae989f9a1fae57a751fe6e9ea463c0688e868dce07"
+      "sha256": "1b052eda1c8635502d5080ce8aba7fc0db28bf330711bf6f76e2cbad3a43a5e8"
     },
     {
       "file": "src/features/directReceiving/DirectReceivingView.tsx",
@@ -277,7 +277,7 @@
     },
     {
       "file": "src/features/directReceiving/RecordSupplierPaymentModal.tsx",
-      "sha256": "8905d56d8d6924836260dd969990eeb3e8f2beefa03e92068be0f7cbb46a5027"
+      "sha256": "548a18abdf1f2762b6bb3200673e5bda9abc30f194ed1db3f6051b026664398c"
     },
     {
       "file": "src/features/directReceiving/SupplierReceiptDetailView.tsx",
@@ -293,7 +293,7 @@
     },
     {
       "file": "src/features/expenses/ExpenseFormModal.tsx",
-      "sha256": "9fccc1f51ae1859f46f53beff46a3bdb9b740847be164c2d91cda382d3bb4661"
+      "sha256": "186237990e30bba01a8454b43a6fc4a3974713beef773e28b855f124daa66a56"
     },
     {
       "file": "src/features/expenses/ExpensesView.tsx",
@@ -305,11 +305,11 @@
     },
     {
       "file": "src/features/goLive/GoLiveSetupView.tsx",
-      "sha256": "c53be0c012b36edb9f40cdb0bf5933f8c37bdae6f017a2179323881de7fe5c1e"
+      "sha256": "0e08425fddc64daaf89a535da073b648a399455291c55cc4dfb78dd0ba83ae4b"
     },
     {
       "file": "src/features/goLive/OpeningChequesCard.tsx",
-      "sha256": "8383808167773ee5873817dd1e66b82a1cca2f155416260b8373532f3823b59a"
+      "sha256": "6e6a2a8c2eb7c8a279d27b22a82004e25968917a77979f67a9dcf066499dccbe"
     },
     {
       "file": "src/features/goLive/openingChequesImport.ts",
@@ -321,19 +321,19 @@
     },
     {
       "file": "src/features/inventory/InventoryOpeningSetupModal.tsx",
-      "sha256": "169cf7cf8c9740cce42c3cd49d56503e1b2d62d743f7510ef071026e0d6ba40d"
+      "sha256": "a2d297dfe204ffe05e7020403b579c6238d07676840adf1a78c4c98e5f44f4eb"
     },
     {
       "file": "src/features/inventory/InventoryView.tsx",
-      "sha256": "52b9eef8a0994af82f11dbaadfe7021212c48e22b081a37b1e5d055625f07813"
+      "sha256": "13e051e6167c78c41e88ae35082224337632f46af8138b2f74e6cb48d5357a0f"
     },
     {
       "file": "src/features/inventory/StockCountModal.tsx",
-      "sha256": "b282341e51d13b85d741d8e84b3309ac97275a3e56554a531b2c33be748c4299"
+      "sha256": "b5af70a40540646079ad3ee81552e8ae3e389ef079dca6c186ed1fbff14c71ad"
     },
     {
       "file": "src/features/inventory/SupplierReplacementPanel.tsx",
-      "sha256": "120cd16e686b1a10078831494b0d6d720a4de0fbb7200a86db5dbc111d0c66c2"
+      "sha256": "f5271cf222e11589684525e943a1629f32bf173d076d8215b7d8a97def5b1ea8"
     },
     {
       "file": "src/features/inventory/SupplierReplacementQuantities.tsx",
@@ -345,7 +345,7 @@
     },
     {
       "file": "src/features/inventory/WarehouseTransferModal.tsx",
-      "sha256": "b20bb57b797b0ddfd320ceb86129653248e19eda50438e63855ebc8ac19cb87a"
+      "sha256": "7a0957bd4611823d6a50658071c4e0d39f2b335197ebf6d0977320f9317581dc"
     },
     {
       "file": "src/features/more/adminNavigation.config.ts",
@@ -369,7 +369,7 @@
     },
     {
       "file": "src/features/more/ParcelConfigurationModal.tsx",
-      "sha256": "7d438540dbf2d0c6342d336f05907eab469aa917b084282ef195a0a953515ef9"
+      "sha256": "0b67ab2653f3cdd48a83b41327747834bec5e824d3719b13f3fb03e9e348bf98"
     },
     {
       "file": "src/features/more/ProfileModal.tsx",
@@ -377,7 +377,7 @@
     },
     {
       "file": "src/features/more/PromotionCodesModal.tsx",
-      "sha256": "1ea417320c1d21d7de8798fc5082268d6f45a1b195c09dbb6700228496a5fe0f"
+      "sha256": "4ccc3939a6e66fc7cd32f595552bc4baceeb0c233dba6c1a27aada85e578889a"
     },
     {
       "file": "src/features/more/PushNotificationControls.tsx",
@@ -385,11 +385,11 @@
     },
     {
       "file": "src/features/more/StorefrontSettingsModal.tsx",
-      "sha256": "d731e7f988e228645099dcc640dd48540df1b08770dc131094765d65c1646f08"
+      "sha256": "2acc4db74469a06760908d26b9306cbba725a701d90cee10ce1ce8f4bdf46025"
     },
     {
       "file": "src/features/orders/AdminAftercarePanel.tsx",
-      "sha256": "ed721c6bfe482aa2f3ce7a0fc62da04aa38a844f4d64ca50e7a14c1f573a8114"
+      "sha256": "54d0a338ec984b67efcded4527a09b0375199def322b0deb1da0650dafb62dcd"
     },
     {
       "file": "src/features/orders/aftercarePresentation.ts",
@@ -397,7 +397,7 @@
     },
     {
       "file": "src/features/orders/AftercareSupplierSafety.tsx",
-      "sha256": "743a85cded0a7d49a9054f9789c004b2b625b5c15f020452a531cd4aed2f9193"
+      "sha256": "f5938c9e27931a746acc77122b3fe82f208651b4cb594a739ac505eb868426be"
     },
     {
       "file": "src/features/orders/CustomerLocationCard.tsx",
@@ -405,7 +405,7 @@
     },
     {
       "file": "src/features/orders/EditAddressModal.tsx",
-      "sha256": "109a32038531e6236fd1293a954a85415eb97941ab212fc61320b1bbdd7b24c0"
+      "sha256": "28d8942eecf945e530b67047692c1ceb09bb233a001b2760e665820e3fedc638"
     },
     {
       "file": "src/features/orders/OrderCommercialSummary.tsx",
@@ -413,7 +413,7 @@
     },
     {
       "file": "src/features/orders/OrderDetailModal.tsx",
-      "sha256": "8906183ae353e37a773368f937537a279c2bea9344ec22e5bd12ca19d1228a89"
+      "sha256": "7ebb16551daacddd6c654e291880f2ac97f66d5675518d3996330644925e64ab"
     },
     {
       "file": "src/features/orders/OrdersCenterView.tsx",
@@ -429,11 +429,15 @@
     },
     {
       "file": "src/features/pos/PosParcelBuilder.tsx",
-      "sha256": "29f358a6c1b316d0c3f537e2cd69c0a7a23397c3a9103e0955490b0ab1e0cd72"
+      "sha256": "03b81cf41f5e0907f3d67d33b27d4309e5175977a8d3bf6ff95b432f5860be43"
     },
     {
       "file": "src/features/pos/PosProductCard.tsx",
       "sha256": "fd431176edd36abc5ca012b6f11882fcd0889ddb955dd4becdee49bc3d4468cd"
+    },
+    {
+      "file": "src/features/pos/posSearchFocus.ts",
+      "sha256": "b0b31f92ab76a176e3b3e9942724ece1e2dceb09391f8de0a8efd45b857cde42"
     },
     {
       "file": "src/features/pos/posV2Cart.ts",
@@ -441,7 +445,7 @@
     },
     {
       "file": "src/features/pos/PosView.tsx",
-      "sha256": "363edfac6a6af24a8f814058a7e8cd3d514f40ee9b766189561208e5dc20fb93"
+      "sha256": "d4d9a5209ccf8bee0e8af1df2264374f14721877706ce0ed99978594b0b4d9e0"
     },
     {
       "file": "src/features/pos/saleMethods.ts",
@@ -449,7 +453,7 @@
     },
     {
       "file": "src/features/products/ProductCostCorrectionPanel.tsx",
-      "sha256": "5aee8a9385ea6182ac067d8767ce529f708c777bda5c07b0bcb41aef1a8da57a"
+      "sha256": "e0acc44140c6bdaaf049b6c869213fa8804f6d4139d94c027ccbe5f506490a71"
     },
     {
       "file": "src/features/products/ProductDetailModal.tsx",
@@ -461,7 +465,7 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "sha256": "a20395c45d31bb05e684044411bc0378f17f3ca55d4fd927abbd300034952bb3"
+      "sha256": "64df669faf6f612ff34277871c4ed6cb0980117732d4b04d80ab59ae7b2f13fc"
     },
     {
       "file": "src/features/products/ProductFormParcelCapability.tsx",
@@ -473,11 +477,11 @@
     },
     {
       "file": "src/features/products/StockAdjustmentModal.tsx",
-      "sha256": "31c187136f29f23ddabcb2351ac8285db5525a19823d5817390c296de5212596"
+      "sha256": "fa8dfa2fd906d0bedabdacf0063c9b2bb53cbaea5feefd3f269d52c974e44796"
     },
     {
       "file": "src/features/purchases/CreatePurchaseOrderModal.tsx",
-      "sha256": "239aef7ee3eb5e53cce427f2c62ea8c4652f04f53efb203d0f9d7e284e4bb81d"
+      "sha256": "4ac760a64d9a0e616238d5c2b35fbc58cb7a709ddcb921c7f671c794724159da"
     },
     {
       "file": "src/features/purchases/CreateSupplierModal.tsx",
@@ -497,7 +501,7 @@
     },
     {
       "file": "src/features/purchases/ReceiveGoodsModal.tsx",
-      "sha256": "1d24f6b6ec91df402e70812c9bbf9393b115f19a5eabbc84524943cf00c7e231"
+      "sha256": "746253abefd21183266c21b50fdc41a10e3cae752e8ee7e755cc69b67284c48f"
     },
     {
       "file": "src/features/purchases/ReceivingProductPriceEditor.tsx",
@@ -509,7 +513,7 @@
     },
     {
       "file": "src/features/purchases/SupplierPaymentModal.tsx",
-      "sha256": "ed70fc3f51dc6b59a069f0e06620929bf8fecddc1928fc973d10c371c22255bb"
+      "sha256": "89ae723824cfe24e011f239d9e2a2fc75ba357a5ae105559e3184a0143b49127"
     },
     {
       "file": "src/features/receipts/saleReceipt.ts",
@@ -541,7 +545,7 @@
     },
     {
       "file": "src/features/salesHistory/SalesHistoryView.tsx",
-      "sha256": "d85a99bb3d5252f8fb0a4a9f2a53908c5aaaeb4edb1e570cae614c27ee61860b"
+      "sha256": "7207e7f62977463f0400d2fa5a67606eef777597f721c4531655f723450d4229"
     },
     {
       "file": "src/features/salesHistory/SalesInvoiceDialog.tsx",
@@ -561,7 +565,7 @@
     },
     {
       "file": "src/features/shifts/OwnerWithdrawalsPanel.tsx",
-      "sha256": "50e36c2dd2b4dc79a5a8323ed4a2aee37b59ea5f72448c8df24a47e1ed69f182"
+      "sha256": "e3c6f3dbbe7b3449fb7024177b4c1ff6793093708d9ed2e777f48d3a19332d70"
     },
     {
       "file": "src/features/shifts/ShiftArchiveSection.tsx",
@@ -573,7 +577,7 @@
     },
     {
       "file": "src/features/shifts/ShiftsView.tsx",
-      "sha256": "a04e4ee286ef590c45a9c9ad183930de5ee8e5e4d31fe70f06777539346a1688"
+      "sha256": "6913f89ab01a5340691132d02511bb16e615ec5f90f495399101007cb2c1a4e9"
     },
     {
       "file": "src/features/users/UserFormModal.tsx",
@@ -1314,9 +1318,9 @@
   ],
   "entries": [
     {
-      "id": "src/features/pos/PosView.tsx:481",
+      "id": "src/features/pos/PosView.tsx:487",
       "file": "src/features/pos/PosView.tsx",
-      "line": 481,
+      "line": 487,
       "table": "orders",
       "operation": "select",
       "role": "authenticated",
@@ -3782,12 +3786,12 @@
     },
     {
       "file": "src/features/pos/PosView.tsx",
-      "line": 624,
+      "line": 630,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "line": 1105,
+      "line": 1135,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
