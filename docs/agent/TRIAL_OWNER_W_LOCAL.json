@@ -60,6 +60,16 @@
           "WebKit"
         ],
         "contract": "Approved W1 defaults/region focus/named validation;known denial has zero execute requests"
+      },
+      "secondCorrectiveSubset": {
+        "passed": 40,
+        "failed": 0,
+        "retries": 0,
+        "engines": [
+          "Chromium",
+          "WebKit"
+        ],
+        "contract": "Keyboard Enter/Space single activation,held Enter ignored,capacity preserved;mobile no auto-focus;explicit scanner focus and clearing"
       }
     },
     "sdk": {
@@ -125,10 +135,10 @@
     "gitleaks": {
       "exitCode": 0,
       "scope": "all changed and non-ignored untracked files",
-      "files": 73
+      "files": 74
     },
     "exactCi": {
-      "status": "pending new corrective candidate",
+      "status": "pending second corrective candidate",
       "superseded": {
         "status": "superseded;not accepted",
         "sha": "08b836ac433a1864fa26b15469c694f2e1230012",
@@ -141,6 +151,31 @@
           40002401142,
           40002445340
         ]
+      },
+      "superseded807": {
+        "sha": "807685c4bf8c404380f0fc51bc60f0f97c0e7787",
+        "qualityRuns": [
+          40005096755,
+          40005101433
+        ],
+        "status": "cancelled;not accepted",
+        "reason": "Historical keyboard test expected mobile auto-focus and no search Enter addition;approved W4 changes both. Five F shards passed1046,core test correction required.",
+        "environmentFailure": {
+          "path": "/auth/v1/token",
+          "status": 500,
+          "originalLogJobUrl": "https://github.com/OBITO20011/mahdi-admin/actions/runs/40005096755/job/120590999533",
+          "code": "unexpected_failure",
+          "artifact": 12523479424,
+          "sha": "807685c4bf8c404380f0fc51bc60f0f97c0e7787",
+          "before": "POS component import/render",
+          "otherSevenCasesPassed": true,
+          "run": 40005096755,
+          "rawCredentialsPersisted": false,
+          "traceInspectedInMemory": true,
+          "job": 120590999533,
+          "error": "captcha verification process failed"
+        },
+        "environmentRerunUsed": false
       }
     },
     "nativeBrowserDiscovery": {
@@ -229,6 +264,22 @@
     {
       "path": "C:\\Users\\TOP\\AppData\\Local\\Temp/trial-w-p1-correction-lint.log",
       "sha256": "9fd44403fa50d3921aad2357d34f9b6d706c4e91743ed978d828ecd1e4f08a6e"
+    },
+    {
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp/trial-w-c2-browser.log",
+      "sha256": "5684bbe0f777b64acf500f7635d5c2668c9938aa370fa9be48e66ac37f2a2701"
+    },
+    {
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp/trial-w-c2-units.log",
+      "sha256": "e4796b2cb1a34300c111ebb57a0a55e7ac0ec1d031d2a88d582d4a16981aec7c"
+    },
+    {
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp/trial-w-c2-types.log",
+      "sha256": "91b00536c6650e03c6bd8bfeebeccef00d12da68e0c3dc72b8a126a2540da2da"
+    },
+    {
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp/trial-w-c2-lint.log",
+      "sha256": "9fd44403fa50d3921aad2357d34f9b6d706c4e91743ed978d828ecd1e4f08a6e"
     }
   ],
   "visualEvidence": "C:\\Users\\TOP\\AppData\\Local\\Temp\\trial-w-final-qa",
@@ -238,9 +289,9 @@
     "Historical comparisons now compose exact W inverse before comparing the same old expected bytes and thresholds",
     "No retries/skips/worker/deadline increases; modal geometry waits for actual open state and fonts"
   ],
-  "sourceInverseFiles": 51,
+  "sourceInverseFiles": 52,
   "correction": {
     "applicationSourcesIdenticalTo": "08b836ac433a1864fa26b15469c694f2e1230012",
-    "changes": "test and exact source pin/documentation only"
+    "changes": "test expectations,exact source pin and documentation only"
   }
 }

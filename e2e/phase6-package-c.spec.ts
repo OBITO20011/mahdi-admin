@@ -17,15 +17,19 @@ test('POS product keyboard activation adds once per Enter or Space and retains c
   const quantity = page.locator('[data-pos-product-quantity="keyboard-product"]:visible');
   await expect(quantity).toHaveText('1');
   const search = page.getByPlaceholder('ابحث باسم المنتج أو الباركود أو رمز الصنف...');
-  await expect(search).toBeFocused();
+  if (page.viewportSize()!.width < 768) await expect(search).not.toBeFocused();
+  else await expect(search).toBeFocused();
   // Held Enter cannot repeatedly activate the card, even when delivered there.
   await card.dispatchEvent('keydown', {key: 'Enter', repeat: true});
   await expect(quantity).toHaveText('1');
-  // Keyboard-wedge scanner types into search, not the previously selected card.
-  await page.keyboard.type('123'); await page.keyboard.press('Enter');
-  await expect(search).toHaveValue('123'); await expect(quantity).toHaveText('1');
-  await search.fill('');
   await card.focus(); await page.keyboard.press('Space');
+  await expect(quantity).toHaveText('2');
+  if (page.viewportSize()!.width < 768) await expect(search).not.toBeFocused();
+  else await expect(search).toBeFocused();
+  // W4 keeps explicit search/scanner Enter focused and clears the code. At
+  // capacity it must still refuse a third item, rather than replaying the card.
+  await search.focus(); await page.keyboard.type('123'); await page.keyboard.press('Enter');
+  await expect(search).toHaveValue(''); await expect(search).toBeFocused();
   await expect(quantity).toHaveText('2');
   await card.focus(); await page.keyboard.press('Enter');
   await expect(quantity).toHaveText('2');

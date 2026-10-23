@@ -1787,6 +1787,46 @@
           ]
         }
       ]
+    },
+    "e2e/phase6-package-c.spec.ts": {
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "after": "a4a5bd606d57fe19033f3dc85e7cef4d17b8684c60b7d5346ebf090e8ac3ea6b",
+      "before": "35fc82523c2aa46b547c345fbc5648fe91e0d3171760bef0ecb5340ea726238e",
+      "hunks": [
+        {
+          "at": 20,
+          "before": [
+            "  await expect(search).toBeFocused();"
+          ],
+          "after": [
+            "  if (page.viewportSize()!.width < 768) await expect(search).not.toBeFocused();",
+            "  else await expect(search).toBeFocused();"
+          ]
+        },
+        {
+          "at": 24,
+          "before": [
+            "  // Keyboard-wedge scanner types into search, not the previously selected card.",
+            "  await page.keyboard.type('123'); await page.keyboard.press('Enter');",
+            "  await expect(search).toHaveValue('123'); await expect(quantity).toHaveText('1');",
+            "  await search.fill('');"
+          ],
+          "after": []
+        },
+        {
+          "at": 27,
+          "before": [],
+          "after": [
+            "  if (page.viewportSize()!.width < 768) await expect(search).not.toBeFocused();",
+            "  else await expect(search).toBeFocused();",
+            "  // W4 keeps explicit search/scanner Enter focused and clears the code. At",
+            "  // capacity it must still refuse a third item, rather than replaying the card.",
+            "  await search.focus(); await page.keyboard.type('123'); await page.keyboard.press('Enter');",
+            "  await expect(search).toHaveValue(''); await expect(search).toBeFocused();",
+            "  await expect(quantity).toHaveText('2');"
+          ]
+        }
+      ]
     }
   }
 }
