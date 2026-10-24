@@ -53,7 +53,8 @@ DECLARE
  v_headers JSONB;v_network TEXT;v_hash TEXT;v_phone_hash TEXT;
  v_lock TEXT;v_attempts INTEGER;
 BEGIN
- IF auth.role()='anon' THEN
+ -- SECURITY DEFINER changes current_user; the SET ROLE GUC retains the API role.
+ IF auth.role()='anon' OR current_setting('role',true)='anon' THEN
   -- REST request metadata is only an additional signal. The normalized-phone
   -- bucket always applies, so rotating order numbers/network headers cannot
   -- evade the per-phone guessing bound.

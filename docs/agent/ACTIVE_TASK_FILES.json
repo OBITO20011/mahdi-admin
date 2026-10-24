@@ -3,27 +3,7 @@
   "files": [
     {
       "code": " M",
-      "path": ".github/workflows/quality.yml"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/package-lock.json"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/package.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/OWNER_DECISIONS.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/PROJECT_OVERVIEW.md"
+      "path": "docs/agent/HANDOVER_SECURITY_Y_AR.md"
     },
     {
       "code": " M",
@@ -35,251 +15,31 @@
     },
     {
       "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_AUDIT.md"
-    },
-    {
-      "code": " M",
       "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
     },
     {
       "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.md"
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
     },
     {
       "code": " M",
-      "path": "docs/operations/UNEXPOSED_RPC_REVIEW_AR.md"
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
     },
     {
       "code": " M",
-      "path": "package-lock.json"
-    },
-    {
-      "code": " M",
-      "path": "package.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/agent/lib.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/agent/preflight.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/run-service-access-diagnostic.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/run-table-access-diagnostic.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/source-before-owner-acl212.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-owner-build.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/trial-reset-core.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/historical-reset-source.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-trial-reset-runtime.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/all-customer-collections203.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/canonical-receivables197.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/cashier-collections198.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/cheques195-admission.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/go-live-integration164.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/historical-reset-source.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/opening-cheques196.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/pretrial-p1.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/product-integration171.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/product-receiving205.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/receipt210.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/sales-history204-evidence.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/service-access-inventory.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/supplier-replacement208-evidence.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/trial-brand-identity.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/trial-owner-a.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/trial-owner-r.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/trial-owner-w.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/trial-reset.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/withdrawals182-admission.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "docs/agent/HANDOVER_SECURITY_Y_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/FRANKFURT_OWNER_UPGRADE213_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_213.json"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/enrich-service213-evidence.mjs"
-    },
-    {
-      "code": "??",
       "path": "scripts/audit/handover213-inverse.json"
     },
     {
-      "code": "??",
+      "code": " M",
       "path": "scripts/audit/source-before-handover213.mjs"
     },
     {
-      "code": "??",
-      "path": "scripts/operations/build-acl-reference213.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/frankfurt-owner-upgrade213.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/frankfurt-reference213.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/handover213-contract.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/run-handover-upgrade213-runtime.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/run-handover213-gates.mjs"
-    },
-    {
-      "code": "??",
+      "code": " M",
       "path": "scripts/testing/run-handover213-runtime.mjs"
     },
     {
-      "code": "??",
-      "path": "scripts/testing/storage213-contract.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/verify-edge-locks213.mjs"
-    },
-    {
-      "code": "??",
-      "path": "supabase/functions/admin-ai-assistant/deno.json"
-    },
-    {
-      "code": "??",
-      "path": "supabase/functions/admin-ai-assistant/deno.lock"
-    },
-    {
-      "code": "??",
-      "path": "supabase/functions/manage-staff-users/deno.json"
-    },
-    {
-      "code": "??",
-      "path": "supabase/functions/manage-staff-users/deno.lock"
-    },
-    {
-      "code": "??",
-      "path": "supabase/functions/n8n-alert-feed/deno.json"
-    },
-    {
-      "code": "??",
-      "path": "supabase/functions/n8n-alert-feed/deno.lock"
-    },
-    {
-      "code": "??",
-      "path": "supabase/functions/send-order-push/deno.json"
-    },
-    {
-      "code": "??",
-      "path": "supabase/functions/send-order-push/deno.lock"
-    },
-    {
-      "code": "??",
-      "path": "supabase/functions/submit-guest-order/deno.json"
-    },
-    {
-      "code": "??",
-      "path": "supabase/functions/submit-guest-order/deno.lock"
-    },
-    {
-      "code": "??",
+      "code": " M",
       "path": "supabase/migrations/213_handover_security_hardening.sql"
-    },
-    {
-      "code": "??",
-      "path": "tests/handover213.test.ts"
     }
   ]
 }

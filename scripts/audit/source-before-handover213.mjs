@@ -7,6 +7,7 @@ export function sourceBeforeHandover213(file,text){
  const source=text.replaceAll('\r\n','\n'),pin=handover213Pins[file];if(!pin||hash(source)!==pin.after)return source;
  assert.equal(hash(pin.beforeText),pin.before,'HANDOVER213_INVERSE_CORRUPT:'+file);return pin.beforeText;
 }
+/** @param {string[]} files @returns {string[]} */
 export function pathsBeforeHandover213(files){
  return files.filter(file=>{const pin=handover213Pins[file];if(!pin?.added)return true;assert.equal(hash(readFileSync(new URL('../../'+file,import.meta.url),'utf8').replaceAll('\r\n','\n')),pin.after,'HANDOVER213_UNREVIEWED_ADDITION:'+file);return false;});
 }

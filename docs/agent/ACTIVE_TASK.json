@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
+  "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner Package Y:close legacy receiving;public privilege cleanup;anonymous tracking throttle;image no-list;Vite/dev deps/Edge locks;213 owner upgrade strict verify;PR/FULLCI. PR22 merge authorized and completed.",
   "baselineSha": "703fc51abb6b65ce2df2edcf14c6ecb235b74ddf",
@@ -13,11 +13,11 @@
     "154 current table queries and537 RPC dispatches/10 expected role denials;Admin1407/store197 units pass",
     "Vite6.4.4 builds/SEO/PWA4/network0;27 focused browser cases pass across two engines,one unchanged conditional;one WebKit navigation environmental retry passed unchanged",
     "Production npm audit0 both apps;frozen Edge5 graphs and negative integrity case pass",
-    "Owner now authorizes commit+push after each completed item,including WIP;no need to defer backup until full package"
+    "Owner now authorizes commit+push after each completed item,including WIP;no need to defer backup until full package",
+    "Recovery WIP5baa7f2 pushed;current literal213 runtime74 passes including anon with absent/empty/contradictory JWT;types+strict lint+store197+prod audits0+Edge5 frozen verified"
   ],
   "inProgress": [
-    "Owner explicitly authorized recovery of missing worktree;replayed exact saved patches/filesystem changes into new attached worktree",
-    "WIP recovery snapshot;anonymous no-claims bypass,3 test types,and Storage/reset remain to fix and reverify"
+    "Regenerate213 access/reference after anon-role correction;actual Storage/reset and final FULL44 remain"
   ],
   "notStarted": [
     "Feature PR and exact push+PR FULL44+secret scans;no Y merge authorized"
@@ -34,10 +34,9 @@
     "prod audit0/frozen Edge5"
   ],
   "testsRemaining": [
-    "Rebuild locks/deps and exact historical pins",
-    "Fix anonymous no-claims213 guard;rebuild literal evidence/reference",
-    "Storage213 HTTP roles/reset and remaining gates",
-    "Final all units/types/lint/Gitleaks and feature PR/FULL44"
+    "Refresh current213 table evidence and fresh/incremental reference",
+    "Actual Storage213 HTTP/reset",
+    "Final Admin units/builds/PWA and exact feature push+PR FULL44/Gitleaks"
   ],
   "findings": [
     "M01 annual report deferred after launch;H01/M02 Frankfurt backups/watchdog/notifications subsequent task"
@@ -50,9 +49,9 @@
     "Historical001-212 immutable;213 explicitly authorized",
     "One writer;no unrelated changes;no Y merge unless authorized"
   ],
-  "nextExactAction": "Recovery WIP saved;fix anon without claims,types and Storage213 then regenerate evidence and FULL44",
-  "checkpointedAt": "2026-10-24T18:07:04.811Z",
-  "filesTouchedCount": 70,
-  "filesTouchedManifestSha256": "deae18156415e1533e6afe1e614a890febfd07566fb72fac18e5177121b012d1",
-  "workingTreeFingerprint": "280ED119D01D6F6E34BB92E245CFD6FAFE12E767E7328D9EDC51B16F6D5E3987"
+  "nextExactAction": "Y3 literal74 verified;refresh213 access evidence/reference then Storage/reset;commit+push each completed item",
+  "checkpointedAt": "2026-10-24T18:15:00.399Z",
+  "filesTouchedCount": 10,
+  "filesTouchedManifestSha256": "c4ddbd7f6cecde454da5530a048d6dff27e90a8343c9158f95f741144def8892",
+  "workingTreeFingerprint": "6552011291E241BCD79BC639F3D41B3F617CCB134CFE824D6C8E2AC3120907DF"
 }
