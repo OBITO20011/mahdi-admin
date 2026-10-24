@@ -1635,4 +1635,23 @@ END;
 $function$
 ;
 
+-- Z4: preserve the established role and enrolled-MFA policy in every status.
+CREATE OR REPLACE FUNCTION public.get_cash_shift_display_summary(p_shift_id uuid)
+ RETURNS jsonb
+ LANGUAGE plpgsql
+ STABLE SECURITY DEFINER
+ SET search_path TO 'public', 'pg_temp'
+AS $function$
+DECLARE v_shift public.cash_shifts%ROWTYPE; v_opened_by_name TEXT; v_actor_name TEXT;
+BEGIN
+  -- Authorize before reading even the cancelled/reversed short-circuit.
+  PERFORM public.assert_erp_role(ARRAY['owner','admin','manager','accountant','sales'], 'عرض ملخص الوردية');
+  SELECT * INTO v_shift FROM public.cash_shifts WHERE id=p_shift_id;
+  IF NOT FOUND THEN RAISE EXCEPTION 'الوردية المحددة غير موجودة.'; END IF;
+  IF v_shift.status NOT IN ('cancelled','reversed') THEN RETURN public.get_cash_shift_summary(p_shift_id); END IF;
+  SELECT full_name INTO v_opened_by_name FROM public.profiles WHERE id=v_shift.opened_by;
+  SELECT full_name INTO v_actor_name FROM public.profiles WHERE id=CASE WHEN v_shift.status='cancelled' THEN v_shift.cancelled_by ELSE v_shift.reversed_by END;
+  RETURN jsonb_build_object('id',v_shift.id,'shiftNumber',v_shift.shift_number,'branchId',v_shift.branch_id,'cashierName',COALESCE(v_opened_by_name,'مستخدم النظام'),'startTime',v_shift.opened_at,'endTime',CASE WHEN v_shift.status='cancelled' THEN v_shift.cancelled_at ELSE v_shift.reversed_at END,'openingCashInMinorUnits',v_shift.opening_cash_in_minor_units,'cashSalesInMinorUnits',0,'cliqSalesInMinorUnits',0,'cardSalesInMinorUnits',0,'cashReceiptsInMinorUnits',0,'cliqReceiptsInMinorUnits',0,'cashSupplierPaymentsInMinorUnits',0,'cliqSupplierPaymentsInMinorUnits',0,'cashExpensesInMinorUnits',0,'cliqExpensesInMinorUnits',0,'cashRefundsInMinorUnits',0,'cliqRefundsInMinorUnits',0,'expectedCashInMinorUnits',v_shift.opening_cash_in_minor_units,'actualCashInMinorUnits',NULL,'cashDiscrepancyInMinorUnits',NULL,'discrepancyReason',NULL,'status',v_shift.status,'managerSignOffBy',NULL,'cancelledByName',CASE WHEN v_shift.status='cancelled' THEN v_actor_name ELSE NULL END,'cancelledAt',v_shift.cancelled_at,'cancellationReason',v_shift.cancellation_reason,'reversedByName',CASE WHEN v_shift.status='reversed' THEN v_actor_name ELSE NULL END,'reversedAt',v_shift.reversed_at,'reversalReason',v_shift.reversal_reason,'reversalId',v_shift.reversal_id);
+END; $function$;
+
 COMMIT;

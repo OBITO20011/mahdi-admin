@@ -3,31 +3,39 @@
   "files": [
     {
       "code": " M",
-      "path": "customer-web/src/components/CheckoutModal.tsx"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/utils/checkout.ts"
-    },
-    {
-      "code": " M",
       "path": "docs/agent/project-state.json"
     },
     {
       "code": " M",
-      "path": "src/features/crm/CustomerDetailView.tsx"
+      "path": "package.json"
     },
     {
       "code": " M",
-      "path": "src/features/orders/CustomerLocationCard.tsx"
+      "path": "scripts/audit/run-service-access-diagnostic.mjs"
     },
     {
       "code": " M",
-      "path": "src/services/supabase/crm.service.ts"
+      "path": "scripts/audit/run-table-access-diagnostic.mjs"
     },
     {
       "code": " M",
-      "path": "src/services/supabase/orders.service.ts"
+      "path": "scripts/operations/frankfurt-owner-build.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/trial-reset-core.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/historical-reset-source.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-handover213-gates.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-trial-reset-runtime.mjs"
     },
     {
       "code": " M",
@@ -35,35 +43,39 @@
     },
     {
       "code": "??",
-      "path": "customer-web/src/utils/googleMaps.ts"
+      "path": "docs/agent/HANDOVER_Z4_LOCAL.json"
     },
     {
       "code": "??",
-      "path": "docs/agent/HANDOVER_Z3_LOCAL.json"
+      "path": "scripts/audit/enrich-service214-evidence.mjs"
     },
     {
       "code": "??",
-      "path": "e2e/handover-z-maps-harness.html"
+      "path": "scripts/operations/build-acl-reference214.mjs"
     },
     {
       "code": "??",
-      "path": "e2e/handover-z-maps-harness.tsx"
+      "path": "scripts/operations/frankfurt-owner-upgrade214.mjs"
     },
     {
       "code": "??",
-      "path": "e2e/handover-z-maps.spec.ts"
+      "path": "scripts/operations/frankfurt-reference214.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/testing/run-handover-z-maps-runtime.mjs"
+      "path": "scripts/testing/handover214-contract.mjs"
     },
     {
       "code": "??",
-      "path": "src/utils/googleMaps.ts"
+      "path": "scripts/testing/run-handover-upgrade214-runtime.mjs"
     },
     {
       "code": "??",
-      "path": "tests/handover-z-maps.test.ts"
+      "path": "scripts/testing/run-handover-z-collections-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-handover-z-shifts-runtime.mjs"
     }
   ]
 }

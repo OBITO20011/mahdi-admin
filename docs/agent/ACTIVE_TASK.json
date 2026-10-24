@@ -10,17 +10,14 @@
     "Owner approved independent review Z1-Z5 and214;Y PR23/main2c2dcac delivered",
     "Z1 focused16/typecheck/strictlint pass;actual local EdgeHTTP42 denials and ownerAAL2create pass;original worktree disappeared,recovered exact source from own tool log",
     "Z1 saved/pusheda65bf52;Z2 DB8groups passed:10000roundtrip1000.6/1000.4,both sale kinds,fractional rounding,historicalfallback,replay0",
-    "Z2saved1dfcf49;Z3actualSQL23,browser12bothengines,unit28,typesboth/strictfocusedlint/buildsSEO passed"
+    "Z2saved1dfcf49;Z3actualSQL23,browser12bothengines,unit28,typesboth/strictfocusedlint/buildsSEO passed",
+    "Z3 saved/pushedbc46a42;Z4 actual4states passed:28allowedreads,56denials,fullfingerprintzero writes;pre-readcentralguard"
   ],
   "inProgress": [
-    "Z3 save;Z4 pre-read shift guard thenZ5 lock order;final source proofs/reference/fullCI"
+    "Z5 ordering-only candidate and actual two-session race tests;214 reference/source proofs/fullCI infrastructure prepared"
   ],
   "notStarted": [
-    "Z2 exact POS/return cost",
-    "Z3 Maps allowlist",
-    "Z4 cash display pre-read guard",
-    "Z5 mixed collection lock order race",
-    "Owner214 upgrade/strict verify and Edge deploy command;fullCI/PR"
+    "Owner214 upgrade/strict verify;fullCI and final PR review"
   ],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
@@ -42,9 +39,9 @@
     "One writing agent;commit+push after each completed item",
     "No Z merge authorization"
   ],
-  "nextExactAction": "Save/push verifiedZ3 Maps;implementZ4 pre-read shift guard and actual4statuses;thenZ5 lock ordering",
-  "checkpointedAt": "2026-10-24T22:01:00.532Z",
-  "filesTouchedCount": 16,
-  "filesTouchedManifestSha256": "01b9635c57d195a9ba2dc5ea347392b316917afcfbdae216babc63c6d0ff3bf1",
-  "workingTreeFingerprint": "AF4BE4022D4C5C593DF521E3B2FB1CC3AF7469D037AB95967707EB50E11F78DB"
+  "nextExactAction": "Save Z4 and run Z5 actual collection/reversal races;214 local reference/fullCI pending",
+  "checkpointedAt": "2026-10-24T22:11:26.799Z",
+  "filesTouchedCount": 19,
+  "filesTouchedManifestSha256": "27dba0748c4b2df421c766c251f2840b693fdf12fb7b3dee79da830ce42fc85a",
+  "workingTreeFingerprint": "9B569153809D27878CF6C1D6AE921938502ED2B643797EE5E806DB7D478C34C9"
 }
