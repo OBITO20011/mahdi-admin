@@ -3,135 +3,31 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/project-state.json"
+      "path": "docs/operations/PREHANDOVER_AUDIT_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/PREHANDOVER_AUDIT_EVIDENCE.json"
     },
     {
       "code": " M",
       "path": "docs/operations/UNEXPOSED_RPC_REVIEW_AR.md"
     },
     {
-      "code": "??",
-      "path": "docs/operations/pre-handover-evidence/adversarial.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/pre-handover-evidence/cost-difference.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/pre-handover-evidence/damage-range.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/pre-handover-evidence/exposure-dependencies.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/pre-handover-evidence/exposure.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/pre-handover-evidence/golden-day-independent-verification.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/pre-handover-evidence/golden-day.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/pre-handover-evidence/local-statuses.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/pre-handover-evidence/long-period.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/pre-handover-evidence/npm-admin.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/pre-handover-evidence/npm-edge.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/pre-handover-evidence/npm-store.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/pre-handover-evidence/offsite-status.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/pre-handover-evidence/performance.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/pre-handover-evidence/proxy-addr-proof.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/pre-handover-evidence/scale-seed.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/pre-handover-evidence/scheduled-tasks.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/PREHANDOVER_AUDIT_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/PREHANDOVER_AUDIT_EVIDENCE.json"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/pre-handover/adversarial.mjs"
-    },
-    {
-      "code": "??",
+      "code": " M",
       "path": "scripts/testing/pre-handover/build-evidence.mjs"
     },
     {
-      "code": "??",
-      "path": "scripts/testing/pre-handover/context.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/pre-handover/cost-difference.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/pre-handover/exposure-dependencies.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/pre-handover/exposure.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/pre-handover/golden-day.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/pre-handover/long-period.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/pre-handover/performance.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/pre-handover/scale-seed.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/pre-handover/verify-golden-evidence.mjs"
-    },
-    {
-      "code": "??",
+      "code": " M",
       "path": "tests/pre-handover-audit.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/pre-handover-evidence/legacy-receive.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/pre-handover/legacy-receive.mjs"
     }
   ]
 }

@@ -135,5 +135,6 @@
 - create_pos_sale V1: رفض PACKAGE_D_POS_V2_REQUIRED وبلا أثر؛ لا منحة عميل فعالة في الجرد الحالي.
 - POSv2: رفض بيع الوحدة لصنف طرد فقط عند كميات1و10و20؛ مضاعفات حجم الطرد لا تتجاوز نوع السطر.
 - aftercare_supplier_links وsupplier_replacement_inventory_effects: رفض القراءة المباشرة لأدوارanon/authenticated/service_role.
+- **receive_inventory: خلل مثبت H03.** يقبل زيادة5وحدات بمرجع شراء غير موجود، بلا سند أو ذمة جديدة؛ تكرار الاستدعاء يضيف5أخرى. ثبت للأدوارowner/admin/manager/warehouse_keeper، ورفض بقية الأدوار الستة. الدليل [legacy-receive.json](pre-handover-evidence/legacy-receive.json)، دون إصلاح.
 
 الدليل [adversarial.json](pre-handover-evidence/adversarial.json). بقية التواقيع جُردت مع تبعياتها المرشحة؛ لا ندعي أن كل توقيع خضع لمحاولة هجومية مستقلة بمدخلات أعمال صحيحة. لا سحب جماعي مقترح؛ المسارات القديمة مثل receive_inventory وreceive_purchase_order وكتّاب المنتجات تحتاج مراجعة عقد ومستهلك داخلي منفصلة قبل أي تغيير صلاحيات.

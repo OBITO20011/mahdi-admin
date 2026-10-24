@@ -2,11 +2,19 @@
   "schemaVersion": 1,
   "baseline": "d72f70918a63126b1d561c3a14b6c4b5bd652786",
   "migrationCeiling": 212,
-  "createdAt": "2026-10-24T15:37:29.026Z",
+  "createdAt": "2026-10-24T15:56:09.753Z",
   "managedAccess": false,
   "deployment": false,
   "productFixes": false,
   "findings": [
+    {
+      "id": "H03",
+      "severity": "high",
+      "title": "استلام مخزون قديم بلا سند أو تكلفة شراء أو ذمة، وتكراره يزيد الكمية مرة ثانية",
+      "evidence": [
+        "legacy-receive.json"
+      ]
+    },
     {
       "id": "H01",
       "severity": "high",
@@ -57,7 +65,7 @@
   ],
   "counts": {
     "critical": 0,
-    "high": 2,
+    "high": 3,
     "medium": 2,
     "low": 1
   },
@@ -69,6 +77,10 @@
   "adversarial": {
     "cases": 35,
     "ok": true
+  },
+  "legacy": {
+    "cases": 10,
+    "confirmedFinding": true
   },
   "costDifference": {
     "checks": 9,
@@ -170,7 +182,7 @@
     "dockerMemoryBytes": 8181657600
   },
   "ci": {
-    "status": "pending-full-exact-head"
+    "status": "see PR22 exact-head FULL quality and secrets checks"
   },
   "files": [
     {
@@ -207,6 +219,11 @@
       "file": "golden-day.json",
       "bytes": 375821,
       "sha256": "84d2e2cd4b5f2e542a34e8d2e02237972d7f935460e4a04591df92d91480902b"
+    },
+    {
+      "file": "legacy-receive.json",
+      "bytes": 6447,
+      "sha256": "1641eabab0242d18c3c5d62a521453b8ce4a792ccdd4d85ef56c4f49898a55e6"
     },
     {
       "file": "local-statuses.json",

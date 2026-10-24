@@ -1,0 +1,217 @@
+{
+  "kind": "legacy-receive212",
+  "managedAccess": false,
+  "startedAt": "2026-10-24T15:53:24.218Z",
+  "cases": [
+    {
+      "role": "owner",
+      "accepted": true,
+      "before": {
+        "wac": 1000,
+        "quantity": 10,
+        "receipts": 1,
+        "movements": 1,
+        "operations": 1,
+        "supplierDue": 10000
+      },
+      "middle": {
+        "wac": 1000,
+        "quantity": 15,
+        "receipts": 1,
+        "movements": 2,
+        "operations": 1,
+        "supplierDue": 10000
+      },
+      "after": {
+        "wac": 1000,
+        "quantity": 20,
+        "receipts": 1,
+        "movements": 3,
+        "operations": 1,
+        "supplierDue": 10000
+      },
+      "referenceExists": false,
+      "repeatAddsAgain": true
+    },
+    {
+      "role": "admin",
+      "accepted": true,
+      "before": {
+        "wac": 1000,
+        "quantity": 20,
+        "receipts": 1,
+        "movements": 3,
+        "operations": 1,
+        "supplierDue": 10000
+      },
+      "middle": {
+        "wac": 1000,
+        "quantity": 25,
+        "receipts": 1,
+        "movements": 4,
+        "operations": 1,
+        "supplierDue": 10000
+      },
+      "after": {
+        "wac": 1000,
+        "quantity": 30,
+        "receipts": 1,
+        "movements": 5,
+        "operations": 1,
+        "supplierDue": 10000
+      },
+      "referenceExists": false,
+      "repeatAddsAgain": true
+    },
+    {
+      "role": "manager",
+      "accepted": true,
+      "before": {
+        "wac": 1000,
+        "quantity": 30,
+        "receipts": 1,
+        "movements": 5,
+        "operations": 1,
+        "supplierDue": 10000
+      },
+      "middle": {
+        "wac": 1000,
+        "quantity": 35,
+        "receipts": 1,
+        "movements": 6,
+        "operations": 1,
+        "supplierDue": 10000
+      },
+      "after": {
+        "wac": 1000,
+        "quantity": 40,
+        "receipts": 1,
+        "movements": 7,
+        "operations": 1,
+        "supplierDue": 10000
+      },
+      "referenceExists": false,
+      "repeatAddsAgain": true
+    },
+    {
+      "role": "warehouse_keeper",
+      "accepted": true,
+      "before": {
+        "wac": 1000,
+        "quantity": 40,
+        "receipts": 1,
+        "movements": 7,
+        "operations": 1,
+        "supplierDue": 10000
+      },
+      "middle": {
+        "wac": 1000,
+        "quantity": 45,
+        "receipts": 1,
+        "movements": 8,
+        "operations": 1,
+        "supplierDue": 10000
+      },
+      "after": {
+        "wac": 1000,
+        "quantity": 50,
+        "receipts": 1,
+        "movements": 9,
+        "operations": 1,
+        "supplierDue": 10000
+      },
+      "referenceExists": false,
+      "repeatAddsAgain": true
+    },
+    {
+      "role": "cashier",
+      "denial": {
+        "call": "receive_inventory('92600000-0000-4000-8000-000000000201','92600000-0000-4000-8000-000000000103',5,'purchase_order','92600000-0000-4000-8000-000000000999','فحص مسار قديم بلا سند')",
+        "uid": "92600000-0000-4000-8000-000000000804",
+        "role": "authenticated",
+        "aal": "aal2",
+        "sqlstate": "P0001",
+        "error": "ERROR:  P0001: ليس لديك صلاحية استلام المخزون.",
+        "zeroWrites": true
+      }
+    },
+    {
+      "role": "accountant",
+      "denial": {
+        "call": "receive_inventory('92600000-0000-4000-8000-000000000201','92600000-0000-4000-8000-000000000103',5,'purchase_order','92600000-0000-4000-8000-000000000999','فحص مسار قديم بلا سند')",
+        "uid": "92600000-0000-4000-8000-000000000805",
+        "role": "authenticated",
+        "aal": "aal2",
+        "sqlstate": "P0001",
+        "error": "ERROR:  P0001: ليس لديك صلاحية استلام المخزون.",
+        "zeroWrites": true
+      }
+    },
+    {
+      "role": "viewer",
+      "denial": {
+        "call": "receive_inventory('92600000-0000-4000-8000-000000000201','92600000-0000-4000-8000-000000000103',5,'purchase_order','92600000-0000-4000-8000-000000000999','فحص مسار قديم بلا سند')",
+        "uid": "92600000-0000-4000-8000-000000000806",
+        "role": "authenticated",
+        "aal": "aal2",
+        "sqlstate": "P0001",
+        "error": "ERROR:  P0001: ليس لديك صلاحية استلام المخزون.",
+        "zeroWrites": true
+      }
+    },
+    {
+      "role": "none",
+      "denial": {
+        "call": "receive_inventory('92600000-0000-4000-8000-000000000201','92600000-0000-4000-8000-000000000103',5,'purchase_order','92600000-0000-4000-8000-000000000999','فحص مسار قديم بلا سند')",
+        "uid": "92600000-0000-4000-8000-000000000807",
+        "role": "authenticated",
+        "aal": "aal2",
+        "sqlstate": "P0001",
+        "error": "ERROR:  P0001: ليس لديك صلاحية استلام المخزون.",
+        "zeroWrites": true
+      }
+    },
+    {
+      "role": "anon",
+      "denial": {
+        "call": "receive_inventory('92600000-0000-4000-8000-000000000201','92600000-0000-4000-8000-000000000103',5,'purchase_order','92600000-0000-4000-8000-000000000999','فحص مسار قديم بلا سند')",
+        "uid": "92600000-0000-4000-8000-000000000001",
+        "role": "anon",
+        "aal": "aal2",
+        "sqlstate": "42501",
+        "error": "ERROR:  42501: permission denied for function receive_inventory",
+        "zeroWrites": true
+      }
+    },
+    {
+      "role": "service_role",
+      "denial": {
+        "call": "receive_inventory('92600000-0000-4000-8000-000000000201','92600000-0000-4000-8000-000000000103',5,'purchase_order','92600000-0000-4000-8000-000000000999','فحص مسار قديم بلا سند')",
+        "uid": "92600000-0000-4000-8000-000000000001",
+        "role": "service_role",
+        "aal": "aal2",
+        "sqlstate": "42501",
+        "error": "ERROR:  42501: permission denied for function receive_inventory",
+        "zeroWrites": true
+      }
+    }
+  ],
+  "database": {
+    "max": 212,
+    "version": "170006",
+    "database": "postgres",
+    "migrations": 174
+  },
+  "baseline": {
+    "wac": 1000,
+    "quantity": 10,
+    "receipts": 1,
+    "movements": 1,
+    "operations": 1,
+    "supplierDue": 10000
+  },
+  "call": "receive_inventory('92600000-0000-4000-8000-000000000201','92600000-0000-4000-8000-000000000103',5,'purchase_order','92600000-0000-4000-8000-000000000999','فحص مسار قديم بلا سند')",
+  "confirmedFinding": true,
+  "ok": true,
+  "endedAt": "2026-10-24T15:53:45.759Z"
+}

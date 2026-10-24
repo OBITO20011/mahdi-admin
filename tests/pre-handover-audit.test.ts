@@ -9,8 +9,16 @@ test('handover evidence manifest retains every captured artifact without hash dr
  const manifest=JSON.parse(await readFile('docs/operations/PREHANDOVER_AUDIT_EVIDENCE.json','utf8'));
  assert.equal(manifest.baseline,'d72f70918a63126b1d561c3a14b6c4b5bd652786');
  assert.equal(manifest.managedAccess,false);assert.equal(manifest.productFixes,false);
- assert.equal(manifest.files.length,17);
+ assert.equal(manifest.files.length,18);
  for(const file of manifest.files){const bytes=await readFile(base+file.file);assert.equal(bytes.length,file.bytes);assert.equal(createHash('sha256').update(bytes).digest('hex'),file.sha256,file.file);}
+});
+
+test('legacy receive finding retains positive role proofs and unchanged purchasing facts',async()=>{
+ const evidence=await load('legacy-receive');assert.equal(evidence.ok,true);assert.equal(evidence.confirmedFinding,true);assert.equal(evidence.cases.length,10);
+ const accepted=evidence.cases.filter((c:{accepted?:boolean})=>c.accepted);
+ assert.deepEqual(accepted.map((c:{role:string})=>c.role),['owner','admin','manager','warehouse_keeper']);
+ for(const c of accepted){assert.equal(c.referenceExists,false);assert.equal(c.middle.quantity-c.before.quantity,5);assert.equal(c.after.quantity-c.before.quantity,10);for(const field of ['receipts','operations','supplierDue','wac'])assert.equal(c.after[field],c.before[field]);}
+ assert.ok(evidence.cases.filter((c:{accepted?:boolean})=>!c.accepted).every((c:{denial:{zeroWrites:boolean}})=>c.denial.zeroWrites));
 });
 
 test('golden day independent money and stock oracle matches all captured facts',async()=>{
