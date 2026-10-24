@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-10-23T23:58:24.416Z",
-  "migrationCeiling": 212,
+  "startedAt": "2026-10-24T17:27:11.762Z",
+  "migrationCeiling": 213,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-OxXOLt",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-0mACAh",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -4895,8 +4895,7 @@
     },
     {
       "acl": [
-        "postgres=X/postgres",
-        "authenticated=X/postgres"
+        "postgres=X/postgres"
       ],
       "name": "create_product_with_opening_stock",
       "names": [
@@ -4947,8 +4946,7 @@
     },
     {
       "acl": [
-        "postgres=X/postgres",
-        "authenticated=X/postgres"
+        "postgres=X/postgres"
       ],
       "name": "create_product_with_opening_stock_v2",
       "names": [
@@ -5001,8 +4999,7 @@
     },
     {
       "acl": [
-        "postgres=X/postgres",
-        "authenticated=X/postgres"
+        "postgres=X/postgres"
       ],
       "name": "create_product_with_opening_stock_v3",
       "names": [
@@ -5344,7 +5341,9 @@
       "securityDefiner": false
     },
     {
-      "acl": null,
+      "acl": [
+        "postgres=X/postgres"
+      ],
       "name": "enforce_product_flavor_inheritance",
       "names": [],
       "owner": "postgres",
@@ -8681,7 +8680,9 @@
       "types": [],
       "identity": "package_d_reject_pos_cancellation_mutation()",
       "returnType": "trigger",
-      "configuration": null,
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
       "securityDefiner": false
     },
     {
@@ -11491,8 +11492,7 @@
     },
     {
       "acl": [
-        "postgres=X/postgres",
-        "authenticated=X/postgres"
+        "postgres=X/postgres"
       ],
       "name": "receive_inventory",
       "names": [
@@ -13496,7 +13496,9 @@
       "securityDefiner": false
     },
     {
-      "acl": null,
+      "acl": [
+        "postgres=X/postgres"
+      ],
       "name": "sync_product_flavor_commercial_settings",
       "names": [],
       "owner": "postgres",
@@ -34854,22 +34856,22 @@
     },
     {
       "role": "authenticated",
-      "allowed": true,
-      "identity": "create_product_with_opening_stock(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,bigint,bigint,integer,integer,uuid,integer,text)"
-    },
-    {
-      "role": "service_role",
       "allowed": false,
       "identity": "create_product_with_opening_stock(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,bigint,bigint,integer,integer,uuid,integer,text)"
     },
     {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "create_product_with_opening_stock(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,bigint,bigint,integer,integer,uuid,integer,text)"
+    },
+    {
       "role": "anon",
       "allowed": false,
       "identity": "create_product_with_opening_stock_v2(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,bigint,bigint,bigint,integer,integer,uuid,integer,text)"
     },
     {
       "role": "authenticated",
-      "allowed": true,
+      "allowed": false,
       "identity": "create_product_with_opening_stock_v2(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,bigint,bigint,bigint,integer,integer,uuid,integer,text)"
     },
     {
@@ -34884,7 +34886,7 @@
     },
     {
       "role": "authenticated",
-      "allowed": true,
+      "allowed": false,
       "identity": "create_product_with_opening_stock_v3(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,bigint,bigint,bigint,integer,integer,uuid,integer,text,text)"
     },
     {
@@ -35029,17 +35031,17 @@
     },
     {
       "role": "anon",
-      "allowed": true,
+      "allowed": false,
       "identity": "enforce_product_flavor_inheritance()"
     },
     {
       "role": "authenticated",
-      "allowed": true,
+      "allowed": false,
       "identity": "enforce_product_flavor_inheritance()"
     },
     {
       "role": "service_role",
-      "allowed": true,
+      "allowed": false,
       "identity": "enforce_product_flavor_inheritance()"
     },
     {
@@ -39414,15 +39416,15 @@
     },
     {
       "role": "authenticated",
-      "allowed": true,
-      "identity": "receive_inventory(uuid,uuid,integer,text,uuid,text)"
-    },
-    {
-      "role": "service_role",
       "allowed": false,
       "identity": "receive_inventory(uuid,uuid,integer,text,uuid,text)"
     },
     {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "receive_inventory(uuid,uuid,integer,text,uuid,text)"
+    },
+    {
       "role": "anon",
       "allowed": false,
       "identity": "receive_purchase_order(uuid,uuid,text,text,jsonb)"
@@ -40564,17 +40566,17 @@
     },
     {
       "role": "anon",
-      "allowed": true,
+      "allowed": false,
       "identity": "sync_product_flavor_commercial_settings()"
     },
     {
       "role": "authenticated",
-      "allowed": true,
+      "allowed": false,
       "identity": "sync_product_flavor_commercial_settings()"
     },
     {
       "role": "service_role",
-      "allowed": true,
+      "allowed": false,
       "identity": "sync_product_flavor_commercial_settings()"
     },
     {
@@ -41172,545 +41174,5 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-10-24T00:00:01.193Z",
-  "savedCatalogAssessment": {
-    "storagePolicies": [
-      {
-        "name": "ERP staff can delete own product images",
-        "check": null,
-        "roles": [
-          "authenticated"
-        ],
-        "table": "objects",
-        "using": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
-        "schema": "storage",
-        "command": "d",
-        "permissive": true
-      },
-      {
-        "name": "ERP staff can update own product images",
-        "check": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
-        "roles": [
-          "authenticated"
-        ],
-        "table": "objects",
-        "using": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
-        "schema": "storage",
-        "command": "w",
-        "permissive": true
-      },
-      {
-        "name": "ERP staff can upload own product images",
-        "check": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
-        "roles": [
-          "authenticated"
-        ],
-        "table": "objects",
-        "using": null,
-        "schema": "storage",
-        "command": "a",
-        "permissive": true
-      },
-      {
-        "name": "Public can read product images",
-        "check": null,
-        "roles": [
-          "PUBLIC"
-        ],
-        "table": "objects",
-        "using": "(bucket_id = 'product-images'::text)",
-        "schema": "storage",
-        "command": "r",
-        "permissive": true
-      }
-    ],
-    "storageBucketRows": null,
-    "publicationMembership": null,
-    "limits": [
-      "Catalog tables/schema do NOT prove bucket rows exist",
-      "Catalog functions/policies do NOT prove publication membership",
-      "No Auth,Edge environment or remote cron row snapshot in schema catalog"
-    ]
-  },
-  "sevenFunctions": [
-    {
-      "identity": "authorize_admin_ai_assistant_request()",
-      "sites": [
-        {
-          "file": "supabase/functions/admin-ai-assistant/index.ts",
-          "line": 1017,
-          "role": "authenticated"
-        }
-      ],
-      "revokedEntries": [
-        {
-          "grantee": "anon",
-          "grantor": "postgres",
-          "privilege": "EXECUTE",
-          "grantable": false
-        }
-      ],
-      "effectiveLocal": [
-        {
-          "role": "anon",
-          "allowed": false,
-          "identity": "authorize_admin_ai_assistant_request()"
-        },
-        {
-          "role": "authenticated",
-          "allowed": true,
-          "identity": "authorize_admin_ai_assistant_request()"
-        },
-        {
-          "role": "service_role",
-          "allowed": false,
-          "identity": "authorize_admin_ai_assistant_request()"
-        }
-      ],
-      "invocationResults": [
-        {
-          "site": "supabase/functions/admin-ai-assistant/index.ts:1017",
-          "role": "authenticated",
-          "appRole": "owner",
-          "sqlstate": null,
-          "outcome": "success_rolled_back"
-        },
-        {
-          "site": "supabase/functions/admin-ai-assistant/index.ts:1017",
-          "role": "authenticated",
-          "appRole": "admin",
-          "sqlstate": null,
-          "outcome": "success_rolled_back"
-        },
-        {
-          "site": "supabase/functions/admin-ai-assistant/index.ts:1017",
-          "role": "authenticated",
-          "appRole": "cashier",
-          "sqlstate": "P0001",
-          "outcome": "body_validation_or_error"
-        }
-      ],
-      "triggerOnly": false
-    },
-    {
-      "identity": "enforce_customer_for_debt_order()",
-      "sites": [],
-      "revokedEntries": [
-        {
-          "grantee": "anon",
-          "grantor": "postgres",
-          "privilege": "EXECUTE",
-          "grantable": false
-        },
-        {
-          "grantee": "authenticated",
-          "grantor": "postgres",
-          "privilege": "EXECUTE",
-          "grantable": false
-        }
-      ],
-      "effectiveLocal": [
-        {
-          "role": "anon",
-          "allowed": true,
-          "identity": "enforce_customer_for_debt_order()"
-        },
-        {
-          "role": "authenticated",
-          "allowed": true,
-          "identity": "enforce_customer_for_debt_order()"
-        },
-        {
-          "role": "service_role",
-          "allowed": true,
-          "identity": "enforce_customer_for_debt_order()"
-        }
-      ],
-      "invocationResults": [],
-      "triggerOnly": true
-    },
-    {
-      "identity": "enforce_product_flavor_inheritance()",
-      "sites": [],
-      "revokedEntries": [
-        {
-          "grantee": "anon",
-          "grantor": "postgres",
-          "privilege": "EXECUTE",
-          "grantable": false
-        },
-        {
-          "grantee": "authenticated",
-          "grantor": "postgres",
-          "privilege": "EXECUTE",
-          "grantable": false
-        }
-      ],
-      "effectiveLocal": [
-        {
-          "role": "anon",
-          "allowed": true,
-          "identity": "enforce_product_flavor_inheritance()"
-        },
-        {
-          "role": "authenticated",
-          "allowed": true,
-          "identity": "enforce_product_flavor_inheritance()"
-        },
-        {
-          "role": "service_role",
-          "allowed": true,
-          "identity": "enforce_product_flavor_inheritance()"
-        }
-      ],
-      "invocationResults": [],
-      "triggerOnly": true
-    },
-    {
-      "identity": "guard_cash_shift_closing_report_snapshot()",
-      "sites": [],
-      "revokedEntries": [
-        {
-          "grantee": "anon",
-          "grantor": "postgres",
-          "privilege": "EXECUTE",
-          "grantable": false
-        },
-        {
-          "grantee": "authenticated",
-          "grantor": "postgres",
-          "privilege": "EXECUTE",
-          "grantable": false
-        }
-      ],
-      "effectiveLocal": [
-        {
-          "role": "anon",
-          "allowed": true,
-          "identity": "guard_cash_shift_closing_report_snapshot()"
-        },
-        {
-          "role": "authenticated",
-          "allowed": true,
-          "identity": "guard_cash_shift_closing_report_snapshot()"
-        },
-        {
-          "role": "service_role",
-          "allowed": true,
-          "identity": "guard_cash_shift_closing_report_snapshot()"
-        }
-      ],
-      "invocationResults": [],
-      "triggerOnly": true
-    },
-    {
-      "identity": "set_website_new_order_reservation_expiry()",
-      "sites": [],
-      "revokedEntries": [
-        {
-          "grantee": "anon",
-          "grantor": "postgres",
-          "privilege": "EXECUTE",
-          "grantable": false
-        },
-        {
-          "grantee": "authenticated",
-          "grantor": "postgres",
-          "privilege": "EXECUTE",
-          "grantable": false
-        }
-      ],
-      "effectiveLocal": [
-        {
-          "role": "anon",
-          "allowed": true,
-          "identity": "set_website_new_order_reservation_expiry()"
-        },
-        {
-          "role": "authenticated",
-          "allowed": true,
-          "identity": "set_website_new_order_reservation_expiry()"
-        },
-        {
-          "role": "service_role",
-          "allowed": true,
-          "identity": "set_website_new_order_reservation_expiry()"
-        }
-      ],
-      "invocationResults": [],
-      "triggerOnly": true
-    },
-    {
-      "identity": "sync_order_payment_state()",
-      "sites": [],
-      "revokedEntries": [
-        {
-          "grantee": "anon",
-          "grantor": "postgres",
-          "privilege": "EXECUTE",
-          "grantable": false
-        },
-        {
-          "grantee": "authenticated",
-          "grantor": "postgres",
-          "privilege": "EXECUTE",
-          "grantable": false
-        }
-      ],
-      "effectiveLocal": [
-        {
-          "role": "anon",
-          "allowed": true,
-          "identity": "sync_order_payment_state()"
-        },
-        {
-          "role": "authenticated",
-          "allowed": true,
-          "identity": "sync_order_payment_state()"
-        },
-        {
-          "role": "service_role",
-          "allowed": true,
-          "identity": "sync_order_payment_state()"
-        }
-      ],
-      "invocationResults": [],
-      "triggerOnly": true
-    },
-    {
-      "identity": "sync_product_flavor_commercial_settings()",
-      "sites": [],
-      "revokedEntries": [
-        {
-          "grantee": "anon",
-          "grantor": "postgres",
-          "privilege": "EXECUTE",
-          "grantable": false
-        },
-        {
-          "grantee": "authenticated",
-          "grantor": "postgres",
-          "privilege": "EXECUTE",
-          "grantable": false
-        }
-      ],
-      "effectiveLocal": [
-        {
-          "role": "anon",
-          "allowed": true,
-          "identity": "sync_product_flavor_commercial_settings()"
-        },
-        {
-          "role": "authenticated",
-          "allowed": true,
-          "identity": "sync_product_flavor_commercial_settings()"
-        },
-        {
-          "role": "service_role",
-          "allowed": true,
-          "identity": "sync_product_flavor_commercial_settings()"
-        }
-      ],
-      "invocationResults": [],
-      "triggerOnly": true
-    }
-  ],
-  "oldReferences": [
-    {
-      "file": "automation/n8n/workflows/nawasrah-alerts.json",
-      "lines": [
-        32,
-        89,
-        175,
-        228
-      ],
-      "category": "EXTERNAL_CONSUMER"
-    },
-    {
-      "file": "docs/agent/HANDOFF_HISTORY.md",
-      "lines": [
-        445
-      ],
-      "category": "HISTORICAL_DOCUMENTATION"
-    },
-    {
-      "file": "docs/agent/OWNER_DECISIONS.md",
-      "lines": [
-        715
-      ],
-      "category": "HISTORICAL_DOCUMENTATION"
-    },
-    {
-      "file": "docs/operations/FRANKFURT_OWNER_BUILD_AR.md",
-      "lines": [
-        100
-      ],
-      "category": "HISTORICAL_DOCUMENTATION"
-    },
-    {
-      "file": "docs/operations/STAGING_FRANKFURT_AR.md",
-      "lines": [
-        247
-      ],
-      "category": "HISTORICAL_DOCUMENTATION"
-    },
-    {
-      "file": "scripts/backup/README.md",
-      "lines": [
-        28
-      ],
-      "category": "PRESERVE_OLD_BACKUP_LINK"
-    },
-    {
-      "file": "scripts/backup/backup-public-config.mjs",
-      "lines": [
-        3,
-        5
-      ],
-      "category": "PRESERVE_OLD_BACKUP_LINK"
-    },
-    {
-      "file": "scripts/backup/create-backup.mjs",
-      "lines": [
-        430
-      ],
-      "category": "PRESERVE_OLD_BACKUP_LINK"
-    },
-    {
-      "file": "scripts/backup/preflight.mjs",
-      "lines": [
-        14
-      ],
-      "category": "PRESERVE_OLD_BACKUP_LINK"
-    },
-    {
-      "file": "scripts/operations/build-cron-report.mjs",
-      "lines": [
-        29
-      ],
-      "category": "BUILD_GUARD_OR_AUDIT"
-    },
-    {
-      "file": "scripts/operations/frankfurt-owner-build.mjs",
-      "lines": [
-        18
-      ],
-      "category": "BUILD_GUARD_OR_AUDIT"
-    },
-    {
-      "file": "scripts/testing/run-order-push-url-runtime.mjs",
-      "lines": [
-        56
-      ],
-      "category": "BUILD_GUARD_OR_AUDIT"
-    },
-    {
-      "file": "supabase/.temp/linked-project.json",
-      "lines": [
-        1
-      ],
-      "category": "PRESERVE_OLD_BACKUP_LINK"
-    },
-    {
-      "file": "supabase/.temp/pooler-url",
-      "lines": [
-        1
-      ],
-      "category": "PRESERVE_OLD_BACKUP_LINK"
-    },
-    {
-      "file": "supabase/.temp/project-ref",
-      "lines": [
-        1
-      ],
-      "category": "PRESERVE_OLD_BACKUP_LINK"
-    },
-    {
-      "file": "supabase/config.toml",
-      "lines": [
-        1
-      ],
-      "category": "PRESERVE_OLD_BACKUP_LINK"
-    },
-    {
-      "file": "tests/backup-project-isolation.test.ts",
-      "lines": [
-        14,
-        25
-      ],
-      "category": "TEST_CONTRACT"
-    },
-    {
-      "file": "tests/backup-runner.test.ts",
-      "lines": [
-        189
-      ],
-      "category": "TEST_CONTRACT"
-    },
-    {
-      "file": "tests/build-cron-report.test.ts",
-      "lines": [
-        11,
-        19
-      ],
-      "category": "TEST_CONTRACT"
-    },
-    {
-      "file": "tests/fixtures/enqueue-order-push-before139.sql",
-      "lines": [
-        23
-      ],
-      "category": "TEST_CONTRACT"
-    },
-    {
-      "file": "tests/frankfurt-preparation.test.ts",
-      "lines": [
-        23,
-        55
-      ],
-      "category": "TEST_CONTRACT"
-    },
-    {
-      "file": "tests/frankfurt-public-config.test.ts",
-      "lines": [
-        18
-      ],
-      "category": "TEST_CONTRACT"
-    },
-    {
-      "file": "tests/frankfurt-reference150.test.ts",
-      "lines": [
-        75
-      ],
-      "category": "TEST_CONTRACT"
-    },
-    {
-      "file": "tests/frankfurt-staging-csp.test.ts",
-      "lines": [
-        5
-      ],
-      "category": "TEST_CONTRACT"
-    },
-    {
-      "file": "tests/order-push-url139.test.ts",
-      "lines": [
-        15
-      ],
-      "category": "TEST_CONTRACT"
-    },
-    {
-      "file": "tests/phase3-harness-stability.test.ts",
-      "lines": [
-        88
-      ],
-      "category": "TEST_CONTRACT"
-    }
-  ],
-  "savedCatalogProvenance": {
-    "kind": "owner-saved-files",
-    "savedDate": "2026-10-15",
-    "currentManagedStateNotRead": true,
-    "reference": "local-reference.json",
-    "observed": "catalog-observed.json"
-  }
+  "endedAt": "2026-10-24T17:28:51.686Z"
 }

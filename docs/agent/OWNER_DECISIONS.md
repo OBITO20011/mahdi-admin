@@ -1,3 +1,11 @@
+#24Oct — owner recovery and incremental remote saves
+
+Owner explicitly approved recreating missing handover-security-y worktree and recovering saved files/evidence. Commit and push the package branch after every completed item;WIP commits are explicitly allowed so local work is not the sole copy. WIP saves record pending gates;full CI remains the package acceptance condition. No Y merge/Frankfurt/deployment authorization.
+
+#24Oct — owner handover security Y and explicit deferrals
+
+Owner accepted audit PR22;merge after FULLCI then independent Y worktree/PR/FULLCI with213. Close unused legacy stock writers;remove excess table/trigger grants;anonymous tracking rate bound;product image no-list;patched localhost dev tooling;reproducible Edge deps;fixed trigger search_path. No money/stock semantics outside legacy closure,no hostedaccess/deploy. M01 annual report deferred until after launch. H01/M02 Frankfurt backups/watchdog/notifications/cutover are the next separate task after Y,not implemented in Y.
+
 #23Oct — owner trial R authorized
 
 Separate worktree/PR/fullCI;R1cash titles/document navigation,R3shared product selector,R4damage history.UI only,no writerRPC/money/permission changes.Read-only212 requires one consolidated owner question before SQL;continue independent UI while waiting.R2already delivered inW,no repeat.W2still deferred.No hostedaccess/deploy.See TRIAL_OWNER_R_AR.md.

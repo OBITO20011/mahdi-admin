@@ -1,3 +1,4 @@
+import {pathsBeforeHandover213} from '../scripts/audit/source-before-handover213.mjs';
 import {sourceBeforeTrialR,trialRPins} from '../scripts/audit/source-before-trial-owner-r.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
@@ -25,8 +26,8 @@ test('W exact additive inverse preserves the delivered base and rejects unapprov
   }
  }
  const changed=execFileSync('git',['diff','--name-only',base,'--','supabase','scripts/audit/*-hunks.json'],{encoding:'utf8'}).trim().split('\n').filter(Boolean);
- assert.deepEqual(changed.filter(file=>!['scripts/audit/trial-owner-w-hunks.json','scripts/audit/trial-owner-r-hunks.json','supabase/migrations/212_trial_readable_cash_product_choices_damage_history.sql'].includes(file)),[],'No SQL/RPC changes or edits to earlier immutable source pins');
- const state=JSON.parse(readFileSync('docs/agent/project-state.json','utf8'));assert.equal(state.migrationCeiling,212);
+ assert.deepEqual(pathsBeforeHandover213(changed).filter(file=>!['scripts/audit/trial-owner-w-hunks.json','scripts/audit/trial-owner-r-hunks.json','supabase/migrations/212_trial_readable_cash_product_choices_damage_history.sql'].includes(file)),[],'No SQL/RPC changes or edits to earlier immutable source pins');
+ const state=JSON.parse(readFileSync('docs/agent/project-state.json','utf8'));assert.equal(state.migrationCeiling,213);
 });
 
 test('W preserves every service/Supabase call and keeps authority modules unchanged',()=>{
@@ -52,6 +53,6 @@ test('W preserves every service/Supabase call and keeps authority modules unchan
   const before=execFileSync('git',['show',base+':'+file],{encoding:'utf8',maxBuffer:32*1024**2});
   assert.deepEqual(calls(file,sourceBeforeTrialR(file,readFileSync(file,'utf8'))!),calls(file,before),file);
  }
- const authority=execFileSync('git',['diff','--name-only',base,'--','supabase','src/services','src/utils','src/stores','src/lib'],{encoding:'utf8'}).trim().split('\n').filter(Boolean).filter(file=>!trialRPins[file]&&file!=='supabase/migrations/212_trial_readable_cash_product_choices_damage_history.sql').join('\n');
+ const authority=execFileSync('git',['diff','--name-only',base,'--','supabase','src/services','src/utils','src/stores','src/lib'],{encoding:'utf8'}).trim().split('\n').filter(Boolean).filter(file=>pathsBeforeHandover213([file]).length>0&&!trialRPins[file]&&file!=='supabase/migrations/212_trial_readable_cash_product_choices_damage_history.sql').join('\n');
  assert.equal(authority,'','No writer, reader, pricing, permission or persisted-store contract changes');
 });

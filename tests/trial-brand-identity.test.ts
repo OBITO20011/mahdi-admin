@@ -1,3 +1,4 @@
+import {pathsBeforeHandover213} from '../scripts/audit/source-before-handover213.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFileSync} from 'node:fs';
@@ -31,7 +32,7 @@ test('H live identity is official while trial contacts, video and historical SQL
  assert.match(read('customer-web/src/config/store.ts'),/DEFAULT_STORE_WHATSAPP_NUMBER = '0772838886'/u);
  const changed=execFileSync('git',['diff','--name-only','6a7d99e48d6fff5299eb2bc4550d67a8b8908bfb','--','supabase/migrations','scripts/audit/*-hunks.json','customer-web/public/*.mp4','customer-web/public/nawasrah-hero-poster.webp'],{encoding:'utf8'}).trim().split('\n').filter(Boolean);
  const approvedR='supabase/migrations/212_trial_readable_cash_product_choices_damage_history.sql';
- assert.deepEqual(changed.filter(f=>!['scripts/audit/trial-brand-hunks.json','scripts/audit/trial-owner-w-hunks.json','scripts/audit/trial-owner-r-hunks.json',approvedR].includes(f)),[]);
+ assert.deepEqual(pathsBeforeHandover213(changed).filter(f=>!['scripts/audit/trial-brand-hunks.json','scripts/audit/trial-owner-w-hunks.json','scripts/audit/trial-owner-r-hunks.json',approvedR].includes(f)),[]);
  assert.equal(hash(read(approvedR).replaceAll('\r\n','\n')),'6bdbc906b38b4fd29dd4c5115e040cb1954b1bdb5abe0ee3aedaae634b6ce619','Only the exact owner-approved read-only212 is admitted');
  for(const f of ['customer-web/src/App.tsx','customer-web/src/config/seoBrand.ts','customer-web/src/components/StoreHero.tsx'])assert.ok(!read(f).includes('nawasrah-banner-wide.webp'));
  assert.match(read('docs/operations/GO_LIVE_CUTOVER_AR.md'),/962785857700/u);

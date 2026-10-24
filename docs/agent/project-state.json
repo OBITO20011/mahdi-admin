@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "project": "Nawasrah ERP",
-  "branch": "codex/pre-handover-audit",
+  "branch": "codex/handover-security-y",
   "approvedBaseline": "247980af9636ab01b20c80cac6bb3d23de2cc584",
   "closedPhases": [
     "3",
@@ -92,7 +92,7 @@
   "phase5Slice4ClosureExactShaCi": "PASS",
   "phase5Slice3AuthorizationBaseline": "6fac32ac422206a3b5e5716159304806f30d0aed",
   "phase5PublicActivationAllowed": false,
-  "migrationCeiling": 212,
+  "migrationCeiling": 213,
   "migration199CanonicalLfSha256": "A34808EE64C80744FD8973559207983391ACA0F53025F8F2764BE74E52C2FCF0",
   "migration197CanonicalLfSha256": "3CAABD6C454A22A607761B57FFF66E9C41119C468D468F54C1DE9197111E7722",
   "migration198CanonicalLfSha256": "1F494DC9F95B6A4DB5887F5EF675C4E792FF7CD7EF681F37588489F88C094BAB",
@@ -237,7 +237,7 @@
   "migration204CanonicalLfSha256": "FBFCFAD595E67DFFF6799188D74C86B2B8F4B1A6A266E7017732F0A88864D424",
   "migration205CanonicalLfSha256": "DA0F405BDAFDE93A66D99BEF5999D22014657D440F04B8EB887A15E51D32A3D6",
   "migration206CanonicalLfSha256": "2B421A8206C56B5797B470BEF0831F64824C00CFA5C9775BF9B5FC2259AD9D8E",
-  "currentTableReadinessEvidence": "docs/operations/TABLE_ACCESS_AFTER_212.json",
+  "currentTableReadinessEvidence": "docs/operations/TABLE_ACCESS_AFTER_213.json",
   "migration207CanonicalLfSha256": "7F6A856C35D06DC53417540CEF6F5B680E2CD52AE63776F440F986DE1C564B69",
   "migration208CanonicalLfSha256": "9741B8183DFE074650F136225C1DE2EFA578223CD3ADE9AD2EAF4379DC23FF65",
   "migration209CanonicalLfSha256": "15A81C0D43BB9377B676D76FDDBEFC83939D30ECC47817AF207C6215F5BCFCD7",
@@ -254,5 +254,6 @@
     "secrets": 40060823920
   },
   "ownerAcl212RepairEvidence": "docs/operations/FRANKFURT_ACL212_TOOL_REPAIR.json",
-  "ownerAcl212LocalEvidence": "docs/agent/OWNER_ACL212_LOCAL.json"
+  "ownerAcl212LocalEvidence": "docs/agent/OWNER_ACL212_LOCAL.json",
+  "migration213CanonicalLfSha256": "630D5862E84DD0FB5848A7F561C39A9264649E370287E144455BF608EC6D22C7"
 }
