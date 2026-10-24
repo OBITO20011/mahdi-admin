@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-10-24T17:27:11.762Z",
-  "migrationCeiling": 213,
+  "startedAt": "2026-10-24T22:35:58.558Z",
+  "migrationCeiling": 214,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-0mACAh",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-8xRDNA",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -231,7 +231,7 @@
     },
     {
       "file": "src/features/crm/CustomerDetailView.tsx",
-      "sha256": "10c6f81e3ca6a025ddcc994ed026cf02b4cf6223c22dc8e5163880ac35541d91"
+      "sha256": "ea21d8dcaa23d424b05ab1807ded05df8e95b53eabcc6f5ad21c78a6c393cdb8"
     },
     {
       "file": "src/features/crm/CustomerEditModal.tsx",
@@ -415,7 +415,7 @@
     },
     {
       "file": "src/features/orders/CustomerLocationCard.tsx",
-      "sha256": "7e35b12f5a82c14311859dda69aadff082d38d364953c3e30ab6973278a80675"
+      "sha256": "29521d2efc7b7d4396099c1c4e35feb37f82ccd2486a2a87aa1bb3aa208593c4"
     },
     {
       "file": "src/features/orders/EditAddressModal.tsx",
@@ -703,7 +703,7 @@
     },
     {
       "file": "src/services/supabase/crm.service.ts",
-      "sha256": "a2067c5a078cf8bf69606aa07c3625935bbcc2693f10c0ca9db489d71138b3af"
+      "sha256": "b096655ba7d8b4fa19fd1603b2888d892078f8e8d17c2bfcef36dcf015e8a1f0"
     },
     {
       "file": "src/services/supabase/customerAccounts.service.ts",
@@ -771,7 +771,7 @@
     },
     {
       "file": "src/services/supabase/orders.service.ts",
-      "sha256": "6207a97a113187d3b11c377eb25998930840121bc384097029ba9879e10e4e7d"
+      "sha256": "8e29f30fd36cc412daf5b0426ba5a102f01695b5139da3b271b6020dbb72a077"
     },
     {
       "file": "src/services/supabase/ownerWithdrawals.service.ts",
@@ -962,6 +962,10 @@
       "sha256": "1585cef59c464506938f85831136b2730c04776f1da7827d2f1f9451bc937f8f"
     },
     {
+      "file": "src/utils/googleMaps.ts",
+      "sha256": "ce458def64a203ed7364cfc3d9ebdfa42c40eeb0f23e8742056a96638bf32bdf"
+    },
+    {
       "file": "src/utils/inventoryFormatter.ts",
       "sha256": "98c62f5906ae24925cbaaa68b364c1cd502cc33329bc9911af6f01af4a842296"
     },
@@ -1075,7 +1079,7 @@
     },
     {
       "file": "customer-web/src/components/CheckoutModal.tsx",
-      "sha256": "514639e7855a6b72a6d3e1aa3f7a30fa7970fd1abb29f86d1bf39b009e48d896"
+      "sha256": "fee549e463ceabafffae60cb0d5596553afb5f17304ef40ac394f100e9383d83"
     },
     {
       "file": "customer-web/src/components/CheckoutProgress.tsx",
@@ -1291,7 +1295,7 @@
     },
     {
       "file": "customer-web/src/utils/checkout.ts",
-      "sha256": "e9782e842c0dcda6c1662fa24714c98dbb76da70b1e27cf2a8e2aad313eb1344"
+      "sha256": "aaee46cd792d7db2ebd4bf943bd5288d3aa387aaa29f0a67dae27e990d74b265"
     },
     {
       "file": "customer-web/src/utils/checkoutErrorMessage.ts",
@@ -1300,6 +1304,10 @@
     {
       "file": "customer-web/src/utils/dialogFocus.ts",
       "sha256": "245e78a39c65e917015fa146ef52d209ecd4f7b1bb8ec2f80d7e94dfbdd7db8b"
+    },
+    {
+      "file": "customer-web/src/utils/googleMaps.ts",
+      "sha256": "ce458def64a203ed7364cfc3d9ebdfa42c40eeb0f23e8742056a96638bf32bdf"
     },
     {
       "file": "customer-web/src/utils/money.ts",
@@ -1327,7 +1335,7 @@
     },
     {
       "file": "supabase/functions/manage-staff-users/index.ts",
-      "sha256": "65fed77a0253920adb1a52ad68d6bb28c7df021f761f2adfc840b9cb8057e109"
+      "sha256": "e752c91afcaef52f2eed05266bb6c418f3a2dbdea3cc1c01fa37f3beb8bb48c8"
     },
     {
       "file": "supabase/functions/n8n-alert-feed/index.ts",
@@ -15388,7 +15396,7 @@
       "command": "SELECT public.\"get_deferred_cheque_home_alerts\"('92600000-0000-4000-8000-000000000200'::uuid)"
     },
     {
-      "site": "src/services/supabase/crm.service.ts:160",
+      "site": "src/services/supabase/crm.service.ts:161",
       "name": "get_crm_customer_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -15404,7 +15412,7 @@
       "command": "SELECT public.\"get_crm_customer_page\"(1::integer,25::integer,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/crm.service.ts:160",
+      "site": "src/services/supabase/crm.service.ts:161",
       "name": "get_crm_customer_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -15420,7 +15428,7 @@
       "command": "SELECT public.\"get_crm_customer_page\"(1::integer,25::integer,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/crm.service.ts:160",
+      "site": "src/services/supabase/crm.service.ts:161",
       "name": "get_crm_customer_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -15436,7 +15444,7 @@
       "command": "SELECT public.\"get_crm_customer_page\"(1::integer,25::integer,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/crm.service.ts:212",
+      "site": "src/services/supabase/crm.service.ts:213",
       "name": "get_crm_customer_detail_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -15450,7 +15458,7 @@
       "command": "SELECT public.\"get_crm_customer_detail_page\"('92600000-0000-4000-8000-000000000401'::uuid,1::integer,25::integer)"
     },
     {
-      "site": "src/services/supabase/crm.service.ts:212",
+      "site": "src/services/supabase/crm.service.ts:213",
       "name": "get_crm_customer_detail_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -15464,7 +15472,7 @@
       "command": "SELECT public.\"get_crm_customer_detail_page\"('92600000-0000-4000-8000-000000000401'::uuid,1::integer,25::integer)"
     },
     {
-      "site": "src/services/supabase/crm.service.ts:212",
+      "site": "src/services/supabase/crm.service.ts:213",
       "name": "get_crm_customer_detail_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -15478,7 +15486,7 @@
       "command": "SELECT public.\"get_crm_customer_detail_page\"('92600000-0000-4000-8000-000000000401'::uuid,1::integer,25::integer)"
     },
     {
-      "site": "src/services/supabase/crm.service.ts:365",
+      "site": "src/services/supabase/crm.service.ts:366",
       "name": "save_customer",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -15497,7 +15505,7 @@
       "command": "SELECT public.\"save_customer\"(NULL::text,NULL::text,'92600000-0000-4000-8000-000000000401'::uuid,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/crm.service.ts:365",
+      "site": "src/services/supabase/crm.service.ts:366",
       "name": "save_customer",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -15516,7 +15524,7 @@
       "command": "SELECT public.\"save_customer\"(NULL::text,NULL::text,'92600000-0000-4000-8000-000000000401'::uuid,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/crm.service.ts:365",
+      "site": "src/services/supabase/crm.service.ts:366",
       "name": "save_customer",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -15535,7 +15543,7 @@
       "command": "SELECT public.\"save_customer\"(NULL::text,NULL::text,'92600000-0000-4000-8000-000000000401'::uuid,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/crm.service.ts:408",
+      "site": "src/services/supabase/crm.service.ts:409",
       "name": "set_customer_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -15548,7 +15556,7 @@
       "command": "SELECT public.\"set_customer_status\"('92600000-0000-4000-8000-000000000401'::uuid,NULL::text)"
     },
     {
-      "site": "src/services/supabase/crm.service.ts:408",
+      "site": "src/services/supabase/crm.service.ts:409",
       "name": "set_customer_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -15561,7 +15569,7 @@
       "command": "SELECT public.\"set_customer_status\"('92600000-0000-4000-8000-000000000401'::uuid,NULL::text)"
     },
     {
-      "site": "src/services/supabase/crm.service.ts:408",
+      "site": "src/services/supabase/crm.service.ts:409",
       "name": "set_customer_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -15574,7 +15582,7 @@
       "command": "SELECT public.\"set_customer_status\"('92600000-0000-4000-8000-000000000401'::uuid,NULL::text)"
     },
     {
-      "site": "src/services/supabase/crm.service.ts:457",
+      "site": "src/services/supabase/crm.service.ts:458",
       "name": "add_customer_address",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -15597,7 +15605,7 @@
       "command": "SELECT public.\"add_customer_address\"('92600000-0000-4000-8000-000000000401'::uuid,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,0::double precision,0::double precision,false)"
     },
     {
-      "site": "src/services/supabase/crm.service.ts:457",
+      "site": "src/services/supabase/crm.service.ts:458",
       "name": "add_customer_address",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -15620,7 +15628,7 @@
       "command": "SELECT public.\"add_customer_address\"('92600000-0000-4000-8000-000000000401'::uuid,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,0::double precision,0::double precision,false)"
     },
     {
-      "site": "src/services/supabase/crm.service.ts:457",
+      "site": "src/services/supabase/crm.service.ts:458",
       "name": "add_customer_address",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -17899,7 +17907,7 @@
       "command": "SELECT public.\"get_go_live_cheques_v1\"(1::integer,25::integer)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:626",
+      "site": "src/services/supabase/orders.service.ts:627",
       "name": "accept_order_for_preparation",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -17912,7 +17920,7 @@
       "command": "SELECT public.\"accept_order_for_preparation\"(NULL::uuid,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:626",
+      "site": "src/services/supabase/orders.service.ts:627",
       "name": "accept_order_for_preparation",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -17925,7 +17933,7 @@
       "command": "SELECT public.\"accept_order_for_preparation\"(NULL::uuid,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:626",
+      "site": "src/services/supabase/orders.service.ts:627",
       "name": "accept_order_for_preparation",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -17938,7 +17946,7 @@
       "command": "SELECT public.\"accept_order_for_preparation\"(NULL::uuid,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:660",
+      "site": "src/services/supabase/orders.service.ts:661",
       "name": "complete_website_order_with_payment",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -17953,7 +17961,7 @@
       "command": "SELECT public.\"complete_website_order_with_payment\"(NULL::uuid,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:660",
+      "site": "src/services/supabase/orders.service.ts:661",
       "name": "complete_website_order_with_payment",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -17968,7 +17976,7 @@
       "command": "SELECT public.\"complete_website_order_with_payment\"(NULL::uuid,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:660",
+      "site": "src/services/supabase/orders.service.ts:661",
       "name": "complete_website_order_with_payment",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -17983,7 +17991,7 @@
       "command": "SELECT public.\"complete_website_order_with_payment\"(NULL::uuid,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:705",
+      "site": "src/services/supabase/orders.service.ts:706",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -17997,7 +18005,7 @@
       "command": "SELECT public.\"update_order_status\"(NULL::uuid,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:705",
+      "site": "src/services/supabase/orders.service.ts:706",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -18011,7 +18019,7 @@
       "command": "SELECT public.\"update_order_status\"(NULL::uuid,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:705",
+      "site": "src/services/supabase/orders.service.ts:706",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -18025,55 +18033,7 @@
       "command": "SELECT public.\"update_order_status\"(NULL::uuid,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:748",
-      "name": "get_operational_orders_page",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000001",
-      "appRole": "owner",
-      "identity": "get_operational_orders_page(integer,integer,text,text,text)",
-      "args": [
-        "1::integer",
-        "25::integer",
-        "NULL::text",
-        "NULL::text",
-        "NULL::text"
-      ],
-      "command": "SELECT public.\"get_operational_orders_page\"(1::integer,25::integer,NULL::text,NULL::text,NULL::text)"
-    },
-    {
-      "site": "src/services/supabase/orders.service.ts:748",
-      "name": "get_operational_orders_page",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000002",
-      "appRole": "admin",
-      "identity": "get_operational_orders_page(integer,integer,text,text,text)",
-      "args": [
-        "1::integer",
-        "25::integer",
-        "NULL::text",
-        "NULL::text",
-        "NULL::text"
-      ],
-      "command": "SELECT public.\"get_operational_orders_page\"(1::integer,25::integer,NULL::text,NULL::text,NULL::text)"
-    },
-    {
-      "site": "src/services/supabase/orders.service.ts:748",
-      "name": "get_operational_orders_page",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000003",
-      "appRole": "cashier",
-      "identity": "get_operational_orders_page(integer,integer,text,text,text)",
-      "args": [
-        "1::integer",
-        "25::integer",
-        "NULL::text",
-        "NULL::text",
-        "NULL::text"
-      ],
-      "command": "SELECT public.\"get_operational_orders_page\"(1::integer,25::integer,NULL::text,NULL::text,NULL::text)"
-    },
-    {
-      "site": "src/services/supabase/orders.service.ts:860",
+      "site": "src/services/supabase/orders.service.ts:749",
       "name": "get_operational_orders_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -18089,7 +18049,7 @@
       "command": "SELECT public.\"get_operational_orders_page\"(1::integer,25::integer,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:860",
+      "site": "src/services/supabase/orders.service.ts:749",
       "name": "get_operational_orders_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -18105,7 +18065,7 @@
       "command": "SELECT public.\"get_operational_orders_page\"(1::integer,25::integer,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:860",
+      "site": "src/services/supabase/orders.service.ts:749",
       "name": "get_operational_orders_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -18121,7 +18081,55 @@
       "command": "SELECT public.\"get_operational_orders_page\"(1::integer,25::integer,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:941",
+      "site": "src/services/supabase/orders.service.ts:861",
+      "name": "get_operational_orders_page",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "get_operational_orders_page(integer,integer,text,text,text)",
+      "args": [
+        "1::integer",
+        "25::integer",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text"
+      ],
+      "command": "SELECT public.\"get_operational_orders_page\"(1::integer,25::integer,NULL::text,NULL::text,NULL::text)"
+    },
+    {
+      "site": "src/services/supabase/orders.service.ts:861",
+      "name": "get_operational_orders_page",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "get_operational_orders_page(integer,integer,text,text,text)",
+      "args": [
+        "1::integer",
+        "25::integer",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text"
+      ],
+      "command": "SELECT public.\"get_operational_orders_page\"(1::integer,25::integer,NULL::text,NULL::text,NULL::text)"
+    },
+    {
+      "site": "src/services/supabase/orders.service.ts:861",
+      "name": "get_operational_orders_page",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "get_operational_orders_page(integer,integer,text,text,text)",
+      "args": [
+        "1::integer",
+        "25::integer",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text"
+      ],
+      "command": "SELECT public.\"get_operational_orders_page\"(1::integer,25::integer,NULL::text,NULL::text,NULL::text)"
+    },
+    {
+      "site": "src/services/supabase/orders.service.ts:942",
       "name": "complete_website_order_with_settlement",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -18138,7 +18146,7 @@
       "command": "SELECT public.\"complete_website_order_with_settlement\"(NULL::uuid,NULL::text,0::bigint,0::bigint,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:941",
+      "site": "src/services/supabase/orders.service.ts:942",
       "name": "complete_website_order_with_settlement",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -18155,7 +18163,7 @@
       "command": "SELECT public.\"complete_website_order_with_settlement\"(NULL::uuid,NULL::text,0::bigint,0::bigint,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:941",
+      "site": "src/services/supabase/orders.service.ts:942",
       "name": "complete_website_order_with_settlement",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -18172,7 +18180,7 @@
       "command": "SELECT public.\"complete_website_order_with_settlement\"(NULL::uuid,NULL::text,0::bigint,0::bigint,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:992",
+      "site": "src/services/supabase/orders.service.ts:993",
       "name": "return_completed_website_order",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -18189,7 +18197,7 @@
       "command": "SELECT public.\"return_completed_website_order\"(NULL::uuid,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:992",
+      "site": "src/services/supabase/orders.service.ts:993",
       "name": "return_completed_website_order",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -18206,7 +18214,7 @@
       "command": "SELECT public.\"return_completed_website_order\"(NULL::uuid,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:992",
+      "site": "src/services/supabase/orders.service.ts:993",
       "name": "return_completed_website_order",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -18223,7 +18231,7 @@
       "command": "SELECT public.\"return_completed_website_order\"(NULL::uuid,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1037",
+      "site": "src/services/supabase/orders.service.ts:1038",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -18237,7 +18245,7 @@
       "command": "SELECT public.\"update_order_status\"(NULL::uuid,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1037",
+      "site": "src/services/supabase/orders.service.ts:1038",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -18251,7 +18259,7 @@
       "command": "SELECT public.\"update_order_status\"(NULL::uuid,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1037",
+      "site": "src/services/supabase/orders.service.ts:1038",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -18265,7 +18273,7 @@
       "command": "SELECT public.\"update_order_status\"(NULL::uuid,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1088",
+      "site": "src/services/supabase/orders.service.ts:1089",
       "name": "start_or_update_order_delivery",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -18280,7 +18288,7 @@
       "command": "SELECT public.\"start_or_update_order_delivery\"(NULL::uuid,0::integer,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1088",
+      "site": "src/services/supabase/orders.service.ts:1089",
       "name": "start_or_update_order_delivery",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -18295,7 +18303,7 @@
       "command": "SELECT public.\"start_or_update_order_delivery\"(NULL::uuid,0::integer,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1088",
+      "site": "src/services/supabase/orders.service.ts:1089",
       "name": "start_or_update_order_delivery",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -18310,7 +18318,7 @@
       "command": "SELECT public.\"start_or_update_order_delivery\"(NULL::uuid,0::integer,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1146",
+      "site": "src/services/supabase/orders.service.ts:1147",
       "name": "update_order_delivery_address",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -18334,7 +18342,7 @@
       "command": "SELECT public.\"update_order_delivery_address\"(NULL::uuid,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,0::double precision,0::double precision,NULL::text,false)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1146",
+      "site": "src/services/supabase/orders.service.ts:1147",
       "name": "update_order_delivery_address",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -18358,7 +18366,7 @@
       "command": "SELECT public.\"update_order_delivery_address\"(NULL::uuid,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,0::double precision,0::double precision,NULL::text,false)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1146",
+      "site": "src/services/supabase/orders.service.ts:1147",
       "name": "update_order_delivery_address",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -22124,7 +22132,43 @@
       "command": "SELECT public.\"get_admin_ai_monthly_report\"()"
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:145",
+      "site": "supabase/functions/manage-staff-users/index.ts:147",
+      "name": "has_erp_role",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "has_erp_role(text[])",
+      "args": [
+        "ARRAY[]::text[]"
+      ],
+      "command": "SELECT public.\"has_erp_role\"(ARRAY[]::text[])"
+    },
+    {
+      "site": "supabase/functions/manage-staff-users/index.ts:147",
+      "name": "has_erp_role",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "has_erp_role(text[])",
+      "args": [
+        "ARRAY[]::text[]"
+      ],
+      "command": "SELECT public.\"has_erp_role\"(ARRAY[]::text[])"
+    },
+    {
+      "site": "supabase/functions/manage-staff-users/index.ts:147",
+      "name": "has_erp_role",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "has_erp_role(text[])",
+      "args": [
+        "ARRAY[]::text[]"
+      ],
+      "command": "SELECT public.\"has_erp_role\"(ARRAY[]::text[])"
+    },
+    {
+      "site": "supabase/functions/manage-staff-users/index.ts:158",
       "name": "get_erp_staff_accounts",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -22134,7 +22178,7 @@
       "command": "SELECT public.\"get_erp_staff_accounts\"()"
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:145",
+      "site": "supabase/functions/manage-staff-users/index.ts:158",
       "name": "get_erp_staff_accounts",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -22144,7 +22188,7 @@
       "command": "SELECT public.\"get_erp_staff_accounts\"()"
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:145",
+      "site": "supabase/functions/manage-staff-users/index.ts:158",
       "name": "get_erp_staff_accounts",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -22154,7 +22198,7 @@
       "command": "SELECT public.\"get_erp_staff_accounts\"()"
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:198",
+      "site": "supabase/functions/manage-staff-users/index.ts:211",
       "name": "get_erp_staff_account_audit_logs",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -22166,7 +22210,7 @@
       "command": "SELECT public.\"get_erp_staff_account_audit_logs\"(25::integer)"
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:198",
+      "site": "supabase/functions/manage-staff-users/index.ts:211",
       "name": "get_erp_staff_account_audit_logs",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -22178,7 +22222,7 @@
       "command": "SELECT public.\"get_erp_staff_account_audit_logs\"(25::integer)"
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:198",
+      "site": "supabase/functions/manage-staff-users/index.ts:211",
       "name": "get_erp_staff_account_audit_logs",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -22190,7 +22234,7 @@
       "command": "SELECT public.\"get_erp_staff_account_audit_logs\"(25::integer)"
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:237",
+      "site": "supabase/functions/manage-staff-users/index.ts:250",
       "name": "create_erp_staff_account_record",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -22207,7 +22251,7 @@
       "command": "SELECT public.\"create_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)"
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:237",
+      "site": "supabase/functions/manage-staff-users/index.ts:250",
       "name": "create_erp_staff_account_record",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -22224,7 +22268,7 @@
       "command": "SELECT public.\"create_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)"
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:237",
+      "site": "supabase/functions/manage-staff-users/index.ts:250",
       "name": "create_erp_staff_account_record",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -22241,7 +22285,7 @@
       "command": "SELECT public.\"create_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)"
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:266",
+      "site": "supabase/functions/manage-staff-users/index.ts:279",
       "name": "update_erp_staff_account_record",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -22258,7 +22302,7 @@
       "command": "SELECT public.\"update_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)"
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:266",
+      "site": "supabase/functions/manage-staff-users/index.ts:279",
       "name": "update_erp_staff_account_record",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -22275,7 +22319,7 @@
       "command": "SELECT public.\"update_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)"
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:266",
+      "site": "supabase/functions/manage-staff-users/index.ts:279",
       "name": "update_erp_staff_account_record",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -22292,7 +22336,7 @@
       "command": "SELECT public.\"update_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)"
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:300",
+      "site": "supabase/functions/manage-staff-users/index.ts:313",
       "name": "set_erp_staff_account_active",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -22305,7 +22349,7 @@
       "command": "SELECT public.\"set_erp_staff_account_active\"('92600000-0000-4000-8000-000000000001'::uuid,false)"
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:300",
+      "site": "supabase/functions/manage-staff-users/index.ts:313",
       "name": "set_erp_staff_account_active",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -22318,7 +22362,7 @@
       "command": "SELECT public.\"set_erp_staff_account_active\"('92600000-0000-4000-8000-000000000001'::uuid,false)"
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:300",
+      "site": "supabase/functions/manage-staff-users/index.ts:313",
       "name": "set_erp_staff_account_active",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -22331,7 +22375,7 @@
       "command": "SELECT public.\"set_erp_staff_account_active\"('92600000-0000-4000-8000-000000000001'::uuid,false)"
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:327",
+      "site": "supabase/functions/manage-staff-users/index.ts:340",
       "name": "record_erp_staff_password_reset",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -22343,7 +22387,7 @@
       "command": "SELECT public.\"record_erp_staff_password_reset\"('92600000-0000-4000-8000-000000000001'::uuid)"
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:327",
+      "site": "supabase/functions/manage-staff-users/index.ts:340",
       "name": "record_erp_staff_password_reset",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -22355,7 +22399,7 @@
       "command": "SELECT public.\"record_erp_staff_password_reset\"('92600000-0000-4000-8000-000000000001'::uuid)"
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:327",
+      "site": "supabase/functions/manage-staff-users/index.ts:340",
       "name": "record_erp_staff_password_reset",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -23742,7 +23786,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/crm.service.ts:160",
+      "site": "src/services/supabase/crm.service.ts:161",
       "name": "get_crm_customer_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -23762,7 +23806,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/crm.service.ts:160",
+      "site": "src/services/supabase/crm.service.ts:161",
       "name": "get_crm_customer_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -23782,7 +23826,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/crm.service.ts:160",
+      "site": "src/services/supabase/crm.service.ts:161",
       "name": "get_crm_customer_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -23802,7 +23846,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/crm.service.ts:212",
+      "site": "src/services/supabase/crm.service.ts:213",
       "name": "get_crm_customer_detail_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -23820,7 +23864,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/crm.service.ts:212",
+      "site": "src/services/supabase/crm.service.ts:213",
       "name": "get_crm_customer_detail_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -23838,7 +23882,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/crm.service.ts:212",
+      "site": "src/services/supabase/crm.service.ts:213",
       "name": "get_crm_customer_detail_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -23856,7 +23900,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/crm.service.ts:365",
+      "site": "src/services/supabase/crm.service.ts:366",
       "name": "save_customer",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -23879,7 +23923,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/crm.service.ts:365",
+      "site": "src/services/supabase/crm.service.ts:366",
       "name": "save_customer",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -23902,7 +23946,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/crm.service.ts:365",
+      "site": "src/services/supabase/crm.service.ts:366",
       "name": "save_customer",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -23925,7 +23969,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/crm.service.ts:408",
+      "site": "src/services/supabase/crm.service.ts:409",
       "name": "set_customer_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -23942,7 +23986,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/crm.service.ts:408",
+      "site": "src/services/supabase/crm.service.ts:409",
       "name": "set_customer_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -23959,7 +24003,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/crm.service.ts:408",
+      "site": "src/services/supabase/crm.service.ts:409",
       "name": "set_customer_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -23976,7 +24020,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/crm.service.ts:457",
+      "site": "src/services/supabase/crm.service.ts:458",
       "name": "add_customer_address",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -24003,7 +24047,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/crm.service.ts:457",
+      "site": "src/services/supabase/crm.service.ts:458",
       "name": "add_customer_address",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -24030,7 +24074,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/crm.service.ts:457",
+      "site": "src/services/supabase/crm.service.ts:458",
       "name": "add_customer_address",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -26949,7 +26993,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:626",
+      "site": "src/services/supabase/orders.service.ts:627",
       "name": "accept_order_for_preparation",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -26966,7 +27010,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:626",
+      "site": "src/services/supabase/orders.service.ts:627",
       "name": "accept_order_for_preparation",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -26983,7 +27027,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:626",
+      "site": "src/services/supabase/orders.service.ts:627",
       "name": "accept_order_for_preparation",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -27000,7 +27044,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:660",
+      "site": "src/services/supabase/orders.service.ts:661",
       "name": "complete_website_order_with_payment",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -27019,7 +27063,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:660",
+      "site": "src/services/supabase/orders.service.ts:661",
       "name": "complete_website_order_with_payment",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -27038,7 +27082,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:660",
+      "site": "src/services/supabase/orders.service.ts:661",
       "name": "complete_website_order_with_payment",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -27057,7 +27101,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:705",
+      "site": "src/services/supabase/orders.service.ts:706",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -27075,7 +27119,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:705",
+      "site": "src/services/supabase/orders.service.ts:706",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -27093,7 +27137,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:705",
+      "site": "src/services/supabase/orders.service.ts:706",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -27111,7 +27155,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:748",
+      "site": "src/services/supabase/orders.service.ts:749",
       "name": "get_operational_orders_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -27131,7 +27175,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/orders.service.ts:748",
+      "site": "src/services/supabase/orders.service.ts:749",
       "name": "get_operational_orders_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -27151,7 +27195,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/orders.service.ts:748",
+      "site": "src/services/supabase/orders.service.ts:749",
       "name": "get_operational_orders_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -27171,7 +27215,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/orders.service.ts:860",
+      "site": "src/services/supabase/orders.service.ts:861",
       "name": "get_operational_orders_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -27191,7 +27235,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/orders.service.ts:860",
+      "site": "src/services/supabase/orders.service.ts:861",
       "name": "get_operational_orders_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -27211,7 +27255,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/orders.service.ts:860",
+      "site": "src/services/supabase/orders.service.ts:861",
       "name": "get_operational_orders_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -27231,7 +27275,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/orders.service.ts:941",
+      "site": "src/services/supabase/orders.service.ts:942",
       "name": "complete_website_order_with_settlement",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -27252,7 +27296,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:941",
+      "site": "src/services/supabase/orders.service.ts:942",
       "name": "complete_website_order_with_settlement",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -27273,7 +27317,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:941",
+      "site": "src/services/supabase/orders.service.ts:942",
       "name": "complete_website_order_with_settlement",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -27294,7 +27338,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:992",
+      "site": "src/services/supabase/orders.service.ts:993",
       "name": "return_completed_website_order",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -27315,7 +27359,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:992",
+      "site": "src/services/supabase/orders.service.ts:993",
       "name": "return_completed_website_order",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -27336,7 +27380,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:992",
+      "site": "src/services/supabase/orders.service.ts:993",
       "name": "return_completed_website_order",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -27357,7 +27401,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1037",
+      "site": "src/services/supabase/orders.service.ts:1038",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -27375,7 +27419,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1037",
+      "site": "src/services/supabase/orders.service.ts:1038",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -27393,7 +27437,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1037",
+      "site": "src/services/supabase/orders.service.ts:1038",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -27411,7 +27455,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1088",
+      "site": "src/services/supabase/orders.service.ts:1089",
       "name": "start_or_update_order_delivery",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -27430,7 +27474,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1088",
+      "site": "src/services/supabase/orders.service.ts:1089",
       "name": "start_or_update_order_delivery",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -27449,7 +27493,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1088",
+      "site": "src/services/supabase/orders.service.ts:1089",
       "name": "start_or_update_order_delivery",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -27468,7 +27512,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1146",
+      "site": "src/services/supabase/orders.service.ts:1147",
       "name": "update_order_delivery_address",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -27496,7 +27540,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1146",
+      "site": "src/services/supabase/orders.service.ts:1147",
       "name": "update_order_delivery_address",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -27524,7 +27568,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1146",
+      "site": "src/services/supabase/orders.service.ts:1147",
       "name": "update_order_delivery_address",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -32258,65 +32302,113 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:145",
-      "name": "get_erp_staff_accounts",
+      "site": "supabase/functions/manage-staff-users/index.ts:147",
+      "name": "has_erp_role",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
       "appRole": "owner",
-      "identity": "get_erp_staff_accounts()",
-      "args": [],
-      "command": "SELECT public.\"get_erp_staff_accounts\"()",
+      "identity": "has_erp_role(text[])",
+      "args": [
+        "ARRAY[]::text[]"
+      ],
+      "command": "SELECT public.\"has_erp_role\"(ARRAY[]::text[])",
       "probe": 511,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:145",
-      "name": "get_erp_staff_accounts",
+      "site": "supabase/functions/manage-staff-users/index.ts:147",
+      "name": "has_erp_role",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
       "appRole": "admin",
-      "identity": "get_erp_staff_accounts()",
-      "args": [],
-      "command": "SELECT public.\"get_erp_staff_accounts\"()",
+      "identity": "has_erp_role(text[])",
+      "args": [
+        "ARRAY[]::text[]"
+      ],
+      "command": "SELECT public.\"has_erp_role\"(ARRAY[]::text[])",
       "probe": 512,
-      "message": "ليس لديك صلاحية إدارة حسابات الموظفين.",
-      "outcome": "body_validation_or_error",
-      "sqlstate": "P0001"
+      "message": "success rolled back",
+      "outcome": "success_rolled_back",
+      "sqlstate": null
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:145",
-      "name": "get_erp_staff_accounts",
+      "site": "supabase/functions/manage-staff-users/index.ts:147",
+      "name": "has_erp_role",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
       "appRole": "cashier",
-      "identity": "get_erp_staff_accounts()",
-      "args": [],
-      "command": "SELECT public.\"get_erp_staff_accounts\"()",
+      "identity": "has_erp_role(text[])",
+      "args": [
+        "ARRAY[]::text[]"
+      ],
+      "command": "SELECT public.\"has_erp_role\"(ARRAY[]::text[])",
       "probe": 513,
-      "message": "ليس لديك صلاحية إدارة حسابات الموظفين.",
-      "outcome": "body_validation_or_error",
-      "sqlstate": "P0001"
+      "message": "success rolled back",
+      "outcome": "success_rolled_back",
+      "sqlstate": null
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:198",
-      "name": "get_erp_staff_account_audit_logs",
+      "site": "supabase/functions/manage-staff-users/index.ts:158",
+      "name": "get_erp_staff_accounts",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
       "appRole": "owner",
-      "identity": "get_erp_staff_account_audit_logs(integer)",
-      "args": [
-        "25::integer"
-      ],
-      "command": "SELECT public.\"get_erp_staff_account_audit_logs\"(25::integer)",
+      "identity": "get_erp_staff_accounts()",
+      "args": [],
+      "command": "SELECT public.\"get_erp_staff_accounts\"()",
       "probe": 514,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:198",
+      "site": "supabase/functions/manage-staff-users/index.ts:158",
+      "name": "get_erp_staff_accounts",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "get_erp_staff_accounts()",
+      "args": [],
+      "command": "SELECT public.\"get_erp_staff_accounts\"()",
+      "probe": 515,
+      "message": "ليس لديك صلاحية إدارة حسابات الموظفين.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "supabase/functions/manage-staff-users/index.ts:158",
+      "name": "get_erp_staff_accounts",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "get_erp_staff_accounts()",
+      "args": [],
+      "command": "SELECT public.\"get_erp_staff_accounts\"()",
+      "probe": 516,
+      "message": "ليس لديك صلاحية إدارة حسابات الموظفين.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "supabase/functions/manage-staff-users/index.ts:211",
+      "name": "get_erp_staff_account_audit_logs",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "get_erp_staff_account_audit_logs(integer)",
+      "args": [
+        "25::integer"
+      ],
+      "command": "SELECT public.\"get_erp_staff_account_audit_logs\"(25::integer)",
+      "probe": 517,
+      "message": "success rolled back",
+      "outcome": "success_rolled_back",
+      "sqlstate": null
+    },
+    {
+      "site": "supabase/functions/manage-staff-users/index.ts:211",
       "name": "get_erp_staff_account_audit_logs",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -32326,13 +32418,13 @@
         "25::integer"
       ],
       "command": "SELECT public.\"get_erp_staff_account_audit_logs\"(25::integer)",
-      "probe": 515,
+      "probe": 518,
       "message": "ليس لديك صلاحية عرض سجل إدارة الموظفين.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:198",
+      "site": "supabase/functions/manage-staff-users/index.ts:211",
       "name": "get_erp_staff_account_audit_logs",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -32342,13 +32434,13 @@
         "25::integer"
       ],
       "command": "SELECT public.\"get_erp_staff_account_audit_logs\"(25::integer)",
-      "probe": 516,
+      "probe": 519,
       "message": "ليس لديك صلاحية عرض سجل إدارة الموظفين.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:237",
+      "site": "supabase/functions/manage-staff-users/index.ts:250",
       "name": "create_erp_staff_account_record",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -32363,13 +32455,13 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"create_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 517,
+      "probe": 520,
       "message": "اسم المستخدم يجب أن يكون بين حرفين و120 حرفًا.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:237",
+      "site": "supabase/functions/manage-staff-users/index.ts:250",
       "name": "create_erp_staff_account_record",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -32384,13 +32476,13 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"create_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 518,
+      "probe": 521,
       "message": "ليس لديك صلاحية إضافة حساب موظف أو مالك نظام.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:237",
+      "site": "supabase/functions/manage-staff-users/index.ts:250",
       "name": "create_erp_staff_account_record",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -32405,13 +32497,13 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"create_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 519,
+      "probe": 522,
       "message": "ليس لديك صلاحية إضافة حساب موظف أو مالك نظام.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:266",
+      "site": "supabase/functions/manage-staff-users/index.ts:279",
       "name": "update_erp_staff_account_record",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -32426,13 +32518,13 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"update_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 520,
+      "probe": 523,
       "message": "لا يمكن تعديل حسابك الحالي من إدارة المستخدمين.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:266",
+      "site": "supabase/functions/manage-staff-users/index.ts:279",
       "name": "update_erp_staff_account_record",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -32447,13 +32539,13 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"update_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 521,
+      "probe": 524,
       "message": "ليس لديك صلاحية تعديل حساب موظف أو مالك نظام.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:266",
+      "site": "supabase/functions/manage-staff-users/index.ts:279",
       "name": "update_erp_staff_account_record",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -32468,13 +32560,13 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"update_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 522,
+      "probe": 525,
       "message": "ليس لديك صلاحية تعديل حساب موظف أو مالك نظام.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:300",
+      "site": "supabase/functions/manage-staff-users/index.ts:313",
       "name": "set_erp_staff_account_active",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -32485,13 +32577,13 @@
         "false"
       ],
       "command": "SELECT public.\"set_erp_staff_account_active\"('92600000-0000-4000-8000-000000000001'::uuid,false)",
-      "probe": 523,
+      "probe": 526,
       "message": "لا يمكن تعطيل أو تعديل حسابك الحالي.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:300",
+      "site": "supabase/functions/manage-staff-users/index.ts:313",
       "name": "set_erp_staff_account_active",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -32502,13 +32594,13 @@
         "false"
       ],
       "command": "SELECT public.\"set_erp_staff_account_active\"('92600000-0000-4000-8000-000000000001'::uuid,false)",
-      "probe": 524,
+      "probe": 527,
       "message": "ليس لديك صلاحية تفعيل أو تعطيل حساب مستخدم.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:300",
+      "site": "supabase/functions/manage-staff-users/index.ts:313",
       "name": "set_erp_staff_account_active",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -32519,13 +32611,13 @@
         "false"
       ],
       "command": "SELECT public.\"set_erp_staff_account_active\"('92600000-0000-4000-8000-000000000001'::uuid,false)",
-      "probe": 525,
+      "probe": 528,
       "message": "ليس لديك صلاحية تفعيل أو تعطيل حساب مستخدم.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:327",
+      "site": "supabase/functions/manage-staff-users/index.ts:340",
       "name": "record_erp_staff_password_reset",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -32535,13 +32627,13 @@
         "'92600000-0000-4000-8000-000000000001'::uuid"
       ],
       "command": "SELECT public.\"record_erp_staff_password_reset\"('92600000-0000-4000-8000-000000000001'::uuid)",
-      "probe": 526,
+      "probe": 529,
       "message": "لا يمكن إعادة تعيين كلمة مرور حسابك الحالي من هذه الشاشة.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:327",
+      "site": "supabase/functions/manage-staff-users/index.ts:340",
       "name": "record_erp_staff_password_reset",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -32551,13 +32643,13 @@
         "'92600000-0000-4000-8000-000000000001'::uuid"
       ],
       "command": "SELECT public.\"record_erp_staff_password_reset\"('92600000-0000-4000-8000-000000000001'::uuid)",
-      "probe": 527,
+      "probe": 530,
       "message": "ليس لديك صلاحية إعادة تعيين كلمة مرور مستخدم.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
     },
     {
-      "site": "supabase/functions/manage-staff-users/index.ts:327",
+      "site": "supabase/functions/manage-staff-users/index.ts:340",
       "name": "record_erp_staff_password_reset",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -32567,7 +32659,7 @@
         "'92600000-0000-4000-8000-000000000001'::uuid"
       ],
       "command": "SELECT public.\"record_erp_staff_password_reset\"('92600000-0000-4000-8000-000000000001'::uuid)",
-      "probe": 528,
+      "probe": 531,
       "message": "ليس لديك صلاحية إعادة تعيين كلمة مرور مستخدم.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32585,7 +32677,7 @@
         "0::integer"
       ],
       "command": "SELECT public.\"claim_automation_deliveries\"(NULL::text,25::integer,0::integer)",
-      "probe": 529,
+      "probe": 532,
       "message": "Invalid automation delivery channel.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32604,7 +32696,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"complete_automation_delivery\"(NULL::uuid,NULL::text,false,NULL::text)",
-      "probe": 530,
+      "probe": 533,
       "message": "Invalid automation delivery completion.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32618,7 +32710,7 @@
       "identity": "get_push_webhook_secret()",
       "args": [],
       "command": "SELECT public.\"get_push_webhook_secret\"()",
-      "probe": 531,
+      "probe": 534,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -32634,7 +32726,7 @@
         "'92600000-0000-4000-8000-000000000001'::uuid"
       ],
       "command": "SELECT public.\"get_active_order_push_targets\"('92600000-0000-4000-8000-000000000001'::uuid)",
-      "probe": 532,
+      "probe": 535,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -32653,7 +32745,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"authorize_guest_order_gateway\"(NULL::uuid,NULL::text,NULL::text,NULL::text)",
-      "probe": 533,
+      "probe": 536,
       "message": "Invalid gateway request.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32691,7 +32783,7 @@
         "0::bigint"
       ],
       "command": "SELECT public.\"submit_guest_customer_order_v2\"('isolated-service-audit-0000000000000000000001',NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,0::double precision,0::double precision,NULL::text,'[]'::jsonb,NULL::text,NULL::text,NULL::text,0::bigint,0::bigint,0::bigint,0::bigint)",
-      "probe": 534,
+      "probe": 537,
       "message": "PHASE3_IDEMPOTENCY_INPUT_INVALID: Customer operation identity is invalid.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32709,7 +32801,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"finalize_guest_order_gateway\"(NULL::uuid,NULL::text,NULL::uuid)",
-      "probe": 535,
+      "probe": 538,
       "message": "Gateway authorization was not found.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32727,7 +32819,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"finalize_guest_order_gateway\"(NULL::uuid,NULL::text,NULL::uuid)",
-      "probe": 536,
+      "probe": 539,
       "message": "Gateway authorization was not found.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -41174,7 +41266,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-10-24T17:28:51.686Z",
+  "endedAt": "2026-10-24T22:37:53.657Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {
@@ -41519,7 +41611,7 @@
   ],
   "savedCatalogProvenance": {
     "baseline": "703fc51abb6b65ce2df2edcf14c6ecb235b74ddf",
-    "scope": "Historical15Oct saved-catalog review only;effectiveLocal and invocationResults measured anew on213;no hosted read"
+    "scope": "Historical15Oct saved-catalog review only;effectiveLocal and invocationResults measured anew on214;no hosted read"
   },
   "oldReferences": [
     {
@@ -41542,7 +41634,7 @@
     {
       "file": "docs/agent/OWNER_DECISIONS.md",
       "lines": [
-        723
+        729
       ],
       "category": "HISTORICAL_DOCUMENTATION"
     },

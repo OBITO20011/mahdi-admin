@@ -3,7 +3,27 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/OWNER_DECISIONS.md"
+      "path": "docs/operations/FRANKFURT_OWNER_UPGRADE214_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/UNEXPOSED_RPC_REVIEW_AR.md"
     },
     {
       "code": " M",
@@ -11,11 +31,7 @@
     },
     {
       "code": " M",
-      "path": "scripts/testing/maintenance-db-contract.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/document-corrections207-evidence.test.ts"
+      "path": "scripts/operations/build-acl-reference214.mjs"
     },
     {
       "code": " M",
@@ -23,15 +39,19 @@
     },
     {
       "code": " M",
-      "path": "tests/handover214.test.ts"
+      "path": "tests/pretrial-p1.test.ts"
     },
     {
       "code": " M",
-      "path": "tests/service-access-inventory.test.ts"
+      "path": "tests/sales-history204-evidence.test.ts"
     },
     {
       "code": " M",
-      "path": "tests/trial-reset.test.ts"
+      "path": "tests/storefront-c6.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_214.json"
     }
   ]
 }

@@ -15,4 +15,7 @@ test('Z5 changes only lock discovery/order/revalidation; reversal financial body
   assert.match(current, /ORDER BY shift_id/);
   assert.match(current, /ORDER BY o\.id FOR UPDATE/);
   assert.match(current, /v_locked_plan IS DISTINCT FROM v_plan/);
+  const lockingOnly = current.match(/-- Same hierarchy as collect_customer_balance_v1:[\s\S]+?(?= {2}IF v_operation.cash_shift_id IS NOT NULL)/)?.[0];
+  assert.ok(lockingOnly);
+  assert.doesNotMatch(lockingOnly, /\b(?:INSERT INTO|UPDATE public\.|DELETE FROM|MERGE INTO)\b/i);
 });

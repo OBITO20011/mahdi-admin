@@ -12,7 +12,8 @@
     "Z1 saved/pusheda65bf52;Z2 DB8groups passed:10000roundtrip1000.6/1000.4,both sale kinds,fractional rounding,historicalfallback,replay0",
     "Z2saved1dfcf49;Z3actualSQL23,browser12bothengines,unit28,typesboth/strictfocusedlint/buildsSEO passed",
     "Z3 saved/pushedbc46a42;Z4 actual4states passed:28allowedreads,56denials,fullfingerprintzero writes;pre-readcentralguard",
-    "Z4saved/pushed146d71b;Z5 actual5groups/4two-sessionraces passed,exactfinancialbody213unchanged,strictreplay/closedshiftzero writes"
+    "Z4saved/pushed146d71b;Z5 actual5groups/4two-sessionraces passed,exactfinancialbody213unchanged,strictreplay/closedshiftzero writes",
+    "214 final SQL reverified:Edge42,cost8,maps23,shift4(28allowed/56denied),collection5(4realraces);currentSDK154table reads +540RPC probes/10expected denials;browser12,store197,bothbuilds/SEO,Gitleaks0"
   ],
   "inProgress": [
     "214 reference/source evidence/reset/strict owner upgrade/fullCI acceptance"
@@ -23,10 +24,17 @@
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "testsPassed": [],
+  "testsPassed": [
+    "Z1-Z5 actuallocal acceptance rerun on final214",
+    "Current SDK154 success/0errors and540RPC/10expected denials",
+    "Chromium/WebKit12,retries0",
+    "Store197,bothbuilds/SEO,networkguard,strictpolicy/outer-inverse tests",
+    "Gitleaks0 over86changed/untrackedfiles"
+  ],
   "testsRemaining": [
-    "All scoped local/DB/concurrency/EdgeHTTP/browser gates",
-    "Exact feature FULLCI/Gitleaks"
+    "Fulladminunit finalrun inprogress",
+    "214fresh/incremental reference,strictownerupgrade/verify/reset inprogress",
+    "Exact feature FULLCI and secrets"
   ],
   "findings": [
     "Employee cost/WAC/profit read visibility explicitly deferred;mandatory safe DTO/column revocation before hiring"
@@ -40,9 +48,9 @@
     "One writing agent;commit+push after each completed item",
     "No Z merge authorization"
   ],
-  "nextExactAction": "214 serial full local gate running;policy/source protections pass;SDK proof/reference/strict verification then exact-SHA FULLCI",
-  "checkpointedAt": "2026-10-24T22:26:58.632Z",
-  "filesTouchedCount": 8,
-  "filesTouchedManifestSha256": "3a152b9b81feb6e32d8dd98f3488552142e143187787487da9b1866c7acdfdb0",
-  "workingTreeFingerprint": "E9874860105CD69805F461455EB41D8A41E9B4E81E2AECC9E722B40F8384E75C"
+  "nextExactAction": "214 local reference/upgrade/reset and final admin units running;then exact-SHA FULLCI,owner214 guide and no deployment",
+  "checkpointedAt": "2026-10-24T22:39:41.068Z",
+  "filesTouchedCount": 13,
+  "filesTouchedManifestSha256": "b1d6cad52a38aab2fd2a4c383d1312b16e3b9fecc0b44c733a3dc521348804be",
+  "workingTreeFingerprint": "0535A1F4F8518E762DAE63E3ABBA1F7C281FCEACC58DD019B6D601FB89F6878C"
 }

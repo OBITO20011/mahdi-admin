@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "migrationCeiling": 213,
+  "migrationCeiling": 214,
   "managedAccess": false,
   "sources": [
     {
@@ -229,7 +229,7 @@
     },
     {
       "file": "src/features/crm/CustomerDetailView.tsx",
-      "sha256": "10c6f81e3ca6a025ddcc994ed026cf02b4cf6223c22dc8e5163880ac35541d91"
+      "sha256": "ea21d8dcaa23d424b05ab1807ded05df8e95b53eabcc6f5ad21c78a6c393cdb8"
     },
     {
       "file": "src/features/crm/CustomerEditModal.tsx",
@@ -413,7 +413,7 @@
     },
     {
       "file": "src/features/orders/CustomerLocationCard.tsx",
-      "sha256": "7e35b12f5a82c14311859dda69aadff082d38d364953c3e30ab6973278a80675"
+      "sha256": "29521d2efc7b7d4396099c1c4e35feb37f82ccd2486a2a87aa1bb3aa208593c4"
     },
     {
       "file": "src/features/orders/EditAddressModal.tsx",
@@ -701,7 +701,7 @@
     },
     {
       "file": "src/services/supabase/crm.service.ts",
-      "sha256": "a2067c5a078cf8bf69606aa07c3625935bbcc2693f10c0ca9db489d71138b3af"
+      "sha256": "b096655ba7d8b4fa19fd1603b2888d892078f8e8d17c2bfcef36dcf015e8a1f0"
     },
     {
       "file": "src/services/supabase/customerAccounts.service.ts",
@@ -769,7 +769,7 @@
     },
     {
       "file": "src/services/supabase/orders.service.ts",
-      "sha256": "6207a97a113187d3b11c377eb25998930840121bc384097029ba9879e10e4e7d"
+      "sha256": "8e29f30fd36cc412daf5b0426ba5a102f01695b5139da3b271b6020dbb72a077"
     },
     {
       "file": "src/services/supabase/ownerWithdrawals.service.ts",
@@ -960,6 +960,10 @@
       "sha256": "1585cef59c464506938f85831136b2730c04776f1da7827d2f1f9451bc937f8f"
     },
     {
+      "file": "src/utils/googleMaps.ts",
+      "sha256": "ce458def64a203ed7364cfc3d9ebdfa42c40eeb0f23e8742056a96638bf32bdf"
+    },
+    {
       "file": "src/utils/inventoryFormatter.ts",
       "sha256": "98c62f5906ae24925cbaaa68b364c1cd502cc33329bc9911af6f01af4a842296"
     },
@@ -1073,7 +1077,7 @@
     },
     {
       "file": "customer-web/src/components/CheckoutModal.tsx",
-      "sha256": "514639e7855a6b72a6d3e1aa3f7a30fa7970fd1abb29f86d1bf39b009e48d896"
+      "sha256": "fee549e463ceabafffae60cb0d5596553afb5f17304ef40ac394f100e9383d83"
     },
     {
       "file": "customer-web/src/components/CheckoutProgress.tsx",
@@ -1289,7 +1293,7 @@
     },
     {
       "file": "customer-web/src/utils/checkout.ts",
-      "sha256": "e9782e842c0dcda6c1662fa24714c98dbb76da70b1e27cf2a8e2aad313eb1344"
+      "sha256": "aaee46cd792d7db2ebd4bf943bd5288d3aa387aaa29f0a67dae27e990d74b265"
     },
     {
       "file": "customer-web/src/utils/checkoutErrorMessage.ts",
@@ -1298,6 +1302,10 @@
     {
       "file": "customer-web/src/utils/dialogFocus.ts",
       "sha256": "245e78a39c65e917015fa146ef52d209ecd4f7b1bb8ec2f80d7e94dfbdd7db8b"
+    },
+    {
+      "file": "customer-web/src/utils/googleMaps.ts",
+      "sha256": "ce458def64a203ed7364cfc3d9ebdfa42c40eeb0f23e8742056a96638bf32bdf"
     },
     {
       "file": "customer-web/src/utils/money.ts",
@@ -1325,7 +1333,7 @@
     },
     {
       "file": "supabase/functions/manage-staff-users/index.ts",
-      "sha256": "65fed77a0253920adb1a52ad68d6bb28c7df021f761f2adfc840b9cb8057e109"
+      "sha256": "e752c91afcaef52f2eed05266bb6c418f3a2dbdea3cc1c01fa37f3beb8bb48c8"
     },
     {
       "file": "supabase/functions/n8n-alert-feed/index.ts",
@@ -1912,9 +1920,9 @@
       "reachability": "no-static-consumer-found"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:279",
+      "id": "src/services/supabase/orders.service.ts:280",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 279,
+      "line": 280,
       "table": "orders",
       "operation": "select",
       "role": "authenticated",
@@ -1955,9 +1963,9 @@
       "reachability": "no-static-consumer-found"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:283",
+      "id": "src/services/supabase/orders.service.ts:284",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 283,
+      "line": 284,
       "table": "order_items",
       "operation": "select",
       "role": "authenticated",
@@ -2021,9 +2029,9 @@
       "reachability": "no-static-consumer-found"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:577",
+      "id": "src/services/supabase/orders.service.ts:578",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 577,
+      "line": 578,
       "table": "orders",
       "operation": "select",
       "role": "authenticated",
@@ -2079,9 +2087,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:598",
+      "id": "src/services/supabase/orders.service.ts:599",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 598,
+      "line": 599,
       "table": "order_parcel_instances",
       "operation": "select",
       "role": "authenticated",
@@ -2130,9 +2138,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:604",
+      "id": "src/services/supabase/orders.service.ts:605",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 604,
+      "line": 605,
       "table": "order_parcel_components",
       "operation": "select",
       "role": "authenticated",
@@ -3692,7 +3700,7 @@
   "subscriptions": [
     {
       "file": "src/services/supabase/crm.service.ts",
-      "line": 518,
+      "line": 519,
       "event": "*",
       "schema": "public",
       "table": "orders",
@@ -3702,7 +3710,7 @@
     },
     {
       "file": "src/services/supabase/crm.service.ts",
-      "line": 518,
+      "line": 519,
       "event": "*",
       "schema": "public",
       "table": "customer_addresses",
@@ -3712,7 +3720,7 @@
     },
     {
       "file": "src/services/supabase/crm.service.ts",
-      "line": 518,
+      "line": 519,
       "event": "*",
       "schema": "public",
       "table": "customers",
@@ -3802,7 +3810,7 @@
     },
     {
       "file": "src/services/supabase/orders.service.ts",
-      "line": 1225,
+      "line": 1226,
       "event": "*",
       "schema": "public",
       "table": "orders",
@@ -3964,7 +3972,7 @@
     },
     {
       "file": "src/services/supabase/crm.service.ts",
-      "line": 511,
+      "line": 512,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
@@ -4004,6 +4012,11 @@
     {
       "file": "src/services/supabase/receivingPurchaseContext.service.ts",
       "line": 6,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
+      "file": "src/utils/googleMaps.ts",
+      "line": 11,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
@@ -4054,6 +4067,11 @@
     {
       "file": "customer-web/src/utils/cart.ts",
       "line": 329,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
+      "file": "customer-web/src/utils/googleMaps.ts",
+      "line": 11,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {

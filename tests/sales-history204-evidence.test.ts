@@ -11,7 +11,7 @@ test('204 historical projection restores complete accepted203 files before parsi
   assert.deepEqual(historical.sources,proof.sourceHashes);assert.deepEqual(verifyProbeCoverage(historical,proof.results),proof.coverage);
   for(const [file,p]of Object.entries(sales204Pins) as Array<[string,{added?:boolean;before?:string;after:string}]>){
     const current=read(file),restored=sourceBeforeSales204(file,current);
-    assert.throws(()=>sourceBeforeSales204(file,current+'\n// unrelated change\n'),/(?:SALES204|NAVIGATION206|CORRECTIONS207)_ENTIRE_CURRENT_FILE_CHANGED/u);
+    assert.throws(()=>sourceBeforeSales204(file,current+'\n// unrelated change\n'),/(?:SALES204|NAVIGATION206|CORRECTIONS207)_ENTIRE_CURRENT_FILE_CHANGED|HANDOVER214_UNREVIEWED_SOURCE/u);
     if(p.added)assert.equal(restored,null);else assert.equal(createHash('sha256').update(restored!).digest('hex'),p.before);
   }
 });

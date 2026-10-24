@@ -1,6 +1,6 @@
 import {assert213Transition} from '../testing/handover213-contract.mjs';
 import {assert214Transition} from '../testing/handover214-contract.mjs';
-// Fresh001-214 versus complete213 plus literal214 and official repair.
+// Fresh001-214 versus complete212 plus literal213/214 and official repair.
 import assert from 'node:assert/strict';
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';

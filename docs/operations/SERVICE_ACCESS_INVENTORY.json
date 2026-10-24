@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "migrationCeiling": 213,
+  "migrationCeiling": 214,
   "managedAccess": false,
   "sourceHashes": [
     {
@@ -229,7 +229,7 @@
     },
     {
       "file": "src/features/crm/CustomerDetailView.tsx",
-      "sha256": "10c6f81e3ca6a025ddcc994ed026cf02b4cf6223c22dc8e5163880ac35541d91"
+      "sha256": "ea21d8dcaa23d424b05ab1807ded05df8e95b53eabcc6f5ad21c78a6c393cdb8"
     },
     {
       "file": "src/features/crm/CustomerEditModal.tsx",
@@ -413,7 +413,7 @@
     },
     {
       "file": "src/features/orders/CustomerLocationCard.tsx",
-      "sha256": "7e35b12f5a82c14311859dda69aadff082d38d364953c3e30ab6973278a80675"
+      "sha256": "29521d2efc7b7d4396099c1c4e35feb37f82ccd2486a2a87aa1bb3aa208593c4"
     },
     {
       "file": "src/features/orders/EditAddressModal.tsx",
@@ -701,7 +701,7 @@
     },
     {
       "file": "src/services/supabase/crm.service.ts",
-      "sha256": "a2067c5a078cf8bf69606aa07c3625935bbcc2693f10c0ca9db489d71138b3af"
+      "sha256": "b096655ba7d8b4fa19fd1603b2888d892078f8e8d17c2bfcef36dcf015e8a1f0"
     },
     {
       "file": "src/services/supabase/customerAccounts.service.ts",
@@ -769,7 +769,7 @@
     },
     {
       "file": "src/services/supabase/orders.service.ts",
-      "sha256": "6207a97a113187d3b11c377eb25998930840121bc384097029ba9879e10e4e7d"
+      "sha256": "8e29f30fd36cc412daf5b0426ba5a102f01695b5139da3b271b6020dbb72a077"
     },
     {
       "file": "src/services/supabase/ownerWithdrawals.service.ts",
@@ -960,6 +960,10 @@
       "sha256": "1585cef59c464506938f85831136b2730c04776f1da7827d2f1f9451bc937f8f"
     },
     {
+      "file": "src/utils/googleMaps.ts",
+      "sha256": "ce458def64a203ed7364cfc3d9ebdfa42c40eeb0f23e8742056a96638bf32bdf"
+    },
+    {
       "file": "src/utils/inventoryFormatter.ts",
       "sha256": "98c62f5906ae24925cbaaa68b364c1cd502cc33329bc9911af6f01af4a842296"
     },
@@ -1073,7 +1077,7 @@
     },
     {
       "file": "customer-web/src/components/CheckoutModal.tsx",
-      "sha256": "514639e7855a6b72a6d3e1aa3f7a30fa7970fd1abb29f86d1bf39b009e48d896"
+      "sha256": "fee549e463ceabafffae60cb0d5596553afb5f17304ef40ac394f100e9383d83"
     },
     {
       "file": "customer-web/src/components/CheckoutProgress.tsx",
@@ -1289,7 +1293,7 @@
     },
     {
       "file": "customer-web/src/utils/checkout.ts",
-      "sha256": "e9782e842c0dcda6c1662fa24714c98dbb76da70b1e27cf2a8e2aad313eb1344"
+      "sha256": "aaee46cd792d7db2ebd4bf943bd5288d3aa387aaa29f0a67dae27e990d74b265"
     },
     {
       "file": "customer-web/src/utils/checkoutErrorMessage.ts",
@@ -1298,6 +1302,10 @@
     {
       "file": "customer-web/src/utils/dialogFocus.ts",
       "sha256": "245e78a39c65e917015fa146ef52d209ecd4f7b1bb8ec2f80d7e94dfbdd7db8b"
+    },
+    {
+      "file": "customer-web/src/utils/googleMaps.ts",
+      "sha256": "ce458def64a203ed7364cfc3d9ebdfa42c40eeb0f23e8742056a96638bf32bdf"
     },
     {
       "file": "customer-web/src/utils/money.ts",
@@ -1325,7 +1333,7 @@
     },
     {
       "file": "supabase/functions/manage-staff-users/index.ts",
-      "sha256": "65fed77a0253920adb1a52ad68d6bb28c7df021f761f2adfc840b9cb8057e109"
+      "sha256": "e752c91afcaef52f2eed05266bb6c418f3a2dbdea3cc1c01fa37f3beb8bb48c8"
     },
     {
       "file": "supabase/functions/n8n-alert-feed/index.ts",
@@ -1652,9 +1660,9 @@
       "source": "client().rpc('get_deferred_cheque_home_alerts',{p_branch_id:branchId})"
     },
     {
-      "id": "src/services/supabase/crm.service.ts:160",
+      "id": "src/services/supabase/crm.service.ts:161",
       "file": "src/services/supabase/crm.service.ts",
-      "line": 160,
+      "line": 161,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "fetchCustomersCrmFromSupabase",
@@ -1666,9 +1674,9 @@
       "source": "supabase.rpc('get_crm_customer_page', {\n      p_page: page,\n      p_page_size: Math.min(pageSize, 100),\n      p_search: params.searchQuery?.trim() || null,\n      p_status: statusFilter,\n      p_sort: sortBy,\n    })"
     },
     {
-      "id": "src/services/supabase/crm.service.ts:212",
+      "id": "src/services/supabase/crm.service.ts:213",
       "file": "src/services/supabase/crm.service.ts",
-      "line": 212,
+      "line": 213,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "fetchCustomerDetailsCrmFromSupabase",
@@ -1680,9 +1688,9 @@
       "source": "supabase.rpc(\n      'get_crm_customer_detail_page',\n      {\n        p_customer_id: customerId,\n        p_history_page: historyPage,\n        p_history_page_size: historyPageSize,\n      }\n    )"
     },
     {
-      "id": "src/services/supabase/crm.service.ts:365",
+      "id": "src/services/supabase/crm.service.ts:366",
       "file": "src/services/supabase/crm.service.ts",
-      "line": 365,
+      "line": 366,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "saveCustomerThroughRpc",
@@ -1694,9 +1702,9 @@
       "source": "supabase.rpc('save_customer', {\n      p_full_name: input.fullName,\n      p_phone: input.phone,\n      p_customer_id: customerId || null,\n      p_email: input.email || null,\n      p_governorate: input.governorate || null,\n      p_whatsapp: input.whatsapp || null,\n      p_notes: input.notes || null,\n      p_customer_type: input.customerType || 'retail',\n    })"
     },
     {
-      "id": "src/services/supabase/crm.service.ts:408",
+      "id": "src/services/supabase/crm.service.ts:409",
       "file": "src/services/supabase/crm.service.ts",
-      "line": 408,
+      "line": 409,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "setCustomerStatus",
@@ -1708,9 +1716,9 @@
       "source": "supabase.rpc('set_customer_status', {\n      p_customer_id: customerId,\n      p_action: action,\n    })"
     },
     {
-      "id": "src/services/supabase/crm.service.ts:457",
+      "id": "src/services/supabase/crm.service.ts:458",
       "file": "src/services/supabase/crm.service.ts",
-      "line": 457,
+      "line": 458,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "addCustomerAddressInSupabase",
@@ -2458,9 +2466,9 @@
       "source": "client().rpc('get_go_live_cheques_v1',{p_page:page,p_page_size:25})"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:626",
+      "id": "src/services/supabase/orders.service.ts:627",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 626,
+      "line": 627,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "confirmOrderInSupabase",
@@ -2472,9 +2480,9 @@
       "source": "supabase.rpc('accept_order_for_preparation', {\n      p_order_id: orderId,\n      p_notes: notes || null,\n    })"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:660",
+      "id": "src/services/supabase/orders.service.ts:661",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 660,
+      "line": 661,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "completeWebsiteOrderWithPaymentInSupabase",
@@ -2486,9 +2494,9 @@
       "source": "supabase.rpc(\n      'complete_website_order_with_payment',\n      {\n        p_order_id: orderId,\n        p_payment_method: paymentMethod,\n        p_reference_number: referenceNumber?.trim() || null,\n        p_notes: notes || null,\n      }\n    )"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:705",
+      "id": "src/services/supabase/orders.service.ts:706",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 705,
+      "line": 706,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "cancelOrderInSupabase",
@@ -2500,9 +2508,9 @@
       "source": "supabase.rpc('update_order_status', {\n        p_order_id: orderId,\n        p_new_status: 'cancelled',\n        p_notes: notes || null,\n      })"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:748",
+      "id": "src/services/supabase/orders.service.ts:749",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 748,
+      "line": 749,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "fetchOperationalOrdersPageFromSupabase",
@@ -2514,9 +2522,9 @@
       "source": "supabase.rpc('get_operational_orders_page', {\n      p_page: page,\n      p_page_size: pageSize,\n      p_filter: input.filter,\n      p_search: searchQuery,\n      p_sort: sort,\n    })"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:860",
+      "id": "src/services/supabase/orders.service.ts:861",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 860,
+      "line": 861,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "fetchOperationalOrdersSummaryFromSupabase",
@@ -2528,9 +2536,9 @@
       "source": "supabase.rpc('get_operational_orders_page', {\n      p_page: 1,\n      p_page_size: 1,\n      p_filter: 'action',\n      p_search: null,\n      p_sort: 'newest',\n    })"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:941",
+      "id": "src/services/supabase/orders.service.ts:942",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 941,
+      "line": 942,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "completeWebsiteOrderWithSettlementInSupabase",
@@ -2542,9 +2550,9 @@
       "source": "supabase.rpc('complete_website_order_with_settlement', {\n        p_order_id: input.orderId,\n        p_payment_method: request.paymentMethod,\n        p_amount_collected_in_minor_units: request.amountCollectedInMinorUnits,\n        p_delivery_fee_in_minor_units: request.deliveryFeeInMinorUnits,\n        p_reference_number: request.referenceNumber,\n        p_notes: request.notes,\n      })"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:992",
+      "id": "src/services/supabase/orders.service.ts:993",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 992,
+      "line": 993,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "returnCompletedWebsiteOrderInSupabase",
@@ -2556,9 +2564,9 @@
       "source": "supabase.rpc(\n      'return_completed_website_order',\n      {\n        p_order_id: input.orderId,\n        p_reason: input.reason.trim(),\n        p_stock_disposition: input.stockDisposition,\n        p_refund_method: input.refundMethod,\n        p_reference_number: input.referenceNumber?.trim() || null,\n        p_notes: input.notes?.trim() || null,\n      }\n    )"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:1037",
+      "id": "src/services/supabase/orders.service.ts:1038",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 1037,
+      "line": 1038,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "updateOrderStatusInSupabase",
@@ -2570,9 +2578,9 @@
       "source": "supabase.rpc('update_order_status', {\n      p_order_id: orderId,\n      p_new_status: newStatus,\n      p_notes: notes || null,\n    })"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:1088",
+      "id": "src/services/supabase/orders.service.ts:1089",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 1088,
+      "line": 1089,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "startOrUpdateOrderDeliveryInSupabase",
@@ -2584,9 +2592,9 @@
       "source": "supabase.rpc(\n      'start_or_update_order_delivery',\n      {\n        p_order_id: orderId,\n        p_eta_minutes: etaMinutes,\n        p_driver_phone: driverPhone.trim(),\n        p_notes: notes?.trim() || null,\n      }\n    )"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:1146",
+      "id": "src/services/supabase/orders.service.ts:1147",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 1146,
+      "line": 1147,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "updateOrderDeliveryAddressInSupabase",
@@ -3769,9 +3777,23 @@
       "source": "caller.rpc(\n      'get_admin_ai_monthly_report',\n    )"
     },
     {
-      "id": "supabase/functions/manage-staff-users/index.ts:145",
+      "id": "supabase/functions/manage-staff-users/index.ts:147",
       "file": "supabase/functions/manage-staff-users/index.ts",
-      "line": 145,
+      "line": 147,
+      "role": "authenticated",
+      "receiver": "caller",
+      "function": "<callback>",
+      "name": "has_erp_role",
+      "dynamic": "'has_erp_role'",
+      "arguments": [
+        "{\n    p_allowed_roles: ['owner'],\n  }"
+      ],
+      "source": "caller.rpc('has_erp_role', {\n    p_allowed_roles: ['owner'],\n  })"
+    },
+    {
+      "id": "supabase/functions/manage-staff-users/index.ts:158",
+      "file": "supabase/functions/manage-staff-users/index.ts",
+      "line": 158,
       "role": "authenticated",
       "receiver": "caller",
       "function": "loadStaff",
@@ -3781,9 +3803,9 @@
       "source": "caller.rpc('get_erp_staff_accounts')"
     },
     {
-      "id": "supabase/functions/manage-staff-users/index.ts:198",
+      "id": "supabase/functions/manage-staff-users/index.ts:211",
       "file": "supabase/functions/manage-staff-users/index.ts",
-      "line": 198,
+      "line": 211,
       "role": "authenticated",
       "receiver": "caller",
       "function": "<callback>",
@@ -3795,9 +3817,9 @@
       "source": "caller.rpc('get_erp_staff_account_audit_logs', {\n      p_limit: 100,\n    })"
     },
     {
-      "id": "supabase/functions/manage-staff-users/index.ts:237",
+      "id": "supabase/functions/manage-staff-users/index.ts:250",
       "file": "supabase/functions/manage-staff-users/index.ts",
-      "line": 237,
+      "line": 250,
       "role": "authenticated",
       "receiver": "caller",
       "function": "<callback>",
@@ -3809,9 +3831,9 @@
       "source": "caller.rpc('create_erp_staff_account_record', {\n      p_user_id: created.user.id,\n      p_full_name: fullName,\n      p_phone: normalizeOptionalText(body.phone, 24),\n      p_role_code: roleCode,\n      p_branch_id: branchId,\n      p_job_title: normalizeOptionalText(body.jobTitle, 120),\n    })"
     },
     {
-      "id": "supabase/functions/manage-staff-users/index.ts:266",
+      "id": "supabase/functions/manage-staff-users/index.ts:279",
       "file": "supabase/functions/manage-staff-users/index.ts",
-      "line": 266,
+      "line": 279,
       "role": "authenticated",
       "receiver": "caller",
       "function": "<callback>",
@@ -3823,9 +3845,9 @@
       "source": "caller.rpc('update_erp_staff_account_record', {\n      p_user_id: body.userId,\n      p_full_name: fullName,\n      p_phone: normalizeOptionalText(body.phone, 24),\n      p_role_code: roleCode,\n      p_branch_id: branchId,\n      p_job_title: normalizeOptionalText(body.jobTitle, 120),\n    })"
     },
     {
-      "id": "supabase/functions/manage-staff-users/index.ts:300",
+      "id": "supabase/functions/manage-staff-users/index.ts:313",
       "file": "supabase/functions/manage-staff-users/index.ts",
-      "line": 300,
+      "line": 313,
       "role": "authenticated",
       "receiver": "caller",
       "function": "<callback>",
@@ -3837,9 +3859,9 @@
       "source": "caller.rpc('set_erp_staff_account_active', {\n      p_user_id: body.userId,\n      p_is_active: body.isActive,\n    })"
     },
     {
-      "id": "supabase/functions/manage-staff-users/index.ts:327",
+      "id": "supabase/functions/manage-staff-users/index.ts:340",
       "file": "supabase/functions/manage-staff-users/index.ts",
-      "line": 327,
+      "line": 340,
       "role": "authenticated",
       "receiver": "caller",
       "function": "<callback>",
@@ -3942,7 +3964,7 @@
   "channels": [
     {
       "file": "src/services/supabase/crm.service.ts",
-      "line": 518,
+      "line": 519,
       "role": "authenticated",
       "source": "client\n    .channel(`crm-realtime-${crypto.randomUUID()}`)"
     },
@@ -3960,7 +3982,7 @@
     },
     {
       "file": "src/services/supabase/orders.service.ts",
-      "line": 1225,
+      "line": 1226,
       "role": "authenticated",
       "source": "client\n    .channel(`public-orders-changes-${crypto.randomUUID()}`)"
     },
@@ -4313,6 +4335,7 @@
     "get_supplier_receipts_page",
     "get_supplier_replacement_options_v1",
     "get_supplier_replacements_page_v1",
+    "has_erp_role",
     "import_go_live_products_v1",
     "issue_supplier_cheque_v1",
     "mark_all_stock_alerts_read",
