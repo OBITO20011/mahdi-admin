@@ -76,8 +76,10 @@ export async function offline211(args){
  }catch(error){report.ok=false;report.error=error.message;}
  await writeFile(path.join(output,'report.json'),JSON.stringify(report,null,2)+'\n');return report;
 }
+export const verify211ReadOnly=(executor,output,reference,original,dates,report)=>
+ verifyCatalogReadOnly(executor,output,reference,original,dates,report,{strictApplicationAcl:true,assertReadyCatalog:assertReady211Catalog});
 export const run211=args=>ownerRun(args,{loadReference:readReady211Reference,referenceName:ready211ReferenceName,pipeline:upgrade211WithExecutor,
- inputsFor:inputs211,versions:upgrade211Versions,label:'211',offlinePlan:offline211});
+ inputsFor:inputs211,versions:upgrade211Versions,label:'211',offlinePlan:offline211,verifyReadOnly:verify211ReadOnly});
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){
  try{const result=await run211(process.argv.slice(2));console.log(JSON.stringify({ok:result.ok,output:result.output,error:result.error,applied:result.applied,remoteWriteAttempted:result.remoteWriteAttempted}));if(!result.ok)process.exitCode=1;}
  catch(error){console.error(error.code==='ERR_ASSERTION'?error.message.split('\n')[0]:'OWNER211_PREPARATION_FAILED');process.exitCode=1;}

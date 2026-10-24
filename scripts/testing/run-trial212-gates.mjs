@@ -5,3 +5,5 @@ for(const args of [['scripts/audit/run-table-access-diagnostic.mjs','--migration
  const result=await exec(process.execPath,args,{cwd:root,windowsHide:true,maxBuffer:16*1024**2});process.stdout.write(result.stdout);process.stderr.write(result.stderr);
  if(args[0]==='scripts/audit/run-table-access-diagnostic.mjs'){const summary=JSON.parse(result.stdout.trim().split('\n').at(-1));await copyFile(path.join(summary.output,'diagnostic.json'),path.join(root,'docs/operations/TABLE_ACCESS_AFTER_212.json'));}
 }
+const ownerAcl=await exec(process.execPath,['scripts/testing/run-owner-acl212-runtime.mjs'],{cwd:root,windowsHide:true,maxBuffer:16*1024**2});
+process.stdout.write(ownerAcl.stdout);process.stderr.write(ownerAcl.stderr);

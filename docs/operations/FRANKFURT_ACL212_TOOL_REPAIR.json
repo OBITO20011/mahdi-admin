@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "request": "Offline owner212 ACL file and strict211/212 verify-only",
+  "sourceBaseline": "9a09c9b4c7910da491071d5905ae6f9b868ac8b2",
+  "managedAccess": false,
+  "sqlExecuted": false,
+  "migrationChanges": false,
+  "referenceChanges": false,
+  "defaultPrivilegeChanges": false,
+  "firstFullAdminRun": {
+    "passed": 1387,
+    "failed": 1,
+    "reason": "Historical J inverse correctly rejected the requested verifier source change"
+  },
+  "correction": {
+    "kind": "Exact additive inverse over9a09c9b for four verifier modules;historical pins unchanged",
+    "inverse": "scripts/audit/owner-acl212-inverse.json",
+    "focusedTests": 19,
+    "failures": 0
+  },
+  "verificationStatus": "LOCAL_VERIFIED",
+  "adminTests": {
+    "passed": 1389,
+    "failed": 0,
+    "skipped": 0
+  },
+  "typecheck": true,
+  "strictLint": true,
+  "gitleaksFindings": 0,
+  "guard": {
+    "accepted": 282,
+    "refused": 4874,
+    "rows": 675,
+    "revokes": 264,
+    "removedPrivileges": 432
+  },
+  "realVerifyWorkers": [
+    {
+      "version": 211,
+      "beforeRejected": true,
+      "error": "APPLICATION_ACL_MISMATCH",
+      "beforeDifferentObjects": 264,
+      "removedPrivilegesInMemory": 432,
+      "afterAccepted": true,
+      "afterDifferentObjects": 0,
+      "readyCatalogValidated": true,
+      "queriesRespondedFromFilesOnly": true,
+      "savedCatalogUnchanged": true
+    },
+    {
+      "version": 212,
+      "beforeRejected": true,
+      "error": "APPLICATION_ACL_MISMATCH",
+      "beforeDifferentObjects": 264,
+      "removedPrivilegesInMemory": 432,
+      "afterAccepted": true,
+      "afterDifferentObjects": 0,
+      "readyCatalogValidated": true,
+      "queriesRespondedFromFilesOnly": true,
+      "savedCatalogUnchanged": true
+    }
+  ],
+  "ownerSqlSha256": "c9ddce2dab5b5819467df9f0629a00c0a2964fc6ea5cab51b47cb23e5a7e513b",
+  "referenceSha256": "db0ad398c47c59d55e7cb47de4e0c3f51a616a2457bb927773a98a8e34c41f0c",
+  "referenceAndSavedInputsUnchanged": true,
+  "hostedVerifyExecuted": false,
+  "sqlCompiledInPostgres": false,
+  "recordedAt": "2026-10-24T10:06:18.212Z",
+  "ownerCliFollowup": {
+    "authorized": true,
+    "localEvidence": "docs/agent/OWNER_ACL212_LOCAL.json",
+    "ownerSqlCanonicalLfSha256": "040a218eec0e557bebb0c6aeff0d0df12c07a1d6527dd5a16e1c8bbc7857c2e8",
+    "isolatedSqlTransactionTested": true,
+    "fullCiAndMergePending": true,
+    "noHostedConnection": true
+  }
+}

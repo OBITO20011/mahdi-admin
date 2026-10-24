@@ -147,7 +147,7 @@ export async function run(args,configuration={}){
   const version=await executeInput(executor,"SELECT current_setting('server_version_num')::integer/10000;");
   assert.equal(version.code,0,'CONNECTED_VERSION_READ_FAILED');assert.equal(version.stdout.trim(),'17','POSTGRES_MAJOR_MISMATCH');
   if(report.mode==='verify-only'){
-   await verifyCatalogReadOnly(executor,output,reference,original,{beforeBuildDate:reference.buildUtcDate,afterBuildDate:new Date().toISOString().slice(0,10)},report);
+   await (configuration.verifyReadOnly??verifyCatalogReadOnly)(executor,output,reference,original,{beforeBuildDate:reference.buildUtcDate,afterBuildDate:new Date().toISOString().slice(0,10)},report);
    const h=await executeInput(executor,historySql);assert.equal(h.code,0);assert.deepEqual(JSON.parse(h.stdout.trim()),reference.appliedVersions);
    report.ok=true;return report;
   }

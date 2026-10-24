@@ -2,6 +2,7 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
+import {sourceBeforeOwnerAcl212} from './source-before-owner-acl212.mjs';
 export const trialRPins=JSON.parse(readFileSync(new URL('./trial-owner-r-hunks.json',import.meta.url),'utf8')).entries;
 const hash=s=>createHash('sha256').update(s).digest('hex'),olderHashes=new Map();
 for(const name of ['trial-owner-w','trial-brand','trial-aftercare','trial-sale-receipts','parcel209','trial-owner-a','pretrial-p1','supplier-replacement208','correction-recovery-c8','document-corrections207','storefront-c6','navigation-cash206','product-receiving205','sales-history204','collections202','home-damage201','warehouse-management','unit-terminology']){
@@ -11,7 +12,7 @@ for(const name of ['trial-owner-w','trial-brand','trial-aftercare','trial-sale-r
 }
 for(const [file,pin]of Object.entries(trialRPins)){for(const snapshot of pin.approvedHistoricalSnapshots??[]){const hashes=olderHashes.get(file)??new Set();hashes.add(snapshot.sha256);olderHashes.set(file,hashes);}}
 export function sourceBeforeTrialR(file,text){
- const source=text.replaceAll('\r\n','\n'),pin=trialRPins[file];if(!pin)return source;
+ const source=sourceBeforeOwnerAcl212(file,text),pin=trialRPins[file];if(!pin)return source;
  const digest=hash(source);if(digest===pin.before||olderHashes.get(file)?.has(digest))return source;
  assert.equal(digest,pin.after,(pin.errorPrefix??'TRIAL_R_ENTIRE_CURRENT_FILE_CHANGED:')+file);
  if(pin.added)return null;

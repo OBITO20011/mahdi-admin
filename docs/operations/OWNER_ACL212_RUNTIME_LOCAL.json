@@ -1,0 +1,59 @@
+{
+  "mode": "owner-acl212-isolated",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-owner-acl212-runtime-4dT1GT",
+  "managedAccess": false,
+  "cases": [
+    {
+      "name": "Complete212 disposable fixture and business data/sequence snapshot",
+      "passed": true
+    },
+    {
+      "name": "Actual reviewed432 legacy ACL privileges on264objects injected only in test fixture",
+      "passed": true
+    },
+    {
+      "name": "Shared owner upgrade lock rejects concurrent apply with zero ACL mutation",
+      "passed": true
+    },
+    {
+      "name": "Unknown grant option rejects before first REVOKE and preserves every ACL",
+      "passed": true
+    },
+    {
+      "name": "Unapproved structure rejects with zero privilege mutation",
+      "passed": true
+    },
+    {
+      "name": "Exact bigint sequence max differs by1:precheck rejects without any ACL writes",
+      "passed": true
+    },
+    {
+      "name": "Failure after all264 REVOKEs rolls back all432 privileges atomically",
+      "passed": true
+    },
+    {
+      "name": "Real owner execution worker commits675true/0false;repeat commits safely with zero reduction",
+      "passed": true
+    },
+    {
+      "name": "orders SELECT,push tables,all business data/sequences and174migration history preserved",
+      "passed": true
+    }
+  ],
+  "startedAt": "2026-10-24T10:39:33.095Z",
+  "fixtureMetadataDifferences": [],
+  "ok": true,
+  "actualSqlTransaction": true,
+  "rows": 675,
+  "matches_reference_true": 675,
+  "matches_reference_false": 0,
+  "removedPrivileges": 432,
+  "replayRemovedPrivileges": 0,
+  "atomicRollback": true,
+  "concurrencyRejected": true,
+  "allApplicationDataAndSequencesUnchanged": true,
+  "ordersSelectAndPushGrantsPreserved": true,
+  "endedAt": "2026-10-24T10:41:49.012Z",
+  "sqlCanonicalLfSha256": "040a218eec0e557bebb0c6aeff0d0df12c07a1d6527dd5a16e1c8bbc7857c2e8",
+  "executionSha256": "e1ed9e434ed4e41f625ae1424f51ab860287911fe914187db9a525b7bd3cda4b"
+}
