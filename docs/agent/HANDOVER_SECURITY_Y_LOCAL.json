@@ -1,6 +1,6 @@
 {
   "status": "LOCAL_PARTIAL_NOT_DELIVERY",
-  "recordedAt": "2026-10-24T18:20:20.606Z",
+  "recordedAt": "2026-10-24T18:30:41.009Z",
   "migration213Sha256": "9748c01d4d55703d8586901146420f5232534034993cf8f9ba049ba05ece2b48",
   "database": {
     "actualLocal": true,
@@ -45,13 +45,116 @@
     "pwaEscapedExternalRequests": 0,
     "productionAuditAdmin": 0,
     "productionAuditStore": 0,
-    "edgeFrozenGraphs": 5
+    "edgeFrozenGraphs": 5,
+    "adminUnitPass": 1407,
+    "resetGuardUnitPass": 30
   },
   "pending": [
-    "Fresh/incremental213 reference",
-    "Actual Storage HTTP/reset213",
-    "Final all Admin units and feature PR FULL44/Gitleaks"
+    "Full reset213 after exact external dependency admission",
+    "Owner upgrade/apply/replay/strict negatives on disposable local DB",
+    "Final feature PR FULL44/Gitleaks"
   ],
   "hostedAccess": false,
-  "deployment": false
+  "deployment": false,
+  "reference": {
+    "migrations": 175,
+    "functions": 556,
+    "realtimeMembers": 13,
+    "freshIncrementalDifferenceCount": 0
+  },
+  "storage": {
+    "ok": true,
+    "actualStorageHttp": true,
+    "anonymousListing": "RLS returns an empty array without names",
+    "anonymousUploadDenied": true,
+    "roles": [
+      {
+        "role": "owner",
+        "upload": true,
+        "upsert": true,
+        "ownMetadata": true,
+        "crossFolderDenied": true,
+        "publicImageBytes": true,
+        "anonymousListingEmpty": true,
+        "delete": true
+      },
+      {
+        "role": "admin",
+        "upload": true,
+        "upsert": true,
+        "ownMetadata": true,
+        "crossFolderDenied": true,
+        "publicImageBytes": true,
+        "anonymousListingEmpty": true,
+        "delete": true
+      },
+      {
+        "role": "manager",
+        "upload": true,
+        "upsert": true,
+        "ownMetadata": true,
+        "crossFolderDenied": true,
+        "publicImageBytes": true,
+        "anonymousListingEmpty": true,
+        "delete": true
+      },
+      {
+        "role": "warehouse_keeper",
+        "upload": true,
+        "upsert": true,
+        "ownMetadata": true,
+        "crossFolderDenied": true,
+        "publicImageBytes": true,
+        "anonymousListingEmpty": true,
+        "delete": true
+      },
+      {
+        "role": "cashier",
+        "uploadDenied": true,
+        "listingEmpty": true
+      },
+      {
+        "role": "none",
+        "uploadDenied": true,
+        "listingEmpty": true
+      }
+    ]
+  },
+  "reset": {
+    "status": "reverification_pending",
+    "firstAttemptRefusedBeforeDestructiveWork": true,
+    "cause": "Exact new213 metadata policy absent from reset external-dependency allowlist",
+    "correction": "Admit only this exact policy tuple for ceiling213;old ceilings and other schemas/relations/classes/names remain rejected"
+  },
+  "developmentAudit": {
+    "admin": {
+      "high": 3,
+      "packages": [
+        "brace-expansion",
+        "source-map-js",
+        "zod"
+      ]
+    },
+    "store": {
+      "high": 5,
+      "packages": [
+        "miniflare",
+        "sharp",
+        "source-map-js",
+        "undici",
+        "wrangler"
+      ]
+    },
+    "production": {
+      "admin": 0,
+      "store": 0
+    },
+    "paths": {
+      "braceExpansion": "ESLint -> minimatch",
+      "sourceMapJs": "Vite/PostCSS and Tailwind build tools",
+      "zod": "eslint-plugin-react-hooks",
+      "miniflareSharpUndici": "Wrangler local emulation"
+    },
+    "scope": "Development tooling only;not included in production dependency install;not an all-dependencies zero claim"
+  }
 }

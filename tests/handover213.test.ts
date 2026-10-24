@@ -20,3 +20,11 @@ test('both application dev entrypoints are loopback by default and LAN is explic
 test('Edge source imports and handler code remain exactly at the merged audit baseline',()=>{
  for(const name of ['manage-staff-users','n8n-alert-feed','send-order-push','admin-ai-assistant','submit-guest-order']){const file='supabase/functions/'+name+'/index.ts';assert.equal(read(file),execFileSync('git',['show','703fc51abb6b65ce2df2edcf14c6ecb235b74ddf:'+file],{encoding:'utf8'}).replaceAll('\r\n','\n'));const config=JSON.parse(read('supabase/functions/'+name+'/deno.json'));assert.equal(config.lock.frozen,true);}
 });
+
+import {assertExternalDependents} from '../scripts/operations/trial-reset-core.mjs';
+test('213 reset admits only its reviewed Storage metadata policy and retains the external dependency boundary',()=>{
+ const row={class:'pg_policy',schema:'storage',relation:'storage.objects',policy:'ERP staff can read own product image metadata',description:'213 metadata policy'};
+ assert.doesNotThrow(()=>assertExternalDependents([row],213));
+ for(const ceiling of [182,199,212,214])assert.throws(()=>assertExternalDependents([row],ceiling),/UNREVIEWED_EXTERNAL_DROP_DEPENDENT/);
+ for(const bad of [{...row,schema:'auth'},{...row,class:'pg_proc'},{...row,relation:'storage.buckets'},{...row,policy:'Unreviewed policy'}])assert.throws(()=>assertExternalDependents([bad],213),/UNREVIEWED_EXTERNAL_DROP_DEPENDENT/);
+});

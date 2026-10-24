@@ -49,9 +49,9 @@
     "Historical001-212 immutable;213 explicitly authorized",
     "One writer;no unrelated changes;no Y merge unless authorized"
   ],
-  "nextExactAction": "Build fresh/incremental213 reference from refreshed154-query proof;then owner upgrade local and Storage/reset;save completed items",
-  "checkpointedAt": "2026-10-24T18:20:22.216Z",
-  "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "07db3a916a126160a1024ca1d24f5db9296cf1d4aa00de5b2d0705a5a6b1db7b",
-  "workingTreeFingerprint": "66CF63BBE828C25AD304D9AAF99368C9DFD5DAEB8F9C1A0B559D64BF8865E663"
+  "nextExactAction": "Storage213 role HTTP passed;rerun full reset after exact policy allowlist correction,then local owner upgrade213 and final FULL44",
+  "checkpointedAt": "2026-10-24T18:30:41.961Z",
+  "filesTouchedCount": 5,
+  "filesTouchedManifestSha256": "69d44efbffb476d01fdfd42ce931af58f30baf992c11fd7930f4363d4f4aa024",
+  "workingTreeFingerprint": "8807B7335C93C24AEE5911507A4CE975BA93312B940550ECD977CE29CCBD756E"
 }

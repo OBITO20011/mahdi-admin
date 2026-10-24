@@ -7,15 +7,19 @@
     },
     {
       "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_213.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/agent/HANDOVER_SECURITY_Y_DB.json"
-    },
-    {
-      "code": "??",
       "path": "docs/agent/HANDOVER_SECURITY_Y_LOCAL.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/handover213-inverse.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/trial-reset-core.mjs"
+    },
+    {
+      "code": " M",
+      "path": "tests/handover213.test.ts"
     }
   ]
 }
