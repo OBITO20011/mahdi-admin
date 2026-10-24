@@ -131,15 +131,28 @@ Deno.serve(async (request) => {
     auth: {persistSession: false, autoRefreshToken: false},
     global: {headers: {Authorization: authorization}},
   });
-  const service = createClient(supabaseUrl, serviceRoleKey, {
-    auth: {persistSession: false, autoRefreshToken: false},
-  });
-
   const token = authorization.slice('Bearer '.length);
   const {data: callerData, error: callerError} = await caller.auth.getUser(token);
   if (callerError || !callerData.user) {
     return jsonResponse({error: 'Unauthorized'}, 401, origin);
   }
+
+  // Authorize through the caller's verified JWT and DB role predicate BEFORE
+  // constructing the privileged client. Auth identity alone is not ERP access.
+  const {data: claimsData, error: claimsError} = await caller.auth.getClaims(token);
+  if (claimsError || claimsData?.claims.sub !== callerData.user.id ||
+    claimsData.claims.role !== 'authenticated' || claimsData.claims.aal !== 'aal2') {
+    return jsonResponse({error: 'إدارة الموظفين تتطلب مالكاً نشطاً وتحققاً بخطوتين.'}, 403, origin);
+  }
+  const {data: allowed, error: authorizationError} = await caller.rpc('has_erp_role', {
+    p_allowed_roles: ['owner'],
+  });
+  if (authorizationError || allowed !== true) {
+    return jsonResponse({error: 'إدارة الموظفين تتطلب مالكاً نشطاً وتحققاً بخطوتين.'}, 403, origin);
+  }
+  const service = createClient(supabaseUrl, serviceRoleKey, {
+    auth: {persistSession: false, autoRefreshToken: false},
+  });
 
   const loadStaff = async () => {
     const result = await caller.rpc('get_erp_staff_accounts');

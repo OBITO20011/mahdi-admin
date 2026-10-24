@@ -2,55 +2,47 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner Package Y:close legacy receiving;public privilege cleanup;anonymous tracking throttle;image no-list;Vite/dev deps/Edge locks;213 owner upgrade strict verify;PR/FULLCI. PR22 merge authorized and completed.",
-  "baselineSha": "4e2da954686e17bf4ae14f120f940aacb3215db1",
-  "branch": "codex/handover-security-y",
+  "objective": "Owner Z1-Z5:authorize staff Edge before service,exact POS cost/return snapshots,strict Maps hosts,shift read guard,collection reversal lock order only;214 if needed;PR/FULLCI/per-item commit+push",
+  "baselineSha": "2c2dcacaa45b20ee83da6e67fddbac3ca749d808",
+  "branch": "codex/handover-fixes-z",
   "phase": "PACKAGE_F",
   "completed": [
-    "PR22 merged703fc51;main43/43+secrets verified",
-    "213 literal runtime73 pass;all API actors deny legacy/trigger direct entrypoints with zero rows/sequence writes;official direct/PO replay and V5 pass",
-    "Fresh/incremental175-556-13 reference0 differences;local upgrade/apply/replay/strict ACL+search_path negatives pass",
-    "154 current table queries and537 RPC dispatches/10 expected role denials;Admin1407/store197 units pass",
-    "Vite6.4.4 builds/SEO/PWA4/network0;27 focused browser cases pass across two engines,one unchanged conditional;one WebKit navigation environmental retry passed unchanged",
-    "Production npm audit0 both apps;frozen Edge5 graphs and negative integrity case pass",
-    "Owner now authorizes commit+push after each completed item,including WIP;no need to defer backup until full package",
-    "Recovery WIP5baa7f2 pushed;current literal213 runtime74 passes including anon with absent/empty/contradictory JWT;types+strict lint+store197+prod audits0+Edge5 frozen verified",
-    "Recovered implementation4e2da95 push FULL44 and secrets accepted;local current units1408/store197/coreBrowser395+59 historical conditionals/0unexpected/0flaky;Storage roles/reset and strict owner upgrade213 completed;reference and offline dry-run prepared locally"
+    "Owner approved independent review Z1-Z5 and214;Y PR23/main2c2dcac delivered",
+    "Z1 focused16/typecheck/strictlint pass;actual local EdgeHTTP42 denials and ownerAAL2create pass;original worktree disappeared,recovered exact source from own tool log"
   ],
   "inProgress": [
-    "Finalize evidence documentation and exact final push+PR FULL44/secrets"
+    "Z1 remote save;remaining Z2-Z5 and FULLCI"
   ],
   "notStarted": [
-    "Y merge requires explicit owner authorization;no hosted access/deployment"
+    "Z2 exact POS/return cost",
+    "Z3 Maps allowlist",
+    "Z4 cash display pre-read guard",
+    "Z5 mixed collection lock order race",
+    "Owner214 upgrade/strict verify and Edge deploy command;fullCI/PR"
   ],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "testsPassed": [
-    "runtime73",
-    "ref175-556-13/freshincremental0",
-    "local upgrade/replay/strict verification negatives",
-    "Admin1407/store197",
-    "builds/SEO/PWA4/focused browser27/network0",
-    "prod audit0/frozen Edge5"
-  ],
+  "testsPassed": [],
   "testsRemaining": [
-    "Exact final documentation-head feature push+PR FULL44 and secret scans"
+    "All scoped local/DB/concurrency/EdgeHTTP/browser gates",
+    "Exact feature FULLCI/Gitleaks"
   ],
   "findings": [
-    "M01 annual report deferred after launch;H01/M02 Frankfurt backups/watchdog/notifications subsequent task"
+    "Employee cost/WAC/profit read visibility explicitly deferred;mandatory safe DTO/column revocation before hiring"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "No Frankfurt/hosted connection or deployment",
-    "No financial/inventory semantics outside closing legacy entrypoints",
-    "Historical001-212 immutable;213 explicitly authorized",
-    "One writer;no unrelated changes;no Y merge unless authorized"
+    "Historical001-213 immutable;214 approved",
+    "No wider financial changes beyond exact snapshot and lock order",
+    "One writing agent;commit+push after each completed item",
+    "No Z merge authorization"
   ],
-  "nextExactAction": "Push final local evidence documentation;exact final push+PR FULL44 and secrets;mark PR23 ready without merging",
-  "checkpointedAt": "2026-10-24T19:02:16.232Z",
-  "filesTouchedCount": 5,
-  "filesTouchedManifestSha256": "82f7676be2965914afedabfa086de6fa389786ef48038f1a979c45560ed80ec7",
-  "workingTreeFingerprint": "F38CC4CA669A9804376DA1854AF43DBFE9191B5A9A045725E0931D6779BE6E2E"
+  "nextExactAction": "Save/push verifiedZ1;implement214 exact POS/return costs then Maps/readguard/lock order",
+  "checkpointedAt": "2026-10-24T21:44:03.621Z",
+  "filesTouchedCount": 7,
+  "filesTouchedManifestSha256": "c5e63fe5a9d4d8e5bc1021e2d6eda5b1127806327a367e28d9384182fef4e3f4",
+  "workingTreeFingerprint": "1AFAF22F4AA574780C905084A74322AA7649639490B6B2E60AFAC20DBEEC9112"
 }
