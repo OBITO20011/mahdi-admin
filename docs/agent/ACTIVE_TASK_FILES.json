@@ -3,31 +3,27 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/OWNER_DECISIONS.md"
-    },
-    {
-      "code": " M",
       "path": "docs/agent/project-state.json"
     },
     {
       "code": " M",
-      "path": "supabase/functions/manage-staff-users/index.ts"
+      "path": "scripts/agent/lib.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/agent/preflight.mjs"
     },
     {
       "code": "??",
-      "path": "docs/agent/HANDOVER_FIXES_Z_AR.md"
+      "path": "docs/agent/HANDOVER_Z2_LOCAL.json"
     },
     {
       "code": "??",
-      "path": "docs/agent/HANDOVER_Z1_LOCAL.json"
+      "path": "scripts/testing/run-handover-z214-runtime.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/testing/run-staff-z-edge-runtime.mjs"
-    },
-    {
-      "code": "??",
-      "path": "tests/handover-z-staff.test.ts"
+      "path": "supabase/migrations/214_handover_z_corrections.sql"
     }
   ]
 }
