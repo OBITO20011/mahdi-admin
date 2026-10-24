@@ -11,15 +11,15 @@
     },
     {
       "code": " M",
-      "path": "scripts/audit/handover213-inverse.json"
+      "path": "docs/agent/PHASE_STATUS.md"
     },
     {
       "code": " M",
-      "path": "scripts/operations/trial-reset-core.mjs"
+      "path": "docs/agent/PROJECT_OVERVIEW.md"
     },
     {
       "code": " M",
-      "path": "tests/handover213.test.ts"
+      "path": "docs/operations/FRANKFURT_OWNER_UPGRADE213_AR.md"
     }
   ]
 }

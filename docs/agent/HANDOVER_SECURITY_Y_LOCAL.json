@@ -1,6 +1,6 @@
 {
-  "status": "LOCAL_PARTIAL_NOT_DELIVERY",
-  "recordedAt": "2026-10-24T18:30:41.009Z",
+  "status": "LOCAL_COMPLETE",
+  "recordedAt": "2026-10-24T18:59:52.754Z",
   "migration213Sha256": "9748c01d4d55703d8586901146420f5232534034993cf8f9ba049ba05ece2b48",
   "database": {
     "actualLocal": true,
@@ -46,13 +46,22 @@
     "productionAuditAdmin": 0,
     "productionAuditStore": 0,
     "edgeFrozenGraphs": 5,
-    "adminUnitPass": 1407,
-    "resetGuardUnitPass": 30
+    "adminUnitPass": 1408,
+    "resetGuardUnitPass": 30,
+    "coreBrowser": {
+      "startTime": "2026-10-24T18:36:31.417Z",
+      "duration": 1195453.2959999999,
+      "expected": 395,
+      "skipped": 59,
+      "unexpected": 0,
+      "flaky": 0,
+      "errors": [],
+      "historicalConditionalCases": 59,
+      "retries": 0
+    }
   },
   "pending": [
-    "Full reset213 after exact external dependency admission",
-    "Owner upgrade/apply/replay/strict negatives on disposable local DB",
-    "Final feature PR FULL44/Gitleaks"
+    "Exact final documentation-head push+PR FULL44 and secret scans;no Y merge authorization"
   ],
   "hostedAccess": false,
   "deployment": false,
@@ -121,10 +130,54 @@
     ]
   },
   "reset": {
-    "status": "reverification_pending",
-    "firstAttemptRefusedBeforeDestructiveWork": true,
-    "cause": "Exact new213 metadata policy absent from reset external-dependency allowlist",
-    "correction": "Admit only this exact policy tuple for ceiling213;old ceilings and other schemas/relations/classes/names remain rejected"
+    "ok": true,
+    "catalogDifferences": 0,
+    "ownerRetained": true,
+    "verifiedTotpRetained": true,
+    "staffDeleted": true,
+    "storageBytesDeleted": true,
+    "restoredCreationAclCommands": 11,
+    "restReaders": [
+      {
+        "version": "209",
+        "passed": true
+      },
+      {
+        "version": "210",
+        "passed": true
+      },
+      {
+        "version": "211",
+        "passed": true
+      },
+      {
+        "version": "212",
+        "passed": true
+      }
+    ],
+    "windowsCliIncident": {
+      "version": "073",
+      "exitDetailsUnavailableInFirstAttempt": true,
+      "notClaimedFixed": true,
+      "subsequentCompleteResetPassed": true,
+      "instrumentation": {
+        "ok": true,
+        "originalSha256": "823108a3df43a51cb93df370f557d8ae13d532b91b5bc93f3a25a7b304affb9d",
+        "diagnosticSha256": "28708b7d500ea9ebc2dc5d132d0ce2f037510cb030a3c2646ed1e70026a052e0",
+        "exactInverseToOriginal": true,
+        "assertionsArgsTimeoutsAndPipelineUnchanged": true,
+        "changesOnly": [
+          "relative and package import relocation",
+          "root relocation",
+          "local CLI error-category observation without raw output"
+        ]
+      },
+      "originalUninstrumentedResetAlsoPassedInFullCi": {
+        "sha": "4e2da954686e17bf4ae14f120f940aacb3215db1",
+        "run": 40121043303,
+        "job": "Isolated current contracts (handover213)"
+      }
+    }
   },
   "developmentAudit": {
     "admin": {
@@ -156,5 +209,25 @@
       "miniflareSharpUndici": "Wrangler local emulation"
     },
     "scope": "Development tooling only;not included in production dependency install;not an all-dependencies zero claim"
+  },
+  "verifiedImplementationSha": "4e2da954686e17bf4ae14f120f940aacb3215db1",
+  "ownerUpgrade": {
+    "applied": [
+      "213"
+    ],
+    "recorded": [
+      "213"
+    ],
+    "alignmentCommands": 0,
+    "replayRemoteWriteAttempted": false,
+    "strictAclNegatives": true,
+    "verifyZeroWrites": true,
+    "finalAclDifferenceCount": 0
+  },
+  "ownerPreparation": {
+    "localReferencePrepared": true,
+    "reference212Unchanged": true,
+    "dryRunOk": true,
+    "remoteWriteAttempted": false
   }
 }
