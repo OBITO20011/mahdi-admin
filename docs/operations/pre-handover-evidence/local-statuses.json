@@ -1,0 +1,92 @@
+[
+  {
+    "file": "C:\\ProgramData\\NawasrahDeveloperMonitoring\\registration-status.json",
+    "modified": "2026-09-10T21:49:08.15347Z",
+    "fields": [
+      "ok",
+      "identity",
+      "principal",
+      "taskName",
+      "verifiedAt"
+    ],
+    "ok": true,
+    "status": null,
+    "updatedAt": null,
+    "registered": null
+  },
+  {
+    "file": "C:\\ProgramData\\NawasrahOffsiteBackup\\registration-status.json",
+    "modified": "2026-09-09T20:29:26.3049887Z",
+    "fields": [
+      "ok",
+      "registeredAt",
+      "tasks"
+    ],
+    "ok": true,
+    "status": null,
+    "updatedAt": null,
+    "registered": null
+  },
+  {
+    "file": "C:\\ProgramData\\NawasrahOffsiteBackup\\erp-status.json",
+    "modified": "2026-10-23T23:10:05.6922955Z",
+    "fields": [
+      "version",
+      "pipeline",
+      "ok",
+      "lastAttemptAt",
+      "lastUploadAt",
+      "localArchiveName",
+      "remoteKey",
+      "monthlyKey",
+      "archiveBytes",
+      "sha256",
+      "uploaded",
+      "remoteVerified",
+      "error",
+      "lastDownloadVerifiedAt",
+      "downloadedKey",
+      "downloadedBytes",
+      "downloadedSha256",
+      "remoteRestoreVerified",
+      "lastRestoreVerifiedAt",
+      "restoredKey",
+      "restoredSha256"
+    ],
+    "ok": true,
+    "status": null,
+    "updatedAt": null,
+    "registered": null
+  },
+  {
+    "file": "C:\\ProgramData\\NawasrahOffsiteBackup\\n8n-status.json",
+    "modified": "2026-10-23T23:10:07.9142976Z",
+    "fields": [
+      "version",
+      "pipeline",
+      "ok",
+      "lastAttemptAt",
+      "lastUploadAt",
+      "localArchiveName",
+      "remoteKey",
+      "monthlyKey",
+      "archiveBytes",
+      "sha256",
+      "uploaded",
+      "remoteVerified",
+      "error",
+      "lastDownloadVerifiedAt",
+      "downloadedKey",
+      "downloadedBytes",
+      "downloadedSha256",
+      "remoteRestoreVerified",
+      "lastRestoreVerifiedAt",
+      "restoredKey",
+      "restoredSha256"
+    ],
+    "ok": true,
+    "status": null,
+    "updatedAt": null,
+    "registered": null
+  }
+]

@@ -1,0 +1,801 @@
+{
+  "rows": [
+    {
+      "signature": "build_business_summary(text,date,date,timestamp with time zone)",
+      "name": "build_business_summary",
+      "roles": [
+        "service_role"
+      ],
+      "returnType": "jsonb",
+      "sqlCallCandidates": [
+        "enqueue_business_summary(text,date,date,timestamp with time zone,timestamp with time zone)"
+      ],
+      "triggers": [],
+      "policyCandidates": []
+    },
+    {
+      "signature": "cancel_purchase_receipt_v2(uuid,text)",
+      "name": "cancel_purchase_receipt_v2",
+      "roles": [
+        "authenticated"
+      ],
+      "returnType": "jsonb",
+      "sqlCallCandidates": [
+        "execute_document_correction_once(text,uuid,text,text,text)"
+      ],
+      "triggers": [],
+      "policyCandidates": []
+    },
+    {
+      "signature": "create_customer_order(text,text,text,text,text,text,text,text,text,text,text,double precision,double precision,text,text,text,uuid,uuid,jsonb,bigint,bigint,text,text,text)",
+      "name": "create_customer_order",
+      "roles": [
+        "authenticated"
+      ],
+      "returnType": "jsonb",
+      "sqlCallCandidates": [
+        "submit_guest_customer_order_core(text,text,text,text,text,text,text,text,text,text,double precision,double precision,text,jsonb,text)"
+      ],
+      "triggers": [],
+      "policyCandidates": []
+    },
+    {
+      "signature": "create_direct_supplier_receipt(uuid,uuid,uuid,text,date,timestamp with time zone,bigint,bigint,bigint,bigint,text,text,text,text,uuid,jsonb)",
+      "name": "create_direct_supplier_receipt",
+      "roles": [
+        "authenticated"
+      ],
+      "returnType": "jsonb",
+      "sqlCallCandidates": [],
+      "triggers": [],
+      "policyCandidates": []
+    },
+    {
+      "signature": "create_product_family_with_flavors_v1(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,text,jsonb)",
+      "name": "create_product_family_with_flavors_v1",
+      "roles": [
+        "authenticated"
+      ],
+      "returnType": "jsonb",
+      "sqlCallCandidates": [
+        "create_product_family_with_flavors_v2(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,text,jsonb,boolean)"
+      ],
+      "triggers": [],
+      "policyCandidates": []
+    },
+    {
+      "signature": "create_product_with_opening_stock_v2(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,bigint,bigint,bigint,integer,integer,uuid,integer,text)",
+      "name": "create_product_with_opening_stock_v2",
+      "roles": [
+        "authenticated"
+      ],
+      "returnType": "jsonb",
+      "sqlCallCandidates": [
+        "create_product_with_opening_stock_v3(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,bigint,bigint,bigint,integer,integer,uuid,integer,text,text)"
+      ],
+      "triggers": [],
+      "policyCandidates": []
+    },
+    {
+      "signature": "create_product_with_opening_stock_v3(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,bigint,bigint,bigint,integer,integer,uuid,integer,text,text)",
+      "name": "create_product_with_opening_stock_v3",
+      "roles": [
+        "authenticated"
+      ],
+      "returnType": "jsonb",
+      "sqlCallCandidates": [
+        "create_product_with_opening_stock_v4(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,integer,text,text)"
+      ],
+      "triggers": [],
+      "policyCandidates": []
+    },
+    {
+      "signature": "create_product_with_opening_stock_v4(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,integer,text,text)",
+      "name": "create_product_with_opening_stock_v4",
+      "roles": [
+        "authenticated"
+      ],
+      "returnType": "jsonb",
+      "sqlCallCandidates": [
+        "create_product_with_opening_stock_v5(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,integer,text,text,boolean)",
+        "create_product_flavor_v1(uuid,text,integer,uuid,text,text)",
+        "create_product_family_with_flavors_v1(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,text,jsonb)"
+      ],
+      "triggers": [],
+      "policyCandidates": []
+    },
+    {
+      "signature": "create_product_with_opening_stock(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,bigint,bigint,integer,integer,uuid,integer,text)",
+      "name": "create_product_with_opening_stock",
+      "roles": [
+        "authenticated"
+      ],
+      "returnType": "jsonb",
+      "sqlCallCandidates": [
+        "create_product_with_opening_stock_v2(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,bigint,bigint,bigint,integer,integer,uuid,integer,text)"
+      ],
+      "triggers": [],
+      "policyCandidates": []
+    },
+    {
+      "signature": "create_purchase_order_v2(uuid,uuid,uuid,timestamp with time zone,bigint,bigint,text,text,text,jsonb)",
+      "name": "create_purchase_order_v2",
+      "roles": [
+        "authenticated"
+      ],
+      "returnType": "jsonb",
+      "sqlCallCandidates": [],
+      "triggers": [],
+      "policyCandidates": []
+    },
+    {
+      "signature": "enforce_customer_for_debt_order()",
+      "name": "enforce_customer_for_debt_order",
+      "roles": [
+        "anon",
+        "authenticated",
+        "service_role"
+      ],
+      "returnType": "trigger",
+      "sqlCallCandidates": [],
+      "triggers": [
+        {
+          "table": "orders",
+          "trigger": "trg_require_customer_for_debt_order",
+          "function": "enforce_customer_for_debt_order"
+        }
+      ],
+      "policyCandidates": []
+    },
+    {
+      "signature": "enforce_product_flavor_inheritance()",
+      "name": "enforce_product_flavor_inheritance",
+      "roles": [
+        "anon",
+        "authenticated",
+        "service_role"
+      ],
+      "returnType": "trigger",
+      "sqlCallCandidates": [],
+      "triggers": [
+        {
+          "table": "products",
+          "trigger": "trg_products_flavor_inheritance",
+          "function": "enforce_product_flavor_inheritance"
+        }
+      ],
+      "policyCandidates": []
+    },
+    {
+      "signature": "enqueue_business_summary(text,date,date,timestamp with time zone,timestamp with time zone)",
+      "name": "enqueue_business_summary",
+      "roles": [
+        "service_role"
+      ],
+      "returnType": "jsonb",
+      "sqlCallCandidates": [
+        "scan_business_summaries(timestamp with time zone)"
+      ],
+      "triggers": [],
+      "policyCandidates": []
+    },
+    {
+      "signature": "get_admin_product_listing()",
+      "name": "get_admin_product_listing",
+      "roles": [
+        "authenticated"
+      ],
+      "returnType": "jsonb",
+      "sqlCallCandidates": [],
+      "triggers": [],
+      "policyCandidates": []
+    },
+    {
+      "signature": "get_advanced_monitoring_status()",
+      "name": "get_advanced_monitoring_status",
+      "roles": [
+        "service_role"
+      ],
+      "returnType": "jsonb",
+      "sqlCallCandidates": [],
+      "triggers": [],
+      "policyCandidates": []
+    },
+    {
+      "signature": "get_business_summary_monitoring_status()",
+      "name": "get_business_summary_monitoring_status",
+      "roles": [
+        "service_role"
+      ],
+      "returnType": "jsonb",
+      "sqlCallCandidates": [],
+      "triggers": [],
+      "policyCandidates": []
+    },
+    {
+      "signature": "get_cash_shift_display_summary(uuid)",
+      "name": "get_cash_shift_display_summary",
+      "roles": [
+        "authenticated"
+      ],
+      "returnType": "jsonb",
+      "sqlCallCandidates": [
+        "_get_expense_shift_center_v1(uuid,integer)",
+        "_cancel_empty_cash_shift_before_return_events(uuid,text)",
+        "get_expense_shift_center(uuid,integer)",
+        "get_cash_shift_archive_page(uuid,uuid,text,text,date,date,integer,integer)"
+      ],
+      "triggers": [],
+      "policyCandidates": []
+    },
+    {
+      "signature": "get_cash_shift_summary(uuid)",
+      "name": "get_cash_shift_summary",
+      "roles": [
+        "authenticated"
+      ],
+      "returnType": "jsonb",
+      "sqlCallCandidates": [
+        "_get_cash_shift_closing_report_v1(uuid)",
+        "open_cash_shift(uuid,bigint)",
+        "create_operational_expense(uuid,text,text,bigint,text,text)",
+        "_close_cash_shift_before_closing_report_snapshot(uuid,bigint,text)",
+        "get_cash_shift_display_summary(uuid)",
+        "_get_cash_shift_closing_report_before_return_events(uuid)",
+        "_reverse_operational_expense_before_phase4_lock(uuid,text)",
+        "create_owner_cash_withdrawal_v1(uuid,bigint,text,text)",
+        "reverse_owner_cash_withdrawal_v1(uuid,text,text)",
+        "get_cash_shift_movement_page(uuid,text,text,integer,integer)"
+      ],
+      "triggers": [],
+      "policyCandidates": []
+    },
+    {
+      "signature": "get_configurable_parcel_feature_state()",
+      "name": "get_configurable_parcel_feature_state",
+      "roles": [
+        "anon",
+        "authenticated",
+        "service_role"
+      ],
+      "returnType": "text",
+      "sqlCallCandidates": [
+        "assert_configurable_parcel_creation_allowed()",
+        "phase3_assert_configurable_parcel_creation_allowed_internal(text,uuid)",
+        "package_d_public_parcel_options_before_policy_internal(uuid[])",
+        "preview_guest_promotion_v2(jsonb,text,text)",
+        "get_admin_parcel_configuration_context_v1()",
+        "get_pos_configurable_parcel_options_v1(uuid)"
+      ],
+      "triggers": [],
+      "policyCandidates": []
+    },
+    {
+      "signature": "get_dashboard_analytics()",
+      "name": "get_dashboard_analytics",
+      "roles": [
+        "authenticated"
+      ],
+      "returnType": "jsonb",
+      "sqlCallCandidates": [],
+      "triggers": [],
+      "policyCandidates": []
+    },
+    {
+      "signature": "get_public_product_catalog(integer,integer,uuid,text)",
+      "name": "get_public_product_catalog",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "returnType": "jsonb",
+      "sqlCallCandidates": [
+        "get_public_storefront_catalog(integer,integer,uuid,text)"
+      ],
+      "triggers": [],
+      "policyCandidates": []
+    },
+    {
+      "signature": "get_public_storefront_catalog(integer,integer,uuid,text)",
+      "name": "get_public_storefront_catalog",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "returnType": "jsonb",
+      "sqlCallCandidates": [],
+      "triggers": [],
+      "policyCandidates": []
+    },
+    {
+      "signature": "guard_cash_shift_closing_report_snapshot()",
+      "name": "guard_cash_shift_closing_report_snapshot",
+      "roles": [
+        "anon",
+        "authenticated",
+        "service_role"
+      ],
+      "returnType": "trigger",
+      "sqlCallCandidates": [],
+      "triggers": [
+        {
+          "table": "cash_shifts",
+          "trigger": "trg_guard_cash_shift_closing_report_snapshot",
+          "function": "guard_cash_shift_closing_report_snapshot"
+        }
+      ],
+      "policyCandidates": []
+    },
+    {
+      "signature": "has_erp_role(text[])",
+      "name": "has_erp_role",
+      "roles": [
+        "authenticated"
+      ],
+      "returnType": "boolean",
+      "sqlCallCandidates": [
+        "get_damage_history_page_v1(text,date,date,text,integer,integer)",
+        "assert_configurable_parcel_creation_allowed()",
+        "phase3_assert_configurable_parcel_creation_allowed_internal(text,uuid)",
+        "get_pos_configurable_parcel_options_v1(uuid)",
+        "get_operational_business_report(uuid,date,date)",
+        "get_home_dashboard()",
+        "sr208_assert_role_internal(text)",
+        "execute_supplier_replacement_v1(text,jsonb,text)",
+        "preview_supplier_replacement_v1(text,jsonb)",
+        "get_supplier_replacements_page_v1(uuid,uuid,text,integer,integer)"
+      ],
+      "triggers": [],
+      "policyCandidates": []
+    },
+    {
+      "signature": "is_active_erp_staff()",
+      "name": "is_active_erp_staff",
+      "roles": [
+        "authenticated"
+      ],
+      "returnType": "boolean",
+      "sqlCallCandidates": [
+        "phase3_assert_configurable_parcel_creation_allowed_internal(text,uuid)"
+      ],
+      "triggers": [],
+      "policyCandidates": [
+        {
+          "table": "audit_logs",
+          "policy": "Require active ERP staff membership"
+        },
+        {
+          "table": "branches",
+          "policy": "Require active ERP staff membership"
+        },
+        {
+          "table": "brands",
+          "policy": "Require active ERP staff membership"
+        },
+        {
+          "table": "business_operations",
+          "policy": "Active ERP staff can read parcel foundation"
+        },
+        {
+          "table": "categories",
+          "policy": "Require active ERP staff membership"
+        },
+        {
+          "table": "configurable_parcel_feature_settings",
+          "policy": "Active ERP staff can read parcel foundation"
+        },
+        {
+          "table": "customer_addresses",
+          "policy": "Require active ERP staff membership"
+        },
+        {
+          "table": "customer_payments",
+          "policy": "Require active ERP staff membership"
+        },
+        {
+          "table": "customers",
+          "policy": "Require active ERP staff membership"
+        },
+        {
+          "table": "inventory_balances",
+          "policy": "Require active ERP staff membership"
+        },
+        {
+          "table": "inventory_movements",
+          "policy": "Require active ERP staff membership"
+        },
+        {
+          "table": "order_inventory_reservations",
+          "policy": "Active ERP staff can read parcel foundation"
+        },
+        {
+          "table": "order_items",
+          "policy": "Require active ERP staff membership"
+        },
+        {
+          "table": "order_parcel_components",
+          "policy": "Active ERP staff can read parcel foundation"
+        },
+        {
+          "table": "order_parcel_instances",
+          "policy": "Active ERP staff can read parcel foundation"
+        },
+        {
+          "table": "order_status_history",
+          "policy": "Require active ERP staff membership"
+        },
+        {
+          "table": "orders",
+          "policy": "Require active ERP staff membership"
+        },
+        {
+          "table": "phase2_receipt_wac_snapshots",
+          "policy": "Active ERP staff can read Phase 2 receipt history"
+        },
+        {
+          "table": "phase42_return_inventory_effects",
+          "policy": "Active ERP staff can read Phase 4.2 Return inventory effects"
+        },
+        {
+          "table": "product_images",
+          "policy": "Require active ERP staff membership"
+        },
+        {
+          "table": "product_parcel_allowed_components",
+          "policy": "Active staff read parcel component policy"
+        },
+        {
+          "table": "product_parcel_configurations",
+          "policy": "Active ERP staff can read parcel foundation"
+        },
+        {
+          "table": "products",
+          "policy": "Require active ERP staff membership"
+        },
+        {
+          "table": "profiles",
+          "policy": "Require active ERP staff membership"
+        },
+        {
+          "table": "promotion_codes",
+          "policy": "Require active ERP staff membership"
+        },
+        {
+          "table": "promotion_redemptions",
+          "policy": "Require active ERP staff membership"
+        },
+        {
+          "table": "purchase_order_item_components",
+          "policy": "Active ERP staff can read Phase 2 receipt history"
+        },
+        {
+          "table": "purchase_order_items",
+          "policy": "Require active ERP staff membership"
+        },
+        {
+          "table": "purchase_orders",
+          "policy": "Require active ERP staff membership"
+        },
+        {
+          "table": "purchase_receipt_commercial_lines",
+          "policy": "Active ERP staff can read Phase 2 receipt history"
+        },
+        {
+          "table": "purchase_receipt_items",
+          "policy": "Require active ERP staff membership"
+        },
+        {
+          "table": "purchase_receipts",
+          "policy": "Require active ERP staff membership"
+        },
+        {
+          "table": "push_subscriptions",
+          "policy": "Require active ERP staff membership"
+        },
+        {
+          "table": "roles",
+          "policy": "Require active ERP staff membership"
+        },
+        {
+          "table": "sales_aftercare_consumptions",
+          "policy": "Active ERP staff can read Phase 4 foundation"
+        },
+        {
+          "table": "sales_replacement_events",
+          "policy": "Active ERP staff can read Phase 4 foundation"
+        },
+        {
+          "table": "sales_replacement_items",
+          "policy": "Active ERP staff can read Phase 4 foundation"
+        },
+        {
+          "table": "sales_return_component_inspections",
+          "policy": "Active ERP staff can read Phase 4 foundation"
+        },
+        {
+          "table": "sales_return_events",
+          "policy": "Active ERP staff can read parcel foundation"
+        },
+        {
+          "table": "sales_return_items",
+          "policy": "Active ERP staff can read parcel foundation"
+        },
+        {
+          "table": "sales_returns",
+          "policy": "Active ERP staff can read sales returns"
+        },
+        {
+          "table": "stock_alert_reads",
+          "policy": "Require active ERP staff membership"
+        },
+        {
+          "table": "stock_alerts",
+          "policy": "Require active ERP staff membership"
+        },
+        {
+          "table": "supplier_financial_invoice_identities",
+          "policy": "Active ERP staff can read Phase 2 receipt history"
+        },
+        {
+          "table": "supplier_payments",
+          "policy": "Require active ERP staff membership"
+        },
+        {
+          "table": "supplier_receipt_commercial_lines",
+          "policy": "Active ERP staff can read parcel foundation"
+        },
+        {
+          "table": "supplier_receipt_items",
+          "policy": "Require active ERP staff membership"
+        },
+        {
+          "table": "supplier_receipts",
+          "policy": "Require active ERP staff membership"
+        },
+        {
+          "table": "suppliers",
+          "policy": "Require active ERP staff membership"
+        },
+        {
+          "table": "units",
+          "policy": "Require active ERP staff membership"
+        },
+        {
+          "table": "user_roles",
+          "policy": "Require active ERP staff membership"
+        },
+        {
+          "table": "warehouses",
+          "policy": "Require active ERP staff membership"
+        }
+      ]
+    },
+    {
+      "signature": "is_authenticated()",
+      "name": "is_authenticated",
+      "roles": [
+        "authenticated"
+      ],
+      "returnType": "boolean",
+      "sqlCallCandidates": [],
+      "triggers": [],
+      "policyCandidates": []
+    },
+    {
+      "signature": "is_mfa_policy_satisfied()",
+      "name": "is_mfa_policy_satisfied",
+      "roles": [
+        "authenticated"
+      ],
+      "returnType": "boolean",
+      "sqlCallCandidates": [
+        "assert_erp_role(text[],text)",
+        "has_erp_role(text[])",
+        "is_active_erp_staff()"
+      ],
+      "triggers": [],
+      "policyCandidates": []
+    },
+    {
+      "signature": "receive_inventory(uuid,uuid,integer,text,uuid,text)",
+      "name": "receive_inventory",
+      "roles": [
+        "authenticated"
+      ],
+      "returnType": "jsonb",
+      "sqlCallCandidates": [],
+      "triggers": [],
+      "policyCandidates": []
+    },
+    {
+      "signature": "receive_purchase_order(uuid,uuid,text,text,jsonb)",
+      "name": "receive_purchase_order",
+      "roles": [
+        "authenticated"
+      ],
+      "returnType": "jsonb",
+      "sqlCallCandidates": [],
+      "triggers": [],
+      "policyCandidates": []
+    },
+    {
+      "signature": "record_customer_order_payment(uuid,bigint,text,text,text)",
+      "name": "record_customer_order_payment",
+      "roles": [
+        "authenticated"
+      ],
+      "returnType": "jsonb",
+      "sqlCallCandidates": [
+        "_complete_website_order_with_settlement_before_phase4_lock(uuid,text,bigint,bigint,text,text)",
+        "_complete_website_order_with_settlement_v2_before_phase4_lock(uuid,text,text,bigint,bigint,text,text)",
+        "record_customer_order_payment_once(uuid,bigint,text,text,text,text)"
+      ],
+      "triggers": [],
+      "policyCandidates": []
+    },
+    {
+      "signature": "reverse_customer_order_payment(uuid,text)",
+      "name": "reverse_customer_order_payment",
+      "roles": [
+        "authenticated"
+      ],
+      "returnType": "jsonb",
+      "sqlCallCandidates": [
+        "reverse_customer_collection_v1(uuid,text)",
+        "execute_document_correction_once(text,uuid,text,text,text)"
+      ],
+      "triggers": [],
+      "policyCandidates": []
+    },
+    {
+      "signature": "reverse_pos_sale(uuid,text,text)",
+      "name": "reverse_pos_sale",
+      "roles": [
+        "authenticated"
+      ],
+      "returnType": "jsonb",
+      "sqlCallCandidates": [
+        "_reverse_cash_shift_with_operations_before_phase4_lock(uuid,text,text)",
+        "execute_document_correction_once(text,uuid,text,text,text)"
+      ],
+      "triggers": [],
+      "policyCandidates": []
+    },
+    {
+      "signature": "reverse_supplier_payment(uuid,text,text)",
+      "name": "reverse_supplier_payment",
+      "roles": [
+        "authenticated"
+      ],
+      "returnType": "jsonb",
+      "sqlCallCandidates": [
+        "_reverse_cash_shift_with_operations_before_phase4_lock(uuid,text,text)",
+        "execute_document_correction_once(text,uuid,text,text,text)"
+      ],
+      "triggers": [],
+      "policyCandidates": []
+    },
+    {
+      "signature": "scan_business_summaries(timestamp with time zone)",
+      "name": "scan_business_summaries",
+      "roles": [
+        "service_role"
+      ],
+      "returnType": "jsonb",
+      "sqlCallCandidates": [],
+      "triggers": [],
+      "policyCandidates": []
+    },
+    {
+      "signature": "set_product_primary_image(uuid,text)",
+      "name": "set_product_primary_image",
+      "roles": [
+        "authenticated"
+      ],
+      "returnType": "uuid",
+      "sqlCallCandidates": [
+        "create_product_with_opening_stock_v3(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,bigint,bigint,bigint,integer,integer,uuid,integer,text,text)",
+        "update_product_flavor_v1(uuid,text,text,text,boolean)",
+        "update_product_master(uuid,text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,bigint,bigint,integer,integer,boolean,text)"
+      ],
+      "triggers": [],
+      "policyCandidates": []
+    },
+    {
+      "signature": "set_website_new_order_reservation_expiry()",
+      "name": "set_website_new_order_reservation_expiry",
+      "roles": [
+        "anon",
+        "authenticated",
+        "service_role"
+      ],
+      "returnType": "trigger",
+      "sqlCallCandidates": [],
+      "triggers": [
+        {
+          "table": "orders",
+          "trigger": "trg_set_website_new_order_reservation_expiry",
+          "function": "set_website_new_order_reservation_expiry"
+        }
+      ],
+      "policyCandidates": []
+    },
+    {
+      "signature": "settle_sales_return_v1(uuid,text,jsonb,text,text,text,text)",
+      "name": "settle_sales_return_v1",
+      "roles": [
+        "authenticated"
+      ],
+      "returnType": "jsonb",
+      "sqlCallCandidates": [
+        "settle_admin_sales_return_v1(uuid,text,jsonb,jsonb,text,text,text,text)"
+      ],
+      "triggers": [],
+      "policyCandidates": []
+    },
+    {
+      "signature": "submit_guest_customer_order(text,text,text,text,text,text,text,text,text,text,double precision,double precision,text,jsonb,text,text,text)",
+      "name": "submit_guest_customer_order",
+      "roles": [
+        "service_role"
+      ],
+      "returnType": "jsonb",
+      "sqlCallCandidates": [],
+      "triggers": [],
+      "policyCandidates": []
+    },
+    {
+      "signature": "sync_order_payment_state()",
+      "name": "sync_order_payment_state",
+      "roles": [
+        "anon",
+        "authenticated",
+        "service_role"
+      ],
+      "returnType": "trigger",
+      "sqlCallCandidates": [],
+      "triggers": [
+        {
+          "table": "orders",
+          "trigger": "trg_sync_order_payment_state",
+          "function": "sync_order_payment_state"
+        }
+      ],
+      "policyCandidates": []
+    },
+    {
+      "signature": "sync_product_flavor_commercial_settings()",
+      "name": "sync_product_flavor_commercial_settings",
+      "roles": [
+        "anon",
+        "authenticated",
+        "service_role"
+      ],
+      "returnType": "trigger",
+      "sqlCallCandidates": [],
+      "triggers": [
+        {
+          "table": "products",
+          "trigger": "trg_products_sync_flavor_settings",
+          "function": "sync_product_flavor_commercial_settings"
+        }
+      ],
+      "policyCandidates": []
+    },
+    {
+      "signature": "update_product_master_v4(uuid,timestamp with time zone,text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,boolean,text)",
+      "name": "update_product_master_v4",
+      "roles": [
+        "authenticated"
+      ],
+      "returnType": "jsonb",
+      "sqlCallCandidates": [
+        "update_product_master_v5(uuid,timestamp with time zone,text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,boolean,text,boolean)"
+      ],
+      "triggers": [],
+      "policyCandidates": []
+    }
+  ],
+  "staticCandidatesOnly": true,
+  "managedAccess": false
+}

@@ -3,155 +3,31 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
+      "path": "docs/operations/PREHANDOVER_AUDIT_AR.md"
     },
     {
       "code": " M",
-      "path": "docs/agent/PROJECT_OVERVIEW.md"
+      "path": "docs/operations/PREHANDOVER_AUDIT_EVIDENCE.json"
     },
     {
       "code": " M",
-      "path": "docs/agent/project-state.json"
+      "path": "docs/operations/UNEXPOSED_RPC_REVIEW_AR.md"
     },
     {
       "code": " M",
-      "path": "docs/agent/TRIAL_OWNER_R_AR.md"
+      "path": "scripts/testing/pre-handover/build-evidence.mjs"
     },
     {
       "code": " M",
-      "path": "docs/agent/TRIAL_OWNER_R_LOCAL.json"
-    },
-    {
-      "code": " M",
-      "path": "package.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/source-before-trial-owner-r.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-catalog-verification.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-owner-upgrade.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-owner-upgrade211.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-owner-upgrade212.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-trial212-gates.mjs"
+      "path": "tests/pre-handover-audit.test.ts"
     },
     {
       "code": "??",
-      "path": "docs/agent/FRANKFURT_ACL212_REPAIR_AR.md"
+      "path": "docs/operations/pre-handover-evidence/legacy-receive.json"
     },
     {
       "code": "??",
-      "path": "docs/agent/OWNER_ACL212_LOCAL.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/agent/TRIAL_OWNER_R_DELIVERY.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/agent/TRIAL_OWNER_R_FEATURE_CI.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/agent/TRIAL_OWNER_R_MAIN_CI.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/FRANKFURT_ACL212_ANALYSIS.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/FRANKFURT_ACL212_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/FRANKFURT_ACL212_TOOL_REPAIR.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/FRANKFURT_ACL212_VERIFICATION.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/FRANKFURT_FUNCTION_ACL212_OWNER.sql"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/FRANKFURT_OWNER_ACL212_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/FRANKFURT_VERIFY_ONLY_ACL212_REGRESSION.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/OWNER_ACL212_RUNTIME_LOCAL.json"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/owner-acl212-inverse.json"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/source-before-owner-acl212.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/application-acl-verification.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/frankfurt-owner-acl212.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/owner-acl212-bundle.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/owner-acl212-sequences.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/owner-acl212-sql.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/prepare-frankfurt-acl212-offline.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/verify-frankfurt-acl-readonly-offline.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/verify-frankfurt-acl212-offline.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/run-owner-acl212-runtime.mjs"
-    },
-    {
-      "code": "??",
-      "path": "tests/frankfurt-application-acl.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "tests/frankfurt-owner-acl212.test.ts"
+      "path": "scripts/testing/pre-handover/legacy-receive.mjs"
     }
   ]
 }

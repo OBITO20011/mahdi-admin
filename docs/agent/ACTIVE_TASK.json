@@ -1,49 +1,50 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner CLI for reviewed ACL212 transaction plus strict211/212 verify-only;PR/fullCI/merge/mainCI;no hosted execution",
-  "baselineSha": "9a09c9b4c7910da491071d5905ae6f9b868ac8b2",
-  "branch": "codex/frankfurt-owner-acl212",
+  "objective": "Owner prehandover audit of frozen main d72f709:report/evidence/new isolated tests only;golden day,attacks160-212,unused grants,scale,vulnerabilities,readiness;PR/FULLCI",
+  "baselineSha": "d72f70918a63126b1d561c3a14b6c4b5bd652786",
+  "branch": "codex/pre-handover-audit",
   "phase": "PACKAGE_F",
   "completed": [
-    "Owner CLI and strict211/212 verify-only implemented;dry-run local success",
-    "Actual isolated PostgreSQL9cases:675true/0false,432removed,replay0,rollback/concurrency/data and push preservation",
-    "Guard bigint metadata precision repaired with exact decimal strings;source-backed default bounds;no migration/reference/revoke-target changes",
-    "Full1396Admin/typecheck/strictlint/Gitleaks0 local gates pass"
+    "Frozen d72f709 sources preserved;isolated212 golden31steps/18semanticchecks",
+    "Independent35DBattacks/2observedraces/9costdifferencechecks PASS",
+    "Scale3000SKU+120parents/50000orders/200000moves/500customers;11benchmarks20samples;annual36-38s finding",
+    "Exposure556functions220exposed41noDirectRPC;119relations67noDirectTable;report/evidence18files",
+    "Admin1396 plus5audit tests;store197;strictlint/types/Gitleaks0",
+    "Legacy receive_inventory actual212 reproduced for4accepted/6denied roles;phantom reference accepted;repeat adds again;no receipt/debt/WAC change"
   ],
   "inProgress": [
-    "Commit and push owner ACL212 CLI/verifier repair;open PR"
+    "PR22 updated H03 finding;exact new head FULLCI needed"
   ],
   "notStarted": [
-    "Commit/push/PR and full feature/main CI;safe primary checkout sync after merge"
+    "Verify full quality/secret workflows and record delivery"
   ],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "testsPassed": [
-    "13 focused owner/verifier tests;actual PG9cases;282accepted/4874refused pure guard cases",
-    "dry-run local only;no prompts/network;existing R delivery preserved",
-    "Full1396Admin/0fail/0skip;strictlint/typecheck/Gitleaks0;actual9PGcases and675true"
+    "Local golden/adversarial/scale/dependency audits",
+    "1396Admin+5audit/197store/types/strictlint/Gitleaks0"
   ],
   "testsRemaining": [
-    "Exact feature push+PR/main FULL43 and secrets"
+    "Exact report PR FULLCI"
   ],
   "findings": [
-    "One writer in reused isolated worktree;all dirty source is our approved ACL repair",
-    "No Frankfurt connection or live owner apply;only disposable isolated test database used",
-    "New exact inverse sixfiles preserves old pins;primary old H/ACL211 untouched until final safe sync"
+    "critical0/high3/medium2/low1;see PREHANDOVER_AUDIT_AR.md",
+    "All disposable DB containers stopped;unrelated n8n untouched",
+    "No app/RPC/migration/permission/dependency changes or hosted access/deploy"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No Frankfurt/Production access or owner apply execution by agent;no deploy",
-    "No migrations/reference/default privilege/business logic changes",
-    "Only isolated CI/test fixtures may execute SQL;one writer;preserve primary changes"
+    "No hosted/Frankfurt/Production connection or deploy",
+    "No product fixes,new features,migrations or dependency updates;report and tests only",
+    "One writer;preserve primary changes;no automatic merge requested for report PR"
   ],
-  "nextExactAction": "Stage reviewed owner CLI/verifier files,commit/push and PR;exact FULL43 feature+main with owner9PGcases required;preserve primary documents;no hosted apply",
-  "workingTreeFingerprint": "2B326AA4DEDC2F0F2901B1143F2B0E25BF9C4B575ACF01EAE7A5D3E94365A8C1",
-  "checkpointedAt": "2026-10-24T10:55:46.960Z",
-  "filesTouchedCount": 38,
-  "filesTouchedManifestSha256": "9dae6a47baa27ece96ce95d391e8bf81d61e19b69dee0fa139e7c9f9f3cbfadf"
+  "nextExactAction": "Push H03 report update to PR22;verify43 FULLquality jobs and secrets on exact new SHA;record delivery without merge/product fix/hosted access",
+  "workingTreeFingerprint": "B6427B275257489240AA35CE93EF39A692E5C4ABD8A55CA57713D766FA89C02B",
+  "checkpointedAt": "2026-10-24T15:58:52.815Z",
+  "filesTouchedCount": 7,
+  "filesTouchedManifestSha256": "a13ff18c02ae68b6262e900de3a511ee0c7ad6967006974d4b6a37b83585dec2"
 }

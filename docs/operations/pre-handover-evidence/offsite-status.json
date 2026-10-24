@@ -1,0 +1,24 @@
+[
+  {
+    "pipeline": "erp",
+    "ok": true,
+    "lastAttemptAt": "2026-10-23T23:10:05.689Z",
+    "lastUploadAt": "2026-10-23T23:10:05.689Z",
+    "uploaded": true,
+    "remoteVerified": true,
+    "lastDownloadVerifiedAt": "2026-10-18T09:50:49.8Z",
+    "remoteRestoreVerified": true,
+    "lastRestoreVerifiedAt": "2026-09-11T00:57:33.2809528+03:00"
+  },
+  {
+    "pipeline": "n8n",
+    "ok": true,
+    "lastAttemptAt": "2026-10-23T23:10:07.911Z",
+    "lastUploadAt": "2026-10-23T23:10:07.911Z",
+    "uploaded": true,
+    "remoteVerified": true,
+    "lastDownloadVerifiedAt": "2026-10-18T09:50:54.758Z",
+    "remoteRestoreVerified": true,
+    "lastRestoreVerifiedAt": "2026-09-11T00:57:33.2809528+03:00"
+  }
+]
