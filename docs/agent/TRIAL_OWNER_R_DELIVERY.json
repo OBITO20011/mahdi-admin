@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "package": "R",
+  "status": "DELIVERED",
+  "pr": "https://github.com/OBITO20011/mahdi-admin/pull/20",
+  "featureSha": "14cb0cff8a6013642b18c1894a0753d02a3635eb",
+  "mainSha": "9a09c9b4c7910da491071d5905ae6f9b868ac8b2",
+  "featureCi": "docs/agent/TRIAL_OWNER_R_FEATURE_CI.json",
+  "mainCi": "docs/agent/TRIAL_OWNER_R_MAIN_CI.json",
+  "fullJobsPerRun": 43,
+  "adminTests": 1383,
+  "storeTests": 197,
+  "browserPassedPerRun": 1467,
+  "unchangedHistoricalConditionalSkippedPerRun": 59,
+  "flaky": 0,
+  "realPosCases": 8,
+  "pwaCases": 4,
+  "gitleaksFindings": 0,
+  "migrationCeiling": 212,
+  "migrationCanonicalLfSha256": "6BDBC906B38B4FD29DD4C5115E040CB1954B1BDB5ABE0EE3AEDAAE634B6CE619",
+  "ownerReference": {
+    "path": "C:/Users/TOP/NawasrahFrankfurt/nawasrah-fra-001-138/local-reference-through212-ready.json",
+    "sha256": "DB0AD398C47C59D55E7CB47DE4E0C3F51A616A2457BB927773A98A8E34C41F0C"
+  },
+  "ownerUpgradeGuide": "docs/operations/TRIAL_OWNER_UPGRADE212_AR.md",
+  "ownerUpgradeExecuted": false,
+  "managedAccess": false,
+  "deployed": false,
+  "primaryCheckoutUntouched": true,
+  "W2Deferred": true,
+  "noNextPhaseAuthorized": true,
+  "recordedAt": "2026-10-24T04:27:21.856Z"
+}

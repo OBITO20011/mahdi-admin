@@ -115,8 +115,13 @@
   "delivery": {
     "ciTestRepair": "docs/agent/TRIAL_OWNER_R_CI_REPAIR.json",
     "ciDbLintRepair": "docs/agent/TRIAL_OWNER_R_DB_LINT_REPAIR.json",
-    "status": "PENDING_EXACT_PUSH_PR_MAIN_FULL43_AND_GITLEAKS",
-    "ownerUpgradeExecuted": false
+    "status": "DELIVERED",
+    "ownerUpgradeExecuted": false,
+    "mainSha": "9a09c9b4c7910da491071d5905ae6f9b868ac8b2",
+    "pr": "https://github.com/OBITO20011/mahdi-admin/pull/20",
+    "featureCi": "docs/agent/TRIAL_OWNER_R_FEATURE_CI.json",
+    "mainCi": "docs/agent/TRIAL_OWNER_R_MAIN_CI.json",
+    "recordedAt": "2026-10-24T04:27:21.856Z"
   },
   "recordedAt": "2026-10-24T00:04:59.922Z"
 }

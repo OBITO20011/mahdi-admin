@@ -1,3 +1,19 @@
+#24Oct — owner ACL212 CLI implementation;full delivery gates next
+
+Owner authorized dry-run/apply CLI,strict211/212 verifier,PR/FULL43/merge/mainCI and primary checkout update. New command confirms fixed project then hidden in-memory password and sends one reviewed transaction. Actual isolated PostgreSQL9groups pass:675true/0false,432revoked,replay0,atomic late rollback,concurrency and one-unit bigint-bound rejection;orders/push/data/sequences/history retained. Numeric sequence metadata fixed as exact decimal text without altering migrations,reference or revoke targets. No hosted access/deploy. Full Admin1396/types/strictlint/Gitleaks and exact feature/main CI remain.
+
+#24Oct — ACL212 owner file and verify-only repair locally verified
+
+Owner-only SQL prepared from saved post212 catalog:556functions/119relations guarded,264exact REVOKE statements remove432extra service_role privileges;675postcondition rows. No missing/other application differences.211/212 verify-only now compares exact application function/relation/column ACL and calls version readiness;actual JSON-only workers reject both saved catalogs then accept the in-memory reduction.1389Admin tests,types/strictlint/Gitleaks0,282accepted/4874refused guard cases pass. New exact inverse for four verifier modules preserves historical pins;first historical-test rejection was corrected without weakening it. No hosted connection or SQL execution,local or remote;no migration/reference/default privilege change or commit/push. Owner executes prepared SQL then verify-only212 per docs/operations/FRANKFURT_ACL212_AR.md.
+
+#24Oct — offline ACL212 owner repair and verify-only correction
+
+Owner requests one guarded revoke-only file for saved post212 state and exact211/212 verify-only ACL checks. Full public review finds196functions/68relations with432 extra service_role atoms,zero missing/non-ACL application differences. Guard validates556functions/119relations before264 exact revokes and postcondition675rows. File/in-memory tests282accepted/4874refused and actual worker JSON responders reject both saved211/212 catalogs then accept exact reduced ACL. No hosted connection or SQL execution,including local;no migration/reference/default-privilege change or commit/push. Local Admin/typecheck/strictlint/Gitleaks verification next. See FRANKFURT_ACL212_REPAIR_AR.md and operations/FRANKFURT_ACL212_AR.md.
+
+#24Oct — R212 delivered;owner upgrade prepared only
+
+PR20 merged main9a09c9b4c7910da491071d5905ae6f9b868ac8b2;exact feature push40043187414/PR40043191827 and main40060823925 FULL43 with all secret scans strictly accepted. Actual1383Admin/197store/1467browser passes/0flaky/59unchanged historical conditional cases;realPOS8/PWA4;211full30/212full10,restore0/replay0,ref174-556-13,SDK154 and resetREST/OwnerTOTP/Storage verified. R1 cash documents,R3 photo/stock product picker,R4 filtered damage history delivered;212 read-only same roles/grants. Owner212 reference and Arabic dry-run/apply/verify-only guide prepared locally;no hostedaccess/deploy. Primary checkout untouched,W2 remains deferred,no next phase authorized. See TRIAL_OWNER_R_DELIVERY.json.
+
 #24Oct — R212 local gates complete;exact FULL43 delivery pending
 
 1383Admin/197store,types/strictlint/build/SEO/network0;R26+120affected browser passes with6unchanged conditionals;335sources/SDK154/537RPC with10exact role denials. SQL10/full restore0;ref174-556-13/freshincremental0;local upgrade212/replay0/resetREST/OwnerTOTP/Storage/offline212 PASS. Preflight enforces212 hash. Rejected source-drift proof and stale audit assertions repaired strictly;seven-function historical review preserved from saved15Oct files. Owner212 reference/Arabic commands prepared locally,old211 preserved;no hostedaccess/deploy. W2 remains deferred. See TRIAL_OWNER_R_LOCAL.json. Next Gitleaks/exact feature push+PR FULL43 then merge/mainFULL43.

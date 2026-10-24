@@ -8,6 +8,7 @@ import {readNotificationSnapshot,expectedHeldNotifications,isExpectedHeldTrigger
 import {compareManagedCatalog,assertManagedCatalog as assertHeldCatalog} from './managed-catalog-policy.mjs';
 import {readRealtimePublication,realtimePublicationSql} from '../testing/realtime151-contract.mjs';
 import {sha256} from '../testing/maintenance-db-contract.mjs';
+import {compareApplicationAcl} from './application-acl-verification.mjs';
 
 // Configure each actual psql session,not a startup option a pooler may ignore.
 // -c runs first,then -f - consumes only the read queries on the SAME connection.
@@ -51,7 +52,7 @@ export async function persistCatalogComparison(workdir,reference,observed,dates,
 }
 
 /** @param {{beforeBuildDate:string,afterBuildDate:string}} dates */
-export async function verifyCatalogReadOnly(executor,workdir,reference,originalNotifications,dates,report){
+export async function verifyCatalogReadOnly(executor,workdir,reference,originalNotifications,dates,report,options={}){
  const read=await executeInput(executor,schemaCatalogSql);
  assert.equal(read.code,0,'CATALOG_READ_FAILED');
  const observed=JSON.parse(read.stdout.trim());
@@ -78,6 +79,22 @@ export async function verifyCatalogReadOnly(executor,workdir,reference,originalN
  // Named trigger state,not a difference count;cron rows remain exact DATA checks.
  report.catalogExpectedHold=assertHeldCatalog(reference.catalog,observed,dates);
  assert.equal(differences.length,0,'NOTIFICATION_STATE_MISMATCH');
+ if(options.strictApplicationAcl){
+  report.stage='verify-application-acl';
+  const acl=compareApplicationAcl(reference.catalog,observed);
+  report.applicationAclComparison=acl;
+  report.applicationAclDifferencesFile=path.join(workdir,'application-acl-comparison.json');
+  comparison.applicationAclComparison=acl;
+  report.catalogUnexpectedDifferenceCount=acl.differenceCount;
+  await writeFile(report.applicationAclDifferencesFile,JSON.stringify(acl,null,2)+'\n');
+  await writeFile(report.catalogDifferencesFile,JSON.stringify(comparison,null,2)+'\n');
+  assert.equal(acl.differenceCount,0,'APPLICATION_ACL_MISMATCH');
+ }
+ if(options.assertReadyCatalog){
+  report.stage='verify-ready-catalog';
+  options.assertReadyCatalog(observed);
+  report.readyCatalogValidated=true;
+ }
  report.catalogUnexpectedDifferenceCount=0;
  return comparison;
 }

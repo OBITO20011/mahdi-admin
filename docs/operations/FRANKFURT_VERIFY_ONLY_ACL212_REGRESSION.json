@@ -1,0 +1,32 @@
+{
+  "ok": true,
+  "fileOnlyResponder": true,
+  "sqlExecuted": false,
+  "managedAccess": false,
+  "versions": [
+    {
+      "version": 211,
+      "beforeRejected": true,
+      "error": "APPLICATION_ACL_MISMATCH",
+      "beforeDifferentObjects": 264,
+      "removedPrivilegesInMemory": 432,
+      "afterAccepted": true,
+      "afterDifferentObjects": 0,
+      "readyCatalogValidated": true,
+      "queriesRespondedFromFilesOnly": true,
+      "savedCatalogUnchanged": true
+    },
+    {
+      "version": 212,
+      "beforeRejected": true,
+      "error": "APPLICATION_ACL_MISMATCH",
+      "beforeDifferentObjects": 264,
+      "removedPrivilegesInMemory": 432,
+      "afterAccepted": true,
+      "afterDifferentObjects": 0,
+      "readyCatalogValidated": true,
+      "queriesRespondedFromFilesOnly": true,
+      "savedCatalogUnchanged": true
+    }
+  ]
+}

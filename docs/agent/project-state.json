@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "project": "Nawasrah ERP",
-  "branch": "codex/trial-owner-r",
+  "branch": "codex/frankfurt-owner-acl212",
   "approvedBaseline": "247980af9636ab01b20c80cac6bb3d23de2cc584",
   "closedPhases": [
     "3",
@@ -244,5 +244,15 @@
   "migration210CanonicalLfSha256": "FD808AF46D8F4E999BA1ED183E08E9A3533D750675F7CA4BF120F9DC1891E10B",
   "migration211CanonicalLfSha256": "B3018E787225A5BEBE30E2ADEC0241D562687886E144C1FE59822A748B9F26A5",
   "migration212CanonicalLfSha256": "6BDBC906B38B4FD29DD4C5115E040CB1954B1BDB5ABE0EE3AEDAAE634B6CE619",
-  "trialOwnerRLocalEvidence": "docs/agent/TRIAL_OWNER_R_LOCAL.json"
+  "trialOwnerRLocalEvidence": "docs/agent/TRIAL_OWNER_R_LOCAL.json",
+  "trialOwnerRDelivered": true,
+  "trialOwnerRDeliveryBaseline": "9a09c9b4c7910da491071d5905ae6f9b868ac8b2",
+  "trialOwnerRDeliveryExactShaCi": "PASS",
+  "trialOwnerRDeliveryEvidence": "docs/agent/TRIAL_OWNER_R_DELIVERY.json",
+  "trialOwnerRDeliveryCiRuns": {
+    "quality": 40060823925,
+    "secrets": 40060823920
+  },
+  "ownerAcl212RepairEvidence": "docs/operations/FRANKFURT_ACL212_TOOL_REPAIR.json",
+  "ownerAcl212LocalEvidence": "docs/agent/OWNER_ACL212_LOCAL.json"
 }

@@ -1,0 +1,118 @@
+{
+  "sha": "9a09c9b4c7910da491071d5905ae6f9b868ac8b2",
+  "quality": [
+    {
+      "id": 40060823925,
+      "event": "push",
+      "attempt": 1,
+      "jobs": 43,
+      "browserPassed": 1467,
+      "legacyConditionalSkipped": 59,
+      "flaky": 0,
+      "strictFullVerified": true
+    }
+  ],
+  "secrets": [
+    {
+      "id": 40060823920,
+      "event": "push",
+      "conclusion": "success"
+    }
+  ],
+  "browser": [
+    {
+      "run": 40060823925,
+      "job": 120773777650,
+      "name": "Package F browser QA (3/5)",
+      "passed": 214,
+      "logSha256": "e69cd4512174c0fecbbc098a71ad2d0139f5e075a3c01f7358019c0e8ab5fc76"
+    },
+    {
+      "run": 40060823925,
+      "job": 120773777658,
+      "name": "Package F browser QA (5/5)",
+      "passed": 214,
+      "logSha256": "257307b74d0dc780b973a9336af241030f883c72a5113c6d92cd073ffb739918"
+    },
+    {
+      "run": 40060823925,
+      "job": 120773777693,
+      "name": "Package F browser QA (4/5)",
+      "passed": 214,
+      "logSha256": "1a8bb29649db9a253815cfe68894383bf26257c10d134d0b18b7cb31017a6cc7"
+    },
+    {
+      "run": 40060823925,
+      "job": 120773777739,
+      "name": "Package F browser QA (1/5)",
+      "passed": 216,
+      "logSha256": "d6b904dc7f27fc85ca3d4fd3f1eef01b06a99e02e07ec78b34dda5b9e7ecb8a6"
+    },
+    {
+      "run": 40060823925,
+      "job": 120773777792,
+      "name": "Package F browser QA (2/5)",
+      "passed": 214,
+      "logSha256": "557051fecbdc4dc83ed49a6094e4757d6392e432202f01b4502918d9d4ff6fce"
+    },
+    {
+      "run": 40060823925,
+      "job": 120773777950,
+      "name": "Lint, test, build and browser QA",
+      "passed": 395,
+      "logSha256": "db55823f34e17e21136cd92ea1f30acf3a4e7c3c5efb0e94a7229d66c1de2e9a"
+    }
+  ],
+  "aftercare211": [
+    {
+      "run": 40060823925,
+      "job": 120773778227,
+      "cases": 30,
+      "restore": {
+        "logicalCatalogDifferences": 0,
+        "allPublicDataAndSequencesIdentical": true,
+        "replayZeroWrites": true
+      },
+      "functions": 554,
+      "migrations": 173,
+      "realtime": 13,
+      "upgrade": [
+        "209",
+        "210",
+        "211"
+      ],
+      "replayWrites": 0,
+      "resetPopulated211": true,
+      "ownerTotpStorage": true
+    }
+  ],
+  "trial212": [
+    {
+      "run": 40060823925,
+      "job": 120773778255,
+      "cases": 10,
+      "restore": {
+        "logicalCatalogDifferences": 0,
+        "allPublicDataAndSequencesIdentical": true,
+        "replayZeroWrites": true
+      },
+      "functions": 556,
+      "migrations": 174,
+      "upgrade": [
+        "212"
+      ],
+      "replayWrites": 0,
+      "actualRestRead": true,
+      "ownerTotpStorage": true
+    }
+  ],
+  "pr": {
+    "number": 20,
+    "url": "https://github.com/OBITO20011/mahdi-admin/pull/20",
+    "head": "14cb0cff8a6013642b18c1894a0753d02a3635eb",
+    "base": "88c7bd446ab19338d320108a86ea25cddcbf6d2d",
+    "merged": true,
+    "mergeSha": "9a09c9b4c7910da491071d5905ae6f9b868ac8b2"
+  },
+  "ok": true
+}

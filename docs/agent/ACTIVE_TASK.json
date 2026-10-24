@@ -2,51 +2,48 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner-approved R1/R3/R4 UI and read-only212;full local/feature/main CI and owner upgrade command;no hosted access",
-  "baselineSha": "819a06a4f822ed73c90cea30f0f086000c0f4956",
-  "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
-  "branch": "codex/trial-owner-r",
+  "objective": "Owner CLI for reviewed ACL212 transaction plus strict211/212 verify-only;PR/fullCI/merge/mainCI;no hosted execution",
+  "baselineSha": "9a09c9b4c7910da491071d5905ae6f9b868ac8b2",
+  "branch": "codex/frankfurt-owner-acl212",
   "phase": "PACKAGE_F",
   "completed": [
-    "R1/R3/R4 and approved read-only212;all local gates pass"
+    "Owner CLI and strict211/212 verify-only implemented;dry-run local success",
+    "Actual isolated PostgreSQL9cases:675true/0false,432removed,replay0,rollback/concurrency/data and push preservation",
+    "Guard bigint metadata precision repaired with exact decimal strings;source-backed default bounds;no migration/reference/revoke-target changes",
+    "Full1396Admin/typecheck/strictlint/Gitleaks0 local gates pass"
   ],
   "inProgress": [
-    "Gitleaks and exact feature push+PR FULL43 before merge and mainFULL43"
+    "Commit and push owner ACL212 CLI/verifier repair;open PR"
   ],
   "notStarted": [
-    "Genuine merge and exact main CI delivery"
+    "Commit/push/PR and full feature/main CI;safe primary checkout sync after merge"
+  ],
+  "filesTouched": [
+    "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "testsPassed": [
-    "R26 plus120 affected browser passes;6unchanged conditionals;197store;types/strictlint/build/SEO/network0",
-    "Actual SDK154/537RPC with10expected role denials;SQL10/full restore0;ref174-556-13/diff0;local upgrade/replay/resetREST/ownerTOTP/Storage/offline212",
-    "1383Admin/197store clean final pass;22 targeted evidence correction tests pass;preflight212 hash admitted",
-    "Gitleaks staged scan0;feature421e118 pushed;PR20 draft attached",
-    "CI H evidence correction focused10/Gitleaks0;app/SQL unchanged421e118",
-    "1383Admin/197store clean final pass;22 targeted evidence correction tests pass;preflight212 hash admitted"
+    "13 focused owner/verifier tests;actual PG9cases;282accepted/4874refused pure guard cases",
+    "dry-run local only;no prompts/network;existing R delivery preserved",
+    "Full1396Admin/0fail/0skip;strictlint/typecheck/Gitleaks0;actual9PGcases and675true"
   ],
   "testsRemaining": [
-    "Gitleaks and exact feature push+PR/main FULL43"
+    "Exact feature push+PR/main FULL43 and secrets"
   ],
   "findings": [
-    "New clean isolated owner-authorized R worktree from delivered88c7bd4;inherited W checkpoint reset for new task;primary H/ACL211 and W closure left untouched",
-    "Local sources only;old migrations/pins retained;scoped nested invoice layer and pre-paint selection focus verified",
-    "Exact421e118 CI caught H tracked-addition guard;bounded test-only repair admits exact212 hash and R inverse;old runs not accepted;10focused pass;application/SQL unchanged",
-    "819a06a package-f-aging/go-live DB lint caught implicit text-to-JSONB initializer;explicit casts only in draft212;no writer/ACL/calculation change;old212 proof/reference retained as superseded"
+    "One writer in reused isolated worktree;all dirty source is our approved ACL repair",
+    "No Frankfurt connection or live owner apply;only disposable isolated test database used",
+    "New exact inverse sixfiles preserves old pins;primary old H/ACL211 untouched until final safe sync"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No Frankfurt/Production/deploy",
-    "No writer RPC/accounting/permission changes",
-    "Only approved read-only212;historical migrations immutable",
-    "Single writer;no tracked edits during verification"
+    "No Frankfurt/Production access or owner apply execution by agent;no deploy",
+    "No migrations/reference/default privilege/business logic changes",
+    "Only isolated CI/test fixtures may execute SQL;one writer;preserve primary changes"
   ],
-  "nextExactAction": "Final6BDBC906212 full local DB lint/runtime10/restore/SDK/ref/upgrade/reset/service/Admin1383 pass;Gitleaks,commit/push PR20 new exact push+PR FULL43 then merge/mainFULL43;no hosted access",
-  "checkpointedAt": "2026-10-24T00:05:04.449Z",
-  "filesTouched": [
-    "docs/agent/ACTIVE_TASK_FILES.json"
-  ],
-  "filesTouchedCount": 13,
-  "filesTouchedManifestSha256": "d71da4c9a8ab52d45f56911ac363c71de3a261861e3d4e8f5c949228eafbe9dd",
-  "workingTreeFingerprint": "B36E067DC2ABFE775A10841A59490F9492D53BD972E4DE96FEC4C4A057277D28"
+  "nextExactAction": "Stage reviewed owner CLI/verifier files,commit/push and PR;exact FULL43 feature+main with owner9PGcases required;preserve primary documents;no hosted apply",
+  "workingTreeFingerprint": "2B326AA4DEDC2F0F2901B1143F2B0E25BF9C4B575ACF01EAE7A5D3E94365A8C1",
+  "checkpointedAt": "2026-10-24T10:55:46.960Z",
+  "filesTouchedCount": 38,
+  "filesTouchedManifestSha256": "9dae6a47baa27ece96ce95d391e8bf81d61e19b69dee0fa139e7c9f9f3cbfadf"
 }

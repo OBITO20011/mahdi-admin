@@ -110,7 +110,8 @@
     "frankfurt-owner-upgrade211": "node scripts/operations/frankfurt-owner-upgrade211.mjs",
     "test:trial212:runtime": "node scripts/testing/run-trial212-runtime.mjs",
     "test:trial212:gates": "node scripts/testing/run-trial212-gates.mjs",
-    "frankfurt-owner-upgrade212": "node scripts/operations/frankfurt-owner-upgrade212.mjs"
+    "frankfurt-owner-upgrade212": "node scripts/operations/frankfurt-owner-upgrade212.mjs",
+    "frankfurt-owner-acl212": "node scripts/operations/frankfurt-owner-acl212.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1128.0",

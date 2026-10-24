@@ -23,35 +23,135 @@
     },
     {
       "code": " M",
-      "path": "docs/generated/DB_FUNCTIONS.md"
+      "path": "package.json"
     },
     {
       "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_AUDIT.md"
+      "path": "scripts/audit/source-before-trial-owner-r.mjs"
     },
     {
       "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+      "path": "scripts/operations/frankfurt-catalog-verification.mjs"
     },
     {
       "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_212.json"
+      "path": "scripts/operations/frankfurt-owner-upgrade.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/audit/trial-owner-r-hunks.json"
+      "path": "scripts/operations/frankfurt-owner-upgrade211.mjs"
     },
     {
       "code": " M",
-      "path": "supabase/migrations/212_trial_readable_cash_product_choices_damage_history.sql"
+      "path": "scripts/operations/frankfurt-owner-upgrade212.mjs"
     },
     {
       "code": " M",
-      "path": "tests/trial-brand-identity.test.ts"
+      "path": "scripts/testing/run-trial212-gates.mjs"
     },
     {
       "code": "??",
-      "path": "docs/agent/TRIAL_OWNER_R_DB_LINT_REPAIR.json"
+      "path": "docs/agent/FRANKFURT_ACL212_REPAIR_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "docs/agent/OWNER_ACL212_LOCAL.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/agent/TRIAL_OWNER_R_DELIVERY.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/agent/TRIAL_OWNER_R_FEATURE_CI.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/agent/TRIAL_OWNER_R_MAIN_CI.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/FRANKFURT_ACL212_ANALYSIS.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/FRANKFURT_ACL212_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/FRANKFURT_ACL212_TOOL_REPAIR.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/FRANKFURT_ACL212_VERIFICATION.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/FRANKFURT_FUNCTION_ACL212_OWNER.sql"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/FRANKFURT_OWNER_ACL212_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/FRANKFURT_VERIFY_ONLY_ACL212_REGRESSION.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/OWNER_ACL212_RUNTIME_LOCAL.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/owner-acl212-inverse.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-owner-acl212.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/application-acl-verification.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/frankfurt-owner-acl212.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/owner-acl212-bundle.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/owner-acl212-sequences.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/owner-acl212-sql.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/prepare-frankfurt-acl212-offline.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/verify-frankfurt-acl-readonly-offline.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/verify-frankfurt-acl212-offline.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-owner-acl212-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/frankfurt-application-acl.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/frankfurt-owner-acl212.test.ts"
     }
   ]
 }

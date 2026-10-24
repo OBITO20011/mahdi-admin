@@ -82,8 +82,10 @@ export async function offline212(args){
  }catch(error){report.ok=false;report.error=error.message;}
  await writeFile(path.join(output,'report.json'),JSON.stringify(report,null,2)+'\n');return report;
 }
+export const verify212ReadOnly=(executor,output,reference,original,dates,report)=>
+ verifyCatalogReadOnly(executor,output,reference,original,dates,report,{strictApplicationAcl:true,assertReadyCatalog:assertReady212Catalog});
 export const run212=args=>ownerRun(args,{loadReference:readReady212Reference,referenceName:ready212ReferenceName,pipeline:upgrade212WithExecutor,
- inputsFor:inputs212,versions:upgrade212Versions,label:'212',offlinePlan:offline212});
+ inputsFor:inputs212,versions:upgrade212Versions,label:'212',offlinePlan:offline212,verifyReadOnly:verify212ReadOnly});
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){
  try{const result=await run212(process.argv.slice(2));console.log(JSON.stringify({ok:result.ok,output:result.output,error:result.error,applied:result.applied,remoteWriteAttempted:result.remoteWriteAttempted}));if(!result.ok)process.exitCode=1;}
  catch(error){console.error(error.code==='ERR_ASSERTION'?error.message.split('\n')[0]:'OWNER212_PREPARATION_FAILED');process.exitCode=1;}
