@@ -21,7 +21,7 @@ test('204 upgrade accepts complete199..204 prefixes only;200 security and all in
  for(const invalid of [base.slice(1),[...base,'201'],[...base,'200','201','202','204'],[...versions,'205'],[...base,'152']])assert.throws(()=>assert204History(invalid,reference));
 });
 test('204 freezes203 definitions,retains historical reset strictness and pins its own new migration',()=>{
- const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,213);
+ const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,214);
  assert.equal(state.migration204CanonicalLfSha256,createHash('sha256').update(read('supabase/migrations/204_sales_history_read_model.sql')).digest('hex').toUpperCase());
  assert.match(read('scripts/operations/frankfurt-owner-build.mjs'),/f944d6efa506070206553723e6754672c17a95139d6c135c80f6bbd2197833a5/u);
  assert.match(read('scripts/testing/historical-reset-source.mjs'),/203:165/u);

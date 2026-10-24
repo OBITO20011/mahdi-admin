@@ -7,7 +7,7 @@
     },
     {
       "code": " M",
-      "path": "docs/agent/project-state.json"
+      "path": "docs/generated/DB_FUNCTIONS.md"
     },
     {
       "code": " M",
@@ -52,10 +52,6 @@
     {
       "code": " M",
       "path": "scripts/testing/run-trial-reset-runtime.mjs"
-    },
-    {
-      "code": " M",
-      "path": "supabase/migrations/214_handover_z_corrections.sql"
     },
     {
       "code": " M",
@@ -131,7 +127,7 @@
     },
     {
       "code": "??",
-      "path": "docs/agent/HANDOVER_Z5_LOCAL.json"
+      "path": "docs/operations/FRANKFURT_OWNER_UPGRADE214_AR.md"
     },
     {
       "code": "??",
@@ -171,15 +167,11 @@
     },
     {
       "code": "??",
-      "path": "scripts/testing/run-handover-z-collections-runtime.mjs"
-    },
-    {
-      "code": "??",
       "path": "scripts/testing/run-handover214-gates.mjs"
     },
     {
       "code": "??",
-      "path": "tests/handover-z-locks.test.ts"
+      "path": "tests/handover214.test.ts"
     }
   ]
 }

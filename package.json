@@ -115,7 +115,9 @@
     "dev:lan": "vite --port=3000 --host=0.0.0.0",
     "frankfurt-owner-upgrade213": "node scripts/operations/frankfurt-owner-upgrade213.mjs",
     "test:handover213:runtime": "node scripts/testing/run-handover213-runtime.mjs",
-    "test:handover213:gates": "node scripts/testing/run-handover213-gates.mjs"
+    "test:handover213:gates": "node scripts/testing/run-handover213-gates.mjs",
+    "frankfurt-owner-upgrade214": "node scripts/operations/frankfurt-owner-upgrade214.mjs",
+    "test:handover214:gates": "node scripts/testing/run-handover214-gates.mjs"
   },
   "dependencies": {
     "@fontsource/ibm-plex-sans-arabic": "5.3.0",
