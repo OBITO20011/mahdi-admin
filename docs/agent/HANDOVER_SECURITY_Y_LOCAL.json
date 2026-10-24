@@ -1,0 +1,233 @@
+{
+  "status": "LOCAL_COMPLETE",
+  "recordedAt": "2026-10-24T18:59:52.754Z",
+  "migration213Sha256": "9748c01d4d55703d8586901146420f5232534034993cf8f9ba049ba05ece2b48",
+  "database": {
+    "actualLocal": true,
+    "cases": 74,
+    "zeroBusinessWritesForDeniedLegacy": true,
+    "anonWithoutClaimsThrottled": true
+  },
+  "table": {
+    "queries": 154,
+    "errors": 0,
+    "proofSha256": "cf43ce97d6e962b5f07f7a561e757ef6c2a2213dc5b2b232e8632e09d17772fb"
+  },
+  "checks": {
+    "typecheck": true,
+    "strictLint": true,
+    "storeUnitPass": 197,
+    "focusedUnitPass": 21,
+    "buildAdmin": true,
+    "buildStoreIsolatedSeo": true,
+    "pwa": [
+      {
+        "browser": "Chromium",
+        "scenario": "automatic",
+        "ok": true
+      },
+      {
+        "browser": "Chromium",
+        "scenario": "waiting-worker",
+        "ok": true
+      },
+      {
+        "browser": "WebKit",
+        "scenario": "automatic",
+        "ok": true
+      },
+      {
+        "browser": "WebKit",
+        "scenario": "waiting-worker",
+        "ok": true
+      }
+    ],
+    "pwaEscapedExternalRequests": 0,
+    "productionAuditAdmin": 0,
+    "productionAuditStore": 0,
+    "edgeFrozenGraphs": 5,
+    "adminUnitPass": 1408,
+    "resetGuardUnitPass": 30,
+    "coreBrowser": {
+      "startTime": "2026-10-24T18:36:31.417Z",
+      "duration": 1195453.2959999999,
+      "expected": 395,
+      "skipped": 59,
+      "unexpected": 0,
+      "flaky": 0,
+      "errors": [],
+      "historicalConditionalCases": 59,
+      "retries": 0
+    }
+  },
+  "pending": [
+    "Exact final documentation-head push+PR FULL44 and secret scans;no Y merge authorization"
+  ],
+  "hostedAccess": false,
+  "deployment": false,
+  "reference": {
+    "migrations": 175,
+    "functions": 556,
+    "realtimeMembers": 13,
+    "freshIncrementalDifferenceCount": 0
+  },
+  "storage": {
+    "ok": true,
+    "actualStorageHttp": true,
+    "anonymousListing": "RLS returns an empty array without names",
+    "anonymousUploadDenied": true,
+    "roles": [
+      {
+        "role": "owner",
+        "upload": true,
+        "upsert": true,
+        "ownMetadata": true,
+        "crossFolderDenied": true,
+        "publicImageBytes": true,
+        "anonymousListingEmpty": true,
+        "delete": true
+      },
+      {
+        "role": "admin",
+        "upload": true,
+        "upsert": true,
+        "ownMetadata": true,
+        "crossFolderDenied": true,
+        "publicImageBytes": true,
+        "anonymousListingEmpty": true,
+        "delete": true
+      },
+      {
+        "role": "manager",
+        "upload": true,
+        "upsert": true,
+        "ownMetadata": true,
+        "crossFolderDenied": true,
+        "publicImageBytes": true,
+        "anonymousListingEmpty": true,
+        "delete": true
+      },
+      {
+        "role": "warehouse_keeper",
+        "upload": true,
+        "upsert": true,
+        "ownMetadata": true,
+        "crossFolderDenied": true,
+        "publicImageBytes": true,
+        "anonymousListingEmpty": true,
+        "delete": true
+      },
+      {
+        "role": "cashier",
+        "uploadDenied": true,
+        "listingEmpty": true
+      },
+      {
+        "role": "none",
+        "uploadDenied": true,
+        "listingEmpty": true
+      }
+    ]
+  },
+  "reset": {
+    "ok": true,
+    "catalogDifferences": 0,
+    "ownerRetained": true,
+    "verifiedTotpRetained": true,
+    "staffDeleted": true,
+    "storageBytesDeleted": true,
+    "restoredCreationAclCommands": 11,
+    "restReaders": [
+      {
+        "version": "209",
+        "passed": true
+      },
+      {
+        "version": "210",
+        "passed": true
+      },
+      {
+        "version": "211",
+        "passed": true
+      },
+      {
+        "version": "212",
+        "passed": true
+      }
+    ],
+    "windowsCliIncident": {
+      "version": "073",
+      "exitDetailsUnavailableInFirstAttempt": true,
+      "notClaimedFixed": true,
+      "subsequentCompleteResetPassed": true,
+      "instrumentation": {
+        "ok": true,
+        "originalSha256": "823108a3df43a51cb93df370f557d8ae13d532b91b5bc93f3a25a7b304affb9d",
+        "diagnosticSha256": "28708b7d500ea9ebc2dc5d132d0ce2f037510cb030a3c2646ed1e70026a052e0",
+        "exactInverseToOriginal": true,
+        "assertionsArgsTimeoutsAndPipelineUnchanged": true,
+        "changesOnly": [
+          "relative and package import relocation",
+          "root relocation",
+          "local CLI error-category observation without raw output"
+        ]
+      },
+      "originalUninstrumentedResetAlsoPassedInFullCi": {
+        "sha": "4e2da954686e17bf4ae14f120f940aacb3215db1",
+        "run": 40121043303,
+        "job": "Isolated current contracts (handover213)"
+      }
+    }
+  },
+  "developmentAudit": {
+    "admin": {
+      "high": 3,
+      "packages": [
+        "brace-expansion",
+        "source-map-js",
+        "zod"
+      ]
+    },
+    "store": {
+      "high": 5,
+      "packages": [
+        "miniflare",
+        "sharp",
+        "source-map-js",
+        "undici",
+        "wrangler"
+      ]
+    },
+    "production": {
+      "admin": 0,
+      "store": 0
+    },
+    "paths": {
+      "braceExpansion": "ESLint -> minimatch",
+      "sourceMapJs": "Vite/PostCSS and Tailwind build tools",
+      "zod": "eslint-plugin-react-hooks",
+      "miniflareSharpUndici": "Wrangler local emulation"
+    },
+    "scope": "Development tooling only;not included in production dependency install;not an all-dependencies zero claim"
+  },
+  "verifiedImplementationSha": "4e2da954686e17bf4ae14f120f940aacb3215db1",
+  "ownerUpgrade": {
+    "applied": [
+      "213"
+    ],
+    "recorded": [
+      "213"
+    ],
+    "alignmentCommands": 0,
+    "replayRemoteWriteAttempted": false,
+    "strictAclNegatives": true,
+    "verifyZeroWrites": true,
+    "finalAclDifferenceCount": 0
+  },
+  "ownerPreparation": {
+    "localReferencePrepared": true,
+    "reference212Unchanged": true,
+    "dryRunOk": true,
+    "remoteWriteAttempted": false
+  }
+}

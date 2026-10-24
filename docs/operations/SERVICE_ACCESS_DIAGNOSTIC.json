@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-10-23T23:58:24.416Z",
-  "migrationCeiling": 212,
+  "startedAt": "2026-10-24T17:27:11.762Z",
+  "migrationCeiling": 213,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-OxXOLt",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-0mACAh",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -4895,8 +4895,7 @@
     },
     {
       "acl": [
-        "postgres=X/postgres",
-        "authenticated=X/postgres"
+        "postgres=X/postgres"
       ],
       "name": "create_product_with_opening_stock",
       "names": [
@@ -4947,8 +4946,7 @@
     },
     {
       "acl": [
-        "postgres=X/postgres",
-        "authenticated=X/postgres"
+        "postgres=X/postgres"
       ],
       "name": "create_product_with_opening_stock_v2",
       "names": [
@@ -5001,8 +4999,7 @@
     },
     {
       "acl": [
-        "postgres=X/postgres",
-        "authenticated=X/postgres"
+        "postgres=X/postgres"
       ],
       "name": "create_product_with_opening_stock_v3",
       "names": [
@@ -5344,7 +5341,9 @@
       "securityDefiner": false
     },
     {
-      "acl": null,
+      "acl": [
+        "postgres=X/postgres"
+      ],
       "name": "enforce_product_flavor_inheritance",
       "names": [],
       "owner": "postgres",
@@ -8681,7 +8680,9 @@
       "types": [],
       "identity": "package_d_reject_pos_cancellation_mutation()",
       "returnType": "trigger",
-      "configuration": null,
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
       "securityDefiner": false
     },
     {
@@ -11491,8 +11492,7 @@
     },
     {
       "acl": [
-        "postgres=X/postgres",
-        "authenticated=X/postgres"
+        "postgres=X/postgres"
       ],
       "name": "receive_inventory",
       "names": [
@@ -13496,7 +13496,9 @@
       "securityDefiner": false
     },
     {
-      "acl": null,
+      "acl": [
+        "postgres=X/postgres"
+      ],
       "name": "sync_product_flavor_commercial_settings",
       "names": [],
       "owner": "postgres",
@@ -34854,22 +34856,22 @@
     },
     {
       "role": "authenticated",
-      "allowed": true,
-      "identity": "create_product_with_opening_stock(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,bigint,bigint,integer,integer,uuid,integer,text)"
-    },
-    {
-      "role": "service_role",
       "allowed": false,
       "identity": "create_product_with_opening_stock(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,bigint,bigint,integer,integer,uuid,integer,text)"
     },
     {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "create_product_with_opening_stock(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,bigint,bigint,integer,integer,uuid,integer,text)"
+    },
+    {
       "role": "anon",
       "allowed": false,
       "identity": "create_product_with_opening_stock_v2(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,bigint,bigint,bigint,integer,integer,uuid,integer,text)"
     },
     {
       "role": "authenticated",
-      "allowed": true,
+      "allowed": false,
       "identity": "create_product_with_opening_stock_v2(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,bigint,bigint,bigint,integer,integer,uuid,integer,text)"
     },
     {
@@ -34884,7 +34886,7 @@
     },
     {
       "role": "authenticated",
-      "allowed": true,
+      "allowed": false,
       "identity": "create_product_with_opening_stock_v3(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,bigint,bigint,bigint,integer,integer,uuid,integer,text,text)"
     },
     {
@@ -35029,17 +35031,17 @@
     },
     {
       "role": "anon",
-      "allowed": true,
+      "allowed": false,
       "identity": "enforce_product_flavor_inheritance()"
     },
     {
       "role": "authenticated",
-      "allowed": true,
+      "allowed": false,
       "identity": "enforce_product_flavor_inheritance()"
     },
     {
       "role": "service_role",
-      "allowed": true,
+      "allowed": false,
       "identity": "enforce_product_flavor_inheritance()"
     },
     {
@@ -39414,15 +39416,15 @@
     },
     {
       "role": "authenticated",
-      "allowed": true,
-      "identity": "receive_inventory(uuid,uuid,integer,text,uuid,text)"
-    },
-    {
-      "role": "service_role",
       "allowed": false,
       "identity": "receive_inventory(uuid,uuid,integer,text,uuid,text)"
     },
     {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "receive_inventory(uuid,uuid,integer,text,uuid,text)"
+    },
+    {
       "role": "anon",
       "allowed": false,
       "identity": "receive_purchase_order(uuid,uuid,text,text,jsonb)"
@@ -40564,17 +40566,17 @@
     },
     {
       "role": "anon",
-      "allowed": true,
+      "allowed": false,
       "identity": "sync_product_flavor_commercial_settings()"
     },
     {
       "role": "authenticated",
-      "allowed": true,
+      "allowed": false,
       "identity": "sync_product_flavor_commercial_settings()"
     },
     {
       "role": "service_role",
-      "allowed": true,
+      "allowed": false,
       "identity": "sync_product_flavor_commercial_settings()"
     },
     {
@@ -41172,7 +41174,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-10-24T00:00:01.193Z",
+  "endedAt": "2026-10-24T17:28:51.686Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {
@@ -41349,17 +41351,17 @@
       "effectiveLocal": [
         {
           "role": "anon",
-          "allowed": true,
+          "allowed": false,
           "identity": "enforce_product_flavor_inheritance()"
         },
         {
           "role": "authenticated",
-          "allowed": true,
+          "allowed": false,
           "identity": "enforce_product_flavor_inheritance()"
         },
         {
           "role": "service_role",
-          "allowed": true,
+          "allowed": false,
           "identity": "enforce_product_flavor_inheritance()"
         }
       ],
@@ -41497,17 +41499,17 @@
       "effectiveLocal": [
         {
           "role": "anon",
-          "allowed": true,
+          "allowed": false,
           "identity": "sync_product_flavor_commercial_settings()"
         },
         {
           "role": "authenticated",
-          "allowed": true,
+          "allowed": false,
           "identity": "sync_product_flavor_commercial_settings()"
         },
         {
           "role": "service_role",
-          "allowed": true,
+          "allowed": false,
           "identity": "sync_product_flavor_commercial_settings()"
         }
       ],
@@ -41515,6 +41517,10 @@
       "triggerOnly": true
     }
   ],
+  "savedCatalogProvenance": {
+    "baseline": "703fc51abb6b65ce2df2edcf14c6ecb235b74ddf",
+    "scope": "Historical15Oct saved-catalog review only;effectiveLocal and invocationResults measured anew on213;no hosted read"
+  },
   "oldReferences": [
     {
       "file": "automation/n8n/workflows/nawasrah-alerts.json",
@@ -41536,7 +41542,7 @@
     {
       "file": "docs/agent/OWNER_DECISIONS.md",
       "lines": [
-        715
+        723
       ],
       "category": "HISTORICAL_DOCUMENTATION"
     },
@@ -41544,6 +41550,13 @@
       "file": "docs/operations/FRANKFURT_OWNER_BUILD_AR.md",
       "lines": [
         100
+      ],
+      "category": "HISTORICAL_DOCUMENTATION"
+    },
+    {
+      "file": "docs/operations/PREHANDOVER_AUDIT_AR.md",
+      "lines": [
+        40
       ],
       "category": "HISTORICAL_DOCUMENTATION"
     },
@@ -41705,12 +41718,5 @@
       ],
       "category": "TEST_CONTRACT"
     }
-  ],
-  "savedCatalogProvenance": {
-    "kind": "owner-saved-files",
-    "savedDate": "2026-10-15",
-    "currentManagedStateNotRead": true,
-    "reference": "local-reference.json",
-    "observed": "catalog-observed.json"
-  }
+  ]
 }

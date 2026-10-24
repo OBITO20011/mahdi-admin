@@ -1,3 +1,4 @@
+import {pathsBeforeHandover213} from '../scripts/audit/source-before-handover213.mjs';
 import {parseCashDocumentDisplay} from '../src/services/supabase/cashDocumentDisplay.service';
 import assert from 'node:assert/strict';
 import test from 'node:test';
@@ -18,7 +19,7 @@ test('212 contains only approved read functions;206 money attribution remains by
  assert.equal(body(sql).replace("'note',note)||public.trial212_cash_metadata_internal(source,id)","'note',note)"),body(old));
  assert.match(sql,/sr208_assert_role_internal\('read'\)/u);assert.match(sql,/IF owner_values THEN/u);assert.match(sql,/REVOKE ALL ON FUNCTION public\.trial212_cash_metadata_internal/);assert.match(sql,/STABLE SECURITY DEFINER/g);
  const admitted=read('scripts/agent/preflight.mjs').match(/for\(const number of \[([^\]]+)\]/u)![1].split(',').map(Number);assert.ok(admitted.includes(212),'Takeover must enforce the approved212 hash');
- const changed=execFileSync('git',['diff','--name-only','88c7bd446ab19338d320108a86ea25cddcbf6d2d','--','supabase'],{encoding:'utf8'}).trim().split('\n').filter(Boolean);assert.deepEqual(changed.filter(f=>!f.startsWith('supabase/migrations/212_')),[]);
+ const changed=execFileSync('git',['diff','--name-only','88c7bd446ab19338d320108a86ea25cddcbf6d2d','--','supabase'],{encoding:'utf8'}).trim().split('\n').filter(Boolean);assert.deepEqual(pathsBeforeHandover213(changed).filter(f=>!f.startsWith('supabase/migrations/212_')),[]);
 });
 test('Shared choices preserve all options and stable server order within stock buckets,without mutating caller',()=>{
  const choices=[{id:'zero',name:'صفر',available:0,unit:'باكيت'},{id:'positive',name:'متاح',available:2,unit:'باكيت'},{id:'unknown',name:'غير معروف',available:null,unit:'باكيت'},{id:'positive2',name:'متاح2',available:1,unit:'باكيت'}],before=structuredClone(choices);

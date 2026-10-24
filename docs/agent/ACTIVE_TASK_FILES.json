@@ -3,31 +3,23 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/operations/PREHANDOVER_AUDIT_AR.md"
+      "path": "docs/agent/HANDOVER_SECURITY_Y_AR.md"
     },
     {
       "code": " M",
-      "path": "docs/operations/PREHANDOVER_AUDIT_EVIDENCE.json"
+      "path": "docs/agent/HANDOVER_SECURITY_Y_LOCAL.json"
     },
     {
       "code": " M",
-      "path": "docs/operations/UNEXPOSED_RPC_REVIEW_AR.md"
+      "path": "docs/agent/PHASE_STATUS.md"
     },
     {
       "code": " M",
-      "path": "scripts/testing/pre-handover/build-evidence.mjs"
+      "path": "docs/agent/PROJECT_OVERVIEW.md"
     },
     {
       "code": " M",
-      "path": "tests/pre-handover-audit.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/pre-handover-evidence/legacy-receive.json"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/pre-handover/legacy-receive.mjs"
+      "path": "docs/operations/FRANKFURT_OWNER_UPGRADE213_AR.md"
     }
   ]
 }

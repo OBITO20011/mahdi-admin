@@ -11,7 +11,7 @@ import {assertManagedCatalog,aclEntries} from './managed-catalog-policy.mjs';
 import {readRealtimePublication} from '../testing/realtime151-contract.mjs';
 
 export const resetCeiling=182;
-const resetFileCounts=Object.freeze({182:151,199:161,200:162,201:163,202:164,203:165,204:166,205:167,206:168,207:169,208:170,209:171,210:172,211:173,212:174});
+const resetFileCounts=Object.freeze({182:151,199:161,200:162,201:163,202:164,203:165,204:166,205:167,206:168,207:169,208:170,209:171,210:172,211:173,212:174,213:175});
 export function assertResetCeiling(reference){
  assert.ok(Object.hasOwn(resetFileCounts,reference.migrationCeiling),'RESET_REFERENCE_CEILING');
  return resetFileCounts[reference.migrationCeiling];
@@ -110,8 +110,10 @@ export const externalDependentsSql=`WITH RECURSIVE deps(classid,objid,objsubid) 
  FROM objects WHERE object_schema IS DISTINCT FROM 'public'
  AND NOT(classid='pg_namespace'::regclass AND objid='public'::regnamespace)
  AND NOT(classid='pg_default_acl'::regclass AND objid IN(SELECT oid FROM pg_default_acl WHERE defaclnamespace='public'::regnamespace));`;
-export function assertExternalDependents(rows){
+export function assertExternalDependents(rows,migrationCeiling=182){
  const allowed=['ERP staff can upload own product images','ERP staff can update own product images','ERP staff can delete own product images'];
+ //213 recreates this exact reviewed storage policy after rebuilding public helpers.
+ if(migrationCeiling===213)allowed.push('ERP staff can read own product image metadata');
  for(const r of rows){if(r.schema==='pg_toast')continue;
   if(r.class==='pg_trigger'&&r.schema==='auth'&&r.internalFk===true)continue;
   if(r.class==='pg_publication_rel'&&r.publication==='supabase_realtime')continue;
@@ -163,7 +165,7 @@ export async function resetWithExecutor({executor,root,reference,output,repair,c
  // its normalized,strict-application check before calling this executor.
  assertManagedCatalog(reference.catalog,before,dates.admission);
  restoreResetAcl(before,before); // Unsupported grantors must fail BEFORE deleting files/data.
- const dependents=await json(externalDependentsSql);assertExternalDependents(dependents);report.externalDependents=dependents;
+ const dependents=await json(externalDependentsSql);assertExternalDependents(dependents,reference.migrationCeiling);report.externalDependents=dependents;
  assert.ok(before.tables.some(t=>t.schema==='public'&&t.name==='product_cost_corrections'),'RESET182_REQUIRED');
  const notifications=await readNotificationSnapshot(executor);
  assert.equal(notifications.trigger.enabled,'D','RESET_NOTIFICATION_HOLD_REQUIRED');
