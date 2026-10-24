@@ -1,0 +1,2973 @@
+{
+  "capturedRun": "2026-10-24T14:35:08.796Z",
+  "originalComparatorIssue": "JSON property order only;preserved original evidence unchanged",
+  "checks": [
+    {
+      "name": "receipt WAC1000 after equal quantities500/1500",
+      "expected": 1000,
+      "actual": 1000,
+      "passed": true
+    },
+    {
+      "name": "drawer",
+      "expected": 1019500,
+      "actual": 1019500,
+      "passed": true
+    },
+    {
+      "name": "supplier debt",
+      "expected": 237000,
+      "actual": 237000,
+      "passed": true
+    },
+    {
+      "name": "net profit",
+      "expected": -2500,
+      "actual": -2500,
+      "passed": true
+    },
+    {
+      "name": "today all receipts exactly once",
+      "expected": {
+        "cashInMinorUnits": 37500,
+        "cliqInMinorUnits": 2500,
+        "bankTransferInMinorUnits": 0,
+        "chequeInMinorUnits": 5000,
+        "otherInMinorUnits": 0,
+        "totalInMinorUnits": 45000
+      },
+      "actual": {
+        "cashInMinorUnits": 37500,
+        "cliqInMinorUnits": 2500,
+        "otherInMinorUnits": 0,
+        "totalInMinorUnits": 45000,
+        "chequeInMinorUnits": 5000,
+        "bankTransferInMinorUnits": 0
+      },
+      "passed": true
+    },
+    {
+      "name": "inventory 92600000-0000-4000-8000-000000000103",
+      "expected": 184,
+      "actual": 184,
+      "passed": true
+    },
+    {
+      "name": "inventory 92600000-0000-4000-8000-000000000101",
+      "expected": 38,
+      "actual": 38,
+      "passed": true
+    },
+    {
+      "name": "inventory 92600000-0000-4000-8000-000000000102",
+      "expected": 37,
+      "actual": 37,
+      "passed": true
+    },
+    {
+      "name": "inventory 92600000-0000-4000-8000-000000000110",
+      "expected": 20,
+      "actual": 20,
+      "passed": true
+    },
+    {
+      "name": "reprint stable 9963990b-b9e4-48de-b640-5999ef961c08",
+      "expected": {
+        "items": [
+          {
+            "sku": "E-CARTON",
+            "packageName": "باكيت",
+            "productName": "صنف الطرد",
+            "baseQuantity": 5,
+            "baseUnitName": "باكيت",
+            "packageQuantity": 1,
+            "parcelInstances": [],
+            "unitsPerPackage": 5,
+            "commercialLineKind": "legacy_single_sku_parcel",
+            "lineTotalInMinorUnits": 4500,
+            "packagePriceInMinorUnits": 4500
+          }
+        ],
+        "branch": {
+          "name": "فرع اليوم الكامل",
+          "phone": "",
+          "address": ""
+        },
+        "status": "completed",
+        "success": true,
+        "createdAt": "2026-10-24T14:35:16.542743+00:00",
+        "orderNumber": "POS-20261024-000001",
+        "paymentMethod": "cash",
+        "paymentStatus": "paid",
+        "totalInMinorUnits": 4500,
+        "discountInMinorUnits": 0,
+        "subtotalInMinorUnits": 4500
+      },
+      "actual": {
+        "items": [
+          {
+            "sku": "E-CARTON",
+            "packageName": "باكيت",
+            "productName": "صنف الطرد",
+            "baseQuantity": 5,
+            "baseUnitName": "باكيت",
+            "packageQuantity": 1,
+            "parcelInstances": [],
+            "unitsPerPackage": 5,
+            "commercialLineKind": "legacy_single_sku_parcel",
+            "lineTotalInMinorUnits": 4500,
+            "packagePriceInMinorUnits": 4500
+          }
+        ],
+        "branch": {
+          "name": "فرع اليوم الكامل",
+          "phone": "",
+          "address": ""
+        },
+        "status": "completed",
+        "success": true,
+        "createdAt": "2026-10-24T14:35:16.542743+00:00",
+        "orderNumber": "POS-20261024-000001",
+        "paymentMethod": "cash",
+        "paymentStatus": "paid",
+        "totalInMinorUnits": 4500,
+        "discountInMinorUnits": 0,
+        "subtotalInMinorUnits": 4500
+      },
+      "passed": true
+    },
+    {
+      "name": "reprint zero writes 9963990b-b9e4-48de-b640-5999ef961c08",
+      "expected": {
+        "tables": {
+          "roles": {
+            "algorithm": "md5",
+            "hex": "65a87e500a72359e23a532c012af5873"
+          },
+          "units": {
+            "algorithm": "md5",
+            "hex": "6785d51ba76cfb7a9c54d5d4ee39d110"
+          },
+          "brands": {
+            "algorithm": "md5",
+            "hex": "541b3169427602c8b71f68d4b16286a0"
+          },
+          "orders": {
+            "algorithm": "md5",
+            "hex": "8064c3f95f3d2278412e9c5334269bdc"
+          },
+          "branches": {
+            "algorithm": "md5",
+            "hex": "f9c465c071fccd60c5fbf8b1d0fc772f"
+          },
+          "products": {
+            "algorithm": "md5",
+            "hex": "00f08f994a30add2777aa8c89f46fd84"
+          },
+          "profiles": {
+            "algorithm": "md5",
+            "hex": "c8d3cac6773a901a6af810ea631e3bff"
+          },
+          "customers": {
+            "algorithm": "md5",
+            "hex": "bf9a2401581257f6be924f0cee15e48b"
+          },
+          "suppliers": {
+            "algorithm": "md5",
+            "hex": "66fef04d4ec2d4b10b4ac150b45ccac6"
+          },
+          "audit_logs": {
+            "algorithm": "md5",
+            "hex": "606706959aa95e827ed87b0b04778152"
+          },
+          "categories": {
+            "algorithm": "md5",
+            "hex": "d74be08415b8d7003d9d2551323bab55"
+          },
+          "user_roles": {
+            "algorithm": "md5",
+            "hex": "6c3d7f6d924b92b7c3a1213654e17c8a"
+          },
+          "warehouses": {
+            "algorithm": "md5",
+            "hex": "2974cafe4c663505af87621d26ff2cd4"
+          },
+          "cash_shifts": {
+            "algorithm": "md5",
+            "hex": "8f48bf35c1efe1cbf6d9439c3b5661dd"
+          },
+          "order_items": {
+            "algorithm": "md5",
+            "hex": "7a6b66f52f6146013359c5a678073221"
+          },
+          "stock_alerts": {
+            "algorithm": "md5",
+            "hex": "624e94d0b7e2738a07caf8dd5b19223f"
+          },
+          "sales_returns": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "product_images": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "promotion_codes": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "purchase_orders": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "push_dispatches": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "deferred_cheques": {
+            "algorithm": "md5",
+            "hex": "c2712e208b62ab055fc9590ffe721c30"
+          },
+          "automation_events": {
+            "algorithm": "md5",
+            "hex": "36fa9abf4526d320c6431037b0f96927"
+          },
+          "cheque_party_keys": {
+            "algorithm": "md5",
+            "hex": "05ca3f14897ab70081760d254415d61c"
+          },
+          "customer_payments": {
+            "algorithm": "md5",
+            "hex": "879e40f63f3522d004f1096b81bd7fdb"
+          },
+          "purchase_receipts": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "stock_alert_reads": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_payments": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_receipts": {
+            "algorithm": "md5",
+            "hex": "481a8f95fd7f4ffc053266e33cfb0e4c"
+          },
+          "customer_addresses": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "inventory_balances": {
+            "algorithm": "md5",
+            "hex": "82d9f8c5382ae22dc269fe21e4b37ec6"
+          },
+          "pos_sale_reversals": {
+            "algorithm": "md5",
+            "hex": "57c7dca016f84df28bc47c184c347b5d"
+          },
+          "push_subscriptions": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "sales_return_items": {
+            "algorithm": "md5",
+            "hex": "cd3de111f6c6f01e7700344e6f7149ef"
+          },
+          "business_operations": {
+            "algorithm": "md5",
+            "hex": "47dee97aca8561e84c67a1dbe71c905f"
+          },
+          "go_live_setup_state": {
+            "algorithm": "md5",
+            "hex": "73dd3ec6237a148c631ed7a0ea8da33c"
+          },
+          "inventory_movements": {
+            "algorithm": "md5",
+            "hex": "b9aecdb2f1aa278848fc3c57af672d4d"
+          },
+          "sales_return_events": {
+            "algorithm": "md5",
+            "hex": "d5dfbf2d972f0567f0067424ecbc8317"
+          },
+          "storefront_settings": {
+            "algorithm": "md5",
+            "hex": "172a8ccd0c8fe120307c4d159e59062a"
+          },
+          "cash_shift_reversals": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "operational_expenses": {
+            "algorithm": "md5",
+            "hex": "ec333a1170c20322122f3e148050ed35"
+          },
+          "order_status_history": {
+            "algorithm": "md5",
+            "hex": "baee076c0c6599e930e2acd71782fed5"
+          },
+          "purchase_order_items": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "business_summary_runs": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "promotion_redemptions": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "deferred_cheque_events": {
+            "algorithm": "md5",
+            "hex": "3de04f15e69b78763defb3df94f62060"
+          },
+          "go_live_import_batches": {
+            "algorithm": "md5",
+            "hex": "cadd5c80f015e3ecf03fa2d246bde72e"
+          },
+          "order_parcel_instances": {
+            "algorithm": "md5",
+            "hex": "a90e6b230661843977341297a69109ea"
+          },
+          "owner_cash_withdrawals": {
+            "algorithm": "md5",
+            "hex": "7f2c2c6e7d5542463bb944ccb30424e3"
+          },
+          "purchase_receipt_items": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_receipt_items": {
+            "algorithm": "md5",
+            "hex": "bdaa6fbae421df93a260c35baad872a0"
+          },
+          "business_alert_settings": {
+            "algorithm": "md5",
+            "hex": "57b60778224fdc29f21124919b5c2766"
+          },
+          "inventory_damage_events": {
+            "algorithm": "md5",
+            "hex": "450ebfd375f116a974c685f21dccd546"
+          },
+          "inventory_opening_items": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "order_parcel_components": {
+            "algorithm": "md5",
+            "hex": "94bda063178a5e9bc5d230656a6b6666"
+          },
+          "sales_replacement_items": {
+            "algorithm": "md5",
+            "hex": "5c61078b2f6cf50df8e522c71d9c1bb7"
+          },
+          "aftercare_supplier_links": {
+            "algorithm": "md5",
+            "hex": "7913e44f5b4373289f62b526605e4be3"
+          },
+          "business_alert_incidents": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "product_cost_corrections": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "sales_replacement_events": {
+            "algorithm": "md5",
+            "hex": "e2c77c601f9ad85cd93a4a71ad341dfd"
+          },
+          "customer_opening_balances": {
+            "algorithm": "md5",
+            "hex": "20c0d0c4e248eaeb36994e0e78b8401a"
+          },
+          "supplier_opening_balances": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_opening_payments": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "advanced_monitoring_checks": {
+            "algorithm": "md5",
+            "hex": "b21db31f113b11cc261b2853d1770787"
+          },
+          "cheque_compensation_claims": {
+            "algorithm": "md5",
+            "hex": "15729dc58f50da521e56d62d9fdb833e"
+          },
+          "inventory_opening_sessions": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_payment_reversals": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_replacement_cases": {
+            "algorithm": "md5",
+            "hex": "697e725e4efd5be49496e50fbc63c6e9"
+          },
+          "advanced_monitoring_metrics": {
+            "algorithm": "md5",
+            "hex": "474f7d3657594a0e4631d7b5bf3c3b82"
+          },
+          "automation_event_deliveries": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "deferred_cheque_allocations": {
+            "algorithm": "md5",
+            "hex": "05a346bee60b51d9a3f2a9a45f781ec5"
+          },
+          "supplier_replacement_events": {
+            "algorithm": "md5",
+            "hex": "218f02cc4f6a315bfe364360078c8aec"
+          },
+          "advanced_monitoring_settings": {
+            "algorithm": "md5",
+            "hex": "2c736266b58cbaa1d898c0aba3976ced"
+          },
+          "guest_order_gateway_requests": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "order_inventory_reservations": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase2_receipt_wac_snapshots": {
+            "algorithm": "md5",
+            "hex": "33b55ae92e930e3fbc707dc87ed2f4da"
+          },
+          "sales_aftercare_consumptions": {
+            "algorithm": "md5",
+            "hex": "12688c7ebb33c3ee5cb6a2c0c6362313"
+          },
+          "product_parcel_configurations": {
+            "algorithm": "md5",
+            "hex": "5004fce04c0e368847a1fe3d260b2fd4"
+          },
+          "cash_shift_reversal_operations": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "customer_collection_operations": {
+            "algorithm": "md5",
+            "hex": "361dc796ec358459a4d16e64389e64e1"
+          },
+          "purchase_order_item_components": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_cheque_claim_payments": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "admin_ai_assistant_usage_events": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "owner_cash_withdrawal_reversals": {
+            "algorithm": "md5",
+            "hex": "42fafc5c16150e90790c4e548508ce50"
+          },
+          "supplier_cheque_claim_reversals": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase42_return_inventory_effects": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase42_return_settlement_guards": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "product_parcel_allowed_components": {
+            "algorithm": "md5",
+            "hex": "e0db3204d88f6d56bbd19d5e7b54f340"
+          },
+          "purchase_receipt_commercial_lines": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_receipt_commercial_lines": {
+            "algorithm": "md5",
+            "hex": "176354cac42e122e8ee028926348c929"
+          },
+          "customer_collection_order_payments": {
+            "algorithm": "md5",
+            "hex": "fad238fa325bbfb2f87f264459a64dd3"
+          },
+          "phase42_return_settlement_evidence": {
+            "algorithm": "md5",
+            "hex": "c84b38ffa26d045b86275de2a532954e"
+          },
+          "sales_return_component_inspections": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase43_replacement_issuance_guards": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "configurable_parcel_feature_settings": {
+            "algorithm": "md5",
+            "hex": "0fdce982a7e169ccad2df1a9240405e3"
+          },
+          "advanced_monitoring_runtime_incidents": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase43_replacement_inventory_effects": {
+            "algorithm": "md5",
+            "hex": "469cfe0148620b1d86cc4daadc49288f"
+          },
+          "pos_uncommitted_attempt_cancellations": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_financial_invoice_identities": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "customer_collection_cheque_allocations": {
+            "algorithm": "md5",
+            "hex": "7e8748c964cfda92d85520acbee547d0"
+          },
+          "supplier_replacement_inventory_effects": {
+            "algorithm": "md5",
+            "hex": "a96c3ab96a5b421e35e84d445186e336"
+          },
+          "customer_collection_opening_allocations": {
+            "algorithm": "md5",
+            "hex": "825e21d93b7be18e4d77759535468079"
+          },
+          "phase43_replacement_settlement_evidence": {
+            "algorithm": "md5",
+            "hex": "cd2d9c195632c1d0eb55636abd33bd40"
+          },
+          "phase3_customer_cost_finalization_guards": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase3_customer_lifecycle_transition_guards": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          }
+        },
+        "sequences": {
+          "pos_sale_number_seq": 6,
+          "supplier_receipt_seq": 1005,
+          "cash_shift_number_seq": 1001,
+          "sales_return_number_seq": null,
+          "deferred_cheque_number_seq": 1001,
+          "customer_payment_number_seq": 1002,
+          "operational_expense_number_seq": 1001,
+          "inventory_movement_mutation_seq": 20,
+          "owner_cash_withdrawal_number_seq": 1,
+          "customer_opening_balance_number_seq": 1002,
+          "supplier_opening_balance_number_seq": null,
+          "inventory_opening_session_number_seq": null,
+          "admin_ai_assistant_usage_events_id_seq": null,
+          "customer_collection_operation_number_seq": 1003
+        }
+      },
+      "actual": {
+        "tables": {
+          "roles": {
+            "algorithm": "md5",
+            "hex": "65a87e500a72359e23a532c012af5873"
+          },
+          "units": {
+            "algorithm": "md5",
+            "hex": "6785d51ba76cfb7a9c54d5d4ee39d110"
+          },
+          "brands": {
+            "algorithm": "md5",
+            "hex": "541b3169427602c8b71f68d4b16286a0"
+          },
+          "orders": {
+            "algorithm": "md5",
+            "hex": "8064c3f95f3d2278412e9c5334269bdc"
+          },
+          "branches": {
+            "algorithm": "md5",
+            "hex": "f9c465c071fccd60c5fbf8b1d0fc772f"
+          },
+          "products": {
+            "algorithm": "md5",
+            "hex": "00f08f994a30add2777aa8c89f46fd84"
+          },
+          "profiles": {
+            "algorithm": "md5",
+            "hex": "c8d3cac6773a901a6af810ea631e3bff"
+          },
+          "customers": {
+            "algorithm": "md5",
+            "hex": "bf9a2401581257f6be924f0cee15e48b"
+          },
+          "suppliers": {
+            "algorithm": "md5",
+            "hex": "66fef04d4ec2d4b10b4ac150b45ccac6"
+          },
+          "audit_logs": {
+            "algorithm": "md5",
+            "hex": "606706959aa95e827ed87b0b04778152"
+          },
+          "categories": {
+            "algorithm": "md5",
+            "hex": "d74be08415b8d7003d9d2551323bab55"
+          },
+          "user_roles": {
+            "algorithm": "md5",
+            "hex": "6c3d7f6d924b92b7c3a1213654e17c8a"
+          },
+          "warehouses": {
+            "algorithm": "md5",
+            "hex": "2974cafe4c663505af87621d26ff2cd4"
+          },
+          "cash_shifts": {
+            "algorithm": "md5",
+            "hex": "8f48bf35c1efe1cbf6d9439c3b5661dd"
+          },
+          "order_items": {
+            "algorithm": "md5",
+            "hex": "7a6b66f52f6146013359c5a678073221"
+          },
+          "stock_alerts": {
+            "algorithm": "md5",
+            "hex": "624e94d0b7e2738a07caf8dd5b19223f"
+          },
+          "sales_returns": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "product_images": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "promotion_codes": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "purchase_orders": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "push_dispatches": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "deferred_cheques": {
+            "algorithm": "md5",
+            "hex": "c2712e208b62ab055fc9590ffe721c30"
+          },
+          "automation_events": {
+            "algorithm": "md5",
+            "hex": "36fa9abf4526d320c6431037b0f96927"
+          },
+          "cheque_party_keys": {
+            "algorithm": "md5",
+            "hex": "05ca3f14897ab70081760d254415d61c"
+          },
+          "customer_payments": {
+            "algorithm": "md5",
+            "hex": "879e40f63f3522d004f1096b81bd7fdb"
+          },
+          "purchase_receipts": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "stock_alert_reads": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_payments": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_receipts": {
+            "algorithm": "md5",
+            "hex": "481a8f95fd7f4ffc053266e33cfb0e4c"
+          },
+          "customer_addresses": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "inventory_balances": {
+            "algorithm": "md5",
+            "hex": "82d9f8c5382ae22dc269fe21e4b37ec6"
+          },
+          "pos_sale_reversals": {
+            "algorithm": "md5",
+            "hex": "57c7dca016f84df28bc47c184c347b5d"
+          },
+          "push_subscriptions": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "sales_return_items": {
+            "algorithm": "md5",
+            "hex": "cd3de111f6c6f01e7700344e6f7149ef"
+          },
+          "business_operations": {
+            "algorithm": "md5",
+            "hex": "47dee97aca8561e84c67a1dbe71c905f"
+          },
+          "go_live_setup_state": {
+            "algorithm": "md5",
+            "hex": "73dd3ec6237a148c631ed7a0ea8da33c"
+          },
+          "inventory_movements": {
+            "algorithm": "md5",
+            "hex": "b9aecdb2f1aa278848fc3c57af672d4d"
+          },
+          "sales_return_events": {
+            "algorithm": "md5",
+            "hex": "d5dfbf2d972f0567f0067424ecbc8317"
+          },
+          "storefront_settings": {
+            "algorithm": "md5",
+            "hex": "172a8ccd0c8fe120307c4d159e59062a"
+          },
+          "cash_shift_reversals": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "operational_expenses": {
+            "algorithm": "md5",
+            "hex": "ec333a1170c20322122f3e148050ed35"
+          },
+          "order_status_history": {
+            "algorithm": "md5",
+            "hex": "baee076c0c6599e930e2acd71782fed5"
+          },
+          "purchase_order_items": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "business_summary_runs": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "promotion_redemptions": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "deferred_cheque_events": {
+            "algorithm": "md5",
+            "hex": "3de04f15e69b78763defb3df94f62060"
+          },
+          "go_live_import_batches": {
+            "algorithm": "md5",
+            "hex": "cadd5c80f015e3ecf03fa2d246bde72e"
+          },
+          "order_parcel_instances": {
+            "algorithm": "md5",
+            "hex": "a90e6b230661843977341297a69109ea"
+          },
+          "owner_cash_withdrawals": {
+            "algorithm": "md5",
+            "hex": "7f2c2c6e7d5542463bb944ccb30424e3"
+          },
+          "purchase_receipt_items": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_receipt_items": {
+            "algorithm": "md5",
+            "hex": "bdaa6fbae421df93a260c35baad872a0"
+          },
+          "business_alert_settings": {
+            "algorithm": "md5",
+            "hex": "57b60778224fdc29f21124919b5c2766"
+          },
+          "inventory_damage_events": {
+            "algorithm": "md5",
+            "hex": "450ebfd375f116a974c685f21dccd546"
+          },
+          "inventory_opening_items": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "order_parcel_components": {
+            "algorithm": "md5",
+            "hex": "94bda063178a5e9bc5d230656a6b6666"
+          },
+          "sales_replacement_items": {
+            "algorithm": "md5",
+            "hex": "5c61078b2f6cf50df8e522c71d9c1bb7"
+          },
+          "aftercare_supplier_links": {
+            "algorithm": "md5",
+            "hex": "7913e44f5b4373289f62b526605e4be3"
+          },
+          "business_alert_incidents": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "product_cost_corrections": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "sales_replacement_events": {
+            "algorithm": "md5",
+            "hex": "e2c77c601f9ad85cd93a4a71ad341dfd"
+          },
+          "customer_opening_balances": {
+            "algorithm": "md5",
+            "hex": "20c0d0c4e248eaeb36994e0e78b8401a"
+          },
+          "supplier_opening_balances": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_opening_payments": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "advanced_monitoring_checks": {
+            "algorithm": "md5",
+            "hex": "b21db31f113b11cc261b2853d1770787"
+          },
+          "cheque_compensation_claims": {
+            "algorithm": "md5",
+            "hex": "15729dc58f50da521e56d62d9fdb833e"
+          },
+          "inventory_opening_sessions": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_payment_reversals": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_replacement_cases": {
+            "algorithm": "md5",
+            "hex": "697e725e4efd5be49496e50fbc63c6e9"
+          },
+          "advanced_monitoring_metrics": {
+            "algorithm": "md5",
+            "hex": "474f7d3657594a0e4631d7b5bf3c3b82"
+          },
+          "automation_event_deliveries": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "deferred_cheque_allocations": {
+            "algorithm": "md5",
+            "hex": "05a346bee60b51d9a3f2a9a45f781ec5"
+          },
+          "supplier_replacement_events": {
+            "algorithm": "md5",
+            "hex": "218f02cc4f6a315bfe364360078c8aec"
+          },
+          "advanced_monitoring_settings": {
+            "algorithm": "md5",
+            "hex": "2c736266b58cbaa1d898c0aba3976ced"
+          },
+          "guest_order_gateway_requests": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "order_inventory_reservations": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase2_receipt_wac_snapshots": {
+            "algorithm": "md5",
+            "hex": "33b55ae92e930e3fbc707dc87ed2f4da"
+          },
+          "sales_aftercare_consumptions": {
+            "algorithm": "md5",
+            "hex": "12688c7ebb33c3ee5cb6a2c0c6362313"
+          },
+          "product_parcel_configurations": {
+            "algorithm": "md5",
+            "hex": "5004fce04c0e368847a1fe3d260b2fd4"
+          },
+          "cash_shift_reversal_operations": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "customer_collection_operations": {
+            "algorithm": "md5",
+            "hex": "361dc796ec358459a4d16e64389e64e1"
+          },
+          "purchase_order_item_components": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_cheque_claim_payments": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "admin_ai_assistant_usage_events": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "owner_cash_withdrawal_reversals": {
+            "algorithm": "md5",
+            "hex": "42fafc5c16150e90790c4e548508ce50"
+          },
+          "supplier_cheque_claim_reversals": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase42_return_inventory_effects": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase42_return_settlement_guards": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "product_parcel_allowed_components": {
+            "algorithm": "md5",
+            "hex": "e0db3204d88f6d56bbd19d5e7b54f340"
+          },
+          "purchase_receipt_commercial_lines": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_receipt_commercial_lines": {
+            "algorithm": "md5",
+            "hex": "176354cac42e122e8ee028926348c929"
+          },
+          "customer_collection_order_payments": {
+            "algorithm": "md5",
+            "hex": "fad238fa325bbfb2f87f264459a64dd3"
+          },
+          "phase42_return_settlement_evidence": {
+            "algorithm": "md5",
+            "hex": "c84b38ffa26d045b86275de2a532954e"
+          },
+          "sales_return_component_inspections": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase43_replacement_issuance_guards": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "configurable_parcel_feature_settings": {
+            "algorithm": "md5",
+            "hex": "0fdce982a7e169ccad2df1a9240405e3"
+          },
+          "advanced_monitoring_runtime_incidents": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase43_replacement_inventory_effects": {
+            "algorithm": "md5",
+            "hex": "469cfe0148620b1d86cc4daadc49288f"
+          },
+          "pos_uncommitted_attempt_cancellations": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_financial_invoice_identities": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "customer_collection_cheque_allocations": {
+            "algorithm": "md5",
+            "hex": "7e8748c964cfda92d85520acbee547d0"
+          },
+          "supplier_replacement_inventory_effects": {
+            "algorithm": "md5",
+            "hex": "a96c3ab96a5b421e35e84d445186e336"
+          },
+          "customer_collection_opening_allocations": {
+            "algorithm": "md5",
+            "hex": "825e21d93b7be18e4d77759535468079"
+          },
+          "phase43_replacement_settlement_evidence": {
+            "algorithm": "md5",
+            "hex": "cd2d9c195632c1d0eb55636abd33bd40"
+          },
+          "phase3_customer_cost_finalization_guards": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase3_customer_lifecycle_transition_guards": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          }
+        },
+        "sequences": {
+          "pos_sale_number_seq": 6,
+          "supplier_receipt_seq": 1005,
+          "cash_shift_number_seq": 1001,
+          "sales_return_number_seq": null,
+          "deferred_cheque_number_seq": 1001,
+          "customer_payment_number_seq": 1002,
+          "operational_expense_number_seq": 1001,
+          "inventory_movement_mutation_seq": 20,
+          "owner_cash_withdrawal_number_seq": 1,
+          "customer_opening_balance_number_seq": 1002,
+          "supplier_opening_balance_number_seq": null,
+          "inventory_opening_session_number_seq": null,
+          "admin_ai_assistant_usage_events_id_seq": null,
+          "customer_collection_operation_number_seq": 1003
+        }
+      },
+      "passed": true
+    },
+    {
+      "name": "reprint stable c5a5979f-7f15-46c9-a69a-ad38be6e2bb8",
+      "expected": {
+        "items": [
+          {
+            "sku": "E-FAMILY",
+            "packageName": "باكيت",
+            "productName": "طرد اليوم",
+            "baseQuantity": 5,
+            "baseUnitName": "باكيت",
+            "packageQuantity": 1,
+            "parcelInstances": [
+              {
+                "components": [
+                  {
+                    "name": "نكهة أ",
+                    "quantity": 2,
+                    "unitName": "باكيت"
+                  },
+                  {
+                    "name": "نكهة ب",
+                    "quantity": 3,
+                    "unitName": "باكيت"
+                  }
+                ]
+              }
+            ],
+            "unitsPerPackage": 5,
+            "commercialLineKind": "configurable_parcel",
+            "lineTotalInMinorUnits": 5000,
+            "packagePriceInMinorUnits": 5000
+          }
+        ],
+        "branch": {
+          "name": "فرع اليوم الكامل",
+          "phone": "",
+          "address": ""
+        },
+        "status": "completed",
+        "success": true,
+        "createdAt": "2026-10-24T14:35:17.672636+00:00",
+        "orderNumber": "POS-20261024-000004",
+        "paymentMethod": "cash",
+        "paymentStatus": "paid",
+        "totalInMinorUnits": 5000,
+        "discountInMinorUnits": 0,
+        "subtotalInMinorUnits": 5000
+      },
+      "actual": {
+        "items": [
+          {
+            "sku": "E-FAMILY",
+            "packageName": "باكيت",
+            "productName": "طرد اليوم",
+            "baseQuantity": 5,
+            "baseUnitName": "باكيت",
+            "packageQuantity": 1,
+            "parcelInstances": [
+              {
+                "components": [
+                  {
+                    "name": "نكهة أ",
+                    "quantity": 2,
+                    "unitName": "باكيت"
+                  },
+                  {
+                    "name": "نكهة ب",
+                    "quantity": 3,
+                    "unitName": "باكيت"
+                  }
+                ]
+              }
+            ],
+            "unitsPerPackage": 5,
+            "commercialLineKind": "configurable_parcel",
+            "lineTotalInMinorUnits": 5000,
+            "packagePriceInMinorUnits": 5000
+          }
+        ],
+        "branch": {
+          "name": "فرع اليوم الكامل",
+          "phone": "",
+          "address": ""
+        },
+        "status": "completed",
+        "success": true,
+        "createdAt": "2026-10-24T14:35:17.672636+00:00",
+        "orderNumber": "POS-20261024-000004",
+        "paymentMethod": "cash",
+        "paymentStatus": "paid",
+        "totalInMinorUnits": 5000,
+        "discountInMinorUnits": 0,
+        "subtotalInMinorUnits": 5000
+      },
+      "passed": true
+    },
+    {
+      "name": "reprint zero writes c5a5979f-7f15-46c9-a69a-ad38be6e2bb8",
+      "expected": {
+        "tables": {
+          "roles": {
+            "algorithm": "md5",
+            "hex": "65a87e500a72359e23a532c012af5873"
+          },
+          "units": {
+            "algorithm": "md5",
+            "hex": "6785d51ba76cfb7a9c54d5d4ee39d110"
+          },
+          "brands": {
+            "algorithm": "md5",
+            "hex": "541b3169427602c8b71f68d4b16286a0"
+          },
+          "orders": {
+            "algorithm": "md5",
+            "hex": "85fb4ca2cc06ea2758002ac5f22c0c4a"
+          },
+          "branches": {
+            "algorithm": "md5",
+            "hex": "f9c465c071fccd60c5fbf8b1d0fc772f"
+          },
+          "products": {
+            "algorithm": "md5",
+            "hex": "00f08f994a30add2777aa8c89f46fd84"
+          },
+          "profiles": {
+            "algorithm": "md5",
+            "hex": "c8d3cac6773a901a6af810ea631e3bff"
+          },
+          "customers": {
+            "algorithm": "md5",
+            "hex": "bf9a2401581257f6be924f0cee15e48b"
+          },
+          "suppliers": {
+            "algorithm": "md5",
+            "hex": "66fef04d4ec2d4b10b4ac150b45ccac6"
+          },
+          "audit_logs": {
+            "algorithm": "md5",
+            "hex": "e87f7c4198eb7dc595f7112ae3728b19"
+          },
+          "categories": {
+            "algorithm": "md5",
+            "hex": "d74be08415b8d7003d9d2551323bab55"
+          },
+          "user_roles": {
+            "algorithm": "md5",
+            "hex": "6c3d7f6d924b92b7c3a1213654e17c8a"
+          },
+          "warehouses": {
+            "algorithm": "md5",
+            "hex": "2974cafe4c663505af87621d26ff2cd4"
+          },
+          "cash_shifts": {
+            "algorithm": "md5",
+            "hex": "8f48bf35c1efe1cbf6d9439c3b5661dd"
+          },
+          "order_items": {
+            "algorithm": "md5",
+            "hex": "7a6b66f52f6146013359c5a678073221"
+          },
+          "stock_alerts": {
+            "algorithm": "md5",
+            "hex": "624e94d0b7e2738a07caf8dd5b19223f"
+          },
+          "sales_returns": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "product_images": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "promotion_codes": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "purchase_orders": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "push_dispatches": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "deferred_cheques": {
+            "algorithm": "md5",
+            "hex": "c2712e208b62ab055fc9590ffe721c30"
+          },
+          "automation_events": {
+            "algorithm": "md5",
+            "hex": "36fa9abf4526d320c6431037b0f96927"
+          },
+          "cheque_party_keys": {
+            "algorithm": "md5",
+            "hex": "05ca3f14897ab70081760d254415d61c"
+          },
+          "customer_payments": {
+            "algorithm": "md5",
+            "hex": "879e40f63f3522d004f1096b81bd7fdb"
+          },
+          "purchase_receipts": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "stock_alert_reads": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_payments": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_receipts": {
+            "algorithm": "md5",
+            "hex": "481a8f95fd7f4ffc053266e33cfb0e4c"
+          },
+          "customer_addresses": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "inventory_balances": {
+            "algorithm": "md5",
+            "hex": "82d9f8c5382ae22dc269fe21e4b37ec6"
+          },
+          "pos_sale_reversals": {
+            "algorithm": "md5",
+            "hex": "57c7dca016f84df28bc47c184c347b5d"
+          },
+          "push_subscriptions": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "sales_return_items": {
+            "algorithm": "md5",
+            "hex": "cd3de111f6c6f01e7700344e6f7149ef"
+          },
+          "business_operations": {
+            "algorithm": "md5",
+            "hex": "47dee97aca8561e84c67a1dbe71c905f"
+          },
+          "go_live_setup_state": {
+            "algorithm": "md5",
+            "hex": "73dd3ec6237a148c631ed7a0ea8da33c"
+          },
+          "inventory_movements": {
+            "algorithm": "md5",
+            "hex": "b9aecdb2f1aa278848fc3c57af672d4d"
+          },
+          "sales_return_events": {
+            "algorithm": "md5",
+            "hex": "d5dfbf2d972f0567f0067424ecbc8317"
+          },
+          "storefront_settings": {
+            "algorithm": "md5",
+            "hex": "172a8ccd0c8fe120307c4d159e59062a"
+          },
+          "cash_shift_reversals": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "operational_expenses": {
+            "algorithm": "md5",
+            "hex": "ec333a1170c20322122f3e148050ed35"
+          },
+          "order_status_history": {
+            "algorithm": "md5",
+            "hex": "baee076c0c6599e930e2acd71782fed5"
+          },
+          "purchase_order_items": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "business_summary_runs": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "promotion_redemptions": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "deferred_cheque_events": {
+            "algorithm": "md5",
+            "hex": "3de04f15e69b78763defb3df94f62060"
+          },
+          "go_live_import_batches": {
+            "algorithm": "md5",
+            "hex": "cadd5c80f015e3ecf03fa2d246bde72e"
+          },
+          "order_parcel_instances": {
+            "algorithm": "md5",
+            "hex": "a90e6b230661843977341297a69109ea"
+          },
+          "owner_cash_withdrawals": {
+            "algorithm": "md5",
+            "hex": "7f2c2c6e7d5542463bb944ccb30424e3"
+          },
+          "purchase_receipt_items": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_receipt_items": {
+            "algorithm": "md5",
+            "hex": "bdaa6fbae421df93a260c35baad872a0"
+          },
+          "business_alert_settings": {
+            "algorithm": "md5",
+            "hex": "57b60778224fdc29f21124919b5c2766"
+          },
+          "inventory_damage_events": {
+            "algorithm": "md5",
+            "hex": "450ebfd375f116a974c685f21dccd546"
+          },
+          "inventory_opening_items": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "order_parcel_components": {
+            "algorithm": "md5",
+            "hex": "94bda063178a5e9bc5d230656a6b6666"
+          },
+          "sales_replacement_items": {
+            "algorithm": "md5",
+            "hex": "5c61078b2f6cf50df8e522c71d9c1bb7"
+          },
+          "aftercare_supplier_links": {
+            "algorithm": "md5",
+            "hex": "7913e44f5b4373289f62b526605e4be3"
+          },
+          "business_alert_incidents": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "product_cost_corrections": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "sales_replacement_events": {
+            "algorithm": "md5",
+            "hex": "e2c77c601f9ad85cd93a4a71ad341dfd"
+          },
+          "customer_opening_balances": {
+            "algorithm": "md5",
+            "hex": "20c0d0c4e248eaeb36994e0e78b8401a"
+          },
+          "supplier_opening_balances": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_opening_payments": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "advanced_monitoring_checks": {
+            "algorithm": "md5",
+            "hex": "b21db31f113b11cc261b2853d1770787"
+          },
+          "cheque_compensation_claims": {
+            "algorithm": "md5",
+            "hex": "15729dc58f50da521e56d62d9fdb833e"
+          },
+          "inventory_opening_sessions": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_payment_reversals": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_replacement_cases": {
+            "algorithm": "md5",
+            "hex": "697e725e4efd5be49496e50fbc63c6e9"
+          },
+          "advanced_monitoring_metrics": {
+            "algorithm": "md5",
+            "hex": "474f7d3657594a0e4631d7b5bf3c3b82"
+          },
+          "automation_event_deliveries": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "deferred_cheque_allocations": {
+            "algorithm": "md5",
+            "hex": "05a346bee60b51d9a3f2a9a45f781ec5"
+          },
+          "supplier_replacement_events": {
+            "algorithm": "md5",
+            "hex": "218f02cc4f6a315bfe364360078c8aec"
+          },
+          "advanced_monitoring_settings": {
+            "algorithm": "md5",
+            "hex": "2c736266b58cbaa1d898c0aba3976ced"
+          },
+          "guest_order_gateway_requests": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "order_inventory_reservations": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase2_receipt_wac_snapshots": {
+            "algorithm": "md5",
+            "hex": "33b55ae92e930e3fbc707dc87ed2f4da"
+          },
+          "sales_aftercare_consumptions": {
+            "algorithm": "md5",
+            "hex": "12688c7ebb33c3ee5cb6a2c0c6362313"
+          },
+          "product_parcel_configurations": {
+            "algorithm": "md5",
+            "hex": "5004fce04c0e368847a1fe3d260b2fd4"
+          },
+          "cash_shift_reversal_operations": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "customer_collection_operations": {
+            "algorithm": "md5",
+            "hex": "361dc796ec358459a4d16e64389e64e1"
+          },
+          "purchase_order_item_components": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_cheque_claim_payments": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "admin_ai_assistant_usage_events": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "owner_cash_withdrawal_reversals": {
+            "algorithm": "md5",
+            "hex": "42fafc5c16150e90790c4e548508ce50"
+          },
+          "supplier_cheque_claim_reversals": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase42_return_inventory_effects": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase42_return_settlement_guards": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "product_parcel_allowed_components": {
+            "algorithm": "md5",
+            "hex": "e0db3204d88f6d56bbd19d5e7b54f340"
+          },
+          "purchase_receipt_commercial_lines": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_receipt_commercial_lines": {
+            "algorithm": "md5",
+            "hex": "176354cac42e122e8ee028926348c929"
+          },
+          "customer_collection_order_payments": {
+            "algorithm": "md5",
+            "hex": "fad238fa325bbfb2f87f264459a64dd3"
+          },
+          "phase42_return_settlement_evidence": {
+            "algorithm": "md5",
+            "hex": "c84b38ffa26d045b86275de2a532954e"
+          },
+          "sales_return_component_inspections": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase43_replacement_issuance_guards": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "configurable_parcel_feature_settings": {
+            "algorithm": "md5",
+            "hex": "0fdce982a7e169ccad2df1a9240405e3"
+          },
+          "advanced_monitoring_runtime_incidents": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase43_replacement_inventory_effects": {
+            "algorithm": "md5",
+            "hex": "469cfe0148620b1d86cc4daadc49288f"
+          },
+          "pos_uncommitted_attempt_cancellations": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_financial_invoice_identities": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "customer_collection_cheque_allocations": {
+            "algorithm": "md5",
+            "hex": "7e8748c964cfda92d85520acbee547d0"
+          },
+          "supplier_replacement_inventory_effects": {
+            "algorithm": "md5",
+            "hex": "a96c3ab96a5b421e35e84d445186e336"
+          },
+          "customer_collection_opening_allocations": {
+            "algorithm": "md5",
+            "hex": "825e21d93b7be18e4d77759535468079"
+          },
+          "phase43_replacement_settlement_evidence": {
+            "algorithm": "md5",
+            "hex": "cd2d9c195632c1d0eb55636abd33bd40"
+          },
+          "phase3_customer_cost_finalization_guards": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase3_customer_lifecycle_transition_guards": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          }
+        },
+        "sequences": {
+          "pos_sale_number_seq": 6,
+          "supplier_receipt_seq": 1005,
+          "cash_shift_number_seq": 1001,
+          "sales_return_number_seq": null,
+          "deferred_cheque_number_seq": 1001,
+          "customer_payment_number_seq": 1002,
+          "operational_expense_number_seq": 1001,
+          "inventory_movement_mutation_seq": 20,
+          "owner_cash_withdrawal_number_seq": 1,
+          "customer_opening_balance_number_seq": 1002,
+          "supplier_opening_balance_number_seq": null,
+          "inventory_opening_session_number_seq": null,
+          "admin_ai_assistant_usage_events_id_seq": null,
+          "customer_collection_operation_number_seq": 1003
+        }
+      },
+      "actual": {
+        "tables": {
+          "roles": {
+            "algorithm": "md5",
+            "hex": "65a87e500a72359e23a532c012af5873"
+          },
+          "units": {
+            "algorithm": "md5",
+            "hex": "6785d51ba76cfb7a9c54d5d4ee39d110"
+          },
+          "brands": {
+            "algorithm": "md5",
+            "hex": "541b3169427602c8b71f68d4b16286a0"
+          },
+          "orders": {
+            "algorithm": "md5",
+            "hex": "85fb4ca2cc06ea2758002ac5f22c0c4a"
+          },
+          "branches": {
+            "algorithm": "md5",
+            "hex": "f9c465c071fccd60c5fbf8b1d0fc772f"
+          },
+          "products": {
+            "algorithm": "md5",
+            "hex": "00f08f994a30add2777aa8c89f46fd84"
+          },
+          "profiles": {
+            "algorithm": "md5",
+            "hex": "c8d3cac6773a901a6af810ea631e3bff"
+          },
+          "customers": {
+            "algorithm": "md5",
+            "hex": "bf9a2401581257f6be924f0cee15e48b"
+          },
+          "suppliers": {
+            "algorithm": "md5",
+            "hex": "66fef04d4ec2d4b10b4ac150b45ccac6"
+          },
+          "audit_logs": {
+            "algorithm": "md5",
+            "hex": "e87f7c4198eb7dc595f7112ae3728b19"
+          },
+          "categories": {
+            "algorithm": "md5",
+            "hex": "d74be08415b8d7003d9d2551323bab55"
+          },
+          "user_roles": {
+            "algorithm": "md5",
+            "hex": "6c3d7f6d924b92b7c3a1213654e17c8a"
+          },
+          "warehouses": {
+            "algorithm": "md5",
+            "hex": "2974cafe4c663505af87621d26ff2cd4"
+          },
+          "cash_shifts": {
+            "algorithm": "md5",
+            "hex": "8f48bf35c1efe1cbf6d9439c3b5661dd"
+          },
+          "order_items": {
+            "algorithm": "md5",
+            "hex": "7a6b66f52f6146013359c5a678073221"
+          },
+          "stock_alerts": {
+            "algorithm": "md5",
+            "hex": "624e94d0b7e2738a07caf8dd5b19223f"
+          },
+          "sales_returns": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "product_images": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "promotion_codes": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "purchase_orders": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "push_dispatches": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "deferred_cheques": {
+            "algorithm": "md5",
+            "hex": "c2712e208b62ab055fc9590ffe721c30"
+          },
+          "automation_events": {
+            "algorithm": "md5",
+            "hex": "36fa9abf4526d320c6431037b0f96927"
+          },
+          "cheque_party_keys": {
+            "algorithm": "md5",
+            "hex": "05ca3f14897ab70081760d254415d61c"
+          },
+          "customer_payments": {
+            "algorithm": "md5",
+            "hex": "879e40f63f3522d004f1096b81bd7fdb"
+          },
+          "purchase_receipts": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "stock_alert_reads": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_payments": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_receipts": {
+            "algorithm": "md5",
+            "hex": "481a8f95fd7f4ffc053266e33cfb0e4c"
+          },
+          "customer_addresses": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "inventory_balances": {
+            "algorithm": "md5",
+            "hex": "82d9f8c5382ae22dc269fe21e4b37ec6"
+          },
+          "pos_sale_reversals": {
+            "algorithm": "md5",
+            "hex": "57c7dca016f84df28bc47c184c347b5d"
+          },
+          "push_subscriptions": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "sales_return_items": {
+            "algorithm": "md5",
+            "hex": "cd3de111f6c6f01e7700344e6f7149ef"
+          },
+          "business_operations": {
+            "algorithm": "md5",
+            "hex": "47dee97aca8561e84c67a1dbe71c905f"
+          },
+          "go_live_setup_state": {
+            "algorithm": "md5",
+            "hex": "73dd3ec6237a148c631ed7a0ea8da33c"
+          },
+          "inventory_movements": {
+            "algorithm": "md5",
+            "hex": "b9aecdb2f1aa278848fc3c57af672d4d"
+          },
+          "sales_return_events": {
+            "algorithm": "md5",
+            "hex": "d5dfbf2d972f0567f0067424ecbc8317"
+          },
+          "storefront_settings": {
+            "algorithm": "md5",
+            "hex": "172a8ccd0c8fe120307c4d159e59062a"
+          },
+          "cash_shift_reversals": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "operational_expenses": {
+            "algorithm": "md5",
+            "hex": "ec333a1170c20322122f3e148050ed35"
+          },
+          "order_status_history": {
+            "algorithm": "md5",
+            "hex": "baee076c0c6599e930e2acd71782fed5"
+          },
+          "purchase_order_items": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "business_summary_runs": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "promotion_redemptions": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "deferred_cheque_events": {
+            "algorithm": "md5",
+            "hex": "3de04f15e69b78763defb3df94f62060"
+          },
+          "go_live_import_batches": {
+            "algorithm": "md5",
+            "hex": "cadd5c80f015e3ecf03fa2d246bde72e"
+          },
+          "order_parcel_instances": {
+            "algorithm": "md5",
+            "hex": "a90e6b230661843977341297a69109ea"
+          },
+          "owner_cash_withdrawals": {
+            "algorithm": "md5",
+            "hex": "7f2c2c6e7d5542463bb944ccb30424e3"
+          },
+          "purchase_receipt_items": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_receipt_items": {
+            "algorithm": "md5",
+            "hex": "bdaa6fbae421df93a260c35baad872a0"
+          },
+          "business_alert_settings": {
+            "algorithm": "md5",
+            "hex": "57b60778224fdc29f21124919b5c2766"
+          },
+          "inventory_damage_events": {
+            "algorithm": "md5",
+            "hex": "450ebfd375f116a974c685f21dccd546"
+          },
+          "inventory_opening_items": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "order_parcel_components": {
+            "algorithm": "md5",
+            "hex": "94bda063178a5e9bc5d230656a6b6666"
+          },
+          "sales_replacement_items": {
+            "algorithm": "md5",
+            "hex": "5c61078b2f6cf50df8e522c71d9c1bb7"
+          },
+          "aftercare_supplier_links": {
+            "algorithm": "md5",
+            "hex": "7913e44f5b4373289f62b526605e4be3"
+          },
+          "business_alert_incidents": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "product_cost_corrections": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "sales_replacement_events": {
+            "algorithm": "md5",
+            "hex": "e2c77c601f9ad85cd93a4a71ad341dfd"
+          },
+          "customer_opening_balances": {
+            "algorithm": "md5",
+            "hex": "20c0d0c4e248eaeb36994e0e78b8401a"
+          },
+          "supplier_opening_balances": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_opening_payments": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "advanced_monitoring_checks": {
+            "algorithm": "md5",
+            "hex": "b21db31f113b11cc261b2853d1770787"
+          },
+          "cheque_compensation_claims": {
+            "algorithm": "md5",
+            "hex": "15729dc58f50da521e56d62d9fdb833e"
+          },
+          "inventory_opening_sessions": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_payment_reversals": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_replacement_cases": {
+            "algorithm": "md5",
+            "hex": "697e725e4efd5be49496e50fbc63c6e9"
+          },
+          "advanced_monitoring_metrics": {
+            "algorithm": "md5",
+            "hex": "474f7d3657594a0e4631d7b5bf3c3b82"
+          },
+          "automation_event_deliveries": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "deferred_cheque_allocations": {
+            "algorithm": "md5",
+            "hex": "05a346bee60b51d9a3f2a9a45f781ec5"
+          },
+          "supplier_replacement_events": {
+            "algorithm": "md5",
+            "hex": "218f02cc4f6a315bfe364360078c8aec"
+          },
+          "advanced_monitoring_settings": {
+            "algorithm": "md5",
+            "hex": "2c736266b58cbaa1d898c0aba3976ced"
+          },
+          "guest_order_gateway_requests": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "order_inventory_reservations": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase2_receipt_wac_snapshots": {
+            "algorithm": "md5",
+            "hex": "33b55ae92e930e3fbc707dc87ed2f4da"
+          },
+          "sales_aftercare_consumptions": {
+            "algorithm": "md5",
+            "hex": "12688c7ebb33c3ee5cb6a2c0c6362313"
+          },
+          "product_parcel_configurations": {
+            "algorithm": "md5",
+            "hex": "5004fce04c0e368847a1fe3d260b2fd4"
+          },
+          "cash_shift_reversal_operations": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "customer_collection_operations": {
+            "algorithm": "md5",
+            "hex": "361dc796ec358459a4d16e64389e64e1"
+          },
+          "purchase_order_item_components": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_cheque_claim_payments": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "admin_ai_assistant_usage_events": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "owner_cash_withdrawal_reversals": {
+            "algorithm": "md5",
+            "hex": "42fafc5c16150e90790c4e548508ce50"
+          },
+          "supplier_cheque_claim_reversals": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase42_return_inventory_effects": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase42_return_settlement_guards": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "product_parcel_allowed_components": {
+            "algorithm": "md5",
+            "hex": "e0db3204d88f6d56bbd19d5e7b54f340"
+          },
+          "purchase_receipt_commercial_lines": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_receipt_commercial_lines": {
+            "algorithm": "md5",
+            "hex": "176354cac42e122e8ee028926348c929"
+          },
+          "customer_collection_order_payments": {
+            "algorithm": "md5",
+            "hex": "fad238fa325bbfb2f87f264459a64dd3"
+          },
+          "phase42_return_settlement_evidence": {
+            "algorithm": "md5",
+            "hex": "c84b38ffa26d045b86275de2a532954e"
+          },
+          "sales_return_component_inspections": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase43_replacement_issuance_guards": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "configurable_parcel_feature_settings": {
+            "algorithm": "md5",
+            "hex": "0fdce982a7e169ccad2df1a9240405e3"
+          },
+          "advanced_monitoring_runtime_incidents": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase43_replacement_inventory_effects": {
+            "algorithm": "md5",
+            "hex": "469cfe0148620b1d86cc4daadc49288f"
+          },
+          "pos_uncommitted_attempt_cancellations": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_financial_invoice_identities": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "customer_collection_cheque_allocations": {
+            "algorithm": "md5",
+            "hex": "7e8748c964cfda92d85520acbee547d0"
+          },
+          "supplier_replacement_inventory_effects": {
+            "algorithm": "md5",
+            "hex": "a96c3ab96a5b421e35e84d445186e336"
+          },
+          "customer_collection_opening_allocations": {
+            "algorithm": "md5",
+            "hex": "825e21d93b7be18e4d77759535468079"
+          },
+          "phase43_replacement_settlement_evidence": {
+            "algorithm": "md5",
+            "hex": "cd2d9c195632c1d0eb55636abd33bd40"
+          },
+          "phase3_customer_cost_finalization_guards": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase3_customer_lifecycle_transition_guards": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          }
+        },
+        "sequences": {
+          "pos_sale_number_seq": 6,
+          "supplier_receipt_seq": 1005,
+          "cash_shift_number_seq": 1001,
+          "sales_return_number_seq": null,
+          "deferred_cheque_number_seq": 1001,
+          "customer_payment_number_seq": 1002,
+          "operational_expense_number_seq": 1001,
+          "inventory_movement_mutation_seq": 20,
+          "owner_cash_withdrawal_number_seq": 1,
+          "customer_opening_balance_number_seq": 1002,
+          "supplier_opening_balance_number_seq": null,
+          "inventory_opening_session_number_seq": null,
+          "admin_ai_assistant_usage_events_id_seq": null,
+          "customer_collection_operation_number_seq": 1003
+        }
+      },
+      "passed": true
+    },
+    {
+      "name": "reprint stable 15cd268a-6c60-4bfa-b340-f328dc2e7843",
+      "expected": {
+        "items": [
+          {
+            "sku": "AUDIT-ONLY",
+            "packageName": "باكيت",
+            "productName": "شيبس طرد فقط",
+            "baseQuantity": 10,
+            "baseUnitName": "باكيت",
+            "packageQuantity": 1,
+            "parcelInstances": [],
+            "unitsPerPackage": 10,
+            "commercialLineKind": "legacy_single_sku_parcel",
+            "lineTotalInMinorUnits": 15000,
+            "packagePriceInMinorUnits": 15000
+          }
+        ],
+        "branch": {
+          "name": "فرع اليوم الكامل",
+          "phone": "",
+          "address": ""
+        },
+        "status": "completed",
+        "success": true,
+        "createdAt": "2026-10-24T14:35:18.2961+00:00",
+        "orderNumber": "POS-20261024-000005",
+        "paymentMethod": "cash",
+        "paymentStatus": "paid",
+        "totalInMinorUnits": 15000,
+        "discountInMinorUnits": 0,
+        "subtotalInMinorUnits": 15000
+      },
+      "actual": {
+        "items": [
+          {
+            "sku": "AUDIT-ONLY",
+            "packageName": "باكيت",
+            "productName": "شيبس طرد فقط",
+            "baseQuantity": 10,
+            "baseUnitName": "باكيت",
+            "packageQuantity": 1,
+            "parcelInstances": [],
+            "unitsPerPackage": 10,
+            "commercialLineKind": "legacy_single_sku_parcel",
+            "lineTotalInMinorUnits": 15000,
+            "packagePriceInMinorUnits": 15000
+          }
+        ],
+        "branch": {
+          "name": "فرع اليوم الكامل",
+          "phone": "",
+          "address": ""
+        },
+        "status": "completed",
+        "success": true,
+        "createdAt": "2026-10-24T14:35:18.2961+00:00",
+        "orderNumber": "POS-20261024-000005",
+        "paymentMethod": "cash",
+        "paymentStatus": "paid",
+        "totalInMinorUnits": 15000,
+        "discountInMinorUnits": 0,
+        "subtotalInMinorUnits": 15000
+      },
+      "passed": true
+    },
+    {
+      "name": "reprint zero writes 15cd268a-6c60-4bfa-b340-f328dc2e7843",
+      "expected": {
+        "tables": {
+          "roles": {
+            "algorithm": "md5",
+            "hex": "65a87e500a72359e23a532c012af5873"
+          },
+          "units": {
+            "algorithm": "md5",
+            "hex": "6785d51ba76cfb7a9c54d5d4ee39d110"
+          },
+          "brands": {
+            "algorithm": "md5",
+            "hex": "541b3169427602c8b71f68d4b16286a0"
+          },
+          "orders": {
+            "algorithm": "md5",
+            "hex": "a9f6b2068ee99023831f6dc3db026874"
+          },
+          "branches": {
+            "algorithm": "md5",
+            "hex": "f9c465c071fccd60c5fbf8b1d0fc772f"
+          },
+          "products": {
+            "algorithm": "md5",
+            "hex": "00f08f994a30add2777aa8c89f46fd84"
+          },
+          "profiles": {
+            "algorithm": "md5",
+            "hex": "c8d3cac6773a901a6af810ea631e3bff"
+          },
+          "customers": {
+            "algorithm": "md5",
+            "hex": "bf9a2401581257f6be924f0cee15e48b"
+          },
+          "suppliers": {
+            "algorithm": "md5",
+            "hex": "66fef04d4ec2d4b10b4ac150b45ccac6"
+          },
+          "audit_logs": {
+            "algorithm": "md5",
+            "hex": "c3b0170526b2ead2f0920ff699cac90b"
+          },
+          "categories": {
+            "algorithm": "md5",
+            "hex": "d74be08415b8d7003d9d2551323bab55"
+          },
+          "user_roles": {
+            "algorithm": "md5",
+            "hex": "6c3d7f6d924b92b7c3a1213654e17c8a"
+          },
+          "warehouses": {
+            "algorithm": "md5",
+            "hex": "2974cafe4c663505af87621d26ff2cd4"
+          },
+          "cash_shifts": {
+            "algorithm": "md5",
+            "hex": "8f48bf35c1efe1cbf6d9439c3b5661dd"
+          },
+          "order_items": {
+            "algorithm": "md5",
+            "hex": "7a6b66f52f6146013359c5a678073221"
+          },
+          "stock_alerts": {
+            "algorithm": "md5",
+            "hex": "624e94d0b7e2738a07caf8dd5b19223f"
+          },
+          "sales_returns": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "product_images": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "promotion_codes": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "purchase_orders": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "push_dispatches": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "deferred_cheques": {
+            "algorithm": "md5",
+            "hex": "c2712e208b62ab055fc9590ffe721c30"
+          },
+          "automation_events": {
+            "algorithm": "md5",
+            "hex": "36fa9abf4526d320c6431037b0f96927"
+          },
+          "cheque_party_keys": {
+            "algorithm": "md5",
+            "hex": "05ca3f14897ab70081760d254415d61c"
+          },
+          "customer_payments": {
+            "algorithm": "md5",
+            "hex": "879e40f63f3522d004f1096b81bd7fdb"
+          },
+          "purchase_receipts": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "stock_alert_reads": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_payments": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_receipts": {
+            "algorithm": "md5",
+            "hex": "481a8f95fd7f4ffc053266e33cfb0e4c"
+          },
+          "customer_addresses": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "inventory_balances": {
+            "algorithm": "md5",
+            "hex": "82d9f8c5382ae22dc269fe21e4b37ec6"
+          },
+          "pos_sale_reversals": {
+            "algorithm": "md5",
+            "hex": "57c7dca016f84df28bc47c184c347b5d"
+          },
+          "push_subscriptions": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "sales_return_items": {
+            "algorithm": "md5",
+            "hex": "cd3de111f6c6f01e7700344e6f7149ef"
+          },
+          "business_operations": {
+            "algorithm": "md5",
+            "hex": "47dee97aca8561e84c67a1dbe71c905f"
+          },
+          "go_live_setup_state": {
+            "algorithm": "md5",
+            "hex": "73dd3ec6237a148c631ed7a0ea8da33c"
+          },
+          "inventory_movements": {
+            "algorithm": "md5",
+            "hex": "b9aecdb2f1aa278848fc3c57af672d4d"
+          },
+          "sales_return_events": {
+            "algorithm": "md5",
+            "hex": "d5dfbf2d972f0567f0067424ecbc8317"
+          },
+          "storefront_settings": {
+            "algorithm": "md5",
+            "hex": "172a8ccd0c8fe120307c4d159e59062a"
+          },
+          "cash_shift_reversals": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "operational_expenses": {
+            "algorithm": "md5",
+            "hex": "ec333a1170c20322122f3e148050ed35"
+          },
+          "order_status_history": {
+            "algorithm": "md5",
+            "hex": "baee076c0c6599e930e2acd71782fed5"
+          },
+          "purchase_order_items": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "business_summary_runs": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "promotion_redemptions": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "deferred_cheque_events": {
+            "algorithm": "md5",
+            "hex": "3de04f15e69b78763defb3df94f62060"
+          },
+          "go_live_import_batches": {
+            "algorithm": "md5",
+            "hex": "cadd5c80f015e3ecf03fa2d246bde72e"
+          },
+          "order_parcel_instances": {
+            "algorithm": "md5",
+            "hex": "a90e6b230661843977341297a69109ea"
+          },
+          "owner_cash_withdrawals": {
+            "algorithm": "md5",
+            "hex": "7f2c2c6e7d5542463bb944ccb30424e3"
+          },
+          "purchase_receipt_items": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_receipt_items": {
+            "algorithm": "md5",
+            "hex": "bdaa6fbae421df93a260c35baad872a0"
+          },
+          "business_alert_settings": {
+            "algorithm": "md5",
+            "hex": "57b60778224fdc29f21124919b5c2766"
+          },
+          "inventory_damage_events": {
+            "algorithm": "md5",
+            "hex": "450ebfd375f116a974c685f21dccd546"
+          },
+          "inventory_opening_items": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "order_parcel_components": {
+            "algorithm": "md5",
+            "hex": "94bda063178a5e9bc5d230656a6b6666"
+          },
+          "sales_replacement_items": {
+            "algorithm": "md5",
+            "hex": "5c61078b2f6cf50df8e522c71d9c1bb7"
+          },
+          "aftercare_supplier_links": {
+            "algorithm": "md5",
+            "hex": "7913e44f5b4373289f62b526605e4be3"
+          },
+          "business_alert_incidents": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "product_cost_corrections": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "sales_replacement_events": {
+            "algorithm": "md5",
+            "hex": "e2c77c601f9ad85cd93a4a71ad341dfd"
+          },
+          "customer_opening_balances": {
+            "algorithm": "md5",
+            "hex": "20c0d0c4e248eaeb36994e0e78b8401a"
+          },
+          "supplier_opening_balances": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_opening_payments": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "advanced_monitoring_checks": {
+            "algorithm": "md5",
+            "hex": "b21db31f113b11cc261b2853d1770787"
+          },
+          "cheque_compensation_claims": {
+            "algorithm": "md5",
+            "hex": "15729dc58f50da521e56d62d9fdb833e"
+          },
+          "inventory_opening_sessions": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_payment_reversals": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_replacement_cases": {
+            "algorithm": "md5",
+            "hex": "697e725e4efd5be49496e50fbc63c6e9"
+          },
+          "advanced_monitoring_metrics": {
+            "algorithm": "md5",
+            "hex": "474f7d3657594a0e4631d7b5bf3c3b82"
+          },
+          "automation_event_deliveries": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "deferred_cheque_allocations": {
+            "algorithm": "md5",
+            "hex": "05a346bee60b51d9a3f2a9a45f781ec5"
+          },
+          "supplier_replacement_events": {
+            "algorithm": "md5",
+            "hex": "218f02cc4f6a315bfe364360078c8aec"
+          },
+          "advanced_monitoring_settings": {
+            "algorithm": "md5",
+            "hex": "2c736266b58cbaa1d898c0aba3976ced"
+          },
+          "guest_order_gateway_requests": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "order_inventory_reservations": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase2_receipt_wac_snapshots": {
+            "algorithm": "md5",
+            "hex": "33b55ae92e930e3fbc707dc87ed2f4da"
+          },
+          "sales_aftercare_consumptions": {
+            "algorithm": "md5",
+            "hex": "12688c7ebb33c3ee5cb6a2c0c6362313"
+          },
+          "product_parcel_configurations": {
+            "algorithm": "md5",
+            "hex": "5004fce04c0e368847a1fe3d260b2fd4"
+          },
+          "cash_shift_reversal_operations": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "customer_collection_operations": {
+            "algorithm": "md5",
+            "hex": "361dc796ec358459a4d16e64389e64e1"
+          },
+          "purchase_order_item_components": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_cheque_claim_payments": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "admin_ai_assistant_usage_events": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "owner_cash_withdrawal_reversals": {
+            "algorithm": "md5",
+            "hex": "42fafc5c16150e90790c4e548508ce50"
+          },
+          "supplier_cheque_claim_reversals": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase42_return_inventory_effects": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase42_return_settlement_guards": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "product_parcel_allowed_components": {
+            "algorithm": "md5",
+            "hex": "e0db3204d88f6d56bbd19d5e7b54f340"
+          },
+          "purchase_receipt_commercial_lines": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_receipt_commercial_lines": {
+            "algorithm": "md5",
+            "hex": "176354cac42e122e8ee028926348c929"
+          },
+          "customer_collection_order_payments": {
+            "algorithm": "md5",
+            "hex": "fad238fa325bbfb2f87f264459a64dd3"
+          },
+          "phase42_return_settlement_evidence": {
+            "algorithm": "md5",
+            "hex": "c84b38ffa26d045b86275de2a532954e"
+          },
+          "sales_return_component_inspections": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase43_replacement_issuance_guards": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "configurable_parcel_feature_settings": {
+            "algorithm": "md5",
+            "hex": "0fdce982a7e169ccad2df1a9240405e3"
+          },
+          "advanced_monitoring_runtime_incidents": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase43_replacement_inventory_effects": {
+            "algorithm": "md5",
+            "hex": "469cfe0148620b1d86cc4daadc49288f"
+          },
+          "pos_uncommitted_attempt_cancellations": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_financial_invoice_identities": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "customer_collection_cheque_allocations": {
+            "algorithm": "md5",
+            "hex": "7e8748c964cfda92d85520acbee547d0"
+          },
+          "supplier_replacement_inventory_effects": {
+            "algorithm": "md5",
+            "hex": "a96c3ab96a5b421e35e84d445186e336"
+          },
+          "customer_collection_opening_allocations": {
+            "algorithm": "md5",
+            "hex": "825e21d93b7be18e4d77759535468079"
+          },
+          "phase43_replacement_settlement_evidence": {
+            "algorithm": "md5",
+            "hex": "cd2d9c195632c1d0eb55636abd33bd40"
+          },
+          "phase3_customer_cost_finalization_guards": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase3_customer_lifecycle_transition_guards": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          }
+        },
+        "sequences": {
+          "pos_sale_number_seq": 6,
+          "supplier_receipt_seq": 1005,
+          "cash_shift_number_seq": 1001,
+          "sales_return_number_seq": null,
+          "deferred_cheque_number_seq": 1001,
+          "customer_payment_number_seq": 1002,
+          "operational_expense_number_seq": 1001,
+          "inventory_movement_mutation_seq": 20,
+          "owner_cash_withdrawal_number_seq": 1,
+          "customer_opening_balance_number_seq": 1002,
+          "supplier_opening_balance_number_seq": null,
+          "inventory_opening_session_number_seq": null,
+          "admin_ai_assistant_usage_events_id_seq": null,
+          "customer_collection_operation_number_seq": 1003
+        }
+      },
+      "actual": {
+        "tables": {
+          "roles": {
+            "algorithm": "md5",
+            "hex": "65a87e500a72359e23a532c012af5873"
+          },
+          "units": {
+            "algorithm": "md5",
+            "hex": "6785d51ba76cfb7a9c54d5d4ee39d110"
+          },
+          "brands": {
+            "algorithm": "md5",
+            "hex": "541b3169427602c8b71f68d4b16286a0"
+          },
+          "orders": {
+            "algorithm": "md5",
+            "hex": "a9f6b2068ee99023831f6dc3db026874"
+          },
+          "branches": {
+            "algorithm": "md5",
+            "hex": "f9c465c071fccd60c5fbf8b1d0fc772f"
+          },
+          "products": {
+            "algorithm": "md5",
+            "hex": "00f08f994a30add2777aa8c89f46fd84"
+          },
+          "profiles": {
+            "algorithm": "md5",
+            "hex": "c8d3cac6773a901a6af810ea631e3bff"
+          },
+          "customers": {
+            "algorithm": "md5",
+            "hex": "bf9a2401581257f6be924f0cee15e48b"
+          },
+          "suppliers": {
+            "algorithm": "md5",
+            "hex": "66fef04d4ec2d4b10b4ac150b45ccac6"
+          },
+          "audit_logs": {
+            "algorithm": "md5",
+            "hex": "c3b0170526b2ead2f0920ff699cac90b"
+          },
+          "categories": {
+            "algorithm": "md5",
+            "hex": "d74be08415b8d7003d9d2551323bab55"
+          },
+          "user_roles": {
+            "algorithm": "md5",
+            "hex": "6c3d7f6d924b92b7c3a1213654e17c8a"
+          },
+          "warehouses": {
+            "algorithm": "md5",
+            "hex": "2974cafe4c663505af87621d26ff2cd4"
+          },
+          "cash_shifts": {
+            "algorithm": "md5",
+            "hex": "8f48bf35c1efe1cbf6d9439c3b5661dd"
+          },
+          "order_items": {
+            "algorithm": "md5",
+            "hex": "7a6b66f52f6146013359c5a678073221"
+          },
+          "stock_alerts": {
+            "algorithm": "md5",
+            "hex": "624e94d0b7e2738a07caf8dd5b19223f"
+          },
+          "sales_returns": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "product_images": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "promotion_codes": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "purchase_orders": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "push_dispatches": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "deferred_cheques": {
+            "algorithm": "md5",
+            "hex": "c2712e208b62ab055fc9590ffe721c30"
+          },
+          "automation_events": {
+            "algorithm": "md5",
+            "hex": "36fa9abf4526d320c6431037b0f96927"
+          },
+          "cheque_party_keys": {
+            "algorithm": "md5",
+            "hex": "05ca3f14897ab70081760d254415d61c"
+          },
+          "customer_payments": {
+            "algorithm": "md5",
+            "hex": "879e40f63f3522d004f1096b81bd7fdb"
+          },
+          "purchase_receipts": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "stock_alert_reads": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_payments": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_receipts": {
+            "algorithm": "md5",
+            "hex": "481a8f95fd7f4ffc053266e33cfb0e4c"
+          },
+          "customer_addresses": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "inventory_balances": {
+            "algorithm": "md5",
+            "hex": "82d9f8c5382ae22dc269fe21e4b37ec6"
+          },
+          "pos_sale_reversals": {
+            "algorithm": "md5",
+            "hex": "57c7dca016f84df28bc47c184c347b5d"
+          },
+          "push_subscriptions": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "sales_return_items": {
+            "algorithm": "md5",
+            "hex": "cd3de111f6c6f01e7700344e6f7149ef"
+          },
+          "business_operations": {
+            "algorithm": "md5",
+            "hex": "47dee97aca8561e84c67a1dbe71c905f"
+          },
+          "go_live_setup_state": {
+            "algorithm": "md5",
+            "hex": "73dd3ec6237a148c631ed7a0ea8da33c"
+          },
+          "inventory_movements": {
+            "algorithm": "md5",
+            "hex": "b9aecdb2f1aa278848fc3c57af672d4d"
+          },
+          "sales_return_events": {
+            "algorithm": "md5",
+            "hex": "d5dfbf2d972f0567f0067424ecbc8317"
+          },
+          "storefront_settings": {
+            "algorithm": "md5",
+            "hex": "172a8ccd0c8fe120307c4d159e59062a"
+          },
+          "cash_shift_reversals": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "operational_expenses": {
+            "algorithm": "md5",
+            "hex": "ec333a1170c20322122f3e148050ed35"
+          },
+          "order_status_history": {
+            "algorithm": "md5",
+            "hex": "baee076c0c6599e930e2acd71782fed5"
+          },
+          "purchase_order_items": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "business_summary_runs": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "promotion_redemptions": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "deferred_cheque_events": {
+            "algorithm": "md5",
+            "hex": "3de04f15e69b78763defb3df94f62060"
+          },
+          "go_live_import_batches": {
+            "algorithm": "md5",
+            "hex": "cadd5c80f015e3ecf03fa2d246bde72e"
+          },
+          "order_parcel_instances": {
+            "algorithm": "md5",
+            "hex": "a90e6b230661843977341297a69109ea"
+          },
+          "owner_cash_withdrawals": {
+            "algorithm": "md5",
+            "hex": "7f2c2c6e7d5542463bb944ccb30424e3"
+          },
+          "purchase_receipt_items": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_receipt_items": {
+            "algorithm": "md5",
+            "hex": "bdaa6fbae421df93a260c35baad872a0"
+          },
+          "business_alert_settings": {
+            "algorithm": "md5",
+            "hex": "57b60778224fdc29f21124919b5c2766"
+          },
+          "inventory_damage_events": {
+            "algorithm": "md5",
+            "hex": "450ebfd375f116a974c685f21dccd546"
+          },
+          "inventory_opening_items": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "order_parcel_components": {
+            "algorithm": "md5",
+            "hex": "94bda063178a5e9bc5d230656a6b6666"
+          },
+          "sales_replacement_items": {
+            "algorithm": "md5",
+            "hex": "5c61078b2f6cf50df8e522c71d9c1bb7"
+          },
+          "aftercare_supplier_links": {
+            "algorithm": "md5",
+            "hex": "7913e44f5b4373289f62b526605e4be3"
+          },
+          "business_alert_incidents": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "product_cost_corrections": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "sales_replacement_events": {
+            "algorithm": "md5",
+            "hex": "e2c77c601f9ad85cd93a4a71ad341dfd"
+          },
+          "customer_opening_balances": {
+            "algorithm": "md5",
+            "hex": "20c0d0c4e248eaeb36994e0e78b8401a"
+          },
+          "supplier_opening_balances": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_opening_payments": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "advanced_monitoring_checks": {
+            "algorithm": "md5",
+            "hex": "b21db31f113b11cc261b2853d1770787"
+          },
+          "cheque_compensation_claims": {
+            "algorithm": "md5",
+            "hex": "15729dc58f50da521e56d62d9fdb833e"
+          },
+          "inventory_opening_sessions": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_payment_reversals": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_replacement_cases": {
+            "algorithm": "md5",
+            "hex": "697e725e4efd5be49496e50fbc63c6e9"
+          },
+          "advanced_monitoring_metrics": {
+            "algorithm": "md5",
+            "hex": "474f7d3657594a0e4631d7b5bf3c3b82"
+          },
+          "automation_event_deliveries": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "deferred_cheque_allocations": {
+            "algorithm": "md5",
+            "hex": "05a346bee60b51d9a3f2a9a45f781ec5"
+          },
+          "supplier_replacement_events": {
+            "algorithm": "md5",
+            "hex": "218f02cc4f6a315bfe364360078c8aec"
+          },
+          "advanced_monitoring_settings": {
+            "algorithm": "md5",
+            "hex": "2c736266b58cbaa1d898c0aba3976ced"
+          },
+          "guest_order_gateway_requests": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "order_inventory_reservations": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase2_receipt_wac_snapshots": {
+            "algorithm": "md5",
+            "hex": "33b55ae92e930e3fbc707dc87ed2f4da"
+          },
+          "sales_aftercare_consumptions": {
+            "algorithm": "md5",
+            "hex": "12688c7ebb33c3ee5cb6a2c0c6362313"
+          },
+          "product_parcel_configurations": {
+            "algorithm": "md5",
+            "hex": "5004fce04c0e368847a1fe3d260b2fd4"
+          },
+          "cash_shift_reversal_operations": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "customer_collection_operations": {
+            "algorithm": "md5",
+            "hex": "361dc796ec358459a4d16e64389e64e1"
+          },
+          "purchase_order_item_components": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_cheque_claim_payments": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "admin_ai_assistant_usage_events": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "owner_cash_withdrawal_reversals": {
+            "algorithm": "md5",
+            "hex": "42fafc5c16150e90790c4e548508ce50"
+          },
+          "supplier_cheque_claim_reversals": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase42_return_inventory_effects": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase42_return_settlement_guards": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "product_parcel_allowed_components": {
+            "algorithm": "md5",
+            "hex": "e0db3204d88f6d56bbd19d5e7b54f340"
+          },
+          "purchase_receipt_commercial_lines": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_receipt_commercial_lines": {
+            "algorithm": "md5",
+            "hex": "176354cac42e122e8ee028926348c929"
+          },
+          "customer_collection_order_payments": {
+            "algorithm": "md5",
+            "hex": "fad238fa325bbfb2f87f264459a64dd3"
+          },
+          "phase42_return_settlement_evidence": {
+            "algorithm": "md5",
+            "hex": "c84b38ffa26d045b86275de2a532954e"
+          },
+          "sales_return_component_inspections": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase43_replacement_issuance_guards": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "configurable_parcel_feature_settings": {
+            "algorithm": "md5",
+            "hex": "0fdce982a7e169ccad2df1a9240405e3"
+          },
+          "advanced_monitoring_runtime_incidents": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase43_replacement_inventory_effects": {
+            "algorithm": "md5",
+            "hex": "469cfe0148620b1d86cc4daadc49288f"
+          },
+          "pos_uncommitted_attempt_cancellations": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "supplier_financial_invoice_identities": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "customer_collection_cheque_allocations": {
+            "algorithm": "md5",
+            "hex": "7e8748c964cfda92d85520acbee547d0"
+          },
+          "supplier_replacement_inventory_effects": {
+            "algorithm": "md5",
+            "hex": "a96c3ab96a5b421e35e84d445186e336"
+          },
+          "customer_collection_opening_allocations": {
+            "algorithm": "md5",
+            "hex": "825e21d93b7be18e4d77759535468079"
+          },
+          "phase43_replacement_settlement_evidence": {
+            "algorithm": "md5",
+            "hex": "cd2d9c195632c1d0eb55636abd33bd40"
+          },
+          "phase3_customer_cost_finalization_guards": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          },
+          "phase3_customer_lifecycle_transition_guards": {
+            "algorithm": "md5",
+            "hex": "d41d8cd98f00b204e9800998ecf8427e"
+          }
+        },
+        "sequences": {
+          "pos_sale_number_seq": 6,
+          "supplier_receipt_seq": 1005,
+          "cash_shift_number_seq": 1001,
+          "sales_return_number_seq": null,
+          "deferred_cheque_number_seq": 1001,
+          "customer_payment_number_seq": 1002,
+          "operational_expense_number_seq": 1001,
+          "inventory_movement_mutation_seq": 20,
+          "owner_cash_withdrawal_number_seq": 1,
+          "customer_opening_balance_number_seq": 1002,
+          "supplier_opening_balance_number_seq": null,
+          "inventory_opening_session_number_seq": null,
+          "admin_ai_assistant_usage_events_id_seq": null,
+          "customer_collection_operation_number_seq": 1003
+        }
+      },
+      "passed": true
+    },
+    {
+      "name": "customer A debt",
+      "expected": 1500,
+      "actual": 1500,
+      "passed": true
+    },
+    {
+      "name": "customer B debt",
+      "expected": 3000,
+      "actual": 3000,
+      "passed": true
+    },
+    {
+      "name": "supplier pending value",
+      "expected": 10000,
+      "actual": 10000,
+      "passed": true
+    }
+  ],
+  "ok": true
+}

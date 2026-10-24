@@ -3,155 +3,135 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/PROJECT_OVERVIEW.md"
-    },
-    {
-      "code": " M",
       "path": "docs/agent/project-state.json"
     },
     {
       "code": " M",
-      "path": "docs/agent/TRIAL_OWNER_R_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/TRIAL_OWNER_R_LOCAL.json"
-    },
-    {
-      "code": " M",
-      "path": "package.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/source-before-trial-owner-r.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-catalog-verification.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-owner-upgrade.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-owner-upgrade211.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-owner-upgrade212.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-trial212-gates.mjs"
+      "path": "docs/operations/UNEXPOSED_RPC_REVIEW_AR.md"
     },
     {
       "code": "??",
-      "path": "docs/agent/FRANKFURT_ACL212_REPAIR_AR.md"
+      "path": "docs/operations/pre-handover-evidence/adversarial.json"
     },
     {
       "code": "??",
-      "path": "docs/agent/OWNER_ACL212_LOCAL.json"
+      "path": "docs/operations/pre-handover-evidence/cost-difference.json"
     },
     {
       "code": "??",
-      "path": "docs/agent/TRIAL_OWNER_R_DELIVERY.json"
+      "path": "docs/operations/pre-handover-evidence/damage-range.json"
     },
     {
       "code": "??",
-      "path": "docs/agent/TRIAL_OWNER_R_FEATURE_CI.json"
+      "path": "docs/operations/pre-handover-evidence/exposure-dependencies.json"
     },
     {
       "code": "??",
-      "path": "docs/agent/TRIAL_OWNER_R_MAIN_CI.json"
+      "path": "docs/operations/pre-handover-evidence/exposure.json"
     },
     {
       "code": "??",
-      "path": "docs/operations/FRANKFURT_ACL212_ANALYSIS.json"
+      "path": "docs/operations/pre-handover-evidence/golden-day-independent-verification.json"
     },
     {
       "code": "??",
-      "path": "docs/operations/FRANKFURT_ACL212_AR.md"
+      "path": "docs/operations/pre-handover-evidence/golden-day.json"
     },
     {
       "code": "??",
-      "path": "docs/operations/FRANKFURT_ACL212_TOOL_REPAIR.json"
+      "path": "docs/operations/pre-handover-evidence/local-statuses.json"
     },
     {
       "code": "??",
-      "path": "docs/operations/FRANKFURT_ACL212_VERIFICATION.json"
+      "path": "docs/operations/pre-handover-evidence/long-period.json"
     },
     {
       "code": "??",
-      "path": "docs/operations/FRANKFURT_FUNCTION_ACL212_OWNER.sql"
+      "path": "docs/operations/pre-handover-evidence/npm-admin.json"
     },
     {
       "code": "??",
-      "path": "docs/operations/FRANKFURT_OWNER_ACL212_AR.md"
+      "path": "docs/operations/pre-handover-evidence/npm-edge.json"
     },
     {
       "code": "??",
-      "path": "docs/operations/FRANKFURT_VERIFY_ONLY_ACL212_REGRESSION.json"
+      "path": "docs/operations/pre-handover-evidence/npm-store.json"
     },
     {
       "code": "??",
-      "path": "docs/operations/OWNER_ACL212_RUNTIME_LOCAL.json"
+      "path": "docs/operations/pre-handover-evidence/offsite-status.json"
     },
     {
       "code": "??",
-      "path": "scripts/audit/owner-acl212-inverse.json"
+      "path": "docs/operations/pre-handover-evidence/performance.json"
     },
     {
       "code": "??",
-      "path": "scripts/audit/source-before-owner-acl212.mjs"
+      "path": "docs/operations/pre-handover-evidence/proxy-addr-proof.json"
     },
     {
       "code": "??",
-      "path": "scripts/operations/application-acl-verification.mjs"
+      "path": "docs/operations/pre-handover-evidence/scale-seed.json"
     },
     {
       "code": "??",
-      "path": "scripts/operations/frankfurt-owner-acl212.mjs"
+      "path": "docs/operations/pre-handover-evidence/scheduled-tasks.json"
     },
     {
       "code": "??",
-      "path": "scripts/operations/owner-acl212-bundle.mjs"
+      "path": "docs/operations/PREHANDOVER_AUDIT_AR.md"
     },
     {
       "code": "??",
-      "path": "scripts/operations/owner-acl212-sequences.mjs"
+      "path": "docs/operations/PREHANDOVER_AUDIT_EVIDENCE.json"
     },
     {
       "code": "??",
-      "path": "scripts/operations/owner-acl212-sql.mjs"
+      "path": "scripts/testing/pre-handover/adversarial.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/operations/prepare-frankfurt-acl212-offline.mjs"
+      "path": "scripts/testing/pre-handover/build-evidence.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/operations/verify-frankfurt-acl-readonly-offline.mjs"
+      "path": "scripts/testing/pre-handover/context.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/operations/verify-frankfurt-acl212-offline.mjs"
+      "path": "scripts/testing/pre-handover/cost-difference.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/testing/run-owner-acl212-runtime.mjs"
+      "path": "scripts/testing/pre-handover/exposure-dependencies.mjs"
     },
     {
       "code": "??",
-      "path": "tests/frankfurt-application-acl.test.ts"
+      "path": "scripts/testing/pre-handover/exposure.mjs"
     },
     {
       "code": "??",
-      "path": "tests/frankfurt-owner-acl212.test.ts"
+      "path": "scripts/testing/pre-handover/golden-day.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/pre-handover/long-period.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/pre-handover/performance.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/pre-handover/scale-seed.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/pre-handover/verify-golden-evidence.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/pre-handover-audit.test.ts"
     }
   ]
 }

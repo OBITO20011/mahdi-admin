@@ -1,0 +1,262 @@
+{
+  "schemaVersion": 1,
+  "baseline": "d72f70918a63126b1d561c3a14b6c4b5bd652786",
+  "migrationCeiling": 212,
+  "createdAt": "2026-10-24T15:37:29.026Z",
+  "managedAccess": false,
+  "deployment": false,
+  "productFixes": false,
+  "findings": [
+    {
+      "id": "H01",
+      "severity": "high",
+      "title": "النسخ المعتمد في الكود مقيد بالمشروع القديم؛ لا يثبت حماية فرانكفورت",
+      "evidence": [
+        "scripts/backup/backup-public-config.mjs",
+        "scheduled-tasks.json",
+        "offsite-status.json"
+      ]
+    },
+    {
+      "id": "H02",
+      "severity": "high",
+      "title": "Vite6.4.3 المتأثر على Windows مع استماع التطوير لكل الشبكات",
+      "evidence": [
+        "npm-admin.json",
+        "npm-store.json",
+        "package.json",
+        "customer-web/package.json"
+      ]
+    },
+    {
+      "id": "M01",
+      "severity": "medium",
+      "title": "التقرير السنوي يستغرق36–38ثانية عند50000فاتورة",
+      "evidence": [
+        "long-period.json"
+      ]
+    },
+    {
+      "id": "M02",
+      "severity": "medium",
+      "title": "جاهزية حارس وإشعارات وجدولة فرانكفورت غير مثبتة بالأدلة المحلية",
+      "evidence": [
+        "scheduled-tasks.json",
+        "local-statuses.json",
+        "offsite-status.json"
+      ]
+    },
+    {
+      "id": "L01",
+      "severity": "low",
+      "title": "غياب lockfile لاعتمادات Edge يحد قابلية إعادة إنتاج audit",
+      "evidence": [
+        "npm-edge.json"
+      ]
+    }
+  ],
+  "counts": {
+    "critical": 0,
+    "high": 2,
+    "medium": 2,
+    "low": 1
+  },
+  "golden": {
+    "steps": 31,
+    "semanticChecks": 18,
+    "ok": true
+  },
+  "adversarial": {
+    "cases": 35,
+    "ok": true
+  },
+  "costDifference": {
+    "checks": 9,
+    "ok": true
+  },
+  "performance": [
+    {
+      "name": "home",
+      "ok": true,
+      "p50": 854.103,
+      "p95": 1117.8,
+      "max": 1214.84,
+      "overTwoSeconds": 0
+    },
+    {
+      "name": "sales-history-today",
+      "ok": true,
+      "p50": 133.157,
+      "p95": 194.516,
+      "max": 223.109,
+      "overTwoSeconds": 0
+    },
+    {
+      "name": "sales-history-all",
+      "ok": true,
+      "p50": 203.169,
+      "p95": 250.688,
+      "max": 251.351,
+      "overTwoSeconds": 0
+    },
+    {
+      "name": "inventory",
+      "ok": true,
+      "p50": 89.798,
+      "p95": 111.026,
+      "max": 117.36,
+      "overTwoSeconds": 0
+    },
+    {
+      "name": "daily-report",
+      "ok": true,
+      "p50": 526.36,
+      "p95": 566.867,
+      "max": 571.95,
+      "overTwoSeconds": 0
+    },
+    {
+      "name": "monthly-report",
+      "ok": true,
+      "p50": 1153.264,
+      "p95": 1228.964,
+      "max": 1276.532,
+      "overTwoSeconds": 0
+    },
+    {
+      "name": "cash-summary",
+      "ok": true,
+      "p50": 6.189,
+      "p95": 7.917,
+      "max": 8.202,
+      "overTwoSeconds": 0
+    },
+    {
+      "name": "damage-history",
+      "ok": true,
+      "p50": 15.941,
+      "p95": 26.306,
+      "max": 26.435,
+      "overTwoSeconds": 0
+    },
+    {
+      "name": "write-sale",
+      "ok": true,
+      "p50": 50.95,
+      "p95": 65.574,
+      "max": 67.928,
+      "overTwoSeconds": 0
+    },
+    {
+      "name": "write-receiving",
+      "ok": true,
+      "p50": 43.263,
+      "p95": 66.63,
+      "max": 89.722,
+      "overTwoSeconds": 0
+    },
+    {
+      "name": "write-collection",
+      "ok": true,
+      "p50": 47.621,
+      "p95": 62.322,
+      "max": 71.467,
+      "overTwoSeconds": 0
+    }
+  ],
+  "environment": {
+    "postgres": 17,
+    "dockerCpus": 12,
+    "dockerMemoryBytes": 8181657600
+  },
+  "ci": {
+    "status": "pending-full-exact-head"
+  },
+  "files": [
+    {
+      "file": "adversarial.json",
+      "bytes": 191235,
+      "sha256": "d5b137c1c1bef1e8f17f0ca4d4be023bb1739a01c560f8f3bc8b3837d3627ebc"
+    },
+    {
+      "file": "cost-difference.json",
+      "bytes": 62757,
+      "sha256": "a49e16e0c5ec4102032f3773a809b785524671511d7272f3ca9d6aea2f84d5d6"
+    },
+    {
+      "file": "damage-range.json",
+      "bytes": 4676,
+      "sha256": "78395d829c85938d705e6a3eac37b9bd90734afbb198f8a83cd1bd2a8f066573"
+    },
+    {
+      "file": "exposure-dependencies.json",
+      "bytes": 25662,
+      "sha256": "7db15045ebe041def6cd64cf766f1240e201cf0d5138a28ab697f7d5acdb12f1"
+    },
+    {
+      "file": "exposure.json",
+      "bytes": 1065701,
+      "sha256": "54da68e1e59f3dec779be1a18cb43040b8ac25d1e7d7155bfb04c69565955e74"
+    },
+    {
+      "file": "golden-day-independent-verification.json",
+      "bytes": 101120,
+      "sha256": "c0ad5fac59393bdcaa27d2920807d289e8b20d7a61c37ba243acfc529ae8bf00"
+    },
+    {
+      "file": "golden-day.json",
+      "bytes": 375821,
+      "sha256": "84d2e2cd4b5f2e542a34e8d2e02237972d7f935460e4a04591df92d91480902b"
+    },
+    {
+      "file": "local-statuses.json",
+      "bytes": 2019,
+      "sha256": "8bffd4cbdb2442dd9d34b857edff5364e7cb144f65549b468283a61d7f595767"
+    },
+    {
+      "file": "long-period.json",
+      "bytes": 428051,
+      "sha256": "b2dc8867586b250156d844c9e2cb3359914ed13c19f5e96e76889e7207bd509d"
+    },
+    {
+      "file": "npm-admin.json",
+      "bytes": 10057,
+      "sha256": "6b7711909f5305356932a826a8152e2c2f4829562d8454867b459a559de60e59"
+    },
+    {
+      "file": "npm-edge.json",
+      "bytes": 360,
+      "sha256": "4f59b832c13febc60f982f2325e3c73dcc036db9a084437da64b7b8fbf8c4a03"
+    },
+    {
+      "file": "npm-store.json",
+      "bytes": 13360,
+      "sha256": "60519a4fbb4a5a3efb88f61275072b05382cd32f660f3ab8daad6309bcc67466"
+    },
+    {
+      "file": "offsite-status.json",
+      "bytes": 707,
+      "sha256": "ae57d6ffb8babbc9ec566d346e62ea71287342cfa80c8b40c7f9ed3aaae9f037"
+    },
+    {
+      "file": "performance.json",
+      "bytes": 311590,
+      "sha256": "cd71a024b558643b34bfae601ca97e1da951a263e7fd0aa3967feb752e406b21"
+    },
+    {
+      "file": "proxy-addr-proof.json",
+      "bytes": 82,
+      "sha256": "79ad522ba75a994fb1334ac8bf84c8a064bb1159e57bea9163f7b6bbe3b740b2"
+    },
+    {
+      "file": "scale-seed.json",
+      "bytes": 88629,
+      "sha256": "c5fcf868d011d53fc4dce94e87fce08c915c9635f33cf57c1f054263bb567256"
+    },
+    {
+      "file": "scheduled-tasks.json",
+      "bytes": 533,
+      "sha256": "400fd139a98e2f5f0f32e81766530876e670423b1707305b94dfd87a0e89ced8"
+    }
+  ]
+}
