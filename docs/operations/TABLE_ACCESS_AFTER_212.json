@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-10-23T22:41:28.023Z",
+  "startedAt": "2026-10-23T23:39:09.206Z",
   "managedAccess": false,
   "migrationCeiling": 212,
   "manifest": [
@@ -179,7 +179,7 @@
     "211_aftercare_supplier_disposition.sql",
     "212_trial_readable_cash_product_choices_damage_history.sql"
   ],
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-jFkJ3J",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-xByRY4",
   "stage": "rls-and-acl",
   "results": [
     {
@@ -207,7 +207,7 @@
           "method": "eq",
           "args": [
             "id",
-            "f79a8004-e650-4152-932f-add298561743"
+            "f54be9ba-e0c7-45ba-9f15-90602e670157"
           ]
         },
         {
@@ -242,7 +242,7 @@
           "method": "eq",
           "args": [
             "id",
-            "f79a8004-e650-4152-932f-add298561743"
+            "f54be9ba-e0c7-45ba-9f15-90602e670157"
           ]
         },
         {
@@ -277,7 +277,7 @@
           "method": "eq",
           "args": [
             "id",
-            "f79a8004-e650-4152-932f-add298561743"
+            "f54be9ba-e0c7-45ba-9f15-90602e670157"
           ]
         },
         {
@@ -312,7 +312,7 @@
           "method": "eq",
           "args": [
             "id",
-            "f79a8004-e650-4152-932f-add298561743"
+            "f54be9ba-e0c7-45ba-9f15-90602e670157"
           ]
         },
         {
@@ -347,7 +347,7 @@
           "method": "eq",
           "args": [
             "id",
-            "f79a8004-e650-4152-932f-add298561743"
+            "f54be9ba-e0c7-45ba-9f15-90602e670157"
           ]
         },
         {
@@ -382,7 +382,7 @@
           "method": "eq",
           "args": [
             "id",
-            "f79a8004-e650-4152-932f-add298561743"
+            "f54be9ba-e0c7-45ba-9f15-90602e670157"
           ]
         },
         {
@@ -417,7 +417,7 @@
           "method": "eq",
           "args": [
             "id",
-            "b219e91e-2094-4e12-92ee-ba9172da42c6"
+            "8486e8cc-91cc-4bd5-925f-a50378454ad2"
           ]
         },
         {
@@ -452,7 +452,7 @@
           "method": "eq",
           "args": [
             "id",
-            "b219e91e-2094-4e12-92ee-ba9172da42c6"
+            "8486e8cc-91cc-4bd5-925f-a50378454ad2"
           ]
         },
         {
@@ -487,7 +487,7 @@
           "method": "eq",
           "args": [
             "id",
-            "b219e91e-2094-4e12-92ee-ba9172da42c6"
+            "8486e8cc-91cc-4bd5-925f-a50378454ad2"
           ]
         },
         {
@@ -720,7 +720,7 @@
           "method": "eq",
           "args": [
             "id",
-            "b8f3f2aa-26f2-41e1-881d-a461a0c886ba"
+            "588db150-6e43-4eec-ba79-7e03b68509dd"
           ]
         },
         {
@@ -755,7 +755,7 @@
           "method": "eq",
           "args": [
             "id",
-            "b8f3f2aa-26f2-41e1-881d-a461a0c886ba"
+            "588db150-6e43-4eec-ba79-7e03b68509dd"
           ]
         },
         {
@@ -790,7 +790,7 @@
           "method": "eq",
           "args": [
             "id",
-            "b8f3f2aa-26f2-41e1-881d-a461a0c886ba"
+            "588db150-6e43-4eec-ba79-7e03b68509dd"
           ]
         },
         {
@@ -825,7 +825,7 @@
           "method": "eq",
           "args": [
             "id",
-            "a4834cbc-3337-41a2-bff4-0d6fa0044fa1"
+            "6376a101-8c7e-47a5-9148-c6856c3ac54f"
           ]
         },
         {
@@ -860,7 +860,7 @@
           "method": "eq",
           "args": [
             "id",
-            "a4834cbc-3337-41a2-bff4-0d6fa0044fa1"
+            "6376a101-8c7e-47a5-9148-c6856c3ac54f"
           ]
         },
         {
@@ -895,7 +895,7 @@
           "method": "eq",
           "args": [
             "id",
-            "a4834cbc-3337-41a2-bff4-0d6fa0044fa1"
+            "6376a101-8c7e-47a5-9148-c6856c3ac54f"
           ]
         },
         {
@@ -930,7 +930,7 @@
           "method": "eq",
           "args": [
             "id",
-            "b8f3f2aa-26f2-41e1-881d-a461a0c886ba"
+            "588db150-6e43-4eec-ba79-7e03b68509dd"
           ]
         },
         {
@@ -965,7 +965,7 @@
           "method": "eq",
           "args": [
             "id",
-            "b8f3f2aa-26f2-41e1-881d-a461a0c886ba"
+            "588db150-6e43-4eec-ba79-7e03b68509dd"
           ]
         },
         {
@@ -1000,7 +1000,7 @@
           "method": "eq",
           "args": [
             "id",
-            "b8f3f2aa-26f2-41e1-881d-a461a0c886ba"
+            "588db150-6e43-4eec-ba79-7e03b68509dd"
           ]
         },
         {
@@ -1531,7 +1531,7 @@
           "args": [
             "id",
             [
-              "f79a8004-e650-4152-932f-add298561743"
+              "f54be9ba-e0c7-45ba-9f15-90602e670157"
             ]
           ]
         }
@@ -1564,7 +1564,7 @@
           "args": [
             "id",
             [
-              "f79a8004-e650-4152-932f-add298561743"
+              "f54be9ba-e0c7-45ba-9f15-90602e670157"
             ]
           ]
         }
@@ -1597,7 +1597,7 @@
           "args": [
             "id",
             [
-              "f79a8004-e650-4152-932f-add298561743"
+              "f54be9ba-e0c7-45ba-9f15-90602e670157"
             ]
           ]
         }
@@ -1630,7 +1630,7 @@
           "args": [
             "order_id",
             [
-              "f79a8004-e650-4152-932f-add298561743"
+              "f54be9ba-e0c7-45ba-9f15-90602e670157"
             ]
           ]
         },
@@ -1696,7 +1696,7 @@
           "args": [
             "order_id",
             [
-              "f79a8004-e650-4152-932f-add298561743"
+              "f54be9ba-e0c7-45ba-9f15-90602e670157"
             ]
           ]
         },
@@ -1762,7 +1762,7 @@
           "args": [
             "order_id",
             [
-              "f79a8004-e650-4152-932f-add298561743"
+              "f54be9ba-e0c7-45ba-9f15-90602e670157"
             ]
           ]
         },
@@ -1827,7 +1827,7 @@
           "method": "eq",
           "args": [
             "id",
-            "f79a8004-e650-4152-932f-add298561743"
+            "f54be9ba-e0c7-45ba-9f15-90602e670157"
           ]
         },
         {
@@ -1862,7 +1862,7 @@
           "method": "eq",
           "args": [
             "id",
-            "f79a8004-e650-4152-932f-add298561743"
+            "f54be9ba-e0c7-45ba-9f15-90602e670157"
           ]
         },
         {
@@ -1897,7 +1897,7 @@
           "method": "eq",
           "args": [
             "id",
-            "f79a8004-e650-4152-932f-add298561743"
+            "f54be9ba-e0c7-45ba-9f15-90602e670157"
           ]
         },
         {
@@ -1932,7 +1932,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "f79a8004-e650-4152-932f-add298561743"
+            "f54be9ba-e0c7-45ba-9f15-90602e670157"
           ]
         },
         {
@@ -1969,7 +1969,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "f79a8004-e650-4152-932f-add298561743"
+            "f54be9ba-e0c7-45ba-9f15-90602e670157"
           ]
         },
         {
@@ -2006,7 +2006,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "f79a8004-e650-4152-932f-add298561743"
+            "f54be9ba-e0c7-45ba-9f15-90602e670157"
           ]
         },
         {
@@ -2044,7 +2044,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "a555b1dc-6433-4b07-9f7f-88a9626277ec"
+              "c20fa917-6b5a-4810-af23-74d855237bce"
             ]
           ]
         }
@@ -2077,7 +2077,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "a555b1dc-6433-4b07-9f7f-88a9626277ec"
+              "c20fa917-6b5a-4810-af23-74d855237bce"
             ]
           ]
         }
@@ -2110,7 +2110,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "a555b1dc-6433-4b07-9f7f-88a9626277ec"
+              "c20fa917-6b5a-4810-af23-74d855237bce"
             ]
           ]
         }
@@ -3978,7 +3978,7 @@
           "method": "eq",
           "args": [
             "id",
-            "a4834cbc-3337-41a2-bff4-0d6fa0044fa1"
+            "6376a101-8c7e-47a5-9148-c6856c3ac54f"
           ]
         },
         {
@@ -4013,7 +4013,7 @@
           "method": "eq",
           "args": [
             "id",
-            "a4834cbc-3337-41a2-bff4-0d6fa0044fa1"
+            "6376a101-8c7e-47a5-9148-c6856c3ac54f"
           ]
         },
         {
@@ -4048,7 +4048,7 @@
           "method": "eq",
           "args": [
             "id",
-            "a4834cbc-3337-41a2-bff4-0d6fa0044fa1"
+            "6376a101-8c7e-47a5-9148-c6856c3ac54f"
           ]
         },
         {
@@ -5735,7 +5735,7 @@
             {
               "event_key": "audit-local-dispatch",
               "event_type": "new_order",
-              "entity_id": "f79a8004-e650-4152-932f-add298561743",
+              "entity_id": "f54be9ba-e0c7-45ba-9f15-90602e670157",
               "status": "processing"
             }
           ]
@@ -5768,7 +5768,7 @@
           "method": "eq",
           "args": [
             "id",
-            "f79a8004-e650-4152-932f-add298561743"
+            "f54be9ba-e0c7-45ba-9f15-90602e670157"
           ]
         },
         {
@@ -5807,7 +5807,7 @@
               "status": "failed",
               "failed_count": 1,
               "last_error": "isolated diagnostic",
-              "completed_at": "2026-10-23T22:44:26.327Z"
+              "completed_at": "2026-10-23T23:40:46.094Z"
             }
           ]
         },
@@ -5843,7 +5843,7 @@
               "status": "failed",
               "failed_count": 1,
               "last_error": "isolated diagnostic",
-              "completed_at": "2026-10-23T22:44:26.344Z"
+              "completed_at": "2026-10-23T23:40:46.119Z"
             }
           ]
         },
@@ -5877,9 +5877,9 @@
           "args": [
             {
               "failure_count": 0,
-              "last_success_at": "2026-10-23T22:44:26.370Z",
+              "last_success_at": "2026-10-23T23:40:46.150Z",
               "last_failure_message": null,
-              "updated_at": "2026-10-23T22:44:26.370Z"
+              "updated_at": "2026-10-23T23:40:46.150Z"
             }
           ]
         },
@@ -5914,9 +5914,9 @@
             {
               "is_active": false,
               "failure_count": 1,
-              "last_failure_at": "2026-10-23T22:44:26.405Z",
+              "last_failure_at": "2026-10-23T23:40:46.188Z",
               "last_failure_message": "isolated diagnostic",
-              "updated_at": "2026-10-23T22:44:26.405Z"
+              "updated_at": "2026-10-23T23:40:46.188Z"
             }
           ]
         },
@@ -5953,7 +5953,7 @@
               "delivered_count": 1,
               "failed_count": 0,
               "last_error": null,
-              "completed_at": "2026-10-23T22:44:26.431Z"
+              "completed_at": "2026-10-23T23:40:46.215Z"
             }
           ]
         },
@@ -44311,7 +44311,7 @@
         "owner": "postgres",
         "schema": "public",
         "identity": "get_damage_history_page_v1(p_period text, p_from_date date, p_to_date date, p_reason text, p_page integer, p_page_size integer)",
-        "definition": "CREATE OR REPLACE FUNCTION public.get_damage_history_page_v1(p_period text DEFAULT 'today'::text, p_from_date date DEFAULT NULL::date, p_to_date date DEFAULT NULL::date, p_reason text DEFAULT 'all'::text, p_page integer DEFAULT 1, p_page_size integer DEFAULT 25)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nDECLARE owner_values BOOLEAN; from_at TIMESTAMPTZ; to_at TIMESTAMPTZ; today DATE;\n result JSONB; item RECORD; dto JSONB; entries JSONB:='[]'; case_dto JSONB; blocked TEXT;\nBEGIN\n PERFORM public.sr208_assert_role_internal('read');owner_values:=public.has_erp_role(ARRAY['owner']);\n today:=(CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Amman')::DATE;\n IF p_period IS NULL OR p_period NOT IN('today','week','month','range') OR p_reason IS NULL\n  OR p_reason NOT IN('all','shop_breakage','expired','storage_damage','other','customer_return_final','supplier_writeoff','customer_replacement')\n  OR p_page IS NULL OR p_page NOT BETWEEN 1 AND 1000000 OR p_page_size IS NULL OR p_page_size NOT BETWEEN 1 AND 100 THEN\n  RAISE EXCEPTION 'TRIAL212_DAMAGE_FILTER_INVALID' USING ERRCODE='22023';\n END IF;\n IF p_period='range' THEN\n  IF p_from_date IS NULL OR p_to_date IS NULL OR p_from_date>p_to_date OR p_to_date-p_from_date>365 THEN\n   RAISE EXCEPTION 'TRIAL212_DAMAGE_DATE_INVALID' USING ERRCODE='22023'; END IF;\n ELSE\n  p_from_date:=CASE p_period WHEN 'today' THEN today WHEN 'week' THEN today-6 ELSE date_trunc('month',today)::DATE END;p_to_date:=today;\n END IF;\n from_at:=p_from_date::TIMESTAMP AT TIME ZONE 'Asia/Amman';to_at:=(p_to_date+1)::TIMESTAMP AT TIME ZONE 'Asia/Amman';\n -- Original immutable loss evidence only: no new net-profit or financial\n -- calculation. Reversal/reclassification are separately labelled states.\n WITH evidence AS(\n  SELECT 'damage'::TEXT source,d.id,d.product_id,d.quantity,d.reason_code,d.reason,d.occurred_at,\n   d.origin,d.loss_in_minor_units loss,r.order_id,\n   (SELECT c.id FROM public.supplier_replacement_cases c WHERE c.damage_event_id=d.id AND c.origin='shop_damage') case_id,\n   CASE WHEN d.origin='customer_return' THEN 'return'::TEXT END reclass_kind\n  FROM public.inventory_damage_events d LEFT JOIN public.sales_return_events r ON r.id=d.return_event_id\n  WHERE d.occurred_at>=from_at AND d.occurred_at<to_at\n  UNION ALL\n  SELECT 'replacement',f.replacement_item_id,f.product_id,f.issued_quantity,'customer_replacement',e.reason,e.issued_at,\n   'customer_return',f.replacement_cogs_snapshot_in_minor_units,e.root_order_id,NULL::UUID,'replacement'\n  FROM public.phase43_replacement_inventory_effects f JOIN public.sales_replacement_events e ON e.id=f.replacement_event_id\n  WHERE e.issued_at>=from_at AND e.issued_at<to_at AND e.issuance_status='issued'\n  UNION ALL\n  SELECT 'supplier_writeoff',e.id,c.product_id,e.quantity,'supplier_writeoff',e.reason,e.occurred_at,\n   'supplier_rejected',e.expense_delta_in_minor_units,NULL::UUID,c.id,NULL::TEXT\n  FROM public.supplier_replacement_events e JOIN public.supplier_replacement_cases c ON c.id=e.case_id\n  WHERE e.action='writeoff' AND e.occurred_at>=from_at AND e.occurred_at<to_at\n ), filtered AS(SELECT * FROM evidence WHERE p_reason='all' OR reason_code=p_reason), page AS(\n  SELECT * FROM filtered ORDER BY occurred_at DESC,id DESC,source LIMIT p_page_size OFFSET(p_page::BIGINT-1)*p_page_size\n ) SELECT jsonb_build_object('contractVersion',212,'page',p_page,'pageSize',p_page_size,\n  'totalCount',(SELECT count(*) FROM filtered),'fromDate',p_from_date,'toDate',p_to_date,\n  'rows',COALESCE((SELECT jsonb_agg(to_jsonb(page) ORDER BY occurred_at DESC,id DESC,source) FROM page),'[]')) INTO result;\n FOR item IN SELECT x FROM jsonb_array_elements(result->'rows') x LOOP\n  case_dto:=NULL;blocked:=NULL;\n  dto:=jsonb_build_object('source',item.x->>'source','id',item.x->>'id','productId',item.x->>'product_id',\n   'productName',(SELECT p.name_ar FROM public.products p WHERE p.id=(item.x->>'product_id')::UUID),\n   'unitName',COALESCE((SELECT u.name_ar FROM public.products p LEFT JOIN public.units u ON u.id=p.unit_id WHERE p.id=(item.x->>'product_id')::UUID),'حبة'),\n   'quantity',item.x->'quantity','reasonCode',item.x->>'reason_code','reason',item.x->>'reason','occurredAt',item.x->'occurred_at','origin',item.x->>'origin');\n  IF item.x->>'case_id' IS NOT NULL THEN\n   -- The existing immutable case reader proves reversal/state evidence.\n   case_dto:=public.sr208_case_dto_internal((item.x->>'case_id')::UUID,owner_values);\n   dto:=dto||jsonb_build_object('isReversed',EXISTS(SELECT 1 FROM jsonb_array_elements(case_dto->'events') e WHERE e->>'action'='reverse'\n    AND e->>'reversesEventId'=CASE WHEN item.x->>'source'='supplier_writeoff' THEN item.x->>'id'\n      ELSE(SELECT e->>'id' FROM jsonb_array_elements(case_dto->'events') e WHERE e->>'action'='damage' LIMIT 1) END));\n  ELSE dto:=dto||jsonb_build_object('isReversed',false); END IF;\n  IF item.x->>'reclass_kind' IS NOT NULL THEN\n   blocked:=public.sr211_blocked_internal(item.x->>'reclass_kind',(item.x->>'id')::UUID);\n   dto:=dto||jsonb_build_object('isReclassified',COALESCE(blocked='AFTERCARE211_ALREADY_CLASSIFIED',false));\n  ELSE dto:=dto||jsonb_build_object('isReclassified',false); END IF;\n  IF owner_values THEN\n   dto:=dto||jsonb_build_object('lossAtRegistrationInMinorUnits',item.x->'loss');\n   IF case_dto IS NOT NULL AND NOT (dto->>'isReversed')::BOOLEAN THEN\n    dto:=dto||jsonb_build_object('reversal',jsonb_build_object('case',case_dto,'eventId',CASE WHEN item.x->>'source'='supplier_writeoff' THEN item.x->>'id'\n     ELSE(SELECT e->>'id' FROM jsonb_array_elements(case_dto->'events') e WHERE e->>'action'='damage' LIMIT 1) END));\n   END IF;\n   IF item.x->>'reclass_kind' IS NOT NULL THEN\n    dto:=dto||jsonb_build_object('reclassification',jsonb_build_object('kind',item.x->>'reclass_kind','sourceId',item.x->>'id',\n     'orderId',item.x->>'order_id','blockedReason',blocked));\n   END IF;\n  END IF;\n  entries:=entries||jsonb_build_array(dto);\n END LOOP;\n RETURN (result-'rows')||jsonb_build_object('rows',entries);\nEND $function$\n",
+        "definition": "CREATE OR REPLACE FUNCTION public.get_damage_history_page_v1(p_period text DEFAULT 'today'::text, p_from_date date DEFAULT NULL::date, p_to_date date DEFAULT NULL::date, p_reason text DEFAULT 'all'::text, p_page integer DEFAULT 1, p_page_size integer DEFAULT 25)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nDECLARE owner_values BOOLEAN; from_at TIMESTAMPTZ; to_at TIMESTAMPTZ; today DATE;\n result JSONB; item RECORD; dto JSONB; entries JSONB:='[]'::JSONB; case_dto JSONB; blocked TEXT;\nBEGIN\n PERFORM public.sr208_assert_role_internal('read');owner_values:=public.has_erp_role(ARRAY['owner']);\n today:=(CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Amman')::DATE;\n IF p_period IS NULL OR p_period NOT IN('today','week','month','range') OR p_reason IS NULL\n  OR p_reason NOT IN('all','shop_breakage','expired','storage_damage','other','customer_return_final','supplier_writeoff','customer_replacement')\n  OR p_page IS NULL OR p_page NOT BETWEEN 1 AND 1000000 OR p_page_size IS NULL OR p_page_size NOT BETWEEN 1 AND 100 THEN\n  RAISE EXCEPTION 'TRIAL212_DAMAGE_FILTER_INVALID' USING ERRCODE='22023';\n END IF;\n IF p_period='range' THEN\n  IF p_from_date IS NULL OR p_to_date IS NULL OR p_from_date>p_to_date OR p_to_date-p_from_date>365 THEN\n   RAISE EXCEPTION 'TRIAL212_DAMAGE_DATE_INVALID' USING ERRCODE='22023'; END IF;\n ELSE\n  p_from_date:=CASE p_period WHEN 'today' THEN today WHEN 'week' THEN today-6 ELSE date_trunc('month',today)::DATE END;p_to_date:=today;\n END IF;\n from_at:=p_from_date::TIMESTAMP AT TIME ZONE 'Asia/Amman';to_at:=(p_to_date+1)::TIMESTAMP AT TIME ZONE 'Asia/Amman';\n -- Original immutable loss evidence only: no new net-profit or financial\n -- calculation. Reversal/reclassification are separately labelled states.\n WITH evidence AS(\n  SELECT 'damage'::TEXT source,d.id,d.product_id,d.quantity,d.reason_code,d.reason,d.occurred_at,\n   d.origin,d.loss_in_minor_units loss,r.order_id,\n   (SELECT c.id FROM public.supplier_replacement_cases c WHERE c.damage_event_id=d.id AND c.origin='shop_damage') case_id,\n   CASE WHEN d.origin='customer_return' THEN 'return'::TEXT END reclass_kind\n  FROM public.inventory_damage_events d LEFT JOIN public.sales_return_events r ON r.id=d.return_event_id\n  WHERE d.occurred_at>=from_at AND d.occurred_at<to_at\n  UNION ALL\n  SELECT 'replacement',f.replacement_item_id,f.product_id,f.issued_quantity,'customer_replacement',e.reason,e.issued_at,\n   'customer_return',f.replacement_cogs_snapshot_in_minor_units,e.root_order_id,NULL::UUID,'replacement'\n  FROM public.phase43_replacement_inventory_effects f JOIN public.sales_replacement_events e ON e.id=f.replacement_event_id\n  WHERE e.issued_at>=from_at AND e.issued_at<to_at AND e.issuance_status='issued'\n  UNION ALL\n  SELECT 'supplier_writeoff',e.id,c.product_id,e.quantity,'supplier_writeoff',e.reason,e.occurred_at,\n   'supplier_rejected',e.expense_delta_in_minor_units,NULL::UUID,c.id,NULL::TEXT\n  FROM public.supplier_replacement_events e JOIN public.supplier_replacement_cases c ON c.id=e.case_id\n  WHERE e.action='writeoff' AND e.occurred_at>=from_at AND e.occurred_at<to_at\n ), filtered AS(SELECT * FROM evidence WHERE p_reason='all' OR reason_code=p_reason), page AS(\n  SELECT * FROM filtered ORDER BY occurred_at DESC,id DESC,source LIMIT p_page_size OFFSET(p_page::BIGINT-1)*p_page_size\n ) SELECT jsonb_build_object('contractVersion',212,'page',p_page,'pageSize',p_page_size,\n  'totalCount',(SELECT count(*) FROM filtered),'fromDate',p_from_date,'toDate',p_to_date,\n  'rows',COALESCE((SELECT jsonb_agg(to_jsonb(page) ORDER BY occurred_at DESC,id DESC,source) FROM page),'[]')) INTO result;\n FOR item IN SELECT x FROM jsonb_array_elements(result->'rows') x LOOP\n  case_dto:=NULL;blocked:=NULL;\n  dto:=jsonb_build_object('source',item.x->>'source','id',item.x->>'id','productId',item.x->>'product_id',\n   'productName',(SELECT p.name_ar FROM public.products p WHERE p.id=(item.x->>'product_id')::UUID),\n   'unitName',COALESCE((SELECT u.name_ar FROM public.products p LEFT JOIN public.units u ON u.id=p.unit_id WHERE p.id=(item.x->>'product_id')::UUID),'حبة'),\n   'quantity',item.x->'quantity','reasonCode',item.x->>'reason_code','reason',item.x->>'reason','occurredAt',item.x->'occurred_at','origin',item.x->>'origin');\n  IF item.x->>'case_id' IS NOT NULL THEN\n   -- The existing immutable case reader proves reversal/state evidence.\n   case_dto:=public.sr208_case_dto_internal((item.x->>'case_id')::UUID,owner_values);\n   dto:=dto||jsonb_build_object('isReversed',EXISTS(SELECT 1 FROM jsonb_array_elements(case_dto->'events') e WHERE e->>'action'='reverse'\n    AND e->>'reversesEventId'=CASE WHEN item.x->>'source'='supplier_writeoff' THEN item.x->>'id'\n      ELSE(SELECT e->>'id' FROM jsonb_array_elements(case_dto->'events') e WHERE e->>'action'='damage' LIMIT 1) END));\n  ELSE dto:=dto||jsonb_build_object('isReversed',false); END IF;\n  IF item.x->>'reclass_kind' IS NOT NULL THEN\n   blocked:=public.sr211_blocked_internal(item.x->>'reclass_kind',(item.x->>'id')::UUID);\n   dto:=dto||jsonb_build_object('isReclassified',COALESCE(blocked='AFTERCARE211_ALREADY_CLASSIFIED',false));\n  ELSE dto:=dto||jsonb_build_object('isReclassified',false); END IF;\n  IF owner_values THEN\n   dto:=dto||jsonb_build_object('lossAtRegistrationInMinorUnits',item.x->'loss');\n   IF case_dto IS NOT NULL AND NOT (dto->>'isReversed')::BOOLEAN THEN\n    dto:=dto||jsonb_build_object('reversal',jsonb_build_object('case',case_dto,'eventId',CASE WHEN item.x->>'source'='supplier_writeoff' THEN item.x->>'id'\n     ELSE(SELECT e->>'id' FROM jsonb_array_elements(case_dto->'events') e WHERE e->>'action'='damage' LIMIT 1) END));\n   END IF;\n   IF item.x->>'reclass_kind' IS NOT NULL THEN\n    dto:=dto||jsonb_build_object('reclassification',jsonb_build_object('kind',item.x->>'reclass_kind','sourceId',item.x->>'id',\n     'orderId',item.x->>'order_id','blockedReason',blocked));\n   END IF;\n  END IF;\n  entries:=entries||jsonb_build_array(dto);\n END LOOP;\n RETURN (result-'rows')||jsonb_build_object('rows',entries);\nEND $function$\n",
         "configuration": [
           "search_path=public, pg_temp"
         ]
@@ -48782,7 +48782,7 @@
         "owner": "postgres",
         "schema": "public",
         "identity": "trial212_cash_metadata_internal(p_source text, p_id uuid)",
-        "definition": "CREATE OR REPLACE FUNCTION public.trial212_cash_metadata_internal(p_source text, p_id uuid)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nDECLARE title TEXT; document_type TEXT; document_id UUID; v_order_id UUID; previews JSONB:='[]'; count_items BIGINT:=0;\nBEGIN\n IF p_source='order' THEN v_order_id:=p_id;\n ELSIF p_source='customer_payment' THEN SELECT cp.order_id INTO v_order_id FROM public.customer_payments cp WHERE cp.id=p_id;\n ELSIF p_source='legacy_return' THEN SELECT r.order_id INTO v_order_id FROM public.sales_returns r WHERE r.id=p_id;\n ELSIF p_source='return_event' THEN SELECT r.order_id INTO v_order_id FROM public.sales_return_events r WHERE r.id=p_id;\n END IF;\n IF v_order_id IS NOT NULL THEN\n  SELECT COALESCE(NULLIF(btrim(o.customer_name_snapshot),''),NULLIF(btrim(c.full_name),''),'زبون نقدي') INTO title\n   FROM public.orders o LEFT JOIN public.customers c ON c.id=o.customer_id WHERE o.id=v_order_id;\n  document_type:='order';document_id:=v_order_id;\n  SELECT count(*) INTO count_items FROM public.order_items i WHERE i.order_id=v_order_id;\n  SELECT COALESCE(jsonb_agg(jsonb_build_object('name',i.product_name_snapshot,'quantity',\n   CASE WHEN i.commercial_line_kind IN('legacy_single_sku_parcel','configurable_parcel') THEN COALESCE(i.sale_package_quantity,1) ELSE i.quantity END,\n   'unit',CASE WHEN i.commercial_line_kind='configurable_parcel' THEN 'طرد مشكّل' WHEN i.commercial_line_kind='legacy_single_sku_parcel' THEN 'طرد' ELSE COALESCE(i.base_unit_name_snapshot,'حبة') END)\n   ORDER BY i.created_at,i.id),'[]') INTO previews\n   FROM(SELECT * FROM public.order_items oi WHERE oi.order_id=v_order_id ORDER BY oi.created_at,oi.id LIMIT 2) i;\n ELSIF p_source IN('opening_collection','cheque_collection') THEN\n  SELECT c.full_name INTO title FROM public.customer_collection_operations co JOIN public.customers c ON c.id=co.customer_id WHERE co.id=p_id;\n  document_type:='customer_collection';document_id:=p_id;\n ELSIF p_source IN('supplier_payment','supplier_opening_payment','supplier_cheque_payment') THEN\n  SELECT s.company_name,CASE WHEN sp.supplier_receipt_id IS NOT NULL THEN 'supplier_receipt' WHEN sp.purchase_order_id IS NOT NULL THEN 'purchase_order' ELSE 'supplier_payment' END,\n   COALESCE(sp.supplier_receipt_id,sp.purchase_order_id,sp.id) INTO title,document_type,document_id\n   FROM public.supplier_payments sp JOIN public.suppliers s ON s.id=sp.supplier_id WHERE sp.id=p_id;\n ELSIF p_source='expense' THEN\n  SELECT e.description INTO title FROM public.operational_expenses e WHERE e.id=p_id;document_type:='expense';document_id:=p_id;\n ELSIF p_source='owner_withdrawal' THEN title:='سحب مالك';document_type:='owner_withdrawal';document_id:=p_id;\n ELSIF p_source='owner_withdrawal_return' THEN title:='إرجاع سحب مالك';document_type:='owner_withdrawal_return';document_id:=p_id;\n ELSE RAISE EXCEPTION 'TRIAL212_CASH_SOURCE_INVALID';\n END IF;\n IF document_id IS NULL THEN RAISE EXCEPTION 'TRIAL212_CASH_DOCUMENT_MISSING'; END IF;\n RETURN jsonb_build_object('displayTitle',COALESCE(NULLIF(btrim(title),''),'مستند مسجّل'),'itemsPreview',previews,'itemCount',count_items,\n  'document',jsonb_build_object('type',document_type,'id',document_id));\nEND $function$\n",
+        "definition": "CREATE OR REPLACE FUNCTION public.trial212_cash_metadata_internal(p_source text, p_id uuid)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nDECLARE title TEXT; document_type TEXT; document_id UUID; v_order_id UUID; previews JSONB:='[]'::JSONB; count_items BIGINT:=0;\nBEGIN\n IF p_source='order' THEN v_order_id:=p_id;\n ELSIF p_source='customer_payment' THEN SELECT cp.order_id INTO v_order_id FROM public.customer_payments cp WHERE cp.id=p_id;\n ELSIF p_source='legacy_return' THEN SELECT r.order_id INTO v_order_id FROM public.sales_returns r WHERE r.id=p_id;\n ELSIF p_source='return_event' THEN SELECT r.order_id INTO v_order_id FROM public.sales_return_events r WHERE r.id=p_id;\n END IF;\n IF v_order_id IS NOT NULL THEN\n  SELECT COALESCE(NULLIF(btrim(o.customer_name_snapshot),''),NULLIF(btrim(c.full_name),''),'زبون نقدي') INTO title\n   FROM public.orders o LEFT JOIN public.customers c ON c.id=o.customer_id WHERE o.id=v_order_id;\n  document_type:='order';document_id:=v_order_id;\n  SELECT count(*) INTO count_items FROM public.order_items i WHERE i.order_id=v_order_id;\n  SELECT COALESCE(jsonb_agg(jsonb_build_object('name',i.product_name_snapshot,'quantity',\n   CASE WHEN i.commercial_line_kind IN('legacy_single_sku_parcel','configurable_parcel') THEN COALESCE(i.sale_package_quantity,1) ELSE i.quantity END,\n   'unit',CASE WHEN i.commercial_line_kind='configurable_parcel' THEN 'طرد مشكّل' WHEN i.commercial_line_kind='legacy_single_sku_parcel' THEN 'طرد' ELSE COALESCE(i.base_unit_name_snapshot,'حبة') END)\n   ORDER BY i.created_at,i.id),'[]') INTO previews\n   FROM(SELECT * FROM public.order_items oi WHERE oi.order_id=v_order_id ORDER BY oi.created_at,oi.id LIMIT 2) i;\n ELSIF p_source IN('opening_collection','cheque_collection') THEN\n  SELECT c.full_name INTO title FROM public.customer_collection_operations co JOIN public.customers c ON c.id=co.customer_id WHERE co.id=p_id;\n  document_type:='customer_collection';document_id:=p_id;\n ELSIF p_source IN('supplier_payment','supplier_opening_payment','supplier_cheque_payment') THEN\n  SELECT s.company_name,CASE WHEN sp.supplier_receipt_id IS NOT NULL THEN 'supplier_receipt' WHEN sp.purchase_order_id IS NOT NULL THEN 'purchase_order' ELSE 'supplier_payment' END,\n   COALESCE(sp.supplier_receipt_id,sp.purchase_order_id,sp.id) INTO title,document_type,document_id\n   FROM public.supplier_payments sp JOIN public.suppliers s ON s.id=sp.supplier_id WHERE sp.id=p_id;\n ELSIF p_source='expense' THEN\n  SELECT e.description INTO title FROM public.operational_expenses e WHERE e.id=p_id;document_type:='expense';document_id:=p_id;\n ELSIF p_source='owner_withdrawal' THEN title:='سحب مالك';document_type:='owner_withdrawal';document_id:=p_id;\n ELSIF p_source='owner_withdrawal_return' THEN title:='إرجاع سحب مالك';document_type:='owner_withdrawal_return';document_id:=p_id;\n ELSE RAISE EXCEPTION 'TRIAL212_CASH_SOURCE_INVALID';\n END IF;\n IF document_id IS NULL THEN RAISE EXCEPTION 'TRIAL212_CASH_DOCUMENT_MISSING'; END IF;\n RETURN jsonb_build_object('displayTitle',COALESCE(NULLIF(btrim(title),''),'مستند مسجّل'),'itemsPreview',previews,'itemCount',count_items,\n  'document',jsonb_build_object('type',document_type,'id',document_id));\nEND $function$\n",
         "configuration": [
           "search_path=public, pg_temp"
         ]
@@ -70850,13 +70850,13 @@
     }
   ],
   "fixture": {
-    "orderId": "f79a8004-e650-4152-932f-add298561743",
-    "operationId": "b219e91e-2094-4e12-92ee-ba9172da42c6",
-    "receiptId": "b8f3f2aa-26f2-41e1-881d-a461a0c886ba",
-    "poId": "a4834cbc-3337-41a2-bff4-0d6fa0044fa1",
+    "orderId": "f54be9ba-e0c7-45ba-9f15-90602e670157",
+    "operationId": "8486e8cc-91cc-4bd5-925f-a50378454ad2",
+    "receiptId": "588db150-6e43-4eec-ba79-7e03b68509dd",
+    "poId": "6376a101-8c7e-47a5-9148-c6856c3ac54f",
     "subscriptionId": "92600000-0000-4000-8000-000000000701",
     "instances": [
-      "a555b1dc-6433-4b07-9f7f-88a9626277ec"
+      "c20fa917-6b5a-4810-af23-74d855237bce"
     ]
   },
   "access": [
@@ -76618,5 +76618,5 @@
     "zero_rows": 0,
     "other_error": 0
   },
-  "endedAt": "2026-10-23T22:47:04.581Z"
+  "endedAt": "2026-10-23T23:43:26.012Z"
 }

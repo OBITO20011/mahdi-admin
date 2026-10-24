@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "head": "819a06a4f822ed73c90cea30f0f086000c0f4956",
+  "run": 40039245689,
+  "job": 120706227747,
+  "stage": "DB lint",
+  "function": "trial212_cash_metadata_internal",
+  "message": "Implicit text to jsonb initialization warning42804",
+  "correction": "Explicit JSONB cast for empty-array initializers in both new212 readers;no payload/calculation/ACL/writer change",
+  "oldCanonicalLfSha256": "D1954438B5DB8F5781EB537D9F3332974947C77AD13212457691060BACEB1C04",
+  "newCanonicalLfSha256": "6BDBC906B38B4FD29DD4C5115E040CB1954B1BDB5ABE0EE3AEDAAE634B6CE619",
+  "oldEvidenceAndRunsNotAcceptedForNewSql": true,
+  "required": [
+    "Strict full DB lint",
+    "Actual runtime10 and full restore",
+    "Regenerated actual DB functions and SDK/service/reference/upgrade/replay/reset",
+    "New exact push+PR/main FULL43"
+  ],
+  "managedAccess": false,
+  "verified": {
+    "strictFullGoLiveDbLint": true,
+    "runtimeCases": 10,
+    "restoreDifferences": 0,
+    "sdkReads": 154,
+    "rpcDispatches": 537,
+    "expectedRoleDenials": 10,
+    "reference": {
+      "migrations": 174,
+      "functions": 556,
+      "freshIncrementalDifferences": 0,
+      "sha256": "DB0AD398C47C59D55E7CB47DE4E0C3F51A616A2457BB927773A98A8E34C41F0C"
+    },
+    "upgrade212ReplayWrites": 0,
+    "resetOwnerTotpStorageRest": true,
+    "cleanAdminUnits": 1383,
+    "strictLint": true,
+    "ownerReferencePreparedLocally": true,
+    "hostedAccess": false
+  }
+}

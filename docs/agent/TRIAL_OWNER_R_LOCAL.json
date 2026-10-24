@@ -13,7 +13,7 @@
     "W2 remains deferred"
   ],
   "migrationCeiling": 212,
-  "migrationCanonicalLfSha256": "D1954438B5DB8F5781EB537D9F3332974947C77AD13212457691060BACEB1C04",
+  "migrationCanonicalLfSha256": "6BDBC906B38B4FD29DD4C5115E040CB1954B1BDB5ABE0EE3AEDAAE634B6CE619",
   "managedAccess": false,
   "deployed": false,
   "gates": {
@@ -63,7 +63,8 @@
     "sql": {
       "cases": 10,
       "passed": true,
-      "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-trial212-U7yG6B",
+      "migrationCanonicalLfSha256": "6bdbc906b38b4fd29dd4c5115e040cb1954b1bdb5abe0ee3aedaae634b6ce619",
+      "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-trial212-ZtCqO1",
       "restore": {
         "logicalCatalogDifferences": 0,
         "allPublicDataAndSequencesIdentical": true,
@@ -76,7 +77,7 @@
       "realtimeMembers": 13,
       "freshIncrementalDifferences": 0,
       "ownerFile": "C:/Users/TOP/NawasrahFrankfurt/nawasrah-fra-001-138/local-reference-through212-ready.json",
-      "sha256": "FAC5C520730B3D1D290BE12FA5AC5258FD91E9098D522E6B2B212FF4F1B6778C"
+      "sha256": "DB0AD398C47C59D55E7CB47DE4E0C3F51A616A2457BB927773A98A8E34C41F0C"
     },
     "upgrade": {
       "applied": [
@@ -94,7 +95,7 @@
       "storageBytesDeleted": true,
       "staffDeleted": true,
       "actualRest212Read": true,
-      "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-trial-reset-UCYahU"
+      "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-trial-reset-6ooOHX"
     },
     "offline212": {
       "ok": true,
@@ -104,16 +105,18 @@
       ],
       "saved211Preserved": true
     },
-    "preflight212HashAdmission": true
+    "preflight212HashAdmission": true,
+    "strictFullDbLint": true
   },
   "rejectedAttempts": [
     "Source changed during first SDK diagnostic;rejected and rebuilt on frozen source",
     "Intermediate Admin evidence checks exposed stale211 service proof,then exact historical-denial/snapshot-input drift;corrected without weakening assertions;final clean Admin run passes"
   ],
   "delivery": {
+    "ciTestRepair": "docs/agent/TRIAL_OWNER_R_CI_REPAIR.json",
+    "ciDbLintRepair": "docs/agent/TRIAL_OWNER_R_DB_LINT_REPAIR.json",
     "status": "PENDING_EXACT_PUSH_PR_MAIN_FULL43_AND_GITLEAKS",
-    "ownerUpgradeExecuted": false,
-    "ciRepair": "docs/agent/TRIAL_OWNER_R_CI_REPAIR.json"
+    "ownerUpgradeExecuted": false
   },
-  "recordedAt": "2026-10-23T23:15:07.652Z"
+  "recordedAt": "2026-10-24T00:04:59.922Z"
 }

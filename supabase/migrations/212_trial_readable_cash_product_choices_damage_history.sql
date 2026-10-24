@@ -3,7 +3,7 @@
 BEGIN;
 CREATE FUNCTION public.trial212_cash_metadata_internal(p_source TEXT,p_id UUID)
 RETURNS JSONB LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
-DECLARE title TEXT; document_type TEXT; document_id UUID; v_order_id UUID; previews JSONB:='[]'; count_items BIGINT:=0;
+DECLARE title TEXT; document_type TEXT; document_id UUID; v_order_id UUID; previews JSONB:='[]'::JSONB; count_items BIGINT:=0;
 BEGIN
  IF p_source='order' THEN v_order_id:=p_id;
  ELSIF p_source='customer_payment' THEN SELECT cp.order_id INTO v_order_id FROM public.customer_payments cp WHERE cp.id=p_id;
@@ -192,7 +192,7 @@ CREATE FUNCTION public.get_damage_history_page_v1(
  p_reason TEXT DEFAULT 'all',p_page INTEGER DEFAULT 1,p_page_size INTEGER DEFAULT 25)
 RETURNS JSONB LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
 DECLARE owner_values BOOLEAN; from_at TIMESTAMPTZ; to_at TIMESTAMPTZ; today DATE;
- result JSONB; item RECORD; dto JSONB; entries JSONB:='[]'; case_dto JSONB; blocked TEXT;
+ result JSONB; item RECORD; dto JSONB; entries JSONB:='[]'::JSONB; case_dto JSONB; blocked TEXT;
 BEGIN
  PERFORM public.sr208_assert_role_internal('read');owner_values:=public.has_erp_role(ARRAY['owner']);
  today:=(CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Amman')::DATE;

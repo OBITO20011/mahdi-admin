@@ -3,6 +3,18 @@
   "files": [
     {
       "code": " M",
+      "path": "docs/agent/PHASE_STATUS.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/agent/PROJECT_OVERVIEW.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": " M",
       "path": "docs/agent/TRIAL_OWNER_R_AR.md"
     },
     {
@@ -11,7 +23,27 @@
     },
     {
       "code": " M",
+      "path": "docs/generated/DB_FUNCTIONS.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_AUDIT.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_212.json"
+    },
+    {
+      "code": " M",
       "path": "scripts/audit/trial-owner-r-hunks.json"
+    },
+    {
+      "code": " M",
+      "path": "supabase/migrations/212_trial_readable_cash_product_choices_damage_history.sql"
     },
     {
       "code": " M",
@@ -19,7 +51,7 @@
     },
     {
       "code": "??",
-      "path": "docs/agent/TRIAL_OWNER_R_CI_REPAIR.json"
+      "path": "docs/agent/TRIAL_OWNER_R_DB_LINT_REPAIR.json"
     }
   ]
 }
