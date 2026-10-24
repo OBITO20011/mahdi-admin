@@ -1,3 +1,4 @@
+import {ProductChoiceList} from '../../components/ui/ProductPicker';
 import {FormFields, UiButton, formatJod, Card,ReceivingUnitFields,type ReceivingUnitMode} from '../../components/ui';
 import {WarehouseChoice} from '../../components/ui/WarehouseChoice';
 /**
@@ -785,46 +786,8 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
                   </p>
                 </div>
               ) : (
-                filteredProducts.map((prod) => {
-                  const warehouseBalance = prod.inventoryBalances.find(
-                    (balance) => balance.warehouseId === selectedWarehouseId
-                  );
-                  const warehouseAvailable = warehouseBalance?.availableQuantity ?? 0;
-
-                  return (
-                    <FormFields
-                      key={prod.id}
-                      data-receiving-product-result={prod.id}
-                      onClick={() => handleSelectProduct(prod)}
-                      className="nw-purchasing-fields flex items-center justify-between p-2.5 rounded-xl hover:bg-nw-surface border border-transparent hover:border-nw-border transition cursor-pointer"
-                    >
-                      <div>
-                        <h4 className="font-bold text-nw-text text-xs">{prod.nameAr}</h4>
-                        <div className="flex items-center gap-2 text-[10px] text-nw-muted">
-                          <span>رمز الصنف: {prod.sku}</span>
-                          {prod.barcode && <span>| الباركود: {prod.barcode}</span>}
-                          <span>| الوحدة الأساسية: {prod.baseUnitName}</span>
-                          <span>| طرد الشراء: {prod.purchaseUnitName} × {prod.unitsPerPackage}</span>
-                        </div>
-                        <p className="mt-1 text-[10px] font-bold text-nw-info">
-                          المتاح الآن في {selectedWarehouse?.nameAr || 'المستودع'}:{' '}
-                          {formatWholesaleInventory(
-                            warehouseAvailable,
-                            prod.unitsPerPackage,
-                            prod.purchaseUnitName,
-                            prod.baseUnitName
-                          ).fullFormatted}
-                        </p>
-                      </div>
-                      <div className="text-left">
-                        <span className="text-nw-ok font-extrabold text-xs block">
-                          {formatJod(minorUnitsToJod(prod.costPriceInMinorUnits))} {CURRENCY}
-                        </span>
-                        <span className="text-[10px] text-nw-muted font-semibold">اضغط للإضافة +</span>
-                      </div>
-                    </FormFields>
-                  );
-                })
+                <ProductChoiceList label="أصناف استلام البضاعة" options={filteredProducts.map(prod=>({id:prod.id,name:prod.nameAr,image:prod.imageUrl,unit:prod.baseUnitName,available:prod.inventoryBalances.find(balance=>balance.warehouseId===selectedWarehouseId)?.availableQuantity??0}))}
+                  onChoose={id=>{const product=filteredProducts.find(item=>item.id===id);if(product)handleSelectProduct(product);}}/>
               )}
               <div className="p-2 border-t border-nw-border text-center">
                 <UiButton variant="plain" type="button"

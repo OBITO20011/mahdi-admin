@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "package": "R",
+  "baseline": "88c7bd446ab19338d320108a86ea25cddcbf6d2d",
+  "branch": "codex/trial-owner-r",
+  "scope": [
+    "R1",
+    "R3",
+    "R4"
+  ],
+  "deferred": [
+    "R2 already delivered in W;not repeated",
+    "W2 remains deferred"
+  ],
+  "migrationCeiling": 212,
+  "migrationCanonicalLfSha256": "6BDBC906B38B4FD29DD4C5115E040CB1954B1BDB5ABE0EE3AEDAAE634B6CE619",
+  "managedAccess": false,
+  "deployed": false,
+  "gates": {
+    "adminUnits": {
+      "passed": 1383,
+      "failed": 0,
+      "skipped": 0
+    },
+    "customerUnits": {
+      "passed": 197,
+      "failed": 0
+    },
+    "typecheck": true,
+    "strictLint": true,
+    "adminBuild": true,
+    "isolatedCustomerBuildAndSeo": true,
+    "networkEscapedRequests": 0,
+    "browser": {
+      "newR": {
+        "passed": 26,
+        "failed": 0
+      },
+      "priorNavigationSupplierW": {
+        "passed": 52,
+        "failed": 0
+      },
+      "productInventoryReceiving": {
+        "passed": 68,
+        "failed": 0,
+        "unchangedConditionalSkipped": 6
+      },
+      "retries": 0
+    },
+    "sdk": {
+      "sourceFiles": 335,
+      "sites": 53,
+      "realReads": 154,
+      "errors": 0
+    },
+    "rpc": {
+      "actualDispatches": 537,
+      "expectedRoleDenials": 10,
+      "historicalSevenReviewPreserved": true,
+      "savedCatalogDate": "2026-10-15",
+      "currentManagedStateNotRead": true
+    },
+    "sql": {
+      "cases": 10,
+      "passed": true,
+      "migrationCanonicalLfSha256": "6bdbc906b38b4fd29dd4c5115e040cb1954b1bdb5abe0ee3aedaae634b6ce619",
+      "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-trial212-ZtCqO1",
+      "restore": {
+        "logicalCatalogDifferences": 0,
+        "allPublicDataAndSequencesIdentical": true,
+        "replayZeroWrites": true
+      }
+    },
+    "reference": {
+      "migrations": 174,
+      "functions": 556,
+      "realtimeMembers": 13,
+      "freshIncrementalDifferences": 0,
+      "ownerFile": "C:/Users/TOP/NawasrahFrankfurt/nawasrah-fra-001-138/local-reference-through212-ready.json",
+      "sha256": "DB0AD398C47C59D55E7CB47DE4E0C3F51A616A2457BB927773A98A8E34C41F0C"
+    },
+    "upgrade": {
+      "applied": [
+        "212"
+      ],
+      "recorded": [
+        "212"
+      ],
+      "replayWrites": 0,
+      "localOnly": true
+    },
+    "reset": {
+      "ownerRetained": true,
+      "verifiedTotpRetained": true,
+      "storageBytesDeleted": true,
+      "staffDeleted": true,
+      "actualRest212Read": true,
+      "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-trial-reset-6ooOHX"
+    },
+    "offline212": {
+      "ok": true,
+      "remoteWriteAttempted": false,
+      "pending": [
+        "212"
+      ],
+      "saved211Preserved": true
+    },
+    "preflight212HashAdmission": true,
+    "strictFullDbLint": true
+  },
+  "rejectedAttempts": [
+    "Source changed during first SDK diagnostic;rejected and rebuilt on frozen source",
+    "Intermediate Admin evidence checks exposed stale211 service proof,then exact historical-denial/snapshot-input drift;corrected without weakening assertions;final clean Admin run passes"
+  ],
+  "delivery": {
+    "ciTestRepair": "docs/agent/TRIAL_OWNER_R_CI_REPAIR.json",
+    "ciDbLintRepair": "docs/agent/TRIAL_OWNER_R_DB_LINT_REPAIR.json",
+    "status": "PENDING_EXACT_PUSH_PR_MAIN_FULL43_AND_GITLEAKS",
+    "ownerUpgradeExecuted": false
+  },
+  "recordedAt": "2026-10-24T00:04:59.922Z"
+}

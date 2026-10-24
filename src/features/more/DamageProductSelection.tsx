@@ -1,10 +1,14 @@
+import {ProductPicker} from '../../components/ui/ProductPicker';
+import {productPickerOption} from '../../components/ui/productPickerModel';
 import {useEffect, useRef, useState} from 'react';
 import {searchAdminProducts, fetchAdminProductById} from '../../services/supabase/products.service';
 import {useAppStoreActions} from '../../stores/useAppStore';
 import {useAuthStore} from '../../stores/useAuthStore';
-import {SearchField, UiButton} from '../../components/ui';
+import {UiButton} from '../../components/ui';
 import type {Product} from '../../types';
 import {canUseNavigationAction} from './adminNavigation.config';
+import {canUseSupplierReplacement} from '../../utils/supplierReplacement';
+import {DamageHistoryPanel} from './DamageHistoryPanel';
 
 /** Product is chosen from current server results before entering the existing damage form. */
 export function DamageProductSelection() {
@@ -14,6 +18,8 @@ export function DamageProductSelection() {
   const [search,setSearch]=useState(''),[products,setProducts]=useState<Product[]>([]);
   const [loading,setLoading]=useState(true),[busy,setBusy]=useState(false),[error,setError]=useState('');
   const [reload,setReload]=useState(0);
+  const [tab,setTab]=useState<'register'|'history'>('register');
+  const canRead=canUseSupplierReplacement(roles,roleName);
   const version=useRef(0),selecting=useRef(false);
   useEffect(()=>{
     const current=++version.current;setProducts([]);setError('');setLoading(true);setBusy(false);selecting.current=false;
@@ -33,12 +39,14 @@ export function DamageProductSelection() {
   };
   if(!allowed)return <p role="alert">لا تملك صلاحية تسجيل بضاعة تالفة.</p>;
   return <div className="space-y-3" aria-busy={busy}>
-    <SearchField label="ابحث عن الصنف التالف" placeholder="اسم الصنف أو الباركود" value={search} disabled={busy} onChange={event=>setSearch(event.target.value)}/>
+    <div role="tablist" aria-label="بضاعة تالفة" className="flex flex-wrap gap-2">
+      <UiButton role="tab" aria-selected={tab==='register'} disabled={busy} onClick={()=>setTab('register')}>تسجيل تالف</UiButton>
+      {canRead&&<UiButton role="tab" aria-selected={tab==='history'} disabled={busy} onClick={()=>setTab('history')}>سجل التالف</UiButton>}
+    </div>
+    {tab==='history'&&canRead?<DamageHistoryPanel/>:<>
     {error&&<div role="alert"><p className="text-sm text-nw-bad">{error}</p><UiButton disabled={busy} onClick={()=>setReload(value=>value+1)}>إعادة المحاولة</UiButton></div>}
-    {loading?<p role="status">جاري البحث…</p>:products.length===0&&!error?<p role="status" className="text-sm text-nw-muted">لا توجد أصناف مطابقة.</p>:<ul className="m-0 space-y-2 p-0">
-      {products.map(product=><li key={product.id} className="list-none"><UiButton variant="plain" disabled={busy} onClick={()=>void select(product.id)} className="!h-auto flex min-h-14 w-full items-center justify-between gap-3 rounded-xl border border-nw-border px-3 py-2 text-right">
-        <span className="min-w-0"><b className="block break-words text-sm">{product.nameAr}</b><span className="text-xs text-nw-muted">{product.sku} · المتاح {product.availableQuantity} {product.unit}</span></span>
-      </UiButton></li>)}
-    </ul>}
+    <ProductPicker label="اختر الصنف التالف" search={search} onSearch={setSearch} disabled={busy} loading={loading}
+      options={products.map(product=>productPickerOption(product))} onChoose={id=>void select(id)}/>
+    </>}
   </div>;
 }

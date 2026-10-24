@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "failedHead": "421e11824a45a8f38232cdba9b483dfb15650a90",
+  "run": 40038635819,
+  "job": 120704226380,
+  "error": "H frozen tracked-addition assertion omitted owner-approved212 and new R inverse pin;untracked additions were not visible in precommit git diff",
+  "correction": "Exact212 filename plus canonical LF hash D1954438;only new trial-owner-r-hunks admitted;all old SQL/pins/video/identity guards remain",
+  "applicationAndSqlBytesChanged": false,
+  "focusedTests": {
+    "passed": 10,
+    "failed": 0
+  },
+  "oldQualityRunsNotAccepted": [
+    40038635819,
+    40038644945
+  ],
+  "newExactFull43Required": true,
+  "managedAccess": false
+}

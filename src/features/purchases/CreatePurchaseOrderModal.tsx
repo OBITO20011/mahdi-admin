@@ -1,3 +1,5 @@
+import {ProductChoiceList} from '../../components/ui/ProductPicker';
+import {productPickerOption} from '../../components/ui/productPickerModel';
 import {FormFields, Card, UiButton, formatJod, DataTable, Tr, Th, Td} from '../../components/ui';
 import {WarehouseChoice} from '../../components/ui/WarehouseChoice';
 /**
@@ -612,58 +614,8 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
                   ) : filteredProducts.length === 0 ? (
                     <div className="p-3 text-center text-nw-muted text-xs">لا توجد منتجات تطابق البحث</div>
                   ) : (
-                    <div className="max-h-60 overflow-y-auto space-y-1 pr-1">
-                      {filteredProducts.map((p) => (
-                        <UiButton variant="plain"
-                          type="button"
-                          key={p.id}
-                          onClick={() => handleAddProduct(p)}
-                          className="w-full text-right p-2.5 rounded-xl hover:bg-nw-surface-2 flex items-center justify-between gap-3 transition group border border-transparent hover:border-nw-border h-auto min-h-11 min-w-0 whitespace-normal"
-                        >
-                          <div className="flex items-center gap-2.5 min-w-0">
-                            {p.imageUrl ? (
-                              <img
-                                src={p.imageUrl}
-                                alt={p.nameAr}
-                                className="w-9 h-9 rounded-lg object-cover border border-nw-border shrink-0"
-                              />
-                            ) : (
-                              <div className="w-9 h-9 rounded-lg bg-nw-surface-2 border border-nw-border flex items-center justify-center shrink-0 text-nw-muted">
-                                <Package className="w-4 h-4" />
-                              </div>
-                            )}
-                            <div className="min-w-0">
-                              <div className="font-bold text-nw-text group-hover:text-nw-ok transition truncate">
-                                {p.nameAr}
-                              </div>
-                              <div className="text-[10px] text-nw-muted flex flex-wrap items-center gap-2 mt-0.5 font-mono">
-                                <span>رمز الصنف: {p.sku || 'غير محدد'}</span>
-                                {p.barcode && <span>• باركود: {p.barcode}</span>}
-                                {p.unit && (
-                                  <span className="bg-nw-surface-2 border border-nw-border px-1.5 py-0.2 rounded text-[9px] text-nw-text font-sans">
-                                    {p.unit}
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="flex items-center gap-3 shrink-0 text-left">
-                            <div className="text-[10px]">
-                              <div className="text-nw-ok font-bold">
-                                تكلفة: {formatJod((p.costPrice || 0))} {CURRENCY}
-                              </div>
-                              <div className="text-nw-muted font-sans">
-                                المخزون: <span className={(p.onHandQuantity || 0) > 0 ? 'text-nw-text font-bold' : 'text-nw-warn font-bold'}>{p.onHandQuantity || 0}</span>
-                              </div>
-                            </div>
-                            <span className="bg-nw-info-bg text-nw-info border border-nw-border group-hover:bg-nw-info-bg group-hover:text-nw-text px-2.5 py-1 rounded-lg font-bold text-[10px] transition">
-                              + إضافة
-                            </span>
-                          </div>
-                        </UiButton>
-                      ))}
-                    </div>
+                    <ProductChoiceList label="أصناف طلب الشراء" options={filteredProducts.map(product=>productPickerOption(product))}
+                      onChoose={id=>{const product=filteredProducts.find(item=>item.id===id);if(product)handleAddProduct(product);}}/>
                   )}
                 </Card>
               )}

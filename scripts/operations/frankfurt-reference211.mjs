@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';import {readFile} from 'node:fs/promises
 import {migrationManifest,manifestDigest,canonicalLf,sha256} from '../testing/maintenance-db-contract.mjs';
 import {schemaCatalogSql,catalogDifference} from '../testing/schema-catalog.mjs';
 import {realtimePublicationSql,realtime151Tables} from '../testing/realtime151-contract.mjs';
-import {inventory} from '../audit/table-access-inventory.mjs';import {verifyProbeCoverage} from '../audit/table-access-probes.mjs';
+import {verifiedInventoryBeforeTrialR as inventory} from '../audit/source-before-trial-owner-r.mjs';import {verifyProbeCoverage} from '../audit/table-access-probes.mjs';
 import {assertReady210Catalog,assert210Transition} from './frankfurt-reference210.mjs';
 import {assert209PublicationTransition} from './frankfurt-reference209.mjs';
 import {aclEntries,compareManagedCatalog} from './managed-catalog-policy.mjs';

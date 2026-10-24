@@ -135,6 +135,7 @@ export interface DirectReceiptForm {
 
 export interface ReceivingProduct {
   id: string;
+  imageUrl?: string;
   nameAr: string;
   sku: string;
   barcode: string;
