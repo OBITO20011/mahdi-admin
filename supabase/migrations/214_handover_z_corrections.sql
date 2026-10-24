@@ -1654,4 +1654,93 @@ BEGIN
   RETURN jsonb_build_object('id',v_shift.id,'shiftNumber',v_shift.shift_number,'branchId',v_shift.branch_id,'cashierName',COALESCE(v_opened_by_name,'مستخدم النظام'),'startTime',v_shift.opened_at,'endTime',CASE WHEN v_shift.status='cancelled' THEN v_shift.cancelled_at ELSE v_shift.reversed_at END,'openingCashInMinorUnits',v_shift.opening_cash_in_minor_units,'cashSalesInMinorUnits',0,'cliqSalesInMinorUnits',0,'cardSalesInMinorUnits',0,'cashReceiptsInMinorUnits',0,'cliqReceiptsInMinorUnits',0,'cashSupplierPaymentsInMinorUnits',0,'cliqSupplierPaymentsInMinorUnits',0,'cashExpensesInMinorUnits',0,'cliqExpensesInMinorUnits',0,'cashRefundsInMinorUnits',0,'cliqRefundsInMinorUnits',0,'expectedCashInMinorUnits',v_shift.opening_cash_in_minor_units,'actualCashInMinorUnits',NULL,'cashDiscrepancyInMinorUnits',NULL,'discrepancyReason',NULL,'status',v_shift.status,'managerSignOffBy',NULL,'cancelledByName',CASE WHEN v_shift.status='cancelled' THEN v_actor_name ELSE NULL END,'cancelledAt',v_shift.cancelled_at,'cancellationReason',v_shift.cancellation_reason,'reversedByName',CASE WHEN v_shift.status='reversed' THEN v_actor_name ELSE NULL END,'reversedAt',v_shift.reversed_at,'reversalReason',v_shift.reversal_reason,'reversalId',v_shift.reversal_id);
 END; $function$;
 
+-- Z5: lock discovery, canonical order and revalidation only.
+CREATE OR REPLACE FUNCTION public.reverse_customer_collection_v1(p_operation_id uuid, p_reason text)
+ RETURNS jsonb
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'public', 'pg_temp'
+AS $function$
+DECLARE
+  v_user_id UUID := auth.uid();
+  v_reason TEXT := NULLIF(BTRIM(p_reason), '');
+  v_operation public.customer_collection_operations%ROWTYPE;
+  v_payment_id UUID;
+  v_customer_id UUID;
+  v_id UUID;
+  v_plan JSONB;
+  v_locked_plan JSONB;
+BEGIN
+  PERFORM public.assert_erp_role(ARRAY['owner', 'admin', 'manager', 'accountant'], 'عكس عملية تحصيل');
+  IF v_reason IS NULL OR CHAR_LENGTH(v_reason) NOT BETWEEN 5 AND 500 THEN
+    RAISE EXCEPTION 'اكتب سبب العكس (5 إلى 500 حرف).';
+  END IF;
+  SELECT * INTO v_operation FROM public.customer_collection_operations WHERE id = p_operation_id;
+  IF NOT FOUND THEN
+    RAISE EXCEPTION 'عملية التحصيل غير موجودة.';
+  END IF;
+  IF v_operation.is_reversed THEN
+    RETURN public.go_live_collection_result_internal(v_operation.id) || jsonb_build_object('idempotentReplay', true);
+  END IF;
+  -- Same hierarchy as collect_customer_balance_v1: customer serialization,
+  -- all root order advisory locks, all shift rows, then all order rows.
+  -- Discover the complete immutable relationship set before taking row locks.
+  v_customer_id := v_operation.customer_id;
+  PERFORM pg_advisory_xact_lock(hashtextextended('go-live-collection-customer:'||v_customer_id::TEXT,0));
+  SELECT * INTO v_operation FROM public.customer_collection_operations WHERE id=p_operation_id;
+  IF NOT FOUND OR v_operation.customer_id IS DISTINCT FROM v_customer_id THEN
+    RAISE EXCEPTION USING ERRCODE='40001',MESSAGE='COLLECTION_REVERSAL_LOCK_PLAN_CHANGED: تغيرت علاقة التحصيل؛ أعد المحاولة.';
+  END IF;
+  IF v_operation.is_reversed THEN
+    RETURN public.go_live_collection_result_internal(v_operation.id) || jsonb_build_object('idempotentReplay',true);
+  END IF;
+  SELECT jsonb_build_object('operation',to_jsonb(v_operation),'payments',
+    COALESCE((SELECT jsonb_agg(jsonb_build_object('link',to_jsonb(link),'paymentId',payment.id,
+      'orderId',payment.order_id,'shiftId',payment.cash_shift_id) ORDER BY payment.id)
+      FROM public.customer_collection_order_payments link
+      JOIN public.customer_payments payment ON payment.id=link.customer_payment_id
+      WHERE link.operation_id=v_operation.id),'[]'::JSONB)) INTO v_plan;
+  FOR v_id IN SELECT DISTINCT (p->>'orderId')::UUID FROM jsonb_array_elements(v_plan->'payments') p ORDER BY 1
+  LOOP PERFORM pg_advisory_xact_lock(hashtextextended('phase4-order|'||v_id::TEXT,0)); END LOOP;
+  FOR v_id IN SELECT shift_id FROM (
+    SELECT v_operation.cash_shift_id AS shift_id
+    UNION SELECT (p->>'shiftId')::UUID FROM jsonb_array_elements(v_plan->'payments') p
+  ) resources WHERE shift_id IS NOT NULL ORDER BY shift_id
+  LOOP PERFORM 1 FROM public.cash_shifts WHERE id=v_id FOR UPDATE; END LOOP;
+  PERFORM 1 FROM public.orders o WHERE o.id IN (
+    SELECT (p->>'orderId')::UUID FROM jsonb_array_elements(v_plan->'payments') p
+  ) ORDER BY o.id FOR UPDATE;
+  SELECT * INTO v_operation FROM public.customer_collection_operations WHERE id=p_operation_id FOR UPDATE;
+  SELECT jsonb_build_object('operation',to_jsonb(v_operation),'payments',
+    COALESCE((SELECT jsonb_agg(jsonb_build_object('link',to_jsonb(link),'paymentId',payment.id,
+      'orderId',payment.order_id,'shiftId',payment.cash_shift_id) ORDER BY payment.id)
+      FROM public.customer_collection_order_payments link
+      JOIN public.customer_payments payment ON payment.id=link.customer_payment_id
+      WHERE link.operation_id=v_operation.id),'[]'::JSONB)) INTO v_locked_plan;
+  IF v_locked_plan IS DISTINCT FROM v_plan THEN
+    RAISE EXCEPTION USING ERRCODE='40001',MESSAGE='COLLECTION_REVERSAL_LOCK_PLAN_CHANGED: تغيرت علاقات السند بعد الأقفال؛ أعد المحاولة.';
+  END IF;
+  IF v_operation.cash_shift_id IS NOT NULL AND NOT EXISTS (
+    SELECT 1 FROM public.cash_shifts WHERE id = v_operation.cash_shift_id AND status = 'open' FOR UPDATE) THEN
+    RAISE EXCEPTION 'لا يمكن عكس سند قبض مرتبط بوردية مغلقة؛ سجّل تسوية تدقيقية جديدة بدلاً من ذلك.';
+  END IF;
+  PERFORM set_config('nawasrah.collection_reversal', v_operation.id::TEXT, true);
+  FOR v_payment_id IN SELECT customer_payment_id FROM public.customer_collection_order_payments
+    WHERE operation_id = v_operation.id ORDER BY customer_payment_id
+  LOOP
+    PERFORM public.reverse_customer_order_payment(v_payment_id,
+      'عكس عملية تحصيل ' || v_operation.operation_number || ': ' || v_reason);
+  END LOOP;
+  PERFORM set_config('nawasrah.collection_reversal', '', true);
+  UPDATE public.customer_collection_operations
+  SET is_reversed = true, reversed_at = NOW(), reversed_by = v_user_id, reversal_reason = v_reason
+  WHERE id = v_operation.id RETURNING * INTO v_operation;
+  INSERT INTO public.audit_logs(user_id, action, entity_name, entity_id, details)
+  VALUES (v_user_id, 'CUSTOMER_UNIFIED_COLLECTION_REVERSED', 'customer_collection_operations', v_operation.id,
+    jsonb_build_object('operation_number', v_operation.operation_number, 'customer_id', v_operation.customer_id,
+      'amount_in_minor_units', v_operation.amount_in_minor_units, 'reason', v_reason));
+  RETURN public.go_live_collection_result_internal(v_operation.id) || jsonb_build_object('idempotentReplay', false);
+END;
+$function$;
+
 COMMIT;

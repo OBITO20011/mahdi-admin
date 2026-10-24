@@ -3,6 +3,10 @@
   "files": [
     {
       "code": " M",
+      "path": ".github/workflows/quality.yml"
+    },
+    {
+      "code": " M",
       "path": "docs/agent/project-state.json"
     },
     {
@@ -16,6 +20,18 @@
     {
       "code": " M",
       "path": "scripts/audit/run-table-access-diagnostic.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-handover213.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-owner-acl212.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-trial-owner-r.mjs"
     },
     {
       "code": " M",
@@ -42,12 +58,96 @@
       "path": "supabase/migrations/214_handover_z_corrections.sql"
     },
     {
+      "code": " M",
+      "path": "tests/all-customer-collections203.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/canonical-receivables197.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/cashier-collections198.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/cheques195-admission.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/go-live-integration164.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/handover-z-maps.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/handover213.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/historical-reset-source.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/opening-cheques196.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/product-integration171.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/product-receiving205.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/receipt210.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/sales-history204-evidence.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/supplier-replacement208-evidence.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-owner-a.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-owner-w.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-reset.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/withdrawals182-admission.test.ts"
+    },
+    {
       "code": "??",
-      "path": "docs/agent/HANDOVER_Z4_LOCAL.json"
+      "path": "docs/agent/HANDOVER_Z5_LOCAL.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/build-handover214-inverse.mjs"
     },
     {
       "code": "??",
       "path": "scripts/audit/enrich-service214-evidence.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/handover214-inverse.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-handover214.mjs"
     },
     {
       "code": "??",
@@ -75,7 +175,11 @@
     },
     {
       "code": "??",
-      "path": "scripts/testing/run-handover-z-shifts-runtime.mjs"
+      "path": "scripts/testing/run-handover214-gates.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/handover-z-locks.test.ts"
     }
   ]
 }

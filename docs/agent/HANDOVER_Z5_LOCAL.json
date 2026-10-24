@@ -1,0 +1,89 @@
+{
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-zcollections214-bOjnBu",
+  "managedAccess": false,
+  "cases": [
+    {
+      "direction": "reverse-first",
+      "outstanding": 190000,
+      "drawerIncrement": 10000,
+      "replayZeroWrites": true
+    },
+    {
+      "direction": "collect-first",
+      "outstanding": 190000,
+      "drawerIncrement": 10000,
+      "replayZeroWrites": true
+    },
+    {
+      "direction": "canonical-early-locks",
+      "outstanding": 190000,
+      "drawerIncrement": 10000,
+      "replayZeroWrites": true
+    },
+    {
+      "direction": "duplicate-reverse",
+      "outstanding": 200000,
+      "drawerIncrement": 0
+    },
+    {
+      "direction": "closed-shift",
+      "denied": true,
+      "unchangedFingerprint": true
+    }
+  ],
+  "races": [
+    {
+      "blockedByPostgres": true,
+      "blocked": [
+        {
+          "wait": "advisory",
+          "blockers": 1
+        }
+      ],
+      "deadlock": false,
+      "bothCommitted": true
+    },
+    {
+      "blockedByPostgres": true,
+      "blocked": [
+        {
+          "wait": "advisory",
+          "blockers": 1
+        }
+      ],
+      "deadlock": false,
+      "bothCommitted": true
+    },
+    {
+      "blockedByPostgres": true,
+      "blocked": [
+        {
+          "wait": "advisory",
+          "blockers": 1
+        }
+      ],
+      "deadlock": false,
+      "bothCommitted": true
+    },
+    {
+      "blockedByPostgres": true,
+      "blocked": [
+        {
+          "wait": "advisory",
+          "blockers": 1
+        }
+      ],
+      "deadlock": false,
+      "bothCommitted": true
+    }
+  ],
+  "ok": true,
+  "acceptance": {
+    "financialBodyByteIdenticalTo213": true,
+    "realPostgresLockWaits": 4,
+    "deadlocks": 0,
+    "mixedOpeningAndOrder": true,
+    "replayZeroWrites": true,
+    "closedShiftZeroWrites": true
+  }
+}

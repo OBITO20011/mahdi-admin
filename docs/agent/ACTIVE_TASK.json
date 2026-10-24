@@ -11,10 +11,11 @@
     "Z1 focused16/typecheck/strictlint pass;actual local EdgeHTTP42 denials and ownerAAL2create pass;original worktree disappeared,recovered exact source from own tool log",
     "Z1 saved/pusheda65bf52;Z2 DB8groups passed:10000roundtrip1000.6/1000.4,both sale kinds,fractional rounding,historicalfallback,replay0",
     "Z2saved1dfcf49;Z3actualSQL23,browser12bothengines,unit28,typesboth/strictfocusedlint/buildsSEO passed",
-    "Z3 saved/pushedbc46a42;Z4 actual4states passed:28allowedreads,56denials,fullfingerprintzero writes;pre-readcentralguard"
+    "Z3 saved/pushedbc46a42;Z4 actual4states passed:28allowedreads,56denials,fullfingerprintzero writes;pre-readcentralguard",
+    "Z4saved/pushed146d71b;Z5 actual5groups/4two-sessionraces passed,exactfinancialbody213unchanged,strictreplay/closedshiftzero writes"
   ],
   "inProgress": [
-    "Z5 ordering-only candidate and actual two-session race tests;214 reference/source proofs/fullCI infrastructure prepared"
+    "214 reference/source evidence/reset/strict owner upgrade/fullCI acceptance"
   ],
   "notStarted": [
     "Owner214 upgrade/strict verify;fullCI and final PR review"
@@ -39,9 +40,9 @@
     "One writing agent;commit+push after each completed item",
     "No Z merge authorization"
   ],
-  "nextExactAction": "Save Z4 and run Z5 actual collection/reversal races;214 local reference/fullCI pending",
-  "checkpointedAt": "2026-10-24T22:11:26.799Z",
-  "filesTouchedCount": 19,
-  "filesTouchedManifestSha256": "27dba0748c4b2df421c766c251f2840b693fdf12fb7b3dee79da830ce42fc85a",
-  "workingTreeFingerprint": "9B569153809D27878CF6C1D6AE921938502ED2B643797EE5E806DB7D478C34C9"
+  "nextExactAction": "Save Z5;214 local source proofs/reference/strict owner command and fullCI pending",
+  "checkpointedAt": "2026-10-24T22:15:15.983Z",
+  "filesTouchedCount": 45,
+  "filesTouchedManifestSha256": "c004f8c7ae6a2e0cd666038c6f9430970c2dee5c0200f33fa044a05c591357ab",
+  "workingTreeFingerprint": "C7F2F2792EA1A1A51B800B7E70AD0BD729F1B15EB963BD412B5A0B15808B64CB"
 }
