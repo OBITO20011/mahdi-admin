@@ -3,31 +3,23 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/operations/PREHANDOVER_AUDIT_AR.md"
+      "path": "docs/agent/HANDOVER_SECURITY_Y_AR.md"
     },
     {
       "code": " M",
-      "path": "docs/operations/PREHANDOVER_AUDIT_EVIDENCE.json"
+      "path": "docs/agent/HANDOVER_SECURITY_Y_LOCAL.json"
     },
     {
       "code": " M",
-      "path": "docs/operations/UNEXPOSED_RPC_REVIEW_AR.md"
+      "path": "scripts/audit/handover213-inverse.json"
     },
     {
       "code": " M",
-      "path": "scripts/testing/pre-handover/build-evidence.mjs"
+      "path": "scripts/operations/trial-reset-core.mjs"
     },
     {
       "code": " M",
-      "path": "tests/pre-handover-audit.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/pre-handover-evidence/legacy-receive.json"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/pre-handover/legacy-receive.mjs"
+      "path": "tests/handover213.test.ts"
     }
   ]
 }

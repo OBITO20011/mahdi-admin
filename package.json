@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --port=3000 --host=0.0.0.0",
+    "dev": "vite --port=3000 --host=127.0.0.1",
     "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
@@ -111,31 +111,27 @@
     "test:trial212:runtime": "node scripts/testing/run-trial212-runtime.mjs",
     "test:trial212:gates": "node scripts/testing/run-trial212-gates.mjs",
     "frankfurt-owner-upgrade212": "node scripts/operations/frankfurt-owner-upgrade212.mjs",
-    "frankfurt-owner-acl212": "node scripts/operations/frankfurt-owner-acl212.mjs"
+    "frankfurt-owner-acl212": "node scripts/operations/frankfurt-owner-acl212.mjs",
+    "dev:lan": "vite --port=3000 --host=0.0.0.0",
+    "frankfurt-owner-upgrade213": "node scripts/operations/frankfurt-owner-upgrade213.mjs",
+    "test:handover213:runtime": "node scripts/testing/run-handover213-runtime.mjs",
+    "test:handover213:gates": "node scripts/testing/run-handover213-gates.mjs"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1128.0",
     "@fontsource/ibm-plex-sans-arabic": "5.3.0",
-    "@google/genai": "^2.4.0",
     "@sentry/react": "^10.70.0",
     "@supabase/supabase-js": "^2.110.8",
-    "@tailwindcss/vite": "^4.1.14",
-    "@vitejs/plugin-react": "^5.0.4",
-    "dotenv": "^17.2.3",
-    "express": "^4.21.2",
     "html5-qrcode": "^2.3.8",
     "lucide-react": "^0.546.0",
     "motion": "^12.23.24",
     "react": "^19.0.1",
     "react-dom": "^19.0.1",
-    "recharts": "^3.10.0",
-    "vite": "^6.2.3"
+    "recharts": "^3.10.0"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.62.1",
-    "@types/express": "^4.17.21",
     "@types/node": "^22.14.0",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
@@ -151,6 +147,11 @@
     "tsx": "^4.21.0",
     "typescript": "~5.8.2",
     "typescript-eslint": "^8.67.0",
-    "vite": "^6.2.3"
+    "vite": "6.4.4",
+    "@aws-sdk/client-s3": "^3.1128.0",
+    "@google/genai": "^2.4.0",
+    "dotenv": "^17.2.3",
+    "@tailwindcss/vite": "^4.1.14",
+    "@vitejs/plugin-react": "^5.0.4"
   }
 }
