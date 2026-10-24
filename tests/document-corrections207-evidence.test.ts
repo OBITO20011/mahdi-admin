@@ -9,7 +9,7 @@ test('207 restores accepted C6 source/readiness exactly and refuses any unpinned
  assert.deepEqual(historical.sources,old.sourceHashes);assert.deepEqual(verifyProbeCoverage(historical,old.results),old.coverage);
  for(const [file,pin]of Object.entries(corrections207Pins) as Array<[string,{before:string|null;after:string;added?:boolean}]>){
   const current=readFileSync(file,'utf8'),restored=sourceBeforeCorrections207(file,current);
-  assert.throws(()=>sourceBeforeCorrections207(file,current+'\nvoid 207;\n'),/CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED/u);
+  assert.throws(()=>sourceBeforeCorrections207(file,current+'\nvoid 207;\n'),/CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED|HANDOVER214_UNREVIEWED_SOURCE/u);
   if(pin.added)assert.equal(restored,null);else assert.equal(createHash('sha256').update(restored!).digest('hex'),pin.before);
  }
 });

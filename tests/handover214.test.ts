@@ -6,6 +6,7 @@ import {createHash} from 'node:crypto';
 import {handover214Pins, sourceBeforeHandover214, pathsBeforeHandover214} from '../scripts/audit/source-before-handover214.mjs';
 import {assert214History, upgrade214Versions} from '../scripts/operations/frankfurt-owner-upgrade214.mjs';
 import {changed214Functions} from '../scripts/testing/handover214-contract.mjs';
+import {futureMigrationViolations} from '../scripts/testing/maintenance-db-contract.mjs';
 const read = (file: string) => readFileSync(file, 'utf8').replaceAll('\r\n', '\n');
 const hash = (text: string) => createHash('sha256').update(text).digest('hex');
 const baseline = '2c2dcacaa45b20ee83da6e67fddbac3ca749d808';
@@ -33,6 +34,9 @@ test('214 contains only the six named existing definitions; no grant or backfill
   const state = JSON.parse(read('docs/agent/project-state.json'));
   assert.equal(state.migrationCeiling, 214);
   assert.equal(state.migration214CanonicalLfSha256, hash(sql).toUpperCase());
+  assert.deepEqual(futureMigrationViolations(sql), []);
+  assert.ok(futureMigrationViolations(sql + '\n-- unreviewed bytes\n').includes('NEW_BEFORE_FUNCTION'));
+  assert.ok(futureMigrationViolations('CREATE OR REPLACE FUNCTION public.package_d_settle_sales_return_before_guard_internal() RETURNS int LANGUAGE sql AS $$ SELECT 1 $$;').includes('NEW_BEFORE_FUNCTION'));
 });
 test('214 upgrade accepts complete212/213/214 only; missing history and future versions fail closed', () => {
   const base = JSON.parse(read('docs/operations/TABLE_ACCESS_AFTER_212.json')).manifest.map((file: string) => file.slice(0, 3));

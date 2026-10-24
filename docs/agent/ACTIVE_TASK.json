@@ -40,9 +40,9 @@
     "One writing agent;commit+push after each completed item",
     "No Z merge authorization"
   ],
-  "nextExactAction": "214 full local gate running;refresh SDK evidence then exact-SHA FULL CI;all Z1-Z5 saved remotely",
-  "checkpointedAt": "2026-10-24T22:19:43.602Z",
-  "filesTouchedCount": 43,
-  "filesTouchedManifestSha256": "53e9617dfd28cd46f7783f13f3eb57467b00a7d43ad67d77441490ad848e6b4f",
-  "workingTreeFingerprint": "5AECBD7C7B951AE89E524ED98601D282154173C700332525655CC1AEA5649B5F"
+  "nextExactAction": "214 serial full local gate running;policy/source protections pass;SDK proof/reference/strict verification then exact-SHA FULLCI",
+  "checkpointedAt": "2026-10-24T22:26:58.632Z",
+  "filesTouchedCount": 8,
+  "filesTouchedManifestSha256": "3a152b9b81feb6e32d8dd98f3488552142e143187787487da9b1866c7acdfdb0",
+  "workingTreeFingerprint": "E9874860105CD69805F461455EB41D8A41E9B4E81E2AECC9E722B40F8384E75C"
 }

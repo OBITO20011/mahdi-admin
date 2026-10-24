@@ -3,175 +3,35 @@
   "files": [
     {
       "code": " M",
-      "path": ".github/workflows/quality.yml"
+      "path": "docs/agent/OWNER_DECISIONS.md"
     },
     {
       "code": " M",
-      "path": "docs/generated/DB_FUNCTIONS.md"
+      "path": "scripts/audit/handover214-inverse.json"
     },
     {
       "code": " M",
-      "path": "package.json"
+      "path": "scripts/testing/maintenance-db-contract.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/audit/run-service-access-diagnostic.mjs"
+      "path": "tests/document-corrections207-evidence.test.ts"
     },
     {
       "code": " M",
-      "path": "scripts/audit/run-table-access-diagnostic.mjs"
+      "path": "tests/handover-z-locks.test.ts"
     },
     {
       "code": " M",
-      "path": "scripts/audit/source-before-handover213.mjs"
+      "path": "tests/handover214.test.ts"
     },
     {
       "code": " M",
-      "path": "scripts/audit/source-before-owner-acl212.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/source-before-trial-owner-r.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-owner-build.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/trial-reset-core.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/historical-reset-source.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-handover213-gates.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-trial-reset-runtime.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/all-customer-collections203.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/canonical-receivables197.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/cashier-collections198.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/cheques195-admission.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/go-live-integration164.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/handover-z-maps.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/handover213.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/historical-reset-source.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/opening-cheques196.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/product-integration171.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/product-receiving205.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/receipt210.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/sales-history204-evidence.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/supplier-replacement208-evidence.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/trial-owner-a.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/trial-owner-w.test.ts"
+      "path": "tests/service-access-inventory.test.ts"
     },
     {
       "code": " M",
       "path": "tests/trial-reset.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/withdrawals182-admission.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/FRANKFURT_OWNER_UPGRADE214_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/build-handover214-inverse.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/enrich-service214-evidence.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/handover214-inverse.json"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/source-before-handover214.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/build-acl-reference214.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/frankfurt-owner-upgrade214.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/frankfurt-reference214.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/handover214-contract.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/run-handover-upgrade214-runtime.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/run-handover214-gates.mjs"
-    },
-    {
-      "code": "??",
-      "path": "tests/handover214.test.ts"
     }
   ]
 }
