@@ -1,3 +1,4 @@
+import {safeGoogleMapsUrl} from '../../utils/googleMaps';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   ArrowRight,
@@ -318,9 +319,9 @@ export const CustomerDetailView: React.FC<CustomerDetailViewProps> = ({
                       </p>
                     )}
                   </div>
-                  {address.googleMapsUrl ? (
+                  {safeGoogleMapsUrl(address.googleMapsUrl, address.latitude, address.longitude) ? (
                     <a
-                      href={address.googleMapsUrl}
+                      href={safeGoogleMapsUrl(address.googleMapsUrl, address.latitude, address.longitude)}
                       target="_blank"
                       rel="noreferrer"
                       className="shrink-0 rounded-lg bg-nw-info-bg px-2 py-1 text-[9px] font-bold text-nw-info"

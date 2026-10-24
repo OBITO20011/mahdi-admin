@@ -1582,4 +1582,57 @@ AS $function$
 $function$
 ;
 
+-- Z3: only exact official Google Maps hosts;historical rows untouched.
+CREATE OR REPLACE FUNCTION public.validate_customer_address_map_url()
+ RETURNS trigger
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'public', 'pg_temp'
+AS $function$
+DECLARE
+  v_url TEXT := NULLIF(TRIM(NEW.google_maps_url), '');
+  v_coordinates DOUBLE PRECISION[];
+BEGIN
+  IF v_url IS NULL THEN
+    RETURN NEW;
+  END IF;
+
+  IF CHAR_LENGTH(v_url) > 1000
+    OR v_url ~ '[[:space:][:cntrl:]]'
+    OR NOT (
+      v_url ~* '^https://(?:maps\.app\.goo\.gl|maps\.google\.com)(?:/|\?|#|$)'
+      OR v_url ~* '^https://goo\.gl/maps(?:/|\?|#|$)'
+      OR v_url ~* '^https://(?:www\.)?google\.com/maps(?:/|\?|#|$)'
+    )
+  THEN
+    RAISE EXCEPTION
+      'ألصق رابط مشاركة صحيحًا من خرائط Google لموقع التوصيل.';
+  END IF;
+
+  NEW.google_maps_url := v_url;
+
+  IF NEW.latitude IS NULL AND NEW.longitude IS NULL THEN
+    v_coordinates := public.extract_google_maps_coordinates(v_url);
+
+    IF v_coordinates IS NOT NULL THEN
+      NEW.latitude := v_coordinates[1];
+      NEW.longitude := v_coordinates[2];
+      NEW.location_source := 'map_pin';
+      NEW.location_confirmed := true;
+    END IF;
+  ELSIF NEW.latitude IS NOT NULL AND NEW.longitude IS NOT NULL THEN
+    IF NEW.latitude NOT BETWEEN -90 AND 90
+      OR NEW.longitude NOT BETWEEN -180 AND 180
+    THEN
+      RAISE EXCEPTION 'إحداثيات موقع التوصيل غير صحيحة.';
+    END IF;
+
+    NEW.location_confirmed := true;
+  END IF;
+
+  RETURN NEW;
+END;
+$function$
+;
+
 COMMIT;

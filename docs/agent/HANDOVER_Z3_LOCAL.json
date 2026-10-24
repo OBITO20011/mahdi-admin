@@ -1,0 +1,118 @@
+{
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-zmaps214-Vvum84",
+  "managedAccess": false,
+  "cases": [
+    {
+      "allowed": true,
+      "url": "https://maps.app.goo.gl/Abc"
+    },
+    {
+      "allowed": true,
+      "url": "https://goo.gl/maps/Abc"
+    },
+    {
+      "allowed": true,
+      "url": "https://maps.google.com/?q=32.55,35.85"
+    },
+    {
+      "allowed": true,
+      "url": "https://www.google.com/maps?q=32.55,35.85"
+    },
+    {
+      "allowed": true,
+      "url": "https://google.com/maps/place/Ramtha"
+    },
+    {
+      "allowed": true,
+      "url": "https://MAPS.GOOGLE.COM/"
+    },
+    {
+      "allowed": false,
+      "url": "https://maps.google.evil.example/?q=32.55,35.85"
+    },
+    {
+      "allowed": false,
+      "url": "https://google.evil.example/maps"
+    },
+    {
+      "allowed": false,
+      "url": "https://www.google.evil.example/maps"
+    },
+    {
+      "allowed": false,
+      "url": "https://maps.app.goo.gl.evil.example/"
+    },
+    {
+      "allowed": false,
+      "url": "https://maps.google.com@evil.example/"
+    },
+    {
+      "allowed": false,
+      "url": "https://evil.example@maps.google.com/"
+    },
+    {
+      "allowed": false,
+      "url": "http://maps.google.com/"
+    },
+    {
+      "allowed": false,
+      "url": "https://google.com/mapsEvil"
+    },
+    {
+      "allowed": false,
+      "url": "https://goo.gl/mapsEvil"
+    },
+    {
+      "allowed": false,
+      "url": "https://maps.google.com:444/"
+    },
+    {
+      "allowed": false,
+      "url": "https://maps.google.com:443/"
+    },
+    {
+      "allowed": false,
+      "url": "https://maps.google.com./"
+    },
+    {
+      "allowed": false,
+      "url": "https://maps.google.com\\@evil.example/"
+    },
+    {
+      "allowed": false,
+      "url": "https://google.com/other"
+    },
+    {
+      "allowed": false,
+      "url": "javascript:alert(1)"
+    },
+    {
+      "allowed": false,
+      "url": "https://maps.google.com/with space"
+    },
+    {
+      "allowed": false,
+      "url": "https://maps.google.com/\n?q=1,2"
+    }
+  ],
+  "oldSavedInvalidUrlUntouched": true,
+  "ok": true,
+  "browser": {
+    "expected": 12,
+    "unexpected": 0,
+    "flaky": 0,
+    "engines": [
+      "Chromium",
+      "WebKit"
+    ],
+    "widths": [
+      390,
+      1440
+    ]
+  },
+  "unitPass": 28,
+  "adminTypes": true,
+  "storeTypes": true,
+  "focusedStrictLint": true,
+  "bothBuildsAndIsolatedSeo": true
+}

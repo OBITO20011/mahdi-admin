@@ -1,3 +1,5 @@
+import {isSupportedGoogleMapsUrl} from './googleMaps';
+export {isSupportedGoogleMapsUrl} from './googleMaps';
 import {storefrontCartUnit} from './storefrontUnits';
 import { CartItem } from '../types/catalog';
 import {
@@ -77,29 +79,6 @@ export function buildGoogleMapsUrl(
   )},${longitude.toFixed(6)}`;
 }
 
-export function isSupportedGoogleMapsUrl(value: string): boolean {
-  try {
-    const url = new URL(value.trim());
-    if (url.protocol !== 'https:') return false;
-
-    const host = url.hostname.toLowerCase();
-    const path = url.pathname.toLowerCase();
-    if (host === 'maps.app.goo.gl') return true;
-    if (host === 'goo.gl') return path.startsWith('/maps');
-    if (host === 'maps.google.com' || host.startsWith('maps.google.')) {
-      return true;
-    }
-    return (
-      (host === 'google.com' ||
-        host === 'www.google.com' ||
-        /^www\.google\.[a-z.]+$/.test(host) ||
-        /^google\.[a-z.]+$/.test(host)) &&
-      path.startsWith('/maps')
-    );
-  } catch {
-    return false;
-  }
-}
 
 export interface GoogleMapsCoordinates {
   latitude: number;

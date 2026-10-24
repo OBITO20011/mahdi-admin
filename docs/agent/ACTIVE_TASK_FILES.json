@@ -3,27 +3,67 @@
   "files": [
     {
       "code": " M",
+      "path": "customer-web/src/components/CheckoutModal.tsx"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/utils/checkout.ts"
+    },
+    {
+      "code": " M",
       "path": "docs/agent/project-state.json"
     },
     {
       "code": " M",
-      "path": "scripts/agent/lib.mjs"
+      "path": "src/features/crm/CustomerDetailView.tsx"
     },
     {
       "code": " M",
-      "path": "scripts/agent/preflight.mjs"
+      "path": "src/features/orders/CustomerLocationCard.tsx"
     },
     {
-      "code": "??",
-      "path": "docs/agent/HANDOVER_Z2_LOCAL.json"
+      "code": " M",
+      "path": "src/services/supabase/crm.service.ts"
     },
     {
-      "code": "??",
-      "path": "scripts/testing/run-handover-z214-runtime.mjs"
+      "code": " M",
+      "path": "src/services/supabase/orders.service.ts"
     },
     {
-      "code": "??",
+      "code": " M",
       "path": "supabase/migrations/214_handover_z_corrections.sql"
+    },
+    {
+      "code": "??",
+      "path": "customer-web/src/utils/googleMaps.ts"
+    },
+    {
+      "code": "??",
+      "path": "docs/agent/HANDOVER_Z3_LOCAL.json"
+    },
+    {
+      "code": "??",
+      "path": "e2e/handover-z-maps-harness.html"
+    },
+    {
+      "code": "??",
+      "path": "e2e/handover-z-maps-harness.tsx"
+    },
+    {
+      "code": "??",
+      "path": "e2e/handover-z-maps.spec.ts"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-handover-z-maps-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "src/utils/googleMaps.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/handover-z-maps.test.ts"
     }
   ]
 }
