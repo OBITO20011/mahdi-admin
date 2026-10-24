@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-10-24T17:17:59.516Z",
+  "startedAt": "2026-10-24T18:15:19.220Z",
   "managedAccess": false,
   "migrationCeiling": 213,
   "manifest": [
@@ -180,7 +180,7 @@
     "212_trial_readable_cash_product_choices_damage_history.sql",
     "213_handover_security_hardening.sql"
   ],
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-gq4pqn",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-pCy3W9",
   "stage": "rls-and-acl",
   "results": [
     {
@@ -208,7 +208,7 @@
           "method": "eq",
           "args": [
             "id",
-            "3190d3ea-0861-4a40-be6d-60883d6b9371"
+            "89e58376-697f-4a23-9ce4-dde3cfebaec5"
           ]
         },
         {
@@ -243,7 +243,7 @@
           "method": "eq",
           "args": [
             "id",
-            "3190d3ea-0861-4a40-be6d-60883d6b9371"
+            "89e58376-697f-4a23-9ce4-dde3cfebaec5"
           ]
         },
         {
@@ -278,7 +278,7 @@
           "method": "eq",
           "args": [
             "id",
-            "3190d3ea-0861-4a40-be6d-60883d6b9371"
+            "89e58376-697f-4a23-9ce4-dde3cfebaec5"
           ]
         },
         {
@@ -313,7 +313,7 @@
           "method": "eq",
           "args": [
             "id",
-            "3190d3ea-0861-4a40-be6d-60883d6b9371"
+            "89e58376-697f-4a23-9ce4-dde3cfebaec5"
           ]
         },
         {
@@ -348,7 +348,7 @@
           "method": "eq",
           "args": [
             "id",
-            "3190d3ea-0861-4a40-be6d-60883d6b9371"
+            "89e58376-697f-4a23-9ce4-dde3cfebaec5"
           ]
         },
         {
@@ -383,7 +383,7 @@
           "method": "eq",
           "args": [
             "id",
-            "3190d3ea-0861-4a40-be6d-60883d6b9371"
+            "89e58376-697f-4a23-9ce4-dde3cfebaec5"
           ]
         },
         {
@@ -418,7 +418,7 @@
           "method": "eq",
           "args": [
             "id",
-            "704750de-cee4-4964-88e2-cc374070d1f3"
+            "7d831422-64d5-47fa-8fae-dbb8d53349ae"
           ]
         },
         {
@@ -453,7 +453,7 @@
           "method": "eq",
           "args": [
             "id",
-            "704750de-cee4-4964-88e2-cc374070d1f3"
+            "7d831422-64d5-47fa-8fae-dbb8d53349ae"
           ]
         },
         {
@@ -488,7 +488,7 @@
           "method": "eq",
           "args": [
             "id",
-            "704750de-cee4-4964-88e2-cc374070d1f3"
+            "7d831422-64d5-47fa-8fae-dbb8d53349ae"
           ]
         },
         {
@@ -721,7 +721,7 @@
           "method": "eq",
           "args": [
             "id",
-            "c88b2391-ff31-4211-a1e0-d5d720c9ce6e"
+            "6e3dd852-a8f2-494c-97af-cb410a07f6dd"
           ]
         },
         {
@@ -756,7 +756,7 @@
           "method": "eq",
           "args": [
             "id",
-            "c88b2391-ff31-4211-a1e0-d5d720c9ce6e"
+            "6e3dd852-a8f2-494c-97af-cb410a07f6dd"
           ]
         },
         {
@@ -791,7 +791,7 @@
           "method": "eq",
           "args": [
             "id",
-            "c88b2391-ff31-4211-a1e0-d5d720c9ce6e"
+            "6e3dd852-a8f2-494c-97af-cb410a07f6dd"
           ]
         },
         {
@@ -826,7 +826,7 @@
           "method": "eq",
           "args": [
             "id",
-            "74947629-f68c-42b7-9196-f4a3ce800917"
+            "9e6dbd7b-2767-4356-9975-492b785e9377"
           ]
         },
         {
@@ -861,7 +861,7 @@
           "method": "eq",
           "args": [
             "id",
-            "74947629-f68c-42b7-9196-f4a3ce800917"
+            "9e6dbd7b-2767-4356-9975-492b785e9377"
           ]
         },
         {
@@ -896,7 +896,7 @@
           "method": "eq",
           "args": [
             "id",
-            "74947629-f68c-42b7-9196-f4a3ce800917"
+            "9e6dbd7b-2767-4356-9975-492b785e9377"
           ]
         },
         {
@@ -931,7 +931,7 @@
           "method": "eq",
           "args": [
             "id",
-            "c88b2391-ff31-4211-a1e0-d5d720c9ce6e"
+            "6e3dd852-a8f2-494c-97af-cb410a07f6dd"
           ]
         },
         {
@@ -966,7 +966,7 @@
           "method": "eq",
           "args": [
             "id",
-            "c88b2391-ff31-4211-a1e0-d5d720c9ce6e"
+            "6e3dd852-a8f2-494c-97af-cb410a07f6dd"
           ]
         },
         {
@@ -1001,7 +1001,7 @@
           "method": "eq",
           "args": [
             "id",
-            "c88b2391-ff31-4211-a1e0-d5d720c9ce6e"
+            "6e3dd852-a8f2-494c-97af-cb410a07f6dd"
           ]
         },
         {
@@ -1532,7 +1532,7 @@
           "args": [
             "id",
             [
-              "3190d3ea-0861-4a40-be6d-60883d6b9371"
+              "89e58376-697f-4a23-9ce4-dde3cfebaec5"
             ]
           ]
         }
@@ -1565,7 +1565,7 @@
           "args": [
             "id",
             [
-              "3190d3ea-0861-4a40-be6d-60883d6b9371"
+              "89e58376-697f-4a23-9ce4-dde3cfebaec5"
             ]
           ]
         }
@@ -1598,7 +1598,7 @@
           "args": [
             "id",
             [
-              "3190d3ea-0861-4a40-be6d-60883d6b9371"
+              "89e58376-697f-4a23-9ce4-dde3cfebaec5"
             ]
           ]
         }
@@ -1631,7 +1631,7 @@
           "args": [
             "order_id",
             [
-              "3190d3ea-0861-4a40-be6d-60883d6b9371"
+              "89e58376-697f-4a23-9ce4-dde3cfebaec5"
             ]
           ]
         },
@@ -1697,7 +1697,7 @@
           "args": [
             "order_id",
             [
-              "3190d3ea-0861-4a40-be6d-60883d6b9371"
+              "89e58376-697f-4a23-9ce4-dde3cfebaec5"
             ]
           ]
         },
@@ -1763,7 +1763,7 @@
           "args": [
             "order_id",
             [
-              "3190d3ea-0861-4a40-be6d-60883d6b9371"
+              "89e58376-697f-4a23-9ce4-dde3cfebaec5"
             ]
           ]
         },
@@ -1828,7 +1828,7 @@
           "method": "eq",
           "args": [
             "id",
-            "3190d3ea-0861-4a40-be6d-60883d6b9371"
+            "89e58376-697f-4a23-9ce4-dde3cfebaec5"
           ]
         },
         {
@@ -1863,7 +1863,7 @@
           "method": "eq",
           "args": [
             "id",
-            "3190d3ea-0861-4a40-be6d-60883d6b9371"
+            "89e58376-697f-4a23-9ce4-dde3cfebaec5"
           ]
         },
         {
@@ -1898,7 +1898,7 @@
           "method": "eq",
           "args": [
             "id",
-            "3190d3ea-0861-4a40-be6d-60883d6b9371"
+            "89e58376-697f-4a23-9ce4-dde3cfebaec5"
           ]
         },
         {
@@ -1933,7 +1933,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "3190d3ea-0861-4a40-be6d-60883d6b9371"
+            "89e58376-697f-4a23-9ce4-dde3cfebaec5"
           ]
         },
         {
@@ -1970,7 +1970,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "3190d3ea-0861-4a40-be6d-60883d6b9371"
+            "89e58376-697f-4a23-9ce4-dde3cfebaec5"
           ]
         },
         {
@@ -2007,7 +2007,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "3190d3ea-0861-4a40-be6d-60883d6b9371"
+            "89e58376-697f-4a23-9ce4-dde3cfebaec5"
           ]
         },
         {
@@ -2045,7 +2045,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "c4d6aba4-ea71-4a7d-b164-d57de366d727"
+              "ed42b642-522b-4113-8eca-6fa065f8b4e0"
             ]
           ]
         }
@@ -2078,7 +2078,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "c4d6aba4-ea71-4a7d-b164-d57de366d727"
+              "ed42b642-522b-4113-8eca-6fa065f8b4e0"
             ]
           ]
         }
@@ -2111,7 +2111,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "c4d6aba4-ea71-4a7d-b164-d57de366d727"
+              "ed42b642-522b-4113-8eca-6fa065f8b4e0"
             ]
           ]
         }
@@ -3979,7 +3979,7 @@
           "method": "eq",
           "args": [
             "id",
-            "74947629-f68c-42b7-9196-f4a3ce800917"
+            "9e6dbd7b-2767-4356-9975-492b785e9377"
           ]
         },
         {
@@ -4014,7 +4014,7 @@
           "method": "eq",
           "args": [
             "id",
-            "74947629-f68c-42b7-9196-f4a3ce800917"
+            "9e6dbd7b-2767-4356-9975-492b785e9377"
           ]
         },
         {
@@ -4049,7 +4049,7 @@
           "method": "eq",
           "args": [
             "id",
-            "74947629-f68c-42b7-9196-f4a3ce800917"
+            "9e6dbd7b-2767-4356-9975-492b785e9377"
           ]
         },
         {
@@ -5736,7 +5736,7 @@
             {
               "event_key": "audit-local-dispatch",
               "event_type": "new_order",
-              "entity_id": "3190d3ea-0861-4a40-be6d-60883d6b9371",
+              "entity_id": "89e58376-697f-4a23-9ce4-dde3cfebaec5",
               "status": "processing"
             }
           ]
@@ -5769,7 +5769,7 @@
           "method": "eq",
           "args": [
             "id",
-            "3190d3ea-0861-4a40-be6d-60883d6b9371"
+            "89e58376-697f-4a23-9ce4-dde3cfebaec5"
           ]
         },
         {
@@ -5808,7 +5808,7 @@
               "status": "failed",
               "failed_count": 1,
               "last_error": "isolated diagnostic",
-              "completed_at": "2026-10-24T17:19:52.007Z"
+              "completed_at": "2026-10-24T18:17:03.263Z"
             }
           ]
         },
@@ -5844,7 +5844,7 @@
               "status": "failed",
               "failed_count": 1,
               "last_error": "isolated diagnostic",
-              "completed_at": "2026-10-24T17:19:52.016Z"
+              "completed_at": "2026-10-24T18:17:03.294Z"
             }
           ]
         },
@@ -5878,9 +5878,9 @@
           "args": [
             {
               "failure_count": 0,
-              "last_success_at": "2026-10-24T17:19:52.039Z",
+              "last_success_at": "2026-10-24T18:17:03.324Z",
               "last_failure_message": null,
-              "updated_at": "2026-10-24T17:19:52.039Z"
+              "updated_at": "2026-10-24T18:17:03.324Z"
             }
           ]
         },
@@ -5915,9 +5915,9 @@
             {
               "is_active": false,
               "failure_count": 1,
-              "last_failure_at": "2026-10-24T17:19:52.056Z",
+              "last_failure_at": "2026-10-24T18:17:03.344Z",
               "last_failure_message": "isolated diagnostic",
-              "updated_at": "2026-10-24T17:19:52.056Z"
+              "updated_at": "2026-10-24T18:17:03.344Z"
             }
           ]
         },
@@ -5954,7 +5954,7 @@
               "delivered_count": 1,
               "failed_count": 0,
               "last_error": null,
-              "completed_at": "2026-10-24T17:19:52.075Z"
+              "completed_at": "2026-10-24T18:17:03.372Z"
             }
           ]
         },
@@ -48843,7 +48843,7 @@
         "owner": "postgres",
         "schema": "public",
         "identity": "track_guest_order(p_order_number text, p_customer_phone text)",
-        "definition": "CREATE OR REPLACE FUNCTION public.track_guest_order(p_order_number text, p_customer_phone text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nDECLARE\n v_phone TEXT:=CASE WHEN char_length(p_customer_phone)<=64\n  THEN public.normalize_customer_phone(p_customer_phone) ELSE NULL END;\n v_order_id UUID;v_now TIMESTAMPTZ:=clock_timestamp();v_window TIMESTAMPTZ;\n v_headers JSONB;v_network TEXT;v_hash TEXT;v_phone_hash TEXT;\n v_lock TEXT;v_attempts INTEGER;\nBEGIN\n IF auth.role()='anon' THEN\n  -- REST request metadata is only an additional signal. The normalized-phone\n  -- bucket always applies, so rotating order numbers/network headers cannot\n  -- evade the per-phone guessing bound.\n  BEGIN v_headers:=NULLIF(current_setting('request.headers',true),'')::JSONB;\n  EXCEPTION WHEN OTHERS THEN v_headers:='{}'::JSONB;END;\n  v_network:=left(COALESCE(NULLIF(v_headers->>'cf-connecting-ip',''),\n   NULLIF(split_part(v_headers->>'x-forwarded-for',',',1),''),'unknown'),256);\n  v_hash:=encode(sha256(convert_to(trim(v_network),'UTF8')),'hex');\n  v_phone_hash:=encode(sha256(convert_to(CASE WHEN v_phone ~ '^07[789][0-9]{7}$'\n   THEN v_phone ELSE 'invalid' END,'UTF8')),'hex');\n  FOR v_lock IN SELECT value FROM unnest(ARRAY['tracking213:network:'||v_hash,\n   'tracking213:phone:'||v_phone_hash]) value ORDER BY value\n  LOOP PERFORM pg_advisory_xact_lock(hashtextextended(v_lock,0));END LOOP;\n  v_now:=clock_timestamp();\n  v_window:=to_timestamp(floor(extract(epoch FROM v_now)/600)*600);\n  INSERT INTO public.guest_order_tracking_limits(scope,identifier_hash,window_started_at,attempts,last_seen_at)\n   VALUES('network',v_hash,v_window,1,v_now)\n   ON CONFLICT(scope,identifier_hash) DO UPDATE SET\n    attempts=CASE WHEN guest_order_tracking_limits.window_started_at=EXCLUDED.window_started_at\n     THEN LEAST(guest_order_tracking_limits.attempts+1,121) ELSE 1 END,\n    window_started_at=EXCLUDED.window_started_at,last_seen_at=EXCLUDED.last_seen_at\n   RETURNING attempts INTO v_attempts;\n  IF v_attempts>120 THEN RETURN jsonb_build_object('success',false,\n   'message','محاولات متابعة كثيرة. انتظر بضع دقائق ثم أعد المحاولة، أو استخدم رابط متابعة الطلب.');END IF;\n  INSERT INTO public.guest_order_tracking_limits(scope,identifier_hash,window_started_at,attempts,last_seen_at)\n   VALUES('phone',v_phone_hash,v_window,1,v_now)\n   ON CONFLICT(scope,identifier_hash) DO UPDATE SET\n    attempts=CASE WHEN guest_order_tracking_limits.window_started_at=EXCLUDED.window_started_at\n     THEN LEAST(guest_order_tracking_limits.attempts+1,31) ELSE 1 END,\n    window_started_at=EXCLUDED.window_started_at,last_seen_at=EXCLUDED.last_seen_at\n   RETURNING attempts INTO v_attempts;\n  IF v_attempts>30 THEN RETURN jsonb_build_object('success',false,\n   'message','محاولات متابعة كثيرة. انتظر بضع دقائق ثم أعد المحاولة، أو استخدم رابط متابعة الطلب.');END IF;\n  DELETE FROM public.guest_order_tracking_limits WHERE ctid IN(\n   SELECT ctid FROM public.guest_order_tracking_limits\n    WHERE last_seen_at<v_now-INTERVAL '1 day' ORDER BY last_seen_at\n    LIMIT 100 FOR UPDATE SKIP LOCKED);\n END IF;\n IF NULLIF(trim(p_order_number),'') IS NULL OR char_length(trim(p_order_number))>40\n  OR v_phone IS NULL OR v_phone !~ '^07[789][0-9]{7}$' THEN\n  RETURN jsonb_build_object('success',false,'message','لم نعثر على طلب مطابق لرقم الطلب والهاتف.');\n END IF;\n SELECT o.id INTO v_order_id FROM public.orders o JOIN public.customers c ON c.id=o.customer_id\n  WHERE upper(o.order_number)=upper(trim(p_order_number))\n   AND public.normalize_customer_phone(c.phone)=v_phone AND o.source='website' LIMIT 1;\n IF NOT FOUND THEN RETURN jsonb_build_object('success',false,\n  'message','لم نعثر على طلب مطابق لرقم الطلب والهاتف.');END IF;\n RETURN public.build_public_order_tracking_payload(v_order_id);\nEND;$function$\n",
+        "definition": "CREATE OR REPLACE FUNCTION public.track_guest_order(p_order_number text, p_customer_phone text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nDECLARE\n v_phone TEXT:=CASE WHEN char_length(p_customer_phone)<=64\n  THEN public.normalize_customer_phone(p_customer_phone) ELSE NULL END;\n v_order_id UUID;v_now TIMESTAMPTZ:=clock_timestamp();v_window TIMESTAMPTZ;\n v_headers JSONB;v_network TEXT;v_hash TEXT;v_phone_hash TEXT;\n v_lock TEXT;v_attempts INTEGER;\nBEGIN\n -- SECURITY DEFINER changes current_user; the SET ROLE GUC retains the API role.\n IF auth.role()='anon' OR current_setting('role',true)='anon' THEN\n  -- REST request metadata is only an additional signal. The normalized-phone\n  -- bucket always applies, so rotating order numbers/network headers cannot\n  -- evade the per-phone guessing bound.\n  BEGIN v_headers:=NULLIF(current_setting('request.headers',true),'')::JSONB;\n  EXCEPTION WHEN OTHERS THEN v_headers:='{}'::JSONB;END;\n  v_network:=left(COALESCE(NULLIF(v_headers->>'cf-connecting-ip',''),\n   NULLIF(split_part(v_headers->>'x-forwarded-for',',',1),''),'unknown'),256);\n  v_hash:=encode(sha256(convert_to(trim(v_network),'UTF8')),'hex');\n  v_phone_hash:=encode(sha256(convert_to(CASE WHEN v_phone ~ '^07[789][0-9]{7}$'\n   THEN v_phone ELSE 'invalid' END,'UTF8')),'hex');\n\n  FOR v_lock IN SELECT value FROM unnest(ARRAY['tracking213:network:'||v_hash,\n   'tracking213:phone:'||v_phone_hash]) value ORDER BY value\n  LOOP PERFORM pg_advisory_xact_lock(hashtextextended(v_lock,0));END LOOP;\n  v_now:=clock_timestamp();\n  v_window:=to_timestamp(floor(extract(epoch FROM v_now)/600)*600);\n  INSERT INTO public.guest_order_tracking_limits(scope,identifier_hash,window_started_at,attempts,last_seen_at)\n   VALUES('network',v_hash,v_window,1,v_now)\n   ON CONFLICT(scope,identifier_hash) DO UPDATE SET\n    attempts=CASE WHEN guest_order_tracking_limits.window_started_at=EXCLUDED.window_started_at\n     THEN LEAST(guest_order_tracking_limits.attempts+1,121) ELSE 1 END,\n    window_started_at=EXCLUDED.window_started_at,last_seen_at=EXCLUDED.last_seen_at\n   RETURNING attempts INTO v_attempts;\n  IF v_attempts>120 THEN RETURN jsonb_build_object('success',false,\n   'message','محاولات متابعة كثيرة. انتظر بضع دقائق ثم أعد المحاولة، أو استخدم رابط متابعة الطلب.');END IF;\n  INSERT INTO public.guest_order_tracking_limits(scope,identifier_hash,window_started_at,attempts,last_seen_at)\n   VALUES('phone',v_phone_hash,v_window,1,v_now)\n   ON CONFLICT(scope,identifier_hash) DO UPDATE SET\n    attempts=CASE WHEN guest_order_tracking_limits.window_started_at=EXCLUDED.window_started_at\n     THEN LEAST(guest_order_tracking_limits.attempts+1,31) ELSE 1 END,\n    window_started_at=EXCLUDED.window_started_at,last_seen_at=EXCLUDED.last_seen_at\n   RETURNING attempts INTO v_attempts;\n  IF v_attempts>30 THEN RETURN jsonb_build_object('success',false,\n   'message','محاولات متابعة كثيرة. انتظر بضع دقائق ثم أعد المحاولة، أو استخدم رابط متابعة الطلب.');END IF;\n  DELETE FROM public.guest_order_tracking_limits WHERE ctid IN(\n   SELECT ctid FROM public.guest_order_tracking_limits\n    WHERE last_seen_at<v_now-INTERVAL '1 day' ORDER BY last_seen_at\n    LIMIT 100 FOR UPDATE SKIP LOCKED);\n END IF;\n IF NULLIF(trim(p_order_number),'') IS NULL OR char_length(trim(p_order_number))>40\n  OR v_phone IS NULL OR v_phone !~ '^07[789][0-9]{7}$' THEN\n  RETURN jsonb_build_object('success',false,'message','لم نعثر على طلب مطابق لرقم الطلب والهاتف.');\n END IF;\n SELECT o.id INTO v_order_id FROM public.orders o JOIN public.customers c ON c.id=o.customer_id\n  WHERE upper(o.order_number)=upper(trim(p_order_number))\n   AND public.normalize_customer_phone(c.phone)=v_phone AND o.source='website' LIMIT 1;\n IF NOT FOUND THEN RETURN jsonb_build_object('success',false,\n  'message','لم نعثر على طلب مطابق لرقم الطلب والهاتف.');END IF;\n RETURN public.build_public_order_tracking_payload(v_order_id);\nEND;$function$\n",
         "configuration": [
           "search_path=public, pg_temp"
         ]
@@ -71017,13 +71017,13 @@
     }
   ],
   "fixture": {
-    "orderId": "3190d3ea-0861-4a40-be6d-60883d6b9371",
-    "operationId": "704750de-cee4-4964-88e2-cc374070d1f3",
-    "receiptId": "c88b2391-ff31-4211-a1e0-d5d720c9ce6e",
-    "poId": "74947629-f68c-42b7-9196-f4a3ce800917",
+    "orderId": "89e58376-697f-4a23-9ce4-dde3cfebaec5",
+    "operationId": "7d831422-64d5-47fa-8fae-dbb8d53349ae",
+    "receiptId": "6e3dd852-a8f2-494c-97af-cb410a07f6dd",
+    "poId": "9e6dbd7b-2767-4356-9975-492b785e9377",
     "subscriptionId": "92600000-0000-4000-8000-000000000701",
     "instances": [
-      "c4d6aba4-ea71-4a7d-b164-d57de366d727"
+      "ed42b642-522b-4113-8eca-6fa065f8b4e0"
     ]
   },
   "access": [
@@ -73609,9 +73609,9 @@
       "visible": [
         {
           "appRole": "service_role",
-          "sqlstate": "other_error",
+          "sqlstate": "42501",
           "rows": null,
-          "outcome": "other_error"
+          "outcome": "permission_denied"
         }
       ]
     },
@@ -76785,5 +76785,5 @@
     "zero_rows": 0,
     "other_error": 0
   },
-  "endedAt": "2026-10-24T17:26:20.330Z"
+  "endedAt": "2026-10-24T18:19:32.780Z"
 }

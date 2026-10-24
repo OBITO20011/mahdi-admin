@@ -7,39 +7,15 @@
     },
     {
       "code": " M",
-      "path": "docs/agent/project-state.json"
+      "path": "docs/operations/TABLE_ACCESS_AFTER_213.json"
     },
     {
-      "code": " M",
-      "path": "docs/generated/DB_FUNCTIONS.md"
+      "code": "??",
+      "path": "docs/agent/HANDOVER_SECURITY_Y_DB.json"
     },
     {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/handover213-inverse.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/source-before-handover213.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-handover213-runtime.mjs"
-    },
-    {
-      "code": " M",
-      "path": "supabase/migrations/213_handover_security_hardening.sql"
+      "code": "??",
+      "path": "docs/agent/HANDOVER_SECURITY_Y_LOCAL.json"
     }
   ]
 }

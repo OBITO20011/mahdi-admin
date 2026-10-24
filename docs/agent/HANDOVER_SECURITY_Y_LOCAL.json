@@ -1,0 +1,57 @@
+{
+  "status": "LOCAL_PARTIAL_NOT_DELIVERY",
+  "recordedAt": "2026-10-24T18:20:20.606Z",
+  "migration213Sha256": "9748c01d4d55703d8586901146420f5232534034993cf8f9ba049ba05ece2b48",
+  "database": {
+    "actualLocal": true,
+    "cases": 74,
+    "zeroBusinessWritesForDeniedLegacy": true,
+    "anonWithoutClaimsThrottled": true
+  },
+  "table": {
+    "queries": 154,
+    "errors": 0,
+    "proofSha256": "cf43ce97d6e962b5f07f7a561e757ef6c2a2213dc5b2b232e8632e09d17772fb"
+  },
+  "checks": {
+    "typecheck": true,
+    "strictLint": true,
+    "storeUnitPass": 197,
+    "focusedUnitPass": 21,
+    "buildAdmin": true,
+    "buildStoreIsolatedSeo": true,
+    "pwa": [
+      {
+        "browser": "Chromium",
+        "scenario": "automatic",
+        "ok": true
+      },
+      {
+        "browser": "Chromium",
+        "scenario": "waiting-worker",
+        "ok": true
+      },
+      {
+        "browser": "WebKit",
+        "scenario": "automatic",
+        "ok": true
+      },
+      {
+        "browser": "WebKit",
+        "scenario": "waiting-worker",
+        "ok": true
+      }
+    ],
+    "pwaEscapedExternalRequests": 0,
+    "productionAuditAdmin": 0,
+    "productionAuditStore": 0,
+    "edgeFrozenGraphs": 5
+  },
+  "pending": [
+    "Fresh/incremental213 reference",
+    "Actual Storage HTTP/reset213",
+    "Final all Admin units and feature PR FULL44/Gitleaks"
+  ],
+  "hostedAccess": false,
+  "deployment": false
+}

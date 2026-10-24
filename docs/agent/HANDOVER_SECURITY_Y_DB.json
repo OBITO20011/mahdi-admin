@@ -1,0 +1,3875 @@
+{
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-handover213-7TBZ5G",
+  "managedAccess": false,
+  "cases": [
+    {
+      "name": "Literal213 exact approved catalog delta and zero business/sequence writes",
+      "passed": true
+    },
+    {
+      "name": "owner:receive_inventory",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner:create_product_with_opening_stock",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner:create_product_with_opening_stock_v2",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner:create_product_with_opening_stock_v3",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner:enforce_product_flavor_inheritance",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner:sync_product_flavor_commercial_settings",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "admin:receive_inventory",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "admin:create_product_with_opening_stock",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "admin:create_product_with_opening_stock_v2",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "admin:create_product_with_opening_stock_v3",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "admin:enforce_product_flavor_inheritance",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "admin:sync_product_flavor_commercial_settings",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "manager:receive_inventory",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "manager:create_product_with_opening_stock",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "manager:create_product_with_opening_stock_v2",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "manager:create_product_with_opening_stock_v3",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "manager:enforce_product_flavor_inheritance",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "manager:sync_product_flavor_commercial_settings",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "warehouse_keeper:receive_inventory",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "warehouse_keeper:create_product_with_opening_stock",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "warehouse_keeper:create_product_with_opening_stock_v2",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "warehouse_keeper:create_product_with_opening_stock_v3",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "warehouse_keeper:enforce_product_flavor_inheritance",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "warehouse_keeper:sync_product_flavor_commercial_settings",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "cashier:receive_inventory",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "cashier:create_product_with_opening_stock",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "cashier:create_product_with_opening_stock_v2",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "cashier:create_product_with_opening_stock_v3",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "cashier:enforce_product_flavor_inheritance",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "cashier:sync_product_flavor_commercial_settings",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "accountant:receive_inventory",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "accountant:create_product_with_opening_stock",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "accountant:create_product_with_opening_stock_v2",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "accountant:create_product_with_opening_stock_v3",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "accountant:enforce_product_flavor_inheritance",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "accountant:sync_product_flavor_commercial_settings",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "viewer:receive_inventory",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "viewer:create_product_with_opening_stock",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "viewer:create_product_with_opening_stock_v2",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "viewer:create_product_with_opening_stock_v3",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "viewer:enforce_product_flavor_inheritance",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "viewer:sync_product_flavor_commercial_settings",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "none:receive_inventory",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "none:create_product_with_opening_stock",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "none:create_product_with_opening_stock_v2",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "none:create_product_with_opening_stock_v3",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "none:enforce_product_flavor_inheritance",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "none:sync_product_flavor_commercial_settings",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "anon:receive_inventory",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "anon:create_product_with_opening_stock",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "anon:create_product_with_opening_stock_v2",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "anon:create_product_with_opening_stock_v3",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "anon:enforce_product_flavor_inheritance",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "anon:sync_product_flavor_commercial_settings",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "service_role:receive_inventory",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "service_role:create_product_with_opening_stock",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "service_role:create_product_with_opening_stock_v2",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "service_role:create_product_with_opening_stock_v3",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "service_role:enforce_product_flavor_inheritance",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "service_role:sync_product_flavor_commercial_settings",
+      "passed": true,
+      "zeroWrites": true,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "All10 actor classes: six legacy/trigger entrypoints denied42501 with all rows and sequences unchanged",
+      "passed": true
+    },
+    {
+      "name": "Official receipt cost/debt/stock and idempotent replay unchanged",
+      "passed": true
+    },
+    {
+      "name": "V5 product creation traverses revoked postgres DEFINER internal chain",
+      "passed": true
+    },
+    {
+      "name": "Official PO receipt/debt/stock and replay unchanged through213",
+      "passed": true
+    },
+    {
+      "name": "Actual authenticated UPDATE fires flavor triggers despite EXECUTE revocation;temporary table grant rolled back",
+      "passed": true
+    },
+    {
+      "name": "Effective anon/auth table TRUNCATE REFERENCES TRIGGER zero, including inheritance",
+      "passed": true
+    },
+    {
+      "name": "Actual anon role throttled with absent,empty and contradictory JWT claims",
+      "passed": true
+    },
+    {
+      "name": "Phone limit before lookup: same Arabic response for existing/missing order and rotated order/network;zero business writes",
+      "passed": true
+    },
+    {
+      "name": "Expired fixed window resets without touching business rows",
+      "passed": true
+    },
+    {
+      "name": "Network limit120 covers rotating phone guesses",
+      "passed": true
+    },
+    {
+      "name": "Two actual concurrent Docker psql sessions serialize attempt30/31 exactly",
+      "passed": true
+    },
+    {
+      "name": "Counters store only hashed identifiers;all API roles denied SELECT",
+      "passed": true
+    },
+    {
+      "name": "Token tracking body/ACL/config/owner byte-identical",
+      "passed": true
+    }
+  ],
+  "source": {
+    "sourceHashes": [
+      {
+        "file": "src/App.tsx",
+        "sha256": "111961bad365540e2a20554be9d71a4ed3f4682198f7ef6289e357d1ee54e8a9"
+      },
+      {
+        "file": "src/components/common/AppErrorBoundary.tsx",
+        "sha256": "c17546abe154dda9cc109163b7d266b2214149b631839b44ec856bede29e9eae"
+      },
+      {
+        "file": "src/components/common/Header.tsx",
+        "sha256": "e2de0b5b53e7f763aa48abdecf97d3642da7945766ec33c8df4cc804a0f90eed"
+      },
+      {
+        "file": "src/components/common/Modal.tsx",
+        "sha256": "6d6a6d4d73d17d20ef2622669841ad7bd7156a0f9caf064176a207aa9ebc7de5"
+      },
+      {
+        "file": "src/components/common/RejectionNotice.tsx",
+        "sha256": "6d1aaee309cf8e784f52875a6f99096ae08e57a8ebc1b9fefacb39952beb23df"
+      },
+      {
+        "file": "src/components/layout/AdminToast.tsx",
+        "sha256": "b49370de28d33b69b374813b93e8868fbd49928aab4ed5ab2ea29c0327cc9c67"
+      },
+      {
+        "file": "src/components/layout/BottomTabs.tsx",
+        "sha256": "f1e4215060fa9e5f0d7a8f9c0094405c9d1b4aee962e1f3667d51c30ba746f22"
+      },
+      {
+        "file": "src/components/layout/IPhoneContainer.tsx",
+        "sha256": "6a87422b8f8e20f925ac0506f579e1e25bfd47b8b684a996a22a76de268a69c2"
+      },
+      {
+        "file": "src/components/layout/navigationDrawerContext.ts",
+        "sha256": "6d57b306dc8c79cc187ebf727d3a0866d547cf678110dde551e6d84b99f1472d"
+      },
+      {
+        "file": "src/components/layout/NavigationShell.tsx",
+        "sha256": "df46275755cd30761143465ab2a3139b00423d7633c854e0a740cb90e8c21e37"
+      },
+      {
+        "file": "src/components/layout/quickActions.ts",
+        "sha256": "dfe2f87fcf0433aac9549fcd1631bae7b366ee55e4f5bd65ffa6859c9a26d734"
+      },
+      {
+        "file": "src/components/layout/SideNav.tsx",
+        "sha256": "2aceaa8f5ddda44c2662ef41c8a2a6f6c148f18c840a48d39dc78fcae70a5dff"
+      },
+      {
+        "file": "src/components/layout/sideNavigationModel.ts",
+        "sha256": "5273c2c8b9061d80f74461e98e17419310bd50e7e9ea6d1bb693a56a6dc5668b"
+      },
+      {
+        "file": "src/components/modals/AllModals.tsx",
+        "sha256": "957a0be7b175081947f3420a5e5ce912e0e4a4e35741184c67915673829c9962"
+      },
+      {
+        "file": "src/components/modals/BrandsModal.tsx",
+        "sha256": "b43ebc1e0b010c9ef4f64e03b7abde8e0f05d951d419bf374644c23c0f224f1d"
+      },
+      {
+        "file": "src/components/modals/CategoriesModal.tsx",
+        "sha256": "695094f396749c8d57f553e39cf3789cce7a10790d6c070828a49f17141707be"
+      },
+      {
+        "file": "src/components/modals/UnitsModal.tsx",
+        "sha256": "33ec9093653f7b64b20ecc266126b9ff565eab0a01c1171d71427ed1b98d6083"
+      },
+      {
+        "file": "src/components/ui/cashCounting.ts",
+        "sha256": "e3ff0e7851ea4e4de5ae723127f6f17d7d3803fde07383a7a42e81502d7059a3"
+      },
+      {
+        "file": "src/components/ui/CashDenominationCounter.tsx",
+        "sha256": "eeffdef6f2dae5e5eb4384c0139513e264543836b67e29dc5170740e070c58bc"
+      },
+      {
+        "file": "src/components/ui/Controls.tsx",
+        "sha256": "5d48571bcba95e2da2cca06700c414665c0792bd7f122956025370a95e626eeb"
+      },
+      {
+        "file": "src/components/ui/DataDisplay.tsx",
+        "sha256": "d798defdcdec05c7d96426e3b08752f4b2df0c542af6cedf39416a9a018a459c"
+      },
+      {
+        "file": "src/components/ui/FormFields.tsx",
+        "sha256": "197f4419c26abbb67772e522edd791ea2ca80e02f3524281274fc589a37f7224"
+      },
+      {
+        "file": "src/components/ui/index.ts",
+        "sha256": "edfad1adeb0b974541f2a585aa6e03cc1e62efc654f3c1864425674ee6f6e9e4"
+      },
+      {
+        "file": "src/components/ui/PhonePresentation.tsx",
+        "sha256": "139b65b9c1a0953890c932dde6fe6795dcd503bfdc7d88c760c501e774a12f92"
+      },
+      {
+        "file": "src/components/ui/ProductGlyph.tsx",
+        "sha256": "b28f37c9dd12ce880dd9c18b22697261b2017b0606b44ba4a25e43ac36df39e4"
+      },
+      {
+        "file": "src/components/ui/ProductPicker.tsx",
+        "sha256": "a213b1bf1bd9ec43c333a6b3df1b324b5e8658583327281fd9dd7b23d84c0471"
+      },
+      {
+        "file": "src/components/ui/productPickerModel.ts",
+        "sha256": "fe07cab6a67bdc3384dd5aab07f0b13d5c5048e7f34fb0c53f0760824c866762"
+      },
+      {
+        "file": "src/components/ui/ReceivingUnitFields.tsx",
+        "sha256": "1cdf2883258a427a5a9d84ab23357da569b3cc935bf19e03edd9389c369aee71"
+      },
+      {
+        "file": "src/components/ui/ResponsiveActionPanel.tsx",
+        "sha256": "00e00e7544d8a615e6712bf482c286aead0b510a50e2e2c25442b29af69e00bb"
+      },
+      {
+        "file": "src/components/ui/ResponsiveCartPanel.tsx",
+        "sha256": "03ccf18ffa0967a985cbe4de19372af178f5c82012ef4955856a31f95cae8a5a"
+      },
+      {
+        "file": "src/components/ui/SalesBarChart.tsx",
+        "sha256": "2d3b4a8013a9bddb6dcce29300749c88f0eb70579cd40bc9473825a1420bfc70"
+      },
+      {
+        "file": "src/components/ui/singleWarehouseOption.ts",
+        "sha256": "4069f238d26e02b2a6f3f63d7688f0c7bffefc0e864be8cf647d223a6ee1cb17"
+      },
+      {
+        "file": "src/components/ui/Surface.tsx",
+        "sha256": "3d8991706e103362b48fc0f9994d1313363eae2c369003e2c6db99ccfd61d542"
+      },
+      {
+        "file": "src/components/ui/SwitchTrack.tsx",
+        "sha256": "e31c26cc5fd6819556c9de43f03024caa4c0946ec9aefed377208f2c387a1508"
+      },
+      {
+        "file": "src/components/ui/TableShell.tsx",
+        "sha256": "becc45ae07fa25e7eeece98c6fa43c9d1bb0d718b0f7c6a9758a49147db2fe1d"
+      },
+      {
+        "file": "src/components/ui/uiFormat.ts",
+        "sha256": "f5933fcafa8dca20ba5adf496af2c6f62cfc2bad9cd5acac3ce0e67d99c373da"
+      },
+      {
+        "file": "src/components/ui/UserAvatar.tsx",
+        "sha256": "39bd80d9a937d22555450472799cc74030c7657236ca2624a70c3f1783f0cc71"
+      },
+      {
+        "file": "src/components/ui/WarehouseChoice.tsx",
+        "sha256": "fb23c4096691aff86940fb9971f8ef807b796a2eb0e6abdb49f7daa583fb8073"
+      },
+      {
+        "file": "src/config/supabase-public-config.ts",
+        "sha256": "af1e88aa7cc33c3e4c2504052792995250c29dba1b61e85eafbfb7096ea4d34f"
+      },
+      {
+        "file": "src/constants/index.ts",
+        "sha256": "b4e72befb22f9d9248c746552f3330e6bd10abb37909bab94cd44f6cd8029286"
+      },
+      {
+        "file": "src/features/accounts/AccountsView.tsx",
+        "sha256": "14a184c739301a70f44a023a5ed129fe27cd37f9d65dbc26a478a111f208f215"
+      },
+      {
+        "file": "src/features/accounts/CustomerBalancesView.tsx",
+        "sha256": "cb04e0ece2fe16113dc3fcd77621ba1440a0b374fa496cee1a0751e16d89fd07"
+      },
+      {
+        "file": "src/features/accounts/RecordCustomerPaymentModal.tsx",
+        "sha256": "59252febc3bf31643c7b8b2a08e7e3bb20edaa0bd2958bdcf6ad628ad5f68764"
+      },
+      {
+        "file": "src/features/assistant/AdminAssistantView.tsx",
+        "sha256": "10d5ae256fe5c7dafe1900e7e18ee870221491498f08dc16f82432e9d7a80072"
+      },
+      {
+        "file": "src/features/auth/LoginView.tsx",
+        "sha256": "f74b3ad29e8ed0091c2d8a75f3c3cf100547db9834e099a61863e59ebaee10bf"
+      },
+      {
+        "file": "src/features/auth/TurnstileWidget.tsx",
+        "sha256": "e6039b4cfe49f7c6a423866ac245fba0d2616f428d2b5310983c85fab8351909"
+      },
+      {
+        "file": "src/features/barcode/barcodeCamera.ts",
+        "sha256": "c99b574022197d2ee734f0a131c8426f1d48e58511aa9a3394132922a009f343"
+      },
+      {
+        "file": "src/features/barcode/BarcodeCameraCaptureModal.tsx",
+        "sha256": "a8d450922953f7f7b2956a7dc53c22ea5f9f4ae5ec64832dc0eb777e52b8693b"
+      },
+      {
+        "file": "src/features/cheques/ChequeRegistrationForm.tsx",
+        "sha256": "1e65c20918052e9f042595ced67997dd089aa4c5f1d678bc19a2db2cf93cc75d"
+      },
+      {
+        "file": "src/features/cheques/ChequesView.tsx",
+        "sha256": "4059055146c3e283fb3bdd5f9df42d890a4a9d6bb946e419b09818efd7a7dbb6"
+      },
+      {
+        "file": "src/features/corrections/DocumentCorrectionAction.tsx",
+        "sha256": "141c7dd98d5821a08e4f3a2b0d77aeddbab73703efeb2902558f57b799ef82f0"
+      },
+      {
+        "file": "src/features/crm/AddAddressModal.tsx",
+        "sha256": "61a5d11c1d85a586adc257cc1fbd0ce6693540af48cc35d7fd77b8062aad2669"
+      },
+      {
+        "file": "src/features/crm/AddCustomerModalContent.tsx",
+        "sha256": "40b16302c959171699d0d89b4dcc94f97113e0020d683c7738341e8b9ff7f179"
+      },
+      {
+        "file": "src/features/crm/CrmView.tsx",
+        "sha256": "cf38a0a9771f46d14f4b2ec804c02fd54d3a1b6414e0797b242a479eb228b571"
+      },
+      {
+        "file": "src/features/crm/CustomerAging.tsx",
+        "sha256": "1bfcb74b7138ab15f859b6048d56613fb3c92c5311c32091819b5937108cd2d2"
+      },
+      {
+        "file": "src/features/crm/CustomerCollectionModal.tsx",
+        "sha256": "ffa2dac897149f9cb8bd3b187fa869efed9aa1d531423916130fb8f300945633"
+      },
+      {
+        "file": "src/features/crm/CustomerDetailView.tsx",
+        "sha256": "10c6f81e3ca6a025ddcc994ed026cf02b4cf6223c22dc8e5163880ac35541d91"
+      },
+      {
+        "file": "src/features/crm/CustomerEditModal.tsx",
+        "sha256": "f13d589c31beebe0ba53d8b3d3a3de59201cf4f9e2ddd66ab110ffc583ff5a35"
+      },
+      {
+        "file": "src/features/crm/CustomerFilters.tsx",
+        "sha256": "34e7f8fc633fd13d1147313d2a66bbe13bb11c99ecf528748ac846d65f44bac1"
+      },
+      {
+        "file": "src/features/crm/CustomerList.tsx",
+        "sha256": "48d1d022ed2f7665e21a3e50ccf38dff0a783f08f7cd186c9287031f944be97d"
+      },
+      {
+        "file": "src/features/crm/CustomerStatement.tsx",
+        "sha256": "65242cbbc2d90b56681264f552f8d8f4fdcc774500814028b05911e894470621"
+      },
+      {
+        "file": "src/features/dashboard/ChartsSection.tsx",
+        "sha256": "1b96b19a5a0e12732992c394656acadb565e4c5957eadce6d29cc203a8419436"
+      },
+      {
+        "file": "src/features/dashboard/DashboardHome.tsx",
+        "sha256": "99f3990f40b67a2e9885ff1e6d0718eac2dcd805da8a7462a3d1a33788d51423"
+      },
+      {
+        "file": "src/features/dashboard/DashboardView.tsx",
+        "sha256": "2afa33e459e2ca21e8c032f683105af8815df5781e8fb69e123d193fa21acb26"
+      },
+      {
+        "file": "src/features/dashboard/KpiCards.tsx",
+        "sha256": "384566b25aaa2d7f9bf7e7e3b101a5e26e54bc158882b0ff2a5ca3de1cc0edf9"
+      },
+      {
+        "file": "src/features/dashboard/QuickActions.tsx",
+        "sha256": "344fe408df348787d4b492a21d375c0b00585e32c86efeb58070d8a682fa3594"
+      },
+      {
+        "file": "src/features/dashboard/WidgetsSection.tsx",
+        "sha256": "9b79e41c71c24bf87c1387da7758d79940429be522dae2a12bf51149b2c7599c"
+      },
+      {
+        "file": "src/features/directReceiving/CancelSupplierReceiptDialog.tsx",
+        "sha256": "3c8cde5d57e5cf9b3b8fec6e3572a03507d617ab50590505b0df490baf4eb280"
+      },
+      {
+        "file": "src/features/directReceiving/CreateDirectReceiptModal.tsx",
+        "sha256": "8fc57e0d3d5b0452f27eaa90556d59a638aaf7fbdc2a7c5b97931d0ffb33b8fd"
+      },
+      {
+        "file": "src/features/directReceiving/DirectReceivingView.tsx",
+        "sha256": "be388ae692d48a7d568d974e91cb6de1497225d4308d33cc96507a923a14e783"
+      },
+      {
+        "file": "src/features/directReceiving/RecordSupplierPaymentModal.tsx",
+        "sha256": "548a18abdf1f2762b6bb3200673e5bda9abc30f194ed1db3f6051b026664398c"
+      },
+      {
+        "file": "src/features/directReceiving/SupplierReceiptDetailView.tsx",
+        "sha256": "05d786499ae7469151ceafad0f1def09d1d08499da8522a65dbe6ddcaaced82e"
+      },
+      {
+        "file": "src/features/directReceiving/SupplierReceiptItemsPreview.tsx",
+        "sha256": "7db554563d60e725ed02e23240b3884573c24da9603b00ff2deaf0bd8274e7c5"
+      },
+      {
+        "file": "src/features/directReceiving/SupplierReceiptLines.tsx",
+        "sha256": "dfa78784e566146bfef164343fd8cb1b4e22c60988a31f55b1fdbe43f22fb088"
+      },
+      {
+        "file": "src/features/expenses/ExpenseFormModal.tsx",
+        "sha256": "186237990e30bba01a8454b43a6fc4a3974713beef773e28b855f124daa66a56"
+      },
+      {
+        "file": "src/features/expenses/ExpensesView.tsx",
+        "sha256": "6510c4039c2d22b393060c26959fb729b9fa330291d7c6f67c784c98a1a5bbda"
+      },
+      {
+        "file": "src/features/goLive/goLiveImport.ts",
+        "sha256": "0b99b2cc61c724e6eb6da28d38931ed717aaf76dcb45470fe7b37f0f1145a11e"
+      },
+      {
+        "file": "src/features/goLive/GoLiveSetupView.tsx",
+        "sha256": "0e08425fddc64daaf89a535da073b648a399455291c55cc4dfb78dd0ba83ae4b"
+      },
+      {
+        "file": "src/features/goLive/OpeningChequesCard.tsx",
+        "sha256": "6e6a2a8c2eb7c8a279d27b22a82004e25968917a77979f67a9dcf066499dccbe"
+      },
+      {
+        "file": "src/features/goLive/openingChequesImport.ts",
+        "sha256": "23b30c943f2ab9099041a975f4c3f804f61b8f3ab989db907a29ff9146f18fc6"
+      },
+      {
+        "file": "src/features/inventory/ClearInventoryBalanceDialog.tsx",
+        "sha256": "f672730b45f6536e3464345c54b76adc37d7f24894063966d4c8a8ad2bae4ad5"
+      },
+      {
+        "file": "src/features/inventory/InventoryOpeningSetupModal.tsx",
+        "sha256": "a2d297dfe204ffe05e7020403b579c6238d07676840adf1a78c4c98e5f44f4eb"
+      },
+      {
+        "file": "src/features/inventory/InventoryView.tsx",
+        "sha256": "13e051e6167c78c41e88ae35082224337632f46af8138b2f74e6cb48d5357a0f"
+      },
+      {
+        "file": "src/features/inventory/StockCountModal.tsx",
+        "sha256": "f800e073bdb38ab5bc7e7cb62fa29e90f30de05d199d096ec267ff2eadcd0c0d"
+      },
+      {
+        "file": "src/features/inventory/SupplierReplacementPanel.tsx",
+        "sha256": "db35baaab24068f647c2f43080f0c4370d13d794f7cc061abed15049c4de2b94"
+      },
+      {
+        "file": "src/features/inventory/SupplierReplacementQuantities.tsx",
+        "sha256": "e72e9f11133257d0f5c1618182187852914cc136f358cbe82593f3a6ad4fa14a"
+      },
+      {
+        "file": "src/features/inventory/SupplierReplacementSummary.tsx",
+        "sha256": "40db75c9f74c57200d2e51ee4beaf3f8db955c0a700c6069fddec5346d1f81b4"
+      },
+      {
+        "file": "src/features/inventory/WarehouseTransferModal.tsx",
+        "sha256": "af94c43253a8b3e95b096bcc82cf09df8c1d6a963e3d069c74b23a2f58420c92"
+      },
+      {
+        "file": "src/features/more/adminNavigation.config.ts",
+        "sha256": "f69efb0fc768c729c971c5ee82db65475fdbd628f972f39152322d1de851d991"
+      },
+      {
+        "file": "src/features/more/DamageHistoryPanel.tsx",
+        "sha256": "35e7246e2f51ffacd93895f8e4d032a5976ace12b827a040cd4b113059a79317"
+      },
+      {
+        "file": "src/features/more/DamageProductSelection.tsx",
+        "sha256": "9d85ef445989edfba56210dab6f4de717c974e0412a6a3c654422a1a3669d575"
+      },
+      {
+        "file": "src/features/more/InstallAppPanel.tsx",
+        "sha256": "c98919df9464e176d93c8e853e78e49bf5d555d2bedcc396c158b9d6683719a6"
+      },
+      {
+        "file": "src/features/more/MonitoringDashboardModal.tsx",
+        "sha256": "0f6b7d09803ce634a7e70b0f2a670873dcf9e59d5063befd5a1dfb14fdee1f5a"
+      },
+      {
+        "file": "src/features/more/MoreMenuView.tsx",
+        "sha256": "89ec7580a87c064807bdbb18d5e704bc514ae35591af8bfc96b7bc2f03e747c4"
+      },
+      {
+        "file": "src/features/more/ParcelConfigurationModal.tsx",
+        "sha256": "0b67ab2653f3cdd48a83b41327747834bec5e824d3719b13f3fb03e9e348bf98"
+      },
+      {
+        "file": "src/features/more/ProfileModal.tsx",
+        "sha256": "007a5bb78dee403bc97a974206a415240906026389ff190dae24d2938a1a9878"
+      },
+      {
+        "file": "src/features/more/PromotionCodesModal.tsx",
+        "sha256": "4ccc3939a6e66fc7cd32f595552bc4baceeb0c233dba6c1a27aada85e578889a"
+      },
+      {
+        "file": "src/features/more/PushNotificationControls.tsx",
+        "sha256": "f7c81ca5a13bf222bdf8d8c18af3c7900a088871ecf304da4a009379508a2a36"
+      },
+      {
+        "file": "src/features/more/StorefrontSettingsModal.tsx",
+        "sha256": "2acc4db74469a06760908d26b9306cbba725a701d90cee10ce1ce8f4bdf46025"
+      },
+      {
+        "file": "src/features/orders/AdminAftercarePanel.tsx",
+        "sha256": "54d0a338ec984b67efcded4527a09b0375199def322b0deb1da0650dafb62dcd"
+      },
+      {
+        "file": "src/features/orders/aftercarePresentation.ts",
+        "sha256": "c8598aab2048edae41d94d56e8e6fda2177a0022ae4ad76f1770065e84b5d96b"
+      },
+      {
+        "file": "src/features/orders/AftercareSupplierSafety.tsx",
+        "sha256": "0b4009e97541720fb881cbf2cd34b584803bcfdbd559be723f9eed17f0817ac2"
+      },
+      {
+        "file": "src/features/orders/CustomerLocationCard.tsx",
+        "sha256": "7e35b12f5a82c14311859dda69aadff082d38d364953c3e30ab6973278a80675"
+      },
+      {
+        "file": "src/features/orders/EditAddressModal.tsx",
+        "sha256": "28d8942eecf945e530b67047692c1ceb09bb233a001b2760e665820e3fedc638"
+      },
+      {
+        "file": "src/features/orders/OrderCommercialSummary.tsx",
+        "sha256": "8412f150ac53b0a1affc5208203bb6fad289aaa4026810bf3e1ff39755c2ad95"
+      },
+      {
+        "file": "src/features/orders/OrderDetailModal.tsx",
+        "sha256": "7ebb16551daacddd6c654e291880f2ac97f66d5675518d3996330644925e64ab"
+      },
+      {
+        "file": "src/features/orders/OrdersCenterView.tsx",
+        "sha256": "9d1217e90ab1016e6c68fa37e63bbd09bd28d36d044ecda58375d58d3fe8836a"
+      },
+      {
+        "file": "src/features/orders/orderStatus.ts",
+        "sha256": "60446e01ef40baed6312fa3be74ec2a193d7301d1e88fa43484a0adad9a87388"
+      },
+      {
+        "file": "src/features/pos/BarcodeScannerModal.tsx",
+        "sha256": "56768f2f300e7575aed8f9e0aabcc042777d3afa54cc4343d99ab2fa22055e91"
+      },
+      {
+        "file": "src/features/pos/PosParcelBuilder.tsx",
+        "sha256": "03b81cf41f5e0907f3d67d33b27d4309e5175977a8d3bf6ff95b432f5860be43"
+      },
+      {
+        "file": "src/features/pos/PosProductCard.tsx",
+        "sha256": "fd431176edd36abc5ca012b6f11882fcd0889ddb955dd4becdee49bc3d4468cd"
+      },
+      {
+        "file": "src/features/pos/posSearchFocus.ts",
+        "sha256": "b0b31f92ab76a176e3b3e9942724ece1e2dceb09391f8de0a8efd45b857cde42"
+      },
+      {
+        "file": "src/features/pos/posV2Cart.ts",
+        "sha256": "a610b4d43f48c70d8cd7dbd291f86f6216d98468f5aed62050b38f663390a952"
+      },
+      {
+        "file": "src/features/pos/PosView.tsx",
+        "sha256": "d4d9a5209ccf8bee0e8af1df2264374f14721877706ce0ed99978594b0b4d9e0"
+      },
+      {
+        "file": "src/features/pos/saleMethods.ts",
+        "sha256": "1e8a9c68d969b4dbabb7479c1bbac6d0e4ea03d4dd6a79e271f7d545cb4c8774"
+      },
+      {
+        "file": "src/features/products/ProductCostCorrectionPanel.tsx",
+        "sha256": "e0acc44140c6bdaaf049b6c869213fa8804f6d4139d94c027ccbe5f506490a71"
+      },
+      {
+        "file": "src/features/products/ProductDetailModal.tsx",
+        "sha256": "3e6ffa5fe59a2249a532f9dde82a405a3ac050cf22105c6ec9f844929b6acc4f"
+      },
+      {
+        "file": "src/features/products/ProductEditConflictPanel.tsx",
+        "sha256": "85090ffb2e51c87e13f6dfffed4231565cd3ecd4663121e536475a473a17943b"
+      },
+      {
+        "file": "src/features/products/ProductFormModal.tsx",
+        "sha256": "64df669faf6f612ff34277871c4ed6cb0980117732d4b04d80ab59ae7b2f13fc"
+      },
+      {
+        "file": "src/features/products/ProductFormParcelCapability.tsx",
+        "sha256": "66fa9d03f7f19fc418cecf38d1a6bea6b7c5a0da9648596a65ebbba4ac04f865"
+      },
+      {
+        "file": "src/features/products/ProductsView.tsx",
+        "sha256": "640b638372973abf04ff6edb482dd14b0c4109cf8d13b11c4464ac63b172dd2a"
+      },
+      {
+        "file": "src/features/products/StockAdjustmentModal.tsx",
+        "sha256": "fa8dfa2fd906d0bedabdacf0063c9b2bb53cbaea5feefd3f269d52c974e44796"
+      },
+      {
+        "file": "src/features/purchases/CreatePurchaseOrderModal.tsx",
+        "sha256": "ce15e94727651070cf7db8735edc05b4fedc57f70c9f651d2356dbcb2baa5af1"
+      },
+      {
+        "file": "src/features/purchases/CreateSupplierModal.tsx",
+        "sha256": "0b33d931694c4b8504094dc163626bdbcc1c45097d60353bfdba0fe0f54612b0"
+      },
+      {
+        "file": "src/features/purchases/PurchaseOrderCard.tsx",
+        "sha256": "63213d76926a18ee2dc6b1c2ecc1b755749e636a982239d8cc50351931678b5d"
+      },
+      {
+        "file": "src/features/purchases/PurchaseOrderDetailView.tsx",
+        "sha256": "84243f1504c985918de2fc7cb87f4da7a4a7af78ad0680a9478375c3a0dc8c67"
+      },
+      {
+        "file": "src/features/purchases/PurchasesView.tsx",
+        "sha256": "3ed965da08ad371339f99ec3198f2727459fd40d5fc3a70693e7343e7c467dfd"
+      },
+      {
+        "file": "src/features/purchases/ReceiveGoodsModal.tsx",
+        "sha256": "746253abefd21183266c21b50fdc41a10e3cae752e8ee7e755cc69b67284c48f"
+      },
+      {
+        "file": "src/features/purchases/ReceivingProductPriceEditor.tsx",
+        "sha256": "bf2ee274085c074aed6746941378cb3c494b2f59dfacaa02a9e865f979ac702e"
+      },
+      {
+        "file": "src/features/purchases/ReceivingPurchaseHint.tsx",
+        "sha256": "e29842b1597bc09580f03070dc0a8553e51df19f855a7e325c0a1435aa091616"
+      },
+      {
+        "file": "src/features/purchases/SupplierPaymentModal.tsx",
+        "sha256": "89ae723824cfe24e011f239d9e2a2fc75ba357a5ae105559e3184a0143b49127"
+      },
+      {
+        "file": "src/features/receipts/saleReceipt.ts",
+        "sha256": "e56b2fd11f11a655afa175ba1c617ff4c74fd0b07d9df8e2fea1d3d7497c2fe3"
+      },
+      {
+        "file": "src/features/receipts/SaleReceiptDialog.tsx",
+        "sha256": "f3160c2948c8f73bb31aceee71eecc64206173373f88b4b589dc15d9eef893e2"
+      },
+      {
+        "file": "src/features/reports/CustomerCollectionsSection.tsx",
+        "sha256": "4d69574dd3fa320fd19f5ddb102ceffef9c59a14f8ccea97950d8f4db637577d"
+      },
+      {
+        "file": "src/features/reports/DamageLossReportSection.tsx",
+        "sha256": "8c1575d3aaf34fbc37d7b20ae95253294d11c8c10fa2928d6bc7fa50550b16c6"
+      },
+      {
+        "file": "src/features/reports/OwnerWithdrawalsReportSection.tsx",
+        "sha256": "e0c62a95dce65b824b94fbe0395d2d5c59992557d6bf3a39c8e9e68bff8146f1"
+      },
+      {
+        "file": "src/features/reports/ReportsCenterView.tsx",
+        "sha256": "e2bce6f8683f55e7994fff7004b28a38121d87d93f431947538bcb4d47b1e72e"
+      },
+      {
+        "file": "src/features/salesHistory/RecentSalesCard.tsx",
+        "sha256": "a67a2c2d2abc58d5a077b1610dd6e11aa19ad2092c72615dbae590b69f6a07b5"
+      },
+      {
+        "file": "src/features/salesHistory/SalesHistoryView.tsx",
+        "sha256": "7207e7f62977463f0400d2fa5a67606eef777597f721c4531655f723450d4229"
+      },
+      {
+        "file": "src/features/salesHistory/SalesInvoiceDialog.tsx",
+        "sha256": "7f28fff7005c6ce927664469c32b478e16c3e1b185895b6a75090bb1f5fd56d0"
+      },
+      {
+        "file": "src/features/shifts/CashFlowDetails.tsx",
+        "sha256": "1bec40d4fd37dc3bacdd6340767f461362a7e154f659fc96791e46130719ef68"
+      },
+      {
+        "file": "src/features/shifts/cashFlowModel.ts",
+        "sha256": "eff0e563aeddda82920a96679006fcee3be32bb030324768f6e8f26e43617d02"
+      },
+      {
+        "file": "src/features/shifts/CashFlowSummary.tsx",
+        "sha256": "908daa59ee136c102b2e9418741b494f3ad6968b780f80810122a7ed264c4fcd"
+      },
+      {
+        "file": "src/features/shifts/CashMovementDocument.tsx",
+        "sha256": "8459eb6d184765d4cf165e1abffb0e646b1a7c6e4394972d87cb17346825d5f0"
+      },
+      {
+        "file": "src/features/shifts/CashSourceDocumentLines.tsx",
+        "sha256": "07696975ec54a643926d2b772572fcac27b807f679d9e264727b1a55501ace80"
+      },
+      {
+        "file": "src/features/shifts/OwnerWithdrawalsPanel.tsx",
+        "sha256": "e3c6f3dbbe7b3449fb7024177b4c1ff6793093708d9ed2e777f48d3a19332d70"
+      },
+      {
+        "file": "src/features/shifts/ShiftArchiveSection.tsx",
+        "sha256": "4962eb1077cdf79e4e210a8e6d9c3448a71b68996209d487e29206da6bc5ad93"
+      },
+      {
+        "file": "src/features/shifts/ShiftClosingReportModal.tsx",
+        "sha256": "b84cf8919d46aecc14c08a5c3406ff7c62da7548d244bd818895d562d1262cac"
+      },
+      {
+        "file": "src/features/shifts/ShiftsView.tsx",
+        "sha256": "6913f89ab01a5340691132d02511bb16e615ec5f90f495399101007cb2c1a4e9"
+      },
+      {
+        "file": "src/features/users/UserFormModal.tsx",
+        "sha256": "10da1d6a3e0ea4044fa618c14fe0eabe2ff8041cca53a12a355151446aa6be1c"
+      },
+      {
+        "file": "src/features/users/UsersView.tsx",
+        "sha256": "3d8942f23587f1197bbc606de03358d6c1fee4ddd30b527c18b470a67e14b686"
+      },
+      {
+        "file": "src/features/warehouses/WarehousesView.tsx",
+        "sha256": "d1e6be3cae8ec90b5fe1c1833bae0a4c504d93293fa4e134b1328805fb31a123"
+      },
+      {
+        "file": "src/hooks/useCustomerAccounts.ts",
+        "sha256": "30f5987987187b0616c08a815d4f33855048cd7e9bcca771476d6256c99d9eed"
+      },
+      {
+        "file": "src/hooks/useCustomerStatement.ts",
+        "sha256": "539132e422b2e392b597a44dec0cd72b330907b1f61a61e0c95697d1783b9435"
+      },
+      {
+        "file": "src/hooks/useDialogFocus.ts",
+        "sha256": "89a29a5cc60cf49879949ef2a0dbbe9eab6c3f8c6e53539be319b1135d063a44"
+      },
+      {
+        "file": "src/hooks/useDrawerShortfallConfirm.tsx",
+        "sha256": "20384c7ad7b77fce7837257b06575bb9b80b6fcfed493ca6c827c82b96470e87"
+      },
+      {
+        "file": "src/hooks/useReceivingPurchaseContexts.ts",
+        "sha256": "625dd4aa42752d3b010d8c831e6423f6bfe7c9160bba16aefe35c7ef871d1edf"
+      },
+      {
+        "file": "src/hooks/useSalesHistory.ts",
+        "sha256": "2b7740b772b77b00f23710f110c6dfe885528a7854799da8e40ab21cbf7c2d40"
+      },
+      {
+        "file": "src/lib/async.ts",
+        "sha256": "f30ad527a2e25ca01062d5ef07b2d16029bf143a817a01f84fe565e70246b55e"
+      },
+      {
+        "file": "src/lib/errorMonitoring.ts",
+        "sha256": "07b16712a33cebef7743acc3e0abfa6eed630d5b00c66d2b8761980bf3638a7d"
+      },
+      {
+        "file": "src/lib/supabase.ts",
+        "sha256": "a666d78ed706ae86d111b5bef993200e34a490910b3bfec203ec678e3d8691f2"
+      },
+      {
+        "file": "src/lib/xlsx.ts",
+        "sha256": "056a699ee071879c2b93e419cb0af623f871897a916e22e7f9b9e7ffced83ff1"
+      },
+      {
+        "file": "src/main.tsx",
+        "sha256": "3de4c6f3bdf938c537cc4f941520d31448b59670cd68e10737a2ecb1b434906c"
+      },
+      {
+        "file": "src/pwa/pwa.ts",
+        "sha256": "dd313fba1bbfb217757796763cba59c54f8f2a54109dcb203c425b31be86d48d"
+      },
+      {
+        "file": "src/services/deviceBiometrics.service.ts",
+        "sha256": "d4f593e3f969645e9f5c5e20000559ba3bceaca0e11c48c18e17141fd5b769f7"
+      },
+      {
+        "file": "src/services/pushNotifications.service.ts",
+        "sha256": "2880f31f4a055c5f6b5882bf6103269bd7f1a1cdca2822ab2224673a9db5d3db"
+      },
+      {
+        "file": "src/services/sessionSecurity.service.ts",
+        "sha256": "923504f53fe0cace7485fbae008ac4e6896191dc5f02263677d35d15f80c2744"
+      },
+      {
+        "file": "src/services/supabase/adminAftercareRecovery.ts",
+        "sha256": "661c6326e0965e542b9eb7ad8542b0a65e02212754a85ea2d1e198b14b46b10d"
+      },
+      {
+        "file": "src/services/supabase/adminAssistant.service.ts",
+        "sha256": "90f7942e07a6d2f198cc3900b4b550319f535de2bc5ada037b8088e1479a9134"
+      },
+      {
+        "file": "src/services/supabase/adminCustomerV2Lifecycle.ts",
+        "sha256": "bd6aff97de10b49f68b7afc2cca789040e63b324fdcc8874cffb8f47dee2d054"
+      },
+      {
+        "file": "src/services/supabase/auth.service.ts",
+        "sha256": "54f4b09369865e042f375d2507ba67b429e1dc7e7cae20a387870eb6d617b3ea"
+      },
+      {
+        "file": "src/services/supabase/cashDocumentDisplay.service.ts",
+        "sha256": "9493527e78e3aeda2393750a594bfb924fb6738e0297ef664d01e265d3bc6aa6"
+      },
+      {
+        "file": "src/services/supabase/cashShiftMovements.service.ts",
+        "sha256": "08caf1f298db15ebcb282e970fb50c73488ea8e1d2a7c4b13016b5ce626c31af"
+      },
+      {
+        "file": "src/services/supabase/cheques.service.ts",
+        "sha256": "6ddc046c3f809af7850ef25af9ef4ffd363e38dbbd4d7a95247b9e2ba2595630"
+      },
+      {
+        "file": "src/services/supabase/crm.service.ts",
+        "sha256": "a2067c5a078cf8bf69606aa07c3625935bbcc2693f10c0ca9db489d71138b3af"
+      },
+      {
+        "file": "src/services/supabase/customerAccounts.service.ts",
+        "sha256": "f39aa12377d95475fb7dfc276f0373bc795ac9f23fbf451b5513f4cf360c7264"
+      },
+      {
+        "file": "src/services/supabase/customerDebtAging.service.ts",
+        "sha256": "f9b3e95c290fd777d03da877ee3fae818d586d0dbd18c9dc6059d58ebd7771cb"
+      },
+      {
+        "file": "src/services/supabase/customerStatement.service.ts",
+        "sha256": "6d029b95c2abde98d6291e41e1383a707271306d6807dfef21b73e49ac442a58"
+      },
+      {
+        "file": "src/services/supabase/damageHistory.service.ts",
+        "sha256": "5f43a7e6602276ec4ae4719d12bb9906bae9f92e174a9363bcaa93253ae8956c"
+      },
+      {
+        "file": "src/services/supabase/dashboard.service.ts",
+        "sha256": "ff38d28eb554223af227f7cae66b836c31dead27d80692e9d298cca2fafe64a1"
+      },
+      {
+        "file": "src/services/supabase/directReceiving.service.ts",
+        "sha256": "62f1b1d863d3aad853f937a1a9c430bcd82d59d5dedc1a8f8fde0108eaf3ba6b"
+      },
+      {
+        "file": "src/services/supabase/documentCorrections.service.ts",
+        "sha256": "d96a4cbe2d0d28c465464da71282fbb2f6ce9de80fa71d14cc370e70eb069e32"
+      },
+      {
+        "file": "src/services/supabase/expenses-shifts.service.ts",
+        "sha256": "0f4392d774f06cdc53557f30d37efc32aaf66af12b9d00396ad54935ceb55682"
+      },
+      {
+        "file": "src/services/supabase/goLive.service.ts",
+        "sha256": "45dd1e73712762f65072b78cf5e393d07c9e627a7ae10867e303f4ef92333359"
+      },
+      {
+        "file": "src/services/supabase/historicalParcelComposition.ts",
+        "sha256": "8c79715e2f63930044203db59b06b322bdbea1a929efa0b4ca1a3fa0870e8200"
+      },
+      {
+        "file": "src/services/supabase/inventory-opening.service.ts",
+        "sha256": "75f15fe9f0f056416eb4cd872b219394c706e9560347987e30cdce3a373ea145"
+      },
+      {
+        "file": "src/services/supabase/inventory.service.ts",
+        "sha256": "01fb51715644b7f6f0ef0fb22519dfd3dd6e8d9ad79e760de864420516b5ab0d"
+      },
+      {
+        "file": "src/services/supabase/mfa.service.ts",
+        "sha256": "9189039e3885d08c1460d3bf5a2c72659f10ad187e9264eeea53c46ed6e302ac"
+      },
+      {
+        "file": "src/services/supabase/mfaStatusRequest.ts",
+        "sha256": "c5f92a93263e1c7ab16326fe835b5b202756512a2abfaf9f053a7bba2e5a918a"
+      },
+      {
+        "file": "src/services/supabase/monitoring.service.ts",
+        "sha256": "a3a2600ef2fcd5330a5e90f4e73906833e6076a7f7c5633615a82951c2101241"
+      },
+      {
+        "file": "src/services/supabase/openingCheques.service.ts",
+        "sha256": "ece04150a0f42c31f51194337f82b4f3b839b12481361e74dd8776914e296a5b"
+      },
+      {
+        "file": "src/services/supabase/orders.service.ts",
+        "sha256": "6207a97a113187d3b11c377eb25998930840121bc384097029ba9879e10e4e7d"
+      },
+      {
+        "file": "src/services/supabase/ownerWithdrawals.service.ts",
+        "sha256": "01132d9845f0fbe804c88f8ce6029f0b8f0fd1245b6de7eb4055b8d0d24a97d3"
+      },
+      {
+        "file": "src/services/supabase/parcelConfiguration.service.ts",
+        "sha256": "4552ef2f7d960bf2a4486f48f929154d01d579e4ab9e7941d23602b8e29ca44b"
+      },
+      {
+        "file": "src/services/supabase/pos.service.ts",
+        "sha256": "e3bde172911896ef20f71a3b8ebf77c573074b6430ecb4d2757d03aca86ada8b"
+      },
+      {
+        "file": "src/services/supabase/posV2.service.ts",
+        "sha256": "59cd6c4de80d37f54f81a0e5b9a4d557d00cb2e9d6f6d638f38f2dae4c5494fa"
+      },
+      {
+        "file": "src/services/supabase/posV2Recovery.ts",
+        "sha256": "656e222f935bfc0575d6dcbdeb66c66482760aa05e91c99c8ae689ecb2b64680"
+      },
+      {
+        "file": "src/services/supabase/posV2Validation.ts",
+        "sha256": "52d31f0ab8d97d93337533b303bcca3aefb41e94cc32ce55d185bf15f147b226"
+      },
+      {
+        "file": "src/services/supabase/product-images.service.ts",
+        "sha256": "c7e8576deb642c40a7b0a1b660288d0e4b29f40633f5fb9aae3d8aa1c61f648a"
+      },
+      {
+        "file": "src/services/supabase/productCost.service.ts",
+        "sha256": "a3c8a985bd5eb1707d56899c0463de22dfbf50a56c917414f091e35bbca3f3e4"
+      },
+      {
+        "file": "src/services/supabase/products.service.ts",
+        "sha256": "5104aca3528ea7fe18ce813f19945543a2c616b257694a234549b79bc9b3b5ec"
+      },
+      {
+        "file": "src/services/supabase/promotions.service.ts",
+        "sha256": "888ad5466f6e21c497344866de3ed016fbb220b282aba44e8fb872bc68c5b03a"
+      },
+      {
+        "file": "src/services/supabase/purchases.service.ts",
+        "sha256": "e1fa00d0562f3c7e3d5dccd8b505dd1f8866b3eb5ee8eae1b02e780962242e9a"
+      },
+      {
+        "file": "src/services/supabase/receivingPurchaseContext.service.ts",
+        "sha256": "1bd2d9c285e7b2724bc81f1370d12ebe2ca29bcc2db053a3a466e9cbf04722b4"
+      },
+      {
+        "file": "src/services/supabase/reference-data.service.ts",
+        "sha256": "dc966701d358ca7e3f4f2fd6fa0f94560a693c095b12955f98e4b5462249341f"
+      },
+      {
+        "file": "src/services/supabase/reports.service.ts",
+        "sha256": "786e8d419509538a25134f5eccbd8d09593a74208239f802b4dc6da298f78ebf"
+      },
+      {
+        "file": "src/services/supabase/salesAftercare.service.ts",
+        "sha256": "0ac3f693a3fd9387d82f621452e300e452912b36d532ca49c5a5b9617734a6b1"
+      },
+      {
+        "file": "src/services/supabase/salesHistory.service.ts",
+        "sha256": "d85b108f7be04b3decc0f79a71045c9d318e3ee26bd57caf1ece2e43e1443540"
+      },
+      {
+        "file": "src/services/supabase/staffAccounts.service.ts",
+        "sha256": "a3f441aaa5f5c168e156f12c70e0805886f454446887a378f692fac1373249ae"
+      },
+      {
+        "file": "src/services/supabase/stockAlerts.service.ts",
+        "sha256": "b727d0a47f96360ae1c4f37c33c8cdd36ef7a835a9283ccbe52368a4f3af72c1"
+      },
+      {
+        "file": "src/services/supabase/storefront-settings.service.ts",
+        "sha256": "ea2ea5e5d41b0f024055ccab9932dd12a343464256a458edcfe2047322148470"
+      },
+      {
+        "file": "src/services/supabase/supplierReceiptSearch.ts",
+        "sha256": "e73e0e5384fe7b677fe1400835ffb2604df85f9f68f0359297af35291187cfd2"
+      },
+      {
+        "file": "src/services/supabase/supplierReplacement.service.ts",
+        "sha256": "888af486a20fdc6b21bcc7533fd444e3c63ccc756f92261a634675187777c8ea"
+      },
+      {
+        "file": "src/services/supabase/supplierReplacementIntent.ts",
+        "sha256": "68a072ac47d88081a68f8a29bda65b68fa9fa984301210822e144f3d2dbc73f5"
+      },
+      {
+        "file": "src/services/supabase/warehouses.service.ts",
+        "sha256": "98704b3aad3ac46ba9a8deb33921c5f865f7401015418e32d369c5dce95f95dc"
+      },
+      {
+        "file": "src/stores/appStorePreferences.ts",
+        "sha256": "cd20d545115b5095482c03ab8139e3e9885988a355d81f86b4fb84d702c35620"
+      },
+      {
+        "file": "src/stores/modalTypes.ts",
+        "sha256": "5d55c1b4b8cdf6e0da7e65e2a86a12a861162bca07e4124f62db24f4898b5add"
+      },
+      {
+        "file": "src/stores/referenceData.storeSlice.ts",
+        "sha256": "b540915774ff04272b66e5572baf146dfefef10abbe1ccf12a8b56df7d78798e"
+      },
+      {
+        "file": "src/stores/stockNotifications.storeSlice.ts",
+        "sha256": "6328f30888c884f4d4a7201c244af89a9e7032a800d17c2d861fabc64b1a5490"
+      },
+      {
+        "file": "src/stores/storeSelectors.ts",
+        "sha256": "c0e774bed8ac615769c5bef22e8d0aa4bc7b03bf0a90595bb20a4a61eb6b28b8"
+      },
+      {
+        "file": "src/stores/useAppStore.ts",
+        "sha256": "487f3bd44cb3b0f49c3c3060835485f4a96dbe3aee62fecc8cb4374d910fc705"
+      },
+      {
+        "file": "src/stores/useAuthStore.ts",
+        "sha256": "148ffcd627c153c4afbec1516ca9c51190fffccaf6f3e5c75d7804594a1775a4"
+      },
+      {
+        "file": "src/types/adminAssistant.ts",
+        "sha256": "6d38d968f69042ae27cddd89a41310c0ff56ab8288d2c27149f7c29a33d1698e"
+      },
+      {
+        "file": "src/types/crm.ts",
+        "sha256": "96a6d8d3088f9016c5a85f376adc8fb74739a514b92084770e549127016229db"
+      },
+      {
+        "file": "src/types/dashboard.ts",
+        "sha256": "e9cc5e2d09997ed78e007079c18728ab8b3a6b61c1d70a0cbbe8e94d78b835ea"
+      },
+      {
+        "file": "src/types/directReceiving.ts",
+        "sha256": "8c5ae54f724239f8e44fc89c2a70902bd3b8fc2d368b405118238d39bbb10b5e"
+      },
+      {
+        "file": "src/types/index.ts",
+        "sha256": "7486f1e272a72274e083e279c544cc9ce43cf8c793b7a7fdcaf93a2e19734910"
+      },
+      {
+        "file": "src/types/monitoring.ts",
+        "sha256": "be62777a32b350fb8d349f475f178d6c062185a91ec87f12c47bf5010210f627"
+      },
+      {
+        "file": "src/types/promotions.ts",
+        "sha256": "f91b52645ed617cabd01f203347dfe1e82c19e8b4ccfd5dc807da20afe95eb9b"
+      },
+      {
+        "file": "src/types/purchases.ts",
+        "sha256": "d2864d3985f4aea65cee6aab8d33810e2c90dcb2adec3f1eafef862bcb2b147a"
+      },
+      {
+        "file": "src/types/reports.ts",
+        "sha256": "37b0ac4db982b2df069b71afe67819beab2da98f28fdbdd8f25df4c5e99533cc"
+      },
+      {
+        "file": "src/types/storefront.ts",
+        "sha256": "423091593984a88126b60644d823acf7e679ae8bc242a9f5a2ff42e44b20fcbb"
+      },
+      {
+        "file": "src/utils/aftercareIntegrity.ts",
+        "sha256": "f43f57360672f030839a4d6f58309e75058aa4e695cc9f56c76769fd87041b09"
+      },
+      {
+        "file": "src/utils/businessError.ts",
+        "sha256": "0eb3efba1430ff180274ea19339829390f2d9a6ce0436f32ccf9ad052dd9b9e9"
+      },
+      {
+        "file": "src/utils/customerCollections.ts",
+        "sha256": "ea9d29a4db3ce97ad3965ab6bf81f08264e0a89ef19328f6199c56b9213eadee"
+      },
+      {
+        "file": "src/utils/customerDebtAging.ts",
+        "sha256": "7bc32a3fe0cfa3025e6ec82ceeeec516990d779e0abce343ef27f96303d705ba"
+      },
+      {
+        "file": "src/utils/customerStatement.ts",
+        "sha256": "e87531b1f9fb6c0565e9af9c76cea553137debe82b8af7e3f5ba71fa208e1c6a"
+      },
+      {
+        "file": "src/utils/dialogFocus.ts",
+        "sha256": "61ff87896a628125b2a74b33f04eb060407e7ca1e7b5eedbfa44dd68cb4a9e25"
+      },
+      {
+        "file": "src/utils/documentCorrection.ts",
+        "sha256": "1585cef59c464506938f85831136b2730c04776f1da7827d2f1f9451bc937f8f"
+      },
+      {
+        "file": "src/utils/inventoryFormatter.ts",
+        "sha256": "98c62f5906ae24925cbaaa68b364c1cd502cc33329bc9911af6f01af4a842296"
+      },
+      {
+        "file": "src/utils/legacyUnitImportHeaders.ts",
+        "sha256": "58002e7c231a2059900db63b82d9b10a734a9e976aebb14b78c84bdd6e41a0de"
+      },
+      {
+        "file": "src/utils/orderCalculations.ts",
+        "sha256": "db2ba662bea92fb169b5d5adb03726d5d87112c2fabb47f51a7890dc65e0cfd0"
+      },
+      {
+        "file": "src/utils/orderPresentation.ts",
+        "sha256": "f05d5c0efccca8ac7d3f6bc6770a18a4c5ad6222923060bb2cd02aab6d9c2edd"
+      },
+      {
+        "file": "src/utils/posCalculations.ts",
+        "sha256": "183639642a22347fe9b8f8ed3ff24da451fd81f0fd4e4bdd187f8f5bea0fc59e"
+      },
+      {
+        "file": "src/utils/productCalculations.ts",
+        "sha256": "b8a02fd49d6e3344556f26bcbd009106041320280fa6405eaa17a87a43a851c0"
+      },
+      {
+        "file": "src/utils/productEditConflict.ts",
+        "sha256": "820a7a95f9e899d795a6d6aabb6f52df63e9839b97f4433958f55453f610c839"
+      },
+      {
+        "file": "src/utils/productIdentifiers.ts",
+        "sha256": "9af6616db1f5051d3880488a2fde149710f22e16e1b266b5ff5b02d01a2150d5"
+      },
+      {
+        "file": "src/utils/productImage.ts",
+        "sha256": "795a153eba33933cf6fcd7b28faed58020a821ad40205ff8753aec27fc87d8b8"
+      },
+      {
+        "file": "src/utils/receipt.ts",
+        "sha256": "332f9643c3e4ccca5229e73990bfaaa0326d9f64c9489e4a8db095e64891880d"
+      },
+      {
+        "file": "src/utils/receivingCalculations.ts",
+        "sha256": "996ed8e06d7be777fce82e49e8746c4931ac2c67e055e3745e04e29e89932dde"
+      },
+      {
+        "file": "src/utils/receivingPurchaseContext.ts",
+        "sha256": "5e8b160add9948a45a2fdfdd17d3c8985458be9723bc7bc5c2f14f3599108dea"
+      },
+      {
+        "file": "src/utils/receivingV2.ts",
+        "sha256": "1fcb7262d6e1d58eddd19d16cf600e001385922f4d57c050a4f2a52b5962579b"
+      },
+      {
+        "file": "src/utils/rejectionMessage.ts",
+        "sha256": "0730bb29d9d53add372e5a9f084d156c2de8976e6b58c434b1a20c2582dda755"
+      },
+      {
+        "file": "src/utils/roleLabels.ts",
+        "sha256": "bc19440ecf8a4dfa5bb5489283118024a3cec09ba7cf84a151657aa325edd091"
+      },
+      {
+        "file": "src/utils/salesHistory.ts",
+        "sha256": "6e94652801ef2b13a994f54e4d6327a4de7d3b392e14b8abe6ede2e27737dd4c"
+      },
+      {
+        "file": "src/utils/supplierCancellationPreview.ts",
+        "sha256": "ef8874db2352ef148615e92202d8211d89db48f756d0e8ed634ed547519abc31"
+      },
+      {
+        "file": "src/utils/supplierPaymentLimit.ts",
+        "sha256": "7ec4b5cf0ec390087c4ee37506d5644570c3840a83a1ab37e1682683fc103769"
+      },
+      {
+        "file": "src/utils/supplierReplacement.ts",
+        "sha256": "647503ff1a1a0c389573e3faa8683b6cd30ef6e2b9abc9387bce5d8f74226bd4"
+      },
+      {
+        "file": "src/utils/unitLabels.ts",
+        "sha256": "33c12742419d4e0ab00291d5afd39411a07f6692c18e4754705d1487a242ecf9"
+      },
+      {
+        "file": "src/vite-env.d.ts",
+        "sha256": "8f554758a8fd30b190025fa27153a59d27f833393e8bd2c622418d85d0e45697"
+      },
+      {
+        "file": "customer-web/src/App.tsx",
+        "sha256": "4d5c39ebdb0f9bd15558da39f1bf49717eb9148e366076e2578420c0136cf78e"
+      },
+      {
+        "file": "customer-web/src/components/AboutStorePage.tsx",
+        "sha256": "3109129e6e4243e08cb33318433d10ed4847a21436a0e37e8b70f01b7f46dfc0"
+      },
+      {
+        "file": "customer-web/src/components/CargoAddButton.tsx",
+        "sha256": "c5e7e287e970394097c678ea67347aa5086c06833b15083dbd5015ca8f36d94e"
+      },
+      {
+        "file": "customer-web/src/components/CartDrawer.tsx",
+        "sha256": "f49b1f27d154bb75c74dcd26690eba01dfc1ce69745e723585b12146f3be3965"
+      },
+      {
+        "file": "customer-web/src/components/CategoryDrawer.tsx",
+        "sha256": "7f577988947367fd548284ed5a34ff3405317d1a6faf8944f3451e1c7915935e"
+      },
+      {
+        "file": "customer-web/src/components/CategoryShowcase.tsx",
+        "sha256": "563b264544af8f09b91e1122d49965aabcbb8165e29530325f5acabacfcbce34"
+      },
+      {
+        "file": "customer-web/src/components/categoryVisuals.ts",
+        "sha256": "aec26f41b506e0f2cb072474fb11ed5e656e52492ab1ba08657c4b59634e2719"
+      },
+      {
+        "file": "customer-web/src/components/CheckoutModal.tsx",
+        "sha256": "514639e7855a6b72a6d3e1aa3f7a30fa7970fd1abb29f86d1bf39b009e48d896"
+      },
+      {
+        "file": "customer-web/src/components/CheckoutProgress.tsx",
+        "sha256": "2a0de8146a0ff0fd0d26df6e056017fa3e62da27d24fbe1aaee33a9506042fb1"
+      },
+      {
+        "file": "customer-web/src/components/CheckoutReceiptPanel.tsx",
+        "sha256": "d1c9f687c7e639af4b10bea4180c26b187d69dc72a6d94958273aa25e02461f2"
+      },
+      {
+        "file": "customer-web/src/components/FloatingContactActions.tsx",
+        "sha256": "38b995e0eb4e0e9e9adee6f6a6e2ec6db475ea0c8bbcd3b61e871b82029da03f"
+      },
+      {
+        "file": "customer-web/src/components/GuidedStoreAssistant.tsx",
+        "sha256": "daaa0ebe002ebbae2bc442b792a7f1aa1c8231c723c5d03b8952822e5227d366"
+      },
+      {
+        "file": "customer-web/src/components/HomeCategoryMosaic.tsx",
+        "sha256": "fc2bf3e1e855b4affd43b843c8db7c941899b4ec9d143282857ce48346ef05a8"
+      },
+      {
+        "file": "customer-web/src/components/MerchandisingSections.tsx",
+        "sha256": "7235edab28ae3facdc175c2470ae5d40121b78192d07d221d1d254372e30ea50"
+      },
+      {
+        "file": "customer-web/src/components/MobileStoreNav.tsx",
+        "sha256": "cb777e2d450eaeb894caacf8fce5100b29e83366fa8d66fbe871bf44bc0d45f2"
+      },
+      {
+        "file": "customer-web/src/components/NetworkStatusBanner.tsx",
+        "sha256": "ac8312df98ba6b1f5c168beb2aa96166706e111cdbf2106cf39fb15d1af4051d"
+      },
+      {
+        "file": "customer-web/src/components/OffersPage.tsx",
+        "sha256": "3f58f999951223cc0d2b2ed7d77e10a0b6d57898c31cbcec0d0fd6a699c3e1b9"
+      },
+      {
+        "file": "customer-web/src/components/OrderTrackingModal.tsx",
+        "sha256": "122ff2f7535ac8e0897b60ba9051ddf3e9a175028326e874cb440e274b174549"
+      },
+      {
+        "file": "customer-web/src/components/orderTrackingPresentation.ts",
+        "sha256": "b9a47eda700c1add33c82ffb94c6cdf1c88e9807827fc1461e6af25a6b58ad54"
+      },
+      {
+        "file": "customer-web/src/components/OrderTrackingTimeline.tsx",
+        "sha256": "bf343cdc56f36850ed12eceb40177e316c4f7e002c6e2da1c89b93218008824a"
+      },
+      {
+        "file": "customer-web/src/components/ParcelBuilderModal.tsx",
+        "sha256": "108ec9fd4cb6d7f294508561c25b508ed3f52042e16e8753e0492960bac91f9d"
+      },
+      {
+        "file": "customer-web/src/components/PrivacyPolicyModal.tsx",
+        "sha256": "88fb34bfd4f38b6a7e31aa218ef657f1881aa538a2c2668d273e678148ddcd8f"
+      },
+      {
+        "file": "customer-web/src/components/ProductCard.tsx",
+        "sha256": "a9cdf55bce0e338e4ab37daa8762744a9ab56c8684555519f54c67b1509a9bf5"
+      },
+      {
+        "file": "customer-web/src/components/ProductDetailsModal.tsx",
+        "sha256": "d0278f74113e3b2b540d8da83777f31f9a320e9a6c80158e63dd47c7f31f55d7"
+      },
+      {
+        "file": "customer-web/src/components/ProductImage.tsx",
+        "sha256": "2d581a7599faa0924b0aa01b9f8870ac9fe55cc97e31a53984d63925e11aeac6"
+      },
+      {
+        "file": "customer-web/src/components/ProductPurchaseControl.tsx",
+        "sha256": "4c8e5b27e2208ecf9cbfccb53fe20732b62269174f2b1dad1b6c6d4598e43059"
+      },
+      {
+        "file": "customer-web/src/components/PromotionOffers.tsx",
+        "sha256": "4d08c5a6589feb3418118dc2a0c87ad0de3488c89db04a4a5672486593de0a45"
+      },
+      {
+        "file": "customer-web/src/components/PublicPosReceiptPage.tsx",
+        "sha256": "a7570652154a9f9eb9f9500732057ff3c78959b0ea19724be31721ce012d35e8"
+      },
+      {
+        "file": "customer-web/src/components/StoreErrorBoundary.tsx",
+        "sha256": "f12a6de644559f313f5ca2f40677fb53a98bdc073c9005a62a675afea4811698"
+      },
+      {
+        "file": "customer-web/src/components/StoreFooter.tsx",
+        "sha256": "5f15fb35fbbf67c9819c06b644425faf1541899f6bd2c03cfd39303484cfdb32"
+      },
+      {
+        "file": "customer-web/src/components/StoreHeader.tsx",
+        "sha256": "fc763d50d126951df5b08cfcba13566859db2954238e40149c7044fdfff964f5"
+      },
+      {
+        "file": "customer-web/src/components/StoreHero.tsx",
+        "sha256": "8f801149669598ddb1954e7e4f3ec76541ec7147a69ceac0568b8966b2bef937"
+      },
+      {
+        "file": "customer-web/src/components/StoreInfoSection.tsx",
+        "sha256": "977c93c13802d38ad8ebc91724991e818d97bc96abe05eea553a16036571445c"
+      },
+      {
+        "file": "customer-web/src/components/StoreLogoMark.tsx",
+        "sha256": "a39beaa46805cab2a2f43be6227da2a501b781a8b3c551bec229d6d22bd2eb7f"
+      },
+      {
+        "file": "customer-web/src/components/TurnstileWidget.tsx",
+        "sha256": "37d639422e84c97f19ece80609aecf63330edf9f2b9f2ec105a939cb377d291b"
+      },
+      {
+        "file": "customer-web/src/config/publicSite.ts",
+        "sha256": "ebad7c0e78ce66481c82dbe4ab6816627fc7706d856beb26ac7927f5f05181f2"
+      },
+      {
+        "file": "customer-web/src/config/seoBrand.ts",
+        "sha256": "954fc9dd3d7fedeaee440a8a02140bac0ccfced1b0c007da9ff1d1a0df2ad46d"
+      },
+      {
+        "file": "customer-web/src/config/store.ts",
+        "sha256": "52793eb1406ad350d08eeaa38b31513993ba906e3dd043b9d6951e17573bff10"
+      },
+      {
+        "file": "customer-web/src/config/supabase-public-config.ts",
+        "sha256": "a52af5c5c0c3d69d7694ce62b0298c7bf8daf5c17ac61ac99183a54911a6aa38"
+      },
+      {
+        "file": "customer-web/src/hooks/useCustomerCommerce.ts",
+        "sha256": "e66bd9afb1dfc159721da60fbd154bf1896a0ca2659f60c9a7eee1b35bb9a89a"
+      },
+      {
+        "file": "customer-web/src/hooks/useDialogFocus.ts",
+        "sha256": "d0ec02cc98cbbb0669f40d09c806aa995f15d3f0add937427fc4dfd0d4372be1"
+      },
+      {
+        "file": "customer-web/src/lib/errorMonitoring.ts",
+        "sha256": "56c03352e3ca19bb49e878a8fa881119efb7d88170a172e3a73c920162ed9d27"
+      },
+      {
+        "file": "customer-web/src/lib/supabase.ts",
+        "sha256": "b4bc81ec8573b9f813b2117a772c636a2f2cd21a2314c310088f400aecca5178"
+      },
+      {
+        "file": "customer-web/src/main.tsx",
+        "sha256": "123ea144a5d9c07e89696a0e4393b775dbd9f29d8008fb3c87ac63da1fe95ba9"
+      },
+      {
+        "file": "customer-web/src/receipts/commercialReceipt.ts",
+        "sha256": "08a9f5d6908321de6c331ac567b67f5aaa057e0ad3529ecf640a8813cbc5be57"
+      },
+      {
+        "file": "customer-web/src/receipts/publicReceipt.ts",
+        "sha256": "f7d4dcf2119e5a9c37550b7c2f75d4b0a3dd9c7fe649a5ba4035076b878b32bb"
+      },
+      {
+        "file": "customer-web/src/receipts/ReceiptDocument.tsx",
+        "sha256": "63137e9dbc9a16b3fd5811f49c6df9be64ecca9c955cfab07bc859169cda361b"
+      },
+      {
+        "file": "customer-web/src/services/catalog.service.ts",
+        "sha256": "4da530b39146d8d3c9736a73f25241f403b176e4056a71dcc42d15f2677b6def"
+      },
+      {
+        "file": "customer-web/src/services/checkoutRecoveryCoordinator.ts",
+        "sha256": "1a6fe01c8a2364c6168c4494be33c5b89eb34dd3e86819a2029a11326c641690"
+      },
+      {
+        "file": "customer-web/src/services/commerceStorage.ts",
+        "sha256": "08ac8012afdc1cd02631e2ebcc52f53c035e279a0e8ca7c2a60b3a201a1ebeb3"
+      },
+      {
+        "file": "customer-web/src/services/offers.service.ts",
+        "sha256": "0a6bbe7145146a7bd5d525110a07f032baa8436bacae913a3cff175b9eea779f"
+      },
+      {
+        "file": "customer-web/src/services/orders.service.ts",
+        "sha256": "dcfe32b02c18de9a861d95a8ce00478621e14dacfad4a7664b02c7d020354785"
+      },
+      {
+        "file": "customer-web/src/services/receipts.service.ts",
+        "sha256": "ebb895a3909d58a800de8794201bcae931c5eb91d7026a6c829734bb1f421290"
+      },
+      {
+        "file": "customer-web/src/services/storefront-settings.service.ts",
+        "sha256": "a46ca638890c6c4e127a1d0a4f7938a4805c423b503762ee5530298991bcf5e9"
+      },
+      {
+        "file": "customer-web/src/types/catalog.ts",
+        "sha256": "f55c64fc40254816deb09d0e13d178af4520b479b3c3a0a8c158d35e251c56e8"
+      },
+      {
+        "file": "customer-web/src/types/checkout.ts",
+        "sha256": "21ddde950b3ccd6c690b769d490206f483e4ba133f0539cfb5403ae91c0ece28"
+      },
+      {
+        "file": "customer-web/src/types/offers.ts",
+        "sha256": "096195d022c61cb84baf1b6421996c267632b7bc74559f0aaf69841230c3d0e2"
+      },
+      {
+        "file": "customer-web/src/types/receipt.ts",
+        "sha256": "751a383ce93bc71df5789e0e7be427b425744ab40c591632705ceeca22274dfd"
+      },
+      {
+        "file": "customer-web/src/types/storefront.ts",
+        "sha256": "b6efb2f7a0e5514a9de186550597302681c8d843e0517cbb000b8860f2d7b175"
+      },
+      {
+        "file": "customer-web/src/utils/cart.ts",
+        "sha256": "aa7c52d1db568f72f8fd5ef615a06ba02e1676cb665cf5a555df64b7fd4f0677"
+      },
+      {
+        "file": "customer-web/src/utils/catalogView.ts",
+        "sha256": "02744d68143facc4a919243a345f40cedb13bc97daab0fc7ec008d6b073503c1"
+      },
+      {
+        "file": "customer-web/src/utils/checkout.ts",
+        "sha256": "e9782e842c0dcda6c1662fa24714c98dbb76da70b1e27cf2a8e2aad313eb1344"
+      },
+      {
+        "file": "customer-web/src/utils/checkoutErrorMessage.ts",
+        "sha256": "af108f77db1b37e59a3c9059e7dd59382d2139111fd979c9fcfdc607e4386f40"
+      },
+      {
+        "file": "customer-web/src/utils/dialogFocus.ts",
+        "sha256": "245e78a39c65e917015fa146ef52d209ecd4f7b1bb8ec2f80d7e94dfbdd7db8b"
+      },
+      {
+        "file": "customer-web/src/utils/money.ts",
+        "sha256": "22e3a604940ec4781c81a4f32d3608cad1d4f59dc29ed65a16bc38beca4f7d9e"
+      },
+      {
+        "file": "customer-web/src/utils/productDetails.ts",
+        "sha256": "eed0f30e37703310dc7a0346d4a8ec0dbe56cb63756da932840db5bdc06b5f14"
+      },
+      {
+        "file": "customer-web/src/utils/publicRoutes.ts",
+        "sha256": "ba934021602b4d460055d89bcf5b3bdc6c29279d1ae7ca3c59e834720c150224"
+      },
+      {
+        "file": "customer-web/src/utils/storefrontSeo.ts",
+        "sha256": "d904477e9eb171605edd5d4f837a56391eef3ec01fdd20420539e62eddf7dac9"
+      },
+      {
+        "file": "customer-web/src/utils/storefrontUnits.ts",
+        "sha256": "429b1048d1fa038312f07d2c2843ffd0da59e9aede2ae36c7e7b5ddee2cd5cf8"
+      },
+      {
+        "file": "supabase/functions/admin-ai-assistant/index.ts",
+        "sha256": "b7663a899b5fbf868066716d5f3431fb9947dd04688b52878b2967276cd5dc5f"
+      },
+      {
+        "file": "supabase/functions/manage-staff-users/index.ts",
+        "sha256": "65fed77a0253920adb1a52ad68d6bb28c7df021f761f2adfc840b9cb8057e109"
+      },
+      {
+        "file": "supabase/functions/n8n-alert-feed/index.ts",
+        "sha256": "30bab3af0da1ced5c9001f1d3e0a925c79b994e077ab8e1f67dd137fc75e001d"
+      },
+      {
+        "file": "supabase/functions/send-order-push/index.ts",
+        "sha256": "b1f587cce14da734d4575a03dfefa5ef61a9a78663c8a9ccc13fdafebd7d53f2"
+      },
+      {
+        "file": "supabase/functions/submit-guest-order/index.ts",
+        "sha256": "4cae3f7df1a46cf5ec7b043e1a0d9beaf7b38939cfc26331b5d9f3feccb9d9ec"
+      },
+      {
+        "file": "supabase/functions/submit-guest-order/security.ts",
+        "sha256": "2ff2d8cd464d0f8d5f2d664124d0ad7c76f17bb07c99eb2d7e18e0a8a2d50f92"
+      }
+    ],
+    "closedConsumerCount": 0
+  },
+  "migrationSha256": "9748c01d4d55703d8586901146420f5232534034993cf8f9ba049ba05ece2b48",
+  "delta": [
+    {
+      "section": "tables",
+      "identity": "[\"public\",null,\"audit_logs\",null,null]",
+      "before": {
+        "acl": [
+          "postgres=arwdDxtm/postgres",
+          "anon=Dxtm/postgres",
+          "authenticated=Dxtm/postgres",
+          "service_role=Dxtm/postgres"
+        ],
+        "rls": true,
+        "kind": "r",
+        "name": "audit_logs",
+        "view": null,
+        "owner": "postgres",
+        "schema": "public",
+        "columns": [
+          {
+            "acl": null,
+            "name": "id",
+            "type": "uuid",
+            "number": 1,
+            "default": "gen_random_uuid()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "user_id",
+            "type": "uuid",
+            "number": 2,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "action",
+            "type": "text",
+            "number": 3,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "entity_name",
+            "type": "text",
+            "number": 4,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "entity_id",
+            "type": "uuid",
+            "number": 5,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "details",
+            "type": "jsonb",
+            "number": 6,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "ip_address",
+            "type": "text",
+            "number": 7,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "created_at",
+            "type": "timestamp with time zone",
+            "number": 8,
+            "default": "now()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          }
+        ],
+        "options": null,
+        "parents": [],
+        "forceRls": false,
+        "partition": null,
+        "persistence": "p",
+        "replicaIdentity": "d"
+      },
+      "after": {
+        "acl": [
+          "postgres=arwdDxtm/postgres",
+          "anon=m/postgres",
+          "authenticated=m/postgres",
+          "service_role=Dxtm/postgres"
+        ],
+        "rls": true,
+        "kind": "r",
+        "name": "audit_logs",
+        "view": null,
+        "owner": "postgres",
+        "schema": "public",
+        "columns": [
+          {
+            "acl": null,
+            "name": "id",
+            "type": "uuid",
+            "number": 1,
+            "default": "gen_random_uuid()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "user_id",
+            "type": "uuid",
+            "number": 2,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "action",
+            "type": "text",
+            "number": 3,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "entity_name",
+            "type": "text",
+            "number": 4,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "entity_id",
+            "type": "uuid",
+            "number": 5,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "details",
+            "type": "jsonb",
+            "number": 6,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "ip_address",
+            "type": "text",
+            "number": 7,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "created_at",
+            "type": "timestamp with time zone",
+            "number": 8,
+            "default": "now()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          }
+        ],
+        "options": null,
+        "parents": [],
+        "forceRls": false,
+        "partition": null,
+        "persistence": "p",
+        "replicaIdentity": "d"
+      }
+    },
+    {
+      "section": "tables",
+      "identity": "[\"public\",null,\"customer_payments\",null,null]",
+      "before": {
+        "acl": [
+          "postgres=arwdDxtm/postgres",
+          "authenticated=rDxtm/postgres",
+          "service_role=Dxtm/postgres"
+        ],
+        "rls": true,
+        "kind": "r",
+        "name": "customer_payments",
+        "view": null,
+        "owner": "postgres",
+        "schema": "public",
+        "columns": [
+          {
+            "acl": null,
+            "name": "id",
+            "type": "uuid",
+            "number": 1,
+            "default": "gen_random_uuid()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "payment_number",
+            "type": "text",
+            "number": 2,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "customer_id",
+            "type": "uuid",
+            "number": 3,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "order_id",
+            "type": "uuid",
+            "number": 4,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "amount_in_minor_units",
+            "type": "bigint",
+            "number": 5,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "payment_method",
+            "type": "text",
+            "number": 6,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "reference_number",
+            "type": "text",
+            "number": 7,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "notes",
+            "type": "text",
+            "number": 8,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "created_by",
+            "type": "uuid",
+            "number": 9,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "created_at",
+            "type": "timestamp with time zone",
+            "number": 10,
+            "default": "now()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "cash_shift_id",
+            "type": "uuid",
+            "number": 11,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "idempotency_key",
+            "type": "text",
+            "number": 12,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "is_reversed",
+            "type": "boolean",
+            "number": 13,
+            "default": "false",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "reversed_at",
+            "type": "timestamp with time zone",
+            "number": 14,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "reversed_by",
+            "type": "uuid",
+            "number": 15,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "reversal_reason",
+            "type": "text",
+            "number": 16,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          }
+        ],
+        "options": null,
+        "parents": [],
+        "forceRls": false,
+        "partition": null,
+        "persistence": "p",
+        "replicaIdentity": "d"
+      },
+      "after": {
+        "acl": [
+          "postgres=arwdDxtm/postgres",
+          "authenticated=rm/postgres",
+          "service_role=Dxtm/postgres"
+        ],
+        "rls": true,
+        "kind": "r",
+        "name": "customer_payments",
+        "view": null,
+        "owner": "postgres",
+        "schema": "public",
+        "columns": [
+          {
+            "acl": null,
+            "name": "id",
+            "type": "uuid",
+            "number": 1,
+            "default": "gen_random_uuid()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "payment_number",
+            "type": "text",
+            "number": 2,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "customer_id",
+            "type": "uuid",
+            "number": 3,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "order_id",
+            "type": "uuid",
+            "number": 4,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "amount_in_minor_units",
+            "type": "bigint",
+            "number": 5,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "payment_method",
+            "type": "text",
+            "number": 6,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "reference_number",
+            "type": "text",
+            "number": 7,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "notes",
+            "type": "text",
+            "number": 8,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "created_by",
+            "type": "uuid",
+            "number": 9,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "created_at",
+            "type": "timestamp with time zone",
+            "number": 10,
+            "default": "now()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "cash_shift_id",
+            "type": "uuid",
+            "number": 11,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "idempotency_key",
+            "type": "text",
+            "number": 12,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "is_reversed",
+            "type": "boolean",
+            "number": 13,
+            "default": "false",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "reversed_at",
+            "type": "timestamp with time zone",
+            "number": 14,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "reversed_by",
+            "type": "uuid",
+            "number": 15,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "reversal_reason",
+            "type": "text",
+            "number": 16,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          }
+        ],
+        "options": null,
+        "parents": [],
+        "forceRls": false,
+        "partition": null,
+        "persistence": "p",
+        "replicaIdentity": "d"
+      }
+    },
+    {
+      "section": "tables",
+      "identity": "[\"public\",null,\"promotion_codes\",null,null]",
+      "before": {
+        "acl": [
+          "postgres=arwdDxtm/postgres",
+          "anon=Dxtm/postgres",
+          "authenticated=Dxtm/postgres",
+          "service_role=Dxtm/postgres"
+        ],
+        "rls": true,
+        "kind": "r",
+        "name": "promotion_codes",
+        "view": null,
+        "owner": "postgres",
+        "schema": "public",
+        "columns": [
+          {
+            "acl": null,
+            "name": "id",
+            "type": "uuid",
+            "number": 1,
+            "default": "gen_random_uuid()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "code",
+            "type": "text",
+            "number": 2,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "description_ar",
+            "type": "text",
+            "number": 3,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "discount_type",
+            "type": "text",
+            "number": 4,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "discount_value",
+            "type": "bigint",
+            "number": 5,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "minimum_subtotal_in_minor_units",
+            "type": "bigint",
+            "number": 6,
+            "default": "0",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "maximum_discount_in_minor_units",
+            "type": "bigint",
+            "number": 7,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "starts_at",
+            "type": "timestamp with time zone",
+            "number": 8,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "expires_at",
+            "type": "timestamp with time zone",
+            "number": 9,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "maximum_total_redemptions",
+            "type": "integer",
+            "number": 10,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "maximum_redemptions_per_phone",
+            "type": "integer",
+            "number": 11,
+            "default": "1",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "is_active",
+            "type": "boolean",
+            "number": 12,
+            "default": "true",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "created_by",
+            "type": "uuid",
+            "number": 13,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "created_at",
+            "type": "timestamp with time zone",
+            "number": 14,
+            "default": "now()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "updated_at",
+            "type": "timestamp with time zone",
+            "number": 15,
+            "default": "now()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "is_public_offer",
+            "type": "boolean",
+            "number": 16,
+            "default": "true",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          }
+        ],
+        "options": null,
+        "parents": [],
+        "forceRls": false,
+        "partition": null,
+        "persistence": "p",
+        "replicaIdentity": "d"
+      },
+      "after": {
+        "acl": [
+          "postgres=arwdDxtm/postgres",
+          "anon=m/postgres",
+          "authenticated=m/postgres",
+          "service_role=Dxtm/postgres"
+        ],
+        "rls": true,
+        "kind": "r",
+        "name": "promotion_codes",
+        "view": null,
+        "owner": "postgres",
+        "schema": "public",
+        "columns": [
+          {
+            "acl": null,
+            "name": "id",
+            "type": "uuid",
+            "number": 1,
+            "default": "gen_random_uuid()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "code",
+            "type": "text",
+            "number": 2,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "description_ar",
+            "type": "text",
+            "number": 3,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "discount_type",
+            "type": "text",
+            "number": 4,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "discount_value",
+            "type": "bigint",
+            "number": 5,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "minimum_subtotal_in_minor_units",
+            "type": "bigint",
+            "number": 6,
+            "default": "0",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "maximum_discount_in_minor_units",
+            "type": "bigint",
+            "number": 7,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "starts_at",
+            "type": "timestamp with time zone",
+            "number": 8,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "expires_at",
+            "type": "timestamp with time zone",
+            "number": 9,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "maximum_total_redemptions",
+            "type": "integer",
+            "number": 10,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "maximum_redemptions_per_phone",
+            "type": "integer",
+            "number": 11,
+            "default": "1",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "is_active",
+            "type": "boolean",
+            "number": 12,
+            "default": "true",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "created_by",
+            "type": "uuid",
+            "number": 13,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "created_at",
+            "type": "timestamp with time zone",
+            "number": 14,
+            "default": "now()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "updated_at",
+            "type": "timestamp with time zone",
+            "number": 15,
+            "default": "now()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "is_public_offer",
+            "type": "boolean",
+            "number": 16,
+            "default": "true",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          }
+        ],
+        "options": null,
+        "parents": [],
+        "forceRls": false,
+        "partition": null,
+        "persistence": "p",
+        "replicaIdentity": "d"
+      }
+    },
+    {
+      "section": "tables",
+      "identity": "[\"public\",null,\"promotion_redemptions\",null,null]",
+      "before": {
+        "acl": [
+          "postgres=arwdDxtm/postgres",
+          "anon=Dxtm/postgres",
+          "authenticated=Dxtm/postgres",
+          "service_role=Dxtm/postgres"
+        ],
+        "rls": true,
+        "kind": "r",
+        "name": "promotion_redemptions",
+        "view": null,
+        "owner": "postgres",
+        "schema": "public",
+        "columns": [
+          {
+            "acl": null,
+            "name": "id",
+            "type": "uuid",
+            "number": 1,
+            "default": "gen_random_uuid()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "promotion_code_id",
+            "type": "uuid",
+            "number": 2,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "order_id",
+            "type": "uuid",
+            "number": 3,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "customer_id",
+            "type": "uuid",
+            "number": 4,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "customer_phone",
+            "type": "text",
+            "number": 5,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "code_snapshot",
+            "type": "text",
+            "number": 6,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "discount_in_minor_units",
+            "type": "bigint",
+            "number": 7,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "created_at",
+            "type": "timestamp with time zone",
+            "number": 8,
+            "default": "now()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          }
+        ],
+        "options": null,
+        "parents": [],
+        "forceRls": false,
+        "partition": null,
+        "persistence": "p",
+        "replicaIdentity": "d"
+      },
+      "after": {
+        "acl": [
+          "postgres=arwdDxtm/postgres",
+          "anon=m/postgres",
+          "authenticated=m/postgres",
+          "service_role=Dxtm/postgres"
+        ],
+        "rls": true,
+        "kind": "r",
+        "name": "promotion_redemptions",
+        "view": null,
+        "owner": "postgres",
+        "schema": "public",
+        "columns": [
+          {
+            "acl": null,
+            "name": "id",
+            "type": "uuid",
+            "number": 1,
+            "default": "gen_random_uuid()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "promotion_code_id",
+            "type": "uuid",
+            "number": 2,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "order_id",
+            "type": "uuid",
+            "number": 3,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "customer_id",
+            "type": "uuid",
+            "number": 4,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "customer_phone",
+            "type": "text",
+            "number": 5,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "code_snapshot",
+            "type": "text",
+            "number": 6,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "discount_in_minor_units",
+            "type": "bigint",
+            "number": 7,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "created_at",
+            "type": "timestamp with time zone",
+            "number": 8,
+            "default": "now()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          }
+        ],
+        "options": null,
+        "parents": [],
+        "forceRls": false,
+        "partition": null,
+        "persistence": "p",
+        "replicaIdentity": "d"
+      }
+    },
+    {
+      "section": "tables",
+      "identity": "[\"public\",null,\"stock_alert_reads\",null,null]",
+      "before": {
+        "acl": [
+          "postgres=arwdDxtm/postgres",
+          "anon=Dxtm/postgres",
+          "authenticated=Dxtm/postgres",
+          "service_role=Dxtm/postgres"
+        ],
+        "rls": true,
+        "kind": "r",
+        "name": "stock_alert_reads",
+        "view": null,
+        "owner": "postgres",
+        "schema": "public",
+        "columns": [
+          {
+            "acl": null,
+            "name": "stock_alert_id",
+            "type": "uuid",
+            "number": 1,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "user_id",
+            "type": "uuid",
+            "number": 2,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "read_at",
+            "type": "timestamp with time zone",
+            "number": 3,
+            "default": "now()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          }
+        ],
+        "options": null,
+        "parents": [],
+        "forceRls": false,
+        "partition": null,
+        "persistence": "p",
+        "replicaIdentity": "d"
+      },
+      "after": {
+        "acl": [
+          "postgres=arwdDxtm/postgres",
+          "anon=m/postgres",
+          "authenticated=m/postgres",
+          "service_role=Dxtm/postgres"
+        ],
+        "rls": true,
+        "kind": "r",
+        "name": "stock_alert_reads",
+        "view": null,
+        "owner": "postgres",
+        "schema": "public",
+        "columns": [
+          {
+            "acl": null,
+            "name": "stock_alert_id",
+            "type": "uuid",
+            "number": 1,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "user_id",
+            "type": "uuid",
+            "number": 2,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "read_at",
+            "type": "timestamp with time zone",
+            "number": 3,
+            "default": "now()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          }
+        ],
+        "options": null,
+        "parents": [],
+        "forceRls": false,
+        "partition": null,
+        "persistence": "p",
+        "replicaIdentity": "d"
+      }
+    },
+    {
+      "section": "tables",
+      "identity": "[\"public\",null,\"stock_alerts\",null,null]",
+      "before": {
+        "acl": [
+          "postgres=arwdDxtm/postgres",
+          "anon=Dxtm/postgres",
+          "authenticated=Dxtm/postgres",
+          "service_role=Dxtm/postgres"
+        ],
+        "rls": true,
+        "kind": "r",
+        "name": "stock_alerts",
+        "view": null,
+        "owner": "postgres",
+        "schema": "public",
+        "columns": [
+          {
+            "acl": null,
+            "name": "id",
+            "type": "uuid",
+            "number": 1,
+            "default": "gen_random_uuid()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "product_id",
+            "type": "uuid",
+            "number": 2,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "warehouse_id",
+            "type": "uuid",
+            "number": 3,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "severity",
+            "type": "text",
+            "number": 4,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "status",
+            "type": "text",
+            "number": 5,
+            "default": "'active'::text",
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "available_quantity",
+            "type": "integer",
+            "number": 6,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "threshold_quantity",
+            "type": "integer",
+            "number": 7,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "first_triggered_at",
+            "type": "timestamp with time zone",
+            "number": 8,
+            "default": "now()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "last_updated_at",
+            "type": "timestamp with time zone",
+            "number": 9,
+            "default": "now()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "resolved_at",
+            "type": "timestamp with time zone",
+            "number": 10,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          }
+        ],
+        "options": null,
+        "parents": [],
+        "forceRls": false,
+        "partition": null,
+        "persistence": "p",
+        "replicaIdentity": "d"
+      },
+      "after": {
+        "acl": [
+          "postgres=arwdDxtm/postgres",
+          "anon=m/postgres",
+          "authenticated=m/postgres",
+          "service_role=Dxtm/postgres"
+        ],
+        "rls": true,
+        "kind": "r",
+        "name": "stock_alerts",
+        "view": null,
+        "owner": "postgres",
+        "schema": "public",
+        "columns": [
+          {
+            "acl": null,
+            "name": "id",
+            "type": "uuid",
+            "number": 1,
+            "default": "gen_random_uuid()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "product_id",
+            "type": "uuid",
+            "number": 2,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "warehouse_id",
+            "type": "uuid",
+            "number": 3,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "severity",
+            "type": "text",
+            "number": 4,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "status",
+            "type": "text",
+            "number": 5,
+            "default": "'active'::text",
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "available_quantity",
+            "type": "integer",
+            "number": 6,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "threshold_quantity",
+            "type": "integer",
+            "number": 7,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "first_triggered_at",
+            "type": "timestamp with time zone",
+            "number": 8,
+            "default": "now()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "last_updated_at",
+            "type": "timestamp with time zone",
+            "number": 9,
+            "default": "now()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "resolved_at",
+            "type": "timestamp with time zone",
+            "number": 10,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          }
+        ],
+        "options": null,
+        "parents": [],
+        "forceRls": false,
+        "partition": null,
+        "persistence": "p",
+        "replicaIdentity": "d"
+      }
+    },
+    {
+      "section": "tables",
+      "identity": "[\"public\",null,\"guest_order_tracking_limits\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=arwdDxtm/postgres"
+        ],
+        "rls": true,
+        "kind": "r",
+        "name": "guest_order_tracking_limits",
+        "view": null,
+        "owner": "postgres",
+        "schema": "public",
+        "columns": [
+          {
+            "acl": null,
+            "name": "scope",
+            "type": "text",
+            "number": 1,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "identifier_hash",
+            "type": "text",
+            "number": 2,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "window_started_at",
+            "type": "timestamp with time zone",
+            "number": 3,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "attempts",
+            "type": "integer",
+            "number": 4,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "last_seen_at",
+            "type": "timestamp with time zone",
+            "number": 5,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          }
+        ],
+        "options": null,
+        "parents": [],
+        "forceRls": false,
+        "partition": null,
+        "persistence": "p",
+        "replicaIdentity": "d"
+      }
+    },
+    {
+      "section": "indexes",
+      "identity": "[\"public\",\"guest_order_tracking_limits\",\"guest_order_tracking_limits_expiry_idx\",null,null]",
+      "before": null,
+      "after": {
+        "name": "guest_order_tracking_limits_expiry_idx",
+        "owner": "postgres",
+        "ready": true,
+        "table": "guest_order_tracking_limits",
+        "valid": true,
+        "schema": "public",
+        "unique": false,
+        "primary": false,
+        "clustered": false,
+        "definition": "CREATE INDEX guest_order_tracking_limits_expiry_idx ON public.guest_order_tracking_limits USING btree (last_seen_at)",
+        "replicaIdentity": false
+      }
+    },
+    {
+      "section": "indexes",
+      "identity": "[\"public\",\"guest_order_tracking_limits\",\"guest_order_tracking_limits_pkey\",null,null]",
+      "before": null,
+      "after": {
+        "name": "guest_order_tracking_limits_pkey",
+        "owner": "postgres",
+        "ready": true,
+        "table": "guest_order_tracking_limits",
+        "valid": true,
+        "schema": "public",
+        "unique": true,
+        "primary": true,
+        "clustered": false,
+        "definition": "CREATE UNIQUE INDEX guest_order_tracking_limits_pkey ON public.guest_order_tracking_limits USING btree (scope, identifier_hash)",
+        "replicaIdentity": false
+      }
+    },
+    {
+      "section": "policies",
+      "identity": "[\"storage\",\"objects\",\"Public can read product images\",null,null]",
+      "before": {
+        "name": "Public can read product images",
+        "check": null,
+        "roles": [
+          "PUBLIC"
+        ],
+        "table": "objects",
+        "using": "(bucket_id = 'product-images'::text)",
+        "schema": "storage",
+        "command": "r",
+        "permissive": true
+      },
+      "after": null
+    },
+    {
+      "section": "policies",
+      "identity": "[\"storage\",\"objects\",\"ERP staff can read own product image metadata\",null,null]",
+      "before": null,
+      "after": {
+        "name": "ERP staff can read own product image metadata",
+        "check": null,
+        "roles": [
+          "authenticated"
+        ],
+        "table": "objects",
+        "using": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
+        "schema": "storage",
+        "command": "r",
+        "permissive": true
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"public\",null,\"create_product_with_opening_stock(p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_warehouse_id uuid, p_opening_quantity integer, p_notes text)\",null,null]",
+      "before": {
+        "acl": [
+          "postgres=X/postgres",
+          "authenticated=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "create_product_with_opening_stock(p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_warehouse_id uuid, p_opening_quantity integer, p_notes text)",
+        "definition": "CREATE OR REPLACE FUNCTION public.create_product_with_opening_stock(p_sku text, p_barcode text DEFAULT NULL::text, p_name_ar text DEFAULT NULL::text, p_description text DEFAULT NULL::text, p_category_id uuid DEFAULT NULL::uuid, p_brand_id uuid DEFAULT NULL::uuid, p_unit_id uuid DEFAULT NULL::uuid, p_purchase_unit_id uuid DEFAULT NULL::uuid, p_units_per_purchase_unit integer DEFAULT 1, p_default_purchase_price_in_minor_units bigint DEFAULT 0, p_cost_price_in_minor_units bigint DEFAULT 0, p_sale_price_in_minor_units bigint DEFAULT 0, p_min_stock_level integer DEFAULT 0, p_max_stock_level integer DEFAULT NULL::integer, p_warehouse_id uuid DEFAULT NULL::uuid, p_opening_quantity integer DEFAULT 0, p_notes text DEFAULT 'رصيد افتتاحي عند إضافة المنتج'::text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nBEGIN\n  PERFORM public.assert_erp_role(\n    ARRAY['owner', 'admin', 'manager', 'warehouse_keeper'],\n    'إضافة المنتجات والأرصدة الافتتاحية'\n  );\n\n  RETURN public._create_product_with_opening_stock_impl(\n    p_sku,\n    p_barcode,\n    p_name_ar,\n    p_description,\n    p_category_id,\n    p_brand_id,\n    p_unit_id,\n    p_purchase_unit_id,\n    p_units_per_purchase_unit,\n    p_default_purchase_price_in_minor_units,\n    p_cost_price_in_minor_units,\n    p_sale_price_in_minor_units,\n    p_min_stock_level,\n    p_max_stock_level,\n    p_warehouse_id,\n    p_opening_quantity,\n    p_notes\n  );\nEND;\n$function$\n",
+        "configuration": [
+          "search_path=public, pg_temp"
+        ]
+      },
+      "after": {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "create_product_with_opening_stock(p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_warehouse_id uuid, p_opening_quantity integer, p_notes text)",
+        "definition": "CREATE OR REPLACE FUNCTION public.create_product_with_opening_stock(p_sku text, p_barcode text DEFAULT NULL::text, p_name_ar text DEFAULT NULL::text, p_description text DEFAULT NULL::text, p_category_id uuid DEFAULT NULL::uuid, p_brand_id uuid DEFAULT NULL::uuid, p_unit_id uuid DEFAULT NULL::uuid, p_purchase_unit_id uuid DEFAULT NULL::uuid, p_units_per_purchase_unit integer DEFAULT 1, p_default_purchase_price_in_minor_units bigint DEFAULT 0, p_cost_price_in_minor_units bigint DEFAULT 0, p_sale_price_in_minor_units bigint DEFAULT 0, p_min_stock_level integer DEFAULT 0, p_max_stock_level integer DEFAULT NULL::integer, p_warehouse_id uuid DEFAULT NULL::uuid, p_opening_quantity integer DEFAULT 0, p_notes text DEFAULT 'رصيد افتتاحي عند إضافة المنتج'::text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nBEGIN\n  PERFORM public.assert_erp_role(\n    ARRAY['owner', 'admin', 'manager', 'warehouse_keeper'],\n    'إضافة المنتجات والأرصدة الافتتاحية'\n  );\n\n  RETURN public._create_product_with_opening_stock_impl(\n    p_sku,\n    p_barcode,\n    p_name_ar,\n    p_description,\n    p_category_id,\n    p_brand_id,\n    p_unit_id,\n    p_purchase_unit_id,\n    p_units_per_purchase_unit,\n    p_default_purchase_price_in_minor_units,\n    p_cost_price_in_minor_units,\n    p_sale_price_in_minor_units,\n    p_min_stock_level,\n    p_max_stock_level,\n    p_warehouse_id,\n    p_opening_quantity,\n    p_notes\n  );\nEND;\n$function$\n",
+        "configuration": [
+          "search_path=public, pg_temp"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"public\",null,\"create_product_with_opening_stock_v2(p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_wholesale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_warehouse_id uuid, p_opening_quantity integer, p_notes text)\",null,null]",
+      "before": {
+        "acl": [
+          "postgres=X/postgres",
+          "authenticated=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "create_product_with_opening_stock_v2(p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_wholesale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_warehouse_id uuid, p_opening_quantity integer, p_notes text)",
+        "definition": "CREATE OR REPLACE FUNCTION public.create_product_with_opening_stock_v2(p_sku text, p_barcode text DEFAULT NULL::text, p_name_ar text DEFAULT NULL::text, p_description text DEFAULT NULL::text, p_category_id uuid DEFAULT NULL::uuid, p_brand_id uuid DEFAULT NULL::uuid, p_unit_id uuid DEFAULT NULL::uuid, p_purchase_unit_id uuid DEFAULT NULL::uuid, p_units_per_purchase_unit integer DEFAULT 1, p_default_purchase_price_in_minor_units bigint DEFAULT 0, p_cost_price_in_minor_units bigint DEFAULT 0, p_sale_price_in_minor_units bigint DEFAULT 0, p_wholesale_price_in_minor_units bigint DEFAULT 0, p_min_stock_level integer DEFAULT 0, p_max_stock_level integer DEFAULT NULL::integer, p_warehouse_id uuid DEFAULT NULL::uuid, p_opening_quantity integer DEFAULT 0, p_notes text DEFAULT 'رصيد افتتاحي عند إضافة المنتج'::text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nDECLARE\n  v_result JSONB;\n  v_product_id UUID;\nBEGIN\n  PERFORM public.assert_erp_role(\n    ARRAY['owner', 'admin', 'manager', 'warehouse_keeper'],\n    'إضافة المنتجات والأرصدة الافتتاحية'\n  );\n\n  IF COALESCE(p_wholesale_price_in_minor_units, -1) < 0 THEN\n    RAISE EXCEPTION 'سعر بيع الجملة لا يمكن أن يكون سالباً.';\n  END IF;\n\n  v_result := public.create_product_with_opening_stock(\n    p_sku,\n    p_barcode,\n    p_name_ar,\n    p_description,\n    p_category_id,\n    p_brand_id,\n    p_unit_id,\n    p_purchase_unit_id,\n    p_units_per_purchase_unit,\n    p_default_purchase_price_in_minor_units,\n    p_cost_price_in_minor_units,\n    p_sale_price_in_minor_units,\n    p_min_stock_level,\n    p_max_stock_level,\n    p_warehouse_id,\n    p_opening_quantity,\n    p_notes\n  );\n\n  v_product_id := NULLIF(v_result->>'product_id', '')::UUID;\n  IF v_product_id IS NULL THEN\n    RAISE EXCEPTION 'لم يتم إرجاع معرف المنتج بعد إنشائه.';\n  END IF;\n\n  UPDATE public.products\n  SET\n    wholesale_price_in_minor_units = p_wholesale_price_in_minor_units,\n    updated_at = NOW()\n  WHERE id = v_product_id;\n\n  INSERT INTO public.audit_logs (\n    user_id,\n    action,\n    entity_name,\n    entity_id,\n    details\n  ) VALUES (\n    auth.uid(),\n    'SET_PRODUCT_WHOLESALE_PRICE',\n    'products',\n    v_product_id,\n    jsonb_build_object(\n      'wholesale_price_in_minor_units',\n      p_wholesale_price_in_minor_units\n    )\n  );\n\n  RETURN v_result || jsonb_build_object(\n    'wholesale_price_in_minor_units',\n    p_wholesale_price_in_minor_units\n  );\nEND;\n$function$\n",
+        "configuration": [
+          "search_path=public, pg_temp"
+        ]
+      },
+      "after": {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "create_product_with_opening_stock_v2(p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_wholesale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_warehouse_id uuid, p_opening_quantity integer, p_notes text)",
+        "definition": "CREATE OR REPLACE FUNCTION public.create_product_with_opening_stock_v2(p_sku text, p_barcode text DEFAULT NULL::text, p_name_ar text DEFAULT NULL::text, p_description text DEFAULT NULL::text, p_category_id uuid DEFAULT NULL::uuid, p_brand_id uuid DEFAULT NULL::uuid, p_unit_id uuid DEFAULT NULL::uuid, p_purchase_unit_id uuid DEFAULT NULL::uuid, p_units_per_purchase_unit integer DEFAULT 1, p_default_purchase_price_in_minor_units bigint DEFAULT 0, p_cost_price_in_minor_units bigint DEFAULT 0, p_sale_price_in_minor_units bigint DEFAULT 0, p_wholesale_price_in_minor_units bigint DEFAULT 0, p_min_stock_level integer DEFAULT 0, p_max_stock_level integer DEFAULT NULL::integer, p_warehouse_id uuid DEFAULT NULL::uuid, p_opening_quantity integer DEFAULT 0, p_notes text DEFAULT 'رصيد افتتاحي عند إضافة المنتج'::text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nDECLARE\n  v_result JSONB;\n  v_product_id UUID;\nBEGIN\n  PERFORM public.assert_erp_role(\n    ARRAY['owner', 'admin', 'manager', 'warehouse_keeper'],\n    'إضافة المنتجات والأرصدة الافتتاحية'\n  );\n\n  IF COALESCE(p_wholesale_price_in_minor_units, -1) < 0 THEN\n    RAISE EXCEPTION 'سعر بيع الجملة لا يمكن أن يكون سالباً.';\n  END IF;\n\n  v_result := public.create_product_with_opening_stock(\n    p_sku,\n    p_barcode,\n    p_name_ar,\n    p_description,\n    p_category_id,\n    p_brand_id,\n    p_unit_id,\n    p_purchase_unit_id,\n    p_units_per_purchase_unit,\n    p_default_purchase_price_in_minor_units,\n    p_cost_price_in_minor_units,\n    p_sale_price_in_minor_units,\n    p_min_stock_level,\n    p_max_stock_level,\n    p_warehouse_id,\n    p_opening_quantity,\n    p_notes\n  );\n\n  v_product_id := NULLIF(v_result->>'product_id', '')::UUID;\n  IF v_product_id IS NULL THEN\n    RAISE EXCEPTION 'لم يتم إرجاع معرف المنتج بعد إنشائه.';\n  END IF;\n\n  UPDATE public.products\n  SET\n    wholesale_price_in_minor_units = p_wholesale_price_in_minor_units,\n    updated_at = NOW()\n  WHERE id = v_product_id;\n\n  INSERT INTO public.audit_logs (\n    user_id,\n    action,\n    entity_name,\n    entity_id,\n    details\n  ) VALUES (\n    auth.uid(),\n    'SET_PRODUCT_WHOLESALE_PRICE',\n    'products',\n    v_product_id,\n    jsonb_build_object(\n      'wholesale_price_in_minor_units',\n      p_wholesale_price_in_minor_units\n    )\n  );\n\n  RETURN v_result || jsonb_build_object(\n    'wholesale_price_in_minor_units',\n    p_wholesale_price_in_minor_units\n  );\nEND;\n$function$\n",
+        "configuration": [
+          "search_path=public, pg_temp"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"public\",null,\"create_product_with_opening_stock_v3(p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_wholesale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_warehouse_id uuid, p_opening_quantity integer, p_notes text, p_image_url text)\",null,null]",
+      "before": {
+        "acl": [
+          "postgres=X/postgres",
+          "authenticated=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "create_product_with_opening_stock_v3(p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_wholesale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_warehouse_id uuid, p_opening_quantity integer, p_notes text, p_image_url text)",
+        "definition": "CREATE OR REPLACE FUNCTION public.create_product_with_opening_stock_v3(p_sku text, p_barcode text DEFAULT NULL::text, p_name_ar text DEFAULT NULL::text, p_description text DEFAULT NULL::text, p_category_id uuid DEFAULT NULL::uuid, p_brand_id uuid DEFAULT NULL::uuid, p_unit_id uuid DEFAULT NULL::uuid, p_purchase_unit_id uuid DEFAULT NULL::uuid, p_units_per_purchase_unit integer DEFAULT 1, p_default_purchase_price_in_minor_units bigint DEFAULT 0, p_cost_price_in_minor_units bigint DEFAULT 0, p_sale_price_in_minor_units bigint DEFAULT 0, p_wholesale_price_in_minor_units bigint DEFAULT 0, p_min_stock_level integer DEFAULT 0, p_max_stock_level integer DEFAULT NULL::integer, p_warehouse_id uuid DEFAULT NULL::uuid, p_opening_quantity integer DEFAULT 0, p_notes text DEFAULT 'رصيد افتتاحي عند إضافة المنتج'::text, p_image_url text DEFAULT NULL::text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nDECLARE\n  v_result JSONB;\n  v_product_id UUID;\n  v_image_url TEXT := NULLIF(BTRIM(p_image_url), '');\nBEGIN\n  PERFORM public.assert_erp_role(\n    ARRAY['owner', 'admin', 'manager', 'warehouse_keeper'],\n    'إضافة المنتجات والأرصدة الافتتاحية'\n  );\n\n  v_result := public.create_product_with_opening_stock_v2(\n    p_sku,\n    p_barcode,\n    p_name_ar,\n    p_description,\n    p_category_id,\n    p_brand_id,\n    p_unit_id,\n    p_purchase_unit_id,\n    p_units_per_purchase_unit,\n    p_default_purchase_price_in_minor_units,\n    p_cost_price_in_minor_units,\n    p_sale_price_in_minor_units,\n    p_wholesale_price_in_minor_units,\n    p_min_stock_level,\n    p_max_stock_level,\n    p_warehouse_id,\n    p_opening_quantity,\n    p_notes\n  );\n\n  v_product_id := NULLIF(v_result->>'product_id', '')::UUID;\n  IF v_product_id IS NULL THEN\n    RAISE EXCEPTION 'لم يتم إرجاع معرف المنتج بعد إنشائه.';\n  END IF;\n\n  IF v_image_url IS NOT NULL THEN\n    PERFORM public.set_product_primary_image(\n      v_product_id,\n      v_image_url\n    );\n  END IF;\n\n  RETURN v_result || jsonb_build_object(\n    'image_url',\n    v_image_url\n  );\nEND;\n$function$\n",
+        "configuration": [
+          "search_path=public, pg_temp"
+        ]
+      },
+      "after": {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "create_product_with_opening_stock_v3(p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_wholesale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_warehouse_id uuid, p_opening_quantity integer, p_notes text, p_image_url text)",
+        "definition": "CREATE OR REPLACE FUNCTION public.create_product_with_opening_stock_v3(p_sku text, p_barcode text DEFAULT NULL::text, p_name_ar text DEFAULT NULL::text, p_description text DEFAULT NULL::text, p_category_id uuid DEFAULT NULL::uuid, p_brand_id uuid DEFAULT NULL::uuid, p_unit_id uuid DEFAULT NULL::uuid, p_purchase_unit_id uuid DEFAULT NULL::uuid, p_units_per_purchase_unit integer DEFAULT 1, p_default_purchase_price_in_minor_units bigint DEFAULT 0, p_cost_price_in_minor_units bigint DEFAULT 0, p_sale_price_in_minor_units bigint DEFAULT 0, p_wholesale_price_in_minor_units bigint DEFAULT 0, p_min_stock_level integer DEFAULT 0, p_max_stock_level integer DEFAULT NULL::integer, p_warehouse_id uuid DEFAULT NULL::uuid, p_opening_quantity integer DEFAULT 0, p_notes text DEFAULT 'رصيد افتتاحي عند إضافة المنتج'::text, p_image_url text DEFAULT NULL::text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nDECLARE\n  v_result JSONB;\n  v_product_id UUID;\n  v_image_url TEXT := NULLIF(BTRIM(p_image_url), '');\nBEGIN\n  PERFORM public.assert_erp_role(\n    ARRAY['owner', 'admin', 'manager', 'warehouse_keeper'],\n    'إضافة المنتجات والأرصدة الافتتاحية'\n  );\n\n  v_result := public.create_product_with_opening_stock_v2(\n    p_sku,\n    p_barcode,\n    p_name_ar,\n    p_description,\n    p_category_id,\n    p_brand_id,\n    p_unit_id,\n    p_purchase_unit_id,\n    p_units_per_purchase_unit,\n    p_default_purchase_price_in_minor_units,\n    p_cost_price_in_minor_units,\n    p_sale_price_in_minor_units,\n    p_wholesale_price_in_minor_units,\n    p_min_stock_level,\n    p_max_stock_level,\n    p_warehouse_id,\n    p_opening_quantity,\n    p_notes\n  );\n\n  v_product_id := NULLIF(v_result->>'product_id', '')::UUID;\n  IF v_product_id IS NULL THEN\n    RAISE EXCEPTION 'لم يتم إرجاع معرف المنتج بعد إنشائه.';\n  END IF;\n\n  IF v_image_url IS NOT NULL THEN\n    PERFORM public.set_product_primary_image(\n      v_product_id,\n      v_image_url\n    );\n  END IF;\n\n  RETURN v_result || jsonb_build_object(\n    'image_url',\n    v_image_url\n  );\nEND;\n$function$\n",
+        "configuration": [
+          "search_path=public, pg_temp"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"public\",null,\"enforce_product_flavor_inheritance()\",null,null]",
+      "before": {
+        "acl": null,
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "enforce_product_flavor_inheritance()",
+        "definition": "CREATE OR REPLACE FUNCTION public.enforce_product_flavor_inheritance()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nDECLARE\n  v_master public.products%ROWTYPE;\nBEGIN\n  IF NEW.flavor_master_product_id IS NULL THEN\n    IF NEW.is_flavor_master AND NEW.flavor_name_ar IS NOT NULL THEN\n      RAISE EXCEPTION 'المنتج الأساسي لا يحمل اسم نكهة.';\n    END IF;\n    RETURN NEW;\n  END IF;\n\n  IF NEW.flavor_master_product_id = NEW.id THEN\n    RAISE EXCEPTION 'لا يمكن ربط المنتج بنفسه كمنتج أساسي.';\n  END IF;\n\n  SELECT * INTO v_master\n  FROM public.products\n  WHERE id = NEW.flavor_master_product_id;\n\n  IF NOT FOUND THEN\n    RAISE EXCEPTION 'المنتج الأساسي للنكهة غير موجود.';\n  END IF;\n  IF v_master.flavor_master_product_id IS NOT NULL THEN\n    RAISE EXCEPTION 'لا يمكن إنشاء نكهة داخل نكهة أخرى.';\n  END IF;\n\n  NEW.flavor_name_ar := BTRIM(NEW.flavor_name_ar);\n  NEW.is_flavor_master := false;\n  NEW.category_id := v_master.category_id;\n  NEW.brand_id := v_master.brand_id;\n  NEW.unit_id := v_master.unit_id;\n  NEW.purchase_unit_id := v_master.purchase_unit_id;\n  NEW.units_per_purchase_unit := v_master.units_per_purchase_unit;\n  NEW.default_purchase_price_in_minor_units :=\n    v_master.default_purchase_price_in_minor_units;\n  NEW.sale_unit_id := v_master.sale_unit_id;\n  NEW.units_per_sale_unit := v_master.units_per_sale_unit;\n  NEW.parcel_only := v_master.parcel_only;\n  NEW.default_sale_price_in_minor_units :=\n    v_master.default_sale_price_in_minor_units;\n  IF TG_OP = 'INSERT' THEN\n    NEW.cost_price_in_minor_units := v_master.cost_price_in_minor_units;\n  END IF;\n  NEW.sale_price_in_minor_units := v_master.sale_price_in_minor_units;\n  NEW.wholesale_price_in_minor_units :=\n    v_master.wholesale_price_in_minor_units;\n\n  RETURN NEW;\nEND;\n$function$\n",
+        "configuration": [
+          "search_path=public, pg_temp"
+        ]
+      },
+      "after": {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "enforce_product_flavor_inheritance()",
+        "definition": "CREATE OR REPLACE FUNCTION public.enforce_product_flavor_inheritance()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nDECLARE\n  v_master public.products%ROWTYPE;\nBEGIN\n  IF NEW.flavor_master_product_id IS NULL THEN\n    IF NEW.is_flavor_master AND NEW.flavor_name_ar IS NOT NULL THEN\n      RAISE EXCEPTION 'المنتج الأساسي لا يحمل اسم نكهة.';\n    END IF;\n    RETURN NEW;\n  END IF;\n\n  IF NEW.flavor_master_product_id = NEW.id THEN\n    RAISE EXCEPTION 'لا يمكن ربط المنتج بنفسه كمنتج أساسي.';\n  END IF;\n\n  SELECT * INTO v_master\n  FROM public.products\n  WHERE id = NEW.flavor_master_product_id;\n\n  IF NOT FOUND THEN\n    RAISE EXCEPTION 'المنتج الأساسي للنكهة غير موجود.';\n  END IF;\n  IF v_master.flavor_master_product_id IS NOT NULL THEN\n    RAISE EXCEPTION 'لا يمكن إنشاء نكهة داخل نكهة أخرى.';\n  END IF;\n\n  NEW.flavor_name_ar := BTRIM(NEW.flavor_name_ar);\n  NEW.is_flavor_master := false;\n  NEW.category_id := v_master.category_id;\n  NEW.brand_id := v_master.brand_id;\n  NEW.unit_id := v_master.unit_id;\n  NEW.purchase_unit_id := v_master.purchase_unit_id;\n  NEW.units_per_purchase_unit := v_master.units_per_purchase_unit;\n  NEW.default_purchase_price_in_minor_units :=\n    v_master.default_purchase_price_in_minor_units;\n  NEW.sale_unit_id := v_master.sale_unit_id;\n  NEW.units_per_sale_unit := v_master.units_per_sale_unit;\n  NEW.parcel_only := v_master.parcel_only;\n  NEW.default_sale_price_in_minor_units :=\n    v_master.default_sale_price_in_minor_units;\n  IF TG_OP = 'INSERT' THEN\n    NEW.cost_price_in_minor_units := v_master.cost_price_in_minor_units;\n  END IF;\n  NEW.sale_price_in_minor_units := v_master.sale_price_in_minor_units;\n  NEW.wholesale_price_in_minor_units :=\n    v_master.wholesale_price_in_minor_units;\n\n  RETURN NEW;\nEND;\n$function$\n",
+        "configuration": [
+          "search_path=public, pg_temp"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"public\",null,\"package_d_reject_pos_cancellation_mutation()\",null,null]",
+      "before": {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "package_d_reject_pos_cancellation_mutation()",
+        "definition": "CREATE OR REPLACE FUNCTION public.package_d_reject_pos_cancellation_mutation()\n RETURNS trigger\n LANGUAGE plpgsql\nAS $function$\nBEGIN\n  RAISE EXCEPTION 'PACKAGE_D_POS_CANCELLATION_IMMUTABLE: Cancellation evidence is immutable';\nEND;\n$function$\n",
+        "configuration": null
+      },
+      "after": {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "package_d_reject_pos_cancellation_mutation()",
+        "definition": "CREATE OR REPLACE FUNCTION public.package_d_reject_pos_cancellation_mutation()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nBEGIN\n  RAISE EXCEPTION 'PACKAGE_D_POS_CANCELLATION_IMMUTABLE: Cancellation evidence is immutable';\nEND;\n$function$\n",
+        "configuration": [
+          "search_path=public, pg_temp"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"public\",null,\"receive_inventory(p_warehouse_id uuid, p_product_id uuid, p_quantity integer, p_reference_type text, p_reference_id uuid, p_notes text)\",null,null]",
+      "before": {
+        "acl": [
+          "postgres=X/postgres",
+          "authenticated=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "receive_inventory(p_warehouse_id uuid, p_product_id uuid, p_quantity integer, p_reference_type text, p_reference_id uuid, p_notes text)",
+        "definition": "CREATE OR REPLACE FUNCTION public.receive_inventory(p_warehouse_id uuid, p_product_id uuid, p_quantity integer, p_reference_type text DEFAULT 'purchase_order'::text, p_reference_id uuid DEFAULT NULL::uuid, p_notes text DEFAULT 'استلام كميات جديدة للمخزن'::text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nBEGIN\n  PERFORM public.assert_erp_role(\n    ARRAY['owner', 'admin', 'manager', 'warehouse_keeper'],\n    'استلام المخزون'\n  );\n\n  RETURN public._receive_inventory_impl(\n    p_warehouse_id,\n    p_product_id,\n    p_quantity,\n    p_reference_type,\n    p_reference_id,\n    p_notes\n  );\nEND;\n$function$\n",
+        "configuration": [
+          "search_path=public, pg_temp"
+        ]
+      },
+      "after": {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "receive_inventory(p_warehouse_id uuid, p_product_id uuid, p_quantity integer, p_reference_type text, p_reference_id uuid, p_notes text)",
+        "definition": "CREATE OR REPLACE FUNCTION public.receive_inventory(p_warehouse_id uuid, p_product_id uuid, p_quantity integer, p_reference_type text DEFAULT 'purchase_order'::text, p_reference_id uuid DEFAULT NULL::uuid, p_notes text DEFAULT 'استلام كميات جديدة للمخزن'::text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nBEGIN\n  PERFORM public.assert_erp_role(\n    ARRAY['owner', 'admin', 'manager', 'warehouse_keeper'],\n    'استلام المخزون'\n  );\n\n  RETURN public._receive_inventory_impl(\n    p_warehouse_id,\n    p_product_id,\n    p_quantity,\n    p_reference_type,\n    p_reference_id,\n    p_notes\n  );\nEND;\n$function$\n",
+        "configuration": [
+          "search_path=public, pg_temp"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"public\",null,\"sync_product_flavor_commercial_settings()\",null,null]",
+      "before": {
+        "acl": null,
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "sync_product_flavor_commercial_settings()",
+        "definition": "CREATE OR REPLACE FUNCTION public.sync_product_flavor_commercial_settings()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nBEGIN\n  IF NEW.flavor_master_product_id IS NULL AND NEW.is_flavor_master THEN\n    UPDATE public.products\n    SET\n      category_id = NEW.category_id,\n      brand_id = NEW.brand_id,\n      unit_id = NEW.unit_id,\n      purchase_unit_id = NEW.purchase_unit_id,\n      units_per_purchase_unit = NEW.units_per_purchase_unit,\n      default_purchase_price_in_minor_units =\n        NEW.default_purchase_price_in_minor_units,\n      sale_unit_id = NEW.sale_unit_id,\n      units_per_sale_unit = NEW.units_per_sale_unit,\n      parcel_only = NEW.parcel_only,\n      default_sale_price_in_minor_units =\n        NEW.default_sale_price_in_minor_units,\n      sale_price_in_minor_units = NEW.sale_price_in_minor_units,\n      wholesale_price_in_minor_units = NEW.wholesale_price_in_minor_units,\n      is_active = NEW.is_active,\n      updated_at = NOW()\n    WHERE flavor_master_product_id = NEW.id;\n  END IF;\n  RETURN NULL;\nEND;\n$function$\n",
+        "configuration": [
+          "search_path=public, pg_temp"
+        ]
+      },
+      "after": {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "sync_product_flavor_commercial_settings()",
+        "definition": "CREATE OR REPLACE FUNCTION public.sync_product_flavor_commercial_settings()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nBEGIN\n  IF NEW.flavor_master_product_id IS NULL AND NEW.is_flavor_master THEN\n    UPDATE public.products\n    SET\n      category_id = NEW.category_id,\n      brand_id = NEW.brand_id,\n      unit_id = NEW.unit_id,\n      purchase_unit_id = NEW.purchase_unit_id,\n      units_per_purchase_unit = NEW.units_per_purchase_unit,\n      default_purchase_price_in_minor_units =\n        NEW.default_purchase_price_in_minor_units,\n      sale_unit_id = NEW.sale_unit_id,\n      units_per_sale_unit = NEW.units_per_sale_unit,\n      parcel_only = NEW.parcel_only,\n      default_sale_price_in_minor_units =\n        NEW.default_sale_price_in_minor_units,\n      sale_price_in_minor_units = NEW.sale_price_in_minor_units,\n      wholesale_price_in_minor_units = NEW.wholesale_price_in_minor_units,\n      is_active = NEW.is_active,\n      updated_at = NOW()\n    WHERE flavor_master_product_id = NEW.id;\n  END IF;\n  RETURN NULL;\nEND;\n$function$\n",
+        "configuration": [
+          "search_path=public, pg_temp"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"public\",null,\"track_guest_order(p_order_number text, p_customer_phone text)\",null,null]",
+      "before": {
+        "acl": [
+          "postgres=X/postgres",
+          "anon=X/postgres",
+          "authenticated=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "track_guest_order(p_order_number text, p_customer_phone text)",
+        "definition": "CREATE OR REPLACE FUNCTION public.track_guest_order(p_order_number text, p_customer_phone text)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nDECLARE\n  v_phone TEXT := public.normalize_customer_phone(p_customer_phone);\n  v_order_id UUID;\nBEGIN\n  IF NULLIF(TRIM(p_order_number), '') IS NULL\n    OR CHAR_LENGTH(TRIM(p_order_number)) > 40\n    OR v_phone !~ '^07[789][0-9]{7}$'\n  THEN\n    RETURN jsonb_build_object(\n      'success', false,\n      'message', 'رقم الطلب أو الهاتف غير صحيح.'\n    );\n  END IF;\n\n  SELECT o.id\n  INTO v_order_id\n  FROM public.orders o\n  JOIN public.customers c ON c.id = o.customer_id\n  WHERE UPPER(o.order_number) = UPPER(TRIM(p_order_number))\n    AND public.normalize_customer_phone(c.phone) = v_phone\n    AND o.source = 'website'\n  LIMIT 1;\n\n  IF NOT FOUND THEN\n    RETURN jsonb_build_object(\n      'success', false,\n      'message', 'لم نعثر على طلب مطابق لرقم الطلب والهاتف.'\n    );\n  END IF;\n\n  RETURN public.build_public_order_tracking_payload(v_order_id);\nEND;\n$function$\n",
+        "configuration": [
+          "search_path=public, pg_temp"
+        ]
+      },
+      "after": {
+        "acl": [
+          "postgres=X/postgres",
+          "anon=X/postgres",
+          "authenticated=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "track_guest_order(p_order_number text, p_customer_phone text)",
+        "definition": "CREATE OR REPLACE FUNCTION public.track_guest_order(p_order_number text, p_customer_phone text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nDECLARE\n v_phone TEXT:=CASE WHEN char_length(p_customer_phone)<=64\n  THEN public.normalize_customer_phone(p_customer_phone) ELSE NULL END;\n v_order_id UUID;v_now TIMESTAMPTZ:=clock_timestamp();v_window TIMESTAMPTZ;\n v_headers JSONB;v_network TEXT;v_hash TEXT;v_phone_hash TEXT;\n v_lock TEXT;v_attempts INTEGER;\nBEGIN\n -- SECURITY DEFINER changes current_user; the SET ROLE GUC retains the API role.\n IF auth.role()='anon' OR current_setting('role',true)='anon' THEN\n  -- REST request metadata is only an additional signal. The normalized-phone\n  -- bucket always applies, so rotating order numbers/network headers cannot\n  -- evade the per-phone guessing bound.\n  BEGIN v_headers:=NULLIF(current_setting('request.headers',true),'')::JSONB;\n  EXCEPTION WHEN OTHERS THEN v_headers:='{}'::JSONB;END;\n  v_network:=left(COALESCE(NULLIF(v_headers->>'cf-connecting-ip',''),\n   NULLIF(split_part(v_headers->>'x-forwarded-for',',',1),''),'unknown'),256);\n  v_hash:=encode(sha256(convert_to(trim(v_network),'UTF8')),'hex');\n  v_phone_hash:=encode(sha256(convert_to(CASE WHEN v_phone ~ '^07[789][0-9]{7}$'\n   THEN v_phone ELSE 'invalid' END,'UTF8')),'hex');\n\n  FOR v_lock IN SELECT value FROM unnest(ARRAY['tracking213:network:'||v_hash,\n   'tracking213:phone:'||v_phone_hash]) value ORDER BY value\n  LOOP PERFORM pg_advisory_xact_lock(hashtextextended(v_lock,0));END LOOP;\n  v_now:=clock_timestamp();\n  v_window:=to_timestamp(floor(extract(epoch FROM v_now)/600)*600);\n  INSERT INTO public.guest_order_tracking_limits(scope,identifier_hash,window_started_at,attempts,last_seen_at)\n   VALUES('network',v_hash,v_window,1,v_now)\n   ON CONFLICT(scope,identifier_hash) DO UPDATE SET\n    attempts=CASE WHEN guest_order_tracking_limits.window_started_at=EXCLUDED.window_started_at\n     THEN LEAST(guest_order_tracking_limits.attempts+1,121) ELSE 1 END,\n    window_started_at=EXCLUDED.window_started_at,last_seen_at=EXCLUDED.last_seen_at\n   RETURNING attempts INTO v_attempts;\n  IF v_attempts>120 THEN RETURN jsonb_build_object('success',false,\n   'message','محاولات متابعة كثيرة. انتظر بضع دقائق ثم أعد المحاولة، أو استخدم رابط متابعة الطلب.');END IF;\n  INSERT INTO public.guest_order_tracking_limits(scope,identifier_hash,window_started_at,attempts,last_seen_at)\n   VALUES('phone',v_phone_hash,v_window,1,v_now)\n   ON CONFLICT(scope,identifier_hash) DO UPDATE SET\n    attempts=CASE WHEN guest_order_tracking_limits.window_started_at=EXCLUDED.window_started_at\n     THEN LEAST(guest_order_tracking_limits.attempts+1,31) ELSE 1 END,\n    window_started_at=EXCLUDED.window_started_at,last_seen_at=EXCLUDED.last_seen_at\n   RETURNING attempts INTO v_attempts;\n  IF v_attempts>30 THEN RETURN jsonb_build_object('success',false,\n   'message','محاولات متابعة كثيرة. انتظر بضع دقائق ثم أعد المحاولة، أو استخدم رابط متابعة الطلب.');END IF;\n  DELETE FROM public.guest_order_tracking_limits WHERE ctid IN(\n   SELECT ctid FROM public.guest_order_tracking_limits\n    WHERE last_seen_at<v_now-INTERVAL '1 day' ORDER BY last_seen_at\n    LIMIT 100 FOR UPDATE SKIP LOCKED);\n END IF;\n IF NULLIF(trim(p_order_number),'') IS NULL OR char_length(trim(p_order_number))>40\n  OR v_phone IS NULL OR v_phone !~ '^07[789][0-9]{7}$' THEN\n  RETURN jsonb_build_object('success',false,'message','لم نعثر على طلب مطابق لرقم الطلب والهاتف.');\n END IF;\n SELECT o.id INTO v_order_id FROM public.orders o JOIN public.customers c ON c.id=o.customer_id\n  WHERE upper(o.order_number)=upper(trim(p_order_number))\n   AND public.normalize_customer_phone(c.phone)=v_phone AND o.source='website' LIMIT 1;\n IF NOT FOUND THEN RETURN jsonb_build_object('success',false,\n  'message','لم نعثر على طلب مطابق لرقم الطلب والهاتف.');END IF;\n RETURN public.build_public_order_tracking_payload(v_order_id);\nEND;$function$\n",
+        "configuration": [
+          "search_path=public, pg_temp"
+        ]
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"public\",\"guest_order_tracking_limits\",\"guest_order_tracking_limits_attempts_check\",null,\"c\"]",
+      "before": null,
+      "after": {
+        "name": "guest_order_tracking_limits_attempts_check",
+        "type": "c",
+        "local": true,
+        "match": " ",
+        "table": "guest_order_tracking_limits",
+        "schema": "public",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "CHECK (((attempts >= 1) AND (attempts <= 121)))",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"public\",\"guest_order_tracking_limits\",\"guest_order_tracking_limits_identifier_hash_check\",null,\"c\"]",
+      "before": null,
+      "after": {
+        "name": "guest_order_tracking_limits_identifier_hash_check",
+        "type": "c",
+        "local": true,
+        "match": " ",
+        "table": "guest_order_tracking_limits",
+        "schema": "public",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "CHECK ((identifier_hash ~ '^[0-9a-f]{64}$'::text))",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"public\",\"guest_order_tracking_limits\",\"guest_order_tracking_limits_pkey\",null,\"p\"]",
+      "before": null,
+      "after": {
+        "name": "guest_order_tracking_limits_pkey",
+        "type": "p",
+        "local": true,
+        "match": " ",
+        "table": "guest_order_tracking_limits",
+        "schema": "public",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": true,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (scope, identifier_hash)",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"public\",\"guest_order_tracking_limits\",\"guest_order_tracking_limits_scope_check\",null,\"c\"]",
+      "before": null,
+      "after": {
+        "name": "guest_order_tracking_limits_scope_check",
+        "type": "c",
+        "local": true,
+        "match": " ",
+        "table": "guest_order_tracking_limits",
+        "schema": "public",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "CHECK ((scope = ANY (ARRAY['network'::text, 'phone'::text])))",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    }
+  ],
+  "ok": true,
+  "endedAt": "2026-10-24T18:13:54.971Z"
+}
