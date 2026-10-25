@@ -14,7 +14,7 @@ import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
 import {logicalRestoreDifferences,platformPostInitSql} from '../testing/backup-restore-contract.mjs';
 import {sha256} from '../offsite-backup/offsite-core.mjs';
 import {migrationManifest} from '../testing/maintenance-db-contract.mjs';
-import {partitionRestoreToc,prepareRestoreExtensions} from './restore-platform.mjs';
+import {partitionRestoreToc,prepareRestoreExtensions,restoredPlatformSql,assertPlatformTocRestored} from './restore-platform.mjs';
 import {restoreToolError,saveRestoreLogs} from './restore-log.mjs';
 import {verifiedSupabaseCa} from './supabase-ca.mjs';
 import {postgresDiagnostic,diagnosticError,classifiedError} from './postgres-diagnostic.mjs';
@@ -152,6 +152,7 @@ export async function restoreCompleteBackup({archivePath,passphrase,reportPath,r
     stage='restore-platform-postinit';let postInit;
     try{postInit=platformPostInitSql(before.catalog);}catch{throw classifiedError('RESTORE_PLATFORM_SETTINGS_UNSUPPORTED',{stage,tool:'internal'});}
     await session.query(postInit);
+    const platformProof=assertPlatformTocRestored(restorePartition.platform,await json(session,restoredPlatformSql));
     // Compare as the source postgres role, including hidden sequence values and privileges.
     stage='compare-data-catalog-acl';await session.query('SET ROLE postgres;BEGIN READ ONLY;');const after=await captureEvidence(session);const proof=assertRestoreEvidence(before,after);
     for(const object of manifest.storageObjects){
@@ -168,7 +169,7 @@ export async function restoreCompleteBackup({archivePath,passphrase,reportPath,r
     const integrity=(scan?.checks??[]).filter(c=>c.key.startsWith('integrity:')).map(({key,status,issueCount})=>({key,status,issueCount}));
     assert.ok(integrity.length>5,'RESTORE_INTEGRITY_SCAN_MISSING');
     assert.ok(integrity.every(c=>c.status==='healthy'&&Number(c.issueCount)===0),'RESTORE_EXISTING_INTEGRITY_CHECK_FAILED');
-    report={ok:true,projectRef:manifest.projectRef,mode:'isolated-complete-restore',postgresImage:IMAGE,completedAt:new Date().toISOString(),hostedConnectionsMade:false,network:'none',liveVolumesModified:false,historyCeiling:214,tablesCompared:Object.keys(before.tables).length,storageObjectsCompared:manifest.storageObjects.length,integrityChecks:integrity,tocCoverage:restorePartition.proof,extensions:extensionProof,...proof};return report;
+    report={ok:true,projectRef:manifest.projectRef,mode:'isolated-complete-restore',postgresImage:IMAGE,completedAt:new Date().toISOString(),hostedConnectionsMade:false,network:'none',liveVolumesModified:false,historyCeiling:214,tablesCompared:Object.keys(before.tables).length,storageObjectsCompared:manifest.storageObjects.length,integrityChecks:integrity,tocCoverage:restorePartition.proof,extensions:extensionProof,platform:platformProof,...proof};return report;
   }catch(cause){
     failure=cause;report={ok:false,stage,mode:'isolated-complete-restore',completedAt:new Date().toISOString(),hostedConnectionsMade:false,error:'COMPLETE_RESTORE_FAILED',diagnostic:postgresDiagnostic(cause,{stage,tool:['restore-complete-dump','restore-schemas','restore-toc'].includes(stage)?'pg_restore':'internal'})};
   }finally{

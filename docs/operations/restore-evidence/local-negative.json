@@ -1,4 +1,11 @@
 {
+  "platform": {
+    "eventTriggers": 1,
+    "publications": 1,
+    "subscriptions": 1,
+    "exactOwnerNames": true
+  },
+  "subscriptionDisabledAndNoSlot": true,
   "ok": true,
   "network": "none",
   "hostedConnectionsMade": false,
@@ -54,5 +61,5 @@
       "protectedLogPersistence": false
     }
   ],
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-restore-negative-6KGS8G"
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-restore-negative-VxAMU4"
 }

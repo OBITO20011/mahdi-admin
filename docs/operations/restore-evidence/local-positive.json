@@ -98,5 +98,6 @@
   ],
   "replaySameArchive": true,
   "windowsAgentElevated": false,
-  "privateWindowsLogPersistenceNotClaimed": true
+  "privateWindowsLogPersistenceNotClaimed": true,
+  "additionalPlatformCheck": "Actual event trigger/publication/disabled subscription TOC owners proved in local-negative.json"
 }

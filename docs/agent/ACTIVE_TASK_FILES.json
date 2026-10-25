@@ -3,7 +3,11 @@
   "files": [
     {
       "code": " M",
-      "path": ".github/workflows/backup-recovery.yml"
+      "path": "docs/operations/restore-evidence/local-negative.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/restore-evidence/local-positive.json"
     },
     {
       "code": " M",
@@ -11,15 +15,11 @@
     },
     {
       "code": " M",
-      "path": "scripts/backup/postgres-diagnostic.mjs"
+      "path": "scripts/backup/restore-platform.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/backup/restore-log.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-dual-backup-runtime.mjs"
+      "path": "scripts/testing/run-restore-diagnostic-negative.mjs"
     },
     {
       "code": " M",
@@ -27,19 +27,7 @@
     },
     {
       "code": "??",
-      "path": "docs/operations/restore-evidence/local-negative.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/restore-evidence/local-positive.json"
-    },
-    {
-      "code": "??",
-      "path": "scripts/backup/restore-platform.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/run-restore-diagnostic-negative.mjs"
+      "path": "docs/operations/FRANKFURT_RESTORE214_DIAGNOSTICS_AR.md"
     }
   ]
 }

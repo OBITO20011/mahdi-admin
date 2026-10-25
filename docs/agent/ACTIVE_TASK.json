@@ -3,7 +3,7 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Diagnose and fix strict isolated pg_restore failure;safe TOC/SQLSTATE/error and sanitized container log before removal;Frankfurt saved-catalog synthetic local proof;PR/FULL CI;merge awaits approval",
-  "baselineSha": "a633c1ee092ca1c85e88e383b4b1b929c649f94f",
+  "baselineSha": "13f8afd02f76f88ad2d5a4ebcdac7528d63b7384",
   "branch": "codex/frankfurt-restore-diagnostics",
   "phase": "PACKAGE_F",
   "completed": [
@@ -11,7 +11,9 @@
     "Strict TOC partition:3369entries,0omitted/duplicated;schemas first,extensions exact source owner/version/schema without production catalog UPDATE",
     "Managed net INVOKER/null and CLI DEFINER/search_path preserved exactly,strict comparator unchanged",
     "Real native missing-role42704 and duplicate-data23505 with TOC/exit1/no values;tail captured before rm",
-    "Local CLI and Frankfurt profile strict restores141tables17checks plus same-archive replay passed;local non-elevated Windows protected log failure explicitly recorded"
+    "Local CLI and Frankfurt profile strict restores141tables17checks plus same-archive replay passed;local non-elevated Windows protected log failure explicitly recorded",
+    "Actual event-trigger/publication/disabled subscription full restore and exact TOC owner/name checks passed",
+    "Owner Restore-only runbook prepared with explicit non-elevated Windows log-persistence limitation"
   ],
   "inProgress": [
     "Final local verification,owner runbook,PR exact-head FULL CI"
@@ -23,11 +25,12 @@
   "testsPassed": [
     "1450 unit tests and lint before final additions",
     "Focused14/14;real negative pg_restore2cases",
-    "Full isolated runtime including S3 replay/tamper and Windows native17.11 TLS transport passed"
+    "Full isolated runtime including S3 replay/tamper and Windows native17.11 TLS transport passed",
+    "Focused16/16 and actual native negative cases plus platform proof"
   ],
   "testsRemaining": [
-    "Real isolated restore failure/success and privacy evidence",
-    "Full unit/lint/Gitleaks/CI"
+    "Final full unit/lint and isolated runtime with added platform assertion",
+    "Exact final push+PR FULL47;Gitleaks0;Linux private log persistence"
   ],
   "findings": [
     "Owner reported tool docker exitCode null can arise from post-init assertion after successful pg_restore;old141d saved214 net profile proves old assertion",
@@ -43,10 +46,10 @@
     "No merge/primary update before new owner approval",
     "No weakened exit-on-error or catalog/data/ACL comparisons"
   ],
-  "nextExactAction": "Save tested restore fixes;final full verification and owner Restore-only guide,PR/FULL CI;no merge before approval.",
+  "nextExactAction": "Final full unit/lint,strict isolated restore/platform/protected-log proofs;PR/FULL CI/Gitleaks;owner approval before merge.",
   "startedAt": "2026-10-25T22:00:14.555Z",
-  "checkpointedAt": "2026-10-25T22:21:56.937Z",
-  "filesTouchedCount": 10,
-  "filesTouchedManifestSha256": "045fe82526888c2e7bcbbba96bc0907be65053a823aaa2ca00822c97070690b6",
-  "workingTreeFingerprint": "DBE96200676190551A6FA9078D4A9E62BA52431889D8814D756AAAB453AE4BCC"
+  "checkpointedAt": "2026-10-25T22:30:31.100Z",
+  "filesTouchedCount": 7,
+  "filesTouchedManifestSha256": "a6e3e452c5c721c3f6b5d5c838d93d442415669317410feb65aab216766f4615",
+  "workingTreeFingerprint": "84C5E489BDBDA4FBCF8239FCF507E01037C9F7A73EBD69D1DD4C12106D144E28"
 }

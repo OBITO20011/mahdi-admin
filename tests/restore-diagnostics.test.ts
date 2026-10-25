@@ -4,7 +4,7 @@ import {readFile} from 'node:fs/promises';
 import {restoreErrorFields,postgresDiagnostic,diagnosticError} from '../scripts/backup/postgres-diagnostic.mjs';
 import {restoreToolError,sanitizedRestoreLog} from '../scripts/backup/restore-log.mjs';
 import {platformPostInitSql,logicalRestoreDifferences} from '../scripts/testing/backup-restore-contract.mjs';
-import {partitionRestoreToc} from '../scripts/backup/restore-platform.mjs';
+import {partitionRestoreToc,prepareRestoreExtensions,assertPlatformTocRestored} from '../scripts/backup/restore-platform.mjs';
 const secret='PRIVATE-customer-value-password-DO-NOT-PERSIST';
 test('pg_restore error yields SQLSTATE,TOC identity,canonical ERROR and numeric exit without DETAIL or SQL',()=>{
  const stderr=`pg_restore: from TOC entry 221; 1255 555 FUNCTION public sample(text, integer) postgres\npg_restore: error: could not execute query: ERROR: 42501: must be owner of function sample\nDETAIL: Key (name)=(${secret})\nCommand was: INSERT INTO private VALUES('${secret}');`;
@@ -39,4 +39,17 @@ test('captured Frankfurt214 net INVOKER/null profile restores exact source and c
  const sql=platformPostInitSql(catalog);assert.match(sql,/SECURITY INVOKER/u);assert.match(sql,/RESET ALL/u);assert.doesNotMatch(sql,/SET search_path/u);
  const altered=structuredClone(catalog);altered.functions[0].configuration=['search_path=net'];assert.ok(logicalRestoreDifferences(catalog,altered).length);
  altered.functions[0].configuration=['search_path=public'];assert.throws(()=>platformPostInitSql(altered),/UNSUPPORTED/u);
+});
+test('unavailable captured extension fails before privilege elevation and preserves its safe object identity',async()=>{
+ let queries=0;const session={query:async()=>{queries++;throw new Error('must not enter');}};
+ await assert.rejects(prepareRestoreExtensions(session,{catalog:{extensions:[{name:'pg_net',version:'0.20.4',schema:'public',owner:'supabase_admin'}]},roles:[{name:'supabase_admin',super:true}]},[],['pg_net']),error=>{
+  const d=postgresDiagnostic(error);assert.equal(d.category,'RESTORE_EXTENSION_UNAVAILABLE');assert.deepEqual(d.toc,{type:'EXTENSION',schema:null,name:'pg_net'});return true;
+ });assert.equal(queries,0);
+});
+test('platform objects and memberships remain in full TOC;missing owner/name cannot pass',()=>{
+ const list='1; 6104 1 PUBLICATION - sample_pub postgres\n2; 0 0 PUBLICATION TABLE public products sample_pub\n3; 3466 2 EVENT TRIGGER - sample_ddl supabase_admin\n4; 6100 3 SUBSCRIPTION - sample_sub supabase_admin\n';
+ const p=partitionRestoreToc(list);assert.equal(p.proof.remainingEntries,4);assert.equal(p.platform.length,3);assert.match(p.remainder,/PUBLICATION TABLE/u);
+ assert.equal(assertPlatformTocRestored(p.platform,p.platform).exactOwnerNames,true);
+ assert.throws(()=>assertPlatformTocRestored(p.platform,p.platform.slice(1)),/OWNER_NAMES_DIFFER/u);
+ const mutated=structuredClone(p.platform);mutated[0].owner='anon';assert.throws(()=>assertPlatformTocRestored(p.platform,mutated),/OWNER_NAMES_DIFFER/u);
 });
