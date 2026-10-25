@@ -1,0 +1,51 @@
+{
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-z214-P6ngCB",
+  "managedAccess": false,
+  "cases": [
+    {
+      "name": "literal214 zero business/history/sequence writes;historical213 snapshot remains null",
+      "passed": true
+    },
+    {
+      "name": "Historical POS without exact snapshot retains prior1001 legacy valuation,no backfill",
+      "passed": true
+    },
+    {
+      "name": "Exact10000 round-trip base_unit @1000.6",
+      "passed": true,
+      "exactCogs": 10006000,
+      "inventoryValue": 10006000
+    },
+    {
+      "name": "Exact10000 round-trip legacy_single_sku_parcel @1000.6",
+      "passed": true,
+      "exactCogs": 10006000,
+      "inventoryValue": 10006000
+    },
+    {
+      "name": "Exact10000 round-trip base_unit @1000.4",
+      "passed": true,
+      "exactCogs": 10004000,
+      "inventoryValue": 10004000
+    },
+    {
+      "name": "Exact10000 round-trip legacy_single_sku_parcel @1000.4",
+      "passed": true,
+      "exactCogs": 10004000,
+      "inventoryValue": 10004000
+    },
+    {
+      "name": "fractional total rounds once and restocks exact @1000.6",
+      "passed": true,
+      "exactCogs": 3001.8,
+      "financialCogs": 3002
+    },
+    {
+      "name": "fractional total rounds once and restocks exact @1000.4",
+      "passed": true,
+      "exactCogs": 3001.2,
+      "financialCogs": 3001
+    }
+  ],
+  "ok": true
+}

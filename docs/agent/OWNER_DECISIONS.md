@@ -1,3 +1,9 @@
+#25Oct — owner Package Z and mandatory pre-hiring cost privacy
+
+Owner approved Z1 pre-service staff authorization,Z2 exact POS/return costs,Z3 exact Maps hosts,Z4 pre-read cash guard,Z5 collection lock order only;additive214 if needed,own worktree/PR/FULLCI,commit+push each item. No hostedaccess/deploy or Z merge. Employee table/RPC cost,WAC,profit visibility explicitly DEFERRED while owner works alone. Mandatory BEFORE hiring any employee:safe read DTOs and revoke general cost-column SELECT;raw-role regression required. See HANDOVER_FIXES_Z_AR.md.
+
+قرار ملزم قبل توظيف أي موظف: قراءة التكلفة وWAC والربح عبر الجداول وقارئ المنتج مؤجلة ما دام المالك يعمل وحده. يجب أولاً توفير واجهات قراءة آمنة وسحب أعمدة التكلفة من القراءة العامة، وإثبات الفصل باختبارات الأدوار الفعلية. حزمة ز لا تعالج هذا البند المؤجل ولا تعتبره مغلقاً.
+
 #24Oct — owner recovery and incremental remote saves
 
 Owner explicitly approved recreating missing handover-security-y worktree and recovering saved files/evidence. Commit and push the package branch after every completed item;WIP commits are explicitly allowed so local work is not the sole copy. WIP saves record pending gates;full CI remains the package acceptance condition. No Y merge/Frankfurt/deployment authorization.

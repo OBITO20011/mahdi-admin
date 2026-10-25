@@ -1,0 +1,39 @@
+{
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-zshifts214-yR82Ik",
+  "managedAccess": false,
+  "cases": [
+    {
+      "status": "open",
+      "allowedReads": 7,
+      "deniedReads": 14,
+      "unchangedFingerprint": true
+    },
+    {
+      "status": "closed",
+      "allowedReads": 7,
+      "deniedReads": 14,
+      "unchangedFingerprint": true
+    },
+    {
+      "status": "cancelled",
+      "allowedReads": 7,
+      "deniedReads": 14,
+      "unchangedFingerprint": true
+    },
+    {
+      "status": "reversed",
+      "allowedReads": 7,
+      "deniedReads": 14,
+      "unchangedFingerprint": true
+    }
+  ],
+  "ok": true,
+  "acceptance": {
+    "fourSupportedStates": true,
+    "allowedReads": 28,
+    "denials": 56,
+    "noExistenceDisclosureBeforeAuthorization": true,
+    "allReadsZeroWrites": true,
+    "enrolledMfaPolicyUnchanged": true
+  }
+}

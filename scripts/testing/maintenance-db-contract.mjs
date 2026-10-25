@@ -43,7 +43,12 @@ export function futureMigrationViolations(sql) {
   const code = withoutSqlComments(sql), errors = [];
   const identifier = '(?:"(?:[^"]|"")+"|[a-z_][a-z0-9_$]*)';
   const declaration = new RegExp(`\\bcreate\\s+(?:or\\s+replace\\s+)?(?:function|procedure)\\s+((?:${identifier}\\s*\\.\\s*)?${identifier})`, 'giu');
-  for (const match of code.matchAll(declaration)) if (/_before_/iu.test(match[1])) errors.push('NEW_BEFORE_FUNCTION');
+  //214 literally replaces one ALREADY EXISTING132 Return leaf. Permit only
+  //the reviewed whole migration bytes and that exact CREATE OR REPLACE name;
+  //new layers, overloads, renamed helpers and every other mutation still fail.
+  const existing214ReturnLeaf = sha256(canonicalLf(sql)) === '4d00ea65cb3f1c916bf75f542748a37d56d8b87a3e96f67679fd69309bddc6b6';
+  for (const match of code.matchAll(declaration)) if (/_before_/iu.test(match[1]) &&
+    !(existing214ReturnLeaf && match[1] === 'public.package_d_settle_sales_return_before_guard_internal' && /^create\s+or\s+replace\b/iu.test(match[0]))) errors.push('NEW_BEFORE_FUNCTION');
   for (const match of code.matchAll(/\balter\s+(?:function|procedure)\b[^;]*?\brename\s+to\s+("(?:[^"]|"")+"|[a-z_][a-z0-9_$]*)/giu))
     if (/_before_/iu.test(match[1])) errors.push('NEW_BEFORE_RENAME');
   if (/\bpg_get_functiondef"?\s*\(/iu.test(code)) errors.push('FUNCTION_DEFINITION_INTROSPECTION_IN_MIGRATION');

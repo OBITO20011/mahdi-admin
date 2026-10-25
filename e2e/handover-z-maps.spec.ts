@@ -1,0 +1,7 @@
+import {test,expect} from './isolated-test';
+for(const raw of ['https://maps.google.evil.example/?q=32.55,35.85','https://google.evil.example/maps'])for(const width of [390,1440]){
+ test(`Z3 forged Maps host text only at ${width}: ${new URL(raw).hostname}`,async({page})=>{
+  await page.setViewportSize({width,height:900});await page.goto('/e2e/handover-z-maps-harness.html?'+new URLSearchParams({map:raw}));await expect(page.getByTestId('admin-map-supported')).toHaveText('false');await expect(page.getByTestId('store-map-supported')).toHaveText('false');await expect(page.getByText(raw,{exact:true})).toBeVisible();expect(await page.locator('a').evaluateAll(as=>as.map(a=>(a as HTMLAnchorElement).href).filter(h=>h.includes('evil.example')))).toEqual([]);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ });
+}
+for(const coordinates of ['valid','zero'])test(`Z3 verified ${coordinates} coordinates replace unsafe saved link`,async({page})=>{await page.goto('/e2e/handover-z-maps-harness.html?'+new URLSearchParams({map:'https://maps.google.evil.example/?q=32.55,35.85',coordinates}));const google=page.getByRole('link',{name:'Google Maps',exact:true});await expect(google).toHaveAttribute('href',coordinates==='zero'?'https://www.google.com/maps?q=0.000000,0.000000':'https://www.google.com/maps?q=32.550000,35.850000');expect(await page.locator('a').evaluateAll(as=>as.map(a=>(a as HTMLAnchorElement).href).filter(h=>h.includes('evil.example')))).toEqual([]);});

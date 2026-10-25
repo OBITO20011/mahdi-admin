@@ -1,0 +1,305 @@
+{
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-staff-z-01YlUP",
+  "managedAccess": false,
+  "cases": [
+    {
+      "role": "owner",
+      "active": true,
+      "aal": "aal1",
+      "action": "list",
+      "status": 403
+    },
+    {
+      "role": "owner",
+      "active": true,
+      "aal": "aal1",
+      "action": "audit",
+      "status": 403
+    },
+    {
+      "role": "owner",
+      "active": true,
+      "aal": "aal1",
+      "action": "create",
+      "status": 403
+    },
+    {
+      "role": "owner",
+      "active": true,
+      "aal": "aal1",
+      "action": "update",
+      "status": 403
+    },
+    {
+      "role": "owner",
+      "active": true,
+      "aal": "aal1",
+      "action": "set_active",
+      "status": 403
+    },
+    {
+      "role": "owner",
+      "active": true,
+      "aal": "aal1",
+      "action": "set_password",
+      "status": 403
+    },
+    {
+      "role": "owner",
+      "active": false,
+      "aal": "aal1",
+      "action": "list",
+      "status": 403
+    },
+    {
+      "role": "owner",
+      "active": false,
+      "aal": "aal1",
+      "action": "audit",
+      "status": 403
+    },
+    {
+      "role": "owner",
+      "active": false,
+      "aal": "aal1",
+      "action": "create",
+      "status": 403
+    },
+    {
+      "role": "owner",
+      "active": false,
+      "aal": "aal1",
+      "action": "update",
+      "status": 403
+    },
+    {
+      "role": "owner",
+      "active": false,
+      "aal": "aal1",
+      "action": "set_active",
+      "status": 403
+    },
+    {
+      "role": "owner",
+      "active": false,
+      "aal": "aal1",
+      "action": "set_password",
+      "status": 403
+    },
+    {
+      "role": "owner",
+      "active": false,
+      "aal": "aal2",
+      "action": "list",
+      "status": 403
+    },
+    {
+      "role": "owner",
+      "active": false,
+      "aal": "aal2",
+      "action": "audit",
+      "status": 403
+    },
+    {
+      "role": "owner",
+      "active": false,
+      "aal": "aal2",
+      "action": "create",
+      "status": 403
+    },
+    {
+      "role": "owner",
+      "active": false,
+      "aal": "aal2",
+      "action": "update",
+      "status": 403
+    },
+    {
+      "role": "owner",
+      "active": false,
+      "aal": "aal2",
+      "action": "set_active",
+      "status": 403
+    },
+    {
+      "role": "owner",
+      "active": false,
+      "aal": "aal2",
+      "action": "set_password",
+      "status": 403
+    },
+    {
+      "role": "manager",
+      "active": true,
+      "aal": "aal1",
+      "action": "list",
+      "status": 403
+    },
+    {
+      "role": "manager",
+      "active": true,
+      "aal": "aal1",
+      "action": "audit",
+      "status": 403
+    },
+    {
+      "role": "manager",
+      "active": true,
+      "aal": "aal1",
+      "action": "create",
+      "status": 403
+    },
+    {
+      "role": "manager",
+      "active": true,
+      "aal": "aal1",
+      "action": "update",
+      "status": 403
+    },
+    {
+      "role": "manager",
+      "active": true,
+      "aal": "aal1",
+      "action": "set_active",
+      "status": 403
+    },
+    {
+      "role": "manager",
+      "active": true,
+      "aal": "aal1",
+      "action": "set_password",
+      "status": 403
+    },
+    {
+      "role": "manager",
+      "active": true,
+      "aal": "aal2",
+      "action": "list",
+      "status": 403
+    },
+    {
+      "role": "manager",
+      "active": true,
+      "aal": "aal2",
+      "action": "audit",
+      "status": 403
+    },
+    {
+      "role": "manager",
+      "active": true,
+      "aal": "aal2",
+      "action": "create",
+      "status": 403
+    },
+    {
+      "role": "manager",
+      "active": true,
+      "aal": "aal2",
+      "action": "update",
+      "status": 403
+    },
+    {
+      "role": "manager",
+      "active": true,
+      "aal": "aal2",
+      "action": "set_active",
+      "status": 403
+    },
+    {
+      "role": "manager",
+      "active": true,
+      "aal": "aal2",
+      "action": "set_password",
+      "status": 403
+    },
+    {
+      "role": "none",
+      "active": true,
+      "aal": "aal1",
+      "action": "list",
+      "status": 403
+    },
+    {
+      "role": "none",
+      "active": true,
+      "aal": "aal1",
+      "action": "audit",
+      "status": 403
+    },
+    {
+      "role": "none",
+      "active": true,
+      "aal": "aal1",
+      "action": "create",
+      "status": 403
+    },
+    {
+      "role": "none",
+      "active": true,
+      "aal": "aal1",
+      "action": "update",
+      "status": 403
+    },
+    {
+      "role": "none",
+      "active": true,
+      "aal": "aal1",
+      "action": "set_active",
+      "status": 403
+    },
+    {
+      "role": "none",
+      "active": true,
+      "aal": "aal1",
+      "action": "set_password",
+      "status": 403
+    },
+    {
+      "role": "none",
+      "active": true,
+      "aal": "aal2",
+      "action": "list",
+      "status": 403
+    },
+    {
+      "role": "none",
+      "active": true,
+      "aal": "aal2",
+      "action": "audit",
+      "status": 403
+    },
+    {
+      "role": "none",
+      "active": true,
+      "aal": "aal2",
+      "action": "create",
+      "status": 403
+    },
+    {
+      "role": "none",
+      "active": true,
+      "aal": "aal2",
+      "action": "update",
+      "status": 403
+    },
+    {
+      "role": "none",
+      "active": true,
+      "aal": "aal2",
+      "action": "set_active",
+      "status": 403
+    },
+    {
+      "role": "none",
+      "active": true,
+      "aal": "aal2",
+      "action": "set_password",
+      "status": 403
+    }
+  ],
+  "existingEmailNotDisclosed": true,
+  "authorizedCreateAndProfile": true,
+  "rejectedAuthUnchanged": true,
+  "actualLocalEdgeHttp": true,
+  "ok": true
+}

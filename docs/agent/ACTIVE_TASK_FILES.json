@@ -3,23 +3,55 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/HANDOVER_SECURITY_Y_AR.md"
+      "path": "docs/operations/FRANKFURT_OWNER_UPGRADE214_AR.md"
     },
     {
       "code": " M",
-      "path": "docs/agent/HANDOVER_SECURITY_Y_LOCAL.json"
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
     },
     {
       "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
     },
     {
       "code": " M",
-      "path": "docs/agent/PROJECT_OVERVIEW.md"
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
     },
     {
       "code": " M",
-      "path": "docs/operations/FRANKFURT_OWNER_UPGRADE213_AR.md"
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/UNEXPOSED_RPC_REVIEW_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/handover214-inverse.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/build-acl-reference214.mjs"
+    },
+    {
+      "code": " M",
+      "path": "tests/handover-z-locks.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/pretrial-p1.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/sales-history204-evidence.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/storefront-c6.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_214.json"
     }
   ]
 }

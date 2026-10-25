@@ -2,55 +2,55 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner Package Y:close legacy receiving;public privilege cleanup;anonymous tracking throttle;image no-list;Vite/dev deps/Edge locks;213 owner upgrade strict verify;PR/FULLCI. PR22 merge authorized and completed.",
-  "baselineSha": "4e2da954686e17bf4ae14f120f940aacb3215db1",
-  "branch": "codex/handover-security-y",
+  "objective": "Owner Z1-Z5:authorize staff Edge before service,exact POS cost/return snapshots,strict Maps hosts,shift read guard,collection reversal lock order only;214 if needed;PR/FULLCI/per-item commit+push",
+  "baselineSha": "2c2dcacaa45b20ee83da6e67fddbac3ca749d808",
+  "branch": "codex/handover-fixes-z",
   "phase": "PACKAGE_F",
   "completed": [
-    "PR22 merged703fc51;main43/43+secrets verified",
-    "213 literal runtime73 pass;all API actors deny legacy/trigger direct entrypoints with zero rows/sequence writes;official direct/PO replay and V5 pass",
-    "Fresh/incremental175-556-13 reference0 differences;local upgrade/apply/replay/strict ACL+search_path negatives pass",
-    "154 current table queries and537 RPC dispatches/10 expected role denials;Admin1407/store197 units pass",
-    "Vite6.4.4 builds/SEO/PWA4/network0;27 focused browser cases pass across two engines,one unchanged conditional;one WebKit navigation environmental retry passed unchanged",
-    "Production npm audit0 both apps;frozen Edge5 graphs and negative integrity case pass",
-    "Owner now authorizes commit+push after each completed item,including WIP;no need to defer backup until full package",
-    "Recovery WIP5baa7f2 pushed;current literal213 runtime74 passes including anon with absent/empty/contradictory JWT;types+strict lint+store197+prod audits0+Edge5 frozen verified",
-    "Recovered implementation4e2da95 push FULL44 and secrets accepted;local current units1408/store197/coreBrowser395+59 historical conditionals/0unexpected/0flaky;Storage roles/reset and strict owner upgrade213 completed;reference and offline dry-run prepared locally"
+    "Owner approved independent review Z1-Z5 and214;Y PR23/main2c2dcac delivered",
+    "Z1 focused16/typecheck/strictlint pass;actual local EdgeHTTP42 denials and ownerAAL2create pass;original worktree disappeared,recovered exact source from own tool log",
+    "Z1 saved/pusheda65bf52;Z2 DB8groups passed:10000roundtrip1000.6/1000.4,both sale kinds,fractional rounding,historicalfallback,replay0",
+    "Z2saved1dfcf49;Z3actualSQL23,browser12bothengines,unit28,typesboth/strictfocusedlint/buildsSEO passed",
+    "Z3 saved/pushedbc46a42;Z4 actual4states passed:28allowedreads,56denials,fullfingerprintzero writes;pre-readcentralguard",
+    "Z4saved/pushed146d71b;Z5 actual5groups/4two-sessionraces passed,exactfinancialbody213unchanged,strictreplay/closedshiftzero writes",
+    "214 final SQL reverified:Edge42,cost8,maps23,shift4(28allowed/56denied),collection5(4realraces);currentSDK154table reads +540RPC probes/10expected denials;browser12,store197,bothbuilds/SEO,Gitleaks0"
   ],
   "inProgress": [
-    "Finalize evidence documentation and exact final push+PR FULL44/secrets"
+    "214 reference/source evidence/reset/strict owner upgrade/fullCI acceptance"
   ],
   "notStarted": [
-    "Y merge requires explicit owner authorization;no hosted access/deployment"
+    "Owner214 upgrade/strict verify;fullCI and final PR review"
   ],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "testsPassed": [
-    "runtime73",
-    "ref175-556-13/freshincremental0",
-    "local upgrade/replay/strict verification negatives",
-    "Admin1407/store197",
-    "builds/SEO/PWA4/focused browser27/network0",
-    "prod audit0/frozen Edge5"
+    "Z1-Z5 actuallocal acceptance rerun on final214",
+    "Current SDK154 success/0errors and540RPC/10expected denials",
+    "Chromium/WebKit12,retries0",
+    "Store197,bothbuilds/SEO,networkguard,strictpolicy/outer-inverse tests",
+    "Gitleaks0 over86changed/untrackedfiles"
   ],
   "testsRemaining": [
-    "Exact final documentation-head feature push+PR FULL44 and secret scans"
+    "Fulladminunit finalrun inprogress",
+    "214fresh/incremental reference,strictownerupgrade/verify/reset inprogress",
+    "Exact feature FULLCI and secrets"
   ],
   "findings": [
-    "M01 annual report deferred after launch;H01/M02 Frankfurt backups/watchdog/notifications subsequent task"
+    "Employee cost/WAC/profit read visibility explicitly deferred;mandatory safe DTO/column revocation before hiring"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "No Frankfurt/hosted connection or deployment",
-    "No financial/inventory semantics outside closing legacy entrypoints",
-    "Historical001-212 immutable;213 explicitly authorized",
-    "One writer;no unrelated changes;no Y merge unless authorized"
+    "Historical001-213 immutable;214 approved",
+    "No wider financial changes beyond exact snapshot and lock order",
+    "One writing agent;commit+push after each completed item",
+    "No Z merge authorization"
   ],
-  "nextExactAction": "Push final local evidence documentation;exact final push+PR FULL44 and secrets;mark PR23 ready without merging",
-  "checkpointedAt": "2026-10-24T19:02:16.232Z",
-  "filesTouchedCount": 5,
-  "filesTouchedManifestSha256": "82f7676be2965914afedabfa086de6fa389786ef48038f1a979c45560ed80ec7",
-  "workingTreeFingerprint": "F38CC4CA669A9804376DA1854AF43DBFE9191B5A9A045725E0931D6779BE6E2E"
+  "nextExactAction": "214 local reference/upgrade/reset and final admin units running;then exact-SHA FULLCI,owner214 guide and no deployment",
+  "checkpointedAt": "2026-10-24T22:39:41.068Z",
+  "filesTouchedCount": 13,
+  "filesTouchedManifestSha256": "b1d6cad52a38aab2fd2a4c383d1312b16e3b9fecc0b44c733a3dc521348804be",
+  "workingTreeFingerprint": "0535A1F4F8518E762DAE63E3ABBA1F7C281FCEACC58DD019B6D601FB89F6878C"
 }

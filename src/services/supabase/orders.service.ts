@@ -1,3 +1,4 @@
+import {safeGoogleMapsUrl, validMapCoordinates} from '../../utils/googleMaps';
 import { supabase, isSupabaseConfigured } from '../../lib/supabase';
 import { Order, OrderStatus, PaymentMethod, PaymentStatus } from '../../types';
 import { isCustomerV2Order, runCustomerV2AdminAction } from './adminCustomerV2Lifecycle';
@@ -475,13 +476,12 @@ function mapOrderRows(data: unknown[]): Order[] {
           new Date(b.changedAt).getTime() - new Date(a.changedAt).getTime()
       );
 
-    const lat = addr.latitude ? Number(addr.latitude) : undefined;
-    const lng = addr.longitude ? Number(addr.longitude) : undefined;
-
-    let gMapsUrl = addr.google_maps_url;
-    if (!gMapsUrl && lat && lng) {
-      gMapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
-    }
+    const parsedLat = addr.latitude == null ? undefined : Number(addr.latitude);
+    const parsedLng = addr.longitude == null ? undefined : Number(addr.longitude);
+    const coordinatesValid = validMapCoordinates(parsedLat, parsedLng);
+    const lat = coordinatesValid ? parsedLat : undefined;
+    const lng = coordinatesValid ? parsedLng : undefined;
+    const gMapsUrl = safeGoogleMapsUrl(addr.google_maps_url, lat, lng);
 
     const addressStr =
       addr.formatted_address ||
@@ -517,6 +517,7 @@ function mapOrderRows(data: unknown[]): Order[] {
       longitude: lng,
       formattedAddress: addr.formatted_address,
       googleMapsUrl: gMapsUrl,
+      mapUrl: !gMapsUrl && typeof addr.google_maps_url === 'string' ? addr.google_maps_url : undefined,
       locationSource: addr.location_source || 'manual',
       locationConfirmed: Boolean(addr.location_confirmed),
       trackingToken: ord.tracking_token || undefined,

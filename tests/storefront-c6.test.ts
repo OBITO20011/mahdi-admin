@@ -10,7 +10,7 @@ test('C6 restores every accepted206 source byte and its real-role coverage witho
  assert.deepEqual(historical.sources,proof.sourceHashes);assert.deepEqual(verifyProbeCoverage(historical,proof.results),proof.coverage);
  for(const[file,pin]of Object.entries(storefrontC6Pins) as Array<[string,{before:string|null;after:string;added?:boolean}]>){
   const current=read(file),restored=sourceBeforeStorefrontC6(file,current);
-  assert.throws(()=>sourceBeforeStorefrontC6(file,current+'\nvoid 600;\n'),/STOREFRONT_C6_ENTIRE_CURRENT_FILE_CHANGED/u);
+  assert.throws(()=>sourceBeforeStorefrontC6(file,current+'\nvoid 600;\n'),/STOREFRONT_C6_ENTIRE_CURRENT_FILE_CHANGED|HANDOVER214_UNREVIEWED_SOURCE/u);
   if(pin.added)assert.equal(restored,null);else assert.equal(createHash('sha256').update(restored!).digest('hex'),pin.before);
  }
 });

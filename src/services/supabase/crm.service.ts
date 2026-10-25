@@ -1,3 +1,4 @@
+import {safeGoogleMapsUrl, validMapCoordinates} from '../../utils/googleMaps';
 import { supabase, isSupabaseConfigured } from '../../lib/supabase';
 import {
   CrmCustomer,
@@ -21,7 +22,7 @@ function mapAddress(address: Record<string, any>): CrmCustomerAddress {
       ? undefined
       : Number(address.longitude);
   const hasCoordinates =
-    Number.isFinite(latitude) && Number.isFinite(longitude);
+    validMapCoordinates(latitude, longitude);
 
   return {
     id: address.id,
@@ -37,7 +38,7 @@ function mapAddress(address: Record<string, any>): CrmCustomerAddress {
     latitude: hasCoordinates ? latitude : undefined,
     longitude: hasCoordinates ? longitude : undefined,
     formattedAddress: address.formatted_address || undefined,
-    googleMapsUrl: address.google_maps_url || undefined,
+    googleMapsUrl: safeGoogleMapsUrl(address.google_maps_url, latitude, longitude),
     locationSource: address.location_source || 'manual',
     locationConfirmed: Boolean(address.location_confirmed),
     isDefault: Boolean(address.is_default),

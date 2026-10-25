@@ -1,3 +1,4 @@
+import {safeGoogleMapsUrl, validMapCoordinates} from '../../utils/googleMaps';
 import { UiButton } from '../../components/ui';
 /**
  * Nawasrah Business Manager - Customer Location & Address Card
@@ -45,13 +46,13 @@ export const CustomerLocationCard: React.FC<CustomerLocationCardProps> = ({
   const landmark = addr.landmark || 'لا توجد علامة مميزة';
   const deliveryNotes = addr.deliveryNotes || order.notes || 'لا توجد ملاحظات خاصة';
 
-  const hasCoords = typeof order.latitude === 'number' && typeof order.longitude === 'number';
+  const hasCoords = validMapCoordinates(order.latitude, order.longitude);
   const lat = order.latitude;
   const lng = order.longitude;
 
-  const googleMapsUrl =
-    order.googleMapsUrl ||
-    (hasCoords ? `https://www.google.com/maps/search/?api=1&query=${lat},${lng}` : '');
+  const originalMapUrl = order.googleMapsUrl || order.mapUrl;
+  const googleMapsUrl = safeGoogleMapsUrl(originalMapUrl, lat, lng);
+  const unsupportedMapText = !googleMapsUrl && originalMapUrl ? originalMapUrl : undefined;
   const appleMapsUrl = hasCoords ? `https://maps.apple.com/?q=${lat},${lng}` : '';
 
   const locationSource = order.locationSource || (hasCoords ? 'gps' : 'manual');
@@ -67,7 +68,7 @@ export const CustomerLocationCard: React.FC<CustomerLocationCardProps> = ({
 
   // 1. Copy location link
   const handleCopyLink = () => {
-    const urlToCopy = googleMapsUrl || order.mapUrl || `${governorate} - ${area} - ${order.address}`;
+    const urlToCopy = googleMapsUrl || `${governorate} - ${area} - ${order.address}`;
     navigator.clipboard.writeText(urlToCopy);
     setCopied(true);
     setToast('تم نسخ رابط/عنوان الموقع بنجاح');
@@ -76,14 +77,14 @@ export const CustomerLocationCard: React.FC<CustomerLocationCardProps> = ({
 
   // 2. Share location
   const handleShareLocation = async () => {
-    const shareText = `موقع توصيل الطلب ${order.orderNumber}\nالعميل: ${order.customerName} (${order.customerPhone})\nالعنوان: ${governorate} - ${area} - ${order.address}\nالرابط: ${googleMapsUrl || order.mapUrl || 'لا يوجد رابط'}`;
+    const shareText = `موقع توصيل الطلب ${order.orderNumber}\nالعميل: ${order.customerName} (${order.customerPhone})\nالعنوان: ${governorate} - ${area} - ${order.address}\nالرابط: ${googleMapsUrl || 'لا يوجد رابط'}`;
     
     if (navigator.share) {
       try {
         await navigator.share({
           title: `موقع طلب ${order.orderNumber}`,
           text: shareText,
-          url: googleMapsUrl || order.mapUrl,
+          url: googleMapsUrl,
         });
       } catch {
         // Fallback to copy
@@ -106,7 +107,7 @@ export const CustomerLocationCard: React.FC<CustomerLocationCardProps> = ({
       `🏢 البناية: ${building} | شقة: ${apartment}\n` +
       `🚩 العلامة: ${landmark}\n` +
       `📝 ملاحظات: ${deliveryNotes}\n` +
-      `🔗 رابط الخريطة: ${googleMapsUrl || order.mapUrl || 'غير متوفر (عنوان يدوي)'}`
+      `🔗 رابط الخريطة: ${googleMapsUrl || 'غير متوفر (عنوان يدوي)'}`
     );
 
     window.open(`https://wa.me/?text=${message}`, '_blank');
@@ -289,6 +290,13 @@ export const CustomerLocationCard: React.FC<CustomerLocationCardProps> = ({
           </div>
         )}
       </div>
+
+      {unsupportedMapText && (
+        <div className="rounded-xl border border-nw-border p-3 text-nw-muted">
+          <p>رابط محفوظ غير معتمد؛ يعرض كنص فقط.</p>
+          <p dir="ltr" className="break-all select-text">{unsupportedMapText}</p>
+        </div>
+      )}
 
       {/* Action Buttons Grid */}
       <div className="pt-2 border-t border-nw-border space-y-2">

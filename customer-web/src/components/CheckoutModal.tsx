@@ -876,7 +876,7 @@ export function CheckoutModal({
                     <p className="mt-2 text-xs font-black leading-6 text-slate-800">
                       {[form.governorate, form.city, form.area, form.street, form.building].filter(Boolean).join(' - ')}
                     </p>
-                    {form.googleMapsUrl && (
+                    {form.googleMapsUrl && isSupportedGoogleMapsUrl(form.googleMapsUrl) && (
                       <a href={form.googleMapsUrl} target="_blank" rel="noreferrer" className="mt-3 inline-flex items-center gap-1.5 text-[10px] font-black text-emerald-700">
                         <MapPin className="h-3.5 w-3.5" /> فتح الموقع المرفق
                       </a>
