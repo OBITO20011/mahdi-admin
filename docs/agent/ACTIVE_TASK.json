@@ -28,11 +28,13 @@
     "Real report-destination failure:old5fdd orphan reproduced,new release and fallback verified"
   ],
   "testsRemaining": [
-    "Exact final head push+PR FULL47 and final Gitleaks0"
+    "Final partition:1446 core units+1 operational PowerShell",
+    "New exact-head FULL47 push and PR;Gitleaks0"
   ],
   "findings": [
     "Existing success report write in finally precedes lock cleanup and can orphan lock;actual prior owner failure unknown",
-    "DPAPI occurs in PowerShell before Node,so its failure alone does not explain a Node-created lock;exact owner-run cause unknown"
+    "DPAPI occurs in PowerShell before Node,so its failure alone does not explain a Node-created lock;exact owner-run cause unknown",
+    "CI core Playwright container has no pwsh;unchanged PowerShell proof moved to mandatory backup-recovery host where same proof already passed;no skips/assertion changes"
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -42,10 +44,10 @@
     "No merge or primary update before new owner approval",
     "No cleanup of actual owner lock by agent"
   ],
-  "nextExactAction": "Final docs-only commit/push;PR and exact-head FULL47 CI/Gitleaks. Await owner approval;do not merge or update primary.",
+  "nextExactAction": "Verify mandatory unchanged PowerShell probe in backup host;new exact-SHA FULL CI required.",
   "startedAt": "2026-10-25T19:40:27.970Z",
-  "checkpointedAt": "2026-10-25T20:04:05.833Z",
-  "filesTouchedCount": 1,
-  "filesTouchedManifestSha256": "1c85ec9e3fe5817a2c10d3333ee3573f19cd378474a8e00895ab4048c7baca3c",
-  "workingTreeFingerprint": "02BAE1BB9476B20467C53453689B4771BF9F22802B7E89F4BDD1E4ACC47595A2"
+  "checkpointedAt": "2026-10-25T20:11:40.401Z",
+  "filesTouchedCount": 4,
+  "filesTouchedManifestSha256": "84153767888abe60acfd759530f2d1774f13870dac8c574128713cf891d72fa7",
+  "workingTreeFingerprint": "73898B009B7E8E7C8A4DAB4B5EAA8CD9BCB72E663ABFFDDC43984D480B429B58"
 }

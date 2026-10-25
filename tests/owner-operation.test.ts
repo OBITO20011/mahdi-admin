@@ -97,8 +97,3 @@ test('two real file-handle contenders keep a single owner and refresh final stat
   assert.equal((await read(path.join(root,'operation-Backup.json'))).ok,true);assert.equal(existsSync(path.join(root,'backup-offsite.lock')),false);assert.ok(!(await readdir(root)).some(f=>f.endsWith('.tmp')));
 }));
 
-test('PowerShell synthetic DPAPI failure and explicit orphan cleanup are safe offline',async()=>fixture(async root=>{
-  const {stdout}=await promisify(execFile)(process.platform==='win32'?'powershell.exe':'pwsh',['-NoProfile','-NonInteractive','-File','scripts/testing/owner-operation-safety-probe.ps1','-Root',root],{windowsHide:true,timeout:30000});
-  const report=JSON.parse(stdout.trim());assert.equal(report.ok,true);assert.equal(report.dpapiFailureSafe,true);assert.equal(report.activePidPreserved,true);assert.equal(report.orphanRemoved,true);assert.equal(report.malformedPreserved,true);assert.ok(!stdout.includes(secret));
-  if(process.platform==='win32'){assert.equal(report.windowsDpapiRoundtrip,true);assert.equal(report.windowsExclusiveHandleProved,true);}
-}));

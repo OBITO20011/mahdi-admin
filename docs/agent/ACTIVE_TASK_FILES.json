@@ -3,7 +3,19 @@
   "files": [
     {
       "code": " M",
+      "path": ".github/workflows/backup-recovery.yml"
+    },
+    {
+      "code": " M",
       "path": "docs/operations/FRANKFURT_OWNER_LOCK_RECOVERY_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "tests/owner-operation.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/owner-operation-powershell.probe.ts"
     }
   ]
 }
