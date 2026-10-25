@@ -59,7 +59,7 @@ test('safe diagnostic survives backup phase report and owner operation report',a
     for(const file of [path.join(backupRoot,'last-backup-status.json'),path.join(root,'operation-Backup.json')]){
       const raw=await readFile(file,'utf8'),report=JSON.parse(raw);assert.equal(report.diagnostic.category,'TLS_CA_UNTRUSTED');assert.equal(report.diagnostic.stage,'snapshot');assert.equal(report.diagnostic.exitCode,2);assert.ok(!raw.includes(secret));
     }
-    await assert.rejects(runOwnerMode({mode:'Restore',config,env:{},dependencies:{}}));
+    await assert.rejects(runOwnerMode({mode:'Restore',config,env:{NAWASRAH_FF_PASSPHRASE:secret},dependencies:{}}));
     assert.equal(JSON.parse(await readFile(path.join(root,'operation-Restore.json'),'utf8')).diagnostic.category,'BACKUP_NOT_AVAILABLE');
   }finally{await rm(root,{recursive:true,force:true});}
 });
