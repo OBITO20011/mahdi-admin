@@ -1,0 +1,27 @@
+name: Nawasrah complete backup recovery
+on:
+  pull_request:
+  push:
+    branches: [main, 'codex/**']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  complete-restore:
+    name: Complete encrypted backup and isolated214 restore
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Set up Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install operational dependencies
+        run: npm ci
+      - name: Prove owner boundary and negative cases
+        run: node --import tsx --test tests/dual-backup.test.ts
+      - name: Prove complete214 archive, DB roles ACL data Storage and local S3 roundtrip
+        run: node scripts/testing/run-dual-backup-runtime.mjs
