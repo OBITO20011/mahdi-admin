@@ -2,55 +2,41 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner H01/M02:dual approved-project encrypted DB+Storage backup/R2/retention;local inventory;Frankfurt watchdog/keepalive/400MB developer-only routing;owner-only registration/backup/restore/test-message commands;no hosted access or sends;no SQL/financial changes;fullCI/PR;per-item commit+push",
-  "baselineSha": "ad890191c89c3dee4e19a162ee92a0c53250cf42",
-  "branch": "codex/frankfurt-dual-backup",
+  "objective": "Fix owner Frankfurt Backup snapshot failure with safe diagnostics and explicit official CA/verify-full;native17.11 local TLS/snapshot tests;PR/fullCI;merge waits owner approval;no hosted access/deploy",
+  "baselineSha": "af4476582e6a3451f43472c102d73cea043a7ccf",
+  "branch": "codex/frankfurt-backup-diagnostics",
   "phase": "PACKAGE_F",
   "completed": [
-    "Local inventory saved; hidden SYSTEM tasks prove access-denied80070005,not absence",
-    "Explicit two approved references; isolated Frankfurt retention root;legacy configuration accepted offline",
-    "Owner-only setup/registration/backup/offsite/restore/watchdog/TestAlert commands;business routing prepared disabled",
-    "Complete214 local fixture DB+Auth+roles+ACL+history+Storage restore;141 tables;17 integrity checks healthy;S3 roundtrip/tamper/replay passed",
-    "1433 unit tests,full lint/typecheck,Windows Plan passed;Gitleaks0 before final metadata commit",
-    "PR25 created and attached;per-item commits pushed;no hosted access/sends/tasks/deploy"
+    "Clean worktree from merged af44765;primary owner files untouched"
   ],
   "inProgress": [
-    "Exact final-head FULL CI plus new recovery workflow and Gitleaks"
+    "Safe diagnostics and TLS source research"
   ],
   "notStarted": [
-    "Owner execution of real Frankfurt backup/remote restore and R2 retention rule verification"
+    "Local native17.11 TLS/snapshot/failure tests;PR/fullCI"
   ],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "testsPassed": [
-    "1433 unit tests no failures/skips",
-    "npm run lint (typecheck+ESLint) clean",
-    "Snapshot+full restore on17.6.1.158 matches source bootstrap;local S3 only",
-    "Owner Windows Plan offline;legacy saved connection accepted offline",
-    "Gitleaks0 on four package commits"
-  ],
+  "testsPassed": [],
   "testsRemaining": [
-    "Final SHA full quality45 + recovery1 + secrets1"
+    "Safe error redaction;TLS hostname/CA refusal;successful local snapshot/dump;full CI"
   ],
   "findings": [
-    "No live Frankfurt protection/restore claim:owner must run commands",
-    "Older17.6.1.147 ECR quota failure in CI;use same pinned17.6.1.158 bootstrap image,no test weakening",
-    "Docker C000013A interrupted after server ready;terminating actor not proven"
+    "Current SnapshotSession discards all stderr;actual hosted cause not recoverable"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No connection to either hosted project",
-    "No Telegram send or scheduled-task registration/execution by agent",
-    "No DB/RPC/financial/product changes or migration",
-    "Keep legacy backup/guard tasks intact;business alerts prepared disabled until owner go-live",
-    "Single writer;commit and push after each item;no merge authorization"
+    "No hosted project connections,including TLS probes",
+    "No secrets/password/passphrase/config decryption",
+    "No deployment or owner backup execution",
+    "No merge before new owner approval;per-item commit+push"
   ],
-  "nextExactAction": "Verify exact-head FULL CI for PR25, then ready-for-review;owner-only execution remains pending",
-  "startedAt": "2026-10-25T11:17:50.918Z",
-  "checkpointedAt": "2026-10-25T12:03:07.797Z",
-  "filesTouchedCount": 5,
-  "filesTouchedManifestSha256": "feb6786c19f9cc6854de320ac02b022aedad34d30ec359dc708c5c3959748c54",
-  "workingTreeFingerprint": "ED7DF1C64418FE0A12EBACEA2F23C0FF7B207AF0199497BB83F865154F08B611"
+  "nextExactAction": "Implement actual localhost TLS/native17 snapshot probes and full CI",
+  "startedAt": "2026-10-25T16:51:11.0669200+00:00",
+  "checkpointedAt": "2026-10-25T17:00:16.257Z",
+  "filesTouchedCount": 10,
+  "filesTouchedManifestSha256": "a5d8174179bf091998e20070c8882003e4162e25e7b1c95d08940d3fe86f87f8",
+  "workingTreeFingerprint": "1A71E5DFF5A9B7A62D7349CE473164BC54CF163633AD4E64BA5C39BADF8EA502"
 }
