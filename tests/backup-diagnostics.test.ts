@@ -10,9 +10,9 @@ import {createCompleteBackup,nativeSource} from '../scripts/backup/complete-back
 import {runOwnerMode} from '../scripts/operations/frankfurt-backup-runtime.mjs';
 const secret='Unique-PRIVATE-password-and-passphrase-<&>@%zz';
 const connection='postgresql://postgres.some-project:'+secret+'@some-private-host.example:5432/postgres';
-const dirty=message=>({message,stderr:`${message}\n${connection}\npassword=${secret}\nSQL: SELECT '${secret}';`,code:2});
+const dirty=(message:string)=>({message,stderr:`${message}\n${connection}\npassword=${secret}\nSQL: SELECT '${secret}';`,code:2});
 test('known libpq/tool failures produce safe canonical categories,SQLSTATE,stage and exit code',()=>{
-  for(const [text,category,state]of [
+  const cases:Array<[string,string,string|null]>=[
     ['SSL error: certificate verify failed','TLS_CA_UNTRUSTED',null],
     ['server certificate does not match host name','TLS_HOSTNAME_MISMATCH',null],
     ['root certificate file does not exist','TLS_ROOT_CERT_MISSING',null],
@@ -26,7 +26,8 @@ test('known libpq/tool failures produce safe canonical categories,SQLSTATE,stage
     ['ERROR: 22023: invalid snapshot identifier','SNAPSHOT_NOT_AVAILABLE','22023'],
     ['ERROR: 25006: cannot execute INSERT in a read-only transaction','SQL_READ_ONLY_VIOLATION','25006'],
     ['ERROR: 42501: permission denied for table','SQL_PERMISSION_DENIED','42501'],
-  ]){
+  ];
+  for(const [text,category,state]of cases){
     const d=postgresDiagnostic(dirty(text),{tool:'psql',stage:'snapshot'});
     assert.equal(d.category,category);assert.equal(d.sqlstate,state);assert.equal(d.exitCode,2);assert.equal(d.stage,'snapshot');assert.equal(d.tool,'psql');
     const json=JSON.stringify(d);for(const value of [secret,connection,'some-private-host','SELECT'])assert.ok(!json.includes(value));

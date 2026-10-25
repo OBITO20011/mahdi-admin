@@ -3,27 +3,38 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Fix owner Frankfurt Backup snapshot failure with safe diagnostics and explicit official CA/verify-full;native17.11 local TLS/snapshot tests;PR/fullCI;merge waits owner approval;no hosted access/deploy",
-  "baselineSha": "af4476582e6a3451f43472c102d73cea043a7ccf",
+  "baselineSha": "19b8c4b02dff00b8ebe75e8d9dac4336398acd2c",
   "branch": "codex/frankfurt-backup-diagnostics",
   "phase": "PACKAGE_F",
   "completed": [
-    "Clean worktree from merged af44765;primary owner files untouched"
+    "Official public Supabase CA pinned;absolute sslrootcert with verify-full;no downgrade or Setup change",
+    "Safe category/SQLSTATE/tool/stage/exit diagnostics in phase,operation and CLI;stderr close/EPIPE race covered",
+    "Windows native17.11 localhost TLS rejects system/wrong CA/wrong hostname;positive explicit CA;READ ONLY25006;snapshot across connections;full encrypted backup/restore141tables17checks",
+    "1438 unit tests passed;lint/typecheck clean;Gitleaks0 before final commit;Linux native TLS recovery first CI passed",
+    "PR26 created/attached;all implementation items committed and pushed"
   ],
   "inProgress": [
-    "Safe diagnostics and TLS source research"
+    "Final exact-SHA FULL CI for PR26"
   ],
-  "notStarted": [
-    "Local native17.11 TLS/snapshot/failure tests;PR/fullCI"
-  ],
+  "notStarted": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "testsPassed": [],
+  "testsPassed": [
+    "1438 unit tests,no failures/skips",
+    "npm run lint,typecheck+ESLint clean",
+    "Windows17.11 full TLS/snapshot/restore;141tables17checks",
+    "Core error diagnostics10 tests including privacy/phase/operation",
+    "Gitleaks0 on first2 commits;final scan next"
+  ],
   "testsRemaining": [
-    "Safe error redaction;TLS hostname/CA refusal;successful local snapshot/dump;full CI"
+    "Final head push+PR FULL45/recovery1/secrets1"
   ],
   "findings": [
-    "Current SnapshotSession discards all stderr;actual hosted cause not recoverable"
+    "Old stderr discarded;actual prior hosted cause not recoverable",
+    "Supabase root absent from Windows stores;explicit CA fixes demonstrated trust defect",
+    "No hosted access,credential decryption or deployment;merge awaits owner approval",
+    "No Setup repeat needed;commands documented for post-approval main update"
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -33,10 +44,10 @@
     "No deployment or owner backup execution",
     "No merge before new owner approval;per-item commit+push"
   ],
-  "nextExactAction": "Run final lint/types/unit and exact feature FULL CI;create PR;no merge",
-  "startedAt": "2026-10-25T16:51:11.0669200+00:00",
-  "checkpointedAt": "2026-10-25T17:11:55.593Z",
-  "filesTouchedCount": 10,
-  "filesTouchedManifestSha256": "348fd62ae28d777d47085756d58b4b5889d3aa89e01f7bfbfcfd622dfccf3834",
-  "workingTreeFingerprint": "EB8721B51DB3B2275856E61DDEACDFDC4053F388FB14A9C2ADDA511AB42DADD1"
+  "nextExactAction": "Verify final exact-head FULL CI PR26;ready after success;await owner merge approval",
+  "startedAt": "2026-10-25T19:51:11.06692+03:00",
+  "checkpointedAt": "2026-10-25T17:22:08.503Z",
+  "filesTouchedCount": 2,
+  "filesTouchedManifestSha256": "522264be4749470dfbd73368521b826e91ead9d48a967b3207d1995c2097c24a",
+  "workingTreeFingerprint": "203369AC5B9D9A2DDECE1139830E2AB68F897AF787E550D6CDD1C65B0515945E"
 }
