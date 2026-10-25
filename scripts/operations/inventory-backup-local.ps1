@@ -21,8 +21,8 @@ $tasks=@(foreach($name in $taskNames) {
 $bk=Get-Content "$env:LOCALAPPDATA\NawasrahBackup\config-machine.json" -Raw|ConvertFrom-Json
 $statusFields=@('ok','finishedAt','completedAt','createdAt','lastUploadAt','lastDownloadVerifiedAt','lastRestoreVerifiedAt','remoteVerified','remoteRestoreVerified','restoreVerified','storageObjectCount','archiveBytes')
 $statuses=@(
-  (Read-Projection (Join-Path $bk.backupRoot 'last-status.json') $statusFields)
-  (Read-Projection (Join-Path $bk.backupRoot 'last-restore-drill.json') $statusFields)
+  (Read-Projection (Join-Path $bk.backupRoot 'last-backup-status.json') $statusFields)
+  (Read-Projection (Join-Path $bk.backupRoot 'last-restore-drill-status.json') $statusFields)
   (Read-Projection 'C:\ProgramData\NawasrahOffsiteBackup\erp-status.json' $statusFields)
   (Read-Projection 'C:\ProgramData\NawasrahOffsiteBackup\n8n-status.json' $statusFields)
   (Read-Projection 'C:\ProgramData\NawasrahN8nBackup\last-status.json' $statusFields)

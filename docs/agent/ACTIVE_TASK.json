@@ -35,10 +35,10 @@
     "Keep legacy backup/guard tasks intact;business alerts prepared disabled until owner go-live",
     "Single writer;commit and push after each item;no merge authorization"
   ],
-  "nextExactAction": "Implement explicit two-project backup and verified owner-only restore workflow",
+  "nextExactAction": "Complete owner commands, Frankfurt offsite, watchdog and targeted safety tests",
   "startedAt": "2026-10-25T11:17:50.918Z",
-  "checkpointedAt": "2026-10-25T11:24:15.245Z",
-  "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "6cfaa0ea31f889429ff6f9744991d2df5299069deb501b429794ca2b0a00e8c0",
-  "workingTreeFingerprint": "5A2B4A9D111332BA50C2F0D247A35F769923809AEFCC88C39AC140B9D8DE8C09"
+  "checkpointedAt": "2026-10-25T11:31:26.301Z",
+  "filesTouchedCount": 8,
+  "filesTouchedManifestSha256": "25a6c3b5ba7c646fc59530c416b24bed2e83e1fbbecc8081383666fcc429c297",
+  "workingTreeFingerprint": "F1E01704F096AB032D33EF5A392EDF9CE7FA6B9668FAC28EC014335AD5321845"
 }

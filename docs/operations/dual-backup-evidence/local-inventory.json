@@ -1,6 +1,6 @@
 {
   "formatVersion": 1,
-  "observedAt": "2026-10-25T11:24:14.8600502+00:00",
+  "observedAt": "2026-10-25T11:31:25.5982558+00:00",
   "hostedConnectionsMade": false,
   "credentialsDecrypted": false,
   "tasks": [
@@ -70,12 +70,38 @@
   ],
   "statuses": [
     {
-      "exists": false,
-      "path": "C:\\Users\\TOP\\OneDrive\\سطح المكتب\\Nawasrah ERP Backups\\last-status.json"
+      "path": "C:\\Users\\TOP\\OneDrive\\سطح المكتب\\Nawasrah ERP Backups\\last-backup-status.json",
+      "exists": true,
+      "modifiedAt": "2026-10-24T20:32:54.9088569Z",
+      "ok": true,
+      "finishedAt": "2026-10-24T20:32:54.905Z",
+      "completedAt": null,
+      "createdAt": null,
+      "lastUploadAt": null,
+      "lastDownloadVerifiedAt": null,
+      "lastRestoreVerifiedAt": null,
+      "remoteVerified": null,
+      "remoteRestoreVerified": null,
+      "restoreVerified": null,
+      "storageObjectCount": 5,
+      "archiveBytes": null
     },
     {
-      "exists": false,
-      "path": "C:\\Users\\TOP\\OneDrive\\سطح المكتب\\Nawasrah ERP Backups\\last-restore-drill.json"
+      "path": "C:\\Users\\TOP\\OneDrive\\سطح المكتب\\Nawasrah ERP Backups\\last-restore-drill-status.json",
+      "exists": true,
+      "modifiedAt": "2026-09-10T21:55:37.2578589Z",
+      "ok": true,
+      "finishedAt": null,
+      "completedAt": "2026-09-10T21:55:36.408Z",
+      "createdAt": null,
+      "lastUploadAt": null,
+      "lastDownloadVerifiedAt": null,
+      "lastRestoreVerifiedAt": null,
+      "remoteVerified": null,
+      "remoteRestoreVerified": null,
+      "restoreVerified": null,
+      "storageObjectCount": 1,
+      "archiveBytes": null
     },
     {
       "path": "C:\\ProgramData\\NawasrahOffsiteBackup\\erp-status.json",
@@ -142,16 +168,16 @@
     {
       "path": "C:\\ProgramData\\NawasrahDeveloperMonitoring\\incidents.json",
       "exists": true,
-      "modifiedAt": "2026-10-25T11:22:07.8891899Z",
-      "updatedAt": "2026-10-25T11:19:59.993Z"
+      "modifiedAt": "2026-10-25T11:27:06.7998653Z",
+      "updatedAt": "2026-10-25T11:25:00.252Z"
     }
   ],
   "legacyBackupRoot": "C:\\Users\\TOP\\OneDrive\\سطح المكتب\\Nawasrah ERP Backups",
   "legacyRepository": "C:\\Users\\TOP\\mahdi-admin",
   "dailySupabaseChecksEnabled": false,
   "dockerExit": {
-    "decimal": 3221225786,
     "interpretation": "process interrupted; last startup log reached Docker ready; terminating actor unproven",
+    "decimal": 3221225786,
     "hex": "C000013A"
   },
   "limitations": [

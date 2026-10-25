@@ -49,16 +49,18 @@ export async function verifyBackupArchive({ archivePath, passphrase, extractTo =
       .split(/\r?\n/u)
       .map(normalizeArchivePath)
       .filter(Boolean);
+    const verbose=(await runTar(['-tvf',decryptedTar])).split(/\r?\n/u).filter(Boolean);
+    if(verbose.some(line=>!['d','-'].includes(line[0])))throw new Error('BACKUP_ARCHIVE_LINK_OR_SPECIAL_FILE');
 
     for (const archivedPath of listing) {
       const segments = archivedPath.split('/');
-      if (path.posix.isAbsolute(archivedPath)
+      if (path.posix.isAbsolute(archivedPath) || /^[A-Za-z]:/u.test(archivedPath) || archivedPath.includes(':')
         || segments.some((segment) => segment === '..')) {
         throw new Error(`Unsafe path in backup archive: ${archivedPath}`);
       }
     }
 
-    for (const requiredFile of REQUIRED_ARCHIVE_FILES) {
+    for (const requiredFile of ['manifest.json']) {
       if (!listing.includes(requiredFile)) {
         throw new Error(`Backup archive is missing ${requiredFile}.`);
       }
@@ -69,8 +71,21 @@ export async function verifyBackupArchive({ archivePath, passphrase, extractTo =
     const manifestPath = path.join(extractedRoot, 'manifest.json');
     const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
 
-    if (manifest.formatVersion !== 1 || !Array.isArray(manifest.files)) {
+    if (![1,2].includes(manifest.formatVersion) || !Array.isArray(manifest.files)) {
       throw new Error('Backup manifest has an unsupported format.');
+    }
+    const required=manifest.formatVersion===1?REQUIRED_ARCHIVE_FILES:
+      ['manifest.json','database/roles.sql','database/complete.dump','database/source-evidence.json'];
+    for(const name of required)if(!listing.includes(name)||(name!=='manifest.json'&&!manifest.files.some(e=>e.path===name)))throw new Error('BACKUP_REQUIRED_FILE_MISSING:'+name);
+    if(manifest.formatVersion===2){
+      if(!['acjtabdqqnpwhdvbvnyw','kzevmysfydaslxcerogt'].includes(manifest.projectRef)
+        ||!Array.isArray(manifest.storageObjects)||manifest.storageObjectCount!==manifest.storageObjects.length)throw new Error('BACKUP_V2_MANIFEST_INVALID');
+      const names=new Set();
+      for(const object of manifest.storageObjects){
+        if(names.has(object.name))throw new Error('BACKUP_DUPLICATE_STORAGE_OBJECT');names.add(object.name);
+        const file=manifest.files.find(f=>f.path==='storage/product-images/'+object.name);
+        if(!file||file.size!==object.size||file.sha256!==object.sha256)throw new Error('BACKUP_STORAGE_MANIFEST_MISMATCH');
+      }
     }
 
     for (const entry of manifest.files) {

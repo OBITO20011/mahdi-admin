@@ -3,19 +3,35 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/project-state.json"
-    },
-    {
-      "code": "??",
       "path": "docs/operations/dual-backup-evidence/local-inventory.json"
     },
     {
-      "code": "??",
-      "path": "docs/operations/FRANKFURT_DUAL_BACKUP_AUDIT_AR.md"
+      "code": " M",
+      "path": "scripts/backup/backup-public-config.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/backup/verify-backup.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/inventory-backup-local.ps1"
     },
     {
       "code": "??",
-      "path": "scripts/operations/inventory-backup-local.ps1"
+      "path": "docs/operations/dual-backup-evidence/local-complete-restore214.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/backup/complete-backup.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/backup/snapshot-session.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-dual-backup-runtime.mjs"
     }
   ]
 }

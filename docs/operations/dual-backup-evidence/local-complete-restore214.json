@@ -1,0 +1,21 @@
+{
+  "ok": true,
+  "projectRef": "kzevmysfydaslxcerogt",
+  "mode": "isolated-complete-restore",
+  "completedAt": "2026-10-25T11:30:38.901Z",
+  "hostedConnectionsMade": false,
+  "network": "none",
+  "liveVolumesModified": false,
+  "historyCeiling": 214,
+  "tablesCompared": 141,
+  "storageObjectsCompared": 1,
+  "allRowsAndHashesMatch": true,
+  "allSequencesMatch": true,
+  "rolesAndMembershipsMatch": true,
+  "catalogAclOwnerSettingsMatch": true,
+  "historyMatch": true,
+  "storageMetadataMatch": true,
+  "fixtureOnly": true,
+  "archiveEncrypted": true,
+  "storageBytesRestored": true
+}
