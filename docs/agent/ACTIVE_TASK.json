@@ -1,56 +1,44 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner Z1-Z5:authorize staff Edge before service,exact POS cost/return snapshots,strict Maps hosts,shift read guard,collection reversal lock order only;214 if needed;PR/FULLCI/per-item commit+push",
-  "baselineSha": "2c2dcacaa45b20ee83da6e67fddbac3ca749d808",
-  "branch": "codex/handover-fixes-z",
+  "objective": "Owner H01/M02:dual approved-project encrypted DB+Storage backup/R2/retention;local inventory;Frankfurt watchdog/keepalive/400MB developer-only routing;owner-only registration/backup/restore/test-message commands;no hosted access or sends;no SQL/financial changes;fullCI/PR;per-item commit+push",
+  "baselineSha": "682dcaf05cf13180d7f06b708b791c1d61006224",
+  "branch": "codex/frankfurt-dual-backup",
   "phase": "PACKAGE_F",
   "completed": [
-    "Owner approved independent review Z1-Z5 and214;Y PR23/main2c2dcac delivered",
-    "Z1 focused16/typecheck/strictlint pass;actual local EdgeHTTP42 denials and ownerAAL2create pass;original worktree disappeared,recovered exact source from own tool log",
-    "Z1 saved/pusheda65bf52;Z2 DB8groups passed:10000roundtrip1000.6/1000.4,both sale kinds,fractional rounding,historicalfallback,replay0",
-    "Z2saved1dfcf49;Z3actualSQL23,browser12bothengines,unit28,typesboth/strictfocusedlint/buildsSEO passed",
-    "Z3 saved/pushedbc46a42;Z4 actual4states passed:28allowedreads,56denials,fullfingerprintzero writes;pre-readcentralguard",
-    "Z4saved/pushed146d71b;Z5 actual5groups/4two-sessionraces passed,exactfinancialbody213unchanged,strictreplay/closedshiftzero writes",
-    "214 final SQL reverified:Edge42,cost8,maps23,shift4(28allowed/56denied),collection5(4realraces);currentSDK154table reads +540RPC probes/10expected denials;browser12,store197,bothbuilds/SEO,Gitleaks0"
+    "Z214 PR24 merged682dcaf;exact main45+secrets passed;primary owner files retained;dry-run214 passed",
+    "New clean Git worktree from approved main;app managed creation unavailable due stale original chat cwd",
+    "Owner clarified Telegram test is owner-command-only;no agent send"
   ],
   "inProgress": [
-    "214 reference/source evidence/reset/strict owner upgrade/fullCI acceptance"
+    "Local-only operational inventory H01/M02"
   ],
   "notStarted": [
-    "Owner214 upgrade/strict verify;fullCI and final PR review"
+    "Explicit two-project backup allowlist/config isolation",
+    "Owner commands/schedules/R2/retention/isolated214restore proof",
+    "Frankfurt watchdog/keepalive and strict developer/business routing preparation",
+    "FullCI/Gitleaks/PR/delivery"
   ],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "testsPassed": [
-    "Z1-Z5 actuallocal acceptance rerun on final214",
-    "Current SDK154 success/0errors and540RPC/10expected denials",
-    "Chromium/WebKit12,retries0",
-    "Store197,bothbuilds/SEO,networkguard,strictpolicy/outer-inverse tests",
-    "Gitleaks0 over86changed/untrackedfiles"
-  ],
-  "testsRemaining": [
-    "Fulladminunit finalrun inprogress",
-    "214fresh/incremental reference,strictownerupgrade/verify/reset inprogress",
-    "Exact feature FULLCI and secrets"
-  ],
-  "findings": [
-    "Employee cost/WAC/profit read visibility explicitly deferred;mandatory safe DTO/column revocation before hiring"
-  ],
+  "testsPassed": [],
+  "testsRemaining": [],
+  "findings": [],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No Frankfurt/hosted connection or deployment",
-    "Historical001-213 immutable;214 approved",
-    "No wider financial changes beyond exact snapshot and lock order",
-    "One writing agent;commit+push after each completed item",
-    "No Z merge authorization"
+    "No connection to either hosted project",
+    "No Telegram send or scheduled-task registration/execution by agent",
+    "No DB/RPC/financial/product changes or migration",
+    "Keep legacy backup/guard tasks intact;business alerts prepared disabled until owner go-live",
+    "Single writer;commit and push after each item;no merge authorization"
   ],
-  "nextExactAction": "214 local reference/upgrade/reset and final admin units running;then exact-SHA FULLCI,owner214 guide and no deployment",
-  "checkpointedAt": "2026-10-24T22:39:41.068Z",
-  "filesTouchedCount": 13,
-  "filesTouchedManifestSha256": "b1d6cad52a38aab2fd2a4c383d1312b16e3b9fecc0b44c733a3dc521348804be",
-  "workingTreeFingerprint": "0535A1F4F8518E762DAE63E3ABBA1F7C281FCEACC58DD019B6D601FB89F6878C"
+  "nextExactAction": "Implement explicit two-project backup and verified owner-only restore workflow",
+  "startedAt": "2026-10-25T11:17:50.918Z",
+  "checkpointedAt": "2026-10-25T11:24:15.245Z",
+  "filesTouchedCount": 4,
+  "filesTouchedManifestSha256": "6cfaa0ea31f889429ff6f9744991d2df5299069deb501b429794ca2b0a00e8c0",
+  "workingTreeFingerprint": "5A2B4A9D111332BA50C2F0D247A35F769923809AEFCC88C39AC140B9D8DE8C09"
 }

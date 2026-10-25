@@ -3,55 +3,19 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/operations/FRANKFURT_OWNER_UPGRADE214_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/UNEXPOSED_RPC_REVIEW_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/handover214-inverse.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/build-acl-reference214.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/handover-z-locks.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/pretrial-p1.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/sales-history204-evidence.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/storefront-c6.test.ts"
+      "path": "docs/agent/project-state.json"
     },
     {
       "code": "??",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_214.json"
+      "path": "docs/operations/dual-backup-evidence/local-inventory.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/FRANKFURT_DUAL_BACKUP_AUDIT_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/inventory-backup-local.ps1"
     }
   ]
 }

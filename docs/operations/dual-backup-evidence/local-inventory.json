@@ -1,0 +1,161 @@
+{
+  "formatVersion": 1,
+  "observedAt": "2026-10-25T11:24:14.8600502+00:00",
+  "hostedConnectionsMade": false,
+  "credentialsDecrypted": false,
+  "tasks": [
+    {
+      "name": "Nawasrah Docker Safe Startup",
+      "visibility": "readable",
+      "lastRunAt": "2026-10-20T16:38:23.0000000",
+      "nextRunAt": "1899-12-30T00:00:00.0000000",
+      "result": -1073741510,
+      "principal": "S-1-5-21-2663520900-69723402-2150037085-1001",
+      "scriptPaths": [
+        "C:\\ProgramData\\NawasrahDockerRecovery\\Start-DockerSafely.ps1"
+      ]
+    },
+    {
+      "name": "Nawasrah ERP Nightly Backup",
+      "visibility": "readable",
+      "lastRunAt": "2026-10-24T23:30:01.0000000",
+      "nextRunAt": "2026-10-25T23:30:00.0000000",
+      "result": 0,
+      "principal": "S-1-5-18",
+      "scriptPaths": [
+        "C:\\Users\\TOP\\mahdi-admin\\scripts\\backup\\run-backup.ps1"
+      ]
+    },
+    {
+      "name": "Nawasrah ERP Quarterly Restore Drill",
+      "visibility": "readable",
+      "lastRunAt": "2026-10-25T02:17:01.0000000",
+      "nextRunAt": "2026-10-26T02:17:00.0000000",
+      "result": 0,
+      "principal": "S-1-5-21-2663520900-69723402-2150037085-1001",
+      "scriptPaths": [
+        "C:\\Users\\TOP\\mahdi-admin\\scripts\\backup\\run-scheduled-restore-drill.ps1"
+      ]
+    },
+    {
+      "name": "Nawasrah Developer Watchdog",
+      "visibility": "unreadable",
+      "hresult": "80070005",
+      "notEvidenceOfAbsence": true
+    },
+    {
+      "name": "Nawasrah Offsite Backup Upload",
+      "visibility": "unreadable",
+      "hresult": "80070005",
+      "notEvidenceOfAbsence": true
+    },
+    {
+      "name": "Nawasrah Offsite Backup Weekly Verify",
+      "visibility": "unreadable",
+      "hresult": "80070005",
+      "notEvidenceOfAbsence": true
+    },
+    {
+      "name": "Nawasrah Offsite Backup Restore Drill",
+      "visibility": "unreadable",
+      "hresult": "80070005",
+      "notEvidenceOfAbsence": true
+    },
+    {
+      "name": "Nawasrah n8n Daily Backup",
+      "visibility": "unreadable",
+      "hresult": "80070005",
+      "notEvidenceOfAbsence": true
+    }
+  ],
+  "statuses": [
+    {
+      "exists": false,
+      "path": "C:\\Users\\TOP\\OneDrive\\سطح المكتب\\Nawasrah ERP Backups\\last-status.json"
+    },
+    {
+      "exists": false,
+      "path": "C:\\Users\\TOP\\OneDrive\\سطح المكتب\\Nawasrah ERP Backups\\last-restore-drill.json"
+    },
+    {
+      "path": "C:\\ProgramData\\NawasrahOffsiteBackup\\erp-status.json",
+      "exists": true,
+      "modifiedAt": "2026-10-24T23:10:06.4317948Z",
+      "ok": true,
+      "finishedAt": null,
+      "completedAt": null,
+      "createdAt": null,
+      "lastUploadAt": "2026-10-24T23:10:06.424Z",
+      "lastDownloadVerifiedAt": "2026-10-18T09:50:49.8Z",
+      "lastRestoreVerifiedAt": "2026-09-11T00:57:33.2809528+03:00",
+      "remoteVerified": true,
+      "remoteRestoreVerified": true,
+      "restoreVerified": null,
+      "storageObjectCount": null,
+      "archiveBytes": 9752117
+    },
+    {
+      "path": "C:\\ProgramData\\NawasrahOffsiteBackup\\n8n-status.json",
+      "exists": true,
+      "modifiedAt": "2026-10-24T23:10:09.6014869Z",
+      "ok": true,
+      "finishedAt": null,
+      "completedAt": null,
+      "createdAt": null,
+      "lastUploadAt": "2026-10-24T23:10:09.598Z",
+      "lastDownloadVerifiedAt": "2026-10-18T09:50:54.758Z",
+      "lastRestoreVerifiedAt": "2026-09-11T00:57:33.2809528+03:00",
+      "remoteVerified": true,
+      "remoteRestoreVerified": true,
+      "restoreVerified": null,
+      "storageObjectCount": null,
+      "archiveBytes": 6328381
+    },
+    {
+      "path": "C:\\ProgramData\\NawasrahN8nBackup\\last-status.json",
+      "exists": true,
+      "modifiedAt": "2026-10-24T22:30:40.4756127Z",
+      "ok": true,
+      "finishedAt": "2026-10-24T22:30:40.3398263Z",
+      "completedAt": null,
+      "createdAt": null,
+      "lastUploadAt": null,
+      "lastDownloadVerifiedAt": null,
+      "lastRestoreVerifiedAt": null,
+      "remoteVerified": null,
+      "remoteRestoreVerified": null,
+      "restoreVerified": true,
+      "storageObjectCount": null,
+      "archiveBytes": 6328381
+    },
+    {
+      "path": "C:\\ProgramData\\NawasrahDockerRecovery\\last-status.json",
+      "exists": true,
+      "modifiedAt": "2026-10-18T09:48:01.6054999Z",
+      "result": "PASS",
+      "stage": "complete",
+      "startedAt": "2026-10-18T12:47:10.5650699+03:00",
+      "completedAt": "2026-10-18T12:48:01.4933112+03:00",
+      "dockerServerVersion": "29.7.2",
+      "n8nHealth": "healthy"
+    },
+    {
+      "path": "C:\\ProgramData\\NawasrahDeveloperMonitoring\\incidents.json",
+      "exists": true,
+      "modifiedAt": "2026-10-25T11:22:07.8891899Z",
+      "updatedAt": "2026-10-25T11:19:59.993Z"
+    }
+  ],
+  "legacyBackupRoot": "C:\\Users\\TOP\\OneDrive\\سطح المكتب\\Nawasrah ERP Backups",
+  "legacyRepository": "C:\\Users\\TOP\\mahdi-admin",
+  "dailySupabaseChecksEnabled": false,
+  "dockerExit": {
+    "decimal": 3221225786,
+    "interpretation": "process interrupted; last startup log reached Docker ready; terminating actor unproven",
+    "hex": "C000013A"
+  },
+  "limitations": [
+    "Task ACL may hide SYSTEM tasks: access denied is not missing",
+    "No remote task, GitHub schedule, R2 object or database state verified"
+  ]
+}
