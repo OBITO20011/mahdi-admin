@@ -2,13 +2,100 @@
   "ok": true,
   "projectRef": "kzevmysfydaslxcerogt",
   "mode": "isolated-complete-restore",
-  "completedAt": "2026-10-25T11:30:38.901Z",
+  "completedAt": "2026-10-25T11:38:48.556Z",
   "hostedConnectionsMade": false,
   "network": "none",
   "liveVolumesModified": false,
   "historyCeiling": 214,
   "tablesCompared": 141,
   "storageObjectsCompared": 1,
+  "integrityChecks": [
+    {
+      "key": "integrity:accounting:cogs-profit",
+      "status": "healthy",
+      "issueCount": 0
+    },
+    {
+      "key": "integrity:accounting:customer-receivables",
+      "status": "healthy",
+      "issueCount": 0
+    },
+    {
+      "key": "integrity:accounting:deferred-cheques",
+      "status": "healthy",
+      "issueCount": 0
+    },
+    {
+      "key": "integrity:accounting:owner-withdrawals",
+      "status": "healthy",
+      "issueCount": 0
+    },
+    {
+      "key": "integrity:accounting:reversals",
+      "status": "healthy",
+      "issueCount": 0
+    },
+    {
+      "key": "integrity:accounting:supplier-balances",
+      "status": "healthy",
+      "issueCount": 0
+    },
+    {
+      "key": "integrity:aftercare:durable-evidence",
+      "status": "healthy",
+      "issueCount": 0
+    },
+    {
+      "key": "integrity:automation:outbox",
+      "status": "healthy",
+      "issueCount": 0
+    },
+    {
+      "key": "integrity:inventory:balances",
+      "status": "healthy",
+      "issueCount": 0
+    },
+    {
+      "key": "integrity:inventory:movement-arithmetic",
+      "status": "healthy",
+      "issueCount": 0
+    },
+    {
+      "key": "integrity:inventory:movement-ledger",
+      "status": "healthy",
+      "issueCount": 0
+    },
+    {
+      "key": "integrity:inventory:receiving",
+      "status": "healthy",
+      "issueCount": 0
+    },
+    {
+      "key": "integrity:inventory:references",
+      "status": "healthy",
+      "issueCount": 0
+    },
+    {
+      "key": "integrity:orders:reservations",
+      "status": "healthy",
+      "issueCount": 0
+    },
+    {
+      "key": "integrity:orders:stock-deductions",
+      "status": "healthy",
+      "issueCount": 0
+    },
+    {
+      "key": "integrity:shifts:closing",
+      "status": "healthy",
+      "issueCount": 0
+    },
+    {
+      "key": "integrity:shifts:snapshot",
+      "status": "healthy",
+      "issueCount": 0
+    }
+  ],
   "allRowsAndHashesMatch": true,
   "allSequencesMatch": true,
   "rolesAndMembershipsMatch": true,
@@ -17,5 +104,13 @@
   "storageMetadataMatch": true,
   "fixtureOnly": true,
   "archiveEncrypted": true,
-  "storageBytesRestored": true
+  "storageBytesRestored": true,
+  "nonzeroFinancialFixture": {
+    "receivedQuantity": 20,
+    "soldQuantity": 2,
+    "remainingQuantity": 18,
+    "supplierDebt": 10000,
+    "salesCash": 2000,
+    "openingCash": 10000
+  }
 }

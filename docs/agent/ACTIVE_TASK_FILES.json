@@ -3,35 +3,31 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/operations/dual-backup-evidence/local-inventory.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/backup/backup-public-config.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/backup/verify-backup.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/inventory-backup-local.ps1"
-    },
-    {
-      "code": "??",
       "path": "docs/operations/dual-backup-evidence/local-complete-restore214.json"
     },
     {
-      "code": "??",
+      "code": " M",
       "path": "scripts/backup/complete-backup.mjs"
     },
     {
-      "code": "??",
-      "path": "scripts/backup/snapshot-session.mjs"
+      "code": " M",
+      "path": "scripts/testing/run-dual-backup-runtime.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/testing/run-dual-backup-runtime.mjs"
+      "path": "docs/operations/FRANKFURT_BACKUP_RESTORE_RUNBOOK_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/frankfurt-backup-owner.ps1"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/frankfurt-backup-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/dual-backup.test.ts"
     }
   ]
 }

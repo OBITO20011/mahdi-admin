@@ -13,6 +13,7 @@ import {verifyBackupArchive} from './verify-backup.mjs';
 import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
 import {logicalRestoreDifferences,platformPostInitSql} from '../testing/backup-restore-contract.mjs';
 import {sha256} from '../offsite-backup/offsite-core.mjs';
+import {migrationManifest} from '../testing/maintenance-db-contract.mjs';
 
 const exec=promisify(execFile);
 const stripTransaction=sql=>sql.replace(/^BEGIN READ ONLY;/u,'').replace(/ROLLBACK;\s*$/u,'');
@@ -69,6 +70,8 @@ export async function createCompleteBackup({projectRef,outputRoot,passphrase,ret
     await session.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY;');
     const snapshot=(await session.query('SELECT pg_export_snapshot();')).trim();assert.match(snapshot,/^[0-9A-F]+-[0-9A-F]+-[0-9]+$/u);
     const before=await captureEvidence(session);assert.equal(before.history.at(-1),'214','COMPLETE_BACKUP_REQUIRES_REVIEWED_214');
+    const expected=(await migrationManifest(path.resolve(import.meta.dirname,'../..'))).filter(m=>Number(m.name.slice(0,3))<=214).map(m=>m.name.slice(0,3));
+    assert.equal(expected.length,176);assert.deepEqual(before.history,expected,'COMPLETE_BACKUP_HISTORY_HAS_GAPS_OR_UNREVIEWED_VERSION');
     // dump roles under a separate connection; concurrent role/DDL/Storage/sequence changes abort below.
     await source.roles(path.join(content,'database','roles.sql'));
     await source.dump(snapshot,path.join(content,'database','complete.dump'));
@@ -129,7 +132,16 @@ export async function restoreCompleteBackup({archivePath,passphrase,reportPath,r
       const {stdout}=await docker(['exec',container,'sha256sum','--',file]);assert.equal(stdout.slice(0,64),object.sha256,'RESTORED_STORAGE_BYTES_DIFFER');
       if(readObjectAfterRestore)assert.deepEqual(await readObjectAfterRestore(name),await readFile(path.join(content,'storage','product-images',...name.split('/'))));
     }
-    report={ok:true,projectRef:manifest.projectRef,mode:'isolated-complete-restore',completedAt:new Date().toISOString(),hostedConnectionsMade:false,network:'none',liveVolumesModified:false,historyCeiling:214,tablesCompared:Object.keys(before.tables).length,storageObjectsCompared:manifest.storageObjects.length,...proof};return report;
+    await session.query('ROLLBACK;RESET ROLE;BEGIN;');
+    // Fresh existing "check" scanner ONLY on the network-isolated restored copy.
+    // Roll it back: it must never mutate the backed-up source or become restored business data.
+    await session.query('SELECT public.run_advanced_monitoring_checks();');
+    const scan=await json(session,'SELECT public.get_advanced_monitoring_status();');
+    await session.query('ROLLBACK;');
+    const integrity=(scan?.checks??[]).filter(c=>c.key.startsWith('integrity:')).map(({key,status,issueCount})=>({key,status,issueCount}));
+    assert.ok(integrity.length>5,'RESTORE_INTEGRITY_SCAN_MISSING');
+    assert.ok(integrity.every(c=>c.status==='healthy'&&Number(c.issueCount)===0),'RESTORE_EXISTING_INTEGRITY_CHECK_FAILED');
+    report={ok:true,projectRef:manifest.projectRef,mode:'isolated-complete-restore',completedAt:new Date().toISOString(),hostedConnectionsMade:false,network:'none',liveVolumesModified:false,historyCeiling:214,tablesCompared:Object.keys(before.tables).length,storageObjectsCompared:manifest.storageObjects.length,integrityChecks:integrity,...proof};return report;
   }catch(cause){report={ok:false,mode:'isolated-complete-restore',completedAt:new Date().toISOString(),hostedConnectionsMade:false,error:'COMPLETE_RESTORE_FAILED'};throw new Error(report.error,{cause});}
   finally{await session?.close().catch(()=>{});if(started)await docker(['rm','--force',container]).catch(()=>{});await rm(work,{recursive:true,force:true});if(reportPath)await writeFile(reportPath,JSON.stringify(report,null,2)+'\n');}
 }
