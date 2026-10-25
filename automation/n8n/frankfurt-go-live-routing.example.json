@@ -1,0 +1,25 @@
+{
+  "formatVersion": 1,
+  "projectRef": "kzevmysfydaslxcerogt",
+  "enabled": false,
+  "templateOnly": true,
+  "legacyWorkflowsUnchanged": true,
+  "technical": {
+    "recipient": "developer-only",
+    "configuration": "C:\\ProgramData\\NawasrahDeveloperMonitoring\\config.json",
+    "events": ["backup-failure", "database-400MB", "keepalive", "watchdog", "system-error", "ci"]
+  },
+  "business": {
+    "recipient": "shop-owner-only",
+    "enabled": false,
+    "ownerTelegramChatId": null,
+    "mustDifferFromDeveloperRecipient": true,
+    "events": ["low-stock", "late-order", "daily-summary"],
+    "activation": "Separate owner go-live decision using existing channel setup; do not import this file as a workflow or reuse developer credentials."
+  },
+  "storeOrderPush": {
+    "enabled": false,
+    "recipient": "shop-owner-device-only",
+    "activation": "Verify owner device subscription and enable existing held push trigger only at approved go-live."
+  }
+}

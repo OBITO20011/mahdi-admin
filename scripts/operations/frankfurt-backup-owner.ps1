@@ -6,6 +6,8 @@ param(
   [switch]$Force
 )
 $ErrorActionPreference='Stop'
+# This child may inherit PowerShell 7's module paths from npm/terminal.
+$env:PSModulePath=@((Join-Path $PSHOME 'Modules'),(Join-Path $env:ProgramFiles 'WindowsPowerShell\Modules')) -join [IO.Path]::PathSeparator
 $projectRef='kzevmysfydaslxcerogt'
 $repo=(Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
 $runtime=Join-Path $PSScriptRoot 'frankfurt-backup-runtime.mjs'

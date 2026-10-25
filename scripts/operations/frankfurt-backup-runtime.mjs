@@ -22,6 +22,7 @@ export function validateOwnerConfig(config){
   assertBackupDatabaseProject(config.connection,config.projectRef);
   assert.equal(config.protectionScope,'LocalMachine');assert.equal(config.businessAlertsEnabled,false);
   assert.ok(path.isAbsolute(config.backupRoot)&&path.isAbsolute(config.stateRoot));
+  assert.equal(path.basename(config.backupRoot),'Frankfurt-'+config.projectRef,'BACKUP_ROOT_NOT_PROJECT_ISOLATED');
   assert.equal(config.retentionCount,30);return config;
 }
 export const ownerPlan=()=>({ok:true,mode:'Plan',networkAttempted:false,projectRef:FRANKFURT_BACKUP_REF,legacyUnchanged:true,
@@ -35,7 +36,10 @@ export async function runOwnerMode({mode,config,force=false,env=process.env,depe
   const root=config.stateRoot,localPath=path.join(config.backupRoot,'last-backup-status.json'),offsitePath=path.join(root,'offsite-status.json');
   const restorePath=path.join(root,'restore-local.json'),remoteRestorePath=path.join(root,'restore-remote.json');
   await mkdir(root,{recursive:true});
-  if(mode==='Status')return {ok:true,projectRef:config.projectRef,backup:await optional(localPath),offsite:await optional(offsitePath),localRestore:await optional(restorePath),remoteRestore:await optional(remoteRestorePath),watchdog:await optional(path.join(root,'watchdog-status.json')),testAlert:await optional(path.join(root,'test-alert.json')),businessAlertsEnabled:false};
+  if(mode==='Status'){
+    const operations=await Promise.all(['Backup','Upload','VerifyRemote','Restore','RestoreRemote','Watchdog','TestAlert'].map(async name=>({mode:name,...await optional(path.join(root,'operation-'+name+'.json'))})));
+    return {ok:operations.every(o=>o.ok!==false),projectRef:config.projectRef,backup:await optional(localPath),offsite:await optional(offsitePath),localRestore:await optional(restorePath),remoteRestore:await optional(remoteRestorePath),watchdog:await optional(path.join(root,'watchdog-status.json')),testAlert:await optional(path.join(root,'test-alert.json')),operations,businessAlertsEnabled:false};
+  }
   const lockPath=path.join(root,['Watchdog','TestAlert'].includes(mode)?'monitor.lock':'backup-offsite.lock');let lock;
   // Never steal a stale lock automatically: an operator must check the owning process.
   try{lock=await open(lockPath,'wx');await lock.writeFile(JSON.stringify({pid:process.pid,startedAt:new Date().toISOString(),mode}));}
@@ -59,12 +63,13 @@ export async function runOwnerMode({mode,config,force=false,env=process.env,depe
     if(mode==='Backup')return await createCompleteBackup({projectRef:config.projectRef,outputRoot:config.backupRoot,retentionCount:config.retentionCount,passphrase,source:source()});
     if(mode==='Restore'){
       const status=await read(localPath);assert.equal(status.ok,true);assert.equal(status.projectRef,config.projectRef);assert.equal(await sha256(status.archivePath),status.sha256);
+      const verified=await verifyBackupArchive({archivePath:status.archivePath,passphrase});assert.equal(verified.projectRef,config.projectRef);assert.equal(verified.formatVersion,2);
       return await restoreCompleteBackup({archivePath:status.archivePath,passphrase,reportPath:restorePath});
     }
     if(mode==='Upload'){
       const status=await read(localPath);assert.equal(status.ok,true);assert.equal(status.projectRef,config.projectRef);assert.equal(status.formatVersion,2);
       assert.ok(fresh(status,'finishedAt',36),'BACKUP_TOO_OLD');assert.equal(await sha256(status.archivePath),status.sha256);
-      await verifyBackupArchive({archivePath:status.archivePath,passphrase});
+      const verified=await verifyBackupArchive({archivePath:status.archivePath,passphrase});assert.equal(verified.projectRef,config.projectRef);assert.equal(verified.formatVersion,2);
       const key=buildObjectKey('erp','daily',status.finishedAt,status.archiveName).replace(/^erp\//u,PREFIX),r2=client();
       await putImmutableArchive(r2,{bucket:BUCKET_NAME,key,filePath:status.archivePath,bytes:status.archiveBytes,digest:status.sha256,pipelineName:'erp-frankfurt'});
       const monthPrefix=PREFIX+'monthly/'+key.slice(PREFIX.length).split('/').slice(1,3).join('/')+'/';
@@ -79,7 +84,7 @@ export async function runOwnerMode({mode,config,force=false,env=process.env,depe
       try{
         const r2=client(),latest=await latestArchiveObject(r2,BUCKET_NAME,PREFIX+'daily/');assert.ok(latest.Key.startsWith(PREFIX+'daily/'));
         const outputPath=path.join(work,'remote.nwb');const downloaded=await downloadAndVerify(r2,{bucket:BUCKET_NAME,key:latest.Key,outputPath});
-        const verified=await verifyBackupArchive({archivePath:outputPath,passphrase});assert.ok(verified.verifiedFileCount>2);
+        const verified=await verifyBackupArchive({archivePath:outputPath,passphrase});assert.ok(verified.verifiedFileCount>2);assert.equal(verified.projectRef,config.projectRef);assert.equal(verified.formatVersion,2);
         if(mode==='RestoreRemote')await restoreCompleteBackup({archivePath:outputPath,passphrase,reportPath:remoteRestorePath});
         const result={...prior,ok:true,projectRef:config.projectRef,[field]:new Date().toISOString(),downloadedKey:downloaded.key,downloadedSha256:downloaded.sha256};await save(offsitePath,result);return result;
       }finally{await rm(work,{recursive:true,force:true});}
@@ -97,15 +102,16 @@ export async function runOwnerMode({mode,config,force=false,env=process.env,depe
         await db.query('BEGIN READ ONLY;');
         daily=await collectDailySupabase({enabled:true,previous:state.frankfurtDaily,url:`https://${config.projectRef}.supabase.co`,publishableKey:config.publishableKey,fetchImpl:dependencies.fetchImpl,
           readDatabaseSize:async()=> (await db.query('SELECT pg_database_size(current_database());')).trim()});
-        technical=JSON.parse((await db.query('SELECT public.get_advanced_monitoring_status();')).trim());
+        technical=JSON.parse((await db.query("SELECT public.get_advanced_monitoring_status() || jsonb_build_object('scanEnabled',coalesce((SELECT active FROM cron.job WHERE jobname='run-advanced-monitoring'),false));")).trim());
       }catch{checks.push(check('read',false,'تعذرت قراءة صحة قاعدة فرانكفورت.'));}
       finally{await db.close();}
       for(const item of daily?.checks??[])checks.push({...item,key:item.key.replace('developer:supabase:','developer:frankfurt:')});
       if(technical){const issues=(technical.checks??[]).filter(c=>['warning','critical'].includes(c.status)).length;
         const scanAt=Date.parse(technical.checkedAt),scanFresh=Number.isFinite(scanAt)&&scanAt<=Date.now()&&Date.now()-scanAt<36*3600000;
-        checks.push(check('integrity',issues===0&&scanFresh&&!technical.scanErrorCode,'حالة فحوص سلامة النظام في فرانكفورت.',{issueCount:issues,scanFresh}));}
+        const held=technical.scanEnabled===false;
+        checks.push(check('integrity',held||(issues===0&&scanFresh&&!technical.scanErrorCode),held?'فحص السلامة الداخلي مؤجل بقرار المالك؛ لم يُفعّل الحارس cron.':'حالة فحوص سلامة النظام في فرانكفورت.',{issueCount:issues,scanFresh,held}));}
       const cycle=await runIncidentCycle({checks,state,send:({message})=>send(message)});if(daily?.state)cycle.state.frankfurtDaily=daily.state;await save(statePath,cycle.state);
-      const result={ok:cycle.notifications.every(n=>n.delivered),healthy:checks.every(c=>c.healthy),observedAt:new Date().toISOString(),checks:checks.map(({key,healthy})=>({key,healthy})),notifications:cycle.notifications.length,recipient:'developer',businessAlertsEnabled:false};await save(path.join(root,'watchdog-status.json'),result);return result;
+      const result={ok:cycle.notifications.every(n=>n.delivered),healthy:checks.every(c=>c.healthy),internalScanHeld:technical?.scanEnabled===false,observedAt:new Date().toISOString(),checks:checks.map(({key,healthy})=>({key,healthy})),notifications:cycle.notifications.length,recipient:'developer',businessAlertsEnabled:false};await save(path.join(root,'watchdog-status.json'),result);return result;
     }
     assert.fail('UNHANDLED_OWNER_MODE');
   }catch{failed=true;await save(path.join(root,'operation-'+mode+'.json'),{ok:false,mode,at:new Date().toISOString(),code:'FRANKFURT_OWNER_OPERATION_FAILED_CHECK_STAGE_REPORTS'});throw new Error('FRANKFURT_OWNER_OPERATION_FAILED:'+mode);}

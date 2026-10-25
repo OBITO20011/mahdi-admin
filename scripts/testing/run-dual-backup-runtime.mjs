@@ -7,6 +7,8 @@ import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {SnapshotSession} from '../backup/snapshot-session.mjs';
 import {createCompleteBackup,restoreCompleteBackup} from '../backup/complete-backup.mjs';
+import {runOwnerMode,PREFIX} from '../operations/frankfurt-backup-runtime.mjs';
+import {localR2Fixture} from './local-r2-fixture.mjs';
 const exec=promisify(execFile),root=path.resolve(import.meta.dirname,'../..'),project='nawasrah-dual-backup-test',container='supabase_db_'+project;
 const output=await mkdtemp(path.join(tmpdir(),'nawasrah-dual-backup-proof-'));let local,report={ok:false,hostedConnectionsMade:false};
 try{
@@ -28,10 +30,21 @@ try{
     roles:async destination=>{await exec('docker',['exec',container,'pg_dumpall','-U','supabase_admin','--roles-only','--no-role-passwords','--no-tablespaces','-f','/tmp/roles.sql'],{windowsHide:true});await exec('docker',['cp',container+':/tmp/roles.sql',destination],{windowsHide:true});},
     dump:async(snapshot,destination)=>{await exec('docker',['exec',container,'pg_dump','-U','postgres','-d','postgres','-Fc','--snapshot='+snapshot,'-f','/tmp/complete.dump'],{windowsHide:true,timeout:600_000});await exec('docker',['cp',container+':/tmp/complete.dump',destination],{windowsHide:true});}};
   const passphrase='local-disposable-backup-fixture-only';
-  const backup=await createCompleteBackup({projectRef:'kzevmysfydaslxcerogt',outputRoot:output,passphrase,source});
+  const backupRoot=path.join(output,'Frankfurt-kzevmysfydaslxcerogt');
+  const backup=await createCompleteBackup({projectRef:'kzevmysfydaslxcerogt',outputRoot:backupRoot,passphrase,source});
   const restored=await restoreCompleteBackup({archivePath:backup.archivePath,passphrase,reportPath:path.join(output,'restore.json')});
   assert.equal(restored.ok,true);assert.equal(restored.storageObjectsCompared,1);assert.ok(restored.tablesCompared>50);
-  report={...restored,ok:true,fixtureOnly:true,archiveEncrypted:true,storageBytesRestored:true,nonzeroFinancialFixture:{receivedQuantity:20,soldQuantity:2,remainingQuantity:18,supplierDebt:10000,salesCash:2000,openingCash:10000}};
+  const fixture=localR2Fixture(),config={formatVersion:1,projectRef:'kzevmysfydaslxcerogt',connection:'postgresql://postgres@db.kzevmysfydaslxcerogt.supabase.co/postgres',protectionScope:'LocalMachine',businessAlertsEnabled:false,backupRoot,stateRoot:path.join(output,'state'),retentionCount:30};
+  const ownerMode=mode=>runOwnerMode({mode,config,force:true,env:{NAWASRAH_FF_PASSPHRASE:passphrase},dependencies:{r2Client:fixture.client}});
+  await ownerMode('Upload');const count=fixture.objects.size;await ownerMode('Upload');assert.equal(fixture.objects.size,count,'IMMUTABLE_REPLAY_MUST_NOT_DUPLICATE');
+  await ownerMode('VerifyRemote');
+  const key=[...fixture.objects.keys()].find(k=>k.includes('/daily/')&&k.endsWith('.nwb')),original=fixture.objects.get(key).bytes;
+  fixture.objects.get(key).bytes=Buffer.from(original);fixture.objects.get(key).bytes[original.length-1]^=1;
+  await assert.rejects(ownerMode('VerifyRemote'),'CORRUPTED_REMOTE_ARCHIVE_MUST_FAIL');fixture.objects.get(key).bytes=original;
+  await ownerMode('RestoreRemote');
+  assert.ok([...fixture.objects.keys()].every(k=>k.startsWith(PREFIX)),'LEGACY_PREFIX_MUST_NOT_CHANGE');
+  assert.ok(fixture.calls.every(c=>!c.name.startsWith('Delete')));
+  report={...restored,ok:true,fixtureOnly:true,archiveEncrypted:true,storageBytesRestored:true,r2Transport:'local-in-memory-S3',remoteDownloadRestorePassed:true,immutableReplayPassed:true,tamperedDownloadRejected:true,legacyOffsiteUntouched:true,nonzeroFinancialFixture:{receivedQuantity:20,soldQuantity:2,remainingQuantity:18,supplierDebt:10000,salesCash:2000,openingCash:10000}};
 }catch(error){report.error=error.message;report.cause=error.cause?.message;process.exitCode=1;console.error(error);}
 finally{
   if(local)await exec(process.execPath,['node_modules/supabase/dist/supabase.js','stop','--no-backup','--workdir',local],{cwd:root,windowsHide:true});

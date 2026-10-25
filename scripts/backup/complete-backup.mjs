@@ -18,7 +18,6 @@ import {migrationManifest} from '../testing/maintenance-db-contract.mjs';
 const exec=promisify(execFile);
 const stripTransaction=sql=>sql.replace(/^BEGIN READ ONLY;/u,'').replace(/ROLLBACK;\s*$/u,'');
 const qi=value=>'"'+String(value).replaceAll('"','""')+'"';
-const ql=value=>"'"+String(value).replaceAll("'","''")+"'";
 const tar=process.platform==='win32'?'tar.exe':'tar';
 export const IMAGE='public.ecr.aws/supabase/postgres:17.6.1.147';
 export const storageSql=`SELECT coalesce(jsonb_agg(to_jsonb(o) ORDER BY name),'[]') FROM storage.objects o WHERE bucket_id='product-images';`;
@@ -28,7 +27,7 @@ export const historySql=`SELECT coalesce(jsonb_agg(version ORDER BY version),'[]
 export const sequencesSql=`SELECT coalesce(jsonb_agg(jsonb_build_object('schema',schemaname,'name',sequencename,'value',last_value) ORDER BY schemaname,sequencename),'[]') FROM pg_sequences WHERE schemaname NOT LIKE 'pg_%';`;
 export function safeObjectName(name){
   assert.equal(typeof name,'string');assert.ok(name.length>0&&!name.includes('\\')&&!name.includes(':')&&!name.startsWith('/'));
-  assert.ok(name.split('/').every(s=>s&&s!=='.'&&s!=='..'&&!/[\x00-\x1f]/u.test(s)),'UNSAFE_STORAGE_NAME');return name;
+  assert.ok(name.split('/').every(s=>s&&s!=='.'&&s!=='..'&&[...s].every(c=>c.charCodeAt(0)>=32)),'UNSAFE_STORAGE_NAME');return name;
 }
 async function files(root,dir=root){const out=[];for(const e of await readdir(dir,{withFileTypes:true})){
   const full=path.join(dir,e.name);if(e.isDirectory())out.push(...await files(root,full));else{assert.ok(e.isFile());out.push({path:path.relative(root,full).replaceAll('\\','/'),size:(await stat(full)).size,sha256:await sha256(full)});}
@@ -62,27 +61,29 @@ export function nativeSource({projectRef,connection,pgBin,password}){
 }
 export async function createCompleteBackup({projectRef,outputRoot,passphrase,retentionCount=30,source}){
   assertApprovedBackupProject(projectRef);assert.ok(passphrase?.length>=16);assert.ok(Number.isInteger(retentionCount)&&retentionCount>=2&&retentionCount<=365);
+  assert.equal(path.basename(path.resolve(outputRoot)),'Frankfurt-'+projectRef,'BACKUP_ROOT_MUST_BE_PROJECT_ISOLATED');
   const createdAt=new Date().toISOString(),name='nawasrah-backup-'+createdAt.replaceAll(':','-').replace(/\.\d+Z$/u,'Z')+'.nwb';
   await mkdir(outputRoot,{recursive:true});const work=await mkdtemp(path.join(tmpdir(),'nawasrah-complete-'));
   const content=path.join(work,'contents');await mkdir(path.join(content,'database'),{recursive:true});
-  const session=source.session();let status,partial=path.join(outputRoot,name+'.partial');
+  const session=source.session();let status,stage='snapshot',partial=path.join(outputRoot,name+'.partial');
   try{
     await session.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY;');
     const snapshot=(await session.query('SELECT pg_export_snapshot();')).trim();assert.match(snapshot,/^[0-9A-F]+-[0-9A-F]+-[0-9]+$/u);
-    const before=await captureEvidence(session);assert.equal(before.history.at(-1),'214','COMPLETE_BACKUP_REQUIRES_REVIEWED_214');
+    stage='source-evidence';const before=await captureEvidence(session);assert.equal(before.history.at(-1),'214','COMPLETE_BACKUP_REQUIRES_REVIEWED_214');
     const expected=(await migrationManifest(path.resolve(import.meta.dirname,'../..'))).filter(m=>Number(m.name.slice(0,3))<=214).map(m=>m.name.slice(0,3));
     assert.equal(expected.length,176);assert.deepEqual(before.history,expected,'COMPLETE_BACKUP_HISTORY_HAS_GAPS_OR_UNREVIEWED_VERSION');
     // dump roles under a separate connection; concurrent role/DDL/Storage/sequence changes abort below.
-    await source.roles(path.join(content,'database','roles.sql'));
+    stage='roles-dump';await source.roles(path.join(content,'database','roles.sql'));
+    stage='complete-dump';
     await source.dump(snapshot,path.join(content,'database','complete.dump'));
-    const objects=[];
+    stage='storage-download';const objects=[];
     for(const object of before.storage){const name=safeObjectName(object.name),bytes=await source.readObject(name);
       assert.equal(bytes.length,Number(object.metadata?.size),'STORAGE_SIZE_MISMATCH');
       const destination=path.join(content,'storage','product-images',...name.split('/'));await mkdir(path.dirname(destination),{recursive:true});await writeFile(destination,bytes);
       objects.push({name,size:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex')});
     }
     await session.close();
-    const fresh=source.session();try{await fresh.query('BEGIN READ ONLY;');
+    stage='consistency-postcheck';const fresh=source.session();try{await fresh.query('BEGIN READ ONLY;');
       assert.deepEqual(await json(fresh,storageSql),before.storage,'STORAGE_CHANGED_DURING_BACKUP_RETRY');
       assert.deepEqual(await json(fresh,rolesSql),before.roles,'ROLES_CHANGED_DURING_BACKUP_RETRY');
       assert.deepEqual(await json(fresh,membershipSql),before.memberships,'MEMBERSHIP_CHANGED_DURING_BACKUP_RETRY');
@@ -92,12 +93,12 @@ export async function createCompleteBackup({projectRef,outputRoot,passphrase,ret
     await writeFile(path.join(content,'database','source-evidence.json'),JSON.stringify(before)+'\n');
     const manifest={formatVersion:2,projectRef,createdAt,databaseFiles:['database/roles.sql','database/complete.dump','database/source-evidence.json'],storageBucket:'product-images',storageObjectCount:objects.length,storageObjects:objects,files:await files(content)};
     await writeFile(path.join(content,'manifest.json'),JSON.stringify(manifest)+'\n');
-    const tarPath=path.join(work,'backup.tar');await exec(tar,['-cf',tarPath,'-C',content,'.'],{windowsHide:true});await encryptFile(tarPath,partial,passphrase);
+    stage='archive-encrypt-verify';const tarPath=path.join(work,'backup.tar');await exec(tar,['-cf',tarPath,'-C',content,'.'],{windowsHide:true});await encryptFile(tarPath,partial,passphrase);
     await verifyBackupArchive({archivePath:partial,passphrase});const archivePath=path.join(outputRoot,name);await rename(partial,archivePath);
     const prior=(await readdir(outputRoot)).filter(n=>/^nawasrah-backup-[0-9TZ-]+\.nwb$/u.test(n)).sort().reverse();
     for(const old of prior.slice(retentionCount))await rm(path.join(outputRoot,old));
     status={ok:true,projectRef,formatVersion:2,finishedAt:new Date().toISOString(),archiveName:name,archivePath,archiveBytes:(await stat(archivePath)).size,sha256:await sha256(archivePath),storageObjectCount:objects.length,historyCeiling:214,retentionCount};return status;
-  }catch(cause){status={ok:false,projectRef,finishedAt:new Date().toISOString(),error:'COMPLETE_BACKUP_FAILED_NO_SUCCESS_CLAIM'};throw new Error(status.error,{cause});}
+  }catch(cause){status={ok:false,projectRef,stage,finishedAt:new Date().toISOString(),error:'COMPLETE_BACKUP_FAILED_NO_SUCCESS_CLAIM'};throw new Error(status.error,{cause});}
   finally{await session.close().catch(()=>{});await rm(partial,{force:true});await rm(work,{recursive:true,force:true});if(status)await writeFile(path.join(outputRoot,'last-backup-status.json'),JSON.stringify(status,null,2)+'\n');}
 }
 
@@ -106,33 +107,33 @@ export async function restoreCompleteBackup({archivePath,passphrase,reportPath,r
   const container='nawasrah-full-restore-'+process.pid+'-'+randomBytes(4).toString('hex');let started=false,report;
   const docker=async args=>exec('docker',args,{windowsHide:true,timeout:600_000,maxBuffer:16*1024**2});
   const args=['exec','-i',container,'psql','-h','/tmp/socket','-p','25435','-U','supabase_admin','-d','postgres','-X','-q','-A','-t','-w','-v','ON_ERROR_STOP=1'];
-  let session;
+  let session,stage='archive-verification';
   try{
     await verifyBackupArchive({archivePath,passphrase,extractTo:content});const manifest=JSON.parse(await readFile(path.join(content,'manifest.json'),'utf8'));
     assert.equal(manifest.formatVersion,2);assertApprovedBackupProject(manifest.projectRef);
     const before=JSON.parse(await readFile(path.join(content,'database','source-evidence.json'),'utf8'));assert.equal(before.history.at(-1),'214');
     assert.match(before.preload,/^[a-z_]+(?:,\s*[a-z_]+)*$/u);
     // No port, live volume or external network. No database URL is accepted by this API.
-    await docker(['run','--detach','--rm','--network','none','--name',container,'--entrypoint','sleep',IMAGE,'infinity']);started=true;
+    stage='isolated-cluster-start';await docker(['run','--detach','--rm','--network','none','--name',container,'--entrypoint','sleep',IMAGE,'infinity']);started=true;
     await docker(['exec',container,'mkdir','-p','/restore','/tmp/socket']);await docker(['exec',container,'chown','postgres:postgres','/tmp/socket']);
     await docker(['cp',path.join(content,'database'),container+':/restore/database']);
     await docker(['cp',path.join(content,'storage'),container+':/restore/storage']);
     await docker(['exec','--user','postgres',container,'initdb','-D','/tmp/pgdata','-U','supabase_admin','--auth=trust']);
     await docker(['exec','--user','postgres',container,'pg_ctl','-D','/tmp/pgdata','-l','/tmp/restore.log','-o',`-p 25435 -k /tmp/socket -c listen_addresses='' -c shared_preload_libraries='${before.preload}' -c cron.database_name=postgres -c cron.launch_active_jobs=off -c wal_level=logical`,'-w','start']);
     session=new SnapshotSession('docker',args);
-    const roles=await readFile(path.join(content,'database','roles.sql'),'utf8');assert.equal((roles.match(/^CREATE ROLE supabase_admin;$/gmu)??[]).length,1);
+    stage='restore-roles';const roles=await readFile(path.join(content,'database','roles.sql'),'utf8');assert.equal((roles.match(/^CREATE ROLE supabase_admin;$/gmu)??[]).length,1);
     await session.query(roles.replace(/^CREATE ROLE supabase_admin;$/mu,'-- initdb bootstrap role; all ALTERs and memberships retained.'));
     await session.query('ALTER DATABASE postgres OWNER TO postgres;');
-    await docker(['exec',container,'pg_restore','-h','/tmp/socket','-p','25435','-U','supabase_admin','-d','postgres','--exit-on-error','--no-password','/restore/database/complete.dump']);
+    stage='restore-complete-dump';await docker(['exec',container,'pg_restore','-h','/tmp/socket','-p','25435','-U','supabase_admin','-d','postgres','--exit-on-error','--no-password','/restore/database/complete.dump']);
     await session.query(platformPostInitSql(before.catalog));
     // Compare as the source postgres role, including hidden sequence values and privileges.
-    await session.query('SET ROLE postgres;BEGIN READ ONLY;');const after=await captureEvidence(session);const proof=assertRestoreEvidence(before,after);
+    stage='compare-data-catalog-acl';await session.query('SET ROLE postgres;BEGIN READ ONLY;');const after=await captureEvidence(session);const proof=assertRestoreEvidence(before,after);
     for(const object of manifest.storageObjects){
       const name=safeObjectName(object.name),file='/restore/storage/product-images/'+name;
       const {stdout}=await docker(['exec',container,'sha256sum','--',file]);assert.equal(stdout.slice(0,64),object.sha256,'RESTORED_STORAGE_BYTES_DIFFER');
       if(readObjectAfterRestore)assert.deepEqual(await readObjectAfterRestore(name),await readFile(path.join(content,'storage','product-images',...name.split('/'))));
     }
-    await session.query('ROLLBACK;RESET ROLE;BEGIN;');
+    stage='existing-integrity-checks';await session.query('ROLLBACK;RESET ROLE;BEGIN;');
     // Fresh existing "check" scanner ONLY on the network-isolated restored copy.
     // Roll it back: it must never mutate the backed-up source or become restored business data.
     await session.query('SELECT public.run_advanced_monitoring_checks();');
@@ -142,6 +143,6 @@ export async function restoreCompleteBackup({archivePath,passphrase,reportPath,r
     assert.ok(integrity.length>5,'RESTORE_INTEGRITY_SCAN_MISSING');
     assert.ok(integrity.every(c=>c.status==='healthy'&&Number(c.issueCount)===0),'RESTORE_EXISTING_INTEGRITY_CHECK_FAILED');
     report={ok:true,projectRef:manifest.projectRef,mode:'isolated-complete-restore',completedAt:new Date().toISOString(),hostedConnectionsMade:false,network:'none',liveVolumesModified:false,historyCeiling:214,tablesCompared:Object.keys(before.tables).length,storageObjectsCompared:manifest.storageObjects.length,integrityChecks:integrity,...proof};return report;
-  }catch(cause){report={ok:false,mode:'isolated-complete-restore',completedAt:new Date().toISOString(),hostedConnectionsMade:false,error:'COMPLETE_RESTORE_FAILED'};throw new Error(report.error,{cause});}
+  }catch(cause){report={ok:false,stage,mode:'isolated-complete-restore',completedAt:new Date().toISOString(),hostedConnectionsMade:false,error:'COMPLETE_RESTORE_FAILED'};throw new Error(report.error,{cause});}
   finally{await session?.close().catch(()=>{});if(started)await docker(['rm','--force',container]).catch(()=>{});await rm(work,{recursive:true,force:true});if(reportPath)await writeFile(reportPath,JSON.stringify(report,null,2)+'\n');}
 }

@@ -112,6 +112,8 @@ export async function verifyBackupArchive({ archivePath, passphrase, extractTo =
     }
 
     return {
+      projectRef: manifest.projectRef,
+      formatVersion: manifest.formatVersion,
       createdAt: manifest.createdAt,
       databaseFiles: manifest.databaseFiles,
       storageObjectCount: manifest.storageObjectCount,

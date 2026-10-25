@@ -7,7 +7,7 @@ import {assertApprovedBackupProject,assertBackupDatabaseProject} from '../script
 import {safeObjectName,nativeSource} from '../scripts/backup/complete-backup.mjs';
 import {ownerPlan,runOwnerMode,validateOwnerConfig,PREFIX} from '../scripts/operations/frankfurt-backup-runtime.mjs';
 const ref='kzevmysfydaslxcerogt';
-const config=(root:string)=>({formatVersion:1,projectRef:ref,connection:`postgresql://postgres@db.${ref}.supabase.co:5432/postgres`,protectionScope:'LocalMachine',businessAlertsEnabled:false,backupRoot:root,stateRoot:root,retentionCount:30,publishableKey:'local-fixture-only'});
+const config=(root:string)=>({formatVersion:1,projectRef:ref,connection:`postgresql://postgres@db.${ref}.supabase.co:5432/postgres`,protectionScope:'LocalMachine',businessAlertsEnabled:false,backupRoot:path.join(root,'Frankfurt-'+ref),stateRoot:root,retentionCount:30,publishableKey:'local-fixture-only'});
 
 test('backup allowlist rejects arbitrary, cross-project, transaction-pool and deceptive targets before IO',()=>{
   for(const id of [ref,'acjtabdqqnpwhdvbvnyw']){
@@ -17,7 +17,7 @@ test('backup allowlist rejects arbitrary, cross-project, transaction-pool and de
   }
   for(const url of [`postgresql://postgres@db.acjtabdqqnpwhdvbvnyw.supabase.co/postgres`,`postgresql://postgres.${ref}@evil.pooler.supabase.com:5432/postgres`,`postgresql://postgres.${ref}@aws-0-eu-central-1.pooler.supabase.com:6543/postgres`,`postgresql://postgres:secret@db.${ref}.supabase.co/postgres`,`postgresql://postgres@db.${ref}.supabase.co/postgres?sslmode=disable`,`postgresql://postgres@db.${ref}.supabase.co/other`])assert.throws(()=>assertBackupDatabaseProject(url,ref));
   assert.throws(()=>assertApprovedBackupProject('other'));
-  assert.throws(()=>nativeSource({projectRef:'other',connection:'postgresql://localhost/postgres'}));
+  assert.throws(()=>nativeSource({projectRef:'other',connection:'postgresql://localhost/postgres',pgBin:'',password:''}));
 });
 test('Storage names cannot escape the isolated extraction or use Windows alternate streams',()=>{
   assert.equal(safeObjectName('folder/photo.webp'),'folder/photo.webp');
@@ -27,6 +27,7 @@ test('offline owner plan has no runtime IO and never activates business recipien
   assert.deepEqual(await runOwnerMode({mode:'Plan',config:null}),ownerPlan());
   assert.equal(ownerPlan().networkAttempted,false);assert.equal(ownerPlan().legacyUnchanged,true);assert.equal(ownerPlan().businessAlertsEnabled,false);
   assert.ok(PREFIX.startsWith('erp/frankfurt-'));assert.throws(()=>validateOwnerConfig({...config(tmpdir()),businessAlertsEnabled:true}));
+  assert.throws(()=>validateOwnerConfig({...config(tmpdir()),backupRoot:tmpdir()}),/ROOT_NOT_PROJECT_ISOLATED/);
 });
 test('owner test sends at most once even when Telegram delivery is uncertain',async()=>{
   const root=await mkdtemp(path.join(tmpdir(),'ff-test-alert-'));let calls=0;
