@@ -2,52 +2,59 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Fix owner operation lock lifetime and early failure reports;safe fixed diagnostic codes and explicit orphan cleanup;local tests/PR/FULL CI;merge and primary update await new owner approval",
-  "baselineSha": "68cc1fe01db9d560fb85d156e7800c0aa9e4a2f7",
-  "branch": "codex/frankfurt-owner-locks",
+  "objective": "Diagnose and fix strict isolated pg_restore failure;safe TOC/SQLSTATE/error and sanitized container log before removal;Frankfurt saved-catalog synthetic local proof;PR/FULL CI;merge awaits approval",
+  "baselineSha": "461e4a42c6b833be2443121eac1ea2a19a99d605",
+  "branch": "codex/frankfurt-restore-diagnostics",
   "phase": "PACKAGE_F",
   "completed": [
-    "Guarded all post-lock initialization;report and release in independent nested finally;safe fallback report",
-    "Safe fixed preflight codes and env-name allowlist;PowerShell DPAPI catches without raw secrets",
-    "Explicit CleanupLock mode:PID absence required,Windows exclusive handle,no process termination or auto-steal",
-    "Saved per-item commits60bcf1e and68cc1fe;Arabic owner command runbook and actual baseline regression evidence committed"
+    "Saved214 catalog reproduces old RESTORE_NET_SOURCE_PATH;split actual pg_restore and post-init stages",
+    "Strict TOC partition:3369entries,0omitted/duplicated;schemas first,extensions exact source owner/version/schema without production catalog UPDATE",
+    "Managed net INVOKER/null and CLI DEFINER/search_path preserved exactly,strict comparator unchanged",
+    "Real native missing-role42704 and duplicate-data23505 with TOC/exit1/no values;tail captured before rm",
+    "Local CLI and Frankfurt profile strict restores141tables17checks plus same-archive replay passed;local non-elevated Windows protected log failure explicitly recorded",
+    "Actual event-trigger/publication/disabled subscription full restore and exact TOC owner/name checks passed",
+    "Owner Restore-only runbook prepared with explicit non-elevated Windows log-persistence limitation",
+    "Final real isolated runtime including original/native17.11/S3/managed214 replay passed;platform6eventTriggers+1publication and negative disabled subscription proof",
+    "1453 final unit tests0fail0skip;full lint/typecheck0;PR28 created/attached"
   ],
   "inProgress": [
-    "Exact head CI and review-ready PR;merge awaits approval"
+    "Fix only negative fixture log reset identity then rerun exact-head FULL CI"
   ],
   "notStarted": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "testsPassed": [
-    "Final full unit1447/1447;0fail/0skip",
-    "Targeted19/19 including Windows DPAPI roundtrip+failure and exclusive cleanup handle",
-    "Final full lint/typecheck clean",
-    "Plan ok with deny-network fence:0attempts,verify-full official CA unchanged",
-    "Gitleaks0 first2 commits;final scan next",
-    "Real report-destination failure:old5fdd orphan reproduced,new release and fallback verified"
+    "Final1453/1453 units,0fail0skip",
+    "Focused16/16 + native pg_restore42704/23505 exit1 with TOC and no values",
+    "Final full lint/typecheck exit0",
+    "Final complete encrypted archive/recovery,TLS17.11,S3 mock tamper/replay,managed profile same-archive replay141tables17checks3369TOC0omitted",
+    "Gitleaks0 first3 commits;final scan next",
+    "Final fixture user fix local native negative proof passed;Linux complete restore private logs already passed previousCI"
   ],
   "testsRemaining": [
-    "Final partition:1446 core units+1 operational PowerShell",
-    "New exact-head FULL47 push and PR;Gitleaks0"
+    "Exact final push+PR FULL47 including Linux private log persistence",
+    "Final Gitleaks scan"
   ],
   "findings": [
-    "Existing success report write in finally precedes lock cleanup and can orphan lock;actual prior owner failure unknown",
-    "DPAPI occurs in PowerShell before Node,so its failure alone does not explain a Node-created lock;exact owner-run cause unknown",
-    "CI core Playwright container has no pwsh;unchanged PowerShell proof moved to mandatory backup-recovery host where same proof already passed;no skips/assertion changes"
+    "Owner reported tool docker exitCode null can arise from post-init assertion after successful pg_restore;old141d saved214 net profile proves old assertion",
+    "Image has all7 saved extension versions;managed pg_net schema and3extension owners differ from CLI;restored through supported CREATE under captured owner",
+    "No new backup/archive format change required;Restore only after approved merge/main update",
+    "Windows agent is not elevated;private file sink correctly denies writing,reportlogs.savedfalse;CI must prove Linux private persistence",
+    "461e4a4 recovery actual complete managed restores and Linux private log persistence passed;negative fixture failed at root truncate of postgres-owned /tmp/restore.log under Linux protected_regular. Run fixture truncate as postgres;no restore assertion or production change."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hosted project connections or deployment",
-    "No owner secrets/config decryption;synthetic local tests only",
-    "No merge or primary update before new owner approval",
-    "No cleanup of actual owner lock by agent"
+    "No hosted project access or deployment",
+    "No owner credential/archive passphrase access or decryption",
+    "No merge/primary update before new owner approval",
+    "No weakened exit-on-error or catalog/data/ACL comparisons"
   ],
-  "nextExactAction": "Verify mandatory unchanged PowerShell probe in backup host;new exact-SHA FULL CI required.",
-  "startedAt": "2026-10-25T19:40:27.970Z",
-  "checkpointedAt": "2026-10-25T20:11:40.401Z",
-  "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "84153767888abe60acfd759530f2d1774f13870dac8c574128713cf891d72fa7",
-  "workingTreeFingerprint": "73898B009B7E8E7C8A4DAB4B5EAA8CD9BCB72E663ABFFDDC43984D480B429B58"
+  "nextExactAction": "Exact new SHA push+PR FULL47 after Linux negative-fixture log reset repair;no merge before approval.",
+  "startedAt": "2026-10-25T22:00:14.555Z",
+  "checkpointedAt": "2026-10-25T22:59:24.618Z",
+  "filesTouchedCount": 1,
+  "filesTouchedManifestSha256": "467c9b9462616c554c5b060682280553fec7feb16527e96e28859a37b5a5c0d5",
+  "workingTreeFingerprint": "D81FF315E9A9A4EAB3F5FCB85F68B64D333EA0436B78D60950E52DDAEFA5AAE4"
 }

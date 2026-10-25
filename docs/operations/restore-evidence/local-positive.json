@@ -1,0 +1,121 @@
+{
+  "ok": true,
+  "hostedConnectionsMade": false,
+  "fixtureOnly": true,
+  "sourceProfile": "scripts/testing/fixtures/frankfurt214-restore-platform.json",
+  "realOwnerArchiveDecrypted": false,
+  "restores": [
+    {
+      "name": "restore.json",
+      "ok": true,
+      "tablesCompared": 141,
+      "integrityChecks": 17,
+      "tocCoverage": {
+        "totalEntries": 3369,
+        "schemaEntries": 11,
+        "remainingEntries": 3358,
+        "omittedEntries": 0,
+        "duplicatedEntries": 0
+      },
+      "extensions": {
+        "extensions": 7,
+        "exactVersions": true,
+        "exactOwners": true,
+        "exactSchemas": true,
+        "roleFlagsRestored": true
+      },
+      "platform": {
+        "eventTriggers": 6,
+        "publications": 1,
+        "subscriptions": 0,
+        "exactOwnerNames": true
+      },
+      "allRowsAndHashesMatch": true,
+      "rolesAndMembershipsMatch": true,
+      "catalogAclOwnerSettingsMatch": true,
+      "historyMatch": true,
+      "storageMetadataMatch": true,
+      "logs": {
+        "saved": false,
+        "category": "RESTORE_LOG_CAPTURE_FAILED",
+        "rawOutputSaved": false
+      }
+    },
+    {
+      "name": "managed-restore.json",
+      "ok": true,
+      "tablesCompared": 141,
+      "integrityChecks": 17,
+      "tocCoverage": {
+        "totalEntries": 3369,
+        "schemaEntries": 11,
+        "remainingEntries": 3358,
+        "omittedEntries": 0,
+        "duplicatedEntries": 0
+      },
+      "extensions": {
+        "extensions": 7,
+        "exactVersions": true,
+        "exactOwners": true,
+        "exactSchemas": true,
+        "roleFlagsRestored": true
+      },
+      "platform": {
+        "eventTriggers": 6,
+        "publications": 1,
+        "subscriptions": 0,
+        "exactOwnerNames": true
+      },
+      "allRowsAndHashesMatch": true,
+      "rolesAndMembershipsMatch": true,
+      "catalogAclOwnerSettingsMatch": true,
+      "historyMatch": true,
+      "storageMetadataMatch": true,
+      "logs": {
+        "saved": false,
+        "category": "RESTORE_LOG_CAPTURE_FAILED",
+        "rawOutputSaved": false
+      }
+    },
+    {
+      "name": "managed-restore-replay.json",
+      "ok": true,
+      "tablesCompared": 141,
+      "integrityChecks": 17,
+      "tocCoverage": {
+        "totalEntries": 3369,
+        "schemaEntries": 11,
+        "remainingEntries": 3358,
+        "omittedEntries": 0,
+        "duplicatedEntries": 0
+      },
+      "extensions": {
+        "extensions": 7,
+        "exactVersions": true,
+        "exactOwners": true,
+        "exactSchemas": true,
+        "roleFlagsRestored": true
+      },
+      "platform": {
+        "eventTriggers": 6,
+        "publications": 1,
+        "subscriptions": 0,
+        "exactOwnerNames": true
+      },
+      "allRowsAndHashesMatch": true,
+      "rolesAndMembershipsMatch": true,
+      "catalogAclOwnerSettingsMatch": true,
+      "historyMatch": true,
+      "storageMetadataMatch": true,
+      "logs": {
+        "saved": false,
+        "category": "RESTORE_LOG_CAPTURE_FAILED",
+        "rawOutputSaved": false
+      }
+    }
+  ],
+  "replaySameArchive": true,
+  "windowsAgentElevated": false,
+  "privateWindowsLogPersistenceNotClaimed": true,
+  "additionalPlatformCheck": "Actual event trigger/publication/disabled subscription TOC owners proved in local-negative.json"
+}

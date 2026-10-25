@@ -1,0 +1,13 @@
+{
+  "ok": true,
+  "baselineMain": "141d161084d08d68d4bed5028c09dfc6741dde68",
+  "sourceCatalogSha256": "487f8ee96e0f6aef20c7676ac66ff64c1b55e223f66d27c2db642cae6ebc7505",
+  "oldAssertion": "RESTORE_NET_SOURCE_PATH",
+  "actualConfiguration": null,
+  "expectedConfiguration": [
+    "search_path=net"
+  ],
+  "oldStageMisleading": "restore-complete-dump also covered post-init",
+  "ownerActualFailureCauseConfirmed": false,
+  "hostedConnectionsMade": false
+}

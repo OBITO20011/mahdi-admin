@@ -35,6 +35,26 @@ try{
   const backup=await createCompleteBackup({projectRef:'kzevmysfydaslxcerogt',outputRoot:backupRoot,passphrase,source});
   const restored=await restoreCompleteBackup({archivePath:backup.archivePath,passphrase,reportPath:path.join(output,'restore.json')});
   assert.equal(restored.ok,true);assert.equal(restored.storageObjectsCompared,1);assert.ok(restored.tablesCompared>50);
+  const profile=JSON.parse(await readFile(path.join(root,'scripts/testing/fixtures/frankfurt214-restore-platform.json'),'utf8'));
+  const adminArgs=[...args];adminArgs[adminArgs.indexOf('-U')+1]='supabase_admin';
+  const managedSession=new SnapshotSession('docker',adminArgs);let managedPlatform;
+  try{
+    // Synthetic source ONLY:managed service post-init metadata differs from CLI.
+    // PostgreSQL has no ALTER EXTENSION OWNER;this catalog alignment is confined
+    // to this disposable test source. Production restore uses CREATE under the
+    // captured owner,with no system-catalog UPDATE.
+    await managedSession.query("UPDATE pg_extension SET extnamespace='public'::regnamespace WHERE extname='pg_net';UPDATE pg_extension SET extowner='postgres'::regrole WHERE extname IN('pg_stat_statements','pgcrypto','uuid-ossp');DO $fixture$ DECLARE r record;BEGIN FOR r IN SELECT p.oid::regprocedure AS identity FROM pg_proc p JOIN pg_depend d ON d.classid='pg_proc'::regclass AND d.objid=p.oid AND d.refclassid='pg_extension'::regclass AND d.deptype='e' JOIN pg_extension e ON e.oid=d.refobjid WHERE e.extname IN('pg_stat_statements','pgcrypto','uuid-ossp') LOOP EXECUTE format('ALTER FUNCTION %s OWNER TO postgres',r.identity);END LOOP;FOR r IN SELECT c.oid::regclass AS identity,c.relkind FROM pg_class c JOIN pg_depend d ON d.classid='pg_class'::regclass AND d.objid=c.oid AND d.refclassid='pg_extension'::regclass AND d.deptype='e' JOIN pg_extension e ON e.oid=d.refobjid WHERE e.extname IN('pg_stat_statements','pgcrypto','uuid-ossp') AND c.relkind IN('r','v','S') LOOP EXECUTE format('ALTER %s %s OWNER TO postgres',CASE r.relkind WHEN 'v' THEN 'VIEW' WHEN 'S' THEN 'SEQUENCE' ELSE 'TABLE' END,r.identity);END LOOP;END $fixture$;");
+    await managedSession.query('ALTER FUNCTION net.http_get(text,jsonb,jsonb,integer) SECURITY INVOKER;ALTER FUNCTION net.http_get(text,jsonb,jsonb,integer) RESET ALL;ALTER FUNCTION net.http_post(text,jsonb,jsonb,jsonb,integer) SECURITY INVOKER;ALTER FUNCTION net.http_post(text,jsonb,jsonb,jsonb,integer) RESET ALL;');
+    managedPlatform=JSON.parse((await managedSession.query("SELECT jsonb_agg(jsonb_build_object('name',e.extname,'version',e.extversion,'schema',n.nspname,'owner',pg_get_userbyid(e.extowner)) ORDER BY e.extname) FROM pg_extension e JOIN pg_namespace n ON n.oid=e.extnamespace;")).trim());
+    assert.deepEqual(managedPlatform,profile.extensions,'SYNTHETIC_SOURCE_EXTENSIONS_MUST_MATCH_SAVED_FRANKFURT214');
+  }finally{await managedSession.close();}
+  const managedRoot=path.join(output,'managed-profile','Frankfurt-kzevmysfydaslxcerogt');
+  const managedBackup=await createCompleteBackup({projectRef:'kzevmysfydaslxcerogt',outputRoot:managedRoot,passphrase,source});
+  const managedRestore=await restoreCompleteBackup({archivePath:managedBackup.archivePath,passphrase,reportPath:path.join(output,'managed-restore.json')});
+  assert.equal(managedRestore.ok,true);assert.equal(managedRestore.catalogAclOwnerSettingsMatch,true);assert.equal(managedRestore.allRowsAndHashesMatch,true);
+  // A second restore of THE SAME archive proves no new Backup is needed.
+  const managedReplay=await restoreCompleteBackup({archivePath:managedBackup.archivePath,passphrase,reportPath:path.join(output,'managed-restore-replay.json')});assert.equal(managedReplay.ok,true);
+  if(process.platform!=='win32')for(const proof of [restored,managedRestore,managedReplay])assert.equal(proof.logs.saved,true,'PRIVATE_SANITIZED_LOG_PERSISTENCE_REQUIRED_ON_CI');
   const fixture=localR2Fixture(),config={formatVersion:1,projectRef:'kzevmysfydaslxcerogt',connection:'postgresql://postgres@db.kzevmysfydaslxcerogt.supabase.co/postgres',protectionScope:'LocalMachine',businessAlertsEnabled:false,backupRoot,stateRoot:path.join(output,'state'),retentionCount:30};
   const ownerMode=mode=>runOwnerMode({mode,config,force:true,env:{NAWASRAH_FF_PASSPHRASE:passphrase},dependencies:{r2Client:fixture.client}});
   await ownerMode('Upload');const count=fixture.objects.size;await ownerMode('Upload');assert.equal(fixture.objects.size,count,'IMMUTABLE_REPLAY_MUST_NOT_DUPLICATE');
@@ -46,7 +66,7 @@ try{
   assert.ok([...fixture.objects.keys()].every(k=>k.startsWith(PREFIX)),'LEGACY_PREFIX_MUST_NOT_CHANGE');
   assert.ok(fixture.calls.every(c=>!c.name.startsWith('Delete')));
   const nativeTls=await nativeBackupTlsProbe({container,output});
-  report={...restored,ok:true,nativeTls,fixtureOnly:true,archiveEncrypted:true,storageBytesRestored:true,r2Transport:'local-in-memory-S3',remoteDownloadRestorePassed:true,immutableReplayPassed:true,tamperedDownloadRejected:true,legacyOffsiteUntouched:true,nonzeroFinancialFixture:{receivedQuantity:20,soldQuantity:2,remainingQuantity:18,supplierDebt:10000,salesCash:2000,openingCash:10000}};
+  report={...restored,ok:true,nativeTls,managedProfile:{sourceSha256:profile.sourceSha256,extensions:managedPlatform,restore:managedRestore,replaySameArchive:true},fixtureOnly:true,archiveEncrypted:true,storageBytesRestored:true,r2Transport:'local-in-memory-S3',remoteDownloadRestorePassed:true,immutableReplayPassed:true,tamperedDownloadRejected:true,legacyOffsiteUntouched:true,nonzeroFinancialFixture:{receivedQuantity:20,soldQuantity:2,remainingQuantity:18,supplierDebt:10000,salesCash:2000,openingCash:10000}};
 }catch(error){report.error=error.message;report.cause=error.cause?.message;process.exitCode=1;console.error(error);}
 finally{
   if(local)await exec(process.execPath,['node_modules/supabase/dist/supabase.js','stop','--no-backup','--workdir',local],{cwd:root,windowsHide:true});

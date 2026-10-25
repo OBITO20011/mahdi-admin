@@ -1,0 +1,65 @@
+{
+  "platform": {
+    "eventTriggers": 1,
+    "publications": 1,
+    "subscriptions": 1,
+    "exactOwnerNames": true
+  },
+  "subscriptionDisabledAndNoSlot": true,
+  "ok": true,
+  "network": "none",
+  "hostedConnectionsMade": false,
+  "containerRemoved": true,
+  "strictExitOnError": true,
+  "cases": [
+    {
+      "name": "missing-role",
+      "diagnostic": {
+        "formatVersion": 1,
+        "stage": "restore-complete-dump",
+        "tool": "pg_restore",
+        "category": "RESTORE_SQL_ERROR",
+        "sqlstate": "42704",
+        "toc": {
+          "type": "TABLE",
+          "schema": "public",
+          "name": "restore_fixture_item"
+        },
+        "restoreErrorCode": "MISSING_ROLE",
+        "restoreMessage": "ERROR: required role does not exist.",
+        "libpqMessage": "PostgreSQL rejected an object or data item during strict restore.",
+        "messagePolicy": "canonical-classification-no-raw-output",
+        "exitCode": 1,
+        "signal": null
+      },
+      "serverTailCapturedBeforeContainerRemoval": true,
+      "rawNeverSaved": true,
+      "protectedLogPersistence": false
+    },
+    {
+      "name": "duplicate-data",
+      "diagnostic": {
+        "formatVersion": 1,
+        "stage": "restore-complete-dump",
+        "tool": "pg_restore",
+        "category": "RESTORE_SQL_ERROR",
+        "sqlstate": "23505",
+        "toc": {
+          "type": "TABLE DATA",
+          "schema": "public",
+          "name": "restore_fixture_item"
+        },
+        "restoreErrorCode": "DUPLICATE_DATA",
+        "restoreMessage": "ERROR: a uniqueness constraint was violated;data values withheld.",
+        "libpqMessage": "PostgreSQL rejected an object or data item during strict restore.",
+        "messagePolicy": "canonical-classification-no-raw-output",
+        "exitCode": 1,
+        "signal": null
+      },
+      "serverTailCapturedBeforeContainerRemoval": true,
+      "rawNeverSaved": true,
+      "protectedLogPersistence": false
+    }
+  ],
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-restore-negative-VxAMU4"
+}

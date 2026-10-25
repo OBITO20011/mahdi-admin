@@ -36,14 +36,74 @@ const messages=Object.freeze({
   TOOL_NOT_FOUND:'A required native tool was not found.',
   TOOL_TIMEOUT:'A native tool exceeded its time limit.',
   TOOL_FAILED:'A native tool failed before completing its work.',
+  RESTORE_PLATFORM_SETTINGS_UNSUPPORTED:'A captured platform setting is unsupported;restore was not accepted.',
+  RESTORE_EXTENSION_UNAVAILABLE:'A required captured extension version is unavailable in the isolated image.',
+  RESTORE_SQL_ERROR:'PostgreSQL rejected an object or data item during strict restore.',
+  RESTORE_LOG_CAPTURE_FAILED:'A sanitized isolated restore log could not be saved.',
   CLIENT_EARLY_EXIT:'The SQL client exited before returning the statement result.',
   BACKUP_NOT_AVAILABLE:'No successful verified backup is available for restore.',
   OPERATION_FAILED:'The operation failed; raw error content was withheld.',
 });
 const tools=new Set(['psql','pg_dump','pg_dumpall','pg_restore','docker','node','powershell','filesystem','internal']);
-const stages=new Set(['config-load','owner-env','pg-bin-check','operation-lock','lock-cleanup','operation-report','snapshot','source-evidence','roles-dump','complete-dump','storage-download','consistency-postcheck','archive-encrypt-verify','archive-verification','isolated-cluster-start','restore-roles','restore-complete-dump','compare-data-catalog-acl','existing-integrity-checks','tls-config','operation-preflight','restore-preflight','watchdog-read','unknown']);
+const stages=new Set(['config-load','owner-env','pg-bin-check','operation-lock','lock-cleanup','operation-report','snapshot','source-evidence','roles-dump','complete-dump','storage-download','consistency-postcheck','archive-encrypt-verify','archive-verification','isolated-cluster-start','restore-roles','restore-toc','restore-schemas','restore-extension-preflight','restore-complete-dump','restore-platform-postinit','restore-log-capture','compare-data-catalog-acl','existing-integrity-checks','tls-config','operation-preflight','restore-preflight','watchdog-read','unknown']);
 export const OWNER_ENV_NAMES=Object.freeze(['NAWASRAH_FF_CONFIG','NAWASRAH_FF_DB_PASSWORD','NAWASRAH_FF_PASSPHRASE','NAWASRAH_R2_ACCOUNT_ID','NAWASRAH_R2_ACCESS_KEY_ID','NAWASRAH_R2_SECRET_ACCESS_KEY','NAWASRAH_DEV_TELEGRAM_BOT_TOKEN','NAWASRAH_DEV_TELEGRAM_CHAT_ID']);
 const sqlstate=value=>typeof value==='string'&&/^(?:00|01|02|03|08|09|0A|0B|0F|0L|0P|0Z|20|21|22|23|24|25|26|27|28|2B|2D|2F|34|38|39|3B|3D|3F|40|42|44|53|54|55|57|58|72|F0|HV|P0|XX)[0-9A-Z]{3}$/u.test(value)?value:null;
+const identifier=value=>typeof value==='string'&&/^[a-zA-Z_][a-zA-Z0-9_$]{0,127}$/u.test(value)?value:null;
+const tocTypes=['EVENT TRIGGER','MATERIALIZED VIEW','TABLE DATA','SEQUENCE SET','DEFAULT ACL','PUBLICATION TABLE','PUBLICATION','SUBSCRIPTION','FK CONSTRAINT','CONSTRAINT','EXTENSION','FUNCTION','PROCEDURE','TRIGGER','SCHEMA','TABLE','VIEW','SEQUENCE','INDEX','TYPE','DOMAIN','ACL','COMMENT'];
+const restoreMessages=Object.freeze({
+  MISSING_EXTENSION:'ERROR: required extension is not available in the isolated image.',
+  MISSING_LIBRARY:'ERROR: required extension library or preload is not available.',
+  MISSING_ROLE:'ERROR: required role does not exist.',
+  MISSING_SCHEMA:'ERROR: required schema does not exist.',
+  MISSING_OBJECT:'ERROR: required relation or function does not exist.',
+  DUPLICATE_OBJECT:'ERROR: an object already exists.',
+  PERMISSION:'ERROR: insufficient privilege or object ownership.',
+  DUPLICATE_DATA:'ERROR: a uniqueness constraint was violated;data values withheld.',
+  FOREIGN_KEY:'ERROR: a foreign key constraint was violated;data values withheld.',
+  INVALID_SETTING:'ERROR: a server configuration setting is unsupported.',
+  EXTENSION_VERSION:'ERROR: extension version or update path is unsupported.',
+  SQL_ERROR:'ERROR: restore failed;raw SQL,DETAIL,CONTEXT and values withheld.',
+});
+export function safeRestoreFields(value){
+  const result={};
+  if(value?.toc&&tocTypes.includes(value.toc.type)&&identifier(value.toc.name)
+    &&(value.toc.schema===null||identifier(value.toc.schema)))result.toc={type:value.toc.type,schema:value.toc.schema,name:value.toc.name};
+  if(Object.hasOwn(restoreMessages,value?.restoreErrorCode??'')){
+    result.restoreErrorCode=value.restoreErrorCode;result.restoreMessage=restoreMessages[value.restoreErrorCode];
+  }
+  return result;
+}
+export function restoreErrorFields(stderr='',{tocList=''}={}){
+  const raw=String(stderr).slice(-65536),result={};
+  const match=[...raw.matchAll(/(?:from TOC entry|TOC entry)\s+(\d+);\s+\d+\s+\d+\s+([^\r\n]+)/gu)].at(-1);
+  const listed=match?String(tocList).split(/\r?\n/u).find(line=>line.startsWith(match[1]+';'))?.replace(/^\d+;\s+\d+\s+\d+\s+/u,''):null;
+  const entry=listed??match?.[2];
+  if(entry){
+    const type=tocTypes.find(t=>entry.startsWith(t+' '));
+    if(type){
+      const rest=entry.slice(type.length+1).trim().split(/\s+/u);
+      const hasSchema=!!listed||rest[0]==='-'||rest.length>=3&&!rest[0]?.includes('(');
+      let schema=hasSchema&&rest[0]!=='-'?identifier(rest[0]):null,name=identifier(rest[hasSchema?1:0]?.split('(')[0]);
+      // COMMENT/ACL entries can refer to another object kind;retain only its name.
+      if(['COMMENT','ACL'].includes(type)&&tocTypes.includes(rest[1]))name=identifier(rest[2]?.split('(')[0]);
+      if(name&&(schema===null||identifier(schema)))result.toc={type,schema,name};
+    }
+  }
+  const state=sqlstate(raw.match(/(?:ERROR|FATAL|PANIC):\s+([0-9A-Z]{5}):/u)?.[1])??sqlstate(raw.match(/\[state=([0-9A-Z]{5})\]\s+(?:ERROR|FATAL|PANIC):/u)?.[1]);
+  let code='SQL_ERROR';
+  if(/extension .* is not available|could not open extension control file/iu.test(raw))code='MISSING_EXTENSION';
+  else if(/could not access file.*No such file|could not load library|must be loaded via shared_preload_libraries/iu.test(raw))code='MISSING_LIBRARY';
+  else if(/role .* does not exist/iu.test(raw))code='MISSING_ROLE';
+  else if(/schema .* does not exist/iu.test(raw))code='MISSING_SCHEMA';
+  else if(/(?:relation|function) .* does not exist/iu.test(raw))code='MISSING_OBJECT';
+  else if(state==='23505'||/duplicate key value/iu.test(raw))code='DUPLICATE_DATA';
+  else if(state==='23503'||/violates foreign key/iu.test(raw))code='FOREIGN_KEY';
+  else if(/already exists/iu.test(raw))code='DUPLICATE_OBJECT';
+  else if(state==='42501'||/permission denied|must be owner|must be superuser/iu.test(raw))code='PERMISSION';
+  else if(/unrecognized configuration parameter/iu.test(raw))code='INVALID_SETTING';
+  else if(/extension .* has no (?:installation|update) script|no update path|version mismatch/iu.test(raw))code='EXTENSION_VERSION';
+  return {...safeRestoreFields({...result,restoreErrorCode:code}),sqlstate:state};
+}
 export function postgresDiagnostic(error,{tool='internal',stage='unknown',exitCode=null,signal=null,stderr=''}={}){
   const known=error?.diagnostic;
   let category='OPERATION_FAILED',state;
@@ -83,6 +143,7 @@ export function postgresDiagnostic(error,{tool='internal',stage='unknown',exitCo
     exitCode=typeof error?.code==='number'?error.code:exitCode;signal=error?.signal??signal;
   }
   return {formatVersion:1,stage:stages.has(stage)?stage:'unknown',tool:tools.has(tool)?tool:'internal',category,sqlstate:state,
+    ...safeRestoreFields(known),
     ...(category==='MISSING_ENV'&&OWNER_ENV_NAMES.includes(known?.variable)?{variable:known.variable}:{}),
     libpqMessage:messages[category],messagePolicy:'canonical-classification-no-raw-output',
     exitCode:Number.isInteger(exitCode)&&exitCode>=-2147483648&&exitCode<=4294967295?exitCode:null,
