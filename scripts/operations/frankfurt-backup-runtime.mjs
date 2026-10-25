@@ -1,6 +1,7 @@
 // Explicit owner entrypoint only. No import side effects or arbitrary project targets.
 import assert from 'node:assert/strict';
-import {mkdir,readFile,writeFile,rename,open,unlink,mkdtemp,rm} from 'node:fs/promises';
+import {readFile,mkdtemp,rm,access,stat} from 'node:fs/promises';
+import {constants} from 'node:fs';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
@@ -11,21 +12,23 @@ import {createR2Client,putImmutableArchive,listObjects,latestArchiveObject,downl
 import {verifyBackupArchive} from '../backup/verify-backup.mjs';
 import {collectDailySupabase} from '../monitoring/supabase-daily-health.mjs';
 import {runIncidentCycle,sendTelegramMessage} from '../monitoring/developer-alert-core.mjs';
-import {postgresDiagnostic,diagnosticError,classifiedError} from '../backup/postgres-diagnostic.mjs';
+import {postgresDiagnostic,classifiedError} from '../backup/postgres-diagnostic.mjs';
+import {saveOwnerJson as save,requiredOwnerEnv,withOwnerOperation} from './owner-operation.mjs';
 import {verifiedSupabaseCa} from '../backup/supabase-ca.mjs';
 
 export const PREFIX='erp/frankfurt-'+FRANKFURT_BACKUP_REF+'/';
 export const OWNER_MODES=Object.freeze(['Plan','Backup','Upload','VerifyRemote','Restore','RestoreRemote','Watchdog','TestAlert','Status']);
 const read=async file=>JSON.parse((await readFile(file,'utf8')).replace(/^\uFEFF/u,''));
 const optional=async file=>{try{return await read(file);}catch{return null;}};
-const save=async(file,data)=>{await mkdir(path.dirname(file),{recursive:true});const temp=file+'.tmp';await writeFile(temp,JSON.stringify(data,null,2)+'\n');await rename(temp,file);};
 export function validateOwnerConfig(config){
+  try{
   assert.equal(config.formatVersion,1);assert.equal(config.projectRef,FRANKFURT_BACKUP_REF);
   assertBackupDatabaseProject(config.connection,config.projectRef);
   assert.equal(config.protectionScope,'LocalMachine');assert.equal(config.businessAlertsEnabled,false);
   assert.ok(path.isAbsolute(config.backupRoot)&&path.isAbsolute(config.stateRoot));
   assert.equal(path.basename(config.backupRoot),'Frankfurt-'+config.projectRef,'BACKUP_ROOT_NOT_PROJECT_ISOLATED');
   assert.equal(config.retentionCount,30);return config;
+  }catch{throw classifiedError('CONFIG_INVALID',{tool:'node',stage:'config-load'});}
 }
 export const ownerPlan=()=>({ok:true,mode:'Plan',networkAttempted:false,projectRef:FRANKFURT_BACKUP_REF,legacyUnchanged:true,
   modes:OWNER_MODES,prefix:PREFIX,localRetentionCount:30,dailyRetentionDays:90,monthlyRetentionDays:365,lockDays:30,
@@ -35,25 +38,32 @@ export const ownerPlan=()=>({ok:true,mode:'Plan',networkAttempted:false,projectR
   tls:{sslmode:'verify-full',caSource:'bundled Supabase Root 2021 CA',caSha256:verifiedSupabaseCa().sha256}});
 const fresh=(status,field,hours)=>status?.ok===true&&!isDue(status[field],hours)&&Date.parse(status[field])<=Date.now();
 export async function runOwnerMode({mode,config,force=false,env=process.env,dependencies={}}){
-  assert.ok(OWNER_MODES.includes(mode));if(mode==='Plan')return ownerPlan();validateOwnerConfig(config);
+  if(!OWNER_MODES.includes(mode))throw classifiedError('MODE_INVALID',{stage:'operation-preflight'});if(mode==='Plan')return ownerPlan();validateOwnerConfig(config);
   const root=config.stateRoot,localPath=path.join(config.backupRoot,'last-backup-status.json'),offsitePath=path.join(root,'offsite-status.json');
   const restorePath=path.join(root,'restore-local.json'),remoteRestorePath=path.join(root,'restore-remote.json');
-  await mkdir(root,{recursive:true});
   if(mode==='Status'){
     const operations=await Promise.all(['Backup','Upload','VerifyRemote','Restore','RestoreRemote','Watchdog','TestAlert'].map(async name=>({mode:name,...await optional(path.join(root,'operation-'+name+'.json'))})));
     return {ok:operations.every(o=>o.ok!==false),projectRef:config.projectRef,backup:await optional(localPath),offsite:await optional(offsitePath),localRestore:await optional(restorePath),remoteRestore:await optional(remoteRestorePath),watchdog:await optional(path.join(root,'watchdog-status.json')),testAlert:await optional(path.join(root,'test-alert.json')),operations,businessAlertsEnabled:false};
   }
-  const lockPath=path.join(root,['Watchdog','TestAlert'].includes(mode)?'monitor.lock':'backup-offsite.lock');let lock;
-  // Never steal a stale lock automatically: an operator must check the owning process.
-  try{lock=await open(lockPath,'wx');await lock.writeFile(JSON.stringify({pid:process.pid,startedAt:new Date().toISOString(),mode}));}
-  catch{throw new Error('FRANKFURT_OPERATION_LOCKED_CHECK_OWNER_PROCESS');}
+  return withOwnerOperation({mode,root,backupRoot:config.backupRoot,reportWriter:dependencies.reportWriter,run:async()=>{
   const source=()=>dependencies.source??nativeSource({projectRef:config.projectRef,connection:config.connection,pgBin:config.pgBinPath,password:env.NAWASRAH_FF_DB_PASSWORD});
-  const passphrase=env.NAWASRAH_FF_PASSPHRASE;
+  const encrypted=['Backup','Restore','Upload','VerifyRemote','RestoreRemote'].includes(mode);
+  // Read inside the guarded callback;accessors/validation/source construction may throw.
+  const passphrase=encrypted?requiredOwnerEnv(env,'NAWASRAH_FF_PASSPHRASE'):undefined;
+  if(encrypted&&passphrase.length<16)throw classifiedError('ARCHIVE_PASSPHRASE_INVALID',{stage:'owner-env',tool:'node'});
+  if(['Backup','Watchdog'].includes(mode)&&!dependencies.source){
+    requiredOwnerEnv(env,'NAWASRAH_FF_DB_PASSWORD');
+    for(const tool of mode==='Backup'?['psql','pg_dump','pg_dumpall']:['psql']){
+      try{assert.ok(path.isAbsolute(config.pgBinPath));const executable=path.join(config.pgBinPath,tool+(process.platform==='win32'?'.exe':''));assert.ok((await stat(executable)).isFile());await access(executable,constants.X_OK);}
+      catch{throw classifiedError('PG_BIN_NOT_FOUND',{stage:'pg-bin-check',tool});}
+    }
+  }
+  if(['Upload','VerifyRemote','RestoreRemote'].includes(mode)&&!dependencies.r2Client)for(const key of ['NAWASRAH_R2_ACCOUNT_ID','NAWASRAH_R2_ACCESS_KEY_ID','NAWASRAH_R2_SECRET_ACCESS_KEY'])requiredOwnerEnv(env,key);
+  if(['Watchdog','TestAlert'].includes(mode)&&!dependencies.send)for(const key of ['NAWASRAH_DEV_TELEGRAM_BOT_TOKEN','NAWASRAH_DEV_TELEGRAM_CHAT_ID'])requiredOwnerEnv(env,key);
   const client=()=>dependencies.r2Client??createR2Client({accountId:env.NAWASRAH_R2_ACCOUNT_ID,accessKeyId:env.NAWASRAH_R2_ACCESS_KEY_ID,secretAccessKey:env.NAWASRAH_R2_SECRET_ACCESS_KEY,jurisdiction:'eu'});
   const send=message=>(dependencies.send??sendTelegramMessage)({botToken:env.NAWASRAH_DEV_TELEGRAM_BOT_TOKEN,chatId:env.NAWASRAH_DEV_TELEGRAM_CHAT_ID,message,maxAttempts:1});
   const check=(key,healthy,summary,details={})=>({key:'developer:frankfurt:'+key,source:'Frankfurt backup watchdog',severity:'high',healthy,summary,details});
-  let failed=false;
-  try{
+
     if(mode==='TestAlert'){
       const file=path.join(root,'test-alert.json'),previous=await optional(file);
       assert.equal(previous,null,'TEST_ALERT_ALREADY_ATTEMPTED_CHECK_TELEGRAM_NO_AUTOMATIC_RESEND');
@@ -117,11 +127,24 @@ export async function runOwnerMode({mode,config,force=false,env=process.env,depe
       const result={ok:cycle.notifications.every(n=>n.delivered),healthy:checks.every(c=>c.healthy),internalScanHeld:technical?.scanEnabled===false,observedAt:new Date().toISOString(),checks:checks.map(({key,healthy})=>({key,healthy})),notifications:cycle.notifications.length,recipient:'developer',businessAlertsEnabled:false};await save(path.join(root,'watchdog-status.json'),result);return result;
     }
     assert.fail('UNHANDLED_OWNER_MODE');
-  }catch(error){failed=true;const diagnostic=postgresDiagnostic(error,{stage:'operation-preflight'});await save(path.join(root,'operation-'+mode+'.json'),{ok:false,mode,at:new Date().toISOString(),code:'FRANKFURT_OWNER_OPERATION_FAILED_CHECK_STAGE_REPORTS',diagnostic});throw diagnosticError('FRANKFURT_OWNER_OPERATION_FAILED:'+mode,diagnostic);}
-  finally{if(!failed)await save(path.join(root,'operation-'+mode+'.json'),{ok:true,mode,at:new Date().toISOString()});await lock.close();await unlink(lockPath);}
+  }});
 }
 if(process.argv[1]&&pathToFileURL(path.resolve(process.argv[1])).href===import.meta.url){
-  const mode=process.argv[2]??'Plan';
-  try{const config=mode==='Plan'?null:await read(process.env.NAWASRAH_FF_CONFIG);const result=await runOwnerMode({mode,config,force:process.argv.includes('--force')});console.log(JSON.stringify(result));if(!result.ok)process.exitCode=1;}
-  catch(error){console.error(JSON.stringify({ok:false,mode,code:'FRANKFURT_OWNER_OPERATION_FAILED_NO_CREDENTIALS_LOGGED',diagnostic:postgresDiagnostic(error,{stage:'operation-preflight',tool:'node'})}));process.exitCode=1;}
+  const requestedMode=process.argv[2]??'Plan',mode=OWNER_MODES.includes(requestedMode)?requestedMode:'Unknown';
+  try{
+    if(mode==='Unknown')throw classifiedError('MODE_INVALID',{stage:'operation-preflight',tool:'node'});
+    let config=null;
+    if(mode!=='Plan'){
+      const file=requiredOwnerEnv(process.env,'NAWASRAH_FF_CONFIG');
+      let text;try{text=await readFile(file,'utf8');}catch{throw classifiedError('CONFIG_READ_FAILED',{tool:'node',stage:'config-load'});}
+      try{config=JSON.parse(text.replace(/^\uFEFF/u,''));}catch{throw classifiedError('CONFIG_INVALID',{tool:'node',stage:'config-load'});}
+    }
+    const result=await runOwnerMode({mode,config,force:process.argv.includes('--force')});console.log(JSON.stringify(result));if(!result.ok)process.exitCode=1;
+  }catch(error){
+    const report={ok:false,mode,at:new Date().toISOString(),code:'FRANKFURT_OWNER_OPERATION_FAILED_NO_CREDENTIALS_LOGGED',diagnostic:postgresDiagnostic(error,{stage:'operation-preflight',tool:'node'}),...(error.reportDiagnostic?{reportDiagnostic:postgresDiagnostic({diagnostic:error.reportDiagnostic})}:{}),...(error.cleanupDiagnostic?{cleanupDiagnostic:postgresDiagnostic({diagnostic:error.cleanupDiagnostic})}:{}),...(error.reportFallbackSaved?{reportFallbackSaved:true}:{})};
+    if(!error.operationReported&&!error.reportDiagnostic&&mode!=='Unknown'&&mode!=='Plan'&&path.isAbsolute(process.env.NAWASRAH_FF_CONFIG??'')){
+      try{await save(path.join(path.dirname(process.env.NAWASRAH_FF_CONFIG),'operation-'+mode+'.json'),report);}catch{report.reportDiagnostic=postgresDiagnostic(classifiedError('REPORT_WRITE_FAILED',{stage:'operation-report',tool:'filesystem'}));}
+    }
+    console.error(JSON.stringify(report));process.exitCode=1;
+  }
 }

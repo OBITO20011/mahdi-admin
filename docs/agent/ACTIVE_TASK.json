@@ -2,52 +2,52 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Fix owner Frankfurt Backup snapshot failure with safe diagnostics and explicit official CA/verify-full;native17.11 local TLS/snapshot tests;PR/fullCI;merge waits owner approval;no hosted access/deploy",
-  "baselineSha": "19b8c4b02dff00b8ebe75e8d9dac4336398acd2c",
-  "branch": "codex/frankfurt-backup-diagnostics",
+  "objective": "Fix owner operation lock lifetime and early failure reports;safe fixed diagnostic codes and explicit orphan cleanup;local tests/PR/FULL CI;merge and primary update await new owner approval",
+  "baselineSha": "68cc1fe01db9d560fb85d156e7800c0aa9e4a2f7",
+  "branch": "codex/frankfurt-owner-locks",
   "phase": "PACKAGE_F",
   "completed": [
-    "Official public Supabase CA pinned;absolute sslrootcert with verify-full;no downgrade or Setup change",
-    "Safe category/SQLSTATE/tool/stage/exit diagnostics in phase,operation and CLI;stderr close/EPIPE race covered",
-    "Windows native17.11 localhost TLS rejects system/wrong CA/wrong hostname;positive explicit CA;READ ONLY25006;snapshot across connections;full encrypted backup/restore141tables17checks",
-    "1438 unit tests passed;lint/typecheck clean;Gitleaks0 before final commit;Linux native TLS recovery first CI passed",
-    "PR26 created/attached;all implementation items committed and pushed"
+    "Guarded all post-lock initialization;report and release in independent nested finally;safe fallback report",
+    "Safe fixed preflight codes and env-name allowlist;PowerShell DPAPI catches without raw secrets",
+    "Explicit CleanupLock mode:PID absence required,Windows exclusive handle,no process termination or auto-steal",
+    "Saved per-item commits60bcf1e and68cc1fe;Arabic owner command runbook and actual baseline regression evidence committed"
   ],
   "inProgress": [
-    "Final exact-SHA FULL CI for PR26"
+    "Exact head CI and review-ready PR;merge awaits approval"
   ],
   "notStarted": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "testsPassed": [
-    "1438 unit tests,no failures/skips",
-    "npm run lint,typecheck+ESLint clean",
-    "Windows17.11 full TLS/snapshot/restore;141tables17checks",
-    "Core error diagnostics10 tests including privacy/phase/operation",
-    "Gitleaks0 on first2 commits;final scan next"
+    "Final full unit1447/1447;0fail/0skip",
+    "Targeted19/19 including Windows DPAPI roundtrip+failure and exclusive cleanup handle",
+    "Final full lint/typecheck clean",
+    "Plan ok with deny-network fence:0attempts,verify-full official CA unchanged",
+    "Gitleaks0 first2 commits;final scan next",
+    "Real report-destination failure:old5fdd orphan reproduced,new release and fallback verified"
   ],
   "testsRemaining": [
-    "Final head push+PR FULL45/recovery1/secrets1"
+    "Final partition:1446 core units+1 operational PowerShell",
+    "New exact-head FULL47 push and PR;Gitleaks0"
   ],
   "findings": [
-    "Old stderr discarded;actual prior hosted cause not recoverable",
-    "Supabase root absent from Windows stores;explicit CA fixes demonstrated trust defect",
-    "No hosted access,credential decryption or deployment;merge awaits owner approval",
-    "No Setup repeat needed;commands documented for post-approval main update"
+    "Existing success report write in finally precedes lock cleanup and can orphan lock;actual prior owner failure unknown",
+    "DPAPI occurs in PowerShell before Node,so its failure alone does not explain a Node-created lock;exact owner-run cause unknown",
+    "CI core Playwright container has no pwsh;unchanged PowerShell proof moved to mandatory backup-recovery host where same proof already passed;no skips/assertion changes"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hosted project connections,including TLS probes",
-    "No secrets/password/passphrase/config decryption",
-    "No deployment or owner backup execution",
-    "No merge before new owner approval;per-item commit+push"
+    "No hosted project connections or deployment",
+    "No owner secrets/config decryption;synthetic local tests only",
+    "No merge or primary update before new owner approval",
+    "No cleanup of actual owner lock by agent"
   ],
-  "nextExactAction": "Verify final exact-head FULL CI PR26;ready after success;await owner merge approval",
-  "startedAt": "2026-10-25T19:51:11.06692+03:00",
-  "checkpointedAt": "2026-10-25T17:22:08.503Z",
-  "filesTouchedCount": 2,
-  "filesTouchedManifestSha256": "522264be4749470dfbd73368521b826e91ead9d48a967b3207d1995c2097c24a",
-  "workingTreeFingerprint": "203369AC5B9D9A2DDECE1139830E2AB68F897AF787E550D6CDD1C65B0515945E"
+  "nextExactAction": "Verify mandatory unchanged PowerShell probe in backup host;new exact-SHA FULL CI required.",
+  "startedAt": "2026-10-25T19:40:27.970Z",
+  "checkpointedAt": "2026-10-25T20:11:40.401Z",
+  "filesTouchedCount": 4,
+  "filesTouchedManifestSha256": "84153767888abe60acfd759530f2d1774f13870dac8c574128713cf891d72fa7",
+  "workingTreeFingerprint": "73898B009B7E8E7C8A4DAB4B5EAA8CD9BCB72E663ABFFDDC43984D480B429B58"
 }

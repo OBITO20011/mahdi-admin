@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-  [ValidateSet('Plan','Setup','Register','Backup','Upload','VerifyRemote','Restore','RestoreRemote','Watchdog','TestAlert','Status')][string]$Mode='Plan',
+  [ValidateSet('Plan','Setup','Register','Backup','Upload','VerifyRemote','Restore','RestoreRemote','Watchdog','TestAlert','Status','CleanupLock')][string]$Mode='Plan',
   [string]$ConfigPath='C:\ProgramData\NawasrahFrankfurtBackup\config.json',
   [switch]$Apply,
   [switch]$Force
@@ -11,19 +11,18 @@ $env:PSModulePath=@((Join-Path $PSHOME 'Modules'),(Join-Path $env:ProgramFiles '
 $projectRef='kzevmysfydaslxcerogt'
 $repo=(Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
 $runtime=Join-Path $PSScriptRoot 'frankfurt-backup-runtime.mjs'
-$node=(Get-Command node.exe -ErrorAction Stop).Source
+. (Join-Path $PSScriptRoot 'frankfurt-owner-safety.ps1')
+$failureRoot=Split-Path -Parent ([IO.Path]::GetFullPath($ConfigPath))
+try {
+try {$node=(Get-Command node.exe -ErrorAction Stop).Source}catch{Throw-OwnerFailure 'TOOL_NOT_FOUND'}
 if($Mode -eq 'Plan') { & $node $runtime Plan; exit $LASTEXITCODE }
-if($Mode -notin @('Status') -and !$Apply) { throw 'Explicit -Apply is required. Default Plan is local and offline.' }
+if($Mode -notin @('Status') -and !$Apply) {Throw-OwnerFailure 'APPLY_REQUIRED'}
 Add-Type -AssemblyName System.Security
 function Require-Admin {
   $principal=[Security.Principal.WindowsPrincipal]::new([Security.Principal.WindowsIdentity]::GetCurrent())
-  if(!$principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)){throw 'Run PowerShell as Administrator for Setup/Register.'}
+  if(!$principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)){Throw-OwnerFailure 'ADMIN_REQUIRED'}
 }
-function Read-Json([string]$File) { Get-Content -LiteralPath $File -Raw -Encoding UTF8|ConvertFrom-Json }
-function Unprotect([string]$Value) {
-  $bytes=[Security.Cryptography.ProtectedData]::Unprotect([Convert]::FromBase64String($Value),$null,[Security.Cryptography.DataProtectionScope]::LocalMachine)
-  try { [Text.Encoding]::UTF8.GetString($bytes) } finally {[Array]::Clear($bytes,0,$bytes.Length)}
-}
+function Read-Json([string]$File) { try {Get-Content -LiteralPath $File -Raw -Encoding UTF8|ConvertFrom-Json} catch {Throw-OwnerFailure 'CONFIG_READ_FAILED'} }
 function Protect-Secure([Security.SecureString]$Value) {
   $pointer=[Runtime.InteropServices.Marshal]::SecureStringToBSTR($Value)
   try {
@@ -42,7 +41,7 @@ if($Mode -eq 'Setup') {
   $root=Split-Path -Parent ([IO.Path]::GetFullPath($ConfigPath))
   if($root -eq [IO.Path]::GetFullPath((Split-Path -Parent $legacyConfig))){throw 'Refusing to overwrite legacy configuration.'}
   if(Test-Path -LiteralPath $ConfigPath){throw 'Frankfurt configuration already exists. Back it up and review before replacing; legacy is never changed.'}
-  foreach($name in @('psql.exe','pg_dump.exe','pg_dumpall.exe')){if(!(Test-Path -LiteralPath (Join-Path $legacy.pgBinPath $name))){throw 'Native PostgreSQL 17 tools required.'}}
+  foreach($name in @('psql.exe','pg_dump.exe','pg_dumpall.exe')){if(!(Test-Path -LiteralPath (Join-Path $legacy.pgBinPath $name))){Throw-OwnerFailure 'PG_BIN_NOT_FOUND'}}
   $connection=Read-Host "Password-free connection URL (session pooler port 5432, or enter for direct db.$projectRef.supabase.co)"
   if(!$connection){$connection="postgresql://postgres@db.$projectRef.supabase.co:5432/postgres"}
   $uri=[uri]$connection
@@ -63,7 +62,8 @@ if($Mode -eq 'Setup') {
   exit 0
 }
 $config=Read-Json $ConfigPath
-if($config.projectRef -cne $projectRef -or $config.protectionScope -ne 'LocalMachine' -or $config.businessAlertsEnabled -ne $false){throw 'FRANKFURT_CONFIG_REJECTED'}
+if($config.projectRef -cne $projectRef -or $config.protectionScope -ne 'LocalMachine' -or $config.businessAlertsEnabled -ne $false){Throw-OwnerFailure 'CONFIG_INVALID'}
+if($Mode -eq 'CleanupLock'){Require-Admin;Remove-OwnerOrphanLock -Root $failureRoot|ConvertTo-Json -Compress;exit 0}
 if($Mode -eq 'Register') {
   Require-Admin
   if($ConfigPath.Contains('"') -or $runtime.Contains('"')){throw 'Invalid task path.'}
@@ -89,22 +89,27 @@ if($Mode -eq 'Register') {
 $names=@('NAWASRAH_FF_CONFIG','NAWASRAH_FF_DB_PASSWORD','NAWASRAH_FF_PASSPHRASE','NAWASRAH_R2_ACCOUNT_ID','NAWASRAH_R2_ACCESS_KEY_ID','NAWASRAH_R2_SECRET_ACCESS_KEY','NAWASRAH_DEV_TELEGRAM_BOT_TOKEN','NAWASRAH_DEV_TELEGRAM_CHAT_ID')
 try {
   $env:NAWASRAH_FF_CONFIG=$ConfigPath
-  if($Mode -in @('Backup','Watchdog')){$env:NAWASRAH_FF_DB_PASSWORD=Unprotect $config.databasePassword}
-  if($Mode -in @('Backup','Upload','VerifyRemote','Restore','RestoreRemote')){$env:NAWASRAH_FF_PASSPHRASE=Unprotect $config.archivePassphrase}
+  if($Mode -in @('Backup','Watchdog')){$env:NAWASRAH_FF_DB_PASSWORD=Unprotect-OwnerValue $config.databasePassword 'NAWASRAH_FF_DB_PASSWORD'}
+  if($Mode -in @('Backup','Upload','VerifyRemote','Restore','RestoreRemote')){$env:NAWASRAH_FF_PASSPHRASE=Unprotect-OwnerValue $config.archivePassphrase 'NAWASRAH_FF_PASSPHRASE'}
   if($Mode -in @('Upload','VerifyRemote','RestoreRemote')){
     $r2=Read-Json $config.offsiteConfigPath
-    if($r2.protectionScope -ne 'LocalMachine' -or $r2.bucket -ne 'nawasrah-offsite-backups' -or $r2.jurisdiction -ne 'eu'){throw 'R2_CONFIG_REJECTED'}
+    if($r2.protectionScope -ne 'LocalMachine' -or $r2.bucket -ne 'nawasrah-offsite-backups' -or $r2.jurisdiction -ne 'eu'){Throw-OwnerFailure 'CONFIG_INVALID'}
     $env:NAWASRAH_R2_ACCOUNT_ID=$r2.accountId
-    $env:NAWASRAH_R2_ACCESS_KEY_ID=Unprotect $r2.accessKeyId
-    $env:NAWASRAH_R2_SECRET_ACCESS_KEY=Unprotect $r2.secretAccessKey
+    $env:NAWASRAH_R2_ACCESS_KEY_ID=Unprotect-OwnerValue $r2.accessKeyId 'NAWASRAH_R2_ACCESS_KEY_ID'
+    $env:NAWASRAH_R2_SECRET_ACCESS_KEY=Unprotect-OwnerValue $r2.secretAccessKey 'NAWASRAH_R2_SECRET_ACCESS_KEY'
   }
   if($Mode -in @('Watchdog','TestAlert')){
     $dev=Read-Json $config.developerConfigPath
-    if($dev.protectionScope -ne 'LocalMachine'){throw 'DEVELOPER_CONFIG_REJECTED'}
-    $env:NAWASRAH_DEV_TELEGRAM_BOT_TOKEN=Unprotect $dev.telegramBotToken
+    if($dev.protectionScope -ne 'LocalMachine'){Throw-OwnerFailure 'CONFIG_INVALID'}
+    $env:NAWASRAH_DEV_TELEGRAM_BOT_TOKEN=Unprotect-OwnerValue $dev.telegramBotToken 'NAWASRAH_DEV_TELEGRAM_BOT_TOKEN'
     $env:NAWASRAH_DEV_TELEGRAM_CHAT_ID=$dev.telegramChatId
   }
   $extra=@();if($Force){$extra+='--force'}
   & $node $runtime $Mode @extra
-  if($LASTEXITCODE -ne 0){throw "Frankfurt $Mode failed. See protected local status reports; credentials are never printed."}
+  if($LASTEXITCODE -ne 0){exit $LASTEXITCODE} # Node already emitted its safe diagnostic/report;do not replace it.
 } finally {foreach($name in $names){Remove-Item "Env:$name" -ErrorAction SilentlyContinue};$config=$null;$r2=$null;$dev=$null}
+
+} catch {
+  Write-OwnerFailure -Mode $Mode -Root $failureRoot -Failure $_
+  exit 1
+}

@@ -27,7 +27,7 @@ test('offline owner plan has no runtime IO and never activates business recipien
   assert.deepEqual(await runOwnerMode({mode:'Plan',config:null}),ownerPlan());
   assert.equal(ownerPlan().networkAttempted,false);assert.equal(ownerPlan().legacyUnchanged,true);assert.equal(ownerPlan().businessAlertsEnabled,false);
   assert.ok(PREFIX.startsWith('erp/frankfurt-'));assert.throws(()=>validateOwnerConfig({...config(tmpdir()),businessAlertsEnabled:true}));
-  assert.throws(()=>validateOwnerConfig({...config(tmpdir()),backupRoot:tmpdir()}),/ROOT_NOT_PROJECT_ISOLATED/);
+  assert.throws(()=>validateOwnerConfig({...config(tmpdir()),backupRoot:tmpdir()}),/CONFIG_INVALID/);
 });
 test('owner test sends at most once even when Telegram delivery is uncertain',async()=>{
   const root=await mkdtemp(path.join(tmpdir(),'ff-test-alert-'));let calls=0;

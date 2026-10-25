@@ -1,6 +1,21 @@
 // Raw stderr is classified in RAM only. Reports contain vocabulary chosen here,
 // never a server-supplied message, command line, URL, path, SQL or error stack.
 const messages=Object.freeze({
+  LOCKED:'Another operation owns the lock; no work was started.',
+  LOCK_FILE_INVALID:'The lock metadata is invalid; manual inspection is required.',
+  LOCK_PROCESS_CHECK_FAILED:'The lock owner could not be checked safely; nothing was removed.',
+  LOCK_CLEANUP_FAILED:'The operation lock could not be released safely.',
+  MISSING_ENV:'A required environment variable is missing.',
+  DPAPI_UNPROTECT_FAILED:'A protected local credential could not be decrypted.',
+  PG_BIN_NOT_FOUND:'A required PostgreSQL executable was not found in the configured directory.',
+  CONFIG_INVALID:'The owner configuration is invalid.',
+  CONFIG_READ_FAILED:'The owner configuration could not be read.',
+  ARCHIVE_PASSPHRASE_INVALID:'The archive passphrase does not meet the existing encryption requirement.',
+  FILE_IO_FAILED:'A required local file operation failed.',
+  REPORT_WRITE_FAILED:'The operation report could not be saved.',
+  MODE_INVALID:'The requested owner operation is not supported.',
+  APPLY_REQUIRED:'This owner operation requires explicit Apply.',
+  ADMIN_REQUIRED:'This owner operation requires an elevated PowerShell session.',
   TLS_CA_UNTRUSTED:'TLS certificate chain is not trusted by the configured CA.',
   TLS_HOSTNAME_MISMATCH:'TLS certificate does not match the requested hostname.',
   TLS_ROOT_CERT_MISSING:'The configured TLS root certificate cannot be read.',
@@ -25,8 +40,9 @@ const messages=Object.freeze({
   BACKUP_NOT_AVAILABLE:'No successful verified backup is available for restore.',
   OPERATION_FAILED:'The operation failed; raw error content was withheld.',
 });
-const tools=new Set(['psql','pg_dump','pg_dumpall','pg_restore','docker','node','filesystem','internal']);
-const stages=new Set(['snapshot','source-evidence','roles-dump','complete-dump','storage-download','consistency-postcheck','archive-encrypt-verify','archive-verification','isolated-cluster-start','restore-roles','restore-complete-dump','compare-data-catalog-acl','existing-integrity-checks','tls-config','operation-preflight','restore-preflight','watchdog-read','unknown']);
+const tools=new Set(['psql','pg_dump','pg_dumpall','pg_restore','docker','node','powershell','filesystem','internal']);
+const stages=new Set(['config-load','owner-env','pg-bin-check','operation-lock','lock-cleanup','operation-report','snapshot','source-evidence','roles-dump','complete-dump','storage-download','consistency-postcheck','archive-encrypt-verify','archive-verification','isolated-cluster-start','restore-roles','restore-complete-dump','compare-data-catalog-acl','existing-integrity-checks','tls-config','operation-preflight','restore-preflight','watchdog-read','unknown']);
+export const OWNER_ENV_NAMES=Object.freeze(['NAWASRAH_FF_CONFIG','NAWASRAH_FF_DB_PASSWORD','NAWASRAH_FF_PASSPHRASE','NAWASRAH_R2_ACCOUNT_ID','NAWASRAH_R2_ACCESS_KEY_ID','NAWASRAH_R2_SECRET_ACCESS_KEY','NAWASRAH_DEV_TELEGRAM_BOT_TOKEN','NAWASRAH_DEV_TELEGRAM_CHAT_ID']);
 const sqlstate=value=>typeof value==='string'&&/^(?:00|01|02|03|08|09|0A|0B|0F|0L|0P|0Z|20|21|22|23|24|25|26|27|28|2B|2D|2F|34|38|39|3B|3D|3F|40|42|44|53|54|55|57|58|72|F0|HV|P0|XX)[0-9A-Z]{3}$/u.test(value)?value:null;
 export function postgresDiagnostic(error,{tool='internal',stage='unknown',exitCode=null,signal=null,stderr=''}={}){
   const known=error?.diagnostic;
@@ -58,13 +74,16 @@ export function postgresDiagnostic(error,{tool='internal',stage='unknown',exitCo
     else if(state==='42501'||/permission denied|must be owner of|not permitted to read/iu.test(raw))category='SQL_PERMISSION_DENIED';
     else if(state)category='SQL_EXECUTION_FAILED';
     else if(/SSL|TLS/iu.test(raw))category='TLS_HANDSHAKE_FAILED';
+    else if(raw==='FRANKFURT_OPERATION_LOCKED_CHECK_OWNER_PROCESS')category='LOCKED';
+    else if(['EACCES','EPERM','EROFS','ENOSPC','EIO'].includes(error?.code))category='FILE_IO_FAILED';
     else if(error?.code==='ENOENT')category='TOOL_NOT_FOUND';
     else if(error?.killed||error?.code==='BACKUP_SQL_TIMEOUT')category='TOOL_TIMEOUT';
     else if(error?.code==='CLIENT_EARLY_EXIT')category='CLIENT_EARLY_EXIT';
-    else if(tool!=='internal')category='TOOL_FAILED';
+    else if(!['internal','node','filesystem','powershell'].includes(tool))category='TOOL_FAILED';
     exitCode=typeof error?.code==='number'?error.code:exitCode;signal=error?.signal??signal;
   }
   return {formatVersion:1,stage:stages.has(stage)?stage:'unknown',tool:tools.has(tool)?tool:'internal',category,sqlstate:state,
+    ...(category==='MISSING_ENV'&&OWNER_ENV_NAMES.includes(known?.variable)?{variable:known.variable}:{}),
     libpqMessage:messages[category],messagePolicy:'canonical-classification-no-raw-output',
     exitCode:Number.isInteger(exitCode)&&exitCode>=-2147483648&&exitCode<=4294967295?exitCode:null,
     signal:['SIGINT','SIGTERM','SIGKILL'].includes(signal)?signal:null};

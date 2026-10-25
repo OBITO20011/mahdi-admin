@@ -3,11 +3,19 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/operations/FRANKFURT_BACKUP_SNAPSHOT_FIX_AR.md"
+      "path": ".github/workflows/backup-recovery.yml"
     },
     {
       "code": " M",
-      "path": "tests/backup-diagnostics.test.ts"
+      "path": "docs/operations/FRANKFURT_OWNER_LOCK_RECOVERY_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "tests/owner-operation.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/owner-operation-powershell.probe.ts"
     }
   ]
 }
