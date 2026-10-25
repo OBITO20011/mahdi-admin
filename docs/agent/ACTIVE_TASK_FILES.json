@@ -3,19 +3,7 @@
   "files": [
     {
       "code": " M",
-      "path": "scripts/operations/frankfurt-backup-owner.ps1"
-    },
-    {
-      "code": "??",
       "path": "docs/operations/FRANKFURT_OWNER_LOCK_RECOVERY_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/owner-lock-evidence/blocked-report-regression.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/owner-lock-evidence/powershell-dpapi-preflight.json"
     }
   ]
 }

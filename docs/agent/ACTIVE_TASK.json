@@ -3,32 +3,32 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Fix owner operation lock lifetime and early failure reports;safe fixed diagnostic codes and explicit orphan cleanup;local tests/PR/FULL CI;merge and primary update await new owner approval",
-  "baselineSha": "5fdd0fd0d3420b4acfcc4f0919d88c2b44140f70",
+  "baselineSha": "68cc1fe01db9d560fb85d156e7800c0aa9e4a2f7",
   "branch": "codex/frankfurt-owner-locks",
   "phase": "PACKAGE_F",
   "completed": [
     "Guarded all post-lock initialization;report and release in independent nested finally;safe fallback report",
     "Safe fixed preflight codes and env-name allowlist;PowerShell DPAPI catches without raw secrets",
-    "Explicit CleanupLock mode:PID absence required,Windows exclusive handle,no process termination or auto-steal"
+    "Explicit CleanupLock mode:PID absence required,Windows exclusive handle,no process termination or auto-steal",
+    "Saved per-item commits60bcf1e and68cc1fe;Arabic owner command runbook and actual baseline regression evidence committed"
   ],
   "inProgress": [
-    "Final local evidence and owner runbook,then exact FULL CI"
+    "Exact head CI and review-ready PR;merge awaits approval"
   ],
   "notStarted": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "testsPassed": [
-    "Targeted19/19 including real file-destination failure and CLI config report",
-    "1445 full unit tests passed before final2 added tests;both final tests pass in targeted19",
-    "Local lint/typecheck passed before final proof additions",
-    "Real old5fdd report-write failure reproduced;old orphan true,new release+fallback true",
-    "Actual PowerShell DPAPI negative Backup/Restore with synthetic ciphertext;reports fresh,no lock",
-    "Windows synthetic DPAPI positive roundtrip and exclusive cleanup handle proved"
+    "Final full unit1447/1447;0fail/0skip",
+    "Targeted19/19 including Windows DPAPI roundtrip+failure and exclusive cleanup handle",
+    "Final full lint/typecheck clean",
+    "Plan ok with deny-network fence:0attempts,verify-full official CA unchanged",
+    "Gitleaks0 first2 commits;final scan next",
+    "Real report-destination failure:old5fdd orphan reproduced,new release and fallback verified"
   ],
   "testsRemaining": [
-    "Local failure/race/privacy/PowerShell probes",
-    "FULL CI and Gitleaks0"
+    "Exact final head push+PR FULL47 and final Gitleaks0"
   ],
   "findings": [
     "Existing success report write in finally precedes lock cleanup and can orphan lock;actual prior owner failure unknown",
@@ -42,10 +42,10 @@
     "No merge or primary update before new owner approval",
     "No cleanup of actual owner lock by agent"
   ],
-  "nextExactAction": "Final local full tests/lint,PR and exact-head FULL47 CI. Await owner merge approval;primary unchanged.",
+  "nextExactAction": "Final docs-only commit/push;PR and exact-head FULL47 CI/Gitleaks. Await owner approval;do not merge or update primary.",
   "startedAt": "2026-10-25T19:40:27.970Z",
-  "checkpointedAt": "2026-10-25T20:00:18.929Z",
-  "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "2187ad9843e4fa5ea34f8b934321a2124d38f77a4c68f07cd2d437a2353c9604",
-  "workingTreeFingerprint": "1822CCD9C2F050D4AE1D4870E76084E1677BEC4979B3B2F80F659916ABC3C709"
+  "checkpointedAt": "2026-10-25T20:04:05.833Z",
+  "filesTouchedCount": 1,
+  "filesTouchedManifestSha256": "1c85ec9e3fe5817a2c10d3333ee3573f19cd378474a8e00895ab4048c7baca3c",
+  "workingTreeFingerprint": "02BAE1BB9476B20467C53453689B4771BF9F22802B7E89F4BDD1E4ACC47595A2"
 }
