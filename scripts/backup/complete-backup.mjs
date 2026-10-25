@@ -19,7 +19,8 @@ const exec=promisify(execFile);
 const stripTransaction=sql=>sql.replace(/^BEGIN READ ONLY;/u,'').replace(/ROLLBACK;\s*$/u,'');
 const qi=value=>'"'+String(value).replaceAll('"','""')+'"';
 const tar=process.platform==='win32'?'tar.exe':'tar';
-export const IMAGE='public.ecr.aws/supabase/postgres:17.6.1.147';
+// Same reviewed image used by the pinned CLI bootstrap; no second older pull.
+export const IMAGE='public.ecr.aws/supabase/postgres:17.6.1.158';
 export const storageSql=`SELECT coalesce(jsonb_agg(to_jsonb(o) ORDER BY name),'[]') FROM storage.objects o WHERE bucket_id='product-images';`;
 export const rolesSql=`SELECT coalesce(jsonb_agg(jsonb_build_object('name',rolname,'super',rolsuper,'inherit',rolinherit,'createRole',rolcreaterole,'createDb',rolcreatedb,'login',rolcanlogin,'replication',rolreplication,'bypassRls',rolbypassrls,'limit',rolconnlimit,'until',rolvaliduntil,'config',rolconfig) ORDER BY rolname),'[]') FROM pg_roles;`;
 export const membershipSql=`SELECT coalesce(jsonb_agg(jsonb_build_object('role',r.rolname,'member',m.rolname,'grantor',g.rolname,'admin',a.admin_option,'inherit',a.inherit_option,'set',a.set_option) ORDER BY r.rolname,m.rolname,g.rolname),'[]') FROM pg_auth_members a JOIN pg_roles r ON r.oid=a.roleid JOIN pg_roles m ON m.oid=a.member JOIN pg_roles g ON g.oid=a.grantor;`;
@@ -142,7 +143,7 @@ export async function restoreCompleteBackup({archivePath,passphrase,reportPath,r
     const integrity=(scan?.checks??[]).filter(c=>c.key.startsWith('integrity:')).map(({key,status,issueCount})=>({key,status,issueCount}));
     assert.ok(integrity.length>5,'RESTORE_INTEGRITY_SCAN_MISSING');
     assert.ok(integrity.every(c=>c.status==='healthy'&&Number(c.issueCount)===0),'RESTORE_EXISTING_INTEGRITY_CHECK_FAILED');
-    report={ok:true,projectRef:manifest.projectRef,mode:'isolated-complete-restore',completedAt:new Date().toISOString(),hostedConnectionsMade:false,network:'none',liveVolumesModified:false,historyCeiling:214,tablesCompared:Object.keys(before.tables).length,storageObjectsCompared:manifest.storageObjects.length,integrityChecks:integrity,...proof};return report;
+    report={ok:true,projectRef:manifest.projectRef,mode:'isolated-complete-restore',postgresImage:IMAGE,completedAt:new Date().toISOString(),hostedConnectionsMade:false,network:'none',liveVolumesModified:false,historyCeiling:214,tablesCompared:Object.keys(before.tables).length,storageObjectsCompared:manifest.storageObjects.length,integrityChecks:integrity,...proof};return report;
   }catch(cause){report={ok:false,stage,mode:'isolated-complete-restore',completedAt:new Date().toISOString(),hostedConnectionsMade:false,error:'COMPLETE_RESTORE_FAILED'};throw new Error(report.error,{cause});}
   finally{await session?.close().catch(()=>{});if(started)await docker(['rm','--force',container]).catch(()=>{});await rm(work,{recursive:true,force:true});if(reportPath)await writeFile(reportPath,JSON.stringify(report,null,2)+'\n');}
 }

@@ -109,7 +109,7 @@ export async function runOwnerMode({mode,config,force=false,env=process.env,depe
       if(technical){const issues=(technical.checks??[]).filter(c=>['warning','critical'].includes(c.status)).length;
         const scanAt=Date.parse(technical.checkedAt),scanFresh=Number.isFinite(scanAt)&&scanAt<=Date.now()&&Date.now()-scanAt<36*3600000;
         const held=technical.scanEnabled===false;
-        checks.push(check('integrity',held||(issues===0&&scanFresh&&!technical.scanErrorCode),held?'فحص السلامة الداخلي مؤجل بقرار المالك؛ لم يُفعّل الحارس cron.':'حالة فحوص سلامة النظام في فرانكفورت.',{issueCount:issues,scanFresh,held}));}
+        checks.push(check('integrity',issues===0&&!technical.scanErrorCode&&(held||scanFresh),held?'فحص السلامة الداخلي مؤجل بقرار المالك؛ لم يُفعّل الحارس cron.':'حالة فحوص سلامة النظام في فرانكفورت.',{issueCount:issues,scanFresh,held}));}
       const cycle=await runIncidentCycle({checks,state,send:({message})=>send(message)});if(daily?.state)cycle.state.frankfurtDaily=daily.state;await save(statePath,cycle.state);
       const result={ok:cycle.notifications.every(n=>n.delivered),healthy:checks.every(c=>c.healthy),internalScanHeld:technical?.scanEnabled===false,observedAt:new Date().toISOString(),checks:checks.map(({key,healthy})=>({key,healthy})),notifications:cycle.notifications.length,recipient:'developer',businessAlertsEnabled:false};await save(path.join(root,'watchdog-status.json'),result);return result;
     }

@@ -38,17 +38,19 @@ test('owner test sends at most once even when Telegram delivery is uncertain',as
   }finally{await rm(root,{recursive:true,force:true});}
 });
 test('Frankfurt watchdog reports backup failures/400MB through the developer sender and caches daily sampling',async()=>{
-  const root=await mkdtemp(path.join(tmpdir(),'ff-watchdog-'));let sizes=0,keepalives=0,sends=0;
+  const root=await mkdtemp(path.join(tmpdir(),'ff-watchdog-'));let sizes=0,keepalives=0,sends=0,knownIssue=false;
   try{
     const source={session:()=>({query:async(sql:string)=>{
       if(sql.includes('pg_database_size')){sizes++;return '400000000';}
-      if(sql.includes('get_advanced_monitoring_status'))return JSON.stringify({checkedAt:new Date().toISOString(),scanErrorCode:null,checks:[]});return '';
+      if(sql.includes('get_advanced_monitoring_status'))return JSON.stringify({checkedAt:null,scanEnabled:false,scanErrorCode:null,checks:knownIssue?[{status:'critical',issueCount:1}]:[]});return '';
     },close:async()=>{}})};
     const dependencies={source,fetchImpl:async()=>{keepalives++;return new Response(JSON.stringify({ordersEnabled:false,storeNameAr:'محل الاختبار'}),{status:200});},send:async()=>{sends++;return true;}};
     const result=await runOwnerMode({mode:'Watchdog',config:config(root),env:{},dependencies});
     assert.equal(result.recipient,'developer');assert.equal(result.businessAlertsEnabled,false);
     assert.ok(result.checks.some((c:{key:string;healthy:boolean})=>c.key.endsWith('daily-size')&&!c.healthy));
-    assert.ok(sends>0);await runOwnerMode({mode:'Watchdog',config:config(root),env:{},dependencies});assert.equal(sizes,1);assert.equal(keepalives,1);
+    assert.ok(sends>0);assert.equal(result.internalScanHeld,true);knownIssue=true;
+    const second=await runOwnerMode({mode:'Watchdog',config:config(root),env:{},dependencies});assert.equal(sizes,1);assert.equal(keepalives,1);
+    assert.ok(second.checks.some((c:{key:string;healthy:boolean})=>c.key.endsWith(':integrity')&&!c.healthy),'Held cron must not suppress a known integrity issue');
     await writeFile(path.join(root,'monitor.lock'),'operator-owned');await assert.rejects(runOwnerMode({mode:'Watchdog',config:config(root),env:{},dependencies}),/LOCKED/);
   }finally{await rm(root,{recursive:true,force:true});}
 });
