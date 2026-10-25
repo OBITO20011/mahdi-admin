@@ -33,6 +33,8 @@ test('known libpq/tool failures produce safe canonical categories,SQLSTATE,stage
   }
   const malicious=postgresDiagnostic({diagnostic:{category:'AUTH_REJECTED',libpqMessage:secret,stage:secret,tool:secret,exitCode:secret,sqlstate:secret}});
   assert.ok(!JSON.stringify(malicious).includes(secret));
+  const dumped=postgresDiagnostic({message:'Command failed: pg_dump '+connection+'?sslmode=verify-full',cmd:connection,stderr:'pg_dump: error: ERROR: permission denied for table private_data',code:1},{tool:'pg_dump',stage:'complete-dump'});
+  assert.equal(dumped.category,'SQL_PERMISSION_DENIED');assert.equal(dumped.sqlstate,null);assert.equal(dumped.tool,'pg_dump');assert.ok(!JSON.stringify(dumped).includes(connection));
 });
 test('private error payloads are not reflected even when no pattern matches',()=>{
   for(const message of [secret,connection,'PANIC: secret-column='+secret,JSON.stringify({nested:secret}),secret.repeat(4000)]){

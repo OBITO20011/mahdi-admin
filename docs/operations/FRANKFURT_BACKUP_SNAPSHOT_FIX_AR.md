@@ -40,4 +40,10 @@ powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File scripts/operatio
 - [PostgreSQL17: pg_dump وتوافق الإصدارات وsnapshot](https://www.postgresql.org/docs/17/app-pgdump.html).
 - بصمات المصدر والشهادة العامة في scripts/backup/certs/README.md.
 
-تجربة TLS والنقل المحلي وأدلة CI تُستكمل قبل جاهزية PR. الدمج ينتظر موافقة المالك؛ لا ادعاء نجاح نسخة فرانكفورت الحقيقية من اختبارات localhost.
+## الدليل المحلي
+
+`backup-snapshot-evidence/native-windows17.json`: أدوات Windows17.11 الأصلية، عبر proxy STARTTLS محلي لكل جلسة إلى قاعدة disposable17.6 حتى214. أعاد sslrootcert=system فئة TLS_CA_UNTRUSTED؛ فشلت CA غير مطابقة وكذلك hostname غير مطابق بكود خروج2. نجحت CA الصريحة مع verify-full. بعد export snapshot أُضيف صف محلي بجلسة أخرى، وظل pg_dump على اللقطة السابقة. رُفضت كتابة داخل READ ONLY بـ25006. نجح أرشيف مشفّر كامل واسترجاعه مع141 جدولاً و17فحص سلامة. هذه ليست محاكاة لضمانات Supavisor الداخلية ولا اتصالاً به؛ هي إثبات للنقل الحقيقي libpq واللقطة والتحقق من الشهادة على localhost.
+
+مفتاح CA الخاص بالاختبار يُنشأ مؤقتاً ولا يدخل المستودع؛ لا نملك مفتاح Supabase الخاص ولا نصنع شهادة localhost باسمها. شهادة Supabase الفعلية العامة مثبتة بالبصمات، واختبار localhost الإيجابي يستخدم CA اختبار مستقلة. النسخة الحية التالية للمالك ستؤكد السبب الفعلي بفئة آمنة إن بقي سبب آخر.
+
+CI الكامل يُستكمل قبل جاهزية PR. الدمج ينتظر موافقة المالك؛ لا ادعاء نجاح نسخة فرانكفورت الحقيقية من اختبارات localhost.

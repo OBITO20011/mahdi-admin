@@ -37,7 +37,10 @@ export function postgresDiagnostic(error,{tool='internal',stage='unknown',exitCo
     exitCode=known.exitCode;signal=known.signal;
   }else{
     // Bounded even for malicious or accidentally enormous server errors.
-    const raw=(String(stderr??'')+'\n'+String(error?.stderr??'')+'\n'+String(error?.message??'')).slice(-32768);
+    const serverText=String(stderr??'')+'\n'+String(error?.stderr??'');
+    // execFile.message embeds the command/URI (including the word sslmode).
+    // Never classify that as a TLS failure when stderr identifies another cause.
+    const raw=(serverText.trim()?serverText:error?.cmd?'':String(error?.message??'')).slice(-32768);
     state=sqlstate(raw.match(/(?:ERROR|FATAL|PANIC):\s+([0-9A-Z]{5}):/u)?.[1]);
     if(/root certificate file.*does not exist|could not (?:open|read).*root certificate|no certificate or crl found/iu.test(raw))category='TLS_ROOT_CERT_MISSING';
     else if(/server certificate.*does not match|hostname mismatch|does not match.*host name/iu.test(raw))category='TLS_HOSTNAME_MISMATCH';
@@ -51,8 +54,8 @@ export function postgresDiagnostic(error,{tool='internal',stage='unknown',exitCo
     else if(/could not translate host name|Name or service not known|ENOTFOUND|EAI_AGAIN/iu.test(raw))category='DNS_FAILURE';
     else if(/timeout expired|connection timed out|ETIMEDOUT/iu.test(raw))category='CONNECT_TIMEOUT';
     else if(/connection refused|network is unreachable|no route to host|could not connect to server/iu.test(raw))category='CONNECT_FAILED';
-    else if(state==='25006')category='SQL_READ_ONLY_VIOLATION';
-    else if(state==='42501')category='SQL_PERMISSION_DENIED';
+    else if(state==='25006'||/cannot execute.*read.only transaction/iu.test(raw))category='SQL_READ_ONLY_VIOLATION';
+    else if(state==='42501'||/permission denied|must be owner of|not permitted to read/iu.test(raw))category='SQL_PERMISSION_DENIED';
     else if(state)category='SQL_EXECUTION_FAILED';
     else if(/SSL|TLS/iu.test(raw))category='TLS_HANDSHAKE_FAILED';
     else if(error?.code==='ENOENT')category='TOOL_NOT_FOUND';

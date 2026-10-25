@@ -3,7 +3,19 @@
   "files": [
     {
       "code": " M",
+      "path": ".github/workflows/backup-recovery.yml"
+    },
+    {
+      "code": " M",
       "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/FRANKFURT_BACKUP_RESTORE_RUNBOOK_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/FRANKFURT_BACKUP_SNAPSHOT_FIX_AR.md"
     },
     {
       "code": " M",
@@ -11,35 +23,23 @@
     },
     {
       "code": " M",
-      "path": "scripts/backup/snapshot-session.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-backup-runtime.mjs"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/FRANKFURT_BACKUP_SNAPSHOT_FIX_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "scripts/backup/certs/README.md"
-    },
-    {
-      "code": "??",
-      "path": "scripts/backup/certs/supabase-root-2021.crt"
-    },
-    {
-      "code": "??",
       "path": "scripts/backup/postgres-diagnostic.mjs"
     },
     {
-      "code": "??",
-      "path": "scripts/backup/supabase-ca.mjs"
+      "code": " M",
+      "path": "scripts/testing/run-dual-backup-runtime.mjs"
+    },
+    {
+      "code": " M",
+      "path": "tests/backup-diagnostics.test.ts"
     },
     {
       "code": "??",
-      "path": "tests/backup-diagnostics.test.ts"
+      "path": "docs/operations/backup-snapshot-evidence/native-windows17.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/native-backup-tls-probe.mjs"
     }
   ]
 }

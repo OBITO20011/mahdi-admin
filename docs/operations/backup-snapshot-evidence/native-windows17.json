@@ -1,0 +1,35 @@
+{
+  "ok": true,
+  "hostedConnectionsMade": false,
+  "transport": "localhost-only-PostgreSQL-STARTTLS-session-proxy",
+  "client": "psql (PostgreSQL) 17.11",
+  "clientMode": "Windows native17.11",
+  "sslmode": "verify-full",
+  "explicitRootAccepted": true,
+  "hostnameVerified": true,
+  "ipv4Loopback": true,
+  "readOnlyViolationSqlstate": "25006",
+  "snapshotCrossConnectionConsistent": true,
+  "systemStoreInsufficientReproduced": true,
+  "rejected": [
+    {
+      "name": "system-trust",
+      "category": "TLS_CA_UNTRUSTED",
+      "exitCode": 2
+    },
+    {
+      "name": "wrong-ca",
+      "category": "TLS_CA_UNTRUSTED",
+      "exitCode": 2
+    },
+    {
+      "name": "wrong-hostname",
+      "category": "TLS_HOSTNAME_MISMATCH",
+      "exitCode": 2
+    }
+  ],
+  "fullNativeBackupRestore": true,
+  "tablesCompared": 141,
+  "integrityChecks": 17,
+  "ownerConfigurationRead": false
+}

@@ -56,7 +56,7 @@ export function nativeSource({projectRef,connection,pgBin,password}){
   assertBackupDatabaseProject(connection,projectRef);
   const ca=verifiedSupabaseCa();
   const url=new URL(connection);url.searchParams.set('sslmode','verify-full');url.searchParams.set('sslrootcert',ca.path);url.searchParams.set('connect_timeout','15');
-  const env={...process.env,PGPASSWORD:password,PGAPPNAME:'nawasrah-complete-backup',PGOPTIONS:'-c default_transaction_read_only=on -c statement_timeout=600000'};
+  const env={...process.env,PGPASSWORD:password,PGAPPNAME:'nawasrah-complete-backup',PGOPTIONS:'-c default_transaction_read_only=on -c statement_timeout=600000',LC_ALL:'C',LANG:'C',LANGUAGE:'C'};
   const bin=name=>path.join(pgBin,name+(process.platform==='win32'?'.exe':''));
   const run=async(tool,args,stage,timeout)=>{try{await exec(bin(tool),args,{env,windowsHide:true,timeout,maxBuffer:2**20});}
     catch(error){throw diagnosticError('NATIVE_BACKUP_TOOL_FAILED',postgresDiagnostic(error,{tool,stage}));}};

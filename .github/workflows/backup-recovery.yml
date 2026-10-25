@@ -22,6 +22,6 @@ jobs:
       - name: Install operational dependencies
         run: npm ci
       - name: Prove owner boundary and negative cases
-        run: node --import tsx --test tests/dual-backup.test.ts
+        run: node --import tsx --test tests/dual-backup.test.ts tests/backup-diagnostics.test.ts
       - name: Prove complete214 archive, DB roles ACL data Storage and local S3 roundtrip
         run: node scripts/testing/run-dual-backup-runtime.mjs
