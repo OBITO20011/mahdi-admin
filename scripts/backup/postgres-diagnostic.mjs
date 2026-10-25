@@ -45,7 +45,7 @@ const messages=Object.freeze({
   OPERATION_FAILED:'The operation failed; raw error content was withheld.',
 });
 const tools=new Set(['psql','pg_dump','pg_dumpall','pg_restore','docker','node','powershell','filesystem','internal']);
-const stages=new Set(['config-load','owner-env','pg-bin-check','operation-lock','lock-cleanup','operation-report','snapshot','source-evidence','roles-dump','complete-dump','storage-download','consistency-postcheck','archive-encrypt-verify','archive-verification','isolated-cluster-start','restore-roles','restore-extension-preflight','restore-complete-dump','restore-platform-postinit','restore-log-capture','compare-data-catalog-acl','existing-integrity-checks','tls-config','operation-preflight','restore-preflight','watchdog-read','unknown']);
+const stages=new Set(['config-load','owner-env','pg-bin-check','operation-lock','lock-cleanup','operation-report','snapshot','source-evidence','roles-dump','complete-dump','storage-download','consistency-postcheck','archive-encrypt-verify','archive-verification','isolated-cluster-start','restore-roles','restore-toc','restore-schemas','restore-extension-preflight','restore-complete-dump','restore-platform-postinit','restore-log-capture','compare-data-catalog-acl','existing-integrity-checks','tls-config','operation-preflight','restore-preflight','watchdog-read','unknown']);
 export const OWNER_ENV_NAMES=Object.freeze(['NAWASRAH_FF_CONFIG','NAWASRAH_FF_DB_PASSWORD','NAWASRAH_FF_PASSPHRASE','NAWASRAH_R2_ACCOUNT_ID','NAWASRAH_R2_ACCESS_KEY_ID','NAWASRAH_R2_SECRET_ACCESS_KEY','NAWASRAH_DEV_TELEGRAM_BOT_TOKEN','NAWASRAH_DEV_TELEGRAM_CHAT_ID']);
 const sqlstate=value=>typeof value==='string'&&/^(?:00|01|02|03|08|09|0A|0B|0F|0L|0P|0Z|20|21|22|23|24|25|26|27|28|2B|2D|2F|34|38|39|3B|3D|3F|40|42|44|53|54|55|57|58|72|F0|HV|P0|XX)[0-9A-Z]{3}$/u.test(value)?value:null;
 const identifier=value=>typeof value==='string'&&/^[a-zA-Z_][a-zA-Z0-9_$]{0,127}$/u.test(value)?value:null;
@@ -73,14 +73,17 @@ export function safeRestoreFields(value){
   }
   return result;
 }
-export function restoreErrorFields(stderr=''){
+export function restoreErrorFields(stderr='',{tocList=''}={}){
   const raw=String(stderr).slice(-65536),result={};
-  const entry=[...raw.matchAll(/(?:from TOC entry|TOC entry)\s+\d+;\s+\d+\s+\d+\s+([^\r\n]+)/gu)].at(-1)?.[1];
+  const match=[...raw.matchAll(/(?:from TOC entry|TOC entry)\s+(\d+);\s+\d+\s+\d+\s+([^\r\n]+)/gu)].at(-1);
+  const listed=match?String(tocList).split(/\r?\n/u).find(line=>line.startsWith(match[1]+';'))?.replace(/^\d+;\s+\d+\s+\d+\s+/u,''):null;
+  const entry=listed??match?.[2];
   if(entry){
     const type=tocTypes.find(t=>entry.startsWith(t+' '));
     if(type){
       const rest=entry.slice(type.length+1).trim().split(/\s+/u);
-      let schema=rest[0]==='-'?null:identifier(rest[0]),name=identifier(rest[1]?.split('(')[0]);
+      const hasSchema=!!listed||rest[0]==='-'||rest.length>=3&&!rest[0]?.includes('(');
+      let schema=hasSchema&&rest[0]!=='-'?identifier(rest[0]):null,name=identifier(rest[hasSchema?1:0]?.split('(')[0]);
       // COMMENT/ACL entries can refer to another object kind;retain only its name.
       if(['COMMENT','ACL'].includes(type)&&tocTypes.includes(rest[1]))name=identifier(rest[2]?.split('(')[0]);
       if(name&&(schema===null||identifier(schema)))result.toc={type,schema,name};

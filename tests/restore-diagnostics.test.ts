@@ -4,6 +4,7 @@ import {readFile} from 'node:fs/promises';
 import {restoreErrorFields,postgresDiagnostic,diagnosticError} from '../scripts/backup/postgres-diagnostic.mjs';
 import {restoreToolError,sanitizedRestoreLog} from '../scripts/backup/restore-log.mjs';
 import {platformPostInitSql,logicalRestoreDifferences} from '../scripts/testing/backup-restore-contract.mjs';
+import {partitionRestoreToc} from '../scripts/backup/restore-platform.mjs';
 const secret='PRIVATE-customer-value-password-DO-NOT-PERSIST';
 test('pg_restore error yields SQLSTATE,TOC identity,canonical ERROR and numeric exit without DETAIL or SQL',()=>{
  const stderr=`pg_restore: from TOC entry 221; 1255 555 FUNCTION public sample(text, integer) postgres\npg_restore: error: could not execute query: ERROR: 42501: must be owner of function sample\nDETAIL: Key (name)=(${secret})\nCommand was: INSERT INTO private VALUES('${secret}');`;
@@ -21,6 +22,15 @@ test('server tail SQLSTATE is recovered and restore failures remain specific',()
 test('untrusted diagnostic extras and unsupported TOC names never survive revalidation',()=>{
  const d=postgresDiagnostic({diagnostic:{category:'RESTORE_SQL_ERROR',toc:{type:secret,schema:secret,name:secret},restoreErrorCode:secret,restoreMessage:secret}});assert.ok(!JSON.stringify(d).includes(secret));
  const unknown=sanitizedRestoreLog(`ERROR: ${secret}\nDETAIL: ${secret}\nCONTEXT: COPY private, line1:${secret}`);assert.equal(unknown.events.length,1);assert.ok(!JSON.stringify(unknown).includes(secret));
+});
+test('real pg_restore TOC error omits namespace;archive list supplies it without guessing owner as object',()=>{
+ const stderr='pg_restore: from TOC entry 217; 1259 16387 TABLE restore_fixture_item restore_fixture_owner\nERROR: role "restore_fixture_owner" does not exist';
+ const list=';archive comment\n3; 2615 5 SCHEMA - public postgres\n217; 1259 16387 TABLE public restore_fixture_item restore_fixture_owner\n44; 3079 88 EXTENSION - pg_net\n';
+ assert.deepEqual(restoreErrorFields(stderr,{tocList:list}).toc,{type:'TABLE',schema:'public',name:'restore_fixture_item'});
+ const partition=partitionRestoreToc(list);assert.equal(partition.proof.omittedEntries,0);assert.equal(partition.proof.duplicatedEntries,0);assert.equal(partition.proof.totalEntries,3);assert.equal(partition.proof.schemaEntries,1);assert.deepEqual(partition.extensions,['pg_net']);
+ assert.match(partition.remainder,/217;.*TABLE public/u);assert.doesNotMatch(partition.remainder,/SCHEMA/u);
+ assert.throws(()=>partitionRestoreToc(list+'217; 1259 16387 TABLE public dup postgres\n'),/DUPLICATE/u);
+ assert.throws(()=>partitionRestoreToc(list+'unexpected unparsed object\n'),/UNPARSED/u);
 });
 test('captured Frankfurt214 net INVOKER/null profile restores exact source and comparison remains strict',async()=>{
  const profile=JSON.parse(await readFile('scripts/testing/fixtures/frankfurt214-restore-platform.json','utf8'));

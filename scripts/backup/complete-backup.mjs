@@ -14,6 +14,7 @@ import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
 import {logicalRestoreDifferences,platformPostInitSql} from '../testing/backup-restore-contract.mjs';
 import {sha256} from '../offsite-backup/offsite-core.mjs';
 import {migrationManifest} from '../testing/maintenance-db-contract.mjs';
+import {partitionRestoreToc,prepareRestoreExtensions} from './restore-platform.mjs';
 import {restoreToolError,saveRestoreLogs} from './restore-log.mjs';
 import {verifiedSupabaseCa} from './supabase-ca.mjs';
 import {postgresDiagnostic,diagnosticError,classifiedError} from './postgres-diagnostic.mjs';
@@ -112,7 +113,7 @@ export async function createCompleteBackup({projectRef,outputRoot,passphrase,ret
 
 export async function restoreCompleteBackup({archivePath,passphrase,reportPath,readObjectAfterRestore}){
   const work=await mkdtemp(path.join(tmpdir(),'nawasrah-full-restore-')),content=path.join(work,'content');
-  const container='nawasrah-full-restore-'+process.pid+'-'+randomBytes(4).toString('hex');let started=false,report,restoreStderr='',failure,logCapture;
+  const container='nawasrah-full-restore-'+process.pid+'-'+randomBytes(4).toString('hex');let started=false,report,restoreStderr='',restoreToc='',failure,logCapture,restorePartition,extensionProof;
   const localToolEnv={...process.env,LC_ALL:'C',LANG:'C',LANGUAGE:'C'};
   const docker=async args=>exec('docker',args,{env:localToolEnv,windowsHide:true,timeout:600_000,maxBuffer:16*1024**2});
   const args=['exec','-i',container,'psql','-h','/tmp/socket','-p','25435','-U','supabase_admin','-d','postgres','-X','-q','-A','-t','-w','-v','ON_ERROR_STOP=1','-v','VERBOSITY=verbose'];
@@ -133,12 +134,21 @@ export async function restoreCompleteBackup({archivePath,passphrase,reportPath,r
     stage='restore-roles';const roles=await readFile(path.join(content,'database','roles.sql'),'utf8');assert.equal((roles.match(/^CREATE ROLE supabase_admin;$/gmu)??[]).length,1);
     await session.query(roles.replace(/^CREATE ROLE supabase_admin;$/mu,'-- initdb bootstrap role; all ALTERs and memberships retained.'));
     await session.query('ALTER DATABASE postgres OWNER TO postgres;');
+    stage='restore-toc';restoreToc=(await docker(['exec',container,'pg_restore','--list','/restore/database/complete.dump'])).stdout;
+    restorePartition=partitionRestoreToc(restoreToc);
+    for(const [name,text]of [['schema-toc.list',restorePartition.schemas],['remaining-toc.list',restorePartition.remainder]]){
+      await writeFile(path.join(work,name),text);await docker(['cp',path.join(work,name),container+':/restore/'+name]);
+    }
+    const strictRestore=async list=>{
+      try{await docker(['exec',container,'pg_restore','--verbose','--use-list=/restore/'+list,'-h','/tmp/socket','-p','25435','-U','supabase_admin','-d','postgres','--exit-on-error','--no-password','/restore/database/complete.dump']);}
+      catch(error){restoreStderr=String(error.stderr??'').slice(-65536);throw diagnosticError('STRICT_PG_RESTORE_FAILED',restoreToolError(error,{stage,stderr:restoreStderr,tocList:restoreToc}).diagnostic);}
+    };
+    stage='restore-schemas';await strictRestore('schema-toc.list');
     stage='restore-extension-preflight';
     const available=await json(session,"SELECT coalesce(jsonb_agg(jsonb_build_object('name',name,'version',version)),'[]') FROM pg_available_extension_versions;");
-    for(const extension of before.catalog.extensions??[])if(!available.some(e=>e.name===extension.name&&e.version===extension.version))throw classifiedError('RESTORE_EXTENSION_UNAVAILABLE',{stage,tool:'pg_restore'});
-    stage='restore-complete-dump';
-    try{await docker(['exec',container,'pg_restore','--verbose','-h','/tmp/socket','-p','25435','-U','supabase_admin','-d','postgres','--exit-on-error','--no-password','/restore/database/complete.dump']);}
-    catch(error){restoreStderr=String(error.stderr??'').slice(-65536);throw diagnosticError('STRICT_PG_RESTORE_FAILED',restoreToolError(error,{stage,stderr:restoreStderr}).diagnostic);}
+    try{extensionProof=await prepareRestoreExtensions(session,before,available,restorePartition.extensions);}
+    catch(error){if(error.diagnostic)throw error;throw classifiedError('RESTORE_EXTENSION_UNAVAILABLE',{stage,tool:'pg_restore'});}
+    stage='restore-complete-dump';await strictRestore('remaining-toc.list');
     stage='restore-platform-postinit';let postInit;
     try{postInit=platformPostInitSql(before.catalog);}catch{throw classifiedError('RESTORE_PLATFORM_SETTINGS_UNSUPPORTED',{stage,tool:'internal'});}
     await session.query(postInit);
@@ -158,21 +168,21 @@ export async function restoreCompleteBackup({archivePath,passphrase,reportPath,r
     const integrity=(scan?.checks??[]).filter(c=>c.key.startsWith('integrity:')).map(({key,status,issueCount})=>({key,status,issueCount}));
     assert.ok(integrity.length>5,'RESTORE_INTEGRITY_SCAN_MISSING');
     assert.ok(integrity.every(c=>c.status==='healthy'&&Number(c.issueCount)===0),'RESTORE_EXISTING_INTEGRITY_CHECK_FAILED');
-    report={ok:true,projectRef:manifest.projectRef,mode:'isolated-complete-restore',postgresImage:IMAGE,completedAt:new Date().toISOString(),hostedConnectionsMade:false,network:'none',liveVolumesModified:false,historyCeiling:214,tablesCompared:Object.keys(before.tables).length,storageObjectsCompared:manifest.storageObjects.length,integrityChecks:integrity,...proof};return report;
+    report={ok:true,projectRef:manifest.projectRef,mode:'isolated-complete-restore',postgresImage:IMAGE,completedAt:new Date().toISOString(),hostedConnectionsMade:false,network:'none',liveVolumesModified:false,historyCeiling:214,tablesCompared:Object.keys(before.tables).length,storageObjectsCompared:manifest.storageObjects.length,integrityChecks:integrity,tocCoverage:restorePartition.proof,extensions:extensionProof,...proof};return report;
   }catch(cause){
-    failure=cause;report={ok:false,stage,mode:'isolated-complete-restore',completedAt:new Date().toISOString(),hostedConnectionsMade:false,error:'COMPLETE_RESTORE_FAILED',diagnostic:postgresDiagnostic(cause,{stage,tool:stage==='restore-complete-dump'?'pg_restore':'internal'})};
+    failure=cause;report={ok:false,stage,mode:'isolated-complete-restore',completedAt:new Date().toISOString(),hostedConnectionsMade:false,error:'COMPLETE_RESTORE_FAILED',diagnostic:postgresDiagnostic(cause,{stage,tool:['restore-complete-dump','restore-schemas','restore-toc'].includes(stage)?'pg_restore':'internal'})};
   }finally{
     await session?.close().catch(()=>{});
     if(started){
       let serverLog='';
       try{serverLog=(await docker(['exec',container,'tail','-c','65536','/tmp/restore.log'])).stdout;}
       catch{logCapture={saved:false,category:'RESTORE_LOG_CAPTURE_FAILED',rawOutputSaved:false};}
-      if(failure&&stage==='restore-complete-dump'){
+      if(failure&&['restore-complete-dump','restore-schemas','restore-toc'].includes(stage)){
         // Reclassify from the server log's SQLSTATE,never expose its raw SQL text.
-        const fields=restoreToolError(failure,{stage,stderr:restoreStderr,serverLog}).diagnostic;
+        const fields=restoreToolError(failure,{stage,stderr:restoreStderr,serverLog,tocList:restoreToc}).diagnostic;
         report.diagnostic={...report.diagnostic,...fields};
       }
-      if(reportPath){try{logCapture={...await saveRestoreLogs({reportPath,stderr:restoreStderr,serverLog}),serverTailRead:!logCapture};}catch{logCapture={saved:false,category:'RESTORE_LOG_CAPTURE_FAILED',rawOutputSaved:false};}}
+      if(reportPath){try{logCapture={...await saveRestoreLogs({reportPath,stderr:restoreStderr,serverLog,tocList:restoreToc}),serverTailRead:!logCapture};}catch{logCapture={saved:false,category:'RESTORE_LOG_CAPTURE_FAILED',rawOutputSaved:false};}}
       if(report)report.logs=logCapture??{saved:false,rawOutputSaved:false};
       await docker(['rm','--force',container]).catch(()=>{});
     }

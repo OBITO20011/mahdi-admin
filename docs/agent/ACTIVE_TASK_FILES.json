@@ -7,10 +7,6 @@
     },
     {
       "code": " M",
-      "path": "docs/agent/project-state.json"
-    },
-    {
-      "code": " M",
       "path": "scripts/backup/complete-backup.mjs"
     },
     {
@@ -19,7 +15,7 @@
     },
     {
       "code": " M",
-      "path": "scripts/testing/backup-restore-contract.mjs"
+      "path": "scripts/backup/restore-log.mjs"
     },
     {
       "code": " M",
@@ -27,19 +23,23 @@
     },
     {
       "code": " M",
-      "path": "tests/backup-restore-contract.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "scripts/backup/restore-log.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/fixtures/frankfurt214-restore-platform.json"
-    },
-    {
-      "code": "??",
       "path": "tests/restore-diagnostics.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/restore-evidence/local-negative.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/restore-evidence/local-positive.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/backup/restore-platform.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-restore-diagnostic-negative.mjs"
     }
   ]
 }
