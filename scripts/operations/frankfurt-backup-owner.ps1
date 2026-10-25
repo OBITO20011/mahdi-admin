@@ -41,7 +41,7 @@ if($Mode -eq 'Setup') {
   $root=Split-Path -Parent ([IO.Path]::GetFullPath($ConfigPath))
   if($root -eq [IO.Path]::GetFullPath((Split-Path -Parent $legacyConfig))){throw 'Refusing to overwrite legacy configuration.'}
   if(Test-Path -LiteralPath $ConfigPath){throw 'Frankfurt configuration already exists. Back it up and review before replacing; legacy is never changed.'}
-  foreach($name in @('psql.exe','pg_dump.exe','pg_dumpall.exe')){if(!(Test-Path -LiteralPath (Join-Path $legacy.pgBinPath $name))){throw 'Native PostgreSQL 17 tools required.'}}
+  foreach($name in @('psql.exe','pg_dump.exe','pg_dumpall.exe')){if(!(Test-Path -LiteralPath (Join-Path $legacy.pgBinPath $name))){Throw-OwnerFailure 'PG_BIN_NOT_FOUND'}}
   $connection=Read-Host "Password-free connection URL (session pooler port 5432, or enter for direct db.$projectRef.supabase.co)"
   if(!$connection){$connection="postgresql://postgres@db.$projectRef.supabase.co:5432/postgres"}
   $uri=[uri]$connection
@@ -93,14 +93,14 @@ try {
   if($Mode -in @('Backup','Upload','VerifyRemote','Restore','RestoreRemote')){$env:NAWASRAH_FF_PASSPHRASE=Unprotect-OwnerValue $config.archivePassphrase 'NAWASRAH_FF_PASSPHRASE'}
   if($Mode -in @('Upload','VerifyRemote','RestoreRemote')){
     $r2=Read-Json $config.offsiteConfigPath
-    if($r2.protectionScope -ne 'LocalMachine' -or $r2.bucket -ne 'nawasrah-offsite-backups' -or $r2.jurisdiction -ne 'eu'){throw 'R2_CONFIG_REJECTED'}
+    if($r2.protectionScope -ne 'LocalMachine' -or $r2.bucket -ne 'nawasrah-offsite-backups' -or $r2.jurisdiction -ne 'eu'){Throw-OwnerFailure 'CONFIG_INVALID'}
     $env:NAWASRAH_R2_ACCOUNT_ID=$r2.accountId
     $env:NAWASRAH_R2_ACCESS_KEY_ID=Unprotect-OwnerValue $r2.accessKeyId 'NAWASRAH_R2_ACCESS_KEY_ID'
     $env:NAWASRAH_R2_SECRET_ACCESS_KEY=Unprotect-OwnerValue $r2.secretAccessKey 'NAWASRAH_R2_SECRET_ACCESS_KEY'
   }
   if($Mode -in @('Watchdog','TestAlert')){
     $dev=Read-Json $config.developerConfigPath
-    if($dev.protectionScope -ne 'LocalMachine'){throw 'DEVELOPER_CONFIG_REJECTED'}
+    if($dev.protectionScope -ne 'LocalMachine'){Throw-OwnerFailure 'CONFIG_INVALID'}
     $env:NAWASRAH_DEV_TELEGRAM_BOT_TOKEN=Unprotect-OwnerValue $dev.telegramBotToken 'NAWASRAH_DEV_TELEGRAM_BOT_TOKEN'
     $env:NAWASRAH_DEV_TELEGRAM_CHAT_ID=$dev.telegramChatId
   }

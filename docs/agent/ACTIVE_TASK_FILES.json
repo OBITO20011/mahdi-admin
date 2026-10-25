@@ -3,47 +3,19 @@
   "files": [
     {
       "code": " M",
-      "path": ".github/workflows/backup-recovery.yml"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/project-state.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/backup/postgres-diagnostic.mjs"
-    },
-    {
-      "code": " M",
       "path": "scripts/operations/frankfurt-backup-owner.ps1"
     },
     {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-backup-runtime.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/backup-diagnostics.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/dual-backup.test.ts"
+      "code": "??",
+      "path": "docs/operations/FRANKFURT_OWNER_LOCK_RECOVERY_AR.md"
     },
     {
       "code": "??",
-      "path": "scripts/operations/frankfurt-owner-safety.ps1"
+      "path": "docs/operations/owner-lock-evidence/blocked-report-regression.json"
     },
     {
       "code": "??",
-      "path": "scripts/operations/owner-operation.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/owner-operation-safety-probe.ps1"
-    },
-    {
-      "code": "??",
-      "path": "tests/owner-operation.test.ts"
+      "path": "docs/operations/owner-lock-evidence/powershell-dpapi-preflight.json"
     }
   ]
 }

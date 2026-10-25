@@ -42,10 +42,10 @@
     "No merge or primary update before new owner approval",
     "No cleanup of actual owner lock by agent"
   ],
-  "nextExactAction": "Save tested lock/preflight implementation;finish runbook/evidence and full final verification,PR CI;no merge before approval.",
+  "nextExactAction": "Final local full tests/lint,PR and exact-head FULL47 CI. Await owner merge approval;primary unchanged.",
   "startedAt": "2026-10-25T19:40:27.970Z",
-  "checkpointedAt": "2026-10-25T19:58:00.899Z",
-  "filesTouchedCount": 11,
-  "filesTouchedManifestSha256": "a2ca2bd022c17827d60beee90da5d15a4574d2c29697733d12c310ff23bb2046",
-  "workingTreeFingerprint": "A57FB55F92E75D2081D78B84D77833C5623D64441051C175E3748E94D30BE33D"
+  "checkpointedAt": "2026-10-25T20:00:18.929Z",
+  "filesTouchedCount": 4,
+  "filesTouchedManifestSha256": "2187ad9843e4fa5ea34f8b934321a2124d38f77a4c68f07cd2d437a2353c9604",
+  "workingTreeFingerprint": "1822CCD9C2F050D4AE1D4870E76084E1677BEC4979B3B2F80F659916ABC3C709"
 }

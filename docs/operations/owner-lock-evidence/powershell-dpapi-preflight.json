@@ -1,0 +1,22 @@
+{
+  "ok": true,
+  "realPowerShellDpapiNegative": true,
+  "syntheticCiphertextOnly": true,
+  "hostedConnectionsMade": false,
+  "cases": [
+    {
+      "mode": "Backup",
+      "category": "DPAPI_UNPROTECT_FAILED",
+      "variable": "NAWASRAH_FF_DB_PASSWORD",
+      "reportSaved": true,
+      "lockCreated": false
+    },
+    {
+      "mode": "Restore",
+      "category": "DPAPI_UNPROTECT_FAILED",
+      "variable": "NAWASRAH_FF_PASSPHRASE",
+      "reportSaved": true,
+      "lockCreated": false
+    }
+  ]
+}

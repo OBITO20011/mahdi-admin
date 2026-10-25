@@ -1,0 +1,13 @@
+{
+  "ok": true,
+  "baseline": "5fdd0fd0d3420b4acfcc4f0919d88c2b44140f70",
+  "realFilesystemBlockedReportReproduced": true,
+  "baselineOrphanedLock": true,
+  "patchedReleasedLock": true,
+  "patchedFallbackReport": true,
+  "category": "REPORT_WRITE_FAILED",
+  "hostedConnectionsMade": false,
+  "ownerFilesTouched": false,
+  "fixtureMode": "TestAlert with an in-memory fake sender;no Telegram delivery",
+  "networkAttempts": 0
+}
