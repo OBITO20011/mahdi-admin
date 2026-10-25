@@ -11,11 +11,12 @@ import {assertApprovedBackupProject,assertBackupDatabaseProject} from './backup-
 import {encryptFile} from './backup-crypto.mjs';
 import {verifyBackupArchive} from './verify-backup.mjs';
 import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
-import {logicalRestoreDifferences,platformPostInitSql} from '../testing/backup-restore-contract.mjs';
+import {platformPostInitSql} from '../testing/backup-restore-contract.mjs';
 import {sha256} from '../offsite-backup/offsite-core.mjs';
 import {migrationManifest} from '../testing/maintenance-db-contract.mjs';
 import {partitionRestoreToc,prepareRestoreExtensions,restoredPlatformSql,assertPlatformTocRestored} from './restore-platform.mjs';
 import {restoreToolError,saveRestoreLogs} from './restore-log.mjs';
+import {assertStrictRestoreComparison} from './restore-comparison.mjs';
 import {verifiedSupabaseCa} from './supabase-ca.mjs';
 import {postgresDiagnostic,diagnosticError,classifiedError} from './postgres-diagnostic.mjs';
 
@@ -50,9 +51,7 @@ export async function captureEvidence(session){
   return {catalog,tables,roles:await json(session,rolesSql),memberships:await json(session,membershipSql),history:await json(session,historySql),sequences:await json(session,sequencesSql),storage:await json(session,storageSql),preload:(await session.query('SHOW shared_preload_libraries;')).trim()};
 }
 export function assertRestoreEvidence(before,after){
-  assert.equal(logicalRestoreDifferences(before.catalog,after.catalog).length,0,'RESTORE_CATALOG_ACL_OWNER_SETTINGS_DIFFER');
-  for(const key of ['tables','roles','memberships','history','sequences','storage'])assert.deepEqual(after[key],before[key],'RESTORE_'+key.toUpperCase()+'_DIFFER');
-  return {allRowsAndHashesMatch:true,allSequencesMatch:true,rolesAndMembershipsMatch:true,catalogAclOwnerSettingsMatch:true,historyMatch:true,storageMetadataMatch:true};
+  return assertStrictRestoreComparison(before,after);
 }
 export function nativeSource({projectRef,connection,pgBin,password}){
   assertBackupDatabaseProject(connection,projectRef);
@@ -183,7 +182,7 @@ export async function restoreCompleteBackup({archivePath,passphrase,reportPath,r
         const fields=restoreToolError(failure,{stage,stderr:restoreStderr,serverLog,tocList:restoreToc}).diagnostic;
         report.diagnostic={...report.diagnostic,...fields};
       }
-      if(reportPath){try{logCapture={...await saveRestoreLogs({reportPath,stderr:restoreStderr,serverLog,tocList:restoreToc}),serverTailRead:!logCapture};}catch{logCapture={saved:false,category:'RESTORE_LOG_CAPTURE_FAILED',rawOutputSaved:false};}}
+      if(reportPath){try{logCapture={...await saveRestoreLogs({reportPath,stderr:restoreStderr,serverLog,tocList:restoreToc,comparison:failure?.comparison}),serverTailRead:!logCapture};}catch{logCapture={saved:false,category:'RESTORE_LOG_CAPTURE_FAILED',rawOutputSaved:false};}}
       if(report)report.logs=logCapture??{saved:false,rawOutputSaved:false};
       await docker(['rm','--force',container]).catch(()=>{});
     }

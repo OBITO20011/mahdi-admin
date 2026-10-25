@@ -10,6 +10,7 @@ import {createCompleteBackup,restoreCompleteBackup} from '../backup/complete-bac
 import {runOwnerMode,PREFIX} from '../operations/frankfurt-backup-runtime.mjs';
 import {localR2Fixture} from './local-r2-fixture.mjs';
 import {nativeBackupTlsProbe} from './native-backup-tls-probe.mjs';
+import {proveComparisonRejectsSyntheticDifference} from './restore-comparison-negative.mjs';
 const exec=promisify(execFile),root=path.resolve(import.meta.dirname,'../..'),project='nawasrah-dual-backup-test',container='supabase_db_'+project;
 const output=await mkdtemp(path.join(tmpdir(),'nawasrah-dual-backup-proof-'));let local,report={ok:false,hostedConnectionsMade:false};
 try{
@@ -39,6 +40,7 @@ try{
   const adminArgs=[...args];adminArgs[adminArgs.indexOf('-U')+1]='supabase_admin';
   const managedSession=new SnapshotSession('docker',adminArgs);let managedPlatform;
   try{
+    await managedSession.query("DO $roles$ BEGIN IF NOT EXISTS(SELECT 1 FROM pg_roles WHERE rolname='supabase_etl_admin') THEN CREATE ROLE supabase_etl_admin NOLOGIN NOSUPERUSER NOBYPASSRLS NOREPLICATION;END IF;END $roles$;ALTER ROLE supabase_etl_admin SET statement_timeout='1234ms';CREATE ROLE restore_comparison_role NOLOGIN NOSUPERUSER NOBYPASSRLS NOREPLICATION CONNECTION LIMIT 7;ALTER ROLE restore_comparison_role SET search_path=public;GRANT restore_comparison_role TO supabase_etl_admin WITH INHERIT FALSE,SET TRUE;ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public GRANT SELECT ON TABLES TO restore_comparison_role;CREATE SEQUENCE public.restore_comparison_unused START 19;CREATE SEQUENCE public.restore_comparison_called START 31;SELECT nextval('public.restore_comparison_called');");
     // Synthetic source ONLY:managed service post-init metadata differs from CLI.
     // PostgreSQL has no ALTER EXTENSION OWNER;this catalog alignment is confined
     // to this disposable test source. Production restore uses CREATE under the
@@ -54,6 +56,7 @@ try{
   assert.equal(managedRestore.ok,true);assert.equal(managedRestore.catalogAclOwnerSettingsMatch,true);assert.equal(managedRestore.allRowsAndHashesMatch,true);
   // A second restore of THE SAME archive proves no new Backup is needed.
   const managedReplay=await restoreCompleteBackup({archivePath:managedBackup.archivePath,passphrase,reportPath:path.join(output,'managed-restore-replay.json')});assert.equal(managedReplay.ok,true);
+  const comparisonNegative=await proveComparisonRejectsSyntheticDifference({archivePath:managedBackup.archivePath,passphrase,output});
   if(process.platform!=='win32')for(const proof of [restored,managedRestore,managedReplay])assert.equal(proof.logs.saved,true,'PRIVATE_SANITIZED_LOG_PERSISTENCE_REQUIRED_ON_CI');
   const fixture=localR2Fixture(),config={formatVersion:1,projectRef:'kzevmysfydaslxcerogt',connection:'postgresql://postgres@db.kzevmysfydaslxcerogt.supabase.co/postgres',protectionScope:'LocalMachine',businessAlertsEnabled:false,backupRoot,stateRoot:path.join(output,'state'),retentionCount:30};
   const ownerMode=mode=>runOwnerMode({mode,config,force:true,env:{NAWASRAH_FF_PASSPHRASE:passphrase},dependencies:{r2Client:fixture.client}});
@@ -66,7 +69,7 @@ try{
   assert.ok([...fixture.objects.keys()].every(k=>k.startsWith(PREFIX)),'LEGACY_PREFIX_MUST_NOT_CHANGE');
   assert.ok(fixture.calls.every(c=>!c.name.startsWith('Delete')));
   const nativeTls=await nativeBackupTlsProbe({container,output});
-  report={...restored,ok:true,nativeTls,managedProfile:{sourceSha256:profile.sourceSha256,extensions:managedPlatform,restore:managedRestore,replaySameArchive:true},fixtureOnly:true,archiveEncrypted:true,storageBytesRestored:true,r2Transport:'local-in-memory-S3',remoteDownloadRestorePassed:true,immutableReplayPassed:true,tamperedDownloadRejected:true,legacyOffsiteUntouched:true,nonzeroFinancialFixture:{receivedQuantity:20,soldQuantity:2,remainingQuantity:18,supplierDebt:10000,salesCash:2000,openingCash:10000}};
+  report={...restored,ok:true,nativeTls,comparisonNegative,syntheticExtraRoleConfigMembershipDefaultsAndCalledUncalledSequences:true,managedProfile:{sourceSha256:profile.sourceSha256,extensions:managedPlatform,restore:managedRestore,replaySameArchive:true},fixtureOnly:true,archiveEncrypted:true,storageBytesRestored:true,r2Transport:'local-in-memory-S3',remoteDownloadRestorePassed:true,immutableReplayPassed:true,tamperedDownloadRejected:true,legacyOffsiteUntouched:true,nonzeroFinancialFixture:{receivedQuantity:20,soldQuantity:2,remainingQuantity:18,supplierDebt:10000,salesCash:2000,openingCash:10000}};
 }catch(error){report.error=error.message;report.cause=error.cause?.message;process.exitCode=1;console.error(error);}
 finally{
   if(local)await exec(process.execPath,['node_modules/supabase/dist/supabase.js','stop','--no-backup','--workdir',local],{cwd:root,windowsHide:true});

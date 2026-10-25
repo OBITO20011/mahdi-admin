@@ -3,7 +3,39 @@
   "files": [
     {
       "code": " M",
-      "path": "scripts/testing/run-restore-diagnostic-negative.mjs"
+      "path": ".github/workflows/backup-recovery.yml"
+    },
+    {
+      "code": " M",
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/backup/complete-backup.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/backup/postgres-diagnostic.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/backup/restore-log.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-dual-backup-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/backup/restore-comparison.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/restore-comparison-negative.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/restore-comparison.test.ts"
     }
   ]
 }
