@@ -3,7 +3,7 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Diagnose and fix strict isolated pg_restore failure;safe TOC/SQLSTATE/error and sanitized container log before removal;Frankfurt saved-catalog synthetic local proof;PR/FULL CI;merge awaits approval",
-  "baselineSha": "09c34564c0b456aff640b9fb54044c56a9ceccd9",
+  "baselineSha": "461e4a42c6b833be2443121eac1ea2a19a99d605",
   "branch": "codex/frankfurt-restore-diagnostics",
   "phase": "PACKAGE_F",
   "completed": [
@@ -18,7 +18,7 @@
     "1453 final unit tests0fail0skip;full lint/typecheck0;PR28 created/attached"
   ],
   "inProgress": [
-    "Exact-head FULL CI PR28;owner approval required before merge/primary update"
+    "Fix only negative fixture log reset identity then rerun exact-head FULL CI"
   ],
   "notStarted": [],
   "filesTouched": [
@@ -29,7 +29,8 @@
     "Focused16/16 + native pg_restore42704/23505 exit1 with TOC and no values",
     "Final full lint/typecheck exit0",
     "Final complete encrypted archive/recovery,TLS17.11,S3 mock tamper/replay,managed profile same-archive replay141tables17checks3369TOC0omitted",
-    "Gitleaks0 first3 commits;final scan next"
+    "Gitleaks0 first3 commits;final scan next",
+    "Final fixture user fix local native negative proof passed;Linux complete restore private logs already passed previousCI"
   ],
   "testsRemaining": [
     "Exact final push+PR FULL47 including Linux private log persistence",
@@ -39,7 +40,8 @@
     "Owner reported tool docker exitCode null can arise from post-init assertion after successful pg_restore;old141d saved214 net profile proves old assertion",
     "Image has all7 saved extension versions;managed pg_net schema and3extension owners differ from CLI;restored through supported CREATE under captured owner",
     "No new backup/archive format change required;Restore only after approved merge/main update",
-    "Windows agent is not elevated;private file sink correctly denies writing,reportlogs.savedfalse;CI must prove Linux private persistence"
+    "Windows agent is not elevated;private file sink correctly denies writing,reportlogs.savedfalse;CI must prove Linux private persistence",
+    "461e4a4 recovery actual complete managed restores and Linux private log persistence passed;negative fixture failed at root truncate of postgres-owned /tmp/restore.log under Linux protected_regular. Run fixture truncate as postgres;no restore assertion or production change."
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -49,10 +51,10 @@
     "No merge/primary update before new owner approval",
     "No weakened exit-on-error or catalog/data/ACL comparisons"
   ],
-  "nextExactAction": "Final exact-head FULL47 both events/Gitleaks;ready PR28 after success;no merge or primary update before approval.",
+  "nextExactAction": "Exact new SHA push+PR FULL47 after Linux negative-fixture log reset repair;no merge before approval.",
   "startedAt": "2026-10-25T22:00:14.555Z",
-  "checkpointedAt": "2026-10-25T22:35:41.754Z",
-  "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "f1474a68a716a3875689d48509190be24ef1c949c5bab445e993d056b543a990",
-  "workingTreeFingerprint": "0B6DA99948446C474054A88DC9661E39CFFA42576997033C59F2D3AA777D4E06"
+  "checkpointedAt": "2026-10-25T22:59:24.618Z",
+  "filesTouchedCount": 1,
+  "filesTouchedManifestSha256": "467c9b9462616c554c5b060682280553fec7feb16527e96e28859a37b5a5c0d5",
+  "workingTreeFingerprint": "D81FF315E9A9A4EAB3F5FCB85F68B64D333EA0436B78D60950E52DDAEFA5AAE4"
 }

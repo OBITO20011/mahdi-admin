@@ -18,7 +18,9 @@ try{
  await sql('source_fixture','REASSIGN OWNED BY restore_fixture_owner TO supabase_admin;');await sql('postgres','DROP ROLE restore_fixture_owner;');
  for(const type of ['missing-role','duplicate-data']){
   if(type==='duplicate-data')await sql('target_fixture',"ALTER TABLE public.restore_fixture_item ADD PRIMARY KEY(id);INSERT INTO public.restore_fixture_item VALUES('"+secret+"');");
-  await docker(['exec',name,'truncate','-s','0','/tmp/restore.log']);let error;
+  // Linux protected_regular rejects root O_TRUNC on another user's /tmp file.
+  // Reset our disposable server log as its actual owner;no retry or relaxed gate.
+  await docker(['exec','--user','postgres',name,'truncate','-s','0','/tmp/restore.log']);let error;
   try{await docker(['exec',name,'pg_restore','--verbose','-h','/tmp/socket','-p','25435','-U','supabase_admin','-d','target_fixture','--exit-on-error',...(type==='duplicate-data'?['--data-only']:[]),'/tmp/negative.dump']);}catch(e){error=e;}
   assert.ok(error);assert.equal(error.code,1);const raw=(await docker(['exec',name,'tail','-c','65536','/tmp/restore.log'])).stdout;
   const diagnostic=restoreToolError(error,{stage:'restore-complete-dump',serverLog:raw,tocList}).diagnostic;

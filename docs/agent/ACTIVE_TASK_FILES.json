@@ -3,19 +3,7 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/operations/FRANKFURT_RESTORE214_DIAGNOSTICS_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/restore-evidence/local-positive.json"
-    },
-    {
-      "code": " M",
       "path": "scripts/testing/run-restore-diagnostic-negative.mjs"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/restore-evidence/old-postinit-reproduction.json"
     }
   ]
 }
