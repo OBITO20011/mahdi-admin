@@ -1,0 +1,33 @@
+{
+  "ok": true,
+  "hostedConnectionsMade": false,
+  "ownerArchiveRead": false,
+  "actualOwnerFailureReproduced": false,
+  "noRestoreExceptionAdded": true,
+  "extraRolesConfigsMembershipDefaultsSequences": true,
+  "comparisonNegative": {
+    "ok": true,
+    "intentionalSyntheticMismatchRejected": true,
+    "comparisonCode": "RESTORE_TABLES_DIFFER",
+    "privateReportSaved": false,
+    "privateReportChecked": false,
+    "rawValuesNeverPersisted": true,
+    "hostedConnectionsMade": false
+  },
+  "managedRestore": {
+    "ok": true,
+    "tables": 141,
+    "checks": 17,
+    "toc": {
+      "totalEntries": 3375,
+      "schemaEntries": 11,
+      "remainingEntries": 3364,
+      "omittedEntries": 0,
+      "duplicatedEntries": 0
+    },
+    "roles": true,
+    "catalog": true,
+    "data": true,
+    "replaySameArchive": true
+  }
+}

@@ -43,10 +43,10 @@
     "No merge/primary update before approval",
     "Stop and report any real source/data difference;no broad ignore or weakened comparator"
   ],
-  "nextExactAction": "Save tested comparison diagnostics and synthetic proof;finish full verification/PR/FULLCI;no speculative restore exclusions.",
+  "nextExactAction": "Save comparison runbook/local evidence then final FULLCI PR;no speculative restore/data repair and no merge before approval.",
   "startedAt": "2026-10-25T23:46:34.613Z",
-  "checkpointedAt": "2026-10-25T23:56:26.226Z",
-  "filesTouchedCount": 9,
-  "filesTouchedManifestSha256": "980e741db299ff0292d1c7cfdca2bbe8e5cb5bff785f1306873c6e021ef9686e",
-  "workingTreeFingerprint": "499A6CD4EAA2BAB264A4ADA7DFC61F6BF4DC4D645D2D1163DD58F1849913C04B"
+  "checkpointedAt": "2026-10-25T23:59:27.901Z",
+  "filesTouchedCount": 2,
+  "filesTouchedManifestSha256": "937b52d9aafc76a9396a0a77e926bfe84056f16a80efb49bfd65795622450b0a",
+  "workingTreeFingerprint": "EE6A79CCDE4E47511947B0253939FA2C09F630F560D5A3700903A3774109E525"
 }
