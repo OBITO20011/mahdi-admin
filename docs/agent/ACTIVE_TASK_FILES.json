@@ -3,7 +3,7 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/operations/restore-evidence/local-negative.json"
+      "path": "docs/operations/FRANKFURT_RESTORE214_DIAGNOSTICS_AR.md"
     },
     {
       "code": " M",
@@ -11,23 +11,11 @@
     },
     {
       "code": " M",
-      "path": "scripts/backup/complete-backup.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/backup/restore-platform.mjs"
-    },
-    {
-      "code": " M",
       "path": "scripts/testing/run-restore-diagnostic-negative.mjs"
     },
     {
-      "code": " M",
-      "path": "tests/restore-diagnostics.test.ts"
-    },
-    {
       "code": "??",
-      "path": "docs/operations/FRANKFURT_RESTORE214_DIAGNOSTICS_AR.md"
+      "path": "docs/operations/restore-evidence/old-postinit-reproduction.json"
     }
   ]
 }

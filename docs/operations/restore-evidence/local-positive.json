@@ -24,6 +24,12 @@
         "exactSchemas": true,
         "roleFlagsRestored": true
       },
+      "platform": {
+        "eventTriggers": 6,
+        "publications": 1,
+        "subscriptions": 0,
+        "exactOwnerNames": true
+      },
       "allRowsAndHashesMatch": true,
       "rolesAndMembershipsMatch": true,
       "catalogAclOwnerSettingsMatch": true,
@@ -54,6 +60,12 @@
         "exactSchemas": true,
         "roleFlagsRestored": true
       },
+      "platform": {
+        "eventTriggers": 6,
+        "publications": 1,
+        "subscriptions": 0,
+        "exactOwnerNames": true
+      },
       "allRowsAndHashesMatch": true,
       "rolesAndMembershipsMatch": true,
       "catalogAclOwnerSettingsMatch": true,
@@ -83,6 +95,12 @@
         "exactOwners": true,
         "exactSchemas": true,
         "roleFlagsRestored": true
+      },
+      "platform": {
+        "eventTriggers": 6,
+        "publications": 1,
+        "subscriptions": 0,
+        "exactOwnerNames": true
       },
       "allRowsAndHashesMatch": true,
       "rolesAndMembershipsMatch": true,
