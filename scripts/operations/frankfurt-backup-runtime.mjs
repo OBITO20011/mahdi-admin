@@ -11,6 +11,8 @@ import {createR2Client,putImmutableArchive,listObjects,latestArchiveObject,downl
 import {verifyBackupArchive} from '../backup/verify-backup.mjs';
 import {collectDailySupabase} from '../monitoring/supabase-daily-health.mjs';
 import {runIncidentCycle,sendTelegramMessage} from '../monitoring/developer-alert-core.mjs';
+import {postgresDiagnostic,diagnosticError,classifiedError} from '../backup/postgres-diagnostic.mjs';
+import {verifiedSupabaseCa} from '../backup/supabase-ca.mjs';
 
 export const PREFIX='erp/frankfurt-'+FRANKFURT_BACKUP_REF+'/';
 export const OWNER_MODES=Object.freeze(['Plan','Backup','Upload','VerifyRemote','Restore','RestoreRemote','Watchdog','TestAlert','Status']);
@@ -29,7 +31,8 @@ export const ownerPlan=()=>({ok:true,mode:'Plan',networkAttempted:false,projectR
   modes:OWNER_MODES,prefix:PREFIX,localRetentionCount:30,dailyRetentionDays:90,monthlyRetentionDays:365,lockDays:30,
   ownerMustVerifyR2Rules:true,technicalRecipient:'existing developer Telegram only',businessAlertsEnabled:false,
   schedules:{Backup:'23:50 daily',Upload:'02:35 daily',VerifyRemote:'03:10 Sunday',RestoreRemote:'03:50 daily gate / 90-day due',Watchdog:'every 5 minutes'},
-  credentialStorage:'Windows LocalMachine DPAPI with restricted file ACL; runtime secrets in memory; archive passphrase reused from legacy encrypted configuration'});
+  credentialStorage:'Windows LocalMachine DPAPI with restricted file ACL; runtime secrets in memory; archive passphrase reused from legacy encrypted configuration',
+  tls:{sslmode:'verify-full',caSource:'bundled Supabase Root 2021 CA',caSha256:verifiedSupabaseCa().sha256}});
 const fresh=(status,field,hours)=>status?.ok===true&&!isDue(status[field],hours)&&Date.parse(status[field])<=Date.now();
 export async function runOwnerMode({mode,config,force=false,env=process.env,dependencies={}}){
   assert.ok(OWNER_MODES.includes(mode));if(mode==='Plan')return ownerPlan();validateOwnerConfig(config);
@@ -62,7 +65,7 @@ export async function runOwnerMode({mode,config,force=false,env=process.env,depe
     }
     if(mode==='Backup')return await createCompleteBackup({projectRef:config.projectRef,outputRoot:config.backupRoot,retentionCount:config.retentionCount,passphrase,source:source()});
     if(mode==='Restore'){
-      const status=await read(localPath);assert.equal(status.ok,true);assert.equal(status.projectRef,config.projectRef);assert.equal(await sha256(status.archivePath),status.sha256);
+      const status=await optional(localPath);if(status?.ok!==true)throw classifiedError('BACKUP_NOT_AVAILABLE',{tool:'internal',stage:'restore-preflight'});assert.equal(status.projectRef,config.projectRef);assert.equal(await sha256(status.archivePath),status.sha256);
       const verified=await verifyBackupArchive({archivePath:status.archivePath,passphrase});assert.equal(verified.projectRef,config.projectRef);assert.equal(verified.formatVersion,2);
       return await restoreCompleteBackup({archivePath:status.archivePath,passphrase,reportPath:restorePath});
     }
@@ -114,11 +117,11 @@ export async function runOwnerMode({mode,config,force=false,env=process.env,depe
       const result={ok:cycle.notifications.every(n=>n.delivered),healthy:checks.every(c=>c.healthy),internalScanHeld:technical?.scanEnabled===false,observedAt:new Date().toISOString(),checks:checks.map(({key,healthy})=>({key,healthy})),notifications:cycle.notifications.length,recipient:'developer',businessAlertsEnabled:false};await save(path.join(root,'watchdog-status.json'),result);return result;
     }
     assert.fail('UNHANDLED_OWNER_MODE');
-  }catch{failed=true;await save(path.join(root,'operation-'+mode+'.json'),{ok:false,mode,at:new Date().toISOString(),code:'FRANKFURT_OWNER_OPERATION_FAILED_CHECK_STAGE_REPORTS'});throw new Error('FRANKFURT_OWNER_OPERATION_FAILED:'+mode);}
+  }catch(error){failed=true;const diagnostic=postgresDiagnostic(error,{stage:'operation-preflight'});await save(path.join(root,'operation-'+mode+'.json'),{ok:false,mode,at:new Date().toISOString(),code:'FRANKFURT_OWNER_OPERATION_FAILED_CHECK_STAGE_REPORTS',diagnostic});throw diagnosticError('FRANKFURT_OWNER_OPERATION_FAILED:'+mode,diagnostic);}
   finally{if(!failed)await save(path.join(root,'operation-'+mode+'.json'),{ok:true,mode,at:new Date().toISOString()});await lock.close();await unlink(lockPath);}
 }
 if(process.argv[1]&&pathToFileURL(path.resolve(process.argv[1])).href===import.meta.url){
   const mode=process.argv[2]??'Plan';
   try{const config=mode==='Plan'?null:await read(process.env.NAWASRAH_FF_CONFIG);const result=await runOwnerMode({mode,config,force:process.argv.includes('--force')});console.log(JSON.stringify(result));if(!result.ok)process.exitCode=1;}
-  catch{console.error(JSON.stringify({ok:false,mode,code:'FRANKFURT_OWNER_OPERATION_FAILED_NO_CREDENTIALS_LOGGED'}));process.exitCode=1;}
+  catch(error){console.error(JSON.stringify({ok:false,mode,code:'FRANKFURT_OWNER_OPERATION_FAILED_NO_CREDENTIALS_LOGGED',diagnostic:postgresDiagnostic(error,{stage:'operation-preflight',tool:'node'})}));process.exitCode=1;}
 }

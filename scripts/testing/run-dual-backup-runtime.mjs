@@ -9,6 +9,7 @@ import {SnapshotSession} from '../backup/snapshot-session.mjs';
 import {createCompleteBackup,restoreCompleteBackup} from '../backup/complete-backup.mjs';
 import {runOwnerMode,PREFIX} from '../operations/frankfurt-backup-runtime.mjs';
 import {localR2Fixture} from './local-r2-fixture.mjs';
+import {nativeBackupTlsProbe} from './native-backup-tls-probe.mjs';
 const exec=promisify(execFile),root=path.resolve(import.meta.dirname,'../..'),project='nawasrah-dual-backup-test',container='supabase_db_'+project;
 const output=await mkdtemp(path.join(tmpdir(),'nawasrah-dual-backup-proof-'));let local,report={ok:false,hostedConnectionsMade:false};
 try{
@@ -44,7 +45,8 @@ try{
   await ownerMode('RestoreRemote');
   assert.ok([...fixture.objects.keys()].every(k=>k.startsWith(PREFIX)),'LEGACY_PREFIX_MUST_NOT_CHANGE');
   assert.ok(fixture.calls.every(c=>!c.name.startsWith('Delete')));
-  report={...restored,ok:true,fixtureOnly:true,archiveEncrypted:true,storageBytesRestored:true,r2Transport:'local-in-memory-S3',remoteDownloadRestorePassed:true,immutableReplayPassed:true,tamperedDownloadRejected:true,legacyOffsiteUntouched:true,nonzeroFinancialFixture:{receivedQuantity:20,soldQuantity:2,remainingQuantity:18,supplierDebt:10000,salesCash:2000,openingCash:10000}};
+  const nativeTls=await nativeBackupTlsProbe({container,output});
+  report={...restored,ok:true,nativeTls,fixtureOnly:true,archiveEncrypted:true,storageBytesRestored:true,r2Transport:'local-in-memory-S3',remoteDownloadRestorePassed:true,immutableReplayPassed:true,tamperedDownloadRejected:true,legacyOffsiteUntouched:true,nonzeroFinancialFixture:{receivedQuantity:20,soldQuantity:2,remainingQuantity:18,supplierDebt:10000,salesCash:2000,openingCash:10000}};
 }catch(error){report.error=error.message;report.cause=error.cause?.message;process.exitCode=1;console.error(error);}
 finally{
   if(local)await exec(process.execPath,['node_modules/supabase/dist/supabase.js','stop','--no-backup','--workdir',local],{cwd:root,windowsHide:true});

@@ -14,6 +14,8 @@ import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
 import {logicalRestoreDifferences,platformPostInitSql} from '../testing/backup-restore-contract.mjs';
 import {sha256} from '../offsite-backup/offsite-core.mjs';
 import {migrationManifest} from '../testing/maintenance-db-contract.mjs';
+import {verifiedSupabaseCa} from './supabase-ca.mjs';
+import {postgresDiagnostic,diagnosticError} from './postgres-diagnostic.mjs';
 
 const exec=promisify(execFile);
 const stripTransaction=sql=>sql.replace(/^BEGIN READ ONLY;/u,'').replace(/ROLLBACK;\s*$/u,'');
@@ -52,12 +54,15 @@ export function assertRestoreEvidence(before,after){
 }
 export function nativeSource({projectRef,connection,pgBin,password}){
   assertBackupDatabaseProject(connection,projectRef);
-  const url=new URL(connection);url.searchParams.set('sslmode','verify-full');url.searchParams.set('sslrootcert','system');url.searchParams.set('connect_timeout','15');
-  const env={...process.env,PGPASSWORD:password,PGAPPNAME:'nawasrah-complete-backup',PGOPTIONS:'-c default_transaction_read_only=on -c statement_timeout=600000'};
+  const ca=verifiedSupabaseCa();
+  const url=new URL(connection);url.searchParams.set('sslmode','verify-full');url.searchParams.set('sslrootcert',ca.path);url.searchParams.set('connect_timeout','15');
+  const env={...process.env,PGPASSWORD:password,PGAPPNAME:'nawasrah-complete-backup',PGOPTIONS:'-c default_transaction_read_only=on -c statement_timeout=600000',LC_ALL:'C',LANG:'C',LANGUAGE:'C'};
   const bin=name=>path.join(pgBin,name+(process.platform==='win32'?'.exe':''));
-  return {session:()=>new SnapshotSession(bin('psql'),['-X','-q','-A','-t','-w','-v','ON_ERROR_STOP=1','--dbname',url.href],env),
-    dump:async(snapshot,destination)=>{await exec(bin('pg_dump'),['-Fc','--no-password','--snapshot='+snapshot,'--file='+destination,url.href],{env,windowsHide:true,timeout:600_000,maxBuffer:2**20});},
-    roles:async destination=>{await exec(bin('pg_dumpall'),['--roles-only','--no-role-passwords','--no-tablespaces','--file='+destination,'--database='+url.href],{env,windowsHide:true,timeout:120_000,maxBuffer:2**20});},
+  const run=async(tool,args,stage,timeout)=>{try{await exec(bin(tool),args,{env,windowsHide:true,timeout,maxBuffer:2**20});}
+    catch(error){throw diagnosticError('NATIVE_BACKUP_TOOL_FAILED',postgresDiagnostic(error,{tool,stage}));}};
+  return {session:()=>new SnapshotSession(bin('psql'),['-X','-q','-A','-t','-w','-v','ON_ERROR_STOP=1','-v','VERBOSITY=verbose','--dbname',url.href],env),
+    dump:async(snapshot,destination)=>run('pg_dump',['-Fc','--no-password','--snapshot='+snapshot,'--file='+destination,url.href],'complete-dump',600_000),
+    roles:async destination=>run('pg_dumpall',['--roles-only','--no-role-passwords','--no-tablespaces','--file='+destination,'--database='+url.href],'roles-dump',120_000),
     readObject:async name=>{const response=await fetch(`https://${projectRef}.supabase.co/storage/v1/object/public/product-images/${safeObjectName(name).split('/').map(encodeURIComponent).join('/')}`,{redirect:'error',signal:AbortSignal.timeout(60_000)});assert.equal(response.status,200,'STORAGE_DOWNLOAD_FAILED');return Buffer.from(await response.arrayBuffer());}};
 }
 export async function createCompleteBackup({projectRef,outputRoot,passphrase,retentionCount=30,source}){
@@ -66,8 +71,9 @@ export async function createCompleteBackup({projectRef,outputRoot,passphrase,ret
   const createdAt=new Date().toISOString(),name='nawasrah-backup-'+createdAt.replaceAll(':','-').replace(/\.\d+Z$/u,'Z')+'.nwb';
   await mkdir(outputRoot,{recursive:true});const work=await mkdtemp(path.join(tmpdir(),'nawasrah-complete-'));
   const content=path.join(work,'contents');await mkdir(path.join(content,'database'),{recursive:true});
-  const session=source.session();let status,stage='snapshot',partial=path.join(outputRoot,name+'.partial');
+  let session,status,stage='snapshot',partial=path.join(outputRoot,name+'.partial');
   try{
+    session=source.session();
     await session.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY;');
     const snapshot=(await session.query('SELECT pg_export_snapshot();')).trim();assert.match(snapshot,/^[0-9A-F]+-[0-9A-F]+-[0-9]+$/u);
     stage='source-evidence';const before=await captureEvidence(session);assert.equal(before.history.at(-1),'214','COMPLETE_BACKUP_REQUIRES_REVIEWED_214');
@@ -99,8 +105,8 @@ export async function createCompleteBackup({projectRef,outputRoot,passphrase,ret
     const prior=(await readdir(outputRoot)).filter(n=>/^nawasrah-backup-[0-9TZ-]+\.nwb$/u.test(n)).sort().reverse();
     for(const old of prior.slice(retentionCount))await rm(path.join(outputRoot,old));
     status={ok:true,projectRef,formatVersion:2,finishedAt:new Date().toISOString(),archiveName:name,archivePath,archiveBytes:(await stat(archivePath)).size,sha256:await sha256(archivePath),storageObjectCount:objects.length,historyCeiling:214,retentionCount};return status;
-  }catch(cause){status={ok:false,projectRef,stage,finishedAt:new Date().toISOString(),error:'COMPLETE_BACKUP_FAILED_NO_SUCCESS_CLAIM'};throw new Error(status.error,{cause});}
-  finally{await session.close().catch(()=>{});await rm(partial,{force:true});await rm(work,{recursive:true,force:true});if(status)await writeFile(path.join(outputRoot,'last-backup-status.json'),JSON.stringify(status,null,2)+'\n');}
+  }catch(cause){status={ok:false,projectRef,stage,finishedAt:new Date().toISOString(),error:'COMPLETE_BACKUP_FAILED_NO_SUCCESS_CLAIM',diagnostic:postgresDiagnostic(cause,{stage})};throw diagnosticError(status.error,status.diagnostic);}
+  finally{await session?.close().catch(()=>{});await rm(partial,{force:true});await rm(work,{recursive:true,force:true});if(status)await writeFile(path.join(outputRoot,'last-backup-status.json'),JSON.stringify(status,null,2)+'\n');}
 }
 
 export async function restoreCompleteBackup({archivePath,passphrase,reportPath,readObjectAfterRestore}){
@@ -144,6 +150,6 @@ export async function restoreCompleteBackup({archivePath,passphrase,reportPath,r
     assert.ok(integrity.length>5,'RESTORE_INTEGRITY_SCAN_MISSING');
     assert.ok(integrity.every(c=>c.status==='healthy'&&Number(c.issueCount)===0),'RESTORE_EXISTING_INTEGRITY_CHECK_FAILED');
     report={ok:true,projectRef:manifest.projectRef,mode:'isolated-complete-restore',postgresImage:IMAGE,completedAt:new Date().toISOString(),hostedConnectionsMade:false,network:'none',liveVolumesModified:false,historyCeiling:214,tablesCompared:Object.keys(before.tables).length,storageObjectsCompared:manifest.storageObjects.length,integrityChecks:integrity,...proof};return report;
-  }catch(cause){report={ok:false,stage,mode:'isolated-complete-restore',completedAt:new Date().toISOString(),hostedConnectionsMade:false,error:'COMPLETE_RESTORE_FAILED'};throw new Error(report.error,{cause});}
+  }catch(cause){report={ok:false,stage,mode:'isolated-complete-restore',completedAt:new Date().toISOString(),hostedConnectionsMade:false,error:'COMPLETE_RESTORE_FAILED',diagnostic:postgresDiagnostic(cause,{stage,tool:'docker'})};throw diagnosticError(report.error,report.diagnostic);}
   finally{await session?.close().catch(()=>{});if(started)await docker(['rm','--force',container]).catch(()=>{});await rm(work,{recursive:true,force:true});if(reportPath)await writeFile(reportPath,JSON.stringify(report,null,2)+'\n');}
 }
