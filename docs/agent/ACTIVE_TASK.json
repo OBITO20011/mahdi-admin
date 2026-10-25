@@ -2,52 +2,36 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Fix owner operation lock lifetime and early failure reports;safe fixed diagnostic codes and explicit orphan cleanup;local tests/PR/FULL CI;merge and primary update await new owner approval",
-  "baselineSha": "68cc1fe01db9d560fb85d156e7800c0aa9e4a2f7",
-  "branch": "codex/frankfurt-owner-locks",
+  "objective": "Diagnose and fix strict isolated pg_restore failure;safe TOC/SQLSTATE/error and sanitized container log before removal;Frankfurt saved-catalog synthetic local proof;PR/FULL CI;merge awaits approval",
+  "baselineSha": "141d161084d08d68d4bed5028c09dfc6741dde68",
+  "branch": "codex/frankfurt-restore-diagnostics",
   "phase": "PACKAGE_F",
-  "completed": [
-    "Guarded all post-lock initialization;report and release in independent nested finally;safe fallback report",
-    "Safe fixed preflight codes and env-name allowlist;PowerShell DPAPI catches without raw secrets",
-    "Explicit CleanupLock mode:PID absence required,Windows exclusive handle,no process termination or auto-steal",
-    "Saved per-item commits60bcf1e and68cc1fe;Arabic owner command runbook and actual baseline regression evidence committed"
-  ],
+  "completed": [],
   "inProgress": [
-    "Exact head CI and review-ready PR;merge awaits approval"
+    "Restore diagnostics and saved catalog extension/role parity"
   ],
   "notStarted": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "testsPassed": [
-    "Final full unit1447/1447;0fail/0skip",
-    "Targeted19/19 including Windows DPAPI roundtrip+failure and exclusive cleanup handle",
-    "Final full lint/typecheck clean",
-    "Plan ok with deny-network fence:0attempts,verify-full official CA unchanged",
-    "Gitleaks0 first2 commits;final scan next",
-    "Real report-destination failure:old5fdd orphan reproduced,new release and fallback verified"
-  ],
+  "testsPassed": [],
   "testsRemaining": [
-    "Final partition:1446 core units+1 operational PowerShell",
-    "New exact-head FULL47 push and PR;Gitleaks0"
+    "Real isolated restore failure/success and privacy evidence",
+    "Full unit/lint/Gitleaks/CI"
   ],
-  "findings": [
-    "Existing success report write in finally precedes lock cleanup and can orphan lock;actual prior owner failure unknown",
-    "DPAPI occurs in PowerShell before Node,so its failure alone does not explain a Node-created lock;exact owner-run cause unknown",
-    "CI core Playwright container has no pwsh;unchanged PowerShell proof moved to mandatory backup-recovery host where same proof already passed;no skips/assertion changes"
-  ],
+  "findings": [],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hosted project connections or deployment",
-    "No owner secrets/config decryption;synthetic local tests only",
-    "No merge or primary update before new owner approval",
-    "No cleanup of actual owner lock by agent"
+    "No hosted project access or deployment",
+    "No owner credential/archive passphrase access or decryption",
+    "No merge/primary update before new owner approval",
+    "No weakened exit-on-error or catalog/data/ACL comparisons"
   ],
-  "nextExactAction": "Verify mandatory unchanged PowerShell probe in backup host;new exact-SHA FULL CI required.",
-  "startedAt": "2026-10-25T19:40:27.970Z",
-  "checkpointedAt": "2026-10-25T20:11:40.401Z",
-  "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "84153767888abe60acfd759530f2d1774f13870dac8c574128713cf891d72fa7",
-  "workingTreeFingerprint": "73898B009B7E8E7C8A4DAB4B5EAA8CD9BCB72E663ABFFDDC43984D480B429B58"
+  "nextExactAction": "Real CLI-shaped strict restore141tables17checks passed;fix synthetic setup role then prove Frankfurt profile restore/replay and negative pg_restore diagnostics.",
+  "startedAt": "2026-10-25T22:00:14.555Z",
+  "checkpointedAt": "2026-10-25T22:08:59.346Z",
+  "filesTouchedCount": 10,
+  "filesTouchedManifestSha256": "b87ddf8b6450560554dbbad9039a6e08e471c7d98b2cd85e50a694b965427b7f",
+  "workingTreeFingerprint": "78B27105076D726DD15434FB01A6DDCAD7F3C95048840423CF59093790AA9306"
 }

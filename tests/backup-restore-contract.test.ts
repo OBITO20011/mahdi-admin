@@ -29,7 +29,7 @@ test('platform post-init restore retains every original schema grant and the two
  assert.match(sql,/ALTER FUNCTION net.http_get\(text,jsonb,jsonb,integer\) SECURITY DEFINER/u);
  assert.match(sql,/ALTER FUNCTION net.http_post\(text,jsonb,jsonb,jsonb,integer\) SECURITY DEFINER/u);
  const changed=structuredClone(catalog);changed.functions[0]!.configuration=['search_path=public'];assert.throws(()=>platformPostInitSql(changed));
- const invoker=structuredClone(catalog);invoker.functions[0]!.definition='CREATE FUNCTION ...';assert.throws(()=>platformPostInitSql(invoker),/RESTORE_NET_SOURCE_SECURITY/u);
+ const invoker=structuredClone(catalog);invoker.functions[0]!.definition='CREATE FUNCTION ...';assert.match(platformPostInitSql(invoker),/http_get\(text,jsonb,jsonb,integer\) SECURITY INVOKER/u);
  assert.match(applicationFingerprintSql,/BEGIN READ ONLY/u);assert.match(applicationFingerprintSql,/pg_tables WHERE schemaname='public'/u);assert.match(applicationFingerprintSql,/string_agg/u);assert.match(applicationFingerprintSql,/pg_sequences/u);
 });
 

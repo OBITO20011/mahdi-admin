@@ -46,10 +46,14 @@ export function platformPostInitSql(catalog){
  }
  for(const [name,signature] of [['http_get','text,jsonb,jsonb,integer'],['http_post','text,jsonb,jsonb,jsonb,integer']]){
   const routines=catalog.functions.filter(f=>f.schema==='net'&&f.identity.startsWith(name+'('));assert.equal(routines.length,1);
-  assert.equal(routines[0].owner,'supabase_admin');assert.deepEqual(routines[0].configuration,['search_path=net'],'RESTORE_NET_SOURCE_PATH');
-  assert.match(routines[0].definition,/\n SECURITY DEFINER\n/u,'RESTORE_NET_SOURCE_SECURITY');
-  sql.push(`ALTER FUNCTION net.${name}(${signature}) SECURITY DEFINER;`);
-  sql.push(`ALTER FUNCTION net.${name}(${signature}) SET search_path TO net;`);
+  const routine=routines[0];assert.equal(routine.owner,'supabase_admin');
+  // Managed Frankfurt and the CLI image have different post-init ALTERs.
+  // Reproduce the captured setting exactly,never normalize the comparison away.
+  assert.ok(routine.configuration===null||JSON.stringify(routine.configuration)===JSON.stringify(['search_path=net']),'RESTORE_NET_SOURCE_PATH_UNSUPPORTED');
+  const security=/\n SECURITY DEFINER\n/u.test(routine.definition)?'DEFINER':'INVOKER';
+  sql.push(`ALTER FUNCTION net.${name}(${signature}) SECURITY ${security};`);
+  sql.push(`ALTER FUNCTION net.${name}(${signature}) RESET ALL;`);
+  if(routine.configuration)sql.push(`ALTER FUNCTION net.${name}(${signature}) SET search_path TO net;`);
  }
  return sql.join('\n');
 }

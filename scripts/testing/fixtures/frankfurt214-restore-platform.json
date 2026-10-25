@@ -1,0 +1,105 @@
+{
+  "formatVersion": 1,
+  "source": "Owner-saved Frankfurt214 verify-only catalog,2026-10-25T07:19:36Z;read locally,no hosted access",
+  "sourceSha256": "487f8ee96e0f6aef20c7676ac66ff64c1b55e223f66d27c2db642cae6ebc7505",
+  "extensions": [
+    {
+      "name": "pg_cron",
+      "owner": "supabase_admin",
+      "schema": "pg_catalog",
+      "version": "1.6.4"
+    },
+    {
+      "name": "pg_net",
+      "owner": "supabase_admin",
+      "schema": "public",
+      "version": "0.20.4"
+    },
+    {
+      "name": "pg_stat_statements",
+      "owner": "postgres",
+      "schema": "extensions",
+      "version": "1.11"
+    },
+    {
+      "name": "pgcrypto",
+      "owner": "postgres",
+      "schema": "extensions",
+      "version": "1.3"
+    },
+    {
+      "name": "plpgsql",
+      "owner": "supabase_admin",
+      "schema": "pg_catalog",
+      "version": "1.0"
+    },
+    {
+      "name": "supabase_vault",
+      "owner": "supabase_admin",
+      "schema": "vault",
+      "version": "0.3.1"
+    },
+    {
+      "name": "uuid-ossp",
+      "owner": "postgres",
+      "schema": "extensions",
+      "version": "1.1"
+    }
+  ],
+  "schemas": [
+    {
+      "name": "auth",
+      "owner": "supabase_admin"
+    },
+    {
+      "name": "cron",
+      "owner": "supabase_admin"
+    },
+    {
+      "name": "extensions",
+      "owner": "postgres"
+    },
+    {
+      "name": "graphql",
+      "owner": "supabase_admin"
+    },
+    {
+      "name": "graphql_public",
+      "owner": "supabase_admin"
+    },
+    {
+      "name": "net",
+      "owner": "supabase_admin"
+    },
+    {
+      "name": "realtime",
+      "owner": "supabase_admin"
+    },
+    {
+      "name": "storage",
+      "owner": "supabase_admin"
+    },
+    {
+      "name": "supabase_migrations",
+      "owner": "postgres"
+    },
+    {
+      "name": "vault",
+      "owner": "supabase_admin"
+    }
+  ],
+  "netFunctions": [
+    {
+      "identity": "http_get(url text, params jsonb, headers jsonb, timeout_milliseconds integer)",
+      "owner": "supabase_admin",
+      "configuration": null,
+      "securityDefiner": false
+    },
+    {
+      "identity": "http_post(url text, body jsonb, params jsonb, headers jsonb, timeout_milliseconds integer)",
+      "owner": "supabase_admin",
+      "configuration": null,
+      "securityDefiner": false
+    }
+  ]
+}

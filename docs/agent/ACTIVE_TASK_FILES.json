@@ -7,15 +7,39 @@
     },
     {
       "code": " M",
-      "path": "docs/operations/FRANKFURT_OWNER_LOCK_RECOVERY_AR.md"
+      "path": "docs/agent/project-state.json"
     },
     {
       "code": " M",
-      "path": "tests/owner-operation.test.ts"
+      "path": "scripts/backup/complete-backup.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/backup/postgres-diagnostic.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/backup-restore-contract.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-dual-backup-runtime.mjs"
+    },
+    {
+      "code": " M",
+      "path": "tests/backup-restore-contract.test.ts"
     },
     {
       "code": "??",
-      "path": "tests/owner-operation-powershell.probe.ts"
+      "path": "scripts/backup/restore-log.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/fixtures/frankfurt214-restore-platform.json"
+    },
+    {
+      "code": "??",
+      "path": "tests/restore-diagnostics.test.ts"
     }
   ]
 }
