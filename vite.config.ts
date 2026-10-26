@@ -1,3 +1,4 @@
+import {selectedViteEnvironment,environmentDefines,environmentAssets} from './scripts/environments/vite-environment.mjs';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
@@ -14,12 +15,14 @@ if (releaseId && !/^[0-9a-f]{40}$/iu.test(releaseId)) {
 
 const buildId = releaseId?.toLowerCase() ?? 'local-dev';
 
-export default defineConfig(() => {
+export default defineConfig(({mode}) => {
+  const selected=selectedViteEnvironment(mode,__dirname);
   return {
     define: {
+      ...environmentDefines(selected),
       __NAWASRAH_BUILD_ID__: JSON.stringify(buildId),
     },
-    plugins: [react(), tailwindcss()],
+    plugins: [react(), tailwindcss(),environmentAssets(selected,__dirname)],
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),

@@ -1,17 +1,5 @@
-/**
- * Nawasrah Business Manager - Supabase Public Configuration
- * 
- * ضع رابط مشروع Supabase ومفتاح العميل (Publishable / Anon Key) هنا مباشرة
- * لضمان الاتصال المستقر في بيئة AI Studio Preview دون الاعتماد على متغيرات البيئة المعزولة.
- * 
- * ملاحظة أمان: هذا المكان مخصص للمفاتيح العامة (Anon / Publishable) فقط.
- * لا تضع مفتاح المسؤول أو السر (service_role / secret key) هنا على الإطلاق.
- */
-
-export const SUPABASE_PUBLIC_CONFIG = {
-  // مثال: 'https://xyzcompany.supabase.co'
-  SUPABASE_URL: 'https://kzevmysfydaslxcerogt.supabase.co',
-
-  // مثال: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
-  SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_d4TElxRQFkC-AZko3_ASeg_YotqxGjV',
-};
+/** Selected at build time. Missing context never falls back to a hosted DB. */
+declare const __NAWASRAH_PUBLIC_CONFIG__: {SUPABASE_URL:string;SUPABASE_PUBLISHABLE_KEY:string;TURNSTILE_SITE_KEY:string};
+export const SUPABASE_PUBLIC_CONFIG = typeof __NAWASRAH_PUBLIC_CONFIG__ === 'undefined'
+  ? {SUPABASE_URL:'',SUPABASE_PUBLISHABLE_KEY:'',TURNSTILE_SITE_KEY:''}
+  : __NAWASRAH_PUBLIC_CONFIG__;
