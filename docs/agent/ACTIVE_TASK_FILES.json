@@ -3,35 +3,15 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/OWNER_DECISIONS.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/RESET214_OWNER_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-owner-reset214.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/reset214-session.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-reset214-resume-runtime.mjs"
-    },
-    {
-      "code": "??",
       "path": "docs/operations/RESET214_RESUME_LOCAL_EVIDENCE.json"
     },
     {
-      "code": "??",
-      "path": "scripts/operations/reset214-diagnostics.mjs"
+      "code": " M",
+      "path": "scripts/operations/reset214-private-state.mjs"
+    },
+    {
+      "code": " M",
+      "path": "tests/reset214-resume.test.ts"
     }
   ]
 }

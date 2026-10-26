@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
-import {mkdir,open,readFile,rename,lstat,chmod} from 'node:fs/promises';
+import {mkdir,open,readFile,rename,lstat,chmod,realpath} from 'node:fs/promises';
 import path from 'node:path';
 import {randomUUID} from 'node:crypto';
 import {sha256} from '../testing/maintenance-db-contract.mjs';
@@ -16,6 +16,14 @@ export async function protectResetPath(target,directory=false){
  }else await chmod(target,directory?0o700:0o600);
 }
 export async function privateResetDirectory(workdir){
+ // Also reject another checkout,not merely the checkout running this script.
+ // This prevents a valid external path from placing raw retention in Git.
+ let ancestor=await realpath(workdir);
+ for(;;){
+  assert.notEqual(path.basename(ancestor).toLowerCase(),'.git','RESET214_PRIVATE_STATE_MUST_BE_OUTSIDE_GIT');
+  try{await lstat(path.join(ancestor,'.git'));assert.fail('RESET214_PRIVATE_STATE_MUST_BE_OUTSIDE_GIT');}catch(error){if(error.code!=='ENOENT')throw error;}
+  const parent=path.dirname(ancestor);if(parent===ancestor)break;ancestor=parent;
+ }
  const folder=path.join(workdir,'reset214-private');await mkdir(folder,{recursive:true,mode:0o700});await protectResetPath(folder,true);return folder;
 }
 export async function writePrivateResetJson(file,value){

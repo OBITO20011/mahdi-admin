@@ -3,19 +3,19 @@
   "managedAccess": false,
   "hostedConnectionsMade": false,
   "sourceReport": {
-    "path": "C:/Users/TOP/AppData/Local/Temp/nawasrah-reset214-resume-3qjxds/report.json",
-    "sha256": "caa8bbd7346230dc68db7c3ac0087c2ff059d5c03814476175c40ab47049cef8",
-    "startedAt": "2026-10-26T17:29:16.004Z",
-    "endedAt": "2026-10-26T17:34:24.481Z"
+    "path": "C:/Users/TOP/AppData/Local/Temp/nawasrah-reset214-resume-N2WfXO/report.json",
+    "sha256": "9ca71af9991754b7195b3eee495f11c466f4e89bcd7dc8c5d9428327f8712364",
+    "startedAt": "2026-10-26T17:43:46.525Z",
+    "endedAt": "2026-10-26T17:50:46.032Z"
   },
   "runtimeSources": {
     "scripts/operations/trial-reset214-core.mjs": "4b29183eab7df9372f64b1b94a9103a8f217052496b9c1f1120d0570b6507a83",
-    "scripts/operations/reset214-private-state.mjs": "1ba3efe3ff14a63228fc36e9ec8802692532d95727b9639ee5f91cbddb533be2",
+    "scripts/operations/reset214-private-state.mjs": "1fe343be932aed1dcbfbd0631dcb47076aa59ebc57c962e6a5755c75f86f537f",
     "scripts/operations/reset214-session.mjs": "4052814ffb5f6e840b11743c4a2c7fa9d99799e66e25eca18662839766934b84",
     "scripts/operations/reset214-write-guard.mjs": "25eeda01fa4ead4d62e85b75805c7bdb22a4098a18d959c3dad49c5d018439e3",
     "scripts/operations/reset214-io.mjs": "d55bdd9e9f4d79f483a12122a6eb6eef33ac91e6db69577bf9174d891fadefa7",
     "scripts/testing/reset214-persistent-local.mjs": "6de31b5f893fbb22cec53b5267e1a4afd91135bf5025607be635a3cd83e97c54",
-    "scripts/testing/run-reset214-resume-runtime.mjs": "5a9c0a4d5538516234b1e277403838443f2d2e42e250dda3798ca06bb7be3b1d"
+    "scripts/testing/run-reset214-resume-runtime.mjs": "2c21b96258b9c50b51f16893b7ce28a9aac3c77631db94a0db15636a00fbf137"
   },
   "ok": true,
   "uninterrupted": {
@@ -29,6 +29,8 @@
       "stop": "after-storage",
       "previousApplied": 0,
       "previousRecorded": 0,
+      "storageRemainingAtInterruption": 1,
+      "physicalBytesRemoved": true,
       "restartedAll176": true,
       "retentionMatches": true,
       "catalogDifferences": 0,
@@ -40,6 +42,8 @@
       "stop": "after-drop-public",
       "previousApplied": 0,
       "previousRecorded": 0,
+      "storageRemainingAtInterruption": 0,
+      "physicalBytesRemoved": true,
       "restartedAll176": true,
       "retentionMatches": true,
       "catalogDifferences": 0,
@@ -51,6 +55,8 @@
       "stop": "migration-088",
       "previousApplied": 88,
       "previousRecorded": 87,
+      "storageRemainingAtInterruption": 0,
+      "physicalBytesRemoved": true,
       "restartedAll176": true,
       "retentionMatches": true,
       "catalogDifferences": 0,
@@ -62,6 +68,8 @@
       "stop": "before-restore-owner-and-settings",
       "previousApplied": 176,
       "previousRecorded": 176,
+      "storageRemainingAtInterruption": 0,
+      "physicalBytesRemoved": true,
       "restartedAll176": true,
       "retentionMatches": true,
       "catalogDifferences": 0,
@@ -91,5 +99,6 @@
     "Strict catalog detected split UTF8 Arabic bytes;fixed decoder without comparison exception",
     "Empty-public fingerprint rejected{};fixed empty-object parser"
   ],
-  "fullCiRequired": true
+  "fullCiRequired": true,
+  "sourceHashScope": "Current candidate;Git-directory save admission added after this rehearsal. Final exact-SHA CI repeats all cases."
 }

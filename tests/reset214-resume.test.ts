@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFileSync} from 'node:fs';
-import {mkdtemp,readFile,writeFile,stat} from 'node:fs/promises';
+import {mkdtemp,mkdir,readFile,writeFile,stat} from 'node:fs/promises';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {tmpdir} from 'node:os';
@@ -29,6 +29,12 @@ test('protected raw snapshot readback and hash preserve a bigint beyond JS safe 
  await writeFile(file,(await readFile(file,'utf8'))+' ');await assert.rejects(()=>readPrivateResetJson(file,digest),/RESET214_RETENTION_HASH_MISMATCH/u);
  for(const changed of [{ownerId:'other'},{projectRef:'other'},{referenceSha256:'b'.repeat(64)}])assert.throws(()=>assertResetSnapshot(snapshot,{...snapshot,...changed}));
  assert.throws(()=>assertResetSnapshot({...snapshot,encrypted_password:'forbidden fixture'},snapshot),/RESET214_PLATFORM_SECRET_FORBIDDEN/u);
+});
+test('private reset retention refuses any Git checkout or worktree before saving',async()=>{
+ const root=await mkdtemp(path.join(tmpdir(),'nawasrah-reset214b-git-')),child=path.join(root,'external-looking','workdir');await mkdir(child,{recursive:true});
+ await writeFile(path.join(root,'.git'),'gitdir: placeholder');
+ await assert.rejects(()=>privateResetDirectory(child),/RESET214_PRIVATE_STATE_MUST_BE_OUTSIDE_GIT/u);
+ await assert.rejects(()=>stat(path.join(child,'reset214-private')),{code:'ENOENT'});
 });
 test('RESET214B adds exactly one mandatory CI suite and restores every older admission byte',()=>{
  assert.deepEqual(Object.keys(reset214bPins),['.github/workflows/quality.yml']);

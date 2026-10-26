@@ -28,10 +28,10 @@
     "No recurring automation",
     "No merge before approval"
   ],
-  "nextExactAction": "Final4resume proof includes partly deleted Storage and real byte404;PR/full48 CI then owner approval",
+  "nextExactAction": "Publish final resume evidence and Git-exclusion guard;exact FULL48 push+PR then approval before merge",
   "startedAt": "2026-10-26T14:33:18.441Z",
-  "checkpointedAt": "2026-10-26T17:43:10.217Z",
-  "filesTouchedCount": 8,
-  "filesTouchedManifestSha256": "f1760ae1dd68523159ff1a27e272052139892f54fe4450271afcd2d88b06d5af",
-  "workingTreeFingerprint": "BE205AB07104957ADD545DFED517844C3CA5BED66DE772707E198245FA71EF16"
+  "checkpointedAt": "2026-10-26T17:52:06.667Z",
+  "filesTouchedCount": 3,
+  "filesTouchedManifestSha256": "bbc88f7f166b71233d1ad02a4c86336bab14d98e2d7d5a6064346eb4394f6261",
+  "workingTreeFingerprint": "48C906230236133AF817D0CDBF09C954DA7B9A11803F7A584B731455D09B087C"
 }
