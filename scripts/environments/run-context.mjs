@@ -1,11 +1,21 @@
 // Explicit convenience commands;plain `build` also works with the context env.
 import assert from 'node:assert/strict';
-import {spawnSync} from 'node:child_process';
+import {spawnSync,execFileSync} from 'node:child_process';
+import {resolveBuildEnvironment} from './environment.mjs';
 import path from 'node:path';
 const [environment,app='admin']=process.argv.slice(2),root=path.resolve(import.meta.dirname,'../..');
 assert.ok(['production','staging','prelaunch-trial'].includes(environment),'EXPLICIT_BUILD_ENVIRONMENT_REQUIRED');assert.ok(['admin','customer'].includes(app));
 const cwd=app==='customer'?path.join(root,'customer-web'):root;
 const env={...process.env,NAWASRAH_DEPLOYMENT_ENV:environment};
+if(environment==='prelaunch-trial'){
+ resolveBuildEnvironment(env); // Source closure is checked before any build or Git operation.
+ if(app==='admin'){
+  const sha=execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim();
+  assert.match(sha,/^[0-9a-f]{40}$/u,'PRELAUNCH_RELEASE_SHA_REQUIRED');
+  if(env.NAWASRAH_ADMIN_RELEASE_ID)assert.equal(env.NAWASRAH_ADMIN_RELEASE_ID,sha,'PRELAUNCH_RELEASE_SHA_MISMATCH');
+  env.NAWASRAH_ADMIN_RELEASE_ID=sha;
+ }
+}
 for(const args of [[path.join(root,'node_modules/vite/bin/vite.js'),'build'],...(app==='customer'?[
  ['scripts/generate-seo-pages.mjs'],['scripts/verify-seo-output.mjs'],
 ]:[])]){

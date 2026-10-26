@@ -3,11 +3,23 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/project-state.json"
+      "path": "docs/operations/PRELAUNCH_TRIAL_AR.md"
     },
     {
-      "code": "??",
+      "code": " M",
       "path": "docs/operations/PRELAUNCH_TRIAL_LOCAL_EVIDENCE.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/prelaunch-trial-inverse.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/environments/run-context.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-prelaunch-trial-builds.mjs"
     }
   ]
 }

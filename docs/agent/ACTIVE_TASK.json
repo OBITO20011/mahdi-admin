@@ -3,7 +3,7 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Package2b temporary source-closed prelaunch-trial context;fixed protected preview branch,production refusal,fullCI;then package3 no wait",
-  "baselineSha": "956e4a643e37a81491cd662de685f7370fc59076",
+  "baselineSha": "6c2f2ed32af9ec0721157fa8dd80f5b11412d5cb",
   "branch": "codex/prelaunch-trial",
   "phase": "PACKAGE_F",
   "completed": [
@@ -12,7 +12,7 @@
     "Six local builds;trial2 closedbuild2 oldartifact2 noenvbypass;production/staging4 unchanged"
   ],
   "inProgress": [
-    "Package2b final PR/fullCI"
+    "PR35 final PWA source-SHA binding proof then exactFULL49"
   ],
   "notStarted": [],
   "filesTouched": [
@@ -21,7 +21,8 @@
   "testsPassed": [
     "Admin1479/1479,bothTypeScript,strictESLint,focused16+uploader3",
     "Trialrealbuilds2+closedactualbuild2+closedartifact2+production/forgery/wrongbranch2each;nohostedaccess",
-    "Existing4builds+origin/CSPnegatives;source214/financialRPC/migrations unchanged"
+    "Existing4builds+origin/CSPnegatives;source214/financialRPC/migrations unchanged",
+    "Prelaunch PWA sourceSHA binding actualViteproof and all closure/admission negativesPASS"
   ],
   "testsRemaining": [
     "Exact final FULL49 push+PR,Gitleaks0,owner approval before merge",
@@ -41,10 +42,10 @@
     "No secrets or ownerconfigreads",
     "No recurringautomation"
   ],
-  "nextExactAction": "Final2b FULL49 push+PR/Gitleaks0,return forapproval;then immediately separate package3 template work without merging unapproved2b",
+  "nextExactAction": "FinalSHA PR35 FULL49 with PWA sourceSHA binding,Gitleaks0;return forapproval then immediatePackage3",
   "startedAt": "2026-10-26T21:29:00.090Z",
-  "checkpointedAt": "2026-10-26T21:40:43.943Z",
-  "filesTouchedCount": 2,
-  "filesTouchedManifestSha256": "918605280e0cd02b210d67e9f2759df7fe9a54d154cb4df4138afc9bf04412cf",
-  "workingTreeFingerprint": "1A3441D28CA3401F661B693E73D698586AE7B2F3BF00EF7AADD636989D6A887E"
+  "checkpointedAt": "2026-10-26T22:15:10.421Z",
+  "filesTouchedCount": 5,
+  "filesTouchedManifestSha256": "617d12be06c06e883a5818a20ea79b95dd4b5ddf28c000cce80298ebeae2e134",
+  "workingTreeFingerprint": "DA2CA0622FF688DFB229D4B2A727DDB927D8CF175D7448BB84F6533B84D24A7C"
 }

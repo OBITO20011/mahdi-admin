@@ -31,7 +31,7 @@ function Invoke-TrialStep {
 $env:NAWASRAH_DEPLOYMENT_ENV='prelaunch-trial'
 # امسح التعارض من الجلسة فقط؛ لا تعديل لملفات المالك المحفوظة.
 Remove-Item Env:VITE_SUPABASE_URL,Env:VITE_SUPABASE_PUBLISHABLE_KEY,Env:VITE_SUPABASE_ANON_KEY,Env:VITE_PUBLIC_SITE_ORIGIN,Env:VITE_STOREFRONT_PUBLIC_URL,Env:VITE_BROWSER_QA_ISOLATED -ErrorAction SilentlyContinue
-Remove-Item Env:NAWASRAH_SEO_AUDIT_API_URL,Env:NAWASRAH_SEO_AUDIT_API_KEY -ErrorAction SilentlyContinue
+Remove-Item Env:NAWASRAH_ADMIN_RELEASE_ID,Env:NAWASRAH_SEO_AUDIT_API_URL,Env:NAWASRAH_SEO_AUDIT_API_KEY -ErrorAction SilentlyContinue
 
 # الإدارة: بناء ثم تحقق محلي ثم رفع محروس إلى staging-frankfurt فقط
 Invoke-TrialStep { npm.cmd run build:prelaunch-trial }
@@ -48,6 +48,8 @@ Invoke-TrialStep { npm.cmd --prefix customer-web run deploy:prelaunch-trial }
 
 Remove-Item Env:NAWASRAH_DEPLOYMENT_ENV -ErrorAction SilentlyContinue
 ```
+
+بناء إدارة prelaunch-trial يضبط معرّف إصدار PWA تلقائياً على SHA الكامل لـHEAD المحلي؛إذا كانت جلسة الناشر تحمل NAWASRAH_ADMIN_RELEASE_ID قديماً يرفض البناء حتى إزالة التعارض. لا يُستعمل local-dev للمعاينة،حتى يلتقط الهاتف الإصدار الجديد.
 
 أمر الرفع يستدعي Wrangler داخلياً بالمشروع الموافق للتطبيق و`--branch=staging-frankfurt` ثابتاً. لا يقبل `--branch` أو `--project-name` أو `--dir` من المستدعي،ولا تستبدله بأمر Wrangler حر. `--check` لا يرفع ولا يتصل بمشروع؛يفحص الملفات محلياً فقط. بيانات الاعتماد تبقى في آلية Wrangler المحلية الحالية ولا تدخل المستند أو Git.
 

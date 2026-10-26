@@ -1,6 +1,6 @@
 // Actual Vite/SEO builds through loopback only;never invoke a deployment.
 import assert from 'node:assert/strict';
-import {execFile} from 'node:child_process';
+import {execFile,execFileSync} from 'node:child_process';
 import {promisify} from 'node:util';
 import {readFile,writeFile,mkdtemp,mkdir,copyFile,readdir,symlink} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
@@ -8,6 +8,7 @@ import path from 'node:path';
 import {verifyEnvironmentDist} from '../environments/verify-dist.mjs';
 import {assertDeploymentTarget} from '../environments/deployment-context.mjs';
 const root=path.resolve(import.meta.dirname,'../..'),exec=promisify(execFile),proofs=[];
+const sourceSha=execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim();
 const env={...process.env,NAWASRAH_DEPLOYMENT_ENV:'prelaunch-trial'};
 for(const key of ['VITE_SUPABASE_URL','VITE_SUPABASE_PUBLISHABLE_KEY','VITE_SUPABASE_ANON_KEY','VITE_PUBLIC_SITE_ORIGIN','VITE_STOREFRONT_PUBLIC_URL','VITE_BROWSER_QA_ISOLATED'])delete env[key];
 for(const app of ['admin','customer']){
@@ -15,6 +16,11 @@ for(const app of ['admin','customer']){
  const r=await exec(process.execPath,args,{cwd:root,env,windowsHide:true,maxBuffer:8*1024**2});process.stdout.write(r.stdout);process.stderr.write(r.stderr);
  const dir=path.join(root,app==='customer'?'customer-web/dist':'dist');
  proofs.push(await verifyEnvironmentDist({app,environment:'prelaunch-trial',dir,allowFixture:app==='customer'}));
+ if(app==='admin'){
+  const bundles=await readdir(path.join(dir,'assets'));let found=false;
+  for(const file of bundles.filter(f=>f.endsWith('.js')))if((await readFile(path.join(dir,'assets',file),'utf8')).includes(sourceSha))found=true;
+  assert.equal(found,true,'PRELAUNCH_PWA_MUST_USE_CURRENT_SOURCE_SHA');
+ }
  const manifest=JSON.parse(await readFile(path.join(dir,'nawasrah-environment.json'),'utf8'));
  assert.equal(manifest.prelaunchTrial,true);assert.equal(manifest.allowedPreviewBranch,'staging-frankfurt');assert.equal(manifest.productionDeployAllowed,false);
  assert.equal(manifest.url,'https://kzevmysfydaslxcerogt.supabase.co');assert.equal(manifest.storeOrigin,'https://staging-frankfurt.nawasrah-store.pages.dev');
@@ -42,4 +48,4 @@ for(const app of ['admin','customer'])await assert.rejects(()=>exec(process.exec
 await assert.rejects(()=>exec(process.execPath,['scripts/environments/run-context.mjs','prelaunch-trial','admin'],{cwd:closed,env:{...env,PRELAUNCH_TRIAL_OPEN:'true',VITE_BROWSER_QA_ISOLATED:'true',VITE_SUPABASE_URL:'http://127.0.0.1:4176',VITE_SUPABASE_ANON_KEY:'isolated-test-value'},windowsHide:true}),error=>error.stderr.includes('PRELAUNCH_TRIAL_CLOSED'));
 // Existing artifacts cannot pass verification after the source switch closes.
 for(const app of ['admin','customer'])await assert.rejects(()=>exec(process.execPath,['scripts/environments/verify-dist.mjs',app,'prelaunch-trial',path.join(root,app==='admin'?'dist':'customer-web/dist')],{cwd:closed,env,windowsHide:true}),error=>error.stderr.includes('PRELAUNCH_TRIAL_CLOSED'));
-console.log(JSON.stringify({ok:true,hostedAccess:false,deployments:0,builds:proofs,productionArtifactRefusals:2,forgedProductionRefusals:2,wrongBranchRefusals:2,closedActualBuildRefusals:2,closedExistingArtifactRefusals:2,closedEnvironmentOverrideRefused:true}));
+console.log(JSON.stringify({ok:true,hostedAccess:false,deployments:0,builds:proofs,productionArtifactRefusals:2,forgedProductionRefusals:2,wrongBranchRefusals:2,closedActualBuildRefusals:2,closedExistingArtifactRefusals:2,closedEnvironmentOverrideRefused:true,pwaSourceShaBound:true}));
