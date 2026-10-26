@@ -1,0 +1,123 @@
+{
+  "ok": true,
+  "hostedAccess": false,
+  "messagesSent": 0,
+  "standingOwnerInstanceTouched": false,
+  "engine": "n8n2.35.5",
+  "network": "none",
+  "nativeCases": [
+    {
+      "name": "offlineDisabled",
+      "status": "success",
+      "executedNodes": [
+        "Every Minute",
+        "Scheduled Mode",
+        "Owner Routing",
+        "Owner Recipient Ready",
+        "Manual Test Mode",
+        "Business Delivery Enabled"
+      ],
+      "actualHostedRequests": 0
+    },
+    {
+      "name": "offlineManualNoConsent",
+      "status": "success",
+      "executedNodes": [
+        "Owner One Message Test",
+        "Test Mode",
+        "Owner Routing",
+        "Owner Recipient Ready",
+        "Manual Test Mode",
+        "One Test Consent"
+      ],
+      "actualHostedRequests": 0
+    },
+    {
+      "name": "offlineManualSuccess",
+      "status": "success",
+      "executedNodes": [
+        "Owner One Message Test",
+        "Test Mode",
+        "Owner Routing",
+        "Owner Recipient Ready",
+        "Manual Test Mode",
+        "One Test Consent",
+        "Send One Owner Test",
+        "Test Delivery Result"
+      ],
+      "actualHostedRequests": 0
+    },
+    {
+      "name": "offlineMixedSuccess",
+      "status": "success",
+      "executedNodes": [
+        "Every Minute",
+        "Scheduled Mode",
+        "Owner Routing",
+        "Owner Recipient Ready",
+        "Manual Test Mode",
+        "Business Delivery Enabled",
+        "Claim Frankfurt Events",
+        "Split Frankfurt Events",
+        "Owner Business Event",
+        "Format Owner Message",
+        "Send Owner Business Message",
+        "Telegram Receipt Matches Owner",
+        "Acknowledge Owner Delivery",
+        "Record Unsupported Event"
+      ],
+      "actualHostedRequests": 0
+    },
+    {
+      "name": "offlineDeliveryFailure",
+      "status": "success",
+      "executedNodes": [
+        "Every Minute",
+        "Scheduled Mode",
+        "Owner Routing",
+        "Owner Recipient Ready",
+        "Manual Test Mode",
+        "Business Delivery Enabled",
+        "Claim Frankfurt Events",
+        "Split Frankfurt Events",
+        "Owner Business Event",
+        "Format Owner Message",
+        "Send Owner Business Message",
+        "Telegram Receipt Matches Owner",
+        "Record Owner Delivery Failure"
+      ],
+      "actualHostedRequests": 0
+    },
+    {
+      "name": "offlineWrongReceipt",
+      "status": "success",
+      "executedNodes": [
+        "Every Minute",
+        "Scheduled Mode",
+        "Owner Routing",
+        "Owner Recipient Ready",
+        "Manual Test Mode",
+        "Business Delivery Enabled",
+        "Claim Frankfurt Events",
+        "Split Frankfurt Events",
+        "Owner Business Event",
+        "Format Owner Message",
+        "Send Owner Business Message",
+        "Telegram Receipt Matches Owner",
+        "Record Owner Delivery Failure"
+      ],
+      "actualHostedRequests": 0
+    }
+  ],
+  "transport": "synthetic Set outputs;real native graph,expressions,IF,Split and item pairing",
+  "templateSha256": "2da61ca69230435e4b42511bdd5bf5452bc58a9c5278a0aeeff92e94f8f64b8c",
+  "adminUnitsPassed": 1485,
+  "adminUnitsFailed": 0,
+  "focusedWorkflowTests": 6,
+  "typesBoth": true,
+  "strictEslint": true,
+  "gitleaksLeaks": 0,
+  "ciPending": true,
+  "newMigration": false,
+  "financialSourceChanges": false
+}

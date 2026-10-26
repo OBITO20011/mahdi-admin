@@ -3,23 +3,35 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/operations/PRELAUNCH_TRIAL_AR.md"
+      "path": "automation/n8n/README.md"
     },
     {
       "code": " M",
-      "path": "docs/operations/PRELAUNCH_TRIAL_LOCAL_EVIDENCE.json"
+      "path": "docs/agent/OWNER_DECISIONS.md"
     },
     {
       "code": " M",
-      "path": "scripts/audit/prelaunch-trial-inverse.json"
+      "path": "docs/agent/project-state.json"
     },
     {
       "code": " M",
-      "path": "scripts/environments/run-context.mjs"
+      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
     },
     {
-      "code": " M",
-      "path": "scripts/testing/run-prelaunch-trial-builds.mjs"
+      "code": "??",
+      "path": "automation/n8n/workflows/frankfurt-owner-business-alerts.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/FRANKFURT_OWNER_BUSINESS_ALERTS_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/FRANKFURT_OWNER_BUSINESS_ALERTS_LOCAL.json"
+    },
+    {
+      "code": "??",
+      "path": "tests/frankfurt-owner-alerts.test.ts"
     }
   ]
 }
