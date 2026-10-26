@@ -5,6 +5,19 @@ import {fileURLToPath} from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'dist');
+const auditUrl = process.env.NAWASRAH_SEO_AUDIT_API_URL;
+const auditKey = process.env.NAWASRAH_SEO_AUDIT_API_KEY;
+if (Boolean(auditUrl) !== Boolean(auditKey)) {
+  throw new Error('Isolated SEO audit requires both a URL and a key.');
+}
+if (auditUrl) {
+  const parsed = new URL(auditUrl);
+  if (parsed.protocol !== 'http:' || !['127.0.0.1', 'localhost', '[::1]'].includes(parsed.hostname)
+      || parsed.username || parsed.password || parsed.pathname !== '/' || parsed.search || parsed.hash) {
+    throw new Error('Isolated SEO audit API must be a plain loopback HTTP origin.');
+  }
+}
+
 const buildEnvironment=validatePublicBuildManifest(JSON.parse(await readFile(path.join(dist,'nawasrah-environment.json'),'utf8')));
 if(buildEnvironment.format!==1||!['production','staging'].includes(buildEnvironment.environment)||buildEnvironment.isolated)throw new Error('SEO_REQUIRES_SELECTED_BUILD_MANIFEST');
 const siteOrigin=buildEnvironment.storeOrigin;
@@ -18,18 +31,6 @@ const aboutDescription = `تعرف على ${officialName}، لتجارة الم�
 const defaultImage = `${siteOrigin}/nawasrah-store-logo.jpg`;
 const storefrontImage = `${siteOrigin}/nawasrah-storefront.webp`;
 const configuredUrl=buildEnvironment.url,configuredKey=buildEnvironment.key;
-const auditUrl = process.env.NAWASRAH_SEO_AUDIT_API_URL;
-const auditKey = process.env.NAWASRAH_SEO_AUDIT_API_KEY;
-if (Boolean(auditUrl) !== Boolean(auditKey)) {
-  throw new Error('Isolated SEO audit requires both a URL and a key.');
-}
-if (auditUrl) {
-  const parsed = new URL(auditUrl);
-  if (parsed.protocol !== 'http:' || !['127.0.0.1', 'localhost', '[::1]'].includes(parsed.hostname)
-      || parsed.username || parsed.password || parsed.pathname !== '/' || parsed.search || parsed.hash) {
-    throw new Error('Isolated SEO audit API must be a plain loopback HTTP origin.');
-  }
-}
 const url = auditUrl || configuredUrl;
 const key = auditKey || configuredKey;
 

@@ -3,11 +3,15 @@
   "files": [
     {
       "code": " M",
-      "path": "scripts/testing/reset214-persistent-local.mjs"
+      "path": "customer-web/scripts/generate-seo-pages.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/testing/run-reset214-resume-runtime.mjs"
+      "path": "docs/operations/ENVIRONMENT_SEPARATION_LOCAL_EVIDENCE.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/environments-inverse.json"
     }
   ]
 }

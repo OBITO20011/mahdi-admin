@@ -7,7 +7,7 @@
   "sourceHashes": {
     "customer-web/package.json": "651937e11e374c8aeb223065aaa1e05381de45e0fa70b0693b0a0c4ffc450e9b",
     "customer-web/public/_headers": "84ceb5068f62cc9a5668f5d0c3ca15f560ca86325d46d9b4b4a53c9c231b2d08",
-    "customer-web/scripts/generate-seo-pages.mjs": "96f6ec77ee792988b8465fb8c3d8c5c7330483068c8f3c560d1c6c8c54d60448",
+    "customer-web/scripts/generate-seo-pages.mjs": "cb3e256ccb96f8f38f8d47be2721af88e5f4b394e4811a4d588eb9d4c9544202",
     "customer-web/scripts/verify-seo-output.mjs": "079d1351c9f502a42d78509c855822c7b15151fe267f06d326e990cdd6cf216f",
     "customer-web/src/config/supabase-public-config.ts": "58d710e32d82b1656cbc07003ab5303792347c8105adecaf89c660cd3e594b1b",
     "customer-web/vite.config.ts": "36fa835a0642888af94f0a3760a63739797f4da534852e63d077a9bf8b19a648",
@@ -123,7 +123,9 @@
   },
   "nonAcceptedAttempts": [
     "First staging build rejected a production SEO env default;context-specific environment loading fixed without bypass",
-    "One local reference bootstrap timeout SIGTERM240000ms during concurrent test load;one standalone rerun passed with same timeout"
+    "One local reference bootstrap timeout SIGTERM240000ms during concurrent test load;one standalone rerun passed with same timeout",
+    "Clean CI caught audit-URL validation ordered after a missing build manifest;validation moved before file reads and original negative test retained. Committed continuity branch synchronized."
   ],
-  "fullExactShaCiRequired": true
+  "fullExactShaCiRequired": true,
+  "targetedFollowup": "phase36 isolated audit admission,selected SEO contexts,environment inverse and continuity;full exact-SHA CI repeats all gates"
 }
