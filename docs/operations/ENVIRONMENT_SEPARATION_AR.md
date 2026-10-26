@@ -13,7 +13,11 @@
 
 كل من إعداد العميل، وCSP، ومولّد SEO يأخذ البيئة المختارة نفسها. لا يوجد fallback مستضاف عند غياب السياق. يُرفض URL أو مفتاح عام أو رابط متجر مخالف للبيئة المختارة. المفاتيح المضمّنة مفاتيح publishable عامة فقط؛ لا تدخل DB أو service_role أو Telegram أو R2 في VITE.
 
-من مجلد مصدر نظيف ومحدّث، للبناء فقط:
+من مجلد مصدر نظيف ومحدّث، للبناء فقط. إذا كانت جلسة PowerShell تحمل متغيرات عامة للبيئة الأخرى،امسحها من الجلسة أو اضبطها وفق الجدول؛لن تغير الأوامر ملفات env المحفوظة:
+
+```powershell
+Remove-Item Env:VITE_SUPABASE_URL,Env:VITE_SUPABASE_PUBLISHABLE_KEY,Env:VITE_SUPABASE_ANON_KEY,Env:VITE_PUBLIC_SITE_ORIGIN,Env:VITE_STOREFRONT_PUBLIC_URL -ErrorAction SilentlyContinue
+```
 
 ```powershell
 # production — لا ينشر
@@ -78,7 +82,7 @@ node scripts/environments/verify-dist.mjs customer staging customer-web/dist
 
 ## مرجع RESET214
 
-تغيّر المصدر العام للواجهتين، لذلك تُعاد أدلة قراءة 214 وبناء مرجع `local-reference-through214-ready.json` بنفس السقف و176 ملفاً. لا إعادة تسمية مرجع209 ولا تخفيف حارس البصمة. لا تبدّل كود الأداة أو المرجع أثناء وجود `RESET214_IN_PROGRESS.json`؛ استأنف بأداة ومرجع المحاولة الأصليين ثم حدّث بعد نجاحها.
+تغيّر المصدر العام للواجهتين، لذلك تُعاد أدلة قراءة 214 وبناء مرجع `local-reference-through214-ready.json` بنفس السقف و176 ملفاً. المرجع المحلي المحدث: `C:\Users\TOP\NawasrahFrankfurt\environment-separation-preparation-20261026\local-reference-through214-ready.json`،ويُستخدم من main بعد دمج حزمة2 فقط. [دليل التحقق المحلي](ENVIRONMENT_SEPARATION_LOCAL_EVIDENCE.json). لا إعادة تسمية مرجع209 ولا تخفيف حارس البصمة. لا تبدّل كود الأداة أو المرجع أثناء وجود `RESET214_IN_PROGRESS.json`؛ استأنف بأداة ومرجع المحاولة الأصليين ثم حدّث بعد نجاحها.
 
 ## المراجع العامة
 

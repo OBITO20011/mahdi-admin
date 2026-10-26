@@ -157,7 +157,7 @@
     },
     {
       "file": "src/config/supabase-public-config.ts",
-      "sha256": "af1e88aa7cc33c3e4c2504052792995250c29dba1b61e85eafbfb7096ea4d34f"
+      "sha256": "58d710e32d82b1656cbc07003ab5303792347c8105adecaf89c660cd3e594b1b"
     },
     {
       "file": "src/constants/index.ts",
@@ -1201,7 +1201,7 @@
     },
     {
       "file": "customer-web/src/config/supabase-public-config.ts",
-      "sha256": "a52af5c5c0c3d69d7694ce62b0298c7bf8daf5c17ac61ac99183a54911a6aa38"
+      "sha256": "58d710e32d82b1656cbc07003ab5303792347c8105adecaf89c660cd3e594b1b"
     },
     {
       "file": "customer-web/src/hooks/useCustomerCommerce.ts",
