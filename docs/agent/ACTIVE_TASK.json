@@ -2,33 +2,23 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner-approved RESET214 retention/guards/local rehearsals; separate PR/fullCI, approval before merge",
-  "baselineSha": "d6c8a9c2ea49d27204d23976e9586a8aaacd414c",
-  "branch": "codex/reset214-owner-preservation",
+  "objective": "RESET214 durable protected retention and fail-closed restart;local interruptions/negative proofs;PR/fullCI,approval before merge",
+  "baselineSha": "72966be5b7d9a4e2200df73e6ec477c4656bbd84",
+  "branch": "codex/reset214-safe-resume",
   "phase": "PACKAGE_F",
   "completed": [],
   "inProgress": [
-    "PR32 exact-head FULL push and PR CI pending; no merge before owner approval"
+    "Design safe restart guards and protected retention snapshot"
   ],
   "notStarted": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "testsPassed": [
-    "Fresh214 reference:176/556/13,fresh-incremental differences0",
-    "Real local reset37:custom settings/dictionaries and owner MFA retained,6 trial accounts and actual Storage image deleted,catalog0/ACL0",
-    "Actual interrupted rebuild088:88applied/87recorded;recovery required,no success claim",
-    "Final source:1465 Admin unit tests,0fail/0skip;strict ESLint and TypeScript PASS",
-    "Final owner CLI offline-plan contract13 PASS;23 focused historical/RESET214 assertions PASS",
-    "PR31 merged fb240a5f,main FULL47 verified;primary20 owner files/7 ignored configs unchanged"
-  ],
+  "testsPassed": [],
   "testsRemaining": [
-    "Exact d6c8a9c push+PR FULL47,including new reset214 guards/runtime;Gitleaks0"
+    "Local complete/resume4stages/negative cases;fullCI/Gitleaks0"
   ],
-  "findings": [
-    "Earlier local114 official history failure is recorded as unclassified failed evidence,not bypassed;later independent full local176 passed",
-    "Daily summary default00:00 Asia/Amman;owner noon/midnight confirmation remains nonblocking until business-alert setup"
-  ],
+  "findings": [],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
@@ -38,10 +28,10 @@
     "No recurring automation",
     "No merge before approval"
   ],
-  "nextExactAction": "Prove RESET214 retains PostgreSQL BIGINT above2^53 exactly via raw JSON strings;then final CI on new SHA",
+  "nextExactAction": "Verify safe-resume local after binding initial business fingerprint and no-rows-no-write witness",
   "startedAt": "2026-10-26T14:33:18.441Z",
-  "checkpointedAt": "2026-10-26T15:55:32.797Z",
-  "filesTouchedCount": 3,
-  "filesTouchedManifestSha256": "a53a773549b250151129e48d84968bc9dcdf8960cd505f717afaaf718706ab73",
-  "workingTreeFingerprint": "6EE0920C99B585EB27DBEC41F1710F4D1300913198D463D2F229FA8086CF4153"
+  "checkpointedAt": "2026-10-26T17:12:54.824Z",
+  "filesTouchedCount": 7,
+  "filesTouchedManifestSha256": "38811ad6cea255841c9df6302b8b47416f292c1d72ded97681cefefcf287be9b",
+  "workingTreeFingerprint": "3F772A2508879B2DFD36A035796C78AFD06FF0748F8FF926DB3DBA0EFD8EDE95"
 }
