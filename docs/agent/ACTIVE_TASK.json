@@ -2,13 +2,13 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Docs-only audit closure H01/M02 and verified H02/H03/M01 status;executable go-live runbook and offline current-state inventory;PR/full CI,no execution of plan",
-  "baselineSha": "3783d2df1be6dcbbc18bc67788b5d92aeaf0877e",
-  "branch": "codex/go-live-cutover-docs",
+  "objective": "Owner-approved RESET214 retention/guards/local rehearsals; separate PR/fullCI, approval before merge",
+  "baselineSha": "fb240a5f0479824beeb38ed85ea09dd4a3aa8972",
+  "branch": "codex/reset214-owner-preservation",
   "phase": "PACKAGE_F",
   "completed": [],
   "inProgress": [
-    "Read operational scripts/local sanitized status and document precise cutover gates"
+    "Record owner decisions and implement reset214 contract"
   ],
   "notStarted": [],
   "filesTouched": [
@@ -16,7 +16,7 @@
   ],
   "testsPassed": [],
   "testsRemaining": [
-    "Documentation validation,full CI,Gitleaks0"
+    "Fresh214 reference;positive/negative real local reset;fullCI;Gitleaks0"
   ],
   "findings": [],
   "blockers": [],
@@ -28,10 +28,10 @@
     "No recurring automation",
     "No merge before approval"
   ],
-  "nextExactAction": "Save docs-only cutover plan/audit closure/evidence then PR fullCI;no reset,notification activation,deploy or project connection.",
-  "startedAt": "2026-10-26T13:13:00.323Z",
-  "checkpointedAt": "2026-10-26T13:38:31.473Z",
-  "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "63cec86beb8406441bb1f6a422d3efd2d63e30338ad96e117b8cc7b46f4a5af8",
-  "workingTreeFingerprint": "AC71F8EDD7705111FB590349E7E5C87D4550CBC5CA561B8F1512731A3514CF48"
+  "nextExactAction": "Implement RESET214 core and guarded owner CLI; local tests and fullCI remain",
+  "startedAt": "2026-10-26T14:33:18.441Z",
+  "checkpointedAt": "2026-10-26T14:35:53.378Z",
+  "filesTouchedCount": 3,
+  "filesTouchedManifestSha256": "a34775ce0f6a3334379a79940874e4508a1aef7e5fed273c3b02220954c4c9a7",
+  "workingTreeFingerprint": "917E241B209C8B2D6F56453A73D5BC3D51B891B0B1EAE8EFD227038E9E2BDB0A"
 }
