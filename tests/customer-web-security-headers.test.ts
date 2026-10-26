@@ -1,9 +1,10 @@
+import {renderEnvironmentHeaders,resolveBuildEnvironment} from '../scripts/environments/environment.mjs';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
 test('customer storefront ships production security headers', async () => {
-  const headers = await readFile('customer-web/public/_headers', 'utf8');
+  const headers = renderEnvironmentHeaders(await readFile('customer-web/public/_headers', 'utf8'),resolveBuildEnvironment({NAWASRAH_DEPLOYMENT_ENV:'production'}));
 
   assert.match(headers, /X-Frame-Options: DENY/u);
   assert.match(headers, /X-Content-Type-Options: nosniff/u);

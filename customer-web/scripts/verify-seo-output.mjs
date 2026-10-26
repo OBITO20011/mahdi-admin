@@ -46,6 +46,7 @@ invariant(locations.every((location) => !/\/admin|\/checkout|\/tracking|\/receip
 invariant(robots.includes(`Sitemap: ${origin}/sitemap.xml`), 'robots points to the wrong sitemap');
 
 const rootHtml = await readRoute('/');
+if(staging){invariant(robots.includes('Disallow: /\n'),'staging must disallow indexing');invariant(rootHtml.includes('noindex, nofollow, noarchive'),'staging must be noindex');}
 invariant(rootHtml.includes(`<title>${officialName} |`), 'homepage title does not use the official entity name');
 invariant(rootHtml.includes(`rel="canonical" href="${origin}/"`), 'homepage canonical is invalid');
 invariant(rootHtml.includes(`property="og:image" content="${origin}/nawasrah-store-logo.jpg"`), 'homepage social image is missing');

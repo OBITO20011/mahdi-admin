@@ -1,3 +1,4 @@
+import {resolveBuildEnvironment} from '../scripts/environments/environment.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import test from 'node:test';
@@ -8,7 +9,8 @@ test('Customer canonical origin is alnawasreh.com across runtime and static SEO'
   assert.match(read('customer-web/.env.production'), /VITE_PUBLIC_SITE_ORIGIN=https:\/\/alnawasreh\.com/u);
   assert.match(read('customer-web/src/config/publicSite.ts'), /https:\/\/alnawasreh\.com/u);
   assert.match(read('customer-web/src/utils/storefrontSeo.ts'), /getPublicStorefrontUrl/u);
-  assert.match(read('customer-web/scripts/generate-seo-pages.mjs'), /https:\/\/alnawasreh\.com/u);
+  assert.match(read('customer-web/scripts/generate-seo-pages.mjs'), /buildEnvironment.storeOrigin/u);
+  assert.equal(resolveBuildEnvironment({NAWASRAH_DEPLOYMENT_ENV:'production'}).storeOrigin,'https://alnawasreh.com');
   assert.match(read('customer-web/public/robots.txt'), /Sitemap: https:\/\/alnawasreh\.com\/sitemap\.xml/u);
 });
 

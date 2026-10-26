@@ -1,3 +1,4 @@
+import {sourceBeforeEnvironments} from '../scripts/audit/source-before-environments.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFileSync} from 'node:fs';
@@ -9,7 +10,7 @@ const hash=(text:string)=>createHash('sha256').update(text).digest('hex');
 test('RESET214 operational inverse preserves exact main bytes and rejects every extra byte',()=>{
  assert.deepEqual(Object.keys(reset214Pins).sort(),['package.json','scripts/testing/run-trial-reset-runtime.mjs']);
  for(const [file,pin] of Object.entries(reset214Pins) as [string,{before:string;after:string;beforeText:string}][]){
-  const current=readFileSync(file,'utf8').replaceAll('\r\n','\n');
+  const current=sourceBeforeEnvironments(file,readFileSync(file,'utf8'))!;
   assert.equal(hash(current),pin.after,file);assert.equal(hash(pin.beforeText),pin.before,file);
   assert.equal(sourceBeforeReset214(file,current),pin.beforeText,file);
   assert.equal(pin.beforeText,execFileSync('git',['show','fb240a5f0479824beeb38ed85ea09dd4a3aa8972:'+file],{encoding:'utf8',maxBuffer:8*1024**2}).replaceAll('\r\n','\n'),file);

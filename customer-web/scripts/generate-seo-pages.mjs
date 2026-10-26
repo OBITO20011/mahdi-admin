@@ -120,7 +120,7 @@ function injectHead(shell, {title, description, canonical, schema, image = defau
     `<title>${escapeHtml(title)}</title>`,
     `<meta name="description" content="${escapeHtml(description)}" />`,
     `<link rel="canonical" href="${escapeHtml(canonical)}" />`,
-    '<meta name="robots" content="index, follow, max-image-preview:large" />',
+    `<meta name="robots" content="${buildEnvironment.environment==='staging'?'noindex, nofollow, noarchive':'index, follow, max-image-preview:large'}" />`,
     `<meta property="og:type" content="${type}" />`,
     '<meta property="og:locale" content="ar_JO" />',
     `<meta property="og:site_name" content="${escapeHtml(officialName)}" />`,

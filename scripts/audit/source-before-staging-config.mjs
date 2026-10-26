@@ -1,3 +1,4 @@
+import {sourceBeforeEnvironments} from './source-before-environments.mjs';
 // Historical DB evidence stays immutable. Admit ONLY the owner's two literal
 // public-config substitutions; pin the complete restored files, not exclusions.
 import assert from 'node:assert/strict';
@@ -13,7 +14,7 @@ const pins={
 const hash=s=>createHash('sha256').update(s).digest('hex');
 export function restoreStagingConfig(file,text){
  assert.ok(Object.hasOwn(pins,file),'NOT_AN_APPROVED_CONFIG');
- let restored=text.replaceAll('\r\n','\n');
+ let restored=sourceBeforeEnvironments(file,text);
  for(const [after,before]of[
   ["SUPABASE_URL: 'https://kzevmysfydaslxcerogt.supabase.co'","SUPABASE_URL: 'https://acjtabdqqnpwhdvbvnyw.supabase.co'"],
   ["SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_d4TElxRQFkC-AZko3_ASeg_YotqxGjV'","SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_XYq8HBYT6Pxa2VdRdi69CA_012vvfp5'"],
@@ -23,7 +24,7 @@ export function restoreStagingConfig(file,text){
 export async function sourceBeforeStagingConfig(sources){
  const result=restoreUnitSourceHashes(sources).map(s=>({...s}));
  for(const file of Object.keys(pins)){
-  const current=(await readFile(file,'utf8')).replaceAll('\r\n','\n'),entry=result.find(s=>s.file===file);
+  const current=sourceBeforeEnvironments(file,await readFile(file,'utf8')),entry=result.find(s=>s.file===file);
   assert.ok(entry,'CONFIG_SOURCE_REQUIRED');assert.equal(entry.sha256,hash(current),'CURRENT_CONFIG_HASH_MISMATCH');
   entry.sha256=hash(restoreStagingConfig(file,current));
  }

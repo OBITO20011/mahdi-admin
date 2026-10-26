@@ -1,5 +1,7 @@
 # خطة يوم التشغيل الرسمي — النواصرة
 
+إضافة حزمة2: راجع [فصل البيئات وإغلاق المعاينات](ENVIRONMENT_SEPARATION_AR.md) قبل تنفيذ أقسام المعاينات أو البناء. السياق production=فرانكفورت، وstaging=سنغافورة بعدT+7. لا نشر أو تعديل Cloudflare ضمن إعداد هذه الحزمة.
+
 **خطة مستقبلية، لم تُنفّذ أي خطوة منها في حزمة التوثيق أو حزمة RESET214.**
 
 تحديث1ب:PR32 دُمج إلى `72966be5` ونجح main FULL47/47. الاستئناف الآمن له PR واعتماد مستقل قبل يوم التشغيل؛راجع [دليل RESET214 والاستئناف](RESET214_OWNER_AR.md). بروفاته محلية فقط،ولم يُنفّذ أي تصفير مستضاف.
@@ -229,6 +231,7 @@ function Invoke-ReleaseStep { param([scriptblock]$Step)
   & $Step
   if ($LASTEXITCODE -ne 0) { throw 'فشلت خطوة الإصدار؛توقف.' }
 }
+$env:NAWASRAH_DEPLOYMENT_ENV='production'
 $env:VITE_SUPABASE_URL='https://kzevmysfydaslxcerogt.supabase.co'
 $env:VITE_SUPABASE_PUBLISHABLE_KEY=Read-Host 'المفتاح العام المعتمد لفرانكفورت'
 Remove-Item Env:VITE_SUPABASE_ANON_KEY -ErrorAction SilentlyContinue
