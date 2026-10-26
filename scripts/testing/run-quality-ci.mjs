@@ -13,7 +13,7 @@ assert.ok(group==='core'?shardArgs.length===0:
   shardArgs.length===1&&isPackageFShardArgument(shardArgs[0]),
   'Core is unsharded; Package F requires exactly one approved shard argument');
 function execute(command,args){
-  const result=spawnSync(command,args,{cwd:root,env:{...process.env,NAWASRAH_BROWSER_GROUP:group},stdio:'inherit'});
+  const result=spawnSync(command,args,{cwd:root,env:{...process.env,NAWASRAH_DEPLOYMENT_ENV:'production',NAWASRAH_BROWSER_GROUP:group},stdio:'inherit'});
   if(result.error)throw result.error;
   if(result.status!==0)process.exit(result.status??1);
 }

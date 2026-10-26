@@ -13,7 +13,7 @@ test('nightly backup never follows frontend Frankfurt defaults and rejects any o
   const link=path.join(dir,'supabase/.temp/project-ref');await writeFile(link,BACKUP_PROJECT_REF+'\n');
   const actual=await readPublicSupabaseConfig(dir);assert.equal(actual.url,'https://acjtabdqqnpwhdvbvnyw.supabase.co');
   assert.equal(actual.publishableKey,'sb_publishable_XYq8HBYT6Pxa2VdRdi69CA_012vvfp5');
-  const frontend=await readFile('src/config/supabase-public-config.ts','utf8');assert.ok(frontend.includes('https://kzevmysfydaslxcerogt.supabase.co'));
+  const frontend=await readFile('src/config/supabase-public-config.ts','utf8');assert.ok(!frontend.includes('supabase.co'));assert.ok(frontend.includes('__NAWASRAH_PUBLIC_CONFIG__'));
   await writeFile(link,'kzevmysfydaslxcerogt');await assert.rejects(()=>readPublicSupabaseConfig(dir),/BACKUP_PROJECT_MISMATCH/u);
   await rm(link);await assert.rejects(()=>readPublicSupabaseConfig(dir),{code:'ENOENT'});
   assert.throws(()=>backupPublicConfigForProject(''),/BACKUP_PROJECT_MISMATCH/u);

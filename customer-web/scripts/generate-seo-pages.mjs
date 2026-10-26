@@ -1,22 +1,10 @@
+import {validatePublicBuildManifest} from '../../scripts/environments/environment.mjs';
 import {mkdir, readFile, writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'dist');
-const siteOrigin = (process.env.VITE_PUBLIC_SITE_ORIGIN || 'https://alnawasreh.com').replace(/\/+$/, '');
-const officialName = 'النواصرة لتجارة الجملة والمواد الغذائية';
-const alternateName = 'النواصرة لتجارة الجملة والمواد الغذائية';
-const socialProfiles = ['https://www.facebook.com/profile.php?id=100042236486849'];
-const homepageTitle = `${officialName} | مواد غذائية ومشروبات بالجملة`;
-const homepageDescription = 'تصفح منتجات الجملة من النواصرة لتجارة الجملة والمواد الغذائية، واطلب المواد الغذائية والمشروبات المتوفرة مباشرة من المتجر.';
-const aboutTitle = `عن ${officialName} | تجارة الجملة في الرمثا`;
-const aboutDescription = `تعرف على ${officialName}، لتجارة المواد الغذائية والسكاكر والعصائر بالجملة في الرمثا، الأردن.`;
-const defaultImage = `${siteOrigin}/nawasrah-store-logo.jpg`;
-const storefrontImage = `${siteOrigin}/nawasrah-storefront.webp`;
-const config = await readFile(path.join(root, 'src', 'config', 'supabase-public-config.ts'), 'utf8');
-const configuredUrl = config.match(/SUPABASE_URL:\s*'([^']+)'/)?.[1];
-const configuredKey = config.match(/SUPABASE_PUBLISHABLE_KEY:\s*'([^']+)'/)?.[1];
 const auditUrl = process.env.NAWASRAH_SEO_AUDIT_API_URL;
 const auditKey = process.env.NAWASRAH_SEO_AUDIT_API_KEY;
 if (Boolean(auditUrl) !== Boolean(auditKey)) {
@@ -29,6 +17,20 @@ if (auditUrl) {
     throw new Error('Isolated SEO audit API must be a plain loopback HTTP origin.');
   }
 }
+
+const buildEnvironment=validatePublicBuildManifest(JSON.parse(await readFile(path.join(dist,'nawasrah-environment.json'),'utf8')));
+if(buildEnvironment.format!==1||!['production','staging'].includes(buildEnvironment.environment)||buildEnvironment.isolated)throw new Error('SEO_REQUIRES_SELECTED_BUILD_MANIFEST');
+const siteOrigin=buildEnvironment.storeOrigin;
+const officialName = 'النواصرة لتجارة الجملة والمواد الغذائية';
+const alternateName = 'النواصرة لتجارة الجملة والمواد الغذائية';
+const socialProfiles = ['https://www.facebook.com/profile.php?id=100042236486849'];
+const homepageTitle = `${officialName} | مواد غذائية ومشروبات بالجملة`;
+const homepageDescription = 'تصفح منتجات الجملة من النواصرة لتجارة الجملة والمواد الغذائية، واطلب المواد الغذائية والمشروبات المتوفرة مباشرة من المتجر.';
+const aboutTitle = `عن ${officialName} | تجارة الجملة في الرمثا`;
+const aboutDescription = `تعرف على ${officialName}، لتجارة المواد الغذائية والسكاكر والعصائر بالجملة في الرمثا، الأردن.`;
+const defaultImage = `${siteOrigin}/nawasrah-store-logo.jpg`;
+const storefrontImage = `${siteOrigin}/nawasrah-storefront.webp`;
+const configuredUrl=buildEnvironment.url,configuredKey=buildEnvironment.key;
 const url = auditUrl || configuredUrl;
 const key = auditKey || configuredKey;
 
@@ -119,7 +121,7 @@ function injectHead(shell, {title, description, canonical, schema, image = defau
     `<title>${escapeHtml(title)}</title>`,
     `<meta name="description" content="${escapeHtml(description)}" />`,
     `<link rel="canonical" href="${escapeHtml(canonical)}" />`,
-    '<meta name="robots" content="index, follow, max-image-preview:large" />',
+    `<meta name="robots" content="${buildEnvironment.environment==='staging'?'noindex, nofollow, noarchive':'index, follow, max-image-preview:large'}" />`,
     `<meta property="og:type" content="${type}" />`,
     '<meta property="og:locale" content="ar_JO" />',
     `<meta property="og:site_name" content="${escapeHtml(officialName)}" />`,
@@ -266,7 +268,8 @@ for (const product of allProducts) {
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapRoutes.map(({route, changefreq, priority}) => `  <url><loc>${escapeHtml(routeUrl(route))}</loc><changefreq>${changefreq}</changefreq><priority>${priority}</priority></url>`).join('\n')}\n</urlset>\n`;
 await writeFile(path.join(dist, 'sitemap.xml'), sitemap, 'utf8');
-await writeFile(path.join(dist, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /cart\nDisallow: /checkout\nDisallow: /favorites\nDisallow: /tracking\nDisallow: /receipt\nDisallow: /search\nSitemap: ${routeUrl('/sitemap.xml')}\n`, 'utf8');
+await writeFile(path.join(dist,'nawasrah-environment.json'),JSON.stringify({...buildEnvironment,seoSource:auditUrl?'isolated-fixture':'selected-project'},null,2)+'\n');
+await writeFile(path.join(dist, 'robots.txt'), `User-agent: *\n${buildEnvironment.environment==='staging'?'Disallow: /':'Allow: /'}\nDisallow: /cart\nDisallow: /checkout\nDisallow: /favorites\nDisallow: /tracking\nDisallow: /receipt\nDisallow: /search\nSitemap: ${routeUrl('/sitemap.xml')}\n`, 'utf8');
 console.log(JSON.stringify({
   ok: true, origin: siteOrigin, brand: officialName,
   categoryRoutes: sitemapRoutes.filter(({route}) => route.startsWith('/category/')).length,

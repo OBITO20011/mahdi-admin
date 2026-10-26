@@ -2,52 +2,50 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "RESET214 durable protected retention and fail-closed restart;local interruptions/negative proofs;PR/fullCI,approval before merge",
-  "baselineSha": "8e5d6a5b71fda8e5556bd1cfee4b1810c831cb05",
-  "branch": "codex/reset214-safe-resume",
+  "objective": "Package2 explicit production/staging build runtime CSP SEO isolation;no hosted access/deploy;own PR/fullCI/approval",
+  "baselineSha": "ac900de3d63da6f1794f936332b631e66747eb2b",
+  "branch": "codex/environment-separation",
   "phase": "PACKAGE_F",
   "completed": [
-    "PR32 merged72966be5/mainFULL47;primary20ownerfiles/7configs unchanged;offlineplanPASS",
-    "Protected durable retention and explicit deterministic176-file restart",
-    "Actual local4boundary/negative/partialStorage/physical404 proofs PASS"
+    "PR33 merged4f97df62,mainFULL48verified,primary20files/7configs unchanged",
+    "Package2 explicit context,runtime fallbacks,CSP,SEO and4dist guards implemented/pushed",
+    "Local214 table154/service540/reference176-556-13/fresh-incremental0/offlineplan13/PWA4 verified"
   ],
   "inProgress": [
-    "PR33 exact8e5d6a5 FULL48 push+PR CI"
+    "PR34 exactac900de FULL48 push+PR CI"
   ],
   "notStarted": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "testsPassed": [
-    "Final local interrupted4/resumed4 and uninterrupted:all176/cat0/ACL0/retention/MFA",
-    "Missing/tampered snapshot,owner/project/reference mismatch,no marker,MFA/account missing rejected",
-    "Committed INSERT+DELETE outside reset rejected before new deletion",
-    "Windows owner/Admin-only noninherited snapshot,fsync/readback/hash;9focused and Git-save exclusion PASS",
-    "1468unit/TypeScript/strictESLint/CLIoffline13 PASS before final Git-ancestor admission;finalCI repeats",
-    "PR32 exactmain47/47 verified and primaryofflineplan no network"
+    "Four context builds and4opposite-origin/4CSP negatives;fixturedeploy rejects2",
+    "PWA Chromium/WebKit automatic/waiting4;networkescaped0",
+    "BothTypeScript,strictESLint,store197/197,Gitleaks0",
+    "Admin1474/1475;onlygeneratedMarkdown failure resolved by unchanged service inventory4/4",
+    "Real214table154 success0errors,service540 expectedguards;ref0differences"
   ],
   "testsRemaining": [
-    "Exact8e5d6a5 FULL48 push+PR,including mandatory reset214-resume and Gitleaks0",
-    "Owner approval before PR33 merge;then package2 follows without waiting,ownworktree/PR"
+    "ExactPR34 FULL48 each push/PR,including full1475adminrerun",
+    "Owner approval before PR34 merge"
   ],
   "findings": [
-    "No hostedaccess,reset or deployment;allcodepushed",
-    "Temporary write-witness schema/triggers removed before final full catalog/ACL equality",
-    "Four failed/aborted local harness attempts recorded;no retry/skip/timeout/comparison weakening"
+    "One reference bootstrap timeout under concurrent local load;single standalone rerun passed unchanged240s",
+    "Newref:C:/Users/TOP/NawasrahFrankfurt/environment-separation-preparation-20261026/local-reference-through214-ready.json",
+    "All known work committed/pushed;no hostedprojectaccess/deploy/migration/financialchanges"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No project access/deploy/plan execution",
-    "No secrets in reports,no DPAPI decrypt",
-    "No financial code or migration",
-    "No recurring automation",
-    "No merge before approval"
+    "No hostedprojectaccess or deploy",
+    "No financial/RPC/migration changes",
+    "No secrets or owner config reads",
+    "No package2 merge before approval"
   ],
-  "nextExactAction": "Prove deterministic two-session fence via open transaction/observed lock wait,not timing sleeps;final FULL48",
-  "startedAt": "2026-10-26T14:33:18.441Z",
-  "checkpointedAt": "2026-10-26T18:11:53.041Z",
-  "filesTouchedCount": 2,
-  "filesTouchedManifestSha256": "2160baff95b19c8b9274c4e49239db9f81fe33d950b48fa0b8b1650b62ebddfe",
-  "workingTreeFingerprint": "8C0FC05F34D392668C23DD2C2266E20CBF1C17D19B1B242D6139ED4AF24504BC"
+  "nextExactAction": "Verify clean-checkout fix and committed branch continuity;PR34 FULL48 exact final SHA,then owner review",
+  "startedAt": "2026-10-26T19:29:26.152Z",
+  "checkpointedAt": "2026-10-26T20:12:21.751Z",
+  "filesTouchedCount": 3,
+  "filesTouchedManifestSha256": "66640206d67a92b2f8e30d2dd4eb56fc0c2a8582927e0001e86d6ec10d59a2f2",
+  "workingTreeFingerprint": "787CB35AEAD8577D4A9E126B44888CC3F85494CDE8337F32E98535205B9DF5EE"
 }

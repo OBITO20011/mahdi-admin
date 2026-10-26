@@ -1,3 +1,4 @@
+import {restoreEnvironmentSourceHashes} from './source-before-environments.mjs';
 import {sourceBeforeReset214} from './source-before-reset214.mjs';
 // Exact outer inverse: old acceptance evidence retains its original sources.
 import assert from 'node:assert/strict';
@@ -36,6 +37,7 @@ export function pathsBeforeHandover214(files) {
   });
 }
 export function restoreHandover214SourceHashes(sources) {
+  sources=restoreEnvironmentSourceHashes(sources);
   return sources.flatMap(entry => {
     const pin = handover214Pins[entry.file];
     if (!pin || entry.sha256 === pin.before || older.get(entry.file)?.has(entry.sha256)) return [entry];

@@ -1,3 +1,4 @@
+import {verifyEnvironmentDist} from '../environments/verify-dist.mjs';
 import { execFileSync, spawnSync } from 'node:child_process';
 
 const checkOnly = process.argv.includes('--check');
@@ -48,7 +49,9 @@ if (checkOnly) {
 run(process.execPath, [npmCliPath, 'run', 'build'], {
   ...process.env,
   NAWASRAH_ADMIN_RELEASE_ID: localSha,
+  NAWASRAH_DEPLOYMENT_ENV:'production',
 });
+await verifyEnvironmentDist({app:'admin',environment:'production',dir:'dist'});
 run(process.execPath, [
   npmCliPath,
   'exec',

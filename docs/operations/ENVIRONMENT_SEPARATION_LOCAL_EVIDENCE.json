@@ -1,0 +1,131 @@
+{
+  "format": 1,
+  "base": "4f97df62acf0a914fe616e06f1a61c7038e97de7",
+  "hostedAccess": false,
+  "deploymentPerformed": false,
+  "migrationAdded": false,
+  "sourceHashes": {
+    "customer-web/package.json": "651937e11e374c8aeb223065aaa1e05381de45e0fa70b0693b0a0c4ffc450e9b",
+    "customer-web/public/_headers": "84ceb5068f62cc9a5668f5d0c3ca15f560ca86325d46d9b4b4a53c9c231b2d08",
+    "customer-web/scripts/generate-seo-pages.mjs": "cb3e256ccb96f8f38f8d47be2721af88e5f4b394e4811a4d588eb9d4c9544202",
+    "customer-web/scripts/verify-seo-output.mjs": "079d1351c9f502a42d78509c855822c7b15151fe267f06d326e990cdd6cf216f",
+    "customer-web/src/config/supabase-public-config.ts": "58d710e32d82b1656cbc07003ab5303792347c8105adecaf89c660cd3e594b1b",
+    "customer-web/vite.config.ts": "36fa835a0642888af94f0a3760a63739797f4da534852e63d077a9bf8b19a648",
+    "package.json": "cd2bb7033f2c60f989d5e706f8547e64a9abe2e48cf9cb8c4d0b4a7116bd153e",
+    "public/_headers": "27307e9ff4a972327a3ccecdef5cef1b1d5d1e04033d79b40ba5fe07576a395d",
+    "scripts/deployment/deploy-admin.mjs": "759e74a89d0bc32c76802cd1184f80875f26d673a859d9c0e4b87e451050e001",
+    "scripts/testing/isolated-vite-server.mjs": "62831c522d74dab7465625d8c924d6ff57a673773a8c7cb8e4eecff57ca6d3c3",
+    "scripts/testing/run-customer-isolated-build.mjs": "0d49de012849a3e1fdd4afb45637b3d7de9259f6e1dabe08627d6c379e419911",
+    "scripts/testing/run-quality-ci.mjs": "e27a681c921d5d9dbba687071dbfbe3f9d0e39a217538e3256a2152c7153034d",
+    "src/config/supabase-public-config.ts": "58d710e32d82b1656cbc07003ab5303792347c8105adecaf89c660cd3e594b1b",
+    "vite.config.ts": "e09438e204c4e2dcd709d2dd16f88e9f4db2edffdda37c99b50e5c7ff14b42de",
+    "scripts/environments/environment.mjs": "3f7b03d01b327ef5d1352b30e2f8307edb061252bdb9a0b4ced5019598360efd",
+    "scripts/environments/run-context.mjs": "b5fd2e5b2a4f6255727cd14dd5c860478ec44a9379ea88668a76fdfcfa72d57e",
+    "scripts/environments/verify-dist.mjs": "54be271ced281291aec95f5cb7c1a4aeab15dcc4de2b22eda03f3dc9d4facc5a",
+    "scripts/environments/vite-environment.d.mts": "4ce919e53787fe0c9e1da772f09d3ec163cb839b118459a7122c82090903f801",
+    "scripts/environments/vite-environment.mjs": "8066112fd003cd753cd1f327b915c82ef9a2c474f5865b4ccd457b773800b1a4",
+    "scripts/testing/run-environment-builds.mjs": "f7e5444119fd8b18864e85075bd2c6ac02144e1c09fad6e81f1c24ebd39e3b38"
+  },
+  "builds": {
+    "ok": true,
+    "hostedAccess": false,
+    "builds": [
+      {
+        "ok": true,
+        "app": "admin",
+        "environment": "staging",
+        "files": 102,
+        "oppositeOrigins": 0,
+        "fixture": false
+      },
+      {
+        "ok": true,
+        "app": "customer",
+        "environment": "staging",
+        "files": 31,
+        "oppositeOrigins": 0,
+        "fixture": true
+      },
+      {
+        "ok": true,
+        "app": "admin",
+        "environment": "production",
+        "files": 102,
+        "oppositeOrigins": 0,
+        "fixture": false
+      },
+      {
+        "ok": true,
+        "app": "customer",
+        "environment": "production",
+        "files": 31,
+        "oppositeOrigins": 0,
+        "fixture": true
+      }
+    ],
+    "negativeOppositeOrigins": 4,
+    "negativeCspChanges": 4,
+    "isolatedSeoDeployRejected": 2
+  },
+  "pwa": {
+    "ok": true,
+    "cases": 4,
+    "chromium": 2,
+    "webkit": 2,
+    "escapedExternalRequests": 0
+  },
+  "tests": {
+    "focusedEnvironmentAndHistorical18": true,
+    "adminInitialFinalRun": {
+      "total": 1475,
+      "passed": 1474,
+      "failed": 1,
+      "onlyFailure": "generated inventory Markdown;restored exact main document;unchanged service-access-inventory suite4/4 now passes"
+    },
+    "customer": {
+      "passed": 197,
+      "failed": 0
+    },
+    "typecheckBoth": true,
+    "strictEslint": true,
+    "gitleaksDirLeaks": 0,
+    "gitleaksCommitsLeaks": 0
+  },
+  "database": {
+    "tableQueries": 53,
+    "tableRoleCalls": 154,
+    "tableErrors": 0,
+    "serviceSites": 188,
+    "serviceRoleProbes": 540,
+    "expectedDenials": 10,
+    "serviceEvidenceOk": true
+  },
+  "reference": {
+    "startedAt": "2026-10-26T20:00:41.073Z",
+    "managedAccess": false,
+    "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-reference214-UNEp3S",
+    "target": "C:\\Users\\TOP\\NawasrahFrankfurt\\environment-separation-preparation-20261026\\local-reference-through214-ready.json",
+    "ok": true,
+    "migrations": 176,
+    "functions": 556,
+    "realtimeMembers": 13,
+    "freshIncrementalDifferenceCount": 0,
+    "endedAt": "2026-10-26T20:04:03.394Z",
+    "sha256": "8e8e16a7d440fe42a4ea6fb9bb486ec82d9d6b4d2cea5eeed385b4679a24248d"
+  },
+  "offlinePlan": {
+    "ok": true,
+    "tests": 13,
+    "offline": true,
+    "reference": "local-reference-through214-ready.json",
+    "migrations": 176,
+    "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-reset214-offline-KCmRyL\\reset214-2026-10-26T20-06-24-711Z"
+  },
+  "nonAcceptedAttempts": [
+    "First staging build rejected a production SEO env default;context-specific environment loading fixed without bypass",
+    "One local reference bootstrap timeout SIGTERM240000ms during concurrent test load;one standalone rerun passed with same timeout",
+    "Clean CI caught audit-URL validation ordered after a missing build manifest;validation moved before file reads and original negative test retained. Committed continuity branch synchronized."
+  ],
+  "fullExactShaCiRequired": true,
+  "targetedFollowup": "phase36 isolated audit admission,selected SEO contexts,environment inverse and continuity;full exact-SHA CI repeats all gates"
+}

@@ -1,3 +1,4 @@
+import {resolveBuildEnvironment} from '../scripts/environments/environment.mjs';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
@@ -60,7 +61,8 @@ test('Turnstile widget is explicit, Arabic, resettable, and CSP-approved', () =>
 
 test('only the public Turnstile site key is shipped to the browser', () => {
   assert.match(publicConfig, /TURNSTILE_SITE_KEY/);
-  assert.match(publicConfig, /0x4AAAAAAEPJTplD4PVe_Cgk/);
+  assert.equal(resolveBuildEnvironment({NAWASRAH_DEPLOYMENT_ENV:'production'}).turnstile,'0x4AAAAAAEPJTplD4PVe_Cgk');
+  assert.match(publicConfig,/__NAWASRAH_PUBLIC_CONFIG__/);
   assert.doesNotMatch(publicConfig, /TURNSTILE_SECRET/);
-  assert.equal((publicConfig.match(/TURNSTILE_[A-Z_]+\s*:/g) || []).length, 1);
+  assert.doesNotMatch(readFileSync('scripts/environments/environment.mjs','utf8'),/TURNSTILE_SECRET/);
 });

@@ -31,7 +31,9 @@ export async function startIsolatedVite({root, port, env = {}, logger = undefine
     const dependencyDirectory=await realpath(path.join(root,'node_modules')).catch(error=>{
       if(error.code==='ENOENT')return null;throw error;
     });
-    Object.assign(process.env, env);
+    if(env.VITE_SUPABASE_URL){const u=new URL(env.VITE_SUPABASE_URL);if(u.protocol!=='http:'||!['localhost','127.0.0.1','[::1]'].includes(u.hostname))throw new Error('ISOLATED_VITE_REQUIRES_LOOPBACK');}
+    previous.set('VITE_BROWSER_QA_ISOLATED',process.env.VITE_BROWSER_QA_ISOLATED);
+    Object.assign(process.env, env,env.VITE_SUPABASE_URL?{VITE_BROWSER_QA_ISOLATED:'true'}:{});
     server = await createServer({
       ...config, root, cacheDir, ...(logger ? {customLogger: logger} : {}),
       optimizeDeps: {...config.optimizeDeps, include: [...new Set([

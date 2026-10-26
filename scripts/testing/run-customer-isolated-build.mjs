@@ -41,6 +41,7 @@ try {
   const address = server.address();
   assert(address && typeof address !== 'string');
   const env = {...process.env,
+    NAWASRAH_DEPLOYMENT_ENV: process.env.NAWASRAH_DEPLOYMENT_ENV || 'production',
     NAWASRAH_SEO_AUDIT_API_URL: `http://127.0.0.1:${address.port}`,
     NAWASRAH_SEO_AUDIT_API_KEY: 'isolated-seo-audit-key',
   };

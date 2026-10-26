@@ -1,3 +1,4 @@
+import {renderEnvironmentHeaders,resolveBuildEnvironment} from '../scripts/environments/environment.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -5,7 +6,7 @@ import {execFileSync} from 'node:child_process';
 const old='acjtabdqqnpwhdvbvnyw',fra='kzevmysfydaslxcerogt';
 for(const file of ['public/_headers','customer-web/public/_headers'])test('Frankfurt CSP endpoints only;all other header bytes exact: '+file,()=>{
  const before=execFileSync('git',['show','40ecf12:'+file],{encoding:'utf8'}).replaceAll('\r\n','\n');
- const after=readFileSync(file,'utf8').replaceAll('\r\n','\n');
+ const after=renderEnvironmentHeaders(readFileSync(file,'utf8'),resolveBuildEnvironment({NAWASRAH_DEPLOYMENT_ENV:'production'})).replaceAll('\r\n','\n');
  assert.equal(after,before.replaceAll('https://'+old+'.supabase.co','https://'+fra+'.supabase.co').replaceAll('wss://'+old+'.supabase.co','wss://'+fra+'.supabase.co'));
  assert.equal(after.replaceAll(fra,old),before,'no change outside two exact origin replacements');
  const csp=after.split('\n').find(l=>l.includes('Content-Security-Policy:'));assert.ok(csp);

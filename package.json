@@ -56,7 +56,7 @@
     "test:go-live:runtime": "node scripts/testing/run-go-live-setup-runtime.mjs",
     "test:owner-withdrawals:runtime": "node scripts/testing/run-owner-withdrawals-runtime.mjs",
     "test:orders-pagination:runtime": "node scripts/testing/run-operational-orders-pagination-runtime.mjs",
-    "quality": "npm run lint && npm test && npm --prefix customer-web run lint && npm --prefix customer-web test && npm run build && node scripts/testing/run-customer-isolated-build.mjs && npm run test:browser:isolation && npm run test:e2e",
+    "quality": "npm run lint && npm test && npm --prefix customer-web run lint && npm --prefix customer-web test && npm run build && node scripts/testing/run-customer-isolated-build.mjs && node scripts/testing/run-environment-builds.mjs && npm run test:browser:isolation && npm run test:e2e",
     "backup:preflight": "node scripts/backup/preflight.mjs",
     "backup:setup": "node scripts/backup/run-powershell-script.mjs scripts/backup/setup-backup.ps1",
     "backup:update-password": "node scripts/backup/run-powershell-script.mjs scripts/backup/update-database-password.ps1",
@@ -118,7 +118,9 @@
     "test:handover213:gates": "node scripts/testing/run-handover213-gates.mjs",
     "frankfurt-owner-upgrade214": "node scripts/operations/frankfurt-owner-upgrade214.mjs",
     "test:handover214:gates": "node scripts/testing/run-handover214-gates.mjs",
-    "frankfurt-owner-reset214": "node scripts/operations/frankfurt-owner-reset214.mjs"
+    "frankfurt-owner-reset214": "node scripts/operations/frankfurt-owner-reset214.mjs",
+    "build:production": "node scripts/environments/run-context.mjs production admin",
+    "build:staging": "node scripts/environments/run-context.mjs staging admin"
   },
   "dependencies": {
     "@fontsource/ibm-plex-sans-arabic": "5.3.0",

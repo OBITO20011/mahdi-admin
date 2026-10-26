@@ -1,3 +1,4 @@
+import {sourceBeforeEnvironments} from './source-before-environments.mjs';
 // One exact additive CI matrix admission;all previous inverse pins stay frozen.
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
@@ -10,7 +11,7 @@ for(const file of readdirSync(import.meta.dirname).filter(f=>f.endsWith('-hunks.
  }
 }
 export function sourceBeforeReset214B(file,text){
- if(text===null)return null;const source=text.replaceAll('\r\n','\n'),pin=reset214bPins[file];if(!pin)return source;
+ if(text===null)return null;const source=sourceBeforeEnvironments(file,text),pin=reset214bPins[file];if(!pin)return source;
  const digest=hash(source);if(digest===pin.after){assert.equal(hash(pin.beforeText),pin.before,'RESET214B_CORRUPT_INVERSE');return pin.beforeText;}
  if(digest===pin.before||older.get(file)?.has(digest))return source;
  assert.fail('HANDOVER214_UNREVIEWED_SOURCE:'+file);

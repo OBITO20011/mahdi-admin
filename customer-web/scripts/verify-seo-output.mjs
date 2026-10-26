@@ -4,7 +4,9 @@ import {fileURLToPath} from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'dist');
-const origin = 'https://alnawasreh.com';
+const buildEnvironment=JSON.parse(await readFile(path.join(dist,'nawasrah-environment.json'),'utf8'));
+const origin=buildEnvironment.storeOrigin;
+const staging=buildEnvironment.environment==='staging';
 const officialName = 'النواصرة لتجارة الجملة والمواد الغذائية';
 
 function invariant(condition, message) {
@@ -40,10 +42,11 @@ const locations = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/gu)].map((match) => 
 invariant(locations.length >= 3, 'sitemap has no public routes');
 invariant(new Set(locations).size === locations.length, 'sitemap contains duplicate URLs');
 invariant(locations.every((location) => location.startsWith(`${origin}/`)), 'sitemap contains a non-canonical origin');
-invariant(locations.every((location) => !/pages\.dev|\/admin|\/checkout|\/tracking|\/receipt|\/favorites|\/search/u.test(location)), 'sitemap contains a backup, Admin, or private URL');
+invariant(locations.every((location) => !/\/admin|\/checkout|\/tracking|\/receipt|\/favorites|\/search/u.test(location) && (staging || !location.includes('pages.dev'))), 'sitemap contains a backup, Admin, or private URL');
 invariant(robots.includes(`Sitemap: ${origin}/sitemap.xml`), 'robots points to the wrong sitemap');
 
 const rootHtml = await readRoute('/');
+if(staging){invariant(robots.includes('Disallow: /\n'),'staging must disallow indexing');invariant(rootHtml.includes('noindex, nofollow, noarchive'),'staging must be noindex');}
 invariant(rootHtml.includes(`<title>${officialName} |`), 'homepage title does not use the official entity name');
 invariant(rootHtml.includes(`rel="canonical" href="${origin}/"`), 'homepage canonical is invalid');
 invariant(rootHtml.includes(`property="og:image" content="${origin}/nawasrah-store-logo.jpg"`), 'homepage social image is missing');
@@ -83,7 +86,7 @@ for (const location of locations) {
   invariant(location === `${origin}/` || new URL(location).pathname.endsWith('/'), `canonical route causes a redirect: ${location}`);
   const html = await readRoute(new URL(location).pathname);
   invariant(occurrences(html, /rel="canonical"/gu) === 1, `canonical is duplicated: ${location}`);
-  invariant(!html.includes('pages.dev'), `generated SEO contains pages.dev: ${location}`);
+  invariant((staging || !html.includes('pages.dev')), `generated SEO contains pages.dev: ${location}`);
 }
 
 console.log(JSON.stringify({ok: true, sitemapUrls: locations.length, productChecked: Boolean(productLocation), categoryChecked: Boolean(categoryLocation)}));

@@ -6,10 +6,12 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 3002",
     "build": "vite build && node scripts/generate-seo-pages.mjs && node scripts/verify-seo-output.mjs",
-    "deploy:cloudflare": "npm run build && wrangler pages deploy dist --project-name=nawasrah-store --branch=main",
+    "deploy:cloudflare": "npm run build:production && node ../scripts/environments/verify-dist.mjs customer production dist && wrangler pages deploy dist --project-name=nawasrah-store --branch=main",
     "lint": "tsc --noEmit",
     "test": "tsx --test tests/*.test.ts",
-    "dev:lan": "vite --host 0.0.0.0 --port 3002"
+    "dev:lan": "vite --host 0.0.0.0 --port 3002",
+    "build:production": "node ../scripts/environments/run-context.mjs production customer",
+    "build:staging": "node ../scripts/environments/run-context.mjs staging customer"
   },
   "dependencies": {
     "@sentry/react": "^10.70.0",
