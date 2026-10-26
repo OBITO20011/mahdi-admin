@@ -29,7 +29,9 @@ const dataSql=`SELECT jsonb_build_object('rows',count(*),'hash',md5(string_agg(i
 const evidence=async db=>({catalog:await json(db,schemaCatalogSql),tables:{'public.restore_fixture_item':await json(db,dataSql)},roles:await json(db,rolesSql),memberships:[],history:[],sequences:[],storage:[]});
 let started=false,step='setup';
 try{
+ step='start-isolated-container';
  await docker(['run','--detach','--rm','--network','none','--name',name,'--entrypoint','sleep',IMAGE,'infinity']);started=true;
+ step='initialize-isolated-cluster';
  await docker(['exec',name,'mkdir','-p','/tmp/socket']);await docker(['exec',name,'chown','postgres:postgres','/tmp/socket']);
  await docker(['exec','--user','postgres',name,'initdb','-D','/tmp/pgdata','-U','supabase_admin','--auth=trust']);
  await docker(['exec','--user','postgres',name,'pg_ctl','-D','/tmp/pgdata','-l','/tmp/probe.log','-o',"-p 25435 -k /tmp/socket -c listen_addresses='' -c shared_preload_libraries=pg_cron -c cron.database_name=postgres -c cron.launch_active_jobs=off",'-w','start']);
@@ -99,5 +101,9 @@ try{
   pgInitPrivsNotModified:true,replayNoop:true,unrelatedAclDifferencesRejected:['public.restore_fixture_item','public.other_seq','cron.other_seq'],
   missingExtensionMembershipRejectedBeforeWrite:true,exceptionsApplied:[],containerRemoved:true,output};
  await writeFile(path.join(output,'proof.json'),JSON.stringify(report,null,2)+'\n');await writeFile(path.join(tmpdir(),'restore-cron-acl-proof-pointer.txt'),output);console.log(JSON.stringify(report));
-}catch(error){console.error(JSON.stringify({ok:false,step,errorClass:error.code==='ERR_ASSERTION'?'ASSERTION_FAILED':'TOOL_FAILED',operator:error.operator,line:error.stack?.match(/run-restore-cron-acl-runtime\.mjs:(\d+):/u)?.[1]}));process.exitCode=1;}
+}catch(error){
+ const text=String(error.stderr??'');
+ const reason=/toomanyrequests|rate limit/iu.test(text)?'IMAGE_PULL_RATE_LIMITED':/pull access denied|no basic auth|unauthorized/iu.test(text)?'IMAGE_PULL_DENIED':/manifest unknown|not found|No such image/iu.test(text)?'IMAGE_NOT_AVAILABLE':/Cannot connect to the Docker daemon/iu.test(text)?'DOCKER_DAEMON_UNAVAILABLE':/permission denied/iu.test(text)?'TOOL_PERMISSION_DENIED':'OTHER_TOOL_FAILURE';
+ console.error(JSON.stringify({ok:false,step,errorClass:error.code==='ERR_ASSERTION'?'ASSERTION_FAILED':'TOOL_FAILED',toolExitCode:Number.isInteger(error.code)?error.code:null,reason,operator:error.operator,line:error.stack?.match(/run-restore-cron-acl-runtime\.mjs:(\d+):/u)?.[1]}));process.exitCode=1;
+}
 finally{if(started)await docker(['rm','--force',name]);}

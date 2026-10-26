@@ -3,7 +3,7 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Prove pg_cron member ACL/initpriv drift locally and restore exact captured ACL without comparison exceptions;full CI and PR,merge only after approval",
-  "baselineSha": "42aca65a9349e8756b87e8a34bae88d9988b5803",
+  "baselineSha": "1c86117721d9be80dbbc61cc91e4f3feb2b418dc",
   "branch": "codex/frankfurt-restore-cron-acl",
   "phase": "PACKAGE_F",
   "completed": [
@@ -11,7 +11,8 @@
     "Exact captured final ACL replay after remainingTOC;strict comparator unchanged,exceptionsApplied empty",
     "Actual DB negatives:public table,public otherseq,cron otherseq remain rejected;missing second membership prevents first ACL write",
     "1463unit tests0fail0skip,typecheck,strictlint passed",
-    "Complete214 baseline+managed141tables17checks/replay3375TOC/0omitted,S3mock/native17.11TLS passed"
+    "Complete214 baseline+managed141tables17checks/replay3375TOC/0omitted,S3mock/native17.11TLS passed",
+    "Saved/pushed1c861177;local probe rerun and targeted lint after explicit CI setup ordering passed"
   ],
   "inProgress": [
     "Save/push verified code and proof;final PR/full exact SHA CI"
@@ -29,7 +30,8 @@
     "Gitleaks and final exact SHA push/PR full CI"
   ],
   "findings": [
-    "Owner report:only cron.jobid_seq/runid_seq ACL differs;141tables,roles,memberships,positions,history,Storage match"
+    "Owner report:only cron.jobid_seq/runid_seq ACL differs;141tables,roles,memberships,positions,history,Storage match",
+    "Initial recovery CI failed during synthetic setup before DB proof;probe now follows existing image bootstrap and reports bounded startup/tool reason without raw output"
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -40,10 +42,10 @@
     "No merge/primary update before approval",
     "No weakened ACL comparison or generic exception"
   ],
-  "nextExactAction": "Commit and push exact pg_cron ACL replay/proof,then create PR and full exact SHA CI. No merge before owner approval,no hosted access.",
+  "nextExactAction": "Push CI probe setup-order and safe reason correction,then require final exact SHA full push/PR CI;no weakened assertion or retries.",
   "startedAt": "2026-10-26T01:05:44.211Z",
-  "checkpointedAt": "2026-10-26T01:21:36.357Z",
-  "filesTouchedCount": 9,
-  "filesTouchedManifestSha256": "07dd3aae0ef71b9f6b59643da673b15149ac7fcdc7072513c74decfeb613bc5e",
-  "workingTreeFingerprint": "0DA9740D4DDB8C2A0FCD253186A87E06010C2DADC1B869149DB46251E5106282"
+  "checkpointedAt": "2026-10-26T01:25:05.430Z",
+  "filesTouchedCount": 3,
+  "filesTouchedManifestSha256": "c16aef25c80b0af4cabf283b88be6a1faa7963390afb58fbba6264f263fbc53e",
+  "workingTreeFingerprint": "65B3A9AD6F29EB1A48D3BDFCDDB9CEC6ABF1888D6A8C10BFB9740A17FBAD74F3"
 }
