@@ -1,4 +1,5 @@
 import {prepareResetSession,startResetAttempt,validateResetResume,finishResetSession,reset214Marker} from './reset214-session.mjs';
+import {reset214ArabicReason} from './reset214-diagnostics.mjs';
 // Owner terminal only. --plan is offline; --dry-run uses read-only sessions.
 // No arbitrary URL/target flags and no password in argv/files/reports.
 import assert from 'node:assert/strict';
@@ -66,7 +67,7 @@ export async function runOwnerReset214(args){
   if(mode!=='resume')assert.deepEqual(JSON.parse(await query(historySql)),reference.appliedVersions,'RESET214_COMPLETE_HISTORY_REQUIRED');
   let state;
   if(mode==='resume'){
-   await validateResetResume(session,readOnly);state=session.saved.state;report.previousAttempt=session.previous;report.plan=state.plan;
+   await validateResetResume(session,readOnly);state=session.saved.state;report.previousAttempt={...session.previous,observedRecorded:session.observedHistory};report.plan=state.plan;
   }else{
    const original=JSON.parse(await readFile(path.join(workdir,'notification-before.json'),'utf8'));
    await verifyCatalogReadOnly(readOnly,output,reference,original,{beforeBuildDate:reference.buildUtcDate,afterBuildDate:new Date().toISOString().slice(0,10)},report,{strictApplicationAcl:true,assertReadyCatalog:assertReady214Catalog});
@@ -78,7 +79,7 @@ export async function runOwnerReset214(args){
   for(const m of reference.manifest){const source=await readFile(path.join(root,'supabase/migrations',m.name));assert.equal(sha256(await readFile(path.join(workdir,'supabase/migrations',m.name))),sha256(source),'RESET214_EXTERNAL_SQL_CHANGED');}
   const confirm=createInterface({input:process.stdin,output:process.stdout});
   try{
-   console.log(JSON.stringify({plan:state.plan,previous:session.previous??null}));
+   console.log(JSON.stringify({plan:state.plan,previous:report.previousAttempt??null}));
    const phrase=mode==='resume'?'RESUME RESET214 '+TARGET.id+' '+ownerId:'RESET214 '+TARGET.id+' '+ownerId;
    assert.equal(await confirm.question('أوقف كل الكتابات. راجع السبب والنسخة والمرحلة السابقة. اكتب '+phrase+': '),phrase,'RESET214_DESTRUCTIVE_CONFIRMATION_REQUIRED');
   }finally{confirm.close();}
@@ -104,6 +105,7 @@ export async function runOwnerReset214(args){
  }catch(error){
   report.ok=false;report.complete=false;
   report.code=/\bRESET214_[A-Z0-9_]+\b/u.exec(error.message)?.[0]??(error.code==='ENOENT'?'RESET214_REQUIRED_FILE_MISSING':'RESET214_PREFLIGHT_OR_OPERATION_FAILED');
+  report.reasonArabic=reset214ArabicReason(report.code);
   report.recoveryRequired=report.reset?.destructiveStarted===true;return report;
  }finally{
   if(guard)try{await guard.close();}catch{report.ok=false;report.complete=false;report.code='RESET214_GUARD_CLOSE_FAILED';}
@@ -119,6 +121,6 @@ export async function runOwnerReset214(args){
  }
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){
- try{const r=await runOwnerReset214(process.argv.slice(2));console.log(JSON.stringify({ok:r.ok,complete:r.complete,mode:r.mode,output:r.output,code:r.code,plan:r.plan,networkAccess:r.networkAccess,recoveryRequired:r.recoveryRequired}));if(!r.ok)process.exitCode=1;}
+ try{const r=await runOwnerReset214(process.argv.slice(2));console.log(JSON.stringify({ok:r.ok,complete:r.complete,mode:r.mode,output:r.output,code:r.code,reasonArabic:r.reasonArabic,plan:r.plan,networkAccess:r.networkAccess,recoveryRequired:r.recoveryRequired,resumable:r.resumable}));if(!r.ok)process.exitCode=1;}
  catch{console.error('RESET214_LOCAL_ADMISSION_FAILED');process.exitCode=1;}
 }

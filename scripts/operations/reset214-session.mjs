@@ -85,6 +85,7 @@ export async function validateResetResume(session,executor){
  // migration may have committed before history repair;restart never skips it.
  const history=JSON.parse(await readSql(executor,'SELECT COALESCE(jsonb_agg(version ORDER BY version),\'[]\') FROM supabase_migrations.schema_migrations;'));
  assert.deepEqual(history,session.reference.appliedVersions.slice(0,history.length),'RESET214_RESUME_HISTORY_INVALID');
+ session.observedHistory=history;
  return session.writeCheck;
 }
 export async function startResetAttempt(session,executor){

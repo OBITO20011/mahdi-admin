@@ -56,7 +56,9 @@ try{
   const progress=await startResetAttempt(session,executor);
   const r=progress,ex=session.executor;
   await reset214WithExecutor({executor:ex,root,reference,output:session.output,ownerId,session,report:r,
-   emptyStorage:async()=>{const files=await json("SELECT COALESCE(jsonb_agg(name),'[]') FROM storage.objects WHERE bucket_id='product-images';");if(files.length)assert.equal((await admin.storage.from('product-images').remove(files)).error,null);},
+   emptyStorage:async()=>{const files=await json("SELECT COALESCE(jsonb_agg(name ORDER BY name),'[]') FROM storage.objects WHERE bucket_id='product-images';");
+    if(files.length)assert.equal((await admin.storage.from('product-images').remove(stop==='after-storage'?files.slice(0,1):files)).error,null);
+    if(stop==='after-storage')throw new Error('RESET214_SIMULATED_INTERRUPTION');},
    deleteOtherAuth:async id=>sql(`DELETE FROM auth.users WHERE id<>${q(id)}::uuid;`,ex),
    // Real local history rows,not a mocked response. Existing214 gate separately
    // proves official per-file CLI repair;here final official CLI dry-run verifies
@@ -80,13 +82,14 @@ try{
   stage=stop;
   const file=ownerId+'/'+randomUUID()+'.png',bytes=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jC4sAAAAASUVORK5CYII=','base64');
   assert.equal((await admin.storage.from('product-images').upload(file,bytes,{contentType:'image/png'})).error,null);
+  if(stop==='after-storage')assert.equal((await admin.storage.from('product-images').upload(file+'.remaining',bytes,{contentType:'image/png'})).error,null);
   // Real trial business row exists before Storage. It must not be mistaken for
   // a new post-cutover row on the first interruption boundary.
   await sql(`INSERT INTO products(sku,name_ar) VALUES(${q('TRIAL-'+stop)},'صنف تجربة مقصود مسحه');`);
   const interrupted=await prepareResetSession({...await sessionOptions('interrupted-'+stop),state:await captureReset214({executor,ownerId,reference})});
   await assert.rejects(()=>run(interrupted,stop),/RESET214_SIMULATED_INTERRUPTION/u);
   const stored=JSON.parse(await readFile(path.join(interrupted.output,'reset214-progress.json'),'utf8'));assert.equal(stored.ok,false);assert.equal(stored.recoveryRequired,true);
-  assert.equal(await sql('SELECT count(*) FROM storage.objects;'),'0');
+  const storageRemaining=await sql('SELECT count(*) FROM storage.objects;');assert.equal(storageRemaining,stop==='after-storage'?'1':'0');
   if(stop==='after-storage'){
    await sql(`UPDATE auth.users SET last_sign_in_at=now(),updated_at=now() WHERE id=${q(ownerId)};
     UPDATE auth.identities SET last_sign_in_at=now(),updated_at=now() WHERE user_id=${q(ownerId)};`);
@@ -113,8 +116,11 @@ try{
   assert.deepEqual(await json(schemaCatalogSql),targetCatalog,'RESUME_CATALOG_DIFFERS_FROM_UNINTERRUPTED');
   assert.equal((await owner.auth.mfa.listFactors()).data.totp.some(f=>f.id===factor.data.id&&f.status==='verified'),true);
   assert.equal(await sql('SELECT count(*) FROM auth.users;'),'1');assert.equal(await sql('SELECT count(*) FROM products;'),'0');
+  assert.equal(await sql('SELECT count(*) FROM storage.objects;'),'0');
+  const missing=await fetch(admin.storage.from('product-images').getPublicUrl(file).data.publicUrl+'?resume-proof='+randomUUID(),{cache:'no-store'});
+  assert.equal(String((await missing.json()).statusCode),'404','RESET214_PHYSICAL_BYTES_MUST_BE_REMOVED');
   assert.equal(done.resumedFrom,interrupted.output);await assert.rejects(()=>readFile(path.join(output,'RESET214_IN_PROGRESS.json')),{code:'ENOENT'});
-  report.cases.push({stop,previousApplied:stored.applied.length,previousRecorded:stored.recorded.length,restartedAll176:true,retentionMatches:true,catalogDifferences:0,aclDifferences:0,verifiedMfa:true,archiveProtected:true});
+  report.cases.push({stop,previousApplied:stored.applied.length,previousRecorded:stored.recorded.length,storageRemainingAtInterruption:Number(storageRemaining),physicalBytesRemoved:true,restartedAll176:true,retentionMatches:true,catalogDifferences:0,aclDifferences:0,verifiedMfa:true,archiveProtected:true});
   console.log(JSON.stringify({stage:'resume-case-complete',stop,ok:true}));
  }
  stage='foreign-write-negative';
