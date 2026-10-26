@@ -2,50 +2,49 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Package2 explicit production/staging build runtime CSP SEO isolation;no hosted access/deploy;own PR/fullCI/approval",
-  "baselineSha": "ac900de3d63da6f1794f936332b631e66747eb2b",
-  "branch": "codex/environment-separation",
+  "objective": "Package2b temporary source-closed prelaunch-trial context;fixed protected preview branch,production refusal,fullCI;then package3 no wait",
+  "baselineSha": "956e4a643e37a81491cd662de685f7370fc59076",
+  "branch": "codex/prelaunch-trial",
   "phase": "PACKAGE_F",
   "completed": [
-    "PR33 merged4f97df62,mainFULL48verified,primary20files/7configs unchanged",
-    "Package2 explicit context,runtime fallbacks,CSP,SEO and4dist guards implemented/pushed",
-    "Local214 table154/service540/reference176-556-13/fresh-incremental0/offlineplan13/PWA4 verified"
+    "PR34 merged95a3f944 after exactFULL48;primary20files/7configs unchanged",
+    "Prelaunch trial explicit context/source closure/previewbranch-only/upload guards implemented,pushed",
+    "Six local builds;trial2 closedbuild2 oldartifact2 noenvbypass;production/staging4 unchanged"
   ],
   "inProgress": [
-    "PR34 exactac900de FULL48 push+PR CI"
+    "Package2b final PR/fullCI"
   ],
   "notStarted": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "testsPassed": [
-    "Four context builds and4opposite-origin/4CSP negatives;fixturedeploy rejects2",
-    "PWA Chromium/WebKit automatic/waiting4;networkescaped0",
-    "BothTypeScript,strictESLint,store197/197,Gitleaks0",
-    "Admin1474/1475;onlygeneratedMarkdown failure resolved by unchanged service inventory4/4",
-    "Real214table154 success0errors,service540 expectedguards;ref0differences"
+    "Admin1479/1479,bothTypeScript,strictESLint,focused16+uploader3",
+    "Trialrealbuilds2+closedactualbuild2+closedartifact2+production/forgery/wrongbranch2each;nohostedaccess",
+    "Existing4builds+origin/CSPnegatives;source214/financialRPC/migrations unchanged"
   ],
   "testsRemaining": [
-    "ExactPR34 FULL48 each push/PR,including full1475adminrerun",
-    "Owner approval before PR34 merge"
+    "Exact final FULL49 push+PR,Gitleaks0,owner approval before merge",
+    "After returning2bforapproval,start package3 immediately in ownworktree/PR"
   ],
   "findings": [
-    "One reference bootstrap timeout under concurrent local load;single standalone rerun passed unchanged240s",
-    "Newref:C:/Users/TOP/NawasrahFrankfurt/environment-separation-preparation-20261026/local-reference-through214-ready.json",
-    "All known work committed/pushed;no hostedprojectaccess/deploy/migration/financialchanges"
+    "No hostedaccess/deploy;source-controlled OPEN cannot be overridden by env",
+    "Owner preview commands:docs/operations/PRELAUNCH_TRIAL_AR.md",
+    "Metadata known-own sync authorized;all work saved at each completed item"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hostedprojectaccess or deploy",
-    "No financial/RPC/migration changes",
-    "No secrets or owner config reads",
-    "No package2 merge before approval"
+    "No projectaccess or deploy",
+    "No financial/RPC/migrationchanges",
+    "No package2b merge before approval",
+    "No secrets or ownerconfigreads",
+    "No recurringautomation"
   ],
-  "nextExactAction": "Verify clean-checkout fix and committed branch continuity;PR34 FULL48 exact final SHA,then owner review",
-  "startedAt": "2026-10-26T19:29:26.152Z",
-  "checkpointedAt": "2026-10-26T20:12:21.751Z",
-  "filesTouchedCount": 3,
-  "filesTouchedManifestSha256": "66640206d67a92b2f8e30d2dd4eb56fc0c2a8582927e0001e86d6ec10d59a2f2",
-  "workingTreeFingerprint": "787CB35AEAD8577D4A9E126B44888CC3F85494CDE8337F32E98535205B9DF5EE"
+  "nextExactAction": "Final2b FULL49 push+PR/Gitleaks0,return forapproval;then immediately separate package3 template work without merging unapproved2b",
+  "startedAt": "2026-10-26T21:29:00.090Z",
+  "checkpointedAt": "2026-10-26T21:40:43.943Z",
+  "filesTouchedCount": 2,
+  "filesTouchedManifestSha256": "918605280e0cd02b210d67e9f2759df7fe9a54d154cb4df4138afc9bf04412cf",
+  "workingTreeFingerprint": "1A3441D28CA3401F661B693E73D698586AE7B2F3BF00EF7AADD636989D6A887E"
 }

@@ -1,0 +1,97 @@
+{
+  "format": 1,
+  "base": "95a3f944eee283403066c1180ec4000ff53b5b93",
+  "hostedAccess": false,
+  "deployments": 0,
+  "newMigration": false,
+  "trial": {
+    "ok": true,
+    "hostedAccess": false,
+    "deployments": 0,
+    "builds": [
+      {
+        "ok": true,
+        "app": "admin",
+        "environment": "prelaunch-trial",
+        "files": 102,
+        "oppositeOrigins": 0,
+        "fixture": false
+      },
+      {
+        "ok": true,
+        "app": "customer",
+        "environment": "prelaunch-trial",
+        "files": 31,
+        "oppositeOrigins": 0,
+        "fixture": true
+      }
+    ],
+    "productionArtifactRefusals": 2,
+    "forgedProductionRefusals": 2,
+    "wrongBranchRefusals": 2,
+    "closedActualBuildRefusals": 2,
+    "closedExistingArtifactRefusals": 2,
+    "closedEnvironmentOverrideRefused": true
+  },
+  "existingEnvironments": {
+    "ok": true,
+    "hostedAccess": false,
+    "builds": [
+      {
+        "ok": true,
+        "app": "admin",
+        "environment": "staging",
+        "files": 102,
+        "oppositeOrigins": 0,
+        "fixture": false
+      },
+      {
+        "ok": true,
+        "app": "customer",
+        "environment": "staging",
+        "files": 31,
+        "oppositeOrigins": 0,
+        "fixture": true
+      },
+      {
+        "ok": true,
+        "app": "admin",
+        "environment": "production",
+        "files": 102,
+        "oppositeOrigins": 0,
+        "fixture": false
+      },
+      {
+        "ok": true,
+        "app": "customer",
+        "environment": "production",
+        "files": 31,
+        "oppositeOrigins": 0,
+        "fixture": true
+      }
+    ],
+    "negativeOppositeOrigins": 4,
+    "negativeCspChanges": 4,
+    "isolatedSeoDeployRejected": 2
+  },
+  "tests": {
+    "adminPassed": 1479,
+    "adminFailed": 0,
+    "focusedPassed": 16,
+    "bothTypeScript": true,
+    "strictEslint": true,
+    "uploaderFinalFocused": 3
+  },
+  "runtimeHashes": {
+    "scripts/environments/prelaunch-trial-control.mjs": "e793e09f87b7759b586d731974a538ab609b60e6bfab7a923816d46a95d5f90f",
+    "scripts/environments/environment.mjs": "fa83cfa22b7ac7ae955106b327cebfc23595da7231e3e914a6fedc7145031faf",
+    "scripts/environments/deployment-context.mjs": "9840b9904b64130b5aa9e780a11d8e961ad2b0e0769cbbfef17f8b742699ab90",
+    "scripts/environments/assert-production-context.mjs": "7be0f7a03ab607f13dcc82aad547c3b0067bdf9a135ce65086cf34c173a369d0",
+    "scripts/deployment/deploy-prelaunch-trial.mjs": "941ac9a47ef7852d2f799d03d55b7c92c80574503b34239104b778b21cf03970",
+    "scripts/testing/run-prelaunch-trial-builds.mjs": "c9110106db26147a2c4de8ade24133c15467ac27eda61b944d659e8a9ab47538"
+  },
+  "currentApplicationSourcesAndMigrationsUnchanged": true,
+  "reference214Unchanged": true,
+  "knownNonAcceptedAttempt": "SEO sandbox did not copy newly imported source control;copied control file and retained all original fetch/body guards;production/staging/prelaunch tests now pass",
+  "fullExactShaCiRequired": true
+}

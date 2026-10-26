@@ -3,15 +3,11 @@
   "files": [
     {
       "code": " M",
-      "path": "customer-web/scripts/generate-seo-pages.mjs"
+      "path": "docs/agent/project-state.json"
     },
     {
-      "code": " M",
-      "path": "docs/operations/ENVIRONMENT_SEPARATION_LOCAL_EVIDENCE.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/environments-inverse.json"
+      "code": "??",
+      "path": "docs/operations/PRELAUNCH_TRIAL_LOCAL_EVIDENCE.json"
     }
   ]
 }
