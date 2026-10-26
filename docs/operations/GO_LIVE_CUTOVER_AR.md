@@ -88,10 +88,15 @@ RestoreRemote يسترجع **محلياً بمعزل عن الشبكة**؛ لا 
 
 ## 4. فصل البيئة التجريبية والمعاينات
 
+قبل يوم التشغيل فقط،إصلاحات تجربة المالك تستخدم السياق الصريح [prelaunch-trial](PRELAUNCH_TRIAL_AR.md):فرانكفورت مع معاينة staging-frankfurt المحمية بـAccess،بتفويض Claude الدائم للمعاينات فقط. staging العادي يبقى سنغافورة ولا يستخدم قبلT+7.
+
+**خطوة قطع إلزامية قبل التصفير:** Codex يجهّز PR القطع لقلب `PRELAUNCH_TRIAL_OPEN=false` في `scripts/environments/prelaunch-trial-control.mjs`؛المالك يعتمد وClaude يحدّث نسخة الناشر بعد CI. يجب أن يرفض build:prelaunch-trial وفحص dist والرفع المحروس بعدها برسالة PRELAUNCH_TRIAL_CLOSED. لا override من env. المالك/Claude يغلقون Access للمسموحين السابقين أيضاً ويزيلون deployments والـPWA القديمة بالخطوات أدناه؛المفتاح لا يعطّل ملفات منشورة. بقاء معاينة عاملة يوقف الإطلاق. بعد نجاح التشغيل يُزال السياق وأوامره ومسار الرفع من المصدر في PR تنظيف مستقل،ويبقى production/staging فقط.
+
+
 **المنفذ Claude بعد تفويض المالك، والتحقق من المالك على الهاتف والكمبيوتر.** لا تجارب على بيانات فرانكفورت بعد الإطلاق.
 
 1. لكل من **Workers & Pages → nawasrah-admin / nawasrah-store → Settings → Environment variables**، اختر Production أو Preview صراحة (قد تظهر Variables and Secrets). Production: رابط فرانكفورت ومفتاحها العام؛ Preview: البيئة التجريبية فقط بعد تجهيزها. راجع `VITE_SUPABASE_URL` و`VITE_SUPABASE_PUBLISHABLE_KEY` وأزل override متعارضاً من `VITE_SUPABASE_ANON_KEY`. لا service_role في VITE.
-2. القيم تُثبت عند **البناء**. النشر الحالي Direct Upload يبني محلياً؛ لا يأخذ env لوحة Pages تلقائياً. يلزم ضبط جلسة البناء أيضاً. `customer-web/scripts/generate-seo-pages.mjs` يقرأ config المصدر بدلاً من VITE URL، و CSP في `_headers` يسمح بفرانكفورت: يجب تسليم تجهيز بيئة منفصل يشمل الثلاثة قبل retarget إلى سنغافورة، دون إزالة CSP أو التحايل بمتغير QA.
+2. القيم تُثبت عند **البناء**. النشر الحالي Direct Upload يبني محلياً؛ لا يأخذ env لوحة Pages تلقائياً. يلزم ضبط جلسة البناء أيضاً. أصبحت إعدادات runtime وCSP وSEO مشتقة من السياق المختار في PR34. للتجربة النهائية فقط استعمل prelaunch-trial؛وبعدT+7 استعمل staging. لا إزالة CSP ولا استعمال متغير QA للتحايل.
 3. حتى T+7: المعاينات **مغلقة**، ولا تربطها بسنغافورة المحفوظة للرجوع. Settings → Builds & deployments → Preview branch control = None إن كان المشروع مرتبطاً بـ Git. إن كان Direct Upload، يمنع الفريق رفع فرع staging-frankfurt. لا حاجة إلى حذف فرع Git.
 4. هذا لا يعزل الملفات القديمة: Deployments لكل مشروع؛ احصر staging-frankfurt وجميع hash URLs التي بنيت لفرانكفورت. حظر الجميع في Access للمعاينات، حتى allowlist التجربة السابقة. احذف deployments التجريبية غير الحالية، دون مساس بالإنتاج. آخر deployment للفرع لا يُحذف في Pages؛ عند الحاجة ينشر Claude، بإذن نشر منفصل، صفحة صيانة ثابتة بلا JS/Service Worker/اتصال قاعدة على preview نفسه، ثم يحذف السابق. لا تستعمل بناء التطبيق المتصل fallback بفرانكفورت كصيانة.
 5. أزل preview origins من Frankfurt Auth Redirect URLs ومن Turnstile/Edge allowed origins حسب إعدادها في [دليل staging](STAGING_FRANKFURT_AR.md)، مع إبقاء الإنتاج. هذه طبقة مساعدة: CORS و RLS وحدهما لا يمنعان عميل SDK ذا جلسة صحيحة من preview؛ حظر Access وإزالة artefacts ضروريان.
