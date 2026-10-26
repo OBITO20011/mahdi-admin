@@ -3,7 +3,39 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/operations/FRANKFURT_RESTORE_COMPARISON_AR.md"
+      "path": ".github/workflows/backup-recovery.yml"
+    },
+    {
+      "code": " M",
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/backup/complete-backup.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/backup/postgres-diagnostic.mjs"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/FRANKFURT_RESTORE_CRON_ACL_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/restore-cron-acl-evidence/local.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/backup/restore-cron-acl.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-restore-cron-acl-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/restore-cron-acl.test.ts"
     }
   ]
 }
