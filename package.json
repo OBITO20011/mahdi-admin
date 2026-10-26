@@ -117,7 +117,8 @@
     "test:handover213:runtime": "node scripts/testing/run-handover213-runtime.mjs",
     "test:handover213:gates": "node scripts/testing/run-handover213-gates.mjs",
     "frankfurt-owner-upgrade214": "node scripts/operations/frankfurt-owner-upgrade214.mjs",
-    "test:handover214:gates": "node scripts/testing/run-handover214-gates.mjs"
+    "test:handover214:gates": "node scripts/testing/run-handover214-gates.mjs",
+    "frankfurt-owner-reset214": "node scripts/operations/frankfurt-owner-reset214.mjs"
   },
   "dependencies": {
     "@fontsource/ibm-plex-sans-arabic": "5.3.0",

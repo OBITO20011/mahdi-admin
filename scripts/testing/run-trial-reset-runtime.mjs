@@ -1,3 +1,6 @@
+import {postgresDiagnostic} from '../backup/postgres-diagnostic.mjs';
+import {readOnlyPsqlSessionArgs} from '../operations/frankfurt-catalog-verification.mjs';
+import {reset214WithExecutor,captureReset214} from '../operations/trial-reset214-core.mjs';
 import {readReady214Reference,assertReady214Catalog} from '../operations/frankfurt-reference214.mjs';
 import {storage213Contract} from './storage213-contract.mjs';
 import {readReady213Reference,assertReady213Catalog} from '../operations/frankfurt-reference213.mjs';
@@ -132,12 +135,42 @@ try{
  }
  if(latest209||latest208||latest207||latest206||latest205||latest204){const history=await call('get_sales_history_page()');assert.equal(history.summary.salesInMinorUnits,2000);assert.equal(history.totalCount,2);report.historyBeforeReset={sales:2000,invoices:2};}
  if(latest213){stage='storage213';report.storage213=await storage213Contract({api:api.origin,status,client,ownerSession,ownerId,sql,q});stage='reset';}
+ if(latest214){
+  await sql(`UPDATE public.storefront_settings SET store_name_ar='إعداد خاص يبقى بعد التصفير',announcement_text='هوية المالك الخاصة',minimum_order_in_minor_units=9007199254740993,delivery_fee_in_minor_units=789,orders_enabled=false,updated_by=${q(ownerId)};
+  INSERT INTO public.units(code,name_ar,conversion_factor,is_system) VALUES('CUSTOM214','وحدة خاصة محفوظة',7,false);
+  INSERT INTO public.categories(code,name_ar) VALUES('CUSTOM214','قسم خاص محفوظ');
+  INSERT INTO public.categories(code,name_ar,parent_id) SELECT 'CHILD214','قسم فرعي محفوظ',id FROM public.categories WHERE code='CUSTOM214';
+  UPDATE public.profiles SET avatar_url='https://example.test/owner-identity.png',job_title='مالك محفوظ' WHERE id=${q(ownerId)};`);
+
+ }
  const object=ownerId+'/trial.png',bytes=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jC4sAAAAASUVORK5CYII=','base64');
  assert.equal((await client.storage.from('product-images').upload(object,bytes,{contentType:'image/png'})).error,null,'LOCAL_UPLOAD_FAILED');
  const url=client.storage.from('product-images').getPublicUrl(object).data.publicUrl;
  assert.equal((await fetch(url)).status,200,'LOCAL_BYTES_MUST_EXIST_BEFORE_RESET');
+ if(latest214){
+  const readOnly={...executor,args:[...executor.args,...readOnlyPsqlSessionArgs]};
+  await sql('UPDATE storefront_settings SET orders_enabled=true;');
+  const blockedOutput=path.join(output,'blocked214');await (await import('node:fs/promises')).mkdir(blockedOutput);
+  const blocked={};const never=async()=>assert.fail('Closed-store preflight must precede all destructive callbacks');
+  await assert.rejects(()=>reset214WithExecutor({executor,root:sourceRoot,reference,output:blockedOutput,ownerId,report:blocked,emptyStorage:never,deleteOtherAuth:never,clearHistory:never,repair:never,finalDryRun:never}),/RESET214_STORE_ORDERS_MUST_BE_DISABLED/u);
+  assert.equal(blocked.destructiveStarted,false);assert.equal(blocked.recoveryRequired,false);
+  await sql('UPDATE storefront_settings SET orders_enabled=false;');
+  report.reset214OpenStoreRejected=true;
+  const countsBefore=await readRowCounts(executor);
+  // Exact retained store values cannot reference an account about to be removed.
+  await sql(`UPDATE storefront_settings SET updated_by=${q(employee.data.user.id)};`);
+  await assert.rejects(()=>captureReset214({executor:readOnly,ownerId,reference}),/RESET214_SETTINGS_EDITOR_NOT_SELECTED_OWNER/u);
+  assert.deepEqual(await readRowCounts(executor),countsBefore);
+  await sql(`UPDATE storefront_settings SET updated_by=${q(ownerId)};`);
+  const preview=await captureReset214({executor:readOnly,ownerId,reference});
+  assert.equal(preview.plan.authUsers.deleted,6,"RESET214_PREVIEW_EXTRA_AUTH_COUNTS");assert.equal(preview.plan.publicTables.find(t=>t.table==='orders').deleted,2);
+  assert.equal(preview.plan.preserved.units.rows,12);assert.equal(preview.plan.preserved.categories.rows,14);
+  report.reset214Preview=preview.plan;
+  assert.equal(preview.plan.productImages.deleted,1);
+  report.reset214ReadOnlyPreview=true;report.reset214UnsafeRetentionRejected=true;
+ }
  stage='same-reset-pipeline';report.reset={};
- await resetWithExecutor({executor,root:sourceRoot,reference,output,ownerId,report:report.reset,
+ await (latest214?reset214WithExecutor:resetWithExecutor)({executor,root:sourceRoot,reference,output,ownerId,report:report.reset,expectedPlan:latest214?report.reset214Preview:undefined,
   emptyStorage:async()=>{
    const deleted=await cliCall(['storage','rm','ss:///product-images/'+object,'--experimental','--yes']);
    report.storageRemoval={stdout:deleted.stdout.trim(),stderr:deleted.stderr.trim(),remainingObjects:await sql('SELECT count(*) FROM storage.objects;')};
@@ -150,7 +183,7 @@ try{
   },
   deleteOtherAuth:async id=>{assert.equal(id,ownerId);await sql(`DELETE FROM auth.users WHERE id<>${q(id)}::uuid;`);},
   clearHistory:async()=>{await cliCall(['migration','repair','--status','reverted',...reference.appliedVersions]);await sql('DELETE FROM supabase_migrations.seed_files;');},
-  repair:async version=>{const unit=reference.manifest.find(m=>m.name.startsWith(version+'_'));await copyFile(path.join(sourceRoot,'supabase/migrations',unit.name),path.join(local,'supabase/migrations',unit.name));await cliCall(['migration','repair','--status','applied',version]);},
+  repair:async version=>{try{const unit=reference.manifest.find(m=>m.name.startsWith(version+'_'));await copyFile(path.join(sourceRoot,'supabase/migrations',unit.name),path.join(local,'supabase/migrations',unit.name));await cliCall(['migration','repair','--status','applied',version]);}catch(error){report.localHistoryRepairFailure={version,diagnostic:postgresDiagnostic(error,{tool:'node',stage:'unknown'}),osCode:/^(?:E[A-Z]+|[0-9]+)$/u.test(String(error.code))?error.code:null};throw new Error('RESET214_LOCAL_HISTORY_REPAIR_FAILED',{cause:error});}},
   finalDryRun:async()=>{const r=await cliCall(['db','push','--dry-run','--skip-vault']);assert.match(r.stdout+r.stderr,/up to date/iu);}});
  report.functions=await functionReference(executor,reference.migrationCeiling);assert.equal(report.functions,latest212?556:latest211?554:latest209?546:latest208?534:latest207?523:latest206?520:latest205?519:latest204?517:latest203||latest202||latest201?516:current?513:468);
  if(latest209||latest208||latest207||latest206||latest205||latest204||latest203||latest202||latest201){assertReady201Catalog(await json(schemaCatalogSql));assert.equal(await sql('SELECT count(*) FROM inventory_damage_events;'),'0');report.damageEvidenceEmpty=true;}
@@ -168,6 +201,31 @@ try{
  if(latest211){(latest214?assertReady214Catalog:latest213?assertReady213Catalog:assertReady211Catalog)(await json(schemaCatalogSql));assert.equal(await sql('SELECT count(*) FROM aftercare_supplier_links;'),'0');const wire=await ownerSession.rpc('get_aftercare_damage_candidates_v1',{p_order_id:null});assert.equal(wire.error,null,'ACTUAL_OWNER211_REST_READ');assert.deepEqual(wire.data,{contractVersion:211,candidates:[]});report.rest211AftercareRead=true;report.aftercare211Empty=true;}
  if(latest212){(latest214?assertReady214Catalog:latest213?assertReady213Catalog:assertReady212Catalog)(await json(schemaCatalogSql));const wire=await ownerSession.rpc('get_damage_history_page_v1',{});assert.equal(wire.error,null,'ACTUAL_OWNER212_DAMAGE_REST_READ');assert.equal(wire.data.contractVersion,212);assert.deepEqual(wire.data.rows,[]);assert.equal(wire.data.totalCount,0);report.rest212DamageRead=true;}
  if(latest209){(latest214?assertReady214Catalog:latest213?assertReady213Catalog:assertReady209Catalog)(await json(schemaCatalogSql));const wire=await ownerSession.rpc('get_public_storefront_catalog_page');assert.equal(wire.error,null,'ACTUAL_OWNER209_REST_READ');assert.deepEqual(wire.data.items,[]);report.rest209CatalogRead=true;}
+ if(latest214){
+  assert.equal(report.reset.complete,true);assert.equal(report.reset.preservation.matches,true);
+  assert.equal(await sql("SELECT store_name_ar FROM public.storefront_settings;"),'إعداد خاص يبقى بعد التصفير');
+  assert.equal(await sql('SELECT minimum_order_in_minor_units::text FROM public.storefront_settings;'),'9007199254740993','RESET214_BIGINT_MUST_REMAIN_EXACT');
+  report.reset214ExactBigintPreserved=true;
+  assert.equal(await sql("SELECT count(*) FROM public.units WHERE code='CUSTOM214';"),'1');
+  assert.equal(await sql("SELECT count(*) FROM public.categories WHERE code IN ('CUSTOM214','CHILD214');"),'2');
+  assert.equal(await sql(`SELECT avatar_url FROM public.profiles WHERE id=${q(ownerId)};`),'https://example.test/owner-identity.png');
+  // A genuinely interrupted literal rebuild:088 commits,but official history
+  // repair fails. No automatic retry,skip,or fictitious successful clean state.
+  const failed={},failureOutput=path.join(output,'interrupted214');
+  await (await import('node:fs/promises')).mkdir(failureOutput);
+  await assert.rejects(()=>reset214WithExecutor({executor,root:sourceRoot,reference,output:failureOutput,ownerId,report:failed,
+   emptyStorage:async()=>{},deleteOtherAuth:async id=>sql(`DELETE FROM auth.users WHERE id<>${q(id)}::uuid;`),
+   clearHistory:async()=>{await cliCall(['migration','repair','--status','reverted',...reference.appliedVersions]);await sql('DELETE FROM supabase_migrations.seed_files;');},
+   repair:async version=>{if(version==='088'){assert.equal(failed.recoveryRequired,true,'Unfinished destructive journal must require recovery before interruption');throw new Error('RESET214_TEST_INTERRUPTED_REBUILD');}await cliCall(['migration','repair','--status','applied',version]);},
+   finalDryRun:async()=>assert.fail('Interrupted rebuild cannot reach final verification')}),/RESET214_TEST_INTERRUPTED_REBUILD/u);
+  const persisted=JSON.parse(await readFile(path.join(failureOutput,'reset214-progress.json'),'utf8'));
+  assert.equal(persisted.ok,false);assert.equal(persisted.complete,false);assert.equal(persisted.recoveryRequired,true);
+  assert.equal(persisted.failureStage,'rebuild-088');assert.equal(persisted.applied.length,88);assert.equal(persisted.recorded.length,87);
+  assert.equal(persisted.nextAction,'KEEP_WRITERS_STOPPED_RESTORE_PRE_RESET_ARCHIVE');
+  assert.equal(await sql('SELECT count(*) FROM public.profiles;'),'0');
+  assert.equal(await sql('SELECT count(*) FROM auth.users;'),'1');
+  report.reset214Interrupted={detected:true,stage:persisted.failureStage,applied:persisted.applied.length,recorded:persisted.recorded.length,recoveryRequired:true,successClaimed:false};
+ }
  report.ok=true;report.storageBytesDeleted=true;report.ownerRetained=true;report.verifiedTotpRetained=true;report.staffDeleted=true;
 }catch(error){report.ok=false;report.stage=stage;report.error=error.message.split('\n')[0];process.exitCode=1;}
 finally{if(local)await exec(process.execPath,[cli,'stop','--no-backup','--workdir',local],{cwd:root,windowsHide:true});report.endedAt=new Date().toISOString();await writeFile(path.join(output,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));}

@@ -1,0 +1,243 @@
+{
+  "format": 1,
+  "managedAccess": false,
+  "hostedResetPerformed": false,
+  "localTestSource": "037027805d0ad382bc14d0ea3594b8294e2a101c",
+  "sourceReport": {
+    "path": "C:/Users/TOP/AppData/Local/Temp/nawasrah-trial-reset-zNtjDL/report.json",
+    "sha256": "8c83762d7d04edbe2a490e946852fd7aebcd4180b92f054825f50863f33c0481",
+    "startedAt": "2026-10-26T14:57:21.436Z",
+    "endedAt": "2026-10-26T15:12:23.944Z"
+  },
+  "reference": {
+    "path": "C:/Users/TOP/NawasrahFrankfurt/reset214-preparation-20261026/local-reference-through214-ready.json",
+    "sha256": "7f7a3fa8792f2b52655475fc89267c7cf320e305609497a114cb1a1ae01b91e4",
+    "migrationCeiling": 214,
+    "migrations": 176,
+    "functions": 556,
+    "realtimeMembers": 13,
+    "freshIncrementalDifferenceCount": 0
+  },
+  "positive": {
+    "ok": true,
+    "applied": 176,
+    "recorded": 176,
+    "catalogDifferences": 0,
+    "applicationAclDifferences": 0,
+    "preservation": {
+      "before": {
+        "roles": {
+          "rows": 1,
+          "sha256": "41c71898eafae941c6b898fbbf607e6656552af87b6ee8ee70ef1d96b6de5172"
+        },
+        "units": {
+          "rows": 12,
+          "sha256": "fdc6f86ef2bab65209b27b63ad044e9c5dc0e76f50aa6a085014828038174b1a"
+        },
+        "branches": {
+          "rows": 1,
+          "sha256": "6b51f1ad71bf93d43cc06f8c04efb4743e9d1bacf26ab5efcd3dc63fba472ee0"
+        },
+        "profiles": {
+          "rows": 1,
+          "sha256": "856ab89988b35530dd4fe7a8a89d0ec8df8b516a8057a3db93c4d2aa526237aa"
+        },
+        "categories": {
+          "rows": 14,
+          "sha256": "c3ae1e0341a73c0919d537b134296711da8aad21fc66e27ece889ef57252ea57"
+        },
+        "user_roles": {
+          "rows": 1,
+          "sha256": "ce587ce66b31c71fdcab4be216ddef3070d5401d044c1826614b1d77d4dcb7bc"
+        },
+        "warehouses": {
+          "rows": 1,
+          "sha256": "cafe531957f52adbae622fc6c0228a7dd110947745dd5c650562f5411c89b999"
+        },
+        "storefront_settings": {
+          "rows": 1,
+          "sha256": "add0704c913eb9f55380fad17800d70b30a209703f55cd0fc55dbeb9dec3bf7a"
+        }
+      },
+      "after": {
+        "roles": {
+          "rows": 1,
+          "sha256": "41c71898eafae941c6b898fbbf607e6656552af87b6ee8ee70ef1d96b6de5172"
+        },
+        "units": {
+          "rows": 12,
+          "sha256": "fdc6f86ef2bab65209b27b63ad044e9c5dc0e76f50aa6a085014828038174b1a"
+        },
+        "branches": {
+          "rows": 1,
+          "sha256": "6b51f1ad71bf93d43cc06f8c04efb4743e9d1bacf26ab5efcd3dc63fba472ee0"
+        },
+        "profiles": {
+          "rows": 1,
+          "sha256": "856ab89988b35530dd4fe7a8a89d0ec8df8b516a8057a3db93c4d2aa526237aa"
+        },
+        "categories": {
+          "rows": 14,
+          "sha256": "c3ae1e0341a73c0919d537b134296711da8aad21fc66e27ece889ef57252ea57"
+        },
+        "user_roles": {
+          "rows": 1,
+          "sha256": "ce587ce66b31c71fdcab4be216ddef3070d5401d044c1826614b1d77d4dcb7bc"
+        },
+        "warehouses": {
+          "rows": 1,
+          "sha256": "cafe531957f52adbae622fc6c0228a7dd110947745dd5c650562f5411c89b999"
+        },
+        "storefront_settings": {
+          "rows": 1,
+          "sha256": "add0704c913eb9f55380fad17800d70b30a209703f55cd0fc55dbeb9dec3bf7a"
+        }
+      },
+      "matches": true
+    },
+    "authVaultMfaMatched": true,
+    "verifiedTotpRetained": true,
+    "staffDeleted": true,
+    "extraAccountsDeleted": 6,
+    "storageBytesDeleted": true,
+    "storageUncachedStatus": "404",
+    "afterCounts": {
+      "roles": 1,
+      "units": 12,
+      "brands": 0,
+      "orders": 0,
+      "branches": 1,
+      "products": 0,
+      "profiles": 1,
+      "customers": 0,
+      "suppliers": 0,
+      "audit_logs": 1,
+      "categories": 14,
+      "user_roles": 1,
+      "warehouses": 1,
+      "cash_shifts": 0,
+      "order_items": 0,
+      "stock_alerts": 0,
+      "sales_returns": 0,
+      "product_images": 0,
+      "promotion_codes": 0,
+      "purchase_orders": 0,
+      "push_dispatches": 0,
+      "deferred_cheques": 0,
+      "automation_events": 0,
+      "cheque_party_keys": 0,
+      "customer_payments": 0,
+      "purchase_receipts": 0,
+      "stock_alert_reads": 0,
+      "supplier_payments": 0,
+      "supplier_receipts": 0,
+      "customer_addresses": 0,
+      "inventory_balances": 0,
+      "pos_sale_reversals": 0,
+      "push_subscriptions": 0,
+      "sales_return_items": 0,
+      "business_operations": 0,
+      "go_live_setup_state": 1,
+      "inventory_movements": 0,
+      "sales_return_events": 0,
+      "storefront_settings": 1,
+      "cash_shift_reversals": 0,
+      "operational_expenses": 0,
+      "order_status_history": 0,
+      "purchase_order_items": 0,
+      "business_summary_runs": 0,
+      "promotion_redemptions": 0,
+      "deferred_cheque_events": 0,
+      "go_live_import_batches": 0,
+      "order_parcel_instances": 0,
+      "owner_cash_withdrawals": 0,
+      "purchase_receipt_items": 0,
+      "supplier_receipt_items": 0,
+      "business_alert_settings": 1,
+      "inventory_damage_events": 0,
+      "inventory_opening_items": 0,
+      "order_parcel_components": 0,
+      "sales_replacement_items": 0,
+      "aftercare_supplier_links": 0,
+      "business_alert_incidents": 0,
+      "product_cost_corrections": 0,
+      "sales_replacement_events": 0,
+      "customer_opening_balances": 0,
+      "supplier_opening_balances": 0,
+      "supplier_opening_payments": 0,
+      "advanced_monitoring_checks": 22,
+      "cheque_compensation_claims": 0,
+      "inventory_opening_sessions": 0,
+      "supplier_payment_reversals": 0,
+      "supplier_replacement_cases": 0,
+      "advanced_monitoring_metrics": 1,
+      "automation_event_deliveries": 0,
+      "deferred_cheque_allocations": 0,
+      "guest_order_tracking_limits": 0,
+      "supplier_replacement_events": 0,
+      "advanced_monitoring_settings": 1,
+      "guest_order_gateway_requests": 0,
+      "order_inventory_reservations": 0,
+      "phase2_receipt_wac_snapshots": 0,
+      "sales_aftercare_consumptions": 0,
+      "product_parcel_configurations": 0,
+      "cash_shift_reversal_operations": 0,
+      "customer_collection_operations": 0,
+      "purchase_order_item_components": 0,
+      "supplier_cheque_claim_payments": 0,
+      "admin_ai_assistant_usage_events": 0,
+      "owner_cash_withdrawal_reversals": 0,
+      "supplier_cheque_claim_reversals": 0,
+      "phase42_return_inventory_effects": 0,
+      "phase42_return_settlement_guards": 0,
+      "product_parcel_allowed_components": 0,
+      "purchase_receipt_commercial_lines": 0,
+      "supplier_receipt_commercial_lines": 0,
+      "customer_collection_order_payments": 0,
+      "phase42_return_settlement_evidence": 0,
+      "sales_return_component_inspections": 0,
+      "phase43_replacement_issuance_guards": 0,
+      "configurable_parcel_feature_settings": 1,
+      "advanced_monitoring_runtime_incidents": 0,
+      "phase43_replacement_inventory_effects": 0,
+      "pos_uncommitted_attempt_cancellations": 0,
+      "supplier_financial_invoice_identities": 0,
+      "customer_collection_cheque_allocations": 0,
+      "supplier_replacement_inventory_effects": 0,
+      "customer_collection_opening_allocations": 0,
+      "phase43_replacement_settlement_evidence": 0,
+      "phase3_customer_cost_finalization_guards": 0,
+      "phase3_customer_lifecycle_transition_guards": 0
+    },
+    "actualRestReads": {
+      "supplier208": true,
+      "receipt210": true,
+      "aftercare211": true,
+      "damage212": true,
+      "catalog209": true
+    }
+  },
+  "negative": {
+    "unsafeSettingsEditorRejected": true,
+    "readOnlyPreview": true,
+    "interrupted": {
+      "detected": true,
+      "stage": "rebuild-088",
+      "applied": 88,
+      "recorded": 87,
+      "recoveryRequired": true,
+      "successClaimed": false
+    }
+  },
+  "priorAttempts": [
+    {
+      "outcome": "Fixture assertion rejected before deletion; Storage roles create six disposable non-owner accounts",
+      "destructiveStarted": false
+    },
+    {
+      "outcome": "Official history repair114 failed after applying114; explicitly incomplete,not accepted; later independent diagnostic run passed176. Earlier error cause unavailable,not classified as proven environmental.",
+      "destructiveStarted": true
+    }
+  ],
+  "finalHeadCiRequired": true
+}

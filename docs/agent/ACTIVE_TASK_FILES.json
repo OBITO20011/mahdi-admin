@@ -3,19 +3,15 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/project-state.json"
+      "path": "scripts/audit/reset214-inverse.json"
     },
     {
       "code": " M",
-      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
+      "path": "scripts/operations/trial-reset214-core.mjs"
     },
     {
       "code": " M",
-      "path": "docs/operations/PREHANDOVER_AUDIT_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/GO_LIVE_CURRENT_STATE_EVIDENCE.json"
+      "path": "scripts/testing/run-trial-reset-runtime.mjs"
     }
   ]
 }
