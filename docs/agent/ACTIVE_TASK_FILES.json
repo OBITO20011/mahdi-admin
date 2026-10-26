@@ -3,15 +3,11 @@
   "files": [
     {
       "code": " M",
-      "path": "scripts/audit/reset214-inverse.json"
+      "path": "scripts/testing/reset214-persistent-local.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/operations/trial-reset214-core.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-trial-reset-runtime.mjs"
+      "path": "scripts/testing/run-reset214-resume-runtime.mjs"
     }
   ]
 }

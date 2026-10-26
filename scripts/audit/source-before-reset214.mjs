@@ -1,3 +1,4 @@
+import {sourceBeforeReset214B} from './source-before-reset214b.mjs';
 // Two exact operational additions; historical financial/source pins stay intact.
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
@@ -14,7 +15,7 @@ for(const file of readdirSync(import.meta.dirname).filter(f=>f.endsWith('-hunks.
 }
 export function sourceBeforeReset214(file,text){
  if(text===null)return null;
- const source=text.replaceAll('\r\n','\n'),pin=reset214Pins[file];if(!pin)return source;
+ const source=sourceBeforeReset214B(file,text),pin=reset214Pins[file];if(!pin)return source;
  const digest=hash(source);
  if(digest===pin.after){assert.equal(hash(pin.beforeText),pin.before,'RESET214_CORRUPT_INVERSE:'+file);return pin.beforeText;}
  if(digest===pin.before||older.get(file)?.has(digest))return source;

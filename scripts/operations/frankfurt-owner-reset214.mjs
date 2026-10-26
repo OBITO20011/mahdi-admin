@@ -1,9 +1,11 @@
+import {prepareResetSession,startResetAttempt,validateResetResume,finishResetSession,reset214Marker} from './reset214-session.mjs';
+import {reset214ArabicReason,reset214ResumeDisposition} from './reset214-diagnostics.mjs';
 // Owner terminal only. --plan is offline; --dry-run uses read-only sessions.
 // No arbitrary URL/target flags and no password in argv/files/reports.
 import assert from 'node:assert/strict';
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
-import {readFile,writeFile,mkdir,realpath,copyFile,access,unlink} from 'node:fs/promises';
+import {readFile,writeFile,mkdir,realpath,copyFile,access} from 'node:fs/promises';
 import {createInterface} from 'node:readline/promises';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
@@ -18,7 +20,7 @@ import {verifiedSupabaseCa} from '../backup/supabase-ca.mjs';
 import {sha256} from '../testing/maintenance-db-contract.mjs';
 const root=path.resolve(import.meta.dirname,'../..'),exec=promisify(execFile),cli=path.join(root,'node_modules/supabase/dist/supabase.js');
 export function reset214Arguments(args){
- const values=new Set(['--workdir','--owner-id','--reference']),modes=['--plan','--dry-run','--apply'];
+ const values=new Set(['--workdir','--owner-id','--reference']),modes=['--plan','--dry-run','--apply','--resume'];
  assert.ok(modes.filter(k=>args.includes(k)).length<=1,'RESET214_ONE_MODE_REQUIRED');
  for(const k of [...values,...modes])assert.ok(args.filter(v=>v===k).length<=1,'RESET214_DUPLICATE_OPTION');
  for(let i=0;i<args.length;i++){assert.ok(values.has(args[i])||modes.includes(args[i]),'RESET214_UNKNOWN_OPTION');if(values.has(args[i])){assert.ok(args[++i]&&!args[i].startsWith('--'),'RESET214_OPTION_VALUE_REQUIRED');}}
@@ -33,7 +35,7 @@ export async function runOwnerReset214(args){
  assertOutsideRepository(workdir);assertOutsideRepository(await realpath(workdir),await realpath(root));
  const output=path.join(workdir,'reset214-'+new Date().toISOString().replaceAll(/[:.]/gu,'-'));await mkdir(output);
  const report={ok:false,complete:false,mode,projectRef:TARGET.id,migrationCeiling:214,migrations:176,output,startedAt:new Date().toISOString(),networkAccess:false,remoteWriteAttempted:false};
- const marker=path.join(workdir,'RESET214_IN_PROGRESS.json');let env,guard,old,markerCreated=false;
+ let env,guard,old,session;
  try{
   report.stage='local-preflight';
   const reference=await readReady214Reference(root,options.reference);await resetUnits(root,reference);
@@ -44,6 +46,8 @@ export async function runOwnerReset214(args){
     deleted:['other trial accounts','all business data','all product-images objects'],
     nextAction:'OWNER_READ_ONLY_DRY_RUN_WITH_OWNER_UUID_FOR_EXACT_COUNTS'});return report;
   }
+  if(mode==='resume')session=await prepareResetSession({workdir,output,ownerId,projectRef:TARGET.id,referenceSha256:report.reference.sha256,reference,resume:true});
+  if(mode==='apply')try{await access(path.join(workdir,reset214Marker));throw new Error('RESET214_PRIOR_INCOMPLETE_ATTEMPT_USE_RESUME');}catch(error){if(error.code!=='ENOENT')throw error;}
   // Never relink the developer's old-project checkout.
   old=await readFile(path.join(root,'supabase/.temp/project-ref'));assert.equal(old.toString().trim(),OLD_REF,'RESET214_OLD_LINK_CHANGED');
   assert.equal((await readFile(path.join(workdir,'supabase/.temp/project-ref'),'utf8')).trim(),TARGET.id,'RESET214_WRONG_EXTERNAL_PROJECT');
@@ -60,26 +64,34 @@ export async function runOwnerReset214(args){
   const query=async (input,ex=readOnly)=>{const r=await executeInput(ex,input);assert.equal(r.code,0,'RESET214_SQL_FAILED');return r.stdout.trim();};
   report.networkAccess=true;report.stage='read-only-preflight';
   assert.equal(await query("SELECT current_setting('server_version_num')::integer/10000;"),'17','RESET214_POSTGRES17_REQUIRED');
-  assert.deepEqual(JSON.parse(await query(historySql)),reference.appliedVersions,'RESET214_COMPLETE_HISTORY_REQUIRED');
-  const original=JSON.parse(await readFile(path.join(workdir,'notification-before.json'),'utf8'));
-  await verifyCatalogReadOnly(readOnly,output,reference,original,{beforeBuildDate:reference.buildUtcDate,afterBuildDate:new Date().toISOString().slice(0,10)},report,{strictApplicationAcl:true,assertReadyCatalog:assertReady214Catalog});
-  const state=await captureReset214({executor:readOnly,ownerId,reference});report.plan=state.plan;
-  if(mode==='dry-run'){Object.assign(report,{ok:true,complete:true,exactCountsAvailable:true,stage:'read-only-preview-complete'});return report;}
+  if(mode!=='resume')assert.deepEqual(JSON.parse(await query(historySql)),reference.appliedVersions,'RESET214_COMPLETE_HISTORY_REQUIRED');
+  let state;
+  if(mode==='resume'){
+   await validateResetResume(session,readOnly);state=session.saved.state;report.previousAttempt={...session.previous,observedRecorded:session.observedHistory};report.plan=state.plan;
+  }else{
+   const original=JSON.parse(await readFile(path.join(workdir,'notification-before.json'),'utf8'));
+   await verifyCatalogReadOnly(readOnly,output,reference,original,{beforeBuildDate:reference.buildUtcDate,afterBuildDate:new Date().toISOString().slice(0,10)},report,{strictApplicationAcl:true,assertReadyCatalog:assertReady214Catalog});
+   state=await captureReset214({executor:readOnly,ownerId,reference});report.plan=state.plan;
+   if(mode==='dry-run'){Object.assign(report,{ok:true,complete:true,exactCountsAvailable:true,stage:'read-only-preview-complete'});return report;}
+   session=await prepareResetSession({workdir,output,ownerId,projectRef:TARGET.id,referenceSha256:report.reference.sha256,state,reference});
+  }
   // All disk and source checks BEFORE the confirmation and first mutation.
   for(const m of reference.manifest){const source=await readFile(path.join(root,'supabase/migrations',m.name));assert.equal(sha256(await readFile(path.join(workdir,'supabase/migrations',m.name))),sha256(source),'RESET214_EXTERNAL_SQL_CHANGED');}
-  try{await access(marker);throw new Error('RESET214_PRIOR_INCOMPLETE_ATTEMPT_REQUIRES_REVIEW');}catch(e){if(e.code!=='ENOENT')throw e;}
   const confirm=createInterface({input:process.stdin,output:process.stdout});
   try{
-   console.log(JSON.stringify({plan:state.plan}));
-   assert.equal(await confirm.question('أوقف كل الكتابات وخذ نسخة قبل التصفير مثبتة. للحذف اكتب RESET214 '+TARGET.id+' '+ownerId+': '),'RESET214 '+TARGET.id+' '+ownerId,'RESET214_DESTRUCTIVE_CONFIRMATION_REQUIRED');
+   console.log(JSON.stringify({plan:state.plan,previous:report.previousAttempt??null}));
+   const phrase=mode==='resume'?'RESUME RESET214 '+TARGET.id+' '+ownerId:'RESET214 '+TARGET.id+' '+ownerId;
+   assert.equal(await confirm.question('أوقف كل الكتابات. راجع السبب والنسخة والمرحلة السابقة. اكتب '+phrase+': '),phrase,'RESET214_DESTRUCTIVE_CONFIRMATION_REQUIRED');
   }finally{confirm.close();}
   guard=await holdUpgradeGuard(executor);
-  await writeFile(marker,JSON.stringify({output,startedAt:report.startedAt,ownerId,projectRef:TARGET.id})+'\n',{flag:'wx'});markerCreated=true;
-  report.stage='reset';report.remoteWriteAttempted=true;report.reset={};
+  const progress=await startResetAttempt(session,executor);
+  const writer=session.executor;
+  report.stage='reset';report.remoteWriteAttempted=true;report.reset=progress;
+  report.retentionSnapshot={sha256:session.marker.snapshotSha256,path:session.marker.snapshotPath};
   const cliCall=async flags=>{guard.assertHeld();const childEnv={...env,SUPABASE_DB_PASSWORD:env.PGPASSWORD};
    try{return await exec(process.execPath,[cli,...flags,'--workdir',workdir,'--agent','no'],{cwd:workdir,env:childEnv,windowsHide:true,maxBuffer:8*1024**2});}
    catch{throw new Error('RESET214_OFFICIAL_CLI_FAILED');}finally{delete childEnv.PGPASSWORD;delete childEnv.SUPABASE_DB_PASSWORD;}};
-  await reset214WithExecutor({executor,root,reference,output,ownerId,report:report.reset,expectedPlan:state.plan,
+  await reset214WithExecutor({executor:writer,root,reference,output,ownerId,report:report.reset,session,expectedPlan:state.plan,
    emptyStorage:async()=>{const names=JSON.parse(await query("SELECT COALESCE(jsonb_agg(name ORDER BY name),'[]'::jsonb) FROM storage.objects WHERE bucket_id='product-images';"));
     for(let n=0;n<names.length;n+=100)await cliCall(['storage','rm',...names.slice(n,n+100).map(name=>'ss:///product-images/'+name),'--experimental','--linked','--yes']);},
    deleteOtherAuth:async id=>{await query(`DELETE FROM auth.users WHERE id<>${sqlLiteral(uuid(id))}::uuid;`,executor);},
@@ -93,18 +105,22 @@ export async function runOwnerReset214(args){
  }catch(error){
   report.ok=false;report.complete=false;
   report.code=/\bRESET214_[A-Z0-9_]+\b/u.exec(error.message)?.[0]??(error.code==='ENOENT'?'RESET214_REQUIRED_FILE_MISSING':'RESET214_PREFLIGHT_OR_OPERATION_FAILED');
+  report.reasonArabic=reset214ArabicReason(report.code);
   report.recoveryRequired=report.reset?.destructiveStarted===true;return report;
  }finally{
   if(guard)try{await guard.close();}catch{report.ok=false;report.complete=false;report.code='RESET214_GUARD_CLOSE_FAILED';}
   if(env)delete env.PGPASSWORD;
   if(old)try{assert.equal(sha256(await readFile(path.join(root,'supabase/.temp/project-ref'))),sha256(old));}catch{report.ok=false;report.code='RESET214_OLD_LINK_CHANGED';}
-  if(markerCreated&&(report.ok===true||report.reset?.destructiveStarted===false))try{await unlink(marker);}catch{report.ok=false;report.code='RESET214_MARKER_CLEANUP_FAILED';}
+  // Persist the completed report before archiving retention/removing the marker.
+  if(report.ok&&session)try{await writeFile(path.join(output,'report.json'),JSON.stringify(report,null,2)+'\n');await finishResetSession(session);}catch{report.ok=false;report.code='RESET214_MARKER_CLEANUP_FAILED';}
   report.complete=report.ok===true;
   report.recoveryRequired=report.reset?.destructiveStarted===true&&!report.ok;
+  let hasSnapshot=false;if(session&&!report.ok)try{await access(session.markerPath);await access(session.file);hasSnapshot=true;}catch{/* No durable state,no advertised resume. */}
+  if(!report.ok)Object.assign(report,reset214ResumeDisposition(report.code,hasSnapshot));else report.resumable=false;
   report.endedAt=new Date().toISOString();await writeFile(path.join(output,'report.json'),JSON.stringify(report,null,2)+'\n');
  }
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){
- try{const r=await runOwnerReset214(process.argv.slice(2));console.log(JSON.stringify({ok:r.ok,complete:r.complete,mode:r.mode,output:r.output,code:r.code,plan:r.plan,networkAccess:r.networkAccess,recoveryRequired:r.recoveryRequired}));if(!r.ok)process.exitCode=1;}
+ try{const r=await runOwnerReset214(process.argv.slice(2));console.log(JSON.stringify({ok:r.ok,complete:r.complete,mode:r.mode,output:r.output,code:r.code,reasonArabic:r.reasonArabic,plan:r.plan,networkAccess:r.networkAccess,recoveryRequired:r.recoveryRequired,resumable:r.resumable}));if(!r.ok)process.exitCode=1;}
  catch{console.error('RESET214_LOCAL_ADMISSION_FAILED');process.exitCode=1;}
 }

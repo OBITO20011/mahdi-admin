@@ -1,3 +1,7 @@
+#26Oct — حزمة1ب:استئناف RESET214 بقرار المالك
+
+اعتمد المالكPR32 للدمج،ثم طلب حزمة1ب مستقلة قبل فصل البيئات:لقطة rawTables دائمة داخل workdir محمية للمستخدم الحالي/Administrators بلا وراثة،وبلا أسرارAuth/MFA؛استئناف صريح بنفس المشروع والمالك ومرجع214 وبصمته. يعيد البناء176 كاملة بعد مراجعة سبب الانقطاع،ولا يتخطى migration جزئية. الكتابات الحقيقية الجديدة تمنع الاستئناف وتستلزم مسار الأرشيف المعتمد؛الانقطاع وحده لا يستلزم استرجاعاً حياً. لا اتصال مستضاف أو نشر؛PR/CI كامل/Gitleaks0/checkpoint،واعتماد قبل الدمج. بعد جاهزية1ب يُستأنف تجهيز الحزمة2 دون انتظار دمج1ب،مع PR واعتماد مستقلين.
+
 #25Oct — owner Package Z and mandatory pre-hiring cost privacy
 
 Owner approved Z1 pre-service staff authorization,Z2 exact POS/return costs,Z3 exact Maps hosts,Z4 pre-read cash guard,Z5 collection lock order only;additive214 if needed,own worktree/PR/FULLCI,commit+push each item. No hostedaccess/deploy or Z merge. Employee table/RPC cost,WAC,profit visibility explicitly DEFERRED while owner works alone. Mandatory BEFORE hiring any employee:safe read DTOs and revoke general cost-column SELECT;raw-role regression required. See HANDOVER_FIXES_Z_AR.md.
