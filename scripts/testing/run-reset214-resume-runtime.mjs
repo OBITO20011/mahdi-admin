@@ -128,15 +128,21 @@ try{
  await assert.rejects(()=>run(dirty,'migration-088'),/RESET214_SIMULATED_INTERRUPTION/u);
  // Two real sessions:the reset fence starts while a foreign INSERT+DELETE is
  // uncommitted,waits for the relation lock,then must see its committed witness.
- const foreign=sql("BEGIN;INSERT INTO customers(full_name,phone) VALUES('دخل بعد القطع','0790000001');DELETE FROM customers WHERE phone='0790000001';SELECT pg_sleep(1);COMMIT;");
- let locked=false;
- for(let i=0;i<40;i++){
-  locked=(await sql("SELECT EXISTS(SELECT 1 FROM pg_locks WHERE relation='public.customers'::regclass AND mode='RowExclusiveLock' AND granted);",dirty.executor))==='t';
-  if(locked)break;await new Promise(resolve=>setTimeout(resolve,10));
+ await sql("BEGIN;INSERT INTO customers(full_name,phone) VALUES('دخل بعد القطع','0790000001');DELETE FROM customers WHERE phone='0790000001';");
+ const resetPid=await sql('SELECT pg_backend_pid();',dirty.executor);assert.match(resetPid,/^\d+$/u);
+ const fence=executeInput(dirty.executor,'BEGIN;'+lockAndCheckGuardSql+'ROLLBACK;');
+ // Keep the foreign transaction open until pg_locks proves the reset is
+ // actually waiting. No timing sleep,no retry of a failed business statement.
+ let waiting=false;
+ for(let i=0;i<100;i++){
+  const lock=await executor.continueLocal(`SELECT EXISTS(SELECT 1 FROM pg_locks WHERE pid=${resetPid} AND mode='AccessExclusiveLock' AND NOT granted);`);
+  assert.equal(lock.code,0);waiting=lock.stdout.trim()==='t';if(waiting)break;
  }
- assert.equal(locked,true,'FOREIGN_TRANSACTION_MUST_HOLD_THE_RELATION_LOCK');
- const raced=await executeInput(dirty.executor,'BEGIN;'+lockAndCheckGuardSql+'ROLLBACK;');await foreign;
+ assert.equal(waiting,true,'RESET_FENCE_MUST_BE_WAITING_BEFORE_THE_FOREIGN_COMMIT');
+ assert.equal((await executor.continueLocal('COMMIT;')).code,0);
+ const raced=await fence;
  assert.notEqual(raced.code,0,'FENCE_MUST_NOT_ADMIT_A_COMMITTED_FOREIGN_WRITE');assert.match(raced.stderr,/RESET214_REAL_WRITES_DETECTED/u);report.twoSessionDropFenceRejected=true;
+ report.twoSessionRaceCoordination='open transaction and observed lock wait;no timing sleeps';
  await assert.rejects(()=>assertNoForeignWrites(executor,dirty.saved),/RESET214_REAL_WRITES_DETECTED/u);
  const unsafe=await prepareResetSession({...base,output:dirty.output,resume:true});await assert.rejects(()=>validateResetResume(unsafe,executor),/RESET214_REAL_WRITES_DETECTED/u);
  const unchanged=await publicFingerprint(executor);await assert.rejects(()=>startResetAttempt(unsafe,executor),/RESET214_REAL_WRITES_DETECTED/u);assert.deepEqual(await publicFingerprint(executor),unchanged);

@@ -44,10 +44,10 @@
     "No recurring automation",
     "No merge before approval"
   ],
-  "nextExactAction": "Prove two-session commit while drop fence waits,with all4resume proofs unchanged;then final FULL48",
+  "nextExactAction": "Prove deterministic two-session fence via open transaction/observed lock wait,not timing sleeps;final FULL48",
   "startedAt": "2026-10-26T14:33:18.441Z",
-  "checkpointedAt": "2026-10-26T18:05:28.766Z",
-  "filesTouchedCount": 1,
-  "filesTouchedManifestSha256": "134224a9061d5f20f8e32a44348198515c1223f8c0af04747800230bf096bf71",
-  "workingTreeFingerprint": "FA1FED850DB2EDF2AABAB3CC0A1DF3A5CC954956CE1451F55626CDBB285A5704"
+  "checkpointedAt": "2026-10-26T18:11:53.041Z",
+  "filesTouchedCount": 2,
+  "filesTouchedManifestSha256": "2160baff95b19c8b9274c4e49239db9f81fe33d950b48fa0b8b1650b62ebddfe",
+  "workingTreeFingerprint": "8C0FC05F34D392668C23DD2C2266E20CBF1C17D19B1B242D6139ED4AF24504BC"
 }

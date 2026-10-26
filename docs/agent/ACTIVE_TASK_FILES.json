@@ -3,6 +3,10 @@
   "files": [
     {
       "code": " M",
+      "path": "scripts/testing/reset214-persistent-local.mjs"
+    },
+    {
+      "code": " M",
       "path": "scripts/testing/run-reset214-resume-runtime.mjs"
     }
   ]
