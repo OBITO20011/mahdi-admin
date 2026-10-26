@@ -14,6 +14,7 @@ import {assertReady214Catalog} from './frankfurt-reference214.mjs';
 import {readRealtimePublication} from '../testing/realtime151-contract.mjs';
 import {retainedSessionState,assertNoForeignWrites,withoutResetGuard,attachGuardSql,removeGuardSql,saveGuardRemovalProof} from './reset214-session.mjs';
 import {lockAndCheckGuardSql,publicFingerprint} from './reset214-write-guard.mjs';
+import {reset214SqlFailureCode} from './reset214-diagnostics.mjs';
 import {cleanSeedCounts,resetUnits,uuid,sqlLiteral,readRowCounts,resetComparisonDates,restoreResetAcl,
  canonicalResetAcl,externalDependentsSql,assertExternalDependents,ownerRecordSql,preservedStateSql,
  restoreMainWarehouseSql,dropPublicSql} from './trial-reset-core.mjs';
@@ -105,7 +106,7 @@ export async function reset214WithExecutor(options){
 }
 
 async function rebuild214({executor,root,reference,output,repair,clearHistory,emptyStorage,deleteOtherAuth,finalDryRun,ownerId,report={},state,session,boundary=async()=>{}}){
- const sql=async input=>{const r=await executeInput(executor,input);assert.equal(r.code,0,'TRIAL_RESET_SQL_FAILED');return r.stdout.trim();};
+ const sql=async input=>{const r=await executeInput(executor,input);assert.equal(r.code,0,reset214SqlFailureCode(r.stderr));return r.stdout.trim();};
  const json=async input=>JSON.parse(await sql(input));
  const units=await resetUnits(root,reference);uuid(ownerId);
  Object.assign(report,{stage:'catalog-preflight',applied:[],recorded:[],destructiveStarted:false});

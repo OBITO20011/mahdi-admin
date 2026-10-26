@@ -1,5 +1,5 @@
 import {prepareResetSession,startResetAttempt,validateResetResume,finishResetSession,reset214Marker} from './reset214-session.mjs';
-import {reset214ArabicReason} from './reset214-diagnostics.mjs';
+import {reset214ArabicReason,reset214ResumeDisposition} from './reset214-diagnostics.mjs';
 // Owner terminal only. --plan is offline; --dry-run uses read-only sessions.
 // No arbitrary URL/target flags and no password in argv/files/reports.
 import assert from 'node:assert/strict';
@@ -115,8 +115,8 @@ export async function runOwnerReset214(args){
   if(report.ok&&session)try{await writeFile(path.join(output,'report.json'),JSON.stringify(report,null,2)+'\n');await finishResetSession(session);}catch{report.ok=false;report.code='RESET214_MARKER_CLEANUP_FAILED';}
   report.complete=report.ok===true;
   report.recoveryRequired=report.reset?.destructiveStarted===true&&!report.ok;
-  report.resumable=Boolean(session&&!report.ok);
-  if(report.code==='RESET214_REAL_WRITES_DETECTED')report.nextAction='STOP_ARCHIVE_RECOVERY_REQUIRED_NEW_REAL_WRITES';
+  let hasSnapshot=false;if(session&&!report.ok)try{await access(session.markerPath);await access(session.file);hasSnapshot=true;}catch{/* No durable state,no advertised resume. */}
+  if(!report.ok)Object.assign(report,reset214ResumeDisposition(report.code,hasSnapshot));else report.resumable=false;
   report.endedAt=new Date().toISOString();await writeFile(path.join(output,'report.json'),JSON.stringify(report,null,2)+'\n');
  }
 }

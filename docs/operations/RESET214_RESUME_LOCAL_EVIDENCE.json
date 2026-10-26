@@ -3,19 +3,19 @@
   "managedAccess": false,
   "hostedConnectionsMade": false,
   "sourceReport": {
-    "path": "C:/Users/TOP/AppData/Local/Temp/nawasrah-reset214-resume-N2WfXO/report.json",
-    "sha256": "9ca71af9991754b7195b3eee495f11c466f4e89bcd7dc8c5d9428327f8712364",
-    "startedAt": "2026-10-26T17:43:46.525Z",
-    "endedAt": "2026-10-26T17:50:46.032Z"
+    "path": "C:/Users/TOP/AppData/Local/Temp/nawasrah-reset214-resume-msSvLv/report.json",
+    "sha256": "29a3948dc8ef6663b8261860f25bcb7af93aa4cfeee1372a94326564fd237142",
+    "startedAt": "2026-10-26T18:12:04.685Z",
+    "endedAt": "2026-10-26T18:17:13.061Z"
   },
   "runtimeSources": {
-    "scripts/operations/trial-reset214-core.mjs": "4b29183eab7df9372f64b1b94a9103a8f217052496b9c1f1120d0570b6507a83",
+    "scripts/operations/trial-reset214-core.mjs": "b0df291e622b62dd1824f99f5c75c34370015e6f2801517288d9f2db59de38d9",
     "scripts/operations/reset214-private-state.mjs": "1fe343be932aed1dcbfbd0631dcb47076aa59ebc57c962e6a5755c75f86f537f",
     "scripts/operations/reset214-session.mjs": "4052814ffb5f6e840b11743c4a2c7fa9d99799e66e25eca18662839766934b84",
     "scripts/operations/reset214-write-guard.mjs": "25eeda01fa4ead4d62e85b75805c7bdb22a4098a18d959c3dad49c5d018439e3",
     "scripts/operations/reset214-io.mjs": "d55bdd9e9f4d79f483a12122a6eb6eef33ac91e6db69577bf9174d891fadefa7",
-    "scripts/testing/reset214-persistent-local.mjs": "6de31b5f893fbb22cec53b5267e1a4afd91135bf5025607be635a3cd83e97c54",
-    "scripts/testing/run-reset214-resume-runtime.mjs": "2c21b96258b9c50b51f16893b7ce28a9aac3c77631db94a0db15636a00fbf137"
+    "scripts/testing/reset214-persistent-local.mjs": "98d9208956736741782882fd87604ba00ae7848e837e404b191d37656349cb90",
+    "scripts/testing/run-reset214-resume-runtime.mjs": "0e04f7b9924c602f944902cfc7fde39edec8d387f0e6bcff0e1ab72bc55c2e89"
   },
   "ok": true,
   "uninterrupted": {
@@ -100,5 +100,7 @@
     "Empty-public fingerprint rejected{};fixed empty-object parser"
   ],
   "fullCiRequired": true,
-  "sourceHashScope": "Current candidate;Git-directory save admission added after this rehearsal. Final exact-SHA CI repeats all cases."
+  "sourceHashScope": "Runtime transport and DB behavior proved by this rehearsal;fixed CLI failure-disposition vocabulary added afterwards. Final exact-SHA CI repeats all cases.",
+  "twoSessionDropFenceRejected": true,
+  "twoSessionRaceCoordination": "open transaction and observed lock wait;no timing sleeps"
 }
