@@ -15,7 +15,7 @@ export function sanitizedRestoreLog(raw){
   }
   return {formatVersion:1,policy:'canonical-errors-only-no-detail-context-statement-or-values',events:events.slice(-40)};
 }
-export async function saveRestoreLogs({reportPath,stderr,serverLog,tocList=''}){
+export async function saveRestoreLogs({reportPath,stderr,serverLog,tocList='',comparison=undefined}){
   const parent=path.join(path.dirname(reportPath),'restore-diagnostics');
   await mkdir(parent,{recursive:true});
   const folder=await mkdtemp(path.join(parent,'restore-'));
@@ -25,7 +25,9 @@ export async function saveRestoreLogs({reportPath,stderr,serverLog,tocList=''}){
   const error=restoreErrorFields(stderr+'\n'+serverLog,{tocList});
   await writeFile(path.join(folder,'pg-restore-sanitized.json'),JSON.stringify({formatVersion:1,...error,stderrSummary:sanitizedRestoreLog(stderr)},null,2)+'\n',{mode:0o600});
   await writeFile(path.join(folder,'server-tail-sanitized.json'),JSON.stringify(sanitizedRestoreLog(serverLog),null,2)+'\n',{mode:0o600});
-  return {saved:true,folder,files:['pg-restore-sanitized.json','server-tail-sanitized.json'],rawOutputSaved:false,administratorsOnly:process.platform==='win32'};
+  const files=['pg-restore-sanitized.json','server-tail-sanitized.json'];
+  if(comparison){await writeFile(path.join(folder,'comparison-sanitized.json'),JSON.stringify(comparison,null,2)+'\n',{mode:0o600});files.push('comparison-sanitized.json');}
+  return {saved:true,folder,files,rawOutputSaved:false,administratorsOnly:process.platform==='win32'};
 }
 export function restoreToolError(error,{stage,stderr=error?.stderr??'',serverLog='',tocList=''}){
   const base=postgresDiagnostic(error,{tool:'pg_restore',stage,stderr});

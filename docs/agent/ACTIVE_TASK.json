@@ -2,59 +2,51 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Diagnose and fix strict isolated pg_restore failure;safe TOC/SQLSTATE/error and sanitized container log before removal;Frankfurt saved-catalog synthetic local proof;PR/FULL CI;merge awaits approval",
-  "baselineSha": "461e4a42c6b833be2443121eac1ea2a19a99d605",
-  "branch": "codex/frankfurt-restore-diagnostics",
+  "objective": "Expose fixed comparison failure codes and private name-only differences;analyze synthetic Frankfurt role/ACL/sequence/data environments without weakening strict restore;PR/FULL CI;merge after approval",
+  "baselineSha": "e4f984263a29b18021b24c8fcab701eb2fed6ab4",
+  "branch": "codex/frankfurt-restore-comparison",
   "phase": "PACKAGE_F",
   "completed": [
-    "Saved214 catalog reproduces old RESTORE_NET_SOURCE_PATH;split actual pg_restore and post-init stages",
-    "Strict TOC partition:3369entries,0omitted/duplicated;schemas first,extensions exact source owner/version/schema without production catalog UPDATE",
-    "Managed net INVOKER/null and CLI DEFINER/search_path preserved exactly,strict comparator unchanged",
-    "Real native missing-role42704 and duplicate-data23505 with TOC/exit1/no values;tail captured before rm",
-    "Local CLI and Frankfurt profile strict restores141tables17checks plus same-archive replay passed;local non-elevated Windows protected log failure explicitly recorded",
-    "Actual event-trigger/publication/disabled subscription full restore and exact TOC owner/name checks passed",
-    "Owner Restore-only runbook prepared with explicit non-elevated Windows log-persistence limitation",
-    "Final real isolated runtime including original/native17.11/S3/managed214 replay passed;platform6eventTriggers+1publication and negative disabled subscription proof",
-    "1453 final unit tests0fail0skip;full lint/typecheck0;PR28 created/attached"
+    "Fixed strict comparison code allowlist and fresh sanitized name/field/count-only private report",
+    "Existing comparator acceptance preserved,all7 failures still fail and values/hash/SQL/config removed",
+    "Real local baseline+managed214+extra roles/config/memberships/defaultprivileges/called+uncalled sequence restore and replay passed141tables17checks",
+    "Intentional synthetic table+role mismatch stayed failed with RESTORE_TABLES_DIFFER;private sink denied non-elevated Windows as designed;CI proof remains",
+    "Local1458 unit tests0fail0skip;fixture type annotation corrected without behavioral change"
   ],
   "inProgress": [
-    "Fix only negative fixture log reset identity then rerun exact-head FULL CI"
+    "Safe comparison oracle and diagnostic report"
   ],
   "notStarted": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "testsPassed": [
-    "Final1453/1453 units,0fail0skip",
-    "Focused16/16 + native pg_restore42704/23505 exit1 with TOC and no values",
-    "Final full lint/typecheck exit0",
-    "Final complete encrypted archive/recovery,TLS17.11,S3 mock tamper/replay,managed profile same-archive replay141tables17checks3369TOC0omitted",
-    "Gitleaks0 first3 commits;final scan next",
-    "Final fixture user fix local native negative proof passed;Linux complete restore private logs already passed previousCI"
+    "Focused16/16",
+    "1458unit tests0fail0skip",
+    "Complete isolated runtime/S3mock/TLS17.11+managed roles/defaultprivileges/sequences passed",
+    "Final typecheck and strict lint passed"
   ],
   "testsRemaining": [
-    "Exact final push+PR FULL47 including Linux private log persistence",
-    "Final Gitleaks scan"
+    "Full exact-SHA CI/Gitleaks",
+    "CI Linux private comparison report persistence and privacy"
   ],
   "findings": [
-    "Owner reported tool docker exitCode null can arise from post-init assertion after successful pg_restore;old141d saved214 net profile proves old assertion",
-    "Image has all7 saved extension versions;managed pg_net schema and3extension owners differ from CLI;restored through supported CREATE under captured owner",
-    "No new backup/archive format change required;Restore only after approved merge/main update",
-    "Windows agent is not elevated;private file sink correctly denies writing,reportlogs.savedfalse;CI must prove Linux private persistence",
-    "461e4a4 recovery actual complete managed restores and Linux private log persistence passed;negative fixture failed at root truncate of postgres-owned /tmp/restore.log under Linux protected_regular. Run fixture truncate as postgres;no restore assertion or production change."
+    "Actual owner comparison failure cannot be inferred from generic diagnostic;no actual owner archive read",
+    "No real source mismatch reproduced locally;no restore exception,role exclusion,ACL ignore or data correction added",
+    "v2 source evidence records pg_sequences last_value,not direct is_called;no claim about absent source fields"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hosted project access or deployment",
-    "No owner credential/archive passphrase access or decryption",
-    "No merge/primary update before new owner approval",
-    "No weakened exit-on-error or catalog/data/ACL comparisons"
+    "No hosted access or deployment",
+    "No owner credential/archive decryption",
+    "No merge/primary update before approval",
+    "Stop and report any real source/data difference;no broad ignore or weakened comparator"
   ],
-  "nextExactAction": "Exact new SHA push+PR FULL47 after Linux negative-fixture log reset repair;no merge before approval.",
-  "startedAt": "2026-10-25T22:00:14.555Z",
-  "checkpointedAt": "2026-10-25T22:59:24.618Z",
+  "nextExactAction": "Create review PR and verify complete exact-SHA push/PR CI; actual owner mismatch remains unproven; no merge before approval.",
+  "startedAt": "2026-10-25T23:46:34.613Z",
+  "checkpointedAt": "2026-10-26T00:02:33.815Z",
   "filesTouchedCount": 1,
-  "filesTouchedManifestSha256": "467c9b9462616c554c5b060682280553fec7feb16527e96e28859a37b5a5c0d5",
-  "workingTreeFingerprint": "D81FF315E9A9A4EAB3F5FCB85F68B64D333EA0436B78D60950E52DDAEFA5AAE4"
+  "filesTouchedManifestSha256": "dfd44d1d67d2306d3afaa8fc6a0948017c19384891ce10f40cdbdfb0d9ac02dc",
+  "workingTreeFingerprint": "F9B638CE778BE59D3BBCE96593CF17E9AA886D37D74F928832F739A7F1FBDDD9"
 }
