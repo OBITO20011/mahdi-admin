@@ -2,50 +2,36 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Prove pg_cron member ACL/initpriv drift locally and restore exact captured ACL without comparison exceptions;full CI and PR,merge only after approval",
-  "baselineSha": "1c86117721d9be80dbbc61cc91e4f3feb2b418dc",
-  "branch": "codex/frankfurt-restore-cron-acl",
+  "objective": "Docs-only audit closure H01/M02 and verified H02/H03/M01 status;executable go-live runbook and offline current-state inventory;PR/full CI,no execution of plan",
+  "baselineSha": "3783d2df1be6dcbbc18bc67788b5d92aeaf0877e",
+  "branch": "codex/go-live-cutover-docs",
   "phase": "PACKAGE_F",
-  "completed": [
-    "Locally reproduced exactly2cron sequence ACL-only differences due to extension initial grants recorded in pg_init_privs,version1.6.4 owner supabase_admin",
-    "Exact captured final ACL replay after remainingTOC;strict comparator unchanged,exceptionsApplied empty",
-    "Actual DB negatives:public table,public otherseq,cron otherseq remain rejected;missing second membership prevents first ACL write",
-    "1463unit tests0fail0skip,typecheck,strictlint passed",
-    "Complete214 baseline+managed141tables17checks/replay3375TOC/0omitted,S3mock/native17.11TLS passed",
-    "Saved/pushed1c861177;local probe rerun and targeted lint after explicit CI setup ordering passed"
-  ],
+  "completed": [],
   "inProgress": [
-    "Save/push verified code and proof;final PR/full exact SHA CI"
+    "Read operational scripts/local sanitized status and document precise cutover gates"
   ],
   "notStarted": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "testsPassed": [
-    "Actual DB negatives:public table,public otherseq,cron otherseq remain rejected;missing second membership prevents first ACL write",
-    "1463unit tests0fail0skip,typecheck,strictlint passed",
-    "Complete214 baseline+managed141tables17checks/replay3375TOC/0omitted,S3mock/native17.11TLS passed"
-  ],
+  "testsPassed": [],
   "testsRemaining": [
-    "Gitleaks and final exact SHA push/PR full CI"
+    "Documentation validation,full CI,Gitleaks0"
   ],
-  "findings": [
-    "Owner report:only cron.jobid_seq/runid_seq ACL differs;141tables,roles,memberships,positions,history,Storage match",
-    "Initial recovery CI failed during synthetic setup before DB proof;probe now follows existing image bootstrap and reports bounded startup/tool reason without raw output"
-  ],
+  "findings": [],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hosted connections/deploy",
-    "No owner credentials/archive read",
-    "No financial code or migrations",
-    "No merge/primary update before approval",
-    "No weakened ACL comparison or generic exception"
+    "No project access/deploy/plan execution",
+    "No secrets in reports,no DPAPI decrypt",
+    "No financial code or migration",
+    "No recurring automation",
+    "No merge before approval"
   ],
-  "nextExactAction": "Push CI probe setup-order and safe reason correction,then require final exact SHA full push/PR CI;no weakened assertion or retries.",
-  "startedAt": "2026-10-26T01:05:44.211Z",
-  "checkpointedAt": "2026-10-26T01:25:05.430Z",
-  "filesTouchedCount": 3,
-  "filesTouchedManifestSha256": "c16aef25c80b0af4cabf283b88be6a1faa7963390afb58fbba6264f263fbc53e",
-  "workingTreeFingerprint": "65B3A9AD6F29EB1A48D3BDFCDDB9CEC6ABF1888D6A8C10BFB9740A17FBAD74F3"
+  "nextExactAction": "Save docs-only cutover plan/audit closure/evidence then PR fullCI;no reset,notification activation,deploy or project connection.",
+  "startedAt": "2026-10-26T13:13:00.323Z",
+  "checkpointedAt": "2026-10-26T13:38:31.473Z",
+  "filesTouchedCount": 4,
+  "filesTouchedManifestSha256": "63cec86beb8406441bb1f6a422d3efd2d63e30338ad96e117b8cc7b46f4a5af8",
+  "workingTreeFingerprint": "AC71F8EDD7705111FB590349E7E5C87D4550CBC5CA561B8F1512731A3514CF48"
 }
