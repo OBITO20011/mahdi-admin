@@ -3,15 +3,19 @@
   "files": [
     {
       "code": " M",
-      "path": ".github/workflows/backup-recovery.yml"
+      "path": "docs/agent/project-state.json"
     },
     {
       "code": " M",
-      "path": "docs/operations/FRANKFURT_RESTORE_CRON_ACL_AR.md"
+      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
     },
     {
       "code": " M",
-      "path": "scripts/testing/run-restore-cron-acl-runtime.mjs"
+      "path": "docs/operations/PREHANDOVER_AUDIT_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/GO_LIVE_CURRENT_STATE_EVIDENCE.json"
     }
   ]
 }

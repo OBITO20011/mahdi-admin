@@ -1,0 +1,349 @@
+{
+  "formatVersion": 1,
+  "date": "2026-10-26",
+  "baselineSha": "3783d2df1be6dcbbc18bc67788b5d92aeaf0877e",
+  "agentHostedConnectionsMade": false,
+  "planExecuted": false,
+  "secretsDecrypted": false,
+  "scope": "local filesystem + read-only local n8n database + npm advisory registry;no hosted project access",
+  "ownerReceipt": {
+    "source": "Owner message in this task",
+    "runtimeSha": "3783d2df1be6dcbbc18bc67788b5d92aeaf0877e",
+    "backup": {
+      "finishedApproxUtc": "2026-10-25T21:55Z",
+      "bytes": 7644213,
+      "sha256": "4a1c0f2fa39046bf6196724814970d7763273a393751b24b307199f0c473b6c9"
+    },
+    "register": {
+      "frankfurtTasks": 5,
+      "legacyUnchanged": true
+    },
+    "r2": {
+      "wranglerVersion": "4.152.0",
+      "rulesAdded": [
+        {
+          "name": "frankfurt-daily90",
+          "prefix": "erp/frankfurt-kzevmysfydaslxcerogt/daily/",
+          "days": 90
+        },
+        {
+          "name": "frankfurt-monthly365",
+          "prefix": "erp/frankfurt-kzevmysfydaslxcerogt/monthly/",
+          "days": 365
+        }
+      ],
+      "totalRules": 7,
+      "oldRulesUnchanged": 5,
+      "existingLock": {
+        "name": "erp-lock-30d",
+        "prefix": "erp/",
+        "days": 30
+      },
+      "noLockRemoveOrSet": true
+    }
+  },
+  "statuses": {
+    "operation-Backup.json": {
+      "sourcePath": "C:/ProgramData/NawasrahFrankfurtBackup/operation-Backup.json",
+      "sourceSha256": "b5e66ad0e5fb5636be539864cb6eb7e6ef367f71ef99b31af16b1ee31dc288af",
+      "ok": true,
+      "mode": "Backup",
+      "at": "2026-10-25T21:55:44.111Z"
+    },
+    "operation-Restore.json": {
+      "sourcePath": "C:/ProgramData/NawasrahFrankfurtBackup/operation-Restore.json",
+      "sourceSha256": "b604f2c426a5e4427606f410f6c13f46473ae889a2ad5f7494124f713cf82144",
+      "ok": true,
+      "mode": "Restore",
+      "at": "2026-10-26T02:26:03.395Z"
+    },
+    "operation-Upload.json": {
+      "sourcePath": "C:/ProgramData/NawasrahFrankfurtBackup/operation-Upload.json",
+      "sourceSha256": "7b70ceac5a9026348ca4c3e5126fe5894298beb937c7eb6d5ecb85335d8f73d5",
+      "ok": true,
+      "mode": "Upload",
+      "at": "2026-10-26T13:03:05.098Z"
+    },
+    "operation-VerifyRemote.json": {
+      "sourcePath": "C:/ProgramData/NawasrahFrankfurtBackup/operation-VerifyRemote.json",
+      "sourceSha256": "ea402aa4122eb443ea0515de4547cfa730627c88aedcef4c99180eb9ae193d9b",
+      "ok": true,
+      "mode": "VerifyRemote",
+      "at": "2026-10-26T13:03:13.939Z"
+    },
+    "operation-RestoreRemote.json": {
+      "sourcePath": "C:/ProgramData/NawasrahFrankfurtBackup/operation-RestoreRemote.json",
+      "sourceSha256": "e6037e03a135dad626f6068d928fa9b2c1b6990ff94972b67d2e3a1be4a6050d",
+      "ok": true,
+      "mode": "RestoreRemote",
+      "at": "2026-10-26T13:03:42.480Z"
+    },
+    "operation-Watchdog.json": {
+      "sourcePath": "C:/ProgramData/NawasrahFrankfurtBackup/operation-Watchdog.json",
+      "sourceSha256": "987d341e73ec9a22bbc0fad1ca7e37d7f9f9fbcd715d7b5647b9a470700c39e3",
+      "ok": true,
+      "mode": "Watchdog",
+      "at": "2026-10-26T13:19:03.891Z"
+    },
+    "operation-TestAlert.json": {
+      "sourcePath": "C:/ProgramData/NawasrahFrankfurtBackup/operation-TestAlert.json",
+      "sourceSha256": "d0aa079c93a510f2e34eb52536752f1d338f3c2016554f1595e0097167a8ac5e",
+      "ok": true,
+      "mode": "TestAlert",
+      "at": "2026-10-26T13:07:14.168Z"
+    },
+    "restore-local.json": {
+      "sourcePath": "C:/ProgramData/NawasrahFrankfurtBackup/restore-local.json",
+      "sourceSha256": "ba76f8efd4f1d4d74f7efdd7ff6fa04d867bbe0070a705e8b71b26f62e5e333d",
+      "ok": true,
+      "mode": "isolated-complete-restore",
+      "completedAt": "2026-10-26T02:26:02.280Z",
+      "projectRef": "kzevmysfydaslxcerogt",
+      "historyCeiling": 214,
+      "tablesCompared": 143,
+      "storageObjectsCompared": 3,
+      "allRowsAndHashesMatch": true,
+      "allSequencesMatch": true,
+      "rolesAndMembershipsMatch": true,
+      "catalogAclOwnerSettingsMatch": true,
+      "historyMatch": true,
+      "storageMetadataMatch": true,
+      "integrity": {
+        "count": 17,
+        "healthyZero": true
+      },
+      "cronSequenceAcl": {
+        "checked": 2,
+        "exactCapturedAcl": true,
+        "exceptionsApplied": []
+      }
+    },
+    "restore-remote.json": {
+      "sourcePath": "C:/ProgramData/NawasrahFrankfurtBackup/restore-remote.json",
+      "sourceSha256": "b76c5c99112aaf37577d8342c80531b95ddb2824cabd7b808d3e14e83f25c74b",
+      "ok": true,
+      "mode": "isolated-complete-restore",
+      "completedAt": "2026-10-26T13:03:41.787Z",
+      "projectRef": "kzevmysfydaslxcerogt",
+      "historyCeiling": 214,
+      "tablesCompared": 143,
+      "storageObjectsCompared": 3,
+      "allRowsAndHashesMatch": true,
+      "allSequencesMatch": true,
+      "rolesAndMembershipsMatch": true,
+      "catalogAclOwnerSettingsMatch": true,
+      "historyMatch": true,
+      "storageMetadataMatch": true,
+      "integrity": {
+        "count": 17,
+        "healthyZero": true
+      },
+      "cronSequenceAcl": {
+        "checked": 2,
+        "exactCapturedAcl": true,
+        "exceptionsApplied": []
+      }
+    },
+    "watchdog-status.json": {
+      "sourcePath": "C:/ProgramData/NawasrahFrankfurtBackup/watchdog-status.json",
+      "sourceSha256": "098e871adb555e46cfbd42ab068548702eb0cdcad7084a9859765ee0eb61b23b",
+      "ok": true,
+      "healthy": true,
+      "observedAt": "2026-10-26T13:19:03.885Z",
+      "recipient": "developer",
+      "internalScanHeld": true,
+      "businessAlertsEnabled": false,
+      "checks": {
+        "count": 11,
+        "allHealthy": true
+      }
+    },
+    "test-alert.json": {
+      "sourcePath": "C:/ProgramData/NawasrahFrankfurtBackup/test-alert.json",
+      "sourceSha256": "bc31b356346148a69da0e8b2fd86aa4f42b68d4a01ca305829c29d5e201b8422",
+      "ok": true,
+      "attemptedAt": "2026-10-26T13:07:14.164Z",
+      "recipient": "developer"
+    },
+    "offsite-status.json": {
+      "sourcePath": "C:/ProgramData/NawasrahFrankfurtBackup/offsite-status.json",
+      "sourceSha256": "de56d68d14c8bb86e2fe1a9a16599d7e93d672dab62e0f51f32f3bd1bcc53217",
+      "ok": true,
+      "projectRef": "kzevmysfydaslxcerogt",
+      "lastUploadAt": "2026-10-26T13:03:05.095Z",
+      "lastDownloadVerifiedAt": "2026-10-26T13:03:13.935Z",
+      "lastRestoreVerifiedAt": "2026-10-26T13:03:42.469Z",
+      "sha256": "4a1c0f2fa39046bf6196724814970d7763273a393751b24b307199f0c473b6c9"
+    }
+  },
+  "n8n": {
+    "available": true,
+    "readOnly": true,
+    "workflows": [
+      {
+        "id": "nawasrahTelegramAlerts",
+        "name": "Nawasrah ERP - Telegram Alerts",
+        "active": true,
+        "feedHosts": [
+          "acjtabdqqnpwhdvbvnyw.supabase.co"
+        ],
+        "telegramRecipientConfigured": true,
+        "telegramCredentialLinked": true
+      },
+      {
+        "id": "nawasrahWhatsappAlerts",
+        "name": "Nawasrah ERP - WhatsApp Alerts",
+        "active": false,
+        "feedHosts": [
+          "acjtabdqqnpwhdvbvnyw.supabase.co"
+        ],
+        "telegramRecipientConfigured": false,
+        "telegramCredentialLinked": false
+      }
+    ],
+    "recipientIdentity": "configured identifier not disclosed;owner identity not independently verified"
+  },
+  "localEnvironment": [
+    {
+      "file": "C:/Users/TOP/mahdi-admin/.env.production.local",
+      "supabaseUrl": null,
+      "publishableKeyPresent": false,
+      "whatsappNumber": null,
+      "publicSiteOrigin": null
+    },
+    {
+      "file": "C:/Users/TOP/mahdi-admin/customer-web/.env.production",
+      "supabaseUrl": null,
+      "publishableKeyPresent": false,
+      "whatsappNumber": null,
+      "publicSiteOrigin": "https://alnawasreh.com"
+    },
+    {
+      "file": "C:/Users/TOP/mahdi-admin/customer-web/.env.production.local",
+      "supabaseUrl": null,
+      "publishableKeyPresent": false,
+      "whatsappNumber": null,
+      "publicSiteOrigin": null
+    }
+  ],
+  "localTaskVisibility": [
+    {
+      "name": "Nawasrah Docker Safe Startup",
+      "state": "Ready",
+      "lastRun": "2026-10-20T13:38:23.0000000Z",
+      "lastResult": 3221225786,
+      "nextRun": null
+    },
+    {
+      "name": "Nawasrah ERP Nightly Backup",
+      "state": "Ready",
+      "lastRun": "2026-10-25T20:30:01.0000000Z",
+      "lastResult": 0,
+      "nextRun": "2026-10-26T20:30:00.0000000Z"
+    },
+    {
+      "name": "Nawasrah ERP Quarterly Restore Drill",
+      "state": "Ready",
+      "lastRun": "2026-10-25T23:17:01.0000000Z",
+      "lastResult": 0,
+      "nextRun": "2026-10-26T23:17:00.0000000Z"
+    }
+  ],
+  "localTaskVisibilityCaveat": "Non-elevated inventory sees3legacy tasks;owner attests5Frankfurt SYSTEM tasks,not contradicted by account visibility",
+  "audits": {
+    "admin": {
+      "viteDeclared": "6.4.4",
+      "viteLocked": "6.4.4",
+      "dev": "vite --port=3000 --host=127.0.0.1",
+      "devLan": "vite --port=3000 --host=0.0.0.0",
+      "expressProductionDependency": false,
+      "fullCounts": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 3,
+        "critical": 0,
+        "total": 3
+      },
+      "productionCounts": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      },
+      "viteListedVulnerable": false,
+      "remainingDevelopmentPackages": [
+        "brace-expansion",
+        "source-map-js",
+        "zod"
+      ]
+    },
+    "store": {
+      "viteDeclared": "6.4.4",
+      "viteLocked": "6.4.4",
+      "dev": "vite --host 127.0.0.1 --port 3002",
+      "devLan": "vite --host 0.0.0.0 --port 3002",
+      "expressProductionDependency": false,
+      "fullCounts": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 5,
+        "critical": 0,
+        "total": 5
+      },
+      "productionCounts": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      },
+      "viteListedVulnerable": false,
+      "remainingDevelopmentPackages": [
+        "miniflare",
+        "sharp",
+        "source-map-js",
+        "undici",
+        "wrangler"
+      ]
+    }
+  },
+  "sourceHashes": {
+    "scripts/operations/frankfurt-trial-reset.mjs": "73b1ba56cab595e23b137845dfc276657bacc39739213d34064a969b301d40b5",
+    "scripts/operations/frankfurt-notification-hold.mjs": "4f76ac83d17028060e0a685327cfc4a2f84aaa17910240c675f6ed0920af6ca1",
+    "scripts/operations/frankfurt-backup-owner.ps1": "2eecc3b4b6f262c55bf66f31016cb3148f37a54a7eaf6e372de6fcc592f79f3e",
+    "scripts/operations/frankfurt-backup-runtime.mjs": "30b0cce77afe26545b180a1b17e0f258d018ef8dbce8573842602ffda4aa310f",
+    "scripts/deployment/deploy-admin.mjs": "40136c4f6abe7d5c88b9f766f441b8dd0572982e8935ce6b5e47f6d8adb70a13",
+    "automation/n8n/frankfurt-go-live-routing.example.json": "f5edd6fabf956f19e733a58cd682060f1c57d95898203509b7e51da5ddc02612",
+    "automation/n8n/workflows/nawasrah-alerts.json": "4c1cad6410287dfdddeef3224e73ab3fcf0dfacf2ae7b6ef4187517b8571d4be",
+    "customer-web/scripts/generate-seo-pages.mjs": "30460670bf0c093a497df2487113c09da252f5d6915549203133b81227aa989d",
+    "public/_headers": "caa43fa0ec00ec0755dd2ab995feddd0a6c7d03481a853dfc53d5545c9969a40",
+    "customer-web/public/_headers": "9456157e95e2215220e83f00c0b8a51a557799f70f40e955f92c4a13d38d9713"
+  },
+  "launchGates": [
+    {
+      "id": "RESET214",
+      "status": "blocked",
+      "reason": "Live reset imports readReady209Reference and rejects214;preserves onlyselectedowner,not allusers/settings"
+    },
+    {
+      "id": "PREVIEW_SEPARATION",
+      "status": "required",
+      "reason": "Source fallback+SEO generator+CSP targetFrankfurt;preview env alone cannot safely retarget;quarantine every old immutable hash beforego-live"
+    },
+    {
+      "id": "BUSINESS_ROUTING",
+      "status": "required",
+      "reason": "Local active Telegram workflow still pointsSingapore;new isolated Frankfurt owner workflow/credential required;backup businessAlertsEnabled muststayfalse"
+    },
+    {
+      "id": "HOSTED_HOLD_INVENTORY",
+      "status": "owner-read-required-at-D-1",
+      "reason": "Only internalScanHeld confirmed by ownerWatchdog;other3jobs/pushD last documented hold,not re-read remotely"
+    }
+  ]
+}
