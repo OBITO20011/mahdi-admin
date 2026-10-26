@@ -3,22 +3,38 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "RESET214 durable protected retention and fail-closed restart;local interruptions/negative proofs;PR/fullCI,approval before merge",
-  "baselineSha": "72966be5b7d9a4e2200df73e6ec477c4656bbd84",
+  "baselineSha": "8e5d6a5b71fda8e5556bd1cfee4b1810c831cb05",
   "branch": "codex/reset214-safe-resume",
   "phase": "PACKAGE_F",
-  "completed": [],
+  "completed": [
+    "PR32 merged72966be5/mainFULL47;primary20ownerfiles/7configs unchanged;offlineplanPASS",
+    "Protected durable retention and explicit deterministic176-file restart",
+    "Actual local4boundary/negative/partialStorage/physical404 proofs PASS"
+  ],
   "inProgress": [
-    "Design safe restart guards and protected retention snapshot"
+    "PR33 exact8e5d6a5 FULL48 push+PR CI"
   ],
   "notStarted": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "testsPassed": [],
-  "testsRemaining": [
-    "Local complete/resume4stages/negative cases;fullCI/Gitleaks0"
+  "testsPassed": [
+    "Final local interrupted4/resumed4 and uninterrupted:all176/cat0/ACL0/retention/MFA",
+    "Missing/tampered snapshot,owner/project/reference mismatch,no marker,MFA/account missing rejected",
+    "Committed INSERT+DELETE outside reset rejected before new deletion",
+    "Windows owner/Admin-only noninherited snapshot,fsync/readback/hash;9focused and Git-save exclusion PASS",
+    "1468unit/TypeScript/strictESLint/CLIoffline13 PASS before final Git-ancestor admission;finalCI repeats",
+    "PR32 exactmain47/47 verified and primaryofflineplan no network"
   ],
-  "findings": [],
+  "testsRemaining": [
+    "Exact8e5d6a5 FULL48 push+PR,including mandatory reset214-resume and Gitleaks0",
+    "Owner approval before PR33 merge;then package2 follows without waiting,ownworktree/PR"
+  ],
+  "findings": [
+    "No hostedaccess,reset or deployment;allcodepushed",
+    "Temporary write-witness schema/triggers removed before final full catalog/ACL equality",
+    "Four failed/aborted local harness attempts recorded;no retry/skip/timeout/comparison weakening"
+  ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
@@ -28,10 +44,10 @@
     "No recurring automation",
     "No merge before approval"
   ],
-  "nextExactAction": "Publish final resume evidence and Git-exclusion guard;exact FULL48 push+PR then approval before merge",
+  "nextExactAction": "Prove two-session commit while drop fence waits,with all4resume proofs unchanged;then final FULL48",
   "startedAt": "2026-10-26T14:33:18.441Z",
-  "checkpointedAt": "2026-10-26T17:52:06.667Z",
-  "filesTouchedCount": 3,
-  "filesTouchedManifestSha256": "bbc88f7f166b71233d1ad02a4c86336bab14d98e2d7d5a6064346eb4394f6261",
-  "workingTreeFingerprint": "48C906230236133AF817D0CDBF09C954DA7B9A11803F7A584B731455D09B087C"
+  "checkpointedAt": "2026-10-26T18:05:28.766Z",
+  "filesTouchedCount": 1,
+  "filesTouchedManifestSha256": "134224a9061d5f20f8e32a44348198515c1223f8c0af04747800230bf096bf71",
+  "workingTreeFingerprint": "FA1FED850DB2EDF2AABAB3CC0A1DF3A5CC954956CE1451F55626CDBB285A5704"
 }

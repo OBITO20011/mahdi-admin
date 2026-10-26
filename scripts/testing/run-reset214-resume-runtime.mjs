@@ -13,7 +13,7 @@ import {executeResetInput as executeInput} from '../operations/reset214-io.mjs';
 import {persistentLocalExecutor} from './reset214-persistent-local.mjs';
 import {captureReset214,reset214WithExecutor,reset214RetentionRawSql} from '../operations/trial-reset214-core.mjs';
 import {prepareResetSession,startResetAttempt,validateResetResume,finishResetSession} from '../operations/reset214-session.mjs';
-import {publicFingerprint,assertNoForeignWrites} from '../operations/reset214-write-guard.mjs';
+import {publicFingerprint,assertNoForeignWrites,lockAndCheckGuardSql} from '../operations/reset214-write-guard.mjs';
 import {schemaCatalogSql} from './schema-catalog.mjs';
 import {readNotificationSnapshot,transitionNotifications} from '../operations/frankfurt-notification-hold.mjs';
 import {sqlLiteral as q} from '../operations/trial-reset-core.mjs';
@@ -126,8 +126,17 @@ try{
  stage='foreign-write-negative';
  const dirty=await prepareResetSession({...await sessionOptions('dirty-write'),state:await captureReset214({executor,ownerId,reference})});
  await assert.rejects(()=>run(dirty,'migration-088'),/RESET214_SIMULATED_INTERRUPTION/u);
- // A committed external INSERT then DELETE must remain detectable (sticky bit).
- await sql("INSERT INTO customers(full_name,phone) VALUES('دخل بعد القطع','0790000001');DELETE FROM customers WHERE phone='0790000001';");
+ // Two real sessions:the reset fence starts while a foreign INSERT+DELETE is
+ // uncommitted,waits for the relation lock,then must see its committed witness.
+ const foreign=sql("BEGIN;INSERT INTO customers(full_name,phone) VALUES('دخل بعد القطع','0790000001');DELETE FROM customers WHERE phone='0790000001';SELECT pg_sleep(1);COMMIT;");
+ let locked=false;
+ for(let i=0;i<40;i++){
+  locked=(await sql("SELECT EXISTS(SELECT 1 FROM pg_locks WHERE relation='public.customers'::regclass AND mode='RowExclusiveLock' AND granted);",dirty.executor))==='t';
+  if(locked)break;await new Promise(resolve=>setTimeout(resolve,10));
+ }
+ assert.equal(locked,true,'FOREIGN_TRANSACTION_MUST_HOLD_THE_RELATION_LOCK');
+ const raced=await executeInput(dirty.executor,'BEGIN;'+lockAndCheckGuardSql+'ROLLBACK;');await foreign;
+ assert.notEqual(raced.code,0,'FENCE_MUST_NOT_ADMIT_A_COMMITTED_FOREIGN_WRITE');assert.match(raced.stderr,/RESET214_REAL_WRITES_DETECTED/u);report.twoSessionDropFenceRejected=true;
  await assert.rejects(()=>assertNoForeignWrites(executor,dirty.saved),/RESET214_REAL_WRITES_DETECTED/u);
  const unsafe=await prepareResetSession({...base,output:dirty.output,resume:true});await assert.rejects(()=>validateResetResume(unsafe,executor),/RESET214_REAL_WRITES_DETECTED/u);
  const unchanged=await publicFingerprint(executor);await assert.rejects(()=>startResetAttempt(unsafe,executor),/RESET214_REAL_WRITES_DETECTED/u);assert.deepEqual(await publicFingerprint(executor),unchanged);

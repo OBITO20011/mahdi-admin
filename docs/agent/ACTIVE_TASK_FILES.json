@@ -3,15 +3,7 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/operations/RESET214_RESUME_LOCAL_EVIDENCE.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/reset214-private-state.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/reset214-resume.test.ts"
+      "path": "scripts/testing/run-reset214-resume-runtime.mjs"
     }
   ]
 }
