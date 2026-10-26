@@ -2,12 +2,8 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": "??",
+      "code": " M",
       "path": "docs/operations/FRANKFURT_RESTORE_COMPARISON_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/restore-comparison-evidence/local.json"
     }
   ]
 }

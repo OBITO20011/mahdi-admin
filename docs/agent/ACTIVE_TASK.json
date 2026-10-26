@@ -3,7 +3,7 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Expose fixed comparison failure codes and private name-only differences;analyze synthetic Frankfurt role/ACL/sequence/data environments without weakening strict restore;PR/FULL CI;merge after approval",
-  "baselineSha": "cbe22c55e724d5476e8e12abaa90cf34568128ce",
+  "baselineSha": "e4f984263a29b18021b24c8fcab701eb2fed6ab4",
   "branch": "codex/frankfurt-restore-comparison",
   "phase": "PACKAGE_F",
   "completed": [
@@ -23,11 +23,11 @@
   "testsPassed": [
     "Focused16/16",
     "1458unit tests0fail0skip",
-    "Complete isolated runtime/S3mock/TLS17.11+managed roles/defaultprivileges/sequences passed"
+    "Complete isolated runtime/S3mock/TLS17.11+managed roles/defaultprivileges/sequences passed",
+    "Final typecheck and strict lint passed"
   ],
   "testsRemaining": [
-    "Final typecheck/lint",
-    "Full final CI/Gitleaks",
+    "Full exact-SHA CI/Gitleaks",
     "CI Linux private comparison report persistence and privacy"
   ],
   "findings": [
@@ -43,10 +43,10 @@
     "No merge/primary update before approval",
     "Stop and report any real source/data difference;no broad ignore or weakened comparator"
   ],
-  "nextExactAction": "Save comparison runbook/local evidence then final FULLCI PR;no speculative restore/data repair and no merge before approval.",
+  "nextExactAction": "Create review PR and verify complete exact-SHA push/PR CI; actual owner mismatch remains unproven; no merge before approval.",
   "startedAt": "2026-10-25T23:46:34.613Z",
-  "checkpointedAt": "2026-10-25T23:59:27.901Z",
-  "filesTouchedCount": 2,
-  "filesTouchedManifestSha256": "937b52d9aafc76a9396a0a77e926bfe84056f16a80efb49bfd65795622450b0a",
-  "workingTreeFingerprint": "EE6A79CCDE4E47511947B0253939FA2C09F630F560D5A3700903A3774109E525"
+  "checkpointedAt": "2026-10-26T00:02:33.815Z",
+  "filesTouchedCount": 1,
+  "filesTouchedManifestSha256": "dfd44d1d67d2306d3afaa8fc6a0948017c19384891ce10f40cdbdfb0d9ac02dc",
+  "workingTreeFingerprint": "F9B638CE778BE59D3BBCE96593CF17E9AA886D37D74F928832F739A7F1FBDDD9"
 }
