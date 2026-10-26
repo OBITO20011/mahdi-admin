@@ -1,7 +1,7 @@
 // Temporary reset tooling,removed before final full catalog comparison.
 // Committed non-tool writes leave a sticky bit even if their rows are deleted.
 import assert from 'node:assert/strict';
-import {executeInput} from './build-empty-supabase.mjs';
+import {executeResetInput as executeInput} from './reset214-io.mjs';
 import {sqlLiteral as q,cleanSeedCounts} from './trial-reset-core.mjs';
 import {sha256} from '../testing/maintenance-db-contract.mjs';
 export const guardSchema='reset214_guard';
@@ -14,10 +14,11 @@ export const publicFingerprintSql=`DO $f$ DECLARE r record;n bigint;h text;v jso
  RAISE NOTICE 'RESET214_FINGERPRINT:%',v;END$f$;`;
 export async function publicFingerprint(executor){
  const r=await executeInput(executor,publicFingerprintSql);assert.equal(r.code,0,'RESET214_FINGERPRINT_READ_FAILED');
- const match=r.stderr.match(/RESET214_FINGERPRINT:(\{[^\r\n]+\})/u);assert.ok(match,'RESET214_FINGERPRINT_MISSING');return JSON.parse(match[1]);
+ const match=r.stderr.match(/RESET214_FINGERPRINT:(\{[^\r\n]*\})/u);assert.ok(match,'RESET214_FINGERPRINT_MISSING');return JSON.parse(match[1]);
 }
 export function writerExecutor(executor,token){
  assert.match(token,/^[a-f0-9-]{36}$/u,'RESET214_WRITER_ID');
+ if(executor.localOnly===true&&typeof executor.localExecute==='function')return {...executor,reset214Writer:token};
  // psql -c precedes stdin on that same connection. Docker executor has -c input
  // available too;the caller uses this only for the direct psql owner executor.
  return {...executor,args:[...executor.args,'-c',`SET reset214.writer=${q(token)};`,'-f','-']};

@@ -1,4 +1,4 @@
-import {prepareResetSession,startResetAttempt,validateResetResume,finishResetSession} from './reset214-session.mjs';
+import {prepareResetSession,startResetAttempt,validateResetResume,finishResetSession,reset214Marker} from './reset214-session.mjs';
 // Owner terminal only. --plan is offline; --dry-run uses read-only sessions.
 // No arbitrary URL/target flags and no password in argv/files/reports.
 import assert from 'node:assert/strict';
@@ -45,6 +45,8 @@ export async function runOwnerReset214(args){
     deleted:['other trial accounts','all business data','all product-images objects'],
     nextAction:'OWNER_READ_ONLY_DRY_RUN_WITH_OWNER_UUID_FOR_EXACT_COUNTS'});return report;
   }
+  if(mode==='resume')session=await prepareResetSession({workdir,output,ownerId,projectRef:TARGET.id,referenceSha256:report.reference.sha256,reference,resume:true});
+  if(mode==='apply')try{await access(path.join(workdir,reset214Marker));throw new Error('RESET214_PRIOR_INCOMPLETE_ATTEMPT_USE_RESUME');}catch(error){if(error.code!=='ENOENT')throw error;}
   // Never relink the developer's old-project checkout.
   old=await readFile(path.join(root,'supabase/.temp/project-ref'));assert.equal(old.toString().trim(),OLD_REF,'RESET214_OLD_LINK_CHANGED');
   assert.equal((await readFile(path.join(workdir,'supabase/.temp/project-ref'),'utf8')).trim(),TARGET.id,'RESET214_WRONG_EXTERNAL_PROJECT');
@@ -64,7 +66,6 @@ export async function runOwnerReset214(args){
   if(mode!=='resume')assert.deepEqual(JSON.parse(await query(historySql)),reference.appliedVersions,'RESET214_COMPLETE_HISTORY_REQUIRED');
   let state;
   if(mode==='resume'){
-   session=await prepareResetSession({workdir,output,ownerId,projectRef:TARGET.id,referenceSha256:report.reference.sha256,reference,resume:true});
    await validateResetResume(session,readOnly);state=session.saved.state;report.previousAttempt=session.previous;report.plan=state.plan;
   }else{
    const original=JSON.parse(await readFile(path.join(workdir,'notification-before.json'),'utf8'));

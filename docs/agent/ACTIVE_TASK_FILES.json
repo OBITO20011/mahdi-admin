@@ -3,7 +3,11 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/project-state.json"
+      "path": ".github/workflows/quality.yml"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-reset214.mjs"
     },
     {
       "code": " M",
@@ -11,23 +15,47 @@
     },
     {
       "code": " M",
-      "path": "scripts/operations/trial-reset214-core.mjs"
-    },
-    {
-      "code": "??",
       "path": "scripts/operations/reset214-private-state.mjs"
     },
     {
-      "code": "??",
+      "code": " M",
       "path": "scripts/operations/reset214-session.mjs"
     },
     {
-      "code": "??",
+      "code": " M",
       "path": "scripts/operations/reset214-write-guard.mjs"
     },
     {
-      "code": "??",
+      "code": " M",
+      "path": "scripts/operations/trial-reset214-core.mjs"
+    },
+    {
+      "code": " M",
       "path": "scripts/testing/run-reset214-resume-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/reset214b-inverse.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-reset214b.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/reset214-io.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/reset214-persistent-local.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-reset214-resume-gates.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/reset214-resume.test.ts"
     }
   ]
 }

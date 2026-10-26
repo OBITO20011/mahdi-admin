@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import {writeFileSync} from 'node:fs';
 import {writeFile} from 'node:fs/promises';
 import path from 'node:path';
-import {executeInput} from './build-empty-supabase.mjs';
+import {executeResetInput as executeInput} from './reset214-io.mjs';
 import {schemaCatalogSql,catalogDifference} from '../testing/schema-catalog.mjs';
 import {sha256} from '../testing/maintenance-db-contract.mjs';
 import {heldJobNames,readNotificationSnapshot,expectedHeldNotifications} from './frankfurt-notification-hold.mjs';
@@ -99,6 +99,7 @@ export async function reset214WithExecutor(options){
   const code=/\b(?:RESET[A-Z0-9_]*|PRESERVED_AUTH_VAULT_BUCKET_STATE_CHANGED|TRIAL_RESET_SQL_FAILED|UNREVIEWED_STORAGE_BUCKET|NOTIFICATION_STATE_MISMATCH)\b/u.exec(error.message)?.[0]??'RESET214_FAILED';
   Object.assign(target,{ok:false,complete:false,failureStage:target.stage,comparisonCode:code,recoveryRequired:target.destructiveStarted===true,
    nextAction:target.destructiveStarted?(session?'KEEP_WRITERS_STOPPED_REVIEW_CAUSE_THEN_RESUME':'KEEP_WRITERS_STOPPED_RESTORE_PRE_RESET_ARCHIVE'):'FIX_PREFLIGHT_AND_REVIEW_NEW_DRY_RUN'});
+  target.failureLocation=error.stack?.split('\n').slice(1).map(line=>/([a-z0-9_-]+\.mjs):(\d+):(\d+)/iu.exec(line)).filter(Boolean).map(m=>({file:m[1],line:Number(m[2])})).slice(0,3);
   throw new Error(code,{cause:error});
  }finally{persist();}
 }
@@ -112,23 +113,24 @@ async function rebuild214({executor,root,reference,output,repair,clearHistory,em
  const dates=resetComparisonDates(reference.buildUtcDate,startDay);
  // Local rehearsal uses full literal comparison. Managed owner admission does
  // its normalized,strict-application check before calling this executor.
- assertManagedCatalog(reference.catalog,before,dates.admission);
+ report.stage='managed-catalog-preflight';assertManagedCatalog(reference.catalog,before,dates.admission);
+ report.stage='acl-grantor-preflight';
  restoreResetAcl(before,before); // Unsupported grantors must fail BEFORE deleting files/data.
- const dependents=await json(externalDependentsSql);assertExternalDependents(dependents,reference.migrationCeiling);report.externalDependents=dependents;
+ report.stage='external-dependencies-preflight';const dependents=await json(externalDependentsSql);assertExternalDependents(dependents,reference.migrationCeiling);report.externalDependents=dependents;
  assert.ok(before.tables.some(t=>t.schema==='public'&&t.name==='product_cost_corrections'),'RESET182_REQUIRED');
- const notifications=session?session.saved.notifications:await readNotificationSnapshot(executor);
+ report.stage='notification-hold-preflight';const notifications=session?session.saved.notifications:await readNotificationSnapshot(executor);
  assert.equal(notifications.trigger.enabled,'D','RESET_NOTIFICATION_HOLD_REQUIRED');
  assert.ok(notifications.jobs.filter(j=>heldJobNames.includes(j.name)).every(j=>j.active===false));
  assert.equal(notifications.jobs.length,5);
- const owner=session?{profile:state.snapshot.profiles[0],branch:state.snapshot.branches[0],warehouse:state.snapshot.warehouses[0],roles:state.snapshot.roles.map(r=>r.code)}:await json(ownerRecordSql(ownerId));assert.deepEqual(owner.roles,['owner']);
+ report.stage='owner-preservation-preflight';const owner=session?{profile:state.snapshot.profiles[0],branch:state.snapshot.branches[0],warehouse:state.snapshot.warehouses[0],roles:state.snapshot.roles.map(r=>r.code)}:await json(ownerRecordSql(ownerId));assert.deepEqual(owner.roles,['owner']);
  if(reference.migrationCeiling>=199&&!session){
   const main=await json("SELECT COALESCE(jsonb_agg(to_jsonb(w)),'[]'::jsonb) FROM public.warehouses w WHERE code='WH-MAIN';");
   assert.equal(main.length,1,'RESET_MAIN_WAREHOUSE_REQUIRED');owner.warehouse=main[0];
   restoreMainWarehouseSql(owner); // validate location before any destructive work
  }
  if(owner.branch)assert.equal(owner.branch.id,owner.profile.branch_id,'OWNER_BRANCH_ID_MISMATCH');
- assert.ok(owner.profile.is_active);report.beforeCounts=await readRowCounts(executor);
- const preserved=session?session.saved.preserved:await json(preservedStateSql(ownerId));assert.ok(preserved.ownerAuth);
+ assert.ok(owner.profile.is_active);report.beforeCounts=session?Object.fromEntries(Object.entries(await publicFingerprint(executor)).map(([k,v])=>[k,v.rows])):await readRowCounts(executor);
+ const preserved=session?(session.platformBaseline??session.saved.preserved):await json(preservedStateSql(ownerId));assert.ok(preserved.ownerAuth);
  assert.deepEqual(preserved.buckets.map(b=>b.id),['product-images'],'UNREVIEWED_STORAGE_BUCKET');
  report.destructiveStarted=true;report.stage='empty-storage-api';await emptyStorage();
  assert.equal(await sql('SELECT count(*) FROM storage.objects;'),'0','STORAGE_NOT_EMPTY');

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {readFile,mkdir,access} from 'node:fs/promises';
 import path from 'node:path';
 import {randomUUID} from 'node:crypto';
-import {executeInput} from './build-empty-supabase.mjs';
+import {executeResetInput as executeInput} from './reset214-io.mjs';
 import {privateResetDirectory,writePrivateResetJson,readPrivateResetJson,assertResetSnapshot} from './reset214-private-state.mjs';
 import {publicFingerprint,guardCreateSql,attachGuardSql,assertNoForeignWrites,withoutResetGuard,writerExecutor,removeGuardSql} from './reset214-write-guard.mjs';
 import {preservedStateSql,sqlLiteral as q,uuid} from './trial-reset-core.mjs';
@@ -12,6 +12,11 @@ import {sha256} from '../testing/maintenance-db-contract.mjs';
 export const reset214Marker='RESET214_IN_PROGRESS.json';
 const within=(root,relative)=>{assert.equal(path.isAbsolute(relative),false,'RESET214_STATE_PATH_INVALID');const p=path.resolve(root,relative),r=path.relative(root,p);assert.ok(r&&!r.startsWith('..')&&!path.isAbsolute(r),'RESET214_STATE_PATH_INVALID');return p;};
 async function readSql(executor,input){const r=await executeInput(executor,input);assert.equal(r.code,0,'RESET214_SESSION_SQL_FAILED');return r.stdout.trim();}
+// Sign-in timestamps may advance while the operator investigates. Identity,
+// password/MFA material and Vault must remain identical;only hashes are saved.
+const stableIdentitySql=ownerId=>`SELECT jsonb_build_object(
+ 'auth',(SELECT md5((to_jsonb(u)-'last_sign_in_at'-'updated_at')::text) FROM auth.users u WHERE id=${q(uuid(ownerId))}::uuid),
+ 'identities',(SELECT md5(COALESCE(jsonb_agg(to_jsonb(i)-'last_sign_in_at'-'updated_at' ORDER BY id)::text,'')) FROM auth.identities i WHERE user_id=${q(ownerId)}::uuid));`;
 export async function prepareResetSession({workdir,output,ownerId,projectRef,referenceSha256,state,reference,resume=false}){
  const folder=await privateResetDirectory(workdir),markerPath=path.join(workdir,reset214Marker);
  if(resume){
@@ -41,11 +46,13 @@ export async function persistResetSession(session,executor){
  saved.notifications=await readNotificationSnapshot(executor);
  // Only non-reversible fingerprints of Auth/MFA/Vault,never their rows.
  saved.preserved=JSON.parse(await readSql(executor,preservedStateSql(saved.ownerId)));
+ saved.stableIdentity=JSON.parse(await readSql(executor,stableIdentitySql(saved.ownerId)));
  const textState={...saved.state,snapshot:Object.fromEntries(Object.entries(saved.state.rawTables).map(([k,v])=>[k,JSON.parse(v)]))};
  assert.equal(textState.snapshot.storefront_settings[0].orders_enabled,false,'RESET214_STORE_ORDERS_MUST_BE_DISABLED');
  assertResetSnapshot(saved,saved);
  const snapshotSha256=await writePrivateResetJson(session.file,saved);
  assertResetSnapshot(await readPrivateResetJson(session.file,snapshotSha256),saved);
+ await writePrivateResetJson(path.join(session.output,'reset214-progress.json'),{ok:false,complete:false,originalAttemptId:saved.attemptId,stage:'snapshot-verified',applied:[],recorded:[],destructiveStarted:false});
  session.marker={format:1,projectRef:saved.projectRef,ownerId:saved.ownerId,referenceSha256:saved.referenceSha256,originalAttemptId:saved.attemptId,
   snapshotPath:path.relative(session.workdir,session.file),snapshotSha256,currentOutput:path.relative(session.workdir,session.output),startedAt:saved.createdAt};
  await writePrivateResetJson(session.markerPath,session.marker);
@@ -56,7 +63,9 @@ export async function validateResetResume(session,executor){
  assert.equal(await readSql(executor,`SELECT count(*) FROM auth.users WHERE id=${q(saved.ownerId)}::uuid;`),'1','RESET214_OWNER_AUTH_MISSING');
  assert.equal(await readSql(executor,`SELECT EXISTS(SELECT 1 FROM auth.mfa_factors WHERE user_id=${q(saved.ownerId)}::uuid AND status='verified');`),'t','RESET214_OWNER_MFA_MISSING');
  const current=JSON.parse(await readSql(executor,preservedStateSql(saved.ownerId)));
- assert.deepEqual(current,saved.preserved,'RESET214_RETAINED_PLATFORM_CHANGED');
+ assert.deepEqual(JSON.parse(await readSql(executor,stableIdentitySql(saved.ownerId))),saved.stableIdentity,'RESET214_OWNER_IDENTITY_CHANGED');
+ for(const key of ['ownerMfa','vault','buckets'])assert.deepEqual(current[key],saved.preserved[key],'RESET214_RETAINED_PLATFORM_CHANGED');
+ session.platformBaseline=current;
  const present=await readSql(executor,"SELECT to_regclass('reset214_guard.state') IS NOT NULL;");
  session.guardPresent=present==='t';
  if(!session.guardPresent){

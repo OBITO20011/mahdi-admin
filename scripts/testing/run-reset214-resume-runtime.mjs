@@ -8,7 +8,9 @@ import path from 'node:path';
 import {randomUUID} from 'node:crypto';
 import {createClient} from '@supabase/supabase-js';
 import {readReady214Reference} from '../operations/frankfurt-reference214.mjs';
-import {executeInput,executorFor} from '../operations/build-empty-supabase.mjs';
+import {executorFor} from '../operations/build-empty-supabase.mjs';
+import {executeResetInput as executeInput} from '../operations/reset214-io.mjs';
+import {persistentLocalExecutor} from './reset214-persistent-local.mjs';
 import {captureReset214,reset214WithExecutor,reset214RetentionRawSql} from '../operations/trial-reset214-core.mjs';
 import {prepareResetSession,startResetAttempt,validateResetResume,finishResetSession} from '../operations/reset214-session.mjs';
 import {publicFingerprint,assertNoForeignWrites} from '../operations/reset214-write-guard.mjs';
@@ -18,7 +20,7 @@ import {sqlLiteral as q} from '../operations/trial-reset-core.mjs';
 import {sha256} from './maintenance-db-contract.mjs';
 import {localTotp} from './local-totp.mjs';
 const exec=promisify(execFile),root=path.resolve(import.meta.dirname,'../..'),cli=path.join(root,'node_modules/supabase/dist/supabase.js');
-const output=await mkdtemp(path.join(tmpdir(),'nawasrah-reset214-resume-')),project='nawasrah-reset214-resume-test',executor=executorFor(['--container','supabase_db_'+project]);
+const output=await mkdtemp(path.join(tmpdir(),'nawasrah-reset214-resume-')),project='nawasrah-reset214-resume-test',executor=persistentLocalExecutor(executorFor(['--container','supabase_db_'+project]));
 const report={output,managedAccess:false,startedAt:new Date().toISOString(),cases:[]};let local,stage='bootstrap';
 const sql=async(input,ex=executor)=>{const r=await executeInput(ex,input);assert.equal(r.code,0,'LOCAL_RESET214B_SQL_FAILED:'+r.stderr.slice(-350));return r.stdout.trim();};
 const json=async s=>JSON.parse(await sql(s));
@@ -85,6 +87,11 @@ try{
   await assert.rejects(()=>run(interrupted,stop),/RESET214_SIMULATED_INTERRUPTION/u);
   const stored=JSON.parse(await readFile(path.join(interrupted.output,'reset214-progress.json'),'utf8'));assert.equal(stored.ok,false);assert.equal(stored.recoveryRequired,true);
   assert.equal(await sql('SELECT count(*) FROM storage.objects;'),'0');
+  if(stop==='after-storage'){
+   await sql(`UPDATE auth.users SET last_sign_in_at=now(),updated_at=now() WHERE id=${q(ownerId)};
+    UPDATE auth.identities SET last_sign_in_at=now(),updated_at=now() WHERE user_id=${q(ownerId)};`);
+   report.ownerSigninTimestampsAllowed=true;
+  }
   if(stop==='migration-088'){
    stage='negative-snapshot-identity';
    for(const changes of [{ownerId:randomUUID()},{projectRef:'other'},{referenceSha256:'0'.repeat(64)}])await assert.rejects(()=>prepareResetSession({...base,...changes,output:interrupted.output,resume:true}));
@@ -122,4 +129,4 @@ try{
  await sql(`DELETE FROM auth.users WHERE id=${q(ownerId)};`);await assert.rejects(()=>validateResetResume(unsafe,executor),/RESET214_OWNER_AUTH_MISSING/u);report.ownerMissingRejected=true;
  report.ok=true;
 }catch(error){report.ok=false;report.stage=stage;report.error=error.message.split('\n')[0];process.exitCode=1;}
-finally{if(local)await exec(process.execPath,[cli,'stop','--no-backup','--workdir',local],{cwd:root,windowsHide:true});report.endedAt=new Date().toISOString();await writeFile(path.join(output,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));}
+finally{executor.closeLocal();if(local)await exec(process.execPath,[cli,'stop','--no-backup','--workdir',local],{cwd:root,windowsHide:true});report.endedAt=new Date().toISOString();await writeFile(path.join(output,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));}

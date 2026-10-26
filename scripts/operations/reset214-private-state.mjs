@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
-import {mkdir,writeFile,readFile,rename,lstat,chmod} from 'node:fs/promises';
+import {mkdir,open,readFile,rename,lstat,chmod} from 'node:fs/promises';
 import path from 'node:path';
 import {randomUUID} from 'node:crypto';
 import {sha256} from '../testing/maintenance-db-contract.mjs';
@@ -21,11 +21,12 @@ export async function privateResetDirectory(workdir){
 export async function writePrivateResetJson(file,value){
  const text=JSON.stringify(value,null,2)+'\n',temporary=file+'.'+randomUUID()+'.tmp';
  // Parent is already private;no readable interval before file ACL replacement.
- await writeFile(temporary,text,{flag:'wx',mode:0o600});await protectResetPath(temporary);await rename(temporary,file);
+ const handle=await open(temporary,'wx',0o600);try{await handle.writeFile(text,'utf8');await handle.sync();}finally{await handle.close();}
+ await protectResetPath(temporary);await rename(temporary,file);
  assert.equal(await readFile(file,'utf8'),text,'RESET214_PRIVATE_READBACK_FAILED');return sha256(text);
 }
 export async function readPrivateResetJson(file,expectedHash){
- await protectResetPath(path.dirname(file),true);await protectResetPath(file);
+ assert.equal((await lstat(path.dirname(file))).isSymbolicLink(),false,'RESET214_PRIVATE_PATH_LINK');await protectResetPath(file);
  const text=await readFile(file,'utf8');if(expectedHash)assert.equal(sha256(text),expectedHash,'RESET214_RETENTION_HASH_MISMATCH');
  return JSON.parse(text);
 }
