@@ -70,10 +70,12 @@ export async function reset214WithExecutor(options){
  const target=options.report??{};
  const persist=()=>writeFileSync(path.join(output,'reset214-progress.json'),JSON.stringify(target,null,2)+'\n');
  Object.assign(target,{ok:false,complete:false,recoveryRequired:false,destructiveStarted:false});persist();
- const report=new Proxy(target,{set(object,key,value){object[key]=value;if(key==='stage'||key==='destructiveStarted')persist();return true;}});
+ const report=new Proxy(target,{set(object,key,value){object[key]=value;if(key==='destructiveStarted'&&value===true)object.recoveryRequired=true;if(key==='stage'||key==='destructiveStarted')persist();return true;}});
  try{
   report.stage='retention-preflight';
   const state=await captureReset214({executor,ownerId,reference});report.plan=state.plan;
+  if(options.expectedPlan)assert.deepEqual(state.plan,options.expectedPlan,'RESET214_PREVIEW_CHANGED');
+  assert.equal(state.snapshot.storefront_settings[0].orders_enabled,false,'RESET214_STORE_ORDERS_MUST_BE_DISABLED');
   const r=await executeInput(executor,schemaCatalogSql);assert.equal(r.code,0,'RESET214_CATALOG_READ_FAILED');
   const catalog=JSON.parse(r.stdout.trim());assertReady214Catalog(catalog);
   assert.equal(compareApplicationAcl(reference.catalog,catalog).differenceCount,0,'RESET214_APPLICATION_ACL_MISMATCH');
@@ -139,12 +141,14 @@ async function rebuild214({executor,root,reference,output,repair,clearHistory,em
   for(const key of ['name','schedule','command','host','port','database','username','active'])assert.deepEqual(fresh[key],old[key],'RESET_CRON_CHANGED:'+old.name+':'+key);}
  report.notificationOriginal=original;
  report.stage='restore-owner-and-settings';await sql(restoreReset214Sql(state.snapshot));
- const retained=await json(reset214RetentionSql(ownerId));assert.deepEqual(retained,state.snapshot,'RESET214_RETAINED_VALUES_CHANGED');
- report.preservation={before:state.plan.preserved,after:fingerprints(retained),matches:true};
- const afterPreserved=await json(preservedStateSql(ownerId));assert.deepEqual(afterPreserved,preserved,'PRESERVED_AUTH_VAULT_BUCKET_STATE_CHANGED');
+ const retained=await json(reset214RetentionSql(ownerId));
+ report.preservation={before:state.plan.preserved,after:fingerprints(retained),matches:JSON.stringify(retained)===JSON.stringify(state.snapshot)};
+ assert.deepEqual(retained,state.snapshot,'RESET214_RETAINED_VALUES_CHANGED');
+ const afterPreserved=await json(preservedStateSql(ownerId));
+ report.authVaultMfaProof={before:preserved,after:afterPreserved,matches:JSON.stringify(afterPreserved)===JSON.stringify(preserved)};
+ assert.deepEqual(afterPreserved,preserved,'PRESERVED_AUTH_VAULT_BUCKET_STATE_CHANGED');
  const counts=await readRowCounts(executor);report.afterCounts=counts;
  assert.deepEqual(counts,state.expected,'RESET214_CLEAN_COUNTS_DIFFER');
- report.authVaultMfaProof={before:preserved,after:afterPreserved,matches:true};
  if(owner.warehouse){
   assert.deepEqual(await json("SELECT to_jsonb(w) FROM public.warehouses w WHERE code='WH-MAIN';"),owner.warehouse,'RESET_MAIN_WAREHOUSE_CHANGED');
   report.mainWarehousePreserved=true;

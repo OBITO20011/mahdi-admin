@@ -149,6 +149,13 @@ try{
  assert.equal((await fetch(url)).status,200,'LOCAL_BYTES_MUST_EXIST_BEFORE_RESET');
  if(latest214){
   const readOnly={...executor,args:[...executor.args,...readOnlyPsqlSessionArgs]};
+  await sql('UPDATE storefront_settings SET orders_enabled=true;');
+  const blockedOutput=path.join(output,'blocked214');await (await import('node:fs/promises')).mkdir(blockedOutput);
+  const blocked={};const never=async()=>assert.fail('Closed-store preflight must precede all destructive callbacks');
+  await assert.rejects(()=>reset214WithExecutor({executor,root:sourceRoot,reference,output:blockedOutput,ownerId,report:blocked,emptyStorage:never,deleteOtherAuth:never,clearHistory:never,repair:never,finalDryRun:never}),/RESET214_STORE_ORDERS_MUST_BE_DISABLED/u);
+  assert.equal(blocked.destructiveStarted,false);assert.equal(blocked.recoveryRequired,false);
+  await sql('UPDATE storefront_settings SET orders_enabled=false;');
+  report.reset214OpenStoreRejected=true;
   const countsBefore=await readRowCounts(executor);
   // Exact retained store values cannot reference an account about to be removed.
   await sql(`UPDATE storefront_settings SET updated_by=${q(employee.data.user.id)};`);
@@ -163,7 +170,7 @@ try{
   report.reset214ReadOnlyPreview=true;report.reset214UnsafeRetentionRejected=true;
  }
  stage='same-reset-pipeline';report.reset={};
- await (latest214?reset214WithExecutor:resetWithExecutor)({executor,root:sourceRoot,reference,output,ownerId,report:report.reset,
+ await (latest214?reset214WithExecutor:resetWithExecutor)({executor,root:sourceRoot,reference,output,ownerId,report:report.reset,expectedPlan:latest214?report.reset214Preview:undefined,
   emptyStorage:async()=>{
    const deleted=await cliCall(['storage','rm','ss:///product-images/'+object,'--experimental','--yes']);
    report.storageRemoval={stdout:deleted.stdout.trim(),stderr:deleted.stderr.trim(),remainingObjects:await sql('SELECT count(*) FROM storage.objects;')};
@@ -207,7 +214,7 @@ try{
   await assert.rejects(()=>reset214WithExecutor({executor,root:sourceRoot,reference,output:failureOutput,ownerId,report:failed,
    emptyStorage:async()=>{},deleteOtherAuth:async id=>sql(`DELETE FROM auth.users WHERE id<>${q(id)}::uuid;`),
    clearHistory:async()=>{await cliCall(['migration','repair','--status','reverted',...reference.appliedVersions]);await sql('DELETE FROM supabase_migrations.seed_files;');},
-   repair:async version=>{if(version==='088')throw new Error('RESET214_TEST_INTERRUPTED_REBUILD');await cliCall(['migration','repair','--status','applied',version]);},
+   repair:async version=>{if(version==='088'){assert.equal(failed.recoveryRequired,true,'Unfinished destructive journal must require recovery before interruption');throw new Error('RESET214_TEST_INTERRUPTED_REBUILD');}await cliCall(['migration','repair','--status','applied',version]);},
    finalDryRun:async()=>assert.fail('Interrupted rebuild cannot reach final verification')}),/RESET214_TEST_INTERRUPTED_REBUILD/u);
   const persisted=JSON.parse(await readFile(path.join(failureOutput,'reset214-progress.json'),'utf8'));
   assert.equal(persisted.ok,false);assert.equal(persisted.complete,false);assert.equal(persisted.recoveryRequired,true);

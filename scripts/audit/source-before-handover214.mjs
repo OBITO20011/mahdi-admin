@@ -1,3 +1,4 @@
+import {sourceBeforeReset214} from './source-before-reset214.mjs';
 // Exact outer inverse: old acceptance evidence retains its original sources.
 import assert from 'node:assert/strict';
 import {readFileSync, readdirSync} from 'node:fs';
@@ -15,7 +16,7 @@ for (const file of readdirSync(import.meta.dirname).filter(f => f.endsWith('-hun
 }
 export function sourceBeforeHandover214(file, text) {
   if (text === null) return null;
-  const source = text.replaceAll('\r\n', '\n'), pin = handover214Pins[file];
+  const source = sourceBeforeReset214(file,text), pin = handover214Pins[file];
   if (!pin) return source;
   const digest = hash(source);
   if (digest === pin.after) {

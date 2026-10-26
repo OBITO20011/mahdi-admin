@@ -79,7 +79,7 @@ export async function runOwnerReset214(args){
   const cliCall=async flags=>{guard.assertHeld();const childEnv={...env,SUPABASE_DB_PASSWORD:env.PGPASSWORD};
    try{return await exec(process.execPath,[cli,...flags,'--workdir',workdir,'--agent','no'],{cwd:workdir,env:childEnv,windowsHide:true,maxBuffer:8*1024**2});}
    catch{throw new Error('RESET214_OFFICIAL_CLI_FAILED');}finally{delete childEnv.PGPASSWORD;delete childEnv.SUPABASE_DB_PASSWORD;}};
-  await reset214WithExecutor({executor,root,reference,output,ownerId,report:report.reset,
+  await reset214WithExecutor({executor,root,reference,output,ownerId,report:report.reset,expectedPlan:state.plan,
    emptyStorage:async()=>{const names=JSON.parse(await query("SELECT COALESCE(jsonb_agg(name ORDER BY name),'[]'::jsonb) FROM storage.objects WHERE bucket_id='product-images';"));
     for(let n=0;n<names.length;n+=100)await cliCall(['storage','rm',...names.slice(n,n+100).map(name=>'ss:///product-images/'+name),'--experimental','--linked','--yes']);},
    deleteOtherAuth:async id=>{await query(`DELETE FROM auth.users WHERE id<>${sqlLiteral(uuid(id))}::uuid;`,executor);},
@@ -97,8 +97,10 @@ export async function runOwnerReset214(args){
  }finally{
   if(guard)try{await guard.close();}catch{report.ok=false;report.complete=false;report.code='RESET214_GUARD_CLOSE_FAILED';}
   if(env)delete env.PGPASSWORD;
-  if(old&&sha256(await readFile(path.join(root,'supabase/.temp/project-ref')))!==sha256(old)){report.ok=false;report.code='RESET214_OLD_LINK_CHANGED';}
-  if(markerCreated&&(report.ok===true||report.reset?.destructiveStarted===false))await unlink(marker);
+  if(old)try{assert.equal(sha256(await readFile(path.join(root,'supabase/.temp/project-ref'))),sha256(old));}catch{report.ok=false;report.code='RESET214_OLD_LINK_CHANGED';}
+  if(markerCreated&&(report.ok===true||report.reset?.destructiveStarted===false))try{await unlink(marker);}catch{report.ok=false;report.code='RESET214_MARKER_CLEANUP_FAILED';}
+  report.complete=report.ok===true;
+  report.recoveryRequired=report.reset?.destructiveStarted===true&&!report.ok;
   report.endedAt=new Date().toISOString();await writeFile(path.join(output,'report.json'),JSON.stringify(report,null,2)+'\n');
  }
 }
