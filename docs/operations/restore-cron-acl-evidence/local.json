@@ -1,0 +1,96 @@
+{
+  "ok": true,
+  "hostedConnectionsMade": false,
+  "ownerArchiveRead": false,
+  "syntheticCronProof": {
+    "ok": true,
+    "network": "none",
+    "hostedConnectionsMade": false,
+    "sourceExtension": {
+      "name": "pg_cron",
+      "version": "1.6.4",
+      "owner": "supabase_admin"
+    },
+    "syntheticSourceInstallationOnly": true,
+    "imageScriptRestored": true,
+    "sourceInitialGrantsRecorded": true,
+    "targetInitialPrivilegesDiffer": true,
+    "reproducedOnlyTwoSequenceAclDifferences": true,
+    "dumpExitOnError": true,
+    "finalCapturedAclReplayed": {
+      "checked": 2,
+      "reconciled": [
+        {
+          "schema": "cron",
+          "name": "jobid_seq",
+          "field": "acl",
+          "extension": "pg_cron"
+        },
+        {
+          "schema": "cron",
+          "name": "runid_seq",
+          "field": "acl",
+          "extension": "pg_cron"
+        }
+      ],
+      "exactCapturedAcl": true,
+      "exceptionsApplied": []
+    },
+    "strictFullCatalogAndDataMatch": true,
+    "pgInitPrivsNotModified": true,
+    "replayNoop": true,
+    "unrelatedAclDifferencesRejected": [
+      "public.restore_fixture_item",
+      "public.other_seq",
+      "cron.other_seq"
+    ],
+    "missingExtensionMembershipRejectedBeforeWrite": true,
+    "exceptionsApplied": [],
+    "containerRemoved": true
+  },
+  "complete214": {
+    "ok": true,
+    "tables": 141,
+    "checks": 17,
+    "cronSequenceAcl": {
+      "checked": 2,
+      "reconciled": [],
+      "exactCapturedAcl": true,
+      "exceptionsApplied": []
+    },
+    "managedRestore": {
+      "checked": 2,
+      "reconciled": [],
+      "exactCapturedAcl": true,
+      "exceptionsApplied": []
+    },
+    "replaySameArchive": true,
+    "toc": {
+      "totalEntries": 3375,
+      "schemaEntries": 11,
+      "remainingEntries": 3364,
+      "omittedEntries": 0,
+      "duplicatedEntries": 0
+    },
+    "nativeTls": true,
+    "s3MockRoundtrip": true,
+    "comparisonNegative": {
+      "ok": true,
+      "intentionalSyntheticMismatchRejected": true,
+      "comparisonCode": "RESTORE_TABLES_DIFFER",
+      "privateReportSaved": false,
+      "privateReportChecked": false,
+      "rawValuesNeverPersisted": true,
+      "hostedConnectionsMade": false
+    }
+  },
+  "unitTests": {
+    "passed": 1463,
+    "failed": 0,
+    "skipped": 0
+  },
+  "typecheck": true,
+  "strictLint": true,
+  "comparatorChanged": false,
+  "exceptionsApplied": []
+}

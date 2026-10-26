@@ -3,7 +3,15 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/operations/FRANKFURT_RESTORE_COMPARISON_AR.md"
+      "path": ".github/workflows/backup-recovery.yml"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/FRANKFURT_RESTORE_CRON_ACL_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-restore-cron-acl-runtime.mjs"
     }
   ]
 }

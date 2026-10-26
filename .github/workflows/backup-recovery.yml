@@ -22,8 +22,10 @@ jobs:
       - name: Install operational dependencies
         run: npm ci
       - name: Prove owner boundary and negative cases
-        run: node --import tsx --test tests/dual-backup.test.ts tests/backup-diagnostics.test.ts tests/owner-operation.test.ts tests/owner-operation-powershell.probe.ts tests/restore-diagnostics.test.ts tests/backup-restore-contract.test.ts tests/restore-comparison.test.ts
+        run: node --import tsx --test tests/dual-backup.test.ts tests/backup-diagnostics.test.ts tests/owner-operation.test.ts tests/owner-operation-powershell.probe.ts tests/restore-diagnostics.test.ts tests/backup-restore-contract.test.ts tests/restore-comparison.test.ts tests/restore-cron-acl.test.ts
       - name: Prove complete214 archive, DB roles ACL data Storage and local S3 roundtrip
         run: node scripts/testing/run-dual-backup-runtime.mjs
+      - name: Prove pg_cron init privileges drift and exact final ACL replay without exceptions
+        run: node scripts/testing/run-restore-cron-acl-runtime.mjs
       - name: Prove real strict pg_restore SQLSTATE TOC privacy and protected logs before removal
         run: node scripts/testing/run-restore-diagnostic-negative.mjs

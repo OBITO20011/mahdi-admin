@@ -2,51 +2,50 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Expose fixed comparison failure codes and private name-only differences;analyze synthetic Frankfurt role/ACL/sequence/data environments without weakening strict restore;PR/FULL CI;merge after approval",
-  "baselineSha": "e4f984263a29b18021b24c8fcab701eb2fed6ab4",
-  "branch": "codex/frankfurt-restore-comparison",
+  "objective": "Prove pg_cron member ACL/initpriv drift locally and restore exact captured ACL without comparison exceptions;full CI and PR,merge only after approval",
+  "baselineSha": "1c86117721d9be80dbbc61cc91e4f3feb2b418dc",
+  "branch": "codex/frankfurt-restore-cron-acl",
   "phase": "PACKAGE_F",
   "completed": [
-    "Fixed strict comparison code allowlist and fresh sanitized name/field/count-only private report",
-    "Existing comparator acceptance preserved,all7 failures still fail and values/hash/SQL/config removed",
-    "Real local baseline+managed214+extra roles/config/memberships/defaultprivileges/called+uncalled sequence restore and replay passed141tables17checks",
-    "Intentional synthetic table+role mismatch stayed failed with RESTORE_TABLES_DIFFER;private sink denied non-elevated Windows as designed;CI proof remains",
-    "Local1458 unit tests0fail0skip;fixture type annotation corrected without behavioral change"
+    "Locally reproduced exactly2cron sequence ACL-only differences due to extension initial grants recorded in pg_init_privs,version1.6.4 owner supabase_admin",
+    "Exact captured final ACL replay after remainingTOC;strict comparator unchanged,exceptionsApplied empty",
+    "Actual DB negatives:public table,public otherseq,cron otherseq remain rejected;missing second membership prevents first ACL write",
+    "1463unit tests0fail0skip,typecheck,strictlint passed",
+    "Complete214 baseline+managed141tables17checks/replay3375TOC/0omitted,S3mock/native17.11TLS passed",
+    "Saved/pushed1c861177;local probe rerun and targeted lint after explicit CI setup ordering passed"
   ],
   "inProgress": [
-    "Safe comparison oracle and diagnostic report"
+    "Save/push verified code and proof;final PR/full exact SHA CI"
   ],
   "notStarted": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "testsPassed": [
-    "Focused16/16",
-    "1458unit tests0fail0skip",
-    "Complete isolated runtime/S3mock/TLS17.11+managed roles/defaultprivileges/sequences passed",
-    "Final typecheck and strict lint passed"
+    "Actual DB negatives:public table,public otherseq,cron otherseq remain rejected;missing second membership prevents first ACL write",
+    "1463unit tests0fail0skip,typecheck,strictlint passed",
+    "Complete214 baseline+managed141tables17checks/replay3375TOC/0omitted,S3mock/native17.11TLS passed"
   ],
   "testsRemaining": [
-    "Full exact-SHA CI/Gitleaks",
-    "CI Linux private comparison report persistence and privacy"
+    "Gitleaks and final exact SHA push/PR full CI"
   ],
   "findings": [
-    "Actual owner comparison failure cannot be inferred from generic diagnostic;no actual owner archive read",
-    "No real source mismatch reproduced locally;no restore exception,role exclusion,ACL ignore or data correction added",
-    "v2 source evidence records pg_sequences last_value,not direct is_called;no claim about absent source fields"
+    "Owner report:only cron.jobid_seq/runid_seq ACL differs;141tables,roles,memberships,positions,history,Storage match",
+    "Initial recovery CI failed during synthetic setup before DB proof;probe now follows existing image bootstrap and reports bounded startup/tool reason without raw output"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hosted access or deployment",
-    "No owner credential/archive decryption",
+    "No hosted connections/deploy",
+    "No owner credentials/archive read",
+    "No financial code or migrations",
     "No merge/primary update before approval",
-    "Stop and report any real source/data difference;no broad ignore or weakened comparator"
+    "No weakened ACL comparison or generic exception"
   ],
-  "nextExactAction": "Create review PR and verify complete exact-SHA push/PR CI; actual owner mismatch remains unproven; no merge before approval.",
-  "startedAt": "2026-10-25T23:46:34.613Z",
-  "checkpointedAt": "2026-10-26T00:02:33.815Z",
-  "filesTouchedCount": 1,
-  "filesTouchedManifestSha256": "dfd44d1d67d2306d3afaa8fc6a0948017c19384891ce10f40cdbdfb0d9ac02dc",
-  "workingTreeFingerprint": "F9B638CE778BE59D3BBCE96593CF17E9AA886D37D74F928832F739A7F1FBDDD9"
+  "nextExactAction": "Push CI probe setup-order and safe reason correction,then require final exact SHA full push/PR CI;no weakened assertion or retries.",
+  "startedAt": "2026-10-26T01:05:44.211Z",
+  "checkpointedAt": "2026-10-26T01:25:05.430Z",
+  "filesTouchedCount": 3,
+  "filesTouchedManifestSha256": "c16aef25c80b0af4cabf283b88be6a1faa7963390afb58fbba6264f263fbc53e",
+  "workingTreeFingerprint": "65B3A9AD6F29EB1A48D3BDFCDDB9CEC6ABF1888D6A8C10BFB9740A17FBAD74F3"
 }
