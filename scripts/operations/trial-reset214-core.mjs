@@ -24,13 +24,19 @@ export const reset214RetentionSql=id=>{
  roles:`id IN (SELECT role_id FROM public.user_roles WHERE user_id=${q(id)}::uuid)`,profiles:`id=${q(id)}::uuid`,user_roles:`user_id=${q(id)}::uuid`};
  return `SELECT jsonb_build_object(${retainedTables.map(t=>`${q(t)},(SELECT COALESCE(jsonb_agg(to_jsonb(t) ORDER BY id),'[]'::jsonb) FROM public.${t} t${filter[t]?' WHERE '+filter[t]:''})`).join(',')});`;
 };
-const fingerprints=s=>Object.fromEntries(Object.entries(s).map(([name,rows])=>[name,{rows:rows.length,sha256:sha256(JSON.stringify(rows))}]));
+// JSONB arrays travel inside JSON strings. Never parse/re-serialize their
+// numbers for restoration or fingerprints: BIGINT/NUMERIC may exceed 2^53.
+export const reset214RetentionRawSql=id=>`WITH retained(v) AS (${reset214RetentionSql(id).replace(/;$/u,'')})
+ SELECT jsonb_object_agg(key,value::text) FROM retained,LATERAL jsonb_each(v);`;
+const fingerprints=raw=>Object.fromEntries(Object.entries(raw).map(([name,text])=>[name,{rows:JSON.parse(text).length,sha256:sha256(text)}]));
 export async function captureReset214({executor,ownerId,reference}){
  assert.equal(reference.migrationCeiling,214,'RESET214_REFERENCE_REQUIRED');assert.equal(reference.manifest.length,176);
  const sql=async input=>{const r=await executeInput(executor,input);assert.equal(r.code,0,'RESET214_READ_FAILED');return r.stdout.trim();};
  const json=async input=>JSON.parse(await sql(input));
  const owner=await json(ownerRecordSql(ownerId));assert.ok(owner?.profile?.is_active,'RESET214_ACTIVE_OWNER_REQUIRED');assert.deepEqual(owner.roles,['owner']);
- const snapshot=await json(reset214RetentionSql(ownerId));
+ const rawTables=await json(reset214RetentionRawSql(ownerId));
+ // Parsed copies are ONLY for UUID/role/boolean/array-length admission.
+ const snapshot=Object.fromEntries(Object.entries(rawTables).map(([name,text])=>[name,JSON.parse(text)]));
  for(const t of ['branches','warehouses','roles','profiles','user_roles','storefront_settings'])assert.equal(snapshot[t].length,1,'RESET214_RETAINED_SINGLETON:'+t);
  owner.warehouse=snapshot.warehouses[0];restoreMainWarehouseSql(owner);
  assert.equal(snapshot.branches[0].code,'BR-MAIN');
@@ -49,16 +55,16 @@ export async function captureReset214({executor,ownerId,reference}){
   productImages:{before:platform.storageObjects,retained:0,deleted:platform.storageObjects,expectedAfter:0},
   vaultSecrets:{before:platform.vaultSecrets,retained:platform.vaultSecrets,deleted:0,expectedAfter:platform.vaultSecrets},
   untouched:['Auth/Edge configuration outside public','Vault','selected owner Auth/identities/MFA/sessions'],
-  preserved:fingerprints(snapshot)};
- return {snapshot,plan,expected};
+  preserved:fingerprints(rawTables)};
+ return {snapshot,rawTables,plan,expected};
 }
 
-export function restoreReset214Sql(snapshot){
- for(const t of retainedTables)assert.ok(Array.isArray(snapshot[t]),'RESET214_SNAPSHOT_REQUIRED');
+export function restoreReset214Sql(rawTables){
+ for(const t of retainedTables){assert.equal(typeof rawTables[t],'string','RESET214_RAW_SNAPSHOT_REQUIRED');assert.ok(Array.isArray(JSON.parse(rawTables[t])),'RESET214_SNAPSHOT_REQUIRED');}
  // Seed-only dictionaries/settings can be replaced after all business tables
  // have been recreated empty. No protected ledger is deleted or truncated.
  const clear=['storefront_settings','categories','units'].map(t=>`DELETE FROM public.${t};`).join('\n');
- const inserts=retainedTables.map(t=>`INSERT INTO public.${t} SELECT * FROM jsonb_populate_recordset(NULL::public.${t},${q(JSON.stringify(snapshot[t]))}::jsonb);`).join('\n');
+ const inserts=retainedTables.map(t=>`INSERT INTO public.${t} SELECT * FROM jsonb_populate_recordset(NULL::public.${t},${q(rawTables[t])}::jsonb);`).join('\n');
  return `BEGIN;${clear}\n${inserts}\nCOMMIT;`;
 }
 
@@ -140,10 +146,10 @@ async function rebuild214({executor,root,reference,output,repair,clearHistory,em
  for(const old of notifications.jobs){const fresh=current.jobs.find(j=>j.name===old.name);assert.ok(fresh);
   for(const key of ['name','schedule','command','host','port','database','username','active'])assert.deepEqual(fresh[key],old[key],'RESET_CRON_CHANGED:'+old.name+':'+key);}
  report.notificationOriginal=original;
- report.stage='restore-owner-and-settings';await sql(restoreReset214Sql(state.snapshot));
- const retained=await json(reset214RetentionSql(ownerId));
- report.preservation={before:state.plan.preserved,after:fingerprints(retained),matches:JSON.stringify(retained)===JSON.stringify(state.snapshot)};
- assert.deepEqual(retained,state.snapshot,'RESET214_RETAINED_VALUES_CHANGED');
+ report.stage='restore-owner-and-settings';await sql(restoreReset214Sql(state.rawTables));
+ const retained=await json(reset214RetentionRawSql(ownerId));
+ report.preservation={before:state.plan.preserved,after:fingerprints(retained),matches:JSON.stringify(retained)===JSON.stringify(state.rawTables)};
+ assert.deepEqual(retained,state.rawTables,'RESET214_RETAINED_VALUES_CHANGED');
  const afterPreserved=await json(preservedStateSql(ownerId));
  report.authVaultMfaProof={before:preserved,after:afterPreserved,matches:JSON.stringify(afterPreserved)===JSON.stringify(preserved)};
  assert.deepEqual(afterPreserved,preserved,'PRESERVED_AUTH_VAULT_BUCKET_STATE_CHANGED');

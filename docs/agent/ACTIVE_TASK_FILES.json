@@ -3,19 +3,7 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TRIAL_RESET_FRANKFURT_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/source-before-handover214.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-owner-reset214.mjs"
+      "path": "scripts/audit/reset214-inverse.json"
     },
     {
       "code": " M",
@@ -24,30 +12,6 @@
     {
       "code": " M",
       "path": "scripts/testing/run-trial-reset-runtime.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/handover214.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/RESET214_LOCAL_EVIDENCE.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/RESET214_OWNER_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/reset214-inverse.json"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/source-before-reset214.mjs"
-    },
-    {
-      "code": "??",
-      "path": "tests/reset214.test.ts"
     }
   ]
 }

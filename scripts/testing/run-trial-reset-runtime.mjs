@@ -136,7 +136,7 @@ try{
  if(latest209||latest208||latest207||latest206||latest205||latest204){const history=await call('get_sales_history_page()');assert.equal(history.summary.salesInMinorUnits,2000);assert.equal(history.totalCount,2);report.historyBeforeReset={sales:2000,invoices:2};}
  if(latest213){stage='storage213';report.storage213=await storage213Contract({api:api.origin,status,client,ownerSession,ownerId,sql,q});stage='reset';}
  if(latest214){
-  await sql(`UPDATE public.storefront_settings SET store_name_ar='إعداد خاص يبقى بعد التصفير',announcement_text='هوية المالك الخاصة',minimum_order_in_minor_units=12345,delivery_fee_in_minor_units=789,orders_enabled=false,updated_by=${q(ownerId)};
+  await sql(`UPDATE public.storefront_settings SET store_name_ar='إعداد خاص يبقى بعد التصفير',announcement_text='هوية المالك الخاصة',minimum_order_in_minor_units=9007199254740993,delivery_fee_in_minor_units=789,orders_enabled=false,updated_by=${q(ownerId)};
   INSERT INTO public.units(code,name_ar,conversion_factor,is_system) VALUES('CUSTOM214','وحدة خاصة محفوظة',7,false);
   INSERT INTO public.categories(code,name_ar) VALUES('CUSTOM214','قسم خاص محفوظ');
   INSERT INTO public.categories(code,name_ar,parent_id) SELECT 'CHILD214','قسم فرعي محفوظ',id FROM public.categories WHERE code='CUSTOM214';
@@ -204,6 +204,8 @@ try{
  if(latest214){
   assert.equal(report.reset.complete,true);assert.equal(report.reset.preservation.matches,true);
   assert.equal(await sql("SELECT store_name_ar FROM public.storefront_settings;"),'إعداد خاص يبقى بعد التصفير');
+  assert.equal(await sql('SELECT minimum_order_in_minor_units::text FROM public.storefront_settings;'),'9007199254740993','RESET214_BIGINT_MUST_REMAIN_EXACT');
+  report.reset214ExactBigintPreserved=true;
   assert.equal(await sql("SELECT count(*) FROM public.units WHERE code='CUSTOM214';"),'1');
   assert.equal(await sql("SELECT count(*) FROM public.categories WHERE code IN ('CUSTOM214','CHILD214');"),'2');
   assert.equal(await sql(`SELECT avatar_url FROM public.profiles WHERE id=${q(ownerId)};`),'https://example.test/owner-identity.png');
