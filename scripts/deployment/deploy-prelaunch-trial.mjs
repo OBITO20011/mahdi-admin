@@ -25,7 +25,8 @@ if(process.argv[1]&&pathToFileURL(path.resolve(process.argv[1])).href===import.m
  else{
   assert.ok(process.env.npm_execpath,'Run this deployment through npm run deploy:prelaunch-trial.');
   // No caller-supplied branch/project/output directory can reach Wrangler.
-  const r=spawnSync(process.execPath,[process.env.npm_execpath,'exec','--','wrangler','pages','deploy',plan.dir,
+  const wrangler=path.join(root,'customer-web/node_modules/wrangler/bin/wrangler.js');
+  const r=spawnSync(process.execPath,[wrangler,'pages','deploy',plan.dir,
    '--project-name='+plan.project,'--branch='+plan.branch],{cwd:root,stdio:'inherit'});
   if(r.error)throw r.error;if(r.status!==0)process.exit(r.status??1);
  }

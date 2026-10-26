@@ -280,6 +280,10 @@ jobs:
         if: matrix.suite == 'operations-reset'
         run: node scripts/testing/run-first-owner-runtime.mjs
 
+      - name: Install customer dependencies for the separate temporary trial build gate
+        if: matrix.suite == 'prelaunch-trial'
+        run: npm --prefix customer-web ci
+
       - name: Prove prelaunch trial builds,closed-source refusal and preview-only deployment admission
         if: matrix.suite == 'prelaunch-trial'
         run: node scripts/testing/run-prelaunch-trial-builds.mjs
