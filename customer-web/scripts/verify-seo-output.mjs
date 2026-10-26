@@ -6,7 +6,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'dist');
 const buildEnvironment=JSON.parse(await readFile(path.join(dist,'nawasrah-environment.json'),'utf8'));
 const origin=buildEnvironment.storeOrigin;
-const staging=buildEnvironment.environment==='staging';
+const staging=buildEnvironment.environment!=='production';
 const officialName = 'النواصرة لتجارة الجملة والمواد الغذائية';
 
 function invariant(condition, message) {

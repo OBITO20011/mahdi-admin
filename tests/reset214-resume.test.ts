@@ -1,3 +1,4 @@
+import {sourceBeforePrelaunchTrial} from '../scripts/audit/source-before-prelaunch-trial.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFileSync} from 'node:fs';
@@ -54,7 +55,7 @@ test('private reset retention refuses any Git checkout or worktree before saving
 test('RESET214B adds exactly one mandatory CI suite and restores every older admission byte',()=>{
  assert.deepEqual(Object.keys(reset214bPins),['.github/workflows/quality.yml']);
  for(const [file,pin] of Object.entries(reset214bPins) as [string,{before:string;after:string;beforeText:string}][]){
-  const current=readFileSync(file,'utf8').replaceAll('\r\n','\n');assert.equal(hash(current),pin.after);assert.equal(hash(pin.beforeText),pin.before);
+  const current=sourceBeforePrelaunchTrial(file,readFileSync(file,'utf8'))!;assert.equal(hash(current),pin.after);assert.equal(hash(pin.beforeText),pin.before);
   assert.equal(sourceBeforeReset214B(file,current),pin.beforeText);
   assert.equal(pin.beforeText,execFileSync('git',['show','72966be5b7d9a4e2200df73e6ec477c4656bbd84:'+file],{encoding:'utf8'}).replaceAll('\r\n','\n'));
   assert.throws(()=>sourceBeforeReset214B(file,current+'\n'),/UNREVIEWED_SOURCE/u);

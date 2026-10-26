@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';
 import path from 'node:path';
 const [environment,app='admin']=process.argv.slice(2),root=path.resolve(import.meta.dirname,'../..');
-assert.ok(['production','staging'].includes(environment),'EXPLICIT_BUILD_ENVIRONMENT_REQUIRED');assert.ok(['admin','customer'].includes(app));
+assert.ok(['production','staging','prelaunch-trial'].includes(environment),'EXPLICIT_BUILD_ENVIRONMENT_REQUIRED');assert.ok(['admin','customer'].includes(app));
 const cwd=app==='customer'?path.join(root,'customer-web'):root;
 const env={...process.env,NAWASRAH_DEPLOYMENT_ENV:environment};
 for(const args of [[path.join(root,'node_modules/vite/bin/vite.js'),'build'],...(app==='customer'?[
