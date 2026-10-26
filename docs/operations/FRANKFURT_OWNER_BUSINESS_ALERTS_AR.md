@@ -46,7 +46,8 @@ BEGIN
  IF (SELECT count(*) FROM public.business_alert_settings) <> 1
     OR NOT EXISTS (SELECT 1 FROM public.business_alert_settings WHERE id=true)
  THEN RAISE EXCEPTION 'BUSINESS_SETTINGS_SINGLETON_REQUIRED'; END IF;
- IF (SELECT count(*) FROM cron.job WHERE jobname='scan-business-summaries' AND NOT active) <> 1
+ IF (SELECT count(*) FROM cron.job WHERE jobname='scan-business-summaries') <> 1
+    OR EXISTS (SELECT 1 FROM cron.job WHERE jobname='scan-business-summaries' AND active)
  THEN RAISE EXCEPTION 'SUMMARY_CRON_MUST_REMAIN_HELD'; END IF;
 END $$;
 UPDATE public.business_alert_settings

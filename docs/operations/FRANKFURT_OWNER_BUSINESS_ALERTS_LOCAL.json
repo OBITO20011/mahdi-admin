@@ -119,5 +119,12 @@
   "gitleaksLeaks": 0,
   "ciPending": true,
   "newMigration": false,
-  "financialSourceChanges": false
+  "financialSourceChanges": false,
+  "clockSql": {
+    "ok": true,
+    "successfulClockChange": 1,
+    "heldCronRefusals": 3,
+    "hostedAccess": false,
+    "financialTablesTouched": false
+  }
 }
