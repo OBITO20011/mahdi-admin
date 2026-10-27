@@ -3,31 +3,19 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/TELEGRAM_OWNER_FORMAT_LOCAL.json"
+      "path": "docs/handover/README.md"
     },
     {
       "code": " M",
-      "path": "scripts/audit/owner-telegram-format-source-pins.json"
+      "path": "docs/handover/أدلة-المصادر.json"
     },
     {
       "code": " M",
-      "path": "scripts/audit/source-before-owner-telegram-format.mjs"
+      "path": "tests/handover-documentation.test.ts"
     },
     {
-      "code": " M",
-      "path": "scripts/operations/build-acl-reference214.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-reference214.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-handover214-gates.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/owner-telegram-format.test.ts"
+      "code": "??",
+      "path": "tests/handover-product-import.local.mjs"
     }
   ]
 }
