@@ -45,6 +45,18 @@ test('product example imports without errors using actual mapSheet and preparePr
  const parcel=structuredClone(mapped.rows);parcel[0].values.parcel_only='نعم';parcel[0].values.units_per_sale_unit='1';assert.ok(prepareProducts(parcel).errors.length>0);
 });
 
+test('real local214 product import evidence binds the exact workbook and reproducible isolated recipe',()=>{
+ const proof=evidence.actualProductImport;
+ assert.equal(proof.ok,true);assert.equal(proof.migrationCeiling,214);assert.equal(proof.managedAccess,false);assert.equal(proof.hostedConnections,0);
+ assert.equal(proof.actualXlsxDecoded,true);assert.equal(proof.realSqlRpc,true);assert.equal(proof.previewErrors,0);assert.equal(proof.previewZeroWrites,true);
+ assert.equal(proof.created,1);assert.equal(proof.replayZeroWrites,true);assert.equal(proof.productFieldsMatch,true);
+ for(const field of ['openingStock','orders','cashShifts','inventoryMovements'])assert.equal(proof[field],0);
+ assert.equal(proof.xlsxSha256,digest(readFileSync(templates+files.products)));
+ const script=readFileSync('tests/handover-product-import.local.mjs','utf8').replaceAll('\r\n','\n');assert.equal(proof.scriptSha256,digest(script));
+ assert.match(script,/nawasrah-handover-docs-test/u);assert.match(script,/--container/u);assert.match(script,/NAWASRAH_MAX_MIGRATION:'214'/u);
+ assert.doesNotMatch(script,/readFile\([^\n]*(?:\.env|pooler-url|project-ref)|https:\/\//u);
+});
+
 test('stock,debt,supplier and opening-cheque examples use their actual parsers with exact accounting units',async()=>{
  const stock=mapSheet('stock',await readXlsxFirstSheet(readFileSync(templates+files.stock)));assert.deepEqual(stock.fileErrors,[]);
  const refs=[{productId:'00000000-0000-4000-8000-000000000001',sku:'DOC-EXAMPLE-001',productName:'صنف وهمي — احذف المثال',unitsPerPackage:10,eligible:true,costPriceInMinorUnits:1000}];

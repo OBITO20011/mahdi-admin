@@ -3,63 +3,19 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/project-state.json"
-    },
-    {
-      "code": "??",
       "path": "docs/handover/README.md"
     },
     {
-      "code": "??",
-      "path": "docs/handover/templates/README.md"
-    },
-    {
-      "code": "??",
-      "path": "docs/handover/templates/أرصدة-الموردين.xlsx"
-    },
-    {
-      "code": "??",
-      "path": "docs/handover/templates/البضاعة-الموجودة.xlsx"
-    },
-    {
-      "code": "??",
-      "path": "docs/handover/templates/الدرج-الافتتاحي.xlsx"
-    },
-    {
-      "code": "??",
-      "path": "docs/handover/templates/المنتجات.xlsx"
-    },
-    {
-      "code": "??",
-      "path": "docs/handover/templates/ديون-العملاء.xlsx"
-    },
-    {
-      "code": "??",
-      "path": "docs/handover/templates/شيكات-البداية.xlsx"
-    },
-    {
-      "code": "??",
+      "code": " M",
       "path": "docs/handover/أدلة-المصادر.json"
     },
     {
-      "code": "??",
-      "path": "docs/handover/دليل-صاحب-المحل.html"
-    },
-    {
-      "code": "??",
-      "path": "docs/handover/دليل-صاحب-المحل.md"
-    },
-    {
-      "code": "??",
-      "path": "docs/handover/ورقة-يوم-التشغيل.html"
-    },
-    {
-      "code": "??",
-      "path": "docs/handover/ورقة-يوم-التشغيل.md"
-    },
-    {
-      "code": "??",
+      "code": " M",
       "path": "tests/handover-documentation.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/handover-product-import.local.mjs"
     }
   ]
 }

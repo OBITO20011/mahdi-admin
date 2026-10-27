@@ -13,10 +13,11 @@
     "Actual application reader/preparers6/6;products14cols/zeros/dates;negative cases",
     "Actual ArtifactTool reimport+input changes+recalculate6/6;XLSX RTL/panes/listvalidation/formulas",
     "A4Chromiumprint guide10pages andcutover2pages;externalrequests0;allpages reviewed",
-    "Admin1502/1502,Customer197/197,typesBoth,strictlint0warnings,Gitleaks0;product/SQL/automationdiffempty"
+    "Admin1502/1502,Customer197/197,typesBoth,strictlint0warnings,Gitleaks0;product/SQL/automationdiffempty",
+    "Actual products XLSX imported via current RPC on fresh214/176 isolated DB:preview0errors/0writes,created1,matchingfields,replay0writes,stock/orders/shifts/movements0;recipe+hashboundproof"
   ],
   "inProgress": [
-    "Commit/push and one review PR with fullCI"
+    "Push actualDB import evidence to samePR38;verify full finalCI"
   ],
   "notStarted": [
     "Owner approval;no merge"
@@ -28,17 +29,19 @@
     "Focused6/6",
     "Actual workbook parser6/6 andinput-change recalculation6/6",
     "Offline print A4RTL10+2pages,resources0,overflowfalse",
-    "Admin1502/1502;store197/197;typesBoth;strictlint0warnings;Gitleaks0"
+    "Admin1502/1502;store197/197;typesBoth;strictlint0warnings;Gitleaks0",
+    "Post actualDB proof:Admin1503/1503,types,strictlint0warnings,Gitleaks0"
   ],
   "testsRemaining": [
     "Exact finalSHA FULL CI push andPR",
-    "Owner approval before merge"
+    "Owner approval"
   ],
   "findings": [
     "Product import schema14columns exact;no flavor/full-method/unitprice columns invented",
     "Drawer has no import UI;manual first shift preparation only",
     "Openingcheques follow-up only andnet balances;decision signed beforeentry",
-    "No newApplicationCode/SQL or hostedcalls"
+    "No newApplicationCode/SQL or hostedcalls",
+    "First CI old head had2 image-registry rate limits before SQL;no code failure;newproof commit will supersede old runs"
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -47,10 +50,10 @@
     "No hosted access/publish/activation",
     "No merge before owner approval"
   ],
-  "nextExactAction": "LocalgatesPASS;commit/push andonePR,full exactCI;returnforownerapproval,no mergeornewpackage",
+  "nextExactAction": "Post-proofgatesPASS1503;commit/pushsamePR38,full finalCI;no merge",
   "startedAt": "2026-10-27T12:09:21.571Z",
-  "checkpointedAt": "2026-10-27T15:52:17.858Z",
-  "filesTouchedCount": 15,
-  "filesTouchedManifestSha256": "31afc168f1984af8912c309fda550bb92e9fe4389ae42dec2a45b9ae10a1735f",
-  "workingTreeFingerprint": "FA6528921348DEFFBF8A4F7229CB84601B813E4B7564AE6EC2E0249E675AFB58"
+  "checkpointedAt": "2026-10-27T16:16:21.467Z",
+  "filesTouchedCount": 4,
+  "filesTouchedManifestSha256": "057c52ffe9d18dba660d8973d0dc8eb3428bc17ccd0880969e032a327c4a6081",
+  "workingTreeFingerprint": "705077D953853524F49EFBC36D77FBA6A17C42A5168F5739A86A83476728A290"
 }

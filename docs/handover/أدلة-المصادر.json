@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "baseline": "ad4bd1f8230758a707285ceb8f0042015d16b018",
-  "method": "Exact current UI strings and existing import parsers from source;no real account/database/screenshot access",
+  "method": "Exact current UI strings/import contracts from stated main;one disposable local214 SQL import of the synthetic product workbook;no hosted account/database or real screenshot access",
   "sources": [
     {
       "file": "src/features/auth/LoginView.tsx",
@@ -940,5 +940,28 @@
     "Product flavor and full sales-method configuration require the product form;first data sheet keeps exact14 import columns",
     "Workbook renders and formula calculation used ArtifactTool;native Excel app not installed for automation;actual application reader checked separately",
     "Windows native renderer exited abnormally during teardown after all6 complete exports and final manifest;files independently reopened/validated;no application behavior changed"
-  ]
+  ],
+  "actualProductImport": {
+    "ok": true,
+    "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-handover-import-37GcVB",
+    "migrationCeiling": 214,
+    "managedAccess": false,
+    "hostedConnections": 0,
+    "actualXlsxDecoded": true,
+    "actualPrepareProducts": true,
+    "realSqlRpc": true,
+    "actor": "authenticated owner AAL2 fixture",
+    "previewErrors": 0,
+    "previewZeroWrites": true,
+    "created": 1,
+    "replayZeroWrites": true,
+    "productFieldsMatch": true,
+    "openingStock": 0,
+    "orders": 0,
+    "cashShifts": 0,
+    "inventoryMovements": 0,
+    "endedAt": "2026-10-27T16:10:04.247Z",
+    "xlsxSha256": "34225e78b63fd59ab8e24717e471915d25b0d60c7b8a7abee8260e3a815de8b1",
+    "scriptSha256": "88d978a23b0c3fe0a2e576322f3749919b0db9b96f24fcc43b223a7a01b849cd"
+  }
 }
