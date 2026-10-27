@@ -1,0 +1,477 @@
+{
+  "cases": [
+    {
+      "event": {
+        "eventType": "business_daily_summary",
+        "entityId": "10000000-0000-4000-8000-000000000001",
+        "payload": {
+          "period": {
+            "dateFrom": "2026-11-02",
+            "dateTo": "2026-11-02"
+          },
+          "sales": {
+            "grossSalesInMinorUnits": "1500000",
+            "returnEntitlementInMinorUnits": "264500",
+            "netSalesInMinorUnits": "1235500",
+            "netProfitInMinorUnits": "-12500"
+          },
+          "cashFlow": {
+            "cashCollectedInMinorUnits": "1000000",
+            "cliqCollectedInMinorUnits": "235500"
+          },
+          "expenses": {
+            "totalInMinorUnits": "30000"
+          },
+          "inventory": {
+            "lowStockCount": 3,
+            "outOfStockCount": 1
+          },
+          "balances": {
+            "customerDueInMinorUnits": "987654321",
+            "supplierDueInMinorUnits": "5500000"
+          }
+        }
+      },
+      "html": "<b>📊 ملخص اليوم</b>\n<i>الإثنين 2 نوفمبر</i>\n\n<b>المبيعات</b>\nالصافي: 1,235.500 د.أ\n(مبيعات 1,500.000 د.أ − مرتجعات 264.500 د.أ)\n\n<b>المقبوض</b>\nكاش: 1,000.000 د.أ\nCliQ: 235.500 د.أ\n\n<b>المصاريف</b>\n30.000 د.أ\n\n<b>صافي الربح</b>\n−12.500 د.أ\n\n<b>المخزون</b>\nمنخفض: 3 | نافد: 1\n\n<b>الذمم</b>\nعلى الزبائن: 987,654.321 د.أ\nللموردين: 5,500.000 د.أ",
+      "keyboard": {
+        "rows": [
+          {
+            "row": {
+              "buttons": [
+                {
+                  "text": "افتح التقارير",
+                  "additionalFields": {
+                    "url": "https://admin.alnawasreh.com/?screen=reports"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "event": {
+        "eventType": "business_weekly_summary",
+        "entityId": "10000000-0000-4000-8000-000000000001",
+        "payload": {
+          "period": {
+            "dateFrom": "2026-11-02",
+            "dateTo": "2026-11-08"
+          },
+          "sales": {
+            "grossSalesInMinorUnits": "1500000",
+            "returnEntitlementInMinorUnits": "264500",
+            "netSalesInMinorUnits": "1235500",
+            "netProfitInMinorUnits": "-12500"
+          },
+          "cashFlow": {
+            "cashCollectedInMinorUnits": "1000000",
+            "cliqCollectedInMinorUnits": "235500"
+          },
+          "expenses": {
+            "totalInMinorUnits": "30000"
+          },
+          "inventory": {
+            "lowStockCount": 3,
+            "outOfStockCount": 1
+          },
+          "balances": {
+            "customerDueInMinorUnits": "987654321",
+            "supplierDueInMinorUnits": "5500000"
+          }
+        }
+      },
+      "html": "<b>📊 ملخص الأسبوع</b>\n<i>الإثنين 2 نوفمبر — الأحد 8 نوفمبر</i>\n\n<b>المبيعات</b>\nالصافي: 1,235.500 د.أ\n(مبيعات 1,500.000 د.أ − مرتجعات 264.500 د.أ)\n\n<b>المقبوض</b>\nكاش: 1,000.000 د.أ\nCliQ: 235.500 د.أ\n\n<b>المصاريف</b>\n30.000 د.أ\n\n<b>صافي الربح</b>\n−12.500 د.أ\n\n<b>المخزون</b>\nمنخفض: 3 | نافد: 1\n\n<b>الذمم</b>\nعلى الزبائن: 987,654.321 د.أ\nللموردين: 5,500.000 د.أ",
+      "keyboard": {
+        "rows": [
+          {
+            "row": {
+              "buttons": [
+                {
+                  "text": "افتح التقارير",
+                  "additionalFields": {
+                    "url": "https://admin.alnawasreh.com/?screen=reports"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "event": {
+        "eventType": "new_order",
+        "entityId": "10000000-0000-4000-8000-000000000001",
+        "payload": {
+          "orderNumber": "ORD-20261102-001",
+          "totalInMinorUnits": "15250",
+          "paymentMethod": "cash_on_delivery"
+        }
+      },
+      "html": "<b>🛍️ طلب جديد</b>\nرقم الطلب: ORD-20261102-001\nالإجمالي: 15.250 د.أ\nالدفع: كاش عند الاستلام",
+      "keyboard": {
+        "rows": [
+          {
+            "row": {
+              "buttons": [
+                {
+                  "text": "افتح الطلب",
+                  "additionalFields": {
+                    "url": "https://admin.alnawasreh.com/?screen=orders&order=10000000-0000-4000-8000-000000000001"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "event": {
+        "eventType": "order_unprocessed",
+        "entityId": "10000000-0000-4000-8000-000000000001",
+        "payload": {
+          "orderNumber": "ORD-20261102-002"
+        }
+      },
+      "html": "<b>⏰ طلب متأخر</b>\nرقم الطلب: ORD-20261102-002",
+      "keyboard": {
+        "rows": [
+          {
+            "row": {
+              "buttons": [
+                {
+                  "text": "افتح الطلب",
+                  "additionalFields": {
+                    "url": "https://admin.alnawasreh.com/?screen=orders&order=10000000-0000-4000-8000-000000000001"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "event": {
+        "eventType": "order_near_expiry",
+        "entityId": "10000000-0000-4000-8000-000000000001",
+        "payload": {
+          "orderNumber": "ORD-20261102-003"
+        }
+      },
+      "html": "<b>⏰ طلب قريب الانتهاء</b>\nرقم الطلب: ORD-20261102-003",
+      "keyboard": {
+        "rows": [
+          {
+            "row": {
+              "buttons": [
+                {
+                  "text": "افتح الطلب",
+                  "additionalFields": {
+                    "url": "https://admin.alnawasreh.com/?screen=orders&order=10000000-0000-4000-8000-000000000001"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "event": {
+        "eventType": "order_expired",
+        "entityId": "10000000-0000-4000-8000-000000000001",
+        "payload": {
+          "orderNumber": "ORD-20261102-004"
+        }
+      },
+      "html": "<b>⏰ طلب منتهي</b>\nرقم الطلب: ORD-20261102-004",
+      "keyboard": {
+        "rows": [
+          {
+            "row": {
+              "buttons": [
+                {
+                  "text": "افتح الطلب",
+                  "additionalFields": {
+                    "url": "https://admin.alnawasreh.com/?screen=orders&order=10000000-0000-4000-8000-000000000001"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "event": {
+        "eventType": "low_stock",
+        "entityId": "10000000-0000-4000-8000-000000000001",
+        "payload": {
+          "productId": "10000000-0000-4000-8000-000000000001",
+          "productName": "عصير <توت> & \"برتقال\"",
+          "availableQuantity": 12,
+          "thresholdQuantity": 20,
+          "warehouseName": "الرئيسي"
+        }
+      },
+      "html": "<b>⚠️ مخزون منخفض</b>\nالصنف: عصير &lt;توت&gt; &amp; &quot;برتقال&quot;\nالمتاح: 12\nحد التنبيه: 20\nالمستودع: الرئيسي",
+      "keyboard": {
+        "rows": [
+          {
+            "row": {
+              "buttons": [
+                {
+                  "text": "افتح المخزون",
+                  "additionalFields": {
+                    "url": "https://admin.alnawasreh.com/?screen=inventory"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "event": {
+        "eventType": "out_of_stock",
+        "entityId": "10000000-0000-4000-8000-000000000001",
+        "payload": {
+          "productId": "10000000-0000-4000-8000-000000000001",
+          "productName": "شيبس حار",
+          "availableQuantity": 0,
+          "thresholdQuantity": 10,
+          "warehouseName": "الرئيسي"
+        }
+      },
+      "html": "<b>⛔ نفد المخزون</b>\nالصنف: شيبس حار\nالمتاح: 0\nحد التنبيه: 10\nالمستودع: الرئيسي",
+      "keyboard": {
+        "rows": [
+          {
+            "row": {
+              "buttons": [
+                {
+                  "text": "افتح المخزون",
+                  "additionalFields": {
+                    "url": "https://admin.alnawasreh.com/?screen=inventory"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "event": {
+        "eventType": "shift_closed",
+        "entityId": "10000000-0000-4000-8000-000000000001",
+        "payload": {
+          "shiftNumber": "SHIFT-20261102-01",
+          "expectedCashInMinorUnits": "1235500",
+          "actualCashInMinorUnits": "1236000",
+          "cashDiscrepancyDirection": "surplus",
+          "cashDiscrepancyAbsoluteInMinorUnits": "500"
+        }
+      },
+      "html": "<b>🔒 أُغلقت الوردية</b>\nرقم الوردية: SHIFT-20261102-01\nالمتوقع: 1,235.500 د.أ\nالفعلي: 1,236.000 د.أ\nفرق الدرج: زيادة 0.500 د.أ",
+      "keyboard": {
+        "rows": [
+          {
+            "row": {
+              "buttons": [
+                {
+                  "text": "افتح الورديات",
+                  "additionalFields": {
+                    "url": "https://admin.alnawasreh.com/?screen=shifts"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "event": {
+        "eventType": "shift_close_reminder",
+        "entityId": "10000000-0000-4000-8000-000000000001",
+        "payload": {
+          "shiftNumber": "SHIFT-20261102-01"
+        }
+      },
+      "html": "<b>🕐 تذكير وردية</b>\nرقم الوردية: SHIFT-20261102-01",
+      "keyboard": {
+        "rows": [
+          {
+            "row": {
+              "buttons": [
+                {
+                  "text": "افتح الورديات",
+                  "additionalFields": {
+                    "url": "https://admin.alnawasreh.com/?screen=shifts"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "event": {
+        "eventType": "shift_close_overdue",
+        "entityId": "10000000-0000-4000-8000-000000000001",
+        "payload": {
+          "shiftNumber": "SHIFT-20261102-02"
+        }
+      },
+      "html": "<b>🕐 وردية متأخرة</b>\nرقم الوردية: SHIFT-20261102-02",
+      "keyboard": {
+        "rows": [
+          {
+            "row": {
+              "buttons": [
+                {
+                  "text": "افتح الورديات",
+                  "additionalFields": {
+                    "url": "https://admin.alnawasreh.com/?screen=shifts"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "event": {
+        "eventType": "expense_daily_threshold",
+        "entityId": "10000000-0000-4000-8000-000000000001",
+        "payload": {
+          "branchName": "المحل الرئيسي",
+          "dailyTotalInMinorUnits": "1235500",
+          "thresholdInMinorUnits": "1000000"
+        }
+      },
+      "html": "<b>💸 حد المصروف</b>\nالفرع: المحل الرئيسي\nمصروف اليوم: 1,235.500 د.أ\nالحد: 1,000.000 د.أ",
+      "keyboard": {
+        "rows": [
+          {
+            "row": {
+              "buttons": [
+                {
+                  "text": "افتح التقارير",
+                  "additionalFields": {
+                    "url": "https://admin.alnawasreh.com/?screen=reports"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "event": {
+        "eventType": "cheque_due",
+        "entityId": "10000000-0000-4000-8000-000000000001",
+        "payload": {
+          "trackingNumber": "CHQ-001",
+          "amountInMinorUnits": "1235500",
+          "dueDate": "2026-11-02"
+        }
+      },
+      "html": "<b>🧾 شيك مستحق</b>\nالمرجع: CHQ-001\nالمبلغ: 1,235.500 د.أ\nالاستحقاق: الإثنين 2 نوفمبر",
+      "keyboard": {
+        "rows": [
+          {
+            "row": {
+              "buttons": [
+                {
+                  "text": "افتح الشيكات",
+                  "additionalFields": {
+                    "url": "https://admin.alnawasreh.com/?screen=cheques"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "event": {
+        "eventType": "cheque_returned",
+        "entityId": "10000000-0000-4000-8000-000000000001",
+        "payload": {
+          "trackingNumber": "CHQ-002",
+          "amountInMinorUnits": "250000",
+          "dueDate": "2026-11-01"
+        }
+      },
+      "html": "<b>↩️ شيك راجع</b>\nالمرجع: CHQ-002\nالمبلغ: 250.000 د.أ\nالاستحقاق: الأحد 1 نوفمبر",
+      "keyboard": {
+        "rows": [
+          {
+            "row": {
+              "buttons": [
+                {
+                  "text": "افتح الشيكات",
+                  "additionalFields": {
+                    "url": "https://admin.alnawasreh.com/?screen=cheques"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "event": {
+        "eventType": "purchase_order_overdue",
+        "entityId": "10000000-0000-4000-8000-000000000001",
+        "payload": {
+          "purchaseOrderNumber": "PO-001",
+          "supplierName": "مورد <ألف> & باء"
+        }
+      },
+      "html": "<b>📦 أمر شراء متأخر</b>\nالرقم: PO-001\nالمورد: مورد &lt;ألف&gt; &amp; باء",
+      "keyboard": {
+        "rows": []
+      }
+    },
+    {
+      "event": {
+        "eventType": "business_alert_recovery",
+        "entityId": "10000000-0000-4000-8000-000000000001",
+        "payload": {
+          "resolvedAlertType": "low_stock"
+        }
+      },
+      "html": "<b>✅ تمت المعالجة</b>\n⚠️ مخزون منخفض",
+      "keyboard": {
+        "rows": [
+          {
+            "row": {
+              "buttons": [
+                {
+                  "text": "افتح التقارير",
+                  "additionalFields": {
+                    "url": "https://admin.alnawasreh.com/?screen=reports"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "testMessage": "<b>✅ تم ربط تنبيهات النواصرة بهاتفك</b>"
+}

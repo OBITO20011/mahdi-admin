@@ -1,7 +1,7 @@
 // Full local214 acceptance. Every database uses a disposable Docker identity.
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
-import {mkdtemp, copyFile} from 'node:fs/promises';
+import {mkdtemp, copyFile, readFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {enrichService214Evidence} from '../audit/enrich-service214-evidence.mjs';
@@ -26,7 +26,7 @@ for (const args of [
   process.stdout.write(result.stdout); process.stderr.write(result.stderr);
   if (args[0] === 'scripts/audit/run-table-access-diagnostic.mjs') {
     const summary = JSON.parse(result.stdout.trim().split('\n').at(-1));
-    await copyFile(path.join(summary.output, 'diagnostic.json'), path.join(root, 'docs/operations/TABLE_ACCESS_AFTER_214.json'));
+    await copyFile(path.join(summary.output, 'diagnostic.json'), path.join(root, JSON.parse(await readFile(path.join(root,'docs/agent/project-state.json'),'utf8')).currentTableReadinessEvidence));
   }
   if (args[0] === 'scripts/audit/run-service-access-diagnostic.mjs') {
     const summary = JSON.parse(result.stdout.trim().split('\n').at(-1));

@@ -18,6 +18,7 @@ import { SideNav } from './components/layout/SideNav';
 import {NavigationShell} from './components/layout/NavigationShell';
 import { Building2, Loader2 } from 'lucide-react';
 import { AppErrorBoundary } from './components/common/AppErrorBoundary';
+import {canUseNavigationAction} from './features/more/adminNavigation.config';
 
 const DashboardView = lazy(() =>
   import('./features/dashboard/DashboardView').then((module) => ({
@@ -119,6 +120,8 @@ export const App: React.FC = () => {
   const { setActiveTab } = useAppStoreActions();
   const {
     isAuthenticated,
+    roleName,
+    roles,
     isLoading: isAuthLoading,
     recordSessionActivity,
   } = useAuthStore();
@@ -140,6 +143,19 @@ export const App: React.FC = () => {
       );
     }
   }, [isAuthenticated, setActiveTab]);
+
+  // Owner alert links select existing views; their authentication and data ACLs stay unchanged.
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    const params = new URLSearchParams(window.location.search);
+    const screen = params.get('screen');
+    if (screen !== 'reports' && screen !== 'inventory' && screen !== 'shifts') return;
+    if (!canUseNavigationAction({type:'tab',destination:screen},roleName,roles)) return;
+    setActiveTab(screen);
+    params.delete('screen');
+    const query = params.toString();
+    window.history.replaceState(null, '', `${window.location.pathname}${query ? `?${query}` : ''}${window.location.hash}`);
+  }, [isAuthenticated, setActiveTab, roleName, roles]);
 
   // Cheque notifications use the existing authenticated shell and page ACL.
   useEffect(() => {

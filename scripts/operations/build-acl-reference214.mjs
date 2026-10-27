@@ -1,3 +1,4 @@
+import {sourceBeforeOwnerTelegramFormat} from '../audit/source-before-owner-telegram-format.mjs';
 import {assert213Transition} from '../testing/handover213-contract.mjs';
 import {assert214Transition} from '../testing/handover214-contract.mjs';
 // Fresh001-214 versus complete212 plus literal213/214 and official repair.
@@ -24,7 +25,7 @@ export async function buildReady214Reference(args=[]){
   assertOutsideRepository(target);await mkdir(path.dirname(target),{recursive:true});assertOutsideRepository(await realpath(path.dirname(target)),await realpath(root));
   await assert.rejects(()=>readFile(target),{code:'ENOENT'},'REFERENCE_ALREADY_EXISTS');
   const output=await mkdtemp(path.join(tmpdir(),'nawasrah-reference214-')),report={startedAt:new Date().toISOString(),managedAccess:false,output,target};
-  const manifest=(await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=214),source=await inventory();
+  const manifest=(await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=214),source=await inventory({projectSource:sourceBeforeOwnerTelegramFormat});
   const proofText=canonicalLf(await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_214.json'),'utf8')),proof=JSON.parse(proofText);
   const project='nawasrah-reference214-test',executor=executorFor(['--container','supabase_db_'+project]);let local,stage='base212';
   const sql=async input=>{const r=await executeInput(executor,input);assert.equal(r.code,0,r.stderr);return r.stdout.trim();};
@@ -56,7 +57,7 @@ export async function buildReady214Reference(args=[]){
       catalogQuerySha256:sha256(schemaCatalogSql),functions,realtimeQuerySha256:sha256(realtimePublicationSql),realtimeSha256:sha256(JSON.stringify(final.realtimePublication)),
       prefixes,freshIncrementalDifferenceCount:0,notificationSnapshot,cronAudit,
       readiness:{sourceHashes:source.sources,accessEvidenceSha256:sha256(proofText),coverage:proof.coverage,queries:proof.results.length,errors:0}};
-    assertReady214Reference(reference,manifest,proofText,source);assert.deepEqual((await inventory()).sources,source.sources);
+    assertReady214Reference(reference,manifest,proofText,source);assert.deepEqual((await inventory({projectSource:sourceBeforeOwnerTelegramFormat})).sources,source.sources);
     assert.deepEqual((await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=214),manifest);
     await writeFile(target,JSON.stringify(reference,null,2)+'\n',{flag:'wx'});Object.assign(report,{ok:true,migrations:176,functions,realtimeMembers:13,freshIncrementalDifferenceCount:0});
   }catch(error){Object.assign(report,{ok:false,stage,error:error.message});throw error;}

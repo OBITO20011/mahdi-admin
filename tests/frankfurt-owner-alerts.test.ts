@@ -75,7 +75,7 @@ test('owner messages escape untrusted HTML,have actual line breaks and only form
  const stock=message('low_stock',{productName:'تفاح <script>&\nتوت',availableQuantity:3});
  assert.match(stock,/تفاح &lt;script&gt;&amp; توت/u);assert.match(stock,/\nالصنف:/u);assert.doesNotMatch(stock,/\\n|<script>/u);
  const summary=message('business_daily_summary',{period:{dateFrom:'2026-10-27',dateTo:'2026-10-27'},sales:{grossSalesInMinorUnits:15000,netSalesInMinorUnits:12000,netProfitInMinorUnits:1006},cashFlow:{cashCollectedInMinorUnits:3000,cliqCollectedInMinorUnits:1000}});
- assert.match(summary,/15\.000 د.أ/u);assert.match(summary,/12\.000 د.أ/u);assert.match(summary,/1\.006 د.أ/u);assert.match(summary,/3\.000 د.أ \| CliQ: 1\.000 د.أ/u);
+ assert.match(summary,/15\.000 د.أ/u);assert.match(summary,/12\.000 د.أ/u);assert.match(summary,/1\.006 د.أ/u);assert.match(summary,/كاش: 3\.000 د.أ\nCliQ: 1\.000 د.أ/u);
  assert.match(message('business_daily_summary'),/غير متاح/u);
  assert.doesNotMatch(message('new_order',{orderNumber:'ORD-1',customerPhone:'SHOULD_NOT_LEAK',customerName:'SHOULD_NOT_LEAK',deliveryAddress:'SHOULD_NOT_LEAK'}),/SHOULD_NOT_LEAK/u);
 });

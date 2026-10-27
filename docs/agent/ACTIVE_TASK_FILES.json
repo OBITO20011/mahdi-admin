@@ -3,35 +3,31 @@
   "files": [
     {
       "code": " M",
-      "path": "automation/n8n/README.md"
+      "path": "docs/agent/TELEGRAM_OWNER_FORMAT_LOCAL.json"
     },
     {
       "code": " M",
-      "path": "docs/agent/OWNER_DECISIONS.md"
+      "path": "scripts/audit/owner-telegram-format-source-pins.json"
     },
     {
       "code": " M",
-      "path": "docs/agent/project-state.json"
+      "path": "scripts/audit/source-before-owner-telegram-format.mjs"
     },
     {
       "code": " M",
-      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
+      "path": "scripts/operations/build-acl-reference214.mjs"
     },
     {
-      "code": "??",
-      "path": "automation/n8n/workflows/frankfurt-owner-business-alerts.json"
+      "code": " M",
+      "path": "scripts/operations/frankfurt-reference214.mjs"
     },
     {
-      "code": "??",
-      "path": "docs/operations/FRANKFURT_OWNER_BUSINESS_ALERTS_AR.md"
+      "code": " M",
+      "path": "scripts/testing/run-handover214-gates.mjs"
     },
     {
-      "code": "??",
-      "path": "docs/operations/FRANKFURT_OWNER_BUSINESS_ALERTS_LOCAL.json"
-    },
-    {
-      "code": "??",
-      "path": "tests/frankfurt-owner-alerts.test.ts"
+      "code": " M",
+      "path": "tests/owner-telegram-format.test.ts"
     }
   ]
 }

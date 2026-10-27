@@ -1,49 +1,60 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
+  "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Package3 independent inactive Frankfurt owner-business n8n template and safe import/configuration guide;no hosted access or activation",
-  "baselineSha": "e11a9508b27ae4a9d6d0ab382bb7750732fc7948",
-  "branch": "codex/frankfurt-owner-alerts",
+  "objective": "Owner Telegram display-only HTML formatting,golden previews,exact money,validated buttons;workflow stays inactive;PR and fullCI before approval",
+  "baselineSha": "28ab68dbe95329d435feb4871b6edd4a1230279f",
+  "branch": "codex/owner-telegram-format",
   "phase": "PACKAGE_F",
   "completed": [
-    "Package2b returned for approval as PR35 exact FULL49/49 push+PR",
-    "Independent inactive workflow,new credential references,default-off owner and manual-test guards",
-    "Arabic import/test/00:00 clock guide and cutover routing updated;old files/technical routes unchanged",
-    "1485/1485 units,bothTypes,strictESLint,Gitleaks0;native n8n6 cases networknone"
+    "HTML formatter and 16 reviewed synthetic golden messages plus test message",
+    "Owner-approved reports/inventory/shifts links with existing navigation ACLs",
+    "Native n8n2.35.5:17 events,15 URL buttons,17 original-ID acknowledgements,network none",
+    "Actual App Chromium/WebKit16/16;network guard escaped0",
+    "Fresh local214 SDK table154/154 and RPC540 dispatches;historical source pins preserved",
+    "Final Admin1495/1495 and Customer197/197 units;types/strict lint/build/isolation/Gitleaks0",
+    "CI found frozen214 proof versus current App mismatch;strict source projection fixed;native fresh/incremental and4resume cases plus negatives/concurrency PASS"
   ],
   "inProgress": [
-    "Separate PR and exact fullCI"
+    "Commit/push reference compatibility proof;verify exact fullCI before review"
   ],
-  "notStarted": [],
+  "notStarted": [
+    "Owner review before merge"
+  ],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "testsPassed": [
-    "1485/1485 units;bothTypes;strictESLint;focused6",
-    "n8n2.35.5 actual import and6 native graph cases;networknone;synthetic transports only",
-    "No messages/hosted requests;Gitleaks0"
+    "Admin units1496/1496;Customer197/197",
+    "Both types;strict ESLint0warnings",
+    "Actual App Chromium/WebKit16/16;network isolation escaped0",
+    "Native n8n2.35.5:17events,15URLbuttons,17original-IDacks,networknone",
+    "Fresh local214 table154/154;RPC540dispatches with expected rejections labelled",
+    "Admin production build and verify-dist;oppositeOrigins0;Gitleaks0"
   ],
   "testsRemaining": [
-    "Exact FULL49 push+PR and owner approval before merge"
+    "Exact final-SHA FULL CI push and PR",
+    "Owner review before merge"
   ],
   "findings": [
-    "Known-own new worktree baseline synchronized under standing owner permission",
-    "PR35 not merged;stacked base codex/prelaunch-trial",
-    "Legacy workflows and technical recipients unchanged"
+    "Only Format Owner Message and Telegram send-node presentation may change",
+    "No payload/writer/gateway/claim/complete/exclusion/activation changes",
+    "Owner approved bounded App link reception exception;existing role policy unchanged",
+    "Historical evidence unchanged;current214 SDK evidence measured anew under explicit UI filename",
+    "Extra source mutations remain rejected by original guards;no general normalization"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No project connection/deploy/import/activation/send",
-    "No secrets/config reads",
-    "No financial/RPC/migration changes",
-    "No merge without owner approval"
+    "No project access/deploy/activation",
+    "No merge before approval",
+    "No Edge/RPC/migration/money/payload or routing changes",
+    "Workflow inactive and businessAlertsEnabled=false"
   ],
-  "nextExactAction": "Save package3 completed template/docs/tests and push;open separate PR,verify exactFULL49",
-  "startedAt": "2026-10-26T22:53:46.663Z",
-  "checkpointedAt": "2026-10-26T23:05:38.912Z",
-  "filesTouchedCount": 8,
-  "filesTouchedManifestSha256": "b65ed497f5133924759f28ca50fbdf77c9d7e0ff9c7c70d326499b914437b557",
-  "workingTreeFingerprint": "A6579CAADEAA55BA090B4861C66E950BC6A84592DCD6D40B346DE46B0647AC71"
+  "nextExactAction": "All local gates and native RESET214 reference/resume PASS;commit/push,refresh PR37,verify final exact FULL CI;no merge",
+  "startedAt": "2026-10-27T12:09:21.571Z",
+  "checkpointedAt": "2026-10-27T14:26:59.886Z",
+  "filesTouchedCount": 7,
+  "filesTouchedManifestSha256": "523696a671d14bb4446da08edaeea0593a5398574b0cf05229bf83979d91ed4b",
+  "workingTreeFingerprint": "B7589D1348B612FE35D57C13E59AFA7CD46FE392232493F63FBC9E42E91B0FC3"
 }
