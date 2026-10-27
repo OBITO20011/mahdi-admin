@@ -509,7 +509,7 @@ class AuthStoreEngine {
         result.profile?.name ||
         readUserMetadataString(userMetadata, 'full_name') ||
         user.email?.split('@')[0] ||
-        'مستخدم نواصرة',
+        'مستخدم النواصرة لتجارة الجملة والمواد الغذائية',
       email: user.email || result.profile?.email || '',
       phone: result.profile?.phone || user.phone || '',
       avatarUrl:

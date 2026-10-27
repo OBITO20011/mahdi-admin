@@ -1,3 +1,4 @@
+import {sourceBeforeStoreIdentity} from '../scripts/audit/source-before-store-sharing-identity.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
@@ -22,7 +23,7 @@ const goldens=JSON.parse(readFileSync('tests/fixtures/owner-telegram-messages.go
 test('every supported event has a reviewed exact HTML and keyboard golden,plus the one-message test',()=>{
  assert.equal(goldens.cases.length,16);assert.equal(new Set(goldens.cases.map(c=>c.event.eventType)).size,16);
  for(const c of goldens.cases){assert.equal(run(0,c.event),c.html,c.event.eventType);assert.deepEqual(run(1,c.event),c.keyboard,c.event.eventType);assert.ok(c.html.length<4096);assert.match(c.html,/^<b>.+<\/b>/u);assert.doesNotMatch(c.html,/https?:\/\//u);}
- assert.equal(node('Send One Owner Test').parameters.text,'<b>✅ تم ربط تنبيهات النواصرة بهاتفك</b>');assert.equal(goldens.testMessage,node('Send One Owner Test').parameters.text);
+ assert.equal(node('Send One Owner Test').parameters.text,'<b>✅ تم ربط تنبيهات النواصرة لتجارة الجملة والمواد الغذائية بهاتفك</b>');assert.equal(goldens.testMessage,node('Send One Owner Test').parameters.text);
 });
 
 test('money is grouped exact BigInt minor units,including signs,zero and values beyond2^53',()=>{
@@ -100,7 +101,7 @@ test('exact display inverse restores prior App bytes without accepting any extra
  assert.equal(sourceBeforeOwnerTelegramFormat('src/App.tsx',app),base);
  assert.throws(()=>sourceBeforeNavigation206('src/App.tsx',app+'\nconst unauthorized=1;'),/NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED/u);
  const helper='scripts/audit/source-before-environments.mjs';assert.throws(()=>sourceBeforeOwnerTelegramFormat(helper,readFileSync(helper,'utf8')+'\n// unknown'),/HANDOVER214_UNREVIEWED_SOURCE:TELEGRAM_FORMAT/u);
- assert.equal(execFileSync('git',['diff','--name-only','28ab68dbe95329d435feb4871b6edd4a1230279f','--','supabase','src/services','scripts/audit/*-hunks.json','scripts/audit/*-inverse.json'],{encoding:'utf8'}).trim(),'');
+ assert.equal(execFileSync('git',['diff','--name-only','28ab68dbe95329d435feb4871b6edd4a1230279f','--','supabase','src/services','scripts/audit/*-hunks.json','scripts/audit/*-inverse.json'],{encoding:'utf8'}).trim().split('\n').filter(Boolean).filter(file=>{if(file!=='src/services/deviceBiometrics.service.ts')return true;assert.equal(sourceBeforeStoreIdentity(file,readFileSync(file,'utf8')),execFileSync('git',['show','28ab68dbe95329d435feb4871b6edd4a1230279f:'+file],{encoding:'utf8'}).replaceAll('\r\n','\n'));return false;}).join('\n'),'');
 });
 
 test('actual App link effect only selects the three approved existing screens after authentication',()=>{

@@ -49,7 +49,7 @@ const rootHtml = await readRoute('/');
 if(staging){invariant(robots.includes('Disallow: /\n'),'staging must disallow indexing');invariant(rootHtml.includes('noindex, nofollow, noarchive'),'staging must be noindex');}
 invariant(rootHtml.includes(`<title>${officialName} |`), 'homepage title does not use the official entity name');
 invariant(rootHtml.includes(`rel="canonical" href="${origin}/"`), 'homepage canonical is invalid');
-invariant(rootHtml.includes(`property="og:image" content="${origin}/nawasrah-store-logo.jpg"`), 'homepage social image is missing');
+invariant(rootHtml.includes(`property="og:image" content="${origin}/nawasrah-social-card.jpg"`), 'homepage social image is missing');
 const rootTypes = graphTypes(structuredData(rootHtml));
 invariant(rootTypes.has('Store') && rootTypes.has('WebSite'), 'homepage entity graph is incomplete');
 invariant(rootHtml.includes('النواصرة لتجارة الجملة والمواد الغذائية'), 'homepage entity graph is missing the alternate business name');
@@ -60,7 +60,7 @@ const aboutTypes = graphTypes(structuredData(aboutHtml));
 invariant(locations.includes(`${origin}/about/`), 'sitemap is missing the about page');
 invariant(aboutTypes.has('AboutPage') && aboutTypes.has('BreadcrumbList'), 'about page schema is incomplete');
 invariant(aboutHtml.includes('النواصرة لتجارة الجملة والمواد الغذائية'), 'about page is missing the alternate business name');
-invariant(aboutHtml.includes('nawasrah-storefront.webp'), 'about page is missing the storefront image');
+invariant(aboutHtml.includes('nawasrah-social-card.jpg'), 'about page is missing the brand share image');
 invariant(aboutHtml.includes(`rel="canonical" href="${origin}/about/"`), 'about page canonical is invalid');
 
 const productLocation = locations.find((location) => location.startsWith(`${origin}/product/`));
@@ -85,6 +85,7 @@ if (categoryLocation) {
 for (const location of locations) {
   invariant(location === `${origin}/` || new URL(location).pathname.endsWith('/'), `canonical route causes a redirect: ${location}`);
   const html = await readRoute(new URL(location).pathname);
+  invariant(html.includes(`property="og:image" content="${origin}/nawasrah-social-card.jpg"`) && html.includes('property="og:image:width" content="1200"') && html.includes('property="og:image:height" content="630"') && html.includes(`name="twitter:image" content="${origin}/nawasrah-social-card.jpg"`), `share metadata missing: ${location}`);
   invariant(occurrences(html, /rel="canonical"/gu) === 1, `canonical is duplicated: ${location}`);
   invariant((staging || !html.includes('pages.dev')), `generated SEO contains pages.dev: ${location}`);
 }
