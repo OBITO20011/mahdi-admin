@@ -1,3 +1,4 @@
+import {sourceBeforePrelaunchTrial} from './source-before-prelaunch-trial.mjs';
 // Exact additive build-context layer. Historical proof pins stay immutable.
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
@@ -10,7 +11,7 @@ for(const file of readdirSync(import.meta.dirname).filter(f=>f.endsWith('-hunks.
  }
 }
 export function sourceBeforeEnvironments(file,text){
- if(text===null)return null;const source=text.replaceAll('\r\n','\n'),pin=environmentPins[file];if(!pin)return source;
+ if(text===null)return null;const source=sourceBeforePrelaunchTrial(file,text),pin=environmentPins[file];if(!pin)return source;
  const digest=hash(source);if(digest===pin.after){assert.equal(hash(pin.beforeText),pin.before,'ENVIRONMENT_INVERSE_CORRUPT');return pin.beforeText;}
  if(digest===pin.before||older.get(file)?.has(digest))return source;
  assert.fail('HANDOVER214_UNREVIEWED_SOURCE:ENVIRONMENTS:'+file);

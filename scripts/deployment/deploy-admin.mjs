@@ -1,6 +1,9 @@
+import {assertProductionContext,assertDeploymentTarget} from '../environments/deployment-context.mjs';
 import {verifyEnvironmentDist} from '../environments/verify-dist.mjs';
 import { execFileSync, spawnSync } from 'node:child_process';
 
+assertProductionContext();
+assertDeploymentTarget({app:'admin',environment:'production',branch:'main',project:'nawasrah-admin'});
 const checkOnly = process.argv.includes('--check');
 const npmCliPath = process.env.npm_execpath;
 

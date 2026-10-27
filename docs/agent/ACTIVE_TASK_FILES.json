@@ -3,15 +3,23 @@
   "files": [
     {
       "code": " M",
-      "path": "customer-web/scripts/generate-seo-pages.mjs"
+      "path": "docs/operations/PRELAUNCH_TRIAL_AR.md"
     },
     {
       "code": " M",
-      "path": "docs/operations/ENVIRONMENT_SEPARATION_LOCAL_EVIDENCE.json"
+      "path": "docs/operations/PRELAUNCH_TRIAL_LOCAL_EVIDENCE.json"
     },
     {
       "code": " M",
-      "path": "scripts/audit/environments-inverse.json"
+      "path": "scripts/audit/prelaunch-trial-inverse.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/environments/run-context.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-prelaunch-trial-builds.mjs"
     }
   ]
 }

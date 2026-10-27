@@ -19,7 +19,7 @@ if (auditUrl) {
 }
 
 const buildEnvironment=validatePublicBuildManifest(JSON.parse(await readFile(path.join(dist,'nawasrah-environment.json'),'utf8')));
-if(buildEnvironment.format!==1||!['production','staging'].includes(buildEnvironment.environment)||buildEnvironment.isolated)throw new Error('SEO_REQUIRES_SELECTED_BUILD_MANIFEST');
+if(buildEnvironment.format!==1||!['production','staging','prelaunch-trial'].includes(buildEnvironment.environment)||buildEnvironment.isolated)throw new Error('SEO_REQUIRES_SELECTED_BUILD_MANIFEST');
 const siteOrigin=buildEnvironment.storeOrigin;
 const officialName = 'النواصرة لتجارة الجملة والمواد الغذائية';
 const alternateName = 'النواصرة لتجارة الجملة والمواد الغذائية';
@@ -121,7 +121,7 @@ function injectHead(shell, {title, description, canonical, schema, image = defau
     `<title>${escapeHtml(title)}</title>`,
     `<meta name="description" content="${escapeHtml(description)}" />`,
     `<link rel="canonical" href="${escapeHtml(canonical)}" />`,
-    `<meta name="robots" content="${buildEnvironment.environment==='staging'?'noindex, nofollow, noarchive':'index, follow, max-image-preview:large'}" />`,
+    `<meta name="robots" content="${buildEnvironment.environment!=='production'?'noindex, nofollow, noarchive':'index, follow, max-image-preview:large'}" />`,
     `<meta property="og:type" content="${type}" />`,
     '<meta property="og:locale" content="ar_JO" />',
     `<meta property="og:site_name" content="${escapeHtml(officialName)}" />`,
@@ -269,7 +269,7 @@ for (const product of allProducts) {
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapRoutes.map(({route, changefreq, priority}) => `  <url><loc>${escapeHtml(routeUrl(route))}</loc><changefreq>${changefreq}</changefreq><priority>${priority}</priority></url>`).join('\n')}\n</urlset>\n`;
 await writeFile(path.join(dist, 'sitemap.xml'), sitemap, 'utf8');
 await writeFile(path.join(dist,'nawasrah-environment.json'),JSON.stringify({...buildEnvironment,seoSource:auditUrl?'isolated-fixture':'selected-project'},null,2)+'\n');
-await writeFile(path.join(dist, 'robots.txt'), `User-agent: *\n${buildEnvironment.environment==='staging'?'Disallow: /':'Allow: /'}\nDisallow: /cart\nDisallow: /checkout\nDisallow: /favorites\nDisallow: /tracking\nDisallow: /receipt\nDisallow: /search\nSitemap: ${routeUrl('/sitemap.xml')}\n`, 'utf8');
+await writeFile(path.join(dist, 'robots.txt'), `User-agent: *\n${buildEnvironment.environment!=='production'?'Disallow: /':'Allow: /'}\nDisallow: /cart\nDisallow: /checkout\nDisallow: /favorites\nDisallow: /tracking\nDisallow: /receipt\nDisallow: /search\nSitemap: ${routeUrl('/sitemap.xml')}\n`, 'utf8');
 console.log(JSON.stringify({
   ok: true, origin: siteOrigin, brand: officialName,
   categoryRoutes: sitemapRoutes.filter(({route}) => route.startsWith('/category/')).length,

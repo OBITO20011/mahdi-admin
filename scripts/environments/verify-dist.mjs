@@ -9,6 +9,7 @@ export async function verifyEnvironmentDist({app,environment,dir,allowFixture=fa
  const manifest=JSON.parse(await readFile(path.join(dir,'nawasrah-environment.json'),'utf8'));
  for(const field of ['format','environment','isolated','projectRef','url','key','storeOrigin'])assert.ok(manifest[field]===expected[field],'DIST_ENVIRONMENT_MISMATCH:'+field);
  if(app==='customer')assert.ok(manifest.seoSource==='selected-project'||(allowFixture&&manifest.seoSource==='isolated-fixture'),'DIST_ISOLATED_SEO_NOT_DEPLOYABLE');
+ if(environment==='prelaunch-trial')for(const field of ['prelaunchTrial','allowedPreviewBranch','productionDeployAllowed'])assert.ok(manifest[field]===expected[field],'DIST_ENVIRONMENT_MISMATCH:'+field);
  const opposite=publicEnvironments[environment==='staging'?'production':'staging'];let count=0,ownOrigin=false;
  for(const f of await files(dir)){
   const bytes=(await readFile(f)).toString('utf8');count++;assert.ok(!bytes.includes(opposite.projectRef),'DIST_OPPOSITE_PROJECT_ORIGIN:'+path.relative(dir,f));

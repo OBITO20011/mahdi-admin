@@ -247,7 +247,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset, warehouse-management, owner-withdrawals, deferred-cheques, opening-cheques, legacy-product-cost, home-damage201, all-collections202, all-collections203, sales-history204, product-receiving205, navigation-cash206, document-corrections207, supplier-replacement208, parcel209, receipt210, aftercare211, trial212, handover213, handover214, reset214-resume]
+        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset, warehouse-management, owner-withdrawals, deferred-cheques, opening-cheques, legacy-product-cost, home-damage201, all-collections202, all-collections203, sales-history204, product-receiving205, navigation-cash206, document-corrections207, supplier-replacement208, parcel209, receipt210, aftercare211, trial212, handover213, handover214, reset214-resume, prelaunch-trial]
     env:
       NAWASRAH_PACKAGE_D_CURRENT: '1'
     steps:
@@ -279,6 +279,14 @@ jobs:
       - name: Prove first owner guarded binding and real TOTP AAL2 without managed access
         if: matrix.suite == 'operations-reset'
         run: node scripts/testing/run-first-owner-runtime.mjs
+
+      - name: Install customer dependencies for the separate temporary trial build gate
+        if: matrix.suite == 'prelaunch-trial'
+        run: npm --prefix customer-web ci
+
+      - name: Prove prelaunch trial builds,closed-source refusal and preview-only deployment admission
+        if: matrix.suite == 'prelaunch-trial'
+        run: node scripts/testing/run-prelaunch-trial-builds.mjs
 
       - name: Prove protected RESET214 retention and four real interruption/restart boundaries
         if: matrix.suite == 'reset214-resume'

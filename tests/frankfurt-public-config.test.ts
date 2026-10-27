@@ -31,11 +31,12 @@ test('historical Frankfurt defaults remain exact through the environment inverse
  assert.deepEqual(services.oldReferences.filter((r:{category:string})=>['APP_FALLBACK','CSP_CONNECT_SRC'].includes(r.category)),[]);
 });
 
-for(const environment of ['production','staging'] as const)test('SEO uses the selected '+environment+' manifest for both RPCs;zero real network',async()=>{
+for(const environment of ['production','staging','prelaunch-trial'] as const)test('SEO uses the selected '+environment+' manifest for both RPCs;zero real network',async()=>{
  const dir=await mkdtemp(path.join(tmpdir(),'nawasrah-seo-context-')),customer=path.join(dir,'customer-web'),selected=resolveBuildEnvironment({NAWASRAH_DEPLOYMENT_ENV:environment});
  try{
   await mkdir(path.join(customer,'scripts'),{recursive:true});await mkdir(path.join(customer,'dist'));await mkdir(path.join(dir,'scripts/environments'),{recursive:true});
   await copyFile('scripts/environments/environment.mjs',path.join(dir,'scripts/environments/environment.mjs'));
+  await copyFile('scripts/environments/prelaunch-trial-control.mjs',path.join(dir,'scripts/environments/prelaunch-trial-control.mjs'));
   await copyFile('customer-web/scripts/generate-seo-pages.mjs',path.join(customer,'scripts/generate-seo-pages.mjs'));
   const manifest=path.join(customer,'dist/nawasrah-environment.json');await writeFile(manifest,JSON.stringify(selected));
   await writeFile(path.join(customer,'dist/index.html'),'<html><head><title>shell</title></head><body></body></html>');
