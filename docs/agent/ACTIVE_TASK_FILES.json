@@ -3,19 +3,183 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/handover/README.md"
+      "path": ".github/workflows/quality.yml"
     },
     {
       "code": " M",
-      "path": "docs/handover/أدلة-المصادر.json"
+      "path": "docs/agent/PHASE_STATUS.md"
     },
     {
       "code": " M",
-      "path": "tests/handover-documentation.test.ts"
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/handover/templates/README.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/handover/دليل-صاحب-المحل.html"
+    },
+    {
+      "code": " M",
+      "path": "docs/handover/دليل-صاحب-المحل.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/handover/ورقة-يوم-التشغيل.html"
+    },
+    {
+      "code": " M",
+      "path": "docs/handover/ورقة-يوم-التشغيل.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-handover214.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-owner-telegram-format.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/table-access-probes.mjs"
+    },
+    {
+      "code": " M",
+      "path": "src/features/goLive/GoLiveSetupView.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/products/ProductsView.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/services/supabase/product-images.service.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/owner-telegram-format.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/pretrial-p1.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/supplier-replacement208-evidence.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-owner-a.test.ts"
     },
     {
       "code": "??",
-      "path": "tests/handover-product-import.local.mjs"
+      "path": "docs/agent/BULK_PRODUCT_IMAGES_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "docs/agent/BULK_PRODUCT_IMAGES_LOCAL.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_214_BULK_IMAGES.json"
+    },
+    {
+      "code": "??",
+      "path": "e2e/package-f-bulk-images-harness.html"
+    },
+    {
+      "code": "??",
+      "path": "e2e/package-f-bulk-images-harness.tsx"
+    },
+    {
+      "code": "??",
+      "path": "e2e/package-f-bulk-product-images.spec.ts"
+    },
+    {
+      "code": "??",
+      "path": "playwright.bulk-images.config.ts"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/bulk-product-images-source-pins.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-bulk-product-images.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/generate-bulk-image-fixtures.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-bulk-product-images-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "src/features/products/bulkImages/api.ts"
+    },
+    {
+      "code": "??",
+      "path": "src/features/products/bulkImages/compress.ts"
+    },
+    {
+      "code": "??",
+      "path": "src/features/products/bulkImages/journal.ts"
+    },
+    {
+      "code": "??",
+      "path": "src/features/products/bulkImages/model.ts"
+    },
+    {
+      "code": "??",
+      "path": "src/features/products/bulkImages/upload.ts"
+    },
+    {
+      "code": "??",
+      "path": "src/features/products/BulkProductImagesPanel.tsx"
+    },
+    {
+      "code": "??",
+      "path": "tests/bulk-images-browser/images.spec.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/bulk-product-images-contracts.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/bulk-product-images.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/fixtures/bulk-images/landscape.jpg"
+    },
+    {
+      "code": "??",
+      "path": "tests/fixtures/bulk-images/rotate90.jpg"
+    },
+    {
+      "code": "??",
+      "path": "tests/fixtures/bulk-images/sample.png"
+    },
+    {
+      "code": "??",
+      "path": "tests/fixtures/bulk-images/sample.webp"
     }
   ]
 }

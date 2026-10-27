@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import test from 'node:test';
+import {pathsBeforeBulkProductImages} from '../scripts/audit/source-before-bulk-product-images.mjs';
 import ts from 'typescript';
 import {canUseNavigationAction} from '../src/features/more/adminNavigation.config';
 import {sourceBeforeOwnerTelegramFormat} from '../scripts/audit/source-before-owner-telegram-format.mjs';
@@ -100,7 +101,7 @@ test('exact display inverse restores prior App bytes without accepting any extra
  assert.equal(sourceBeforeOwnerTelegramFormat('src/App.tsx',app),base);
  assert.throws(()=>sourceBeforeNavigation206('src/App.tsx',app+'\nconst unauthorized=1;'),/NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED/u);
  const helper='scripts/audit/source-before-environments.mjs';assert.throws(()=>sourceBeforeOwnerTelegramFormat(helper,readFileSync(helper,'utf8')+'\n// unknown'),/HANDOVER214_UNREVIEWED_SOURCE:TELEGRAM_FORMAT/u);
- assert.equal(execFileSync('git',['diff','--name-only','28ab68dbe95329d435feb4871b6edd4a1230279f','--','supabase','src/services','scripts/audit/*-hunks.json','scripts/audit/*-inverse.json'],{encoding:'utf8'}).trim(),'');
+ assert.deepEqual(pathsBeforeBulkProductImages(execFileSync('git',['diff','--name-only','28ab68dbe95329d435feb4871b6edd4a1230279f','--','supabase','src/services','scripts/audit/*-hunks.json','scripts/audit/*-inverse.json'],{encoding:'utf8'}).trim().split('\n').filter(Boolean)),[]);
 });
 
 test('actual App link effect only selects the three approved existing screens after authentication',()=>{

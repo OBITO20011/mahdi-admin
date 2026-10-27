@@ -1,59 +1,54 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "PAUSED",
   "owner": "codex",
-  "objective": "Documentation only:actual214 UI owner guide,print HTML,exact import XLSX andcutover card;one PR/fullCI;no application or SQL edits",
-  "baselineSha": "ad4bd1f8230758a707285ceb8f0042015d16b018",
-  "branch": "codex/handover-owner-guide",
+  "objective": "Owner-approved SKU bulk product/flavor image upload with preview/compression/resume/cleanup;existing services and rights;no RPC/migration without owner approval;PR/fullCI then review",
+  "baselineSha": "f95ff0458f90298edc21e39859d3268c7f7ccac7",
+  "branch": "codex/product-images-bulk",
   "phase": "PACKAGE_F",
   "completed": [
-    "Guide24sections and standalone RTL A4HTML;placeholders/no realdata",
-    "Six XLSX exact importer headers;cashopening manual-only;flavors/methods separate preparation",
-    "Current UI124literal labels bound33source files atad4bd1f8",
-    "Actual application reader/preparers6/6;products14cols/zeros/dates;negative cases",
-    "Actual ArtifactTool reimport+input changes+recalculate6/6;XLSX RTL/panes/listvalidation/formulas",
-    "A4Chromiumprint guide10pages andcutover2pages;externalrequests0;allpages reviewed",
-    "Admin1502/1502,Customer197/197,typesBoth,strictlint0warnings,Gitleaks0;product/SQL/automationdiffempty",
-    "Actual products XLSX imported via current RPC on fresh214/176 isolated DB:preview0errors/0writes,created1,matchingfields,replay0writes,stock/orders/shifts/movements0;recipe+hashboundproof"
+    "Bulk product/flavor image preview,compression,existing writer upload,resume and cleanup",
+    "Real isolated214 Auth/MFA/Storage/RPC roles and both browser engines",
+    "Local Admin1520/store197;14 feature+104 affected browser cases;types/lint/build/SEO/print/Gitleaks0",
+    "Handover guide/cutover card/templates naming instructions"
   ],
   "inProgress": [
-    "Push actualDB import evidence to samePR38;verify full finalCI"
+    "Commit/push bounded package;exact-SHA FULL CI and review-ready PR"
   ],
   "notStarted": [
-    "Owner approval;no merge"
+    "Owner review;no merge"
   ],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "testsPassed": [
-    "Focused6/6",
-    "Actual workbook parser6/6 andinput-change recalculation6/6",
-    "Offline print A4RTL10+2pages,resources0,overflowfalse",
-    "Admin1502/1502;store197/197;typesBoth;strictlint0warnings;Gitleaks0",
-    "Post actualDB proof:Admin1503/1503,types,strictlint0warnings,Gitleaks0"
+    "Admin1520/store197",
+    "Mock image browser14;affected browser104",
+    "Actual local214 Auth/MFA and9 role cases plus anon;Chromium/WebKit",
+    "104 protected public tables identical;Storage12 referenced objects,0orphans,0double primary",
+    "Actual SDK157 table/543 RPC probes",
+    "Types/strictlint/builds/SEO;print10+2pages;Gitleaks0"
   ],
   "testsRemaining": [
-    "Exact finalSHA FULL CI push andPR",
-    "Owner approval"
+    "Exact push+PR FULL CI"
   ],
   "findings": [
-    "Product import schema14columns exact;no flavor/full-method/unitprice columns invented",
-    "Drawer has no import UI;manual first shift preparation only",
-    "Openingcheques follow-up only andnet balances;decision signed beforeentry",
-    "No newApplicationCode/SQL or hostedcalls",
-    "First CI old head had2 image-registry rate limits before SQL;no code failure;newproof commit will supersede old runs"
+    "Existing set_product_primary_image is the image-only writer used inside current product/flavor saves;no newRPC/migration/permissions",
+    "One non-accepted startup environment run;one same-code rerun passed with unchanged timeouts/assertions",
+    "Identity PR39 remains independent and unmerged;baseline mainf95ff045"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No application/SQL/migration changes",
-    "No hosted access/publish/activation",
-    "No merge before owner approval"
+    "No hosted connection/deploy/activation",
+    "No RPC or migration without owner approval",
+    "No money/inventory/permission changes",
+    "Preserve owner local files;no merge"
   ],
-  "nextExactAction": "Post-proofgatesPASS1503;commit/pushsamePR38,full finalCI;no merge",
-  "startedAt": "2026-10-27T12:09:21.571Z",
-  "checkpointedAt": "2026-10-27T16:16:21.467Z",
-  "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "057c52ffe9d18dba660d8973d0dc8eb3428bc17ccd0880969e032a327c4a6081",
-  "workingTreeFingerprint": "705077D953853524F49EFBC36D77FBA6A17C42A5168F5739A86A83476728A290"
+  "nextExactAction": "Local acceptance complete;final documentation contracts and secret scan then commit/push/PR exact FULL CI;no merge",
+  "startedAt": "2026-10-27T19:34:58.619Z",
+  "checkpointedAt": "2026-10-27T20:53:12.935Z",
+  "filesTouchedCount": 45,
+  "filesTouchedManifestSha256": "f6f8b2a52efcb32e2baaddec1bf0c5fec4ef01dc9068153e7d4fb9453e3d2a38",
+  "workingTreeFingerprint": "2A0F1E8BF7E880F07EF053AFF12E74F9A90F1DD87F3A85BDF43511EB85FCA3D2"
 }

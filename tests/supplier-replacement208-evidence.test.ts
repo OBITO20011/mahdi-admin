@@ -13,7 +13,7 @@ const read=(f:string)=>readFileSync(f,'utf8'),json=(f:string)=>JSON.parse(read(f
 
 test('208 immutable SDK evidence binds every accepted208 source restored before P1 and all142 real probes',async()=>{
  const current=await inventory(),proof=json('docs/operations/TABLE_ACCESS_AFTER_208.json'),state=json('docs/agent/project-state.json');
- assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_214_TELEGRAM_FORMAT.json');assert.equal(state.migrationCeiling,214);
+ assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_214_BULK_IMAGES.json');assert.equal(state.migrationCeiling,214);
  assert.equal(proof.migrationCeiling,208);assert.equal(proof.managedAccess,false);assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);
  assert.deepEqual(proof.sourceHashes,current.sources);assert.deepEqual(verifyProbeCoverage(current,proof.results),proof.coverage);assert.equal(proof.results.length,142);assert.ok(proof.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));assertReady208Catalog(proof.catalog);
 });
