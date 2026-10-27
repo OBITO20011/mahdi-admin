@@ -3,7 +3,7 @@
   "files": [
     {
       "code": " M",
-      "path": "automation/n8n/README.md"
+      "path": "automation/n8n/workflows/frankfurt-owner-business-alerts.json"
     },
     {
       "code": " M",
@@ -15,23 +15,79 @@
     },
     {
       "code": " M",
-      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
     },
     {
-      "code": "??",
-      "path": "automation/n8n/workflows/frankfurt-owner-business-alerts.json"
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
     },
     {
-      "code": "??",
-      "path": "docs/operations/FRANKFURT_OWNER_BUSINESS_ALERTS_AR.md"
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
     },
     {
-      "code": "??",
-      "path": "docs/operations/FRANKFURT_OWNER_BUSINESS_ALERTS_LOCAL.json"
+      "code": " M",
+      "path": "scripts/audit/source-before-environments.mjs"
     },
     {
-      "code": "??",
+      "code": " M",
+      "path": "scripts/audit/source-before-prelaunch-trial.mjs"
+    },
+    {
+      "code": " M",
+      "path": "src/App.tsx"
+    },
+    {
+      "code": " M",
       "path": "tests/frankfurt-owner-alerts.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/pretrial-p1.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/supplier-replacement208-evidence.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-owner-a.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "docs/agent/TELEGRAM_OWNER_FORMAT_LOCAL.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_214_TELEGRAM_FORMAT.json"
+    },
+    {
+      "code": "??",
+      "path": "e2e/owner-alert-links-harness.html"
+    },
+    {
+      "code": "??",
+      "path": "e2e/owner-alert-links-harness.tsx"
+    },
+    {
+      "code": "??",
+      "path": "e2e/owner-alert-links.spec.ts"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/owner-telegram-format-source-pins.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-owner-telegram-format.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/fixtures/owner-telegram-messages.golden.json"
+    },
+    {
+      "code": "??",
+      "path": "tests/owner-telegram-format.test.ts"
     }
   ]
 }

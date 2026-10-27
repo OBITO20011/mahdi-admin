@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-10-26T19:51:33.533Z",
+  "startedAt": "2026-10-27T13:03:39.416Z",
   "migrationCeiling": 214,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-czVpXd",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-UnL6Tj",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
-      "sha256": "111961bad365540e2a20554be9d71a4ed3f4682198f7ef6289e357d1ee54e8a9"
+      "sha256": "23756e5ebc47fedebfe37c86c16b816ee364bfa42c734d880e7d74eae30233a5"
     },
     {
       "file": "src/components/common/AppErrorBoundary.tsx",
@@ -41266,7 +41266,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-10-26T19:53:15.942Z",
+  "endedAt": "2026-10-27T13:05:17.305Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {
@@ -41634,14 +41634,14 @@
     {
       "file": "docs/agent/OWNER_DECISIONS.md",
       "lines": [
-        737
+        749
       ],
       "category": "HISTORICAL_DOCUMENTATION"
     },
     {
       "file": "docs/operations/ENVIRONMENT_SEPARATION_AR.md",
       "lines": [
-        10
+        12
       ],
       "category": "HISTORICAL_DOCUMENTATION"
     },
@@ -41720,7 +41720,7 @@
     {
       "file": "scripts/environments/environment.mjs",
       "lines": [
-        5
+        7
       ],
       "category": "BUILD_GUARD_OR_AUDIT"
     },
@@ -41812,6 +41812,13 @@
       "category": "TEST_CONTRACT"
     },
     {
+      "file": "tests/frankfurt-owner-alerts.test.ts",
+      "lines": [
+        34
+      ],
+      "category": "TEST_CONTRACT"
+    },
+    {
       "file": "tests/frankfurt-preparation.test.ts",
       "lines": [
         23,
@@ -41851,6 +41858,13 @@
       "file": "tests/phase3-harness-stability.test.ts",
       "lines": [
         88
+      ],
+      "category": "TEST_CONTRACT"
+    },
+    {
+      "file": "tests/prelaunch-trial.test.ts",
+      "lines": [
+        15
       ],
       "category": "TEST_CONTRACT"
     }

@@ -5,7 +5,7 @@
   "sources": [
     {
       "file": "src/App.tsx",
-      "sha256": "111961bad365540e2a20554be9d71a4ed3f4682198f7ef6289e357d1ee54e8a9"
+      "sha256": "23756e5ebc47fedebfe37c86c16b816ee364bfa42c734d880e7d74eae30233a5"
     },
     {
       "file": "src/components/common/AppErrorBoundary.tsx",

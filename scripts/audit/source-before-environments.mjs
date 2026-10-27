@@ -1,4 +1,4 @@
-import {sourceBeforePrelaunchTrial} from './source-before-prelaunch-trial.mjs';
+import {sourceBeforePrelaunchTrial,restorePrelaunchTrialSourceHashes} from './source-before-prelaunch-trial.mjs';
 // Exact additive build-context layer. Historical proof pins stay immutable.
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
@@ -16,7 +16,7 @@ export function sourceBeforeEnvironments(file,text){
  if(digest===pin.before||older.get(file)?.has(digest))return source;
  assert.fail('HANDOVER214_UNREVIEWED_SOURCE:ENVIRONMENTS:'+file);
 }
-export function restoreEnvironmentSourceHashes(sources){return sources.map(s=>{
+export function restoreEnvironmentSourceHashes(sources){return restorePrelaunchTrialSourceHashes(sources).map(s=>{
  const pin=environmentPins[s.file];if(!pin||s.sha256===pin.before||older.get(s.file)?.has(s.sha256))return s;
  assert.equal(s.sha256,pin.after,'ENVIRONMENT_SOURCE_HASH:'+s.file);
  const before=sourceBeforeEnvironments(s.file,readFileSync(new URL('../../'+s.file,import.meta.url),'utf8'));

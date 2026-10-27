@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "baseline": "28ab68dbe95329d435feb4871b6edd4a1230279f",
+  "branch": "codex/owner-telegram-format",
+  "scope": "Telegram HTML presentation and approved existing-view link reception only",
+  "native": {
+    "ok": true,
+    "n8nVersion": "2.35.5",
+    "nativeEvents": 17,
+    "goldensMatched": 16,
+    "bigIntExact": true,
+    "ammanDates": true,
+    "nativeTelegramUrlButtons": 15,
+    "acksWithDistinctOriginalIds": 17,
+    "transports": "synthetic Set outputs;native expression/IF/Split/item pairing and real Telegram keyboard serializer",
+    "network": "none",
+    "hostedConnections": 0,
+    "messagesSent": 0
+  },
+  "browser": {
+    "chromium": 8,
+    "mobileWebkit": 8,
+    "passed": 16,
+    "actualApp": true,
+    "unexpectedNetworkRequests": 0
+  },
+  "currentSdk": {
+    "ceiling": 214,
+    "tableProbes": 154,
+    "tableErrors": 0,
+    "rpcDispatches": 540,
+    "rpcPermissionDenied": 10,
+    "note": "Neutral-payload validation errors and expected denied calls remain classified as such;not functional business-flow PASS"
+  },
+  "preserved": {
+    "workflowInactive": true,
+    "businessAlertsEnabled": false,
+    "technicalWarningsExcluded": true,
+    "payloadUnchanged": true,
+    "claimCompleteUnchanged": true,
+    "backendUnchanged": true,
+    "historicalEvidenceUnchanged": true
+  },
+  "limitations": [
+    "Current summary payload supplies stock counts,not low-product names",
+    "Parcel/unit detail rendered only if already supplied",
+    "Already-unsafe Number inputs display unavailable;integer text and BigInt exact"
+  ],
+  "hostedConnections": 0,
+  "messagesSent": 0,
+  "deployed": false,
+  "merged": false,
+  "localGates": {
+    "adminUnitTests": 1495,
+    "customerUnitTests": 197,
+    "failed": 0,
+    "typesBoth": true,
+    "eslintWarnings": 0,
+    "adminProductionBuild": true,
+    "verifyDistOppositeOrigins": 0,
+    "browserIsolationExternalEscaped": 0,
+    "gitleaks": 0
+  }
+}
