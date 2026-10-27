@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>ورقة يوم التشغيل</title><style>@page{size:A4;margin:13mm}*{box-sizing:border-box}html{direction:rtl}body{margin:0 auto;max-width:190mm;color:#172b4d;background:white;font-family:Arial,Tahoma,sans-serif;font-size:11.2pt;line-height:1.55}h1{font-size:23pt;margin:0 0 5mm;color:#18365c}h2{font-size:15pt;margin:7mm 0 3mm;border-bottom:1px solid #ccd5df;padding-bottom:2mm;break-after:avoid}h3{font-size:12pt;break-after:avoid}.guide table{break-inside:avoid}p{margin:2mm 0}ol,ul{padding-right:6mm;margin:2mm 0}li{padding:0.6mm 0}table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:10pt;table-layout:fixed}th{background:#eaf0f6;color:#18365c;text-align:right}th,td{border:1px solid #c6d0de;padding:2mm;vertical-align:top;overflow-wrap:anywhere}tr{break-inside:avoid}thead{display:table-header-group}blockquote{border:1px dashed #8a99a9;background:#fafbfd;color:#4b5f76;padding:3mm;margin:4mm 0;min-height:13mm;break-inside:avoid;font-size:10pt}a{color:inherit}code{direction:ltr;unicode-bidi:embed;font-family:Arial,sans-serif}strong{color:#132a48}.print-page{break-after:page}.print-page:last-child{break-after:auto}.cutover{font-size:9.2pt;line-height:1.23}.cutover h1{font-size:18pt;margin-bottom:3mm}.cutover h2{font-size:12pt;margin:4mm 0 2mm}.cutover p{margin:2mm 0}.cutover table{font-size:8.6pt;margin:2mm 0}.cutover th,.cutover td{padding:1.35mm}.cutover th:first-child,.cutover td:first-child{width:6mm;text-align:center}.cutover th:nth-child(2){width:69mm}.cutover th:nth-child(3){width:23mm}.cutover th:nth-child(4){width:16mm}.cutover th:nth-child(5){width:37mm}.cutover th:nth-child(6){width:33mm}@media screen{body{padding:14mm;box-shadow:0 0 8px #ccd5df;max-width:216mm}.print-page+.print-page{border-top:2px dashed #bac7d6;margin-top:12mm;padding-top:8mm}}@media print{a{text-decoration:none}body{max-width:none}.print-page+.print-page{padding-top:0}}</style></head><body class="cutover"><article class="print-page"><h1>ورقة يوم التشغيل</h1>
+<p>النواصرة لتجارة الجملة والمواد الغذائية — التاريخ: ........ — ساعة القطع: ........ — الإصدار المعتمد: ........</p>
+<p>المالك يعتمد ويشغّل الأوامر الحساسة، وClaude ينفذ ما يفوّضه به، وصاحب المحل يراجع الشاشات والمال والبضاعة. قد يكون المالك وصاحب المحل الشخص نفسه. الأوقات تقديرية للحجز فقط؛ لا نتجاوز فشلاً لانتهاء الوقت. أوامر التصفير والنشر والتفعيل تُؤخذ من المراجع، ولا تُنسخ من هذه الورقة.</p>
+<h2>قبل اليوم D-1</h2>
+<table>
+<thead>
+<tr>
+<th>✓</th>
+<th>الترتيب والعمل</th>
+<th>المنفذ</th>
+<th>الوقت</th>
+<th>توقف إذا…</th>
+<th>المرجع</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>☐</td>
+<td>1. تثبيت main المعتمد وCI كامل أخضر؛ فحص نسخ Edge والإعدادات والوجهات من المالك</td>
+<td>Claude / المالك</td>
+<td>20 د</td>
+<td>SHA أو بوابة غير مثبتة</td>
+<td>خطة القطع §1 و§6</td>
+</tr>
+<tr>
+<td>☐</td>
+<td>2. Backup ثم Upload وVerifyRemote وRestoreRemote، نجاح خلال 24 ساعة؛ Status وWatchdog سليم وحديث</td>
+<td>المالك</td>
+<td>45–90 د</td>
+<td>نسخة أو استرجاع فاشل؛ لا يكفي وجود ملف</td>
+<td>خطة القطع §1، دليل النسخ والاسترجاع</td>
+</tr>
+<tr>
+<td>☐</td>
+<td>3. إكمال قوالب المنتجات والأسعار والتكلفة والمخزون والموردين والعملاء والشيكات والدرج؛ توقيع صافي الأرصدة بعد الشيكات</td>
+<td>صاحب المحل / المالك</td>
+<td>60–180 د</td>
+<td>كمية/تكلفة/ذمة مجهولة أو شيك مكرر</td>
+<td>خطة القطع §3؛ templates/README.md</td>
+</tr>
+<tr>
+<td>☐</td>
+<td>4. تجربة نهائية: الهاتف والكمبيوتر والطابعة والباركود وطرق البيع والوصل وتحديث التطبيق المثبّت</td>
+<td>صاحب المحل / Claude</td>
+<td>45 د</td>
+<td>فشل يومي أو نسخة قديمة على الهاتف</td>
+<td>خطة القطع §1.5؛ TRIAL_DAY_CHECKLIST_AR.md</td>
+</tr>
+<tr>
+<td>☐</td>
+<td>5. تجهيز Telegram صاحب المحل ووجهته واعتماداته بأمان، واشتراك Push على هاتفه الإنتاجي؛ لا تفعيل للشغل بعد</td>
+<td>المالك / Claude</td>
+<td>20 د</td>
+<td>وجهة مطوّر للشغل أو اشتراك غير مقصود</td>
+<td>خطة القطع §5؛ FRANKFURT_OWNER_BUSINESS_ALERTS_AR.md</td>
+</tr>
+<tr>
+<td>☐</td>
+<td>6. تحديد ساعة منع الكتابة، المراجع المحروسة وخطة الدفتر الورقي؛ موافقة المالك على الانتقال</td>
+<td>المالك</td>
+<td>10 د</td>
+<td>منفذ أو مرجع أو خطة توقف غير جاهزة</td>
+<td>خطة القطع §1.6 و§9</td>
+</tr>
+</tbody></table>
+<h2>يوم القطع — الواجهات مغلقة حتى القبول</h2>
+<table>
+<thead>
+<tr>
+<th>✓</th>
+<th>الترتيب والعمل</th>
+<th>المنفذ</th>
+<th>الوقت</th>
+<th>توقف إذا…</th>
+<th>المرجع</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>☐</td>
+<td>1. حفظ إعدادات المتجر من حساب المالك المختار، ومراجعة الهوية والقيم المراد إبقاؤها</td>
+<td>المالك</td>
+<td>5 د</td>
+<td>الإعداد مرتبط بحساب تجربة سيُحذف</td>
+<td>RESET214_OWNER_AR.md؛ خطة القطع §2.4</td>
+</tr>
+<tr>
+<td>☐</td>
+<td>2. إيقاف استقبال طلبات الموقع من «إعدادات المتجر والتوصيل»</td>
+<td>المالك</td>
+<td>3 د</td>
+<td>طلب جديد ما زال يمر</td>
+<td>خطة القطع §2.1</td>
+</tr>
+<tr>
+<td>☐</td>
+<td>3. وقف كل الكتابات: POS، الأجهزة والتبويبات والمستهلك والمهام خلال النافذة؛ حفظ حالتها</td>
+<td>Claude / المالك</td>
+<td>10 د</td>
+<td>جهاز أو مهمة أو webhook يكتب</td>
+<td>خطة القطع §2.1 و§6</td>
+</tr>
+<tr>
+<td>☐</td>
+<td>4. نسخة فاصلة بعد منع الكتابة مباشرة، مع الرفع والتحقق والاسترجاع؛ حفظ الأرشيف وبصمته ومفتاح الطوارئ</td>
+<td>المالك</td>
+<td>45–90 د</td>
+<td>فشل حماية أو كتابة بعد توقيت النسخة</td>
+<td>خطة القطع §2.2 وسلسلة B</td>
+</tr>
+<tr>
+<td>☐</td>
+<td>5. إغلاق PRELAUNCH_TRIAL_OPEN=false في المصدر عبر تعديل معتمد وCI؛ التحقق أن بناء التجربة يُرفض</td>
+<td>Claude / المالك</td>
+<td>20–60 د</td>
+<td>السياق المؤقت ما زال يبني</td>
+<td>خطة القطع §4؛ PRELAUNCH_TRIAL_AR.md</td>
+</tr>
+<tr>
+<td>☐</td>
+<td>6. حظر المعاينات وhash URLs بـAccess، وإزالة النشرات القديمة أو صفحة الصيانة حسب الإجراء؛ إغلاق جلسات وتطبيقات معاينة الهاتف</td>
+<td>Claude / المالك</td>
+<td>20 د</td>
+<td>أي معاينة تصل لفرانكفورت؛ المفتاح وحده لا يحظر المنشور</td>
+<td>خطة القطع §4؛ ENVIRONMENT_SEPARATION_AR.md</td>
+</tr>
+<tr>
+<td>☐</td>
+<td>7. RESET214: dry-run ومراجعة الأعداد والمالك والمحفوظ، ثم apply فقط بعد الموافقة</td>
+<td>المالك</td>
+<td>30–60 د</td>
+<td>تاريخ/ACL مختلف؛ أو فشل. تبقى مغلقة ويُراجع resume المحروس</td>
+<td>RESET214_OWNER_AR.md؛ خطة القطع §2</td>
+</tr>
+<tr>
+<td>☐</td>
+<td>8. «افحص» ومراجعة تقرير التصفير: 176 ملفاً، صفر فرق، عدادات نظيفة وحساب المالك وMFA والقيم محفوظة</td>
+<td>المالك / Claude</td>
+<td>10 د</td>
+<td>فرق أو مستخدم/بيانات تجربة متبقية</td>
+<td>خطة القطع §2.5–2.6</td>
+</tr>
+<tr>
+<td>☐</td>
+<td>9. إدخال الحقيقي: المواقع والإعدادات ← المنتجات والنكهات والطرق ← المخزون ← الموردون ← العملاء ← شيكات البداية</td>
+<td>المالك / صاحب المحل</td>
+<td>60–180 د</td>
+<td>أي ازدواج أو كمية/تكلفة/اتجاه غير صحيح</td>
+<td>خطة القطع §3.1–3.6؛ القوالب</td>
+</tr>
+<tr>
+<td>☐</td>
+<td>10. «افحص» ومطابقة الأرصدة والمخزون؛ ثم «إنهاء بداية التشغيل». عدّ الدرج وفتح أول وردية بنفسه</td>
+<td>المالك / صاحب المحل</td>
+<td>25 د</td>
+<td>قرش أو حبة فرق؛ لا إنهاء قبل القبول</td>
+<td>خطة القطع §3.7–3.8</td>
+</tr>
+<tr>
+<td>☐</td>
+<td>11. نسخة «بداية حقيقية قبل أول بيع» بسلسلة B، منفصلة عن «قبل التصفير»</td>
+<td>المالك</td>
+<td>45–90 د</td>
+<td>فشل النسخ أو التحقق</td>
+<td>خطة القطع نهاية §3</td>
+</tr>
+</tbody></table>
+</article>
+<article class="print-page"><h2>إكمال يوم القطع — لا فتح قبل البوابات</h2>
+<p>«افحص» طلب المراجعة المعتمدة في خطة القطع من Claude؛ ليس اسم زر في الواجهة. «مراقبة صحة النظام» و«تحديث» يعرضان آخر نتيجة، ولا يكفيان لإثبات تشغيل فحص جديد.</p>
+<table>
+<thead>
+<tr>
+<th>✓</th>
+<th>الترتيب والعمل</th>
+<th>المنفذ</th>
+<th>الوقت</th>
+<th>توقف إذا…</th>
+<th>المرجع</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>☐</td>
+<td>12. Telegram: اختبار رسالة واحدة للمالك؛ بعد التصفير ضبط الساعة 00:00 Asia/Amman إلى أن يؤكدها. مراجعة عدم وجود أحداث تجربة بالمستهلَك</td>
+<td>المالك / Claude</td>
+<td>15 د</td>
+<td>لم تصل أو وصلت لغيره؛ الساعة لم تُضبط</td>
+<td>خطة القطع §5–6؛ FRANKFURT_OWNER_BUSINESS_ALERTS_AR.md</td>
+</tr>
+<tr>
+<td>☐</td>
+<td>13. Push: مطابقة إعداداته واشتراك هاتف صاحب المحل فقط؛ فك تريغر الطلب بعد تحقق الوجهة والسر دون كشفه</td>
+<td>Claude / المالك</td>
+<td>15 د</td>
+<td>اشتراك إضافي أو فشل الاختبار</td>
+<td>خطة القطع §5–6</td>
+</tr>
+<tr>
+<td>☐</td>
+<td>14. تفعيل الفحص الداخلي وcron الشغل وانتهاء الطلبات، وworkflow المستقل وفق انتقال الحجز المحروس؛ آخر تشغيل سليم</td>
+<td>Claude / المالك</td>
+<td>20 د</td>
+<td>guard/ACL أو حالة مهمة غير متوقعة؛ لا تجاوز للمقارنة</td>
+<td>خطة القطع §6، المعاملتان A وB وحدود مرجع الحجز</td>
+</tr>
+<tr>
+<td>☐</td>
+<td>15. واتساب الرسمي +962785857700 في الإعداد المحفوظ والبناء؛ مراجعة الهوية والوصل وSEO وخلو الروابط من رقم المطوّر</td>
+<td>المالك / Claude</td>
+<td>15 د</td>
+<td>رابط عام برقم التجربة أو هوية قديمة</td>
+<td>خطة القطع §7</td>
+</tr>
+<tr>
+<td>☐</td>
+<td>16. كلمة المالك «انشر» على SHA والهدف المحددين؛ نشر production فقط والتحقق من dist، ثم تحديث التطبيق المثبّت</td>
+<td>المالك يأذن / Claude ينفذ</td>
+<td>20 د</td>
+<td>لا إذن أو SHA/سياق/هدف خاطئ أو تطبيق قديم</td>
+<td>خطة القطع §8؛ بوابات النشر الحالية</td>
+</tr>
+<tr>
+<td>☐</td>
+<td>17. فتح الطلبات في الوقت المتفق عليه، وأول بيع حقيقي ووصل؛ اختبار طلب متجر واحد وPush لصاحبه وتتبعه دون ازدواج</td>
+<td>صاحب المحل / Claude</td>
+<td>15 د</td>
+<td>مبلغ/مخزون/قبض/وجهة خطأ</td>
+<td>خطة القطع §8</td>
+</tr>
+<tr>
+<td>☐</td>
+<td>18. مطابقة الكاش وCliQ والمخزون والذمم والربح؛ «افحص» وStatus وWatchdog وإعادة المهام الموقوفة لحالتها المعتمدة</td>
+<td>صاحب المحل / المالك / Claude</td>
+<td>20 د</td>
+<td>أي فرق أو scan/نسخ/تنبيه غير سليم</td>
+<td>خطة القطع §8 و§11</td>
+</tr>
+</tbody></table>
+<h2>التوقف والرجوع</h2>
+<p>☐ عند فشل التصفير: لا فتح ولا apply جديد ولا حذف علامة. راجع السبب ثم resume بنفس المالك والمرجع واللقطة المحمية. إذا ظهرت كتابات حقيقية بعد بدء القطع، توقف عن الحذف وصعّد لمسار الأرشيف المعتمد. المرجع: RESET214_OWNER_AR.md وخطة القطع §2 و§9.</p>
+<p>☐ عند خطأ مالي/مخزني بعد الفتح: أوقف المسار المتأثر، دوّن الوقت والأرقام في الدفتر واحفظ الأدلة والنسخة. الاستمرارية أول أسبوعين بالدفتر والنسخ المثبت؛ الاسترجاع المحلي ليس استرجاعاً إلى مشروع حي. أداة الاسترجاع الحي بعد T+7 وليست بوابة إطلاق. سنغافورة لا تُمس حتى مرور أسبوع كامل. المرجع: خطة القطع §9.</p>
+<h2>بعد الفتح</h2>
+<table>
+<thead>
+<tr>
+<th>✓</th>
+<th>الموعد والعمل</th>
+<th>المنفذ</th>
+<th>الوقت</th>
+<th>توقف إذا…</th>
+<th>المرجع</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>☐</td>
+<td>T+1 ثم يومياً: دفتر بالتوازي؛ «افحص»، عدّ الدرج و3 أصناف وذمة زبون ومورد والربح؛ حداثة النسخ وR2 والحارس وcron</td>
+<td>صاحب المحل / Claude</td>
+<td>20 د يومياً</td>
+<td>قرش/حبة فرق أو فشل نسخة/حارس</td>
+<td>خطة القطع §11</td>
+</tr>
+<tr>
+<td>☐</td>
+<td>T+7: توقيع المالك، أرشيف سنغافورة أخير، ثم إعادة بنائها من migrations ببيانات وهمية وإيقاف نسخها وحارسها وتنبيهاتها وcron القديم؛ لا حذف أرشيف R2</td>
+<td>المالك يأذن / Claude ينفذ</td>
+<td>2–4 س</td>
+<td>لم يمر أسبوع أو أرشيف غير مثبت</td>
+<td>خطة القطع §10</td>
+</tr>
+<tr>
+<td>☐</td>
+<td>T+7: ربط previews بسنغافورة وحدها، واختبار فصل البيئات؛ إزالة سياق prelaunch-trial في PR مستقل؛ بدء أداة الاسترجاع الحي واختبارها على التجريبية</td>
+<td>Claude / المالك</td>
+<td>1–2 س</td>
+<td>أي أصل فرانكفورت في staging</td>
+<td>خطة القطع §4 و§9–10</td>
+</tr>
+<tr>
+<td>☐</td>
+<td>T+14: توقيع مطابقة الدفتر والاستقرار، ومراجعة النسخ والحارس والأداء والبنود المؤجلة؛ لا إيقاف الدفتر تلقائياً</td>
+<td>المالك / صاحب المحل / Claude</td>
+<td>30 د</td>
+<td>فرق مفتوح أو حماية غير مثبتة</td>
+<td>خطة القطع §11؛ OWNER_DECISIONS</td>
+</tr>
+</tbody></table>
+<p>بعد T+7: كل تغيير في التجريبية أولاً، ثم الإنتاج بموافقة. إيقاف سنغافورة المجاني مقبول؛ لا تعوّض توقفها بالاتصال ببيانات المحل.</p>
+<p>توقيع القبول: ........  وقت الفتح: ........  آخر Backup/RestoreRemote: ........  رقم أول فاتورة: ........</p>
+<p>المراجع الكاملة في docs/operations؛ «خطة القطع» = GO_LIVE_CUTOVER_AR.md. هذه الورقة قائمة تنفيذ ومراجعة وليست أمراً للتشغيل. جميع مربعاتها فارغة عمداً.</p>
+</article></body></html>

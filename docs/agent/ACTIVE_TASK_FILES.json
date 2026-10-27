@@ -3,31 +3,63 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/TELEGRAM_OWNER_FORMAT_LOCAL.json"
+      "path": "docs/agent/project-state.json"
     },
     {
-      "code": " M",
-      "path": "scripts/audit/owner-telegram-format-source-pins.json"
+      "code": "??",
+      "path": "docs/handover/README.md"
     },
     {
-      "code": " M",
-      "path": "scripts/audit/source-before-owner-telegram-format.mjs"
+      "code": "??",
+      "path": "docs/handover/templates/README.md"
     },
     {
-      "code": " M",
-      "path": "scripts/operations/build-acl-reference214.mjs"
+      "code": "??",
+      "path": "docs/handover/templates/أرصدة-الموردين.xlsx"
     },
     {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-reference214.mjs"
+      "code": "??",
+      "path": "docs/handover/templates/البضاعة-الموجودة.xlsx"
     },
     {
-      "code": " M",
-      "path": "scripts/testing/run-handover214-gates.mjs"
+      "code": "??",
+      "path": "docs/handover/templates/الدرج-الافتتاحي.xlsx"
     },
     {
-      "code": " M",
-      "path": "tests/owner-telegram-format.test.ts"
+      "code": "??",
+      "path": "docs/handover/templates/المنتجات.xlsx"
+    },
+    {
+      "code": "??",
+      "path": "docs/handover/templates/ديون-العملاء.xlsx"
+    },
+    {
+      "code": "??",
+      "path": "docs/handover/templates/شيكات-البداية.xlsx"
+    },
+    {
+      "code": "??",
+      "path": "docs/handover/أدلة-المصادر.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/handover/دليل-صاحب-المحل.html"
+    },
+    {
+      "code": "??",
+      "path": "docs/handover/دليل-صاحب-المحل.md"
+    },
+    {
+      "code": "??",
+      "path": "docs/handover/ورقة-يوم-التشغيل.html"
+    },
+    {
+      "code": "??",
+      "path": "docs/handover/ورقة-يوم-التشغيل.md"
+    },
+    {
+      "code": "??",
+      "path": "tests/handover-documentation.test.ts"
     }
   ]
 }

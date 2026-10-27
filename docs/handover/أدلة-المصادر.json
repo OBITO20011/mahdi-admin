@@ -1,0 +1,944 @@
+{
+  "schemaVersion": 1,
+  "baseline": "ad4bd1f8230758a707285ceb8f0042015d16b018",
+  "method": "Exact current UI strings and existing import parsers from source;no real account/database/screenshot access",
+  "sources": [
+    {
+      "file": "src/features/auth/LoginView.tsx",
+      "sha256": "f74b3ad29e8ed0091c2d8a75f3c3cf100547db9834e099a61863e59ebaee10bf",
+      "labels": [
+        {
+          "label": "تسجيل الدخول",
+          "line": 54
+        },
+        {
+          "label": "أكد دخولك من تطبيق المصادقة",
+          "line": 153
+        },
+        {
+          "label": "رمز التحقق المكوّن من 6 أرقام",
+          "line": 161
+        },
+        {
+          "label": "تأكيد الرمز والدخول",
+          "line": 190
+        }
+      ]
+    },
+    {
+      "file": "src/features/more/ProfileModal.tsx",
+      "sha256": "007a5bb78dee403bc97a974206a415240906026389ff190dae24d2938a1a9878",
+      "labels": [
+        {
+          "label": "تفعيل تطبيق المصادقة",
+          "line": 951
+        },
+        {
+          "label": "تأكيد وتفعيل",
+          "line": 927
+        },
+        {
+          "label": "تغيير كلمة المرور",
+          "line": 994
+        },
+        {
+          "label": "تحديث كلمة المرور",
+          "line": 391
+        }
+      ]
+    },
+    {
+      "file": "src/features/shifts/ShiftsView.tsx",
+      "sha256": "6913f89ab01a5340691132d02511bb16e615ec5f90f495399101007cb2c1a4e9",
+      "labels": [
+        {
+          "label": "الصندوق والورديات",
+          "line": 353
+        },
+        {
+          "label": "العهدة الافتتاحية (د.أ)",
+          "line": 521
+        },
+        {
+          "label": "فتح وردية جديدة",
+          "line": 525
+        },
+        {
+          "label": "عدّ الدرج وإغلاق الوردية",
+          "line": 518
+        },
+        {
+          "label": "الكاش الفعلي بعد عدّ الصندوق",
+          "line": 508
+        },
+        {
+          "label": "إغلاق الوردية وطباعة التقرير",
+          "line": 500
+        }
+      ]
+    },
+    {
+      "file": "src/features/pos/PosView.tsx",
+      "sha256": "d4d9a5209ccf8bee0e8af1df2264374f14721877706ce0ed99978594b0b4d9e0",
+      "labels": [
+        {
+          "label": "نقطة البيع",
+          "line": 211
+        },
+        {
+          "label": "طريقة الدفع",
+          "line": 635
+        },
+        {
+          "label": "كاش",
+          "line": 166
+        },
+        {
+          "label": "CliQ",
+          "line": 636
+        },
+        {
+          "label": "دين",
+          "line": 463
+        },
+        {
+          "label": "اختيار العميل",
+          "line": 796
+        },
+        {
+          "label": "إتمام البيع",
+          "line": 445
+        },
+        {
+          "label": "مسح الباركود",
+          "line": 731
+        }
+      ]
+    },
+    {
+      "file": "src/features/pos/PosProductCard.tsx",
+      "sha256": "fd431176edd36abc5ca012b6f11882fcd0889ddb955dd4becdee49bc3d4468cd",
+      "labels": []
+    },
+    {
+      "file": "src/features/products/ProductFormModal.tsx",
+      "sha256": "64df669faf6f612ff34277871c4ed6cb0980117732d4b04d80ab59ae7b2f13fc",
+      "labels": [
+        {
+          "label": "طريقة البيع",
+          "line": 1120
+        },
+        {
+          "label": "حبة مفردة",
+          "line": 660
+        },
+        {
+          "label": "سعر بيع الطرد",
+          "line": 1124
+        },
+        {
+          "label": "حفظ التعديلات",
+          "line": 1574
+        },
+        {
+          "label": "إنشاء المنتج",
+          "line": 864
+        },
+        {
+          "label": "رمز الصنف",
+          "line": 667
+        },
+        {
+          "label": "توليد",
+          "line": 398
+        },
+        {
+          "label": "الكاميرا",
+          "line": 937
+        }
+      ]
+    },
+    {
+      "file": "src/features/products/ProductFormParcelCapability.tsx",
+      "sha256": "66fa9d03f7f19fc418cecf38d1a6bea6b7c5a0da9648596a65ebbba4ac04f865",
+      "labels": [
+        {
+          "label": "مسموح طرد مشكّل بالنكهات",
+          "line": 31
+        },
+        {
+          "label": "فتح إعداد الطرد المشكّل لهذا المنتج",
+          "line": 33
+        }
+      ]
+    },
+    {
+      "file": "src/features/salesHistory/SalesHistoryView.tsx",
+      "sha256": "7207e7f62977463f0400d2fa5a67606eef777597f721c4531655f723450d4229",
+      "labels": [
+        {
+          "label": "سجل المبيعات",
+          "line": 28
+        }
+      ]
+    },
+    {
+      "file": "src/features/orders/OrderDetailModal.tsx",
+      "sha256": "7ebb16551daacddd6c654e291880f2ac97f66d5675518d3996330644925e64ab",
+      "labels": [
+        {
+          "label": "طباعة الوصل",
+          "line": 427
+        },
+        {
+          "label": "مشاركة الوصل",
+          "line": 160
+        },
+        {
+          "label": "نسخ الرابط",
+          "line": 342
+        },
+        {
+          "label": "طباعة ورقة التجهيز",
+          "line": 434
+        },
+        {
+          "label": "قبول الطلب وبدء التجهيز",
+          "line": 468
+        },
+        {
+          "label": "تسليم الطلب وتسجيل الحساب",
+          "line": 512
+        },
+        {
+          "label": "اعتماد التسليم والحساب",
+          "line": 855
+        },
+        {
+          "label": "إلغاء الطلب مع ذكر السبب",
+          "line": 947
+        },
+        {
+          "label": "تأكيد الإلغاء",
+          "line": 971
+        }
+      ]
+    },
+    {
+      "file": "src/features/directReceiving/DirectReceivingView.tsx",
+      "sha256": "be388ae692d48a7d568d974e91cb6de1497225d4308d33cc96507a923a14e783",
+      "labels": [
+        {
+          "label": "استلام البضائع من الموردين",
+          "line": 4
+        },
+        {
+          "label": "استلام بضاعة جديد",
+          "line": 324
+        }
+      ]
+    },
+    {
+      "file": "src/features/directReceiving/CreateDirectReceiptModal.tsx",
+      "sha256": "8fc57e0d3d5b0452f27eaa90556d59a638aaf7fbdc2a7c5b97931d0ffb33b8fd",
+      "labels": [
+        {
+          "label": "المورد",
+          "line": 419
+        },
+        {
+          "label": "المستودع",
+          "line": 423
+        },
+        {
+          "label": "رقم فاتورة/إذن المورد",
+          "line": 698
+        },
+        {
+          "label": "طريقة الدفع للمورد",
+          "line": 1054
+        },
+        {
+          "label": "المبلغ المدفوع الآن",
+          "line": 1083
+        },
+        {
+          "label": "حفظ واستلام البضاعة",
+          "line": 1186
+        }
+      ]
+    },
+    {
+      "file": "src/features/directReceiving/RecordSupplierPaymentModal.tsx",
+      "sha256": "548a18abdf1f2762b6bb3200673e5bda9abc30f194ed1db3f6051b026664398c",
+      "labels": [
+        {
+          "label": "المستحق المتبقي على السند",
+          "line": 93
+        },
+        {
+          "label": "طريقة الدفع",
+          "line": 117
+        },
+        {
+          "label": "تأكيد تسجيل الدفعة",
+          "line": 187
+        }
+      ]
+    },
+    {
+      "file": "src/features/orders/AdminAftercarePanel.tsx",
+      "sha256": "54d0a338ec984b67efcded4527a09b0375199def322b0deb1da0650dafb62dcd",
+      "labels": [
+        {
+          "label": "الأصناف والقطع الحالية المتاحة",
+          "line": 361
+        },
+        {
+          "label": "إرجاع الطرد كاملاً (كل حباته)",
+          "line": 446
+        },
+        {
+          "label": "مصير الحبة المعيبة",
+          "line": 422
+        },
+        {
+          "label": "عيب من عندي ← تالف نهائي",
+          "line": 423
+        },
+        {
+          "label": "عيب من المورد ← للمورد بانتظار البديل",
+          "line": 423
+        },
+        {
+          "label": "اعتماد الاستبدال",
+          "line": 174
+        },
+        {
+          "label": "البديل الذي أعطيته",
+          "line": 388
+        },
+        {
+          "label": "لا يُرد مال عن حبة من طرد",
+          "line": 420
+        }
+      ]
+    },
+    {
+      "file": "src/features/orders/AftercareSupplierSafety.tsx",
+      "sha256": "0b4009e97541720fb881cbf2cd34b584803bcfdbd559be723f9eed17f0817ac2",
+      "labels": []
+    },
+    {
+      "file": "src/features/inventory/SupplierReplacementPanel.tsx",
+      "sha256": "db35baaab24068f647c2f43080f0c4370d13d794f7cc061abed15049c4de2b94",
+      "labels": [
+        {
+          "label": "بانتظار البديل",
+          "line": 137
+        },
+        {
+          "label": "بديل فوري",
+          "line": 137
+        },
+        {
+          "label": "المعلّق",
+          "line": 90
+        },
+        {
+          "label": "معاينة العملية",
+          "line": 153
+        },
+        {
+          "label": "تأكيد وحفظ العملية",
+          "line": 108
+        },
+        {
+          "label": "استلام المتبقي",
+          "line": 160
+        },
+        {
+          "label": "معاينة استلام جزئي",
+          "line": 160
+        },
+        {
+          "label": "معاينة التفاصيل",
+          "line": 117
+        },
+        {
+          "label": "تأكيد الاستلام",
+          "line": 108
+        },
+        {
+          "label": "معاينة رفض المورد",
+          "line": 163
+        },
+        {
+          "label": "تأكيد رفض المورد",
+          "line": 108
+        },
+        {
+          "label": "وصل البديل من المورد",
+          "line": 102
+        },
+        {
+          "label": "استعادة نفس المحاولة",
+          "line": 133
+        }
+      ]
+    },
+    {
+      "file": "src/features/crm/CustomerDetailView.tsx",
+      "sha256": "ea21d8dcaa23d424b05ab1807ded05df8e95b53eabcc6f5ad21c78a6c393cdb8",
+      "labels": [
+        {
+          "label": "تحصيل من الزبون",
+          "line": 253
+        }
+      ]
+    },
+    {
+      "file": "src/features/crm/CustomerCollectionModal.tsx",
+      "sha256": "ffa2dac897149f9cb8bd3b187fa869efed9aa1d531423916130fb8f300945633",
+      "labels": [
+        {
+          "label": "المبلغ المقبوض (د.أ)",
+          "line": 98
+        },
+        {
+          "label": "معاينة التوزيع",
+          "line": 123
+        },
+        {
+          "label": "حفظ التحصيل",
+          "line": 143
+        },
+        {
+          "label": "استلام شيك مؤجل",
+          "line": 94
+        },
+        {
+          "label": "رصيد سابق قبل النظام",
+          "line": 130
+        }
+      ]
+    },
+    {
+      "file": "src/features/expenses/ExpenseFormModal.tsx",
+      "sha256": "186237990e30bba01a8454b43a6fc4a3974713beef773e28b855f124daa66a56",
+      "labels": [
+        {
+          "label": "فئة المصروف",
+          "line": 97
+        },
+        {
+          "label": "البيان / الوصف",
+          "line": 168
+        },
+        {
+          "label": "اعتماد وتسجيل المصروف",
+          "line": 186
+        }
+      ]
+    },
+    {
+      "file": "src/features/cheques/ChequeRegistrationForm.tsx",
+      "sha256": "1e65c20918052e9f042595ced67997dd089aa4c5f1d678bc19a2db2cf93cc75d",
+      "labels": [
+        {
+          "label": "البنك",
+          "line": 51
+        },
+        {
+          "label": "رقم الشيك",
+          "line": 51
+        },
+        {
+          "label": "تاريخ الاستحقاق",
+          "line": 52
+        },
+        {
+          "label": "مبلغ الشيك (د.أ)",
+          "line": 52
+        },
+        {
+          "label": "معاينة قبل التسجيل",
+          "line": 66
+        },
+        {
+          "label": "تأكيد تسجيل الشيك",
+          "line": 66
+        }
+      ]
+    },
+    {
+      "file": "src/features/cheques/ChequesView.tsx",
+      "sha256": "4059055146c3e283fb3bdd5f9df42d890a4a9d6bb946e419b09818efd7a7dbb6",
+      "labels": [
+        {
+          "label": "الشيكات",
+          "line": 82
+        },
+        {
+          "label": "خلال 7 أيام",
+          "line": 14
+        },
+        {
+          "label": "متأخرة",
+          "line": 15
+        },
+        {
+          "label": "صُرف",
+          "line": 16
+        },
+        {
+          "label": "شيك راجع",
+          "line": 135
+        },
+        {
+          "label": "تجيير لمورد",
+          "line": 136
+        },
+        {
+          "label": "تأكيد العملية",
+          "line": 175
+        }
+      ]
+    },
+    {
+      "file": "src/features/reports/ReportsCenterView.tsx",
+      "sha256": "e2bce6f8683f55e7994fff7004b28a38121d87d93f431947538bcb4d47b1e72e",
+      "labels": [
+        {
+          "label": "صافي المبيعات",
+          "line": 329
+        },
+        {
+          "label": "المقبوض — كاش",
+          "line": 330
+        },
+        {
+          "label": "المقبوض — CliQ",
+          "line": 331
+        },
+        {
+          "label": "المصاريف",
+          "line": 334
+        },
+        {
+          "label": "الربح",
+          "line": 335
+        }
+      ]
+    },
+    {
+      "file": "src/features/more/adminNavigation.config.ts",
+      "sha256": "f69efb0fc768c729c971c5ee82db65475fdbd628f972f39152322d1de851d991",
+      "labels": [
+        {
+          "label": "العملاء والذمم",
+          "line": 115
+        },
+        {
+          "label": "المصروفات التشغيلية",
+          "line": 164
+        },
+        {
+          "label": "التقارير والحسابات",
+          "line": 172
+        },
+        {
+          "label": "بداية التشغيل",
+          "line": 204
+        },
+        {
+          "label": "مراقبة صحة النظام",
+          "line": 213
+        },
+        {
+          "label": "إعدادات المتجر والتوصيل",
+          "line": 222
+        },
+        {
+          "label": "الملف الشخصي",
+          "line": 238
+        },
+        {
+          "label": "مرتجع زبون",
+          "line": 291
+        },
+        {
+          "label": "بضاعة تالفة",
+          "line": 295
+        },
+        {
+          "label": "استبدال المورد",
+          "line": 296
+        }
+      ]
+    },
+    {
+      "file": "src/features/more/DamageHistoryPanel.tsx",
+      "sha256": "35e7246e2f51ffacd93895f8e4d032a5976ace12b827a040cd4b113059a79317",
+      "labels": []
+    },
+    {
+      "file": "src/features/more/StorefrontSettingsModal.tsx",
+      "sha256": "2acc4db74469a06760908d26b9306cbba725a701d90cee10ce1ce8f4bdf46025",
+      "labels": [
+        {
+          "label": "استقبال طلبات الموقع",
+          "line": 169
+        },
+        {
+          "label": "حفظ وتطبيق على الموقع",
+          "line": 221
+        }
+      ]
+    },
+    {
+      "file": "src/features/goLive/goLiveImport.ts",
+      "sha256": "0b99b2cc61c724e6eb6da28d38931ed717aaf76dcb45470fe7b37f0f1145a11e",
+      "labels": [
+        {
+          "label": "سطر لكل منتج عادي. النكهات تُضاف من شاشة المنتجات لأنها مرتبطة بمنتج أساسي.",
+          "line": 64
+        },
+        {
+          "label": "الدين الافتتاحي لا يُحتسب مبيعات ولا أرباحاً ولا يدخل الوردية.",
+          "line": 77
+        }
+      ]
+    },
+    {
+      "file": "src/features/goLive/openingChequesImport.ts",
+      "sha256": "23b30c943f2ab9099041a975f4c3f804f61b8f3ab989db907a29ff9146f18fc6",
+      "labels": []
+    },
+    {
+      "file": "src/features/goLive/OpeningChequesCard.tsx",
+      "sha256": "6e6a2a8c2eb7c8a279d27b22a82004e25968917a77979f67a9dcf066499dccbe",
+      "labels": [
+        {
+          "label": "أدخل الأرصدة صافية بعد الشيكات.",
+          "line": 53
+        },
+        {
+          "label": "الشيك هنا للمتابعة فقط، ولا يسدد رصيداً عند إدخاله.",
+          "line": 53
+        }
+      ]
+    },
+    {
+      "file": "src/features/goLive/GoLiveSetupView.tsx",
+      "sha256": "0e08425fddc64daaf89a535da073b648a399455291c55cc4dfb78dd0ba83ae4b",
+      "labels": [
+        {
+          "label": "إنهاء بداية التشغيل",
+          "line": 22
+        },
+        {
+          "label": "تأكيد الإنهاء النهائي",
+          "line": 641
+        },
+        {
+          "label": "تنزيل القالب",
+          "line": 164
+        },
+        {
+          "label": "اختيار ملف Excel",
+          "line": 166
+        }
+      ]
+    },
+    {
+      "file": "src/lib/xlsx.ts",
+      "sha256": "056a699ee071879c2b93e419cb0af623f871897a916e22e7f9b9e7ffced83ff1",
+      "labels": []
+    },
+    {
+      "file": "automation/n8n/workflows/frankfurt-owner-business-alerts.json",
+      "sha256": "ea2b484082882f8246f2c47fca9f715b89950ff35ace7fd51c914ec6d1180c24",
+      "labels": [
+        {
+          "label": "business_alert_recovery",
+          "line": 380
+        },
+        {
+          "label": "messageKeyboard",
+          "line": 414
+        },
+        {
+          "label": "businessAlertsEnabled",
+          "line": 112
+        }
+      ]
+    },
+    {
+      "file": "docs/operations/GO_LIVE_CUTOVER_AR.md",
+      "sha256": "0108683dd62991db78d493bd3a721002174da87a732dee7e811c049fdad5df73",
+      "labels": []
+    },
+    {
+      "file": "docs/operations/RESET214_OWNER_AR.md",
+      "sha256": "8ba4c5ea6a7761b2f28c64b3e850c4193169e9f00267addc059ed4fd8fef0a99",
+      "labels": []
+    },
+    {
+      "file": "docs/operations/FRANKFURT_OWNER_BUSINESS_ALERTS_AR.md",
+      "sha256": "ce973d31da4ada16f467af0e5b23e05c460cabce268eb654a9f72a6739571059",
+      "labels": []
+    }
+  ],
+  "workbooks": [
+    {
+      "kind": "products",
+      "file": "المنتجات.xlsx",
+      "headers": [
+        "رمز الصنف SKU",
+        "الباركود",
+        "اسم المنتج",
+        "القسم",
+        "اسم الباكيت (باكيت/شوال/قنينة...)",
+        "طرد الشراء",
+        "عدد الباكيتات في طرد الشراء",
+        "طرد البيع",
+        "عدد الباكيتات في طرد البيع",
+        "سعر بيع الطرد (د.أ)",
+        "سعر شراء الطرد (د.أ)",
+        "تكلفة الباكيت (د.أ)",
+        "الحد الأدنى للمخزون (باكيت)",
+        "بيتباع بالطرد بس"
+      ],
+      "exampleRow": 2,
+      "firstSheet": "البيانات",
+      "sheets": [
+        "البيانات",
+        "تعليمات ومراجعة",
+        "بعد الاستيراد"
+      ],
+      "importSupported": true,
+      "moneyFormat": "#,##0.000;[Red]-#,##0.000;0.000",
+      "totalRow": 14,
+      "sha256": "34225e78b63fd59ab8e24717e471915d25b0d60c7b8a7abee8260e3a815de8b1"
+    },
+    {
+      "kind": "stock",
+      "file": "البضاعة-الموجودة.xlsx",
+      "headers": [
+        "الباركود أو SKU",
+        "اسم الصنف (للمراجعة فقط)",
+        "عدد الطرود",
+        "الباكيتات الإضافية"
+      ],
+      "exampleRow": 2,
+      "firstSheet": "البيانات",
+      "sheets": [
+        "البيانات",
+        "تعليمات ومراجعة"
+      ],
+      "importSupported": true,
+      "moneyFormat": "#,##0.000;[Red]-#,##0.000;0.000",
+      "totalRow": 13,
+      "sha256": "afffc08a1abe6f8ed3f1cb20a68a246700bdd82ddae497995b5c8547a9d40f41"
+    },
+    {
+      "kind": "suppliers",
+      "file": "أرصدة-الموردين.xlsx",
+      "headers": [
+        "اسم المورد",
+        "هاتف المورد",
+        "الاتجاه (له/عليه)",
+        "المبلغ (د.أ)",
+        "تاريخ الرصيد الأصلي",
+        "ملاحظة"
+      ],
+      "exampleRow": 2,
+      "firstSheet": "البيانات",
+      "sheets": [
+        "البيانات",
+        "تعليمات ومراجعة"
+      ],
+      "importSupported": true,
+      "moneyFormat": "#,##0.000;[Red]-#,##0.000;0.000",
+      "totalRow": 12,
+      "sha256": "ffff830568d62fe637d8425a81701ac102712836c9960a42a75d364e9493d03d"
+    },
+    {
+      "kind": "customers",
+      "file": "ديون-العملاء.xlsx",
+      "headers": [
+        "هاتف العميل",
+        "اسم العميل",
+        "مبلغ الدين (د.أ)",
+        "تاريخ الدين الأصلي",
+        "ملاحظة"
+      ],
+      "exampleRow": 2,
+      "firstSheet": "البيانات",
+      "sheets": [
+        "البيانات",
+        "تعليمات ومراجعة"
+      ],
+      "importSupported": true,
+      "moneyFormat": "#,##0.000;[Red]-#,##0.000;0.000",
+      "totalRow": 13,
+      "sha256": "387d7824c6e92676bad24c208fe644c9b4685359090a725d56b9f27e06d99162"
+    },
+    {
+      "kind": "cheques",
+      "file": "شيكات-البداية.xlsx",
+      "headers": [
+        "الاتجاه (وارد/صادر)",
+        "الحالة (قيد الانتظار/مجيّر)",
+        "البنك",
+        "رقم الشيك",
+        "تاريخ الاستحقاق",
+        "المبلغ (د.أ)",
+        "اسم العميل",
+        "هاتف العميل",
+        "اسم المورد للصادر",
+        "المورد المجيّر له",
+        "تاريخ الشيك (اختياري)",
+        "تاريخ الدين الأصلي (اختياري)",
+        "ملاحظة"
+      ],
+      "exampleRow": 2,
+      "firstSheet": "البيانات",
+      "sheets": [
+        "البيانات",
+        "تعليمات ومراجعة"
+      ],
+      "importSupported": true,
+      "moneyFormat": "#,##0.000;[Red]-#,##0.000;0.000",
+      "totalRow": 11,
+      "sha256": "e16f89e117660c0b9ccd845d5b86a529d98b07f8976627b33c568a3d92b35307"
+    },
+    {
+      "kind": "drawer",
+      "file": "الدرج-الافتتاحي.xlsx",
+      "headers": [
+        "العهدة الافتتاحية (د.أ)"
+      ],
+      "exampleRow": 2,
+      "firstSheet": "البيانات",
+      "sheets": [
+        "البيانات",
+        "تعليمات ومراجعة"
+      ],
+      "importSupported": false,
+      "moneyFormat": "#,##0.000;[Red]-#,##0.000;0.000",
+      "totalRow": 10,
+      "sha256": "6f48940f35e148fba44d4022e3080517a9fd863204e362441315ac38aa6f0473"
+    }
+  ],
+  "print": [
+    {
+      "name": "دليل-صاحب-المحل",
+      "pages": 10,
+      "direction": "rtl",
+      "externalResources": 0,
+      "overflow": false,
+      "articles": [
+        8513
+      ],
+      "text": 18580,
+      "forbiddenNetworkRequests": 0
+    },
+    {
+      "name": "ورقة-يوم-التشغيل",
+      "pages": 2,
+      "direction": "rtl",
+      "externalResources": 0,
+      "overflow": false,
+      "articles": [
+        946,
+        796
+      ],
+      "text": 7112,
+      "forbiddenNetworkRequests": 0
+    }
+  ],
+  "recalculation": {
+    "ok": true,
+    "actualInputChanges": true,
+    "actualArtifactEngine": true,
+    "deliverablesUntouched": true,
+    "results": [
+      {
+        "kind": "products",
+        "changedInput": "J2",
+        "calculatedCell": "B17",
+        "expected": 2,
+        "actual": 2,
+        "errors": "{\"kind\":\"notice\",\"message\":\"Cell search matched 0 entries.\"}",
+        "exported": false
+      },
+      {
+        "kind": "stock",
+        "changedInput": "C2",
+        "calculatedCell": "E17",
+        "expected": 42,
+        "actual": 42,
+        "errors": "{\"kind\":\"notice\",\"message\":\"Cell search matched 0 entries.\"}",
+        "exported": false
+      },
+      {
+        "kind": "suppliers",
+        "changedInput": "D2",
+        "calculatedCell": "B12",
+        "expected": 20.125,
+        "actual": 20.125,
+        "errors": "{\"kind\":\"notice\",\"message\":\"Cell search matched 0 entries.\"}",
+        "exported": false
+      },
+      {
+        "kind": "customers",
+        "changedInput": "C2",
+        "calculatedCell": "B13",
+        "expected": 20.125,
+        "actual": 20.125,
+        "errors": "{\"kind\":\"notice\",\"message\":\"Cell search matched 0 entries.\"}",
+        "exported": false
+      },
+      {
+        "kind": "cheques",
+        "changedInput": "F2",
+        "calculatedCell": "B11",
+        "expected": 20.125,
+        "actual": 20.125,
+        "errors": "{\"kind\":\"notice\",\"message\":\"Cell search matched 0 entries.\"}",
+        "exported": false
+      },
+      {
+        "kind": "drawer",
+        "changedInput": "A2",
+        "calculatedCell": "B10",
+        "expected": 20.125,
+        "actual": 20.125,
+        "errors": "{\"kind\":\"notice\",\"message\":\"Cell search matched 0 entries.\"}",
+        "exported": false
+      }
+    ]
+  },
+  "boundaries": {
+    "onlyDocsAndTests": true,
+    "applicationChanges": 0,
+    "migrations": 0,
+    "hostedConnections": 0,
+    "publish": 0,
+    "realCustomerData": 0
+  },
+  "accounting": [
+    "Old debt is not a sale",
+    "Opening stock uses opening setup,not purchase receipt",
+    "Opening cheque follow-up requires balances net of cheques;record prior decision",
+    "Operating cheques reduce debt at registration;do not apply opening follow-up policy to them"
+  ],
+  "limitations": [
+    "Cash opening file is manual preparation only;no import UI exists",
+    "Product flavor and full sales-method configuration require the product form;first data sheet keeps exact14 import columns",
+    "Workbook renders and formula calculation used ArtifactTool;native Excel app not installed for automation;actual application reader checked separately",
+    "Windows native renderer exited abnormally during teardown after all6 complete exports and final manifest;files independently reopened/validated;no application behavior changed"
+  ]
+}
