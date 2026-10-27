@@ -1,3 +1,7 @@
+#28Oct — T-A sales packet/parcel presentation locally verified;FULL CI next
+
+Owner scope T-A1/2 display only from mainf95;T-A3 detailed damage explicitly deferred toT-B design. T-B refund-method addition recorded only;no T-B implementation or T-C before approval. Admin1506/store200,typesBoth/strictlint,builds/SEO/network/print10+2/Gitleaks0;72browser identities+final4bottle-toast cases both engines;fresh154table/540RPC probes PASS. Raw units/cart/flavor snapshots and sale payloads unchanged;no SQL/RPC/grant/financial changes. Exact original proof pins retained via bounded new display inverse. See TRIAL_TA_AR.md/LOCAL.json. Commit/push/PR FULL49 per event then owner review;no hostedaccess/deploy/merge.
+
 #24Oct — Y213 local acceptance complete;PR23 final CI
 
 Owner-authorized recovery preserved through5baa7f2/a8f45a3/e0df272/4e2da95,all pushed. Literal213 runtime74,Admin1408/store197,core browser395+59 unchanged conditionals/0fail/0flaky,PWA4,SDK154/537,strict owner upgrade/replay/negative ACL+path,Storage HTTP roles and reset/OwnerTOTP/catalog0 verified. Reference175-556-13/freshincremental0 and local owner dry-run prepared;212 unchanged. Implementation4e2da95 push FULL44+secrets passed;final docs-head push+PR FULL44 required before review-ready. No hostedaccess/deploy or Y merge authorized. See HANDOVER_SECURITY_Y_LOCAL.json.

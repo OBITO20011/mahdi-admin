@@ -3,19 +3,183 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/handover/README.md"
+      "path": "customer-web/src/App.tsx"
     },
     {
       "code": " M",
-      "path": "docs/handover/أدلة-المصادر.json"
+      "path": "customer-web/src/components/CartDrawer.tsx"
     },
     {
       "code": " M",
-      "path": "tests/handover-documentation.test.ts"
+      "path": "customer-web/src/components/ParcelBuilderModal.tsx"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/components/ProductCard.tsx"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/components/ProductDetailsModal.tsx"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/receipts/commercialReceipt.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/utils/cart.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/utils/storefrontSeo.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/utils/storefrontUnits.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/tests/storefront-units.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "docs/agent/OWNER_DECISIONS.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/agent/PHASE_STATUS.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/handover/دليل-صاحب-المحل.html"
+    },
+    {
+      "code": " M",
+      "path": "docs/handover/دليل-صاحب-المحل.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "e2e/customer-storefront-c6.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/package-f-product-edit-conflict.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/package-f-product-receiving205.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/package-f-unit-terminology.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-owner-telegram-format.mjs"
+    },
+    {
+      "code": " M",
+      "path": "src/features/pos/PosParcelBuilder.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/pos/PosProductCard.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/pos/PosView.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/products/ProductFormModal.tsx"
+    },
+    {
+      "code": " M",
+      "path": "tests/package-f-orders.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/pos-receipt.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/pretrial-p1.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/receipt210.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/supplier-replacement208-evidence.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-owner-a.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-sale-receipts.test.ts"
     },
     {
       "code": "??",
-      "path": "tests/handover-product-import.local.mjs"
+      "path": "customer-web/src/utils/saleUnitLabels.ts"
+    },
+    {
+      "code": "??",
+      "path": "customer-web/tests/trial-ta-sales-units.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "docs/agent/TRIAL_TA_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "docs/agent/TRIAL_TA_LOCAL.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_214_TRIAL_TA.json"
+    },
+    {
+      "code": "??",
+      "path": "e2e/package-f-trial-ta-harness.html"
+    },
+    {
+      "code": "??",
+      "path": "e2e/package-f-trial-ta-harness.tsx"
+    },
+    {
+      "code": "??",
+      "path": "e2e/package-f-trial-ta.spec.ts"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-trial-ta.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/trial-ta-source-pins.json"
+    },
+    {
+      "code": "??",
+      "path": "tests/trial-ta-presentation.test.ts"
     }
   ]
 }

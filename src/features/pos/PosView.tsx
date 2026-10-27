@@ -330,7 +330,7 @@ export const PosView: React.FC = () => {
     const currentQuantity =
       existingIndex >= 0 ? cartItems[existingIndex].quantity : 0;
     if (!canSetPosQuantity(currentQuantity + 1, availableSalePackages)) {
-      setToast(`المتاح من ${prod.nameAr} هو ${availableSalePackages} ${productSaleMode==='base_unit'?prod.unit:'طرد'} فقط.`, 'error');
+      setToast(`المتاح من ${prod.nameAr} هو ${availableSalePackages} ${productSaleMode==='base_unit'?'باكيت':'طرد'} فقط.`, 'error');
       return;
     }
 
@@ -628,7 +628,7 @@ export const PosView: React.FC = () => {
 
   const cartMethodConflict=recoveryBlocked?null:posCartSaleMethodConflict(cartItems,knownProductsRef.current);
   const cartBaseUnitTotals=Array.from(cartItems.reduce((totals,item)=>{
-    const name=knownProductsRef.current.get(item.productId)?.unit||'باكيت';
+    const name='باكيت';
     totals.set(name,(totals.get(name)??0)+item.baseQuantity);
     return totals;
   },new Map<string,number>()));
@@ -855,16 +855,16 @@ export const PosView: React.FC = () => {
 
                     {cartItems.length === 0 ? (
           <div className="py-6 text-center text-nw-muted text-xs">
-            اختر + طرد أو + وحدة من بطاقة الصنف أعلاه لإضافته إلى الفاتورة
+            اختر + طرد أو + باكيت من بطاقة الصنف أعلاه لإضافته إلى الفاتورة
           </div>
         ) : (
           <div className="space-y-3">
             {cartItems.map((item) => (
               <div key={item.id} data-pos-cart-line className="flex flex-wrap items-center justify-between gap-2 border-b border-nw-border py-3 text-sm">
                 <div className="min-w-0 w-full">
-                  <div className="flex flex-wrap items-center gap-1"><h5 className="font-bold text-nw-text break-words">{item.productName}</h5><span data-pos-cart-line-kind className="text-xs font-bold">· {item.quantity} {item.v2Line.commercial_line_kind==='base_unit'?item.unit:item.v2Line.commercial_line_kind==='legacy_single_sku_parcel'?'طرد':'طرد مشكّل'}</span></div>
-                  <StatusBadge tone={item.v2Line.commercial_line_kind === 'configurable_parcel' ? 'warn' : 'info'}>{item.v2Line.commercial_line_kind === 'base_unit' ? item.unit : item.v2Line.commercial_line_kind === 'legacy_single_sku_parcel' ? 'طرد' : 'طرد مشكّل'}</StatusBadge><span className="nw-num text-xs text-nw-muted">
-                    {item.unitPrice.toFixed(3)} {CURRENCY} / {item.v2Line.commercial_line_kind==='base_unit'?item.unit:item.v2Line.commercial_line_kind==='legacy_single_sku_parcel'?'طرد':'طرد مشكّل'}
+                  <div className="flex flex-wrap items-center gap-1"><h5 className="font-bold text-nw-text break-words">{item.productName}</h5><span data-pos-cart-line-kind className="text-xs font-bold">· {item.quantity} {item.v2Line.commercial_line_kind==='base_unit'?'باكيت':item.v2Line.commercial_line_kind==='legacy_single_sku_parcel'?'طرد':'طرد مشكّل'}</span></div>
+                  <StatusBadge tone={item.v2Line.commercial_line_kind === 'configurable_parcel' ? 'warn' : 'info'}>{item.v2Line.commercial_line_kind === 'base_unit' ? 'باكيت' : item.v2Line.commercial_line_kind === 'legacy_single_sku_parcel' ? 'طرد' : 'طرد مشكّل'}</StatusBadge><span className="nw-num text-xs text-nw-muted">
+                    {item.unitPrice.toFixed(3)} {CURRENCY} / {item.v2Line.commercial_line_kind==='base_unit'?'باكيت':item.v2Line.commercial_line_kind==='legacy_single_sku_parcel'?'طرد':'طرد مشكّل'}
                   </span>
                 </div>
 

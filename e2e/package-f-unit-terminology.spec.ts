@@ -16,10 +16,10 @@ for(const theme of ['light','dark'])for(const width of [390,820,1440])test(`base
     await unit.selectOption(name);
     await expect(dialog.getByLabel(`عدد ${name} في طرد الشراء`,{exact:true})).toHaveValue('24');
     await expect(dialog.getByLabel(`سعر شراء ${name}`,{exact:true})).toHaveValue('1');
-    await expect(dialog.getByRole('checkbox',{name:'حبة مفردة',exact:true})).toBeChecked();
+    await expect(dialog.getByRole('checkbox',{name:'باكيت مفرد',exact:true})).toBeChecked();
     const text=await dialog.innerText();
-    expect(text.split('حبة مفردة')).toHaveLength(2);
-    expect(text.replace('حبة مفردة','')).not.toMatch(/حبة|حبات/u);
+    expect(text.split('باكيت مفرد')).toHaveLength(2);
+    expect(text.replace('باكيت مفرد','')).not.toMatch(/حبة|حبات/u);
   }
   await checkLayout(page,page.getByTestId('products-workbench'));
   const result=await analyzePackageFAccessibility(page,new AxeBuilder({page}));
@@ -29,14 +29,14 @@ for(const theme of ['light','dark'])for(const width of [390,820,1440])test(`base
 for(const theme of ['light','dark'])for(const width of [390,820,1440])test(`POS content label ${theme} ${width}: packet default then real product unit`,async({page})=>{
   await page.setViewportSize({width,height:900});
   await page.goto(`/e2e/package-f-pos-harness.html?theme=${theme}&base-unit=sack`);
-  await expect(page.locator('[data-pos-add-method="base_unit"]').first()).toContainText('+ شوال');
+  await expect(page.locator('[data-pos-add-method="base_unit"]').first()).toContainText('+ باكيت');
   if(width<1024)await page.getByRole('button',{name:'مراجعة السلة والعميل',exact:true}).click();
   await expect(page.getByTestId('pos-cart-base-units').filter({visible:true})).toHaveText('0 باكيت');
   if(width<1024)await page.getByRole('button',{name:'رجوع للبيع',exact:true}).click();
   await page.locator('[data-pos-product-card]').first().click();
-  await expect(page.locator('[data-pos-add-method="base_unit"]').first()).toContainText('+ شوال');
+  await expect(page.locator('[data-pos-add-method="base_unit"]').first()).toContainText('+ باكيت');
   if(width<1024)await page.getByRole('button',{name:'مراجعة السلة والعميل',exact:true}).click();
-  await expect(page.getByTestId('pos-cart-base-units').filter({visible:true})).toHaveText('24 شوال');
+  await expect(page.getByTestId('pos-cart-base-units').filter({visible:true})).toHaveText('24 باكيت');
   await expect(page.getByTestId('pos-workbench')).not.toContainText(/وحدة الصنف|وحدات صغرى/u);
   await checkLayout(page,page.getByTestId('pos-workbench'));
   const result=await analyzePackageFAccessibility(page,new AxeBuilder({page}));

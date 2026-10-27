@@ -1,4 +1,4 @@
-import {storefrontCartUnit, storefrontSaleUnit, storefrontUnitName} from './storefrontUnits';
+import {storefrontCartUnit, storefrontUnitName} from './storefrontUnits';
 import {
   BaseUnitCartItem,
   CartItem,
@@ -68,7 +68,7 @@ function cartDisplayFields(product: CatalogProduct) {
     sku: product.sku,
     nameAr: product.nameAr,
     imageUrl: product.imageUrl,
-    saleUnitNameAr: storefrontSaleUnit(product),
+    saleUnitNameAr: product.unitsPerSalePackage > 1 ? 'طرد' : product.unitNameAr || 'باكيت',
     unitsPerSalePackage: product.unitsPerSalePackage,
     unitPriceInMinorUnits: product.salePackagePriceInMinorUnits,
     quantity: 1,
@@ -89,7 +89,7 @@ export function createBaseUnitCartItem(product: CatalogProduct): BaseUnitCartIte
   return {
     ...cartDisplayFields(product),
     commercialLineKind: 'base_unit',
-    saleUnitNameAr: storefrontUnitName(product.unitNameAr),
+    saleUnitNameAr: product.unitNameAr || 'باكيت',
     unitsPerSalePackage: 1,
     unitPriceInMinorUnits: product.salePriceInMinorUnits,
     maxAvailablePackages: product.availableQuantity,
@@ -124,7 +124,7 @@ export function createConfigurableParcelCartItem(
   instance: ParcelInstanceSelection
 ): ConfigurableParcelCartItem {
   if (parcelInstanceQuantity(instance) !== option.unitsPerParcel) {
-    throw new Error(`يجب اختيار ${option.unitsPerParcel} ${option.baseUnitNameAr} للطرد.`);
+    throw new Error(`يجب اختيار ${option.unitsPerParcel} ${storefrontUnitName(option.baseUnitNameAr)} للطرد.`);
   }
   return {
     ...cartDisplayFields(familyProduct),
@@ -287,7 +287,7 @@ export function reconcileCart(
       sku: product.sku,
       nameAr: product.nameAr,
       imageUrl: product.imageUrl,
-      saleUnitNameAr: isBaseUnit ? storefrontUnitName(product.unitNameAr) : storefrontSaleUnit(product),
+      saleUnitNameAr: isBaseUnit || product.unitsPerSalePackage <= 1 ? product.unitNameAr || 'باكيت' : 'طرد',
       unitsPerSalePackage: isBaseUnit ? 1 : product.unitsPerSalePackage,
       unitPriceInMinorUnits: isBaseUnit ? product.salePriceInMinorUnits : product.salePackagePriceInMinorUnits,
       maxAvailablePackages: available,

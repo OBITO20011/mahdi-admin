@@ -1,6 +1,7 @@
 import type {CatalogProduct, CartDisplayFields, CartItem} from '../types/catalog';
+import {SINGLE_SALE_UNIT} from './saleUnitLabels';
 
-export const storefrontUnitName = (name: string) => name || 'باكيت';
+export const storefrontUnitName = (_name: string) => SINGLE_SALE_UNIT;
 export const storefrontSaleUnit = (product: CatalogProduct) =>
   product.unitsPerSalePackage > 1 ? 'طرد' : storefrontUnitName(product.unitNameAr);
 export const storefrontPackageDescription = (product: CatalogProduct) => product.unitsPerSalePackage > 1
@@ -23,4 +24,8 @@ export function remainingStorefrontParcels(product: CatalogProduct, reserved: nu
 export function storefrontCartUnit(item: CartDisplayFields & {commercialLineKind: CartItem['commercialLineKind']}): string {
   if (item.commercialLineKind !== 'base_unit' && item.unitsPerSalePackage > 1) return 'طرد';
   return storefrontUnitName(item.saleUnitNameAr);
+}
+export function storefrontCartPackageDescription(item: CartDisplayFields & {commercialLineKind: CartItem['commercialLineKind']}): string {
+  const unit=storefrontCartUnit(item);
+  return item.unitsPerSalePackage>1 ? `${unit} (${item.unitsPerSalePackage.toLocaleString('ar-JO')} ${SINGLE_SALE_UNIT})` : unit;
 }

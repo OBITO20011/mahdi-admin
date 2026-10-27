@@ -119,18 +119,18 @@ for(const width of [390,1440]){
  test('209 unified sale methods parcel only and unit only '+width,async({page})=>{
   await page.setViewportSize({width,height:1000});await page.goto(url('reset=1'));
   const section=page.getByRole('group',{name:'طريقة البيع',exact:true});
-  await expect(section.getByRole('checkbox',{name:/^طرد \(/u})).toBeChecked();await expect(section.getByRole('checkbox',{name:'حبة مفردة',exact:true})).toBeChecked();
+  await expect(section.getByRole('checkbox',{name:/^طرد \(/u})).toBeChecked();await expect(section.getByRole('checkbox',{name:'باكيت مفرد',exact:true})).toBeChecked();
   await expect(page.getByText('مسموح طرد مشكّل بالنكهات',{exact:true})).toHaveCount(0);
-  await section.getByRole('checkbox',{name:'حبة مفردة',exact:true}).uncheck();await save(page);
+  await section.getByRole('checkbox',{name:'باكيت مفرد',exact:true}).uncheck();await save(page);
   await expect(page.getByTestId('product-edit-closed')).toBeVisible();expect((await calls(page,'update_product_master_v5'))[0].args.p_parcel_only).toBe(true);
   await page.goto(url('parcelOnly=1'));
-  await expect(page.getByRole('checkbox',{name:'حبة مفردة',exact:true})).not.toBeChecked();
-  await page.getByRole('checkbox',{name:'حبة مفردة',exact:true}).check();await page.getByRole('checkbox',{name:/^طرد \(/u}).uncheck();await save(page);
+  await expect(page.getByRole('checkbox',{name:'باكيت مفرد',exact:true})).not.toBeChecked();
+  await page.getByRole('checkbox',{name:'باكيت مفرد',exact:true}).check();await page.getByRole('checkbox',{name:/^طرد \(/u}).uncheck();await save(page);
   const last=(await calls(page,'update_product_master_v5')).at(-1)!;expect(last.args.p_parcel_only).toBe(false);expect(last.args.p_units_per_sale_unit).toBe(1);expect(last.args.p_units_per_purchase_unit).toBe(1);
  });
  test('209 at least one sale method prevents RPC '+width,async({page})=>{
   await page.setViewportSize({width,height:1000});await page.goto(url('reset=1'));
-  await page.getByRole('checkbox',{name:'حبة مفردة',exact:true}).uncheck();await page.getByRole('checkbox',{name:/^طرد \(/u}).uncheck();await save(page);
+  await page.getByRole('checkbox',{name:'باكيت مفرد',exact:true}).uncheck();await page.getByRole('checkbox',{name:/^طرد \(/u}).uncheck();await save(page);
   await expect(page.getByRole('alert').filter({hasText:'اختر طريقة بيع واحدة على الأقل'}).first()).toBeVisible();expect(await calls(page,'update_product_master_v5')).toHaveLength(0);
  });
  test('209 formed state reads actual owner config and dirty changes disable direct link '+width,async({page})=>{

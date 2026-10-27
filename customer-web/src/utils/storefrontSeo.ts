@@ -4,6 +4,7 @@ import {CatalogCategory, CatalogProduct} from '../types/catalog';
 import {getCategoryPath, getProductPath, getStorePagePath, StorePage} from './publicRoutes';
 import {getPublicStorefrontUrl} from '../config/publicSite';
 import {SEO_BRAND} from '../config/seoBrand';
+import {storefrontSaleUnit} from './storefrontUnits';
 
 const STORE_NAME = SEO_BRAND.officialName;
 const DEFAULT_DESCRIPTION = SEO_BRAND.homepageDescription;
@@ -128,7 +129,7 @@ function productSchema(product: CatalogProduct): Record<string, unknown> {
     url: publicUrl(productPath),
     name: product.nameAr,
     ...(product.sku ? {sku: product.sku} : {}),
-    description: product.description || `${product.saleUnitNameAr} من ${STORE_NAME}`,
+    description: product.description || `${storefrontSaleUnit(product)} من ${STORE_NAME}`,
     brand: {'@type': 'Organization', name: STORE_NAME},
     offers: offer,
   };

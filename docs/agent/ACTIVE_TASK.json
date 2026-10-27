@@ -1,59 +1,55 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "PAUSED",
   "owner": "codex",
-  "objective": "Documentation only:actual214 UI owner guide,print HTML,exact import XLSX andcutover card;one PR/fullCI;no application or SQL edits",
-  "baselineSha": "ad4bd1f8230758a707285ceb8f0042015d16b018",
-  "branch": "codex/handover-owner-guide",
+  "objective": "Owner trial T-A display only:packet/parcel sales terminology and readable damage loss reporting from existing data;separate PR/fullCI then owner approval;no DB/RPC/grant/financial change",
+  "baselineSha": "f95ff0458f90298edc21e39859d3268c7f7ccac7",
+  "branch": "codex/trial-ta-display",
   "phase": "PACKAGE_F",
   "completed": [
-    "Guide24sections and standalone RTL A4HTML;placeholders/no realdata",
-    "Six XLSX exact importer headers;cashopening manual-only;flavors/methods separate preparation",
-    "Current UI124literal labels bound33source files atad4bd1f8",
-    "Actual application reader/preparers6/6;products14cols/zeros/dates;negative cases",
-    "Actual ArtifactTool reimport+input changes+recalculate6/6;XLSX RTL/panes/listvalidation/formulas",
-    "A4Chromiumprint guide10pages andcutover2pages;externalrequests0;allpages reviewed",
-    "Admin1502/1502,Customer197/197,typesBoth,strictlint0warnings,Gitleaks0;product/SQL/automationdiffempty",
-    "Actual products XLSX imported via current RPC on fresh214/176 isolated DB:preview0errors/0writes,created1,matchingfields,replay0writes,stock/orders/shifts/movements0;recipe+hashboundproof"
+    "T-A1/2 sales packet/parcel labels in product/POS/customer/cart/toast/receipt/formed builder",
+    "Preserved raw unit/catalog/cart/component data and exact guest/POS payloads",
+    "Admin1506/store200;72browser identities+4final toast cases;freshSDK154/540;types/lint/builds/SEO/network/print10+2/Gitleaks0",
+    "Updated guide sales wording;T-A3 owner deferral and T-B refund-design addition recorded"
   ],
   "inProgress": [
-    "Push actualDB import evidence to samePR38;verify full finalCI"
+    "Commit/push/PR and exact FULL CI49 each"
   ],
   "notStarted": [
-    "Owner approval;no merge"
+    "Owner approval;no merge",
+    "T-B design separate after T-A;no T-C before T-A approval"
   ],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "testsPassed": [
-    "Focused6/6",
-    "Actual workbook parser6/6 andinput-change recalculation6/6",
-    "Offline print A4RTL10+2pages,resources0,overflowfalse",
-    "Admin1502/1502;store197/197;typesBoth;strictlint0warnings;Gitleaks0",
-    "Post actualDB proof:Admin1503/1503,types,strictlint0warnings,Gitleaks0"
+    "Admin1506/store200",
+    "Chromium/WebKit72identities;new360/390/1440 formed builder;4final bottle-toast cases",
+    "Actual local214 table154/RPC540;10expected42501denials",
+    "Raw unit data/cart/flavors/receipt snapshots/payloads unchanged",
+    "TypesBoth/strictlint/builds/SEO/network isolation/print10+2/Gitleaks0"
   ],
   "testsRemaining": [
-    "Exact finalSHA FULL CI push andPR",
-    "Owner approval"
+    "Exact finalSHA push+PR FULL CI"
   ],
   "findings": [
-    "Product import schema14columns exact;no flavor/full-method/unitprice columns invented",
-    "Drawer has no import UI;manual first shift preparation only",
-    "Openingcheques follow-up only andnet balances;decision signed beforeentry",
-    "No newApplicationCode/SQL or hostedcalls",
-    "First CI old head had2 image-registry rate limits before SQL;no code failure;newproof commit will supersede old runs"
+    "T-A3 detailed damage deferred by explicit owner answer;no reader/SQL added",
+    "T-B refund step/defaults/reference/calculated amount/numeric effects recorded as design only",
+    "Two initial browser environment cases accepted only after one same-source rerun;no timeout/retry/assertion weakening",
+    "Remote mainf95;unmergedPR39/40 excluded"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No application/SQL/migration changes",
-    "No hosted access/publish/activation",
-    "No merge before owner approval"
+    "No hosted project connection/deploy",
+    "No DB/RPC/grant/migration or financial changes in T-A",
+    "No T-C before T-A approval",
+    "Preserve primary dirty owner docs"
   ],
-  "nextExactAction": "Post-proofgatesPASS1503;commit/pushsamePR38,full finalCI;no merge",
-  "startedAt": "2026-10-27T12:09:21.571Z",
-  "checkpointedAt": "2026-10-27T16:16:21.467Z",
-  "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "057c52ffe9d18dba660d8973d0dc8eb3428bc17ccd0880969e032a327c4a6081",
-  "workingTreeFingerprint": "705077D953853524F49EFBC36D77FBA6A17C42A5168F5739A86A83476728A290"
+  "nextExactAction": "All T-A local gates PASS;final secrets and source/doc contracts then commit/push/create PR;FULL49 each;no merge",
+  "startedAt": "2026-10-27T22:27:54.124Z",
+  "checkpointedAt": "2026-10-27T22:55:59.846Z",
+  "filesTouchedCount": 45,
+  "filesTouchedManifestSha256": "13840cad60db3aa0d049b34b94b651756f397d5e9c03df84d262de382345bac4",
+  "workingTreeFingerprint": "758FB1AA78AB4402BA343C87195B2B27DEBA9070E06002FBC2C839344EB6164E"
 }

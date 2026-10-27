@@ -401,7 +401,7 @@ export function ProductDetailsModal({
                   </div>
                   <p className="mt-2 text-sm font-black text-slate-900">
                     {product.unitsPerSalePackage.toLocaleString('ar-JO')}{' '}
-                    {product.unitNameAr}
+                    {storefrontUnitName(product.unitNameAr)}
                   </p>
                 </div>
               </div>}

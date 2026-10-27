@@ -1,4 +1,4 @@
-import {storefrontCartUnit} from '../utils/storefrontUnits';
+import {storefrontCartPackageDescription} from '../utils/storefrontUnits';
 import {
   AlertTriangle,
   ArrowLeft,
@@ -309,8 +309,7 @@ export function CartDrawer({
                             {item.nameAr}
                           </h3>
                           <p className="mt-1 text-[9px] font-bold text-slate-400">
-                            {storefrontCartUnit(item)} ×{' '}
-                            {item.unitsPerSalePackage.toLocaleString('ar-JO')}
+                            {storefrontCartPackageDescription(item)}
                           </p>
                           <p className="mt-1 text-[9px] font-bold text-blue-600">
                             السعر {formatJod(item.unitPriceInMinorUnits)} •

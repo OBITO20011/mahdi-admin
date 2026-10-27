@@ -9,7 +9,7 @@ test('canonical parcel copy retains independent stored prices and actual physica
  assert.equal(storefrontSaleUnit(product),'طرد');assert.equal(storefrontPackageDescription(product),`طرد (${(10).toLocaleString('ar-JO')} باكيت)`);
  assert.equal(storefrontStock(product),`${(2).toLocaleString('ar-JO')} طرد + ${(3).toLocaleString('ar-JO')} باكيت`);
  const loose={...product,unitsPerSalePackage:1,unitNameAr:'شوال',salePackagePriceInMinorUnits:7000,salePriceInMinorUnits:6500};
- assert.equal(storefrontSaleUnit(loose),'شوال');assert.equal(storefrontPackageDescription(loose),'شوال');assert.equal(storefrontStock(loose),`${(23).toLocaleString('ar-JO')} شوال`);
+ assert.equal(storefrontSaleUnit(loose),'باكيت');assert.equal(storefrontPackageDescription(loose),'باكيت');assert.equal(storefrontStock(loose),`${(23).toLocaleString('ar-JO')} باكيت`);
  assert.equal(createCartItem(loose).unitPriceInMinorUnits,7000);assert.equal(createCartItem(loose).saleUnitNameAr,'شوال');assert.equal(createBaseUnitCartItem(loose).unitPriceInMinorUnits,6500);
 });
 test('mixed parcel/base-unit requirements share the same stock without counting a base unit as a parcel',()=>{

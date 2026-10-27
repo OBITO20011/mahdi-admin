@@ -6,6 +6,7 @@ import {
 } from '../types/catalog';
 import { createParcelInstance } from '../utils/cart';
 import { formatJod } from '../utils/money';
+import {storefrontUnitName} from '../utils/storefrontUnits';
 import { ProductImage } from './ProductImage';
 import {useDialogFocus} from '../hooks/useDialogFocus';
 
@@ -81,7 +82,7 @@ export function ParcelBuilderModal({
         <header className="flex items-center justify-between border-b border-slate-100 p-4 sm:p-5">
           <div>
             <p className="text-[10px] font-black text-violet-700">تكوين طرد بالنكهات</p>
-            <h2 id="parcel-builder-title" className="mt-1 text-lg font-black text-slate-950">اختر {option.unitsPerParcel.toLocaleString('ar-JO')} {option.baseUnitNameAr}</h2>
+            <h2 id="parcel-builder-title" className="mt-1 text-lg font-black text-slate-950">اختر {option.unitsPerParcel.toLocaleString('ar-JO')} {storefrontUnitName(option.baseUnitNameAr)}</h2>
           </div>
           <button type="button" onClick={onClose} aria-label="إغلاق" className="grid h-11 w-11 place-items-center rounded-2xl bg-slate-100 text-slate-600"><X className="h-4 w-4" /></button>
         </header>
@@ -104,7 +105,7 @@ export function ParcelBuilderModal({
                 <div className="h-14 w-14 shrink-0 overflow-hidden rounded-2xl bg-slate-100"><ProductImage src={component.imageUrl} alt={component.flavorNameAr || component.nameAr} imageClassName="h-full w-full object-contain" /></div>
                 <div className="min-w-0 flex-1">
                   <h3 className="truncate text-xs font-black text-slate-900">{component.flavorNameAr || component.nameAr}</h3>
-                  <p className="mt-1 text-[9px] font-bold text-slate-500">المتاح لهذه السلة: {available.toLocaleString('ar-JO')} {component.unitNameAr}</p>
+                  <p className="mt-1 text-[9px] font-bold text-slate-500">المتاح لهذه السلة: {available.toLocaleString('ar-JO')} {storefrontUnitName(component.unitNameAr)}</p>
                 </div>
                 <div className="flex items-center rounded-2xl border border-slate-200 bg-slate-50">
                   <button type="button" aria-label={`إنقاص ${component.flavorNameAr}`} onClick={() => change(component.productId, -1)} disabled={quantity === 0} className="grid h-11 w-10 place-items-center disabled:text-slate-300"><Minus className="h-4 w-4" /></button>
@@ -121,7 +122,7 @@ export function ParcelBuilderModal({
             <PackageCheck className="h-5 w-5" />
             {initialInstance ? 'حفظ تعديل الطرد' : 'إضافة الطرد للسلة'}
           </button>
-          {!canSave && <p className="mt-2 text-center text-[10px] font-bold text-amber-700">أكمل {remaining.toLocaleString('ar-JO')} {option.baseUnitNameAr} قبل الإضافة.</p>}
+          {!canSave && <p className="mt-2 text-center text-[10px] font-bold text-amber-700">أكمل {remaining.toLocaleString('ar-JO')} {storefrontUnitName(option.baseUnitNameAr)} قبل الإضافة.</p>}
         </footer>
       </section>
     </div>

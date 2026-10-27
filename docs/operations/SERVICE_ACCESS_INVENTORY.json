@@ -441,11 +441,11 @@
     },
     {
       "file": "src/features/pos/PosParcelBuilder.tsx",
-      "sha256": "03b81cf41f5e0907f3d67d33b27d4309e5175977a8d3bf6ff95b432f5860be43"
+      "sha256": "48e957a4967e90a3a0c2e719da43e70a486c0c1403f82c555b7138060fe1c463"
     },
     {
       "file": "src/features/pos/PosProductCard.tsx",
-      "sha256": "fd431176edd36abc5ca012b6f11882fcd0889ddb955dd4becdee49bc3d4468cd"
+      "sha256": "5a13351e5fb76075f09e6f06670e2f195669cc4976f44ccd6b0ec78d62755866"
     },
     {
       "file": "src/features/pos/posSearchFocus.ts",
@@ -457,7 +457,7 @@
     },
     {
       "file": "src/features/pos/PosView.tsx",
-      "sha256": "d4d9a5209ccf8bee0e8af1df2264374f14721877706ce0ed99978594b0b4d9e0"
+      "sha256": "fd29c00048d8a5287d8610ef50bb7c1446ecb2a92dfb13b6045fd058a9801dec"
     },
     {
       "file": "src/features/pos/saleMethods.ts",
@@ -477,7 +477,7 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "sha256": "64df669faf6f612ff34277871c4ed6cb0980117732d4b04d80ab59ae7b2f13fc"
+      "sha256": "b1a6b8ec877657cd4dd4eb909e7633508554679f7a67a74f0fc14d2087c9f978"
     },
     {
       "file": "src/features/products/ProductFormParcelCapability.tsx",
@@ -1049,7 +1049,7 @@
     },
     {
       "file": "customer-web/src/App.tsx",
-      "sha256": "4d5c39ebdb0f9bd15558da39f1bf49717eb9148e366076e2578420c0136cf78e"
+      "sha256": "6e4e6cb3069b6639f29dbfe0c387891df9eb8805480e8a53b35f44a13afb0753"
     },
     {
       "file": "customer-web/src/components/AboutStorePage.tsx",
@@ -1061,7 +1061,7 @@
     },
     {
       "file": "customer-web/src/components/CartDrawer.tsx",
-      "sha256": "f49b1f27d154bb75c74dcd26690eba01dfc1ce69745e723585b12146f3be3965"
+      "sha256": "c09492fcc08260791d553bb6aef4efb10b4b2e0c2aa5d7300a9e0c8ac9951f01"
     },
     {
       "file": "customer-web/src/components/CategoryDrawer.tsx",
@@ -1129,7 +1129,7 @@
     },
     {
       "file": "customer-web/src/components/ParcelBuilderModal.tsx",
-      "sha256": "108ec9fd4cb6d7f294508561c25b508ed3f52042e16e8753e0492960bac91f9d"
+      "sha256": "c2ab7151acd7134ea1fb260110c1bce4b7a92651bc18207a9fcbf8709bb1ba73"
     },
     {
       "file": "customer-web/src/components/PrivacyPolicyModal.tsx",
@@ -1137,11 +1137,11 @@
     },
     {
       "file": "customer-web/src/components/ProductCard.tsx",
-      "sha256": "a9cdf55bce0e338e4ab37daa8762744a9ab56c8684555519f54c67b1509a9bf5"
+      "sha256": "fc120b66588db4c93285db419499bee1a7838545f5f586619cf8702a39385200"
     },
     {
       "file": "customer-web/src/components/ProductDetailsModal.tsx",
-      "sha256": "d0278f74113e3b2b540d8da83777f31f9a320e9a6c80158e63dd47c7f31f55d7"
+      "sha256": "0ae11958bac0da718a83d8deb1101e24d93c11c71656aff5f7740f7f4e63a676"
     },
     {
       "file": "customer-web/src/components/ProductImage.tsx",
@@ -1225,7 +1225,7 @@
     },
     {
       "file": "customer-web/src/receipts/commercialReceipt.ts",
-      "sha256": "08a9f5d6908321de6c331ac567b67f5aaa057e0ad3529ecf640a8813cbc5be57"
+      "sha256": "f849b4355de4db667a84f61800b41517fc7e7e0914ba345e8fec7984d7ccdd40"
     },
     {
       "file": "customer-web/src/receipts/publicReceipt.ts",
@@ -1285,7 +1285,7 @@
     },
     {
       "file": "customer-web/src/utils/cart.ts",
-      "sha256": "aa7c52d1db568f72f8fd5ef615a06ba02e1676cb665cf5a555df64b7fd4f0677"
+      "sha256": "aefe240ac7843d1091893a98ff4d7003b6484118714e7656d770fd47729de6e3"
     },
     {
       "file": "customer-web/src/utils/catalogView.ts",
@@ -1320,12 +1320,16 @@
       "sha256": "ba934021602b4d460055d89bcf5b3bdc6c29279d1ae7ca3c59e834720c150224"
     },
     {
+      "file": "customer-web/src/utils/saleUnitLabels.ts",
+      "sha256": "6372ec26ba5a2470c845d68a4fa36dac7b49a8852dc999fc9b9d5d39a96618c1"
+    },
+    {
       "file": "customer-web/src/utils/storefrontSeo.ts",
-      "sha256": "d904477e9eb171605edd5d4f837a56391eef3ec01fdd20420539e62eddf7dac9"
+      "sha256": "969ec1f6fbf871e7135825c3b3a9240104c3c3046367324d55b20e29d4f335e3"
     },
     {
       "file": "customer-web/src/utils/storefrontUnits.ts",
-      "sha256": "429b1048d1fa038312f07d2c2843ffd0da59e9aede2ae36c7e7b5ddee2cd5cf8"
+      "sha256": "2fcce575796dafd5ca2cff667321cc8d3076a02f14e00ce9f35356072c1b758e"
     },
     {
       "file": "supabase/functions/admin-ai-assistant/index.ts",
