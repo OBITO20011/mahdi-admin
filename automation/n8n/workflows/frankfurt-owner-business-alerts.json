@@ -1,0 +1,778 @@
+[
+  {
+    "id": "frankfurtOwnerBusiness214",
+    "name": "Frankfurt — تنبيهات صاحب المحل",
+    "active": false,
+    "nodes": [
+      {
+        "id": "be6a367c-f2cc-4ec5-86a6-b78abcebc2c0",
+        "name": "Every Minute",
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.3,
+        "position": [
+          0,
+          0
+        ],
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "minutes",
+                "minutesInterval": 1
+              }
+            ]
+          }
+        }
+      },
+      {
+        "id": "f1e48d31-0e93-4194-b42b-ca316136803e",
+        "name": "Owner One Message Test",
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          240,
+          0
+        ],
+        "parameters": {}
+      },
+      {
+        "id": "72627434-49fa-4f97-a315-668298f9cf56",
+        "name": "Scheduled Mode",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          480,
+          0
+        ],
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "eb742d21-2b8f-48d5-ab6b-dbcfe35c8581",
+                "name": "mode",
+                "value": "scheduled",
+                "type": "string"
+              }
+            ]
+          },
+          "includeOtherFields": false,
+          "options": {}
+        }
+      },
+      {
+        "id": "20c51a82-f441-4936-bf0d-aa734ead8319",
+        "name": "Test Mode",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          720,
+          0
+        ],
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "99ea7649-1d12-42d1-868d-e8ebc89016c6",
+                "name": "mode",
+                "value": "test",
+                "type": "string"
+              }
+            ]
+          },
+          "includeOtherFields": false,
+          "options": {}
+        }
+      },
+      {
+        "id": "fdce5978-2e25-4b48-bdca-ce1434244e6f",
+        "name": "Owner Routing",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          960,
+          0
+        ],
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "ffe309a6-fd82-48b1-a0ca-8140eb065a1d",
+                "name": "ownerTelegramChatId",
+                "value": "",
+                "type": "string"
+              },
+              {
+                "id": "15dc3622-87a9-4509-ac6f-ca90555120fc",
+                "name": "developerTelegramChatIdForComparison",
+                "value": "",
+                "type": "string"
+              },
+              {
+                "id": "bdc0849d-da63-427e-84bd-ffcd1c367206",
+                "name": "businessAlertsEnabled",
+                "value": false,
+                "type": "boolean"
+              },
+              {
+                "id": "0bf38428-322d-46d6-b9f3-a5bbfdf779ea",
+                "name": "testConsent",
+                "value": false,
+                "type": "boolean"
+              }
+            ]
+          },
+          "includeOtherFields": true,
+          "options": {}
+        }
+      },
+      {
+        "id": "d1a0b905-39f0-4dae-bb2d-a784798d0f25",
+        "name": "Owner Recipient Ready",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          1200,
+          0
+        ],
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "2a5fd913-24c2-43a9-8107-24f8814c43ee",
+                "leftValue": "={{ /^\\d{1,20}$/.test($json.ownerTelegramChatId) && /^[1-9]\\d*$/.test($json.ownerTelegramChatId) && /^-?[1-9]\\d{0,19}$/.test($json.developerTelegramChatIdForComparison) && $json.ownerTelegramChatId !== $json.developerTelegramChatIdForComparison }}",
+                "rightValue": true,
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        }
+      },
+      {
+        "id": "79dcb6c2-fc6a-4a46-b57c-3787a2c5a232",
+        "name": "Manual Test Mode",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          1440,
+          0
+        ],
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "aecd05ac-f10b-4456-bd33-af299cc81731",
+                "leftValue": "={{ $json.mode === 'test' }}",
+                "rightValue": true,
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        }
+      },
+      {
+        "id": "4f8c79f0-3a3b-4fbb-b03c-943e278894b6",
+        "name": "One Test Consent",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          1680,
+          0
+        ],
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "0a7fddb2-1861-4478-9056-45573ecb4d5b",
+                "leftValue": "={{ $json.testConsent === true && $json.mode === 'test' }}",
+                "rightValue": true,
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        }
+      },
+      {
+        "id": "e5636416-73a3-405f-8308-f262f8197865",
+        "name": "Send One Owner Test",
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          1920,
+          0
+        ],
+        "parameters": {
+          "resource": "message",
+          "operation": "sendMessage",
+          "chatId": "={{ $('Owner Routing').first().json.ownerTelegramChatId }}",
+          "text": "اختبار واحد: تنبيهات شغل النواصرة تصل إلى صاحب المحل. لم تُفعّل التنبيهات الدورية بهذا الاختبار.",
+          "replyMarkup": "none",
+          "additionalFields": {
+            "parse_mode": "HTML",
+            "appendAttribution": false,
+            "disable_web_page_preview": true
+          }
+        },
+        "onError": "continueRegularOutput",
+        "credentials": {
+          "telegramApi": {
+            "id": "ffOwnerTelegram214",
+            "name": "Frankfurt shop owner Telegram — NEW"
+          }
+        }
+      },
+      {
+        "id": "72e774b1-2d01-4e10-8773-9fc6bcb2b7fa",
+        "name": "Test Delivery Result",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          2160,
+          0
+        ],
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "a7b8e85f-9be4-4d9b-acdb-cf822e2d8d91",
+                "name": "testDelivered",
+                "value": "={{ $json.ok === true && Number.isInteger($json.result?.message_id) && String($json.result?.chat?.id) === $('Owner Routing').first().json.ownerTelegramChatId }}",
+                "type": "boolean"
+              }
+            ]
+          },
+          "includeOtherFields": false,
+          "options": {}
+        }
+      },
+      {
+        "id": "27b4e9ea-4928-44d1-82fc-e67f30e8b50b",
+        "name": "Business Delivery Enabled",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          2400,
+          0
+        ],
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "83e39eae-d097-47c1-8c2a-aeda38bd2add",
+                "leftValue": "={{ $json.mode === 'scheduled' && $json.businessAlertsEnabled === true }}",
+                "rightValue": true,
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        }
+      },
+      {
+        "id": "65bdb516-2c23-4ad5-8503-9df31f537283",
+        "name": "Claim Frankfurt Events",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          2640,
+          0
+        ],
+        "parameters": {
+          "method": "POST",
+          "url": "https://kzevmysfydaslxcerogt.supabase.co/functions/v1/n8n-alert-feed",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendBody": true,
+          "contentType": "raw",
+          "rawContentType": "application/json",
+          "body": "{\"action\":\"claim\",\"channel\":\"telegram\",\"limit\":10,\"leaseSeconds\":120}",
+          "options": {
+            "timeout": 30000
+          }
+        },
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "ffOwnerFeed214",
+            "name": "Frankfurt owner business feed — NEW"
+          }
+        }
+      },
+      {
+        "id": "9719cd9f-3010-4d52-91f4-c291dcd5f929",
+        "name": "Split Frankfurt Events",
+        "type": "n8n-nodes-base.splitOut",
+        "typeVersion": 1,
+        "position": [
+          2880,
+          0
+        ],
+        "parameters": {
+          "fieldToSplitOut": "items",
+          "options": {}
+        }
+      },
+      {
+        "id": "250916ed-195b-4b40-84c5-a95cbbc35d35",
+        "name": "Owner Business Event",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          3120,
+          0
+        ],
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "ea94e5ba-498d-4877-bcac-c11790719e38",
+                "leftValue": "={{ [\"new_order\",\"low_stock\",\"out_of_stock\",\"shift_closed\",\"order_unprocessed\",\"order_near_expiry\",\"order_expired\",\"shift_close_reminder\",\"shift_close_overdue\",\"purchase_order_overdue\",\"expense_daily_threshold\",\"business_daily_summary\",\"business_weekly_summary\",\"cheque_due\",\"cheque_returned\"].includes($json.eventType) || ($json.eventType === 'business_alert_recovery' && [\"new_order\",\"low_stock\",\"out_of_stock\",\"shift_closed\",\"order_unprocessed\",\"order_near_expiry\",\"order_expired\",\"shift_close_reminder\",\"shift_close_overdue\",\"purchase_order_overdue\",\"expense_daily_threshold\",\"business_daily_summary\",\"business_weekly_summary\",\"cheque_due\",\"cheque_returned\"].includes($json.payload?.resolvedAlertType)) }}",
+                "rightValue": true,
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        }
+      },
+      {
+        "id": "16357f1c-efc2-4536-9448-f684e8f82935",
+        "name": "Format Owner Message",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          3360,
+          0
+        ],
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "5713a401-289d-4b0f-a3ae-cbfac365dfab",
+                "name": "messageText",
+                "value": "={{ (() => {\n const p=$json.payload||{},t=$json.eventType;\n const clean=v=>String(v??'—').replace(/[\\u0000-\\u001f\\u007f]/g,' ').slice(0,160).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');\n const money=v=>v===null||v===undefined||!Number.isFinite(Number(v))?'غير متاح':(Number(v)/1000).toFixed(3)+' د.أ';\n const labels={order_unprocessed:'طلب متأخر',order_near_expiry:'طلب قريب من انتهاء الحجز',order_expired:'انتهت مهلة طلب',shift_close_reminder:'تذكير إغلاق وردية',shift_close_overdue:'وردية متأخرة عن الإغلاق',purchase_order_overdue:'أمر شراء متأخر',expense_daily_threshold:'تجاوز حد المصروف اليومي',low_stock:'مخزون منخفض',out_of_stock:'نفد المخزون',new_order:'طلب متجر جديد',shift_closed:'أُغلقت الوردية',business_daily_summary:'ملخص اليوم',business_weekly_summary:'ملخص الأسبوع',cheque_due:'استحقاق شيك',cheque_returned:'شيك راجع'};\n let lines=[];\n if(t==='business_daily_summary'||t==='business_weekly_summary'){\n  const s=p.sales||{},f=p.cashFlow,e=p.expenses||{},i=p.inventory||{},b=p.balances||{};\n  lines=[labels[t],'الفترة: '+clean(p.period?.dateFrom)+' — '+clean(p.period?.dateTo),'المبيعات: '+money(s.grossSalesInMinorUnits),'المرتجعات: '+money(s.returnEntitlementInMinorUnits??s.refundsInMinorUnits),'صافي المبيعات: '+money(s.netSalesInMinorUnits),f?'المقبوض كاش: '+money(f.cashCollectedInMinorUnits)+' | CliQ: '+money(f.cliqCollectedInMinorUnits):'تفصيل المقبوض غير متاح في هذا الملخص','المصاريف: '+money(e.totalInMinorUnits),'صافي الربح: '+money(s.netProfitInMinorUnits),'المخزون منخفض: '+clean(i.lowStockCount)+' | نافد: '+clean(i.outOfStockCount),'ذمم الزبائن: '+money(b.customerDueInMinorUnits),'ذمم الموردين: '+money(b.supplierDueInMinorUnits),'https://admin.alnawasreh.com/?screen=reports'];\n }else if(t==='new_order'||['order_unprocessed','order_near_expiry','order_expired'].includes(t)){\n  lines=[labels[t],'رقم الطلب: '+clean(p.orderNumber)];\n  if(t==='new_order')lines.push('الإجمالي: '+money(p.totalInMinorUnits),'الدفع: '+(p.paymentMethod==='cliq'?'CliQ':'كاش عند الاستلام'));\n  if(/^[0-9a-f-]{36}$/i.test($json.entityId||''))lines.push('https://admin.alnawasreh.com/?screen=orders&amp;order='+$json.entityId);\n }else if(t==='low_stock'||t==='out_of_stock')lines=[labels[t],'الصنف: '+clean(p.productName),'المتاح: '+clean(p.availableQuantity),'حد التنبيه: '+clean(p.thresholdQuantity),'المستودع: '+clean(p.warehouseName)];\n else if(t==='shift_closed')lines=[labels[t],'رقم الوردية: '+clean(p.shiftNumber),'المتوقع: '+money(p.expectedCashInMinorUnits),'الفعلي: '+money(p.actualCashInMinorUnits),'فرق الكاش: '+clean(p.cashDiscrepancyDirection)+' '+money(p.cashDiscrepancyAbsoluteInMinorUnits??p.cashDiscrepancyInMinorUnits)];\n else if(t==='shift_close_reminder'||t==='shift_close_overdue')lines=[labels[t],'رقم الوردية: '+clean(p.shiftNumber)];\n else if(t==='purchase_order_overdue')lines=[labels[t],'الرقم: '+clean(p.purchaseOrderNumber),'المورد: '+clean(p.supplierName)];\n else if(t==='expense_daily_threshold')lines=[labels[t],'الفرع: '+clean(p.branchName),'مصروف اليوم: '+money(p.dailyTotalInMinorUnits),'الحد: '+money(p.thresholdInMinorUnits)];\n else if(t==='cheque_due'||t==='cheque_returned')lines=[labels[t],'المرجع: '+clean(p.trackingNumber),'المبلغ: '+money(p.amountInMinorUnits),'الاستحقاق: '+clean(p.dueDate),'https://admin.alnawasreh.com/?screen=cheques'];\n else if(t==='business_alert_recovery'&&labels[p.resolvedAlertType])lines=['تمت معالجة التنبيه: '+labels[p.resolvedAlertType]];\n else throw new Error('OWNER_BUSINESS_EVENT_NOT_ALLOWED');\n return lines.join('\\n');\n})() }}",
+                "type": "string"
+              }
+            ]
+          },
+          "includeOtherFields": true,
+          "options": {}
+        }
+      },
+      {
+        "id": "ba5de97d-4758-4c52-b0f8-f25693f970e3",
+        "name": "Send Owner Business Message",
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          3600,
+          0
+        ],
+        "parameters": {
+          "resource": "message",
+          "operation": "sendMessage",
+          "chatId": "={{ $('Owner Routing').first().json.ownerTelegramChatId }}",
+          "text": "={{ $json.messageText }}",
+          "replyMarkup": "none",
+          "additionalFields": {
+            "parse_mode": "HTML",
+            "appendAttribution": false,
+            "disable_web_page_preview": true
+          }
+        },
+        "onError": "continueRegularOutput",
+        "credentials": {
+          "telegramApi": {
+            "id": "ffOwnerTelegram214",
+            "name": "Frankfurt shop owner Telegram — NEW"
+          }
+        }
+      },
+      {
+        "id": "b959f97b-f659-461b-8a48-d76036769778",
+        "name": "Telegram Receipt Matches Owner",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          3840,
+          0
+        ],
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "5a908892-4d3d-4923-bdd1-962cb877448f",
+                "leftValue": "={{ $json.ok === true && Number.isInteger($json.result?.message_id) && String($json.result?.chat?.id) === $('Owner Routing').first().json.ownerTelegramChatId }}",
+                "rightValue": true,
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        }
+      },
+      {
+        "id": "266bd3ea-239f-4a3e-9bdb-99d2afaba62e",
+        "name": "Acknowledge Owner Delivery",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          4080,
+          0
+        ],
+        "parameters": {
+          "method": "POST",
+          "url": "https://kzevmysfydaslxcerogt.supabase.co/functions/v1/n8n-alert-feed",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendBody": true,
+          "contentType": "raw",
+          "rawContentType": "application/json",
+          "body": "={{ JSON.stringify({action:'complete',channel:'telegram',eventId:$('Split Frankfurt Events').item.json.eventId,success:true,error:null}) }}",
+          "options": {
+            "timeout": 30000
+          }
+        },
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "ffOwnerFeed214",
+            "name": "Frankfurt owner business feed — NEW"
+          }
+        }
+      },
+      {
+        "id": "163b4603-272e-43e3-a006-f7e4edf5fb8f",
+        "name": "Record Owner Delivery Failure",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          4320,
+          0
+        ],
+        "parameters": {
+          "method": "POST",
+          "url": "https://kzevmysfydaslxcerogt.supabase.co/functions/v1/n8n-alert-feed",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendBody": true,
+          "contentType": "raw",
+          "rawContentType": "application/json",
+          "body": "={{ JSON.stringify({action:'complete',channel:'telegram',eventId:$('Split Frankfurt Events').item.json.eventId,success:false,error:\"OWNER_TELEGRAM_DELIVERY_FAILED\"}) }}",
+          "options": {
+            "timeout": 30000
+          }
+        },
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "ffOwnerFeed214",
+            "name": "Frankfurt owner business feed — NEW"
+          }
+        }
+      },
+      {
+        "id": "4291c590-ee21-4b2d-9467-7663cd41c43d",
+        "name": "Record Unsupported Event",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          4560,
+          0
+        ],
+        "parameters": {
+          "method": "POST",
+          "url": "https://kzevmysfydaslxcerogt.supabase.co/functions/v1/n8n-alert-feed",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendBody": true,
+          "contentType": "raw",
+          "rawContentType": "application/json",
+          "body": "={{ JSON.stringify({action:'complete',channel:'telegram',eventId:$('Split Frankfurt Events').item.json.eventId,success:false,error:\"OWNER_BUSINESS_EVENT_NOT_ALLOWED\"}) }}",
+          "options": {
+            "timeout": 30000
+          }
+        },
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "ffOwnerFeed214",
+            "name": "Frankfurt owner business feed — NEW"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Every Minute": {
+        "main": [
+          [
+            {
+              "node": "Scheduled Mode",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Owner One Message Test": {
+        "main": [
+          [
+            {
+              "node": "Test Mode",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Scheduled Mode": {
+        "main": [
+          [
+            {
+              "node": "Owner Routing",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Test Mode": {
+        "main": [
+          [
+            {
+              "node": "Owner Routing",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Owner Routing": {
+        "main": [
+          [
+            {
+              "node": "Owner Recipient Ready",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Owner Recipient Ready": {
+        "main": [
+          [
+            {
+              "node": "Manual Test Mode",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Manual Test Mode": {
+        "main": [
+          [
+            {
+              "node": "One Test Consent",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Business Delivery Enabled",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "One Test Consent": {
+        "main": [
+          [
+            {
+              "node": "Send One Owner Test",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Send One Owner Test": {
+        "main": [
+          [
+            {
+              "node": "Test Delivery Result",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Business Delivery Enabled": {
+        "main": [
+          [
+            {
+              "node": "Claim Frankfurt Events",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Claim Frankfurt Events": {
+        "main": [
+          [
+            {
+              "node": "Split Frankfurt Events",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Split Frankfurt Events": {
+        "main": [
+          [
+            {
+              "node": "Owner Business Event",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Owner Business Event": {
+        "main": [
+          [
+            {
+              "node": "Format Owner Message",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Record Unsupported Event",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Format Owner Message": {
+        "main": [
+          [
+            {
+              "node": "Send Owner Business Message",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Send Owner Business Message": {
+        "main": [
+          [
+            {
+              "node": "Telegram Receipt Matches Owner",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Telegram Receipt Matches Owner": {
+        "main": [
+          [
+            {
+              "node": "Acknowledge Owner Delivery",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Record Owner Delivery Failure",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {
+      "executionOrder": "v1",
+      "timezone": "Asia/Amman",
+      "saveManualExecutions": false
+    },
+    "pinData": {},
+    "staticData": null,
+    "versionId": "a7c2a73d-fbe4-4241-bcd6-c3a04c767506",
+    "tags": []
+  }
+]

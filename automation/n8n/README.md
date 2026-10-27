@@ -4,6 +4,16 @@ This local Community Edition instance is an automation layer around the ERP.
 PostgreSQL RPC functions remain the only source of inventory and accounting
 mutations. n8n must never update ERP tables directly.
 
+## Frankfurt shop-owner business alerts (inactive template)
+
+Use `workflows/frankfurt-owner-business-alerts.json` only through the separate
+[Arabic owner guide](../../docs/operations/FRANKFURT_OWNER_BUSINESS_ALERTS_AR.md).
+Its new workflow and credential references do not replace the legacy workflows.
+Owner routing and delivery are disabled by default; the owner enters secrets in
+n8n credentials and performs the single manual delivery test. Technical alerts
+remain on the existing developer channel. Do not use the legacy import/refresh
+scripts to install this template or activate it before go-live.
+
 ## First setup
 
 1. Verify `Nawasrah Docker Safe Startup` and Docker Server health. Do not start
