@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner trial T-A display only:packet/parcel sales terminology and readable damage loss reporting from existing data;separate PR/fullCI then owner approval;no DB/RPC/grant/financial change",
-  "baselineSha": "f95ff0458f90298edc21e39859d3268c7f7ccac7",
+  "objective": "Owner trial T-A1/2 sales packet/parcel presentation;T-A3 explicitly deferred to T-B design;PR/fullCI then owner approval;no DB/RPC/grant/financial change",
+  "baselineSha": "5fb03983332d83d1b343ae86b20e62a9cf66c068",
   "branch": "codex/trial-ta-display",
   "phase": "PACKAGE_F",
   "completed": [
@@ -13,7 +13,7 @@
     "Updated guide sales wording;T-A3 owner deferral and T-B refund-design addition recorded"
   ],
   "inProgress": [
-    "Commit/push/PR and exact FULL CI49 each"
+    "PR41 correction commit/push and exact FULL CI49 each"
   ],
   "notStarted": [
     "Owner approval;no merge",
@@ -27,7 +27,8 @@
     "Chromium/WebKit72identities;new360/390/1440 formed builder;4final bottle-toast cases",
     "Actual local214 table154/RPC540;10expected42501denials",
     "Raw unit data/cart/flavors/receipt snapshots/payloads unchanged",
-    "TypesBoth/strictlint/builds/SEO/network isolation/print10+2/Gitleaks0"
+    "TypesBoth/strictlint/builds/SEO/network isolation/print10+2/Gitleaks0",
+    "Final CI correction:4browser cases/0fail/0flaky,Admin1506,typecheck,strictlint"
   ],
   "testsRemaining": [
     "Exact finalSHA push+PR FULL CI"
@@ -36,7 +37,8 @@
     "T-A3 detailed damage deferred by explicit owner answer;no reader/SQL added",
     "T-B refund step/defaults/reference/calculated amount/numeric effects recorded as design only",
     "Two initial browser environment cases accepted only after one same-source rerun;no timeout/retry/assertion weakening",
-    "Remote mainf95;unmergedPR39/40 excluded"
+    "Remote mainf95;unmergedPR39/40 excluded",
+    "CI two stale labels fixed;4case both-engine local PASS,Admin1506 repeated PASS;204 image quota before cases on superseded SHA"
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -46,10 +48,10 @@
     "No T-C before T-A approval",
     "Preserve primary dirty owner docs"
   ],
-  "nextExactAction": "All T-A local gates PASS;final secrets and source/doc contracts then commit/push/create PR;FULL49 each;no merge",
+  "nextExactAction": "Commit verified stale-label correction and design-only owner addition;push PR41 then exact FULL CI49 each;no merge",
   "startedAt": "2026-10-27T22:27:54.124Z",
-  "checkpointedAt": "2026-10-27T22:55:59.846Z",
-  "filesTouchedCount": 45,
-  "filesTouchedManifestSha256": "13840cad60db3aa0d049b34b94b651756f397d5e9c03df84d262de382345bac4",
-  "workingTreeFingerprint": "758FB1AA78AB4402BA343C87195B2B27DEBA9070E06002FBC2C839344EB6164E"
+  "checkpointedAt": "2026-10-27T23:25:49.099Z",
+  "filesTouchedCount": 7,
+  "filesTouchedManifestSha256": "215da498a5de8ef1cec2ce55ced2d256a8278ac19d8c842c6b74d73dfd9b0b4c",
+  "workingTreeFingerprint": "1B5617C21161BCF6352FD30FAEA063EED50977C03ED52D4F1307CB44224CDAF4"
 }

@@ -31,7 +31,7 @@
     "storeIsolatedBuildAndSeo": true,
     "browserNetworkIsolation": true,
     "gitleaks": 0,
-    "acceptedBrowserIdentities": 72,
+    "acceptedBrowserIdentities": 76,
     "engines": [
       "Chromium",
       "WebKit"
@@ -52,7 +52,17 @@
         "pages": 2
       }
     ],
-    "historicalPresentationProofs": "Original pins and captured evidence unchanged;new byte-exact inverse covers only approved source/test changes;old expected labels revised with all numeric assertions retained"
+    "historicalPresentationProofs": "Original pins and captured evidence unchanged;new byte-exact inverse covers only approved source/test changes;old expected labels revised with all numeric assertions retained",
+    "ciCorrectionBrowserCases": {
+      "cases": 4,
+      "engines": [
+        "Chromium",
+        "WebKit"
+      ],
+      "result": "passed",
+      "staleLabelsOnly": true,
+      "numericAssertionsUnchanged": true
+    }
   },
   "currentActualLocalSdk": {
     "table": {
@@ -171,5 +181,12 @@
   },
   "ci": {
     "status": "Exact finalSHA push andPR FULL CI pending;no merge before owner approval"
+  },
+  "ciFirstAttempt": {
+    "sha": "5fb03983332d83d1b343ae86b20e62a9cf66c068",
+    "acceptedForDelivery": false,
+    "core": "Two stale text expectations corrected after CI;no timeout/retry changes",
+    "sales204": "AWS image data-limit during bootstrap before first case;no environmental rerun on superseded SHA",
+    "requiredNext": "Fresh FULL CI on final correction commit for push and PR"
   }
 }
