@@ -9,7 +9,7 @@ export function sourceBeforeOwnerTelegramFormat(file,text){
  if(hash(source)===pin.after){if(pin.added)return null;assert.equal(hash(pin.beforeText),pin.before,'TELEGRAM_FORMAT_INVERSE_CORRUPT');return pin.beforeText;}
  // Unrecognized App bytes stay intact so every existing entire-file historical
  // guard rejects them with its original error;never erase an unknown mutation.
- if(file==='src/App.tsx'||file.startsWith('tests/')||hash(source)===pin.before)return source;
+ if(file==='src/App.tsx'||file.startsWith('tests/')||file.startsWith('scripts/operations/')||file==='scripts/testing/run-handover214-gates.mjs'||hash(source)===pin.before)return source;
  assert.fail('HANDOVER214_UNREVIEWED_SOURCE:TELEGRAM_FORMAT:'+file);
 }
 export function restoreOwnerTelegramFormatSourceHashes(sources){return sources.flatMap(s=>{

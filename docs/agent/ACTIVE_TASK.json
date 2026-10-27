@@ -12,10 +12,11 @@
     "Native n8n2.35.5:17 events,15 URL buttons,17 original-ID acknowledgements,network none",
     "Actual App Chromium/WebKit16/16;network guard escaped0",
     "Fresh local214 SDK table154/154 and RPC540 dispatches;historical source pins preserved",
-    "Final Admin1495/1495 and Customer197/197 units;types/strict lint/build/isolation/Gitleaks0"
+    "Final Admin1495/1495 and Customer197/197 units;types/strict lint/build/isolation/Gitleaks0",
+    "CI found frozen214 proof versus current App mismatch;strict source projection fixed;native fresh/incremental and4resume cases plus negatives/concurrency PASS"
   ],
   "inProgress": [
-    "Commit/push and review PR with all17 previews;exact fullCI"
+    "Commit/push reference compatibility proof;verify exact fullCI before review"
   ],
   "notStarted": [
     "Owner review before merge"
@@ -24,7 +25,7 @@
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "testsPassed": [
-    "Admin units1495/1495;Customer197/197",
+    "Admin units1496/1496;Customer197/197",
     "Both types;strict ESLint0warnings",
     "Actual App Chromium/WebKit16/16;network isolation escaped0",
     "Native n8n2.35.5:17events,15URLbuttons,17original-IDacks,networknone",
@@ -32,7 +33,7 @@
     "Admin production build and verify-dist;oppositeOrigins0;Gitleaks0"
   ],
   "testsRemaining": [
-    "Exact-SHA FULL CI push and PR",
+    "Exact final-SHA FULL CI push and PR",
     "Owner review before merge"
   ],
   "findings": [
@@ -50,10 +51,10 @@
     "No Edge/RPC/migration/money/payload or routing changes",
     "Workflow inactive and businessAlertsEnabled=false"
   ],
-  "nextExactAction": "Local gates PASS;commit,push,review PR with17 previews;verify exact FULL CI;no merge or activation",
+  "nextExactAction": "All local gates and native RESET214 reference/resume PASS;commit/push,refresh PR37,verify final exact FULL CI;no merge",
   "startedAt": "2026-10-27T12:09:21.571Z",
-  "checkpointedAt": "2026-10-27T14:05:03.041Z",
-  "filesTouchedCount": 22,
-  "filesTouchedManifestSha256": "6c8ee43c03a582b7c83f80bc3f36ce1b2823ba15be75ec861915086c2632458f",
-  "workingTreeFingerprint": "3A1C8F45F3AA743668E360CB647890FDAD6F5D89B11FAD38E083E1FE0C3C0DE3"
+  "checkpointedAt": "2026-10-27T14:26:59.886Z",
+  "filesTouchedCount": 7,
+  "filesTouchedManifestSha256": "523696a671d14bb4446da08edaeea0593a5398574b0cf05229bf83979d91ed4b",
+  "workingTreeFingerprint": "B7589D1348B612FE35D57C13E59AFA7CD46FE392232493F63FBC9E42E91B0FC3"
 }

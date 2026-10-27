@@ -51,7 +51,7 @@
   "deployed": false,
   "merged": false,
   "localGates": {
-    "adminUnitTests": 1495,
+    "adminUnitTests": 1496,
     "customerUnitTests": 197,
     "failed": 0,
     "typesBoth": true,
@@ -60,5 +60,26 @@
     "verifyDistOppositeOrigins": 0,
     "browserIsolationExternalEscaped": 0,
     "gitleaks": 0
+  },
+  "referenceCompatibility": {
+    "freshIncrementalDifferences": 0,
+    "migrations": 176,
+    "functions": 556,
+    "resumeCases": 4,
+    "catalogDifferences": 0,
+    "aclDifferences": 0,
+    "twoSessionRaceFence": true,
+    "negativeSnapshots": {
+      "missing": true,
+      "tampered": true,
+      "differentOwner": true,
+      "differentProject": true,
+      "differentReference": true,
+      "noMarker": true,
+      "missingMfa": true
+    },
+    "realCommittedWritesRejected": true,
+    "ownerMissingRejected": true,
+    "hostedConnections": 0
   }
 }

@@ -117,3 +117,19 @@ test('actual App link effect only selects the three approved existing screens af
  const normalized=app.replace(block,'').replace("import {canUseNavigationAction} from './features/more/adminNavigation.config';\n",'').replace('    roleName,\n    roles,\n','');
  assert.equal(normalized,base); // all existing login,cheque,order and view permission paths stay intact.
 });
+
+test('214 operational reference retains its frozen source proof while current SDK evidence binds the actual display source',async()=>{
+ const {inventory}=await import('../scripts/audit/table-access-inventory.mjs');
+ const {verifyProbeCoverage}=await import('../scripts/audit/table-access-probes.mjs');
+ const old=JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_AFTER_214.json','utf8'));
+ const state=JSON.parse(readFileSync('docs/agent/project-state.json','utf8'));
+ const fresh=JSON.parse(readFileSync(state.currentTableReadinessEvidence,'utf8'));
+ const projected=await inventory({projectSource:sourceBeforeOwnerTelegramFormat}),current=await inventory();
+ assert.deepEqual(projected.sources,old.sourceHashes);assert.deepEqual(current.sources,fresh.sourceHashes);
+ assert.deepEqual(verifyProbeCoverage(projected,old.results),old.coverage);assert.deepEqual(verifyProbeCoverage(current,fresh.results),fresh.coverage);
+ const changed=await inventory({projectSource:(file:string,text:string)=>sourceBeforeOwnerTelegramFormat(file,file==='src/App.tsx'?text+'\nvoid unreviewed;':text)});
+ assert.notDeepEqual(changed.sources,old.sourceHashes);
+ for(const file of ['scripts/operations/build-acl-reference214.mjs','scripts/operations/frankfurt-reference214.mjs','scripts/testing/run-handover214-gates.mjs']){
+  assert.equal(sourceBeforeOwnerTelegramFormat(file,readFileSync(file,'utf8')),execFileSync('git',['show','28ab68dbe95329d435feb4871b6edd4a1230279f:'+file],{encoding:'utf8'}));
+ }
+});

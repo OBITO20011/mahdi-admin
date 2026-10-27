@@ -3,90 +3,30 @@
   "files": [
     {
       "code": " M",
-      "path": "automation/n8n/workflows/frankfurt-owner-business-alerts.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/OWNER_DECISIONS.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/project-state.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/source-before-environments.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/source-before-prelaunch-trial.mjs"
-    },
-    {
-      "code": " M",
-      "path": "src/App.tsx"
-    },
-    {
-      "code": " M",
-      "path": "tests/frankfurt-owner-alerts.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/pretrial-p1.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/supplier-replacement208-evidence.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/trial-owner-a.test.ts"
-    },
-    {
-      "code": "??",
       "path": "docs/agent/TELEGRAM_OWNER_FORMAT_LOCAL.json"
     },
     {
-      "code": "??",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_214_TELEGRAM_FORMAT.json"
-    },
-    {
-      "code": "??",
-      "path": "e2e/owner-alert-links-harness.html"
-    },
-    {
-      "code": "??",
-      "path": "e2e/owner-alert-links-harness.tsx"
-    },
-    {
-      "code": "??",
-      "path": "e2e/owner-alert-links.spec.ts"
-    },
-    {
-      "code": "??",
+      "code": " M",
       "path": "scripts/audit/owner-telegram-format-source-pins.json"
     },
     {
-      "code": "??",
+      "code": " M",
       "path": "scripts/audit/source-before-owner-telegram-format.mjs"
     },
     {
-      "code": "??",
-      "path": "tests/fixtures/owner-telegram-messages.golden.json"
+      "code": " M",
+      "path": "scripts/operations/build-acl-reference214.mjs"
     },
     {
-      "code": "??",
+      "code": " M",
+      "path": "scripts/operations/frankfurt-reference214.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-handover214-gates.mjs"
+    },
+    {
+      "code": " M",
       "path": "tests/owner-telegram-format.test.ts"
     }
   ]
