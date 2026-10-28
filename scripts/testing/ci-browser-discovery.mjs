@@ -7,10 +7,10 @@ import {packageFShardCount,isPackageFShardArgument} from './package-f-ci-shards.
 
 const root=path.resolve(import.meta.dirname,'../..');
 export const playwrightCli=path.join(root,'node_modules/@playwright/test/cli.js');
-function rawList(group,files,extra,ci){
+function rawList(group,files,extra,ci,coreGroup=undefined){
   const result=spawnSync(process.execPath,[playwrightCli,'test','--list','--reporter=json',
     '--config',group?'playwright.ci.config.ts':'playwright.config.ts',...extra,...files],{
-    cwd:root,env:{...process.env,CI:ci?'true':'',NAWASRAH_BROWSER_GROUP:group??''},
+    cwd:root,env:{...process.env,CI:ci?'true':'',NAWASRAH_BROWSER_GROUP:group??'',NAWASRAH_CORE_BROWSER_GROUP:coreGroup??''},
     encoding:'utf8',maxBuffer:32*1024*1024});
   assert.equal(result.status,0,`Playwright list ${group??'full'} failed: ${result.stderr}`);
   const report=JSON.parse(result.stdout);assert.deepEqual(report.errors,[]);
@@ -56,9 +56,10 @@ function testListFile(rows){
 }
 /** Actual Playwright discovery, with a per-project shard to balance engines too.
  * @param {string | undefined} group
- * @param {{files?:string[],shard?:number,ci?:boolean}} options */
-export function listBrowserTests(group,{files=[],shard,ci=Boolean(process.env.CI)}={}){
-  if(!shard)return rawList(group,files,[],ci);
+ * @param {{files?:string[],shard?:number,ci?:boolean,coreGroup?:string}} options */
+export function listBrowserTests(group,{files=[],shard,ci=Boolean(process.env.CI),coreGroup}={}){
+  assert.ok(!coreGroup||group==='core','CORE_BROWSER_FILTER_REQUIRES_CORE');
+  if(!shard)return rawList(group,files,[],ci,coreGroup);
   assert.equal(group,'package-f');
   const argument=`--shard=${shard}/${packageFShardCount}`;assert.ok(isPackageFShardArgument(argument));
   const selected=balanceBrowserCases(rawList(group,files,[],ci))[shard-1];

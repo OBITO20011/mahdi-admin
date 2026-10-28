@@ -1413,5 +1413,42 @@
   "deployments": 0,
   "migrationChanges": 0,
   "financialChanges": 0,
-  "ciStatus": "Final integration40 SHA push/PR FULL CI required before merge;not yet accepted"
+  "ciStatus": "Final integration40 SHA push/PR FULL CI required before merge;not yet accepted",
+  "ciScheduling": {
+    "reason": "Unsharded40 PR core hit20min twice;all DB/secret/restore and identical pushFULL50 passed",
+    "source": "Exact owner-approved41 scheduling already included in40cb8180",
+    "files": [
+      ".github/workflows/quality.yml",
+      "playwright.ci.config.ts",
+      "scripts/agent/verify-delivery-ci.mjs",
+      "scripts/testing/ci-browser-discovery.mjs",
+      "scripts/testing/core-browser-ci-groups.mjs",
+      "scripts/testing/private-ci-scope.mjs",
+      "scripts/testing/run-core-webkit-ci.mjs",
+      "scripts/testing/verify-browser-ci-partition.mjs",
+      "scripts/testing/verify-ci-playwright-image.mjs",
+      "tests/core-browser-ci-groups.test.ts",
+      "tests/package-f-ci-shards.test.ts",
+      "tests/private-ci-budget.test.ts"
+    ],
+    "assertionsWeakened": false,
+    "timeLimitsChanged": false,
+    "retriesChanged": false,
+    "next": "FullCI required on new40 SHA;no new application changes",
+    "local": {
+      "adminPassed": 1530,
+      "failed": 0,
+      "typecheck": true,
+      "strictLint": true,
+      "caseUnion": {
+        "full": 1574,
+        "core": 488,
+        "packageF": 1086,
+        "chromium": 256,
+        "webkit": 232
+      },
+      "applicationChanges": 0,
+      "sqlChanges": 0
+    }
+  }
 }

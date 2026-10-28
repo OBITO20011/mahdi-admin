@@ -7,6 +7,7 @@ import {packageFShardCount,packageFShards} from '../testing/package-f-ci-shards.
 
 export function verifyBrowserDeliveryJobs(jobs){
   for(const name of ['Lint, test, build and browser QA',
+    'Core WebKit browser QA',
     ...packageFShards.map(shard=>`Package F browser QA (${shard}/${packageFShardCount})`)]){
     const matches=jobs.filter(j=>j.name===name);
     assert.equal(matches.length,1,`Required CI job missing/duplicated: ${name}`);

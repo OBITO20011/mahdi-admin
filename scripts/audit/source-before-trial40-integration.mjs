@@ -1,3 +1,4 @@
+import {sourceBeforeTrial40Ci} from './source-before-trial40-ci-scheduling.mjs';
 // Exact merge bridge. Approved feature proofs retain their own original bytes;
 // current unprojected SDK evidence covers the actual combined application.
 import assert from 'node:assert/strict';
@@ -8,7 +9,7 @@ const hash=text=>createHash('sha256').update(text).digest('hex');
 export function projectTrial40Source(file,text,target){
   assert.ok(['identity','bulk','baseline'].includes(target),'TRIAL40_TARGET_INVALID');
   if(text===null)return null;
-  const source=text.replaceAll('\r\n','\n'),pin=trial40IntegrationPins[file];
+  const source=sourceBeforeTrial40Ci(file,text),pin=trial40IntegrationPins[file];
   // An unknown edit stays visible to the existing full-source guards.
   if(!pin||hash(source)!==pin.after)return source;
   const snapshot=pin.targets[target];

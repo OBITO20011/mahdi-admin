@@ -1,3 +1,4 @@
+import {sourceBeforeTrial40Ci} from '../scripts/audit/source-before-trial40-ci-scheduling.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFileSync} from 'node:fs';
@@ -6,7 +7,8 @@ import {createHash} from 'node:crypto';
 import {trial40IntegrationPins,projectTrial40Source} from '../scripts/audit/source-before-trial40-integration.mjs';
 
 const refs={baseline:'f95ff0458f90298edc21e39859d3268c7f7ccac7',identity:'2471fda5dcef5e0119feb0cc77168822a58b9581',bulk:'5ad57e1ca265390ca589d2924cf29092c98d5cf9'};
-const read=(file:string)=>readFileSync(file,'utf8').replaceAll('\r\n','\n');
+const read=(file:string)=>sourceBeforeTrial40Ci(file,readFileSync(file,'utf8'));
+
 const git=(args:string[])=>execFileSync('git',args,{encoding:'utf8',stdio:['ignore','pipe','pipe'],maxBuffer:16*1024**2}).replaceAll('\r\n','\n');
 const hash=(text:string)=>createHash('sha256').update(text).digest('hex');
 

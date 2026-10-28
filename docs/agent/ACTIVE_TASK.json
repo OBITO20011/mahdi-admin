@@ -3,7 +3,7 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner authorized ordered merge39/40/41;update40 against merged39 with exact historical proof projections and fresh current SDK;then fullCI and merge;no hosted/deploy",
-  "baselineSha": "5ad57e1ca265390ca589d2924cf29092c98d5cf9",
+  "baselineSha": "d741e6fc0cf7b18a6b7faeaae190fca47c3defa7",
   "branch": "codex/product-images-bulk",
   "phase": "PACKAGE_F",
   "completed": [
@@ -13,7 +13,7 @@
     "Local Admin1526/store197/browser20/0flaky/types/lint/build/SEO pass"
   ],
   "inProgress": [
-    "Commit/push integration40 then exact push+PR FULL CI and merge40"
+    "Apply exact approved41 core-engine CI scheduling after two20min40 PR cancellations;fullCI on new SHA required"
   ],
   "notStarted": [
     "FullCI final40SHA then merge40",
@@ -28,12 +28,14 @@
     "Actual SDK157/543;production bytes exact approved branches"
   ],
   "testsRemaining": [
-    "Gitleaks0 and exact finalSHA FULLCI"
+    "Core union/local unit gates and Gitleaks0",
+    "New exact40 SHA fullCI then ordered merge40/41"
   ],
   "findings": [
     "Three test-only integration failures corrected without numerical assertion changes",
     "No SQL/RPC/financial/permission changes",
-    "Latest owner forbids T-C before T-B design approval"
+    "Latest owner forbids T-C before T-B design approval",
+    "CI-only approved engine scheduling,zero app/SQL/financial changes"
   ],
   "blockers": [],
   "activeProcesses": [],

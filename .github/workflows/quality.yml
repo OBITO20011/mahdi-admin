@@ -87,6 +87,8 @@ jobs:
 
       - name: Run complete quality gate
         if: needs.scope.outputs.full == 'true'
+        env:
+          NAWASRAH_CORE_BROWSER_GROUP: chromium
         run: node scripts/testing/run-quality-ci.mjs core
 
       - name: Run opt-in private push gates and every affected core spec
@@ -101,6 +103,51 @@ jobs:
         with:
           name: playwright-report-core
           path: browser-core/playwright-report/
+          retention-days: 14
+
+  core-webkit-browser:
+    name: Core WebKit browser QA
+    runs-on: ubuntu-latest
+    needs: scope
+    if: needs.scope.outputs.full == 'true'
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: browser-core-webkit
+    container:
+      image: mcr.microsoft.com/playwright:v1.62.1-noble@sha256:dcc5531e97840b9b5e794f2814476b21571c5124a3fca2267d73041f56e7580e
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          path: browser-core-webkit
+      - name: Trust the checked-out workspace in this container
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE/browser-core-webkit"
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: |
+            browser-core-webkit/package-lock.json
+            browser-core-webkit/customer-web/package-lock.json
+      - name: Install admin dependencies
+        run: npm ci
+      - name: Install customer store dependencies
+        run: npm --prefix customer-web ci
+      - name: Verify pinned Playwright image matches lockfile
+        run: node scripts/testing/verify-ci-playwright-image.mjs
+      - name: Prove complete browser identity coverage before splitting engines
+        run: node scripts/testing/verify-browser-ci-partition.mjs
+      - name: Run every core WebKit case with original isolation and limits
+        run: node scripts/testing/run-core-webkit-ci.mjs
+      - name: Upload Playwright report on failure
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: playwright-report-core-webkit
+          path: browser-core-webkit/playwright-report/
           retention-days: 14
 
   package-f-browser:
@@ -202,7 +249,7 @@ jobs:
     name: Complete quality delivery gate
     runs-on: ubuntu-latest
     if: ${{ always() && needs.scope.result != 'skipped' }}
-    needs: [scope, quality, package-f-browser, database-runtime, current-database-runtime, pwa-release-update]
+    needs: [scope, quality, core-webkit-browser, package-f-browser, database-runtime, current-database-runtime, pwa-release-update]
     steps:
       - name: Checkout routed gate
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4

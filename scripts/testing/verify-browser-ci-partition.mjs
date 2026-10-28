@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {packageFShardCount,packageFShards,isPackageFSpec} from './package-f-ci-shards.mjs';
 import {listBrowserTests} from './ci-browser-discovery.mjs';
+import {coreBrowserGroups,verifyCoreBrowserPartition} from './core-browser-ci-groups.mjs';
 
 const list=(group,shard)=>listBrowserTests(group,{shard,ci:true});
 function verify(full,core,shards){
@@ -30,4 +31,8 @@ if(process.argv.includes('--self-test')){
   assert.throws(()=>verify(full,[a],shards.map((rows,index)=>index===0?[{...cases[0],key:'substituted-project'}]:rows)));
   assert.throws(()=>verify(full,[a],shards.map((rows,index)=>index===0?[...rows,{...cases[0],key:'unexpected'}]:rows)));
   console.log('Partition rejects missing,duplicate,misrouted and substituted identities');
-}else console.log(JSON.stringify(verify(list(),list('core'),packageFShards.map(shard=>list('package-f',shard)))));
+}else{
+  const core=list('core');
+  const coreGroups=verifyCoreBrowserPartition(core,coreBrowserGroups.map(coreGroup=>listBrowserTests('core',{coreGroup,ci:true})));
+  console.log(JSON.stringify({...verify(list(),core,packageFShards.map(shard=>list('package-f',shard))),coreGroups}));
+}
