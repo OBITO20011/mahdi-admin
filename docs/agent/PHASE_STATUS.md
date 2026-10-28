@@ -1,3 +1,7 @@
+#28Oct — owner approved T-B design;stage2 G1-G6 local implementation
+
+Separate codex/trial-tb-stage2 from approved PR42/322bd52;all presentedfinancial decisions approved,including restricted crossSKU/internalcredit and fullhistorical supplierpayablecredit. Read TRIAL_TB_IMPLEMENTATION_AR.md and design/TRIAL_TB_AFTERCARE_WIZARD_AR.md. Local-only tests/upgrade/PR/FULLCI then ownerapprovalSTOP;no historical migration edits or T-C.
+
 #28Oct — ordered39/40/41 merged;T-B DESIGN ONLY
 
 Main dba6c184ad9901151bbdd8c7a8cf6c40847ba311;feature39 exactFULL49each,40/41 exactFULL51each accepted. PrimaryFFwith20ownerfilehashesunchanged. New worktree codex/trial-tb-design is docs-onlystage1;no app/SQL implementation. Sourceboundwizard/refund/damage/numericexamples/mobilemockups for ownerapproval;noT-C. FinalmainCI followed inside chat,no automation. See docs/design/TRIAL_TB_AFTERCARE_WIZARD_AR.md.

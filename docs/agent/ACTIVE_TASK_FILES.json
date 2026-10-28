@@ -19,59 +19,7 @@
     },
     {
       "code": "??",
-      "path": "docs/agent/TRIAL_TB_DESIGN_LOCAL.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/design/TRIAL_TB_AFTERCARE_WIZARD_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "docs/design/TRIAL_TB_EXAMPLES.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/design/TRIAL_TB_MOBILE_MOCKUP_AR.html"
-    },
-    {
-      "code": "??",
-      "path": "docs/design/TRIAL_TB_PREVIEW_QA.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/design/TRIAL_TB_SOURCE_EVIDENCE.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/design/trial-tb/damage-390-chromium.png"
-    },
-    {
-      "code": "??",
-      "path": "docs/design/trial-tb/damage-390-webkit.png"
-    },
-    {
-      "code": "??",
-      "path": "docs/design/trial-tb/inspection-390-chromium.png"
-    },
-    {
-      "code": "??",
-      "path": "docs/design/trial-tb/inspection-390-webkit.png"
-    },
-    {
-      "code": "??",
-      "path": "docs/design/trial-tb/refund-390-chromium.png"
-    },
-    {
-      "code": "??",
-      "path": "docs/design/trial-tb/refund-390-webkit.png"
-    },
-    {
-      "code": "??",
-      "path": "docs/design/trial-tb/summary-390-chromium.png"
-    },
-    {
-      "code": "??",
-      "path": "docs/design/trial-tb/summary-390-webkit.png"
+      "path": "docs/agent/TRIAL_TB_IMPLEMENTATION_AR.md"
     }
   ]
 }

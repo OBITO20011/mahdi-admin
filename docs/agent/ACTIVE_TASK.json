@@ -2,54 +2,47 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "T-B stage1 DESIGN ONLY:one aftercare wizard/refund methods/damage states/source RPC gaps/numeric examples/mobile mockups;docs-only PR/fullCI then owner approval STOP",
-  "baselineSha": "dba6c184ad9901151bbdd8c7a8cf6c40847ba311",
-  "branch": "codex/trial-tb-design",
+  "objective": "Implement owner-approved T-B stage2 G1-G6:atomic inspected replacement,noncash cross-SKU exchange,supplier payable credit,one Arabic wizard and damage ledger;local isolated DB tests,owner upgrade,PR/FULLCI then approvalSTOP",
+  "baselineSha": "322bd52a13943210ad3c6eb07a26abb704300626",
+  "branch": "codex/trial-tb-stage2",
   "phase": "PACKAGE_F",
   "completed": [
-    "PR39/40/41 merged in owner order after exact final-head fullCI49/51/51 each event",
-    "Primary main dba6c184 synchronized;20owner localfiles byteidentical;recoverybackup retained",
-    "Source-bound design/refund methods/damage states/RPC gap map and42syntheticcases finalized",
-    "StaticHTML11mockups/6viewports/66checks bothengines,188exactmathchecks and5continuity PASS",
-    "No source/SQL/test/tool change;primary20ownerhashesstillpreserved"
+    "Design PR42 head322bd52 full51each event;owner explicitly approved all presented decisions 2026-10-28",
+    "Fresh separate worktree from exact approved design;no unrelated owner file changed"
   ],
   "inProgress": [
-    "Docs-only commit/PR;exact finalhead andmain FULLCI;thenowner designapprovalSTOP"
+    "Inspect source contracts and establish versioned215 implementation/test plan"
   ],
   "notStarted": [
-    "T-B implementation/migrations/financialpolicy adoption",
-    "T-C:forbidden before T-B design approval"
+    "T-C partial POS payments;separate later owner task",
+    "Implementation PR merge;requires owner review"
   ],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "testsPassed": [
-    "42synthetic scenarios+2precisioncases:188exactBigIntchecks;NOTDBexecution",
-    "StaticHTML11mockups360/390/768 bothengines,66checks,noJS/noexternalrequests",
-    "18sourcefacts/18files bindmain dba6c184;176migration hashesunchanged",
-    "Agentcontinuity5;gitdiffscope/docs-only;primary20ownerhashes"
-  ],
+  "testsPassed": [],
   "testsRemaining": [
-    "Gitleaks0",
-    "Exact finaldocs-head FULLCI push+PR andfinalmain FULLCI"
+    "Actual DB numeric cases/roles/replay/races/rollback/integrity",
+    "UI+browser390 bothengines/unit/types/lint/build/SEO/PWA",
+    "Migration215 fresh/incremental catalog equality and strict owner dry/apply/verify locally",
+    "Gitleaks0 and exact FULLCI push+PR"
   ],
   "findings": [
-    "Ordinary fullparcelreturn already supports split;warranty replacement inspection needsnewDB",
-    "CrossSKU/internalcredit andsupplierpayablecredit are explicit design proposals,notcurrentRPCfeatures",
-    "Newtask from own delivered cleanmain;prior branch/baseline preflight mismatch synchronized under existing owner authorization"
+    "Existing211 warranty consumes full quantity as defect;new version must recover good stock once without historical mutation",
+    "CrossSKU credit and supplier payablecredit approved at fullhistoricalvalue/availablepayable only"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No app/test/tool/Edge/SQL/RPC/migration implementation in this design package",
-    "No hosted project connection/deploy",
+    "No hosted project connection,deployment or credentials",
+    "No historical migration edits/backfill",
     "No primary owner local file changes",
-    "No T-C or T-B implementation before design approval"
+    "No T-C and no implementation PR merge before owner review"
   ],
-  "nextExactAction": "Commit/push docs-only T-B design andcreatePR;exact head/main FULLCI;return owner designapproval STOP,no implementation/noT-C",
-  "startedAt": "2026-10-28T04:02:11.823Z",
-  "checkpointedAt": "2026-10-28T04:13:42.379Z",
-  "filesTouchedCount": 18,
-  "filesTouchedManifestSha256": "fefbf9dd678a8289263346647be0efc45662370079b92e2fc3298a8dee5d8c91",
-  "workingTreeFingerprint": "833640CD16EE0FB08741731C8245FAAC80FF8D1CD781311CFEA8B239AF34686A"
+  "nextExactAction": "Implement version215 G1-G6 contracts and isolated DB tests per approved T-B design;no hosted/deploy/noT-C;return implementation PR for owner approval",
+  "startedAt": "2026-10-28T13:06:11.980Z",
+  "checkpointedAt": "2026-10-28T13:06:24.161Z",
+  "filesTouchedCount": 5,
+  "filesTouchedManifestSha256": "70e18f6328c12e8cc49522c4481898bc1a1b581144cbac02fd5fd9263a7eec75",
+  "workingTreeFingerprint": "79209E34D93DFA613512DA3B230D8B5D158C299D83A4AF987F34704BB4A88737"
 }
