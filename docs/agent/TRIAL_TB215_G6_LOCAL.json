@@ -1,0 +1,146 @@
+{
+  "scope": "PARTIAL T-B:G2/G3/G6 database foundations;not full delivery",
+  "hostedConnections": 0,
+  "cases": [
+    {
+      "name": "214 to215 installs transactionally; every pre-existing table/sequence unchanged",
+      "passed": true
+    },
+    {
+      "name": "owner parcel example regular: +11 good/-12 replacement, cost500, profit-500, no money, immutable replay",
+      "passed": true
+    },
+    {
+      "name": "owner parcel example parcel-only: +11 good/-12 replacement, cost500, profit-500, no money, immutable replay",
+      "passed": true
+    },
+    {
+      "name": "explicit inspection all-bad has exact stock/profit; no implicit all-bad default",
+      "passed": true
+    },
+    {
+      "name": "explicit inspection all-good has exact stock/profit; no implicit all-bad default",
+      "passed": true
+    },
+    {
+      "name": "only two bad packets held, partial historical-cost receipt then one refusal; once-only loss, no drawer/debt",
+      "passed": true
+    },
+    {
+      "name": "ordinary parcel/parcel-only exception remains defective-only same-SKU; good partial parcel and unit sale rejected with zero writes",
+      "passed": true
+    },
+    {
+      "name": "existing J5 reclassifies only one inspected bad packet; good11 never become supplier claim; all-good inspection has no damage candidate",
+      "passed": true
+    },
+    {
+      "name": "changed inventory preview, forged cost and duplicate physical source all refuse without any write",
+      "passed": true
+    },
+    {
+      "name": "all staff/no-role callers: admin quantitative preview/save has no owner financial fields; supplier choice owner-only; every private helper denied",
+      "passed": true
+    },
+    {
+      "name": "anon/service role grants absent; enrolled owner AAL1 and inactive owner denied before reads/writes",
+      "passed": true
+    },
+    {
+      "name": "two real sessions/same identity: contender blocks, exact replay, one issue/restock and one physical-capacity consumption",
+      "passed": true
+    },
+    {
+      "name": "injected failures roll every table/business-number sequence back; only exact existing113 technical mutation stamps advance1/2, no partial warranty",
+      "passed": true
+    },
+    {
+      "name": "held1000 becomes actual supplier payable50000 to49000; no stock/cash/payment/profit change; explicit statement; replay and receive/refusal/old-inverse guards",
+      "passed": true
+    },
+    {
+      "name": "paired owner credit inverse restores payable and pending asset together once, without stock/cash/profit; repeated inverse denied/replay immutable",
+      "passed": true
+    },
+    {
+      "name": "supplier credit cannot exceed actual evidenced payable; no fabricated opening balance/payment/expense",
+      "passed": true
+    },
+    {
+      "name": "partial credit and partial in-kind receipt remain separate; later case decision blocks inverse with no side effect",
+      "passed": true
+    },
+    {
+      "name": "later supplier financial membership/payment blocks credit inverse; cached-balance coincidence cannot erase dependency",
+      "passed": true
+    },
+    {
+      "name": "1000.6 exact historical cost across three partial credits rounds cumulatively1001+1000+1001=3002, not3003",
+      "passed": true
+    },
+    {
+      "name": "two independent sessions credit vs receipt/refusal in both lock orders: one decision wins, loser waits then zero effect, no duplicate liability/stock/loss",
+      "passed": true
+    },
+    {
+      "name": "failure between held-asset ledger and supplier balance rolls every table and every sequence back; no half credit",
+      "passed": true
+    },
+    {
+      "name": "forged one-fils credit fails independent immutable historical-cost/event proof; transaction leaves all original evidence intact",
+      "passed": true
+    },
+    {
+      "name": "credit preview/write/ledger owner-only before replay; enrolled AAL1, staff, no-role, anon/service role/private helper all denied without writes",
+      "passed": true
+    }
+  ],
+  "ok": true,
+  "migrationCanonicalLfSha256": "fe0038fe9259fc04a32759a8034c595fb50cafb72b7ba0cd9f6917bc1884c09f",
+  "endedAt": "2026-10-28T14:04:04.551Z",
+  "implementationComplete": false,
+  "ownerUpgradeAvailable": false,
+  "fullDeliveryCiComplete": false,
+  "supersedesFoundation": {
+    "commit": "d36b7a496e3f33ada3232e526f7ae5d9b0d714a2",
+    "file": "docs/agent/TRIAL_TB215_FOUNDATION_LOCAL.json"
+  },
+  "sourceArtifacts": [
+    {
+      "file": "supabase/migrations/215_inspected_aftercare_and_supplier_credit.sql",
+      "sha256": "fe0038fe9259fc04a32759a8034c595fb50cafb72b7ba0cd9f6917bc1884c09f"
+    },
+    {
+      "file": "scripts/testing/aftercare215-context.mjs",
+      "sha256": "cdd9cdf0ebdccf2eec7a3743cb1b50733739e1747c8d99f9d63a9311a2c8a83c"
+    },
+    {
+      "file": "scripts/testing/aftercare215-inspected-runtime.mjs",
+      "sha256": "be96c6b05b50eb154478eed98719813b3a07f5244cd10f07441b89e11eaa88b2"
+    },
+    {
+      "file": "scripts/testing/aftercare215-security-runtime.mjs",
+      "sha256": "6e9c26dd8fa0c3b42b665deb22fd8b0d809a8ba64d9b75d180a408a15f10c6b9"
+    },
+    {
+      "file": "scripts/testing/aftercare215-credit-runtime.mjs",
+      "sha256": "d572b25806d39a0952efd504d931101fa183a381b6bf2b34fa32b2180a69284b"
+    },
+    {
+      "file": "scripts/testing/aftercare215-race.mjs",
+      "sha256": "401f980e1107060497af4503795c224e05eb60771adc45f9ff4b2befad070ddf"
+    },
+    {
+      "file": "scripts/testing/run-aftercare215-runtime.mjs",
+      "sha256": "5b5d52e0b978cbd3c183a1fa8d00049868049df1b96c8b375cdbd32c8de096b3"
+    }
+  ],
+  "remaining": [
+    "G1 ordinary-return authoritative preview",
+    "G4 noncash cross-SKU exchange and every financial/cash/receipt reader",
+    "G5 damage details/net loss/quantity states and ledger UI",
+    "Single Arabic wizard/recovery/browser390 both engines",
+    "Boundary exactWAC/mixedparcel/priorleaf/legacy/integrity/restore/catalog/owner215 tool",
+    "Full local quality/Gitleaks/exact finalSHA FULLCI and owner review beforemerge"
+  ]
+}

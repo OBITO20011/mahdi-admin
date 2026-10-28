@@ -3,16 +3,17 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Implement owner-approved T-B stage2 G1-G6:atomic inspected replacement,noncash cross-SKU exchange,supplier payable credit,one Arabic wizard and damage ledger;local isolated DB tests,owner upgrade,PR/FULLCI then approvalSTOP",
-  "baselineSha": "fae38fd451b9589838674a8675fba9e3854e5c33",
+  "baselineSha": "d36b7a496e3f33ada3232e526f7ae5d9b0d714a2",
   "branch": "codex/trial-tb-stage2",
   "phase": "PACKAGE_F",
   "completed": [
     "Design PR42 head322bd52 full51each event;owner explicitly approved all presented decisions 2026-10-28",
     "Fresh separate worktree from exact approved design;no unrelated owner file changed",
-    "G2/G3 foundation215 fresh214 actual PostgreSQL13groups passed;strictfinancial/prevalidation zero-write,roleDTO/MFA,real two-sessionreplay,injected atomic rollback"
+    "G2/G3 foundation215 fresh214 actual PostgreSQL13groups passed;strictfinancial/prevalidation zero-write,roleDTO/MFA,real two-sessionreplay,injected atomic rollback",
+    "G6 payable-credit/inverse/statement DB foundation;fresh214 migration215 plusG2/G3/G6 23actualgroups PASS"
   ],
   "inProgress": [
-    "Implement remaining approved G1/G4/G5/G6 and complete G2 boundary/legacy/integrity tests;wholepackageNOTcomplete"
+    "Complete G1/G4/G5 and wizard/ledger UI,full boundary/integrity/upgrade/reference/quality/exactCI;wholepackageNOTcomplete"
   ],
   "notStarted": [
     "T-C partial POS payments;separate later owner task",
@@ -22,16 +23,17 @@
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "testsPassed": [
-    "Fresh214 to215 no backfill/old table+sequencechanges",
-    "13 actual PostgreSQL foundationgroups:owner11good1bad/parcelonly/partialhold-receive-refuse/J5badonly/roles/MFA/replay/two-session/rollback"
+    "Fresh214-to215/23actualDBgroups G2/G3/G6;legacy tables/sequences unchanged",
+    "50000to49000 payablecredit,pairedinverse,no cash/stock/profit;1000.6 cumulative3002;4blockedcredit/receive/refusalraces;forgedfils/rollback/roles/MFA",
+    "Agentcontinuity/migrationnumbering7 PASS;Gitleaks0 onprevioussavedfoundation"
   ],
   "testsRemaining": [
-    "G1 read-only ordinary-return preview and UI",
-    "G4 versioned noncash cross-SKU exchange",
-    "G5 owner-only values/damage history details/net totals",
-    "G6 supplier payable credit/inverse ledger",
-    "Mixedparcel/priorphysicalleaf/exactWAC/capacity races/evidencecorruption/strictcatalog+restore/integrity",
-    "Owner215command/strictreference and full unit/browser/CI gates"
+    "G1 ordinary-return authoritative preview",
+    "G4 noncash cross-SKU exchange and every financial/cash/receipt reader",
+    "G5 damage details/net loss/quantity states and ledger UI",
+    "Single Arabic wizard/recovery/browser390 both engines",
+    "Boundary exactWAC/mixedparcel/priorleaf/legacy/integrity/restore/catalog/owner215 tool",
+    "Full local quality/Gitleaks/exact finalSHA FULLCI and owner review beforemerge"
   ],
   "findings": [
     "Existing211 warranty consumes full quantity as defect;new version must recover good stock once without historical mutation",
@@ -46,10 +48,10 @@
     "No primary owner local file changes",
     "No T-C and no implementation PR merge before owner review"
   ],
-  "nextExactAction": "Continue approved T-B215:complete G1/G4/G5/G6,UI and full isolated boundary tests;13-group G2/G3 foundation passed,notdelivery;nohost/noT-C",
+  "nextExactAction": "Continue approved T-B215 G1/G4/G5 andwizard/ledgerUI/fullquality+ownerupgrade;G2/G3/G6 fresh23DBgroupsPASS,notdelivery;commit+pushthiscompletedfoundation;nohost/noT-C",
   "startedAt": "2026-10-28T13:06:11.980Z",
-  "checkpointedAt": "2026-10-28T13:35:57.406Z",
-  "filesTouchedCount": 11,
-  "filesTouchedManifestSha256": "91862b1a71da2506d22c1a81877e7f8412a6fd1096fac782a02fa6006f5069d8",
-  "workingTreeFingerprint": "4521445826BEE78F76FE415C5A148D86890A6641EA6C738428367F1FF66ED044"
+  "checkpointedAt": "2026-10-28T14:05:10.979Z",
+  "filesTouchedCount": 9,
+  "filesTouchedManifestSha256": "69446026a6df0168260beff7a51f964ad5d801b8b4ef56f5e2f2c33218b19f67",
+  "workingTreeFingerprint": "1391A087897A9A39F8981150D9721946D929E793CE3C01B3CDD30B09513CD22C"
 }

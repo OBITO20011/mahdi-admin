@@ -403,6 +403,16 @@ BEGIN
  FOR r IN SELECT DISTINCT i.operation_id FROM public.aftercare215_inspection_items i JOIN public.supplier_replacement_cases c ON c.id=i.supplier_case_id
   WHERE c.operation_id=p_operation_id OR EXISTS(SELECT 1 FROM public.supplier_replacement_events e WHERE e.case_id=c.id AND e.operation_id=p_operation_id)
  LOOP PERFORM public.tb215_assert_inspection_internal(r.operation_id); END LOOP;
+ FOR r IN SELECT DISTINCT credit.operation_id FROM public.supplier215_credits credit
+  JOIN public.supplier_replacement_cases c ON c.id=credit.case_id
+  WHERE credit.operation_id=p_operation_id OR c.operation_id=p_operation_id
+   OR EXISTS(SELECT 1 FROM public.supplier_replacement_events e WHERE e.case_id=c.id AND e.operation_id=p_operation_id)
+ LOOP PERFORM public.tb215_assert_supplier_credit_internal(r.operation_id); END LOOP;
+ IF EXISTS(SELECT 1 FROM public.supplier_replacement_events e
+  LEFT JOIN public.supplier_replacement_events original ON original.id=e.reverses_event_id
+  WHERE e.operation_id=p_operation_id AND(e.action='credit' OR original.action='credit')
+   AND NOT EXISTS(SELECT 1 FROM public.supplier215_credits credit WHERE credit.event_id=e.id))
+ THEN RAISE EXCEPTION 'SUPPLIER215_CREDIT_EVIDENCE_INVALID'; END IF;
  IF EXISTS(SELECT 1 FROM public.supplier_replacement_cases c WHERE c.origin='inspected_replacement'
   AND(c.operation_id=p_operation_id OR EXISTS(SELECT 1 FROM public.supplier_replacement_events e WHERE e.case_id=c.id AND e.operation_id=p_operation_id))
   AND NOT EXISTS(SELECT 1 FROM public.aftercare215_inspection_items i WHERE i.supplier_case_id=c.id))
@@ -425,8 +435,272 @@ BEGIN
  RETURN facts;
 END $$;
 
+-- A supplier credit exchanges a held in-kind asset for an equal reduction of
+-- an evidenced supplier payable. It is not a cash payment or a write-off.
+CREATE TABLE public.supplier215_credits (
+ event_id UUID PRIMARY KEY REFERENCES public.supplier_replacement_events(id),
+ operation_id UUID NOT NULL UNIQUE REFERENCES public.business_operations(id) DEFERRABLE INITIALLY DEFERRED,
+ case_id UUID NOT NULL REFERENCES public.supplier_replacement_cases(id),
+ supplier_id UUID NOT NULL REFERENCES public.suppliers(id),
+ amount_delta_in_minor_units BIGINT NOT NULL CHECK(amount_delta_in_minor_units<>0),
+ balance_before_in_minor_units BIGINT NOT NULL,
+ balance_after_in_minor_units BIGINT NOT NULL,
+ financial_membership_sha256 TEXT NOT NULL CHECK(financial_membership_sha256~'^[0-9a-f]{64}$'),
+ reverses_credit_event_id UUID UNIQUE REFERENCES public.supplier215_credits(event_id),
+ created_at TIMESTAMPTZ NOT NULL,
+ created_by UUID NOT NULL REFERENCES public.profiles(id),
+ CHECK(balance_after_in_minor_units=balance_before_in_minor_units-amount_delta_in_minor_units),
+ CHECK((amount_delta_in_minor_units<0)=(reverses_credit_event_id IS NOT NULL))
+);
+CREATE INDEX supplier215_credit_supplier ON public.supplier215_credits(supplier_id,created_at,event_id);
+ALTER TABLE public.supplier_replacement_events DROP CONSTRAINT supplier_replacement_events_action_check;
+ALTER TABLE public.supplier_replacement_events DROP CONSTRAINT supplier_replacement_events_check1;
+ALTER TABLE public.supplier_replacement_events ADD CONSTRAINT supplier_replacement215_action CHECK(action IN('send','immediate','receive','writeoff','damage','reverse','credit'));
+ALTER TABLE public.supplier_replacement_events ADD CONSTRAINT supplier_replacement215_delta CHECK(action='reverse'
+ OR(action='send' AND held_delta=quantity) OR(action IN('receive','writeoff','credit') AND held_delta=-quantity)
+ OR(action IN('immediate','damage') AND held_delta=0));
+
+CREATE FUNCTION public.tb215_supplier_membership_internal(p_supplier_id UUID)
+RETURNS TEXT LANGUAGE sql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+ SELECT encode(extensions.digest(jsonb_build_object(
+  'direct',(SELECT COALESCE(jsonb_agg(to_jsonb(r) ORDER BY id),'[]') FROM public.supplier_receipts r WHERE r.supplier_id=p_supplier_id),
+  'purchase',(SELECT COALESCE(jsonb_agg(to_jsonb(r) ORDER BY r.id),'[]') FROM public.purchase_receipts r JOIN public.purchase_orders po ON po.id=r.purchase_order_id WHERE po.supplier_id=p_supplier_id),
+  'payments',(SELECT COALESCE(jsonb_agg(to_jsonb(r) ORDER BY id),'[]') FROM public.supplier_payments r WHERE r.supplier_id=p_supplier_id),
+  'opening',(SELECT COALESCE(jsonb_agg(to_jsonb(r) ORDER BY id),'[]') FROM public.supplier_opening_balances r WHERE r.supplier_id=p_supplier_id),
+  'claims',(SELECT COALESCE(jsonb_agg(to_jsonb(r) ORDER BY id),'[]') FROM public.cheque_compensation_claims r WHERE r.party_kind='supplier' AND r.party_id=p_supplier_id)
+ )::TEXT,'sha256'),'hex');
+$$;
+
+ALTER FUNCTION public.phase133_supplier_balance_evidence_internal() RENAME TO tb215_supplier_balance_before215_internal;
+CREATE FUNCTION public.phase133_supplier_balance_evidence_internal()
+RETURNS TABLE(supplier_id UUID,balance BIGINT) LANGUAGE sql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+ SELECT old.supplier_id,(old.balance-COALESCE(credits.amount,0))::BIGINT FROM public.tb215_supplier_balance_before215_internal() old
+ LEFT JOIN(SELECT c.supplier_id,sum(c.amount_delta_in_minor_units) amount FROM public.supplier215_credits c GROUP BY c.supplier_id) credits ON credits.supplier_id=old.supplier_id;
+$$;
+
+CREATE FUNCTION public.tb215_credit_plan_internal(p_action TEXT,p_payload JSONB)
+RETURNS JSONB LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+DECLARE c public.supplier_replacement_cases%ROWTYPE; original public.supplier215_credits%ROWTYPE; event public.supplier_replacement_events%ROWTYPE;
+ quantity INTEGER; amount BIGINT; pending BIGINT; prior BIGINT; balance BIGINT; cached BIGINT; last_id UUID; membership TEXT; reason TEXT:=nullif(btrim(p_payload->>'reason'),'');
+BEGIN
+ IF p_action IS NULL OR p_action NOT IN('credit','reverse_credit') OR jsonb_typeof(p_payload) IS DISTINCT FROM 'object'
+  OR reason IS NULL OR length(reason) NOT BETWEEN 3 AND 500
+  OR EXISTS(SELECT 1 FROM jsonb_object_keys(p_payload) k WHERE NOT k=ANY(CASE WHEN p_action='credit' THEN ARRAY['caseId','quantity','reason'] ELSE ARRAY['eventId','reason'] END))
+ THEN RAISE EXCEPTION 'SUPPLIER215_CREDIT_REQUEST_INVALID'; END IF;
+ IF p_action='credit' THEN
+  IF jsonb_typeof(p_payload->'quantity') IS DISTINCT FROM 'number' OR COALESCE(p_payload->>'quantity','') !~ '^[1-9][0-9]{0,8}$'
+  THEN RAISE EXCEPTION 'SUPPLIER_REPLACEMENT_QUANTITY_INVALID'; END IF;
+  quantity:=(p_payload->>'quantity')::INTEGER;
+  SELECT * INTO c FROM public.supplier_replacement_cases WHERE id=(p_payload->>'caseId')::UUID;
+ ELSE
+  SELECT * INTO original FROM public.supplier215_credits WHERE event_id=(p_payload->>'eventId')::UUID AND amount_delta_in_minor_units>0;
+  IF NOT FOUND THEN RAISE EXCEPTION 'SUPPLIER215_CREDIT_EVENT_INVALID'; END IF;
+  SELECT * INTO STRICT event FROM public.supplier_replacement_events WHERE id=original.event_id;
+  SELECT * INTO c FROM public.supplier_replacement_cases WHERE id=original.case_id;
+  quantity:=event.quantity;
+ END IF;
+ IF c.id IS NULL OR c.supplier_id IS NULL THEN RAISE EXCEPTION 'SUPPLIER215_CREDIT_CASE_INVALID'; END IF;
+ SELECT id INTO last_id FROM public.supplier_replacement_events e WHERE e.case_id=c.id
+  AND NOT EXISTS(SELECT 1 FROM public.supplier_replacement_events n WHERE n.previous_event_id=e.id);
+ SELECT COALESCE(sum(held_delta),0) INTO pending FROM public.supplier_replacement_events WHERE case_id=c.id;
+ SELECT current_balance_in_minor_units INTO cached FROM public.suppliers WHERE id=c.supplier_id AND is_active;
+ IF NOT FOUND THEN RAISE EXCEPTION 'SUPPLIER_REPLACEMENT_SUPPLIER_INVALID'; END IF;
+ SELECT e.balance INTO balance FROM public.phase133_supplier_balance_evidence_internal() e WHERE e.supplier_id=c.supplier_id;
+ IF balance IS NULL OR balance IS DISTINCT FROM cached THEN RAISE EXCEPTION 'SUPPLIER215_PAYABLE_EVIDENCE_INVALID'; END IF;
+ membership:=public.tb215_supplier_membership_internal(c.supplier_id);
+ IF p_action='credit' THEN
+  IF quantity>pending THEN RAISE EXCEPTION 'SUPPLIER_REPLACEMENT_EXCEEDS_PENDING'; END IF;
+  SELECT COALESCE(sum(CASE WHEN e.action='credit' THEN e.quantity ELSE -e.quantity END),0) INTO prior
+   FROM public.supplier215_credits l JOIN public.supplier_replacement_events e ON e.id=l.event_id WHERE l.case_id=c.id;
+  amount:=round((prior+quantity)*c.unit_cost_in_minor_units_exact)::BIGINT-round(prior*c.unit_cost_in_minor_units_exact)::BIGINT;
+  IF amount<=0 OR amount>balance THEN RAISE EXCEPTION 'SUPPLIER215_CREDIT_EXCEEDS_PAYABLE'; END IF;
+ ELSE
+  IF EXISTS(SELECT 1 FROM public.supplier215_credits WHERE reverses_credit_event_id=original.event_id) THEN RAISE EXCEPTION 'SUPPLIER_REPLACEMENT_ALREADY_REVERSED'; END IF;
+  IF last_id IS DISTINCT FROM original.event_id OR pending+quantity>c.quantity
+   OR balance IS DISTINCT FROM original.balance_after_in_minor_units OR membership IS DISTINCT FROM original.financial_membership_sha256
+  THEN RAISE EXCEPTION 'SUPPLIER215_CREDIT_LATER_DEPENDENCY'; END IF;
+  amount:=-original.amount_delta_in_minor_units;
+ END IF;
+ RETURN jsonb_build_object('action',p_action,'payload',p_payload||jsonb_build_object('reason',reason),'caseId',c.id,'supplierId',c.supplier_id,
+  'productId',c.product_id,'quantity',quantity,'amountDeltaInMinorUnits',amount::TEXT,'balanceBeforeInMinorUnits',balance::TEXT,
+  'balanceAfterInMinorUnits',(balance-amount)::TEXT,'lastEventId',last_id,'pendingBefore',pending,'membership',membership,'reversesEventId',original.event_id);
+END $$;
+
+CREATE FUNCTION public.preview_supplier_replacement_credit_v1(p_action TEXT,p_payload JSONB)
+RETURNS JSONB LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+DECLARE plan JSONB;
+BEGIN
+ PERFORM public.sr208_assert_role_internal(CASE WHEN p_action='reverse_credit' THEN 'reverse' ELSE 'values' END);
+ plan:=public.tb215_credit_plan_internal(p_action,p_payload);
+ RETURN (plan-'membership'-'payload')||jsonb_build_object('contractVersion',215,'previewFingerprint',encode(extensions.digest(plan::TEXT,'sha256'),'hex'));
+END $$;
+
+-- Credit and its inverse are value-neutral stock events. The ordinary 208
+-- stock-restoring inverse continues to enforce its original movement guards.
+ALTER FUNCTION public.sr208_append_event_internal(UUID,UUID,TEXT,INTEGER,INTEGER,BIGINT,INTEGER,TEXT,TIMESTAMPTZ,UUID) RENAME TO tb215_append_before215_internal;
+CREATE FUNCTION public.sr208_append_event_internal(p_operation_id UUID,p_case_id UUID,p_action TEXT,p_quantity INTEGER,p_held_delta INTEGER,p_expense BIGINT,p_stock_delta INTEGER,p_reason TEXT,p_at TIMESTAMPTZ,p_reverses UUID DEFAULT NULL)
+RETURNS UUID LANGUAGE plpgsql SECURITY DEFINER SET search_path=public,pg_temp AS $$
+DECLARE c public.supplier_replacement_cases%ROWTYPE; p public.products%ROWTYPE; qty INTEGER; reserved INTEGER; previous UUID; event_id UUID:=gen_random_uuid(); original public.supplier_replacement_events%ROWTYPE;
+BEGIN
+ IF p_action<>'credit' AND NOT(p_action='reverse' AND EXISTS(SELECT 1 FROM public.supplier215_credits credit WHERE credit.event_id=p_reverses AND credit.amount_delta_in_minor_units>0)) THEN
+  RETURN public.tb215_append_before215_internal(p_operation_id,p_case_id,p_action,p_quantity,p_held_delta,p_expense,p_stock_delta,p_reason,p_at,p_reverses);
+ END IF;
+ IF p_quantity IS NULL OR p_quantity<=0 OR p_expense IS DISTINCT FROM 0 OR p_stock_delta IS DISTINCT FROM 0
+  OR (p_action='credit' AND(p_reverses IS NOT NULL OR p_held_delta IS DISTINCT FROM -p_quantity))
+  OR (p_action='reverse' AND p_held_delta IS DISTINCT FROM p_quantity) THEN RAISE EXCEPTION 'SUPPLIER215_CREDIT_EFFECT_INVALID'; END IF;
+ SELECT * INTO STRICT c FROM public.supplier_replacement_cases WHERE id=p_case_id;
+ IF p_action='reverse' THEN
+  SELECT * INTO STRICT original FROM public.supplier_replacement_events WHERE id=p_reverses;
+  IF original.case_id<>c.id OR original.action<>'credit' OR original.quantity<>p_quantity THEN RAISE EXCEPTION 'SUPPLIER215_CREDIT_EFFECT_INVALID'; END IF;
+ END IF;
+ SELECT * INTO STRICT p FROM public.products WHERE id=c.product_id;
+ SELECT on_hand_quantity,reserved_quantity INTO STRICT qty,reserved FROM public.inventory_balances WHERE warehouse_id=c.warehouse_id AND product_id=c.product_id;
+ SELECT id INTO previous FROM public.supplier_replacement_events e WHERE e.case_id=c.id AND NOT EXISTS(SELECT 1 FROM public.supplier_replacement_events n WHERE n.previous_event_id=e.id);
+ INSERT INTO public.supplier_replacement_events(id,case_id,operation_id,action,quantity,held_delta,expense_delta_in_minor_units,reverses_event_id,previous_event_id,reason,occurred_at,created_by)
+  VALUES(event_id,c.id,p_operation_id,p_action,p_quantity,p_held_delta,0,p_reverses,previous,p_reason,p_at,auth.uid());
+ INSERT INTO public.supplier_replacement_inventory_effects(event_id,product_id,warehouse_id,on_hand_before,on_hand_after,reserved_before,wac_before,wac_after,cost_before,cost_after,movement_ids,post_inventory_fingerprint)
+  VALUES(event_id,c.product_id,c.warehouse_id,qty,qty,reserved,p.wac_cost_in_minor_units_exact,p.wac_cost_in_minor_units_exact,p.cost_price_in_minor_units,p.cost_price_in_minor_units,'{}',public.sr208_inventory_fingerprint_internal(c.product_id));
+ RETURN event_id;
+END $$;
+
+CREATE FUNCTION public.tb215_assert_supplier_credit_internal(p_operation_id UUID)
+RETURNS VOID LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+DECLARE l public.supplier215_credits%ROWTYPE; c public.supplier_replacement_cases%ROWTYPE; e public.supplier_replacement_events%ROWTYPE; b public.business_operations%ROWTYPE; amount BIGINT; prior BIGINT;
+BEGIN
+ SELECT * INTO STRICT l FROM public.supplier215_credits WHERE operation_id=p_operation_id;
+ SELECT * INTO STRICT c FROM public.supplier_replacement_cases WHERE id=l.case_id;
+ SELECT * INTO STRICT e FROM public.supplier_replacement_events WHERE id=l.event_id;
+ SELECT * INTO STRICT b FROM public.business_operations WHERE id=p_operation_id;
+ IF e.case_id IS DISTINCT FROM l.case_id OR e.operation_id IS DISTINCT FROM l.operation_id OR c.supplier_id IS DISTINCT FROM l.supplier_id
+  OR e.expense_delta_in_minor_units<>0 OR e.created_by IS DISTINCT FROM l.created_by OR b.initiated_by IS DISTINCT FROM l.created_by
+  OR e.occurred_at IS DISTINCT FROM l.created_at OR l.balance_after_in_minor_units<>l.balance_before_in_minor_units-l.amount_delta_in_minor_units
+  OR e.reason IS DISTINCT FROM b.request_identity_snapshot->'payload'->>'reason'
+  OR b.result_snapshot->>'credit215Fingerprint' IS DISTINCT FROM encode(extensions.digest(
+   ((to_jsonb(l)-'created_at')||jsonb_build_object('createdAtEpoch',extract(epoch FROM l.created_at)::TEXT))::TEXT,'sha256'),'hex')
+  OR NOT EXISTS(SELECT 1 FROM public.supplier_replacement_inventory_effects f WHERE f.event_id=e.id AND f.on_hand_before=f.on_hand_after
+   AND f.wac_before IS NOT DISTINCT FROM f.wac_after AND f.cost_before=f.cost_after AND cardinality(f.movement_ids)=0)
+ THEN RAISE EXCEPTION 'SUPPLIER215_CREDIT_EVIDENCE_INVALID'; END IF;
+ IF l.amount_delta_in_minor_units>0 THEN
+  WITH RECURSIVE ancestors AS(SELECT p.* FROM public.supplier_replacement_events p WHERE p.id=e.previous_event_id
+   UNION ALL SELECT p.* FROM public.supplier_replacement_events p JOIN ancestors a ON p.id=a.previous_event_id)
+  SELECT COALESCE(sum(CASE WHEN a.action='credit' THEN a.quantity ELSE -a.quantity END),0) INTO prior
+   FROM ancestors a JOIN public.supplier215_credits other ON other.event_id=a.id;
+  amount:=round((prior+e.quantity)*c.unit_cost_in_minor_units_exact)::BIGINT-round(prior*c.unit_cost_in_minor_units_exact)::BIGINT;
+  IF e.action<>'credit' OR e.held_delta<>-e.quantity OR l.reverses_credit_event_id IS NOT NULL OR amount<>l.amount_delta_in_minor_units
+   OR l.balance_before_in_minor_units<amount OR b.request_identity_snapshot->>'action' IS DISTINCT FROM 'credit'
+   OR (b.request_identity_snapshot->'payload'->>'caseId')::UUID IS DISTINCT FROM c.id
+   OR (b.request_identity_snapshot->'payload'->>'quantity')::INTEGER IS DISTINCT FROM e.quantity
+  THEN RAISE EXCEPTION 'SUPPLIER215_CREDIT_EVIDENCE_INVALID'; END IF;
+ ELSE
+  IF e.action<>'reverse' OR e.held_delta<>e.quantity OR e.reverses_event_id IS DISTINCT FROM l.reverses_credit_event_id
+   OR b.request_identity_snapshot->>'action' IS DISTINCT FROM 'reverse_credit'
+   OR (b.request_identity_snapshot->'payload'->>'eventId')::UUID IS DISTINCT FROM l.reverses_credit_event_id
+   OR NOT EXISTS(SELECT 1 FROM public.supplier215_credits original WHERE original.event_id=l.reverses_credit_event_id
+    AND original.amount_delta_in_minor_units=-l.amount_delta_in_minor_units AND original.supplier_id=l.supplier_id AND original.case_id=l.case_id)
+  THEN RAISE EXCEPTION 'SUPPLIER215_CREDIT_EVIDENCE_INVALID'; END IF;
+ END IF;
+END $$;
+
+CREATE FUNCTION public.settle_supplier_replacement_credit_v1(p_action TEXT,p_payload JSONB,p_idempotency_key TEXT,p_preview_fingerprint TEXT)
+RETURNS JSONB LANGUAGE plpgsql SECURITY DEFINER SET search_path=public,pg_temp AS $$
+#variable_conflict use_variable
+DECLARE actor UUID; key TEXT:=btrim(p_idempotency_key); request JSONB; plan JSONB; existing public.business_operations%ROWTYPE; fingerprint TEXT;
+ operation UUID:=gen_random_uuid(); event UUID; case_id UUID; pid UUID; supplier UUID; at TIMESTAMPTZ:=clock_timestamp(); manifest JSONB; result JSONB;
+BEGIN
+ actor:=public.sr208_assert_role_internal(CASE WHEN p_action='reverse_credit' THEN 'reverse' ELSE 'values' END);
+ IF key IS NULL OR length(key) NOT BETWEEN 16 AND 200 OR COALESCE(p_preview_fingerprint,'') !~ '^[0-9a-f]{64}$' THEN RAISE EXCEPTION 'SUPPLIER215_CREDIT_PREVIEW_REQUIRED'; END IF;
+ IF jsonb_typeof(p_payload) IS DISTINCT FROM 'object' THEN RAISE EXCEPTION 'SUPPLIER215_CREDIT_REQUEST_INVALID'; END IF;
+ request:=jsonb_build_object('action',p_action,'payload',p_payload||jsonb_build_object('reason',nullif(btrim(p_payload->>'reason'),'')),'previewFingerprint',p_preview_fingerprint);
+ fingerprint:=encode(extensions.digest(request::TEXT,'sha256'),'hex');
+ PERFORM pg_advisory_xact_lock(hashtextextended('supplier-replacement208|'||actor::TEXT||'|'||key,0));
+ SELECT * INTO existing FROM public.business_operations WHERE operation_type='supplier_replacement208' AND initiated_by=actor AND idempotency_key=key;
+ IF FOUND THEN
+  IF existing.request_fingerprint IS DISTINCT FROM fingerprint THEN RAISE EXCEPTION 'SUPPLIER_REPLACEMENT_IDEMPOTENCY_CONFLICT'; END IF;
+  PERFORM public.sr208_assert_operation_internal(existing.id);
+  RETURN jsonb_build_object('success',true,'contractVersion',215,'operationId',existing.id,'idempotentReplay',true,
+   'credit',(SELECT (to_jsonb(c)-'financial_membership_sha256')||jsonb_build_object('amount_delta_in_minor_units',c.amount_delta_in_minor_units::TEXT,
+    'balance_before_in_minor_units',c.balance_before_in_minor_units::TEXT,'balance_after_in_minor_units',c.balance_after_in_minor_units::TEXT) FROM public.supplier215_credits c WHERE c.operation_id=existing.id));
+ END IF;
+ plan:=public.tb215_credit_plan_internal(p_action,p_payload);case_id:=(plan->>'caseId')::UUID;pid:=(plan->>'productId')::UUID;supplier:=(plan->>'supplierId')::UUID;
+ PERFORM pg_advisory_xact_lock(hashtextextended('supplier-replacement208-case|'||case_id::TEXT,0));
+ PERFORM 1 FROM public.supplier_replacement_cases WHERE id=case_id FOR SHARE;
+ PERFORM public.phase2_lock_inventory_products_internal(ARRAY[pid]);
+ BEGIN
+  PERFORM 1 FROM public.suppliers WHERE id=supplier AND is_active FOR UPDATE NOWAIT;
+ EXCEPTION WHEN lock_not_available THEN RAISE EXCEPTION USING ERRCODE='40001',MESSAGE='SUPPLIER_REPLACEMENT_PARENT_BUSY_RETRY'; END;
+ IF NOT FOUND THEN RAISE EXCEPTION 'SUPPLIER_REPLACEMENT_SUPPLIER_INVALID'; END IF;
+ PERFORM public.sr208_assert_operation_internal(e.operation_id) FROM(SELECT DISTINCT operation_id FROM public.supplier_replacement_events WHERE supplier_replacement_events.case_id=case_id) e;
+ plan:=public.tb215_credit_plan_internal(p_action,p_payload);
+ IF p_preview_fingerprint IS DISTINCT FROM encode(extensions.digest(plan::TEXT,'sha256'),'hex') THEN RAISE EXCEPTION 'SUPPLIER215_CREDIT_PREVIEW_CHANGED'; END IF;
+ event:=public.sr208_append_event_internal(operation,case_id,CASE WHEN p_action='credit' THEN 'credit' ELSE 'reverse' END,
+  (plan->>'quantity')::INTEGER,CASE WHEN p_action='credit' THEN -(plan->>'quantity')::INTEGER ELSE(plan->>'quantity')::INTEGER END,
+  0,0,plan->'payload'->>'reason',at,(plan->>'reversesEventId')::UUID);
+ INSERT INTO public.supplier215_credits(event_id,operation_id,case_id,supplier_id,amount_delta_in_minor_units,balance_before_in_minor_units,balance_after_in_minor_units,financial_membership_sha256,reverses_credit_event_id,created_at,created_by)
+  VALUES(event,operation,case_id,supplier,(plan->>'amountDeltaInMinorUnits')::BIGINT,(plan->>'balanceBeforeInMinorUnits')::BIGINT,
+   (plan->>'balanceAfterInMinorUnits')::BIGINT,plan->>'membership',(plan->>'reversesEventId')::UUID,at,actor);
+ UPDATE public.suppliers SET current_balance_in_minor_units=(plan->>'balanceAfterInMinorUnits')::BIGINT,updated_at=clock_timestamp() WHERE id=supplier;
+ manifest:=public.sr208_operation_manifest_internal(operation);
+ result:=jsonb_build_object('evidenceFingerprint',encode(extensions.digest(manifest::TEXT,'sha256'),'hex'),
+  'caseIds',(SELECT jsonb_agg(x->'id' ORDER BY x->>'id') FROM jsonb_array_elements(manifest->'cases') x),
+  'eventIds',(SELECT jsonb_agg(x->'id' ORDER BY x->>'id') FROM jsonb_array_elements(manifest->'events') x),
+  'credit215Fingerprint',(SELECT encode(extensions.digest(((to_jsonb(credit)-'created_at')||jsonb_build_object('createdAtEpoch',extract(epoch FROM credit.created_at)::TEXT))::TEXT,'sha256'),'hex')
+   FROM public.supplier215_credits credit WHERE credit.operation_id=operation));
+ INSERT INTO public.business_operations(id,operation_type,idempotency_key,request_fingerprint,request_identity_version,request_identity_snapshot,initiated_by,result_snapshot,completed_at)
+  VALUES(operation,'supplier_replacement208',key,fingerprint,208,request,actor,result,at);
+ PERFORM public.sr208_assert_operation_internal(operation);
+ IF (SELECT balance FROM public.phase133_supplier_balance_evidence_internal() WHERE supplier_id=supplier) IS DISTINCT FROM(plan->>'balanceAfterInMinorUnits')::BIGINT THEN RAISE EXCEPTION 'SUPPLIER215_PAYABLE_EVIDENCE_INVALID'; END IF;
+ INSERT INTO public.audit_logs(user_id,action,entity_name,entity_id,details) VALUES(actor,'SUPPLIER_CREDIT_DECISION','business_operations',operation,
+  jsonb_build_object('case_id',case_id,'event_id',event,'action',p_action));
+ RETURN jsonb_build_object('success',true,'contractVersion',215,'operationId',operation,'idempotentReplay',false,
+  'credit',(SELECT (to_jsonb(c)-'financial_membership_sha256')||jsonb_build_object('amount_delta_in_minor_units',c.amount_delta_in_minor_units::TEXT,
+   'balance_before_in_minor_units',c.balance_before_in_minor_units::TEXT,'balance_after_in_minor_units',c.balance_after_in_minor_units::TEXT) FROM public.supplier215_credits c WHERE c.operation_id=operation));
+END $$;
+
+-- An ordinary 208 inverse cannot silently reopen the held asset while leaving
+-- the payable credit in place. The owner uses the paired credit inverse.
+ALTER FUNCTION public.execute_supplier_replacement_v1(TEXT,JSONB,TEXT) RENAME TO tb215_supplier_writer_before215_internal;
+CREATE FUNCTION public.execute_supplier_replacement_v1(p_action TEXT,p_payload JSONB,p_idempotency_key TEXT)
+RETURNS JSONB LANGUAGE plpgsql SECURITY DEFINER SET search_path=public,pg_temp AS $$
+BEGIN
+ PERFORM public.sr208_assert_role_internal(p_action);
+ IF p_action='reverse' AND EXISTS(SELECT 1 FROM public.supplier215_credits WHERE event_id=(p_payload->>'eventId')::UUID)
+ THEN RAISE EXCEPTION 'SUPPLIER215_USE_CREDIT_REVERSAL'; END IF;
+ RETURN public.tb215_supplier_writer_before215_internal(p_action,p_payload,p_idempotency_key);
+END $$;
+
+CREATE FUNCTION public.get_supplier_replacement_credits_v1(p_supplier_id UUID,p_page INTEGER DEFAULT 1,p_page_size INTEGER DEFAULT 25)
+RETURNS JSONB LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+DECLARE rows JSONB; total BIGINT;
+BEGIN
+ PERFORM public.sr208_assert_role_internal('values');
+ IF p_page IS NULL OR p_page<1 OR p_page>1000000 OR p_page_size IS NULL OR p_page_size NOT BETWEEN 1 AND 100 THEN RAISE EXCEPTION 'SUPPLIER215_CREDIT_PAGE_INVALID'; END IF;
+ SELECT count(*) INTO total FROM public.supplier215_credits WHERE supplier_id=p_supplier_id;
+ SELECT COALESCE(jsonb_agg(to_jsonb(x) ORDER BY x.created_at DESC,x.event_id),'[]') INTO rows FROM(
+  SELECT c.event_id,c.operation_id,c.case_id,c.amount_delta_in_minor_units::TEXT AS amount_delta_in_minor_units,
+   c.balance_before_in_minor_units::TEXT AS balance_before_in_minor_units,c.balance_after_in_minor_units::TEXT AS balance_after_in_minor_units,c.reverses_credit_event_id,c.created_at,e.reason,
+   p.name_ar AS product_name FROM public.supplier215_credits c JOIN public.supplier_replacement_cases sc ON sc.id=c.case_id
+   JOIN public.products p ON p.id=sc.product_id JOIN public.supplier_replacement_events e ON e.id=c.event_id
+   WHERE c.supplier_id=p_supplier_id ORDER BY c.created_at DESC,c.event_id LIMIT p_page_size OFFSET(p_page-1)*p_page_size) x;
+ RETURN jsonb_build_object('contractVersion',215,'page',p_page,'pageSize',p_page_size,'totalCount',total,'rows',rows);
+END $$;
+
+ALTER FUNCTION public.sr208_case_dto_internal(UUID,BOOLEAN) RENAME TO tb215_case_dto_before215_internal;
+CREATE FUNCTION public.sr208_case_dto_internal(p_case_id UUID,p_values BOOLEAN)
+RETURNS JSONB LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+DECLARE result JSONB; quantity BIGINT; amount BIGINT;
+BEGIN
+ result:=public.tb215_case_dto_before215_internal(p_case_id,p_values);
+ IF EXISTS(SELECT 1 FROM public.supplier215_credits WHERE case_id=p_case_id) THEN
+  SELECT COALESCE(sum(CASE WHEN e.action='credit' THEN e.quantity ELSE -e.quantity END),0),COALESCE(sum(c.amount_delta_in_minor_units),0)::BIGINT
+   INTO quantity,amount FROM public.supplier215_credits c JOIN public.supplier_replacement_events e ON e.id=c.event_id WHERE c.case_id=p_case_id;
+  result:=result||jsonb_build_object('creditedQuantity',quantity);
+  IF p_values THEN result:=result||jsonb_build_object('supplierCreditInMinorUnits',amount::TEXT); END IF;
+ END IF;
+ RETURN result;
+END $$;
+
 DO $$ DECLARE t TEXT; BEGIN
- FOREACH t IN ARRAY ARRAY['aftercare215_inspections','aftercare215_inspection_items'] LOOP
+ FOREACH t IN ARRAY ARRAY['aftercare215_inspections','aftercare215_inspection_items','supplier215_credits'] LOOP
   EXECUTE format('ALTER TABLE public.%I OWNER TO postgres',t);
   EXECUTE format('ALTER TABLE public.%I ENABLE ROW LEVEL SECURITY',t);
   EXECUTE format('REVOKE ALL ON TABLE public.%I FROM PUBLIC,anon,authenticated,service_role',t);
@@ -461,6 +735,34 @@ REVOKE ALL ON FUNCTION public.sr211_blocked_internal(TEXT,UUID) FROM PUBLIC,anon
 ALTER FUNCTION public.get_aftercare_damage_candidates_v1(UUID) OWNER TO postgres;
 REVOKE ALL ON FUNCTION public.get_aftercare_damage_candidates_v1(UUID) FROM PUBLIC,anon,authenticated,service_role;
 GRANT EXECUTE ON FUNCTION public.get_aftercare_damage_candidates_v1(UUID) TO authenticated;
+ALTER FUNCTION public.tb215_supplier_membership_internal(UUID) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_supplier_membership_internal(UUID) FROM PUBLIC,anon,authenticated,service_role;
+REVOKE ALL ON FUNCTION public.tb215_supplier_balance_before215_internal() FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.phase133_supplier_balance_evidence_internal() OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.phase133_supplier_balance_evidence_internal() FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.tb215_credit_plan_internal(TEXT,JSONB) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_credit_plan_internal(TEXT,JSONB) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.preview_supplier_replacement_credit_v1(TEXT,JSONB) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.preview_supplier_replacement_credit_v1(TEXT,JSONB) FROM PUBLIC,anon,authenticated,service_role;
+GRANT EXECUTE ON FUNCTION public.preview_supplier_replacement_credit_v1(TEXT,JSONB) TO authenticated;
+REVOKE ALL ON FUNCTION public.tb215_append_before215_internal(UUID,UUID,TEXT,INTEGER,INTEGER,BIGINT,INTEGER,TEXT,TIMESTAMPTZ,UUID) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.sr208_append_event_internal(UUID,UUID,TEXT,INTEGER,INTEGER,BIGINT,INTEGER,TEXT,TIMESTAMPTZ,UUID) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.sr208_append_event_internal(UUID,UUID,TEXT,INTEGER,INTEGER,BIGINT,INTEGER,TEXT,TIMESTAMPTZ,UUID) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.tb215_assert_supplier_credit_internal(UUID) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_assert_supplier_credit_internal(UUID) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.settle_supplier_replacement_credit_v1(TEXT,JSONB,TEXT,TEXT) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.settle_supplier_replacement_credit_v1(TEXT,JSONB,TEXT,TEXT) FROM PUBLIC,anon,authenticated,service_role;
+GRANT EXECUTE ON FUNCTION public.settle_supplier_replacement_credit_v1(TEXT,JSONB,TEXT,TEXT) TO authenticated;
+REVOKE ALL ON FUNCTION public.tb215_supplier_writer_before215_internal(TEXT,JSONB,TEXT) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.execute_supplier_replacement_v1(TEXT,JSONB,TEXT) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.execute_supplier_replacement_v1(TEXT,JSONB,TEXT) FROM PUBLIC,anon,authenticated,service_role;
+GRANT EXECUTE ON FUNCTION public.execute_supplier_replacement_v1(TEXT,JSONB,TEXT) TO authenticated;
+ALTER FUNCTION public.get_supplier_replacement_credits_v1(UUID,INTEGER,INTEGER) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.get_supplier_replacement_credits_v1(UUID,INTEGER,INTEGER) FROM PUBLIC,anon,authenticated,service_role;
+GRANT EXECUTE ON FUNCTION public.get_supplier_replacement_credits_v1(UUID,INTEGER,INTEGER) TO authenticated;
+REVOKE ALL ON FUNCTION public.tb215_case_dto_before215_internal(UUID,BOOLEAN) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.sr208_case_dto_internal(UUID,BOOLEAN) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.sr208_case_dto_internal(UUID,BOOLEAN) FROM PUBLIC,anon,authenticated,service_role;
 ALTER FUNCTION public.sr208_assert_operation_internal(UUID) OWNER TO postgres;
 REVOKE ALL ON FUNCTION public.sr208_assert_operation_internal(UUID) FROM PUBLIC,anon,authenticated,service_role;
 REVOKE ALL ON FUNCTION public.tb215_financial_facts_before215_internal(UUID,TIMESTAMPTZ,TIMESTAMPTZ,TEXT,BOOLEAN) FROM PUBLIC,anon,authenticated,service_role;

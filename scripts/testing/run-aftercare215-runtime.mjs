@@ -10,13 +10,14 @@ import path from 'node:path';
 import {aftercare215Context} from './aftercare215-context.mjs';
 import {verifyInspectedReplacement215} from './aftercare215-inspected-runtime.mjs';
 import {verifyInspectedSecurity215} from './aftercare215-security-runtime.mjs';
+import {verifySupplierCredit215} from './aftercare215-credit-runtime.mjs';
 
 assert.equal(process.argv.length, 2, 'LOCAL_ONLY_NO_ARGUMENTS');
 const exec = promisify(execFile), root = path.resolve(import.meta.dirname, '../..');
 const project = 'nawasrah-tb215-test', container = 'supabase_db_' + project;
 const cli = path.join(root, 'node_modules/supabase/dist/supabase.js');
 const output = await mkdtemp(path.join(tmpdir(), 'nawasrah-aftercare215-'));
-const report = {scope: 'G2/G3 inspected-warranty foundation; not full T-B delivery', hostedConnections: 0, output, cases: [], ok: false};
+const report = {scope: 'G2/G3/G6 foundation; G1/G4/G5/UI/full delivery still pending', hostedConnections: 0, output, cases: [], ok: false};
 const source = path.join(root, 'supabase/migrations/215_inspected_aftercare_and_supplier_credit.sql');
 let local, stage = 'bootstrap214';
 const pass = name => { report.cases.push({name, passed: true}); console.log(JSON.stringify(report.cases.at(-1))); };
@@ -39,6 +40,7 @@ try {
   stage = 'fixture'; await c.initialize();
   stage = 'inspected-warranty'; await verifyInspectedReplacement215(c, pass);
   stage = 'roles-races-rollback'; await verifyInspectedSecurity215(c, pass);
+  stage = 'supplier-payable-credit'; await verifySupplierCredit215(c, pass);
   assert.equal(createHash('sha256').update((await readFile(source, 'utf8')).replaceAll('\r\n', '\n')).digest('hex'), report.migrationCanonicalLfSha256, 'MIGRATION_CHANGED_DURING_VERIFICATION');
   report.ok = true;
 } catch (error) {

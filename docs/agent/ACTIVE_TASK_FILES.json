@@ -11,39 +11,31 @@
     },
     {
       "code": " M",
-      "path": "package.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/agent/lib.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/agent/preflight.mjs"
-    },
-    {
-      "code": "??",
-      "path": "docs/agent/TRIAL_TB215_FOUNDATION_LOCAL.json"
-    },
-    {
-      "code": "??",
       "path": "scripts/testing/aftercare215-context.mjs"
     },
     {
-      "code": "??",
-      "path": "scripts/testing/aftercare215-inspected-runtime.mjs"
-    },
-    {
-      "code": "??",
+      "code": " M",
       "path": "scripts/testing/aftercare215-security-runtime.mjs"
     },
     {
-      "code": "??",
+      "code": " M",
       "path": "scripts/testing/run-aftercare215-runtime.mjs"
     },
     {
-      "code": "??",
+      "code": " M",
       "path": "supabase/migrations/215_inspected_aftercare_and_supplier_credit.sql"
+    },
+    {
+      "code": "??",
+      "path": "docs/agent/TRIAL_TB215_G6_LOCAL.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/aftercare215-credit-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/aftercare215-race.mjs"
     }
   ]
 }
