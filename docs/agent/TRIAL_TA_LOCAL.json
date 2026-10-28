@@ -23,7 +23,7 @@
     "designOnlyDecisionRecorded": "T-B refund method step/cash drawer/CliQ reference/debt reduction/defaults/calculated original price and numeric effects"
   },
   "local": {
-    "adminUnits": 1506,
+    "adminUnits": 1508,
     "storeUnits": 200,
     "typesBoth": true,
     "strictLint": true,
@@ -62,6 +62,27 @@
       "result": "passed",
       "staleLabelsOnly": true,
       "numericAssertionsUnchanged": true
+    },
+    "coreCiScheduling": {
+      "reason": "PR core job repeatedly exhausted20minutes without assertion failures;push sameSHA423pass/59historical conditionals",
+      "originalCoreIdentities": 482,
+      "chromiumIdentities": 253,
+      "webkitIdentities": 229,
+      "fullBrowserIdentities": 1560,
+      "packageFIdentities": 1078,
+      "actualDiscoveryExactUnion": true,
+      "missingOrDuplicated": 0,
+      "projectObjectsUnchanged": true,
+      "workerChanges": 0,
+      "retryChanges": 0,
+      "timeoutChanges": 0,
+      "localSmoke": {
+        "cases": 4,
+        "passed": 4,
+        "flaky": 0
+      },
+      "requiredQualityJobs": 48,
+      "requiredChecksPerEvent": 50
     }
   },
   "currentActualLocalSdk": {
@@ -180,7 +201,7 @@
     }
   },
   "ci": {
-    "status": "Exact finalSHA push andPR FULL CI pending;no merge before owner approval"
+    "status": "Final correction SHA push/PR FULL50 pending;no merge before owner approval"
   },
   "ciFirstAttempt": {
     "sha": "5fb03983332d83d1b343ae86b20e62a9cf66c068",

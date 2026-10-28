@@ -116,7 +116,7 @@ export function selectAffectedSpecs(files, changed, {typescript: ts = null, disc
 
 export function verifyCiBranches(needs, route) {
   if (!['full', 'affected'].includes(route.mode) || typeof route.packageFNeeded !== 'boolean') throw new Error('Invalid CI route');
-  const required = ['scope', 'quality', 'package-f-browser', 'database-runtime', 'current-database-runtime', 'pwa-release-update'];
+  const required = ['scope', 'quality', 'core-webkit-browser', 'package-f-browser', 'database-runtime', 'current-database-runtime', 'pwa-release-update'];
   if (Object.keys(needs).sort().join() !== [...required].sort().join()) throw new Error('CI branch inventory differs');
   for (const name of required) {
     const expected = route.mode === 'full' || name === 'scope' || name === 'quality'

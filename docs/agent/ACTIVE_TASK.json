@@ -3,7 +3,7 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner trial T-A1/2 sales packet/parcel presentation;T-A3 explicitly deferred to T-B design;PR/fullCI then owner approval;no DB/RPC/grant/financial change",
-  "baselineSha": "5fb03983332d83d1b343ae86b20e62a9cf66c068",
+  "baselineSha": "da0dcbbea1b231bf6757bbc1ce8522f74f552393",
   "branch": "codex/trial-ta-display",
   "phase": "PACKAGE_F",
   "completed": [
@@ -13,7 +13,7 @@
     "Updated guide sales wording;T-A3 owner deferral and T-B refund-design addition recorded"
   ],
   "inProgress": [
-    "PR41 correction commit/push and exact FULL CI49 each"
+    "Commit/push bounded core-engine CI correction then final SHA FULL50 push/PR"
   ],
   "notStarted": [
     "Owner approval;no merge",
@@ -28,17 +28,19 @@
     "Actual local214 table154/RPC540;10expected42501denials",
     "Raw unit data/cart/flavors/receipt snapshots/payloads unchanged",
     "TypesBoth/strictlint/builds/SEO/network isolation/print10+2/Gitleaks0",
-    "Final CI correction:4browser cases/0fail/0flaky,Admin1506,typecheck,strictlint"
+    "Final CI correction:4browser cases/0fail/0flaky,Admin1506,typecheck,strictlint",
+    "Core scheduling:Admin1508/typecheck/strictlint;actual1560 identities core482=253+229,unionexact;4smoke0flaky"
   ],
   "testsRemaining": [
-    "Exact finalSHA push+PR FULL CI"
+    "FinalSHA push+PR FULL50"
   ],
   "findings": [
     "T-A3 detailed damage deferred by explicit owner answer;no reader/SQL added",
     "T-B refund step/defaults/reference/calculated amount/numeric effects recorded as design only",
     "Two initial browser environment cases accepted only after one same-source rerun;no timeout/retry/assertion weakening",
     "Remote mainf95;unmergedPR39/40 excluded",
-    "CI two stale labels fixed;4case both-engine local PASS,Admin1506 repeated PASS;204 image quota before cases on superseded SHA"
+    "CI two stale labels fixed;4case both-engine local PASS,Admin1506 repeated PASS;204 image quota before cases on superseded SHA",
+    "da0dcbb push core423pass/59unchanged conditionals;PR core twice20m canceled without assertions;bounded engine split retains all identity/worker/timeout/retry contracts"
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -48,10 +50,10 @@
     "No T-C before T-A approval",
     "Preserve primary dirty owner docs"
   ],
-  "nextExactAction": "Commit verified stale-label correction and design-only owner addition;push PR41 then exact FULL CI49 each;no merge",
+  "nextExactAction": "Commit verified bounded core-engine scheduling;push PR41 final SHA then FULL50 per event;owner approval before merge",
   "startedAt": "2026-10-27T22:27:54.124Z",
-  "checkpointedAt": "2026-10-27T23:25:49.099Z",
-  "filesTouchedCount": 7,
-  "filesTouchedManifestSha256": "215da498a5de8ef1cec2ce55ced2d256a8278ac19d8c842c6b74d73dfd9b0b4c",
-  "workingTreeFingerprint": "1B5617C21161BCF6352FD30FAEA063EED50977C03ED52D4F1307CB44224CDAF4"
+  "checkpointedAt": "2026-10-28T00:19:21.014Z",
+  "filesTouchedCount": 16,
+  "filesTouchedManifestSha256": "41721715287d204b2428734f31c3f5ee7375a89e3ea0a7a62196db969e7df992",
+  "workingTreeFingerprint": "D8819BA7C8895519593C6924745E5E06AE207F1CFC2C8DF5D1F5A16F130CDF3E"
 }

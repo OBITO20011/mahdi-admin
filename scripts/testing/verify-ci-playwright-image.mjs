@@ -3,7 +3,7 @@ import {readFileSync} from 'node:fs';
 
 const workflow=readFileSync('.github/workflows/quality.yml','utf8');
 const images=[];
-for(const job of ['quality','package-f-browser']){
+for(const job of ['quality','core-webkit-browser','package-f-browser']){
   const block=workflow.match(new RegExp(`^  ${job}:\\r?\\n([\\s\\S]*?)(?=^  [\\w-]+:|$(?![\\s\\S]))`,'m'))?.[1];
   assert.ok(block,`Required browser job ${job} must exist`);
   const image=block.match(/^ {6}image: (\S+)\r?$/m)?.[1];
@@ -16,5 +16,5 @@ for(const job of ['quality','package-f-browser']){
   }
   images.push(image);
 }
-assert.equal(images[0],images[1],'Both browser jobs must use the same pinned image');
-console.log('Both isolated browser jobs match the lockfile, image digest and20m limit');
+assert.ok(images.every(image=>image===images[0]),'All browser jobs must use the same pinned image');
+console.log('All isolated browser jobs match the lockfile, image digest and20m limit');

@@ -3,7 +3,7 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/OWNER_DECISIONS.md"
+      "path": ".github/workflows/quality.yml"
     },
     {
       "code": " M",
@@ -19,15 +19,51 @@
     },
     {
       "code": " M",
-      "path": "e2e/guided-store-assistant.spec.ts"
+      "path": "playwright.ci.config.ts"
     },
     {
       "code": " M",
-      "path": "e2e/phase6-package-b.spec.ts"
+      "path": "scripts/agent/verify-delivery-ci.mjs"
     },
     {
       "code": " M",
       "path": "scripts/audit/trial-ta-source-pins.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/ci-browser-discovery.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/private-ci-scope.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/verify-browser-ci-partition.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/verify-ci-playwright-image.mjs"
+    },
+    {
+      "code": " M",
+      "path": "tests/package-f-ci-shards.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/private-ci-budget.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/core-browser-ci-groups.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-core-webkit-ci.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/core-browser-ci-groups.test.ts"
     }
   ]
 }
