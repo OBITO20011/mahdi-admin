@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 1,
+  "package": "SKU_BULK_PRODUCT_IMAGES",
+  "baselineSha": "f95ff0458f90298edc21e39859d3268c7f7ccac7",
+  "migrationCeiling": 214,
+  "migrationChanges": 0,
+  "newRpcOrGrants": 0,
+  "hostedConnections": 0,
+  "deployments": 0,
+  "local": {
+    "adminUnits": 1520,
+    "storeUnits": 197,
+    "types": true,
+    "strictLint": true,
+    "adminProductionBuild": true,
+    "storeIsolatedBuildAndSeo": true,
+    "mockBrowserCases": 14,
+    "affectedBrowserCases": 104,
+    "engines": [
+      "Chromium",
+      "WebKit"
+    ],
+    "gitleaks": 0,
+    "print": [
+      {
+        "name": "دليل-صاحب-المحل.pdf",
+        "pages": 10
+      },
+      {
+        "name": "ورقة-يوم-التشغيل.pdf",
+        "pages": 2
+      }
+    ]
+  },
+  "actualIsolated214": {
+    "startedAt": "2026-10-27T20:40:52.957Z",
+    "endedAt": "2026-10-27T20:43:27.817Z",
+    "realAuthAndMfa": true,
+    "applicationServiceRole": false,
+    "roles": [
+      {
+        "role": "owner",
+        "allowed": true,
+        "realStorageHttp": true,
+        "realRpc": true,
+        "zeroWritesWhenDenied": false
+      },
+      {
+        "role": "admin",
+        "allowed": true,
+        "realStorageHttp": true,
+        "realRpc": true,
+        "zeroWritesWhenDenied": false
+      },
+      {
+        "role": "manager",
+        "allowed": true,
+        "realStorageHttp": true,
+        "realRpc": true,
+        "zeroWritesWhenDenied": false
+      },
+      {
+        "role": "warehouse_keeper",
+        "allowed": true,
+        "realStorageHttp": true,
+        "realRpc": true,
+        "zeroWritesWhenDenied": false
+      },
+      {
+        "role": "cashier",
+        "allowed": false,
+        "realStorageHttp": true,
+        "realRpc": true,
+        "zeroWritesWhenDenied": true
+      },
+      {
+        "role": "accountant",
+        "allowed": false,
+        "realStorageHttp": true,
+        "realRpc": true,
+        "zeroWritesWhenDenied": true
+      },
+      {
+        "role": "view_only",
+        "allowed": false,
+        "realStorageHttp": true,
+        "realRpc": true,
+        "zeroWritesWhenDenied": true
+      },
+      {
+        "role": "none",
+        "allowed": false,
+        "realStorageHttp": true,
+        "realRpc": true,
+        "zeroWritesWhenDenied": true
+      },
+      {
+        "role": "inactive",
+        "allowed": false,
+        "realStorageHttp": true,
+        "realRpc": true,
+        "zeroWritesWhenDenied": true
+      }
+    ],
+    "anonDenied": true,
+    "protectedTables": 104,
+    "businessDataIdentical": true,
+    "roleProductFieldsIdentical": true,
+    "catalogFieldsAndWacIdentical": true,
+    "storage": {
+      "orphans": 0,
+      "uploaded": 12,
+      "doublePrimary": 0,
+      "applicationImages": 8
+    },
+    "runtimeRecipe": "scripts/testing/run-bulk-product-images-runtime.mjs",
+    "runtimeRecipeSha256": "ebaf88a23521ba5aeb3a99e5cf2ea5936c5ed9fd8cc3313de82f08992e5940bb"
+  },
+  "currentSdk": {
+    "table": {
+      "evidence": "docs/operations/TABLE_ACCESS_AFTER_214_BULK_IMAGES.json",
+      "sourceSites": 54,
+      "probes": 157,
+      "applicationReady": true
+    },
+    "rpc": {
+      "probes": 543,
+      "sqlstate42501Denials": 10,
+      "imageCashierRejection": "ليس لديك صلاحية تحديث صورة المنتج."
+    }
+  },
+  "applicationSourceHashes": [
+    {
+      "file": "src/features/goLive/GoLiveSetupView.tsx",
+      "sha256": "29f03982bc2a3389fa54bee5a0dde3061a65fecf3273e1e5043e7b1d8589a322"
+    },
+    {
+      "file": "src/features/products/bulkImages/api.ts",
+      "sha256": "f3c45c14f89eff420ae6326cf0d223ca0ef15556dde17fa4e7bf19968f743b7f"
+    },
+    {
+      "file": "src/features/products/bulkImages/compress.ts",
+      "sha256": "278e1ce24470473881f65a543b0f23fb5abf21532efccc7e77fd00943b34ee61"
+    },
+    {
+      "file": "src/features/products/bulkImages/journal.ts",
+      "sha256": "d5a34cf8dd1bd84a9938441604fc6497284c21ea76628d929e7145a9e74dc701"
+    },
+    {
+      "file": "src/features/products/bulkImages/model.ts",
+      "sha256": "7054e370f66aa983f9a7b023b45da43b8e1aa7ad45117a7c3cdfe7537d054324"
+    },
+    {
+      "file": "src/features/products/bulkImages/upload.ts",
+      "sha256": "0edcc6701bc9697588e59deaea18ae3b38331090d63f925db2705239a6203db7"
+    },
+    {
+      "file": "src/features/products/BulkProductImagesPanel.tsx",
+      "sha256": "1bd4884af842faa3080bb6044b1e3e42f350e231bd27cd1fe81ca19148227a9d"
+    },
+    {
+      "file": "src/features/products/ProductsView.tsx",
+      "sha256": "9048cfee25dcb28382a035bdc98911c1915a3f7f63d6ae0885045d757b700933"
+    },
+    {
+      "file": "src/services/supabase/product-images.service.ts",
+      "sha256": "9a3eaadd19b531ae465dd752e3a469fa880e9ec26ab1e072f35ae57fe25fba44"
+    }
+  ],
+  "environmentalRehearsal": {
+    "rejectedRun": {
+      "stage": "bootstrap",
+      "startedAt": "2026-10-27T20:35:36.992Z",
+      "endedAt": "2026-10-27T20:39:45.152Z",
+      "accepted": false,
+      "observed": "Supabase start did not complete;only DB health probes until cleanup at existing240s start deadline while full local gates ran concurrently."
+    },
+    "singleSameCodeRerun": {
+      "accepted": true,
+      "timeLimitIncreased": false,
+      "retriesAdded": false,
+      "applicationAssertionsChanged": false
+    }
+  },
+  "boundaries": {
+    "priceOrCostWriter": false,
+    "stockOrDebtWriter": false,
+    "existingImageOnlyRpc": "set_product_primary_image",
+    "existingStorageService": true,
+    "unknownTransportOutcomes": "retained in scoped durable journal for replay/verification;never blindly deleted",
+    "historicalEvidencePins": "unchanged;new exact source inverse plus unprojected actual SDK proof"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "base": "f95ff0458f90298edc21e39859d3268c7f7ccac7",
+  "recordedAt": "2026-10-27T18:47:57.121Z",
+  "scope": "Store identity/share metadata/mobile header/visible brand text only",
+  "hostedConnections": 0,
+  "deployed": false,
+  "databaseChanges": false,
+  "migrationChanges": false,
+  "originalLogo": {
+    "file": "customer-web/public/nawasrah-logo-square.png",
+    "sha256": "10160ee26ebc78fcd2b2d40830fc533b4eee55c9f04d0184cf6dc625936a57c0",
+    "unchanged": true
+  },
+  "shareImage": {
+    "file": "customer-web/public/nawasrah-social-card.jpg",
+    "source": "customer-web/brand/social-card.html",
+    "sourceSha256": "ffb5535d028e47d611055670cd7adcb710c33daa2453111ce525636788d7d35a",
+    "sha256": "ad56b06be18e588f08aa7f47b00222a6fc7def9315572b853c669d2fa1725232",
+    "width": 1200,
+    "height": 630,
+    "bytes": 57824
+  },
+  "checks": {
+    "adminUnits": 1507,
+    "storeUnits": 197,
+    "browserPassed": 22,
+    "browserFailed": 0,
+    "browserFlaky": 0,
+    "engines": [
+      "Chromium",
+      "WebKit"
+    ],
+    "headerWidths": [
+      360,
+      390,
+      768
+    ],
+    "adminTypes": true,
+    "storeTypes": true,
+    "strictLintWarnings": 0,
+    "adminProductionBuild": true,
+    "isolatedStoreBuild": true,
+    "generatedSeoRoutes": 6,
+    "gitleaks": 0,
+    "tableQueries": 154,
+    "serviceProbes": 540,
+    "expectedServiceDenials": 10
+  },
+  "currentTableProof": "docs/operations/TABLE_ACCESS_AFTER_214_STORE_IDENTITY.json",
+  "currentServiceProof": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json",
+  "ci": "Exact final-SHA full push and PR checks required before review-ready;recorded outside repository to avoid moving the verified SHA"
+}

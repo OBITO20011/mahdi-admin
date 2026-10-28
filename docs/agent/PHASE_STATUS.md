@@ -1,9 +1,14 @@
-#28Oct — T-A sales packet/parcel presentation locally verified;FULL CI next
+#28Oct — ordered integration41 local verification
 
-Owner scope T-A1/2 display only from mainf95;T-A3 detailed damage explicitly deferred toT-B design. T-B refund-method addition recorded only;no T-B implementation or T-C before approval. Admin1508/store200,typesBoth/strictlint,builds/SEO/network/print10+2/Gitleaks0;76browser identities+final4bottle-toast cases both engines;fresh154table/540RPC probes PASS. Raw units/cart/flavor snapshots and sale payloads unchanged;no SQL/RPC/grant/financial changes. Exact original proof pins retained via bounded new display inverse. See TRIAL_TA_AR.md/LOCAL.json. Commit/push/PR FULL50 per event then owner review;no hostedaccess/deploy/merge.
+39 merged025df016;40 exactCI pending;41 combines approved sources and immutable proof projections. Actual local214 SDK157/543 passed,10expecteddenials. Full local tests and exactCI still required;no hosted/deploy. Then safe primary update and T-B design only;no T-C before design approval.
 
+#28Oct — ordered owner-approved39/40/41 integration
 
-Bounded CI scheduling repair:core482 identities=253Chromium+229WebKit,exactunion0missing/duplicate;workers/timeouts/retries/image/network unchanged;new WebKit mandatory quality48+secrets+restore=50/event. Local1508/types/lint/4smoke PASS;no financial/SQL changes.
+39 merged025df016 after exact FULL49 each.40 updated on approved39 with production bytes exactly preserved;local1526/197/20browser/types/lint/build/SDK157+543 PASS. Historical pins retained via exact merge bridge;new current evidence unprojected. Next final40 CI/merge then41 CI/merge;preserve primary owner files,then T-B design only;no T-C before design approval.No hosted/deploy. See TRIAL_ORDERED_INTEGRATION_AR.md/LOCAL.json.
+
+#27Oct — SKU bulk product images locally verified;exact FULL CI next
+
+Separate owner-approved package from mainf95ff045;identityPR39 remains unmerged. Existing image-only writer and Storage roles,no migration/RPC/grant/money/stock change. Admin1520/store197,feature browser14/affected104,both engines,actual214 Auth/MFA/Storage/RPC9roles+anon,104protected tables identical/0orphans,SDK157/543,types/strictlint/build/SEO/print10+2/Gitleaks0 PASS. One startup environment run rejected;one same-code rerun accepted without relaxed gates. See BULK_PRODUCT_IMAGES_AR.md/LOCAL.json. Commit/push and exact FULL push+PR CI;owner review before merge;no hostedaccess/deploy or next package.
 
 #24Oct — Y213 local acceptance complete;PR23 final CI
 

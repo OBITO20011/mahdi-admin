@@ -1,0 +1,68 @@
+{
+  "stage": "PR41_COMBINED_LOCAL_VALIDATION",
+  "approvedHeads": {
+    "identity": "2471fda5dcef5e0119feb0cc77168822a58b9581",
+    "bulk": "5ad57e1ca265390ca589d2924cf29092c98d5cf9",
+    "ta": "fea840fdbe3c6b186bc7bbe55b5d8c8dfc001ec5"
+  },
+  "previousIntegratedBulk": "d741e6fc0cf7b18a6b7faeaae190fca47c3defa7",
+  "merged": [
+    39
+  ],
+  "merge39": "025df016c5ff5300ac4b000be2d9a334a3ab87b6",
+  "currentSdk": {
+    "ok": true,
+    "hostedAccess": false,
+    "table": {
+      "infrastructureOk": true,
+      "applicationReady": true,
+      "stage": "rls-and-acl",
+      "counts": {
+        "success": 154,
+        "permission_denied": 0,
+        "zero_rows": 3,
+        "other_error": 0
+      },
+      "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-Iu3Yr3"
+    },
+    "rpc": {
+      "ok": true,
+      "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-4IcFgT",
+      "count": 543,
+      "denied": 10
+    },
+    "target": "docs/operations/TABLE_ACCESS_AFTER_214_TRIAL_INTEGRATED.json"
+  },
+  "productionMerge": "Exact original approved bytes;one shared SEO file matches conflict-free Git three-way merge",
+  "historicalPinsChanged": 0,
+  "localValidation": {
+    "admin": {
+      "passed": 1533,
+      "failed": 0,
+      "skipped": 0
+    },
+    "store": {
+      "passed": 200,
+      "failed": 0
+    },
+    "typesBoth": true,
+    "strictLintBoth": true,
+    "adminProductionBuild": true,
+    "customerIsolatedBuildAndSeo": true,
+    "affectedBrowser": {
+      "uniqueCases": 26,
+      "initialPassed": 24,
+      "environmentalRecheckPassed": 2,
+      "automaticRetries": 0,
+      "sourceChanges": 0
+    },
+    "initialFailures": [
+      "continuity metadata branch retained PR40;corrected declared branch and full1533 repeated",
+      "local Chromium Vite module requests502;WebKit actionability stalled;two unchanged tests passed once rechecked"
+    ],
+    "hostedAccess": false
+  },
+  "ci": "Final combined41 SHA requires fullCI;40 must merge first",
+  "hostedConnections": 0,
+  "deployments": 0
+}
