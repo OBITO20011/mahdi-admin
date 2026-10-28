@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner-approved T-B G1-G6 plus same-PR215 backup/restore/watchdog/reset-resume/one schema authority and upgrade safety;local proof/fullCI/PR43 then approvalSTOP",
-  "baselineSha": "22f1a509d6f47db5a00f0908a2329ee7293c43b9",
+  "baselineSha": "16e95484be838ea8a216345ea95660beb63e77f2",
   "branch": "codex/trial-tb-stage2",
   "phase": "PACKAGE_F",
   "completed": [
@@ -11,7 +11,8 @@
     "Fresh215 vs214+literal215/officialrepair matches0;reference177/622functions/13Realtime/sourcefrozen;outsideGitready215 savednewname;oldrefsuntouched",
     "Owner215 localapply/replay/strictverify0writes+5negativeACLownerpathpassed;offline215no network/reset215CLI12PASS;freshref177/622/13diff0",
     "Realv2 encrypted214and215 backup/strictrestore/R2localUploadVerifyRestoreRemotePASS;215148tables/177files/17healthy0/noexceptions;old214archiveafter215stillrestores;ownerarchiveuntouched",
-    "RESET215 actualAuth/MFA/Storage ordinary177 plus4resumes allcatalogACL0/retentionrawsame;missing/tampered/otherowner/ref/MFA/ownerabsent and2sessionrealwritefailclosed"
+    "RESET215 actualAuth/MFA/Storage ordinary177 plus4resumes allcatalogACL0/retentionrawsame;missing/tampered/otherowner/ref/MFA/ownerabsent and2sessionrealwritefailclosed",
+    "Wholetypesboth/strictlintPASS;store200;Admin1586of1588 then2stale214assertionsupdated+focused16PASS;updatedcurrentprint2pagescard/10guide/no network"
   ],
   "inProgress": [
     "Fulltypes/strictlint/Admin/store/build/SEO/PWA/affectedbrowser/exactFULLCI;PR43 ownerreviewSTOP"
@@ -41,10 +42,10 @@
     "No primary owner local file changes",
     "No T-C and no implementation PR merge before owner review"
   ],
-  "nextExactAction": "Save RESET215 actual4resume proof;then wholetypes/strictlint/admin/store builds/SEO/PWA/browser andexactFULLCI/PR43",
+  "nextExactAction": "Commit current215 documentation/guard expectations;then fullAdmin rerun andisolated builds/SEO/PWA/affectedbrowser/fullCI PR43",
   "startedAt": "2026-10-28T13:06:11.980Z",
-  "checkpointedAt": "2026-10-28T23:17:14.008Z",
-  "filesTouchedCount": 6,
-  "filesTouchedManifestSha256": "4955c68d9be8eccbaf4cf97b137423d5a7da866789586ce10d86318643d17f18",
-  "workingTreeFingerprint": "793784DC7D68DB47965E4548FE2FC5BD6146B8CD5F0B735121EEB22726B31673"
+  "checkpointedAt": "2026-10-28T23:23:02.311Z",
+  "filesTouchedCount": 4,
+  "filesTouchedManifestSha256": "ddb6e162ffe67c2566d333b1b50e8951a56c8be25969c13eec1d6cc76c0d413e",
+  "workingTreeFingerprint": "639C36D7DEE9E0589AB6167D4604315C24BA8182A7D1E6F3EA95EFB8FD265353"
 }
