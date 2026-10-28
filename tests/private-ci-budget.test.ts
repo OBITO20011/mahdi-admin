@@ -44,11 +44,11 @@ test('native discovery includes future custom test filenames,not just historical
   assert.deepEqual(selectAffectedSpecs(future, ['e2e/c.custom.tsx'], {discoveredSpecs: ['e2e/a.spec.ts', 'e2e/b.spec.ts', 'e2e/c.custom.tsx']}).files, ['e2e/c.custom.tsx']);
 });
 test('full aggregation retains all original branches;affected may skip only declared full branches and unneeded F', () => {
-  const full = Object.fromEntries(['scope', 'quality', 'package-f-browser', 'database-runtime', 'current-database-runtime', 'pwa-release-update'].map(name => [name, {result: 'success'}]));
+  const full = Object.fromEntries(['scope', 'quality', 'core-webkit-browser', 'package-f-browser', 'database-runtime', 'current-database-runtime', 'pwa-release-update'].map(name => [name, {result: 'success'}]));
   verifyCiBranches(full, {mode: 'full', packageFNeeded: true});
   for (const name of Object.keys(full)) for (const result of ['skipped', 'failure', 'cancelled'])
     assert.throws(() => verifyCiBranches({...full, [name]: {result}}, {mode: 'full', packageFNeeded: true}));
-  const light = {...full, 'database-runtime': {result: 'skipped'}, 'current-database-runtime': {result: 'skipped'}, 'pwa-release-update': {result:'skipped'}};
+  const light = {...full, 'core-webkit-browser': {result:'skipped'}, 'database-runtime': {result: 'skipped'}, 'current-database-runtime': {result: 'skipped'}, 'pwa-release-update': {result:'skipped'}};
   verifyCiBranches(light, {mode: 'affected', packageFNeeded: true});
   assert.throws(() => verifyCiBranches({...light, 'package-f-browser': {result: 'skipped'}}, {mode: 'affected', packageFNeeded: true}));
   verifyCiBranches({...light, 'package-f-browser': {result: 'skipped'}}, {mode: 'affected', packageFNeeded: false});
@@ -71,7 +71,7 @@ test('release verification still requires ALL DB matrix jobs and full browsers,n
   const workflow = await readFile('.github/workflows/quality.yml', 'utf8');
   const suites = workflow.match(/suite: \[([^\]]+)\]/u)![1].split(',').map(s => s.trim());
   const names = ['CI full or affected scope','Complete quality delivery gate','Isolated database runtime regression','Installed admin app release update',
-    'Lint, test, build and browser QA',...packageFShards.map(n=>`Package F browser QA (${n}/${packageFShardCount})`),
+    'Lint, test, build and browser QA','Core WebKit browser QA',...packageFShards.map(n=>`Package F browser QA (${n}/${packageFShardCount})`),
     ...suites.map(s=>`Isolated current contracts (${s})`)];
   const jobs = names.map(name=>({name,conclusion:'success'})); verifyFullDeliveryJobs(jobs);
   for (const name of names) {

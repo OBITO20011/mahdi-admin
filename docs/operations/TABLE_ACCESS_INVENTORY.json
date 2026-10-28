@@ -313,7 +313,7 @@
     },
     {
       "file": "src/features/goLive/GoLiveSetupView.tsx",
-      "sha256": "0e08425fddc64daaf89a535da073b648a399455291c55cc4dfb78dd0ba83ae4b"
+      "sha256": "29f03982bc2a3389fa54bee5a0dde3061a65fecf3273e1e5043e7b1d8589a322"
     },
     {
       "file": "src/features/goLive/OpeningChequesCard.tsx",
@@ -464,6 +464,30 @@
       "sha256": "1e8a9c68d969b4dbabb7479c1bbac6d0e4ea03d4dd6a79e271f7d545cb4c8774"
     },
     {
+      "file": "src/features/products/bulkImages/api.ts",
+      "sha256": "f3c45c14f89eff420ae6326cf0d223ca0ef15556dde17fa4e7bf19968f743b7f"
+    },
+    {
+      "file": "src/features/products/bulkImages/compress.ts",
+      "sha256": "278e1ce24470473881f65a543b0f23fb5abf21532efccc7e77fd00943b34ee61"
+    },
+    {
+      "file": "src/features/products/bulkImages/journal.ts",
+      "sha256": "d5a34cf8dd1bd84a9938441604fc6497284c21ea76628d929e7145a9e74dc701"
+    },
+    {
+      "file": "src/features/products/bulkImages/model.ts",
+      "sha256": "7054e370f66aa983f9a7b023b45da43b8e1aa7ad45117a7c3cdfe7537d054324"
+    },
+    {
+      "file": "src/features/products/bulkImages/upload.ts",
+      "sha256": "0edcc6701bc9697588e59deaea18ae3b38331090d63f925db2705239a6203db7"
+    },
+    {
+      "file": "src/features/products/BulkProductImagesPanel.tsx",
+      "sha256": "1bd4884af842faa3080bb6044b1e3e42f350e231bd27cd1fe81ca19148227a9d"
+    },
+    {
       "file": "src/features/products/ProductCostCorrectionPanel.tsx",
       "sha256": "e0acc44140c6bdaaf049b6c869213fa8804f6d4139d94c027ccbe5f506490a71"
     },
@@ -485,7 +509,7 @@
     },
     {
       "file": "src/features/products/ProductsView.tsx",
-      "sha256": "640b638372973abf04ff6edb482dd14b0c4109cf8d13b11c4464ac63b172dd2a"
+      "sha256": "9048cfee25dcb28382a035bdc98911c1915a3f7f63d6ae0885045d757b700933"
     },
     {
       "file": "src/features/products/StockAdjustmentModal.tsx",
@@ -797,7 +821,7 @@
     },
     {
       "file": "src/services/supabase/product-images.service.ts",
-      "sha256": "c7e8576deb642c40a7b0a1b660288d0e4b29f40633f5fb9aae3d8aa1c61f648a"
+      "sha256": "9a3eaadd19b531ae465dd752e3a469fa880e9ec26ab1e072f35ae57fe25fba44"
     },
     {
       "file": "src/services/supabase/productCost.service.ts",
@@ -2179,6 +2203,52 @@
       "screenPaths": [
         "orders",
         "salesHistory"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/product-images.service.ts:142",
+      "file": "src/services/supabase/product-images.service.ts",
+      "line": 142,
+      "table": "product_images",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "product-images",
+      "function": "isUploadedImageReferenced",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'id'"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'image_url'",
+            "publicUrl"
+          ]
+        },
+        {
+          "method": "limit",
+          "args": [
+            "1"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {
+        "PRODUCT_IMAGE_BUCKET": "product-images"
+      },
+      "source": "supabase.from('product_images').select('id').eq('image_url', publicUrl).limit(1)",
+      "embeddedTables": [],
+      "callers": [
+        "src/features/products/bulkImages/api.ts"
+      ],
+      "screenPaths": [
+        "products"
       ],
       "reachability": "has-source-consumer"
     },
@@ -3921,6 +3991,11 @@
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
+      "file": "src/features/products/BulkProductImagesPanel.tsx",
+      "line": 52,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
       "file": "src/features/products/ProductFormModal.tsx",
       "line": 1135,
       "reason": "JavaScript Array/typed-array, not Supabase"
@@ -3987,25 +4062,37 @@
     },
     {
       "file": "src/services/supabase/product-images.service.ts",
-      "line": 67,
+      "line": 76,
+      "reason": "Storage bucket API, not table/view",
+      "expression": "supabase.storage.from(PRODUCT_IMAGE_BUCKET)"
+    },
+    {
+      "file": "src/services/supabase/product-images.service.ts",
+      "line": 81,
       "reason": "Storage bucket API, not table/view",
       "expression": "supabase.storage\n    .from(PRODUCT_IMAGE_BUCKET)"
     },
     {
       "file": "src/services/supabase/product-images.service.ts",
-      "line": 83,
+      "line": 100,
       "reason": "Storage bucket API, not table/view",
       "expression": "supabase.storage\n    .from(PRODUCT_IMAGE_BUCKET)"
     },
     {
       "file": "src/services/supabase/product-images.service.ts",
-      "line": 88,
+      "line": 105,
       "reason": "Storage bucket API, not table/view",
       "expression": "supabase.storage\n      .from(PRODUCT_IMAGE_BUCKET)"
     },
     {
       "file": "src/services/supabase/product-images.service.ts",
-      "line": 125,
+      "line": 153,
+      "reason": "Storage bucket API, not table/view",
+      "expression": "supabase.storage.from(PRODUCT_IMAGE_BUCKET)"
+    },
+    {
+      "file": "src/services/supabase/product-images.service.ts",
+      "line": 170,
       "reason": "Storage bucket API, not table/view",
       "expression": "supabase.storage\n    .from(PRODUCT_IMAGE_BUCKET)"
     },
@@ -4086,7 +4173,7 @@
     }
   ],
   "totals": {
-    "queries": 53,
+    "queries": 54,
     "tableNames": [
       "branches",
       "brands",
@@ -4119,7 +4206,7 @@
       "user_roles",
       "warehouses"
     ],
-    "authenticated": 46,
+    "authenticated": 47,
     "service_role": 7,
     "anon": 0,
     "subscriptions": 20

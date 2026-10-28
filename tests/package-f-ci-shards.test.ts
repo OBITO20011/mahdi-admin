@@ -26,14 +26,14 @@ test('discovery rejects absent, duplicate, misrouted and substituted shard ident
     ['scripts/testing/verify-browser-ci-partition.mjs','--self-test'],{encoding:'utf8'}),/Partition rejects/);
 });
 
-test('delivery requires exactly all five successful Package F shards',()=>{
-  const jobs=['Lint, test, build and browser QA',
+test('delivery requires both core engines and exactly all five successful Package F shards',()=>{
+  const jobs=['Lint, test, build and browser QA','Core WebKit browser QA',
     ...packageFShards.map(shard=>`Package F browser QA (${shard}/${packageFShardCount})`)]
     .map(name=>({name,conclusion:'success'}));
   verifyBrowserDeliveryJobs(jobs);
   for(const conclusion of ['failure','cancelled','skipped',null]){
-    for(let shard=1;shard<=packageFShardCount;shard++){
-      assert.throws(()=>verifyBrowserDeliveryJobs(jobs.map((j,i)=>i===shard?{...j,conclusion}:j)));
+    for(const target of jobs){
+      assert.throws(()=>verifyBrowserDeliveryJobs(jobs.map(j=>j.name===target.name?{...j,conclusion}:j)));
     }
   }
   assert.throws(()=>verifyBrowserDeliveryJobs(jobs.slice(0,-1)));
@@ -54,7 +54,7 @@ test('CI shards retain isolation, full matrix success, image and timeout contrac
   assert.match(block,/run-quality-ci\.mjs package-f --shard=\$\{\{ matrix.shard \}\}\/5/);
   assert.match(block,/name: playwright-report-package-f-\$\{\{ matrix.shard \}\}/);
   assert.match(block,/container:\s+image: mcr\.microsoft\.com\/playwright:v1\.62\.1-noble@sha256:[a-f0-9]{64}/);
-  assert.match(workflow,/needs: \[scope, quality, package-f-browser, database-runtime, current-database-runtime, pwa-release-update\]/);
+  assert.match(workflow,/needs: \[scope, quality, core-webkit-browser, package-f-browser, database-runtime, current-database-runtime, pwa-release-update\]/);
   assert.match(workflow,/verify-private-ci-gate\.mjs/);
   assert.match(execFileSync(process.execPath,['scripts/testing/verify-ci-playwright-image.mjs'],{encoding:'utf8'}),/20m limit/);
 });

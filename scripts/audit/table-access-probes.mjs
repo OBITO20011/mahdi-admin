@@ -26,7 +26,7 @@ export function scopes(ids,actor){return {orderId:ids.orderId,orderIds:[ids.orde
  orderError:{message:'isolated diagnostic'},targetsError:{message:'isolated diagnostic'},target:{subscription_id:ids.subscriptionId},
  statusCode:410,failureMessage:'isolated diagnostic',status:'sent',deliveredCount:1,failedCount:0,
  params:{page:1,pageSize:25,supplierId:fixtureId(301),warehouseId:fixtureId(201),paymentStatus:'unpaid',isArchived:false},
- pattern:'%',literal:'"%"'};}
+ publicUrl:'http://127.0.0.1:25421/storage/v1/object/public/product-images/local-fixture.jpg',pattern:'%',literal:'"%"'};}
 export async function replay(entry,{url,role,actor,secret,scope,extra=false}){
  assert.match(url,/^http:\/\/127\.0\.0\.1:\d+$/u,'LOCAL_ONLY');
  const token=testJwt(role,actor,secret),client=createClient(url,'local-audit-not-a-project-key',{

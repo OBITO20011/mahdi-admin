@@ -2,6 +2,7 @@
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
+import {projectTrial40Source,projectTrial40Hashes} from './source-before-trial40-integration.mjs';
 export const storeIdentityPins=JSON.parse(readFileSync(new URL('./store-sharing-identity-source-pins.json',import.meta.url),'utf8')).entries;
 const hash=s=>createHash('sha256').update(s).digest('hex'),historical=new Map();
 for(const name of readdirSync(import.meta.dirname).filter(n=>n.endsWith('.json')&&n!=='store-sharing-identity-source-pins.json')){
@@ -10,7 +11,8 @@ for(const name of readdirSync(import.meta.dirname).filter(n=>n.endsWith('.json')
  }
 }
 export function sourceBeforeStoreIdentity(file,text){
- if(text===null)return null;const source=text.replaceAll('\r\n','\n'),pin=storeIdentityPins[file];if(!pin)return source;
+ if(text===null)return null;const projected=projectTrial40Source(file,text,storeIdentityPins[file]?'identity':'baseline');if(projected===null)return null;
+ const source=projected.replaceAll('\r\n','\n'),pin=storeIdentityPins[file];if(!pin)return source;
  const digest=hash(source);if(digest===pin.after){assert.equal(hash(pin.beforeText),pin.before,'STORE_IDENTITY_INVERSE_CORRUPT:'+file);return pin.beforeText;}
  if(digest===pin.before||historical.get(file)?.has(digest))return source;
  // Unknown historical test/infrastructure bytes remain intact for their own
@@ -18,8 +20,8 @@ export function sourceBeforeStoreIdentity(file,text){
  if(file.startsWith('tests/')||file.startsWith('scripts/operations/'))return source;
  assert.fail('HANDOVER214_UNREVIEWED_SOURCE:STORE_IDENTITY:'+file);
 }
-export function restoreStoreIdentitySourceHashes(sources){return sources.map(s=>{
+export function restoreStoreIdentitySourceHashes(sources){return projectTrial40Hashes(sources,file=>storeIdentityPins[file]?'identity':'baseline').map(s=>{
  const pin=storeIdentityPins[s.file];if(!pin||s.sha256!==pin.after)return s;
- const current=readFileSync(new URL('../../'+s.file,import.meta.url),'utf8').replaceAll('\r\n','\n');assert.equal(hash(current),pin.after,'STORE_IDENTITY_CURRENT_SOURCE_CHANGED');
+ const current=projectTrial40Source(s.file,readFileSync(new URL('../../'+s.file,import.meta.url),'utf8'),'identity');assert.equal(hash(current),pin.after,'STORE_IDENTITY_CURRENT_SOURCE_CHANGED');
  return {...s,sha256:hash(sourceBeforeStoreIdentity(s.file,current))};
 });}

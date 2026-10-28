@@ -1,4 +1,5 @@
 import {restoreEnvironmentSourceHashes} from './source-before-environments.mjs';
+import {projectBulkImageQuerySites,pathsBeforeBulkProductImages} from './source-before-bulk-product-images.mjs';
 import {sourceBeforeReset214} from './source-before-reset214.mjs';
 // Exact outer inverse: old acceptance evidence retains its original sources.
 import assert from 'node:assert/strict';
@@ -28,7 +29,7 @@ export function sourceBeforeHandover214(file, text) {
   assert.fail('HANDOVER214_UNREVIEWED_SOURCE:' + file);
 }
 export function pathsBeforeHandover214(files) {
-  return files.filter(file => {
+  return pathsBeforeBulkProductImages(files).filter(file => {
     const pin = handover214Pins[file];
     if (!pin) return true;
     assert.equal(hash(readFileSync(new URL('../../' + file, import.meta.url), 'utf8').replaceAll('\r\n', '\n')), pin.after,
@@ -47,6 +48,7 @@ export function restoreHandover214SourceHashes(sources) {
   });
 }
 export function projectHandover214QuerySites(source, parseSource) {
+  source=projectBulkImageQuerySites(source,parseSource);
   const entries = [];
   for (const file of new Set(source.entries.map(entry => entry.file))) {
     const supplied = source.entries.filter(entry => entry.file === file), pin = handover214Pins[file];

@@ -1,53 +1,54 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "PAUSED",
   "owner": "codex",
-  "objective": "Store identity: reproducible share card/mobile header/full name audit;separate PR approval,no DB/deploy",
-  "baselineSha": "f95ff0458f90298edc21e39859d3268c7f7ccac7",
-  "branch": "codex/store-sharing-identity",
+  "objective": "Owner authorized ordered merge39/40/41;update40 against merged39 with exact historical proof projections and fresh current SDK;then fullCI and merge;no hosted/deploy",
+  "baselineSha": "d741e6fc0cf7b18a6b7faeaae190fca47c3defa7",
+  "branch": "codex/product-images-bulk",
   "phase": "PACKAGE_F",
   "completed": [
-    "Reproducible1200x630 JPEG57824bytes;logo exact unchanged",
-    "Official mobile name360/390/768 and all SEO metadata",
-    "Full UI/manifest/receipt/Telegram brand audit",
-    "Local SDK154/540 and source hashes/current inventories;historical evidence unchanged",
-    "Local gates Admin1507/store197/browser22/types/lint/build/Gitleaks0"
+    "PR39 merged025df016 after exact FULL49 each",
+    "40 integration preserves approved production bytes;historical pins unchanged",
+    "Fresh unprojected local214 SDK157/RPC543;10expected42501",
+    "Local Admin1526/store197/browser20/0flaky/types/lint/build/SEO pass"
   ],
   "inProgress": [
-    "Commit/push and exact full CI"
+    "Apply exact approved41 core-engine CI scheduling after two20min40 PR cancellations;fullCI on new SHA required"
   ],
   "notStarted": [
-    "Owner approval;no merge"
+    "FullCI final40SHA then merge40",
+    "Integrate/CI/merge41;preserve primary docs;T-B design only;no T-C"
   ],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "testsPassed": [
-    "Admin1507/1507;store197/197;browser22/22 zero flaky",
-    "TypesBoth;strictlint0warnings;admin production/store isolated build6SEO pages",
-    "Gitleaks0;actual local214 SDK154/540;original logo SHA unchanged"
+    "Admin1526/store197/browser20",
+    "Types/strictlint/builds/isolatedSEO",
+    "Actual SDK157/543;production bytes exact approved branches"
   ],
   "testsRemaining": [
-    "Exact final SHA full push+PR CI",
-    "Owner approval before merge"
+    "Core union/local unit gates and Gitleaks0",
+    "New exact40 SHA fullCI then ordered merge40/41"
   ],
   "findings": [
-    "Old logo JPEG retained for UI/JSONLD logo;actual product/schema images retained",
-    "Two device-label fallback strings only;no Auth guard/call change",
-    "Telegram test text uses full name;workflow remains inactive",
-    "No hosted access/SQL/deploy"
+    "Three test-only integration failures corrected without numerical assertion changes",
+    "No SQL/RPC/financial/permission changes",
+    "Latest owner forbids T-C before T-B design approval",
+    "CI-only approved engine scheduling,zero app/SQL/financial changes"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No SQL/DB changes/migrations/hosted access/deploy/activation",
-    "No merge without owner approval",
-    "SKU photos is a separate following package"
+    "No hosted connection/deploy",
+    "No DB/migration/financial/permission changes",
+    "Preserve primary owner local files",
+    "No T-C before T-B design approval"
   ],
-  "nextExactAction": "Commit/push identity package;open PR with previews;exact full CI;no merge",
-  "startedAt": "2026-10-27T12:09:21.571Z",
-  "checkpointedAt": "2026-10-27T18:47:58.345Z",
-  "filesTouchedCount": 34,
-  "filesTouchedManifestSha256": "c85acd0aa4d47b2913c4876f3c0d01aaa4f450f4852faf2b80d1271053a5f47a",
-  "workingTreeFingerprint": "C2C0FA16728A97DAA3902723084DE998527CF8623103C82C212A38CEA4274455"
+  "nextExactAction": "Commit/push40 updated on merged39;FULL CI exact SHA then authorized merge40;next integrate41 then safe primary update and design-only T-B",
+  "startedAt": "2026-10-27T19:34:58.619Z",
+  "checkpointedAt": "2026-10-28T01:35:12.313Z",
+  "filesTouchedCount": 43,
+  "filesTouchedManifestSha256": "829504c75b289f7731352c228b58dc0b188138b106b0ff8d219db82437b91097",
+  "workingTreeFingerprint": "0C88A5136B9542922CFAB955521AC3B87CB0584FAE126A72D28B27A1C0C10DE2"
 }

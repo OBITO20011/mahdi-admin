@@ -3,39 +3,11 @@
   "files": [
     {
       "code": " M",
-      "path": "automation/n8n/workflows/frankfurt-owner-business-alerts.json"
+      "path": "docs/agent/OWNER_DECISIONS.md"
     },
     {
       "code": " M",
-      "path": "customer-web/index.html"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/package.json"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/scripts/generate-seo-pages.mjs"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/scripts/verify-seo-output.mjs"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/components/StoreHeader.tsx"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/config/seoBrand.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/utils/storefrontSeo.ts"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/project-state.json"
+      "path": "docs/agent/PHASE_STATUS.md"
     },
     {
       "code": " M",
@@ -43,99 +15,163 @@
     },
     {
       "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+      "path": "scripts/audit/source-before-bulk-product-images.mjs"
     },
     {
       "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/source-before-owner-telegram-format.mjs"
-    },
-    {
-      "code": " M",
-      "path": "src/services/deviceBiometrics.service.ts"
-    },
-    {
-      "code": " M",
-      "path": "src/stores/useAuthStore.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/fixtures/owner-telegram-messages.golden.json"
+      "path": "tests/bulk-product-images-contracts.test.ts"
     },
     {
       "code": " M",
       "path": "tests/owner-telegram-format.test.ts"
     },
     {
-      "code": " M",
-      "path": "tests/package-f-auth-assistant.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/pretrial-p1.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/supplier-replacement208-evidence.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/trial-owner-a.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/trial-owner-w.test.ts"
+      "code": "??",
+      "path": "docs/agent/TRIAL_ORDERED_INTEGRATION_AR.md"
     },
     {
       "code": "??",
+      "path": "docs/agent/TRIAL_ORDERED_INTEGRATION_LOCAL.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_214_IDENTITY_BULK.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-trial40-integration.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/trial40-integration-source-pins.json"
+    },
+    {
+      "code": "??",
+      "path": "tests/trial40-integration.test.ts"
+    },
+    {
+      "code": "A ",
       "path": "customer-web/brand/social-card.html"
     },
     {
-      "code": "??",
+      "code": "A ",
       "path": "customer-web/public/nawasrah-social-card.jpg"
     },
     {
-      "code": "??",
+      "code": "A ",
       "path": "customer-web/scripts/generate-social-card.mjs"
     },
     {
-      "code": "??",
+      "code": "A ",
       "path": "docs/assets/store-sharing-identity/header-360-webkit.png"
     },
     {
-      "code": "??",
+      "code": "A ",
       "path": "docs/assets/store-sharing-identity/header-390-chromium.png"
     },
     {
-      "code": "??",
+      "code": "A ",
       "path": "docs/assets/store-sharing-identity/LOCAL_EVIDENCE.json"
     },
     {
-      "code": "??",
+      "code": "A ",
       "path": "docs/assets/store-sharing-identity/README_AR.md"
     },
     {
-      "code": "??",
+      "code": "A ",
       "path": "docs/operations/TABLE_ACCESS_AFTER_214_STORE_IDENTITY.json"
     },
     {
-      "code": "??",
+      "code": "A ",
       "path": "e2e/store-sharing-identity.spec.ts"
     },
     {
-      "code": "??",
-      "path": "scripts/audit/source-before-store-sharing-identity.mjs"
-    },
-    {
-      "code": "??",
+      "code": "A ",
       "path": "scripts/audit/store-sharing-identity-source-pins.json"
     },
     {
-      "code": "??",
+      "code": "A ",
       "path": "tests/store-sharing-identity.test.ts"
+    },
+    {
+      "code": "AM",
+      "path": "scripts/audit/source-before-store-sharing-identity.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "automation/n8n/workflows/frankfurt-owner-business-alerts.json"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/index.html"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/package.json"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/scripts/generate-seo-pages.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/scripts/verify-seo-output.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/components/StoreHeader.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/config/seoBrand.ts"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/utils/storefrontSeo.ts"
+    },
+    {
+      "code": "M ",
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": "M ",
+      "path": "src/services/deviceBiometrics.service.ts"
+    },
+    {
+      "code": "M ",
+      "path": "src/stores/useAuthStore.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/fixtures/owner-telegram-messages.golden.json"
+    },
+    {
+      "code": "M ",
+      "path": "tests/package-f-auth-assistant.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/pretrial-p1.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/supplier-replacement208-evidence.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/trial-owner-a.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/trial-owner-w.test.ts"
     }
   ]
 }

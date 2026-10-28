@@ -1,3 +1,4 @@
+import {BulkProductImagesPanel} from '../products/BulkProductImagesPanel';
 import React, { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { AlertTriangle, Boxes, CheckCircle2, Download, FileSpreadsheet, Lock, Package, PencilLine, ShieldAlert, Truck, Users } from 'lucide-react';
 import { Card, PageHeader, SectionHeader, StatusBadge, StockBar, UiButton, FormFields, formatMinorUnits } from '../../components/ui';
@@ -627,6 +628,7 @@ export const GoLiveSetupView: React.FC = () => {
               extra={<EntryList kind="suppliers" entries={supplierEntries} disabled={!status} onChanged={() => void refresh()} />} />
           </div>
         )}
+        {status && <BulkProductImagesPanel />}
         {status && <OpeningChequesCard branchId={status.mainBranchId} locked={locked} onSaved={() => void refresh()} />}
         {status && !status.finished && (
           <Card data-testid="go-live-finish">
