@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner-approved T-B G1-G6 plus same-PR215 backup/restore/watchdog/reset-resume/one schema authority and upgrade safety;local proof/fullCI/PR43 then approvalSTOP",
-  "baselineSha": "16e95484be838ea8a216345ea95660beb63e77f2",
+  "baselineSha": "db43f3f3354e62c49a39ff77491c93b6156a65e0",
   "branch": "codex/trial-tb-stage2",
   "phase": "PACKAGE_F",
   "completed": [
@@ -12,10 +12,10 @@
     "Owner215 localapply/replay/strictverify0writes+5negativeACLownerpathpassed;offline215no network/reset215CLI12PASS;freshref177/622/13diff0",
     "Realv2 encrypted214and215 backup/strictrestore/R2localUploadVerifyRestoreRemotePASS;215148tables/177files/17healthy0/noexceptions;old214archiveafter215stillrestores;ownerarchiveuntouched",
     "RESET215 actualAuth/MFA/Storage ordinary177 plus4resumes allcatalogACL0/retentionrawsame;missing/tampered/otherowner/ref/MFA/ownerabsent and2sessionrealwritefailclosed",
-    "Wholetypesboth/strictlintPASS;store200;Admin1586of1588 then2stale214assertionsupdated+focused16PASS;updatedcurrentprint2pagescard/10guide/no network"
+    "Final local Admin1588/store203/types/strictlint/browser124retries0/PWA4/sixbuilds/SEO/CSP/isolation/Gitleaks0 PASS;CI assethashfalsepositive repaired with3privacynegatives"
   ],
   "inProgress": [
-    "Fulltypes/strictlint/Admin/store/build/SEO/PWA/affectedbrowser/exactFULLCI;PR43 ownerreviewSTOP"
+    "Commit/push final local215 evidence and strict SEO verifier correction;exactFULL49push+PRCI and secrets/completebackup;then PR43ownerreviewSTOP"
   ],
   "notStarted": [
     "T-C partial POS payments;separate later owner task",
@@ -29,7 +29,7 @@
     "Operationsnative28;actual214/215completebackup/strictrestore/R2fixture;RESET215ordinary+4resumes/negatives"
   ],
   "testsRemaining": [
-    "Wholequality/currentdocs consistency andexactFULLpush+PRCI;review-readyPR43;no merge"
+    "Exact finalSHA FULL49push+PR CI plus secrets+completebackup;ownerreview before merge"
   ],
   "findings": [
     "Owner approved operations215 insidePR43;215apply cannot precede operational support;preserve214archives andrefs"
@@ -42,10 +42,10 @@
     "No primary owner local file changes",
     "No T-C and no implementation PR merge before owner review"
   ],
-  "nextExactAction": "Commit current215 documentation/guard expectations;then fullAdmin rerun andisolated builds/SEO/PWA/affectedbrowser/fullCI PR43",
+  "nextExactAction": "Commit/push final215 local gates plus strict SEO hash correction;then require exact FULL49push+PR and secrets/backup CI before review-ready PR43",
   "startedAt": "2026-10-28T13:06:11.980Z",
-  "checkpointedAt": "2026-10-28T23:23:02.311Z",
-  "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "ddb6e162ffe67c2566d333b1b50e8951a56c8be25969c13eec1d6cc76c0d413e",
-  "workingTreeFingerprint": "639C36D7DEE9E0589AB6167D4604315C24BA8182A7D1E6F3EA95EFB8FD265353"
+  "checkpointedAt": "2026-10-28T23:47:39.220Z",
+  "filesTouchedCount": 8,
+  "filesTouchedManifestSha256": "4b4fc9cb9fbf11fb6a95d43517af807abc7ef6824d083e154c4f5af2bf7d1b9d",
+  "workingTreeFingerprint": "179E85DE1FC6EAF5DCE49F7F10767E697FBF79A01B75AA64EAB6A741C21C4174"
 }

@@ -1,3 +1,7 @@
+#29Oct — T-B215 local acceptance complete;exact FULL49 CI next
+
+PR43 includes G1–G6 and owner-required operational215. DB79/17healthy0/restore0;HTTP4;SDK157+576;reference177/622/13;strict owner upgrade;214+215 encrypted backup/strict local R2 restore;RESET215 four real interrupted restarts;Admin1588/store203/browser124/PWA4/sixbuilds/types/strictlint/Gitleaks0 PASS. Exact finalSHA FULL49push+PR CI,secrets andcompletebackup required before review-ready. No hosted access/deploy/main update/merge/T-C. See TRIAL_TB215_QUALITY_LOCAL.json and FRANKFURT_OWNER_UPGRADE215_AR.md.
+
 #28Oct — owner approved T-B design;stage2 G1-G6 local implementation
 
 Separate codex/trial-tb-stage2 from approved PR42/322bd52;all presentedfinancial decisions approved,including restricted crossSKU/internalcredit and fullhistorical supplierpayablecredit. Read TRIAL_TB_IMPLEMENTATION_AR.md and design/TRIAL_TB_AFTERCARE_WIZARD_AR.md. Local-only tests/upgrade/PR/FULLCI then ownerapprovalSTOP;no historical migration edits or T-C.

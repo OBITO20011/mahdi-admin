@@ -3,19 +3,35 @@
   "files": [
     {
       "code": " M",
+      "path": "customer-web/scripts/verify-seo-output.mjs"
+    },
+    {
+      "code": " M",
+      "path": "docs/agent/PHASE_STATUS.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/agent/TRIAL_TB_IMPLEMENTATION_AR.md"
+    },
+    {
+      "code": " M",
       "path": "scripts/audit/aftercare215-source-pins.json"
     },
     {
       "code": " M",
-      "path": "tests/handover-documentation.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/handover213.test.ts"
+      "path": "scripts/audit/pin-aftercare215-sources.mjs"
     },
     {
       "code": "??",
-      "path": "docs/agent/TRIAL_TB215_CURRENT_PRINT_LOCAL.json"
+      "path": "customer-web/scripts/seo-output-privacy.mjs"
+    },
+    {
+      "code": "??",
+      "path": "customer-web/tests/seo-output-privacy.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "docs/agent/TRIAL_TB215_QUALITY_LOCAL.json"
     }
   ]
 }
