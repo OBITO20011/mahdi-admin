@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner-approved T-B G1-G6 plus same-PR215 backup/restore/watchdog/reset-resume/one schema authority and upgrade safety;local proof/fullCI/PR43 then approvalSTOP",
-  "baselineSha": "2627fe8d9c17b7c00c8b1dd66a8362f797080d50",
+  "baselineSha": "d5fbc311857cbd0acf127053c6b811fab8fc2394",
   "branch": "codex/trial-tb-stage2",
   "phase": "PACKAGE_F",
   "completed": [
@@ -14,10 +14,11 @@
     "Generated actual clean215 manual622functions/177files;maintenance nativePASS;not old214 repin",
     "Operations215 foundationnative28/strictchangedlintPASS;legacy214v2preservedinimplementation,RESET215sharedguard,5registeredtaskpreflight;actualruntimepending",
     "Fresh215 vs214+literal215/officialrepair matches0;reference177/622functions/13Realtime/sourcefrozen;outsideGitready215 savednewname;oldrefsuntouched",
-    "Owner215 localapply/replay/strictverify0writes+5negativeACLownerpathpassed;offline215no network/reset215CLI12PASS;freshref177/622/13diff0"
+    "Owner215 localapply/replay/strictverify0writes+5negativeACLownerpathpassed;offline215no network/reset215CLI12PASS;freshref177/622/13diff0",
+    "Realv2 encrypted214and215 backup/strictrestore/R2localUploadVerifyRestoreRemotePASS;215148tables/177files/17healthy0/noexceptions;old214archiveafter215stillrestores;ownerarchiveuntouched"
   ],
   "inProgress": [
-    "Real214and215completebackup/restore/RestoreRemote+RESET215 fourinterruption/resume/negatives;then types/admin/store/build/browser/PWA/fullCI"
+    "RESET215fourinterruptions/rawretention/MFA/writefence negatives thenfulltypes/admin/store/build/SEO/PWA/browser/exactCI"
   ],
   "notStarted": [
     "T-C partial POS payments;separate later owner task",
@@ -44,10 +45,10 @@
     "No primary owner local file changes",
     "No T-C and no implementation PR merge before owner review"
   ],
-  "nextExactAction": "Save owner215/ref verified milestones then realcomplete214+215 backup/strictrestore/R2fixture andRESET215 resumptions;no hosted",
+  "nextExactAction": "Save complete214/215 backup/restore proof then run actualRESET215 fourinterruptions/resume/MFA/writefence negatives;fullquality/CI next",
   "startedAt": "2026-10-28T13:06:11.980Z",
-  "checkpointedAt": "2026-10-28T23:02:24.927Z",
-  "filesTouchedCount": 5,
-  "filesTouchedManifestSha256": "cba1ce43c8c226ad7714115d561b31ed6de720200090c43f729962119aaf15c2",
-  "workingTreeFingerprint": "23289A26805E758A4A32568565F44BB173E4B6627138DBC772BB0ECCB1DF4401"
+  "checkpointedAt": "2026-10-28T23:09:05.905Z",
+  "filesTouchedCount": 2,
+  "filesTouchedManifestSha256": "63fea1c382eeac6dd5ac1826973a83b50b448c280f4bc2fbfb404e9afccd71dc",
+  "workingTreeFingerprint": "A288E2803B905CB903D88358441E9B7253D801A703E926AD9ACD9CD50D0F35A0"
 }
