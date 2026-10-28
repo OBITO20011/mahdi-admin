@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Approved ordered39/40/41 integration;preserve approved application bytes and historical pins;fullCI before merge;safe primary;then T-B design only",
-  "baselineSha": "fea840fdbe3c6b186bc7bbe55b5d8c8dfc001ec5",
+  "baselineSha": "40cb8180c9fed8e10d4b5a2102c3df75ee63ca47",
   "branch": "codex/trial-ta-display",
   "phase": "PACKAGE_F",
   "completed": [
@@ -12,7 +12,7 @@
     "Exact historical bridge and original application-byte tests pass"
   ],
   "inProgress": [
-    "Commit/push combined41 for fullCI;40 fullCI before ordered merge"
+    "Integrate exact approved40 CI scheduling fix;full local unit/CI before ordered merge"
   ],
   "notStarted": [
     "Merge40 after exact fullCI;then integrate final40main into41 and fullCI/merge41",
@@ -24,15 +24,17 @@
   "testsPassed": [
     "Admin1533/store200;types/lint both;builds/isolatedSEO",
     "26browser identities:24initial+2evidence-backed environmental recheck;no source/assertion/timeouts/retries change",
-    "Actual local214 SDK157/543,10expected42501;exact approved application bytes"
+    "Actual local214 SDK157/543,10expected42501;exact approved application bytes",
+    "Approved CI scheduling integration Admin1535/types/strictlint;app/SQL byte-identical40cb8180;oldpins unchanged"
   ],
   "testsRemaining": [
     "Gitleaks0",
-    "Exact final41SHA push+PR FULLCI;merge40 first"
+    "Exact final40 and41 SHA fullCI;merge40 before41"
   ],
   "findings": [
     "No application edit beyond approved branches;one sharedSEO file clean Git merge",
-    "Preliminary focused evidence tests correctly failed until fresh combined SDK file existed"
+    "Preliminary focused evidence tests correctly failed until fresh combined SDK file existed",
+    "40 unsharded core reached20min twice;new40 uses exact41 approved engine split;no application/SQL changes"
   ],
   "blockers": [],
   "activeProcesses": [],
