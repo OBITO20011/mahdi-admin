@@ -3,23 +3,47 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/OWNER_DECISIONS.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/PROJECT_OVERVIEW.md"
-    },
-    {
-      "code": " M",
       "path": "docs/agent/project-state.json"
     },
     {
-      "code": "??",
+      "code": " M",
       "path": "docs/agent/TRIAL_TB_IMPLEMENTATION_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "package.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/agent/lib.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/agent/preflight.mjs"
+    },
+    {
+      "code": "??",
+      "path": "docs/agent/TRIAL_TB215_FOUNDATION_LOCAL.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/aftercare215-context.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/aftercare215-inspected-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/aftercare215-security-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-aftercare215-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "supabase/migrations/215_inspected_aftercare_and_supplier_credit.sql"
     }
   ]
 }

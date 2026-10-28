@@ -3,15 +3,16 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Implement owner-approved T-B stage2 G1-G6:atomic inspected replacement,noncash cross-SKU exchange,supplier payable credit,one Arabic wizard and damage ledger;local isolated DB tests,owner upgrade,PR/FULLCI then approvalSTOP",
-  "baselineSha": "322bd52a13943210ad3c6eb07a26abb704300626",
+  "baselineSha": "fae38fd451b9589838674a8675fba9e3854e5c33",
   "branch": "codex/trial-tb-stage2",
   "phase": "PACKAGE_F",
   "completed": [
     "Design PR42 head322bd52 full51each event;owner explicitly approved all presented decisions 2026-10-28",
-    "Fresh separate worktree from exact approved design;no unrelated owner file changed"
+    "Fresh separate worktree from exact approved design;no unrelated owner file changed",
+    "G2/G3 foundation215 fresh214 actual PostgreSQL13groups passed;strictfinancial/prevalidation zero-write,roleDTO/MFA,real two-sessionreplay,injected atomic rollback"
   ],
   "inProgress": [
-    "Inspect source contracts and establish versioned215 implementation/test plan"
+    "Implement remaining approved G1/G4/G5/G6 and complete G2 boundary/legacy/integrity tests;wholepackageNOTcomplete"
   ],
   "notStarted": [
     "T-C partial POS payments;separate later owner task",
@@ -20,16 +21,22 @@
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "testsPassed": [],
+  "testsPassed": [
+    "Fresh214 to215 no backfill/old table+sequencechanges",
+    "13 actual PostgreSQL foundationgroups:owner11good1bad/parcelonly/partialhold-receive-refuse/J5badonly/roles/MFA/replay/two-session/rollback"
+  ],
   "testsRemaining": [
-    "Actual DB numeric cases/roles/replay/races/rollback/integrity",
-    "UI+browser390 bothengines/unit/types/lint/build/SEO/PWA",
-    "Migration215 fresh/incremental catalog equality and strict owner dry/apply/verify locally",
-    "Gitleaks0 and exact FULLCI push+PR"
+    "G1 read-only ordinary-return preview and UI",
+    "G4 versioned noncash cross-SKU exchange",
+    "G5 owner-only values/damage history details/net totals",
+    "G6 supplier payable credit/inverse ledger",
+    "Mixedparcel/priorphysicalleaf/exactWAC/capacity races/evidencecorruption/strictcatalog+restore/integrity",
+    "Owner215command/strictreference and full unit/browser/CI gates"
   ],
   "findings": [
     "Existing211 warranty consumes full quantity as defect;new version must recover good stock once without historical mutation",
-    "CrossSKU credit and supplier payablecredit approved at fullhistoricalvalue/availablepayable only"
+    "CrossSKU credit and supplier payablecredit approved at fullhistoricalvalue/availablepayable only",
+    "Existing113 technical NEXTVAL mutation stamp advances on aborted writes;newinjection tests assert exact+1/+2 only,ALLtables/business-numbersequences unchanged;no sequence reset"
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -39,10 +46,10 @@
     "No primary owner local file changes",
     "No T-C and no implementation PR merge before owner review"
   ],
-  "nextExactAction": "Implement version215 G1-G6 contracts and isolated DB tests per approved T-B design;no hosted/deploy/noT-C;return implementation PR for owner approval",
+  "nextExactAction": "Continue approved T-B215:complete G1/G4/G5/G6,UI and full isolated boundary tests;13-group G2/G3 foundation passed,notdelivery;nohost/noT-C",
   "startedAt": "2026-10-28T13:06:11.980Z",
-  "checkpointedAt": "2026-10-28T13:06:24.161Z",
-  "filesTouchedCount": 5,
-  "filesTouchedManifestSha256": "70e18f6328c12e8cc49522c4481898bc1a1b581144cbac02fd5fd9263a7eec75",
-  "workingTreeFingerprint": "79209E34D93DFA613512DA3B230D8B5D158C299D83A4AF987F34704BB4A88737"
+  "checkpointedAt": "2026-10-28T13:35:57.406Z",
+  "filesTouchedCount": 11,
+  "filesTouchedManifestSha256": "91862b1a71da2506d22c1a81877e7f8412a6fd1096fac782a02fa6006f5069d8",
+  "workingTreeFingerprint": "4521445826BEE78F76FE415C5A148D86890A6641EA6C738428367F1FF66ED044"
 }
