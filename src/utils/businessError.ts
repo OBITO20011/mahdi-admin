@@ -5,6 +5,7 @@ export function businessErrorMessage(message: unknown): string {
   const rejectionCode=text.match(/\b(?:CORRECTION|SUPPLIER_REPLACEMENT)_[A-Z_]+\b/u)?.[0];
   if(rejectionCode&&rejectionMessages[rejectionCode])return rejectionMessages[rejectionCode];
   const known: Array<[RegExp, string]> = [
+    [/AFTERCARE215_EXCHANGE_REVERSAL_UNSUPPORTED/u,'فاتورة البديل مرتبطة بتبديل موحّد؛ استخدم المرتجع المفحوص ولا تعكسها كبيع نقدي مستقل.'],
     [/SUPPLIER215_CREDIT_EXCEEDS_PAYABLE/u,'قيمة المعيب أكبر من المستحق المؤيّد للمورد؛ لا يمكن خصمها أو إنشاء رصيد مصطنع. راجع مستحق المورد.'],
     [/SUPPLIER215_CREDIT_LATER_DEPENDENCY/u,'توجد حركة لاحقة للمورد أو للمعلّق تمنع عكس الخصم. راجع السجل قبل أي إجراء.'],
     [/SUPPLIER215_CREDIT_PREVIEW_CHANGED/u,'تغيّر المستحق أو المعلّق بعد المعاينة؛ أعد المعاينة قبل تأكيد خصم المورد.'],

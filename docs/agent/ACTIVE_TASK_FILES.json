@@ -3,23 +3,7 @@
   "files": [
     {
       "code": " M",
-      "path": "customer-web/src/receipts/commercialReceipt.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/receipts/publicReceipt.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/receipts/ReceiptDocument.tsx"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/services/receipts.service.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/types/receipt.ts"
+      "path": ".github/workflows/quality.yml"
     },
     {
       "code": " M",
@@ -27,19 +11,51 @@
     },
     {
       "code": " M",
-      "path": "docs/agent/TRIAL_TB_IMPLEMENTATION_AR.md"
+      "path": "package.json"
     },
     {
       "code": " M",
-      "path": "scripts/testing/aftercare215-damage-boundary-runtime.mjs"
+      "path": "scripts/audit/enrich-service214-evidence.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/testing/aftercare215-damage-runtime.mjs"
+      "path": "scripts/audit/run-service-access-diagnostic.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/testing/aftercare215-inspected-runtime.mjs"
+      "path": "scripts/audit/run-table-access-diagnostic.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/service-access-inventory.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-bulk-product-images.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-handover214.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-trial40-ci-scheduling.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-trial41-integration.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/frankfurt-owner-build.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/aftercare215-exchange-runtime.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/maintenance-db-contract.mjs"
     },
     {
       "code": " M",
@@ -47,55 +63,155 @@
     },
     {
       "code": " M",
+      "path": "src/features/orders/OrderDetailModal.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/utils/businessError.ts"
+    },
+    {
+      "code": " M",
       "path": "supabase/migrations/215_inspected_aftercare_and_supplier_credit.sql"
     },
     {
-      "code": "??",
-      "path": "customer-web/src/receipts/exactMoney.ts"
+      "code": " M",
+      "path": "tests/all-customer-collections203.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/bulk-product-images-contracts.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/canonical-receivables197.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/cashier-collections198.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/cheques195-admission.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/go-live-integration164.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/handover-z-maps.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/handover214.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/opening-cheques196.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/product-integration171.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/product-receiving205.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/receipt210.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/sales-history204-evidence.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/service-access-inventory.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/store-sharing-identity.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/supplier-replacement208-evidence.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-owner-a.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-owner-w.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-ta-presentation.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial40-ci-scheduling.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial40-integration.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial41-integration.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/withdrawals182-admission.test.ts"
     },
     {
       "code": "??",
-      "path": "customer-web/src/receipts/exchangeFunding.ts"
+      "path": "docs/agent/TRIAL_TB215_FUNDED_REVERSAL_LOCAL.json"
     },
     {
       "code": "??",
-      "path": "docs/agent/TRIAL_TB215_CLIENT_FOUNDATION_LOCAL.json"
+      "path": "scripts/audit/aftercare215-source-pins.json"
     },
     {
       "code": "??",
-      "path": "docs/agent/TRIAL_TB215_DEVELOPMENT71_REJECTED.json"
+      "path": "scripts/audit/enrich-service215-evidence.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/testing/aftercare215-receipt-runtime.mjs"
+      "path": "scripts/audit/pin-aftercare215-sources.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/testing/verification-source-freeze.mjs"
+      "path": "scripts/audit/source-before-aftercare215.mjs"
     },
     {
       "code": "??",
-      "path": "src/utils/aftercare215Contracts.ts"
+      "path": "scripts/operations/build-acl-reference215.mjs"
     },
     {
       "code": "??",
-      "path": "src/utils/aftercare215Money.ts"
+      "path": "scripts/operations/frankfurt-owner-upgrade215.mjs"
     },
     {
       "code": "??",
-      "path": "tests/aftercare215-contracts.test.ts"
+      "path": "scripts/operations/frankfurt-reference215.mjs"
     },
     {
       "code": "??",
-      "path": "tests/aftercare215-money.test.ts"
+      "path": "scripts/testing/run-aftercare-upgrade215-runtime.mjs"
     },
     {
       "code": "??",
-      "path": "tests/aftercare215-receipt-funding.test.ts"
+      "path": "scripts/testing/run-aftercare215-gates.mjs"
     },
     {
       "code": "??",
-      "path": "tests/verification-source-freeze.test.ts"
+      "path": "tests/aftercare215-admission.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/aftercare215-source-compat.test.ts"
     }
   ]
 }

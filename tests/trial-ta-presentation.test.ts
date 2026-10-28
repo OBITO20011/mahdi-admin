@@ -1,3 +1,4 @@
+import {pathsBeforeAftercare215} from '../scripts/audit/source-before-aftercare215.mjs';
 import {projectTrial41Source,trial41Integration} from '../scripts/audit/source-before-trial41-integration.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -28,9 +29,9 @@ test('T-A POS bottle product shows only parcel/packet sales methods and preserve
 test('T-A exact inverse retains original historical bytes;DB,services and price calculation modules are unchanged',()=>{
  for(const [file,pin]of Object.entries(trialTAPins) as [string,{after:string;added?:boolean}][]){const raw=projectTrial41Source(file,read(file),'trialTA') as string;assert.equal(hash(raw),pin.after,file);const before=sourceBeforeTrialTA(file,raw);if(pin.added)assert.equal(before,null);else assert.equal(before,execFileSync('git',['show','f95ff0458f90298edc21e39859d3268c7f7ccac7:'+file],{encoding:'utf8',maxBuffer:8*1024**2}).replaceAll('\r\n','\n'));}
  assert.throws(()=>sourceBeforeTrialTA('customer-web/src/utils/saleUnitLabels.ts',read('customer-web/src/utils/saleUnitLabels.ts')+'\nvoid unapproved;\n'),/UNREVIEWED_SOURCE/u);
- const unchanged=execFileSync('git',['diff','--name-only',trial41Integration.approvedRefs.previousMain,'--','supabase','src/services','src/features/pos/posV2Cart.ts','customer-web/src/services','customer-web/src/utils/checkout.ts'],{encoding:'utf8'}).trim();assert.equal(unchanged,'');
+ const unchanged=execFileSync('git',['diff','--name-only',trial41Integration.approvedRefs.previousMain,'--','supabase','src/services','src/features/pos/posV2Cart.ts','customer-web/src/services','customer-web/src/utils/checkout.ts'],{encoding:'utf8'}).trim();assert.deepEqual(pathsBeforeAftercare215(unchanged.split('\n').filter(Boolean)),[]);
 });
 
 test('T-A current actual SDK evidence binds all new presentation sources without rewriting frozen214 reference',async()=>{
- const current=await inventory(),state=JSON.parse(read('docs/agent/project-state.json')),proof=JSON.parse(read(state.currentTableReadinessEvidence));assert.equal(state.migrationCeiling,214);assert.equal(proof.migrationCeiling,214);assert.equal(proof.managedAccess,false);assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);assert.deepEqual(proof.sourceHashes,current.sources);assert.deepEqual(proof.coverage,verifyProbeCoverage(current,proof.results));
+ const current=await inventory(),state=JSON.parse(read('docs/agent/project-state.json')),proof=JSON.parse(read(state.currentTableReadinessEvidence));assert.equal(state.migrationCeiling,215);assert.equal(proof.migrationCeiling,215);assert.equal(proof.managedAccess,false);assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);assert.deepEqual(proof.sourceHashes,current.sources);assert.deepEqual(proof.coverage,verifyProbeCoverage(current,proof.results));
 });

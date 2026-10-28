@@ -1,4 +1,5 @@
 import {sourceBeforeReset214} from '../scripts/audit/source-before-reset214.mjs';
+import {pathsBeforeAftercare215} from '../scripts/audit/source-before-aftercare215.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFileSync} from 'node:fs';
@@ -23,7 +24,7 @@ test('Z exact outer inverse retains every prior pin and refuses arbitrary source
   }
   assert.deepEqual(pathsBeforeHandover214(['supabase/unapproved.sql']), ['supabase/unapproved.sql']);
   const historical = execFileSync('git', ['diff', '--name-only', baseline, '--', 'supabase/migrations', 'scripts/audit/*-hunks.json', 'scripts/audit/handover213-inverse.json', 'scripts/audit/owner-acl212-inverse.json'], {encoding: 'utf8'}).trim().split('\n').filter(Boolean);
-  assert.deepEqual(historical.filter(file => file !== 'supabase/migrations/214_handover_z_corrections.sql'), []);
+  assert.deepEqual(pathsBeforeAftercare215(historical).filter((file: string) => file !== 'supabase/migrations/214_handover_z_corrections.sql'), []);
 });
 test('214 contains only the six named existing definitions; no grant or backfill', () => {
   const sql = read('supabase/migrations/214_handover_z_corrections.sql');

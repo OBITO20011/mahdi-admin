@@ -519,7 +519,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
 
       <details open={!historyContext} className={historyContext ? "sales-invoice-rare-actions rounded-xl border border-nw-border p-3" : "contents"}><summary className={historyContext ? "min-h-11 cursor-pointer py-3 font-semibold" : "hidden"}>⋯ إجراءات الفاتورة والمرتجع</summary>
       <div id={`order-action-area-${order.id}`} className="space-y-2 scroll-mt-4">
-        {order.source==='pos'&&<DocumentCorrectionAction action="pos_sale" recordId={order.id} insideMenu={historyContext} onChanged={async()=>{await onOrderChanged?.();setToast('تم عكس البيع وحفظ أثره التدقيقي.','success');}}/>}
+        {order.source==='pos'&&(order.paymentMethod==='exchange_credit'?<p className="text-sm text-nw-muted">فاتورة البديل مرتبطة بتبديل موحّد. للإرجاع استخدم «إرجاع أو استبدال»؛ لا تعكسها كبيع نقدي مستقل.</p>:<DocumentCorrectionAction action="pos_sale" recordId={order.id} insideMenu={historyContext} onChanged={async()=>{await onOrderChanged?.();setToast('تم عكس البيع وحفظ أثره التدقيقي.','success');}}/>)}
 
         {(showDeliveryEtaForm || order.status === 'out_for_delivery') && (
           <div className="space-y-3 rounded-2xl border border-nw-info bg-nw-info-bg p-3">

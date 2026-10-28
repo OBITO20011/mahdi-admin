@@ -23,6 +23,7 @@ import {verifyExchangeReceipt215} from './aftercare215-receipt-runtime.mjs';
 import {verifyExactCost215} from './aftercare215-exact-cost-runtime.mjs';
 import {verifyRestore215,verifyIntegrity215} from './aftercare215-restore-runtime.mjs';
 import {readVerificationSourceFreeze,assertVerificationSourceFreeze} from './verification-source-freeze.mjs';
+import {assertPackageDDbLint} from './package-d-db-lint-policy.mjs';
 
 assert.equal(process.argv.length, 2, 'LOCAL_ONLY_NO_ARGUMENTS');
 const exec = promisify(execFile), root = path.resolve(import.meta.dirname, '../..');
@@ -51,6 +52,11 @@ try {
   for (const [table, digest] of Object.entries(before.tables)) assert.equal(after.tables[table], digest, 'NO_BACKFILL:' + table);
   assert.deepEqual(after.sequences, before.sequences);
   pass('214 to215 installs transactionally; every pre-existing table/sequence unchanged');
+  stage='strict-db-lint';
+  const lint=await exec(process.execPath,[cli,'db','lint','--local','--level','warning','--workdir',local],{cwd:root,windowsHide:true,maxBuffer:8*1024**2,timeout:120000});
+  await writeFile(path.join(output,'db-lint.json'),lint.stdout);
+  report.acceptedHistoricalLintWarnings=assertPackageDDbLint(lint.stdout).length;
+  pass('whole215 SQL lint has no new warning/error;unchanged historical policy');
   stage = 'fixture'; await c.initialize();
   stage = 'inspected-warranty'; await verifyInspectedReplacement215(c, pass);
   stage = 'roles-races-rollback'; await verifyInspectedSecurity215(c, pass);

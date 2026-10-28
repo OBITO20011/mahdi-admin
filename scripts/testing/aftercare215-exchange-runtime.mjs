@@ -23,10 +23,12 @@ export async function verifyExchange215(c,pass) {
   assert.equal(shifted.expectedCashInMinorUnits-shift.expectedCashInMinorUnits,difference);
   assert.equal(shifted.cashSalesInMinorUnits-shift.cashSalesInMinorUnits,Math.max(difference,0));
   assert.equal(shifted.cashRefundsInMinorUnits-shift.cashRefundsInMinorUnits,Math.max(-difference,0));
+  await fail(`reverse_pos_sale(${q(result.newOrderId)},'عكس مستقل غير مسموح لفاتورة المقابل',${q(key())})`,/AFTERCARE215_EXCHANGE_REVERSAL_UNSUPPORTED/);
   const fp=await fingerprint();assert.deepEqual(await rpc(call),{...result,idempotentReplay:true});assert.deepEqual(await fingerprint(),fp);
   await fail(`settle_sales_exchange_v1(${j({...payload,differenceMethod:'cliq',referenceNumber:'changed'})},${q(identity)},${q(p.previewFingerprint)})`,/IDEMPOTENCY_CONFLICT/);
   pass(`atomic exchange9000to${price}: original+11,new-12,actualcash${difference},profit${profit},no fictitious receipts/refunds,idempotent whole exchange`);
  }
+ pass('cash positive/negative/equal funded invoices reject standalone old POS reversal with all tables and sequences unchanged;ordinary full215 return remains available');
  const make=async({method='cash',held=false}={})=>{
   const old=await setup(),replacement=await setup({cost:600});await sql(`UPDATE products SET default_sale_price_in_minor_units=12000 WHERE id=${q(replacement.pid)};`);
   const payload={returnRequest:returnPayload215(old,{supplierId:held?c.supplier:null}),replacement:{productId:replacement.pid,kind:'legacy_single_sku_parcel',quantity:1},differenceMethod:method,...(method==='cliq'?{referenceNumber:'LOCAL-EXCHANGE-COMPLETED'}:{})};

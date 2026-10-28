@@ -1,3 +1,4 @@
+import {pathsBeforeAftercare215} from '../scripts/audit/source-before-aftercare215.mjs';
 import {projectTrial41Source,trial41Integration} from '../scripts/audit/source-before-trial41-integration.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
@@ -18,7 +19,7 @@ test('integration keeps every approved application byte;identity and bulk produc
   const expected=[...identity,...bulk].sort();
   assert.deepEqual(git(['diff','--name-only',refs.baseline,trial41Integration.approvedRefs.previousMain,'--','src','customer-web/src']).trim().split('\n').filter(Boolean).sort(),expected);
   for(const file of expected)assert.equal(read(file),git(['show',(identity.includes(file)?refs.identity:refs.bulk)+':'+file]),file);
-  assert.equal(git(['diff','--name-only',refs.baseline,'--','supabase','scripts/audit/*-hunks.json','scripts/audit/*-inverse.json']).trim(),'');
+  assert.equal(pathsBeforeAftercare215(git(['diff','--name-only',refs.baseline,'--','supabase','scripts/audit/*-hunks.json','scripts/audit/*-inverse.json']).trim().split('\n').filter(Boolean)).join('\n'),'');
   for(const [target,file]of [['identity','store-sharing-identity'],['bulk','bulk-product-images']] as const){
     const path='scripts/audit/'+file+'-source-pins.json';assert.equal(read(path),git(['show',refs[target]+':'+path]));
   }

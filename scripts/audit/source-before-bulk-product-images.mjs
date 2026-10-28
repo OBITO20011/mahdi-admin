@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {trial40IntegrationPins,projectTrial40Source,projectTrial40Hashes} from './source-before-trial40-integration.mjs';
+import {pathsBeforeAftercare215,projectAftercare215QuerySites} from './source-before-aftercare215.mjs';
 export const bulkImagePins=JSON.parse(readFileSync(new URL('./bulk-product-images-source-pins.json',import.meta.url),'utf8')).entries;
 const hash=text=>createHash('sha256').update(text).digest('hex');
 export function sourceBeforeBulkProductImages(file,text){
@@ -14,7 +15,7 @@ export function sourceBeforeBulkProductImages(file,text){
  if(hash(source)===pin.before||!pin.added&&file!=='src/services/supabase/product-images.service.ts')return source;
  assert.fail('HANDOVER214_UNREVIEWED_SOURCE:BULK_IMAGES:'+file);
 }
-export function pathsBeforeBulkProductImages(files){return files.filter(file=>{
+export function pathsBeforeBulkProductImages(files){return pathsBeforeAftercare215(files).filter(file=>{
  if(trial40IntegrationPins[file]){
   const raw=readFileSync(new URL('../../'+file,import.meta.url),'utf8').replaceAll('\r\n','\n');
   if(projectTrial40Source(file,raw,'baseline')!==raw)return false;
@@ -28,6 +29,7 @@ export function restoreBulkImageSourceHashes(sources){return projectTrial40Hashe
  const before=sourceBeforeBulkProductImages(entry.file,raw);return before===null?[]:[{...entry,sha256:hash(before)}];
 });}
 export function projectBulkImageQuerySites(source,parseSource){
+ source=projectAftercare215QuerySites(source,parseSource);
  const entries=[];
  for(const file of new Set(source.entries.map(entry=>entry.file))){
   const supplied=source.entries.filter(entry=>entry.file===file),pin=bulkImagePins[file];

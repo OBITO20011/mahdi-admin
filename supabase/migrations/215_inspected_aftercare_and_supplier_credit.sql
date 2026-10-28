@@ -46,9 +46,9 @@ ALTER TABLE public.supplier_replacement_cases ADD CONSTRAINT supplier_replacemen
  OR(origin='shop_damage' AND supplier_id IS NULL AND damage_event_id IS NOT NULL));
 
 CREATE FUNCTION public.tb215_canonical_inspection_internal(p_payload JSONB)
-RETURNS JSONB LANGUAGE plpgsql IMMUTABLE SET search_path=public,pg_temp AS $$
+RETURNS JSONB LANGUAGE plpgsql STABLE SET search_path=public,pg_temp AS $$
 #variable_conflict use_column
-DECLARE x JSONB; items JSONB:='[]'; reason TEXT:=nullif(btrim(p_payload->>'reason'),'');
+DECLARE x JSONB; items JSONB:='[]'::JSONB; reason TEXT:=nullif(btrim(p_payload->>'reason'),'');
 BEGIN
  IF jsonb_typeof(p_payload) IS DISTINCT FROM 'object'
  OR EXISTS(SELECT 1 FROM jsonb_object_keys(p_payload) k WHERE k NOT IN('orderId','items','reason','notes'))
@@ -105,14 +105,14 @@ END $$;
 CREATE FUNCTION public.tb215_prepare_inspection_internal(p_request JSONB)
 RETURNS JSONB LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
 #variable_conflict use_column
-DECLARE ctx JSONB; x JSONB; prepared JSONB:='[]'; pid UUID; root RECORD; item public.order_items%ROWTYPE;
- src RECORD; cost NUMERIC(24,6); capacity INTEGER; consumed BIGINT; q INTEGER; good INTEGER; root_instance UUID;
+DECLARE ctx JSONB; x JSONB; prepared JSONB:='[]'::JSONB; pid UUID; root RECORD;
+ src RECORD; cost NUMERIC(24,6); capacity INTEGER; consumed BIGINT; q INTEGER; root_instance UUID;
 BEGIN
  ctx:=public.tb215_read_sale_internal((p_request->>'orderId')::UUID);
  IF ctx->>'capability' IS DISTINCT FROM 'phase43_modern' OR ctx->'order'->>'withinWindow' IS DISTINCT FROM 'true'
  THEN RAISE EXCEPTION 'AFTERCARE215_ORDER_UNAVAILABLE'; END IF;
  FOR x IN SELECT value FROM jsonb_array_elements(p_request->'items') LOOP
-  pid:=NULL;cost:=NULL;capacity:=NULL;root_instance:=NULL;q:=(x->>'quantity')::INTEGER;good:=(x->>'goodQuantity')::INTEGER;
+  pid:=NULL;cost:=NULL;capacity:=NULL;root_instance:=NULL;q:=(x->>'quantity')::INTEGER;
   IF x->>'sourceKind'='base_order_item' THEN
    SELECT product_id,quantity,COALESCE(unit_cost_snapshot_in_minor_units_exact,unit_cost_in_minor_units::NUMERIC)
     INTO pid,capacity,cost FROM public.order_items WHERE id=(x->>'sourceId')::UUID AND order_id=(p_request->>'orderId')::UUID
@@ -141,7 +141,8 @@ BEGIN
    THEN RAISE EXCEPTION 'SUPPLIER_REPLACEMENT_SUPPLIER_INVALID'; END IF;
   END IF;
   IF root.root_kind='base_order_item' THEN
-   SELECT * INTO STRICT item FROM public.order_items WHERE id=root.root_id;
+   PERFORM 1 FROM public.order_items WHERE id=root.root_id;
+   IF NOT FOUND THEN RAISE no_data_found USING MESSAGE='query returned no rows'; END IF;
   ELSE
    SELECT c.parcel_instance_id INTO STRICT root_instance FROM public.order_parcel_components c WHERE c.id=root.root_id;
   END IF;
@@ -256,11 +257,11 @@ END $$;
 CREATE FUNCTION public.settle_inspected_sales_replacement_v2(p_payload JSONB,p_idempotency_key TEXT,p_preview_fingerprint TEXT)
 RETURNS JSONB LANGUAGE plpgsql SECURITY DEFINER SET search_path=public,pg_temp AS $$
 #variable_conflict use_column
-DECLARE actor UUID:=auth.uid(); request JSONB; identity JSONB; plan JSONB; preview JSONB; old_request JSONB; old_replay JSONB;
+DECLARE actor UUID:=auth.uid(); request JSONB; identity JSONB; plan JSONB;
  key TEXT; actor_hash TEXT; fingerprint TEXT; existing public.business_operations%ROWTYPE; issued JSONB; result JSONB;
- op UUID:=gen_random_uuid(); tail UUID:=gen_random_uuid(); old_op UUID; row RECORD; x JSONB; source JSONB; c_id UUID;
+ op UUID:=gen_random_uuid(); tail UUID:=gen_random_uuid(); old_op UUID; row RECORD; x JSONB; c_id UUID;
  at TIMESTAMPTZ:=clock_timestamp(); warehouse UUID; branch UUID; before_qty INTEGER; global_qty BIGINT; before_wac NUMERIC(24,6);
- after_wac NUMERIC(24,6); movement UUID; unit_name TEXT; cases UUID[]:='{}'; recovery BIGINT; manifest JSONB;
+ after_wac NUMERIC(24,6); movement UUID; unit_name TEXT; cases UUID[]:='{}'::UUID[]; recovery BIGINT; manifest JSONB;
 BEGIN
  PERFORM public.assert_erp_role(ARRAY['owner','admin'],'تأكيد الإرجاع أو الاستبدال');
  IF auth.role() IS DISTINCT FROM 'authenticated' OR actor IS NULL THEN RAISE EXCEPTION USING ERRCODE='42501',MESSAGE='AFTERCARE215_ROLE_DENIED'; END IF;
@@ -570,7 +571,7 @@ END $$;
 
 CREATE FUNCTION public.tb215_canonical_return_internal(p_payload JSONB)
 RETURNS JSONB LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
-DECLARE base JSONB; physical JSONB; assignments JSONB:='[]'; entry JSONB; choice TEXT:=COALESCE(nullif(lower(btrim(p_payload->>'refundMethod')),''),'auto'); ref TEXT:=nullif(btrim(p_payload->>'referenceNumber'),'');
+DECLARE base JSONB; physical JSONB; assignments JSONB:='[]'::JSONB; entry JSONB; choice TEXT:=COALESCE(nullif(lower(btrim(p_payload->>'refundMethod')),''),'auto'); ref TEXT:=nullif(btrim(p_payload->>'referenceNumber'),'');
 BEGIN
  IF jsonb_typeof(p_payload) IS DISTINCT FROM 'object'
   OR EXISTS(SELECT 1 FROM jsonb_object_keys(p_payload) k WHERE k NOT IN('orderId','items','physicalSources','reason','notes','refundMethod','referenceNumber','supplierAssignments'))
@@ -601,7 +602,7 @@ DECLARE ctx JSONB; item JSONB; component JSONB; source JSONB; assignment JSONB; 
  pc public.order_parcel_components%ROWTYPE; position RECORD; q INTEGER; prior INTEGER; prior_refund BIGINT; target BIGINT; raw_damage BIGINT; refund BIGINT;
  entitlement BIGINT:=0; customer_damage BIGINT:=0; good_value NUMERIC(30,6):=0; bad_value BIGINT:=0; held_value BIGINT:=0; cost NUMERIC(24,6);
  good_q INTEGER:=0; bad_q INTEGER:=0; damage_q INTEGER:=0; debt BIGINT; money BIGINT; method TEXT; original_method TEXT; shift_id UUID;
- issues JSONB:='[]'; sources JSONB:='[]'; order_id UUID:=(p_request->'baseRequest'->>'order_id')::UUID;
+ issues JSONB:='[]'::JSONB; sources JSONB:='[]'::JSONB; order_id UUID:=(p_request->'baseRequest'->>'order_id')::UUID;
 BEGIN
  ctx:=public.tb215_read_sale_internal(order_id);
  IF NOT EXISTS(SELECT 1 FROM public.branches WHERE id=(ctx->'order'->>'branchId')::UUID AND is_active)
@@ -1192,7 +1193,7 @@ DECLARE returned JSONB; original public.orders%ROWTYPE; product public.products%
  product_id UUID:=(replacement->>'productId')::UUID; quantity INTEGER:=(replacement->>'quantity')::INTEGER;
  base_quantity BIGINT; price BIGINT; total NUMERIC; entitlement BIGINT; difference BIGINT; internal_credit BIGINT; exact_cogs NUMERIC;
  available BIGINT; line JSONB; method TEXT:=p_request->>'differenceMethod'; reference TEXT:=p_request->>'referenceNumber';
- shift_id UUID; issues JSONB:='[]';
+ shift_id UUID; issues JSONB:='[]'::JSONB;
 BEGIN
  returned:=public.tb215_prepare_return_internal(p_request->'returnRequest');
  SELECT * INTO STRICT original FROM public.orders WHERE id=(returned->'request'->'baseRequest'->>'order_id')::UUID;
@@ -3477,7 +3478,7 @@ CREATE FUNCTION public.tb215_assert_exchange_internal(p_operation_id UUID)
 RETURNS VOID LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
 DECLARE ctx public.aftercare215_exchanges%ROWTYPE; r public.aftercare215_exchange_results%ROWTYPE; b public.business_operations%ROWTYPE;
  sale public.orders%ROWTYPE; creation public.business_operations%ROWTYPE; ret public.business_operations%ROWTYPE; item public.order_items%ROWTYPE;
- plan JSONB; parent_identity JSONB; expected_total BIGINT; entitlement BIGINT; credit BIGINT; difference BIGINT; return_event UUID; loss BIGINT;
+ plan JSONB; parent_identity JSONB; expected_total BIGINT; entitlement BIGINT; credit BIGINT; difference BIGINT; return_event UUID;
 BEGIN
  SELECT * INTO ctx FROM public.aftercare215_exchanges WHERE operation_id=p_operation_id;
  SELECT * INTO r FROM public.aftercare215_exchange_results WHERE operation_id=p_operation_id;
@@ -3546,7 +3547,7 @@ CREATE FUNCTION public.settle_sales_exchange_v1(p_payload JSONB,p_idempotency_ke
 RETURNS JSONB LANGUAGE plpgsql SECURITY DEFINER SET search_path=public,pg_temp AS $$
 #variable_conflict use_variable
 DECLARE actor UUID:=auth.uid(); request JSONB; plan JSONB; identity JSONB; fingerprint TEXT; key TEXT; actor_hash TEXT;
- operation UUID:=gen_random_uuid(); old public.business_operations%ROWTYPE; pos_key TEXT; return_key TEXT; return_actor_hash TEXT;
+ operation UUID:=gen_random_uuid(); old public.business_operations%ROWTYPE; pos_key TEXT; return_key TEXT;
  pos_result JSONB; return_result JSONB; supplier_operation UUID; result JSONB; at TIMESTAMPTZ:=clock_timestamp(); base JSONB; discovered_customer UUID; locked_customer UUID;
 BEGIN
  PERFORM public.assert_erp_role(ARRAY['owner','admin'],'تأكيد تبديل بصنف آخر');
@@ -3611,7 +3612,7 @@ CREATE CONSTRAINT TRIGGER aftercare215_exchange_complete AFTER INSERT ON public.
 CREATE FUNCTION public.tb215_exchange_financial_adjustment_internal(p_facts JSONB,p_branch_id UUID,p_start TIMESTAMPTZ,p_end TIMESTAMPTZ,p_timezone TEXT,p_verify BOOLEAN)
 RETURNS JSONB LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
 DECLARE result JSONB:=p_facts; false_collections BIGINT; credit_refunds BIGINT; cash_in BIGINT; cliq_in BIGINT; cash_out BIGINT; cliq_out BIGINT;
- day JSONB; days JSONB:='[]'; day_false BIGINT; day_cash BIGINT; day_cliq BIGINT; day_date DATE;
+ day JSONB; days JSONB:='[]'::JSONB; day_false BIGINT; day_cash BIGINT; day_cliq BIGINT; day_date DATE;
 BEGIN
  IF p_verify THEN PERFORM public.tb215_assert_exchange_internal(x.operation_id) FROM public.aftercare215_exchanges x
   JOIN public.aftercare215_exchange_results r ON r.operation_id=x.operation_id JOIN public.orders o ON o.id=r.new_order_id
@@ -4386,6 +4387,17 @@ BEGIN
 END $$;
 -- Same active/MFA roles as the existing sales-history reader204. This is
 -- receipt funding, not purchase cost or margin; no payment reference is added.
+CREATE FUNCTION public.tb215_guard_funded_pos_reversal_internal()
+RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER SET search_path=public,pg_temp AS $$
+BEGIN
+ IF EXISTS(SELECT 1 FROM public.aftercare215_exchange_results WHERE new_order_id=NEW.order_id) THEN
+  RAISE EXCEPTION 'AFTERCARE215_EXCHANGE_REVERSAL_UNSUPPORTED: فاتورة البديل جزء من تبديل موحّد؛ استخدم المرتجع المفحوص ولا تعكسها كبيع نقدي مستقل.';
+ END IF;
+ RETURN NEW;
+END $$;
+CREATE TRIGGER aftercare215_funded_pos_no_standalone_reversal BEFORE INSERT ON public.pos_sale_reversals
+ FOR EACH ROW EXECUTE FUNCTION public.tb215_guard_funded_pos_reversal_internal();
+
 CREATE FUNCTION public.get_order_exchange_details_v1(p_order_id UUID)
 RETURNS JSONB LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
 DECLARE funding JSONB; exchanges JSONB;
@@ -4399,15 +4411,41 @@ BEGIN
  FROM public.aftercare215_exchanges x WHERE x.order_id=p_order_id;
  RETURN jsonb_build_object('contractVersion',215,'funding',funding,'exchanges',exchanges);
 END $$;
-DO $$ DECLARE t TEXT; BEGIN
- FOREACH t IN ARRAY ARRAY['aftercare215_inspections','aftercare215_inspection_items','supplier215_credits','aftercare215_return_contexts','aftercare215_return_results','aftercare215_exchanges','aftercare215_exchange_results'] LOOP
-  EXECUTE format('ALTER TABLE public.%I OWNER TO postgres',t);
-  EXECUTE format('ALTER TABLE public.%I ENABLE ROW LEVEL SECURITY',t);
-  EXECUTE format('REVOKE ALL ON TABLE public.%I FROM PUBLIC,anon,authenticated,service_role',t);
-  EXECUTE format('CREATE TRIGGER %I BEFORE UPDATE OR DELETE ON public.%I FOR EACH ROW EXECUTE FUNCTION public.inventory_damage_reject_mutation_internal()',t||'_immutable',t);
-  EXECUTE format('CREATE TRIGGER %I BEFORE TRUNCATE ON public.%I FOR EACH STATEMENT EXECUTE FUNCTION public.inventory_damage_reject_mutation_internal()',t||'_no_truncate',t);
- END LOOP;
-END $$;
+ALTER TABLE public.aftercare215_inspections OWNER TO postgres;
+ALTER TABLE public.aftercare215_inspections ENABLE ROW LEVEL SECURITY;
+REVOKE ALL ON TABLE public.aftercare215_inspections FROM PUBLIC,anon,authenticated,service_role;
+CREATE TRIGGER aftercare215_inspections_immutable BEFORE UPDATE OR DELETE ON public.aftercare215_inspections FOR EACH ROW EXECUTE FUNCTION public.inventory_damage_reject_mutation_internal();
+CREATE TRIGGER aftercare215_inspections_no_truncate BEFORE TRUNCATE ON public.aftercare215_inspections FOR EACH STATEMENT EXECUTE FUNCTION public.inventory_damage_reject_mutation_internal();
+ALTER TABLE public.aftercare215_inspection_items OWNER TO postgres;
+ALTER TABLE public.aftercare215_inspection_items ENABLE ROW LEVEL SECURITY;
+REVOKE ALL ON TABLE public.aftercare215_inspection_items FROM PUBLIC,anon,authenticated,service_role;
+CREATE TRIGGER aftercare215_inspection_items_immutable BEFORE UPDATE OR DELETE ON public.aftercare215_inspection_items FOR EACH ROW EXECUTE FUNCTION public.inventory_damage_reject_mutation_internal();
+CREATE TRIGGER aftercare215_inspection_items_no_truncate BEFORE TRUNCATE ON public.aftercare215_inspection_items FOR EACH STATEMENT EXECUTE FUNCTION public.inventory_damage_reject_mutation_internal();
+ALTER TABLE public.supplier215_credits OWNER TO postgres;
+ALTER TABLE public.supplier215_credits ENABLE ROW LEVEL SECURITY;
+REVOKE ALL ON TABLE public.supplier215_credits FROM PUBLIC,anon,authenticated,service_role;
+CREATE TRIGGER supplier215_credits_immutable BEFORE UPDATE OR DELETE ON public.supplier215_credits FOR EACH ROW EXECUTE FUNCTION public.inventory_damage_reject_mutation_internal();
+CREATE TRIGGER supplier215_credits_no_truncate BEFORE TRUNCATE ON public.supplier215_credits FOR EACH STATEMENT EXECUTE FUNCTION public.inventory_damage_reject_mutation_internal();
+ALTER TABLE public.aftercare215_return_contexts OWNER TO postgres;
+ALTER TABLE public.aftercare215_return_contexts ENABLE ROW LEVEL SECURITY;
+REVOKE ALL ON TABLE public.aftercare215_return_contexts FROM PUBLIC,anon,authenticated,service_role;
+CREATE TRIGGER aftercare215_return_contexts_immutable BEFORE UPDATE OR DELETE ON public.aftercare215_return_contexts FOR EACH ROW EXECUTE FUNCTION public.inventory_damage_reject_mutation_internal();
+CREATE TRIGGER aftercare215_return_contexts_no_truncate BEFORE TRUNCATE ON public.aftercare215_return_contexts FOR EACH STATEMENT EXECUTE FUNCTION public.inventory_damage_reject_mutation_internal();
+ALTER TABLE public.aftercare215_return_results OWNER TO postgres;
+ALTER TABLE public.aftercare215_return_results ENABLE ROW LEVEL SECURITY;
+REVOKE ALL ON TABLE public.aftercare215_return_results FROM PUBLIC,anon,authenticated,service_role;
+CREATE TRIGGER aftercare215_return_results_immutable BEFORE UPDATE OR DELETE ON public.aftercare215_return_results FOR EACH ROW EXECUTE FUNCTION public.inventory_damage_reject_mutation_internal();
+CREATE TRIGGER aftercare215_return_results_no_truncate BEFORE TRUNCATE ON public.aftercare215_return_results FOR EACH STATEMENT EXECUTE FUNCTION public.inventory_damage_reject_mutation_internal();
+ALTER TABLE public.aftercare215_exchanges OWNER TO postgres;
+ALTER TABLE public.aftercare215_exchanges ENABLE ROW LEVEL SECURITY;
+REVOKE ALL ON TABLE public.aftercare215_exchanges FROM PUBLIC,anon,authenticated,service_role;
+CREATE TRIGGER aftercare215_exchanges_immutable BEFORE UPDATE OR DELETE ON public.aftercare215_exchanges FOR EACH ROW EXECUTE FUNCTION public.inventory_damage_reject_mutation_internal();
+CREATE TRIGGER aftercare215_exchanges_no_truncate BEFORE TRUNCATE ON public.aftercare215_exchanges FOR EACH STATEMENT EXECUTE FUNCTION public.inventory_damage_reject_mutation_internal();
+ALTER TABLE public.aftercare215_exchange_results OWNER TO postgres;
+ALTER TABLE public.aftercare215_exchange_results ENABLE ROW LEVEL SECURITY;
+REVOKE ALL ON TABLE public.aftercare215_exchange_results FROM PUBLIC,anon,authenticated,service_role;
+CREATE TRIGGER aftercare215_exchange_results_immutable BEFORE UPDATE OR DELETE ON public.aftercare215_exchange_results FOR EACH ROW EXECUTE FUNCTION public.inventory_damage_reject_mutation_internal();
+CREATE TRIGGER aftercare215_exchange_results_no_truncate BEFORE TRUNCATE ON public.aftercare215_exchange_results FOR EACH STATEMENT EXECUTE FUNCTION public.inventory_damage_reject_mutation_internal();
 ALTER FUNCTION public.tb215_canonical_inspection_internal(JSONB) OWNER TO postgres;
 ALTER FUNCTION public.tb215_canonical_exchange_internal(JSONB) OWNER TO postgres;
 REVOKE ALL ON FUNCTION public.tb215_canonical_exchange_internal(JSONB) FROM PUBLIC,anon,authenticated,service_role;
@@ -4501,13 +4539,37 @@ REVOKE ALL ON FUNCTION public.tb215_financial_facts_before215_internal(UUID,TIME
 ALTER FUNCTION public.phase6_financial_facts_internal(UUID,TIMESTAMPTZ,TIMESTAMPTZ,TEXT,BOOLEAN) OWNER TO postgres;
 REVOKE ALL ON FUNCTION public.phase6_financial_facts_internal(UUID,TIMESTAMPTZ,TIMESTAMPTZ,TEXT,BOOLEAN) FROM PUBLIC,anon,authenticated,service_role;
 
-DO $$ DECLARE f RECORD; BEGIN
- FOR f IN SELECT p.oid::regprocedure identity FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace WHERE n.nspname='public' AND p.proname=ANY(ARRAY['tb215_active_exchange_internal','tb215_assert_exchange_pos_admission_internal','tb215_assert_exchange_return_admission_internal','tb215_exchange_canonical_return_internal','tb215_assert_exchange_return_event_internal','tb215_guard_exchange_return_insert_internal','tb215_exchange_pos_internal','tb215_exchange_return_internal','tb215_exchange_finalize_internal']) LOOP
- EXECUTE format('ALTER FUNCTION %s OWNER TO postgres',f.identity);EXECUTE format('REVOKE ALL ON FUNCTION %s FROM PUBLIC,anon,authenticated,service_role',f.identity);
- END LOOP;
-END $$;
+ALTER FUNCTION public.tb215_active_exchange_internal() OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_active_exchange_internal() FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.tb215_assert_exchange_pos_admission_internal(p_warehouse_id uuid, p_branch_id uuid, p_customer_id uuid, p_customer_name text, p_payment_method text, p_lines jsonb, p_discount bigint, p_received bigint, p_key text) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_assert_exchange_pos_admission_internal(p_warehouse_id uuid, p_branch_id uuid, p_customer_id uuid, p_customer_name text, p_payment_method text, p_lines jsonb, p_discount bigint, p_received bigint, p_key text) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.tb215_assert_exchange_return_admission_internal(p_order_id uuid, p_key text, p_items jsonb, p_reason text, p_method text, p_reference text, p_notes text) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_assert_exchange_return_admission_internal(p_order_id uuid, p_key text, p_items jsonb, p_reason text, p_method text, p_reference text, p_notes text) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.tb215_exchange_canonical_return_internal(p_order_id uuid, p_items jsonb, p_reason text, p_method text, p_reference text, p_notes text) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_exchange_canonical_return_internal(p_order_id uuid, p_items jsonb, p_reason text, p_method text, p_reference text, p_notes text) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.tb215_assert_exchange_return_event_internal(p_event_id uuid) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_assert_exchange_return_event_internal(p_event_id uuid) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.tb215_guard_exchange_return_insert_internal() OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_guard_exchange_return_insert_internal() FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.tb215_exchange_pos_internal(p_warehouse_id uuid, p_branch_id uuid, p_customer_id uuid, p_customer_name text, p_payment_method text, p_lines jsonb, p_discount_in_minor_units bigint, p_amount_received_in_minor_units bigint, p_idempotency_key text) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_exchange_pos_internal(p_warehouse_id uuid, p_branch_id uuid, p_customer_id uuid, p_customer_name text, p_payment_method text, p_lines jsonb, p_discount_in_minor_units bigint, p_amount_received_in_minor_units bigint, p_idempotency_key text) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.tb215_exchange_return_internal(p_order_id uuid, p_idempotency_key text, p_items jsonb, p_reason text, p_refund_method text, p_reference_number text, p_notes text) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_exchange_return_internal(p_order_id uuid, p_idempotency_key text, p_items jsonb, p_reason text, p_refund_method text, p_reference_number text, p_notes text) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.tb215_exchange_finalize_internal(p_operation_id uuid) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_exchange_finalize_internal(p_operation_id uuid) FROM PUBLIC,anon,authenticated,service_role;
 
-DO $$ DECLARE f RECORD; BEGIN FOR f IN SELECT p.oid::regprocedure identity FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace WHERE n.nspname='public' AND p.proname=ANY(ARRAY['phase4_finalize_aftercare_operation_foundation_internal','tb215_exchange_manifest_internal','tb215_assert_exchange_internal','settle_sales_exchange_v1','tb215_exchange_completion_guard_internal','tb215_finalize_before_exchange_internal']) LOOP EXECUTE format('ALTER FUNCTION %s OWNER TO postgres',f.identity);EXECUTE format('REVOKE ALL ON FUNCTION %s FROM PUBLIC,anon,authenticated,service_role',f.identity); END LOOP;END $$;
+ALTER FUNCTION public.phase4_finalize_aftercare_operation_foundation_internal(p_operation_id uuid) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.phase4_finalize_aftercare_operation_foundation_internal(p_operation_id uuid) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.tb215_exchange_manifest_internal(p_operation_id uuid) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_exchange_manifest_internal(p_operation_id uuid) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.tb215_assert_exchange_internal(p_operation_id uuid) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_assert_exchange_internal(p_operation_id uuid) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.settle_sales_exchange_v1(p_payload jsonb, p_idempotency_key text, p_preview_fingerprint text) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.settle_sales_exchange_v1(p_payload jsonb, p_idempotency_key text, p_preview_fingerprint text) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.tb215_exchange_completion_guard_internal() OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_exchange_completion_guard_internal() FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.tb215_finalize_before_exchange_internal(p_operation_id uuid) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_finalize_before_exchange_internal(p_operation_id uuid) FROM PUBLIC,anon,authenticated,service_role;
 GRANT EXECUTE ON FUNCTION public.settle_sales_exchange_v1(JSONB,TEXT,TEXT) TO authenticated;
 
 ALTER FUNCTION public.tb215_exchange_financial_adjustment_internal(JSONB,UUID,TIMESTAMPTZ,TIMESTAMPTZ,TEXT,BOOLEAN) OWNER TO postgres;
@@ -4543,4 +4605,6 @@ REVOKE ALL ON FUNCTION public.tb215_damage_loss_presentation_internal(JSONB,UUID
 ALTER FUNCTION public.get_order_exchange_details_v1(UUID) OWNER TO postgres;
 REVOKE ALL ON FUNCTION public.get_order_exchange_details_v1(UUID) FROM PUBLIC,anon,authenticated,service_role;
 GRANT EXECUTE ON FUNCTION public.get_order_exchange_details_v1(UUID) TO authenticated;
+ALTER FUNCTION public.tb215_guard_funded_pos_reversal_internal() OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_guard_funded_pos_reversal_internal() FROM PUBLIC,anon,authenticated,service_role;
 COMMIT;
