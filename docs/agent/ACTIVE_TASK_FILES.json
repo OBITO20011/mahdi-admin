@@ -7,11 +7,27 @@
     },
     {
       "code": " M",
-      "path": "docs/agent/TRIAL_TB215_FROZEN_RUNTIME_LOCAL.json"
+      "path": "scripts/audit/aftercare215-source-pins.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-aftercare215-gates.mjs"
     },
     {
       "code": "??",
-      "path": "docs/agent/TRIAL_TB215_FROZEN77_LOCAL.json"
+      "path": "docs/agent/TRIAL_TB215_FULLSTACK_LOCAL.json"
+    },
+    {
+      "code": "??",
+      "path": "e2e/aftercare215-fullstack-harness.html"
+    },
+    {
+      "code": "??",
+      "path": "e2e/aftercare215-fullstack-harness.tsx"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-aftercare215-fullstack.mjs"
     }
   ]
 }

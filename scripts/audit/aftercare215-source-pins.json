@@ -68,6 +68,16 @@
       "after": "5d87c09814b4804d82b7ad00d7e128ab783f3f7a0f46cdc4a4afe9352fdb3473",
       "beforeText": null
     },
+    "e2e/aftercare215-fullstack-harness.html": {
+      "before": null,
+      "after": "afd8a4b573514a3a6231013f8e209164ff73b0d1830625dc53cf40468e3335ba",
+      "beforeText": null
+    },
+    "e2e/aftercare215-fullstack-harness.tsx": {
+      "before": null,
+      "after": "82f114210122276a5ce1787ecb946c2233eed095e1845c6a1b91ff016c64b090",
+      "beforeText": null
+    },
     "e2e/aftercare215-recovery.spec.ts": {
       "before": null,
       "after": "f3b4f5c9de74d2ab86bac0a147416ad22599fb8de66335ab14890ba436e634dc",
@@ -298,9 +308,14 @@
       "after": "9707176edec5bf01dc012dc5e07732a09fca3b29b143a917d7421c1a56a6c708",
       "beforeText": null
     },
+    "scripts/testing/run-aftercare215-fullstack.mjs": {
+      "before": null,
+      "after": "206d151ea8b395cb56e604aaecb0cd2dc28754b4fcdd1ba1023966201e4b56bb",
+      "beforeText": null
+    },
     "scripts/testing/run-aftercare215-gates.mjs": {
       "before": null,
-      "after": "cfe6810e429c7a28ecd0184a6a12da4afaa671fec4f9298719e2434094555047",
+      "after": "9b7cba0ac048e3a5287a162ccaaca674a692340e436970665c8f4d751d656605",
       "beforeText": null
     },
     "scripts/testing/run-aftercare215-runtime.mjs": {

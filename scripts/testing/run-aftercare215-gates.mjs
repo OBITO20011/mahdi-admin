@@ -13,6 +13,7 @@ const output=await mkdtemp(path.join(tmpdir(),'nawasrah-aftercare215-gate-'));
 const reference=path.join(output,'local-reference-through215-ready.json');
 for(const args of [
  ['scripts/testing/run-aftercare215-runtime.mjs'],
+ ['scripts/testing/run-aftercare215-fullstack.mjs'],
  ['scripts/audit/run-table-access-diagnostic.mjs','--migration-ceiling','215','--require-access'],
  ['scripts/audit/run-service-access-diagnostic.mjs','--migration-ceiling','215'],
  ['scripts/testing/generate-db-functions.mjs','--check'],
