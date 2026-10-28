@@ -1,14 +1,15 @@
 export type SupplierReplacementAction = 'shop_pending'|'shop_immediate'|'shop_damage'|'receive'|'writeoff'|'reverse'|'customer_return'|'replacement_supplier'|'reclassify_replacement'|'reclassify_return';
 export type SupplierReplacementPayload = Record<string,unknown>;
 export interface SupplierReplacementEvent {
-  id:string;action:'send'|'immediate'|'receive'|'writeoff'|'damage'|'reverse';quantity:number;heldDelta:number;
+  id:string;action:'send'|'immediate'|'receive'|'writeoff'|'damage'|'reverse'|'credit';quantity:number;heldDelta:number;
   occurredAt:string;isReversed:boolean;reversesEventId:string|null;reason?:string;
 }
 export interface SupplierReplacementCase {
   id:string;supplierId:string|null;supplierName:string|null;productId:string;productName:string;warehouseId:string;branchId:string;
-  origin:'shop'|'customer_return'|'shop_damage'|'customer_replacement';quantity:number;commercialQuantity:number;unitsPerCommercialUnit:number;
+  origin:'shop'|'customer_return'|'shop_damage'|'customer_replacement'|'inspected_replacement';quantity:number;commercialQuantity:number;unitsPerCommercialUnit:number;
   unitName:string;baseUnitName:string;pendingQuantity:number;receivedQuantity:number;writtenOffQuantity:number;occurredAt:string;
   events:SupplierReplacementEvent[];unitCostInMinorUnitsExact?:string;pendingValueInMinorUnitsExact?:string;
+  creditedQuantity?:number;supplierCreditInMinorUnits?:string;
 }
 export interface SupplierReplacementPage {
   contractVersion:208;page:number;pageSize:number;totalCount:number;pendingQuantity:number;
@@ -23,7 +24,7 @@ export function exactReplacementAmount(v:unknown):string {
   if(typeof v!=='string'||!/^\d+(?:\.\d{1,6})?$/u.test(v))throw invalid();return v;
 }
 export function readReplacementCase(v:unknown):SupplierReplacementCase {
-  if(!replacementRecord(v)||!['shop','customer_return','shop_damage','customer_replacement'].includes(String(v.origin))||!Array.isArray(v.events))throw invalid();
+  if(!replacementRecord(v)||!['shop','customer_return','shop_damage','customer_replacement','inspected_replacement'].includes(String(v.origin))||!Array.isArray(v.events))throw invalid();
   const hasValues=v.unitCostInMinorUnitsExact!==undefined;
   if(hasValues!==(v.pendingValueInMinorUnitsExact!==undefined))throw invalid();
   const result:SupplierReplacementCase={id:string(v.id),supplierId:nullableString(v.supplierId),supplierName:nullableString(v.supplierName),
@@ -32,11 +33,13 @@ export function readReplacementCase(v:unknown):SupplierReplacementCase {
     unitsPerCommercialUnit:integer(v.unitsPerCommercialUnit,1),unitName:string(v.unitName),baseUnitName:string(v.baseUnitName),
     pendingQuantity:integer(v.pendingQuantity),receivedQuantity:integer(v.receivedQuantity),writtenOffQuantity:integer(v.writtenOffQuantity),occurredAt:string(v.occurredAt),
     events:v.events.map(e=>{
-      if(!replacementRecord(e)||!['send','immediate','receive','writeoff','damage','reverse'].includes(String(e.action))||typeof e.isReversed!=='boolean')throw invalid();
+      if(!replacementRecord(e)||!['send','immediate','receive','writeoff','damage','reverse','credit'].includes(String(e.action))||typeof e.isReversed!=='boolean')throw invalid();
       return {id:string(e.id),action:e.action as SupplierReplacementEvent['action'],quantity:integer(e.quantity,1),heldDelta:integer(e.heldDelta,-2147483647),
         occurredAt:string(e.occurredAt),reversesEventId:nullableString(e.reversesEventId),isReversed:e.isReversed,...(e.reason===undefined?{}:{reason:string(e.reason)})};
     }),...(hasValues?{unitCostInMinorUnitsExact:exactReplacementAmount(v.unitCostInMinorUnitsExact),pendingValueInMinorUnitsExact:exactReplacementAmount(v.pendingValueInMinorUnitsExact)}:{})};
   if(result.quantity!==result.commercialQuantity*result.unitsPerCommercialUnit||result.pendingQuantity>result.quantity)throw invalid();
+  if(v.creditedQuantity!==undefined){result.creditedQuantity=integer(v.creditedQuantity);if(result.creditedQuantity>result.quantity)throw invalid();}
+  if(v.supplierCreditInMinorUnits!==undefined){if(!hasValues||v.creditedQuantity===undefined||typeof v.supplierCreditInMinorUnits!=='string'||! /^(?:0|[1-9][0-9]*)$/u.test(v.supplierCreditInMinorUnits))throw invalid();result.supplierCreditInMinorUnits=v.supplierCreditInMinorUnits;}
   return result;
 }
 export function readReplacementPage(v:unknown):SupplierReplacementPage {
