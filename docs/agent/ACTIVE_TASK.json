@@ -3,16 +3,13 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Implement owner-approved T-B stage2 G1-G6:atomic inspected replacement,noncash cross-SKU exchange,supplier payable credit,one Arabic wizard and damage ledger;local isolated DB tests,owner upgrade,PR/FULLCI then approvalSTOP",
-  "baselineSha": "1813608ccfac5a1db297829319ba4a03cb84a6cc",
+  "baselineSha": "b27637f162131b0359e3adf596e7282d6ceb5de8",
   "branch": "codex/trial-tb-stage2",
   "phase": "PACKAGE_F",
   "completed": [
-    "Design PR42 head322bd52 full51each event;owner explicitly approved all presented decisions 2026-10-28",
-    "Fresh separate worktree from exact approved design;no unrelated owner file changed",
-    "G2/G3 foundation215 fresh214 actual PostgreSQL13groups passed;strictfinancial/prevalidation zero-write,roleDTO/MFA,real two-sessionreplay,injected atomic rollback",
-    "G6 payable-credit/inverse/statement DB foundation;fresh214 migration215 plusG2/G3/G6 23actualgroups PASS",
-    "G1 pure preview8 actualgroups READONLY:cash/CliQ/debt defaults,250debt+500cash,cumulative750750751 and ownerDTO match existing financialwriter",
-    "G1 sealedv2 refund/context/mixedindependent packets;fresh214-to215 all39G1/G2/G3/G6 groups PASS;late supplier subset and replay/race/atomic rollback"
+    "Owner approved PR42/322bd52 design/all financial choices;separate codex/trial-tb-stage2;no owner files touched",
+    "G1 sealed return/G2-G3 inspected warranties/G6 supplier credit fresh39 actualDBgroups PASS;proof TRIAL_TB215_SEALED_RETURN_LOCAL.json",
+    "G4 READONLY exchange preview5actualgroups PASS;proof TRIAL_TB215_EXCHANGE_PREVIEW_LOCAL.json;writer/readers/UI pending"
   ],
   "inProgress": [
     "G4 real noncash crossSKU exchange,thenG5/wizard/owner215/fullquality/CI"
@@ -25,11 +22,9 @@
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "testsPassed": [
-    "Fresh214-to215/23actualDBgroups G2/G3/G6;legacy tables/sequences unchanged",
-    "50000to49000 payablecredit,pairedinverse,no cash/stock/profit;1000.6 cumulative3002;4blockedcredit/receive/refusalraces;forgedfils/rollback/roles/MFA",
-    "Agentcontinuity/migrationnumbering7 PASS;Gitleaks0 onprevioussavedfoundation",
-    "G1 pure preview8 groups PASS vsactual121/122;not sealedv2;old mixed-packet writer remains denied",
-    "Fresh39allactualDBgroups,215hashC49E8C57;strict tables/businesssequences rollback;factsverifyv2 context and canonical legacyPO suppliermembership"
+    "G1-G3/G6 fresh39 DBgroups:money/stock/debt/profit/replay/roles/MFA/two-session/rollback;legacy tables unchanged",
+    "G4 READONLYpreview5:9000to12000/7500/9000,noncash credit,actualdifference,ownerDTO,eligibility",
+    "Prior continuity7/Gitleaks0; current compact checkpoint verification pending"
   ],
   "testsRemaining": [
     "G4 noncash cross-SKU exchange and every financial/cash/receipt reader",
@@ -39,22 +34,23 @@
     "Full local quality/Gitleaks/exact finalSHA FULLCI and owner review beforemerge"
   ],
   "findings": [
-    "Existing211 warranty consumes full quantity as defect;new version must recover good stock once without historical mutation",
-    "CrossSKU credit and supplier payablecredit approved at fullhistoricalvalue/availablepayable only",
-    "Existing113 technical NEXTVAL mutation stamp advances on aborted writes;newinjection tests assert exact+1/+2 only,ALLtables/business-numbersequences unchanged;no sequence reset"
+    "Private113 NEXTVAL technicalstamp cannot rollback;tests keep ALLtables/business-numbersequences exact and assert exact technical+1/+2 only",
+    "No old invoice/history backfill;crossSKU and supplier-credit bounded by approved design"
   ],
   "blockers": [],
-  "activeProcesses": [],
+  "activeProcesses": [
+    "Idle disposable supabase_db_nawasrah-tb215-test;OUT/exchange-dev-state.json;no verification running"
+  ],
   "prohibitions": [
     "No hosted project connection,deployment or credentials",
     "No historical migration edits/backfill",
     "No primary owner local file changes",
     "No T-C and no implementation PR merge before owner review"
   ],
-  "nextExactAction": "G4 genuine noncash crossSKU exchange then G5/wizard/owner215/fullCI;freshG1/G2/G3/G6 39pass sourcebound;nohost/noT-C/no implementationmerge",
+  "nextExactAction": "G4 actual noncash coordinator/proofs/readers;thenG5/wizard/owner215/fullCI;proof39DB+5preview saved;idledev only;nohost/noT-C/no merge",
   "startedAt": "2026-10-28T13:06:11.980Z",
-  "checkpointedAt": "2026-10-28T15:31:59.248Z",
-  "filesTouchedCount": 6,
-  "filesTouchedManifestSha256": "6ee13461a4b0d86ce9f8b6541440b1c4070fd3dafe0def99f86dfd2738840eb1",
-  "workingTreeFingerprint": "19B4F34B986BE1E9AB472ACCBD0424895B699F6589CF32DC61E10E4F3340ECD8"
+  "checkpointedAt": "2026-10-28T15:38:50.491Z",
+  "filesTouchedCount": 4,
+  "filesTouchedManifestSha256": "ac276b2ebe4570eec3bf77c715af9ba7fdb61220a8cd0ff03e1243905166aa47",
+  "workingTreeFingerprint": "6851491202D114AE766ED7CAA4765F4E4F826035BB71A733A27ED7E5DBD4FA5F"
 }

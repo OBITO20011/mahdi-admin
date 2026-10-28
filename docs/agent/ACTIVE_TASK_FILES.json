@@ -7,23 +7,15 @@
     },
     {
       "code": " M",
-      "path": "docs/agent/TRIAL_TB_IMPLEMENTATION_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-aftercare215-runtime.mjs"
-    },
-    {
-      "code": " M",
       "path": "supabase/migrations/215_inspected_aftercare_and_supplier_credit.sql"
     },
     {
       "code": "??",
-      "path": "docs/agent/TRIAL_TB215_SEALED_RETURN_LOCAL.json"
+      "path": "docs/agent/TRIAL_TB215_EXCHANGE_PREVIEW_LOCAL.json"
     },
     {
       "code": "??",
-      "path": "scripts/testing/aftercare215-return-v2-runtime.mjs"
+      "path": "scripts/testing/aftercare215-exchange-preview-runtime.mjs"
     }
   ]
 }

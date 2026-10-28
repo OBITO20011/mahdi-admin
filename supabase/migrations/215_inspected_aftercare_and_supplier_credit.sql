@@ -1160,6 +1160,114 @@ BEGIN
  RETURN result;
 END $$;
 
+-- G4 prices a separate sale paid by an explicit internal exchange credit.
+-- This preview never calls a writer, reserves stock, or fabricates a payment.
+CREATE FUNCTION public.tb215_canonical_exchange_internal(p_payload JSONB)
+RETURNS JSONB LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+DECLARE replacement JSONB; request JSONB; method TEXT; reference TEXT; product UUID; kind TEXT; quantity INTEGER;
+BEGIN
+ IF jsonb_typeof(p_payload) IS DISTINCT FROM 'object' OR p_payload-ARRAY['returnRequest','replacement','differenceMethod','referenceNumber']::TEXT[]<>'{}'
+  OR jsonb_typeof(p_payload->'replacement') IS DISTINCT FROM 'object'
+ THEN RAISE EXCEPTION 'AFTERCARE215_EXCHANGE_REQUEST_INVALID'; END IF;
+ replacement:=p_payload->'replacement';
+ IF replacement-ARRAY['productId','kind','quantity']::TEXT[]<>'{}' OR COALESCE(replacement->>'quantity','')!~'^[1-9][0-9]*$'
+  OR(replacement->>'quantity')::NUMERIC>2147483647 OR replacement->>'kind' IS NULL
+  OR replacement->>'kind' NOT IN('base_unit','legacy_single_sku_parcel')
+  OR jsonb_typeof(p_payload->'returnRequest') IS DISTINCT FROM 'object'
+  OR COALESCE(p_payload->'returnRequest'->>'refundMethod','auto')<>'auto'
+  OR nullif(btrim(p_payload->'returnRequest'->>'referenceNumber'),'') IS NOT NULL
+ THEN RAISE EXCEPTION 'AFTERCARE215_EXCHANGE_REQUEST_INVALID'; END IF;
+ product:=public.phase3_require_uuid_internal(replacement->>'productId','replacement productId');
+ quantity:=(replacement->>'quantity')::INTEGER;kind:=replacement->>'kind';
+ method:=lower(nullif(btrim(p_payload->>'differenceMethod'),''));reference:=nullif(btrim(p_payload->>'referenceNumber'),'');
+ IF method IS NOT NULL AND method NOT IN('cash','cliq') OR length(COALESCE(reference,''))>120
+  OR reference IS NOT NULL AND method IS DISTINCT FROM 'cliq'
+ THEN RAISE EXCEPTION 'AFTERCARE215_EXCHANGE_REQUEST_INVALID'; END IF;
+ request:=public.tb215_canonical_return_internal(p_payload->'returnRequest');
+ RETURN jsonb_build_object('returnRequest',request,'replacement',jsonb_build_object('productId',product,'kind',kind,'quantity',quantity),
+  'differenceMethod',method,'referenceNumber',reference);
+END $$;
+
+CREATE FUNCTION public.tb215_prepare_exchange_internal(p_request JSONB)
+RETURNS JSONB LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+#variable_conflict use_variable
+DECLARE returned JSONB; original public.orders%ROWTYPE; product public.products%ROWTYPE; replacement JSONB:=p_request->'replacement';
+ product_id UUID:=(replacement->>'productId')::UUID; quantity INTEGER:=(replacement->>'quantity')::INTEGER;
+ base_quantity BIGINT; price BIGINT; total NUMERIC; entitlement BIGINT; difference BIGINT; internal_credit BIGINT; exact_cogs NUMERIC;
+ available BIGINT; line JSONB; method TEXT:=p_request->>'differenceMethod'; reference TEXT:=p_request->>'referenceNumber';
+ shift_id UUID; issues JSONB:='[]';
+BEGIN
+ returned:=public.tb215_prepare_return_internal(p_request->'returnRequest');
+ SELECT * INTO STRICT original FROM public.orders WHERE id=(returned->'request'->'baseRequest'->>'order_id')::UUID;
+ IF (returned->'financialPosition'->>'outstanding_total_in_minor_units')::BIGINT<>0
+  OR(returned->'financialPosition'->>'net_collected_in_minor_units')::BIGINT<(returned->'financialPosition'->>'total_in_minor_units')::BIGINT
+  OR(returned->>'debtReductionInMinorUnits')::BIGINT<>0
+ THEN RAISE EXCEPTION 'AFTERCARE215_EXCHANGE_FULLY_PAID_REQUIRED'; END IF;
+ -- A packet taken out of a parcel cannot acquire a refund/another-SKU right.
+ -- The existing whole-parcel guard is also checked for every selected root.
+ IF EXISTS(SELECT 1 FROM jsonb_array_elements(returned->'physicalSources') s
+   WHERE s->>'source_kind'='replacement_item'
+    AND EXISTS(SELECT 1 FROM public.order_items oi WHERE oi.id=(s->>'root_source_id')::UUID AND oi.commercial_line_kind='base_unit'))
+ THEN RAISE EXCEPTION 'AFTERCARE215_EXCHANGE_ORIGINAL_PACKET_REQUIRED'; END IF;
+ IF EXISTS(SELECT 1 FROM jsonb_array_elements(returned->'physicalSources') s WHERE(s->>'product_id')::UUID=product_id)
+ THEN RAISE EXCEPTION 'AFTERCARE215_EXCHANGE_OTHER_PRODUCT_REQUIRED'; END IF;
+ SELECT * INTO product FROM public.products WHERE id=product_id AND is_active;
+ IF NOT FOUND OR product.is_flavor_master THEN RAISE EXCEPTION 'PHASE3_POS_PRODUCT_INVALID'; END IF;
+ IF replacement->>'kind'='base_unit' THEN
+  IF public.parcel209_effective_only_internal(product_id) THEN RAISE EXCEPTION 'PARCEL209_UNIT_SALE_FORBIDDEN'; END IF;
+  base_quantity:=quantity;price:=product.sale_price_in_minor_units;
+  line:=jsonb_build_object('commercial_line_kind','base_unit','product_id',product_id,'base_quantity',quantity);
+ ELSE
+  IF product.units_per_sale_unit<=1 OR COALESCE(product.default_sale_price_in_minor_units,0)<=0 THEN RAISE EXCEPTION 'PHASE3_POS_PRICE_OR_PACKAGE_STALE'; END IF;
+  base_quantity:=quantity::BIGINT*product.units_per_sale_unit;price:=product.default_sale_price_in_minor_units;
+  line:=jsonb_build_object('commercial_line_kind','legacy_single_sku_parcel','product_id',product_id,'parcel_quantity',quantity,'units_per_parcel',product.units_per_sale_unit);
+ END IF;
+ total:=quantity::NUMERIC*price;
+ IF base_quantity>2147483647 OR price<=0 OR total>9223372036854775807 THEN RAISE EXCEPTION 'PHASE3_POS_MONEY_INVALID'; END IF;
+ SELECT COALESCE(sum(b.on_hand_quantity-b.reserved_quantity),0)::BIGINT INTO available FROM public.inventory_balances b
+  WHERE b.product_id=product.id AND b.warehouse_id=original.warehouse_id;
+ IF available<base_quantity THEN RAISE EXCEPTION 'PHASE3_POS_INSUFFICIENT_STOCK'; END IF;
+ exact_cogs:=round(base_quantity::NUMERIC*COALESCE(product.wac_cost_in_minor_units_exact,product.cost_price_in_minor_units::NUMERIC),6);
+ entitlement:=(returned->>'entitlementInMinorUnits')::BIGINT;
+ IF entitlement<=0 THEN RAISE EXCEPTION 'AFTERCARE215_EXCHANGE_VALUE_REQUIRED'; END IF;
+ difference:=total::BIGINT-entitlement;internal_credit:=LEAST(total::BIGINT,entitlement);
+ IF difference=0 THEN method:=NULL;reference:=NULL;
+ ELSE
+  IF method IS NULL AND difference<0 AND returned->>'originalPaymentMethod' IN('cash','cliq') THEN method:=returned->>'originalPaymentMethod'; END IF;
+  IF method IS NULL THEN issues:=issues||jsonb_build_array(jsonb_build_object('field','differenceMethod','code','AFTERCARE215_DIFFERENCE_METHOD_REQUIRED')); END IF;
+  IF method='cliq' AND reference IS NULL THEN issues:=issues||jsonb_build_array(jsonb_build_object('field','referenceNumber','code','AFTERCARE215_REFUND_REFERENCE_REQUIRED')); END IF;
+ END IF;
+ SELECT id INTO shift_id FROM public.cash_shifts WHERE branch_id=original.branch_id AND status='open';
+ IF shift_id IS NULL THEN issues:=issues||jsonb_build_array(jsonb_build_object('field','cashShift','code','PHASE2_OPEN_SHIFT_REQUIRED')); END IF;
+ RETURN jsonb_build_object('request',p_request,'returnPlan',returned-'issues','orderId',original.id,'branchId',original.branch_id,'warehouseId',original.warehouse_id,
+  'customerId',original.customer_id,'customerName',original.customer_name_snapshot,'cashShiftId',shift_id,'productId',product.id,'productName',product.name_ar,
+  'line',line||jsonb_build_object('price_authority','server_catalog','line_discount_in_minor_units',0),'baseQuantity',base_quantity,
+  'availableQuantity',available,'newTotalInMinorUnits',total::TEXT,'internalCreditInMinorUnits',internal_credit::TEXT,
+  'differenceInMinorUnits',difference::TEXT,'moneyReceivedInMinorUnits',GREATEST(difference,0)::TEXT,'moneyRefundInMinorUnits',GREATEST(-difference,0)::TEXT,
+  'differenceMethod',method,'referenceNumber',reference,'newCogsExact',exact_cogs::TEXT,'newCogsInMinorUnits',round(exact_cogs)::TEXT,
+  'issues',issues);
+END $$;
+
+CREATE FUNCTION public.preview_sales_exchange_v1(p_payload JSONB)
+RETURNS JSONB LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+DECLARE plan JSONB; result JSONB;
+BEGIN
+ PERFORM public.assert_erp_role(ARRAY['owner','admin'],'معاينة تبديل بصنف آخر');
+ IF auth.role() IS DISTINCT FROM 'authenticated' OR auth.uid() IS NULL THEN RAISE EXCEPTION USING ERRCODE='42501',MESSAGE='AFTERCARE215_ROLE_DENIED'; END IF;
+ plan:=public.tb215_prepare_exchange_internal(public.tb215_canonical_exchange_internal(p_payload));
+ result:=jsonb_build_object('contractVersion',215,'previewFingerprint',encode(extensions.digest(plan::TEXT,'sha256'),'hex'),
+  'orderId',plan->'orderId','productId',plan->'productId','productName',plan->'productName','baseQuantity',plan->'baseQuantity',
+  'newTotalInMinorUnits',plan->'newTotalInMinorUnits','internalCreditInMinorUnits',plan->'internalCreditInMinorUnits',
+  'differenceInMinorUnits',plan->'differenceInMinorUnits','moneyReceivedInMinorUnits',plan->'moneyReceivedInMinorUnits','moneyRefundInMinorUnits',plan->'moneyRefundInMinorUnits',
+  'differenceMethod',plan->'differenceMethod','referenceNumber',plan->'referenceNumber',
+  'goodQuantity',plan->'returnPlan'->'goodQuantity','badQuantity',plan->'returnPlan'->'badQuantity','issues',plan->'issues','canConfirm',jsonb_array_length(plan->'issues')=0);
+ IF public.has_erp_role(ARRAY['owner']) THEN result:=result||jsonb_build_object('newCogsExact',plan->'newCogsExact',
+  'goodRestockValueExact',plan->'returnPlan'->'goodRestockValueExact','supplierHeldInMinorUnits',plan->'returnPlan'->'supplierHeldInMinorUnits',
+  'profitDeltaExactInMinorUnits',((plan->>'differenceInMinorUnits')::NUMERIC-(plan->>'newCogsInMinorUnits')::NUMERIC
+   +(plan->'returnPlan'->>'goodRestockValueExact')::NUMERIC+(plan->'returnPlan'->>'supplierHeldInMinorUnits')::NUMERIC)::TEXT); END IF;
+ RETURN result;
+END $$;
+
 DO $$ DECLARE t TEXT; BEGIN
  FOREACH t IN ARRAY ARRAY['aftercare215_inspections','aftercare215_inspection_items','supplier215_credits','aftercare215_return_contexts','aftercare215_return_results'] LOOP
   EXECUTE format('ALTER TABLE public.%I OWNER TO postgres',t);
@@ -1170,6 +1278,13 @@ DO $$ DECLARE t TEXT; BEGIN
  END LOOP;
 END $$;
 ALTER FUNCTION public.tb215_canonical_inspection_internal(JSONB) OWNER TO postgres;
+ALTER FUNCTION public.tb215_canonical_exchange_internal(JSONB) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_canonical_exchange_internal(JSONB) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.tb215_prepare_exchange_internal(JSONB) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_prepare_exchange_internal(JSONB) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.preview_sales_exchange_v1(JSONB) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.preview_sales_exchange_v1(JSONB) FROM PUBLIC,anon,authenticated,service_role;
+GRANT EXECUTE ON FUNCTION public.preview_sales_exchange_v1(JSONB) TO authenticated;
 REVOKE ALL ON FUNCTION public.tb215_canonical_inspection_internal(JSONB) FROM PUBLIC,anon,authenticated,service_role;
 ALTER FUNCTION public.tb215_prepare_inspection_internal(JSONB) OWNER TO postgres;
 REVOKE ALL ON FUNCTION public.tb215_prepare_inspection_internal(JSONB) FROM PUBLIC,anon,authenticated,service_role;
