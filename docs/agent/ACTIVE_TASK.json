@@ -3,16 +3,17 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Implement owner-approved T-B stage2 G1-G6:atomic inspected replacement,noncash cross-SKU exchange,supplier payable credit,one Arabic wizard and damage ledger;local isolated DB tests,owner upgrade,PR/FULLCI then approvalSTOP",
-  "baselineSha": "b27637f162131b0359e3adf596e7282d6ceb5de8",
+  "baselineSha": "62023e5c89f9a2f2d7f02ca46436590195a7aec6",
   "branch": "codex/trial-tb-stage2",
   "phase": "PACKAGE_F",
   "completed": [
     "Owner approved PR42/322bd52 design/all financial choices;separate codex/trial-tb-stage2;no owner files touched",
     "G1 sealed return/G2-G3 inspected warranties/G6 supplier credit fresh39 actualDBgroups PASS;proof TRIAL_TB215_SEALED_RETURN_LOCAL.json",
-    "G4 READONLY exchange preview5actualgroups PASS;proof TRIAL_TB215_EXCHANGE_PREVIEW_LOCAL.json;writer/readers/UI pending"
+    "G4 READONLY exchange preview5actualgroups PASS;proof TRIAL_TB215_EXCHANGE_PREVIEW_LOCAL.json;writer/readers/UI pending",
+    "G4 core fresh52G1-G4/G6 actualgroups PASS;proofTRIAL_TB215_EXCHANGE_CORE_LOCAL.json;readers/UI/extendedcorruption pending"
   ],
   "inProgress": [
-    "G4 real noncash crossSKU exchange,thenG5/wizard/owner215/fullquality/CI"
+    "G4 reader projections/result-envelope hardening/customer lock order;thenG5/wizard/owner215/fullCI"
   ],
   "notStarted": [
     "T-C partial POS payments;separate later owner task",
@@ -24,7 +25,8 @@
   "testsPassed": [
     "G1-G3/G6 fresh39 DBgroups:money/stock/debt/profit/replay/roles/MFA/two-session/rollback;legacy tables unchanged",
     "G4 READONLYpreview5:9000to12000/7500/9000,noncash credit,actualdifference,ownerDTO,eligibility",
-    "Prior continuity7/Gitleaks0; current compact checkpoint verification pending"
+    "Prior continuity7/Gitleaks0; current compact checkpoint verification pending",
+    "Fresh52:real noncash9to12/7.5/9,cashshiftactualdifference,CliQ,fullnewinvoice return,2sessions and lateatomicfailure;ordinaryPOSsequence untouched"
   ],
   "testsRemaining": [
     "G4 noncash cross-SKU exchange and every financial/cash/receipt reader",
@@ -38,19 +40,17 @@
     "No old invoice/history backfill;crossSKU and supplier-credit bounded by approved design"
   ],
   "blockers": [],
-  "activeProcesses": [
-    "Idle disposable supabase_db_nawasrah-tb215-test;OUT/exchange-dev-state.json;no verification running"
-  ],
+  "activeProcesses": [],
   "prohibitions": [
     "No hosted project connection,deployment or credentials",
     "No historical migration edits/backfill",
     "No primary owner local file changes",
     "No T-C and no implementation PR merge before owner review"
   ],
-  "nextExactAction": "G4 actual noncash coordinator/proofs/readers;thenG5/wizard/owner215/fullCI;proof39DB+5preview saved;idledev only;nohost/noT-C/no merge",
+  "nextExactAction": "Harden exact public result proofs/customer lock order and G4 cash/closing/receipt projections;thenG5/wizard/owner215/fullCI;fresh52 saved;nohost/noT-C/no merge",
   "startedAt": "2026-10-28T13:06:11.980Z",
-  "checkpointedAt": "2026-10-28T15:38:50.491Z",
-  "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "ac276b2ebe4570eec3bf77c715af9ba7fdb61220a8cd0ff03e1243905166aa47",
-  "workingTreeFingerprint": "6851491202D114AE766ED7CAA4765F4E4F826035BB71A733A27ED7E5DBD4FA5F"
+  "checkpointedAt": "2026-10-28T16:01:31.401Z",
+  "filesTouchedCount": 6,
+  "filesTouchedManifestSha256": "73d14a4c835854e0afc7eb6792f81f0e09b955963d59ccd22157fd5a7007f770",
+  "workingTreeFingerprint": "E4E4CFE475A4AB007052F4829C7D934C84606AA1EC9C713085424B1F2A61A860"
 }
