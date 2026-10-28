@@ -20,6 +20,8 @@ import {verifyExchangeBoundaries215} from './aftercare215-exchange-boundary-runt
 import {verifyDamageLedger215} from './aftercare215-damage-runtime.mjs';
 import {verifyDamageBoundaries215} from './aftercare215-damage-boundary-runtime.mjs';
 import {verifyExchangeReceipt215} from './aftercare215-receipt-runtime.mjs';
+import {verifyExactCost215} from './aftercare215-exact-cost-runtime.mjs';
+import {verifyRestore215,verifyIntegrity215} from './aftercare215-restore-runtime.mjs';
 import {readVerificationSourceFreeze,assertVerificationSourceFreeze} from './verification-source-freeze.mjs';
 
 assert.equal(process.argv.length, 2, 'LOCAL_ONLY_NO_ARGUMENTS');
@@ -60,7 +62,10 @@ try {
   stage = 'noncash-exchange'; await verifyExchange215(c, pass);
   stage = 'receipt-funding'; await verifyExchangeReceipt215(c, pass);
   stage = 'exchange-readers'; await verifyExchangeReaders215(c, pass);
+  stage = 'exact-cost-boundaries'; await verifyExactCost215(c, pass);
   stage = 'damage-ledger'; await verifyDamageLedger215(c, pass);
+  stage = 'integrity'; report.integrity=await verifyIntegrity215(c,pass,output);
+  stage = 'restore'; report.restore=await verifyRestore215(c,output,pass);
   // Large exact-money fixture must be last; ordinary old numeric DTO probes
   // are not used as an oracle beyond JavaScript's safe-integer boundary.
   stage = 'damage-boundaries'; await verifyDamageBoundaries215(c, pass);

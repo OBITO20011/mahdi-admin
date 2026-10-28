@@ -14,6 +14,7 @@ export async function verifyInspectedReplacement215(c, pass) {
     const k = key(), call = writer(s.payload, p.previewFingerprint, k), result = await rpc(call);
     assert.equal(result.success, true); assert.equal(result.restockedQuantity, 11);
     assert.deepEqual(await stock(s.pid), {quantity: 99, wac: '500.000000', reserved: 0});
+    assert.equal(await sql(`SELECT bool_and(recovery.created_at>issued.created_at)::TEXT FROM aftercare215_inspection_items i JOIN inventory_movements recovery ON recovery.id=i.movement_id JOIN phase43_replacement_inventory_effects e ON e.replacement_item_id=i.replacement_item_id JOIN inventory_movements issued ON issued.id=e.inventory_movement_id WHERE i.operation_id=${q(result.operationId)};`),'true','RECOVERY_FOLLOWS_ISSUE_IN_MOVEMENT_LEDGER');
     const after = await facts();
     assert.equal(after.sales.netProfitInMinorUnits - before.sales.netProfitInMinorUnits, -500);
     assert.equal(after.sales.restockRecoveryInMinorUnits - before.sales.restockRecoveryInMinorUnits, 5500);

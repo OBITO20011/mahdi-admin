@@ -312,9 +312,9 @@ BEGIN
    after_wac:=round((global_qty*before_wac+(x->>'goodQuantity')::INTEGER*(x->>'sourceUnitCostExact')::NUMERIC)/(global_qty+(x->>'goodQuantity')::INTEGER),6);
    UPDATE public.inventory_balances SET on_hand_quantity=on_hand_quantity+(x->>'goodQuantity')::INTEGER,updated_at=clock_timestamp() WHERE warehouse_id=warehouse AND product_id=row.product_id;
    UPDATE public.products SET wac_cost_in_minor_units_exact=after_wac,cost_price_in_minor_units=round(after_wac)::BIGINT,updated_at=clock_timestamp() WHERE id=row.product_id;
-   INSERT INTO public.inventory_movements(warehouse_id,product_id,movement_type,quantity,balance_before,balance_after,reference_type,reference_id,notes,created_by,operation_id)
+   INSERT INTO public.inventory_movements(warehouse_id,product_id,movement_type,quantity,balance_before,balance_after,reference_type,reference_id,notes,created_by,operation_id,created_at)
     VALUES(warehouse,row.product_id,'adjustment_add',(x->>'goodQuantity')::INTEGER,before_qty,before_qty+(x->>'goodQuantity')::INTEGER,
-     'aftercare215_inspection',row.replacement_item_id,'استرداد السليم من استبدال مفحوص',actor,NULL) RETURNING id INTO movement;
+     'aftercare215_inspection',row.replacement_item_id,'استرداد السليم من استبدال مفحوص',actor,NULL,clock_timestamp()) RETURNING id INTO movement;
   END IF;
   IF x->>'supplierId' IS NOT NULL THEN
    SELECT COALESCE(u.name_ar,'باكيت') INTO unit_name FROM public.products p LEFT JOIN public.units u ON u.id=p.unit_id WHERE p.id=row.product_id;
