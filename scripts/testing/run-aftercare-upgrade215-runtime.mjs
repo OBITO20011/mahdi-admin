@@ -30,6 +30,8 @@ try{
  report.replay=await run('replay');assert.deepEqual(report.replay.applied,[]);assert.equal(report.replay.remoteWriteAttempted,false);
  const count=await executeInput(executor,'SELECT count(*) FROM supabase_migrations.schema_migrations;');assert.equal(count.stdout.trim(),'177');
  const sql=async text=>{const r=await executeInput(executor,text);assert.equal(r.code,0,r.stderr);return r.stdout.trim();};
+ const adminExecutor={...executor,args:[...executor.args]};adminExecutor.args[adminExecutor.args.indexOf('-U')+1]='supabase_admin';
+ const adminSql=async text=>{const r=await executeInput(adminExecutor,text);assert.equal(r.code,0,r.stderr);};
  const readonly={...executor,args:[...executor.args,...readOnlyPsqlSessionArgs]},dates={beforeBuildDate:reference.buildUtcDate,afterBuildDate:await sql("SELECT (CURRENT_TIMESTAMP AT TIME ZONE 'UTC')::date;")};
  const verify=async name=>{const dir=path.join(output,name);await mkdir(dir);const result={};await verify215ReadOnly(readonly,dir,reference,original,dates,result);return result;};
  const before=await readApplicationFingerprint(executor);report.verify=await verify('strict-verify');assert.equal(report.verify.applicationAclComparison.differenceCount,0);assert.deepEqual(await readApplicationFingerprint(executor),before);
@@ -38,7 +40,7 @@ try{
  await sql('GRANT TRUNCATE ON products TO anon;');await assert.rejects(verify('negative-table-acl'),/APPLICATION_ACL_MISMATCH|UNEXPECTED_APPLICATION_CATALOG_DIFFERENCES/);await sql('REVOKE TRUNCATE ON products FROM anon;');
  await sql('ALTER FUNCTION public.tb215_guard_funded_pos_reversal_internal() RESET search_path;');await assert.rejects(verify('negative-search-path'),/UNEXPECTED_APPLICATION_CATALOG_DIFFERENCES/);await sql('ALTER FUNCTION public.tb215_guard_funded_pos_reversal_internal() SET search_path=public,pg_temp;');
  await sql('GRANT SELECT(cost_price_in_minor_units) ON public.products TO anon;');await assert.rejects(verify('negative-column-acl'),/APPLICATION_ACL_MISMATCH|UNEXPECTED_APPLICATION_CATALOG_DIFFERENCES/);await sql('REVOKE SELECT(cost_price_in_minor_units) ON public.products FROM anon;');
- await sql('ALTER FUNCTION public.preview_sales_exchange_v1(JSONB) OWNER TO authenticated;');await assert.rejects(verify('negative-function-owner'),/UNEXPECTED_APPLICATION_CATALOG_DIFFERENCES/);await sql('ALTER FUNCTION public.preview_sales_exchange_v1(JSONB) OWNER TO postgres;REVOKE ALL ON FUNCTION public.preview_sales_exchange_v1(JSONB) FROM authenticated;GRANT EXECUTE ON FUNCTION public.preview_sales_exchange_v1(JSONB) TO authenticated;');
+ await adminSql('ALTER FUNCTION public.preview_sales_exchange_v1(JSONB) OWNER TO supabase_admin;');await assert.rejects(verify('negative-function-owner'),/APPLICATION_ACL_MISMATCH|UNEXPECTED_APPLICATION_CATALOG_DIFFERENCES/);await adminSql('ALTER FUNCTION public.preview_sales_exchange_v1(JSONB) OWNER TO postgres;');
  report.finalVerify=await verify('final-strict-verify');assert.deepEqual(await readApplicationFingerprint(executor),before);report.strictAclNegatives=true;report.verifyZeroWrites=true;
  report.ok=true;
 }catch(error){report.ok=false;report.error=error.message;process.exitCode=1;}

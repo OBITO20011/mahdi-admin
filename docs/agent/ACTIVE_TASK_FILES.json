@@ -3,39 +3,7 @@
   "files": [
     {
       "code": " M",
-      "path": ".github/workflows/backup-recovery.yml"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/OWNER_DECISIONS.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/project-state.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/TRIAL_TB_IMPLEMENTATION_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/handover/ورقة-يوم-التشغيل.html"
-    },
-    {
-      "code": " M",
-      "path": "docs/handover/ورقة-يوم-التشغيل.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/RESET214_OWNER_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "package.json"
+      "path": "docs/operations/RESET215_OWNER_AR.md"
     },
     {
       "code": " M",
@@ -43,103 +11,15 @@
     },
     {
       "code": " M",
-      "path": "scripts/audit/pin-aftercare215-sources.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/backup/complete-backup.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/backup/restore-comparison.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/backup/verify-backup.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-backup-runtime.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-owner-upgrade215.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/reset214-private-state.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/reset214-session.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/trial-reset-core.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/trial-reset214-core.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-aftercare215-gates.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-dual-backup-runtime.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/dual-backup.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/pretrial-p1.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/product-integration171.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/reset214-resume.test.ts"
+      "path": "scripts/testing/run-aftercare-upgrade215-runtime.mjs"
     },
     {
       "code": "??",
-      "path": "docs/agent/TRIAL_TB215_OPERATIONS_FOUNDATION_LOCAL.json"
+      "path": "docs/agent/TRIAL_TB215_OWNER_LOCAL.json"
     },
     {
       "code": "??",
-      "path": "docs/operations/FRANKFURT_OWNER_UPGRADE215_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/RESET215_OWNER_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/backup-task-preflight.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/frankfurt-owner-reset215.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/operational-schema.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/run-reset215-cli-contract.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/run-reset215-resume-runtime.mjs"
-    },
-    {
-      "code": "??",
-      "path": "tests/operational-schema.test.ts"
+      "path": "docs/agent/TRIAL_TB215_REFERENCE_LOCAL.json"
     }
   ]
 }

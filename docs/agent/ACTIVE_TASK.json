@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner-approved T-B G1-G6 plus same-PR215 backup/restore/watchdog/reset-resume/one schema authority and upgrade safety;local proof/fullCI/PR43 then approvalSTOP",
-  "baselineSha": "610d0967bf31b752f77ff1782d43ecd1d120d78f",
+  "baselineSha": "2627fe8d9c17b7c00c8b1dd66a8362f797080d50",
   "branch": "codex/trial-tb-stage2",
   "phase": "PACKAGE_F",
   "completed": [
@@ -12,10 +12,12 @@
     "HTTPfullstack4 actual215 UI/productionservices/recovery/PostgREST passed bothengines390 final/supplier;preview0writes,confirm1;syntheticJWT protocol explicitlynamed;types/lintPASS",
     "Current215 actualSDK157 table0errors+576RPC18exactdenials;29focused source/role/currentreadinessPASS;historical reset/source22PASS;no oldproof overwrite",
     "Generated actual clean215 manual622functions/177files;maintenance nativePASS;not old214 repin",
-    "Operations215 foundationnative28/strictchangedlintPASS;legacy214v2preservedinimplementation,RESET215sharedguard,5registeredtaskpreflight;actualruntimepending"
+    "Operations215 foundationnative28/strictchangedlintPASS;legacy214v2preservedinimplementation,RESET215sharedguard,5registeredtaskpreflight;actualruntimepending",
+    "Fresh215 vs214+literal215/officialrepair matches0;reference177/622functions/13Realtime/sourcefrozen;outsideGitready215 savednewname;oldrefsuntouched",
+    "Owner215 localapply/replay/strictverify0writes+5negativeACLownerpathpassed;offline215no network/reset215CLI12PASS;freshref177/622/13diff0"
   ],
   "inProgress": [
-    "New29Oct explicit operations215 scope;preserve214v2archives,RESET215resumable,currentceiling drift gate andregisteredtasks preflight;reference fresh/incremental rerun after resource timeout"
+    "Real214and215completebackup/restore/RestoreRemote+RESET215 fourinterruption/resume/negatives;then types/admin/store/build/browser/PWA/fullCI"
   ],
   "notStarted": [
     "T-C partial POS payments;separate later owner task",
@@ -42,10 +44,10 @@
     "No primary owner local file changes",
     "No T-C and no implementation PR merge before owner review"
   ],
-  "nextExactAction": "Build ready215 reference alone after saving operations215 foundation;then backup/restore214+215 andRESET215 resume/upgrade/runtime/fullquality",
+  "nextExactAction": "Save owner215/ref verified milestones then realcomplete214+215 backup/strictrestore/R2fixture andRESET215 resumptions;no hosted",
   "startedAt": "2026-10-28T13:06:11.980Z",
-  "checkpointedAt": "2026-10-28T22:51:10.750Z",
-  "filesTouchedCount": 35,
-  "filesTouchedManifestSha256": "26b8e0310c8d4a1b53913d48988e1bcd2b808fa588a6fe83bce92845a8992955",
-  "workingTreeFingerprint": "55DA5C1D9C5D00F12022F0D449A7D1748FF2DB6CB22105C68FFB914E3E50B4F1"
+  "checkpointedAt": "2026-10-28T23:02:24.927Z",
+  "filesTouchedCount": 5,
+  "filesTouchedManifestSha256": "cba1ce43c8c226ad7714115d561b31ed6de720200090c43f729962119aaf15c2",
+  "workingTreeFingerprint": "23289A26805E758A4A32568565F44BB173E4B6627138DBC772BB0ECCB1DF4401"
 }
