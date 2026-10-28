@@ -26,6 +26,12 @@ test('215 return keeps mixed physical buckets and server refund method without a
   assert.equal(result.payload.items[0].stock_disposition,'restock');assert.equal(result.payload.physicalSources[0].sellable_restock_quantity,11);assert.equal(result.payload.physicalSources[0].defect_non_sellable_quantity,1);
   assert.equal(result.payload.referenceNumber,'CL-TEST');assert.equal(result.payload.refundMethod,'cliq');assert.doesNotMatch(JSON.stringify(result.payload),/entitlement|moneyRefund|amountInMinor|unitPrice/);
 });
+test('215 automatic original CliQ return retains its entered reference;cash/debt do not carry a hidden transfer reference',()=>{
+  const draft=input();draft.intent='refund';draft.refundMethod='auto';draft.referenceNumber=' AUTO-CLIQ ';
+  const result=buildWizard215({...order,paymentMethod:'cliq'},context,draft);if(result.action!=='sealed_return')throw Error('kind');
+  assert.equal(result.payload.refundMethod,'auto');assert.equal(result.payload.referenceNumber,'AUTO-CLIQ');
+  for(const paymentMethod of ['cash','debt'] as const){const other=buildWizard215({...order,paymentMethod},context,draft);if(other.action!=='sealed_return')throw Error('kind');assert.equal(other.payload.referenceNumber,null);}
+});
 test('215 supplier assignment applies only to bad selected physical leaves and is owner-only',()=>{
   const draft=input();draft.destination='supplier';draft.supplierByProduct[id(3)]=id(40);draft.inspection[`base_order_item:${id(2)}`]={bad:1,customerDamage:0};
   const result=buildWizard215(order,context,draft);if(result.action!=='inspected_replacement')throw Error('kind');assert.equal(result.payload.items[0].supplierId,id(40));

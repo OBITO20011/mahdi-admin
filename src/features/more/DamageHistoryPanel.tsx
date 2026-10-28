@@ -1,4 +1,4 @@
-import {lazy,Suspense,useCallback,useEffect,useState} from 'react';
+import {lazy,Suspense,useCallback,useEffect,useMemo,useState} from 'react';
 import {Modal} from '../../components/common/Modal';
 import {Card,FormFields,SearchField,UiButton,formatUiDate} from '../../components/ui';
 import {ProductGlyph} from '../../components/ui/ProductGlyph';
@@ -34,11 +34,13 @@ export function DamageHistoryPanel(){
       .catch(cause=>{if(!controller.signal.aborted)setState({scope,error:businessErrorMessage(cause)});});
   },search?250:0);return()=>{controller.abort();clearTimeout(timer);};},[scope,allowed,valid,period,reason,filter,search,page,from,to,owner]);
   const changed=useCallback(async()=>{setAction(null);setActionBusy(false);setRevision(n=>n+1);},[]);
-  if(!allowed)return <p role="alert">لا تملك صلاحية قراءة سجل التالف.</p>;
   const data=state.scope===scope?state.data:undefined,error=state.scope===scope?state.error:undefined;
   const currentAction=action?.scope===scope?action:null;
-  const candidate=currentAction?.type==='reclassify'&&currentAction.row.owner?.reclassification?{
-    ...currentAction.row.owner.reclassification,id:currentAction.row.owner.reclassification.sourceId,productId:currentAction.row.productId,productName:currentAction.row.productName,quantity:currentAction.row.quantity,occurredAt:currentAction.row.registeredAt}:undefined;
+  // The safety form restarts recovery when its candidate changes. A parent
+  // busy callback must not manufacture another candidate and restart it again.
+  const candidate=useMemo(()=>currentAction?.type==='reclassify'&&currentAction.row.owner?.reclassification?{
+    ...currentAction.row.owner.reclassification,id:currentAction.row.owner.reclassification.sourceId,productId:currentAction.row.productId,productName:currentAction.row.productName,quantity:currentAction.row.quantity,occurredAt:currentAction.row.registeredAt}:undefined,[currentAction]);
+  if(!allowed)return <p role="alert">لا تملك صلاحية قراءة سجل التالف.</p>;
   return <FormFields className="min-w-0 space-y-3" data-testid="damage-history">
     <div className="grid gap-3 sm:grid-cols-2"><label>الفترة<select aria-label="الفترة" value={period} onChange={e=>{setPeriod(e.target.value as DamageHistoryPeriod);setPage(1);}}><option value="today">اليوم</option><option value="week">الأسبوع</option><option value="month">الشهر</option><option value="range">مخصص</option></select></label>
       <label>الحالة<select aria-label="الحالة" value={filter} onChange={e=>{setFilter(e.target.value as typeof filter);setPage(1);}}><option value="all">كل الحالات</option>{Object.entries(damage215States).map(([value,label])=><option key={value} value={value}>{label}</option>)}</select></label>

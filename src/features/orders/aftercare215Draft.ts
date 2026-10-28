@@ -94,7 +94,7 @@ export function buildWizard215(order:Order,context:AdminAftercareModernContext,i
       })}];
   }
   const payload:Aftercare215Payloads['sealed_return']={orderId:order.id,items,physicalSources:sources,reason,notes,refundMethod:input.refundMethod,
-    referenceNumber:input.refundMethod==='cliq'?input.referenceNumber.trim()||null:null,supplierAssignments:assignments};
+    referenceNumber:input.refundMethod==='cliq'||input.refundMethod==='auto'&&order.paymentMethod==='cliq'?input.referenceNumber.trim()||null:null,supplierAssignments:assignments};
   if(input.intent==='refund')return{action:'sealed_return',payload};
   if(!input.productId)throw new Error('اختر الصنف الذي أخذه الزبون بدلاً من الراجع.');
   return{action:'exchange',payload:{returnRequest:{...payload,refundMethod:'auto',referenceNumber:null},replacement:{productId:input.productId,kind:input.replacementKind,quantity:positive(input.replacementQuantity,'كمية البديل')},

@@ -1,0 +1,50 @@
+{
+  "scope": "Server-bound refund/default/reference,formed/prior-leaf/crossSKU wizard and current R4 regression",
+  "nativeDraftTests": 8,
+  "browserTests": 50,
+  "engines": [
+    "Chromium",
+    "WebKit"
+  ],
+  "retries": 0,
+  "focusedStrictLint": true,
+  "earlierTypecheck": true,
+  "finalWholeTypesPending": true,
+  "priorRun": "49 passed;WebKit J5 confirmation failed from unstable candidate identity;source memoization fixed it;unrelaxed current50 all passed",
+  "hostedConnections": 0,
+  "deliveryReady": false,
+  "sourceArtifacts": [
+    {
+      "file": "src/features/orders/aftercare215Draft.ts",
+      "sha256": "4da852e325d43decb3349ee797446e43aac44e828e928afe87a4dbe857dcf818"
+    },
+    {
+      "file": "src/features/orders/AftercareWizard215.tsx",
+      "sha256": "479eb0307ef5005d5069e0c5ffb63448207b4271591d75ae05e5ebb281b5e9e6"
+    },
+    {
+      "file": "src/features/more/DamageHistoryPanel.tsx",
+      "sha256": "a36246879affb5856bc599cf55436af0789ede855e0282915a2df143f0f4a5f8"
+    },
+    {
+      "file": "e2e/aftercare215-wizard-flows.spec.ts",
+      "sha256": "eea4b7333b9aaec77dee65ca097c9752c603cbe8df48b734939d4e3f0de70af4"
+    },
+    {
+      "file": "e2e/aftercare215-wizard.fixture.ts",
+      "sha256": "544b5c1f7346b3eea24023fd3cbf5cd58ba9e738bc561045c25ef0a9ca1476dd"
+    },
+    {
+      "file": "e2e/aftercare215-wizard-harness.tsx",
+      "sha256": "9f7e6712d9f4faf99eb7766dded259f69c38252873f3016553f2059231c50fc8"
+    },
+    {
+      "file": "e2e/package-f-trial-owner-r.spec.ts",
+      "sha256": "bdec92f64babc6af8fa0df750251a4fcf08ca7c373af546433e663bae1b17ec2"
+    },
+    {
+      "file": "tests/aftercare215-draft.test.ts",
+      "sha256": "4d4add0f2850a1f08f85b9a5efabda70bfd3e9f82d94465feae904f6dc0e2f86"
+    }
+  ]
+}
