@@ -1,3 +1,7 @@
+#28Oct — current bounded task:T-B design for owner review
+
+Approved39/40/41 merged in order;main dba6c184. Read docs/design/TRIAL_TB_AFTERCARE_WIZARD_AR.md and companion source/arithmetic/staticpreview evidence. This is stage1 docs-only,no app/SQL/RPC implementation or adoptednewfinancialpolicy. Return for designapproval andstop;T-C forbidden before thatapproval. Primary20localownerfiles preserved.
+
 #24Oct — Y213 local acceptance complete;PR23 final CI
 
 Owner-authorized recovery preserved through5baa7f2/a8f45a3/e0df272/4e2da95,all pushed. Literal213 runtime74,Admin1408/store197,core browser395+59 unchanged conditionals/0fail/0flaky,PWA4,SDK154/537,strict owner upgrade/replay/negative ACL+path,Storage HTTP roles and reset/OwnerTOTP/catalog0 verified. Reference175-556-13/freshincremental0 and local owner dry-run prepared;212 unchanged. Implementation4e2da95 push FULL44+secrets passed;final docs-head push+PR FULL44 required before review-ready. No hostedaccess/deploy or Y merge authorized. See HANDOVER_SECURITY_Y_LOCAL.json.

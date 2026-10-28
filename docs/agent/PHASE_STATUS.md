@@ -1,3 +1,7 @@
+#28Oct — ordered39/40/41 merged;T-B DESIGN ONLY
+
+Main dba6c184ad9901151bbdd8c7a8cf6c40847ba311;feature39 exactFULL49each,40/41 exactFULL51each accepted. PrimaryFFwith20ownerfilehashesunchanged. New worktree codex/trial-tb-design is docs-onlystage1;no app/SQL implementation. Sourceboundwizard/refund/damage/numericexamples/mobilemockups for ownerapproval;noT-C. FinalmainCI followed inside chat,no automation. See docs/design/TRIAL_TB_AFTERCARE_WIZARD_AR.md.
+
 #28Oct — ordered integration41 local verification
 
 39 merged025df016;40 exactCI pending;41 combines approved sources and immutable proof projections. Actual local214 SDK157/543 passed,10expecteddenials. Full local tests and exactCI still required;no hosted/deploy. Then safe primary update and T-B design only;no T-C before design approval.

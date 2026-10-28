@@ -1,53 +1,55 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "PAUSED",
   "owner": "codex",
-  "objective": "Approved ordered39/40/41 integration;preserve approved application bytes and historical pins;fullCI before merge;safe primary;then T-B design only",
-  "baselineSha": "40cb8180c9fed8e10d4b5a2102c3df75ee63ca47",
-  "branch": "codex/trial-ta-display",
+  "objective": "T-B stage1 DESIGN ONLY:one aftercare wizard/refund methods/damage states/source RPC gaps/numeric examples/mobile mockups;docs-only PR/fullCI then owner approval STOP",
+  "baselineSha": "dba6c184ad9901151bbdd8c7a8cf6c40847ba311",
+  "branch": "codex/trial-tb-design",
   "phase": "PACKAGE_F",
   "completed": [
-    "39 merged025df016 after exact FULL49 each",
-    "Combined actual SDK157/543 with10expected42501",
-    "Exact historical bridge and original application-byte tests pass"
+    "PR39/40/41 merged in owner order after exact final-head fullCI49/51/51 each event",
+    "Primary main dba6c184 synchronized;20owner localfiles byteidentical;recoverybackup retained",
+    "Source-bound design/refund methods/damage states/RPC gap map and42syntheticcases finalized",
+    "StaticHTML11mockups/6viewports/66checks bothengines,188exactmathchecks and5continuity PASS",
+    "No source/SQL/test/tool change;primary20ownerhashesstillpreserved"
   ],
   "inProgress": [
-    "Integrate exact approved40 CI scheduling fix;full local unit/CI before ordered merge"
+    "Docs-only commit/PR;exact finalhead andmain FULLCI;thenowner designapprovalSTOP"
   ],
   "notStarted": [
-    "Merge40 after exact fullCI;then integrate final40main into41 and fullCI/merge41",
-    "Safe primary synchronization;T-B design only then stop"
+    "T-B implementation/migrations/financialpolicy adoption",
+    "T-C:forbidden before T-B design approval"
   ],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "testsPassed": [
-    "Admin1533/store200;types/lint both;builds/isolatedSEO",
-    "26browser identities:24initial+2evidence-backed environmental recheck;no source/assertion/timeouts/retries change",
-    "Actual local214 SDK157/543,10expected42501;exact approved application bytes",
-    "Approved CI scheduling integration Admin1535/types/strictlint;app/SQL byte-identical40cb8180;oldpins unchanged"
+    "42synthetic scenarios+2precisioncases:188exactBigIntchecks;NOTDBexecution",
+    "StaticHTML11mockups360/390/768 bothengines,66checks,noJS/noexternalrequests",
+    "18sourcefacts/18files bindmain dba6c184;176migration hashesunchanged",
+    "Agentcontinuity5;gitdiffscope/docs-only;primary20ownerhashes"
   ],
   "testsRemaining": [
     "Gitleaks0",
-    "Exact final40 and41 SHA fullCI;merge40 before41"
+    "Exact finaldocs-head FULLCI push+PR andfinalmain FULLCI"
   ],
   "findings": [
-    "No application edit beyond approved branches;one sharedSEO file clean Git merge",
-    "Preliminary focused evidence tests correctly failed until fresh combined SDK file existed",
-    "40 unsharded core reached20min twice;new40 uses exact41 approved engine split;no application/SQL changes"
+    "Ordinary fullparcelreturn already supports split;warranty replacement inspection needsnewDB",
+    "CrossSKU/internalcredit andsupplierpayablecredit are explicit design proposals,notcurrentRPCfeatures",
+    "Newtask from own delivered cleanmain;prior branch/baseline preflight mismatch synchronized under existing owner authorization"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hosted access/deploy",
-    "No DB/RPC/financial/permission changes",
-    "Preserve owner local files",
-    "No T-C before T-B design approval"
+    "No app/test/tool/Edge/SQL/RPC/migration implementation in this design package",
+    "No hosted project connection/deploy",
+    "No primary owner local file changes",
+    "No T-C or T-B implementation before design approval"
   ],
-  "nextExactAction": "Commit/push40 updated on merged39;FULL CI exact SHA then authorized merge40;next integrate41 then safe primary update and design-only T-B",
-  "startedAt": "2026-10-27T19:34:58.619Z",
-  "checkpointedAt": "2026-10-28T01:35:12.313Z",
-  "filesTouchedCount": 43,
-  "filesTouchedManifestSha256": "829504c75b289f7731352c228b58dc0b188138b106b0ff8d219db82437b91097",
-  "workingTreeFingerprint": "0C88A5136B9542922CFAB955521AC3B87CB0584FAE126A72D28B27A1C0C10DE2"
+  "nextExactAction": "Commit/push docs-only T-B design andcreatePR;exact head/main FULLCI;return owner designapproval STOP,no implementation/noT-C",
+  "startedAt": "2026-10-28T04:02:11.823Z",
+  "checkpointedAt": "2026-10-28T04:13:42.379Z",
+  "filesTouchedCount": 18,
+  "filesTouchedManifestSha256": "fefbf9dd678a8289263346647be0efc45662370079b92e2fc3298a8dee5d8c91",
+  "workingTreeFingerprint": "833640CD16EE0FB08741731C8245FAAC80FF8D1CD781311CFEA8B239AF34686A"
 }
