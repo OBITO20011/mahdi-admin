@@ -1,0 +1,54 @@
+{
+  "scope": "Owner sealed historical supplier credit,paired inverse,shared pending recovery and statement display",
+  "nativeNewCreditTests": 5,
+  "affectedDamageDtoTests": 6,
+  "currentFeatureBrowserTests": 8,
+  "earlierLegacy208BrowserRegressions": 14,
+  "earlierRegressionNote": "14 legacy208 tests passed alongside6 initial feature cases before final Arabic215 error translation and statement fixture expansion;fullfinal regression still required",
+  "engines": [
+    "Chromium",
+    "WebKit"
+  ],
+  "viewportWidth": 390,
+  "retries": 0,
+  "adminTypecheck": true,
+  "focusedStrictLint": true,
+  "gitleaksFindings": 0,
+  "webkitPreviewVisuallyReviewed": true,
+  "hostedConnections": 0,
+  "deliveryReady": false,
+  "sourceArtifacts": [
+    {
+      "file": "src/utils/supplierCredit215.ts",
+      "sha256": "a9b398d4a436a1ab33585fd8475d0b07eecf1b646a3c56b8bdeea7a696d7383f"
+    },
+    {
+      "file": "src/services/supabase/supplierCredit215.service.ts",
+      "sha256": "63bb8ee6ecf53bb7a18bc3803f5d59e4317842ba3f476dce92779c78e7f350f6"
+    },
+    {
+      "file": "src/services/supabase/supplierReplacementIntent.ts",
+      "sha256": "852096aa9e3792de22ec274def66f90564087a57dda19a55a4be4a1b5c7ab1b2"
+    },
+    {
+      "file": "src/services/supabase/supplierReplacement.service.ts",
+      "sha256": "fcebf62450781d769a018fe7293248fafbdff6dd87138253076a8d227ae16d88"
+    },
+    {
+      "file": "src/features/inventory/SupplierCredit215Panel.tsx",
+      "sha256": "a036fc19fa3db9d14747d6defd9a7d23e93169fbedebbed61f076920ab608e6c"
+    },
+    {
+      "file": "src/features/inventory/SupplierReplacementPanel.tsx",
+      "sha256": "2edf66c5fab4cec77f996e48e4a438e865cd09665fc313429cab049e1320d9bc"
+    },
+    {
+      "file": "src/features/more/DamageHistoryPanel.tsx",
+      "sha256": "d8a96356bd44ff3e224897205f6b75addb1d15e503e22e2667c9882ad163d12d"
+    },
+    {
+      "file": "src/features/purchases/PurchasesView.tsx",
+      "sha256": "7811b214162861f143e23b46a8d8123c3c7c1ab1020fbb8a9072a1d6d8e504e3"
+    }
+  ]
+}

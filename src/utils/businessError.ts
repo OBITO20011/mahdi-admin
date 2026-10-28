@@ -5,6 +5,12 @@ export function businessErrorMessage(message: unknown): string {
   const rejectionCode=text.match(/\b(?:CORRECTION|SUPPLIER_REPLACEMENT)_[A-Z_]+\b/u)?.[0];
   if(rejectionCode&&rejectionMessages[rejectionCode])return rejectionMessages[rejectionCode];
   const known: Array<[RegExp, string]> = [
+    [/SUPPLIER215_CREDIT_EXCEEDS_PAYABLE/u,'قيمة المعيب أكبر من المستحق المؤيّد للمورد؛ لا يمكن خصمها أو إنشاء رصيد مصطنع. راجع مستحق المورد.'],
+    [/SUPPLIER215_CREDIT_LATER_DEPENDENCY/u,'توجد حركة لاحقة للمورد أو للمعلّق تمنع عكس الخصم. راجع السجل قبل أي إجراء.'],
+    [/SUPPLIER215_CREDIT_PREVIEW_CHANGED/u,'تغيّر المستحق أو المعلّق بعد المعاينة؛ أعد المعاينة قبل تأكيد خصم المورد.'],
+    [/SUPPLIER215_USE_CREDIT_REVERSAL/u,'استخدم عكس الخصم وإعادة المعلّق؛ العكس العادي لا يعيد ذمة المورد.'],
+    [/SUPPLIER215_(CREDIT_(CASE_INVALID|EVENT_INVALID|REQUEST_INVALID|PREVIEW_REQUIRED|PAGE_INVALID)|RESPONSE_INVALID)/u,'دليل قرار المورد غير مكتمل. راجع العدد والمورد والمعاينة أو استعد نفس المحاولة المحفوظة.'],
+    [/SUPPLIER215_.*EVIDENCE_INVALID|SUPPLIER215_CREDIT_EFFECT_INVALID|DAMAGE215_STATE_EVIDENCE_INVALID/u,'دليل المورد أو التالف غير متطابق. أوقف الإجراء وراجع المالك دون تسجيل عملية بديلة.'],
     [/AFTERCARE215_PREVIEW_CHANGED/u,'تغيّرت البيانات منذ المعاينة. أعد قراءة الفاتورة وراجع المعاينة الجديدة قبل التأكيد.'],
     [/AFTERCARE215_(PREVIEW_REQUIRED|RESPONSE_INVALID)/u,'معاينة العملية أو دليلها غير مكتمل. راجع الفاتورة واستعد نفس المحاولة إن كانت معلقة.'],
     [/AFTERCARE215_(WHOLE_PARCEL_INSPECTION_REQUIRED|EXCHANGE_WHOLE_PARCEL_REQUIRED)/u,'افحص الطرد كاملاً بكل باكيتاته ونكهاته. التبديل الجزئي من الطرد للمعيب فقط بنفس الصنف.'],

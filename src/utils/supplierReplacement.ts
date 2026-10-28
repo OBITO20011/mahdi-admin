@@ -1,4 +1,4 @@
-export type SupplierReplacementAction = 'shop_pending'|'shop_immediate'|'shop_damage'|'receive'|'writeoff'|'reverse'|'customer_return'|'replacement_supplier'|'reclassify_replacement'|'reclassify_return';
+export type SupplierReplacementAction = 'shop_pending'|'shop_immediate'|'shop_damage'|'receive'|'writeoff'|'reverse'|'customer_return'|'replacement_supplier'|'reclassify_replacement'|'reclassify_return'|'credit'|'reverse_credit';
 export type SupplierReplacementPayload = Record<string,unknown>;
 export interface SupplierReplacementEvent {
   id:string;action:'send'|'immediate'|'receive'|'writeoff'|'damage'|'reverse'|'credit';quantity:number;heldDelta:number;
