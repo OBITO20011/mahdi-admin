@@ -1,4 +1,5 @@
 import type { ReceiptParcel } from '../receipts/commercialReceipt';
+import type {ExchangeReceiptFunding} from '../receipts/exchangeFunding';
 
 export interface PublicPosReceiptItem {
   productName: string;
@@ -15,6 +16,7 @@ export interface PublicPosReceiptItem {
 }
 
 export interface PublicPosReceipt {
+  exchangeFunding?:ExchangeReceiptFunding;
   orderNumber: string;
   createdAt: string;
   status: string;

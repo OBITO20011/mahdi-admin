@@ -1,17 +1,20 @@
 /** Receipt presentation uses saved commercial evidence only. No catalogue, prices or writes. */
 import {SINGLE_SALE_UNIT,savedSaleUnitLabel} from '../utils/saleUnitLabels';
+import {exchangeFundingLines,type ExchangeReceiptFunding} from './exchangeFunding';
+import {formatExactMinorJod} from './exactMoney';
 export interface ReceiptComponent {name:string;quantity:number;unitName:string}
 export interface ReceiptParcel {components:ReceiptComponent[]}
 export interface CommercialReceiptLine {
   key:string;name:string;kind?:string;quantity:number;baseQuantity?:number;
   baseUnitName?:string;savedUnitName?:string;parcels?:ReceiptParcel[];
-  totalInMinorUnits:number;
+  totalInMinorUnits:number;totalInMinorUnitsExact?:string;
 }
 export interface ReceiptDocumentData {
   businessName:string;number:string;createdAt:string;customerName?:string;
   branch:{name:string;address?:string;phone?:string};lines:CommercialReceiptLine[];
   subtotalInMinorUnits:number;discountInMinorUnits:number;deliveryInMinorUnits:number;
   totalInMinorUnits:number;paymentLabel:string;remainingInMinorUnits?:number;changeInMinorUnits?:number;
+  exchangeFunding?:ExchangeReceiptFunding;
 }
 const count=(value:number)=>Number.isSafeInteger(value)&&value>=0?String(value):'غير متاح';
 export const receiptMoney=(minor:number)=>`${(minor/1000).toLocaleString('en-US',{minimumFractionDigits:3,maximumFractionDigits:3,useGrouping:false})} د.أ`;
@@ -41,11 +44,12 @@ export function receiptDocumentShareText(receipt:ReceiptDocumentData,url?:string
   return [receipt.businessName,receipt.branch.name,`إيصال البيع رقم: ${receipt.number}`,
     receipt.createdAt?`التاريخ: ${new Date(receipt.createdAt).toLocaleString('ar-JO-u-nu-latn')}`:'',
     receipt.customerName?`العميل: ${receipt.customerName}`:'',
-    ...receipt.lines.map(line=>`• ${line.name}: ${receiptLineDescription(line)} - ${receiptMoney(line.totalInMinorUnits)}`),
-    `المجموع الفرعي: ${receiptMoney(receipt.subtotalInMinorUnits)}`,
+    ...receipt.lines.map(line=>`• ${line.name}: ${receiptLineDescription(line)} - ${line.totalInMinorUnitsExact?formatExactMinorJod(line.totalInMinorUnitsExact):receiptMoney(line.totalInMinorUnits)}`),
+    `المجموع الفرعي: ${receipt.exchangeFunding?formatExactMinorJod(receipt.exchangeFunding.newTotalInMinorUnits):receiptMoney(receipt.subtotalInMinorUnits)}`,
     receipt.discountInMinorUnits>0?`الخصم: ${receiptMoney(receipt.discountInMinorUnits)}`:'',
     receipt.deliveryInMinorUnits>0?`التوصيل: ${receiptMoney(receipt.deliveryInMinorUnits)}`:'',
-    `الإجمالي: ${receiptMoney(receipt.totalInMinorUnits)}`,`طريقة الدفع: ${receipt.paymentLabel}`,
+    `الإجمالي: ${receipt.exchangeFunding?formatExactMinorJod(receipt.exchangeFunding.newTotalInMinorUnits):receiptMoney(receipt.totalInMinorUnits)}`,`طريقة الدفع: ${receipt.paymentLabel}`,
+    ...(receipt.exchangeFunding?exchangeFundingLines(receipt.exchangeFunding):[]),
     (receipt.remainingInMinorUnits??0)>0?`المتبقي على العميل: ${receiptMoney(receipt.remainingInMinorUnits!)}`:'',
     (receipt.changeInMinorUnits??0)>0?`الباقي للعميل: ${receiptMoney(receipt.changeInMinorUnits!)}`:'',
     url?`رابط الإيصال الإلكتروني: ${url}`:''].filter(Boolean).join('\n');

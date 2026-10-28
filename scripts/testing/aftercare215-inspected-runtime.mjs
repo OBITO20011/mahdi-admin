@@ -9,8 +9,8 @@ export async function verifyInspectedReplacement215(c, pass) {
     const unchanged = await fingerprint(), p = await preview(s.payload);
     assert.deepEqual(await fingerprint(), unchanged, 'PREVIEW_IS_ACTUALLY_READ_ONLY');
     assert.equal(p.issuedQuantity, 12); assert.equal(p.restockedQuantity, 11); assert.equal(p.badQuantity, 1);
-    assert.equal(p.issuedCostInMinorUnits, 6000); assert.equal(p.goodRecoveryInMinorUnits, 5500);
-    assert.equal(p.profitDeltaInMinorUnits, -500);
+    assert.equal(p.issuedCostInMinorUnits, '6000'); assert.equal(p.goodRecoveryInMinorUnits, '5500');
+    assert.equal(p.profitDeltaInMinorUnits, '-500');
     const k = key(), call = writer(s.payload, p.previewFingerprint, k), result = await rpc(call);
     assert.equal(result.success, true); assert.equal(result.restockedQuantity, 11);
     assert.deepEqual(await stock(s.pid), {quantity: 99, wac: '500.000000', reserved: 0});
@@ -34,7 +34,7 @@ export async function verifyInspectedReplacement215(c, pass) {
     pass(`explicit inspection all-${good === 0 ? 'bad' : 'good'} has exact stock/profit; no implicit all-bad default`);
   }
   const s = await setup({good: 10, supplierHeld: true}), before = await facts(), beforeMoney = await money(), p = await preview(s.payload);
-  assert.equal(p.supplierHeldInMinorUnits, 1000); assert.equal(p.profitDeltaInMinorUnits, 0);
+  assert.equal(p.supplierHeldInMinorUnits, '1000'); assert.equal(p.profitDeltaInMinorUnits, '0');
   const result = await rpc(writer(s.payload, p.previewFingerprint));
   assert.equal(result.caseIds.length, 1); const caseId = result.caseIds[0];
   assert.equal(await sql(`SELECT quantity FROM supplier_replacement_cases WHERE id=${q(caseId)};`), '2');

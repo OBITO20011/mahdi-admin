@@ -191,8 +191,8 @@ BEGIN
    round(COALESCE(sum((x->>'sourceUnitCostExact')::NUMERIC*(x->>'goodQuantity')::INTEGER),0))::BIGINT,
    COALESCE(sum(round((x->>'sourceUnitCostExact')::NUMERIC*((x->>'quantity')::INTEGER-(x->>'goodQuantity')::INTEGER)))
     FILTER(WHERE x->>'supplierId' IS NOT NULL),0)::BIGINT INTO issued,good,held FROM jsonb_array_elements(plan->'items') x;
-  result:=result||jsonb_build_object('issuedCostInMinorUnits',issued,'goodRecoveryInMinorUnits',good,'supplierHeldInMinorUnits',held,
-   'profitDeltaInMinorUnits',-issued+good+held);
+  result:=result||jsonb_build_object('issuedCostInMinorUnits',issued::TEXT,'goodRecoveryInMinorUnits',good::TEXT,'supplierHeldInMinorUnits',held::TEXT,
+   'profitDeltaInMinorUnits',(-issued+good+held)::TEXT);
  END IF;
  RETURN result;
 END $$;
@@ -4181,7 +4181,7 @@ BEGIN
   SELECT CASE WHEN x.operation_id IS NULL THEN v_receipt ELSE v_receipt||jsonb_build_object('exchange',jsonb_build_object(
    'internalCreditInMinorUnits',x.prepared_plan->'internalCreditInMinorUnits','newTotalInMinorUnits',x.prepared_plan->'newTotalInMinorUnits',
    'moneyReceivedInMinorUnits',x.prepared_plan->'moneyReceivedInMinorUnits','moneyRefundInMinorUnits',x.prepared_plan->'moneyRefundInMinorUnits',
-   'differenceMethod',x.prepared_plan->'differenceMethod','referenceNumber',x.prepared_plan->'referenceNumber')) END INTO v_receipt
+   'differenceMethod',x.prepared_plan->'differenceMethod')) END INTO v_receipt
   FROM public.orders o LEFT JOIN public.aftercare215_exchange_results r ON r.new_order_id=o.id
   LEFT JOIN public.aftercare215_exchanges x ON x.operation_id=r.operation_id WHERE o.public_receipt_token=p_receipt_token;
   RETURN v_receipt;
@@ -4384,6 +4384,21 @@ BEGIN
   'alreadyIncludedInMinorUnits',(damage->>'alreadyIncludedInMinorUnits')::BIGINT+net,'reasons',(damage->'reasons')||jsonb_build_array(reason));
  RETURN jsonb_set(p_facts,'{sales,damageLosses}',damage);
 END $$;
+-- Same active/MFA roles as the existing sales-history reader204. This is
+-- receipt funding, not purchase cost or margin; no payment reference is added.
+CREATE FUNCTION public.get_order_exchange_details_v1(p_order_id UUID)
+RETURNS JSONB LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+DECLARE funding JSONB; exchanges JSONB;
+BEGIN
+ PERFORM public.assert_erp_role(ARRAY['owner','admin','manager','accountant','cashier','sales','orders','delivery_driver'],'عرض تفاصيل وصل التبديل');
+ IF p_order_id IS NULL THEN RAISE EXCEPTION 'AFTERCARE215_ORDER_REQUIRED'; END IF;
+ PERFORM public.tb215_assert_exchange_internal(x.operation_id) FROM public.aftercare215_exchanges x JOIN public.aftercare215_exchange_results r ON r.operation_id=x.operation_id
+ WHERE r.new_order_id=p_order_id OR x.order_id=p_order_id;
+ SELECT public.tb215_exchange_public_result_internal(r.operation_id)-'referenceNumber' INTO funding FROM public.aftercare215_exchange_results r WHERE r.new_order_id=p_order_id;
+ SELECT COALESCE(jsonb_agg(public.tb215_exchange_public_result_internal(x.operation_id)-'referenceNumber' ORDER BY x.created_at,x.operation_id),'[]') INTO exchanges
+ FROM public.aftercare215_exchanges x WHERE x.order_id=p_order_id;
+ RETURN jsonb_build_object('contractVersion',215,'funding',funding,'exchanges',exchanges);
+END $$;
 DO $$ DECLARE t TEXT; BEGIN
  FOREACH t IN ARRAY ARRAY['aftercare215_inspections','aftercare215_inspection_items','supplier215_credits','aftercare215_return_contexts','aftercare215_return_results','aftercare215_exchanges','aftercare215_exchange_results'] LOOP
   EXECUTE format('ALTER TABLE public.%I OWNER TO postgres',t);
@@ -4525,4 +4540,7 @@ ALTER FUNCTION public.tb215_damage_nonnegative_quantity_internal(BIGINT) OWNER T
 REVOKE ALL ON FUNCTION public.tb215_damage_nonnegative_quantity_internal(BIGINT) FROM PUBLIC,anon,authenticated,service_role;
 ALTER FUNCTION public.tb215_damage_loss_presentation_internal(JSONB,UUID,TIMESTAMPTZ,TIMESTAMPTZ) OWNER TO postgres;
 REVOKE ALL ON FUNCTION public.tb215_damage_loss_presentation_internal(JSONB,UUID,TIMESTAMPTZ,TIMESTAMPTZ) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.get_order_exchange_details_v1(UUID) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.get_order_exchange_details_v1(UUID) FROM PUBLIC,anon,authenticated,service_role;
+GRANT EXECUTE ON FUNCTION public.get_order_exchange_details_v1(UUID) TO authenticated;
 COMMIT;

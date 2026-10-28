@@ -3,11 +3,43 @@
   "files": [
     {
       "code": " M",
+      "path": "customer-web/src/receipts/commercialReceipt.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/receipts/publicReceipt.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/receipts/ReceiptDocument.tsx"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/services/receipts.service.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/types/receipt.ts"
+    },
+    {
+      "code": " M",
       "path": "docs/agent/project-state.json"
     },
     {
       "code": " M",
       "path": "docs/agent/TRIAL_TB_IMPLEMENTATION_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/aftercare215-damage-boundary-runtime.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/aftercare215-damage-runtime.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/aftercare215-inspected-runtime.mjs"
     },
     {
       "code": " M",
@@ -19,15 +51,51 @@
     },
     {
       "code": "??",
-      "path": "docs/agent/TRIAL_TB215_DAMAGE_LEDGER_LOCAL.json"
+      "path": "customer-web/src/receipts/exactMoney.ts"
     },
     {
       "code": "??",
-      "path": "scripts/testing/aftercare215-damage-boundary-runtime.mjs"
+      "path": "customer-web/src/receipts/exchangeFunding.ts"
     },
     {
       "code": "??",
-      "path": "scripts/testing/aftercare215-damage-runtime.mjs"
+      "path": "docs/agent/TRIAL_TB215_CLIENT_FOUNDATION_LOCAL.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/agent/TRIAL_TB215_DEVELOPMENT71_REJECTED.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/aftercare215-receipt-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/verification-source-freeze.mjs"
+    },
+    {
+      "code": "??",
+      "path": "src/utils/aftercare215Contracts.ts"
+    },
+    {
+      "code": "??",
+      "path": "src/utils/aftercare215Money.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/aftercare215-contracts.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/aftercare215-money.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/aftercare215-receipt-funding.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/verification-source-freeze.test.ts"
     }
   ]
 }

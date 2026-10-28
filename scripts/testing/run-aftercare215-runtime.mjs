@@ -19,6 +19,8 @@ import {verifyExchangeReaders215} from './aftercare215-exchange-readers-runtime.
 import {verifyExchangeBoundaries215} from './aftercare215-exchange-boundary-runtime.mjs';
 import {verifyDamageLedger215} from './aftercare215-damage-runtime.mjs';
 import {verifyDamageBoundaries215} from './aftercare215-damage-boundary-runtime.mjs';
+import {verifyExchangeReceipt215} from './aftercare215-receipt-runtime.mjs';
+import {readVerificationSourceFreeze,assertVerificationSourceFreeze} from './verification-source-freeze.mjs';
 
 assert.equal(process.argv.length, 2, 'LOCAL_ONLY_NO_ARGUMENTS');
 const exec = promisify(execFile), root = path.resolve(import.meta.dirname, '../..');
@@ -30,6 +32,8 @@ const source = path.join(root, 'supabase/migrations/215_inspected_aftercare_and_
 let local, stage = 'bootstrap214';
 const pass = name => { report.cases.push({name, passed: true}); console.log(JSON.stringify(report.cases.at(-1))); };
 try {
+  const frozen=await readVerificationSourceFreeze(root);
+  report.sourceFreeze={sha256:frozen.sha256,fileCount:frozen.fileCount};
   const boot = await exec(process.execPath, [path.join(root, 'scripts/testing/bootstrap-isolated-supabase.mjs')], {
     cwd: root, windowsHide: true, maxBuffer: 32 * 1024 ** 2,
     env: {...process.env, NAWASRAH_ISOLATED_PROJECT_ID: project, NAWASRAH_MAX_MIGRATION: '214', NAWASRAH_SKIP_REDUNDANT_DB_RESET: 'true', NAWASRAH_SUPABASE_EXCLUDE: 'gotrue,kong,postgrest,realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor'},
@@ -54,12 +58,15 @@ try {
   stage = 'exchange-boundaries'; await verifyExchangeBoundaries215(c, pass);
   stage = 'exchange-preview'; await verifyExchangePreview215(c, pass);
   stage = 'noncash-exchange'; await verifyExchange215(c, pass);
+  stage = 'receipt-funding'; await verifyExchangeReceipt215(c, pass);
   stage = 'exchange-readers'; await verifyExchangeReaders215(c, pass);
   stage = 'damage-ledger'; await verifyDamageLedger215(c, pass);
   // Large exact-money fixture must be last; ordinary old numeric DTO probes
   // are not used as an oracle beyond JavaScript's safe-integer boundary.
   stage = 'damage-boundaries'; await verifyDamageBoundaries215(c, pass);
   assert.equal(createHash('sha256').update((await readFile(source, 'utf8')).replaceAll('\r\n', '\n')).digest('hex'), report.migrationCanonicalLfSha256, 'MIGRATION_CHANGED_DURING_VERIFICATION');
+  assertVerificationSourceFreeze(frozen,await readVerificationSourceFreeze(root));
+  report.repositoryStayedFrozen=true;
   report.ok = true;
 } catch (error) {
   Object.assign(report, {stage, error: error.message}); process.exitCode = 1;

@@ -44,7 +44,7 @@ export async function verifyDamageLedger215(c,pass) {
  const sale=await rpc(`create_pos_sale_v2(${q(c.warehouse)},${q(c.branch)},${q(c.id(401))},'تجربة التقريب','cash',${j(precise.map(x=>({commercial_line_kind:'base_unit',product_id:x.pid,base_quantity:1,price_authority:'server_catalog',line_discount_in_minor_units:0})))},0,2000,${q(key())})`);
  const items=await json(`SELECT jsonb_agg(jsonb_build_object('sourceKind','base_order_item','sourceId',id,'quantity',1,'goodQuantity',1,'supplierId',NULL) ORDER BY id) FROM order_items WHERE order_id=${q(sale.orderId)};`);
  const inspection={orderId:sale.orderId,items,reason:'فحص السليم مع تكلفة كسر فلس',notes:null},ip=await rpc(`preview_inspected_sales_replacement_v2(${j(inspection)})`);
- assert.equal(ip.goodRecoveryInMinorUnits,1);const ir=await rpc(`settle_inspected_sales_replacement_v2(${j(inspection)},${q(key())},${q(ip.previewFingerprint)})`);
+ assert.equal(ip.goodRecoveryInMinorUnits,'1');const ir=await rpc(`settle_inspected_sales_replacement_v2(${j(inspection)},${q(key())},${q(ip.previewFingerprint)})`);
  assert.equal(await sql(`SELECT sum(w.good_recovery) FROM tb215_warranty_damage_facts_internal() w JOIN sales_replacement_events e ON e.operation_id=w.operation_id WHERE e.id=${q(ir.replacementId)};`),'1');
  assert.equal(await sql(`SELECT sum(w.net_cost) FROM tb215_warranty_damage_facts_internal() w JOIN sales_replacement_events e ON e.operation_id=w.operation_id WHERE e.id=${q(ir.replacementId)};`),'1');
  pass('two0.6 historical good recoveries allocate cumulative1+0=1 financial fils, never two; all-good rounding difference has no invented damaged packet');
