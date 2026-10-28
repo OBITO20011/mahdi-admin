@@ -1,48 +1,47 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
+  "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner authorized ordered merge39/40/41;update40 against merged39 with exact historical proof projections and fresh current SDK;then fullCI and merge;no hosted/deploy",
-  "baselineSha": "d741e6fc0cf7b18a6b7faeaae190fca47c3defa7",
-  "branch": "codex/product-images-bulk",
+  "objective": "Approved ordered39/40/41 integration;preserve approved application bytes and historical pins;fullCI before merge;safe primary;then T-B design only",
+  "baselineSha": "40cb8180c9fed8e10d4b5a2102c3df75ee63ca47",
+  "branch": "codex/trial-ta-display",
   "phase": "PACKAGE_F",
   "completed": [
-    "PR39 merged025df016 after exact FULL49 each",
-    "40 integration preserves approved production bytes;historical pins unchanged",
-    "Fresh unprojected local214 SDK157/RPC543;10expected42501",
-    "Local Admin1526/store197/browser20/0flaky/types/lint/build/SEO pass"
+    "39 merged025df016 after exact FULL49 each",
+    "Combined actual SDK157/543 with10expected42501",
+    "Exact historical bridge and original application-byte tests pass"
   ],
   "inProgress": [
-    "Apply exact approved41 core-engine CI scheduling after two20min40 PR cancellations;fullCI on new SHA required"
+    "Integrate exact approved40 CI scheduling fix;full local unit/CI before ordered merge"
   ],
   "notStarted": [
-    "FullCI final40SHA then merge40",
-    "Integrate/CI/merge41;preserve primary docs;T-B design only;no T-C"
+    "Merge40 after exact fullCI;then integrate final40main into41 and fullCI/merge41",
+    "Safe primary synchronization;T-B design only then stop"
   ],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "testsPassed": [
-    "Admin1526/store197/browser20",
-    "Types/strictlint/builds/isolatedSEO",
-    "Actual SDK157/543;production bytes exact approved branches"
+    "Admin1533/store200;types/lint both;builds/isolatedSEO",
+    "26browser identities:24initial+2evidence-backed environmental recheck;no source/assertion/timeouts/retries change",
+    "Actual local214 SDK157/543,10expected42501;exact approved application bytes",
+    "Approved CI scheduling integration Admin1535/types/strictlint;app/SQL byte-identical40cb8180;oldpins unchanged"
   ],
   "testsRemaining": [
-    "Core union/local unit gates and Gitleaks0",
-    "New exact40 SHA fullCI then ordered merge40/41"
+    "Gitleaks0",
+    "Exact final40 and41 SHA fullCI;merge40 before41"
   ],
   "findings": [
-    "Three test-only integration failures corrected without numerical assertion changes",
-    "No SQL/RPC/financial/permission changes",
-    "Latest owner forbids T-C before T-B design approval",
-    "CI-only approved engine scheduling,zero app/SQL/financial changes"
+    "No application edit beyond approved branches;one sharedSEO file clean Git merge",
+    "Preliminary focused evidence tests correctly failed until fresh combined SDK file existed",
+    "40 unsharded core reached20min twice;new40 uses exact41 approved engine split;no application/SQL changes"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hosted connection/deploy",
-    "No DB/migration/financial/permission changes",
-    "Preserve primary owner local files",
+    "No hosted access/deploy",
+    "No DB/RPC/financial/permission changes",
+    "Preserve owner local files",
     "No T-C before T-B design approval"
   ],
   "nextExactAction": "Commit/push40 updated on merged39;FULL CI exact SHA then authorized merge40;next integrate41 then safe primary update and design-only T-B",

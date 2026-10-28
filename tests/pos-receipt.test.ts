@@ -33,7 +33,7 @@ test('POS receipt share text contains the saved wholesale sale details', () => {
   });
 
   assert.match(text, /POS-1001/);
-  assert.match(text, /مياه: 2 صندوق/);
+  assert.match(text, /مياه: 2 طرد/);
   assert.match(text, /8\.000 د\.أ/);
   assert.match(text, /CliQ/);
   assert.match(text, /رابط الإيصال الإلكتروني/);
@@ -55,11 +55,11 @@ test('POS buttons print and share instead of showing simulated alerts', () => {
   assert.doesNotMatch(view, /تم إنشاء رابط الإيصال الإلكتروني/);
 });
 
-test('saved base-unit name wins over product package label in print/share',()=>{
+test('sales display uses packet labels while saved base units remain available to the receipt adapter',()=>{
  const text=buildReceiptShareText({businessName:'النواصرة',branchName:'اختبار',invoiceNumber:'POS-UNIT',customerName:'',createdAt:'2026-10-11T12:00:00Z',
    items:[{productName:'مياه',quantity:2,unit:'قنينة',salePackage:'صندوق',totalPrice:1},{productName:'رز',quantity:1,unit:'شوال',salePackage:'طرد',totalPrice:10}],
    subtotal:11,discount:0,totalAmount:11,paymentMethod:'cash',paidAmount:11,remainingAmount:0,changeDue:0});
- assert.match(text,/مياه: 2 قنينة/);assert.match(text,/رز: 1 شوال/);
+ assert.match(text,/مياه: 2 باكيت/);assert.match(text,/رز: 1 باكيت/);
  const view=readFileSync('src/features/pos/PosView.tsx','utf8');
  assert.match(view,/SaleReceiptDialog/);
  const adapter=readFileSync('src/features/receipts/saleReceipt.ts','utf8');assert.match(adapter,/baseUnitName:item.baseUnitName/);

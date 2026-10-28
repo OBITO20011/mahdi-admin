@@ -52,7 +52,7 @@ test('D POS result retains saved composition and base unit evidence for the same
 
 test('D missing historical evidence is explicit and never inferred from quantity or package label',()=>{
   const line=savedReceiptLine(trialDItems[0]);
-  assert.equal(receiptLineDescription({...line,kind:undefined,savedUnitName:'صندوق'}),'1 صندوق');
+  assert.equal(receiptLineDescription({...line,kind:undefined,savedUnitName:'صندوق'}),'1 طرد');
   assert.equal(receiptLineDescription({...line,baseQuantity:undefined}),'1 طرد (المحتوى المحفوظ غير متاح)');
   assert.equal(receiptLineDescription({...line,kind:'configurable_parcel',parcels:[]}),'1 طرد مشكّل (المكونات المحفوظة غير متاحة)');
   const mixed=savedReceiptLine(trialDItems[2]);

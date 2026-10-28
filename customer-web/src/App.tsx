@@ -1,4 +1,4 @@
-import {storefrontSaleUnit, remainingStorefrontParcels} from './utils/storefrontUnits';
+import {storefrontSaleUnit,storefrontUnitName, remainingStorefrontParcels} from './utils/storefrontUnits';
 import {
   AlertTriangle,
   Boxes,
@@ -910,7 +910,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       return;
     }
     if (product.salePriceInMinorUnits <= 0 || product.availableQuantity < 1) {
-      showToast('هذه الوحدة غير متاحة للبيع منفردة حاليًا.', 'info');
+      showToast('هذا الباكيت غير متاح للبيع مفرداً حاليًا.', 'info');
       return;
     }
     const alreadyRequired = requiredBaseUnitsByProductId(cartItems).get(product.id) ?? 0;
@@ -935,7 +935,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         ? { ...item, localRevision: item.localRevision + 1, quantity: item.quantity + actualQuantity }
         : item);
     }).then(() => {
-      if (addedQuantity > 0) showToast(`تمت إضافة ${addedQuantity.toLocaleString('ar-JO')} ${product.unitNameAr} من ${product.nameAr}.`);
+      if (addedQuantity > 0) showToast(`تمت إضافة ${addedQuantity.toLocaleString('ar-JO')} ${storefrontUnitName(product.unitNameAr)} من ${product.nameAr}.`);
       else showToast('وصلت السلة إلى كامل المخزون المتاح من هذا الصنف.', 'info');
     }).catch(() => showToast('تعذر حفظ الإضافة في السلة. راجع حالة السلة وحاول مجددًا.', 'error'));
   };

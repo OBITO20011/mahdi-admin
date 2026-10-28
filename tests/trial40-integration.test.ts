@@ -1,4 +1,4 @@
-import {sourceBeforeTrial40Ci} from '../scripts/audit/source-before-trial40-ci-scheduling.mjs';
+import {projectTrial41Source,trial41Integration} from '../scripts/audit/source-before-trial41-integration.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFileSync} from 'node:fs';
@@ -7,8 +7,7 @@ import {createHash} from 'node:crypto';
 import {trial40IntegrationPins,projectTrial40Source} from '../scripts/audit/source-before-trial40-integration.mjs';
 
 const refs={baseline:'f95ff0458f90298edc21e39859d3268c7f7ccac7',identity:'2471fda5dcef5e0119feb0cc77168822a58b9581',bulk:'5ad57e1ca265390ca589d2924cf29092c98d5cf9'};
-const read=(file:string)=>sourceBeforeTrial40Ci(file,readFileSync(file,'utf8'));
-
+const read=(file:string)=>projectTrial41Source(file,readFileSync(file,'utf8'),'previousMain') as string;
 const git=(args:string[])=>execFileSync('git',args,{encoding:'utf8',stdio:['ignore','pipe','pipe'],maxBuffer:16*1024**2}).replaceAll('\r\n','\n');
 const hash=(text:string)=>createHash('sha256').update(text).digest('hex');
 
@@ -17,7 +16,7 @@ test('integration keeps every approved application byte;identity and bulk produc
   const identity=changed(refs.identity),bulk=changed(refs.bulk);
   assert.deepEqual(identity.filter(file=>bulk.includes(file)),[]);
   const expected=[...identity,...bulk].sort();
-  assert.deepEqual(git(['diff','--name-only',refs.baseline,'--','src','customer-web/src']).trim().split('\n').filter(Boolean).sort(),expected);
+  assert.deepEqual(git(['diff','--name-only',refs.baseline,trial41Integration.approvedRefs.previousMain,'--','src','customer-web/src']).trim().split('\n').filter(Boolean).sort(),expected);
   for(const file of expected)assert.equal(read(file),git(['show',(identity.includes(file)?refs.identity:refs.bulk)+':'+file]),file);
   assert.equal(git(['diff','--name-only',refs.baseline,'--','supabase','scripts/audit/*-hunks.json','scripts/audit/*-inverse.json']).trim(),'');
   for(const [target,file]of [['identity','store-sharing-identity'],['bulk','bulk-product-images']] as const){

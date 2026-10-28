@@ -1,0 +1,213 @@
+{
+  "schemaVersion": 1,
+  "package": "TRIAL_TA_SALES_PRESENTATION",
+  "baselineSha": "f95ff0458f90298edc21e39859d3268c7f7ccac7",
+  "migrationCeiling": 214,
+  "migrationChanges": 0,
+  "newRpc": 0,
+  "grantChanges": 0,
+  "hostedProjectConnections": 0,
+  "deployments": 0,
+  "scope": {
+    "implemented": [
+      "T-A1 product sale methods andPOS/receipts packet label",
+      "T-A2 customer storefront/card/details/cart/toasts/public receipt/mixed builder packet label"
+    ],
+    "ownerDeferred": [
+      "T-A3 detailed damage loss movements toT-B design"
+    ],
+    "notStarted": [
+      "T-B implementation",
+      "T-C partialPOSpayments untilT-A approval"
+    ],
+    "designOnlyDecisionRecorded": "T-B refund method step/cash drawer/CliQ reference/debt reduction/defaults/calculated original price and numeric effects"
+  },
+  "local": {
+    "adminUnits": 1508,
+    "storeUnits": 200,
+    "typesBoth": true,
+    "strictLint": true,
+    "adminProductionBuild": true,
+    "storeIsolatedBuildAndSeo": true,
+    "browserNetworkIsolation": true,
+    "gitleaks": 0,
+    "acceptedBrowserIdentities": 76,
+    "engines": [
+      "Chromium",
+      "WebKit"
+    ],
+    "newMixedParcelWidths": [
+      360,
+      390,
+      1440
+    ],
+    "finalBottleToastCases": 4,
+    "print": [
+      {
+        "name": "دليل-صاحب-المحل.pdf",
+        "pages": 10
+      },
+      {
+        "name": "ورقة-يوم-التشغيل.pdf",
+        "pages": 2
+      }
+    ],
+    "historicalPresentationProofs": "Original pins and captured evidence unchanged;new byte-exact inverse covers only approved source/test changes;old expected labels revised with all numeric assertions retained",
+    "ciCorrectionBrowserCases": {
+      "cases": 4,
+      "engines": [
+        "Chromium",
+        "WebKit"
+      ],
+      "result": "passed",
+      "staleLabelsOnly": true,
+      "numericAssertionsUnchanged": true
+    },
+    "coreCiScheduling": {
+      "reason": "PR core job repeatedly exhausted20minutes without assertion failures;push sameSHA423pass/59historical conditionals",
+      "originalCoreIdentities": 482,
+      "chromiumIdentities": 253,
+      "webkitIdentities": 229,
+      "fullBrowserIdentities": 1560,
+      "packageFIdentities": 1078,
+      "actualDiscoveryExactUnion": true,
+      "missingOrDuplicated": 0,
+      "projectObjectsUnchanged": true,
+      "workerChanges": 0,
+      "retryChanges": 0,
+      "timeoutChanges": 0,
+      "localSmoke": {
+        "cases": 4,
+        "passed": 4,
+        "flaky": 0
+      },
+      "requiredQualityJobs": 48,
+      "requiredChecksPerEvent": 50
+    }
+  },
+  "currentActualLocalSdk": {
+    "table": {
+      "evidence": "docs/operations/TABLE_ACCESS_AFTER_214_TRIAL_TA.json",
+      "probes": 154,
+      "coverage": {
+        "complete": true,
+        "sourceSites": 53,
+        "expected": 154,
+        "actual": 154
+      },
+      "infrastructureOk": true,
+      "applicationReady": true
+    },
+    "rpc": {
+      "probes": 540,
+      "sqlstate42501Denials": 10,
+      "neutralPayloadsAreNotFunctionalSales": true
+    }
+  },
+  "invariants": {
+    "rawCatalogUnitsPreserved": true,
+    "persistedCartUnitsPreserved": true,
+    "flavorComponentUnitsPreserved": true,
+    "posRequestPayloadUnchanged": true,
+    "guestThreeKindPayloadsUnchanged": true,
+    "receiptAmountsAndSnapshotsPreserved": true,
+    "unchangedPaths": [
+      "supabase",
+      "src/services",
+      "customer-web/src/services",
+      "src/features/pos/posV2Cart.ts",
+      "customer-web/src/utils/checkout.ts"
+    ]
+  },
+  "applicationSourceHashes": [
+    {
+      "file": "src/features/pos/PosParcelBuilder.tsx",
+      "sha256": "48e957a4967e90a3a0c2e719da43e70a486c0c1403f82c555b7138060fe1c463"
+    },
+    {
+      "file": "src/features/pos/PosProductCard.tsx",
+      "sha256": "5a13351e5fb76075f09e6f06670e2f195669cc4976f44ccd6b0ec78d62755866"
+    },
+    {
+      "file": "src/features/pos/PosView.tsx",
+      "sha256": "fd29c00048d8a5287d8610ef50bb7c1446ecb2a92dfb13b6045fd058a9801dec"
+    },
+    {
+      "file": "src/features/products/ProductFormModal.tsx",
+      "sha256": "b1a6b8ec877657cd4dd4eb909e7633508554679f7a67a74f0fc14d2087c9f978"
+    },
+    {
+      "file": "customer-web/src/App.tsx",
+      "sha256": "6e4e6cb3069b6639f29dbfe0c387891df9eb8805480e8a53b35f44a13afb0753"
+    },
+    {
+      "file": "customer-web/src/components/CartDrawer.tsx",
+      "sha256": "c09492fcc08260791d553bb6aef4efb10b4b2e0c2aa5d7300a9e0c8ac9951f01"
+    },
+    {
+      "file": "customer-web/src/components/ParcelBuilderModal.tsx",
+      "sha256": "c2ab7151acd7134ea1fb260110c1bce4b7a92651bc18207a9fcbf8709bb1ba73"
+    },
+    {
+      "file": "customer-web/src/components/ProductCard.tsx",
+      "sha256": "fc120b66588db4c93285db419499bee1a7838545f5f586619cf8702a39385200"
+    },
+    {
+      "file": "customer-web/src/components/ProductDetailsModal.tsx",
+      "sha256": "0ae11958bac0da718a83d8deb1101e24d93c11c71656aff5f7740f7f4e63a676"
+    },
+    {
+      "file": "customer-web/src/receipts/commercialReceipt.ts",
+      "sha256": "f849b4355de4db667a84f61800b41517fc7e7e0914ba345e8fec7984d7ccdd40"
+    },
+    {
+      "file": "customer-web/src/utils/cart.ts",
+      "sha256": "aefe240ac7843d1091893a98ff4d7003b6484118714e7656d770fd47729de6e3"
+    },
+    {
+      "file": "customer-web/src/utils/saleUnitLabels.ts",
+      "sha256": "6372ec26ba5a2470c845d68a4fa36dac7b49a8852dc999fc9b9d5d39a96618c1"
+    },
+    {
+      "file": "customer-web/src/utils/storefrontSeo.ts",
+      "sha256": "969ec1f6fbf871e7135825c3b3a9240104c3c3046367324d55b20e29d4f335e3"
+    },
+    {
+      "file": "customer-web/src/utils/storefrontUnits.ts",
+      "sha256": "2fcce575796dafd5ca2cff667321cc8d3076a02f14e00ce9f35356072c1b758e"
+    }
+  ],
+  "environmentalBrowserRerun": {
+    "initial": {
+      "passed": 70,
+      "notAcceptedAsPass": 2,
+      "causes": [
+        "local page navigation timeout before app loaded",
+        "transient toast absent after exact persisted cart assertion passed"
+      ]
+    },
+    "singleSameSourceRerun": {
+      "passed": 2,
+      "failed": 0,
+      "applicationEdits": 0,
+      "assertionEdits": 0,
+      "timeoutEdits": 0,
+      "retryEdits": 0
+    },
+    "additionalCoverage": {
+      "bottleProductToastAssertAdded": true,
+      "finalCases": 4,
+      "allPassed": true
+    }
+  },
+  "ci": {
+    "status": "Final correction SHA push/PR FULL50 pending;no merge before owner approval"
+  },
+  "ciFirstAttempt": {
+    "sha": "5fb03983332d83d1b343ae86b20e62a9cf66c068",
+    "acceptedForDelivery": false,
+    "core": "Two stale text expectations corrected after CI;no timeout/retry changes",
+    "sales204": "AWS image data-limit during bootstrap before first case;no environmental rerun on superseded SHA",
+    "requiredNext": "Fresh FULL CI on final correction commit for push and PR"
+  }
+}

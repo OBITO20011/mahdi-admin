@@ -657,7 +657,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     if(!parcelMethodSelected&&!allowSingle){
-      setSubmitError({message:'اختر طريقة بيع واحدة على الأقل: طرد أو حبة مفردة.'});return;
+      setSubmitError({message:'اختر طريقة بيع واحدة على الأقل: طرد أو باكيت مفرد.'});return;
     }
     if(!allowSingle&&validUnitsPerSalePackage<=1){
       setSubmitError({message:'الطرد فقط يحتاج أكثر من وحدة في طرد البيع.'});return;
@@ -1120,12 +1120,12 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         <h4 className="font-black">طريقة البيع</h4>
         <fieldset className="grid min-w-0 gap-3 sm:grid-cols-2" aria-label="طريقة البيع">
           <div className="min-w-0 space-y-2 rounded-lg border border-nw-border p-3">
-            <label className="flex min-h-11 items-center gap-2 font-bold"><input type="checkbox" checked={parcelMethodSelected} onChange={event=>selectParcelMethod(event.target.checked)}/>طرد ({parcelMethodSize} {unit})</label>
+            <label className="flex min-h-11 items-center gap-2 font-bold"><input type="checkbox" checked={parcelMethodSelected} onChange={event=>selectParcelMethod(event.target.checked)}/>طرد ({parcelMethodSize} باكيت)</label>
             <label className="block space-y-1 text-xs font-bold">سعر بيع الطرد<input inputMode="decimal" enterKeyHint="next" aria-label="سعر بيع الطرد" type="number" min="0.001" step="0.001" required disabled={!parcelMethodSelected} value={salePackagePrice === '' ? '' : parcelMethodSelected ? salePackagePrice : calculatePackagePrice(derivedSalePricePerUnit,parcelMethodSize)} onChange={event=>setSalePackagePrice(event.target.value===''?'':Number.parseFloat(event.target.value))} className={numberInputClass}/></label>
           </div>
           <div className="min-w-0 space-y-2 rounded-lg border border-nw-border p-3">
-            <label className="flex min-h-11 items-center gap-2 font-bold"><input type="checkbox" checked={allowSingle} onChange={event=>setAllowSingle(event.target.checked)}/>حبة مفردة</label>
-            <label className="block space-y-1 text-xs font-bold">سعر بيع {unit}<input inputMode="decimal" enterKeyHint="next" aria-label={'سعر بيع '+unit} type="number" min="0" step="0.0001" required disabled={!allowSingle} value={salePackagePrice===''?'':derivedSalePricePerUnit} onChange={event=>setSalePackagePrice(event.target.value===''?'':calculatePackagePrice(Number.parseFloat(event.target.value)||0,validUnitsPerSalePackage))} className={numberInputClass}/></label>
+            <label className="flex min-h-11 items-center gap-2 font-bold"><input type="checkbox" checked={allowSingle} onChange={event=>setAllowSingle(event.target.checked)}/>باكيت مفرد</label>
+            <label className="block space-y-1 text-xs font-bold">سعر بيع الباكيت<input inputMode="decimal" enterKeyHint="next" aria-label="سعر بيع الباكيت" type="number" min="0" step="0.0001" required disabled={!allowSingle} value={salePackagePrice===''?'':derivedSalePricePerUnit} onChange={event=>setSalePackagePrice(event.target.value===''?'':calculatePackagePrice(Number.parseFloat(event.target.value)||0,validUnitsPerSalePackage))} className={numberInputClass}/></label>
           </div>
         </fieldset>
         {!parcelMethodSelected&&!allowSingle&&<p role="alert" className="text-nw-bad">اختر طريقة بيع واحدة على الأقل.</p>}

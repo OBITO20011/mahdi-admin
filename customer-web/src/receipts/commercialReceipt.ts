@@ -1,4 +1,5 @@
 /** Receipt presentation uses saved commercial evidence only. No catalogue, prices or writes. */
+import {SINGLE_SALE_UNIT,savedSaleUnitLabel} from '../utils/saleUnitLabels';
 export interface ReceiptComponent {name:string;quantity:number;unitName:string}
 export interface ReceiptParcel {components:ReceiptComponent[]}
 export interface CommercialReceiptLine {
@@ -23,7 +24,7 @@ function componentName(parent:string,name:string){
   return saved||'اسم النكهة غير متاح';
 }
 export function receiptLineDescription(line:CommercialReceiptLine):string {
-  const quantity=count(line.quantity),unit=line.baseUnitName?.trim()||'وحدة';
+  const quantity=count(line.quantity),unit=SINGLE_SALE_UNIT;
   if(line.kind==='legacy_single_sku_parcel')return `${quantity} طرد (${line.baseQuantity===undefined?'المحتوى المحفوظ غير متاح':`${count(line.baseQuantity)} ${unit}`})`;
   if(line.kind==='base_unit')return `${quantity} ${unit}`;
   if(line.kind==='configurable_parcel'){
@@ -32,8 +33,9 @@ export function receiptLineDescription(line:CommercialReceiptLine):string {
     const composition=recipes.every(r=>r===recipes[0])?recipes[0]:recipes.map((r,index)=>`الطرد ${index+1}: ${r}`).join('؛ ');
     return `${quantity} طرد مشكّل (${composition})`;
   }
-  // Pre-commercial historical records retain their saved wording; never guess a kind from N.
-  return `${quantity} ${line.savedUnitName?.trim()||unit}`;
+  // Historical fields remain unchanged;only the saved unit label is displayed
+  // canonically. Never infer a commercial kind or multiply a quantity from N.
+  return `${quantity} ${savedSaleUnitLabel(line.savedUnitName)}`;
 }
 export function receiptDocumentShareText(receipt:ReceiptDocumentData,url?:string):string {
   return [receipt.businessName,receipt.branch.name,`إيصال البيع رقم: ${receipt.number}`,

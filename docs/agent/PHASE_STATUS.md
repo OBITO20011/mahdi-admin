@@ -1,3 +1,7 @@
+#28Oct — ordered integration41 local verification
+
+39 merged025df016;40 exactCI pending;41 combines approved sources and immutable proof projections. Actual local214 SDK157/543 passed,10expecteddenials. Full local tests and exactCI still required;no hosted/deploy. Then safe primary update and T-B design only;no T-C before design approval.
+
 #28Oct — ordered owner-approved39/40/41 integration
 
 39 merged025df016 after exact FULL49 each.40 updated on approved39 with production bytes exactly preserved;local1526/197/20browser/types/lint/build/SDK157+543 PASS. Historical pins retained via exact merge bridge;new current evidence unprojected. Next final40 CI/merge then41 CI/merge;preserve primary owner files,then T-B design only;no T-C before design approval.No hosted/deploy. See TRIAL_ORDERED_INTEGRATION_AR.md/LOCAL.json.

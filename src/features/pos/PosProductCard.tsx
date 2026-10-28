@@ -8,13 +8,13 @@ export function PosProductCard({product,stock,parcelQuantity,unitQuantity,disabl
 }){
   const parcel=(product.unitsPerSalePackage??1)>1,unit=!product.parcelOnly;
   const methods=[...(parcel?[{mode:'legacy_single_sku_parcel' as const,label:'طرد',price:product.salePackagePrice,quantity:parcelQuantity}]:[]),
-    ...(unit?[{mode:'base_unit' as const,label:product.unit,price:product.retailPrice,quantity:unitQuantity}]:[])];
+    ...(unit?[{mode:'base_unit' as const,label:'باكيت',price:product.retailPrice,quantity:unitQuantity}]:[])];
   return <article data-pos-product={product.id} className={'min-w-0 space-y-3 rounded-2xl border bg-nw-surface p-3 '+(parcelQuantity+unitQuantity>0?'border-nw-primary ring-1 ring-nw-primary':'border-nw-border')}>
     <div className="flex min-w-0 items-center gap-3">
       <ProductGlyph name={product.nameAr} image={product.imageUrl} className="h-14 w-14 shrink-0"/>
       <div className="min-w-0"><h3 className="break-words text-sm font-bold">{product.nameAr}</h3>
         <bdi dir="ltr" className="block break-all text-xs text-nw-muted">{product.barcode}</bdi>
-        <p className={'text-xs '+(stock<=product.reorderLevel?'text-nw-warn':'text-nw-muted')}><bdi dir="ltr">{stock}</bdi> {product.unit} · {stock===0?'نفد':'متوفر'}</p>
+        <p className={'text-xs '+(stock<=product.reorderLevel?'text-nw-warn':'text-nw-muted')}><bdi dir="ltr">{stock}</bdi> باكيت · {stock===0?'نفد':'متوفر'}</p>
       </div>
     </div>
     {product.parcelOnly&&<p className="text-xs font-bold text-nw-info">طرد فقط</p>}
