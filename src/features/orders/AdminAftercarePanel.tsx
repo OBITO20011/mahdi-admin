@@ -123,8 +123,8 @@ export const AdminAftercarePanel: React.FC<Props> = ({
         parcel.components.flatMap((component) => component.physicalRepresentatives)),
     ];
   }, [context]);
-  const hasPendingRecovery = recoveryStates.return?.recoverable === true
-    || recoveryStates.replacement?.recoverable === true||supplierAttempt?.status==='unknown'||supplierAttempt?.status==='prepared'
+  const hasPendingRecovery = Object.values(recoveryStates).some(state=>state?.recoverable===true)
+    ||supplierAttempt?.status==='unknown'||supplierAttempt?.status==='prepared'
     ||(isOwner&&safetyBlocked);
 
   if (loading) return (

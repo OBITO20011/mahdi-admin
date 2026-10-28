@@ -39,3 +39,14 @@ test('215 durable success binds quantities and explicit refund method; cost fiel
  assert.equal(aftercare215SuccessMatches('inspected_replacement',id(1),rr,replacement),true);
  assert.equal(aftercare215SuccessMatches('inspected_replacement',id(1),rr,{...replacement,replacementCogsInMinorUnits:6000}),false);
 });
+test('215 exchange replay binds explicit tender while allowing server default for an outgoing difference',()=>{
+ const request={previewFingerprint:seal,payload:{returnRequest:{orderId:id(1)},differenceMethod:'cash',referenceNumber:null}};
+ const result={success:true,operationId:id(2),originalOrderId:id(1),newOrderId:id(3),returnId:id(4),returnNumber:'SRT-X',newOrderNumber:'POS-X',
+  internalCreditInMinorUnits:'9000',newTotalInMinorUnits:'12000',moneyReceivedInMinorUnits:'3000',moneyRefundInMinorUnits:'0',differenceMethod:'cash',referenceNumber:null};
+ assert.equal(aftercare215SuccessMatches('exchange',id(1),request,result),true);
+ assert.equal(aftercare215SuccessMatches('exchange',id(1),request,{...result,differenceMethod:'cliq',referenceNumber:'x'}),false);
+ assert.equal(aftercare215SuccessMatches('exchange',id(1),{...request,payload:{...request.payload,differenceMethod:null}},result),false);
+ const refund={...result,internalCreditInMinorUnits:'7500',newTotalInMinorUnits:'7500',moneyReceivedInMinorUnits:'0',moneyRefundInMinorUnits:'1500'};
+ assert.equal(aftercare215SuccessMatches('exchange',id(1),{...request,payload:{...request.payload,differenceMethod:null}},refund),true);
+ assert.equal(aftercare215SuccessMatches('exchange',id(1),request,{...result,referenceNumber:'unexpected'}),false);
+});

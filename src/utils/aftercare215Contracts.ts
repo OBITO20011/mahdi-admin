@@ -83,7 +83,12 @@ export function aftercare215SuccessMatches(action:Aftercare215Action,orderId:str
   const payload=request.payload;
   if(action==='exchange') {
    if(!aftercare215Record(payload.returnRequest)||payload.returnRequest.orderId!==orderId||value.originalOrderId!==orderId||!uuid(value.newOrderId)||value.newOrderId===orderId||!uuid(value.returnId))return false;
-   text(value.returnNumber);text(value.newOrderNumber);parseExchangeFunding(value);return true;
+   text(value.returnNumber);text(value.newOrderNumber);const funding=parseExchangeFunding(value);
+   if((BigInt(funding.moneyReceivedInMinorUnits)>0n||BigInt(funding.moneyRefundInMinorUnits)>0n)&&payload.differenceMethod!==funding.differenceMethod
+     &&!(payload.differenceMethod===null&&BigInt(funding.moneyRefundInMinorUnits)>0n))return false;
+   if(funding.differenceMethod==='cliq'&&(typeof payload.referenceNumber!=='string'||value.referenceNumber!==payload.referenceNumber.trim()))return false;
+   if(funding.differenceMethod!=='cliq'&&value.referenceNumber!==null)return false;
+   return true;
   }
   if(payload.orderId!==orderId||value.orderId!==orderId||value.contractVersion!==215)return false;
   if(action==='inspected_replacement') {
@@ -92,7 +97,7 @@ export function aftercare215SuccessMatches(action:Aftercare215Action,orderId:str
    for(const item of payload.items){if(!aftercare215Record(item)||quantity(item.quantity)===0||quantity(item.goodQuantity)>quantity(item.quantity))return false;issued+=quantity(item.quantity);good+=quantity(item.goodQuantity);}
    return issued>0&&issued===value.issuedQuantity&&good===value.restockedQuantity&&issued-good===value.badQuantity&&value.moneyDifferenceInMinorUnits===0;
   }
-  if(!uuid(value.returnId)||!uuid(value.returnOperationId)||!Array.isArray(payload.physicalSources))return false;
+  if(!uuid(value.returnId)||!uuid(value.returnOperationId)||!Array.isArray(payload.physicalSources)||payload.physicalSources.length===0)return false;
   text(value.returnNumber);const entitlement=exactMinorText(value.entitlementInMinorUnits),debt=exactMinorText(value.debtReductionInMinorUnits),money=exactMinorText(value.moneyRefundInMinorUnits);
   if(BigInt(entitlement)!==BigInt(debt)+BigInt(money))return false;
   const refundMethod=method(value.refundMethod);

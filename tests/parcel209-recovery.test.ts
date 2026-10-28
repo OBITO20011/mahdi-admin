@@ -4,13 +4,15 @@ import type {SupabaseClient} from '@supabase/supabase-js';
 import {runAdminAftercareMutation} from '../src/services/supabase/adminAftercareRecovery';
 import {runPosV2Attempt,readPosV2Recovery} from '../src/services/supabase/posV2Recovery';
 import type {CreatePosSaleV2Input} from '../src/services/supabase/posV2.service';
+import {installAftercareIndexedDbFixture} from './helpers/aftercareIndexedDb';
 const actor='43210000-0000-4000-8000-000000000001',order='43210000-0000-4000-8000-000000000002';
 async function fixture(work:(storage:Map<string,string>,client:SupabaseClient)=>Promise<void>){
+ const restoreIndexedDb=installAftercareIndexedDbFixture();
  const oldStorage=Object.getOwnPropertyDescriptor(globalThis,'localStorage'),oldNavigator=Object.getOwnPropertyDescriptor(globalThis,'navigator'),storage=new Map<string,string>();
  Object.defineProperty(globalThis,'localStorage',{configurable:true,value:{getItem:(k:string)=>storage.get(k)??null,setItem:(k:string,v:string)=>storage.set(k,v)}});
  Object.defineProperty(globalThis,'navigator',{configurable:true,value:{locks:{request:async(_name:string,_options:unknown,fn:()=>Promise<unknown>)=>fn()}}});
  const client={auth:{getUser:async()=>({data:{user:{id:actor}},error:null})}} as unknown as SupabaseClient;
- try{await work(storage,client);}finally{if(oldStorage)Object.defineProperty(globalThis,'localStorage',oldStorage);else Reflect.deleteProperty(globalThis,'localStorage');if(oldNavigator)Object.defineProperty(globalThis,'navigator',oldNavigator);else Reflect.deleteProperty(globalThis,'navigator');}
+ try{await work(storage,client);}finally{restoreIndexedDb();if(oldStorage)Object.defineProperty(globalThis,'localStorage',oldStorage);else Reflect.deleteProperty(globalThis,'localStorage');if(oldNavigator)Object.defineProperty(globalThis,'navigator',oldNavigator);else Reflect.deleteProperty(globalThis,'navigator');}
 }
 const posInput:CreatePosSaleV2Input={warehouseId:'43210000-0000-4000-8000-000000000003',branchId:'43210000-0000-4000-8000-000000000004',paymentMethod:'cash',lines:[{commercial_line_kind:'base_unit',product_id:order,base_quantity:10}],discountInMinorUnits:0,amountReceivedInMinorUnits:1000,idempotencyKey:'captured-by-client'};
 for(const [code,identity]of [['23514','PARCEL209_UNIT_SALE_FORBIDDEN'],['40001','PARCEL209_FAMILY_CHANGED_RETRY']]){

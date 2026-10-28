@@ -236,10 +236,14 @@ test('Return success enforces debt-first financial semantics and refund evidence
     };
     const baseRequest = {items: [{returnScope: 'base_unit', quantity: 1}],
       reason: 'Valid return', refundMethod: 'cash', referenceNumber: null};
+    let caseNumber=0;
     const run = async (requestValue: Record<string, unknown>, resultValue: Record<string, unknown>) => {
+      // Each independent malformed-response fixture has its own invoice. The
+      // durable IDB fence deliberately survives localStorage.clear().
+      const caseOrder=`43210000-0000-4000-8000-${String(700+caseNumber++).padStart(12,'0')}`;
       localStorage.clear();
-      const outcome = await runAdminAftercareMutation(client as never, order, 'return',
-        'START_NEW', requestValue, async () => ({data: resultValue, error: null}));
+      const outcome = await runAdminAftercareMutation(client as never, caseOrder, 'return',
+        'START_NEW', requestValue, async () => ({data:{...resultValue,orderId:resultValue.orderId===order?caseOrder:resultValue.orderId}, error: null}));
       const stateKey = Object.keys(localStorage).find((key) => key.includes('phase43-aftercare'))!;
       return {accepted: outcome.data !== null,
         status: JSON.parse(localStorage.getItem(stateKey)!).status};
