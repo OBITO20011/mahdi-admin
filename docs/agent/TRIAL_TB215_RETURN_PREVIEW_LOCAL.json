@@ -1,0 +1,65 @@
+{
+  "cases": [
+    {
+      "name": "read-only full-parcel preview cash: default/refund/debt/11good1bad exactly match existing121/122 financial coordinator",
+      "passed": true
+    },
+    {
+      "name": "read-only full-parcel preview cliq: default/refund/debt/11good1bad exactly match existing121/122 financial coordinator",
+      "passed": true
+    },
+    {
+      "name": "read-only full-parcel preview debt: default/refund/debt/11good1bad exactly match existing121/122 financial coordinator",
+      "passed": true
+    },
+    {
+      "name": "CliQ default never reuses payment reference; missing refund reference has an explicit field-level refusal",
+      "passed": true
+    },
+    {
+      "name": "existing full-debt sale then separate old collection: same-invoice250 reduced first, actual500 refund; no T-C upfront partial-sale implementation",
+      "passed": true
+    },
+    {
+      "name": "discounted2251/3 cumulative preview equals actual750+750+751; final packet takes exact remainder",
+      "passed": true
+    },
+    {
+      "name": "new preview classifies independent packets; original legacy route remains fail-closed for mixed packet inspection until v2 admission",
+      "passed": true
+    },
+    {
+      "name": "admin sees only permitted settlement amounts; owner cost/profit omitted; manager/private helper/forged cost denied without writes",
+      "passed": true
+    }
+  ],
+  "ok": true,
+  "scope": "G1 pure preview compared against existing legacy financial coordinator;NOT sealedv2/fullT-B delivery",
+  "hostedConnections": 0,
+  "sealedV2WriterAvailable": false,
+  "independentMixedPacketWriteAvailable": false,
+  "legacyMixedPacketAdmissionPreserved": true,
+  "implementationComplete": false,
+  "sourceArtifacts": [
+    {
+      "file": "supabase/migrations/215_inspected_aftercare_and_supplier_credit.sql",
+      "sha256": "b4a40b74ffe03d58acbe17d8a15d8797f8da2b95c55aa5482a3f81411c043df3"
+    },
+    {
+      "file": "scripts/testing/aftercare215-return-cases.mjs",
+      "sha256": "3b98caa0d9d4b73f2fef0136b34024f026887626cf932bc4ca21531edd1fa50b"
+    },
+    {
+      "file": "scripts/testing/aftercare215-return-preview-runtime.mjs",
+      "sha256": "dfde9ca9719cf24167a940fa81d917883aaa67df8ac36b23c9942837f790ddea"
+    },
+    {
+      "file": "scripts/testing/aftercare215-context.mjs",
+      "sha256": "08cc91964212683096f3d02866dea781d3f9d5f3f5ff994ba23c41a82e1f2330"
+    },
+    {
+      "file": "scripts/testing/run-aftercare215-runtime.mjs",
+      "sha256": "7bc21f0d8faa19d61a0e484d413795eda1427314dee20e342e003d7f859f5d49"
+    }
+  ]
+}

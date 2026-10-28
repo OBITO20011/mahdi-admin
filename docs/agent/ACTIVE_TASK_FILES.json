@@ -15,10 +15,6 @@
     },
     {
       "code": " M",
-      "path": "scripts/testing/aftercare215-security-runtime.mjs"
-    },
-    {
-      "code": " M",
       "path": "scripts/testing/run-aftercare215-runtime.mjs"
     },
     {
@@ -27,15 +23,15 @@
     },
     {
       "code": "??",
-      "path": "docs/agent/TRIAL_TB215_G6_LOCAL.json"
+      "path": "docs/agent/TRIAL_TB215_RETURN_PREVIEW_LOCAL.json"
     },
     {
       "code": "??",
-      "path": "scripts/testing/aftercare215-credit-runtime.mjs"
+      "path": "scripts/testing/aftercare215-return-cases.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/testing/aftercare215-race.mjs"
+      "path": "scripts/testing/aftercare215-return-preview-runtime.mjs"
     }
   ]
 }

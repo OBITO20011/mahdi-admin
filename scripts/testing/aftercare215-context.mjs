@@ -34,12 +34,14 @@ export function aftercare215Context(container) {
   const stock = pid => json(`SELECT jsonb_build_object('quantity',b.on_hand_quantity,'wac',p.wac_cost_in_minor_units_exact::TEXT,'reserved',b.reserved_quantity) FROM public.products p JOIN public.inventory_balances b ON b.product_id=p.id WHERE p.id=${q(pid)} AND b.warehouse_id=${q(warehouse)};`);
   const facts = () => json(`SELECT public.phase6_financial_facts_internal(${q(branch)},clock_timestamp()-INTERVAL '2 days',clock_timestamp()+INTERVAL '2 days','Asia/Amman',true);`);
   const money = () => json(`SELECT jsonb_build_object('suppliers',(SELECT jsonb_agg(jsonb_build_array(id,current_balance_in_minor_units) ORDER BY id) FROM suppliers),'customers',(SELECT jsonb_agg(to_jsonb(c) ORDER BY id) FROM customers c),'shifts',(SELECT jsonb_agg(to_jsonb(s) ORDER BY id) FROM cash_shifts s),'customerPayments',(SELECT count(*) FROM customer_payments),'supplierPayments',(SELECT count(*) FROM supplier_payments));`);
-  const setup = async ({cost = 500, only = false, packets = 12, good = 11, supplierHeld = false} = {}) => {
+  const setup = async ({cost = 500, only = false, packets = 12, good = 11, supplierHeld = false, paymentMethod = 'cash', discount = 0, kind = 'parcel', soldQuantity = 3} = {}) => {
     const pid = randomUUID();
     await sql(`INSERT INTO public.products(id,sku,name_ar,category_id,unit_id,purchase_unit_id,sale_unit_id,units_per_purchase_unit,units_per_sale_unit,sale_price_in_minor_units,default_sale_price_in_minor_units,cost_price_in_minor_units,wac_cost_in_minor_units_exact,is_active,is_flavor_master,parcel_only)
       SELECT ${q(pid)},${q('INSPECT215-' + pid)},'طرد اختبار الفحص',category_id,unit_id,purchase_unit_id,sale_unit_id,${packets},${packets},1000,9000,0,0,true,false,${only} FROM public.products WHERE id=${q(id(103))};`);
-    await receive(pid, 100 + packets, cost);
-    const sale = await rpc(`create_pos_sale_v2(${q(warehouse)},${q(branch)},${q(id(401))},'عميل تجربة الفحص','cash',${j([{commercial_line_kind: 'legacy_single_sku_parcel', product_id: pid, parcel_quantity: 1, units_per_parcel: packets, price_authority: 'server_catalog', line_discount_in_minor_units: 0}])},0,9000,${q(key())})`);
+    await receive(pid, 100 + (kind === 'parcel' ? packets : soldQuantity), cost);
+    const line = kind === 'parcel' ? {commercial_line_kind: 'legacy_single_sku_parcel', product_id: pid, parcel_quantity: 1, units_per_parcel: packets}
+      : {commercial_line_kind: 'base_unit', product_id: pid, base_quantity: soldQuantity};
+    const sale = await rpc(`create_pos_sale_v2(${q(warehouse)},${q(branch)},${q(id(401))},'عميل تجربة الفحص',${q(paymentMethod)},${j([{...line, price_authority: 'server_catalog', line_discount_in_minor_units: 0}])},${discount},9000,${q(key())})`);
     const item = await json(`SELECT to_jsonb(id) FROM public.order_items WHERE order_id=${q(sale.orderId)};`);
     return {pid, sale, item, payload: {orderId: sale.orderId, items: [{sourceKind: 'base_order_item', sourceId: item, quantity: packets, goodQuantity: good, supplierId: supplierHeld ? supplier : null}], reason: 'فحص الطرد الراجع واستبداله', notes: null}};
   };

@@ -435,6 +435,264 @@ BEGIN
  RETURN facts;
 END $$;
 
+-- Private215 allocation validator: exact132 body except independent packet
+-- good/defect classification; old public admission guard is unchanged.
+CREATE FUNCTION public.tb215_assert_return_allocation_internal(
+  p_base_request JSONB,
+  p_physical_sources JSONB
+)
+RETURNS VOID
+LANGUAGE plpgsql
+STABLE
+SECURITY DEFINER
+SET search_path = public, pg_temp
+AS $$
+DECLARE
+  v_item JSONB;
+  v_component JSONB;
+  v_root_kind TEXT;
+  v_root_id TEXT;
+  v_quantity INTEGER;
+  v_sellable INTEGER;
+  v_defect INTEGER;
+  v_damage INTEGER;
+BEGIN
+  FOR v_item IN SELECT value FROM JSONB_ARRAY_ELEMENTS(p_base_request->'items')
+  LOOP
+    IF v_item->>'return_scope' = 'base_unit' THEN
+      v_root_kind := 'base_order_item';
+      v_root_id := v_item->>'order_item_id';
+      v_quantity := (v_item->>'quantity')::INTEGER;
+      SELECT COALESCE(SUM((source->>'sellable_restock_quantity')::INTEGER), 0)::INTEGER,
+        COALESCE(SUM((source->>'defect_non_sellable_quantity')::INTEGER), 0)::INTEGER,
+        COALESCE(SUM((source->>'customer_damage_quantity')::INTEGER), 0)::INTEGER
+      INTO v_sellable, v_defect, v_damage
+      FROM JSONB_ARRAY_ELEMENTS(p_physical_sources) source
+      WHERE source->>'root_source_kind' = v_root_kind
+        AND source->>'root_source_id' = v_root_id;
+      IF v_sellable + v_defect + v_damage IS DISTINCT FROM v_quantity
+        OR v_damage IS DISTINCT FROM COALESCE((v_item->>'customer_damage_quantity')::INTEGER,0)
+        OR (v_item->>'stock_disposition' = 'restock' AND v_sellable <= 0)
+        OR (v_item->>'stock_disposition' = 'damaged' AND v_sellable <> 0)
+        OR (NOT EXISTS(SELECT 1 FROM public.order_items oi WHERE oi.id=v_root_id::UUID
+          AND oi.commercial_line_kind='legacy_single_sku_parcel')
+          AND v_damage <> 0)
+      THEN
+        RAISE EXCEPTION USING ERRCODE = '22023',
+          MESSAGE = 'PHASE43_RETURN_ALLOCATION_MISMATCH: Base-unit inspection does not match its physical leaves.';
+      END IF;
+    ELSE
+      FOR v_component IN SELECT value FROM JSONB_ARRAY_ELEMENTS(v_item->'components')
+      LOOP
+        v_root_kind := 'parcel_component';
+        v_root_id := v_component->>'parcel_component_id';
+        SELECT COALESCE(SUM((source->>'sellable_restock_quantity')::INTEGER), 0)::INTEGER,
+          COALESCE(SUM((source->>'defect_non_sellable_quantity')::INTEGER), 0)::INTEGER,
+          COALESCE(SUM((source->>'customer_damage_quantity')::INTEGER), 0)::INTEGER
+        INTO v_sellable, v_defect, v_damage
+        FROM JSONB_ARRAY_ELEMENTS(p_physical_sources) source
+        WHERE source->>'root_source_kind' = v_root_kind
+          AND source->>'root_source_id' = v_root_id;
+        IF v_sellable + v_defect
+            IS DISTINCT FROM (v_component->>'accepted_quantity')::INTEGER
+          OR v_damage IS DISTINCT FROM (v_component->>'rejected_quantity')::INTEGER
+          OR (v_sellable > 0 AND (
+            v_component->>'accepted_condition' IS DISTINCT FROM 'sellable'
+            OR v_component->>'accepted_stock_disposition' IS DISTINCT FROM 'restock'))
+          OR (v_sellable = 0 AND v_defect > 0 AND (
+            v_component->>'accepted_condition' IS DISTINCT FROM 'supplier_defect'
+            OR v_component->>'accepted_stock_disposition' IS DISTINCT FROM 'non_sellable'))
+          OR (v_sellable + v_defect = 0 AND (
+            v_component->>'accepted_condition' IS NOT NULL
+            OR v_component->>'accepted_stock_disposition' IS NOT NULL))
+          OR (v_damage > 0 AND (
+            v_component->>'rejection_reason' IS DISTINCT FROM 'customer_damage'
+            OR v_component->>'rejected_stock_disposition' IS DISTINCT FROM 'returned_to_customer'))
+          OR (v_damage = 0 AND (
+            v_component->>'rejection_reason' IS NOT NULL
+            OR v_component->>'rejected_stock_disposition' IS NOT NULL))
+        THEN
+          RAISE EXCEPTION USING ERRCODE = '22023',
+            MESSAGE = 'PHASE43_RETURN_ALLOCATION_MISMATCH: Parcel inspection does not equal its three-bucket physical allocation.';
+        END IF;
+      END LOOP;
+    END IF;
+  END LOOP;
+
+  IF EXISTS (
+    SELECT 1 FROM JSONB_ARRAY_ELEMENTS(p_physical_sources) source
+    WHERE NOT EXISTS (
+      SELECT 1 FROM JSONB_ARRAY_ELEMENTS(p_base_request->'items') item
+      WHERE (item->>'return_scope' = 'base_unit'
+          AND source->>'root_source_kind' = 'base_order_item'
+          AND source->>'root_source_id' = item->>'order_item_id')
+        OR (item->>'return_scope' = 'parcel_instance'
+          AND source->>'root_source_kind' = 'parcel_component'
+          AND EXISTS (SELECT 1 FROM JSONB_ARRAY_ELEMENTS(item->'components') component
+            WHERE component->>'parcel_component_id' = source->>'root_source_id'))
+    )
+  ) THEN
+    RAISE EXCEPTION USING ERRCODE = '22023',
+      MESSAGE = 'PHASE43_RETURN_ALLOCATION_MISMATCH: Physical allocation contains a root outside the Return request.';
+  END IF;
+END;
+$$;
+
+
+-- Authoritative ordinary-return preview. Every amount comes from the saved
+-- sale or the selected physical leaf; no writer/savepoint is used to preview.
+CREATE FUNCTION public.tb215_return_source_cost_internal(p_order_id UUID,p_source JSONB)
+RETURNS NUMERIC LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+#variable_conflict use_variable
+DECLARE cost NUMERIC(24,6); capacity INTEGER; consumed BIGINT; pid UUID:=(p_source->>'product_id')::UUID;
+ kind TEXT:=p_source->>'source_kind'; source_id UUID:=(p_source->>'source_id')::UUID;
+BEGIN
+ PERFORM public.phase43_assert_return_physical_source_internal(p_order_id,p_source->>'root_source_kind',(p_source->>'root_source_id')::UUID,kind,source_id,pid);
+ IF kind='base_order_item' THEN
+  SELECT COALESCE(unit_cost_snapshot_in_minor_units_exact,unit_cost_in_minor_units::NUMERIC),quantity INTO cost,capacity
+   FROM public.order_items WHERE id=source_id AND product_id=pid;
+ ELSIF kind='parcel_component' THEN
+  SELECT COALESCE(round(exact_cogs_snapshot_in_minor_units/NULLIF(base_quantity,0),6),unit_cost_snapshot_in_minor_units),base_quantity INTO cost,capacity
+   FROM public.order_parcel_components WHERE id=source_id AND product_id=pid;
+ ELSE
+  SELECT replacement_unit_cost_snapshot_in_minor_units_exact,quantity INTO cost,capacity FROM public.sales_replacement_items WHERE id=source_id AND product_id=pid;
+ END IF;
+ IF cost IS NULL OR cost<0 OR capacity IS NULL THEN RAISE EXCEPTION 'AFTERCARE215_HISTORICAL_SOURCE_UNAVAILABLE'; END IF;
+ SELECT COALESCE(sum(c.consumed_quantity),0) INTO consumed FROM public.sales_aftercare_consumptions c
+  WHERE c.source_kind=kind AND c.source_id=source_id AND c.consumption_state='settled';
+ IF consumed+(p_source->>'quantity')::INTEGER>capacity THEN RAISE EXCEPTION 'PHASE4_LOGICAL_QUANTITY_ALREADY_CONSUMED'; END IF;
+ RETURN cost;
+END $$;
+
+CREATE FUNCTION public.tb215_canonical_return_internal(p_payload JSONB)
+RETURNS JSONB LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+DECLARE base JSONB; physical JSONB; assignments JSONB:='[]'; entry JSONB; choice TEXT:=COALESCE(nullif(lower(btrim(p_payload->>'refundMethod')),''),'auto'); ref TEXT:=nullif(btrim(p_payload->>'referenceNumber'),'');
+BEGIN
+ IF jsonb_typeof(p_payload) IS DISTINCT FROM 'object'
+  OR EXISTS(SELECT 1 FROM jsonb_object_keys(p_payload) k WHERE k NOT IN('orderId','items','physicalSources','reason','notes','refundMethod','referenceNumber','supplierAssignments'))
+  OR choice NOT IN('auto','cash','cliq','debt') OR length(COALESCE(ref,''))>120
+ THEN RAISE EXCEPTION 'AFTERCARE215_RETURN_REQUEST_INVALID'; END IF;
+ base:=public.phase42_canonicalize_return_request_before_phase43_internal((p_payload->>'orderId')::UUID,p_payload->'items',p_payload->>'reason',NULL,NULL,p_payload->>'notes');
+ physical:=public.phase43_canonicalize_return_physical_sources_internal(p_payload->'physicalSources');
+ PERFORM public.tb215_assert_return_allocation_internal(base,physical);
+ IF p_payload?'supplierAssignments' THEN
+  IF jsonb_typeof(p_payload->'supplierAssignments') IS DISTINCT FROM 'array' OR jsonb_array_length(p_payload->'supplierAssignments')>100 THEN RAISE EXCEPTION 'SUPPLIER_REPLACEMENT_RETURN_ASSIGNMENTS_INVALID'; END IF;
+  FOR entry IN SELECT value FROM jsonb_array_elements(p_payload->'supplierAssignments') LOOP
+   IF jsonb_typeof(entry) IS DISTINCT FROM 'object' OR(SELECT count(*) FROM jsonb_object_keys(entry))<>3
+    OR COALESCE(entry->>'sourceKind','') NOT IN('base_order_item','parcel_component','replacement_item')
+    OR(entry->>'sourceId')::UUID IS NULL OR(entry->>'supplierId')::UUID IS NULL
+   THEN RAISE EXCEPTION 'SUPPLIER_REPLACEMENT_RETURN_ASSIGNMENTS_INVALID'; END IF;
+   assignments:=assignments||jsonb_build_array(jsonb_build_object('sourceKind',entry->>'sourceKind','sourceId',(entry->>'sourceId')::UUID,'supplierId',(entry->>'supplierId')::UUID));
+  END LOOP;
+ END IF;
+ IF EXISTS(SELECT 1 FROM jsonb_array_elements(assignments) a GROUP BY a->>'sourceKind',a->>'sourceId' HAVING count(*)>1) THEN RAISE EXCEPTION 'SUPPLIER_REPLACEMENT_RETURN_ASSIGNMENTS_INVALID'; END IF;
+ RETURN jsonb_build_object('baseRequest',base,'physicalSources',physical,'refundChoice',choice,'referenceNumber',ref,
+  'supplierAssignments',(SELECT COALESCE(jsonb_agg(a ORDER BY a->>'sourceKind',a->>'sourceId'),'[]') FROM jsonb_array_elements(assignments) a));
+END $$;
+
+CREATE FUNCTION public.tb215_prepare_return_internal(p_request JSONB)
+RETURNS JSONB LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+#variable_conflict use_variable
+DECLARE ctx JSONB; item JSONB; component JSONB; source JSONB; assignment JSONB; oi public.order_items%ROWTYPE; instance public.order_parcel_instances%ROWTYPE;
+ pc public.order_parcel_components%ROWTYPE; position RECORD; q INTEGER; prior INTEGER; prior_refund BIGINT; target BIGINT; raw_damage BIGINT; refund BIGINT;
+ entitlement BIGINT:=0; customer_damage BIGINT:=0; good_value NUMERIC(30,6):=0; bad_value BIGINT:=0; held_value BIGINT:=0; cost NUMERIC(24,6);
+ good_q INTEGER:=0; bad_q INTEGER:=0; damage_q INTEGER:=0; debt BIGINT; money BIGINT; method TEXT; original_method TEXT; shift_id UUID;
+ issues JSONB:='[]'; sources JSONB:='[]'; order_id UUID:=(p_request->'baseRequest'->>'order_id')::UUID;
+BEGIN
+ ctx:=public.tb215_read_sale_internal(order_id);
+ IF NOT EXISTS(SELECT 1 FROM public.branches WHERE id=(ctx->'order'->>'branchId')::UUID AND is_active)
+  OR NOT EXISTS(SELECT 1 FROM public.warehouses WHERE id=(ctx->'order'->>'warehouseId')::UUID AND is_active)
+ THEN RAISE EXCEPTION 'AFTERCARE215_ORDER_UNAVAILABLE'; END IF;
+ IF jsonb_array_length(p_request->'supplierAssignments')>0 THEN PERFORM public.sr208_assert_role_internal('customer_return'); END IF;
+ FOR item IN SELECT value FROM jsonb_array_elements(p_request->'baseRequest'->'items') LOOP
+  SELECT * INTO oi FROM public.order_items WHERE id=(item->>'order_item_id')::UUID AND order_items.order_id=order_id;
+  IF NOT FOUND THEN RAISE EXCEPTION 'PHASE42_ORDER_ITEM_INVALID'; END IF;
+  IF item->>'return_scope'='base_unit' THEN
+   q:=(item->>'quantity')::INTEGER;
+   IF oi.commercial_line_kind NOT IN('base_unit','legacy_single_sku_parcel') OR oi.net_refundable_amount_snapshot_in_minor_units IS NULL OR oi.quantity<=0 THEN RAISE EXCEPTION 'PHASE42_BASE_SALE_EVIDENCE_MISSING'; END IF;
+   PERFORM public.package_d_assert_whole_single_sku_quantity_internal(oi.id,q);
+   SELECT COALESCE(sum(i.returned_quantity),0)::INTEGER,COALESCE(sum(i.refund_amount_snapshot_in_minor_units+i.applied_customer_damage_deduction_in_minor_units),0)::BIGINT
+    INTO prior,prior_refund FROM public.sales_return_items i JOIN public.sales_return_events e ON e.id=i.sales_return_event_id
+    WHERE i.order_item_id=oi.id AND i.return_scope='base_unit' AND e.settlement_status='settled';
+   IF prior+q>oi.quantity THEN RAISE EXCEPTION 'PHASE4_LOGICAL_QUANTITY_ALREADY_CONSUMED'; END IF;
+   target:=CASE WHEN prior+q=oi.quantity THEN oi.net_refundable_amount_snapshot_in_minor_units ELSE floor(oi.net_refundable_amount_snapshot_in_minor_units::NUMERIC*(prior+q)/oi.quantity)::BIGINT END;
+   refund:=target-prior_refund;
+   IF COALESCE((item->>'customer_damage_quantity')::INTEGER,0)>0 AND(oi.commercial_line_kind<>'legacy_single_sku_parcel' OR q<>oi.units_per_sale_package OR oi.effective_standalone_unit_sale_price_snapshot_in_minor_units IS NULL)
+   THEN RAISE EXCEPTION 'PACKAGE_D_CARTON_DAMAGE_PRICE_MISSING'; END IF;
+   raw_damage:=COALESCE((item->>'customer_damage_quantity')::INTEGER,0)::BIGINT*COALESCE(oi.effective_standalone_unit_sale_price_snapshot_in_minor_units,0);
+  ELSE
+   SELECT * INTO instance FROM public.order_parcel_instances WHERE id=(item->>'parcel_instance_id')::UUID AND order_item_id=oi.id AND order_parcel_instances.order_id=order_id;
+   IF NOT FOUND OR oi.commercial_line_kind IS DISTINCT FROM 'configurable_parcel' OR instance.finalized_at IS NULL OR instance.net_refundable_amount_snapshot_in_minor_units IS NULL
+    OR(SELECT count(*) FROM public.order_parcel_components WHERE parcel_instance_id=instance.id)<>jsonb_array_length(item->'components')
+   THEN RAISE EXCEPTION 'PHASE42_PARCEL_SALE_EVIDENCE_MISSING'; END IF;
+   IF EXISTS(SELECT 1 FROM public.sales_return_items i JOIN public.sales_return_events e ON e.id=i.sales_return_event_id
+    WHERE i.parcel_instance_id=instance.id AND e.settlement_status='settled') THEN RAISE EXCEPTION 'PHASE4_LOGICAL_QUANTITY_ALREADY_CONSUMED'; END IF;
+   raw_damage:=0;
+   FOR component IN SELECT value FROM jsonb_array_elements(item->'components') LOOP
+    SELECT * INTO pc FROM public.order_parcel_components WHERE id=(component->>'parcel_component_id')::UUID AND parcel_instance_id=instance.id;
+    IF NOT FOUND OR pc.base_quantity<>(component->>'accepted_quantity')::INTEGER+(component->>'rejected_quantity')::INTEGER
+     OR((component->>'rejected_quantity')::INTEGER>0 AND pc.effective_standalone_unit_sale_price_snapshot_in_minor_units IS NULL)
+    THEN RAISE EXCEPTION 'PHASE42_PARCEL_COMPONENT_EVIDENCE_INVALID'; END IF;
+    raw_damage:=raw_damage+(component->>'rejected_quantity')::BIGINT*COALESCE(pc.effective_standalone_unit_sale_price_snapshot_in_minor_units,0);
+   END LOOP;
+   refund:=instance.net_refundable_amount_snapshot_in_minor_units;
+  END IF;
+  IF refund<0 THEN RAISE EXCEPTION 'PHASE42_CUMULATIVE_ALLOCATION_INVALID'; END IF;
+  customer_damage:=customer_damage+LEAST(refund,raw_damage);entitlement:=entitlement+refund-LEAST(refund,raw_damage);
+ END LOOP;
+ FOR source IN SELECT value FROM jsonb_array_elements(p_request->'physicalSources') LOOP
+  cost:=public.tb215_return_source_cost_internal(order_id,source);
+  good_q:=good_q+(source->>'sellable_restock_quantity')::INTEGER;bad_q:=bad_q+(source->>'defect_non_sellable_quantity')::INTEGER;damage_q:=damage_q+(source->>'customer_damage_quantity')::INTEGER;
+  good_value:=good_value+cost*(source->>'sellable_restock_quantity')::INTEGER;
+  bad_value:=bad_value+round(cost*(source->>'defect_non_sellable_quantity')::INTEGER)::BIGINT;
+  sources:=sources||jsonb_build_array(source||jsonb_build_object('historicalUnitCostExact',cost::TEXT));
+ END LOOP;
+ FOR assignment IN SELECT value FROM jsonb_array_elements(p_request->'supplierAssignments') LOOP
+  SELECT value INTO source FROM jsonb_array_elements(sources) WHERE value->>'source_kind'=assignment->>'sourceKind' AND value->>'source_id'=assignment->>'sourceId';
+  IF source IS NULL OR(source->>'defect_non_sellable_quantity')::INTEGER<=0 THEN RAISE EXCEPTION 'SUPPLIER_REPLACEMENT_RETURN_ASSIGNMENTS_MISMATCH'; END IF;
+  IF NOT EXISTS(SELECT 1 FROM public.suppliers WHERE id=(assignment->>'supplierId')::UUID AND is_active) THEN RAISE EXCEPTION 'SUPPLIER_REPLACEMENT_SUPPLIER_INVALID'; END IF;
+  held_value:=held_value+round((source->>'historicalUnitCostExact')::NUMERIC*(source->>'defect_non_sellable_quantity')::INTEGER)::BIGINT;
+ END LOOP;
+ SELECT * INTO position FROM public.phase42_order_financial_position_internal(order_id);
+ IF NOT FOUND THEN RAISE EXCEPTION 'PHASE42_FINANCIAL_POSITION_UNAVAILABLE'; END IF;
+ debt:=LEAST(entitlement,position.merchandise_debt_in_minor_units);money:=entitlement-debt;
+ IF money>position.refundable_collected_in_minor_units THEN RAISE EXCEPTION 'PHASE42_FINANCIAL_EVIDENCE_CONTRADICTORY'; END IF;
+ SELECT payment_method INTO original_method FROM public.orders WHERE id=order_id;
+ method:=CASE WHEN p_request->>'refundChoice'='auto' THEN CASE WHEN original_method='cash_on_delivery' THEN 'cash' WHEN original_method IN('cash','cliq') THEN original_method ELSE NULL END
+  WHEN p_request->>'refundChoice'='debt' THEN NULL ELSE p_request->>'refundChoice' END;
+ SELECT id INTO shift_id FROM public.cash_shifts WHERE branch_id=(ctx->'order'->>'branchId')::UUID AND status='open';
+ IF money=0 THEN method:=NULL;
+ ELSE
+  IF method IS NULL THEN issues:=issues||jsonb_build_array(jsonb_build_object('field','refundMethod','code','AFTERCARE215_REFUND_METHOD_REQUIRED')); END IF;
+  IF shift_id IS NULL THEN issues:=issues||jsonb_build_array(jsonb_build_object('field','cashShift','code','PHASE2_OPEN_SHIFT_REQUIRED')); END IF;
+  IF method='cliq' AND p_request->>'referenceNumber' IS NULL THEN issues:=issues||jsonb_build_array(jsonb_build_object('field','referenceNumber','code','AFTERCARE215_REFUND_REFERENCE_REQUIRED')); END IF;
+ END IF;
+ RETURN jsonb_build_object('request',p_request,'order',ctx->'order','originalPaymentMethod',original_method,'financialPosition',to_jsonb(position),
+  'cashShiftId',CASE WHEN money>0 THEN shift_id END,'refundMethod',method,'referenceNumber',CASE WHEN money>0 AND method='cliq' THEN p_request->'referenceNumber' END,
+  'entitlementInMinorUnits',entitlement::TEXT,'debtReductionInMinorUnits',debt::TEXT,'moneyRefundInMinorUnits',money::TEXT,
+  'customerDamageDeductionInMinorUnits',customer_damage::TEXT,'goodQuantity',good_q,'badQuantity',bad_q,'customerDamageQuantity',damage_q,
+  'goodRestockValueExact',good_value::TEXT,'badLossInMinorUnits',bad_value::TEXT,'supplierHeldInMinorUnits',held_value::TEXT,
+  'physicalSources',sources,'issues',issues);
+END $$;
+
+CREATE FUNCTION public.preview_admin_sales_return_v2(p_payload JSONB)
+RETURNS JSONB LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+DECLARE plan JSONB; result JSONB;
+BEGIN
+ PERFORM public.assert_erp_role(ARRAY['owner','admin'],'معاينة إرجاع البضاعة');
+ IF auth.role() IS DISTINCT FROM 'authenticated' OR auth.uid() IS NULL THEN RAISE EXCEPTION USING ERRCODE='42501',MESSAGE='AFTERCARE215_ROLE_DENIED'; END IF;
+ plan:=public.tb215_prepare_return_internal(public.tb215_canonical_return_internal(p_payload));
+ result:=jsonb_build_object('contractVersion',215,'previewFingerprint',encode(extensions.digest(plan::TEXT,'sha256'),'hex'),
+  'orderId',plan->'request'->'baseRequest'->'order_id','entitlementInMinorUnits',plan->'entitlementInMinorUnits','debtReductionInMinorUnits',plan->'debtReductionInMinorUnits',
+  'moneyRefundInMinorUnits',plan->'moneyRefundInMinorUnits','refundMethod',plan->'refundMethod','referenceNumber',plan->'referenceNumber',
+  'customerDamageDeductionInMinorUnits',plan->'customerDamageDeductionInMinorUnits','goodQuantity',plan->'goodQuantity','badQuantity',plan->'badQuantity',
+  'customerDamageQuantity',plan->'customerDamageQuantity','issues',plan->'issues','canConfirm',jsonb_array_length(plan->'issues')=0);
+ IF public.has_erp_role(ARRAY['owner']) THEN result:=result||jsonb_build_object('goodRestockValueExact',plan->'goodRestockValueExact',
+  'badLossInMinorUnits',plan->'badLossInMinorUnits','supplierHeldInMinorUnits',plan->'supplierHeldInMinorUnits',
+  'profitDeltaExactInMinorUnits',(-(plan->>'entitlementInMinorUnits')::NUMERIC+(plan->>'goodRestockValueExact')::NUMERIC+(plan->>'supplierHeldInMinorUnits')::NUMERIC)::TEXT); END IF;
+ RETURN result;
+END $$;
+
 -- A supplier credit exchanges a held in-kind asset for an equal reduction of
 -- an evidenced supplier payable. It is not a cash payment or a write-off.
 CREATE TABLE public.supplier215_credits (
@@ -763,6 +1021,17 @@ GRANT EXECUTE ON FUNCTION public.get_supplier_replacement_credits_v1(UUID,INTEGE
 REVOKE ALL ON FUNCTION public.tb215_case_dto_before215_internal(UUID,BOOLEAN) FROM PUBLIC,anon,authenticated,service_role;
 ALTER FUNCTION public.sr208_case_dto_internal(UUID,BOOLEAN) OWNER TO postgres;
 REVOKE ALL ON FUNCTION public.sr208_case_dto_internal(UUID,BOOLEAN) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.tb215_assert_return_allocation_internal(JSONB,JSONB) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_assert_return_allocation_internal(JSONB,JSONB) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.tb215_return_source_cost_internal(UUID,JSONB) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_return_source_cost_internal(UUID,JSONB) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.tb215_canonical_return_internal(JSONB) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_canonical_return_internal(JSONB) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.tb215_prepare_return_internal(JSONB) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_prepare_return_internal(JSONB) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.preview_admin_sales_return_v2(JSONB) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.preview_admin_sales_return_v2(JSONB) FROM PUBLIC,anon,authenticated,service_role;
+GRANT EXECUTE ON FUNCTION public.preview_admin_sales_return_v2(JSONB) TO authenticated;
 ALTER FUNCTION public.sr208_assert_operation_internal(UUID) OWNER TO postgres;
 REVOKE ALL ON FUNCTION public.sr208_assert_operation_internal(UUID) FROM PUBLIC,anon,authenticated,service_role;
 REVOKE ALL ON FUNCTION public.tb215_financial_facts_before215_internal(UUID,TIMESTAMPTZ,TIMESTAMPTZ,TEXT,BOOLEAN) FROM PUBLIC,anon,authenticated,service_role;
