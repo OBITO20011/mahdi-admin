@@ -4,6 +4,7 @@ import { Order, OrderStatus, PaymentMethod, PaymentStatus } from '../../types';
 import { isCustomerV2Order, runCustomerV2AdminAction } from './adminCustomerV2Lifecycle';
 import { attachHistoricalParcelComposition } from './historicalParcelComposition';
 import {storefrontReceiptUrl} from './pos.service';
+import {orderExchangeFunding} from '../../utils/orderExchangeFunding';
 import {
   calculateOrderAmountDue,
   type OperationalOrderFilter,
@@ -17,6 +18,7 @@ const paymentMethods: PaymentMethod[] = [
   'bank_transfer',
   'debt',
   'mixed',
+  'exchange_credit',
 ];
 const paymentStatuses: PaymentStatus[] = ['unpaid', 'partially_paid', 'paid', 'refunded'];
 
@@ -608,6 +610,11 @@ export async function fetchOrderByIdFromSupabase(
         : { data: [], error: null };
       if (componentsResult.error) throw componentsResult.error;
       attachHistoricalParcelComposition(order, instances, componentsResult.data || []);
+    }
+    if(order.paymentMethod==='exchange_credit'){
+      const funding=await supabase.rpc('get_order_exchange_details_v1',{p_order_id:orderId});
+      if(funding.error)throw funding.error;
+      order.exchangeFunding=orderExchangeFunding(orderId,funding.data);
     }
     return { success: true, order };
   } catch (err: any) {
