@@ -1,168 +1,14 @@
 {
-  "ok": true,
-  "caseCount": 77,
-  "sourceReport": "C:/Users/TOP/AppData/Local/Temp/nawasrah-aftercare215-Fv9TRy/report.json",
-  "migrationCanonicalLfSha256": "500120217e8d099905a00e0df05ae2ce92d61351a66d7c88b954eff5535f339d",
-  "sourceFreeze": {
-    "sha256": "277163245185d3df37b20a7a4f0e48d2eaebc0c09929ae31f480443736d990d3",
-    "fileCount": 2228
-  },
-  "repositoryStayedFrozen": true,
-  "integrity": [
-    {
-      "key": "integrity:accounting:cogs-profit",
-      "issues": 0,
-      "status": "healthy",
-      "details": {
-        "mismatchCount": 0
-      }
-    },
-    {
-      "key": "integrity:accounting:customer-receivables",
-      "issues": 0,
-      "status": "healthy",
-      "details": {
-        "canonicalSource": "phase42_customer_receivable_total_internal",
-        "reportedInMinorUnits": 13500,
-        "canonicalInMinorUnits": 13500,
-        "differenceInMinorUnits": 0
-      }
-    },
-    {
-      "key": "integrity:accounting:deferred-cheques",
-      "issues": 0,
-      "status": "healthy",
-      "details": {
-        "issueCount": 0
-      }
-    },
-    {
-      "key": "integrity:accounting:owner-withdrawals",
-      "issues": 0,
-      "status": "healthy",
-      "details": {
-        "issueCount": 0
-      }
-    },
-    {
-      "key": "integrity:accounting:reversals",
-      "issues": 0,
-      "status": "healthy",
-      "details": {
-        "mismatchCount": 0
-      }
-    },
-    {
-      "key": "integrity:accounting:supplier-balances",
-      "issues": 0,
-      "status": "healthy",
-      "details": {
-        "mismatchCount": 0
-      }
-    },
-    {
-      "key": "integrity:aftercare:durable-evidence",
-      "issues": 0,
-      "status": "healthy",
-      "details": {
-        "durationMs": 144.491,
-        "windowDays": 7,
-        "queryCanceled": false,
-        "returnsChecked": 25,
-        "replacementsChecked": 12
-      }
-    },
-    {
-      "key": "integrity:automation:outbox",
-      "issues": 0,
-      "status": "healthy",
-      "details": {
-        "issueCount": 0
-      }
-    },
-    {
-      "key": "integrity:inventory:balances",
-      "issues": 0,
-      "status": "healthy",
-      "details": {
-        "mismatchCount": 0
-      }
-    },
-    {
-      "key": "integrity:inventory:movement-arithmetic",
-      "issues": 0,
-      "status": "healthy",
-      "details": {
-        "mismatchCount": 0
-      }
-    },
-    {
-      "key": "integrity:inventory:movement-ledger",
-      "issues": 0,
-      "status": "healthy",
-      "details": {
-        "mismatchCount": 0
-      }
-    },
-    {
-      "key": "integrity:inventory:receiving",
-      "issues": 0,
-      "status": "healthy",
-      "details": {
-        "mismatchCount": 0
-      }
-    },
-    {
-      "key": "integrity:inventory:references",
-      "issues": 0,
-      "status": "healthy",
-      "details": {
-        "orphanCount": 0
-      }
-    },
-    {
-      "key": "integrity:orders:reservations",
-      "issues": 0,
-      "status": "healthy",
-      "details": {
-        "mismatchCount": 0
-      }
-    },
-    {
-      "key": "integrity:orders:stock-deductions",
-      "issues": 0,
-      "status": "healthy",
-      "details": {
-        "mismatchCount": 0
-      }
-    },
-    {
-      "key": "integrity:shifts:closing",
-      "issues": 0,
-      "status": "healthy",
-      "details": {
-        "mismatchCount": 0
-      }
-    },
-    {
-      "key": "integrity:shifts:snapshot",
-      "issues": 0,
-      "status": "healthy",
-      "details": {
-        "missingCount": 0
-      }
-    }
-  ],
-  "restore": {
-    "logicalCatalogDifferences": 0,
-    "allPublicDataAndSequencesIdentical": true,
-    "replayZeroWrites": true
-  },
+  "scope": "Current215 local frozen G1-G6 DB;UI/SDK/reference/CI delivery still pending",
   "hostedConnections": 0,
-  "deliveryReady": false,
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-aftercare215-5U9Wd2",
   "cases": [
     {
       "name": "214 to215 installs transactionally; every pre-existing table/sequence unchanged",
+      "passed": true
+    },
+    {
+      "name": "whole215 SQL lint has no new warning/error;unchanged historical policy",
       "passed": true
     },
     {
@@ -358,6 +204,10 @@
       "passed": true
     },
     {
+      "name": "cash positive/negative/equal funded invoices reject standalone old POS reversal with all tables and sequences unchanged;ordinary full215 return remains available",
+      "passed": true
+    },
+    {
       "name": "CliQ exchange difference3000 stays outside drawer; only original bad packet500 held, profit1800, no false full12000 collection",
       "passed": true
     },
@@ -470,31 +320,164 @@
       "passed": true
     }
   ],
-  "endedAt": "2026-10-28T20:01:46.484Z",
-  "sourceArtifacts": [
+  "ok": true,
+  "sourceFreeze": {
+    "sha256": "9e1ccac750c1960db1a63df702c5151fc5c3f9fad8a277810ad474ef5d7331a4",
+    "fileCount": 2241
+  },
+  "migrationCanonicalLfSha256": "2d20594d6112c206a23130c43ce555ecc5357921cc9e4058019d0446223a4e57",
+  "acceptedHistoricalLintWarnings": 16,
+  "integrity": [
     {
-      "file": "supabase/migrations/215_inspected_aftercare_and_supplier_credit.sql",
-      "sha256": "500120217e8d099905a00e0df05ae2ce92d61351a66d7c88b954eff5535f339d"
+      "key": "integrity:accounting:cogs-profit",
+      "issues": 0,
+      "status": "healthy",
+      "details": {
+        "mismatchCount": 0
+      }
     },
     {
-      "file": "scripts/testing/run-aftercare215-runtime.mjs",
-      "sha256": "a379e1e4c21f31c0b9a06dd6917df7d8257ccafe2d9f1bd56c17a8b894c43b6d"
+      "key": "integrity:accounting:customer-receivables",
+      "issues": 0,
+      "status": "healthy",
+      "details": {
+        "canonicalSource": "phase42_customer_receivable_total_internal",
+        "reportedInMinorUnits": 13500,
+        "canonicalInMinorUnits": 13500,
+        "differenceInMinorUnits": 0
+      }
     },
     {
-      "file": "scripts/testing/aftercare215-exact-cost-runtime.mjs",
-      "sha256": "6f833a916fe700d2205d338e1ff1e3f59d218f57514fcf88324ec5f9d99be6ad"
+      "key": "integrity:accounting:deferred-cheques",
+      "issues": 0,
+      "status": "healthy",
+      "details": {
+        "issueCount": 0
+      }
     },
     {
-      "file": "scripts/testing/aftercare215-restore-runtime.mjs",
-      "sha256": "ad616c495cd2e2ad07ee9f2bbadf7b503508536dd07cc5f248c3123103ac0338"
+      "key": "integrity:accounting:owner-withdrawals",
+      "issues": 0,
+      "status": "healthy",
+      "details": {
+        "issueCount": 0
+      }
     },
     {
-      "file": "scripts/testing/aftercare211-restore.mjs",
-      "sha256": "8cb4a77a5877f9cdd8fd6a7261e52705bb7eb6b57e0d2518abbfb342ac9efd47"
+      "key": "integrity:accounting:reversals",
+      "issues": 0,
+      "status": "healthy",
+      "details": {
+        "mismatchCount": 0
+      }
     },
     {
-      "file": "scripts/testing/aftercare215-inspected-runtime.mjs",
-      "sha256": "11c87bb6c7b366951c815181a38a4b4f5d136e74448a771c1f7af4fd63f8ed77"
+      "key": "integrity:accounting:supplier-balances",
+      "issues": 0,
+      "status": "healthy",
+      "details": {
+        "mismatchCount": 0
+      }
+    },
+    {
+      "key": "integrity:aftercare:durable-evidence",
+      "issues": 0,
+      "status": "healthy",
+      "details": {
+        "durationMs": 182.855,
+        "windowDays": 7,
+        "queryCanceled": false,
+        "returnsChecked": 25,
+        "replacementsChecked": 12
+      }
+    },
+    {
+      "key": "integrity:automation:outbox",
+      "issues": 0,
+      "status": "healthy",
+      "details": {
+        "issueCount": 0
+      }
+    },
+    {
+      "key": "integrity:inventory:balances",
+      "issues": 0,
+      "status": "healthy",
+      "details": {
+        "mismatchCount": 0
+      }
+    },
+    {
+      "key": "integrity:inventory:movement-arithmetic",
+      "issues": 0,
+      "status": "healthy",
+      "details": {
+        "mismatchCount": 0
+      }
+    },
+    {
+      "key": "integrity:inventory:movement-ledger",
+      "issues": 0,
+      "status": "healthy",
+      "details": {
+        "mismatchCount": 0
+      }
+    },
+    {
+      "key": "integrity:inventory:receiving",
+      "issues": 0,
+      "status": "healthy",
+      "details": {
+        "mismatchCount": 0
+      }
+    },
+    {
+      "key": "integrity:inventory:references",
+      "issues": 0,
+      "status": "healthy",
+      "details": {
+        "orphanCount": 0
+      }
+    },
+    {
+      "key": "integrity:orders:reservations",
+      "issues": 0,
+      "status": "healthy",
+      "details": {
+        "mismatchCount": 0
+      }
+    },
+    {
+      "key": "integrity:orders:stock-deductions",
+      "issues": 0,
+      "status": "healthy",
+      "details": {
+        "mismatchCount": 0
+      }
+    },
+    {
+      "key": "integrity:shifts:closing",
+      "issues": 0,
+      "status": "healthy",
+      "details": {
+        "mismatchCount": 0
+      }
+    },
+    {
+      "key": "integrity:shifts:snapshot",
+      "issues": 0,
+      "status": "healthy",
+      "details": {
+        "missingCount": 0
+      }
     }
-  ]
+  ],
+  "restore": {
+    "logicalCatalogDifferences": 0,
+    "allPublicDataAndSequencesIdentical": true,
+    "replayZeroWrites": true
+  },
+  "repositoryStayedFrozen": true,
+  "endedAt": "2026-10-28T20:48:43.432Z",
+  "deliveryReady": false
 }

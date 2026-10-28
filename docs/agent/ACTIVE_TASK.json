@@ -3,16 +3,17 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Implement owner-approved T-B stage2 G1-G6:atomic inspected replacement,noncash cross-SKU exchange,supplier payable credit,one Arabic wizard and damage ledger;local isolated DB tests,owner upgrade,PR/FULLCI then approvalSTOP",
-  "baselineSha": "4425e4f956d1349f2d97fc1c49c5d692f4492579",
+  "baselineSha": "95da1589e1fc81e268e4e027fbfc839214b8f240",
   "branch": "codex/trial-tb-stage2",
   "phase": "PACKAGE_F",
   "completed": [
     "DB77 frozen passed50012021;17healthy/0;fullrestore0diff/fourwriterreplays;4425e4f saved/pushed",
     "UI/G1-G6 milestones saved,expanded50browserbothengines/native8/types/lint/Gitleaks0",
-    "11 focused historical/source/admission tests and new-tool strictlint passed;focused funded reversal rejected zero writes/ordinary reversal+fullreturn passed;SQLlint16 exact historical warnings only"
+    "11 focused historical/source/admission tests and new-tool strictlint passed;focused funded reversal rejected zero writes/ordinary reversal+fullreturn passed;SQLlint16 exact historical warnings only",
+    "Currentfrozen79 on2d20594d;17healthy0;SQLlint16exact historical warnings;restorecatalog0/allpublic+sequences/fourreplay0;PR43draftopened95da158"
   ],
   "inProgress": [
-    "215 static ACL DDL/strict new owner215 tooling+CI are WIP;whole frozen79 runtime,currentSDK,reference/generation andfullquality/CI/PR remain"
+    "Actual215 SDK/reference/owner verification,currentHTTP/UI andfullquality/CI;preliminary95da158 CI failed on documented staleproof/manual andhistoricalreset source ceiling"
   ],
   "notStarted": [
     "T-C partial POS payments;separate later owner task",
@@ -22,7 +23,8 @@
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "testsPassed": [
-    "Priorfrozen77/17integrity/fullrestore;store200;currentroottypes;focused bridge11;newtools strictlint;expanded UI50;focused guard zero writes"
+    "Priorfrozen77/17integrity/fullrestore;store200;currentroottypes;focused bridge11;newtools strictlint;expanded UI50;focused guard zero writes",
+    "CurrentDB79 sourcefreeze2241/17integrity/fullrestore0;fundedoldreversalzeroWrites"
   ],
   "testsRemaining": [
     "Current frozen DB+newboundary/integrity/restore;reference177/owner215 strict verifier andlocaldry-run",
@@ -41,10 +43,10 @@
     "No primary owner local file changes",
     "No T-C and no implementation PR merge before owner review"
   ],
-  "nextExactAction": "Run frozen current215 runtime strictlint/integrity/fullrestore;then sequential SDK215,generation,reference/strictowner215/fullquality/PR",
+  "nextExactAction": "Persist frozen79 then local fullstack215/currentSDK/manual/ref/strictowner/quality;resolve exact historicalreset source view in tests only",
   "startedAt": "2026-10-28T13:06:11.980Z",
-  "checkpointedAt": "2026-10-28T20:37:43.183Z",
-  "filesTouchedCount": 53,
-  "filesTouchedManifestSha256": "0ab098216294b918b4a801214b2d6a04c83cb6ca1c5bb7ec4a83fb6b86ca87ee",
-  "workingTreeFingerprint": "FD828D13009D812EEDF10D5DD0138EF0E5B4BC744099F03AEBD95D17A036C56D"
+  "checkpointedAt": "2026-10-28T20:49:24.948Z",
+  "filesTouchedCount": 3,
+  "filesTouchedManifestSha256": "5a9d190958a663275e2e0002929d9bdf9ef86cc2331cb5c799d28b7c54c3f6c2",
+  "workingTreeFingerprint": "8B44514EFBE6E8CF1EC18095D05A48C154DD5FB3ABA927B8A38B267D409C180A"
 }
