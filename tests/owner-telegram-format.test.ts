@@ -23,7 +23,7 @@ const goldens=JSON.parse(readFileSync('tests/fixtures/owner-telegram-messages.go
 test('every supported event has a reviewed exact HTML and keyboard golden,plus the one-message test',()=>{
  assert.equal(goldens.cases.length,16);assert.equal(new Set(goldens.cases.map(c=>c.event.eventType)).size,16);
  for(const c of goldens.cases){assert.equal(run(0,c.event),c.html,c.event.eventType);assert.deepEqual(run(1,c.event),c.keyboard,c.event.eventType);assert.ok(c.html.length<4096);assert.match(c.html,/^<b>.+<\/b>/u);assert.doesNotMatch(c.html,/https?:\/\//u);}
- assert.equal(node('Send One Owner Test').parameters.text,'<b>✅ تم ربط تنبيهات النواصرة بهاتفك</b>');assert.equal(goldens.testMessage,node('Send One Owner Test').parameters.text);
+ assert.equal(node('Send One Owner Test').parameters.text,'<b>✅ تم ربط تنبيهات النواصرة لتجارة الجملة والمواد الغذائية بهاتفك</b>');assert.equal(goldens.testMessage,node('Send One Owner Test').parameters.text);
 });
 
 test('money is grouped exact BigInt minor units,including signs,zero and values beyond2^53',()=>{

@@ -127,7 +127,7 @@ export async function registerDeviceBiometric(
         user: {
           id: new TextEncoder().encode(userId),
           name: userId,
-          displayName: displayName || 'مستخدم النواصرة',
+          displayName: displayName || 'مستخدم النواصرة لتجارة الجملة والمواد الغذائية',
         },
         pubKeyCredParams: [
           { type: 'public-key', alg: -7 },

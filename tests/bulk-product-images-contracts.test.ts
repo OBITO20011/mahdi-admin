@@ -7,12 +7,13 @@ import {bulkImagePins,sourceBeforeBulkProductImages} from '../scripts/audit/sour
 import {inventory} from '../scripts/audit/table-access-inventory.mjs';
 import {serviceInventory} from '../scripts/audit/service-access-inventory.mjs';
 import {verifyProbeCoverage} from '../scripts/audit/table-access-probes.mjs';
+import {projectTrial40Source} from '../scripts/audit/source-before-trial40-integration.mjs';
 const read=(file:string)=>readFileSync(file,'utf8').replaceAll('\r\n','\n');
 const digest=(text:string)=>createHash('sha256').update(text).digest('hex');
 
 test('bulk image historical projection is exact and rejects a changed upload writer',()=>{
  for(const [file,pin]of Object.entries(bulkImagePins) as [string,{added?:boolean;after:string}][]){
-  const actual=read(file);assert.equal(digest(actual),pin.after,file);
+  const actual=projectTrial40Source(file,read(file),'bulk');assert.equal(digest(actual),pin.after,file);
   const before=sourceBeforeBulkProductImages(file,actual);
   if(pin.added)assert.equal(before,null);else assert.equal(before,execFileSync('git',['show','f95ff0458f90298edc21e39859d3268c7f7ccac7:'+file],{encoding:'utf8',maxBuffer:8*1024**2}).replaceAll('\r\n','\n'),file);
  }

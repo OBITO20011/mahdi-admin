@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "brand:share-image": "node scripts/generate-social-card.mjs",
     "dev": "vite --host 127.0.0.1 --port 3002",
     "build": "vite build && node scripts/generate-seo-pages.mjs && node scripts/verify-seo-output.mjs",
     "deploy:cloudflare": "node ../scripts/environments/assert-production-context.mjs && npm run build:production && node ../scripts/environments/verify-dist.mjs customer production dist && wrangler pages deploy dist --project-name=nawasrah-store --branch=main",

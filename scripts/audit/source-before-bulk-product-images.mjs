@@ -3,22 +3,28 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
+import {trial40IntegrationPins,projectTrial40Source,projectTrial40Hashes} from './source-before-trial40-integration.mjs';
 export const bulkImagePins=JSON.parse(readFileSync(new URL('./bulk-product-images-source-pins.json',import.meta.url),'utf8')).entries;
 const hash=text=>createHash('sha256').update(text).digest('hex');
 export function sourceBeforeBulkProductImages(file,text){
- if(text===null)return null;const source=text.replaceAll('\r\n','\n'),pin=bulkImagePins[file];if(!pin)return source;
+ if(text===null)return null;const projected=projectTrial40Source(file,text,bulkImagePins[file]?'bulk':'baseline');if(projected===null)return null;
+ const source=projected.replaceAll('\r\n','\n'),pin=bulkImagePins[file];if(!pin)return source;
  if(hash(source)===pin.after){if(pin.added)return null;assert.equal(hash(pin.beforeText),pin.before,'BULK_IMAGES_CORRUPT_INVERSE');return pin.beforeText;}
  // Preserve unknown bytes for the original entire-file guard to reject.
  if(hash(source)===pin.before||!pin.added&&file!=='src/services/supabase/product-images.service.ts')return source;
  assert.fail('HANDOVER214_UNREVIEWED_SOURCE:BULK_IMAGES:'+file);
 }
 export function pathsBeforeBulkProductImages(files){return files.filter(file=>{
+ if(trial40IntegrationPins[file]){
+  const raw=readFileSync(new URL('../../'+file,import.meta.url),'utf8').replaceAll('\r\n','\n');
+  if(projectTrial40Source(file,raw,'baseline')!==raw)return false;
+ }
  const pin=bulkImagePins[file];if(!pin)return true;
  assert.equal(hash(readFileSync(new URL('../../'+file,import.meta.url),'utf8').replaceAll('\r\n','\n')),pin.after,'BULK_IMAGES_UNREVIEWED_PATH:'+file);return false;
 });}
-export function restoreBulkImageSourceHashes(sources){return sources.flatMap(entry=>{
+export function restoreBulkImageSourceHashes(sources){return projectTrial40Hashes(sources,file=>bulkImagePins[file]?'bulk':'baseline').flatMap(entry=>{
  const pin=bulkImagePins[entry.file];if(!pin||entry.sha256!==pin.after)return [entry];
- const raw=readFileSync(new URL('../../'+entry.file,import.meta.url),'utf8').replaceAll('\r\n','\n');assert.equal(hash(raw),pin.after,'BULK_IMAGES_CURRENT_SOURCE_CHANGED');
+  const raw=projectTrial40Source(entry.file,readFileSync(new URL('../../'+entry.file,import.meta.url),'utf8'),'bulk');assert.equal(hash(raw),pin.after,'BULK_IMAGES_CURRENT_SOURCE_CHANGED');
  const before=sourceBeforeBulkProductImages(entry.file,raw);return before===null?[]:[{...entry,sha256:hash(before)}];
 });}
 export function projectBulkImageQuerySites(source,parseSource){

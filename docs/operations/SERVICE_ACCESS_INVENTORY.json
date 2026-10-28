@@ -685,7 +685,7 @@
     },
     {
       "file": "src/services/deviceBiometrics.service.ts",
-      "sha256": "d4f593e3f969645e9f5c5e20000559ba3bceaca0e11c48c18e17141fd5b769f7"
+      "sha256": "240a753cb542a4d3961335a0f7fcc881f32824b1a31e5da7622da2b5787f370c"
     },
     {
       "file": "src/services/pushNotifications.service.ts",
@@ -913,7 +913,7 @@
     },
     {
       "file": "src/stores/useAuthStore.ts",
-      "sha256": "148ffcd627c153c4afbec1516ca9c51190fffccaf6f3e5c75d7804594a1775a4"
+      "sha256": "ba401838a000f2cc521cce05df1ee88f8725a19af7169fa1abae6e853cdd71a4"
     },
     {
       "file": "src/types/adminAssistant.ts",
@@ -1193,7 +1193,7 @@
     },
     {
       "file": "customer-web/src/components/StoreHeader.tsx",
-      "sha256": "fc763d50d126951df5b08cfcba13566859db2954238e40149c7044fdfff964f5"
+      "sha256": "cb6ef8a842a604c39548357458dd3e166ee520b4755db99020574db7a55bfcff"
     },
     {
       "file": "customer-web/src/components/StoreHero.tsx",
@@ -1217,7 +1217,7 @@
     },
     {
       "file": "customer-web/src/config/seoBrand.ts",
-      "sha256": "954fc9dd3d7fedeaee440a8a02140bac0ccfced1b0c007da9ff1d1a0df2ad46d"
+      "sha256": "c3284c8ec1abb2412308088c5dab717ccd4565644e1fffa04a77013fbcb18994"
     },
     {
       "file": "customer-web/src/config/store.ts",
@@ -1345,7 +1345,7 @@
     },
     {
       "file": "customer-web/src/utils/storefrontSeo.ts",
-      "sha256": "d904477e9eb171605edd5d4f837a56391eef3ec01fdd20420539e62eddf7dac9"
+      "sha256": "442dc23ee49244b453a30955ae86dc5f2e870f405888977104dab2cd772a78f6"
     },
     {
       "file": "customer-web/src/utils/storefrontUnits.ts",

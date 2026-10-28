@@ -2,53 +2,51 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner-approved SKU bulk product/flavor image upload with preview/compression/resume/cleanup;existing services and rights;no RPC/migration without owner approval;PR/fullCI then review",
-  "baselineSha": "f95ff0458f90298edc21e39859d3268c7f7ccac7",
+  "objective": "Owner authorized ordered merge39/40/41;update40 against merged39 with exact historical proof projections and fresh current SDK;then fullCI and merge;no hosted/deploy",
+  "baselineSha": "5ad57e1ca265390ca589d2924cf29092c98d5cf9",
   "branch": "codex/product-images-bulk",
   "phase": "PACKAGE_F",
   "completed": [
-    "Bulk product/flavor image preview,compression,existing writer upload,resume and cleanup",
-    "Real isolated214 Auth/MFA/Storage/RPC roles and both browser engines",
-    "Local Admin1520/store197;14 feature+104 affected browser cases;types/lint/build/SEO/print/Gitleaks0",
-    "Handover guide/cutover card/templates naming instructions"
+    "PR39 merged025df016 after exact FULL49 each",
+    "40 integration preserves approved production bytes;historical pins unchanged",
+    "Fresh unprojected local214 SDK157/RPC543;10expected42501",
+    "Local Admin1526/store197/browser20/0flaky/types/lint/build/SEO pass"
   ],
   "inProgress": [
-    "Commit/push bounded package;exact-SHA FULL CI and review-ready PR"
+    "Commit/push integration40 then exact push+PR FULL CI and merge40"
   ],
   "notStarted": [
-    "Owner review;no merge"
+    "FullCI final40SHA then merge40",
+    "Integrate/CI/merge41;preserve primary docs;T-B design only;no T-C"
   ],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "testsPassed": [
-    "Admin1520/store197",
-    "Mock image browser14;affected browser104",
-    "Actual local214 Auth/MFA and9 role cases plus anon;Chromium/WebKit",
-    "104 protected public tables identical;Storage12 referenced objects,0orphans,0double primary",
-    "Actual SDK157 table/543 RPC probes",
-    "Types/strictlint/builds/SEO;print10+2pages;Gitleaks0"
+    "Admin1526/store197/browser20",
+    "Types/strictlint/builds/isolatedSEO",
+    "Actual SDK157/543;production bytes exact approved branches"
   ],
   "testsRemaining": [
-    "Exact push+PR FULL CI"
+    "Gitleaks0 and exact finalSHA FULLCI"
   ],
   "findings": [
-    "Existing set_product_primary_image is the image-only writer used inside current product/flavor saves;no newRPC/migration/permissions",
-    "One non-accepted startup environment run;one same-code rerun passed with unchanged timeouts/assertions",
-    "Identity PR39 remains independent and unmerged;baseline mainf95ff045"
+    "Three test-only integration failures corrected without numerical assertion changes",
+    "No SQL/RPC/financial/permission changes",
+    "Latest owner forbids T-C before T-B design approval"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hosted connection/deploy/activation",
-    "No RPC or migration without owner approval",
-    "No money/inventory/permission changes",
-    "Preserve owner local files;no merge"
+    "No hosted connection/deploy",
+    "No DB/migration/financial/permission changes",
+    "Preserve primary owner local files",
+    "No T-C before T-B design approval"
   ],
-  "nextExactAction": "Local acceptance complete;final documentation contracts and secret scan then commit/push/PR exact FULL CI;no merge",
+  "nextExactAction": "Commit/push40 updated on merged39;FULL CI exact SHA then authorized merge40;next integrate41 then safe primary update and design-only T-B",
   "startedAt": "2026-10-27T19:34:58.619Z",
-  "checkpointedAt": "2026-10-27T20:53:12.935Z",
-  "filesTouchedCount": 45,
-  "filesTouchedManifestSha256": "f6f8b2a52efcb32e2baaddec1bf0c5fec4ef01dc9068153e7d4fb9453e3d2a38",
-  "workingTreeFingerprint": "2A0F1E8BF7E880F07EF053AFF12E74F9A90F1DD87F3A85BDF43511EB85FCA3D2"
+  "checkpointedAt": "2026-10-28T01:35:12.313Z",
+  "filesTouchedCount": 43,
+  "filesTouchedManifestSha256": "829504c75b289f7731352c228b58dc0b188138b106b0ff8d219db82437b91097",
+  "workingTreeFingerprint": "0C88A5136B9542922CFAB955521AC3B87CB0584FAE126A72D28B27A1C0C10DE2"
 }
