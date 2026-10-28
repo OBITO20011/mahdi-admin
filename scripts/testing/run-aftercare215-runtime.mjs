@@ -12,13 +12,14 @@ import {verifyInspectedReplacement215} from './aftercare215-inspected-runtime.mj
 import {verifyInspectedSecurity215} from './aftercare215-security-runtime.mjs';
 import {verifySupplierCredit215} from './aftercare215-credit-runtime.mjs';
 import {verifyReturnPreview215} from './aftercare215-return-preview-runtime.mjs';
+import {verifySealedReturn215} from './aftercare215-return-v2-runtime.mjs';
 
 assert.equal(process.argv.length, 2, 'LOCAL_ONLY_NO_ARGUMENTS');
 const exec = promisify(execFile), root = path.resolve(import.meta.dirname, '../..');
 const project = 'nawasrah-tb215-test', container = 'supabase_db_' + project;
 const cli = path.join(root, 'node_modules/supabase/dist/supabase.js');
 const output = await mkdtemp(path.join(tmpdir(), 'nawasrah-aftercare215-'));
-const report = {scope: 'G2/G3/G6 and ordinary-return pure preview foundations; sealedG1/G4/G5/UI/full delivery still pending', hostedConnections: 0, output, cases: [], ok: false};
+const report = {scope: 'G1/G2/G3/G6 DB foundations; G4/G5/UI/full delivery still pending', hostedConnections: 0, output, cases: [], ok: false};
 const source = path.join(root, 'supabase/migrations/215_inspected_aftercare_and_supplier_credit.sql');
 let local, stage = 'bootstrap214';
 const pass = name => { report.cases.push({name, passed: true}); console.log(JSON.stringify(report.cases.at(-1))); };
@@ -43,6 +44,7 @@ try {
   stage = 'roles-races-rollback'; await verifyInspectedSecurity215(c, pass);
   stage = 'supplier-payable-credit'; await verifySupplierCredit215(c, pass);
   stage = 'ordinary-return-preview'; await verifyReturnPreview215(c, pass);
+  stage = 'sealed-return-v2'; await verifySealedReturn215(c, pass);
   assert.equal(createHash('sha256').update((await readFile(source, 'utf8')).replaceAll('\r\n', '\n')).digest('hex'), report.migrationCanonicalLfSha256, 'MIGRATION_CHANGED_DURING_VERIFICATION');
   report.ok = true;
 } catch (error) {

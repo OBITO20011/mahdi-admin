@@ -426,7 +426,11 @@ DECLARE facts JSONB; recovery BIGINT; k TEXT;
 BEGIN
  facts:=public.tb215_financial_facts_before215_internal(p_branch_id,p_period_start,p_period_end,p_timezone,p_verify_evidence);
  IF p_verify_evidence THEN PERFORM public.tb215_assert_inspection_internal(i.operation_id) FROM public.aftercare215_inspections i
-  JOIN public.orders o ON o.id=i.order_id WHERE(p_branch_id IS NULL OR o.branch_id=p_branch_id) AND i.created_at>=p_period_start AND i.created_at<p_period_end; END IF;
+  JOIN public.orders o ON o.id=i.order_id WHERE(p_branch_id IS NULL OR o.branch_id=p_branch_id) AND i.created_at>=p_period_start AND i.created_at<p_period_end;
+  PERFORM public.tb215_assert_return_internal(c.operation_id) FROM public.aftercare215_return_contexts c
+   JOIN public.orders o ON o.id=c.order_id
+   WHERE(p_branch_id IS NULL OR o.branch_id=p_branch_id) AND c.created_at>=p_period_start AND c.created_at<p_period_end;
+ END IF;
  SELECT COALESCE(sum(i.good_recovery_in_minor_units),0)::BIGINT INTO recovery FROM public.aftercare215_inspections i JOIN public.orders o ON o.id=i.order_id
   WHERE(p_branch_id IS NULL OR o.branch_id=p_branch_id) AND i.created_at>=p_period_start AND i.created_at<p_period_end;
  FOREACH k IN ARRAY ARRAY['restockRecoveryInMinorUnits','aftercareAdjustedMarginInMinorUnits','netProfitInMinorUnits'] LOOP
@@ -693,6 +697,203 @@ BEGIN
  RETURN result;
 END $$;
 
+CREATE TABLE public.aftercare215_return_contexts (
+ operation_id UUID PRIMARY KEY REFERENCES public.business_operations(id) DEFERRABLE INITIALLY DEFERRED,
+ order_id UUID NOT NULL REFERENCES public.orders(id),
+ created_by UUID NOT NULL REFERENCES public.profiles(id),
+ transaction_id XID8 NOT NULL,
+ idempotency_key TEXT NOT NULL,
+ request_snapshot JSONB NOT NULL,
+ executed_base_request JSONB NOT NULL,
+ physical_sources JSONB NOT NULL,
+ prepared_plan JSONB NOT NULL,
+ preview_fingerprint TEXT NOT NULL CHECK(preview_fingerprint~'^[0-9a-f]{64}$'),
+ created_at TIMESTAMPTZ NOT NULL,
+ UNIQUE(created_by,idempotency_key)
+);
+CREATE TABLE public.aftercare215_return_results (
+ operation_id UUID PRIMARY KEY REFERENCES public.aftercare215_return_contexts(operation_id),
+ return_operation_id UUID NOT NULL UNIQUE REFERENCES public.business_operations(id),
+ supplier_operation_id UUID UNIQUE REFERENCES public.business_operations(id)
+);
+CREATE UNIQUE INDEX aftercare215_return_actor_key ON public.business_operations(initiated_by,idempotency_key)
+ WHERE operation_type='aftercare215_return';
+CREATE INDEX aftercare215_return_transaction ON public.aftercare215_return_contexts(transaction_id,created_by);
+CREATE INDEX aftercare215_return_period ON public.aftercare215_return_contexts(created_at,order_id);
+
+-- Only the server-created, still-in-progress v2 context may admit mixed
+-- good/bad independent packets. No caller-set GUC is an authorization token.
+-- Old public calls, including later calls in the same transaction, retain the
+-- exact old guard once the outer completed envelope exists.
+ALTER FUNCTION public.phase43_assert_return_allocation_contract_internal(JSONB,JSONB) RENAME TO tb215_return_allocation_before215_internal;
+CREATE FUNCTION public.phase43_assert_return_allocation_contract_internal(p_base_request JSONB,p_physical_sources JSONB)
+RETURNS VOID LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+BEGIN
+ IF EXISTS(SELECT 1 FROM public.aftercare215_return_contexts c
+  WHERE c.transaction_id=pg_current_xact_id_if_assigned() AND c.created_by=auth.uid()
+   AND c.executed_base_request=p_base_request AND c.physical_sources=p_physical_sources
+   AND NOT EXISTS(SELECT 1 FROM public.business_operations b WHERE b.id=c.operation_id)) THEN
+  PERFORM public.tb215_assert_return_allocation_internal(p_base_request,p_physical_sources);
+ ELSE
+  PERFORM public.tb215_return_allocation_before215_internal(p_base_request,p_physical_sources);
+ END IF;
+END $$;
+
+CREATE FUNCTION public.tb215_hold_return_subset_internal(p_return_operation_id UUID,p_assignments JSONB,p_key TEXT,p_reason TEXT)
+RETURNS UUID LANGUAGE plpgsql SECURITY DEFINER SET search_path=public,pg_temp AS $$
+DECLARE actor UUID; operation UUID:=gen_random_uuid(); e public.sales_return_events%ROWTYPE; d public.inventory_damage_events%ROWTYPE;
+ a JSONB; supplier UUID; case_id UUID; unit_name TEXT; manifest JSONB; result JSONB; request JSONB;
+BEGIN
+ IF jsonb_array_length(p_assignments)=0 THEN RETURN NULL; END IF;
+ actor:=public.sr208_assert_role_internal('customer_return');
+ SELECT * INTO STRICT e FROM public.sales_return_events WHERE operation_id=p_return_operation_id AND settlement_status='settled';
+ PERFORM public.phase42_assert_operational_return_evidence_internal(p_return_operation_id,true);
+ FOR supplier IN SELECT DISTINCT(x->>'supplierId')::UUID FROM jsonb_array_elements(p_assignments) x ORDER BY 1 LOOP
+  BEGIN
+   PERFORM 1 FROM public.suppliers WHERE id=supplier AND is_active FOR SHARE NOWAIT;
+  EXCEPTION WHEN lock_not_available THEN RAISE EXCEPTION USING ERRCODE='40001',MESSAGE='SUPPLIER_REPLACEMENT_PARENT_BUSY_RETRY'; END;
+  IF NOT FOUND THEN RAISE EXCEPTION 'SUPPLIER_REPLACEMENT_SUPPLIER_INVALID'; END IF;
+ END LOOP;
+ FOR a IN SELECT value FROM jsonb_array_elements(p_assignments) ORDER BY value->>'sourceKind',value->>'sourceId' LOOP
+  SELECT * INTO d FROM public.inventory_damage_events WHERE return_event_id=e.id AND origin='customer_return'
+   AND source_kind=a->>'sourceKind' AND source_id=(a->>'sourceId')::UUID;
+  IF NOT FOUND OR d.quantity<=0 OR d.unit_cost_in_minor_units_exact IS NULL THEN RAISE EXCEPTION 'SUPPLIER_REPLACEMENT_RETURN_ASSIGNMENTS_MISMATCH'; END IF;
+  SELECT COALESCE(u.name_ar,'باكيت') INTO unit_name FROM public.products p LEFT JOIN public.units u ON u.id=p.unit_id WHERE p.id=d.product_id;
+  INSERT INTO public.supplier_replacement_cases(operation_id,supplier_id,product_id,warehouse_id,branch_id,origin,damage_event_id,
+   quantity,commercial_quantity,units_per_commercial_unit,unit_name,base_unit_name,unit_cost_in_minor_units_exact,occurred_at,created_by)
+   VALUES(operation,(a->>'supplierId')::UUID,d.product_id,d.warehouse_id,d.branch_id,'customer_return',d.id,d.quantity,d.quantity,1,
+    unit_name,unit_name,d.unit_cost_in_minor_units_exact,d.occurred_at,actor) RETURNING id INTO case_id;
+  PERFORM public.sr208_append_event_internal(operation,case_id,'send',d.quantity,d.quantity,-d.loss_in_minor_units,0,p_reason,d.occurred_at);
+ END LOOP;
+ request:=jsonb_build_object('action','customer_return_subset215','returnOperationId',p_return_operation_id,'supplierAssignments',p_assignments);
+ manifest:=public.sr208_operation_manifest_internal(operation);
+ result:=jsonb_build_object('evidenceFingerprint',encode(extensions.digest(manifest::TEXT,'sha256'),'hex'),
+  'caseIds',(SELECT jsonb_agg(x->'id' ORDER BY x->>'id') FROM jsonb_array_elements(manifest->'cases') x),
+  'eventIds',(SELECT jsonb_agg(x->'id' ORDER BY x->>'id') FROM jsonb_array_elements(manifest->'events') x),
+  'returnOperationId',p_return_operation_id,'returnResult',(SELECT result_snapshot FROM public.business_operations WHERE id=p_return_operation_id));
+ INSERT INTO public.business_operations(id,operation_type,idempotency_key,request_fingerprint,request_identity_version,request_identity_snapshot,initiated_by,result_snapshot,completed_at)
+  VALUES(operation,'supplier_replacement208',p_key,encode(extensions.digest(request::TEXT,'sha256'),'hex'),208,request,actor,result,clock_timestamp());
+ PERFORM public.sr208_assert_operation_internal(operation);
+ RETURN operation;
+END $$;
+
+CREATE FUNCTION public.tb215_return_manifest_internal(p_operation_id UUID)
+RETURNS JSONB LANGUAGE sql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+ SELECT jsonb_build_object('context',(SELECT(to_jsonb(c)-'created_at')||jsonb_build_object('createdAtEpoch',extract(epoch FROM c.created_at)::TEXT)
+  FROM public.aftercare215_return_contexts c WHERE c.operation_id=p_operation_id),
+  'result',(SELECT to_jsonb(r) FROM public.aftercare215_return_results r WHERE r.operation_id=p_operation_id));
+$$;
+
+CREATE FUNCTION public.tb215_assert_return_internal(p_operation_id UUID)
+RETURNS VOID LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+DECLARE b public.business_operations%ROWTYPE; c public.aftercare215_return_contexts%ROWTYPE; r public.aftercare215_return_results%ROWTYPE;
+ inner_op public.business_operations%ROWTYPE; return_event UUID; a JSONB;
+BEGIN
+ SELECT * INTO STRICT b FROM public.business_operations WHERE id=p_operation_id;
+ SELECT * INTO STRICT c FROM public.aftercare215_return_contexts WHERE operation_id=p_operation_id;
+ SELECT * INTO STRICT r FROM public.aftercare215_return_results WHERE operation_id=p_operation_id;
+ SELECT * INTO STRICT inner_op FROM public.business_operations WHERE id=r.return_operation_id;
+ IF b.operation_type IS DISTINCT FROM 'aftercare215_return' OR b.request_identity_version IS DISTINCT FROM 215 OR b.completed_at IS NULL
+  OR b.initiated_by IS DISTINCT FROM c.created_by OR inner_op.initiated_by IS DISTINCT FROM c.created_by
+  OR b.request_fingerprint IS DISTINCT FROM encode(extensions.digest(b.request_identity_snapshot::TEXT,'sha256'),'hex')
+  OR b.request_identity_snapshot IS DISTINCT FROM jsonb_build_object('request',c.request_snapshot,'previewFingerprint',c.preview_fingerprint)
+  OR c.prepared_plan->'request' IS DISTINCT FROM c.request_snapshot
+  OR c.preview_fingerprint IS DISTINCT FROM encode(extensions.digest(c.prepared_plan::TEXT,'sha256'),'hex')
+  OR c.order_id IS DISTINCT FROM(c.request_snapshot->'baseRequest'->>'order_id')::UUID
+  OR c.executed_base_request IS DISTINCT FROM(c.request_snapshot->'baseRequest')||jsonb_build_object('refund_method',c.prepared_plan->'refundMethod','reference_number',c.prepared_plan->'referenceNumber')
+  OR inner_op.request_identity_snapshot IS DISTINCT FROM c.executed_base_request||jsonb_build_object('physical_sources',c.physical_sources)
+  OR inner_op.idempotency_key IS DISTINCT FROM c.idempotency_key
+  OR inner_op.operation_type IS DISTINCT FROM 'phase4_return_v1'
+  OR c.physical_sources IS DISTINCT FROM c.request_snapshot->'physicalSources'
+  OR (inner_op.result_snapshot->>'merchandiseEntitlementInMinorUnits')::BIGINT IS DISTINCT FROM(c.prepared_plan->>'entitlementInMinorUnits')::BIGINT
+  OR (inner_op.result_snapshot->>'debtReductionInMinorUnits')::BIGINT IS DISTINCT FROM(c.prepared_plan->>'debtReductionInMinorUnits')::BIGINT
+  OR (inner_op.result_snapshot->>'moneyRefundInMinorUnits')::BIGINT IS DISTINCT FROM(c.prepared_plan->>'moneyRefundInMinorUnits')::BIGINT
+  OR b.result_snapshot->>'evidenceFingerprint' IS DISTINCT FROM encode(extensions.digest(public.tb215_return_manifest_internal(p_operation_id)::TEXT,'sha256'),'hex')
+ THEN RAISE EXCEPTION 'AFTERCARE215_RETURN_EVIDENCE_INVALID'; END IF;
+ PERFORM public.phase42_assert_operational_return_evidence_internal(r.return_operation_id,true);
+ SELECT id INTO STRICT return_event FROM public.sales_return_events WHERE operation_id=r.return_operation_id;
+ IF (SELECT COALESCE(sum(historical_restock_value_in_minor_units_exact),0) FROM public.phase42_return_inventory_effects WHERE operation_id=r.return_operation_id)
+   IS DISTINCT FROM(c.prepared_plan->>'goodRestockValueExact')::NUMERIC
+  OR(SELECT COALESCE(sum(loss_in_minor_units),0) FROM public.inventory_damage_events WHERE return_event_id=return_event AND origin='customer_return')
+   IS DISTINCT FROM(c.prepared_plan->>'badLossInMinorUnits')::NUMERIC
+ THEN RAISE EXCEPTION 'AFTERCARE215_RETURN_EVIDENCE_INVALID'; END IF;
+ IF (r.supplier_operation_id IS NULL) IS DISTINCT FROM(jsonb_array_length(c.request_snapshot->'supplierAssignments')=0) THEN RAISE EXCEPTION 'AFTERCARE215_RETURN_EVIDENCE_INVALID'; END IF;
+ IF r.supplier_operation_id IS NOT NULL THEN
+  PERFORM public.sr208_assert_operation_internal(r.supplier_operation_id);
+  IF NOT EXISTS(SELECT 1 FROM public.business_operations tail WHERE tail.id=r.supplier_operation_id AND tail.initiated_by=c.created_by
+   AND tail.request_identity_snapshot=jsonb_build_object('action','customer_return_subset215','returnOperationId',r.return_operation_id,'supplierAssignments',c.request_snapshot->'supplierAssignments'))
+   OR(SELECT count(*) FROM public.supplier_replacement_cases WHERE operation_id=r.supplier_operation_id)<>jsonb_array_length(c.request_snapshot->'supplierAssignments')
+  THEN RAISE EXCEPTION 'AFTERCARE215_RETURN_EVIDENCE_INVALID'; END IF;
+  IF (SELECT COALESCE(-sum(expense_delta_in_minor_units),0) FROM public.supplier_replacement_events WHERE operation_id=r.supplier_operation_id)
+   IS DISTINCT FROM(c.prepared_plan->>'supplierHeldInMinorUnits')::NUMERIC THEN RAISE EXCEPTION 'AFTERCARE215_RETURN_EVIDENCE_INVALID'; END IF;
+  FOR a IN SELECT value FROM jsonb_array_elements(c.request_snapshot->'supplierAssignments') LOOP
+   IF NOT EXISTS(SELECT 1 FROM public.supplier_replacement_cases claim JOIN public.inventory_damage_events d ON d.id=claim.damage_event_id
+    WHERE claim.operation_id=r.supplier_operation_id AND claim.supplier_id=(a->>'supplierId')::UUID
+     AND d.return_event_id=return_event AND d.source_kind=a->>'sourceKind' AND d.source_id=(a->>'sourceId')::UUID
+     AND claim.quantity=d.quantity AND claim.unit_cost_in_minor_units_exact=d.unit_cost_in_minor_units_exact)
+   THEN RAISE EXCEPTION 'AFTERCARE215_RETURN_EVIDENCE_INVALID'; END IF;
+  END LOOP;
+ END IF;
+END $$;
+
+CREATE FUNCTION public.settle_admin_sales_return_v2(p_payload JSONB,p_idempotency_key TEXT,p_preview_fingerprint TEXT)
+RETURNS JSONB LANGUAGE plpgsql SECURITY DEFINER SET search_path=public,pg_temp AS $$
+#variable_conflict use_variable
+DECLARE actor UUID:=auth.uid(); request JSONB; plan JSONB; identity JSONB; fingerprint TEXT; actor_hash TEXT; key TEXT;
+ existing public.business_operations%ROWTYPE; operation UUID:=gen_random_uuid(); inner_result JSONB; executed_base JSONB;
+ inner_operation UUID; supplier_operation UUID; result JSONB; at TIMESTAMPTZ:=clock_timestamp();
+BEGIN
+ PERFORM public.assert_erp_role(ARRAY['owner','admin'],'تأكيد إرجاع البضاعة');
+ IF auth.role() IS DISTINCT FROM 'authenticated' OR actor IS NULL THEN RAISE EXCEPTION USING ERRCODE='42501',MESSAGE='AFTERCARE215_ROLE_DENIED'; END IF;
+ request:=public.tb215_canonical_return_internal(p_payload);
+ IF jsonb_array_length(request->'supplierAssignments')>0 THEN PERFORM public.sr208_assert_role_internal('customer_return'); END IF;
+ key:=public.phase4_canonicalize_idempotency_key_internal(p_idempotency_key);
+ IF length(key)>200 OR COALESCE(p_preview_fingerprint,'') !~ '^[0-9a-f]{64}$' THEN RAISE EXCEPTION 'AFTERCARE215_PREVIEW_REQUIRED'; END IF;
+ identity:=jsonb_build_object('request',request,'previewFingerprint',p_preview_fingerprint);fingerprint:=encode(extensions.digest(identity::TEXT,'sha256'),'hex');
+ actor_hash:=public.phase3_actor_scope_hash_internal('erp_user',actor,NULL,NULL);
+ PERFORM pg_advisory_xact_lock(hashtextextended('phase4-operation|phase4_return_v1|'||actor_hash||'|'||key,0));
+ PERFORM pg_advisory_xact_lock(hashtextextended('aftercare215|'||actor::TEXT||'|'||key,0));
+ SELECT * INTO existing FROM public.business_operations WHERE operation_type='aftercare215_return' AND initiated_by=actor AND idempotency_key=key;
+ IF FOUND THEN
+  IF existing.request_fingerprint IS DISTINCT FROM fingerprint THEN RAISE EXCEPTION 'AFTERCARE215_IDEMPOTENCY_CONFLICT'; END IF;
+  PERFORM public.tb215_assert_return_internal(existing.id);
+  RETURN(existing.result_snapshot-'evidenceFingerprint')||jsonb_build_object('idempotentReplay',true);
+ END IF;
+ IF EXISTS(SELECT 1 FROM public.business_operations WHERE initiated_by=actor AND idempotency_key=key AND operation_type IN('phase4_return_v1','supplier_replacement208')) THEN RAISE EXCEPTION 'AFTERCARE215_LEGACY_KEY_CONFLICT'; END IF;
+ PERFORM public.phase4_lock_customer_order_context_internal((request->'baseRequest'->>'order_id')::UUID,false,false);
+ plan:=public.tb215_prepare_return_internal(request);
+ PERFORM public.phase2_lock_inventory_products_internal(ARRAY(SELECT DISTINCT(x->>'product_id')::UUID FROM jsonb_array_elements(request->'physicalSources') x ORDER BY 1));
+ plan:=public.tb215_prepare_return_internal(request);
+ IF p_preview_fingerprint IS DISTINCT FROM encode(extensions.digest(plan::TEXT,'sha256'),'hex') THEN RAISE EXCEPTION 'AFTERCARE215_PREVIEW_CHANGED'; END IF;
+ IF jsonb_array_length(plan->'issues')<>0 THEN RAISE EXCEPTION USING MESSAGE='AFTERCARE215_FIELDS_REQUIRED',DETAIL=(plan->'issues')::TEXT; END IF;
+ executed_base:=public.phase42_canonicalize_return_request_before_phase43_internal((request->'baseRequest'->>'order_id')::UUID,request->'baseRequest'->'items',request->'baseRequest'->>'reason',
+  plan->>'refundMethod',plan->>'referenceNumber',request->'baseRequest'->>'notes');
+ INSERT INTO public.aftercare215_return_contexts(operation_id,order_id,created_by,transaction_id,idempotency_key,request_snapshot,executed_base_request,physical_sources,prepared_plan,preview_fingerprint,created_at)
+  VALUES(operation,(request->'baseRequest'->>'order_id')::UUID,actor,pg_current_xact_id(),key,request,executed_base,request->'physicalSources',plan,p_preview_fingerprint,at);
+ inner_result:=public.settle_admin_sales_return_v1((request->'baseRequest'->>'order_id')::UUID,key,request->'baseRequest'->'items',request->'physicalSources',
+  request->'baseRequest'->>'reason',plan->>'refundMethod',plan->>'referenceNumber',request->'baseRequest'->>'notes');
+ inner_operation:=(inner_result->>'operationId')::UUID;
+ supplier_operation:=public.tb215_hold_return_subset_internal(inner_operation,request->'supplierAssignments',key,request->'baseRequest'->>'reason');
+ INSERT INTO public.aftercare215_return_results VALUES(operation,inner_operation,supplier_operation);
+ result:=jsonb_build_object('success',true,'contractVersion',215,'operationId',operation,'returnOperationId',inner_operation,'returnId',inner_result->'returnId',
+  'returnNumber',inner_result->'returnNumber','orderId',inner_result->'orderId','entitlementInMinorUnits',(inner_result->>'merchandiseEntitlementInMinorUnits')::BIGINT::TEXT,
+  'debtReductionInMinorUnits',(inner_result->>'debtReductionInMinorUnits')::BIGINT::TEXT,'moneyRefundInMinorUnits',(inner_result->>'moneyRefundInMinorUnits')::BIGINT::TEXT,
+  'refundMethod',inner_result->'refundMethod','goodQuantity',plan->'goodQuantity','badQuantity',plan->'badQuantity','customerDamageQuantity',plan->'customerDamageQuantity',
+  'evidenceFingerprint',encode(extensions.digest(public.tb215_return_manifest_internal(operation)::TEXT,'sha256'),'hex'));
+ INSERT INTO public.business_operations(id,operation_type,idempotency_key,request_fingerprint,request_identity_version,request_identity_snapshot,actor_scope_type,actor_scope_hash,initiated_by,result_snapshot,completed_at)
+  VALUES(operation,'aftercare215_return',key,fingerprint,215,identity,'erp_user',actor_hash,actor,result,clock_timestamp());
+ PERFORM public.tb215_assert_return_internal(operation);
+ INSERT INTO public.audit_logs(user_id,action,entity_name,entity_id,details) VALUES(actor,'RETURN215_CONFIRMED','business_operations',operation,
+  jsonb_build_object('order_id',request->'baseRequest'->'order_id','return_operation_id',inner_operation));
+ RETURN(result-'evidenceFingerprint')||jsonb_build_object('idempotentReplay',false);
+END $$;
+
+CREATE FUNCTION public.tb215_guard_return_context_internal()
+RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER SET search_path=public,pg_temp AS $$
+BEGIN PERFORM public.tb215_assert_return_internal(NEW.operation_id);RETURN NULL; END $$;
+CREATE CONSTRAINT TRIGGER aftercare215_return_context_complete AFTER INSERT ON public.aftercare215_return_contexts
+ DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE FUNCTION public.tb215_guard_return_context_internal();
+
 -- A supplier credit exchanges a held in-kind asset for an equal reduction of
 -- an evidenced supplier payable. It is not a cash payment or a write-off.
 CREATE TABLE public.supplier215_credits (
@@ -711,6 +912,7 @@ CREATE TABLE public.supplier215_credits (
  CHECK((amount_delta_in_minor_units<0)=(reverses_credit_event_id IS NOT NULL))
 );
 CREATE INDEX supplier215_credit_supplier ON public.supplier215_credits(supplier_id,created_at,event_id);
+CREATE INDEX supplier215_credit_case ON public.supplier215_credits(case_id,created_at,event_id);
 ALTER TABLE public.supplier_replacement_events DROP CONSTRAINT supplier_replacement_events_action_check;
 ALTER TABLE public.supplier_replacement_events DROP CONSTRAINT supplier_replacement_events_check1;
 ALTER TABLE public.supplier_replacement_events ADD CONSTRAINT supplier_replacement215_action CHECK(action IN('send','immediate','receive','writeoff','damage','reverse','credit'));
@@ -723,6 +925,7 @@ RETURNS TEXT LANGUAGE sql STABLE SECURITY DEFINER SET search_path=public,pg_temp
  SELECT encode(extensions.digest(jsonb_build_object(
   'direct',(SELECT COALESCE(jsonb_agg(to_jsonb(r) ORDER BY id),'[]') FROM public.supplier_receipts r WHERE r.supplier_id=p_supplier_id),
   'purchase',(SELECT COALESCE(jsonb_agg(to_jsonb(r) ORDER BY r.id),'[]') FROM public.purchase_receipts r JOIN public.purchase_orders po ON po.id=r.purchase_order_id WHERE po.supplier_id=p_supplier_id),
+  'legacyPurchasePayable',(SELECT COALESCE(jsonb_agg(to_jsonb(r) ORDER BY r.purchase_order_id),'[]') FROM public.phase133_legacy_po_payables_internal() r WHERE r.supplier_id=p_supplier_id),
   'payments',(SELECT COALESCE(jsonb_agg(to_jsonb(r) ORDER BY id),'[]') FROM public.supplier_payments r WHERE r.supplier_id=p_supplier_id),
   'opening',(SELECT COALESCE(jsonb_agg(to_jsonb(r) ORDER BY id),'[]') FROM public.supplier_opening_balances r WHERE r.supplier_id=p_supplier_id),
   'claims',(SELECT COALESCE(jsonb_agg(to_jsonb(r) ORDER BY id),'[]') FROM public.cheque_compensation_claims r WHERE r.party_kind='supplier' AND r.party_id=p_supplier_id)
@@ -958,7 +1161,7 @@ BEGIN
 END $$;
 
 DO $$ DECLARE t TEXT; BEGIN
- FOREACH t IN ARRAY ARRAY['aftercare215_inspections','aftercare215_inspection_items','supplier215_credits'] LOOP
+ FOREACH t IN ARRAY ARRAY['aftercare215_inspections','aftercare215_inspection_items','supplier215_credits','aftercare215_return_contexts','aftercare215_return_results'] LOOP
   EXECUTE format('ALTER TABLE public.%I OWNER TO postgres',t);
   EXECUTE format('ALTER TABLE public.%I ENABLE ROW LEVEL SECURITY',t);
   EXECUTE format('REVOKE ALL ON TABLE public.%I FROM PUBLIC,anon,authenticated,service_role',t);
@@ -1032,6 +1235,20 @@ REVOKE ALL ON FUNCTION public.tb215_prepare_return_internal(JSONB) FROM PUBLIC,a
 ALTER FUNCTION public.preview_admin_sales_return_v2(JSONB) OWNER TO postgres;
 REVOKE ALL ON FUNCTION public.preview_admin_sales_return_v2(JSONB) FROM PUBLIC,anon,authenticated,service_role;
 GRANT EXECUTE ON FUNCTION public.preview_admin_sales_return_v2(JSONB) TO authenticated;
+REVOKE ALL ON FUNCTION public.tb215_return_allocation_before215_internal(JSONB,JSONB) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.phase43_assert_return_allocation_contract_internal(JSONB,JSONB) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.phase43_assert_return_allocation_contract_internal(JSONB,JSONB) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.tb215_hold_return_subset_internal(UUID,JSONB,TEXT,TEXT) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_hold_return_subset_internal(UUID,JSONB,TEXT,TEXT) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.tb215_return_manifest_internal(UUID) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_return_manifest_internal(UUID) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.tb215_assert_return_internal(UUID) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_assert_return_internal(UUID) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.settle_admin_sales_return_v2(JSONB,TEXT,TEXT) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.settle_admin_sales_return_v2(JSONB,TEXT,TEXT) FROM PUBLIC,anon,authenticated,service_role;
+GRANT EXECUTE ON FUNCTION public.settle_admin_sales_return_v2(JSONB,TEXT,TEXT) TO authenticated;
+ALTER FUNCTION public.tb215_guard_return_context_internal() OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_guard_return_context_internal() FROM PUBLIC,anon,authenticated,service_role;
 ALTER FUNCTION public.sr208_assert_operation_internal(UUID) OWNER TO postgres;
 REVOKE ALL ON FUNCTION public.sr208_assert_operation_internal(UUID) FROM PUBLIC,anon,authenticated,service_role;
 REVOKE ALL ON FUNCTION public.tb215_financial_facts_before215_internal(UUID,TIMESTAMPTZ,TIMESTAMPTZ,TEXT,BOOLEAN) FROM PUBLIC,anon,authenticated,service_role;
