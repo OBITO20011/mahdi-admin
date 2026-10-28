@@ -3,11 +3,27 @@
   "files": [
     {
       "code": " M",
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": " M",
       "path": "docs/agent/TRIAL_TB_IMPLEMENTATION_AR.md"
     },
     {
+      "code": " M",
+      "path": "docs/operations/RESET215_OWNER_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/aftercare215-source-pins.json"
+    },
+    {
       "code": "??",
-      "path": "docs/agent/TRIAL_TB215_BACKUP_RESTORE_LOCAL.json"
+      "path": "docs/agent/TRIAL_TB215_RESET_RESUME_LOCAL.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/RESET215_RESUME_LOCAL_EVIDENCE.json"
     }
   ]
 }
