@@ -1,0 +1,51 @@
+{
+  "scope": "Current G4 reader/closing/token/corruption and customer-ordering gates only",
+  "ok": true,
+  "hostedConnections": 0,
+  "implementationComplete": false,
+  "fullCombined58GatePending": true,
+  "cases": [
+    {
+      "name": "a normal shift without exchanges retains version133 closing DTO and has no artificial zero exchange field",
+      "passed": true
+    },
+    {
+      "name": "actual customer collection versus exchange in both orders waits then completes; shared customer lock precedes order/shift/products, no deadlock or duplicate money",
+      "passed": true
+    },
+    {
+      "name": "cash/CliQ movement pages reconcile actual exchange money; closing sales evidence includes explicit noncash credit and refund breakdown has actual money only",
+      "passed": true
+    },
+    {
+      "name": "token-gated public receipts expose credit and actual paid/refunded difference only; READONLY/zero writes/no cost or profit fields",
+      "passed": true
+    },
+    {
+      "name": "tampering only returned quantity/refund/difference while retaining every manifest commitment fails independent result proof for all three new coordinators",
+      "passed": true
+    },
+    {
+      "name": "closing freezes exact actual exchange drawer totals once; closed summary and immutable closing report agree without double counting",
+      "passed": true
+    }
+  ],
+  "sourceArtifacts": [
+    {
+      "file": "supabase/migrations/215_inspected_aftercare_and_supplier_credit.sql",
+      "sha256": "fd72b556337921a38c43482b547b0f68f0d85859c742fb53a2c634b613ff4b32"
+    },
+    {
+      "file": "scripts/testing/aftercare215-exchange-readers-runtime.mjs",
+      "sha256": "ab1a5fd9a8294fbc1cadf6003ec888b4f1881b222ad367f0205528d73134ec20"
+    },
+    {
+      "file": "scripts/testing/aftercare215-exchange-boundary-runtime.mjs",
+      "sha256": "a430fde12baae9234b3b1c466f970bf4f2aa2548dda28d874bc07573304e521b"
+    },
+    {
+      "file": "scripts/testing/run-aftercare215-runtime.mjs",
+      "sha256": "010a92a48b1b5f9e620b41b86e67dbdf473661e5a3a486e6d40c3c9555c161c3"
+    }
+  ]
+}

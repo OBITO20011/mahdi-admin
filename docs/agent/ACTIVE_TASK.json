@@ -3,17 +3,16 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Implement owner-approved T-B stage2 G1-G6:atomic inspected replacement,noncash cross-SKU exchange,supplier payable credit,one Arabic wizard and damage ledger;local isolated DB tests,owner upgrade,PR/FULLCI then approvalSTOP",
-  "baselineSha": "62023e5c89f9a2f2d7f02ca46436590195a7aec6",
+  "baselineSha": "b41831b450c1a6b804053af249f4b0b530efb575",
   "branch": "codex/trial-tb-stage2",
   "phase": "PACKAGE_F",
   "completed": [
-    "Owner approved PR42/322bd52 design/all financial choices;separate codex/trial-tb-stage2;no owner files touched",
-    "G1 sealed return/G2-G3 inspected warranties/G6 supplier credit fresh39 actualDBgroups PASS;proof TRIAL_TB215_SEALED_RETURN_LOCAL.json",
-    "G4 READONLY exchange preview5actualgroups PASS;proof TRIAL_TB215_EXCHANGE_PREVIEW_LOCAL.json;writer/readers/UI pending",
-    "G4 core fresh52G1-G4/G6 actualgroups PASS;proofTRIAL_TB215_EXCHANGE_CORE_LOCAL.json;readers/UI/extendedcorruption pending"
+    "Owner approved PR42/322bd52/allfinancialchoices;separate worktree;no ownerfiles touched",
+    "G1-G4/G6 predecessor fresh52DBgroups saved/pushed b41831b",
+    "CurrentG4 movements/closing/token/strictresultcorruption/customercollection ordering6groups PASS;proofTRIAL_TB215_EXCHANGE_READERS_LOCAL.json"
   ],
   "inProgress": [
-    "G4 reader projections/result-envelope hardening/customer lock order;thenG5/wizard/owner215/fullCI"
+    "G5 unified damage/netloss reader,thenwizard/recovery/receipt UI and owner215/fullquality/CI"
   ],
   "notStarted": [
     "T-C partial POS payments;separate later owner task",
@@ -23,34 +22,34 @@
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "testsPassed": [
-    "G1-G3/G6 fresh39 DBgroups:money/stock/debt/profit/replay/roles/MFA/two-session/rollback;legacy tables unchanged",
-    "G4 READONLYpreview5:9000to12000/7500/9000,noncash credit,actualdifference,ownerDTO,eligibility",
-    "Prior continuity7/Gitleaks0; current compact checkpoint verification pending",
-    "Fresh52:real noncash9to12/7.5/9,cashshiftactualdifference,CliQ,fullnewinvoice return,2sessions and lateatomicfailure;ordinaryPOSsequence untouched"
+    "Predecessor fresh52actualDBgroups inclrollback/replay/roles/MFA;currentG4 targeted28auxiliary+6sourceboundreader/boundarygroups",
+    "CurrentnormalclosingDTOunchanged;cashCliQmovementmatched;tokenreceiptnoCOGS;frozenclosingexact;tamperedresultrejected;collection/exchangebothordersPASS"
   ],
   "testsRemaining": [
-    "G4 noncash cross-SKU exchange and every financial/cash/receipt reader",
-    "G5 damage details/net loss/quantity states and ledger UI",
-    "Single Arabic wizard/recovery/browser390 both engines",
+    "Fresh combined58 current-source gate",
+    "G5 damage details/netloss/quantitystates andledgerUI",
+    "Singlewizard/recovery/receipt UI/browser390bothengines",
     "Boundary exactWAC/mixedparcel/priorleaf/legacy/integrity/restore/catalog/owner215 tool",
-    "Full local quality/Gitleaks/exact finalSHA FULLCI and owner review beforemerge"
+    "Fullquality/Gitleaks/exactfinalSHA FULLCI andownerreview beforemerge"
   ],
   "findings": [
     "Private113 NEXTVAL technicalstamp cannot rollback;tests keep ALLtables/business-numbersequences exact and assert exact technical+1/+2 only",
     "No old invoice/history backfill;crossSKU and supplier-credit bounded by approved design"
   ],
   "blockers": [],
-  "activeProcesses": [],
+  "activeProcesses": [
+    "Idle disposable supabase_db_nawasrah-tb215-test;OUT/g4-readers-dev-state.json;no verification running"
+  ],
   "prohibitions": [
     "No hosted project connection,deployment or credentials",
     "No historical migration edits/backfill",
     "No primary owner local file changes",
     "No T-C and no implementation PR merge before owner review"
   ],
-  "nextExactAction": "Harden exact public result proofs/customer lock order and G4 cash/closing/receipt projections;thenG5/wizard/owner215/fullCI;fresh52 saved;nohost/noT-C/no merge",
+  "nextExactAction": "G5 unified damage/netloss reader thenwizard/recovery/receipt UI;fresh58 current gate pending;owner215/fullquality/CI;idlelocaldev only;nohost/noT-C/no merge",
   "startedAt": "2026-10-28T13:06:11.980Z",
-  "checkpointedAt": "2026-10-28T16:01:31.401Z",
-  "filesTouchedCount": 6,
-  "filesTouchedManifestSha256": "73d14a4c835854e0afc7eb6792f81f0e09b955963d59ccd22157fd5a7007f770",
-  "workingTreeFingerprint": "E4E4CFE475A4AB007052F4829C7D934C84606AA1EC9C713085424B1F2A61A860"
+  "checkpointedAt": "2026-10-28T16:14:00.329Z",
+  "filesTouchedCount": 7,
+  "filesTouchedManifestSha256": "52bb2e6b82d82f7d1dd2a962ef9368fcd3ca9881377e10b9d3b61e8a4a0080f8",
+  "workingTreeFingerprint": "2F43D0C8F8CFA723073B5204E4F715314F8462B535693DEB9B028EC589FD5A3F"
 }

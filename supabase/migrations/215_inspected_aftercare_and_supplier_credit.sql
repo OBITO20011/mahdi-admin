@@ -216,6 +216,7 @@ BEGIN
   OR NOT EXISTS(SELECT 1 FROM public.business_operations original WHERE original.id=i.replacement_operation_id AND original.initiated_by=i.created_by)
   OR b.request_fingerprint IS DISTINCT FROM encode(extensions.digest(b.request_identity_snapshot::TEXT,'sha256'),'hex')
   OR b.result_snapshot->>'evidenceFingerprint' IS DISTINCT FROM encode(extensions.digest(public.tb215_inspection_manifest_internal(p_operation_id)::TEXT,'sha256'),'hex')
+  OR b.result_snapshot-'evidenceFingerprint' IS DISTINCT FROM public.tb215_inspection_public_result_internal(p_operation_id)
  THEN RAISE EXCEPTION 'AFTERCARE215_EVIDENCE_INVALID'; END IF;
  PERFORM public.phase43_assert_operational_replacement_evidence_internal(i.replacement_operation_id,true);
  IF NOT EXISTS(SELECT 1 FROM public.sales_replacement_events e WHERE e.operation_id=i.replacement_operation_id AND e.root_order_id=i.order_id)
@@ -340,10 +341,7 @@ BEGIN
      'caseIds',(SELECT jsonb_agg(x->'id' ORDER BY x->>'id') FROM jsonb_array_elements(manifest->'cases') x),
      'eventIds',(SELECT jsonb_agg(x->'id' ORDER BY x->>'id') FROM jsonb_array_elements(manifest->'events') x)),at);
  END IF;
- result:=jsonb_build_object('success',true,'contractVersion',215,'operationId',op,'orderId',request->'orderId','replacementId',issued->'replacementId',
-  'issuedQuantity',issued->'issuedQuantity','restockedQuantity',(SELECT sum(good_quantity) FROM public.aftercare215_inspection_items WHERE operation_id=op),
-  'badQuantity',(SELECT sum(bad_quantity) FROM public.aftercare215_inspection_items WHERE operation_id=op),'caseIds',to_jsonb(cases),
-  'moneyDifferenceInMinorUnits',0,'evidenceFingerprint',encode(extensions.digest(public.tb215_inspection_manifest_internal(op)::TEXT,'sha256'),'hex'));
+ result:=public.tb215_inspection_public_result_internal(op)||jsonb_build_object('evidenceFingerprint',encode(extensions.digest(public.tb215_inspection_manifest_internal(op)::TEXT,'sha256'),'hex'));
  INSERT INTO public.business_operations(id,operation_type,idempotency_key,request_fingerprint,request_identity_version,request_identity_snapshot,initiated_by,result_snapshot,completed_at)
   VALUES(op,'aftercare215_inspection',key,fingerprint,215,identity,actor,result,at);
  PERFORM public.tb215_assert_inspection_internal(op);
@@ -810,6 +808,7 @@ BEGIN
   OR (inner_op.result_snapshot->>'debtReductionInMinorUnits')::BIGINT IS DISTINCT FROM(c.prepared_plan->>'debtReductionInMinorUnits')::BIGINT
   OR (inner_op.result_snapshot->>'moneyRefundInMinorUnits')::BIGINT IS DISTINCT FROM(c.prepared_plan->>'moneyRefundInMinorUnits')::BIGINT
   OR b.result_snapshot->>'evidenceFingerprint' IS DISTINCT FROM encode(extensions.digest(public.tb215_return_manifest_internal(p_operation_id)::TEXT,'sha256'),'hex')
+  OR b.result_snapshot-'evidenceFingerprint' IS DISTINCT FROM public.tb215_return_public_result_internal(p_operation_id)
  THEN RAISE EXCEPTION 'AFTERCARE215_RETURN_EVIDENCE_INVALID'; END IF;
  PERFORM public.phase42_assert_operational_return_evidence_internal(r.return_operation_id,true);
  SELECT id INTO STRICT return_event FROM public.sales_return_events WHERE operation_id=r.return_operation_id;
@@ -876,11 +875,7 @@ BEGIN
  inner_operation:=(inner_result->>'operationId')::UUID;
  supplier_operation:=public.tb215_hold_return_subset_internal(inner_operation,request->'supplierAssignments',key,request->'baseRequest'->>'reason');
  INSERT INTO public.aftercare215_return_results VALUES(operation,inner_operation,supplier_operation);
- result:=jsonb_build_object('success',true,'contractVersion',215,'operationId',operation,'returnOperationId',inner_operation,'returnId',inner_result->'returnId',
-  'returnNumber',inner_result->'returnNumber','orderId',inner_result->'orderId','entitlementInMinorUnits',(inner_result->>'merchandiseEntitlementInMinorUnits')::BIGINT::TEXT,
-  'debtReductionInMinorUnits',(inner_result->>'debtReductionInMinorUnits')::BIGINT::TEXT,'moneyRefundInMinorUnits',(inner_result->>'moneyRefundInMinorUnits')::BIGINT::TEXT,
-  'refundMethod',inner_result->'refundMethod','goodQuantity',plan->'goodQuantity','badQuantity',plan->'badQuantity','customerDamageQuantity',plan->'customerDamageQuantity',
-  'evidenceFingerprint',encode(extensions.digest(public.tb215_return_manifest_internal(operation)::TEXT,'sha256'),'hex'));
+ result:=public.tb215_return_public_result_internal(operation)||jsonb_build_object('evidenceFingerprint',encode(extensions.digest(public.tb215_return_manifest_internal(operation)::TEXT,'sha256'),'hex'));
  INSERT INTO public.business_operations(id,operation_type,idempotency_key,request_fingerprint,request_identity_version,request_identity_snapshot,actor_scope_type,actor_scope_hash,initiated_by,result_snapshot,completed_at)
   VALUES(operation,'aftercare215_return',key,fingerprint,215,identity,'erp_user',actor_hash,actor,result,clock_timestamp());
  PERFORM public.tb215_assert_return_internal(operation);
@@ -3495,6 +3490,7 @@ BEGIN
   OR b.request_fingerprint IS DISTINCT FROM encode(extensions.digest(parent_identity::TEXT,'sha256'),'hex')
   OR ctx.preview_fingerprint IS DISTINCT FROM encode(extensions.digest(plan::TEXT,'sha256'),'hex')
   OR b.result_snapshot->>'evidenceFingerprint' IS DISTINCT FROM encode(extensions.digest(public.tb215_exchange_manifest_internal(p_operation_id)::TEXT,'sha256'),'hex')
+  OR b.result_snapshot-'evidenceFingerprint' IS DISTINCT FROM public.tb215_exchange_public_result_internal(p_operation_id)
   OR b.completed_at IS DISTINCT FROM ctx.created_at OR ctx.order_id IS DISTINCT FROM(plan->>'orderId')::UUID
   OR(plan->>'internalCreditInMinorUnits')::BIGINT IS DISTINCT FROM credit
   OR(plan->>'differenceInMinorUnits')::BIGINT IS DISTINCT FROM difference
@@ -3550,7 +3546,7 @@ RETURNS JSONB LANGUAGE plpgsql SECURITY DEFINER SET search_path=public,pg_temp A
 #variable_conflict use_variable
 DECLARE actor UUID:=auth.uid(); request JSONB; plan JSONB; identity JSONB; fingerprint TEXT; key TEXT; actor_hash TEXT;
  operation UUID:=gen_random_uuid(); old public.business_operations%ROWTYPE; pos_key TEXT; return_key TEXT; return_actor_hash TEXT;
- pos_result JSONB; return_result JSONB; supplier_operation UUID; result JSONB; at TIMESTAMPTZ:=clock_timestamp(); base JSONB;
+ pos_result JSONB; return_result JSONB; supplier_operation UUID; result JSONB; at TIMESTAMPTZ:=clock_timestamp(); base JSONB; discovered_customer UUID; locked_customer UUID;
 BEGIN
  PERFORM public.assert_erp_role(ARRAY['owner','admin'],'تأكيد تبديل بصنف آخر');
  IF auth.role() IS DISTINCT FROM 'authenticated' OR actor IS NULL THEN RAISE EXCEPTION USING ERRCODE='42501',MESSAGE='AFTERCARE215_ROLE_DENIED'; END IF;
@@ -3576,7 +3572,12 @@ BEGIN
   OR EXISTS(SELECT 1 FROM public.orders WHERE idempotency_key=pos_key)
   OR EXISTS(SELECT 1 FROM public.pos_uncommitted_attempt_cancellations WHERE actor_id=actor AND idempotency_key=pos_key)
  THEN RAISE EXCEPTION 'AFTERCARE215_LEGACY_KEY_CONFLICT'; END IF;
+ -- Match collection/POS parent ordering before taking order,shift or stock.
+ SELECT customer_id INTO discovered_customer FROM public.orders WHERE id=(request->'returnRequest'->'baseRequest'->>'order_id')::UUID;
+ IF discovered_customer IS NOT NULL THEN PERFORM 1 FROM public.customers WHERE id=discovered_customer FOR UPDATE; END IF;
  PERFORM public.phase4_lock_customer_order_context_internal((request->'returnRequest'->'baseRequest'->>'order_id')::UUID,true,false);
+ SELECT customer_id INTO locked_customer FROM public.orders WHERE id=(request->'returnRequest'->'baseRequest'->>'order_id')::UUID;
+ IF locked_customer IS DISTINCT FROM discovered_customer THEN RAISE EXCEPTION USING ERRCODE='40001',MESSAGE='AFTERCARE215_CUSTOMER_CHANGED_RETRY'; END IF;
  plan:=public.tb215_prepare_exchange_internal(request);
  PERFORM public.phase2_lock_inventory_products_internal(ARRAY(
   SELECT DISTINCT id FROM(SELECT (s->>'product_id')::UUID id FROM jsonb_array_elements(plan->'returnPlan'->'physicalSources') s
@@ -3594,12 +3595,7 @@ BEGIN
  supplier_operation:=public.tb215_hold_return_subset_internal((return_result->>'operationId')::UUID,request->'returnRequest'->'supplierAssignments',return_key,base->>'reason');
  INSERT INTO public.aftercare215_exchange_results(operation_id,return_operation_id,new_order_id,supplier_operation_id)
  VALUES(operation,(return_result->>'operationId')::UUID,(pos_result->>'orderId')::UUID,supplier_operation);
- result:=jsonb_build_object('success',true,'operationId',operation,'originalOrderId',plan->'orderId','newOrderId',pos_result->'orderId',
-  'newOrderNumber',pos_result->'orderNumber','returnId',return_result->'returnId','returnNumber',return_result->'returnNumber',
-  'internalCreditInMinorUnits',plan->'internalCreditInMinorUnits','newTotalInMinorUnits',plan->'newTotalInMinorUnits',
-  'moneyReceivedInMinorUnits',plan->'moneyReceivedInMinorUnits','moneyRefundInMinorUnits',plan->'moneyRefundInMinorUnits',
-  'differenceMethod',plan->'differenceMethod','referenceNumber',plan->'referenceNumber',
-  'evidenceFingerprint',encode(extensions.digest(public.tb215_exchange_manifest_internal(operation)::TEXT,'sha256'),'hex'));
+ result:=public.tb215_exchange_public_result_internal(operation)||jsonb_build_object('evidenceFingerprint',encode(extensions.digest(public.tb215_exchange_manifest_internal(operation)::TEXT,'sha256'),'hex'));
  INSERT INTO public.business_operations(id,operation_type,idempotency_key,request_fingerprint,initiated_by,result_snapshot,completed_at,request_identity_version,request_identity_snapshot,actor_scope_type,actor_scope_hash)
  VALUES(operation,'aftercare215_exchange',key,fingerprint,actor,result,at,215,identity,'erp_user',actor_hash);
  PERFORM public.tb215_assert_exchange_internal(operation);
@@ -3691,6 +3687,506 @@ BEGIN
  WHERE r.new_order_id=p_order_id;
  RETURN LEAST(completed,COALESCE(original,completed));
 END $$;
+CREATE FUNCTION public.tb215_inspection_public_result_internal(p_operation_id UUID)
+RETURNS JSONB LANGUAGE sql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+ SELECT jsonb_build_object('success',true,'contractVersion',215,'operationId',i.operation_id,'orderId',i.order_id,'replacementId',e.id,
+  'issuedQuantity',(SELECT COALESCE(sum(f.issued_quantity),0) FROM public.phase43_replacement_inventory_effects f WHERE f.operation_id=i.replacement_operation_id),
+  'restockedQuantity',(SELECT sum(m.good_quantity) FROM public.aftercare215_inspection_items m WHERE m.operation_id=i.operation_id),
+  'badQuantity',(SELECT sum(m.bad_quantity) FROM public.aftercare215_inspection_items m WHERE m.operation_id=i.operation_id),
+  'caseIds',to_jsonb(ARRAY(SELECT m.supplier_case_id FROM public.aftercare215_inspection_items m JOIN public.phase43_replacement_inventory_effects f ON f.replacement_item_id=m.replacement_item_id
+   WHERE m.operation_id=i.operation_id AND m.supplier_case_id IS NOT NULL ORDER BY f.product_id,f.source_kind,f.source_id)),
+  'moneyDifferenceInMinorUnits',0)
+ FROM public.aftercare215_inspections i JOIN public.sales_replacement_events e ON e.operation_id=i.replacement_operation_id WHERE i.operation_id=p_operation_id;
+$$;
+CREATE FUNCTION public.tb215_return_public_result_internal(p_operation_id UUID)
+RETURNS JSONB LANGUAGE sql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+ SELECT jsonb_build_object('success',true,'contractVersion',215,'operationId',c.operation_id,'returnOperationId',r.return_operation_id,
+  'returnId',b.result_snapshot->'returnId','returnNumber',b.result_snapshot->'returnNumber','orderId',b.result_snapshot->'orderId',
+  'entitlementInMinorUnits',(b.result_snapshot->>'merchandiseEntitlementInMinorUnits')::BIGINT::TEXT,
+  'debtReductionInMinorUnits',(b.result_snapshot->>'debtReductionInMinorUnits')::BIGINT::TEXT,
+  'moneyRefundInMinorUnits',(b.result_snapshot->>'moneyRefundInMinorUnits')::BIGINT::TEXT,'refundMethod',b.result_snapshot->'refundMethod',
+  'goodQuantity',c.prepared_plan->'goodQuantity','badQuantity',c.prepared_plan->'badQuantity','customerDamageQuantity',c.prepared_plan->'customerDamageQuantity')
+ FROM public.aftercare215_return_contexts c JOIN public.aftercare215_return_results r ON r.operation_id=c.operation_id
+ JOIN public.business_operations b ON b.id=r.return_operation_id WHERE c.operation_id=p_operation_id;
+$$;
+CREATE FUNCTION public.tb215_exchange_public_result_internal(p_operation_id UUID)
+RETURNS JSONB LANGUAGE sql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+ SELECT jsonb_build_object('success',true,'operationId',x.operation_id,'originalOrderId',x.prepared_plan->'orderId','newOrderId',r.new_order_id,
+  'newOrderNumber',o.order_number,'returnId',ret.result_snapshot->'returnId','returnNumber',ret.result_snapshot->'returnNumber',
+  'internalCreditInMinorUnits',x.prepared_plan->'internalCreditInMinorUnits','newTotalInMinorUnits',x.prepared_plan->'newTotalInMinorUnits',
+  'moneyReceivedInMinorUnits',x.prepared_plan->'moneyReceivedInMinorUnits','moneyRefundInMinorUnits',x.prepared_plan->'moneyRefundInMinorUnits',
+  'differenceMethod',x.prepared_plan->'differenceMethod','referenceNumber',x.prepared_plan->'referenceNumber')
+ FROM public.aftercare215_exchanges x JOIN public.aftercare215_exchange_results r ON r.operation_id=x.operation_id
+ JOIN public.orders o ON o.id=r.new_order_id JOIN public.business_operations ret ON ret.id=r.return_operation_id WHERE x.operation_id=p_operation_id;
+$$;
+CREATE OR REPLACE FUNCTION public.get_cash_shift_movement_page(p_shift_id uuid, p_kind text, p_method text DEFAULT 'cash'::text, p_page integer DEFAULT 1, p_page_size integer DEFAULT 25)
+ RETURNS jsonb
+ LANGUAGE plpgsql
+ STABLE SECURITY DEFINER
+ SET search_path TO 'public', 'pg_temp'
+AS $function$
+DECLARE
+  v_shift public.cash_shifts%ROWTYPE;
+  v_summary JSONB;
+  v_key TEXT;
+  v_canonical BIGINT;
+  v_end TIMESTAMPTZ;
+  v_result JSONB;
+BEGIN
+  PERFORM public.assert_erp_role(ARRAY['owner','admin','manager','accountant'], 'عرض تفاصيل حركة الوردية');
+  IF p_shift_id IS NULL OR p_kind IS NULL OR p_method IS NULL
+    OR p_kind NOT IN ('sales','receipts','supplier_payments','expenses','refunds','withdrawals','withdrawal_returns')
+    OR p_method NOT IN ('cash','cliq','card')
+    OR (p_method='card' AND p_kind<>'sales')
+    OR (p_kind IN ('withdrawals','withdrawal_returns') AND p_method<>'cash')
+    OR p_page IS NULL OR p_page<1 OR p_page>1000000
+    OR p_page_size IS NULL OR p_page_size<1 OR p_page_size>100
+  THEN RAISE EXCEPTION 'معايير تفاصيل الوردية غير صالحة.' USING ERRCODE='22023'; END IF;
+  SELECT * INTO v_shift FROM public.cash_shifts WHERE id=p_shift_id;
+  IF NOT FOUND THEN RAISE EXCEPTION 'الوردية المحددة غير موجودة.' USING ERRCODE='22023'; END IF;
+  v_summary:=public.get_cash_shift_summary(p_shift_id);
+  v_end:=CASE WHEN v_shift.status='open' THEN NOW() ELSE COALESCE(v_shift.closed_at,NOW()) END;
+  v_key:=CASE p_kind
+    WHEN 'sales' THEN p_method||'SalesInMinorUnits'
+    WHEN 'receipts' THEN p_method||'ReceiptsInMinorUnits'
+    WHEN 'supplier_payments' THEN p_method||'SupplierPaymentsInMinorUnits'
+    WHEN 'expenses' THEN p_method||'ExpensesInMinorUnits'
+    WHEN 'refunds' THEN p_method||'RefundsInMinorUnits'
+    WHEN 'withdrawals' THEN 'ownerWithdrawalsInMinorUnits'
+    WHEN 'withdrawal_returns' THEN 'ownerWithdrawalReturnsInMinorUnits' END;
+  v_canonical:=(v_summary->>v_key)::BIGINT;
+  -- 044 fallback attribution and 078 reversal predicates are retained exactly.
+  -- In particular a legacy reversed receipt with NULL shift still belongs to
+  -- the old aggregate; it is labelled, never silently corrected by this reader.
+  WITH attributed_sales AS (
+    SELECT o.id,o.order_number,o.payment_method,o.total_in_minor_units,
+      COALESCE((SELECT MIN(h.created_at) FROM public.order_status_history h
+        WHERE h.order_id=o.id AND h.new_status='completed'),o.updated_at) at,
+      o.cash_shift_id
+    FROM public.orders o WHERE p_kind='sales' AND o.branch_id=v_shift.branch_id
+      AND o.status IN ('completed','returned')
+      AND (o.payment_method::TEXT=p_method OR (p_method='cash' AND o.payment_method='cash_on_delivery'))
+  ), evidence(source,id,reference,at,method,amount,note) AS (
+    SELECT 'order'::TEXT,o.id,o.order_number,o.at,p_method,o.total_in_minor_units,NULL::TEXT
+    FROM attributed_sales o WHERE o.cash_shift_id=p_shift_id OR
+      (o.cash_shift_id IS NULL AND o.at>=v_shift.opened_at AND o.at<=v_end)
+    UNION ALL
+    SELECT 'customer_payment',cp.id,o.order_number,cp.created_at,cp.payment_method::TEXT,cp.amount_in_minor_units,
+      CASE WHEN cp.is_reversed THEN 'سند تاريخي بلا وردية؛ محفوظ ضمن إجمالي القارئ القديم' END
+    FROM public.customer_payments cp JOIN public.orders o ON o.id=cp.order_id
+    WHERE p_kind='receipts' AND cp.payment_method::TEXT=p_method AND o.branch_id=v_shift.branch_id
+      AND o.payment_method='debt' AND (cp.cash_shift_id=p_shift_id OR
+        (cp.cash_shift_id IS NULL AND cp.created_at>=v_shift.opened_at AND cp.created_at<=v_end))
+      AND NOT (COALESCE(cp.is_reversed,false) AND cp.cash_shift_id IS NOT NULL)
+    UNION ALL
+    SELECT 'opening_collection',c.id,c.operation_number,c.created_at,c.payment_method::TEXT,c.opening_amount_in_minor_units,'تحصيل دين البداية'
+    FROM public.customer_collection_operations c WHERE p_kind='receipts' AND c.cash_shift_id=p_shift_id
+      AND NOT c.is_reversed AND c.payment_method::TEXT=p_method AND c.opening_amount_in_minor_units>0
+    UNION ALL
+    SELECT 'cheque_collection',c.id,c.operation_number,c.created_at,c.payment_method::TEXT,c.compensation_amount_in_minor_units,'تحصيل تعويض شيك'
+    FROM public.customer_collection_operations c WHERE p_kind='receipts' AND c.cash_shift_id=p_shift_id
+      AND NOT c.is_reversed AND c.payment_method::TEXT=p_method AND c.compensation_amount_in_minor_units>0
+    UNION ALL
+    SELECT 'supplier_payment',sp.id,COALESCE(sr.receipt_number,po.purchase_order_number,sp.id::TEXT),sp.payment_date,sp.payment_method::TEXT,sp.amount_in_minor_units,NULL::TEXT
+    FROM public.supplier_payments sp LEFT JOIN public.purchase_orders po ON po.id=sp.purchase_order_id
+      LEFT JOIN public.supplier_receipts sr ON sr.id=sp.supplier_receipt_id
+    WHERE p_kind='supplier_payments' AND sp.payment_method::TEXT=p_method
+      AND COALESCE(po.branch_id,sr.branch_id)=v_shift.branch_id AND NOT COALESCE(sp.is_reversed,false)
+      AND (sp.cash_shift_id=p_shift_id OR (sp.cash_shift_id IS NULL AND sp.payment_date>=v_shift.opened_at AND sp.payment_date<=v_end))
+    UNION ALL
+    SELECT 'supplier_opening_payment',sp.id,sp.id::TEXT,sp.payment_date,sp.payment_method::TEXT,sp.amount_in_minor_units,'دفعة دين بداية لمورد'
+    FROM public.supplier_opening_payments l JOIN public.supplier_payments sp ON sp.id=l.supplier_payment_id
+    WHERE p_kind='supplier_payments' AND l.cash_shift_id=p_shift_id AND sp.payment_method::TEXT=p_method AND NOT COALESCE(sp.is_reversed,false)
+    UNION ALL
+    SELECT 'supplier_cheque_payment',sp.id,c.reference,sp.payment_date,sp.payment_method::TEXT,l.amount_in_minor_units,'دفعة تعويض شيك لمورد'
+    FROM public.supplier_cheque_claim_payments l JOIN public.supplier_payments sp ON sp.id=l.supplier_payment_id
+      JOIN public.cheque_compensation_claims c ON c.id=l.claim_id
+    WHERE p_kind='supplier_payments' AND l.cash_shift_id=p_shift_id AND sp.payment_method::TEXT=p_method AND NOT sp.is_reversed
+    UNION ALL
+    SELECT 'expense',e.id,e.expense_number,e.created_at,e.payment_method::TEXT,e.amount_in_minor_units,e.description
+    FROM public.operational_expenses e WHERE p_kind='expenses' AND e.shift_id=p_shift_id
+      AND e.payment_method::TEXT=p_method AND NOT COALESCE(e.is_reversed,false)
+    UNION ALL
+    SELECT 'legacy_return',r.id,r.return_number,r.created_at,r.refund_method::TEXT,r.refund_amount_in_minor_units,'مرتجع تاريخي'
+    FROM public.sales_returns r WHERE p_kind='refunds' AND r.cash_shift_id=p_shift_id AND r.refund_method::TEXT=p_method
+    UNION ALL
+    SELECT 'return_event',r.id,r.id::TEXT,r.created_at,r.refund_method::TEXT,r.money_refund_amount_in_minor_units,'مبلغ مسترد مسوّى'
+    FROM public.sales_return_events r WHERE p_kind='refunds' AND r.cash_shift_id=p_shift_id AND r.refund_method::TEXT=p_method
+      AND r.settlement_status='settled' AND r.money_refund_amount_in_minor_units>0
+    UNION ALL
+    SELECT 'order',o.id,o.order_number,x.created_at,p_method,(x.prepared_plan->>'moneyReceivedInMinorUnits')::BIGINT,'فرق مستلم من تبديل بصنف آخر'
+    FROM public.aftercare215_exchanges x JOIN public.aftercare215_exchange_results result ON result.operation_id=x.operation_id JOIN public.orders o ON o.id=result.new_order_id
+    WHERE p_kind='sales' AND(x.prepared_plan->>'cashShiftId')::UUID=p_shift_id AND x.prepared_plan->>'differenceMethod'=p_method
+     AND(x.prepared_plan->>'moneyReceivedInMinorUnits')::BIGINT>0
+    UNION ALL
+    SELECT 'return_event',r.id,r.return_number,x.created_at,p_method,(x.prepared_plan->>'moneyRefundInMinorUnits')::BIGINT,'فرق مرجع من تبديل بصنف آخر'
+    FROM public.aftercare215_exchanges x JOIN public.aftercare215_exchange_results result ON result.operation_id=x.operation_id JOIN public.sales_return_events r ON r.operation_id=result.return_operation_id
+    WHERE p_kind='refunds' AND(x.prepared_plan->>'cashShiftId')::UUID=p_shift_id AND x.prepared_plan->>'differenceMethod'=p_method
+     AND(x.prepared_plan->>'moneyRefundInMinorUnits')::BIGINT>0
+    UNION ALL
+    SELECT 'owner_withdrawal',w.id,w.withdrawal_number,w.created_at,'cash',w.amount_in_minor_units,'سحب مالك'
+    FROM public.owner_cash_withdrawals w WHERE p_kind='withdrawals' AND w.cash_shift_id=p_shift_id
+    UNION ALL
+    SELECT 'owner_withdrawal_return',r.id,w.withdrawal_number,r.reversed_at,'cash',r.amount_in_minor_units,
+      'إرجاع سحب من '||s.shift_number
+    FROM public.owner_cash_withdrawal_reversals r JOIN public.owner_cash_withdrawals w ON w.id=r.withdrawal_id
+      JOIN public.cash_shifts s ON s.id=w.cash_shift_id
+    WHERE p_kind='withdrawal_returns' AND r.effective_shift_id=p_shift_id AND r.voided_at IS NULL
+  ), totals AS (
+    SELECT COUNT(*) count,COALESCE(SUM(amount),0) amount FROM evidence
+  ), page AS (
+    SELECT * FROM evidence ORDER BY at DESC,id DESC,source
+    LIMIT p_page_size OFFSET ((p_page::BIGINT-1)*p_page_size)
+  ) SELECT jsonb_build_object(
+    'shiftId',p_shift_id,'kind',p_kind,'method',p_method,'generatedAt',NOW(),
+    'shiftStatus',v_shift.status,'canonicalAmountInMinorUnits',v_canonical,
+    'totalAmountInMinorUnits',totals.amount,'totalCount',totals.count,
+    'page',p_page,'pageSize',p_page_size,'totalPages',GREATEST(1,CEIL(totals.count::NUMERIC/p_page_size)),
+    'evidenceStatus',CASE WHEN v_canonical IS NULL THEN 'unavailable' WHEN v_canonical=totals.amount THEN 'matched' ELSE 'mismatch' END,
+    'rows',COALESCE((SELECT jsonb_agg(jsonb_build_object('source',source,'id',id,'reference',reference,
+      'at',at,'method',method,'amountInMinorUnits',amount,'note',note)||public.trial212_cash_metadata_internal(source,id) ORDER BY at DESC,id DESC,source) FROM page),'[]'::JSONB)
+  ) INTO v_result FROM totals;
+  RETURN v_result;
+END;
+$function$;
+
+CREATE OR REPLACE FUNCTION public._get_cash_shift_closing_report_before_snapshot(p_shift_id uuid)
+ RETURNS jsonb
+ LANGUAGE plpgsql
+ STABLE SECURITY DEFINER
+ SET search_path TO 'public', 'pg_temp'
+AS $function$
+DECLARE
+  v_report JSONB;
+  v_base_report JSONB;
+  v_event_count INTEGER := 0;
+  v_exchange_refund_count INTEGER := 0;
+  v_internal_exchange_credit BIGINT := 0;
+  v_breakdown JSONB;
+  v_quantity_breakdown JSONB;
+  v_shift public.cash_shifts%ROWTYPE;
+  v_gross BIGINT;
+  v_credit BIGINT;
+  v_first_cash BIGINT;
+  v_first_cliq BIGINT;
+  v_first_total BIGINT;
+  v_direct_collected BIGINT;
+  v_unproven INTEGER;
+  v_debt_reduction BIGINT;
+  v_return_entitlement BIGINT;
+BEGIN
+  v_report := public._get_cash_shift_closing_report_before_return_events(p_shift_id);
+  IF COALESCE(v_report->>'success', 'false') <> 'true' THEN
+    RETURN v_report;
+  END IF;
+  SELECT COUNT(*)::INTEGER INTO v_event_count
+  FROM public.sales_return_events
+  WHERE cash_shift_id = p_shift_id
+    AND settlement_status = 'settled'
+    AND money_refund_amount_in_minor_units > 0 AND refund_method<>'exchange_credit';
+  SELECT count(*) INTO v_exchange_refund_count FROM public.aftercare215_exchanges x JOIN public.aftercare215_exchange_results r ON r.operation_id=x.operation_id
+  WHERE(x.prepared_plan->>'cashShiftId')::UUID=p_shift_id AND(x.prepared_plan->>'moneyRefundInMinorUnits')::BIGINT>0;
+  v_event_count:=v_event_count+v_exchange_refund_count;
+
+  IF v_event_count > 0 THEN
+    WITH combined AS (
+      SELECT
+        item->>'refundMethod' AS refund_method,
+        item->>'stockDisposition' AS stock_disposition,
+        COALESCE((item->>'count')::INTEGER, 0) AS item_count,
+        COALESCE((item->>'amountInMinorUnits')::BIGINT, 0) AS amount
+      FROM jsonb_array_elements(COALESCE(v_report->'returnBreakdown', '[]'::JSONB)) item
+      UNION ALL
+      SELECT
+        return_event.refund_method,
+        CASE WHEN EXISTS (
+          SELECT 1 FROM public.sales_return_items return_item
+          WHERE return_item.sales_return_event_id = return_event.id
+            AND return_item.stock_disposition = 'damaged'
+        ) THEN 'damaged' ELSE 'restock' END,
+        1,
+        return_event.money_refund_amount_in_minor_units
+      FROM public.sales_return_events return_event
+      WHERE return_event.cash_shift_id = p_shift_id
+        AND return_event.settlement_status = 'settled'
+        AND return_event.money_refund_amount_in_minor_units > 0 AND return_event.refund_method<>'exchange_credit'
+      UNION ALL
+      SELECT x.prepared_plan->>'differenceMethod',CASE WHEN EXISTS(SELECT 1 FROM public.sales_return_items i WHERE i.sales_return_event_id=e.id AND i.stock_disposition='damaged') THEN 'damaged' ELSE 'restock' END,
+       1,(x.prepared_plan->>'moneyRefundInMinorUnits')::BIGINT
+      FROM public.aftercare215_exchanges x JOIN public.aftercare215_exchange_results r ON r.operation_id=x.operation_id JOIN public.sales_return_events e ON e.operation_id=r.return_operation_id
+      WHERE(x.prepared_plan->>'cashShiftId')::UUID=p_shift_id AND(x.prepared_plan->>'moneyRefundInMinorUnits')::BIGINT>0
+    ), grouped AS (
+      SELECT refund_method, stock_disposition,
+        SUM(item_count)::INTEGER AS item_count, SUM(amount)::BIGINT AS amount
+      FROM combined
+      GROUP BY refund_method, stock_disposition
+    )
+    SELECT COALESCE(jsonb_agg(
+      jsonb_build_object(
+        'refundMethod', refund_method,
+        'stockDisposition', stock_disposition,
+        'count', item_count,
+        'amountInMinorUnits', amount
+      ) ORDER BY amount DESC, refund_method, stock_disposition
+    ), '[]'::JSONB)
+    INTO v_breakdown
+    FROM grouped;
+
+    v_report := jsonb_set(v_report, '{returnBreakdown}', v_breakdown, true);
+    v_report := jsonb_set(
+      v_report,
+      '{outflows,returnCount}',
+      to_jsonb(COALESCE((v_report #>> '{outflows,returnCount}')::INTEGER, 0) + v_event_count),
+      true
+    );
+  END IF;
+
+  WITH quantities AS (
+    -- Modern allocated returns preserve three independent buckets per physical
+    -- leaf. A root inspection's accepted disposition cannot classify all its
+    -- accepted quantity: it may contain both sellable and supplier-defect units.
+    SELECT e.id AS event_id, (leaf->>'product_id')::UUID AS product_id,
+      (leaf->>'sellable_restock_quantity')::INTEGER AS sellable,
+      (leaf->>'defect_non_sellable_quantity')::INTEGER AS defect,
+      (leaf->>'customer_damage_quantity')::INTEGER AS damage
+    FROM public.sales_return_events e
+    JOIN public.business_operations op ON op.id = e.operation_id
+    CROSS JOIN LATERAL jsonb_array_elements(op.request_identity_snapshot->'physical_sources') leaf
+    WHERE e.cash_shift_id = p_shift_id AND e.settlement_status = 'settled' AND e.contract_version = 401
+      AND jsonb_typeof(op.request_identity_snapshot->'physical_sources') = 'array'
+    UNION ALL
+    SELECT e.id, i.product_id,
+      CASE WHEN i.stock_disposition = 'restock' THEN i.accepted_base_quantity ELSE 0 END,
+      CASE WHEN i.stock_disposition = 'damaged' THEN i.accepted_base_quantity ELSE 0 END,
+      i.rejected_base_quantity
+    FROM public.sales_return_events e
+    JOIN public.sales_return_items i ON i.sales_return_event_id = e.id
+    JOIN public.business_operations op ON op.id = e.operation_id
+    WHERE e.cash_shift_id = p_shift_id AND e.settlement_status = 'settled' AND e.contract_version = 401
+      AND i.return_scope = 'base_unit'
+      AND NOT (op.request_identity_snapshot ? 'physical_sources')
+    UNION ALL
+    SELECT e.id, c.product_id,
+      CASE WHEN c.accepted_stock_disposition = 'restock' THEN c.accepted_quantity ELSE 0 END,
+      CASE WHEN c.accepted_stock_disposition = 'non_sellable' THEN c.accepted_quantity ELSE 0 END,
+      c.rejected_quantity
+    FROM public.sales_return_events e
+    JOIN public.sales_return_items i ON i.sales_return_event_id = e.id
+    JOIN public.sales_return_component_inspections c ON c.sales_return_item_id = i.id
+    JOIN public.business_operations op ON op.id = e.operation_id
+    WHERE e.cash_shift_id = p_shift_id AND e.settlement_status = 'settled' AND e.contract_version = 401
+      AND NOT (op.request_identity_snapshot ? 'physical_sources')
+    UNION ALL
+    SELECT e.id, i.product_id,
+      CASE WHEN e.stock_disposition = 'restock' THEN i.quantity ELSE 0 END,
+      CASE WHEN e.stock_disposition = 'damaged' THEN i.quantity ELSE 0 END,
+      0
+    FROM public.sales_returns e
+    JOIN public.order_items i ON i.order_id = e.order_id
+    WHERE e.cash_shift_id = p_shift_id
+  )
+  SELECT COALESCE(jsonb_agg(jsonb_build_object(
+    'eventId', q.event_id, 'productId', q.product_id,
+    'productName', COALESCE(p.name_ar, 'صنف تاريخي'),
+    'sellableQuantity', q.sellable, 'defectQuantity', q.defect,
+    'customerDamageQuantity', q.damage) ORDER BY q.event_id, q.product_id), '[]'::JSONB)
+  INTO v_quantity_breakdown
+  FROM quantities q LEFT JOIN public.products p ON p.id = q.product_id;
+
+  -- Preserve the full131 Return projection even if only133 sales enrichment fails.
+  v_report := v_report || jsonb_build_object('returnQuantityBreakdown',v_quantity_breakdown);
+  v_base_report:=v_report;
+  BEGIN
+
+  SELECT * INTO STRICT v_shift FROM public.cash_shifts WHERE id=p_shift_id;
+  SELECT COALESCE(sum((x.prepared_plan->>'internalCreditInMinorUnits')::BIGINT),0) INTO v_internal_exchange_credit
+  FROM public.aftercare215_exchanges x JOIN public.aftercare215_exchange_results r ON r.operation_id=x.operation_id
+  WHERE(x.prepared_plan->>'cashShiftId')::UUID=p_shift_id;
+
+  -- Completion-time truth is immutable. Later receipts/refunds do not turn
+  -- newly-sold credit into a different sale. Existing cash/receipt/reconciliation
+  -- fields in v_report are never rewritten by this presentation change.
+  WITH first_completion AS MATERIALIZED (
+    SELECT order_id,MAX(created_at) AS at FROM public.order_status_history
+    WHERE new_status='completed' GROUP BY order_id
+  ), completions AS MATERIALIZED (
+    SELECT DISTINCT ON (operation.result_snapshot->>'order_id')
+      operation.result_snapshot->>'order_id' AS order_key,
+      operation.result_snapshot,operation.request_identity_snapshot
+    FROM public.business_operations operation
+    WHERE operation.operation_type='phase3_customer_completion_v1'
+      AND operation.result_snapshot->>'order_id'=operation.request_identity_snapshot->>'order_id'
+      AND operation.completed_at IS NOT NULL
+    ORDER BY operation.result_snapshot->>'order_id',operation.completed_at,operation.id
+  ), selected AS (
+    SELECT customer_order.*,creation.operation_type,creation.result_snapshot AS creation_result,
+      completion.result_snapshot AS completion_result,completion.request_identity_snapshot AS completion_request
+    FROM public.orders customer_order
+    LEFT JOIN first_completion ON first_completion.order_id=customer_order.id
+    LEFT JOIN public.business_operations creation ON creation.id=customer_order.operation_id
+    LEFT JOIN completions completion ON completion.order_key=customer_order.id::TEXT
+    WHERE customer_order.branch_id=v_shift.branch_id
+      AND customer_order.status IN('completed','returned')
+      AND (customer_order.cash_shift_id=p_shift_id OR (
+        customer_order.cash_shift_id IS NULL AND COALESCE(first_completion.at,customer_order.updated_at)>=v_shift.opened_at
+        AND COALESCE(first_completion.at,customer_order.updated_at)<=COALESCE(v_shift.closed_at,NOW())
+      ))
+  ), anchors AS (
+    SELECT selected.*,
+      CASE WHEN operation_type='phase3_pos_sale_v1'
+        THEN (creation_result->>'amountPaidInMinorUnits')::BIGINT
+        WHEN operation_type='phase3_customer_reservation_v1'
+        THEN (completion_result->>'amount_paid_in_minor_units')::BIGINT
+        WHEN payment_method IN('cash','cash_on_delivery','cliq','card') THEN total_in_minor_units
+        ELSE 0 END AS initial_collected,
+      CASE WHEN operation_type='phase3_customer_reservation_v1'
+        THEN NULLIF(completion_result->>'customer_payment_number','') END AS first_voucher_number
+    FROM selected
+  ), bound AS (
+    SELECT anchors.*,payment.id AS first_payment_id,payment.amount_in_minor_units AS first_amount,
+      payment.payment_method AS first_method,payment.order_id AS first_order_id,
+      payment.cash_shift_id AS first_shift_id
+    FROM anchors LEFT JOIN public.customer_payments payment ON payment.payment_number=anchors.first_voucher_number
+  )
+  SELECT COALESCE(SUM(total_in_minor_units),0)::BIGINT,
+    COALESCE(SUM(total_in_minor_units-initial_collected),0)::BIGINT,
+    COALESCE(SUM(first_amount) FILTER(WHERE first_method='cash'),0)::BIGINT,
+    COALESCE(SUM(first_amount) FILTER(WHERE first_method='cliq'),0)::BIGINT,
+    COUNT(*) FILTER(WHERE initial_collected IS NULL OR initial_collected<0
+      OR initial_collected>total_in_minor_units OR (
+        first_voucher_number IS NOT NULL AND (
+          first_payment_id IS NULL OR first_order_id IS DISTINCT FROM id
+          OR first_shift_id IS DISTINCT FROM p_shift_id OR first_amount IS DISTINCT FROM initial_collected
+          OR first_method IS DISTINCT FROM completion_request->>'payment_method'
+          OR first_method NOT IN('cash','cliq')
+        )
+      ))::INTEGER
+  INTO v_gross,v_credit,v_first_cash,v_first_cliq,v_unproven
+  FROM bound;
+
+  v_first_total:=v_first_cash+v_first_cliq;
+  v_direct_collected:=COALESCE((v_report#>>'{shift,cashSalesInMinorUnits}')::BIGINT,0)
+    +COALESCE((v_report#>>'{shift,cliqSalesInMinorUnits}')::BIGINT,0)
+    +COALESCE((v_report#>>'{shift,cardSalesInMinorUnits}')::BIGINT,0);
+  IF v_unproven<>0 OR v_gross<>v_direct_collected+v_first_total+v_credit+v_internal_exchange_credit THEN
+    RAISE EXCEPTION 'PHASE133_CLOSING_SALES_EVIDENCE_MISMATCH: لا يمكن إثبات توزيع مبيعات الوردية.';
+  END IF;
+
+  -- Existing refunds contain legacy + modern money exactly once. Debt-only
+  -- Returns have no cash_shift_id; use authoritative settlement time inside
+  -- this branch's non-overlapping shift window. No drawer projection changes.
+  SELECT COALESCE(SUM(event.debt_reduction_amount_in_minor_units),0)::BIGINT
+  INTO v_debt_reduction
+  FROM public.sales_return_events event
+  JOIN public.orders customer_order ON customer_order.id=event.order_id
+  JOIN public.business_operations creation ON creation.id=customer_order.operation_id
+  WHERE event.contract_version=401 AND event.settlement_status='settled'
+    AND creation.operation_type IN('phase3_pos_sale_v1','phase3_customer_reservation_v1')
+    AND event.branch_id=v_shift.branch_id
+    AND (event.cash_shift_id=p_shift_id OR (
+      event.cash_shift_id IS NULL AND event.settled_at>=v_shift.opened_at
+      AND event.settled_at<COALESCE(v_shift.closed_at,NOW())
+    ));
+  v_return_entitlement:=COALESCE((v_report#>>'{sales,refundsInMinorUnits}')::BIGINT,0)+v_debt_reduction+v_internal_exchange_credit;
+
+  v_report:=jsonb_set(v_report,'{sales}',(v_report->'sales')||jsonb_build_object(
+    'salesDefinitionVersion',CASE WHEN v_internal_exchange_credit>0 THEN 215 ELSE 133 END,
+    'grossSalesInMinorUnits',v_gross,
+    'collectedDirectSalesInMinorUnits',v_direct_collected,
+    'initialReceiptPaymentsInMinorUnits',v_first_total,
+    'initialReceiptCashInMinorUnits',v_first_cash,
+    'initialReceiptCliqInMinorUnits',v_first_cliq,
+    'creditSalesInMinorUnits',v_credit,
+    'returnEntitlementInMinorUnits',v_return_entitlement,
+    'debtReductionInMinorUnits',v_debt_reduction,
+    'netSalesInMinorUnits',v_gross-v_return_entitlement
+  ));
+  IF v_internal_exchange_credit>0 THEN
+    v_report:=jsonb_set(v_report,'{sales}',(v_report->'sales')||jsonb_build_object('internalExchangeCreditInMinorUnits',v_internal_exchange_credit));
+  END IF;
+  v_report:=jsonb_set(v_report,'{collections}',(v_report->'collections')||jsonb_build_object(
+    'initialPaymentsInMinorUnits',v_first_total,
+    'initialCashInMinorUnits',v_first_cash,
+    'initialCliqInMinorUnits',v_first_cliq
+  ));
+  RETURN v_report || jsonb_build_object('returnQuantityBreakdown', v_quantity_breakdown,'salesDetailStatus','available');
+  EXCEPTION WHEN query_canceled THEN
+    RETURN v_base_report || jsonb_build_object('salesDetailStatus','unavailable','salesDetailMessage','تفصيل غير متاح');
+  WHEN OTHERS THEN
+    RETURN v_base_report || jsonb_build_object('salesDetailStatus','unavailable','salesDetailMessage','تفصيل غير متاح');
+  END;
+END;
+$function$;
+
+CREATE OR REPLACE FUNCTION public.get_public_pos_receipt(p_receipt_token uuid)
+ RETURNS jsonb
+ LANGUAGE plpgsql
+ STABLE SECURITY DEFINER
+ SET search_path TO 'public', 'pg_temp'
+AS $function$
+DECLARE
+  v_receipt JSONB;
+BEGIN
+  IF p_receipt_token IS NULL THEN
+    RETURN jsonb_build_object('success', false, 'message', 'رابط الإيصال غير صحيح.');
+  END IF;
+
+  SELECT jsonb_build_object(
+    'success', true,
+    'orderNumber', o.order_number, 'createdAt', o.created_at, 'status', o.status,
+    'paymentMethod', o.payment_method, 'paymentStatus', o.payment_status,
+    'subtotalInMinorUnits', o.subtotal_in_minor_units,
+    'discountInMinorUnits', o.discount_in_minor_units,
+    'totalInMinorUnits', o.total_in_minor_units,
+    'branch', jsonb_build_object('name', COALESCE(b.name_ar, 'محلات النواصرة'),
+      'address', COALESCE(b.address, ''), 'phone', COALESCE(b.phone, '')),
+    'items', COALESCE((
+      SELECT jsonb_agg(jsonb_build_object(
+        'productName', oi.product_name_snapshot, 'sku', COALESCE(oi.sku_snapshot, ''),
+        'packageQuantity', COALESCE(oi.sale_package_quantity, oi.quantity),
+        'packageName', COALESCE(oi.sale_package_name_snapshot, 'طرد'),
+        'unitsPerPackage', COALESCE(oi.units_per_sale_package, 1),
+        'packagePriceInMinorUnits', COALESCE(oi.sale_package_price_in_minor_units, oi.unit_price_in_minor_units),
+        'lineTotalInMinorUnits', oi.line_total_in_minor_units,
+        'commercialLineKind', oi.commercial_line_kind,
+        'baseQuantity', CASE WHEN oi.commercial_line_kind = 'configurable_parcel'
+          THEN (SELECT SUM(c.base_quantity) FROM public.order_parcel_instances i
+            JOIN public.order_parcel_components c ON c.parcel_instance_id = i.id
+            WHERE i.order_item_id = oi.id AND i.order_id = o.id)
+          ELSE oi.quantity END,
+        'baseUnitName', oi.base_unit_name_snapshot,
+        'parcelInstances', COALESCE((
+          SELECT jsonb_agg(jsonb_build_object('components', COALESCE((
+            SELECT jsonb_agg(jsonb_build_object(
+              'name', c.product_name_snapshot, 'quantity', c.base_quantity,
+              'unitName', c.base_unit_name_snapshot
+            ) ORDER BY c.product_name_snapshot, c.product_id)
+            FROM public.order_parcel_components c WHERE c.parcel_instance_id = i.id
+          ), '[]'::JSONB)) ORDER BY i.instance_sequence)
+          FROM public.order_parcel_instances i
+          WHERE i.order_item_id = oi.id AND i.order_id = o.id
+        ), '[]'::JSONB)
+      ) ORDER BY oi.created_at, oi.id)
+      FROM public.order_items oi WHERE oi.order_id = o.id
+    ), '[]'::JSONB)
+  ) INTO v_receipt
+  FROM public.orders o LEFT JOIN public.branches b ON b.id = o.branch_id
+  WHERE o.public_receipt_token = p_receipt_token
+    AND o.source = 'pos' AND o.status IN ('completed', 'returned');
+
+  IF v_receipt IS NULL THEN
+    RETURN jsonb_build_object('success', false, 'message', 'الإيصال غير موجود أو لم يعد متاحاً.');
+  END IF;
+  SELECT CASE WHEN x.operation_id IS NULL THEN v_receipt ELSE v_receipt||jsonb_build_object('exchange',jsonb_build_object(
+   'internalCreditInMinorUnits',x.prepared_plan->'internalCreditInMinorUnits','newTotalInMinorUnits',x.prepared_plan->'newTotalInMinorUnits',
+   'moneyReceivedInMinorUnits',x.prepared_plan->'moneyReceivedInMinorUnits','moneyRefundInMinorUnits',x.prepared_plan->'moneyRefundInMinorUnits',
+   'differenceMethod',x.prepared_plan->'differenceMethod','referenceNumber',x.prepared_plan->'referenceNumber')) END INTO v_receipt
+  FROM public.orders o LEFT JOIN public.aftercare215_exchange_results r ON r.new_order_id=o.id
+  LEFT JOIN public.aftercare215_exchanges x ON x.operation_id=r.operation_id WHERE o.public_receipt_token=p_receipt_token;
+  RETURN v_receipt;
+END;
+$function$;
+
 DO $$ DECLARE t TEXT; BEGIN
  FOREACH t IN ARRAY ARRAY['aftercare215_inspections','aftercare215_inspection_items','supplier215_credits','aftercare215_return_contexts','aftercare215_return_results','aftercare215_exchanges','aftercare215_exchange_results'] LOOP
   EXECUTE format('ALTER TABLE public.%I OWNER TO postgres',t);
@@ -3809,4 +4305,10 @@ REVOKE ALL ON FUNCTION public.get_cash_shift_summary(UUID) FROM PUBLIC,anon,auth
 GRANT EXECUTE ON FUNCTION public.get_cash_shift_summary(UUID) TO authenticated;
 REVOKE ALL ON FUNCTION public.tb215_completion_before_exchange_internal(UUID) FROM PUBLIC,anon,authenticated,service_role;
 REVOKE ALL ON FUNCTION public.phase4_authoritative_completion_internal(UUID) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.tb215_inspection_public_result_internal(UUID) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_inspection_public_result_internal(UUID) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.tb215_return_public_result_internal(UUID) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_return_public_result_internal(UUID) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.tb215_exchange_public_result_internal(UUID) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_exchange_public_result_internal(UUID) FROM PUBLIC,anon,authenticated,service_role;
 COMMIT;
