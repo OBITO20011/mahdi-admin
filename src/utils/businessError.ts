@@ -5,6 +5,19 @@ export function businessErrorMessage(message: unknown): string {
   const rejectionCode=text.match(/\b(?:CORRECTION|SUPPLIER_REPLACEMENT)_[A-Z_]+\b/u)?.[0];
   if(rejectionCode&&rejectionMessages[rejectionCode])return rejectionMessages[rejectionCode];
   const known: Array<[RegExp, string]> = [
+    [/AFTERCARE215_PREVIEW_CHANGED/u,'تغيّرت البيانات منذ المعاينة. أعد قراءة الفاتورة وراجع المعاينة الجديدة قبل التأكيد.'],
+    [/AFTERCARE215_(PREVIEW_REQUIRED|RESPONSE_INVALID)/u,'معاينة العملية أو دليلها غير مكتمل. راجع الفاتورة واستعد نفس المحاولة إن كانت معلقة.'],
+    [/AFTERCARE215_(WHOLE_PARCEL_INSPECTION_REQUIRED|EXCHANGE_WHOLE_PARCEL_REQUIRED)/u,'افحص الطرد كاملاً بكل باكيتاته ونكهاته. التبديل الجزئي من الطرد للمعيب فقط بنفس الصنف.'],
+    [/AFTERCARE215_EXCHANGE_FULLY_PAID_REQUIRED/u,'التبديل بصنف آخر يحتاج فاتورة أصلية مسددة بالكامل؛ خفض الذمة متاح ضمن مسار الإرجاع.'],
+    [/AFTERCARE215_EXCHANGE_ORIGINAL_PACKET_REQUIRED/u,'التبديل بصنف آخر متاح لباكيت بيع أصلي مستقل أو طرد كامل؛ هذه القطعة بديل سابق.'],
+    [/AFTERCARE215_EXCHANGE_OTHER_PRODUCT_REQUIRED/u,'اختر صنفاً آخر فعلاً؛ لنفس الصنف استخدم الاستبدال بلا فرق سعر.'],
+    [/AFTERCARE215_(REFUND_METHOD_REQUIRED|DIFFERENCE_METHOD_REQUIRED)/u,'اختر كاش أو CliQ لفرق المال الفعلي. خفض الذمة وحده لا يرد مالاً سبق دفعه.'],
+    [/AFTERCARE215_REFUND_REFERENCE_REQUIRED/u,'مرجع CliQ: اكتب مرجع التحويل قبل التأكيد.'],
+    [/AFTERCARE215_(HISTORICAL_SOURCE_UNAVAILABLE|CURRENT_COST_UNAVAILABLE)/u,'دليل تكلفة القطعة غير مكتمل. أوقف العملية وراجع المالك؛ لا نسجّل تكلفة تقديرية.'],
+    [/AFTERCARE215_ORDER_UNAVAILABLE/u,'هذه الفاتورة غير متاحة للمرتجع أو تجاوزت المهلة الأصلية. حدّث الفاتورة.'],
+    [/AFTERCARE215_(ROLE_DENIED|OWNER_ONLY)/u,'هذا الإجراء يحتاج صلاحية المالك والتحقق بخطوتين.'],
+    [/AFTERCARE215_(REQUEST_INVALID|INSPECTION_INVALID|RETURN_REQUEST_INVALID|EXCHANGE_REQUEST_INVALID|DUPLICATE_SOURCE)/u,'راجع كمية الراجع وتصنيف السليم والمعيب؛ بيانات العملية غير مكتملة أو مكررة.'],
+    [/AFTERCARE215_.*EVIDENCE.*|AFTERCARE215_EXCHANGE_CONTEXT_REQUIRED/u,'دليل العملية غير متطابق. استعد نفس المحاولة وراجع المالك؛ لا تبدأ عملية بديلة.'],
     [/PARCEL209_UNIT_SALE_FORBIDDEN/u,'هذا الصنف بيتباع بالطرد بس. احذف المفرد من السلة وأضفه كطرد.'],
     [/PARCEL209_LEGACY_PARCEL_EVIDENCE_REQUIRED/u,'هذا الصنف يحتاج البيع الحديث بالطرد. حدّث التطبيق وأعد اختيار الطرد.'],
     [/PARCEL209_REPLACEMENT_WHOLE_PARCEL_REQUIRED/u,'الاستبدال لهذا الصنف يحتاج طرداً كاملاً مثبتاً في الفاتورة، بكل نكهاته إن كان مشكّلاً.'],

@@ -1,0 +1,43 @@
+{
+  "scope": "One-button wizard/core physical classification;broader flow coverage and full delivery still pending",
+  "nativeModelTests": 7,
+  "browserTests": 30,
+  "newWizardTests": 6,
+  "browserEngines": [
+    "Chromium",
+    "WebKit"
+  ],
+  "viewportWidth": 390,
+  "retries": 0,
+  "adminTypecheck": true,
+  "focusedStrictLint": true,
+  "webkitScreenshotVisuallyReviewed": true,
+  "screenshotPaths": [
+    "test-results/aftercare215-wizard-215-mo-caf1b-w-and-explicit-confirmation-desktop-chromium/wizard-390.png",
+    "test-results/aftercare215-wizard-215-mo-caf1b-w-and-explicit-confirmation-mobile-webkit/wizard-390.png"
+  ],
+  "hostedConnections": 0,
+  "deliveryReady": false,
+  "sourceArtifacts": [
+    {
+      "file": "src/features/orders/AftercareWizard215.tsx",
+      "sha256": "7de2c06b16a14df5fc1f75b5e3c86e13ab1e0e1e03e6a269f5105fc42fcc1cd3"
+    },
+    {
+      "file": "src/features/orders/aftercare215Draft.ts",
+      "sha256": "69fc45a9d9ee13e3c9f5c250bdb95af9419e95e067175216495676fa2a0947d2"
+    },
+    {
+      "file": "src/features/orders/AdminAftercarePanel.tsx",
+      "sha256": "64ccce322b391c6e2863db7d0b4ed51bb20357c3392a0401a5a2a15a959e0f14"
+    },
+    {
+      "file": "src/utils/businessError.ts",
+      "sha256": "73b1f33f42ef4c11612c2510f6121a074ce3b50c812e2c7dc18ada69d4344051"
+    },
+    {
+      "file": "e2e/aftercare215-wizard.spec.ts",
+      "sha256": "e00e4ba87656c55900e7907633523ff8f2531cd277d214d9970ccce68693fc56"
+    }
+  ]
+}

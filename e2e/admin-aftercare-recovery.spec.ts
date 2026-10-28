@@ -324,6 +324,7 @@ export async function recoverAdminAftercare(){return {success:true};}
       notify: () => undefined,
     }));
   });
+  await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();
   await page.getByRole('button', {name: 'استبدال وحدة', exact: true}).click();
   await page.getByPlaceholder('سبب العيب/الاستبدال').fill('Supplier defect');
   await page.getByRole('button', {name: 'اعتماد الاستبدال', exact: true}).click();
