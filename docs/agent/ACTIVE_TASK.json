@@ -11,10 +11,11 @@
     "UI/G1-G6 milestones saved,expanded50browserbothengines/native8/types/lint/Gitleaks0",
     "11 focused historical/source/admission tests and new-tool strictlint passed;focused funded reversal rejected zero writes/ordinary reversal+fullreturn passed;SQLlint16 exact historical warnings only",
     "Currentfrozen79 on2d20594d;17healthy0;SQLlint16exact historical warnings;restorecatalog0/allpublic+sequences/fourreplay0;PR43draftopened95da158",
-    "HTTPfullstack4 actual215 UI/productionservices/recovery/PostgREST passed bothengines390 final/supplier;preview0writes,confirm1;syntheticJWT protocol explicitlynamed;types/lintPASS"
+    "HTTPfullstack4 actual215 UI/productionservices/recovery/PostgREST passed bothengines390 final/supplier;preview0writes,confirm1;syntheticJWT protocol explicitlynamed;types/lintPASS",
+    "Current215 actualSDK157 table0errors+576RPC18exactdenials;29focused source/role/currentreadinessPASS;historical reset/source22PASS;no oldproof overwrite"
   ],
   "inProgress": [
-    "Actual215 SDK/reference/owner verification,currentHTTP/UI andfullquality/CI;preliminary95da158 CI failed on documented staleproof/manual andhistoricalreset source ceiling"
+    "Generate currentDB_FUNCTIONS;strictfresh/incremental215reference/localownerupgrade+negativeACL+offline215;actualhistorical214reset;fullquality/CI/PR43"
   ],
   "notStarted": [
     "T-C partial POS payments;separate later owner task",
@@ -34,7 +35,8 @@
   ],
   "findings": [
     "G2 recovery timestamp ties fixed and proved;firstintegrityfailure reportE2Enn0 retained;acceptedcurrentFv9TRy sourcefreeze",
-    "FullAdmin remaining historical/admission/SDK failures require strict updates,not oldproof repinning"
+    "FullAdmin remaining historical/admission/SDK failures require strict updates,not oldproof repinning",
+    "Sourceproven complete-backup.mjs requires214;RESET214 alsofixed214. Need explicit operations215 followup before any hosted215apply;do not silently retarget"
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -44,10 +46,10 @@
     "No primary owner local file changes",
     "No T-C and no implementation PR merge before owner review"
   ],
-  "nextExactAction": "Save fullstack4 then actual table/service215 SDK andmanualgen;strictreference/owner215;test-only historical214 reset staging/fullquality/PR43",
+  "nextExactAction": "Generate DB_FUNCTIONS from isolated215 after currentSDK;then fresh/incremental215ref,strictowner upgrade/negativeACL/offline215 andhistorical214reset/fullquality/CI/PR43",
   "startedAt": "2026-10-28T13:06:11.980Z",
-  "checkpointedAt": "2026-10-28T20:55:16.521Z",
-  "filesTouchedCount": 7,
-  "filesTouchedManifestSha256": "c5f6c1cea1b9b9cd97e84a38b16eec906134e4a9b15b737c6213ba88a1e6d17b",
-  "workingTreeFingerprint": "F4C1E570CB72097C689A2600CDF20A38F206DAD24C1FE1E5AE7A2FDB5EE64FDA"
+  "checkpointedAt": "2026-10-28T21:09:42.946Z",
+  "filesTouchedCount": 18,
+  "filesTouchedManifestSha256": "6ea46871f6d60e943c31863014e07cffd0d733a1aa658820fbc6735e9fa696cf",
+  "workingTreeFingerprint": "83918435D7501B69B9E654376885C660568CF552E6BB627D671522EA3C2E398B"
 }

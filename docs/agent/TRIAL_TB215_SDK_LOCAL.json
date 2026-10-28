@@ -1,0 +1,20 @@
+{
+  "hostedConnections": 0,
+  "migrationCeiling": 215,
+  "table": {
+    "proof": "docs/operations/TABLE_ACCESS_AFTER_215.json",
+    "queries": 157,
+    "errors": 0
+  },
+  "rpc": {
+    "proof": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json",
+    "probes": 576,
+    "permissionDenials": 18,
+    "missingFunctionOrTableErrors": 0,
+    "neutralPayloadValidationIsNotBusinessPass": true
+  },
+  "focusedTests": 29,
+  "historicalResetFocusedTests": 22,
+  "historicalRoleProofsUnchanged": true,
+  "deliveryReady": false
+}

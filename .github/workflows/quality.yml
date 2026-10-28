@@ -408,10 +408,6 @@ jobs:
         if: matrix.suite == 'aftercare211'
         run: node scripts/testing/run-aftercare211-gates.mjs
 
-      - name: Inspected aftercare215 exact money roles races restore strict upgrade and current SDK
-        if: matrix.suite == 'aftercare215'
-        run: node scripts/testing/run-aftercare215-gates.mjs
-
       - name: Supplier replacement208 contracts
         if: matrix.suite == 'supplier-replacement208'
         run: node scripts/testing/run-supplier-replacement208-gates.mjs
@@ -577,7 +573,7 @@ jobs:
         run: npm --prefix customer-web ci
 
       - name: Install fullstack browsers
-        if: matrix.suite == 'pos-browser' || matrix.suite == 'bulk-product-images'
+        if: matrix.suite == 'pos-browser' || matrix.suite == 'bulk-product-images' || matrix.suite == 'aftercare215'
         run: |
           # Keep Ubuntu's signed packages; avoid the Azure mirror that exhausted
           # the job budget twice while downloading browser system dependencies.
@@ -588,6 +584,10 @@ jobs:
             exit 1
           fi
           npx playwright install --with-deps chromium webkit
+
+      - name: Inspected aftercare215 exact money roles races restore strict upgrade and current SDK
+        if: matrix.suite == 'aftercare215'
+        run: node scripts/testing/run-aftercare215-gates.mjs
 
       - name: Prove bulk product images with actual local Auth,Storage,RPC and both browsers
         if: matrix.suite == 'bulk-product-images'
