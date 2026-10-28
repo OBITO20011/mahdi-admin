@@ -17,6 +17,7 @@ import {
 import { Modal } from '../../components/common/Modal';
 import {UiButton, MoneyText} from '../../components/ui';
 import type { ShiftClosingReport } from '../../types';
+import {formatExactMinorJod} from '../../utils/aftercare215Money';
 
 interface ShiftClosingReportModalProps {
   isOpen: boolean;
@@ -52,6 +53,7 @@ const Metric: React.FC<{
 export const ShiftClosingReportModal: React.FC<
   ShiftClosingReportModalProps
 > = ({ isOpen, report, isLoading, error, onClose, onRetry }) => {
+  const detailedSales=report?.sales.salesDefinitionVersion===133||report?.sales.salesDefinitionVersion===215;
   const handlePrint = () => window.print();
 
   return (
@@ -144,6 +146,7 @@ export const ShiftClosingReportModal: React.FC<
             </h4>
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
               <Metric label="إجمالي المبيعات" value={money(report.sales.grossSales)} />
+              {report.sales.internalExchangeCreditInMinorUnits!==undefined&&<Metric label="مبيعات بمقابل تبديل (بلا قبض نقدي)" value={<bdi dir="ltr">{formatExactMinorJod(report.sales.internalExchangeCreditInMinorUnits)}</bdi>}/>}
               <Metric
                 label={report.sales.returnEntitlement !== undefined ? 'المرتجعات' : 'المبالغ المرتجعة'}
                 value={money(report.sales.returnEntitlement ?? report.sales.refunds)}
@@ -171,7 +174,8 @@ export const ShiftClosingReportModal: React.FC<
               <h4 className="font-black text-nw-warn">توزيع استحقاق المرتجعات</h4>
               <div className="flex justify-between text-nw-text"><span>مبالغ مرجعة</span><b>{money(report.sales.refunds)}</b></div>
               <div className="flex justify-between text-nw-text"><span>تخفيض دين</span><b>{money(report.sales.debtReduction ?? 0)}</b></div>
-              <p className="text-[10px] text-nw-muted">المرتجعات = المبالغ المرجعة + تخفيض الدين. تخفيض الدين يقلّل صافي المبيعات، ولا يخرج مصاري من الصندوق.</p>
+              {report.sales.internalExchangeCreditInMinorUnits!==undefined&&<div className="flex flex-wrap justify-between gap-2"><span>من المرتجع إلى مقابل التبديل (بلا كاش)</span><bdi dir="ltr">{formatExactMinorJod(report.sales.internalExchangeCreditInMinorUnits)}</bdi></div>}
+              <p className="text-[10px] text-nw-muted">{report.sales.salesDefinitionVersion===215?'المرتجعات = المال المرجع + تخفيض الدين + مقابل التبديل الداخلي.':'المرتجعات = المبالغ المرجعة + تخفيض الدين.'} تخفيض الدين والمقابل الداخلي لا يخرجان مصاري من الصندوق.</p>
             </section>
           )}
 
@@ -188,18 +192,18 @@ export const ShiftClosingReportModal: React.FC<
               <span className="block text-[10px] text-nw-muted">مبيعات CliQ</span>
               <b className="text-nw-info">{money(report.shift.totalCliqSales)}</b>
             </div>
-            {(report.sales.salesDefinitionVersion === 133 || report.shift.totalCardSales !== 0) && <div className="rounded-xl border border-nw-border bg-nw-info-bg p-3">
+            {(detailedSales || report.shift.totalCardSales !== 0) && <div className="rounded-xl border border-nw-border bg-nw-info-bg p-3">
               <WalletCards className="mb-1 h-4 w-4 text-nw-info" />
               <span className="block text-[10px] text-nw-muted">
-                {report.sales.salesDefinitionVersion === 133 ? 'آجل متبقي' : 'مبيعات بطاقة'}
+                {detailedSales ? 'آجل متبقي' : 'مبيعات بطاقة'}
               </span>
               <b className="text-nw-info">{money(report.sales.creditSales ?? report.shift.totalCardSales)}</b>
             </div>}
           </section>
 
-          {report.sales.salesDefinitionVersion === 133 && report.shift.totalCardSales !== 0 && <p className="text-xs text-nw-info">مبيعات بطاقة (تاريخية): {money(report.shift.totalCardSales)}</p>}
+          {detailedSales && report.shift.totalCardSales !== 0 && <p className="text-xs text-nw-info">مبيعات بطاقة (تاريخية): {money(report.shift.totalCardSales)}</p>}
 
-          {report.sales.salesDefinitionVersion === 133 && (
+          {detailedSales && (
             <section className="space-y-2 rounded-xl border border-nw-border bg-nw-info-bg p-3">
               <div className="flex justify-between text-nw-info">
                 <span>دفعات أولى عند الاستلام (مسجلة ضمن سندات القبض)</span>

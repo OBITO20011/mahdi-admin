@@ -1,0 +1,46 @@
+{
+  "scope": "215 internal exchange credit in invoice and closing display;133 detail retained;no cash added",
+  "nativeTests": 6,
+  "browserTests": 2,
+  "engines": [
+    "Chromium",
+    "WebKit"
+  ],
+  "viewportWidth": 390,
+  "retries": 0,
+  "focusedStrictLint": true,
+  "typecheckLog": "tb215-closing-types.log: no diagnostics;full final types gate still required",
+  "currentDbSerialization": "internalExchangeCreditInMinorUnits TEXT;whole current frozen runtime pending",
+  "hostedConnections": 0,
+  "deliveryReady": false,
+  "sourceArtifacts": [
+    {
+      "file": "src/utils/exchangeClosing215.ts",
+      "sha256": "b4a94faeffd104ed9e7fdffcbf58a081fa7ae12bb16544027a7ccecaa597a1ae"
+    },
+    {
+      "file": "src/services/supabase/expenses-shifts.service.ts",
+      "sha256": "d30902ba792ee469b592aabd4ddceb5ddcfe49cef7aaa856f222abbf2b49afbb"
+    },
+    {
+      "file": "src/features/shifts/ShiftClosingReportModal.tsx",
+      "sha256": "adcba25856013d905e8f5fe706fa7771c2723dca41971c6210ff419c8fefd656"
+    },
+    {
+      "file": "src/features/orders/OrderCommercialSummary.tsx",
+      "sha256": "b5200183bd72389f59144b7056d8aa59f2e3d340cf5de83cb284171353147553"
+    },
+    {
+      "file": "supabase/migrations/215_inspected_aftercare_and_supplier_credit.sql",
+      "sha256": "4a1c8b02382b6798c182ac2c13bd51a002c10a59b5188c182a0c26067e87c395"
+    },
+    {
+      "file": "tests/aftercare215-closing.test.ts",
+      "sha256": "2f40733a66f1fb661c14ead1d751a8bad31619df9fe9f310f0517d6fd97f33cf"
+    },
+    {
+      "file": "e2e/aftercare215-closing.spec.ts",
+      "sha256": "a0e1acd523e1fef5ab7c165937e036e694e3475fc11eb1de38a1552314b6cc59"
+    }
+  ]
+}

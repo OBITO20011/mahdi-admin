@@ -4103,7 +4103,7 @@ BEGIN
     'netSalesInMinorUnits',v_gross-v_return_entitlement
   ));
   IF v_internal_exchange_credit>0 THEN
-    v_report:=jsonb_set(v_report,'{sales}',(v_report->'sales')||jsonb_build_object('internalExchangeCreditInMinorUnits',v_internal_exchange_credit));
+    v_report:=jsonb_set(v_report,'{sales}',(v_report->'sales')||jsonb_build_object('internalExchangeCreditInMinorUnits',v_internal_exchange_credit::TEXT));
   END IF;
   v_report:=jsonb_set(v_report,'{collections}',(v_report->'collections')||jsonb_build_object(
     'initialPaymentsInMinorUnits',v_first_total,

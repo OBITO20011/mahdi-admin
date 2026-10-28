@@ -11,7 +11,7 @@ export async function verifyExchangeReaders215(c,pass) {
  }
  const closing=await rpc(`get_cash_shift_closing_report(${q(shift)})`);
  assert.equal(closing.success,true);assert.equal(closing.salesDetailStatus,'available');
- assert.ok(closing.sales.internalExchangeCreditInMinorUnits>0);
+ assert.equal(typeof closing.sales.internalExchangeCreditInMinorUnits,'string');assert.ok(BigInt(closing.sales.internalExchangeCreditInMinorUnits)>0n);
  assert.ok(closing.returnBreakdown.every(x=>x.refundMethod!=='exchange_credit'));
  pass('cash/CliQ movement pages reconcile actual exchange money; closing sales evidence includes explicit noncash credit and refund breakdown has actual money only');
  const rows=await json(`SELECT jsonb_agg(jsonb_build_object('order',o.id,'token',o.public_receipt_token,'credit',x.prepared_plan->'internalCreditInMinorUnits','paid',x.prepared_plan->'moneyReceivedInMinorUnits','refund',x.prepared_plan->'moneyRefundInMinorUnits')) FROM aftercare215_exchanges x JOIN aftercare215_exchange_results r ON r.operation_id=x.operation_id JOIN orders o ON o.id=r.new_order_id;`);

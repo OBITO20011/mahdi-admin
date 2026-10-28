@@ -549,7 +549,8 @@ export interface ShiftClosingReport {
     grossSales: number;
     refunds: number;
     netSales: number;
-    salesDefinitionVersion?: 133;
+    salesDefinitionVersion?: 133|215;
+    internalExchangeCreditInMinorUnits?: string;
     collectedDirectSales?: number;
     initialReceiptPayments?: number;
     initialReceiptCash?: number;
