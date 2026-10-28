@@ -2,21 +2,20 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Implement owner-approved T-B stage2 G1-G6:atomic inspected replacement,noncash cross-SKU exchange,supplier payable credit,one Arabic wizard and damage ledger;local isolated DB tests,owner upgrade,PR/FULLCI then approvalSTOP",
-  "baselineSha": "3197243fdb6b05cb3e700ff1fb876476acc69459",
+  "objective": "Owner-approved T-B G1-G6 plus same-PR215 backup/restore/watchdog/reset-resume/one schema authority and upgrade safety;local proof/fullCI/PR43 then approvalSTOP",
+  "baselineSha": "610d0967bf31b752f77ff1782d43ecd1d120d78f",
   "branch": "codex/trial-tb-stage2",
   "phase": "PACKAGE_F",
   "completed": [
-    "DB77 frozen passed50012021;17healthy/0;fullrestore0diff/fourwriterreplays;4425e4f saved/pushed",
-    "UI/G1-G6 milestones saved,expanded50browserbothengines/native8/types/lint/Gitleaks0",
     "11 focused historical/source/admission tests and new-tool strictlint passed;focused funded reversal rejected zero writes/ordinary reversal+fullreturn passed;SQLlint16 exact historical warnings only",
     "Currentfrozen79 on2d20594d;17healthy0;SQLlint16exact historical warnings;restorecatalog0/allpublic+sequences/fourreplay0;PR43draftopened95da158",
     "HTTPfullstack4 actual215 UI/productionservices/recovery/PostgREST passed bothengines390 final/supplier;preview0writes,confirm1;syntheticJWT protocol explicitlynamed;types/lintPASS",
     "Current215 actualSDK157 table0errors+576RPC18exactdenials;29focused source/role/currentreadinessPASS;historical reset/source22PASS;no oldproof overwrite",
-    "Generated actual clean215 manual622functions/177files;maintenance nativePASS;not old214 repin"
+    "Generated actual clean215 manual622functions/177files;maintenance nativePASS;not old214 repin",
+    "Operations215 foundationnative28/strictchangedlintPASS;legacy214v2preservedinimplementation,RESET215sharedguard,5registeredtaskpreflight;actualruntimepending"
   ],
   "inProgress": [
-    "Generate currentDB_FUNCTIONS;strictfresh/incremental215reference/localownerupgrade+negativeACL+offline215;actualhistorical214reset;fullquality/CI/PR43"
+    "New29Oct explicit operations215 scope;preserve214v2archives,RESET215resumable,currentceiling drift gate andregisteredtasks preflight;reference fresh/incremental rerun after resource timeout"
   ],
   "notStarted": [
     "T-C partial POS payments;separate later owner task",
@@ -26,18 +25,14 @@
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "testsPassed": [
-    "Priorfrozen77/17integrity/fullrestore;store200;currentroottypes;focused bridge11;newtools strictlint;expanded UI50;focused guard zero writes",
-    "CurrentDB79 sourcefreeze2241/17integrity/fullrestore0;fundedoldreversalzeroWrites"
+    "DB79frozen/17healthy0/fullrestore0;HTTP4both390;SDK157+576/18exactdenials;manual622/177;Admin1584of1586 (2stale assertions nowcorrected);types/strictlintPASS"
   ],
   "testsRemaining": [
-    "Current frozen DB+newboundary/integrity/restore;reference177/owner215 strict verifier andlocaldry-run",
-    "FullSDK/types/lint/build/SEO/PWA/browser and historicalsource-proof compatibility",
-    "ExactFULLCI andimplementationPRforownerapproval;no merge"
+    "Operations215 legacy214andnew215 backup/restore/R2/watchdog+reset2154interruptions/adversarial proof",
+    "Fresh/incremental215ref/strictowner/replay/negativeACL/offline;fullquality/exactCI/PR43"
   ],
   "findings": [
-    "G2 recovery timestamp ties fixed and proved;firstintegrityfailure reportE2Enn0 retained;acceptedcurrentFv9TRy sourcefreeze",
-    "FullAdmin remaining historical/admission/SDK failures require strict updates,not oldproof repinning",
-    "Sourceproven complete-backup.mjs requires214;RESET214 alsofixed214. Need explicit operations215 followup before any hosted215apply;do not silently retarget"
+    "Owner approved operations215 insidePR43;215apply cannot precede operational support;preserve214archives andrefs"
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -47,10 +42,10 @@
     "No primary owner local file changes",
     "No T-C and no implementation PR merge before owner review"
   ],
-  "nextExactAction": "Build strict fresh/incremental215 reference;then localownerupgrade/replay/negativeACL/settings andoffline215;actual214reset/fullquality/CI",
+  "nextExactAction": "Build ready215 reference alone after saving operations215 foundation;then backup/restore214+215 andRESET215 resume/upgrade/runtime/fullquality",
   "startedAt": "2026-10-28T13:06:11.980Z",
-  "checkpointedAt": "2026-10-28T21:14:03.243Z",
-  "filesTouchedCount": 2,
-  "filesTouchedManifestSha256": "fcccacea4034ad4a6efb9abbac2e6c41857143f5551b1c463c0709ef30cb00f7",
-  "workingTreeFingerprint": "0D7A8092582A99986B369155305B7BE77C11522653123E2370AE42BBBE258740"
+  "checkpointedAt": "2026-10-28T22:51:10.750Z",
+  "filesTouchedCount": 35,
+  "filesTouchedManifestSha256": "26b8e0310c8d4a1b53913d48988e1bcd2b808fa588a6fe83bce92845a8992955",
+  "workingTreeFingerprint": "55DA5C1D9C5D00F12022F0D449A7D1748FF2DB6CB22105C68FFB914E3E50B4F1"
 }

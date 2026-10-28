@@ -10,6 +10,8 @@ import {schemaCatalogSql,catalogDifference} from '../testing/schema-catalog.mjs'
 import {readNotificationSnapshot} from './frankfurt-notification-hold.mjs';
 import {sha256} from '../testing/maintenance-db-contract.mjs';
 export const reset214Marker='RESET214_IN_PROGRESS.json';
+export const reset215Marker='RESET215_IN_PROGRESS.json';
+const progressFile=session=>`reset${session.reference.migrationCeiling}-progress.json`;
 const within=(root,relative)=>{assert.equal(path.isAbsolute(relative),false,'RESET214_STATE_PATH_INVALID');const p=path.resolve(root,relative),r=path.relative(root,p);assert.ok(r&&!r.startsWith('..')&&!path.isAbsolute(r),'RESET214_STATE_PATH_INVALID');return p;};
 async function readSql(executor,input){const r=await executeInput(executor,input);assert.equal(r.code,0,'RESET214_SESSION_SQL_FAILED');return r.stdout.trim();}
 // Sign-in timestamps may advance while the operator investigates. Identity,
@@ -18,16 +20,19 @@ const stableIdentitySql=ownerId=>`SELECT jsonb_build_object(
  'auth',(SELECT md5((to_jsonb(u)-'last_sign_in_at'-'updated_at')::text) FROM auth.users u WHERE id=${q(uuid(ownerId))}::uuid),
  'identities',(SELECT md5(COALESCE(jsonb_agg(to_jsonb(i)-'last_sign_in_at'-'updated_at' ORDER BY id)::text,'')) FROM auth.identities i WHERE user_id=${q(ownerId)}::uuid));`;
 export async function prepareResetSession({workdir,output,ownerId,projectRef,referenceSha256,state,reference,resume=false}){
- const folder=await privateResetDirectory(workdir),markerPath=path.join(workdir,reset214Marker);
+ assert.ok([214,215].includes(reference.migrationCeiling),'RESET_REFERENCE_UNSUPPORTED');
+ const folder=await privateResetDirectory(workdir),markerPath=path.join(workdir,reference.migrationCeiling===214?reset214Marker:reset215Marker);
+ const other=path.join(workdir,reference.migrationCeiling===214?reset215Marker:reset214Marker);
+ try{await access(other);throw new Error('RESET214_OTHER_CEILING_ATTEMPT_UNFINISHED');}catch(error){if(error.code!=='ENOENT')throw error;}
  if(resume){
   let marker;try{marker=await readPrivateResetJson(markerPath);}catch(error){throw new Error('RESET214_RESUME_MARKER_REQUIRED',{cause:error});}
   assert.equal(marker.projectRef,projectRef,'RESET214_RESUME_PROJECT_MISMATCH');assert.equal(marker.ownerId,ownerId,'RESET214_RESUME_OWNER_MISMATCH');assert.equal(marker.referenceSha256,referenceSha256,'RESET214_RESUME_REFERENCE_CHANGED');
   assert.equal(typeof marker.snapshotSha256,'string');assert.match(marker.snapshotSha256,/^[a-f0-9]{64}$/u);
   const file=within(workdir,marker.snapshotPath);assert.ok(file.startsWith(folder+path.sep),'RESET214_PRIVATE_SNAPSHOT_LOCATION');
   let saved;try{saved=await readPrivateResetJson(file,marker.snapshotSha256);}catch(error){throw new Error(error.message.startsWith('RESET214_RETENTION_HASH_MISMATCH')?'RESET214_RETENTION_HASH_MISMATCH':'RESET214_RETENTION_SNAPSHOT_REQUIRED',{cause:error});}
-  assertResetSnapshot(saved,{ownerId,projectRef,referenceSha256});
+  assertResetSnapshot(saved,{ownerId,projectRef,referenceSha256,referenceCeiling:reference.migrationCeiling});
   assert.equal(saved.attemptId,marker.originalAttemptId,'RESET214_ATTEMPT_ID_MISMATCH');
-  const previousOutput=within(workdir,marker.currentOutput),progress=JSON.parse(await readFile(path.join(previousOutput,'reset214-progress.json'),'utf8'));
+  const previousOutput=within(workdir,marker.currentOutput),progress=JSON.parse(await readFile(path.join(previousOutput,`reset${reference.migrationCeiling}-progress.json`),'utf8'));
   assert.equal(progress.originalAttemptId,saved.attemptId,'RESET214_PROGRESS_LINK_MISMATCH');
   // Core verification can finish before CLI final checks/report/marker cleanup.
   // The root marker is the authority that the owner operation is unfinished.
@@ -37,7 +42,7 @@ export async function prepareResetSession({workdir,output,ownerId,projectRef,ref
  assert.ok(state,'RESET214_RETENTION_STATE_REQUIRED');
  const attemptId=randomUUID(),privateFolder=path.join(folder,attemptId);await mkdir(privateFolder,{mode:0o700});
  const file=path.join(privateFolder,'retention.json');
-  return {saved:{format:1,attemptId,ownerId:uuid(ownerId),projectRef,referenceCeiling:214,referenceSha256,writerToken:randomUUID(),createdAt:new Date().toISOString(),initialFingerprint:state.initialFingerprint,state:{rawTables:state.rawTables,plan:state.plan,expected:state.expected}},markerPath,file,output,reference,workdir,resume:false};
+  return {saved:{format:1,attemptId,ownerId:uuid(ownerId),projectRef,referenceCeiling:reference.migrationCeiling,referenceSha256,writerToken:randomUUID(),createdAt:new Date().toISOString(),initialFingerprint:state.initialFingerprint,state:{rawTables:state.rawTables,plan:state.plan,expected:state.expected}},markerPath,file,output,reference,workdir,resume:false};
 }
 export async function persistResetSession(session,executor){
  const {saved}=session;
@@ -52,7 +57,7 @@ export async function persistResetSession(session,executor){
  assertResetSnapshot(saved,saved);
  const snapshotSha256=await writePrivateResetJson(session.file,saved);
  assertResetSnapshot(await readPrivateResetJson(session.file,snapshotSha256),saved);
- await writePrivateResetJson(path.join(session.output,'reset214-progress.json'),{ok:false,complete:false,originalAttemptId:saved.attemptId,stage:'snapshot-verified',applied:[],recorded:[],destructiveStarted:false});
+ await writePrivateResetJson(path.join(session.output,progressFile(session)),{ok:false,complete:false,originalAttemptId:saved.attemptId,stage:'snapshot-verified',applied:[],recorded:[],destructiveStarted:false});
  session.marker={format:1,projectRef:saved.projectRef,ownerId:saved.ownerId,referenceSha256:saved.referenceSha256,originalAttemptId:saved.attemptId,
   snapshotPath:path.relative(session.workdir,session.file),snapshotSha256,currentOutput:path.relative(session.workdir,session.output),startedAt:saved.createdAt};
  await writePrivateResetJson(session.markerPath,session.marker);
@@ -92,7 +97,7 @@ export async function startResetAttempt(session,executor){
  if(!session.resume)await persistResetSession(session,executor);else await validateResetResume(session,executor);
  const originalAttemptId=session.saved.attemptId;
  const progress={ok:false,complete:false,originalAttemptId,attemptId:randomUUID(),resumedFrom:session.resume?session.previousOutput:null,stage:'snapshot-verified',applied:[],recorded:[],destructiveStarted:false};
- await writePrivateResetJson(path.join(session.output,'reset214-progress.json'),progress);
+ await writePrivateResetJson(path.join(session.output,progressFile(session)),progress);
  session.marker={...session.marker,currentOutput:path.relative(session.workdir,session.output),previousOutput:session.resume?path.relative(session.workdir,session.previousOutput):null};
  await writePrivateResetJson(session.markerPath,session.marker);
  const writer=writerExecutor(executor,session.saved.writerToken);

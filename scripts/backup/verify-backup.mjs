@@ -7,6 +7,7 @@ import path from 'node:path';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 import { decryptFile } from './backup-crypto.mjs';
+import {assertOperationalHistory} from '../operations/operational-schema.mjs';
 
 const execFileAsync = promisify(execFile);
 const REQUIRED_ARCHIVE_FILES = [
@@ -102,6 +103,11 @@ export async function verifyBackupArchive({ archivePath, passphrase, extractTo =
       }
     }
 
+    let history;
+    if(manifest.formatVersion===2){
+      const evidence=JSON.parse(await readFile(path.join(extractedRoot,'database/source-evidence.json'),'utf8'));
+      history=await assertOperationalHistory(evidence.history);
+    }
     if (extractTo) {
       const resolvedExtractTo = path.resolve(extractTo);
       await cp(extractedRoot, resolvedExtractTo, {
@@ -118,6 +124,7 @@ export async function verifyBackupArchive({ archivePath, passphrase, extractTo =
       databaseFiles: manifest.databaseFiles,
       storageObjectCount: manifest.storageObjectCount,
       verifiedFileCount: manifest.files.length,
+      ...(history?{historyCeiling:history.ceiling,historyFiles:history.files}:{}),
     };
   } finally {
     await rm(tempRoot, { recursive: true, force: true });

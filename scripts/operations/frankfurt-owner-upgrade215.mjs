@@ -15,6 +15,8 @@ import {readRealtimePublication} from '../testing/realtime151-contract.mjs';
 import {compareApplicationAcl} from './application-acl-verification.mjs';
 import {generateAclPlan} from './frankfurt-acl-plan.mjs';
 import {persistCatalogComparison,verifyCatalogReadOnly} from './frankfurt-catalog-verification.mjs';
+import {registeredBackupPreflight} from './backup-task-preflight.mjs';
+import {operationalManifest,operationalSchema} from './operational-schema.mjs';
 const root=path.resolve(import.meta.dirname,'../..');
 export const upgrade215Versions=Object.freeze(['215']);
 export function assert215History(history,reference){
@@ -57,5 +59,10 @@ export async function offline215(args){
  const report={ok:true,mode:'offline215',output,migrationCeiling:215,migrations:177,pending:['215'],prefix214Migrations:176,remoteWriteAttempted:false,networkAccess:false,latestHostedStateNotRead:true,localReferenceComparisonOnly:true};
  await writeFile(path.join(output,'report.json'),JSON.stringify(report,null,2)+'\n');return report;
 }
-export const run215=args=>ownerRun(args,{loadReference:readReady215Reference,referenceName:ready215ReferenceName,pipeline:upgrade215WithExecutor,inputsFor:inputs215,versions:upgrade215Versions,label:'215',offlinePlan:offline215,verifyReadOnly:verify215ReadOnly});
+export async function run215(args){
+ await operationalManifest();assert.equal(operationalSchema.upgradeCommand,'frankfurt-owner-upgrade215','UPGRADE_ADAPTER_NOT_CURRENT');
+ // BEFORE ownerRun asks for a password or opens any database session.
+ if(args.includes('--apply'))await registeredBackupPreflight(root);
+ return ownerRun(args,{loadReference:readReady215Reference,referenceName:ready215ReferenceName,pipeline:upgrade215WithExecutor,inputsFor:inputs215,versions:upgrade215Versions,label:'215',offlinePlan:offline215,verifyReadOnly:verify215ReadOnly});
+}
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){try{const r=await run215(process.argv.slice(2));console.log(JSON.stringify({ok:r.ok,output:r.output,error:r.error,applied:r.applied,recorded:r.recorded,remoteWriteAttempted:r.remoteWriteAttempted}));if(!r.ok)process.exitCode=1;}catch(error){console.error(error.code==='ERR_ASSERTION'?error.message.split('\n')[0]:'OWNER215_PREPARATION_FAILED');process.exitCode=1;}}

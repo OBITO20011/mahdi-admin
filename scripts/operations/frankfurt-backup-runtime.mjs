@@ -15,6 +15,7 @@ import {runIncidentCycle,sendTelegramMessage} from '../monitoring/developer-aler
 import {postgresDiagnostic,classifiedError} from '../backup/postgres-diagnostic.mjs';
 import {saveOwnerJson as save,requiredOwnerEnv,withOwnerOperation} from './owner-operation.mjs';
 import {verifiedSupabaseCa} from '../backup/supabase-ca.mjs';
+import {operationalSchema,operationalManifest,assertOperationalHistory} from './operational-schema.mjs';
 
 export const PREFIX='erp/frankfurt-'+FRANKFURT_BACKUP_REF+'/';
 export const OWNER_MODES=Object.freeze(['Plan','Backup','Upload','VerifyRemote','Restore','RestoreRemote','Watchdog','TestAlert','Status']);
@@ -31,6 +32,7 @@ export function validateOwnerConfig(config){
   }catch{throw classifiedError('CONFIG_INVALID',{tool:'node',stage:'config-load'});}
 }
 export const ownerPlan=()=>({ok:true,mode:'Plan',networkAttempted:false,projectRef:FRANKFURT_BACKUP_REF,legacyUnchanged:true,
+  supportedSchemaCeiling:operationalSchema.ceiling,legacyArchiveCeilings:operationalSchema.legacyArchiveCeilings,archiveFormatVersion:operationalSchema.archiveFormatVersion,
   modes:OWNER_MODES,prefix:PREFIX,localRetentionCount:30,dailyRetentionDays:90,monthlyRetentionDays:365,lockDays:30,
   ownerMustVerifyR2Rules:true,technicalRecipient:'existing developer Telegram only',businessAlertsEnabled:false,
   schedules:{Backup:'23:50 daily',Upload:'02:35 daily',VerifyRemote:'03:10 Sunday',RestoreRemote:'03:50 daily gate / 90-day due',Watchdog:'every 5 minutes'},
@@ -38,7 +40,7 @@ export const ownerPlan=()=>({ok:true,mode:'Plan',networkAttempted:false,projectR
   tls:{sslmode:'verify-full',caSource:'bundled Supabase Root 2021 CA',caSha256:verifiedSupabaseCa().sha256}});
 const fresh=(status,field,hours)=>status?.ok===true&&!isDue(status[field],hours)&&Date.parse(status[field])<=Date.now();
 export async function runOwnerMode({mode,config,force=false,env=process.env,dependencies={}}){
-  if(!OWNER_MODES.includes(mode))throw classifiedError('MODE_INVALID',{stage:'operation-preflight'});if(mode==='Plan')return ownerPlan();validateOwnerConfig(config);
+  if(!OWNER_MODES.includes(mode))throw classifiedError('MODE_INVALID',{stage:'operation-preflight'});await operationalManifest();if(mode==='Plan')return ownerPlan();validateOwnerConfig(config);
   const root=config.stateRoot,localPath=path.join(config.backupRoot,'last-backup-status.json'),offsitePath=path.join(root,'offsite-status.json');
   const restorePath=path.join(root,'restore-local.json'),remoteRestorePath=path.join(root,'restore-remote.json');
   if(mode==='Status'){
@@ -110,13 +112,15 @@ export async function runOwnerMode({mode,config,force=false,env=process.env,depe
         const attempt=await optional(path.join(root,'operation-'+name+'.json'));
         checks.push(check('last-'+name.toLowerCase(),attempt?.ok!==false,'نتيجة آخر تشغيل '+name+' لفرانكفورت.'));
       }
-      const db=source().session();let daily,technical;
+      const db=source().session();let daily,technical,history;
       try{
         await db.query('BEGIN READ ONLY;');
+        history=await assertOperationalHistory(JSON.parse((await db.query("SELECT coalesce(jsonb_agg(version ORDER BY version),'[]') FROM supabase_migrations.schema_migrations;")).trim()));
+        checks.push(check('schema-support',true,'سقف قاعدة فرانكفورت مدعوم بأدوات النسخ والاسترجاع.',history));
         daily=await collectDailySupabase({enabled:true,previous:state.frankfurtDaily,url:`https://${config.projectRef}.supabase.co`,publishableKey:config.publishableKey,fetchImpl:dependencies.fetchImpl,
           readDatabaseSize:async()=> (await db.query('SELECT pg_database_size(current_database());')).trim()});
         technical=JSON.parse((await db.query("SELECT public.get_advanced_monitoring_status() || jsonb_build_object('scanEnabled',coalesce((SELECT active FROM cron.job WHERE jobname='run-advanced-monitoring'),false));")).trim());
-      }catch{checks.push(check('read',false,'تعذرت قراءة صحة قاعدة فرانكفورت.'));}
+      }catch{checks.push(check('read',false,'تعذرت قراءة الصحة أو تاريخ القاعدة غير مدعوم؛ راجع الأدوات قبل الترقية.'));}
       finally{await db.close();}
       for(const item of daily?.checks??[])checks.push({...item,key:item.key.replace('developer:supabase:','developer:frankfurt:')});
       if(technical){const issues=(technical.checks??[]).filter(c=>['warning','critical'].includes(c.status)).length;
@@ -124,7 +128,7 @@ export async function runOwnerMode({mode,config,force=false,env=process.env,depe
         const held=technical.scanEnabled===false;
         checks.push(check('integrity',issues===0&&!technical.scanErrorCode&&(held||scanFresh),held?'فحص السلامة الداخلي مؤجل بقرار المالك؛ لم يُفعّل الحارس cron.':'حالة فحوص سلامة النظام في فرانكفورت.',{issueCount:issues,scanFresh,held}));}
       const cycle=await runIncidentCycle({checks,state,send:({message})=>send(message)});if(daily?.state)cycle.state.frankfurtDaily=daily.state;await save(statePath,cycle.state);
-      const result={ok:cycle.notifications.every(n=>n.delivered),healthy:checks.every(c=>c.healthy),internalScanHeld:technical?.scanEnabled===false,observedAt:new Date().toISOString(),checks:checks.map(({key,healthy})=>({key,healthy})),notifications:cycle.notifications.length,recipient:'developer',businessAlertsEnabled:false};await save(path.join(root,'watchdog-status.json'),result);return result;
+      const result={ok:cycle.notifications.every(n=>n.delivered),healthy:checks.every(c=>c.healthy),supportedSchemaCeiling:operationalSchema.ceiling,observedHistoryCeiling:history?.ceiling,internalScanHeld:technical?.scanEnabled===false,observedAt:new Date().toISOString(),checks:checks.map(({key,healthy})=>({key,healthy})),notifications:cycle.notifications.length,recipient:'developer',businessAlertsEnabled:false};await save(path.join(root,'watchdog-status.json'),result);return result;
     }
     assert.fail('UNHANDLED_OWNER_MODE');
   }});

@@ -11,6 +11,8 @@ import {heldJobNames,readNotificationSnapshot,expectedHeldNotifications} from '.
 import {assertManagedCatalog} from './managed-catalog-policy.mjs';
 import {compareApplicationAcl} from './application-acl-verification.mjs';
 import {assertReady214Catalog} from './frankfurt-reference214.mjs';
+import {assertReady215Catalog} from './frankfurt-reference215.mjs';
+import {assertCurrentResetReference} from './operational-schema.mjs';
 import {readRealtimePublication} from '../testing/realtime151-contract.mjs';
 import {retainedSessionState,assertNoForeignWrites,withoutResetGuard,attachGuardSql,removeGuardSql,saveGuardRemovalProof} from './reset214-session.mjs';
 import {lockAndCheckGuardSql,publicFingerprint} from './reset214-write-guard.mjs';
@@ -32,8 +34,12 @@ export const reset214RetentionSql=id=>{
 export const reset214RetentionRawSql=id=>`WITH retained(v) AS (${reset214RetentionSql(id).replace(/;$/u,'')})
  SELECT jsonb_object_agg(key,value::text) FROM retained,LATERAL jsonb_each(v);`;
 const fingerprints=raw=>Object.fromEntries(Object.entries(raw).map(([name,text])=>[name,{rows:JSON.parse(text).length,sha256:sha256(text)}]));
-export async function captureReset214({executor,ownerId,reference}){
- assert.equal(reference.migrationCeiling,214,'RESET214_REFERENCE_REQUIRED');assert.equal(reference.manifest.length,176);
+const policy214={ceiling:214,files:176,assertCatalog:assertReady214Catalog};
+const policy215={ceiling:215,files:177,assertCatalog:assertReady215Catalog};
+export const captureReset214=options=>captureRetainedReset(options,policy214);
+export const captureReset215=options=>{assertCurrentResetReference(options.reference);return captureRetainedReset(options,policy215);};
+async function captureRetainedReset({executor,ownerId,reference},policy){
+ assert.equal(reference.migrationCeiling,policy.ceiling,'RESET_REFERENCE_REQUIRED');assert.equal(reference.manifest.length,policy.files);
  const sql=async input=>{const r=await executeInput(executor,input);assert.equal(r.code,0,'RESET214_READ_FAILED');return r.stdout.trim();};
  const json=async input=>JSON.parse(await sql(input));
  const owner=await json(ownerRecordSql(ownerId));assert.ok(owner?.profile?.is_active,'RESET214_ACTIVE_OWNER_REQUIRED');assert.deepEqual(owner.roles,['owner']);
@@ -53,7 +59,7 @@ export async function captureReset214({executor,ownerId,reference}){
  const before=await readRowCounts(executor),platform=await json(`SELECT jsonb_build_object('authUsers',(SELECT count(*) FROM auth.users),'storageObjects',(SELECT count(*) FROM storage.objects),'vaultSecrets',(SELECT count(*) FROM vault.secrets));`);
  const expected={...Object.fromEntries(Object.keys(before).map(t=>[t,cleanSeedCounts[t]??0])),...Object.fromEntries(retainedTables.map(t=>[t,snapshot[t].length]))};
  const initialFingerprint=await publicFingerprint(executor);
- const plan={migrationCeiling:214,migrations:176,ownerId,initialDataSha256:sha256(JSON.stringify(initialFingerprint)),
+ const plan={migrationCeiling:policy.ceiling,migrations:policy.files,ownerId,initialDataSha256:sha256(JSON.stringify(initialFingerprint)),
   publicTables:Object.keys(before).sort().map(table=>({table,before:before[table],retained:snapshot[table]?.length??0,deleted:before[table]-(snapshot[table]?.length??0),expectedAfter:expected[table]})),
   authUsers:{before:platform.authUsers,retained:1,deleted:platform.authUsers-1,expectedAfter:1},
   productImages:{before:platform.storageObjects,retained:0,deleted:platform.storageObjects,expectedAfter:0},
@@ -75,25 +81,28 @@ export function restoreReset214Sql(rawTables){
 // Durable, sanitized journal: a failure/crash never leaves a successful report.
 // A failed destructive attempt requires restoration of the pre-reset archive,
 // not replay against a partial schema. This is NOT a cross-API transaction.
-export async function reset214WithExecutor(options){
+export const reset214WithExecutor=options=>runRetainedReset(options,policy214);
+export const reset215WithExecutor=options=>{assertCurrentResetReference(options.reference);return runRetainedReset(options,policy215);};
+async function runRetainedReset(options,policy){
  const {executor,reference,ownerId,output}=options;
+ assert.equal(reference.migrationCeiling,policy.ceiling,'RESET_REFERENCE_REQUIRED');assert.equal(reference.manifest.length,policy.files);
  const target=options.report??{};
- const persist=()=>writeFileSync(path.join(output,'reset214-progress.json'),JSON.stringify(target,null,2)+'\n');
+ const persist=()=>writeFileSync(path.join(output,`reset${policy.ceiling}-progress.json`),JSON.stringify(target,null,2)+'\n');
  const session=options.session;
  Object.assign(target,{ok:false,complete:false,recoveryRequired:false,destructiveStarted:false,
   ...(session?{originalAttemptId:session.saved.attemptId,resumedFrom:session.resume?session.previousOutput:null}: {})});persist();
  const report=new Proxy(target,{set(object,key,value){object[key]=value;if(key==='destructiveStarted'&&value===true)object.recoveryRequired=true;if(key==='stage'||key==='destructiveStarted')persist();return true;}});
  try{
   report.stage='retention-preflight';
-  const state=session?retainedSessionState(session):await captureReset214({executor,ownerId,reference});report.plan=state.plan;
+  const state=session?retainedSessionState(session):await captureRetainedReset({executor,ownerId,reference},policy);report.plan=state.plan;
   if(options.expectedPlan)assert.deepEqual(state.plan,options.expectedPlan,'RESET214_PREVIEW_CHANGED');
   assert.equal(state.snapshot.storefront_settings[0].orders_enabled,false,'RESET214_STORE_ORDERS_MUST_BE_DISABLED');
   const r=await executeInput(executor,schemaCatalogSql);assert.equal(r.code,0,'RESET214_CATALOG_READ_FAILED');
-  const catalog=session?.resume?session.saved.catalog:withoutResetGuard(JSON.parse(r.stdout.trim()));assertReady214Catalog(catalog);
+  const catalog=session?.resume?session.saved.catalog:withoutResetGuard(JSON.parse(r.stdout.trim()));policy.assertCatalog(catalog);
   assert.equal(compareApplicationAcl(reference.catalog,catalog).differenceCount,0,'RESET214_APPLICATION_ACL_MISMATCH');
   if(session)await assertNoForeignWrites(executor,session.saved);
   if(session&&!session.resume)assert.deepEqual(await publicFingerprint(executor),session.saved.initialFingerprint,'RESET214_PREVIEW_CHANGED');
-  await rebuild214({...options,report,state});
+  await rebuild214({...options,report,state,policy});
   Object.assign(target,{ok:true,complete:true,recoveryRequired:false});
   return target;
  }catch(error){
@@ -105,7 +114,7 @@ export async function reset214WithExecutor(options){
  }finally{persist();}
 }
 
-async function rebuild214({executor,root,reference,output,repair,clearHistory,emptyStorage,deleteOtherAuth,finalDryRun,ownerId,report={},state,session,boundary=async()=>{}}){
+async function rebuild214({executor,root,reference,output,repair,clearHistory,emptyStorage,deleteOtherAuth,finalDryRun,ownerId,report={},state,session,policy,boundary=async()=>{}}){
  const sql=async input=>{const r=await executeInput(executor,input);assert.equal(r.code,0,reset214SqlFailureCode(r.stderr));return r.stdout.trim();};
  const json=async input=>JSON.parse(await sql(input));
  const units=await resetUnits(root,reference);uuid(ownerId);
@@ -190,7 +199,7 @@ async function rebuild214({executor,root,reference,output,repair,clearHistory,em
  await writeFile(path.join(output,'reset-catalog-differences.json'),JSON.stringify(differences,null,2)+'\n');
  assert.deepEqual(differences,[],'RESET_CATALOG_NOT_CLEAN_BUILD');
  assert.equal(compareApplicationAcl(reference.catalog,after).differenceCount,0,'RESET214_FINAL_ACL_MISMATCH');
- assertReady214Catalog(after);
+ policy.assertCatalog(after);
  assert.deepEqual(await json('SELECT jsonb_agg(version ORDER BY version) FROM supabase_migrations.schema_migrations;'),reference.appliedVersions,'RESET214_FINAL_HISTORY_MISMATCH');
  await finalDryRun();Object.assign(report,{stage:'complete',preserved:true,catalogDifferences:0,applicationAclDifferences:0});return report;
 }

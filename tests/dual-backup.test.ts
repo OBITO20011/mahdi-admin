@@ -6,6 +6,7 @@ import path from 'node:path';
 import {assertApprovedBackupProject,assertBackupDatabaseProject} from '../scripts/backup/backup-public-config.mjs';
 import {safeObjectName,nativeSource} from '../scripts/backup/complete-backup.mjs';
 import {ownerPlan,runOwnerMode,validateOwnerConfig,PREFIX} from '../scripts/operations/frankfurt-backup-runtime.mjs';
+import {migrationManifest} from '../scripts/testing/maintenance-db-contract.mjs';
 const ref='kzevmysfydaslxcerogt';
 const config=(root:string)=>({formatVersion:1,projectRef:ref,connection:`postgresql://postgres@db.${ref}.supabase.co:5432/postgres`,protectionScope:'LocalMachine',businessAlertsEnabled:false,backupRoot:path.join(root,'Frankfurt-'+ref),stateRoot:root,retentionCount:30,publishableKey:'local-fixture-only'});
 
@@ -39,8 +40,10 @@ test('owner test sends at most once even when Telegram delivery is uncertain',as
 });
 test('Frankfurt watchdog reports backup failures/400MB through the developer sender and caches daily sampling',async()=>{
   const root=await mkdtemp(path.join(tmpdir(),'ff-watchdog-'));let sizes=0,keepalives=0,sends=0,knownIssue=false;
+  const history=(await migrationManifest(process.cwd())).map((m:{name:string})=>m.name.slice(0,3));
   try{
     const source={session:()=>({query:async(sql:string)=>{
+      if(sql.includes('schema_migrations'))return JSON.stringify(history);
       if(sql.includes('pg_database_size')){sizes++;return '400000000';}
       if(sql.includes('get_advanced_monitoring_status'))return JSON.stringify({checkedAt:null,scanEnabled:false,scanErrorCode:null,checks:knownIssue?[{status:'critical',issueCount:1}]:[]});return '';
     },close:async()=>{}})};

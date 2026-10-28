@@ -39,10 +39,10 @@ export async function readPrivateResetJson(file,expectedHash){
  return JSON.parse(text);
 }
 export const resetSnapshotName='retention.json';
-export function assertResetSnapshot(snapshot,{ownerId,projectRef,referenceSha256}){
+export function assertResetSnapshot(snapshot,{ownerId,projectRef,referenceSha256,referenceCeiling=214}){
  assert.equal(snapshot.format,1,'RESET214_SNAPSHOT_FORMAT');assert.equal(snapshot.ownerId,ownerId,'RESET214_RESUME_OWNER_MISMATCH');
  assert.equal(snapshot.projectRef,projectRef,'RESET214_RESUME_PROJECT_MISMATCH');assert.equal(snapshot.referenceSha256,referenceSha256,'RESET214_RESUME_REFERENCE_CHANGED');
- assert.equal(snapshot.referenceCeiling,214);assert.equal(snapshot.state.plan.ownerId,ownerId);
+ assert.equal(snapshot.referenceCeiling,referenceCeiling);assert.equal(snapshot.state.plan.migrationCeiling,referenceCeiling);assert.equal(snapshot.state.plan.ownerId,ownerId);
  assert.deepEqual(Object.keys(snapshot.state.rawTables).sort(),['branches','warehouses','roles','profiles','user_roles','units','categories','storefront_settings'].sort(),'RESET214_RETENTION_TABLES');
  // Actual secret-bearing platform rows are forbidden even in this private file.
  assert.ok(!/"(?:encrypted_password|secret|refresh_token|access_token|recovery_token)"\s*:/u.test(JSON.stringify(snapshot)),'RESET214_PLATFORM_SECRET_FORBIDDEN');

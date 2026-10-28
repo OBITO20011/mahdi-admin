@@ -35,7 +35,7 @@ test('protected raw snapshot readback and hash preserve a bigint beyond JS safe 
  const root=await mkdtemp(path.join(tmpdir(),'nawasrah-reset214b-files-')),folder=await privateResetDirectory(root),file=path.join(folder,'snapshot.json');
  const rawTables=Object.fromEntries(['branches','warehouses','roles','profiles','user_roles','units','categories','storefront_settings'].map(t=>[t,'[]']));
  rawTables.storefront_settings='[{"minimum_order_in_minor_units":9007199254740993}]';
- const snapshot={format:1,ownerId:id,projectRef:'kzevmysfydaslxcerogt',referenceSha256:'a'.repeat(64),referenceCeiling:214,state:{rawTables,plan:{ownerId:id}}};
+ const snapshot={format:1,ownerId:id,projectRef:'kzevmysfydaslxcerogt',referenceSha256:'a'.repeat(64),referenceCeiling:214,state:{rawTables,plan:{ownerId:id,migrationCeiling:214}}};
  const digest=await writePrivateResetJson(file,snapshot),loaded=await readPrivateResetJson(file,digest);
  assertResetSnapshot(loaded,snapshot);assert.equal(loaded.state.rawTables.storefront_settings,rawTables.storefront_settings);
  assert.match(restoreReset214Sql(loaded.state.rawTables),/9007199254740993/u);

@@ -19,6 +19,8 @@ for(const args of [
  ['scripts/testing/generate-db-functions.mjs','--check'],
  ['scripts/operations/build-acl-reference215.mjs','--output',reference],
  ['scripts/testing/run-aftercare-upgrade215-runtime.mjs',reference],
+ ['scripts/testing/run-reset215-resume-runtime.mjs',reference],
+ ['scripts/testing/run-reset215-cli-contract.mjs',reference],
 ]){
  const result=await exec(process.execPath,args,{cwd:root,windowsHide:true,maxBuffer:32*1024**2});
  process.stdout.write(result.stdout);process.stderr.write(result.stderr);

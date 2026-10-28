@@ -69,7 +69,32 @@ try{
   assert.ok([...fixture.objects.keys()].every(k=>k.startsWith(PREFIX)),'LEGACY_PREFIX_MUST_NOT_CHANGE');
   assert.ok(fixture.calls.every(c=>!c.name.startsWith('Delete')));
   const nativeTls=await nativeBackupTlsProbe({container,output});
-  report={...restored,ok:true,nativeTls,comparisonNegative,syntheticExtraRoleConfigMembershipDefaultsAndCalledUncalledSequences:true,managedProfile:{sourceSha256:profile.sourceSha256,extensions:managedPlatform,restore:managedRestore,replaySameArchive:true},fixtureOnly:true,archiveEncrypted:true,storageBytesRestored:true,r2Transport:'local-in-memory-S3',remoteDownloadRestorePassed:true,immutableReplayPassed:true,tamperedDownloadRejected:true,legacyOffsiteUntouched:true,nonzeroFinancialFixture:{receivedQuantity:20,soldQuantity:2,remainingQuantity:18,supplierDebt:10000,salesCash:2000,openingCash:10000}};
+  // Upgrade THIS disposable source only. Preserve and restore the same214 v2
+  // archive again AFTER215 support,then create a new215 archive with real new
+  // immutable aftercare evidence,not merely empty215 tables.
+  const update=new SnapshotSession('docker',args);let inspected215;
+  try{
+    await update.query(await readFile(path.join(root,'supabase/migrations/215_inspected_aftercare_and_supplier_credit.sql'),'utf8'));
+    await update.query("INSERT INTO supabase_migrations.schema_migrations(version)VALUES('215');");
+    const id=n=>`92600000-0000-4000-8000-${String(n).padStart(12,'0')}`;
+    const auth=sql=>`BEGIN;SELECT set_config('request.jwt.claims','{"sub":"${id(1)}","role":"authenticated","aal":"aal2"}',true);SET LOCAL ROLE authenticated;${sql}COMMIT;`;
+    const pid=id(991),line=[{commercial_line_kind:'legacy_single_sku_parcel',product_id:pid,parcel_quantity:1,units_per_parcel:12,price_authority:'server_catalog',line_discount_in_minor_units:0}];
+    await update.query(`INSERT INTO products(id,sku,name_ar,category_id,unit_id,purchase_unit_id,sale_unit_id,units_per_purchase_unit,units_per_sale_unit,sale_price_in_minor_units,default_sale_price_in_minor_units,cost_price_in_minor_units,wac_cost_in_minor_units_exact,is_active,is_flavor_master)SELECT '${pid}','RESTORE215-PARCEL','طرد اختبار استرجاع215',category_id,unit_id,purchase_unit_id,sale_unit_id,12,12,1000,9000,0,0,true,false FROM products WHERE id='${id(103)}';`);
+    const purchase=[{client_line_id:id(992),line_kind:'base_unit',commercial_quantity:112,base_unit_name:'باكيت',gross_amount_in_minor_units:56000,line_discount_in_minor_units:0,components:[{product_id:pid,base_quantity:112}]}];
+    await update.query(auth(`SELECT create_direct_supplier_receipt_v2(p_supplier_id:='${id(301)}',p_branch_id:='${id(200)}',p_warehouse_id:='${id(201)}',p_idempotency_key:='complete-backup215-receipt',p_payment_method:='deferred',p_lines:='${JSON.stringify(purchase)}'::jsonb);`));
+    const sale=JSON.parse((await update.query(auth(`SELECT create_pos_sale_v2('${id(201)}','${id(200)}',NULL,'زبون نقدي','cash','${JSON.stringify(line)}'::jsonb,0,9000,'complete-backup215-sale');`))).trim().split('\n').at(-1));
+    const item=(await update.query(`SELECT id FROM order_items WHERE order_id='${sale.orderId}';`)).trim();
+    const payload={orderId:sale.orderId,items:[{sourceKind:'base_order_item',sourceId:item,quantity:12,goodQuantity:11,supplierId:null}],reason:'فحص استبدال داخل النسخة المحلية',notes:null};
+    const preview=JSON.parse((await update.query(auth(`SELECT preview_inspected_sales_replacement_v2('${JSON.stringify(payload)}'::jsonb);`))).trim().split('\n').at(-1));
+    inspected215=JSON.parse((await update.query(auth(`SELECT settle_inspected_sales_replacement_v2('${JSON.stringify(payload)}'::jsonb,'complete-backup215-inspected','${preview.previewFingerprint}');`))).trim().split('\n').at(-1));
+    assert.equal(inspected215.success,true);assert.equal(inspected215.restockedQuantity,11);
+  }finally{await update.close();}
+  const old214AfterUpdate=await restoreCompleteBackup({archivePath:managedBackup.archivePath,passphrase,reportPath:path.join(output,'old214-after215-support.json')});assert.equal(old214AfterUpdate.ok,true);assert.equal(old214AfterUpdate.historyCeiling,214);
+  const backup215=await createCompleteBackup({projectRef:'kzevmysfydaslxcerogt',outputRoot:backupRoot,passphrase,source});assert.equal(backup215.historyCeiling,215);assert.equal(backup215.historyFiles,177);assert.equal(backup215.formatVersion,2);
+  const restore215=await restoreCompleteBackup({archivePath:backup215.archivePath,passphrase,reportPath:path.join(output,'restore215.json')});assert.equal(restore215.ok,true);assert.equal(restore215.historyCeiling,215);assert.equal(restore215.historyFiles,177);assert.equal(restore215.catalogAclOwnerSettingsMatch,true);assert.equal(restore215.allRowsAndHashesMatch,true);assert.deepEqual(restore215.exceptionsApplied,[]);
+  await ownerMode('Upload');await ownerMode('VerifyRemote');await ownerMode('RestoreRemote');
+  const remote215=JSON.parse(await readFile(path.join(config.stateRoot,'restore-remote.json'),'utf8'));assert.equal(remote215.historyCeiling,215);assert.equal(remote215.ok,true);
+  report={...restored,ok:true,current215:{backup:backup215,restore:restore215,remoteRestore:remote215,inspectedOperation:inspected215,old214ArchiveStillRestores:true},nativeTls,comparisonNegative,syntheticExtraRoleConfigMembershipDefaultsAndCalledUncalledSequences:true,managedProfile:{sourceSha256:profile.sourceSha256,extensions:managedPlatform,restore:managedRestore,replaySameArchive:true},fixtureOnly:true,archiveEncrypted:true,storageBytesRestored:true,r2Transport:'local-in-memory-S3',remoteDownloadRestorePassed:true,immutableReplayPassed:true,tamperedDownloadRejected:true,legacyOffsiteUntouched:true,nonzeroFinancialFixture:{receivedQuantity:20,soldQuantity:2,remainingQuantity:18,supplierDebt:10000,salesCash:2000,openingCash:10000}};
 }catch(error){report.error=error.message;report.cause=error.cause?.message;process.exitCode=1;console.error(error);}
 finally{
   if(local)await exec(process.execPath,['node_modules/supabase/dist/supabase.js','stop','--no-backup','--workdir',local],{cwd:root,windowsHide:true});
