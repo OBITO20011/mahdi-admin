@@ -71,7 +71,7 @@ function homeSchema(): Record<string, unknown> {
         addressLocality: SEO_BRAND.locality,
         addressCountry: SEO_BRAND.countryCode,
       },
-      logo: {'@type': 'ImageObject', url: publicUrl(SEO_BRAND.defaultImagePath)},
+      logo: {'@type': 'ImageObject', url: publicUrl(SEO_BRAND.logoImagePath)},
       image: publicUrl(SEO_BRAND.storefrontImagePath),
     },
     {
@@ -242,15 +242,16 @@ export function useStorefrontSeo({activePage, category, product, offers = [], pr
     upsertMeta('property', 'og:type', product ? 'product' : 'website');
     upsertMeta('property', 'og:locale', SEO_BRAND.locale);
     upsertMeta('property', 'og:site_name', STORE_NAME);
-    const socialImage = /^https:\/\//i.test(product?.imageUrl || '')
-      ? product!.imageUrl
-      : publicUrl(SEO_BRAND.defaultImagePath);
+    const socialImage = publicUrl(SEO_BRAND.defaultImagePath);
     upsertMeta('property', 'og:image', socialImage);
-    upsertMeta('property', 'og:image:alt', product?.nameAr || STORE_NAME);
+    upsertMeta('property', 'og:image:alt', SEO_BRAND.socialImageAlt);
+    upsertMeta('property', 'og:image:width', String(SEO_BRAND.socialImageWidth));
+    upsertMeta('property', 'og:image:height', String(SEO_BRAND.socialImageHeight));
     upsertMeta('name', 'twitter:card', 'summary_large_image');
     upsertMeta('name', 'twitter:title', title);
     upsertMeta('name', 'twitter:description', description);
     upsertMeta('name', 'twitter:image', socialImage);
+    upsertMeta('name', 'twitter:image:alt', SEO_BRAND.socialImageAlt);
     upsertCanonical(canonical);
     upsertStructuredData(structuredData);
   }, [activePage, category, offers, privateState, product]);

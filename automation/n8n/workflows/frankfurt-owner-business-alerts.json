@@ -240,7 +240,7 @@
           "resource": "message",
           "operation": "sendMessage",
           "chatId": "={{ $('Owner Routing').first().json.ownerTelegramChatId }}",
-          "text": "<b>✅ تم ربط تنبيهات النواصرة بهاتفك</b>",
+          "text": "<b>✅ تم ربط تنبيهات النواصرة لتجارة الجملة والمواد الغذائية بهاتفك</b>",
           "replyMarkup": "none",
           "additionalFields": {
             "parse_mode": "HTML",

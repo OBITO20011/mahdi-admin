@@ -28,7 +28,9 @@ const homepageTitle = `${officialName} | مواد غذائية ومشروبات 
 const homepageDescription = 'تصفح منتجات الجملة من النواصرة لتجارة الجملة والمواد الغذائية، واطلب المواد الغذائية والمشروبات المتوفرة مباشرة من المتجر.';
 const aboutTitle = `عن ${officialName} | تجارة الجملة في الرمثا`;
 const aboutDescription = `تعرف على ${officialName}، لتجارة المواد الغذائية والسكاكر والعصائر بالجملة في الرمثا، الأردن.`;
-const defaultImage = `${siteOrigin}/nawasrah-store-logo.jpg`;
+const defaultImage = `${siteOrigin}/nawasrah-social-card.jpg`;
+const logoImage = `${siteOrigin}/nawasrah-store-logo.jpg`;
+const socialImageAlt = `${officialName} — مواد غذائية ومشروبات بالجملة — الرمثا`;
 const storefrontImage = `${siteOrigin}/nawasrah-storefront.webp`;
 const configuredUrl=buildEnvironment.url,configuredKey=buildEnvironment.key;
 const url = auditUrl || configuredUrl;
@@ -77,7 +79,7 @@ function homeSchema() {
       '@type': 'Store', '@id': `${homepage}#organization`, name: officialName,
       alternateName, url: homepage,
       sameAs: socialProfiles,
-      logo: {'@type': 'ImageObject', url: defaultImage},
+      logo: {'@type': 'ImageObject', url: logoImage},
       telephone: '+962795957700',
       foundingDate: '2000',
       areaServed: {'@type': 'Country', name: 'الأردن'},
@@ -129,11 +131,14 @@ function injectHead(shell, {title, description, canonical, schema, image = defau
     `<meta property="og:description" content="${escapeHtml(description)}" />`,
     `<meta property="og:url" content="${escapeHtml(canonical)}" />`,
     `<meta property="og:image" content="${escapeHtml(image)}" />`,
-    `<meta property="og:image:alt" content="${escapeHtml(title)}" />`,
+    `<meta property="og:image:alt" content="${escapeHtml(socialImageAlt)}" />`,
+    '<meta property="og:image:width" content="1200" />',
+    '<meta property="og:image:height" content="630" />',
     '<meta name="twitter:card" content="summary_large_image" />',
     `<meta name="twitter:title" content="${escapeHtml(title)}" />`,
     `<meta name="twitter:description" content="${escapeHtml(description)}" />`,
     `<meta name="twitter:image" content="${escapeHtml(image)}" />`,
+    `<meta name="twitter:image:alt" content="${escapeHtml(socialImageAlt)}" />`,
     ...(schema ? [`<script type="application/ld+json">${escapedJson(schema)}</script>`] : []),
   ].join('\n    ');
   const withoutExistingSeo = shell
@@ -197,7 +202,6 @@ await writeRoute('/about/', injectHead(shell, {
   title: aboutTitle,
   description: aboutDescription,
   canonical: routeUrl('/about/'),
-  image: storefrontImage,
   schema: graphSchema(
     pageSchema('AboutPage', 'عن النواصرة لتجارة الجملة والمواد الغذائية', '/about/'),
     breadcrumbSchema([{name: 'الرئيسية', route: '/'}, {name: 'عن المحل', route: '/about/'}]),
@@ -239,7 +243,7 @@ for (const product of allProducts) {
   seenProductRoutes.add(route);
   sitemapRoutes.push({route, changefreq: 'daily', priority: '0.7'});
   const productImage = /^https:\/\//i.test(String(product.imageUrl || '')) ? product.imageUrl : null;
-  const socialImage = productImage || defaultImage;
+  const socialImage = defaultImage;
   const description = product.description || `اطلب ${product.nameAr} بالجملة من ${officialName}.`;
   const productNode = {
     '@type': 'Product', '@id': `${routeUrl(route)}#product`, url: routeUrl(route),

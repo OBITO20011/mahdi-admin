@@ -132,7 +132,7 @@ export function StoreHeader({
       </div>
 
       <div className="sticky top-0 z-40 border-b border-amber-100/90 bg-[#fffdf8]/95 shadow-sm backdrop-blur-xl">
-        <div className="mx-auto flex max-w-[1450px] items-center gap-3 px-4 py-3 lg:px-7">
+        <div className="mx-auto flex max-w-[1450px] flex-wrap items-center gap-x-2 gap-y-2 px-3 py-3 sm:flex-nowrap sm:gap-3 sm:px-4 lg:px-7">
           <button
             type="button"
             onClick={onMenuOpen}
@@ -146,11 +146,13 @@ export function StoreHeader({
             type="button"
             onClick={onHome}
             aria-label="العودة إلى الصفحة الرئيسية"
-            className="flex shrink-0 items-center gap-3 text-right"
+            className="flex min-w-0 flex-1 items-center gap-2 text-right sm:flex-none sm:gap-3"
           >
-            <StoreLogoMark />
-            <div className="hidden sm:block">
-              <p className="max-w-44 text-sm font-black leading-snug text-blue-900">النواصرة لتجارة الجملة والمواد الغذائية</p>
+            <StoreLogoMark className="h-12 w-14 shrink-0 sm:h-14 sm:w-[4.5rem]" />
+            <div className="min-w-0">
+              <p className="text-xl font-black leading-snug text-blue-900 sm:hidden">النواصرة</p>
+              <p className="whitespace-nowrap text-[11px] font-bold leading-loose text-blue-900 sm:hidden">لتجارة الجملة والمواد الغذائية</p>
+              <p className="hidden max-w-44 text-sm sm:block font-black leading-snug text-blue-900">النواصرة لتجارة الجملة والمواد الغذائية</p>
 
             </div>
           </button>
@@ -177,7 +179,7 @@ export function StoreHeader({
             {searchField()}
           </div>
 
-          <div className="mr-auto flex items-center gap-2">
+          <div className="mr-auto flex w-full items-center justify-end gap-2 sm:w-auto">
             <button
               type="button"
               onClick={onRefresh}

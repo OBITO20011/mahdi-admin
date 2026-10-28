@@ -1,3 +1,4 @@
+import {sourceBeforeStoreIdentity} from '../scripts/audit/source-before-store-sharing-identity.mjs';
 import {pathsBeforeHandover213} from '../scripts/audit/source-before-handover213.mjs';
 import {sourceBeforeTrialR,trialRPins} from '../scripts/audit/source-before-trial-owner-r.mjs';
 import assert from 'node:assert/strict';
@@ -53,6 +54,6 @@ test('W preserves every service/Supabase call and keeps authority modules unchan
   const before=execFileSync('git',['show',base+':'+file],{encoding:'utf8',maxBuffer:32*1024**2});
   assert.deepEqual(calls(file,sourceBeforeTrialR(file,readFileSync(file,'utf8'))!),calls(file,before),file);
  }
- const authority=execFileSync('git',['diff','--name-only',base,'--','supabase','src/services','src/utils','src/stores','src/lib'],{encoding:'utf8'}).trim().split('\n').filter(Boolean).filter(file=>pathsBeforeHandover213([file]).length>0&&!trialRPins[file]&&file!=='supabase/migrations/212_trial_readable_cash_product_choices_damage_history.sql').join('\n');
+ const authority=execFileSync('git',['diff','--name-only',base,'--','supabase','src/services','src/utils','src/stores','src/lib'],{encoding:'utf8'}).trim().split('\n').filter(Boolean).filter(file=>{if(['src/services/deviceBiometrics.service.ts','src/stores/useAuthStore.ts'].includes(file)){assert.equal(sourceBeforeStoreIdentity(file,readFileSync(file,'utf8')),execFileSync('git',['show','f95ff0458f90298edc21e39859d3268c7f7ccac7:'+file],{encoding:'utf8'}).replaceAll('\r\n','\n'));return false;}return true;}).filter(file=>pathsBeforeHandover213([file]).length>0&&!trialRPins[file]&&file!=='supabase/migrations/212_trial_readable_cash_product_choices_damage_history.sql').join('\n');
  assert.equal(authority,'','No writer, reader, pricing, permission or persisted-store contract changes');
 });

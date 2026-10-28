@@ -2,22 +2,19 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Documentation only:actual214 UI owner guide,print HTML,exact import XLSX andcutover card;one PR/fullCI;no application or SQL edits",
-  "baselineSha": "ad4bd1f8230758a707285ceb8f0042015d16b018",
-  "branch": "codex/handover-owner-guide",
+  "objective": "Store identity: reproducible share card/mobile header/full name audit;separate PR approval,no DB/deploy",
+  "baselineSha": "f95ff0458f90298edc21e39859d3268c7f7ccac7",
+  "branch": "codex/store-sharing-identity",
   "phase": "PACKAGE_F",
   "completed": [
-    "Guide24sections and standalone RTL A4HTML;placeholders/no realdata",
-    "Six XLSX exact importer headers;cashopening manual-only;flavors/methods separate preparation",
-    "Current UI124literal labels bound33source files atad4bd1f8",
-    "Actual application reader/preparers6/6;products14cols/zeros/dates;negative cases",
-    "Actual ArtifactTool reimport+input changes+recalculate6/6;XLSX RTL/panes/listvalidation/formulas",
-    "A4Chromiumprint guide10pages andcutover2pages;externalrequests0;allpages reviewed",
-    "Admin1502/1502,Customer197/197,typesBoth,strictlint0warnings,Gitleaks0;product/SQL/automationdiffempty",
-    "Actual products XLSX imported via current RPC on fresh214/176 isolated DB:preview0errors/0writes,created1,matchingfields,replay0writes,stock/orders/shifts/movements0;recipe+hashboundproof"
+    "Reproducible1200x630 JPEG57824bytes;logo exact unchanged",
+    "Official mobile name360/390/768 and all SEO metadata",
+    "Full UI/manifest/receipt/Telegram brand audit",
+    "Local SDK154/540 and source hashes/current inventories;historical evidence unchanged",
+    "Local gates Admin1507/store197/browser22/types/lint/build/Gitleaks0"
   ],
   "inProgress": [
-    "Push actualDB import evidence to samePR38;verify full finalCI"
+    "Commit/push and exact full CI"
   ],
   "notStarted": [
     "Owner approval;no merge"
@@ -26,34 +23,31 @@
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "testsPassed": [
-    "Focused6/6",
-    "Actual workbook parser6/6 andinput-change recalculation6/6",
-    "Offline print A4RTL10+2pages,resources0,overflowfalse",
-    "Admin1502/1502;store197/197;typesBoth;strictlint0warnings;Gitleaks0",
-    "Post actualDB proof:Admin1503/1503,types,strictlint0warnings,Gitleaks0"
+    "Admin1507/1507;store197/197;browser22/22 zero flaky",
+    "TypesBoth;strictlint0warnings;admin production/store isolated build6SEO pages",
+    "Gitleaks0;actual local214 SDK154/540;original logo SHA unchanged"
   ],
   "testsRemaining": [
-    "Exact finalSHA FULL CI push andPR",
-    "Owner approval"
+    "Exact final SHA full push+PR CI",
+    "Owner approval before merge"
   ],
   "findings": [
-    "Product import schema14columns exact;no flavor/full-method/unitprice columns invented",
-    "Drawer has no import UI;manual first shift preparation only",
-    "Openingcheques follow-up only andnet balances;decision signed beforeentry",
-    "No newApplicationCode/SQL or hostedcalls",
-    "First CI old head had2 image-registry rate limits before SQL;no code failure;newproof commit will supersede old runs"
+    "Old logo JPEG retained for UI/JSONLD logo;actual product/schema images retained",
+    "Two device-label fallback strings only;no Auth guard/call change",
+    "Telegram test text uses full name;workflow remains inactive",
+    "No hosted access/SQL/deploy"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No application/SQL/migration changes",
-    "No hosted access/publish/activation",
-    "No merge before owner approval"
+    "No SQL/DB changes/migrations/hosted access/deploy/activation",
+    "No merge without owner approval",
+    "SKU photos is a separate following package"
   ],
-  "nextExactAction": "Post-proofgatesPASS1503;commit/pushsamePR38,full finalCI;no merge",
+  "nextExactAction": "Commit/push identity package;open PR with previews;exact full CI;no merge",
   "startedAt": "2026-10-27T12:09:21.571Z",
-  "checkpointedAt": "2026-10-27T16:16:21.467Z",
-  "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "057c52ffe9d18dba660d8973d0dc8eb3428bc17ccd0880969e032a327c4a6081",
-  "workingTreeFingerprint": "705077D953853524F49EFBC36D77FBA6A17C42A5168F5739A86A83476728A290"
+  "checkpointedAt": "2026-10-27T18:47:58.345Z",
+  "filesTouchedCount": 34,
+  "filesTouchedManifestSha256": "c85acd0aa4d47b2913c4876f3c0d01aaa4f450f4852faf2b80d1271053a5f47a",
+  "workingTreeFingerprint": "C2C0FA16728A97DAA3902723084DE998527CF8623103C82C212A38CEA4274455"
 }
