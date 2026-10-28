@@ -435,7 +435,8 @@ BEGIN
  FOREACH k IN ARRAY ARRAY['restockRecoveryInMinorUnits','aftercareAdjustedMarginInMinorUnits','netProfitInMinorUnits'] LOOP
   facts:=jsonb_set(facts,ARRAY['sales',k],to_jsonb((facts->'sales'->>k)::BIGINT+recovery));
  END LOOP;
- RETURN public.tb215_exchange_financial_adjustment_internal(facts,p_branch_id,p_period_start,p_period_end,p_timezone,p_verify_evidence);
+ facts:=public.tb215_exchange_financial_adjustment_internal(facts,p_branch_id,p_period_start,p_period_end,p_timezone,p_verify_evidence);
+ RETURN public.tb215_damage_loss_presentation_internal(facts,p_branch_id,p_period_start,p_period_end);
 END $$;
 
 -- Private215 allocation validator: exact132 body except independent packet
@@ -4187,6 +4188,202 @@ BEGIN
 END;
 $function$;
 
+-- A physical damaged source has one root even when its supplier decision is
+-- split across pending, received, credited and refused quantities.
+CREATE FUNCTION public.tb215_damage_case_roots_internal()
+RETURNS TABLE(case_id UUID,root_kind TEXT,root_id UUID)
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+ SELECT c.id,CASE WHEN COALESCE(c.damage_event_id,l.damage_event_id) IS NOT NULL THEN 'damage'
+  WHEN COALESCE(l.replacement_item_id,m.replacement_item_id) IS NOT NULL THEN 'replacement' ELSE 'supplier' END,
+  COALESCE(c.damage_event_id,l.damage_event_id,l.replacement_item_id,m.replacement_item_id,c.id)
+ FROM public.supplier_replacement_cases c LEFT JOIN public.aftercare_supplier_links l ON l.case_id=c.id
+ LEFT JOIN public.aftercare215_inspection_items m ON m.supplier_case_id=c.id;
+$$;
+
+CREATE FUNCTION public.tb215_damage_case_states_internal()
+RETURNS TABLE(case_id UUID,root_kind TEXT,root_id UUID,pending_quantity BIGINT,received_quantity BIGINT,
+ credited_quantity BIGINT,written_off_quantity BIGINT,immediate_quantity BIGINT,reversed_damage_quantity BIGINT)
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+ SELECT map.case_id,map.root_kind,map.root_id,COALESCE(sum(e.held_delta),0)::BIGINT,
+ COALESCE(sum(CASE WHEN e.action='receive' THEN e.quantity WHEN e.action='reverse' AND original.action='receive' THEN -e.quantity ELSE 0 END),0)::BIGINT,
+ COALESCE(sum(CASE WHEN e.action='credit' THEN e.quantity WHEN e.action='reverse' AND original.action='credit' THEN -e.quantity ELSE 0 END),0)::BIGINT,
+ COALESCE(sum(CASE WHEN e.action='writeoff' THEN e.quantity WHEN e.action='reverse' AND original.action='writeoff' THEN -e.quantity ELSE 0 END),0)::BIGINT,
+ COALESCE(sum(CASE WHEN e.action='immediate' THEN e.quantity WHEN e.action='reverse' AND original.action='immediate' THEN -e.quantity ELSE 0 END),0)::BIGINT,
+ COALESCE(sum(CASE WHEN e.action='reverse' AND original.action='damage' THEN e.quantity ELSE 0 END),0)::BIGINT
+ FROM public.tb215_damage_case_roots_internal() map JOIN public.supplier_replacement_events e ON e.case_id=map.case_id
+ LEFT JOIN public.supplier_replacement_events original ON original.id=e.reverses_event_id
+ GROUP BY map.case_id,map.root_kind,map.root_id;
+$$;
+
+-- The operation's rounded recovery is allocated cumulatively for display.
+-- Never round every physical leaf independently and invent extra recovery.
+CREATE FUNCTION public.tb215_warranty_damage_facts_internal()
+RETURNS TABLE(replacement_item_id UUID,operation_id UUID,root_order_id UUID,product_id UUID,warehouse_id UUID,branch_id UUID,
+ bad_quantity INTEGER,unit_cost_exact NUMERIC,issued_cost BIGINT,good_recovery BIGINT,net_cost BIGINT,occurred_at TIMESTAMPTZ,
+ root_order_item_id UUID,root_parcel_instance_id UUID,reason TEXT)
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+ WITH recovered AS(
+  SELECT r.id,r.operation_id,r.root_order_item_id,r.root_parcel_instance_id,r.product_id,r.quantity,r.replacement_cogs_snapshot_in_minor_units,
+   e.root_order_id,e.issued_at,e.reason,o.branch_id,f.warehouse_id,f.source_kind,f.source_id,
+   COALESCE(m.bad_quantity,r.quantity) bad_quantity,
+   COALESCE(m.source_unit_cost_exact,CASE WHEN f.source_kind='base_order_item' THEN COALESCE(oi.unit_cost_snapshot_in_minor_units_exact,oi.unit_cost_in_minor_units::NUMERIC)
+    WHEN f.source_kind='parcel_component' THEN round(COALESCE(pc.exact_cogs_snapshot_in_minor_units/NULLIF(pc.base_quantity,0),pc.unit_cost_snapshot_in_minor_units),6)
+    ELSE previous.replacement_unit_cost_snapshot_in_minor_units_exact END) unit_cost,
+   COALESCE(m.good_quantity*m.source_unit_cost_exact,0) good_value
+  FROM public.sales_replacement_items r JOIN public.sales_replacement_events e ON e.id=r.replacement_event_id AND e.issuance_status='issued'
+  JOIN public.orders o ON o.id=e.root_order_id JOIN public.phase43_replacement_inventory_effects f ON f.replacement_item_id=r.id
+  LEFT JOIN public.aftercare215_inspection_items m ON m.replacement_item_id=r.id
+  LEFT JOIN public.order_items oi ON f.source_kind='base_order_item' AND oi.id=f.source_id
+  LEFT JOIN public.order_parcel_components pc ON f.source_kind='parcel_component' AND pc.id=f.source_id
+  LEFT JOIN public.sales_replacement_items previous ON f.source_kind='replacement_item' AND previous.id=f.source_id
+ ), allocated AS(
+  SELECT recovered.*,sum(good_value) OVER(PARTITION BY operation_id ORDER BY product_id,source_kind,source_id ROWS UNBOUNDED PRECEDING) cumulative
+  FROM recovered
+ )
+ SELECT id,operation_id,root_order_id,product_id,warehouse_id,branch_id,bad_quantity,unit_cost,replacement_cogs_snapshot_in_minor_units,
+  (round(cumulative)-round(cumulative-good_value))::BIGINT,
+  replacement_cogs_snapshot_in_minor_units-(round(cumulative)-round(cumulative-good_value))::BIGINT,
+  issued_at,root_order_item_id,root_parcel_instance_id,reason FROM allocated;
+$$;
+CREATE FUNCTION public.tb215_damage_roots_internal()
+RETURNS TABLE(root_kind TEXT,root_id UUID,product_id UUID,branch_id UUID,warehouse_id UUID,original_bad_quantity BIGINT,
+ unit_cost_exact NUMERIC,occurred_at TIMESTAMPTZ,reason_code TEXT,reason TEXT,order_id UUID,return_event_id UUID,
+ historical_parcel_size INTEGER,parcel_size_known BOOLEAN,base_loss BIGINT)
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+ WITH case_factors AS(
+  SELECT m.root_kind,m.root_id,max(c.units_per_commercial_unit) FILTER(WHERE c.units_per_commercial_unit>1) factor
+  FROM public.tb215_damage_case_roots_internal() m JOIN public.supplier_replacement_cases c ON c.id=m.case_id GROUP BY m.root_kind,m.root_id
+ )
+ SELECT 'damage'::TEXT,d.id,d.product_id,d.branch_id,d.warehouse_id,d.quantity::BIGINT,d.unit_cost_in_minor_units_exact,d.occurred_at,d.reason_code,d.reason,
+  e.order_id,d.return_event_id,
+  CASE WHEN oi.commercial_line_kind='legacy_single_sku_parcel' THEN oi.units_per_sale_package ELSE COALESCE(cf.factor,1) END,
+  oi.commercial_line_kind IN('base_unit','legacy_single_sku_parcel') OR cf.factor IS NOT NULL,d.loss_in_minor_units
+ FROM public.inventory_damage_events d LEFT JOIN public.sales_return_events e ON e.id=d.return_event_id
+ LEFT JOIN public.sales_replacement_items previous ON d.source_kind='replacement_item' AND previous.id=d.source_id
+ LEFT JOIN public.order_items oi ON oi.id=CASE WHEN d.source_kind='base_order_item' THEN d.source_id WHEN d.source_kind='replacement_item' THEN previous.root_order_item_id END
+ LEFT JOIN case_factors cf ON cf.root_kind='damage' AND cf.root_id=d.id
+ UNION ALL
+ SELECT 'replacement',w.replacement_item_id,w.product_id,w.branch_id,w.warehouse_id,w.bad_quantity::BIGINT,w.unit_cost_exact,w.occurred_at,
+  'customer_replacement',w.reason,w.root_order_id,NULL::UUID,
+  CASE WHEN oi.commercial_line_kind='legacy_single_sku_parcel' THEN oi.units_per_sale_package ELSE 1 END,
+  oi.commercial_line_kind IN('base_unit','legacy_single_sku_parcel'),w.net_cost
+ FROM public.tb215_warranty_damage_facts_internal() w JOIN public.order_items oi ON oi.id=w.root_order_item_id
+ UNION ALL
+ SELECT 'supplier',c.id,c.product_id,c.branch_id,c.warehouse_id,
+  s.pending_quantity+s.received_quantity+s.credited_quantity+s.written_off_quantity+s.immediate_quantity,
+  c.unit_cost_in_minor_units_exact,c.occurred_at,CASE WHEN s.immediate_quantity>0 THEN 'shop_immediate' ELSE 'shop_pending' END,
+  COALESCE((SELECT e.reason FROM public.supplier_replacement_events e WHERE e.case_id=c.id ORDER BY e.occurred_at,e.id LIMIT 1),'بضاعة عند المورد'),
+  NULL::UUID,NULL::UUID,c.units_per_commercial_unit,c.units_per_commercial_unit>1,0::BIGINT
+ FROM public.tb215_damage_case_states_internal() s JOIN public.supplier_replacement_cases c ON c.id=s.case_id WHERE s.root_kind='supplier';
+$$;
+
+CREATE FUNCTION public.tb215_damage_movements_internal()
+RETURNS TABLE(root_kind TEXT,root_id UUID,movement_id UUID,action TEXT,quantity BIGINT,loss_delta BIGINT,occurred_at TIMESTAMPTZ,reason TEXT)
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+ SELECT r.root_kind,r.root_id,r.root_id,CASE WHEN r.root_kind='replacement' THEN 'customer_replacement' ELSE r.reason_code END,
+  r.original_bad_quantity,r.base_loss,r.occurred_at,r.reason FROM public.tb215_damage_roots_internal() r WHERE r.root_kind<>'supplier'
+ UNION ALL
+ SELECT m.root_kind,m.root_id,e.id,CASE WHEN e.action='send' THEN 'supplier_send' WHEN e.action IN('receive','immediate') THEN 'supplier_received'
+   WHEN e.action='credit' THEN 'supplier_credited' WHEN e.action='writeoff' THEN 'supplier_refused' WHEN e.action='damage' THEN 'shop_damage_link' ELSE 'supplier_reverse' END,
+  e.quantity::BIGINT,e.expense_delta_in_minor_units,e.occurred_at,e.reason
+ FROM public.supplier_replacement_events e JOIN public.tb215_damage_case_roots_internal() m ON m.case_id=e.case_id WHERE e.action<>'damage';
+$$;
+CREATE FUNCTION public.get_damage_ledger_page_v2(p_from TIMESTAMPTZ,p_to TIMESTAMPTZ,p_state TEXT DEFAULT 'all',p_reason TEXT DEFAULT 'all',
+ p_search TEXT DEFAULT '',p_branch_id UUID DEFAULT NULL,p_page INTEGER DEFAULT 1,p_page_size INTEGER DEFAULT 25)
+RETURNS JSONB LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+#variable_conflict use_column
+DECLARE owner_values BOOLEAN; result JSONB;
+BEGIN
+ PERFORM public.sr208_assert_role_internal('read');owner_values:=public.has_erp_role(ARRAY['owner']);
+ IF p_from IS NULL OR p_to IS NULL OR p_to<=p_from OR p_to-p_from>INTERVAL '367 days'
+  OR p_state IS NULL OR p_state NOT IN('all','pending_supplier','finished_supplier','final_owner') OR p_reason IS NULL OR length(p_reason)>80
+  OR p_search IS NULL OR length(p_search)>120 OR p_page IS NULL OR p_page NOT BETWEEN 1 AND 1000000 OR p_page_size IS NULL OR p_page_size NOT BETWEEN 1 AND 100
+ THEN RAISE EXCEPTION 'DAMAGE215_PAGE_INVALID'; END IF;
+ IF EXISTS(SELECT 1 FROM public.tb215_damage_roots_internal() r
+  WHERE(r.unit_cost_exact IS NULL OR r.unit_cost_exact<0) AND(p_branch_id IS NULL OR r.branch_id=p_branch_id)
+   AND EXISTS(SELECT 1 FROM public.tb215_damage_movements_internal() m WHERE m.root_kind=r.root_kind AND m.root_id=r.root_id AND m.occurred_at>=p_from AND m.occurred_at<p_to))
+ THEN RAISE EXCEPTION 'DAMAGE_HISTORICAL_COST_MISSING'; END IF;
+ WITH period_movements AS MATERIALIZED(
+  SELECT m.root_kind,m.root_id,sum(m.loss_delta)::BIGINT period_loss,max(m.occurred_at) last_at,
+   jsonb_agg(jsonb_build_object('id',m.movement_id,'action',m.action,'quantity',m.quantity,'occurredAt',m.occurred_at,'reason',m.reason)
+    ||CASE WHEN owner_values THEN jsonb_build_object('lossDeltaInMinorUnits',m.loss_delta::TEXT) ELSE '{}'::JSONB END ORDER BY m.occurred_at DESC,m.movement_id) movements
+  FROM public.tb215_damage_movements_internal() m WHERE m.occurred_at>=p_from AND m.occurred_at<p_to GROUP BY m.root_kind,m.root_id
+ ), states AS MATERIALIZED(
+  SELECT s.root_kind,s.root_id,sum(s.pending_quantity)::BIGINT pending,
+   sum(s.received_quantity+s.credited_quantity+s.immediate_quantity)::BIGINT finished,sum(s.reversed_damage_quantity)::BIGINT restored,
+   sum(s.received_quantity+s.immediate_quantity)::BIGINT received,sum(s.credited_quantity)::BIGINT credited,
+   array_agg(s.case_id ORDER BY s.case_id) case_ids
+  FROM public.tb215_damage_case_states_internal() s GROUP BY s.root_kind,s.root_id
+ ), classified AS MATERIALIZED(
+  SELECT r.*,p.name_ar product_name,p.sku,
+   (SELECT image.image_url FROM public.product_images image WHERE image.product_id=p.id ORDER BY image.is_primary DESC,image.display_order,image.created_at,image.id LIMIT 1) image_url,
+   m.period_loss,m.last_at,m.movements,
+   public.tb215_damage_nonnegative_quantity_internal(COALESCE(s.pending,0)) pending,public.tb215_damage_nonnegative_quantity_internal(COALESCE(s.finished,0)) finished,COALESCE(s.received,0) received,COALESCE(s.credited,0) credited,
+   public.tb215_damage_nonnegative_quantity_internal(r.original_bad_quantity-COALESCE(s.restored,0)) active_bad,
+   public.tb215_damage_nonnegative_quantity_internal(r.original_bad_quantity-COALESCE(s.restored,0)-COALESCE(s.pending,0)-COALESCE(s.finished,0)) final_quantity,
+   COALESCE(s.case_ids,'{}'::UUID[]) case_ids,
+   o.order_number,ret.return_number,
+   CASE WHEN r.root_kind='replacement' THEN r.base_loss-round(r.original_bad_quantity*r.unit_cost_exact)::BIGINT ELSE 0 END cost_difference
+  FROM public.tb215_damage_roots_internal() r JOIN period_movements m ON m.root_kind=r.root_kind AND m.root_id=r.root_id
+  JOIN public.products p ON p.id=r.product_id LEFT JOIN states s ON s.root_kind=r.root_kind AND s.root_id=r.root_id
+  LEFT JOIN public.orders o ON o.id=r.order_id LEFT JOIN public.sales_return_events ret ON ret.id=r.return_event_id
+  WHERE(p_branch_id IS NULL OR r.branch_id=p_branch_id) AND(p_reason='all' OR r.reason_code=p_reason)
+   AND(p_search='' OR p.name_ar ILIKE '%'||p_search||'%' OR p.sku ILIKE '%'||p_search||'%')
+ ), selected AS MATERIALIZED(
+  SELECT * FROM classified x WHERE(x.active_bad>0 OR owner_values AND x.period_loss<>0)
+   AND(p_state='all' OR p_state='pending_supplier' AND x.pending>0 OR p_state='finished_supplier' AND x.finished>0
+    OR p_state='final_owner' AND(x.final_quantity>0 OR owner_values AND x.active_bad=0 AND x.period_loss<>0))
+ ), page AS(
+  SELECT * FROM selected ORDER BY last_at DESC,root_kind,root_id LIMIT p_page_size OFFSET(p_page::BIGINT-1)*p_page_size
+ ), dto AS(
+  SELECT x.last_at,x.root_kind,x.root_id,
+   jsonb_build_object('source',x.root_kind,'id',x.root_id,'productId',x.product_id,'productName',x.product_name,'imageUrl',x.image_url,
+    'quantity',x.active_bad,'historicalParcelSize',CASE WHEN COALESCE(x.parcel_size_known,false) THEN x.historical_parcel_size END,
+    'parcelSizeKnown',COALESCE(x.parcel_size_known,false),'unitName','باكيت','registeredAt',x.occurred_at,'occurredAt',x.last_at,
+    'reasonCode',x.reason_code,'reason',x.reason,'movements',x.movements,'pendingQuantity',x.pending,'receivedQuantity',x.received,'creditedQuantity',x.credited,
+    'finishedSupplierQuantity',x.finished,'finalOwnerQuantity',x.final_quantity,'financialOnly',x.active_bad=0,
+    'states',(SELECT COALESCE(jsonb_agg(jsonb_build_object('state',state,'quantity',quantity)),'[]') FROM(VALUES('pending_supplier',x.pending),('finished_supplier',x.finished),('final_owner',x.final_quantity)) s(state,quantity) WHERE quantity>0),
+    'document',CASE WHEN x.order_id IS NOT NULL THEN jsonb_build_object('type','order','id',x.order_id,'number',x.order_number,'returnNumber',x.return_number) ELSE NULL END)
+   ||CASE WHEN owner_values THEN jsonb_build_object('unitCostInMinorUnitsExact',x.unit_cost_exact::TEXT,'periodLossInMinorUnits',x.period_loss::TEXT,
+    'costDifferenceInMinorUnits',x.cost_difference::TEXT,'actions',jsonb_build_object(
+     'cases',(SELECT COALESCE(jsonb_agg(public.sr208_case_dto_internal(c.id,true) ORDER BY c.id),'[]') FROM public.supplier_replacement_cases c WHERE c.id=ANY(x.case_ids)),
+     'reclassification',CASE WHEN x.active_bad>0 AND(x.root_kind='replacement' OR x.root_kind='damage' AND x.order_id IS NOT NULL) THEN
+      jsonb_build_object('kind',CASE WHEN x.root_kind='replacement' THEN 'replacement' ELSE 'return' END,'sourceId',x.root_id,
+       'blockedReason',public.sr211_blocked_internal(CASE WHEN x.root_kind='replacement' THEN 'replacement' ELSE 'return' END,x.root_id)) ELSE NULL END))
+    ELSE '{}'::JSONB END item FROM page x
+ )
+ SELECT jsonb_build_object('contractVersion',215,'from',p_from,'to',p_to,'state',p_state,'page',p_page,'pageSize',p_page_size,
+  'totalCount',(SELECT count(*) FROM selected),'totalPages',GREATEST(1,CEIL((SELECT count(*) FROM selected)::NUMERIC/p_page_size)),
+  'rows',COALESCE((SELECT jsonb_agg(item ORDER BY last_at DESC,root_kind,root_id) FROM dto),'[]'),
+  'quantitySummary',(SELECT COALESCE(jsonb_agg(to_jsonb(g) ORDER BY g.product_name,g.product_id),'[]') FROM(
+   SELECT product_id,max(product_name) product_name,sum(pending)::BIGINT pending_quantity,sum(finished)::BIGINT finished_supplier_quantity,
+    sum(final_quantity)::BIGINT final_owner_quantity FROM selected GROUP BY product_id) g))
+  ||CASE WHEN owner_values THEN jsonb_build_object('periodLossInMinorUnits',(SELECT COALESCE(sum(period_loss),0)::TEXT FROM selected)) ELSE '{}'::JSONB END INTO result;
+ RETURN result;
+END $$;
+CREATE FUNCTION public.tb215_damage_nonnegative_quantity_internal(p_quantity BIGINT)
+RETURNS BIGINT LANGUAGE plpgsql IMMUTABLE SET search_path=public,pg_temp AS $$
+BEGIN IF p_quantity IS NULL OR p_quantity<0 THEN RAISE EXCEPTION 'DAMAGE215_STATE_EVIDENCE_INVALID'; END IF;RETURN p_quantity;END $$;
+
+-- Warranty issuance cost and inspected recovery are already in aftercare
+-- margin. Include their net loss in this informational breakdown only.
+CREATE FUNCTION public.tb215_damage_loss_presentation_internal(p_facts JSONB,p_branch_id UUID,p_from TIMESTAMPTZ,p_to TIMESTAMPTZ)
+RETURNS JSONB LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+DECLARE net BIGINT; gross BIGINT; recovered BIGINT; quantity BIGINT; count_rows BIGINT; damage JSONB; reason JSONB;
+BEGIN
+ SELECT count(*),COALESCE(sum(w.net_cost),0)::BIGINT,COALESCE(sum(GREATEST(w.net_cost,0)),0)::BIGINT,
+  COALESCE(-sum(LEAST(w.net_cost,0)),0)::BIGINT,COALESCE(sum(w.bad_quantity),0)::BIGINT
+ INTO count_rows,net,gross,recovered,quantity FROM public.tb215_warranty_damage_facts_internal() w
+ WHERE(p_branch_id IS NULL OR w.branch_id=p_branch_id) AND w.occurred_at>=p_from AND w.occurred_at<p_to;
+ IF count_rows=0 THEN RETURN p_facts; END IF;
+ damage:=p_facts->'sales'->'damageLosses';
+ reason:=jsonb_build_object('code','customer_replacement_inspected','count',count_rows,'quantity',quantity,'amountInMinorUnits',net,
+  'alreadyIncludedInMinorUnits',net,'grossInMinorUnits',gross,'recoveredInMinorUnits',recovered);
+ damage:=damage||jsonb_build_object('contractVersion',215,'totalInMinorUnits',(damage->>'totalInMinorUnits')::BIGINT+net,
+  'grossInMinorUnits',(damage->>'grossInMinorUnits')::BIGINT+gross,'recoveredInMinorUnits',(damage->>'recoveredInMinorUnits')::BIGINT+recovered,
+  'alreadyIncludedInMinorUnits',(damage->>'alreadyIncludedInMinorUnits')::BIGINT+net,'reasons',(damage->'reasons')||jsonb_build_array(reason));
+ RETURN jsonb_set(p_facts,'{sales,damageLosses}',damage);
+END $$;
 DO $$ DECLARE t TEXT; BEGIN
  FOREACH t IN ARRAY ARRAY['aftercare215_inspections','aftercare215_inspection_items','supplier215_credits','aftercare215_return_contexts','aftercare215_return_results','aftercare215_exchanges','aftercare215_exchange_results'] LOOP
   EXECUTE format('ALTER TABLE public.%I OWNER TO postgres',t);
@@ -4311,4 +4508,21 @@ ALTER FUNCTION public.tb215_return_public_result_internal(UUID) OWNER TO postgre
 REVOKE ALL ON FUNCTION public.tb215_return_public_result_internal(UUID) FROM PUBLIC,anon,authenticated,service_role;
 ALTER FUNCTION public.tb215_exchange_public_result_internal(UUID) OWNER TO postgres;
 REVOKE ALL ON FUNCTION public.tb215_exchange_public_result_internal(UUID) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.tb215_damage_case_roots_internal() OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_damage_case_roots_internal() FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.tb215_damage_case_states_internal() OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_damage_case_states_internal() FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.tb215_warranty_damage_facts_internal() OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_warranty_damage_facts_internal() FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.tb215_damage_roots_internal() OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_damage_roots_internal() FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.tb215_damage_movements_internal() OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_damage_movements_internal() FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.get_damage_ledger_page_v2(TIMESTAMPTZ,TIMESTAMPTZ,TEXT,TEXT,TEXT,UUID,INTEGER,INTEGER) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.get_damage_ledger_page_v2(TIMESTAMPTZ,TIMESTAMPTZ,TEXT,TEXT,TEXT,UUID,INTEGER,INTEGER) FROM PUBLIC,anon,authenticated,service_role;
+GRANT EXECUTE ON FUNCTION public.get_damage_ledger_page_v2(TIMESTAMPTZ,TIMESTAMPTZ,TEXT,TEXT,TEXT,UUID,INTEGER,INTEGER) TO authenticated;
+ALTER FUNCTION public.tb215_damage_nonnegative_quantity_internal(BIGINT) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_damage_nonnegative_quantity_internal(BIGINT) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.tb215_damage_loss_presentation_internal(JSONB,UUID,TIMESTAMPTZ,TIMESTAMPTZ) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.tb215_damage_loss_presentation_internal(JSONB,UUID,TIMESTAMPTZ,TIMESTAMPTZ) FROM PUBLIC,anon,authenticated,service_role;
 COMMIT;

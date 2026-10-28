@@ -19,15 +19,15 @@
     },
     {
       "code": "??",
-      "path": "docs/agent/TRIAL_TB215_EXCHANGE_READERS_LOCAL.json"
+      "path": "docs/agent/TRIAL_TB215_DAMAGE_LEDGER_LOCAL.json"
     },
     {
       "code": "??",
-      "path": "scripts/testing/aftercare215-exchange-boundary-runtime.mjs"
+      "path": "scripts/testing/aftercare215-damage-boundary-runtime.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/testing/aftercare215-exchange-readers-runtime.mjs"
+      "path": "scripts/testing/aftercare215-damage-runtime.mjs"
     }
   ]
 }

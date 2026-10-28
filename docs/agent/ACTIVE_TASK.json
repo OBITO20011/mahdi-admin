@@ -3,16 +3,16 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Implement owner-approved T-B stage2 G1-G6:atomic inspected replacement,noncash cross-SKU exchange,supplier payable credit,one Arabic wizard and damage ledger;local isolated DB tests,owner upgrade,PR/FULLCI then approvalSTOP",
-  "baselineSha": "b41831b450c1a6b804053af249f4b0b530efb575",
+  "baselineSha": "5c7bc10351d200ec6ced2b4291bbe2f9b0a72e1e",
   "branch": "codex/trial-tb-stage2",
   "phase": "PACKAGE_F",
   "completed": [
-    "Owner approved PR42/322bd52/allfinancialchoices;separate worktree;no ownerfiles touched",
-    "G1-G4/G6 predecessor fresh52DBgroups saved/pushed b41831b",
-    "CurrentG4 movements/closing/token/strictresultcorruption/customercollection ordering6groups PASS;proofTRIAL_TB215_EXCHANGE_READERS_LOCAL.json"
+    "Owner approved PR42/322bd52/allfinancialchoices;separateworktree,noownerfiles touched",
+    "Predecessor G1-G4/G6 fresh52 and currentG4 targeted6 saved/pushed5c7bc10",
+    "G5 current10actualgroups PASS:uniquephysicalroots/signedperiod/creditinverse/history/rounding/roles/9007199254740993TEXT;proofTRIAL_TB215_DAMAGE_LEDGER_LOCAL.json"
   ],
   "inProgress": [
-    "G5 unified damage/netloss reader,thenwizard/recovery/receipt UI and owner215/fullquality/CI"
+    "Singlewizard/recovery/receipt/credit/damage UI;thenowner215/fullquality/ref/restore/SDK/CI"
   ],
   "notStarted": [
     "T-C partial POS payments;separate later owner task",
@@ -22,34 +22,31 @@
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "testsPassed": [
-    "Predecessor fresh52actualDBgroups inclrollback/replay/roles/MFA;currentG4 targeted28auxiliary+6sourceboundreader/boundarygroups",
-    "CurrentnormalclosingDTOunchanged;cashCliQmovementmatched;tokenreceiptnoCOGS;frozenclosingexact;tamperedresultrejected;collection/exchangebothordersPASS"
+    "Predecessor fresh52DBgroups;currentG4 targeted6 plusG5targeted10 allPASS",
+    "CurrentG5totalmatchescanonicalfactswithoutdoubleprofitdeduction,3packetsnot9;later+500/-500,currentstates;historicalN12;0.6+0.6 recovery1;rolesnoownerfields;9007199254740993exact"
   ],
   "testsRemaining": [
-    "Fresh combined58 current-source gate",
-    "G5 damage details/netloss/quantitystates andledgerUI",
-    "Singlewizard/recovery/receipt UI/browser390bothengines",
-    "Boundary exactWAC/mixedparcel/priorleaf/legacy/integrity/restore/catalog/owner215 tool",
-    "Fullquality/Gitleaks/exactfinalSHA FULLCI andownerreview beforemerge"
+    "Fresh currentcombined68DBgroups",
+    "Singlewizard/recovery/receipt/G5ledger/G6credit UI/browser390bothengines",
+    "ExactWAC/mixedparcel/priorleaf/legacy/corruption/integrity/restore/catalog/owner215 tool",
+    "Fullquality/Gitleaks/exactfinalSHA FULLCI andownerreviewbeforemerge"
   ],
   "findings": [
     "Private113 NEXTVAL technicalstamp cannot rollback;tests keep ALLtables/business-numbersequences exact and assert exact technical+1/+2 only",
     "No old invoice/history backfill;crossSKU and supplier-credit bounded by approved design"
   ],
   "blockers": [],
-  "activeProcesses": [
-    "Idle disposable supabase_db_nawasrah-tb215-test;OUT/g4-readers-dev-state.json;no verification running"
-  ],
+  "activeProcesses": [],
   "prohibitions": [
     "No hosted project connection,deployment or credentials",
     "No historical migration edits/backfill",
     "No primary owner local file changes",
     "No T-C and no implementation PR merge before owner review"
   ],
-  "nextExactAction": "G5 unified damage/netloss reader thenwizard/recovery/receipt UI;fresh58 current gate pending;owner215/fullquality/CI;idlelocaldev only;nohost/noT-C/no merge",
+  "nextExactAction": "Implement one wizard/recovery/receipt and G5/G6 UI;fresh68 current DB gate thenowner215/fullquality/ref/restore/SDK/CI;nohost/noT-C/no merge",
   "startedAt": "2026-10-28T13:06:11.980Z",
-  "checkpointedAt": "2026-10-28T16:14:00.329Z",
+  "checkpointedAt": "2026-10-28T16:35:11.153Z",
   "filesTouchedCount": 7,
-  "filesTouchedManifestSha256": "52bb2e6b82d82f7d1dd2a962ef9368fcd3ca9881377e10b9d3b61e8a4a0080f8",
-  "workingTreeFingerprint": "2F43D0C8F8CFA723073B5204E4F715314F8462B535693DEB9B028EC589FD5A3F"
+  "filesTouchedManifestSha256": "34ec722e6e1a5ee45af7479de0a76bb02502ab01b7a529388f89683ea338465d",
+  "workingTreeFingerprint": "997BEDD18CE40C06A847B5E6C62FC000ED90A532A614B381E23657A443C37E8E"
 }

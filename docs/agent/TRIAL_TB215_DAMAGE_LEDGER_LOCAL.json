@@ -1,0 +1,67 @@
+{
+  "ok": true,
+  "scope": "G5 damage ledger/state/signed period/read-only DTO and rounding/large-money contracts;not full delivery",
+  "hostedConnections": 0,
+  "implementationComplete": false,
+  "fullCurrent68Pending": true,
+  "cases": [
+    {
+      "name": "READONLY ledger period sum equals signed canonical damage facts, including warranty net cost; informational total never subtracts it from profit again",
+      "passed": true
+    },
+    {
+      "name": "one supplier source3 partitions pending1/received1/refused1; one500 loss, three packets not nine, unknown shop parcel size never guessed",
+      "passed": true
+    },
+    {
+      "name": "supplier credit closes only remaining packet without stock/profit loss; paired inverse restores pending state once and state filter follows current quantities",
+      "passed": true
+    },
+    {
+      "name": "historical parcel size12 and real invoice link survive current catalogue change to10; only actual bad packet shown",
+      "passed": true
+    },
+    {
+      "name": "two0.6 historical good recoveries allocate cumulative1+0=1 financial fils, never two; all-good rounding difference has no invented damaged packet",
+      "passed": true
+    },
+    {
+      "name": "pagination reports one whole-period total independent of page; each physical root contributes money once",
+      "passed": true
+    },
+    {
+      "name": "same208 reader roles only: manager/warehouse quantities contain no financial fields/actions; admin/accountant/no-role/anon/service/private helpers denied without writes",
+      "passed": true
+    },
+    {
+      "name": "later-period supplier hold records recovery-500 in that period while original period remains loss500; both show current pending1 with no history rewrite",
+      "passed": true
+    },
+    {
+      "name": "all-good warranty after WAC change is a separate500 cost difference, quantity0/states empty; no damaged packet invented",
+      "passed": true
+    },
+    {
+      "name": "exact9007199254740993 loss and unit cost survive official receipt/damage/read as decimal text; no JavaScript Number conversion",
+      "passed": true
+    }
+  ],
+  "sourceArtifacts": [
+    {
+      "file": "supabase/migrations/215_inspected_aftercare_and_supplier_credit.sql",
+      "sha256": "2cb3ca9b7a2da3a41c550c3525462d898f292dcc2b89f6081376f53fb032aa4b"
+    },
+    {
+      "file": "scripts/testing/aftercare215-damage-runtime.mjs",
+      "sha256": "733894b2e15200cad89e6807ccca10dc645f5d10ca76bd4628fe48543d4abfd6"
+    },
+    {
+      "file": "scripts/testing/aftercare215-damage-boundary-runtime.mjs",
+      "sha256": "11bee1c1408047aab2cb40d41cc87bd0fa4c6ea46649fc88f45eeb6b504f0cb4"
+    },
+    {
+      "file": "scripts/testing/run-aftercare215-runtime.mjs",
+      "sha256": "276ce75f642aa225c29060481c8790960f9e5e8afd8d278b8d9b611278e7e048"
+    }
+  ]
+}
