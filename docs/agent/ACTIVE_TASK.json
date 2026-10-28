@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Implement owner-approved T-B stage2 G1-G6:atomic inspected replacement,noncash cross-SKU exchange,supplier payable credit,one Arabic wizard and damage ledger;local isolated DB tests,owner upgrade,PR/FULLCI then approvalSTOP",
-  "baselineSha": "91c04951feff66659d378429013cf25678da629e",
+  "baselineSha": "3197243fdb6b05cb3e700ff1fb876476acc69459",
   "branch": "codex/trial-tb-stage2",
   "phase": "PACKAGE_F",
   "completed": [
@@ -12,7 +12,8 @@
     "11 focused historical/source/admission tests and new-tool strictlint passed;focused funded reversal rejected zero writes/ordinary reversal+fullreturn passed;SQLlint16 exact historical warnings only",
     "Currentfrozen79 on2d20594d;17healthy0;SQLlint16exact historical warnings;restorecatalog0/allpublic+sequences/fourreplay0;PR43draftopened95da158",
     "HTTPfullstack4 actual215 UI/productionservices/recovery/PostgREST passed bothengines390 final/supplier;preview0writes,confirm1;syntheticJWT protocol explicitlynamed;types/lintPASS",
-    "Current215 actualSDK157 table0errors+576RPC18exactdenials;29focused source/role/currentreadinessPASS;historical reset/source22PASS;no oldproof overwrite"
+    "Current215 actualSDK157 table0errors+576RPC18exactdenials;29focused source/role/currentreadinessPASS;historical reset/source22PASS;no oldproof overwrite",
+    "Generated actual clean215 manual622functions/177files;maintenance nativePASS;not old214 repin"
   ],
   "inProgress": [
     "Generate currentDB_FUNCTIONS;strictfresh/incremental215reference/localownerupgrade+negativeACL+offline215;actualhistorical214reset;fullquality/CI/PR43"
@@ -46,10 +47,10 @@
     "No primary owner local file changes",
     "No T-C and no implementation PR merge before owner review"
   ],
-  "nextExactAction": "Generate DB_FUNCTIONS from isolated215 after currentSDK;then fresh/incremental215ref,strictowner upgrade/negativeACL/offline215 andhistorical214reset/fullquality/CI/PR43",
+  "nextExactAction": "Build strict fresh/incremental215 reference;then localownerupgrade/replay/negativeACL/settings andoffline215;actual214reset/fullquality/CI",
   "startedAt": "2026-10-28T13:06:11.980Z",
-  "checkpointedAt": "2026-10-28T21:09:42.946Z",
-  "filesTouchedCount": 18,
-  "filesTouchedManifestSha256": "6ea46871f6d60e943c31863014e07cffd0d733a1aa658820fbc6735e9fa696cf",
-  "workingTreeFingerprint": "83918435D7501B69B9E654376885C660568CF552E6BB627D671522EA3C2E398B"
+  "checkpointedAt": "2026-10-28T21:14:03.243Z",
+  "filesTouchedCount": 2,
+  "filesTouchedManifestSha256": "fcccacea4034ad4a6efb9abbac2e6c41857143f5551b1c463c0709ef30cb00f7",
+  "workingTreeFingerprint": "0D7A8092582A99986B369155305B7BE77C11522653123E2370AE42BBBE258740"
 }
