@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner approved T-C partial POS payments and quick customer;216 plus same-PR operational ceiling/reset/backup/reference;localonly/fullCI/PR then approvalSTOP",
-  "baselineSha": "27438e709ac9e86da61bb703b030aa502bdec86f",
+  "baselineSha": "2f82e84758960fdb4d7ea99dd60b72f40c5e3bac",
   "branch": "codex/trial-tc-partial-payment",
   "phase": "PACKAGE_F",
   "completed": [
@@ -18,10 +18,11 @@
     "Real POS HTTP fullstack4 Chromium/WebKit390 PASS:quick customer,cash/CliQ100/60/40,lostreplysamekey0writes,receipt visual;sourcefrozen",
     "Ownerupgrade216 strict/replay0/7ACLpathowner negatives PASS;RESET216178 4interruptions/retentionMFA/privatepartial erased/concurrentwritefence PASS;offline215216/reset216 PASS",
     "Encrypted v2 old214/old215/current216 strict restore and localR2 PASS,allrows/catalog/ACL/roles/sequences/storage match,exceptions[];watchdog21612healthy/localkeepalive/Telegram0",
-    "Historical215 exact prefix177 reset/4resume/realwritefence/MFA/CLI PASS;24history guards;root/store typeslint and38affected browsers0fail/flaky/skips"
+    "Historical215 exact prefix177 reset/4resume/realwritefence/MFA/CLI PASS;24history guards;root/store typeslint and38affected browsers0fail/flaky/skips",
+    "Final local frontend38browser/PWA4/sixbuilds/rootstorelint/types/network0 PASS;all local216 and old215 operational proofs complete"
   ],
   "inProgress": [
-    "Final environment builds and PWA,then finaldocs/Gitleaks/commit/push/PR/FULLCI approvalSTOP"
+    "Final exact source/history guards and full staged Gitleaks;commit/push,create PR,verify full exact push+PR CI then ownerapprovalSTOP"
   ],
   "notStarted": [
     "PR merge requiresownerapproval"
@@ -38,8 +39,9 @@
     "Real browser/DB4PASS,no business mocks,0hosted"
   ],
   "testsRemaining": [
-    "Final frontend quality",
-    "Gitleaks/exact fullCI/PR ownerapprovalSTOP"
+    "Final source/history focused check",
+    "Exact full push+PR CI plus secret/completebackup",
+    "Owner PR approval before merge"
   ],
   "findings": [
     "No hosted/deploy;primary main remains9f94ec8",
@@ -53,10 +55,10 @@
     "No financialbehavior beyond approved partialPOS/payment and existingcustomercreate",
     "No merge before PR approval"
   ],
-  "nextExactAction": "Run environment builds and PWA;final status/docs/source pin verification,Gitleaks,commit/push/PR and exact FULLCI for ownerapprovalSTOP",
+  "nextExactAction": "Create T-C216 PR and verify exact final head FULL51 quality jobs on push and PR plus secret scan/completebackup;fix failures without weakening;return for owner approval and STOP before merge",
   "startedAt": "2026-10-28T13:06:11.980Z",
-  "checkpointedAt": "2026-10-29T05:31:44.515Z",
+  "checkpointedAt": "2026-10-29T05:37:44.761Z",
   "filesTouchedCount": 5,
-  "filesTouchedManifestSha256": "d3bbf226d7d35029a31e0fa323093a4c158d62886c2d754108ba8b6f3b42ab9e",
-  "workingTreeFingerprint": "7663B101BB63C9B000EF015CA7F053F081572E00541F217CC79F349AA4ADD521"
+  "filesTouchedManifestSha256": "522c46d8ce7a692c4a106db961dd5bf6c14cdc22bb9e8f0d48b85c57c05528c9",
+  "workingTreeFingerprint": "87327C777E92A7716CC78BCD7138F9E9BFC639B2239AB13C9D0DCBCC1085AD8A"
 }

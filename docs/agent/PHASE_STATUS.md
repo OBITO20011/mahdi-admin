@@ -1,6 +1,6 @@
-#29Oct — T-C216 local operations verified;backup and full delivery pending
+#29Oct — T-C216 local acceptance complete;exact FULLCI and owner review next
 
-PR43/main9f94ec8 delivered and primary owner files preserved.216 canonical178/strictrestore/blockedraces17healthy0;SDK157table+582RPC;realPOSHTTP4 on both engines with lostreply0writes;reference178/626/13/diff0;ownerupgrade/replay/strictverify and negative ACL/path/owner,RESET216 four interruptions+realwritefence,offline215/216 PASS. Admin1608/store203/types/strictlint/Gitleaks0 so far. Encrypted214215216 backup/localR2/watchdog,finalquality and exact FULLCI/PR remain. OwnerapprovalSTOP beforemerge;no hostedaccess/deploy. See TRIAL_TC216_*_LOCAL.json. Earlier215 status below is historical.
+PR43/main9f94ec8 delivered;primary owner files preserved.216 canonical178/strictrestore/blockedraces17healthy0;SDK157table+582RPC;realPOSHTTP4 with lostreply0writes;reference178/626/13/diff0;strict ownerupgrade and negativeACL/path/owner;RESET216 four interruptions+writefence and retainedMFA/settings;encrypted v2 214/215/216 strictlocalR2restore exceptions[],watchdog21612healthy/Telegram0 PASS. Preceding215 reset177+4resume and CLI proved after bounded full216commitment/prefix correction. Admin1608/store203,types/lint,38affected browser0flaky/skip,PWA4,sixbuilds and network0 PASS. Final exact full push+PR CI,secrets/completebackup and owner approval required before merge. No hostedaccess/deploy/main update/newphase. See TRIAL_TC216_QUALITY_LOCAL.json;milestone pending lists below are historical.
 
 #29Oct — T-B215 local acceptance complete;exact FULL49 CI next
 
