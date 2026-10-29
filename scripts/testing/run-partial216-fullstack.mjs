@@ -13,7 +13,7 @@ const root=path.resolve(import.meta.dirname,'../..'),exec=promisify(execFile),cl
 const project='nawasrah-tb215-test',rest='nawasrah-partial216-ui-rest',url='http://127.0.0.1:4188',restUrl='http://127.0.0.1:25423';
 const output=await mkdtemp(path.join(tmpdir(),'nawasrah-partial216-fullstack-'));
 const report={output,hostedConnections:0,authScope:'synthetic local JWT identity;real SQL/RLS/role/MFA guards',cases:[]};
-let local,vite,restStarted=false,fixture,browser,stage='bootstrap',loseNext=false,committedResponses=[];
+let local,vite,restStarted=false,fixture,browser,lastPage,stage='bootstrap',loseNext=false,committedResponses=[];
 const counts={},secret='isolated-table-access-audit-signing-material-only';
 const jwt=claims=>{const parts=[{alg:'HS256',typ:'JWT'},claims].map(x=>Buffer.from(JSON.stringify(x)).toString('base64url'));return parts.join('.')+'.'+createHmac('sha256',secret).update(parts.join('.')).digest('base64url');};
 try{
@@ -44,7 +44,7 @@ try{
    stage=engine+'-'+method;const pid=randomUUID(),sku='HTTP216-'+randomUUID(),name='صنف HTTP216 '+(++sample);
    await c.sql(`INSERT INTO products(id,sku,name_ar,category_id,unit_id,purchase_unit_id,sale_unit_id,units_per_purchase_unit,units_per_sale_unit,sale_price_in_minor_units,default_sale_price_in_minor_units,cost_price_in_minor_units,wac_cost_in_minor_units_exact,is_active,is_flavor_master,parcel_only)SELECT ${c.q(pid)},${c.q(sku)},${c.q(name)},category_id,unit_id,purchase_unit_id,sale_unit_id,1,1,100000,100000,0,0,true,false,false FROM products WHERE id=${c.q(c.id(103))};`);
    await c.receive(pid,20,500);fixture={ownerId:c.owner,accessToken,branch:c.branch,warehouse:c.warehouse};
-   const context=await browser.newContext({viewport:{width:390,height:844}}),page=await context.newPage(),violations=[];
+   const context=await browser.newContext({viewport:{width:390,height:844}}),page=await context.newPage(),violations=[];lastPage=page;
    await page.route('**/*',route=>{const u=new URL(route.request().url());if(u.origin===url)return route.continue();violations.push(u.origin);return route.abort();});
    await page.goto(url+'/e2e/partial216-fullstack-harness.html');
    await page.getByLabel('البحث في منتجات نقطة البيع',{exact:true}).fill(sku);
@@ -66,6 +66,7 @@ try{
    committedResponses=[];loseNext=method==='cliq';await page.locator('[data-testid="pos-complete-sale"]:visible').click();
    if(method==='cliq'){
     const recover=page.getByRole('button',{name:'استرجاع محاولة البيع',exact:true});await expect(recover).toBeEnabled();
+    await page.getByRole('button',{name:'رجوع للبيع',exact:true}).click();
     await c.rpc(`get_or_create_pos_receipt_token(${c.q(committedResponses[0].orderId)})`);const saved=await c.fingerprint();await recover.click();await expect(page.getByTestId('sale-receipt-document')).toBeVisible();assert.deepEqual(await c.fingerprint(),saved,'LOST_REPLY_RECOVERY_ZERO_WRITES');
    }
    const receipt=page.getByTestId('sale-receipt-document');await expect(receipt).toBeVisible();await expect(receipt).toContainText('60.000');await expect(receipt).toContainText('الباقي على الحساب');await expect(receipt).toContainText('40.000');
@@ -75,9 +76,9 @@ try{
    assert.equal(Number(await c.sql(`SELECT count(*) FROM customer_payments WHERE order_id=${c.q(sale.orderId)};`)),1);
    assert.equal(Number(await c.sql(`SELECT count(*) FROM pos216_initial_payments WHERE order_id=${c.q(sale.orderId)};`)),1);
    await page.screenshot({path:path.join(output,engine+'-'+method+'-390.png'),fullPage:true});assert.deepEqual(violations,[]);
-   report.cases.push({engine,method,quickCustomerReal:true,oneSale:true,onePayment:true,total:100000,paid:60000,due:40000,stockDelta:-1,profit:99500,lostReplyRecovery:method==='cliq',hostedConnections:0});await context.close();
+   report.cases.push({engine,method,quickCustomerReal:true,oneSale:true,onePayment:true,total:100000,paid:60000,due:40000,stockDelta:-1,profit:99500,lostReplyRecovery:method==='cliq',hostedConnections:0});console.log(JSON.stringify({stage,ok:true}));await context.close();lastPage=null;
   }await browser.close();browser=null;
  }
  assertVerificationSourceFreeze(frozen,await readVerificationSourceFreeze(root));report.repositoryStayedFrozen=true;report.ok=true;
-}catch(error){Object.assign(report,{ok:false,stage,error:error.message});process.exitCode=1;}
+}catch(error){Object.assign(report,{ok:false,stage,error:error.message});if(lastPage&&!lastPage.isClosed())try{await lastPage.screenshot({path:path.join(output,'failed-local-ui.png'),fullPage:true});}catch{/* Preserve the original failure. */}process.exitCode=1;}
 finally{await browser?.close();await vite?.close();if(restStarted)await exec('docker',['rm','-f',rest],{windowsHide:true});if(local)await exec(process.execPath,[cli,'stop','--no-backup','--workdir',local],{cwd:root,windowsHide:true});await writeFile(path.join(output,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));}

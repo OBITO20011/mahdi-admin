@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner approved T-C partial POS payments and quick customer;216 plus same-PR operational ceiling/reset/backup/reference;localonly/fullCI/PR then approvalSTOP",
-  "baselineSha": "c828e96a4009a24f50bd07e4a40ac735e2947ff8",
+  "baselineSha": "6152261cdc5884303d6b2d0beadeb1a1eedc66fb",
   "branch": "codex/trial-tc-partial-payment",
   "phase": "PACKAGE_F",
   "completed": [
@@ -14,10 +14,11 @@
     "WIP4775c59 pushed: literal216+operational178/reset/reference adapters;41focused/changedstrictlint/Gitleaks0",
     "Canonical216 official178, blocked races,17healthy0,strictrestore0 and source frozen PASS;inverse216 3tests PASS",
     "Current216 unprojected SDK157table/582RPC passed;135affected history/coverage tests and changed strictlint passed;old215proofs retained",
-    "Current216 reference independent178/626/13/diff0/sourcefrozen;Admin1608/store203/types/lint;12preflight/admission tests PASS"
+    "Current216 reference independent178/626/13/diff0/sourcefrozen;Admin1608/store203/types/lint;12preflight/admission tests PASS",
+    "Real POS HTTP fullstack4 Chromium/WebKit390 PASS:quick customer,cash/CliQ100/60/40,lostreplysamekey0writes,receipt visual;sourcefrozen"
   ],
   "inProgress": [
-    "Actual POS HTTP fullstack: first run locator before sale corrected;upgrade/reset216 runners authored pending runtime"
+    "Strict owner upgrade216,RESET216/resume and encrypted214215216 backup compatibility next"
   ],
   "notStarted": [
     "PR merge requiresownerapproval"
@@ -30,7 +31,8 @@
     "Candidate216 SQL DBnumeric/roles/idempotency/rollback/return/closing/integrity17healthy0",
     "UI22baseline+8partial Chromium/WebKit390/1440",
     "Earlier quick4/types/strictlint/Gitleaks0",
-    "SDK216:157table noerrors/582RPC18exactexpected denials;135compat units PASS;strictlint0"
+    "SDK216:157table noerrors/582RPC18exactexpected denials;135compat units PASS;strictlint0",
+    "Real browser/DB4PASS,no business mocks,0hosted"
   ],
   "testsRemaining": [
     "Full historical compatibility and current SDK/HTTP216",
@@ -49,10 +51,10 @@
     "No financialbehavior beyond approved partialPOS/payment and existingcustomercreate",
     "No merge before PR approval"
   ],
-  "nextExactAction": "Run corrected actual POS fullstack216;then strict local upgrade216,reset216 resume four interruptions,encrypted214215216 restore;fullCI and PR approvalSTOP",
+  "nextExactAction": "Run strict local owner-upgrade216 with ready216 reference,then RESET216/resume and dual encrypted backups;finalquality FULLCI/PR approvalSTOP",
   "startedAt": "2026-10-28T13:06:11.980Z",
-  "checkpointedAt": "2026-10-29T04:48:43.709Z",
-  "filesTouchedCount": 14,
-  "filesTouchedManifestSha256": "038a8e05ea227cb79c18f635a405c163a91060922c00dc01192d77fed8b20a3b",
-  "workingTreeFingerprint": "900235EDE564107284A7791C94F3A60C599BE2B17E264CE70135973431751597"
+  "checkpointedAt": "2026-10-29T04:55:34.348Z",
+  "filesTouchedCount": 4,
+  "filesTouchedManifestSha256": "744d72c74b0bcbc3aac0e5ae46fbd02f033e201c1ec243234fb1a258cc6d3d2c",
+  "workingTreeFingerprint": "358177C83D59FA61127807412904973D83DCF0C7964ED0E904C610B294360CE6"
 }
