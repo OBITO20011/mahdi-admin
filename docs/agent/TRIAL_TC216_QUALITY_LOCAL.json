@@ -31,10 +31,11 @@
   },
   "milestoneRemainingListsAreHistorical": true,
   "localFullAdmin": {
-    "tests": 1608,
-    "pass": 1608,
+    "tests": 1610,
+    "pass": 1610,
     "fail": 0,
-    "source": "before final bounded215 guard test additions;focused24 verified those additions"
+    "skipped": 0,
+    "source": "Full local rerun after CI continuity and historical215 expectation correction"
   },
   "store": {
     "tests": 203,
@@ -146,7 +147,14 @@
   "gitleaks": "0 on every accepted saved unit;final staged scan next",
   "ci": {
     "required": "Full push and PR workflows on final identical head,secret scan and complete backup;no skipped gate accepted",
-    "status": "PENDING"
+    "status": "PENDING",
+    "firstRejectedHead": "8561cdfe01198a61036ac87bb3de4a82e2e9fbb3",
+    "firstRejection": {
+      "applicationFailure": false,
+      "checkpointOver4096Bytes": true,
+      "stale215Rejection": true,
+      "correctedWithoutWeakening": true
+    }
   },
   "ownerApprovalRequiredBeforeMerge": true,
   "primaryCheckout": "main9f94ec8 owner files preserved;not changed by T-C"

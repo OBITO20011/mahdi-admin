@@ -2,63 +2,47 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner approved T-C partial POS payments and quick customer;216 plus same-PR operational ceiling/reset/backup/reference;localonly/fullCI/PR then approvalSTOP",
-  "baselineSha": "2f82e84758960fdb4d7ea99dd60b72f40c5e3bac",
+  "objective": "T-C216 partial POS payments/quick customer with operational216;PR44 exact FULLCI then ownerapprovalSTOP",
+  "baselineSha": "8561cdfe01198a61036ac87bb3de4a82e2e9fbb3",
   "branch": "codex/trial-tc-partial-payment",
   "phase": "PACKAGE_F",
   "completed": [
-    "PR43 merged main9f94ec8 exactFULL50/secrets/backup;primary20owner files preserved,215 metadata aligned with approval",
-    "Quickcustomer existingRPC4browser+pure3 PASS;preparationAdmin codes7/types/lint/Gitleaks0 pushedfde1386",
-    "Client partial/recovery/receipts WIP1dc47e5 pushed;33unit+types/strictlint;22baseline+8partial browser PASS",
-    "Exact216candidate DB100/60/40,returns40+60,closing922000/0,17healthy0;literal216 promoted and operational216/178 adapters authored;candidate only177 history",
-    "WIP4775c59 pushed: literal216+operational178/reset/reference adapters;41focused/changedstrictlint/Gitleaks0",
-    "Canonical216 official178, blocked races,17healthy0,strictrestore0 and source frozen PASS;inverse216 3tests PASS",
-    "Current216 unprojected SDK157table/582RPC passed;135affected history/coverage tests and changed strictlint passed;old215proofs retained",
-    "Current216 reference independent178/626/13/diff0/sourcefrozen;Admin1608/store203/types/lint;12preflight/admission tests PASS",
-    "Real POS HTTP fullstack4 Chromium/WebKit390 PASS:quick customer,cash/CliQ100/60/40,lostreplysamekey0writes,receipt visual;sourcefrozen",
-    "Ownerupgrade216 strict/replay0/7ACLpathowner negatives PASS;RESET216178 4interruptions/retentionMFA/privatepartial erased/concurrentwritefence PASS;offline215216/reset216 PASS",
-    "Encrypted v2 old214/old215/current216 strict restore and localR2 PASS,allrows/catalog/ACL/roles/sequences/storage match,exceptions[];watchdog21612healthy/localkeepalive/Telegram0",
-    "Historical215 exact prefix177 reset/4resume/realwritefence/MFA/CLI PASS;24history guards;root/store typeslint and38affected browsers0fail/flaky/skips",
-    "Final local frontend38browser/PWA4/sixbuilds/rootstorelint/types/network0 PASS;all local216 and old215 operational proofs complete"
+    "PR43 main9f94ec8 preserved;T-C primary untouched",
+    "All local216 and legacy215 operations verified;details TRIAL_TC216_QUALITY_LOCAL.json",
+    "Admin1610/store203,38browser/PWA4/sixbuilds/types/lint/network0 PASS",
+    "PR44 draft;CI8561 stale215/checkpoint expectations corrected;4KB guard retained"
   ],
   "inProgress": [
-    "Final exact source/history guards and full staged Gitleaks;commit/push,create PR,verify full exact push+PR CI then ownerapprovalSTOP"
+    "Push bounded CI expectation correction;full51 push+PR plus secrets/backup then ownerapprovalSTOP"
   ],
   "notStarted": [
-    "PR merge requiresownerapproval"
-  ],
-  "filesTouched": [
-    "docs/agent/ACTIVE_TASK_FILES.json"
+    "Merge requires owner approval"
   ],
   "testsPassed": [
-    "41focused static tests before latest ops edits",
-    "Candidate216 SQL DBnumeric/roles/idempotency/rollback/return/closing/integrity17healthy0",
-    "UI22baseline+8partial Chromium/WebKit390/1440",
-    "Earlier quick4/types/strictlint/Gitleaks0",
-    "SDK216:157table noerrors/582RPC18exactexpected denials;135compat units PASS;strictlint0",
-    "Real browser/DB4PASS,no business mocks,0hosted"
+    "Local proof files TRIAL_TC216_*_LOCAL.json",
+    "Canonical216 SQL immutable;001-215 unchanged"
   ],
   "testsRemaining": [
-    "Final source/history focused check",
-    "Exact full push+PR CI plus secret/completebackup",
-    "Owner PR approval before merge"
+    "Exact full push+PR CI on new identical head"
   ],
   "findings": [
-    "No hosted/deploy;primary main remains9f94ec8",
-    "Candidate and literal216 identical SHA3a30798f;CORE_LOCAL preliminary only;references/operational proofs not complete"
+    "Primarymain9f94ec8 retained;no hosted/deploy",
+    "Detailed accepted/rejected proofs live in milestone files;keep checkpoint<=4096bytes"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hostedprojectconnection or deployment",
-    "Do not edit migrations001-215",
-    "No financialbehavior beyond approved partialPOS/payment and existingcustomercreate",
-    "No merge before PR approval"
+    "No hosted access/deploy/main update",
+    "No migrations001-215 edits",
+    "No merge or next phase before owner approval"
   ],
-  "nextExactAction": "Create T-C216 PR and verify exact final head FULL51 quality jobs on push and PR plus secret scan/completebackup;fix failures without weakening;return for owner approval and STOP before merge",
+  "nextExactAction": "Verify updatedPR44 exact FULL51 quality on push and PR plussecret/completebackup;fix only proven failures;then ownerapprovalSTOP,no merge",
   "startedAt": "2026-10-28T13:06:11.980Z",
-  "checkpointedAt": "2026-10-29T05:37:44.761Z",
-  "filesTouchedCount": 5,
-  "filesTouchedManifestSha256": "522c46d8ce7a692c4a106db961dd5bf6c14cdc22bb9e8f0d48b85c57c05528c9",
-  "workingTreeFingerprint": "87327C777E92A7716CC78BCD7138F9E9BFC639B2239AB13C9D0DCBCC1085AD8A"
+  "checkpointedAt": "2026-10-29T10:56:00.641Z",
+  "filesTouched": [
+    "docs/agent/ACTIVE_TASK_FILES.json"
+  ],
+  "filesTouchedCount": 4,
+  "filesTouchedManifestSha256": "2568f99a45111b8c2977fb1d419c646fb20711f4656b5cafecb228e9a20f91da",
+  "workingTreeFingerprint": "4B162FF4184DAE6373BAAD93463EA44C32389DC293C2383F13233B885C6B0E77"
 }

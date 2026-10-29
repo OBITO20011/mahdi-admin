@@ -3,23 +3,19 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/project-state.json"
-    },
-    {
-      "code": " M",
       "path": "docs/agent/TRIAL_TC216_IMPLEMENTATION_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/agent/TRIAL_TC216_QUALITY_LOCAL.json"
     },
     {
       "code": " M",
       "path": "scripts/audit/partial216-source-pins.json"
     },
     {
-      "code": "??",
-      "path": "docs/agent/TRIAL_TC216_QUALITY_LOCAL.json"
+      "code": " M",
+      "path": "tests/trial-reset.test.ts"
     }
   ]
 }
