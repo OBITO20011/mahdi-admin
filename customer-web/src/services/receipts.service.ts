@@ -36,6 +36,10 @@ export async function fetchPublicPosReceipt(
   }
 
   const branch = recordValue(payload.branch);
+  const hasInitial=payload.initialPaymentMethod!==undefined;
+  if(hasInitial&&(!['cash','cliq'].includes(String(payload.initialPaymentMethod))
+    ||!Number.isSafeInteger(payload.amountPaidInMinorUnits)||Number(payload.amountPaidInMinorUnits)<0
+    ||!Number.isSafeInteger(payload.remainingInMinorUnits)||Number(payload.remainingInMinorUnits)<0))throw new Error('تفصيل الدفعة غير مكتمل. أعد تحميل الوصل.');
   if(payload.paymentMethod==='exchange_credit'&&payload.exchange==null)throw new Error('تفصيل وصل التبديل غير متاح. أعد تحميل الرابط.');
   return {
     ...(payload.exchange!=null?{exchangeFunding:parseExchangeFunding(payload.exchange)}:{}),
@@ -44,6 +48,7 @@ export async function fetchPublicPosReceipt(
     status: stringValue(payload.status),
     paymentMethod: stringValue(payload.paymentMethod),
     paymentStatus: stringValue(payload.paymentStatus),
+    ...(hasInitial?{initialPaymentMethod:payload.initialPaymentMethod as 'cash'|'cliq',amountPaidInMinorUnits:Number(payload.amountPaidInMinorUnits),remainingInMinorUnits:Number(payload.remainingInMinorUnits)}:{}),
     subtotalInMinorUnits: integerValue(payload.subtotalInMinorUnits),
     discountInMinorUnits: integerValue(payload.discountInMinorUnits),
     totalInMinorUnits: integerValue(payload.totalInMinorUnits),

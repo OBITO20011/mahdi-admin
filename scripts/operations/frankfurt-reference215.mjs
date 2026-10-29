@@ -11,6 +11,7 @@ import {realtimePublicationSql,realtime151Tables} from '../testing/realtime151-c
 import {inventory} from '../audit/table-access-inventory.mjs';
 import {verifyProbeCoverage} from '../audit/table-access-probes.mjs';
 import {compareManagedCatalog} from './managed-catalog-policy.mjs';
+import {sourceBeforePartial216} from '../audit/source-before-partial216.mjs';
 export const ready215Ceiling=215,ready215ReferenceName='local-reference-through215-ready.json';
 export const private215Tables=Object.freeze(['aftercare215_inspections','aftercare215_inspection_items','aftercare215_return_contexts','aftercare215_return_results','supplier215_credits','aftercare215_exchanges','aftercare215_exchange_results']);
 export const public215Functions=Object.freeze(['preview_inspected_sales_replacement_v2','settle_inspected_sales_replacement_v2','preview_admin_sales_return_v2','settle_admin_sales_return_v2','preview_sales_exchange_v1','settle_sales_exchange_v1','preview_supplier_replacement_credit_v1','settle_supplier_replacement_credit_v1','get_supplier_replacement_credits_v1','get_damage_ledger_page_v2','get_order_exchange_details_v1']);
@@ -50,4 +51,4 @@ export function assertReady215Reference(reference,manifest,proofText,source){
  const compared=compareManagedCatalog(proof.catalog,reference.catalog,{beforeBuildDate:proof.startedAt.slice(0,10),afterBuildDate:reference.buildUtcDate});assert.deepEqual(compared.unexpected,[]);assert.deepEqual(compared.expected,[]);
  assert.deepEqual(reference.readiness,{sourceHashes:source.sources,accessEvidenceSha256:sha256(canonicalLf(proofText)),coverage:proof.coverage,queries:proof.results.length,errors:0});assert.equal(reference.functions,622);return reference;
 }
-export async function readReady215Reference(root,filename){return assertReady215Reference(JSON.parse(await readFile(filename,'utf8')),(await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=215),await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_215.json'),'utf8'),await inventory());}
+export async function readReady215Reference(root,filename){return assertReady215Reference(JSON.parse(await readFile(filename,'utf8')),(await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=215),await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_215.json'),'utf8'),await inventory({projectSource:sourceBeforePartial216}));}

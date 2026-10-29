@@ -1,0 +1,116 @@
+{
+  "hostedAccess": false,
+  "ceiling": 216,
+  "migrations": 178,
+  "deliveryComplete": false,
+  "upgrade": {
+    "source": "C:\\Users\\TOP\\AppData\\Local\\Temp/nawasrah-document-replacement-upgrade216-9lFS5H/report.json",
+    "sha256": "ed693878f9cdc38bd2e9b6ea5e01133223b98f967bc6a426277f926696566405",
+    "ok": true,
+    "applied": [
+      "216"
+    ],
+    "recorded": [
+      "216"
+    ],
+    "replayWrite": false,
+    "strictAclNegatives": true,
+    "verifyZeroWrites": true,
+    "aclDifferences": 0
+  },
+  "reset": {
+    "source": "C:\\Users\\TOP\\AppData\\Local\\Temp/nawasrah-reset216-resume-X6dusK/report.json",
+    "sha256": "78d7f6fcc1e8f17b63e9eb26a3ac4a963a5386ee72d26f1a4fe415f23a4aad31",
+    "ok": true,
+    "uninterrupted": {
+      "applied": 178,
+      "recorded": 178,
+      "catalog": 0,
+      "acl": 0
+    },
+    "cases": [
+      {
+        "stop": "after-storage",
+        "previousApplied": 0,
+        "previousRecorded": 0,
+        "storageRemainingAtInterruption": 1,
+        "physicalBytesRemoved": true,
+        "restartedAll178": true,
+        "retentionMatches": true,
+        "catalogDifferences": 0,
+        "aclDifferences": 0,
+        "verifiedMfa": true,
+        "archiveProtected": true
+      },
+      {
+        "stop": "after-drop-public",
+        "previousApplied": 0,
+        "previousRecorded": 0,
+        "storageRemainingAtInterruption": 0,
+        "physicalBytesRemoved": true,
+        "restartedAll178": true,
+        "retentionMatches": true,
+        "catalogDifferences": 0,
+        "aclDifferences": 0,
+        "verifiedMfa": true,
+        "archiveProtected": true
+      },
+      {
+        "stop": "migration-088",
+        "previousApplied": 88,
+        "previousRecorded": 87,
+        "storageRemainingAtInterruption": 0,
+        "physicalBytesRemoved": true,
+        "restartedAll178": true,
+        "retentionMatches": true,
+        "catalogDifferences": 0,
+        "aclDifferences": 0,
+        "verifiedMfa": true,
+        "archiveProtected": true
+      },
+      {
+        "stop": "before-restore-owner-and-settings",
+        "previousApplied": 178,
+        "previousRecorded": 178,
+        "storageRemainingAtInterruption": 0,
+        "physicalBytesRemoved": true,
+        "restartedAll178": true,
+        "retentionMatches": true,
+        "catalogDifferences": 0,
+        "aclDifferences": 0,
+        "verifiedMfa": true,
+        "archiveProtected": true
+      }
+    ],
+    "negativeSnapshots": {
+      "missing": true,
+      "tampered": true,
+      "differentOwner": true,
+      "differentProject": true,
+      "differentReference": true,
+      "noMarker": true,
+      "missingMfa": true
+    },
+    "nonemptyPartialBeforeReset": true,
+    "partialEvidenceRemoved": true,
+    "saveFailureBeforeDelete": true,
+    "twoSessionDropFenceRejected": true,
+    "realCommittedWritesRejected": true,
+    "ownerMissingRejected": true
+  },
+  "offlineCli": {
+    "reset216": true,
+    "upgrade216": true,
+    "historicalUpgrade215OnCurrent216": true,
+    "networkAccess": false
+  },
+  "ownerReference": {
+    "path": "C:/Users/TOP/NawasrahFrankfurt/nawasrah-fra-001-138/local-reference-through216-ready.json",
+    "sha256": "b561499692223a0d4f8df4c022238b9527e780a6e42ffc1a9c81208334c8401b",
+    "old214and215Unchanged": true
+  },
+  "remaining": [
+    "encrypted214215216 backup/restore and local R2/watchdog",
+    "finalquality and full exactCI/PR"
+  ]
+}

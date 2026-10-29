@@ -1,6 +1,6 @@
 import { isSupabaseConfigured, supabase } from '../../lib/supabase';
 import type { PaymentMethod } from '../../types';
-import {posV2ResultMatches} from './posV2Validation';
+import {posV2ResultMatches,posV2RequestValid} from './posV2Validation';
 
 export interface PosV2BaseUnitLine {
   commercial_line_kind: 'base_unit';
@@ -46,6 +46,7 @@ export interface CreatePosSaleV2Input {
   discountInMinorUnits: number;
   amountReceivedInMinorUnits: number;
   idempotencyKey: string;
+  initialPayment?: {amountInMinorUnits: number; method: 'cash' | 'cliq'; referenceNumber?: string};
 }
 
 export interface PosV2SaleResult {
@@ -63,6 +64,9 @@ export interface PosV2SaleResult {
   changeDueInMinorUnits: number;
   paymentMethod: PaymentMethod;
   paymentStatus: 'paid' | 'unpaid' | 'partially_paid';
+  initialPaymentMethod?: 'cash' | 'cliq';
+  initialPaymentId?: string;
+  remainingInMinorUnits?: number;
   items: unknown[];
 }
 
@@ -85,7 +89,7 @@ export type CreatePosSaleV2Outcome =
     };
 
 export type PosV2RpcExecutor = (
-  functionName: 'create_pos_sale_v2',
+  functionName: 'create_pos_sale_v2' | 'create_pos_sale_with_initial_payment_v1',
   parameters: Record<string, unknown>,
 ) => PromiseLike<{ data: unknown; error: { code?: string; message?: string } | null }>;
 
@@ -97,6 +101,8 @@ const recoveryInstruction: PosV2RecoveryInstruction = {
 };
 
 const knownErrors: Record<string, string> = {
+  POS216_INITIAL_PAYMENT_INVALID: 'راجع المدفوع الآن؛ يجب أن يكون أقل من صافي الفاتورة للدفع الجزئي.',
+  POS216_SALE_CONTRACT_CHANGED: 'تغيّرت بيانات البيع؛ لم تُحفظ العملية. راجع السلة قبل المحاولة مجدداً.',
   PARCEL209_UNIT_SALE_FORBIDDEN:
     'هذا الصنف بيتباع بالطرد بس. احذف سطر المفرد وأضفه كطرد؛ لا تتغيّر السلة تلقائياً.',
   PARCEL209_FAMILY_CHANGED_RETRY:
@@ -147,17 +153,30 @@ const rpcParameters = (input: CreatePosSaleV2Input) => ({
   p_amount_received_in_minor_units: input.amountReceivedInMinorUnits,
   p_idempotency_key: input.idempotencyKey,
 });
+const partialRpcParameters = (input: CreatePosSaleV2Input) => ({
+  p_warehouse_id: input.warehouseId, p_branch_id: input.branchId,
+  p_customer_id: input.customerId || null, p_customer_name: input.customerName?.trim() || 'زبون نقدي',
+  p_lines: input.lines, p_discount_in_minor_units: input.discountInMinorUnits,
+  p_initial_paid_in_minor_units: input.initialPayment!.amountInMinorUnits,
+  p_initial_payment_method: input.initialPayment!.method,
+  p_reference_number: input.initialPayment!.referenceNumber?.trim() || null,
+  p_idempotency_key: input.idempotencyKey,
+});
 
 export async function submitPosSaleV2WithRpc(
   input: CreatePosSaleV2Input,
   executeRpc: PosV2RpcExecutor,
 ): Promise<CreatePosSaleV2Outcome> {
   input = structuredClone(input);
+  if(input.initialPayment!==undefined&&!posV2RequestValid(input))return {
+    ok:false,status:'rejected',errorIdentity:'POS216_INITIAL_PAYMENT_INVALID',rejectionCode:'22023',
+    message:knownErrors.POS216_INITIAL_PAYMENT_INVALID,recovery:recoveryInstruction,
+  };
   try {
-    const { data, error } = await executeRpc(
-      'create_pos_sale_v2',
-      rpcParameters(structuredClone(input)),
-    );
+    // Literal sinks keep the current RPC inventory independently auditable.
+    const { data, error } = input.initialPayment
+      ? await executeRpc('create_pos_sale_with_initial_payment_v1',partialRpcParameters(structuredClone(input)))
+      : await executeRpc('create_pos_sale_v2',rpcParameters(structuredClone(input)));
     if (error) {
       const identity = extractStableIdentity(error.message);
       if (data != null || isAmbiguousTransportFailure(error)) {

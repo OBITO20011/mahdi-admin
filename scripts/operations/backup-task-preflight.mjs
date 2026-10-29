@@ -4,7 +4,18 @@ import path from 'node:path';
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
 import {operationalManifest,operationalSchema} from './operational-schema.mjs';
-const exec=promisify(execFile);
+import {upgradePreparationFailure} from './upgrade-preparation-errors.mjs';
+const nativeExec=promisify(execFile);
+/**
+ * A plain result seam, without exposing ChildProcess handles to callers.
+ * @param {string} command
+ * @param {string[]} args
+ * @param {{windowsHide:boolean,maxBuffer:number,timeout:number}} options
+ */
+const exec=async(command,args,options)=>{
+ const r=await nativeExec(command,args,{...options,encoding:'utf8'});
+ return {stdout:r.stdout,stderr:r.stderr};
+};
 export const requiredBackupModes=Object.freeze(['Backup','Upload','VerifyRemote','RestoreRemote','Watchdog']);
 const same=(a,b)=>path.resolve(a).toLowerCase()===path.resolve(b).toLowerCase();
 export function assertRegisteredBackupTasks(tasks,repository){
@@ -23,9 +34,28 @@ export function assertRegisteredBackupTasks(tasks,repository){
  }
  return {ok:true,tasks:requiredBackupModes.length,supportedCeiling:operationalSchema.ceiling,repositoryMatches:true};
 }
-export async function registeredBackupPreflight(repository){
- await operationalManifest();assert.equal(process.platform,'win32','UPGRADE_BACKUP_WINDOWS_TASK_PREFLIGHT_REQUIRED');
+async function powershell(execute,code,failure){
+ try{return await execute('powershell.exe',['-NoProfile','-NonInteractive','-Command',code],{windowsHide:true,maxBuffer:65536,timeout:15000});}
+ catch(error){
+  const code=error?.code==='ENOENT'?'UPGRADE_POWERSHELL_NOT_FOUND':error?.killed===true||error?.code==='ETIMEDOUT'?'UPGRADE_PREPARATION_TIMEOUT':failure;
+  throw upgradePreparationFailure(code);
+ }
+}
+export async function assertUpgradeAdministrator({execute=exec,platform=process.platform}={}){
+ assert.equal(platform,'win32','UPGRADE_BACKUP_WINDOWS_TASK_PREFLIGHT_REQUIRED');
+ const code="$ErrorActionPreference='Stop';$p=[Security.Principal.WindowsPrincipal]::new([Security.Principal.WindowsIdentity]::GetCurrent());if($p.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)){'NAWASRAH_ELEVATED'}else{'NAWASRAH_NOT_ELEVATED'}";
+ const r=await powershell(execute,code,'UPGRADE_ADMINISTRATOR_CHECK_FAILED');
+ const result=r.stdout.replace(/^\uFEFF/u,'').trim();
+ if(result==='NAWASRAH_NOT_ELEVATED')throw upgradePreparationFailure('UPGRADE_BACKUP_TASKS_NOT_VISIBLE_RUN_AS_ADMINISTRATOR');
+ if(result!=='NAWASRAH_ELEVATED')throw upgradePreparationFailure('UPGRADE_ADMINISTRATOR_CHECK_FAILED');
+}
+export async function registeredBackupPreflight(repository,{execute=exec,platform=process.platform,manifest=operationalManifest}={}){
+ // Token elevation, not mere membership in the Administrators group. This is
+ // before manifest/config reads, task enumeration, password prompts and DB IO.
+ await assertUpgradeAdministrator({execute,platform});await manifest();
  const code="$ErrorActionPreference='Stop';$m=@('Backup','Upload','VerifyRemote','RestoreRemote','Watchdog');$r=@(foreach($n in $m){$t=Get-ScheduledTask -TaskName ('Nawasrah Frankfurt '+$n) -ErrorAction Stop;[ordered]@{name=$t.TaskName;enabled=($t.State -ne 'Disabled');actions=@($t.Actions|ForEach-Object{[ordered]@{execute=$_.Execute;arguments=$_.Arguments;workingDirectory=$_.WorkingDirectory}})}});ConvertTo-Json -InputObject $r -Depth 5 -Compress";
- const r=await exec('powershell.exe',['-NoProfile','-NonInteractive','-Command',code],{windowsHide:true,maxBuffer:65536,timeout:15000});
- return assertRegisteredBackupTasks(JSON.parse(r.stdout.replace(/^\uFEFF/u,'')),repository);
+ const r=await powershell(execute,code,'UPGRADE_BACKUP_TASKS_READ_FAILED');
+ let tasks;try{tasks=JSON.parse(r.stdout.replace(/^\uFEFF/u,''));}catch{throw upgradePreparationFailure('UPGRADE_BACKUP_TASKS_INVALID_RESPONSE');}
+ if(!Array.isArray(tasks)||tasks.some(t=>!t||typeof t.name!=='string'||!Array.isArray(t.actions)||t.actions.some(a=>!a||['execute','arguments','workingDirectory'].some(k=>typeof a[k]!=='string'))))throw upgradePreparationFailure('UPGRADE_BACKUP_TASKS_INVALID_RESPONSE');
+ return assertRegisteredBackupTasks(tasks,repository);
 }

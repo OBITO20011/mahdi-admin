@@ -126,6 +126,9 @@
     "test:aftercare215:runtime": "node scripts/testing/run-aftercare215-runtime.mjs",
     "frankfurt-owner-upgrade215": "node scripts/operations/frankfurt-owner-upgrade215.mjs",
     "frankfurt-owner-reset215": "node scripts/operations/frankfurt-owner-reset215.mjs",
+    "frankfurt-owner-upgrade216": "node scripts/operations/frankfurt-owner-upgrade216.mjs",
+    "frankfurt-owner-reset216": "node scripts/operations/frankfurt-owner-reset216.mjs",
+    "test:partial216:runtime": "node scripts/testing/run-partial216-runtime.mjs",
     "test:operations-schema": "node --import tsx --test tests/operational-schema.test.ts"
   },
   "dependencies": {

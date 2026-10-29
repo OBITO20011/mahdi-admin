@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "migrationCeiling": 215,
+  "migrationCeiling": 216,
   "managedAccess": false,
   "sourceHashes": [
     {
@@ -213,7 +213,7 @@
     },
     {
       "file": "src/features/crm/AddCustomerModalContent.tsx",
-      "sha256": "40b16302c959171699d0d89b4dcc94f97113e0020d683c7738341e8b9ff7f179"
+      "sha256": "6c84380fd2984b8196025e07fda8b4146b64de58b187436184e174a3f9cbaf80"
     },
     {
       "file": "src/features/crm/CrmView.tsx",
@@ -452,6 +452,10 @@
       "sha256": "56768f2f300e7575aed8f9e0aabcc042777d3afa54cc4343d99ab2fa22055e91"
     },
     {
+      "file": "src/features/pos/partialPayment216.ts",
+      "sha256": "0c028728e60befe91c8849ff59ad657b31188535548445fa14e5a5d91e367455"
+    },
+    {
       "file": "src/features/pos/PosParcelBuilder.tsx",
       "sha256": "48e957a4967e90a3a0c2e719da43e70a486c0c1403f82c555b7138060fe1c463"
     },
@@ -465,11 +469,11 @@
     },
     {
       "file": "src/features/pos/posV2Cart.ts",
-      "sha256": "a610b4d43f48c70d8cd7dbd291f86f6216d98468f5aed62050b38f663390a952"
+      "sha256": "1eb2ba14da3e2bc4020d2874103a2b99b97d42a465620fd8a64846de4677d72a"
     },
     {
       "file": "src/features/pos/PosView.tsx",
-      "sha256": "fd29c00048d8a5287d8610ef50bb7c1446ecb2a92dfb13b6045fd058a9801dec"
+      "sha256": "439608215a0c6427a0a19f52b9f05930003825c88db118a6e4a5b5fa5fa992b8"
     },
     {
       "file": "src/features/pos/saleMethods.ts",
@@ -565,7 +569,7 @@
     },
     {
       "file": "src/features/receipts/saleReceipt.ts",
-      "sha256": "711f14a6a0cf5ecafe87533842288c4e054564242dadfd4cfb056f7e9445573f"
+      "sha256": "470bf5d412539ef25320df6825f0b1be4afe9b26cc2b5a63f9a4a48b3e1dac22"
     },
     {
       "file": "src/features/receipts/SaleReceiptDialog.tsx",
@@ -837,15 +841,15 @@
     },
     {
       "file": "src/services/supabase/posV2.service.ts",
-      "sha256": "59cd6c4de80d37f54f81a0e5b9a4d557d00cb2e9d6f6d638f38f2dae4c5494fa"
+      "sha256": "d6c2b86c7eb0e11b7e45f23db8fe2be423079b44b2b332723273b8224facf160"
     },
     {
       "file": "src/services/supabase/posV2Recovery.ts",
-      "sha256": "656e222f935bfc0575d6dcbdeb66c66482760aa05e91c99c8ae689ecb2b64680"
+      "sha256": "f29c09f5383ac795f85f7a7a003b901d53dc4dc7dde3a18f084fd75e5c2d7f6f"
     },
     {
       "file": "src/services/supabase/posV2Validation.ts",
-      "sha256": "52d31f0ab8d97d93337533b303bcca3aefb41e94cc32ce55d185bf15f147b226"
+      "sha256": "d7f5de23c0620c684e3dfa31ede8c4d4a41076e499f427af36d4bb79a1b84379"
     },
     {
       "file": "src/services/supabase/product-images.service.ts",
@@ -965,7 +969,7 @@
     },
     {
       "file": "src/types/index.ts",
-      "sha256": "138b65aef034d650eae0aae22e30816bd79ea6f322c5c80a3ed475acc729a983"
+      "sha256": "84b2b347113f1dcf45943263491b0dec6a8cac5f8fe31ac7bd1b58a1304ee18b"
     },
     {
       "file": "src/types/monitoring.ts",
@@ -1077,7 +1081,7 @@
     },
     {
       "file": "src/utils/receipt.ts",
-      "sha256": "88a32ee620de636e5f3a7d4c7756f481c69508a98a297e803985aa38180cb204"
+      "sha256": "48b0264545056a17b5da624d7597f8e9ef18d8e5e127fe4563dee676280733f4"
     },
     {
       "file": "src/utils/receivingCalculations.ts",
@@ -1305,7 +1309,7 @@
     },
     {
       "file": "customer-web/src/receipts/commercialReceipt.ts",
-      "sha256": "23737994802c6592aa4fc33399042b6e76bfe22c6005bebaae1b01ba25a872e4"
+      "sha256": "fddb4c76e92b3930e151552e5d317067aa8ad81d8640620c34458180186bf25c"
     },
     {
       "file": "customer-web/src/receipts/exactMoney.ts",
@@ -1317,11 +1321,11 @@
     },
     {
       "file": "customer-web/src/receipts/publicReceipt.ts",
-      "sha256": "4a0ac1c318e375214e2d369f22c654a976b70c45d8cc72300d6238ca7c2780f5"
+      "sha256": "66812607e162c9674fbf89ada7c2bce93e004725f2208c77fe259f7c6a8628dc"
     },
     {
       "file": "customer-web/src/receipts/ReceiptDocument.tsx",
-      "sha256": "a44ed2ec854f4b0faffd74357bd0789e219c862b8154c06e65fd2a18f773cd74"
+      "sha256": "b7512883055bacd4b0ac86af8ff508bbec9fa274a707592f4f79a80ab3ab144d"
     },
     {
       "file": "customer-web/src/services/catalog.service.ts",
@@ -1345,7 +1349,7 @@
     },
     {
       "file": "customer-web/src/services/receipts.service.ts",
-      "sha256": "35dcb9abe274f227a1d5c9adc3d7ac41729dab261d84cce30e74c46e96dee136"
+      "sha256": "eeb7ed11ef9df4aebe7c115f863c69f2c01b346cc873ab8929129e0e8fd6cbd7"
     },
     {
       "file": "customer-web/src/services/storefront-settings.service.ts",
@@ -1365,7 +1369,7 @@
     },
     {
       "file": "customer-web/src/types/receipt.ts",
-      "sha256": "0baf0a5e10e687b0a649219298159239bcef2e1ba286b30eb1b059fdc37deb60"
+      "sha256": "a9c3db32cf874877a19872e4ed07a62fd90101e8b1a4b52a292b880bd231a7e3"
     },
     {
       "file": "customer-web/src/types/storefront.ts",
@@ -1446,9 +1450,9 @@
   ],
   "rpc": [
     {
-      "id": "src/features/pos/PosView.tsx:163",
+      "id": "src/features/pos/PosView.tsx:167",
       "file": "src/features/pos/PosView.tsx",
-      "line": 163,
+      "line": 167,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "<callback>",
@@ -2953,9 +2957,9 @@
       "source": "supabase.rpc(\n    'get_or_create_pos_receipt_token',\n    { p_order_id: orderId }\n  )"
     },
     {
-      "id": "src/services/supabase/posV2.service.ts:224",
+      "id": "src/services/supabase/posV2.service.ts:243",
       "file": "src/services/supabase/posV2.service.ts",
-      "line": 224,
+      "line": 243,
       "role": "authenticated",
       "receiver": "client",
       "function": "<callback>",
@@ -2967,16 +2971,21 @@
       "source": "client.rpc(functionName, parameters)",
       "resolutions": [
         {
+          "name": "create_pos_sale_with_initial_payment_v1",
+          "callsite": "src/services/supabase/posV2.service.ts:178",
+          "source": "executeRpc('create_pos_sale_with_initial_payment_v1',partialRpcParameters(structuredClone(input)))"
+        },
+        {
           "name": "create_pos_sale_v2",
-          "callsite": "src/services/supabase/posV2.service.ts:157",
-          "source": "executeRpc(\n      'create_pos_sale_v2',\n      rpcParameters(structuredClone(input)),\n    )"
+          "callsite": "src/services/supabase/posV2.service.ts:179",
+          "source": "executeRpc('create_pos_sale_v2',rpcParameters(structuredClone(input)))"
         }
       ]
     },
     {
-      "id": "src/services/supabase/posV2Recovery.ts:90",
+      "id": "src/services/supabase/posV2Recovery.ts:91",
       "file": "src/services/supabase/posV2Recovery.ts",
-      "line": 90,
+      "line": 91,
       "role": "authenticated",
       "receiver": "client",
       "function": "<callback>",
@@ -2988,9 +2997,9 @@
       "source": "client.rpc('get_pos_sale_attempt_state_v1', args)"
     },
     {
-      "id": "src/services/supabase/posV2Recovery.ts:97",
+      "id": "src/services/supabase/posV2Recovery.ts:98",
       "file": "src/services/supabase/posV2Recovery.ts",
-      "line": 97,
+      "line": 98,
       "role": "authenticated",
       "receiver": "client",
       "function": "<callback>",
@@ -3002,9 +3011,9 @@
       "source": "client.rpc('cancel_uncommitted_pos_sale_attempt_v1', {...args, p_confirmed: true})"
     },
     {
-      "id": "src/services/supabase/posV2Recovery.ts:146",
+      "id": "src/services/supabase/posV2Recovery.ts:147",
       "file": "src/services/supabase/posV2Recovery.ts",
-      "line": 146,
+      "line": 147,
       "role": "authenticated",
       "receiver": "client",
       "function": "<callback>",
@@ -3016,9 +3025,14 @@
       "source": "client.rpc(name, parameters)",
       "resolutions": [
         {
+          "name": "create_pos_sale_with_initial_payment_v1",
+          "callsite": "src/services/supabase/posV2.service.ts:178",
+          "source": "executeRpc('create_pos_sale_with_initial_payment_v1',partialRpcParameters(structuredClone(input)))"
+        },
+        {
           "name": "create_pos_sale_v2",
-          "callsite": "src/services/supabase/posV2.service.ts:157",
-          "source": "executeRpc(\n      'create_pos_sale_v2',\n      rpcParameters(structuredClone(input)),\n    )"
+          "callsite": "src/services/supabase/posV2.service.ts:179",
+          "source": "executeRpc('create_pos_sale_v2',rpcParameters(structuredClone(input)))"
         }
       ]
     },
@@ -4412,12 +4426,21 @@
     },
     {
       "file": "src/services/supabase/posV2.service.ts",
-      "line": 157,
+      "line": 178,
+      "role": "authenticated",
+      "wrapper": "executeRpc",
+      "name": "create_pos_sale_with_initial_payment_v1",
+      "dynamic": "'create_pos_sale_with_initial_payment_v1'",
+      "source": "executeRpc('create_pos_sale_with_initial_payment_v1',partialRpcParameters(structuredClone(input)))"
+    },
+    {
+      "file": "src/services/supabase/posV2.service.ts",
+      "line": 179,
       "role": "authenticated",
       "wrapper": "executeRpc",
       "name": "create_pos_sale_v2",
       "dynamic": "'create_pos_sale_v2'",
-      "source": "executeRpc(\n      'create_pos_sale_v2',\n      rpcParameters(structuredClone(input)),\n    )"
+      "source": "executeRpc('create_pos_sale_v2',rpcParameters(structuredClone(input)))"
     },
     {
       "file": "supabase/functions/submit-guest-order/index.ts",
@@ -4535,6 +4558,7 @@
     "create_owner_cash_withdrawal_v1",
     "create_pos_sale",
     "create_pos_sale_v2",
+    "create_pos_sale_with_initial_payment_v1",
     "create_product_family_with_flavors_v2",
     "create_product_flavor_v1",
     "create_product_with_opening_stock_v5",

@@ -22,6 +22,9 @@ export interface PublicPosReceipt {
   status: string;
   paymentMethod: string;
   paymentStatus: string;
+  amountPaidInMinorUnits?:number;
+  remainingInMinorUnits?:number;
+  initialPaymentMethod?:'cash'|'cliq';
   subtotalInMinorUnits: number;
   discountInMinorUnits: number;
   totalInMinorUnits: number;

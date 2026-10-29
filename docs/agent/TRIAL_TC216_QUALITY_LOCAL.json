@@ -1,0 +1,161 @@
+{
+  "status": "LOCAL_GATES_PASS_EXACT_CI_PENDING",
+  "hostedAccess": false,
+  "deployments": 0,
+  "migrations": 178,
+  "ceiling": 216,
+  "migration216Sha256": "3a30798f8f9dd385dd915ed74b25440b8e40c6b46893541aca049a5b94e09462",
+  "historicalMigrationsChanged": [],
+  "milestoneEvidence": {
+    "TRIAL_TC216_CORE_LOCAL.json": {
+      "sha256": "357fcfd2213695c43779e9e3971d1c24ac117f5de7d2e2ed425dd3db834ce0a2"
+    },
+    "TRIAL_TC216_SDK_LOCAL.json": {
+      "sha256": "16f7dcfaf38b6aa3a6bb01f1899ba619f71272dde57ed800f0127f60d0c9aa4e"
+    },
+    "TRIAL_TC216_REFERENCE_LOCAL.json": {
+      "sha256": "13735d1b92123439898045b35f83eaa702fda3b87e085fb698c00241cafd8eec"
+    },
+    "TRIAL_TC216_FULLSTACK_LOCAL.json": {
+      "sha256": "9064a77acb6a809b791d44634a0822d484cbc6058c5b24d05801eb9bdad42830"
+    },
+    "TRIAL_TC216_OPERATIONS_LOCAL.json": {
+      "sha256": "d72e7dbb32417507ba9a22bbf50b8a2e4ee21e8214da4c4a3c8de0008a17a243"
+    },
+    "TRIAL_TC216_BACKUP_LOCAL.json": {
+      "sha256": "cb5c8e3cc01307196d225e2ebb8a06ef60b4e27af3adb5f137b53e35d14b1095"
+    },
+    "TRIAL_TC216_LEGACY215_LOCAL.json": {
+      "sha256": "2638a917457e95dbe1e589e9472a49db5b6c2b0af8b0261618393a99f60dffcc"
+    }
+  },
+  "milestoneRemainingListsAreHistorical": true,
+  "localFullAdmin": {
+    "tests": 1610,
+    "pass": 1610,
+    "fail": 0,
+    "skipped": 0,
+    "source": "Full local rerun after CI continuity and historical215 expectation correction"
+  },
+  "store": {
+    "tests": 203,
+    "pass": 203,
+    "fail": 0
+  },
+  "rootAndStoreLint": true,
+  "rootTypesAfterLastGuardChange": true,
+  "focusedHistoricalAndInverse24": true,
+  "affectedBrowser": {
+    "startTime": "2026-10-29T05:17:00.279Z",
+    "duration": 171830.90300000002,
+    "expected": 38,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "pwa": {
+    "ok": true,
+    "cases": 4,
+    "results": [
+      {
+        "browser": "Chromium",
+        "scenario": "automatic",
+        "ok": true,
+        "reopened": true,
+        "oldCacheRemoved": true
+      },
+      {
+        "browser": "Chromium",
+        "scenario": "waiting-worker",
+        "ok": true,
+        "reopened": true,
+        "oldCacheRemoved": true
+      },
+      {
+        "browser": "WebKit",
+        "scenario": "automatic",
+        "ok": true,
+        "reopened": true,
+        "oldCacheRemoved": true
+      },
+      {
+        "browser": "WebKit",
+        "scenario": "waiting-worker",
+        "ok": true,
+        "reopened": true,
+        "oldCacheRemoved": true
+      }
+    ],
+    "externalRequestsEscaped": 0
+  },
+  "builds": [
+    {
+      "ok": true,
+      "app": "admin",
+      "environment": "staging",
+      "files": 105,
+      "oppositeOrigins": 0,
+      "fixture": false
+    },
+    {
+      "ok": true,
+      "app": "customer",
+      "environment": "staging",
+      "files": 32,
+      "oppositeOrigins": 0,
+      "fixture": true
+    },
+    {
+      "ok": true,
+      "app": "admin",
+      "environment": "production",
+      "files": 105,
+      "oppositeOrigins": 0,
+      "fixture": false
+    },
+    {
+      "ok": true,
+      "app": "customer",
+      "environment": "production",
+      "files": 32,
+      "oppositeOrigins": 0,
+      "fixture": true
+    },
+    {
+      "ok": true,
+      "app": "admin",
+      "environment": "prelaunch-trial",
+      "files": 105,
+      "oppositeOrigins": 0,
+      "fixture": false
+    },
+    {
+      "ok": true,
+      "app": "customer",
+      "environment": "prelaunch-trial",
+      "files": 32,
+      "oppositeOrigins": 0,
+      "fixture": true
+    }
+  ],
+  "prelaunchClosedAndWrongTargetRefusals": true,
+  "networkIsolation": {
+    "externalRequestsEscaped": 0,
+    "productionRequestsEscaped": 0,
+    "deniedCanaries": 4
+  },
+  "gitleaks": "0 on every accepted saved unit;final staged scan next",
+  "ci": {
+    "required": "Full push and PR workflows on final identical head,secret scan and complete backup;no skipped gate accepted",
+    "status": "PENDING",
+    "firstRejectedHead": "8561cdfe01198a61036ac87bb3de4a82e2e9fbb3",
+    "firstRejection": {
+      "applicationFailure": false,
+      "checkpointOver4096Bytes": true,
+      "stale215Rejection": true,
+      "correctedWithoutWeakening": true
+    }
+  },
+  "ownerApprovalRequiredBeforeMerge": true,
+  "primaryCheckout": "main9f94ec8 owner files preserved;not changed by T-C"
+}

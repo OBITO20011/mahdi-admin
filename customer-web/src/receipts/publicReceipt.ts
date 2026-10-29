@@ -13,6 +13,7 @@ export function publicReceiptDocument(receipt:PublicPosReceipt):ReceiptDocumentD
       //215 funds exactly one saved line, with no order discount/delivery.
       ...(receipt.exchangeFunding?{totalInMinorUnitsExact:receipt.exchangeFunding.newTotalInMinorUnits}:{})})),
     subtotalInMinorUnits:receipt.subtotalInMinorUnits,discountInMinorUnits:receipt.discountInMinorUnits,
-    deliveryInMinorUnits:0,totalInMinorUnits:receipt.totalInMinorUnits,paymentLabel:paymentLabel(receipt.paymentMethod),
+    deliveryInMinorUnits:0,totalInMinorUnits:receipt.totalInMinorUnits,paymentLabel:paymentLabel(receipt.paymentMethod)+(receipt.initialPaymentMethod?' · دفعة '+(receipt.initialPaymentMethod==='cash'?'كاش':'CliQ'):''),
+    ...(receipt.amountPaidInMinorUnits!==undefined?{paidInMinorUnits:receipt.amountPaidInMinorUnits,remainingInMinorUnits:receipt.remainingInMinorUnits,balanceLabel:'الباقي على الحساب'}:{}),
     ...(receipt.exchangeFunding?{exchangeFunding:receipt.exchangeFunding}:{})};
 }

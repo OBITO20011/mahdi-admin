@@ -1,0 +1,537 @@
+{
+  "hostedAccess": false,
+  "fixtureOnly": true,
+  "sourceReport": "C:\\Users\\TOP\\AppData\\Local\\Temp/nawasrah-dual-backup-proof-YtVAB3/report.json",
+  "sourceReportSha256": "cb1c3eb301a949e6b2d41cd5804786e416f860223020c041cead19e9772e3aa1",
+  "ok": true,
+  "archiveEncrypted": true,
+  "formatVersion": 2,
+  "old214": {
+    "ok": true,
+    "ceiling": 214,
+    "files": 176,
+    "tables": 141,
+    "storage": 1,
+    "allRowsAndHashesMatch": true,
+    "allSequencesMatch": true,
+    "rolesAndMembershipsMatch": true,
+    "catalogAclOwnerSettingsMatch": true,
+    "historyMatch": true,
+    "storageMetadataMatch": true,
+    "exceptionsApplied": [],
+    "integrity": [
+      {
+        "key": "integrity:accounting:cogs-profit",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:accounting:customer-receivables",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:accounting:deferred-cheques",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:accounting:owner-withdrawals",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:accounting:reversals",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:accounting:supplier-balances",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:aftercare:durable-evidence",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:automation:outbox",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:inventory:balances",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:inventory:movement-arithmetic",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:inventory:movement-ledger",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:inventory:receiving",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:inventory:references",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:orders:reservations",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:orders:stock-deductions",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:shifts:closing",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:shifts:snapshot",
+        "status": "healthy",
+        "issueCount": 0
+      }
+    ]
+  },
+  "old215": {
+    "ok": true,
+    "ceiling": 215,
+    "files": 177,
+    "tables": 148,
+    "storage": 1,
+    "allRowsAndHashesMatch": true,
+    "allSequencesMatch": true,
+    "rolesAndMembershipsMatch": true,
+    "catalogAclOwnerSettingsMatch": true,
+    "historyMatch": true,
+    "storageMetadataMatch": true,
+    "exceptionsApplied": [],
+    "integrity": [
+      {
+        "key": "integrity:accounting:cogs-profit",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:accounting:customer-receivables",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:accounting:deferred-cheques",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:accounting:owner-withdrawals",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:accounting:reversals",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:accounting:supplier-balances",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:aftercare:durable-evidence",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:automation:outbox",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:inventory:balances",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:inventory:movement-arithmetic",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:inventory:movement-ledger",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:inventory:receiving",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:inventory:references",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:orders:reservations",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:orders:stock-deductions",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:shifts:closing",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:shifts:snapshot",
+        "status": "healthy",
+        "issueCount": 0
+      }
+    ]
+  },
+  "current216": {
+    "ok": true,
+    "ceiling": 216,
+    "files": 178,
+    "tables": 149,
+    "storage": 1,
+    "allRowsAndHashesMatch": true,
+    "allSequencesMatch": true,
+    "rolesAndMembershipsMatch": true,
+    "catalogAclOwnerSettingsMatch": true,
+    "historyMatch": true,
+    "storageMetadataMatch": true,
+    "exceptionsApplied": [],
+    "integrity": [
+      {
+        "key": "integrity:accounting:cogs-profit",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:accounting:customer-receivables",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:accounting:deferred-cheques",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:accounting:owner-withdrawals",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:accounting:reversals",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:accounting:supplier-balances",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:aftercare:durable-evidence",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:automation:outbox",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:inventory:balances",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:inventory:movement-arithmetic",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:inventory:movement-ledger",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:inventory:receiving",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:inventory:references",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:orders:reservations",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:orders:stock-deductions",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:shifts:closing",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:shifts:snapshot",
+        "status": "healthy",
+        "issueCount": 0
+      }
+    ]
+  },
+  "old214ArchiveStillRestores": true,
+  "old215ArchiveStillRestores": true,
+  "current216InitialPayment": {
+    "total": 2000,
+    "paid": 1000,
+    "due": 1000
+  },
+  "remoteRestore216": {
+    "ok": true,
+    "ceiling": 216,
+    "files": 178,
+    "tables": 149,
+    "storage": 1,
+    "allRowsAndHashesMatch": true,
+    "allSequencesMatch": true,
+    "rolesAndMembershipsMatch": true,
+    "catalogAclOwnerSettingsMatch": true,
+    "historyMatch": true,
+    "storageMetadataMatch": true,
+    "exceptionsApplied": [],
+    "integrity": [
+      {
+        "key": "integrity:accounting:cogs-profit",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:accounting:customer-receivables",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:accounting:deferred-cheques",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:accounting:owner-withdrawals",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:accounting:reversals",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:accounting:supplier-balances",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:aftercare:durable-evidence",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:automation:outbox",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:inventory:balances",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:inventory:movement-arithmetic",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:inventory:movement-ledger",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:inventory:receiving",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:inventory:references",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:orders:reservations",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:orders:stock-deductions",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:shifts:closing",
+        "status": "healthy",
+        "issueCount": 0
+      },
+      {
+        "key": "integrity:shifts:snapshot",
+        "status": "healthy",
+        "issueCount": 0
+      }
+    ]
+  },
+  "watchdog216": {
+    "ok": true,
+    "healthy": true,
+    "supportedSchemaCeiling": 216,
+    "observedHistoryCeiling": 216,
+    "internalScanHeld": true,
+    "observedAt": "2026-10-29T05:14:34.926Z",
+    "checks": [
+      {
+        "key": "developer:frankfurt:backup",
+        "healthy": true
+      },
+      {
+        "key": "developer:frankfurt:offsite",
+        "healthy": true
+      },
+      {
+        "key": "developer:frankfurt:remote-verify",
+        "healthy": true
+      },
+      {
+        "key": "developer:frankfurt:restore",
+        "healthy": true
+      },
+      {
+        "key": "developer:frankfurt:last-backup",
+        "healthy": true
+      },
+      {
+        "key": "developer:frankfurt:last-upload",
+        "healthy": true
+      },
+      {
+        "key": "developer:frankfurt:last-verifyremote",
+        "healthy": true
+      },
+      {
+        "key": "developer:frankfurt:last-restoreremote",
+        "healthy": true
+      },
+      {
+        "key": "developer:frankfurt:schema-support",
+        "healthy": true
+      },
+      {
+        "key": "developer:frankfurt:daily-keepalive",
+        "healthy": true
+      },
+      {
+        "key": "developer:frankfurt:daily-size",
+        "healthy": true
+      },
+      {
+        "key": "developer:frankfurt:integrity",
+        "healthy": true
+      }
+    ],
+    "notifications": 0,
+    "recipient": "developer",
+    "businessAlertsEnabled": false
+  },
+  "keepaliveTransport": "injected local SQL;no network",
+  "telegramCalls": 0,
+  "r2Transport": "local-in-memory-S3",
+  "remoteDownloadRestorePassed": true,
+  "immutableReplayPassed": true,
+  "tamperedDownloadRejected": true,
+  "legacyOffsiteUntouched": true,
+  "comparisonNegative": {
+    "ok": true,
+    "intentionalSyntheticMismatchRejected": true,
+    "comparisonCode": "RESTORE_TABLES_DIFFER",
+    "privateReportSaved": false,
+    "privateReportChecked": false,
+    "rawValuesNeverPersisted": true,
+    "hostedConnectionsMade": false
+  },
+  "nativeTls": {
+    "ok": true,
+    "hostedConnectionsMade": false,
+    "transport": "localhost-only-PostgreSQL-STARTTLS-session-proxy",
+    "client": "psql (PostgreSQL) 17.11",
+    "clientMode": "Windows native17.11",
+    "sslmode": "verify-full",
+    "explicitRootAccepted": true,
+    "hostnameVerified": true,
+    "ipv4Loopback": true,
+    "readOnlyViolationSqlstate": "25006",
+    "snapshotCrossConnectionConsistent": true,
+    "systemStoreInsufficientReproduced": true,
+    "rejected": [
+      {
+        "name": "system-trust",
+        "category": "TLS_CA_UNTRUSTED",
+        "exitCode": 2
+      },
+      {
+        "name": "wrong-ca",
+        "category": "TLS_CA_UNTRUSTED",
+        "exitCode": 2
+      },
+      {
+        "name": "wrong-hostname",
+        "category": "TLS_HOSTNAME_MISMATCH",
+        "exitCode": 2
+      }
+    ],
+    "fullNativeBackupRestore": true,
+    "tablesCompared": 141,
+    "integrityChecks": 17,
+    "ownerConfigurationRead": false
+  },
+  "deliveryComplete": false,
+  "remaining": [
+    "final frontend quality",
+    "exact full CI and owner PR approval"
+  ]
+}

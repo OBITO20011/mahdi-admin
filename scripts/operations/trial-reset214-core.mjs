@@ -1,5 +1,5 @@
-// RESET214 only. Snapshots containing settings/profile rows stay in memory.
-// Reports contain counts and one-way fingerprints, never row values or MFA secrets.
+// Versioned retained resets214/215/216 share the same write fence and resume
+// engine. Raw settings stay in protected external retention; Auth/MFA only hashes.
 import assert from 'node:assert/strict';
 import {writeFileSync} from 'node:fs';
 import {writeFile} from 'node:fs/promises';
@@ -12,7 +12,8 @@ import {assertManagedCatalog} from './managed-catalog-policy.mjs';
 import {compareApplicationAcl} from './application-acl-verification.mjs';
 import {assertReady214Catalog} from './frankfurt-reference214.mjs';
 import {assertReady215Catalog} from './frankfurt-reference215.mjs';
-import {assertCurrentResetReference} from './operational-schema.mjs';
+import {assertReady216Catalog} from './frankfurt-reference216.mjs';
+import {assertCurrentResetReference,assertSupportedResetReference} from './operational-schema.mjs';
 import {readRealtimePublication} from '../testing/realtime151-contract.mjs';
 import {retainedSessionState,assertNoForeignWrites,withoutResetGuard,attachGuardSql,removeGuardSql,saveGuardRemovalProof} from './reset214-session.mjs';
 import {lockAndCheckGuardSql,publicFingerprint} from './reset214-write-guard.mjs';
@@ -36,8 +37,10 @@ export const reset214RetentionRawSql=id=>`WITH retained(v) AS (${reset214Retenti
 const fingerprints=raw=>Object.fromEntries(Object.entries(raw).map(([name,text])=>[name,{rows:JSON.parse(text).length,sha256:sha256(text)}]));
 const policy214={ceiling:214,files:176,assertCatalog:assertReady214Catalog};
 const policy215={ceiling:215,files:177,assertCatalog:assertReady215Catalog};
+const policy216={ceiling:216,files:178,assertCatalog:assertReady216Catalog};
 export const captureReset214=options=>captureRetainedReset(options,policy214);
-export const captureReset215=options=>{assertCurrentResetReference(options.reference);return captureRetainedReset(options,policy215);};
+export const captureReset215=options=>{assertSupportedResetReference(options.reference);return captureRetainedReset(options,policy215);};
+export const captureReset216=options=>{assertCurrentResetReference(options.reference);return captureRetainedReset(options,policy216);};
 async function captureRetainedReset({executor,ownerId,reference},policy){
  assert.equal(reference.migrationCeiling,policy.ceiling,'RESET_REFERENCE_REQUIRED');assert.equal(reference.manifest.length,policy.files);
  const sql=async input=>{const r=await executeInput(executor,input);assert.equal(r.code,0,'RESET214_READ_FAILED');return r.stdout.trim();};
@@ -82,7 +85,8 @@ export function restoreReset214Sql(rawTables){
 // A failed destructive attempt requires restoration of the pre-reset archive,
 // not replay against a partial schema. This is NOT a cross-API transaction.
 export const reset214WithExecutor=options=>runRetainedReset(options,policy214);
-export const reset215WithExecutor=options=>{assertCurrentResetReference(options.reference);return runRetainedReset(options,policy215);};
+export const reset215WithExecutor=options=>{assertSupportedResetReference(options.reference);return runRetainedReset(options,policy215);};
+export const reset216WithExecutor=options=>{assertCurrentResetReference(options.reference);return runRetainedReset(options,policy216);};
 async function runRetainedReset(options,policy){
  const {executor,reference,ownerId,output}=options;
  assert.equal(reference.migrationCeiling,policy.ceiling,'RESET_REFERENCE_REQUIRED');assert.equal(reference.manifest.length,policy.files);

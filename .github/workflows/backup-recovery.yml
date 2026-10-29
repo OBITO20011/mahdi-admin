@@ -8,7 +8,7 @@ permissions:
   contents: read
 jobs:
   complete-restore:
-    name: Complete encrypted backup and strict214/215 restore
+    name: Complete encrypted backup and strict214/215/216 restore
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -23,7 +23,7 @@ jobs:
         run: npm ci
       - name: Prove owner boundary and negative cases
         run: node --import tsx --test tests/operational-schema.test.ts tests/dual-backup.test.ts tests/backup-diagnostics.test.ts tests/owner-operation.test.ts tests/owner-operation-powershell.probe.ts tests/restore-diagnostics.test.ts tests/backup-restore-contract.test.ts tests/restore-comparison.test.ts tests/restore-cron-acl.test.ts
-      - name: Prove214 archive compatibility plus215 DB roles ACL data Storage and local S3 roundtrip
+      - name: Prove214 and215 archive compatibility plus216 DB roles ACL data Storage and local S3 roundtrip
         run: node scripts/testing/run-dual-backup-runtime.mjs
       - name: Prove pg_cron init privileges drift and exact final ACL replay without exceptions
         run: node scripts/testing/run-restore-cron-acl-runtime.mjs

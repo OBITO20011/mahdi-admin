@@ -43,7 +43,7 @@ test('POS debt sales require a registered customer in UI and database', () => {
     posView,
     /paymentMethod === 'debt' && !selectedCustomerId/
   );
-  assert.match(posView, /إضافة عميل جديد/);
+  assert.match(posView, /زبون جديد سريع/);
   assert.match(
     migration,
     /NEW\.payment_method = 'debt' AND NEW\.customer_id IS NULL/

@@ -18,6 +18,7 @@ import {posCartLines, posStockDemand, posWarehouseAvailable, posV2Invoice, recei
 import {posSaleModeForProduct,posCartSaleMethodConflict,type PosSingleProductMode} from './saleMethods';
 import {PosProductCard} from './PosProductCard';
 import {shouldRestorePosSearchFocus,type PosAdditionSource} from './posSearchFocus';
+import {initialPaymentText216,partialPayment216} from './partialPayment216';
 import {jodToMinorUnits} from '../../utils/receivingCalculations';
 import { Card, PageHeader, StatusBadge, MoneyText, SearchField, FilterChips, SegmentedControl, UiButton, StickyActionBar, ResponsiveCartPanel, formatItemCount } from '../../components/ui';
 import {SaleReceiptDialog} from '../receipts/SaleReceiptDialog';
@@ -130,6 +131,9 @@ export const PosView: React.FC = () => {
   const [discountAmount, setDiscountAmount] = useState<number>(0);
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('cash');
   const [cashReceived, setCashReceived] = useState<number>(0);
+  const [initialPaidText,setInitialPaidText]=useState('');
+  const [initialPaidMethod,setInitialPaidMethod]=useState<'cash'|'cliq'>('cash');
+  const [initialPaidReference,setInitialPaidReference]=useState('');
   const [showReceiptModal, setShowReceiptModal] = useState<boolean>(false);
   const [lastInvoice, setLastInvoice] = useState<
     (Invoice & { changeDue: number }) | null
@@ -469,12 +473,26 @@ export const PosView: React.FC = () => {
     const selectedCustomer = posCustomers.find(
       (customer) => customer.id === selectedCustomerId
     );
-
+    let resolvedMethod=paymentMethod;
+    let initialPayment:CreatePosSaleV2Input['initialPayment'];
+    if(paymentMethod==='debt'){
+      try{
+        const paid=initialPaymentText216(initialPaidText);
+        // Preserve existing fully-discounted/zero-total debt sales. They do
+        // not enter the positive partial-payment contract.
+        if(jodToMinorUnits(totalAmount)>0){
+          const split=partialPayment216(jodToMinorUnits(totalAmount),paid,initialPaidMethod,selectedCustomer?.id??null);
+          resolvedMethod=split.paymentMethod;
+          if(split.initialPaymentMethod)initialPayment={amountInMinorUnits:split.paidInMinorUnits,method:split.initialPaymentMethod,referenceNumber:initialPaidReference.trim()||undefined};
+        }else if(paid!==0)throw new Error('لا يمكن تسجيل دفعة لفاتورة صافيها صفر.');
+      }catch(error){setToast(error instanceof Error?error.message:'راجع المدفوع الآن.','error');return;}
+    }
     const request: CreatePosSaleV2Input = {warehouseId, branchId: activeBranch.id,
-      customerId: selectedCustomer?.id, customerName: selectedCustomer?.name || 'زبون نقدي', paymentMethod,
+      customerId: selectedCustomer?.id, customerName: selectedCustomer?.name || 'زبون نقدي', paymentMethod:resolvedMethod,
       lines: posCartLines(cartItems), discountInMinorUnits: jodToMinorUnits(discountAmount),
-      amountReceivedInMinorUnits: jodToMinorUnits(paymentMethod === 'debt' ? 0
-        : paymentMethod === 'cash' ? cashReceived || totalAmount : totalAmount), idempotencyKey: crypto.randomUUID()};
+      amountReceivedInMinorUnits: jodToMinorUnits(resolvedMethod === 'debt' ? 0
+        : paymentMethod === 'debt' ? totalAmount : resolvedMethod === 'cash' ? cashReceived || totalAmount : totalAmount),
+      ...(initialPayment?{initialPayment}:{}),idempotencyKey: crypto.randomUUID()};
     await executeSale('START_NEW', request);
   };
 
@@ -489,6 +507,7 @@ export const PosView: React.FC = () => {
       try {invoice.publicReceiptUrl = await getOrCreatePublicPosReceiptUrlFromSupabase(result.data.orderId);} catch {/* Committed sale is still recoverable. */}
       setLastInvoice(invoice); setShowReceiptModal(true); setCartItems([]); setDiscountAmount(0);
       setCashReceived(0); setSelectedCustomerId(''); setPaymentMethod('cash');
+      setInitialPaidText('');setInitialPaidMethod('cash');setInitialPaidReference('');
       await Promise.allSettled([refreshProductsFromSupabase(), refreshOrdersFromSupabase(),
         refreshInventoryMovementsFromSupabase(), refreshStockNotificationsFromSupabase()]);
       setToast(`تم حفظ البيع V2: ${result.data.orderNumber}`);
@@ -582,6 +601,7 @@ export const PosView: React.FC = () => {
       totalAmount: lastInvoice.totalAmount,
       paymentMethod: lastInvoice.paymentMethod,
       paidAmount: lastInvoice.paidAmount,
+      initialPaymentMethod:lastInvoice.initialPaymentMethod,
       remainingAmount: lastInvoice.remainingAmount,
       changeDue: lastInvoice.changeDue,
       publicReceiptUrl,
@@ -632,9 +652,14 @@ export const PosView: React.FC = () => {
     totals.set(name,(totals.get(name)??0)+item.baseQuantity);
     return totals;
   },new Map<string,number>()));
-  const paymentControl = <SegmentedControl touchSize label="طريقة الدفع" value={paymentMethod}
+  let initialPaidIssue:string|null=null;let initialDue:number|null=null;
+  if(paymentMethod==='debt')try{
+    const paid=initialPaymentText216(initialPaidText),due=jodToMinorUnits(totalAmount)-paid;
+    if(due<0)throw new Error('المدفوع الآن أكبر من صافي الفاتورة.');initialDue=due/1000;
+  }catch(error){initialPaidIssue=error instanceof Error?error.message:'راجع المدفوع الآن.';}
+  const paymentControl = <fieldset disabled={isSubmitting||recoveryBlocked}><SegmentedControl touchSize label="طريقة الدفع" value={paymentMethod}
  options={[{value: 'cash' as PaymentMethod, label: 'كاش'}, {value: 'cliq' as PaymentMethod, label: 'CliQ'}, {value: 'debt' as PaymentMethod, label: 'دين'}]}
- onChange={value => setPaymentMethod(value)} />;
+ onChange={value => {setPaymentMethod(value);if(value==='debt')setIsCartOpen(true);}} /></fieldset>;
   const completeSaleButton = (            <UiButton data-testid="pos-complete-sale" variant="accent" size="large"
               onClick={() =>
                 openPosShift
@@ -779,7 +804,7 @@ export const PosView: React.FC = () => {
                 className="min-h-11 flex items-center gap-1.5 rounded-xl border border-nw-ok/30 bg-nw-ok-bg/10 px-2.5 py-1.5 text-[10px] font-extrabold text-nw-ok transition hover:bg-nw-ok-bg/20"
               >
                 <UserPlus className="h-3.5 w-3.5" />
-                إضافة عميل جديد
+                زبون جديد سريع
               </button>
             </div>
             <div className="relative">
@@ -898,6 +923,23 @@ export const PosView: React.FC = () => {
         )}
 
 
+          {paymentMethod==='debt'&&cartItems.length>0&&<fieldset disabled={isSubmitting||recoveryBlocked} className="min-w-0 space-y-3 rounded-xl border border-nw-border bg-nw-surface-2 p-3">
+            <legend className="px-1 font-bold">دفعة جزئية والباقي على الحساب</legend>
+            <label className="block space-y-2 text-sm" htmlFor="pos-initial-paid"><span className="block">المدفوع الآن</span>
+              <input id="pos-initial-paid" type="text" inputMode="decimal" enterKeyHint="done" maxLength={18} value={initialPaidText}
+                onChange={event=>setInitialPaidText(event.target.value)} placeholder="0.000" dir="ltr" aria-invalid={Boolean(initialPaidIssue)} aria-describedby="pos-initial-paid-help"
+                className="block min-h-11 w-full rounded-xl border border-nw-border bg-nw-surface px-3 py-2 text-base text-nw-text"/>
+            </label>
+            <SegmentedControl touchSize label="طريقة المدفوع الآن" value={initialPaidMethod} options={[{value:'cash' as const,label:'كاش'},{value:'cliq' as const,label:'CliQ'}]} onChange={setInitialPaidMethod}/>
+            {initialPaidMethod==='cliq'&&<label className="block space-y-2 text-sm" htmlFor="pos-initial-reference"><span className="block">مرجع CliQ (اختياري)</span>
+              <input id="pos-initial-reference" value={initialPaidReference} maxLength={200} enterKeyHint="done" onChange={event=>setInitialPaidReference(event.target.value)}
+                className="block min-h-11 w-full rounded-xl border border-nw-border bg-nw-surface px-3 py-2 text-base text-nw-text"/>
+            </label>}
+            <p id="pos-initial-paid-help" className={initialPaidIssue?'text-sm text-nw-bad':'text-sm text-nw-muted'} role={initialPaidIssue?'alert':undefined}>
+              {initialPaidIssue??<>الباقي على الحساب: <MoneyText amount={initialDue??totalAmount} currency/>. صفر يعني ديناً كاملاً؛ دفع الصافي كله يعني دفعاً كاملاً.</>}
+            </p>
+          </fieldset>}
+
                       {/* Received Cash Input */}
           {paymentMethod === 'cash' && cartItems.length > 0 && (
             <div className="flex items-center justify-between bg-nw-surface-2/80 p-2.5 rounded-xl border border-nw-border">
@@ -964,10 +1006,11 @@ export const PosView: React.FC = () => {
       <Modal
         isOpen={isAddCustomerOpen}
         onClose={() => setIsAddCustomerOpen(false)}
-        title="إضافة عميل جديد"
+        title="زبون جديد سريع"
         subtitle="سيُحفظ في العملاء ويُختار لهذه الفاتورة مباشرة"
       >
         <AddCustomerModalContent
+          quick
           onClose={() => setIsAddCustomerOpen(false)}
           onCreated={handleCustomerCreated}
         />

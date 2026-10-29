@@ -1,3 +1,7 @@
+#29Oct — T-C216 local acceptance complete;exact FULLCI and owner review next
+
+PR43/main9f94ec8 delivered;primary owner files preserved.216 canonical178/strictrestore/blockedraces17healthy0;SDK157table+582RPC;realPOSHTTP4 with lostreply0writes;reference178/626/13/diff0;strict ownerupgrade and negativeACL/path/owner;RESET216 four interruptions+writefence and retainedMFA/settings;encrypted v2 214/215/216 strictlocalR2restore exceptions[],watchdog21612healthy/Telegram0 PASS. Preceding215 reset177+4resume and CLI proved after bounded full216commitment/prefix correction. Admin1608/store203,types/lint,38affected browser0flaky/skip,PWA4,sixbuilds and network0 PASS. Final exact full push+PR CI,secrets/completebackup and owner approval required before merge. No hostedaccess/deploy/main update/newphase. See TRIAL_TC216_QUALITY_LOCAL.json;milestone pending lists below are historical.
+
 #29Oct — T-B215 local acceptance complete;exact FULL49 CI next
 
 PR43 includes G1–G6 and owner-required operational215. DB79/17healthy0/restore0;HTTP4;SDK157+576;reference177/622/13;strict owner upgrade;214+215 encrypted backup/strict local R2 restore;RESET215 four real interrupted restarts;Admin1588/store203/browser124/PWA4/sixbuilds/types/strictlint/Gitleaks0 PASS. Exact finalSHA FULL49push+PR CI,secrets andcompletebackup required before review-ready. No hosted access/deploy/main update/merge/T-C. See TRIAL_TB215_QUALITY_LOCAL.json and FRANKFURT_OWNER_UPGRADE215_AR.md.

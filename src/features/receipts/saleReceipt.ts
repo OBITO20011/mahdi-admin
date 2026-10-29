@@ -18,7 +18,9 @@ export function invoiceReceipt(invoice:ReceiptInvoice,branch?:Pick<Branch,'name'
     customerName:invoice.customerName||'زبون نقدي',branch:{name:branch?.name||'',address:branch?.address,phone:branch?.phone},
     lines:invoice.items.map(item=>({...savedReceiptLine(item),...(funding?{totalInMinorUnitsExact:funding.newTotalInMinorUnits}:{})})),subtotalInMinorUnits:jodToMinorUnits(invoice.subtotal),
     discountInMinorUnits:jodToMinorUnits(invoice.discount),deliveryInMinorUnits:jodToMinorUnits(invoice.deliveryFee??0),
-    totalInMinorUnits:jodToMinorUnits(invoice.totalAmount),paymentLabel:paymentMethodLabel(invoice.paymentMethod),
+    totalInMinorUnits:jodToMinorUnits(invoice.totalAmount),paymentLabel:paymentMethodLabel(invoice.paymentMethod,invoice.initialPaymentMethod),
+    ...(!funding?{paidInMinorUnits:jodToMinorUnits(invoice.paidAmount)}:{}),
+    ...(invoice.initialPaymentMethod?{balanceLabel:'الباقي على الحساب'}:{}),
     remainingInMinorUnits:jodToMinorUnits(invoice.remainingAmount),changeInMinorUnits:jodToMinorUnits(invoice.changeDue??0),...(funding?{exchangeFunding:funding}:{})};
 }
 /** Reprint uses the loaded saved order. It never invokes sale/payment/token creation. */

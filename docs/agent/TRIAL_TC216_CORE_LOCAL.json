@@ -1,0 +1,195 @@
+{
+  "scope": "Core216 canonical local DB and strict logical restore passed;operational and full delivery gates pending",
+  "hostedAccess": false,
+  "migrationSha256": "3a30798f8f9dd385dd915ed74b25440b8e40c6b46893541aca049a5b94e09462",
+  "candidateBytesEqualCanonicalMigration": true,
+  "candidateHistory": 177,
+  "candidateReportSha256": "83f54d62055de109996a3bef33d08a3391b4648eb10e84f2861580ce9cb6a2fa",
+  "candidateReport": "C:/Users/TOP/AppData/Local/Temp/nawasrah-partial216-coordinator-YjWV8u/report.json",
+  "cases": [
+    {
+      "method": "cash",
+      "total": 100000,
+      "paid": 60000,
+      "due": 40000,
+      "delta": {
+        "grossSalesInMinorUnits": 100000,
+        "collectedInMinorUnits": 60000,
+        "outstandingInMinorUnits": 40000,
+        "cogsInMinorUnits": 500,
+        "netProfitInMinorUnits": 99500
+      }
+    },
+    {
+      "method": "cliq",
+      "total": 100000,
+      "paid": 60000,
+      "due": 40000,
+      "delta": {
+        "grossSalesInMinorUnits": 100000,
+        "collectedInMinorUnits": 60000,
+        "outstandingInMinorUnits": 40000,
+        "cogsInMinorUnits": 500,
+        "netProfitInMinorUnits": 99500
+      }
+    }
+  ],
+  "integrity": [
+    {
+      "key": "integrity:accounting:cogs-profit",
+      "status": "healthy",
+      "issues": 0
+    },
+    {
+      "key": "integrity:accounting:customer-receivables",
+      "status": "healthy",
+      "issues": 0
+    },
+    {
+      "key": "integrity:accounting:deferred-cheques",
+      "status": "healthy",
+      "issues": 0
+    },
+    {
+      "key": "integrity:accounting:owner-withdrawals",
+      "status": "healthy",
+      "issues": 0
+    },
+    {
+      "key": "integrity:accounting:reversals",
+      "status": "healthy",
+      "issues": 0
+    },
+    {
+      "key": "integrity:accounting:supplier-balances",
+      "status": "healthy",
+      "issues": 0
+    },
+    {
+      "key": "integrity:aftercare:durable-evidence",
+      "status": "healthy",
+      "issues": 0
+    },
+    {
+      "key": "integrity:automation:outbox",
+      "status": "healthy",
+      "issues": 0
+    },
+    {
+      "key": "integrity:inventory:balances",
+      "status": "healthy",
+      "issues": 0
+    },
+    {
+      "key": "integrity:inventory:movement-arithmetic",
+      "status": "healthy",
+      "issues": 0
+    },
+    {
+      "key": "integrity:inventory:movement-ledger",
+      "status": "healthy",
+      "issues": 0
+    },
+    {
+      "key": "integrity:inventory:receiving",
+      "status": "healthy",
+      "issues": 0
+    },
+    {
+      "key": "integrity:inventory:references",
+      "status": "healthy",
+      "issues": 0
+    },
+    {
+      "key": "integrity:orders:reservations",
+      "status": "healthy",
+      "issues": 0
+    },
+    {
+      "key": "integrity:orders:stock-deductions",
+      "status": "healthy",
+      "issues": 0
+    },
+    {
+      "key": "integrity:shifts:closing",
+      "status": "healthy",
+      "issues": 0
+    },
+    {
+      "key": "integrity:shifts:snapshot",
+      "status": "healthy",
+      "issues": 0
+    }
+  ],
+  "closing": {
+    "expectedCash": 922000,
+    "difference": 0
+  },
+  "roles": true,
+  "atomicRollbackAllTables": true,
+  "exactRollbackSequenceAllocations": {
+    "pos_sale_number_seq": 1,
+    "customer_payment_number_seq": 1,
+    "inventory_movement_mutation_seq": 1,
+    "allOtherSequences": 0
+  },
+  "browser": {
+    "baseline": 22,
+    "partial": 8,
+    "engines": [
+      "Chromium",
+      "WebKit"
+    ],
+    "widths": [
+      390,
+      1440
+    ],
+    "flaky": 0,
+    "sourceCommit": "1dc47e5",
+    "report": "C:/Users/TOP/NawasrahFrankfurt/trial-tc216-local/browser-report.json",
+    "finalFrozenGateStillRequired": true
+  },
+  "notYetAccepted": [
+    "fresh-incremental reference",
+    "RESET216 interruptions and owner CLI",
+    "encrypted214/215/216 restore",
+    "current actual SDK/HTTP roles",
+    "full quality and exact SHA CI"
+  ],
+  "complete": false,
+  "canonical": {
+    "sourceCommit": "4775c592d6b051612d2f10a588743e8244d5a488",
+    "report": "C:/Users/TOP/AppData/Local/Temp/nawasrah-partial216-coordinator-vaCDpU/report.json",
+    "reportSha256": "4c85ff870ea04e955a502be7a03d3a488a77cbb82cb9681e9075c093d6c9afc5",
+    "history": 178,
+    "migrationCanonicalLfSha256": "3a30798f8f9dd385dd915ed74b25440b8e40c6b46893541aca049a5b94e09462",
+    "repositoryStayedFrozen": true,
+    "strictCatalog216": true,
+    "noBackfill": true,
+    "acceptedHistoricalLintWarnings": 16,
+    "actualBlockingProved": true,
+    "quickCustomerExistingRoleParity": true,
+    "privateEvidenceDenied": true,
+    "immutableEvidence": true,
+    "restore": {
+      "logicalCatalogDifferences": 0,
+      "allPublicDataAndSequencesIdentical": true,
+      "replayZeroWrites": true
+    },
+    "groups": [
+      "literal216 installs with official178 history, exact private/public ACL and no historical row/sequence rewrite; no new SQL lint warning",
+      "cash and CliQ100000/60000/40000: one bound receipt, immutable original debt snapshot, public safe amounts and zero-write exact replay/conflicts",
+      "existing customer creation role parity; no-role/inactive/enrolled AAL1/cross-actor/anon/service/private evidence and legacy V1 refused, immutable table updates/truncate blocked",
+      "injected receipt failure rolls back every public row and every sequence except exactly one POS number, receipt number and existing technical mutation stamp",
+      "two real independent sessions prove PostgreSQL blocking: one same-key sale/payment and two different-key sales without lock-upgrade deadlock",
+      "discount and formed parcel priced by server; cash/CliQ full Return reduces40000debt/refunds60000/restocks at exact500WAC; closing922000/zero difference and zero-write reprint",
+      "ordinary partial parcel consumes10units/5000COGS; legacy-v2/partial raw-key race fails closed in BOTH orders; prior closed snapshot unchanged",
+      "all17 existing integrity checks healthy/zero issues plus independent proof of every215 return/inspection/exchange/supplier-credit operation"
+    ]
+  },
+  "typesAndStrictLint": {
+    "sourceCommit": "4775c592d6b051612d2f10a588743e8244d5a488",
+    "passed": true,
+    "focusedTests": 41
+  }
+}

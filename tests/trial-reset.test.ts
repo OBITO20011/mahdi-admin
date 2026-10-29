@@ -72,7 +72,7 @@ test('owner binding uses a UUID and explicit seeded branch code,not role names s
  assert.doesNotMatch(preservedStateSql(id),/decrypted_secrets/u,'no Vault plaintext leaves PostgreSQL');
 });
 
-test('reset admits approved frozen prefixes and current213 only and preserves the named main warehouse,not trial locations',()=>{
+test('reset admits exact frozen prefixes through215 and current216 only and preserves the named main warehouse,not trial locations',()=>{
  assert.equal(assertResetCeiling({migrationCeiling:199}),161);
  assert.equal(assertResetCeiling({migrationCeiling:200}),162);
  assert.equal(assertResetCeiling({migrationCeiling:201}),163);
@@ -89,7 +89,8 @@ test('reset admits approved frozen prefixes and current213 only and preserves th
  assert.equal(assertResetCeiling({migrationCeiling:212}),174);
  assert.equal(assertResetCeiling({migrationCeiling:213}),175);
  assert.equal(assertResetCeiling({migrationCeiling:214}),176);
- for(const migrationCeiling of [138,198,215])assert.throws(()=>assertResetCeiling({migrationCeiling}));
+ assert.equal(assertResetCeiling({migrationCeiling:215}),177);
+ for(const migrationCeiling of [138,198,217])assert.throws(()=>assertResetCeiling({migrationCeiling}));
  const id='92600000-0000-4000-8000-000000000001';
  const record={branch:{id,code:'BR-MAIN',name_ar:'الفرع الرئيسي',is_active:true},warehouse:{id,branch_id:id,code:'WH-MAIN',name_ar:'اسم عدله المالك',is_active:true}};
  assert.match(restoreMainWarehouseSql(record),/jsonb_populate_record\(NULL::public.warehouses/u);

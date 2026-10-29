@@ -407,6 +407,7 @@ export interface Invoice {
   paidAmount: number;
   remainingAmount: number;
   paymentMethod: PaymentMethod;
+  initialPaymentMethod?: 'cash'|'cliq';
   exchangeFunding?: ExchangeReceiptFunding;
   status: 'draft' | 'posted' | 'cancelled' | 'refunded';
   isReturned?: boolean;

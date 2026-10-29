@@ -2,12 +2,13 @@
 // source writes while a verifier is running. Persist outputs after it exits.
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
-import {mkdtemp,copyFile} from 'node:fs/promises';
+import assert from 'node:assert/strict';
+import {mkdtemp,readFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
-import {inventory,writeInventory} from '../audit/table-access-inventory.mjs';
-import {serviceInventory,saveServices} from '../audit/service-access-inventory.mjs';
-import {enrichService215Evidence} from '../audit/enrich-service215-evidence.mjs';
+import {inventory} from '../audit/table-access-inventory.mjs';
+import {serviceInventory} from '../audit/service-access-inventory.mjs';
+import {sourceBeforePartial216} from '../audit/source-before-partial216.mjs';
 const exec=promisify(execFile),root=path.resolve(import.meta.dirname,'../..');
 const output=await mkdtemp(path.join(tmpdir(),'nawasrah-aftercare215-gate-'));
 const reference=path.join(output,'local-reference-through215-ready.json');
@@ -26,11 +27,13 @@ for(const args of [
  process.stdout.write(result.stdout);process.stderr.write(result.stderr);
  if(args[0]==='scripts/audit/run-table-access-diagnostic.mjs'){
   const summary=JSON.parse(result.stdout.trim().split('\n').at(-1));
-  await copyFile(path.join(summary.output,'diagnostic.json'),path.join(root,'docs/operations/TABLE_ACCESS_AFTER_215.json'));
-  await writeInventory(await inventory());
+  const measured=JSON.parse(await readFile(path.join(summary.output,'diagnostic.json'),'utf8')),saved=JSON.parse(await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_215.json'),'utf8'));
+  assert.equal(measured.applicationReady,true);assert.equal(measured.infrastructureOk,true);assert.deepEqual(measured.sourceHashes,saved.sourceHashes);assert.deepEqual(measured.coverage,saved.coverage);
+  assert.deepEqual(measured.sourceHashes,(await inventory({projectSource:sourceBeforePartial216})).sources);
  }
  if(args[0]==='scripts/audit/run-service-access-diagnostic.mjs'){
   const summary=JSON.parse(result.stdout.trim().split('\n').at(-1));
-  await enrichService215Evidence(path.join(summary.output,'diagnostic.json'));await saveServices(await serviceInventory());
+  const measured=JSON.parse(await readFile(path.join(summary.output,'diagnostic.json'),'utf8'));assert.equal(measured.ok,true);assert.equal(measured.migrationCeiling,215);
+  assert.deepEqual(measured.sourceHashes,(await serviceInventory({projectSource:sourceBeforePartial216})).sourceHashes);
  }
 }

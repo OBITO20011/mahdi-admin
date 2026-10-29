@@ -47,6 +47,7 @@ export function posV2Invoice(sale: PosV2SaleResult, actor: {id: string; name: st
     subtotal: sale.subtotalInMinorUnits / 1000, discount: sale.discountInMinorUnits / 1000, taxAmount: 0,
     totalAmount: sale.totalInMinorUnits / 1000, paidAmount: sale.amountPaidInMinorUnits / 1000,
     remainingAmount: (sale.totalInMinorUnits - sale.amountPaidInMinorUnits) / 1000, paymentMethod: sale.paymentMethod,
+    ...(sale.initialPaymentMethod?{initialPaymentMethod:sale.initialPaymentMethod}:{}),
     status: 'posted', branchId: sale.branchId, createdById: actor.id, createdByName: actor.name, createdAt,
     changeDue: sale.changeDueInMinorUnits / 1000};
 }

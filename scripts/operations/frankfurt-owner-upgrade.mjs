@@ -1,5 +1,7 @@
 // Owner-operated only. Default offline dry-run; no agent/implicit target mode.
 import assert from 'node:assert/strict';
+import {upgradePreparationCode} from './upgrade-preparation-errors.mjs';
+import {verifiedSupabaseCa} from '../backup/supabase-ca.mjs';
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
 import {readFile,writeFile,mkdir,copyFile,readdir,realpath} from 'node:fs/promises';
@@ -138,9 +140,10 @@ export async function run(args,configuration={}){
  let env,guard;
  try{
   assert.ok(process.stdin.isTTY,'OWNER_INTERACTIVE_TERMINAL_REQUIRED');
+  const ca=verifiedSupabaseCa();
   const terminal=createInterface({input:process.stdin,output:process.stdout});
   try{assert.equal(await terminal.question(versions.join('+')+' والمواءمة فقط؛ لا تفعيل إشعارات. اكتب '+TARGET.id+': '),TARGET.id,'OWNER_CONFIRMATION_REQUIRED');}finally{terminal.close();}
-  env={...process.env,PGPASSWORD:await ownerPassword(),PGSSLMODE:'require',PGCONNECT_TIMEOUT:'10',PGPASSFILE:path.join(output,'NO_PASSWORD_FILE')};
+  env={...process.env,PGPASSWORD:await ownerPassword(),PGSSLMODE:'verify-full',PGSSLROOTCERT:ca.path,PGCONNECT_TIMEOUT:'10',PGPASSFILE:path.join(output,'NO_PASSWORD_FILE')};
   delete env.PGOPTIONS;delete env.SUPABASE_DB_PASSWORD;
   const psql=process.env.NAWASRAH_PG_BIN?path.join(process.env.NAWASRAH_PG_BIN,'psql.exe'):path.join(process.env.LOCALAPPDATA,'NawasrahBackup/postgresql-17.11/bin/psql.exe');
   const executor={command:psql,args:[...connection,'-X','-q','-At','-w','-v','ON_ERROR_STOP=1',...(report.mode==='verify-only'?['-c','SET SESSION CHARACTERISTICS AS TRANSACTION READ ONLY;','-f','-']:[])],env};
@@ -173,7 +176,7 @@ export async function run(args,configuration={}){
    repair:async v=>{await cli(['migration','repair','--linked','--status','applied',v]);},
    finalDryRun:async()=>{await cli(['migration','list','--linked']);const r=await cli(['db','push','--linked','--dry-run','--skip-vault']);assert.match(r.stdout+r.stderr,/up to date/iu,'PENDING_MIGRATIONS');}});
   return report;
- }catch(error){report.ok=false;report.error=error.code==='ERR_ASSERTION'?error.message.split('\n')[0]:'OWNER_UPGRADE_FAILED';return report;}
+ }catch(error){report.ok=false;report.error=error.code==='ERR_ASSERTION'?error.message.split('\n')[0]:upgradePreparationCode(error);return report;}
  finally{
   if(guard)try{await guard.close();}catch{report.ok=false;report.guardCloseError='UPGRADE_GUARD_CLOSE_FAILED';}
   if(env)delete env.PGPASSWORD;
@@ -183,5 +186,5 @@ export async function run(args,configuration={}){
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){
  try{const r=await run(process.argv.slice(2));console.log(JSON.stringify({ok:r.ok,mode:r.mode,output:r.output,error:r.error,applied:r.applied,recorded:r.recorded,commands:r.alignmentCommands??r.commands,remoteWriteAttempted:r.remoteWriteAttempted}));if(!r.ok)process.exitCode=1;}
- catch(error){console.error(error.code==='ERR_ASSERTION'?error.message.split('\n')[0]:'OWNER_UPGRADE_PREPARATION_FAILED');process.exitCode=1;}
+ catch(error){console.error(upgradePreparationCode(error));process.exitCode=1;}
 }

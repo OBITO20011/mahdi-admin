@@ -32,7 +32,7 @@ export function reset215Arguments(args){
  return {mode,workdir,ownerId,reference};
 }
 export async function runOwnerReset215(args){
- await operationalManifest();assert.equal(operationalSchema.resetCommand,'frankfurt-owner-reset215','RESET_ADAPTER_NOT_CURRENT');
+ await operationalManifest();assert.ok([operationalSchema.ceiling,...operationalSchema.legacyArchiveCeilings].includes(215),'RESET_ADAPTER_NOT_CURRENT');
  const options=reset215Arguments(args),{workdir,ownerId,mode}=options;
  assertOutsideRepository(workdir);assertOutsideRepository(await realpath(workdir),await realpath(root));
  const output=path.join(workdir,'reset215-'+new Date().toISOString().replaceAll(/[:.]/gu,'-'));await mkdir(output);

@@ -3,43 +3,19 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/TRIAL_TB_IMPLEMENTATION_AR.md"
+      "path": "docs/agent/TRIAL_TC216_IMPLEMENTATION_AR.md"
     },
     {
       "code": " M",
-      "path": "e2e/package-d-pos-fullstack.spec.ts"
+      "path": "docs/agent/TRIAL_TC216_QUALITY_LOCAL.json"
     },
     {
       "code": " M",
-      "path": "e2e/package-f-trial-owner-w.spec.ts"
+      "path": "scripts/audit/partial216-source-pins.json"
     },
     {
       "code": " M",
-      "path": "e2e/package-f-trial-w-fields.spec.ts"
-    },
-    {
-      "code": " M",
-      "path": "e2e/phase6-package-b.spec.ts"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/aftercare215-source-pins.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/build-acl-reference213.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-reference213.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-trial-reset-runtime.mjs"
-    },
-    {
-      "code": "??",
-      "path": "docs/agent/TRIAL_TB215_CI_COMPAT_LOCAL.json"
+      "path": "tests/trial-reset.test.ts"
     }
   ]
 }

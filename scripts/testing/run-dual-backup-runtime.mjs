@@ -59,7 +59,7 @@ try{
   const comparisonNegative=await proveComparisonRejectsSyntheticDifference({archivePath:managedBackup.archivePath,passphrase,output});
   if(process.platform!=='win32')for(const proof of [restored,managedRestore,managedReplay])assert.equal(proof.logs.saved,true,'PRIVATE_SANITIZED_LOG_PERSISTENCE_REQUIRED_ON_CI');
   const fixture=localR2Fixture(),config={formatVersion:1,projectRef:'kzevmysfydaslxcerogt',connection:'postgresql://postgres@db.kzevmysfydaslxcerogt.supabase.co/postgres',protectionScope:'LocalMachine',businessAlertsEnabled:false,backupRoot,stateRoot:path.join(output,'state'),retentionCount:30};
-  const ownerMode=mode=>runOwnerMode({mode,config,force:true,env:{NAWASRAH_FF_PASSPHRASE:passphrase},dependencies:{r2Client:fixture.client}});
+  const ownerMode=mode=>{assert.ok(['Upload','VerifyRemote','RestoreRemote'].includes(mode),'LOCAL_R2_MODES_ONLY_NO_NATIVE_DATABASE');return runOwnerMode({mode,config,force:true,env:{NAWASRAH_FF_PASSPHRASE:passphrase},dependencies:{r2Client:fixture.client}});};
   await ownerMode('Upload');const count=fixture.objects.size;await ownerMode('Upload');assert.equal(fixture.objects.size,count,'IMMUTABLE_REPLAY_MUST_NOT_DUPLICATE');
   await ownerMode('VerifyRemote');
   const key=[...fixture.objects.keys()].find(k=>k.includes('/daily/')&&k.endsWith('.nwb')),original=fixture.objects.get(key).bytes;
@@ -94,7 +94,33 @@ try{
   const restore215=await restoreCompleteBackup({archivePath:backup215.archivePath,passphrase,reportPath:path.join(output,'restore215.json')});assert.equal(restore215.ok,true);assert.equal(restore215.historyCeiling,215);assert.equal(restore215.historyFiles,177);assert.equal(restore215.catalogAclOwnerSettingsMatch,true);assert.equal(restore215.allRowsAndHashesMatch,true);assert.deepEqual(restore215.exceptionsApplied,[]);
   await ownerMode('Upload');await ownerMode('VerifyRemote');await ownerMode('RestoreRemote');
   const remote215=JSON.parse(await readFile(path.join(config.stateRoot,'restore-remote.json'),'utf8'));assert.equal(remote215.historyCeiling,215);assert.equal(remote215.ok,true);
-  report={...restored,ok:true,current215:{backup:backup215,restore:restore215,remoteRestore:remote215,inspectedOperation:inspected215,old214ArchiveStillRestores:true},nativeTls,comparisonNegative,syntheticExtraRoleConfigMembershipDefaultsAndCalledUncalledSequences:true,managedProfile:{sourceSha256:profile.sourceSha256,extensions:managedPlatform,restore:managedRestore,replaySameArchive:true},fixtureOnly:true,archiveEncrypted:true,storageBytesRestored:true,r2Transport:'local-in-memory-S3',remoteDownloadRestorePassed:true,immutableReplayPassed:true,tamperedDownloadRejected:true,legacyOffsiteUntouched:true,nonzeroFinancialFixture:{receivedQuantity:20,soldQuantity:2,remainingQuantity:18,supplierDebt:10000,salesCash:2000,openingCash:10000}};
+  // Keep both earlier v2 archives.216 must prove a NONEMPTY initial-payment
+  // envelope through the same encrypted/strict restore and local R2 paths.
+  const next=new SnapshotSession('docker',args);let paid216;
+  try{
+    await next.query(await readFile(path.join(root,'supabase/migrations/216_pos_partial_payments.sql'),'utf8'));
+    await next.query("INSERT INTO supabase_migrations.schema_migrations(version)VALUES('216');");
+    const id=n=>`92600000-0000-4000-8000-${String(n).padStart(12,'0')}`;
+    const auth=sql=>`BEGIN;SELECT set_config('request.jwt.claims','{"sub":"${id(1)}","role":"authenticated","aal":"aal2"}',true);SET LOCAL ROLE authenticated;${sql}COMMIT;`;
+    const line=[{commercial_line_kind:'base_unit',product_id:id(103),base_quantity:2,price_authority:'server_catalog',line_discount_in_minor_units:0}];
+    paid216=JSON.parse((await next.query(auth(`SELECT create_pos_sale_with_initial_payment_v1('${id(201)}','${id(200)}','${id(401)}','اختبار النسخة216','${JSON.stringify(line)}'::jsonb,0,1000,'cash',NULL,'complete-backup216-partial');`))).trim().split('\n').at(-1));
+    assert.equal(paid216.totalInMinorUnits,2000);assert.equal(paid216.amountPaidInMinorUnits,1000);assert.equal(paid216.remainingInMinorUnits,1000);
+  }finally{await next.close();}
+  const old215AfterUpdate=await restoreCompleteBackup({archivePath:backup215.archivePath,passphrase,reportPath:path.join(output,'old215-after216-support.json')});assert.equal(old215AfterUpdate.ok,true);assert.equal(old215AfterUpdate.historyCeiling,215);
+  const backup216=await createCompleteBackup({projectRef:'kzevmysfydaslxcerogt',outputRoot:backupRoot,passphrase,source});assert.equal(backup216.historyCeiling,216);assert.equal(backup216.historyFiles,178);assert.equal(backup216.formatVersion,2);
+  const restore216=await restoreCompleteBackup({archivePath:backup216.archivePath,passphrase,reportPath:path.join(output,'restore216.json')});assert.equal(restore216.ok,true);assert.equal(restore216.historyCeiling,216);assert.equal(restore216.historyFiles,178);assert.equal(restore216.catalogAclOwnerSettingsMatch,true);assert.equal(restore216.allRowsAndHashesMatch,true);assert.deepEqual(restore216.exceptionsApplied,[]);
+  await ownerMode('Upload');await ownerMode('VerifyRemote');await ownerMode('RestoreRemote');
+  const remote216=JSON.parse(await readFile(path.join(config.stateRoot,'restore-remote.json'),'utf8'));assert.equal(remote216.historyCeiling,216);assert.equal(remote216.ok,true);
+  // ALL native database,keepalive and Telegram dependencies are local/injected.
+  // Never call the fixture's R2-only helper with Watchdog and a hosted URL.
+  let keepaliveCalls=0,telegramCalls=0;
+  const watchdog216=await runOwnerMode({mode:'Watchdog',config:{...config,publishableKey:'local-fixture-only'},env:{},dependencies:{source,
+    send:async()=>{telegramCalls++;return true;},fetchImpl:async(endpoint,request)=>{
+      assert.equal(new URL(endpoint).pathname,'/rest/v1/rpc/get_public_storefront_settings');assert.equal(request.method,'POST');keepaliveCalls++;
+      const db=new SnapshotSession('docker',args);try{const data=JSON.parse((await db.query('BEGIN READ ONLY;SET LOCAL ROLE anon;SELECT public.get_public_storefront_settings();ROLLBACK;')).trim().split('\n').at(-1));return new Response(JSON.stringify(data),{status:200});}finally{await db.close();}
+    }}});
+  assert.equal(watchdog216.ok,true);assert.equal(watchdog216.healthy,true);assert.equal(watchdog216.supportedSchemaCeiling,216);assert.equal(watchdog216.observedHistoryCeiling,216);assert.equal(watchdog216.internalScanHeld,true);assert.equal(watchdog216.businessAlertsEnabled,false);assert.equal(keepaliveCalls,1);assert.equal(telegramCalls,0);
+  report={...restored,ok:true,current216:{backup:backup216,restore:restore216,remoteRestore:remote216,watchdog:watchdog216,keepaliveTransport:'injected local SQL;no network',telegramCalls,initialPayment:paid216,old215ArchiveStillRestores:true},current215:{backup:backup215,restore:restore215,remoteRestore:remote215,inspectedOperation:inspected215,old214ArchiveStillRestores:true},nativeTls,comparisonNegative,syntheticExtraRoleConfigMembershipDefaultsAndCalledUncalledSequences:true,managedProfile:{sourceSha256:profile.sourceSha256,extensions:managedPlatform,restore:managedRestore,replaySameArchive:true},fixtureOnly:true,archiveEncrypted:true,storageBytesRestored:true,r2Transport:'local-in-memory-S3',remoteDownloadRestorePassed:true,immutableReplayPassed:true,tamperedDownloadRejected:true,legacyOffsiteUntouched:true,nonzeroFinancialFixture:{receivedQuantity:20,soldQuantity:2,remainingQuantity:18,supplierDebt:10000,salesCash:2000,openingCash:10000}};
 }catch(error){report.error=error.message;report.cause=error.cause?.message;process.exitCode=1;console.error(error);}
 finally{
   if(local)await exec(process.execPath,['node_modules/supabase/dist/supabase.js','stop','--no-backup','--workdir',local],{cwd:root,windowsHide:true});
