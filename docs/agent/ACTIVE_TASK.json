@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner approved T-C partial POS payments and quick customer;216 plus same-PR operational ceiling/reset/backup/reference;localonly/fullCI/PR then approvalSTOP",
-  "baselineSha": "e0ff881abce7ec51320454cf2fda85345b31e1c0",
+  "baselineSha": "c7bb064b5612571c02d9df93cb448a5f0a726d2e",
   "branch": "codex/trial-tc-partial-payment",
   "phase": "PACKAGE_F",
   "completed": [
@@ -16,10 +16,11 @@
     "Current216 unprojected SDK157table/582RPC passed;135affected history/coverage tests and changed strictlint passed;old215proofs retained",
     "Current216 reference independent178/626/13/diff0/sourcefrozen;Admin1608/store203/types/lint;12preflight/admission tests PASS",
     "Real POS HTTP fullstack4 Chromium/WebKit390 PASS:quick customer,cash/CliQ100/60/40,lostreplysamekey0writes,receipt visual;sourcefrozen",
-    "Ownerupgrade216 strict/replay0/7ACLpathowner negatives PASS;RESET216178 4interruptions/retentionMFA/privatepartial erased/concurrentwritefence PASS;offline215216/reset216 PASS"
+    "Ownerupgrade216 strict/replay0/7ACLpathowner negatives PASS;RESET216178 4interruptions/retentionMFA/privatepartial erased/concurrentwritefence PASS;offline215216/reset216 PASS",
+    "Encrypted v2 old214/old215/current216 strict restore and localR2 PASS,allrows/catalog/ACL/roles/sequences/storage match,exceptions[];watchdog21612healthy/localkeepalive/Telegram0"
   ],
   "inProgress": [
-    "Encrypted214215216 archive/strict restore/localR2 and fully injected watchdog test next"
+    "Final frontend build/type/lint/affected browser/PWA,then exact full push+PR CI for approvalSTOP"
   ],
   "notStarted": [
     "PR merge requiresownerapproval"
@@ -36,9 +37,8 @@
     "Real browser/DB4PASS,no business mocks,0hosted"
   ],
   "testsRemaining": [
-    "Full historical compatibility and current SDK/HTTP216",
-    "Independent216 reference,upgrade/reset/resume/backup214215216",
-    "Finalquality/Gitleaks/exactCI/PR approvalSTOP"
+    "Final frontend quality",
+    "Gitleaks/exact fullCI/PR ownerapprovalSTOP"
   ],
   "findings": [
     "No hosted/deploy;primary main remains9f94ec8",
@@ -52,10 +52,10 @@
     "No financialbehavior beyond approved partialPOS/payment and existingcustomercreate",
     "No merge before PR approval"
   ],
-  "nextExactAction": "Verify encrypted214215216 archives/strict restore/localR2 and injected watchdog;then fullquality/Gitleaks/exactCI and PR approvalSTOP",
+  "nextExactAction": "Run final frontend lint/types/builds/affected Chromium-WebKit/PWA;then Gitleaks,commit,push,PR and exact FULLCI;return for approvalSTOP",
   "startedAt": "2026-10-28T13:06:11.980Z",
-  "checkpointedAt": "2026-10-29T05:07:07.264Z",
-  "filesTouchedCount": 8,
-  "filesTouchedManifestSha256": "ec49fe56755402c4ff9795b01b1494c5fef4dc303e2f5d4af79905b54417bd29",
-  "workingTreeFingerprint": "452C09F7B4B8F8C46A42AFFE04B024D211416294B525D394B41C9795EA74C60F"
+  "checkpointedAt": "2026-10-29T05:16:28.153Z",
+  "filesTouchedCount": 3,
+  "filesTouchedManifestSha256": "4c48b45c11fb4011bd388eedb3ae820dec18b8a6800865f05a86d6d282f4a914",
+  "workingTreeFingerprint": "0B87F61FF945A5CA06678F569179467CBA9838547CDA9DC6CA677E7D25F5E771"
 }

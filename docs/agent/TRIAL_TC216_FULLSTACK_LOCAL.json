@@ -75,5 +75,6 @@
       "reason": "test attempted recovery behind open cart;corrected by real Back to Sale action;no force click"
     }
   ],
-  "deliveryComplete": false
+  "deliveryComplete": false,
+  "recoveryFingerprintScope": "Existing receipt token provisioned before browser recovery fingerprint;first token creation is a legitimate separate write. Canonical RPC-only replay independently proves all rows/sequences unchanged."
 }

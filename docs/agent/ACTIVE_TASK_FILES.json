@@ -3,35 +3,15 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
+      "path": "docs/agent/TRIAL_TC216_FULLSTACK_LOCAL.json"
     },
     {
       "code": " M",
       "path": "docs/operations/FRANKFURT_OWNER_UPGRADE216_AR.md"
     },
     {
-      "code": " M",
-      "path": "docs/operations/RESET216_OWNER_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/partial216-source-pins.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-dual-backup-runtime.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-partial-upgrade216-runtime.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-reset216-resume-runtime.mjs"
-    },
-    {
       "code": "??",
-      "path": "docs/agent/TRIAL_TC216_OPERATIONS_LOCAL.json"
+      "path": "docs/agent/TRIAL_TC216_BACKUP_LOCAL.json"
     }
   ]
 }
