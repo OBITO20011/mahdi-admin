@@ -29,6 +29,9 @@ test('217 notification transition preserves all five original rows and admits on
   jobs:businessCronJobs.map((j:any,i:number)=>({id:i+1,name:j.name,schedule:'fixture',command:'SELECT '+j.calls+';',host:'localhost',port:5432,database:'postgres',username:'postgres',active:true})).sort((a:any,b:any)=>a.name.localeCompare(b.name,'en'))};
  const extra={id:217,...ownerTelegramJob,host:'localhost',port:5432,database:'postgres',username:'postgres',active:false};
  const original={...old,jobs:[...old.jobs,extra]},held=expectedHeld217Notifications(original,original),base=expectedHeldNotifications(old);
+ assert.equal(JSON.stringify(held.jobs.find((j:any)=>j.name===extra.name)),JSON.stringify(extra));
+ const reordered={...original,jobs:original.jobs.map(j=>j.name===extra.name?Object.fromEntries(Object.entries(j).reverse()):j)};
+ assert.equal(JSON.stringify(expectedHeld217Notifications(original,reordered).jobs.find((j:any)=>j.name===extra.name)),JSON.stringify(reordered.jobs.find(j=>j.name===extra.name)));
  assert.deepEqual(held.trigger,base.trigger);assert.deepEqual(held.jobs.filter((j:any)=>j.name!==extra.name),base.jobs);
  for(const mutate of [
   (s:any)=>{s.jobs.find((j:any)=>j.name===extra.name).active=true;},

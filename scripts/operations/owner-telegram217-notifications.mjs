@@ -23,7 +23,9 @@ export function expectedHeld217Notifications(original,observed){
  assert.ok(!base.jobs.some(j=>j.id===row.id),'OWNER217_JOB_ID_COLLISION');
  const expected={id:row.id,...ownerTelegramJob,host:template.host,port:template.port,database:template.database,username:template.username,active:false};
  assert.deepEqual(row,expected,'OWNER217_CRON_MUST_REMAIN_EXACT_AND_HELD');
- return {...base,jobs:[...base.jobs,expected].sort((a,b)=>a.name.localeCompare(b.name,'en'))};
+ // Validation above is exact; retain PostgreSQL jsonb key order for the
+ // existing nested catalog serializer without masking any field difference.
+ return {...base,jobs:[...base.jobs,structuredClone(row)].sort((a,b)=>a.name.localeCompare(b.name,'en'))};
 }
 export async function hold217Notifications(executor,original){
  const expected=expectedHeld217Notifications(original,original);

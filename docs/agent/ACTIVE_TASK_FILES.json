@@ -3,35 +3,7 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/OWNER_TELEGRAM217_LOCAL.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/handover/ورقة-يوم-التشغيل.html"
-    },
-    {
-      "code": " M",
-      "path": "docs/handover/ورقة-يوم-التشغيل.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/RESET217_OWNER_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_217.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+      "path": "scripts/audit/enrich-service216-evidence.mjs"
     },
     {
       "code": " M",
@@ -39,130 +11,10 @@
     },
     {
       "code": " M",
-      "path": "scripts/operations/build-acl-reference217.mjs"
+      "path": "scripts/operations/owner-telegram217-notifications.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/operations/frankfurt-reference217.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-owner-telegram217-edge-gates.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-owner-telegram217-runtime.mjs"
-    },
-    {
-      "code": " M",
-      "path": "supabase/functions/owner-telegram-dispatch/handler.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/aftercare-cleanup.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/aftercare215-admission.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/aftercare215-source-compat.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/all-customer-collections203.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/bulk-product-images-contracts.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/canonical-receivables197.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/cashier-collections198.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/cheques195-admission.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/go-live-integration164.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/handover-documentation.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/handover213.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/opening-cheques196.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/owner-telegram-dispatch217.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/partial216-operations.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/partial216-source-history.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/pretrial-p1.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/product-integration171.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/product-receiving205.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/receipt210.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/sales-history204-evidence.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/service-access-inventory.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/supplier-replacement208-evidence.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/trial-owner-a.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/trial-owner-w.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/trial-ta-presentation.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/withdrawals182-admission.test.ts"
-    },
-    {
-      "code": "??",
       "path": "tests/owner-telegram217-operations.test.ts"
     }
   ]
