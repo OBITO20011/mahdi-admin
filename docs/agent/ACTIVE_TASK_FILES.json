@@ -3,43 +3,15 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/project-state.json"
-    },
-    {
-      "code": " M",
-      "path": "src/features/crm/AddCustomerModalContent.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/features/pos/PosView.tsx"
-    },
-    {
-      "code": "??",
       "path": "docs/agent/TRIAL_TC216_IMPLEMENTATION_AR.md"
     },
     {
       "code": "??",
-      "path": "docs/agent/TRIAL_TC216_QUICK_LOCAL.json"
+      "path": "docs/agent/TRIAL_TC216_PRIMITIVES_LOCAL.json"
     },
     {
       "code": "??",
-      "path": "e2e/quick-customer216-harness.html"
-    },
-    {
-      "code": "??",
-      "path": "e2e/quick-customer216-harness.tsx"
-    },
-    {
-      "code": "??",
-      "path": "e2e/quick-customer216.spec.ts"
-    },
-    {
-      "code": "??",
-      "path": "src/features/pos/partialPayment216.ts"
-    },
-    {
-      "code": "??",
-      "path": "tests/partial-payment216.test.ts"
+      "path": "scripts/testing/partial216-primitives-runtime.mjs"
     }
   ]
 }

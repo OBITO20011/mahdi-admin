@@ -3,15 +3,17 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner approved T-C partial POS payments and quick customer;216 plus same-PR operational ceiling/reset/backup/reference;localonly/fullCI/PR then approvalSTOP",
-  "baselineSha": "9f94ec8a4be0b23973f1591867fe977bc8689b26",
+  "baselineSha": "50bb73a7ad9cae0d8a8e946398ce90c69a0df186",
   "branch": "codex/trial-tc-partial-payment",
   "phase": "PACKAGE_F",
   "completed": [
     "PR43 merged after exactfeatureFULLCI;primarymain9f94ec8 with20localfiles byte-preserved",
-    "Quickcustomer reuses existing save_customer;4bothengine browser checks PASS incl HTTPpermission refusal;pure partialpayment boundary3 PASS;roottypes/lint andchangedstrictlint PASS"
+    "Quickcustomer reuses existing save_customer;4bothengine browser checks PASS incl HTTPpermission refusal;pure partialpayment boundary3 PASS;roottypes/lint andchangedstrictlint PASS",
+    "Actual215 primitives inoneSQLtransaction:100000sales/60000cashorCliQ/40000canonicaldebt/stock-1/cogs500/profit99500/onevoucher;new216RPC stillnotimplemented",
+    "PR43 main9f94ec8 FULL50/secrets/completebackup SUCCESS;primarymetadata215/177validatedoffline"
   ],
   "inProgress": [
-    "Inspect POS215 locking/replay/payment/debt/refund contracts before versioned216 implementation"
+    "Implement immutable216 atomicPOS partialpayment coordinator and exact replay;then samePR216ops/reference/QA"
   ],
   "notStarted": [
     "PR merge requiresownerapproval"
@@ -22,16 +24,18 @@
   "testsPassed": [
     "Partialpayment pureboundaries3",
     "Quickcustomer4 Chromium/WebKit390 no retries;existingRPCpayload and42501response no selection",
-    "Root types/lint+changedstrictlint"
+    "Root types/lint+changedstrictlint",
+    "Existing215primitiveactualDB cash/CliQ100/60/40 andfinancialfacts once"
   ],
   "testsRemaining": [
-    "ActualDBnumericrolesracesreplay/returns/shifts/integrity",
-    "UIbothengines/fullquality/strict216upgrade/reference/reset/backup215compat/FULLCI"
+    "New216RPCroles/races/idempotency/refund/closing/integrity",
+    "UIpartialPOS+receipt/recovery",
+    "Operational216samePRmanifest/backup/reset/resume/reference/upgrade",
+    "Finaltypes/lint/Admin/store/build/PWA/browsers/Gitleaks/fullCI"
   ],
   "findings": [
     "Primarymain9f94ec8;owner20files preserved;owner approved project-state215 alignment with originalexternalbackup and localadditions retained",
-    "No migration216 orfinancialwriter yet;no claim ofatomicpayment/rolesruntime",
-    "Earlier pure lint process overlapped unrelated quick UI authoring;initiallintnotusedas sourcefrozenproof;finalquickverificationfinishedbeforethissave"
+    "No migration216 orfinancialwriter yet;no claim ofatomicpayment/rolesruntime"
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -41,10 +45,10 @@
     "No financialbehavior beyond approved partialPOS/payment and existingcustomercreate",
     "No merge before PR approval"
   ],
-  "nextExactAction": "Save/push quickcustomer216 WIP then implement atomicpartialPOS216/replay andoperational216 ceiling/reset/reference in samePR;no hostedaccess",
+  "nextExactAction": "Implement immutable216 atomic partialPOS coordinator around existingdebtPOS+payment primitives,bind paid/method/key/result;then DBroles/races/refunds/closing before UI andall216ops samePR",
   "startedAt": "2026-10-28T13:06:11.980Z",
-  "checkpointedAt": "2026-10-29T01:37:43.397Z",
-  "filesTouchedCount": 10,
-  "filesTouchedManifestSha256": "71db5374158e53ab6e8a43ba5d004b265c6eff5d1fe78e6fd36d5ab617002975",
-  "workingTreeFingerprint": "A9F576A78B260CCE708D35AADBFC242E365769B984B96D1A36AE8D9ED9516009"
+  "checkpointedAt": "2026-10-29T01:48:58.534Z",
+  "filesTouchedCount": 3,
+  "filesTouchedManifestSha256": "a7a1073abee10d561d53427397b49183592dabeb8df507e9ab9c31b05d797ea8",
+  "workingTreeFingerprint": "0001AD7DFD02E24BF437E74BF1F3E77714BB5EAC9BBA7B87A83AA4B0C7C2E68A"
 }

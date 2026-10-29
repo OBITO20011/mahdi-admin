@@ -1,0 +1,49 @@
+{
+  "scope": "Existing215 primitive composition in one transaction;new216RPC still required",
+  "hostedAccess": false,
+  "ok": true,
+  "source": "scripts/testing/partial216-primitives-runtime.mjs",
+  "sourceSha256": "edfc5cf14bf18d63692f4cd2c9023b72f3abcc90a2c3dbf1de4e35379260ce11",
+  "evidence": "C:/Users/TOP/AppData/Local/Temp/nawasrah-partial216-primitives-U9JrSN",
+  "cases": [
+    {
+      "method": "cash",
+      "total": 100000,
+      "paid": 60000,
+      "due": 40000,
+      "stock": 9,
+      "oneVoucher": true,
+      "shiftBound": true,
+      "salesDelta": 100000,
+      "cogsDelta": 500,
+      "profitDelta": 99500,
+      "collectedDelta": 60000,
+      "cashDelta": 60000,
+      "cliqDelta": 0,
+      "outstandingDelta": 40000
+    },
+    {
+      "method": "cliq",
+      "total": 100000,
+      "paid": 60000,
+      "due": 40000,
+      "stock": 9,
+      "oneVoucher": true,
+      "shiftBound": true,
+      "salesDelta": 100000,
+      "cogsDelta": 500,
+      "profitDelta": 99500,
+      "collectedDelta": 60000,
+      "cashDelta": 0,
+      "cliqDelta": 60000,
+      "outstandingDelta": 40000
+    }
+  ],
+  "rejectedEarlierProbe": "Test initially assumed a nonexistent customer balance column and failed before sale;fixed to canonical phase42_customer_receivable_total_internal",
+  "deliveryReady": false,
+  "new216RpcImplemented": false,
+  "remaining": [
+    "Immutable atomic216 coordinator/replay/DBroles+race+refund+closing proof",
+    "216operationalmanifest/backup/reset/resume/upgrade/reference andfullCI"
+  ]
+}
