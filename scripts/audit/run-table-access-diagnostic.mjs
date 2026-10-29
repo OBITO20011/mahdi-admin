@@ -1,4 +1,5 @@
 import {sourceBeforeAftercare215} from './source-before-aftercare215.mjs';
+import {sourceBeforePartial216} from './source-before-partial216.mjs';
 import {loadPinnedPostgrestImage} from '../testing/pinned-postgrest-image.mjs';
 // Diagnostic, not a grant repair: fresh local001-138, real JWT/PostgREST roles.
 // Expected permission denials are findings, not a passing application-readiness gate.
@@ -16,7 +17,8 @@ import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
 const exec=promisify(execFile),root=path.resolve(import.meta.dirname,'../..');
 const option=n=>process.argv.includes(n)?process.argv[process.argv.indexOf(n)+1]:null;
 const ceiling=Number(option('--migration-ceiling')||(process.argv.includes('--require-access')?199:138));
-assert.ok([138,150,164,171,182,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215].includes(ceiling),'ONLY_APPROVED_AUDIT_CEILINGS');
+assert.ok([138,150,164,171,182,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216].includes(ceiling),'ONLY_APPROVED_AUDIT_CEILINGS');
+const projectSource=ceiling<215?sourceBeforeAftercare215:ceiling===215?sourceBeforePartial216:undefined;
 const manifest=(await readdir(path.join(root,'supabase/migrations'))).filter(n=>/^\d{3}_.+\.sql$/u.test(n)&&Number(n.slice(0,3))<=ceiling).sort();
 const project=option('--local-project')||'nawasrah-table-audit-'+randomBytes(4).toString('hex')+'-test';
 assert.match(project,/^nawasrah-table-audit(?:-[a-f0-9]+)?-test$/u);
@@ -37,7 +39,7 @@ try{
   workdir=JSON.parse(boot.stdout).isolatedProjectRoot;}
  assert.deepEqual(await json('SELECT jsonb_agg(version ORDER BY version) FROM supabase_migrations.schema_migrations;'),manifest.map(n=>n.slice(0,3)),'EXACT_APPROVED_HISTORY_REQUIRED');
  const catalog=JSON.parse(await sql(schemaCatalogSql));report.catalog=catalog;
- const source=await inventory({projectSource:ceiling<215?sourceBeforeAftercare215:undefined});report.sourceTotals=source.totals;report.sourceHashes=source.sources;
+ const source=await inventory({projectSource});report.sourceTotals=source.totals;report.sourceHashes=source.sources;
  report.stage='fixture';
  // Explicit LOCAL notification isolation;never inspect Vault or call an Edge URL.
  await sql(`ALTER TABLE public.orders DISABLE TRIGGER trg_notify_new_website_order_push;
@@ -130,7 +132,7 @@ try{
   }
  }
  // Source files may not drift while this evidence is collected.
- assert.deepEqual((await inventory({projectSource:ceiling<215?sourceBeforeAftercare215:undefined})).sources,source.sources,'SOURCE_CHANGED_DURING_DIAGNOSTIC');
+ assert.deepEqual((await inventory({projectSource})).sources,source.sources,'SOURCE_CHANGED_DURING_DIAGNOSTIC');
  report.coverage=verifyProbeCoverage(source,report.results);
  report.infrastructureOk=true;report.applicationReady=report.results.every(r=>!['permission_denied','other_error'].includes(r.outcome));
  report.counts=Object.fromEntries(['success','permission_denied','zero_rows','other_error'].map(k=>[k,report.results.filter(r=>r.outcome===k).length]));

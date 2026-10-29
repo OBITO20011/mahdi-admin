@@ -53,7 +53,7 @@ test('197 is explicit,read-only readers only,historical196 pin frozen and runtim
  assert.deepEqual(futureMigrationViolations(sql),[]);assert.equal([...sql.matchAll(/CREATE OR REPLACE FUNCTION/gu)].length,2);
  assert.doesNotMatch(sql,/CREATE TABLE|CREATE INDEX|INSERT INTO|DELETE FROM|GRANT EXECUTE/u);
  const state=JSON.parse(read('docs/agent/project-state.json'));
- assert.equal(state.migrationCeiling,215);assert.equal(state.migration197CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());
+ assert.equal(state.migrationCeiling,216);assert.equal(state.migration197CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());
  //Exactly one empty EOF line was removed after the full-scale proof;every SQL
  //byte,including function bodies,otherwise remains bound to that executed pin.
  assert.equal(createHash('sha256').update(sql+'\n').digest('hex').toUpperCase(),'91C5439275CE8F101D897213BA4C372697900EA5AF8F35BA04F305B05EBF9D48');
@@ -65,7 +65,7 @@ test('197 is explicit,read-only readers only,historical196 pin frozen and runtim
 });
 test('197 genuine current SDK evidence exactly covers all current source sites without new browser grants',async()=>{
  const source=await inventory(),proof=JSON.parse(read('docs/operations/TABLE_ACCESS_AFTER_197.json'));
- assert.equal(source.migrationCeiling,215);assert.equal(proof.migrationCeiling,197);assert.equal(proof.managedAccess,false);
+ assert.equal(source.migrationCeiling,216);assert.equal(proof.migrationCeiling,197);assert.equal(proof.managedAccess,false);
  assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);assert.deepEqual(proof.sourceHashes,await sourceBefore198Presentation(source.sources));
  assert.deepEqual(proof.coverage,verifyProbeCoverage(source,proof.results));assert.ok(proof.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));
 });

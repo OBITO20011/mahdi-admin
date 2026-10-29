@@ -25,7 +25,7 @@ test('Edge source imports and handler code remain exactly at the merged audit ba
 import {assertExternalDependents} from '../scripts/operations/trial-reset-core.mjs';
 test('213 reset admits only its reviewed Storage metadata policy and retains the external dependency boundary',()=>{
  const row={class:'pg_policy',schema:'storage',relation:'storage.objects',policy:'ERP staff can read own product image metadata',description:'213 metadata policy'};
- for(const ceiling of [213,214,215])assert.doesNotThrow(()=>assertExternalDependents([row],ceiling));
- for(const ceiling of [182,199,212,216])assert.throws(()=>assertExternalDependents([row],ceiling),/UNREVIEWED_EXTERNAL_DROP_DEPENDENT/);
+ for(const ceiling of [213,214,215,216])assert.doesNotThrow(()=>assertExternalDependents([row],ceiling));
+ for(const ceiling of [182,199,212,217])assert.throws(()=>assertExternalDependents([row],ceiling),/UNREVIEWED_EXTERNAL_DROP_DEPENDENT/);
  for(const bad of [{...row,schema:'auth'},{...row,class:'pg_proc'},{...row,relation:'storage.buckets'},{...row,policy:'Unreviewed policy'}])assert.throws(()=>assertExternalDependents([bad],213),/UNREVIEWED_EXTERNAL_DROP_DEPENDENT/);
 });

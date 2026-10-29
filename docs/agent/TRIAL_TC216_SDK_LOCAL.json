@@ -1,0 +1,48 @@
+{
+  "hostedAccess": false,
+  "ceiling": 216,
+  "history": 178,
+  "currentSourcesUnprojected": true,
+  "oldReferencesModified": false,
+  "tables": {
+    "path": "docs/operations/TABLE_ACCESS_AFTER_216.json",
+    "sha256": "b22834bdbea3421874d0c6af92ae4a4926811165f250731b7e768bdf20cc93e7",
+    "startedAt": "2026-10-29T04:12:56.177Z",
+    "endedAt": "2026-10-29T04:18:37.539Z",
+    "results": 157,
+    "ok": true,
+    "counts": {
+      "success": 154,
+      "permission_denied": 0,
+      "zero_rows": 3,
+      "other_error": 0
+    },
+    "sourceFiles": 361
+  },
+  "services": {
+    "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json",
+    "sha256": "718fce369c87d8a2ef01b4e1dc357e145b2d5dc90c4a6e6729f2ebf8b1f122a6",
+    "startedAt": "2026-10-29T04:19:51.001Z",
+    "endedAt": "2026-10-29T04:21:47.528Z",
+    "results": 582,
+    "ok": true,
+    "counts": {
+      "expectedPermissionDenials": 18
+    },
+    "sourceFiles": 361
+  },
+  "compatibilityRegression": {
+    "tests": 135,
+    "pass": 135,
+    "fail": 0,
+    "skipped": 0
+  },
+  "strictChangedLint": true,
+  "deliveryComplete": false,
+  "remaining": [
+    "independent216 reference",
+    "strict owner upgrade/reset/resume/encrypted restore",
+    "actual browser DB flow",
+    "full quality and exact SHA CI"
+  ]
+}

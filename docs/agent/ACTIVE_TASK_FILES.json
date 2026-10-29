@@ -3,15 +3,175 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/TRIAL_TC216_IMPLEMENTATION_AR.md"
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/enrich-service215-evidence.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/run-service-access-diagnostic.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/run-table-access-diagnostic.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-aftercare215.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/build-acl-reference215.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/frankfurt-reference215.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/trial-reset-core.mjs"
+    },
+    {
+      "code": " M",
+      "path": "tests/aftercare215-admission.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/aftercare215-source-compat.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/all-customer-collections203.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/bulk-product-images-contracts.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/canonical-receivables197.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/cashier-collections198.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/cheques195-admission.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/go-live-integration164.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/handover-documentation.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/handover213.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/opening-cheques196.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/order-accounts.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/pretrial-p1.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/product-integration171.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/product-receiving205.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/receipt210.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/sales-history204-evidence.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/service-access-inventory.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/supplier-replacement208-evidence.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-owner-a.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-owner-w.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-ta-presentation.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/withdrawals182-admission.test.ts"
     },
     {
       "code": "??",
-      "path": "docs/agent/TRIAL_TC216_PRIMITIVES_LOCAL.json"
+      "path": "docs/agent/TRIAL_TC216_SDK_LOCAL.json"
     },
     {
       "code": "??",
-      "path": "scripts/testing/partial216-primitives-runtime.mjs"
+      "path": "docs/operations/TABLE_ACCESS_AFTER_216.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/enrich-service216-evidence.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/partial216-source-pins.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/pin-partial216-sources.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-partial216.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-partial-upgrade216-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-reset216-cli-contract.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-reset216-resume-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/partial216-source-history.test.ts"
     }
   ]
 }

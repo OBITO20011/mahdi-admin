@@ -115,7 +115,7 @@ export const externalDependentsSql=`WITH RECURSIVE deps(classid,objid,objsubid) 
 export function assertExternalDependents(rows,migrationCeiling=182){
  const allowed=['ERP staff can upload own product images','ERP staff can update own product images','ERP staff can delete own product images'];
  //213 recreates this exact reviewed storage policy after rebuilding public helpers.
- if([213,214,operationalSchema.ceiling].includes(migrationCeiling))allowed.push('ERP staff can read own product image metadata');
+ if([213,214,215,operationalSchema.ceiling].includes(migrationCeiling))allowed.push('ERP staff can read own product image metadata');
  for(const r of rows){if(r.schema==='pg_toast')continue;
   if(r.class==='pg_trigger'&&r.schema==='auth'&&r.internalFk===true)continue;
   if(r.class==='pg_publication_rel'&&r.publication==='supabase_realtime')continue;

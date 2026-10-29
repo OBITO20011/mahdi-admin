@@ -9,7 +9,7 @@ const read=(file:string)=>readFileSync(file,'utf8').replaceAll('\r\n','\n');
 test('215 admits only the exact reviewed new migration;historical214 is unchanged and arbitrary helper/byte edits fail',()=>{
  const sql=read('supabase/migrations/215_inspected_aftercare_and_supplier_credit.sql');
  const state=JSON.parse(read('docs/agent/project-state.json'));
- assert.equal(state.migrationCeiling,215);
+ assert.equal(state.migrationCeiling,216);
  assert.equal(state.migration215CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());
  assert.deepEqual(futureMigrationViolations(sql),[]);
  assert.ok(futureMigrationViolations(sql+'\n-- unreviewed\n').length>0);
