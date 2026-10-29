@@ -30,7 +30,8 @@ export function ReceiptDocument({receipt}:{receipt:ReceiptDocumentData}){
       {receipt.exchangeFunding&&<div aria-label="مقابل التبديل وفرق المال" style={{margin:'8px 0',borderTop:'1px dashed #9ca3af',paddingTop:6}}>
         <dt>تفصيل التبديل</dt><dd style={{margin:0}}>{exchangeFundingLines(receipt.exchangeFunding).map(line=><p key={line} style={{margin:0,fontWeight:700}}>{line}</p>)}</dd>
       </div>}
-      {(receipt.remainingInMinorUnits??0)>0&&<ReceiptAmount label="المتبقي على العميل" amount={receipt.remainingInMinorUnits!}/>}
+      {receipt.paidInMinorUnits!==undefined&&<ReceiptAmount label="المدفوع" amount={receipt.paidInMinorUnits}/>}
+      {(receipt.remainingInMinorUnits??0)>0&&<ReceiptAmount label={receipt.balanceLabel??'المتبقي على العميل'} amount={receipt.remainingInMinorUnits!}/>}
       {(receipt.changeInMinorUnits??0)>0&&<ReceiptAmount label="الباقي للزبون" amount={receipt.changeInMinorUnits!}/>}
     </dl>
     <footer style={{textAlign:'center',borderTop:'1px dashed #9ca3af',marginTop:8,paddingTop:8}}>شكراً لتعاملكم معنا</footer>

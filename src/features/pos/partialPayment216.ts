@@ -5,6 +5,16 @@ export interface PartialPayment216 {
   initialPaymentMethod: 'cash' | 'cliq' | null;
 }
 
+export function initialPaymentText216(text: string): number {
+  const normalized = text.trim().replace(/[٠-٩۰-۹]/gu, c => String(c.charCodeAt(0) - (c <= '٩' ? 0x660 : 0x6f0))).replace('٫', '.');
+  if (!normalized) return 0;
+  if (!/^\d+(?:\.\d{0,3})?$/u.test(normalized)) throw new Error('اكتب المدفوع الآن بثلاث خانات عشرية كحد أقصى.');
+  const [whole, fraction = ''] = normalized.split('.');
+  const minor = BigInt(whole) * 1000n + BigInt(fraction.padEnd(3, '0'));
+  if (minor > BigInt(Number.MAX_SAFE_INTEGER)) throw new Error('المدفوع الآن أكبر من الحد المسموح.');
+  return Number(minor);
+}
+
 // Presentation/request planning only. SQL must independently price and validate
 // the sale and commit the initial payment in the same transaction.
 export function partialPayment216(total: number, paid: number,

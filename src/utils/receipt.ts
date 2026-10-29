@@ -27,14 +27,15 @@ export interface ReceiptShareInput {
   totalAmount: number;
   paymentMethod: PaymentMethod;
   paidAmount: number;
+  initialPaymentMethod?: 'cash'|'cliq';
   remainingAmount: number;
   changeDue: number;
   publicReceiptUrl?: string;
   exchangeFunding?: ExchangeReceiptFunding;
 }
 
-export function paymentMethodLabel(method: PaymentMethod): string {
-  return (
+export function paymentMethodLabel(method: PaymentMethod, initial?:'cash'|'cliq'): string {
+  const label = (
     {
       cash: 'كاش',
       cash_on_delivery: 'كاش عند الاستلام',
@@ -46,6 +47,7 @@ export function paymentMethodLabel(method: PaymentMethod): string {
       exchange_credit: 'تبديل · مقابل داخلي',
     }[method] || method
   );
+  return initial&&method==='debt'?label+' · دفعة '+(initial==='cash'?'كاش':'CliQ'):label;
 }
 
 const money = (value: number) => `${value.toFixed(3)} د.أ`;
@@ -72,10 +74,11 @@ export function buildReceiptShareText(input: ReceiptShareInput): string {
     `المجموع الفرعي: ${input.exchangeFunding?formatExactMinorJod(input.exchangeFunding.newTotalInMinorUnits):money(input.subtotal)}`,
     input.discount > 0 ? `الخصم: ${money(input.discount)}` : '',
     `الإجمالي: ${input.exchangeFunding?formatExactMinorJod(input.exchangeFunding.newTotalInMinorUnits):money(input.totalAmount)}`,
-    `طريقة الدفع: ${paymentMethodLabel(input.paymentMethod)}`,
+    `طريقة الدفع: ${paymentMethodLabel(input.paymentMethod,input.initialPaymentMethod)}`,
+    ...(!input.exchangeFunding?[`المدفوع: ${money(input.paidAmount)}`]:[]),
     ...(input.exchangeFunding?exchangeFundingLines(input.exchangeFunding):[]),
     input.remainingAmount > 0
-      ? `المتبقي على العميل: ${money(input.remainingAmount)}`
+      ? `${input.initialPaymentMethod?'الباقي على الحساب':'المتبقي على العميل'}: ${money(input.remainingAmount)}`
       : '',
     input.changeDue > 0 ? `الباقي للعميل: ${money(input.changeDue)}` : '',
     input.publicReceiptUrl ? `رابط الإيصال الإلكتروني: ${input.publicReceiptUrl}` : '',

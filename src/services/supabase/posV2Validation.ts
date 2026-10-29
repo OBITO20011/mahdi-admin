@@ -25,6 +25,13 @@ export function posV2RequestValid(value: unknown): value is CreatePosSaleV2Input
     || !money(value.discountInMinorUnits) || !money(value.amountReceivedInMinorUnits)
     || typeof value.idempotencyKey !== 'string' || !value.idempotencyKey.trim()
     || !Array.isArray(value.lines) || !value.lines.length) return false;
+  if (value.initialPayment !== undefined) {
+    const initial = value.initialPayment;
+    if (!object(initial) || value.paymentMethod !== 'debt' || value.amountReceivedInMinorUnits !== 0
+      || !positive(initial.amountInMinorUnits) || !['cash', 'cliq'].includes(String(initial.method))
+      || (initial.referenceNumber !== undefined && (typeof initial.referenceNumber !== 'string'
+        || initial.referenceNumber.trim().length > 200))) return false;
+  }
   return value.lines.every(line => {
     if (!object(line) || (line.price_authority !== undefined && line.price_authority !== 'server_catalog')
       || (line.line_discount_in_minor_units !== undefined && line.line_discount_in_minor_units !== 0)) return false;
@@ -40,7 +47,12 @@ export function posV2RequestValid(value: unknown): value is CreatePosSaleV2Input
 }
 
 export function posV2ResultMatches(input: CreatePosSaleV2Input, value: unknown): value is PosV2SaleResult {
-  if (!posV2RequestValid(input) || !object(value) || value.success !== true || !uuid(value.operationId) || !uuid(value.orderId)
+  if (!posV2RequestValid(input) || !object(value)) return false;
+  const initial = input.initialPayment;
+  if (initial && (!uuid(value.initialPaymentId) || value.initialPaymentMethod !== initial.method
+    || !money(value.totalInMinorUnits) || initial.amountInMinorUnits >= value.totalInMinorUnits
+    || value.remainingInMinorUnits !== value.totalInMinorUnits - initial.amountInMinorUnits)) return false;
+  if (value.success !== true || !uuid(value.operationId) || !uuid(value.orderId)
     || typeof value.orderNumber !== 'string' || !value.orderNumber
     || typeof value.customerName !== 'string' || !value.customerName
     || value.warehouseId !== input.warehouseId || value.branchId !== input.branchId
@@ -50,8 +62,8 @@ export function posV2ResultMatches(input: CreatePosSaleV2Input, value: unknown):
     || !money(value.totalInMinorUnits) || !money(value.amountPaidInMinorUnits) || !money(value.changeDueInMinorUnits)
     || value.discountInMinorUnits !== input.discountInMinorUnits
     || value.totalInMinorUnits !== value.subtotalInMinorUnits - value.discountInMinorUnits
-    || value.amountPaidInMinorUnits !== (input.paymentMethod === 'debt' ? 0 : value.totalInMinorUnits)
-    || value.paymentStatus !== (input.paymentMethod === 'debt' ? 'unpaid' : 'paid')
+    || value.amountPaidInMinorUnits !== (initial ? initial.amountInMinorUnits : input.paymentMethod === 'debt' ? 0 : value.totalInMinorUnits)
+    || value.paymentStatus !== (initial ? 'partially_paid' : input.paymentMethod === 'debt' ? 'unpaid' : 'paid')
     || value.changeDueInMinorUnits !== (input.paymentMethod === 'cash'
       ? Math.max(input.amountReceivedInMinorUnits - value.totalInMinorUnits, 0) : 0)) return false;
   let gross = 0, discount = 0, net = 0;

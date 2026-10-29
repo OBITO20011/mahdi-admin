@@ -14,6 +14,7 @@ export interface ReceiptDocumentData {
   branch:{name:string;address?:string;phone?:string};lines:CommercialReceiptLine[];
   subtotalInMinorUnits:number;discountInMinorUnits:number;deliveryInMinorUnits:number;
   totalInMinorUnits:number;paymentLabel:string;remainingInMinorUnits?:number;changeInMinorUnits?:number;
+  paidInMinorUnits?:number;balanceLabel?:string;
   exchangeFunding?:ExchangeReceiptFunding;
 }
 const count=(value:number)=>Number.isSafeInteger(value)&&value>=0?String(value):'غير متاح';
@@ -50,7 +51,8 @@ export function receiptDocumentShareText(receipt:ReceiptDocumentData,url?:string
     receipt.deliveryInMinorUnits>0?`التوصيل: ${receiptMoney(receipt.deliveryInMinorUnits)}`:'',
     `الإجمالي: ${receipt.exchangeFunding?formatExactMinorJod(receipt.exchangeFunding.newTotalInMinorUnits):receiptMoney(receipt.totalInMinorUnits)}`,`طريقة الدفع: ${receipt.paymentLabel}`,
     ...(receipt.exchangeFunding?exchangeFundingLines(receipt.exchangeFunding):[]),
-    (receipt.remainingInMinorUnits??0)>0?`المتبقي على العميل: ${receiptMoney(receipt.remainingInMinorUnits!)}`:'',
+    receipt.paidInMinorUnits!==undefined?`المدفوع: ${receiptMoney(receipt.paidInMinorUnits)}`:'',
+    (receipt.remainingInMinorUnits??0)>0?`${receipt.balanceLabel??'المتبقي على العميل'}: ${receiptMoney(receipt.remainingInMinorUnits!)}`:'',
     (receipt.changeInMinorUnits??0)>0?`الباقي للعميل: ${receiptMoney(receipt.changeInMinorUnits!)}`:'',
     url?`رابط الإيصال الإلكتروني: ${url}`:''].filter(Boolean).join('\n');
 }
