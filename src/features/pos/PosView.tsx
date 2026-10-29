@@ -779,7 +779,7 @@ export const PosView: React.FC = () => {
                 className="min-h-11 flex items-center gap-1.5 rounded-xl border border-nw-ok/30 bg-nw-ok-bg/10 px-2.5 py-1.5 text-[10px] font-extrabold text-nw-ok transition hover:bg-nw-ok-bg/20"
               >
                 <UserPlus className="h-3.5 w-3.5" />
-                إضافة عميل جديد
+                زبون جديد سريع
               </button>
             </div>
             <div className="relative">
@@ -964,10 +964,11 @@ export const PosView: React.FC = () => {
       <Modal
         isOpen={isAddCustomerOpen}
         onClose={() => setIsAddCustomerOpen(false)}
-        title="إضافة عميل جديد"
+        title="زبون جديد سريع"
         subtitle="سيُحفظ في العملاء ويُختار لهذه الفاتورة مباشرة"
       >
         <AddCustomerModalContent
+          quick
           onClose={() => setIsAddCustomerOpen(false)}
           onCreated={handleCustomerCreated}
         />

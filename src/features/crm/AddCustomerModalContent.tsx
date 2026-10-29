@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useId, useState } from 'react';
 import { BadgeCheck, Loader2 } from 'lucide-react';
 import { JORDAN_GOVERNORATES } from '../../constants';
 import { createCustomerCrmInSupabase } from '../../services/supabase/crm.service';
@@ -13,11 +13,13 @@ export interface CreatedCustomer {
 interface AddCustomerModalContentProps {
   onClose: () => void;
   onCreated?: (customer: CreatedCustomer) => void;
+  quick?: boolean;
 }
 
 export const AddCustomerModalContent: React.FC<
   AddCustomerModalContentProps
-> = ({ onClose, onCreated }) => {
+> = ({ onClose, onCreated, quick = false }) => {
+  const fieldId = useId();
   const { setToast } = useAppStoreActions();
   const [fullName, setFullName] = useState('');
   const [phone, setPhone] = useState('');
@@ -42,8 +44,8 @@ export const AddCustomerModalContent: React.FC<
       const result = await createCustomerCrmInSupabase({
         fullName: normalizedName,
         phone: normalizedPhone,
-        whatsapp: whatsapp.trim() || undefined,
-        governorate: governorate || undefined,
+        whatsapp: quick ? undefined : whatsapp.trim() || undefined,
+        governorate: quick ? undefined : governorate || undefined,
         customerType: 'wholesale',
       });
 
@@ -79,30 +81,32 @@ export const AddCustomerModalContent: React.FC<
       </div>
 
       {error && (
-        <div className="rounded-xl border border-nw-bad bg-nw-bad-bg p-3 text-nw-bad">
+        <div role="alert" className="rounded-xl border border-nw-bad bg-nw-bad-bg p-3 text-nw-bad">
           {error}
         </div>
       )}
 
       <div>
-        <label className="mb-1 block font-bold text-nw-text">
+        <label htmlFor={`${fieldId}-name`} className="mb-1 block font-bold text-nw-text">
           اسم العميل أو المحل *
         </label>
         <input
+          id={`${fieldId}-name`}
           type="text"
           required
           value={fullName}
           onChange={(event) => setFullName(event.target.value)}
           placeholder="مثال: سوبرماركت الرمثا"
-          className="w-full rounded-xl border border-nw-border bg-nw-bg p-2.5 text-nw-text focus:border-nw-ok focus:outline-none"
+          className="min-h-11 w-full rounded-xl border border-nw-border bg-nw-bg p-2.5 text-base text-nw-text focus:border-nw-ok focus:outline-none"
         />
       </div>
 
       <div>
-        <label className="mb-1 block font-bold text-nw-text">
+        <label htmlFor={`${fieldId}-phone`} className="mb-1 block font-bold text-nw-text">
           رقم الهاتف *
         </label>
         <input
+          id={`${fieldId}-phone`}
           type="tel"
           inputMode="tel"
           dir="ltr"
@@ -110,10 +114,11 @@ export const AddCustomerModalContent: React.FC<
           value={phone}
           onChange={(event) => setPhone(event.target.value)}
           placeholder="079XXXXXXX"
-          className="w-full rounded-xl border border-nw-border bg-nw-bg p-2.5 text-left text-nw-text focus:border-nw-ok focus:outline-none"
+          className="min-h-11 w-full rounded-xl border border-nw-border bg-nw-bg p-2.5 text-base text-left text-nw-text focus:border-nw-ok focus:outline-none"
         />
       </div>
 
+      {!quick && <>
       <div>
         <label className="mb-1 block font-bold text-nw-text">
           رقم الواتساب (اختياري)
@@ -145,6 +150,7 @@ export const AddCustomerModalContent: React.FC<
         </select>
       </div>
 
+      </>}
       <button
         type="submit"
         disabled={saving}

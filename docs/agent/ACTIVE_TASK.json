@@ -2,50 +2,49 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner-approved T-B G1-G6 plus same-PR215 backup/restore/watchdog/reset-resume/one schema authority and upgrade safety;local proof/fullCI/PR43 then approvalSTOP",
-  "baselineSha": "6e25a849333f80346cd37f42065ef532ebe46fb1",
-  "branch": "codex/trial-tb-stage2",
+  "objective": "Owner approved T-C partial POS payments and quick customer;216 plus same-PR operational ceiling/reset/backup/reference;localonly/fullCI/PR then approvalSTOP",
+  "baselineSha": "9f94ec8a4be0b23973f1591867fe977bc8689b26",
+  "branch": "codex/trial-tc-partial-payment",
   "phase": "PACKAGE_F",
   "completed": [
-    "Operations215 foundationnative28/strictchangedlintPASS;legacy214v2preservedinimplementation,RESET215sharedguard,5registeredtaskpreflight;actualruntimepending",
-    "Fresh215 vs214+literal215/officialrepair matches0;reference177/622functions/13Realtime/sourcefrozen;outsideGitready215 savednewname;oldrefsuntouched",
-    "Owner215 localapply/replay/strictverify0writes+5negativeACLownerpathpassed;offline215no network/reset215CLI12PASS;freshref177/622/13diff0",
-    "Realv2 encrypted214and215 backup/strictrestore/R2localUploadVerifyRestoreRemotePASS;215148tables/177files/17healthy0/noexceptions;old214archiveafter215stillrestores;ownerarchiveuntouched",
-    "RESET215 actualAuth/MFA/Storage ordinary177 plus4resumes allcatalogACL0/retentionrawsame;missing/tampered/otherowner/ref/MFA/ownerabsent and2sessionrealwritefailclosed",
-    "Final local Admin1588/store203/types/strictlint/browser124retries0/PWA4/sixbuilds/SEO/CSP/isolation/Gitleaks0 PASS;CI assethashfalsepositive repaired with3privacynegatives"
+    "PR43 merged after exactfeatureFULLCI;primarymain9f94ec8 with20localfiles byte-preserved",
+    "Quickcustomer reuses existing save_customer;4bothengine browser checks PASS incl HTTPpermission refusal;pure partialpayment boundary3 PASS;roottypes/lint andchangedstrictlint PASS"
   ],
   "inProgress": [
-    "Exact final6e25a849 FULL49 push+PR CI plus secret scanning/complete backup;then update PR43 review-ready and approvalSTOP"
+    "Inspect POS215 locking/replay/payment/debt/refund contracts before versioned216 implementation"
   ],
   "notStarted": [
-    "T-C partial POS payments;separate later owner task",
-    "Implementation PR merge;requires owner review"
+    "PR merge requiresownerapproval"
   ],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "testsPassed": [
-    "DB79/17healthy/fullrestore0;HTTP4both390;SDK157+576;owner2155negative+replay/CLI;reference177/622/13diff0",
-    "Operationsnative28;actual214/215completebackup/strictrestore/R2fixture;RESET215ordinary+4resumes/negatives"
+    "Partialpayment pureboundaries3",
+    "Quickcustomer4 Chromium/WebKit390 no retries;existingRPCpayload and42501response no selection",
+    "Root types/lint+changedstrictlint"
   ],
   "testsRemaining": [
-    "Exact finalSHA FULL49push+PR CI plus secrets+completebackup;ownerreview before merge"
+    "ActualDBnumericrolesracesreplay/returns/shifts/integrity",
+    "UIbothengines/fullquality/strict216upgrade/reference/reset/backup215compat/FULLCI"
   ],
   "findings": [
-    "Owner approved operations215 insidePR43;215apply cannot precede operational support;preserve214archives andrefs"
+    "Primarymain9f94ec8;owner20files preserved;owner approved project-state215 alignment with originalexternalbackup and localadditions retained",
+    "No migration216 orfinancialwriter yet;no claim ofatomicpayment/rolesruntime",
+    "Earlier pure lint process overlapped unrelated quick UI authoring;initiallintnotusedas sourcefrozenproof;finalquickverificationfinishedbeforethissave"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hosted project connection,deployment or credentials",
-    "No historical migration edits/backfill",
-    "No primary owner local file changes",
-    "No T-C and no implementation PR merge before owner review"
+    "No hostedprojectconnection or deployment",
+    "Do not edit migrations001-215",
+    "No financialbehavior beyond approved partialPOS/payment and existingcustomercreate",
+    "No merge before PR approval"
   ],
-  "nextExactAction": "Save/push completed CI UI/reference compatibility proof;then real isolated214 reset diagnosis and exactFULL49push+PR on delivery SHA;no merge",
+  "nextExactAction": "Save/push quickcustomer216 WIP then implement atomicpartialPOS216/replay andoperational216 ceiling/reset/reference in samePR;no hostedaccess",
   "startedAt": "2026-10-28T13:06:11.980Z",
-  "checkpointedAt": "2026-10-29T00:31:30.427Z",
+  "checkpointedAt": "2026-10-29T01:37:43.397Z",
   "filesTouchedCount": 10,
-  "filesTouchedManifestSha256": "753cfb410c554aadd3bfd1a008f9e484087237ef5004404fe906cae285487f14",
-  "workingTreeFingerprint": "A99D1DB7049F5D2564FAADDA691B74F54024E35FE83F8DEE96AE83F8926E1D4B"
+  "filesTouchedManifestSha256": "71db5374158e53ab6e8a43ba5d004b265c6eff5d1fe78e6fd36d5ab617002975",
+  "workingTreeFingerprint": "A9F576A78B260CCE708D35AADBFC242E365769B984B96D1A36AE8D9ED9516009"
 }

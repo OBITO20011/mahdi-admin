@@ -1,0 +1,20 @@
+{
+  "scope": "Initial quickcustomer presentation via existingCRM RPC;partialfinancialSQL not implemented",
+  "hostedAccess": false,
+  "unitPaymentBoundaries": 3,
+  "browser": {
+    "startTime": "2026-10-29T01:27:48.721Z",
+    "duration": 73191.214,
+    "expected": 4,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0,
+    "retries": 0
+  },
+  "rootTypecheck": true,
+  "rootLint": true,
+  "changedStrictLint": true,
+  "permissionProof": "mocked HTTP42501 refusal only;actualDBrole proof still required",
+  "migration216Implemented": false,
+  "fullDeliveryReady": false
+}

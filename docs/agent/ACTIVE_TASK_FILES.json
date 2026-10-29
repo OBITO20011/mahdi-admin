@@ -3,43 +3,43 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/TRIAL_TB_IMPLEMENTATION_AR.md"
+      "path": "docs/agent/project-state.json"
     },
     {
       "code": " M",
-      "path": "e2e/package-d-pos-fullstack.spec.ts"
+      "path": "src/features/crm/AddCustomerModalContent.tsx"
     },
     {
       "code": " M",
-      "path": "e2e/package-f-trial-owner-w.spec.ts"
-    },
-    {
-      "code": " M",
-      "path": "e2e/package-f-trial-w-fields.spec.ts"
-    },
-    {
-      "code": " M",
-      "path": "e2e/phase6-package-b.spec.ts"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/aftercare215-source-pins.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/build-acl-reference213.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-reference213.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-trial-reset-runtime.mjs"
+      "path": "src/features/pos/PosView.tsx"
     },
     {
       "code": "??",
-      "path": "docs/agent/TRIAL_TB215_CI_COMPAT_LOCAL.json"
+      "path": "docs/agent/TRIAL_TC216_IMPLEMENTATION_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "docs/agent/TRIAL_TC216_QUICK_LOCAL.json"
+    },
+    {
+      "code": "??",
+      "path": "e2e/quick-customer216-harness.html"
+    },
+    {
+      "code": "??",
+      "path": "e2e/quick-customer216-harness.tsx"
+    },
+    {
+      "code": "??",
+      "path": "e2e/quick-customer216.spec.ts"
+    },
+    {
+      "code": "??",
+      "path": "src/features/pos/partialPayment216.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/partial-payment216.test.ts"
     }
   ]
 }
