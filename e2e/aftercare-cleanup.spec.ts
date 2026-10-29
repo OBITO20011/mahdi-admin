@@ -18,6 +18,7 @@ for(const width of [390,1440]){
     await expect(panel.getByTestId('damage-history')).toBeVisible();
     await expect(panel.getByLabel('الحالة',{exact:true})).toHaveValue('all');
     await expect(panel.getByLabel('الحالة',{exact:true}).locator('option')).toHaveText(['كل الحالات','بانتظار المورد','انتهى مع المورد','خسارة نهائية عليّ']);
+    await expect(panel.getByLabel('سبب التلف',{exact:true}).locator('option[value="customer_replacement"]')).toHaveText('استبدال باكيت معيب');
     await expect.poll(()=>reads).toBe(1);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
     await page.screenshot({path:info.outputPath(`aftercare-cleanup-${width}.png`),fullPage:true});
   });

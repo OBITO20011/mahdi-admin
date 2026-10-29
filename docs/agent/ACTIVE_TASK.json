@@ -3,35 +3,33 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner-approved UI-only aftercare cleanup;one wizard,packet labels,supplier help;own PR FULLCI approvalSTOP",
-  "baselineSha": "8bd8c8303a6d88502c378d39c1e35de931bb0386",
+  "baselineSha": "964b2e34970c604fc47dd6e79e0331dd0b71826e",
   "branch": "codex/trial-aftercare-cleanup",
   "phase": "PACKAGE_F",
   "completed": [
-    "PR44 merged015ffca,primary19files/state216 preserved;mainFULL51 accepted",
-    "UI33unit/24newbrowser,currentSDK157/58218expected roles identical",
-    "Admin1615/store203/root+storelint PASS",
-    "Migrated18oldcases to currentUI;84browser PASS0skip/flaky"
+    "PR44/main015ffca FULL51 delivered;primary19files/state216 preserved",
+    "All local cleanup gates accepted;details AFTERCARE_UI_CLEANUP_LOCAL.json",
+    "Admin1615/store203,24+2+84+104browser0skip/flaky,sixbuilds/PWA4/network0",
+    "CurrentSDK157/58218expected;SQL/services/grants/oldpins unchanged"
   ],
   "inProgress": [
-    "Final wording/current source and release gates;own PR FULLCI approvalSTOP"
+    "Final exactSHA PR/fullCI then owner approvalSTOP"
   ],
   "notStarted": [
     "Owner review/merge"
   ],
   "testsPassed": [
-    "PR44 exact FULL51 each and6CIruns success",
-    "UI types/strictlint before last presentation guard",
-    "Focused33;browser24;main51 exact deliveryReady true"
+    "All local cleanup gates accepted;details AFTERCARE_UI_CLEANUP_LOCAL.json",
+    "Admin1615/store203,24+2+84+104browser0skip/flaky,sixbuilds/PWA4/network0",
+    "CurrentSDK157/58218expected;SQL/services/grants/oldpins unchanged"
   ],
   "testsRemaining": [
-    "Final packet wording review including damage reason option",
-    "Final current source/evidence consistency and affected browser/release gates",
-    "Exact final SHA full push+PR CI/secrets/backup/Gitleaks0",
+    "Exact final full push+PR CI/secrets/backup",
     "Owner approval before merge"
   ],
   "findings": [
-    "New worktree inherits closed active task;initialized bounded owner-authorized successor without changing prior worktree",
-    "Primary originals saved outsideGit;main CI tracked in chat"
+    "No hosted/deploy/newSQL;owner216ready default preserved",
+    "Rejected local runs documented;all final local gates passed"
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -40,13 +38,13 @@
     "No DB/migration/RPC/money/permission change",
     "No merge or next package before owner approval"
   ],
-  "nextExactAction": "Save84 passing migrated browser scenarios;final wording/source consistency then release gates/PR/FULLCI;approvalSTOP",
+  "nextExactAction": "Final sourceguards/Gitleaks then push finalSHA/openPR and verify FULL51push+PR/secrets/backup;ownerapprovalSTOP",
   "startedAt": "2026-10-29T11:42:42.638Z",
-  "checkpointedAt": "2026-10-29T13:04:34.222Z",
+  "checkpointedAt": "2026-10-29T15:51:36.983Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 8,
-  "filesTouchedManifestSha256": "3b03102ccd9b264b4f4defc37473d1463ce04dff19504e79a2f759269b758cb0",
-  "workingTreeFingerprint": "3021952DDBEEF04D7398A326AF6AB9E333FA2C6E5540D0611EDC6969C74612BE"
+  "filesTouchedCount": 11,
+  "filesTouchedManifestSha256": "bca28dc224bdd8464f80f955b43b96e210d7a55de32be41ac1d02a96bc4e4c20",
+  "workingTreeFingerprint": "FA25C7CD81E10D11AE4ECA236790EDB952CF8B554AAEE91B2286F7387C1942B2"
 }

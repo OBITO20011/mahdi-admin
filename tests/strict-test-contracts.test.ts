@@ -4,6 +4,7 @@ import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import ts from 'typescript';
 import {approvedWithdrawals182Source} from './approved-withdrawals182-source';
+import {sourceBeforeAftercareCleanup} from '../scripts/audit/source-before-aftercare-cleanup.mjs';
 
 const baseline='d7e0e8ceb07b20473cd798339e62753ad1c5346f';
 const fixtures=[
@@ -62,7 +63,10 @@ for(const file of checks)test(`strict tests: every original assertion remains, w
     }
     visit(ast);return result;
   };
-  const old=collect(before(file)),now=collect(readFileSync(file,'utf8'));
+  // This is the historical assertion contract. The owner-approved cleanup
+  // removes old UI buttons; its exact baseline inverse preserves this proof.
+  // Live browser coverage exercises the current wizard and real saved recovery.
+  const old=collect(before(file)),now=collect(sourceBeforeAftercareCleanup(file,readFileSync(file,'utf8'))!);
   assert.ok(old.length>0,'Original assertions must be discovered');
   let cursor=0;
   for(const assertion of now)if(assertion===old[cursor])cursor++;

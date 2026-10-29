@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-10-29T12:19:23.157Z",
+  "startedAt": "2026-10-29T13:11:50.959Z",
   "migrationCeiling": 216,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-gMvos8",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-5Hr7bt",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -371,7 +371,7 @@
     },
     {
       "file": "src/features/more/DamageHistoryPanel.tsx",
-      "sha256": "a36246879affb5856bc599cf55436af0789ede855e0282915a2df143f0f4a5f8"
+      "sha256": "122f3ad0891d94d6d2edc0302e0b7d8154368fdbe30e747b6ebbee567dc32f08"
     },
     {
       "file": "src/features/more/DamageProductSelection.tsx",
@@ -45376,7 +45376,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-10-29T12:22:34.756Z",
+  "endedAt": "2026-10-29T13:14:12.892Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {

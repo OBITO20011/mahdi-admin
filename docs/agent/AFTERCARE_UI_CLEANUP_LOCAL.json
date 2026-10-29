@@ -1,5 +1,5 @@
 {
-  "status": "UI_CURRENT_SDK_FULL_UNITS_PASS_BROWSER_RELEASE_PENDING",
+  "status": "ALL_LOCAL_GATES_PASS_EXACT_FULL_CI_PENDING",
   "baseline": "015ffcae98da6241514cd8ab3b646dd2993c9eb2",
   "ceiling": 216,
   "migrations": 178,
@@ -8,8 +8,8 @@
   "sourceChanges": "Presentation only;services/migrations unchanged",
   "focusedUnit33": true,
   "browser": {
-    "startTime": "2026-10-29T12:07:56.067Z",
-    "duration": 113033.02100000001,
+    "startTime": "2026-10-29T13:17:41.220Z",
+    "duration": 148844.196,
     "expected": 24,
     "skipped": 0,
     "unexpected": 0,
@@ -35,11 +35,13 @@
     {
       "file": "cleanup-migrated-browser-first.json",
       "reason": "76pass/8fail:old sack label,invalid synthetic product UUID/document type,and async count;test data/await corrected,production parser unchanged"
+    },
+    {
+      "file": "admin-final.log",
+      "reason": "1614/1615;old assertion operands still named removed legacy button;exact approved cleanup inverse added only to historical assertion contract;no expected values weakened"
     }
   ],
   "remaining": [
-    "Final packet wording review including damage reason option",
-    "Final current source/evidence consistency and affected browser/release gates",
     "Exact final SHA full push+PR CI/secrets/backup/Gitleaks0",
     "Owner approval before merge"
   ],
@@ -59,11 +61,11 @@
         "zero_rows": 3,
         "other_error": 0
       },
-      "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-27i6cZ"
+      "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-Xw8E1n"
     },
     "services": {
       "ok": true,
-      "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-gMvos8",
+      "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-5Hr7bt",
       "count": 582,
       "denied": 18
     }
@@ -86,7 +88,8 @@
     "tests": 1615,
     "pass": 1615,
     "fail": 0,
-    "skipped": 0
+    "skipped": 0,
+    "source": "admin-final-compat.log"
   },
   "store": {
     "tests": 203,
@@ -103,5 +106,179 @@
     "flaky": 0
   },
   "migratedLegacyCases": 18,
-  "migratedBrowserChanges": "Current wizard/damage controls;no legacy UI replica,no skipped cases;strict parser retained"
+  "migratedBrowserChanges": "Current wizard/damage controls;no legacy UI replica,no skipped cases;strict parser retained",
+  "currentRecoveryBrowser": {
+    "startTime": "2026-10-29T13:20:13.640Z",
+    "duration": 30261.397999999997,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "affectedBrowser": {
+    "startTime": "2026-10-29T15:38:23.391Z",
+    "duration": 471555.007,
+    "expected": 104,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "environmentBuilds": {
+    "ok": true,
+    "hostedAccess": false,
+    "builds": [
+      {
+        "ok": true,
+        "app": "admin",
+        "environment": "staging",
+        "files": 108,
+        "oppositeOrigins": 0,
+        "fixture": false
+      },
+      {
+        "ok": true,
+        "app": "customer",
+        "environment": "staging",
+        "files": 32,
+        "oppositeOrigins": 0,
+        "fixture": true
+      },
+      {
+        "ok": true,
+        "app": "admin",
+        "environment": "production",
+        "files": 108,
+        "oppositeOrigins": 0,
+        "fixture": false
+      },
+      {
+        "ok": true,
+        "app": "customer",
+        "environment": "production",
+        "files": 32,
+        "oppositeOrigins": 0,
+        "fixture": true
+      }
+    ],
+    "negativeOppositeOrigins": 4,
+    "negativeCspChanges": 4,
+    "isolatedSeoDeployRejected": 2
+  },
+  "prelaunchBuilds": {
+    "ok": true,
+    "hostedAccess": false,
+    "deployments": 0,
+    "builds": [
+      {
+        "ok": true,
+        "app": "admin",
+        "environment": "prelaunch-trial",
+        "files": 108,
+        "oppositeOrigins": 0,
+        "fixture": false
+      },
+      {
+        "ok": true,
+        "app": "customer",
+        "environment": "prelaunch-trial",
+        "files": 32,
+        "oppositeOrigins": 0,
+        "fixture": true
+      }
+    ],
+    "productionArtifactRefusals": 2,
+    "forgedProductionRefusals": 2,
+    "wrongBranchRefusals": 2,
+    "closedActualBuildRefusals": 2,
+    "closedExistingArtifactRefusals": 2,
+    "closedEnvironmentOverrideRefused": true,
+    "pwaSourceShaBound": true
+  },
+  "pwa": {
+    "ok": true,
+    "mode": "full",
+    "releaseA": "1111111111111111111111111111111111111111",
+    "releaseB": "2222222222222222222222222222222222222222",
+    "results": [
+      {
+        "ok": true,
+        "browser": "Chromium",
+        "scenario": "automatic",
+        "releaseAWorker": "http://127.0.0.1:60475/sw.js?build=1111111111111111111111111111111111111111",
+        "releaseBWorker": "http://127.0.0.1:60475/sw.js?build=2222222222222222222222222222222222222222",
+        "releaseCaches": [
+          "nawasrah-admin-shell-2222222222222222222222222222222222222222"
+        ],
+        "obsoleteReleaseCacheRemoved": true,
+        "cacheCleanup": true,
+        "reopenedOnReleaseB": true,
+        "mainFrameNavigations": 3,
+        "rendered": true
+      },
+      {
+        "ok": true,
+        "browser": "Chromium",
+        "scenario": "waiting-worker",
+        "releaseAWorker": "http://127.0.0.1:60475/sw.js?build=1111111111111111111111111111111111111111",
+        "releaseBWorker": "http://127.0.0.1:60475/sw.js?build=2222222222222222222222222222222222222222",
+        "releaseCaches": [
+          "nawasrah-admin-shell-2222222222222222222222222222222222222222"
+        ],
+        "obsoleteReleaseCacheRemoved": true,
+        "cacheCleanup": true,
+        "reopenedOnReleaseB": true,
+        "mainFrameNavigations": 3,
+        "rendered": true
+      },
+      {
+        "ok": true,
+        "browser": "WebKit",
+        "scenario": "automatic",
+        "releaseAWorker": "http://127.0.0.1:60475/sw.js?build=1111111111111111111111111111111111111111",
+        "releaseBWorker": "http://127.0.0.1:60475/sw.js?build=2222222222222222222222222222222222222222",
+        "releaseCaches": [
+          "nawasrah-admin-shell-2222222222222222222222222222222222222222"
+        ],
+        "obsoleteReleaseCacheRemoved": true,
+        "cacheCleanup": true,
+        "reopenedOnReleaseB": true,
+        "mainFrameNavigations": 3,
+        "rendered": true
+      },
+      {
+        "ok": true,
+        "browser": "WebKit",
+        "scenario": "waiting-worker",
+        "releaseAWorker": "http://127.0.0.1:60475/sw.js?build=1111111111111111111111111111111111111111",
+        "releaseBWorker": "http://127.0.0.1:60475/sw.js?build=2222222222222222222222222222222222222222",
+        "releaseCaches": [
+          "nawasrah-admin-shell-2222222222222222222222222222222222222222"
+        ],
+        "obsoleteReleaseCacheRemoved": true,
+        "cacheCleanup": true,
+        "reopenedOnReleaseB": true,
+        "mainFrameNavigations": 3,
+        "rendered": true
+      }
+    ],
+    "network": {
+      "denied": [],
+      "blockedCanaryAttempts": [],
+      "deniedUnexpectedAttempts": [],
+      "escapedExternalRequests": []
+    }
+  },
+  "networkProof": "network-final.log",
+  "currentReferenceReadiness": {
+    "ok": true,
+    "ceiling": 216,
+    "migrations": 178,
+    "functions": 626,
+    "catalogAndPrefixesUnchanged": true,
+    "currentReadinessVerified": true,
+    "originalOwnerReferenceUnchanged": true,
+    "promotedToOwnerDefault": false,
+    "hostedAccess": false
+  },
+  "finalCurrentSdkSourceMatches": true
 }

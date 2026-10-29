@@ -3,35 +3,47 @@
   "files": [
     {
       "code": " M",
+      "path": "docs/agent/AFTERCARE_UI_CLEANUP_AR.md"
+    },
+    {
+      "code": " M",
       "path": "docs/agent/AFTERCARE_UI_CLEANUP_LOCAL.json"
     },
     {
       "code": " M",
-      "path": "e2e/admin-aftercare-recovery.spec.ts"
+      "path": "docs/agent/PHASE_STATUS.md"
     },
     {
       "code": " M",
-      "path": "e2e/package-f-pretrial-p1.spec.ts"
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
     },
     {
       "code": " M",
-      "path": "e2e/package-f-trial-w-fields.spec.ts"
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
     },
     {
       "code": " M",
-      "path": "e2e/phase6-package-b.fixture.ts"
+      "path": "docs/operations/TABLE_ACCESS_AFTER_216.json"
     },
     {
       "code": " M",
-      "path": "e2e/phase6-package-b.spec.ts"
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "e2e/aftercare-cleanup.spec.ts"
     },
     {
       "code": " M",
       "path": "scripts/audit/aftercare-cleanup-source-pins.json"
     },
     {
-      "code": "??",
-      "path": "e2e/aftercare-current-ui.ts"
+      "code": " M",
+      "path": "src/features/more/DamageHistoryPanel.tsx"
+    },
+    {
+      "code": " M",
+      "path": "tests/strict-test-contracts.test.ts"
     }
   ]
 }

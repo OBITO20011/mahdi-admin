@@ -369,7 +369,7 @@
     },
     {
       "file": "src/features/more/DamageHistoryPanel.tsx",
-      "sha256": "a36246879affb5856bc599cf55436af0789ede855e0282915a2df143f0f4a5f8"
+      "sha256": "122f3ad0891d94d6d2edc0302e0b7d8154368fdbe30e747b6ebbee567dc32f08"
     },
     {
       "file": "src/features/more/DamageProductSelection.tsx",
