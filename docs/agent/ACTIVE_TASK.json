@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner approved T-C partial POS payments and quick customer;216 plus same-PR operational ceiling/reset/backup/reference;localonly/fullCI/PR then approvalSTOP",
-  "baselineSha": "c7bb064b5612571c02d9df93cb448a5f0a726d2e",
+  "baselineSha": "27438e709ac9e86da61bb703b030aa502bdec86f",
   "branch": "codex/trial-tc-partial-payment",
   "phase": "PACKAGE_F",
   "completed": [
@@ -17,10 +17,11 @@
     "Current216 reference independent178/626/13/diff0/sourcefrozen;Admin1608/store203/types/lint;12preflight/admission tests PASS",
     "Real POS HTTP fullstack4 Chromium/WebKit390 PASS:quick customer,cash/CliQ100/60/40,lostreplysamekey0writes,receipt visual;sourcefrozen",
     "Ownerupgrade216 strict/replay0/7ACLpathowner negatives PASS;RESET216178 4interruptions/retentionMFA/privatepartial erased/concurrentwritefence PASS;offline215216/reset216 PASS",
-    "Encrypted v2 old214/old215/current216 strict restore and localR2 PASS,allrows/catalog/ACL/roles/sequences/storage match,exceptions[];watchdog21612healthy/localkeepalive/Telegram0"
+    "Encrypted v2 old214/old215/current216 strict restore and localR2 PASS,allrows/catalog/ACL/roles/sequences/storage match,exceptions[];watchdog21612healthy/localkeepalive/Telegram0",
+    "Historical215 exact prefix177 reset/4resume/realwritefence/MFA/CLI PASS;24history guards;root/store typeslint and38affected browsers0fail/flaky/skips"
   ],
   "inProgress": [
-    "Final frontend build/type/lint/affected browser/PWA,then exact full push+PR CI for approvalSTOP"
+    "Final environment builds and PWA,then finaldocs/Gitleaks/commit/push/PR/FULLCI approvalSTOP"
   ],
   "notStarted": [
     "PR merge requiresownerapproval"
@@ -52,10 +53,10 @@
     "No financialbehavior beyond approved partialPOS/payment and existingcustomercreate",
     "No merge before PR approval"
   ],
-  "nextExactAction": "Run final frontend lint/types/builds/affected Chromium-WebKit/PWA;then Gitleaks,commit,push,PR and exact FULLCI;return for approvalSTOP",
+  "nextExactAction": "Run environment builds and PWA;final status/docs/source pin verification,Gitleaks,commit/push/PR and exact FULLCI for ownerapprovalSTOP",
   "startedAt": "2026-10-28T13:06:11.980Z",
-  "checkpointedAt": "2026-10-29T05:16:28.153Z",
-  "filesTouchedCount": 3,
-  "filesTouchedManifestSha256": "4c48b45c11fb4011bd388eedb3ae820dec18b8a6800865f05a86d6d282f4a914",
-  "workingTreeFingerprint": "0B87F61FF945A5CA06678F569179467CBA9838547CDA9DC6CA677E7D25F5E771"
+  "checkpointedAt": "2026-10-29T05:31:44.515Z",
+  "filesTouchedCount": 5,
+  "filesTouchedManifestSha256": "d3bbf226d7d35029a31e0fa323093a4c158d62886c2d754108ba8b6f3b42ab9e",
+  "workingTreeFingerprint": "7663B101BB63C9B000EF015CA7F053F081572E00541F217CC79F349AA4ADD521"
 }

@@ -3,15 +3,23 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/TRIAL_TC216_FULLSTACK_LOCAL.json"
+      "path": "docs/agent/TRIAL_TC216_IMPLEMENTATION_AR.md"
     },
     {
       "code": " M",
-      "path": "docs/operations/FRANKFURT_OWNER_UPGRADE216_AR.md"
+      "path": "scripts/audit/partial216-source-pins.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/trial-reset-core.mjs"
+    },
+    {
+      "code": " M",
+      "path": "tests/operational-schema.test.ts"
     },
     {
       "code": "??",
-      "path": "docs/agent/TRIAL_TC216_BACKUP_LOCAL.json"
+      "path": "docs/agent/TRIAL_TC216_LEGACY215_LOCAL.json"
     }
   ]
 }

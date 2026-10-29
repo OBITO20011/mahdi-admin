@@ -1,0 +1,89 @@
+{
+  "hostedAccess": false,
+  "sourceReport": "C:\\Users\\TOP\\AppData\\Local\\Temp/nawasrah-reset215-resume-SSreOh/report.json",
+  "sourceReportSha256": "0296be7028d9ea2980b6e199cf386e776cc1fa0329809cd7b0606771ff681491",
+  "ok": true,
+  "scope": "Actual215 DB reset and four resumptions using current216 tools,after exact full216 source commitment and exact215 reference validation",
+  "uninterrupted": {
+    "applied": 177,
+    "recorded": 177,
+    "catalog": 0,
+    "acl": 0
+  },
+  "cases": [
+    {
+      "stop": "after-storage",
+      "previousApplied": 0,
+      "previousRecorded": 0,
+      "storageRemainingAtInterruption": 1,
+      "physicalBytesRemoved": true,
+      "restartedAll177": true,
+      "retentionMatches": true,
+      "catalogDifferences": 0,
+      "aclDifferences": 0,
+      "verifiedMfa": true,
+      "archiveProtected": true
+    },
+    {
+      "stop": "after-drop-public",
+      "previousApplied": 0,
+      "previousRecorded": 0,
+      "storageRemainingAtInterruption": 0,
+      "physicalBytesRemoved": true,
+      "restartedAll177": true,
+      "retentionMatches": true,
+      "catalogDifferences": 0,
+      "aclDifferences": 0,
+      "verifiedMfa": true,
+      "archiveProtected": true
+    },
+    {
+      "stop": "migration-088",
+      "previousApplied": 88,
+      "previousRecorded": 87,
+      "storageRemainingAtInterruption": 0,
+      "physicalBytesRemoved": true,
+      "restartedAll177": true,
+      "retentionMatches": true,
+      "catalogDifferences": 0,
+      "aclDifferences": 0,
+      "verifiedMfa": true,
+      "archiveProtected": true
+    },
+    {
+      "stop": "before-restore-owner-and-settings",
+      "previousApplied": 177,
+      "previousRecorded": 177,
+      "storageRemainingAtInterruption": 0,
+      "physicalBytesRemoved": true,
+      "restartedAll177": true,
+      "retentionMatches": true,
+      "catalogDifferences": 0,
+      "aclDifferences": 0,
+      "verifiedMfa": true,
+      "archiveProtected": true
+    }
+  ],
+  "negativeSnapshots": {
+    "missing": true,
+    "tampered": true,
+    "differentOwner": true,
+    "differentProject": true,
+    "differentReference": true,
+    "noMarker": true,
+    "missingMfa": true
+  },
+  "twoSessionDropFenceRejected": true,
+  "realCommittedWritesRejected": true,
+  "ownerMissingRejected": true,
+  "offline215CliPassed": true,
+  "pureHistoricalResetAndInverse24Passed": true,
+  "older214andEarlierStrictEqualityPreserved": true,
+  "priorRejected": {
+    "githubJob": 123271506729,
+    "firstCode": "RESET_REFERENCE_CEILING",
+    "countOnlyFixCode": "RESET_MANIFEST_CHANGED",
+    "bothBeforeDestructive": true
+  },
+  "deliveryComplete": false
+}

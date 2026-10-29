@@ -6,6 +6,7 @@ import {assertRegisteredBackupTasks,requiredBackupModes} from '../scripts/operat
 import {reset215Arguments} from '../scripts/operations/frankfurt-owner-reset215.mjs';
 import {reset216Arguments} from '../scripts/operations/frankfurt-owner-reset216.mjs';
 import {ownerPlan} from '../scripts/operations/frankfurt-backup-runtime.mjs';
+import {assertResetCeiling,resetUnits} from '../scripts/operations/trial-reset-core.mjs';
 
 test('one project-state ceiling binds the full SQL manifest and every operational entrypoint;future/gap/duplicate histories fail',async()=>{
  const state=JSON.parse(readFileSync('docs/agent/project-state.json','utf8')),manifest=await migrationManifest(process.cwd());
@@ -28,6 +29,19 @@ test('one project-state ceiling binds the full SQL manifest and every operationa
  assert.ok(readFileSync('scripts/backup/complete-backup.mjs','utf8').match(/assertOperationalHistory\(before.history\)/gu)!.length===2);
  assert.equal(reset216Arguments([]).reference.split(/[\\/]/u).at(-1),operationalSchema.readyReferenceName);
  assert.equal(reset215Arguments([]).reference.split(/[\\/]/u).at(-1),'local-reference-through215-ready.json');
+ // Every supported preceding adapter retains its own exact file count after
+ // the current ceiling advances. This catches the actual215 rebuild failure.
+ assert.equal(assertResetCeiling({migrationCeiling:215,manifest:manifest.filter((m:{name:string})=>Number(m.name.slice(0,3))<=215)}),177);
+ assert.equal(assertResetCeiling({migrationCeiling:216,manifest,manifestDigest:operationalSchema.manifestSha256}),178);
+ assert.throws(()=>assertResetCeiling({migrationCeiling:217,manifest}),/RESET_REFERENCE_CEILING/);
+ assert.throws(()=>assertResetCeiling({migrationCeiling:216,manifest,manifestDigest:'0'.repeat(64)}),/RESET_CURRENT_MANIFEST_UNREVIEWED/);
+});
+
+test('preceding215 rebuild selects exactly177 literal files only after the whole current216 manifest and exact reference prefix are verified',async()=>{
+ const current=await migrationManifest(process.cwd()),prefix=current.filter((m:{name:string})=>Number(m.name.slice(0,3))<=215),reference={migrationCeiling:215,manifest:prefix,manifestDigest:manifestDigest(prefix)};
+ const units=await resetUnits(process.cwd(),reference);assert.equal(units.length,177);assert.equal(units.at(-1)!.name,'215_inspected_aftercare_and_supplier_credit.sql');assert.ok(!units.some((m:{name:string})=>m.name.startsWith('216_')));
+ await assert.rejects(resetUnits(process.cwd(),{...reference,manifest:prefix.slice(1)}),/RESET_HISTORICAL_REFERENCE_MANIFEST_CHANGED/);
+ await assert.rejects(resetUnits(process.cwd(),{...reference,manifestDigest:'0'.repeat(64)}),/RESET_HISTORICAL_REFERENCE_MANIFEST_CHANGED/);
 });
 
 test('upgrade requires all five enabled registered tasks to use the updated checkout and exact safe invocation',()=>{

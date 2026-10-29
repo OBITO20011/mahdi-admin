@@ -9,10 +9,10 @@ import {schemaCatalogSql,catalogDifference} from '../testing/schema-catalog.mjs'
 import {heldJobNames,readNotificationSnapshot,expectedHeldNotifications} from './frankfurt-notification-hold.mjs';
 import {assertManagedCatalog,aclEntries} from './managed-catalog-policy.mjs';
 import {readRealtimePublication} from '../testing/realtime151-contract.mjs';
-import {operationalSchema} from './operational-schema.mjs';
+import {operationalSchema,assertOperationalManifest,assertSupportedResetReference} from './operational-schema.mjs';
 
 export const resetCeiling=182;
-const resetFileCounts=Object.freeze({182:151,199:161,200:162,201:163,202:164,203:165,204:166,205:167,206:168,207:169,208:170,209:171,210:172,211:173,212:174,213:175,214:176});
+const resetFileCounts=Object.freeze({182:151,199:161,200:162,201:163,202:164,203:165,204:166,205:167,206:168,207:169,208:170,209:171,210:172,211:173,212:174,213:175,214:176,215:177});
 export function assertResetCeiling(reference){
  if(reference.migrationCeiling===operationalSchema.ceiling){assert.equal(reference.manifestDigest,operationalSchema.manifestSha256,'RESET_CURRENT_MANIFEST_UNREVIEWED');return reference.manifest.length;}
  assert.ok(Object.hasOwn(resetFileCounts,reference.migrationCeiling),'RESET_REFERENCE_CEILING');
@@ -122,7 +122,14 @@ export function assertExternalDependents(rows,migrationCeiling=182){
   assert.ok(r.class==='pg_policy'&&r.schema==='storage'&&r.relation==='storage.objects'&&allowed.includes(r.policy),'UNREVIEWED_EXTERNAL_DROP_DEPENDENT:'+r.description);}
 }
 export async function resetUnits(root,reference){
- const manifest=await migrationManifest(root),fileCount=assertResetCeiling(reference);
+ let manifest=await migrationManifest(root);const fileCount=assertResetCeiling(reference);
+ // Bounded preceding215 adapter only: prove the WHOLE current216 commitment
+ // before selecting its exact approved215 prefix. Older reset guards retain
+ // full-manifest equality and still reject new files,not arbitrary slicing.
+ if(reference.migrationCeiling===215&&operationalSchema.ceiling===216){
+  assertOperationalManifest(manifest);assertSupportedResetReference(reference);
+  manifest=manifest.filter(m=>Number(m.name.slice(0,3))<=215);
+ }
  assert.deepEqual(manifest,reference.manifest,'RESET_MANIFEST_CHANGED');assert.equal(manifest.length,fileCount);
  const base=await buildEmptyProjectInput(root);const units=[...base.units];
  for(const m of manifest.filter(m=>Number(m.name.slice(0,3))>138))units.push({name:m.name,input:await readFile(path.join(root,'supabase/migrations',m.name))});
