@@ -19,7 +19,7 @@ test('whole-parcel allocation identifies the missing saved flavor without losing
     assert.ok(failure instanceof Error);
     const shown = businessErrorMessage(failure);
     assert.match(shown, /عصير برتقال/u);
-    assert.match(shown, /3 حبة/u);
+    assert.match(shown, /3 باكيت/u);
     assert.doesNotMatch(shown, /PHASE43_|UUID|الممثل/u);
   }
   assert.doesNotThrow(() => assertCompleteReturnAllocation('عصير توت',

@@ -1,3 +1,4 @@
+import {sourceBeforeAftercareCleanup} from '../scripts/audit/source-before-aftercare-cleanup.mjs';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { readFileSync, readdirSync } from 'node:fs';
@@ -17,9 +18,9 @@ const aftercareService = readFileSync(new URL(
 const aftercareRecovery = readFileSync(new URL(
   '../src/services/supabase/adminAftercareRecovery.ts', import.meta.url,
 ), 'utf8');
-const aftercarePanel = readFileSync(new URL(
+const aftercarePanel = sourceBeforeAftercareCleanup('src/features/orders/AdminAftercarePanel.tsx',readFileSync(new URL(
   '../src/features/orders/AdminAftercarePanel.tsx', import.meta.url,
-), 'utf8');
+), 'utf8'))!;
 const orderModal = readFileSync(new URL(
   '../src/features/orders/OrderDetailModal.tsx', import.meta.url,
 ), 'utf8');

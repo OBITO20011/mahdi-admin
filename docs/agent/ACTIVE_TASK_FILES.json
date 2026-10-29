@@ -3,19 +3,111 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/TRIAL_TC216_IMPLEMENTATION_AR.md"
+      "path": "docs/agent/PHASE_STATUS.md"
     },
     {
       "code": " M",
-      "path": "docs/agent/TRIAL_TC216_QUALITY_LOCAL.json"
+      "path": "docs/agent/PROJECT_OVERVIEW.md"
     },
     {
       "code": " M",
-      "path": "scripts/audit/partial216-source-pins.json"
+      "path": "docs/agent/project-state.json"
     },
     {
       "code": " M",
-      "path": "tests/trial-reset.test.ts"
+      "path": "e2e/aftercare215-wizard.fixture.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/package-f-trial-owner-w.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-partial216.mjs"
+    },
+    {
+      "code": " M",
+      "path": "src/features/inventory/SupplierReplacementPanel.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/inventory/SupplierReplacementQuantities.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/orders/AdminAftercarePanel.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/orders/aftercare215Draft.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/features/orders/aftercarePresentation.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/features/orders/AftercareSupplierSafety.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/orders/AftercareWizard215.tsx"
+    },
+    {
+      "code": " M",
+      "path": "tests/partial216-source-history.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/phase43-admin-aftercare-integration.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/sales-returns.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-aftercare-supplier.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "docs/agent/AFTERCARE_UI_CLEANUP_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "docs/agent/AFTERCARE_UI_CLEANUP_LOCAL.json"
+    },
+    {
+      "code": "??",
+      "path": "e2e/aftercare-cleanup-harness.html"
+    },
+    {
+      "code": "??",
+      "path": "e2e/aftercare-cleanup-harness.tsx"
+    },
+    {
+      "code": "??",
+      "path": "e2e/aftercare-cleanup.spec.ts"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/aftercare-cleanup-source-pins.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/pin-aftercare-cleanup-sources.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-aftercare-cleanup.mjs"
+    },
+    {
+      "code": "??",
+      "path": "src/features/inventory/supplierReplacementPresentation.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/aftercare-cleanup.test.ts"
     }
   ]
 }

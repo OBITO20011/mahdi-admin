@@ -16,7 +16,7 @@ export function wizard215Scenario(name:string){
     order.paymentMethod='debt';order.amountPaid=name==='debt'?0:9;order.amountDue=name==='debt'?9:0;
     context.financial.merchandiseDebtInMinorUnits=name==='debt'?9000:0;context.financial.refundableCollectedInMinorUnits=name==='debt'?0:9000;
   }
-  if(name==='formed'){
+  if(name==='formed'||name==='formed-prior'){
     order.items=[{...order.items[0],commercialLineKind:'configurable_parcel',baseQuantity:6,parcelInstances:[{id:id(20),sequence:1,unitName:'طرد',components:[
       {id:id(21),productId:id(31),name:'توت',sku:'TEST-BERRY',unitName:'قنينة',quantity:5},
       {id:id(22),productId:id(32),name:'برتقال',sku:'TEST-ORANGE',unitName:'قنينة',quantity:1}]}]}];
@@ -29,5 +29,6 @@ export function wizard215Scenario(name:string){
       {sourceKind:'replacement_item',sourceId:id(23),productId:id(3),remainingQuantity:2,parentReplacementItemId:null}];
     context.replacements=[{operationalStatus:'issued',issuedAt:'2026-10-28T09:30:00Z',items:[{rootOrderItemId:id(2),rootParcelComponentId:null,replacementItemId:id(23),parentReplacementItemId:null}]}];
   }
+  if(name==='formed-prior'){const component=context.parcelInstances[0].components[0];component.physicalRepresentatives[0].remainingQuantity=4;component.physicalRepresentatives.push({sourceKind:'replacement_item',sourceId:id(90),productId:component.productId,remainingQuantity:1,parentReplacementItemId:null});}
   return{order,context};
 }

@@ -2,47 +2,49 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "T-C216 partial POS payments/quick customer with operational216;PR44 exact FULLCI then ownerapprovalSTOP",
-  "baselineSha": "8561cdfe01198a61036ac87bb3de4a82e2e9fbb3",
-  "branch": "codex/trial-tc-partial-payment",
+  "objective": "Owner-approved UI-only aftercare cleanup;one wizard,packet labels,supplier help;own PR FULLCI approvalSTOP",
+  "baselineSha": "015ffcae98da6241514cd8ab3b646dd2993c9eb2",
+  "branch": "codex/trial-aftercare-cleanup",
   "phase": "PACKAGE_F",
   "completed": [
-    "PR43 main9f94ec8 preserved;T-C primary untouched",
-    "All local216 and legacy215 operations verified;details TRIAL_TC216_QUALITY_LOCAL.json",
-    "Admin1610/store203,38browser/PWA4/sixbuilds/types/lint/network0 PASS",
-    "PR44 draft;CI8561 stale215/checkpoint expectations corrected;4KB guard retained"
+    "PR44 approved/merged015ffca;primary19files exact,state216 aligned,Plan/dry-run216 pass",
+    "One wizard/damage list;source-specific prior replacement owner option;packet display/help",
+    "Focused33 and expanded24browser Chromium/WebKit390/1440 PASS0skip/flaky"
   ],
   "inProgress": [
-    "Push bounded CI expectation correction;full51 push+PR plus secrets/backup then ownerapprovalSTOP"
+    "Map old buttons to wizard;preserve previous replacements/recovery and damage decisions"
   ],
   "notStarted": [
-    "Merge requires owner approval"
+    "Owner review/merge"
   ],
   "testsPassed": [
-    "Local proof files TRIAL_TC216_*_LOCAL.json",
-    "Canonical216 SQL immutable;001-215 unchanged"
+    "PR44 exact FULL51 each and6CIruns success",
+    "UI types/strictlint before last presentation guard",
+    "Focused33;browser24;main51 exact deliveryReady true"
   ],
   "testsRemaining": [
-    "Exact full push+PR CI on new identical head"
+    "Fresh actual216 SDK/historical bridge checks",
+    "Affected/full quality/PWA/build and final exact FULLCI",
+    "Owner approval"
   ],
   "findings": [
-    "Primarymain9f94ec8 retained;no hosted/deploy",
-    "Detailed accepted/rejected proofs live in milestone files;keep checkpoint<=4096bytes"
+    "New worktree inherits closed active task;initialized bounded owner-authorized successor without changing prior worktree",
+    "Primary originals saved outsideGit;main CI tracked in chat"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hosted access/deploy/main update",
-    "No migrations001-215 edits",
-    "No merge or next phase before owner approval"
+    "No hosted access/deploy",
+    "No DB/migration/RPC/money/permission change",
+    "No merge or next package before owner approval"
   ],
-  "nextExactAction": "Verify updatedPR44 exact FULL51 quality on push and PR plussecret/completebackup;fix only proven failures;then ownerapprovalSTOP,no merge",
-  "startedAt": "2026-10-28T13:06:11.980Z",
-  "checkpointedAt": "2026-10-29T10:56:00.641Z",
+  "nextExactAction": "Save verified UI unit;then actual216 SDK and affected/full quality,ownPR/fullCI for approval;no merge/DB/hosted/deploy",
+  "startedAt": "2026-10-29T11:42:42.638Z",
+  "checkpointedAt": "2026-10-29T12:11:11.428Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "2568f99a45111b8c2977fb1d419c646fb20711f4656b5cafecb228e9a20f91da",
-  "workingTreeFingerprint": "4B162FF4184DAE6373BAAD93463EA44C32389DC293C2383F13233B885C6B0E77"
+  "filesTouchedCount": 27,
+  "filesTouchedManifestSha256": "8aac573578fbb06bc78af0498b950df24c90e7eac90bbd3bb6689e73813fa978",
+  "workingTreeFingerprint": "4185FF3ACE786B7CEEECF52352B1EB41AFF65AED3BB060BE4F887C3C24CF4E43"
 }

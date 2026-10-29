@@ -1,0 +1,42 @@
+{
+  "status": "UI_FOCUSED_PASS_FULL_DELIVERY_PENDING",
+  "baseline": "015ffcae98da6241514cd8ab3b646dd2993c9eb2",
+  "ceiling": 216,
+  "migrations": 178,
+  "hostedAccess": false,
+  "deployments": 0,
+  "sourceChanges": "Presentation only;services/migrations unchanged",
+  "focusedUnit33": true,
+  "browser": {
+    "startTime": "2026-10-29T12:07:56.067Z",
+    "duration": 113033.02100000001,
+    "expected": 24,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "visualReview": [
+    "WebKit390 supplier packet text/help",
+    "WebKit390 invoice/damage states"
+  ],
+  "rejectedRuns": [
+    {
+      "file": "cleanup-first-admin.log",
+      "reason": "52 current-source/fingerprint/old display expectations;not accepted"
+    },
+    {
+      "file": "cleanup-browser-first.json",
+      "reason": "First cold navigation timeout;one identical-code environment rerun passed12/12"
+    },
+    {
+      "file": "cleanup-browser-expanded.json",
+      "reason": "Two ambiguous status locators;actual recovery succeeded;scoped to result output"
+    }
+  ],
+  "remaining": [
+    "Fresh actual216 SDK proof and strict historical bridges",
+    "Affected browser suites/full quality/build/PWA",
+    "Exact final SHA full push+PR CI/secrets/backup/Gitleaks0",
+    "Owner approval before merge"
+  ]
+}
