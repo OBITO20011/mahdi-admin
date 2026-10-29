@@ -3,11 +3,15 @@
   "files": [
     {
       "code": " M",
-      "path": "scripts/audit/owner-telegram217-source-pins.json"
+      "path": "docs/agent/OWNER_TELEGRAM217_LOCAL.json"
     },
     {
       "code": " M",
-      "path": "scripts/testing/run-owner-upgrade217-runtime.mjs"
+      "path": "docs/agent/PHASE_STATUS.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/agent/PROJECT_OVERVIEW.md"
     }
   ]
 }

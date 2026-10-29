@@ -1,6 +1,6 @@
 {
   "format": 1,
-  "status": "IN_PROGRESS_NOT_DELIVERY",
+  "status": "LOCAL_ACCEPTED_EXACT_FINAL_CI_PENDING",
   "ceiling": 217,
   "migrations": 179,
   "baselineMain": "5a50320fea2f30c36f8b784164c97a4aa270220d",
@@ -65,17 +65,19 @@
     "messagesSent": 0
   },
   "remaining": [
-    "Strict owner217 upgrade and eight negatives",
-    "RESET217 resume/CLI/negative cases",
-    "Encrypted v2 archive214215216217/strict local+R2 restore/watchdog",
-    "Full app quality and exact FULLpush+PR53/secrets/backup/Gitleaks0",
-    "Owner PR approval before merge"
+    "Final exact FULL53 push+PR and completebackup/secrets",
+    "Owner approval before merge"
   ],
   "rejectedRuns": [
     "First DB runner bool parser t:fixed test-only to_jsonb",
-    "First realSDK HTTP path PGRST125:direct PostgREST lacks Supabase /rest/v1;existing REST-only local path adapter reused,zero RPC/permission/timeout/assertion changes"
+    "First realSDK HTTP path PGRST125:direct PostgREST lacks Supabase /rest/v1;existing REST-only local path adapter reused,zero RPC/permission/timeout/assertion changes",
+    "New reference checker read nonexistent securityDefiner property;assert authoritative SECURITY DEFINER definition instead,with invoker negative test",
+    "New cron row key order retained only after deep equality validation of every field;no mismatch exemption",
+    "New negative test used text receipt signature;now derives actual UUID signature from catalog",
+    "Windows cold Docker start and later interrupted bootstrap rejected;same-code local rerun completed",
+    "Windows temporary-cache EPERM rejected;one identical focused rerun4/4 passed"
   ],
-  "updatedAt": "2026-10-29T21:23:20.458Z",
+  "updatedAt": "2026-10-29T22:51:12.281Z",
   "reference": {
     "ok": true,
     "migrations": 179,
@@ -93,14 +95,123 @@
       "fail": 0
     },
     "adminFull": {
-      "pass": 1623,
+      "pass": 1626,
       "fail": 1,
-      "cause": "cutover Telegram label",
-      "fixedFocusedPass": 10
+      "total": 1627,
+      "cause": "Windows temporary cache EPERM during execution gap;all application/contract assertions passed",
+      "identicalFocusedRerun": {
+        "pass": 4,
+        "fail": 0
+      },
+      "finalFullRequiredInCI": true
     },
     "print": {
       "pages": 2,
       "networkRequests": 0
     }
+  },
+  "strictUpgrade": {
+    "ok": true,
+    "applied": [
+      "217"
+    ],
+    "replayWrite": false,
+    "readOnlyEnforced": true,
+    "functionsChecked": 633,
+    "relationsChecked": 129,
+    "aclDifferences": 0,
+    "negativeCases": 8,
+    "evidence": "Temp/nawasrah-owner-upgrade217-E5zNxf/report.json"
+  },
+  "reset": {
+    "ok": true,
+    "uninterrupted": {
+      "applied": 179,
+      "recorded": 179,
+      "catalog": 0,
+      "acl": 0
+    },
+    "cases": [
+      {
+        "stop": "after-storage",
+        "previousApplied": 0,
+        "previousRecorded": 0,
+        "storageRemainingAtInterruption": 1,
+        "physicalBytesRemoved": true,
+        "restartedAll179": true,
+        "retentionMatches": true,
+        "catalogDifferences": 0,
+        "aclDifferences": 0,
+        "verifiedMfa": true,
+        "archiveProtected": true
+      },
+      {
+        "stop": "after-drop-public",
+        "previousApplied": 0,
+        "previousRecorded": 0,
+        "storageRemainingAtInterruption": 0,
+        "physicalBytesRemoved": true,
+        "restartedAll179": true,
+        "retentionMatches": true,
+        "catalogDifferences": 0,
+        "aclDifferences": 0,
+        "verifiedMfa": true,
+        "archiveProtected": true
+      },
+      {
+        "stop": "migration-088",
+        "previousApplied": 88,
+        "previousRecorded": 87,
+        "storageRemainingAtInterruption": 0,
+        "physicalBytesRemoved": true,
+        "restartedAll179": true,
+        "retentionMatches": true,
+        "catalogDifferences": 0,
+        "aclDifferences": 0,
+        "verifiedMfa": true,
+        "archiveProtected": true
+      },
+      {
+        "stop": "before-restore-owner-and-settings",
+        "previousApplied": 179,
+        "previousRecorded": 179,
+        "storageRemainingAtInterruption": 0,
+        "physicalBytesRemoved": true,
+        "restartedAll179": true,
+        "retentionMatches": true,
+        "catalogDifferences": 0,
+        "aclDifferences": 0,
+        "verifiedMfa": true,
+        "archiveProtected": true
+      }
+    ],
+    "negativeSnapshots": {
+      "missing": true,
+      "tampered": true,
+      "differentOwner": true,
+      "differentProject": true,
+      "differentReference": true,
+      "noMarker": true,
+      "missingMfa": true
+    },
+    "twoSessionFence": true,
+    "realWritesRejected": true,
+    "cli": {
+      "pass": 12,
+      "networkAccess": false
+    },
+    "evidence": "Temp/nawasrah-reset217-resume-2MJO30/report.json"
+  },
+  "localOwnerPlans": {
+    "upgrade217DryRun": true,
+    "backupPlan": true,
+    "networkAccess": false
+  },
+  "ciBeforeFinalMetadata": {
+    "sha": "1a6609ed5b12154e66022fdf258f54fa0bc2f6c6",
+    "pushBackup": 40967847003,
+    "prBackup": 40967854376,
+    "backupAndSecrets": "PASS",
+    "quality": "IN_PROGRESS;exact final HEAD evidence required before ready"
   }
 }

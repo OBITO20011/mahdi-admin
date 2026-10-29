@@ -3,34 +3,31 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner-approved server-side owner Telegram dispatch;217 plus operational ceiling/reset/backup/strict upgrade in same PR;return for approvalSTOP",
-  "baselineSha": "5fca0ed62ce7de8d84018ad95787604e7f5cc947",
+  "baselineSha": "1a6609ed5b12154e66022fdf258f54fa0bc2f6c6",
   "branch": "codex/owner-telegram-server",
   "phase": "PACKAGE_F",
   "completed": [
-    "PR45 exact17e08fbb full51 push+PR verified and merged5a50320f",
-    "Primary19files byte-preserved,state local additions preserved;216 localdryrun PASS",
-    "Exact formatter/handler8 tests,types/strictlint PASS;literal217 actualDB7groups PASS including2sessions/retry/deadletter/loopback/roles",
-    "Current217 runtime9 PASS realSDK/PostgREST/loopback,17healthy0 and invariant business hashes;Deno/formatter8/ownerPlan PASS",
-    "Main45 strict51 accepted attempt2;docs/current217 operational candidates prepared"
+    "PR45/main5a50320f merged after exact51 and primary ownerfiles retained",
+    "217 transport/formatter/privateDB/heldcron local proofs complete",
+    "Fresh independent179/633/13/diff0 reference,strict upgrade8negative/readonly and RESET217fourresumes accepted",
+    "Encrypted214-217 exactsamebackup source CI successful;currentplans offlinePASS"
   ],
   "inProgress": [
-    "Known UUID fixture fixed;RESET217 and final exact CI"
+    "PR46 final metadata/exact FULL53 push+PR"
   ],
   "notStarted": [
-    "Final PR approval before merge"
+    "Owner approval before merge"
   ],
   "testsPassed": [
-    "Predecessor exact CI51 each/secrets/backup;primary216dryrun",
-    "DB runtime output Temp/nawasrah-owner-telegram217-IdHC99;initial bool-parser run rejected and fixed without SQL policy change",
-    "Runtime217 TU9Dze9groups/17healthy/realSDK;description OWNER_TELEGRAM217_LOCAL.json",
-    "Finalsource SDK157/58618expected;malformedmode focused12PASS",
-    "Fresh/incremental217 ready179/633/13/diff0 frozen;types/strictlint/store203;focused ops+paper10",
-    "Strict upgrade217 apply/replay0writes/read-only/ACL633relations129/diff0/eight negatives PASS"
+    "CurrentSDK157/58618expected;runtime9/17healthy0;goldens16",
+    "Reference179/633/13/diff0;strictupgrade633/129/8negative/readonly",
+    "RESET217 ordinary+4resume/retentionMFA/catalogACL0/foreignwritefence;CLI12",
+    "Types/strictlint/store203;Admin1626+cache4rerun;print2/network0",
+    "Backup+secret scan exact1a6609e push+PR PASS;no hostedaccess"
   ],
   "testsRemaining": [
-    "RESET217 bootstrap environmental rerun then resume/CLI",
-    "One failed isolated-Vite Windows cache gate environmental rerun",
-    "Final exact FULL53 push+PR and owner approval"
+    "Exact FINALSHA FULL53 push+PR/secrets/backup",
+    "Owner approval"
   ],
   "findings": [
     "Owner reports hosted216verifyok,Backup216178,Restore15117healthy;not independently accessed",
@@ -44,13 +41,13 @@
     "No financial/payload/summary/exclusion policy changes",
     "No merge or next package before owner approval"
   ],
-  "nextExactAction": "Save UUID fixture correction;rerun RESET217 and isolated cache failed gate;final exact FULL53 PR46 approvalSTOP",
+  "nextExactAction": "Push final local proof metadata;verify exact FULL53 push+PR,secrets,backup;mark PR46 ready and return approvalSTOP",
   "startedAt": "2026-10-29T19:25:12.791Z",
-  "checkpointedAt": "2026-10-29T22:41:55.351Z",
+  "checkpointedAt": "2026-10-29T22:51:13.581Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 2,
-  "filesTouchedManifestSha256": "aaf90b03e5584e6d0b6cb02cb7ed0abd0bee94b8980a1e93a528e9e630d8f9ba",
-  "workingTreeFingerprint": "18FE35B12731B09263EFA1675DEF71AA89D33389FD1C24C3238ECC0F1BBE76B0"
+  "filesTouchedCount": 3,
+  "filesTouchedManifestSha256": "fd6c95988ffa785c33ef876c5251c215ceaf036d810a27297224b1f0319b4db7",
+  "workingTreeFingerprint": "B3D75946F0F02294AEB18D9F82F8AB55EC1BE25056E5CBA80F903673C8EAC466"
 }
