@@ -3,19 +3,11 @@
   "files": [
     {
       "code": " M",
-      "path": "scripts/audit/enrich-service216-evidence.mjs"
-    },
-    {
-      "code": " M",
       "path": "scripts/audit/owner-telegram217-source-pins.json"
     },
     {
       "code": " M",
-      "path": "scripts/operations/owner-telegram217-notifications.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/owner-telegram217-operations.test.ts"
+      "path": "scripts/testing/run-owner-upgrade217-runtime.mjs"
     }
   ]
 }

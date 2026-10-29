@@ -19,8 +19,9 @@ try{
  const readonly={...executor,args:[...executor.args,...readOnlyPsqlSessionArgs]},dates={beforeBuildDate:reference.buildUtcDate,afterBuildDate:await sql("SELECT (CURRENT_TIMESTAMP AT TIME ZONE 'UTC')::date;")};
  const verify=async name=>{const dir=path.join(output,name);await mkdir(dir);const result={};await verify217ReadOnly(readonly,dir,reference,original,dates,result);return result;};
  report.strict=await verify('strict');assert.equal(report.strict.applicationAclComparison.differenceCount,0);assert.deepEqual(await readApplicationFingerprint(executor),unchanged);
+ const receipt=reference.catalog.functions.filter(f=>f.schema==='public'&&f.identity.startsWith('get_public_pos_receipt('));assert.equal(receipt.length,1);
  const negatives=[
-  ['function-acl','GRANT EXECUTE ON FUNCTION public.get_public_pos_receipt(text) TO service_role;','REVOKE EXECUTE ON FUNCTION public.get_public_pos_receipt(text) FROM service_role;',/APPLICATION_ACL_MISMATCH|UNEXPECTED_APPLICATION_CATALOG_DIFFERENCES/u],
+  ['function-acl',`GRANT EXECUTE ON FUNCTION public.${receipt[0].identity} TO service_role;`,`REVOKE EXECUTE ON FUNCTION public.${receipt[0].identity} FROM service_role;`,/APPLICATION_ACL_MISMATCH|UNEXPECTED_APPLICATION_CATALOG_DIFFERENCES/u],
   ['table-acl','GRANT TRUNCATE ON public.products TO anon;','REVOKE TRUNCATE ON public.products FROM anon;',/APPLICATION_ACL_MISMATCH|UNEXPECTED_APPLICATION_CATALOG_DIFFERENCES/u],
   ['private-column','GRANT SELECT(run_id) ON public.owner_telegram_dispatch_settings TO authenticated;','REVOKE SELECT(run_id) ON public.owner_telegram_dispatch_settings FROM authenticated;',/APPLICATION_ACL_MISMATCH|UNEXPECTED_APPLICATION_CATALOG_DIFFERENCES/u],
   ['private-leaf','GRANT EXECUTE ON FUNCTION public.owner217_claim_deliveries_internal(text,integer,integer) TO service_role;','REVOKE EXECUTE ON FUNCTION public.owner217_claim_deliveries_internal(text,integer,integer) FROM service_role;',/APPLICATION_ACL_MISMATCH|UNEXPECTED_APPLICATION_CATALOG_DIFFERENCES/u],

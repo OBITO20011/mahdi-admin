@@ -170,7 +170,7 @@
     },
     "scripts/testing/run-owner-upgrade217-runtime.mjs": {
       "before": null,
-      "after": "89550ae34ba6bb26e80b2b5d8c9e0e97ce8d9dffd392ae0f23e8eaffa7cda5c1",
+      "after": "f5273f7e40f1870c2e72ec86beb0031bbcf94e73c3ad577a87dc6d013a25f9c1",
       "beforeText": null
     },
     "scripts/testing/run-reset217-cli-contract.mjs": {

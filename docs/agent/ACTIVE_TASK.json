@@ -3,7 +3,7 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner-approved server-side owner Telegram dispatch;217 plus operational ceiling/reset/backup/strict upgrade in same PR;return for approvalSTOP",
-  "baselineSha": "e35421f988ff6d1bd343fd595ff29f8bbcfed324",
+  "baselineSha": "5fca0ed62ce7de8d84018ad95787604e7f5cc947",
   "branch": "codex/owner-telegram-server",
   "phase": "PACKAGE_F",
   "completed": [
@@ -14,7 +14,7 @@
     "Main45 strict51 accepted attempt2;docs/current217 operational candidates prepared"
   ],
   "inProgress": [
-    "Strict217 upgrade/reset/archive gates and exact FULL53 CI"
+    "Known UUID fixture fixed;RESET217 and final exact CI"
   ],
   "notStarted": [
     "Final PR approval before merge"
@@ -24,13 +24,13 @@
     "DB runtime output Temp/nawasrah-owner-telegram217-IdHC99;initial bool-parser run rejected and fixed without SQL policy change",
     "Runtime217 TU9Dze9groups/17healthy/realSDK;description OWNER_TELEGRAM217_LOCAL.json",
     "Finalsource SDK157/58618expected;malformedmode focused12PASS",
-    "Fresh/incremental217 ready179/633/13/diff0 frozen;types/strictlint/store203;focused ops+paper10"
+    "Fresh/incremental217 ready179/633/13/diff0 frozen;types/strictlint/store203;focused ops+paper10",
+    "Strict upgrade217 apply/replay0writes/read-only/ACL633relations129/diff0/eight negatives PASS"
   ],
   "testsRemaining": [
-    "RESET217 resume/CLI/negative cases",
-    "Encrypted v2 archive214215216217/strict local+R2 restore/watchdog",
-    "Full app quality and exact FULLpush+PR53/secrets/backup/Gitleaks0",
-    "Owner PR approval before merge"
+    "RESET217 bootstrap environmental rerun then resume/CLI",
+    "One failed isolated-Vite Windows cache gate environmental rerun",
+    "Final exact FULL53 push+PR and owner approval"
   ],
   "findings": [
     "Owner reports hosted216verifyok,Backup216178,Restore15117healthy;not independently accessed",
@@ -44,13 +44,13 @@
     "No financial/payload/summary/exclusion policy changes",
     "No merge or next package before owner approval"
   ],
-  "nextExactAction": "Verify strict217 upgrade, RESET217 resume/CLI, encrypted archives and Edge gate;PR46 FULL53 pending",
+  "nextExactAction": "Save UUID fixture correction;rerun RESET217 and isolated cache failed gate;final exact FULL53 PR46 approvalSTOP",
   "startedAt": "2026-10-29T19:25:12.791Z",
-  "checkpointedAt": "2026-10-29T21:27:32.977Z",
+  "checkpointedAt": "2026-10-29T22:41:55.351Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "0381f1a79bfa5e217b9c850804f6ebfe6cb7de3fe4e64732df898daa5f5ba3ea",
-  "workingTreeFingerprint": "02156B4F860A064DDA2C9B5CF92B59AF03642C815AD83ABE9F80C673C5E58E16"
+  "filesTouchedCount": 2,
+  "filesTouchedManifestSha256": "aaf90b03e5584e6d0b6cb02cb7ed0abd0bee94b8980a1e93a528e9e630d8f9ba",
+  "workingTreeFingerprint": "18FE35B12731B09263EFA1675DEF71AA89D33389FD1C24C3238ECC0F1BBE76B0"
 }
