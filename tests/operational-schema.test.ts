@@ -40,5 +40,5 @@ test('upgrade requires all five enabled registered tasks to use the updated chec
   (t:typeof tasks)=>{t[0].actions[0].arguments=t[0].actions[0].arguments.replace('frankfurt-backup-owner','old-backup');},
  ]){const copy=structuredClone(tasks);change(copy);assert.throws(()=>assertRegisteredBackupTasks(copy,repository));}
  const source=readFileSync('scripts/operations/frankfurt-owner-upgrade215.mjs','utf8');
- assert.ok(source.indexOf('await registeredBackupPreflight(root)')<source.lastIndexOf('return ownerRun('),'REGISTERED_TASK_CHECK_BEFORE_PASSWORD_AND_DB');
+ assert.ok(source.indexOf('await preflight(root)')<source.lastIndexOf('return runOwner('),'REGISTERED_TASK_CHECK_BEFORE_PASSWORD_AND_DB');
 });

@@ -1,5 +1,6 @@
 // Owner-operated only. Default offline dry-run; no agent/implicit target mode.
 import assert from 'node:assert/strict';
+import {upgradePreparationCode} from './upgrade-preparation-errors.mjs';
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
 import {readFile,writeFile,mkdir,copyFile,readdir,realpath} from 'node:fs/promises';
@@ -183,5 +184,5 @@ export async function run(args,configuration={}){
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){
  try{const r=await run(process.argv.slice(2));console.log(JSON.stringify({ok:r.ok,mode:r.mode,output:r.output,error:r.error,applied:r.applied,recorded:r.recorded,commands:r.alignmentCommands??r.commands,remoteWriteAttempted:r.remoteWriteAttempted}));if(!r.ok)process.exitCode=1;}
- catch(error){console.error(error.code==='ERR_ASSERTION'?error.message.split('\n')[0]:'OWNER_UPGRADE_PREPARATION_FAILED');process.exitCode=1;}
+ catch(error){console.error(upgradePreparationCode(error));process.exitCode=1;}
 }
