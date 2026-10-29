@@ -1,3 +1,4 @@
+import {sourceBeforeOwnerTelegram217} from '../audit/source-before-owner-telegram217.mjs';
 // Current216 reference: independent fresh/incremental catalogs and actual SDK
 // evidence. Historical215 is a separate prefix, never a renamed216 reference.
 import assert from 'node:assert/strict';import {readFile} from 'node:fs/promises';import path from 'node:path';
@@ -34,4 +35,4 @@ export function assertReady216Reference(reference,manifest,proofText,source){
  const compared=compareManagedCatalog(proof.catalog,reference.catalog,{beforeBuildDate:proof.startedAt.slice(0,10),afterBuildDate:reference.buildUtcDate});assert.deepEqual(compared.unexpected,[]);assert.deepEqual(compared.expected,[]);
  assert.deepEqual(reference.readiness,{sourceHashes:source.sources,accessEvidenceSha256:sha256(canonicalLf(proofText)),coverage:proof.coverage,queries:proof.results.length,errors:0});assert.equal(reference.functions,626);return reference;
 }
-export async function readReady216Reference(root,filename){return assertReady216Reference(JSON.parse(await readFile(filename,'utf8')),(await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=216),await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_216.json'),'utf8'),await inventory());}
+export async function readReady216Reference(root,filename){return assertReady216Reference(JSON.parse(await readFile(filename,'utf8')),(await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=216),await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_216.json'),'utf8'),await inventory({projectSource:sourceBeforeOwnerTelegram217}));}

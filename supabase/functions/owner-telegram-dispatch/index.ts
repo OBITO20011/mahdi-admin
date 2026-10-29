@@ -8,6 +8,7 @@ Deno.serve(ownerTelegramHandler({
     testEnabled:Deno.env.get('OWNER_TELEGRAM_TEST_ENABLED'),
     botToken:Deno.env.get('OWNER_TELEGRAM_BOT_TOKEN'),
     ownerChatId:Deno.env.get('OWNER_TELEGRAM_CHAT_ID'),
+    developerChatIdForComparison:Deno.env.get('OWNER_TELEGRAM_DEVELOPER_CHAT_ID_FOR_COMPARISON'),
   },
   createClient:()=>createClient(Deno.env.get('SUPABASE_URL')??'',Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')??'',{
     auth:{persistSession:false,autoRefreshToken:false},

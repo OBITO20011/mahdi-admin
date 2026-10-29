@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "migrationCeiling": 216,
+  "migrationCeiling": 217,
   "managedAccess": false,
   "sources": [
     {
@@ -1428,6 +1428,10 @@
       "sha256": "2fcce575796dafd5ca2cff667321cc8d3076a02f14e00ce9f35356072c1b758e"
     },
     {
+      "file": "supabase/functions/_shared/owner-telegram-format.ts",
+      "sha256": "1ea25cd00443e729b1d444fd2d6658252e7107bb3fa1abd2736533b26f5a38d9"
+    },
+    {
       "file": "supabase/functions/admin-ai-assistant/index.ts",
       "sha256": "b7663a899b5fbf868066716d5f3431fb9947dd04688b52878b2967276cd5dc5f"
     },
@@ -1438,6 +1442,14 @@
     {
       "file": "supabase/functions/n8n-alert-feed/index.ts",
       "sha256": "30bab3af0da1ced5c9001f1d3e0a925c79b994e077ab8e1f67dd137fc75e001d"
+    },
+    {
+      "file": "supabase/functions/owner-telegram-dispatch/handler.ts",
+      "sha256": "27eb0794545eab45ef380d7a22c83c2840b2b6c3d54adb72a4398ce3d010f0ec"
+    },
+    {
+      "file": "supabase/functions/owner-telegram-dispatch/index.ts",
+      "sha256": "b7892f32b09118bc8402c5777107e734b9170cb67a85e0f3091692c140c31d0f"
     },
     {
       "file": "supabase/functions/send-order-push/index.ts",
@@ -4235,6 +4247,11 @@
     {
       "file": "customer-web/src/utils/googleMaps.ts",
       "line": 11,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
+      "file": "supabase/functions/_shared/owner-telegram-format.ts",
+      "line": 15,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {

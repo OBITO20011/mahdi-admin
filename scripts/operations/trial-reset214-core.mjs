@@ -14,7 +14,7 @@ import {assertReady214Catalog} from './frankfurt-reference214.mjs';
 import {assertReady215Catalog} from './frankfurt-reference215.mjs';
 import {assertReady216Catalog} from './frankfurt-reference216.mjs';
 import {assertReady217Catalog} from './frankfurt-reference217.mjs';
-import {expectedHeld217Notifications,ownerTelegramJob} from './owner-telegram217-notifications.mjs';
+import {expectedHeld217Notifications,ownerTelegramJob,assertOwner217HeldSettings} from './owner-telegram217-notifications.mjs';
 import {assertCurrentResetReference,assertSupportedResetReference} from './operational-schema.mjs';
 import {readRealtimePublication} from '../testing/realtime151-contract.mjs';
 import {retainedSessionState,assertNoForeignWrites,withoutResetGuard,attachGuardSql,removeGuardSql,saveGuardRemovalProof} from './reset214-session.mjs';
@@ -217,6 +217,7 @@ async function rebuild214({executor,root,reference,output,repair,clearHistory,em
  assert.deepEqual(differences,[],'RESET_CATALOG_NOT_CLEAN_BUILD');
  assert.equal(compareApplicationAcl(reference.catalog,after).differenceCount,0,'RESET214_FINAL_ACL_MISMATCH');
  policy.assertCatalog(after);
+ if(policy.ceiling===217)await assertOwner217HeldSettings(executor);
  assert.deepEqual(await json('SELECT jsonb_agg(version ORDER BY version) FROM supabase_migrations.schema_migrations;'),reference.appliedVersions,'RESET214_FINAL_HISTORY_MISMATCH');
  await finalDryRun();Object.assign(report,{stage:'complete',preserved:true,catalogDifferences:0,applicationAclDifferences:0});return report;
 }

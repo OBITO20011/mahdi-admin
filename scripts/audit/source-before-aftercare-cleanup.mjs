@@ -4,23 +4,25 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
+import {sourceBeforeOwnerTelegram217,restoreOwnerTelegram217SourceHashes,pathsBeforeOwnerTelegram217} from './source-before-owner-telegram217.mjs';
 export const aftercareCleanupSourcePins=JSON.parse(readFileSync(new URL('./aftercare-cleanup-source-pins.json',import.meta.url),'utf8'));
 const hash=text=>createHash('sha256').update(text).digest('hex');
 export function sourceBeforeAftercareCleanup(file,text){
+ text=sourceBeforeOwnerTelegram217(file,text);
  if(text===null)return null;const raw=text.replaceAll('\r\n','\n'),pin=aftercareCleanupSourcePins.entries[file];
  if(!pin||hash(raw)!==pin.after)return raw; // Unknown bytes reach old guards.
  if(pin.beforeText===null)return null;
  assert.equal(hash(pin.beforeText),pin.before,'AFTERCARE_CLEANUP_INVERSE_CORRUPT:'+file);return pin.beforeText;
 }
-export function restoreAftercareCleanupSourceHashes(sources){return sources.flatMap(entry=>{
+export function restoreAftercareCleanupSourceHashes(sources){return restoreOwnerTelegram217SourceHashes(sources).flatMap(entry=>{
  const pin=aftercareCleanupSourcePins.entries[entry.file];if(!pin||entry.sha256!==pin.after)return[entry];
- const actual=readFileSync(new URL('../../'+entry.file,import.meta.url),'utf8').replaceAll('\r\n','\n');assert.equal(hash(actual),pin.after,'AFTERCARE_CLEANUP_CURRENT_SOURCE_CHANGED:'+entry.file);
+ const actual=sourceBeforeOwnerTelegram217(entry.file,readFileSync(new URL('../../'+entry.file,import.meta.url),'utf8'));assert.equal(hash(actual),pin.after,'AFTERCARE_CLEANUP_CURRENT_SOURCE_CHANGED:'+entry.file);
  const before=sourceBeforeAftercareCleanup(entry.file,actual);return before===null?[]:[{...entry,sha256:hash(before)}];
 });}
 /** @param {string[]} files @param {string|undefined} [reference] */
-export function pathsBeforeAftercareCleanup(files,reference){return files.filter(file=>{
+export function pathsBeforeAftercareCleanup(files,reference){return pathsBeforeOwnerTelegram217(files,reference).filter(file=>{
  const pin=aftercareCleanupSourcePins.entries[file];if(!pin)return true;
- const raw=readFileSync(new URL('../../'+file,import.meta.url),'utf8').replaceAll('\r\n','\n');assert.equal(hash(raw),pin.after,'AFTERCARE_CLEANUP_UNREVIEWED_PATH:'+file);
+ const raw=sourceBeforeOwnerTelegram217(file,readFileSync(new URL('../../'+file,import.meta.url),'utf8'));assert.equal(hash(raw),pin.after,'AFTERCARE_CLEANUP_UNREVIEWED_PATH:'+file);
  if(!reference||pin.beforeText===null)return false;
  let historical=null;try{historical=execFileSync('git',['show',reference+':'+file],{encoding:'utf8',windowsHide:true,stdio:['ignore','pipe','pipe'],maxBuffer:32*1024**2}).replaceAll('\r\n','\n');}catch{/* Missing at that exact Git reference. */}
  return historical!==pin.beforeText;

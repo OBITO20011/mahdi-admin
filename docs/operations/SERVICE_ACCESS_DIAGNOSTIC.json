@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-10-29T13:11:50.959Z",
-  "migrationCeiling": 216,
+  "startedAt": "2026-10-29T19:58:41.034Z",
+  "migrationCeiling": 217,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-5Hr7bt",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-DLXKqN",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -1430,6 +1430,10 @@
       "sha256": "2fcce575796dafd5ca2cff667321cc8d3076a02f14e00ce9f35356072c1b758e"
     },
     {
+      "file": "supabase/functions/_shared/owner-telegram-format.ts",
+      "sha256": "1ea25cd00443e729b1d444fd2d6658252e7107bb3fa1abd2736533b26f5a38d9"
+    },
+    {
       "file": "supabase/functions/admin-ai-assistant/index.ts",
       "sha256": "b7663a899b5fbf868066716d5f3431fb9947dd04688b52878b2967276cd5dc5f"
     },
@@ -1440,6 +1444,14 @@
     {
       "file": "supabase/functions/n8n-alert-feed/index.ts",
       "sha256": "30bab3af0da1ced5c9001f1d3e0a925c79b994e077ab8e1f67dd137fc75e001d"
+    },
+    {
+      "file": "supabase/functions/owner-telegram-dispatch/handler.ts",
+      "sha256": "27eb0794545eab45ef380d7a22c83c2840b2b6c3d54adb72a4398ce3d010f0ec"
+    },
+    {
+      "file": "supabase/functions/owner-telegram-dispatch/index.ts",
+      "sha256": "b7892f32b09118bc8402c5777107e734b9170cb67a85e0f3091692c140c31d0f"
     },
     {
       "file": "supabase/functions/send-order-push/index.ts",
@@ -4135,6 +4147,26 @@
     },
     {
       "acl": [
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ],
+      "name": "claim_owner_telegram_deliveries_v1",
+      "names": [
+        "p_run_id"
+      ],
+      "owner": "postgres",
+      "types": [
+        "uuid"
+      ],
+      "identity": "claim_owner_telegram_deliveries_v1(uuid)",
+      "returnType": "jsonb",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
         "postgres=X/postgres"
       ],
       "name": "cleanup_guest_order_gateway_requests",
@@ -4273,6 +4305,32 @@
         "text"
       ],
       "identity": "complete_order(uuid,text)",
+      "returnType": "jsonb",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ],
+      "name": "complete_owner_telegram_delivery_v1",
+      "names": [
+        "p_run_id",
+        "p_event_id",
+        "p_success",
+        "p_error"
+      ],
+      "owner": "postgres",
+      "types": [
+        "uuid",
+        "uuid",
+        "boolean",
+        "text"
+      ],
+      "identity": "complete_owner_telegram_delivery_v1(uuid,uuid,boolean,text)",
       "returnType": "jsonb",
       "configuration": [
         "search_path=public, pg_temp"
@@ -5627,6 +5685,21 @@
         "jsonb"
       ],
       "identity": "enqueue_order_push_webhook(jsonb)",
+      "returnType": "bigint",
+      "configuration": [
+        "search_path=public, vault, net, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres"
+      ],
+      "name": "enqueue_owner_telegram_dispatch_v1",
+      "names": [],
+      "owner": "postgres",
+      "types": [],
+      "identity": "enqueue_owner_telegram_dispatch_v1()",
       "returnType": "bigint",
       "configuration": [
         "search_path=public, vault, net, pg_temp"
@@ -8451,6 +8524,74 @@
       ],
       "identity": "open_cash_shift(uuid,bigint)",
       "returnType": "jsonb",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres"
+      ],
+      "name": "owner217_claim_deliveries_internal",
+      "names": [
+        "p_channel",
+        "p_limit",
+        "p_lease_seconds"
+      ],
+      "owner": "postgres",
+      "types": [
+        "text",
+        "integer",
+        "integer"
+      ],
+      "identity": "owner217_claim_deliveries_internal(text,integer,integer)",
+      "returnType": "jsonb",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres"
+      ],
+      "name": "owner217_complete_delivery_internal",
+      "names": [
+        "p_event_id",
+        "p_channel",
+        "p_success",
+        "p_error"
+      ],
+      "owner": "postgres",
+      "types": [
+        "uuid",
+        "text",
+        "boolean",
+        "text"
+      ],
+      "identity": "owner217_complete_delivery_internal(uuid,text,boolean,text)",
+      "returnType": "jsonb",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ],
+      "name": "owner_telegram_dispatch_lease_valid_v1",
+      "names": [
+        "p_run_id"
+      ],
+      "owner": "postgres",
+      "types": [
+        "uuid"
+      ],
+      "identity": "owner_telegram_dispatch_lease_valid_v1(uuid)",
+      "returnType": "boolean",
       "configuration": [
         "search_path=public, pg_temp"
       ],
@@ -12165,6 +12306,26 @@
       "types": [],
       "identity": "reject_stocked_product_flavor_master_promotion()",
       "returnType": "trigger",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ],
+      "name": "release_owner_telegram_dispatch_v1",
+      "names": [
+        "p_run_id"
+      ],
+      "owner": "postgres",
+      "types": [
+        "uuid"
+      ],
+      "identity": "release_owner_telegram_dispatch_v1(uuid)",
+      "returnType": "jsonb",
       "configuration": [
         "search_path=public, pg_temp"
       ],
@@ -24714,6 +24875,57 @@
       "command": "SELECT public.\"complete_automation_delivery\"(NULL::uuid,NULL::text,false,NULL::text)"
     },
     {
+      "site": "supabase/functions/owner-telegram-dispatch/handler.ts:61",
+      "name": "claim_owner_telegram_deliveries_v1",
+      "role": "service_role",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "service_role",
+      "identity": "claim_owner_telegram_deliveries_v1(uuid)",
+      "args": [
+        "NULL::uuid"
+      ],
+      "command": "SELECT public.\"claim_owner_telegram_deliveries_v1\"(NULL::uuid)"
+    },
+    {
+      "site": "supabase/functions/owner-telegram-dispatch/handler.ts:61",
+      "name": "owner_telegram_dispatch_lease_valid_v1",
+      "role": "service_role",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "service_role",
+      "identity": "owner_telegram_dispatch_lease_valid_v1(uuid)",
+      "args": [
+        "NULL::uuid"
+      ],
+      "command": "SELECT public.\"owner_telegram_dispatch_lease_valid_v1\"(NULL::uuid)"
+    },
+    {
+      "site": "supabase/functions/owner-telegram-dispatch/handler.ts:61",
+      "name": "complete_owner_telegram_delivery_v1",
+      "role": "service_role",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "service_role",
+      "identity": "complete_owner_telegram_delivery_v1(uuid,uuid,boolean,text)",
+      "args": [
+        "NULL::uuid",
+        "NULL::uuid",
+        "false",
+        "NULL::text"
+      ],
+      "command": "SELECT public.\"complete_owner_telegram_delivery_v1\"(NULL::uuid,NULL::uuid,false,NULL::text)"
+    },
+    {
+      "site": "supabase/functions/owner-telegram-dispatch/handler.ts:61",
+      "name": "release_owner_telegram_dispatch_v1",
+      "role": "service_role",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "service_role",
+      "identity": "release_owner_telegram_dispatch_v1(uuid)",
+      "args": [
+        "NULL::uuid"
+      ],
+      "command": "SELECT public.\"release_owner_telegram_dispatch_v1\"(NULL::uuid)"
+    },
+    {
       "site": "supabase/functions/send-order-push/index.ts:58",
       "name": "get_push_webhook_secret",
       "role": "service_role",
@@ -35762,6 +35974,73 @@
       "sqlstate": "P0001"
     },
     {
+      "site": "supabase/functions/owner-telegram-dispatch/handler.ts:61",
+      "name": "claim_owner_telegram_deliveries_v1",
+      "role": "service_role",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "service_role",
+      "identity": "claim_owner_telegram_deliveries_v1(uuid)",
+      "args": [
+        "NULL::uuid"
+      ],
+      "command": "SELECT public.\"claim_owner_telegram_deliveries_v1\"(NULL::uuid)",
+      "probe": 576,
+      "message": "OWNER_TELEGRAM_RUN_ID_REQUIRED",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "supabase/functions/owner-telegram-dispatch/handler.ts:61",
+      "name": "owner_telegram_dispatch_lease_valid_v1",
+      "role": "service_role",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "service_role",
+      "identity": "owner_telegram_dispatch_lease_valid_v1(uuid)",
+      "args": [
+        "NULL::uuid"
+      ],
+      "command": "SELECT public.\"owner_telegram_dispatch_lease_valid_v1\"(NULL::uuid)",
+      "probe": 577,
+      "message": "success rolled back",
+      "outcome": "success_rolled_back",
+      "sqlstate": null
+    },
+    {
+      "site": "supabase/functions/owner-telegram-dispatch/handler.ts:61",
+      "name": "complete_owner_telegram_delivery_v1",
+      "role": "service_role",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "service_role",
+      "identity": "complete_owner_telegram_delivery_v1(uuid,uuid,boolean,text)",
+      "args": [
+        "NULL::uuid",
+        "NULL::uuid",
+        "false",
+        "NULL::text"
+      ],
+      "command": "SELECT public.\"complete_owner_telegram_delivery_v1\"(NULL::uuid,NULL::uuid,false,NULL::text)",
+      "probe": 578,
+      "message": "OWNER_TELEGRAM_LEASE_LOST",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "supabase/functions/owner-telegram-dispatch/handler.ts:61",
+      "name": "release_owner_telegram_dispatch_v1",
+      "role": "service_role",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "service_role",
+      "identity": "release_owner_telegram_dispatch_v1(uuid)",
+      "args": [
+        "NULL::uuid"
+      ],
+      "command": "SELECT public.\"release_owner_telegram_dispatch_v1\"(NULL::uuid)",
+      "probe": 579,
+      "message": "success rolled back",
+      "outcome": "success_rolled_back",
+      "sqlstate": null
+    },
+    {
       "site": "supabase/functions/send-order-push/index.ts:58",
       "name": "get_push_webhook_secret",
       "role": "service_role",
@@ -35770,7 +36049,7 @@
       "identity": "get_push_webhook_secret()",
       "args": [],
       "command": "SELECT public.\"get_push_webhook_secret\"()",
-      "probe": 576,
+      "probe": 580,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -35786,7 +36065,7 @@
         "'92600000-0000-4000-8000-000000000001'::uuid"
       ],
       "command": "SELECT public.\"get_active_order_push_targets\"('92600000-0000-4000-8000-000000000001'::uuid)",
-      "probe": 577,
+      "probe": 581,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -35805,7 +36084,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"authorize_guest_order_gateway\"(NULL::uuid,NULL::text,NULL::text,NULL::text)",
-      "probe": 578,
+      "probe": 582,
       "message": "Invalid gateway request.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -35843,7 +36122,7 @@
         "0::bigint"
       ],
       "command": "SELECT public.\"submit_guest_customer_order_v2\"('isolated-service-audit-0000000000000000000001',NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,0::double precision,0::double precision,NULL::text,'[]'::jsonb,NULL::text,NULL::text,NULL::text,0::bigint,0::bigint,0::bigint,0::bigint)",
-      "probe": 579,
+      "probe": 583,
       "message": "PHASE3_IDEMPOTENCY_INPUT_INVALID: Customer operation identity is invalid.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -35861,7 +36140,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"finalize_guest_order_gateway\"(NULL::uuid,NULL::text,NULL::uuid)",
-      "probe": 580,
+      "probe": 584,
       "message": "Gateway authorization was not found.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -35879,7 +36158,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"finalize_guest_order_gateway\"(NULL::uuid,NULL::text,NULL::uuid)",
-      "probe": 581,
+      "probe": 585,
       "message": "Gateway authorization was not found.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -37629,6 +37908,21 @@
     {
       "role": "anon",
       "allowed": false,
+      "identity": "claim_owner_telegram_deliveries_v1(uuid)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": false,
+      "identity": "claim_owner_telegram_deliveries_v1(uuid)"
+    },
+    {
+      "role": "service_role",
+      "allowed": true,
+      "identity": "claim_owner_telegram_deliveries_v1(uuid)"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
       "identity": "cleanup_guest_order_gateway_requests(integer)"
     },
     {
@@ -37715,6 +38009,21 @@
       "role": "service_role",
       "allowed": false,
       "identity": "complete_order(uuid,text)"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
+      "identity": "complete_owner_telegram_delivery_v1(uuid,uuid,boolean,text)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": false,
+      "identity": "complete_owner_telegram_delivery_v1(uuid,uuid,boolean,text)"
+    },
+    {
+      "role": "service_role",
+      "allowed": true,
+      "identity": "complete_owner_telegram_delivery_v1(uuid,uuid,boolean,text)"
     },
     {
       "role": "anon",
@@ -38315,6 +38624,21 @@
       "role": "service_role",
       "allowed": false,
       "identity": "enqueue_order_push_webhook(jsonb)"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
+      "identity": "enqueue_owner_telegram_dispatch_v1()"
+    },
+    {
+      "role": "authenticated",
+      "allowed": false,
+      "identity": "enqueue_owner_telegram_dispatch_v1()"
+    },
+    {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "enqueue_owner_telegram_dispatch_v1()"
     },
     {
       "role": "anon",
@@ -40385,6 +40709,51 @@
       "role": "service_role",
       "allowed": false,
       "identity": "open_cash_shift(uuid,bigint)"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
+      "identity": "owner217_claim_deliveries_internal(text,integer,integer)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": false,
+      "identity": "owner217_claim_deliveries_internal(text,integer,integer)"
+    },
+    {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "owner217_claim_deliveries_internal(text,integer,integer)"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
+      "identity": "owner217_complete_delivery_internal(uuid,text,boolean,text)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": false,
+      "identity": "owner217_complete_delivery_internal(uuid,text,boolean,text)"
+    },
+    {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "owner217_complete_delivery_internal(uuid,text,boolean,text)"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
+      "identity": "owner_telegram_dispatch_lease_valid_v1(uuid)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": false,
+      "identity": "owner_telegram_dispatch_lease_valid_v1(uuid)"
+    },
+    {
+      "role": "service_role",
+      "allowed": true,
+      "identity": "owner_telegram_dispatch_lease_valid_v1(uuid)"
     },
     {
       "role": "anon",
@@ -42890,6 +43259,21 @@
       "role": "service_role",
       "allowed": false,
       "identity": "reject_stocked_product_flavor_master_promotion()"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
+      "identity": "release_owner_telegram_dispatch_v1(uuid)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": false,
+      "identity": "release_owner_telegram_dispatch_v1(uuid)"
+    },
+    {
+      "role": "service_role",
+      "allowed": true,
+      "identity": "release_owner_telegram_dispatch_v1(uuid)"
     },
     {
       "role": "anon",
@@ -45362,6 +45746,12 @@
       "schedule": "*/5 * * * *"
     },
     {
+      "name": "owner-telegram-dispatch",
+      "active": false,
+      "command": "SELECT public.enqueue_owner_telegram_dispatch_v1();",
+      "schedule": "* * * * *"
+    },
+    {
       "name": "scan-business-summaries",
       "active": false,
       "command": "SELECT public.scan_business_summaries(NOW());",
@@ -45376,7 +45766,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-10-29T13:14:12.892Z",
+  "endedAt": "2026-10-29T20:00:33.305Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {
@@ -45721,7 +46111,7 @@
   ],
   "savedCatalogProvenance": {
     "baseline": "703fc51abb6b65ce2df2edcf14c6ecb235b74ddf",
-    "scope": "Historical15Oct saved-catalog review only;effectiveLocal and invocationResults measured anew on216;no hosted read"
+    "scope": "Historical15Oct saved-catalog review only;effectiveLocal and invocationResults measured anew on217;no hosted read"
   },
   "oldReferences": [
     {

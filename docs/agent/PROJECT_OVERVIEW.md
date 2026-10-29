@@ -1,3 +1,7 @@
+#29Oct — owner Telegram217 server transport in progress
+
+Read OWNER_TELEGRAM217_AR.md and FRANKFURT_OWNER_BUSINESS_ALERTS_AR.md. PR45 merged5a50320f exact FULL51/main51;primary owner files preserved. Owner reports hosted216 verified/backup/restore. New isolated217 transport only,same payload/financial producers/exclusions;held minute cron,DB+Edge off,old n8n fenced.179 ceiling with backup/reset217/strict upgrade/reference same PR. No hosted/deploy/activation/merge/next package before owner approval.
+
 #29Oct — current bounded task:UI aftercare cleanup after approved PR44
 
 Main015ffcae98da6241514cd8ab3b646dd2993c9eb2,ceiling216/178. Owner approved separate UI-only cleanup. Read docs/agent/AFTERCARE_UI_CLEANUP_AR.md for the old-button coverage matrix and preserved recovery/previous replacements. No migration/RPC/service/financial/permission changes or hostedaccess/deploy. PR/FULLCI/Gitleaks0 then ownerapprovalSTOP;no next package.

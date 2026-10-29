@@ -1,4 +1,5 @@
 import {expectedHeld217Notifications} from './owner-telegram217-notifications.mjs';
+import {assertUpgradeAdministrator} from './backup-task-preflight.mjs';
 import {prepareResetSession,startResetAttempt,validateResetResume,finishResetSession,reset217Marker} from './reset214-session.mjs';
 import {reset214ArabicReason as reset217ArabicReason,reset214ResumeDisposition as reset217ResumeDisposition} from './reset214-diagnostics.mjs';
 // Owner terminal only. --plan is offline; --dry-run uses read-only sessions.
@@ -33,6 +34,7 @@ export function reset217Arguments(args){
  return {mode,workdir,ownerId,reference};
 }
 export async function runOwnerReset217(args){
+ if(args.includes('--apply')||args.includes('--resume'))await assertUpgradeAdministrator();
  await operationalManifest();assert.equal(operationalSchema.resetCommand,'frankfurt-owner-reset217','RESET_ADAPTER_NOT_CURRENT');
  const options=reset217Arguments(args),{workdir,ownerId,mode}=options;
  assertOutsideRepository(workdir);assertOutsideRepository(await realpath(workdir),await realpath(root));
@@ -107,7 +109,7 @@ export async function runOwnerReset217(args){
   assert.equal(report.reset.complete,true);Object.assign(report,{ok:true,complete:true,stage:'complete'});return report;
  }catch(error){
   report.ok=false;report.complete=false;
-  report.code=/\bRESET(?:214|216|217)_[A-Z0-9_]+\b/u.exec(error.message)?.[0]??(error.code==='ENOENT'?'RESET217_REQUIRED_FILE_MISSING':'RESET217_PREFLIGHT_OR_OPERATION_FAILED');
+  report.code=/\bRESET(?:214|215|216|217)_[A-Z0-9_]+\b/u.exec(error.message)?.[0]??(error.code==='ENOENT'?'RESET217_REQUIRED_FILE_MISSING':'RESET217_PREFLIGHT_OR_OPERATION_FAILED');
   report.reasonArabic=reset217ArabicReason(report.code);
   report.recoveryRequired=report.reset?.destructiveStarted===true;return report;
  }finally{
@@ -125,5 +127,5 @@ export async function runOwnerReset217(args){
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){
  try{const r=await runOwnerReset217(process.argv.slice(2));console.log(JSON.stringify({ok:r.ok,complete:r.complete,mode:r.mode,output:r.output,code:r.code,reasonArabic:r.reasonArabic,plan:r.plan,networkAccess:r.networkAccess,recoveryRequired:r.recoveryRequired,resumable:r.resumable}));if(!r.ok)process.exitCode=1;}
- catch{console.error('RESET217_LOCAL_ADMISSION_FAILED');process.exitCode=1;}
+ catch(error){console.error(error?.code==='UPGRADE_BACKUP_TASKS_NOT_VISIBLE_RUN_AS_ADMINISTRATOR'?error.code:'RESET217_LOCAL_ADMISSION_FAILED');process.exitCode=1;}
 }

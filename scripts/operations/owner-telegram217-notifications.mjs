@@ -5,6 +5,10 @@ import {executeInput} from './build-empty-supabase.mjs';
 import {expectedHeldNotifications,notificationSnapshotSql,readNotificationSnapshot,heldJobNames,heldTrigger} from './frankfurt-notification-hold.mjs';
 import {assessBuildCron} from './build-cron-report.mjs';
 export const ownerTelegramJob=Object.freeze({name:'owner-telegram-dispatch',schedule:'* * * * *',command:'SELECT public.enqueue_owner_telegram_dispatch_v1();'});
+export async function assertOwner217HeldSettings(executor){
+ const r=await executeInput(executor,"BEGIN READ ONLY;SELECT count(*)=1 AND bool_and(id AND NOT enabled AND run_id IS NULL AND lease_expires_at IS NULL) FROM public.owner_telegram_dispatch_settings;ROLLBACK;");
+ assert.equal(r.code,0,'OWNER217_SETTINGS_READ_FAILED');assert.equal(r.stdout.trim(),'t','OWNER217_SETTINGS_MUST_REMAIN_HELD');return true;
+}
 export function assessOwner217Cron(rows){
  const extra=rows.filter(r=>r.name===ownerTelegramJob.name);assert.equal(extra.length,1,'OWNER217_CRON_INVENTORY_REQUIRED');
  assert.deepEqual(extra[0],{...ownerTelegramJob,active:false},'OWNER217_NEW_CRON_MUST_REMAIN_HELD');

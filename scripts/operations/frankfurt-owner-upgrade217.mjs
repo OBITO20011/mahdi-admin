@@ -1,4 +1,4 @@
-import {expectedHeld217Notifications} from './owner-telegram217-notifications.mjs';
+import {expectedHeld217Notifications,assertOwner217HeldSettings} from './owner-telegram217-notifications.mjs';
 // Owner-only entrypoint. Default dry-run is local and never asks for a password.
 import assert from 'node:assert/strict';
 import {readFile,writeFile,mkdir,realpath} from 'node:fs/promises';
@@ -29,7 +29,10 @@ export function assert217History(history,reference){
 export async function inputs217(reference){return Promise.all(reference.manifest.filter(m=>Number(m.name.slice(0,3))>138).map(async unit=>{
  const input=await readFile(path.join(root,'supabase/migrations',unit.name));assert.equal(sha256(canonicalLf(input.toString('utf8'))),unit.sha256,'UPGRADE217_PIN_MISMATCH');return {...unit,version:unit.name.slice(0,3),input};
 }));}
-export const verify217ReadOnly=(executor,output,reference,original,dates,report)=>verifyCatalogReadOnly(executor,output,reference,original,dates,report,{strictApplicationAcl:true,assertReadyCatalog:assertReady217Catalog,expectedNotifications:expectedHeld217Notifications});
+export const verify217ReadOnly=async(executor,output,reference,original,dates,report)=>{
+ const result=await verifyCatalogReadOnly(executor,output,reference,original,dates,report,{strictApplicationAcl:true,assertReadyCatalog:assertReady217Catalog,expectedNotifications:expectedHeld217Notifications});
+ report.ownerTelegramSettingsHeld=await assertOwner217HeldSettings(executor);return result;
+};
 export async function upgrade217WithExecutor({executor,reference,original,output,repair,finalDryRun,report={}}){
  const sql=async input=>{const r=await executeInput(executor,input);assert.equal(r.code,0,'UPGRADE217_SQL_FAILED');return r.stdout.trim();};
  const history=async()=>JSON.parse(await sql(historySql)),catalog=async()=>JSON.parse(await sql(schemaCatalogSql)),current=await history(),pending=assert217History(current,reference);
@@ -40,7 +43,7 @@ export async function upgrade217WithExecutor({executor,reference,original,output
   const comparison=await persistCatalogComparison(dir,prefix.catalog,observed,{...dates,beforeBuildDate:prefix.buildUtcDate},{});
   assert.equal(comparison.unexpectedDifferenceCount,0,'UPGRADE217_UNEXPECTED_CATALOG_DIFFERENCE');
   const acl=compareApplicationAcl(prefix.catalog,observed);await writeFile(path.join(dir,'application-acl-comparison.json'),JSON.stringify(acl,null,2)+'\n');assert.equal(acl.ok,true,'UPGRADE217_ACL_MISMATCH');
-  if(version==='216')assertReady216Catalog(observed);else assertReady217Catalog(observed);
+  if(version==='216')assertReady216Catalog(observed);else{assertReady217Catalog(observed);await assertOwner217HeldSettings(executor);}
   assert.deepEqual(await readRealtimePublication(executor),prefix.realtimePublication,'UPGRADE217_PUBLICATION_CHANGED');const notifications=await readNotificationSnapshot(executor);assert.deepEqual(notifications,version==='216'?expectedHeldNotifications(original):expectedHeld217Notifications(original,notifications),'UPGRADE217_HOLD_CHANGED');
  };
  await check(current.at(-1),'preflight-prefix');

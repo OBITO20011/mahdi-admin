@@ -3,30 +3,39 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner-approved server-side owner Telegram dispatch;217 plus operational ceiling/reset/backup/strict upgrade in same PR;return for approvalSTOP",
-  "baselineSha": "a536c026ee72fe6715176d5f8f84f1a58efdb6fd",
+  "baselineSha": "67cdbcc89294ab5f86208e6a72acca154024bc42",
   "branch": "codex/owner-telegram-server",
   "phase": "PACKAGE_F",
   "completed": [
     "PR45 exact17e08fbb full51 push+PR verified and merged5a50320f",
     "Primary19files byte-preserved,state local additions preserved;216 localdryrun PASS",
-    "Exact formatter/handler8 tests,types/strictlint PASS;literal217 actualDB7groups PASS including2sessions/retry/deadletter/loopback/roles"
+    "Exact formatter/handler8 tests,types/strictlint PASS;literal217 actualDB7groups PASS including2sessions/retry/deadletter/loopback/roles",
+    "Current217 runtime9 PASS realSDK/PostgREST/loopback,17healthy0 and invariant business hashes;Deno/formatter8/ownerPlan PASS",
+    "Main45 strict51 accepted attempt2;docs/current217 operational candidates prepared"
   ],
   "inProgress": [
-    "217 versioned operational adapters/reset integration;reference/SDK/fullquality not yet verified"
+    "Fresh217 SDK refresh after retained recipient guard;ready reference/strict upgrade/reset/archive/fullquality still pending"
   ],
   "notStarted": [
     "217 local implementation/runtime/operational tools/reference/FULLCI/PR"
   ],
   "testsPassed": [
     "Predecessor exact CI51 each/secrets/backup;primary216dryrun",
-    "DB runtime output Temp/nawasrah-owner-telegram217-IdHC99;initial bool-parser run rejected and fixed without SQL policy change"
+    "DB runtime output Temp/nawasrah-owner-telegram217-IdHC99;initial bool-parser run rejected and fixed without SQL policy change",
+    "Runtime217 TU9Dze9groups/17healthy/realSDK;description OWNER_TELEGRAM217_LOCAL.json"
   ],
   "testsRemaining": [
-    "All new package local/runtime/security/fullCI gates"
+    "Fresh current217 SDK source binding",
+    "Fresh/incremental217 ready reference and strict upgrade",
+    "RESET217 resume/CLI/negative cases",
+    "Encrypted v2 archive214215216217/strict local+R2 restore/watchdog",
+    "Full app quality and exact FULLpush+PR53/secrets/backup/Gitleaks0",
+    "Owner PR approval before merge"
   ],
   "findings": [
     "Owner reports hosted216verifyok,Backup216178,Restore15117healthy;not independently accessed",
-    "Managed worktree creation failed git filter discovery timeout;isolated git worktree created manually,explicit cwd used"
+    "Managed worktree creation failed git filter discovery timeout;isolated git worktree created manually,explicit cwd used",
+    "HTTPfixture PGRST125 corrected RESTprefix only;no production RPC or assertion change"
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -35,13 +44,13 @@
     "No financial/payload/summary/exclusion policy changes",
     "No merge or next package before owner approval"
   ],
-  "nextExactAction": "Complete217 strict reference,operational/restore/reset/SDK/Edge locked verification,documents then FULLCI/PR ownerapprovalSTOP",
+  "nextExactAction": "Refresh actual217 SDK source proof,build fresh+incremental217 reference,run strict upgrade/RESET217/archive compatibility/fullquality;save/push then PR FULLCI ownerapprovalSTOP",
   "startedAt": "2026-10-29T19:25:12.791Z",
-  "checkpointedAt": "2026-10-29T19:43:48.122Z",
+  "checkpointedAt": "2026-10-29T20:38:43.036Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 21,
-  "filesTouchedManifestSha256": "6a9cd75f33131e8c9bd94fb980a51f5f20fc73a858871350389ab72dddd3d7bc",
-  "workingTreeFingerprint": "E09A3DB5CD9AA490E1F259B94D06F3E96D4D015EEEC8229EEB7CCE4F9E0E6EC6"
+  "filesTouchedCount": 46,
+  "filesTouchedManifestSha256": "f20d9f5bb3d3c2a66131bb03bc89592712d4f44dbd7fd970810312588c09860a",
+  "workingTreeFingerprint": "50ECE52582253793D32809DCDE9596DE2DDD85C88FF53314ECE39E7212AC6177"
 }

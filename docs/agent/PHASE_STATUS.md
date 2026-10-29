@@ -1,3 +1,7 @@
+#29Oct — approved45 delivered;owner Telegram217 local verification
+
+Main5a50320f strict FULL51 accepted after one identical-code environmental main-browser rerun (initial49/gate failed);no assertion/timeouts changed. Primary19files/state additions preserved. New217 formatter8/Deno frozen check/runtime7 and actualSDK157/58618expected accepted;expanded realSDK/cron/integrity9 pending,reference/reset/archive/fullCI pending. No hosted/deploy/activation.
+
 #29Oct — aftercare UI cleanup local acceptance complete;exact FULLCI next
 
 UI-only after main015ffca:one wizard/damage list,owner folded prior-source choice,packet/supplier help. Admin1615/store203,new24+currentRecovery2+migrated84+affected104 browser0fail/skip/flaky,sixbuilds/PWA4/network0,actual SDK157/58218expected and unchangedrolegrants,types/lint PASS. See AFTERCARE_UI_CLEANUP_AR.md/LOCAL.json. No DB/Edge/service/RPC/permission change. PR/exact FULLpush+PR/secrets/backup/Gitleaks0 then approvalSTOP;no hosted/deploy/merge/nextphase.

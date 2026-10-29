@@ -1,3 +1,4 @@
+import {sourceBeforeOwnerTelegram217} from './source-before-owner-telegram217.mjs';
 import {sourceBeforeAftercare215} from './source-before-aftercare215.mjs';
 import {sourceBeforePartial216} from './source-before-partial216.mjs';
 // Local-only RPC EXECUTE diagnostics;each invocation rolls back even on success.
@@ -35,7 +36,7 @@ export function probeValue(name,type){
  return `NULL::${type}`;
 }
 try{
- const sourceOptions={projectSource:migrationCeiling<215?sourceBeforeAftercare215:migrationCeiling===215?sourceBeforePartial216:undefined};
+ const sourceOptions={projectSource:migrationCeiling<215?sourceBeforeAftercare215:migrationCeiling===215?sourceBeforePartial216:migrationCeiling===216?sourceBeforeOwnerTelegram217:undefined};
  const source=await serviceInventory(sourceOptions);report.sourceHashes=source.sourceHashes;
  const boot=await exec(process.execPath,[path.join(root,'scripts/testing/bootstrap-isolated-supabase.mjs')],{cwd:root,windowsHide:true,maxBuffer:8*1024**2,env:{...process.env,
   NAWASRAH_ISOLATED_PROJECT_ID:project,NAWASRAH_MAX_MIGRATION:String(migrationCeiling),NAWASRAH_SKIP_REDUNDANT_DB_RESET:'true',

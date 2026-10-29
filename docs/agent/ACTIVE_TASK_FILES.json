@@ -3,19 +3,55 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/project-state.json"
+      "path": ".github/workflows/backup-recovery.yml"
     },
     {
       "code": " M",
-      "path": "package.json"
+      "path": ".github/workflows/quality.yml"
     },
     {
       "code": " M",
-      "path": "scripts/agent/lib.mjs"
+      "path": "docs/agent/OWNER_DECISIONS.md"
     },
     {
       "code": " M",
-      "path": "scripts/agent/preflight.mjs"
+      "path": "docs/agent/PHASE_STATUS.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/agent/PROJECT_OVERVIEW.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/generated/DB_FUNCTIONS.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/handover/ورقة-يوم-التشغيل.html"
+    },
+    {
+      "code": " M",
+      "path": "docs/handover/ورقة-يوم-التشغيل.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/FRANKFURT_OWNER_BUSINESS_ALERTS_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
     },
     {
       "code": " M",
@@ -27,23 +63,35 @@
     },
     {
       "code": " M",
-      "path": "scripts/operations/frankfurt-catalog-verification.mjs"
+      "path": "scripts/audit/service-access-inventory.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/operations/frankfurt-owner-reset216.mjs"
+      "path": "scripts/audit/source-before-aftercare-cleanup.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/operations/frankfurt-owner-upgrade216.mjs"
+      "path": "scripts/operations/build-acl-reference216.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/operations/reset214-session.mjs"
+      "path": "scripts/operations/frankfurt-owner-build.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/operations/trial-reset-core.mjs"
+      "path": "scripts/operations/frankfurt-owner-reset217.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/frankfurt-owner-upgrade217.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/frankfurt-reference216.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/owner-telegram217-notifications.mjs"
     },
     {
       "code": " M",
@@ -51,7 +99,23 @@
     },
     {
       "code": " M",
+      "path": "scripts/testing/run-dual-backup-runtime.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-owner-telegram217-runtime.mjs"
+    },
+    {
+      "code": " M",
       "path": "supabase/functions/owner-telegram-dispatch/handler.ts"
+    },
+    {
+      "code": " M",
+      "path": "supabase/functions/owner-telegram-dispatch/index.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/operational-schema.test.ts"
     },
     {
       "code": " M",
@@ -59,31 +123,67 @@
     },
     {
       "code": "??",
-      "path": "scripts/operations/build-acl-reference217.mjs"
+      "path": "docs/agent/OWNER_TELEGRAM217_LOCAL.json"
     },
     {
       "code": "??",
-      "path": "scripts/operations/frankfurt-owner-reset217.mjs"
+      "path": "docs/operations/FRANKFURT_OWNER_UPGRADE217_AR.md"
     },
     {
       "code": "??",
-      "path": "scripts/operations/frankfurt-owner-upgrade217.mjs"
+      "path": "docs/operations/OWNER_TELEGRAM217_DISABLE.sql"
     },
     {
       "code": "??",
-      "path": "scripts/operations/frankfurt-reference217.mjs"
+      "path": "docs/operations/OWNER_TELEGRAM217_ENABLE.sql"
     },
     {
       "code": "??",
-      "path": "scripts/operations/owner-telegram217-notifications.mjs"
+      "path": "docs/operations/RESET217_OWNER_AR.md"
     },
     {
       "code": "??",
-      "path": "scripts/testing/run-owner-telegram217-runtime.mjs"
+      "path": "docs/operations/TABLE_ACCESS_AFTER_217.json"
     },
     {
       "code": "??",
-      "path": "supabase/migrations/217_owner_telegram_dispatch.sql"
+      "path": "scripts/audit/enrich-service217-evidence.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/owner-telegram217-source-pins.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/pin-owner-telegram217-sources.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-owner-telegram217.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/owner-telegram217-test.ps1"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-owner-telegram217-edge-gates.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-owner-telegram217-gates.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-owner-upgrade217-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-reset217-cli-contract.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-reset217-resume-runtime.mjs"
     }
   ]
 }

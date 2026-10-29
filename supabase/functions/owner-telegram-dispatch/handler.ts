@@ -3,9 +3,9 @@ import {formatOwnerMessage, ownerInlineKeyboard, ownerTestMessage, type OwnerEve
 type Json = Record<string, unknown>;
 export type DispatchConfig = {
   secret?: string; enabled?: string; testEnabled?: string;
-  botToken?: string; ownerChatId?: string;
+  botToken?: string; ownerChatId?: string; developerChatIdForComparison?: string;
 };
-export type DispatchClient = {rpc(name:string, args:Json):Promise<{data:unknown;error:unknown}>};
+export type DispatchClient = {rpc(name:string, args:Json):PromiseLike<{data:unknown;error:unknown}>};
 export type DispatchDependencies = {
   config:DispatchConfig;
   createClient:()=>DispatchClient;
@@ -35,7 +35,10 @@ export function ownerTelegramHandler(deps:DispatchDependencies) {
     if(!record(body)||!['dispatch','test'].includes(String(body.mode)))return response('OWNER_TELEGRAM_INVALID_REQUEST',400);
     const test=body.mode==='test';
     if(test?config.testEnabled!=='true'||body.testConsent!==true:config.enabled!=='true')return response('OWNER_TELEGRAM_DISABLED');
-    if(!config.botToken||!/^\d+:[A-Za-z0-9_-]{20,}$/.test(config.botToken)||!config.ownerChatId||! /^[1-9]\d{0,19}$/.test(config.ownerChatId))return response('OWNER_TELEGRAM_NOT_CONFIGURED',503);
+    if(!config.botToken||!/^\d+:[A-Za-z0-9_-]{20,}$/.test(config.botToken)
+      ||!config.ownerChatId||! /^[1-9]\d{0,19}$/.test(config.ownerChatId)
+      ||!config.developerChatIdForComparison||! /^-?[1-9]\d{0,19}$/.test(config.developerChatIdForComparison)
+      ||config.ownerChatId===config.developerChatIdForComparison)return response('OWNER_TELEGRAM_NOT_CONFIGURED',503);
     const send=async(text:string,keyboard:ReturnType<typeof ownerInlineKeyboard>):Promise<boolean>=>{
       try{
         const sent=await deps.fetch('https://api.telegram.org/bot'+config.botToken+'/sendMessage',{

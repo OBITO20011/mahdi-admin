@@ -11,7 +11,7 @@ const workflow=JSON.parse(readFileSync('automation/n8n/workflows/frankfurt-owner
 const expressions=workflow.nodes.find((n:{name:string})=>n.name==='Format Owner Message').parameters.assignments.assignments as Array<{value:string}>;
 const old=(index:number,event:OwnerEvent)=>new Function('$json',`return (${expressions[index].value.slice(3,-3)});`)(event) as unknown;
 const id='10000000-0000-4000-8000-000000000001',secret='local-only-synthetic-dispatch-secret-217',token='123456:'+ 'SYNTHETIC_'.repeat(4),chat='811111111';
-const config={secret,enabled:'true',testEnabled:'false',botToken:token,ownerChatId:chat};
+const config={secret,enabled:'true',testEnabled:'false',botToken:token,ownerChatId:chat,developerChatIdForComparison:'-922222222'};
 const request=(body:unknown={mode:'dispatch'},auth=secret)=>new Request('http://127.0.0.1/owner-telegram-dispatch',{method:'POST',headers:{'x-owner-telegram-secret':auth,'Content-Type':'application/json'},body:JSON.stringify(body)});
 function fixture(override:Partial<DispatchDependencies>={}) {
   const calls:Array<{name:string;args:Record<string,unknown>}> = [],sent:Array<Record<string,unknown>>=[];
@@ -37,7 +37,7 @@ test('217 shared formatter matches every reviewed golden and the frozen n8n text
 });
 
 test('217 unauthorized/disabled/malformed configuration invokes zero service calls and sends nothing',async()=>{
-  for(const [patch,auth,expected]of [[{enabled:'false'},secret,'OWNER_TELEGRAM_DISABLED'],[{enabled:undefined},secret,'OWNER_TELEGRAM_DISABLED'],[{},'wrong','OWNER_TELEGRAM_UNAUTHORIZED'],[{secret:''},secret,'OWNER_TELEGRAM_NOT_CONFIGURED'],[{ownerChatId:'-811111111'},secret,'OWNER_TELEGRAM_NOT_CONFIGURED']]as const){
+  for(const [patch,auth,expected]of [[{enabled:'false'},secret,'OWNER_TELEGRAM_DISABLED'],[{enabled:undefined},secret,'OWNER_TELEGRAM_DISABLED'],[{},'wrong','OWNER_TELEGRAM_UNAUTHORIZED'],[{secret:''},secret,'OWNER_TELEGRAM_NOT_CONFIGURED'],[{ownerChatId:'-811111111'},secret,'OWNER_TELEGRAM_NOT_CONFIGURED'],[{developerChatIdForComparison:chat},secret,'OWNER_TELEGRAM_NOT_CONFIGURED'],[{developerChatIdForComparison:''},secret,'OWNER_TELEGRAM_NOT_CONFIGURED']]as const){
     const f=fixture({config:{...config,...patch}}),r=await f.handler(request(undefined,auth));assert.equal((await r.json()).code,expected);assert.equal(f.created(),0);assert.deepEqual(f.sent,[]);assert.deepEqual(f.calls,[]);
   }
 });

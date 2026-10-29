@@ -1,0 +1,75 @@
+{
+  "format": 1,
+  "status": "IN_PROGRESS_NOT_DELIVERY",
+  "ceiling": 217,
+  "migrations": 179,
+  "baselineMain": "5a50320fea2f30c36f8b784164c97a4aa270220d",
+  "managedAccess": false,
+  "deployed": false,
+  "activated": false,
+  "merged": false,
+  "main45": {
+    "sha": "5a50320fea2f30c36f8b784164c97a4aa270220d",
+    "quality": 40939418753,
+    "attempt": 2,
+    "jobsPassed": 51,
+    "secrets": 40939418879,
+    "backup": 40939418701,
+    "environmentalRerun": "One identical-code failed-jobs main retry after browser button timeout;no code/retry/timeout/assertion changes"
+  },
+  "formatter": {
+    "reviewedGoldens": 16,
+    "handlerUnitGroups": 8,
+    "htmlAndKeyboardExact": true
+  },
+  "edge": {
+    "deno": "2.1.4",
+    "frozenCheck": true,
+    "ownerAndDeveloperRecipientGuard": true,
+    "flagsDefaultFalse": true
+  },
+  "runtime": {
+    "ok": true,
+    "groups": 9,
+    "realSql": true,
+    "realSdkAndPostgrest": true,
+    "telegram": "loopback fake only",
+    "outboxRetryAndDeadLetterUnchanged": true,
+    "twoSessionLease": true,
+    "businessRowsAndSequencesUnchanged": true,
+    "integrityHealthy": 17,
+    "issues": 0,
+    "sourceFrozen": true,
+    "evidence": "C:/Users/TOP/AppData/Local/Temp/nawasrah-owner-telegram217-TU9Dze/report.json"
+  },
+  "currentSdk": {
+    "refreshRequiredAfterAdditionalRecipientGuard": true,
+    "previousTableQueries": 157,
+    "previousServiceProbes": 586,
+    "previousExpectedDenials": 18,
+    "finalAccepted": false
+  },
+  "generatedFunctions": {
+    "ceiling": 217,
+    "functions": 633
+  },
+  "ownerTestPlan": {
+    "ok": true,
+    "networkAccess": false,
+    "claims": 0,
+    "messagesSent": 0
+  },
+  "remaining": [
+    "Fresh current217 SDK source binding",
+    "Fresh/incremental217 ready reference and strict upgrade",
+    "RESET217 resume/CLI/negative cases",
+    "Encrypted v2 archive214215216217/strict local+R2 restore/watchdog",
+    "Full app quality and exact FULLpush+PR53/secrets/backup/Gitleaks0",
+    "Owner PR approval before merge"
+  ],
+  "rejectedRuns": [
+    "First DB runner bool parser t:fixed test-only to_jsonb",
+    "First realSDK HTTP path PGRST125:direct PostgREST lacks Supabase /rest/v1;existing REST-only local path adapter reused,zero RPC/permission/timeout/assertion changes"
+  ],
+  "updatedAt": "2026-10-29T20:38:34.879Z"
+}
