@@ -11,39 +11,11 @@
     },
     {
       "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_216.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "e2e/aftercare-cleanup.spec.ts"
+      "path": "e2e/package-d-pos-fullstack.spec.ts"
     },
     {
       "code": " M",
       "path": "scripts/audit/aftercare-cleanup-source-pins.json"
-    },
-    {
-      "code": " M",
-      "path": "src/features/more/DamageHistoryPanel.tsx"
-    },
-    {
-      "code": " M",
-      "path": "tests/strict-test-contracts.test.ts"
     }
   ]
 }

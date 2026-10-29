@@ -3,17 +3,17 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner-approved UI-only aftercare cleanup;one wizard,packet labels,supplier help;own PR FULLCI approvalSTOP",
-  "baselineSha": "964b2e34970c604fc47dd6e79e0331dd0b71826e",
+  "baselineSha": "963b4f52ae45e21790e2b15825ae08b4dd26b7e8",
   "branch": "codex/trial-aftercare-cleanup",
   "phase": "PACKAGE_F",
   "completed": [
     "PR44/main015ffca FULL51 delivered;primary19files/state216 preserved",
     "All local cleanup gates accepted;details AFTERCARE_UI_CLEANUP_LOCAL.json",
-    "Admin1615/store203,24+2+84+104browser0skip/flaky,sixbuilds/PWA4/network0",
-    "CurrentSDK157/58218expected;SQL/services/grants/oldpins unchanged"
+    "Admin1615/store203,24+2+84+104browser/sixbuilds/PWA4/network0",
+    "CI963 extraoldUItest fixed;actualPOS8/8 realAuthRPC passed;no appSQL/servicechange"
   ],
   "inProgress": [
-    "Final exactSHA PR/fullCI then owner approvalSTOP"
+    "Push bounded realPOS test correction;PR45 newexactFULLCI then ownerapprovalSTOP"
   ],
   "notStarted": [
     "Owner review/merge"
@@ -24,12 +24,13 @@
     "CurrentSDK157/58218expected;SQL/services/grants/oldpins unchanged"
   ],
   "testsRemaining": [
-    "Exact final full push+PR CI/secrets/backup",
+    "New exact final SHA full push+PR CI/secrets/backup",
     "Owner approval before merge"
   ],
   "findings": [
-    "No hosted/deploy/newSQL;owner216ready default preserved",
-    "Rejected local runs documented;all final local gates passed"
+    "CI963 rejected,cancelled ownqualityonly;notdelivery",
+    "ActuallocalPOS keeps5/4500/2700/1800/2 andzeroReplay",
+    "No hosted/deploy;ownerdefault216reference unchanged"
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -38,13 +39,13 @@
     "No DB/migration/RPC/money/permission change",
     "No merge or next package before owner approval"
   ],
-  "nextExactAction": "Final sourceguards/Gitleaks then push finalSHA/openPR and verify FULL51push+PR/secrets/backup;ownerapprovalSTOP",
+  "nextExactAction": "Push verified realPOS8 test correction;PR45 newexact FULL51push+PR plussecret/backup;ownerapprovalSTOP",
   "startedAt": "2026-10-29T11:42:42.638Z",
-  "checkpointedAt": "2026-10-29T15:51:36.983Z",
+  "checkpointedAt": "2026-10-29T16:07:55.053Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 11,
-  "filesTouchedManifestSha256": "bca28dc224bdd8464f80f955b43b96e210d7a55de32be41ac1d02a96bc4e4c20",
-  "workingTreeFingerprint": "FA25C7CD81E10D11AE4ECA236790EDB952CF8B554AAEE91B2286F7387C1942B2"
+  "filesTouchedCount": 4,
+  "filesTouchedManifestSha256": "5549b06f4d994f03beb800fe68356449cfc8ce2b8fb758198e6d62390b4c291a",
+  "workingTreeFingerprint": "198E769DAAEE60573908A1B080DA56370640BBF72C8D9AAA047411488FA44525"
 }

@@ -1,5 +1,5 @@
 {
-  "status": "ALL_LOCAL_GATES_PASS_EXACT_FULL_CI_PENDING",
+  "status": "ALL_LOCAL_GATES_PASS_CI_LEGACY_BROWSER_CORRECTED_EXACT_FULL_CI_PENDING",
   "baseline": "015ffcae98da6241514cd8ab3b646dd2993c9eb2",
   "ceiling": 216,
   "migrations": 178,
@@ -39,10 +39,16 @@
     {
       "file": "admin-final.log",
       "reason": "1614/1615;old assertion operands still named removed legacy button;exact approved cleanup inverse added only to historical assertion contract;no expected values weakened"
+    },
+    {
+      "head": "963b4f52ae45e21790e2b15825ae08b4dd26b7e8",
+      "run": 40906089934,
+      "job": 123561235001,
+      "reason": "Real POS fullstack browser spec still selected removed Advanced UI before write;ported to existing authenticated invoice reader/current215wizard;all original numeric values and zero replay assertions kept;actual8/8local PASS"
     }
   ],
   "remaining": [
-    "Exact final SHA full push+PR CI/secrets/backup/Gitleaks0",
+    "New exact final SHA full push+PR CI/secrets/backup",
     "Owner approval before merge"
   ],
   "currentSdk": {
@@ -280,5 +286,24 @@
     "promotedToOwnerDefault": false,
     "hostedAccess": false
   },
-  "finalCurrentSdkSourceMatches": true
+  "finalCurrentSdkSourceMatches": true,
+  "actualPosFullstack": {
+    "pass": 8,
+    "fail": 0,
+    "skipped": 0,
+    "browsers": [
+      "Chromium",
+      "WebKit"
+    ],
+    "realAuthenticatedInvoiceReader": true,
+    "realPublicRpc": true,
+    "realIsolatedDatabase": true,
+    "productionRequests": 0,
+    "expectedPacketCount": 5,
+    "refundMinorUnits": 4500,
+    "customerDamageRefundMinorUnits": 2700,
+    "rawDamageDeductionMinorUnits": 1800,
+    "restockedAfterCustomerDamage": 2,
+    "replayZeroWrites": true
+  }
 }

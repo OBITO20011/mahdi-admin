@@ -1,3 +1,4 @@
+import {openAftercare,finishCurrentInspection} from './aftercare-current-ui';
 import {test, expect, type Page} from './isolated-test';
 
 const baseUrl = process.env.PHASE44_ADMIN_BASE_URL;
@@ -70,19 +71,15 @@ async function mountAftercare(page: Page, orderId: string) {
     const react=await load('/node_modules/.vite/deps/react.js');
     const dom=await load('/node_modules/.vite/deps/react-dom_client.js');
     const panel=await load('/src/features/orders/AdminAftercarePanel.tsx');
+    const service=await load('/src/services/supabase/orders.service.ts');
+    const saved=await service.fetchOrderByIdFromSupabase(id);
+    if(!saved.success||!saved.order)throw Error('Saved isolated invoice read failed');
     (dom.createRoot ?? dom.default.createRoot)(document.getElementById('root')).render(
-      // Only seed the committed sale identity. The panel obtains all eligibility,
-      // quantity, price and lineage facts through its authenticated public RPC.
-      // Do not grant direct table access just to prepare the browser harness.
-      (react.default ?? react).createElement(panel.AdminAftercarePanel,{order:{id,items:[]},
+      // Same authenticated invoice reader used by SalesInvoiceDialog; no new grants.
+      (react.default ?? react).createElement(panel.AdminAftercarePanel,{order:saved.order,
         onContractResolved:()=>undefined,notify:()=>undefined}));
   },orderId);
-  await openPreviousAftercare(page);
-}
-async function openPreviousAftercare(page: Page) {
-  const summary=page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true});
-  await expect(summary).toBeVisible();
-  if(await summary.evaluate(node=>!(node.parentElement as HTMLDetailsElement).open))await summary.click();
+  await expect(page.getByRole('button',{name:'إرجاع أو استبدال',exact:true})).toBeEnabled();
 }
 const aftercareSnapshot=async(orderId:string)=>{
   const response=await fetch(`${controlUrl}/snapshot?orderId=${orderId}`);
@@ -155,22 +152,22 @@ test.describe('Package D POS browser to real isolated RPC', () => {
     expect(sold.result.items[0].commercialLineKind).toBe('legacy_single_sku_parcel');
     expect(sold.result.items[0].baseQuantity).toBe(5);
     await mountAftercare(page,orderId);
-    await page.getByRole('button',{name:'استبدال طرد',exact:true}).click();
-    await expect(page.getByLabel('عدد طرود الاستبدال')).toHaveValue('1');
-    await page.getByPlaceholder('سبب العيب/الاستبدال').fill('عيب كرتونة من بيع الكاشير');
-    const replacementResponse=page.waitForResponse(r=>r.url().endsWith('/rest/v1/rpc/settle_sales_replacement_v1'));
-    await page.getByRole('button',{name:'اعتماد الاستبدال',exact:true}).click();
+    await openAftercare(page,'replace','طرد كامل');
+    await finishCurrentInspection(page,'all');
+    await page.getByRole('button',{name:'معاينة التفاصيل',exact:true}).click();
+    const replacementResponse=page.waitForResponse(r=>r.url().endsWith('/rest/v1/rpc/settle_inspected_sales_replacement_v2'));
+    await page.getByRole('button',{name:'تأكيد الاستبدال',exact:true}).click();
     const issued=await (await replacementResponse).json();expect(issued.success).toBe(true);
     const replacementState=await aftercareSnapshot(orderId);
     expect(replacementState.orderReplacements).toBe(1);
     expect(replacementState.content.replacementItems[0].quantity).toBe(5);
-    await openPreviousAftercare(page);
-    await page.getByRole('button',{name:'مرتجع',exact:true}).click();
-    await expect(page.getByLabel('عدد طرود المرتجع')).toHaveValue('1');
-    await page.getByPlaceholder('سبب المرتجع').fill('مرتجع الكرتونة البديلة كاملة');
-    await page.getByRole('button',{name:'كاش',exact:true}).click();
-    const returnResponse=page.waitForResponse(r=>r.url().endsWith('/rest/v1/rpc/settle_admin_sales_return_v1'));
-    await page.getByRole('button',{name:'اعتماد المرتجع',exact:true}).click();
+    await expect(page.getByRole('button',{name:'إرجاع أو استبدال',exact:true})).toBeEnabled();
+    await openAftercare(page,'refund','طرد كامل');
+    await finishCurrentInspection(page);
+    await page.getByLabel('طريقة رد المال',{exact:true}).selectOption('cash');
+    await page.getByRole('button',{name:'معاينة التفاصيل',exact:true}).click();
+    const returnResponse=page.waitForResponse(r=>r.url().endsWith('/rest/v1/rpc/settle_admin_sales_return_v2'));
+    await page.getByRole('button',{name:'تأكيد الإرجاع',exact:true}).click();
     const returned=await(await returnResponse).json();expect(returned.success).toBe(true);
     const settled=await aftercareSnapshot(orderId);expect(settled.orderReturns).toBe(1);
     expect(settled.content.returnEffects[0].sellable_quantity).toBe(5);
@@ -180,7 +177,7 @@ test.describe('Package D POS browser to real isolated RPC', () => {
     expect(consumed[0].source_id).toBe(replacementState.content.replacementItems[0].id);
     const recovered=await page.evaluate(async id=>{
       const p='/src/services/supabase/salesAftercare.service.ts';
-      const service=await import(/* @vite-ignore */ p);return service.recoverAdminAftercare(id,'return');
+      const service=await import(/* @vite-ignore */ p);return service.recoverAdminAftercare(id,'sealed_return');
     },orderId);
     expect(recovered.success).toBe(true);expect(await aftercareSnapshot(orderId)).toEqual(settled);
   });
@@ -192,23 +189,29 @@ test.describe('Package D POS browser to real isolated RPC', () => {
     await expect.poll(async()=>(await state(page))?.status).toBe('SUCCEEDED');
     const sold=await state(page); const orderId=sold.result.orderId;
     await mountAftercare(page,orderId);
-    await page.getByRole('button',{name:'مرتجع',exact:true}).click();
-    await page.getByLabel('سليم',{exact:true}).fill('2');
-    await page.getByLabel('عيب/غير قابل للبيع',{exact:true}).fill('1');
-    await page.getByLabel('ضرر عميل',{exact:true}).fill('2');
-    await page.getByPlaceholder('سبب المرتجع').fill('فحص كرتونة: سليم وعيب وضرر عميل');
-    const response=page.waitForResponse(r=>r.url().endsWith('/rest/v1/rpc/settle_admin_sales_return_v1'));
-    await page.getByRole('button',{name:'اعتماد المرتجع',exact:true}).click();
+    await openAftercare(page,'refund','طرد كامل');
+    await page.getByLabel(/^الخربان ·/).fill('1');
+    await page.getByText('متقدم · ضرر من الزبون',{exact:true}).click();
+    await page.getByLabel(/^ضرر الزبون ·/).fill('2');
+    await expect(page.getByText('السليم الذي يرجع للمخزون: 2 باكيت',{exact:true})).toBeVisible();
+    await page.getByLabel('فحصت الباكيتات الراجعة',{exact:true}).check();
+    await page.getByRole('button',{name:'التالي',exact:true}).click();
+    await page.getByRole('button',{name:'خسارة عليّ — تالف نهائي',exact:true}).click();
+    await page.getByRole('button',{name:'التالي',exact:true}).click();
+    await page.getByLabel('طريقة رد المال',{exact:true}).selectOption('cash');
+    await page.getByRole('button',{name:'معاينة التفاصيل',exact:true}).click();
+    const response=page.waitForResponse(r=>r.url().endsWith('/rest/v1/rpc/settle_admin_sales_return_v2'));
+    await page.getByRole('button',{name:'تأكيد الإرجاع',exact:true}).click();
     const result=await(await response).json();expect(result.success).toBe(true);
     // Independent fixture prices: carton4500 and standalone900, not returned evidence.
-    expect(result.merchandiseEntitlementInMinorUnits).toBe(2700);
-    expect(result.moneyRefundInMinorUnits).toBe(2700);
+    expect(BigInt(result.entitlementInMinorUnits)).toBe(2700n);
+    expect(BigInt(result.moneyRefundInMinorUnits)).toBe(2700n);
     const committed=await aftercareSnapshot(orderId);
     expect(committed.content.returnEffects[0].sellable_quantity).toBe(2);
     expect(committed.content.returnItems[0].raw_customer_damage_deduction_in_minor_units).toBe(1800);
     const recovered=await page.evaluate(async id=>{
       const p='/src/services/supabase/salesAftercare.service.ts';
-      const service=await import(/* @vite-ignore */ p);return service.recoverAdminAftercare(id,'return');
+      const service=await import(/* @vite-ignore */ p);return service.recoverAdminAftercare(id,'sealed_return');
     },orderId);
     expect(recovered.success).toBe(true);expect(await aftercareSnapshot(orderId)).toEqual(committed);
   });
