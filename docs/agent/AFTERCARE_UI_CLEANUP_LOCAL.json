@@ -31,12 +31,15 @@
     {
       "file": "cleanup-browser-expanded.json",
       "reason": "Two ambiguous status locators;actual recovery succeeded;scoped to result output"
+    },
+    {
+      "file": "cleanup-migrated-browser-first.json",
+      "reason": "76pass/8fail:old sack label,invalid synthetic product UUID/document type,and async count;test data/await corrected,production parser unchanged"
     }
   ],
   "remaining": [
-    "Migrate obsolete UI browser interactions to current wizard/damage actions without losing assertions",
-    "Affected browser,release PWA/build/network",
-    "Current216 reference readiness artifact kept separate from owner current main",
+    "Final packet wording review including damage reason option",
+    "Final current source/evidence consistency and affected browser/release gates",
     "Exact final SHA full push+PR CI/secrets/backup/Gitleaks0",
     "Owner approval before merge"
   ],
@@ -90,5 +93,15 @@
     "pass": 203,
     "fail": 0
   },
-  "rootAndStoreLint": true
+  "rootAndStoreLint": true,
+  "migratedBrowser": {
+    "startTime": "2026-10-29T12:56:22.149Z",
+    "duration": 331655.498,
+    "expected": 84,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "migratedLegacyCases": 18,
+  "migratedBrowserChanges": "Current wizard/damage controls;no legacy UI replica,no skipped cases;strict parser retained"
 }

@@ -3,27 +3,35 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/AFTERCARE_UI_CLEANUP_AR.md"
-    },
-    {
-      "code": " M",
       "path": "docs/agent/AFTERCARE_UI_CLEANUP_LOCAL.json"
     },
     {
       "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+      "path": "e2e/admin-aftercare-recovery.spec.ts"
     },
     {
       "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+      "path": "e2e/package-f-pretrial-p1.spec.ts"
     },
     {
       "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_216.json"
+      "path": "e2e/package-f-trial-w-fields.spec.ts"
     },
     {
       "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+      "path": "e2e/phase6-package-b.fixture.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/phase6-package-b.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/aftercare-cleanup-source-pins.json"
+    },
+    {
+      "code": "??",
+      "path": "e2e/aftercare-current-ui.ts"
     }
   ]
 }

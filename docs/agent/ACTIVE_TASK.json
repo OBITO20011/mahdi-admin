@@ -3,18 +3,17 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner-approved UI-only aftercare cleanup;one wizard,packet labels,supplier help;own PR FULLCI approvalSTOP",
-  "baselineSha": "40bb068a3810ef4ffd64f6979b76b1d449247afe",
+  "baselineSha": "8bd8c8303a6d88502c378d39c1e35de931bb0386",
   "branch": "codex/trial-aftercare-cleanup",
   "phase": "PACKAGE_F",
   "completed": [
-    "PR44 approved/merged015ffca;primary19files exact,state216 aligned,Plan/dry-run216 pass",
-    "One wizard/damage list;source-specific prior replacement owner option;packet display/help",
-    "Focused33 and expanded24browser Chromium/WebKit390/1440 PASS0skip/flaky",
-    "Current216 SDK157/582,18expecteddenials;grants/roledecisions exactapproved216",
-    "Admin1615/store203/types/root+storelint PASS"
+    "PR44 merged015ffca,primary19files/state216 preserved;mainFULL51 accepted",
+    "UI33unit/24newbrowser,currentSDK157/58218expected roles identical",
+    "Admin1615/store203/root+storelint PASS",
+    "Migrated18oldcases to currentUI;84browser PASS0skip/flaky"
   ],
   "inProgress": [
-    "Update affected browser interactions to new UI;PWA/build/exactCI then ownPRapprovalSTOP"
+    "Final wording/current source and release gates;own PR FULLCI approvalSTOP"
   ],
   "notStarted": [
     "Owner review/merge"
@@ -25,9 +24,8 @@
     "Focused33;browser24;main51 exact deliveryReady true"
   ],
   "testsRemaining": [
-    "Migrate obsolete UI browser interactions to current wizard/damage actions without losing assertions",
-    "Affected browser,release PWA/build/network",
-    "Current216 reference readiness artifact kept separate from owner current main",
+    "Final packet wording review including damage reason option",
+    "Final current source/evidence consistency and affected browser/release gates",
     "Exact final SHA full push+PR CI/secrets/backup/Gitleaks0",
     "Owner approval before merge"
   ],
@@ -42,13 +40,13 @@
     "No DB/migration/RPC/money/permission change",
     "No merge or next package before owner approval"
   ],
-  "nextExactAction": "Save current SDK proof;update obsolete browser interactions to current wizard/damage with all scenarios;release gates/fullCI/PR for approvalSTOP",
+  "nextExactAction": "Save84 passing migrated browser scenarios;final wording/source consistency then release gates/PR/FULLCI;approvalSTOP",
   "startedAt": "2026-10-29T11:42:42.638Z",
-  "checkpointedAt": "2026-10-29T12:30:09.514Z",
+  "checkpointedAt": "2026-10-29T13:04:34.222Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 6,
-  "filesTouchedManifestSha256": "4b44a9744b9ab10a28181e90edf2cc29bd13f6e7d25f76d45ac587f37953fd7f",
-  "workingTreeFingerprint": "CC2FACC5AE08DD763A5759E596D1E0B29CDD96F99FFCBBD3E52A364A0713FA60"
+  "filesTouchedCount": 8,
+  "filesTouchedManifestSha256": "3b03102ccd9b264b4f4defc37473d1463ce04dff19504e79a2f759269b758cb0",
+  "workingTreeFingerprint": "3021952DDBEEF04D7398A326AF6AB9E333FA2C6E5540D0611EDC6969C74612BE"
 }
