@@ -1,14 +1,14 @@
 import {checkLayout} from './package-f-layout';
 import {test,expect} from './isolated-test';
 
-test('P1 pending quantities preserve product/unit identity and explicitly scope partial pages',async({page})=>{
+test('P1 pending quantities preserve product identity with packet labels and explicitly scope partial pages',async({page})=>{
   await page.goto('/e2e/pretrial-p1-harness.html');
   const list=page.getByRole('list',{name:'كميات المعلّق حسب الصنف'});
   await expect(list.getByRole('listitem')).toHaveCount(2);
   await expect(list.getByRole('listitem').filter({hasText:'عصير'})).toHaveText('عصير5 باكيت');
-  await expect(list.getByRole('listitem').filter({hasText:'أرز'})).toHaveText('أرز1 شوال');
+  await expect(list.getByRole('listitem').filter({hasText:'أرز'})).toHaveText('أرز1 باكيت');
   await expect(page.getByText(/عرض 25 من 80 سجلاً.*هذه الصفحة فقط/)).toBeVisible();
-  await expect(list).not.toContainText('999');await checkLayout(page,page.locator('main'));
+  await expect(list).not.toContainText('999');await expect(list).not.toContainText('شوال');await checkLayout(page,page.locator('main'));
 });
 
 test('P1 known and unknown rejections remain refusals with Arabic text and safe optional references',async({page})=>{
@@ -57,7 +57,7 @@ test('P1 partial receipt asks for its reason on selection and a known denial can
   await page.route('**/rest/v1/rpc/execute_supplier_replacement_v1',r=>{writes.push(r.request().postDataJSON());return r.abort('blockedbyclient');});
   await page.goto('/e2e/supplier-replacement208-harness.html?role=manager');
   await page.getByRole('button',{name:'المعلّق',exact:true}).click();await expect(page.getByLabel('سبب العملية',{exact:true})).toHaveCount(0);
-  await page.getByRole('button',{name:'معاينة استلام جزئي',exact:true}).click();
+  await page.getByRole('button',{name:'استلام جزئي',exact:true}).click();
   const flow=page.getByTestId('replacement-case-workflow'),reason=flow.getByLabel('سبب العملية',{exact:true});
   await expect(flow).toBeFocused();await expect(reason).not.toBeFocused();await expect(reason).toHaveValue('وصل البديل من المورد');
   await expect(flow.getByRole('button',{name:'معاينة التفاصيل'})).toBeEnabled();expect(calls).toHaveLength(0);

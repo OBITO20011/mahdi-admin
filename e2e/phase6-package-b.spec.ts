@@ -1,144 +1,82 @@
-import {test, expect} from './isolated-test';
-
-const url = '/e2e/phase6-package-b-harness.html';
+import {test,expect} from './isolated-test';
 import {phase6AftercareFixture as context} from './phase6-package-b.fixture';
-
-
+import {openAftercare,finishCurrentInspection,mockCurrentAftercare,confirmCurrentAftercare,mockInvoiceDamageCandidate,openInvoiceDamageConversion,damageFixtureProductId} from './aftercare-current-ui';
+const url='/e2e/phase6-package-b-harness.html';
 const supplier211='88880000-0000-4000-8000-000000000003';
-const options211={contractVersion:208,products:[{id:'juice',name:'عصير برتقال',sku:'JUICE',baseUnitName:'باكيت',unitsPerParcel:1}],suppliers:[{id:supplier211,name:'المورد الموثق'}],warehouses:[],lastSuppliers:[{productId:'juice',supplierId:supplier211,supplierName:'المورد الموثق'}]};
-const case211={id:'supplier-case',supplierId:supplier211,supplierName:'المورد الموثق',productId:'juice',productName:'عصير برتقال',warehouseId:'warehouse',branchId:'branch',origin:'customer_replacement',quantity:1,commercialQuantity:1,unitsPerCommercialUnit:1,unitName:'باكيت',baseUnitName:'باكيت',pendingQuantity:1,receivedQuantity:0,writtenOffQuantity:0,occurredAt:'2026-10-23T01:00:00Z',events:[],unitCostInMinorUnitsExact:'1000.000000',pendingValueInMinorUnitsExact:'1000.000000'};
+export const options211={contractVersion:208,products:[{id:'juice',name:'عصير برتقال',sku:'JUICE',baseUnitName:'باكيت',unitsPerParcel:1}],suppliers:[{id:supplier211,name:'المورد الموثق'}],warehouses:[],lastSuppliers:[{productId:'juice',supplierId:supplier211,supplierName:'المورد الموثق'},{productId:damageFixtureProductId,supplierId:supplier211,supplierName:'المورد الموثق'}]};
+test.beforeEach(async({page})=>{await page.setViewportSize({width:390,height:844});await page.route('**/rest/v1/rpc/get_admin_sales_aftercare_context_v1',r=>r.fulfill({json:context}));});
 
-test('J saved flavor names hide parcel UUID; incomplete whole return names the missing piece with zero mutation',async({page})=>{
-  const fresh=structuredClone(context),internal='41bb6c3c-cdc3-4240-8000-000000000001';fresh.parcelInstances[0].parcelInstanceId=internal;
-  await page.route('**/rest/v1/rpc/get_admin_sales_aftercare_context_v1',route=>route.fulfill({json:fresh}));
-  let writes=0;await page.route('**/rest/v1/rpc/settle_admin_sales_return_v1',route=>{writes++;return route.abort();});
-  await page.goto(url);await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();await expect(page.getByText('طرد مشكّل: عصير برتقال',{exact:true})).toBeVisible();await expect(page.locator('body')).not.toContainText(internal);
-  await expect(page.getByRole('button',{name:'استبدال وحدة · عصير برتقال · البديل الذي أعطيته',exact:true})).toBeVisible();
-  await page.getByRole('button',{name:'إرجاع الطرد كاملاً',exact:true}).click();await expect(page.getByText('إرجاع الطرد كاملاً (كل حباته)',{exact:true})).toBeVisible();
-  await expect(page.getByText('صنّف كل حبات الطرد:',{exact:false})).toContainText('ضرر العميل يُخصم من المبلغ المرجع');
-  await page.getByRole('spinbutton').first().fill('0');await page.getByPlaceholder('سبب المرتجع',{exact:true}).fill('إرجاع كامل الطرد');await page.getByRole('button',{name:'اعتماد المرتجع',exact:true}).click();
-  await expect(page.getByTestId('notice')).toContainText('أكمل تصنيف «عصير برتقال»');await expect(page.getByTestId('notice')).not.toContainText('PHASE43');expect(writes).toBe(0);
+test('J saved flavor names hide parcel UUID; invalid inspection names the piece and sends zero writes',async({page})=>{
+ const fresh=structuredClone(context),internal='41bb6c3c-cdc3-4240-8000-000000000001';fresh.parcelInstances[0].parcelInstanceId=internal;
+ await page.route('**/rest/v1/rpc/get_admin_sales_aftercare_context_v1',r=>r.fulfill({json:fresh}));const calls=await mockCurrentAftercare(page);
+ await page.goto(url);await openAftercare(page,'refund','الطرد المشكّل كاملاً');await expect(page.locator('body')).not.toContainText(internal);
+ await expect(page.getByText('البديل الذي أعطيته · 3 باكيت',{exact:true})).toBeVisible();await page.getByLabel('الخربان · عصير برتقال',{exact:true}).fill('4');
+ await page.getByLabel('فحصت الباكيتات الراجعة',{exact:true}).check();await page.getByRole('button',{name:'التالي',exact:true}).click();
+ await expect(page.getByRole('alert').first()).toContainText('عصير برتقال');await expect(page.getByRole('alert').first()).toContainText('بين 0 و3 باكيت');expect(calls.previews).toHaveLength(0);expect(calls.writes).toHaveLength(0);
 });
 
-test('J owner supplier replacement uses one atomic call and exact lost-response recovery across reload',async({page})=>{
-  const requests:Record<string,unknown>[]=[];let oldWrites=0;
-  await page.route('**/rest/v1/rpc/get_supplier_replacement_options_v1',route=>route.fulfill({json:options211}));
-  await page.route('**/rest/v1/rpc/settle_admin_sales_replacement_v1',route=>{oldWrites++;return route.abort();});
-  await page.route('**/rest/v1/rpc/execute_aftercare_supplier_v1',route=>{const req=route.request().postDataJSON();requests.push(req);if(requests.length===1)return route.abort();return route.fulfill({json:{success:true,contractVersion:208,action:req.p_action,idempotencyKey:req.p_idempotency_key,idempotent:true,operationId:'atomic-op',cases:[case211]}});});
-  await page.goto(url);await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();await page.getByRole('button',{name:'استبدال وحدة · عصير برتقال · البديل الذي أعطيته',exact:true}).click();
-  await page.getByLabel('مصير الحبة المعيبة',{exact:true}).selectOption('supplier');await expect(page.getByLabel('المورد',{exact:true})).toHaveValue(supplier211);
-  await expect(page.getByText('قيمة الحبة المعيبة تبقى معلّقة؛',{exact:false})).toContainText('فرق تكلفة البديل يبقى على الربح');
-  await page.getByPlaceholder('سبب العيب/الاستبدال',{exact:true}).fill('عيب المورد في الحبة');await page.getByRole('button',{name:'اعتماد الاستبدال',exact:true}).click();
-  await expect(page.getByRole('button',{name:'استعادة الاستبدال المرسل للمورد',exact:true})).toBeVisible();expect(oldWrites).toBe(0);expect(requests.length).toBe(1);
-  await page.reload();await page.getByRole('button',{name:'استعادة الاستبدال المرسل للمورد',exact:true}).click();await expect(page.getByTestId('notice')).toContainText('استرداد نتيجة الاستبدال المرتبط بالمورد');
-  expect(requests.length).toBe(2);expect(requests[1]).toEqual(requests[0]);expect(requests[0].p_action).toBe('replacement_supplier');
-  expect(requests[0].p_payload).toEqual({orderId:context.order.id,items:[{sourceKind:'replacement_item',sourceId:'leaf',quantity:1}],reason:'عيب المورد في الحبة',notes:null,supplierId:supplier211});expect(oldWrites).toBe(0);
+test('J owner supplier replacement uses one current atomic call and exact lost-response recovery across reload',async({page})=>{
+ await page.route('**/rest/v1/rpc/get_supplier_replacement_options_v1',r=>r.fulfill({json:options211}));const calls=await mockCurrentAftercare(page,{dropFirst:true});let oldWrites=0;
+ await page.route('**/rest/v1/rpc/execute_aftercare_supplier_v1',r=>{oldWrites++;return r.abort();});
+ await page.goto(url);await openAftercare(page,'replace','تبديل المعيب · عصير برتقال');await finishCurrentInspection(page,'all',supplier211);await confirmCurrentAftercare(page,'replace');
+ await expect(page.getByRole('button',{name:'استعادة الاستبدال المفحوص',exact:true})).toBeVisible();expect(calls.writes).toHaveLength(1);expect(oldWrites).toBe(0);
+ await page.reload();await page.getByRole('button',{name:'استعادة الاستبدال المفحوص',exact:true}).click();await expect(page.getByTestId('notice')).toContainText('استرداد نتيجة الاستبدال');
+ expect(calls.writes).toHaveLength(2);expect(calls.writes[1]).toEqual(calls.writes[0]);expect(calls.writes[0].p_payload.items).toEqual([{sourceKind:'replacement_item',sourceId:'leaf',quantity:1,goodQuantity:0,supplierId:supplier211}]);expect(calls.previews).toHaveLength(1);expect(oldWrites).toBe(0);
 });
 
-test('J safety action stays in options; real service preview precedes confirmation; lost-response recovery repeats exact request',async({page})=>{
-  const sourceId='41bb6c3c-cdc3-4240-8000-000000000001',requests:Record<string,unknown>[]=[];let previews=0;
-  await page.route('**/rest/v1/rpc/get_aftercare_damage_candidates_v1',route=>route.fulfill({json:{contractVersion:211,candidates:[{kind:'replacement',id:sourceId,productId:'juice',productName:'عصير برتقال',quantity:1,occurredAt:'2026-10-23T01:00:00Z',blockedReason:null}]}}));
-  await page.route('**/rest/v1/rpc/get_supplier_replacement_options_v1',route=>route.fulfill({json:options211}));
-  await page.route('**/rest/v1/rpc/preview_aftercare_supplier_v1',route=>{previews++;expect(route.request().postDataJSON()).toEqual({p_kind:'replacement',p_source_id:sourceId,p_supplier_id:supplier211});return route.fulfill({json:{contractVersion:211,sourceKind:'replacement',sourceId,supplierId:supplier211,quantity:1,reclassifiedInMinorUnits:1000,previewFingerprint:'a'.repeat(64),eligible:true,blockedReason:null}});});
-  await page.route('**/rest/v1/rpc/execute_aftercare_supplier_v1',route=>{const req=route.request().postDataJSON();requests.push(req);if(requests.length===1)return route.abort();return route.fulfill({json:{success:true,contractVersion:208,action:req.p_action,idempotencyKey:req.p_idempotency_key,idempotent:true,operationId:'convert-op',cases:[case211]}});});
-  await page.goto(url);await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();await expect(page.getByRole('button',{name:'حوّله للمورد بانتظار البديل',exact:true})).toHaveCount(0);
-  await page.getByRole('button',{name:'خيارات التالف النهائي',exact:true}).click();await page.getByRole('button',{name:'حوّله للمورد بانتظار البديل',exact:true}).click();await expect(page.locator('body')).not.toContainText(sourceId);
-  await expect(page.getByLabel('مورد التالف',{exact:true})).toHaveValue(supplier211);await page.getByLabel('سبب تحويل التالف',{exact:true}).fill('اتفقنا مع المورد على الاستبدال');
-  await page.getByRole('button',{name:'معاينة تحويل التالف',exact:true}).click();await expect(page.getByText('سيُعلّق 1 حبة للمورد بقيمة تاريخية 1.000 د.أ.',{exact:true})).toBeVisible();expect(previews).toBe(1);expect(requests.length).toBe(0);
-  await page.getByRole('button',{name:'اعتماد تحويل التالف',exact:true}).click();await expect(page.getByRole('button',{name:'استعادة تحويل التالف للمورد',exact:true})).toBeVisible();
-  await page.reload();await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();await page.getByRole('button',{name:'استعادة تحويل التالف للمورد',exact:true}).click();await expect(page.getByTestId('notice')).toContainText('استرداد نتيجة تحويل التالف للمورد');
-  expect(requests.length).toBe(2);expect(requests[1]).toEqual(requests[0]);expect(requests[0].p_payload).toEqual({sourceId,supplierId:supplier211,reason:'اتفقنا مع المورد على الاستبدال',previewFingerprint:'a'.repeat(64)});expect(requests[0].p_action).toBe('reclassify_replacement');
+test('J safety action moves to three-state damage; preview precedes confirmation and old scope recovers across reload',async({page})=>{
+ const sourceId='41bb6c3c-cdc3-4240-8000-000000000001',requests:Array<Record<string,any>>=[];let previews=0;
+ await mockInvoiceDamageCandidate(page,context.order.id,sourceId);
+ await page.route('**/rest/v1/rpc/get_supplier_replacement_options_v1',r=>r.fulfill({json:options211}));
+ await page.route('**/rest/v1/rpc/preview_aftercare_supplier_v1',r=>{previews++;expect(r.request().postDataJSON()).toEqual({p_kind:'replacement',p_source_id:sourceId,p_supplier_id:supplier211});return r.fulfill({json:{contractVersion:211,sourceKind:'replacement',sourceId,supplierId:supplier211,quantity:1,reclassifiedInMinorUnits:1000,previewFingerprint:'a'.repeat(64),eligible:true,blockedReason:null}});});
+ await page.route('**/rest/v1/rpc/execute_aftercare_supplier_v1',r=>{const request=r.request().postDataJSON();requests.push(request);if(requests.length===1)return r.abort();return r.fulfill({json:{success:true,contractVersion:208,action:request.p_action,idempotencyKey:request.p_idempotency_key,idempotent:true,operationId:'convert-op',cases:[{id:'supplier-case',supplierId:supplier211,supplierName:'المورد الموثق',productId:'juice',productName:'عصير برتقال',warehouseId:'warehouse',branchId:'branch',origin:'customer_replacement',quantity:1,commercialQuantity:1,unitsPerCommercialUnit:1,unitName:'باكيت',baseUnitName:'باكيت',pendingQuantity:1,receivedQuantity:0,writtenOffQuantity:0,occurredAt:'2026-10-23T01:00:00Z',events:[]}]}});});
+ await page.goto(url);await expect(page.getByRole('button',{name:'إرجاع أو استبدال',exact:true})).toBeEnabled();await expect(page.getByRole('button',{name:'خيارات التالف النهائي',exact:true})).toHaveCount(0);await openInvoiceDamageConversion(page);await expect(page.locator('body')).not.toContainText(sourceId);
+ await expect(page.getByLabel('مورد التالف',{exact:true})).toHaveValue(supplier211);await page.getByLabel('سبب تحويل التالف',{exact:true}).fill('اتفقنا مع المورد على الاستبدال');
+ await page.getByRole('button',{name:'معاينة تحويل التالف',exact:true}).click();await expect(page.getByText('سيُعلّق 1 باكيت للمورد بقيمة تاريخية 1.000 د.أ.',{exact:true})).toBeVisible();expect(previews).toBe(1);expect(requests).toHaveLength(0);
+ await page.getByRole('button',{name:'اعتماد تحويل التالف',exact:true}).click();await expect(page.getByRole('button',{name:'استعادة تحويل التالف للمورد',exact:true})).toBeVisible();
+ await page.reload();await page.getByRole('button',{name:'استعادة تحويل التالف للمورد',exact:true}).click();await expect(page.getByTestId('notice')).toContainText('استرداد نتيجة تحويل التالف للمورد');
+ expect(requests).toHaveLength(2);expect(requests[1]).toEqual(requests[0]);expect(requests[0].p_payload).toEqual({sourceId,supplierId:supplier211,reason:'اتفقنا مع المورد على الاستبدال',previewFingerprint:'a'.repeat(64)});expect(requests[0].p_action).toBe('reclassify_replacement');
 });
 
-test('J supplier disposition and safety actions are absent for admin; final replacement remains available',async({page})=>{
-  let supplierReads=0;await page.route('**/rest/v1/rpc/get_aftercare_damage_candidates_v1',route=>{supplierReads++;return route.abort();});
-  await page.goto(url+'?role=admin');await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();await expect(page.getByRole('button',{name:'خيارات التالف النهائي',exact:true})).toHaveCount(0);
-  await page.getByRole('button',{name:'استبدال وحدة · عصير برتقال · البديل الذي أعطيته',exact:true}).click();
-  await expect(page.getByLabel('مصير الحبة المعيبة',{exact:true})).toHaveCount(0);await expect(page.getByRole('button',{name:'اعتماد الاستبدال',exact:true})).toBeVisible();expect(supplierReads).toBe(0);
-});
-test.beforeEach(async ({page}) => {
-  await page.route('**/rest/v1/rpc/get_admin_sales_aftercare_context_v1', route => route.fulfill({json: context}));
+test('J supplier disposition and damage actions stay absent for admin; inspected final replacement remains available',async({page})=>{
+ let supplierReads=0;await page.route('**/rest/v1/rpc/get_aftercare_damage_candidates_v1',r=>{supplierReads++;return r.abort();});const calls=await mockCurrentAftercare(page);
+ await page.goto(url+'?role=admin');await openAftercare(page,'replace','تبديل المعيب · عصير برتقال');
+ for(const field of await page.getByLabel(/^الخربان ·/).all())await field.fill('1');await page.getByLabel('فحصت الباكيتات الراجعة',{exact:true}).check();await page.getByRole('button',{name:'التالي',exact:true}).click();
+ await expect(page.getByRole('button',{name:'على المورد — بانتظار البديل',exact:true})).toHaveCount(0);await expect(page.getByText('التالف',{exact:true})).toHaveCount(0);await page.getByRole('button',{name:'خسارة عليّ — تالف نهائي',exact:true}).click();await page.getByRole('button',{name:'التالي',exact:true}).click();
+ await confirmCurrentAftercare(page,'replace');await expect.poll(()=>calls.writes.length).toBe(1);expect(calls.writes[0].p_payload.items[0].supplierId).toBe(null);expect(supplierReads).toBe(0);
 });
 
-test('208 owner supplier destination submits one atomic coordinator with exact physical leaves and reload recovery',async({page})=>{
-  const supplierId='88880000-0000-4000-8000-000000000003',requests:Record<string,unknown>[]=[];let oldWrites=0;
-  await page.route('**/rest/v1/rpc/get_supplier_replacement_options_v1',route=>route.fulfill({json:{contractVersion:208,products:[{id:'juice',name:'عصير فراولة',sku:'JUICE',baseUnitName:'باكيت',unitsPerParcel:1}],suppliers:[{id:supplierId,name:'المورد الموثق'}],warehouses:[],lastSuppliers:[{productId:'juice',supplierId,supplierName:'المورد الموثق'}]}}));
-  await page.route('**/rest/v1/rpc/settle_admin_sales_return_v1',route=>{oldWrites++;return route.abort();});
-  await page.route('**/rest/v1/rpc/execute_supplier_replacement_v1',route=>{
-    const req=route.request().postDataJSON();requests.push(req);if(requests.length===1)return route.abort();
-    return route.fulfill({json:{success:true,contractVersion:208,action:'customer_return',idempotencyKey:req.p_idempotency_key,idempotent:true,operationId:'op',returnResult:{success:true},cases:[{
-      id:'case',supplierId,supplierName:'المورد الموثق',productId:'juice',productName:'عصير فراولة',warehouseId:'warehouse',branchId:'branch',origin:'customer_return',quantity:3,commercialQuantity:3,unitsPerCommercialUnit:1,unitName:'باكيت',baseUnitName:'باكيت',pendingQuantity:3,receivedQuantity:0,writtenOffQuantity:0,occurredAt:'2026-10-21T10:00:00Z',events:[],unitCostInMinorUnitsExact:'60.000000',pendingValueInMinorUnitsExact:'180.000000'}]}});
-  });
-  await page.goto(url);await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();await page.getByRole('button',{name:'مرتجع',exact:true}).click();await page.getByLabel('كمية المرتجع',{exact:true}).fill('3');await page.getByRole('button',{name:'غير قابل للبيع',exact:true}).click();
-  await page.getByRole('combobox',{name:'مصير عيب المورد غير القابل للبيع',exact:true}).selectOption('supplier');await expect(page.getByRole('combobox',{name:'المورد',exact:true})).toHaveValue(supplierId);
-  await page.getByPlaceholder('سبب المرتجع',{exact:true}).fill('عيب المورد في البضاعة');await page.getByRole('button',{name:'اعتماد المرتجع',exact:true}).click();await expect.poll(()=>requests.length).toBe(1);
-  await expect(page.getByRole('button',{name:'استعادة المرتجع المرسل للمورد'})).toBeVisible();await page.reload();await page.getByRole('button',{name:'استعادة المرتجع المرسل للمورد'}).click();
-  await expect(page.getByTestId('notice')).toContainText('استرداد نتيجة المرتجع المرتبط بالمورد');expect(requests.length).toBe(2);expect(requests[1]).toEqual(requests[0]);expect(oldWrites).toBe(0);
-  expect(requests[0].p_action).toBe('customer_return');const payload=requests[0].p_payload as Record<string,unknown>;
-  expect(payload.items).toEqual([{return_scope:'base_unit',order_item_id:'base-root',quantity:3,stock_disposition:'damaged'}]);
-  expect(payload.supplierAssignments).toEqual([{sourceKind:'base_order_item',sourceId:'a',supplierId},{sourceKind:'replacement_item',sourceId:'b',supplierId}]);
-  expect((payload.physicalSources as Array<{source_id:string;defect_non_sellable_quantity:number}>).map(s=>[s.source_id,s.defect_non_sellable_quantity])).toEqual([['a',2],['b',1]]);
-});
-test('partial return sends selected quantity and exact current source allocation; invalid quantities send nothing', async ({page}) => {
-  let calls = 0;
-  let payload: Record<string, unknown> | null = null;
-  await page.route('**/rest/v1/rpc/settle_admin_sales_return_v1', route => {
-    calls++; payload = route.request().postDataJSON();
-    return route.fulfill({status: 400, json: {code: 'P0001', message: 'PHASE4_LOGICAL_QUANTITY_ALREADY_CONSUMED'}});
-  });
-  await page.goto(url);await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();
-  await expect(page.getByText('عصير فراولة · المتبقي 5 وحدة')).toBeVisible();
-  await page.getByRole('button', {name: 'مرتجع', exact: true}).click();
-  await page.getByPlaceholder('سبب المرتجع', {exact: true}).fill('مرتجع اختبار');
-  await page.getByLabel('كمية المرتجع', {exact: true}).fill('6');
-  await page.getByRole('button', {name: 'اعتماد المرتجع'}).click();
-  await expect(page.getByTestId('notice')).toContainText('اختر كمية صحيحة');
-  expect(calls).toBe(0);
-  await page.getByLabel('كمية المرتجع', {exact: true}).fill('3');
-  await page.getByRole('button', {name: 'اعتماد المرتجع'}).click();
-  await expect.poll(() => calls).toBe(1);
-  expect((payload!.p_items as Array<{quantity: number}>)[0].quantity).toBe(3);
-  expect((payload!.p_physical_sources as Array<{source_id: string; quantity: number}>).map(row => [row.source_id, row.quantity])).toEqual([['a', 2], ['b', 1]]);
-  await expect(page.getByTestId('notice')).toContainText('الكمية المتبقية');
-  await expect(page.getByTestId('notice')).not.toContainText('PHASE4_');
-});
-test('parcel names, three-bucket totals and whole-parcel boundary remain explicit', async ({page}) => {
-  await page.goto(url);await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();
-  await page.getByRole('button', {name: 'إرجاع الطرد كاملاً', exact: true}).click();
-  await expect(page.getByText('عصير برتقال · 3 وحدة')).toBeVisible();
-  await expect(page.getByLabel('كمية المرتجع', {exact: true})).toHaveCount(0);
-  const leaf = page.locator('div').filter({has: page.getByText('القطعة الحالية 1 · البديل الذي أعطيته · 3 وحدة', {exact: true})}).filter({has: page.getByText('مجموع التصنيف: 3 / 3', {exact: true})}).last();
-  await expect(leaf.getByRole('spinbutton')).toHaveCount(3);
-  await leaf.getByRole('spinbutton').first().fill('1');
-  await expect(page.getByText('مجموع التصنيف: 1 / 3', {exact: true})).toBeVisible();
-  for (const input of await leaf.getByRole('spinbutton').all()) {
-    expect((await input.boundingBox())!.height).toBeGreaterThanOrEqual(44);
-  }
+test('208 owner supplier return uses the sealed coordinator with selected current physical leaves and reload recovery',async({page})=>{
+ await page.route('**/rest/v1/rpc/get_supplier_replacement_options_v1',r=>r.fulfill({json:options211}));const calls=await mockCurrentAftercare(page,{dropFirst:true});let oldWrites=0;
+ await page.route('**/rest/v1/rpc/execute_aftercare_supplier_v1',r=>{oldWrites++;return r.abort();});await page.goto(url);
+ await openAftercare(page,'refund','باكيتات',3);await finishCurrentInspection(page,'all',supplier211);await confirmCurrentAftercare(page,'refund');await expect(page.getByRole('button',{name:'استعادة الإرجاع',exact:true})).toBeVisible();
+ await page.reload();await page.getByRole('button',{name:'استعادة الإرجاع',exact:true}).click();await expect(page.getByTestId('notice')).toContainText('استرداد نتيجة');expect(calls.writes).toHaveLength(2);expect(calls.writes[1]).toEqual(calls.writes[0]);expect(oldWrites).toBe(0);
+ const payload=calls.writes[0].p_payload;expect(payload.items).toEqual([{return_scope:'base_unit',order_item_id:'base-root',quantity:3,stock_disposition:'damaged'}]);
+ expect(payload.supplierAssignments).toEqual([{sourceKind:'base_order_item',sourceId:'a',supplierId:supplier211},{sourceKind:'replacement_item',sourceId:'b',supplierId:supplier211}]);expect(payload.physicalSources.map((s:Record<string,unknown>)=>[s.source_id,s.defect_non_sellable_quantity])).toEqual([['a',2],['b',1]]);
 });
 
-test('partial return re-reads capacity immediately before submit and rejects changed physical quantity', async ({page}) => {
-  let reads = 0; let writes = 0;
-  await page.route('**/rest/v1/rpc/get_admin_sales_aftercare_context_v1', route => {
-    reads++;
-    const fresh = structuredClone(context);
-    if (reads > 1) fresh.baseItems[0].physicalRepresentatives[0].remainingQuantity = 1;
-    return route.fulfill({json: fresh});
-  });
-  await page.route('**/rest/v1/rpc/settle_admin_sales_return_v1', route => {
-    writes++; return route.fulfill({json: {success: true}});
-  });
-  await page.goto(url);await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();
-  await page.getByRole('button', {name: 'مرتجع', exact: true}).click();
-  await page.getByPlaceholder('سبب المرتجع', {exact: true}).fill('مرتجع اختبار');
-  await page.getByLabel('كمية المرتجع', {exact: true}).fill('1');
-  await page.getByRole('button', {name: 'اعتماد المرتجع'}).click();
-  await expect(page.getByTestId('notice')).toContainText('تغيّرت الكمية المتبقية');
-  expect(reads).toBe(2); expect(writes).toBe(0);
+test('partial return sends selected quantity and exact source allocation; invalid quantities and refused preview send no write',async({page})=>{
+ const calls=await mockCurrentAftercare(page,{previewError:'AFTERCARE215_PREVIEW_CHANGED'});await page.goto(url);await page.getByRole('button',{name:'إرجاع أو استبدال',exact:true}).click();await page.getByRole('button',{name:'التالي',exact:true}).click();await page.getByRole('button',{name:'باكيتات',exact:true}).click();
+ const qty=page.getByLabel('عدد الباكيتات الراجعة',{exact:true});await qty.fill('6');await page.getByRole('button',{name:'التالي',exact:true}).click();await expect(page.getByRole('alert').first()).toContainText('اختر كمية صحيحة');expect(calls.previews).toHaveLength(0);expect(calls.writes).toHaveLength(0);
+ await qty.fill('3');await page.getByRole('button',{name:'التالي',exact:true}).click();await finishCurrentInspection(page);await page.getByRole('button',{name:'معاينة التفاصيل',exact:true}).click();await expect(page.getByRole('alert')).toContainText('تغيّرت البيانات منذ المعاينة');expect(calls.previews).toHaveLength(1);expect(calls.writes).toHaveLength(0);
+ const payload=calls.previews[0].p_payload;expect(payload.items[0].quantity).toBe(3);expect(payload.physicalSources.map((r:Record<string,unknown>)=>[r.source_id,r.quantity])).toEqual([['a',2],['b',1]]);await expect(page.getByRole('alert')).not.toContainText('AFTERCARE215');
+});
+
+test('parcel names, good/bad/customer-damage totals and whole-parcel boundary remain explicit',async({page})=>{
+ await page.goto(url);await page.getByRole('button',{name:'إرجاع أو استبدال',exact:true}).click();await page.getByRole('button',{name:'التالي',exact:true}).click();await page.getByRole('button',{name:'الطرد المشكّل كاملاً',exact:true}).click();await expect(page.getByLabel('عدد الطرود المشكّلة الراجعة',{exact:true})).toBeDisabled();await page.getByRole('button',{name:'التالي',exact:true}).click();
+ const bad=page.getByLabel('الخربان · عصير برتقال',{exact:true});await bad.fill('1');await page.getByText('متقدم · ضرر من الزبون',{exact:true}).click();const damage=page.getByLabel('ضرر الزبون · عصير برتقال',{exact:true});await damage.fill('1');await expect(page.getByText('السليم الذي يرجع للمخزون: 1 باكيت',{exact:true})).toBeVisible();
+ for(const input of [bad,damage])expect((await input.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+ await damage.fill('3');await page.getByLabel('فحصت الباكيتات الراجعة',{exact:true}).check();await page.getByRole('button',{name:'التالي',exact:true}).click();await expect(page.getByRole('alert')).toContainText('عصير برتقال');
+});
+
+test('server preview rechecks changed physical capacity before confirmation and rejects with zero writes',async({page})=>{
+ let reads=0;await page.route('**/rest/v1/rpc/get_admin_sales_aftercare_context_v1',r=>{reads++;return r.fulfill({json:context});});const calls=await mockCurrentAftercare(page,{previewError:'AFTERCARE215_PREVIEW_CHANGED'});await page.goto(url);await openAftercare(page,'refund','باكيتات',1);await finishCurrentInspection(page);await page.getByRole('button',{name:'معاينة التفاصيل',exact:true}).click();
+ await expect(page.getByRole('alert')).toContainText('تغيّرت البيانات منذ المعاينة');expect(reads).toBe(1);expect(calls.previews).toHaveLength(1);expect(calls.writes).toHaveLength(0);await expect(page.getByRole('button',{name:'تأكيد الإرجاع',exact:true})).toHaveCount(0);
 });
 test('desktop/tablet expand; mobile shell dimensions and selectable operational identity remain', async ({page}, testInfo) => {
   for (const width of [390, 768, 1024, 1440]) {
     await page.setViewportSize({width, height: 900});
-    await page.goto(url);await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();
+    await page.goto(url);
     const screen = page.locator('[data-ui="admin-screen"]');
     await expect(screen).toBeVisible();
     const box = (await screen.boundingBox())!;
@@ -168,46 +106,24 @@ test('mixed cart shows parcels and base units separately without changing the li
   await expect(page.getByText(`${(5).toLocaleString('ar-JO')} طرد`, {exact: true})).toHaveCount(0);
 });
 
-test('translated connection failure still exposes same-attempt recovery immediately', async ({page}) => {
-  await page.route('**/rest/v1/rpc/settle_sales_replacement_v1', route => route.abort('failed'));
-  await page.goto(url);await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();
-  await page.getByRole('button', {name: 'استبدال وحدة', exact: true}).click();
-  await page.getByPlaceholder('سبب العيب/الاستبدال').fill('عيب مصنعي');
-  await page.getByRole('button', {name: 'اعتماد الاستبدال', exact: true}).click();
-  await expect(page.getByTestId('notice')).toContainText(/المحاولة السابقة|نفس المحاولة/);
-  await expect(page.getByRole('button', {name: 'استعادة الاستبدال', exact: true})).toBeVisible();
-  await expect(page.getByText('لا تبدأ عملية جديدة قبل معرفة نتيجة المحاولة السابقة.')).toBeVisible();
+test('translated connection failure still exposes the same current attempt immediately',async({page})=>{
+ const calls=await mockCurrentAftercare(page,{dropFirst:true});await page.goto(url);await openAftercare(page,'replace','باكيتات',1);await finishCurrentInspection(page,'all');await confirmCurrentAftercare(page,'replace');
+ await expect(page.getByRole('button',{name:'استعادة الاستبدال المفحوص',exact:true})).toBeVisible();await expect(page.getByText('لا تبدأ عملية جديدة قبل معرفة نتيجة المحاولة السابقة.',{exact:true})).toBeVisible();expect(calls.writes).toHaveLength(1);
+ await expect(page.getByRole('button',{name:'إرجاع أو استبدال',exact:true})).toHaveCount(0);await expect(page.getByTestId('aftercare215-wizard').getByRole('button',{name:'تأكيد الاستبدال',exact:true})).toBeDisabled();
 });
-
-for(const only of [false,true])for(const action of ['unit','whole','return'] as const)test(`J defective ordinary parcel parcelOnly=${only} ${action}:fragmented leaves keep full money refund boundary`,async({page})=>{
- const fresh={...structuredClone(context),order:{...context.order,completedAt:'2026-09-30T10:00:00Z'},
-  baseItems:[{...context.baseItems[0],quantity:10,remainingQuantity:10,commercialLineKind:'legacy_single_sku_parcel',unitsPerParcel:10,commercialQuantity:1,parcelOnly:only,
-   physicalRepresentatives:context.baseItems[0].physicalRepresentatives.map((source,i)=>({...source,remainingQuantity:i===0?9:1}))}],parcelInstances:[]};
- await page.route('**/rest/v1/rpc/get_admin_sales_aftercare_context_v1',route=>route.fulfill({json:fresh}));
- let request:Record<string,unknown>|null=null;
- await page.route('**/rest/v1/rpc/settle_sales_replacement_v1',route=>{request=route.request().postDataJSON();return route.fulfill({json:{success:true,operationalCoordinatorVersion:403,operationId:'replacement',issuedQuantity:action==='unit'?1:10,moneyRefundInMinorUnits:0,debtReductionInMinorUnits:0}});});
- await page.route('**/rest/v1/rpc/settle_admin_sales_return_v1',route=>{request=route.request().postDataJSON();return route.fulfill({json:{success:true,operationId:'return'}});});
- await page.goto(url);await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();await expect(page.getByText('عصير فراولة · المتبقي 1 طرد',{exact:true})).toBeVisible();
- if(action==='return'){
-  await page.getByRole('button',{name:'مرتجع',exact:true}).click();
-  const quantity=page.getByRole('spinbutton').first();await expect(quantity).toHaveAttribute('min','1');await expect(quantity).toHaveAttribute('max','1');
-  await page.getByPlaceholder('سبب المرتجع',{exact:true}).fill('إرجاع الطرد بكل حباته');await page.getByRole('button',{name:'اعتماد المرتجع',exact:true}).click();
-  await expect.poll(()=>request).not.toBeNull();expect(request!.p_items).toEqual([{return_scope:'base_unit',order_item_id:'base-root',quantity:10,stock_disposition:'restock'}]);
-  expect((request!.p_physical_sources as Array<{source_id:string;quantity:number}>).map(x=>[x.source_id,x.quantity])).toEqual([['a',9],['b',1]]);
- }else{
-  await page.getByRole('button',{name:action==='unit'?'تبديل حبة معيبة':'استبدال طرد',exact:true}).click();
-  await expect(page.getByText('التبديل من نفس الصنف والكمية فقط. لا يُرد مال عن حبة من طرد.',{exact:true})).toBeVisible();
-  if(action==='unit')await expect(page.getByLabel('عدد طرود الاستبدال',{exact:true})).toHaveCount(0);
-  await page.getByPlaceholder('سبب العيب/الاستبدال',{exact:true}).fill('حبة معيبة من الطرد');await page.getByRole('button',{name:'اعتماد الاستبدال',exact:true}).click();
-  await expect.poll(()=>request).not.toBeNull();expect(request!.p_items).toEqual(action==='unit'?[{sourceKind:'base_order_item',sourceId:'a',quantity:1}]:[{sourceKind:'base_order_item',sourceId:'a',quantity:9},{sourceKind:'replacement_item',sourceId:'b',quantity:1}]);
- }
+for(const only of [false,true])for(const action of ['unit','whole','return'] as const)test(`J ordinary parcel parcelOnly=${only} ${action}:fragmented leaves preserve full refund boundary`,async({page})=>{
+ const fresh={...structuredClone(context),baseItems:[{...context.baseItems[0],quantity:10,remainingQuantity:10,commercialLineKind:'legacy_single_sku_parcel',unitsPerParcel:10,commercialQuantity:1,parcelOnly:only,
+ physicalRepresentatives:context.baseItems[0].physicalRepresentatives.map((s,i)=>({...s,remainingQuantity:i===0?9:1}))}],parcelInstances:[]};
+ await page.route('**/rest/v1/rpc/get_admin_sales_aftercare_context_v1',r=>r.fulfill({json:fresh}));const calls=await mockCurrentAftercare(page);await page.goto(url);
+ const intent=action==='return'?'refund':'replace';await page.getByRole('button',{name:'إرجاع أو استبدال',exact:true}).click();if(intent==='replace')await page.getByRole('button',{name:'يبدّل',exact:true}).click();await page.getByRole('button',{name:'التالي',exact:true}).click();
+ await expect(page.getByText('المتبقي 1 طرد',{exact:true})).toBeVisible();await page.getByRole('button',{name:action==='unit'?'باكيت معيب للتبديل فقط':'طرد كامل',exact:true}).click();
+ if(action==='return'){const qty=page.getByLabel('عدد الطرود الراجعة',{exact:true});await qty.fill('2');await page.getByRole('button',{name:'التالي',exact:true}).click();await expect(page.getByRole('alert').first()).toContainText('اختر كمية صحيحة');expect(calls.previews).toHaveLength(0);await qty.fill('1');}
+ await page.getByRole('button',{name:'التالي',exact:true}).click();await finishCurrentInspection(page,action==='return'?'none':'all');await confirmCurrentAftercare(page,intent);await expect.poll(()=>calls.writes.length).toBe(1);
+ const payload=calls.writes[0].p_payload;if(action==='return'){expect(payload.items[0].quantity).toBe(10);expect(payload.physicalSources.map((r:Record<string,unknown>)=>[r.source_id,r.quantity])).toEqual([['a',9],['b',1]]);}
+ else expect(payload.items).toEqual(action==='unit'?[{sourceKind:'base_order_item',sourceId:'a',quantity:1,goodQuantity:0,supplierId:null}]:[{sourceKind:'base_order_item',sourceId:'a',quantity:9,goodQuantity:0,supplierId:null},{sourceKind:'replacement_item',sourceId:'b',quantity:1,goodQuantity:0,supplierId:null}]);
 });
-
-test('J parcel-only mixed component still exposes defective-unit exchange without a partial return action',async({page})=>{
- const fresh=structuredClone(context);const parcel={...fresh.parcelInstances[0],components:fresh.parcelInstances[0].components.map(c=>({...c,parcelOnly:true}))};fresh.parcelInstances=[parcel];
- await page.route('**/rest/v1/rpc/get_admin_sales_aftercare_context_v1',route=>route.fulfill({json:fresh}));await page.goto(url);await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();
- await expect(page.getByRole('button',{name:'إرجاع الطرد كاملاً',exact:true})).toBeVisible();
- await page.getByRole('button',{name:'استبدال وحدة · عصير برتقال · البديل الذي أعطيته',exact:true}).click();
- await expect(page.getByText('إصدار بديل من نفس الصنف — وحدة واحدة',{exact:true})).toBeVisible();
- await expect(page.getByLabel('كمية المرتجع',{exact:true})).toHaveCount(0);
+test('J parcel-only mixed component keeps defective packet exchange and rejects partial money return',async({page})=>{
+ const fresh=structuredClone(context);fresh.parcelInstances[0].components=fresh.parcelInstances[0].components.map(c=>({...c,parcelOnly:true}));await page.route('**/rest/v1/rpc/get_admin_sales_aftercare_context_v1',r=>r.fulfill({json:fresh}));await page.goto(url);
+ await page.getByRole('button',{name:'إرجاع أو استبدال',exact:true}).click();await page.getByRole('button',{name:'التالي',exact:true}).click();await expect(page.getByRole('button',{name:'الطرد المشكّل كاملاً',exact:true})).toBeVisible();await expect(page.getByRole('button',{name:'تبديل المعيب · عصير برتقال',exact:true})).toHaveCount(0);
+ await page.getByRole('button',{name:'رجوع',exact:true}).click();await page.getByRole('button',{name:'يبدّل',exact:true}).click();await page.getByRole('button',{name:'التالي',exact:true}).click();await page.getByRole('button',{name:'تبديل المعيب · عصير برتقال',exact:true}).click();await page.getByRole('button',{name:'التالي',exact:true}).click();await expect(page.getByText('البديل الذي أعطيته · 1 باكيت',{exact:true})).toBeVisible();await page.getByLabel('فحصت الباكيتات الراجعة',{exact:true}).check();await page.getByRole('button',{name:'التالي',exact:true}).click();await expect(page.getByRole('alert')).toContainText('يجب أن تكون الباكيتات المختارة كلها معيبة');
 });

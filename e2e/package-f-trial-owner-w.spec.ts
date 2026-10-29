@@ -49,7 +49,7 @@ test('W1 last pending case keeps full receive/edit/confirmation inline rather th
 test('W1 partial/refusal/reversal name the missing field inside the selected card;no silent disabled preview',async({page})=>{
   await page.setViewportSize({width:390,height:844});const {previews,writes}=await supplierMocks(page);
   await page.goto('/e2e/supplier-replacement208-harness.html');await page.getByRole('button',{name:'المعلّق',exact:true}).click();
-  const card=page.getByTestId('replacement-case');await card.getByRole('button',{name:'معاينة استلام جزئي',exact:true}).click();
+  const card=page.getByTestId('replacement-case');await card.getByRole('button',{name:'استلام جزئي',exact:true}).click();
   const flow=card.getByTestId('replacement-case-workflow');await flow.getByLabel('سبب العملية',{exact:true}).fill('');
   await expect(flow.getByRole('button',{name:'معاينة التفاصيل',exact:true})).toBeEnabled();
   await flow.getByRole('button',{name:'معاينة التفاصيل',exact:true}).click();await expect(flow.getByRole('alert')).toContainText('سبب العملية');

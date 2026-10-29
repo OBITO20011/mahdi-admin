@@ -7,7 +7,7 @@ export function assertCompleteReturnAllocation(name: string, allocation: {
   if (!allocation || ![allocation.sellableRestock, allocation.defectNonSellable,
     allocation.customerDamage].every(value => Number.isSafeInteger(value) && value >= 0)
     || allocation.sellableRestock + allocation.defectNonSellable + allocation.customerDamage !== quantity) {
-    throw new Error(`أكمل تصنيف «${name}»: مجموع السليم والعيب وضرر العميل يجب أن يساوي ${quantity} حبة.`);
+    throw new Error(`أكمل تصنيف «${name}»: مجموع السليم والعيب وضرر العميل يجب أن يساوي ${quantity} باكيت.`);
   }
 }
 

@@ -3,19 +3,19 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/TRIAL_TC216_IMPLEMENTATION_AR.md"
+      "path": "docs/agent/AFTERCARE_UI_CLEANUP_AR.md"
     },
     {
       "code": " M",
-      "path": "docs/agent/TRIAL_TC216_QUALITY_LOCAL.json"
+      "path": "docs/agent/AFTERCARE_UI_CLEANUP_LOCAL.json"
     },
     {
       "code": " M",
-      "path": "scripts/audit/partial216-source-pins.json"
+      "path": "e2e/package-d-pos-fullstack.spec.ts"
     },
     {
       "code": " M",
-      "path": "tests/trial-reset.test.ts"
+      "path": "scripts/audit/aftercare-cleanup-source-pins.json"
     }
   ]
 }

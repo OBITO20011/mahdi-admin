@@ -1,3 +1,5 @@
+import {openAftercare,finishCurrentInspection,mockCurrentAftercare,confirmCurrentAftercare} from './aftercare-current-ui';
+import {wizard215Context} from './aftercare215-wizard.fixture';
 import {expect, test} from './isolated-test';
 
 const adminBaseUrl = process.env.ADMIN_BASE_URL ?? 'http://127.0.0.1:4173';
@@ -278,57 +280,10 @@ test('Return success enforces debt-first financial semantics and refund evidence
   }
 });
 
-test('unknown mutation exposes recovery controls immediately without manual refresh', async ({page}) => {
-  await page.route('**/*', (route) => {
-    const url = new URL(route.request().url());
-    if (!['127.0.0.1', 'localhost'].includes(url.hostname)) return route.abort();
-    if (url.pathname === '/') return route.fulfill({contentType: 'text/html',
-      body: '<html><body><div id="root"></div></body></html>'});
-    if (url.pathname.endsWith('/salesAftercare.service.ts')) {
-      return route.fulfill({contentType: 'text/javascript', body: `
-let pending = false;
-const source = {sourceKind:'base_order_item',sourceId:'43210000-0000-4000-8000-000000000005',productId:'43210000-0000-4000-8000-000000000006',remainingQuantity:1,parentReplacementItemId:null};
-export async function fetchAdminAftercareContext(){return {success:true,data:{supported:true,capability:'phase43_modern',contractVersion:403,order:{id:'${orderId}',withinWindow:true,deadlineAt:'2026-09-29T00:00:00Z'},financial:{merchandiseDebtInMinorUnits:0,refundableCollectedInMinorUnits:1000,deliveryFeeInMinorUnits:0},baseItems:[{orderItemId:source.sourceId,productId:source.productId,quantity:1,remainingQuantity:1,physicalRepresentatives:[source]}],parcelInstances:[],returns:[],replacements:[]}};}
-export async function fetchAdminAftercareRecoveryStates(){return pending?{replacement:{recoverable:true,status:'OUTCOME_UNKNOWN'}}:{};}
-export async function settleAdminReplacement(){pending=true;return {success:false,error:'lost response'};}
-export async function settleAdminReturn(){throw new Error('unused');}
-export async function recoverAdminAftercare(){return {success:true};}
-`});
-    }
-    return route.continue();
-  });
-  await page.goto(adminBaseUrl);
-  await page.evaluate(async () => {
-    // @ts-expect-error Live Vite module.
-    const Refresh = await import('/@react-refresh');
-    Refresh.default.injectIntoGlobalHook(window);
-    const refreshWindow = window as typeof window & {
-      $RefreshReg$: () => void;
-      $RefreshSig$: () => <T>(type: T) => T;
-      __vite_plugin_react_preamble_installed__: boolean;
-    };
-    refreshWindow.$RefreshReg$ = () => undefined;
-    refreshWindow.$RefreshSig$ = () => (type) => type;
-    refreshWindow.__vite_plugin_react_preamble_installed__ = true;
-    // @ts-expect-error Live Vite module.
-    const ReactModule = await import('/node_modules/.vite/deps/react.js');
-    const React = ReactModule.default ?? ReactModule;
-    // @ts-expect-error Live Vite module.
-    const ReactDOM = await import('/node_modules/.vite/deps/react-dom_client.js');
-    const createRoot = ReactDOM.createRoot ?? ReactDOM.default.createRoot;
-    // @ts-expect-error Live Vite module.
-    const {AdminAftercarePanel} = await import('/src/features/orders/AdminAftercarePanel.tsx');
-    createRoot(document.getElementById('root')!).render(React.createElement(AdminAftercarePanel, {
-      order: {id: '43210000-0000-4000-8000-000000000002', items: []},
-      onContractResolved: () => undefined,
-      notify: () => undefined,
-    }));
-  });
-  await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();
-  await page.getByRole('button', {name: 'استبدال وحدة', exact: true}).click();
-  await page.getByPlaceholder('سبب العيب/الاستبدال').fill('Supplier defect');
-  await page.getByRole('button', {name: 'اعتماد الاستبدال', exact: true}).click();
-  await expect(page.getByRole('button', {name: 'استعادة الاستبدال', exact: true})).toBeVisible();
+test('unknown current mutation exposes recovery controls immediately without manual refresh',async({page})=>{
+  await page.route('**/rest/v1/rpc/get_admin_sales_aftercare_context_v1',r=>r.fulfill({json:wizard215Context}));const calls=await mockCurrentAftercare(page,{dropFirst:true});await page.goto('/e2e/aftercare-cleanup-harness.html');
+  await openAftercare(page,'replace','طرد كامل');await finishCurrentInspection(page,'all');await confirmCurrentAftercare(page,'replace');
+  await expect(page.getByRole('button',{name:'استعادة الاستبدال المفحوص',exact:true})).toBeVisible();expect(calls.writes).toHaveLength(1);await expect(page.getByText('لا تبدأ عملية جديدة قبل معرفة نتيجة المحاولة السابقة.',{exact:true})).toBeVisible();
 });
 
 const isolateModuleShell = async (page: import('@playwright/test').Page) => {

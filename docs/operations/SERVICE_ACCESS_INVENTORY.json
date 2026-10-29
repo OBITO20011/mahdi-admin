@@ -345,11 +345,15 @@
     },
     {
       "file": "src/features/inventory/SupplierReplacementPanel.tsx",
-      "sha256": "2edf66c5fab4cec77f996e48e4a438e865cd09665fc313429cab049e1320d9bc"
+      "sha256": "c9d611efde5d54c93ba8e69b87953fb4f75d702897ed568a8476ad9a7350de43"
+    },
+    {
+      "file": "src/features/inventory/supplierReplacementPresentation.ts",
+      "sha256": "d2e330bb255f9f2058c43475e8aefd23af3acacc17e73d72c7a2f517746db9b2"
     },
     {
       "file": "src/features/inventory/SupplierReplacementQuantities.tsx",
-      "sha256": "e72e9f11133257d0f5c1618182187852914cc136f358cbe82593f3a6ad4fa14a"
+      "sha256": "074153854e4b0967a46f0bd7cd4150e68822e3147b9fb953c6dc8fb158b82b41"
     },
     {
       "file": "src/features/inventory/SupplierReplacementSummary.tsx",
@@ -365,7 +369,7 @@
     },
     {
       "file": "src/features/more/DamageHistoryPanel.tsx",
-      "sha256": "a36246879affb5856bc599cf55436af0789ede855e0282915a2df143f0f4a5f8"
+      "sha256": "122f3ad0891d94d6d2edc0302e0b7d8154368fdbe30e747b6ebbee567dc32f08"
     },
     {
       "file": "src/features/more/DamageProductSelection.tsx",
@@ -405,23 +409,23 @@
     },
     {
       "file": "src/features/orders/AdminAftercarePanel.tsx",
-      "sha256": "64ccce322b391c6e2863db7d0b4ed51bb20357c3392a0401a5a2a15a959e0f14"
+      "sha256": "ede6220c78684b036d1cfa73be663dec7f291d61614d95fc6b2d0749507ae995"
     },
     {
       "file": "src/features/orders/aftercare215Draft.ts",
-      "sha256": "4da852e325d43decb3349ee797446e43aac44e828e928afe87a4dbe857dcf818"
+      "sha256": "9ae4cc6da8696fa6570c885aa4c5111547278530a00770ce3d9eba17926298b9"
     },
     {
       "file": "src/features/orders/aftercarePresentation.ts",
-      "sha256": "c8598aab2048edae41d94d56e8e6fda2177a0022ae4ad76f1770065e84b5d96b"
+      "sha256": "2e1448d52964e67a6b3b04bc259b1f5ab67400dfbf29d07aa3d7b65897f8af7e"
     },
     {
       "file": "src/features/orders/AftercareSupplierSafety.tsx",
-      "sha256": "0b4009e97541720fb881cbf2cd34b584803bcfdbd559be723f9eed17f0817ac2"
+      "sha256": "773edd505d27ce865ec9481a44850ee882c7c38201e36428d9e35da01dc8d410"
     },
     {
       "file": "src/features/orders/AftercareWizard215.tsx",
-      "sha256": "479eb0307ef5005d5069e0c5ffb63448207b4271591d75ae05e5ebb281b5e9e6"
+      "sha256": "10d0f79ac4ee74eebb5a9ba0ff801f3d727e31cebdf734c0ee9743ea966463b7"
     },
     {
       "file": "src/features/orders/CustomerLocationCard.tsx",

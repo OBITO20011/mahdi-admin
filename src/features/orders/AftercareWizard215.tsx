@@ -107,12 +107,24 @@ export function AftercareWizard215({order,context,ownerAllowed,disabled,onBusyCh
       {context.baseItems.map(item=>{const name=order.items.find(i=>i.id===item.orderItemId)?.productName||'الصنف',remaining=item.physicalRepresentatives.reduce((s,x)=>s+x.remainingQuantity,0),parcel=item.commercialLineKind==='legacy_single_sku_parcel',n=item.unitsPerParcel??1;
         return remaining>0&&<div key={item.orderItemId} className="space-y-2 rounded-lg border border-nw-border p-3"><b>{name}</b><p className="text-sm text-nw-muted">المتبقي {parcelPacketQuantity(remaining,parcel?n:null)}</p>
           <div className="flex flex-wrap gap-2">{parcel&&<UiButton onClick={()=>choose({kind:'base',orderItemId:item.orderItemId,quantity:1,unit:'parcels'})}>طرد كامل</UiButton>}
-            <UiButton onClick={()=>choose({kind:'base',orderItemId:item.orderItemId,quantity:1,unit:'packets'})}>{parcel?'باكيت معيب للتبديل فقط':'باكيتات'}</UiButton></div></div>;})}
+            <UiButton onClick={()=>choose({kind:'base',orderItemId:item.orderItemId,quantity:1,unit:'packets'})}>{parcel?'باكيت معيب للتبديل فقط':'باكيتات'}</UiButton></div>
+          {ownerAllowed&&intent==='replace'&&item.physicalRepresentatives.some(source=>source.sourceKind==='replacement_item'&&source.remainingQuantity>0)&&<details>
+            <summary className="min-h-11 cursor-pointer py-3 text-sm">متقدم · البديل الذي أعطيته · {name}</summary>
+            <p className="text-sm text-nw-muted">إذا عاد باكيت معيب من بديل سابق، اختره هنا. يرجع لنفس سلسلة الفاتورة، ولا يُرد مال عن باكيت من طرد.</p>
+            {item.physicalRepresentatives.filter(source=>source.sourceKind==='replacement_item'&&source.remainingQuantity>0).map((source,index)=><UiButton key={source.sourceId}
+              onClick={()=>choose({kind:'base',orderItemId:item.orderItemId,quantity:1,unit:'packets',replacementSourceId:source.sourceId})}>البديل الذي أعطيته · {name} · {index+1} · المتبقي {source.remainingQuantity} باكيت</UiButton>)}
+          </details>}</div>;})}
       {context.parcelInstances.map((parcel,index)=><div key={parcel.parcelInstanceId} className="space-y-2 rounded-lg border border-nw-border p-3"><b>طرد مشكّل {index+1}</b>
         <p className="text-sm">{parcel.components.map(c=>`${c.quantity} ${order.items.flatMap(i=>i.parcelInstances??[]).flatMap(p=>p.components).find(x=>x.id===c.parcelComponentId)?.name||'نكهة'}`).join(' + ')}</p>
         <UiButton onClick={()=>choose({kind:'formed',parcelInstanceId:parcel.parcelInstanceId,quantity:1})}>الطرد المشكّل كاملاً</UiButton>
         {intent==='replace'&&parcel.components.map(c=><UiButton key={c.parcelComponentId} onClick={()=>choose({kind:'formed',parcelInstanceId:parcel.parcelInstanceId,componentId:c.parcelComponentId,quantity:1})}>
-          تبديل المعيب · {order.items.flatMap(i=>i.parcelInstances??[]).flatMap(p=>p.components).find(x=>x.id===c.parcelComponentId)?.name||'نكهة'}</UiButton>)}</div>)}
+          تبديل المعيب · {order.items.flatMap(i=>i.parcelInstances??[]).flatMap(p=>p.components).find(x=>x.id===c.parcelComponentId)?.name||'نكهة'}</UiButton>)}
+        {ownerAllowed&&intent==='replace'&&parcel.components.some(c=>c.physicalRepresentatives.some(source=>source.sourceKind==='replacement_item'&&source.remainingQuantity>0))&&<details>
+          <summary className="min-h-11 cursor-pointer py-3 text-sm">متقدم · البديل الذي أعطيته · طرد مشكّل {index+1}</summary>
+          <p className="text-sm text-nw-muted">اختر باكيت النكهة المعيب الذي أعطيته سابقاً.</p>
+          {parcel.components.flatMap(c=>c.physicalRepresentatives.filter(source=>source.sourceKind==='replacement_item'&&source.remainingQuantity>0).map((source,leafIndex)=><UiButton key={source.sourceId}
+            onClick={()=>choose({kind:'formed',parcelInstanceId:parcel.parcelInstanceId,componentId:c.parcelComponentId,quantity:1,replacementSourceId:source.sourceId})}>البديل الذي أعطيته · {order.items.flatMap(i=>i.parcelInstances??[]).flatMap(p=>p.components).find(x=>x.id===c.parcelComponentId)?.name||'نكهة'} · {leafIndex+1} · المتبقي {source.remainingQuantity} باكيت</UiButton>))}
+        </details>}</div>)}
       {selection&&<label>عدد {selection.kind==='formed'&&!selection.componentId?'الطرود المشكّلة':selection.kind==='base'&&selection.unit==='parcels'?'الطرود':'الباكيتات'} الراجعة<input type="number" min={1} step={1} inputMode="numeric" enterKeyHint="next" value={selection.quantity}
         disabled={selection.kind==='formed'&&!selection.componentId} onChange={e=>choose({...selection,quantity:Number(e.target.value)})}/></label>}
       {selectionError&&<p role="alert" className="text-sm text-nw-bad">{selectionError}</p>}
@@ -125,7 +137,7 @@ export function AftercareWizard215({order,context,ownerAllowed,disabled,onBusyCh
             onChange={e=>{changed();setInspection({...inspection,[key]:{...value,bad:Number(e.target.value)}});setInspected(false);}}/></label>
           <p>السليم الذي يرجع للمخزون: {rest>=0?rest:'راجع الكمية'} باكيت</p>
           <details><summary className="min-h-11 cursor-pointer py-3 text-sm">متقدم · ضرر من الزبون</summary><label>ضرر الزبون · {leaf.name}<input type="number" min={0} max={leaf.source.quantity} inputMode="numeric" enterKeyHint="next" value={value.customerDamage}
-            onChange={e=>{changed();setInspection({...inspection,[key]:{...value,customerDamage:Number(e.target.value)}});setInspected(false);}}/></label><p className="text-sm text-nw-muted">يبقى للزبون ويُخصم حسب سعر الفاتورة التاريخي؛ ليس عيب ضمان. القدرات النادرة متاحة في الخيارات المتقدمة للفاتورة.</p></details></div>;})}
+            onChange={e=>{changed();setInspection({...inspection,[key]:{...value,customerDamage:Number(e.target.value)}});setInspected(false);}}/></label><p className="text-sm text-nw-muted">يبقى للزبون ويُخصم حسب سعر الفاتورة التاريخي؛ ليس عيب ضمان. اختر «يرجّع ويسترد» لتسويته، ولا يُرد مال عن باكيت منفرد من طرد.</p></details></div>;})}
       <label className="flex min-h-11 items-center gap-2"><input type="checkbox" checked={inspected} onChange={e=>{changed();setInspected(e.target.checked);}}/>فحصت الباكيتات الراجعة</label>
     </div>}
     {step===4&&<div className="space-y-3">{bad===0?<p>لا يوجد باكيت معيب. السليم يعود للمخزون.</p>:<>

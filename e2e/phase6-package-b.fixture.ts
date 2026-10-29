@@ -1,6 +1,6 @@
 export const phase6AftercareFixture = {
   contractVersion: 403, supported: true, capability: 'phase43_modern',
-  order: {id: '66660000-0000-4000-8000-000000000002', orderNumber: 'P6-B', withinWindow: true, deadlineAt: '2026-10-08T08:00:00Z'},
+  order: {id: '66660000-0000-4000-8000-000000000002', orderNumber: 'P6-B', completedAt:'2026-09-30T10:00:00Z', withinWindow: true, deadlineAt: '2026-10-08T08:00:00Z'},
   financial: {merchandiseDebtInMinorUnits: 0, refundableCollectedInMinorUnits: 5000, deliveryFeeInMinorUnits: 0},
   baseItems: [{orderItemId: 'base-root', productId: 'juice', quantity: 5, remainingQuantity: 5,
     physicalRepresentatives: [

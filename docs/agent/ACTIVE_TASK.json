@@ -2,47 +2,50 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "T-C216 partial POS payments/quick customer with operational216;PR44 exact FULLCI then ownerapprovalSTOP",
-  "baselineSha": "8561cdfe01198a61036ac87bb3de4a82e2e9fbb3",
-  "branch": "codex/trial-tc-partial-payment",
+  "objective": "Owner-approved UI-only aftercare cleanup;one wizard,packet labels,supplier help;own PR FULLCI approvalSTOP",
+  "baselineSha": "963b4f52ae45e21790e2b15825ae08b4dd26b7e8",
+  "branch": "codex/trial-aftercare-cleanup",
   "phase": "PACKAGE_F",
   "completed": [
-    "PR43 main9f94ec8 preserved;T-C primary untouched",
-    "All local216 and legacy215 operations verified;details TRIAL_TC216_QUALITY_LOCAL.json",
-    "Admin1610/store203,38browser/PWA4/sixbuilds/types/lint/network0 PASS",
-    "PR44 draft;CI8561 stale215/checkpoint expectations corrected;4KB guard retained"
+    "PR44/main015ffca FULL51 delivered;primary19files/state216 preserved",
+    "All local cleanup gates accepted;details AFTERCARE_UI_CLEANUP_LOCAL.json",
+    "Admin1615/store203,24+2+84+104browser/sixbuilds/PWA4/network0",
+    "CI963 extraoldUItest fixed;actualPOS8/8 realAuthRPC passed;no appSQL/servicechange"
   ],
   "inProgress": [
-    "Push bounded CI expectation correction;full51 push+PR plus secrets/backup then ownerapprovalSTOP"
+    "Push bounded realPOS test correction;PR45 newexactFULLCI then ownerapprovalSTOP"
   ],
   "notStarted": [
-    "Merge requires owner approval"
+    "Owner review/merge"
   ],
   "testsPassed": [
-    "Local proof files TRIAL_TC216_*_LOCAL.json",
-    "Canonical216 SQL immutable;001-215 unchanged"
+    "All local cleanup gates accepted;details AFTERCARE_UI_CLEANUP_LOCAL.json",
+    "Admin1615/store203,24+2+84+104browser0skip/flaky,sixbuilds/PWA4/network0",
+    "CurrentSDK157/58218expected;SQL/services/grants/oldpins unchanged"
   ],
   "testsRemaining": [
-    "Exact full push+PR CI on new identical head"
+    "New exact final SHA full push+PR CI/secrets/backup",
+    "Owner approval before merge"
   ],
   "findings": [
-    "Primarymain9f94ec8 retained;no hosted/deploy",
-    "Detailed accepted/rejected proofs live in milestone files;keep checkpoint<=4096bytes"
+    "CI963 rejected,cancelled ownqualityonly;notdelivery",
+    "ActuallocalPOS keeps5/4500/2700/1800/2 andzeroReplay",
+    "No hosted/deploy;ownerdefault216reference unchanged"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hosted access/deploy/main update",
-    "No migrations001-215 edits",
-    "No merge or next phase before owner approval"
+    "No hosted access/deploy",
+    "No DB/migration/RPC/money/permission change",
+    "No merge or next package before owner approval"
   ],
-  "nextExactAction": "Verify updatedPR44 exact FULL51 quality on push and PR plussecret/completebackup;fix only proven failures;then ownerapprovalSTOP,no merge",
-  "startedAt": "2026-10-28T13:06:11.980Z",
-  "checkpointedAt": "2026-10-29T10:56:00.641Z",
+  "nextExactAction": "Push verified realPOS8 test correction;PR45 newexact FULL51push+PR plussecret/backup;ownerapprovalSTOP",
+  "startedAt": "2026-10-29T11:42:42.638Z",
+  "checkpointedAt": "2026-10-29T16:07:55.053Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "2568f99a45111b8c2977fb1d419c646fb20711f4656b5cafecb228e9a20f91da",
-  "workingTreeFingerprint": "4B162FF4184DAE6373BAAD93463EA44C32389DC293C2383F13233B885C6B0E77"
+  "filesTouchedManifestSha256": "5549b06f4d994f03beb800fe68356449cfc8ce2b8fb758198e6d62390b4c291a",
+  "workingTreeFingerprint": "198E769DAAEE60573908A1B080DA56370640BBF72C8D9AAA047411488FA44525"
 }

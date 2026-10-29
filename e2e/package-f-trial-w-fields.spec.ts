@@ -1,3 +1,4 @@
+import {openAftercare,mockInvoiceDamageCandidate,openInvoiceDamageConversion,proofId,damageFixtureProductId} from './aftercare-current-ui';
 import {test,expect,type Page} from './isolated-test';
 import {checkLayout} from './package-f-layout';
 import {fieldGeometry,focusWithKeyboardSpace} from './trial-w-form-geometry';
@@ -63,25 +64,22 @@ async function aftercareMocks(page:Page){
   await page.route('**/rest/v1/rpc/get_admin_sales_aftercare_context_v1',r=>r.fulfill({json:phase6AftercareFixture}));
   await page.route('**/rest/v1/rpc/get_supplier_replacement_options_v1',r=>r.fulfill({json:{contractVersion:208,
     products:[{id:'juice',name:'عصير برتقال',sku:'JUICE',baseUnitName:'باكيت',unitsPerParcel:1}],suppliers:[{id:supplier,name:'المورد الموثق'}],
-    warehouses:[],lastSuppliers:[{productId:'juice',supplierId:supplier,supplierName:'المورد الموثق'}]}}));
+    warehouses:[],lastSuppliers:[{productId:'juice',supplierId:supplier,supplierName:'المورد الموثق'},{productId:damageFixtureProductId,supplierId:supplier,supplierName:'المورد الموثق'}]}}));
 }
-test('W5 aftercare supplier replacement fields390',async({page},info)=>{
-  await aftercareMocks(page);await page.setViewportSize({width:390,height:844});await page.goto('/e2e/phase6-package-b-harness.html');await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();
-  await page.getByRole('button',{name:'استبدال وحدة · عصير برتقال · البديل الذي أعطيته',exact:true}).click();
-  await page.getByLabel('مصير الحبة المعيبة',{exact:true}).selectOption('supplier');await expect(page.getByLabel('المورد',{exact:true})).toHaveValue(supplier);
-  await capture(page,info,'aftercare-replacement');
+
+async function supplierWizardFields(page:Page,intent:'refund'|'replace'){
+  await openAftercare(page,intent,'الطرد المشكّل كاملاً');
+  await page.getByLabel('الخربان · عصير برتقال',{exact:true}).fill('1');await page.getByLabel('فحصت الباكيتات الراجعة',{exact:true}).check();await page.getByRole('button',{name:'التالي',exact:true}).click();
+  await page.getByRole('button',{name:'على المورد — بانتظار البديل',exact:true}).click();await expect(page.getByLabel('مورد عصير برتقال',{exact:true})).toHaveValue(supplier);
+}
+test('W5 current wizard supplier replacement fields390',async({page},info)=>{
+  await aftercareMocks(page);await page.setViewportSize({width:390,height:844});await page.goto('/e2e/phase6-package-b-harness.html');await supplierWizardFields(page,'replace');await capture(page,info,'aftercare-replacement');
 });
-test('W5 aftercare supplier return fields390',async({page},info)=>{
-  await aftercareMocks(page);await page.setViewportSize({width:390,height:844});await page.goto('/e2e/phase6-package-b-harness.html');await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();
-  await page.getByRole('button',{name:'إرجاع الطرد كاملاً',exact:true}).click();
-  await page.getByRole('combobox',{name:'مصير عيب المورد غير القابل للبيع',exact:true}).selectOption('supplier');await expect(page.getByRole('combobox',{name:'المورد',exact:true})).toHaveValue(supplier);
-  await capture(page,info,'aftercare-return');
+test('W5 current wizard supplier return fields390',async({page},info)=>{
+  await aftercareMocks(page);await page.setViewportSize({width:390,height:844});await page.goto('/e2e/phase6-package-b-harness.html');await supplierWizardFields(page,'refund');await capture(page,info,'aftercare-return');
 });
-test('W5 supplier safety conversion fields390',async({page},info)=>{
-  await aftercareMocks(page);await page.route('**/rest/v1/rpc/get_aftercare_damage_candidates_v1',r=>r.fulfill({json:{contractVersion:211,
-    candidates:[{kind:'replacement',id:'source-damage',productId:'juice',productName:'عصير برتقال',quantity:1,occurredAt:'2026-10-23T01:00:00Z',blockedReason:null}]}}));
-  await page.setViewportSize({width:390,height:844});await page.goto('/e2e/phase6-package-b-harness.html');await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();
-  await page.getByRole('button',{name:'خيارات التالف النهائي',exact:true}).click();await page.getByRole('button',{name:'حوّله للمورد بانتظار البديل',exact:true}).click();
+test('W5 current damage-list supplier safety conversion fields390',async({page},info)=>{
+  await aftercareMocks(page);await mockInvoiceDamageCandidate(page,phase6AftercareFixture.order.id,proofId(65));await page.setViewportSize({width:390,height:844});await page.goto('/e2e/phase6-package-b-harness.html');await openInvoiceDamageConversion(page);
   await expect(page.getByLabel('مورد التالف',{exact:true})).toHaveValue(supplier);await capture(page,info,'aftercare-safety');
 });
 

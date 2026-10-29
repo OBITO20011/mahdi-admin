@@ -3,8 +3,8 @@ import type {AdminAftercareModernContext,ReturnPhysicalSource,ReturnRequestItem}
 import type {Aftercare215Payloads} from '../../utils/aftercare215Contracts';
 import {allocateBaseReturn,singleSkuPhysicalQuantity} from './aftercarePresentation';
 
-export type WizardSelection215={kind:'base';orderItemId:string;quantity:number;unit:'parcels'|'packets'}
-  |{kind:'formed';parcelInstanceId:string;componentId?:string;quantity:number};
+export type WizardSelection215={kind:'base';orderItemId:string;quantity:number;unit:'parcels'|'packets';replacementSourceId?:string}
+  |{kind:'formed';parcelInstanceId:string;componentId?:string;quantity:number;replacementSourceId?:string};
 export interface WizardPhysical215 {name:string;source:ReturnPhysicalSource;original:boolean}
 export type WizardInspection215=Record<string,{bad:number;customerDamage:number}>;
 export const physicalKey215=(source:ReturnPhysicalSource)=>`${source.source_kind}:${source.source_id}`;
@@ -18,19 +18,24 @@ export function selectWizardPhysical215(order:Order,context:AdminAftercareModern
     const item=context.baseItems.find(i=>i.orderItemId===selection.orderItemId);if(!item)throw new Error('تغيّر سطر الفاتورة؛ أعد فتحها.');
     const quantity=selection.unit==='parcels'?singleSkuPhysicalQuantity(selection.quantity,item.unitsPerParcel??0):positive(selection.quantity,'عدد الباكيتات');
     if(selection.unit==='parcels'&&item.commercialLineKind!=='legacy_single_sku_parcel')throw new Error('هذا السطر باكيتات مستقلة في الفاتورة.');
-    return allocateBaseReturn(item.orderItemId,item.physicalRepresentatives,quantity,'restock',context.replacements,context.order.completedAt)
+    const representatives=selection.replacementSourceId?item.physicalRepresentatives.filter(source=>source.sourceKind==='replacement_item'&&source.sourceId===selection.replacementSourceId):item.physicalRepresentatives;
+    if(selection.replacementSourceId&&(selection.unit!=='packets'||representatives.length!==1))throw new Error('البديل الذي أعطيته لم يعد متاحاً؛ حدّث الفاتورة.');
+    return allocateBaseReturn(item.orderItemId,representatives,quantity,'restock',context.replacements,context.order.completedAt)
       .map(source=>({name:baseName(order,item.orderItemId),source,original:source.source_kind==='base_order_item'}));
   }
   const parcel=context.parcelInstances.find(p=>p.parcelInstanceId===selection.parcelInstanceId);if(!parcel)throw new Error('تغيّر الطرد المشكّل؛ أعد فتح الفاتورة.');
   const components=selection.componentId?parcel.components.filter(c=>c.parcelComponentId===selection.componentId):parcel.components;
+  if(selection.replacementSourceId&&!selection.componentId)throw new Error('اختر نكهة البديل الذي أعطيته.');
   if(!components.length||!selection.componentId&&selection.quantity!==1)throw new Error('اختر طرداً مشكّلاً محفوظاً واحداً.');
   return components.flatMap(component=>{
-    const available=component.physicalRepresentatives.reduce((sum,s)=>sum+s.remainingQuantity,0),name=componentName(order,component.parcelComponentId);
+    const representatives=selection.replacementSourceId?component.physicalRepresentatives.filter(source=>source.sourceKind==='replacement_item'&&source.sourceId===selection.replacementSourceId):component.physicalRepresentatives;
+    if(selection.replacementSourceId&&representatives.length!==1)throw new Error('البديل الذي أعطيته لم يعد متاحاً؛ حدّث الفاتورة.');
+    const available=representatives.reduce((sum,s)=>sum+s.remainingQuantity,0),name=componentName(order,component.parcelComponentId);
     let remaining=selection.componentId?positive(selection.quantity,name):component.quantity;
     if(remaining>available||!selection.componentId&&available!==component.quantity)throw new Error(`${name}: لم يعد الطرد كاملاً؛ بدّل المعيب المتبقي فقط.`);
     // A partial flavor replacement is defective-only. Show each physical leaf
     // separately so the inspection cannot assign a cost by guessing a SKU.
-    return [...component.physicalRepresentatives].sort((a,b)=>(a.sourceKind==='parcel_component'?0:1)-(b.sourceKind==='parcel_component'?0:1)||a.sourceId.localeCompare(b.sourceId))
+    return [...representatives].sort((a,b)=>(a.sourceKind==='parcel_component'?0:1)-(b.sourceKind==='parcel_component'?0:1)||a.sourceId.localeCompare(b.sourceId))
       .flatMap(leaf=>{const quantity=Math.min(remaining,leaf.remainingQuantity);remaining-=quantity;if(!quantity)return[];
         const source:ReturnPhysicalSource={root_source_kind:'parcel_component',root_source_id:component.parcelComponentId,source_kind:leaf.sourceKind,source_id:leaf.sourceId,product_id:leaf.productId,
           quantity,sellable_restock_quantity:quantity,defect_non_sellable_quantity:0,customer_damage_quantity:0};
@@ -74,7 +79,7 @@ export function buildWizard215(order:Order,context:AdminAftercareModernContext,i
   if(partial&&(input.intent!=='replace'||input.replacement!=='same'||sources.some(s=>s.defect_non_sellable_quantity!==s.quantity)))
     throw new Error('الباكيت من الطرد تبديل معيب فقط بنفس الصنف؛ لاسترداد المال اختر الطرد كاملاً.');
   if(input.intent==='replace'&&input.replacement==='same'){
-    if(damage)throw new Error('ضرر الزبون له مسار مرتجع مفحوص في الخيارات المتقدمة؛ لا يُعامل كعيب ضمان.');
+    if(damage)throw new Error('ضرر الزبون لا يُعامل كعيب ضمان؛ اختر «يرجّع ويسترد» لتسوية المرتجع المفحوص.');
     return{action:'inspected_replacement',payload:{orderId:order.id,reason,notes,items:sources.map(source=>({sourceKind:source.source_kind,sourceId:source.source_id,
       quantity:source.quantity,goodQuantity:source.sellable_restock_quantity,supplierId:source.defect_non_sellable_quantity&&input.destination==='supplier'?input.supplierByProduct[source.product_id]:null}))}};
   }
