@@ -57,10 +57,10 @@ try{
  await sql(`INSERT INTO suppliers(id,company_name,is_active)VALUES(${q(trialSupplier)},'مورد تصفير وهمي216',true);
  INSERT INTO customers(id,full_name,phone)VALUES(${q(trialCustomer)},'زبون تصفير وهمي216','0790000001');
  INSERT INTO products(id,sku,name_ar,unit_id,purchase_unit_id,sale_unit_id,units_per_purchase_unit,units_per_sale_unit,sale_price_in_minor_units,default_sale_price_in_minor_units)
- SELECT ${q(trialProduct)},'RESET216-PARTIAL','صنف تصفير وهمي216',id,id,id,1,1,1000,1000 FROM units ORDER BY code LIMIT 1;`);
+ SELECT ${q(trialProduct)},'RESET216-PARTIAL','صنف تصفير وهمي216',id,id,id,1,1,1000,1000 FROM units WHERE code='RESUME-CUSTOM';`);
  const ownerCall=call=>sql(`BEGIN;SELECT set_config('request.jwt.claims',${q(JSON.stringify({sub:ownerId,role:'authenticated',aal:'aal2'}))},true);SET LOCAL ROLE authenticated;SELECT public.${call};COMMIT;`);
  await ownerCall(`open_cash_shift(${q(branch)},0)`);
- await ownerCall(`create_direct_supplier_receipt_v2(p_supplier_id:=${q(trialSupplier)},p_branch_id:=${q(branch)},p_warehouse_id:=${q(warehouse)},p_idempotency_key:=${q('reset216-receive-'+randomUUID())},p_payment_method:='deferred',p_lines:=${q(JSON.stringify([{client_line_id:trialLine,line_kind:'base_unit',commercial_quantity:2,base_unit_name:'باكيت',gross_amount_in_minor_units:1000,line_discount_in_minor_units:0,components:[{product_id:trialProduct,base_quantity:2}]}]))}::jsonb)`);
+ await ownerCall(`create_direct_supplier_receipt_v2(p_supplier_id:=${q(trialSupplier)},p_branch_id:=${q(branch)},p_warehouse_id:=${q(warehouse)},p_idempotency_key:=${q('reset216-receive-'+randomUUID())},p_payment_method:='deferred',p_lines:=${q(JSON.stringify([{client_line_id:trialLine,line_kind:'base_unit',commercial_quantity:2,base_unit_name:'وحدة مخصصة',gross_amount_in_minor_units:1000,line_discount_in_minor_units:0,components:[{product_id:trialProduct,base_quantity:2}]}]))}::jsonb)`);
  await ownerCall(`create_pos_sale_with_initial_payment_v1(${q(warehouse)},${q(branch)},${q(trialCustomer)},'زبون تصفير وهمي216',${q(JSON.stringify([{commercial_line_kind:'base_unit',product_id:trialProduct,base_quantity:1,price_authority:'server_catalog',line_discount_in_minor_units:0}]))}::jsonb,0,400,'cash',NULL,'reset216-trial-partial-00001')`);
  assert.equal(await sql('SELECT count(*) FROM pos216_initial_payments;'),'1');report.nonemptyPartial216BeforeReset=true;
  const retained=await sql(reset214RetentionRawSql(ownerId));

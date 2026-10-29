@@ -1,6 +1,6 @@
-#29Oct — T-C216 in progress after approved PR43 merge
+#29Oct — T-C216 local operations verified;backup and full delivery pending
 
-PR43/main9f94ec8 FULL50/secrets/backup passed and primary owner files preserved. T-C quick customer, partial POS recovery/receipt UI and literal216 atomic coordinator implemented; candidate SQL actual DB100/60/40,returns40+60,closing922000/0 and17healthy/0;browser22baseline+8partial PASS. Current ceiling216/178 with215/214 archive compatibility and versioned reset/upgrade adapters. Canonical178, independent reference,SDK/HTTP,reset/resume,encrypted restore and FULLCI stillpending. Same T-C PR then ownerapprovalSTOP;no hostedaccess/deploy. See TRIAL_TC216_IMPLEMENTATION_AR.md and CORE_LOCAL.json. Earlier215 status below is historical.
+PR43/main9f94ec8 delivered and primary owner files preserved.216 canonical178/strictrestore/blockedraces17healthy0;SDK157table+582RPC;realPOSHTTP4 on both engines with lostreply0writes;reference178/626/13/diff0;ownerupgrade/replay/strictverify and negative ACL/path/owner,RESET216 four interruptions+realwritefence,offline215/216 PASS. Admin1608/store203/types/strictlint/Gitleaks0 so far. Encrypted214215216 backup/localR2/watchdog,finalquality and exact FULLCI/PR remain. OwnerapprovalSTOP beforemerge;no hostedaccess/deploy. See TRIAL_TC216_*_LOCAL.json. Earlier215 status below is historical.
 
 #29Oct — T-B215 local acceptance complete;exact FULL49 CI next
 

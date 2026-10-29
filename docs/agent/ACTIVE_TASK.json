@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner approved T-C partial POS payments and quick customer;216 plus same-PR operational ceiling/reset/backup/reference;localonly/fullCI/PR then approvalSTOP",
-  "baselineSha": "6152261cdc5884303d6b2d0beadeb1a1eedc66fb",
+  "baselineSha": "e0ff881abce7ec51320454cf2fda85345b31e1c0",
   "branch": "codex/trial-tc-partial-payment",
   "phase": "PACKAGE_F",
   "completed": [
@@ -15,10 +15,11 @@
     "Canonical216 official178, blocked races,17healthy0,strictrestore0 and source frozen PASS;inverse216 3tests PASS",
     "Current216 unprojected SDK157table/582RPC passed;135affected history/coverage tests and changed strictlint passed;old215proofs retained",
     "Current216 reference independent178/626/13/diff0/sourcefrozen;Admin1608/store203/types/lint;12preflight/admission tests PASS",
-    "Real POS HTTP fullstack4 Chromium/WebKit390 PASS:quick customer,cash/CliQ100/60/40,lostreplysamekey0writes,receipt visual;sourcefrozen"
+    "Real POS HTTP fullstack4 Chromium/WebKit390 PASS:quick customer,cash/CliQ100/60/40,lostreplysamekey0writes,receipt visual;sourcefrozen",
+    "Ownerupgrade216 strict/replay0/7ACLpathowner negatives PASS;RESET216178 4interruptions/retentionMFA/privatepartial erased/concurrentwritefence PASS;offline215216/reset216 PASS"
   ],
   "inProgress": [
-    "Strict owner upgrade216,RESET216/resume and encrypted214215216 backup compatibility next"
+    "Encrypted214215216 archive/strict restore/localR2 and fully injected watchdog test next"
   ],
   "notStarted": [
     "PR merge requiresownerapproval"
@@ -51,10 +52,10 @@
     "No financialbehavior beyond approved partialPOS/payment and existingcustomercreate",
     "No merge before PR approval"
   ],
-  "nextExactAction": "Run strict local owner-upgrade216 with ready216 reference,then RESET216/resume and dual encrypted backups;finalquality FULLCI/PR approvalSTOP",
+  "nextExactAction": "Verify encrypted214215216 archives/strict restore/localR2 and injected watchdog;then fullquality/Gitleaks/exactCI and PR approvalSTOP",
   "startedAt": "2026-10-28T13:06:11.980Z",
-  "checkpointedAt": "2026-10-29T04:55:34.348Z",
-  "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "744d72c74b0bcbc3aac0e5ae46fbd02f033e201c1ec243234fb1a258cc6d3d2c",
-  "workingTreeFingerprint": "358177C83D59FA61127807412904973D83DCF0C7964ED0E904C610B294360CE6"
+  "checkpointedAt": "2026-10-29T05:07:07.264Z",
+  "filesTouchedCount": 8,
+  "filesTouchedManifestSha256": "ec49fe56755402c4ff9795b01b1494c5fef4dc303e2f5d4af79905b54417bd29",
+  "workingTreeFingerprint": "452C09F7B4B8F8C46A42AFFE04B024D211416294B525D394B41C9795EA74C60F"
 }
