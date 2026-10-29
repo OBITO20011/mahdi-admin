@@ -17,7 +17,7 @@ function fixture(override:Partial<DispatchDependencies>={}) {
   const calls:Array<{name:string;args:Record<string,unknown>}> = [],sent:Array<Record<string,unknown>>=[];
   let created=0;
   const deps:DispatchDependencies={config,uuid:()=>id,
-    createClient:()=>{created++;return {rpc:async(name,args)=>{calls.push({name,args});return {error:null,data:name==='claim_owner_telegram_deliveries_v1'?{success:true,items:[{...goldens.cases[2].event,eventId:id}]}:{success:true}};}};},
+    createClient:()=>{created++;return {rpc:async(name,args)=>{calls.push({name,args});return {error:null,data:name==='owner_telegram_dispatch_lease_valid_v1'?true:name==='claim_owner_telegram_deliveries_v1'?{success:true,items:[{...goldens.cases[2].event,eventId:id}]}:{success:true}};}};},
     fetch:async(_url,init)=>{sent.push(JSON.parse(String(init?.body)));return Response.json({ok:true,result:{message_id:1,chat:{id:chat}}});},...override};
   return {deps,calls,sent,created:()=>created,handler:ownerTelegramHandler(deps)};
 }
@@ -54,7 +54,7 @@ test('217 dispatch acknowledges only Telegram ok/message-id/matching owner and u
 test('217 unknown/technical kinds complete failed with original fixed exclusion code and no send',async()=>{
   for(const event of [{eventType:'business_integrity_warning',payload:{}},{eventType:'business_alert_recovery',payload:{resolvedAlertType:'business_integrity_warning'}},{eventType:'unknown',payload:{}}]){
     const f=fixture({createClient:()=>({rpc:async(name,args)=>{f.calls.push({name,args});return {error:null,data:name==='claim_owner_telegram_deliveries_v1'?{success:true,items:[{...event,eventId:id}]}:{success:true}};}})});
-    assert.equal((await(await f.handler(request())).json()).failed,1);assert.equal(f.sent.length,0);assert.equal(f.calls[1].args.p_error,'OWNER_BUSINESS_EVENT_NOT_ALLOWED');
+    assert.equal((await(await f.handler(request())).json()).failed,1);assert.equal(f.sent.length,0);assert.equal(f.calls.find(c=>c.name==='complete_owner_telegram_delivery_v1')?.args.p_error,'OWNER_BUSINESS_EVENT_NOT_ALLOWED');
   }
 });
 
@@ -62,7 +62,7 @@ test('217 busy/database-disabled states do not send or release another holder; c
   for(const code of ['OWNER_TELEGRAM_BUSY','OWNER_TELEGRAM_DISABLED']){
     const f=fixture({createClient:()=>({rpc:async()=>({data:{code},error:null})})});assert.equal((await(await f.handler(request())).json()).code,code);assert.deepEqual(f.sent,[]);
   }
-  const f=fixture({createClient:()=>({rpc:async(name,args)=>{f.calls.push({name,args});return name==='claim_owner_telegram_deliveries_v1'?{error:null,data:{success:true,items:[{...goldens.cases[2].event,eventId:id}]}}:{error:name==='complete_owner_telegram_delivery_v1'?{message:token}:null,data:{success:true}};}})});
+  const f=fixture({createClient:()=>({rpc:async(name,args)=>{f.calls.push({name,args});return name==='owner_telegram_dispatch_lease_valid_v1'?{error:null,data:true}:name==='claim_owner_telegram_deliveries_v1'?{error:null,data:{success:true,items:[{...goldens.cases[2].event,eventId:id}]}}:{error:name==='complete_owner_telegram_delivery_v1'?{message:token}:null,data:{success:true}};}})});
   const result=await(await f.handler(request())).json();assert.equal(result.code,'OWNER_TELEGRAM_COMPLETE_FAILED');assert.equal(f.calls.at(-1)?.name,'release_owner_telegram_dispatch_v1');assert.ok(!JSON.stringify(result).includes(token));
 });
 
@@ -73,6 +73,12 @@ test('217 explicit manual test is off by default, sends exact approved text once
   assert.equal(f.created(),0);assert.deepEqual(f.calls,[]);assert.equal(f.sent.length,1);assert.equal(f.sent[0].text,ownerTestMessage);assert.equal(f.sent[0].parse_mode,'HTML');assert.equal(f.sent[0].disable_web_page_preview,true);
 });
 
+test('217 expired run is rechecked immediately before send and cannot send or acknowledge',async()=>{
+  const f=fixture({createClient:()=>({rpc:async(name,args)=>{f.calls.push({name,args});return {error:null,data:name==='claim_owner_telegram_deliveries_v1'?{success:true,items:[{...goldens.cases[2].event,eventId:id}]}:false};}})});
+  assert.equal((await(await f.handler(request())).json()).code,'OWNER_TELEGRAM_LEASE_LOST');
+  assert.deepEqual(f.sent,[]);assert.ok(!f.calls.some(c=>c.name==='complete_owner_telegram_delivery_v1'));assert.equal(f.calls.at(-1)?.name,'release_owner_telegram_dispatch_v1');
+});
+
 test('217 real loopback Telegram stub receives identical text/buttons; transport failure is sanitized',async()=>{
   const bodies:Array<Record<string,unknown>>=[];
   const server=createServer(async(req,res)=>{let body='';for await(const chunk of req)body+=String(chunk);bodies.push(JSON.parse(body));res.setHeader('Content-Type','application/json');res.end(JSON.stringify({ok:true,result:{message_id:217,chat:{id:Number(chat)}}}));});
@@ -80,6 +86,6 @@ test('217 real loopback Telegram stub receives identical text/buttons; transport
   try{
     const f=fixture({fetch:async(url,init)=>{assert.equal(String(url),'https://api.telegram.org/bot'+token+'/sendMessage');return fetch('http://127.0.0.1:'+address.port+'/sendMessage',init);}});
     const result=await(await f.handler(request())).json();assert.equal(result.delivered,1);assert.equal(bodies.length,1);assert.equal(bodies[0].text,goldens.cases[2].html);assert.deepEqual(bodies[0].reply_markup,ownerInlineKeyboard(goldens.cases[2].event));
-    const bad=fixture({fetch:async()=>{throw new Error('https://api.telegram.org/bot'+token+'/sendMessage RAW');}});assert.equal((await(await bad.handler(request())).json()).failed,1);assert.equal(bad.calls[1].args.p_error,'OWNER_TELEGRAM_DELIVERY_FAILED');
+    const bad=fixture({fetch:async()=>{throw new Error('https://api.telegram.org/bot'+token+'/sendMessage RAW');}});assert.equal((await(await bad.handler(request())).json()).failed,1);assert.equal(bad.calls.find(c=>c.name==='complete_owner_telegram_delivery_v1')?.args.p_error,'OWNER_TELEGRAM_DELIVERY_FAILED');
   }finally{await new Promise<void>(resolve=>server.close(()=>resolve()));}
 });

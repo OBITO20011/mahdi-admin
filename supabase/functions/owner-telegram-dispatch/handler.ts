@@ -64,7 +64,7 @@ export function ownerTelegramHandler(deps:DispatchDependencies) {
       const claim=await rpc('claim_owner_telegram_deliveries_v1',{p_run_id:runId});
       if(!record(claim))return response('OWNER_TELEGRAM_CLAIM_FAILED',503);
       if(claim.code==='OWNER_TELEGRAM_DISABLED'||claim.code==='OWNER_TELEGRAM_BUSY')return response(claim.code);
-      if(claim.success!==true||!Array.isArray(claim.items)||claim.items.length>5)return response('OWNER_TELEGRAM_CLAIM_FAILED',503);
+      if(claim.success!==true||!Array.isArray(claim.items)||claim.items.length>3)return response('OWNER_TELEGRAM_CLAIM_FAILED',503);
       acquired=true;
       let delivered=0,failed=0;
       for(const item of claim.items){
@@ -73,6 +73,9 @@ export function ownerTelegramHandler(deps:DispatchDependencies) {
         try{
           const event:OwnerEvent={eventType:typeof item.eventType==='string'?item.eventType:'',entityId:typeof item.entityId==='string'?item.entityId:undefined,payload:record(item.payload)?item.payload:{}};
           const text=formatOwnerMessage(event),keyboard=ownerInlineKeyboard(event);
+          // Revalidate after formatting/before EACH external side effect. A
+          // suspended/expired invocation cannot send on another run's lease.
+          if(await rpc('owner_telegram_dispatch_lease_valid_v1',{p_run_id:runId})!==true)return response('OWNER_TELEGRAM_LEASE_LOST',409);
           success=await send(text,keyboard);if(!success)error='OWNER_TELEGRAM_DELIVERY_FAILED';
         }catch{error='OWNER_BUSINESS_EVENT_NOT_ALLOWED';}
         const complete=await rpc('complete_owner_telegram_delivery_v1',{p_run_id:runId,p_event_id:item.eventId,p_success:success,p_error:error});

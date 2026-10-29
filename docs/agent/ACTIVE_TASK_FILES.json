@@ -7,35 +7,83 @@
     },
     {
       "code": " M",
-      "path": "supabase/config.toml"
+      "path": "package.json"
     },
     {
-      "code": "??",
-      "path": "docs/agent/OWNER_TELEGRAM217_AR.md"
+      "code": " M",
+      "path": "scripts/agent/lib.mjs"
     },
     {
-      "code": "??",
-      "path": "supabase/functions/_shared/owner-telegram-format.ts"
+      "code": " M",
+      "path": "scripts/agent/preflight.mjs"
     },
     {
-      "code": "??",
-      "path": "supabase/functions/owner-telegram-dispatch/deno.json"
+      "code": " M",
+      "path": "scripts/audit/run-service-access-diagnostic.mjs"
     },
     {
-      "code": "??",
-      "path": "supabase/functions/owner-telegram-dispatch/deno.lock"
+      "code": " M",
+      "path": "scripts/audit/run-table-access-diagnostic.mjs"
     },
     {
-      "code": "??",
+      "code": " M",
+      "path": "scripts/operations/frankfurt-catalog-verification.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/frankfurt-owner-reset216.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/frankfurt-owner-upgrade216.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/reset214-session.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/trial-reset-core.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/trial-reset214-core.mjs"
+    },
+    {
+      "code": " M",
       "path": "supabase/functions/owner-telegram-dispatch/handler.ts"
     },
     {
-      "code": "??",
-      "path": "supabase/functions/owner-telegram-dispatch/index.ts"
+      "code": " M",
+      "path": "tests/owner-telegram-dispatch217.test.ts"
     },
     {
       "code": "??",
-      "path": "tests/owner-telegram-dispatch217.test.ts"
+      "path": "scripts/operations/build-acl-reference217.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/frankfurt-owner-reset217.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/frankfurt-owner-upgrade217.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/frankfurt-reference217.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/owner-telegram217-notifications.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-owner-telegram217-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "supabase/migrations/217_owner_telegram_dispatch.sql"
     }
   ]
 }

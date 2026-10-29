@@ -129,7 +129,10 @@
     "frankfurt-owner-upgrade216": "node scripts/operations/frankfurt-owner-upgrade216.mjs",
     "frankfurt-owner-reset216": "node scripts/operations/frankfurt-owner-reset216.mjs",
     "test:partial216:runtime": "node scripts/testing/run-partial216-runtime.mjs",
-    "test:operations-schema": "node --import tsx --test tests/operational-schema.test.ts"
+    "test:operations-schema": "node --import tsx --test tests/operational-schema.test.ts",
+    "frankfurt-owner-upgrade217": "node scripts/operations/frankfurt-owner-upgrade217.mjs",
+    "frankfurt-owner-reset217": "node scripts/operations/frankfurt-owner-reset217.mjs",
+    "test:owner-telegram217:runtime": "node --import tsx scripts/testing/run-owner-telegram217-runtime.mjs"
   },
   "dependencies": {
     "@fontsource/ibm-plex-sans-arabic": "5.3.0",

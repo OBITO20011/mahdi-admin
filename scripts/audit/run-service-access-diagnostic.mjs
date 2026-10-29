@@ -16,7 +16,7 @@ const root=path.resolve(import.meta.dirname,'../..'),exec=promisify(execFile),
  project='nawasrah-service-audit-'+randomBytes(4).toString('hex')+'-test',container='supabase_db_'+project;
 const args=process.argv.slice(2);assert.ok(args.length===0||(args.length===2&&args[0]==='--migration-ceiling'),'ONLY_LOCAL_CEILING_OPTION');
 const migrationCeiling=Number(args[1]??JSON.parse(await readFile(path.join(root,'docs/agent/project-state.json'),'utf8')).migrationCeiling);
-assert.ok([198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216].includes(migrationCeiling),'APPROVED_SERVICE_AUDIT_CEILING_REQUIRED');
+assert.ok([198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217].includes(migrationCeiling),'APPROVED_SERVICE_AUDIT_CEILING_REQUIRED');
 const output=await mkdtemp(path.join(tmpdir(),'nawasrah-service-access-')),
  report={schemaVersion:1,startedAt:new Date().toISOString(),migrationCeiling,managedAccess:false,output};
 const q=v=>"'"+String(v).replaceAll("'","''")+"'";

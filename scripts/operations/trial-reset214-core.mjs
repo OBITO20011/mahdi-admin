@@ -13,6 +13,8 @@ import {compareApplicationAcl} from './application-acl-verification.mjs';
 import {assertReady214Catalog} from './frankfurt-reference214.mjs';
 import {assertReady215Catalog} from './frankfurt-reference215.mjs';
 import {assertReady216Catalog} from './frankfurt-reference216.mjs';
+import {assertReady217Catalog} from './frankfurt-reference217.mjs';
+import {expectedHeld217Notifications,ownerTelegramJob} from './owner-telegram217-notifications.mjs';
 import {assertCurrentResetReference,assertSupportedResetReference} from './operational-schema.mjs';
 import {readRealtimePublication} from '../testing/realtime151-contract.mjs';
 import {retainedSessionState,assertNoForeignWrites,withoutResetGuard,attachGuardSql,removeGuardSql,saveGuardRemovalProof} from './reset214-session.mjs';
@@ -38,9 +40,11 @@ const fingerprints=raw=>Object.fromEntries(Object.entries(raw).map(([name,text])
 const policy214={ceiling:214,files:176,assertCatalog:assertReady214Catalog};
 const policy215={ceiling:215,files:177,assertCatalog:assertReady215Catalog};
 const policy216={ceiling:216,files:178,assertCatalog:assertReady216Catalog};
+const policy217={ceiling:217,files:179,assertCatalog:assertReady217Catalog};
 export const captureReset214=options=>captureRetainedReset(options,policy214);
 export const captureReset215=options=>{assertSupportedResetReference(options.reference);return captureRetainedReset(options,policy215);};
-export const captureReset216=options=>{assertCurrentResetReference(options.reference);return captureRetainedReset(options,policy216);};
+export const captureReset216=options=>{assertSupportedResetReference(options.reference);return captureRetainedReset(options,policy216);};
+export const captureReset217=options=>{assertCurrentResetReference(options.reference);return captureRetainedReset(options,policy217);};
 async function captureRetainedReset({executor,ownerId,reference},policy){
  assert.equal(reference.migrationCeiling,policy.ceiling,'RESET_REFERENCE_REQUIRED');assert.equal(reference.manifest.length,policy.files);
  const sql=async input=>{const r=await executeInput(executor,input);assert.equal(r.code,0,'RESET214_READ_FAILED');return r.stdout.trim();};
@@ -86,7 +90,8 @@ export function restoreReset214Sql(rawTables){
 // not replay against a partial schema. This is NOT a cross-API transaction.
 export const reset214WithExecutor=options=>runRetainedReset(options,policy214);
 export const reset215WithExecutor=options=>{assertSupportedResetReference(options.reference);return runRetainedReset(options,policy215);};
-export const reset216WithExecutor=options=>{assertCurrentResetReference(options.reference);return runRetainedReset(options,policy216);};
+export const reset216WithExecutor=options=>{assertSupportedResetReference(options.reference);return runRetainedReset(options,policy216);};
+export const reset217WithExecutor=options=>{assertCurrentResetReference(options.reference);return runRetainedReset(options,policy217);};
 async function runRetainedReset(options,policy){
  const {executor,reference,ownerId,output}=options;
  assert.equal(reference.migrationCeiling,policy.ceiling,'RESET_REFERENCE_REQUIRED');assert.equal(reference.manifest.length,policy.files);
@@ -135,7 +140,12 @@ async function rebuild214({executor,root,reference,output,repair,clearHistory,em
  report.stage='notification-hold-preflight';const notifications=session?session.saved.notifications:await readNotificationSnapshot(executor);
  assert.equal(notifications.trigger.enabled,'D','RESET_NOTIFICATION_HOLD_REQUIRED');
  assert.ok(notifications.jobs.filter(j=>heldJobNames.includes(j.name)).every(j=>j.active===false));
- assert.equal(notifications.jobs.length,5);
+ assert.equal(notifications.jobs.length,policy.ceiling===217?6:5);
+ if(policy.ceiling===217){
+  const original={...notifications,trigger:{...notifications.trigger,enabled:'O'},jobs:notifications.jobs.map(j=>({...j,active:j.name!==ownerTelegramJob.name}))};
+  assert.deepEqual(notifications,expectedHeld217Notifications(original,notifications),'RESET217_DISPATCH_MUST_REMAIN_HELD');
+  if(!session?.resume)assert.equal(await sql('SELECT NOT enabled AND (lease_expires_at IS NULL OR lease_expires_at<clock_timestamp()) FROM public.owner_telegram_dispatch_settings WHERE id;'),'t','RESET217_STOP_DISPATCH_BEFORE_RESET');
+ }
  report.stage='owner-preservation-preflight';const owner=session?{profile:state.snapshot.profiles[0],branch:state.snapshot.branches[0],warehouse:state.snapshot.warehouses[0],roles:state.snapshot.roles.map(r=>r.code)}:await json(ownerRecordSql(ownerId));assert.deepEqual(owner.roles,['owner']);
  if(reference.migrationCeiling>=199&&!session){
   const main=await json("SELECT COALESCE(jsonb_agg(to_jsonb(w)),'[]'::jsonb) FROM public.warehouses w WHERE code='WH-MAIN';");
@@ -151,6 +161,9 @@ async function rebuild214({executor,root,reference,output,repair,clearHistory,em
  await boundary('after-storage');
  report.stage='drop-public';report.destructiveStarted=true;
  await sql('SELECT cron.alter_job(jobid,active:=false) FROM cron.job;');
+ // Exactly the validated217 held transport job is recreated by217. Remove
+ // that row through the supported API;old five schedules keep their contracts.
+ if(policy.ceiling===217)await sql("SELECT cron.unschedule(jobid) FROM cron.job WHERE jobname='owner-telegram-dispatch';");
  if(session)await assertNoForeignWrites(executor,session.saved);
  await sql(session?dropPublicSql.replace('SET LOCAL search_path=pg_catalog;','SET LOCAL search_path=pg_catalog;'+lockAndCheckGuardSql):dropPublicSql);await boundary('after-drop-public');await clearHistory();
  report.stage='delete-trial-auth';await deleteOtherAuth(ownerId);
@@ -171,8 +184,8 @@ async function rebuild214({executor,root,reference,output,repair,clearHistory,em
  // An untouched clean build has original O/all-active metadata. Rebuild jobs
  // get NEW IDs;preserve command/schedule by name and record the fresh snapshot.
  report.stage='notification-hold';const current=await readNotificationSnapshot(executor);
- const original={...current,trigger:{...current.trigger,enabled:'O'},jobs:current.jobs.map(j=>({...j,active:true}))};
- assert.deepEqual(current,expectedHeldNotifications(original),'RESET_HOLD_CHANGED');
+ const original={...current,trigger:{...current.trigger,enabled:'O'},jobs:current.jobs.map(j=>({...j,active:policy.ceiling===217?j.name!==ownerTelegramJob.name:true}))};
+ assert.deepEqual(current,policy.ceiling===217?expectedHeld217Notifications(original,current):expectedHeldNotifications(original),'RESET_HOLD_CHANGED');
  for(const old of notifications.jobs){const fresh=current.jobs.find(j=>j.name===old.name);assert.ok(fresh);
   for(const key of ['name','schedule','command','host','port','database','username','active'])assert.deepEqual(fresh[key],old[key],'RESET_CRON_CHANGED:'+old.name+':'+key);}
  report.notificationOriginal=original;
