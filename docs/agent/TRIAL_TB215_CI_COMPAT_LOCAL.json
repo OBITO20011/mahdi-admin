@@ -1,0 +1,79 @@
+{
+  "scope": "CI-discovered historical UI navigation and213 reference source binding;local replay on real fixtures",
+  "hostedConnections": 0,
+  "appOrFinancialSqlChanged": false,
+  "rejectedPreviousCiSha": "6e25a849333f80346cd37f42065ef532ebe46fb1",
+  "wBrowser": {
+    "startTime": "2026-10-28T23:58:18.186Z",
+    "duration": 88292.952,
+    "expected": 16,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0,
+    "retries": 0
+  },
+  "legacyBrowser": {
+    "startTime": "2026-10-29T00:12:56.776Z",
+    "duration": 281119.896,
+    "expected": 72,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0,
+    "retries": 0
+  },
+  "realPos132": {
+    "ok": true,
+    "scenarios": 4,
+    "browsers": [
+      "desktop-chromium",
+      "mobile-webkit"
+    ],
+    "realPublicRpc": true,
+    "realIsolatedDatabase": true,
+    "productionRequests": 0
+  },
+  "reference213": {
+    "hostedAccess": false,
+    "originalProofSha256": "cf43ce97d6e962b5f07f7a561e757ef6c2a2213dc5b2b232e8632e09d17772fb",
+    "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\tb215-reference213-compat-n9C0hP",
+    "ok": true,
+    "migrations": 175,
+    "functions": 556,
+    "freshIncrementalDifferenceCount": 0,
+    "strictReaderAccepted": true,
+    "restoredProofSha256": "cf43ce97d6e962b5f07f7a561e757ef6c2a2213dc5b2b232e8632e09d17772fb"
+  },
+  "exactHistoricalSourceEntries": 179,
+  "sourceArtifacts": [
+    {
+      "file": "e2e/package-d-pos-fullstack.spec.ts",
+      "sha256": "7d68b53a9ce87281421c1980cc2b52ad2065ceec78a840f335f3e80444604010"
+    },
+    {
+      "file": "e2e/package-f-trial-owner-w.spec.ts",
+      "sha256": "0dd421d8aba580a6d0f2d72c4a5a30271e32d5298e96705b22c1b15659dd82dc"
+    },
+    {
+      "file": "e2e/package-f-trial-w-fields.spec.ts",
+      "sha256": "08e04729a62fd41955cdb40129e286c500148a8c6abc811d22f290eb5f06deea"
+    },
+    {
+      "file": "e2e/phase6-package-b.spec.ts",
+      "sha256": "ddb1d07715e43919f523a6cbd0ab0c2c1118f3a18d6fe63353ea1cac83e513bf"
+    },
+    {
+      "file": "scripts/operations/build-acl-reference213.mjs",
+      "sha256": "dfb344dcd014b15665190751b44b5f8a15d419dbd2d0c5cd21d15599b90c2e54"
+    },
+    {
+      "file": "scripts/operations/frankfurt-reference213.mjs",
+      "sha256": "90a8c7a2ee45188e8da32658c1b44dc37db84b6a6c552957bd97f422414dd85d"
+    },
+    {
+      "file": "scripts/testing/run-trial-reset-runtime.mjs",
+      "sha256": "d0b21907b60b708c0a2e10d0c6d9af3dc483c2007d6579c6f6c91629715f82a8"
+    }
+  ],
+  "remaining": "Legacy reset CI failures still being diagnosed;new exact FULL49push+PR required before owner review",
+  "deliveryReady": false
+}

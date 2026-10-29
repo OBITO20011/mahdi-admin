@@ -77,6 +77,12 @@ async function mountAftercare(page: Page, orderId: string) {
       (react.default ?? react).createElement(panel.AdminAftercarePanel,{order:{id,items:[]},
         onContractResolved:()=>undefined,notify:()=>undefined}));
   },orderId);
+  await openPreviousAftercare(page);
+}
+async function openPreviousAftercare(page: Page) {
+  const summary=page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true});
+  await expect(summary).toBeVisible();
+  if(await summary.evaluate(node=>!(node.parentElement as HTMLDetailsElement).open))await summary.click();
 }
 const aftercareSnapshot=async(orderId:string)=>{
   const response=await fetch(`${controlUrl}/snapshot?orderId=${orderId}`);
@@ -158,6 +164,7 @@ test.describe('Package D POS browser to real isolated RPC', () => {
     const replacementState=await aftercareSnapshot(orderId);
     expect(replacementState.orderReplacements).toBe(1);
     expect(replacementState.content.replacementItems[0].quantity).toBe(5);
+    await openPreviousAftercare(page);
     await page.getByRole('button',{name:'مرتجع',exact:true}).click();
     await expect(page.getByLabel('عدد طرود المرتجع')).toHaveValue('1');
     await page.getByPlaceholder('سبب المرتجع').fill('مرتجع الكرتونة البديلة كاملة');

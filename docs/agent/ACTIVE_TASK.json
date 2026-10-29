@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner-approved T-B G1-G6 plus same-PR215 backup/restore/watchdog/reset-resume/one schema authority and upgrade safety;local proof/fullCI/PR43 then approvalSTOP",
-  "baselineSha": "db43f3f3354e62c49a39ff77491c93b6156a65e0",
+  "baselineSha": "6e25a849333f80346cd37f42065ef532ebe46fb1",
   "branch": "codex/trial-tb-stage2",
   "phase": "PACKAGE_F",
   "completed": [
@@ -15,7 +15,7 @@
     "Final local Admin1588/store203/types/strictlint/browser124retries0/PWA4/sixbuilds/SEO/CSP/isolation/Gitleaks0 PASS;CI assethashfalsepositive repaired with3privacynegatives"
   ],
   "inProgress": [
-    "Commit/push final local215 evidence and strict SEO verifier correction;exactFULL49push+PRCI and secrets/completebackup;then PR43ownerreviewSTOP"
+    "Exact final6e25a849 FULL49 push+PR CI plus secret scanning/complete backup;then update PR43 review-ready and approvalSTOP"
   ],
   "notStarted": [
     "T-C partial POS payments;separate later owner task",
@@ -42,10 +42,10 @@
     "No primary owner local file changes",
     "No T-C and no implementation PR merge before owner review"
   ],
-  "nextExactAction": "Commit/push final215 local gates plus strict SEO hash correction;then require exact FULL49push+PR and secrets/backup CI before review-ready PR43",
+  "nextExactAction": "Save/push completed CI UI/reference compatibility proof;then real isolated214 reset diagnosis and exactFULL49push+PR on delivery SHA;no merge",
   "startedAt": "2026-10-28T13:06:11.980Z",
-  "checkpointedAt": "2026-10-28T23:47:39.220Z",
-  "filesTouchedCount": 8,
-  "filesTouchedManifestSha256": "4b4fc9cb9fbf11fb6a95d43517af807abc7ef6824d083e154c4f5af2bf7d1b9d",
-  "workingTreeFingerprint": "179E85DE1FC6EAF5DCE49F7F10767E697FBF79A01B75AA64EAB6A741C21C4174"
+  "checkpointedAt": "2026-10-29T00:31:30.427Z",
+  "filesTouchedCount": 10,
+  "filesTouchedManifestSha256": "753cfb410c554aadd3bfd1a008f9e484087237ef5004404fe906cae285487f14",
+  "workingTreeFingerprint": "A99D1DB7049F5D2564FAADDA691B74F54024E35FE83F8DEE96AE83F8926E1D4B"
 }

@@ -55,7 +55,7 @@ test('W1 partial/refusal/reversal name the missing field inside the selected car
   await flow.getByRole('button',{name:'معاينة التفاصيل',exact:true}).click();await expect(flow.getByRole('alert')).toContainText('سبب العملية');
   expect(previews).toHaveLength(0);await flow.getByLabel('سبب العملية',{exact:true}).fill('وصل البديل');await flow.getByLabel('العدد (باكيت)',{exact:true}).fill('0');
   await flow.getByRole('button',{name:'معاينة التفاصيل',exact:true}).click();await expect(flow.getByRole('alert')).toContainText('العدد');expect(previews).toHaveLength(0);
-  await flow.getByRole('button',{name:'إلغاء العملية',exact:true}).click();await card.locator('summary').click();
+  await flow.getByRole('button',{name:'إلغاء العملية',exact:true}).click();await card.getByText('⋯ السجل والخسارة والعكس',{exact:true}).click();
   await card.getByRole('button',{name:'معاينة رفض المورد',exact:true}).click();await flow.getByRole('button',{name:'معاينة التفاصيل',exact:true}).click();
   await expect(flow.getByRole('alert')).toContainText('سبب العملية');await flow.getByLabel('سبب العملية',{exact:true}).fill('رفض المورد البضاعة');
   await flow.getByRole('button',{name:'معاينة التفاصيل',exact:true}).click();await expect(flow.getByRole('button',{name:'تأكيد رفض المورد',exact:true})).toBeVisible();
