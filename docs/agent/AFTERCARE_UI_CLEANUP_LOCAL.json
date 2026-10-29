@@ -1,5 +1,5 @@
 {
-  "status": "UI_FOCUSED_PASS_FULL_DELIVERY_PENDING",
+  "status": "UI_CURRENT_SDK_FULL_UNITS_PASS_BROWSER_RELEASE_PENDING",
   "baseline": "015ffcae98da6241514cd8ab3b646dd2993c9eb2",
   "ceiling": 216,
   "migrations": 178,
@@ -34,9 +34,61 @@
     }
   ],
   "remaining": [
-    "Fresh actual216 SDK proof and strict historical bridges",
-    "Affected browser suites/full quality/build/PWA",
+    "Migrate obsolete UI browser interactions to current wizard/damage actions without losing assertions",
+    "Affected browser,release PWA/build/network",
+    "Current216 reference readiness artifact kept separate from owner current main",
     "Exact final SHA full push+PR CI/secrets/backup/Gitleaks0",
     "Owner approval before merge"
-  ]
+  ],
+  "currentSdk": {
+    "ok": true,
+    "ceiling": 216,
+    "migrations": 178,
+    "hostedAccess": false,
+    "currentSourceUnprojected": true,
+    "tables": {
+      "infrastructureOk": true,
+      "applicationReady": true,
+      "stage": "rls-and-acl",
+      "counts": {
+        "success": 154,
+        "permission_denied": 0,
+        "zero_rows": 3,
+        "other_error": 0
+      },
+      "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-27i6cZ"
+    },
+    "services": {
+      "ok": true,
+      "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-gMvos8",
+      "count": 582,
+      "denied": 18
+    }
+  },
+  "authorityBoundary": {
+    "ok": true,
+    "baseline": "015ffcae98da6241514cd8ab3b646dd2993c9eb2",
+    "changedAuthorityFiles": [],
+    "rpcCount": 582,
+    "denied": 18,
+    "rpcRoleDecisionsMatchApproved216": true,
+    "functionExecuteGrantsMatchApproved216": true,
+    "oldPinsUnchanged": [
+      "scripts/audit/partial216-source-pins.json",
+      "scripts/audit/aftercare215-source-pins.json"
+    ],
+    "managedAccess": false
+  },
+  "fullAdmin": {
+    "tests": 1615,
+    "pass": 1615,
+    "fail": 0,
+    "skipped": 0
+  },
+  "store": {
+    "tests": 203,
+    "pass": 203,
+    "fail": 0
+  },
+  "rootAndStoreLint": true
 }

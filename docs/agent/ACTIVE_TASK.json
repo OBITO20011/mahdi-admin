@@ -3,16 +3,18 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner-approved UI-only aftercare cleanup;one wizard,packet labels,supplier help;own PR FULLCI approvalSTOP",
-  "baselineSha": "015ffcae98da6241514cd8ab3b646dd2993c9eb2",
+  "baselineSha": "40bb068a3810ef4ffd64f6979b76b1d449247afe",
   "branch": "codex/trial-aftercare-cleanup",
   "phase": "PACKAGE_F",
   "completed": [
     "PR44 approved/merged015ffca;primary19files exact,state216 aligned,Plan/dry-run216 pass",
     "One wizard/damage list;source-specific prior replacement owner option;packet display/help",
-    "Focused33 and expanded24browser Chromium/WebKit390/1440 PASS0skip/flaky"
+    "Focused33 and expanded24browser Chromium/WebKit390/1440 PASS0skip/flaky",
+    "Current216 SDK157/582,18expecteddenials;grants/roledecisions exactapproved216",
+    "Admin1615/store203/types/root+storelint PASS"
   ],
   "inProgress": [
-    "Map old buttons to wizard;preserve previous replacements/recovery and damage decisions"
+    "Update affected browser interactions to new UI;PWA/build/exactCI then ownPRapprovalSTOP"
   ],
   "notStarted": [
     "Owner review/merge"
@@ -23,9 +25,11 @@
     "Focused33;browser24;main51 exact deliveryReady true"
   ],
   "testsRemaining": [
-    "Fresh actual216 SDK/historical bridge checks",
-    "Affected/full quality/PWA/build and final exact FULLCI",
-    "Owner approval"
+    "Migrate obsolete UI browser interactions to current wizard/damage actions without losing assertions",
+    "Affected browser,release PWA/build/network",
+    "Current216 reference readiness artifact kept separate from owner current main",
+    "Exact final SHA full push+PR CI/secrets/backup/Gitleaks0",
+    "Owner approval before merge"
   ],
   "findings": [
     "New worktree inherits closed active task;initialized bounded owner-authorized successor without changing prior worktree",
@@ -38,13 +42,13 @@
     "No DB/migration/RPC/money/permission change",
     "No merge or next package before owner approval"
   ],
-  "nextExactAction": "Save verified UI unit;then actual216 SDK and affected/full quality,ownPR/fullCI for approval;no merge/DB/hosted/deploy",
+  "nextExactAction": "Save current SDK proof;update obsolete browser interactions to current wizard/damage with all scenarios;release gates/fullCI/PR for approvalSTOP",
   "startedAt": "2026-10-29T11:42:42.638Z",
-  "checkpointedAt": "2026-10-29T12:11:11.428Z",
+  "checkpointedAt": "2026-10-29T12:30:09.514Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 27,
-  "filesTouchedManifestSha256": "8aac573578fbb06bc78af0498b950df24c90e7eac90bbd3bb6689e73813fa978",
-  "workingTreeFingerprint": "4185FF3ACE786B7CEEECF52352B1EB41AFF65AED3BB060BE4F887C3C24CF4E43"
+  "filesTouchedCount": 6,
+  "filesTouchedManifestSha256": "4b44a9744b9ab10a28181e90edf2cc29bd13f6e7d25f76d45ac587f37953fd7f",
+  "workingTreeFingerprint": "CC2FACC5AE08DD763A5759E596D1E0B29CDD96F99FFCBBD3E52A364A0713FA60"
 }
