@@ -5,7 +5,17 @@ import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
 import {operationalManifest,operationalSchema} from './operational-schema.mjs';
 import {upgradePreparationFailure} from './upgrade-preparation-errors.mjs';
-const exec=promisify(execFile);
+const nativeExec=promisify(execFile);
+/**
+ * A plain result seam, without exposing ChildProcess handles to callers.
+ * @param {string} command
+ * @param {string[]} args
+ * @param {{windowsHide:boolean,maxBuffer:number,timeout:number}} options
+ */
+const exec=async(command,args,options)=>{
+ const r=await nativeExec(command,args,{...options,encoding:'utf8'});
+ return {stdout:r.stdout,stderr:r.stderr};
+};
 export const requiredBackupModes=Object.freeze(['Backup','Upload','VerifyRemote','RestoreRemote','Watchdog']);
 const same=(a,b)=>path.resolve(a).toLowerCase()===path.resolve(b).toLowerCase();
 export function assertRegisteredBackupTasks(tasks,repository){
