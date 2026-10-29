@@ -1,5 +1,5 @@
 {
-  "scope": "Preliminary core216 exact SQL candidate and current UI;canonical178/reference/operational delivery gates pending",
+  "scope": "Core216 canonical local DB and strict logical restore passed;operational and full delivery gates pending",
   "hostedAccess": false,
   "migrationSha256": "3a30798f8f9dd385dd915ed74b25440b8e40c6b46893541aca049a5b94e09462",
   "candidateBytesEqualCanonicalMigration": true,
@@ -150,12 +150,46 @@
     "finalFrozenGateStillRequired": true
   },
   "notYetAccepted": [
-    "canonical migration216 official178 history",
     "fresh-incremental reference",
-    "RESET216 interruptions",
+    "RESET216 interruptions and owner CLI",
     "encrypted214/215/216 restore",
     "current actual SDK/HTTP roles",
     "full quality and exact SHA CI"
   ],
-  "complete": false
+  "complete": false,
+  "canonical": {
+    "sourceCommit": "4775c592d6b051612d2f10a588743e8244d5a488",
+    "report": "C:/Users/TOP/AppData/Local/Temp/nawasrah-partial216-coordinator-vaCDpU/report.json",
+    "reportSha256": "4c85ff870ea04e955a502be7a03d3a488a77cbb82cb9681e9075c093d6c9afc5",
+    "history": 178,
+    "migrationCanonicalLfSha256": "3a30798f8f9dd385dd915ed74b25440b8e40c6b46893541aca049a5b94e09462",
+    "repositoryStayedFrozen": true,
+    "strictCatalog216": true,
+    "noBackfill": true,
+    "acceptedHistoricalLintWarnings": 16,
+    "actualBlockingProved": true,
+    "quickCustomerExistingRoleParity": true,
+    "privateEvidenceDenied": true,
+    "immutableEvidence": true,
+    "restore": {
+      "logicalCatalogDifferences": 0,
+      "allPublicDataAndSequencesIdentical": true,
+      "replayZeroWrites": true
+    },
+    "groups": [
+      "literal216 installs with official178 history, exact private/public ACL and no historical row/sequence rewrite; no new SQL lint warning",
+      "cash and CliQ100000/60000/40000: one bound receipt, immutable original debt snapshot, public safe amounts and zero-write exact replay/conflicts",
+      "existing customer creation role parity; no-role/inactive/enrolled AAL1/cross-actor/anon/service/private evidence and legacy V1 refused, immutable table updates/truncate blocked",
+      "injected receipt failure rolls back every public row and every sequence except exactly one POS number, receipt number and existing technical mutation stamp",
+      "two real independent sessions prove PostgreSQL blocking: one same-key sale/payment and two different-key sales without lock-upgrade deadlock",
+      "discount and formed parcel priced by server; cash/CliQ full Return reduces40000debt/refunds60000/restocks at exact500WAC; closing922000/zero difference and zero-write reprint",
+      "ordinary partial parcel consumes10units/5000COGS; legacy-v2/partial raw-key race fails closed in BOTH orders; prior closed snapshot unchanged",
+      "all17 existing integrity checks healthy/zero issues plus independent proof of every215 return/inspection/exchange/supplier-credit operation"
+    ]
+  },
+  "typesAndStrictLint": {
+    "sourceCommit": "4775c592d6b051612d2f10a588743e8244d5a488",
+    "passed": true,
+    "focusedTests": 41
+  }
 }
