@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner approved T-C partial POS payments and quick customer;216 plus same-PR operational ceiling/reset/backup/reference;localonly/fullCI/PR then approvalSTOP",
-  "baselineSha": "6be16a1bf11893d8f17070c4b13c637b42bd85b4",
+  "baselineSha": "c828e96a4009a24f50bd07e4a40ac735e2947ff8",
   "branch": "codex/trial-tc-partial-payment",
   "phase": "PACKAGE_F",
   "completed": [
@@ -13,10 +13,11 @@
     "Exact216candidate DB100/60/40,returns40+60,closing922000/0,17healthy0;literal216 promoted and operational216/178 adapters authored;candidate only177 history",
     "WIP4775c59 pushed: literal216+operational178/reset/reference adapters;41focused/changedstrictlint/Gitleaks0",
     "Canonical216 official178, blocked races,17healthy0,strictrestore0 and source frozen PASS;inverse216 3tests PASS",
-    "Current216 unprojected SDK157table/582RPC passed;135affected history/coverage tests and changed strictlint passed;old215proofs retained"
+    "Current216 unprojected SDK157table/582RPC passed;135affected history/coverage tests and changed strictlint passed;old215proofs retained",
+    "Current216 reference independent178/626/13/diff0/sourcefrozen;Admin1608/store203/types/lint;12preflight/admission tests PASS"
   ],
   "inProgress": [
-    "Generate current216 DB_FUNCTIONS and independent fresh/incremental reference;new216 upgrade/reset rehearsal runners authored,not yet verified"
+    "Actual POS HTTP fullstack: first run locator before sale corrected;upgrade/reset216 runners authored pending runtime"
   ],
   "notStarted": [
     "PR merge requiresownerapproval"
@@ -48,10 +49,10 @@
     "No financialbehavior beyond approved partialPOS/payment and existingcustomercreate",
     "No merge before PR approval"
   ],
-  "nextExactAction": "Generate DB_FUNCTIONS216 then build independent216 ready reference;verify owner216 upgrade and reset/resume plus backup214215216;fullstack and FULLCI/PR approvalSTOP",
+  "nextExactAction": "Run corrected actual POS fullstack216;then strict local upgrade216,reset216 resume four interruptions,encrypted214215216 restore;fullCI and PR approvalSTOP",
   "startedAt": "2026-10-28T13:06:11.980Z",
-  "checkpointedAt": "2026-10-29T04:24:31.134Z",
-  "filesTouchedCount": 43,
-  "filesTouchedManifestSha256": "b714238636e6d360c72a38f1b0f02f721478db721988ff101cbf58ed6f827f91",
-  "workingTreeFingerprint": "7A93BFF7DCE42934915855BDA038A8AEFA4C44F92EA6A6E74DA66FA249F06086"
+  "checkpointedAt": "2026-10-29T04:48:43.709Z",
+  "filesTouchedCount": 14,
+  "filesTouchedManifestSha256": "038a8e05ea227cb79c18f635a405c163a91060922c00dc01192d77fed8b20a3b",
+  "workingTreeFingerprint": "900235EDE564107284A7791C94F3A60C599BE2B17E264CE70135973431751597"
 }

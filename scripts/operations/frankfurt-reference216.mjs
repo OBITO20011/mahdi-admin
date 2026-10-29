@@ -11,6 +11,7 @@ export function assertReady216Catalog(catalog){
  const name='pos216_initial_payments',tables=catalog.tables.filter(t=>t.schema==='public'&&t.name===name);assert.equal(tables.length,1,name);
  const table=tables[0];assert.equal(table.owner,'postgres');assert.equal(table.rls,true);assert.equal(table.kind,'r');
  assert.deepEqual(aclEntries(table.acl,table,'tables').filter(a=>a.grantee!=='postgres'),[]);assert.ok(!catalog.policies.some(p=>p.schema==='public'&&p.table===name));
+ for(const column of table.columns)assert.deepEqual(aclEntries(column.acl??[],table,'columns').filter(a=>a.grantee!=='postgres'),[],name+'.'+column.name);
  for(const suffix of ['_immutable','_no_truncate'])assert.ok(catalog.triggers.some(t=>t.schema==='public'&&t.table===name&&t.name===name+suffix&&t.enabled==='O'),name+suffix);
  const exposed=catalog.functions.filter(f=>f.schema==='public'&&f.identity.startsWith('create_pos_sale_with_initial_payment_v1('));assert.equal(exposed.length,1);
  const f=exposed[0];assert.equal(f.owner,'postgres');assert.deepEqual(f.configuration,['search_path=public, pg_temp']);

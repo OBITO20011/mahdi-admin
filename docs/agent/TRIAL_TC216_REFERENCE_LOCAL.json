@@ -1,0 +1,41 @@
+{
+  "hostedAccess": false,
+  "report": "C:\\Users\\TOP\\AppData\\Local\\Temp/nawasrah-reference216-vr5Gpy/report.json",
+  "reportSha256": "a085f32c878394b72c04e82fe2d3acab8b9117ed68233bfe93716ca5a2fcc36e",
+  "reference": "C:/Users/TOP/NawasrahFrankfurt/trial-tc216-local/local-reference-through216-ready.json",
+  "referenceSha256": "b561499692223a0d4f8df4c022238b9527e780a6e42ffc1a9c81208334c8401b",
+  "migrations": 178,
+  "functions": 626,
+  "realtimeMembers": 13,
+  "freshIncrementalDifferenceCount": 0,
+  "repositoryStayedFrozen": true,
+  "firstRun": {
+    "accepted": false,
+    "reason": "bootstrap240s timeout while parallel full units;no SQL error"
+  },
+  "acceptedRerun": {
+    "sameCodeAndTimeout": true,
+    "isolated": true,
+    "ok": true
+  },
+  "admin": {
+    "tests": 1608,
+    "pass": 1608,
+    "fail": 0,
+    "skipped": 0
+  },
+  "store": {
+    "tests": 203,
+    "pass": 203
+  },
+  "types": true,
+  "staticPreparationAndAdmission12": true,
+  "deliveryComplete": false,
+  "remaining": [
+    "actual fullstack browser proof",
+    "owner upgrade216",
+    "reset216/resume/negatives",
+    "encrypted backups214215216",
+    "finalquality and exactCI/PR"
+  ]
+}

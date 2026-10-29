@@ -4,6 +4,7 @@ import path from 'node:path';
 import {assertUpgradeAdministrator,registeredBackupPreflight,requiredBackupModes} from '../scripts/operations/backup-task-preflight.mjs';
 import {upgradePreparationCode,upgradePreparationFailure} from '../scripts/operations/upgrade-preparation-errors.mjs';
 import {run215} from '../scripts/operations/frankfurt-owner-upgrade215.mjs';
+import {run216} from '../scripts/operations/frankfurt-owner-upgrade216.mjs';
 
 const repository=path.resolve('local-test-checkout');
 const tasks=()=>requiredBackupModes.map((mode:string)=>({name:'Nawasrah Frankfurt '+mode,enabled:true,actions:[{
@@ -49,12 +50,12 @@ test('native task failures, invalid responses, missing PowerShell and timeouts e
  await assert.rejects(assertUpgradeAdministrator({platform:'win32',execute:async()=>output('unexpected')}),{code:'UPGRADE_ADMINISTRATOR_CHECK_FAILED'});
 });
 
-test('run215 apply checks privilege before every other preparation seam; dry-run and strict verify do not enumerate tasks',async()=>{
+for(const[label,run]of[['215',run215],['216',run216]]as const)test(`run${label} apply checks privilege before every other preparation seam; dry-run and strict verify do not enumerate tasks`,async()=>{
  const events:string[]=[];
- await assert.rejects(run215(['--apply'],{preflight:async()=>{events.push('privilege');throw upgradePreparationFailure('UPGRADE_BACKUP_TASKS_NOT_VISIBLE_RUN_AS_ADMINISTRATOR');},manifest:async()=>{events.push('manifest');},runOwner:async()=>{events.push('password-or-db');}}),{code:'UPGRADE_BACKUP_TASKS_NOT_VISIBLE_RUN_AS_ADMINISTRATOR'});
+ await assert.rejects(run(['--apply'],{preflight:async()=>{events.push('privilege');throw upgradePreparationFailure('UPGRADE_BACKUP_TASKS_NOT_VISIBLE_RUN_AS_ADMINISTRATOR');},manifest:async()=>{events.push('manifest');},runOwner:async()=>{events.push('password-or-db');}}),{code:'UPGRADE_BACKUP_TASKS_NOT_VISIBLE_RUN_AS_ADMINISTRATOR'});
  assert.deepEqual(events,['privilege']);
  for(const mode of ['--dry-run','--verify-only']){
-  const seen:string[]=[];const r=await run215([mode],{preflight:async()=>{assert.fail('must not enumerate tasks');},manifest:async()=>{seen.push('manifest');},runOwner:async(args:string[])=>{assert.deepEqual(args,[mode]);seen.push('owner');return {ok:true};}});
+  const seen:string[]=[];const r=await run([mode],{preflight:async()=>{assert.fail('must not enumerate tasks');},manifest:async()=>{seen.push('manifest');},runOwner:async(args:string[])=>{assert.deepEqual(args,[mode]);seen.push('owner');return {ok:true};}});
   assert.equal(r.ok,true);assert.deepEqual(seen,['manifest','owner']);
  }
 });
