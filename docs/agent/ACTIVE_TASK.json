@@ -1,51 +1,53 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner-approved UI-only aftercare cleanup;one wizard,packet labels,supplier help;own PR FULLCI approvalSTOP",
-  "baselineSha": "963b4f52ae45e21790e2b15825ae08b4dd26b7e8",
-  "branch": "codex/trial-aftercare-cleanup",
+  "objective": "Owner-approved server-side owner Telegram dispatch;217 plus operational ceiling/reset/backup/strict upgrade in same PR;return for approvalSTOP",
+  "baselineSha": "1a6609ed5b12154e66022fdf258f54fa0bc2f6c6",
+  "branch": "codex/owner-telegram-server",
   "phase": "PACKAGE_F",
   "completed": [
-    "PR44/main015ffca FULL51 delivered;primary19files/state216 preserved",
-    "All local cleanup gates accepted;details AFTERCARE_UI_CLEANUP_LOCAL.json",
-    "Admin1615/store203,24+2+84+104browser/sixbuilds/PWA4/network0",
-    "CI963 extraoldUItest fixed;actualPOS8/8 realAuthRPC passed;no appSQL/servicechange"
+    "PR45/main5a50320f merged after exact51 and primary ownerfiles retained",
+    "217 transport/formatter/privateDB/heldcron local proofs complete",
+    "Fresh independent179/633/13/diff0 reference,strict upgrade8negative/readonly and RESET217fourresumes accepted",
+    "Encrypted214-217 exactsamebackup source CI successful;currentplans offlinePASS"
   ],
   "inProgress": [
-    "Push bounded realPOS test correction;PR45 newexactFULLCI then ownerapprovalSTOP"
+    "PR46 final metadata/exact FULL53 push+PR"
   ],
   "notStarted": [
-    "Owner review/merge"
-  ],
-  "testsPassed": [
-    "All local cleanup gates accepted;details AFTERCARE_UI_CLEANUP_LOCAL.json",
-    "Admin1615/store203,24+2+84+104browser0skip/flaky,sixbuilds/PWA4/network0",
-    "CurrentSDK157/58218expected;SQL/services/grants/oldpins unchanged"
-  ],
-  "testsRemaining": [
-    "New exact final SHA full push+PR CI/secrets/backup",
     "Owner approval before merge"
   ],
+  "testsPassed": [
+    "CurrentSDK157/58618expected;runtime9/17healthy0;goldens16",
+    "Reference179/633/13/diff0;strictupgrade633/129/8negative/readonly",
+    "RESET217 ordinary+4resume/retentionMFA/catalogACL0/foreignwritefence;CLI12",
+    "Types/strictlint/store203;Admin1626+cache4rerun;print2/network0",
+    "Backup+secret scan exact1a6609e push+PR PASS;no hostedaccess"
+  ],
+  "testsRemaining": [
+    "Exact FINALSHA FULL53 push+PR/secrets/backup",
+    "Owner approval"
+  ],
   "findings": [
-    "CI963 rejected,cancelled ownqualityonly;notdelivery",
-    "ActuallocalPOS keeps5/4500/2700/1800/2 andzeroReplay",
-    "No hosted/deploy;ownerdefault216reference unchanged"
+    "Owner reports hosted216verifyok,Backup216178,Restore15117healthy;not independently accessed",
+    "Managed worktree creation failed git filter discovery timeout;isolated git worktree created manually,explicit cwd used",
+    "HTTPfixture PGRST125 corrected RESTprefix only;no production RPC or assertion change"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hosted access/deploy",
-    "No DB/migration/RPC/money/permission change",
+    "No hosted access/deploy/activation",
+    "No financial/payload/summary/exclusion policy changes",
     "No merge or next package before owner approval"
   ],
-  "nextExactAction": "Push verified realPOS8 test correction;PR45 newexact FULL51push+PR plussecret/backup;ownerapprovalSTOP",
-  "startedAt": "2026-10-29T11:42:42.638Z",
-  "checkpointedAt": "2026-10-29T16:07:55.053Z",
+  "nextExactAction": "Push final local proof metadata;verify exact FULL53 push+PR,secrets,backup;mark PR46 ready and return approvalSTOP",
+  "startedAt": "2026-10-29T19:25:12.791Z",
+  "checkpointedAt": "2026-10-29T22:51:13.581Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "5549b06f4d994f03beb800fe68356449cfc8ce2b8fb758198e6d62390b4c291a",
-  "workingTreeFingerprint": "198E769DAAEE60573908A1B080DA56370640BBF72C8D9AAA047411488FA44525"
+  "filesTouchedCount": 3,
+  "filesTouchedManifestSha256": "fd6c95988ffa785c33ef876c5251c215ceaf036d810a27297224b1f0319b4db7",
+  "workingTreeFingerprint": "B3D75946F0F02294AEB18D9F82F8AB55EC1BE25056E5CBA80F903673C8EAC466"
 }

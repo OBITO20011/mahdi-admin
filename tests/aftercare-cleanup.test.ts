@@ -1,3 +1,4 @@
+import {sourceBeforeOwnerTelegram217} from '../scripts/audit/source-before-owner-telegram217.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -52,7 +53,7 @@ test('invoice has one current wizard, recoveries for all old actions and a lazy 
 test('cleanup historical projection is bound to approved216 bytes and never erases an unknown mutation',()=>{
   assert.equal(aftercareCleanupSourcePins.baseline,'015ffcae98da6241514cd8ab3b646dd2993c9eb2');
   for(const [file,pin] of Object.entries(aftercareCleanupSourcePins.entries) as [string,{after:string;before:string|null;beforeText:string|null}][]){
-    const current=read(file);assert.equal(hash(current),pin.after,file);assert.equal(sourceBeforeAftercareCleanup(file,current),pin.beforeText,file);
+    const current=sourceBeforeOwnerTelegram217(file,read(file))!;assert.equal(hash(current),pin.after,file);assert.equal(sourceBeforeAftercareCleanup(file,current),pin.beforeText,file);
     if(pin.beforeText!==null){assert.equal(hash(pin.beforeText),pin.before);assert.equal(pin.beforeText,execFileSync('git',['show',aftercareCleanupSourcePins.baseline+':'+file],{encoding:'utf8',maxBuffer:32*1024**2}).replaceAll('\r\n','\n'));}
     const unknown=current+'\n// unexpected mutation\n';assert.equal(sourceBeforeAftercareCleanup(file,unknown),unknown);
   }

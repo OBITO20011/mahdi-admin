@@ -3,19 +3,15 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/AFTERCARE_UI_CLEANUP_AR.md"
+      "path": "docs/agent/OWNER_TELEGRAM217_LOCAL.json"
     },
     {
       "code": " M",
-      "path": "docs/agent/AFTERCARE_UI_CLEANUP_LOCAL.json"
+      "path": "docs/agent/PHASE_STATUS.md"
     },
     {
       "code": " M",
-      "path": "e2e/package-d-pos-fullstack.spec.ts"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/aftercare-cleanup-source-pins.json"
+      "path": "docs/agent/PROJECT_OVERVIEW.md"
     }
   ]
 }

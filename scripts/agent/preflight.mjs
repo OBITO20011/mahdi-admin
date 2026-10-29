@@ -8,7 +8,7 @@ const repoRoot = git(['rev-parse', '--show-toplevel']).replaceAll('\\', '/');
 const migrations = migrationInventory();
 const productionNames = productionEnvironmentNames();
 const failures = [];
-for(const number of [160,161,162,163,164,170,171,180,181,182,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216]) {
+for(const number of [160,161,162,163,164,170,171,180,181,182,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217]) {
   if(state.migrationCeiling>=number && (!state[`migration${number}CanonicalLfSha256`]
     || migrations.integrationPins[number]!==state[`migration${number}CanonicalLfSha256`]))
     failures.push(`Migration ${number} hash missing or mismatch`);

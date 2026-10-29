@@ -185,7 +185,11 @@ export async function functionReference(executor,ceiling=139){
       assert.equal(digest(historical),'a664e9edede2ce30f82ba97f757d09fdc33eee158d8b227ee1c8507dbd4cf45e','FROZEN215_FUNCTIONS_CHANGED');
       return functions.length;
     }
-    assert.equal(ceiling,216,'UNAPPROVED_FUNCTION_REFERENCE');
+    if(ceiling===216){
+      const historical=renderFunctionReference((await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=216),functions);
+      assert.equal(digest(historical),'d1e8344da2738b62e2b8fbcd2a3ebe2d0e97b7801b7c226e5477e964a6df136a','FROZEN216_FUNCTIONS_CHANGED');return functions.length;
+    }
+    assert.equal(ceiling,217,'UNAPPROVED_FUNCTION_REFERENCE');
   const rendered=renderFunctionReference(await migrationManifest(root),functions);
   assert.equal(rendered,canonicalLf(await readFile(path.join(root,'docs/generated/DB_FUNCTIONS.md'),'utf8')),'DB_FUNCTIONS_STALE');
  }

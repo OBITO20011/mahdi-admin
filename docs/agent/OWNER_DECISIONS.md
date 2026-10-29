@@ -1,3 +1,7 @@
+#29Oct — owner approved45;server-side owner Telegram217
+
+Direct owner/Claude-authorized message:merge45 only after17e08fbb FULLCI;safe main update. Then separate worktree/PR for moving owner business Telegram from developer n8n to Supabase,217 if needed plus all operational ceiling/reset/backup/strict upgrade/reference in same PR,Administrator owner commands. Same payload/summary/retry/exclusions;Push and technical developer route unchanged. n8n owner workflow retired/inactive and fenced;cron/DB/Edge closed until launch. Local-only tests,commits/push per completed item,Gitleaks0/FULLCI,return for approvalSTOP;no hosted/deploy/activation or following GitHub Actions package. Owner reports216 actualverify/Backup216178/Restore15117healthy;not independently accessed.
+
 # 28 أكتوبر 2026 — اعتماد ت-ب والتنفيذ المحلي
 
 المصدر: رد المالك المباشر «تممم اغتمد مهندس» بعد عرض اعتماد تصميم PR42 كاملاً، بما فيه المعالج والفحص، وتسوية صنف آخر بالمقابل الداخلي وفرق المال الفعلي ضمن النطاق المحدد، وخصم المعيب من ذمة المورد بالقيمة التاريخية الكاملة وبحد المستحق المؤيد. يعتمد G1–G6 في docs/design/TRIAL_TB_AFTERCARE_WIZARD_AR.md. التنفيذ في worktree وPR مستقلين، باختبارات DB فعلية وCI كامل وGitleaks0 وcheckpoint؛ migration التالية215 وأمر مالك صارم عند اللزوم. لا اتصال أو نشر، ولا تعديل حركات قديمة أو تنفيذ ت-ج؛ يرجع PR التنفيذ للاعتماد قبل الدمج.

@@ -32,7 +32,7 @@ export function reset216Arguments(args){
  return {mode,workdir,ownerId,reference};
 }
 export async function runOwnerReset216(args){
- await operationalManifest();assert.equal(operationalSchema.resetCommand,'frankfurt-owner-reset216','RESET_ADAPTER_NOT_CURRENT');
+ await operationalManifest();assert.ok([operationalSchema.ceiling,...operationalSchema.legacyArchiveCeilings].includes(216),'RESET_ADAPTER_NOT_CURRENT');
  const options=reset216Arguments(args),{workdir,ownerId,mode}=options;
  assertOutsideRepository(workdir);assertOutsideRepository(await realpath(workdir),await realpath(root));
  const output=path.join(workdir,'reset216-'+new Date().toISOString().replaceAll(/[:.]/gu,'-'));await mkdir(output);

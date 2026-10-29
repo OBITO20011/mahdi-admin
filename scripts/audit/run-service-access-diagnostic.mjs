@@ -1,3 +1,4 @@
+import {sourceBeforeOwnerTelegram217} from './source-before-owner-telegram217.mjs';
 import {sourceBeforeAftercare215} from './source-before-aftercare215.mjs';
 import {sourceBeforePartial216} from './source-before-partial216.mjs';
 // Local-only RPC EXECUTE diagnostics;each invocation rolls back even on success.
@@ -16,7 +17,7 @@ const root=path.resolve(import.meta.dirname,'../..'),exec=promisify(execFile),
  project='nawasrah-service-audit-'+randomBytes(4).toString('hex')+'-test',container='supabase_db_'+project;
 const args=process.argv.slice(2);assert.ok(args.length===0||(args.length===2&&args[0]==='--migration-ceiling'),'ONLY_LOCAL_CEILING_OPTION');
 const migrationCeiling=Number(args[1]??JSON.parse(await readFile(path.join(root,'docs/agent/project-state.json'),'utf8')).migrationCeiling);
-assert.ok([198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216].includes(migrationCeiling),'APPROVED_SERVICE_AUDIT_CEILING_REQUIRED');
+assert.ok([198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217].includes(migrationCeiling),'APPROVED_SERVICE_AUDIT_CEILING_REQUIRED');
 const output=await mkdtemp(path.join(tmpdir(),'nawasrah-service-access-')),
  report={schemaVersion:1,startedAt:new Date().toISOString(),migrationCeiling,managedAccess:false,output};
 const q=v=>"'"+String(v).replaceAll("'","''")+"'";
@@ -35,7 +36,7 @@ export function probeValue(name,type){
  return `NULL::${type}`;
 }
 try{
- const sourceOptions={projectSource:migrationCeiling<215?sourceBeforeAftercare215:migrationCeiling===215?sourceBeforePartial216:undefined};
+ const sourceOptions={projectSource:migrationCeiling<215?sourceBeforeAftercare215:migrationCeiling===215?sourceBeforePartial216:migrationCeiling===216?sourceBeforeOwnerTelegram217:undefined};
  const source=await serviceInventory(sourceOptions);report.sourceHashes=source.sourceHashes;
  const boot=await exec(process.execPath,[path.join(root,'scripts/testing/bootstrap-isolated-supabase.mjs')],{cwd:root,windowsHide:true,maxBuffer:8*1024**2,env:{...process.env,
   NAWASRAH_ISOLATED_PROJECT_ID:project,NAWASRAH_MAX_MIGRATION:String(migrationCeiling),NAWASRAH_SKIP_REDUNDANT_DB_RESET:'true',

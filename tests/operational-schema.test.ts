@@ -5,6 +5,7 @@ import {migrationManifest,manifestDigest} from '../scripts/testing/maintenance-d
 import {assertRegisteredBackupTasks,requiredBackupModes} from '../scripts/operations/backup-task-preflight.mjs';
 import {reset215Arguments} from '../scripts/operations/frankfurt-owner-reset215.mjs';
 import {reset216Arguments} from '../scripts/operations/frankfurt-owner-reset216.mjs';
+import {reset217Arguments} from '../scripts/operations/frankfurt-owner-reset217.mjs';
 import {ownerPlan} from '../scripts/operations/frankfurt-backup-runtime.mjs';
 import {assertResetCeiling,resetUnits} from '../scripts/operations/trial-reset-core.mjs';
 
@@ -27,14 +28,16 @@ test('one project-state ceiling binds the full SQL manifest and every operationa
  const core=readFileSync('scripts/operations/trial-reset214-core.mjs','utf8');
  assert.ok(core.includes(`const policy${state.migrationCeiling}={ceiling:${state.migrationCeiling},files:${manifest.length},`),'RESET_REBUILD_ADAPTER_MUST_ADVANCE_WITH_MIGRATION');
  assert.ok(readFileSync('scripts/backup/complete-backup.mjs','utf8').match(/assertOperationalHistory\(before.history\)/gu)!.length===2);
- assert.equal(reset216Arguments([]).reference.split(/[\\/]/u).at(-1),operationalSchema.readyReferenceName);
+ assert.equal(reset217Arguments([]).reference.split(/[\\/]/u).at(-1),operationalSchema.readyReferenceName);
+ assert.equal(reset216Arguments([]).reference.split(/[\\/]/u).at(-1),'local-reference-through216-ready.json');
  assert.equal(reset215Arguments([]).reference.split(/[\\/]/u).at(-1),'local-reference-through215-ready.json');
  // Every supported preceding adapter retains its own exact file count after
  // the current ceiling advances. This catches the actual215 rebuild failure.
  assert.equal(assertResetCeiling({migrationCeiling:215,manifest:manifest.filter((m:{name:string})=>Number(m.name.slice(0,3))<=215)}),177);
- assert.equal(assertResetCeiling({migrationCeiling:216,manifest,manifestDigest:operationalSchema.manifestSha256}),178);
- assert.throws(()=>assertResetCeiling({migrationCeiling:217,manifest}),/RESET_REFERENCE_CEILING/);
- assert.throws(()=>assertResetCeiling({migrationCeiling:216,manifest,manifestDigest:'0'.repeat(64)}),/RESET_CURRENT_MANIFEST_UNREVIEWED/);
+ assert.equal(assertResetCeiling({migrationCeiling:216,manifest:manifest.filter((m:{name:string})=>Number(m.name.slice(0,3))<=216)}),178);
+ assert.equal(assertResetCeiling({migrationCeiling:217,manifest,manifestDigest:operationalSchema.manifestSha256}),179);
+ assert.throws(()=>assertResetCeiling({migrationCeiling:218,manifest}),/RESET_REFERENCE_CEILING/);
+ assert.throws(()=>assertResetCeiling({migrationCeiling:217,manifest,manifestDigest:'0'.repeat(64)}),/RESET_CURRENT_MANIFEST_UNREVIEWED/);
 });
 
 test('preceding215 rebuild selects exactly177 literal files only after the whole current216 manifest and exact reference prefix are verified',async()=>{

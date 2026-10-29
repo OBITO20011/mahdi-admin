@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "migrationCeiling": 216,
+  "migrationCeiling": 217,
   "managedAccess": false,
   "sourceHashes": [
     {
@@ -1428,6 +1428,10 @@
       "sha256": "2fcce575796dafd5ca2cff667321cc8d3076a02f14e00ce9f35356072c1b758e"
     },
     {
+      "file": "supabase/functions/_shared/owner-telegram-format.ts",
+      "sha256": "1ea25cd00443e729b1d444fd2d6658252e7107bb3fa1abd2736533b26f5a38d9"
+    },
+    {
       "file": "supabase/functions/admin-ai-assistant/index.ts",
       "sha256": "b7663a899b5fbf868066716d5f3431fb9947dd04688b52878b2967276cd5dc5f"
     },
@@ -1438,6 +1442,14 @@
     {
       "file": "supabase/functions/n8n-alert-feed/index.ts",
       "sha256": "30bab3af0da1ced5c9001f1d3e0a925c79b994e077ab8e1f67dd137fc75e001d"
+    },
+    {
+      "file": "supabase/functions/owner-telegram-dispatch/handler.ts",
+      "sha256": "93bea2151e8f7e488c64ee5242d9fb0bec178eedc6933152a903eaf1ef648e98"
+    },
+    {
+      "file": "supabase/functions/owner-telegram-dispatch/index.ts",
+      "sha256": "6357feda9f76d7fb761f83c7cc776ebcc311a5af0affac352006ccdee063259d"
     },
     {
       "file": "supabase/functions/send-order-push/index.ts",
@@ -4179,6 +4191,42 @@
       "source": "supabase.rpc('complete_automation_delivery', {\n      p_event_id: body.eventId,\n      p_channel: body.channel,\n      p_success: body.success,\n      p_error:\n        typeof body.error === 'string' ? body.error.slice(0, 1000) : null,\n    })"
     },
     {
+      "id": "supabase/functions/owner-telegram-dispatch/handler.ts:64",
+      "file": "supabase/functions/owner-telegram-dispatch/handler.ts",
+      "line": 64,
+      "role": "service_role",
+      "receiver": "client",
+      "function": "rpc",
+      "name": null,
+      "dynamic": "name",
+      "arguments": [
+        "args"
+      ],
+      "source": "client.rpc(name,args)",
+      "resolutions": [
+        {
+          "name": "claim_owner_telegram_deliveries_v1",
+          "callsite": "supabase/functions/owner-telegram-dispatch/handler.ts:67",
+          "source": "rpc('claim_owner_telegram_deliveries_v1',{p_run_id:runId})"
+        },
+        {
+          "name": "owner_telegram_dispatch_lease_valid_v1",
+          "callsite": "supabase/functions/owner-telegram-dispatch/handler.ts:81",
+          "source": "rpc('owner_telegram_dispatch_lease_valid_v1',{p_run_id:runId})"
+        },
+        {
+          "name": "complete_owner_telegram_delivery_v1",
+          "callsite": "supabase/functions/owner-telegram-dispatch/handler.ts:84",
+          "source": "rpc('complete_owner_telegram_delivery_v1',{p_run_id:runId,p_event_id:item.eventId,p_success:success,p_error:error})"
+        },
+        {
+          "name": "release_owner_telegram_dispatch_v1",
+          "callsite": "supabase/functions/owner-telegram-dispatch/handler.ts:90",
+          "source": "rpc('release_owner_telegram_dispatch_v1',{p_run_id:runId})"
+        }
+      ]
+    },
+    {
       "id": "supabase/functions/send-order-push/index.ts:58",
       "file": "supabase/functions/send-order-push/index.ts",
       "line": 58,
@@ -4345,6 +4393,46 @@
       "name": "NAWASRAH_AUTOMATION_SECRET"
     },
     {
+      "file": "supabase/functions/owner-telegram-dispatch/index.ts",
+      "line": 6,
+      "name": "OWNER_TELEGRAM_DISPATCH_SECRET"
+    },
+    {
+      "file": "supabase/functions/owner-telegram-dispatch/index.ts",
+      "line": 7,
+      "name": "OWNER_TELEGRAM_ENABLED"
+    },
+    {
+      "file": "supabase/functions/owner-telegram-dispatch/index.ts",
+      "line": 8,
+      "name": "OWNER_TELEGRAM_TEST_ENABLED"
+    },
+    {
+      "file": "supabase/functions/owner-telegram-dispatch/index.ts",
+      "line": 9,
+      "name": "OWNER_TELEGRAM_BOT_TOKEN"
+    },
+    {
+      "file": "supabase/functions/owner-telegram-dispatch/index.ts",
+      "line": 10,
+      "name": "OWNER_TELEGRAM_CHAT_ID"
+    },
+    {
+      "file": "supabase/functions/owner-telegram-dispatch/index.ts",
+      "line": 11,
+      "name": "OWNER_TELEGRAM_DEVELOPER_CHAT_ID_FOR_COMPARISON"
+    },
+    {
+      "file": "supabase/functions/owner-telegram-dispatch/index.ts",
+      "line": 13,
+      "name": "SUPABASE_URL"
+    },
+    {
+      "file": "supabase/functions/owner-telegram-dispatch/index.ts",
+      "line": 13,
+      "name": "SUPABASE_SERVICE_ROLE_KEY"
+    },
+    {
       "file": "supabase/functions/send-order-push/index.ts",
       "line": 38,
       "name": "SUPABASE_URL"
@@ -4445,6 +4533,42 @@
       "name": "create_pos_sale_v2",
       "dynamic": "'create_pos_sale_v2'",
       "source": "executeRpc('create_pos_sale_v2',rpcParameters(structuredClone(input)))"
+    },
+    {
+      "file": "supabase/functions/owner-telegram-dispatch/handler.ts",
+      "line": 67,
+      "role": "service_role",
+      "wrapper": "rpc",
+      "name": "claim_owner_telegram_deliveries_v1",
+      "dynamic": "'claim_owner_telegram_deliveries_v1'",
+      "source": "rpc('claim_owner_telegram_deliveries_v1',{p_run_id:runId})"
+    },
+    {
+      "file": "supabase/functions/owner-telegram-dispatch/handler.ts",
+      "line": 81,
+      "role": "service_role",
+      "wrapper": "rpc",
+      "name": "owner_telegram_dispatch_lease_valid_v1",
+      "dynamic": "'owner_telegram_dispatch_lease_valid_v1'",
+      "source": "rpc('owner_telegram_dispatch_lease_valid_v1',{p_run_id:runId})"
+    },
+    {
+      "file": "supabase/functions/owner-telegram-dispatch/handler.ts",
+      "line": 84,
+      "role": "service_role",
+      "wrapper": "rpc",
+      "name": "complete_owner_telegram_delivery_v1",
+      "dynamic": "'complete_owner_telegram_delivery_v1'",
+      "source": "rpc('complete_owner_telegram_delivery_v1',{p_run_id:runId,p_event_id:item.eventId,p_success:success,p_error:error})"
+    },
+    {
+      "file": "supabase/functions/owner-telegram-dispatch/handler.ts",
+      "line": 90,
+      "role": "service_role",
+      "wrapper": "rpc",
+      "name": "release_owner_telegram_dispatch_v1",
+      "dynamic": "'release_owner_telegram_dispatch_v1'",
+      "source": "rpc('release_owner_telegram_dispatch_v1',{p_run_id:runId})"
     },
     {
       "file": "supabase/functions/submit-guest-order/index.ts",
@@ -4548,10 +4672,12 @@
     "cancel_supplier_receipt",
     "cancel_uncommitted_pos_sale_attempt_v1",
     "claim_automation_deliveries",
+    "claim_owner_telegram_deliveries_v1",
     "clear_deferred_cheque_v1",
     "close_cash_shift",
     "collect_customer_balance_v1",
     "complete_automation_delivery",
+    "complete_owner_telegram_delivery_v1",
     "complete_website_order_with_payment",
     "complete_website_order_with_settlement",
     "complete_website_order_with_settlement_v2",
@@ -4648,6 +4774,7 @@
     "mark_all_stock_alerts_read",
     "mark_stock_alert_read",
     "open_cash_shift",
+    "owner_telegram_dispatch_lease_valid_v1",
     "pay_supplier_cheque_claim_v1",
     "pay_supplier_opening_balance_v1",
     "preview_admin_sales_return_v2",
@@ -4673,6 +4800,7 @@
     "record_supplier_opening_balances_v1",
     "record_supplier_payment",
     "record_supplier_receipt_payment",
+    "release_owner_telegram_dispatch_v1",
     "reorder_product_flavors_v1",
     "report_admin_runtime_incident",
     "resolve_legacy_supplier_receipt_replay_v1",

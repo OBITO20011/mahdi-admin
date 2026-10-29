@@ -12,7 +12,7 @@ import {readRealtimePublication} from '../testing/realtime151-contract.mjs';
 import {operationalSchema,assertOperationalManifest,assertSupportedResetReference} from './operational-schema.mjs';
 
 export const resetCeiling=182;
-const resetFileCounts=Object.freeze({182:151,199:161,200:162,201:163,202:164,203:165,204:166,205:167,206:168,207:169,208:170,209:171,210:172,211:173,212:174,213:175,214:176,215:177});
+const resetFileCounts=Object.freeze({182:151,199:161,200:162,201:163,202:164,203:165,204:166,205:167,206:168,207:169,208:170,209:171,210:172,211:173,212:174,213:175,214:176,215:177,216:178});
 export function assertResetCeiling(reference){
  if(reference.migrationCeiling===operationalSchema.ceiling){assert.equal(reference.manifestDigest,operationalSchema.manifestSha256,'RESET_CURRENT_MANIFEST_UNREVIEWED');return reference.manifest.length;}
  assert.ok(Object.hasOwn(resetFileCounts,reference.migrationCeiling),'RESET_REFERENCE_CEILING');
@@ -26,9 +26,12 @@ export function resetComparisonDates(referenceDay,startDay,endDay=startDay){
 // table MUST be empty;new tables cannot silently escape this assertion.
 export const cleanSeedCounts=Object.freeze({advanced_monitoring_checks:22,advanced_monitoring_metrics:1,
  advanced_monitoring_settings:1,audit_logs:1,branches:0,brands:0,business_alert_settings:1,categories:12,
- configurable_parcel_feature_settings:1,go_live_setup_state:1,roles:0,storefront_settings:1,units:11,warehouses:0});
+ configurable_parcel_feature_settings:1,go_live_setup_state:1,owner_telegram_dispatch_settings:1,roles:0,storefront_settings:1,units:11,warehouses:0});
 export function assertCleanCounts(counts,ownerPresent=true,ownerBranch=false,mainWarehouse=false){
  const allowed={...cleanSeedCounts,branches:ownerBranch?1:0,warehouses:mainWarehouse?1:0,roles:ownerPresent?1:0,profiles:ownerPresent?1:0,user_roles:ownerPresent?1:0};
+ // Historical prefix resets have no217 relation. Current catalog/reference
+ // validation independently requires it before count verification.
+ if(!Object.hasOwn(counts,'owner_telegram_dispatch_settings'))delete allowed.owner_telegram_dispatch_settings;
  for(const [name,n] of Object.entries(counts))assert.equal(n,allowed[name]??0,'RESET_ROW_COUNT:'+name);
  for(const name of Object.keys(allowed))assert.ok(name in counts,'RESET_EXPECTED_TABLE_MISSING:'+name);
 }
@@ -115,7 +118,7 @@ export const externalDependentsSql=`WITH RECURSIVE deps(classid,objid,objsubid) 
 export function assertExternalDependents(rows,migrationCeiling=182){
  const allowed=['ERP staff can upload own product images','ERP staff can update own product images','ERP staff can delete own product images'];
  //213 recreates this exact reviewed storage policy after rebuilding public helpers.
- if([213,214,215,operationalSchema.ceiling].includes(migrationCeiling))allowed.push('ERP staff can read own product image metadata');
+ if([213,214,215,216,operationalSchema.ceiling].includes(migrationCeiling))allowed.push('ERP staff can read own product image metadata');
  for(const r of rows){if(r.schema==='pg_toast')continue;
   if(r.class==='pg_trigger'&&r.schema==='auth'&&r.internalFk===true)continue;
   if(r.class==='pg_publication_rel'&&r.publication==='supabase_realtime')continue;
@@ -126,9 +129,10 @@ export async function resetUnits(root,reference){
  // Bounded preceding215 adapter only: prove the WHOLE current216 commitment
  // before selecting its exact approved215 prefix. Older reset guards retain
  // full-manifest equality and still reject new files,not arbitrary slicing.
- if(reference.migrationCeiling===215&&operationalSchema.ceiling===216){
+ if(reference.migrationCeiling>=215&&reference.migrationCeiling<operationalSchema.ceiling
+   &&operationalSchema.legacyArchiveCeilings.includes(reference.migrationCeiling)){
   assertOperationalManifest(manifest);assertSupportedResetReference(reference);
-  manifest=manifest.filter(m=>Number(m.name.slice(0,3))<=215);
+  manifest=manifest.filter(m=>Number(m.name.slice(0,3))<=reference.migrationCeiling);
  }
  assert.deepEqual(manifest,reference.manifest,'RESET_MANIFEST_CHANGED');assert.equal(manifest.length,fileCount);
  const base=await buildEmptyProjectInput(root);const units=[...base.units];

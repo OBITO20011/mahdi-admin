@@ -12,7 +12,7 @@ export function parseServices(file,text){
  const source=text.replaceAll('\r\n','\n'),sf=ts.createSourceFile(file,source,ts.ScriptTarget.Latest,true,file.endsWith('x')?ts.ScriptKind.TSX:ts.ScriptKind.TS);
  const rpc=[],storage=[],channels=[],env=[],wrapperCalls=[],bindings=[];
  const role=file.startsWith('customer-web/')?'anon':file.startsWith('supabase/functions/')?
-  /\/(?:send-order-push|n8n-alert-feed|submit-guest-order)\//u.test(file)?'service_role':'authenticated':'authenticated';
+  /\/(?:send-order-push|n8n-alert-feed|submit-guest-order|owner-telegram-dispatch)\//u.test(file)?'service_role':'authenticated':'authenticated';
  const visit=n=>{
   if(ts.isVariableDeclaration(n)&&n.initializer&&ts.isIdentifier(n.name)){
    const strings=[];const find=s=>{if(ts.isStringLiteralLike(s))strings.push(s.text);ts.forEachChild(s,find);};find(n.initializer);
@@ -48,6 +48,7 @@ export async function serviceInventory({projectSource=(_file,text)=>text}={}){co
   let calls=[];
   if(r.file.endsWith('/parcelConfiguration.service.ts'))calls=result.wrapperCalls.filter(c=>c.file===r.file&&c.wrapper==='rpc'&&c.name);
   else if(r.file.endsWith('/posV2.service.ts')||r.file.endsWith('/posV2Recovery.ts'))calls=result.wrapperCalls.filter(c=>c.wrapper==='executeRpc'&&c.name);
+  else if(r.file==='supabase/functions/owner-telegram-dispatch/handler.ts')calls=result.wrapperCalls.filter(c=>c.file===r.file&&c.wrapper==='rpc'&&c.name);
   if(!calls.length)throw Error('UNRESOLVED_RPC_SINK:'+r.id);
   r.resolutions=calls.map(c=>({name:c.name,callsite:c.file+':'+c.line,source:c.source}));
  }

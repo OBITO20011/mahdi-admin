@@ -58,7 +58,8 @@ export async function verifyCatalogReadOnly(executor,workdir,reference,originalN
  const observed=JSON.parse(read.stdout.trim());
  report.catalogCounts=Object.fromEntries(Object.entries(observed).map(([name,rows])=>[name,rows?.length??0]));
  const comparison=await persistCatalogComparison(workdir,reference.catalog,observed,dates,report);
- const actual=await readNotificationSnapshot(executor),expected=expectedHeldNotifications(originalNotifications);
+ const actual=await readNotificationSnapshot(executor),expected=options.expectedNotifications
+  ?options.expectedNotifications(originalNotifications,actual):expectedHeldNotifications(originalNotifications);
  const differences=catalogDifference({notificationState:notificationRows(expected)},{notificationState:notificationRows(actual)}).map(d=>detail(d));
  report.notificationComparison={expected,observed:actual,differences,
   expectedChanges:[{schema:'public',table:'orders',object:heldTrigger,property:'enabled',before:'O',after:'D'},
