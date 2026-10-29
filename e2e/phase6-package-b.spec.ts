@@ -12,7 +12,7 @@ test('J saved flavor names hide parcel UUID; incomplete whole return names the m
   const fresh=structuredClone(context),internal='41bb6c3c-cdc3-4240-8000-000000000001';fresh.parcelInstances[0].parcelInstanceId=internal;
   await page.route('**/rest/v1/rpc/get_admin_sales_aftercare_context_v1',route=>route.fulfill({json:fresh}));
   let writes=0;await page.route('**/rest/v1/rpc/settle_admin_sales_return_v1',route=>{writes++;return route.abort();});
-  await page.goto(url);await expect(page.getByText('طرد مشكّل: عصير برتقال',{exact:true})).toBeVisible();await expect(page.locator('body')).not.toContainText(internal);
+  await page.goto(url);await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();await expect(page.getByText('طرد مشكّل: عصير برتقال',{exact:true})).toBeVisible();await expect(page.locator('body')).not.toContainText(internal);
   await expect(page.getByRole('button',{name:'استبدال وحدة · عصير برتقال · البديل الذي أعطيته',exact:true})).toBeVisible();
   await page.getByRole('button',{name:'إرجاع الطرد كاملاً',exact:true}).click();await expect(page.getByText('إرجاع الطرد كاملاً (كل حباته)',{exact:true})).toBeVisible();
   await expect(page.getByText('صنّف كل حبات الطرد:',{exact:false})).toContainText('ضرر العميل يُخصم من المبلغ المرجع');
@@ -25,7 +25,7 @@ test('J owner supplier replacement uses one atomic call and exact lost-response 
   await page.route('**/rest/v1/rpc/get_supplier_replacement_options_v1',route=>route.fulfill({json:options211}));
   await page.route('**/rest/v1/rpc/settle_admin_sales_replacement_v1',route=>{oldWrites++;return route.abort();});
   await page.route('**/rest/v1/rpc/execute_aftercare_supplier_v1',route=>{const req=route.request().postDataJSON();requests.push(req);if(requests.length===1)return route.abort();return route.fulfill({json:{success:true,contractVersion:208,action:req.p_action,idempotencyKey:req.p_idempotency_key,idempotent:true,operationId:'atomic-op',cases:[case211]}});});
-  await page.goto(url);await page.getByRole('button',{name:'استبدال وحدة · عصير برتقال · البديل الذي أعطيته',exact:true}).click();
+  await page.goto(url);await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();await page.getByRole('button',{name:'استبدال وحدة · عصير برتقال · البديل الذي أعطيته',exact:true}).click();
   await page.getByLabel('مصير الحبة المعيبة',{exact:true}).selectOption('supplier');await expect(page.getByLabel('المورد',{exact:true})).toHaveValue(supplier211);
   await expect(page.getByText('قيمة الحبة المعيبة تبقى معلّقة؛',{exact:false})).toContainText('فرق تكلفة البديل يبقى على الربح');
   await page.getByPlaceholder('سبب العيب/الاستبدال',{exact:true}).fill('عيب المورد في الحبة');await page.getByRole('button',{name:'اعتماد الاستبدال',exact:true}).click();
@@ -41,18 +41,18 @@ test('J safety action stays in options; real service preview precedes confirmati
   await page.route('**/rest/v1/rpc/get_supplier_replacement_options_v1',route=>route.fulfill({json:options211}));
   await page.route('**/rest/v1/rpc/preview_aftercare_supplier_v1',route=>{previews++;expect(route.request().postDataJSON()).toEqual({p_kind:'replacement',p_source_id:sourceId,p_supplier_id:supplier211});return route.fulfill({json:{contractVersion:211,sourceKind:'replacement',sourceId,supplierId:supplier211,quantity:1,reclassifiedInMinorUnits:1000,previewFingerprint:'a'.repeat(64),eligible:true,blockedReason:null}});});
   await page.route('**/rest/v1/rpc/execute_aftercare_supplier_v1',route=>{const req=route.request().postDataJSON();requests.push(req);if(requests.length===1)return route.abort();return route.fulfill({json:{success:true,contractVersion:208,action:req.p_action,idempotencyKey:req.p_idempotency_key,idempotent:true,operationId:'convert-op',cases:[case211]}});});
-  await page.goto(url);await expect(page.getByRole('button',{name:'حوّله للمورد بانتظار البديل',exact:true})).toHaveCount(0);
+  await page.goto(url);await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();await expect(page.getByRole('button',{name:'حوّله للمورد بانتظار البديل',exact:true})).toHaveCount(0);
   await page.getByRole('button',{name:'خيارات التالف النهائي',exact:true}).click();await page.getByRole('button',{name:'حوّله للمورد بانتظار البديل',exact:true}).click();await expect(page.locator('body')).not.toContainText(sourceId);
   await expect(page.getByLabel('مورد التالف',{exact:true})).toHaveValue(supplier211);await page.getByLabel('سبب تحويل التالف',{exact:true}).fill('اتفقنا مع المورد على الاستبدال');
   await page.getByRole('button',{name:'معاينة تحويل التالف',exact:true}).click();await expect(page.getByText('سيُعلّق 1 حبة للمورد بقيمة تاريخية 1.000 د.أ.',{exact:true})).toBeVisible();expect(previews).toBe(1);expect(requests.length).toBe(0);
   await page.getByRole('button',{name:'اعتماد تحويل التالف',exact:true}).click();await expect(page.getByRole('button',{name:'استعادة تحويل التالف للمورد',exact:true})).toBeVisible();
-  await page.reload();await page.getByRole('button',{name:'استعادة تحويل التالف للمورد',exact:true}).click();await expect(page.getByTestId('notice')).toContainText('استرداد نتيجة تحويل التالف للمورد');
+  await page.reload();await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();await page.getByRole('button',{name:'استعادة تحويل التالف للمورد',exact:true}).click();await expect(page.getByTestId('notice')).toContainText('استرداد نتيجة تحويل التالف للمورد');
   expect(requests.length).toBe(2);expect(requests[1]).toEqual(requests[0]);expect(requests[0].p_payload).toEqual({sourceId,supplierId:supplier211,reason:'اتفقنا مع المورد على الاستبدال',previewFingerprint:'a'.repeat(64)});expect(requests[0].p_action).toBe('reclassify_replacement');
 });
 
 test('J supplier disposition and safety actions are absent for admin; final replacement remains available',async({page})=>{
   let supplierReads=0;await page.route('**/rest/v1/rpc/get_aftercare_damage_candidates_v1',route=>{supplierReads++;return route.abort();});
-  await page.goto(url+'?role=admin');await expect(page.getByRole('button',{name:'خيارات التالف النهائي',exact:true})).toHaveCount(0);
+  await page.goto(url+'?role=admin');await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();await expect(page.getByRole('button',{name:'خيارات التالف النهائي',exact:true})).toHaveCount(0);
   await page.getByRole('button',{name:'استبدال وحدة · عصير برتقال · البديل الذي أعطيته',exact:true}).click();
   await expect(page.getByLabel('مصير الحبة المعيبة',{exact:true})).toHaveCount(0);await expect(page.getByRole('button',{name:'اعتماد الاستبدال',exact:true})).toBeVisible();expect(supplierReads).toBe(0);
 });
@@ -69,7 +69,7 @@ test('208 owner supplier destination submits one atomic coordinator with exact p
     return route.fulfill({json:{success:true,contractVersion:208,action:'customer_return',idempotencyKey:req.p_idempotency_key,idempotent:true,operationId:'op',returnResult:{success:true},cases:[{
       id:'case',supplierId,supplierName:'المورد الموثق',productId:'juice',productName:'عصير فراولة',warehouseId:'warehouse',branchId:'branch',origin:'customer_return',quantity:3,commercialQuantity:3,unitsPerCommercialUnit:1,unitName:'باكيت',baseUnitName:'باكيت',pendingQuantity:3,receivedQuantity:0,writtenOffQuantity:0,occurredAt:'2026-10-21T10:00:00Z',events:[],unitCostInMinorUnitsExact:'60.000000',pendingValueInMinorUnitsExact:'180.000000'}]}});
   });
-  await page.goto(url);await page.getByRole('button',{name:'مرتجع',exact:true}).click();await page.getByLabel('كمية المرتجع',{exact:true}).fill('3');await page.getByRole('button',{name:'غير قابل للبيع',exact:true}).click();
+  await page.goto(url);await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();await page.getByRole('button',{name:'مرتجع',exact:true}).click();await page.getByLabel('كمية المرتجع',{exact:true}).fill('3');await page.getByRole('button',{name:'غير قابل للبيع',exact:true}).click();
   await page.getByRole('combobox',{name:'مصير عيب المورد غير القابل للبيع',exact:true}).selectOption('supplier');await expect(page.getByRole('combobox',{name:'المورد',exact:true})).toHaveValue(supplierId);
   await page.getByPlaceholder('سبب المرتجع',{exact:true}).fill('عيب المورد في البضاعة');await page.getByRole('button',{name:'اعتماد المرتجع',exact:true}).click();await expect.poll(()=>requests.length).toBe(1);
   await expect(page.getByRole('button',{name:'استعادة المرتجع المرسل للمورد'})).toBeVisible();await page.reload();await page.getByRole('button',{name:'استعادة المرتجع المرسل للمورد'}).click();
@@ -86,7 +86,7 @@ test('partial return sends selected quantity and exact current source allocation
     calls++; payload = route.request().postDataJSON();
     return route.fulfill({status: 400, json: {code: 'P0001', message: 'PHASE4_LOGICAL_QUANTITY_ALREADY_CONSUMED'}});
   });
-  await page.goto(url);
+  await page.goto(url);await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();
   await expect(page.getByText('عصير فراولة · المتبقي 5 وحدة')).toBeVisible();
   await page.getByRole('button', {name: 'مرتجع', exact: true}).click();
   await page.getByPlaceholder('سبب المرتجع', {exact: true}).fill('مرتجع اختبار');
@@ -103,7 +103,7 @@ test('partial return sends selected quantity and exact current source allocation
   await expect(page.getByTestId('notice')).not.toContainText('PHASE4_');
 });
 test('parcel names, three-bucket totals and whole-parcel boundary remain explicit', async ({page}) => {
-  await page.goto(url);
+  await page.goto(url);await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();
   await page.getByRole('button', {name: 'إرجاع الطرد كاملاً', exact: true}).click();
   await expect(page.getByText('عصير برتقال · 3 وحدة')).toBeVisible();
   await expect(page.getByLabel('كمية المرتجع', {exact: true})).toHaveCount(0);
@@ -127,7 +127,7 @@ test('partial return re-reads capacity immediately before submit and rejects cha
   await page.route('**/rest/v1/rpc/settle_admin_sales_return_v1', route => {
     writes++; return route.fulfill({json: {success: true}});
   });
-  await page.goto(url);
+  await page.goto(url);await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();
   await page.getByRole('button', {name: 'مرتجع', exact: true}).click();
   await page.getByPlaceholder('سبب المرتجع', {exact: true}).fill('مرتجع اختبار');
   await page.getByLabel('كمية المرتجع', {exact: true}).fill('1');
@@ -138,7 +138,7 @@ test('partial return re-reads capacity immediately before submit and rejects cha
 test('desktop/tablet expand; mobile shell dimensions and selectable operational identity remain', async ({page}, testInfo) => {
   for (const width of [390, 768, 1024, 1440]) {
     await page.setViewportSize({width, height: 900});
-    await page.goto(url);
+    await page.goto(url);await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();
     const screen = page.locator('[data-ui="admin-screen"]');
     await expect(screen).toBeVisible();
     const box = (await screen.boundingBox())!;
@@ -170,7 +170,7 @@ test('mixed cart shows parcels and base units separately without changing the li
 
 test('translated connection failure still exposes same-attempt recovery immediately', async ({page}) => {
   await page.route('**/rest/v1/rpc/settle_sales_replacement_v1', route => route.abort('failed'));
-  await page.goto(url);
+  await page.goto(url);await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();
   await page.getByRole('button', {name: 'استبدال وحدة', exact: true}).click();
   await page.getByPlaceholder('سبب العيب/الاستبدال').fill('عيب مصنعي');
   await page.getByRole('button', {name: 'اعتماد الاستبدال', exact: true}).click();
@@ -187,7 +187,7 @@ for(const only of [false,true])for(const action of ['unit','whole','return'] as 
  let request:Record<string,unknown>|null=null;
  await page.route('**/rest/v1/rpc/settle_sales_replacement_v1',route=>{request=route.request().postDataJSON();return route.fulfill({json:{success:true,operationalCoordinatorVersion:403,operationId:'replacement',issuedQuantity:action==='unit'?1:10,moneyRefundInMinorUnits:0,debtReductionInMinorUnits:0}});});
  await page.route('**/rest/v1/rpc/settle_admin_sales_return_v1',route=>{request=route.request().postDataJSON();return route.fulfill({json:{success:true,operationId:'return'}});});
- await page.goto(url);await expect(page.getByText('عصير فراولة · المتبقي 1 طرد',{exact:true})).toBeVisible();
+ await page.goto(url);await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();await expect(page.getByText('عصير فراولة · المتبقي 1 طرد',{exact:true})).toBeVisible();
  if(action==='return'){
   await page.getByRole('button',{name:'مرتجع',exact:true}).click();
   const quantity=page.getByRole('spinbutton').first();await expect(quantity).toHaveAttribute('min','1');await expect(quantity).toHaveAttribute('max','1');
@@ -205,7 +205,7 @@ for(const only of [false,true])for(const action of ['unit','whole','return'] as 
 
 test('J parcel-only mixed component still exposes defective-unit exchange without a partial return action',async({page})=>{
  const fresh=structuredClone(context);const parcel={...fresh.parcelInstances[0],components:fresh.parcelInstances[0].components.map(c=>({...c,parcelOnly:true}))};fresh.parcelInstances=[parcel];
- await page.route('**/rest/v1/rpc/get_admin_sales_aftercare_context_v1',route=>route.fulfill({json:fresh}));await page.goto(url);
+ await page.route('**/rest/v1/rpc/get_admin_sales_aftercare_context_v1',route=>route.fulfill({json:fresh}));await page.goto(url);await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();
  await expect(page.getByRole('button',{name:'إرجاع الطرد كاملاً',exact:true})).toBeVisible();
  await page.getByRole('button',{name:'استبدال وحدة · عصير برتقال · البديل الذي أعطيته',exact:true}).click();
  await expect(page.getByText('إصدار بديل من نفس الصنف — وحدة واحدة',{exact:true})).toBeVisible();

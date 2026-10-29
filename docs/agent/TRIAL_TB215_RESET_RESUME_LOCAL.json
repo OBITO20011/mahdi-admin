@@ -1,0 +1,89 @@
+{
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-reset215-resume-8WG42f",
+  "managedAccess": false,
+  "startedAt": "2026-10-28T23:09:21.448Z",
+  "cases": [
+    {
+      "stop": "after-storage",
+      "previousApplied": 0,
+      "previousRecorded": 0,
+      "storageRemainingAtInterruption": 1,
+      "physicalBytesRemoved": true,
+      "restartedAll177": true,
+      "retentionMatches": true,
+      "catalogDifferences": 0,
+      "aclDifferences": 0,
+      "verifiedMfa": true,
+      "archiveProtected": true
+    },
+    {
+      "stop": "after-drop-public",
+      "previousApplied": 0,
+      "previousRecorded": 0,
+      "storageRemainingAtInterruption": 0,
+      "physicalBytesRemoved": true,
+      "restartedAll177": true,
+      "retentionMatches": true,
+      "catalogDifferences": 0,
+      "aclDifferences": 0,
+      "verifiedMfa": true,
+      "archiveProtected": true
+    },
+    {
+      "stop": "migration-088",
+      "previousApplied": 88,
+      "previousRecorded": 87,
+      "storageRemainingAtInterruption": 0,
+      "physicalBytesRemoved": true,
+      "restartedAll177": true,
+      "retentionMatches": true,
+      "catalogDifferences": 0,
+      "aclDifferences": 0,
+      "verifiedMfa": true,
+      "archiveProtected": true
+    },
+    {
+      "stop": "before-restore-owner-and-settings",
+      "previousApplied": 177,
+      "previousRecorded": 177,
+      "storageRemainingAtInterruption": 0,
+      "physicalBytesRemoved": true,
+      "restartedAll177": true,
+      "retentionMatches": true,
+      "catalogDifferences": 0,
+      "aclDifferences": 0,
+      "verifiedMfa": true,
+      "archiveProtected": true
+    }
+  ],
+  "historicalSource": {
+    "ceiling": 215,
+    "files": 177,
+    "root": "C:\\Users\\TOP\\.codex\\worktrees\\trial-tb-stage2\\mahdi-admin"
+  },
+  "saveFailureBeforeDelete": true,
+  "uninterrupted": {
+    "applied": 177,
+    "recorded": 177,
+    "catalog": 0,
+    "acl": 0
+  },
+  "ownerSigninTimestampsAllowed": true,
+  "negativeSnapshots": {
+    "missing": true,
+    "tampered": true,
+    "differentOwner": true,
+    "differentProject": true,
+    "differentReference": true,
+    "noMarker": true,
+    "missingMfa": true
+  },
+  "twoSessionDropFenceRejected": true,
+  "twoSessionRaceCoordination": "open transaction and observed lock wait;no timing sleeps",
+  "realCommittedWritesRejected": true,
+  "ownerMissingRejected": true,
+  "ok": true,
+  "endedAt": "2026-10-28T23:14:21.354Z",
+  "scope": "Actual isolated215 Auth/MFA/Storage retention and restart;no hosted execution",
+  "deliveryReady": false
+}

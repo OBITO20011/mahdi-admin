@@ -1,3 +1,15 @@
+#29Oct — T-B215 local acceptance complete;exact FULL49 CI next
+
+PR43 includes G1–G6 and owner-required operational215. DB79/17healthy0/restore0;HTTP4;SDK157+576;reference177/622/13;strict owner upgrade;214+215 encrypted backup/strict local R2 restore;RESET215 four real interrupted restarts;Admin1588/store203/browser124/PWA4/sixbuilds/types/strictlint/Gitleaks0 PASS. Exact finalSHA FULL49push+PR CI,secrets andcompletebackup required before review-ready. No hosted access/deploy/main update/merge/T-C. See TRIAL_TB215_QUALITY_LOCAL.json and FRANKFURT_OWNER_UPGRADE215_AR.md.
+
+#28Oct — owner approved T-B design;stage2 G1-G6 local implementation
+
+Separate codex/trial-tb-stage2 from approved PR42/322bd52;all presentedfinancial decisions approved,including restricted crossSKU/internalcredit and fullhistorical supplierpayablecredit. Read TRIAL_TB_IMPLEMENTATION_AR.md and design/TRIAL_TB_AFTERCARE_WIZARD_AR.md. Local-only tests/upgrade/PR/FULLCI then ownerapprovalSTOP;no historical migration edits or T-C.
+
+#28Oct — ordered39/40/41 merged;T-B DESIGN ONLY
+
+Main dba6c184ad9901151bbdd8c7a8cf6c40847ba311;feature39 exactFULL49each,40/41 exactFULL51each accepted. PrimaryFFwith20ownerfilehashesunchanged. New worktree codex/trial-tb-design is docs-onlystage1;no app/SQL implementation. Sourceboundwizard/refund/damage/numericexamples/mobilemockups for ownerapproval;noT-C. FinalmainCI followed inside chat,no automation. See docs/design/TRIAL_TB_AFTERCARE_WIZARD_AR.md.
+
 #28Oct — ordered integration41 local verification
 
 39 merged025df016;40 exactCI pending;41 combines approved sources and immutable proof projections. Actual local214 SDK157/543 passed,10expecteddenials. Full local tests and exactCI still required;no hosted/deploy. Then safe primary update and T-B design only;no T-C before design approval.

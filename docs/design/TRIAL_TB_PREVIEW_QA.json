@@ -1,0 +1,537 @@
+{
+  "ok": true,
+  "preparationOnly": false,
+  "referenceMainSha": "dba6c184ad9901151bbdd8c7a8cf6c40847ba311",
+  "input": "docs/design/TRIAL_TB_MOBILE_MOCKUP_AR.html",
+  "inputSha256": "b02e0e620d3c66223ffc51033cc9e232ed549823d9d8b1b2525d6167d6d37407",
+  "staticHtml": true,
+  "javascript": 0,
+  "externalRequests": 0,
+  "syntheticOnly": true,
+  "viewportChecks": 6,
+  "mockupChecks": 66,
+  "results": [
+    {
+      "engine": "chromium",
+      "width": 360,
+      "rtl": "rtl",
+      "viewport": 360,
+      "scroll": 360,
+      "cards": [
+        {
+          "name": "intent",
+          "width": 336,
+          "clipped": false
+        },
+        {
+          "name": "selection",
+          "width": 336,
+          "clipped": false
+        },
+        {
+          "name": "inspection",
+          "width": 336,
+          "clipped": false
+        },
+        {
+          "name": "supplier",
+          "width": 336,
+          "clipped": false
+        },
+        {
+          "name": "refund",
+          "width": 336,
+          "clipped": false
+        },
+        {
+          "name": "replacement",
+          "width": 336,
+          "clipped": false
+        },
+        {
+          "name": "summary",
+          "width": 336,
+          "clipped": false
+        },
+        {
+          "name": "refund-summary",
+          "width": 336,
+          "clipped": false
+        },
+        {
+          "name": "done",
+          "width": 336,
+          "clipped": false
+        },
+        {
+          "name": "damage",
+          "width": 336,
+          "clipped": false
+        },
+        {
+          "name": "advanced",
+          "width": 336,
+          "clipped": false
+        }
+      ],
+      "fields": [
+        {
+          "font": 16,
+          "height": 46
+        },
+        {
+          "font": 16,
+          "height": 46
+        },
+        {
+          "font": 16,
+          "height": 46
+        },
+        {
+          "font": 16,
+          "height": 46
+        },
+        {
+          "font": 16,
+          "height": 96
+        }
+      ],
+      "scripts": 0
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "rtl": "rtl",
+      "viewport": 390,
+      "scroll": 390,
+      "cards": [
+        {
+          "name": "intent",
+          "width": 366,
+          "clipped": false
+        },
+        {
+          "name": "selection",
+          "width": 366,
+          "clipped": false
+        },
+        {
+          "name": "inspection",
+          "width": 366,
+          "clipped": false
+        },
+        {
+          "name": "supplier",
+          "width": 366,
+          "clipped": false
+        },
+        {
+          "name": "refund",
+          "width": 366,
+          "clipped": false
+        },
+        {
+          "name": "replacement",
+          "width": 366,
+          "clipped": false
+        },
+        {
+          "name": "summary",
+          "width": 366,
+          "clipped": false
+        },
+        {
+          "name": "refund-summary",
+          "width": 366,
+          "clipped": false
+        },
+        {
+          "name": "done",
+          "width": 366,
+          "clipped": false
+        },
+        {
+          "name": "damage",
+          "width": 366,
+          "clipped": false
+        },
+        {
+          "name": "advanced",
+          "width": 366,
+          "clipped": false
+        }
+      ],
+      "fields": [
+        {
+          "font": 16,
+          "height": 46
+        },
+        {
+          "font": 16,
+          "height": 46
+        },
+        {
+          "font": 16,
+          "height": 46
+        },
+        {
+          "font": 16,
+          "height": 46
+        },
+        {
+          "font": 16,
+          "height": 96
+        }
+      ],
+      "scripts": 0
+    },
+    {
+      "engine": "chromium",
+      "width": 768,
+      "rtl": "rtl",
+      "viewport": 768,
+      "scroll": 768,
+      "cards": [
+        {
+          "name": "intent",
+          "width": 356,
+          "clipped": false
+        },
+        {
+          "name": "selection",
+          "width": 356,
+          "clipped": false
+        },
+        {
+          "name": "inspection",
+          "width": 356,
+          "clipped": false
+        },
+        {
+          "name": "supplier",
+          "width": 356,
+          "clipped": false
+        },
+        {
+          "name": "refund",
+          "width": 356,
+          "clipped": false
+        },
+        {
+          "name": "replacement",
+          "width": 356,
+          "clipped": false
+        },
+        {
+          "name": "summary",
+          "width": 356,
+          "clipped": false
+        },
+        {
+          "name": "refund-summary",
+          "width": 356,
+          "clipped": false
+        },
+        {
+          "name": "done",
+          "width": 356,
+          "clipped": false
+        },
+        {
+          "name": "damage",
+          "width": 356,
+          "clipped": false
+        },
+        {
+          "name": "advanced",
+          "width": 356,
+          "clipped": false
+        }
+      ],
+      "fields": [
+        {
+          "font": 16,
+          "height": 46
+        },
+        {
+          "font": 16,
+          "height": 46
+        },
+        {
+          "font": 16,
+          "height": 46
+        },
+        {
+          "font": 16,
+          "height": 46
+        },
+        {
+          "font": 16,
+          "height": 96
+        }
+      ],
+      "scripts": 0
+    },
+    {
+      "engine": "webkit",
+      "width": 360,
+      "rtl": "rtl",
+      "viewport": 360,
+      "scroll": 360,
+      "cards": [
+        {
+          "name": "intent",
+          "width": 336,
+          "clipped": false
+        },
+        {
+          "name": "selection",
+          "width": 336,
+          "clipped": false
+        },
+        {
+          "name": "inspection",
+          "width": 336,
+          "clipped": false
+        },
+        {
+          "name": "supplier",
+          "width": 336,
+          "clipped": false
+        },
+        {
+          "name": "refund",
+          "width": 336,
+          "clipped": false
+        },
+        {
+          "name": "replacement",
+          "width": 336,
+          "clipped": false
+        },
+        {
+          "name": "summary",
+          "width": 336,
+          "clipped": false
+        },
+        {
+          "name": "refund-summary",
+          "width": 336,
+          "clipped": false
+        },
+        {
+          "name": "done",
+          "width": 336,
+          "clipped": false
+        },
+        {
+          "name": "damage",
+          "width": 336,
+          "clipped": false
+        },
+        {
+          "name": "advanced",
+          "width": 336,
+          "clipped": false
+        }
+      ],
+      "fields": [
+        {
+          "font": 16,
+          "height": 46
+        },
+        {
+          "font": 16,
+          "height": 46
+        },
+        {
+          "font": 16,
+          "height": 46
+        },
+        {
+          "font": 16,
+          "height": 46
+        },
+        {
+          "font": 16,
+          "height": 96
+        }
+      ],
+      "scripts": 0
+    },
+    {
+      "engine": "webkit",
+      "width": 390,
+      "rtl": "rtl",
+      "viewport": 390,
+      "scroll": 390,
+      "cards": [
+        {
+          "name": "intent",
+          "width": 366,
+          "clipped": false
+        },
+        {
+          "name": "selection",
+          "width": 366,
+          "clipped": false
+        },
+        {
+          "name": "inspection",
+          "width": 366,
+          "clipped": false
+        },
+        {
+          "name": "supplier",
+          "width": 366,
+          "clipped": false
+        },
+        {
+          "name": "refund",
+          "width": 366,
+          "clipped": false
+        },
+        {
+          "name": "replacement",
+          "width": 366,
+          "clipped": false
+        },
+        {
+          "name": "summary",
+          "width": 366,
+          "clipped": false
+        },
+        {
+          "name": "refund-summary",
+          "width": 366,
+          "clipped": false
+        },
+        {
+          "name": "done",
+          "width": 366,
+          "clipped": false
+        },
+        {
+          "name": "damage",
+          "width": 366,
+          "clipped": false
+        },
+        {
+          "name": "advanced",
+          "width": 366,
+          "clipped": false
+        }
+      ],
+      "fields": [
+        {
+          "font": 16,
+          "height": 46
+        },
+        {
+          "font": 16,
+          "height": 46
+        },
+        {
+          "font": 16,
+          "height": 46
+        },
+        {
+          "font": 16,
+          "height": 46
+        },
+        {
+          "font": 16,
+          "height": 96
+        }
+      ],
+      "scripts": 0
+    },
+    {
+      "engine": "webkit",
+      "width": 768,
+      "rtl": "rtl",
+      "viewport": 768,
+      "scroll": 768,
+      "cards": [
+        {
+          "name": "intent",
+          "width": 356,
+          "clipped": false
+        },
+        {
+          "name": "selection",
+          "width": 356,
+          "clipped": false
+        },
+        {
+          "name": "inspection",
+          "width": 356,
+          "clipped": false
+        },
+        {
+          "name": "supplier",
+          "width": 356,
+          "clipped": false
+        },
+        {
+          "name": "refund",
+          "width": 356,
+          "clipped": false
+        },
+        {
+          "name": "replacement",
+          "width": 356,
+          "clipped": false
+        },
+        {
+          "name": "summary",
+          "width": 356,
+          "clipped": false
+        },
+        {
+          "name": "refund-summary",
+          "width": 356,
+          "clipped": false
+        },
+        {
+          "name": "done",
+          "width": 356,
+          "clipped": false
+        },
+        {
+          "name": "damage",
+          "width": 356,
+          "clipped": false
+        },
+        {
+          "name": "advanced",
+          "width": 356,
+          "clipped": false
+        }
+      ],
+      "fields": [
+        {
+          "font": 16,
+          "height": 46
+        },
+        {
+          "font": 16,
+          "height": 46
+        },
+        {
+          "font": 16,
+          "height": 46
+        },
+        {
+          "font": 16,
+          "height": 46
+        },
+        {
+          "font": 16,
+          "height": 96
+        }
+      ],
+      "scripts": 0
+    }
+  ]
+}

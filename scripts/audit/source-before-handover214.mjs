@@ -1,6 +1,7 @@
 import {restoreEnvironmentSourceHashes} from './source-before-environments.mjs';
 import {projectBulkImageQuerySites,pathsBeforeBulkProductImages} from './source-before-bulk-product-images.mjs';
 import {sourceBeforeReset214} from './source-before-reset214.mjs';
+import {sourceBeforeAftercare215} from './source-before-aftercare215.mjs';
 // Exact outer inverse: old acceptance evidence retains its original sources.
 import assert from 'node:assert/strict';
 import {readFileSync, readdirSync} from 'node:fs';
@@ -18,7 +19,8 @@ for (const file of readdirSync(import.meta.dirname).filter(f => f.endsWith('-hun
 }
 export function sourceBeforeHandover214(file, text) {
   if (text === null) return null;
-  const source = sourceBeforeReset214(file,text), pin = handover214Pins[file];
+  const source = sourceBeforeReset214(file,sourceBeforeAftercare215(file,text)), pin = handover214Pins[file];
+  if(source===null)return null;
   if (!pin) return source;
   const digest = hash(source);
   if (digest === pin.after) {
@@ -53,7 +55,7 @@ export function projectHandover214QuerySites(source, parseSource) {
   for (const file of new Set(source.entries.map(entry => entry.file))) {
     const supplied = source.entries.filter(entry => entry.file === file), pin = handover214Pins[file];
     if (!pin || source.sources.find(entry => entry.file === file)?.sha256 !== pin.after) {entries.push(...supplied); continue;}
-    const raw = readFileSync(new URL('../../' + file, import.meta.url), 'utf8').replaceAll('\r\n', '\n');
+    const raw = sourceBeforeAftercare215(file,readFileSync(new URL('../../' + file, import.meta.url), 'utf8'));
     const current = parseSource(file, raw).entries, keys = Object.keys(current[0] ?? {});
     assert.deepEqual(supplied.map(entry => Object.fromEntries(keys.map(key => [key, entry[key]]))), current, 'HANDOVER214_QUERY_INVENTORY_DRIFT:' + file);
     const before = sourceBeforeHandover214(file, raw);

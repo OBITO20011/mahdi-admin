@@ -2,52 +2,50 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Approved ordered39/40/41 integration;preserve approved application bytes and historical pins;fullCI before merge;safe primary;then T-B design only",
-  "baselineSha": "40cb8180c9fed8e10d4b5a2102c3df75ee63ca47",
-  "branch": "codex/trial-ta-display",
+  "objective": "Owner-approved T-B G1-G6 plus same-PR215 backup/restore/watchdog/reset-resume/one schema authority and upgrade safety;local proof/fullCI/PR43 then approvalSTOP",
+  "baselineSha": "6e25a849333f80346cd37f42065ef532ebe46fb1",
+  "branch": "codex/trial-tb-stage2",
   "phase": "PACKAGE_F",
   "completed": [
-    "39 merged025df016 after exact FULL49 each",
-    "Combined actual SDK157/543 with10expected42501",
-    "Exact historical bridge and original application-byte tests pass"
+    "Operations215 foundationnative28/strictchangedlintPASS;legacy214v2preservedinimplementation,RESET215sharedguard,5registeredtaskpreflight;actualruntimepending",
+    "Fresh215 vs214+literal215/officialrepair matches0;reference177/622functions/13Realtime/sourcefrozen;outsideGitready215 savednewname;oldrefsuntouched",
+    "Owner215 localapply/replay/strictverify0writes+5negativeACLownerpathpassed;offline215no network/reset215CLI12PASS;freshref177/622/13diff0",
+    "Realv2 encrypted214and215 backup/strictrestore/R2localUploadVerifyRestoreRemotePASS;215148tables/177files/17healthy0/noexceptions;old214archiveafter215stillrestores;ownerarchiveuntouched",
+    "RESET215 actualAuth/MFA/Storage ordinary177 plus4resumes allcatalogACL0/retentionrawsame;missing/tampered/otherowner/ref/MFA/ownerabsent and2sessionrealwritefailclosed",
+    "Final local Admin1588/store203/types/strictlint/browser124retries0/PWA4/sixbuilds/SEO/CSP/isolation/Gitleaks0 PASS;CI assethashfalsepositive repaired with3privacynegatives"
   ],
   "inProgress": [
-    "Integrate exact approved40 CI scheduling fix;full local unit/CI before ordered merge"
+    "Exact final6e25a849 FULL49 push+PR CI plus secret scanning/complete backup;then update PR43 review-ready and approvalSTOP"
   ],
   "notStarted": [
-    "Merge40 after exact fullCI;then integrate final40main into41 and fullCI/merge41",
-    "Safe primary synchronization;T-B design only then stop"
+    "T-C partial POS payments;separate later owner task",
+    "Implementation PR merge;requires owner review"
   ],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "testsPassed": [
-    "Admin1533/store200;types/lint both;builds/isolatedSEO",
-    "26browser identities:24initial+2evidence-backed environmental recheck;no source/assertion/timeouts/retries change",
-    "Actual local214 SDK157/543,10expected42501;exact approved application bytes",
-    "Approved CI scheduling integration Admin1535/types/strictlint;app/SQL byte-identical40cb8180;oldpins unchanged"
+    "DB79/17healthy/fullrestore0;HTTP4both390;SDK157+576;owner2155negative+replay/CLI;reference177/622/13diff0",
+    "Operationsnative28;actual214/215completebackup/strictrestore/R2fixture;RESET215ordinary+4resumes/negatives"
   ],
   "testsRemaining": [
-    "Gitleaks0",
-    "Exact final40 and41 SHA fullCI;merge40 before41"
+    "Exact finalSHA FULL49push+PR CI plus secrets+completebackup;ownerreview before merge"
   ],
   "findings": [
-    "No application edit beyond approved branches;one sharedSEO file clean Git merge",
-    "Preliminary focused evidence tests correctly failed until fresh combined SDK file existed",
-    "40 unsharded core reached20min twice;new40 uses exact41 approved engine split;no application/SQL changes"
+    "Owner approved operations215 insidePR43;215apply cannot precede operational support;preserve214archives andrefs"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hosted access/deploy",
-    "No DB/RPC/financial/permission changes",
-    "Preserve owner local files",
-    "No T-C before T-B design approval"
+    "No hosted project connection,deployment or credentials",
+    "No historical migration edits/backfill",
+    "No primary owner local file changes",
+    "No T-C and no implementation PR merge before owner review"
   ],
-  "nextExactAction": "Commit/push40 updated on merged39;FULL CI exact SHA then authorized merge40;next integrate41 then safe primary update and design-only T-B",
-  "startedAt": "2026-10-27T19:34:58.619Z",
-  "checkpointedAt": "2026-10-28T01:35:12.313Z",
-  "filesTouchedCount": 43,
-  "filesTouchedManifestSha256": "829504c75b289f7731352c228b58dc0b188138b106b0ff8d219db82437b91097",
-  "workingTreeFingerprint": "0C88A5136B9542922CFAB955521AC3B87CB0584FAE126A72D28B27A1C0C10DE2"
+  "nextExactAction": "Save/push completed CI UI/reference compatibility proof;then real isolated214 reset diagnosis and exactFULL49push+PR on delivery SHA;no merge",
+  "startedAt": "2026-10-28T13:06:11.980Z",
+  "checkpointedAt": "2026-10-29T00:31:30.427Z",
+  "filesTouchedCount": 10,
+  "filesTouchedManifestSha256": "753cfb410c554aadd3bfd1a008f9e484087237ef5004404fe906cae285487f14",
+  "workingTreeFingerprint": "A99D1DB7049F5D2564FAADDA691B74F54024E35FE83F8DEE96AE83F8926E1D4B"
 }

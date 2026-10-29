@@ -1,0 +1,94 @@
+{
+  "scope": "PARTIAL T-B implementation: G2/G3 inspected warranty foundation only",
+  "hostedConnections": 0,
+  "cases": [
+    {
+      "name": "214 to215 installs transactionally; every pre-existing table/sequence unchanged",
+      "passed": true
+    },
+    {
+      "name": "owner parcel example regular: +11 good/-12 replacement, cost500, profit-500, no money, immutable replay",
+      "passed": true
+    },
+    {
+      "name": "owner parcel example parcel-only: +11 good/-12 replacement, cost500, profit-500, no money, immutable replay",
+      "passed": true
+    },
+    {
+      "name": "explicit inspection all-bad has exact stock/profit; no implicit all-bad default",
+      "passed": true
+    },
+    {
+      "name": "explicit inspection all-good has exact stock/profit; no implicit all-bad default",
+      "passed": true
+    },
+    {
+      "name": "only two bad packets held, partial historical-cost receipt then one refusal; once-only loss, no drawer/debt",
+      "passed": true
+    },
+    {
+      "name": "ordinary parcel/parcel-only exception remains defective-only same-SKU; good partial parcel and unit sale rejected with zero writes",
+      "passed": true
+    },
+    {
+      "name": "existing J5 reclassifies only one inspected bad packet; good11 never become supplier claim; all-good inspection has no damage candidate",
+      "passed": true
+    },
+    {
+      "name": "changed inventory preview, forged cost and duplicate physical source all refuse without any write",
+      "passed": true
+    },
+    {
+      "name": "all staff/no-role callers: admin quantitative preview/save has no owner financial fields; supplier choice owner-only; every private helper denied",
+      "passed": true
+    },
+    {
+      "name": "anon/service role grants absent; enrolled owner AAL1 and inactive owner denied before reads/writes",
+      "passed": true
+    },
+    {
+      "name": "two real sessions/same identity: contender blocks, exact replay, one issue/restock and one physical-capacity consumption",
+      "passed": true
+    },
+    {
+      "name": "injected failures roll every table/business-number sequence back; only exact existing113 technical mutation stamps advance1/2, no partial warranty",
+      "passed": true
+    }
+  ],
+  "ok": true,
+  "migrationCanonicalLfSha256": "02f84caf71ae057320254309299b7272eef66db52c9426912550d010da2fb3b2",
+  "endedAt": "2026-10-28T13:33:29.795Z",
+  "implementationComplete": false,
+  "ownerUpgradeAvailable": false,
+  "fullDeliveryCiComplete": false,
+  "pending": [
+    "G1 read-only ordinary-return preview and UI",
+    "G4 versioned noncash cross-SKU exchange",
+    "G5 owner-only values/damage history details/net totals",
+    "G6 supplier payable credit/inverse ledger",
+    "Mixedparcel/priorphysicalleaf/exactWAC/capacity races/evidencecorruption/strictcatalog+restore/integrity",
+    "Owner215command/strictreference and full unit/browser/CI gates"
+  ],
+  "sourceArtifacts": [
+    {
+      "file": "supabase/migrations/215_inspected_aftercare_and_supplier_credit.sql",
+      "sha256": "02f84caf71ae057320254309299b7272eef66db52c9426912550d010da2fb3b2"
+    },
+    {
+      "file": "scripts/testing/aftercare215-context.mjs",
+      "sha256": "79b14520698a606dad0e2e482d7bd4fe8f8ec389eef40ee82a35f964f798dfed"
+    },
+    {
+      "file": "scripts/testing/aftercare215-inspected-runtime.mjs",
+      "sha256": "be96c6b05b50eb154478eed98719813b3a07f5244cd10f07441b89e11eaa88b2"
+    },
+    {
+      "file": "scripts/testing/aftercare215-security-runtime.mjs",
+      "sha256": "c6f3bba7690bfe99409fb7881016ff1567158361d9b0b6dcfa0d4d7b296ec273"
+    },
+    {
+      "file": "scripts/testing/run-aftercare215-runtime.mjs",
+      "sha256": "d44e1d52ee4af50ac77de4035f4869a4cd2d7af61053f5e19478afb730eefe60"
+    }
+  ]
+}

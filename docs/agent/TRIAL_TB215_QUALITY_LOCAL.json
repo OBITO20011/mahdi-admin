@@ -1,0 +1,214 @@
+{
+  "scope": "Final local T-B215 G1-G6 plus operational215 acceptance;exact feature CI follows",
+  "recordedAt": "2026-10-28T23:47:37.692Z",
+  "sourceHead": "db43f3f3354e62c49a39ff77491c93b6156a65e0",
+  "hostedConnections": 0,
+  "deployments": 0,
+  "ownerArchiveAccessed": false,
+  "ownerPrimaryCheckoutWritten": false,
+  "migrationCeiling": 215,
+  "migrationFiles": 177,
+  "migrationCanonicalLfSha256": "2d20594d6112c206a23130c43ce555ecc5357921cc9e4058019d0446223a4e57",
+  "domain": {
+    "groups": 79,
+    "integrityChecks": 17,
+    "allHealthy": true,
+    "restore": {
+      "logicalCatalogDifferences": 0,
+      "allPublicDataAndSequencesIdentical": true,
+      "replayZeroWrites": true
+    },
+    "sourceProof": "TRIAL_TB215_FROZEN_RUNTIME_LOCAL.json"
+  },
+  "http": {
+    "scenarios": 4,
+    "engines": [
+      "Chromium",
+      "WebKit"
+    ],
+    "identity": "synthetic JWT;actual SQL role/MFA guards separately verified",
+    "sourceProof": "TRIAL_TB215_FULLSTACK_LOCAL.json"
+  },
+  "operations": {
+    "archiveFormatVersion": 2,
+    "legacy214RestorePassed": true,
+    "current215TablesCompared": 148,
+    "exceptionsApplied": [],
+    "resetRestarts": 4,
+    "readyReferenceMigrations": 177,
+    "readyReferenceFunctions": 622,
+    "readyReferenceRealtimeMembers": 13,
+    "strictOwnerVerificationNegatives": [
+      "function ACL",
+      "table ACL",
+      "column ACL",
+      "function owner",
+      "search_path"
+    ],
+    "registeredBackupTasks": "five exact invocation metadata cases tested synthetically;owner tasks not read or run"
+  },
+  "quality": {
+    "admin": {
+      "passed": 1588,
+      "failed": 0,
+      "skipped": 0
+    },
+    "store": {
+      "passed": 203,
+      "failed": 0,
+      "skipped": 0
+    },
+    "rootTypes": true,
+    "storeTypes": true,
+    "strictWholeLint": true,
+    "strictChangedSeoLint": true,
+    "affectedBrowser": {
+      "startTime": "2026-10-28T23:30:35.671Z",
+      "duration": 472345.348,
+      "expected": 124,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0,
+      "engines": [
+        "Chromium",
+        "WebKit"
+      ],
+      "retries": 0
+    },
+    "pwa": {
+      "scenarios": 4,
+      "allPassed": true,
+      "externalEscapes": 0
+    },
+    "environmentBuilds": {
+      "ok": true,
+      "hostedAccess": false,
+      "builds": [
+        {
+          "ok": true,
+          "app": "admin",
+          "environment": "staging",
+          "files": 105,
+          "oppositeOrigins": 0,
+          "fixture": false
+        },
+        {
+          "ok": true,
+          "app": "customer",
+          "environment": "staging",
+          "files": 32,
+          "oppositeOrigins": 0,
+          "fixture": true
+        },
+        {
+          "ok": true,
+          "app": "admin",
+          "environment": "production",
+          "files": 105,
+          "oppositeOrigins": 0,
+          "fixture": false
+        },
+        {
+          "ok": true,
+          "app": "customer",
+          "environment": "production",
+          "files": 32,
+          "oppositeOrigins": 0,
+          "fixture": true
+        }
+      ],
+      "negativeOppositeOrigins": 4,
+      "negativeCspChanges": 4,
+      "isolatedSeoDeployRejected": 2
+    },
+    "prelaunchBuilds": {
+      "ok": true,
+      "hostedAccess": false,
+      "deployments": 0,
+      "builds": [
+        {
+          "ok": true,
+          "app": "admin",
+          "environment": "prelaunch-trial",
+          "files": 105,
+          "oppositeOrigins": 0,
+          "fixture": false
+        },
+        {
+          "ok": true,
+          "app": "customer",
+          "environment": "prelaunch-trial",
+          "files": 32,
+          "oppositeOrigins": 0,
+          "fixture": true
+        }
+      ],
+      "productionArtifactRefusals": 2,
+      "forgedProductionRefusals": 2,
+      "wrongBranchRefusals": 2,
+      "closedActualBuildRefusals": 2,
+      "closedExistingArtifactRefusals": 2,
+      "closedEnvironmentOverrideRefused": true,
+      "pwaSourceShaBound": true
+    },
+    "browserIsolation": {
+      "ok": true,
+      "browsers": [
+        "chromium",
+        "webkit"
+      ],
+      "externalRequestsEscaped": 0,
+      "productionRequestsEscaped": 0,
+      "deniedCanaryRequests": 4,
+      "deniedUnexpectedAttemptsVerified": 4
+    },
+    "gitleaks": {
+      "commitsScanned": 29,
+      "findings": 0,
+      "finalStagedScanRequired": true
+    },
+    "finalAdminAfterSeoBridge": {
+      "passed": 1588,
+      "failed": 0,
+      "skipped": 0
+    },
+    "finalFocusedContracts": 15
+  },
+  "ciCorrection": {
+    "failedRuns": [
+      40786986066,
+      40786993700
+    ],
+    "classification": "deterministic verifier false-positive on compiled resource hash",
+    "asset": "index-1tmbwaCC.js",
+    "privateDataLeak": false,
+    "correction": "Exclude only complete hashed JS/CSS URL attributes on script/link resource tags;inline content,JSON-LD,metadata,queries and other attributes still inspected",
+    "regressions": 3,
+    "financialOrApplicationCodeChanged": false,
+    "exactHistoricalBridgeEntries": 172
+  },
+  "acceptance": {
+    "localGatesPassed": true,
+    "exactFullPushAndPrCi": "pending on final delivery SHA;not claimed successful here",
+    "ownerApprovalRequiredBeforeMerge": true,
+    "nextPackageStarted": false
+  },
+  "reviewedVerifierSources": [
+    {
+      "file": "customer-web/scripts/seo-output-privacy.mjs",
+      "sha256": "26d35bffceaaf903ba61f81f2c6e34eee7416efd87202385b9650e2635a0d799"
+    },
+    {
+      "file": "customer-web/scripts/verify-seo-output.mjs",
+      "sha256": "4e87f99e6642c5d8e73ca891db2dcc9c623ea028016dc939cb161a11f361b868"
+    },
+    {
+      "file": "customer-web/tests/seo-output-privacy.test.ts",
+      "sha256": "c9f7aa6edd2055d41bb5747c2fac96a11efaf3201292690de567f3ecb811294d"
+    },
+    {
+      "file": "scripts/audit/pin-aftercare215-sources.mjs",
+      "sha256": "737c31a5160d94314c2daa9066ffd6ad71bfa6989d93b52b3609721e5e7c1b47"
+    }
+  ]
+}

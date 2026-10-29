@@ -1,0 +1,38 @@
+{
+  "cases": [
+    {
+      "name": "read-only exchange preview9000 to12000: internalcredit9000,actual difference3000,profit1300; supplier holds bad500 only",
+      "passed": true
+    },
+    {
+      "name": "read-only exchange preview9000 to7500: internalcredit7500,actual difference-1500,profit-800; supplier holds bad500 only",
+      "passed": true
+    },
+    {
+      "name": "read-only exchange preview9000 to9000: internalcredit9000,actual difference0,profit-500; supplier holds bad500 only",
+      "passed": true
+    },
+    {
+      "name": "exchange preview named missing CliQ reference; unpaid origin/sameSKU/forged money refused with all tables/sequences unchanged",
+      "passed": true
+    },
+    {
+      "name": "exchange preview parcel-only/whole-original-parcel guards and role/MFA/private DTO boundaries hold, with zero writes",
+      "passed": true
+    }
+  ],
+  "ok": true,
+  "hostedConnections": 0,
+  "scope": "G4 read-only preview only;exchange writer/financial readers/UI not delivered",
+  "implementationComplete": false,
+  "sourceArtifacts": [
+    {
+      "file": "supabase/migrations/215_inspected_aftercare_and_supplier_credit.sql",
+      "sha256": "9f426ec633ab8fdca8559cd4a45873f584ad319f1da34d622bdffa33d1927a7e"
+    },
+    {
+      "file": "scripts/testing/aftercare215-exchange-preview-runtime.mjs",
+      "sha256": "0a49bb4454ccbe1b949b736d6b4199d75b9ceab5cb0c02212c8b19d8727a7167"
+    }
+  ]
+}

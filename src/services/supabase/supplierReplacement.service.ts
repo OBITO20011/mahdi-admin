@@ -2,6 +2,8 @@ import {supabase,isSupabaseConfigured} from '../../lib/supabase';
 import {replacementRecord,readReplacementPage,readReplacementResult,type SupplierReplacementAction,type SupplierReplacementPayload} from '../../utils/supplierReplacement';
 import {withAdminActionLock} from './adminCustomerV2Lifecycle';
 import {markReplacementAttempt,prepareReplacementAttempt,readReplacementAttempt} from './supplierReplacementIntent';
+import {supplierCreditRequest215,parseSupplierCreditResult215} from '../../utils/supplierCredit215';
+import {businessErrorMessage} from '../../utils/businessError';
 const client=()=>{if(!supabase||!isSupabaseConfigured)throw new Error('خدمة استبدال المورد غير متاحة.');return supabase;};
 const actor=async()=>{const {data,error}=await client().auth.getUser();if(error||!data.user)throw new Error('تعذر التحقق من المستخدم.');return data.user.id;};
 const messages:Record<string,string>={
@@ -23,7 +25,7 @@ const messages:Record<string,string>={
   AFTERCARE211_STANDALONE_IDENTITY:'سُجّل هذا الاستبدال مسبقاً كتالف نهائي. استخدم تحويل التالف من الخيارات الإضافية.',
 };
 const rpcError=(error:{message?:string;code?:string})=>new Error(['42883','PGRST202'].includes(error.code??'')?'قدرة استبدال المورد غير متاحة بعد. يلزم تحديث قاعدة البيانات للإصدار الحالي.':
-  messages[(error.message??'').split(':')[0].trim()]??(['22P02','22003'].includes(error.code??'')?'بيانات العملية غير صالحة. أعد فتحها ومراجعتها.':error.message||'تعذر قراءة استبدال المورد.'));
+  messages[(error.message??'').split(':')[0].trim()]??((error.message??'').startsWith('SUPPLIER215_')?businessErrorMessage(error.message):['22P02','22003'].includes(error.code??'')?'بيانات العملية غير صالحة. أعد فتحها ومراجعتها.':error.message||'تعذر قراءة استبدال المورد.'));
 export async function fetchSupplierReplacementPage(supplierId?:string,status:'pending'|'closed'|'all'='pending',page=1,branchId?:string) {
   const {data,error}=await client().rpc('get_supplier_replacements_page_v1',{p_supplier_id:supplierId||null,p_branch_id:branchId||null,p_status:status,p_page:page,p_page_size:25});
   if(error)throw rpcError(error);return readReplacementPage(data);
@@ -52,6 +54,8 @@ export async function fetchSupplierReplacementPreview(action:SupplierReplacement
 }
 export async function supplierReplacementRecovery(scope:string) {return readReplacementAttempt(await actor(),scope);}
 export async function submitSupplierReplacement(scope:string,request?:{action:SupplierReplacementAction;payload:SupplierReplacementPayload;expectedNonce:string|null}) {
+  if(request)request=structuredClone(request);
+  if(request&&(request.action==='credit'||request.action==='reverse_credit'))supplierCreditRequest215(request.action,request.payload);
   const actorId=await actor();
   return withAdminActionLock(`supplier-replacement208:${actorId}:${scope}`,async()=>{
     if(await actor()!==actorId)throw new Error('تغيّر المستخدم. أعد فتح الشاشة.');
@@ -62,7 +66,10 @@ export async function submitSupplierReplacement(scope:string,request?:{action:Su
     if(attempt.status!=='succeeded')await markReplacementAttempt(attempt,'unknown');
     let response;
     try{
-      if(['replacement_supplier','reclassify_replacement','reclassify_return'].includes(attempt.action))response=await client().rpc('execute_aftercare_supplier_v1',{p_action:attempt.action,p_payload:attempt.payload,p_idempotency_key:attempt.key});
+      if(attempt.action==='credit'||attempt.action==='reverse_credit'){
+        const sealed=supplierCreditRequest215(attempt.action,attempt.payload);
+        response=await client().rpc('settle_supplier_replacement_credit_v1',{p_action:attempt.action,p_payload:sealed.payload,p_idempotency_key:attempt.key,p_preview_fingerprint:sealed.previewFingerprint});
+      }else if(['replacement_supplier','reclassify_replacement','reclassify_return'].includes(attempt.action))response=await client().rpc('execute_aftercare_supplier_v1',{p_action:attempt.action,p_payload:attempt.payload,p_idempotency_key:attempt.key});
       else response=await client().rpc('execute_supplier_replacement_v1',{p_action:attempt.action,p_payload:attempt.payload,p_idempotency_key:attempt.key});
     }
     catch{throw new Error('نتيجة العملية غير محسومة. استعد نفس المحاولة دون تسجيل طلب جديد.');}
@@ -70,9 +77,10 @@ export async function submitSupplierReplacement(scope:string,request?:{action:Su
       if(wasPrepared&&['P0001','42501','22023','23514','40001','40P01','22P02','22003'].includes(response.error.code??''))await markReplacementAttempt(attempt,'rejected');
       throw rpcError(response.error);
     }
-    const result=readReplacementResult(response.data,attempt.action,attempt.key);
+    const result=attempt.action==='credit'||attempt.action==='reverse_credit'?parseSupplierCreditResult215(attempt.action,attempt.payload,actorId,response.data):readReplacementResult(response.data,attempt.action,attempt.key);
     await markReplacementAttempt(attempt,'succeeded');
     if(await actor()!==actorId)throw new Error('تغيّر المستخدم بعد العملية. أعد فتح الشاشة.');
+    if((attempt.action==='credit'||attempt.action==='reverse_credit')&&typeof window!=='undefined')window.dispatchEvent(new CustomEvent('nawasrah:supplier-credit215-saved'));
     return result;
   });
 }

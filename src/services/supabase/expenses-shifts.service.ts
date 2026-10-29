@@ -1,5 +1,6 @@
 import { isSupabaseConfigured, supabase } from '../../lib/supabase';
 import type { Expense, Shift, ShiftClosingReport } from '../../types';
+import {exchangeClosingCredit215} from '../../utils/exchangeClosing215';
 
 type RpcRecord = Record<string, unknown>;
 
@@ -317,6 +318,8 @@ export async function fetchCashShiftClosingReportFromSupabase(
   }
 
   const sales = (payload.sales || {}) as RpcRecord;
+  const internalExchangeCreditInMinorUnits=exchangeClosingCredit215(payload);
+  const detailedSales=sales.salesDefinitionVersion===133||sales.salesDefinitionVersion===215;
   const collections = (payload.collections || {}) as RpcRecord;
   const outflows = (payload.outflows || {}) as RpcRecord;
   const reconciliation = (payload.reconciliation || {}) as RpcRecord;
@@ -342,8 +345,8 @@ export async function fetchCashShiftClosingReportFromSupabase(
       grossSales: minorUnitsToJod(sales.grossSalesInMinorUnits),
       refunds: minorUnitsToJod(sales.refundsInMinorUnits),
       netSales: minorUnitsToJod(sales.netSalesInMinorUnits),
-      ...(sales.salesDefinitionVersion === 133 ? {
-        salesDefinitionVersion: 133 as const,
+      ...(detailedSales ? {
+        salesDefinitionVersion: sales.salesDefinitionVersion as 133|215,
         collectedDirectSales: minorUnitsToJod(sales.collectedDirectSalesInMinorUnits),
         initialReceiptPayments: minorUnitsToJod(sales.initialReceiptPaymentsInMinorUnits),
         initialReceiptCash: minorUnitsToJod(sales.initialReceiptCashInMinorUnits),
@@ -351,13 +354,14 @@ export async function fetchCashShiftClosingReportFromSupabase(
         creditSales: minorUnitsToJod(sales.creditSalesInMinorUnits),
         returnEntitlement: minorUnitsToJod(sales.returnEntitlementInMinorUnits),
         debtReduction: minorUnitsToJod(sales.debtReductionInMinorUnits),
+        ...(internalExchangeCreditInMinorUnits===undefined?{}:{internalExchangeCreditInMinorUnits}),
       } : {}),
     },
     collections: {
       count: Number(collections.count) || 0,
       cash: minorUnitsToJod(collections.cashInMinorUnits),
       cliq: minorUnitsToJod(collections.cliqInMinorUnits),
-      ...(sales.salesDefinitionVersion === 133 ? {
+      ...(detailedSales ? {
         initialPayments: minorUnitsToJod(collections.initialPaymentsInMinorUnits),
         initialCash: minorUnitsToJod(collections.initialCashInMinorUnits),
         initialCliq: minorUnitsToJod(collections.initialCliqInMinorUnits),

@@ -227,5 +227,5 @@ try{
   report.reset214Interrupted={detected:true,stage:persisted.failureStage,applied:persisted.applied.length,recorded:persisted.recorded.length,recoveryRequired:true,successClaimed:false};
  }
  report.ok=true;report.storageBytesDeleted=true;report.ownerRetained=true;report.verifiedTotpRetained=true;report.staffDeleted=true;
-}catch(error){report.ok=false;report.stage=stage;report.error=error.message.split('\n')[0];process.exitCode=1;}
+}catch(error){report.ok=false;report.stage=stage;report.error=error.message.split('\n')[0];console.log(JSON.stringify({runtimeDiagnostic:'trial-reset',stage,error:report.error,output}));process.exitCode=1;}
 finally{if(local)await exec(process.execPath,[cli,'stop','--no-backup','--workdir',local],{cwd:root,windowsHide:true});report.endedAt=new Date().toISOString();await writeFile(path.join(output,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));}

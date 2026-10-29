@@ -1,0 +1,48 @@
+{
+  "scope": "G5 core display/strictDTO and signed215 report compatibility;G6ownercredit/actions full coverage pending",
+  "nativeTests": 7,
+  "browserTests": 10,
+  "engines": [
+    "Chromium",
+    "WebKit"
+  ],
+  "viewportWidth": 390,
+  "retries": 0,
+  "adminTypecheck": true,
+  "focusedStrictLint": true,
+  "gitleaksFindings": 0,
+  "ownerCardVisuallyReviewed": true,
+  "hostedConnections": 0,
+  "deliveryReady": false,
+  "old212UiFixtureMigrationPending": true,
+  "sourceArtifacts": [
+    {
+      "file": "src/utils/damageLedger215.ts",
+      "sha256": "1b0a22b14a043078ebd77fe8aa4edcabaaa98dd16516ca8090bc30c7268fc2ad"
+    },
+    {
+      "file": "src/services/supabase/damageLedger215.service.ts",
+      "sha256": "6125164c370ea7fa9da21ab15a93e6838ade54b40ad8449edab9e573ebfe4d06"
+    },
+    {
+      "file": "src/features/more/DamageHistoryPanel.tsx",
+      "sha256": "968a4c0125247254a2ac08d856e42f2a9d8a62fc4d14379e5204b403e0e89e74"
+    },
+    {
+      "file": "src/utils/supplierReplacement.ts",
+      "sha256": "e0506812ca578fcdbf26c8b34c2f774d42d25c8301ea5f328edcd428aa82b0c1"
+    },
+    {
+      "file": "src/features/inventory/SupplierReplacementPanel.tsx",
+      "sha256": "f33da343caf14f43cf68c053e2bf5f45abc71b93e7eaa785108d46814935e40e"
+    },
+    {
+      "file": "src/services/supabase/reports.service.ts",
+      "sha256": "ea4eb62637f23ad2d8354e71b20da2ffb950cd19000df7fd4365437b65d655d2"
+    },
+    {
+      "file": "src/features/reports/DamageLossReportSection.tsx",
+      "sha256": "73cf137158e311d95610fb8a6c5ffbbe878cb0d92e627a4e90c0dee839fc5a9c"
+    }
+  ]
+}

@@ -53,7 +53,7 @@ test('P1 keeps immutable208 owner evidence and fresh current SDK proof bound to 
   const old=JSON.parse(read('docs/operations/TABLE_ACCESS_AFTER_208.json')),historical=await inventoryBeforePretrialP1();
   assert.deepEqual(historical.sources,old.sourceHashes);assert.deepEqual(verifyProbeCoverage(historical,old.results),old.coverage);
   const current=await inventoryBeforeTrialOwnerA(),proof=JSON.parse(read('docs/operations/TABLE_ACCESS_AFTER_PRETRIAL_P1.json'));
-  assert.equal(JSON.parse(read('docs/agent/project-state.json')).currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_214_TRIAL_INTEGRATED.json');
+  assert.equal(JSON.parse(read('docs/agent/project-state.json')).currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_215.json');
   assert.deepEqual(current.sources,proof.sourceHashes);assert.deepEqual(verifyProbeCoverage(current,proof.results),proof.coverage);
   assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);assert.equal(proof.managedAccess,false);assert.equal(proof.results.length,142);assert.ok(proof.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));
 });

@@ -216,6 +216,12 @@ export const PurchasesView: React.FC = () => {
   const totalPaid = ordersSummary.totalPaid;
 
   // Orders waiting for receiving (Tab 2)
+  useEffect(()=>{
+    const reload=()=>{void loadData();};
+    window.addEventListener('nawasrah:supplier-credit215-saved',reload);
+    return()=>window.removeEventListener('nawasrah:supplier-credit215-saved',reload);
+  },[loadData]);
+
   const receivingOrders = orders.filter((po) =>
     ['approved', 'partially_received'].includes(po.status)
   );

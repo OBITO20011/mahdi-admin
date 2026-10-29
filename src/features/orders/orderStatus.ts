@@ -4,6 +4,7 @@ import type { UiTone } from '../../components/ui';
 export const PAYMENT_METHOD_LABELS: Record<string, string> = {
   cash: 'نقدي', cash_on_delivery: 'نقدي عند الاستلام', cliq: 'CliQ', card: 'بطاقة',
   bank_transfer: 'تحويل بنكي', cheque:'شيك', debt: 'على الحساب', mixed: 'مختلط',
+  exchange_credit:'تبديل · مقابل داخلي',
 };
 export function getPaymentLabel(order: OperationalOrderListItem): { label: string; tone: UiTone } {
   if (order.status === 'cancelled' || order.status === 'expired') return { label: 'لا مبلغ للتحصيل', tone: 'mute' };

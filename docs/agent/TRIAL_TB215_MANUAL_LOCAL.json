@@ -1,0 +1,13 @@
+{
+  "hostedConnections": 0,
+  "generation": {
+    "ok": true,
+    "ceiling": 215,
+    "functions": 622,
+    "migrations": 177,
+    "productionAccess": false
+  },
+  "manualCanonicalLfSha256": "a664e9edede2ce30f82ba97f757d09fdc33eee158d8b227ee1c8507dbd4cf45e",
+  "maintenanceGuideNativeGate": true,
+  "deliveryReady": false
+}

@@ -46,5 +46,5 @@ export function assertStrictRestoreComparison(before,after){
     // This object was freshly constructed from fixed fields;it contains no raw diff.
     error.comparison=comparison;throw error;
   }
-  return {allRowsAndHashesMatch:true,allSequencesMatch:true,rolesAndMembershipsMatch:true,catalogAclOwnerSettingsMatch:true,historyMatch:true,storageMetadataMatch:true};
+  return {allRowsAndHashesMatch:true,allSequencesMatch:true,rolesAndMembershipsMatch:true,catalogAclOwnerSettingsMatch:true,historyMatch:true,storageMetadataMatch:true,exceptionsApplied:[]};
 }

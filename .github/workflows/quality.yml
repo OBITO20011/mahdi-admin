@@ -294,7 +294,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset, warehouse-management, owner-withdrawals, deferred-cheques, opening-cheques, legacy-product-cost, home-damage201, all-collections202, all-collections203, sales-history204, product-receiving205, navigation-cash206, document-corrections207, supplier-replacement208, parcel209, receipt210, aftercare211, trial212, handover213, handover214, reset214-resume, prelaunch-trial, bulk-product-images]
+        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset, warehouse-management, owner-withdrawals, deferred-cheques, opening-cheques, legacy-product-cost, home-damage201, all-collections202, all-collections203, sales-history204, product-receiving205, navigation-cash206, document-corrections207, supplier-replacement208, parcel209, receipt210, aftercare211, trial212, handover213, handover214, reset214-resume, prelaunch-trial, bulk-product-images, aftercare215]
     env:
       NAWASRAH_PACKAGE_D_CURRENT: '1'
     steps:
@@ -573,7 +573,7 @@ jobs:
         run: npm --prefix customer-web ci
 
       - name: Install fullstack browsers
-        if: matrix.suite == 'pos-browser' || matrix.suite == 'bulk-product-images'
+        if: matrix.suite == 'pos-browser' || matrix.suite == 'bulk-product-images' || matrix.suite == 'aftercare215'
         run: |
           # Keep Ubuntu's signed packages; avoid the Azure mirror that exhausted
           # the job budget twice while downloading browser system dependencies.
@@ -584,6 +584,10 @@ jobs:
             exit 1
           fi
           npx playwright install --with-deps chromium webkit
+
+      - name: Inspected aftercare215 exact money roles races restore strict upgrade and current SDK
+        if: matrix.suite == 'aftercare215'
+        run: node scripts/testing/run-aftercare215-gates.mjs
 
       - name: Prove bulk product images with actual local Auth,Storage,RPC and both browsers
         if: matrix.suite == 'bulk-product-images'

@@ -1,0 +1,15 @@
+{
+  "startedAt": "2026-10-28T22:51:34.120Z",
+  "managedAccess": false,
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-reference215-PJDPHM",
+  "target": "C:\\Users\\TOP\\NawasrahFrankfurt\\nawasrah-fra-001-138\\local-reference-through215-ready.json",
+  "ok": true,
+  "migrations": 177,
+  "functions": 622,
+  "realtimeMembers": 13,
+  "freshIncrementalDifferenceCount": 0,
+  "repositoryStayedFrozen": true,
+  "endedAt": "2026-10-28T22:54:53.881Z",
+  "scope": "Local ready215 fresh versus214 plus215;actualownerpipeline stillpending",
+  "deliveryReady": false
+}

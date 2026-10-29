@@ -5,6 +5,7 @@ import test from 'node:test';
 import {SEO_BRAND} from '../customer-web/src/config/seoBrand';
 import {execFileSync} from 'node:child_process';
 import {storeIdentityPins,sourceBeforeStoreIdentity} from '../scripts/audit/source-before-store-sharing-identity.mjs';
+import {pathsBeforeAftercare215} from '../scripts/audit/source-before-aftercare215.mjs';
 
 test('share image is 1200x630 JPEG below300KB and original square logo is byte-identical',()=>{
  const jpeg=readFileSync('customer-web/public/nawasrah-social-card.jpg');assert.ok(jpeg.length<300_000);
@@ -33,5 +34,5 @@ test('exact identity adapter preserves every prior source byte and rejects extra
   const source=readFileSync(file,'utf8');assert.equal(sourceBeforeStoreIdentity(file,source),before,file);
   if(file.startsWith('src/')||file.startsWith('customer-web/'))assert.throws(()=>sourceBeforeStoreIdentity(file,source+'\nvoid unapproved;'),/HANDOVER214_UNREVIEWED_SOURCE:STORE_IDENTITY/u);
  }
- assert.equal(execFileSync('git',['diff','--name-only','f95ff0458f90298edc21e39859d3268c7f7ccac7','--','supabase','scripts/audit/*-hunks.json','scripts/audit/*-inverse.json'],{encoding:'utf8'}).trim(),'');
+ assert.deepEqual(pathsBeforeAftercare215(execFileSync('git',['diff','--name-only','f95ff0458f90298edc21e39859d3268c7f7ccac7','--','supabase','scripts/audit/*-hunks.json','scripts/audit/*-inverse.json'],{encoding:'utf8'}).trim().split('\n').filter(Boolean)),[]);
 });

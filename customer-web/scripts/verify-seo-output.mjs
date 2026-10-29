@@ -1,6 +1,7 @@
 import {access, readFile} from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {hasPrivateSeoFields} from './seo-output-privacy.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'dist');
@@ -72,7 +73,7 @@ if (productLocation) {
   invariant(types.has('Product') && types.has('BreadcrumbList'), 'product schema is incomplete');
   invariant(html.includes(`rel="canonical" href="${productLocation}"`), 'product canonical does not match sitemap');
   invariant(html.includes('property="og:type" content="product"'), 'product Open Graph type is missing');
-  invariant(!/wac|supplier|reservedQuantity|availableQuantity/iu.test(html), 'product SEO leaks a private field');
+  invariant(!hasPrivateSeoFields(html), 'product SEO leaks a private field');
 }
 if (categoryLocation) {
   const categoryRoute = new URL(categoryLocation).pathname;

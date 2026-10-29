@@ -46,13 +46,13 @@ test('171 admission rejects client/PUBLIC correction grants,legacy EXECUTE bypas
 
 test('historical171 real evidence has exact current-source query coverage,no errors,and closed RPC-only correction/legacy writers',async()=>{
  const source=await inventory(),proof=JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_AFTER_171.json','utf8'));
- assert.equal(source.migrationCeiling,214);assert.equal(proof.migrationCeiling,171);assert.equal(proof.managedAccess,false);
+ assert.equal(source.migrationCeiling,215);assert.equal(proof.migrationCeiling,171);assert.equal(proof.managedAccess,false);
  assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);assert.deepEqual(proof.sourceHashes,await sourceBefore198Presentation(source.sources));
  assert.deepEqual(verifyProbeCoverage(source,proof.results),proof.coverage);assert.ok(proof.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));
  assertProduct171Catalog(proof.catalog);
  const services=JSON.parse(readFileSync('docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json','utf8'));
- assert.equal(services.migrationCeiling,214);assert.equal(services.ok,true);
- assert.deepEqual(services.results.filter((r:{sqlstate:string|null})=>r.sqlstate==='42501').map((r:{name:string;appRole:string})=>[r.name,r.appRole]).sort(),['get_supplier_replacements_page_v1','execute_aftercare_supplier_v1','preview_aftercare_supplier_v1','get_aftercare_damage_candidates_v1','get_damage_history_page_v1'].flatMap(name=>['admin','cashier'].map(role=>[name,role])).sort());
+ assert.equal(services.migrationCeiling,215);assert.equal(services.ok,true);
+ assert.deepEqual(services.results.filter((r:{sqlstate:string|null})=>r.sqlstate==='42501').map((r:{name:string;appRole:string})=>[r.name,r.appRole]).sort(),['get_supplier_replacements_page_v1','execute_aftercare_supplier_v1','preview_aftercare_supplier_v1','get_aftercare_damage_candidates_v1','get_damage_history_page_v1','get_damage_ledger_page_v2','preview_supplier_replacement_credit_v1','get_supplier_replacement_credits_v1','settle_supplier_replacement_credit_v1'].flatMap(name=>['admin','cashier'].map(role=>[name,role])).sort());
 });
 
 test('all frontend RPC callsites exclude unversioned product writers,not only products.service',async()=>{

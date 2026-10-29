@@ -4,6 +4,7 @@ import test from 'node:test';
 import type {SupabaseClient} from '@supabase/supabase-js';
 import {runAdminAftercareMutation} from '../src/services/supabase/adminAftercareRecovery';
 import {runCustomerV2AdminAction} from '../src/services/supabase/adminCustomerV2Lifecycle';
+import {installAftercareIndexedDbFixture} from './helpers/aftercareIndexedDb';
 
 const actor = '43210000-0000-4000-8000-000000000001';
 const order = '43210000-0000-4000-8000-000000000002';
@@ -31,9 +32,10 @@ for (const kind of ['aftercare', 'lifecycle'] as const) {
   }) => Promise<void>) {
     const storageDescriptor = Object.getOwnPropertyDescriptor(globalThis, 'localStorage');
     const navigatorDescriptor = Object.getOwnPropertyDescriptor(globalThis, 'navigator');
+    const restoreIndexedDb=installAftercareIndexedDbFixture();
     const storage = {raw: null as string | null, reads: 0, writes: 0,
       onRead: undefined as ((reads: number) => void) | undefined,
-      getItem() {this.reads += 1; this.onRead?.(this.reads); return this.raw;},
+      getItem(key:string) {if(kind==='aftercare'&&!key.endsWith(':replacement'))return null;this.reads += 1; this.onRead?.(this.reads); return this.raw;},
       setItem(_key: string, value: string) {this.writes += 1; this.raw = value;}};
     Object.defineProperty(globalThis, 'localStorage', {value: storage, configurable: true});
     Object.defineProperty(globalThis, 'navigator', {value: {locks: {
@@ -61,6 +63,7 @@ for (const kind of ['aftercare', 'lifecycle'] as const) {
       storage.reads = 0; storage.writes = 0;
       await work({storage, pending, unknown, success, result, request, run});
     } finally {
+      restoreIndexedDb();
       if (storageDescriptor) Object.defineProperty(globalThis, 'localStorage', storageDescriptor);
       else Reflect.deleteProperty(globalThis, 'localStorage');
       if (navigatorDescriptor) Object.defineProperty(globalThis, 'navigator', navigatorDescriptor);

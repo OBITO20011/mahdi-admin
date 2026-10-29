@@ -1,0 +1,14 @@
+{
+  "scope": "Local focused proof before final static-DDL215 revision;final full frozen runtime remains mandatory",
+  "hostedConnections": 0,
+  "oldReversalAccepted": false,
+  "zeroWrites": true,
+  "ordinarySaleStillReversible": true,
+  "full215ReturnStillWorks": true,
+  "strictDbLint": {
+    "newWarnings": 0,
+    "acceptedHistoricalWarnings": 16,
+    "policy": "unchanged package-d-db-lint-policy.mjs"
+  },
+  "sourceSqlCanonicalSha256": "3f09ed8ebd10a6649ba5b24035c06e1dac4292a4ae5cd2ac31f53002a7cd5626"
+}

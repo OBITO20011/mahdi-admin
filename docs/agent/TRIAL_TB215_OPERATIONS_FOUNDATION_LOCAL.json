@@ -1,0 +1,23 @@
+{
+  "scope": "Owner29Oct samePR operations215 implementation foundation;fullruntime NOT YET accepted",
+  "nativeTests": 28,
+  "strictChangedSourceLint": true,
+  "backupArchiveFormat": 2,
+  "acceptedCompleteHistories": [
+    214,
+    215
+  ],
+  "currentManifestFiles": 177,
+  "newReset": "frankfurt-owner-reset215",
+  "legacyReset214UnchangedAdmission": true,
+  "registeredTasksBeforeUpgradeConnection": 5,
+  "hostedConnections": 0,
+  "pending": [
+    "fresh/incremental215reference",
+    "214and215strictbackup/restore/R2roundtrip",
+    "RESET215 fourinterruptions plusnegativecases",
+    "upgrade215strictACLownerpathnegative andoffline",
+    "fullquality/exactCI"
+  ],
+  "deliveryReady": false
+}

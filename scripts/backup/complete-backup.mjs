@@ -13,7 +13,7 @@ import {verifyBackupArchive} from './verify-backup.mjs';
 import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
 import {platformPostInitSql} from '../testing/backup-restore-contract.mjs';
 import {sha256} from '../offsite-backup/offsite-core.mjs';
-import {migrationManifest} from '../testing/maintenance-db-contract.mjs';
+import {assertOperationalHistory} from '../operations/operational-schema.mjs';
 import {partitionRestoreToc,prepareRestoreExtensions,restoredPlatformSql,assertPlatformTocRestored} from './restore-platform.mjs';
 import {restoreToolError,saveRestoreLogs} from './restore-log.mjs';
 import {assertStrictRestoreComparison} from './restore-comparison.mjs';
@@ -78,9 +78,8 @@ export async function createCompleteBackup({projectRef,outputRoot,passphrase,ret
     session=source.session();
     await session.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY;');
     const snapshot=(await session.query('SELECT pg_export_snapshot();')).trim();assert.match(snapshot,/^[0-9A-F]+-[0-9A-F]+-[0-9]+$/u);
-    stage='source-evidence';const before=await captureEvidence(session);assert.equal(before.history.at(-1),'214','COMPLETE_BACKUP_REQUIRES_REVIEWED_214');
-    const expected=(await migrationManifest(path.resolve(import.meta.dirname,'../..'))).filter(m=>Number(m.name.slice(0,3))<=214).map(m=>m.name.slice(0,3));
-    assert.equal(expected.length,176);assert.deepEqual(before.history,expected,'COMPLETE_BACKUP_HISTORY_HAS_GAPS_OR_UNREVIEWED_VERSION');
+    stage='source-evidence';const before=await captureEvidence(session);
+    const accepted=await assertOperationalHistory(before.history);
     // dump roles under a separate connection; concurrent role/DDL/Storage/sequence changes abort below.
     stage='roles-dump';await source.roles(path.join(content,'database','roles.sql'));
     stage='complete-dump';
@@ -106,7 +105,7 @@ export async function createCompleteBackup({projectRef,outputRoot,passphrase,ret
     await verifyBackupArchive({archivePath:partial,passphrase});const archivePath=path.join(outputRoot,name);await rename(partial,archivePath);
     const prior=(await readdir(outputRoot)).filter(n=>/^nawasrah-backup-[0-9TZ-]+\.nwb$/u.test(n)).sort().reverse();
     for(const old of prior.slice(retentionCount))await rm(path.join(outputRoot,old));
-    status={ok:true,projectRef,formatVersion:2,finishedAt:new Date().toISOString(),archiveName:name,archivePath,archiveBytes:(await stat(archivePath)).size,sha256:await sha256(archivePath),storageObjectCount:objects.length,historyCeiling:214,retentionCount};return status;
+    status={ok:true,projectRef,formatVersion:2,finishedAt:new Date().toISOString(),archiveName:name,archivePath,archiveBytes:(await stat(archivePath)).size,sha256:await sha256(archivePath),storageObjectCount:objects.length,historyCeiling:accepted.ceiling,historyFiles:accepted.files,retentionCount};return status;
   }catch(cause){status={ok:false,projectRef,stage,finishedAt:new Date().toISOString(),error:'COMPLETE_BACKUP_FAILED_NO_SUCCESS_CLAIM',diagnostic:postgresDiagnostic(cause,{stage})};throw diagnosticError(status.error,status.diagnostic);}
   finally{await session?.close().catch(()=>{});await rm(partial,{force:true});await rm(work,{recursive:true,force:true});if(status)await writeFile(path.join(outputRoot,'last-backup-status.json'),JSON.stringify(status,null,2)+'\n');}
 }
@@ -121,7 +120,8 @@ export async function restoreCompleteBackup({archivePath,passphrase,reportPath,r
   try{
     await verifyBackupArchive({archivePath,passphrase,extractTo:content});const manifest=JSON.parse(await readFile(path.join(content,'manifest.json'),'utf8'));
     assert.equal(manifest.formatVersion,2);assertApprovedBackupProject(manifest.projectRef);
-    const before=JSON.parse(await readFile(path.join(content,'database','source-evidence.json'),'utf8'));assert.equal(before.history.at(-1),'214');
+    const before=JSON.parse(await readFile(path.join(content,'database','source-evidence.json'),'utf8'));
+    const accepted=await assertOperationalHistory(before.history);
     assert.match(before.preload,/^[a-z_]+(?:,\s*[a-z_]+)*$/u);
     // No port, live volume or external network. No database URL is accepted by this API.
     stage='isolated-cluster-start';await docker(['run','--detach','--rm','--network','none','--name',container,'--entrypoint','sleep',IMAGE,'infinity']);started=true;
@@ -172,7 +172,7 @@ export async function restoreCompleteBackup({archivePath,passphrase,reportPath,r
     const integrity=(scan?.checks??[]).filter(c=>c.key.startsWith('integrity:')).map(({key,status,issueCount})=>({key,status,issueCount}));
     assert.ok(integrity.length>5,'RESTORE_INTEGRITY_SCAN_MISSING');
     assert.ok(integrity.every(c=>c.status==='healthy'&&Number(c.issueCount)===0),'RESTORE_EXISTING_INTEGRITY_CHECK_FAILED');
-    report={ok:true,projectRef:manifest.projectRef,mode:'isolated-complete-restore',postgresImage:IMAGE,completedAt:new Date().toISOString(),hostedConnectionsMade:false,network:'none',liveVolumesModified:false,historyCeiling:214,tablesCompared:Object.keys(before.tables).length,storageObjectsCompared:manifest.storageObjects.length,integrityChecks:integrity,tocCoverage:restorePartition.proof,extensions:extensionProof,platform:platformProof,cronSequenceAcl:cronAclProof,...proof};return report;
+    report={ok:true,projectRef:manifest.projectRef,mode:'isolated-complete-restore',postgresImage:IMAGE,completedAt:new Date().toISOString(),hostedConnectionsMade:false,network:'none',liveVolumesModified:false,historyCeiling:accepted.ceiling,historyFiles:accepted.files,tablesCompared:Object.keys(before.tables).length,storageObjectsCompared:manifest.storageObjects.length,integrityChecks:integrity,tocCoverage:restorePartition.proof,extensions:extensionProof,platform:platformProof,cronSequenceAcl:cronAclProof,...proof};return report;
   }catch(cause){
     failure=cause;report={ok:false,stage,mode:'isolated-complete-restore',completedAt:new Date().toISOString(),hostedConnectionsMade:false,...(cronAclProof?{cronSequenceAcl:cronAclProof}:{}),error:'COMPLETE_RESTORE_FAILED',diagnostic:postgresDiagnostic(cause,{stage,tool:['restore-complete-dump','restore-schemas','restore-toc'].includes(stage)?'pg_restore':'internal'})};
   }finally{

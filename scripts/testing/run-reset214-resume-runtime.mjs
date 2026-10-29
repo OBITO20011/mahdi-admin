@@ -19,6 +19,7 @@ import {readNotificationSnapshot,transitionNotifications} from '../operations/fr
 import {sqlLiteral as q} from '../operations/trial-reset-core.mjs';
 import {sha256} from './maintenance-db-contract.mjs';
 import {localTotp} from './local-totp.mjs';
+import {stageHistoricalResetSource} from './historical-reset-source.mjs';
 const exec=promisify(execFile),root=path.resolve(import.meta.dirname,'../..'),cli=path.join(root,'node_modules/supabase/dist/supabase.js');
 const output=await mkdtemp(path.join(tmpdir(),'nawasrah-reset214-resume-')),project='nawasrah-reset214-resume-test',executor=persistentLocalExecutor(executorFor(['--container','supabase_db_'+project]));
 const report={output,managedAccess:false,startedAt:new Date().toISOString(),cases:[]};let local,stage='bootstrap';
@@ -27,6 +28,8 @@ const json=async s=>JSON.parse(await sql(s));
 try{
  const referenceFile=process.argv[2];assert.ok(referenceFile,'LOCAL214_REFERENCE_REQUIRED');
  const reference=await readReady214Reference(root,referenceFile),referenceSha256=sha256(await readFile(referenceFile));
+ const sourceRoot=await stageHistoricalResetSource(root,reference);
+ report.historicalSource={ceiling:214,files:176,root:sourceRoot};
  const boot=await exec(process.execPath,['scripts/testing/bootstrap-isolated-supabase.mjs'],{cwd:root,windowsHide:true,maxBuffer:8*1024**2,env:{...process.env,
   NAWASRAH_ISOLATED_PROJECT_ID:project,NAWASRAH_MAX_MIGRATION:'214',NAWASRAH_SKIP_REDUNDANT_DB_RESET:'true',
   NAWASRAH_SUPABASE_EXCLUDE:'realtime,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor'}});
@@ -55,7 +58,7 @@ try{
  const run=async(session,stop)=>{
   const progress=await startResetAttempt(session,executor);
   const r=progress,ex=session.executor;
-  await reset214WithExecutor({executor:ex,root,reference,output:session.output,ownerId,session,report:r,
+  await reset214WithExecutor({executor:ex,root:sourceRoot,reference,output:session.output,ownerId,session,report:r,
    emptyStorage:async()=>{const files=await json("SELECT COALESCE(jsonb_agg(name ORDER BY name),'[]') FROM storage.objects WHERE bucket_id='product-images';");
     if(files.length)assert.equal((await admin.storage.from('product-images').remove(stop==='after-storage'?files.slice(0,1):files)).error,null);
     if(stop==='after-storage')throw new Error('RESET214_SIMULATED_INTERRUPTION');},

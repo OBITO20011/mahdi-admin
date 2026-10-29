@@ -1,0 +1,189 @@
+{
+  "scope": "G1 sealed/pure return and G2/G3/G6 DB foundations only;G4/G5/UI/owner215/full delivery pending",
+  "hostedConnections": 0,
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-aftercare215-tL7Vhf",
+  "cases": [
+    {
+      "name": "214 to215 installs transactionally; every pre-existing table/sequence unchanged",
+      "passed": true
+    },
+    {
+      "name": "owner parcel example regular: +11 good/-12 replacement, cost500, profit-500, no money, immutable replay",
+      "passed": true
+    },
+    {
+      "name": "owner parcel example parcel-only: +11 good/-12 replacement, cost500, profit-500, no money, immutable replay",
+      "passed": true
+    },
+    {
+      "name": "explicit inspection all-bad has exact stock/profit; no implicit all-bad default",
+      "passed": true
+    },
+    {
+      "name": "explicit inspection all-good has exact stock/profit; no implicit all-bad default",
+      "passed": true
+    },
+    {
+      "name": "only two bad packets held, partial historical-cost receipt then one refusal; once-only loss, no drawer/debt",
+      "passed": true
+    },
+    {
+      "name": "ordinary parcel/parcel-only exception remains defective-only same-SKU; good partial parcel and unit sale rejected with zero writes",
+      "passed": true
+    },
+    {
+      "name": "existing J5 reclassifies only one inspected bad packet; good11 never become supplier claim; all-good inspection has no damage candidate",
+      "passed": true
+    },
+    {
+      "name": "changed inventory preview, forged cost and duplicate physical source all refuse without any write",
+      "passed": true
+    },
+    {
+      "name": "all staff/no-role callers: admin quantitative preview/save has no owner financial fields; supplier choice owner-only; every private helper denied",
+      "passed": true
+    },
+    {
+      "name": "anon/service role grants absent; enrolled owner AAL1 and inactive owner denied before reads/writes",
+      "passed": true
+    },
+    {
+      "name": "two real sessions/same identity: contender blocks, exact replay, one issue/restock and one physical-capacity consumption",
+      "passed": true
+    },
+    {
+      "name": "injected failures roll every table/business-number sequence back; only exact existing113 technical mutation stamps advance1/2, no partial warranty",
+      "passed": true
+    },
+    {
+      "name": "held1000 becomes actual supplier payable50000 to49000; no stock/cash/payment/profit change; explicit statement; replay and receive/refusal/old-inverse guards",
+      "passed": true
+    },
+    {
+      "name": "paired owner credit inverse restores payable and pending asset together once, without stock/cash/profit; repeated inverse denied/replay immutable",
+      "passed": true
+    },
+    {
+      "name": "supplier credit cannot exceed actual evidenced payable; no fabricated opening balance/payment/expense",
+      "passed": true
+    },
+    {
+      "name": "partial credit and partial in-kind receipt remain separate; later case decision blocks inverse with no side effect",
+      "passed": true
+    },
+    {
+      "name": "later supplier financial membership/payment blocks credit inverse; cached-balance coincidence cannot erase dependency",
+      "passed": true
+    },
+    {
+      "name": "1000.6 exact historical cost across three partial credits rounds cumulatively1001+1000+1001=3002, not3003",
+      "passed": true
+    },
+    {
+      "name": "two independent sessions credit vs receipt/refusal in both lock orders: one decision wins, loser waits then zero effect, no duplicate liability/stock/loss",
+      "passed": true
+    },
+    {
+      "name": "failure between held-asset ledger and supplier balance rolls every table and every sequence back; no half credit",
+      "passed": true
+    },
+    {
+      "name": "forged one-fils credit fails independent immutable historical-cost/event proof; transaction leaves all original evidence intact",
+      "passed": true
+    },
+    {
+      "name": "credit preview/write/ledger owner-only before replay; enrolled AAL1, staff, no-role, anon/service role/private helper all denied without writes",
+      "passed": true
+    },
+    {
+      "name": "read-only full-parcel preview cash: default/refund/debt/11good1bad exactly match existing121/122 financial coordinator",
+      "passed": true
+    },
+    {
+      "name": "read-only full-parcel preview cliq: default/refund/debt/11good1bad exactly match existing121/122 financial coordinator",
+      "passed": true
+    },
+    {
+      "name": "read-only full-parcel preview debt: default/refund/debt/11good1bad exactly match existing121/122 financial coordinator",
+      "passed": true
+    },
+    {
+      "name": "CliQ default never reuses payment reference; missing refund reference has an explicit field-level refusal",
+      "passed": true
+    },
+    {
+      "name": "existing full-debt sale then separate old collection: same-invoice250 reduced first, actual500 refund; no T-C upfront partial-sale implementation",
+      "passed": true
+    },
+    {
+      "name": "discounted2251/3 cumulative preview equals actual750+750+751; final packet takes exact remainder",
+      "passed": true
+    },
+    {
+      "name": "new preview classifies independent packets; original legacy route remains fail-closed for mixed packet inspection until v2 admission",
+      "passed": true
+    },
+    {
+      "name": "admin sees only permitted settlement amounts; owner cost/profit omitted; manager/private helper/forged cost denied without writes",
+      "passed": true
+    },
+    {
+      "name": "sealed return final: matches preview,11good1bad, exact money/profit, immutable whole-operation replay",
+      "passed": true
+    },
+    {
+      "name": "sealed return supplier: matches preview,11good1bad, exact money/profit, immutable whole-operation replay",
+      "passed": true
+    },
+    {
+      "name": "new v2 atomically classifies independent packets1good1bad; old public route still refuses same shape despite remaining stock/capacity; changed identity rejected",
+      "passed": true
+    },
+    {
+      "name": "pre-existing legacy return cannot acquire a retroactive v2 envelope or supplier tail with the same key",
+      "passed": true
+    },
+    {
+      "name": "one atomic refund with two bad SKUs can hold only the chosen supplier packet; other bad packet stays final, no forced all-defects claim",
+      "passed": true
+    },
+    {
+      "name": "changed debt/collection invalidates the sealed preview; unresolved CliQ reference is a named refusal before context/financial writes",
+      "passed": true
+    },
+    {
+      "name": "two actual sessions on sealed return key block then replay one refund/restock; one physical capacity consumption",
+      "passed": true
+    },
+    {
+      "name": "failure after actual refund/restock/supplier hold rolls all money/debt/stock/claims/envelopes back; only one existing113 technical stamp consumed",
+      "passed": true
+    }
+  ],
+  "ok": true,
+  "migrationCanonicalLfSha256": "c49e8c5725b5f1d6a52a80a4afc905a13be5ac05098ccb85005d4bdadc848397",
+  "endedAt": "2026-10-28T15:31:31.922Z",
+  "implementationComplete": false,
+  "sourceArtifacts": [
+    {
+      "file": "supabase/migrations/215_inspected_aftercare_and_supplier_credit.sql",
+      "sha256": "c49e8c5725b5f1d6a52a80a4afc905a13be5ac05098ccb85005d4bdadc848397"
+    },
+    {
+      "file": "scripts/testing/run-aftercare215-runtime.mjs",
+      "sha256": "1b6889eff50a60fe761aca07d6717584a30c35e575b93dc2360f1c85e4000a89"
+    },
+    {
+      "file": "scripts/testing/aftercare215-return-v2-runtime.mjs",
+      "sha256": "bdee9408dbe5f2ec1b27a3558a9923821b08d7e76bc2e694eb7cbe3c554b3cb1"
+    },
+    {
+      "file": "scripts/testing/aftercare215-return-preview-runtime.mjs",
+      "sha256": "dfde9ca9719cf24167a940fa81d917883aaa67df8ac36b23c9942837f790ddea"
+    },
+    {
+      "file": "scripts/testing/aftercare215-context.mjs",
+      "sha256": "08cc91964212683096f3d02866dea781d3f9d5f3f5ff994ba23c41a82e1f2330"
+    }
+  ]
+}

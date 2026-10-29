@@ -1,6 +1,7 @@
 /**
  * Nawasrah Business Manager - Core Types & Interfaces
  */
+import type {ExchangeReceiptFunding} from '../../customer-web/src/receipts/exchangeFunding';
 
 export type Role =
   | 'Owner'
@@ -276,7 +277,8 @@ export type PaymentMethod =
   | 'card'
   | 'bank_transfer'
   | 'debt'
-  | 'mixed';
+  | 'mixed'
+  | 'exchange_credit';
 export type PaymentStatus =
   | 'unpaid'
   | 'partially_paid'
@@ -344,6 +346,7 @@ export interface Order {
   locationConfirmed?: boolean;
   trackingToken?: string;
   publicReceiptUrl?: string;
+  exchangeFunding?: ExchangeReceiptFunding;
   deliveryStartedAt?: string;
   estimatedArrivalAt?: string;
   deliveryCompletedAt?: string;
@@ -404,6 +407,7 @@ export interface Invoice {
   paidAmount: number;
   remainingAmount: number;
   paymentMethod: PaymentMethod;
+  exchangeFunding?: ExchangeReceiptFunding;
   status: 'draft' | 'posted' | 'cancelled' | 'refunded';
   isReturned?: boolean;
   returnReason?: string;
@@ -545,7 +549,8 @@ export interface ShiftClosingReport {
     grossSales: number;
     refunds: number;
     netSales: number;
-    salesDefinitionVersion?: 133;
+    salesDefinitionVersion?: 133|215;
+    internalExchangeCreditInMinorUnits?: string;
     collectedDirectSales?: number;
     initialReceiptPayments?: number;
     initialReceiptCash?: number;

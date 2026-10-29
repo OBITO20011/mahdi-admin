@@ -1,5 +1,7 @@
 import React from 'react';
 import {receiptLineDescription,receiptMoney,type ReceiptDocumentData} from './commercialReceipt';
+import {exchangeFundingLines} from './exchangeFunding';
+import {formatExactMinorJod} from './exactMoney';
 
 /** One stateless template for POS, order-history reprints and token-authorized public receipts. */
 export function ReceiptDocument({receipt}:{receipt:ReceiptDocumentData}){
@@ -16,15 +18,18 @@ export function ReceiptDocument({receipt}:{receipt:ReceiptDocumentData}){
     <ul aria-label="أصناف الوصل" style={{padding:0,margin:'8px 0',listStyle:'none'}}>
       {receipt.lines.map(line=><li key={line.key} data-receipt-line style={{display:'flex',alignItems:'start',justifyContent:'space-between',gap:12,padding:'6px 0',borderBottom:'1px dashed #d1d5db'}}>
         <span><strong>{line.name}</strong><br/><span data-receipt-line-description>{receiptLineDescription(line)}</span></span>
-        <bdi dir="ltr" style={{whiteSpace:'nowrap'}}>{receiptMoney(line.totalInMinorUnits)}</bdi>
+        <bdi dir="ltr" style={{whiteSpace:'nowrap'}}>{line.totalInMinorUnitsExact?formatExactMinorJod(line.totalInMinorUnitsExact):receiptMoney(line.totalInMinorUnits)}</bdi>
       </li>)}
     </ul>
     <dl style={{margin:0}}>
-      <ReceiptAmount label="المجموع الفرعي" amount={receipt.subtotalInMinorUnits}/>
+      {receipt.exchangeFunding?<ReceiptExactAmount label="المجموع الفرعي" amount={receipt.exchangeFunding.newTotalInMinorUnits}/>:<ReceiptAmount label="المجموع الفرعي" amount={receipt.subtotalInMinorUnits}/>}
       {receipt.discountInMinorUnits>0&&<ReceiptAmount label="الخصم" amount={receipt.discountInMinorUnits}/>}
       {receipt.deliveryInMinorUnits>0&&<ReceiptAmount label="التوصيل" amount={receipt.deliveryInMinorUnits}/>}
-      <ReceiptAmount label="الإجمالي" amount={receipt.totalInMinorUnits}/>
+      {receipt.exchangeFunding?<ReceiptExactAmount label="الإجمالي" amount={receipt.exchangeFunding.newTotalInMinorUnits}/>:<ReceiptAmount label="الإجمالي" amount={receipt.totalInMinorUnits}/>}
       <div style={{display:'flex',justifyContent:'space-between',gap:12}}><dt>طريقة الدفع</dt><dd style={{margin:0}}>{receipt.paymentLabel}</dd></div>
+      {receipt.exchangeFunding&&<div aria-label="مقابل التبديل وفرق المال" style={{margin:'8px 0',borderTop:'1px dashed #9ca3af',paddingTop:6}}>
+        <dt>تفصيل التبديل</dt><dd style={{margin:0}}>{exchangeFundingLines(receipt.exchangeFunding).map(line=><p key={line} style={{margin:0,fontWeight:700}}>{line}</p>)}</dd>
+      </div>}
       {(receipt.remainingInMinorUnits??0)>0&&<ReceiptAmount label="المتبقي على العميل" amount={receipt.remainingInMinorUnits!}/>}
       {(receipt.changeInMinorUnits??0)>0&&<ReceiptAmount label="الباقي للزبون" amount={receipt.changeInMinorUnits!}/>}
     </dl>
@@ -33,6 +38,9 @@ export function ReceiptDocument({receipt}:{receipt:ReceiptDocumentData}){
 }
 function ReceiptAmount({label,amount}:{label:string;amount:number}){
   return <div style={{display:'flex',justifyContent:'space-between',gap:12}}><dt>{label}</dt><dd style={{margin:0,fontWeight:700}}><bdi dir="ltr">{receiptMoney(amount)}</bdi></dd></div>;
+}
+function ReceiptExactAmount({label,amount}:{label:string;amount:string}){
+ return <div style={{display:'flex',justifyContent:'space-between',gap:12}}><dt>{label}</dt><dd style={{margin:0,fontWeight:700}}><bdi dir="ltr">{formatExactMinorJod(amount)}</bdi></dd></div>;
 }
 export function ReceiptPrintStyle(){return <style>{`@media print {
   @page { size:80mm auto; margin:4mm; }

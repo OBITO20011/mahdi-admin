@@ -1,0 +1,39 @@
+// Local UI -> real production service/recovery -> PostgREST/JWT -> literal215.
+// Auth session identity alone is synthetic;no hosted source or credential.
+import assert from 'node:assert/strict';import {execFile} from 'node:child_process';import {promisify} from 'node:util';import {mkdtemp,writeFile} from 'node:fs/promises';import {tmpdir} from 'node:os';import path from 'node:path';import {createHmac} from 'node:crypto';
+import {chromium,webkit,expect} from '@playwright/test';
+import {aftercare215Context} from './aftercare215-context.mjs';import {startIsolatedVite} from './isolated-vite-server.mjs';import {loadPinnedPostgrestImage} from './pinned-postgrest-image.mjs';import {readVerificationSourceFreeze,assertVerificationSourceFreeze} from './verification-source-freeze.mjs';
+const root=path.resolve(import.meta.dirname,'../..'),exec=promisify(execFile),cli=path.join(root,'node_modules/supabase/dist/supabase.js'),project='nawasrah-tb215-test',rest='nawasrah-tb215-ui-rest',url='http://127.0.0.1:4188',restUrl='http://127.0.0.1:25423';
+const output=await mkdtemp(path.join(tmpdir(),'nawasrah-aftercare215-fullstack-')),report={output,hostedConnections:0,authScope:'synthetic local JWT identity;real DB roles/RLS/MFA guards',cases:[]};let local,vite,restStarted=false,fixture,browser,stage='bootstrap';
+const counts={};const secret='isolated-table-access-audit-signing-material-only';
+const jwt=claims=>{const parts=[{alg:'HS256',typ:'JWT'},claims].map(x=>Buffer.from(JSON.stringify(x)).toString('base64url'));return parts.join('.')+'.'+createHmac('sha256',secret).update(parts.join('.')).digest('base64url');};
+try{
+ const frozen=await readVerificationSourceFreeze(root);const boot=await exec(process.execPath,[path.join(root,'scripts/testing/bootstrap-isolated-supabase.mjs')],{cwd:root,windowsHide:true,maxBuffer:8*1024**2,env:{...process.env,NAWASRAH_ISOLATED_PROJECT_ID:project,NAWASRAH_MAX_MIGRATION:'215',NAWASRAH_SKIP_REDUNDANT_DB_RESET:'true',NAWASRAH_SUPABASE_EXCLUDE:'gotrue,kong,postgrest,realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor'}});local=JSON.parse(boot.stdout).isolatedProjectRoot;
+ const c=aftercare215Context('supabase_db_'+project);await c.initialize();const image=await loadPinnedPostgrestImage();
+ await exec('docker',['run','-d','--name',rest,'--network','supabase_network_'+project,'-p','127.0.0.1:25423:3000','-e','PGRST_DB_URI=postgresql://authenticator:postgres@db:5432/postgres','-e','PGRST_DB_SCHEMAS=public','-e','PGRST_DB_ANON_ROLE=anon','-e','PGRST_JWT_SECRET='+secret,image],{windowsHide:true});restStarted=true;
+ const deadline=Date.now()+15000;while(true){try{if((await fetch(restUrl)).ok)break;}catch{/* readiness only */}assert.ok(Date.now()<deadline,'LOCAL_POSTGREST_READINESS');await new Promise(r=>setTimeout(r,100));}
+ const accessToken=jwt({sub:c.owner,role:'authenticated',aal:'aal2',exp:Math.floor(Date.now()/1000)+3600});
+ const proxy={name:'tb215-local-rpc-only',configureServer(server){server.middlewares.use(async(req,res,next)=>{
+  if(req.url==='/__tb215_fixture'){res.setHeader('Content-Type','application/json');res.end(JSON.stringify(fixture));return;}
+  if(!req.url?.startsWith('/rest/v1/'))return next();
+  try{const rpc=req.url.split('?')[0].split('/').at(-1);counts[rpc]=(counts[rpc]??0)+1;let body='';for await(const part of req)body+=part;
+   const response=await fetch(restUrl+req.url.slice('/rest/v1'.length),{method:req.method,headers:{...(req.headers.authorization?{Authorization:req.headers.authorization}:{}),'Content-Type':'application/json',Accept:req.headers.accept??'application/json'},...(body?{body}:{})});
+   res.statusCode=response.status;res.setHeader('Content-Type',response.headers.get('content-type')??'application/json');res.end(await response.text());
+  }catch{res.statusCode=500;res.end('{"message":"LOCAL_PROXY_FAILED"}');}
+ });}};
+ vite=await startIsolatedVite({root,port:4188,env:{VITE_SUPABASE_URL:url,VITE_SUPABASE_ANON_KEY:jwt({role:'anon',exp:Math.floor(Date.now()/1000)+3600})},config:{plugins:[proxy]}});
+ for(const [engine,type]of[['Chromium',chromium],['WebKit',webkit]]){browser=await type.launch();
+  for(const held of [false,true]){stage=engine+(held?'-supplier':'-final');const sale=await c.setup(),before=await c.facts(),beforeMoney=await c.money();fixture={orderId:sale.sale.orderId,ownerId:c.owner,accessToken};
+   const context=await browser.newContext({viewport:{width:390,height:844}}),page=await context.newPage(),violations=[];await page.route('**/*',route=>{const u=new URL(route.request().url());if(u.origin===url)return route.continue();violations.push(u.origin);return route.abort();});
+   await page.goto(url+'/e2e/aftercare215-fullstack-harness.html');await page.getByRole('button',{name:'إرجاع أو استبدال',exact:true}).click();await page.getByRole('button',{name:'يبدّل',exact:true}).click();await page.getByRole('button',{name:'التالي',exact:true}).click();await page.getByRole('button',{name:'طرد كامل',exact:true}).click();await page.getByRole('button',{name:'التالي',exact:true}).click();
+   await page.getByLabel('الخربان · طرد اختبار الفحص',{exact:true}).fill('1');await page.getByLabel('فحصت الباكيتات الراجعة',{exact:true}).check();await page.getByRole('button',{name:'التالي',exact:true}).click();await page.getByRole('button',{name:held?'على المورد — بانتظار البديل':'خسارة عليّ — تالف نهائي',exact:true}).click();
+   if(held)await expect(page.getByLabel('مورد طرد اختبار الفحص',{exact:true})).toHaveValue(c.supplier);
+   await page.getByRole('button',{name:'التالي',exact:true}).click();const untouched=await c.fingerprint(),writeCount=counts.settle_inspected_sales_replacement_v2??0;
+   await page.getByRole('button',{name:'معاينة التفاصيل',exact:true}).click();await expect(page.getByTestId('aftercare215-preview')).toBeVisible();assert.deepEqual(await c.fingerprint(),untouched,'REAL_PREVIEW_ZERO_WRITES');assert.equal(counts.settle_inspected_sales_replacement_v2??0,writeCount);await expect(page.getByTestId('aftercare215-preview')).toContainText('11 باكيت');
+   await page.screenshot({path:path.join(output,engine+(held?'-supplier':'-final')+'-390.png'),fullPage:true});await page.getByRole('button',{name:'تأكيد الاستبدال',exact:true}).click();await expect(page.getByRole('status')).toContainText('تم الاستبدال');assert.equal(counts.settle_inspected_sales_replacement_v2,writeCount+1);
+   assert.deepEqual(await c.stock(sale.pid),{quantity:99,wac:'500.000000',reserved:0});assert.equal((await c.facts()).sales.netProfitInMinorUnits-before.sales.netProfitInMinorUnits,held?0:-500);assert.deepEqual(await c.money(),beforeMoney,'NO_DRAWER_DEBT_OR_PAYABLE_CHANGED');
+   const inspected=await c.json(`SELECT jsonb_build_object('good',i.good_quantity,'bad',i.bad_quantity,'held',i.supplier_case_id IS NOT NULL)FROM aftercare215_inspection_items i JOIN aftercare215_inspections p ON p.operation_id=i.operation_id WHERE p.order_id=${c.q(sale.sale.orderId)};`);assert.deepEqual(inspected,{good:11,bad:1,held});assert.deepEqual(violations,[]);assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));report.cases.push({engine,held,passed:true,restocked:11,bad:1,stock:99,profitDelta:held?0:-500,previewZeroWrites:true,writerCalls:1});await context.close();
+  }await browser.close();browser=null;
+ }
+ assertVerificationSourceFreeze(frozen,await readVerificationSourceFreeze(root));report.repositoryStayedFrozen=true;report.ok=true;
+}catch(error){Object.assign(report,{ok:false,stage,error:error.message});process.exitCode=1;}finally{await browser?.close();await vite?.close();if(restStarted)await exec('docker',['rm','-f',rest],{windowsHide:true});if(local)await exec(process.execPath,[cli,'stop','--no-backup','--workdir',local],{cwd:root,windowsHide:true});await writeFile(path.join(output,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));}

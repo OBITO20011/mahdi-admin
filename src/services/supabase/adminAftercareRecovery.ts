@@ -1,7 +1,12 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { withAdminActionLock } from './adminCustomerV2Lifecycle';
+import {aftercare215Actions,aftercare215SuccessMatches,type Aftercare215Action} from '../../utils/aftercare215Contracts';
+import {claimAftercareFence,finishAftercareFence,readAftercareFence} from './adminAftercareFence';
+import {assertAftercare215Request} from './aftercare215Rpc';
 
-export type AdminAftercareAction = 'return' | 'replacement';
+export type AdminAftercareAction = 'return' | 'replacement' | Aftercare215Action;
+export const adminAftercareActions:readonly AdminAftercareAction[]=['return','replacement',...aftercare215Actions];
+const modern=(action:AdminAftercareAction):action is Aftercare215Action=>(aftercare215Actions as readonly string[]).includes(action);
 export type AdminAftercareIntent = 'START_NEW' | 'RECOVER_EXISTING';
 type AttemptStatus = 'PREPARED' | 'IN_FLIGHT' | 'OUTCOME_UNKNOWN' |
   'DEFINITIVELY_REJECTED' | 'SUCCEEDED';
@@ -31,7 +36,7 @@ export interface AdminAftercareRecoveryState {
   recoverable: boolean;
 }
 
-const definitiveRejections: Record<AdminAftercareAction, ReadonlySet<string>> = {
+const definitiveRejections: Record<'return'|'replacement', ReadonlySet<string>> = {
   replacement: new Set([
     'PARCEL209_REPLACEMENT_WHOLE_PARCEL_REQUIRED',
     'PHASE4_LOGICAL_QUANTITY_ALREADY_CONSUMED', 'PHASE4_REPLACEMENT_WINDOW_INVALID',
@@ -64,6 +69,17 @@ const definitiveRejections: Record<AdminAftercareAction, ReadonlySet<string>> = 
     'PHASE43_RETURN_PHYSICAL_SOURCES_INVALID', 'PHASE43_RETURN_RESTOCK_LINEAGE_INCOMPLETE',
   ]),
 };
+const modernRejections=new Set([
+  'AFTERCARE215_PREVIEW_REQUIRED','AFTERCARE215_PREVIEW_CHANGED','AFTERCARE215_REQUEST_INVALID',
+  'AFTERCARE215_INSPECTION_INVALID','AFTERCARE215_DUPLICATE_SOURCE','AFTERCARE215_ORDER_REQUIRED',
+  'AFTERCARE215_ORDER_UNAVAILABLE','AFTERCARE215_HISTORICAL_SOURCE_UNAVAILABLE','AFTERCARE215_CURRENT_COST_UNAVAILABLE',
+  'AFTERCARE215_WHOLE_PARCEL_INSPECTION_REQUIRED','AFTERCARE215_RETURN_REQUEST_INVALID',
+  'AFTERCARE215_REFUND_METHOD_REQUIRED','AFTERCARE215_REFUND_METHOD_INVALID','AFTERCARE215_OPEN_SHIFT_REQUIRED',
+  'AFTERCARE215_REFERENCE_REQUIRED','AFTERCARE215_EXCHANGE_REQUEST_INVALID','AFTERCARE215_EXCHANGE_DEBT_UNSUPPORTED',
+  'AFTERCARE215_EXCHANGE_PRODUCT_INVALID','AFTERCARE215_EXCHANGE_WHOLE_PARCEL_REQUIRED',
+  'AFTERCARE215_EXCHANGE_REPLACEMENT_INVALID','AFTERCARE215_DIFFERENCE_METHOD_REQUIRED',
+  'SUPPLIER_REPLACEMENT_SUPPLIER_INVALID','SUPPLIER_REPLACEMENT_RETURN_ASSIGNMENTS_INVALID',
+]);
 // These SQLSTATEs are emitted by validated Phase-4 request/business guards. A
 // matching response proves that the PostgreSQL statement aborted, so there is
 // no commit to recover. Serialization/deadlock/transport failures deliberately
@@ -88,7 +104,7 @@ const isStatus = (value: unknown): value is AttemptStatus => typeof value === 's
 const isAttempt = (value: unknown): value is AftercareAttempt => isObject(value)
   && value.version === 2 && typeof value.actorId === 'string'
   && typeof value.orderId === 'string'
-  && (value.action === 'return' || value.action === 'replacement')
+  && adminAftercareActions.includes(value.action as AdminAftercareAction)
   && typeof value.intentId === 'string' && typeof value.attemptId === 'string'
   && typeof value.idempotencyKey === 'string' && typeof value.requestFingerprint === 'string'
   && isObject(value.request) && isStatus(value.status)
@@ -104,9 +120,13 @@ const isDefinitiveRejection = (
   data: unknown,
 ) => {
   if (data !== null || !isObject(error) || typeof error.code !== 'string') return false;
-  const identity = extractIdentity(error.message);
+  const identity = modern(action)&&typeof error.message==='string'
+    ? error.message.match(/^([A-Z][A-Z0-9_]{4,})(?::|$)/u)?.[1]??null
+    : extractIdentity(error.message);
   // Named209 guard rolls back before writes; other serialization failures keep recovery.
   if(error.code==='40001'&&identity==='PARCEL209_FAMILY_CHANGED_RETRY')return true;
+  if(modern(action))return error.code==='42501'||identity!==null&&definitiveRejectionSqlStates.has(error.code)
+    &&(modernRejections.has(identity)||definitiveRejections.return.has(identity)||definitiveRejections.replacement.has(identity));
   return identity !== null && definitiveRejectionSqlStates.has(error.code)
     && definitiveRejections[action].has(identity);
 };
@@ -155,6 +175,7 @@ const successMatches = (
   request: Record<string, unknown>,
   value: unknown,
 ): value is Record<string, unknown> => {
+  if(modern(action))return aftercare215SuccessMatches(action,orderId,request,value);
   if (!isObject(value) || value.success !== true || value.orderId !== orderId
     || !uuid(value.operationId)) return false;
   if (action === 'replacement') {
@@ -270,9 +291,14 @@ export async function readAdminAftercareRecoveryState(
 ): Promise<AdminAftercareRecoveryState | null> {
   if (typeof localStorage === 'undefined') return null;
   const actorId = await currentActor(client);
+  const fence=await readAftercareFence(actorId,orderId);
   const raw = localStorage.getItem(storageKeyFor(actorId, orderId, action));
-  if (raw === null) return null;
+  if (raw === null) {
+    if(fence?.status==='pending'&&fence.action===action)throw reviewRequired();
+    return null;
+  }
   const attempt = await validateAttempt(JSON.parse(raw), actorId, orderId, action);
+  if(fence?.status==='pending'&&fence.action===action&&(['attemptId','idempotencyKey','requestFingerprint'] as const).some(k=>fence[k]!==attempt[k]))throw reviewRequired();
   return {
     action, status: attempt.status, intentId: attempt.intentId,
     attemptId: attempt.attemptId, generation: attempt.generation,
@@ -294,16 +320,30 @@ export async function runAdminAftercareMutation(
   // Capture caller-owned data before authentication, Web Lock acquisition, or
   // any other await. The persisted identity and the RPC receive this snapshot.
   const capturedRequest = submittedRequest === null ? null : structuredClone(submittedRequest);
+  if(modern(action)&&capturedRequest!==null)assertAftercare215Request(action,orderId,capturedRequest);
   if (typeof localStorage === 'undefined') {
     throw new Error('AFTERCARE_RECOVERY_UNAVAILABLE: التخزين المحلي مطلوب للتعافي الآمن.');
   }
   const actorId = await currentActor(client);
   const storageKey = storageKeyFor(actorId, orderId, action);
-  const lockName = `${prefix}lock:${actorId}:${orderId}:${action}`;
+  const lockName = `${prefix}lock:${actorId}:${orderId}:all-actions`;
 
   return withAdminActionLock(lockName, async () => {
     const lockedActor = await currentActor(client);
     if (lockedActor !== actorId) throw reviewRequired();
+    const fence=await readAftercareFence(actorId,orderId);
+    if(fence?.status==='pending'&&(intent==='START_NEW'||fence.action!==action)){
+      throw new Error('AFTERCARE_OUTCOME_UNKNOWN: استعد المحاولة السابقة قبل بدء إجراء جديد.');
+    }
+    // Import old pending records conservatively. A corrupt/foreign record stops
+    // the operation; it is never discarded to make a new attempt possible.
+    for(const other of adminAftercareActions){
+      if(other===action)continue;
+      const rawOther=localStorage.getItem(storageKeyFor(actorId,orderId,other));
+      if(rawOther===null)continue;
+      const previous=await validateAttempt(JSON.parse(rawOther),actorId,orderId,other);
+      if(['IN_FLIGHT','OUTCOME_UNKNOWN'].includes(previous.status))throw new Error('AFTERCARE_OUTCOME_UNKNOWN: استعد المحاولة السابقة قبل تغيير نوع العملية.');
+    }
     let attempt!: AftercareAttempt;
     let previousObservation: AftercareAttempt | null | undefined;
     // A granted Web Lock does not flush WebKit's localStorage snapshot. Re-read
@@ -317,14 +357,19 @@ export async function runAdminAftercareMutation(
           throw new Error('AFTERCARE_RECOVERY_NOT_FOUND: لا توجد محاولة معلقة للتعافي.');
         }
         attempt = await validateAttempt(JSON.parse(raw), actorId, orderId, action);
+        if(modern(action))assertAftercare215Request(action,orderId,attempt.request);
+        if(fence?.status==='pending'&&(['attemptId','idempotencyKey','requestFingerprint'] as const).some(k=>fence[k]!==attempt[k]))throw reviewRequired();
         existing = attempt;
         if (previousObservation !== undefined && (previousObservation === null
           || !sameAttemptIdentity(existing, previousObservation))) throw reviewRequired();
         if (capturedRequest !== null && !sameRequest(attempt.request, capturedRequest)) {
           throw reviewRequired();
         }
-        if (!['IN_FLIGHT', 'OUTCOME_UNKNOWN'].includes(attempt.status)) {
-          if (attempt.status === 'SUCCEEDED') return {data: attempt.result!, error: null};
+        if (!['IN_FLIGHT', 'OUTCOME_UNKNOWN'].includes(attempt.status)&&!(modern(action)&&attempt.status==='SUCCEEDED')) {
+          if (attempt.status === 'SUCCEEDED') {
+            if(fence?.status==='pending')await finishAftercareFence(attempt);
+            return {data: attempt.result!, error: null};
+          }
           throw new Error('AFTERCARE_RECOVERY_NOT_AVAILABLE: المحاولة الحالية ليست معلقة.');
         }
       } else {
@@ -357,21 +402,26 @@ export async function runAdminAftercareMutation(
         previousObservation = existing;
         continue;
       }
-      attempt = {...attempt, status: 'IN_FLIGHT', generation: attempt.generation + 1,
+      // New coordinators re-prove a saved success by replaying the same server
+      // key. Local cached results alone cannot authorize a second operation.
+      const {result:_previousResult,...pendingAttempt}=attempt;
+      attempt = {...pendingAttempt, status: 'IN_FLIGHT', generation: attempt.generation + 1,
         hadUnknownOutcome: attempt.hadUnknownOutcome
-          || attempt.status === 'IN_FLIGHT' || attempt.status === 'OUTCOME_UNKNOWN'};
+          || attempt.status === 'IN_FLIGHT' || attempt.status === 'OUTCOME_UNKNOWN'||modern(action)&&attempt.status==='SUCCEEDED'};
       save(storageKey, attempt);
       break;
     }
     const sentAttempt = structuredClone(attempt);
+    await claimAftercareFence(sentAttempt);
 
     let response: {data: unknown; error: any};
     try {
+      if(await currentActor(client)!==actorId)throw reviewRequired();
       response = await invoke(attempt.idempotencyKey, structuredClone(attempt.request));
     } catch (error) {
       const fresh = await validateAttempt(JSON.parse(localStorage.getItem(storageKey) || 'null'),
         actorId, orderId, action);
-      if (completedSameAttempt(fresh, sentAttempt)) return {data: fresh.result!, error: null};
+      if (completedSameAttempt(fresh, sentAttempt)) {await finishAftercareFence(sentAttempt);return {data: fresh.result!, error: null};}
       if (!sameAttemptIdentity(fresh, sentAttempt)) throw reviewRequired();
       if (fresh.status !== 'IN_FLIGHT') throw reviewRequired();
       save(storageKey, {...fresh, status: 'OUTCOME_UNKNOWN', hadUnknownOutcome: true});
@@ -380,12 +430,13 @@ export async function runAdminAftercareMutation(
 
     const fresh = await validateAttempt(JSON.parse(localStorage.getItem(storageKey) || 'null'),
       actorId, orderId, action);
-    if (completedSameAttempt(fresh, sentAttempt)) return {data: fresh.result!, error: null};
+    if (completedSameAttempt(fresh, sentAttempt)) {await finishAftercareFence(sentAttempt);return {data: fresh.result!, error: null};}
     if (!sameAttemptIdentity(fresh, sentAttempt)) throw reviewRequired();
     if (fresh.status !== 'IN_FLIGHT') throw reviewRequired();
     if (!response.error && successMatches(action, orderId, fresh.request, response.data)) {
       const result = structuredClone(response.data);
       save(storageKey, {...fresh, status: 'SUCCEEDED', result});
+      await finishAftercareFence(sentAttempt);
       return {data: result, error: null};
     }
     if (response.error) {
@@ -394,6 +445,7 @@ export async function runAdminAftercareMutation(
       save(storageKey, {...fresh,
         status: canReject ? 'DEFINITIVELY_REJECTED' : 'OUTCOME_UNKNOWN',
         hadUnknownOutcome: fresh.hadUnknownOutcome || !canReject});
+      if(canReject)await finishAftercareFence(sentAttempt);
       return {data: null, error: response.error};
     }
     save(storageKey, {...fresh, status: 'OUTCOME_UNKNOWN', hadUnknownOutcome: true});

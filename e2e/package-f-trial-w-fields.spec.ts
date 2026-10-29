@@ -66,13 +66,13 @@ async function aftercareMocks(page:Page){
     warehouses:[],lastSuppliers:[{productId:'juice',supplierId:supplier,supplierName:'المورد الموثق'}]}}));
 }
 test('W5 aftercare supplier replacement fields390',async({page},info)=>{
-  await aftercareMocks(page);await page.setViewportSize({width:390,height:844});await page.goto('/e2e/phase6-package-b-harness.html');
+  await aftercareMocks(page);await page.setViewportSize({width:390,height:844});await page.goto('/e2e/phase6-package-b-harness.html');await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();
   await page.getByRole('button',{name:'استبدال وحدة · عصير برتقال · البديل الذي أعطيته',exact:true}).click();
   await page.getByLabel('مصير الحبة المعيبة',{exact:true}).selectOption('supplier');await expect(page.getByLabel('المورد',{exact:true})).toHaveValue(supplier);
   await capture(page,info,'aftercare-replacement');
 });
 test('W5 aftercare supplier return fields390',async({page},info)=>{
-  await aftercareMocks(page);await page.setViewportSize({width:390,height:844});await page.goto('/e2e/phase6-package-b-harness.html');
+  await aftercareMocks(page);await page.setViewportSize({width:390,height:844});await page.goto('/e2e/phase6-package-b-harness.html');await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();
   await page.getByRole('button',{name:'إرجاع الطرد كاملاً',exact:true}).click();
   await page.getByRole('combobox',{name:'مصير عيب المورد غير القابل للبيع',exact:true}).selectOption('supplier');await expect(page.getByRole('combobox',{name:'المورد',exact:true})).toHaveValue(supplier);
   await capture(page,info,'aftercare-return');
@@ -80,7 +80,7 @@ test('W5 aftercare supplier return fields390',async({page},info)=>{
 test('W5 supplier safety conversion fields390',async({page},info)=>{
   await aftercareMocks(page);await page.route('**/rest/v1/rpc/get_aftercare_damage_candidates_v1',r=>r.fulfill({json:{contractVersion:211,
     candidates:[{kind:'replacement',id:'source-damage',productId:'juice',productName:'عصير برتقال',quantity:1,occurredAt:'2026-10-23T01:00:00Z',blockedReason:null}]}}));
-  await page.setViewportSize({width:390,height:844});await page.goto('/e2e/phase6-package-b-harness.html');
+  await page.setViewportSize({width:390,height:844});await page.goto('/e2e/phase6-package-b-harness.html');await page.getByText('خيارات متقدمة · القدرات السابقة وتحويل التالف',{exact:true}).click();
   await page.getByRole('button',{name:'خيارات التالف النهائي',exact:true}).click();await page.getByRole('button',{name:'حوّله للمورد بانتظار البديل',exact:true}).click();
   await expect(page.getByLabel('مورد التالف',{exact:true})).toHaveValue(supplier);await capture(page,info,'aftercare-safety');
 });

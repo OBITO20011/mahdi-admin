@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "scope": "T-B stage1 design only",
+  "baseMain": "dba6c184ad9901151bbdd8c7a8cf6c40847ba311",
+  "implementationAuthorized": false,
+  "productCodeChanged": false,
+  "newDatabaseContractExecuted": false,
+  "designApproved": false,
+  "hostedAccess": false,
+  "deployments": 0,
+  "migrationCeiling": 214,
+  "migrationFiles": 176,
+  "localChecks": {
+    "sourceFacts": 18,
+    "sourceFiles": 18,
+    "syntheticScenarios": 42,
+    "exactArithmeticChecks": 188,
+    "precisionCases": 2,
+    "staticHtmlMockups": 11,
+    "viewportChecks": 6,
+    "mockupChecks": 66,
+    "engines": [
+      "chromium",
+      "webkit"
+    ],
+    "widths": [
+      360,
+      390,
+      768
+    ],
+    "javascript": 0,
+    "externalRequests": 0,
+    "agentContinuityTests": 5,
+    "docsOnlyScope": true,
+    "primaryOwnerFilesPreserved": 20
+  },
+  "ownerReviewDecisions": [
+    "Approve one wizard andversioned inspected warranty flow without changing historical events",
+    "Approve proposed noncash crossSKU exchange contract and safe initialscope,or revisepolicy beforeimplementation",
+    "Approve/defer supplier payable credit;208currentlyhasno suchwriter"
+  ],
+  "deliveryGate": "Exact docs-head FULL push+PR CI and finalmain FULL CI;Gitleaks0;owner designapproval beforemerge/implementation;noT-C",
+  "sourceEvidence": "docs/design/TRIAL_TB_SOURCE_EVIDENCE.json",
+  "previewEvidence": "docs/design/TRIAL_TB_PREVIEW_QA.json",
+  "examples": "docs/design/TRIAL_TB_EXAMPLES.json"
+}

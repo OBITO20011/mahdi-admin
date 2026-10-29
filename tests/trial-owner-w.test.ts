@@ -28,7 +28,7 @@ test('W exact additive inverse preserves the delivered base and rejects unapprov
  }
  const changed=execFileSync('git',['diff','--name-only',base,'--','supabase','scripts/audit/*-hunks.json'],{encoding:'utf8'}).trim().split('\n').filter(Boolean);
  assert.deepEqual(pathsBeforeHandover213(changed).filter(file=>!['scripts/audit/trial-owner-w-hunks.json','scripts/audit/trial-owner-r-hunks.json','supabase/migrations/212_trial_readable_cash_product_choices_damage_history.sql'].includes(file)),[],'No SQL/RPC changes or edits to earlier immutable source pins');
- const state=JSON.parse(readFileSync('docs/agent/project-state.json','utf8'));assert.equal(state.migrationCeiling,214);
+ const state=JSON.parse(readFileSync('docs/agent/project-state.json','utf8'));assert.equal(state.migrationCeiling,215);
 });
 
 test('W preserves every service/Supabase call and keeps authority modules unchanged',()=>{

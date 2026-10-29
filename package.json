@@ -122,7 +122,11 @@
     "build:production": "node scripts/environments/run-context.mjs production admin",
     "build:staging": "node scripts/environments/run-context.mjs staging admin",
     "build:prelaunch-trial": "node scripts/environments/run-context.mjs prelaunch-trial admin",
-    "deploy:prelaunch-trial": "node scripts/deployment/deploy-prelaunch-trial.mjs admin"
+    "deploy:prelaunch-trial": "node scripts/deployment/deploy-prelaunch-trial.mjs admin",
+    "test:aftercare215:runtime": "node scripts/testing/run-aftercare215-runtime.mjs",
+    "frankfurt-owner-upgrade215": "node scripts/operations/frankfurt-owner-upgrade215.mjs",
+    "frankfurt-owner-reset215": "node scripts/operations/frankfurt-owner-reset215.mjs",
+    "test:operations-schema": "node --import tsx --test tests/operational-schema.test.ts"
   },
   "dependencies": {
     "@fontsource/ibm-plex-sans-arabic": "5.3.0",

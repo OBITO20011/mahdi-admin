@@ -1,5 +1,6 @@
 import { isSupabaseConfigured, supabase } from '../lib/supabase';
 import type { PublicPosReceipt } from '../types/receipt';
+import {parseExchangeFunding} from '../receipts/exchangeFunding';
 
 type RpcRecord = Record<string, unknown>;
 
@@ -35,7 +36,9 @@ export async function fetchPublicPosReceipt(
   }
 
   const branch = recordValue(payload.branch);
+  if(payload.paymentMethod==='exchange_credit'&&payload.exchange==null)throw new Error('تفصيل وصل التبديل غير متاح. أعد تحميل الرابط.');
   return {
+    ...(payload.exchange!=null?{exchangeFunding:parseExchangeFunding(payload.exchange)}:{}),
     orderNumber: stringValue(payload.orderNumber),
     createdAt: stringValue(payload.createdAt),
     status: stringValue(payload.status),

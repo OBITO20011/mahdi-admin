@@ -9,6 +9,8 @@ import type { Order } from '../../types';
 import {allocateBaseReturn, assertCompleteReturnAllocation, assertReturnCapacityUnchanged, singleSkuPhysicalQuantity,wholeParcelReplacementItems} from './aftercarePresentation';
 import {businessErrorMessage} from '../../utils/businessError';
 import {AftercareSupplierSafety} from './AftercareSupplierSafety';
+import {AftercareWizard215} from './AftercareWizard215';
+import type {AdminAftercareAction} from '../../services/supabase/adminAftercareRecovery';
 import {
   fetchAdminAftercareContext,
   fetchAdminAftercareRecoveryStates,
@@ -123,8 +125,8 @@ export const AdminAftercarePanel: React.FC<Props> = ({
         parcel.components.flatMap((component) => component.physicalRepresentatives)),
     ];
   }, [context]);
-  const hasPendingRecovery = recoveryStates.return?.recoverable === true
-    || recoveryStates.replacement?.recoverable === true||supplierAttempt?.status==='unknown'||supplierAttempt?.status==='prepared'
+  const hasPendingRecovery = Object.values(recoveryStates).some(state=>state?.recoverable===true)
+    ||supplierAttempt?.status==='unknown'||supplierAttempt?.status==='prepared'
     ||(isOwner&&safetyBlocked);
 
   if (loading) return (
@@ -300,7 +302,7 @@ export const AdminAftercarePanel: React.FC<Props> = ({
       setBusy(false);
     }
   };
-  const runRecovery = async (action: 'return' | 'replacement') => {
+  const runRecovery = async (action: AdminAftercareAction) => {
     setBusy(true);
     try {
       const result = await recoverAdminAftercare(order.id, action);
@@ -352,9 +354,15 @@ export const AdminAftercarePanel: React.FC<Props> = ({
             onClick={() => void runRecovery('replacement')}
             className="rounded-lg bg-nw-primary px-3 py-2 font-bold text-nw-on-primary disabled:opacity-50">
             استعادة الاستبدال</UiButton>}
+          {(['sealed_return','inspected_replacement','exchange'] as const).map(action=>recoveryStates[action]?.recoverable&&<UiButton key={action} variant="primary" disabled={busy}
+            onClick={()=>void runRecovery(action)}>استعادة {action==='sealed_return'?'الإرجاع':action==='exchange'?'التبديل بصنف آخر':'الاستبدال المفحوص'}</UiButton>)}
         </div>
       </div>}
 
+      {context.order.withinWindow&&sources.length>0&&<AftercareWizard215 key={`${user?.id}:${[...roles].sort().join(',')}:${roleName}:${order.id}`} order={order} context={context}
+        ownerAllowed={isOwner} disabled={busy||hasPendingRecovery||Boolean(supplierRecoveryError)} onBusyChange={setBusy} onRecoveryChange={refreshRecoveryStates}
+        onChanged={async()=>{await load();await onChanged?.();}} notify={notify}/>}
+      <details className="space-y-3"><summary className="min-h-11 cursor-pointer py-3 text-sm font-semibold">خيارات متقدمة · القدرات السابقة وتحويل التالف</summary>
       {context.order.withinWindow && sources.length > 0 && !hasPendingRecovery
         && !replacementSource && !replacementParcel && !returnDraft && (
         <div className="space-y-2">
@@ -544,9 +552,9 @@ export const AdminAftercarePanel: React.FC<Props> = ({
           <UiButton type="button" onClick={resetForm} className="rounded-lg bg-nw-surface-2 px-3">رجوع</UiButton></div>
       </div>}
 
-      {isOwner&&<AftercareSupplierSafety orderId={order.id} disabled={busy||recoveryStates.return?.recoverable===true
-        ||recoveryStates.replacement?.recoverable===true||supplierAttempt?.status==='unknown'||supplierAttempt?.status==='prepared'}
+      {isOwner&&<AftercareSupplierSafety orderId={order.id} disabled={busy||Object.values(recoveryStates).some(state=>state?.recoverable===true)||supplierAttempt?.status==='unknown'||supplierAttempt?.status==='prepared'}
         onPendingChange={setSafetyBlocked} onChanged={async()=>{await load();await onChanged?.();}} notify={notify}/>}
+      </details>
       <div className="flex items-center justify-between text-[10px] text-nw-muted">
         <span>{context.returns.length} مرتجع · {context.replacements.length} استبدال</span>
         <UiButton type="button" onClick={() => void load()} className="flex items-center gap-1"><RefreshCw className="h-3 w-3"/>تحديث</UiButton>

@@ -51,8 +51,8 @@ test('trial A exact inverse preserves every delivered source byte and rejects cu
 test('trial A frozen SDK proof retains every accepted source and real query behind exact209 inverse',async()=>{
  const current=await inventoryBeforeParcel209(),proof=JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_AFTER_TRIAL_A.json','utf8'));
  const state=JSON.parse(readFileSync('docs/agent/project-state.json','utf8'));
- assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_214_TRIAL_INTEGRATED.json');
- assert.equal(state.migrationCeiling,214);assert.deepEqual(current.sources,proof.sourceHashes);
+ assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_215.json');
+ assert.equal(state.migrationCeiling,215);assert.deepEqual(current.sources,proof.sourceHashes);
  assert.deepEqual(verifyProbeCoverage(current,proof.results),proof.coverage);
  assert.equal(proof.results.length,148);assert.ok(proof.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));
  assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);assert.equal(proof.managedAccess,false);

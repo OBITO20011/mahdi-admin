@@ -12,7 +12,7 @@ export async function aftercare211Restore({container,executor,output,replay}){
  const sql=async text=>{const r=await executeInput(executor,text);assert.equal(r.code,0,r.stderr);return r.stdout.trim();};
  const restoreData='/tmp/aftercare211-restore-pgdata',restoreSocket='/tmp/aftercare211-restore-socket';let restoreClusterStarted=false;
  try{
-  assert.ok(['supabase_db_nawasrah-aftercare211-test','supabase_db_nawasrah-trial212-test'].includes(container),'EXACT_APPROVED_LOCAL_RESTORE_CONTAINER');
+  assert.ok(['supabase_db_nawasrah-aftercare211-test','supabase_db_nawasrah-trial212-test','supabase_db_nawasrah-tb215-test'].includes(container),'EXACT_APPROVED_LOCAL_RESTORE_CONTAINER');
   const restoreAdmin=await exec('docker',['exec',container,'psql','-U','supabase_admin','-d','postgres','-X','-q','-At','-w','-c',
     'SELECT rolsuper FROM pg_roles WHERE rolname=current_user;'],{windowsHide:true});
   assert.equal(restoreAdmin.stdout.trim(),'t','LOCAL_PLATFORM_RESTORE_ROLE_REQUIRED');

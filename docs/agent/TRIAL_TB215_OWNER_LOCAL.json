@@ -1,0 +1,26 @@
+{
+  "scope": "Actual215 ownerpipeline ondisposableDB;offline CLI;registeredWindows tasks covered synthetically,not read/executed onowner",
+  "hostedConnections": 0,
+  "applied": [
+    "215"
+  ],
+  "recorded": [
+    "215"
+  ],
+  "replayWrites": false,
+  "catalogUnexpectedDifferenceCount": 0,
+  "alignmentCommands": 0,
+  "strictVerificationZeroWrites": true,
+  "negatives": [
+    "function ACL",
+    "table ACL",
+    "column ACL",
+    "function owner",
+    "search_path"
+  ],
+  "finalVerifyPassed": true,
+  "offlineUpgrade": true,
+  "offlineResetCLI12": true,
+  "evidence": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-document-replacement-upgrade215-xvaz6A",
+  "deliveryReady": false
+}

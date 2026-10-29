@@ -175,7 +175,12 @@ export async function functionReference(executor,ceiling=139){
     assert.equal(digest(historical),'669cd2dcbb111139ed6e7e8b7b453ffc977b6cc9a0e491a5bfca4f94ad659750','FROZEN213_FUNCTIONS_CHANGED');
     return functions.length;
   }
-  assert.equal(ceiling,214,'UNAPPROVED_FUNCTION_REFERENCE');
+  if(ceiling===214){
+    const historical=renderFunctionReference((await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=214),functions);
+    assert.equal(digest(historical),'83ac78cd97ed0bc8803dcaf03b02b266d2cbbdfd5966b390aefe034717085dd7','FROZEN214_FUNCTIONS_CHANGED');
+    return functions.length;
+  }
+  assert.equal(ceiling,215,'UNAPPROVED_FUNCTION_REFERENCE');
   const rendered=renderFunctionReference(await migrationManifest(root),functions);
   assert.equal(rendered,canonicalLf(await readFile(path.join(root,'docs/generated/DB_FUNCTIONS.md'),'utf8')),'DB_FUNCTIONS_STALE');
  }

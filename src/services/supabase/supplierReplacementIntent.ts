@@ -5,7 +5,7 @@ export interface ReplacementAttempt {
   status:'prepared'|'unknown'|'succeeded'|'rejected';
 }
 const databaseName='nawasrah-supplier-replacement208',storeName='attempts';
-const actions=['shop_pending','shop_immediate','shop_damage','receive','writeoff','reverse','customer_return','replacement_supplier','reclassify_replacement','reclassify_return'];
+const actions=['shop_pending','shop_immediate','shop_damage','receive','writeoff','reverse','customer_return','replacement_supplier','reclassify_replacement','reclassify_return','credit','reverse_credit'];
 const storageError=()=>new Error('تعذر قراءة أو تثبيت سجل المحاولة الآمن. أعد فتح الشاشة للتحقق من المحاولة قبل تسجيل عملية جديدة.');
 const canonical=(v:unknown):unknown=>Array.isArray(v)?v.map(canonical):replacementRecord(v)?Object.fromEntries(Object.entries(v).sort(([a],[b])=>a.localeCompare(b)).map(([k,x])=>[k,canonical(x)])):v;
 export const sameReplacementRequest=(a:unknown,b:unknown)=>JSON.stringify(canonical(a))===JSON.stringify(canonical(b));

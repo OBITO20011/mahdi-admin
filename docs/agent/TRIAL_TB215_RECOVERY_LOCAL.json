@@ -1,0 +1,42 @@
+{
+  "scope": "Typed sealed return/inspection/exchange recovery;real cross-tab same-invoice fence including legacy modes",
+  "nativeTests": 42,
+  "browserTests": 32,
+  "browserEngines": [
+    "Chromium",
+    "WebKit"
+  ],
+  "retries": 0,
+  "adminTypecheck": true,
+  "focusedStrictLint": true,
+  "hostedConnections": 0,
+  "deliveryReady": false,
+  "fullWizardPending": true,
+  "sourceArtifacts": [
+    {
+      "file": "src/services/supabase/adminAftercareRecovery.ts",
+      "sha256": "a9937d8f62ef8bd5ba9b9b4c0cf169e9518777cdb27eaceee27fccc76ccb82b5"
+    },
+    {
+      "file": "src/services/supabase/adminAftercareFence.ts",
+      "sha256": "a127b72c234f5007d775b6a75f576ad3440e9714e15f8b98ab17177d76e5998a"
+    },
+    {
+      "file": "src/services/supabase/aftercare215Rpc.ts",
+      "sha256": "8b1e38b778525b4e82db3d094287550f714922da5eb02f7a3195e36ebebc3371"
+    },
+    {
+      "file": "src/services/supabase/aftercare215.service.ts",
+      "sha256": "818bd4ac6e9f6dc18d4578091076b4827edaf51c4a13fdc201f5d3c433eb78ba"
+    },
+    {
+      "file": "src/utils/aftercare215Contracts.ts",
+      "sha256": "a76c90034474d06c4a41941ed658b5736f05b32698d27d0869b63dfe73c3e056"
+    },
+    {
+      "file": "e2e/aftercare215-recovery.spec.ts",
+      "sha256": "f3b4f5c9de74d2ab86bac0a147416ad22599fb8de66335ab14890ba436e634dc"
+    }
+  ],
+  "fixtureCorrection": "Old financial response cases cleared only localStorage and reused one invoice.Each independent case now has its own invoice;all original rejection assertions unchanged.IDB pending fence intentionally survives localStorage.clear()."
+}

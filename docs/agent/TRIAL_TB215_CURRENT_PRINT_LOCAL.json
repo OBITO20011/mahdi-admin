@@ -1,0 +1,18 @@
+{
+  "scope": "Updated215 cutover print documents",
+  "hostedConnections": 0,
+  "worksheetPages": 2,
+  "ownerGuidePages": 10,
+  "forbiddenNetworkRequests": 0,
+  "proof": "C:\\Users\\TOP\\AppData\\Local\\Temp/tb215-print-kBHybr/report.json",
+  "contractFocusedTests": 16,
+  "priorWholeAdmin": {
+    "passed": 1586,
+    "total": 1588,
+    "remaining": "two stale214 assertions updated andfocusedPASS;wholefinal rerun follows"
+  },
+  "rootTypes": true,
+  "storeTypes": true,
+  "storeTests": 200,
+  "strictWholeLint": true
+}

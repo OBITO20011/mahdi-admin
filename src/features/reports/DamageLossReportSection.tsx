@@ -6,20 +6,23 @@ const reasons: Record<string,string> = {
   other: 'أخرى', customer_return_final: 'مرتجع زبون تالف نهائي',
   supplier_writeoff:'رفض المورد للاستبدال',customer_return_supplier_hold:'إعادة تصنيف عيب إلى معلّق',
   supplier_writeoff_reversal:'عكس رفض المورد',shop_damage_reversal:'عكس تلف المحل',customer_return_supplier_hold_reversal:'عكس تعليق العيب لدى المورد',
+  customer_replacement_inspected:'صافي تكلفة استبدالات الزبائن بعد استرداد السليم',
 };
 
 export function DamageLossReportSection({losses}: {losses?: DamageLosses}) {
+  const net=losses?.contractVersion===208||losses?.contractVersion===215;
   return <Card data-testid="report-damage-losses" className="print-section space-y-4">
     <SectionHeader title="خسائر التلف" hint="التلف المسجل خلال الفترة بتكلفته وقت الحركة" />
     {losses ? <>
       <dl className="grid gap-4 sm:grid-cols-3">
-        <div><dt className="text-sm text-nw-muted">{losses.contractVersion===208?'صافي خسائر التلف':'إجمالي خسائر التلف'}</dt><dd className="m-0 mt-1 text-xl font-bold text-nw-bad"><MoneyText amount={losses.total} currency /></dd></div>
-        <div><dt className="text-sm text-nw-muted">منها محتسب أصلاً ضمن المرتجعات</dt><dd className="m-0 mt-1 text-xl font-bold"><MoneyText amount={losses.alreadyIncluded} currency /></dd></div>
-        <div><dt className="text-sm text-nw-muted">{losses.contractVersion===208?'أثر إضافي على الربح':'خصم إضافي من الربح — تلف المحل'}</dt><dd className="m-0 mt-1 text-xl font-bold"><MoneyText amount={losses.additional} currency /></dd></div>
+        <div><dt className="text-sm text-nw-muted">{net?'صافي خسائر التلف':'إجمالي خسائر التلف'}</dt><dd className="m-0 mt-1 text-xl font-bold text-nw-bad"><MoneyText amount={losses.total} currency /></dd></div>
+        <div><dt className="text-sm text-nw-muted">{losses.contractVersion===215?'منها محتسب أصلاً ضمن المرتجع والاستبدال':'منها محتسب أصلاً ضمن المرتجعات'}</dt><dd className="m-0 mt-1 text-xl font-bold"><MoneyText amount={losses.alreadyIncluded} currency /></dd></div>
+        <div><dt className="text-sm text-nw-muted">{net?'أثر إضافي على الربح':'خصم إضافي من الربح — تلف المحل'}</dt><dd className="m-0 mt-1 text-xl font-bold"><MoneyText amount={losses.additional} currency /></dd></div>
       </dl>
-      {losses.contractVersion===208?<>
+      {net?<>
         <p className="text-sm text-nw-muted">الخسارة قبل العكس وإعادة التصنيف: <MoneyText amount={losses.gross??0} currency /> · الاسترداد وإعادة التصنيف: <MoneyText amount={losses.recovered??0} currency /></p>
         <p className="text-sm text-nw-muted">المعلّق أصل منفصل. يعاد تصنيف خسارة المرتجع المحتسبة أصلاً عند إرساله للمورد، ويثبت الرفض مرة واحدة. العكس اللاحق يظهر في فترته وقد يجعل الصافي سالباً.</p>
+        {losses.contractVersion===215&&<p className="text-sm text-nw-muted">تكلفة البديل ناقص السليم المستعاد محتسبة أصلاً في الربح؛ تظهر هنا للتوضيح دون خصم ثانٍ. افتح سجل التالف لعرض الصنف والحالة والمستند.</p>}
       </>:<p className="text-sm text-nw-muted">تلف المرتجع المحتسب أصلًا يظهر للتوضيح؛ يُخصم تلف المحل الإضافي من صافي الربح مرة واحدة.</p>}
       {losses.reasons.length ? <DataTable caption="خسائر التلف حسب السبب">
         <thead><Tr><Th>السبب</Th><Th>الحركات</Th><Th>الكمية</Th><Th>الخسارة</Th><Th>منها محتسب أصلاً</Th></Tr></thead>

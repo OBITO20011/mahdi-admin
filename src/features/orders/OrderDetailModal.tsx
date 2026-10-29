@@ -136,7 +136,9 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
   const [busy, setBusy] = useState(false);
   const [showReceipt, setShowReceipt] = useState(false);
   const receiptBranch = useAppStoreSelector(state => state.branches.find(branch => branch.id === order.branchId));
-  const savedReceipt = orderReceipt(order, receiptBranch);
+  const receiptResult=(()=>{try{return {receipt:orderReceipt(order,receiptBranch),error:''};}
+    catch(cause){return {receipt:null,error:cause instanceof Error?cause.message:'تعذر قراءة دليل الوصل.'};}})();
+  const savedReceipt=receiptResult.receipt;
   const copyReceiptLink = async () => {
     if (!order.publicReceiptUrl) return;
     try {
@@ -147,7 +149,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
     }
   };
   const shareReceipt = async () => {
-    if (!order.publicReceiptUrl) return;
+    if (!order.publicReceiptUrl||!savedReceipt) return;
     try {
       const text = receiptDocumentShareText(savedReceipt, order.publicReceiptUrl);
       if (navigator.share) await navigator.share({title:`وصل ${order.orderNumber}`, text, url:order.publicReceiptUrl});
@@ -424,9 +426,10 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
       <bdi dir="ltr" className="block text-xs text-nw-muted">{order.customerPhone || 'لا يوجد رقم هاتف'}</bdi>
       <p className="text-xs text-nw-muted">{order.governorate} · {order.region} · {order.address}</p>
       <div className="flex flex-wrap gap-2 print:hidden" aria-label="وصل الشراء">
-        <UiButton variant="primary" onClick={() => setShowReceipt(true)}><Printer className="h-4 w-4" />طباعة الوصل</UiButton>
+        <UiButton variant="primary" disabled={!savedReceipt} onClick={() => setShowReceipt(true)}><Printer className="h-4 w-4" />طباعة الوصل</UiButton>
+        {receiptResult.error&&<p role="alert" className="w-full text-sm text-nw-bad">{receiptResult.error}</p>}
         {order.publicReceiptUrl && <>
-          <UiButton onClick={() => void shareReceipt()}><Share2 className="h-4 w-4" />مشاركة الوصل</UiButton>
+          <UiButton disabled={!savedReceipt} onClick={() => void shareReceipt()}><Share2 className="h-4 w-4" />مشاركة الوصل</UiButton>
           <UiButton onClick={() => void copyReceiptLink()}><Copy className="h-4 w-4" />نسخ الرابط</UiButton>
         </>}
         <details className="rounded-lg border border-nw-border px-3">
@@ -516,7 +519,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
 
       <details open={!historyContext} className={historyContext ? "sales-invoice-rare-actions rounded-xl border border-nw-border p-3" : "contents"}><summary className={historyContext ? "min-h-11 cursor-pointer py-3 font-semibold" : "hidden"}>⋯ إجراءات الفاتورة والمرتجع</summary>
       <div id={`order-action-area-${order.id}`} className="space-y-2 scroll-mt-4">
-        {order.source==='pos'&&<DocumentCorrectionAction action="pos_sale" recordId={order.id} insideMenu={historyContext} onChanged={async()=>{await onOrderChanged?.();setToast('تم عكس البيع وحفظ أثره التدقيقي.','success');}}/>}
+        {order.source==='pos'&&(order.paymentMethod==='exchange_credit'?<p className="text-sm text-nw-muted">فاتورة البديل مرتبطة بتبديل موحّد. للإرجاع استخدم «إرجاع أو استبدال»؛ لا تعكسها كبيع نقدي مستقل.</p>:<DocumentCorrectionAction action="pos_sale" recordId={order.id} insideMenu={historyContext} onChanged={async()=>{await onOrderChanged?.();setToast('تم عكس البيع وحفظ أثره التدقيقي.','success');}}/>)}
 
         {(showDeliveryEtaForm || order.status === 'out_for_delivery') && (
           <div className="space-y-3 rounded-2xl border border-nw-info bg-nw-info-bg p-3">
@@ -1200,7 +1203,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
         </div>
       )}
 
-      {showReceipt && <SaleReceiptDialog receipt={savedReceipt} onClose={() => setShowReceipt(false)}
+      {showReceipt && savedReceipt&& <SaleReceiptDialog receipt={savedReceipt} onClose={() => setShowReceipt(false)}
         onShare={order.publicReceiptUrl ? () => void shareReceipt() : undefined}
         onCopy={order.publicReceiptUrl ? () => void copyReceiptLink() : undefined} />}
       {showEditAddress && (

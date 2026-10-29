@@ -1,0 +1,56 @@
+{
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-aftercare215-fullstack-Vp7ICK",
+  "hostedConnections": 0,
+  "authScope": "synthetic local JWT identity;real DB roles/RLS/MFA guards",
+  "cases": [
+    {
+      "engine": "Chromium",
+      "held": false,
+      "passed": true,
+      "restocked": 11,
+      "bad": 1,
+      "stock": 99,
+      "profitDelta": -500,
+      "previewZeroWrites": true,
+      "writerCalls": 1
+    },
+    {
+      "engine": "Chromium",
+      "held": true,
+      "passed": true,
+      "restocked": 11,
+      "bad": 1,
+      "stock": 99,
+      "profitDelta": 0,
+      "previewZeroWrites": true,
+      "writerCalls": 1
+    },
+    {
+      "engine": "WebKit",
+      "held": false,
+      "passed": true,
+      "restocked": 11,
+      "bad": 1,
+      "stock": 99,
+      "profitDelta": -500,
+      "previewZeroWrites": true,
+      "writerCalls": 1
+    },
+    {
+      "engine": "WebKit",
+      "held": true,
+      "passed": true,
+      "restocked": 11,
+      "bad": 1,
+      "stock": 99,
+      "profitDelta": 0,
+      "previewZeroWrites": true,
+      "writerCalls": 1
+    }
+  ],
+  "repositoryStayedFrozen": true,
+  "ok": true,
+  "rootTypesPassed": true,
+  "focusedStrictLint": true,
+  "deliveryReady": false
+}

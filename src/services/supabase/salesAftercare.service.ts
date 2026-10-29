@@ -4,7 +4,10 @@ import {
   runAdminAftercareMutation,
   type AdminAftercareAction,
   type AdminAftercareRecoveryState,
+  adminAftercareActions,
 } from './adminAftercareRecovery';
+import {aftercare215Actions,type Aftercare215Action} from '../../utils/aftercare215Contracts';
+import {invokeAftercare215} from './aftercare215Rpc';
 
 export interface AftercarePhysicalRepresentative {
   sourceKind: 'base_order_item' | 'parcel_component' | 'replacement_item';
@@ -221,14 +224,9 @@ export async function fetchAdminAftercareRecoveryStates(
   orderId: string,
 ): Promise<Partial<Record<AdminAftercareAction, AdminAftercareRecoveryState>>> {
   if (!isSupabaseConfigured || !supabase) return {};
-  const [returnState, replacementState] = await Promise.all([
-    readAdminAftercareRecoveryState(supabase, orderId, 'return'),
-    readAdminAftercareRecoveryState(supabase, orderId, 'replacement'),
-  ]);
-  return {
-    ...(returnState ? {return: returnState} : {}),
-    ...(replacementState ? {replacement: replacementState} : {}),
-  };
+  const client=supabase;
+  const states=await Promise.all(adminAftercareActions.map(async action=>[action,await readAdminAftercareRecoveryState(client,orderId,action)] as const));
+  return Object.fromEntries(states.filter(([,state])=>state!==null));
 }
 
 export async function recoverAdminAftercare(
@@ -239,6 +237,7 @@ export async function recoverAdminAftercare(
   if (!isSupabaseConfigured || !client) return unavailable();
   return runAdminAftercareMutation(client, orderId, action, 'RECOVER_EXISTING', null,
     async (key, immutable) => {
+      if((aftercare215Actions as readonly string[]).includes(action))return invokeAftercare215(client,action as Aftercare215Action,orderId,key,immutable);
       if (action === 'replacement') {
         const payload = immutable as unknown as ReplacementMutationRequest;
         if (!Array.isArray(payload.items) || typeof payload.reason !== 'string') {

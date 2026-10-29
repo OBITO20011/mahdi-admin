@@ -85,14 +85,15 @@ export async function fetchOperationalBusinessReportFromSupabase(
   if (damage) {
     const validMoney = (v: unknown) => typeof v === 'number' && Number.isSafeInteger(v) && v >= 0;
     const signedMoney = (v: unknown) => typeof v === 'number' && Number.isSafeInteger(v);
-    if (damage.contractVersion === 208) {
+    if (damage.contractVersion === 208||damage.contractVersion===215) {
+      const validIncluded=damage.contractVersion===215?signedMoney:validMoney;
       if (!signedMoney(damage.totalInMinorUnits) || !signedMoney(damage.additionalInMinorUnits)
-        || !validMoney(damage.alreadyIncludedInMinorUnits) || !validMoney(damage.grossInMinorUnits) || !validMoney(damage.recoveredInMinorUnits)
+        || !validIncluded(damage.alreadyIncludedInMinorUnits) || !validMoney(damage.grossInMinorUnits) || !validMoney(damage.recoveredInMinorUnits)
         || Number(damage.totalInMinorUnits) !== Number(damage.grossInMinorUnits) - Number(damage.recoveredInMinorUnits)
         || Number(damage.totalInMinorUnits) !== Number(damage.additionalInMinorUnits) + Number(damage.alreadyIncludedInMinorUnits)
         || !Array.isArray(damage.reasons) || damage.reasons.some((value) => {
           const row=recordValue(value);
-          return !textValue(row.code) || !validMoney(row.count) || !validMoney(row.quantity) || !validMoney(row.alreadyIncludedInMinorUnits)
+          return !textValue(row.code) || !validMoney(row.count) || !validMoney(row.quantity) || !validIncluded(row.alreadyIncludedInMinorUnits)
             || !signedMoney(row.amountInMinorUnits) || !validMoney(row.grossInMinorUnits) || !validMoney(row.recoveredInMinorUnits)
             || Number(row.amountInMinorUnits)!==Number(row.grossInMinorUnits)-Number(row.recoveredInMinorUnits);
         }) || damage.reasons.reduce((sum:number,value:unknown)=>sum+Number(recordValue(value).amountInMinorUnits),0)!==damage.totalInMinorUnits
@@ -133,7 +134,7 @@ export async function fetchOperationalBusinessReportFromSupabase(
     },
     sales: {
       ...(damage ? {damageLosses: {
-        ...(damage.contractVersion===208?{contractVersion:208 as const,gross:moneyValue(damage.grossInMinorUnits),recovered:moneyValue(damage.recoveredInMinorUnits)}:{}),
+        ...(damage.contractVersion===208||damage.contractVersion===215?{contractVersion:damage.contractVersion as 208|215,gross:moneyValue(damage.grossInMinorUnits),recovered:moneyValue(damage.recoveredInMinorUnits)}:{}),
         total: moneyValue(damage.totalInMinorUnits), additional: moneyValue(damage.additionalInMinorUnits),
         alreadyIncluded: moneyValue(damage.alreadyIncludedInMinorUnits),
         reasons: (damage.reasons as unknown[]).map((value) => {

@@ -1,0 +1,29 @@
+{
+  "scope": "Shared exact-money/receipt funding/typed preview and success validation;not full UI",
+  "nativeChecks": 15,
+  "passed": true,
+  "implementationComplete": false,
+  "sourceArtifacts": [
+    {
+      "file": "customer-web/src/receipts/exactMoney.ts",
+      "sha256": "e381946d561739b1c9a4536740c972951be2fda3c31448aadd375d6ff0696ff7"
+    },
+    {
+      "file": "customer-web/src/receipts/exchangeFunding.ts",
+      "sha256": "c29f18a60d6b65c174515e6f115b2b48043cda286dc6970c28b91b56fa02c0db"
+    },
+    {
+      "file": "src/utils/aftercare215Contracts.ts",
+      "sha256": "06bd99f0ab99e465ac7fecc8b38440e3ba3a8bd2baa0e55eb72828e6f8044402"
+    },
+    {
+      "file": "scripts/testing/verification-source-freeze.mjs",
+      "sha256": "73b063dc81e6be99c9832f9f7d2d2bf762a5a64755b786beb70b1f706c68fef1"
+    }
+  ],
+  "finalFrozen71StillRequired": true,
+  "adminTypecheck": true,
+  "storeTypecheck": true,
+  "focusedStrictLint": true,
+  "gitleaksFindings": 0
+}
