@@ -1,51 +1,45 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner-approved UI-only aftercare cleanup;one wizard,packet labels,supplier help;own PR FULLCI approvalSTOP",
-  "baselineSha": "963b4f52ae45e21790e2b15825ae08b4dd26b7e8",
-  "branch": "codex/trial-aftercare-cleanup",
+  "objective": "Owner-approved server-side owner Telegram dispatch;217 plus operational ceiling/reset/backup/strict upgrade in same PR;return for approvalSTOP",
+  "baselineSha": "5a50320fea2f30c36f8b784164c97a4aa270220d",
+  "branch": "codex/owner-telegram-server",
   "phase": "PACKAGE_F",
   "completed": [
-    "PR44/main015ffca FULL51 delivered;primary19files/state216 preserved",
-    "All local cleanup gates accepted;details AFTERCARE_UI_CLEANUP_LOCAL.json",
-    "Admin1615/store203,24+2+84+104browser/sixbuilds/PWA4/network0",
-    "CI963 extraoldUItest fixed;actualPOS8/8 realAuthRPC passed;no appSQL/servicechange"
+    "PR45 exact17e08fbb full51 push+PR verified and merged5a50320f",
+    "Primary19files byte-preserved,state local additions preserved;216 localdryrun PASS"
   ],
   "inProgress": [
-    "Push bounded realPOS test correction;PR45 newexactFULLCI then ownerapprovalSTOP"
+    "Source-grounded dispatch design, shared exact formatter and singleton consumer contract"
   ],
   "notStarted": [
-    "Owner review/merge"
+    "217 local implementation/runtime/operational tools/reference/FULLCI/PR"
   ],
   "testsPassed": [
-    "All local cleanup gates accepted;details AFTERCARE_UI_CLEANUP_LOCAL.json",
-    "Admin1615/store203,24+2+84+104browser0skip/flaky,sixbuilds/PWA4/network0",
-    "CurrentSDK157/58218expected;SQL/services/grants/oldpins unchanged"
+    "Predecessor exact CI51 each/secrets/backup;primary216dryrun"
   ],
   "testsRemaining": [
-    "New exact final SHA full push+PR CI/secrets/backup",
-    "Owner approval before merge"
+    "All new package local/runtime/security/fullCI gates"
   ],
   "findings": [
-    "CI963 rejected,cancelled ownqualityonly;notdelivery",
-    "ActuallocalPOS keeps5/4500/2700/1800/2 andzeroReplay",
-    "No hosted/deploy;ownerdefault216reference unchanged"
+    "Owner reports hosted216verifyok,Backup216178,Restore15117healthy;not independently accessed",
+    "Managed worktree creation failed git filter discovery timeout;isolated git worktree created manually,explicit cwd used"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hosted access/deploy",
-    "No DB/migration/RPC/money/permission change",
+    "No hosted access/deploy/activation",
+    "No financial/payload/summary/exclusion policy changes",
     "No merge or next package before owner approval"
   ],
-  "nextExactAction": "Push verified realPOS8 test correction;PR45 newexact FULL51push+PR plussecret/backup;ownerapprovalSTOP",
-  "startedAt": "2026-10-29T11:42:42.638Z",
-  "checkpointedAt": "2026-10-29T16:07:55.053Z",
+  "nextExactAction": "Formatter/handler7 golden and fake HTTP tests/types/strictlint accepted;implement217 DB singleton/cron and operational217 tooling,then full local/CI",
+  "startedAt": "2026-10-29T19:25:12.791Z",
+  "checkpointedAt": "2026-10-29T19:31:40.929Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "5549b06f4d994f03beb800fe68356449cfc8ce2b8fb758198e6d62390b4c291a",
-  "workingTreeFingerprint": "198E769DAAEE60573908A1B080DA56370640BBF72C8D9AAA047411488FA44525"
+  "filesTouchedCount": 9,
+  "filesTouchedManifestSha256": "4eaed62cc671633353d65c53450315600b0c40dafab1ea730b03184f49be3040",
+  "workingTreeFingerprint": "22937E2528C3DCA083BE7AD19193783E8D8333DBB0E2F3283522706D1C27406D"
 }

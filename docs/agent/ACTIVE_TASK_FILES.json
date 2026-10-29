@@ -3,19 +3,39 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/AFTERCARE_UI_CLEANUP_AR.md"
+      "path": "docs/agent/project-state.json"
     },
     {
       "code": " M",
-      "path": "docs/agent/AFTERCARE_UI_CLEANUP_LOCAL.json"
+      "path": "supabase/config.toml"
     },
     {
-      "code": " M",
-      "path": "e2e/package-d-pos-fullstack.spec.ts"
+      "code": "??",
+      "path": "docs/agent/OWNER_TELEGRAM217_AR.md"
     },
     {
-      "code": " M",
-      "path": "scripts/audit/aftercare-cleanup-source-pins.json"
+      "code": "??",
+      "path": "supabase/functions/_shared/owner-telegram-format.ts"
+    },
+    {
+      "code": "??",
+      "path": "supabase/functions/owner-telegram-dispatch/deno.json"
+    },
+    {
+      "code": "??",
+      "path": "supabase/functions/owner-telegram-dispatch/deno.lock"
+    },
+    {
+      "code": "??",
+      "path": "supabase/functions/owner-telegram-dispatch/handler.ts"
+    },
+    {
+      "code": "??",
+      "path": "supabase/functions/owner-telegram-dispatch/index.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/owner-telegram-dispatch217.test.ts"
     }
   ]
 }
