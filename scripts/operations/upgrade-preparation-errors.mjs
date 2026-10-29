@@ -14,6 +14,7 @@ const known = new Set([
  'OLD_BACKUP_LINK_CHANGED', 'LINK_TARGET_MISMATCH', 'OWNER_CONFIRMATION_REQUIRED',
  'OWNER_INTERACTIVE_TERMINAL_REQUIRED', 'CLI_OVERRIDE_NOT_ALLOWED',
  'OFFICIAL_CLI_STEP_FAILED', 'CONNECTED_VERSION_READ_FAILED', 'POSTGRES_MAJOR_MISMATCH',
+ 'TLS_ROOT_CERT_MISSING', 'TLS_CA_BUNDLE_INVALID',
 ]);
 const taskCodes = new Set([
  'UPGRADE_BACKUP_TASK_REQUIRED', 'UPGRADE_BACKUP_TASK_DISABLED',
@@ -23,6 +24,8 @@ const taskCodes = new Set([
 ]);
 export function upgradePreparationCode(error) {
  if (known.has(error?.code)) return error.code;
+ if (known.has(error?.diagnostic?.category)) return error.diagnostic.category;
+ if (known.has(error?.message)) return error.message;
  // Only inspect repository assertion labels, never native-tool messages.
  if (error?.code === 'ERR_ASSERTION') {
   const first = String(error.message).split('\n')[0];

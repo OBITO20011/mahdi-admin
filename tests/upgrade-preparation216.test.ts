@@ -65,6 +65,8 @@ test('preparation classification never echoes raw native/assertion operands and 
   [Object.assign(new Error('private values'),{code:'EACCES'}),'UPGRADE_PREPARATION_ACCESS_DENIED'],
   [new SyntaxError('private JSON values'),'UPGRADE_PREPARATION_INVALID_JSON'],
   [new Error('private unknown error'),'UPGRADE_PREPARATION_UNEXPECTED_FAILURE'],
+  [Object.assign(new Error('private CA path'),{diagnostic:{category:'TLS_ROOT_CERT_MISSING',private:'must not print'}}),'TLS_ROOT_CERT_MISSING'],
+  [Object.assign(new Error('private CA bytes'),{diagnostic:{category:'TLS_CA_BUNDLE_INVALID'}}),'TLS_CA_BUNDLE_INVALID'],
   [Object.assign(new Error('OPERATIONAL_TOOL_MANIFEST_NOT_REVIEWED\nprivate operands'),{code:'ERR_ASSERTION'}),'OPERATIONAL_TOOL_MANIFEST_NOT_REVIEWED'],
   [Object.assign(new Error('UNKNOWN_OPTION\nprivate operands'),{code:'ERR_ASSERTION'}),'UPGRADE_PREPARATION_INVALID_ARGUMENTS'],
   [Object.assign(new Error('private assertion operands'),{code:'ERR_ASSERTION'}),'UPGRADE_PREPARATION_ASSERTION_FAILED'],

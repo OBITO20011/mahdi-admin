@@ -11,6 +11,8 @@ import {readNotificationSnapshot} from './frankfurt-notification-hold.mjs';
 import {sha256} from '../testing/maintenance-db-contract.mjs';
 export const reset214Marker='RESET214_IN_PROGRESS.json';
 export const reset215Marker='RESET215_IN_PROGRESS.json';
+export const reset216Marker='RESET216_IN_PROGRESS.json';
+const markers=Object.freeze({214:reset214Marker,215:reset215Marker,216:reset216Marker});
 const progressFile=session=>`reset${session.reference.migrationCeiling}-progress.json`;
 const within=(root,relative)=>{assert.equal(path.isAbsolute(relative),false,'RESET214_STATE_PATH_INVALID');const p=path.resolve(root,relative),r=path.relative(root,p);assert.ok(r&&!r.startsWith('..')&&!path.isAbsolute(r),'RESET214_STATE_PATH_INVALID');return p;};
 async function readSql(executor,input){const r=await executeInput(executor,input);assert.equal(r.code,0,'RESET214_SESSION_SQL_FAILED');return r.stdout.trim();}
@@ -20,10 +22,11 @@ const stableIdentitySql=ownerId=>`SELECT jsonb_build_object(
  'auth',(SELECT md5((to_jsonb(u)-'last_sign_in_at'-'updated_at')::text) FROM auth.users u WHERE id=${q(uuid(ownerId))}::uuid),
  'identities',(SELECT md5(COALESCE(jsonb_agg(to_jsonb(i)-'last_sign_in_at'-'updated_at' ORDER BY id)::text,'')) FROM auth.identities i WHERE user_id=${q(ownerId)}::uuid));`;
 export async function prepareResetSession({workdir,output,ownerId,projectRef,referenceSha256,state,reference,resume=false}){
- assert.ok([214,215].includes(reference.migrationCeiling),'RESET_REFERENCE_UNSUPPORTED');
- const folder=await privateResetDirectory(workdir),markerPath=path.join(workdir,reference.migrationCeiling===214?reset214Marker:reset215Marker);
- const other=path.join(workdir,reference.migrationCeiling===214?reset215Marker:reset214Marker);
- try{await access(other);throw new Error('RESET214_OTHER_CEILING_ATTEMPT_UNFINISHED');}catch(error){if(error.code!=='ENOENT')throw error;}
+ assert.ok(Object.hasOwn(markers,reference.migrationCeiling),'RESET_REFERENCE_UNSUPPORTED');
+ const folder=await privateResetDirectory(workdir),markerPath=path.join(workdir,markers[reference.migrationCeiling]);
+ for(const [ceiling,filename]of Object.entries(markers))if(Number(ceiling)!==reference.migrationCeiling){
+  try{await access(path.join(workdir,filename));throw new Error('RESET214_OTHER_CEILING_ATTEMPT_UNFINISHED');}catch(error){if(error.code!=='ENOENT')throw error;}
+ }
  if(resume){
   let marker;try{marker=await readPrivateResetJson(markerPath);}catch(error){throw new Error('RESET214_RESUME_MARKER_REQUIRED',{cause:error});}
   assert.equal(marker.projectRef,projectRef,'RESET214_RESUME_PROJECT_MISMATCH');assert.equal(marker.ownerId,ownerId,'RESET214_RESUME_OWNER_MISMATCH');assert.equal(marker.referenceSha256,referenceSha256,'RESET214_RESUME_REFERENCE_CHANGED');

@@ -4,6 +4,7 @@ import {operationalSchema,operationalManifest,assertOperationalManifest,assertOp
 import {migrationManifest,manifestDigest} from '../scripts/testing/maintenance-db-contract.mjs';
 import {assertRegisteredBackupTasks,requiredBackupModes} from '../scripts/operations/backup-task-preflight.mjs';
 import {reset215Arguments} from '../scripts/operations/frankfurt-owner-reset215.mjs';
+import {reset216Arguments} from '../scripts/operations/frankfurt-owner-reset216.mjs';
 import {ownerPlan} from '../scripts/operations/frankfurt-backup-runtime.mjs';
 
 test('one project-state ceiling binds the full SQL manifest and every operational entrypoint;future/gap/duplicate histories fail',async()=>{
@@ -25,7 +26,8 @@ test('one project-state ceiling binds the full SQL manifest and every operationa
  const core=readFileSync('scripts/operations/trial-reset214-core.mjs','utf8');
  assert.ok(core.includes(`const policy${state.migrationCeiling}={ceiling:${state.migrationCeiling},files:${manifest.length},`),'RESET_REBUILD_ADAPTER_MUST_ADVANCE_WITH_MIGRATION');
  assert.ok(readFileSync('scripts/backup/complete-backup.mjs','utf8').match(/assertOperationalHistory\(before.history\)/gu)!.length===2);
- assert.equal(reset215Arguments([]).reference.split(/[\\/]/u).at(-1),operationalSchema.readyReferenceName);
+ assert.equal(reset216Arguments([]).reference.split(/[\\/]/u).at(-1),operationalSchema.readyReferenceName);
+ assert.equal(reset215Arguments([]).reference.split(/[\\/]/u).at(-1),'local-reference-through215-ready.json');
 });
 
 test('upgrade requires all five enabled registered tasks to use the updated checkout and exact safe invocation',()=>{

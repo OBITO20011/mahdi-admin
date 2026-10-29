@@ -1,9 +1,9 @@
 // One ceiling authority: project-state. A manifest commitment prevents a new
 // migration from being silently admitted by backups/reset/upgrade adapters.
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {readFileSync,readdirSync} from 'node:fs';
 import path from 'node:path';
-import {migrationManifest,manifestDigest} from '../testing/maintenance-db-contract.mjs';
+import {migrationManifest,manifestDigest,canonicalLf,sha256} from '../testing/maintenance-db-contract.mjs';
 const root=path.resolve(import.meta.dirname,'../..');
 const state=JSON.parse(readFileSync(path.join(root,'docs/agent/project-state.json'),'utf8'));
 export const operationalSchema=Object.freeze({ceiling:state.migrationCeiling,...state.operationalSchema});
@@ -29,4 +29,16 @@ export function assertCurrentResetReference(reference){
  assert.equal(reference.manifestDigest,operationalSchema.manifestSha256,'RESET_CURRENT_REFERENCE_MANIFEST_CHANGED');
  assert.equal(operationalSchema.readyReferenceName,`local-reference-through${reference.migrationCeiling}-ready.json`);
  return reference;
+}
+// Versioned215 remains usable on an actual215 database. It must still prove
+// the complete CURRENT source commitment and the exact historical prefix;
+// accepting a legacy archive number alone is never reset authorization.
+export function assertSupportedResetReference(reference){
+ assert.ok([operationalSchema.ceiling,...operationalSchema.legacyArchiveCeilings].includes(reference.migrationCeiling),'RESET_REFERENCE_UNSUPPORTED');
+ const directory=path.join(root,'supabase/migrations');
+ const manifest=readdirSync(directory).filter(n=>/^\d+_.+\.sql$/u.test(n)).sort().map(name=>({name,sha256:sha256(canonicalLf(readFileSync(path.join(directory,name),'utf8')))}));
+ assertOperationalManifest(manifest);
+ const prefix=manifest.filter(m=>Number(m.name.slice(0,3))<=reference.migrationCeiling);
+ assert.deepEqual(reference.manifest,prefix,'RESET_HISTORICAL_REFERENCE_MANIFEST_CHANGED');assert.equal(reference.manifestDigest,manifestDigest(prefix),'RESET_HISTORICAL_REFERENCE_MANIFEST_CHANGED');
+ if(reference.migrationCeiling===operationalSchema.ceiling)assertCurrentResetReference(reference);
 }

@@ -1,6 +1,6 @@
 import { isSupabaseConfigured, supabase } from '../../lib/supabase';
 import type { PaymentMethod } from '../../types';
-import {posV2ResultMatches} from './posV2Validation';
+import {posV2ResultMatches,posV2RequestValid} from './posV2Validation';
 
 export interface PosV2BaseUnitLine {
   commercial_line_kind: 'base_unit';
@@ -168,11 +168,15 @@ export async function submitPosSaleV2WithRpc(
   executeRpc: PosV2RpcExecutor,
 ): Promise<CreatePosSaleV2Outcome> {
   input = structuredClone(input);
+  if(input.initialPayment!==undefined&&!posV2RequestValid(input))return {
+    ok:false,status:'rejected',errorIdentity:'POS216_INITIAL_PAYMENT_INVALID',rejectionCode:'22023',
+    message:knownErrors.POS216_INITIAL_PAYMENT_INVALID,recovery:recoveryInstruction,
+  };
   try {
-    const { data, error } = await executeRpc(
-      input.initialPayment ? 'create_pos_sale_with_initial_payment_v1' : 'create_pos_sale_v2',
-      input.initialPayment ? partialRpcParameters(structuredClone(input)) : rpcParameters(structuredClone(input)),
-    );
+    // Literal sinks keep the current RPC inventory independently auditable.
+    const { data, error } = input.initialPayment
+      ? await executeRpc('create_pos_sale_with_initial_payment_v1',partialRpcParameters(structuredClone(input)))
+      : await executeRpc('create_pos_sale_v2',rpcParameters(structuredClone(input)));
     if (error) {
       const identity = extractStableIdentity(error.message);
       if (data != null || isAmbiguousTransportFailure(error)) {

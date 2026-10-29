@@ -39,6 +39,12 @@ test('216 validation binds the exact partial amount, method, receipt identity an
  const old=input();delete old.initialPayment;assert.equal(posV2ResultMatches(old,result()),false);
  for(const changed of [{customerId:undefined},{paymentMethod:'cash'},{amountReceivedInMinorUnits:60000},{initialPayment:{amountInMinorUnits:0,method:'cash'}},{initialPayment:{amountInMinorUnits:1,method:'cheque'}},{initialPayment:{amountInMinorUnits:1,method:'cash',referenceNumber:42}}])assert.equal(posV2RequestValid({...input(),...changed}),false);
 });
+test('216 malformed partial intent never falls through to a legacy full-debt write',async()=>{
+ for(const initialPayment of [null,{amountInMinorUnits:0,method:'cash'},{amountInMinorUnits:60000,method:'cheque'},{amountInMinorUnits:60000,method:'cash',referenceNumber:42}]){
+  let calls=0;const outcome=await submitPosSaleV2WithRpc({...input(),initialPayment} as CreatePosSaleV2Input,async()=>{calls++;return {data:null,error:null};});
+  assert.equal(calls,0);assert.equal(outcome.ok,false);if(!outcome.ok)assert.equal(outcome.errorIdentity,'POS216_INITIAL_PAYMENT_INVALID');
+ }
+});
 test('216 lost reply and reload reuse the captured paid/method/reference and key; tampering and another START_NEW fail closed',async()=>{
  const storage=new Map<string,string>();Object.defineProperty(globalThis,'localStorage',{configurable:true,value:{getItem:(key:string)=>storage.get(key)??null,setItem:(key:string,value:string)=>storage.set(key,value)}});
  let chain=Promise.resolve();Object.defineProperty(globalThis,'navigator',{configurable:true,value:{locks:{request:(_key:string,_options:unknown,work:()=>Promise<unknown>)=>{const pending=chain.then(work);chain=pending.then(()=>undefined,()=>undefined);return pending;}}}});
