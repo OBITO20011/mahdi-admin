@@ -51,6 +51,12 @@ test('217 dispatch acknowledges only Telegram ok/message-id/matching owner and u
   }
 });
 
+test('217 malformed mode never coerces an array/object into a dispatch or reaches the service client',async()=>{
+  for(const body of [null,[],42,{mode:['dispatch']},{mode:{toString:7}},{mode:'unknown'},{mode:42}]){
+    const f=fixture(),result=await f.handler(request(body));assert.equal(result.status,400);assert.equal((await result.json()).code,'OWNER_TELEGRAM_INVALID_REQUEST');assert.equal(f.created(),0);assert.deepEqual(f.sent,[]);
+  }
+});
+
 test('217 unknown/technical kinds complete failed with original fixed exclusion code and no send',async()=>{
   for(const event of [{eventType:'business_integrity_warning',payload:{}},{eventType:'business_alert_recovery',payload:{resolvedAlertType:'business_integrity_warning'}},{eventType:'unknown',payload:{}}]){
     const f=fixture({createClient:()=>({rpc:async(name,args)=>{f.calls.push({name,args});return {error:null,data:name==='claim_owner_telegram_deliveries_v1'?{success:true,items:[{...event,eventId:id}]}:{success:true}};}})});

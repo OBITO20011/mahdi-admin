@@ -13,7 +13,7 @@ import {migrationManifest,manifestDigest,canonicalLf,sha256} from '../testing/ma
 import {readRealtimePublication,realtimePublicationSql} from '../testing/realtime151-contract.mjs';
 import {functionReference,DEFAULT_WORKDIR,assertOutsideRepository} from './frankfurt-owner-build.mjs';
 import {readNotificationSnapshot} from './frankfurt-notification-hold.mjs';
-import {assessOwner217Cron} from './owner-telegram217-notifications.mjs';
+import {assessOwner217Cron,assertOwner217HeldSettings} from './owner-telegram217-notifications.mjs';
 import {inventory} from '../audit/table-access-inventory.mjs';
 import {assertReady216Catalog} from './frankfurt-reference216.mjs';
 import {assertReady217Reference,ready217ReferenceName,assertReady217Catalog} from './frankfurt-reference217.mjs';
@@ -33,10 +33,10 @@ export async function buildReady217Reference(args=[]){
   await bootstrap(216);const prefixes={'216':await capture()};assertReady216Catalog(prefixes['216'].catalog);await functionReference(executor,216);
   const cliCall=flags=>exec(process.execPath,[cli,...flags,'--local','--workdir',local,'--agent','no','--output-format','text'],{cwd:root,windowsHide:true,maxBuffer:8*1024**2});
   stage='incremental217';const unit=manifest.find(m=>m.name.startsWith('217_'));assert.ok(unit);const bytes=await readFile(path.join(root,'supabase/migrations',unit.name));assert.equal(sha256(canonicalLf(bytes.toString('utf8'))),unit.sha256);
-  await copyFile(path.join(root,'supabase/migrations',unit.name),path.join(local,'supabase/migrations',unit.name));await sql(bytes);await cliCall(['migration','repair','--status','applied','217']);prefixes['217']=await capture();assertReady217Catalog(prefixes['217'].catalog);
+  await copyFile(path.join(root,'supabase/migrations',unit.name),path.join(local,'supabase/migrations',unit.name));await sql(bytes);await cliCall(['migration','repair','--status','applied','217']);prefixes['217']=await capture();assertReady217Catalog(prefixes['217'].catalog);await assertOwner217HeldSettings(executor);
   stage='official-dry-run';await cliCall(['migration','list']);const dry=await cliCall(['db','push','--dry-run','--skip-vault']);assert.match(dry.stdout+dry.stderr,/up to date/iu);
   const final=prefixes['217'],notificationSnapshot=await readNotificationSnapshot(executor),jobs=JSON.parse(await sql("SELECT jsonb_agg(jsonb_build_object('name',jobname,'command',command,'schedule',schedule,'active',active)ORDER BY jobname)FROM cron.job;")),cronAudit=assessOwner217Cron(jobs);await stop();
-  stage='fresh217';await bootstrap(217);const fresh=await capture(),functions=await functionReference(executor,217),postgresVersion=await sql('SHOW server_version;');
+  stage='fresh217';await bootstrap(217);await assertOwner217HeldSettings(executor);const fresh=await capture(),functions=await functionReference(executor,217),postgresVersion=await sql('SHOW server_version;');
   const differences=catalogDifference(fresh.catalog,final.catalog,{beforeBuildDate:fresh.buildUtcDate,afterBuildDate:final.buildUtcDate});await writeFile(path.join(output,'fresh-incremental-differences.json'),JSON.stringify(differences,null,2)+'\n');assert.deepEqual(differences,[],'FULL_CATALOG_FRESH_INCREMENTAL_MISMATCH');assert.deepEqual(final.realtimePublication,fresh.realtimePublication);
   const reference={format:28,migrationCeiling:217,manifest,manifestDigest:manifestDigest(manifest),...final,postgresVersion,catalogQuerySha256:sha256(schemaCatalogSql),functions,realtimeQuerySha256:sha256(realtimePublicationSql),realtimeSha256:sha256(JSON.stringify(final.realtimePublication)),prefixes,freshIncrementalDifferenceCount:0,notificationSnapshot,cronAudit,readiness:{sourceHashes:source.sources,accessEvidenceSha256:sha256(proofText),coverage:proof.coverage,queries:proof.results.length,errors:0}};
   assertReady217Reference(reference,manifest,proofText,source);assert.deepEqual((await inventory()).sources,source.sources);assertVerificationSourceFreeze(frozen,await readVerificationSourceFreeze(root));await writeFile(target,JSON.stringify(reference,null,2)+'\n',{flag:'wx'});Object.assign(report,{ok:true,migrations:179,functions,realtimeMembers:13,freshIncrementalDifferenceCount:0,repositoryStayedFrozen:true});

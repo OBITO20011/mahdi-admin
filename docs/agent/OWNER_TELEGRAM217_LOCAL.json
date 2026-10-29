@@ -19,7 +19,7 @@
   },
   "formatter": {
     "reviewedGoldens": 16,
-    "handlerUnitGroups": 8,
+    "handlerUnitGroups": 9,
     "htmlAndKeyboardExact": true
   },
   "edge": {
@@ -43,11 +43,16 @@
     "evidence": "C:/Users/TOP/AppData/Local/Temp/nawasrah-owner-telegram217-TU9Dze/report.json"
   },
   "currentSdk": {
-    "refreshRequiredAfterAdditionalRecipientGuard": true,
-    "previousTableQueries": 157,
-    "previousServiceProbes": 586,
-    "previousExpectedDenials": 18,
-    "finalAccepted": false
+    "finalAccepted": true,
+    "tableQueries": 157,
+    "tableSuccess": 154,
+    "zeroRows": 3,
+    "tableErrors": 0,
+    "serviceProbes": 586,
+    "expectedDenials": 18,
+    "tableProof": "Temp/nawasrah-table-access-49agYv/diagnostic.json",
+    "serviceProof": "Temp/nawasrah-service-access-3xSZNr/diagnostic.json",
+    "currentSourceAfterAllRecipientAndInputGuards": true
   },
   "generatedFunctions": {
     "ceiling": 217,
@@ -60,8 +65,7 @@
     "messagesSent": 0
   },
   "remaining": [
-    "Fresh current217 SDK source binding",
-    "Fresh/incremental217 ready reference and strict upgrade",
+    "Strict owner217 upgrade and eight negatives",
     "RESET217 resume/CLI/negative cases",
     "Encrypted v2 archive214215216217/strict local+R2 restore/watchdog",
     "Full app quality and exact FULLpush+PR53/secrets/backup/Gitleaks0",
@@ -71,5 +75,32 @@
     "First DB runner bool parser t:fixed test-only to_jsonb",
     "First realSDK HTTP path PGRST125:direct PostgREST lacks Supabase /rest/v1;existing REST-only local path adapter reused,zero RPC/permission/timeout/assertion changes"
   ],
-  "updatedAt": "2026-10-29T20:38:34.879Z"
+  "updatedAt": "2026-10-29T21:23:20.458Z",
+  "reference": {
+    "ok": true,
+    "migrations": 179,
+    "functions": 633,
+    "realtimeMembers": 13,
+    "freshIncrementalDifferenceCount": 0,
+    "sourceFrozen": true,
+    "path": "C:/Users/TOP/NawasrahFrankfurt/owner-telegram217-local/reference-final3/local-reference-through217-ready.json"
+  },
+  "quality": {
+    "types": true,
+    "strictLint": true,
+    "store": {
+      "pass": 203,
+      "fail": 0
+    },
+    "adminFull": {
+      "pass": 1623,
+      "fail": 1,
+      "cause": "cutover Telegram label",
+      "fixedFocusedPass": 10
+    },
+    "print": {
+      "pages": 2,
+      "networkRequests": 0
+    }
+  }
 }

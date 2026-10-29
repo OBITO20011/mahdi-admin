@@ -3,7 +3,7 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner-approved server-side owner Telegram dispatch;217 plus operational ceiling/reset/backup/strict upgrade in same PR;return for approvalSTOP",
-  "baselineSha": "67cdbcc89294ab5f86208e6a72acca154024bc42",
+  "baselineSha": "e35421f988ff6d1bd343fd595ff29f8bbcfed324",
   "branch": "codex/owner-telegram-server",
   "phase": "PACKAGE_F",
   "completed": [
@@ -14,19 +14,19 @@
     "Main45 strict51 accepted attempt2;docs/current217 operational candidates prepared"
   ],
   "inProgress": [
-    "Fresh217 SDK refresh after retained recipient guard;ready reference/strict upgrade/reset/archive/fullquality still pending"
+    "Strict217 upgrade/reset/archive gates and exact FULL53 CI"
   ],
   "notStarted": [
-    "217 local implementation/runtime/operational tools/reference/FULLCI/PR"
+    "Final PR approval before merge"
   ],
   "testsPassed": [
     "Predecessor exact CI51 each/secrets/backup;primary216dryrun",
     "DB runtime output Temp/nawasrah-owner-telegram217-IdHC99;initial bool-parser run rejected and fixed without SQL policy change",
-    "Runtime217 TU9Dze9groups/17healthy/realSDK;description OWNER_TELEGRAM217_LOCAL.json"
+    "Runtime217 TU9Dze9groups/17healthy/realSDK;description OWNER_TELEGRAM217_LOCAL.json",
+    "Finalsource SDK157/58618expected;malformedmode focused12PASS",
+    "Fresh/incremental217 ready179/633/13/diff0 frozen;types/strictlint/store203;focused ops+paper10"
   ],
   "testsRemaining": [
-    "Fresh current217 SDK source binding",
-    "Fresh/incremental217 ready reference and strict upgrade",
     "RESET217 resume/CLI/negative cases",
     "Encrypted v2 archive214215216217/strict local+R2 restore/watchdog",
     "Full app quality and exact FULLpush+PR53/secrets/backup/Gitleaks0",
@@ -44,13 +44,13 @@
     "No financial/payload/summary/exclusion policy changes",
     "No merge or next package before owner approval"
   ],
-  "nextExactAction": "Refresh actual217 SDK source proof,build fresh+incremental217 reference,run strict upgrade/RESET217/archive compatibility/fullquality;save/push then PR FULLCI ownerapprovalSTOP",
+  "nextExactAction": "Run strict owner217 upgrade, RESET217 resume/CLI, encrypted214-217 archives and latest Edge gate;full53 CI PR approvalSTOP",
   "startedAt": "2026-10-29T19:25:12.791Z",
-  "checkpointedAt": "2026-10-29T20:38:43.036Z",
+  "checkpointedAt": "2026-10-29T21:23:21.707Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 46,
-  "filesTouchedManifestSha256": "f20d9f5bb3d3c2a66131bb03bc89592712d4f44dbd7fd970810312588c09860a",
-  "workingTreeFingerprint": "50ECE52582253793D32809DCDE9596DE2DDD85C88FF53314ECE39E7212AC6177"
+  "filesTouchedCount": 41,
+  "filesTouchedManifestSha256": "79e3eccbb0ece74123a20ed9f6a62825c348be5c350980fc67e3d79436b3f314",
+  "workingTreeFingerprint": "4723C93E34967A54C0F5BD76A1F5A6471412A0813BA367F08838A42B0B41B11A"
 }

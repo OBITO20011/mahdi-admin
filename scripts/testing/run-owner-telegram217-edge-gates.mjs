@@ -7,4 +7,4 @@ const run=async args=>{const r=await exec(process.execPath,args,{cwd:root,window
 await run([deno,'check','--frozen','--config','supabase/functions/owner-telegram-dispatch/deno.json','supabase/functions/owner-telegram-dispatch/index.ts']);assert.deepEqual(await readFile(lock),before);
 await run(['--import','tsx','--test','tests/owner-telegram-dispatch217.test.ts']);
 await run(['--import','tsx','scripts/testing/run-owner-telegram217-runtime.mjs']);
-console.log(JSON.stringify({ok:true,managedAccess:false,frozenDeno:true,goldenAndHandler:8,actualDatabaseGroups:9}));
+console.log(JSON.stringify({ok:true,managedAccess:false,frozenDeno:true,goldenAndHandler:9,actualDatabaseGroups:9}));

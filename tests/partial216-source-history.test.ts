@@ -18,7 +18,7 @@ test('current216 SDK is unprojected and includes the atomic payment RPC; only hi
  const current=await inventory(),old=await inventory({projectSource:sourceBeforePartial216}),saved=JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_AFTER_215.json','utf8'));
  assert.deepEqual(old.sources,saved.sourceHashes);assert.deepEqual(restorePartial216SourceHashes(current.sources),old.sources);assert.notDeepEqual(current.sources,old.sources);
  const currentRpc=await serviceInventory(),oldRpc=await serviceInventory({projectSource:sourceBeforePartial216});
- assert.deepEqual(currentRpc.functionNames.filter((name:string)=>!oldRpc.functionNames.includes(name)),['create_pos_sale_with_initial_payment_v1']);
+ assert.deepEqual(currentRpc.functionNames.filter((name:string)=>!oldRpc.functionNames.includes(name)),['claim_owner_telegram_deliveries_v1','complete_owner_telegram_delivery_v1','create_pos_sale_with_initial_payment_v1','owner_telegram_dispatch_lease_valid_v1','release_owner_telegram_dispatch_v1']);
  const bad=current.sources.map((s:{file:string;sha256:string})=>s.file==='src/features/pos/PosView.tsx'?{...s,sha256:'0'.repeat(64)}:s);assert.notDeepEqual(restorePartial216SourceHashes(bad),old.sources);
 });
 test('216 closes the existing literal closing reader only; the whole-file allowance rejects even an appended mutation',()=>{

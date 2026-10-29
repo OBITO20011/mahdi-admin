@@ -1445,11 +1445,11 @@
     },
     {
       "file": "supabase/functions/owner-telegram-dispatch/handler.ts",
-      "sha256": "27eb0794545eab45ef380d7a22c83c2840b2b6c3d54adb72a4398ce3d010f0ec"
+      "sha256": "93bea2151e8f7e488c64ee5242d9fb0bec178eedc6933152a903eaf1ef648e98"
     },
     {
       "file": "supabase/functions/owner-telegram-dispatch/index.ts",
-      "sha256": "b7892f32b09118bc8402c5777107e734b9170cb67a85e0f3091692c140c31d0f"
+      "sha256": "6357feda9f76d7fb761f83c7cc776ebcc311a5af0affac352006ccdee063259d"
     },
     {
       "file": "supabase/functions/send-order-push/index.ts",

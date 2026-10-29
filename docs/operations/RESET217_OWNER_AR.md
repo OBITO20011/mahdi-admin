@@ -8,7 +8,7 @@
 
 الأمر `frankfurt-owner-reset217` يقبل فرانكفورت `kzevmysfydaslxcerogt` فقط، عبر session pooler في eu-central-1، مع TLS verify-full وشهادة Supabase الرسمية. لا URL أو هدف حر.
 
-السقف217، مع **179 ملفاً فعلياً**. اسم المرجع `local-reference-through217-ready.json`. مساره المستهدف `C:\Users\TOP\NawasrahFrankfurt\nawasrah-fra-001-138\local-reference-through217-ready.json`. اختيار `--reference` لا يغير المشروع. لا إعادة تسمية209 أو215 أو تجاوز manifest أو ACL. يلزم نفس ملف المرجع ببصمته الكاملة عند الاستئناف. اكتمل تجهيز مرجع217 والتحقق المحلي منه؛تبقى موافقة PRوCIالكامل قبل التشغيل؛ لا يُبدّل مرجع محاولة بدأت بالفعل.
+السقف217، مع **179 ملفاً فعلياً**. اسم المرجع `local-reference-through217-ready.json`. مساره المستهدف `C:\Users\TOP\NawasrahFrankfurt\nawasrah-fra-001-138\local-reference-through217-ready.json`. اختيار `--reference` لا يغير المشروع. لا إعادة تسمية209 أو215 أو تجاوز manifest أو ACL. يلزم نفس ملف المرجع ببصمته الكاملة عند الاستئناف. يلزم تجهيز مرجع217 والتحقق المحلي منه ونجاح CI وموافقة PR قبل التشغيل؛ لا يُبدّل مرجع محاولة بدأت بالفعل.
 
 ## ما يبقى وما يُمسح
 

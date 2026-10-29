@@ -32,7 +32,7 @@ export function ownerTelegramHandler(deps:DispatchDependencies) {
     let body:unknown;
     try {if(Number(request.headers.get('content-length')??0)>512)return response('OWNER_TELEGRAM_INVALID_REQUEST',400);body=await request.json();}
     catch{return response('OWNER_TELEGRAM_INVALID_REQUEST',400);}
-    if(!record(body)||!['dispatch','test'].includes(String(body.mode)))return response('OWNER_TELEGRAM_INVALID_REQUEST',400);
+    if(!record(body)||typeof body.mode!=='string'||!['dispatch','test'].includes(body.mode))return response('OWNER_TELEGRAM_INVALID_REQUEST',400);
     const test=body.mode==='test';
     if(test?config.testEnabled!=='true'||body.testConsent!==true:config.enabled!=='true')return response('OWNER_TELEGRAM_DISABLED');
     if(!config.botToken||!/^\d+:[A-Za-z0-9_-]{20,}$/.test(config.botToken)

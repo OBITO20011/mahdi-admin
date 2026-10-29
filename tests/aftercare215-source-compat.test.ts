@@ -18,7 +18,7 @@ test('215 historical bridge binds complete actual and original Git bytes;unknown
 test('215 current SDK inventory remains unprojected;historical source hashes resolve exactly to approved main',async()=>{
  const current=await inventory(),historical=restoreAftercare215SourceHashes(current.sources);
  const saved=JSON.parse(read('docs/operations/TABLE_ACCESS_AFTER_214_TRIAL_INTEGRATED.json'));
- assert.equal(current.migrationCeiling,216);assert.notDeepEqual(current.sources,historical);assert.deepEqual(historical,saved.sourceHashes);
+ assert.equal(current.migrationCeiling,217);assert.notDeepEqual(current.sources,historical);assert.deepEqual(historical,saved.sourceHashes);
  assert.ok(current.sources.some((s:{file:string})=>s.file==='src/services/supabase/aftercare215.service.ts'));
  assert.ok(!historical.some((s:{file:string})=>s.file==='src/services/supabase/aftercare215.service.ts'));
 });

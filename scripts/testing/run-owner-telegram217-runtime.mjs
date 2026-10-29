@@ -64,6 +64,8 @@ try{
  assert.equal((await service(`claim_owner_telegram_deliveries_v1(${q(randomUUID())})`)).items.length,0);assert.equal(await sql(`SELECT count(*) FROM automation_event_deliveries WHERE event_id=${q(retryId)} AND status='dead_letter' AND dead_lettered_at IS NOT NULL AND attempt_count=10;`),'1');
  pass('unchanged ten attempts/exact exponential backoff/explicit dead-letter;exhausted delivery never reclaimed');
  stage='held-cron-vault-and-net';
+ const activationSql=(await readFile(path.join(root,'docs/operations/OWNER_TELEGRAM217_ENABLE.sql'),'utf8')).replace(/^BEGIN;\r?$/mu,'').replace(/COMMIT;\s*$/u,'');
+ const stopSql=(await readFile(path.join(root,'docs/operations/OWNER_TELEGRAM217_DISABLE.sql'),'utf8')).replace(/^BEGIN;\r?$/mu,'').replace(/COMMIT;\s*$/u,'');
  const adminExecutor={...executor,args:[...executor.args]};adminExecutor.args[adminExecutor.args.indexOf('-U')+1]='supabase_admin';
  const captured=await executeInput(adminExecutor,`BEGIN;
  UPDATE public.owner_telegram_dispatch_settings SET enabled=true;
@@ -86,9 +88,18 @@ try{
  END $proof$;
  SELECT vault.update_secret((SELECT id FROM vault.secrets WHERE name='owner_telegram_dispatch_url'),'https://kzevmysfydaslxcerogt.supabase.co/functions/v1/owner-telegram-dispatch');
  DO $proof$ BEGIN IF public.enqueue_owner_telegram_dispatch_v1()<>217 THEN RAISE EXCEPTION 'LOCAL217_NET_NOT_CAPTURED';END IF;END $proof$;
+ UPDATE public.owner_telegram_dispatch_settings SET enabled=false,run_id=NULL,lease_expires_at=NULL;
+ ${activationSql}
+ DO $proof$ BEGIN IF NOT(SELECT enabled FROM public.owner_telegram_dispatch_settings WHERE id)
+   OR NOT EXISTS(SELECT 1 FROM cron.job WHERE jobname='owner-telegram-dispatch' AND active)
+ THEN RAISE EXCEPTION 'LOCAL217_OWNER_ACTIVATION_POSTCONDITION';END IF;END $proof$;
+ ${stopSql}
+ DO $proof$ BEGIN IF (SELECT enabled FROM public.owner_telegram_dispatch_settings WHERE id)
+   OR EXISTS(SELECT 1 FROM cron.job WHERE jobname='owner-telegram-dispatch' AND active)
+ THEN RAISE EXCEPTION 'LOCAL217_OWNER_STOP_POSTCONDITION';END IF;END $proof$;
  ROLLBACK;`);
  assert.equal(captured.code,0,'LOCAL217_VAULT_NET_PROOF_FAILED:'+captured.stderr);assert.equal(await sql('SELECT count(*) FROM net.http_request_queue;'),netBefore);
- pass('enabled cron refuses missing Vault/wrong URL;transactional pg_net capture proves exact URL/header/body/timeout without any real request or lasting extension/Vault change');
+ pass('enabled cron refuses missing Vault/wrong URL;transactional pg_net capture and actual owner enable/disable SQL prove exact URL/header/body/timeout and held postconditions;all rolled back without any real request or lasting extension/Vault change');
  stage='loopback-handler';await clear();const sent=[];let good=true;
  server=createServer(async(req,res)=>{let text='';for await(const c of req)text+=String(c);sent.push(JSON.parse(text));res.setHeader('Content-Type','application/json');res.end(JSON.stringify(good?{ok:true,result:{message_id:217,chat:{id:811111111}}}:{ok:false,description:'RAW_'+ 'synthetic-token-never-log'}));});server.listen(0,'127.0.0.1');await once(server,'listening');const port=server.address().port;
  const secret='local-only-synthetic-dispatch-secret-217',token='123456:'+ 'SYNTHETIC_'.repeat(4),config={secret,enabled:'true',testEnabled:'false',botToken:token,ownerChatId:'811111111',developerChatIdForComparison:'-922222222'};

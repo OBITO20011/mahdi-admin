@@ -3,27 +3,7 @@
   "files": [
     {
       "code": " M",
-      "path": ".github/workflows/backup-recovery.yml"
-    },
-    {
-      "code": " M",
-      "path": ".github/workflows/quality.yml"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/OWNER_DECISIONS.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/PROJECT_OVERVIEW.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/generated/DB_FUNCTIONS.md"
+      "path": "docs/agent/OWNER_TELEGRAM217_LOCAL.json"
     },
     {
       "code": " M",
@@ -35,11 +15,7 @@
     },
     {
       "code": " M",
-      "path": "docs/operations/FRANKFURT_OWNER_BUSINESS_ALERTS_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
+      "path": "docs/operations/RESET217_OWNER_AR.md"
     },
     {
       "code": " M",
@@ -51,55 +27,27 @@
     },
     {
       "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_217.json"
+    },
+    {
+      "code": " M",
       "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
     },
     {
       "code": " M",
-      "path": "scripts/audit/run-service-access-diagnostic.mjs"
+      "path": "scripts/audit/owner-telegram217-source-pins.json"
     },
     {
       "code": " M",
-      "path": "scripts/audit/run-table-access-diagnostic.mjs"
+      "path": "scripts/operations/build-acl-reference217.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/audit/service-access-inventory.mjs"
+      "path": "scripts/operations/frankfurt-reference217.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/audit/source-before-aftercare-cleanup.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/build-acl-reference216.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-owner-build.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-owner-reset217.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-owner-upgrade217.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-reference216.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/owner-telegram217-notifications.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/trial-reset214-core.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-dual-backup-runtime.mjs"
+      "path": "scripts/testing/run-owner-telegram217-edge-gates.mjs"
     },
     {
       "code": " M",
@@ -111,79 +59,111 @@
     },
     {
       "code": " M",
-      "path": "supabase/functions/owner-telegram-dispatch/index.ts"
+      "path": "tests/aftercare-cleanup.test.ts"
     },
     {
       "code": " M",
-      "path": "tests/operational-schema.test.ts"
+      "path": "tests/aftercare215-admission.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/aftercare215-source-compat.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/all-customer-collections203.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/bulk-product-images-contracts.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/canonical-receivables197.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/cashier-collections198.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/cheques195-admission.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/go-live-integration164.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/handover-documentation.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/handover213.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/opening-cheques196.test.ts"
     },
     {
       "code": " M",
       "path": "tests/owner-telegram-dispatch217.test.ts"
     },
     {
-      "code": "??",
-      "path": "docs/agent/OWNER_TELEGRAM217_LOCAL.json"
+      "code": " M",
+      "path": "tests/partial216-operations.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/partial216-source-history.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/pretrial-p1.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/product-integration171.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/product-receiving205.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/receipt210.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/sales-history204-evidence.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/service-access-inventory.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/supplier-replacement208-evidence.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-owner-a.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-owner-w.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-ta-presentation.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/withdrawals182-admission.test.ts"
     },
     {
       "code": "??",
-      "path": "docs/operations/FRANKFURT_OWNER_UPGRADE217_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/OWNER_TELEGRAM217_DISABLE.sql"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/OWNER_TELEGRAM217_ENABLE.sql"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/RESET217_OWNER_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_217.json"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/enrich-service217-evidence.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/owner-telegram217-source-pins.json"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/pin-owner-telegram217-sources.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/source-before-owner-telegram217.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/owner-telegram217-test.ps1"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/run-owner-telegram217-edge-gates.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/run-owner-telegram217-gates.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/run-owner-upgrade217-runtime.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/run-reset217-cli-contract.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/run-reset217-resume-runtime.mjs"
+      "path": "tests/owner-telegram217-operations.test.ts"
     }
   ]
 }
