@@ -2,52 +2,51 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner-approved server-side owner Telegram dispatch;217 plus operational ceiling/reset/backup/strict upgrade in same PR;return for approvalSTOP",
-  "baselineSha": "1a6609ed5b12154e66022fdf258f54fa0bc2f6c6",
-  "branch": "codex/owner-telegram-server",
+  "objective": "Owner-approved nightly GHA Frankfurt backup package;least-privilege feasibility first;no DB change/postgres GitHub secret without owner decision",
+  "baselineSha": "9070eb9a9e702a0efa5e60c180d760bddf911a9f",
+  "branch": "codex/frankfurt-nightly-actions",
   "phase": "PACKAGE_F",
   "completed": [
-    "PR45/main5a50320f merged after exact51 and primary ownerfiles retained",
-    "217 transport/formatter/privateDB/heldcron local proofs complete",
-    "Fresh independent179/633/13/diff0 reference,strict upgrade8negative/readonly and RESET217fourresumes accepted",
-    "Encrypted214-217 exactsamebackup source CI successful;currentplans offlinePASS"
+    "PR46 merged after exact15201a8 FULL53 push+PR;main9070eb9a",
+    "Primary19ownerfiles byte-preserved/stateextras retained;217newreference admitted;offlinePlan/dry-run PASS",
+    "Local existing pg_read_all_data dump failsRLS;roles-only without passwords passes;no role/grant change",
+    "GitHub API confirmed public;no visibility change;owner asked two decisions"
   ],
   "inProgress": [
-    "PR46 final metadata/exact FULL53 push+PR"
+    "Await owner credential/DB-scope and repository-visibility decisions"
   ],
   "notStarted": [
-    "Owner approval before merge"
+    "Hosted workflow implementation pending credential-scope decision"
   ],
   "testsPassed": [
-    "CurrentSDK157/58618expected;runtime9/17healthy0;goldens16",
-    "Reference179/633/13/diff0;strictupgrade633/129/8negative/readonly",
-    "RESET217 ordinary+4resume/retentionMFA/catalogACL0/foreignwritefence;CLI12",
-    "Types/strictlint/store203;Admin1626+cache4rerun;print2/network0",
-    "Backup+secret scan exact1a6609e push+PR PASS;no hostedaccess"
+    "Predecessor full53 and primary217offlineplans",
+    "Local217 read-role feasibility PASS;gitleaksdocs0;primary217plansPASS"
   ],
   "testsRemaining": [
-    "Exact FINALSHA FULL53 push+PR/secrets/backup",
-    "Owner approval"
+    "Owner decisions before DB/credential implementation",
+    "Workflow/actionlint/fakeR2/fullCI after decision"
   ],
   "findings": [
-    "Owner reports hosted216verifyok,Backup216178,Restore15117healthy;not independently accessed",
-    "Managed worktree creation failed git filter discovery timeout;isolated git worktree created manually,explicit cwd used",
-    "HTTPfixture PGRST125 corrected RESTprefix only;no production RPC or assertion change"
+    "Same complete-backup native source currently pins postgres;pg_read_all_data does not bypass RLS",
+    "Creating dedicated LOGIN/SELECT/BYPASSRLS is DB configuration,requires explicit owner decision"
   ],
-  "blockers": [],
+  "blockers": [
+    "Explicit owner DB scope decision",
+    "Owner repository privacy decision"
+  ],
   "activeProcesses": [],
   "prohibitions": [
-    "No hosted access/deploy/activation",
-    "No financial/payload/summary/exclusion policy changes",
-    "No merge or next package before owner approval"
+    "No hosted DB/R2 access,deployment,activation or production workflow run",
+    "No DB role/grant change or postgres GitHub secret without owner decision",
+    "Windows five tasks untouched"
   ],
-  "nextExactAction": "Push final local proof metadata;verify exact FULL53 push+PR,secrets,backup;mark PR46 ready and return approvalSTOP",
-  "startedAt": "2026-10-29T19:25:12.791Z",
-  "checkpointedAt": "2026-10-29T22:51:13.581Z",
+  "nextExactAction": "Await owner DB-role and repository-visibility decisions;no DB changes or postgres GitHub secret",
+  "startedAt": "2026-10-29T23:51:52.280Z",
+  "checkpointedAt": "2026-10-29T23:58:19.481Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 3,
-  "filesTouchedManifestSha256": "fd6c95988ffa785c33ef876c5251c215ceaf036d810a27297224b1f0319b4db7",
-  "workingTreeFingerprint": "B3D75946F0F02294AEB18D9F82F8AB55EC1BE25056E5CBA80F903673C8EAC466"
+  "filesTouchedCount": 5,
+  "filesTouchedManifestSha256": "cf980f92c3ac1817a42322718adb2e4aa7982703fdb62113612b6bef685d6b72",
+  "workingTreeFingerprint": "2DDCE8DAB6402816497CF7677E8685F4D58DAB13F5A5C357E4EBCF29CFD1D587"
 }

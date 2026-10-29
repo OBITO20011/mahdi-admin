@@ -1,0 +1,40 @@
+{
+  "status": "DECISION_REQUIRED_NOT_IMPLEMENTED",
+  "base": "9070eb9a9e702a0efa5e60c180d760bddf911a9f",
+  "role": {
+    "ok": true,
+    "hostedAccess": false,
+    "customRoleCreated": false,
+    "grantsChanged": false,
+    "ceiling": 217,
+    "reader": {
+      "role": "pg_read_all_data",
+      "bypassRls": false,
+      "authSelect": true,
+      "historySelect": true,
+      "productSelect": true,
+      "storageSelect": true,
+      "netHttpExecute": false,
+      "cronSchemaUsage": true,
+      "cronScheduleExecute": true
+    },
+    "wholeTableReadRejectedByRls": true,
+    "roleCatalogCanBeDumpedWithoutRolePasswords": true,
+    "completeDumpRejectedByRls": true,
+    "checkedAt": "2026-10-29T23:54:35.498Z"
+  },
+  "github": {
+    "checkedAt": "2026-10-29T23:53:53.354Z",
+    "repository": "OBITO20011/mahdi-admin",
+    "private": false,
+    "visibility": "public",
+    "defaultBranch": "main",
+    "ownerType": "User",
+    "planNotRead": true
+  },
+  "dbChanged": false,
+  "secretsConfigured": false,
+  "scheduledWorkflowCreated": false,
+  "workflowRunOnFrankfurt": false,
+  "windowsTasksChanged": false
+}

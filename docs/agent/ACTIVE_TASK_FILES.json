@@ -3,15 +3,23 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/OWNER_TELEGRAM217_LOCAL.json"
+      "path": "docs/agent/project-state.json"
     },
     {
       "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
+      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
     },
     {
-      "code": " M",
-      "path": "docs/agent/PROJECT_OVERVIEW.md"
+      "code": "??",
+      "path": "docs/operations/FRANKFURT_GHA_BACKUP_PREFLIGHT_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/FRANKFURT_GHA_BACKUP_PREFLIGHT.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-gha-backup-read-feasibility.mjs"
     }
   ]
 }
