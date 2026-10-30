@@ -94,7 +94,11 @@ test('print documents are standalone A4 RTL and cover cutover,emergencies and ge
  const guide=read('دليل-صاحب-المحل.md'),card=read('ورقة-يوم-التشغيل.md'),notes=read('templates/README.md');
  for(const required of ['الدين القديم ليس بيعاً','لا تستعمل استلام شراء للمخزون الافتتاحي','لا ترد مالاً عن حبة من طرد','نسيت كلمة المرور','النت انقطع','الطابعة ما طبعت','ممنوعات','مكان صورة'])assert.ok(guide.includes(required),required);
  assert.ok(notes.includes('لا استيراد لهذا الملف'));assert.ok(notes.includes('صافية بعد الشيكات'));assert.ok(notes.includes('تحضير وعدّ يدوي فقط'));
- for(const marker of ['D-1','T+1','T+7','T+14','Backup','RestoreRemote','PRELAUNCH_TRIAL_OPEN=false','RESET217','dry-run','apply','00:00','Asia/Amman','Push','cron','+962785857700','انشر','افحص','resume','سنغافورة'])assert.ok(card.includes(marker),marker);
+ for(const marker of ['D-1','T+1','T+2/3','T+14','Backup','RestoreRemote','PRELAUNCH_TRIAL_OPEN=false','RESET217','dry-run','apply','00:00','Asia/Amman','Push','cron','+962785857700','انشر','افحص','resume','سنغافورة'])assert.ok(card.includes(marker),marker);
+ for(const path of ['docs/operations/GO_LIVE_CUTOVER_AR.md','docs/operations/ENVIRONMENT_SEPARATION_AR.md','docs/operations/PRELAUNCH_TRIAL_AR.md','docs/agent/OWNER_DECISIONS.md','docs/handover/ورقة-يوم-التشغيل.md','docs/handover/ورقة-يوم-التشغيل.html']){
+  const source=readFileSync(path,'utf8');assert.ok(source.includes('T+2/3'),path);assert.ok(!source.includes('T+7'),path);
+  for(const condition of ['أول يومين','المتجر والطلبات والتنبيهات','لا تُمس سنغافورة قبل «انشر»','alnawasreh.com'])assert.ok(source.includes(condition),path+': '+condition);
+ }
  assert.equal(evidence.print.find((p:{name:string})=>p.name==='ورقة-يوم-التشغيل').pages,2);
  assert.equal((read('ورقة-يوم-التشغيل.html').match(/<article class="print-page">/gu)??[]).length,2);
  assert.doesNotMatch(card,/```|--owner-id|--project-ref|functions deploy|db reset|PGPASSWORD/u,'Sensitive commands stay in referenced runbooks');
