@@ -15,14 +15,17 @@ const output=path.join(tmpdir(),'nawasrah-gha-custom-role-feasibility');
 const report={experimentCompleted:false,productionRoleAccepted:false,hostedAccess:false,
   credentialsCreated:false,migrationCreated:false,ceiling:217,requiredSchemas:['public','auth','storage','supabase_migrations']};
 const executor=executorFor(['--container',container]);let local;
-const raw=sql=>executeInput(executor,'\\set VERBOSITY verbose\n'+sql);
-const sql=async text=>{const r=await raw(text);if(r.code!==0)report.sqlFailure={sqlstate:r.stderr.match(/ERROR:\s+([A-Z0-9]{5}):/u)?.[1]??null,
-  permissionObject:r.stderr.match(/permission denied for (?:schema|table|sequence|function) [a-zA-Z0-9_]+/u)?.[0]??null};
+const readerArgs=[...executor.args];readerArgs[readerArgs.indexOf('-U')+1]=role;
+const readerExecutor={...executor,args:readerArgs};
+const raw=(text,target=executor)=>executeInput(target,'\\set VERBOSITY verbose\n'+text);
+const sql=async(text,target=executor)=>{const r=await raw(text,target);if(r.code!==0)report.sqlFailure={sqlstate:r.stderr.match(/ERROR:\s+([A-Z0-9]{5}):/u)?.[1]??null,
+  permissionObject:r.stderr.match(/permission denied for (?:schema|table|relation|sequence|function) [a-zA-Z0-9_]+/u)?.[0]??null,
+  roleSwitchDenied:/permission denied to set role/iu.test(r.stderr)};
   assert.equal(r.code,0,'LOCAL_PROBE_SQL_FAILED');return r.stdout.trim();};
-const json=async text=>JSON.parse((await sql(text)).split(/\r?\n/u).filter(Boolean).at(-1));
-const attempt=async text=>{const r=await raw('BEGIN;SET LOCAL ROLE '+role+';SET LOCAL default_transaction_read_only=off;'+text+';ROLLBACK;');
+const json=async(text,target=executor)=>JSON.parse((await sql(text,target)).split(/\r?\n/u).filter(Boolean).at(-1));
+const attempt=async text=>{const r=await raw('BEGIN;SET LOCAL default_transaction_read_only=off;'+text+';ROLLBACK;',readerExecutor);
   return {accepted:r.code===0,sqlstate:r.stderr.match(/ERROR:\s+([A-Z0-9]{5}):/u)?.[1]??null};};
-const dump=async name=>{try{await exec('docker',['exec',container,'pg_dump','-U','postgres','--role='+role,
+const dump=async name=>{try{await exec('docker',['exec',container,'pg_dump','-U',role,
   '--no-password','-Fc','--file=/tmp/'+name+'.dump','postgres'],{windowsHide:true,maxBuffer:1024**2});return {accepted:true};}
   catch(e){return {accepted:false,exitCode:Number.isInteger(e.code)?e.code:null,
     permissionObject:String(e.stderr??'').match(/permission denied for (?:schema|table|sequence) [a-zA-Z0-9_]+/u)?.[0]??null};}};
@@ -42,8 +45,9 @@ try{
     await sql('GRANT USAGE ON SCHEMA '+schema+' TO '+role+';GRANT SELECT ON ALL TABLES IN SCHEMA '+schema+' TO '+role+';GRANT SELECT ON ALL SEQUENCES IN SCHEMA '+schema+' TO '+role+';');
   }
   const tables=await json("SELECT coalesce(jsonb_agg(format('%I.%I',schemaname,tablename) ORDER BY schemaname,tablename),'[]') FROM pg_tables WHERE schemaname IN ('public','auth','storage','supabase_migrations');");
-  for(const table of tables){report.stage='read-'+table;await sql('BEGIN READ ONLY;SET LOCAL ROLE '+role+';SET LOCAL row_security=off;SELECT count(*) FROM '+table+';ROLLBACK;');}
-  report.requiredTablesRead=tables.length;
+  report.requiredTablesRead=0;
+  try{for(const table of tables){report.stage='read-'+table;await sql('BEGIN READ ONLY;SET LOCAL row_security=off;SELECT count(*) FROM '+table+';ROLLBACK;',readerExecutor);report.requiredTablesRead++;}}
+  catch{report.narrowReadFailure={stage:report.stage,...report.sqlFailure};}
   report.narrowRole={
     insert:await attempt('INSERT INTO public.units DEFAULT VALUES'),
     update:await attempt('UPDATE public.units SET id=id WHERE false'),
@@ -57,11 +61,11 @@ try{
   report.stage='predefined-reader-grant';const membership=await raw('GRANT pg_read_all_data TO '+role+';');
   report.predefinedReaderGrant={accepted:membership.code===0,sqlstate:membership.stderr.match(/ERROR:\s+([A-Z0-9]{5}):/u)?.[1]??null};
   assert.equal(membership.code,0,'LOCAL_POSTGRES_CANNOT_GRANT_READ_ALL');
-  report.broadPrivileges=await json('BEGIN READ ONLY;SET LOCAL ROLE '+role+`;SELECT jsonb_build_object(
+  report.broadPrivileges=await json(`BEGIN READ ONLY;SELECT jsonb_build_object(
     'cronUsage',has_schema_privilege(current_user,'cron','USAGE'),
     'cronRunHistoryDelete',has_table_privilege(current_user,'cron.job_run_details','DELETE'),
     'cronScheduleExecute',has_function_privilege(current_user,'cron.schedule(text,text,text)','EXECUTE'),
-    'vaultUsage',has_schema_privilege(current_user,'vault','USAGE'));ROLLBACK;`);
+    'vaultUsage',has_schema_privilege(current_user,'vault','USAGE'));ROLLBACK;`,readerExecutor);
   report.broadFullDump=await dump('gha-reader-broad');
   report.broadDelete=await attempt('DELETE FROM cron.job_run_details WHERE false');
   report.broadSchedule=await attempt("SELECT cron.schedule('gha-reader-rolled-back','0 0 1 1 *','SELECT 1')");
