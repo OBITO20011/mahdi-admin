@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-10-30T14:30:21.858Z",
+  "hostedProjectAccess": false,
+  "githubReadOnly": true,
+  "repository": {
+    "name": "OBITO20011/mahdi-admin",
+    "private": false,
+    "visibilityChanged": false,
+    "secretsAdded": false
+  },
+  "period": {
+    "from": "2026-10-01T00:00:00Z",
+    "runsCreatedThrough": "2026-10-30T11:47:55.655Z",
+    "collectedAt": "2026-10-30T14:26:55.683Z",
+    "monthComplete": false
+  },
+  "coverage": {
+    "discoveredRuns": 2729,
+    "completedNonSkippedRuns": 1884,
+    "measuredRuns": 1884,
+    "missingRuns": [],
+    "executedJobs": 20606,
+    "duplicateJobIds": 0
+  },
+  "measured": {
+    "runnerMinutes": 148452.13333333333,
+    "perJobRoundedMinutes": 159442,
+    "actualStandardPublicRunnerBilledMinutes": 0,
+    "groups": [
+      {
+        "workflow": "Nawasrah developer alerts",
+        "event": "workflow_run",
+        "branchGroup": "main",
+        "jobs": 534,
+        "roundedMinutes": 534
+      },
+      {
+        "workflow": "Nawasrah public uptime",
+        "event": "schedule",
+        "branchGroup": "main",
+        "jobs": 149,
+        "roundedMinutes": 149
+      },
+      {
+        "workflow": "Nawasrah secret scanning",
+        "event": "push",
+        "branchGroup": "main",
+        "jobs": 176,
+        "roundedMinutes": 177
+      },
+      {
+        "workflow": "Nawasrah code quality",
+        "event": "push",
+        "branchGroup": "main",
+        "jobs": 4597,
+        "roundedMinutes": 34584
+      },
+      {
+        "workflow": "Nawasrah secret scanning",
+        "event": "push",
+        "branchGroup": "feature",
+        "jobs": 192,
+        "roundedMinutes": 195
+      },
+      {
+        "workflow": "Nawasrah code quality",
+        "event": "push",
+        "branchGroup": "feature",
+        "jobs": 8780,
+        "roundedMinutes": 73363
+      },
+      {
+        "workflow": "Nawasrah secret scanning",
+        "event": "workflow_dispatch",
+        "branchGroup": "feature",
+        "jobs": 2,
+        "roundedMinutes": 2
+      },
+      {
+        "workflow": "Nawasrah code quality",
+        "event": "workflow_dispatch",
+        "branchGroup": "feature",
+        "jobs": 61,
+        "roundedMinutes": 375
+      },
+      {
+        "workflow": "Nawasrah secret scanning",
+        "event": "pull_request",
+        "branchGroup": "feature",
+        "jobs": 130,
+        "roundedMinutes": 131
+      },
+      {
+        "workflow": "Nawasrah code quality",
+        "event": "pull_request",
+        "branchGroup": "feature",
+        "jobs": 5784,
+        "roundedMinutes": 49129
+      },
+      {
+        "workflow": "Nawasrah complete backup recovery",
+        "event": "push",
+        "branchGroup": "feature",
+        "jobs": 116,
+        "roundedMinutes": 467
+      },
+      {
+        "workflow": "Nawasrah complete backup recovery",
+        "event": "push",
+        "branchGroup": "main",
+        "jobs": 21,
+        "roundedMinutes": 81
+      },
+      {
+        "workflow": "Nawasrah complete backup recovery",
+        "event": "pull_request",
+        "branchGroup": "feature",
+        "jobs": 64,
+        "roundedMinutes": 255
+      }
+    ]
+  },
+  "assumptions": [
+    "Per-job timestamps from retained Actions API logs;not the account billing invoice.",
+    "Cohort is runs created since October1 through discovery time;older runs rerun during October are not included.",
+    "Private scenario reuses measured runtimes;different runner hardware,concurrency,cache and future workload may change them.",
+    "Account plan,other repositories,storage and actual private budget not inspected."
+  ],
+  "proposedChange": {
+    "description": "Keep unchanged FULL PR and main;remove duplicate feature push quality/recovery;cancel superseded runs per PR/ref;secret scans unchanged.",
+    "removedFeaturePushMinutes": 73830,
+    "remainingRoundedMinutesSameWorkload": 85612,
+    "savedPercent": 46.30523952283589,
+    "includedLinuxEquivalentMinutes": 2000,
+    "backupAdditionalMonthlyEstimate": {
+      "min": 330,
+      "max": 520,
+      "measured": false
+    },
+    "privateSameWorkloadMinutesIncludingBackup": {
+      "min": 85942,
+      "max": 86132
+    },
+    "fits2000Minutes": false
+  },
+  "recentFullCi": {
+    "samples": 11,
+    "medianRoundedMinutes": 538
+  },
+  "evidence": {
+    "runCacheSha256": "88a2f09afd817afddd2c4fd8c773e353aec0bdf54745e104a3cbcfa303f6c708",
+    "jobCacheSha256": "db8baabc412763b8f8fc5af23680c2415f002285f0bc61c20ea2efa169b7a7d9"
+  },
+  "pricingReference": "https://docs.github.com/en/billing/concepts/product-billing/github-actions"
+}

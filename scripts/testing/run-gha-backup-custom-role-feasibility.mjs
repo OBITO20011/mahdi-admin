@@ -16,7 +16,9 @@ const report={experimentCompleted:false,productionRoleAccepted:false,hostedAcces
   credentialsCreated:false,migrationCreated:false,ceiling:217,requiredSchemas:['public','auth','storage','supabase_migrations']};
 const executor=executorFor(['--container',container]);let local;
 const raw=sql=>executeInput(executor,'\\set VERBOSITY verbose\n'+sql);
-const sql=async text=>{const r=await raw(text);assert.equal(r.code,0,'LOCAL_PROBE_SQL_FAILED');return r.stdout.trim();};
+const sql=async text=>{const r=await raw(text);if(r.code!==0)report.sqlFailure={sqlstate:r.stderr.match(/ERROR:\s+([A-Z0-9]{5}):/u)?.[1]??null,
+  permissionObject:r.stderr.match(/permission denied for (?:schema|table|sequence|function) [a-zA-Z0-9_]+/u)?.[0]??null};
+  assert.equal(r.code,0,'LOCAL_PROBE_SQL_FAILED');return r.stdout.trim();};
 const json=async text=>JSON.parse((await sql(text)).split(/\r?\n/u).filter(Boolean).at(-1));
 const attempt=async text=>{const r=await raw('BEGIN;SET LOCAL ROLE '+role+';SET LOCAL default_transaction_read_only=off;'+text+';ROLLBACK;');
   return {accepted:r.code===0,sqlstate:r.stderr.match(/ERROR:\s+([A-Z0-9]{5}):/u)?.[1]??null};};
@@ -36,10 +38,11 @@ try{
   report.bypassRoleCreation={accepted:created.code===0,sqlstate:created.stderr.match(/ERROR:\s+([A-Z0-9]{5}):/u)?.[1]??null};
   assert.equal(created.code,0,'LOCAL_POSTGRES_CANNOT_CREATE_BYPASS_ROLE');
   for(const schema of report.requiredSchemas){
+    report.stage='grant-'+schema;
     await sql('GRANT USAGE ON SCHEMA '+schema+' TO '+role+';GRANT SELECT ON ALL TABLES IN SCHEMA '+schema+' TO '+role+';GRANT SELECT ON ALL SEQUENCES IN SCHEMA '+schema+' TO '+role+';');
   }
   const tables=await json("SELECT coalesce(jsonb_agg(format('%I.%I',schemaname,tablename) ORDER BY schemaname,tablename),'[]') FROM pg_tables WHERE schemaname IN ('public','auth','storage','supabase_migrations');");
-  for(const table of tables){await sql('BEGIN READ ONLY;SET LOCAL ROLE '+role+';SET LOCAL row_security=off;SELECT count(*) FROM '+table+';ROLLBACK;');}
+  for(const table of tables){report.stage='read-'+table;await sql('BEGIN READ ONLY;SET LOCAL ROLE '+role+';SET LOCAL row_security=off;SELECT count(*) FROM '+table+';ROLLBACK;');}
   report.requiredTablesRead=tables.length;
   report.narrowRole={
     insert:await attempt('INSERT INTO public.units DEFAULT VALUES'),
@@ -51,7 +54,7 @@ try{
     createRole:await attempt('CREATE ROLE gha_reader_forbidden_probe'),
     writerRpc:await attempt('SELECT public.run_advanced_monitoring_checks()')};
   report.narrowFullDump=await dump('gha-reader-narrow');
-  const membership=await raw('GRANT pg_read_all_data TO '+role+';');
+  report.stage='predefined-reader-grant';const membership=await raw('GRANT pg_read_all_data TO '+role+';');
   report.predefinedReaderGrant={accepted:membership.code===0,sqlstate:membership.stderr.match(/ERROR:\s+([A-Z0-9]{5}):/u)?.[1]??null};
   assert.equal(membership.code,0,'LOCAL_POSTGRES_CANNOT_GRANT_READ_ALL');
   report.broadPrivileges=await json('BEGIN READ ONLY;SET LOCAL ROLE '+role+`;SELECT jsonb_build_object(

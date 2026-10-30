@@ -2,10 +2,13 @@ name: Nawasrah complete backup recovery
 on:
   pull_request:
   push:
-    branches: [main, 'codex/**']
+    branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: complete-backup-recovery-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 jobs:
   complete-restore:
     name: Complete encrypted backup and strict214/215/216/217 restore
