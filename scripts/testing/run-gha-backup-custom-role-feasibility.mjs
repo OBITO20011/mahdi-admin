@@ -8,6 +8,7 @@ import {mkdir,writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {tmpdir} from 'node:os';
 import {executorFor,executeInput} from '../operations/build-empty-supabase.mjs';
+import {postgresDiagnostic} from '../backup/postgres-diagnostic.mjs';
 
 const exec=promisify(execFile),root=path.resolve(import.meta.dirname,'../..');
 const project='nawasrah-gha-custom-reader-test',container='supabase_db_'+project;
@@ -21,18 +22,19 @@ const testPassword=randomBytes(32).toString('hex');
 const readerEnv={...process.env,PGPASSWORD:testPassword};
 const readerArgs=[...executor.args];readerArgs[readerArgs.indexOf('-U')+1]=role;
 readerArgs.splice(2,0,'-e','PGPASSWORD');
+readerArgs.push('-h','127.0.0.1','-p','5432','-w');
 const readerExecutor={...executor,args:readerArgs,env:readerEnv};
 const raw=(text,target=executor)=>executeInput(target,'\\set VERBOSITY verbose\n'+text);
-const sql=async(text,target=executor)=>{const r=await raw(text,target);if(r.code!==0)report.sqlFailure={sqlstate:r.stderr.match(/ERROR:\s+([A-Z0-9]{5}):/u)?.[1]??null,
+const sql=async(text,target=executor)=>{const r=await raw(text,target);if(r.code!==0)report.sqlFailure={diagnostic:postgresDiagnostic({code:r.code,stderr:r.stderr},{tool:'psql',stage:'source-evidence'}),sqlstate:r.stderr.match(/(?:ERROR|FATAL):\s+([A-Z0-9]{5}):/u)?.[1]??null,
   permissionObject:r.stderr.match(/permission denied for (?:schema|table|relation|sequence|function) [a-zA-Z0-9_]+/u)?.[0]??null,
   roleSwitchDenied:/permission denied to set role/iu.test(r.stderr),
-  clientAuthFailure:/password authentication failed|no password supplied/iu.test(r.stderr)};
+  clientAuthFailure:/password authentication failed|peer authentication failed|no password supplied/iu.test(r.stderr)};
   assert.equal(r.code,0,'LOCAL_PROBE_SQL_FAILED');return r.stdout.trim();};
 const json=async(text,target=executor)=>JSON.parse((await sql(text,target)).split(/\r?\n/u).filter(Boolean).at(-1));
 const attempt=async text=>{const r=await raw('BEGIN;SET LOCAL default_transaction_read_only=off;'+text+';ROLLBACK;',readerExecutor);
   return {accepted:r.code===0,sqlstate:r.stderr.match(/ERROR:\s+([A-Z0-9]{5}):/u)?.[1]??null};};
 const dump=async name=>{try{await exec('docker',['exec','-e','PGPASSWORD',container,'pg_dump','-U',role,
-  '--no-password','-Fc','--file=/tmp/'+name+'.dump','postgres'],{windowsHide:true,env:readerEnv,maxBuffer:1024**2});return {accepted:true};}
+  '-h','127.0.0.1','-p','5432','--no-password','-Fc','--file=/tmp/'+name+'.dump','postgres'],{windowsHide:true,env:readerEnv,maxBuffer:1024**2});return {accepted:true};}
   catch(e){return {accepted:false,exitCode:Number.isInteger(e.code)?e.code:null,
     permissionObject:String(e.stderr??'').match(/permission denied for (?:schema|table|sequence) [a-zA-Z0-9_]+/u)?.[0]??null};}};
 try{
@@ -46,9 +48,10 @@ try{
   const created=await raw('CREATE ROLE '+role+' LOGIN INHERIT NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION BYPASSRLS;');
   report.bypassRoleCreation={accepted:created.code===0,sqlstate:created.stderr.match(/ERROR:\s+([A-Z0-9]{5}):/u)?.[1]??null};
   assert.equal(created.code,0,'LOCAL_POSTGRES_CANNOT_CREATE_BYPASS_ROLE');
+  await sql('GRANT CONNECT ON DATABASE postgres TO '+role+';');
   await sql("ALTER ROLE "+role+" PASSWORD '"+testPassword+"';");
   report.localRandomCredentialInMemoryOnly=true;
-  report.login=await json("SELECT jsonb_build_object('role',current_user,'bypassRls',rolbypassrls) FROM pg_roles WHERE rolname=current_user;",readerExecutor);
+  report.stage='actual-login-loopback-tcp';report.login=await json("SELECT jsonb_build_object('role',current_user,'bypassRls',rolbypassrls) FROM pg_roles WHERE rolname=current_user;",readerExecutor);
   assert.equal(report.login.role,role,'TEST_MUST_USE_ACTUAL_BACKUP_LOGIN');
   for(const schema of report.requiredSchemas){
     report.stage='grant-'+schema;
