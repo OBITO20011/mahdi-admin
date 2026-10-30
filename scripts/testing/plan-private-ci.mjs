@@ -3,7 +3,7 @@ import {execFileSync} from 'node:child_process';
 import {readFileSync, appendFileSync} from 'node:fs';
 import path from 'node:path';
 import {ciRoute, isPackageFSpec, selectAffectedSpecs} from './private-ci-scope.mjs';
-import {packageFShards} from './package-f-ci-shards.mjs';
+import {packageFShardCount,packageFShards} from './package-f-ci-shards.mjs';
 import {listBrowserTests} from './ci-browser-discovery.mjs';
 
 const root = path.resolve(import.meta.dirname, '../..');
@@ -49,6 +49,6 @@ if (mode === 'affected') {
   shards = packageFShards.filter(shard => perShard[shard - 1].length > 0); cases = fullIds.length;
 }
 const outputs = {mode, full: String(mode === 'full'), core_files: JSON.stringify(core), package_f_files: JSON.stringify(packageF),
-  package_f_needed: String(packageF.length > 0), shards: JSON.stringify(shards.length ? shards : [1])};
+  package_f_needed: String(packageF.length > 0), shard_count:String(packageFShardCount), shards: JSON.stringify(shards.length ? shards : [1])};
 if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, Object.entries(outputs).map(([k, v]) => `${k}=${v}\n`).join(''));
 console.log(JSON.stringify({mode, reason, coreFiles: core.length, packageFFiles: packageF.length, shards, cases}));

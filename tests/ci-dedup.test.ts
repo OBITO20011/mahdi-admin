@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {sourceBeforeBrowserBalance} from '../scripts/audit/source-before-browser-balance.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,existsSync,readdirSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
@@ -7,7 +8,7 @@ import {ciDedupPins,sourceBeforeCiDedup} from '../scripts/audit/source-before-ci
 
 const baseline='b1789e1e973b7ca42dcea850f69d28a5b63cc3db';
 const lf=(s:string)=>s.replaceAll('\r\n','\n');
-const read=(f:string)=>lf(readFileSync(f,'utf8'));
+const read=(f:string)=>sourceBeforeBrowserBalance(f,lf(readFileSync(f,'utf8')))!;
 const gitRead=(f:string)=>lf(execFileSync('git',['show',baseline+':'+f],{encoding:'utf8',windowsHide:true,maxBuffer:4*1024**2}));
 const hash=(s:string)=>createHash('sha256').update(s).digest('hex');
 
