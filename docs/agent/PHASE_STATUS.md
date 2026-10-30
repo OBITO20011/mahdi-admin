@@ -1,3 +1,25 @@
+# 30 أكتوبر 2026 — دمج PR47 وإفادة المالك بنجاح فرانكفورت حتى217
+
+اعتمد Claude بتفويض المالك PR47 على `c893ee2dfc5e82a2d64385c30f3ca931aa7c9c52`.
+أعيد التحقق من FULL53/53 ومن الاسترجاع الصارم وفحصَي الأسرار الناجحين على
+الرأس نفسه قبل دمجه بدمج حقيقي إلى `7fab48e1695c52aea13ce3e74ad8a1f0e1f14552`.
+تخفيف CI لا يغيّر الوظائف أو الاختبارات: الجودة الكاملة على main وPR والتشغيل
+اليدوي، والأسرار على كل دفع معتمد كما هي؛ النسخ السحابي و218 مؤجلان.
+
+**سجل تشغيل فرانكفورت — إفادة المالك فقط، دون اتصال أو تنفيذ من Codex:**
+
+| السقف | تاريخ الإفادة في المحادثة | النجاح الذي أبلغ عنه المالك |
+|---|---|---|
+| 215 | تأكيد 30 أكتوبر 2026؛ وقت تطبيق215 المستقل غير مذكور | طُبّق بنجاح ضمن سلسلة الترقيات215–217. لا تُختلق له أعداد أو طابع تنفيذ مستقل |
+| 216 | 29 أكتوبر 2026، ثم أعيد تأكيد اكتمال السلسلة في30 أكتوبر | verify-only ناجح؛ Backup216/178؛ Restore151 جدولاً و17 فحص healthy |
+| 217 | 30 أكتوبر 2026 | verify-only ناجح؛ Backup217/179؛ Restore152 جدولاً و17 فحص healthy |
+
+التواريخ أعلاه تواريخ الإفادات، وليست أوقاتاً مستخرجة من قاعدة البيانات.
+لا تعني نجاحات الترقية والنسخ تنفيذ RESET217 أو نشر Edge أو تفعيل تنبيهات
+الشغل أو cron؛ تبقى خطوات يوم التشغيل ببواباتها وقرار المالك.
+لا migration جديدة أو تغيير تطبيق في إغلاق هذا الدمج. لا حزمة تالية؛ توقف
+بانتظار ملاحظات المالك. الفقرات الأقدم أدناه سجل تاريخي، بما فيها انتظار PR46.
+
 #30Oct — owner Telegram217 local gates accepted;PR46 exact final CI pending
 
 Reference179/633/13/fresh-incremental0;strict upgrade actualreadonly/ACL633+129/8negative;RESET217 four interruptions+MFA/raw retention/foreign-write fence and CLI12 accepted. Formatter16/currentSDK157+586/runtime9/17healthy0;types/strictlint/store203/print2 PASS. Windows cache1 rejected+same-code focused4PASS;final FULL53 both events required. Backup214–217 same-source CI PASS with strict comparisons/exceptions[]. PR46 remains draft until final CI;no hosted/deploy/activation/merge/next package. Primarymain5a50320f/216 preserved. See OWNER_TELEGRAM217_LOCAL.json.
