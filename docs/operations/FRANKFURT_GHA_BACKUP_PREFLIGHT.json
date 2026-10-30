@@ -1,0 +1,187 @@
+{
+  "status": "OWNER_DEFERRED_CLOUD_BACKUP_AND_218",
+  "base": "9070eb9a9e702a0efa5e60c180d760bddf911a9f",
+  "role": {
+    "ok": true,
+    "hostedAccess": false,
+    "customRoleCreated": false,
+    "grantsChanged": false,
+    "ceiling": 217,
+    "reader": {
+      "role": "pg_read_all_data",
+      "bypassRls": false,
+      "authSelect": true,
+      "historySelect": true,
+      "productSelect": true,
+      "storageSelect": true,
+      "netHttpExecute": false,
+      "cronSchemaUsage": true,
+      "cronScheduleExecute": true
+    },
+    "wholeTableReadRejectedByRls": true,
+    "roleCatalogCanBeDumpedWithoutRolePasswords": true,
+    "completeDumpRejectedByRls": true,
+    "checkedAt": "2026-10-29T23:54:35.498Z",
+    "description": "Historical first local pg_read_all_data probe;no production role created"
+  },
+  "github": {
+    "checkedAt": "2026-10-29T23:53:53.354Z",
+    "repository": "OBITO20011/mahdi-admin",
+    "private": false,
+    "visibility": "public",
+    "defaultBranch": "main",
+    "ownerType": "User",
+    "planNotRead": true
+  },
+  "dbChanged": false,
+  "secretsConfigured": false,
+  "scheduledWorkflowCreated": false,
+  "workflowRunOnFrankfurt": false,
+  "windowsTasksChanged": false,
+  "decisionDate": "2026-10-30",
+  "currentBase": "b1789e1e973b7ca42dcea850f69d28a5b63cc3db",
+  "currentCeiling": 217,
+  "followupLocalProbe": {
+    "experimentCompleted": true,
+    "productionRoleAccepted": false,
+    "hostedAccess": false,
+    "credentialsCreated": false,
+    "migrationCreated": false,
+    "ceiling": 217,
+    "requiredSchemas": [
+      "public",
+      "auth",
+      "storage",
+      "supabase_migrations"
+    ],
+    "creator": {
+      "role": "postgres",
+      "super": false,
+      "bypassRls": true,
+      "createRole": true
+    },
+    "bypassRoleCreation": {
+      "accepted": true,
+      "sqlstate": null
+    },
+    "localRandomCredentialInMemoryOnly": true,
+    "stage": "predefined-reader-grant",
+    "login": {
+      "role": "nawasrah_backup_reader_probe",
+      "bypassRls": true
+    },
+    "requiredTablesRead": 0,
+    "sqlFailure": {
+      "diagnostic": {
+        "formatVersion": 1,
+        "stage": "source-evidence",
+        "tool": "psql",
+        "category": "SQL_PERMISSION_DENIED",
+        "sqlstate": "42501",
+        "libpqMessage": "The database role lacks permission for a required backup read.",
+        "messagePolicy": "canonical-classification-no-raw-output",
+        "exitCode": 3,
+        "signal": null
+      },
+      "sqlstate": "42501",
+      "permissionObject": "permission denied for schema auth",
+      "roleSwitchDenied": false,
+      "clientAuthFailure": false
+    },
+    "narrowReadFailure": {
+      "stage": "read-auth.audit_log_entries",
+      "diagnostic": {
+        "formatVersion": 1,
+        "stage": "source-evidence",
+        "tool": "psql",
+        "category": "SQL_PERMISSION_DENIED",
+        "sqlstate": "42501",
+        "libpqMessage": "The database role lacks permission for a required backup read.",
+        "messagePolicy": "canonical-classification-no-raw-output",
+        "exitCode": 3,
+        "signal": null
+      },
+      "sqlstate": "42501",
+      "permissionObject": "permission denied for schema auth",
+      "roleSwitchDenied": false,
+      "clientAuthFailure": false
+    },
+    "narrowRole": {
+      "insert": {
+        "accepted": false,
+        "sqlstate": "42501"
+      },
+      "update": {
+        "accepted": false,
+        "sqlstate": "42501"
+      },
+      "delete": {
+        "accepted": false,
+        "sqlstate": "42501"
+      },
+      "truncate": {
+        "accepted": false,
+        "sqlstate": "42501"
+      },
+      "persistentDdl": {
+        "accepted": false,
+        "sqlstate": "42501"
+      },
+      "temporaryDdl": {
+        "accepted": true,
+        "sqlstate": null
+      },
+      "createRole": {
+        "accepted": false,
+        "sqlstate": "42501"
+      },
+      "writerRpc": {
+        "accepted": false,
+        "sqlstate": "42501"
+      }
+    },
+    "narrowFullDump": {
+      "accepted": false,
+      "exitCode": 1,
+      "permissionObject": "permission denied for schema auth"
+    },
+    "predefinedReaderGrant": {
+      "accepted": true,
+      "sqlstate": null
+    },
+    "broadPrivileges": {
+      "cronUsage": true,
+      "vaultUsage": true,
+      "cronScheduleExecute": true,
+      "cronRunHistoryDelete": true
+    },
+    "broadFullDump": {
+      "accepted": true
+    },
+    "broadDelete": {
+      "accepted": true,
+      "sqlstate": null
+    },
+    "broadSchedule": {
+      "accepted": true,
+      "sqlstate": null
+    },
+    "frankfurtPublicDelete": {
+      "accepted": true,
+      "sqlstate": null
+    },
+    "frankfurtPublicSchedule": {
+      "accepted": true,
+      "sqlstate": null
+    },
+    "blockers": [
+      "FULL_DATABASE_READER_INHERITS_PUBLIC_CRON_WRITES",
+      "DATABASE_PUBLIC_TEMP_PRIVILEGE"
+    ],
+    "checkedAt": "2026-10-30T15:06:23.570Z"
+  },
+  "cloudBackupImplemented": false,
+  "privateRunnerTemplateCreated": false,
+  "migration218Created": false,
+  "ownerDecision": "Windows backup remains;revisit cloud backup after launch;public repository receives no backup secrets"
+}

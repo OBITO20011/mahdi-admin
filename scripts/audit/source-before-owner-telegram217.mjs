@@ -1,9 +1,11 @@
 // Exact inverse for frozen historical proofs only. Actual217 SDK inventory,
 // role execution and Edge runtime always inspect the current source directly.
+import {sourceBeforeCiDedup} from './source-before-ci-dedup.mjs';
 import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';import {createHash} from 'node:crypto';import {execFileSync} from 'node:child_process';
 export const ownerTelegram217Pins=JSON.parse(readFileSync(new URL('./owner-telegram217-source-pins.json',import.meta.url),'utf8'));
 const hash=s=>createHash('sha256').update(s).digest('hex');
 export function sourceBeforeOwnerTelegram217(file,text){
+ text=sourceBeforeCiDedup(file,text);
  if(text===null)return null;const raw=text.replaceAll('\r\n','\n'),pin=ownerTelegram217Pins.entries[file];
  if(!pin||hash(raw)!==pin.after)return raw;
  if(pin.beforeText===null)return null;assert.equal(hash(pin.beforeText),pin.before,'OWNER217_INVERSE_CORRUPT:'+file);return pin.beforeText;

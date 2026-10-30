@@ -5,11 +5,15 @@ on:
   push:
     branches:
       - main
-      - 'codex/**'
   workflow_dispatch:
 
 permissions:
   contents: read
+
+# Full PR and main gates remain unchanged;avoid duplicate feature push suites.
+concurrency:
+  group: quality-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   scope:
