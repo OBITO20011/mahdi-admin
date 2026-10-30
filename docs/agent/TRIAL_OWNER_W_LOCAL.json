@@ -13,9 +13,7 @@
     "W5+",
     "W3"
   ],
-  "deferred": [
-    "W2 by explicit owner decision; no migration212"
-  ],
+  "deferred": [],
   "gates": {
     "adminUnits": {
       "passed": 1376,
@@ -293,5 +291,18 @@
   "correction": {
     "applicationSourcesIdenticalTo": "08b836ac433a1864fa26b15469c694f2e1230012",
     "changes": "test expectations,exact source pin and documentation only"
-  }
+  },
+  "historicalDeferredAtDelivery": [
+    "W2 by explicit owner decision; no migration212"
+  ],
+  "cancelledByOwner": [
+    {
+      "id": "W2",
+      "name": "استلام الكل",
+      "status": "permanently_cancelled",
+      "decidedAt": "2026-10-30",
+      "reason": "الاستلام مباشرة من فاتورة المورد بلا أوامر شراء مسبقة",
+      "decisionReference": "docs/agent/OWNER_DECISIONS.md"
+    }
+  ]
 }

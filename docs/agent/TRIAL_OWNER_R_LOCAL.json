@@ -9,8 +9,7 @@
     "R4"
   ],
   "deferred": [
-    "R2 already delivered in W;not repeated",
-    "W2 remains deferred"
+    "R2 already delivered in W;not repeated"
   ],
   "migrationCeiling": 212,
   "migrationCanonicalLfSha256": "6BDBC906B38B4FD29DD4C5115E040CB1954B1BDB5ABE0EE3AEDAAE634B6CE619",
@@ -123,5 +122,18 @@
     "mainCi": "docs/agent/TRIAL_OWNER_R_MAIN_CI.json",
     "recordedAt": "2026-10-24T04:27:21.856Z"
   },
-  "recordedAt": "2026-10-24T00:04:59.922Z"
+  "recordedAt": "2026-10-24T00:04:59.922Z",
+  "historicalDeferredAtDelivery": [
+    "W2 remains deferred"
+  ],
+  "cancelledByOwner": [
+    {
+      "id": "W2",
+      "name": "استلام الكل",
+      "status": "permanently_cancelled",
+      "decidedAt": "2026-10-30",
+      "reason": "الاستلام مباشرة من فاتورة المورد بلا أوامر شراء مسبقة",
+      "decisionReference": "docs/agent/OWNER_DECISIONS.md"
+    }
+  ]
 }

@@ -1,3 +1,7 @@
+# 30 أكتوبر 2026 — CI قيد تحسين التقسيم؛ و2 ملغى نهائياً
+
+النطاق الحالي المعتمد PR مستقل لتقسيم حمل متصفحات F مع الحفاظ على كل الحالات وحد20دقيقة وحماية main من الإلغاء؛ العودة للاعتماد قبل الدمج. و2 «استلام الكل» ملغى نهائياً بقرار المالك لأن الاستلام مباشر من فاتورة المورد بلا أوامر شراء مسبقة. ليست في قائمة المؤجلات؛ إشارات W2 deferred أدناه تخص السجل التاريخي فقط. لا تطبيق/DB/migration أو اتصال أو نشر.
+
 #30Oct — owner Telegram217 local gates accepted;PR46 exact final CI pending
 
 Reference179/633/13/fresh-incremental0;strict upgrade actualreadonly/ACL633+129/8negative;RESET217 four interruptions+MFA/raw retention/foreign-write fence and CLI12 accepted. Formatter16/currentSDK157+586/runtime9/17healthy0;types/strictlint/store203/print2 PASS. Windows cache1 rejected+same-code focused4PASS;final FULL53 both events required. Backup214–217 same-source CI PASS with strict comparisons/exceptions[]. PR46 remains draft until final CI;no hosted/deploy/activation/merge/next package. Primarymain5a50320f/216 preserved. See OWNER_TELEGRAM217_LOCAL.json.
