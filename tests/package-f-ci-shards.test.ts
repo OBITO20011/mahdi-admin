@@ -26,7 +26,7 @@ test('discovery rejects absent, duplicate, misrouted and substituted shard ident
     ['scripts/testing/verify-browser-ci-partition.mjs','--self-test'],{encoding:'utf8'}),/Partition rejects/);
 });
 
-test('delivery requires both core engines and exactly all five successful Package F shards',()=>{
+test('delivery requires both core engines and exactly all ten successful Package F shards',()=>{
   const jobs=['Lint, test, build and browser QA','Core WebKit browser QA',
     ...packageFShards.map(shard=>`Package F browser QA (${shard}/${packageFShardCount})`)]
     .map(name=>({name,conclusion:'success'}));
@@ -46,12 +46,14 @@ test('CI shards retain isolation, full matrix success, image and timeout contrac
   const block=workflow.split('  package-f-browser:\n')[1]?.split('  quality-delivery:')[0]
     ??workflow.split('  package-f-browser:\r\n')[1]?.split('  quality-delivery:')[0];
   assert.ok(block);
-  assert.match(block,/name: Package F browser QA \(\$\{\{ matrix.shard \}\}\/5\)/);
+  assert.ok(block.includes('name: Package F browser QA (${{ matrix.shard }}/${{ needs.scope.outputs.shard_count }})'));
   assert.match(block,/timeout-minutes: 20/);
   assert.match(block,/fail-fast: false/);
   assert.match(block,/shard: \$\{\{ fromJSON\(needs.scope.outputs.shards\) \}\}/);
   assert.match(readFileSync('scripts/testing/plan-private-ci.mjs','utf8'),/shards = \[\.\.\.packageFShards\]/);
-  assert.match(block,/run-quality-ci\.mjs package-f --shard=\$\{\{ matrix.shard \}\}\/5/);
+  assert.ok(block.includes('run-quality-ci.mjs package-f --shard=${{ matrix.shard }}/${{ needs.scope.outputs.shard_count }}'));
+  assert.ok(workflow.includes('shard_count: ${{ steps.plan.outputs.shard_count }}'));
+  assert.match(readFileSync('scripts/testing/plan-private-ci.mjs','utf8'),/shard_count:String\(packageFShardCount\)/u);
   assert.match(block,/name: playwright-report-package-f-\$\{\{ matrix.shard \}\}/);
   assert.match(block,/container:\s+image: mcr\.microsoft\.com\/playwright:v1\.62\.1-noble@sha256:[a-f0-9]{64}/);
   assert.match(workflow,/needs: \[scope, quality, core-webkit-browser, package-f-browser, database-runtime, current-database-runtime, pwa-release-update\]/);
@@ -60,8 +62,8 @@ test('CI shards retain isolation, full matrix success, image and timeout contrac
 });
 
 test('runner rejects missing, extra or invalid shards before executing any gate',()=>{
-  for(const args of [['package-f'],['package-f','--shard=6/5'],['package-f','--shard=1/2'],
-    ['package-f','--shard=1/5','--retries=3'],['core','--shard=1/5']]){
+  for(const args of [['package-f'],['package-f','--shard=11/10'],['package-f','--shard=1/2'],
+    ['package-f','--shard=1/10','--retries=3'],['core','--shard=1/10']]){
     assert.throws(()=>execFileSync(process.execPath,['scripts/testing/run-quality-ci.mjs',...args],{stdio:'pipe'}));
   }
 });
@@ -69,8 +71,8 @@ test('runner rejects missing, extra or invalid shards before executing any gate'
 test('case-level sharding is restricted to Package F CI and timing contains no payloads',()=>{
   const config=readFileSync('playwright.ci.config.ts','utf8');
   assert.match(config,/fullyParallel: Boolean\(process.env.CI\) && group==='package-f' \? true : base.fullyParallel/u);
-  assert.equal(packageFShardCount,5);
-  assert.deepEqual(packageFShards,[1,2,3,4,5]);
+  assert.equal(packageFShardCount,10);
+  assert.deepEqual(packageFShards,Array.from({length:10},(_,i)=>i+1));
   const records=Array.from({length:12},(_,index)=>timingRecord({project:'webkit',file:`e2e/package-f-${index%2}.spec.ts`,title:`case${index}`,id:`id${index}`},
     {duration:index*100,retry:index===11?1:0,status:'passed'}));
   const summary=summarizeTimings(records);

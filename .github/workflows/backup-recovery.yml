@@ -7,8 +7,8 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: complete-backup-recovery-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  group: complete-backup-recovery-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || format('run-{0}', github.run_id) }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
   complete-restore:
     name: Complete encrypted backup and strict214/215/216/217 restore

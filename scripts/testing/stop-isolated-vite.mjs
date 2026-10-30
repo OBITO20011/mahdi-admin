@@ -3,6 +3,24 @@ import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {setTimeout as poll} from 'node:timers/promises';
 
+// Windows can briefly return EPERM while another process finishes deleting a
+// directory. This is never proof of deletion: require ENOENT within the same5s.
+/** @param {string} resolved
+ * @param {{probe?:(directory:string)=>Promise<void>,platform?:NodeJS.Platform,clock?:()=>number,pause?:(milliseconds:number)=>Promise<void>}} [options] */
+export async function waitForOwnedViteRemoval(resolved,{
+  probe=access,platform=process.platform,clock=Date.now,pause=poll,
+}={}) {
+  const deadline=clock()+5000;
+  for(;;){
+    try{await probe(resolved);}catch(error){
+      if(error.code==='ENOENT')return;
+      if(platform!=='win32'||error.code!=='EPERM')throw error;
+    }
+    if(clock()>=deadline)throw new Error('ISOLATED_VITE_CACHE_NOT_REMOVED');
+    await pause(20);
+  }
+}
+
 export async function stopIsolatedVite(port) {
   let response;
   try {
@@ -23,12 +41,5 @@ export async function stopIsolatedVite(port) {
     throw new Error('INVALID_VITE_CACHE_SHUTDOWN_PROOF');
   }
   // Poll actual deletion, not a fixed sleep. This never deletes a directory itself.
-  const deadline = Date.now() + 5000;
-  while (await access(resolved).then(() => true, error => {
-    if (error.code === 'ENOENT') return false;
-    throw error;
-  })) {
-    if (Date.now() >= deadline) throw new Error('ISOLATED_VITE_CACHE_NOT_REMOVED');
-    await poll(20);
-  }
+  await waitForOwnedViteRemoval(resolved);
 }

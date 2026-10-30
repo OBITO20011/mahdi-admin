@@ -27,7 +27,13 @@
   "managedAccess": false,
   "deployed": false,
   "primaryCheckoutUntouched": true,
-  "W2Deferred": true,
+  "W2Deferred": false,
   "noNextPhaseAuthorized": true,
-  "recordedAt": "2026-10-24T04:27:21.856Z"
+  "recordedAt": "2026-10-24T04:27:21.856Z",
+  "historicalAtDelivery": {
+    "W2Deferred": true
+  },
+  "W2Status": "permanently_cancelled",
+  "W2DecisionDate": "2026-10-30",
+  "W2DecisionReference": "docs/agent/OWNER_DECISIONS.md"
 }

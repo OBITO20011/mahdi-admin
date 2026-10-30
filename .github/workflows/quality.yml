@@ -10,10 +10,10 @@ on:
 permissions:
   contents: read
 
-# Full PR and main gates remain unchanged;avoid duplicate feature push suites.
+# Only a replaced PR run may cancel; every main/dispatch run has its own group.
 concurrency:
-  group: quality-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  group: quality-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || format('run-{0}', github.run_id) }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   scope:
@@ -28,6 +28,7 @@ jobs:
       package_f_files: ${{ steps.plan.outputs.package_f_files }}
       package_f_needed: ${{ steps.plan.outputs.package_f_needed }}
       shards: ${{ steps.plan.outputs.shards }}
+      shard_count: ${{ steps.plan.outputs.shard_count }}
     steps:
       - name: Checkout complete diff history
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -155,7 +156,7 @@ jobs:
           retention-days: 14
 
   package-f-browser:
-    name: Package F browser QA (${{ matrix.shard }}/5)
+    name: Package F browser QA (${{ matrix.shard }}/${{ needs.scope.outputs.shard_count }})
     runs-on: ubuntu-latest
     needs: scope
     if: ${{ needs.scope.outputs.full == 'true' || needs.scope.outputs.package_f_needed == 'true' }}
@@ -204,13 +205,13 @@ jobs:
 
       - name: Run Package F browser gate
         if: needs.scope.outputs.full == 'true'
-        run: node scripts/testing/run-quality-ci.mjs package-f --shard=${{ matrix.shard }}/5
+        run: node scripts/testing/run-quality-ci.mjs package-f --shard=${{ matrix.shard }}/${{ needs.scope.outputs.shard_count }}
 
       - name: Run every affected Package F case on its non-empty shard
         if: needs.scope.outputs.full != 'true'
         env:
           PRIVATE_CI_FILES: ${{ needs.scope.outputs.package_f_files }}
-        run: node scripts/testing/run-private-ci.mjs package-f --shard=${{ matrix.shard }}/5
+        run: node scripts/testing/run-private-ci.mjs package-f --shard=${{ matrix.shard }}/${{ needs.scope.outputs.shard_count }}
 
       - name: Upload Package F timing and Playwright report
         if: ${{ always() && !cancelled() }}

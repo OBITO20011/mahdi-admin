@@ -1,0 +1,77 @@
+{
+  "baseline": "8f48e49b0107d395e114f81967fc52d3cd2c40d7",
+  "hostedConnections": 0,
+  "method": "Actual Playwright --list plus actual baseline balanceBrowserCases function executed with its original5;new native partition independently verified",
+  "caseIdentities": 1092,
+  "beforeCount": 5,
+  "afterCount": 10,
+  "before": [
+    220,
+    218,
+    218,
+    218,
+    218
+  ],
+  "after": [
+    110,
+    110,
+    110,
+    110,
+    110,
+    110,
+    108,
+    108,
+    108,
+    108
+  ],
+  "beforeIdentitySha256": "358e4cbd898a9766b545af28aac6d6eb834c641ee13614886359de5e413f4fb1",
+  "afterIdentitySha256": "358e4cbd898a9766b545af28aac6d6eb834c641ee13614886359de5e413f4fb1",
+  "engines": [
+    {
+      "project": "desktop-chromium",
+      "before": [
+        110,
+        109,
+        109,
+        109,
+        109
+      ],
+      "after": [
+        55,
+        55,
+        55,
+        55,
+        55,
+        55,
+        54,
+        54,
+        54,
+        54
+      ]
+    },
+    {
+      "project": "mobile-webkit",
+      "before": [
+        110,
+        109,
+        109,
+        109,
+        109
+      ],
+      "after": [
+        55,
+        55,
+        55,
+        55,
+        55,
+        55,
+        54,
+        54,
+        54,
+        54
+      ]
+    }
+  ],
+  "noMissingOrDuplicateOrSubstitutedIdentity": true,
+  "checkedAt": "2026-10-30T19:37:41.011Z"
+}
