@@ -1,3 +1,9 @@
+# 30 أكتوبر 2026 — تأجيل النسخ السحابي و218 وتخفيف CI
+
+قرار المالك المباشر بعد التجربة المحلية: تؤجّل النسخ على GitHub Actions وmigration 218 ودور النسخ وrunner الخاص إلى ما بعد التشغيل؛ يمكن مراجعتها مع Supabase Pro لاحقاً بقرار مستقل. يبقى mahdi-admin عاماً، ولا توضع فيه أسرار قاعدة أو دور نسخ أو passphrase أو R2. تبقى مهام Windows الخمس واللحاق عند تشغيل جهاز المالك دون تعديل. لا يُستبدل فشل الدور المحدود بكلمة postgres في GitHub.
+
+نطاق PR47 النهائي: توثيق القرار والأدلة وتخفيف التكرار فقط. الجودة الكاملة والاسترجاع المعزول يبقيان على PR وmain والتشغيل اليدوي؛ يحذف دفع فروع codex المكرر لهما ويضاف concurrency لإلغاء التشغيل المستبدل. فحوص الأسرار تبقى على الدفع وPR. لا حذف لأي job أو حالة اختبار أو تخفيف assertion أو مهلة أو حارس، ولا تفعيل PRIVATE_CI_BUDGET_MODE. تجربة الدور مرفوضة كتصميم إنتاج؛ لا migration جديدة ولا رفع للسقف217. إصلاح مهلة الترقية120 ثانية منفصل ومعتمد ودُمج في PR48 على main b1789e1e. لا اتصال أو نشر أو أسرار أو تعديل مهام ضمن PR47؛ يرجع للاعتماد قبل الدمج.
+
 #29Oct — owner approved45;server-side owner Telegram217
 
 Direct owner/Claude-authorized message:merge45 only after17e08fbb FULLCI;safe main update. Then separate worktree/PR for moving owner business Telegram from developer n8n to Supabase,217 if needed plus all operational ceiling/reset/backup/strict upgrade/reference in same PR,Administrator owner commands. Same payload/summary/retry/exclusions;Push and technical developer route unchanged. n8n owner workflow retired/inactive and fenced;cron/DB/Edge closed until launch. Local-only tests,commits/push per completed item,Gitleaks0/FULLCI,return for approvalSTOP;no hosted/deploy/activation or following GitHub Actions package. Owner reports216 actualverify/Backup216178/Restore15117healthy;not independently accessed.
