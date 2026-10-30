@@ -1,3 +1,4 @@
+import {sourceBeforePreflight120} from '../scripts/audit/source-before-preflight120.mjs';
 import {sourceBeforeAftercareCleanup} from '../scripts/audit/source-before-aftercare-cleanup.mjs';
 import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';import {execFileSync} from 'node:child_process';import {createHash} from 'node:crypto';
 import {partial216SourcePins,sourceBeforePartial216,restorePartial216SourceHashes} from '../scripts/audit/source-before-partial216.mjs';
@@ -7,7 +8,7 @@ const lf=(s:string)=>s.replaceAll('\r\n','\n'),hash=(s:string)=>createHash('sha2
 test('216 exact historical inverse is grounded in approved main bytes; an unknown edit is never erased',()=>{
  assert.equal(partial216SourcePins.baseline,baseline);const paths=Object.keys(partial216SourcePins.entries);
  const existing=new Set(execFileSync('git',['-c','core.quotepath=false','ls-tree','-r','--name-only',baseline,'--',...paths],{encoding:'utf8',maxBuffer:32*1024**2}).trim().split('\n'));
- for(const file of paths){const pin=partial216SourcePins.entries[file],current=sourceBeforeAftercareCleanup(file,lf(readFileSync(file,'utf8')))!;assert.equal(hash(current),pin.after,file);
+ for(const file of paths){const pin=partial216SourcePins.entries[file],current=sourceBeforeAftercareCleanup(file,sourceBeforePreflight120(file,lf(readFileSync(file,'utf8'))))!;assert.equal(hash(current),pin.after,file);
   const before=existing.has(file)?lf(execFileSync('git',['show',baseline+':'+file],{encoding:'utf8',maxBuffer:32*1024**2})):null;
   assert.equal(pin.beforeText,before,file);assert.equal(sourceBeforePartial216(file,current),before,file);assert.equal(pin.before,before===null?null:hash(before));
   const unknown=current+'\n// unreviewed216 mutation\n';assert.equal(sourceBeforePartial216(file,unknown),unknown,file);
