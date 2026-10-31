@@ -10,7 +10,7 @@
   "tracingSampleRate": 0,
   "sendDefaultPii": false,
   "units": {
-    "admin": 1647,
+    "admin": 1648,
     "customer": 203,
     "failed": 0
   },
@@ -268,5 +268,12 @@
       }
     }
   ],
-  "environmentalRerunsUsed": 0
+  "environmentalRerunsUsed": 0,
+  "environmentFileVerification": {
+    "ok": true,
+    "localEnvFileLoaded": true,
+    "processPrecedencePreserved": true,
+    "crossEnvironmentFileNotLoaded": true,
+    "buildArtifactsReverified": 6
+  }
 }

@@ -1,13 +1,15 @@
+import {loadEnv} from 'vite';
 import assert from 'node:assert/strict';
 import {readFile,readdir} from 'node:fs/promises';
 import path from 'node:path';
-import {resolveBuildEnvironment,monitoringEnvironment,publicEnvironments,renderEnvironmentHeaders} from './environment.mjs';
+import {resolveBuildEnvironment,publicEnvironments,renderEnvironmentHeaders} from './environment.mjs';
 const root=path.resolve(import.meta.dirname,'../..');
 async function files(dir){const result=[];for(const e of await readdir(dir,{withFileTypes:true})){const f=path.join(dir,e.name);if(e.isDirectory())result.push(...await files(f));else result.push(f);}return result;}
+export function loadVerificationEnvironment(environment,appRoot){return resolveBuildEnvironment({...loadEnv(environment,appRoot,''),...process.env,NAWASRAH_DEPLOYMENT_ENV:environment});}
 export async function verifyEnvironmentDist({app,environment,dir,allowFixture=false}){
- assert.ok(['admin','customer'].includes(app));const expected=resolveBuildEnvironment({...process.env,NAWASRAH_DEPLOYMENT_ENV:environment});
+ assert.ok(['admin','customer'].includes(app));const expected=loadVerificationEnvironment(environment,path.join(root,app==='customer'?'customer-web':''));
  const manifest=JSON.parse(await readFile(path.join(dir,'nawasrah-environment.json'),'utf8'));
- const configured=monitoringEnvironment(process.env,environment);
+ const configured=expected.monitoring;
  assert.equal(manifest.monitoring?.dsn,configured.dsn,'DIST_MONITORING_DSN_MISMATCH');
  assert.equal(manifest.monitoring?.ingestOrigin,configured.ingestOrigin,'DIST_MONITORING_INGEST_MISMATCH');
  assert.ok(!manifest.monitoring?.release||/^[a-f0-9]{40}$/iu.test(manifest.monitoring.release),'DIST_MONITORING_RELEASE_INVALID');

@@ -17,3 +17,18 @@ test('DSN is explicitly selected by environment,missing is off,and isolated disc
  assert.throws(()=>monitoringEnvironment({VITE_SENTRY_DSN_STAGING:'https://evil.test/1'},'staging'),/MONITORING_DSN_INVALID/);
  const template=readFileSync('public/_headers','utf8');const config=resolveBuildEnvironment({...env,NAWASRAH_DEPLOYMENT_ENV:'production'});assert.ok(renderEnvironmentHeaders(template,config).includes('https://o123.ingest.de.sentry.io;'));assert.ok(!renderEnvironmentHeaders(template,resolveBuildEnvironment({NAWASRAH_DEPLOYMENT_ENV:'staging'})).includes('sentry.io'));
 });
+
+
+test('dist verification reads the same per-context local env file as Vite without mixing contexts',async()=>{
+ const {mkdtemp,writeFile,rm}=await import('node:fs/promises'),{tmpdir}=await import('node:os'),path=await import('node:path');
+ const {loadVerificationEnvironment}=await import('../scripts/environments/verify-dist.mjs');
+ const root=await mkdtemp(path.join(tmpdir(),'nawasrah-monitoring-env-')),dsn='https://fixture@o123.ingest.de.sentry.io/999',key='VITE_SENTRY_DSN_STAGING',saved=process.env[key];
+ delete process.env[key];
+ try{
+  await writeFile(path.join(root,'.env.staging.local'),key+'='+dsn+'\n');
+  assert.equal(loadVerificationEnvironment('staging',root).monitoring.dsn,dsn);
+  assert.equal(loadVerificationEnvironment('production',root).monitoring.dsn,'');
+  process.env[key]='https://fixture@o123.ingest.de.sentry.io/998';
+  assert.equal(loadVerificationEnvironment('staging',root).monitoring.dsn,process.env[key],'Process values retain Vite precedence');
+ }finally{if(saved===undefined)delete process.env[key];else process.env[key]=saved;await rm(root,{recursive:true,force:true});}
+});
