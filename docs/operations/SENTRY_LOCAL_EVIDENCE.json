@@ -1,0 +1,233 @@
+{
+  "schemaVersion": 1,
+  "baseline": "962d0406c6edb6797b7b8429e9508b4e8379470f",
+  "managedAccess": false,
+  "hostedRequests": 0,
+  "migrationCeiling": 217,
+  "migrationsChanged": 0,
+  "dependencyChanges": 0,
+  "sessionReplay": false,
+  "tracingSampleRate": 0,
+  "sendDefaultPii": false,
+  "units": {
+    "admin": 1647,
+    "customer": 203,
+    "failed": 0
+  },
+  "typesBothApps": true,
+  "strictLint": true,
+  "browser": {
+    "ok": true,
+    "hosted": false,
+    "proofs": [
+      {
+        "engine": "chromium",
+        "app": "admin",
+        "kind": "react",
+        "events": 1,
+        "sensitiveDataAbsent": true,
+        "correctCode": true
+      },
+      {
+        "engine": "chromium",
+        "app": "admin",
+        "kind": "chunk",
+        "events": 1,
+        "sensitiveDataAbsent": true,
+        "correctCode": true
+      },
+      {
+        "engine": "chromium",
+        "app": "customer",
+        "kind": "react",
+        "events": 1,
+        "sensitiveDataAbsent": true,
+        "correctCode": true
+      },
+      {
+        "engine": "webkit",
+        "app": "admin",
+        "kind": "react",
+        "events": 1,
+        "sensitiveDataAbsent": true,
+        "correctCode": true
+      },
+      {
+        "engine": "webkit",
+        "app": "admin",
+        "kind": "chunk",
+        "events": 1,
+        "sensitiveDataAbsent": true,
+        "correctCode": true
+      },
+      {
+        "engine": "webkit",
+        "app": "customer",
+        "kind": "react",
+        "events": 1,
+        "sensitiveDataAbsent": true,
+        "correctCode": true
+      }
+    ],
+    "script": "scripts/testing/run-sentry-browser.mjs",
+    "scriptSha256": "84660814db10b59bff37650a50ff6c81e2c4ae830ffc1b54cd05ebd713864ffc"
+  },
+  "builds": [
+    {
+      "ok": true,
+      "app": "admin",
+      "environment": "production",
+      "files": 108,
+      "oppositeOrigins": 0,
+      "fixture": false
+    },
+    {
+      "ok": true,
+      "app": "customer",
+      "environment": "production",
+      "files": 32,
+      "oppositeOrigins": 0,
+      "fixture": true
+    },
+    {
+      "ok": true,
+      "app": "admin",
+      "environment": "prelaunch-trial",
+      "files": 108,
+      "oppositeOrigins": 0,
+      "fixture": false
+    },
+    {
+      "ok": true,
+      "app": "customer",
+      "environment": "prelaunch-trial",
+      "files": 32,
+      "oppositeOrigins": 0,
+      "fixture": true
+    },
+    {
+      "ok": true,
+      "app": "admin",
+      "environment": "staging",
+      "files": 108,
+      "oppositeOrigins": 0,
+      "fixture": false
+    },
+    {
+      "ok": true,
+      "app": "customer",
+      "environment": "staging",
+      "files": 32,
+      "oppositeOrigins": 0,
+      "fixture": true
+    }
+  ],
+  "pwa": {
+    "ok": true,
+    "mode": "full",
+    "releaseA": "1111111111111111111111111111111111111111",
+    "releaseB": "2222222222222222222222222222222222222222",
+    "results": [
+      {
+        "ok": true,
+        "browser": "Chromium",
+        "scenario": "automatic",
+        "releaseAWorker": "http://127.0.0.1:51649/sw.js?build=1111111111111111111111111111111111111111",
+        "releaseBWorker": "http://127.0.0.1:51649/sw.js?build=2222222222222222222222222222222222222222",
+        "releaseCaches": [
+          "nawasrah-admin-shell-2222222222222222222222222222222222222222"
+        ],
+        "obsoleteReleaseCacheRemoved": true,
+        "cacheCleanup": true,
+        "reopenedOnReleaseB": true,
+        "mainFrameNavigations": 3,
+        "rendered": true
+      },
+      {
+        "ok": true,
+        "browser": "Chromium",
+        "scenario": "waiting-worker",
+        "releaseAWorker": "http://127.0.0.1:51649/sw.js?build=1111111111111111111111111111111111111111",
+        "releaseBWorker": "http://127.0.0.1:51649/sw.js?build=2222222222222222222222222222222222222222",
+        "releaseCaches": [
+          "nawasrah-admin-shell-2222222222222222222222222222222222222222"
+        ],
+        "obsoleteReleaseCacheRemoved": true,
+        "cacheCleanup": true,
+        "reopenedOnReleaseB": true,
+        "mainFrameNavigations": 3,
+        "rendered": true
+      },
+      {
+        "ok": true,
+        "browser": "WebKit",
+        "scenario": "automatic",
+        "releaseAWorker": "http://127.0.0.1:51649/sw.js?build=1111111111111111111111111111111111111111",
+        "releaseBWorker": "http://127.0.0.1:51649/sw.js?build=2222222222222222222222222222222222222222",
+        "releaseCaches": [
+          "nawasrah-admin-shell-2222222222222222222222222222222222222222"
+        ],
+        "obsoleteReleaseCacheRemoved": true,
+        "cacheCleanup": true,
+        "reopenedOnReleaseB": true,
+        "mainFrameNavigations": 3,
+        "rendered": true
+      },
+      {
+        "ok": true,
+        "browser": "WebKit",
+        "scenario": "waiting-worker",
+        "releaseAWorker": "http://127.0.0.1:51649/sw.js?build=1111111111111111111111111111111111111111",
+        "releaseBWorker": "http://127.0.0.1:51649/sw.js?build=2222222222222222222222222222222222222222",
+        "releaseCaches": [
+          "nawasrah-admin-shell-2222222222222222222222222222222222222222"
+        ],
+        "obsoleteReleaseCacheRemoved": true,
+        "cacheCleanup": true,
+        "reopenedOnReleaseB": true,
+        "mainFrameNavigations": 3,
+        "rendered": true
+      }
+    ],
+    "network": {
+      "denied": [],
+      "blockedCanaryAttempts": [],
+      "deniedUnexpectedAttempts": [],
+      "escapedExternalRequests": []
+    }
+  },
+  "print": {
+    "dir": "rtl",
+    "overflow": false,
+    "articles": [
+      925,
+      810
+    ],
+    "pages": 2,
+    "network": 0
+  },
+  "table": {
+    "queries": 157,
+    "applicationReady": true,
+    "infrastructureOk": true,
+    "unexpectedPermissionDenials": 0,
+    "otherErrors": 0,
+    "evidence": "docs/operations/TABLE_ACCESS_AFTER_217.json"
+  },
+  "service": {
+    "probes": 586,
+    "expectedPermissionDenials": 18,
+    "ok": true,
+    "evidence": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+  },
+  "upgrade217OfflinePlan": {
+    "ok": true,
+    "output": "C:\\Users\\TOP\\NawasrahFrankfurt\\nawasrah-fra-001-138\\offline217-2026-10-31T03-30-38-076Z",
+    "remoteWriteAttempted": false
+  },
+  "limits": [
+    "No actual Sentry account,DSN,notification or hosted environment was used.",
+    "Automatic capture cannot guarantee delivery during a complete browser/OS freeze or before JavaScript can execute.",
+    "Owner must configure separate DSNs and perform one preview test after authorized deployment."
+  ]
+}

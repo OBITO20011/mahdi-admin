@@ -6,6 +6,18 @@ export const publicEnvironments=Object.freeze({
  'prelaunch-trial':{projectRef:'kzevmysfydaslxcerogt',key:'sb_publishable_d4TElxRQFkC-AZko3_ASeg_YotqxGjV',storeOrigin:'https://staging-frankfurt.nawasrah-store.pages.dev'},
  staging:{projectRef:'acjtabdqqnpwhdvbvnyw',key:'sb_publishable_XYq8HBYT6Pxa2VdRdi69CA_012vvfp5',storeOrigin:'https://staging-frankfurt.nawasrah-store.pages.dev'},
 });
+export function monitoringEnvironment(env,environment){
+ if(environment==='isolated')return {dsn:'',ingestOrigin:'',release:''};
+ const key='VITE_SENTRY_DSN_'+environment.toUpperCase().replaceAll('-','_');
+ const dsn=(env[key]??'').trim();
+ const release=env.NAWASRAH_ADMIN_RELEASE_ID||env.NAWASRAH_STORE_RELEASE_ID||env.CF_PAGES_COMMIT_SHA||env.GITHUB_SHA||'';
+ if(release)assert.match(release,/^[a-f0-9]{40}$/iu,'MONITORING_RELEASE_INVALID');
+ if(!dsn)return {dsn:'',ingestOrigin:'',release};
+ for(const other of ['PRODUCTION','STAGING','PRELAUNCH_TRIAL'])if('VITE_SENTRY_DSN_'+other!==key)assert.notEqual(env['VITE_SENTRY_DSN_'+other]?.trim(),dsn,'MONITORING_DSN_REUSED_ACROSS_ENVIRONMENTS');
+ let u;try{u=new URL(dsn);}catch{throw new Error('MONITORING_DSN_INVALID');}
+ assert.ok(u.protocol==='https:'&&/^o\d+\.ingest(?:\.(?:us|de))?\.sentry\.io$/u.test(u.hostname)&&u.username&&!u.password&&!u.port&&!u.search&&!u.hash&&/^\/\d+$/u.test(u.pathname),'MONITORING_DSN_INVALID');
+ return {dsn,ingestOrigin:u.origin,release};
+}
 export function plainLoopback(value){
  try{const u=new URL(value);return u.protocol==='http:'&&['localhost','127.0.0.1','[::1]'].includes(u.hostname)&&!u.username&&!u.password&&u.pathname==='/'&&!u.search&&!u.hash;}catch{return false;}
 }
@@ -19,7 +31,7 @@ export function resolveBuildEnvironment(env){
   assert.ok(plainLoopback(env.VITE_SUPABASE_URL),'BUILD_ISOLATION_REQUIRES_LOOPBACK');
   const key=env.VITE_SUPABASE_PUBLISHABLE_KEY||env.VITE_SUPABASE_ANON_KEY;assert.ok(key?.length>10,'BUILD_ISOLATION_KEY_REQUIRED');
   return {format:1,environment:'isolated',isolated:true,projectRef:null,url:new URL(env.VITE_SUPABASE_URL).origin,key,
-   storeOrigin:'http://127.0.0.1:4174',turnstile:env.VITE_TURNSTILE_SITE_KEY||'1x00000000000000000000AA'};
+   storeOrigin:'http://127.0.0.1:4174',monitoring:monitoringEnvironment(env,'isolated'),turnstile:env.VITE_TURNSTILE_SITE_KEY||'1x00000000000000000000AA'};
  }
  const environment=env.NAWASRAH_DEPLOYMENT_ENV;assert.ok(Object.hasOwn(publicEnvironments,environment??''),'EXPLICIT_BUILD_ENVIRONMENT_REQUIRED');
  const selected=publicEnvironments[environment],url=`https://${selected.projectRef}.supabase.co`;
@@ -28,13 +40,14 @@ export function resolveBuildEnvironment(env){
  if(env.VITE_PUBLIC_SITE_ORIGIN)assert.ok(env.VITE_PUBLIC_SITE_ORIGIN.replace(/\/+$/u,'')===selected.storeOrigin,'BUILD_SITE_ENVIRONMENT_MISMATCH');
  if(env.VITE_STOREFRONT_PUBLIC_URL)assert.ok(env.VITE_STOREFRONT_PUBLIC_URL.replace(/\/+$/u,'')===selected.storeOrigin,'BUILD_STORE_LINK_ENVIRONMENT_MISMATCH');
  return {format:1,environment,isolated:false,...(environment==='prelaunch-trial'?{prelaunchTrial:true,allowedPreviewBranch:PRELAUNCH_TRIAL_BRANCH,productionDeployAllowed:false}:{}),projectRef:selected.projectRef,url,key:selected.key,storeOrigin:selected.storeOrigin,
-  turnstile:env.VITE_TURNSTILE_SITE_KEY||'0x4AAAAAAEPJTplD4PVe_Cgk'};
+  monitoring:monitoringEnvironment(env,environment),turnstile:env.VITE_TURNSTILE_SITE_KEY||'0x4AAAAAAEPJTplD4PVe_Cgk'};
 }
 export function renderEnvironmentHeaders(template,selected){
  assert.equal(template.split('__NAWASRAH_SUPABASE_HTTPS__').length,2,'CSP_HTTPS_PLACEHOLDER_REQUIRED');
  assert.equal(template.split('__NAWASRAH_SUPABASE_WSS__').length,2,'CSP_WSS_PLACEHOLDER_REQUIRED');
  return template.replace('__NAWASRAH_SUPABASE_HTTPS__',selected.url)
-  .replace('__NAWASRAH_SUPABASE_WSS__',selected.url.replace(/^http/u,'ws'));
+  .replace('__NAWASRAH_SUPABASE_WSS__',selected.url.replace(/^http/u,'ws'))
+  .replace('https://challenges.cloudflare.com;',`https://challenges.cloudflare.com${selected.monitoring?.ingestOrigin?' '+selected.monitoring.ingestOrigin:''};`);
 }
 
 export function validatePublicBuildManifest(manifest){

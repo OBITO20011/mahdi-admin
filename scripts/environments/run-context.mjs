@@ -7,6 +7,9 @@ const [environment,app='admin']=process.argv.slice(2),root=path.resolve(import.m
 assert.ok(['production','staging','prelaunch-trial'].includes(environment),'EXPLICIT_BUILD_ENVIRONMENT_REQUIRED');assert.ok(['admin','customer'].includes(app));
 const cwd=app==='customer'?path.join(root,'customer-web'):root;
 const env={...process.env,NAWASRAH_DEPLOYMENT_ENV:environment};
+const release=execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim();
+if(app==='customer'&&!env.NAWASRAH_STORE_RELEASE_ID)env.NAWASRAH_STORE_RELEASE_ID=release;
+if(app==='admin'&&!env.NAWASRAH_ADMIN_RELEASE_ID)env.NAWASRAH_ADMIN_RELEASE_ID=release;
 if(environment==='prelaunch-trial'){
  resolveBuildEnvironment(env); // Source closure is checked before any build or Git operation.
  if(app==='admin'){

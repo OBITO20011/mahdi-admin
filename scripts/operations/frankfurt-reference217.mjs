@@ -1,3 +1,4 @@
+import {sourceBeforeSentry} from '../audit/source-before-sentry.mjs';
 // Current217 reference: independent fresh/incremental catalogs and actual SDK
 // evidence. Historical216 is a separate prefix, never a renamed217 reference.
 import assert from 'node:assert/strict';import {readFile} from 'node:fs/promises';import path from 'node:path';
@@ -28,4 +29,15 @@ export function assertReady217Reference(reference,manifest,proofText,source){
  const compared=compareManagedCatalog(proof.catalog,reference.catalog,{beforeBuildDate:proof.startedAt.slice(0,10),afterBuildDate:reference.buildUtcDate});assert.deepEqual(compared.unexpected,[]);assert.deepEqual(compared.expected,[]);
  assert.deepEqual(reference.readiness,{sourceHashes:source.sources,accessEvidenceSha256:sha256(canonicalLf(proofText)),coverage:proof.coverage,queries:proof.results.length,errors:0});assert.equal(reference.functions,633);return reference;
 }
-export async function readReady217Reference(root,filename){return assertReady217Reference(JSON.parse(await readFile(filename,'utf8')),(await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=217),await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_217.json'),'utf8'),await inventory());}
+export async function readReady217Reference(root,filename){
+ const reference=JSON.parse(await readFile(filename,'utf8')),manifest=(await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=217);
+ const current=await inventory(),proofText=await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_217.json'),'utf8'),proof=JSON.parse(proofText);
+ assert.deepEqual(proof.sourceHashes,current.sources,'CURRENT_SENTRY_ACCESS_EVIDENCE_STALE');
+ assert.deepEqual(proof.coverage,verifyProbeCoverage(current,proof.results));assert.equal(proof.applicationReady,true);assert.equal(proof.infrastructureOk,true);assert.ok(proof.results.every(r=>r.sqlstate===null));
+ if(JSON.stringify(reference.readiness.sourceHashes)===JSON.stringify(current.sources))return assertReady217Reference(reference,manifest,proofText,current);
+ // Preserve the owner's existing217 reference. Only the exact reviewed frontend
+ // inverse is admitted,after fresh actual query/ACL evidence above is verified.
+ const historical=await inventory({projectSource:sourceBeforeSentry}),original=await readFile(path.join(root,'docs/operations/TABLE_ACCESS_BEFORE_SENTRY217.json'),'utf8');
+ const comparison=compareManagedCatalog(JSON.parse(original).catalog,proof.catalog,{beforeBuildDate:JSON.parse(original).startedAt.slice(0,10),afterBuildDate:proof.startedAt.slice(0,10)});assert.deepEqual(comparison.unexpected,[]);assert.deepEqual(comparison.expected,[]);
+ return assertReady217Reference(reference,manifest,original,historical);
+}

@@ -12,5 +12,7 @@ test('the app reloads once when an old deployed chunk is no longer available', (
   assert.match(boundary, /window\.sessionStorage\.getItem\(staleChunkReloadKey\)/);
   assert.match(boundary, /staleChunkReloadCooldownMs/);
   assert.match(boundary, /window\.location\.reload\(\)/);
-  assert.match(boundary, /isStaleChunkError\(error\) && recoverFromStaleChunk\(\)/);
+  assert.match(boundary, /if \(isStaleChunkError\(error\)\)/);
+  assert.match(boundary, /if \(recoverFromStaleChunk\(\)\) return/);
+  assert.ok(boundary.indexOf('captureRenderError(error')<boundary.indexOf('if (recoverFromStaleChunk()'),'Capture chunk failure before recovery reload');
 });

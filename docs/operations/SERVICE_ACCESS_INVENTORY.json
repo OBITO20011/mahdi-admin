@@ -9,7 +9,7 @@
     },
     {
       "file": "src/components/common/AppErrorBoundary.tsx",
-      "sha256": "c17546abe154dda9cc109163b7d266b2214149b631839b44ec856bede29e9eae"
+      "sha256": "099ee84f0a43382e2695c27563d81615ad6335ad429e7b16372b5d6b41bee5b1"
     },
     {
       "file": "src/components/common/Header.tsx",
@@ -685,7 +685,11 @@
     },
     {
       "file": "src/lib/errorMonitoring.ts",
-      "sha256": "07b16712a33cebef7743acc3e0abfa6eed630d5b00c66d2b8761980bf3638a7d"
+      "sha256": "3bfba6e73bf3b56abda4eb6ce2f9fb1ed1dcc9f6b53e9f1a3823f8213b65e15b"
+    },
+    {
+      "file": "src/lib/monitoringPrivacy.ts",
+      "sha256": "e44ada8c2cb19fb2a2d063b84f5195cbb2fcc9852dcff44cb1b463cb6a7d1d9c"
     },
     {
       "file": "src/lib/supabase.ts",
@@ -701,7 +705,7 @@
     },
     {
       "file": "src/pwa/pwa.ts",
-      "sha256": "dd313fba1bbfb217757796763cba59c54f8f2a54109dcb203c425b31be86d48d"
+      "sha256": "feacf5d30ef159822a4926ef401b703af04ccd74f8cb16bdd6fff8865934358d"
     },
     {
       "file": "src/services/deviceBiometrics.service.ts",
@@ -1133,7 +1137,7 @@
     },
     {
       "file": "src/vite-env.d.ts",
-      "sha256": "8f554758a8fd30b190025fa27153a59d27f833393e8bd2c622418d85d0e45697"
+      "sha256": "fa1c94060a056a77686a14ff2ef30924adde848d17854fa6a80e8cbbe0a257e6"
     },
     {
       "file": "customer-web/src/App.tsx",
@@ -1301,7 +1305,11 @@
     },
     {
       "file": "customer-web/src/lib/errorMonitoring.ts",
-      "sha256": "56c03352e3ca19bb49e878a8fa881119efb7d88170a172e3a73c920162ed9d27"
+      "sha256": "ad55a4c9bf2fe28ee18af4a81027d15153ea4554db10f908b26894a222c53f50"
+    },
+    {
+      "file": "customer-web/src/lib/monitoringPrivacy.ts",
+      "sha256": "e44ada8c2cb19fb2a2d063b84f5195cbb2fcc9852dcff44cb1b463cb6a7d1d9c"
     },
     {
       "file": "customer-web/src/lib/supabase.ts",
@@ -1480,9 +1488,9 @@
       "source": "supabase.rpc('get_pos_configurable_parcel_options_v1', {p_warehouse_id: warehouseId})"
     },
     {
-      "id": "src/lib/errorMonitoring.ts:33",
+      "id": "src/lib/errorMonitoring.ts:32",
       "file": "src/lib/errorMonitoring.ts",
-      "line": 33,
+      "line": 32,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "reportSanitizedRuntimeIncident",

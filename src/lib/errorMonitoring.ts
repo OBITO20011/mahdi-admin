@@ -1,14 +1,13 @@
-import type {Breadcrumb, ErrorEvent as SentryErrorEvent} from '@sentry/react';
+import {sanitizeEvent,sanitizeBreadcrumb} from './monitoringPrivacy';
 import {supabase} from './supabase';
 
-const sensitiveKeyPattern =
-  /address|authorization|customer|email|location|name|notes?|password|phone|token/i;
 const jordanPhonePattern = /(?:\+?962|0)7[789]\d{7}/g;
 const emailPattern = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi;
-const redactedValue = '[filtered]';
 
 type SentrySdk = typeof import('@sentry/react');
 
+const pendingChunkKey='nawasrah:monitoring:pending-chunk';
+const isChunkFailure=(error:Error)=>/chunk|dynamically imported|module script/iu.test(error.message);
 let monitoringSdk: SentrySdk | null = null;
 let monitoringLoad: Promise<SentrySdk> | null = null;
 let bootstrapListenersInstalled = false;
@@ -42,77 +41,9 @@ function redactText(value: string): string {
     .replace(emailPattern, '[email]');
 }
 
-function stripUrlDetails(value: string): string {
-  try {
-    const url = new URL(value, window.location.origin);
-    url.search = '';
-    url.hash = '';
-    return url.toString();
-  } catch {
-    return redactText(value.split('?')[0]?.split('#')[0] ?? value);
-  }
-}
-
-function sanitizeValue(value: unknown, key = '', depth = 0): unknown {
-  if (sensitiveKeyPattern.test(key)) return redactedValue;
-  if (depth > 4) return '[truncated]';
-  if (typeof value === 'string') return redactText(value);
-  if (Array.isArray(value)) {
-    return value.slice(0, 20).map((item) => sanitizeValue(item, '', depth + 1));
-  }
-  if (value && typeof value === 'object') {
-    return Object.fromEntries(
-      Object.entries(value).map(([entryKey, entryValue]) => [
-        entryKey,
-        sanitizeValue(entryValue, entryKey, depth + 1),
-      ]),
-    );
-  }
-  return value;
-}
-
-function sanitizeEvent(event: SentryErrorEvent): SentryErrorEvent {
-  event.user = undefined;
-
-  if (event.request) {
-    event.request = {
-      method: event.request.method,
-      url: event.request.url ? stripUrlDetails(event.request.url) : undefined,
-    };
-  }
-
-  event.message = event.message ? redactText(event.message) : event.message;
-  event.extra = sanitizeValue(event.extra) as SentryErrorEvent['extra'];
-  event.contexts = sanitizeValue(event.contexts) as SentryErrorEvent['contexts'];
-  event.tags = sanitizeValue(event.tags) as SentryErrorEvent['tags'];
-
-  for (const value of event.exception?.values ?? []) {
-    if (value.value) value.value = redactText(value.value);
-  }
-
-  return event;
-}
-
-function sanitizeBreadcrumb(breadcrumb: Breadcrumb): Breadcrumb | null {
-  if (breadcrumb.category === 'console') return null;
-
-  breadcrumb.message = breadcrumb.message
-    ? redactText(breadcrumb.message)
-    : breadcrumb.message;
-
-  if (breadcrumb.data) {
-    const sanitizedData = sanitizeValue(breadcrumb.data) as Record<string, unknown>;
-    const rawUrl = breadcrumb.data.url;
-    if (typeof rawUrl === 'string') sanitizedData.url = stripUrlDetails(rawUrl);
-    breadcrumb.data = sanitizedData;
-  }
-
-  return breadcrumb;
-}
-
 function getMonitoringDsn(): string | null {
   const dsn = import.meta.env.VITE_SENTRY_DSN?.trim();
-  return import.meta.env.PROD && dsn ? dsn : null;
+  return import.meta.env.PROD && import.meta.env.VITE_MONITORING_ENV !== 'isolated' && ['production','staging','prelaunch-trial'].includes(import.meta.env.VITE_MONITORING_ENV ?? '') && dsn ? dsn : null;
 }
 
 function normalizeUnexpectedError(value: unknown, fallback: string): Error {
@@ -133,7 +64,12 @@ function loadMonitoringSdk(): Promise<SentrySdk> | null {
     .then((sdk) => {
       sdk.init({
         dsn,
-        environment: 'production',
+        environment: import.meta.env.VITE_MONITORING_ENV,
+        release: import.meta.env.VITE_MONITORING_RELEASE,
+        defaultIntegrations: false,
+        integrations: [sdk.globalHandlersIntegration(),sdk.dedupeIntegration()],
+        replaysSessionSampleRate: 0,
+        replaysOnErrorSampleRate: 0,
         sendDefaultPii: false,
         attachStacktrace: true,
         maxBreadcrumbs: 30,
@@ -177,6 +113,7 @@ export function initErrorMonitoring(): boolean {
     );
   };
 
+  window.addEventListener('vite:preloadError', () => captureRenderError(new Error('CHUNK_LOAD_ERROR')));
   window.addEventListener('error', handleWindowError);
   window.addEventListener('unhandledrejection', handleUnhandledRejection);
   removeBootstrapListeners = () => {
@@ -184,6 +121,7 @@ export function initErrorMonitoring(): boolean {
     window.removeEventListener('unhandledrejection', handleUnhandledRejection);
   };
   bootstrapListenersInstalled = true;
+  try {if(window.sessionStorage.getItem(pendingChunkKey)==='1')captureRenderError(new Error('CHUNK_LOAD_ERROR'));}catch{/* Storage may be unavailable; normal capture still works. */}
   return true;
 }
 
@@ -191,6 +129,8 @@ export function captureRenderError(error: Error, componentStack?: string): void 
   void reportSanitizedRuntimeIncident(error, componentStack).catch(() => undefined);
   if (!monitoringSdk) {
     if (!getMonitoringDsn()) return;
+    // Only a fixed code survives the existing immediate stale-chunk reload.
+    if(isChunkFailure(error))try{window.sessionStorage.setItem(pendingChunkKey,'1');}catch{/* No business data is stored. */}
     if (pendingRenderErrors.length < 10) {
       pendingRenderErrors.push({error, componentStack});
     }
@@ -199,9 +139,14 @@ export function captureRenderError(error: Error, componentStack?: string): void 
   }
 
   monitoringSdk.withScope((scope) => {
+    scope.setTag('screen',window.location.pathname);
     if (componentStack) {
-      scope.setContext('react', {componentStack: redactText(componentStack)});
+      scope.setTag('error_code','REACT_RENDER_ERROR');
+      scope.setTag('component','AppErrorBoundary');
     }
+    if (isChunkFailure(error)) scope.setTag('error_code','CHUNK_LOAD_ERROR');
+    else if(error.message==='PWA_UPDATE_ERROR')scope.setTag('error_code','PWA_UPDATE_ERROR');
     monitoringSdk?.captureException(error);
+    if(isChunkFailure(error))try{window.sessionStorage.removeItem(pendingChunkKey);}catch{/* Best-effort cleanup. */}
   });
 }

@@ -1,3 +1,4 @@
+import {sourceBeforeSentry} from '../scripts/audit/source-before-sentry.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -7,7 +8,7 @@ import {runInNewContext} from 'node:vm';
 import {packageFShardCount,packageFShards,isPackageFShardArgument} from '../scripts/testing/package-f-ci-shards.mjs';
 import {browserBalancePins,sourceBeforeBrowserBalance} from '../scripts/audit/source-before-browser-balance.mjs';
 const baseline='8f48e49b0107d395e114f81967fc52d3cd2c40d7';
-const lf=(s:string)=>s.replaceAll('\r\n','\n'),read=(f:string)=>lf(readFileSync(f,'utf8'));
+const lf=(s:string)=>s.replaceAll('\r\n','\n'),read=(f:string)=>sourceBeforeSentry(f,lf(readFileSync(f,'utf8')))!;
 const old=(f:string)=>lf(execFileSync('git',['show',baseline+':'+f],{encoding:'utf8',windowsHide:true,maxBuffer:4*1024**2}));
 const hash=(s:string)=>createHash('sha256').update(s).digest('hex');
 

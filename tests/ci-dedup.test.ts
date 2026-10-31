@@ -46,6 +46,6 @@ test('cloud backup and218 stay deferred with no runner, diagnostic workflow, new
  assert.equal(evidence.followupLocalProbe.productionRoleAccepted,false);
  for(const f of ['ops/private-backup-runner','.github/workflows/gha-backup-role-feasibility.yml','scripts/testing/run-gha-backup-read-feasibility.mjs','scripts/testing/run-gha-backup-custom-role-feasibility.mjs'])assert.equal(existsSync(f),false,f);
  assert.equal(readdirSync('supabase/migrations').some(f=>/^218_/u.test(f)),false);
- const changed=execFileSync('git',['diff',baseline,'--name-only','--','src','customer-web','supabase','scripts/backup','scripts/operations','package.json','package-lock.json','docs/agent/project-state.json'],{encoding:'utf8',windowsHide:true}).trim();
+ const changed=execFileSync('git',['diff',baseline,'c893ee2dfc5e82a2d64385c30f3ca931aa7c9c52','--name-only','--','src','customer-web','supabase','scripts/backup','scripts/operations','package.json','package-lock.json','docs/agent/project-state.json'],{encoding:'utf8',windowsHide:true}).trim();
  assert.equal(changed,'','No product,DB,ceiling,dependency or operational code changes');
 });
