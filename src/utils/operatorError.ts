@@ -1,5 +1,7 @@
+import {knownBusinessErrorMessage} from './businessError';
+import {posKnownRejectionCopy} from './posKnownRejectionCopy';
 /** Presentation only: references identify a screen/action, never a business outcome.
- * Untrusted exception messages, identifiers and values never enter the output. */
+ * Only checked-in translations/exact local validation messages can be displayed. */
 const messages = {
   products: ['POS-01', 'تعذر تحميل الأصناف. تحقق من الاتصال ثم أعد تحميل القائمة.'],
   partial: ['POS-02', 'راجع المدفوع الآن: اختر زبوناً مسجلاً، وأدخل مبلغاً من صفر إلى صافي الفاتورة وبثلاث خانات عشرية كحد أقصى.'],
@@ -15,7 +17,31 @@ const messages = {
 
 export type OperatorErrorArea = keyof typeof messages;
 
-export function operatorErrorMessage(area: OperatorErrorArea): string {
+const partialValidationCopy = new Set([
+  'اكتب المدفوع الآن بثلاث خانات عشرية كحد أقصى.',
+  'المدفوع الآن أكبر من الحد المسموح.',
+  'المدفوع الآن يجب أن يكون بين صفر وإجمالي الفاتورة.',
+  'اختر زبوناً مسجلاً لحفظ الباقي على حسابه.',
+  'لا يمكن تسجيل دفعة لفاتورة صافيها صفر.',
+  'المدفوع الآن أكبر من صافي الفاتورة.',
+]);
+
+export function operatorErrorMessage(area: OperatorErrorArea, reason?: unknown): string {
   const [reference, message] = messages[area];
-  return `${message} مرجع: ${reference}`;
+  let specific: string | null = null;
+  if (area === 'partial') {
+    const text = reason instanceof Error ? reason.message : typeof reason === 'string' ? reason : '';
+    if (partialValidationCopy.has(text)) specific = text;
+  } else if (area === 'aftercare' || area === 'aftercareRead') {
+    const text = reason instanceof Error ? reason.message : typeof reason === 'string' ? reason : '';
+    // Unknown/transport text has no known translation. Never interpolate raw text.
+    specific = knownBusinessErrorMessage(text);
+  }
+  return `${specific ?? message} مرجع: ${reference}`;
+}
+
+/** A rejected identity selects local copy; the RPC's message is never echoed. */
+export function operatorPosRejectionMessage(identity: string): string {
+  const specific = Object.hasOwn(posKnownRejectionCopy, identity) ? posKnownRejectionCopy[identity] : null;
+  return specific ? `${specific} مرجع: POS-04` : operatorErrorMessage('saleRejected');
 }

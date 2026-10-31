@@ -26,7 +26,7 @@ export const AdminAftercarePanel:React.FC<Props>=({order,onChanged,onContractRes
   const refreshRecoveryStates=useCallback(async()=>{
     setRecoveryStates(await fetchAdminAftercareRecoveryStates(order.id));
     if(isOwner)try{setSupplierAttempt(await supplierReplacementRecovery(supplierScope));setSupplierRecoveryError('');}
-    catch{setSupplierRecoveryError(operatorErrorMessage('aftercareRead'));}
+    catch(cause){setSupplierRecoveryError(operatorErrorMessage('aftercareRead',cause));}
   },[order.id,isOwner,supplierScope]);
   useEffect(()=>{setSupplierAttempt(null);setSupplierRecoveryError('');setDamageOpen(false);},[user?.id,isOwner,order.id]);
   const load = useCallback(async () => {
@@ -34,7 +34,7 @@ export const AdminAftercarePanel:React.FC<Props>=({order,onChanged,onContractRes
     setError(null);
     const result = await fetchAdminAftercareContext(order.id);
     if (!result.success || !result.data) {
-      setError(operatorErrorMessage('aftercareRead'));
+      setError(operatorErrorMessage('aftercareRead',result.error));
       onContractResolved(null);
     } else {
       if (result.data.baseItems.some(item => item.commercialLineKind === 'legacy_single_sku_parcel'
@@ -48,8 +48,8 @@ export const AdminAftercarePanel:React.FC<Props>=({order,onChanged,onContractRes
       onContractResolved(result.data.capability);
       try {
         await refreshRecoveryStates();
-      } catch {
-        setError(operatorErrorMessage('aftercareRead'));
+      } catch (cause) {
+        setError(operatorErrorMessage('aftercareRead',cause));
       }
     }
     setLoading(false);
@@ -90,13 +90,13 @@ export const AdminAftercarePanel:React.FC<Props>=({order,onChanged,onContractRes
     try {
       const result = await recoverAdminAftercare(order.id, action);
       if (!result.success) {
-        notify(operatorErrorMessage('aftercare'), 'error'); return;
+        notify(operatorErrorMessage('aftercare',result.error), 'error'); return;
       }
       notify(action === 'return' ? 'تم استرداد نتيجة المرتجع المعلقة.'
         : 'تم استرداد نتيجة الاستبدال المعلقة.');
       await load(); await onChanged?.();
-    } catch {
-      notify(operatorErrorMessage('aftercare'), 'error');
+    } catch (cause) {
+      notify(operatorErrorMessage('aftercare',cause), 'error');
     } finally {
       try { await refreshRecoveryStates(); } catch { /* load exposes recovery read errors */ }
       setBusy(false);
@@ -124,7 +124,7 @@ export const AdminAftercarePanel:React.FC<Props>=({order,onChanged,onContractRes
       </div>
 
       {hasPendingRecovery && <div className="space-y-2 rounded-xl border border-nw-warn bg-nw-warn-bg p-3">
-        {isOwner&&(supplierAttempt?.status==='unknown'||supplierAttempt?.status==='prepared')&&<UiButton disabled={busy} onClick={()=>void(async()=>{setBusy(true);try{await submitSupplierReplacement(supplierScope);notify(supplierAttempt.action==='replacement_supplier'?'تم استرداد نتيجة الاستبدال المرتبط بالمورد.':'تم استرداد نتيجة المرتجع المرتبط بالمورد.');await load();await onChanged?.();}catch{notify(operatorErrorMessage('aftercare'),'error');}finally{await refreshRecoveryStates();setBusy(false);}})()}>{supplierAttempt.action==='replacement_supplier'?'استعادة الاستبدال المرسل للمورد':'استعادة المرتجع المرسل للمورد'}</UiButton>}
+        {isOwner&&(supplierAttempt?.status==='unknown'||supplierAttempt?.status==='prepared')&&<UiButton disabled={busy} onClick={()=>void(async()=>{setBusy(true);try{await submitSupplierReplacement(supplierScope);notify(supplierAttempt.action==='replacement_supplier'?'تم استرداد نتيجة الاستبدال المرتبط بالمورد.':'تم استرداد نتيجة المرتجع المرتبط بالمورد.');await load();await onChanged?.();}catch(cause){notify(operatorErrorMessage('aftercare',cause),'error');}finally{await refreshRecoveryStates();setBusy(false);}})()}>{supplierAttempt.action==='replacement_supplier'?'استعادة الاستبدال المرسل للمورد':'استعادة المرتجع المرسل للمورد'}</UiButton>}
         <b className="text-nw-text">توجد عملية معلقة يجب استعادتها بنفس الهوية</b>
         <p className="text-[10px] text-nw-text">لا تبدأ عملية جديدة قبل معرفة نتيجة المحاولة السابقة.</p>
         <div className="flex gap-2">

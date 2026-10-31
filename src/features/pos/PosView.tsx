@@ -2,7 +2,7 @@
  * Nawasrah Business Manager - POS (Point of Sale) View
  */
 
-import {operatorErrorMessage} from '../../utils/operatorError';
+import {operatorErrorMessage,operatorPosRejectionMessage} from '../../utils/operatorError';
 import {WarehouseChoice} from '../../components/ui/WarehouseChoice';
 import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import {
@@ -486,7 +486,7 @@ export const PosView: React.FC = () => {
           resolvedMethod=split.paymentMethod;
           if(split.initialPaymentMethod)initialPayment={amountInMinorUnits:split.paidInMinorUnits,method:split.initialPaymentMethod,referenceNumber:initialPaidReference.trim()||undefined};
         }else if(paid!==0)throw new Error('لا يمكن تسجيل دفعة لفاتورة صافيها صفر.');
-      }catch{setToast(operatorErrorMessage('partial'),'error');return;}
+      }catch(cause){setToast(operatorErrorMessage('partial',cause),'error');return;}
     }
     const request: CreatePosSaleV2Input = {warehouseId, branchId: activeBranch.id,
       customerId: selectedCustomer?.id, customerName: selectedCustomer?.name || 'زبون نقدي', paymentMethod:resolvedMethod,
@@ -502,7 +502,7 @@ export const PosView: React.FC = () => {
     setIsSubmitting(true);
     try {
       const result = await runPosV2Attempt(supabase, currentUser.id, intent, request);
-      if (result.ok === false) {setToast(operatorErrorMessage(result.status === 'unknown' ? 'saleUnknown' : 'saleRejected'), 'error'); return;}
+      if (result.ok === false) {setToast(result.status === 'unknown' ? operatorErrorMessage('saleUnknown') : operatorPosRejectionMessage(result.errorIdentity), 'error'); return;}
       const meta = await supabase.from('orders').select('created_at,order_items(id,base_unit_name_snapshot)').eq('id', result.data.orderId).single();
       const invoice = posV2Invoice(result.data, currentUser, typeof meta.data?.created_at === 'string' ? meta.data.created_at : '',receiptBaseUnitNames(meta.data));
       try {invoice.publicReceiptUrl = await getOrCreatePublicPosReceiptUrlFromSupabase(result.data.orderId);} catch {/* Committed sale is still recoverable. */}
@@ -653,7 +653,7 @@ export const PosView: React.FC = () => {
   if(paymentMethod==='debt')try{
     const paid=initialPaymentText216(initialPaidText),due=jodToMinorUnits(totalAmount)-paid;
     if(due<0)throw new Error('المدفوع الآن أكبر من صافي الفاتورة.');initialDue=due/1000;
-  }catch{initialPaidIssue=operatorErrorMessage('partial');}
+  }catch(cause){initialPaidIssue=operatorErrorMessage('partial',cause);}
   const paymentControl = <fieldset disabled={isSubmitting||recoveryBlocked}><SegmentedControl touchSize label="طريقة الدفع" value={paymentMethod}
  options={[{value: 'cash' as PaymentMethod, label: 'كاش'}, {value: 'cliq' as PaymentMethod, label: 'CliQ'}, {value: 'debt' as PaymentMethod, label: 'دين / دفع جزئي'}]}
  onChange={value => {setPaymentMethod(value);if(value==='debt')setIsCartOpen(true);}} /></fieldset>;
