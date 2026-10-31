@@ -1,5 +1,8 @@
 # Nawasrah ERP agent contract
 
+Practical maintenance entry: [Arabic maintainer guide](docs/MAINTAINER_GUIDE_AR.md).
+It maps current screens/services/RPCs and tests; it does not grant production or policy authorization.
+
 Before changing this repository:
 
 1. Read `docs/agent/OPERATING_RULES.md` and `docs/agent/PHASE_STATUS.md`.
