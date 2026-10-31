@@ -229,5 +229,44 @@
     "No actual Sentry account,DSN,notification or hosted environment was used.",
     "Automatic capture cannot guarantee delivery during a complete browser/OS freeze or before JavaScript can execute.",
     "Owner must configure separate DSNs and perform one preview test after authorized deployment."
-  ]
+  ],
+  "ciCorrections": [
+    {
+      "head": "417fd204d65c77dd705aae9d38857bee7aa814c7",
+      "job": "Isolated current contracts (prelaunch-trial)",
+      "category": "Genuine closure-guard ordering regression",
+      "fix": "Validate source closure and build context before any Git operation",
+      "localProof": {
+        "ok": true,
+        "hostedAccess": false,
+        "deployments": 0,
+        "builds": [
+          {
+            "ok": true,
+            "app": "admin",
+            "environment": "prelaunch-trial",
+            "files": 108,
+            "oppositeOrigins": 0,
+            "fixture": false
+          },
+          {
+            "ok": true,
+            "app": "customer",
+            "environment": "prelaunch-trial",
+            "files": 32,
+            "oppositeOrigins": 0,
+            "fixture": true
+          }
+        ],
+        "productionArtifactRefusals": 2,
+        "forgedProductionRefusals": 2,
+        "wrongBranchRefusals": 2,
+        "closedActualBuildRefusals": 2,
+        "closedExistingArtifactRefusals": 2,
+        "closedEnvironmentOverrideRefused": true,
+        "pwaSourceShaBound": true
+      }
+    }
+  ],
+  "environmentalRerunsUsed": 0
 }

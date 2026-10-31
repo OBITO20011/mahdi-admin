@@ -6,8 +6,12 @@ import {resolveBuildEnvironment,renderEnvironmentHeaders} from './environment.mj
 export function selectedViteEnvironment(mode,root){
  // Process values win,as in Vite. A stale local .env cannot select another DB.
  const env={...loadEnv(process.env.NAWASRAH_DEPLOYMENT_ENV||mode,root,''),...process.env};
- if(env.VITE_BROWSER_QA_ISOLATED!=='true'&&!env.NAWASRAH_ADMIN_RELEASE_ID&&!env.NAWASRAH_STORE_RELEASE_ID&&!env.CF_PAGES_COMMIT_SHA&&!env.GITHUB_SHA)env.NAWASRAH_STORE_RELEASE_ID=execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim();
- return resolveBuildEnvironment(env);
+ const selected=resolveBuildEnvironment(env);
+ if(!selected.isolated&&!selected.monitoring.release){
+  env.NAWASRAH_STORE_RELEASE_ID=execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim();
+  return resolveBuildEnvironment(env);
+ }
+ return selected;
 }
 export function environmentDefines(selected){return {
  'import.meta.env.VITE_SENTRY_DSN':JSON.stringify(selected.monitoring?.dsn??''),
