@@ -6,7 +6,7 @@ import React,{lazy,Suspense,useCallback,useEffect,useMemo,useState} from 'react'
 import {RefreshCw} from 'lucide-react';
 import {CURRENCY} from '../../constants';
 import type {Order} from '../../types';
-import {businessErrorMessage} from '../../utils/businessError';
+import {operatorErrorMessage} from '../../utils/operatorError';
 import {AftercareSupplierSafety} from './AftercareSupplierSafety';
 import {AftercareWizard215} from './AftercareWizard215';
 import type {AdminAftercareAction} from '../../services/supabase/adminAftercareRecovery';
@@ -26,7 +26,7 @@ export const AdminAftercarePanel:React.FC<Props>=({order,onChanged,onContractRes
   const refreshRecoveryStates=useCallback(async()=>{
     setRecoveryStates(await fetchAdminAftercareRecoveryStates(order.id));
     if(isOwner)try{setSupplierAttempt(await supplierReplacementRecovery(supplierScope));setSupplierRecoveryError('');}
-    catch(cause){setSupplierRecoveryError(cause instanceof Error?cause.message:'تعذر قراءة محاولة إرسال المرتجع للمورد.');}
+    catch{setSupplierRecoveryError(operatorErrorMessage('aftercareRead'));}
   },[order.id,isOwner,supplierScope]);
   useEffect(()=>{setSupplierAttempt(null);setSupplierRecoveryError('');setDamageOpen(false);},[user?.id,isOwner,order.id]);
   const load = useCallback(async () => {
@@ -34,23 +34,22 @@ export const AdminAftercarePanel:React.FC<Props>=({order,onChanged,onContractRes
     setError(null);
     const result = await fetchAdminAftercareContext(order.id);
     if (!result.success || !result.data) {
-      setError(result.error || 'تعذر تحميل سياق خدمات ما بعد البيع.');
+      setError(operatorErrorMessage('aftercareRead'));
       onContractResolved(null);
     } else {
       if (result.data.baseItems.some(item => item.commercialLineKind === 'legacy_single_sku_parcel'
         && (!Number.isSafeInteger(item.unitsPerParcel) || (item.unitsPerParcel || 0) < 1
           || item.quantity % item.unitsPerParcel! !== 0
           || rootQuantity(item.physicalRepresentatives) % item.unitsPerParcel! !== 0))) {
-        setError('لقطات حجم الطرد أو كميتها غير متطابقة؛ لا يمكن إجراء مرتجع أو استبدال.');
+        setError(operatorErrorMessage('parcelEvidence'));
         onContractResolved(null); setLoading(false); return;
       }
       setContext(result.data);
       onContractResolved(result.data.capability);
       try {
         await refreshRecoveryStates();
-      } catch (recoveryError) {
-        setError(recoveryError instanceof Error ? recoveryError.message
-          : 'تعذر التحقق من محاولة ما بعد البيع المعلقة.');
+      } catch {
+        setError(operatorErrorMessage('aftercareRead'));
       }
     }
     setLoading(false);
@@ -77,7 +76,7 @@ export const AdminAftercarePanel:React.FC<Props>=({order,onChanged,onContractRes
   );
   if (error) return (
     <div className="rounded-2xl border border-nw-bad bg-nw-bad-bg p-3 text-nw-text">
-      <p>{businessErrorMessage(error)}</p>
+      <p>{error}</p>
       <UiButton variant="primary" type="button" onClick={() => void load()}
         className="mt-2 rounded-lg bg-nw-primary px-3 py-1.5 font-bold text-nw-on-primary">
         إعادة المحاولة
@@ -91,13 +90,13 @@ export const AdminAftercarePanel:React.FC<Props>=({order,onChanged,onContractRes
     try {
       const result = await recoverAdminAftercare(order.id, action);
       if (!result.success) {
-        notify(businessErrorMessage(result.error || 'تعذر استعادة العملية المعلقة.'), 'error'); return;
+        notify(operatorErrorMessage('aftercare'), 'error'); return;
       }
       notify(action === 'return' ? 'تم استرداد نتيجة المرتجع المعلقة.'
         : 'تم استرداد نتيجة الاستبدال المعلقة.');
       await load(); await onChanged?.();
-    } catch (recoveryError) {
-      notify(businessErrorMessage(recoveryError), 'error');
+    } catch {
+      notify(operatorErrorMessage('aftercare'), 'error');
     } finally {
       try { await refreshRecoveryStates(); } catch { /* load exposes recovery read errors */ }
       setBusy(false);
@@ -125,7 +124,7 @@ export const AdminAftercarePanel:React.FC<Props>=({order,onChanged,onContractRes
       </div>
 
       {hasPendingRecovery && <div className="space-y-2 rounded-xl border border-nw-warn bg-nw-warn-bg p-3">
-        {isOwner&&(supplierAttempt?.status==='unknown'||supplierAttempt?.status==='prepared')&&<UiButton disabled={busy} onClick={()=>void(async()=>{setBusy(true);try{await submitSupplierReplacement(supplierScope);notify(supplierAttempt.action==='replacement_supplier'?'تم استرداد نتيجة الاستبدال المرتبط بالمورد.':'تم استرداد نتيجة المرتجع المرتبط بالمورد.');await load();await onChanged?.();}catch(cause){notify(businessErrorMessage(cause),'error');}finally{await refreshRecoveryStates();setBusy(false);}})()}>{supplierAttempt.action==='replacement_supplier'?'استعادة الاستبدال المرسل للمورد':'استعادة المرتجع المرسل للمورد'}</UiButton>}
+        {isOwner&&(supplierAttempt?.status==='unknown'||supplierAttempt?.status==='prepared')&&<UiButton disabled={busy} onClick={()=>void(async()=>{setBusy(true);try{await submitSupplierReplacement(supplierScope);notify(supplierAttempt.action==='replacement_supplier'?'تم استرداد نتيجة الاستبدال المرتبط بالمورد.':'تم استرداد نتيجة المرتجع المرتبط بالمورد.');await load();await onChanged?.();}catch{notify(operatorErrorMessage('aftercare'),'error');}finally{await refreshRecoveryStates();setBusy(false);}})()}>{supplierAttempt.action==='replacement_supplier'?'استعادة الاستبدال المرسل للمورد':'استعادة المرتجع المرسل للمورد'}</UiButton>}
         <b className="text-nw-text">توجد عملية معلقة يجب استعادتها بنفس الهوية</b>
         <p className="text-[10px] text-nw-text">لا تبدأ عملية جديدة قبل معرفة نتيجة المحاولة السابقة.</p>
         <div className="flex gap-2">

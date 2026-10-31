@@ -2,6 +2,7 @@
  * Nawasrah Business Manager - POS (Point of Sale) View
  */
 
+import {operatorErrorMessage} from '../../utils/operatorError';
 import {WarehouseChoice} from '../../components/ui/WarehouseChoice';
 import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import {
@@ -209,10 +210,10 @@ export const PosView: React.FC = () => {
           setPosProducts(sellableProducts);
           cacheProductPage(sellableProducts);
         })
-        .catch((error: unknown) => {
+        .catch(() => {
           if (!active) return;
           setProductsError(
-            error instanceof Error ? error.message : 'تعذر تحميل منتجات نقطة البيع.',
+            operatorErrorMessage('products'),
           );
           setPosProducts([]);
         })
@@ -485,7 +486,7 @@ export const PosView: React.FC = () => {
           resolvedMethod=split.paymentMethod;
           if(split.initialPaymentMethod)initialPayment={amountInMinorUnits:split.paidInMinorUnits,method:split.initialPaymentMethod,referenceNumber:initialPaidReference.trim()||undefined};
         }else if(paid!==0)throw new Error('لا يمكن تسجيل دفعة لفاتورة صافيها صفر.');
-      }catch(error){setToast(error instanceof Error?error.message:'راجع المدفوع الآن.','error');return;}
+      }catch{setToast(operatorErrorMessage('partial'),'error');return;}
     }
     const request: CreatePosSaleV2Input = {warehouseId, branchId: activeBranch.id,
       customerId: selectedCustomer?.id, customerName: selectedCustomer?.name || 'زبون نقدي', paymentMethod:resolvedMethod,
@@ -501,7 +502,7 @@ export const PosView: React.FC = () => {
     setIsSubmitting(true);
     try {
       const result = await runPosV2Attempt(supabase, currentUser.id, intent, request);
-      if (result.ok === false) {setToast(result.message, 'error'); return;}
+      if (result.ok === false) {setToast(operatorErrorMessage(result.status === 'unknown' ? 'saleUnknown' : 'saleRejected'), 'error'); return;}
       const meta = await supabase.from('orders').select('created_at,order_items(id,base_unit_name_snapshot)').eq('id', result.data.orderId).single();
       const invoice = posV2Invoice(result.data, currentUser, typeof meta.data?.created_at === 'string' ? meta.data.created_at : '',receiptBaseUnitNames(meta.data));
       try {invoice.publicReceiptUrl = await getOrCreatePublicPosReceiptUrlFromSupabase(result.data.orderId);} catch {/* Committed sale is still recoverable. */}
@@ -511,7 +512,7 @@ export const PosView: React.FC = () => {
       await Promise.allSettled([refreshProductsFromSupabase(), refreshOrdersFromSupabase(),
         refreshInventoryMovementsFromSupabase(), refreshStockNotificationsFromSupabase()]);
       setToast(`تم حفظ البيع V2: ${result.data.orderNumber}`);
-    } catch (error) {setToast(error instanceof Error ? error.message : 'تعذر استرجاع محاولة البيع.', 'error');}
+    } catch {setToast(operatorErrorMessage('saleUnknown'), 'error');}
     finally {setIsSubmitting(false); refreshRecovery();}
   };
 
@@ -579,11 +580,9 @@ export const PosView: React.FC = () => {
     let publicReceiptUrl: string;
     try {
       publicReceiptUrl = await ensurePublicReceiptUrl();
-    } catch (linkError) {
+    } catch {
       setToast(
-        linkError instanceof Error
-          ? linkError.message
-          : 'تعذر إنشاء رابط الإيصال.',
+        operatorErrorMessage('receipt'),
         'error'
       );
       return;
@@ -635,11 +634,9 @@ export const PosView: React.FC = () => {
       const publicReceiptUrl = await ensurePublicReceiptUrl();
       await navigator.clipboard.writeText(publicReceiptUrl);
       setToast('تم نسخ رابط الإيصال الإلكتروني.', 'success');
-    } catch (linkError) {
+    } catch {
       setToast(
-        linkError instanceof Error
-          ? linkError.message
-          : 'تعذر نسخ رابط الإيصال.',
+        operatorErrorMessage('receipt'),
         'error'
       );
     }
@@ -656,9 +653,9 @@ export const PosView: React.FC = () => {
   if(paymentMethod==='debt')try{
     const paid=initialPaymentText216(initialPaidText),due=jodToMinorUnits(totalAmount)-paid;
     if(due<0)throw new Error('المدفوع الآن أكبر من صافي الفاتورة.');initialDue=due/1000;
-  }catch(error){initialPaidIssue=error instanceof Error?error.message:'راجع المدفوع الآن.';}
+  }catch{initialPaidIssue=operatorErrorMessage('partial');}
   const paymentControl = <fieldset disabled={isSubmitting||recoveryBlocked}><SegmentedControl touchSize label="طريقة الدفع" value={paymentMethod}
- options={[{value: 'cash' as PaymentMethod, label: 'كاش'}, {value: 'cliq' as PaymentMethod, label: 'CliQ'}, {value: 'debt' as PaymentMethod, label: 'دين'}]}
+ options={[{value: 'cash' as PaymentMethod, label: 'كاش'}, {value: 'cliq' as PaymentMethod, label: 'CliQ'}, {value: 'debt' as PaymentMethod, label: 'دين / دفع جزئي'}]}
  onChange={value => {setPaymentMethod(value);if(value==='debt')setIsCartOpen(true);}} /></fieldset>;
   const completeSaleButton = (            <UiButton data-testid="pos-complete-sale" variant="accent" size="large"
               onClick={() =>
@@ -708,7 +705,7 @@ export const PosView: React.FC = () => {
         </Card>}
               {recoveryStatus && recoveryStatus !== 'DEFINITIVELY_REJECTED' && <div className="rounded-xl border border-nw-warn p-3 text-xs" role="status">
         <p>{recoveryStatus === 'CANCELLED_UNCOMMITTED' ? 'ألغيت المحاولة بعد إثبات الخادم عدم تسجيلها. يمكنك بدء بيع جديد.'
-          : recoveryBlocked ? 'نتيجة بيع معلقة: لا تبدأ بيعاً جديداً. استرجع المحاولة الأصلية بنفس الطلب والمفتاح.' : 'آخر بيع محفوظ؛ يمكنك استرجاع إيصال العملية نفسها.'}</p>
+          : recoveryBlocked ? operatorErrorMessage('saleUnknown') : 'آخر بيع محفوظ؛ يمكنك استرجاع إيصال العملية نفسها.'}</p>
         {recoveryStatus !== 'CANCELLED_UNCOMMITTED' &&
         <button type="button" disabled={isSubmitting} className="mt-2 min-h-11 rounded-lg bg-nw-warn-bg p-2"
           onClick={() => void executeSale('RECOVER_EXISTING')}>استرجاع محاولة البيع</button>}
@@ -716,7 +713,7 @@ export const PosView: React.FC = () => {
           className="m-2 min-h-11 rounded-lg border border-nw-warn p-2" onClick={async () => {
             if (!supabase) return; setIsSubmitting(true);
             try {setAbsenceState(await inspectOrCancelPosV2Attempt(supabase,currentUser.id));}
-            catch (error) {setToast(error instanceof Error ? error.message : 'تعذر إثبات حالة المحاولة؛ السجل محفوظ.', 'error');}
+            catch {setToast(operatorErrorMessage('inspect'), 'error');}
             finally {setIsSubmitting(false);}
           }}>التحقق من حالة المحاولة</button>}
         {absenceState === 'EXISTS' && <p>العملية مسجلة. استرجاع المحاولة هو الطريق الوحيد.</p>}
@@ -733,7 +730,7 @@ export const PosView: React.FC = () => {
                 if (outcome === 'EXISTS') {setAbsenceState(outcome); return;}
                 if (outcome !== 'CANCELLED_UNCOMMITTED') throw new Error('تعذر إثبات الإلغاء؛ السجل محفوظ.');
                 refreshRecovery(); setToast('ألغيت المحاولة غير المسجلة؛ يمكنك بدء بيع جديد.', 'success');
-              } catch (error) {setToast(error instanceof Error ? error.message : 'تعذر إثبات الإلغاء؛ السجل محفوظ.', 'error');}
+              } catch {setToast(operatorErrorMessage('cancel'), 'error');}
               finally {setIsSubmitting(false);}
             }}>إلغاء المحاولة غير المسجلة</button>
         </div>}
@@ -966,7 +963,7 @@ export const PosView: React.FC = () => {
           <strong className="text-xl"><MoneyText amount={totalAmount} currency /></strong>
           <UiButton aria-label="مراجعة السلة والعميل" onClick={() => setIsCartOpen(true)} className="px-2 text-xs"><ShoppingBag className="h-4 w-4" />{formatItemCount(cartItems.length)} · السلة</UiButton>
         </div>
-        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2">{paymentControl}{completeSaleButton}</div>
+        <div className="grid grid-cols-1 items-center gap-2">{paymentControl}{completeSaleButton}</div>
       </StickyActionBar>
       {showReceiptModal&&lastInvoice&&<SaleReceiptDialog completed receipt={invoiceReceipt(lastInvoice,receiptBranch)}
         onClose={()=>setShowReceiptModal(false)} onShare={()=>void handleShareReceipt()} onCopy={()=>void handleCopyReceiptLink()}/>}
