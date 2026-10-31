@@ -50,7 +50,7 @@ try{
    await page.getByLabel('البحث في منتجات نقطة البيع',{exact:true}).fill(sku);
    const card=page.locator(`[data-pos-product="${pid}"]`);await expect(card).toBeVisible();await card.getByRole('button',{name:'إضافة باكيت من '+name,exact:true}).click();
    const open=page.getByRole('button',{name:'مراجعة السلة والعميل',exact:true});if(await open.isVisible())await open.click();
-   await page.getByRole('radio',{name:'دين',exact:true}).filter({visible:true}).click();
+   await page.getByRole('radio',{name:'دين / دفع جزئي',exact:true}).filter({visible:true}).click();
    const customerName='زبون HTTP216 '+sample,phone='07900000'+String(sample).padStart(2,'0'),beforeSave=counts.save_customer??0;
    await page.getByRole('button',{name:'زبون جديد سريع',exact:true}).click();
    await page.getByLabel('اسم العميل أو المحل *',{exact:true}).fill(customerName);await page.getByLabel('رقم الهاتف *',{exact:true}).fill(phone);

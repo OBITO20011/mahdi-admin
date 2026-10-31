@@ -16,7 +16,7 @@ export function restoreOwnerTelegram217SourceHashes(sources){return restoreSentr
  const actual=sourceBeforeSentry(entry.file,readFileSync(new URL('../../'+entry.file,import.meta.url),'utf8').replaceAll('\r\n','\n'));assert.equal(hash(actual),pin.after,'OWNER217_CURRENT_SOURCE_CHANGED:'+entry.file);
  const before=sourceBeforeOwnerTelegram217(entry.file,actual);return before===null?[]:[{...entry,sha256:hash(before)}];
 });}
-export function pathsBeforeOwnerTelegram217(files,reference){return pathsBeforeSentry(files).filter(file=>{
+export function pathsBeforeOwnerTelegram217(files,reference){return pathsBeforeSentry(files,reference).filter(file=>{
  const pin=ownerTelegram217Pins.entries[file];if(!pin)return true;
  const raw=readFileSync(new URL('../../'+file,import.meta.url),'utf8').replaceAll('\r\n','\n');assert.equal(hash(raw),pin.after,'OWNER217_UNREVIEWED_PATH:'+file);
  if(!reference||pin.beforeText===null)return false;

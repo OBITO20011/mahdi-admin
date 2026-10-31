@@ -409,7 +409,7 @@
     },
     {
       "file": "src/features/orders/AdminAftercarePanel.tsx",
-      "sha256": "ede6220c78684b036d1cfa73be663dec7f291d61614d95fc6b2d0749507ae995"
+      "sha256": "a7dae1f2a0bc917a584b9e83e7e81d3bc14112324fb1dcedbdb00d817d4f7160"
     },
     {
       "file": "src/features/orders/aftercare215Draft.ts",
@@ -477,7 +477,7 @@
     },
     {
       "file": "src/features/pos/PosView.tsx",
-      "sha256": "439608215a0c6427a0a19f52b9f05930003825c88db118a6e4a5b5fa5fa992b8"
+      "sha256": "d264f345c11210a1fb1f0cdb68d1a98a3e9e36483264fa03b5aadf9c976866ed"
     },
     {
       "file": "src/features/pos/saleMethods.ts",
@@ -641,7 +641,7 @@
     },
     {
       "file": "src/features/shifts/ShiftsView.tsx",
-      "sha256": "6913f89ab01a5340691132d02511bb16e615ec5f90f495399101007cb2c1a4e9"
+      "sha256": "f7326143b02047226483e0b274c765b9d77694dc2967ba52a99899f0e6af4c6a"
     },
     {
       "file": "src/features/users/UserFormModal.tsx",
@@ -1054,6 +1054,10 @@
     {
       "file": "src/utils/legacyUnitImportHeaders.ts",
       "sha256": "58002e7c231a2059900db63b82d9b10a734a9e976aebb14b78c84bdd6e41a0de"
+    },
+    {
+      "file": "src/utils/operatorError.ts",
+      "sha256": "ab9a55594c1c2aabac0bd60c271a02c6d73fbd09d0086b336a1f724cd3e1fd9b"
     },
     {
       "file": "src/utils/orderCalculations.ts",
@@ -1474,9 +1478,9 @@
   ],
   "entries": [
     {
-      "id": "src/features/pos/PosView.tsx:505",
+      "id": "src/features/pos/PosView.tsx:506",
       "file": "src/features/pos/PosView.tsx",
-      "line": 505,
+      "line": 506,
       "table": "orders",
       "operation": "select",
       "role": "authenticated",
@@ -4083,7 +4087,7 @@
     },
     {
       "file": "src/features/pos/PosView.tsx",
-      "line": 650,
+      "line": 647,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {

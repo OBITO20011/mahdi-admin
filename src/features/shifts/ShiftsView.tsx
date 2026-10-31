@@ -369,6 +369,9 @@ export const ShiftsView: React.FC = () => {
           {isOwner && <div ref={withdrawalsEntry} tabIndex={-1}><OwnerWithdrawalsPanel shift={currentShift} onChanged={() => void refreshExpenseShiftCenterFromSupabase().catch(() => undefined)} /></div>}
           <UiButton onClick={() => void handleOpenReport(currentShift.id)}><FileText className="h-4 w-4"/>عرض التقرير المالي الحي</UiButton>
           {recentHistory}
+          <details data-testid="shift-exceptional-correction" className="rounded-xl border border-nw-warn bg-nw-warn-bg p-3">
+            <summary className="min-h-11 cursor-pointer py-2 font-bold text-nw-warn">تصحيح استثنائي</summary>
+            <p className="mb-3 text-sm text-nw-text">للوردية التي فُتحت بالخطأ أو لتصحيح وردية كاملة بعد مراجعة المالك. لإنهاء يوم العمل استخدم «عدّ الدرج وإغلاق الوردية»؛ لا تستخدم الإلغاء أو العكس للإغلاق اليومي.</p>
           <div className="space-y-2 border-t border-nw-border pt-3">
             {!showCancelPanel ? (
               <UiButton
@@ -495,6 +498,7 @@ export const ShiftsView: React.FC = () => {
               )}
             </div>
           )}
+          </details>
         </MainColumn>
         <ResponsiveActionPanel open={showClosePanel} onClose={()=>setShowClosePanel(false)} busy={isSubmitting} title="إغلاق الوردية" backLabel="رجوع للصندوق"
           footer={<UiButton data-testid="cash-close-submit" variant="accent" size="large" className="w-full" disabled={closeDisabled} onClick={() => void handleClose()}>{isSubmitting?'جاري الإغلاق...':'إغلاق الوردية وطباعة التقرير'}</UiButton>}>
