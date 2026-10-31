@@ -9,7 +9,7 @@
     },
     {
       "file": "src/components/common/AppErrorBoundary.tsx",
-      "sha256": "099ee84f0a43382e2695c27563d81615ad6335ad429e7b16372b5d6b41bee5b1"
+      "sha256": "20c095354809d9770e64901361c879ebf7af9998634a5040a37957e7ce9dc58a"
     },
     {
       "file": "src/components/common/Header.tsx",
@@ -685,11 +685,11 @@
     },
     {
       "file": "src/lib/errorMonitoring.ts",
-      "sha256": "3bfba6e73bf3b56abda4eb6ce2f9fb1ed1dcc9f6b53e9f1a3823f8213b65e15b"
+      "sha256": "c67f4a8d6df3c839b46ac0266331a3e8116470ab8bcd4a0f265d28fcaa94446d"
     },
     {
       "file": "src/lib/monitoringPrivacy.ts",
-      "sha256": "e44ada8c2cb19fb2a2d063b84f5195cbb2fcc9852dcff44cb1b463cb6a7d1d9c"
+      "sha256": "a378ed5610bacaa7c3855d7dfb445b6a061cc9e073d2751a04f0bf4d470badf1"
     },
     {
       "file": "src/lib/supabase.ts",
@@ -1305,11 +1305,11 @@
     },
     {
       "file": "customer-web/src/lib/errorMonitoring.ts",
-      "sha256": "ad55a4c9bf2fe28ee18af4a81027d15153ea4554db10f908b26894a222c53f50"
+      "sha256": "4c364bde97ec120438388c800f3f4645a7a8029afe3325efbfb139dcf202e457"
     },
     {
       "file": "customer-web/src/lib/monitoringPrivacy.ts",
-      "sha256": "e44ada8c2cb19fb2a2d063b84f5195cbb2fcc9852dcff44cb1b463cb6a7d1d9c"
+      "sha256": "284710318e28848df628b3ccc00d5b2189fa041d24f01a80caedafa566e8635f"
     },
     {
       "file": "customer-web/src/lib/supabase.ts",
@@ -4113,7 +4113,7 @@
     },
     {
       "file": "src/lib/errorMonitoring.ts",
-      "line": 27,
+      "line": 28,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {

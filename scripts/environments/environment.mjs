@@ -10,6 +10,7 @@ export function monitoringEnvironment(env,environment){
  if(environment==='isolated')return {dsn:'',ingestOrigin:'',release:''};
  const key='VITE_SENTRY_DSN_'+environment.toUpperCase().replaceAll('-','_');
  const dsn=(env[key]??'').trim();
+ if(!dsn&&env.VITE_SENTRY_DSN?.trim())throw new Error('MONITORING_LEGACY_DSN_RENAME_TO_'+key);
  const release=env.NAWASRAH_ADMIN_RELEASE_ID||env.NAWASRAH_STORE_RELEASE_ID||env.CF_PAGES_COMMIT_SHA||env.GITHUB_SHA||'';
  if(release)assert.match(release,/^[a-f0-9]{40}$/iu,'MONITORING_RELEASE_INVALID');
  if(!dsn)return {dsn:'',ingestOrigin:'',release};

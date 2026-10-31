@@ -10,7 +10,7 @@
   "tracingSampleRate": 0,
   "sendDefaultPii": false,
   "units": {
-    "admin": 1648,
+    "admin": 1655,
     "customer": 203,
     "failed": 0
   },
@@ -38,6 +38,30 @@
       },
       {
         "engine": "chromium",
+        "app": "admin",
+        "kind": "chunk-stuck",
+        "events": 1,
+        "sensitiveDataAbsent": true,
+        "correctCode": true
+      },
+      {
+        "engine": "chromium",
+        "app": "admin",
+        "kind": "global",
+        "events": 1,
+        "sensitiveDataAbsent": true,
+        "correctCode": true
+      },
+      {
+        "engine": "chromium",
+        "app": "admin",
+        "kind": "rejection",
+        "events": 1,
+        "sensitiveDataAbsent": true,
+        "correctCode": true
+      },
+      {
+        "engine": "chromium",
         "app": "customer",
         "kind": "react",
         "events": 1,
@@ -62,6 +86,30 @@
       },
       {
         "engine": "webkit",
+        "app": "admin",
+        "kind": "chunk-stuck",
+        "events": 1,
+        "sensitiveDataAbsent": true,
+        "correctCode": true
+      },
+      {
+        "engine": "webkit",
+        "app": "admin",
+        "kind": "global",
+        "events": 1,
+        "sensitiveDataAbsent": true,
+        "correctCode": true
+      },
+      {
+        "engine": "webkit",
+        "app": "admin",
+        "kind": "rejection",
+        "events": 1,
+        "sensitiveDataAbsent": true,
+        "correctCode": true
+      },
+      {
+        "engine": "webkit",
         "app": "customer",
         "kind": "react",
         "events": 1,
@@ -70,7 +118,7 @@
       }
     ],
     "script": "scripts/testing/run-sentry-browser.mjs",
-    "scriptSha256": "84660814db10b59bff37650a50ff6c81e2c4ae830ffc1b54cd05ebd713864ffc"
+    "scriptSha256": "84658b108806d2f3f13647557b3dc8139fed35ecf7d58ac05e9d09c2b1fd223d"
   },
   "builds": [
     {
@@ -275,5 +323,38 @@
     "processPrecedencePreserved": true,
     "crossEnvironmentFileNotLoaded": true,
     "buildArtifactsReverified": 6
+  },
+  "ownerReviewRevision": {
+    "activeTabAllowlist": true,
+    "publicRoutePatternsWithoutIdentifiers": true,
+    "sameOriginTechnicalFramesOnly": true,
+    "errorTypeAllowlist": true,
+    "rawMessageRemoved": true,
+    "unrecoverableChunkSingleCapture": true,
+    "legacyLocalDsnGuard": {
+      "ok": true,
+      "ownerFilesTouched": false,
+      "hosted": false,
+      "legacyLocalEnvRejected": true,
+      "newLocalEnvAccepted": true,
+      "valueAbsentFromError": true
+    },
+    "sourceMaps": "deferred-no-publish-or-upload-change",
+    "ownerProjects": "existing-admin-and-store-EU/de;no hosted access",
+    "fixtureCorrection": "Wait for recovered page after reload;no retries or timeout changes",
+    "localFinalChecks": {
+      "admin1655": true,
+      "store203": true,
+      "typesBoth": true,
+      "strictLint": true,
+      "allContextBuilds6": true,
+      "verifyDist6": true,
+      "pwa4": true,
+      "networkEscapes0": true,
+      "offline217DryRun": true,
+      "gitleaks0": true,
+      "actualTableProbes157": true,
+      "actualRpcProbes586": true
+    }
   }
 }

@@ -1,5 +1,6 @@
-import {sanitizeEvent,sanitizeBreadcrumb} from './monitoringPrivacy';
+import {sanitizeEvent,sanitizeBreadcrumb,monitoringScreen} from './monitoringPrivacy';
 import {supabase} from './supabase';
+import {storeEngine} from '../stores/useAppStore';
 
 const jordanPhonePattern = /(?:\+?962|0)7[789]\d{7}/g;
 const emailPattern = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi;
@@ -12,7 +13,7 @@ let monitoringSdk: SentrySdk | null = null;
 let monitoringLoad: Promise<SentrySdk> | null = null;
 let bootstrapListenersInstalled = false;
 let removeBootstrapListeners: (() => void) | null = null;
-const pendingRenderErrors: Array<{error: Error; componentStack?: string}> = [];
+const pendingRenderErrors: Array<{error: Error; componentStack?: string; screen: string}> = [];
 const runtimeIncidentCooldown = new Map<string, number>();
 const runtimeIncidentCooldownMs = 10 * 60_000;
 
@@ -76,7 +77,7 @@ function loadMonitoringSdk(): Promise<SentrySdk> | null {
         normalizeDepth: 4,
         tracesSampleRate: 0,
         beforeBreadcrumb: sanitizeBreadcrumb,
-        beforeSend: sanitizeEvent,
+        beforeSend: (event) => sanitizeEvent(event, {screen: event.tags?.screen ?? storeEngine.getState().activeTab}),
       });
       monitoringSdk = sdk;
       removeBootstrapListeners?.();
@@ -84,7 +85,7 @@ function loadMonitoringSdk(): Promise<SentrySdk> | null {
       bootstrapListenersInstalled = false;
 
       for (const pending of pendingRenderErrors.splice(0)) {
-        captureRenderError(pending.error, pending.componentStack);
+        captureRenderError(pending.error, pending.componentStack, pending.screen);
       }
 
       return sdk;
@@ -125,21 +126,21 @@ export function initErrorMonitoring(): boolean {
   return true;
 }
 
-export function captureRenderError(error: Error, componentStack?: string): void {
+export function captureRenderError(error: Error, componentStack?: string, screen = monitoringScreen(storeEngine.getState().activeTab)): void {
   void reportSanitizedRuntimeIncident(error, componentStack).catch(() => undefined);
   if (!monitoringSdk) {
     if (!getMonitoringDsn()) return;
     // Only a fixed code survives the existing immediate stale-chunk reload.
     if(isChunkFailure(error))try{window.sessionStorage.setItem(pendingChunkKey,'1');}catch{/* No business data is stored. */}
     if (pendingRenderErrors.length < 10) {
-      pendingRenderErrors.push({error, componentStack});
+      pendingRenderErrors.push({error, componentStack, screen});
     }
     void loadMonitoringSdk()?.catch(() => undefined);
     return;
   }
 
   monitoringSdk.withScope((scope) => {
-    scope.setTag('screen',window.location.pathname);
+    scope.setTag('screen',screen);
     if (componentStack) {
       scope.setTag('error_code','REACT_RENDER_ERROR');
       scope.setTag('component','AppErrorBoundary');
