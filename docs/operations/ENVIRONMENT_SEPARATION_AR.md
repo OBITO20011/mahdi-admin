@@ -1,5 +1,7 @@
 # فصل بيئة التشغيل عن بيئة التجربة
 
+قرار المالك31أكتوبر: T+2/3 موعد مشروط بسلامة أول يومين حقيقيين على فرانكفورت (المتجر والطلبات والتنبيهات) وموافقته، ثم الأرشفة وإعادة بناء سنغافورة. تبقى المعاينات مغلقة إذا لم تتحقق الشروط. لا تُمس سنغافورة قبل «انشر» لأنها تخدم alnawasreh.com الحالي. الحماية الفعلية هي الدفتر الورقي + نسخ فرانكفورت اليومية؛ سنغافورة لا تحوي بيانات المحل الحقيقية.
+
 استثناء المالك المؤقت قبل التشغيل: [prelaunch-trial المحروس](PRELAUNCH_TRIAL_AR.md) لفرانكفورت عبر معاينة Access فقط. لا يغيّر production/staging؛يُغلق قبل التصفير ويُزال بعد القطع.
 
 هذه تعليمات المالك بعد اعتماد الحزمة ودمجها. لم يتصل Codex بأي مشروع ولم ينشر أو يغيّر إعداد Cloudflare. التحقق المحلي يستخدم بيانات وهمية وطلبات SEO على loopback فقط.
@@ -11,7 +13,7 @@
 | `production` | فرانكفورت `kzevmysfydaslxcerogt` | `https://alnawasreh.com` |
 | `staging` | سنغافورة `acjtabdqqnpwhdvbvnyw` | `https://staging-frankfurt.nawasrah-store.pages.dev` |
 
-اسم فرع المعاينة التاريخي لا يختار قاعدة البيانات. staging مخصص لسنغافورة **بعد** أرشفتها وإعادة بنائها ببيانات وهمية في T+7. يبقى مغلقاً حتى ذلك الحين.
+اسم فرع المعاينة التاريخي لا يختار قاعدة البيانات. staging مخصص لسنغافورة **بعد** أرشفتها وإعادة بنائها ببيانات وهمية في T+2/3. يبقى مغلقاً حتى ذلك الحين.
 
 كل من إعداد العميل، وCSP، ومولّد SEO يأخذ البيئة المختارة نفسها. لا يوجد fallback مستضاف عند غياب السياق. يُرفض URL أو مفتاح عام أو رابط متجر مخالف للبيئة المختارة. المفاتيح المضمّنة مفاتيح publishable عامة فقط؛ لا تدخل DB أو service_role أو Telegram أو R2 في VITE.
 
@@ -28,7 +30,7 @@ npm.cmd --prefix customer-web run build:production
 node scripts/environments/verify-dist.mjs admin production dist
 node scripts/environments/verify-dist.mjs customer production customer-web/dist
 
-# staging — بعد تجهيز سنغافورة في T+7؛ لا ينشر
+# staging — بعد تجهيز سنغافورة في T+2/3؛ لا ينشر
 npm.cmd run build:staging
 npm.cmd --prefix customer-web run build:staging
 node scripts/environments/verify-dist.mjs admin staging dist
@@ -43,7 +45,7 @@ node scripts/environments/verify-dist.mjs customer staging customer-web/dist
 
 المالك/Claude: لكل من `nawasrah-admin` و`nawasrah-store`، افتح **Workers & Pages → المشروع → Settings → Variables and Secrets**، واختر Production وPreview كلّاً على حدة:
 
-| المتغير | Production | Preview بعد T+7 |
+| المتغير | Production | Preview بعد T+2/3 |
 |---|---|---|
 | `NAWASRAH_DEPLOYMENT_ENV` | `production` | `staging` |
 | `VITE_SUPABASE_URL` إن استعملته | عنوان فرانكفورت أعلاه | عنوان سنغافورة أعلاه |
@@ -57,7 +59,7 @@ node scripts/environments/verify-dist.mjs customer staging customer-web/dist
 
 **Direct Upload يحسم القيم محلياً عند البناء.** إعدادات لوحة Pages لا تعيد كتابة JavaScript مرفوعاً من الجهاز. يلزم بناء جديد؛ تغيير متغير Preview لا يصلح deployment قديماً ولا يغيّر Production. الإنتاج يبقى من main وبعد كلمة المالك «انشر»؛ لا تنفّذ نشر الحزمة ضمن هذه التعليمات.
 
-## إغلاق المعاينات من يوم التشغيل حتى T+7
+## إغلاق المعاينات من يوم التشغيل حتى T+2/3
 
 1. المالك/Claude: في المشروعين، **Settings → General → Enable access policy**. افتح تطبيق المعاينات المقابل في **Zero Trust → Access → Applications**. اجعل السياسة **Block / Everyone**، وأزل أي Allow أو Bypass أو Service Auth يسمح بالدخول، وألغ جلسات السماح القائمة. طبّق الحظر على رابط `staging-frankfurt` وروابط hash القديمة. نطاق custom مربوط بمعاينة يحتاج حماية Access مستقلة؛ لا تحظر النطاق الرسمي للإنتاج.
 2. إن كان Git integration مفعّلاً: **Settings → Builds & deployments → Branch deployment controls → Preview deployments → None**. هذا يوقف builds الجديدة فقط. لا ترفع Direct Upload جديداً أثناء الإغلاق.
@@ -78,7 +80,7 @@ node scripts/environments/verify-dist.mjs customer staging customer-web/dist
 4. التحقق: افتح incognito بلا تسجيل دخول Cloudflare، ومن هاتف خارج شبكة المطوّر. اختبر رابط الفرع وhash لكل معاينة باقية وأي custom preview alias، وكذلك طلب ملف JS مباشرة. المتوقع رفض Access وعدم وصول ملفات التطبيق. **أي معاينة تصل للتطبيق توقف القطع قبل التصفير.** تحقّق أن Production الرسمي لم يتأثر.
 5. أوقف جلسات التجربة وPWA القديمة وسجّل خروجها. حظر URL لا يمحو JavaScript سبق تنزيله في جهاز. التصفير يحذف حسابات التجربة، والمالك لا يستخدم حسابه على معاينة بعد القطع. تحقق من Network في جلسة جديدة: لا طلبات تجربة لفرانكفورت. المفتاح publishable عام؛ حذف رابط المعاينة وحده ليس حارس صلاحيات للقاعدة.
 
-## بعد T+7
+## بعد T+2/3
 
 اتبع القسم 10 من [خطة التشغيل](GO_LIVE_CUTOVER_AR.md): أرشيف سنغافورة الأخير، ثم إعادة بناء جميع migrations، وإيقاف أتمتتها القديمة، وإدخال بيانات وهمية فقط. اضبط Preview=staging، وابن وافحص dist، وارفع بتفويض المالك تحت Access أولاً. فتح المعاينات مجدداً قرار المالك بعد إثبات أنها تستعمل سنغافورة فقط. بعدها كل تغيير staging أولاً ثم production.
 
