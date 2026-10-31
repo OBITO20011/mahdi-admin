@@ -9,7 +9,7 @@
     },
     {
       "file": "src/components/common/AppErrorBoundary.tsx",
-      "sha256": "c17546abe154dda9cc109163b7d266b2214149b631839b44ec856bede29e9eae"
+      "sha256": "20c095354809d9770e64901361c879ebf7af9998634a5040a37957e7ce9dc58a"
     },
     {
       "file": "src/components/common/Header.tsx",
@@ -685,7 +685,11 @@
     },
     {
       "file": "src/lib/errorMonitoring.ts",
-      "sha256": "07b16712a33cebef7743acc3e0abfa6eed630d5b00c66d2b8761980bf3638a7d"
+      "sha256": "c67f4a8d6df3c839b46ac0266331a3e8116470ab8bcd4a0f265d28fcaa94446d"
+    },
+    {
+      "file": "src/lib/monitoringPrivacy.ts",
+      "sha256": "a378ed5610bacaa7c3855d7dfb445b6a061cc9e073d2751a04f0bf4d470badf1"
     },
     {
       "file": "src/lib/supabase.ts",
@@ -701,7 +705,7 @@
     },
     {
       "file": "src/pwa/pwa.ts",
-      "sha256": "dd313fba1bbfb217757796763cba59c54f8f2a54109dcb203c425b31be86d48d"
+      "sha256": "feacf5d30ef159822a4926ef401b703af04ccd74f8cb16bdd6fff8865934358d"
     },
     {
       "file": "src/services/deviceBiometrics.service.ts",
@@ -1133,7 +1137,7 @@
     },
     {
       "file": "src/vite-env.d.ts",
-      "sha256": "8f554758a8fd30b190025fa27153a59d27f833393e8bd2c622418d85d0e45697"
+      "sha256": "fa1c94060a056a77686a14ff2ef30924adde848d17854fa6a80e8cbbe0a257e6"
     },
     {
       "file": "customer-web/src/App.tsx",
@@ -1301,7 +1305,11 @@
     },
     {
       "file": "customer-web/src/lib/errorMonitoring.ts",
-      "sha256": "56c03352e3ca19bb49e878a8fa881119efb7d88170a172e3a73c920162ed9d27"
+      "sha256": "4c364bde97ec120438388c800f3f4645a7a8029afe3325efbfb139dcf202e457"
+    },
+    {
+      "file": "customer-web/src/lib/monitoringPrivacy.ts",
+      "sha256": "284710318e28848df628b3ccc00d5b2189fa041d24f01a80caedafa566e8635f"
     },
     {
       "file": "customer-web/src/lib/supabase.ts",

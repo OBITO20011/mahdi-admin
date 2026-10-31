@@ -14,15 +14,20 @@ import {serviceInventory} from './service-access-inventory.mjs';
 import {executorFor,executeInput} from '../operations/build-empty-supabase.mjs';
 import {fixtureId as id} from './table-access-probes.mjs';
 const root=path.resolve(import.meta.dirname,'../..'),exec=promisify(execFile),
- project='nawasrah-service-audit-'+randomBytes(4).toString('hex')+'-test',container='supabase_db_'+project;
-const args=process.argv.slice(2);assert.ok(args.length===0||(args.length===2&&args[0]==='--migration-ceiling'),'ONLY_LOCAL_CEILING_OPTION');
-const migrationCeiling=Number(args[1]??JSON.parse(await readFile(path.join(root,'docs/agent/project-state.json'),'utf8')).migrationCeiling);
+ defaultProject='nawasrah-service-audit-'+randomBytes(4).toString('hex')+'-test';
+const args=process.argv.slice(2),options={};
+for(let n=0;n<args.length;n+=2){assert.ok(['--migration-ceiling','--workdir','--local-project'].includes(args[n])&&args[n+1]&&!Object.hasOwn(options,args[n]),'ONLY_LOCAL_DIAGNOSTIC_OPTIONS');options[args[n]]=args[n+1];}
+const project=options['--local-project']||defaultProject,container='supabase_db_'+project;
+assert.match(project,/^nawasrah-(?:service|table)-audit-[a-f0-9]+-test$/u,'LOCAL_TEST_PROJECT_ONLY');
+let workdir=options['--workdir'];
+if(workdir){assert.ok(options['--local-project'],'EXPLICIT_LOCAL_PROJECT_REQUIRED');const config=await readFile(path.join(workdir,'supabase/config.toml'),'utf8');assert.equal(config.match(/^project_id\s*=\s*"([^"]+)"/mu)?.[1],project,'LOCAL_WORKDIR_PROJECT_MISMATCH');}
+const migrationCeiling=Number(options['--migration-ceiling']??JSON.parse(await readFile(path.join(root,'docs/agent/project-state.json'),'utf8')).migrationCeiling);
 assert.ok([198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217].includes(migrationCeiling),'APPROVED_SERVICE_AUDIT_CEILING_REQUIRED');
 const output=await mkdtemp(path.join(tmpdir(),'nawasrah-service-access-')),
  report={schemaVersion:1,startedAt:new Date().toISOString(),migrationCeiling,managedAccess:false,output};
 const q=v=>"'"+String(v).replaceAll("'","''")+"'";
 const sql=async text=>{const r=await executeInput(executorFor(['--container',container]),text);assert.equal(r.code,0,r.stderr);return r.stdout.trim();};
-const json=async text=>JSON.parse(await sql(text));let workdir;
+const json=async text=>JSON.parse(await sql(text));
 // Typed neutral probes test EXECUTE dispatch,not full financial workflows.
 export function probeValue(name,type){
  if(/\[\]$/u.test(type))return `ARRAY[]::${type}`;
@@ -38,10 +43,10 @@ export function probeValue(name,type){
 try{
  const sourceOptions={projectSource:migrationCeiling<215?sourceBeforeAftercare215:migrationCeiling===215?sourceBeforePartial216:migrationCeiling===216?sourceBeforeOwnerTelegram217:undefined};
  const source=await serviceInventory(sourceOptions);report.sourceHashes=source.sourceHashes;
- const boot=await exec(process.execPath,[path.join(root,'scripts/testing/bootstrap-isolated-supabase.mjs')],{cwd:root,windowsHide:true,maxBuffer:8*1024**2,env:{...process.env,
+ if(!workdir){const boot=await exec(process.execPath,[path.join(root,'scripts/testing/bootstrap-isolated-supabase.mjs')],{cwd:root,windowsHide:true,maxBuffer:8*1024**2,env:{...process.env,
   NAWASRAH_ISOLATED_PROJECT_ID:project,NAWASRAH_MAX_MIGRATION:String(migrationCeiling),NAWASRAH_SKIP_REDUNDANT_DB_RESET:'true',
   NAWASRAH_SUPABASE_EXCLUDE:'gotrue,kong,postgrest,realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor'}});
- workdir=JSON.parse(boot.stdout).isolatedProjectRoot;
+ workdir=JSON.parse(boot.stdout).isolatedProjectRoot;}
  await sql(`ALTER TABLE orders DISABLE TRIGGER trg_notify_new_website_order_push;SELECT cron.alter_job(jobid,active:=false) FROM cron.job;`);
  await sql(await readFile(path.join(root,'scripts/testing/package-e-golden-day-fixture.sql'),'utf8'));
  for(const [n,role] of [[2,'admin'],[3,'cashier']])await sql(`INSERT INTO auth.users(id,aud,role,email) VALUES(${q(id(n))},'authenticated','authenticated',${q(role+'@audit.example.test')});

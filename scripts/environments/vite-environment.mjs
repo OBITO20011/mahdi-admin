@@ -1,12 +1,22 @@
+import {execFileSync} from 'node:child_process';
 import {readFile} from 'node:fs/promises';
 import path from 'node:path';
 import {loadEnv} from 'vite';
 import {resolveBuildEnvironment,renderEnvironmentHeaders} from './environment.mjs';
 export function selectedViteEnvironment(mode,root){
  // Process values win,as in Vite. A stale local .env cannot select another DB.
- return resolveBuildEnvironment({...loadEnv(process.env.NAWASRAH_DEPLOYMENT_ENV||mode,root,''),...process.env});
+ const env={...loadEnv(process.env.NAWASRAH_DEPLOYMENT_ENV||mode,root,''),...process.env};
+ const selected=resolveBuildEnvironment(env);
+ if(!selected.isolated&&!selected.monitoring.release){
+  env.NAWASRAH_STORE_RELEASE_ID=execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim();
+  return resolveBuildEnvironment(env);
+ }
+ return selected;
 }
 export function environmentDefines(selected){return {
+ 'import.meta.env.VITE_SENTRY_DSN':JSON.stringify(selected.monitoring?.dsn??''),
+ 'import.meta.env.VITE_MONITORING_ENV':JSON.stringify(selected.environment),
+ 'import.meta.env.VITE_MONITORING_RELEASE':JSON.stringify(selected.monitoring?.release??''),
  __NAWASRAH_PUBLIC_CONFIG__:JSON.stringify({SUPABASE_URL:selected.url,SUPABASE_PUBLISHABLE_KEY:selected.key,TURNSTILE_SITE_KEY:selected.turnstile}),
  'import.meta.env.VITE_SUPABASE_URL':JSON.stringify(selected.url),
  'import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY':JSON.stringify(selected.key),

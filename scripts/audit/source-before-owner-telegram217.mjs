@@ -1,3 +1,4 @@
+import {restoreSentrySourceHashes,sourceBeforeSentry,pathsBeforeSentry} from './source-before-sentry.mjs';
 // Exact inverse for frozen historical proofs only. Actual217 SDK inventory,
 // role execution and Edge runtime always inspect the current source directly.
 import {sourceBeforeCiDedup} from './source-before-ci-dedup.mjs';
@@ -10,12 +11,12 @@ export function sourceBeforeOwnerTelegram217(file,text){
  if(!pin||hash(raw)!==pin.after)return raw;
  if(pin.beforeText===null)return null;assert.equal(hash(pin.beforeText),pin.before,'OWNER217_INVERSE_CORRUPT:'+file);return pin.beforeText;
 }
-export function restoreOwnerTelegram217SourceHashes(sources){return sources.flatMap(entry=>{
+export function restoreOwnerTelegram217SourceHashes(sources){return restoreSentrySourceHashes(sources).flatMap(entry=>{
  const pin=ownerTelegram217Pins.entries[entry.file];if(!pin||entry.sha256!==pin.after)return[entry];
- const actual=readFileSync(new URL('../../'+entry.file,import.meta.url),'utf8').replaceAll('\r\n','\n');assert.equal(hash(actual),pin.after,'OWNER217_CURRENT_SOURCE_CHANGED:'+entry.file);
+ const actual=sourceBeforeSentry(entry.file,readFileSync(new URL('../../'+entry.file,import.meta.url),'utf8').replaceAll('\r\n','\n'));assert.equal(hash(actual),pin.after,'OWNER217_CURRENT_SOURCE_CHANGED:'+entry.file);
  const before=sourceBeforeOwnerTelegram217(entry.file,actual);return before===null?[]:[{...entry,sha256:hash(before)}];
 });}
-export function pathsBeforeOwnerTelegram217(files,reference){return files.filter(file=>{
+export function pathsBeforeOwnerTelegram217(files,reference){return pathsBeforeSentry(files).filter(file=>{
  const pin=ownerTelegram217Pins.entries[file];if(!pin)return true;
  const raw=readFileSync(new URL('../../'+file,import.meta.url),'utf8').replaceAll('\r\n','\n');assert.equal(hash(raw),pin.after,'OWNER217_UNREVIEWED_PATH:'+file);
  if(!reference||pin.beforeText===null)return false;

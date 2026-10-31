@@ -3,6 +3,8 @@
 declare const __NAWASRAH_BUILD_ID__: string;
 
 interface ImportMetaEnv {
+ readonly VITE_MONITORING_ENV?: string;
+ readonly VITE_MONITORING_RELEASE?: string;
   readonly VITE_SUPABASE_URL?: string;
   readonly VITE_SUPABASE_PUBLISHABLE_KEY?: string;
   readonly VITE_SENTRY_DSN?: string;

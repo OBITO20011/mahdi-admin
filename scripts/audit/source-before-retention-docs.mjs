@@ -4,4 +4,3 @@ const original="import test from 'node:test';\nimport assert from 'node:assert/s
 export function beforeRetentionDocs(file,source) {
  return file==='tests/handover-documentation.test.ts'&&createHash('sha256').update(source).digest('hex')===reviewed?original:source;
 }
-

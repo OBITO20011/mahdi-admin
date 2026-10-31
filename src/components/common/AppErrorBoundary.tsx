@@ -51,10 +51,12 @@ export class AppErrorBoundary extends React.Component<
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
-    if (isStaleChunkError(error) && recoverFromStaleChunk()) return;
+    captureRenderError(error, info.componentStack ?? undefined);
+    if (isStaleChunkError(error)) {
+      if (recoverFromStaleChunk()) return;
+    }
 
     console.error('[AppErrorBoundary]', error, info);
-    captureRenderError(error, info.componentStack ?? undefined);
   }
 
   render() {

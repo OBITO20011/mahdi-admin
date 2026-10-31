@@ -1,3 +1,4 @@
+import {captureRenderError} from '../lib/errorMonitoring';
 export interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
   userChoice: Promise<{outcome: 'accepted' | 'dismissed'; platform: string}>;
@@ -64,7 +65,7 @@ export const registerAdminServiceWorker = (): void => {
         // against its installation; still check an existing active registration.
         if (!registration.installing && !registration.waiting) return registration.update();
       })
-      .catch(() => undefined);
+      .catch(() => captureRenderError(new Error('PWA_UPDATE_ERROR')));
   };
 
   if (document.readyState === 'complete') {

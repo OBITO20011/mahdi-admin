@@ -21,10 +21,8 @@ for (const [application, source] of [
     assert.match(source, /import\('@sentry\/react'\)/);
     assert.match(source, /sendDefaultPii:\s*false/);
     assert.match(source, /tracesSampleRate:\s*0/);
-    assert.match(source, /event\.user\s*=\s*undefined/);
-    assert.match(source, /url\.search\s*=\s*''/);
-    assert.match(source, /url\.hash\s*=\s*''/);
-    assert.match(source, /phone\|token/i);
+    assert.match(source, /sanitizeEvent,sanitizeBreadcrumb/);
+    assert.match(source, /defaultIntegrations:\s*false/);
     assert.doesNotMatch(source, /replayIntegration|browserTracingIntegration/i);
   });
 }
