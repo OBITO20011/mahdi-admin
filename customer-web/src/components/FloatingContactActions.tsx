@@ -1,5 +1,6 @@
 import { ArrowUp, MessageCircle } from 'lucide-react';
 import { SEO_BRAND } from '../config/seoBrand';
+import {scrollWindowTo} from '../utils/scroll';
 
 interface FloatingContactActionsProps {
   whatsappUrl: string;
@@ -38,7 +39,7 @@ export function FloatingContactActions({
       </div>
       <button
         type="button"
-        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        onClick={() => scrollWindowTo({ top: 0, behavior: 'smooth' })}
         aria-label="العودة إلى أعلى الصفحة"
         className="grid h-11 w-11 place-items-center self-center rounded-2xl border border-slate-200 bg-white/95 text-slate-600 shadow-lg transition hover:-translate-y-0.5 hover:border-blue-200 hover:text-blue-700 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-100"
       >

@@ -2,52 +2,92 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": " M",
+      "code": "A ",
+      "path": "customer-web/src/utils/scroll.ts"
+    },
+    {
+      "code": "A ",
+      "path": "customer-web/tests/scroll.test.ts"
+    },
+    {
+      "code": "A ",
+      "path": "e2e/customer-scroll-fallback.spec.ts"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/audit/source-before-store-scroll.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/audit/store-scroll-source-pins.json"
+    },
+    {
+      "code": "A ",
+      "path": "tests/store-scroll-history.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/App.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/components/CartDrawer.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/components/FloatingContactActions.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/components/MerchandisingSections.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/tests/cart-mobile.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/tests/merchandising-carousel.test.ts"
+    },
+    {
+      "code": "M ",
       "path": "docs/agent/PHASE_STATUS.md"
     },
     {
-      "code": " M",
-      "path": "docs/agent/project-state.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/handover/ورقة-يوم-التشغيل.html"
-    },
-    {
-      "code": " M",
-      "path": "docs/handover/ورقة-يوم-التشغيل.md"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/home-performance219-source-pins.json"
-    },
-    {
-      "code": "??",
+      "code": "M ",
       "path": "docs/operations/SENTRY_TELEGRAM_AR.md"
     },
     {
-      "code": "??",
-      "path": "tests/sentry-telegram-relay.test.ts"
+      "code": "M ",
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
     },
     {
-      "code": "??",
-      "path": "workers/sentry-telegram-relay/.gitignore"
+      "code": "M ",
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
     },
     {
-      "code": "??",
-      "path": "workers/sentry-telegram-relay/src/cloudflare.d.ts"
+      "code": "M ",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_219.json"
     },
     {
-      "code": "??",
-      "path": "workers/sentry-telegram-relay/src/index.ts"
+      "code": "M ",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
     },
     {
-      "code": "??",
-      "path": "workers/sentry-telegram-relay/src/worker.ts"
+      "code": "M ",
+      "path": "scripts/audit/home-performance219-source-pins.json"
     },
     {
-      "code": "??",
-      "path": "workers/sentry-telegram-relay/wrangler.toml"
+      "code": "M ",
+      "path": "scripts/audit/pre-delivery-usability-source-pins.json"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/audit/source-before-sentry.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "tests/sentry-history.test.ts"
     }
   ]
 }

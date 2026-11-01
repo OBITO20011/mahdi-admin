@@ -1,3 +1,4 @@
+import {scrollWindowTo} from '../utils/scroll';
 import {storefrontCartPackageDescription} from '../utils/storefrontUnits';
 import {
   AlertTriangle,
@@ -112,7 +113,7 @@ export function CartDrawer({
       body.style.overscrollBehavior = previousBodyStyles.overscrollBehavior;
       root.style.overflow = previousRootStyles.overflow;
       root.style.overscrollBehavior = previousRootStyles.overscrollBehavior;
-      window.scrollTo({ top: scrollY, behavior: 'auto' });
+      scrollWindowTo({ top: scrollY, behavior: 'auto' });
     };
   }, [isOpen]);
 
