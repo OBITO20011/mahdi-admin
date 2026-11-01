@@ -2,45 +2,42 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner2Nov item2:store scrollTo fallback only;native modernbehavior preserved;separatePR/FULLCI/types/browser;no SQL/financial/hosted/deploy.",
+  "objective": "Owner2Nov merge56 approved then realmain merge55,FULLCI,new55merge/mainCI;preserve20ownerfiles/4env/literalstate5;no hosted/deploy.",
   "baselineSha": "fceb062ecb42636f9edcc69d536278a5bad93785",
-  "branch": "codex/store-scrollto-fallback",
+  "branch": "codex/sentry-telegram-relay",
   "phase": "PACKAGE_F",
   "completed": [
-    "Small element/window scroll helper;native smooth/auto options unchanged;missing API uses direct coordinates only.",
-    "Actual219 SDK157 and services586/18 expected role denials;unchangedcatalog;exact historical source inverse rejects unknown edits."
+    "Independent Worker rawHMAC+signedfreshness+SQLite durable dedup/bounded one-attempt Telegram;Arabic owner guide/launch card;no app/SQL changes.",
+    "LocalCloudflareworkerd synthetic Telegram:202/duplicate200/one send/no PII.",
+    "PR56 approved55ee9120 merged ef56fff6;FULL mainCI inprogress."
   ],
   "inProgress": [
-    "Commit/push separate PR and final exactSHA FULLCI;return for approval,no merge."
+    "Real merge main into55;resolve only metadata/sourcepins preserving reviewed app bytes;fullCI then ownerauthorizedmerge55 and primary ff-only."
   ],
-  "notStarted": [
-    "Merge/deploynotauthorized;item1inseparateworktree."
-  ],
+  "notStarted": [],
   "testsPassed": [
-    "Admin1687/1687;Store207/207;types/strictlint;all six context builds/verify-dist+negative guards.",
-    "Chromium+WebKit390 four native/missingAPI cases PASS,no retries/flaky;firstlocalnavigationtimeout documented;unchangedtimers."
+    "Admin1698/1698;Store203;worker13/focused22;types+strictlint;all six environment builds+verify-dist and negative guards;no hostedaccess."
   ],
   "testsRemaining": [
-    "Gitleaks0;FULLCI+secret scans on final SHA."
+    "Merged localfocused pins/worker/scroll;exactnewhead FULLCI;main56/main55 CI and ownerpreservation/preflight."
   ],
   "findings": [
-    "Known oldproductionSentryevent ishistorical report,notliveverified;currentunguardedelementcalls2andwindowcalls3 confirmed."
+    "No sourceapp/RPC/SQL touchplanned. Newfilesworkers/*,tests/sentry-telegram-relay.test.ts,docs/operations/SENTRY_TELEGRAM_AR.md pluslaunchcards/checkpoint."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hostedFrankfurt/Sentry/Telegram/Cloudflare/deploy/owner.env ormainedits.",
-    "No SQL/migration/RPC/financial/permissionchanges;no polyfillheavy or swallowednon-scrollerrors.",
-    "IndependentPRitem2/no merge;singlewriter."
+    "No deploy/hostedFrankfurt/Sentry/Telegram/Cloudflare;no SQL/financial/permissions/newfeature.",
+    "Owner20localfiles/4.env byte-identical;state5literalproperties preserved;only approved merges56 then55."
   ],
-  "nextExactAction": "Commit/push independent scroll fallback PR;FULLCI+secrets then ownerapprovalSTOP. PR55 relay separate. No merge/deploy/hosted/SQL/ownerfiles.",
+  "nextExactAction": "Real merge main56→55 resolved;26focused PASS;reviewed Worker+customerbytes exact. Commitpush merge then FULLCI/main56gate;no hosted/deploy.",
   "startedAt": "2026-11-01T02:30:05.157Z",
   "historyBaseline": "cab1c5aed8c2069e2919c566ea09c2da9757896d",
-  "checkpointedAt": "2026-11-01T21:40:24.499Z",
+  "checkpointedAt": "2026-11-01T22:19:48.096Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "filesTouchedCount": 22,
-  "filesTouchedManifestSha256": "5cc5d6765b78d52a4e814cc659dc441cbf32ea41eb268bc67a86e9a1e322f3d3",
-  "workingTreeFingerprint": "894EF8D513ABD4988B3FC0A6445864CD88EE73565426473E93145C7CAEF88951"
+  "filesTouchedManifestSha256": "6bcb4b732cd6543af2ec61b1b22b57ff94e3c82859a2d8e16bcbfd429776c576",
+  "workingTreeFingerprint": "2CF1ACB9D75CAE4F9B0E4C6A131271EFF7044D4F9822550EB2990A4DFC22C0CF"
 }
