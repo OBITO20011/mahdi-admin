@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-01T04:04:54.475Z",
+  "startedAt": "2026-11-01T13:56:49.726Z",
   "managedAccess": false,
   "migrationCeiling": 219,
   "manifest": [
@@ -185,7 +185,7 @@
     "217_owner_telegram_dispatch.sql",
     "219_home_financial_facts_narrow_projection.sql"
   ],
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-o9jZV4",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-hZ32xZ",
   "stage": "rls-and-acl",
   "results": [
     {
@@ -213,7 +213,7 @@
           "method": "eq",
           "args": [
             "id",
-            "3c3f0a92-0730-4902-a40c-93b5d1a0c053"
+            "0712957c-b899-4c41-b306-ff03ec8ed07a"
           ]
         },
         {
@@ -248,7 +248,7 @@
           "method": "eq",
           "args": [
             "id",
-            "3c3f0a92-0730-4902-a40c-93b5d1a0c053"
+            "0712957c-b899-4c41-b306-ff03ec8ed07a"
           ]
         },
         {
@@ -283,7 +283,7 @@
           "method": "eq",
           "args": [
             "id",
-            "3c3f0a92-0730-4902-a40c-93b5d1a0c053"
+            "0712957c-b899-4c41-b306-ff03ec8ed07a"
           ]
         },
         {
@@ -318,7 +318,7 @@
           "method": "eq",
           "args": [
             "id",
-            "3c3f0a92-0730-4902-a40c-93b5d1a0c053"
+            "0712957c-b899-4c41-b306-ff03ec8ed07a"
           ]
         },
         {
@@ -353,7 +353,7 @@
           "method": "eq",
           "args": [
             "id",
-            "3c3f0a92-0730-4902-a40c-93b5d1a0c053"
+            "0712957c-b899-4c41-b306-ff03ec8ed07a"
           ]
         },
         {
@@ -388,7 +388,7 @@
           "method": "eq",
           "args": [
             "id",
-            "3c3f0a92-0730-4902-a40c-93b5d1a0c053"
+            "0712957c-b899-4c41-b306-ff03ec8ed07a"
           ]
         },
         {
@@ -423,7 +423,7 @@
           "method": "eq",
           "args": [
             "id",
-            "76cc07ed-ed46-4d7d-b5ba-e96c24a61fa5"
+            "f9d1780f-0ba2-4f18-aab7-78372f7437a6"
           ]
         },
         {
@@ -458,7 +458,7 @@
           "method": "eq",
           "args": [
             "id",
-            "76cc07ed-ed46-4d7d-b5ba-e96c24a61fa5"
+            "f9d1780f-0ba2-4f18-aab7-78372f7437a6"
           ]
         },
         {
@@ -493,7 +493,7 @@
           "method": "eq",
           "args": [
             "id",
-            "76cc07ed-ed46-4d7d-b5ba-e96c24a61fa5"
+            "f9d1780f-0ba2-4f18-aab7-78372f7437a6"
           ]
         },
         {
@@ -726,7 +726,7 @@
           "method": "eq",
           "args": [
             "id",
-            "dcd82532-1793-44cf-9648-db223c292c29"
+            "59068c56-45e6-4035-a091-13279cb5dacf"
           ]
         },
         {
@@ -761,7 +761,7 @@
           "method": "eq",
           "args": [
             "id",
-            "dcd82532-1793-44cf-9648-db223c292c29"
+            "59068c56-45e6-4035-a091-13279cb5dacf"
           ]
         },
         {
@@ -796,7 +796,7 @@
           "method": "eq",
           "args": [
             "id",
-            "dcd82532-1793-44cf-9648-db223c292c29"
+            "59068c56-45e6-4035-a091-13279cb5dacf"
           ]
         },
         {
@@ -831,7 +831,7 @@
           "method": "eq",
           "args": [
             "id",
-            "9e610f41-540c-4ae9-97b7-310b34037ca6"
+            "0bf7a606-d174-4eb6-b407-ca17101950d1"
           ]
         },
         {
@@ -866,7 +866,7 @@
           "method": "eq",
           "args": [
             "id",
-            "9e610f41-540c-4ae9-97b7-310b34037ca6"
+            "0bf7a606-d174-4eb6-b407-ca17101950d1"
           ]
         },
         {
@@ -901,7 +901,7 @@
           "method": "eq",
           "args": [
             "id",
-            "9e610f41-540c-4ae9-97b7-310b34037ca6"
+            "0bf7a606-d174-4eb6-b407-ca17101950d1"
           ]
         },
         {
@@ -936,7 +936,7 @@
           "method": "eq",
           "args": [
             "id",
-            "dcd82532-1793-44cf-9648-db223c292c29"
+            "59068c56-45e6-4035-a091-13279cb5dacf"
           ]
         },
         {
@@ -971,7 +971,7 @@
           "method": "eq",
           "args": [
             "id",
-            "dcd82532-1793-44cf-9648-db223c292c29"
+            "59068c56-45e6-4035-a091-13279cb5dacf"
           ]
         },
         {
@@ -1006,7 +1006,7 @@
           "method": "eq",
           "args": [
             "id",
-            "dcd82532-1793-44cf-9648-db223c292c29"
+            "59068c56-45e6-4035-a091-13279cb5dacf"
           ]
         },
         {
@@ -1537,7 +1537,7 @@
           "args": [
             "id",
             [
-              "3c3f0a92-0730-4902-a40c-93b5d1a0c053"
+              "0712957c-b899-4c41-b306-ff03ec8ed07a"
             ]
           ]
         }
@@ -1570,7 +1570,7 @@
           "args": [
             "id",
             [
-              "3c3f0a92-0730-4902-a40c-93b5d1a0c053"
+              "0712957c-b899-4c41-b306-ff03ec8ed07a"
             ]
           ]
         }
@@ -1603,7 +1603,7 @@
           "args": [
             "id",
             [
-              "3c3f0a92-0730-4902-a40c-93b5d1a0c053"
+              "0712957c-b899-4c41-b306-ff03ec8ed07a"
             ]
           ]
         }
@@ -1636,7 +1636,7 @@
           "args": [
             "order_id",
             [
-              "3c3f0a92-0730-4902-a40c-93b5d1a0c053"
+              "0712957c-b899-4c41-b306-ff03ec8ed07a"
             ]
           ]
         },
@@ -1702,7 +1702,7 @@
           "args": [
             "order_id",
             [
-              "3c3f0a92-0730-4902-a40c-93b5d1a0c053"
+              "0712957c-b899-4c41-b306-ff03ec8ed07a"
             ]
           ]
         },
@@ -1768,7 +1768,7 @@
           "args": [
             "order_id",
             [
-              "3c3f0a92-0730-4902-a40c-93b5d1a0c053"
+              "0712957c-b899-4c41-b306-ff03ec8ed07a"
             ]
           ]
         },
@@ -1833,7 +1833,7 @@
           "method": "eq",
           "args": [
             "id",
-            "3c3f0a92-0730-4902-a40c-93b5d1a0c053"
+            "0712957c-b899-4c41-b306-ff03ec8ed07a"
           ]
         },
         {
@@ -1868,7 +1868,7 @@
           "method": "eq",
           "args": [
             "id",
-            "3c3f0a92-0730-4902-a40c-93b5d1a0c053"
+            "0712957c-b899-4c41-b306-ff03ec8ed07a"
           ]
         },
         {
@@ -1903,7 +1903,7 @@
           "method": "eq",
           "args": [
             "id",
-            "3c3f0a92-0730-4902-a40c-93b5d1a0c053"
+            "0712957c-b899-4c41-b306-ff03ec8ed07a"
           ]
         },
         {
@@ -1938,7 +1938,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "3c3f0a92-0730-4902-a40c-93b5d1a0c053"
+            "0712957c-b899-4c41-b306-ff03ec8ed07a"
           ]
         },
         {
@@ -1975,7 +1975,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "3c3f0a92-0730-4902-a40c-93b5d1a0c053"
+            "0712957c-b899-4c41-b306-ff03ec8ed07a"
           ]
         },
         {
@@ -2012,7 +2012,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "3c3f0a92-0730-4902-a40c-93b5d1a0c053"
+            "0712957c-b899-4c41-b306-ff03ec8ed07a"
           ]
         },
         {
@@ -2050,7 +2050,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "b0947789-cad5-49f2-af1e-63675d0f03e2"
+              "8a3eaeee-c9d9-4951-a52c-e4802cbd8978"
             ]
           ]
         }
@@ -2083,7 +2083,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "b0947789-cad5-49f2-af1e-63675d0f03e2"
+              "8a3eaeee-c9d9-4951-a52c-e4802cbd8978"
             ]
           ]
         }
@@ -2116,7 +2116,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "b0947789-cad5-49f2-af1e-63675d0f03e2"
+              "8a3eaeee-c9d9-4951-a52c-e4802cbd8978"
             ]
           ]
         }
@@ -4095,7 +4095,7 @@
           "method": "eq",
           "args": [
             "id",
-            "9e610f41-540c-4ae9-97b7-310b34037ca6"
+            "0bf7a606-d174-4eb6-b407-ca17101950d1"
           ]
         },
         {
@@ -4130,7 +4130,7 @@
           "method": "eq",
           "args": [
             "id",
-            "9e610f41-540c-4ae9-97b7-310b34037ca6"
+            "0bf7a606-d174-4eb6-b407-ca17101950d1"
           ]
         },
         {
@@ -4165,7 +4165,7 @@
           "method": "eq",
           "args": [
             "id",
-            "9e610f41-540c-4ae9-97b7-310b34037ca6"
+            "0bf7a606-d174-4eb6-b407-ca17101950d1"
           ]
         },
         {
@@ -5852,7 +5852,7 @@
             {
               "event_key": "audit-local-dispatch",
               "event_type": "new_order",
-              "entity_id": "3c3f0a92-0730-4902-a40c-93b5d1a0c053",
+              "entity_id": "0712957c-b899-4c41-b306-ff03ec8ed07a",
               "status": "processing"
             }
           ]
@@ -5885,7 +5885,7 @@
           "method": "eq",
           "args": [
             "id",
-            "3c3f0a92-0730-4902-a40c-93b5d1a0c053"
+            "0712957c-b899-4c41-b306-ff03ec8ed07a"
           ]
         },
         {
@@ -5924,7 +5924,7 @@
               "status": "failed",
               "failed_count": 1,
               "last_error": "isolated diagnostic",
-              "completed_at": "2026-11-01T04:06:54.102Z"
+              "completed_at": "2026-11-01T13:58:47.626Z"
             }
           ]
         },
@@ -5960,7 +5960,7 @@
               "status": "failed",
               "failed_count": 1,
               "last_error": "isolated diagnostic",
-              "completed_at": "2026-11-01T04:06:54.123Z"
+              "completed_at": "2026-11-01T13:58:47.643Z"
             }
           ]
         },
@@ -5994,9 +5994,9 @@
           "args": [
             {
               "failure_count": 0,
-              "last_success_at": "2026-11-01T04:06:54.154Z",
+              "last_success_at": "2026-11-01T13:58:47.655Z",
               "last_failure_message": null,
-              "updated_at": "2026-11-01T04:06:54.154Z"
+              "updated_at": "2026-11-01T13:58:47.655Z"
             }
           ]
         },
@@ -6031,9 +6031,9 @@
             {
               "is_active": false,
               "failure_count": 1,
-              "last_failure_at": "2026-11-01T04:06:54.190Z",
+              "last_failure_at": "2026-11-01T13:58:47.676Z",
               "last_failure_message": "isolated diagnostic",
-              "updated_at": "2026-11-01T04:06:54.190Z"
+              "updated_at": "2026-11-01T13:58:47.676Z"
             }
           ]
         },
@@ -6070,7 +6070,7 @@
               "delivered_count": 1,
               "failed_count": 0,
               "last_error": null,
-              "completed_at": "2026-11-01T04:06:54.225Z"
+              "completed_at": "2026-11-01T13:58:47.693Z"
             }
           ]
         },
@@ -43932,7 +43932,7 @@
         "owner": "postgres",
         "schema": "public",
         "identity": "_get_home_dashboard_before133()",
-        "definition": "CREATE OR REPLACE FUNCTION public._get_home_dashboard_before133()\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nDECLARE\n  v_business_date DATE := (NOW() AT TIME ZONE 'Asia/Amman')::DATE;\n  v_today_start TIMESTAMPTZ;\n  v_tomorrow_start TIMESTAMPTZ;\n  v_month_start TIMESTAMPTZ;\n  v_month JSONB;\n  v_week JSONB;\n  v_today JSONB;\n  v_today_sales BIGINT := 0;\n  v_today_completed_orders INTEGER := 0;\n  v_month_sales BIGINT := 0;\n  v_month_profit BIGINT := 0;\n  v_open_orders INTEGER := 0;\n  v_new_orders INTEGER := 0;\n  v_customer_receivables BIGINT := 0;\n  v_supplier_payables BIGINT := 0;\n  v_inventory_value BIGINT := 0;\n  v_active_products INTEGER := 0;\n  v_active_customers INTEGER := 0;\n  v_low_stock INTEGER := 0;\n  v_out_of_stock INTEGER := 0;\n  v_configuration_issues INTEGER := 0;\n  v_can_view_profit BOOLEAN := false;\n  v_latest_orders JSONB := '[]'::JSONB;\n  v_stock_alerts JSONB := '[]'::JSONB;\n  v_order_statuses JSONB := '[]'::JSONB;\n  v_seven_day_sales JSONB := '[]'::JSONB;\nBEGIN\n  PERFORM public.assert_erp_role(\n    ARRAY[\n      'owner',\n      'admin',\n      'manager',\n      'accountant',\n      'sales',\n      'warehouse_keeper',\n      'delivery_driver'\n    ],\n    'عرض الصفحة الرئيسية'\n  );\n\n  v_today_start :=\n    v_business_date::TIMESTAMP AT TIME ZONE 'Asia/Amman';\n  v_tomorrow_start :=\n    (v_business_date + 1)::TIMESTAMP AT TIME ZONE 'Asia/Amman';\n  v_month_start :=\n    date_trunc(\n      'month',\n      v_business_date::TIMESTAMP\n    ) AT TIME ZONE 'Asia/Amman';\n\n  SELECT EXISTS (\n    SELECT 1\n    FROM public.user_roles ur\n    JOIN public.roles r ON r.id = ur.role_id\n    WHERE ur.user_id = auth.uid()\n      AND r.code IN ('owner', 'admin', 'manager', 'accountant')\n  )\n  INTO v_can_view_profit;\n\n  -- The131 equations are unchanged. Only the home reader skips periodic\n  -- evidence revalidation; reports and summaries remain strict.\n  BEGIN\n    v_month := public.phase6_financial_facts_internal(\n      NULL, v_month_start, v_tomorrow_start, 'Asia/Amman', false);\n    IF v_today_start - INTERVAL '6 days' >= v_month_start THEN\n      -- Daily values are period-local by date. Reuse them only when the\n      -- complete seven-day interval is contained in the monthly interval.\n      SELECT jsonb_build_object('dailyBreakdown', jsonb_agg(day ORDER BY day->>'date'))\n      INTO v_week FROM jsonb_array_elements(v_month->'dailyBreakdown') day\n      WHERE (day->>'date')::DATE >= v_business_date - 6;\n    ELSE\n      -- Month boundary: never drop days from the previous month.\n      v_week := public.phase6_financial_facts_internal(\n        NULL, v_today_start - INTERVAL '6 days', v_tomorrow_start, 'Asia/Amman', false);\n    END IF;\n  EXCEPTION WHEN OTHERS THEN\n    -- Preserve the complete pre131 unavailable response, including its old\n    -- financial numbers. Expensive legacy calculations run ONLY on fallback.\n    RETURN public._get_home_dashboard_before_phase6()\n      || jsonb_build_object('financialFactsStatus', 'unavailable');\n  END;\n  SELECT day INTO v_today FROM jsonb_array_elements(v_week->'dailyBreakdown') day\n  WHERE (day->>'date')::DATE = v_business_date;\n  v_today_sales := COALESCE((v_today->>'grossSalesInMinorUnits')::BIGINT, 0);\n  v_today_completed_orders := COALESCE((v_today->>'completedOrderCount')::INTEGER, 0);\n  v_month_sales := (v_month #>> '{sales,grossSalesInMinorUnits}')::BIGINT;\n  v_month_profit := (v_month #>> '{sales,netProfitInMinorUnits}')::BIGINT;\n  v_customer_receivables := (v_month #>> '{balances,customerDueInMinorUnits}')::BIGINT;\n\n  SELECT\n    COUNT(*) FILTER (\n      WHERE status IN (\n        'new',\n        'confirmed',\n        'preparing',\n        'ready',\n        'out_for_delivery'\n      )\n    )::INTEGER,\n    COUNT(*) FILTER (WHERE status = 'new')::INTEGER\n  INTO\n    v_open_orders,\n    v_new_orders\n  FROM public.orders;\n\n  SELECT COALESCE(SUM(GREATEST(s.current_balance_in_minor_units, 0)), 0)\n  INTO v_supplier_payables\n  FROM public.suppliers s\n  WHERE s.is_active = true;\n\n  SELECT ROUND(COALESCE(SUM(\n    ib.on_hand_quantity::NUMERIC\n      * COALESCE(p.wac_cost_in_minor_units_exact, p.cost_price_in_minor_units::NUMERIC)\n  ), 0), 0)::BIGINT\n  INTO v_inventory_value\n  FROM public.inventory_balances ib\n  JOIN public.products p ON p.id = ib.product_id\n  WHERE p.is_active = true;\n\n  SELECT COUNT(*)::INTEGER\n  INTO v_active_products\n  FROM public.products\n  WHERE is_active = true;\n\n  SELECT COUNT(*)::INTEGER\n  INTO v_active_customers\n  FROM public.customers\n  WHERE is_active = true\n    AND is_deleted = false;\n\n  WITH product_stock AS (\n    SELECT\n      p.id,\n      p.min_stock_level,\n      p.sale_unit_id,\n      p.units_per_sale_unit,\n      p.default_sale_price_in_minor_units,\n      COALESCE(\n        SUM(ib.on_hand_quantity - ib.reserved_quantity),\n        0\n      )::INTEGER AS available_quantity\n    FROM public.products p\n    LEFT JOIN public.inventory_balances ib\n      ON ib.product_id = p.id\n    WHERE p.is_active = true\n    GROUP BY\n      p.id,\n      p.min_stock_level,\n      p.sale_unit_id,\n      p.units_per_sale_unit,\n      p.default_sale_price_in_minor_units\n  )\n  SELECT\n    COUNT(*) FILTER (\n      WHERE sale_unit_id IS NOT NULL\n        AND units_per_sale_unit > 1\n        AND default_sale_price_in_minor_units > 0\n        AND available_quantity < units_per_sale_unit\n    )::INTEGER,\n    COUNT(*) FILTER (\n      WHERE sale_unit_id IS NOT NULL\n        AND units_per_sale_unit > 1\n        AND default_sale_price_in_minor_units > 0\n        AND available_quantity >= units_per_sale_unit\n        AND available_quantity <= GREATEST(\n          min_stock_level,\n          units_per_sale_unit\n        )\n    )::INTEGER,\n    COUNT(*) FILTER (\n      WHERE sale_unit_id IS NULL\n        OR units_per_sale_unit <= 1\n        OR default_sale_price_in_minor_units <= 0\n    )::INTEGER\n  INTO\n    v_out_of_stock,\n    v_low_stock,\n    v_configuration_issues\n  FROM product_stock;\n\n  SELECT COALESCE(JSONB_AGG(order_row), '[]'::JSONB)\n  INTO v_latest_orders\n  FROM (\n    SELECT\n      o.id,\n      o.order_number AS \"orderNumber\",\n      COALESCE(c.full_name, 'زبون مباشر') AS \"customerName\",\n      o.status,\n      o.payment_status AS \"paymentStatus\",\n      o.total_in_minor_units AS \"totalInMinorUnits\",\n      o.source,\n      o.created_at AS \"createdAt\"\n    FROM public.orders o\n    LEFT JOIN public.customers c ON c.id = o.customer_id\n    ORDER BY o.created_at DESC\n    LIMIT 5\n  ) order_row;\n\n  WITH product_stock AS (\n    SELECT\n      p.id,\n      p.name_ar,\n      p.sku,\n      p.min_stock_level,\n      p.sale_unit_id,\n      p.units_per_sale_unit,\n      p.default_sale_price_in_minor_units,\n      COALESCE(u.name_ar, 'طرد') AS sale_unit_name,\n      COALESCE(\n        SUM(ib.on_hand_quantity - ib.reserved_quantity),\n        0\n      )::INTEGER AS available_quantity\n    FROM public.products p\n    LEFT JOIN public.inventory_balances ib\n      ON ib.product_id = p.id\n    LEFT JOIN public.units u\n      ON u.id = p.sale_unit_id\n    WHERE p.is_active = true\n    GROUP BY\n      p.id,\n      p.name_ar,\n      p.sku,\n      p.min_stock_level,\n      p.sale_unit_id,\n      p.units_per_sale_unit,\n      p.default_sale_price_in_minor_units,\n      u.name_ar\n  )\n  SELECT COALESCE(JSONB_AGG(stock_row), '[]'::JSONB)\n  INTO v_stock_alerts\n  FROM (\n    SELECT\n      ps.id,\n      ps.name_ar AS \"nameAr\",\n      ps.sku,\n      ps.available_quantity AS \"availableBaseUnits\",\n      ps.units_per_sale_unit AS \"unitsPerSaleUnit\",\n      ps.sale_unit_name AS \"saleUnitName\",\n      FLOOR(\n        ps.available_quantity::NUMERIC\n        / GREATEST(ps.units_per_sale_unit, 1)\n      )::INTEGER AS \"availableSalePackages\",\n      CASE\n        WHEN ps.sale_unit_id IS NULL\n          OR ps.units_per_sale_unit <= 1\n          OR ps.default_sale_price_in_minor_units <= 0\n          THEN 'configuration'\n        WHEN ps.available_quantity < ps.units_per_sale_unit\n          THEN 'out_of_stock'\n        ELSE 'low_stock'\n      END AS severity\n    FROM product_stock ps\n    WHERE\n      ps.sale_unit_id IS NULL\n      OR ps.units_per_sale_unit <= 1\n      OR ps.default_sale_price_in_minor_units <= 0\n      OR ps.available_quantity < ps.units_per_sale_unit\n      OR ps.available_quantity <= GREATEST(\n        ps.min_stock_level,\n        ps.units_per_sale_unit\n      )\n    ORDER BY\n      CASE\n        WHEN ps.sale_unit_id IS NULL\n          OR ps.units_per_sale_unit <= 1\n          OR ps.default_sale_price_in_minor_units <= 0\n          THEN 0\n        WHEN ps.available_quantity < ps.units_per_sale_unit\n          THEN 1\n        ELSE 2\n      END,\n      ps.available_quantity ASC,\n      ps.name_ar ASC\n    LIMIT 5\n  ) stock_row;\n\n  SELECT COALESCE(JSONB_AGG(status_row), '[]'::JSONB)\n  INTO v_order_statuses\n  FROM (\n    SELECT\n      status,\n      COUNT(*)::INTEGER AS count\n    FROM public.orders\n    WHERE status IN (\n      'new',\n      'confirmed',\n      'preparing',\n      'ready',\n      'out_for_delivery',\n      'completed'\n    )\n    GROUP BY status\n    ORDER BY CASE status\n      WHEN 'new' THEN 1\n      WHEN 'confirmed' THEN 2\n      WHEN 'preparing' THEN 3\n      WHEN 'ready' THEN 4\n      WHEN 'out_for_delivery' THEN 5\n      WHEN 'completed' THEN 6\n      ELSE 7\n    END\n  ) status_row;\n\n  SELECT COALESCE(jsonb_agg(day || jsonb_build_object(\n    'salesInMinorUnits', day->'grossSalesInMinorUnits',\n    'dayLabel', to_char((day->>'date')::DATE, 'Dy')\n  ) ORDER BY day->>'date'), '[]'::JSONB)\n  INTO v_seven_day_sales FROM jsonb_array_elements(v_week->'dailyBreakdown') day;\n\n  RETURN JSONB_BUILD_OBJECT(\n    'generatedAt', NOW(),\n    'financialFactsStatus', 'available',\n    'access', JSONB_BUILD_OBJECT(\n      'canViewProfit', v_can_view_profit\n    ),\n    'summary', JSONB_BUILD_OBJECT(\n      'todayCollections',v_today->'customerCollections',\n      'todayCashCollectedInMinorUnits', (v_today->>'cashCollectedInMinorUnits')::BIGINT,\n      'todayCliqCollectedInMinorUnits', (v_today->>'cliqCollectedInMinorUnits')::BIGINT,\n      'todaySalesInMinorUnits', v_today_sales,\n      'todayNetSalesInMinorUnits', COALESCE((v_today->>'netSalesInMinorUnits')::BIGINT, 0),\n      'todayCompletedOrders', v_today_completed_orders,\n      'monthSalesInMinorUnits', v_month_sales,\n      'monthNetSalesInMinorUnits', v_month #> '{sales,netSalesInMinorUnits}',\n      'monthProfitInMinorUnits',\n        CASE WHEN v_can_view_profit THEN v_month_profit ELSE NULL END,\n      'openOrdersCount', v_open_orders,\n      'newOrdersCount', v_new_orders,\n      'customerReceivablesInMinorUnits', v_customer_receivables,\n      'supplierPayablesInMinorUnits', v_supplier_payables,\n      'inventoryValueInMinorUnits', v_inventory_value,\n      'activeProductsCount', v_active_products,\n      'activeCustomersCount', v_active_customers,\n      'lowStockCount', v_low_stock,\n      'outOfStockCount', v_out_of_stock,\n      'configurationIssuesCount', v_configuration_issues\n    ),\n    'latestOrders', v_latest_orders,\n    'stockAlerts', v_stock_alerts,\n    'orderStatuses', v_order_statuses,\n    'sevenDaySales', v_seven_day_sales\n  );\nEND;\n$function$\n",
+        "definition": "CREATE OR REPLACE FUNCTION public._get_home_dashboard_before133()\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nDECLARE\n  v_shared219 JSONB;\n  v_business_date DATE := (NOW() AT TIME ZONE 'Asia/Amman')::DATE;\n  v_today_start TIMESTAMPTZ;\n  v_tomorrow_start TIMESTAMPTZ;\n  v_month_start TIMESTAMPTZ;\n  v_month JSONB;\n  v_week JSONB;\n  v_today JSONB;\n  v_today_sales BIGINT := 0;\n  v_today_completed_orders INTEGER := 0;\n  v_month_sales BIGINT := 0;\n  v_month_profit BIGINT := 0;\n  v_open_orders INTEGER := 0;\n  v_new_orders INTEGER := 0;\n  v_customer_receivables BIGINT := 0;\n  v_supplier_payables BIGINT := 0;\n  v_inventory_value BIGINT := 0;\n  v_active_products INTEGER := 0;\n  v_active_customers INTEGER := 0;\n  v_low_stock INTEGER := 0;\n  v_out_of_stock INTEGER := 0;\n  v_configuration_issues INTEGER := 0;\n  v_can_view_profit BOOLEAN := false;\n  v_latest_orders JSONB := '[]'::JSONB;\n  v_stock_alerts JSONB := '[]'::JSONB;\n  v_order_statuses JSONB := '[]'::JSONB;\n  v_seven_day_sales JSONB := '[]'::JSONB;\nBEGIN\n  PERFORM public.assert_erp_role(\n    ARRAY[\n      'owner',\n      'admin',\n      'manager',\n      'accountant',\n      'sales',\n      'warehouse_keeper',\n      'delivery_driver'\n    ],\n    'عرض الصفحة الرئيسية'\n  );\n\n  v_today_start :=\n    v_business_date::TIMESTAMP AT TIME ZONE 'Asia/Amman';\n  v_tomorrow_start :=\n    (v_business_date + 1)::TIMESTAMP AT TIME ZONE 'Asia/Amman';\n  v_month_start :=\n    date_trunc(\n      'month',\n      v_business_date::TIMESTAMP\n    ) AT TIME ZONE 'Asia/Amman';\n\n  SELECT EXISTS (\n    SELECT 1\n    FROM public.user_roles ur\n    JOIN public.roles r ON r.id = ur.role_id\n    WHERE ur.user_id = auth.uid()\n      AND r.code IN ('owner', 'admin', 'manager', 'accountant')\n  )\n  INTO v_can_view_profit;\n\n  -- The131 equations are unchanged. Only the home reader skips periodic\n  -- evidence revalidation; reports and summaries remain strict.\n  BEGIN\n    IF v_today_start - INTERVAL '6 days' >= v_month_start THEN\n      v_month := public.phase6_financial_facts_internal(\n      NULL, v_month_start, v_tomorrow_start, 'Asia/Amman', false);\n    ELSE\n      v_shared219:=public.home219_shared_period_facts_internal(NULL,v_month_start,v_tomorrow_start,v_today_start - INTERVAL '6 days',v_tomorrow_start,'Asia/Amman');\n      v_month:=v_shared219->'month';\n    END IF;\n    IF v_today_start - INTERVAL '6 days' >= v_month_start THEN\n      -- Daily values are period-local by date. Reuse them only when the\n      -- complete seven-day interval is contained in the monthly interval.\n      SELECT jsonb_build_object('dailyBreakdown', jsonb_agg(day ORDER BY day->>'date'))\n      INTO v_week FROM jsonb_array_elements(v_month->'dailyBreakdown') day\n      WHERE (day->>'date')::DATE >= v_business_date - 6;\n    ELSE\n      -- Month boundary: never drop days from the previous month.\n      v_week:=v_shared219->'week';\n    END IF;\n  EXCEPTION WHEN OTHERS THEN\n    -- Preserve the complete pre131 unavailable response, including its old\n    -- financial numbers. Expensive legacy calculations run ONLY on fallback.\n    RETURN public._get_home_dashboard_before_phase6()\n      || jsonb_build_object('financialFactsStatus', 'unavailable');\n  END;\n  SELECT day INTO v_today FROM jsonb_array_elements(v_week->'dailyBreakdown') day\n  WHERE (day->>'date')::DATE = v_business_date;\n  v_today_sales := COALESCE((v_today->>'grossSalesInMinorUnits')::BIGINT, 0);\n  v_today_completed_orders := COALESCE((v_today->>'completedOrderCount')::INTEGER, 0);\n  v_month_sales := (v_month #>> '{sales,grossSalesInMinorUnits}')::BIGINT;\n  v_month_profit := (v_month #>> '{sales,netProfitInMinorUnits}')::BIGINT;\n  v_customer_receivables := (v_month #>> '{balances,customerDueInMinorUnits}')::BIGINT;\n\n  SELECT\n    COUNT(*) FILTER (\n      WHERE status IN (\n        'new',\n        'confirmed',\n        'preparing',\n        'ready',\n        'out_for_delivery'\n      )\n    )::INTEGER,\n    COUNT(*) FILTER (WHERE status = 'new')::INTEGER\n  INTO\n    v_open_orders,\n    v_new_orders\n  FROM public.orders;\n\n  SELECT COALESCE(SUM(GREATEST(s.current_balance_in_minor_units, 0)), 0)\n  INTO v_supplier_payables\n  FROM public.suppliers s\n  WHERE s.is_active = true;\n\n  SELECT ROUND(COALESCE(SUM(\n    ib.on_hand_quantity::NUMERIC\n      * COALESCE(p.wac_cost_in_minor_units_exact, p.cost_price_in_minor_units::NUMERIC)\n  ), 0), 0)::BIGINT\n  INTO v_inventory_value\n  FROM public.inventory_balances ib\n  JOIN public.products p ON p.id = ib.product_id\n  WHERE p.is_active = true;\n\n  SELECT COUNT(*)::INTEGER\n  INTO v_active_products\n  FROM public.products\n  WHERE is_active = true;\n\n  SELECT COUNT(*)::INTEGER\n  INTO v_active_customers\n  FROM public.customers\n  WHERE is_active = true\n    AND is_deleted = false;\n\n  WITH product_stock AS (\n    SELECT\n      p.id,\n      p.min_stock_level,\n      p.sale_unit_id,\n      p.units_per_sale_unit,\n      p.default_sale_price_in_minor_units,\n      COALESCE(\n        SUM(ib.on_hand_quantity - ib.reserved_quantity),\n        0\n      )::INTEGER AS available_quantity\n    FROM public.products p\n    LEFT JOIN public.inventory_balances ib\n      ON ib.product_id = p.id\n    WHERE p.is_active = true\n    GROUP BY\n      p.id,\n      p.min_stock_level,\n      p.sale_unit_id,\n      p.units_per_sale_unit,\n      p.default_sale_price_in_minor_units\n  )\n  SELECT\n    COUNT(*) FILTER (\n      WHERE sale_unit_id IS NOT NULL\n        AND units_per_sale_unit > 1\n        AND default_sale_price_in_minor_units > 0\n        AND available_quantity < units_per_sale_unit\n    )::INTEGER,\n    COUNT(*) FILTER (\n      WHERE sale_unit_id IS NOT NULL\n        AND units_per_sale_unit > 1\n        AND default_sale_price_in_minor_units > 0\n        AND available_quantity >= units_per_sale_unit\n        AND available_quantity <= GREATEST(\n          min_stock_level,\n          units_per_sale_unit\n        )\n    )::INTEGER,\n    COUNT(*) FILTER (\n      WHERE sale_unit_id IS NULL\n        OR units_per_sale_unit <= 1\n        OR default_sale_price_in_minor_units <= 0\n    )::INTEGER\n  INTO\n    v_out_of_stock,\n    v_low_stock,\n    v_configuration_issues\n  FROM product_stock;\n\n  SELECT COALESCE(JSONB_AGG(order_row), '[]'::JSONB)\n  INTO v_latest_orders\n  FROM (\n    SELECT\n      o.id,\n      o.order_number AS \"orderNumber\",\n      COALESCE(c.full_name, 'زبون مباشر') AS \"customerName\",\n      o.status,\n      o.payment_status AS \"paymentStatus\",\n      o.total_in_minor_units AS \"totalInMinorUnits\",\n      o.source,\n      o.created_at AS \"createdAt\"\n    FROM public.orders o\n    LEFT JOIN public.customers c ON c.id = o.customer_id\n    ORDER BY o.created_at DESC\n    LIMIT 5\n  ) order_row;\n\n  WITH product_stock AS (\n    SELECT\n      p.id,\n      p.name_ar,\n      p.sku,\n      p.min_stock_level,\n      p.sale_unit_id,\n      p.units_per_sale_unit,\n      p.default_sale_price_in_minor_units,\n      COALESCE(u.name_ar, 'طرد') AS sale_unit_name,\n      COALESCE(\n        SUM(ib.on_hand_quantity - ib.reserved_quantity),\n        0\n      )::INTEGER AS available_quantity\n    FROM public.products p\n    LEFT JOIN public.inventory_balances ib\n      ON ib.product_id = p.id\n    LEFT JOIN public.units u\n      ON u.id = p.sale_unit_id\n    WHERE p.is_active = true\n    GROUP BY\n      p.id,\n      p.name_ar,\n      p.sku,\n      p.min_stock_level,\n      p.sale_unit_id,\n      p.units_per_sale_unit,\n      p.default_sale_price_in_minor_units,\n      u.name_ar\n  )\n  SELECT COALESCE(JSONB_AGG(stock_row), '[]'::JSONB)\n  INTO v_stock_alerts\n  FROM (\n    SELECT\n      ps.id,\n      ps.name_ar AS \"nameAr\",\n      ps.sku,\n      ps.available_quantity AS \"availableBaseUnits\",\n      ps.units_per_sale_unit AS \"unitsPerSaleUnit\",\n      ps.sale_unit_name AS \"saleUnitName\",\n      FLOOR(\n        ps.available_quantity::NUMERIC\n        / GREATEST(ps.units_per_sale_unit, 1)\n      )::INTEGER AS \"availableSalePackages\",\n      CASE\n        WHEN ps.sale_unit_id IS NULL\n          OR ps.units_per_sale_unit <= 1\n          OR ps.default_sale_price_in_minor_units <= 0\n          THEN 'configuration'\n        WHEN ps.available_quantity < ps.units_per_sale_unit\n          THEN 'out_of_stock'\n        ELSE 'low_stock'\n      END AS severity\n    FROM product_stock ps\n    WHERE\n      ps.sale_unit_id IS NULL\n      OR ps.units_per_sale_unit <= 1\n      OR ps.default_sale_price_in_minor_units <= 0\n      OR ps.available_quantity < ps.units_per_sale_unit\n      OR ps.available_quantity <= GREATEST(\n        ps.min_stock_level,\n        ps.units_per_sale_unit\n      )\n    ORDER BY\n      CASE\n        WHEN ps.sale_unit_id IS NULL\n          OR ps.units_per_sale_unit <= 1\n          OR ps.default_sale_price_in_minor_units <= 0\n          THEN 0\n        WHEN ps.available_quantity < ps.units_per_sale_unit\n          THEN 1\n        ELSE 2\n      END,\n      ps.available_quantity ASC,\n      ps.name_ar ASC\n    LIMIT 5\n  ) stock_row;\n\n  SELECT COALESCE(JSONB_AGG(status_row), '[]'::JSONB)\n  INTO v_order_statuses\n  FROM (\n    SELECT\n      status,\n      COUNT(*)::INTEGER AS count\n    FROM public.orders\n    WHERE status IN (\n      'new',\n      'confirmed',\n      'preparing',\n      'ready',\n      'out_for_delivery',\n      'completed'\n    )\n    GROUP BY status\n    ORDER BY CASE status\n      WHEN 'new' THEN 1\n      WHEN 'confirmed' THEN 2\n      WHEN 'preparing' THEN 3\n      WHEN 'ready' THEN 4\n      WHEN 'out_for_delivery' THEN 5\n      WHEN 'completed' THEN 6\n      ELSE 7\n    END\n  ) status_row;\n\n  SELECT COALESCE(jsonb_agg(day || jsonb_build_object(\n    'salesInMinorUnits', day->'grossSalesInMinorUnits',\n    'dayLabel', to_char((day->>'date')::DATE, 'Dy')\n  ) ORDER BY day->>'date'), '[]'::JSONB)\n  INTO v_seven_day_sales FROM jsonb_array_elements(v_week->'dailyBreakdown') day;\n\n  RETURN JSONB_BUILD_OBJECT(\n    'generatedAt', NOW(),\n    'financialFactsStatus', 'available',\n    'access', JSONB_BUILD_OBJECT(\n      'canViewProfit', v_can_view_profit\n    ),\n    'summary', JSONB_BUILD_OBJECT(\n      'todayCollections',v_today->'customerCollections',\n      'todayCashCollectedInMinorUnits', (v_today->>'cashCollectedInMinorUnits')::BIGINT,\n      'todayCliqCollectedInMinorUnits', (v_today->>'cliqCollectedInMinorUnits')::BIGINT,\n      'todaySalesInMinorUnits', v_today_sales,\n      'todayNetSalesInMinorUnits', COALESCE((v_today->>'netSalesInMinorUnits')::BIGINT, 0),\n      'todayCompletedOrders', v_today_completed_orders,\n      'monthSalesInMinorUnits', v_month_sales,\n      'monthNetSalesInMinorUnits', v_month #> '{sales,netSalesInMinorUnits}',\n      'monthProfitInMinorUnits',\n        CASE WHEN v_can_view_profit THEN v_month_profit ELSE NULL END,\n      'openOrdersCount', v_open_orders,\n      'newOrdersCount', v_new_orders,\n      'customerReceivablesInMinorUnits', v_customer_receivables,\n      'supplierPayablesInMinorUnits', v_supplier_payables,\n      'inventoryValueInMinorUnits', v_inventory_value,\n      'activeProductsCount', v_active_products,\n      'activeCustomersCount', v_active_customers,\n      'lowStockCount', v_low_stock,\n      'outOfStockCount', v_out_of_stock,\n      'configurationIssuesCount', v_configuration_issues\n    ),\n    'latestOrders', v_latest_orders,\n    'stockAlerts', v_stock_alerts,\n    'orderStatuses', v_order_statuses,\n    'sevenDaySales', v_seven_day_sales\n  );\nEND;\n$function$\n",
         "configuration": [
           "search_path=public, pg_temp"
         ]
@@ -47438,6 +47438,45 @@
         "schema": "public",
         "identity": "has_erp_role(p_allowed_roles text[])",
         "definition": "CREATE OR REPLACE FUNCTION public.has_erp_role(p_allowed_roles text[])\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\n  SELECT\n    public.is_mfa_policy_satisfied()\n    AND EXISTS (\n      SELECT 1\n      FROM public.profiles p\n      JOIN public.user_roles ur ON ur.user_id = p.id\n      JOIN public.roles r ON r.id = ur.role_id\n      WHERE p.id = auth.uid()\n        AND p.is_active = true\n        AND r.code = ANY(p_allowed_roles)\n    );\n$function$\n",
+        "configuration": [
+          "search_path=public, pg_temp"
+        ]
+      },
+      {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "home219_adjust208_internal(p_base jsonb, p_branch_id uuid, p_period_start timestamp with time zone, p_period_end timestamp with time zone, p_timezone text, p_verify_evidence boolean)",
+        "definition": "CREATE OR REPLACE FUNCTION public.home219_adjust208_internal(p_base jsonb, p_branch_id uuid, p_period_start timestamp with time zone, p_period_end timestamp with time zone, p_timezone text, p_verify_evidence boolean)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nDECLARE facts JSONB; old_damage JSONB; damage JSONB; reasons JSONB; delta BIGINT; gross BIGINT; recovered BIGINT;\nBEGIN\n facts:=p_base;\n old_damage:=facts->'sales'->'damageLosses';\n IF p_verify_evidence THEN\n  PERFORM public.sr208_assert_operation_internal(x.operation_id) FROM(\n   SELECT DISTINCT e.operation_id FROM public.supplier_replacement_events e JOIN public.supplier_replacement_cases c ON c.id=e.case_id\n   WHERE (p_branch_id IS NULL OR c.branch_id=p_branch_id) AND e.occurred_at>=p_period_start AND e.occurred_at<p_period_end\n   UNION SELECT c.operation_id FROM public.supplier_replacement_cases c\n   WHERE(p_branch_id IS NULL OR c.branch_id=p_branch_id) AND c.occurred_at>=p_period_start AND c.occurred_at<p_period_end) x;\n END IF;\n SELECT COALESCE(sum(e.expense_delta_in_minor_units),0),COALESCE(sum(GREATEST(e.expense_delta_in_minor_units,0)),0),COALESCE(-sum(LEAST(e.expense_delta_in_minor_units,0)),0)\n INTO delta,gross,recovered FROM public.supplier_replacement_events e JOIN public.supplier_replacement_cases c ON c.id=e.case_id\n WHERE (p_branch_id IS NULL OR c.branch_id=p_branch_id) AND e.occurred_at>=p_period_start AND e.occurred_at<p_period_end;\n WITH rows AS(\n  SELECT CASE WHEN e.action='writeoff' THEN 'supplier_writeoff'\n   WHEN e.action='send' THEN 'customer_return_supplier_hold'\n   WHEN original.action='writeoff' THEN 'supplier_writeoff_reversal'\n   WHEN original.action='damage' THEN 'shop_damage_reversal' ELSE 'customer_return_supplier_hold_reversal' END code,\n   e.quantity,e.expense_delta_in_minor_units amount\n  FROM public.supplier_replacement_events e JOIN public.supplier_replacement_cases c ON c.id=e.case_id\n  LEFT JOIN public.supplier_replacement_events original ON original.id=e.reverses_event_id\n  WHERE(p_branch_id IS NULL OR c.branch_id=p_branch_id) AND e.occurred_at>=p_period_start AND e.occurred_at<p_period_end\n   AND(e.expense_delta_in_minor_units<>0 OR e.action='writeoff')\n ), grouped AS(SELECT code,count(*) count,sum(quantity) quantity,sum(amount) amount,sum(GREATEST(amount,0)) gross,-sum(LEAST(amount,0)) recovered FROM rows GROUP BY code)\n SELECT COALESCE(jsonb_agg(jsonb_build_object('code',code,'count',count,'quantity',quantity,'amountInMinorUnits',amount,'alreadyIncludedInMinorUnits',0,\n  'grossInMinorUnits',g.gross,'recoveredInMinorUnits',g.recovered) ORDER BY code),'[]') INTO reasons FROM grouped g;\n SELECT COALESCE(jsonb_agg(x||jsonb_build_object('grossInMinorUnits',(x->>'amountInMinorUnits')::BIGINT,'recoveredInMinorUnits',0)),'[]')||reasons\n INTO reasons FROM jsonb_array_elements(old_damage->'reasons') x;\n damage:=jsonb_build_object('contractVersion',208,'grossInMinorUnits',(old_damage->>'totalInMinorUnits')::BIGINT+gross,'recoveredInMinorUnits',recovered,\n  'totalInMinorUnits',(old_damage->>'totalInMinorUnits')::BIGINT+delta,'additionalInMinorUnits',(old_damage->>'additionalInMinorUnits')::BIGINT+delta,\n  'alreadyIncludedInMinorUnits',(old_damage->>'alreadyIncludedInMinorUnits')::BIGINT,'reasons',reasons);\n facts:=jsonb_set(facts,'{sales,damageLosses}',damage);\n facts:=jsonb_set(facts,'{sales,netProfitInMinorUnits}',to_jsonb((facts->'sales'->>'netProfitInMinorUnits')::BIGINT-delta));\n RETURN facts;\nEND $function$\n",
+        "configuration": [
+          "search_path=public, pg_temp"
+        ]
+      },
+      {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "home219_adjust215_internal(p_base jsonb, p_branch_id uuid, p_period_start timestamp with time zone, p_period_end timestamp with time zone, p_timezone text, p_verify_evidence boolean)",
+        "definition": "CREATE OR REPLACE FUNCTION public.home219_adjust215_internal(p_base jsonb, p_branch_id uuid, p_period_start timestamp with time zone, p_period_end timestamp with time zone, p_timezone text, p_verify_evidence boolean)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nDECLARE facts JSONB; recovery BIGINT; k TEXT;\nBEGIN\n facts:=public.home219_adjust208_internal(p_base,p_branch_id,p_period_start,p_period_end,p_timezone,p_verify_evidence);\n IF p_verify_evidence THEN PERFORM public.tb215_assert_inspection_internal(i.operation_id) FROM public.aftercare215_inspections i\n  JOIN public.orders o ON o.id=i.order_id WHERE(p_branch_id IS NULL OR o.branch_id=p_branch_id) AND i.created_at>=p_period_start AND i.created_at<p_period_end;\n  PERFORM public.tb215_assert_return_internal(c.operation_id) FROM public.aftercare215_return_contexts c\n   JOIN public.orders o ON o.id=c.order_id\n   WHERE(p_branch_id IS NULL OR o.branch_id=p_branch_id) AND c.created_at>=p_period_start AND c.created_at<p_period_end;\n END IF;\n SELECT COALESCE(sum(i.good_recovery_in_minor_units),0)::BIGINT INTO recovery FROM public.aftercare215_inspections i JOIN public.orders o ON o.id=i.order_id\n  WHERE(p_branch_id IS NULL OR o.branch_id=p_branch_id) AND i.created_at>=p_period_start AND i.created_at<p_period_end;\n FOREACH k IN ARRAY ARRAY['restockRecoveryInMinorUnits','aftercareAdjustedMarginInMinorUnits','netProfitInMinorUnits'] LOOP\n  facts:=jsonb_set(facts,ARRAY['sales',k],to_jsonb((facts->'sales'->>k)::BIGINT+recovery));\n END LOOP;\n facts:=public.tb215_exchange_financial_adjustment_internal(facts,p_branch_id,p_period_start,p_period_end,p_timezone,p_verify_evidence);\n RETURN public.tb215_damage_loss_presentation_internal(facts,p_branch_id,p_period_start,p_period_end);\nEND $function$\n",
+        "configuration": [
+          "search_path=public, pg_temp"
+        ]
+      },
+      {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "home219_shared_period_facts_internal(p_branch_id uuid, p_month_start timestamp with time zone, p_month_end timestamp with time zone, p_week_start timestamp with time zone, p_week_end timestamp with time zone, p_timezone text)",
+        "definition": "CREATE OR REPLACE FUNCTION public.home219_shared_period_facts_internal(p_branch_id uuid, p_month_start timestamp with time zone, p_month_end timestamp with time zone, p_week_start timestamp with time zone, p_week_end timestamp with time zone, p_timezone text)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nDECLARE result JSONB;\nBEGIN\n IF p_month_start IS NULL OR p_month_end IS NULL OR p_week_start IS NULL OR p_week_end IS NULL OR p_month_end<=p_month_start OR p_week_end<=p_week_start OR NULLIF(BTRIM(p_timezone),'') IS NULL THEN RAISE EXCEPTION 'Invalid Phase 6 financial facts period.'; END IF;\n WITH first_completion AS MATERIALIZED (\n    SELECT h.order_id, MIN(h.created_at) AS at\n    FROM public.order_status_history h\n    WHERE h.new_status = 'completed'\n    GROUP BY h.order_id\n  ),\ncompletion_ops AS MATERIALIZED (\n    SELECT DISTINCT ON (b.result_snapshot->>'order_id')\n      b.result_snapshot->>'order_id' AS order_key,\n      b.result_snapshot, b.completed_at, b.request_identity_snapshot\n    FROM public.business_operations b\n    WHERE b.operation_type = 'phase3_customer_completion_v1'\n      AND b.result_snapshot->>'order_id' = b.request_identity_snapshot->>'order_id'\n    ORDER BY b.result_snapshot->>'order_id', b.completed_at, b.id\n  ),\norder_scope AS MATERIALIZED (\n    SELECT o.id, o.customer_id, o.branch_id, o.status, o.payment_method, o.delivery_fee_in_minor_units, o.total_in_minor_units, o.source, o.created_at, o.amount_paid_in_minor_units, o.operation_id, fc.at AS completion_at, creation.operation_type,\n      creation.result_snapshot AS creation_result, creation.completed_at AS creation_recorded_at,\n      completion.result_snapshot AS completion_result,\n      completion.completed_at AS completion_recorded_at,\n      completion.request_identity_snapshot AS completion_request\n    FROM public.orders o\n    JOIN first_completion fc ON fc.order_id = o.id\n    LEFT JOIN public.business_operations creation ON creation.id = o.operation_id\n    LEFT JOIN completion_ops completion ON completion.order_key = o.id::TEXT\n    WHERE p_branch_id IS NULL OR o.branch_id = p_branch_id\n  ),\nmodern_returns AS MATERIALIZED (\n    SELECT e.*\n    FROM public.sales_return_events e JOIN order_scope o ON o.id = e.order_id\n    WHERE e.contract_version = 401 AND e.settlement_status = 'settled'\n      AND o.operation_type IN ('phase3_pos_sale_v1', 'phase3_customer_reservation_v1')\n  ),\nissued AS MATERIALIZED (\n    SELECT e.*\n    FROM public.sales_replacement_events e JOIN order_scope o ON o.id = e.root_order_id\n    WHERE e.issuance_status = 'issued'\n  ),\nreturn_rows AS (\n    SELECT e.id, e.order_id, e.settled_at AS at,\n      e.debt_reduction_amount_in_minor_units AS debt,\n      e.money_refund_amount_in_minor_units AS refund, e.refund_method,\n      e.debt_reduction_amount_in_minor_units + e.money_refund_amount_in_minor_units AS entitlement,\n      COALESCE((SELECT SUM(f.historical_restock_value_in_minor_units_exact)\n        FROM public.phase42_return_inventory_effects f WHERE f.return_event_id = e.id), 0) AS recovery\n    FROM modern_returns e\n    UNION ALL\n    SELECT e.id, e.order_id, e.created_at, 0, e.refund_amount_in_minor_units, e.refund_method,\n      e.refund_amount_in_minor_units,\n      CASE WHEN e.stock_disposition = 'restock' THEN COALESCE((SELECT SUM(i.cogs_in_minor_units)\n        FROM public.order_items i WHERE i.order_id = e.order_id), 0) ELSE 0 END\n    FROM public.sales_returns e JOIN order_scope o ON o.id = e.order_id\n    WHERE o.operation_type IS NULL OR o.operation_type NOT IN\n      ('phase3_pos_sale_v1', 'phase3_customer_reservation_v1')\n  ),\ninitial_collections AS (\n    SELECT o.id AS order_id,\n      CASE WHEN o.operation_type = 'phase3_pos_sale_v1' THEN o.creation_recorded_at\n        ELSE COALESCE(o.completion_recorded_at, o.completion_at) END AS at,\n      CASE WHEN o.operation_type = 'phase3_pos_sale_v1' THEN o.creation_result->>'paymentMethod'\n        WHEN o.operation_type = 'phase3_customer_reservation_v1' THEN o.completion_request->>'payment_method'\n        WHEN o.payment_method = 'cash_on_delivery' THEN 'cash' ELSE o.payment_method END AS method,\n      CASE WHEN o.operation_type = 'phase3_pos_sale_v1' THEN (o.creation_result->>'amountPaidInMinorUnits')::BIGINT\n        WHEN o.operation_type = 'phase3_customer_reservation_v1' THEN\n          CASE WHEN NULLIF(o.completion_result->>'customer_payment_number', '') IS NOT NULL THEN 0\n            ELSE (o.completion_result->>'amount_paid_in_minor_units')::BIGINT END\n        WHEN o.payment_method = 'debt' THEN 0 ELSE o.total_in_minor_units END AS amount\n    FROM order_scope o\n  ),\nmoney_events AS (\n    SELECT order_id, at, method, amount AS collection, 0::BIGINT AS reversal, 0::BIGINT AS refund\n    FROM initial_collections WHERE amount > 0\n    UNION ALL\n    SELECT p.order_id, p.created_at, p.payment_method, p.amount_in_minor_units, 0, 0\n    FROM public.customer_payments p JOIN public.orders o ON o.id = p.order_id\n    WHERE p_branch_id IS NULL OR o.branch_id = p_branch_id\n    UNION ALL\n    SELECT p.order_id, p.reversed_at, p.payment_method, 0, p.amount_in_minor_units, 0\n    FROM public.customer_payments p JOIN public.orders o ON o.id = p.order_id\n    WHERE p.is_reversed AND (p_branch_id IS NULL OR o.branch_id = p_branch_id)\n    UNION ALL\n    SELECT r.order_id, r.created_at, m.method, 0, m.amount, 0\n    FROM public.pos_sale_reversals r JOIN order_scope o ON o.id = r.order_id\n    CROSS JOIN LATERAL (VALUES\n      ('cash', (r.actual_effect->>'cash_in_minor_units')::BIGINT),\n      ('cliq', (r.actual_effect->>'cliq_in_minor_units')::BIGINT)) m(method, amount)\n    WHERE m.amount > 0\n    UNION ALL\n    SELECT order_id, at, refund_method, 0, 0, refund FROM return_rows WHERE refund > 0\n    UNION ALL\n    SELECT NULL::UUID,c.created_at,c.payment_method,a.amount_in_minor_units,0,0\n    FROM public.customer_collection_operations c JOIN public.customer_collection_cheque_allocations a ON a.operation_id=c.id\n    JOIN public.cheque_compensation_claims k ON k.id=a.claim_id JOIN public.deferred_cheques q ON q.id=k.cheque_id\n    WHERE p_branch_id IS NULL OR COALESCE(c.branch_id,q.branch_id)=p_branch_id\n    UNION ALL\n    SELECT NULL::UUID,c.reversed_at,c.payment_method,0,a.amount_in_minor_units,0\n    FROM public.customer_collection_operations c JOIN public.customer_collection_cheque_allocations a ON a.operation_id=c.id\n    JOIN public.cheque_compensation_claims k ON k.id=a.claim_id JOIN public.deferred_cheques q ON q.id=k.cheque_id\n    WHERE c.is_reversed AND(p_branch_id IS NULL OR COALESCE(c.branch_id,q.branch_id)=p_branch_id)\n    UNION ALL\n    -- Opening allocation is not a customer_payment. The order allocation is\n    -- already counted above and must never be added from collection totals.\n    SELECT NULL::UUID,c.created_at,c.payment_method,a.amount_in_minor_units,0,0\n    FROM public.customer_collection_operations c\n    JOIN public.customer_collection_opening_allocations a ON a.operation_id=c.id\n    WHERE p_branch_id IS NULL OR COALESCE(c.branch_id,public.go_live_main_branch_internal())=p_branch_id\n    UNION ALL\n    SELECT NULL::UUID,c.reversed_at,c.payment_method,0,a.amount_in_minor_units,0\n    FROM public.customer_collection_operations c\n    JOIN public.customer_collection_opening_allocations a ON a.operation_id=c.id\n    WHERE c.is_reversed AND (p_branch_id IS NULL OR COALESCE(c.branch_id,public.go_live_main_branch_internal())=p_branch_id)\n  ),\ncoverage_by_order AS (\n    SELECT order_id, SUM(collection - reversal)::BIGINT AS coverage\n    FROM money_events GROUP BY order_id\n  ),\ndebt_by_order AS (\n    SELECT order_id, SUM(debt)::BIGINT AS debt_reduction\n    FROM return_rows GROUP BY order_id\n  ),\npositions AS (\n    SELECT o.id, o.customer_id, o.status, o.total_in_minor_units,\n      COALESCE(c.coverage, 0)::BIGINT AS coverage,\n      COALESCE(d.debt_reduction, 0)::BIGINT AS debt_reduction,\n      GREATEST(o.total_in_minor_units - COALESCE(c.coverage, 0) - COALESCE(d.debt_reduction, 0), 0)::BIGINT AS due\n    FROM order_scope o\n    LEFT JOIN coverage_by_order c ON c.order_id = o.id\n    LEFT JOIN debt_by_order d ON d.order_id = o.id\n  ),\neligible AS MATERIALIZED (\n    SELECT o.id, o.customer_id, o.total_in_minor_units,\n      o.amount_paid_in_minor_units, o.operation_id\n    FROM public.orders o\n    WHERE o.status IN ('completed', 'delivered')\n      AND o.customer_id IS NOT NULL\n      AND (p_branch_id IS NULL OR o.branch_id = p_branch_id)\n      AND (COALESCE(o.source, 'website') <> 'pos' OR o.payment_method = 'debt')\n  ),\nprior_debt AS MATERIALIZED (\n    -- Exact set-based form of121 phase42_order_financial_position_internal's\n    -- prior_debt source. Do not introduce a projection/cache or new authority.\n    SELECT e.order_id, SUM(e.debt_reduction_amount_in_minor_units)::BIGINT AS amount\n    FROM public.sales_return_events e JOIN eligible o ON o.id = e.order_id\n    WHERE e.settlement_status = 'settled' AND e.contract_version = 401\n      AND o.amount_paid_in_minor_units < o.total_in_minor_units\n    GROUP BY e.order_id\n  ),\nfinancial_positions AS MATERIALIZED (\n    SELECT o.*, CASE\n      WHEN o.amount_paid_in_minor_units >= o.total_in_minor_units THEN 0::BIGINT\n      ELSE GREATEST(o.total_in_minor_units - o.amount_paid_in_minor_units\n        - COALESCE(d.amount, 0), 0)::BIGINT END AS outstanding\n    FROM eligible o LEFT JOIN prior_debt d ON d.order_id = o.id\n  ),\ncanonical_order_due AS (\n    -- Same set-based canonical positions used by192 aging/CRM;see parity guard.\n    SELECT id, customer_id, outstanding AS due FROM financial_positions\n  ),\nopening_due AS (\n    -- Preserve164 main-branch attribution;do not clamp signed source values.\n    SELECT opening.customer_id, opening.outstanding AS due\n    FROM public.go_live_customer_opening_positions_internal(NULL) opening\n    WHERE p_branch_id IS NULL OR p_branch_id = public.go_live_main_branch_internal()\n  ),\nbalances AS (\n    SELECT COALESCE(SUM(due), 0)::BIGINT AS due,\n      COUNT(*) FILTER (WHERE due > 0 AND is_order) AS orders,\n      COUNT(DISTINCT customer_id) FILTER (WHERE due > 0) AS customers\n    FROM (\n      SELECT true AS is_order, customer_id, due FROM canonical_order_due\n      UNION ALL\n      SELECT false, customer_id, due FROM opening_due\n      UNION ALL\n      SELECT false,c.customer_id,c.outstanding FROM public.cheque_customer_claim_positions_internal() c\n      JOIN public.cheque_compensation_claims k ON k.id=c.id JOIN public.deferred_cheques q ON q.id=k.cheque_id\n      WHERE p_branch_id IS NULL OR q.branch_id=p_branch_id\n    ) receivables\n  ),\n unified_sales219 AS MATERIALIZED (\n    SELECT id,total_in_minor_units,delivery_fee_in_minor_units,completion_at,status FROM order_scope WHERE status IN ('completed', 'returned')\n      AND completion_at >= LEAST(p_month_start,p_week_start) AND completion_at < GREATEST(p_month_end,p_week_end)\n  )\n SELECT jsonb_object_agg(scope219.key,public.home219_adjust215_internal(period219.facts,p_branch_id,scope219.period_start,scope219.period_end,p_timezone,false)) INTO result\n FROM (VALUES('month'::TEXT,p_month_start,p_month_end),('week'::TEXT,p_week_start,p_week_end))scope219(key,period_start,period_end)\n CROSS JOIN LATERAL (\n WITH scope_damage219 AS MATERIALIZED (SELECT public.inventory_damage_period_totals_internal(p_branch_id,scope219.period_start,scope219.period_end) AS value),\nperiod_sales AS (\n    SELECT * FROM unified_sales219 WHERE status IN ('completed', 'returned')\n      AND completion_at >= scope219.period_start AND completion_at < scope219.period_end\n  ),\nsales_totals AS (\n    SELECT COALESCE(SUM(total_in_minor_units), 0)::BIGINT AS gross,\n      COALESCE(SUM(delivery_fee_in_minor_units), 0)::BIGINT AS delivery,\n      COUNT(*) AS count FROM period_sales\n  ),\nperiod_returns AS (\n    SELECT COALESCE(SUM(entitlement), 0)::BIGINT AS entitlement,\n      COALESCE(SUM(refund), 0)::BIGINT AS refund, COALESCE(SUM(debt), 0)::BIGINT AS debt,\n      ROUND(COALESCE(SUM(recovery), 0))::BIGINT AS recovery, COUNT(*) AS count\n    FROM return_rows WHERE at >= scope219.period_start AND at < scope219.period_end\n  ),\ncosts AS (\n    SELECT COALESCE(SUM(i.cogs_in_minor_units), 0)::BIGINT AS cogs\n    FROM public.order_items i JOIN period_sales o ON o.id = i.order_id\n  ),\nreplacement_costs AS (\n    SELECT COALESCE(SUM(f.replacement_cogs_snapshot_in_minor_units), 0)::BIGINT AS cost\n    FROM issued e JOIN public.phase43_replacement_inventory_effects f ON f.operation_id = e.operation_id\n    WHERE e.issued_at >= scope219.period_start AND e.issued_at < scope219.period_end\n  ),\nflows AS (\n    SELECT COALESCE(SUM(collection - reversal) FILTER (WHERE method = 'cash'), 0)::BIGINT AS cash_received,\n      COALESCE(SUM(collection - reversal) FILTER (WHERE method = 'cliq'), 0)::BIGINT AS cliq_received,\n      COALESCE(SUM(collection-reversal) FILTER(WHERE method='bank_transfer'),0)::BIGINT AS bank_received,\n      COALESCE(SUM(collection-reversal) FILTER(WHERE method='cheque'),0)::BIGINT AS cheque_received,\n      COALESCE(SUM(collection-reversal) FILTER(WHERE COALESCE(method,'') NOT IN ('cash','cliq','bank_transfer','cheque')),0)::BIGINT AS other_received,\n      COALESCE(SUM(collection-reversal),0)::BIGINT AS total_received,\n      COALESCE(SUM(refund) FILTER (WHERE method = 'cash'), 0)::BIGINT AS cash_refunded,\n      COALESCE(SUM(refund) FILTER (WHERE method = 'cliq'), 0)::BIGINT AS cliq_refunded\n    FROM money_events WHERE at >= scope219.period_start AND at < scope219.period_end\n  ),\ncohort AS (\n    SELECT COALESCE(SUM(p.coverage), 0)::BIGINT AS coverage,\n      COALESCE(SUM(p.due), 0)::BIGINT AS due\n    FROM positions p JOIN period_sales o ON o.id = p.id\n  ),\nexpenses AS (\n    SELECT COALESCE(SUM(amount_in_minor_units), 0)::BIGINT AS amount,\n      COALESCE(SUM(amount_in_minor_units) FILTER (WHERE payment_method = 'cash'), 0)::BIGINT AS cash,\n      COALESCE(SUM(amount_in_minor_units) FILTER (WHERE payment_method = 'cliq'), 0)::BIGINT AS cliq,\n      COUNT(*) AS count\n    FROM public.operational_expenses\n    WHERE (p_branch_id IS NULL OR branch_id = p_branch_id)\n      AND NOT COALESCE(is_reversed, false)\n      AND created_at >= scope219.period_start AND created_at < scope219.period_end\n  ),\ndaily_collections AS (\n    -- One period-local aggregation. Never rescan all money events twice for\n    -- every date in the month; collection/reversal equations are unchanged.\n    SELECT (m.at AT TIME ZONE p_timezone)::DATE AS day,\n      COALESCE(SUM(m.collection-m.reversal) FILTER(WHERE m.method='cash'),0)::BIGINT AS cash_collected,\n      COALESCE(SUM(m.collection-m.reversal) FILTER(WHERE m.method='cliq'),0)::BIGINT AS cliq_collected,\n      COALESCE(SUM(m.collection-m.reversal) FILTER(WHERE m.method='bank_transfer'),0)::BIGINT AS bank_collected,\n      COALESCE(SUM(m.collection-m.reversal) FILTER(WHERE m.method='cheque'),0)::BIGINT AS cheque_collected,\n      COALESCE(SUM(m.collection-m.reversal) FILTER(WHERE COALESCE(m.method,'') NOT IN ('cash','cliq','bank_transfer','cheque')),0)::BIGINT AS other_collected,\n      COALESCE(SUM(m.collection-m.reversal),0)::BIGINT AS total_collected\n    FROM money_events m WHERE m.at>=scope219.period_start AND m.at<scope219.period_end\n    GROUP BY (m.at AT TIME ZONE p_timezone)::DATE\n  ),\ndays AS (\n    SELECT day::DATE AS day FROM generate_series((scope219.period_start AT TIME ZONE p_timezone)::DATE,\n      (scope219.period_end AT TIME ZONE p_timezone)::DATE - 1, INTERVAL '1 day') day\n  ),\ndaily AS (\n    SELECT d.day,\n      COALESCE((SELECT SUM(o.total_in_minor_units) FROM period_sales o\n        WHERE (o.completion_at AT TIME ZONE p_timezone)::DATE = d.day), 0)::BIGINT AS gross,\n      (SELECT COUNT(*) FROM period_sales o\n        WHERE (o.completion_at AT TIME ZONE p_timezone)::DATE = d.day)::BIGINT AS count,\n      COALESCE((SELECT SUM(r.entitlement) FROM return_rows r\n        WHERE r.at >= scope219.period_start AND r.at < scope219.period_end\n          AND (r.at AT TIME ZONE p_timezone)::DATE = d.day), 0)::BIGINT AS returned,\n      COALESCE(dc.cash_collected,0)::BIGINT AS cash_collected,\n      COALESCE(dc.cliq_collected,0)::BIGINT AS cliq_collected,\n      COALESCE(dc.bank_collected,0)::BIGINT AS bank_collected,\n      COALESCE(dc.cheque_collected,0)::BIGINT AS cheque_collected,\n      COALESCE(dc.other_collected,0)::BIGINT AS other_collected,\n      COALESCE(dc.total_collected,0)::BIGINT AS total_collected\n    FROM days d LEFT JOIN daily_collections dc ON dc.day=d.day\n  )\n SELECT jsonb_build_object(\n    'sales', jsonb_build_object('grossSalesInMinorUnits', s.gross, 'deliveryFeesInMinorUnits', s.delivery,\n      'returnEntitlementInMinorUnits', r.entitlement, 'refundsInMinorUnits', r.refund,\n      'debtReductionInMinorUnits', r.debt, 'netSalesInMinorUnits', s.gross - r.entitlement,\n      'cogsInMinorUnits', c.cogs, 'replacementCostInMinorUnits', rc.cost,\n      'restockRecoveryInMinorUnits', r.recovery, 'grossProfitInMinorUnits', s.gross - s.delivery - c.cogs,\n      'aftercareAdjustedMarginInMinorUnits', s.gross - r.entitlement - c.cogs - rc.cost + r.recovery,\n      'netProfitInMinorUnits', s.gross - r.entitlement - c.cogs - rc.cost + r.recovery - x.amount\n        - ((SELECT value FROM scope_damage219)->>'additionalInMinorUnits')::BIGINT,\n      'damageLosses',(SELECT value FROM scope_damage219),\n      'collectedInMinorUnits', co.coverage, 'outstandingInMinorUnits', co.due, 'returnCount', r.count,\n      'orderCount', s.count, 'completedOrderCount', s.count),\n    'cashFlow', jsonb_build_object('customerCollections',jsonb_build_object(\n      'cashInMinorUnits',f.cash_received,'cliqInMinorUnits',f.cliq_received,\n      'bankTransferInMinorUnits',f.bank_received,'chequeInMinorUnits',f.cheque_received,\n      'otherInMinorUnits',f.other_received,'totalInMinorUnits',f.total_received),\n      'cashCollectedInMinorUnits', f.cash_received,\n      'cliqCollectedInMinorUnits', f.cliq_received, 'cashRefundedInMinorUnits', f.cash_refunded,\n      'cliqRefundedInMinorUnits', f.cliq_refunded, 'cashNetFlowInMinorUnits', f.cash_received - f.cash_refunded,\n      'cliqNetFlowInMinorUnits', f.cliq_received - f.cliq_refunded),\n    'balances', jsonb_build_object('customerDueInMinorUnits', b.due, 'customerOrderCount', b.orders,\n      'customerCount', b.customers),\n    'expenses', jsonb_build_object('totalInMinorUnits', x.amount, 'cashInMinorUnits', x.cash,\n      'cliqInMinorUnits', x.cliq, 'count', x.count),\n    'dailyBreakdown', (SELECT COALESCE(jsonb_agg(jsonb_build_object('date', day,\n      'completedOrderCount', count, 'grossSalesInMinorUnits', gross,\n      'returnEntitlementInMinorUnits', returned, 'netSalesInMinorUnits', gross - returned,\n      'cashCollectedInMinorUnits',cash_collected,'cliqCollectedInMinorUnits',cliq_collected,\n      'customerCollections',jsonb_build_object('cashInMinorUnits',cash_collected,'cliqInMinorUnits',cliq_collected,\n        'bankTransferInMinorUnits',bank_collected,'chequeInMinorUnits',cheque_collected,\n        'otherInMinorUnits',other_collected,'totalInMinorUnits',total_collected))\n      ORDER BY day), '[]'::JSONB) FROM daily)\n  )\n  FROM sales_totals s CROSS JOIN period_returns r CROSS JOIN costs c\n    CROSS JOIN replacement_costs rc CROSS JOIN flows f CROSS JOIN balances b\n    CROSS JOIN cohort co CROSS JOIN expenses x\n )period219(facts);\n RETURN result;\nEND $function$\n",
         "configuration": [
           "search_path=public, pg_temp"
         ]
@@ -75269,13 +75308,13 @@
     }
   ],
   "fixture": {
-    "orderId": "3c3f0a92-0730-4902-a40c-93b5d1a0c053",
-    "operationId": "76cc07ed-ed46-4d7d-b5ba-e96c24a61fa5",
-    "receiptId": "dcd82532-1793-44cf-9648-db223c292c29",
-    "poId": "9e610f41-540c-4ae9-97b7-310b34037ca6",
+    "orderId": "0712957c-b899-4c41-b306-ff03ec8ed07a",
+    "operationId": "f9d1780f-0ba2-4f18-aab7-78372f7437a6",
+    "receiptId": "59068c56-45e6-4035-a091-13279cb5dacf",
+    "poId": "0bf7a606-d174-4eb6-b407-ca17101950d1",
     "subscriptionId": "92600000-0000-4000-8000-000000000701",
     "instances": [
-      "b0947789-cad5-49f2-af1e-63675d0f03e2"
+      "8a3eaeee-c9d9-4951-a52c-e4802cbd8978"
     ]
   },
   "access": [
@@ -81037,5 +81076,5 @@
     "zero_rows": 3,
     "other_error": 0
   },
-  "endedAt": "2026-11-01T04:09:29.384Z"
+  "endedAt": "2026-11-01T14:01:21.008Z"
 }

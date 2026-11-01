@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
+  "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner/Claude1Nov approved ONE additional round inside219:full219 nestedplans/top3;plan-proven one-scan/functionmemory/index;harddate;203compat;5CI allceilings<3000 and219median<=2500",
-  "baselineSha": "f798a33ccde9f2c716229211ced4d606066848d4",
+  "baselineSha": "7c0c8049b7f60b5d0383267791e761e5ffb0afcf",
   "branch": "codex/home-performance-reset-utc",
   "phase": "PACKAGE_F",
   "completed": [
@@ -14,7 +14,7 @@
     "Round2 full219 top3 nestedplans;shared month/week helpers with literal208/215;no memory/index change;hardclock+203 implemented"
   ],
   "inProgress": [
-    "Round2 five5 unit PASS;actual hardclock/restoration PASS;full150k home JSON18date/role cases exact and catalog restored;new219 reference/source evidence/fullgates pending"
+    "Round2 new source and operational evidence ready;local fullsize clocked197/current219 and archive/build regression pending before finalCI"
   ],
   "notStarted": [
     "New219636function reference/strict operational/access evidence and full regression",
@@ -22,7 +22,10 @@
   ],
   "testsPassed": [
     "ExactFULLCI third41298062962:60/60 actualverifier;backup41297820191+secrets41297820211/41297817137 green",
-    "20reports actual150000orders/1200000movements/fullJSONequal;20evidencefiles Gitleaks0;no test processes/ownedDB active"
+    "20reports actual150000orders/1200000movements/fullJSONequal;20evidencefiles Gitleaks0;no test processes/ownedDB active",
+    "Round2 shared2195 focused units/strict targeted lint;fullfixture18 date/role JSON comparisons and exact catalog restore;Gitleaks0 milestone7c0c804",
+    "Round2 SDK157/58618expected;generated636;fresh/incremental180/636/13/diff0;strictupgrade11negative and readonly/replaydata0;AdminTypes/StoreTypes/strictlint/Store203",
+    "Round2 current manifest corrected b577f518;Admin1678/Store203 all0fail;focused33+14;actualRESET219 ordinary+four resumes UTC0/catalog0/ACL0/MFA+realwritefence;offlineCLI12"
   ],
   "testsRemaining": [
     "One additional round:5runs each197/201/202/203/219<3000;219medianp95<=2500;real slowdownnegative;no retries"
@@ -31,25 +34,26 @@
     "219 fivep95:3102.006,2808.770,1937.395,3059.775,3016.749;median3016.749;3of5FAIL unchanged3000/3warmups20samples",
     "197median2801.743 max2817.735;201median2319.084 max2972.618;202median2410.047 max2948.506;no clear margin accepted",
     "FULL5 counts:58/60,58/60,60/60,57/60,58/60;203original3418.451FAIL once;aftercare215 UIbutton30000ms failedonce/DB17healthy,rootcauseunknown",
-    "Raw203samples/oldhistoricalresetdiff not recovered;no claim otherwise.218reserved;only approved219 order_scope projection written"
+    "Raw203samples/oldhistoricalresetdiff not recovered;no claim otherwise.218reserved;only approved219 order_scope projection written",
+    "Round2 prototype full3/20 originalp95=3693.130/sharedp95=3686.239 on Windows: no local acceptance;CI goal unchanged"
   ],
   "blockers": [],
   "activeProcesses": [
-    "Owned supabase_db_nawasrah-home219-round2-test idle retained; n8n unrelated untouched"
+    "No owned test processes or active DB;retained fullsize round2 DB stopped;n8n unrelated untouched"
   ],
   "prohibitions": [
     "No hosted/Frankfurt/Sentry/deploy/merge;owner/env/mainfiles untouched;PR53draft;218reserved",
     "Only authorized219 read optimization proven byplans;no financial/formula/filter/permission/history changes;no weekly omission",
     "No limit/sample/warmup/timeout weakening;recordalloriginals;one new5-run cycle;stop iffails,NO thirdround"
   ],
-  "nextExactAction": "Round2 shared219/clock/203 implementation and18 fullsize JSON parity cases PASS; regenerate actual SDK/reference636, run operational/full gates then one new five-CI cycle",
+  "nextExactAction": "Save reviewed636/reference/reset219 and strict manifest milestone;local197/219 benchmark,archive219/old archives,build contexts then final exactSHA fullCI and five-run criterion",
   "startedAt": "2026-11-01T02:30:05.157Z",
   "historyBaseline": "cab1c5aed8c2069e2919c566ea09c2da9757896d",
-  "checkpointedAt": "2026-11-01T13:52:47.982Z",
+  "checkpointedAt": "2026-11-01T14:26:43.166Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 18,
-  "filesTouchedManifestSha256": "7d8e09b099b5c08a694c9f938b7b775c351344710622a6647d801965ca33f1cc",
-  "workingTreeFingerprint": "708E8DCD46EADF01A5C0D8C4FDA98668B3AD1FD59B2AB7D90C5050912AD4DA9B"
+  "filesTouchedCount": 10,
+  "filesTouchedManifestSha256": "260db665715c42638551a3208ca19bd93b9c3237a980cb5fc8915b76f3d64d29",
+  "workingTreeFingerprint": "0E20A67B1FDE42606F3DD1EF75DC1F90FF86A74FAC3E532DB4018DB62F84B89B"
 }

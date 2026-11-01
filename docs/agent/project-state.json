@@ -260,7 +260,7 @@
   "migration215CanonicalLfSha256": "2D20594D6112C206A23130C43CE555ECC5357921CC9E4058019D0446223A4E57",
   "trialTb215Status": "LOCAL_DB_UI_SDK_REFERENCE_OWNER_BACKUP_RESET_PASS_FULLQUALITY_EXACT_CI_PENDING",
   "operationalSchema": {
-    "manifestSha256": "77967c2cc2daece3faa50a8f7d5e51fc08642e99017088da97800159190fa155",
+    "manifestSha256": "b577f51888277dff136b9b82a8873b61cb0e181cf961358dda57d0fe625dc1da",
     "archiveFormatVersion": 2,
     "legacyArchiveCeilings": [
       214,

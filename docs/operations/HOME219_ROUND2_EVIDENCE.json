@@ -1,0 +1,1160 @@
+{
+  "format": 1,
+  "managedAccess": false,
+  "productionAccess": false,
+  "sourceRound": "one owner-approved additional round inside219",
+  "fixture": {
+    "orders": 150000,
+    "movements": 1200000,
+    "hardCaseDate": "2026-11-01"
+  },
+  "warning": "Nested timings are inclusive and instrumentation-heavy, not disjoint costs or CI acceptance. Local3/20p95 also not accepted.",
+  "before": {
+    "sourceSha256": "f8f5f8ba552055db0fa7cf5ada630146ac59c507a8847d4c472d698c8b7bed9b",
+    "plans": [
+      {
+        "durationMs": 2150.498,
+        "root": {
+          "timeMs": 2150.484,
+          "tempRead": 23082,
+          "tempWritten": 14066
+        },
+        "nodes": [
+          {
+            "node": "CTE Scan",
+            "cte": "period_sales",
+            "timeMs": 670.808,
+            "loops": 1,
+            "rows": 5000,
+            "tempRead": 0,
+            "tempWritten": 3041
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "order_scope",
+            "subplan": "CTE period_sales",
+            "timeMs": 666.54,
+            "loops": 1,
+            "rows": 5000,
+            "tempRead": 0,
+            "tempWritten": 3041
+          },
+          {
+            "node": "Hash Join",
+            "subplan": "CTE order_scope",
+            "timeMs": 490.457,
+            "loops": 1,
+            "rows": 150000,
+            "tempRead": 0,
+            "tempWritten": 622
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "money_events",
+            "timeMs": 466.092,
+            "loops": 1,
+            "rows": 10000,
+            "tempRead": 3487,
+            "tempWritten": 3604
+          },
+          {
+            "node": "Append",
+            "subplan": "CTE money_events",
+            "timeMs": 359.145,
+            "loops": 1,
+            "rows": 315000,
+            "tempRead": 3487,
+            "tempWritten": 1067
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "financial_positions",
+            "timeMs": 238.523,
+            "loops": 1,
+            "rows": 135000,
+            "tempRead": 1516,
+            "tempWritten": 2603
+          },
+          {
+            "node": "Hash Join",
+            "subplan": "CTE financial_positions",
+            "timeMs": 187.72,
+            "loops": 1,
+            "rows": 135000,
+            "tempRead": 1516,
+            "tempWritten": 1516
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "first_completion",
+            "timeMs": 179.56,
+            "loops": 1,
+            "rows": 150000,
+            "tempRead": 0,
+            "tempWritten": 622
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "return_rows",
+            "timeMs": 137.219,
+            "loops": 1,
+            "rows": 5000,
+            "tempRead": 4840,
+            "tempWritten": 1
+          },
+          {
+            "node": "Append",
+            "subplan": "CTE return_rows",
+            "timeMs": 129.518,
+            "loops": 1,
+            "rows": 15000,
+            "tempRead": 4840,
+            "tempWritten": 1
+          },
+          {
+            "node": "Aggregate",
+            "subplan": "CTE first_completion",
+            "timeMs": 119.024,
+            "loops": 1,
+            "rows": 150000,
+            "tempRead": 0,
+            "tempWritten": 0
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "order_scope",
+            "timeMs": 108.638,
+            "loops": 1,
+            "rows": 100000,
+            "tempRead": 2420,
+            "tempWritten": 0
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "eligible",
+            "timeMs": 100.892,
+            "loops": 1,
+            "rows": 135000,
+            "tempRead": 0,
+            "tempWritten": 955
+          },
+          {
+            "node": "Index Scan",
+            "relation": "orders",
+            "index": "orders_pkey",
+            "timeMs": 93.97,
+            "loops": 1,
+            "rows": 150000,
+            "tempRead": 0,
+            "tempWritten": 0
+          },
+          {
+            "node": "Aggregate",
+            "subplan": "InitPlan 19",
+            "timeMs": 55.1,
+            "loops": 1,
+            "rows": 1,
+            "tempRead": 2538,
+            "tempWritten": 0
+          },
+          {
+            "node": "Seq Scan",
+            "subplan": "CTE eligible",
+            "relation": "orders",
+            "timeMs": 50.391,
+            "loops": 1,
+            "rows": 135000,
+            "tempRead": 0,
+            "tempWritten": 0
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "modern_returns",
+            "timeMs": 50.299,
+            "loops": 1,
+            "rows": 5000,
+            "tempRead": 2420,
+            "tempWritten": 1
+          },
+          {
+            "node": "Index Only Scan",
+            "relation": "order_status_history",
+            "index": "idx_order_status_history_order_status_created",
+            "timeMs": 43.265,
+            "loops": 1,
+            "rows": 150000,
+            "tempRead": 0,
+            "tempWritten": 0
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "issued",
+            "timeMs": 41.686,
+            "loops": 1,
+            "rows": 5000,
+            "tempRead": 2420,
+            "tempWritten": 0
+          },
+          {
+            "node": "Hash Join",
+            "subplan": "CTE issued",
+            "timeMs": 37.77,
+            "loops": 1,
+            "rows": 5000,
+            "tempRead": 2420,
+            "tempWritten": 0
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "money_events",
+            "timeMs": 33.573,
+            "loops": 1,
+            "rows": 315000,
+            "tempRead": 2538,
+            "tempWritten": 1
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "money_events",
+            "timeMs": 30.391,
+            "loops": 1,
+            "rows": 10000,
+            "tempRead": 2538,
+            "tempWritten": 0
+          },
+          {
+            "node": "Hash Join",
+            "subplan": "CTE modern_returns",
+            "timeMs": 29.385,
+            "loops": 1,
+            "rows": 5000,
+            "tempRead": 2420,
+            "tempWritten": 1
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "order_scope",
+            "timeMs": 24.382,
+            "loops": 1,
+            "rows": 145000,
+            "tempRead": 2420,
+            "tempWritten": 0
+          },
+          {
+            "node": "Index Only Scan",
+            "relation": "orders",
+            "index": "orders_pkey",
+            "timeMs": 21.293,
+            "loops": 1,
+            "rows": 150000,
+            "tempRead": 0,
+            "tempWritten": 0
+          },
+          {
+            "node": "Aggregate",
+            "subplan": "SubPlan 7",
+            "timeMs": 0.002,
+            "loops": 10000,
+            "rows": 1,
+            "tempRead": 0,
+            "tempWritten": 0
+          },
+          {
+            "node": "Index Scan",
+            "relation": "order_items",
+            "index": "idx_order_items_order_id",
+            "timeMs": 0.002,
+            "loops": 10000,
+            "rows": 3,
+            "tempRead": 0,
+            "tempWritten": 0
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "order_scope",
+            "timeMs": 18.277,
+            "loops": 1,
+            "rows": 150000,
+            "tempRead": 2420,
+            "tempWritten": 0
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "order_scope",
+            "timeMs": 17.95,
+            "loops": 1,
+            "rows": 5000,
+            "tempRead": 2420,
+            "tempWritten": 1
+          },
+          {
+            "node": "Aggregate",
+            "subplan": "CTE prior_debt",
+            "timeMs": 17.078,
+            "loops": 1,
+            "rows": 0,
+            "tempRead": 956,
+            "tempWritten": 1
+          }
+        ]
+      },
+      {
+        "durationMs": 105.4,
+        "root": {
+          "timeMs": 102.563,
+          "tempRead": 0,
+          "tempWritten": 0
+        },
+        "nodes": [
+          {
+            "node": "Index Scan",
+            "relation": "order_items",
+            "index": "order_items_pkey",
+            "timeMs": 0.004,
+            "loops": 5000,
+            "rows": 1,
+            "tempRead": 0,
+            "tempWritten": 0
+          }
+        ]
+      },
+      {
+        "durationMs": 115.963,
+        "root": {
+          "timeMs": 115.953,
+          "tempRead": 0,
+          "tempWritten": 0
+        },
+        "nodes": []
+      },
+      {
+        "durationMs": 2711.564,
+        "root": {
+          "timeMs": 2711.538,
+          "tempRead": 23085,
+          "tempWritten": 14069
+        },
+        "nodes": [
+          {
+            "node": "CTE Scan",
+            "cte": "period_sales",
+            "timeMs": 689.243,
+            "loops": 1,
+            "rows": 6193,
+            "tempRead": 0,
+            "tempWritten": 3041
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "order_scope",
+            "subplan": "CTE period_sales",
+            "timeMs": 687.603,
+            "loops": 1,
+            "rows": 6193,
+            "tempRead": 0,
+            "tempWritten": 3041
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "money_events",
+            "timeMs": 683.357,
+            "loops": 1,
+            "rows": 14772,
+            "tempRead": 3487,
+            "tempWritten": 3604
+          },
+          {
+            "node": "Append",
+            "subplan": "CTE money_events",
+            "timeMs": 531.413,
+            "loops": 1,
+            "rows": 315000,
+            "tempRead": 3487,
+            "tempWritten": 1067
+          },
+          {
+            "node": "Hash Join",
+            "subplan": "CTE order_scope",
+            "timeMs": 497.242,
+            "loops": 1,
+            "rows": 150000,
+            "tempRead": 0,
+            "tempWritten": 622
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "financial_positions",
+            "timeMs": 296.452,
+            "loops": 1,
+            "rows": 135000,
+            "tempRead": 1516,
+            "tempWritten": 2603
+          },
+          {
+            "node": "Hash Join",
+            "subplan": "CTE financial_positions",
+            "timeMs": 221.504,
+            "loops": 1,
+            "rows": 135000,
+            "tempRead": 1516,
+            "tempWritten": 1516
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "first_completion",
+            "timeMs": 187.62,
+            "loops": 1,
+            "rows": 150000,
+            "tempRead": 0,
+            "tempWritten": 622
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "order_scope",
+            "timeMs": 171.775,
+            "loops": 1,
+            "rows": 100000,
+            "tempRead": 2420,
+            "tempWritten": 0
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "return_rows",
+            "timeMs": 165.528,
+            "loops": 1,
+            "rows": 5000,
+            "tempRead": 4840,
+            "tempWritten": 1
+          },
+          {
+            "node": "Append",
+            "subplan": "CTE return_rows",
+            "timeMs": 158.358,
+            "loops": 1,
+            "rows": 15000,
+            "tempRead": 4840,
+            "tempWritten": 1
+          },
+          {
+            "node": "Aggregate",
+            "subplan": "InitPlan 19",
+            "timeMs": 130.881,
+            "loops": 1,
+            "rows": 1,
+            "tempRead": 2538,
+            "tempWritten": 0
+          },
+          {
+            "node": "Aggregate",
+            "subplan": "CTE first_completion",
+            "timeMs": 125.507,
+            "loops": 1,
+            "rows": 150000,
+            "tempRead": 0,
+            "tempWritten": 0
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "eligible",
+            "timeMs": 105.532,
+            "loops": 1,
+            "rows": 135000,
+            "tempRead": 0,
+            "tempWritten": 955
+          },
+          {
+            "node": "Index Scan",
+            "relation": "orders",
+            "index": "orders_pkey",
+            "timeMs": 98.994,
+            "loops": 1,
+            "rows": 150000,
+            "tempRead": 0,
+            "tempWritten": 0
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "issued",
+            "timeMs": 82.397,
+            "loops": 1,
+            "rows": 5000,
+            "tempRead": 2420,
+            "tempWritten": 0
+          },
+          {
+            "node": "Hash Join",
+            "subplan": "CTE issued",
+            "timeMs": 75.534,
+            "loops": 1,
+            "rows": 5000,
+            "tempRead": 2420,
+            "tempWritten": 0
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "modern_returns",
+            "timeMs": 62.882,
+            "loops": 1,
+            "rows": 5000,
+            "tempRead": 2420,
+            "tempWritten": 1
+          },
+          {
+            "node": "Seq Scan",
+            "subplan": "CTE eligible",
+            "relation": "orders",
+            "timeMs": 53.265,
+            "loops": 1,
+            "rows": 135000,
+            "tempRead": 0,
+            "tempWritten": 0
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "money_events",
+            "timeMs": 47.891,
+            "loops": 1,
+            "rows": 315000,
+            "tempRead": 2538,
+            "tempWritten": 1
+          },
+          {
+            "node": "Index Only Scan",
+            "relation": "order_status_history",
+            "index": "idx_order_status_history_order_status_created",
+            "timeMs": 40.763,
+            "loops": 1,
+            "rows": 150000,
+            "tempRead": 0,
+            "tempWritten": 0
+          },
+          {
+            "node": "Index Only Scan",
+            "relation": "orders",
+            "index": "orders_pkey",
+            "timeMs": 35.568,
+            "loops": 1,
+            "rows": 150000,
+            "tempRead": 0,
+            "tempWritten": 0
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "order_scope",
+            "timeMs": 32.966,
+            "loops": 1,
+            "rows": 145000,
+            "tempRead": 2420,
+            "tempWritten": 0
+          },
+          {
+            "node": "Hash Join",
+            "subplan": "CTE modern_returns",
+            "timeMs": 32.899,
+            "loops": 1,
+            "rows": 5000,
+            "tempRead": 2420,
+            "tempWritten": 1
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "order_scope",
+            "timeMs": 28.46,
+            "loops": 1,
+            "rows": 150000,
+            "tempRead": 2420,
+            "tempWritten": 0
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "money_events",
+            "timeMs": 27.465,
+            "loops": 1,
+            "rows": 14772,
+            "tempRead": 2538,
+            "tempWritten": 0
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "prior_debt",
+            "timeMs": 24.965,
+            "loops": 1,
+            "rows": 0,
+            "tempRead": 956,
+            "tempWritten": 1
+          },
+          {
+            "node": "Aggregate",
+            "subplan": "CTE prior_debt",
+            "timeMs": 24.961,
+            "loops": 1,
+            "rows": 0,
+            "tempRead": 956,
+            "tempWritten": 1
+          },
+          {
+            "node": "Aggregate",
+            "subplan": "SubPlan 16",
+            "timeMs": 3.539,
+            "loops": 7,
+            "rows": 1,
+            "tempRead": 0,
+            "tempWritten": 0
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "return_rows",
+            "timeMs": 3.46,
+            "loops": 7,
+            "rows": 714,
+            "tempRead": 0,
+            "tempWritten": 0
+          }
+        ]
+      },
+      {
+        "durationMs": 94.694,
+        "root": {
+          "timeMs": 92.651,
+          "tempRead": 0,
+          "tempWritten": 0
+        },
+        "nodes": [
+          {
+            "node": "Index Scan",
+            "relation": "order_items",
+            "index": "order_items_pkey",
+            "timeMs": 0.004,
+            "loops": 5000,
+            "rows": 1,
+            "tempRead": 0,
+            "tempWritten": 0
+          }
+        ]
+      },
+      {
+        "durationMs": 100.007,
+        "root": {
+          "timeMs": 100.004,
+          "tempRead": 0,
+          "tempWritten": 0
+        },
+        "nodes": []
+      },
+      {
+        "durationMs": 5287.763,
+        "root": {
+          "timeMs": 5287.762,
+          "tempRead": 46167,
+          "tempWritten": 28139
+        },
+        "nodes": []
+      }
+    ]
+  },
+  "after": {
+    "sourceSha256": "aabb140d43d48530717affef8c96a6cbbe188e520c96e399f32515035814fc5f",
+    "plans": [
+      {
+        "durationMs": 67.15,
+        "root": {
+          "timeMs": 64.278,
+          "tempRead": 0,
+          "tempWritten": 0
+        },
+        "nodes": [
+          {
+            "node": "Index Scan",
+            "relation": "order_items",
+            "index": "order_items_pkey",
+            "timeMs": 0.003,
+            "loops": 5000,
+            "rows": 1,
+            "tempRead": 0,
+            "tempWritten": 0
+          }
+        ]
+      },
+      {
+        "durationMs": 74.451,
+        "root": {
+          "timeMs": 74.446,
+          "tempRead": 0,
+          "tempWritten": 0
+        },
+        "nodes": []
+      },
+      {
+        "durationMs": 71.562,
+        "root": {
+          "timeMs": 68.295,
+          "tempRead": 0,
+          "tempWritten": 0
+        },
+        "nodes": [
+          {
+            "node": "Index Scan",
+            "relation": "order_items",
+            "index": "order_items_pkey",
+            "timeMs": 0.003,
+            "loops": 5000,
+            "rows": 1,
+            "tempRead": 0,
+            "tempWritten": 0
+          }
+        ]
+      },
+      {
+        "durationMs": 76.851,
+        "root": {
+          "timeMs": 76.846,
+          "tempRead": 0,
+          "tempWritten": 0
+        },
+        "nodes": []
+      },
+      {
+        "durationMs": 2951.388,
+        "root": {
+          "timeMs": 2951.382,
+          "tempRead": 35797,
+          "tempWritten": 17594
+        },
+        "nodes": [
+          {
+            "node": "CTE Scan",
+            "cte": "period_sales",
+            "timeMs": 290.749,
+            "loops": 2,
+            "rows": 5596,
+            "tempRead": 0,
+            "tempWritten": 3041
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "unified_sales219",
+            "subplan": "CTE period_sales",
+            "timeMs": 288.283,
+            "loops": 2,
+            "rows": 5596,
+            "tempRead": 0,
+            "tempWritten": 3041
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "order_scope",
+            "subplan": "CTE unified_sales219",
+            "timeMs": 567.339,
+            "loops": 1,
+            "rows": 6193,
+            "tempRead": 0,
+            "tempWritten": 3041
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "money_events",
+            "timeMs": 282.369,
+            "loops": 2,
+            "rows": 12386,
+            "tempRead": 6025,
+            "tempWritten": 3604
+          },
+          {
+            "node": "Hash Join",
+            "subplan": "CTE order_scope",
+            "timeMs": 419.74,
+            "loops": 1,
+            "rows": 150000,
+            "tempRead": 0,
+            "tempWritten": 622
+          },
+          {
+            "node": "Append",
+            "subplan": "CTE money_events",
+            "timeMs": 410.65,
+            "loops": 1,
+            "rows": 315000,
+            "tempRead": 3487,
+            "tempWritten": 1067
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "financial_positions",
+            "timeMs": 264.029,
+            "loops": 1,
+            "rows": 135000,
+            "tempRead": 1516,
+            "tempWritten": 2603
+          },
+          {
+            "node": "Hash Join",
+            "subplan": "CTE financial_positions",
+            "timeMs": 213.335,
+            "loops": 1,
+            "rows": 135000,
+            "tempRead": 1516,
+            "tempWritten": 1516
+          },
+          {
+            "node": "Aggregate",
+            "subplan": "InitPlan 23",
+            "timeMs": 84.928,
+            "loops": 2,
+            "rows": 1,
+            "tempRead": 5076,
+            "tempWritten": 0
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "return_rows",
+            "timeMs": 78.936,
+            "loops": 2,
+            "rows": 5000,
+            "tempRead": 4840,
+            "tempWritten": 1
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "order_scope",
+            "timeMs": 156.434,
+            "loops": 1,
+            "rows": 100000,
+            "tempRead": 2420,
+            "tempWritten": 0
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "first_completion",
+            "timeMs": 155.005,
+            "loops": 1,
+            "rows": 150000,
+            "tempRead": 0,
+            "tempWritten": 622
+          },
+          {
+            "node": "Append",
+            "subplan": "CTE return_rows",
+            "timeMs": 146.61,
+            "loops": 1,
+            "rows": 15000,
+            "tempRead": 4840,
+            "tempWritten": 1
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "eligible",
+            "timeMs": 115.05,
+            "loops": 1,
+            "rows": 135000,
+            "tempRead": 0,
+            "tempWritten": 955
+          },
+          {
+            "node": "Aggregate",
+            "subplan": "CTE first_completion",
+            "timeMs": 103.127,
+            "loops": 1,
+            "rows": 150000,
+            "tempRead": 0,
+            "tempWritten": 0
+          },
+          {
+            "node": "Index Scan",
+            "relation": "orders",
+            "index": "orders_pkey",
+            "timeMs": 90.663,
+            "loops": 1,
+            "rows": 150000,
+            "tempRead": 0,
+            "tempWritten": 0
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "money_events",
+            "timeMs": 39.293,
+            "loops": 2,
+            "rows": 315000,
+            "tempRead": 5076,
+            "tempWritten": 1
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "money_events",
+            "timeMs": 32.794,
+            "loops": 2,
+            "rows": 12386,
+            "tempRead": 5076,
+            "tempWritten": 0
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "modern_returns",
+            "timeMs": 60.486,
+            "loops": 1,
+            "rows": 5000,
+            "tempRead": 2420,
+            "tempWritten": 1
+          },
+          {
+            "node": "Seq Scan",
+            "subplan": "CTE eligible",
+            "relation": "orders",
+            "timeMs": 57.02,
+            "loops": 1,
+            "rows": 135000,
+            "tempRead": 0,
+            "tempWritten": 0
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "issued",
+            "timeMs": 24.547,
+            "loops": 2,
+            "rows": 5000,
+            "tempRead": 2420,
+            "tempWritten": 0
+          },
+          {
+            "node": "Hash Join",
+            "subplan": "CTE issued",
+            "timeMs": 43.693,
+            "loops": 1,
+            "rows": 5000,
+            "tempRead": 2420,
+            "tempWritten": 0
+          },
+          {
+            "node": "Index Only Scan",
+            "relation": "order_status_history",
+            "index": "idx_order_status_history_order_status_created",
+            "timeMs": 41.26,
+            "loops": 1,
+            "rows": 150000,
+            "tempRead": 0,
+            "tempWritten": 0
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "order_scope",
+            "timeMs": 18.166,
+            "loops": 2,
+            "rows": 150000,
+            "tempRead": 4840,
+            "tempWritten": 0
+          },
+          {
+            "node": "Index Scan",
+            "relation": "order_items",
+            "index": "idx_order_items_order_id",
+            "timeMs": 0.003,
+            "loops": 11193,
+            "rows": 3,
+            "tempRead": 0,
+            "tempWritten": 0
+          },
+          {
+            "node": "Hash Join",
+            "subplan": "CTE modern_returns",
+            "timeMs": 31.589,
+            "loops": 1,
+            "rows": 5000,
+            "tempRead": 2420,
+            "tempWritten": 1
+          },
+          {
+            "node": "Aggregate",
+            "subplan": "SubPlan 7",
+            "timeMs": 0.003,
+            "loops": 10000,
+            "rows": 1,
+            "tempRead": 0,
+            "tempWritten": 0
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "order_scope",
+            "timeMs": 23.212,
+            "loops": 1,
+            "rows": 145000,
+            "tempRead": 2420,
+            "tempWritten": 0
+          },
+          {
+            "node": "Aggregate",
+            "subplan": "SubPlan 22",
+            "timeMs": 2.893,
+            "loops": 8,
+            "rows": 1,
+            "tempRead": 0,
+            "tempWritten": 0
+          },
+          {
+            "node": "CTE Scan",
+            "cte": "return_rows",
+            "timeMs": 2.757,
+            "loops": 8,
+            "rows": 1250,
+            "tempRead": 0,
+            "tempWritten": 0
+          }
+        ]
+      },
+      {
+        "durationMs": 3088.151,
+        "root": {
+          "timeMs": 3088.15,
+          "tempRead": 35797,
+          "tempWritten": 17596
+        },
+        "nodes": []
+      }
+    ]
+  },
+  "localPrototype": {
+    "warmups": 3,
+    "samples": 20,
+    "originalP50": 3430.725,
+    "originalP95": 3693.13,
+    "sharedP50": 2394.219,
+    "sharedP95": 3686.239,
+    "accepted": false
+  },
+  "fullJsonParity": {
+    "completeJson": true,
+    "cases": [
+      {
+        "day": "2026-11-01",
+        "kind": "whole-home",
+        "equal": true
+      },
+      {
+        "day": "2026-11-02",
+        "kind": "whole-home",
+        "equal": true
+      },
+      {
+        "day": "2026-11-03",
+        "kind": "whole-home",
+        "equal": true
+      },
+      {
+        "day": "2026-11-04",
+        "kind": "whole-home",
+        "equal": true
+      },
+      {
+        "day": "2026-11-05",
+        "kind": "whole-home",
+        "equal": true
+      },
+      {
+        "day": "2026-11-06",
+        "kind": "whole-home",
+        "equal": true
+      },
+      {
+        "day": "2026-11-15",
+        "kind": "whole-home",
+        "equal": true
+      },
+      {
+        "day": "2026-11-30",
+        "kind": "whole-home",
+        "equal": true
+      },
+      {
+        "day": "2027-01-01",
+        "kind": "whole-home",
+        "equal": true
+      },
+      {
+        "role": "owner",
+        "aal": "aal1",
+        "active": true,
+        "kind": "role-and-guards",
+        "equal": true
+      },
+      {
+        "role": "manager",
+        "aal": "aal2",
+        "active": true,
+        "kind": "role-and-guards",
+        "equal": true
+      },
+      {
+        "role": "admin",
+        "aal": "aal2",
+        "active": true,
+        "kind": "role-and-guards",
+        "equal": true
+      },
+      {
+        "role": "sales",
+        "aal": "aal2",
+        "active": true,
+        "kind": "role-and-guards",
+        "equal": true
+      },
+      {
+        "role": "warehouse_keeper",
+        "aal": "aal2",
+        "active": true,
+        "kind": "role-and-guards",
+        "equal": true
+      },
+      {
+        "role": "accountant",
+        "aal": "aal2",
+        "active": true,
+        "kind": "role-and-guards",
+        "equal": true
+      },
+      {
+        "role": "delivery_driver",
+        "aal": "aal2",
+        "active": true,
+        "kind": "role-and-guards",
+        "equal": true
+      },
+      {
+        "role": "owner",
+        "aal": "aal2",
+        "active": false,
+        "kind": "role-and-guards",
+        "equal": true
+      },
+      {
+        "role": null,
+        "aal": "aal2",
+        "active": true,
+        "kind": "role-and-guards",
+        "equal": true
+      }
+    ],
+    "catalogExactlyRestored": true
+  },
+  "choices": {
+    "sharedRead": true,
+    "workMemChanged": false,
+    "indexAdded": false,
+    "formulasChanged": false,
+    "applicationPermissionsChanged": false,
+    "financialWrites": 0
+  },
+  "acceptanceStillRequired": {
+    "sameCodeCiRuns": 5,
+    "ceilings": [
+      197,
+      201,
+      202,
+      203,
+      219
+    ],
+    "everyRoundP95BelowMs": 3000,
+    "current219MedianP95AtMostMs": 2500,
+    "warmups": 3,
+    "samples": 20,
+    "realSlowdownRejected": true,
+    "noThirdRoundWithoutOwner": true
+  }
+}
