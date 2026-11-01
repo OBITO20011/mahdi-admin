@@ -3,19 +3,7 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/OWNER_DECISIONS.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
-    },
-    {
-      "code": " M",
       "path": "docs/agent/project-state.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/design/HOME_PERFORMANCE_219_PROPOSAL_AR.md"
     },
     {
       "code": " M",
@@ -23,11 +11,7 @@
     },
     {
       "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_219.json"
+      "path": "docs/operations/HOME219_ROUND2_EVIDENCE.json"
     },
     {
       "code": " M",
@@ -35,11 +19,35 @@
     },
     {
       "code": " M",
-      "path": "scripts/testing/run-owner-upgrade219-runtime.mjs"
+      "path": "scripts/testing/home-shared-scopes219.mjs"
     },
     {
-      "code": "??",
-      "path": "docs/operations/HOME219_ROUND2_EVIDENCE.json"
+      "code": " M",
+      "path": "scripts/testing/maintenance-db-contract.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-all-collections202-scale.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-all-collections203-scale.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-canonical-receivables197-scale.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-home-damage201-scale.mjs"
+    },
+    {
+      "code": " M",
+      "path": "supabase/migrations/219_home_financial_facts_narrow_projection.sql"
+    },
+    {
+      "code": " M",
+      "path": "tests/home-shared219.test.ts"
     }
   ]
 }

@@ -52,7 +52,7 @@ export function futureMigrationViolations(sql) {
   // may use those names; an extra comment, overload or helper still fails.
   const reviewed215 = sha256(canonicalLf(sql)) === '2d20594d6112c206a23130c43ce555ecc5357921cc9e4058019d0446223a4e57';
   const reviewed216 = sha256(canonicalLf(sql)) === '3a30798f8f9dd385dd915ed74b25440b8e40c6b46893541aca049a5b94e09462';
-  const reviewed219 = sha256(canonicalLf(sql)) === '720d48a50340405a8d96dd15bef0620601074f7cdf03a5b6518584f7b318b6af';
+  const reviewed219 = sha256(canonicalLf(sql)) === '63e1907c2f89f7ffb0de1cfa659a5e7c5fbe5a2bda2f192bcc731e70c63d070c';
   for (const match of code.matchAll(declaration)) if ((/_before_/iu.test(match[1]) || match[1] === 'public.phase6_financial_facts_before208_internal') &&
     !(existing214ReturnLeaf && match[1] === 'public.package_d_settle_sales_return_before_guard_internal' && /^create\s+or\s+replace\b/iu.test(match[0]))
     && !((reviewed215 || reviewed216) && match[1] === 'public._get_cash_shift_closing_report_before_snapshot' && /^create\s+or\s+replace\b/iu.test(match[0])) && !(reviewed219 && ['public.phase6_financial_facts_before208_internal','public._get_home_dashboard_before133'].includes(match[1]) && /^create\s+or\s+replace\b/iu.test(match[0]))) errors.push('NEW_BEFORE_FUNCTION');

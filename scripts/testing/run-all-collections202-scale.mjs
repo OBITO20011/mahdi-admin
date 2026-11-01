@@ -91,7 +91,7 @@ try{
  }finally{
   await sql('BEGIN;'+compatibility.restoreSql+'COMMIT;');
   assert.equal(await json("SELECT to_jsonb(prosrc) FROM pg_proc WHERE oid='public._get_home_dashboard_before133()'::regprocedure;"),originalCoreDefinition,'HOME219_ORIGINAL_CORE_MUST_BE_RESTORED');
-  assert.equal(await json("SELECT to_regprocedure('public.home219_shared_period_facts_internal(uuid,timestamptz,timestamptz,timestamptz,timestamptz,text)') IS NULL;"),true,'HOME219_TEMPORARY_HELPER_MUST_BE_REMOVED');
+  assert.equal(await json("SELECT to_jsonb(to_regprocedure('public.home219_shared_period_facts_internal(uuid,timestamptz,timestamptz,timestamptz,timestamptz,text)') IS NULL);"),true,'HOME219_TEMPORARY_HELPER_MUST_BE_REMOVED');
   assert.equal(await json(definitionQuery),resetDefinition,'HOME219_ORIGINAL_DEFINITION_MUST_BE_RESTORED');
  }
  const timing=name=>report.timings.find(t=>t.name===name).p95;

@@ -1156,5 +1156,52 @@
     "samples": 20,
     "realSlowdownRejected": true,
     "noThirdRoundWithoutOwner": true
+  },
+  "preliminaryCi": {
+    "sha": "d41158b4fe57fd3716c25e5f09eebcf5fc962542",
+    "run": 41316247529,
+    "acceptance": false,
+    "finalFiveRunCycleStarted": false,
+    "rows": [
+      {
+        "ceiling": 197,
+        "originalP95": 2943.849,
+        "optimizedP95": 1674.614
+      },
+      {
+        "ceiling": 201,
+        "originalP95": 3419.639,
+        "optimizedP95": 1960.457
+      },
+      {
+        "ceiling": 202,
+        "originalP95": 3301.082,
+        "optimizedP95": 1912.911
+      },
+      {
+        "ceiling": 203,
+        "originalP95": 3257.294,
+        "optimizedP95": 1859.252
+      },
+      {
+        "ceiling": 219,
+        "originalP95": 3426.248,
+        "optimizedP95": 2026.509,
+        "negativeP95": 5101.349
+      }
+    ],
+    "failures": [
+      "Checkpoint exceeded4096bytes after local tests;compacted without guard change.",
+      "Unmerged private208 helper unused timezone;removed parameter and only private-call argument,not whitelisted.",
+      "Historical cleanup SQLboolean t fed to JSON.parse;use to_jsonb with same strict true assertion."
+    ],
+    "note": "All measured values retained. No rerun,limit change or performance exception. Not a completed successful fullCI."
+  },
+  "afterPrivateSignatureCorrection": {
+    "migrationSha256": "63e1907c2f89f7ffb0de1cfa659a5e7c5fbe5a2bda2f192bcc731e70c63d070c",
+    "dbLintNoNewWarnings": true,
+    "completeJsonCases": 18,
+    "catalogExactlyRestored": true,
+    "trueAndFalseSqlJsonCodecProved": true
   }
 }

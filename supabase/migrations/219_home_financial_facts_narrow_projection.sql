@@ -320,7 +320,7 @@ BEGIN
 END;
 $$;
 
-CREATE OR REPLACE FUNCTION public.home219_adjust208_internal(p_base JSONB,p_branch_id UUID,p_period_start TIMESTAMPTZ,p_period_end TIMESTAMPTZ,p_timezone TEXT,p_verify_evidence BOOLEAN)
+CREATE OR REPLACE FUNCTION public.home219_adjust208_internal(p_base JSONB,p_branch_id UUID,p_period_start TIMESTAMPTZ,p_period_end TIMESTAMPTZ,p_verify_evidence BOOLEAN)
 RETURNS JSONB LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
 DECLARE facts JSONB; old_damage JSONB; damage JSONB; reasons JSONB; delta BIGINT; gross BIGINT; recovered BIGINT;
 BEGIN
@@ -358,14 +358,14 @@ BEGIN
  facts:=jsonb_set(facts,'{sales,netProfitInMinorUnits}',to_jsonb((facts->'sales'->>'netProfitInMinorUnits')::BIGINT-delta));
  RETURN facts;
 END $$;
-ALTER FUNCTION public.home219_adjust208_internal(JSONB,UUID,TIMESTAMPTZ,TIMESTAMPTZ,TEXT,BOOLEAN) OWNER TO postgres;
-REVOKE ALL ON FUNCTION public.home219_adjust208_internal(JSONB,UUID,TIMESTAMPTZ,TIMESTAMPTZ,TEXT,BOOLEAN) FROM PUBLIC,anon,authenticated,service_role;
+ALTER FUNCTION public.home219_adjust208_internal(JSONB,UUID,TIMESTAMPTZ,TIMESTAMPTZ,BOOLEAN) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.home219_adjust208_internal(JSONB,UUID,TIMESTAMPTZ,TIMESTAMPTZ,BOOLEAN) FROM PUBLIC,anon,authenticated,service_role;
 
 CREATE OR REPLACE FUNCTION public.home219_adjust215_internal(p_base JSONB,p_branch_id UUID,p_period_start TIMESTAMPTZ,p_period_end TIMESTAMPTZ,p_timezone TEXT,p_verify_evidence BOOLEAN)
 RETURNS JSONB LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
 DECLARE facts JSONB; recovery BIGINT; k TEXT;
 BEGIN
- facts:=public.home219_adjust208_internal(p_base,p_branch_id,p_period_start,p_period_end,p_timezone,p_verify_evidence);
+ facts:=public.home219_adjust208_internal(p_base,p_branch_id,p_period_start,p_period_end,p_verify_evidence);
  IF p_verify_evidence THEN PERFORM public.tb215_assert_inspection_internal(i.operation_id) FROM public.aftercare215_inspections i
   JOIN public.orders o ON o.id=i.order_id WHERE(p_branch_id IS NULL OR o.branch_id=p_branch_id) AND i.created_at>=p_period_start AND i.created_at<p_period_end;
   PERFORM public.tb215_assert_return_internal(c.operation_id) FROM public.aftercare215_return_contexts c

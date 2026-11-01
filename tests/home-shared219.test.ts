@@ -4,7 +4,7 @@ import {readFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import {buildHome219Migration,extractSqlFunction,historicalShared219Compatibility} from '../scripts/testing/build-home219-read-sql.mjs';
 import {originalHomeFactsDefinition} from '../scripts/testing/home-projection219.mjs';
-import {buildShared219Definition,adjust208Definition} from '../scripts/testing/home-shared-scopes219.mjs';
+import {buildShared219Definition,adjust208Definition,adjust215Definition} from '../scripts/testing/home-shared-scopes219.mjs';
 import {shiftSqlBenchmarkClock,installBenchmark219Clock,home219HardDate} from '../scripts/testing/home-benchmark-clock219.mjs';
 const root=fileURLToPath(new URL('../',import.meta.url));
 const read=(name:string)=>readFile(new URL('../'+name,import.meta.url),'utf8');
@@ -18,6 +18,16 @@ test('shared219 SQL is fully generated from immutable203/202/208/215; no financi
  assert.doesNotMatch(generated,/work_mem|bench219-clock/u);
  const source208=extractSqlFunction(await read('supabase/migrations/208_supplier_replacement_and_damage.sql'),'phase6_financial_facts_internal');
  assert.match(adjust208Definition(source208),/facts:=p_base/u);
+ const recovered208=adjust208Definition(source208).split('\nALTER FUNCTION')[0]
+  .replace('CREATE OR REPLACE FUNCTION public.home219_adjust208_internal(p_base JSONB,','CREATE OR REPLACE FUNCTION public.phase6_financial_facts_internal(')
+  .replace(',p_verify_evidence BOOLEAN)',',p_timezone TEXT,p_verify_evidence BOOLEAN)')
+  .replace('facts:=p_base;','facts:=public.phase6_financial_facts_before208_internal(p_branch_id,p_period_start,p_period_end,p_timezone,p_verify_evidence);');
+ assert.equal(recovered208,source208,'EVERY208_BUSINESS_BODY_BYTE_UNCHANGED');
+ const source215=extractSqlFunction(await read('supabase/migrations/215_inspected_aftercare_and_supplier_credit.sql'),'phase6_financial_facts_internal');
+ const recovered215=adjust215Definition(source215).split('\nALTER FUNCTION')[0]
+  .replace('CREATE OR REPLACE FUNCTION public.home219_adjust215_internal(p_base JSONB,','CREATE FUNCTION public.phase6_financial_facts_internal(')
+  .replace('facts:=public.home219_adjust208_internal(p_base,p_branch_id,p_period_start,p_period_end,p_verify_evidence);','facts:=public.tb215_financial_facts_before215_internal(p_branch_id,p_period_start,p_period_end,p_timezone,p_verify_evidence);');
+ assert.equal(recovered215,source215,'EVERY215_BUSINESS_BODY_BYTE_UNCHANGED');
 });
 
 test('shared helpers retain215 postprocessing and all unscoped ledgers, without leaking period bounds',async()=>{

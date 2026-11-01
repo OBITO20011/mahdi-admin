@@ -2,58 +2,49 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner/Claude1Nov approved ONE additional round inside219:full219 nestedplans/top3;plan-proven one-scan/functionmemory/index;harddate;203compat;5CI allceilings<3000 and219median<=2500",
-  "baselineSha": "7c0c8049b7f60b5d0383267791e761e5ffb0afcf",
+  "objective": "One approved219 extra round:shared month/week;hard date;203;five CI all caps<3000 and219 median<=2500",
+  "baselineSha": "d41158b4fe57fd3716c25e5f09eebcf5fc962542",
   "branch": "codex/home-performance-reset-utc",
   "phase": "PACKAGE_F",
   "completed": [
-    "219 ref180/633/Realtime13,fresh-incremental0;strict upgrade/replay/readonly ACL0 and8negative;actualSDK157+586/18expected",
-    "ActualRESET217219 ordinary+4resumes UTC/rawbigint/MFA/2session writefence;v2archives214-217219 strictrestore/localR2 exceptions[]",
-    "Admin1673/Store203/typesboth/strictlint/6builds/PWA/actionlint/print2pages;R4 month-start fixture4browser+13focused;Gitleaks0",
-    "DraftPR54 exactf798 saved/pushed;5first-attempt FULLCI completed;20uploaded performance reports audited fullsize/financialJSONequal/originalspreserved;5real slowdowns caught",
-    "Round2 full219 top3 nestedplans;shared month/week helpers with literal208/215;no memory/index change;hardclock+203 implemented"
+    "Round1 failed stability;all numbers in proposal and external approval219 evidence. No acceptance.",
+    "Round2 full150k18date/role JSON parity;clock restored;SDK157/586;fresh219180/636/13,diff0;strictupgrade11negative;RESET219ordinary+4resumes/UTC/MFA/writefence PASS.",
+    "Admin1678/Store203/types/strictlint/focused33+14 PASS before latest private-signature/JSON-codec correction;Gitleaks0;WIP d411 saved/pushed."
   ],
   "inProgress": [
-    "Round2 new source and operational evidence ready;local fullsize clocked197/current219 and archive/build regression pending before finalCI"
+    "Correct d411 preliminary CI:compact task<=4KB;remove unused timezone from NEW private208 helper;encode SQL boolean as JSON. No lint/threshold/assertion weakening."
   ],
   "notStarted": [
-    "New219636function reference/strict operational/access evidence and full regression",
-    "Final exact newSHA FULLCI+5same-code all197/201/202/203/219<3000 and219median<=2500"
+    "Regenerate changed219/hash/reference/evidence;DBlint/financial parity/reset/archive/build regression.",
+    "One final same-SHA five-CI cycle;all197/201/202/203/219<3000,everyrun;219median<=2500."
   ],
   "testsPassed": [
-    "ExactFULLCI third41298062962:60/60 actualverifier;backup41297820191+secrets41297820211/41297817137 green",
-    "20reports actual150000orders/1200000movements/fullJSONequal;20evidencefiles Gitleaks0;no test processes/ownedDB active",
-    "Round2 shared2195 focused units/strict targeted lint;fullfixture18 date/role JSON comparisons and exact catalog restore;Gitleaks0 milestone7c0c804",
-    "Round2 SDK157/58618expected;generated636;fresh/incremental180/636/13/diff0;strictupgrade11negative and readonly/replaydata0;AdminTypes/StoreTypes/strictlint/Store203",
-    "Round2 current manifest corrected b577f518;Admin1678/Store203 all0fail;focused33+14;actualRESET219 ordinary+four resumes UTC0/catalog0/ACL0/MFA+realwritefence;offlineCLI12"
+    "Durable evidence:docs/operations/HOME219_ROUND2_EVIDENCE.json and external round2/;old219 reference720D superseded by private-signature fix."
   ],
   "testsRemaining": [
-    "One additional round:5runs each197/201/202/203/219<3000;219medianp95<=2500;real slowdownnegative;no retries"
+    "Final strict ops + five CI + real slowdown;diagnose any recurring aftercare215 failure without retry."
   ],
   "findings": [
-    "219 fivep95:3102.006,2808.770,1937.395,3059.775,3016.749;median3016.749;3of5FAIL unchanged3000/3warmups20samples",
-    "197median2801.743 max2817.735;201median2319.084 max2972.618;202median2410.047 max2948.506;no clear margin accepted",
-    "FULL5 counts:58/60,58/60,60/60,57/60,58/60;203original3418.451FAIL once;aftercare215 UIbutton30000ms failedonce/DB17healthy,rootcauseunknown",
-    "Raw203samples/oldhistoricalresetdiff not recovered;no claim otherwise.218reserved;only approved219 order_scope projection written",
-    "Round2 prototype full3/20 originalp95=3693.130/sharedp95=3686.239 on Windows: no local acceptance;CI goal unchanged"
+    "d411 CI preliminary optp95:1971674.614,2011960.457,2021912.911,2031859.252ms;cleanup JSON codec failed. Not acceptance.",
+    "Local197 optp953397.304/original6109.791;no local performance acceptance."
   ],
   "blockers": [],
   "activeProcesses": [
-    "No owned test processes or active DB;retained fullsize round2 DB stopped;n8n unrelated untouched"
+    "No owned verification process;retained fullsize round2 DB stopped;n8n unrelated."
   ],
   "prohibitions": [
-    "No hosted/Frankfurt/Sentry/deploy/merge;owner/env/mainfiles untouched;PR53draft;218reserved",
-    "Only authorized219 read optimization proven byplans;no financial/formula/filter/permission/history changes;no weekly omission",
-    "No limit/sample/warmup/timeout weakening;recordalloriginals;one new5-run cycle;stop iffails,NO thirdround"
+    "No hosted/Frankfurt/Sentry/deploy/merge or owner/env/main edits;PR53draft;218reserved.",
+    "Only approved219 read changes;no formulas/filters/permissions/history/write changes or weekly omission.",
+    "Keep3000ms/3warmups20samples/alloriginals;5CI allcaps<3000,219median<=2500;stop if fails,NO third round or retries."
   ],
-  "nextExactAction": "Save reviewed636/reference/reset219 and strict manifest milestone;local197/219 benchmark,archive219/old archives,build contexts then final exactSHA fullCI and five-run criterion",
+  "nextExactAction": "Corrected63e1907:real DB lint no new warnings,18fullJSON cases,boolean true/false and compact task PASS;save source then regenerate SDK/fresh636reference/strictops;no five-CI dispatch yet",
   "startedAt": "2026-11-01T02:30:05.157Z",
   "historyBaseline": "cab1c5aed8c2069e2919c566ea09c2da9757896d",
-  "checkpointedAt": "2026-11-01T14:26:43.166Z",
+  "checkpointedAt": "2026-11-01T14:59:37.555Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 10,
-  "filesTouchedManifestSha256": "260db665715c42638551a3208ca19bd93b9c3237a980cb5fc8915b76f3d64d29",
-  "workingTreeFingerprint": "0E20A67B1FDE42606F3DD1EF75DC1F90FF86A74FAC3E532DB4018DB62F84B89B"
+  "filesTouchedCount": 12,
+  "filesTouchedManifestSha256": "b08796366cb5cfdd764d958fe105a4bacae467b895452aae1e82834a4517b05f",
+  "workingTreeFingerprint": "EC5DC9F0A65F73CB8BD5E0B93F409BD8BF5C327C21B8988735B04C4C01A068DE"
 }

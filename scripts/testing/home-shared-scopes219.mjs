@@ -55,7 +55,12 @@ export function adjust208Definition(original){
  const name='CREATE OR REPLACE FUNCTION public.phase6_financial_facts_internal(';assert.equal(original.split(name).length,2);
  let result=original.replace(name,`CREATE OR REPLACE FUNCTION public.${adjust219Name}(p_base JSONB,`);
  const call='facts:=public.phase6_financial_facts_before208_internal(p_branch_id,p_period_start,p_period_end,p_timezone,p_verify_evidence);';assert.equal(result.split(call).length,2);result=result.replace(call,'facts:=p_base;');
- return result+`\nALTER FUNCTION public.${adjust219Name}(JSONB,UUID,TIMESTAMPTZ,TIMESTAMPTZ,TEXT,BOOLEAN) OWNER TO postgres;\nREVOKE ALL ON FUNCTION public.${adjust219Name}(JSONB,UUID,TIMESTAMPTZ,TIMESTAMPTZ,TEXT,BOOLEAN) FROM PUBLIC,anon,authenticated,service_role;\n`;
+ // Only the extracted base read used the timezone. Keep the public208/215
+ // signatures unchanged; omit this unused argument from the NEW private leaf.
+ assert.equal(result.split('p_timezone TEXT').length,2);
+ result=result.replace(',p_timezone TEXT','');
+ assert.doesNotMatch(maskSql(result),/\bp_timezone\b/u);
+ return result+`\nALTER FUNCTION public.${adjust219Name}(JSONB,UUID,TIMESTAMPTZ,TIMESTAMPTZ,BOOLEAN) OWNER TO postgres;\nREVOKE ALL ON FUNCTION public.${adjust219Name}(JSONB,UUID,TIMESTAMPTZ,TIMESTAMPTZ,BOOLEAN) FROM PUBLIC,anon,authenticated,service_role;\n`;
 }
 export function sharedHome219Definition(original){
  assert.ok(!original.includes('v_shared219'),'HOME219_ALREADY_SHARED');
@@ -69,6 +74,6 @@ export function sharedHome219Definition(original){
 export function adjust215Definition(original){
  const name='CREATE FUNCTION public.phase6_financial_facts_internal(';assert.equal(original.split(name).length,2);
  let result=original.replace(name,`CREATE OR REPLACE FUNCTION public.${adjust215Name}(p_base JSONB,`);
- const call='facts:=public.tb215_financial_facts_before215_internal(p_branch_id,p_period_start,p_period_end,p_timezone,p_verify_evidence);';assert.equal(result.split(call).length,2);result=result.replace(call,`facts:=public.${adjust219Name}(p_base,p_branch_id,p_period_start,p_period_end,p_timezone,p_verify_evidence);`);
+ const call='facts:=public.tb215_financial_facts_before215_internal(p_branch_id,p_period_start,p_period_end,p_timezone,p_verify_evidence);';assert.equal(result.split(call).length,2);result=result.replace(call,`facts:=public.${adjust219Name}(p_base,p_branch_id,p_period_start,p_period_end,p_verify_evidence);`);
  return result+`\nALTER FUNCTION public.${adjust215Name}(JSONB,UUID,TIMESTAMPTZ,TIMESTAMPTZ,TEXT,BOOLEAN) OWNER TO postgres;\nREVOKE ALL ON FUNCTION public.${adjust215Name}(JSONB,UUID,TIMESTAMPTZ,TIMESTAMPTZ,TEXT,BOOLEAN) FROM PUBLIC,anon,authenticated,service_role;\n`;
 }
