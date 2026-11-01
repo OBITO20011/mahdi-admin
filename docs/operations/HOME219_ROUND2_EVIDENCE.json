@@ -1203,5 +1203,148 @@
     "completeJsonCases": 18,
     "catalogExactlyRestored": true,
     "trueAndFalseSqlJsonCodecProved": true
+  },
+  "currentContractScenarios": [
+    {
+      "name": "base-cash-sale",
+      "realPublicWriters": true,
+      "discount": 100,
+      "total": 1900,
+      "initialPayment": 500,
+      "remaining": 1400,
+      "refund": null,
+      "completeJsonExactlyEqual": true,
+      "allBusinessRowsRolledBack": true
+    },
+    {
+      "name": "base-cliq-sale",
+      "realPublicWriters": true,
+      "discount": 100,
+      "total": 1900,
+      "initialPayment": 500,
+      "remaining": 1400,
+      "refund": null,
+      "completeJsonExactlyEqual": true,
+      "allBusinessRowsRolledBack": true
+    },
+    {
+      "name": "base-cash-returned",
+      "realPublicWriters": true,
+      "discount": 100,
+      "total": 1900,
+      "initialPayment": 500,
+      "remaining": 1400,
+      "refund": {
+        "debtReduction": 1400,
+        "moneyRefund": 500
+      },
+      "completeJsonExactlyEqual": true,
+      "allBusinessRowsRolledBack": true
+    },
+    {
+      "name": "base-cliq-returned",
+      "realPublicWriters": true,
+      "discount": 100,
+      "total": 1900,
+      "initialPayment": 500,
+      "remaining": 1400,
+      "refund": {
+        "debtReduction": 1400,
+        "moneyRefund": 500
+      },
+      "completeJsonExactlyEqual": true,
+      "allBusinessRowsRolledBack": true
+    },
+    {
+      "name": "formed-cliq-sale",
+      "realPublicWriters": true,
+      "discount": 0,
+      "total": 5000,
+      "initialPayment": 2000,
+      "remaining": 3000,
+      "refund": null,
+      "completeJsonExactlyEqual": true,
+      "allBusinessRowsRolledBack": true
+    }
+  ],
+  "localFinal": {
+    "migration219Sha256": "63e1907c2f89f7ffb0de1cfa659a5e7c5fbe5a2bda2f192bcc731e70c63d070c",
+    "manifestSha256": "1a6c507b6ff8b3965e1c01c71abf2280b84544498989085223abae90569fd916",
+    "referenceSha256": "adcc5fb0371ff0cc4fde6841dd7341175354de8cebd52341e108423cbfb31471",
+    "publicFunctions": 636,
+    "migrations": 180,
+    "realtimeTables": 13,
+    "freshIncrementalDifferenceCount": 0,
+    "actualSdk": 157,
+    "actualServiceProbes": 586,
+    "expectedRoleDenials": 18,
+    "strictUpgradeNegativeCases": 11,
+    "reset219ActualResumeCases": 4,
+    "resetCatalogAclDifferences": 0,
+    "utcComparison": "same-database-literal-all-schemas",
+    "ownerCliOfflineChecks": 12,
+    "adminUnitTests": 1678,
+    "storeUnitTests": 203,
+    "typesAndStrictLint": true,
+    "environmentBuildsAndVerifyDist": 6,
+    "privacyOrFinancialApplicationChanges": false,
+    "allFinalCiStillRequired": true
+  },
+  "archiveCompatibility": {
+    "sha": "9c732678117640b7425bfef4499d653327ae1a67",
+    "migration219Sha256": "63e1907c2f89f7ffb0de1cfa659a5e7c5fbe5a2bda2f192bcc731e70c63d070c",
+    "run": 41318985047,
+    "job": 124884978830,
+    "jobConclusion": "success",
+    "hostedConnectionsMade": false,
+    "archiveEncrypted": true,
+    "old214": {
+      "ok": true,
+      "files": 176,
+      "allRowsAndHashesMatch": true,
+      "exceptionsApplied": []
+    },
+    "current": [
+      {
+        "ceiling": 215,
+        "backup": true,
+        "restore": true,
+        "files": 177,
+        "exceptionsApplied": [],
+        "localR2DownloadRestore": true
+      },
+      {
+        "ceiling": 216,
+        "backup": true,
+        "restore": true,
+        "files": 178,
+        "exceptionsApplied": [],
+        "localR2DownloadRestore": true
+      },
+      {
+        "ceiling": 217,
+        "backup": true,
+        "restore": true,
+        "files": 179,
+        "exceptionsApplied": [],
+        "localR2DownloadRestore": true
+      },
+      {
+        "ceiling": 219,
+        "backup": true,
+        "restore": true,
+        "files": 180,
+        "exceptionsApplied": [],
+        "localR2DownloadRestore": true
+      }
+    ],
+    "source": "Actual completed Actions job log, parsed complete JSON; synthetic isolated PostgreSQL17 and local R2 only. Owner archive was not opened or modified. Final head CI must still pass."
+  },
+  "localWindows197": {
+    "originalP95": 6109.791,
+    "optimizedP95": 3397.304,
+    "accepted": false,
+    "fullCountsAndJsonPreserved": true,
+    "note": "Windows local threshold did not pass;cleanup JSON bug was then fixed without changing the limit. CI proof is separate."
   }
 }

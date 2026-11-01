@@ -12,6 +12,11 @@ git rev-parse HEAD
 $backupScript = '.\scripts\operations\frankfurt-backup-owner.ps1'
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File $backupScript -Mode Plan
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File $backupScript -Mode Backup -Apply
+$referenceSource = 'C:\Users\TOP\NawasrahFrankfurt\home-performance-reset-utc-local\round2\owner-ready63\local-reference-through219-ready.json'
+if ((Get-FileHash -Algorithm SHA256 -LiteralPath $referenceSource).Hash -ne 'ADCC5FB0371FF0CC4FDE6841DD7341175354DE8CEBD52341E108423CBFB31471') { throw 'REVIEWED219_REFERENCE_HASH_MISMATCH' }
+$referenceTarget = 'C:\Users\TOP\NawasrahFrankfurt\nawasrah-fra-001-138\local-reference-through219-ready.json'
+if (Test-Path -LiteralPath $referenceTarget) { Copy-Item -LiteralPath $referenceTarget -Destination ($referenceTarget + '.before-reviewed219-' + [DateTime]::UtcNow.ToString('yyyyMMddTHHmmssZ')) }
+Copy-Item -LiteralPath $referenceSource -Destination $referenceTarget
 npm.cmd run frankfurt-owner-upgrade219 -- --dry-run
 npm.cmd run frankfurt-owner-upgrade219 -- --apply
 npm.cmd run frankfurt-owner-upgrade219 -- --verify-only
@@ -22,3 +27,5 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File $backupScript -Mode Rest
 ثم «افحص» وفق خطة يوم التشغيل. dry-run محلي دون اتصال؛apply يطلب المرجع الثابت وكلمةDB بإدخال مخفي في الذاكرة،ويتحقق من رؤية مهام النسخ قبلها. verify-only صارم على الكتالوج وACLوالمالك/search_path/التاريخ،ولا يمنح صلاحية أو يصلح فرقاً بصمت. المتوقع pending219وحدها،180تاريخاً،صفر فرق كتالوج وACL؛التكرار بلا كتابة. لا Setup/Register أو رفع219 على مشروع آخر.
 
 تدعم الأدوات أرشيفv2لـ214/215/216/217/219 بالمقارنة الصارمة بلا استثناءات. تبقى تنبيهات217وcronمحجوزة؛لا نشرEdgeولا تفعيل.
+
+مرجع المراجعة أعلاه جديد ومستقل للنسخة المصححة من219 (SHAالمهاجرة يبدأ63e1907،والتزام manifest يبدأ1a6c507b)،وليس إعادة تسمية217 أو نسخة219 الأولى. النسخ إلى مجلد الترقية المرتبط يقوم به المالك **بعد الاعتماد والدمج فقط**؛لم نعدّل ملفات ذلك المجلد. نحتفظ بـ219 السابقة إن وجدت،وبمرجع217 كما هو. لا تستعمل مجلد owner-ready63 كـworkdir لتطبيق الترقية:هو للمرجع فقط؛ملفات الربط وسجل الحجز تبقى في المجلد المرتبط الحالي. إذا احتجت إعادة توليده،استعمل build-acl-reference219 محلياً بمسار جديد،وراجع بصمته الجديدة بدلاً من تجاوز الفحص.

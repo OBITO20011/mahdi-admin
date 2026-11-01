@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-01T14:01:24.709Z",
+  "startedAt": "2026-11-01T15:06:05.162Z",
   "migrationCeiling": 219,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-6c0WkK",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-9ZMqN0",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -8305,7 +8305,6 @@
         "p_branch_id",
         "p_period_start",
         "p_period_end",
-        "p_timezone",
         "p_verify_evidence"
       ],
       "owner": "postgres",
@@ -8314,10 +8313,9 @@
         "uuid",
         "timestamp with time zone",
         "timestamp with time zone",
-        "text",
         "boolean"
       ],
-      "identity": "home219_adjust208_internal(jsonb,uuid,timestamp with time zone,timestamp with time zone,text,boolean)",
+      "identity": "home219_adjust208_internal(jsonb,uuid,timestamp with time zone,timestamp with time zone,boolean)",
       "returnType": "jsonb",
       "configuration": [
         "search_path=public, pg_temp"
@@ -40628,17 +40626,17 @@
     {
       "role": "anon",
       "allowed": false,
-      "identity": "home219_adjust208_internal(jsonb,uuid,timestamp with time zone,timestamp with time zone,text,boolean)"
+      "identity": "home219_adjust208_internal(jsonb,uuid,timestamp with time zone,timestamp with time zone,boolean)"
     },
     {
       "role": "authenticated",
       "allowed": false,
-      "identity": "home219_adjust208_internal(jsonb,uuid,timestamp with time zone,timestamp with time zone,text,boolean)"
+      "identity": "home219_adjust208_internal(jsonb,uuid,timestamp with time zone,timestamp with time zone,boolean)"
     },
     {
       "role": "service_role",
       "allowed": false,
-      "identity": "home219_adjust208_internal(jsonb,uuid,timestamp with time zone,timestamp with time zone,text,boolean)"
+      "identity": "home219_adjust208_internal(jsonb,uuid,timestamp with time zone,timestamp with time zone,boolean)"
     },
     {
       "role": "anon",
@@ -45906,7 +45904,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-11-01T14:03:24.908Z",
+  "endedAt": "2026-11-01T15:07:48.240Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {

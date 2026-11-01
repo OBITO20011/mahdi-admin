@@ -3,26 +3,25 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "One approved219 extra round:shared month/week;hard date;203;five CI all caps<3000 and219 median<=2500",
-  "baselineSha": "d41158b4fe57fd3716c25e5f09eebcf5fc962542",
+  "baselineSha": "9c732678117640b7425bfef4499d653327ae1a67",
   "branch": "codex/home-performance-reset-utc",
   "phase": "PACKAGE_F",
   "completed": [
-    "Round1 failed stability;all numbers in proposal and external approval219 evidence. No acceptance.",
-    "Round2 full150k18date/role JSON parity;clock restored;SDK157/586;fresh219180/636/13,diff0;strictupgrade11negative;RESET219ordinary+4resumes/UTC/MFA/writefence PASS.",
-    "Admin1678/Store203/types/strictlint/focused33+14 PASS before latest private-signature/JSON-codec correction;Gitleaks0;WIP d411 saved/pushed."
+    "Round1 failed stability;all values retained in proposal/external approval219.",
+    "FinalSQL63/manifest1a6;SDK157/service586/18expected;ref180/636/13/diff0;strictupgrade11negative;RESET219ordinary+4resumes/UTC/MFA/writefence/CLI12 PASS.",
+    "JSON18date-role+5real partial/discount/formed/refund cases PASS;realDBlint0new;Admin1678/Store203/types/strictlint/6builds/verifydist PASS;v2archives214-217219/strictlocalR2restore exceptions[] CI9c green."
   ],
   "inProgress": [
-    "Correct d411 preliminary CI:compact task<=4KB;remove unused timezone from NEW private208 helper;encode SQL boolean as JSON. No lint/threshold/assertion weakening."
+    "Save final readiness evidence then ONE final same-SHA five-CI experiment;no merge."
   ],
   "notStarted": [
-    "Regenerate changed219/hash/reference/evidence;DBlint/financial parity/reset/archive/build regression.",
-    "One final same-SHA five-CI cycle;all197/201/202/203/219<3000,everyrun;219median<=2500."
+    "Five CI:all197/201/202/203/219<3000 each run;219median<=2500;negative caught."
   ],
   "testsPassed": [
-    "Durable evidence:docs/operations/HOME219_ROUND2_EVIDENCE.json and external round2/;old219 reference720D superseded by private-signature fix."
+    "Actual evidence docs/operations/HOME219_ROUND2_EVIDENCE.json;reference owner-ready63 SHAADCC5FB0;no owner files touched."
   ],
   "testsRemaining": [
-    "Final strict ops + five CI + real slowdown;diagnose any recurring aftercare215 failure without retry."
+    "FinalFULLCI/secrets/backup +5exactSHA artifacts;diagnose recurring aftercare215 without retries."
   ],
   "findings": [
     "d411 CI preliminary optp95:1971674.614,2011960.457,2021912.911,2031859.252ms;cleanup JSON codec failed. Not acceptance.",
@@ -30,21 +29,21 @@
   ],
   "blockers": [],
   "activeProcesses": [
-    "No owned verification process;retained fullsize round2 DB stopped;n8n unrelated."
+    "No owned test processes or active DB;n8n unrelated untouched."
   ],
   "prohibitions": [
     "No hosted/Frankfurt/Sentry/deploy/merge or owner/env/main edits;PR53draft;218reserved.",
     "Only approved219 read changes;no formulas/filters/permissions/history/write changes or weekly omission.",
     "Keep3000ms/3warmups20samples/alloriginals;5CI allcaps<3000,219median<=2500;stop if fails,NO third round or retries."
   ],
-  "nextExactAction": "Corrected63e1907:real DB lint no new warnings,18fullJSON cases,boolean true/false and compact task PASS;save source then regenerate SDK/fresh636reference/strictops;no five-CI dispatch yet",
+  "nextExactAction": "FinalSQL63 local/ref/reset/23JSON cases/archive/builds complete;commit final head and ONE five-CI cycle;allcaps<3000,219median<=2500,no retries/merge/thirdround",
   "startedAt": "2026-11-01T02:30:05.157Z",
   "historyBaseline": "cab1c5aed8c2069e2919c566ea09c2da9757896d",
-  "checkpointedAt": "2026-11-01T14:59:37.555Z",
+  "checkpointedAt": "2026-11-01T15:43:34.222Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 12,
-  "filesTouchedManifestSha256": "b08796366cb5cfdd764d958fe105a4bacae467b895452aae1e82834a4517b05f",
-  "workingTreeFingerprint": "EC5DC9F0A65F73CB8BD5E0B93F409BD8BF5C327C21B8988735B04C4C01A068DE"
+  "filesTouchedCount": 9,
+  "filesTouchedManifestSha256": "e2b1b7de58fe0f0eb221e8ba646f665ff108f560db30b4b40650f8d9146c3c65",
+  "workingTreeFingerprint": "F6C472BA1ECA295B0FD68F452F7183CC9CA288D0C8B0CB41E20044535C604641"
 }

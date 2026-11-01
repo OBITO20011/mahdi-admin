@@ -7,6 +7,7 @@ import {extractSqlFunction} from './build-home219-read-sql.mjs';
 import {originalHomeFactsDefinition} from './home-projection219.mjs';
 import {sharedHome219Definition} from './home-shared-scopes219.mjs';
 import {shiftSqlBenchmarkClock,home219HardInstant} from './home-benchmark-clock219.mjs';
+import {currentScenarioParity219} from './home-current-scenarios219.mjs';
 
 export async function assertFinancialParity219({root,rawSql,clock,owner}){
  const q=s=>"'"+s.replaceAll("'","''")+"'",json=async s=>JSON.parse(await rawSql(s));
@@ -14,7 +15,7 @@ export async function assertFinancialParity219({root,rawSql,clock,owner}){
  const before=await json(catalog),base=await originalHomeFactsDefinition(root,203,{privateName:true});
  const core=extractSqlFunction(await readFile(path.join(root,'supabase/migrations/202_all_customer_collections_read_model.sql'),'utf8'),'_get_home_dashboard_before133');
  const currentBase=clock.originalDefinition('public.phase6_financial_facts_before208_internal(uuid,timestamp with time zone,timestamp with time zone,text,boolean)');
- const report={completeJson:true,financialWrites:0,roleAndProfileMutationsRolledBack:true,cases:[]};
+ const report={completeJson:true,readVariantsFinancialWrites:0,roleAndProfileMutationsRolledBack:true,cases:[]};
  const dates=['2026-11-01','2026-11-02','2026-11-03','2026-11-04','2026-11-05','2026-11-06','2026-11-15','2026-11-30','2027-01-01'];
  const capture="CREATE FUNCTION pg_temp.read_home219() RETURNS JSONB LANGUAGE plpgsql AS $$BEGIN RETURN jsonb_build_object('result',public.get_home_dashboard());EXCEPTION WHEN OTHERS THEN RETURN jsonb_build_object('sqlstate',SQLSTATE,'message',SQLERRM);END$$;";
  for(const day of dates){
@@ -34,5 +35,6 @@ export async function assertFinancialParity219({root,rawSql,clock,owner}){
   const pair=(await clock.sql(script)).split(/\r?\n/u).map(s=>JSON.parse(s));assert.equal(pair.length,2);assert.deepEqual(pair[1],pair[0],'HOME219_ROLE_AAL_ACTIVITY_PARITY');
   report.cases.push({...variant,kind:'role-and-guards',equal:true});
  }
+ report.currentContractScenarios=await currentScenarioParity219({clock,owner,base,core,currentBase});
  assert.deepEqual(await json(catalog),before,'HOME219_PARITY_ALL_FUNCTIONS_ACL_SETTINGS_RESTORED');report.catalogExactlyRestored=true;return report;
 }
