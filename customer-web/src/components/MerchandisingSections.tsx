@@ -1,4 +1,5 @@
 import {storefrontSaleUnit} from '../utils/storefrontUnits';
+import {scrollElementTo} from '../utils/scroll';
 import {
   BadgePercent,
   ChevronLeft,
@@ -91,7 +92,7 @@ function ProductRail({
       if (manual) pauseUntilRef.current = Date.now() + 10_000;
       const nextCard = cards[nextIndex];
       if (!nextCard) return;
-      rail.scrollTo({ left: nextCard.offsetLeft, behavior: 'smooth' });
+      scrollElementTo(rail, { left: nextCard.offsetLeft, behavior: 'smooth' });
       setActiveIndex(nextIndex);
     },
     []
@@ -99,7 +100,7 @@ function ProductRail({
 
   useEffect(() => {
     setActiveIndex(0);
-    railRef.current?.scrollTo({ left: 0, behavior: 'auto' });
+    scrollElementTo(railRef.current, { left: 0, behavior: 'auto' });
   }, [kind, products]);
 
   useEffect(() => {

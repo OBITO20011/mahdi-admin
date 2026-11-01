@@ -10,7 +10,8 @@ const component = readFileSync(
 test('home merchandising rails scroll only inside the rail and support direct product details', () => {
   assert.match(component, /aria-roledescription="carousel"/);
   assert.match(component, /onPointerDown/);
-  assert.match(component, /rail\.scrollTo\(\{ left: nextCard\.offsetLeft, behavior: 'smooth' \}\)/);
+  assert.match(component, /scrollElementTo\(rail, \{ left: nextCard\.offsetLeft, behavior: 'smooth' \}\)/);
+  assert.match(component, /import \{scrollElementTo\} from '\.\.\/utils\/scroll'/);
   assert.doesNotMatch(component, /scrollIntoView/);
   assert.match(component, /onOpenProduct\(product\)/);
   assert.match(component, /المنتج السابق/);

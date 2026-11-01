@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-01T17:59:39.029Z",
+  "startedAt": "2026-11-01T21:27:17.417Z",
   "migrationCeiling": 219,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-pnwPnv",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-a5MD6O",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -1151,7 +1151,7 @@
     },
     {
       "file": "customer-web/src/App.tsx",
-      "sha256": "6e4e6cb3069b6639f29dbfe0c387891df9eb8805480e8a53b35f44a13afb0753"
+      "sha256": "4c0606d1c621df8f5859c70227642d8ee724329bfbfff5b268f879f89d5441f4"
     },
     {
       "file": "customer-web/src/components/AboutStorePage.tsx",
@@ -1163,7 +1163,7 @@
     },
     {
       "file": "customer-web/src/components/CartDrawer.tsx",
-      "sha256": "c09492fcc08260791d553bb6aef4efb10b4b2e0c2aa5d7300a9e0c8ac9951f01"
+      "sha256": "bd7310071fc3f76b1a46585ad4ebbc3a7294737dba49f112b146e6bd2265940a"
     },
     {
       "file": "customer-web/src/components/CategoryDrawer.tsx",
@@ -1191,7 +1191,7 @@
     },
     {
       "file": "customer-web/src/components/FloatingContactActions.tsx",
-      "sha256": "38b995e0eb4e0e9e9adee6f6a6e2ec6db475ea0c8bbcd3b61e871b82029da03f"
+      "sha256": "ed92f72ab8e6e4088bc7bbfa2aeb17876ecbe37518f1075276c02998ca42553e"
     },
     {
       "file": "customer-web/src/components/GuidedStoreAssistant.tsx",
@@ -1203,7 +1203,7 @@
     },
     {
       "file": "customer-web/src/components/MerchandisingSections.tsx",
-      "sha256": "7235edab28ae3facdc175c2470ae5d40121b78192d07d221d1d254372e30ea50"
+      "sha256": "fbca06a7155daa7006def40d857534e83d145bd6d2eb9b7abde158019e7713de"
     },
     {
       "file": "customer-web/src/components/MobileStoreNav.tsx",
@@ -1436,6 +1436,10 @@
     {
       "file": "customer-web/src/utils/saleUnitLabels.ts",
       "sha256": "6372ec26ba5a2470c845d68a4fa36dac7b49a8852dc999fc9b9d5d39a96618c1"
+    },
+    {
+      "file": "customer-web/src/utils/scroll.ts",
+      "sha256": "f0b7fc9210dbc179289bc3e5671226aec207b1314e54421d5b7f42af4042f485"
     },
     {
       "file": "customer-web/src/utils/storefrontSeo.ts",
@@ -45912,7 +45916,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-11-01T18:01:33.363Z",
+  "endedAt": "2026-11-01T21:29:20.470Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {

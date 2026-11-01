@@ -1,3 +1,4 @@
+import {scrollWindowTo} from './utils/scroll';
 import {storefrontSaleUnit,storefrontUnitName, remainingStorefrontParcels} from './utils/storefrontUnits';
 import {
   AlertTriangle,
@@ -1247,7 +1248,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     setActivePage(page);
     changeStoreLocation(getStorePagePath(page));
     window.requestAnimationFrame(() => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      scrollWindowTo({ top: 0, behavior: 'smooth' });
     });
   }, []);
 
