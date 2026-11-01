@@ -1,22 +1,24 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner1Nov approved219 projection-only + historical197/201/202 compatibility;UTCreset217/resume/artifacts;exactFULLCI+5same-code rounds;PR53 staysdraft",
-  "baselineSha": "cab1c5aed8c2069e2919c566ea09c2da9757896d",
+  "baselineSha": "4639aa10951c7af9a5956e2bd25382740b37271e",
   "branch": "codex/home-performance-reset-utc",
   "phase": "PACKAGE_F",
   "completed": [
     "219 ref180/633/Realtime13 fresh-incremental0;actualSDK157+586(18expected);strict ownerupgrade8negatives/ACL0",
     "RESET217+219 ordinary+4resumes at simulatedUTCrollover:catalog/ACL0,rawbigint/MFA kept,2session write fence rejects",
     "Archivev2 214-217+219 strictrestore/localR2 PASS exceptions[];6context builds PASS;types/lint/store203/Admin1671",
-    "FinalAdmin1673/Store203/typesboth/strictlint/actionlint/Gitleaks0;local4performancegatesFAIL recorded with fullJSONparity"
+    "FinalAdmin1673/Store203/typesboth/strictlint/actionlint/Gitleaks0;local4performancegatesFAIL recorded with fullJSONparity",
+    "Saved/pushed4639aa1;draftPR54opened with all4localperformancefailures explicit",
+    "CI4639:58/60;all4performancegreen,backup+2secretsgreen;F10 first-of-month test fixed with4browser passes,13focused/types/strictlint"
   ],
   "inProgress": [
-    "Commit/push draftPR;exactFULLCI and5same-code performance rounds on197/201/202/219"
+    "Save browser fixture correction;new exactFULLCI then5same-code rounds;219 first CI p952963.232 has no clear margin"
   ],
   "notStarted": [
-    "ExactFULLCI+5same-code GitHub performance rounds;no acceptance/merge"
+    "Five same-code CI rounds on197/201/202/219;no performance acceptance"
   ],
   "testsPassed": [
     "Admin1673/Store203/typesboth/strictlint/actionlint/Gitleaks0",
@@ -29,7 +31,8 @@
   "findings": [
     "LOCAL219 originalp954205.508 optimized4557.531;fullfinancialJSONequal;slowdown9077.535 caught",
     "LOCAL197 original4453.875 optimized3397.049;10000customer oracle0mismatches;notperformanceacceptance",
-    "218 remainsreserved;all original metrics/3000ms/3warmups20samples and timeouts retained"
+    "218 remainsreserved;all original metrics/3000ms/3warmups20samples and timeouts retained",
+    "CI4639 optimizedp95:1972134.915/2011888.903/2022524.798/2192963.232;negative6065.138 rejected;priorrun not final5proof"
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -39,13 +42,14 @@
     "No limit/timeout/sample/assertion weakening;stop beforemerge if5CI no clear margin",
     "PR53 staysdraft;merge exception revoked"
   ],
-  "nextExactAction": "Save/push draft219 after final gates;then exactFULLCI+5same-code197201202219 performance rounds;all4localfail recorded;no merge/hosted",
+  "nextExactAction": "Commit/push tested month-boundary fixture and pins/docs;exactFULLCI+5same-code performance runs;no merge/hosted",
   "startedAt": "2026-11-01T02:30:05.157Z",
-  "checkpointedAt": "2026-11-01T06:34:57.960Z",
+  "checkpointedAt": "2026-11-01T10:30:38.604Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 85,
-  "filesTouchedManifestSha256": "859d4275eb0d0b0fbe4b72109cc7ad921dc96e7a44cdfc77ba06c66288dd8bf7",
-  "workingTreeFingerprint": "7A927382072039BA5485CB523CE9818A2B5A30FD23B7E887A5D9ABBCC13133EB"
+  "filesTouchedCount": 3,
+  "filesTouchedManifestSha256": "584b7a8b46f25fc835f51da8addfda8a777251f97d9827301994c30155d3c66c",
+  "workingTreeFingerprint": "8CE1DF82084A89590B5BBA026359A5307BDEBF4E93929AC72C7AB8F78983495C",
+  "historyBaseline": "cab1c5aed8c2069e2919c566ea09c2da9757896d"
 }
