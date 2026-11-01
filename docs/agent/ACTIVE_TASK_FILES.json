@@ -3,15 +3,75 @@
   "files": [
     {
       "code": " M",
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": " M",
       "path": "docs/design/HOME_PERFORMANCE_219_PROPOSAL_AR.md"
     },
     {
       "code": " M",
-      "path": "e2e/package-f-trial-owner-r.spec.ts"
+      "path": "docs/operations/FRANKFURT_OWNER_UPGRADE219_AR.md"
     },
     {
       "code": " M",
       "path": "scripts/audit/home-performance219-source-pins.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/frankfurt-reference219.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/maintenance-db-contract.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-all-collections202-scale.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-all-collections203-scale.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-canonical-receivables197-scale.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-home-damage201-scale.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-home219-scale.mjs"
+    },
+    {
+      "code": " M",
+      "path": "supabase/migrations/219_home_financial_facts_narrow_projection.sql"
+    },
+    {
+      "code": " M",
+      "path": "tests/home-performance219.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/build-home219-read-sql.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/home-benchmark-clock219.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/home-financial-parity219.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/home-shared-scopes219.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/home-shared219.test.ts"
     }
   ]
 }

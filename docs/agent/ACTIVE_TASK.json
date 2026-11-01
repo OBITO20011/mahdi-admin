@@ -2,54 +2,54 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner1Nov approved219 projection-only + historical197/201/202 compatibility;UTCreset217/resume/artifacts;exactFULLCI+5same-code rounds;PR53 staysdraft",
-  "baselineSha": "4639aa10951c7af9a5956e2bd25382740b37271e",
+  "objective": "Owner/Claude1Nov approved ONE additional round inside219:full219 nestedplans/top3;plan-proven one-scan/functionmemory/index;harddate;203compat;5CI allceilings<3000 and219median<=2500",
+  "baselineSha": "f798a33ccde9f2c716229211ced4d606066848d4",
   "branch": "codex/home-performance-reset-utc",
   "phase": "PACKAGE_F",
   "completed": [
-    "219 ref180/633/Realtime13 fresh-incremental0;actualSDK157+586(18expected);strict ownerupgrade8negatives/ACL0",
-    "RESET217+219 ordinary+4resumes at simulatedUTCrollover:catalog/ACL0,rawbigint/MFA kept,2session write fence rejects",
-    "Archivev2 214-217+219 strictrestore/localR2 PASS exceptions[];6context builds PASS;types/lint/store203/Admin1671",
-    "FinalAdmin1673/Store203/typesboth/strictlint/actionlint/Gitleaks0;local4performancegatesFAIL recorded with fullJSONparity",
-    "Saved/pushed4639aa1;draftPR54opened with all4localperformancefailures explicit",
-    "CI4639:58/60;all4performancegreen,backup+2secretsgreen;F10 first-of-month test fixed with4browser passes,13focused/types/strictlint"
+    "219 ref180/633/Realtime13,fresh-incremental0;strict upgrade/replay/readonly ACL0 and8negative;actualSDK157+586/18expected",
+    "ActualRESET217219 ordinary+4resumes UTC/rawbigint/MFA/2session writefence;v2archives214-217219 strictrestore/localR2 exceptions[]",
+    "Admin1673/Store203/typesboth/strictlint/6builds/PWA/actionlint/print2pages;R4 month-start fixture4browser+13focused;Gitleaks0",
+    "DraftPR54 exactf798 saved/pushed;5first-attempt FULLCI completed;20uploaded performance reports audited fullsize/financialJSONequal/originalspreserved;5real slowdowns caught",
+    "Round2 full219 top3 nestedplans;shared month/week helpers with literal208/215;no memory/index change;hardclock+203 implemented"
   ],
   "inProgress": [
-    "Save browser fixture correction;new exactFULLCI then5same-code rounds;219 first CI p952963.232 has no clear margin"
+    "Round2 five5 unit PASS;actual hardclock/restoration PASS;full150k home JSON18date/role cases exact and catalog restored;new219 reference/source evidence/fullgates pending"
   ],
   "notStarted": [
-    "Five same-code CI rounds on197/201/202/219;no performance acceptance"
+    "New219636function reference/strict operational/access evidence and full regression",
+    "Final exact newSHA FULLCI+5same-code all197/201/202/203/219<3000 and219median<=2500"
   ],
   "testsPassed": [
-    "Admin1673/Store203/typesboth/strictlint/actionlint/Gitleaks0",
-    "Reference180/633/13/fresh-incremental0;actualSDK157+58618expected;strictupgrade8negativeACL0",
-    "RESET217219realUTC ordinary+4resume/fence;archives214-219strictrestore/localR2 exceptions[];6builds/print2pages"
+    "ExactFULLCI third41298062962:60/60 actualverifier;backup41297820191+secrets41297820211/41297817137 green",
+    "20reports actual150000orders/1200000movements/fullJSONequal;20evidencefiles Gitleaks0;no test processes/ownedDB active"
   ],
   "testsRemaining": [
-    "ExactFULLCI+5same-code rounds;all4localperformancegates failed unchanged3000"
+    "One additional round:5runs each197/201/202/203/219<3000;219medianp95<=2500;real slowdownnegative;no retries"
   ],
   "findings": [
-    "LOCAL219 originalp954205.508 optimized4557.531;fullfinancialJSONequal;slowdown9077.535 caught",
-    "LOCAL197 original4453.875 optimized3397.049;10000customer oracle0mismatches;notperformanceacceptance",
-    "218 remainsreserved;all original metrics/3000ms/3warmups20samples and timeouts retained",
-    "CI4639 optimizedp95:1972134.915/2011888.903/2022524.798/2192963.232;negative6065.138 rejected;priorrun not final5proof"
+    "219 fivep95:3102.006,2808.770,1937.395,3059.775,3016.749;median3016.749;3of5FAIL unchanged3000/3warmups20samples",
+    "197median2801.743 max2817.735;201median2319.084 max2972.618;202median2410.047 max2948.506;no clear margin accepted",
+    "FULL5 counts:58/60,58/60,60/60,57/60,58/60;203original3418.451FAIL once;aftercare215 UIbutton30000ms failedonce/DB17healthy,rootcauseunknown",
+    "Raw203samples/oldhistoricalresetdiff not recovered;no claim otherwise.218reserved;only approved219 order_scope projection written"
   ],
   "blockers": [],
-  "activeProcesses": [],
-  "prohibitions": [
-    "No hosted/Frankfurt/Sentry/deploy/merge;primary owner/env files untouched",
-    "No further SQL beyond approved219 projection;218reserved",
-    "No limit/timeout/sample/assertion weakening;stop beforemerge if5CI no clear margin",
-    "PR53 staysdraft;merge exception revoked"
+  "activeProcesses": [
+    "Owned supabase_db_nawasrah-home219-round2-test idle retained; n8n unrelated untouched"
   ],
-  "nextExactAction": "Commit/push tested month-boundary fixture and pins/docs;exactFULLCI+5same-code performance runs;no merge/hosted",
+  "prohibitions": [
+    "No hosted/Frankfurt/Sentry/deploy/merge;owner/env/mainfiles untouched;PR53draft;218reserved",
+    "Only authorized219 read optimization proven byplans;no financial/formula/filter/permission/history changes;no weekly omission",
+    "No limit/sample/warmup/timeout weakening;recordalloriginals;one new5-run cycle;stop iffails,NO thirdround"
+  ],
+  "nextExactAction": "Round2 shared219/clock/203 implementation and18 fullsize JSON parity cases PASS; regenerate actual SDK/reference636, run operational/full gates then one new five-CI cycle",
   "startedAt": "2026-11-01T02:30:05.157Z",
-  "checkpointedAt": "2026-11-01T10:30:38.604Z",
+  "historyBaseline": "cab1c5aed8c2069e2919c566ea09c2da9757896d",
+  "checkpointedAt": "2026-11-01T13:52:47.982Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 3,
-  "filesTouchedManifestSha256": "584b7a8b46f25fc835f51da8addfda8a777251f97d9827301994c30155d3c66c",
-  "workingTreeFingerprint": "8CE1DF82084A89590B5BBA026359A5307BDEBF4E93929AC72C7AB8F78983495C",
-  "historyBaseline": "cab1c5aed8c2069e2919c566ea09c2da9757896d"
+  "filesTouchedCount": 18,
+  "filesTouchedManifestSha256": "7d8e09b099b5c08a694c9f938b7b775c351344710622a6647d801965ca33f1cc",
+  "workingTreeFingerprint": "708E8DCD46EADF01A5C0D8C4FDA98668B3AD1FD59B2AB7D90C5050912AD4DA9B"
 }

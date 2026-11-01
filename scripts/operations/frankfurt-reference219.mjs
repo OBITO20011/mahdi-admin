@@ -10,20 +10,24 @@ import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
 import {realtimePublicationSql,realtime151Tables} from '../testing/realtime151-contract.mjs';
 import {inventory} from '../audit/table-access-inventory.mjs';
 import {verifyProbeCoverage} from '../audit/table-access-probes.mjs';
+import {extractSqlFunction} from '../testing/build-home219-read-sql.mjs';
 
 export const ready219Ceiling=219,ready219ReferenceName='local-reference-through219-ready.json';
 const sql=canonicalLf(readFileSync(new URL('../../supabase/migrations/219_home_financial_facts_narrow_projection.sql',import.meta.url),'utf8'));
-export const home219Body=sql.slice(sql.indexOf('AS $$')+5,sql.lastIndexOf('$$;'));
+export const home219FunctionNames=['phase6_financial_facts_before208_internal','home219_adjust208_internal','home219_adjust215_internal','home219_shared_period_facts_internal','_get_home_dashboard_before133'];
+const bodyOf=definition=>definition.match(/AS (\$[a-zA-Z0-9_]*\$)([\s\S]*)\1/u)?.[2]??'';
+export const home219Body=bodyOf(extractSqlFunction(sql,home219FunctionNames[0]));
 export function assertReady219Catalog(catalog){
   assertReady217Catalog(catalog);
-  const matches=catalog.functions.filter(f=>f.schema==='public'&&f.identity.startsWith('phase6_financial_facts_before208_internal('));
+  for(const name of home219FunctionNames){
+  const matches=catalog.functions.filter(f=>f.schema==='public'&&f.identity.startsWith(name+'('));
   assert.equal(matches.length,1,'HOME219_EXACT_EXISTING_PRIVATE_FUNCTION');
   const f=matches[0];assert.equal(f.owner,'postgres');
   assert.deepEqual(f.configuration,['search_path=public, pg_temp']);
   assert.match(f.definition,/STABLE/u);assert.match(f.definition,/SECURITY DEFINER/u);
   assert.deepEqual(aclEntries(f.acl,f,'functions').filter(a=>a.grantee!=='postgres'),[]);
-  const body=f.definition.match(/AS (\$[a-zA-Z0-9_]*\$)([\s\S]*)\1/u)?.[2];
-  assert.equal(canonicalDefinitionLf(body??''),canonicalDefinitionLf(home219Body),'HOME219_EXACT_REVIEWED_BODY');
+  assert.equal(canonicalDefinitionLf(bodyOf(f.definition)),canonicalDefinitionLf(bodyOf(extractSqlFunction(sql,name))),'HOME219_EXACT_REVIEWED_BODY:'+name);
+  }
   return catalog;
 }
 export function assertReady219Reference(reference,manifest,proofText,source){
@@ -51,7 +55,7 @@ export function assertReady219Reference(reference,manifest,proofText,source){
   const compared=compareManagedCatalog(proof.catalog,reference.catalog,{beforeBuildDate:proof.startedAt.slice(0,10),afterBuildDate:reference.buildUtcDate});
   assert.deepEqual(compared.unexpected,[]);assert.deepEqual(compared.expected,[]);
   assert.deepEqual(reference.readiness,{sourceHashes:source.sources,accessEvidenceSha256:sha256(canonicalLf(proofText)),coverage:proof.coverage,queries:proof.results.length,errors:0});
-  assert.equal(reference.functions,633);return reference;
+  assert.equal(reference.functions,636);return reference;
 }
 export async function readReady219Reference(root,filename){
   return assertReady219Reference(JSON.parse(await readFile(filename,'utf8')),

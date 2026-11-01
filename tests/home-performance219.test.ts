@@ -8,15 +8,15 @@ import {futureMigrationViolations,canonicalLf} from '../scripts/testing/maintena
 import {measureHome219,assertHome219SamplesRejected,finishHome219Report} from '../scripts/testing/home-performance219-benchmark.mjs';
 import {assert219History,run219} from '../scripts/operations/frankfurt-owner-upgrade219.mjs';
 import {assertReady219Catalog,home219Body} from '../scripts/operations/frankfurt-reference219.mjs';
+import {buildHome219Migration} from '../scripts/testing/build-home219-read-sql.mjs';
 const root=new URL('../',import.meta.url).pathname.replace(/^\/([A-Za-z]:)/u,'$1');
 const read=(name:string)=>readFile(new URL('../'+name,import.meta.url),'utf8');
-test('219 literally changes only one existing private facts projection,no grant/equation/filter/backfill',async()=>{
-  const original=await originalHomeFactsDefinition(decodeURIComponent(root),203,{privateName:true});
+test('219 exactly matches immutable-source shared read generator;no financial writes or application grant',async()=>{
   const sql=canonicalLf(await read('supabase/migrations/219_home_financial_facts_narrow_projection.sql'));
-  const start=sql.indexOf('CREATE OR REPLACE FUNCTION'),end=sql.lastIndexOf('\nCOMMIT;');
-  assert.equal(sql.slice(start,end).trim(),narrowHome219Definition(original).trim());
-  assert.equal(sql.split('CREATE OR REPLACE FUNCTION').length,2);
-  assert.doesNotMatch(sql,/^\s*(?:GRANT|REVOKE|INSERT|UPDATE|DELETE|ALTER TABLE|CREATE INDEX|DROP|DO \$)/mu);
+  assert.equal(sql,await buildHome219Migration(decodeURIComponent(root)));
+  assert.equal(sql.split('CREATE OR REPLACE FUNCTION').length,6);
+  assert.equal(sql.match(/^REVOKE ALL ON FUNCTION/gmu)?.length,3);
+  assert.doesNotMatch(sql,/^\s*(?:GRANT|INSERT|UPDATE|DELETE|ALTER TABLE|CREATE INDEX|DROP|DO \$)/mu);
   assert.deepEqual(futureMigrationViolations(sql),[]);
   assert.ok(futureMigrationViolations(sql+'\n-- unreviewed\n').includes('NEW_BEFORE_FUNCTION'));
   for(const version of [195,197,201,202,203]){
@@ -80,14 +80,15 @@ test('actual219 SDK catalog and SQL dollar boundary agree byte-for-byte;extra bo
   assert.ok(f);f.definition=f.definition.replace('RETURN v_facts;','RETURN v_facts; -- extra unreviewed byte');
   assert.throws(()=>assertReady219Catalog(bad),/HOME219_EXACT_REVIEWED_BODY/u);
 });
-test('historical3 plusCURRENT219 keepfullfixture and strict3000ms,report original beside optimized and restore oldbody',async()=>{
-  for(const name of ['run-canonical-receivables197-scale.mjs','run-home-damage201-scale.mjs','run-all-collections202-scale.mjs','run-home219-scale.mjs']){
+test('historical4 plusCURRENT219 keepfullfixture and strict3000ms,report original beside optimized and restore oldbody',async()=>{
+  for(const name of ['run-canonical-receivables197-scale.mjs','run-home-damage201-scale.mjs','run-all-collections202-scale.mjs','run-all-collections203-scale.mjs','run-home219-scale.mjs']){
     const source=await read('scripts/testing/'+name);
     assert.match(source,/assertCounts\(counts,fullScale\)/u);assert.match(source,/originalTimings/u);
     assert.match(source,/optimizedTimings/u);assert.match(source,/measureHome219/u);
     assert.match(source,/deepEqual\([^;]+(?:[Pp]arity|PARITY)/u);
     assert.match(source,/EXPLAIN\(ANALYZE,BUFFERS,FORMAT JSON\)/u);
     assert.match(source,/finishHome219Report/u);assert.match(source,/if\(!ok\)process\.exitCode=1/u);
+    assert.match(source,/installBenchmark219Clock/u);assert.match(source,/benchmarkClockRestored=true/u);
     assert.doesNotMatch(source,/smokeScale|retry|waitForTimeout/u);
   }
   const workflow=await read('.github/workflows/quality.yml');
