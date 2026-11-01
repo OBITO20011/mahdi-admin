@@ -124,7 +124,7 @@ test('migration numbers are unique and contiguous from001 to the approved ceilin
   assert.deepEqual(state.codexMigrationNumbers,Array.from({length:8},(_,i)=>152+i));
   assert.ok(!numbers.some(n=>unused.includes(n)),'retired140-149 must remain empty');
   assert.deepEqual(numbers, Array.from({length: state.migrationCeiling}, (_, index) => index + 1)
-    .filter(n => !unused.includes(n)&&!state.deferredMigrationNumbers.includes(n)));
+    .filter(n => !unused.includes(n)&&!state.deferredMigrationNumbers.includes(n)&&!(state.ownerDeferredBackupMigrationNumbers??[]).includes(n)));
   assert.deepEqual(state.deferredMigrationNumbers,[...Array.from({length:8},(_,i)=>152+i),165,166,167,168,169,...Array.from({length:8},(_,i)=>172+i),...Array.from({length:7},(_,i)=>183+i)]);
   assert.deepEqual(state.cloudMigrationNumbers,Array.from({length:10},(_,i)=>170+i));
   assert.deepEqual(state.nextCloudMigrationNumbers,Array.from({length:10},(_,i)=>180+i));

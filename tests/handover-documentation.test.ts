@@ -102,5 +102,5 @@ test('print documents are standalone A4 RTL and cover cutover,emergencies and ge
  assert.equal(evidence.print.find((p:{name:string})=>p.name==='ورقة-يوم-التشغيل').pages,2);
  assert.equal((read('ورقة-يوم-التشغيل.html').match(/<article class="print-page">/gu)??[]).length,2);
  assert.doesNotMatch(card,/```|--owner-id|--project-ref|functions deploy|db reset|PGPASSWORD/u,'Sensitive commands stay in referenced runbooks');
- const order=['حفظ إعدادات المتجر','إيقاف استقبال طلبات','وقف كل الكتابات','نسخة فاصلة','PRELAUNCH_TRIAL_OPEN=false','حظر المعاينات','RESET217: dry-run','إدخال الحقيقي','Telegram: اختبار','Push:','تفعيل الفحص','واتساب الرسمي','كلمة المالك «انشر»','أول بيع حقيقي'];let previous=-1;for(const s of order){const at=card.indexOf(s);assert.ok(at>previous,s);previous=at;}
+ const order=['حفظ إعدادات المتجر','إيقاف استقبال طلبات','وقف كل الكتابات','نسخة فاصلة','PRELAUNCH_TRIAL_OPEN=false','حظر المعاينات','RESET219: dry-run','إدخال الحقيقي','Telegram: اختبار','Push:','تفعيل الفحص','واتساب الرسمي','كلمة المالك «انشر»','أول بيع حقيقي'];let previous=-1;for(const s of order){const at=card.indexOf(s);assert.ok(at>previous,s);previous=at;}
 });

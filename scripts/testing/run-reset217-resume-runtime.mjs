@@ -68,8 +68,18 @@ try{
  const base={workdir:output,ownerId,projectRef:'kzevmysfydaslxcerogt',referenceSha256,reference};
  const nextOutput=async name=>{const p=path.join(output,name);await mkdir(p);return p;};
  const sessionOptions=async name=>({...base,output:await nextOutput(name)});
+ // Simulate only recorded UTC clock metadata across midnight. Every catalog,
+ // Auth/MFA/Storage operation and resumed literal rebuild remains real PostgreSQL.
+ const realBuildDay=(await sql("SELECT (CURRENT_TIMESTAMP AT TIME ZONE 'UTC')::date;")).trim();
+ const nextBuildDay=new Date(Date.parse(realBuildDay+'T00:00:00Z')+86400000).toISOString().slice(0,10);
  const run=async(session,stop)=>{
-  const progress=await startResetAttempt(session,executor);
+  const clocked={...executor,localExecute:async(input,token)=>{
+   const result=await executor.localExecute(input,token);
+   if(input.trim()==="SELECT (CURRENT_TIMESTAMP AT TIME ZONE 'UTC')::date;")
+    return {...result,stdout:token?nextBuildDay:realBuildDay};
+   return result;
+  }};
+  const progress=await startResetAttempt(session,clocked);
   const r=progress,ex=session.executor;
   await reset217WithExecutor({executor:ex,root:sourceRoot,reference,output:session.output,ownerId,session,report:r,
    emptyStorage:async()=>{const files=await json("SELECT COALESCE(jsonb_agg(name ORDER BY name),'[]') FROM storage.objects WHERE bucket_id='product-images';");
@@ -83,6 +93,10 @@ try{
    repair:async version=>sql(`INSERT INTO supabase_migrations.schema_migrations(version) VALUES(${q(version)});`,ex),
    finalDryRun:async()=>{const d=await cliCall(['db','push','--dry-run','--skip-vault']);assert.match(d.stdout+d.stderr,/up to date/iu);},
    boundary:async name=>{if(name===stop)throw new Error('RESET217_SIMULATED_INTERRUPTION');}});
+  assert.equal(r.comparisonPolicy,'same-database-literal-all-schemas');
+  assert.equal(r.comparisonDates.rebuild.beforeBuildDate,realBuildDay);
+  assert.equal(r.comparisonDates.rebuild.afterBuildDate,nextBuildDay);
+  report.midnightUtc={start:realBuildDay,end:nextBuildDay,comparison:r.comparisonPolicy,ordinaryAndResume:true};
   await finishResetSession(session);return r;
  };
  stage='snapshot-write-failure';

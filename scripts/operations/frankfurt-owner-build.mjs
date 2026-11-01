@@ -189,7 +189,11 @@ export async function functionReference(executor,ceiling=139){
       const historical=renderFunctionReference((await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=216),functions);
       assert.equal(digest(historical),'d1e8344da2738b62e2b8fbcd2a3ebe2d0e97b7801b7c226e5477e964a6df136a','FROZEN216_FUNCTIONS_CHANGED');return functions.length;
     }
-    assert.equal(ceiling,217,'UNAPPROVED_FUNCTION_REFERENCE');
+    if(ceiling===217){
+      const historical=renderFunctionReference((await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=217),functions);
+      assert.equal(digest(historical),'b9ff68b13af2c3aa852dc4df2e5e2f297ac7c0161a9c6b777e1a11219a5b7cf1','FROZEN217_FUNCTIONS_CHANGED');return functions.length;
+    }
+    assert.equal(ceiling,219,'UNAPPROVED_FUNCTION_REFERENCE');
   const rendered=renderFunctionReference(await migrationManifest(root),functions);
   assert.equal(rendered,canonicalLf(await readFile(path.join(root,'docs/generated/DB_FUNCTIONS.md'),'utf8')),'DB_FUNCTIONS_STALE');
  }

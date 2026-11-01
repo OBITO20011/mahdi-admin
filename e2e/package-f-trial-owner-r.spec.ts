@@ -48,14 +48,19 @@ test('R4 registration-only admin never dispatches history;no-role fails closed',
  await products(page);let calls=0;await page.route('**/rest/v1/rpc/get_damage_ledger_page_v2',r=>{calls++;return r.abort();});await page.goto(url+'?role=admin');await expect(page.getByRole('tab',{name:'تسجيل تالف'})).toBeVisible();await expect(page.getByRole('tab',{name:'سجل التالف'})).toHaveCount(0);expect(calls).toBe(0);
  await page.goto(url+'?role=view_only');await expect(page.getByRole('alert')).toContainText('لا تملك صلاحية');expect(calls).toBe(0);
 });
-test('R4 history stale filter response cannot replace current result;error retry uses same read',async({page})=>{
- // First-of-month: month-to-date and today are identical; use a genuinely different read.
- const now=new Date('2026-11-01T09:00:00Z');await page.clock.setFixedTime(now);
- const today=damageLedgerPeriod215('today',undefined,undefined,now),week=damageLedgerPeriod215('week',undefined,undefined,now);
- expect(damageLedgerPeriod215('month',undefined,undefined,now)).toEqual(today);expect(week).not.toEqual(today);
- await products(page);let release:()=>void=()=>undefined,failed=true;const gate=new Promise<void>(r=>{release=r;});
- await page.route('**/rest/v1/rpc/get_damage_ledger_page_v2',async route=>{const args=route.request().postDataJSON();if(args.p_from===today.from){await gate;await route.fulfill({json:historyPage(args,[historyRow()])}).catch(()=>undefined);}else if(failed){failed=false;await route.fulfill({status:503,json:{message:'تعذر الاتصال'}});}else await route.fulfill({json:historyPage(args,[])});});
- await page.goto(url);await page.getByRole('tab',{name:'سجل التالف'}).click();const panel=page.getByTestId('damage-history');await panel.getByLabel('الفترة',{exact:true}).selectOption('week');await expect(panel.getByRole('alert')).toBeVisible();await panel.getByRole('button',{name:'إعادة المحاولة'}).click();await expect(panel).toContainText('لا يوجد تالف مسجّل');release();await expect(panel).not.toContainText('عصير برتقال');
+for(const day of ['2026-11-01','2026-11-15'])test(`R4 history stale filter response cannot replace current result;error retry uses same read ${day}`,async({page})=>{
+ const now=new Date(day+'T12:00:00Z');await page.clock.setFixedTime(now);
+ await products(page);let release:()=>void=()=>undefined;const gate=new Promise<void>(r=>{release=r;}),requests:Record<string,unknown>[]=[];
+ // Today and month have the same boundaries on the first of a month. Hold
+ // the original request by identity, not by an assumed difference in dates.
+ await page.route('**/rest/v1/rpc/get_damage_ledger_page_v2',async route=>{const args=route.request().postDataJSON(),attempt=requests.push(args);if(attempt===1){await gate;await route.fulfill({json:historyPage(args,[historyRow()])}).catch(()=>undefined);}else if(attempt===2){await route.fulfill({status:503,json:{message:'تعذر الاتصال'}});}else await route.fulfill({json:historyPage(args,[])});});
+ try{
+  await page.goto(url);await page.getByRole('tab',{name:'سجل التالف'}).click();const panel=page.getByTestId('damage-history');await expect.poll(()=>requests.length).toBe(1);
+  expect(requests[0].p_from).toBe(damageLedgerPeriod215('today',undefined,undefined,now).from);
+  await panel.getByLabel('الفترة',{exact:true}).selectOption('month');await expect(panel.getByRole('alert')).toBeVisible();await panel.getByRole('button',{name:'إعادة المحاولة'}).click();await expect(panel).toContainText('لا يوجد تالف مسجّل');
+  expect(requests).toHaveLength(3);expect(requests[1]).toEqual(requests[2]);expect(requests[1].p_from).toBe(damageLedgerPeriod215('month',undefined,undefined,now).from);
+  release();await expect(panel).not.toContainText('عصير برتقال');
+ }finally{release();}
 });
 test('R1 named cash movement opens its document without a write;reference stays secondary',async({page})=>{
  await page.setViewportSize({width:390,height:900});const writes:string[]=[];page.on('request',r=>{if(/execute_|settle_|create_|record_/u.test(r.url()))writes.push(r.url());});

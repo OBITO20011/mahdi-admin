@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-10-31T22:37:38.656Z",
-  "migrationCeiling": 217,
+  "startedAt": "2026-11-01T17:59:39.029Z",
+  "migrationCeiling": 219,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-T0r6qO",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-pnwPnv",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -8298,6 +8298,91 @@
       ],
       "identity": "has_erp_role(text[])",
       "returnType": "boolean",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres"
+      ],
+      "name": "home219_adjust208_internal",
+      "names": [
+        "p_base",
+        "p_branch_id",
+        "p_period_start",
+        "p_period_end",
+        "p_verify_evidence"
+      ],
+      "owner": "postgres",
+      "types": [
+        "jsonb",
+        "uuid",
+        "timestamp with time zone",
+        "timestamp with time zone",
+        "boolean"
+      ],
+      "identity": "home219_adjust208_internal(jsonb,uuid,timestamp with time zone,timestamp with time zone,boolean)",
+      "returnType": "jsonb",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres"
+      ],
+      "name": "home219_adjust215_internal",
+      "names": [
+        "p_base",
+        "p_branch_id",
+        "p_period_start",
+        "p_period_end",
+        "p_timezone",
+        "p_verify_evidence"
+      ],
+      "owner": "postgres",
+      "types": [
+        "jsonb",
+        "uuid",
+        "timestamp with time zone",
+        "timestamp with time zone",
+        "text",
+        "boolean"
+      ],
+      "identity": "home219_adjust215_internal(jsonb,uuid,timestamp with time zone,timestamp with time zone,text,boolean)",
+      "returnType": "jsonb",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres"
+      ],
+      "name": "home219_shared_period_facts_internal",
+      "names": [
+        "p_branch_id",
+        "p_month_start",
+        "p_month_end",
+        "p_week_start",
+        "p_week_end",
+        "p_timezone"
+      ],
+      "owner": "postgres",
+      "types": [
+        "uuid",
+        "timestamp with time zone",
+        "timestamp with time zone",
+        "timestamp with time zone",
+        "timestamp with time zone",
+        "text"
+      ],
+      "identity": "home219_shared_period_facts_internal(uuid,timestamp with time zone,timestamp with time zone,timestamp with time zone,timestamp with time zone,text)",
+      "returnType": "jsonb",
       "configuration": [
         "search_path=public, pg_temp"
       ],
@@ -40549,6 +40634,51 @@
     {
       "role": "anon",
       "allowed": false,
+      "identity": "home219_adjust208_internal(jsonb,uuid,timestamp with time zone,timestamp with time zone,boolean)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": false,
+      "identity": "home219_adjust208_internal(jsonb,uuid,timestamp with time zone,timestamp with time zone,boolean)"
+    },
+    {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "home219_adjust208_internal(jsonb,uuid,timestamp with time zone,timestamp with time zone,boolean)"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
+      "identity": "home219_adjust215_internal(jsonb,uuid,timestamp with time zone,timestamp with time zone,text,boolean)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": false,
+      "identity": "home219_adjust215_internal(jsonb,uuid,timestamp with time zone,timestamp with time zone,text,boolean)"
+    },
+    {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "home219_adjust215_internal(jsonb,uuid,timestamp with time zone,timestamp with time zone,text,boolean)"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
+      "identity": "home219_shared_period_facts_internal(uuid,timestamp with time zone,timestamp with time zone,timestamp with time zone,timestamp with time zone,text)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": false,
+      "identity": "home219_shared_period_facts_internal(uuid,timestamp with time zone,timestamp with time zone,timestamp with time zone,timestamp with time zone,text)"
+    },
+    {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "home219_shared_period_facts_internal(uuid,timestamp with time zone,timestamp with time zone,timestamp with time zone,timestamp with time zone,text)"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
       "identity": "import_go_live_products_v1(text,jsonb,boolean)"
     },
     {
@@ -45782,7 +45912,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-10-31T22:39:19.141Z",
+  "endedAt": "2026-11-01T18:01:33.363Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {
@@ -46127,7 +46257,7 @@
   ],
   "savedCatalogProvenance": {
     "baseline": "703fc51abb6b65ce2df2edcf14c6ecb235b74ddf",
-    "scope": "Historical15Oct saved-catalog review only;effectiveLocal and invocationResults measured anew on217;no hosted read"
+    "scope": "Historical15Oct saved-catalog review only;effectiveLocal and invocationResults measured anew on219;no hosted read"
   },
   "oldReferences": [
     {
@@ -46150,7 +46280,7 @@
     {
       "file": "docs/agent/OWNER_DECISIONS.md",
       "lines": [
-        785
+        793
       ],
       "category": "HISTORICAL_DOCUMENTATION"
     },
@@ -46179,7 +46309,7 @@
     {
       "file": "docs/operations/GO_LIVE_CUTOVER_AR.md",
       "lines": [
-        58
+        60
       ],
       "category": "HISTORICAL_DOCUMENTATION"
     },
