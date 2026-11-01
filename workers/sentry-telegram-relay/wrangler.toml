@@ -1,0 +1,25 @@
+name = "nawasrah-sentry-telegram-relay"
+main = "src/worker.ts"
+compatibility_date = "2026-10-01"
+workers_dev = true
+preview_urls = false
+
+[observability]
+enabled = false
+
+[vars]
+RELAY_ENABLED = "false"
+SENTRY_ADMIN_PROJECT_ID = ""
+SENTRY_STORE_PROJECT_ID = ""
+SENTRY_ORG_SLUG = ""
+
+[[durable_objects.bindings]]
+name = "RELAY_INBOX"
+class_name = "RelayInbox"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["RelayInbox"]
+
+# Worker secrets ONLY: SENTRY_CLIENT_SECRET, DEV_TELEGRAM_BOT_TOKEN,
+# DEV_TELEGRAM_CHAT_ID. No account IDs, tokens, chat IDs or client secrets here.

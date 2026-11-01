@@ -2,46 +2,44 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner:merge approved54;FULLmain green;real main merge into53,one FULLCI on new head thenreadyORstop;never merge53/hosted/deploy.",
-  "baselineSha": "76a0c2cd6c1b3b72c8e006223114fc7fb3e9c1f6",
-  "branch": "codex/pre-delivery-usability",
+  "objective": "Owner2Nov item1 independent Worker signedSentry→developerTelegram only;durable replay+freshness,strictprivacy/tests/docs;PR/FULLCI thenapprovalSTOP;no deploy/hosted.",
+  "baselineSha": "fceb062ecb42636f9edcc69d536278a5bad93785",
+  "branch": "codex/sentry-telegram-relay",
   "phase": "PACKAGE_F",
   "completed": [
-    "PR54 ea0342aa merged004bf940;main FULL60/secrets1/backup1 green,no retries.",
-    "Real main004 merge in53 staged;4conflicts resolved preserving both history projections and main R4two dates;all appbytes exactly reviewed76a,SQL/Edge exactlymain219.",
-    "Fresh219 actual SDK157(154success/3empty/0denied/error),service586/18expected;types/strictlint PASS."
+    "Independent Worker rawHMAC+signedfreshness+SQLite durable dedup/bounded one-attempt Telegram;Arabic owner guide/launch card;no app/SQL changes.",
+    "LocalCloudflareworkerd synthetic Telegram:202/duplicate200/one send/no PII."
   ],
   "inProgress": [
-    "Finish real merge commit then push ONE final53 head and FULLCI;do not rerun any failed job."
+    "Draft PR and exact-SHA full CI;return for approval,no merge."
   ],
   "notStarted": [
-    "PR53 merge NOT authorized;primary update awaits explicit permission to align local project-state217 while preserving other files/env."
+    "Independentitem2 scrollTo getsseparateworktree/PR afteritem1prepared."
   ],
   "testsPassed": [
-    "Fresh219 access runtime and actual source/SQL byte equality proven;types/lint pass. Localprecommit units1683PASS/2continuityFAIL recorded,not called green."
+    "Admin1698/1698;Store203;worker13/focused22;types+strictlint;all six environment builds+verify-dist and negative guards;no hostedaccess."
   ],
   "testsRemaining": [
-    "First FULLCI on committed new merge SHA;all60+secrets+backup must pass without exception/retry."
+    "Gitleaks0;FULLCI+secrets on final SHA."
   ],
   "findings": [
-    "Local precommit2fail ONLY imported PR54 checkpoint branch(home vs53) and9c baseline not ancestor of uncommitted oldHEAD76. Normal known-own checkpoint sync performed;NO local unit rerun/tests changed.",
-    "Main217 compatibility:tools219 accept217;primary local state pinned217 would reject219 files if kept byte-for-byte. Main primarycab untouched22files incl2env;question pending."
+    "No sourceapp/RPC/SQL touchplanned. Newfilesworkers/*,tests/sentry-telegram-relay.test.ts,docs/operations/SENTRY_TELEGRAM_AR.md pluslaunchcards/checkpoint."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No Production/Frankfurt/Sentry/hosted/deploy or owner files/env changes without explicit exception.",
-    "No SQL/Edge/financial/permissions/tests/limits changes;218reserved;PR53 nevermerge without approval.",
-    "New-head CI failure:STOP no rerun or exception."
+    "No deploy/hostedFrankfurt/Sentry/Telegram/Cloudflare access;onlypublicofficialdocs.",
+    "No SQL/migration/financial/permissions/appcode/secretvalues;mainownerfiles/envuntouched.",
+    "SeparatePRperitem;no merge/newpackage after2 without approval."
   ],
-  "nextExactAction": "Commit real53+main004 merge;push once;FIRST FULLCI on newSHA thenreadyORstop. NO retries/exceptions/merge53/hosted. Primary state question pending.",
+  "nextExactAction": "Commit/push reviewed relay;open independentdraftPR and follow exactSHA FULLCI/secrets;no merge/deploy/hosted. Item2 remains separate.",
   "startedAt": "2026-11-01T02:30:05.157Z",
   "historyBaseline": "cab1c5aed8c2069e2919c566ea09c2da9757896d",
-  "checkpointedAt": "2026-11-01T18:11:32.404Z",
+  "checkpointedAt": "2026-11-01T21:23:04.900Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 95,
-  "filesTouchedManifestSha256": "63601e7fc8da8eedb6cd110e639f65094a890216d65da0e34ea4dedb37872155",
-  "workingTreeFingerprint": "509F09CCE86084FED5517444E2BEDA20F3CA16E61578E5C31971CF074648101B"
+  "filesTouchedCount": 12,
+  "filesTouchedManifestSha256": "181a185e289ac501d3e068dc3c1605b56ee6ab3f06d44a0b9c982027c29f367f",
+  "workingTreeFingerprint": "99618B0E0B2B0D3FCF7B460ED9DAE9A2ABA4979CF8F1AD8B5D1700EB2732AFC4"
 }
