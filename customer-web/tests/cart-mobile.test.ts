@@ -19,7 +19,8 @@ test('opening the cart locks the storefront and restores its exact scroll positi
   assert.match(cartDrawer, /body\.style\.position = 'fixed'/);
   assert.match(cartDrawer, /root\.style\.overflow = 'hidden'/);
   assert.match(cartDrawer, /body\.style\.top = `-\$\{scrollY\}px`/);
-  assert.match(cartDrawer, /window\.scrollTo\(\{ top: scrollY, behavior: 'auto' \}\)/);
+  assert.match(cartDrawer, /scrollWindowTo\(\{ top: scrollY, behavior: 'auto' \}\)/);
+  assert.match(cartDrawer, /import \{scrollWindowTo\} from '\.\.\/utils\/scroll'/);
 });
 
 test('cart exposes dialog semantics for mobile assistive technology', () => {
