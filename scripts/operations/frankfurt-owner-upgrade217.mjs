@@ -67,7 +67,7 @@ export async function offline217(args){
 export async function run217(args,{preflight=registeredBackupPreflight,manifest=()=>operationalManifest(),runOwner=ownerRun}={}){
  // BEFORE ownerRun asks for a password or opens any database session.
  if(args.includes('--apply'))await preflight(root);
- await manifest();assert.equal(operationalSchema.upgradeCommand,'frankfurt-owner-upgrade217','UPGRADE_ADAPTER_NOT_CURRENT');
+ await manifest();assert.ok([operationalSchema.ceiling,...operationalSchema.legacyArchiveCeilings].includes(217),'UPGRADE_ADAPTER_NOT_CURRENT');
  return runOwner(args,{loadReference:readReady217Reference,referenceName:ready217ReferenceName,pipeline:upgrade217WithExecutor,inputsFor:inputs217,versions:upgrade217Versions,label:'217',offlinePlan:offline217,verifyReadOnly:verify217ReadOnly});
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){try{const r=await run217(process.argv.slice(2));console.log(JSON.stringify({ok:r.ok,output:r.output,error:r.error,applied:r.applied,recorded:r.recorded,remoteWriteAttempted:r.remoteWriteAttempted}));if(!r.ok)process.exitCode=1;}catch(error){console.error(upgradePreparationCode(error));process.exitCode=1;}}

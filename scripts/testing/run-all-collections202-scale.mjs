@@ -1,3 +1,5 @@
+import {measureHome219,finishHome219Report} from './home-performance219-benchmark.mjs';
+import {originalHomeFactsDefinition,narrowHome219Definition} from './home-projection219.mjs';
 // Original full two-year fixture;never a reduced-size performance acceptance.
 import assert from 'node:assert/strict';
 import {execFile} from 'node:child_process';
@@ -6,7 +8,7 @@ import {readFile,writeFile,mkdtemp} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {executorFor,executeInput} from '../operations/build-empty-supabase.mjs';
-import {fullScale,assertCounts,timingSummary} from './package-e-scale-contract.mjs';
+import {fullScale,assertCounts} from './package-e-scale-contract.mjs';
 const root=path.resolve(import.meta.dirname,'../..'),exec=promisify(execFile),project='nawasrah-home-damage202-scale-test';
 const cli=path.join(root,'node_modules/supabase/dist/supabase.js'),executor=executorFor(['--container','supabase_db_'+project]);
 const output=await mkdtemp(path.join(tmpdir(),'nawasrah-home-damage202-scale-'));
@@ -50,14 +52,38 @@ try{
   {name:'before201-home',query:beforeHome(explain(homeQuery)),referenceLimitMs:3000},
   {name:'after202-home',query:auth(explain(homeQuery)).replace('BEGIN;','BEGIN READ ONLY;'),limitMs:3000,targetMs:1000},
  ];
+ report.originalTimings=[];report.optimizedTimings=[];
+ const originalBody=await originalHomeFactsDefinition(root,202);
+ const optimizedBody=narrowHome219Definition(originalBody);
+ const resetDefinition=await json(definitionQuery);
+ // Explicit owner-approved temporary compatibility on this historical prefix.
+ // BOTH original and optimized run the same original fixture/query/role/period.
  for(const bench of benches){
-  stage='full-scale p95 '+bench.name;
-  for(let n=0;n<3;n++)await json(bench.query);
-  const samples=[];let plan;for(let n=0;n<20;n++){plan=await json(bench.query);samples.push(plan[0]['Execution Time']);}
-  const summary=timingSummary(samples),{query:omitted,...metadata}=bench;assert.ok(omitted);
-  report.timings.push({...metadata,...summary,lastPlan:plan});
-  console.log(JSON.stringify({stage,...metadata,...summary}));
-  if(bench.name==='after202-home')assert.ok(summary.p95<3000,'FULL202_HOME_P95_EXCEEDS_EXISTING_3_SECOND_GATE');
+  stage='original full-scale '+bench.name;
+  const measured=await measureHome219({name:'original-'+bench.name,query:bench.query,json});
+  report.originalTimings.push(measured);
+  const r=measured.rounds[0];report.timings.push({...bench,query:undefined,p50:r.p50,p95:r.p95,max:r.max,samples:r.samples,lastPlan:r.lastPlan});
+ }
+ stage='projection literal parity';
+ const pairSql=auth(homeQuery).replace(/COMMIT;$/u,'')+'RESET ROLE;'+optimizedBody+'SET LOCAL ROLE authenticated;'+homeQuery+'ROLLBACK;';
+ const pair=(await sql(pairSql)).split(/\r?\n/u).map(row=>JSON.parse(row));
+ assert.equal(pair.length,2,'HOME219_EXACT_TWO_SAME_TRANSACTION_READS');
+ assert.deepEqual(pair[1],pair[0],'HOME219_HISTORICAL_LITERAL_HOME_JSON_PARITY');
+ report.financialJsonExactlyEqual=true;
+ await sql('BEGIN;'+optimizedBody+'COMMIT;');
+ try{
+  const expectedDefinition=await json(definitionQuery);
+  const optimizedHome=benches.find(b=>b.name==='after202-home');assert.ok(optimizedHome);
+  stage='optimized full-scale '+optimizedHome.name;
+  const optimized=await measureHome219({name:'optimized-'+optimizedHome.name,query:optimizedHome.query,json,assertLimit:false,evidenceKind:'optimized-current'});
+  report.optimizedTimings.push(optimized);
+  assert.equal(await json(definitionQuery),expectedDefinition,'HOME219_BENCHMARK_CHANGED_DEFINITION');
+  await writeFile(path.join(output,'performance-report.json'),JSON.stringify(report,null,2)+'\n');
+  assert.ok(optimized.withinLimit,'FULL202_HOME_P95_EXCEEDS_EXISTING_3_SECOND_GATE');
+  report.originalSlowValuesRetained=true;
+ }finally{
+  await sql('BEGIN;'+originalBody+'COMMIT;');
+  assert.equal(await json(definitionQuery),resetDefinition,'HOME219_ORIGINAL_DEFINITION_MUST_BE_RESTORED');
  }
  const timing=name=>report.timings.find(t=>t.name===name).p95;
  report.overhead={homeP95DeltaMs:timing('after202-home')-timing('before201-home'),reviewThresholdMs:300};
@@ -66,7 +92,6 @@ try{
  report.ok=true;
 }catch(error){report.ok=false;report.stage=stage;report.error=error.message;process.exitCode=1;}
 finally{
- if(local)await exec(process.execPath,[cli,'stop','--no-backup','--workdir',local],{cwd:root,windowsHide:true,maxBuffer:1024**2});
- report.endedAt=new Date().toISOString();await writeFile(path.join(output,'report.json'),JSON.stringify(report,null,2)+'\n');
- console.log(JSON.stringify({ok:report.ok,stage:report.stage,error:report.error,output,endedAt:report.endedAt}));
+ const ok=await finishHome219Report({report,output,stop:async()=>{if(local)await exec(process.execPath,[cli,'stop','--no-backup','--workdir',local],{cwd:root,windowsHide:true,maxBuffer:1024**2});}});
+ if(!ok)process.exitCode=1;
 }

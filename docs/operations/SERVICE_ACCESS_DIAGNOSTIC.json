@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-10-31T12:15:48.089Z",
-  "migrationCeiling": 217,
+  "startedAt": "2026-11-01T04:09:47.989Z",
+  "migrationCeiling": 219,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-CTjnz0",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-AJcpGH",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -45774,7 +45774,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-10-31T12:16:10.202Z",
+  "endedAt": "2026-11-01T04:11:51.003Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {
@@ -46119,7 +46119,7 @@
   ],
   "savedCatalogProvenance": {
     "baseline": "703fc51abb6b65ce2df2edcf14c6ecb235b74ddf",
-    "scope": "Historical15Oct saved-catalog review only;effectiveLocal and invocationResults measured anew on217;no hosted read"
+    "scope": "Historical15Oct saved-catalog review only;effectiveLocal and invocationResults measured anew on219;no hosted read"
   },
   "oldReferences": [
     {
@@ -46142,14 +46142,14 @@
     {
       "file": "docs/agent/OWNER_DECISIONS.md",
       "lines": [
-        779
+        793
       ],
       "category": "HISTORICAL_DOCUMENTATION"
     },
     {
       "file": "docs/operations/ENVIRONMENT_SEPARATION_AR.md",
       "lines": [
-        12
+        14
       ],
       "category": "HISTORICAL_DOCUMENTATION"
     },
@@ -46171,7 +46171,7 @@
     {
       "file": "docs/operations/GO_LIVE_CUTOVER_AR.md",
       "lines": [
-        58
+        60
       ],
       "category": "HISTORICAL_DOCUMENTATION"
     },

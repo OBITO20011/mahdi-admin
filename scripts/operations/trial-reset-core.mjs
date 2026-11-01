@@ -1,18 +1,20 @@
 // Owner2026-10-16: rebuild, never DELETE/TRUNCATE protected business data.
 // No connection discovery here. Owner CLI and isolated rehearsal inject I/O.
 import assert from 'node:assert/strict';
-import {readFile,writeFile} from 'node:fs/promises';
+import {readFile} from 'node:fs/promises';
 import path from 'node:path';
 import {buildEmptyProjectInput,executeInput} from './build-empty-supabase.mjs';
 import {migrationManifest,canonicalLf,sha256} from '../testing/maintenance-db-contract.mjs';
-import {schemaCatalogSql,catalogDifference} from '../testing/schema-catalog.mjs';
+import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
+import {writeResetCatalogEvidence,captureResetFailureEvidence} from './reset-catalog-comparison.mjs';
+export {canonicalResetAcl} from './reset-catalog-comparison.mjs';
 import {heldJobNames,readNotificationSnapshot,expectedHeldNotifications} from './frankfurt-notification-hold.mjs';
 import {assertManagedCatalog,aclEntries} from './managed-catalog-policy.mjs';
 import {readRealtimePublication} from '../testing/realtime151-contract.mjs';
 import {operationalSchema,assertOperationalManifest,assertSupportedResetReference} from './operational-schema.mjs';
 
 export const resetCeiling=182;
-const resetFileCounts=Object.freeze({182:151,199:161,200:162,201:163,202:164,203:165,204:166,205:167,206:168,207:169,208:170,209:171,210:172,211:173,212:174,213:175,214:176,215:177,216:178});
+const resetFileCounts=Object.freeze({182:151,199:161,200:162,201:163,202:164,203:165,204:166,205:167,206:168,207:169,208:170,209:171,210:172,211:173,212:174,213:175,214:176,215:177,216:178,217:179,219:180});
 export function assertResetCeiling(reference){
  if(reference.migrationCeiling===operationalSchema.ceiling){assert.equal(reference.manifestDigest,operationalSchema.manifestSha256,'RESET_CURRENT_MANIFEST_UNREVIEWED');return reference.manifest.length;}
  assert.ok(Object.hasOwn(resetFileCounts,reference.migrationCeiling),'RESET_REFERENCE_CEILING');
@@ -92,7 +94,6 @@ export function restoreResetAcl(before,after){
 }
 // Ordering of PostgreSQL aclitem[] is not a permission. All atoms,grantors and
 // grant options INCLUDING service_role remain present in this strict proof.
-export function canonicalResetAcl(catalog){const c=structuredClone(catalog);for(const rows of Object.values(c))for(const row of rows??[]){if(Array.isArray(row.acl))row.acl.sort();for(const column of row.columns??[])if(Array.isArray(column.acl))column.acl.sort();}return c;}
 export const externalDependentsSql=`WITH RECURSIVE deps(classid,objid,objsubid) AS (
  SELECT 'pg_namespace'::regclass::oid,'public'::regnamespace::oid,0
  UNION
@@ -118,7 +119,7 @@ export const externalDependentsSql=`WITH RECURSIVE deps(classid,objid,objsubid) 
 export function assertExternalDependents(rows,migrationCeiling=182){
  const allowed=['ERP staff can upload own product images','ERP staff can update own product images','ERP staff can delete own product images'];
  //213 recreates this exact reviewed storage policy after rebuilding public helpers.
- if([213,214,215,216,operationalSchema.ceiling].includes(migrationCeiling))allowed.push('ERP staff can read own product image metadata');
+ if([213,214,215,216,217,operationalSchema.ceiling].includes(migrationCeiling))allowed.push('ERP staff can read own product image metadata');
  for(const r of rows){if(r.schema==='pg_toast')continue;
   if(r.class==='pg_trigger'&&r.schema==='auth'&&r.internalFk===true)continue;
   if(r.class==='pg_publication_rel'&&r.publication==='supabase_realtime')continue;
@@ -172,7 +173,9 @@ export async function resetWithExecutor({executor,root,reference,output,repair,c
  const json=async input=>JSON.parse(await sql(input));
  const units=await resetUnits(root,reference);uuid(ownerId);
  Object.assign(report,{stage:'preflight',applied:[],recorded:[],destructiveStarted:false});
- const before=await json(schemaCatalogSql),startDay=await sql("SELECT (CURRENT_TIMESTAMP AT TIME ZONE 'UTC')::date;");
+ let before;
+ try{
+ before=await json(schemaCatalogSql);const startDay=await sql("SELECT (CURRENT_TIMESTAMP AT TIME ZONE 'UTC')::date;");
  const dates=resetComparisonDates(reference.buildUtcDate,startDay);
  // Local rehearsal uses full literal comparison. Managed owner admission does
  // its normalized,strict-application check before calling this executor.
@@ -229,11 +232,11 @@ export async function resetWithExecutor({executor,root,reference,output,repair,c
  assert.deepEqual(await readRealtimePublication(executor),reference.realtimePublication,'RESET_PUBLICATION_MISMATCH');
  report.stage='restore-exact-creation-acl';const rebuilt=await json(schemaCatalogSql);
  const finalDates=resetComparisonDates(reference.buildUtcDate,startDay,await sql("SELECT (CURRENT_TIMESTAMP AT TIME ZONE 'UTC')::date;"));report.comparisonDates=finalDates;
- await writeFile(path.join(output,'reset-pre-alignment-differences.json'),JSON.stringify(catalogDifference(canonicalResetAcl(before),canonicalResetAcl(rebuilt),finalDates.rebuild),null,2)+'\n');
+ await writeResetCatalogEvidence(output,before,rebuilt,{stage:report.stage,preAlignment:true});
  const restoredAcl=restoreResetAcl(before,rebuilt);
  report.restoredAclCommands=restoredAcl.length;if(restoredAcl.length)await sql('BEGIN;'+restoredAcl.join('\n')+'COMMIT;');
- const after=await json(schemaCatalogSql);const differences=catalogDifference(canonicalResetAcl(before),canonicalResetAcl(after),finalDates.rebuild);
- await writeFile(path.join(output,'reset-catalog-differences.json'),JSON.stringify(differences,null,2)+'\n');
+ const after=await json(schemaCatalogSql);const differences=await writeResetCatalogEvidence(output,before,after,{stage:report.stage});
  assert.deepEqual(differences,[],'RESET_CATALOG_NOT_CLEAN_BUILD');
- await finalDryRun();Object.assign(report,{ok:true,stage:'complete',preserved:true,catalogDifferences:0});return report;
+ await finalDryRun();Object.assign(report,{ok:true,stage:'complete',preserved:true,catalogDifferences:0,comparisonPolicy:'same-database-literal-all-schemas'});return report;
+ }catch(error){await captureResetFailureEvidence({output,before,readAfter:()=>json(schemaCatalogSql),stage:report.stage});throw error;}
 }
