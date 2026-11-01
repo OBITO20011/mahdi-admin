@@ -1,9 +1,10 @@
+import {sourceBeforeUsability,restoreUsabilityHashes,pathsBeforeUsability} from './source-before-pre-delivery-usability.mjs';
 import {sourceBeforeHome219,restoreHome219SourceHashes,pathsBeforeHome219} from './source-before-home-performance219.mjs';
 // Exact test-only inverse. Current inventory and runtime probes never use this view.
 import {readFileSync} from 'node:fs';import {createHash} from 'node:crypto';import assert from 'node:assert/strict';
 const pins=JSON.parse(readFileSync(new URL('./sentry-source-pins.json',import.meta.url),'utf8')).entries;
 const hash=s=>createHash('sha256').update(s).digest('hex');
-export function sourceBeforeSentry(file,text){text=sourceBeforeHome219(file,text);if(text===null)return null;const raw=text.replaceAll('\r\n','\n'),pin=pins[file];if(!pin||hash(raw)!==pin.after)return raw;if(pin.beforeText===null)return null;assert.equal(hash(pin.beforeText),pin.before,'SENTRY_INVERSE_CORRUPT');return pin.beforeText;}
-export function restoreSentrySourceHashes(sources){return restoreHome219SourceHashes(sources).flatMap(entry=>{const pin=pins[entry.file];if(!pin||entry.sha256!==pin.after)return[entry];return pin.beforeText===null?[]:[{...entry,sha256:pin.before}];});}
+export function sourceBeforeSentry(file,text){text=sourceBeforeHome219(file,sourceBeforeUsability(file,text));if(text===null)return null;const raw=text.replaceAll('\r\n','\n'),pin=pins[file];if(!pin||hash(raw)!==pin.after)return raw;if(pin.beforeText===null)return null;assert.equal(hash(pin.beforeText),pin.before,'SENTRY_INVERSE_CORRUPT');return pin.beforeText;}
+export function restoreSentrySourceHashes(sources){return restoreHome219SourceHashes(restoreUsabilityHashes(sources)).flatMap(entry=>{const pin=pins[entry.file];if(!pin||entry.sha256!==pin.after)return[entry];return pin.beforeText===null?[]:[{...entry,sha256:pin.before}];});}
 
-export function pathsBeforeSentry(files){return pathsBeforeHome219(files).filter(file=>{const pin=pins[file];if(!pin)return true;const actual=readFileSync(new URL('../../'+file,import.meta.url),'utf8').replaceAll('\r\n','\n');return hash(actual)!==pin.after;});}
+export function pathsBeforeSentry(files,reference){return pathsBeforeHome219(pathsBeforeUsability(files,reference)).filter(file=>{const pin=pins[file];if(!pin)return true;const actual=readFileSync(new URL('../../'+file,import.meta.url),'utf8').replaceAll('\r\n','\n');return hash(actual)!==pin.after;});}

@@ -1,3 +1,4 @@
+import {projectUsabilityQuerySites} from './source-before-pre-delivery-usability.mjs';
 // Historical evidence alone sees exact approved216 bytes. Current SDK diagnostics
 // always use inventory() without a projection and cover every new call/role.
 import assert from 'node:assert/strict';
@@ -28,6 +29,7 @@ export function pathsBeforeAftercareCleanup(files,reference){return pathsBeforeO
  return historical!==pin.beforeText;
 });}
 export function projectAftercareCleanupQuerySites(source,parseSource){
+ source=projectUsabilityQuerySites(source,parseSource);
  const entries=[];
  for(const file of new Set(source.entries.map(e=>e.file))){
   const supplied=source.entries.filter(e=>e.file===file),pin=aftercareCleanupSourcePins.entries[file];

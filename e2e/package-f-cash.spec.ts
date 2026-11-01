@@ -156,7 +156,7 @@ test('open shift and empty cancellation preserve exact store/service request and
   await page.goto(url('closed=1'));await page.getByLabel('العهدة الافتتاحية (د.أ)').fill('50.125');await page.getByRole('button',{name:'فتح وردية جديدة',exact:true}).click();await expect.poll(()=>sent.length).toBe(1);
   expect(sent[0].args).toEqual({p_branch_id:cashIds.branch,p_opening_cash_in_minor_units:50125});
   await page.route('**/rest/v1/rpc/cancel_empty_cash_shift',async route=>{sent.push({name:'cancel',args:route.request().postDataJSON()});await route.fulfill({json:{success:false,message:'يوجد نشاط'}});});
-  await page.goto(url());await page.getByRole('button',{name:'إلغاء وردية فُتحت بالخطأ',exact:true}).click();const confirm=page.getByRole('button',{name:'نعم، إلغاء الوردية',exact:true});await expect(confirm).toBeDisabled();
+  await page.goto(url());await page.locator('summary').filter({hasText:'تصحيح استثنائي'}).click();await page.getByRole('button',{name:'إلغاء وردية فُتحت بالخطأ',exact:true}).click();const confirm=page.getByRole('button',{name:'نعم، إلغاء الوردية',exact:true});await expect(confirm).toBeDisabled();
   await page.getByLabel('سبب إلغاء الوردية').fill('فتح بالخطأ');await confirm.click();await expect.poll(()=>sent.length).toBe(2);
   expect(sent[1].args).toEqual({p_shift_id:cashIds.shift,p_reason:'فتح بالخطأ'});
 });
@@ -176,7 +176,7 @@ test('archive keeps all six filter values and server paging,not visible-row filt
 test('owner full reversal preview cannot execute blocked evidence;cashier cannot expose it',async({page})=>{
   const requested:Record<string,unknown>[]=[];
   await page.route('**/rest/v1/rpc/preview_cash_shift_full_reversal',async route=>{requested.push(route.request().postDataJSON());await route.fulfill({json:{success:true,canExecute:false,shiftId:cashIds.shift,summary:{cash_in_minor_units:-734000},operations:[],scopeNote:'مانع مثبت'}});});
-  await page.goto(url());await page.getByRole('button',{name:'إلغاء الوردية وعكس جميع عملياتها',exact:true}).click();await page.getByRole('button',{name:'معاينة العمليات والأثر المالي',exact:true}).click();
+  await page.goto(url());await page.locator('summary').filter({hasText:'تصحيح استثنائي'}).click();await page.getByRole('button',{name:'إلغاء الوردية وعكس جميع عملياتها',exact:true}).click();await page.getByRole('button',{name:'معاينة العمليات والأثر المالي',exact:true}).click();
   await expect.poll(()=>requested.length).toBe(1);expect(requested[0]).toEqual({p_shift_id:cashIds.shift});await expect(page.getByText('لا يمكن التأكيد:',{exact:false})).toBeVisible();await expect(page.getByRole('button',{name:'تأكيد عكس الوردية بالكامل'})).toHaveCount(0);
   await page.goto(url('cashier=1'));await expect(page.getByRole('button',{name:'إلغاء الوردية وعكس جميع عملياتها',exact:true})).toHaveCount(0);
 });
@@ -221,7 +221,7 @@ test('supported owner reversal retains the exact preview-bound key and both expl
   const sent:Record<string,unknown>[]=[];
   await page.route('**/rest/v1/rpc/preview_cash_shift_full_reversal',async route=>{await route.fulfill({json:{success:true,canExecute:true,shiftId:cashIds.shift,summary:{cash_in_minor_units:-734000},operations:[]}});});
   await page.route('**/rest/v1/rpc/reverse_cash_shift_with_operations',async route=>{sent.push(route.request().postDataJSON());await route.fulfill({json:{success:true,reversalId:'REV-135',idempotent:false,actualEffect:{},operations:[]}});});
-  await page.goto(url());await page.getByRole('button',{name:'إلغاء الوردية وعكس جميع عملياتها',exact:true}).click();await page.getByRole('button',{name:'معاينة العمليات والأثر المالي',exact:true}).click();
+  await page.goto(url());await page.locator('summary').filter({hasText:'تصحيح استثنائي'}).click();await page.getByRole('button',{name:'إلغاء الوردية وعكس جميع عملياتها',exact:true}).click();await page.getByRole('button',{name:'معاينة العمليات والأثر المالي',exact:true}).click();
   const confirm=page.getByRole('button',{name:'تأكيد عكس الوردية بالكامل',exact:true});await expect(confirm).toBeDisabled();
   await page.getByLabel('سبب عكس الوردية').fill('تصحيح العمليات');await page.getByLabel('تأكيد عكس الوردية',{exact:true}).fill('تأكيد خاطئ');await expect(confirm).toBeDisabled();
   await page.getByLabel('تأكيد عكس الوردية',{exact:true}).fill('إلغاء الوردية');await confirm.click();await expect.poll(()=>sent.length).toBe(1);

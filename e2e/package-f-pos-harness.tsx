@@ -6,6 +6,7 @@ import '@fontsource/ibm-plex-sans-arabic/600.css';
 import '@fontsource/ibm-plex-sans-arabic/700.css';
 import '../src/index.css';
 import { PosView } from '../src/features/pos/PosView';
+import {AdminToast} from '../src/components/layout/AdminToast';
 import { SideNav } from '../src/components/layout/SideNav';
 import { Header } from '../src/components/common/Header';
 import { BottomTabs } from '../src/components/layout/BottomTabs';
@@ -54,9 +55,11 @@ client.rpc = (name, args) => {
 };
 function Harness() {
   const activeTab = useAppStoreSelector(state => state.activeTab);
+  const toast = useAppStoreSelector(state => state.toast);
   return <div dir="rtl" className="flex h-[100dvh] bg-nw-bg font-sans text-nw-text">
     <SideNav collapsed={activeTab === 'pos'} /><div className="flex min-w-0 flex-1 flex-col"><Header />
       <main data-testid="pos-scroll" className="min-h-0 flex-1 overflow-y-auto"><PosView /></main>
+      {params.has('toast')&&<AdminToast toast={toast}/>}
       <div className="lg:hidden"><BottomTabs /></div>
     </div>
   </div>;

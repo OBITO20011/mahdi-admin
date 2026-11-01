@@ -1,49 +1,47 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "PAUSED",
   "owner": "codex",
-  "objective": "One approved219 extra round:shared month/week;hard date;203;five CI all caps<3000 and219 median<=2500",
-  "baselineSha": "9c732678117640b7425bfef4499d653327ae1a67",
-  "branch": "codex/home-performance-reset-utc",
+  "objective": "Owner:merge approved54;FULLmain green;real main merge into53,one FULLCI on new head thenreadyORstop;never merge53/hosted/deploy.",
+  "baselineSha": "76a0c2cd6c1b3b72c8e006223114fc7fb3e9c1f6",
+  "branch": "codex/pre-delivery-usability",
   "phase": "PACKAGE_F",
   "completed": [
-    "Round1 failed stability;all values retained in proposal/external approval219.",
-    "FinalSQL63/manifest1a6;SDK157/service586/18expected;ref180/636/13/diff0;strictupgrade11negative;RESET219ordinary+4resumes/UTC/MFA/writefence/CLI12 PASS.",
-    "JSON18date-role+5real partial/discount/formed/refund cases PASS;realDBlint0new;Admin1678/Store203/types/strictlint/6builds/verifydist PASS;v2archives214-217219/strictlocalR2restore exceptions[] CI9c green."
+    "PR54 ea0342aa merged004bf940;main FULL60/secrets1/backup1 green,no retries.",
+    "Real main004 merge in53 staged;4conflicts resolved preserving both history projections and main R4two dates;all appbytes exactly reviewed76a,SQL/Edge exactlymain219.",
+    "Fresh219 actual SDK157(154success/3empty/0denied/error),service586/18expected;types/strictlint PASS."
   ],
   "inProgress": [
-    "Save final readiness evidence then ONE final same-SHA five-CI experiment;no merge."
+    "Finish real merge commit then push ONE final53 head and FULLCI;do not rerun any failed job."
   ],
   "notStarted": [
-    "Five CI:all197/201/202/203/219<3000 each run;219median<=2500;negative caught."
+    "PR53 merge NOT authorized;primary update awaits explicit permission to align local project-state217 while preserving other files/env."
   ],
   "testsPassed": [
-    "Actual evidence docs/operations/HOME219_ROUND2_EVIDENCE.json;reference owner-ready63 SHAADCC5FB0;no owner files touched."
+    "Fresh219 access runtime and actual source/SQL byte equality proven;types/lint pass. Localprecommit units1683PASS/2continuityFAIL recorded,not called green."
   ],
   "testsRemaining": [
-    "FinalFULLCI/secrets/backup +5exactSHA artifacts;diagnose recurring aftercare215 without retries."
+    "First FULLCI on committed new merge SHA;all60+secrets+backup must pass without exception/retry."
   ],
   "findings": [
-    "d411 CI preliminary optp95:1971674.614,2011960.457,2021912.911,2031859.252ms;cleanup JSON codec failed. Not acceptance.",
-    "Local197 optp953397.304/original6109.791;no local performance acceptance."
+    "Local precommit2fail ONLY imported PR54 checkpoint branch(home vs53) and9c baseline not ancestor of uncommitted oldHEAD76. Normal known-own checkpoint sync performed;NO local unit rerun/tests changed.",
+    "Main217 compatibility:tools219 accept217;primary local state pinned217 would reject219 files if kept byte-for-byte. Main primarycab untouched22files incl2env;question pending."
   ],
   "blockers": [],
-  "activeProcesses": [
-    "No owned test processes or active DB;n8n unrelated untouched."
-  ],
+  "activeProcesses": [],
   "prohibitions": [
-    "No hosted/Frankfurt/Sentry/deploy/merge or owner/env/main edits;PR53draft;218reserved.",
-    "Only approved219 read changes;no formulas/filters/permissions/history/write changes or weekly omission.",
-    "Keep3000ms/3warmups20samples/alloriginals;5CI allcaps<3000,219median<=2500;stop if fails,NO third round or retries."
+    "No Production/Frankfurt/Sentry/hosted/deploy or owner files/env changes without explicit exception.",
+    "No SQL/Edge/financial/permissions/tests/limits changes;218reserved;PR53 nevermerge without approval.",
+    "New-head CI failure:STOP no rerun or exception."
   ],
-  "nextExactAction": "FinalSQL63 local/ref/reset/23JSON cases/archive/builds complete;commit final head and ONE five-CI cycle;allcaps<3000,219median<=2500,no retries/merge/thirdround",
+  "nextExactAction": "Commit real53+main004 merge;push once;FIRST FULLCI on newSHA thenreadyORstop. NO retries/exceptions/merge53/hosted. Primary state question pending.",
   "startedAt": "2026-11-01T02:30:05.157Z",
   "historyBaseline": "cab1c5aed8c2069e2919c566ea09c2da9757896d",
-  "checkpointedAt": "2026-11-01T15:43:34.222Z",
+  "checkpointedAt": "2026-11-01T18:11:32.404Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 9,
-  "filesTouchedManifestSha256": "e2b1b7de58fe0f0eb221e8ba646f665ff108f560db30b4b40650f8d9146c3c65",
-  "workingTreeFingerprint": "F6C472BA1ECA295B0FD68F452F7183CC9CA288D0C8B0CB41E20044535C604641"
+  "filesTouchedCount": 95,
+  "filesTouchedManifestSha256": "63601e7fc8da8eedb6cd110e639f65094a890216d65da0e34ea4dedb37872155",
+  "workingTreeFingerprint": "509F09CCE86084FED5517444E2BEDA20F3CA16E61578E5C31971CF074648101B"
 }

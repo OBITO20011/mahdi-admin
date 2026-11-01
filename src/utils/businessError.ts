@@ -1,9 +1,10 @@
 import {rejectionMessages} from './rejectionMessage';
 /** Human-facing text only. Never use this to classify or change recovery state. */
-export function businessErrorMessage(message: unknown): string {
+export function knownBusinessErrorMessage(message: unknown): string | null {
   const text = message instanceof Error ? message.message : String(message ?? '');
   const rejectionCode=text.match(/\b(?:CORRECTION|SUPPLIER_REPLACEMENT)_[A-Z_]+\b/u)?.[0];
   if(rejectionCode&&rejectionMessages[rejectionCode])return rejectionMessages[rejectionCode];
+  if(Object.values(rejectionMessages).includes(text))return text;
   const known: Array<[RegExp, string]> = [
     [/AFTERCARE215_EXCHANGE_REVERSAL_UNSUPPORTED/u,'فاتورة البديل مرتبطة بتبديل موحّد؛ استخدم المرتجع المفحوص ولا تعكسها كبيع نقدي مستقل.'],
     [/SUPPLIER215_CREDIT_EXCEEDS_PAYABLE/u,'قيمة المعيب أكبر من المستحق المؤيّد للمورد؛ لا يمكن خصمها أو إنشاء رصيد مصطنع. راجع مستحق المورد.'],
@@ -46,9 +47,17 @@ export function businessErrorMessage(message: unknown): string {
     [/IDEMPOTENCY.*(CONFLICT|MISMATCH)|PAYMENT.*CONFLICT/u, 'تفاصيل المحاولة تختلف عن المحاولة المحفوظة. راجعها ولا تعِد إرسالها بتفاصيل مختلفة.'],
     [/SHIFT.*(REQUIRED|NOT_OPEN|INVALID)|OPEN.*SHIFT/u, 'تحتاج هذه الحركة النقدية إلى وردية مفتوحة صالحة. افتح الوردية ثم تابع.'],
     [/permission denied|FORBIDDEN|UNAUTHORIZED/iu, 'ليس لديك صلاحية لهذا الإجراء. راجع مسؤول المحل.'],
-    [/timeout|network|failed to fetch|fetch failed/iu, 'تعذر تأكيد النتيجة بسبب الاتصال. تحقق من المحاولة السابقة قبل إعادة الإرسال.'],
   ];
-  for (const [pattern, translation] of known) if (pattern.test(text)) return translation;
+  for (const [pattern, translation] of known) if (pattern.test(text) || text === translation) return translation;
+  return null;
+}
+
+/** Legacy callers retain their existing fallback; new operator UI uses known-only copy. */
+export function businessErrorMessage(message: unknown): string {
+  const text = message instanceof Error ? message.message : String(message ?? '');
+  const known = knownBusinessErrorMessage(text);
+  if (known !== null) return known;
+  if (/timeout|network|failed to fetch|fetch failed/iu.test(text)) return 'تعذر تأكيد النتيجة بسبب الاتصال. تحقق من المحاولة السابقة قبل إعادة الإرسال.';
   if (!/[\u0600-\u06ff]/u.test(text) || /[A-Z][A-Z0-9]+_[A-Z0-9_]+/u.test(text)) {
     const code = text.match(/\b[A-Z][A-Z0-9]+(?:_[A-Z0-9]+)+\b/u)?.[0] || 'UNKNOWN';
     return `تعذر إتمام الإجراء. حدّث البيانات وراجع نتيجة المحاولة السابقة قبل تكراره.\nرمز: ${code}`;
