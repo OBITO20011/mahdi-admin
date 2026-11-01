@@ -90,7 +90,9 @@ test('reset admits exact frozen prefixes through215 and current216 only and pres
  assert.equal(assertResetCeiling({migrationCeiling:213}),175);
  assert.equal(assertResetCeiling({migrationCeiling:214}),176);
  assert.equal(assertResetCeiling({migrationCeiling:215}),177);
- for(const migrationCeiling of [138,198,217])assert.throws(()=>assertResetCeiling({migrationCeiling}));
+ assert.equal(assertResetCeiling({migrationCeiling:216}),178);
+ assert.equal(assertResetCeiling({migrationCeiling:217}),179);
+ for(const migrationCeiling of [138,198,218,220])assert.throws(()=>assertResetCeiling({migrationCeiling}));
  const id='92600000-0000-4000-8000-000000000001';
  const record={branch:{id,code:'BR-MAIN',name_ar:'الفرع الرئيسي',is_active:true},warehouse:{id,branch_id:id,code:'WH-MAIN',name_ar:'اسم عدله المالك',is_active:true}};
  assert.match(restoreMainWarehouseSql(record),/jsonb_populate_record\(NULL::public.warehouses/u);

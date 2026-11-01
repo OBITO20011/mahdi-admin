@@ -53,7 +53,7 @@ test('197 is explicit,read-only readers only,historical196 pin frozen and runtim
  assert.deepEqual(futureMigrationViolations(sql),[]);assert.equal([...sql.matchAll(/CREATE OR REPLACE FUNCTION/gu)].length,2);
  assert.doesNotMatch(sql,/CREATE TABLE|CREATE INDEX|INSERT INTO|DELETE FROM|GRANT EXECUTE/u);
  const state=JSON.parse(read('docs/agent/project-state.json'));
- assert.equal(state.migrationCeiling,217);assert.equal(state.migration197CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());
+ assert.equal(state.migrationCeiling,219);assert.equal(state.migration197CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());
  //Exactly one empty EOF line was removed after the full-scale proof;every SQL
  //byte,including function bodies,otherwise remains bound to that executed pin.
  assert.equal(createHash('sha256').update(sql+'\n').digest('hex').toUpperCase(),'91C5439275CE8F101D897213BA4C372697900EA5AF8F35BA04F305B05EBF9D48');
@@ -65,16 +65,17 @@ test('197 is explicit,read-only readers only,historical196 pin frozen and runtim
 });
 test('197 genuine current SDK evidence exactly covers all current source sites without new browser grants',async()=>{
  const source=await inventory(),proof=JSON.parse(read('docs/operations/TABLE_ACCESS_AFTER_197.json'));
- assert.equal(source.migrationCeiling,217);assert.equal(proof.migrationCeiling,197);assert.equal(proof.managedAccess,false);
+ assert.equal(source.migrationCeiling,219);assert.equal(proof.migrationCeiling,197);assert.equal(proof.managedAccess,false);
  assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);assert.deepEqual(proof.sourceHashes,await sourceBefore198Presentation(source.sources));
  assert.deepEqual(proof.coverage,verifyProbeCoverage(source,proof.results));assert.ok(proof.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));
 });
 test('197 full-scale performance preserves existing3s home gate and separately measures actual196/197 balances',()=>{
  const runtime=read('scripts/testing/run-canonical-receivables197-scale.mjs');
- assert.match(runtime,/fullScale,assertCounts,timingSummary/u);assert.match(runtime,/assertCounts\(counts,fullScale\)/u);
+ assert.match(runtime,/fullScale,assertCounts/u);assert.match(runtime,/assertCounts\(counts,fullScale\)/u);
  assert.match(runtime,/oracle\.customers,fullScale\.customers/u);assert.match(runtime,/oracle\.mismatches,0/u);
  assert.match(runtime,/phase42_customer_receivable_total_internal\(id\)/u);
- assert.match(runtime,/n<3;n\+\+/u);assert.match(runtime,/n<20;n\+\+/u);assert.match(runtime,/summary\.p95<3000/u);
+ const benchmark=read('scripts/testing/home-performance219-benchmark.mjs');
+ assert.match(benchmark,/n<3;n\+\+/u);assert.match(benchmark,/n<20;n\+\+/u);assert.match(benchmark,/r\.p95<limitMs/u);assert.match(benchmark,/assert\.equal\(limitMs,3000/u);assert.match(runtime,/assert\.ok\(optimized\.withinLimit/u);
  assert.match(read('scripts/testing/run-package-e-scale-runtime.mjs'),/name:'home',command:'get_home_dashboard\(\)',limitMs:3000,targetMs:1000/u);
  for(const name of ['before197-home','after197-home','before197-balances-only','after197-balances-only','standaloneBalancesP95DeltaMs','reviewThresholdMs:300'])assert.ok(runtime.includes(name),name);
  assert.match(runtime,/195_deferred_cheque_readers_and_alerts\.sql/u);

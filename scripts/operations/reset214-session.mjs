@@ -6,14 +6,16 @@ import {executeResetInput as executeInput} from './reset214-io.mjs';
 import {privateResetDirectory,writePrivateResetJson,readPrivateResetJson,assertResetSnapshot} from './reset214-private-state.mjs';
 import {publicFingerprint,guardCreateSql,attachGuardSql,assertNoForeignWrites,withoutResetGuard,writerExecutor,removeGuardSql} from './reset214-write-guard.mjs';
 import {preservedStateSql,sqlLiteral as q,uuid} from './trial-reset-core.mjs';
-import {schemaCatalogSql,catalogDifference} from '../testing/schema-catalog.mjs';
+import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
+import {compareResetCatalog} from './reset-catalog-comparison.mjs';
 import {readNotificationSnapshot} from './frankfurt-notification-hold.mjs';
 import {sha256} from '../testing/maintenance-db-contract.mjs';
 export const reset214Marker='RESET214_IN_PROGRESS.json';
 export const reset215Marker='RESET215_IN_PROGRESS.json';
 export const reset216Marker='RESET216_IN_PROGRESS.json';
 export const reset217Marker='RESET217_IN_PROGRESS.json';
-const markers=Object.freeze({214:reset214Marker,215:reset215Marker,216:reset216Marker,217:reset217Marker});
+export const reset219Marker='RESET219_IN_PROGRESS.json';
+const markers=Object.freeze({214:reset214Marker,215:reset215Marker,216:reset216Marker,217:reset217Marker,219:reset219Marker});
 const progressFile=session=>`reset${session.reference.migrationCeiling}-progress.json`;
 const within=(root,relative)=>{assert.equal(path.isAbsolute(relative),false,'RESET214_STATE_PATH_INVALID');const p=path.resolve(root,relative),r=path.relative(root,p);assert.ok(r&&!r.startsWith('..')&&!path.isAbsolute(r),'RESET214_STATE_PATH_INVALID');return p;};
 async function readSql(executor,input){const r=await executeInput(executor,input);assert.equal(r.code,0,'RESET214_SESSION_SQL_FAILED');return r.stdout.trim();}
@@ -87,7 +89,7 @@ export async function validateResetResume(session,executor){
    assert.equal(typeof session.marker.guardRemovalProofSha256,'string','RESET214_RESUME_GUARD_MISSING');
    assert.deepEqual(actual,proof.fingerprint,'RESET214_REAL_WRITES_DETECTED');
   }
-  const catalog=JSON.parse(await readSql(executor,schemaCatalogSql));assert.deepEqual(catalogDifference(saved.catalog,catalog),[],'RESET214_RESUME_GUARD_MISSING');
+  const catalog=JSON.parse(await readSql(executor,schemaCatalogSql));assert.deepEqual(compareResetCatalog(saved.catalog,catalog),[],'RESET214_RESUME_GUARD_MISSING');
  }
  session.writeCheck=await assertNoForeignWrites(executor,saved,{guardRequired:session.guardPresent});
  // Reject missing,out-of-order,unknown or future recorded files. Any literal

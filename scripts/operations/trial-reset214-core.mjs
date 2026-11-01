@@ -2,10 +2,10 @@
 // engine. Raw settings stay in protected external retention; Auth/MFA only hashes.
 import assert from 'node:assert/strict';
 import {writeFileSync} from 'node:fs';
-import {writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {executeResetInput as executeInput} from './reset214-io.mjs';
-import {schemaCatalogSql,catalogDifference} from '../testing/schema-catalog.mjs';
+import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
+import {writeResetCatalogEvidence,captureResetFailureEvidence} from './reset-catalog-comparison.mjs';
 import {sha256} from '../testing/maintenance-db-contract.mjs';
 import {heldJobNames,readNotificationSnapshot,expectedHeldNotifications} from './frankfurt-notification-hold.mjs';
 import {assertManagedCatalog} from './managed-catalog-policy.mjs';
@@ -14,6 +14,7 @@ import {assertReady214Catalog} from './frankfurt-reference214.mjs';
 import {assertReady215Catalog} from './frankfurt-reference215.mjs';
 import {assertReady216Catalog} from './frankfurt-reference216.mjs';
 import {assertReady217Catalog} from './frankfurt-reference217.mjs';
+import {assertReady219Catalog} from './frankfurt-reference219.mjs';
 import {expectedHeld217Notifications,ownerTelegramJob,assertOwner217HeldSettings} from './owner-telegram217-notifications.mjs';
 import {assertCurrentResetReference,assertSupportedResetReference} from './operational-schema.mjs';
 import {readRealtimePublication} from '../testing/realtime151-contract.mjs';
@@ -21,7 +22,7 @@ import {retainedSessionState,assertNoForeignWrites,withoutResetGuard,attachGuard
 import {lockAndCheckGuardSql,publicFingerprint} from './reset214-write-guard.mjs';
 import {reset214SqlFailureCode} from './reset214-diagnostics.mjs';
 import {cleanSeedCounts,resetUnits,uuid,sqlLiteral,readRowCounts,resetComparisonDates,restoreResetAcl,
- canonicalResetAcl,externalDependentsSql,assertExternalDependents,ownerRecordSql,preservedStateSql,
+ externalDependentsSql,assertExternalDependents,ownerRecordSql,preservedStateSql,
  restoreMainWarehouseSql,dropPublicSql} from './trial-reset-core.mjs';
 
 const q=sqlLiteral;
@@ -41,10 +42,12 @@ const policy214={ceiling:214,files:176,assertCatalog:assertReady214Catalog};
 const policy215={ceiling:215,files:177,assertCatalog:assertReady215Catalog};
 const policy216={ceiling:216,files:178,assertCatalog:assertReady216Catalog};
 const policy217={ceiling:217,files:179,assertCatalog:assertReady217Catalog};
+const policy219={ceiling:219,files:180,assertCatalog:assertReady219Catalog};
 export const captureReset214=options=>captureRetainedReset(options,policy214);
 export const captureReset215=options=>{assertSupportedResetReference(options.reference);return captureRetainedReset(options,policy215);};
 export const captureReset216=options=>{assertSupportedResetReference(options.reference);return captureRetainedReset(options,policy216);};
-export const captureReset217=options=>{assertCurrentResetReference(options.reference);return captureRetainedReset(options,policy217);};
+export const captureReset217=options=>{assertSupportedResetReference(options.reference);return captureRetainedReset(options,policy217);};
+export const captureReset219=options=>{assertCurrentResetReference(options.reference);return captureRetainedReset(options,policy219);};
 async function captureRetainedReset({executor,ownerId,reference},policy){
  assert.equal(reference.migrationCeiling,policy.ceiling,'RESET_REFERENCE_REQUIRED');assert.equal(reference.manifest.length,policy.files);
  const sql=async input=>{const r=await executeInput(executor,input);assert.equal(r.code,0,'RESET214_READ_FAILED');return r.stdout.trim();};
@@ -91,7 +94,8 @@ export function restoreReset214Sql(rawTables){
 export const reset214WithExecutor=options=>runRetainedReset(options,policy214);
 export const reset215WithExecutor=options=>{assertSupportedResetReference(options.reference);return runRetainedReset(options,policy215);};
 export const reset216WithExecutor=options=>{assertSupportedResetReference(options.reference);return runRetainedReset(options,policy216);};
-export const reset217WithExecutor=options=>{assertCurrentResetReference(options.reference);return runRetainedReset(options,policy217);};
+export const reset217WithExecutor=options=>{assertSupportedResetReference(options.reference);return runRetainedReset(options,policy217);};
+export const reset219WithExecutor=options=>{assertCurrentResetReference(options.reference);return runRetainedReset(options,policy219);};
 async function runRetainedReset(options,policy){
  const {executor,reference,ownerId,output}=options;
  assert.equal(reference.migrationCeiling,policy.ceiling,'RESET_REFERENCE_REQUIRED');assert.equal(reference.manifest.length,policy.files);
@@ -128,7 +132,9 @@ async function rebuild214({executor,root,reference,output,repair,clearHistory,em
  const json=async input=>JSON.parse(await sql(input));
  const units=await resetUnits(root,reference);uuid(ownerId);
  Object.assign(report,{stage:'catalog-preflight',applied:[],recorded:[],destructiveStarted:false});
- const before=session?session.saved.catalog:await json(schemaCatalogSql),startDay=session?session.saved.buildDay:await sql("SELECT (CURRENT_TIMESTAMP AT TIME ZONE 'UTC')::date;");
+ let before;
+ try{
+ before=session?session.saved.catalog:await json(schemaCatalogSql);const startDay=session?session.saved.buildDay:await sql("SELECT (CURRENT_TIMESTAMP AT TIME ZONE 'UTC')::date;");
  const dates=resetComparisonDates(reference.buildUtcDate,startDay);
  // Local rehearsal uses full literal comparison. Managed owner admission does
  // its normalized,strict-application check before calling this executor.
@@ -140,8 +146,8 @@ async function rebuild214({executor,root,reference,output,repair,clearHistory,em
  report.stage='notification-hold-preflight';const notifications=session?session.saved.notifications:await readNotificationSnapshot(executor);
  assert.equal(notifications.trigger.enabled,'D','RESET_NOTIFICATION_HOLD_REQUIRED');
  assert.ok(notifications.jobs.filter(j=>heldJobNames.includes(j.name)).every(j=>j.active===false));
- assert.equal(notifications.jobs.length,policy.ceiling===217?6:5);
- if(policy.ceiling===217){
+ assert.equal(notifications.jobs.length,policy.ceiling>=217?6:5);
+ if(policy.ceiling>=217){
   const original={...notifications,trigger:{...notifications.trigger,enabled:'O'},jobs:notifications.jobs.map(j=>({...j,active:j.name!==ownerTelegramJob.name}))};
   assert.deepEqual(notifications,expectedHeld217Notifications(original,notifications),'RESET217_DISPATCH_MUST_REMAIN_HELD');
   if(!session?.resume)assert.equal(await sql('SELECT NOT enabled AND (lease_expires_at IS NULL OR lease_expires_at<clock_timestamp()) FROM public.owner_telegram_dispatch_settings WHERE id;'),'t','RESET217_STOP_DISPATCH_BEFORE_RESET');
@@ -163,7 +169,7 @@ async function rebuild214({executor,root,reference,output,repair,clearHistory,em
  await sql('SELECT cron.alter_job(jobid,active:=false) FROM cron.job;');
  // Exactly the validated217 held transport job is recreated by217. Remove
  // that row through the supported API;old five schedules keep their contracts.
- if(policy.ceiling===217)await sql("SELECT cron.unschedule(jobid) FROM cron.job WHERE jobname='owner-telegram-dispatch';");
+ if(policy.ceiling>=217)await sql("SELECT cron.unschedule(jobid) FROM cron.job WHERE jobname='owner-telegram-dispatch';");
  if(session)await assertNoForeignWrites(executor,session.saved);
  await sql(session?dropPublicSql.replace('SET LOCAL search_path=pg_catalog;','SET LOCAL search_path=pg_catalog;'+lockAndCheckGuardSql):dropPublicSql);await boundary('after-drop-public');await clearHistory();
  report.stage='delete-trial-auth';await deleteOtherAuth(ownerId);
@@ -184,8 +190,8 @@ async function rebuild214({executor,root,reference,output,repair,clearHistory,em
  // An untouched clean build has original O/all-active metadata. Rebuild jobs
  // get NEW IDs;preserve command/schedule by name and record the fresh snapshot.
  report.stage='notification-hold';const current=await readNotificationSnapshot(executor);
- const original={...current,trigger:{...current.trigger,enabled:'O'},jobs:current.jobs.map(j=>({...j,active:policy.ceiling===217?j.name!==ownerTelegramJob.name:true}))};
- assert.deepEqual(current,policy.ceiling===217?expectedHeld217Notifications(original,current):expectedHeldNotifications(original),'RESET_HOLD_CHANGED');
+ const original={...current,trigger:{...current.trigger,enabled:'O'},jobs:current.jobs.map(j=>({...j,active:policy.ceiling>=217?j.name!==ownerTelegramJob.name:true}))};
+ assert.deepEqual(current,policy.ceiling>=217?expectedHeld217Notifications(original,current):expectedHeldNotifications(original),'RESET_HOLD_CHANGED');
  for(const old of notifications.jobs){const fresh=current.jobs.find(j=>j.name===old.name);assert.ok(fresh);
   for(const key of ['name','schedule','command','host','port','database','username','active'])assert.deepEqual(fresh[key],old[key],'RESET_CRON_CHANGED:'+old.name+':'+key);}
  report.notificationOriginal=original;
@@ -207,17 +213,17 @@ async function rebuild214({executor,root,reference,output,repair,clearHistory,em
  assert.deepEqual(await readRealtimePublication(executor),reference.realtimePublication,'RESET_PUBLICATION_MISMATCH');
  report.stage='restore-exact-creation-acl';const rebuilt=await json(schemaCatalogSql);
  const finalDates=resetComparisonDates(reference.buildUtcDate,startDay,await sql("SELECT (CURRENT_TIMESTAMP AT TIME ZONE 'UTC')::date;"));report.comparisonDates=finalDates;
- await writeFile(path.join(output,'reset-pre-alignment-differences.json'),JSON.stringify(catalogDifference(canonicalResetAcl(before),canonicalResetAcl(rebuilt),finalDates.rebuild),null,2)+'\n');
+ await writeResetCatalogEvidence(output,before,withoutResetGuard(rebuilt),{stage:report.stage,preAlignment:true});
  if(session)await assertNoForeignWrites(executor,session.saved);
  const restoredAcl=restoreResetAcl(before,withoutResetGuard(rebuilt));
  report.restoredAclCommands=restoredAcl.length;if(restoredAcl.length)await sql('BEGIN;'+restoredAcl.join('\n')+'COMMIT;');
  if(session){await saveGuardRemovalProof(session,executor);await sql(removeGuardSql.replace('BEGIN;','BEGIN;'+lockAndCheckGuardSql));}
- const after=await json(schemaCatalogSql);const differences=catalogDifference(canonicalResetAcl(before),canonicalResetAcl(after),finalDates.rebuild);
- await writeFile(path.join(output,'reset-catalog-differences.json'),JSON.stringify(differences,null,2)+'\n');
+ const after=await json(schemaCatalogSql);const differences=await writeResetCatalogEvidence(output,before,after,{stage:report.stage});
  assert.deepEqual(differences,[],'RESET_CATALOG_NOT_CLEAN_BUILD');
  assert.equal(compareApplicationAcl(reference.catalog,after).differenceCount,0,'RESET214_FINAL_ACL_MISMATCH');
  policy.assertCatalog(after);
- if(policy.ceiling===217)await assertOwner217HeldSettings(executor);
+ if(policy.ceiling>=217)await assertOwner217HeldSettings(executor);
  assert.deepEqual(await json('SELECT jsonb_agg(version ORDER BY version) FROM supabase_migrations.schema_migrations;'),reference.appliedVersions,'RESET214_FINAL_HISTORY_MISMATCH');
- await finalDryRun();Object.assign(report,{stage:'complete',preserved:true,catalogDifferences:0,applicationAclDifferences:0});return report;
+ await finalDryRun();Object.assign(report,{stage:'complete',preserved:true,catalogDifferences:0,applicationAclDifferences:0,comparisonPolicy:'same-database-literal-all-schemas'});return report;
+ }catch(error){await captureResetFailureEvidence({output,before,readAfter:()=>json(schemaCatalogSql),stage:report.stage});throw error;}
 }

@@ -3,15 +3,39 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/OWNER_TELEGRAM217_LOCAL.json"
-    },
-    {
-      "code": " M",
       "path": "docs/agent/PHASE_STATUS.md"
     },
     {
       "code": " M",
-      "path": "docs/agent/PROJECT_OVERVIEW.md"
+      "path": "docs/design/HOME_PERFORMANCE_219_PROPOSAL_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/FRANKFURT_OWNER_UPGRADE219_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/HOME219_ROUND2_EVIDENCE.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_219.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/home-performance219-source-pins.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/home-financial-parity219.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/home-current-scenarios219.mjs"
     }
   ]
 }

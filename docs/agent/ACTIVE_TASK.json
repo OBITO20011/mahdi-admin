@@ -1,53 +1,49 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
+  "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner-approved server-side owner Telegram dispatch;217 plus operational ceiling/reset/backup/strict upgrade in same PR;return for approvalSTOP",
-  "baselineSha": "1a6609ed5b12154e66022fdf258f54fa0bc2f6c6",
-  "branch": "codex/owner-telegram-server",
+  "objective": "One approved219 extra round:shared month/week;hard date;203;five CI all caps<3000 and219 median<=2500",
+  "baselineSha": "9c732678117640b7425bfef4499d653327ae1a67",
+  "branch": "codex/home-performance-reset-utc",
   "phase": "PACKAGE_F",
   "completed": [
-    "PR45/main5a50320f merged after exact51 and primary ownerfiles retained",
-    "217 transport/formatter/privateDB/heldcron local proofs complete",
-    "Fresh independent179/633/13/diff0 reference,strict upgrade8negative/readonly and RESET217fourresumes accepted",
-    "Encrypted214-217 exactsamebackup source CI successful;currentplans offlinePASS"
+    "Round1 failed stability;all values retained in proposal/external approval219.",
+    "FinalSQL63/manifest1a6;SDK157/service586/18expected;ref180/636/13/diff0;strictupgrade11negative;RESET219ordinary+4resumes/UTC/MFA/writefence/CLI12 PASS.",
+    "JSON18date-role+5real partial/discount/formed/refund cases PASS;realDBlint0new;Admin1678/Store203/types/strictlint/6builds/verifydist PASS;v2archives214-217219/strictlocalR2restore exceptions[] CI9c green."
   ],
   "inProgress": [
-    "PR46 final metadata/exact FULL53 push+PR"
+    "Save final readiness evidence then ONE final same-SHA five-CI experiment;no merge."
   ],
   "notStarted": [
-    "Owner approval before merge"
+    "Five CI:all197/201/202/203/219<3000 each run;219median<=2500;negative caught."
   ],
   "testsPassed": [
-    "CurrentSDK157/58618expected;runtime9/17healthy0;goldens16",
-    "Reference179/633/13/diff0;strictupgrade633/129/8negative/readonly",
-    "RESET217 ordinary+4resume/retentionMFA/catalogACL0/foreignwritefence;CLI12",
-    "Types/strictlint/store203;Admin1626+cache4rerun;print2/network0",
-    "Backup+secret scan exact1a6609e push+PR PASS;no hostedaccess"
+    "Actual evidence docs/operations/HOME219_ROUND2_EVIDENCE.json;reference owner-ready63 SHAADCC5FB0;no owner files touched."
   ],
   "testsRemaining": [
-    "Exact FINALSHA FULL53 push+PR/secrets/backup",
-    "Owner approval"
+    "FinalFULLCI/secrets/backup +5exactSHA artifacts;diagnose recurring aftercare215 without retries."
   ],
   "findings": [
-    "Owner reports hosted216verifyok,Backup216178,Restore15117healthy;not independently accessed",
-    "Managed worktree creation failed git filter discovery timeout;isolated git worktree created manually,explicit cwd used",
-    "HTTPfixture PGRST125 corrected RESTprefix only;no production RPC or assertion change"
+    "d411 CI preliminary optp95:1971674.614,2011960.457,2021912.911,2031859.252ms;cleanup JSON codec failed. Not acceptance.",
+    "Local197 optp953397.304/original6109.791;no local performance acceptance."
   ],
   "blockers": [],
-  "activeProcesses": [],
-  "prohibitions": [
-    "No hosted access/deploy/activation",
-    "No financial/payload/summary/exclusion policy changes",
-    "No merge or next package before owner approval"
+  "activeProcesses": [
+    "No owned test processes or active DB;n8n unrelated untouched."
   ],
-  "nextExactAction": "Push final local proof metadata;verify exact FULL53 push+PR,secrets,backup;mark PR46 ready and return approvalSTOP",
-  "startedAt": "2026-10-29T19:25:12.791Z",
-  "checkpointedAt": "2026-10-29T22:51:13.581Z",
+  "prohibitions": [
+    "No hosted/Frankfurt/Sentry/deploy/merge or owner/env/main edits;PR53draft;218reserved.",
+    "Only approved219 read changes;no formulas/filters/permissions/history/write changes or weekly omission.",
+    "Keep3000ms/3warmups20samples/alloriginals;5CI allcaps<3000,219median<=2500;stop if fails,NO third round or retries."
+  ],
+  "nextExactAction": "FinalSQL63 local/ref/reset/23JSON cases/archive/builds complete;commit final head and ONE five-CI cycle;allcaps<3000,219median<=2500,no retries/merge/thirdround",
+  "startedAt": "2026-11-01T02:30:05.157Z",
+  "historyBaseline": "cab1c5aed8c2069e2919c566ea09c2da9757896d",
+  "checkpointedAt": "2026-11-01T15:43:34.222Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 3,
-  "filesTouchedManifestSha256": "fd6c95988ffa785c33ef876c5251c215ceaf036d810a27297224b1f0319b4db7",
-  "workingTreeFingerprint": "B3D75946F0F02294AEB18D9F82F8AB55EC1BE25056E5CBA80F903673C8EAC466"
+  "filesTouchedCount": 9,
+  "filesTouchedManifestSha256": "e2b1b7de58fe0f0eb221e8ba646f665ff108f560db30b4b40650f8d9146c3c65",
+  "workingTreeFingerprint": "F6C472BA1ECA295B0FD68F452F7183CC9CA288D0C8B0CB41E20044535C604641"
 }

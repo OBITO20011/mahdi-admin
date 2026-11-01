@@ -1,0 +1,1564 @@
+{
+  "format": 1,
+  "managedAccess": false,
+  "deployments": 0,
+  "status": "LOCAL_PERFORMANCE_FAILED_CI_PENDING_NOT_ACCEPTED",
+  "ownerApproval": "219 projection-only plus temporary197/201/202;218reserved;five same-codeCI runs required",
+  "ceiling": 219,
+  "migrations": 180,
+  "reference": {
+    "functions": 633,
+    "realtimeMembers": 13,
+    "freshIncrementalDifferences": 0
+  },
+  "strictUpgrade": {
+    "ok": true,
+    "functionsChecked": 633,
+    "relationsChecked": 129,
+    "aclDifferences": 0,
+    "negativeCases": 8,
+    "readOnlyEnforced": true,
+    "replayNoWrites": true
+  },
+  "actualReset": [
+    {
+      "ok": true,
+      "managedAccess": false,
+      "startedAt": "2026-11-01T05:08:40.043Z",
+      "endedAt": "2026-11-01T05:16:18.718Z",
+      "ceiling": 217,
+      "files": 179,
+      "cases": [
+        {
+          "stop": "after-storage",
+          "previousApplied": 0,
+          "previousRecorded": 0,
+          "storageRemainingAtInterruption": 1,
+          "physicalBytesRemoved": true,
+          "restartedAll179": true,
+          "retentionMatches": true,
+          "catalogDifferences": 0,
+          "aclDifferences": 0,
+          "verifiedMfa": true,
+          "archiveProtected": true
+        },
+        {
+          "stop": "after-drop-public",
+          "previousApplied": 0,
+          "previousRecorded": 0,
+          "storageRemainingAtInterruption": 0,
+          "physicalBytesRemoved": true,
+          "restartedAll179": true,
+          "retentionMatches": true,
+          "catalogDifferences": 0,
+          "aclDifferences": 0,
+          "verifiedMfa": true,
+          "archiveProtected": true
+        },
+        {
+          "stop": "migration-088",
+          "previousApplied": 88,
+          "previousRecorded": 87,
+          "storageRemainingAtInterruption": 0,
+          "physicalBytesRemoved": true,
+          "restartedAll179": true,
+          "retentionMatches": true,
+          "catalogDifferences": 0,
+          "aclDifferences": 0,
+          "verifiedMfa": true,
+          "archiveProtected": true
+        },
+        {
+          "stop": "before-restore-owner-and-settings",
+          "previousApplied": 179,
+          "previousRecorded": 179,
+          "storageRemainingAtInterruption": 0,
+          "physicalBytesRemoved": true,
+          "restartedAll179": true,
+          "retentionMatches": true,
+          "catalogDifferences": 0,
+          "aclDifferences": 0,
+          "verifiedMfa": true,
+          "archiveProtected": true
+        }
+      ],
+      "uninterrupted": {
+        "applied": 179,
+        "recorded": 179,
+        "catalog": 0,
+        "acl": 0
+      },
+      "midnightUtc": {
+        "start": "2026-11-01",
+        "end": "2026-11-02",
+        "comparison": "same-database-literal-all-schemas",
+        "ordinaryAndResume": true
+      },
+      "negativeSnapshots": {
+        "missing": true,
+        "tampered": true,
+        "differentOwner": true,
+        "differentProject": true,
+        "differentReference": true,
+        "noMarker": true,
+        "missingMfa": true
+      },
+      "twoSessionDropFenceRejected": true,
+      "realCommittedWritesRejected": true,
+      "ownerMissingRejected": true,
+      "saveFailureBeforeDelete": true
+    },
+    {
+      "ok": true,
+      "managedAccess": false,
+      "startedAt": "2026-11-01T05:00:54.193Z",
+      "endedAt": "2026-11-01T05:07:14.951Z",
+      "ceiling": 219,
+      "files": 180,
+      "cases": [
+        {
+          "stop": "after-storage",
+          "previousApplied": 0,
+          "previousRecorded": 0,
+          "storageRemainingAtInterruption": 1,
+          "physicalBytesRemoved": true,
+          "restartedAll180": true,
+          "retentionMatches": true,
+          "catalogDifferences": 0,
+          "aclDifferences": 0,
+          "verifiedMfa": true,
+          "archiveProtected": true
+        },
+        {
+          "stop": "after-drop-public",
+          "previousApplied": 0,
+          "previousRecorded": 0,
+          "storageRemainingAtInterruption": 0,
+          "physicalBytesRemoved": true,
+          "restartedAll180": true,
+          "retentionMatches": true,
+          "catalogDifferences": 0,
+          "aclDifferences": 0,
+          "verifiedMfa": true,
+          "archiveProtected": true
+        },
+        {
+          "stop": "migration-088",
+          "previousApplied": 88,
+          "previousRecorded": 87,
+          "storageRemainingAtInterruption": 0,
+          "physicalBytesRemoved": true,
+          "restartedAll180": true,
+          "retentionMatches": true,
+          "catalogDifferences": 0,
+          "aclDifferences": 0,
+          "verifiedMfa": true,
+          "archiveProtected": true
+        },
+        {
+          "stop": "before-restore-owner-and-settings",
+          "previousApplied": 180,
+          "previousRecorded": 180,
+          "storageRemainingAtInterruption": 0,
+          "physicalBytesRemoved": true,
+          "restartedAll180": true,
+          "retentionMatches": true,
+          "catalogDifferences": 0,
+          "aclDifferences": 0,
+          "verifiedMfa": true,
+          "archiveProtected": true
+        }
+      ],
+      "uninterrupted": {
+        "applied": 180,
+        "recorded": 180,
+        "catalog": 0,
+        "acl": 0
+      },
+      "midnightUtc": {
+        "start": "2026-11-01",
+        "end": "2026-11-02",
+        "comparison": "same-database-literal-all-schemas",
+        "evidence": "comparisonDates asserted for every successful core run;clockmetadata only"
+      },
+      "negativeSnapshots": {
+        "missing": true,
+        "tampered": true,
+        "differentOwner": true,
+        "differentProject": true,
+        "differentReference": true,
+        "noMarker": true,
+        "missingMfa": true
+      },
+      "twoSessionDropFenceRejected": true,
+      "realCommittedWritesRejected": true,
+      "ownerMissingRejected": true,
+      "saveFailureBeforeDelete": true
+    }
+  ],
+  "backup": {
+    "ok": true,
+    "current219": {
+      "ok": true,
+      "tables": 150,
+      "historyFiles": 180,
+      "localR2Restore": true,
+      "exceptionsApplied": []
+    },
+    "legacy214Through217StillRestore": true,
+    "fixtureOnly": true
+  },
+  "utcReproduction": {
+    "actualDatabaseCatalog": true,
+    "simulation": "Same unchanged captured catalog compared to itself with simulated UTC date rollover;not historical missing evidence",
+    "literalDifferences": 0,
+    "oldDateBasedDifferences": 10,
+    "differences": [
+      {
+        "section": "tables",
+        "identity": "[\"realtime\",null,\"messages_BUILD_DAY_4\",null,null]",
+        "changedFields": [
+          "acl",
+          "rls",
+          "kind",
+          "name",
+          "view",
+          "owner",
+          "schema",
+          "columns",
+          "options",
+          "parents",
+          "forceRls",
+          "partition",
+          "persistence",
+          "replicaIdentity"
+        ]
+      },
+      {
+        "section": "tables",
+        "identity": "[\"realtime\",null,\"messages_BUILD_DAY_-1\",null,null]",
+        "changedFields": [
+          "acl",
+          "rls",
+          "kind",
+          "name",
+          "view",
+          "owner",
+          "schema",
+          "columns",
+          "options",
+          "parents",
+          "forceRls",
+          "partition",
+          "persistence",
+          "replicaIdentity"
+        ]
+      },
+      {
+        "section": "indexes",
+        "identity": "[\"realtime\",\"messages_BUILD_DAY_4\",\"messages_BUILD_DAY_4_inserted_at_topic_idx\",null,null]",
+        "changedFields": [
+          "name",
+          "owner",
+          "ready",
+          "table",
+          "valid",
+          "schema",
+          "unique",
+          "primary",
+          "clustered",
+          "definition",
+          "replicaIdentity"
+        ]
+      },
+      {
+        "section": "indexes",
+        "identity": "[\"realtime\",\"messages_BUILD_DAY_4\",\"messages_BUILD_DAY_4_pkey\",null,null]",
+        "changedFields": [
+          "name",
+          "owner",
+          "ready",
+          "table",
+          "valid",
+          "schema",
+          "unique",
+          "primary",
+          "clustered",
+          "definition",
+          "replicaIdentity"
+        ]
+      },
+      {
+        "section": "indexes",
+        "identity": "[\"realtime\",\"messages_BUILD_DAY_-1\",\"messages_BUILD_DAY_-1_inserted_at_topic_idx\",null,null]",
+        "changedFields": [
+          "name",
+          "owner",
+          "ready",
+          "table",
+          "valid",
+          "schema",
+          "unique",
+          "primary",
+          "clustered",
+          "definition",
+          "replicaIdentity"
+        ]
+      },
+      {
+        "section": "indexes",
+        "identity": "[\"realtime\",\"messages_BUILD_DAY_-1\",\"messages_BUILD_DAY_-1_pkey\",null,null]",
+        "changedFields": [
+          "name",
+          "owner",
+          "ready",
+          "table",
+          "valid",
+          "schema",
+          "unique",
+          "primary",
+          "clustered",
+          "definition",
+          "replicaIdentity"
+        ]
+      },
+      {
+        "section": "constraints",
+        "identity": "[\"realtime\",\"messages_BUILD_DAY_4\",\"messages_BUILD_DAY_4_pkey\",null,\"p\"]",
+        "changedFields": [
+          "name",
+          "type",
+          "local",
+          "match",
+          "table",
+          "schema",
+          "onDelete",
+          "onUpdate",
+          "noInherit",
+          "validated",
+          "deferrable",
+          "definition",
+          "inheritanceCount",
+          "initiallyDeferred"
+        ]
+      },
+      {
+        "section": "constraints",
+        "identity": "[\"realtime\",\"messages_BUILD_DAY_4\",\"messages_payload_exclusive\",null,\"c\"]",
+        "changedFields": [
+          "name",
+          "type",
+          "local",
+          "match",
+          "table",
+          "schema",
+          "onDelete",
+          "onUpdate",
+          "noInherit",
+          "validated",
+          "deferrable",
+          "definition",
+          "inheritanceCount",
+          "initiallyDeferred"
+        ]
+      },
+      {
+        "section": "constraints",
+        "identity": "[\"realtime\",\"messages_BUILD_DAY_-1\",\"messages_BUILD_DAY_-1_pkey\",null,\"p\"]",
+        "changedFields": [
+          "name",
+          "type",
+          "local",
+          "match",
+          "table",
+          "schema",
+          "onDelete",
+          "onUpdate",
+          "noInherit",
+          "validated",
+          "deferrable",
+          "definition",
+          "inheritanceCount",
+          "initiallyDeferred"
+        ]
+      },
+      {
+        "section": "constraints",
+        "identity": "[\"realtime\",\"messages_BUILD_DAY_-1\",\"messages_payload_exclusive\",null,\"c\"]",
+        "changedFields": [
+          "name",
+          "type",
+          "local",
+          "match",
+          "table",
+          "schema",
+          "onDelete",
+          "onUpdate",
+          "noInherit",
+          "validated",
+          "deferrable",
+          "definition",
+          "inheritanceCount",
+          "initiallyDeferred"
+        ]
+      }
+    ],
+    "realNames": [
+      "messages_2026_10_31",
+      "messages_2026_11_01",
+      "messages_2026_11_02",
+      "messages_2026_11_03",
+      "messages_2026_11_04"
+    ],
+    "note": "Proves a false positive in existing date-based comparator,not exact historical differences which were not retained"
+  },
+  "astraComparison": {
+    "sourceReport": "C:/Users/TOP/Documents/Nawasrah-Brand/الفحص-الشامل-النهائي.md",
+    "sourceEvidence": "C:/Users/TOP/Documents/Nawasrah-Brand/final-audit-217/performance-sequential.json",
+    "startedAt": "2026-10-31T08:13:37.420Z",
+    "managedAccess": false,
+    "home": {
+      "name": "home",
+      "summary": {
+        "p50": 725.145,
+        "p95": 810.179,
+        "max": 835.135,
+        "overTwoSeconds": 0
+      },
+      "samples": 20
+    },
+    "documentedFixture": {
+      "skus": 3000,
+      "families": 120,
+      "customers": 500,
+      "orders": 50000,
+      "movements": 200000,
+      "days": 365
+    },
+    "comparisonCaveat": "Different volume and dates:31Oct single month/week facts call vs1Nov cross-month week requiring second call;not a controlled219 performance comparison",
+    "seedEvidenceKeys": [
+      "kind",
+      "params",
+      "managedAccess",
+      "startedAt",
+      "state",
+      "source",
+      "counts",
+      "consistency",
+      "ok",
+      "endedAt"
+    ],
+    "verifiedSeedParams": {
+      "skus": 3000,
+      "families": 120,
+      "customers": 500,
+      "suppliers": 30,
+      "orders": 50000,
+      "modern": 100,
+      "receipts": 4000,
+      "payments": 20000,
+      "legacy_returns": 1000,
+      "shifts": 730,
+      "movements": 200000,
+      "days": 365
+    },
+    "verifiedSeedCounts": {
+      "orders": 50000,
+      "products": 3120,
+      "customers": 500,
+      "movements": 200000,
+      "sellableSkus": 3000
+    },
+    "verifiedSeedConsistency": {
+      "orderTotals": 0,
+      "stockTotals": 0,
+      "movementArithmetic": 0
+    }
+  },
+  "measurements": [
+    {
+      "ceiling": 197,
+      "source": "HISTORICAL197_FULL_SCALE_LOCAL.json",
+      "ok": false,
+      "counts": {
+        "skus": 5000,
+        "items": 450000,
+        "orders": 150000,
+        "shifts": 1460,
+        "returns": 15000,
+        "families": 200,
+        "payments": 200000,
+        "receipts": 20000,
+        "customers": 10000,
+        "movements": 1200000,
+        "suppliers": 100,
+        "replacements": 5000
+      },
+      "parameters": {
+        "skus": 5000,
+        "families": 200,
+        "customers": 10000,
+        "suppliers": 100,
+        "orders": 150000,
+        "modern": 5000,
+        "receipts": 20000,
+        "payments": 200000,
+        "legacy_returns": 10000,
+        "shifts": 1460,
+        "movements": 1200000,
+        "days": 730
+      },
+      "original": [
+        {
+          "name": "original-before197-home",
+          "limitMs": 3000,
+          "withinLimit": false,
+          "rounds": [
+            {
+              "round": 1,
+              "p50": 3756.343,
+              "p95": 4014.445,
+              "max": 4028.127,
+              "samples": 20,
+              "wall": {
+                "p50": 4094.9946000000928,
+                "p95": 4360.160999999964,
+                "max": 4368.5642000000225,
+                "samples": 20
+              },
+              "serverSamples": [
+                3360.52,
+                3670.718,
+                3857.24,
+                3764.387,
+                4014.445,
+                3664.778,
+                3560.751,
+                3901.413,
+                3685.827,
+                3805.378,
+                3810.171,
+                3758.818,
+                3657.392,
+                3718.551,
+                4028.127,
+                3681.245,
+                3803.994,
+                3540.515,
+                3810.308,
+                3756.343
+              ],
+              "wallSamples": [
+                3733.436400000006,
+                4011.511700000032,
+                4287.821299999952,
+                4161.348899999983,
+                4360.160999999964,
+                4031.7179999999935,
+                3971.7083000000566,
+                4275.158199999947,
+                4040.1205000000773,
+                4143.679800000042,
+                4159.365700000082,
+                4108.9675999999745,
+                4003.4977000000654,
+                4051.263600000064,
+                4368.5642000000225,
+                4031.27649999992,
+                4289.756200000062,
+                3908.0278999999864,
+                4181.61659999995,
+                4094.9946000000928
+              ]
+            }
+          ]
+        },
+        {
+          "name": "original-after197-home",
+          "limitMs": 3000,
+          "withinLimit": false,
+          "rounds": [
+            {
+              "round": 1,
+              "p50": 3750.594,
+              "p95": 4453.875,
+              "max": 4522.102,
+              "samples": 20,
+              "wall": {
+                "p50": 4170.01689999993,
+                "p95": 4851.617899999954,
+                "max": 4982.66370000015,
+                "samples": 20
+              },
+              "serverSamples": [
+                3710.507,
+                3720.766,
+                3483.157,
+                3627.561,
+                4090.601,
+                3740.347,
+                3645.257,
+                3771.209,
+                3613.477,
+                3449.653,
+                3750.594,
+                4400.414,
+                3884.193,
+                4251.852,
+                3994.185,
+                4093.825,
+                3699.394,
+                4453.875,
+                4522.102,
+                4089.004
+              ],
+              "wallSamples": [
+                4036.8937999999616,
+                4094.931600000011,
+                3815.8556999999564,
+                3975.313199999975,
+                4543.514599999995,
+                4085.9263999999966,
+                3966.4941999999573,
+                4121.076500000083,
+                3909.2439000000013,
+                3809.2889999999898,
+                4170.01689999993,
+                4770.185100000119,
+                4249.5196,
+                4576.89730000007,
+                4393.405400000047,
+                4513.342900000047,
+                4197.889100000029,
+                4851.617899999954,
+                4982.66370000015,
+                4491.314000000013
+              ]
+            }
+          ]
+        },
+        {
+          "name": "original-before197-balances-only",
+          "limitMs": 3000,
+          "withinLimit": true,
+          "rounds": [
+            {
+              "round": 1,
+              "p50": 2070.612,
+              "p95": 2287.628,
+              "max": 2306.655,
+              "samples": 20,
+              "wall": {
+                "p50": 2496.8273000000045,
+                "p95": 2688.8865000000224,
+                "max": 2706.0231000001077,
+                "samples": 20
+              },
+              "serverSamples": [
+                2133.076,
+                2149.487,
+                1907.759,
+                2236.661,
+                1877.56,
+                2146.095,
+                2070.612,
+                2109.719,
+                1955.614,
+                1941.13,
+                2195.684,
+                1960.306,
+                2063.37,
+                2020.418,
+                2306.655,
+                2287.628,
+                2199.285,
+                2154.214,
+                1994.136,
+                1940.04
+              ],
+              "wallSamples": [
+                2496.8273000000045,
+                2518.3840000000782,
+                2507.9479999998584,
+                2558.2377000001725,
+                2320.214099999983,
+                2613.7290999998804,
+                2412.2378999998327,
+                2506.50680000009,
+                2340.030199999921,
+                2314.3238999999594,
+                2618.493699999992,
+                2364.500200000126,
+                2430.440100000007,
+                2396.6016999999993,
+                2706.0231000001077,
+                2688.8865000000224,
+                2609.122100000037,
+                2581.976300000213,
+                2337.1670000001322,
+                2354.403799999971
+              ]
+            }
+          ]
+        },
+        {
+          "name": "original-after197-balances-only",
+          "limitMs": 3000,
+          "withinLimit": true,
+          "rounds": [
+            {
+              "round": 1,
+              "p50": 388.431,
+              "p95": 477.869,
+              "max": 510.09,
+              "samples": 20,
+              "wall": {
+                "p50": 790.6228000000119,
+                "p95": 869.3325999998488,
+                "max": 916.4899999999907,
+                "samples": 20
+              },
+              "serverSamples": [
+                372.527,
+                510.09,
+                431.038,
+                376.373,
+                426.09,
+                353.569,
+                388.431,
+                339.565,
+                410.797,
+                354.957,
+                401.528,
+                364.59,
+                443.625,
+                335.649,
+                369.282,
+                477.869,
+                404.694,
+                349.261,
+                406.938,
+                412.772
+              ],
+              "wallSamples": [
+                860.151399999857,
+                869.3325999998488,
+                805.097000000067,
+                709.936299999943,
+                803.9502000000793,
+                690.528999999864,
+                725.0998999997973,
+                711.7705999999307,
+                790.6228000000119,
+                785.5653999999631,
+                841.1069000000134,
+                740.2554999999702,
+                846.4459999999963,
+                723.932799999835,
+                720.965899999952,
+                916.4899999999907,
+                840.5469000001904,
+                791.6147999998648,
+                812.6435000000056,
+                775.3071000000928
+              ]
+            }
+          ]
+        }
+      ],
+      "optimized": [
+        {
+          "name": "optimized-after197-home",
+          "limitMs": 3000,
+          "withinLimit": false,
+          "rounds": [
+            {
+              "round": 1,
+              "p50": 3144.482,
+              "p95": 3397.049,
+              "max": 3450.824,
+              "samples": 20,
+              "wall": {
+                "p50": 3531.3660999999847,
+                "p95": 3772.753000000026,
+                "max": 3791.5169000001624,
+                "samples": 20
+              },
+              "serverSamples": [
+                3035.223,
+                3198.981,
+                3245.989,
+                3450.824,
+                3397.049,
+                3390.187,
+                3023.875,
+                3302.277,
+                3070.927,
+                3151.538,
+                3141.184,
+                3114.579,
+                3139.828,
+                3334.963,
+                3278.889,
+                3096.044,
+                3144.482,
+                3043.418,
+                3204.129,
+                2973.377
+              ],
+              "wallSamples": [
+                3378.2678999998607,
+                3558.530999999959,
+                3642.719799999846,
+                3791.5169000001624,
+                3772.753000000026,
+                3750.1395000000484,
+                3390.2335999999195,
+                3654.275499999989,
+                3444.1155999999028,
+                3552.382200000109,
+                3531.3660999999847,
+                3446.647699999856,
+                3480.3209999999963,
+                3675.8506999998353,
+                3667.4470999999903,
+                3391.4566999999806,
+                3505.0223999999,
+                3449.5083999999333,
+                3547.318399999989,
+                3316.900600000052
+              ]
+            }
+          ]
+        }
+      ],
+      "financialParity": "literal complete JSON assertion passed before performance rejection;historical report flag placement corrected subsequently",
+      "oracle": {
+        "reported": 50000000,
+        "canonical": 50000000,
+        "customers": 10000,
+        "mismatches": 0
+      },
+      "error": "FULL197_HOME_P95_EXCEEDS_EXISTING_3_SECOND_GATE"
+    },
+    {
+      "ceiling": 201,
+      "source": "HISTORICAL201_FULL_SCALE_LOCAL.json",
+      "ok": false,
+      "counts": {
+        "skus": 5000,
+        "items": 450000,
+        "orders": 150000,
+        "shifts": 1460,
+        "returns": 15000,
+        "families": 200,
+        "payments": 200000,
+        "receipts": 20000,
+        "customers": 10000,
+        "movements": 1200000,
+        "suppliers": 100,
+        "replacements": 5000
+      },
+      "parameters": {
+        "skus": 5000,
+        "families": 200,
+        "customers": 10000,
+        "suppliers": 100,
+        "orders": 150000,
+        "modern": 5000,
+        "receipts": 20000,
+        "payments": 200000,
+        "legacy_returns": 10000,
+        "shifts": 1460,
+        "movements": 1200000,
+        "days": 730
+      },
+      "original": [
+        {
+          "name": "original-before200-home",
+          "limitMs": 3000,
+          "withinLimit": false,
+          "rounds": [
+            {
+              "round": 1,
+              "p50": 3600.466,
+              "p95": 3778.244,
+              "max": 3968.669,
+              "samples": 20,
+              "wall": {
+                "p50": 3966.8330999999307,
+                "p95": 4189.879899999942,
+                "max": 4346.258499999996,
+                "samples": 20
+              },
+              "serverSamples": [
+                3562.323,
+                3491.358,
+                3312.656,
+                3542.536,
+                3554.863,
+                3684.766,
+                3689.128,
+                3385.04,
+                3602.79,
+                3778.244,
+                3523.704,
+                3672.729,
+                3600.466,
+                3759.776,
+                3687.875,
+                3587.006,
+                3652.14,
+                3568.875,
+                3968.669,
+                3621.058
+              ],
+              "wallSamples": [
+                3939.8973999999,
+                3869.282700000098,
+                3693.0509999999776,
+                3938.11380000005,
+                3932.182299999986,
+                4059.63750000007,
+                4067.3512000000337,
+                3795.9379999999655,
+                4074.41949999996,
+                4117.469000000041,
+                3889.7440000000643,
+                4072.2922000000253,
+                3985.22080000001,
+                4189.879899999942,
+                4048.3529000000563,
+                3899.04170000006,
+                4023.03609999991,
+                3966.8330999999307,
+                4346.258499999996,
+                3947.887400000007
+              ]
+            }
+          ]
+        },
+        {
+          "name": "original-after201-home",
+          "limitMs": 3000,
+          "withinLimit": false,
+          "rounds": [
+            {
+              "round": 1,
+              "p50": 3855.425,
+              "p95": 5737.795,
+              "max": 6550.636,
+              "samples": 20,
+              "wall": {
+                "p50": 4244.271799999988,
+                "p95": 6237.412299999967,
+                "max": 7078.096900000004,
+                "samples": 20
+              },
+              "serverSamples": [
+                3678.581,
+                3705.086,
+                3800.375,
+                4191.537,
+                3518.773,
+                3747.945,
+                3857.366,
+                3855.425,
+                5737.795,
+                6550.636,
+                4113.056,
+                3827.279,
+                3555.438,
+                3618.495,
+                3921.033,
+                3590.736,
+                4064.507,
+                4340.948,
+                3889.434,
+                4097.714
+              ],
+              "wallSamples": [
+                4038.83759999997,
+                4065.16100000008,
+                4168.555300000007,
+                4783.454800000065,
+                3838.8416000000434,
+                4129.665099999984,
+                4244.271799999988,
+                4248.006500000018,
+                6237.412299999967,
+                7078.096900000004,
+                4546.12340000004,
+                4192.449500000104,
+                3958.480300000054,
+                3978.9420999999857,
+                4247.566499999957,
+                3996.6498999999603,
+                4420.76939999999,
+                4682.150599999935,
+                4300.210599999991,
+                4529.9851999999955
+              ]
+            }
+          ]
+        }
+      ],
+      "optimized": [
+        {
+          "name": "optimized-after201-home",
+          "limitMs": 3000,
+          "withinLimit": false,
+          "rounds": [
+            {
+              "round": 1,
+              "p50": 3568.649,
+              "p95": 4146.527,
+              "max": 5876.29,
+              "samples": 20,
+              "wall": {
+                "p50": 3986.278900000034,
+                "p95": 4526.69290000014,
+                "max": 6271.426399999997,
+                "samples": 20
+              },
+              "serverSamples": [
+                3513.379,
+                3383.529,
+                3535.87,
+                3663.02,
+                3470.163,
+                3904.997,
+                3555.786,
+                3732.051,
+                3547.864,
+                3183.31,
+                3628.58,
+                3321.508,
+                3263.359,
+                3583.091,
+                3836.382,
+                4146.527,
+                3927.415,
+                3905.636,
+                3568.649,
+                5876.29
+              ],
+              "wallSamples": [
+                4102.379500000039,
+                3757.213100000052,
+                3952.6797999999253,
+                3986.278900000034,
+                3859.564000000013,
+                4315.508499999996,
+                3967.2219999999506,
+                4133.895699999994,
+                3907.0763999999035,
+                3551.627899999963,
+                4012.559899999993,
+                3683.778700000141,
+                3705.3351000000257,
+                3986.410499999998,
+                4189.995700000087,
+                4526.69290000014,
+                4332.742500000168,
+                4300.906799999997,
+                3978.6743000000715,
+                6271.426399999997
+              ]
+            }
+          ]
+        }
+      ],
+      "financialParity": "literal complete JSON assertion passed before performance rejection;historical report flag placement corrected subsequently",
+      "error": "FULL201_HOME_P95_EXCEEDS_EXISTING_3_SECOND_GATE"
+    },
+    {
+      "ceiling": 202,
+      "source": "HISTORICAL202_FULL_SCALE_LOCAL.json",
+      "ok": false,
+      "counts": {
+        "skus": 5000,
+        "items": 450000,
+        "orders": 150000,
+        "shifts": 1460,
+        "returns": 15000,
+        "families": 200,
+        "payments": 200000,
+        "receipts": 20000,
+        "customers": 10000,
+        "movements": 1200000,
+        "suppliers": 100,
+        "replacements": 5000
+      },
+      "parameters": {
+        "skus": 5000,
+        "families": 200,
+        "customers": 10000,
+        "suppliers": 100,
+        "orders": 150000,
+        "modern": 5000,
+        "receipts": 20000,
+        "payments": 200000,
+        "legacy_returns": 10000,
+        "shifts": 1460,
+        "movements": 1200000,
+        "days": 730
+      },
+      "original": [
+        {
+          "name": "original-before201-home",
+          "limitMs": 3000,
+          "withinLimit": false,
+          "rounds": [
+            {
+              "round": 1,
+              "p50": 4052.577,
+              "p95": 4413.955,
+              "max": 4453.554,
+              "samples": 20,
+              "wall": {
+                "p50": 4459.409799999907,
+                "p95": 4794.677799999947,
+                "max": 4803.892800000031,
+                "samples": 20
+              },
+              "serverSamples": [
+                4157.726,
+                4413.955,
+                3978.056,
+                4453.554,
+                3783.234,
+                4190.56,
+                4002.617,
+                4158.387,
+                3931.316,
+                3840.052,
+                4052.577,
+                3917.431,
+                4061.006,
+                3949.779,
+                4294.475,
+                4278.518,
+                4023.018,
+                4337.699,
+                4349.821,
+                3595.681
+              ],
+              "wallSamples": [
+                4603.780199999921,
+                4803.892800000031,
+                4430.919100000057,
+                4794.677799999947,
+                4225.440900000045,
+                4632.536599999992,
+                4369.498200000031,
+                4522.802000000025,
+                4374.089099999983,
+                4260.446500000078,
+                4418.287099999958,
+                4332.490600000019,
+                4459.409799999907,
+                4372.2328999999445,
+                4732.0945000000065,
+                4634.703699999955,
+                4469.072700000019,
+                4721.480899999966,
+                4746.129000000074,
+                3944.9063000000315
+              ]
+            }
+          ]
+        },
+        {
+          "name": "original-after202-home",
+          "limitMs": 3000,
+          "withinLimit": false,
+          "rounds": [
+            {
+              "round": 1,
+              "p50": 3706.074,
+              "p95": 3823.2,
+              "max": 4392.445,
+              "samples": 20,
+              "wall": {
+                "p50": 4061.6796999999788,
+                "p95": 4198.047900000005,
+                "max": 4790.5920999998925,
+                "samples": 20
+              },
+              "serverSamples": [
+                3659.703,
+                3568.111,
+                3727.255,
+                3706.074,
+                3685.267,
+                3823.2,
+                3583.301,
+                3774.789,
+                3532.614,
+                3802.416,
+                3760.547,
+                3673.271,
+                4392.445,
+                3818.638,
+                3631.838,
+                3775.796,
+                3718.562,
+                3708.38,
+                3576.512,
+                3600.942
+              ],
+              "wallSamples": [
+                4018.6849000001093,
+                3926.933799999999,
+                4084.588500000071,
+                4045.4109999999637,
+                4075.606400000048,
+                4164.670099999988,
+                3907.7025999999605,
+                4094.715700000059,
+                3889.6461000000127,
+                4164.511900000041,
+                4124.785099999979,
+                4061.6796999999788,
+                4790.5920999998925,
+                4198.047900000005,
+                3985.021000000066,
+                4146.488599999924,
+                4097.081499999971,
+                4003.2421999999788,
+                3927.810300000012,
+                4004.9270999999717
+              ]
+            }
+          ]
+        }
+      ],
+      "optimized": [
+        {
+          "name": "optimized-after202-home",
+          "limitMs": 3000,
+          "withinLimit": false,
+          "rounds": [
+            {
+              "round": 1,
+              "p50": 3212.155,
+              "p95": 3875.848,
+              "max": 4243.742,
+              "samples": 20,
+              "wall": {
+                "p50": 3580.3201999999583,
+                "p95": 4201.932900000131,
+                "max": 4636.507300000172,
+                "samples": 20
+              },
+              "serverSamples": [
+                3442.617,
+                3127.187,
+                3242.623,
+                3322.501,
+                3212.155,
+                3100.122,
+                3340.189,
+                3114.047,
+                2998.077,
+                2978.646,
+                3114.135,
+                3090.526,
+                3203.113,
+                3081.295,
+                3244.645,
+                3230.798,
+                3490.047,
+                4243.742,
+                3875.848,
+                3418.061
+              ],
+              "wallSamples": [
+                3764.0419000000693,
+                3505.22080000001,
+                3633.4927000000607,
+                3718.961899999995,
+                3571.624000000069,
+                3499.8859999999404,
+                3680.6519000000553,
+                3465.132100000046,
+                3422.6217999999644,
+                3386.4305000000168,
+                3466.6144999999087,
+                3427.346500000218,
+                3580.3201999999583,
+                3388.5533000000287,
+                3620.1478999999817,
+                3673.0367999998853,
+                3876.7241999998223,
+                4636.507300000172,
+                4201.932900000131,
+                3833.3630000001285
+              ]
+            }
+          ]
+        }
+      ],
+      "financialParity": "literal complete JSON assertion passed before performance rejection;historical report flag placement corrected subsequently",
+      "error": "FULL202_HOME_P95_EXCEEDS_EXISTING_3_SECOND_GATE"
+    },
+    {
+      "ceiling": 219,
+      "source": "CURRENT219_FULL_SCALE_FAILED_LOCAL.json",
+      "ok": false,
+      "counts": {
+        "skus": 5000,
+        "items": 450000,
+        "orders": 150000,
+        "shifts": 1460,
+        "returns": 15000,
+        "families": 200,
+        "payments": 200000,
+        "receipts": 20000,
+        "customers": 10000,
+        "movements": 1200000,
+        "suppliers": 100,
+        "replacements": 5000
+      },
+      "parameters": {
+        "skus": 5000,
+        "families": 200,
+        "customers": 10000,
+        "suppliers": 100,
+        "orders": 150000,
+        "modern": 5000,
+        "receipts": 20000,
+        "payments": 200000,
+        "legacy_returns": 10000,
+        "shifts": 1460,
+        "movements": 1200000,
+        "days": 730
+      },
+      "original": [
+        {
+          "name": "original217-home",
+          "limitMs": 3000,
+          "withinLimit": false,
+          "rounds": [
+            {
+              "round": 1,
+              "p50": 3653.978,
+              "p95": 4205.508,
+              "max": 4246.068,
+              "samples": 20,
+              "wall": {
+                "p50": 4006.8008999999147,
+                "p95": 4546.138200000161,
+                "max": 4599.40969999996,
+                "samples": 20
+              },
+              "serverSamples": [
+                3514.472,
+                3651.425,
+                3467.926,
+                3659.466,
+                3519.661,
+                3653.978,
+                3646.15,
+                3589.375,
+                3600.573,
+                3692.969,
+                3808.597,
+                3624.894,
+                3663.049,
+                3366.877,
+                3692.815,
+                3974.169,
+                4246.068,
+                4165.036,
+                4205.508,
+                4074.073
+              ],
+              "wallSamples": [
+                3858.305399999954,
+                4035.321200000122,
+                3758.4277000001166,
+                4021.909899999853,
+                3869.897999999812,
+                4003.9323000002187,
+                3969.02640000009,
+                3903.241699999897,
+                3921.2911000000313,
+                4029.7887999999803,
+                4182.965699999826,
+                3967.340000000084,
+                4006.8008999999147,
+                3661.93339999998,
+                4058.4187000000384,
+                4342.423999999883,
+                4599.40969999996,
+                4546.138200000161,
+                4539.896699999925,
+                4451.2392000001855
+              ]
+            }
+          ]
+        }
+      ],
+      "optimized": [
+        {
+          "name": "current219-home",
+          "limitMs": 3000,
+          "withinLimit": false,
+          "rounds": [
+            {
+              "round": 1,
+              "p50": 3442.788,
+              "p95": 4557.531,
+              "max": 4588.218,
+              "samples": 20,
+              "wall": {
+                "p50": 3818.7964000001084,
+                "p95": 4870.646100000013,
+                "max": 4963.124199999962,
+                "samples": 20
+              },
+              "serverSamples": [
+                3875.458,
+                3334.885,
+                4228.401,
+                4557.531,
+                3348.891,
+                3431.538,
+                3410.702,
+                3461.23,
+                3172.268,
+                3355.756,
+                3731.926,
+                3371.563,
+                3593.497,
+                3280.015,
+                3593.933,
+                3584.246,
+                3260.142,
+                4333.448,
+                4588.218,
+                3442.788
+              ],
+              "wallSamples": [
+                4236.678000000073,
+                3725.758300000103,
+                4554.621499999892,
+                4870.646100000013,
+                3774.9798999999184,
+                3767.3936000000685,
+                3750.6784999999218,
+                3818.7964000001084,
+                3516.1698999998625,
+                3672.562799999956,
+                4100.5466000000015,
+                3679.810199999949,
+                4050.567000000039,
+                3577.3331999999937,
+                3994.3286000001244,
+                4017.5471999999136,
+                3641.7956000000704,
+                4706.985399999889,
+                4963.124199999962,
+                3851.40559999994
+              ]
+            }
+          ]
+        }
+      ],
+      "financialParity": "literal complete JSON assertion passed before performance rejection;historical report flag placement corrected subsequently",
+      "realSlowdown": {
+        "name": "deliberate-server-slowdown-current219",
+        "limitMs": 3000,
+        "withinLimit": false,
+        "rounds": [
+          {
+            "round": 1,
+            "p50": 7043.152,
+            "p95": 9077.535,
+            "max": 10862.23,
+            "samples": 20,
+            "wall": {
+              "p50": 7503.072799999965,
+              "p95": 10620.811300000176,
+              "max": 11678.766000000061,
+              "samples": 20
+            },
+            "serverSamples": [
+              6570.324,
+              6180.308,
+              6287.135,
+              6673.958,
+              6256.127,
+              7142.797,
+              6370.317,
+              7653.012,
+              7860.518,
+              7733.329,
+              7043.152,
+              6483.91,
+              8923.483,
+              7027.009,
+              10862.23,
+              9077.535,
+              8993.659,
+              6735.181,
+              8906.797,
+              8716.028
+            ],
+            "wallSamples": [
+              6997.809000000125,
+              6580.6372999998275,
+              6620.665299999993,
+              7049.648500000127,
+              6593.48170000012,
+              7598.990800000029,
+              6780.975700000068,
+              8003.618200000143,
+              8215.644300000044,
+              8055.073900000192,
+              7503.072799999965,
+              6937.786800000118,
+              9228.300899999915,
+              7417.565300000133,
+              11678.766000000061,
+              10620.811300000176,
+              9352.409200000111,
+              7127.099399999948,
+              9345.804999999935,
+              9099.02099999995
+            ]
+          }
+        ]
+      },
+      "error": "FULL219_HOME_P95_EXCEEDS_EXISTING_3_SECOND_GATE"
+    }
+  ],
+  "ci": {
+    "completedRuns": 0,
+    "requiredRuns": 5,
+    "exactSha": null,
+    "accepted": false
+  },
+  "checks": {
+    "sixContextBuilds": true,
+    "printPages": 2,
+    "printNetworkRequests": 0,
+    "gitleaksSourceAndArtifacts": 0,
+    "unitTypesLintFinal": {
+      "adminPassed": 1673,
+      "adminFailed": 0,
+      "storePassed": 203,
+      "storeFailed": 0,
+      "typesBoth": true,
+      "strictLint": true
+    },
+    "actionlint": {
+      "version": "1.7.12",
+      "officialChecksumVerified": true,
+      "workflowSyntaxPassed": true,
+      "shellcheckAndPyflakesUnavailableOnWindows": true
+    }
+  }
+}
