@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner2Nov approved local connected rehearsal219 adapter+PR/FULLCI then full eight-step drill. Default restore safety,owner/core dependencies immutable.",
-  "baselineSha": "f636d7287ffa0cb2a7a6585a0ec4c146db39e0bb",
+  "baselineSha": "634200c5b929f8c5d35eed8eb8c8c6708e5428f5",
   "branch": "codex/local-connected-rehearsal219",
   "phase": "PACKAGE_F",
   "completed": [
@@ -15,10 +15,11 @@
     "PR59 Draft opened on f636d728;explicit owner approved test-only transport. Full CI pending before any real archive decrypt.",
     "PR59 f636 exactFULL60+2secrets+backup=63 green attempt1;no real archive opened.",
     "Additional synthetic probe proved cron source5432 versus reconstructed25435. Explicit rehearsal-only port5432 now matches source;defaultRestore25435 and112owner/core sources unchanged.",
-    "23 focused/history,types/strictlint/Gitleaks0 and real lifecycle including new cron port passed;added actual settings-save/freeze service step before RESET and whole-run ownerAuth/MFA fingerprint checks."
+    "23 focused/history,types/strictlint/Gitleaks0 and real lifecycle including new cron port passed;added actual settings-save/freeze service step before RESET and whole-run ownerAuth/MFA fingerprint checks.",
+    "Static inspection found new adapter interruption label must use existing CI RESET219_SIMULATED_INTERRUPTION (core wraps other labels). Corrected test label only;separate ordinary/failure/resume timings added;owner/core pins6 tests pass."
   ],
   "inProgress": [
-    "Save/push port+cutover prep correction then final-head FULLCI;only then actual219 archive rehearsal."
+    "Save final adapter interruption/timing correction;FULLCI on final head then real eightstep archive rehearsal."
   ],
   "notStarted": [
     "PRB closure separate afterA;no merge/deploy/hosted."
@@ -39,14 +40,14 @@
     "No hosted/deploy/merge/main/env/SQL/migration/financial/ACL changes.",
     "OwnerCLI/build/core and all dependencies immutable;no owner/MFA replacement;defaultRestore alwayscleanup."
   ],
-  "nextExactAction": "Push rehearsal-only cron-port/cutover-prep correction;full CI on new head then actual latest219 archive drill. Owner112pins unchanged;no hosted/merge/main/env edits.",
+  "nextExactAction": "Final test-only interruption-label/timing correction;push then exact-head FULLCI;after green execute latest real219 archive. Do not merge/hostconnect or modify owner/core.",
   "startedAt": "2026-11-01T02:30:05.157Z",
   "historyBaseline": "cab1c5aed8c2069e2919c566ea09c2da9757896d",
-  "checkpointedAt": "2026-11-02T14:32:26.353Z",
+  "checkpointedAt": "2026-11-02T15:12:20.911Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 9,
-  "filesTouchedManifestSha256": "e41f3956eb142811ef2f5c6ac67de30865779348a8b382d58a161fb45ca01cac",
-  "workingTreeFingerprint": "82F0E6A29BB796DBCFD355FACCA31D1BD94FF61F1B2B2D10FB84B86F13D798FD"
+  "filesTouchedCount": 1,
+  "filesTouchedManifestSha256": "d3de91c57c6a81ba21ea9220c26b416a1d8a3c665f5bffdee5c67c24a433d871",
+  "workingTreeFingerprint": "9AE011D8D817C6DC6489857BC02FE1EF3089A0C7D77F1713B7BEF228DB60A36C"
 }

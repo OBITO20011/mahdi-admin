@@ -3,39 +3,7 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/operations/LOCAL_CONNECTED_REHEARSAL219_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "scripts/backup/complete-backup.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/rehearsal219-legacy-view.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/rehearsal219-lifecycle.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/rehearsal219-local.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/rehearsal219-opening-day.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/rehearsal219-services.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-connected-rehearsal219.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/rehearsal219.test.ts"
+      "path": "scripts/testing/rehearsal219-reset.mjs"
     }
   ]
 }

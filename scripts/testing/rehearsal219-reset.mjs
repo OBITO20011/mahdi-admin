@@ -19,6 +19,8 @@ export async function rehearseReset219({context,executor,root,referenceFile,refe
   return input.trim()==="SELECT (CURRENT_TIMESTAMP AT TIME ZONE 'UTC')::date;"?{...r,stdout:token?nextDay:day}:r;
  }};
  const at=async name=>{const out=path.join(output,name);await mkdir(out);return out;};
+ const timings={};
+ const timed=async(name,action)=>{const begin=performance.now();try{return await action();}finally{timings[name]=Math.round(performance.now()-begin);}};
  const run=async(session,interrupt)=>{
   const progress=await startResetAttempt(session,clocked),writer=session.executor;
   await reset219WithExecutor({executor:writer,root,reference,output:session.output,ownerId,session,report:progress,expectedPlan:session.saved.state.plan,
@@ -34,24 +36,24 @@ export async function rehearseReset219({context,executor,root,referenceFile,refe
    clearHistory:()=>sql('DELETE FROM supabase_migrations.schema_migrations;DELETE FROM supabase_migrations.seed_files;',writer),
    repair:version=>sql(`INSERT INTO supabase_migrations.schema_migrations(version) VALUES(${q(version)});`,writer),
    finalDryRun:async()=>assert.deepEqual(await json("SELECT jsonb_agg(version ORDER BY version) FROM supabase_migrations.schema_migrations;"),reference.appliedVersions),
-   boundary:async name=>{if(name===interrupt)throw new Error('REHEARSAL_INTERRUPT_AFTER_DROP_PUBLIC');}});
+   boundary:async name=>{if(name===interrupt)throw new Error('RESET219_SIMULATED_INTERRUPTION');}});
   assert.equal(progress.complete,true);assert.equal(progress.comparisonPolicy,'same-database-literal-all-schemas');
   assert.equal(progress.comparisonDates.rebuild.beforeBuildDate,day);assert.equal(progress.comparisonDates.rebuild.afterBuildDate,nextDay);
   await finishResetSession(session);return progress;
  };
  const first=await prepareResetSession({...common,output:await at('ordinary'),state:baseline});
- const ordinary=await run(first);
+ const ordinary=await timed('ordinaryMs',()=>run(first));
  const nextState=await captureReset219({executor,ownerId,reference});
  const second=await prepareResetSession({...common,output:await at('interrupted'),state:nextState});
- await assert.rejects(()=>run(second,'after-drop-public'),/REHEARSAL_INTERRUPT_AFTER_DROP_PUBLIC/u);
+ await assert.rejects(()=>timed('interruptedMs',()=>run(second,'after-drop-public')),/RESET219_SIMULATED_INTERRUPTION/u);
  const resumed=await prepareResetSession({...common,output:await at('resumed'),resume:true});
  await validateResetResume(resumed,executor);const previousStage=resumed.previous.stage;
- const recovered=await run(resumed);
+ const recovered=await timed('resumeMs',()=>run(resumed));
  const final=await captureReset219({executor,ownerId,reference});
  assert.deepEqual(final.rawTables,baseline.rawTables,'REHEARSAL_RETAINED_RAW_BYTES_CHANGED');
  assert.equal(await sql('SELECT count(*) FROM auth.users;'),'1');assert.equal(await sql('SELECT count(*) FROM storage.objects;'),'0');
  assert.deepEqual(final.plan.preserved,baseline.plan.preserved);
- return {ordinaryComplete:ordinary.complete,resumeComplete:recovered.complete,interruptionStage:previousStage,
+ return {ordinaryComplete:ordinary.complete,resumeComplete:recovered.complete,interruptionStage:previousStage,timings,
   sameReferenceAndSnapshot:true,history:180,ownerMfaPreserved:true,retainedRawFingerprints:final.plan.preserved,
   allExpectedCountsMatch:true,catalogDifferences:0,aclDifferences:0,storageObjects:0,
   midnightUtc:{start:day,end:nextDay,ordinaryAndResume:true,comparison:ordinary.comparisonPolicy},
