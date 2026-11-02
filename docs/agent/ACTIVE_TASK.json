@@ -2,52 +2,44 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner2Nov pretrainingA:report todayAmman/sessionselection;CRMsearchfirst;safe failure artifacts+harnesswarmup. UI/testinfra only,PR/FULLCI thenapproval,no merge. B later separate Draft closure.",
-  "baselineSha": "134cc99ac9bad337b9b44e5b8f2b52d5bbd42173",
-  "branch": "codex/pre-training-usability",
+  "objective": "Owner3Nov docs-only Supabasecutover7items fromsavedClaudeaudit;independentPR/FULLCI,no merge/hosted/runtimechange.58/59untouched.",
+  "baselineSha": "49b8d008ec56156c0e918bfed3772f33785d4b21",
+  "branch": "codex/cutover-supabase-platform",
   "phase": "PACKAGE_F",
   "completed": [
-    "New isolatedworktree f24d8330;owner primary untouched;read contracts/reviewer report/current sources.",
-    "UIbefore4/after8 Chromium/WebKit390 PASS;dateAmman/session/search/focus.",
-    "Actualfullstack215 fourcases+216fourcases/warmup2each/zero writes;financialfacts unchanged;frozen repository,no hosted.",
-    "Realnegativeartifact privacy bothbrowsers PASS;8focused date/historical/transport testsPASS.",
-    "Own WIP417 baseline synchronized under standing owner permission;actual219SDK157/services586 and all6context builds/types/strictlint/store207 passed.",
-    "Final local Admin1706/store207/types/strictlint/6builds/actionlint and actual219access passed. First history-pin mismatch corrected by exact f24 projection;no assertion weakened.",
-    "CI134 partial216 warmupblank before any sale;artifact13107534992 retained,no rerun. ExplicitVite compile/static-import barrier and fixed request categories;local215/2168cases/no writes/1707/types/strictlint pass."
+    "ReadsavedClaudeaudit,currentmain49b8d008,58/59filelists. Newworktreeonly;ownercheckout/env/59unchanged.",
+    "Onlybranchmetadataalignedwithknownhome219historicalhash;beforeText untouched.",
+    "Seven cutover doc items and print HTML updated. Auth/Turnstile after reset,before publish;production order test after publish. D-1 matching-tool/archive rehearsal,7–12h/destructive boundary;night-PC/free-plan,M01 first,Gemini pending,Telegram219."
   ],
   "inProgress": [
-    "PR57 revisedexacthead FULLCI;B58independentDraftCI."
+    "Commit/push independent docs PR and verify complete exact-SHA CI;no merge."
   ],
   "notStarted": [
-    "PRB closure separate afterA;no merge/deploy/hosted."
+    "PR/FULLCI/ownerapproval."
   ],
   "testsPassed": [
-    "Before4/after8 UI390 both engines;actual215/216eightcases,warmzero writes;negativeartifacts2;focused8.",
-    "Admin1706/store207;types/strictlint;6contextbuilds;SDK157/services586;actionlint.",
-    "RevisedAdmin1707,actual215/2168cases+zero-write precompilewarmup,negativeprivacy2engines,types/strictlint."
+    "Admin1712/1712;Store207/207;focused16/16;typecheck;ESLint strict;Gitleaks working0;print2A4pages/0network visually reviewed."
   ],
   "testsRemaining": [
-    "Newexacthead FULLCI;Gitleaks0."
+    "Complete CI on pushed PR SHA and secrets/backup gates."
   ],
   "findings": [
-    "No SQL/RPC/financial/permission changes authorized.",
-    "First CI failed loading warmup resources;exact cause not established;Linuxbind probe inconclusive. No retries/limits/assertions changed."
+    "58sameMdHTMLcard;59nooverlapwithtargetbusinessdocs. Mustpreserve58step5andresyncafterthisPRmergedlater.",
+    "HTML regenerated from Markdown and verified all cells match. Print PDF proof external only. Historical beforeText/hash/assertions unchanged;five exact after hashes updated,branch-only state metadata."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hostedFrankfurt/Sentry/Telegram/Cloudflare/deploy or owner.env/localmain edits.",
-    "No SQL/migration/RPC/financial/permissionchanges;no retries/timeout increases/weakened assertions.",
-    "IndependentPRs AthenB;B Draft no merge beforegolive;no merges authorized."
+    "No hosted/deploy/merge/DB/migration/app/financial/secretchanges.",
+    "No58/59merge orprimarycheckout/env edits."
   ],
-  "nextExactAction": "Follow revisedPR57 FULLCI exacthead,readyonlygreen;B58muststayDraft. No hosted/merge/deploy or retries/limit changes.",
-  "startedAt": "2026-11-01T02:30:05.157Z",
-  "historyBaseline": "cab1c5aed8c2069e2919c566ea09c2da9757896d",
-  "checkpointedAt": "2026-11-02T01:02:01.888Z",
+  "nextExactAction": "Push docs-only branch/open PR;verify full exact-SHA CI;do not merge58/59 or newPR.",
+  "startedAt": "2026-11-02T22:55:23.390Z",
+  "checkpointedAt": "2026-11-02T23:07:53.366Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 9,
-  "filesTouchedManifestSha256": "d7e650f1b13c92d46dc8ff4a54055f257cc936305fe886a683cb1c871c69c659",
-  "workingTreeFingerprint": "3546FF18CFA73329042E8BA85255871A3EC45F4EE22BCFC65E78A91811EA67B3"
+  "filesTouchedCount": 7,
+  "filesTouchedManifestSha256": "e635a2c9550ce6899298b82c24ab752cc378ab980dddb80fc9f82bd6568d4761",
+  "workingTreeFingerprint": "A7BB98A08DB8988F5EFFEA11AE4DEE5DBB44E7BA6CC3920E47F861C92BFA40DB"
 }

@@ -2,40 +2,32 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": "M ",
-      "path": "docs/agent/PHASE_STATUS.md"
+      "code": " M",
+      "path": "docs/agent/project-state.json"
     },
     {
-      "code": "M ",
-      "path": "docs/agent/PRE_TRAINING_A_AR.md"
+      "code": " M",
+      "path": "docs/handover/ورقة-يوم-التشغيل.html"
     },
     {
-      "code": "M ",
+      "code": " M",
+      "path": "docs/handover/ورقة-يوم-التشغيل.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
+    },
+    {
+      "code": " M",
       "path": "scripts/audit/home-performance219-source-pins.json"
     },
     {
-      "code": "M ",
-      "path": "scripts/audit/pre-training-source-pins.json"
+      "code": " M",
+      "path": "tests/handover-documentation.test.ts"
     },
     {
-      "code": "M ",
-      "path": "scripts/testing/harness-failure-evidence.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/testing/run-aftercare215-fullstack.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/testing/run-harness-diagnostics-negative.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/testing/run-partial216-fullstack.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "tests/harness-failure-evidence.test.ts"
+      "code": "??",
+      "path": "tests/cutover-platform-documentation.test.ts"
     }
   ]
 }

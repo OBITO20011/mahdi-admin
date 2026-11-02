@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "project": "Nawasrah ERP",
-  "branch": "codex/pre-training-usability",
+  "branch": "codex/cutover-supabase-platform",
   "approvedBaseline": "cab1c5aed8c2069e2919c566ea09c2da9757896d",
   "closedPhases": [
     "3",
