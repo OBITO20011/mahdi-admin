@@ -11,23 +11,11 @@
     },
     {
       "code": "M ",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_219.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": "M ",
       "path": "scripts/audit/home-performance219-source-pins.json"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/audit/pre-training-source-pins.json"
     },
     {
       "code": "M ",
@@ -35,15 +23,19 @@
     },
     {
       "code": "M ",
+      "path": "scripts/testing/run-aftercare215-fullstack.mjs"
+    },
+    {
+      "code": "M ",
       "path": "scripts/testing/run-harness-diagnostics-negative.mjs"
     },
     {
       "code": "M ",
-      "path": "tests/harness-failure-evidence.test.ts"
+      "path": "scripts/testing/run-partial216-fullstack.mjs"
     },
     {
       "code": "M ",
-      "path": "tests/pre-delivery-usability.test.ts"
+      "path": "tests/harness-failure-evidence.test.ts"
     }
   ]
 }

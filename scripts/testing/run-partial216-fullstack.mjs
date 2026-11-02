@@ -1,4 +1,4 @@
-import{warmHarness,startHarnessEvidence,safeHarnessFailure,recordNoPageFailure}from'./harness-failure-evidence.mjs';
+import{warmHarness,startHarnessEvidence,safeHarnessFailure,recordNoPageFailure,warmupFailureEvidence}from'./harness-failure-evidence.mjs';
 // Real POS/controller/recovery -> local HTTP/PostgREST -> literal216.
 // Only identity/session protocol is synthetic;no business call is mocked.
 import assert from 'node:assert/strict';
@@ -45,7 +45,7 @@ try{
    stage=engine+'-'+method;const pid=randomUUID(),sku='HTTP216-'+randomUUID(),name='صنف HTTP216 '+(++sample);
    await c.sql(`INSERT INTO products(id,sku,name_ar,category_id,unit_id,purchase_unit_id,sale_unit_id,units_per_purchase_unit,units_per_sale_unit,sale_price_in_minor_units,default_sale_price_in_minor_units,cost_price_in_minor_units,wac_cost_in_minor_units_exact,is_active,is_flavor_master,parcel_only)SELECT ${c.q(pid)},${c.q(sku)},${c.q(name)},category_id,unit_id,purchase_unit_id,sale_unit_id,1,1,100000,100000,0,0,true,false,false FROM products WHERE id=${c.q(c.id(103))};`);
    await c.receive(pid,20,500);fixture={ownerId:c.owner,accessToken,branch:c.branch,warehouse:c.warehouse};
-   if(!warmed){const warmBefore=await c.fingerprint(),writesBefore={...counts};const guard=route=>{const u=new URL(route.request().url());if(u.origin===url)return route.continue();return route.abort();};report.warmup??=[];report.warmup.push({engine,...await warmHarness({browser,url:url+'/e2e/partial216-fullstack-harness.html',root,suite:'partial216',route:guard,ready:async page=>{await expect(page.getByLabel('البحث في منتجات نقطة البيع',{exact:true})).toBeVisible();}})});assert.deepEqual(await c.fingerprint(),warmBefore,'WARMUP_ZERO_WRITES');for(const name of Object.keys(counts).filter(n=>/^(?:create_|settle_|save_|collect_|reverse_|record_)/u.test(n)))assert.equal(counts[name],writesBefore[name],'WARMUP_WRITER_CALL');warmed=true;}
+   if(!warmed){const warmBefore=await c.fingerprint(),writesBefore={...counts};const guard=route=>{const u=new URL(route.request().url());if(u.origin===url)return route.continue();return route.abort();};report.warmup??=[];report.warmup.push({engine,...await warmHarness({browser,url:url+'/e2e/partial216-fullstack-harness.html',root,suite:'partial216',route:guard,prepare:async()=>{await vite.server.warmupRequest('/e2e/partial216-fullstack-harness.tsx');await vite.server.waitForRequestsIdle();},ready:async page=>{await expect(page.getByLabel('البحث في منتجات نقطة البيع',{exact:true})).toBeVisible();}})});assert.deepEqual(await c.fingerprint(),warmBefore,'WARMUP_ZERO_WRITES');for(const name of Object.keys(counts).filter(n=>/^(?:create_|settle_|save_|collect_|reverse_|record_)/u.test(n)))assert.equal(counts[name],writesBefore[name],'WARMUP_WRITER_CALL');warmed=true;}
    const context=await browser.newContext({viewport:{width:390,height:844}});evidence=await startHarnessEvidence(context,{root,suite:'partial216',stage});const page=await context.newPage(),violations=[];lastHarnessPage=page;
    await page.route('**/*',route=>{const u=new URL(route.request().url());if(u.origin===url)return route.continue();violations.push(u.origin);return route.abort();});
    await page.goto(url+'/e2e/partial216-fullstack-harness.html');
@@ -82,5 +82,5 @@ try{
   }await browser.close();browser=null;
  }
  assertVerificationSourceFreeze(frozen,await readVerificationSourceFreeze(root));report.repositoryStayedFrozen=true;report.ok=true;
-}catch(error){Object.assign(report,{ok:false,stage,...safeHarnessFailure(error)});report.failureEvidence=evidence?await evidence.capture(lastHarnessPage):await recordNoPageFailure({root,suite:'partial216'});process.exitCode=1;}
+}catch(error){Object.assign(report,{ok:false,stage,...safeHarnessFailure(error)});report.failureEvidence=warmupFailureEvidence(error)??(evidence?await evidence.capture(lastHarnessPage):await recordNoPageFailure({root,suite:'partial216'}));process.exitCode=1;}
 finally{await browser?.close();await vite?.close();if(restStarted)await exec('docker',['rm','-f',rest],{windowsHide:true});if(local)await exec(process.execPath,[cli,'stop','--no-backup','--workdir',local],{cwd:root,windowsHide:true});await writeFile(path.join(output,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));}
