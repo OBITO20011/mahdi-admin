@@ -38,6 +38,10 @@ test('platform gates follow successful reset and precede production publishing i
 });
 
 test('D-1 requires fresh connected rehearsal at matching tool head; protection and destructive boundary are explicit', () => {
+  const protectionRow = plan.split('\n').find(line => line.startsWith('| 1.2 حماية حديثة'))!;
+  assert.ok(protectionRow.includes('180 migration/219'));
+  assert.doesNotMatch(protectionRow, /179 migration\/217/u);
+  assert.ok(plan.includes('FULL60 جودة + recovery1 + secrets1 على main دون skip'));
   for (const text of [plan, card, print]) {
     for (const marker of ['بروفة متصلة ناجحة', 'أحدث أرشيف', 'بنفس رأس الأداة', 'بروفة-يوم-التشغيل.md', '7–12 ساعة',
       'تفريغ Storage ثم إسقاط public', 'شغّالاً ليلاً', 'R2', 'الخطة المجانية']) assert.ok(text.includes(marker), marker);

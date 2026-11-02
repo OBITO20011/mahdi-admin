@@ -3,13 +3,14 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner3Nov docs-only Supabasecutover7items fromsavedClaudeaudit;independentPR/FULLCI,no merge/hosted/runtimechange.58/59untouched.",
-  "baselineSha": "49b8d008ec56156c0e918bfed3772f33785d4b21",
+  "baselineSha": "e429603ebfcfd0797b550eebfaded9759019176c",
   "branch": "codex/cutover-supabase-platform",
   "phase": "PACKAGE_F",
   "completed": [
     "ReadsavedClaudeaudit,currentmain49b8d008,58/59filelists. Newworktreeonly;ownercheckout/env/59unchanged.",
     "Onlybranchmetadataalignedwithknownhome219historicalhash;beforeText untouched.",
-    "Seven cutover doc items and print HTML updated. Auth/Turnstile after reset,before publish;production order test after publish. D-1 matching-tool/archive rehearsal,7–12h/destructive boundary;night-PC/free-plan,M01 first,Gemini pending,Telegram219."
+    "Seven cutover doc items and print HTML updated. Auth/Turnstile after reset,before publish;production order test after publish. D-1 matching-tool/archive rehearsal,7–12h/destructive boundary;night-PC/free-plan,M01 first,Gemini pending,Telegram219.",
+    "Final D-1 review corrected stale217/179 and FULL45 counters to219/180 and FULL60;focused16 PASS. Old e429603 quality cancelled as superseded before final head,not a failure retry."
   ],
   "inProgress": [
     "Commit/push independent docs PR and verify complete exact-SHA CI;no merge."
@@ -33,13 +34,13 @@
     "No hosted/deploy/merge/DB/migration/app/financial/secretchanges.",
     "No58/59merge orprimarycheckout/env edits."
   ],
-  "nextExactAction": "Push docs-only branch/open PR;verify full exact-SHA CI;do not merge58/59 or newPR.",
+  "nextExactAction": "Push final docs head;verify FULL60+2secrets+strictbackup;no merge/hosted.",
   "startedAt": "2026-11-02T22:55:23.390Z",
-  "checkpointedAt": "2026-11-02T23:07:53.366Z",
+  "checkpointedAt": "2026-11-02T23:29:23.749Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 7,
-  "filesTouchedManifestSha256": "e635a2c9550ce6899298b82c24ab752cc378ab980dddb80fc9f82bd6568d4761",
-  "workingTreeFingerprint": "A7BB98A08DB8988F5EFFEA11AE4DEE5DBB44E7BA6CC3920E47F861C92BFA40DB"
+  "filesTouchedCount": 3,
+  "filesTouchedManifestSha256": "5696f99158fc614fa83526b8dc90f054d43beabd14acdfb3ab22022a705692a6",
+  "workingTreeFingerprint": "046475F89DB80FF2263D77BFCF4C63623AD0A4D2E995D02BEFEAFA5D0D09E922"
 }
