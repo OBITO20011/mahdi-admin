@@ -2,92 +2,48 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": " M",
-      "path": ".github/workflows/quality.yml"
-    },
-    {
-      "code": " M",
+      "code": "M ",
       "path": "docs/agent/PHASE_STATUS.md"
     },
     {
-      "code": " M",
-      "path": "docs/agent/project-state.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/home-performance219-source-pins.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/source-before-store-scroll.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-aftercare215-fullstack.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-partial216-fullstack.mjs"
-    },
-    {
-      "code": " M",
-      "path": "src/features/crm/CrmView.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/features/crm/CustomerFilters.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/features/reports/ReportsCenterView.tsx"
-    },
-    {
-      "code": " M",
-      "path": "tests/home219-evidence.test.ts"
-    },
-    {
-      "code": "??",
+      "code": "M ",
       "path": "docs/agent/PRE_TRAINING_A_AR.md"
     },
     {
-      "code": "??",
-      "path": "e2e/pre-training-screenshots.spec.ts"
+      "code": "M ",
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
     },
     {
-      "code": "??",
-      "path": "e2e/pre-training-usability.spec.ts"
+      "code": "M ",
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
     },
     {
-      "code": "??",
-      "path": "scripts/audit/pre-training-source-pins.json"
+      "code": "M ",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_219.json"
     },
     {
-      "code": "??",
-      "path": "scripts/audit/source-before-pre-training.mjs"
+      "code": "M ",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
     },
     {
-      "code": "??",
+      "code": "M ",
+      "path": "scripts/audit/home-performance219-source-pins.json"
+    },
+    {
+      "code": "M ",
       "path": "scripts/testing/harness-failure-evidence.mjs"
     },
     {
-      "code": "??",
+      "code": "M ",
       "path": "scripts/testing/run-harness-diagnostics-negative.mjs"
     },
     {
-      "code": "??",
-      "path": "src/utils/reportPeriodSelection.ts"
-    },
-    {
-      "code": "??",
+      "code": "M ",
       "path": "tests/harness-failure-evidence.test.ts"
     },
     {
-      "code": "??",
-      "path": "tests/pre-training-history.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "tests/report-period-selection.test.ts"
+      "code": "M ",
+      "path": "tests/pre-delivery-usability.test.ts"
     }
   ]
 }

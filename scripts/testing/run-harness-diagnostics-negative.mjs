@@ -1,5 +1,5 @@
 // Real local browsers, deliberate harness failure, sanitized artifacts: no DB/hosted credentials.
-import assert from'node:assert/strict';import http from'node:http';import{mkdtemp,mkdir,readdir,readFile,rm}from'node:fs/promises';import{tmpdir}from'node:os';import path from'node:path';import{chromium,webkit}from'@playwright/test';import{warmHarness,startHarnessEvidence,readTraceZip}from'./harness-failure-evidence.mjs';
+import assert from'node:assert/strict';import http from'node:http';import{mkdtemp,readdir,readFile,rm}from'node:fs/promises';import{tmpdir}from'node:os';import path from'node:path';import{chromium,webkit}from'@playwright/test';import{warmHarness,startHarnessEvidence,readTraceZip}from'./harness-failure-evidence.mjs';
 const out=await mkdtemp(path.join(tmpdir(),'nawasrah-harness-negative-')),secret='synthetic-sensitive-'+Date.now();let requests=0;
 const server=http.createServer((req,res)=>{requests++;res.setHeader('Content-Type','text/html');res.end(`<input value="${secret}"><p role="alert">${secret}</p><button>ready</button><script>console.error(${JSON.stringify(secret)});</script>`);});await new Promise(r=>server.listen(0,'127.0.0.1',r));const url='http://127.0.0.1:'+server.address().port;const proofs=[];
 try{for(const [engine,type]of[['Chromium',chromium],['WebKit',webkit]]){const browser=await type.launch();try{

@@ -217,7 +217,7 @@
     },
     {
       "file": "src/features/crm/CrmView.tsx",
-      "sha256": "cf38a0a9771f46d14f4b2ec804c02fd54d3a1b6414e0797b242a479eb228b571"
+      "sha256": "eec70fa1f375de8ad342aa10208dd07a1df40312df0a72b70a184527d6ea6e5b"
     },
     {
       "file": "src/features/crm/CustomerAging.tsx",
@@ -237,7 +237,7 @@
     },
     {
       "file": "src/features/crm/CustomerFilters.tsx",
-      "sha256": "34e7f8fc633fd13d1147313d2a66bbe13bb11c99ecf528748ac846d65f44bac1"
+      "sha256": "0cfae06241c094709601b16e9aeeabd40e59da9aa9f91a14d46ff6c8add19b4a"
     },
     {
       "file": "src/features/crm/CustomerList.tsx",
@@ -593,7 +593,7 @@
     },
     {
       "file": "src/features/reports/ReportsCenterView.tsx",
-      "sha256": "e2bce6f8683f55e7994fff7004b28a38121d87d93f431947538bcb4d47b1e72e"
+      "sha256": "38fd6b1a936a7d714cab180eb0c70df869942aa03b03ad35f560b18faff89727"
     },
     {
       "file": "src/features/salesHistory/RecentSalesCard.tsx",
@@ -1114,6 +1114,10 @@
     {
       "file": "src/utils/rejectionMessage.ts",
       "sha256": "0730bb29d9d53add372e5a9f084d156c2de8976e6b58c434b1a20c2582dda755"
+    },
+    {
+      "file": "src/utils/reportPeriodSelection.ts",
+      "sha256": "8cbc0dca86c7c72330669c1f38dc83a5d0b2f08afd9a97d9dbc1169dcda13216"
     },
     {
       "file": "src/utils/roleLabels.ts",
