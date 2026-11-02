@@ -7,6 +7,7 @@ import {rehearsal219Executor} from './rehearsal219-local.mjs';
 import {publicFingerprint} from '../operations/reset214-write-guard.mjs';
 import {proveReset219DependencyGuard} from './reset219-dependency-probe.mjs';
 import {configureRehearsalSupautils219} from './rehearsal219-supautils.mjs';
+import {matchRehearsalSequenceOwnerAcl219} from './rehearsal219-sequence-acl.mjs';
 import path from 'node:path';
 const exec=promisify(execFile);
 export async function proveRehearsal219Lifecycle(options){
@@ -14,7 +15,7 @@ export async function proveRehearsal219Lifecycle(options){
  assert.equal(await ownIds(),'');
  const normal=await restoreCompleteBackup(options);assert.equal(normal.ok,true);
  assert.equal(await ownIds(),'','DEFAULT_RESTORE_MUST_DELETE_CONTAINER');
- let context,closed=0,dependencyGuard,supautils;
+ let context,closed=0,dependencyGuard,supautils,sequenceOwnerAcl;
  const success=await withRestoredRehearsal219(options,async ctx=>{
   context=ctx;let executor=await rehearsal219Executor(ctx);
   try{
@@ -28,6 +29,8 @@ export async function proveRehearsal219Lifecycle(options){
    // authority and cannot be constructed by postgres after that hook is loaded.
    await executor.closeLocal();
    supautils=await configureRehearsalSupautils219({context:ctx,evidenceFile:new URL('./fixtures/rehearsal219-supautils.json',import.meta.url),output:path.dirname(ctx.storageDirectory)});
+   sequenceOwnerAcl=await matchRehearsalSequenceOwnerAcl219(ctx);
+   assert.deepEqual((await matchRehearsalSequenceOwnerAcl219(ctx)).changedRepresentations,[],'SEQUENCE_ACL_REPLAY_MUST_BE_NOOP');
    executor=await rehearsal219Executor(ctx);
    const ports=await executor.localExecute("BEGIN;DO $$BEGIN PERFORM cron.schedule('rehearsal-port-probe','* * * * *','SELECT 1;');END $$;SELECT jsonb_build_object('port',current_setting('port')::integer,'jobPorts',(SELECT jsonb_agg(DISTINCT nodeport) FROM cron.job));ROLLBACK;");
    assert.equal(ports.code,0);assert.deepEqual(JSON.parse(ports.stdout),{port:5432,jobPorts:[5432]},'REBUILT_CRON_PORT_MUST_MATCH_SOURCE');
@@ -40,5 +43,5 @@ export async function proveRehearsal219Lifecycle(options){
  await assert.rejects(()=>withRestoredRehearsal219(options,async ctx=>{context=ctx;throw new Error('REHEARSAL_SIMULATED_FAILURE');}));
  assert.equal(await ownIds(),'','FAILURE_MUST_DELETE_CONTAINER');
  assert.throws(()=>assertActiveRehearsal219(context));await assert.rejects(()=>access(context.storageDirectory));
- return {defaultRestoreDeletes:true,successDeletes:true,failureDeletes:true,expiredContextRejected:true,extractedStorageDeleted:true,postgresFingerprintNoticePreserved:true,rehearsalCronPort:5432,defaultRestorePort:25435,network:'none',dependencyGuard,supautils};
+ return {defaultRestoreDeletes:true,successDeletes:true,failureDeletes:true,expiredContextRejected:true,extractedStorageDeleted:true,postgresFingerprintNoticePreserved:true,rehearsalCronPort:5432,defaultRestorePort:25435,network:'none',dependencyGuard,supautils,sequenceOwnerAcl};
 }

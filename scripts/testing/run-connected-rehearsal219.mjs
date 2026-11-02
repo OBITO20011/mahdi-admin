@@ -17,6 +17,7 @@ import {createClosedRehearsalTree} from './rehearsal219-closed-tree.mjs';
 import {sha256} from './maintenance-db-contract.mjs';
 import {assertProtectedRehearsalSource219,dependencyRootApproval219} from './rehearsal219-protected-sources.mjs';
 import {configureRehearsalSupautils219,validateSupautilsSource219} from './rehearsal219-supautils.mjs';
+import {matchRehearsalSequenceOwnerAcl219} from './rehearsal219-sequence-acl.mjs';
 const exec=promisify(execFile),root=path.resolve(import.meta.dirname,'../..');
 const args=process.argv.slice(2),keys=['--archive','--reference','--output','--closed-tree','--supautils-evidence'];
 assert.equal(args.length,10,'REHEARSAL_FIVE_EXPLICIT_LOCAL_PATHS_REQUIRED');
@@ -54,6 +55,7 @@ try{
   assert.equal(context.archiveSha256,report.archive.sha256,'REHEARSAL_ARCHIVE_CHANGED');
   report.steps.push({number:1,name:'strict-restore',ok:true,elapsedMs:Math.round(performance.now()-started),proof:context.restoreProof});await save();
   report.supautils=await step('1a','source-exact-local-supautils',()=>configureRehearsalSupautils219({context,evidenceFile:supautilsFile,output}));
+  report.sequenceOwnerAcl=await step('1a.2','source-exact-local-sequence-owner-representation',()=>matchRehearsalSequenceOwnerAcl219(context));
   const local=await rehearsal219Executor(context);
   executor={...local,localExecute:async(...args)=>{const result=await local.localExecute(...args);if(result.code!==0)report.localSqlFailure={code:rehearsalSqlFailureCode(result.stderr),exitCode:result.code,rawOutputSaved:false};return result;}};
   const sql=async text=>{const r=await executeResetInput(executor,text);assert.equal(r.code,0,'REHEARSAL_LOCAL_SQL_FAILED');return r.stdout.trim();};

@@ -1,32 +1,36 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner2Nov complete source Supautils evidence:local-only exact GUC setup,policy-only causal probe,CI fixture evidence then full actual219 rehearsal.Prod tools immutable.",
-  "baselineSha": "f1ee1d372d3c11e5ac2e0f137909ac51a994bd5b",
+  "objective": "Owner approved local-only explicit owner ACL on exactly2sequences. Prove liveRESET raw representation safety then full local actualarchive219 drill;no hosted/prod tools changes.",
+  "baselineSha": "bd150f0a08ab938cc08273de7adef5f812c098ea",
   "branch": "codex/local-connected-rehearsal219",
   "phase": "PACKAGE_F",
   "completed": [
-    "Prior PR59 f1 FULL63;approved narrow core roots only;other111protectedfiles exact.",
-    "Complete source GUC evidence671ae393 loaded/proved on actual219 archive:22strings exact;policy create/drop,negativegrants-only and restoration PASS;roles/ACL/owner/data unchanged.",
-    "Admin1719/types/ESLint PASS. Lifecycle default/success/failure cleanup+5dependencynegatives+Supautils causality on synthetic219 PASS."
+    "PR59 bd150f0a pushed;FULL60+2secret+strictbackup1=63/63 firstattempt.",
+    "Exact22source Supautils values and policy-only causal proof PASS on actual219 restored archive;noGRANT/role/owner changes.",
+    "Admin1719/types/ESLint/focused12/Gitleaks0;synthetic lifecycle+5dependency negatives/defaultcleanup PASS.",
+    "Actual archive read-only inspection:152tables/3images/180history/17healthy0/exceptions[];source explicitowner ACL vs restored NULL on exactly2sequences,effective rights equal.",
+    "Primary24files byte-identical;111protectedfiles unchanged plus prior approved dependency-core diff;all rehearsal containers cleaned.",
+    "Approvedlocal2sequence exception implemented+pure negativecases;effective rights/roles/owners/restcatalog/data unchanged;replayNOOP and lifecycle/defaultcleanup PASS."
   ],
   "inProgress": [
-    "Commitpush local-only Supautils helper/CLI/tests;FULLCI then actual219 eightstep drill."
+    "Commitpush samePR59 exactfinalFULLCI,then actualarchive219 steps1-8."
   ],
   "notStarted": [
-    "Actual-archive reset completion/resume/UTC and steps4–8 (opening imports,scan,ABCD,sales/close,total day time) pending owner decision."
+    "Full actual archive steps1-8 after Supautils:reset/resume/UTC/imports/scans/activation mocks/sales/close/timing."
   ],
   "testsPassed": [
-    "Local1719/types/ESLint;actualsource22GUCs+role/catalog/data preservation;synthetic lifecycle and defaultcleanup."
+    "Admin1722/focused15/types/ESLint/Gitleaks0;runtimeSupautils+2sequence beforeafter/lifecycle/5dependencynegatives;112sourcepins onlypriorcore exception."
   ],
   "testsRemaining": [
-    "Focused12/Gitleaks then FULLCI on finalSHA;repeat actual219 archive steps1–8 including ordinary/resume/UTC/import/scans/ABCD/sales/close."
+    "FULLCI on newSHA;full actualarchive2191-8 ordinary/resume/UTC/import/integrity/ABCD/sales/close."
   ],
   "findings": [
-    "Three empty Supautils GUCs are unset defaults;explicit placeholders empty is rejected. Omit assignments but exact pg_settings comparison still mandatory.",
-    "Original dependency fixture hstore ALTER EXTENSION must precede Supautils creation-owner hook;all5assertions preserved in original conditions,no skip.",
-    "Custom scripts directory exists;no content invented. Supabase local CI defaults unchanged;amcheck difference proposal only."
+    "Source/server hook fixes local Storage policy authority;production not shown broken.",
+    "Synthetic reset180 rebuilt then rawACL comparison rejected public.deferred_cheque_number_seq and public.inventory_movement_mutation_seq only. Actualsource owner ACL explicit,restoredNULL;expanded rights identical.",
+    "Customscripts directory exists;no content invented. CIdefault amcheck override difference proposedonly.",
+    "OwnerRESET rawACL is strict,unlikeverifyACL. SavedFrankfurt and full180rebuild both explicitowner ACL for2sequences;localNULL isrestore-only representation."
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -34,14 +38,14 @@
     "No hosted/deploy/merge/main/env/SQLmigration/financial/permissions changes.",
     "Only approved dependency calculation diff in trial-reset-core;ownerCLI/build/core214 and other protectedimports immutable. No ownerAuth/MFA replacement;defaultRestorecleanup unchanged."
   ],
-  "nextExactAction": "Push PR59 local-only Supautils helper then FULLCI;repeat full actual219 drill with source671ae393. No merge or hosted connection.",
+  "nextExactAction": "Push approved2sequence localrepresentation helper;exactFULLCI then fullactual219 rehearsal1-8. No merge or hosted access.",
   "startedAt": "2026-11-01T02:30:05.157Z",
   "historyBaseline": "cab1c5aed8c2069e2919c566ea09c2da9757896d",
-  "checkpointedAt": "2026-11-02T19:23:44.073Z",
+  "checkpointedAt": "2026-11-02T20:03:12.929Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 7,
-  "filesTouchedManifestSha256": "c69446ff961760a5e376de2ef02267a10c61cbc0fde0ac7ff4d4e8165728ecd8",
-  "workingTreeFingerprint": "30E343A8939AC08B051F89807C6E59A14CC7F08D6350276F2FCD05EF035138D7"
+  "filesTouchedCount": 5,
+  "filesTouchedManifestSha256": "bb1376046270f777a573b703f5abf7ce3248bed0e0601be0beac27dc2d286056",
+  "workingTreeFingerprint": "52481A55CA638364DE5CD47F48138C6A3230E411F6B44B09868B0116A6D5E9EB"
 }
