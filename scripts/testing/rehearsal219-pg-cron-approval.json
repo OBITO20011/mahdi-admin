@@ -23,6 +23,6 @@
     }
   ],
   "newFiles": {
-    "scripts/operations/reset219-pg-cron-guard.mjs": "abff4c515b3425eb7aa8f21b2562027da58548760af6f88183d04abe5299542a"
+    "scripts/operations/reset219-pg-cron-guard.mjs": "c73cad315e2fbca9bd6fe0b69652191fcc5a7fc10d3049ed1e10e2b092388f1f"
   }
 }

@@ -3,62 +3,14 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/operations/LOCAL_CONNECTED_REHEARSAL219_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/trial-reset214-core.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/rehearsal219-legacy-view.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/rehearsal219-lifecycle.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/rehearsal219-protected-sources.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-connected-rehearsal219.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-dual-backup-runtime.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/rehearsal219.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/CREATE_EXTENSION219_REVIEW_AR.md"
-    },
-    {
-      "code": "??",
       "path": "scripts/operations/reset219-pg-cron-guard.mjs"
     },
     {
-      "code": "??",
-      "path": "scripts/testing/prove-reset219-cron-guard.mjs"
-    },
-    {
-      "code": "??",
+      "code": " M",
       "path": "scripts/testing/rehearsal219-pg-cron-approval.json"
     },
     {
-      "code": "??",
-      "path": "scripts/testing/rehearsal219-table-acl.mjs"
-    },
-    {
-      "code": "??",
-      "path": "tests/rehearsal219-table-acl.test.ts"
-    },
-    {
-      "code": "??",
+      "code": " M",
       "path": "tests/reset219-pg-cron-guard.test.ts"
     }
   ]

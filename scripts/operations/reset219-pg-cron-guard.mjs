@@ -36,7 +36,11 @@ export function guardedReset219CronUnits(units,reference){
   const spec=reset219CronStatements.find(s=>s.name===unit.name);if(!spec)return unit;
   assert.ok(!replaced.some(s=>s.name===spec.name),'RESET219_CRON_DUPLICATE_UNIT');
   assert.equal(reference.manifest.find(m=>m.name===spec.name)?.sha256,spec.sha256,'RESET219_CRON_REFERENCE_FILE_CHANGED');
-  const raw=unit.input.toString('utf8'),canonical=canonicalLf(raw),statement='CREATE EXTENSION IF NOT EXISTS pg_cron;';
+  const raw=unit.input.toString('utf8'),marker='\n\\echo EMPTY_BUILD_APPLIED:'+spec.name+'\n';
+  // Frozen001-138 builder appends exactly this psql evidence line. Hash the
+  // original file only,retain the marker byte-for-byte,and reject any other tail.
+  const source=raw.endsWith(marker)?raw.slice(0,-marker.length):raw;
+  const canonical=canonicalLf(source),statement='CREATE EXTENSION IF NOT EXISTS pg_cron;';
   assert.equal(sha256(canonical),spec.sha256,'RESET219_CRON_SOURCE_FILE_CHANGED');
   assert.equal(canonical.split('\n')[spec.line-1],statement,'RESET219_CRON_SOURCE_LINE_CHANGED');
   assert.equal(raw.split(statement).length,2,'RESET219_CRON_STATEMENT_NOT_UNIQUE');
