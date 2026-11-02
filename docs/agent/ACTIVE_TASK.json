@@ -2,42 +2,46 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner2Nov merge56 approved then realmain merge55,FULLCI,new55merge/mainCI;preserve20ownerfiles/4env/literalstate5;no hosted/deploy.",
-  "baselineSha": "fceb062ecb42636f9edcc69d536278a5bad93785",
-  "branch": "codex/sentry-telegram-relay",
+  "objective": "Owner2Nov pretrainingA:report todayAmman/sessionselection;CRMsearchfirst;safe failure artifacts+harnesswarmup. UI/testinfra only,PR/FULLCI thenapproval,no merge. B later separate Draft closure.",
+  "baselineSha": "f24d8330d6d82a46aaea3c2e26e2fc84df9559d6",
+  "branch": "codex/pre-training-usability",
   "phase": "PACKAGE_F",
   "completed": [
-    "Independent Worker rawHMAC+signedfreshness+SQLite durable dedup/bounded one-attempt Telegram;Arabic owner guide/launch card;no app/SQL changes.",
-    "LocalCloudflareworkerd synthetic Telegram:202/duplicate200/one send/no PII.",
-    "PR56 approved55ee9120 merged ef56fff6;FULL mainCI inprogress."
+    "New isolatedworktree f24d8330;owner primary untouched;read contracts/reviewer report/current sources.",
+    "UIbefore4/after8 Chromium/WebKit390 PASS;dateAmman/session/search/focus.",
+    "Actualfullstack215 fourcases+216fourcases/warmup2each/zero writes;financialfacts unchanged;frozen repository,no hosted.",
+    "Realnegativeartifact privacy bothbrowsers PASS;8focused date/historical/transport testsPASS."
   ],
   "inProgress": [
-    "Real merge main into55;resolve only metadata/sourcepins preserving reviewed app bytes;fullCI then ownerauthorizedmerge55 and primary ff-only."
+    "WIPsave then actual219SDK/service evidence;full local gates and independentPR A/FULLCI."
   ],
-  "notStarted": [],
+  "notStarted": [
+    "PRB closure separate afterA;no merge/deploy/hosted."
+  ],
   "testsPassed": [
-    "Admin1698/1698;Store203;worker13/focused22;types+strictlint;all six environment builds+verify-dist and negative guards;no hostedaccess."
+    "Before4/after8 UI390 both engines;actual215/216eightcases,warmzero writes;negativeartifacts2;focused8."
   ],
   "testsRemaining": [
-    "Merged localfocused pins/worker/scroll;exactnewhead FULLCI;main56/main55 CI and ownerpreservation/preflight."
+    "Actual219SDK/services;Admin/store/types/strictlint/contextbuilds/Gitleaks/FULLCI."
   ],
   "findings": [
-    "No sourceapp/RPC/SQL touchplanned. Newfilesworkers/*,tests/sentry-telegram-relay.test.ts,docs/operations/SENTRY_TELEGRAM_AR.md pluslaunchcards/checkpoint."
+    "No SQL/RPC/financial/permission changes authorized."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No deploy/hostedFrankfurt/Sentry/Telegram/Cloudflare;no SQL/financial/permissions/newfeature.",
-    "Owner20localfiles/4.env byte-identical;state5literalproperties preserved;only approved merges56 then55."
+    "No hostedFrankfurt/Sentry/Telegram/Cloudflare/deploy or owner.env/localmain edits.",
+    "No SQL/migration/RPC/financial/permissionchanges;no retries/timeout increases/weakened assertions.",
+    "IndependentPRs AthenB;B Draft no merge beforegolive;no merges authorized."
   ],
-  "nextExactAction": "Real merge main56→55 resolved;26focused PASS;reviewed Worker+customerbytes exact. Commitpush merge then FULLCI/main56gate;no hosted/deploy.",
+  "nextExactAction": "WIPsave provenUI/warmup;runactual219SDK/services thenfull localgates/finalPR A CI. No source edits whileverifiers/no hosted/merge/deploy. B separate later.",
   "startedAt": "2026-11-01T02:30:05.157Z",
   "historyBaseline": "cab1c5aed8c2069e2919c566ea09c2da9757896d",
-  "checkpointedAt": "2026-11-01T22:19:48.096Z",
+  "checkpointedAt": "2026-11-02T00:13:05.386Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "filesTouchedCount": 22,
-  "filesTouchedManifestSha256": "6bcb4b732cd6543af2ec61b1b22b57ff94e3c82859a2d8e16bcbfd429776c576",
-  "workingTreeFingerprint": "2CF1ACB9D75CAE4F9B0E4C6A131271EFF7044D4F9822550EB2990A4DFC22C0CF"
+  "filesTouchedManifestSha256": "51500f0ea91e45c7236ed4db6841cf3529ca8d8fff0e5735f9464e42602ab406",
+  "workingTreeFingerprint": "56DCE266A535A26CEC1020FABB2053D410727B9A21BEEE47559A462661271F64"
 }
