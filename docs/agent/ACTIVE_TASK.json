@@ -2,45 +2,45 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner2Nov connected local219 archive rehearsal:immutable112 owner/core files;PR59/FULLCI then eightstep real drill. No hosted/merge/main/financial edits.",
-  "baselineSha": "2c8d28998718c7fd916bb465265a2ea5ac256ede",
+  "objective": "Owner2Nov approved narrow dependency-root correction ONLY trial-reset-core.mjs in PR59;negative guards,pg_net public CI/reset preservation,FULLCI then full actual219 rehearsal.",
+  "baselineSha": "8c47309da706490ddc2afa5e51cc31c829264a8b",
   "branch": "codex/local-connected-rehearsal219",
   "phase": "PACKAGE_F",
   "completed": [
-    "Main49 isolated;112owner/core SHA+imports unchanged. PR59;heads f636/634/aad FULL63 green.",
-    "Ready219180/636/13/diff0. LocalAdmin1713/types/strictlint/Gitleaks0. Strict214-219 syntheticarchive/R2/lifecycle+port5432+NOTICE cleanup pass.",
-    "Test-only ninefile exact legacy inverse;unknown edits visible. UI services/XLSX and reset/resume/UTC runner prepared.",
-    "Synthetic postsetup rejects net.http_method[] before delete;do not bypass. Realarchive never decrypted. Details external go-live-rehearsal219-local-20261102."
+    "Narrow roots-only core change exact approval;other111sources immutable. Real negatives5+pg_net executable rollback PASS.",
+    "RESET219 with public pg_net0.20.4:ordinary180/catalog0/ACL0 and four resumes/UTC PASS. Upgrade219 strict11negative PASS.",
+    "Local lifecycle default/success/failure cleanup PASS;types+ESLint PASS;historical affected42PASS."
   ],
   "inProgress": [
-    "2c8d289 CI core failed ONLY taskJSON>4KB. Compact metadata;newhead FULLCI then actual archive and stop on protectedguard."
+    "FULL local tests and CI on revised PR59;then repeat newest219 archive drill."
   ],
   "notStarted": [
-    "Actual latest219 full rehearsal/cleanup/report."
+    "Actual reset/resume/UTC,openingExcel/import,ABCD activationmock,sales/shiftclose and finalday timing:blocked before destructive step."
   ],
   "testsPassed": [
-    "Focused23;Admin1713 earlier;types/strictlint;Gitleaks0;realNOTICE/default+success+failure cleanup/cronport."
+    "Local focused42;reset219 ordinary+4resume+UTC;upgrade219 strict11negative;real dependency5negative;pg_net identity/executable preserved."
   ],
   "testsRemaining": [
-    "FinalheadFULLCI+secrets+backup;actual eightstep drill until blockingguard;external report."
+    "Admin full after exact historical test bridge;FULL CI/Gitleaks;actual8step archive rehearsal."
   ],
   "findings": [
-    "Synthetic external-dependency guard rejects type net.http_method[];production/core edit forbidden;confirm on actual clone then stop."
+    "Only approved trial-reset-core prefix changes. Synthetic strict restore reset020 rejects storage.objects owner;do not grant/alter core. Recheck actual archive after greenCI and stop if reproduced.",
+    "Upgrade local bootstrap timeout under parallel tests;one unchanged environmental rerun passed."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hosted/deploy/merge/main/env/SQL/migration/financial/ACL changes.",
-    "OwnerCLI/build/core and all dependencies immutable;no owner/MFA replacement;defaultRestore alwayscleanup."
+    "No hosted/deploy/merge/main/env/SQLmigration/financial/permissions changes.",
+    "Only approved dependency calculation diff in trial-reset-core;ownerCLI/build/core214 and other protectedimports immutable. No ownerAuth/MFA replacement;defaultRestorecleanup unchanged."
   ],
-  "nextExactAction": "Final compact-metadata head FULLCI;then actual219 archive rehearsal. No owner/core/hosted/merge;stop on protectedguard.",
+  "nextExactAction": "Push bounded dependency roots and pg_net tests in PR59;FULLCI then actual219 archive drill from step1;stop on new blocker.",
   "startedAt": "2026-11-01T02:30:05.157Z",
   "historyBaseline": "cab1c5aed8c2069e2919c566ea09c2da9757896d",
-  "checkpointedAt": "2026-11-02T15:53:49.494Z",
+  "checkpointedAt": "2026-11-02T17:23:32.493Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 0,
-  "filesTouchedManifestSha256": "b6429e7d08029a34589e9c8956ef86dffab2fb6dd9ee37c08d5e9204e14cdbe6",
-  "workingTreeFingerprint": "AA7E1BEB9E33AF6D66638C52C546101F72793A005AEECF061D58701DF90BBB38"
+  "filesTouchedCount": 22,
+  "filesTouchedManifestSha256": "45206a12762cfae495ddb1715386d394c5166d9551afa353795b9a0d625eee37",
+  "workingTreeFingerprint": "A06CBF9C66FE9287C5332722F850F7E2DAFF3828C9D7BD56357E2B6B8529F96A"
 }

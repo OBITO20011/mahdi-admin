@@ -7,10 +7,12 @@ import {executeResetInput} from '../operations/reset214-io.mjs';
 import {sqlLiteral as q} from '../operations/trial-reset-core.mjs';
 import {safeObjectName} from '../backup/complete-backup.mjs';
 import {sha256} from './maintenance-db-contract.mjs';
+import {pgNetIdentitySql,provePgNetRunnable219} from './reset219-dependency-probe.mjs';
 export async function rehearseReset219({context,executor,root,referenceFile,reference,ownerId,output}){
  const sql=async(input,ex=executor)=>{const r=await executeResetInput(ex,input);assert.equal(r.code,0,'REHEARSAL_RESET_SQL_FAILED');return r.stdout.trim();};
  const json=async text=>JSON.parse(await sql(text));
  const baseline=await captureReset219({executor,ownerId,reference});
+ const pgNetBefore=await json(pgNetIdentitySql);
  const common={workdir:output,ownerId,projectRef:context.projectRef,referenceSha256:sha256(await readFile(referenceFile)),reference};
  const day=(await sql("SELECT (CURRENT_TIMESTAMP AT TIME ZONE 'UTC')::date;")).trim();
  const nextDay=new Date(Date.parse(day+'T00:00:00Z')+86400000).toISOString().slice(0,10);
@@ -39,6 +41,8 @@ export async function rehearseReset219({context,executor,root,referenceFile,refe
    boundary:async name=>{if(name===interrupt)throw new Error('RESET219_SIMULATED_INTERRUPTION');}});
   assert.equal(progress.complete,true);assert.equal(progress.comparisonPolicy,'same-database-literal-all-schemas');
   assert.equal(progress.comparisonDates.rebuild.beforeBuildDate,day);assert.equal(progress.comparisonDates.rebuild.afterBuildDate,nextDay);
+  assert.deepEqual(await json(pgNetIdentitySql),pgNetBefore,'PG_NET_CHANGED_AFTER_RESET');
+  await provePgNetRunnable219(executor);
   await finishResetSession(session);return progress;
  };
  const first=await prepareResetSession({...common,output:await at('ordinary'),state:baseline});
@@ -56,6 +60,7 @@ export async function rehearseReset219({context,executor,root,referenceFile,refe
  return {ordinaryComplete:ordinary.complete,resumeComplete:recovered.complete,interruptionStage:previousStage,timings,
   sameReferenceAndSnapshot:true,history:180,ownerMfaPreserved:true,retainedRawFingerprints:final.plan.preserved,
   allExpectedCountsMatch:true,catalogDifferences:0,aclDifferences:0,storageObjects:0,
+  pgNet:{before:pgNetBefore,after:await json(pgNetIdentitySql),unchanged:true,runnable:await provePgNetRunnable219(executor)},
   midnightUtc:{start:day,end:nextDay,ordinaryAndResume:true,comparison:ordinary.comparisonPolicy},
   transport:'owned Docker socket;local Storage bytes/object removal and direct local history repair;no owner CLI or hosted API'};
 }

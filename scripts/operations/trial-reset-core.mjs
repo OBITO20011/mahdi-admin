@@ -94,10 +94,24 @@ export function restoreResetAcl(before,after){
 }
 // Ordering of PostgreSQL aclitem[] is not a permission. All atoms,grantors and
 // grant options INCLUDING service_role remain present in this strict proof.
-export const externalDependentsSql=`WITH RECURSIVE deps(classid,objid,objsubid) AS (
- SELECT 'pg_namespace'::regclass::oid,'public'::regnamespace::oid,0
+export const externalDependentsSql=`WITH RECURSIVE roots(classid,objid,objsubid) AS (
+ -- Exactly the targets of dropPublicSql,including later sequence/type passes.
+ -- public itself is retained:an extension's namespace is not a drop target.
+ SELECT 'pg_class'::regclass::oid,oid,0 FROM pg_class
+ WHERE relnamespace='public'::regnamespace AND relkind IN('r','p','v','m','f','S')
+ UNION SELECT 'pg_proc'::regclass::oid,oid,0 FROM pg_proc WHERE pronamespace='public'::regnamespace
+ UNION SELECT 'pg_type'::regclass::oid,oid,0 FROM pg_type
+ WHERE typnamespace='public'::regnamespace AND typtype IN('e','d','c') AND typelem=0
+), edges AS (
+ SELECT classid,objid,objsubid,refclassid,refobjid,refobjsubid FROM pg_depend
+ UNION ALL
+ -- An internal dependent belongs to its parent (e.g.view rewrite -> view).
+ -- An extension member must NEVER hide its extension owner from the guard.
+ SELECT refclassid,refobjid,refobjsubid,classid,objid,objsubid FROM pg_depend WHERE deptype IN('i','e')
+), deps(classid,objid,objsubid) AS (
+ SELECT * FROM roots
  UNION
- SELECT d.classid,d.objid,d.objsubid FROM pg_depend d JOIN deps p
+ SELECT d.classid,d.objid,d.objsubid FROM edges d JOIN deps p
  ON d.refclassid=p.classid AND d.refobjid=p.objid AND (p.objsubid=0 OR d.refobjsubid=p.objsubid)
 ), objects AS (
  SELECT *,COALESCE((pg_identify_object(classid,objid,objsubid)).schema,

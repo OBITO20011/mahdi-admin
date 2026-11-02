@@ -10,11 +10,12 @@ import {readReady219Reference} from '../operations/frankfurt-reference219.mjs';
 import {protectResetPath,privateResetDirectory} from '../operations/reset214-private-state.mjs';
 import {executeResetInput} from '../operations/reset214-io.mjs';
 import {preservedStateSql,externalDependentsSql} from '../operations/trial-reset-core.mjs';
-import {rehearsal219Executor,installRehearsalNetworkGuard,removeRehearsalPrivateSnapshots} from './rehearsal219-local.mjs';
+import {rehearsal219Executor,installRehearsalNetworkGuard,removeRehearsalPrivateSnapshots,rehearsalSqlFailureCode} from './rehearsal219-local.mjs';
 import {rehearseReset219} from './rehearsal219-reset.mjs';
 import {rehearseOpeningData219,rehearseFirstSales219,prepareRehearsalCutover219} from './rehearsal219-opening-day.mjs';
 import {createClosedRehearsalTree} from './rehearsal219-closed-tree.mjs';
 import {sha256} from './maintenance-db-contract.mjs';
+import {assertProtectedRehearsalSource219,dependencyRootApproval219} from './rehearsal219-protected-sources.mjs';
 const exec=promisify(execFile),root=path.resolve(import.meta.dirname,'../..');
 const args=process.argv.slice(2),keys=['--archive','--reference','--output','--closed-tree'];
 assert.equal(args.length,8,'REHEARSAL_FOUR_EXPLICIT_LOCAL_PATHS_REQUIRED');
@@ -41,17 +42,19 @@ try{
  const reference=await readReady219Reference(root,referenceFile);
  report.archive={name:path.basename(archivePath),sha256:sha256(await readFile(archivePath)),referenceSha256:sha256(await readFile(referenceFile))};
  const pins=JSON.parse(await readFile(path.join(root,'scripts/testing/rehearsal219-owner-source-pins.json'),'utf8'));pins.files=Object.fromEntries(pins.files);
- const verifyPins=async()=>{for(const [file,hash]of Object.entries(pins.files))assert.equal(sha256(await readFile(path.join(root,file))),hash,'REHEARSAL_PROTECTED_SOURCE_CHANGED');};
- await verifyPins();report.protectedSources={before:pins.files};
+ const verifyPins=async()=>{const actual={};for(const [file,hash]of Object.entries(pins.files)){const bytes=await readFile(path.join(root,file));assertProtectedRehearsalSource219(file,bytes,hash);actual[file]=sha256(bytes);}return actual;};
+ report.protectedSources={original:pins.files,before:await verifyPins(),approvedException:{file:dependencyRootApproval219.file,beforeSha256:dependencyRootApproval219.beforeSha256,afterSha256:dependencyRootApproval219.afterSha256,scope:'actual-drop-roots-only;owner CLI/build and other111files unchanged'}};
  // An uncached image must fail rather than initiating an external pull.
  await exec('docker',['image','inspect',IMAGE],{windowsHide:true});
  stage='strict-restore';await withRestoredRehearsal219({archivePath,passphrase,reportPath:path.join(output,'strict-restore.json')},async context=>{
   restoreContext=context;
   assert.equal(context.archiveSha256,report.archive.sha256,'REHEARSAL_ARCHIVE_CHANGED');
   report.steps.push({number:1,name:'strict-restore',ok:true,elapsedMs:Math.round(performance.now()-started),proof:context.restoreProof});await save();
-  executor=await rehearsal219Executor(context);
+  const local=await rehearsal219Executor(context);
+  executor={...local,localExecute:async(...args)=>{const result=await local.localExecute(...args);if(result.code!==0)report.localSqlFailure={code:rehearsalSqlFailureCode(result.stderr),exitCode:result.code,rawOutputSaved:false};return result;}};
   const sql=async text=>{const r=await executeResetInput(executor,text);assert.equal(r.code,0,'REHEARSAL_LOCAL_SQL_FAILED');return r.stdout.trim();};
   const json=async text=>JSON.parse(await sql(text));
+  report.localResetAuthority=await json("SELECT jsonb_build_object('role',current_user,'superuser',(SELECT rolsuper FROM pg_roles WHERE rolname=current_user),'storageObjectsOwner',pg_get_userbyid(relowner),'inheritsStorageOwner',pg_has_role(current_user,relowner,'USAGE')) FROM pg_class WHERE oid='storage.objects'::regclass;");
   const ownerIds=await json("SELECT coalesce(jsonb_agg(DISTINCT p.id),'[]') FROM profiles p JOIN user_roles ur ON ur.user_id=p.id JOIN roles r ON r.id=ur.role_id WHERE p.is_active AND r.code='owner' AND EXISTS(SELECT 1 FROM auth.mfa_factors f WHERE f.user_id=p.id AND f.status='verified');");
   assert.equal(ownerIds.length,1,'REHEARSAL_SELECT_ORIGINAL_OWNER_REQUIRES_DECISION');const ownerId=ownerIds[0];
   const ownerFingerprint=async()=>{
@@ -103,7 +106,7 @@ try{
   });
   day.api.close();day=null;await executor.closeLocal();executor=null;
  });
- await verifyPins();report.protectedSources.after=pins.files;report.ok=true;
+ report.protectedSources.after=await verifyPins();assert.deepEqual(report.protectedSources.after,report.protectedSources.before);report.ok=true;
 }catch(error){report.failureStage=stage;report.failureCode=/^[A-Z][A-Z0-9_]+$/u.test(error.message)?error.message:'REHEARSAL_ASSERTION_FAILED';process.exitCode=1;}
 finally{
  day?.api.close();await executor?.closeLocal();report.networkGuard=guard.counts();guard.close();

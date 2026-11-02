@@ -6,18 +6,23 @@ import {createHash} from 'node:crypto';
 import {mkdtemp,mkdir,writeFile,readFile,symlink,unlink,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {execFileSync} from 'node:child_process';
-import {assertRehearsalTarget,allowedRehearsalRequest,rehearsal219Executor,installRehearsalNetworkGuard,removeRehearsalPrivateSnapshots} from '../scripts/testing/rehearsal219-local.mjs';
+import {assertRehearsalTarget,allowedRehearsalRequest,rehearsal219Executor,installRehearsalNetworkGuard,removeRehearsalPrivateSnapshots,rehearsalSqlFailureCode} from '../scripts/testing/rehearsal219-local.mjs';
 import {assertActiveRehearsal219} from '../scripts/backup/complete-backup.mjs';
 import {sourceBeforeRehearsal219,rehearsal219LegacyPins} from '../scripts/testing/rehearsal219-legacy-view.mjs';
+import {assertProtectedRehearsalSource219,dependencyRootApproval219,sourceBeforeDependencyRoots219} from '../scripts/testing/rehearsal219-protected-sources.mjs';
 const root=process.cwd();
-test('owner219 CLI/build/core and complete transitive source closure remain byte-identical',()=>{
+test('local SQL diagnostic admits fixed code only and never carries error text or row values',()=>{
+ assert.equal(rehearsalSqlFailureCode('ERROR:  must be owner of table objects\nDETAIL: fictional private content'),'STORAGE_OBJECTS_OWNERSHIP_REQUIRED');
+ assert.equal(rehearsalSqlFailureCode('ERROR: secret customer,phone,amount,token'),'LOCAL_SQL_REJECTED');
+});
+test('111 owner/core dependency sources stay byte-identical;only reviewed trial-reset-core dependency-root diff is allowed',()=>{
  const pins=JSON.parse(readFileSync(path.join(root,'scripts/testing/rehearsal219-owner-source-pins.json'),'utf8'));
  pins.files=Object.fromEntries(pins.files);
  const seen=new Set<string>();
  function visit(file:string){
   if(seen.has(file))return;seen.add(file);
   const bytes=readFileSync(path.join(root,file)),text=bytes.toString('utf8');
-  assert.equal(createHash('sha256').update(bytes).digest('hex'),pins.files[file],file);
+  assertProtectedRehearsalSource219(file,bytes,pins.files[file]);
   for(const m of text.matchAll(/(?:from\s*|import\s*\()['"]([.][^'"\n]+)['"]/gu)){
    const next=path.posix.normalize(path.posix.join(path.posix.dirname(file),m[1]));
    if(existsSync(path.join(root,next)))visit(next);
@@ -25,18 +30,48 @@ test('owner219 CLI/build/core and complete transitive source closure remain byte
  }
  pins.roots.forEach(visit);assert.deepEqual([...seen].sort(),Object.keys(pins.files).sort());assert.ok(seen.size>100);
 });
+test('owner exception reconstructs exact Git bytes and rejects every other trial-reset-core edit',()=>{
+ const a=dependencyRootApproval219;
+ assert.equal(a.file,'scripts/operations/trial-reset-core.mjs');
+ assert.equal(a.baseline,'8c47309da706490ddc2afa5e51cc31c829264a8b');
+ const before=execFileSync('git',['show',a.baseline+':'+a.file],{encoding:'utf8',maxBuffer:8*1024**2});
+ assert.equal(createHash('sha256').update(before).digest('hex'),a.beforeSha256);
+ assert.equal(before.split(a.before).length,2);
+ const current=readFileSync(a.file,'utf8');assert.equal(before.replace(a.before,a.after),current);
+ assert.equal(sourceBeforeDependencyRoots219(a.file,current),before);
+ assert.match(a.before,/SELECT 'pg_namespace'/u);assert.doesNotMatch(a.after,/SELECT 'pg_namespace'/u);
+ assert.match(a.after,/deptype IN\('i','e'\)/u);
+ for(const change of [current+'\n// unexpected\n',current.replace('DROP SEQUENCE','DROP EXTENSION')]){
+  assert.throws(()=>assertProtectedRehearsalSource219(a.file,Buffer.from(change),a.beforeSha256));
+  assert.equal(sourceBeforeDependencyRoots219(a.file,change),change);
+ }
+});
 test('test-only legacy view binds exact current and baseline Git bytes;unknown edits remain visible',()=>{
  const pins=rehearsal219LegacyPins;
- assert.deepEqual(Object.keys(pins.files).sort(),['docs/agent/project-state.json','scripts/backup/complete-backup.mjs','scripts/testing/run-dual-backup-runtime.mjs',
-  'tests/aftercare-cleanup.test.ts','tests/aftercare215-source-compat.test.ts','tests/handover214.test.ts','tests/home219-evidence.test.ts','tests/partial216-source-history.test.ts','tests/preflight120-source-history.test.ts']);
+ assert.deepEqual(Object.keys(pins.files).sort(),['docs/agent/project-state.json','scripts/backup/complete-backup.mjs','scripts/testing/run-dual-backup-runtime.mjs','scripts/testing/run-owner-upgrade219-runtime.mjs','scripts/testing/run-reset219-resume-runtime.mjs',
+  'tests/aftercare-cleanup.test.ts','tests/aftercare215-source-compat.test.ts','tests/handover213.test.ts','tests/handover214.test.ts','tests/home219-evidence.test.ts','tests/parcel209.test.ts','tests/partial216-source-history.test.ts','tests/preflight120-source-history.test.ts','tests/trial-aftercare-supplier.test.ts','tests/trial-owner-r.test.ts','tests/trial-sale-receipts.test.ts','tests/trial-ta-presentation.test.ts','tests/trial41-integration.test.ts']);
  for(const [file,pin] of Object.entries(pins.files) as [string,{beforeText:string;before:string;after:string}][]){
   const current=readFileSync(file,'utf8').replaceAll('\r\n','\n');
   assert.equal(createHash('sha256').update(current).digest('hex'),pin.after);
-  assert.equal(pin.beforeText,execFileSync('git',['show',pins.baseline+':'+file],{encoding:'utf8',maxBuffer:8*1024**2}));
+  assert.equal(pin.beforeText,execFileSync('git',['show',pins.baseline+':'+file],{encoding:'utf8',maxBuffer:8*1024**2}).replaceAll('\r\n','\n'));
   assert.equal(createHash('sha256').update(pin.beforeText).digest('hex'),pin.before);
   assert.equal(sourceBeforeRehearsal219(file,current),pin.beforeText);
   const changed=current+'\n// unexpected\n';assert.equal(sourceBeforeRehearsal219(file,changed),changed);
  }
+});
+
+test('CI reset/upgrade use exact Frankfurt pg_net fixture;all real negative cases and executable rollback probe stay wired',()=>{
+ const read=(f:string)=>readFileSync(f,'utf8');
+ for(const file of ['scripts/testing/run-owner-upgrade219-runtime.mjs','scripts/testing/run-reset219-resume-runtime.mjs']){
+  const text=read(file);assert.match(text,/await frankfurtPgNetFixture\(executor\)/u);assert.match(text,/pgNetPreserved=true/u);
+ }
+ const fixture=read('scripts/testing/frankfurt-pg-net-fixture.mjs');
+ assert.match(fixture,/VERSION '0\.20\.4'/u);assert.match(fixture,/WITH SCHEMA public/u);assert.doesNotMatch(fixture,/CASCADE|ALTER ROLE|GRANT /u);
+ const probe=read('scripts/testing/reset219-dependency-probe.mjs');
+ for(const name of ['external-view-on-dropped-table','external-function-on-dropped-function','external-extension-member-depends-on-drop-target','plan-targets-public-extension-members-refuses-extension-drop','direct-extension-drop-refused'])assert.ok(probe.includes(name),name);
+ assert.match(probe,/net\.http_post/u);assert.match(probe,/127\.0\.0\.1:9/u);assert.match(probe,/ROLLBACK/u);
+ assert.match(read('scripts/testing/rehearsal219-lifecycle.mjs'),/await proveReset219DependencyGuard\(executor\)/u);
+ assert.match(read('scripts/testing/rehearsal219-reset.mjs'),/PG_NET_CHANGED_AFTER_RESET/u);
 });
 test('local transport refuses forged/expired context before spawning any child',async()=>{
  assert.throws(()=>assertActiveRehearsal219({}),/REHEARSAL_VERIFIED_CONTEXT_REQUIRED/u);

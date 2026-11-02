@@ -8,6 +8,9 @@ import {Rehearsal219Session} from './rehearsal219-session.mjs';
 import {assertActiveRehearsal219} from '../backup/complete-backup.mjs';
 import {sqlLiteral as q} from '../operations/trial-reset-core.mjs';
 const exec=promisify(execFile);
+export function rehearsalSqlFailureCode(stderr){
+ return /ERROR:\s+must be owner of table objects(?:\r?\n|$)/u.test(stderr)?'STORAGE_OBJECTS_OWNERSHIP_REQUIRED':'LOCAL_SQL_REJECTED';
+}
 export function assertRehearsalTarget(context,observed){
   assert.match(context.containerId,/^[a-f0-9]{64}$/u,'REHEARSAL_CONTAINER_ID_REQUIRED');
   assert.match(context.archiveSha256,/^[a-f0-9]{64}$/u,'REHEARSAL_ARCHIVE_HASH_REQUIRED');

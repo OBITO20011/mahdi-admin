@@ -1,3 +1,4 @@
+import {sourceBeforeRehearsal219} from '../scripts/testing/rehearsal219-legacy-view.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import React from 'react';
@@ -63,7 +64,7 @@ test('D missing historical evidence is explicit and never inferred from quantity
 test('D exact additive inverse preserves delivered209 source and rejects current/restored mutations',()=>{
   const baseline='581cb972a247ef13dbdc697b75bcc5c674bfa97d';
   for(const [file,pin] of Object.entries(trialDPins) as [string,{added?:boolean}][]){
-    const current=readFileSync(file,'utf8'),restored=sourceBeforeTrialD(file,current);
+    const current=sourceBeforeRehearsal219(file,readFileSync(file,'utf8'))!,restored=sourceBeforeTrialD(file,current);
     assert.throws(()=>sourceBeforeTrialD(file,current+'\nvoid unapproved;\n'));
     if(pin.added)assert.equal(restored,null);
     else {
