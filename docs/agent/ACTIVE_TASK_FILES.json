@@ -2,56 +2,20 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/project-state.json"
-    },
-    {
-      "code": " M",
+      "code": "M ",
       "path": "docs/handover/ورقة-يوم-التشغيل.html"
     },
     {
-      "code": " M",
+      "code": "M ",
       "path": "docs/handover/ورقة-يوم-التشغيل.md"
     },
     {
-      "code": " M",
+      "code": "M ",
       "path": "docs/operations/PRELAUNCH_TRIAL_AR.md"
     },
     {
-      "code": " M",
+      "code": "M ",
       "path": "scripts/audit/home-performance219-source-pins.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/environments/prelaunch-trial-control.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-prelaunch-trial-builds.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/frankfurt-public-config.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/prelaunch-trial.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "docs/agent/PRELAUNCH_CUTOVER_DRAFT_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/run-prelaunch-closed-gates.mjs"
-    },
-    {
-      "code": "??",
-      "path": "tests/prelaunch-cutover.test.ts"
     }
   ]
 }

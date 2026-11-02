@@ -3,19 +3,23 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner2Nov pretrainingB:close source trial switch only;real build/verify/deploy refusals and production/staging positive gates;Draft do notmerge beforegolive. No hosted/deploy/SQL.",
-  "baselineSha": "f24d8330d6d82a46aaea3c2e26e2fc84df9559d6",
+  "baselineSha": "5f2ba5c1763fa1a929ebb5efe41947413ec5654d",
   "branch": "codex/prelaunch-close-for-go-live",
   "phase": "PACKAGE_F",
   "completed": [
-    "Separateworktree baselinef24;A PR57 independent inCI;primary/env untouched."
+    "Separateworktree baselinef24;A PR57 independent inCI;primary/env untouched.",
+    "Closed actualCLI:2build+2verify+2deploy+2override refused;4production/stagingbuilds/CSP/negativecontrols/types/strictlint pass. Cardcandidate2pages.",
+    "FinalAdmin1701/1701;types/strictlint;4actualpositivebuilds/CSP and8closedCLIrefusals;focused21 and13history/docs passed. Card2pages verified externally."
   ],
   "inProgress": [
-    "Closed switch tests/localgates thenDraftPR/fullCI."
+    "DraftPR/fullCI thenreview,no merge beforegolive."
   ],
   "notStarted": [],
-  "testsPassed": [],
+  "testsPassed": [
+    "Admin1701/1701;types/strictlint;4realbuilds+8refusals;card2pages;historyassertions unchanged."
+  ],
   "testsRemaining": [
-    "Focused/full units/types/strictlint/build/verify/refusals/Gitleaks/fullCI."
+    "Gitleaks0 and exactSHA FULLCI63."
   ],
   "findings": [
     "Contextretained;no SQL/RPC/money/roles/deploy/hosted."
@@ -25,14 +29,14 @@
   "prohibitions": [
     "No merge beforegolive;NO deploy/hosted/ownercheckout/env/financial/SQL changes."
   ],
-  "nextExactAction": "RunB fullunits/types/strictlint and actualclosedbuild-gate4positive8negative;thenDraftPR/fullCI,no merge.",
+  "nextExactAction": "DraftPR B exactSHA fullCI;do notmerge beforegolive. A57diagnosecoldVite,no retries/limitschanged.",
   "startedAt": "2026-11-01T02:30:05.157Z",
   "historyBaseline": "cab1c5aed8c2069e2919c566ea09c2da9757896d",
-  "checkpointedAt": "2026-11-02T00:36:32.230Z",
+  "checkpointedAt": "2026-11-02T00:46:45.151Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 13,
-  "filesTouchedManifestSha256": "b28d5dd19ddac99d3f9e4f93740d54bee791f52a2f5bb48d3011d03d2f872740",
-  "workingTreeFingerprint": "211FC285680FDB1E6B68228AE2E9EE3A416B655B90335A0732265C1971B16465"
+  "filesTouchedCount": 4,
+  "filesTouchedManifestSha256": "36ab49904e36900e3e0f8dcedbb416a528959ed90d487a4bea1dc94e5147fbb2",
+  "workingTreeFingerprint": "4B22294D00F4C5D1F2613B64343D9606D7E04FB95B8160F86708A1C2EA23D129"
 }
