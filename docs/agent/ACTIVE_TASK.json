@@ -2,30 +2,31 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner2Nov approved narrow dependency-root correction ONLY trial-reset-core.mjs in PR59;negative guards,pg_net public CI/reset preservation,FULLCI then full actual219 rehearsal.",
-  "baselineSha": "8c47309da706490ddc2afa5e51cc31c829264a8b",
+  "objective": "Owner2Nov complete source Supautils evidence:local-only exact GUC setup,policy-only causal probe,CI fixture evidence then full actual219 rehearsal.Prod tools immutable.",
+  "baselineSha": "f1ee1d372d3c11e5ac2e0f137909ac51a994bd5b",
   "branch": "codex/local-connected-rehearsal219",
   "phase": "PACKAGE_F",
   "completed": [
-    "Narrow roots-only core change exact approval;other111sources immutable. Real negatives5+pg_net executable rollback PASS.",
-    "RESET219 with public pg_net0.20.4:ordinary180/catalog0/ACL0 and four resumes/UTC PASS. Upgrade219 strict11negative PASS.",
-    "Local lifecycle default/success/failure cleanup PASS;types+ESLint PASS;historical affected42PASS."
+    "Prior PR59 f1 FULL63;approved narrow core roots only;other111protectedfiles exact.",
+    "Complete source GUC evidence671ae393 loaded/proved on actual219 archive:22strings exact;policy create/drop,negativegrants-only and restoration PASS;roles/ACL/owner/data unchanged.",
+    "Admin1719/types/ESLint PASS. Lifecycle default/success/failure cleanup+5dependencynegatives+Supautils causality on synthetic219 PASS."
   ],
   "inProgress": [
-    "FULL local tests and CI on revised PR59;then repeat newest219 archive drill."
+    "Commitpush local-only Supautils helper/CLI/tests;FULLCI then actual219 eightstep drill."
   ],
   "notStarted": [
-    "Actual reset/resume/UTC,openingExcel/import,ABCD activationmock,sales/shiftclose and finalday timing:blocked before destructive step."
+    "Actual-archive reset completion/resume/UTC and steps4–8 (opening imports,scan,ABCD,sales/close,total day time) pending owner decision."
   ],
   "testsPassed": [
-    "Local focused42;reset219 ordinary+4resume+UTC;upgrade219 strict11negative;real dependency5negative;pg_net identity/executable preserved."
+    "Local1719/types/ESLint;actualsource22GUCs+role/catalog/data preservation;synthetic lifecycle and defaultcleanup."
   ],
   "testsRemaining": [
-    "Admin full after exact historical test bridge;FULL CI/Gitleaks;actual8step archive rehearsal."
+    "Focused12/Gitleaks then FULLCI on finalSHA;repeat actual219 archive steps1–8 including ordinary/resume/UTC/import/scans/ABCD/sales/close."
   ],
   "findings": [
-    "Only approved trial-reset-core prefix changes. Synthetic strict restore reset020 rejects storage.objects owner;do not grant/alter core. Recheck actual archive after greenCI and stop if reproduced.",
-    "Upgrade local bootstrap timeout under parallel tests;one unchanged environmental rerun passed."
+    "Three empty Supautils GUCs are unset defaults;explicit placeholders empty is rejected. Omit assignments but exact pg_settings comparison still mandatory.",
+    "Original dependency fixture hstore ALTER EXTENSION must precede Supautils creation-owner hook;all5assertions preserved in original conditions,no skip.",
+    "Custom scripts directory exists;no content invented. Supabase local CI defaults unchanged;amcheck difference proposal only."
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -33,14 +34,14 @@
     "No hosted/deploy/merge/main/env/SQLmigration/financial/permissions changes.",
     "Only approved dependency calculation diff in trial-reset-core;ownerCLI/build/core214 and other protectedimports immutable. No ownerAuth/MFA replacement;defaultRestorecleanup unchanged."
   ],
-  "nextExactAction": "Push bounded dependency roots and pg_net tests in PR59;FULLCI then actual219 archive drill from step1;stop on new blocker.",
+  "nextExactAction": "Push PR59 local-only Supautils helper then FULLCI;repeat full actual219 drill with source671ae393. No merge or hosted connection.",
   "startedAt": "2026-11-01T02:30:05.157Z",
   "historyBaseline": "cab1c5aed8c2069e2919c566ea09c2da9757896d",
-  "checkpointedAt": "2026-11-02T17:23:32.493Z",
+  "checkpointedAt": "2026-11-02T19:23:44.073Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 22,
-  "filesTouchedManifestSha256": "45206a12762cfae495ddb1715386d394c5166d9551afa353795b9a0d625eee37",
-  "workingTreeFingerprint": "A06CBF9C66FE9287C5332722F850F7E2DAFF3828C9D7BD56357E2B6B8529F96A"
+  "filesTouchedCount": 7,
+  "filesTouchedManifestSha256": "c69446ff961760a5e376de2ef02267a10c61cbc0fde0ac7ff4d4e8165728ecd8",
+  "workingTreeFingerprint": "30E343A8939AC08B051F89807C6E59A14CC7F08D6350276F2FCD05EF035138D7"
 }

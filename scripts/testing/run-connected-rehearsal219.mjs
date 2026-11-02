@@ -16,13 +16,16 @@ import {rehearseOpeningData219,rehearseFirstSales219,prepareRehearsalCutover219}
 import {createClosedRehearsalTree} from './rehearsal219-closed-tree.mjs';
 import {sha256} from './maintenance-db-contract.mjs';
 import {assertProtectedRehearsalSource219,dependencyRootApproval219} from './rehearsal219-protected-sources.mjs';
+import {configureRehearsalSupautils219,validateSupautilsSource219} from './rehearsal219-supautils.mjs';
 const exec=promisify(execFile),root=path.resolve(import.meta.dirname,'../..');
-const args=process.argv.slice(2),keys=['--archive','--reference','--output','--closed-tree'];
-assert.equal(args.length,8,'REHEARSAL_FOUR_EXPLICIT_LOCAL_PATHS_REQUIRED');
+const args=process.argv.slice(2),keys=['--archive','--reference','--output','--closed-tree','--supautils-evidence'];
+assert.equal(args.length,10,'REHEARSAL_FIVE_EXPLICIT_LOCAL_PATHS_REQUIRED');
 for(let i=0;i<args.length;i+=2)assert.ok(keys.includes(args[i])&&args[i+1]&&!args[i+1].startsWith('--'),'REHEARSAL_OPTION_INVALID');
-assert.equal(new Set(args.filter((_,i)=>i%2===0)).size,4);
+assert.equal(new Set(args.filter((_,i)=>i%2===0)).size,5);
 const get=key=>path.resolve(args[args.indexOf(key)+1]);
 const output=get('--output'),archivePath=get('--archive'),referenceFile=get('--reference'),closedTree=get('--closed-tree');
+const supautilsFile=get('--supautils-evidence');
+validateSupautilsSource219(JSON.parse(await readFile(supautilsFile,'utf8')));
 const relative=path.relative(root,output);
 assert.ok(relative&&(relative.startsWith('..'+path.sep)||path.isAbsolute(relative)),'REHEARSAL_OUTPUT_MUST_BE_OUTSIDE_REPOSITORY');
 await mkdir(output,{recursive:false});await protectResetPath(output,true);
@@ -50,6 +53,7 @@ try{
   restoreContext=context;
   assert.equal(context.archiveSha256,report.archive.sha256,'REHEARSAL_ARCHIVE_CHANGED');
   report.steps.push({number:1,name:'strict-restore',ok:true,elapsedMs:Math.round(performance.now()-started),proof:context.restoreProof});await save();
+  report.supautils=await step('1a','source-exact-local-supautils',()=>configureRehearsalSupautils219({context,evidenceFile:supautilsFile,output}));
   const local=await rehearsal219Executor(context);
   executor={...local,localExecute:async(...args)=>{const result=await local.localExecute(...args);if(result.code!==0)report.localSqlFailure={code:rehearsalSqlFailureCode(result.stderr),exitCode:result.code,rawOutputSaved:false};return result;}};
   const sql=async text=>{const r=await executeResetInput(executor,text);assert.equal(r.code,0,'REHEARSAL_LOCAL_SQL_FAILED');return r.stdout.trim();};
