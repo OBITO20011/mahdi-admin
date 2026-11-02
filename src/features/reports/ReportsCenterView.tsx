@@ -1,7 +1,8 @@
+import {reportToday,readReportPeriod,saveReportPeriod} from '../../utils/reportPeriodSelection';
 import {CustomerCollectionsSection} from './CustomerCollectionsSection';
 import {DamageLossReportSection} from './DamageLossReportSection';
 import {SupplierReplacementSummary} from '../inventory/SupplierReplacementSummary';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Activity,
   ArrowDownToLine,
@@ -38,11 +39,7 @@ const pad = (value: number) => String(value).padStart(2, '0');
 const localDateValue = (value: Date) =>
   `${value.getFullYear()}-${pad(value.getMonth() + 1)}-${pad(value.getDate())}`;
 
-const todayValue = () => localDateValue(new Date());
-const monthStartValue = () => {
-  const today = new Date();
-  return localDateValue(new Date(today.getFullYear(), today.getMonth(), 1));
-};
+const todayValue = () => reportToday();
 
 const money = (value: number) => `${formatJod(value)} ${CURRENCY}`;
 
@@ -105,8 +102,12 @@ const MetricCard: React.FC<{
 export const ReportsCenterView: React.FC = () => {
   const activeBranch = useAppStoreSelector((state) => state.activeBranch);
   const { setToast } = useAppStoreActions();
-  const [dateFrom, setDateFrom] = useState(monthStartValue);
-  const [dateTo, setDateTo] = useState(todayValue);
+  const [selection, setSelection] = useState(readReportPeriod);
+  const {dateFrom,dateTo} = selection;
+  const userSelected = useRef(false);
+  const setDateFrom = (value: string) => {userSelected.current=true;setSelection(previous=>({...previous,dateFrom:value}));};
+  const setDateTo = (value: string) => {userSelected.current=true;setSelection(previous=>({...previous,dateTo:value}));};
+  useEffect(()=>{if(userSelected.current)saveReportPeriod(selection);},[selection]);
   const [report, setReport] = useState<OperationalBusinessReport | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
@@ -153,6 +154,7 @@ export const ReportsCenterView: React.FC = () => {
   }, [loadReport]);
 
   const setPreset = (days: number | 'month') => {
+    if(days===1){const today=reportToday();userSelected.current=true;setSelection({dateFrom:today,dateTo:today});return;}
     const end = new Date();
     const start =
       days === 'month'
@@ -265,7 +267,7 @@ export const ReportsCenterView: React.FC = () => {
             </label>
           </div>
           <div className="flex flex-wrap gap-1.5">
-            <UiButton variant="plain" type="button" onClick={() => setPreset(1)} className="shrink-0 rounded-lg bg-nw-surface px-2.5 py-1.5 text-[10px] font-bold text-nw-muted">اليوم</UiButton>
+            <UiButton variant="accent" aria-pressed={dateFrom===todayValue()&&dateTo===todayValue()} type="button" onClick={() => setPreset(1)} className="shrink-0 rounded-lg bg-nw-surface px-2.5 py-1.5 text-[10px] font-bold text-nw-muted">اليوم</UiButton>
             <UiButton variant="plain" type="button" onClick={() => setPreset(7)} className="shrink-0 rounded-lg bg-nw-surface px-2.5 py-1.5 text-[10px] font-bold text-nw-muted">آخر 7 أيام</UiButton>
             <UiButton variant="plain" type="button" onClick={() => setPreset(30)} className="shrink-0 rounded-lg bg-nw-surface px-2.5 py-1.5 text-[10px] font-bold text-nw-muted">آخر 30 يومًا</UiButton>
             <UiButton variant="plain" type="button" onClick={() => setPreset('month')} className="shrink-0 rounded-lg bg-nw-surface px-2.5 py-1.5 text-[10px] font-bold text-nw-muted">هذا الشهر</UiButton>

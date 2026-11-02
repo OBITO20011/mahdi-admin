@@ -2,20 +2,108 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": "M ",
-      "path": "docs/handover/ورقة-يوم-التشغيل.html"
+      "code": "A ",
+      "path": "docs/agent/PRE_TRAINING_A_AR.md"
+    },
+    {
+      "code": "A ",
+      "path": "e2e/pre-training-screenshots.spec.ts"
+    },
+    {
+      "code": "A ",
+      "path": "e2e/pre-training-usability.spec.ts"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/audit/pre-training-source-pins.json"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/audit/source-before-pre-training.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/testing/harness-failure-evidence.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/testing/run-harness-diagnostics-negative.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "src/utils/reportPeriodSelection.ts"
+    },
+    {
+      "code": "A ",
+      "path": "tests/harness-failure-evidence.test.ts"
+    },
+    {
+      "code": "A ",
+      "path": "tests/pre-training-history.test.ts"
+    },
+    {
+      "code": "A ",
+      "path": "tests/report-period-selection.test.ts"
     },
     {
       "code": "M ",
-      "path": "docs/handover/ورقة-يوم-التشغيل.md"
+      "path": ".github/workflows/quality.yml"
     },
     {
       "code": "M ",
-      "path": "docs/operations/PRELAUNCH_TRIAL_AR.md"
+      "path": "docs/agent/PHASE_STATUS.md"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_219.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
     },
     {
       "code": "M ",
       "path": "scripts/audit/home-performance219-source-pins.json"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/audit/source-before-store-scroll.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/testing/run-aftercare215-fullstack.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/testing/run-partial216-fullstack.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "src/features/crm/CrmView.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/features/crm/CustomerFilters.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/features/reports/ReportsCenterView.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "tests/home219-evidence.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/pre-delivery-usability.test.ts"
     }
   ]
 }

@@ -161,6 +161,24 @@ export const CrmView: React.FC = () => {
 
   return (
     <div ref={root} dir="rtl" className="min-w-0 space-y-4 px-4 text-sm sm:px-6">
+      <CustomerFilters
+        searchQuery={searchQuery}
+        onSearchChange={(value) => {
+          setSearchQuery(value);
+          setPage(1);
+        }}
+        statusFilter={statusFilter}
+        onStatusFilterChange={(value) => {
+          setStatusFilter(value);
+          setPage(1);
+        }}
+        sortBy={sortBy}
+        onSortByChange={(value) => {
+          setSortBy(value);
+          setPage(1);
+        }}
+        totalResults={totalCount}
+      />
       <CustomerAgingSummary revision={customers} />
       <DetailLayout><MainColumn>
       <div className="flex items-start justify-between gap-3">
@@ -195,24 +213,7 @@ export const CrmView: React.FC = () => {
         </div>
       </div>
 
-      <CustomerFilters
-        searchQuery={searchQuery}
-        onSearchChange={(value) => {
-          setSearchQuery(value);
-          setPage(1);
-        }}
-        statusFilter={statusFilter}
-        onStatusFilterChange={(value) => {
-          setStatusFilter(value);
-          setPage(1);
-        }}
-        sortBy={sortBy}
-        onSortByChange={(value) => {
-          setSortBy(value);
-          setPage(1);
-        }}
-        totalResults={totalCount}
-      />
+
 
       {loading && customers.length === 0 ? (
         <div className="rounded-2xl border border-nw-border bg-nw-surface p-9 text-center text-nw-muted">

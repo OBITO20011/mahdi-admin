@@ -2,24 +2,27 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner2Nov pretrainingB:close source trial switch only;real build/verify/deploy refusals and production/staging positive gates;Draft do notmerge beforegolive. No hosted/deploy/SQL.",
-  "baselineSha": "5f2ba5c1763fa1a929ebb5efe41947413ec5654d",
+  "objective": "Owner2Nov merge57 approved;sync main49b8d008 into58 by realmerge,keepDraft;fullCI,no58merge/deploy/hosted.",
+  "baselineSha": "8aa54cb2fa3ad8e26fa83ebc0f7c7bdec6f1f555",
   "branch": "codex/prelaunch-close-for-go-live",
   "phase": "PACKAGE_F",
   "completed": [
     "Separateworktree baselinef24;A PR57 independent inCI;primary/env untouched.",
     "Closed actualCLI:2build+2verify+2deploy+2override refused;4production/stagingbuilds/CSP/negativecontrols/types/strictlint pass. Cardcandidate2pages.",
-    "FinalAdmin1701/1701;types/strictlint;4actualpositivebuilds/CSP and8closedCLIrefusals;focused21 and13history/docs passed. Card2pages verified externally."
+    "FinalAdmin1701/1701;types/strictlint;4actualpositivebuilds/CSP and8closedCLIrefusals;focused21 and13history/docs passed. Card2pages verified externally.",
+    "Ownerapproved57 exact3a268abf/63;merged49b8d008 main;58 remainsDraft. Realmain merge resolves metadataonly;both approved source histories retained.",
+    "Realmain49 merge local32focused+Admin1708/types/strictlint/4builds+8closedrefusals passed;UI/src/SQL byte-identical to main;Bswitch remainsfalse."
   ],
   "inProgress": [
-    "DraftPR/fullCI thenreview,no merge beforegolive."
+    "Commit realmerge58 then exactFULLCI;keepDraft/no merge."
   ],
   "notStarted": [],
   "testsPassed": [
-    "Admin1701/1701;types/strictlint;4realbuilds+8refusals;card2pages;historyassertions unchanged."
+    "Admin1701/1701;types/strictlint;4realbuilds+8refusals;card2pages;historyassertions unchanged.",
+    "Merged1708/1708,types/strictlint,4actualbuilds/8closedrefusals,focused32."
   ],
   "testsRemaining": [
-    "Gitleaks0 and exactSHA FULLCI63."
+    "Exact newhead FULL63 and Gitleaks."
   ],
   "findings": [
     "Contextretained;no SQL/RPC/money/roles/deploy/hosted."
@@ -27,16 +30,16 @@
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No merge beforegolive;NO deploy/hosted/ownercheckout/env/financial/SQL changes."
+    "No58merge or ready beforegolive;no hosted/deploy/financial/SQL/permissionchanges or ownerenv edits."
   ],
-  "nextExactAction": "DraftPR B exactSHA fullCI;do notmerge beforegolive. A57diagnosecoldVite,no retries/limitschanged.",
+  "nextExactAction": "Push real-main merge58 and exactFULLCI;keepDraft/no58merge. Main57FULLCI beforeprimaryff-only;preserve20owner4env5state.",
   "startedAt": "2026-11-01T02:30:05.157Z",
   "historyBaseline": "cab1c5aed8c2069e2919c566ea09c2da9757896d",
-  "checkpointedAt": "2026-11-02T00:46:45.151Z",
+  "checkpointedAt": "2026-11-02T05:06:35.541Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "36ab49904e36900e3e0f8dcedbb416a528959ed90d487a4bea1dc94e5147fbb2",
-  "workingTreeFingerprint": "4B22294D00F4C5D1F2613B64343D9606D7E04FB95B8160F86708A1C2EA23D129"
+  "filesTouchedCount": 26,
+  "filesTouchedManifestSha256": "21f74c6cb3a990db89d9da8cfd901b5888da92400c3d267ba59e482181ef2855",
+  "workingTreeFingerprint": "4FF82FDA34D763FBABE6951B805FF621AAAEC0369FE5C9545070A1BF9510BBAA"
 }

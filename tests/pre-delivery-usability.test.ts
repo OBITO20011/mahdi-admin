@@ -9,10 +9,11 @@ import {knownBusinessErrorMessage,businessErrorMessage} from '../src/utils/busin
 import {posKnownRejectionCopy} from '../src/utils/posKnownRejectionCopy';
 import {rejectionMessages} from '../src/utils/rejectionMessage';
 import {runInNewContext} from 'node:vm';
+import {sourceBeforePreTraining} from '../scripts/audit/source-before-pre-training.mjs';
 import {sourceBeforeUsability} from '../scripts/audit/source-before-pre-delivery-usability.mjs';
 
 const pins=JSON.parse(readFileSync('scripts/audit/pre-delivery-usability-source-pins.json','utf8'));
-const read=(file:string)=>readFileSync(file,'utf8').replaceAll('\r\n','\n');
+const read=(file:string)=>sourceBeforePreTraining(file,readFileSync(file,'utf8').replaceAll('\r\n','\n'))!;
 const hash=(value:string)=>createHash('sha256').update(value).digest('hex');
 
 test('UI historical projection is exact, bound to merged baseline, and rejects unknown mutations',()=>{
