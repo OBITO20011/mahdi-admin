@@ -43,11 +43,11 @@ test('local transport refuses forged/expired context before spawning any child',
  await assert.rejects(()=>rehearsal219Executor({}),/REHEARSAL_VERIFIED_CONTEXT_REQUIRED/u);
 });
 test('container ID, name, archive SHA, network, volumes, ceiling and history are mandatory',()=>{
- const c={containerId:'a'.repeat(64),containerName:'nawasrah-full-restore-test',archiveSha256:'b'.repeat(64),projectRef:'kzevmysfydaslxcerogt',ceiling:219,files:180};
+ const c={containerId:'a'.repeat(64),containerName:'nawasrah-full-restore-test',archiveSha256:'b'.repeat(64),projectRef:'kzevmysfydaslxcerogt',ceiling:219,files:180,databasePort:5432};
  const o={Id:c.containerId,Name:'/'+c.containerName,HostConfig:{NetworkMode:'none'},Mounts:[],State:{Running:true}};
  assertRehearsalTarget(c,o);
  for(const changed of [{Id:'c'.repeat(64)},{Name:'/another'},{HostConfig:{NetworkMode:'bridge'}},{Mounts:[{Source:'/live'}]},{State:{Running:false}}])assert.throws(()=>assertRehearsalTarget(c,{...o,...changed}));
- for(const changed of [{ceiling:217},{files:179},{projectRef:'another'},{archiveSha256:'invalid'},{containerId:'name-not-id'}])assert.throws(()=>assertRehearsalTarget({...c,...changed},o));
+ for(const changed of [{ceiling:217},{files:179},{projectRef:'another'},{archiveSha256:'invalid'},{containerId:'name-not-id'},{databasePort:25435}])assert.throws(()=>assertRehearsalTarget({...c,...changed},o));
 });
 test('network guard rejects external requests without sending; local fetch forbids redirects',async()=>{
  for(const url of ['https://sentry.io','https://api.telegram.org','https://kzevmysfydaslxcerogt.supabase.co','http://127.0.0.1.evil.test','file:///tmp/x'])assert.equal(allowedRehearsalRequest(url),false);

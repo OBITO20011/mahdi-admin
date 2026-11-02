@@ -12,6 +12,7 @@ export function assertRehearsalTarget(context,observed){
   assert.match(context.containerId,/^[a-f0-9]{64}$/u,'REHEARSAL_CONTAINER_ID_REQUIRED');
   assert.match(context.archiveSha256,/^[a-f0-9]{64}$/u,'REHEARSAL_ARCHIVE_HASH_REQUIRED');
   assert.equal(context.projectRef,'kzevmysfydaslxcerogt');assert.equal(context.ceiling,219);assert.equal(context.files,180);
+  assert.equal(context.databasePort,5432,'REHEARSAL_SUPABASE_INTERNAL_PORT_REQUIRED');
   assert.equal(observed.Id,context.containerId,'REHEARSAL_CONTAINER_CHANGED');
   assert.equal(observed.Name,'/'+context.containerName,'REHEARSAL_CONTAINER_NAME_CHANGED');
   assert.equal(observed.HostConfig.NetworkMode,'none','REHEARSAL_NETWORK_MUST_BE_NONE');
@@ -22,7 +23,7 @@ export async function rehearsal219Executor(context){
   assertActiveRehearsal219(context);
   const inspected=JSON.parse((await exec('docker',['inspect',context.containerId],{windowsHide:true})).stdout)[0];
   assertRehearsalTarget(context,inspected);
-  const args=Object.freeze(['exec','-i',context.containerId,'psql','-h','/tmp/socket','-p','25435','-U','postgres','-d','postgres','-X','-q','-At','-w','-v','ON_ERROR_STOP=1']);
+  const args=Object.freeze(['exec','-i',context.containerId,'psql','-h','/tmp/socket','-p','5432','-U','postgres','-d','postgres','-X','-q','-At','-w','-v','ON_ERROR_STOP=1']);
   const sessions=new Map();
   const sessionFor=token=>{let s=sessions.get(token);if(!s||s.closed){s=new SnapshotSession('docker',args);sessions.set(token,s);}return s;};
   const base={command:'docker',args,localOnly:true,

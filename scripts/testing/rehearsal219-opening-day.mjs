@@ -3,6 +3,25 @@ import {readFile,writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {sqlLiteral as q} from '../operations/trial-reset-core.mjs';
 import {rehearsal219Services} from './rehearsal219-services.mjs';
+export async function prepareRehearsalCutover219({sql,ownerId,root,output}){
+ const api=await rehearsal219Services({sql,ownerId,root,output});
+ const fingerprint=()=>sql("SELECT md5((to_jsonb(s)-'orders_enabled'-'updated_at'-'updated_by')::text) FROM storefront_settings s;");
+ try{
+  const before=await fingerprint();
+  const amounts=JSON.parse(await sql("SELECT jsonb_build_object('minimumOrder',minimum_order_in_minor_units::text,'insideRamthaDeliveryFee',inside_ramtha_delivery_fee_in_minor_units::text,'outsideRamthaDeliveryFee',outside_ramtha_delivery_fee_in_minor_units::text) FROM storefront_settings;"));
+  const settings=await api.storefront.fetchStorefrontSettings();
+  for(const [field,amount]of Object.entries(amounts)){
+   assert.ok(Number.isSafeInteger(Number(amount)),'REHEARSAL_SETTINGS_AMOUNT_CANNOT_ROUND');
+   assert.equal(String(Math.round(settings[field]*1000)),amount,'REHEARSAL_SETTINGS_AMOUNT_CANNOT_ROUND');
+  }
+  await api.storefront.saveStorefrontSettings({...settings,ordersEnabled:false});
+  assert.equal(await fingerprint(),before,'REHEARSAL_SETTINGS_CUSTOM_VALUES_CHANGED');
+  assert.equal(await sql(`SELECT NOT orders_enabled AND updated_by=${q(ownerId)}::uuid FROM storefront_settings;`),'t');
+  assert.equal(await sql('SHOW cron.launch_active_jobs;'),'off');
+  return {ownerSettingsSaved:true,ordersDisabled:true,customSettingsHashBefore:before,customSettingsHashAfter:before,
+   onlyExpectedMetadataChanged:['orders_enabled','updated_by','updated_at'],writers:'owned network-none clone;cron launcher off;no Edge or other clients',serviceCalls:[...api.calls]};
+ }finally{api.close();}
+}
 export async function rehearseOpeningData219({sql,ownerId,root,output}){
  const api=await rehearsal219Services({sql,ownerId,root,output});
  const json=async s=>JSON.parse(await sql(s));

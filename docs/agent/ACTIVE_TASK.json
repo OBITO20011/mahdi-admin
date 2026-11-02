@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner2Nov approved local connected rehearsal219 adapter+PR/FULLCI then full eight-step drill. Default restore safety,owner/core dependencies immutable.",
-  "baselineSha": "49b8d008ec56156c0e918bfed3772f33785d4b21",
+  "baselineSha": "f636d7287ffa0cb2a7a6585a0ec4c146db39e0bb",
   "branch": "codex/local-connected-rehearsal219",
   "phase": "PACKAGE_F",
   "completed": [
@@ -11,10 +11,14 @@
     "Strict Restore callback only after verification;networknone/no mounts/owned ID/archiveSHA219180;default/success/failure cleanup and expired context proven on synthetic219.",
     "Current ready219 built180/636/13/fresh-incremental0. Actual UI services/XLSX+core reset/resume/UTC runner prepared;real archive remains unopened.",
     "Local Admin1713/1713,types/strictlint,focused23,all214-219 synthetic backup/R2/strictrestore and final lifecycle PASS;Gitleaks0 (hash map reformatted,no exclusions).",
-    "Historical consistency is tests-only ninefile exact inverse on main49;unknown mutations visible;old audit/core sources unchanged."
+    "Historical consistency is tests-only ninefile exact inverse on main49;unknown mutations visible;old audit/core sources unchanged.",
+    "PR59 Draft opened on f636d728;explicit owner approved test-only transport. Full CI pending before any real archive decrypt.",
+    "PR59 f636 exactFULL60+2secrets+backup=63 green attempt1;no real archive opened.",
+    "Additional synthetic probe proved cron source5432 versus reconstructed25435. Explicit rehearsal-only port5432 now matches source;defaultRestore25435 and112owner/core sources unchanged.",
+    "23 focused/history,types/strictlint/Gitleaks0 and real lifecycle including new cron port passed;added actual settings-save/freeze service step before RESET and whole-run ownerAuth/MFA fingerprint checks."
   ],
   "inProgress": [
-    "Save/push/Draft PR then exact-head FULLCI;only after green execute actual eightstep archive rehearsal."
+    "Save/push port+cutover prep correction then final-head FULLCI;only then actual219 archive rehearsal."
   ],
   "notStarted": [
     "PRB closure separate afterA;no merge/deploy/hosted."
@@ -35,14 +39,14 @@
     "No hosted/deploy/merge/main/env/SQL/migration/financial/ACL changes.",
     "OwnerCLI/build/core and all dependencies immutable;no owner/MFA replacement;defaultRestore alwayscleanup."
   ],
-  "nextExactAction": "Create Draft PR for connected219 adapter;verify exact-head FULLCI/secrets,then run newest real219 archive locally and update external report;no merge/hosted/core edits.",
+  "nextExactAction": "Push rehearsal-only cron-port/cutover-prep correction;full CI on new head then actual latest219 archive drill. Owner112pins unchanged;no hosted/merge/main/env edits.",
   "startedAt": "2026-11-01T02:30:05.157Z",
   "historyBaseline": "cab1c5aed8c2069e2919c566ea09c2da9757896d",
-  "checkpointedAt": "2026-11-02T13:56:18.445Z",
+  "checkpointedAt": "2026-11-02T14:32:26.353Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 22,
-  "filesTouchedManifestSha256": "7aad2d75cb97b500032e3ff2a1c6440f38cbb505288b3f6fccf19fcab0a326b2",
-  "workingTreeFingerprint": "769F171E07812ED74781D25BEBCD3092239B2795AD82E32AFFAD2C35262E3C7A"
+  "filesTouchedCount": 9,
+  "filesTouchedManifestSha256": "e41f3956eb142811ef2f5c6ac67de30865779348a8b382d58a161fb45ca01cac",
+  "workingTreeFingerprint": "82F0E6A29BB796DBCFD355FACCA31D1BD94FF61F1B2B2D10FB84B86F13D798FD"
 }

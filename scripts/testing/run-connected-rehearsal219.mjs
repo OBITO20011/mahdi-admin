@@ -9,9 +9,10 @@ import {withRestoredRehearsal219,IMAGE} from '../backup/complete-backup.mjs';
 import {readReady219Reference} from '../operations/frankfurt-reference219.mjs';
 import {protectResetPath,privateResetDirectory} from '../operations/reset214-private-state.mjs';
 import {executeResetInput} from '../operations/reset214-io.mjs';
+import {preservedStateSql} from '../operations/trial-reset-core.mjs';
 import {rehearsal219Executor,installRehearsalNetworkGuard,removeRehearsalPrivateSnapshots} from './rehearsal219-local.mjs';
 import {rehearseReset219} from './rehearsal219-reset.mjs';
-import {rehearseOpeningData219,rehearseFirstSales219} from './rehearsal219-opening-day.mjs';
+import {rehearseOpeningData219,rehearseFirstSales219,prepareRehearsalCutover219} from './rehearsal219-opening-day.mjs';
 import {createClosedRehearsalTree} from './rehearsal219-closed-tree.mjs';
 import {sha256} from './maintenance-db-contract.mjs';
 const exec=promisify(execFile),root=path.resolve(import.meta.dirname,'../..');
@@ -53,6 +54,11 @@ try{
   const json=async text=>JSON.parse(await sql(text));
   const ownerIds=await json("SELECT coalesce(jsonb_agg(DISTINCT p.id),'[]') FROM profiles p JOIN user_roles ur ON ur.user_id=p.id JOIN roles r ON r.id=ur.role_id WHERE p.is_active AND r.code='owner' AND EXISTS(SELECT 1 FROM auth.mfa_factors f WHERE f.user_id=p.id AND f.status='verified');");
   assert.equal(ownerIds.length,1,'REHEARSAL_SELECT_ORIGINAL_OWNER_REQUIRES_DECISION');const ownerId=ownerIds[0];
+  const ownerFingerprint=async()=>{
+   const p=await json(preservedStateSql(ownerId));return {ownerId,ownerAuth:p.ownerAuth,ownerIdentities:p.ownerIdentities,ownerMfa:p.ownerMfa};
+  };
+  report.originalOwnerBefore=await ownerFingerprint();
+  await step('1b','cutover-owner-settings-and-orders-freeze',()=>prepareRehearsalCutover219({sql,ownerId,root,output}));
   await step(2,'preview-closure',async()=>{
    closed=await createClosedRehearsalTree({root,output,target:closedTree});
    assert.equal((await exec('git',['rev-parse','HEAD'],{cwd:closedTree,windowsHide:true})).stdout.trim(),'e1e35a5f5eb362c074e62872c3a88d70ba2c6a89');
@@ -85,7 +91,11 @@ try{
    return {jobs,settings,cronLauncher:'off',edgeProcess:'not running',telegramPush:'not running',network:'none',ABCD:true};
   });
   await step(7,'first-cash-partial-shift-close',()=>rehearseFirstSales219({sql,day}));
-  await step(8,'final-integrity-and-protected-sources',async()=>{const checks=await scan();await verifyPins();return {checks,protectedFileCount:Object.keys(pins.files).length};});
+  await step(8,'final-integrity-and-protected-sources',async()=>{
+   const checks=await scan();await verifyPins();report.originalOwnerAfter=await ownerFingerprint();
+   assert.deepEqual(report.originalOwnerAfter,report.originalOwnerBefore,'REHEARSAL_ORIGINAL_OWNER_AUTH_MFA_CHANGED');
+   return {checks,protectedFileCount:Object.keys(pins.files).length,originalOwnerAuthMfaUnchanged:true};
+  });
   day.api.close();day=null;await executor.closeLocal();executor=null;
  });
  await verifyPins();report.protectedSources.after=pins.files;report.ok=true;

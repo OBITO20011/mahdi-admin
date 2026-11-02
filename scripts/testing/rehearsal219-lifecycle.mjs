@@ -16,6 +16,8 @@ export async function proveRehearsal219Lifecycle(options){
   try{
    const r=await executor.localExecute("SELECT current_database(),current_user,current_setting('cron.launch_active_jobs');");
    assert.equal(r.code,0);assert.equal(r.stdout.trim(),'postgres|postgres|off');
+   const ports=await executor.localExecute("BEGIN;DO $$BEGIN PERFORM cron.schedule('rehearsal-port-probe','* * * * *','SELECT 1;');END $$;SELECT jsonb_build_object('port',current_setting('port')::integer,'jobPorts',(SELECT jsonb_agg(DISTINCT nodeport) FROM cron.job));ROLLBACK;");
+   assert.equal(ports.code,0);assert.deepEqual(JSON.parse(ports.stdout),{port:5432,jobPorts:[5432]},'REBUILT_CRON_PORT_MUST_MATCH_SOURCE');
    await access(ctx.storageDirectory);
   }finally{await executor.closeLocal();closed++;}
  });
@@ -25,5 +27,5 @@ export async function proveRehearsal219Lifecycle(options){
  await assert.rejects(()=>withRestoredRehearsal219(options,async ctx=>{context=ctx;throw new Error('REHEARSAL_SIMULATED_FAILURE');}));
  assert.equal(await ownIds(),'','FAILURE_MUST_DELETE_CONTAINER');
  assert.throws(()=>assertActiveRehearsal219(context));await assert.rejects(()=>access(context.storageDirectory));
- return {defaultRestoreDeletes:true,successDeletes:true,failureDeletes:true,expiredContextRejected:true,extractedStorageDeleted:true,network:'none'};
+ return {defaultRestoreDeletes:true,successDeletes:true,failureDeletes:true,expiredContextRejected:true,extractedStorageDeleted:true,rehearsalCronPort:5432,defaultRestorePort:25435,network:'none'};
 }

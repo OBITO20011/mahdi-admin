@@ -5,12 +5,14 @@ import assert from 'node:assert/strict';
 import {build} from 'esbuild';
 import {pathToFileURL} from 'node:url';
 import path from 'node:path';
+import {randomUUID} from 'node:crypto';
 import {sqlLiteral as q} from '../operations/trial-reset-core.mjs';
 const allowed=new Set(['get_go_live_setup_status_v1','import_go_live_products_v1','record_customer_opening_balances_v1',
  'record_supplier_opening_balances_v1','finish_go_live_setup_v1','set_go_live_main_branch_v1','get_inventory_opening_setup','apply_inventory_opening_setup',
  'preview_go_live_cheques_v1','record_go_live_cheques_v1','create_product_family_with_flavors_v2','create_product_flavor_v1',
  'get_go_live_customer_openings_v1','get_go_live_supplier_openings_v1','get_cash_shift_summary','get_cash_shift_closing_report',
- 'open_cash_shift','close_cash_shift','create_pos_sale_v2','create_pos_sale_with_initial_payment_v1','get_home_dashboard']);
+ 'open_cash_shift','close_cash_shift','create_pos_sale_v2','create_pos_sale_with_initial_payment_v1','get_home_dashboard',
+ 'get_public_storefront_settings','save_storefront_settings_v3']);
 export async function rehearsal219Services({sql,ownerId,output,root}){
  const json=async text=>JSON.parse(await sql(text));
  assert.equal(await sql(`SELECT EXISTS(SELECT 1 FROM auth.users u JOIN auth.mfa_factors f ON f.user_id=u.id WHERE u.id=${q(ownerId)}::uuid AND f.status='verified');`),'t','REHEARSAL_ORIGINAL_OWNER_MFA_REQUIRED');
@@ -44,6 +46,7 @@ export async function rehearsal219Services({sql,ownerId,output,root}){
  export * as importer from './src/features/goLive/goLiveImport.ts';export * as xlsx from './src/lib/xlsx.ts';
  export * as inventory from './src/services/supabase/inventory-opening.service.ts';
  export * as products from './src/services/supabase/products.service.ts';
+ export * as storefront from './src/services/supabase/storefront-settings.service.ts';
  export * as cheques from './src/services/supabase/openingCheques.service.ts';
  export * as chequeImport from './src/features/goLive/openingChequesImport.ts';`;
  const bundle=path.join(output,'actual-ui-services.mjs');
@@ -51,7 +54,7 @@ export async function rehearsal219Services({sql,ownerId,output,root}){
   await build({stdin:{contents:entry,resolveDir:root,loader:'ts'},outfile:bundle,bundle:true,platform:'node',format:'esm',logLevel:'silent',
    plugins:[{name:'local-docker-transport-only',setup(b){b.onResolve({filter:/[\\/]lib[\\/]supabase(?:\.ts)?$/},()=>({path:'local-only',namespace:'rehearsal'}));
     b.onLoad({filter:/.*/,namespace:'rehearsal'},()=>({contents:`export const supabase=globalThis.${globalKey};export const isSupabaseConfigured=true;` }));}}]});
-  const modules=await import(pathToFileURL(bundle).href);
+  const modules=await import(pathToFileURL(bundle).href+'?rehearsal='+randomUUID());
   return {...modules,rpc,calls,close:()=>{delete globalThis[globalKey];}};
  }catch(error){delete globalThis[globalKey];throw error;}
 }
