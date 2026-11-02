@@ -1,3 +1,4 @@
+import{warmHarness,startHarnessEvidence,safeHarnessFailure,recordNoPageFailure,warmupFailureEvidence}from'./harness-failure-evidence.mjs';
 // Real POS/controller/recovery -> local HTTP/PostgREST -> literal216.
 // Only identity/session protocol is synthetic;no business call is mocked.
 import assert from 'node:assert/strict';
@@ -13,7 +14,7 @@ const root=path.resolve(import.meta.dirname,'../..'),exec=promisify(execFile),cl
 const project='nawasrah-tb215-test',rest='nawasrah-partial216-ui-rest',url='http://127.0.0.1:4188',restUrl='http://127.0.0.1:25423';
 const output=await mkdtemp(path.join(tmpdir(),'nawasrah-partial216-fullstack-'));
 const report={output,hostedConnections:0,authScope:'synthetic local JWT identity;real SQL/RLS/role/MFA guards',cases:[]};
-let local,vite,restStarted=false,fixture,browser,lastPage,stage='bootstrap',loseNext=false,committedResponses=[];
+let local,vite,restStarted=false,fixture,browser,stage='bootstrap',evidence,lastHarnessPage,loseNext=false,committedResponses=[];
 const counts={},secret='isolated-table-access-audit-signing-material-only';
 const jwt=claims=>{const parts=[{alg:'HS256',typ:'JWT'},claims].map(x=>Buffer.from(JSON.stringify(x)).toString('base64url'));return parts.join('.')+'.'+createHmac('sha256',secret).update(parts.join('.')).digest('base64url');};
 try{
@@ -39,12 +40,13 @@ try{
  });}};
  vite=await startIsolatedVite({root,port:4188,env:{VITE_SUPABASE_URL:url,VITE_SUPABASE_ANON_KEY:jwt({role:'anon',exp:Math.floor(Date.now()/1000)+3600})},config:{plugins:[proxy]}});
  let sample=0;
- for(const[engine,type]of[['Chromium',chromium],['WebKit',webkit]]){browser=await type.launch();
+ for(const[engine,type]of[['Chromium',chromium],['WebKit',webkit]]){browser=await type.launch();let warmed=false;
   for(const method of['cash','cliq']){
    stage=engine+'-'+method;const pid=randomUUID(),sku='HTTP216-'+randomUUID(),name='صنف HTTP216 '+(++sample);
    await c.sql(`INSERT INTO products(id,sku,name_ar,category_id,unit_id,purchase_unit_id,sale_unit_id,units_per_purchase_unit,units_per_sale_unit,sale_price_in_minor_units,default_sale_price_in_minor_units,cost_price_in_minor_units,wac_cost_in_minor_units_exact,is_active,is_flavor_master,parcel_only)SELECT ${c.q(pid)},${c.q(sku)},${c.q(name)},category_id,unit_id,purchase_unit_id,sale_unit_id,1,1,100000,100000,0,0,true,false,false FROM products WHERE id=${c.q(c.id(103))};`);
    await c.receive(pid,20,500);fixture={ownerId:c.owner,accessToken,branch:c.branch,warehouse:c.warehouse};
-   const context=await browser.newContext({viewport:{width:390,height:844}}),page=await context.newPage(),violations=[];lastPage=page;
+   if(!warmed){const warmBefore=await c.fingerprint(),writesBefore={...counts};const guard=route=>{const u=new URL(route.request().url());if(u.origin===url)return route.continue();return route.abort();};report.warmup??=[];report.warmup.push({engine,...await warmHarness({browser,url:url+'/e2e/partial216-fullstack-harness.html',root,suite:'partial216',route:guard,prepare:async()=>{await vite.server.warmupRequest('/e2e/partial216-fullstack-harness.tsx');await vite.server.waitForRequestsIdle();},ready:async page=>{await expect(page.getByLabel('البحث في منتجات نقطة البيع',{exact:true})).toBeVisible();}})});assert.deepEqual(await c.fingerprint(),warmBefore,'WARMUP_ZERO_WRITES');for(const name of Object.keys(counts).filter(n=>/^(?:create_|settle_|save_|collect_|reverse_|record_)/u.test(n)))assert.equal(counts[name],writesBefore[name],'WARMUP_WRITER_CALL');warmed=true;}
+   const context=await browser.newContext({viewport:{width:390,height:844}});evidence=await startHarnessEvidence(context,{root,suite:'partial216',stage});const page=await context.newPage(),violations=[];lastHarnessPage=page;
    await page.route('**/*',route=>{const u=new URL(route.request().url());if(u.origin===url)return route.continue();violations.push(u.origin);return route.abort();});
    await page.goto(url+'/e2e/partial216-fullstack-harness.html');
    await page.getByLabel('البحث في منتجات نقطة البيع',{exact:true}).fill(sku);
@@ -76,9 +78,9 @@ try{
    assert.equal(Number(await c.sql(`SELECT count(*) FROM customer_payments WHERE order_id=${c.q(sale.orderId)};`)),1);
    assert.equal(Number(await c.sql(`SELECT count(*) FROM pos216_initial_payments WHERE order_id=${c.q(sale.orderId)};`)),1);
    await page.screenshot({path:path.join(output,engine+'-'+method+'-390.png'),fullPage:true});assert.deepEqual(violations,[]);
-   report.cases.push({engine,method,quickCustomerReal:true,oneSale:true,onePayment:true,total:100000,paid:60000,due:40000,stockDelta:-1,profit:99500,lostReplyRecovery:method==='cliq',hostedConnections:0});console.log(JSON.stringify({stage,ok:true}));await context.close();lastPage=null;
+   report.cases.push({engine,method,quickCustomerReal:true,oneSale:true,onePayment:true,total:100000,paid:60000,due:40000,stockDelta:-1,profit:99500,lostReplyRecovery:method==='cliq',hostedConnections:0});console.log(JSON.stringify({stage,ok:true}));await evidence.discard();evidence=null;await context.close();lastHarnessPage=null;
   }await browser.close();browser=null;
  }
  assertVerificationSourceFreeze(frozen,await readVerificationSourceFreeze(root));report.repositoryStayedFrozen=true;report.ok=true;
-}catch(error){Object.assign(report,{ok:false,stage,error:error.message});if(lastPage&&!lastPage.isClosed())try{await lastPage.screenshot({path:path.join(output,'failed-local-ui.png'),fullPage:true});}catch{/* Preserve the original failure. */}process.exitCode=1;}
+}catch(error){Object.assign(report,{ok:false,stage,...safeHarnessFailure(error)});report.failureEvidence=warmupFailureEvidence(error)??(evidence?await evidence.capture(lastHarnessPage):await recordNoPageFailure({root,suite:'partial216'}));process.exitCode=1;}
 finally{await browser?.close();await vite?.close();if(restStarted)await exec('docker',['rm','-f',rest],{windowsHide:true});if(local)await exec(process.execPath,[cli,'stop','--no-backup','--workdir',local],{cwd:root,windowsHide:true});await writeFile(path.join(output,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));}

@@ -2,76 +2,12 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": "A ",
-      "path": "customer-web/src/utils/scroll.ts"
-    },
-    {
-      "code": "A ",
-      "path": "customer-web/tests/scroll.test.ts"
-    },
-    {
-      "code": "A ",
-      "path": "e2e/customer-scroll-fallback.spec.ts"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/audit/source-before-store-scroll.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/audit/store-scroll-source-pins.json"
-    },
-    {
-      "code": "A ",
-      "path": "tests/store-scroll-history.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "customer-web/src/App.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "customer-web/src/components/CartDrawer.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "customer-web/src/components/FloatingContactActions.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "customer-web/src/components/MerchandisingSections.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "customer-web/tests/cart-mobile.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "customer-web/tests/merchandising-carousel.test.ts"
-    },
-    {
       "code": "M ",
       "path": "docs/agent/PHASE_STATUS.md"
     },
     {
       "code": "M ",
-      "path": "docs/operations/SENTRY_TELEGRAM_AR.md"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_219.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+      "path": "docs/agent/PRE_TRAINING_A_AR.md"
     },
     {
       "code": "M ",
@@ -79,15 +15,27 @@
     },
     {
       "code": "M ",
-      "path": "scripts/audit/pre-delivery-usability-source-pins.json"
+      "path": "scripts/audit/pre-training-source-pins.json"
     },
     {
       "code": "M ",
-      "path": "scripts/audit/source-before-sentry.mjs"
+      "path": "scripts/testing/harness-failure-evidence.mjs"
     },
     {
       "code": "M ",
-      "path": "tests/sentry-history.test.ts"
+      "path": "scripts/testing/run-aftercare215-fullstack.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/testing/run-harness-diagnostics-negative.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/testing/run-partial216-fullstack.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "tests/harness-failure-evidence.test.ts"
     }
   ]
 }

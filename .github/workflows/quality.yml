@@ -594,6 +594,10 @@ jobs:
         if: matrix.suite == 'partial216'
         run: node scripts/testing/run-partial216-gates.mjs
 
+      - name: Prove warm harness and sanitized failure screenshot trace console with real browsers
+        if: matrix.suite == 'aftercare215'
+        run: node scripts/testing/run-harness-diagnostics-negative.mjs
+
       - name: Inspected aftercare215 exact money roles races restore strict upgrade and current SDK
         if: matrix.suite == 'aftercare215'
         run: node scripts/testing/run-aftercare215-gates.mjs
@@ -628,6 +632,15 @@ jobs:
           path: test-results/safe-db-diagnostics/
           if-no-files-found: error
           retention-days: 7
+
+      - name: Retain sanitized harness screenshot actions trace and console codes
+        if: failure() && (matrix.suite == 'aftercare215' || matrix.suite == 'partial216')
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: sanitized-harness-failure-${{ matrix.suite }}
+          path: test-results/harness-failure/
+          retention-days: 7
+          if-no-files-found: warn
 
       - name: Retain failed real POS browser traces
         if: failure() && matrix.suite == 'pos-browser'
