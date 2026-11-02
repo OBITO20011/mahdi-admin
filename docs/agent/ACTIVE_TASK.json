@@ -2,39 +2,30 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner2Nov approved local connected rehearsal219 adapter+PR/FULLCI then full eight-step drill. Default restore safety,owner/core dependencies immutable.",
-  "baselineSha": "aad885b32984c13ed515711242e0b0c1421e2bef",
+  "objective": "Owner2Nov connected local219 archive rehearsal:immutable112 owner/core files;PR59/FULLCI then eightstep real drill. No hosted/merge/main/financial edits.",
+  "baselineSha": "2c8d28998718c7fd916bb465265a2ea5ac256ede",
   "branch": "codex/local-connected-rehearsal219",
   "phase": "PACKAGE_F",
   "completed": [
-    "Main49 isolated writer;112 owner/build/core transitive files byte-identical;SHA+import-closure CI test. No operations/SQL/app changes.",
-    "Strict Restore callback only after verification;networknone/no mounts/owned ID/archiveSHA219180;default/success/failure cleanup and expired context proven on synthetic219.",
-    "Current ready219 built180/636/13/fresh-incremental0. Actual UI services/XLSX+core reset/resume/UTC runner prepared;real archive remains unopened.",
-    "Local Admin1713/1713,types/strictlint,focused23,all214-219 synthetic backup/R2/strictrestore and final lifecycle PASS;Gitleaks0 (hash map reformatted,no exclusions).",
-    "Historical consistency is tests-only ninefile exact inverse on main49;unknown mutations visible;old audit/core sources unchanged.",
-    "PR59 Draft opened on f636d728;explicit owner approved test-only transport. Full CI pending before any real archive decrypt.",
-    "PR59 f636 exactFULL60+2secrets+backup=63 green attempt1;no real archive opened.",
-    "Additional synthetic probe proved cron source5432 versus reconstructed25435. Explicit rehearsal-only port5432 now matches source;defaultRestore25435 and112owner/core sources unchanged.",
-    "23 focused/history,types/strictlint/Gitleaks0 and real lifecycle including new cron port passed;added actual settings-save/freeze service step before RESET and whole-run ownerAuth/MFA fingerprint checks.",
-    "Static inspection found new adapter interruption label must use existing CI RESET219_SIMULATED_INTERRUPTION (core wraps other labels). Corrected test label only;separate ordinary/failure/resume timings added;owner/core pins6 tests pass.",
-    "PR59 aad885b3 exactFULL60+2secret+backup=63 green attempt1. No real archive opened.",
-    "Synthetic source had inconsistent legacyfee/ownerbranch and intentional restore-role SELECT grants;fixture initialization only corrected fictional data. Core then rejects net.http_method[] external dependency before destructive start;no guard bypass.",
-    "Local transport corrected to preserve actual PostgreSQL NOTICE via dual-stream test-only session;core112files unchanged. Lifecycle default/success/failure cleanup,expiredContext,port5432,realNOTICE PASS;types/strictlint/Gitleaks0."
+    "Main49 isolated;112owner/core SHA+imports unchanged. PR59;heads f636/634/aad FULL63 green.",
+    "Ready219180/636/13/diff0. LocalAdmin1713/types/strictlint/Gitleaks0. Strict214-219 syntheticarchive/R2/lifecycle+port5432+NOTICE cleanup pass.",
+    "Test-only ninefile exact legacy inverse;unknown edits visible. UI services/XLSX and reset/resume/UTC runner prepared.",
+    "Synthetic postsetup rejects net.http_method[] before delete;do not bypass. Realarchive never decrypted. Details external go-live-rehearsal219-local-20261102."
   ],
   "inProgress": [
-    "Commit/push dualstream transport,exacthead FULLCI;then actual latest219 archive. Stop if real external dependency guard rejects;no production tool repair."
+    "2c8d289 CI core failed ONLY taskJSON>4KB. Compact metadata;newhead FULLCI then actual archive and stop on protectedguard."
   ],
   "notStarted": [
-    "Actual latest219 archive eightstep drill after exact-headCI green and synthetic transport validation."
+    "Actual latest219 full rehearsal/cleanup/report."
   ],
   "testsPassed": [
-    "1713Admin;23focused;types/strictlint;default/success/failure/expired cleanup;214-219 synthetic strictarchive tests;ready18063613diff0;Gitleaks0."
+    "Focused23;Admin1713 earlier;types/strictlint;Gitleaks0;realNOTICE/default+success+failure cleanup/cronport."
   ],
   "testsRemaining": [
-    "Finalhead FULLCI and actual latest219 archive eightstep drill until realguard;external report/timings/cleanup."
+    "FinalheadFULLCI+secrets+backup;actual eightstep drill until blockingguard;external report."
   ],
   "findings": [
-    "Synthetic chain stopped at cutover prep customsettings hash;no real archive decrypted;do not bypass preservation guard."
+    "Synthetic external-dependency guard rejects type net.http_method[];production/core edit forbidden;confirm on actual clone then stop."
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -42,14 +33,14 @@
     "No hosted/deploy/merge/main/env/SQL/migration/financial/ACL changes.",
     "OwnerCLI/build/core and all dependencies immutable;no owner/MFA replacement;defaultRestore alwayscleanup."
   ],
-  "nextExactAction": "Push verified dual-stream rehearsal transport;FULLCI final head;then actual219 archive,stop on guard needing owner/core change. No hosted/merge/main/ownerfile edits.",
+  "nextExactAction": "Final compact-metadata head FULLCI;then actual219 archive rehearsal. No owner/core/hosted/merge;stop on protectedguard.",
   "startedAt": "2026-11-01T02:30:05.157Z",
   "historyBaseline": "cab1c5aed8c2069e2919c566ea09c2da9757896d",
-  "checkpointedAt": "2026-11-02T15:46:04.595Z",
+  "checkpointedAt": "2026-11-02T15:53:49.494Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 5,
-  "filesTouchedManifestSha256": "71ba3e36f3689d1cbf50324c0ddbad07e802afe76c01898ada15ab64db2180e4",
-  "workingTreeFingerprint": "876DECA18CF3773F97F2D6BC01CBE3F29EA52E302F989D5065925508E0E1096E"
+  "filesTouchedCount": 0,
+  "filesTouchedManifestSha256": "b6429e7d08029a34589e9c8956ef86dffab2fb6dd9ee37c08d5e9204e14cdbe6",
+  "workingTreeFingerprint": "AA7E1BEB9E33AF6D66638C52C546101F72793A005AEECF061D58701DF90BBB38"
 }
