@@ -2,50 +2,47 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner approved local-only explicit owner ACL on exactly2sequences. Prove liveRESET raw representation safety then full local actualarchive219 drill;no hosted/prod tools changes.",
-  "baselineSha": "bd150f0a08ab938cc08273de7adef5f812c098ea",
+  "objective": "Owner3Nov approved219reset guard+local30ACL ready:exact3file-line-hash,noSQLchanges/freshbuildchange. Localgatespassed;FULLCI thenfullactual2191-8,no merge.",
+  "baselineSha": "10574f7185fa00b8ff9658ee52c3997064ef1d14",
   "branch": "codex/local-connected-rehearsal219",
   "phase": "PACKAGE_F",
   "completed": [
-    "PR59 bd150f0a pushed;FULL60+2secret+strictbackup1=63/63 firstattempt.",
-    "Exact22source Supautils values and policy-only causal proof PASS on actual219 restored archive;noGRANT/role/owner changes.",
-    "Admin1719/types/ESLint/focused12/Gitleaks0;synthetic lifecycle+5dependency negatives/defaultcleanup PASS.",
-    "Actual archive read-only inspection:152tables/3images/180history/17healthy0/exceptions[];source explicitowner ACL vs restored NULL on exactly2sequences,effective rights equal.",
-    "Primary24files byte-identical;111protectedfiles unchanged plus prior approved dependency-core diff;all rehearsal containers cleaned.",
-    "Approvedlocal2sequence exception implemented+pure negativecases;effective rights/roles/owners/restcatalog/data unchanged;replayNOOP and lifecycle/defaultcleanup PASS."
+    "Exact3RESET219cron guards;pre-destructive SELECT identityfailclosed;perstatement identitychecks;originalmigrationmanifest checkedbefore/after. Freshbuild untouched.",
+    "Admin1728/0fail;focused27 plusfinal15PASS;types+ESLintPASS;Gitleaks0 final.",
+    "Actualarchive extensionaudit11rollbackstatements:only3cronACLdifferences;other8 no differences. Local30SQLprivilege checks7440 unchanged.",
+    "Qualifiedsynthetic lifecycle/default/success/failurecleanup +5dependency negatives/Supautils/2seq+30tableACL/replay/cron negatives PASS;7680SQLrightschecks.",
+    "110originalsources exact plus2reviewedcoreexceptions/newguard pinned. All180migrationfiles unchanged;primary24files unchanged."
   ],
   "inProgress": [
-    "Commitpush samePR59 exactfinalFULLCI,then actualarchive219 steps1-8."
+    "Commitpush samePR59 thenexactFULLCI;repeatfullactualarchive2191-8."
   ],
   "notStarted": [
-    "Full actual archive steps1-8 after Supautils:reset/resume/UTC/imports/scans/activation mocks/sales/close/timing."
+    "Fullactualarchive resumeUTC/steps4-8;boundedreset219guard notimplemented;local30ACLexception unapproved."
   ],
   "testsPassed": [
-    "Admin1722/focused15/types/ESLint/Gitleaks0;runtimeSupautils+2sequence beforeafter/lifecycle/5dependencynegatives;112sourcepins onlypriorcore exception."
+    "LocalAdmin1728/focused27/types/ESLint/Gitleaks0;actualsource extensionaudit andguard negatives;qualified lifecycle proof.json."
   ],
   "testsRemaining": [
-    "FULLCI on newSHA;full actualarchive2191-8 ordinary/resume/UTC/import/integrity/ABCD/sales/close."
+    "NewheadFULLCI thenactualordinary/resume/UTC/imports/scans/ABCD/sales/close;finalcleanup/report."
   ],
   "findings": [
-    "Source/server hook fixes local Storage policy authority;production not shown broken.",
-    "Synthetic reset180 rebuilt then rawACL comparison rejected public.deferred_cheque_number_seq and public.inventory_movement_mutation_seq only. Actualsource owner ACL explicit,restoredNULL;expanded rights identical.",
-    "Customscripts directory exists;no content invented. CIdefault amcheck override difference proposedonly.",
-    "OwnerRESET rawACL is strict,unlikeverifyACL. SavedFrankfurt and full180rebuild both explicitowner ACL for2sequences;localNULL isrestore-only representation."
+    "Synthetic original214 extra role/defaultgrant negativeoracle retained. Only new219 fixture revokes own testSELECT onapproved30;oldarchive proofs untouched.",
+    "Owner-onlylocal2seq+30table representation;no actualrights increase. No otherextension replacement."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hosted/deploy/merge/main/env/SQLmigration/financial/permissions changes.",
-    "Only approved dependency calculation diff in trial-reset-core;ownerCLI/build/core214 and other protectedimports immutable. No ownerAuth/MFA replacement;defaultRestorecleanup unchanged."
+    "No hosted/deploy/merge/main/env/migration/financialchanges.",
+    "Only ownerapproved219guard/local30representation andpriorroot/2seq exceptions;ownerCLI/build/defaultRestore/comparison unchanged."
   ],
-  "nextExactAction": "Push approved2sequence localrepresentation helper;exactFULLCI then fullactual219 rehearsal1-8. No merge or hosted access.",
+  "nextExactAction": "Push reviewedguard/local30candidate;exactFULLCI thenfullactual2191-8,no merge orhosted.",
   "startedAt": "2026-11-01T02:30:05.157Z",
   "historyBaseline": "cab1c5aed8c2069e2919c566ea09c2da9757896d",
-  "checkpointedAt": "2026-11-02T20:03:12.929Z",
+  "checkpointedAt": "2026-11-02T21:58:21.167Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 5,
-  "filesTouchedManifestSha256": "bb1376046270f777a573b703f5abf7ce3248bed0e0601be0beac27dc2d286056",
-  "workingTreeFingerprint": "52481A55CA638364DE5CD47F48138C6A3230E411F6B44B09868B0116A6D5E9EB"
+  "filesTouchedCount": 15,
+  "filesTouchedManifestSha256": "edcca95e3b8600d2f51efe266ed7adcb412aabd6baf6e0dec6905244b6ec7a9d",
+  "workingTreeFingerprint": "33F4F83AF751DECDD3F9529291F7BF118AEDD7D797F74DCFEC8FCF66A666764B"
 }

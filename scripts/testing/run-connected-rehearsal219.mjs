@@ -15,9 +15,10 @@ import {rehearseReset219} from './rehearsal219-reset.mjs';
 import {rehearseOpeningData219,rehearseFirstSales219,prepareRehearsalCutover219} from './rehearsal219-opening-day.mjs';
 import {createClosedRehearsalTree} from './rehearsal219-closed-tree.mjs';
 import {sha256} from './maintenance-db-contract.mjs';
-import {assertProtectedRehearsalSource219,dependencyRootApproval219} from './rehearsal219-protected-sources.mjs';
+import {assertProtectedRehearsalSource219,dependencyRootApproval219,pgCronResetApproval219} from './rehearsal219-protected-sources.mjs';
 import {configureRehearsalSupautils219,validateSupautilsSource219} from './rehearsal219-supautils.mjs';
 import {matchRehearsalSequenceOwnerAcl219} from './rehearsal219-sequence-acl.mjs';
+import {matchRehearsalTableOwnerAcl219} from './rehearsal219-table-acl.mjs';
 const exec=promisify(execFile),root=path.resolve(import.meta.dirname,'../..');
 const args=process.argv.slice(2),keys=['--archive','--reference','--output','--closed-tree','--supautils-evidence'];
 assert.equal(args.length,10,'REHEARSAL_FIVE_EXPLICIT_LOCAL_PATHS_REQUIRED');
@@ -46,8 +47,10 @@ try{
  const reference=await readReady219Reference(root,referenceFile);
  report.archive={name:path.basename(archivePath),sha256:sha256(await readFile(archivePath)),referenceSha256:sha256(await readFile(referenceFile))};
  const pins=JSON.parse(await readFile(path.join(root,'scripts/testing/rehearsal219-owner-source-pins.json'),'utf8'));pins.files=Object.fromEntries(pins.files);
+ for(const file of Object.keys(pgCronResetApproval219.newFiles))pins.files[file]=undefined;
  const verifyPins=async()=>{const actual={};for(const [file,hash]of Object.entries(pins.files)){const bytes=await readFile(path.join(root,file));assertProtectedRehearsalSource219(file,bytes,hash);actual[file]=sha256(bytes);}return actual;};
  report.protectedSources={original:pins.files,before:await verifyPins(),approvedException:{file:dependencyRootApproval219.file,beforeSha256:dependencyRootApproval219.beforeSha256,afterSha256:dependencyRootApproval219.afterSha256,scope:'actual-drop-roots-only;owner CLI/build and other111files unchanged'}};
+ report.protectedSources.approvedCronGuard={file:pgCronResetApproval219.file,beforeSha256:pgCronResetApproval219.beforeSha256,afterSha256:pgCronResetApproval219.afterSha256,newFiles:pgCronResetApproval219.newFiles,scope:'Owner3Nov RESET219 exact three statements only;other110 original files unchanged'};
  // An uncached image must fail rather than initiating an external pull.
  await exec('docker',['image','inspect',IMAGE],{windowsHide:true});
  stage='strict-restore';await withRestoredRehearsal219({archivePath,passphrase,reportPath:path.join(output,'strict-restore.json')},async context=>{
@@ -56,6 +59,7 @@ try{
   report.steps.push({number:1,name:'strict-restore',ok:true,elapsedMs:Math.round(performance.now()-started),proof:context.restoreProof});await save();
   report.supautils=await step('1a','source-exact-local-supautils',()=>configureRehearsalSupautils219({context,evidenceFile:supautilsFile,output}));
   report.sequenceOwnerAcl=await step('1a.2','source-exact-local-sequence-owner-representation',()=>matchRehearsalSequenceOwnerAcl219(context));
+  report.tableOwnerAcl=await step('1a.3','source-exact-local-thirty-table-owner-representation',()=>matchRehearsalTableOwnerAcl219(context));
   const local=await rehearsal219Executor(context);
   executor={...local,localExecute:async(...args)=>{const result=await local.localExecute(...args);if(result.code!==0)report.localSqlFailure={code:rehearsalSqlFailureCode(result.stderr),exitCode:result.code,rawOutputSaved:false};return result;}};
   const sql=async text=>{const r=await executeResetInput(executor,text);assert.equal(r.code,0,'REHEARSAL_LOCAL_SQL_FAILED');return r.stdout.trim();};

@@ -13,6 +13,7 @@ import {localR2Fixture} from './local-r2-fixture.mjs';
 import {nativeBackupTlsProbe} from './native-backup-tls-probe.mjs';
 import {proveComparisonRejectsSyntheticDifference} from './restore-comparison-negative.mjs';
 import {proveRehearsal219Lifecycle} from './rehearsal219-lifecycle.mjs';
+import {ownerTableNames219} from './rehearsal219-table-acl.mjs';
 const exec=promisify(execFile),root=path.resolve(import.meta.dirname,'../..'),project='nawasrah-dual-backup-test',container='supabase_db_'+project;
 const output=await mkdtemp(path.join(tmpdir(),'nawasrah-dual-backup-proof-'));let local,report={ok:false,hostedConnectionsMade:false};
 try{
@@ -129,7 +130,12 @@ try{
   const restore217=await restoreCompleteBackup({archivePath:backup217.archivePath,passphrase,reportPath:path.join(output,'restore217.json')});assert.equal(restore217.ok,true);assert.equal(restore217.historyCeiling,217);assert.equal(restore217.historyFiles,179);assert.equal(restore217.catalogAclOwnerSettingsMatch,true);assert.equal(restore217.allRowsAndHashesMatch,true);assert.deepEqual(restore217.exceptionsApplied,[]);
   await ownerMode('Upload');await ownerMode('VerifyRemote');await ownerMode('RestoreRemote');const remote217=JSON.parse(await readFile(path.join(config.stateRoot,'restore-remote.json'),'utf8'));assert.equal(remote217.historyCeiling,217);assert.equal(remote217.ok,true);
   const latest=new SnapshotSession('docker',args);
-  try{await latest.query(await readFile(path.join(root,'supabase/migrations/219_home_financial_facts_narrow_projection.sql'),'utf8'));await latest.query("INSERT INTO supabase_migrations.schema_migrations(version)VALUES('219');");}finally{await latest.close();}
+  try{await latest.query(await readFile(path.join(root,'supabase/migrations/219_home_financial_facts_narrow_projection.sql'),'utf8'));await latest.query("INSERT INTO supabase_migrations.schema_migrations(version)VALUES('219');");
+   // The original214 archive/negative oracle above retains the extra role,
+   // membership,default grants and their exact restore proof. Only the new219
+   // rehearsal fixture needs these30 private tables to match owner-only source.
+   await latest.query('ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public REVOKE SELECT ON TABLES FROM restore_comparison_role;REVOKE SELECT ON TABLE '+ownerTableNames219.map(n=>'public."'+n+'"').join(',')+' FROM restore_comparison_role;');
+  }finally{await latest.close();}
   const old217AfterUpdate=await restoreCompleteBackup({archivePath:backup217.archivePath,passphrase,reportPath:path.join(output,'old217-after219-support.json')});assert.equal(old217AfterUpdate.ok,true);assert.equal(old217AfterUpdate.historyCeiling,217);
   const backup219=await createCompleteBackup({projectRef:'kzevmysfydaslxcerogt',outputRoot:backupRoot,passphrase,source});assert.equal(backup219.historyCeiling,219);assert.equal(backup219.historyFiles,180);assert.equal(backup219.formatVersion,2);
   const restore219=await restoreCompleteBackup({archivePath:backup219.archivePath,passphrase,reportPath:path.join(output,'restore219.json')});assert.equal(restore219.ok,true);assert.equal(restore219.historyCeiling,219);assert.equal(restore219.historyFiles,180);assert.equal(restore219.catalogAclOwnerSettingsMatch,true);assert.equal(restore219.allRowsAndHashesMatch,true);assert.deepEqual(restore219.exceptionsApplied,[]);

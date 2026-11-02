@@ -9,13 +9,13 @@ import {execFileSync} from 'node:child_process';
 import {assertRehearsalTarget,allowedRehearsalRequest,rehearsal219Executor,installRehearsalNetworkGuard,removeRehearsalPrivateSnapshots,rehearsalSqlFailureCode} from '../scripts/testing/rehearsal219-local.mjs';
 import {assertActiveRehearsal219} from '../scripts/backup/complete-backup.mjs';
 import {sourceBeforeRehearsal219,rehearsal219LegacyPins} from '../scripts/testing/rehearsal219-legacy-view.mjs';
-import {assertProtectedRehearsalSource219,dependencyRootApproval219,sourceBeforeDependencyRoots219} from '../scripts/testing/rehearsal219-protected-sources.mjs';
+import {assertProtectedRehearsalSource219,dependencyRootApproval219,pgCronResetApproval219,sourceBeforeDependencyRoots219} from '../scripts/testing/rehearsal219-protected-sources.mjs';
 const root=process.cwd();
 test('local SQL diagnostic admits fixed code only and never carries error text or row values',()=>{
  assert.equal(rehearsalSqlFailureCode('ERROR:  must be owner of table objects\nDETAIL: fictional private content'),'STORAGE_OBJECTS_OWNERSHIP_REQUIRED');
  assert.equal(rehearsalSqlFailureCode('ERROR: secret customer,phone,amount,token'),'LOCAL_SQL_REJECTED');
 });
-test('111 owner/core dependency sources stay byte-identical;only reviewed trial-reset-core dependency-root diff is allowed',()=>{
+test('110 original owner/core sources stay exact;only approved dependency roots and RESET219 cron guard plus pinned helper differ',()=>{
  const pins=JSON.parse(readFileSync(path.join(root,'scripts/testing/rehearsal219-owner-source-pins.json'),'utf8'));
  pins.files=Object.fromEntries(pins.files);
  const seen=new Set<string>();
@@ -28,7 +28,17 @@ test('111 owner/core dependency sources stay byte-identical;only reviewed trial-
    if(existsSync(path.join(root,next)))visit(next);
   }
  }
- pins.roots.forEach(visit);assert.deepEqual([...seen].sort(),Object.keys(pins.files).sort());assert.ok(seen.size>100);
+ pins.roots.forEach(visit);assert.deepEqual([...seen].sort(),[...Object.keys(pins.files),...Object.keys(pgCronResetApproval219.newFiles)].sort());assert.equal(seen.size,113);
+});
+
+test('second owner exception reconstructs exact original core and rejects any extra guard edit',()=>{
+ const a=pgCronResetApproval219,before=execFileSync('git',['show',a.baseline+':'+a.file],{encoding:'utf8',maxBuffer:8*1024**2}),current=readFileSync(a.file,'utf8');
+ assert.equal(createHash('sha256').update(before).digest('hex'),a.beforeSha256);
+ let applied=before;for(const p of a.patches){assert.equal(applied.split(p.before).length,2);applied=applied.replace(p.before,p.after);}
+ assert.equal(applied,current);assert.equal(sourceBeforeDependencyRoots219(a.file,current),before);
+ assert.throws(()=>assertProtectedRehearsalSource219(a.file,Buffer.from(current+'\n'),a.beforeSha256));
+ assert.equal(sourceBeforeDependencyRoots219(a.file,current+'\n'),current+'\n');
+ for(const [file,hash]of Object.entries(a.newFiles) as [string,string][]){const data=readFileSync(file);assert.equal(createHash('sha256').update(data).digest('hex'),hash);assert.equal(sourceBeforeDependencyRoots219(file,data.toString()),null);assert.throws(()=>assertProtectedRehearsalSource219(file,Buffer.concat([data,Buffer.from('\n')]),undefined));}
 });
 test('owner exception reconstructs exact Git bytes and rejects every other trial-reset-core edit',()=>{
  const a=dependencyRootApproval219;
