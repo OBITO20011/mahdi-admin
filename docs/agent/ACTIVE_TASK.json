@@ -2,42 +2,37 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner2Nov merge56 approved then realmain merge55,FULLCI,new55merge/mainCI;preserve20ownerfiles/4env/literalstate5;no hosted/deploy.",
-  "baselineSha": "fceb062ecb42636f9edcc69d536278a5bad93785",
-  "branch": "codex/sentry-telegram-relay",
+  "objective": "Owner2Nov pretrainingB:close source trial switch only;real build/verify/deploy refusals and production/staging positive gates;Draft do notmerge beforegolive. No hosted/deploy/SQL.",
+  "baselineSha": "f24d8330d6d82a46aaea3c2e26e2fc84df9559d6",
+  "branch": "codex/prelaunch-close-for-go-live",
   "phase": "PACKAGE_F",
   "completed": [
-    "Independent Worker rawHMAC+signedfreshness+SQLite durable dedup/bounded one-attempt Telegram;Arabic owner guide/launch card;no app/SQL changes.",
-    "LocalCloudflareworkerd synthetic Telegram:202/duplicate200/one send/no PII.",
-    "PR56 approved55ee9120 merged ef56fff6;FULL mainCI inprogress."
+    "Separateworktree baselinef24;A PR57 independent inCI;primary/env untouched."
   ],
   "inProgress": [
-    "Real merge main into55;resolve only metadata/sourcepins preserving reviewed app bytes;fullCI then ownerauthorizedmerge55 and primary ff-only."
+    "Closed switch tests/localgates thenDraftPR/fullCI."
   ],
   "notStarted": [],
-  "testsPassed": [
-    "Admin1698/1698;Store203;worker13/focused22;types+strictlint;all six environment builds+verify-dist and negative guards;no hostedaccess."
-  ],
+  "testsPassed": [],
   "testsRemaining": [
-    "Merged localfocused pins/worker/scroll;exactnewhead FULLCI;main56/main55 CI and ownerpreservation/preflight."
+    "Focused/full units/types/strictlint/build/verify/refusals/Gitleaks/fullCI."
   ],
   "findings": [
-    "No sourceapp/RPC/SQL touchplanned. Newfilesworkers/*,tests/sentry-telegram-relay.test.ts,docs/operations/SENTRY_TELEGRAM_AR.md pluslaunchcards/checkpoint."
+    "Contextretained;no SQL/RPC/money/roles/deploy/hosted."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No deploy/hostedFrankfurt/Sentry/Telegram/Cloudflare;no SQL/financial/permissions/newfeature.",
-    "Owner20localfiles/4.env byte-identical;state5literalproperties preserved;only approved merges56 then55."
+    "No merge beforegolive;NO deploy/hosted/ownercheckout/env/financial/SQL changes."
   ],
-  "nextExactAction": "Real merge main56→55 resolved;26focused PASS;reviewed Worker+customerbytes exact. Commitpush merge then FULLCI/main56gate;no hosted/deploy.",
+  "nextExactAction": "RunB fullunits/types/strictlint and actualclosedbuild-gate4positive8negative;thenDraftPR/fullCI,no merge.",
   "startedAt": "2026-11-01T02:30:05.157Z",
   "historyBaseline": "cab1c5aed8c2069e2919c566ea09c2da9757896d",
-  "checkpointedAt": "2026-11-01T22:19:48.096Z",
+  "checkpointedAt": "2026-11-02T00:36:32.230Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 22,
-  "filesTouchedManifestSha256": "6bcb4b732cd6543af2ec61b1b22b57ff94e3c82859a2d8e16bcbfd429776c576",
-  "workingTreeFingerprint": "2CF1ACB9D75CAE4F9B0E4C6A131271EFF7044D4F9822550EB2990A4DFC22C0CF"
+  "filesTouchedCount": 13,
+  "filesTouchedManifestSha256": "b28d5dd19ddac99d3f9e4f93740d54bee791f52a2f5bb48d3011d03d2f872740",
+  "workingTreeFingerprint": "211FC285680FDB1E6B68228AE2E9EE3A416B655B90335A0732265C1971B16465"
 }

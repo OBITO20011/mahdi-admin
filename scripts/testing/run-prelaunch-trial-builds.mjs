@@ -1,5 +1,6 @@
 // Actual Vite/SEO builds through loopback only;never invoke a deployment.
 import assert from 'node:assert/strict';
+import {PRELAUNCH_TRIAL_OPEN} from '../environments/prelaunch-trial-control.mjs';
 import {execFile,execFileSync} from 'node:child_process';
 import {promisify} from 'node:util';
 import {readFile,writeFile,mkdtemp,mkdir,copyFile,readdir,symlink} from 'node:fs/promises';
@@ -11,6 +12,8 @@ const root=path.resolve(import.meta.dirname,'../..'),exec=promisify(execFile),pr
 const sourceSha=execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim();
 const env={...process.env,NAWASRAH_DEPLOYMENT_ENV:'prelaunch-trial'};
 for(const key of ['VITE_SUPABASE_URL','VITE_SUPABASE_PUBLISHABLE_KEY','VITE_SUPABASE_ANON_KEY','VITE_PUBLIC_SITE_ORIGIN','VITE_STOREFRONT_PUBLIC_URL','VITE_BROWSER_QA_ISOLATED'])delete env[key];
+// Closed cutover still runs the complete production/staging positive gates and real CLI refusals.
+if(!PRELAUNCH_TRIAL_OPEN){await import('./run-prelaunch-closed-gates.mjs');process.exit(0);}
 for(const app of ['admin','customer']){
  const args=app==='customer'?['scripts/testing/run-customer-isolated-build.mjs']:['scripts/environments/run-context.mjs','prelaunch-trial','admin'];
  const r=await exec(process.execPath,args,{cwd:root,env,windowsHide:true,maxBuffer:8*1024**2});process.stdout.write(r.stdout);process.stderr.write(r.stderr);

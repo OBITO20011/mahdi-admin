@@ -3,6 +3,7 @@ import {resolveBuildEnvironment} from '../scripts/environments/environment.mjs';
 import test from 'node:test';
 import {restoreHomeDamage201SourceHashes} from '../scripts/audit/source-before-home-damage201.mjs';
 import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
 import {readFile,mkdtemp,mkdir,writeFile,copyFile,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
@@ -31,7 +32,7 @@ test('historical Frankfurt defaults remain exact through the environment inverse
  assert.deepEqual(services.oldReferences.filter((r:{category:string})=>['APP_FALLBACK','CSP_CONNECT_SRC'].includes(r.category)),[]);
 });
 
-for(const environment of ['production','staging','prelaunch-trial'] as const)test('SEO uses the selected '+environment+' manifest for both RPCs;zero real network',async()=>{
+for(const environment of ['production','staging'] as const)test('SEO uses the selected '+environment+' manifest for both RPCs;zero real network',async()=>{
  const dir=await mkdtemp(path.join(tmpdir(),'nawasrah-seo-context-')),customer=path.join(dir,'customer-web'),selected=resolveBuildEnvironment({NAWASRAH_DEPLOYMENT_ENV:environment});
  try{
   await mkdir(path.join(customer,'scripts'),{recursive:true});await mkdir(path.join(customer,'dist'));await mkdir(path.join(dir,'scripts/environments'),{recursive:true});
@@ -56,4 +57,9 @@ const calls=[];globalThis.fetch=async(target,init)=>{
   await writeFile(manifest,JSON.stringify({...selected,url:'https://wrong.invalid'}));
   await assert.rejects(run,/BUILD_MANIFEST_MISMATCH/u,'unknown context cannot fetch an arbitrary API');
  }finally{await rm(dir,{recursive:true,force:true});}
+});
+
+test('closed trial SEO manifest is refused before any fetch;context is retained for later removal',()=>{
+ assert.throws(()=>resolveBuildEnvironment({NAWASRAH_DEPLOYMENT_ENV:'prelaunch-trial'}),/PRELAUNCH_TRIAL_CLOSED/u);
+ const seo=readFileSync('customer-web/scripts/generate-seo-pages.mjs','utf8');assert.ok(seo.indexOf('validatePublicBuildManifest(')<seo.indexOf('await fetch('));
 });
