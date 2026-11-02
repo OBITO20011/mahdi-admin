@@ -9,7 +9,7 @@ import {withRestoredRehearsal219,IMAGE} from '../backup/complete-backup.mjs';
 import {readReady219Reference} from '../operations/frankfurt-reference219.mjs';
 import {protectResetPath,privateResetDirectory} from '../operations/reset214-private-state.mjs';
 import {executeResetInput} from '../operations/reset214-io.mjs';
-import {preservedStateSql} from '../operations/trial-reset-core.mjs';
+import {preservedStateSql,externalDependentsSql} from '../operations/trial-reset-core.mjs';
 import {rehearsal219Executor,installRehearsalNetworkGuard,removeRehearsalPrivateSnapshots} from './rehearsal219-local.mjs';
 import {rehearseReset219} from './rehearsal219-reset.mjs';
 import {rehearseOpeningData219,rehearseFirstSales219,prepareRehearsalCutover219} from './rehearsal219-opening-day.mjs';
@@ -66,7 +66,12 @@ try{
    const r=await exec(process.execPath,['scripts/testing/run-prelaunch-closed-gates.mjs'],{cwd:closedTree,windowsHide:true,maxBuffer:16*1024**2});
    const proof=JSON.parse(r.stdout.trim().split('\n').at(-1));assert.equal(proof.ok,true);assert.equal(proof.deployments,0);return proof;
   });
-  await step(3,'reset219-ordinary-interruption-resume-midnight',()=>rehearseReset219({context,executor,root,referenceFile,reference,ownerId,output}));
+  await step(3,'reset219-ordinary-interruption-resume-midnight',async()=>{
+   // Object identities only,not rows or secrets. Preserve the actual guard's
+   // evidence before it refuses an external dependency;never bypass it.
+   report.externalDropDependents=await json(externalDependentsSql);await save();
+   return rehearseReset219({context,executor,root,referenceFile,reference,ownerId,output});
+  });
   await step(4,'opening-data-services',async()=>{day=await rehearseOpeningData219({sql,ownerId,root,output});return day.proof;});
   const scan=async()=>{await sql('SELECT public.run_advanced_monitoring_checks();');const result=await json('SELECT public.get_advanced_monitoring_status();');
    const checks=(result.checks??[]).map(({key,status,issueCount})=>({key,status,issueCount}));

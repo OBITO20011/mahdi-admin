@@ -4,6 +4,7 @@ import {promisify} from 'node:util';
 import {access} from 'node:fs/promises';
 import {restoreCompleteBackup,withRestoredRehearsal219,assertActiveRehearsal219} from '../backup/complete-backup.mjs';
 import {rehearsal219Executor} from './rehearsal219-local.mjs';
+import {publicFingerprint} from '../operations/reset214-write-guard.mjs';
 const exec=promisify(execFile);
 export async function proveRehearsal219Lifecycle(options){
  const ownIds=async()=>(await exec('docker',['ps','-aq','--filter','name=nawasrah-full-restore-'+process.pid+'-'],{windowsHide:true})).stdout.trim();
@@ -16,6 +17,7 @@ export async function proveRehearsal219Lifecycle(options){
   try{
    const r=await executor.localExecute("SELECT current_database(),current_user,current_setting('cron.launch_active_jobs');");
    assert.equal(r.code,0);assert.equal(r.stdout.trim(),'postgres|postgres|off');
+   const fingerprint=await publicFingerprint(executor);assert.ok(Object.keys(fingerprint).length>100,'REAL_POSTGRES_NOTICE_MUST_BE_PRESERVED');
    const ports=await executor.localExecute("BEGIN;DO $$BEGIN PERFORM cron.schedule('rehearsal-port-probe','* * * * *','SELECT 1;');END $$;SELECT jsonb_build_object('port',current_setting('port')::integer,'jobPorts',(SELECT jsonb_agg(DISTINCT nodeport) FROM cron.job));ROLLBACK;");
    assert.equal(ports.code,0);assert.deepEqual(JSON.parse(ports.stdout),{port:5432,jobPorts:[5432]},'REBUILT_CRON_PORT_MUST_MATCH_SOURCE');
    await access(ctx.storageDirectory);
@@ -27,5 +29,5 @@ export async function proveRehearsal219Lifecycle(options){
  await assert.rejects(()=>withRestoredRehearsal219(options,async ctx=>{context=ctx;throw new Error('REHEARSAL_SIMULATED_FAILURE');}));
  assert.equal(await ownIds(),'','FAILURE_MUST_DELETE_CONTAINER');
  assert.throws(()=>assertActiveRehearsal219(context));await assert.rejects(()=>access(context.storageDirectory));
- return {defaultRestoreDeletes:true,successDeletes:true,failureDeletes:true,expiredContextRejected:true,extractedStorageDeleted:true,rehearsalCronPort:5432,defaultRestorePort:25435,network:'none'};
+ return {defaultRestoreDeletes:true,successDeletes:true,failureDeletes:true,expiredContextRejected:true,extractedStorageDeleted:true,postgresFingerprintNoticePreserved:true,rehearsalCronPort:5432,defaultRestorePort:25435,network:'none'};
 }

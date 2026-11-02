@@ -4,7 +4,7 @@ import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
 import {lstat,readdir,rm} from 'node:fs/promises';
 import path from 'node:path';
-import {SnapshotSession} from '../backup/snapshot-session.mjs';
+import {Rehearsal219Session} from './rehearsal219-session.mjs';
 import {assertActiveRehearsal219} from '../backup/complete-backup.mjs';
 import {sqlLiteral as q} from '../operations/trial-reset-core.mjs';
 const exec=promisify(execFile);
@@ -25,11 +25,11 @@ export async function rehearsal219Executor(context){
   assertRehearsalTarget(context,inspected);
   const args=Object.freeze(['exec','-i',context.containerId,'psql','-h','/tmp/socket','-p','5432','-U','postgres','-d','postgres','-X','-q','-At','-w','-v','ON_ERROR_STOP=1']);
   const sessions=new Map();
-  const sessionFor=token=>{let s=sessions.get(token);if(!s||s.closed){s=new SnapshotSession('docker',args);sessions.set(token,s);}return s;};
+  const sessionFor=token=>{let s=sessions.get(token);if(!s||s.closed){s=new Rehearsal219Session(args);sessions.set(token,s);}return s;};
   const base={command:'docker',args,localOnly:true,
     localExecute:async(input,token='')=>{
       assertActiveRehearsal219(context);
-      try{return {code:0,stdout:await sessionFor(token).query(`ROLLBACK;RESET ROLE;RESET ALL;SET reset214.writer=${q(token)};\n${input}`),stderr:''};}
+      try{return await sessionFor(token).query(`ROLLBACK;RESET ROLE;RESET ALL;SET reset214.writer=${q(token)};\n${input}`);}
       catch{return {code:1,stdout:'',stderr:'REHEARSAL_LOCAL_SQL_FAILED'};}
     },
     closeLocal:async()=>{for(const s of sessions.values())await s.close();sessions.clear();},
