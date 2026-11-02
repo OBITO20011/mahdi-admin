@@ -20,6 +20,7 @@ import {assertStrictRestoreComparison} from './restore-comparison.mjs';
 import {restoreCronSequenceAcl} from './restore-cron-acl.mjs';
 import {verifiedSupabaseCa} from './supabase-ca.mjs';
 import {postgresDiagnostic,diagnosticError,classifiedError} from './postgres-diagnostic.mjs';
+import {protectResetPath} from '../operations/reset214-private-state.mjs';
 
 const exec=promisify(execFile);
 const stripTransaction=sql=>sql.replace(/^BEGIN READ ONLY;/u,'').replace(/ROLLBACK;\s*$/u,'');
@@ -110,14 +111,26 @@ export async function createCompleteBackup({projectRef,outputRoot,passphrase,ret
   finally{await session?.close().catch(()=>{});await rm(partial,{force:true});await rm(work,{recursive:true,force:true});if(status)await writeFile(path.join(outputRoot,'last-backup-status.json'),JSON.stringify(status,null,2)+'\n');}
 }
 
-export async function restoreCompleteBackup({archivePath,passphrase,reportPath,readObjectAfterRestore}){
+// Only the explicit rehearsal wrapper can install this in-process callback.
+// The ordinary owner Restore API never accepts a target or a keep-container flag.
+const rehearsal219=Symbol('verified-local-rehearsal219');
+const activeRehearsals=new WeakSet();
+export function assertActiveRehearsal219(context){
+  assert.ok(activeRehearsals.has(context),'REHEARSAL_VERIFIED_CONTEXT_REQUIRED');
+}
+export async function withRestoredRehearsal219(options,afterVerified){
+  assert.equal(typeof afterVerified,'function','REHEARSAL_CALLBACK_REQUIRED');
+  return restoreCompleteBackup({...options,[rehearsal219]:afterVerified});
+}
+export async function restoreCompleteBackup({archivePath,passphrase,reportPath,readObjectAfterRestore,[rehearsal219]:afterVerified}){
   const work=await mkdtemp(path.join(tmpdir(),'nawasrah-full-restore-')),content=path.join(work,'content');
   const container='nawasrah-full-restore-'+process.pid+'-'+randomBytes(4).toString('hex');let started=false,report,restoreStderr='',restoreToc='',failure,logCapture,restorePartition,extensionProof,cronAclProof;
   const localToolEnv={...process.env,LC_ALL:'C',LANG:'C',LANGUAGE:'C'};
   const docker=async args=>exec('docker',args,{env:localToolEnv,windowsHide:true,timeout:600_000,maxBuffer:16*1024**2});
   const args=['exec','-i',container,'psql','-h','/tmp/socket','-p','25435','-U','supabase_admin','-d','postgres','-X','-q','-A','-t','-w','-v','ON_ERROR_STOP=1','-v','VERBOSITY=verbose'];
-  let session,stage='archive-verification';
+  let session,rehearsalArchiveSha256,stage='archive-verification';
   try{
+    if(afterVerified){await protectResetPath(work,true);rehearsalArchiveSha256=await sha256(archivePath);}
     await verifyBackupArchive({archivePath,passphrase,extractTo:content});const manifest=JSON.parse(await readFile(path.join(content,'manifest.json'),'utf8'));
     assert.equal(manifest.formatVersion,2);assertApprovedBackupProject(manifest.projectRef);
     const before=JSON.parse(await readFile(path.join(content,'database','source-evidence.json'),'utf8'));
@@ -172,7 +185,24 @@ export async function restoreCompleteBackup({archivePath,passphrase,reportPath,r
     const integrity=(scan?.checks??[]).filter(c=>c.key.startsWith('integrity:')).map(({key,status,issueCount})=>({key,status,issueCount}));
     assert.ok(integrity.length>5,'RESTORE_INTEGRITY_SCAN_MISSING');
     assert.ok(integrity.every(c=>c.status==='healthy'&&Number(c.issueCount)===0),'RESTORE_EXISTING_INTEGRITY_CHECK_FAILED');
-    report={ok:true,projectRef:manifest.projectRef,mode:'isolated-complete-restore',postgresImage:IMAGE,completedAt:new Date().toISOString(),hostedConnectionsMade:false,network:'none',liveVolumesModified:false,historyCeiling:accepted.ceiling,historyFiles:accepted.files,tablesCompared:Object.keys(before.tables).length,storageObjectsCompared:manifest.storageObjects.length,integrityChecks:integrity,tocCoverage:restorePartition.proof,extensions:extensionProof,platform:platformProof,cronSequenceAcl:cronAclProof,...proof};return report;
+    report={ok:true,projectRef:manifest.projectRef,mode:'isolated-complete-restore',postgresImage:IMAGE,completedAt:new Date().toISOString(),hostedConnectionsMade:false,network:'none',liveVolumesModified:false,historyCeiling:accepted.ceiling,historyFiles:accepted.files,tablesCompared:Object.keys(before.tables).length,storageObjectsCompared:manifest.storageObjects.length,integrityChecks:integrity,tocCoverage:restorePartition.proof,extensions:extensionProof,platform:platformProof,cronSequenceAcl:cronAclProof,...proof};
+    if(afterVerified){
+      // AFTER strict comparison and the rolled-back scanner. The same finally
+      // owns cleanup even if the rehearsal throws. No default network changes.
+      assert.equal(manifest.projectRef,'kzevmysfydaslxcerogt','REHEARSAL_FRANKFURT_ONLY');
+      assert.equal(accepted.ceiling,219,'REHEARSAL219_ONLY');assert.equal(accepted.files,180);
+      const inspected=JSON.parse((await docker(['inspect',container])).stdout)[0];
+      assert.equal(inspected.HostConfig.NetworkMode,'none');assert.deepEqual(inspected.Mounts,[]);
+      assert.equal(await sha256(archivePath),rehearsalArchiveSha256,'REHEARSAL_ARCHIVE_CHANGED');
+      const context=Object.freeze({containerId:inspected.Id,containerName:container,
+        archiveSha256:rehearsalArchiveSha256,projectRef:manifest.projectRef,ceiling:219,files:180,
+        storageDirectory:path.join(content,'storage','product-images'),restoreProof:structuredClone(report)});
+      stage='local-rehearsal219';await session.close();session=null;
+      activeRehearsals.add(context);
+      try{await afterVerified(context);}finally{activeRehearsals.delete(context);}
+      report.rehearsalCompleted=true;
+    }
+    return report;
   }catch(cause){
     failure=cause;report={ok:false,stage,mode:'isolated-complete-restore',completedAt:new Date().toISOString(),hostedConnectionsMade:false,...(cronAclProof?{cronSequenceAcl:cronAclProof}:{}),error:'COMPLETE_RESTORE_FAILED',diagnostic:postgresDiagnostic(cause,{stage,tool:['restore-complete-dump','restore-schemas','restore-toc'].includes(stage)?'pg_restore':'internal'})};
   }finally{

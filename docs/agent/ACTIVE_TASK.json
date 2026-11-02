@@ -1,33 +1,29 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
+  "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner2Nov pretrainingA:report todayAmman/sessionselection;CRMsearchfirst;safe failure artifacts+harnesswarmup. UI/testinfra only,PR/FULLCI thenapproval,no merge. B later separate Draft closure.",
-  "baselineSha": "134cc99ac9bad337b9b44e5b8f2b52d5bbd42173",
-  "branch": "codex/pre-training-usability",
+  "objective": "Owner2Nov approved local connected rehearsal219 adapter+PR/FULLCI then full eight-step drill. Default restore safety,owner/core dependencies immutable.",
+  "baselineSha": "49b8d008ec56156c0e918bfed3772f33785d4b21",
+  "branch": "codex/local-connected-rehearsal219",
   "phase": "PACKAGE_F",
   "completed": [
-    "New isolatedworktree f24d8330;owner primary untouched;read contracts/reviewer report/current sources.",
-    "UIbefore4/after8 Chromium/WebKit390 PASS;dateAmman/session/search/focus.",
-    "Actualfullstack215 fourcases+216fourcases/warmup2each/zero writes;financialfacts unchanged;frozen repository,no hosted.",
-    "Realnegativeartifact privacy bothbrowsers PASS;8focused date/historical/transport testsPASS.",
-    "Own WIP417 baseline synchronized under standing owner permission;actual219SDK157/services586 and all6context builds/types/strictlint/store207 passed.",
-    "Final local Admin1706/store207/types/strictlint/6builds/actionlint and actual219access passed. First history-pin mismatch corrected by exact f24 projection;no assertion weakened.",
-    "CI134 partial216 warmupblank before any sale;artifact13107534992 retained,no rerun. ExplicitVite compile/static-import barrier and fixed request categories;local215/2168cases/no writes/1707/types/strictlint pass."
+    "Main49 isolated writer;112 owner/build/core transitive files byte-identical;SHA+import-closure CI test. No operations/SQL/app changes.",
+    "Strict Restore callback only after verification;networknone/no mounts/owned ID/archiveSHA219180;default/success/failure cleanup and expired context proven on synthetic219.",
+    "Current ready219 built180/636/13/fresh-incremental0. Actual UI services/XLSX+core reset/resume/UTC runner prepared;real archive remains unopened.",
+    "Local Admin1713/1713,types/strictlint,focused23,all214-219 synthetic backup/R2/strictrestore and final lifecycle PASS;Gitleaks0 (hash map reformatted,no exclusions).",
+    "Historical consistency is tests-only ninefile exact inverse on main49;unknown mutations visible;old audit/core sources unchanged."
   ],
   "inProgress": [
-    "PR57 revisedexacthead FULLCI;B58independentDraftCI."
+    "Save/push/Draft PR then exact-head FULLCI;only after green execute actual eightstep archive rehearsal."
   ],
   "notStarted": [
     "PRB closure separate afterA;no merge/deploy/hosted."
   ],
   "testsPassed": [
-    "Before4/after8 UI390 both engines;actual215/216eightcases,warmzero writes;negativeartifacts2;focused8.",
-    "Admin1706/store207;types/strictlint;6contextbuilds;SDK157/services586;actionlint.",
-    "RevisedAdmin1707,actual215/2168cases+zero-write precompilewarmup,negativeprivacy2engines,types/strictlint."
+    "1713Admin;23focused;types/strictlint;default/success/failure/expired cleanup;214-219 synthetic strictarchive tests;ready18063613diff0;Gitleaks0."
   ],
   "testsRemaining": [
-    "Newexacthead FULLCI;Gitleaks0."
+    "Exact feature FULLCI and secret scans;actual latest219 eightstep drill,cleanup,external Arabic report and timing."
   ],
   "findings": [
     "No SQL/RPC/financial/permission changes authorized.",
@@ -36,18 +32,17 @@
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hostedFrankfurt/Sentry/Telegram/Cloudflare/deploy or owner.env/localmain edits.",
-    "No SQL/migration/RPC/financial/permissionchanges;no retries/timeout increases/weakened assertions.",
-    "IndependentPRs AthenB;B Draft no merge beforegolive;no merges authorized."
+    "No hosted/deploy/merge/main/env/SQL/migration/financial/ACL changes.",
+    "OwnerCLI/build/core and all dependencies immutable;no owner/MFA replacement;defaultRestore alwayscleanup."
   ],
-  "nextExactAction": "Follow revisedPR57 FULLCI exacthead,readyonlygreen;B58muststayDraft. No hosted/merge/deploy or retries/limit changes.",
+  "nextExactAction": "Create Draft PR for connected219 adapter;verify exact-head FULLCI/secrets,then run newest real219 archive locally and update external report;no merge/hosted/core edits.",
   "startedAt": "2026-11-01T02:30:05.157Z",
   "historyBaseline": "cab1c5aed8c2069e2919c566ea09c2da9757896d",
-  "checkpointedAt": "2026-11-02T01:02:01.888Z",
+  "checkpointedAt": "2026-11-02T13:56:18.445Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 9,
-  "filesTouchedManifestSha256": "d7e650f1b13c92d46dc8ff4a54055f257cc936305fe886a683cb1c871c69c659",
-  "workingTreeFingerprint": "3546FF18CFA73329042E8BA85255871A3EC45F4EE22BCFC65E78A91811EA67B3"
+  "filesTouchedCount": 22,
+  "filesTouchedManifestSha256": "7aad2d75cb97b500032e3ff2a1c6440f38cbb505288b3f6fccf19fcab0a326b2",
+  "workingTreeFingerprint": "769F171E07812ED74781D25BEBCD3092239B2795AD82E32AFFAD2C35262E3C7A"
 }

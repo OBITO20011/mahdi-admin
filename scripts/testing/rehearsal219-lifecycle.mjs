@@ -1,0 +1,29 @@
+import assert from 'node:assert/strict';
+import {execFile} from 'node:child_process';
+import {promisify} from 'node:util';
+import {access} from 'node:fs/promises';
+import {restoreCompleteBackup,withRestoredRehearsal219,assertActiveRehearsal219} from '../backup/complete-backup.mjs';
+import {rehearsal219Executor} from './rehearsal219-local.mjs';
+const exec=promisify(execFile);
+export async function proveRehearsal219Lifecycle(options){
+ const ownIds=async()=>(await exec('docker',['ps','-aq','--filter','name=nawasrah-full-restore-'+process.pid+'-'],{windowsHide:true})).stdout.trim();
+ assert.equal(await ownIds(),'');
+ const normal=await restoreCompleteBackup(options);assert.equal(normal.ok,true);
+ assert.equal(await ownIds(),'','DEFAULT_RESTORE_MUST_DELETE_CONTAINER');
+ let context,closed=0;
+ const success=await withRestoredRehearsal219(options,async ctx=>{
+  context=ctx;const executor=await rehearsal219Executor(ctx);
+  try{
+   const r=await executor.localExecute("SELECT current_database(),current_user,current_setting('cron.launch_active_jobs');");
+   assert.equal(r.code,0);assert.equal(r.stdout.trim(),'postgres|postgres|off');
+   await access(ctx.storageDirectory);
+  }finally{await executor.closeLocal();closed++;}
+ });
+ assert.equal(success.rehearsalCompleted,true);assert.equal(closed,1);
+ assert.equal(await ownIds(),'','SUCCESS_MUST_DELETE_CONTAINER');
+ assert.throws(()=>assertActiveRehearsal219(context));await assert.rejects(()=>access(context.storageDirectory));
+ await assert.rejects(()=>withRestoredRehearsal219(options,async ctx=>{context=ctx;throw new Error('REHEARSAL_SIMULATED_FAILURE');}));
+ assert.equal(await ownIds(),'','FAILURE_MUST_DELETE_CONTAINER');
+ assert.throws(()=>assertActiveRehearsal219(context));await assert.rejects(()=>access(context.storageDirectory));
+ return {defaultRestoreDeletes:true,successDeletes:true,failureDeletes:true,expiredContextRejected:true,extractedStorageDeleted:true,network:'none'};
+}
