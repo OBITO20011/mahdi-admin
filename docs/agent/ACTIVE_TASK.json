@@ -2,49 +2,48 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner3Nov approved219reset guard+local30ACL ready:exact3file-line-hash,noSQLchanges/freshbuildchange. Localgatespassed;FULLCI thenfullactual2191-8,no merge.",
-  "baselineSha": "c075ece028f1d990be8e85d454cd9480cf5ac49a",
-  "branch": "codex/local-connected-rehearsal219",
+  "objective": "Owner3Nov merge59 then correct docsPR60 perAstra6conditions;FULLCI,no merge60/58,hosted/deploy.",
+  "baselineSha": "45d577e22fa9dacef61d55657dd2002dff24e03c",
+  "branch": "codex/cutover-supabase-platform",
   "phase": "PACKAGE_F",
   "completed": [
-    "Exact3RESET219cron guards;pre-destructive SELECT identityfailclosed;perstatement identitychecks;originalmigrationmanifest checkedbefore/after. Freshbuild untouched.",
-    "Admin1728/0fail;focused27 plusfinal15PASS;types+ESLintPASS;Gitleaks0 final.",
-    "Actualarchive extensionaudit11rollbackstatements:only3cronACLdifferences;other8 no differences. Local30SQLprivilege checks7440 unchanged.",
-    "Qualifiedsynthetic lifecycle/default/success/failurecleanup +5dependency negatives/Supautils/2seq+30tableACL/replay/cron negatives PASS;7680SQLrightschecks.",
-    "110originalsources exact plus2reviewedcoreexceptions/newguard pinned. All180migrationfiles unchanged;primary24files unchanged.",
-    "Finalmarkerfix focused15/types/ESLint PASS;actualresetUnits180 testguards3andretains exactecho. Syntheticfullchain ordinary/resumeUTC/import/sales/close PASS zeroACL/catalog,pgnetrunnable."
+    "59reviewed7cd75CI63 verified;true merge094a071d;mainCI inprogress.",
+    "Read Astra independentrehearsalreview;real-main-mergeinto60 resolved task/state-only conflicts preserving docsbranch and allapproved59runtime bytes.",
+    "Astra6corrections complete:actualwriteblock beforebackup;finalmainSHA/tool/reference/archive identity;rerun8stepdrill on separatorarchive duringfreeze;D-1prepare58;RESET219/resume03window/cronidentity/retentionaccess;Auth/TOTP/Push/templates/lastcronrun/recipient gates.",
+    "LocalAdmin1735/Store207/focused43/types/strictlint/A4two pages0network/Gitleaks0. No runtime/SQL/owner-tool changes vsmergedmain.",
+    "Resolved inverse-chain branchmetadata using existing exact legacy projection;all original before bytes and unknown-mutation assertions preserved.",
+    "Main59FULL62 PASS/primary094a071d ff20owner+4env/state5 bytes preserved/preflightPASS.",
+    "Final sequence correction:real first pending storeorder afterproductionAuth/TOTP/subscription verifiesTurnstile+Push BEFOREfirstsale;no nonexistent standalonePush test. Focused30+ESLint/A4two pages0networkPASS."
   ],
   "inProgress": [
-    "Commitpush exactmarker integrationfix;FULLCI onnewSHA thenactualarchive1-8."
+    "Push final doc sequence SHA thenFULLCI60+2secrets+strictrestore,returnownerreview/no merge60/58."
   ],
   "notStarted": [
-    "Fullactualarchive1-8 after finalexactgreenCI."
+    "Ownerreview60 only;58Draft mustnotmerge."
   ],
   "testsPassed": [
-    "LocalAdmin1728/focused27/types/ESLint/Gitleaks0;actualsource extensionaudit andguard negatives;qualified lifecycle proof.json."
+    "Admin1735 andtypes/strictlint before finaltextclarification;30focused onfinaldocs andlint/print2pages. MainFULL62 andprimarypreservation/preflightPASS."
   ],
   "testsRemaining": [
-    "NewheadFULLCI thenactualordinary/resume/UTC/imports/scans/ABCD/sales/close;finalcleanup/report."
+    "FULLCI exactfinalhead60;ownerapproval."
   ],
   "findings": [
-    "Synthetic original214 extra role/defaultgrant negativeoracle retained. Only new219 fixture revokes own testSELECT onapproved30;oldarchive proofs untouched.",
-    "Owner-onlylocal2seq+30table representation;no actualrights increase. No otherextension replacement.",
-    "c075 syntheticRESET rejectedbeforedestructive:builderadds exactecho suffix notpartoforiginalmigrationhash. Needguardenvelope correction andnewhead. CIqualitycancelledasobsolete,backupsuccess,no sameSHArerun."
+    "Owner default ready219 SHA56e3c557 old UI sources,strict readiness rejects;tested rehearsal adapter-ready SHAa915b64d validates current sources. Ownerfile unchanged;record launchreference choice beforeRESET.",
+    "45d577e2 qualitycancelled as superseded forfinalPushordersequencing;no failure rerun/limit orassertion change."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hosted/deploy/merge/main/env/migration/financialchanges.",
-    "Only ownerapproved219guard/local30representation andpriorroot/2seq exceptions;ownerCLI/build/defaultRestore/comparison unchanged."
+    "No merge60/58,hosted/deploy/DB/migration/runtimechange.",
+    "Preserveprimaryowner/envbytes andstate5literalfields."
   ],
-  "nextExactAction": "Finalmarkerfixpush;exactFULLCI thenactualarchive219 full1-8;no merge orhosted.",
-  "startedAt": "2026-11-01T02:30:05.157Z",
-  "historyBaseline": "cab1c5aed8c2069e2919c566ea09c2da9757896d",
-  "checkpointedAt": "2026-11-02T22:11:36.474Z",
+  "nextExactAction": "Push final Push-order docs;FULLCI63 thenownerreviewSTOP,no60/58merge/hosted/deploy.",
+  "startedAt": "2026-11-02T22:55:23.390Z",
+  "checkpointedAt": "2026-11-03T03:26:30.578Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 3,
-  "filesTouchedManifestSha256": "a6b2a9284aace8920f1942e830e09e3186281cc1dd37d15695904a18916f25aa",
-  "workingTreeFingerprint": "8C0825334773C323C2CF05ED50666C4D19165FEB548D19039B50397A1CC97E08"
+  "filesTouchedCount": 5,
+  "filesTouchedManifestSha256": "1b995ed0b07f75a3beacbcd149e8871b6f002b669cf016c32fbd9ef346d7ee3d",
+  "workingTreeFingerprint": "96074AB1499357DF6762EAB210EEB3857AE1C0AB7C84E7A596775E6A4A8C4359"
 }

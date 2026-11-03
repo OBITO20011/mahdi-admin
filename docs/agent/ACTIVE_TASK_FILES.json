@@ -3,15 +3,23 @@
   "files": [
     {
       "code": " M",
-      "path": "scripts/operations/reset219-pg-cron-guard.mjs"
+      "path": "docs/handover/ورقة-يوم-التشغيل.html"
     },
     {
       "code": " M",
-      "path": "scripts/testing/rehearsal219-pg-cron-approval.json"
+      "path": "docs/handover/ورقة-يوم-التشغيل.md"
     },
     {
       "code": " M",
-      "path": "tests/reset219-pg-cron-guard.test.ts"
+      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/home-performance219-source-pins.json"
+    },
+    {
+      "code": " M",
+      "path": "tests/cutover-platform-documentation.test.ts"
     }
   ]
 }
