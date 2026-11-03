@@ -1,4 +1,5 @@
 import{sourceBeforePreTraining}from'../scripts/audit/source-before-pre-training.mjs';
+import {sourceBeforeRehearsal219} from '../scripts/testing/rehearsal219-legacy-view.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -20,7 +21,7 @@ test('219 historical view binds actual baseline bytes and never erases an unrevi
     'scripts/testing/run-canonical-receivables197-scale.mjs','scripts/testing/run-home-damage201-scale.mjs',
     'scripts/testing/run-all-collections202-scale.mjs'])assert.ok(home219Pins.entries[file],'MISSING_REVIEWED219_PATH:'+file);
   for(const [file,pin] of Object.entries(home219Pins.entries) as [string,{after:string;before:string|null;beforeText:string|null}][]){
-    const current=sourceBeforePreTraining(file,lf(readFileSync(file,'utf8')))!;
+    const current=sourceBeforePreTraining(file,sourceBeforeRehearsal219(file,lf(readFileSync(file,'utf8'))))!;
     assert.equal(hash(current),pin.after,file);
     assert.equal(sourceBeforeHome219(file,current),pin.beforeText,file);
     if(pin.beforeText!==null){

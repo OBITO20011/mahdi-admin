@@ -11,5 +11,13 @@ test('cutover changes only the approved source Boolean;production config/CSP/run
 test('closed real CLI gate retains production/staging positive builds and all refusal paths;launch merge precedes reset',()=>{
  const runner=read('scripts/testing/run-prelaunch-trial-builds.mjs'),closed=read('scripts/testing/run-prelaunch-closed-gates.mjs');assert.ok(runner.includes("if(!PRELAUNCH_TRIAL_OPEN){await import('./run-prelaunch-closed-gates.mjs');process.exit(0);}"));
  for(const token of ['run-environment-builds.mjs','run-context.mjs','verify-dist.mjs','deploy-prelaunch-trial.mjs','existingArtifactRefusals','environmentOverrideRefusals'])assert.ok(closed.includes(token),token);
- for(const f of ['docs/handover/ورقة-يوم-التشغيل.md','docs/handover/ورقة-يوم-التشغيل.html']){const s=read(f);assert.ok(s.indexOf('دمج PR إغلاق المعاينات')<s.indexOf('7. RESET219'));assert.ok(s.includes('لا يُدمج قبل يوم التشغيل'));assert.ok(s.includes('03:00'));assert.ok(s.includes('حظر المعاينات'));}
+ const main='85c80df17a5e74cb92163d88cf38d52184758935';
+ for(const f of ['docs/handover/ورقة-يوم-التشغيل.md','docs/handover/ورقة-يوم-التشغيل.html']){
+  const s=read(f),baseline=execFileSync('git',['show',main+':'+f],{encoding:'utf8',maxBuffer:32*1024**2}).replaceAll('\r\n','\n');
+  assert.equal(s,baseline,'Preserve every owner-approved60 checklist byte,not just selected keywords');
+  const merge=s.indexOf('2. بإذن يوم التشغيل: دمج #58 المجهّز'),block=s.indexOf('3. حظر المعاينات وكل hash URLs فعلياً'),backup=s.indexOf('4. إثبات وقت آخر كتابة'),reset=s.indexOf('6. RESET219: dry-run');
+  assert.ok(merge>=0&&block>merge&&backup>block&&reset>backup,'day-only merge then real write block then separator backup then RESET');
+  for(const marker of ['تجهيز #58 وCI له في D-1 دون دمجه الآن','03:00','4أ. أثناء التجميد','رابط Auth فعلي','pg_cron'])assert.ok(s.includes(marker),marker);
+ }
+ const guide=read('docs/agent/PRELAUNCH_CUTOVER_DRAFT_AR.md');assert.ok(guide.includes('Draft دون دمج'));assert.ok(guide.includes('قبل الحظر المثبت والنسخة الفاصلة'));assert.ok(guide.includes('PR61'));assert.ok(guide.includes('لم يُدمج ضمنياً'));
 });

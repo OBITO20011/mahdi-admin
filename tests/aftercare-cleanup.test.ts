@@ -1,4 +1,5 @@
 import {sourceBeforeOwnerTelegram217} from '../scripts/audit/source-before-owner-telegram217.mjs';
+import {sourceBeforeRehearsal219} from '../scripts/testing/rehearsal219-legacy-view.mjs';
 import {sourceBeforePreflight120} from '../scripts/audit/source-before-preflight120.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -9,7 +10,7 @@ import {supplierPacketQuantity,supplierDecisionHelp} from '../src/features/inven
 import {wizard215Scenario} from '../e2e/aftercare215-wizard.fixture';
 import {buildWizard215,selectWizardPhysical215,physicalKey215,type WizardRequest215} from '../src/features/orders/aftercare215Draft';
 import {aftercareCleanupSourcePins,sourceBeforeAftercareCleanup} from '../scripts/audit/source-before-aftercare-cleanup.mjs';
-const read=(file:string)=>readFileSync(file,'utf8').replaceAll('\r\n','\n');
+const read=(file:string)=>sourceBeforeRehearsal219(file,readFileSync(file,'utf8'))!;
 const hash=(s:string)=>createHash('sha256').update(s).digest('hex');
 test('supplier display uses saved parcel factor and exact packet totals without mutating stored units',()=>{
   assert.equal(supplierPacketQuantity(14,12),'1 طرد + 2 باكيت');

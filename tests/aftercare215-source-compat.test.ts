@@ -1,4 +1,5 @@
 import {sourceBeforePreflight120} from '../scripts/audit/source-before-preflight120.mjs';
+import {sourceBeforeRehearsal219} from '../scripts/testing/rehearsal219-legacy-view.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -6,7 +7,7 @@ import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {aftercare215SourcePins,sourceBeforeAftercare215,restoreAftercare215SourceHashes,pathsBeforeAftercare215} from '../scripts/audit/source-before-aftercare215.mjs';
 import {inventory} from '../scripts/audit/table-access-inventory.mjs';
-const hash=(s:string)=>createHash('sha256').update(s).digest('hex'),read=(f:string)=>readFileSync(f,'utf8').replaceAll('\r\n','\n');
+const hash=(s:string)=>createHash('sha256').update(s).digest('hex'),read=(f:string)=>sourceBeforeRehearsal219(f,readFileSync(f,'utf8'))!;
 test('215 historical bridge binds complete actual and original Git bytes;unknown mutations are never erased',()=>{
  assert.equal(aftercare215SourcePins.baseline,'dba6c184ad9901151bbdd8c7a8cf6c40847ba311');
  for(const[file,pin]of Object.entries(aftercare215SourcePins.entries)as[string,{after:string;before:string|null;beforeText:string|null}][]){

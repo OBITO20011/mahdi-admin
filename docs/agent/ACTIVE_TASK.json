@@ -2,44 +2,43 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner2Nov merge57 approved;sync main49b8d008 into58 by realmerge,keepDraft;fullCI,no58merge/deploy/hosted.",
-  "baselineSha": "8aa54cb2fa3ad8e26fa83ebc0f7c7bdec6f1f555",
+  "objective": "Owner3Nov D-1sync58 true-merge main85c80df1;preserve60cutoverdocs+closedflag;FULLCI then keepDraft/no58merge/hosted/deploy.61unmergednotimported.",
+  "baselineSha": "e1e35a5f5eb362c074e62872c3a88d70ba2c6a89",
   "branch": "codex/prelaunch-close-for-go-live",
   "phase": "PACKAGE_F",
   "completed": [
-    "Separateworktree baselinef24;A PR57 independent inCI;primary/env untouched.",
-    "Closed actualCLI:2build+2verify+2deploy+2override refused;4production/stagingbuilds/CSP/negativecontrols/types/strictlint pass. Cardcandidate2pages.",
-    "FinalAdmin1701/1701;types/strictlint;4actualpositivebuilds/CSP and8closedCLIrefusals;focused21 and13history/docs passed. Card2pages verified externally.",
-    "Ownerapproved57 exact3a268abf/63;merged49b8d008 main;58 remainsDraft. Realmain merge resolves metadataonly;both approved source histories retained.",
-    "Realmain49 merge local32focused+Admin1708/types/strictlint/4builds+8closedrefusals passed;UI/src/SQL byte-identical to main;Bswitch remainsfalse."
+    "Readinstructions/resume/preflight old58safe;remote main85c80df1/61openunmerged.",
+    "Realmainmergeinprogress;resolvedcardswithexactmain60bytes retaining58intent now step2BEFOREseparatorbackup. Singlewriter/ownerprimary untouched.",
+    "49focusedPASS;types+strictESLintPASS;realclosedCLIproof4production/stagingbuilds+8refusals+4oppositeorigin/4CSP/2isolatedSEOnegative controlsPASS/hosted0.",
+    "Scopeproof:cards/GO_LIVE exactmain60bytes;src/SQL/owner-tools identicalmain85;flagfalse unchangedold58;originalinversebytes/guards preserved. Primary85+20owner+4env untouched."
   ],
   "inProgress": [
-    "Commit realmerge58 then exactFULLCI;keepDraft/no merge."
+    "Commit/push true merge58;exactFULLCI;keepDraft andupdatePRdescription SHA/day-onlystep2."
   ],
-  "notStarted": [],
+  "notStarted": [
+    "58mustremainDraft/unmerged;no61merge."
+  ],
   "testsPassed": [
-    "Admin1701/1701;types/strictlint;4realbuilds+8refusals;card2pages;historyassertions unchanged.",
-    "Merged1708/1708,types/strictlint,4actualbuilds/8closedrefusals,focused32."
+    "Focused49;types;ESLintstrict;4realbuilds+8refusals/CSP/SEOnegativecontrols;scope+primaryhashproof."
   ],
   "testsRemaining": [
-    "Exact newhead FULL63 and Gitleaks."
+    "Gitleaksstaged/FULLCIquality60+secrets2+strictrestore1."
   ],
   "findings": [
-    "Contextretained;no SQL/RPC/money/roles/deploy/hosted."
+    "Old58docsaidafterseparatorbackup;newowner-approved60requiresstep2beforefreeze/backup. Preservecurrent60cardexactly;update58guide/test/PRdescription."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No58merge or ready beforegolive;no hosted/deploy/financial/SQL/permissionchanges or ownerenv edits."
+    "No58merge/ready,61merge,hosted/deploy/DB/migration/financial/ownercheckout/envchanges."
   ],
-  "nextExactAction": "Push real-main merge58 and exactFULLCI;keepDraft/no58merge. Main57FULLCI beforeprimaryff-only;preserve20owner4env5state.",
-  "startedAt": "2026-11-01T02:30:05.157Z",
-  "historyBaseline": "cab1c5aed8c2069e2919c566ea09c2da9757896d",
-  "checkpointedAt": "2026-11-02T05:06:35.541Z",
+  "nextExactAction": "Pushtrue-main85merge58;FULLCI63;updateSHA/day-onlystep2description;keepDraftSTOP,no58/61merge/hosted.",
+  "startedAt": "2026-11-03T05:03:50.000Z",
+  "checkpointedAt": "2026-11-03T05:08:48.007Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 26,
-  "filesTouchedManifestSha256": "21f74c6cb3a990db89d9da8cfd901b5888da92400c3d267ba59e482181ef2855",
-  "workingTreeFingerprint": "4FF82FDA34D763FBABE6951B805FF621AAAEC0369FE5C9545070A1BF9510BBAA"
+  "filesTouchedCount": 57,
+  "filesTouchedManifestSha256": "32066085fa878cfda53063b0776464b00a89d4d520795658188e4ddf9f08884b",
+  "workingTreeFingerprint": "CE13EC5F6FE56D38950E57096842EE65D672E56A0936761A4540977ED1D7FFC5"
 }

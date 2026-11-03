@@ -1,0 +1,28 @@
+{
+  "approval": "Owner2026-11-03:exact three RESET219 pg_cron CREATE statements only,source line/hash guards,read-only identity preflight,unchanged freshbuild/migrations/ACL comparison;no hosted/merge.",
+  "baseline": "10574f7185fa00b8ff9658ee52c3997064ef1d14",
+  "file": "scripts/operations/trial-reset214-core.mjs",
+  "beforeSha256": "615070e0b2afbf5e676d4706e06430aa9d5348baa99c583865fec058ee8a734e",
+  "afterSha256": "a2f2d68604efc56a123c08841fc056f82c3893a55c746d4f2b1ec4b417eae698",
+  "patches": [
+    {
+      "before": "import {reset214SqlFailureCode} from './reset214-diagnostics.mjs';",
+      "after": "import {reset214SqlFailureCode} from './reset214-diagnostics.mjs';\nimport {verifyExistingReset219Cron,guardedReset219CronUnits,verifyReset219MigrationManifest} from './reset219-pg-cron-guard.mjs';"
+    },
+    {
+      "before": " try{\n  report.stage='retention-preflight';",
+      "after": " try{\n  if(policy.ceiling===219)report.pgCronResetGuard=await verifyExistingReset219Cron(executor,reference);\n  report.stage='retention-preflight';"
+    },
+    {
+      "before": " const units=await resetUnits(root,reference);uuid(ownerId);",
+      "after": " const originalUnits=await resetUnits(root,reference),cronGuard=policy.ceiling===219?guardedReset219CronUnits(originalUnits,reference):null;\n const units=cronGuard?.units??originalUnits;if(cronGuard)report.pgCronResetGuard.replaced=cronGuard.replaced;uuid(ownerId);"
+    },
+    {
+      "before": " assert.deepEqual(await json('SELECT jsonb_agg(version ORDER BY version) FROM supabase_migrations.schema_migrations;'),reference.appliedVersions,'RESET214_FINAL_HISTORY_MISMATCH');",
+      "after": " assert.deepEqual(await json('SELECT jsonb_agg(version ORDER BY version) FROM supabase_migrations.schema_migrations;'),reference.appliedVersions,'RESET214_FINAL_HISTORY_MISMATCH');\n if(policy.ceiling===219)report.migrationSourceProof=await verifyReset219MigrationManifest(root,reference);"
+    }
+  ],
+  "newFiles": {
+    "scripts/operations/reset219-pg-cron-guard.mjs": "c73cad315e2fbca9bd6fe0b69652191fcc5a7fc10d3049ed1e10e2b092388f1f"
+  }
+}
