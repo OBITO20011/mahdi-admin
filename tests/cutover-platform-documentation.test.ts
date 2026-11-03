@@ -33,7 +33,7 @@ test('platform gates follow successful reset and precede production publishing i
   }
   assert.ok(plan.includes('https://admin.alnawasreh.com/'));
   assert.ok(plan.includes('لا يوجد مسار callback مخصص'));
-  assert.ok(plan.includes('طلب المتجر الواحد في §8.5'));
+  assert.ok(plan.includes('طلب المتجر الواحد في §8.4ب'));
   assert.ok(plan.includes('لا تعِد تفعيل TEST'));
   assert.ok(plan.includes('أعد فتح الإعداد'));
 });
@@ -91,6 +91,11 @@ test('real phone Auth/TOTP, notifications, template totals and restored opening 
   assert.ok(plan.includes('active=true دليلاً على التنفيذ'));
   assert.ok(plan.includes('وقت البدء/النهاية والحالة'));
   assert.ok(plan.includes('مصدر مراقبة unknown لا يُسمى healthy'));
+  assert.ok(plan.indexOf('| 8.4أ قبول الهاتف') < plan.indexOf('| 8.4ب أول طلب متجر قبل البيع'));
+  assert.ok(plan.indexOf('| 8.4ب أول طلب متجر قبل البيع') < plan.indexOf('| 8.5 أول بيع'));
+  assert.ok(plan.includes('لا زر اختبارPush مستقل في الواجهة الحالية'));
+  assert.ok(plan.includes('لا حاجة لإضافة طلب آخر في8.5'));
+  assert.ok(card.includes('Turnstile وتسليم Push قبل أول بيع'));
 });
 
 test('M01 is first maintenance item; Gemini remains an owner decision; Telegram clock uses RESET219', () => {
