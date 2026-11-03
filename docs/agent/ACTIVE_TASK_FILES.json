@@ -2,40 +2,16 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": "M ",
-      "path": "docs/agent/PHASE_STATUS.md"
+      "code": " M",
+      "path": "scripts/operations/reset219-pg-cron-guard.mjs"
     },
     {
-      "code": "M ",
-      "path": "docs/agent/PRE_TRAINING_A_AR.md"
+      "code": " M",
+      "path": "scripts/testing/rehearsal219-pg-cron-approval.json"
     },
     {
-      "code": "M ",
-      "path": "scripts/audit/home-performance219-source-pins.json"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/audit/pre-training-source-pins.json"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/testing/harness-failure-evidence.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/testing/run-aftercare215-fullstack.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/testing/run-harness-diagnostics-negative.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/testing/run-partial216-fullstack.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "tests/harness-failure-evidence.test.ts"
+      "code": " M",
+      "path": "tests/reset219-pg-cron-guard.test.ts"
     }
   ]
 }

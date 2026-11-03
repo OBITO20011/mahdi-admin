@@ -2,52 +2,49 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner2Nov pretrainingA:report todayAmman/sessionselection;CRMsearchfirst;safe failure artifacts+harnesswarmup. UI/testinfra only,PR/FULLCI thenapproval,no merge. B later separate Draft closure.",
-  "baselineSha": "134cc99ac9bad337b9b44e5b8f2b52d5bbd42173",
-  "branch": "codex/pre-training-usability",
+  "objective": "Owner3Nov approved219reset guard+local30ACL ready:exact3file-line-hash,noSQLchanges/freshbuildchange. Localgatespassed;FULLCI thenfullactual2191-8,no merge.",
+  "baselineSha": "c075ece028f1d990be8e85d454cd9480cf5ac49a",
+  "branch": "codex/local-connected-rehearsal219",
   "phase": "PACKAGE_F",
   "completed": [
-    "New isolatedworktree f24d8330;owner primary untouched;read contracts/reviewer report/current sources.",
-    "UIbefore4/after8 Chromium/WebKit390 PASS;dateAmman/session/search/focus.",
-    "Actualfullstack215 fourcases+216fourcases/warmup2each/zero writes;financialfacts unchanged;frozen repository,no hosted.",
-    "Realnegativeartifact privacy bothbrowsers PASS;8focused date/historical/transport testsPASS.",
-    "Own WIP417 baseline synchronized under standing owner permission;actual219SDK157/services586 and all6context builds/types/strictlint/store207 passed.",
-    "Final local Admin1706/store207/types/strictlint/6builds/actionlint and actual219access passed. First history-pin mismatch corrected by exact f24 projection;no assertion weakened.",
-    "CI134 partial216 warmupblank before any sale;artifact13107534992 retained,no rerun. ExplicitVite compile/static-import barrier and fixed request categories;local215/2168cases/no writes/1707/types/strictlint pass."
+    "Exact3RESET219cron guards;pre-destructive SELECT identityfailclosed;perstatement identitychecks;originalmigrationmanifest checkedbefore/after. Freshbuild untouched.",
+    "Admin1728/0fail;focused27 plusfinal15PASS;types+ESLintPASS;Gitleaks0 final.",
+    "Actualarchive extensionaudit11rollbackstatements:only3cronACLdifferences;other8 no differences. Local30SQLprivilege checks7440 unchanged.",
+    "Qualifiedsynthetic lifecycle/default/success/failurecleanup +5dependency negatives/Supautils/2seq+30tableACL/replay/cron negatives PASS;7680SQLrightschecks.",
+    "110originalsources exact plus2reviewedcoreexceptions/newguard pinned. All180migrationfiles unchanged;primary24files unchanged.",
+    "Finalmarkerfix focused15/types/ESLint PASS;actualresetUnits180 testguards3andretains exactecho. Syntheticfullchain ordinary/resumeUTC/import/sales/close PASS zeroACL/catalog,pgnetrunnable."
   ],
   "inProgress": [
-    "PR57 revisedexacthead FULLCI;B58independentDraftCI."
+    "Commitpush exactmarker integrationfix;FULLCI onnewSHA thenactualarchive1-8."
   ],
   "notStarted": [
-    "PRB closure separate afterA;no merge/deploy/hosted."
+    "Fullactualarchive1-8 after finalexactgreenCI."
   ],
   "testsPassed": [
-    "Before4/after8 UI390 both engines;actual215/216eightcases,warmzero writes;negativeartifacts2;focused8.",
-    "Admin1706/store207;types/strictlint;6contextbuilds;SDK157/services586;actionlint.",
-    "RevisedAdmin1707,actual215/2168cases+zero-write precompilewarmup,negativeprivacy2engines,types/strictlint."
+    "LocalAdmin1728/focused27/types/ESLint/Gitleaks0;actualsource extensionaudit andguard negatives;qualified lifecycle proof.json."
   ],
   "testsRemaining": [
-    "Newexacthead FULLCI;Gitleaks0."
+    "NewheadFULLCI thenactualordinary/resume/UTC/imports/scans/ABCD/sales/close;finalcleanup/report."
   ],
   "findings": [
-    "No SQL/RPC/financial/permission changes authorized.",
-    "First CI failed loading warmup resources;exact cause not established;Linuxbind probe inconclusive. No retries/limits/assertions changed."
+    "Synthetic original214 extra role/defaultgrant negativeoracle retained. Only new219 fixture revokes own testSELECT onapproved30;oldarchive proofs untouched.",
+    "Owner-onlylocal2seq+30table representation;no actualrights increase. No otherextension replacement.",
+    "c075 syntheticRESET rejectedbeforedestructive:builderadds exactecho suffix notpartoforiginalmigrationhash. Needguardenvelope correction andnewhead. CIqualitycancelledasobsolete,backupsuccess,no sameSHArerun."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hostedFrankfurt/Sentry/Telegram/Cloudflare/deploy or owner.env/localmain edits.",
-    "No SQL/migration/RPC/financial/permissionchanges;no retries/timeout increases/weakened assertions.",
-    "IndependentPRs AthenB;B Draft no merge beforegolive;no merges authorized."
+    "No hosted/deploy/merge/main/env/migration/financialchanges.",
+    "Only ownerapproved219guard/local30representation andpriorroot/2seq exceptions;ownerCLI/build/defaultRestore/comparison unchanged."
   ],
-  "nextExactAction": "Follow revisedPR57 FULLCI exacthead,readyonlygreen;B58muststayDraft. No hosted/merge/deploy or retries/limit changes.",
+  "nextExactAction": "Finalmarkerfixpush;exactFULLCI thenactualarchive219 full1-8;no merge orhosted.",
   "startedAt": "2026-11-01T02:30:05.157Z",
   "historyBaseline": "cab1c5aed8c2069e2919c566ea09c2da9757896d",
-  "checkpointedAt": "2026-11-02T01:02:01.888Z",
+  "checkpointedAt": "2026-11-02T22:11:36.474Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 9,
-  "filesTouchedManifestSha256": "d7e650f1b13c92d46dc8ff4a54055f257cc936305fe886a683cb1c871c69c659",
-  "workingTreeFingerprint": "3546FF18CFA73329042E8BA85255871A3EC45F4EE22BCFC65E78A91811EA67B3"
+  "filesTouchedCount": 3,
+  "filesTouchedManifestSha256": "a6b2a9284aace8920f1942e830e09e3186281cc1dd37d15695904a18916f25aa",
+  "workingTreeFingerprint": "8C0825334773C323C2CF05ED50666C4D19165FEB548D19039B50397A1CC97E08"
 }

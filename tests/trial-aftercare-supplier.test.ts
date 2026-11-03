@@ -1,3 +1,4 @@
+import {sourceBeforeRehearsal219} from '../scripts/testing/rehearsal219-legacy-view.mjs';
 import {verifiedInventoryBeforeTrialR} from '../scripts/audit/source-before-trial-owner-r.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
@@ -36,7 +37,7 @@ test('legacy stored package names display as parcels without changing arbitrary 
 test('J exact additive inverse preserves delivered210 sources and fails closed on any extra mutation',()=>{
   const base='74cc431e9b8d4bf01c03c65e5d1740a61647fd56';
   for(const [file,pin] of Object.entries(trialJPins) as [string,{added?:boolean}][]){
-    const current=readFileSync(file,'utf8'),restored=sourceBeforeTrialJ(file,current);
+    const current=sourceBeforeRehearsal219(file,readFileSync(file,'utf8'))!,restored=sourceBeforeTrialJ(file,current);
     assert.throws(()=>sourceBeforeTrialJ(file,current+'\nvoid unapproved;\n'));
     if(pin.added)assert.equal(restored,null);else{
       const previous=execFileSync('git',['show',base+':'+file],{encoding:'utf8',maxBuffer:32*1024**2}).replaceAll('\r\n','\n');

@@ -21,6 +21,7 @@ import {readRealtimePublication} from '../testing/realtime151-contract.mjs';
 import {retainedSessionState,assertNoForeignWrites,withoutResetGuard,attachGuardSql,removeGuardSql,saveGuardRemovalProof} from './reset214-session.mjs';
 import {lockAndCheckGuardSql,publicFingerprint} from './reset214-write-guard.mjs';
 import {reset214SqlFailureCode} from './reset214-diagnostics.mjs';
+import {verifyExistingReset219Cron,guardedReset219CronUnits,verifyReset219MigrationManifest} from './reset219-pg-cron-guard.mjs';
 import {cleanSeedCounts,resetUnits,uuid,sqlLiteral,readRowCounts,resetComparisonDates,restoreResetAcl,
  externalDependentsSql,assertExternalDependents,ownerRecordSql,preservedStateSql,
  restoreMainWarehouseSql,dropPublicSql} from './trial-reset-core.mjs';
@@ -106,6 +107,7 @@ async function runRetainedReset(options,policy){
   ...(session?{originalAttemptId:session.saved.attemptId,resumedFrom:session.resume?session.previousOutput:null}: {})});persist();
  const report=new Proxy(target,{set(object,key,value){object[key]=value;if(key==='destructiveStarted'&&value===true)object.recoveryRequired=true;if(key==='stage'||key==='destructiveStarted')persist();return true;}});
  try{
+  if(policy.ceiling===219)report.pgCronResetGuard=await verifyExistingReset219Cron(executor,reference);
   report.stage='retention-preflight';
   const state=session?retainedSessionState(session):await captureRetainedReset({executor,ownerId,reference},policy);report.plan=state.plan;
   if(options.expectedPlan)assert.deepEqual(state.plan,options.expectedPlan,'RESET214_PREVIEW_CHANGED');
@@ -130,7 +132,8 @@ async function runRetainedReset(options,policy){
 async function rebuild214({executor,root,reference,output,repair,clearHistory,emptyStorage,deleteOtherAuth,finalDryRun,ownerId,report={},state,session,policy,boundary=async()=>{}}){
  const sql=async input=>{const r=await executeInput(executor,input);assert.equal(r.code,0,reset214SqlFailureCode(r.stderr));return r.stdout.trim();};
  const json=async input=>JSON.parse(await sql(input));
- const units=await resetUnits(root,reference);uuid(ownerId);
+ const originalUnits=await resetUnits(root,reference),cronGuard=policy.ceiling===219?guardedReset219CronUnits(originalUnits,reference):null;
+ const units=cronGuard?.units??originalUnits;if(cronGuard)report.pgCronResetGuard.replaced=cronGuard.replaced;uuid(ownerId);
  Object.assign(report,{stage:'catalog-preflight',applied:[],recorded:[],destructiveStarted:false});
  let before;
  try{
@@ -224,6 +227,7 @@ async function rebuild214({executor,root,reference,output,repair,clearHistory,em
  policy.assertCatalog(after);
  if(policy.ceiling>=217)await assertOwner217HeldSettings(executor);
  assert.deepEqual(await json('SELECT jsonb_agg(version ORDER BY version) FROM supabase_migrations.schema_migrations;'),reference.appliedVersions,'RESET214_FINAL_HISTORY_MISMATCH');
+ if(policy.ceiling===219)report.migrationSourceProof=await verifyReset219MigrationManifest(root,reference);
  await finalDryRun();Object.assign(report,{stage:'complete',preserved:true,catalogDifferences:0,applicationAclDifferences:0,comparisonPolicy:'same-database-literal-all-schemas'});return report;
  }catch(error){await captureResetFailureEvidence({output,before,readAfter:()=>json(schemaCatalogSql),stage:report.stage});throw error;}
 }

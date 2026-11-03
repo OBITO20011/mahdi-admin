@@ -1,7 +1,8 @@
+import {sourceBeforeRehearsal219} from '../scripts/testing/rehearsal219-legacy-view.mjs';
 import {sourceBeforeAftercare215,pathsBeforeAftercare215} from '../scripts/audit/source-before-aftercare215.mjs';
 import assert from 'node:assert/strict';import test from 'node:test';import {readFileSync,mkdtempSync,writeFileSync,rmSync} from 'node:fs';import {tmpdir} from 'node:os';import path from 'node:path';import {execFileSync,spawnSync} from 'node:child_process';import {createHash} from 'node:crypto';
 import {trial41Integration,trial41IntegrationPins,projectTrial41Source} from '../scripts/audit/source-before-trial41-integration.mjs';
-const refs=trial41Integration.approvedRefs,read=(f:string)=>sourceBeforeAftercare215(f,readFileSync(f,'utf8'))!,hash=(s:string)=>createHash('sha256').update(s).digest('hex');
+const refs=trial41Integration.approvedRefs,read=(f:string)=>sourceBeforeAftercare215(f,sourceBeforeRehearsal219(f,readFileSync(f,'utf8')))!,hash=(s:string)=>createHash('sha256').update(s).digest('hex');
 const git=(a:string[])=>execFileSync('git',a,{encoding:'utf8',stdio:['ignore','pipe','pipe'],maxBuffer:32*1024**2}).replaceAll('\r\n','\n');
 test('ordered integration preserves every approved application change and SQL/historical proof pins',()=>{
  const changes=(ref:string)=>git(['diff','--name-only',refs.baseline,ref,'--','src','customer-web/src']).trim().split('\n').filter(Boolean),previous=changes(refs.previousMain),ta=changes(refs.trialTA),all=[...new Set([...previous,...ta])].sort();

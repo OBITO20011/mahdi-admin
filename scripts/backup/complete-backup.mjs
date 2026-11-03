@@ -20,6 +20,7 @@ import {assertStrictRestoreComparison} from './restore-comparison.mjs';
 import {restoreCronSequenceAcl} from './restore-cron-acl.mjs';
 import {verifiedSupabaseCa} from './supabase-ca.mjs';
 import {postgresDiagnostic,diagnosticError,classifiedError} from './postgres-diagnostic.mjs';
+import {protectResetPath} from '../operations/reset214-private-state.mjs';
 
 const exec=promisify(execFile);
 const stripTransaction=sql=>sql.replace(/^BEGIN READ ONLY;/u,'').replace(/ROLLBACK;\s*$/u,'');
@@ -110,14 +111,29 @@ export async function createCompleteBackup({projectRef,outputRoot,passphrase,ret
   finally{await session?.close().catch(()=>{});await rm(partial,{force:true});await rm(work,{recursive:true,force:true});if(status)await writeFile(path.join(outputRoot,'last-backup-status.json'),JSON.stringify(status,null,2)+'\n');}
 }
 
-export async function restoreCompleteBackup({archivePath,passphrase,reportPath,readObjectAfterRestore}){
+// Only the explicit rehearsal wrapper can install this in-process callback.
+// The ordinary owner Restore API never accepts a target or a keep-container flag.
+const rehearsal219=Symbol('verified-local-rehearsal219');
+const activeRehearsals=new WeakSet();
+export function assertActiveRehearsal219(context){
+  assert.ok(activeRehearsals.has(context),'REHEARSAL_VERIFIED_CONTEXT_REQUIRED');
+}
+export async function withRestoredRehearsal219(options,afterVerified){
+  assert.equal(typeof afterVerified,'function','REHEARSAL_CALLBACK_REQUIRED');
+  return restoreCompleteBackup({...options,[rehearsal219]:afterVerified});
+}
+export async function restoreCompleteBackup({archivePath,passphrase,reportPath,readObjectAfterRestore,[rehearsal219]:afterVerified}){
+  // Test-only rebuilds must recreate cron.nodeport exactly like Supabase.
+  // Ordinary Restore keeps its existing private socket port unchanged.
+  const restorePort=afterVerified?5432:25435;
   const work=await mkdtemp(path.join(tmpdir(),'nawasrah-full-restore-')),content=path.join(work,'content');
   const container='nawasrah-full-restore-'+process.pid+'-'+randomBytes(4).toString('hex');let started=false,report,restoreStderr='',restoreToc='',failure,logCapture,restorePartition,extensionProof,cronAclProof;
   const localToolEnv={...process.env,LC_ALL:'C',LANG:'C',LANGUAGE:'C'};
   const docker=async args=>exec('docker',args,{env:localToolEnv,windowsHide:true,timeout:600_000,maxBuffer:16*1024**2});
-  const args=['exec','-i',container,'psql','-h','/tmp/socket','-p','25435','-U','supabase_admin','-d','postgres','-X','-q','-A','-t','-w','-v','ON_ERROR_STOP=1','-v','VERBOSITY=verbose'];
-  let session,stage='archive-verification';
+  const args=['exec','-i',container,'psql','-h','/tmp/socket','-p',String(restorePort),'-U','supabase_admin','-d','postgres','-X','-q','-A','-t','-w','-v','ON_ERROR_STOP=1','-v','VERBOSITY=verbose'];
+  let session,rehearsalArchiveSha256,stage='archive-verification';
   try{
+    if(afterVerified){await protectResetPath(work,true);rehearsalArchiveSha256=await sha256(archivePath);}
     await verifyBackupArchive({archivePath,passphrase,extractTo:content});const manifest=JSON.parse(await readFile(path.join(content,'manifest.json'),'utf8'));
     assert.equal(manifest.formatVersion,2);assertApprovedBackupProject(manifest.projectRef);
     const before=JSON.parse(await readFile(path.join(content,'database','source-evidence.json'),'utf8'));
@@ -129,7 +145,7 @@ export async function restoreCompleteBackup({archivePath,passphrase,reportPath,r
     await docker(['cp',path.join(content,'database'),container+':/restore/database']);
     await docker(['cp',path.join(content,'storage'),container+':/restore/storage']);
     await docker(['exec','--user','postgres',container,'initdb','-D','/tmp/pgdata','-U','supabase_admin','--auth=trust']);
-    await docker(['exec','--user','postgres',container,'pg_ctl','-D','/tmp/pgdata','-l','/tmp/restore.log','-o',`-p 25435 -k /tmp/socket -c listen_addresses='' -c shared_preload_libraries='${before.preload}' -c cron.database_name=postgres -c cron.launch_active_jobs=off -c wal_level=logical -c log_error_verbosity=verbose -c log_min_error_statement=panic -c log_line_prefix='[state=%e] '` ,'-w','start']);
+    await docker(['exec','--user','postgres',container,'pg_ctl','-D','/tmp/pgdata','-l','/tmp/restore.log','-o',`-p ${restorePort} -k /tmp/socket -c listen_addresses='' -c shared_preload_libraries='${before.preload}' -c cron.database_name=postgres -c cron.launch_active_jobs=off -c wal_level=logical -c log_error_verbosity=verbose -c log_min_error_statement=panic -c log_line_prefix='[state=%e] '` ,'-w','start']);
     session=new SnapshotSession('docker',args);
     stage='restore-roles';const roles=await readFile(path.join(content,'database','roles.sql'),'utf8');assert.equal((roles.match(/^CREATE ROLE supabase_admin;$/gmu)??[]).length,1);
     await session.query(roles.replace(/^CREATE ROLE supabase_admin;$/mu,'-- initdb bootstrap role; all ALTERs and memberships retained.'));
@@ -140,7 +156,7 @@ export async function restoreCompleteBackup({archivePath,passphrase,reportPath,r
       await writeFile(path.join(work,name),text);await docker(['cp',path.join(work,name),container+':/restore/'+name]);
     }
     const strictRestore=async list=>{
-      try{await docker(['exec',container,'pg_restore','--verbose','--use-list=/restore/'+list,'-h','/tmp/socket','-p','25435','-U','supabase_admin','-d','postgres','--exit-on-error','--no-password','/restore/database/complete.dump']);}
+      try{await docker(['exec',container,'pg_restore','--verbose','--use-list=/restore/'+list,'-h','/tmp/socket','-p',String(restorePort),'-U','supabase_admin','-d','postgres','--exit-on-error','--no-password','/restore/database/complete.dump']);}
       catch(error){restoreStderr=String(error.stderr??'').slice(-65536);throw diagnosticError('STRICT_PG_RESTORE_FAILED',restoreToolError(error,{stage,stderr:restoreStderr,tocList:restoreToc}).diagnostic);}
     };
     stage='restore-schemas';await strictRestore('schema-toc.list');
@@ -172,7 +188,24 @@ export async function restoreCompleteBackup({archivePath,passphrase,reportPath,r
     const integrity=(scan?.checks??[]).filter(c=>c.key.startsWith('integrity:')).map(({key,status,issueCount})=>({key,status,issueCount}));
     assert.ok(integrity.length>5,'RESTORE_INTEGRITY_SCAN_MISSING');
     assert.ok(integrity.every(c=>c.status==='healthy'&&Number(c.issueCount)===0),'RESTORE_EXISTING_INTEGRITY_CHECK_FAILED');
-    report={ok:true,projectRef:manifest.projectRef,mode:'isolated-complete-restore',postgresImage:IMAGE,completedAt:new Date().toISOString(),hostedConnectionsMade:false,network:'none',liveVolumesModified:false,historyCeiling:accepted.ceiling,historyFiles:accepted.files,tablesCompared:Object.keys(before.tables).length,storageObjectsCompared:manifest.storageObjects.length,integrityChecks:integrity,tocCoverage:restorePartition.proof,extensions:extensionProof,platform:platformProof,cronSequenceAcl:cronAclProof,...proof};return report;
+    report={ok:true,projectRef:manifest.projectRef,mode:'isolated-complete-restore',postgresImage:IMAGE,completedAt:new Date().toISOString(),hostedConnectionsMade:false,network:'none',liveVolumesModified:false,historyCeiling:accepted.ceiling,historyFiles:accepted.files,tablesCompared:Object.keys(before.tables).length,storageObjectsCompared:manifest.storageObjects.length,integrityChecks:integrity,tocCoverage:restorePartition.proof,extensions:extensionProof,platform:platformProof,cronSequenceAcl:cronAclProof,...proof};
+    if(afterVerified){
+      // AFTER strict comparison and the rolled-back scanner. The same finally
+      // owns cleanup even if the rehearsal throws. No default network changes.
+      assert.equal(manifest.projectRef,'kzevmysfydaslxcerogt','REHEARSAL_FRANKFURT_ONLY');
+      assert.equal(accepted.ceiling,219,'REHEARSAL219_ONLY');assert.equal(accepted.files,180);
+      const inspected=JSON.parse((await docker(['inspect',container])).stdout)[0];
+      assert.equal(inspected.HostConfig.NetworkMode,'none');assert.deepEqual(inspected.Mounts,[]);
+      assert.equal(await sha256(archivePath),rehearsalArchiveSha256,'REHEARSAL_ARCHIVE_CHANGED');
+      const context=Object.freeze({containerId:inspected.Id,containerName:container,
+        archiveSha256:rehearsalArchiveSha256,projectRef:manifest.projectRef,ceiling:219,files:180,databasePort:restorePort,
+        storageDirectory:path.join(content,'storage','product-images'),restoreProof:structuredClone(report)});
+      stage='local-rehearsal219';await session.close();session=null;
+      activeRehearsals.add(context);
+      try{await afterVerified(context);}finally{activeRehearsals.delete(context);}
+      report.rehearsalCompleted=true;
+    }
+    return report;
   }catch(cause){
     failure=cause;report={ok:false,stage,mode:'isolated-complete-restore',completedAt:new Date().toISOString(),hostedConnectionsMade:false,...(cronAclProof?{cronSequenceAcl:cronAclProof}:{}),error:'COMPLETE_RESTORE_FAILED',diagnostic:postgresDiagnostic(cause,{stage,tool:['restore-complete-dump','restore-schemas','restore-toc'].includes(stage)?'pg_restore':'internal'})};
   }finally{
