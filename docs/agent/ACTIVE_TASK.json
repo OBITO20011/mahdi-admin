@@ -2,43 +2,43 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner3Nov D-1sync58 true-merge main85c80df1;preserve60cutoverdocs+closedflag;FULLCI then keepDraft/no58merge/hosted/deploy.61unmergednotimported.",
-  "baselineSha": "e1e35a5f5eb362c074e62872c3a88d70ba2c6a89",
+  "objective": "Owner3Nov merge61 delivered edb9b7b7;sync58 real merge main61 with docs60+61 exact,closedflag unchanged;FULLCI then keepDraft/no58merge/hosted/deploy.",
+  "baselineSha": "0385d57f4e8197374a6d2c466e724806f6b74872",
   "branch": "codex/prelaunch-close-for-go-live",
   "phase": "PACKAGE_F",
   "completed": [
-    "Readinstructions/resume/preflight old58safe;remote main85c80df1/61openunmerged.",
-    "Realmainmergeinprogress;resolvedcardswithexactmain60bytes retaining58intent now step2BEFOREseparatorbackup. Singlewriter/ownerprimary untouched.",
-    "49focusedPASS;types+strictESLintPASS;realclosedCLIproof4production/stagingbuilds+8refusals+4oppositeorigin/4CSP/2isolatedSEOnegative controlsPASS/hosted0.",
-    "Scopeproof:cards/GO_LIVE exactmain60bytes;src/SQL/owner-tools identicalmain85;flagfalse unchangedold58;originalinversebytes/guards preserved. Primary85+20owner+4env untouched."
+    "Resume/preflight verified own0385 checkpoint;main61 merged after exact63 verification.",
+    "True merge main edb9b7b7;resolve branch/task/legacy afterhash conflicts only. Preserve exact61 cutover card/plan/reference guide bytes;flagfalse unchanged.",
+    "Focused21PASS;types+strictESLintPASS;actualprod/stagingbuilds4+closedrefusals8/oppositeorigin4/CSP4/isolatedSEO2PASS;hosted0.",
+    "Scopeproof confirms docs60/61exactmain;app/SQL/ownerops unchanged;legacyoriginalbytes/unknown-driftguards intact;primary20+4env/referenceuntouched."
   ],
   "inProgress": [
-    "Commit/push true merge58;exactFULLCI;keepDraft andupdatePRdescription SHA/day-onlystep2."
+    "Commit/push true main61merge58;FULLCI then updateSHA/day-onlystep2description;keepDraft."
   ],
   "notStarted": [
-    "58mustremainDraft/unmerged;no61merge."
+    "58merge prohibited;keepDraft."
   ],
   "testsPassed": [
-    "Focused49;types;ESLintstrict;4realbuilds+8refusals/CSP/SEOnegativecontrols;scope+primaryhashproof."
+    "Focused21;types;strictESLint;realclosedCLI4builds+8refusals/CSP/SEO;scope+ownerhashproof."
   ],
   "testsRemaining": [
-    "Gitleaksstaged/FULLCIquality60+secrets2+strictrestore1."
+    "Gitleaksstaged;exactFULLquality60+2secrets+strictbackup."
   ],
   "findings": [
-    "Old58docsaidafterseparatorbackup;newowner-approved60requiresstep2beforefreeze/backup. Preservecurrent60cardexactly;update58guide/test/PRdescription."
+    "Only reviewed PHASE prefix afterhash adaptation in61inverse test;historical beforebytes and unknown-mutation assertions unchanged."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No58merge/ready,61merge,hosted/deploy/DB/migration/financial/ownercheckout/envchanges."
+    "No58merge/ready,hosted/deploy/DB/migration/financial/ownerenv/referencechanges."
   ],
-  "nextExactAction": "Pushtrue-main85merge58;FULLCI63;updateSHA/day-onlystep2description;keepDraftSTOP,no58/61merge/hosted.",
+  "nextExactAction": "Push true main61 merge58;FULLCI63 then description currentSHA/day-onlystep2;keepDraft/no58merge/hosted.",
   "startedAt": "2026-11-03T05:03:50.000Z",
-  "checkpointedAt": "2026-11-03T05:08:48.007Z",
+  "checkpointedAt": "2026-11-03T12:21:33.201Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 57,
-  "filesTouchedManifestSha256": "32066085fa878cfda53063b0776464b00a89d4d520795658188e4ddf9f08884b",
-  "workingTreeFingerprint": "CE13EC5F6FE56D38950E57096842EE65D672E56A0936761A4540977ED1D7FFC5"
+  "filesTouchedCount": 8,
+  "filesTouchedManifestSha256": "fbffc3eb43d93062ecefeaf96c22e8ae47f2cbbbf5c5f04a399c1ce6e91c8875",
+  "workingTreeFingerprint": "A4A1FCC44CCD15D5F3F7B1FFE38286D9F884A51A10C28FDD83DBCC57F3DEDBC1"
 }
