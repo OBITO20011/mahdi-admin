@@ -1,4 +1,5 @@
 import {sourceBeforeReset214} from '../scripts/audit/source-before-reset214.mjs';
+import {sourceBeforeRehearsal219} from '../scripts/testing/rehearsal219-legacy-view.mjs';
 import {pathsBeforeAftercare215} from '../scripts/audit/source-before-aftercare215.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
@@ -9,7 +10,7 @@ import {handover214Pins, sourceBeforeHandover214, pathsBeforeHandover214} from '
 import {assert214History, upgrade214Versions} from '../scripts/operations/frankfurt-owner-upgrade214.mjs';
 import {changed214Functions} from '../scripts/testing/handover214-contract.mjs';
 import {futureMigrationViolations} from '../scripts/testing/maintenance-db-contract.mjs';
-const read = (file: string) => sourceBeforeReset214(file,readFileSync(file, 'utf8'))!;
+const read = (file: string) => sourceBeforeReset214(file,sourceBeforeRehearsal219(file,readFileSync(file, 'utf8')))!;
 const hash = (text: string) => createHash('sha256').update(text).digest('hex');
 const baseline = '2c2dcacaa45b20ee83da6e67fddbac3ca749d808';
 

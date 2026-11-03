@@ -1,3 +1,4 @@
+import {sourceBeforeRehearsal219} from '../scripts/testing/rehearsal219-legacy-view.mjs';
 import {pathsBeforeAftercare215} from '../scripts/audit/source-before-aftercare215.mjs';
 import {projectTrial41Source,trial41Integration} from '../scripts/audit/source-before-trial41-integration.mjs';
 import test from 'node:test';
@@ -16,7 +17,7 @@ import {trialDItems} from '../e2e/trial-d-receipt.fixture';
 import {trialTAPins,sourceBeforeTrialTA} from '../scripts/audit/source-before-trial-ta.mjs';
 import {inventory} from '../scripts/audit/table-access-inventory.mjs';
 import {verifyProbeCoverage} from '../scripts/audit/table-access-probes.mjs';
-const read=(file:string)=>readFileSync(file,'utf8').replaceAll('\r\n','\n'),hash=(s:string)=>createHash('sha256').update(s).digest('hex');
+const read=(file:string)=>sourceBeforeRehearsal219(file,readFileSync(file,'utf8').replaceAll('\r\n','\n'))!,hash=(s:string)=>createHash('sha256').update(s).digest('hex');
 
 test('T-A POS bottle product shows only parcel/packet sales methods and preserves exact outgoing lines',()=>{
  const product=mapAdminProductRecord({id:'12800000-0000-4000-8000-000000000001',name_ar:'صنف وهمي',sku:'TA',base_unit:{code:'BOTTLE',name_ar:'قنينة'},units_per_sale_unit:12,sale_price_in_minor_units:500,default_sale_price_in_minor_units:6000});

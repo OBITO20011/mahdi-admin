@@ -2,45 +2,47 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner3Nov docs-only Supabasecutover7items fromsavedClaudeaudit;independentPR/FULLCI,no merge/hosted/runtimechange.58/59untouched.",
-  "baselineSha": "e429603ebfcfd0797b550eebfaded9759019176c",
+  "objective": "Owner3Nov merge59 then correct docsPR60 perAstra6conditions;FULLCI,no merge60/58,hosted/deploy.",
+  "baselineSha": "c1b549f5d18aab4e9bf97fdd7aa30e4a28890784",
   "branch": "codex/cutover-supabase-platform",
   "phase": "PACKAGE_F",
   "completed": [
-    "ReadsavedClaudeaudit,currentmain49b8d008,58/59filelists. Newworktreeonly;ownercheckout/env/59unchanged.",
-    "Onlybranchmetadataalignedwithknownhome219historicalhash;beforeText untouched.",
-    "Seven cutover doc items and print HTML updated. Auth/Turnstile after reset,before publish;production order test after publish. D-1 matching-tool/archive rehearsal,7–12h/destructive boundary;night-PC/free-plan,M01 first,Gemini pending,Telegram219.",
-    "Final D-1 review corrected stale217/179 and FULL45 counters to219/180 and FULL60;focused16 PASS. Old e429603 quality cancelled as superseded before final head,not a failure retry."
+    "59reviewed7cd75CI63 verified;true merge094a071d;mainCI inprogress.",
+    "Read Astra independentrehearsalreview;real-main-mergeinto60 resolved task/state-only conflicts preserving docsbranch and allapproved59runtime bytes.",
+    "Astra6corrections complete:actualwriteblock beforebackup;finalmainSHA/tool/reference/archive identity;rerun8stepdrill on separatorarchive duringfreeze;D-1prepare58;RESET219/resume03window/cronidentity/retentionaccess;Auth/TOTP/Push/templates/lastcronrun/recipient gates.",
+    "LocalAdmin1735/Store207/focused43/types/strictlint/A4two pages0network/Gitleaks0. No runtime/SQL/owner-tool changes vsmergedmain.",
+    "Resolved inverse-chain branchmetadata using existing exact legacy projection;all original before bytes and unknown-mutation assertions preserved."
   ],
   "inProgress": [
-    "Commit/push independent docs PR and verify complete exact-SHA CI;no merge."
+    "Commit realmainmerge/docs corrections into60;fullCI thenownerreview. Main59CI stillrunning;primaryupdateonlyaftergreen."
   ],
   "notStarted": [
-    "PR/FULLCI/ownerapproval."
+    "Ownerreview60 only;58Draft mustnotmerge."
   ],
   "testsPassed": [
-    "Admin1712/1712;Store207/207;focused16/16;typecheck;ESLint strict;Gitleaks working0;print2A4pages/0network visually reviewed."
+    "Admin1735/Store207/focused43/types/ESLint/print2pages/Gitleaks0."
   ],
   "testsRemaining": [
-    "Complete CI on pushed PR SHA and secrets/backup gates."
+    "FULLCI exactnewhead60;FULLmain59+secrets/backup;primaryff preservation/preflight."
   ],
   "findings": [
-    "58sameMdHTMLcard;59nooverlapwithtargetbusinessdocs. Mustpreserve58step5andresyncafterthisPRmergedlater.",
-    "HTML regenerated from Markdown and verified all cells match. Print PDF proof external only. Historical beforeText/hash/assertions unchanged;five exact after hashes updated,branch-only state metadata."
+    "Owner default ready219 SHA56e3c557 old UI sources,strict readiness rejects;tested rehearsal adapter-ready SHAa915b64d validates current sources. Ownerfile unchanged;record launchreference choice beforeRESET."
   ],
   "blockers": [],
-  "activeProcesses": [],
-  "prohibitions": [
-    "No hosted/deploy/merge/DB/migration/app/financial/secretchanges.",
-    "No58/59merge orprimarycheckout/env edits."
+  "activeProcesses": [
+    "Externalread-only GitHubmainwatch84011;no localDB/browserwriter."
   ],
-  "nextExactAction": "Push final docs head;verify FULL60+2secrets+strictbackup;no merge/hosted.",
+  "prohibitions": [
+    "No merge60/58,hosted/deploy/DB/migration/runtimechange.",
+    "Preserveprimaryowner/envbytes andstate5literalfields."
+  ],
+  "nextExactAction": "Push realmainmerge60/docs;FULLCI;main59green thenprimaryff-safe;STOPreview,no60/58merge orhosted.",
   "startedAt": "2026-11-02T22:55:23.390Z",
-  "checkpointedAt": "2026-11-02T23:29:23.749Z",
+  "checkpointedAt": "2026-11-03T03:01:17.353Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 3,
-  "filesTouchedManifestSha256": "5696f99158fc614fa83526b8dc90f054d43beabd14acdfb3ab22022a705692a6",
-  "workingTreeFingerprint": "046475F89DB80FF2263D77BFCF4C63623AD0A4D2E995D02BEFEAFA5D0D09E922"
+  "filesTouchedCount": 55,
+  "filesTouchedManifestSha256": "a90a6fbf4d228303073d7499e5192c62888df979721d39af7be991878c47fc99",
+  "workingTreeFingerprint": "34AA3890DD09724B7F5D9AF91D6B088555325BC54E80D96DF98BDA402F4F346E"
 }

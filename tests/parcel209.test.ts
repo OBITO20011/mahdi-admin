@@ -1,3 +1,4 @@
+import {sourceBeforeRehearsal219} from '../scripts/testing/rehearsal219-legacy-view.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {inventoryBeforeTrialD} from '../scripts/audit/source-before-trial-sale-receipts.mjs';
@@ -15,7 +16,7 @@ import {verifyProbeCoverage} from '../scripts/audit/table-access-probes.mjs';
 import {assert209History} from '../scripts/operations/frankfurt-owner-upgrade209.mjs';
 import {assertReady209Catalog,assert209PublicationTransition} from '../scripts/operations/frankfurt-reference209.mjs';
 import {realtime151Tables} from '../scripts/testing/realtime151-contract.mjs';
-const read=(file:string)=>readFileSync(file,'utf8').replaceAll('\r\n','\n');
+const read=(file:string)=>sourceBeforeRehearsal219(file,readFileSync(file,'utf8').replaceAll('\r\n','\n'))!;
 const hash=(s:string)=>createHash('sha256').update(s).digest('hex');
 test('new POS lines use only allowed method;existing cart identities/quantity/price stay unchanged',()=>{
  const product={id:'p',parcelOnly:true,unitsPerSalePackage:10} as Product;

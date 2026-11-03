@@ -20,6 +20,8 @@ import {readNotificationSnapshot} from '../operations/frankfurt-notification-hol
 import {sqlLiteral as q} from '../operations/trial-reset-core.mjs';
 import {sha256} from './maintenance-db-contract.mjs';
 import {localTotp} from './local-totp.mjs';
+import {frankfurtPgNetFixture} from './frankfurt-pg-net-fixture.mjs';
+import {pgNetIdentitySql,provePgNetRunnable219} from './reset219-dependency-probe.mjs';
 const exec=promisify(execFile),root=path.resolve(import.meta.dirname,'../..'),cli=path.join(root,'node_modules/supabase/dist/supabase.js');
 const output=await mkdtemp(path.join(tmpdir(),'nawasrah-reset219-resume-')),project='nawasrah-reset219-resume-test',executor=persistentLocalExecutor(executorFor(['--container','supabase_db_'+project]));
 const report={output,managedAccess:false,startedAt:new Date().toISOString(),cases:[]};let local,stage='bootstrap';
@@ -34,6 +36,8 @@ try{
   NAWASRAH_ISOLATED_PROJECT_ID:project,NAWASRAH_MAX_MIGRATION:'219',NAWASRAH_SKIP_REDUNDANT_DB_RESET:'true',
   NAWASRAH_SUPABASE_EXCLUDE:'realtime,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor'}});
  local=JSON.parse(boot.stdout).isolatedProjectRoot;
+ report.pgNetFixture=await frankfurtPgNetFixture(executor);
+ const pgNetBefore=await json(pgNetIdentitySql);
  const cliCall=flags=>exec(process.execPath,[cli,...flags,'--local','--workdir',local,'--agent','no'],{cwd:root,windowsHide:true,maxBuffer:8*1024**2});
  const status=JSON.parse((await exec(process.execPath,[cli,'status','-o','json','--workdir',local],{cwd:root,windowsHide:true})).stdout),api=new URL(status.API_URL);
  assert.ok(['localhost','127.0.0.1'].includes(api.hostname));assert.equal(api.port,'25431');
@@ -97,6 +101,9 @@ try{
   assert.equal(r.comparisonDates.rebuild.beforeBuildDate,realBuildDay);
   assert.equal(r.comparisonDates.rebuild.afterBuildDate,nextBuildDay);
   report.midnightUtc={start:realBuildDay,end:nextBuildDay,comparison:r.comparisonPolicy,ordinaryAndResume:true};
+  assert.deepEqual(await json(pgNetIdentitySql),pgNetBefore,'PG_NET_CHANGED_AFTER_RESET');
+  await provePgNetRunnable219({...executor,localOnly:true});
+  report.pgNetPreserved=true;
   await finishResetSession(session);return r;
  };
  stage='snapshot-write-failure';

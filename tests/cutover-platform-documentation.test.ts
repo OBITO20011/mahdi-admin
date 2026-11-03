@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
+import { sourceBeforeRehearsal219 } from '../scripts/testing/rehearsal219-legacy-view.mjs';
 
 const read = (file: string) => readFileSync(file, 'utf8').replaceAll('\r\n', '\n');
 const plan = read('docs/operations/GO_LIVE_CUTOVER_AR.md');
@@ -23,7 +24,7 @@ test('platform gates follow successful reset and precede production publishing i
     }
   };
   ordered(plan, ['| 2.5 التنفيذ', '| 2.6 افحص', '| 2.7 Auth', '| 2.8 Edge Secrets', '## 8. النشر']);
-  ordered(card, ['7. RESET219: dry-run', '8. «افحص»', '8أ. Auth', '8ب. Edge Secrets', '16. كلمة المالك «انشر»', '17. فتح الطلبات']);
+  ordered(card, ['6. RESET219: dry-run', '7. «افحص»', '8أ. Auth', '8ب. Edge Secrets', '16. كلمة المالك «انشر»', '17. قبل أول بيع']);
   for (const text of [plan, card, print]) {
     for (const marker of ['Auth', 'URL Configuration', 'Site URL', 'https://admin.alnawasreh.com', 'Redirect URLs',
       'TURNSTILE_TEST_MODE', 'false', 'TURNSTILE_ALLOWED_HOSTNAMES', 'alnawasreh.com', 'بعد النشر']) {
@@ -47,11 +48,49 @@ test('D-1 requires fresh connected rehearsal at matching tool head; protection a
       'تفريغ Storage ثم إسقاط public', 'شغّالاً ليلاً', 'R2', 'الخطة المجانية']) assert.ok(text.includes(marker), marker);
     assert.ok(text.includes('RESET219'));
   }
-  assert.ok(plan.includes('ليست إذناً لدمجه'));
-  assert.ok(plan.includes('PR #59'));
-  assert.ok(plan.includes('أعد البروفة إذا تغيّرت الأداة'));
+  assert.ok(plan.includes('#59 المدمج إلى `094a071d`'));
+  assert.ok(plan.includes('تغيّر أي منها يوقف القبول'));
   assert.ok(plan.includes('R2 لا ينشئ نسخة إن كان الجهاز مطفأً'));
   assert.ok(plan.includes('حفظ لقطة الاحتفاظ والتحقق منها'));
+});
+
+test('Astra critical gate freezes every writer before final backup and reruns the exact archive at the signed merge head', () => {
+  const cutover = card.split('## يوم القطع —')[1];
+  const sequence = ['2. بإذن يوم التشغيل', '3. حظر المعاينات وكل hash URLs فعلياً', '4. إثبات وقت آخر كتابة',
+    'النسخة الفاصلة', '4أ. أثناء التجميد', 'النسخة الفاصلة نفسها', '6. RESET219: dry-run'];
+  let previous = -1;
+  for (const label of sequence) {
+    const at = cutover.indexOf(label);
+    assert.ok(at > previous, label);
+    previous = at;
+  }
+  for (const text of [plan, card, print]) {
+    for (const marker of ['SHA الدمج', 'بصمات', 'CI', '#58', 'D-1', 'وقت آخر كتابة', 'أي كتابة لاحقة تبطل النسخة',
+      'النسخة الفاصلة نفسها', '10–20', '03:00', 'pg_cron', 'العلامة', 'اللقطة', 'مفتاح الأرشيف', 'لا resume إن ظهرت أعمال جديدة']) {
+      assert.ok(text.includes(marker), marker);
+    }
+    assert.doesNotMatch(text, /RESET217/u);
+  }
+  assert.ok(plan.includes('نفس الرأس** يعني SHA الدمج النهائي على main'));
+  assert.ok(plan.includes('لا تبديل إصدار بعد توقيع التجميد'));
+  assert.ok(plan.includes('لا تستبدلها بفرض تكافؤ'));
+  assert.ok(plan.includes('لا تفوض دمج #58 الآن'));
+  assert.ok(plan.includes('غياب pg_cron أو اختلاف الإصدار/schema/المالك'));
+  assert.ok(plan.includes('فقد العلامة أو اللقطة أو اختلافها لا يُحل بإنشائهما يدوياً'));
+});
+
+test('real phone Auth/TOTP, notifications, template totals and restored opening backup gate first sale', () => {
+  for (const text of [plan, card, print]) {
+    for (const marker of ['رابط Auth فعلي', 'TOTP', 'الهاتف', 'جلسات المعاينة', 'اشتراك Push بعد التصفير',
+      'Telegram', 'المطوّر', 'الشيكات', 'تكلفة الوحدة', 'بداية حقيقية', 'RestoreRemote', 'آخر تشغيل ناجح لكل cron']) {
+      assert.ok(text.includes(marker), marker);
+    }
+  }
+  const acceptance = plan.split('| 8.4أ')[1].split('| 8.5 أول بيع')[0];
+  for (const marker of ['بعد نشر الإنتاج', 'قبل أول بيع', 'تسليم Telegram', 'لا بيع قبل نجاح الدخول']) assert.ok(acceptance.includes(marker), marker);
+  assert.ok(plan.includes('active=true دليلاً على التنفيذ'));
+  assert.ok(plan.includes('وقت البدء/النهاية والحالة'));
+  assert.ok(plan.includes('مصدر مراقبة unknown لا يُسمى healthy'));
 });
 
 test('M01 is first maintenance item; Gemini remains an owner decision; Telegram clock uses RESET219', () => {
@@ -93,11 +132,21 @@ test('documentation pins bind current copies and preserve original historical in
   const allowed = ['docs/agent/project-state.json', 'docs/operations/GO_LIVE_CUTOVER_AR.md',
     'docs/handover/ورقة-يوم-التشغيل.md', 'docs/handover/ورقة-يوم-التشغيل.html', 'tests/handover-documentation.test.ts'];
   for (const path of allowed) {
-    assert.equal(now.entries[path].after, createHash('sha256').update(read(path)).digest('hex'));
+    const projected = path === 'docs/agent/project-state.json' ? sourceBeforeRehearsal219(path, read(path))! : read(path);
+    assert.equal(now.entries[path].after, createHash('sha256').update(projected).digest('hex'));
   }
   for (const [path, pin] of Object.entries(old.entries) as [string, { before: string; beforeText: string }][] ) {
     assert.equal(now.entries[path].before, pin.before, path);
     assert.equal(now.entries[path].beforeText, pin.beforeText, path);
   }
   assert.equal(now.baseline, old.baseline);
+  const legacyFile = 'scripts/testing/rehearsal219-legacy-view.json';
+  const merged = JSON.parse(execFileSync('git', ['show', '094a071ddf305e7c6b7cf137e265ceb3a5d3a63d:' + legacyFile], {
+    encoding: 'utf8', maxBuffer: 32 * 1024 ** 2,
+  }));
+  const legacy = JSON.parse(read(legacyFile));
+  const state = 'docs/agent/project-state.json';
+  assert.equal(legacy.files[state].after, createHash('sha256').update(read(state)).digest('hex'));
+  legacy.files[state].after = merged.files[state].after;
+  assert.deepEqual(legacy, merged, 'Only exact branch metadata after hash changes; all original bytes and guards stay');
 });

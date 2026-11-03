@@ -1,4 +1,6 @@
 import {hold217Notifications} from '../operations/owner-telegram217-notifications.mjs';
+import {frankfurtPgNetFixture} from './frankfurt-pg-net-fixture.mjs';
+import {pgNetIdentitySql} from './reset219-dependency-probe.mjs';
 // Actual owner219 pipeline on disposable Docker,including strict negative ACL,
 // owner/search_path/cron and read-only checks. No hosted configuration loaded.
 import assert from 'node:assert/strict';import {execFile} from 'node:child_process';import {promisify} from 'node:util';
@@ -12,6 +14,7 @@ try{
  assert.equal(process.argv.length,3);const reference=await readReady219Reference(root,process.argv[2]);
  const boot=await exec(process.execPath,['scripts/testing/bootstrap-isolated-supabase.mjs'],{cwd:root,windowsHide:true,maxBuffer:16*1024**2,env:{...process.env,NAWASRAH_ISOLATED_PROJECT_ID:project,NAWASRAH_MAX_MIGRATION:'217',NAWASRAH_SKIP_REDUNDANT_DB_RESET:'true',NAWASRAH_SUPABASE_EXCLUDE:'gotrue,kong,postgrest,realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor'}});local=JSON.parse(boot.stdout).isolatedProjectRoot;
  const original=await readNotificationSnapshot(executor);await hold217Notifications(executor,original);
+ report.pgNetFixture=await frankfurtPgNetFixture(executor);
  const sql=async(input,ex=executor)=>{const r=await executeInput(ex,input);assert.equal(r.code,0,r.stderr);return r.stdout.trim();};
  const cliCall=flags=>exec(process.execPath,[cli,...flags,'--local','--workdir',local,'--agent','no','--output-format','text'],{cwd:root,windowsHide:true,maxBuffer:8*1024**2});
  const run=async name=>{const dir=path.join(output,name);await mkdir(dir);return upgrade219WithExecutor({executor,reference,original,output:dir,report:{},repair:async version=>{const unit=reference.manifest.find(m=>m.name.startsWith(version+'_'));await copyFile(path.join(root,'supabase/migrations',unit.name),path.join(local,'supabase/migrations',unit.name));await cliCall(['migration','repair','--status','applied',version]);},finalDryRun:async()=>{const r=await cliCall(['db','push','--dry-run','--skip-vault']);assert.match(r.stdout+r.stderr,/up to date/iu);}});};
@@ -34,6 +37,8 @@ try{
  ];report.negatives=[];
  for(const [name,mutate,undo,pattern]of negatives){stage='negative-'+name;await sql(mutate);await assert.rejects(verify('negative-'+name),pattern);await sql(undo);report.negatives.push(name);}
  const denied=await executeInput(readonly,'CREATE TABLE public.readonly219_should_fail(id integer);');assert.notEqual(denied.code,0);assert.match(denied.stderr,/read.only/iu);assert.equal(await sql("SELECT to_regclass('public.readonly219_should_fail') IS NULL;"),'t');
- await verify('final');assert.deepEqual(await readApplicationFingerprint(executor),unchanged);Object.assign(report,{ok:true,readOnlySessionActuallyEnforced:true,allOriginalDataAndSequencesUnchangedOnReplayAndVerify:true});
+ await verify('final');assert.deepEqual(await readApplicationFingerprint(executor),unchanged);
+ assert.deepEqual(JSON.parse(await sql(pgNetIdentitySql)),report.pgNetFixture.after);report.pgNetPreserved=true;
+ Object.assign(report,{ok:true,readOnlySessionActuallyEnforced:true,allOriginalDataAndSequencesUnchangedOnReplayAndVerify:true});
 }catch(error){Object.assign(report,{stage,error:error.message});throw error;}
 finally{if(local)await exec(process.execPath,[cli,'stop','--no-backup','--workdir',local],{cwd:root,windowsHide:true,maxBuffer:8*1024**2});await writeFile(path.join(output,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));}
