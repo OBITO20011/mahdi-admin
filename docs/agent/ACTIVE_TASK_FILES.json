@@ -3,6 +3,10 @@
   "files": [
     {
       "code": " M",
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": " M",
       "path": "docs/handover/ورقة-يوم-التشغيل.html"
     },
     {
@@ -19,7 +23,15 @@
     },
     {
       "code": " M",
-      "path": "tests/cutover-platform-documentation.test.ts"
+      "path": "scripts/testing/rehearsal219-legacy-view.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/RESET219_REFERENCE_D1_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "tests/reset219-reference-d1-docs.test.ts"
     }
   ]
 }

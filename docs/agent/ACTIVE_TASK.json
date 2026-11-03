@@ -2,48 +2,43 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner3Nov merge59 then correct docsPR60 perAstra6conditions;FULLCI,no merge60/58,hosted/deploy.",
-  "baselineSha": "45d577e22fa9dacef61d55657dd2002dff24e03c",
-  "branch": "codex/cutover-supabase-platform",
+  "objective": "Owner3Nov separate docs-only D-1owner219 reference install/copy with exacthashes;PR/FULLCI thenapproval,no merge/ownerfilechanges/hosted.",
+  "baselineSha": "85c80df17a5e74cb92163d88cf38d52184758935",
+  "branch": "codex/cutover-reference-d1",
   "phase": "PACKAGE_F",
   "completed": [
-    "59reviewed7cd75CI63 verified;true merge094a071d;mainCI inprogress.",
-    "Read Astra independentrehearsalreview;real-main-mergeinto60 resolved task/state-only conflicts preserving docsbranch and allapproved59runtime bytes.",
-    "Astra6corrections complete:actualwriteblock beforebackup;finalmainSHA/tool/reference/archive identity;rerun8stepdrill on separatorarchive duringfreeze;D-1prepare58;RESET219/resume03window/cronidentity/retentionaccess;Auth/TOTP/Push/templates/lastcronrun/recipient gates.",
-    "LocalAdmin1735/Store207/focused43/types/strictlint/A4two pages0network/Gitleaks0. No runtime/SQL/owner-tool changes vsmergedmain.",
-    "Resolved inverse-chain branchmetadata using existing exact legacy projection;all original before bytes and unknown-mutation assertions preserved.",
-    "Main59FULL62 PASS/primary094a071d ff20owner+4env/state5 bytes preserved/preflightPASS.",
-    "Final sequence correction:real first pending storeorder afterproductionAuth/TOTP/subscription verifiesTurnstile+Push BEFOREfirstsale;no nonexistent standalonePush test. Focused30+ESLint/A4two pages0networkPASS."
+    "Readinstructions/currentmain85c80df1;PR60mergedreviewed25c870CI63;mainCIpendingelsewhere.",
+    "Separatecleanworktree;branch-only state + exactlegacyafterhash aligned;originalbytesunchanged.",
+    "ExactreferenceD1guide+plan/cardHTML links;sourcea915targetdefault,source/backup/incoming/targetSHAguards andactiveRESETmarkerfailclosed;actualreadReady219Reference localcommand.",
+    "Localfocused47PASS;literalPowerShell7syntheticcasesPASS/idempotency/negativecorruption/noownerpaths;types+ESLintPASS;A4two pages/0networkvisualreview;Gitleaksworking0."
   ],
   "inProgress": [
-    "Push final doc sequence SHA thenFULLCI60+2secrets+strictrestore,returnownerreview/no merge60/58."
+    "Commit/push separate docsPR;exactFULLCI;ownerreviewSTOP,no merge."
   ],
   "notStarted": [
-    "Ownerreview60 only;58Draft mustnotmerge."
+    "PR/FULLCI/approval."
   ],
   "testsPassed": [
-    "Admin1735 andtypes/strictlint before finaltextclarification;30focused onfinaldocs andlint/print2pages. MainFULL62 andprimarypreservation/preflightPASS."
+    "47focused;7syntheticPowerShellscenarios;typecheck;ESLint;print2A4/0network;Gitleaks0."
   ],
   "testsRemaining": [
-    "FULLCI exactfinalhead60;ownerapproval."
+    "FullCI quality60+2secrets+strictrestore onfinalhead."
   ],
   "findings": [
-    "Owner default ready219 SHA56e3c557 old UI sources,strict readiness rejects;tested rehearsal adapter-ready SHAa915b64d validates current sources. Ownerfile unchanged;record launchreference choice beforeRESET.",
-    "45d577e2 qualitycancelled as superseded forfinalPushordersequencing;no failure rerun/limit orassertion change."
+    "ExistingD-1 sayshashes butnoexactownerreferencecopycommand. Sourcea915b64d validatedvsolddefault56e3c557;neitherownerfiletouched."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No merge60/58,hosted/deploy/DB/migration/runtimechange.",
-    "Preserveprimaryowner/envbytes andstate5literalfields."
+    "No merge58/newdocsPR,hosted/deploy/DB/migration/runtime/ownerlocalenv/referencechanges."
   ],
-  "nextExactAction": "Push final Push-order docs;FULLCI63 thenownerreviewSTOP,no60/58merge/hosted/deploy.",
-  "startedAt": "2026-11-02T22:55:23.390Z",
-  "checkpointedAt": "2026-11-03T03:26:30.578Z",
+  "nextExactAction": "Push D1reference docs PR;FULLCI63 thenownerreviewSTOP;no ownerreference/env change/merge58/newPR/hosted.",
+  "startedAt": "2026-11-03T03:59:26.518Z",
+  "checkpointedAt": "2026-11-03T04:05:29.335Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 5,
-  "filesTouchedManifestSha256": "1b995ed0b07f75a3beacbcd149e8871b6f002b669cf016c32fbd9ef346d7ee3d",
-  "workingTreeFingerprint": "96074AB1499357DF6762EAB210EEB3857AE1C0AB7C84E7A596775E6A4A8C4359"
+  "filesTouchedCount": 8,
+  "filesTouchedManifestSha256": "830c11a445fbd4d9c022a16894dcc99fae09cab0a36afaca5e42cb29e72217c1",
+  "workingTreeFingerprint": "D1EF255A517BC49D6D0A1BEC9A9C0AEE0E1D4C59912F22D4F8D051DE89623C84"
 }
