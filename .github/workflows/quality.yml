@@ -333,13 +333,13 @@ jobs:
 
       - name: Rehearse trial reset with real local Auth,Storage bytes and strict182 catalog
         if: matrix.suite == 'operations-reset'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-trial-reset-runtime.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Prove first owner guarded binding and real TOTP AAL2 without managed access
         if: matrix.suite == 'operations-reset'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-first-owner-runtime.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Install customer dependencies for the separate temporary trial build gate
         if: matrix.suite == 'prelaunch-trial'
@@ -351,67 +351,67 @@ jobs:
 
       - name: Prove protected RESET214 retention and four real interruption/restart boundaries
         if: matrix.suite == 'reset214-resume'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-reset214-resume-gates.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Prove owner warehouse guards,199 upgrade and current trial reset preservation
         if: matrix.suite == 'warehouse-management'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-warehouse-management-gates.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Prove135 reader JSON,roles and real payment/Return balance
         if: matrix.suite == 'package-f-reads'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: npm run test:package-f:reads
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Prove137 CRM financial filters,old JSON,paging and permissions
         if: matrix.suite == 'package-f-reads'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: npm run test:package-f:crm-filters
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Prove170 product edit conflict between two real sessions,ACL and v3 parity
         if: matrix.suite == 'package-f-reads'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: npm run test:product-edit:runtime
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Prove171 product edits keep stock cost,sale COGS at the true average and owner-only correction
         if: matrix.suite == 'package-f-reads'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: npm run test:product-cost:runtime
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Prove199 legacy cost bypass then200 direct42501 and current internal v4
         if: matrix.suite == 'legacy-product-cost'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-legacy-product-cost-gates.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Product and receiving205 contracts
         if: matrix.suite == 'product-receiving205'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-product-receiving205-gates.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Trial package A server receipt search and existing role gates
         if: matrix.suite == 'product-receiving205'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/audit/run-table-access-diagnostic.mjs --migration-ceiling 208 --require-access --trial-owner-a-search
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Navigation and cash206 contracts
         if: matrix.suite == 'navigation-cash206'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-navigation-cash206-gates.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Document corrections207 contracts
         if: matrix.suite == 'document-corrections207'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-document-corrections207-gates.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
       - name: Parcel209 methods admission races restore upgrade reset and current SDK
         if: matrix.suite == 'parcel209'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-parcel209-gates.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Receipt210 read-only saved public receipt restore upgrade and current SDK
         if: matrix.suite == 'receipt210'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-receipt210-gates.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Install pinned Deno graph verifier
         if: matrix.suite == 'handover213' || matrix.suite == 'handover214' || matrix.suite == 'owner-telegram217'
@@ -421,48 +421,48 @@ jobs:
 
       - name: Handover213 security roles tracking Storage frozen Edge and owner upgrade
         if: matrix.suite == 'handover213'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-handover213-gates.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Handover214 caller authorization exact POS Maps shift guard lock-order and strict owner upgrade
         if: matrix.suite == 'handover214'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-handover214-gates.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Trial212 read-only roles source metadata restore upgrade reset and current SDK
         if: matrix.suite == 'trial212'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-trial212-gates.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Aftercare211 supplier disposition roles races restore upgrade reset and current SDK
         if: matrix.suite == 'aftercare211'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-aftercare211-gates.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Supplier replacement208 contracts
         if: matrix.suite == 'supplier-replacement208'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-supplier-replacement208-gates.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Sales history204 contracts
         if: matrix.suite == 'sales-history204'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-sales-history204-gates.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: All actual customer receipts203 contracts
         if: matrix.suite == 'all-collections203'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-all-collections203-gates.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: All customer collections202 contracts
         if: matrix.suite == 'all-collections202'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-all-collections202-gates.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Home collected and immutable damage201 contracts
         if: matrix.suite == 'home-damage201'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-home-damage201-gates.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
       - name: Prove136 read-only FIFO aging,canonical balance and role boundaries
         if: matrix.suite == 'package-f-aging'
         run: npm run test:package-f:aging
@@ -477,23 +477,23 @@ jobs:
 
       - name: Prove196 opening cheques preserve net balances and share the permanent setup lock
         if: matrix.suite == 'opening-cheques'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-opening-cheques-runtime.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Prove197 canonical home receivables and independent CRITICAL mismatch monitoring
         if: matrix.suite == 'opening-cheques'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-canonical-receivables197-runtime.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Prove197 full two-year legal equality and existing3s home gate with independent balances p95
         if: matrix.suite == 'opening-cheques'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-canonical-receivables197-scale.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Cashier collection198 real roles and unchanged reversal guards
         if: matrix.suite == 'opening-cheques'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-cashier-collections198-runtime.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Prove164 independent complete cash shift and measure receivable status sets
         if: matrix.suite == 'closing'
@@ -501,28 +501,28 @@ jobs:
 
       - name: Prove164 fresh versus incremental catalog and owner upgrade without managed access
         if: matrix.suite == 'package-f-reads'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-frankfurt-upgrade164-runtime.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Prove182 owner-only withdrawals,atomic reversal,closing race,monitoring and strict logical restore
         if: matrix.suite == 'owner-withdrawals'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-owner-withdrawals-runtime.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Prove182 independent full cash day preserves unified opening collections and supplier payments
         if: matrix.suite == 'owner-withdrawals'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-withdrawals-integration182-runtime.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Prove182 fresh and incremental catalogs and owner pipeline with no managed access
         if: matrix.suite == 'owner-withdrawals'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-frankfurt-upgrade182-runtime.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Prove171 fresh versus incremental catalog,closed legacy writers and owner upgrade locally
         if: matrix.suite == 'package-f-reads'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-frankfurt-upgrade171-runtime.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Prove daily Supabase REST read and database-size read on isolated schema
         if: matrix.suite == 'package-f-aging'
@@ -542,37 +542,37 @@ jobs:
 
       - name: Verify exact table privileges150 above138 and139
         if: matrix.suite == 'package-f-reads'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: npm run test:table-reads150:runtime
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Require real application table access through198
         if: matrix.suite == 'package-f-reads'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/audit/run-table-access-diagnostic.mjs --require-access
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Prove cheque lifecycle,compensation,FIFO,roles,atomicity,drawer and monitoring
         if: matrix.suite == 'deferred-cheques'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-deferred-cheques-runtime.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Prove cheque fresh and incremental catalogs match with official history
         if: matrix.suite == 'deferred-cheques'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/operations/build-acl-reference-cheques.mjs --output "${{ runner.temp }}/nawasrah-cheques-reference/local-reference-through195-ready.json"
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Prove198 final reference and literal171 upgrade with preserved notification hold
         if: matrix.suite == 'package-f-reads'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-frankfurt-upgrade198-runtime.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Prove151 real Realtime channel delivery and role isolation
         if: matrix.suite == 'package-f-reads'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: npm run test:realtime151:runtime
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
       - name: Rehearse owner139-150-151 upgrade and strict publication verification locally
         if: matrix.suite == 'package-f-reads'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: npm run test:frankfurt151:runtime
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Reconcile a complete business day through real public RPCs
         if: matrix.suite == 'golden-day'
@@ -643,18 +643,18 @@ jobs:
 
       - name: Partial216 atomic payment quick customer strict upgrade reset resume and current SDK
         if: matrix.suite == 'partial216'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-partial216-gates.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Prove warm harness and sanitized failure screenshot trace console with real browsers
         if: matrix.suite == 'aftercare215'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-harness-diagnostics-negative.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Inspected aftercare215 exact money roles races restore strict upgrade and current SDK
         if: matrix.suite == 'aftercare215'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-aftercare215-gates.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Prove bulk product images with actual local Auth,Storage,RPC and both browsers
         if: matrix.suite == 'bulk-product-images'
@@ -706,13 +706,13 @@ jobs:
 
       - name: Owner217 exact formatter frozen Edge auth and real DB delivery concurrency
         if: matrix.suite == 'owner-telegram217'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-owner-telegram217-edge-gates.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Owner217 SDK reference strict owner upgrade RESET217 and resumed rebuild
         if: matrix.suite == 'owner-telegram217-operations'
-        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
         run: node scripts/testing/run-owner-telegram217-gates.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
 
       - name: Clean historical application view without following dependency links
         if: always() && steps.workbook-historical-view.outputs.root != ''
