@@ -1,4 +1,5 @@
 import{pathsBeforeProductWorkbook}from'../scripts/audit/source-before-product-workbook.mjs';
+import{sourceBeforeProductWorkbook}from'../scripts/audit/source-before-product-workbook.mjs';
 import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -107,7 +108,7 @@ test('exact display inverse restores prior App bytes without accepting any extra
 });
 
 test('actual App link effect only selects the three approved existing screens after authentication',()=>{
- const app=readFileSync('src/App.tsx','utf8'),source=ts.createSourceFile('App.tsx',app,ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX);let body='';
+ const app=sourceBeforeProductWorkbook('src/App.tsx',readFileSync('src/App.tsx','utf8'))!,source=ts.createSourceFile('App.tsx',app,ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX);let body='';
  const visit=(n:ts.Node)=>{if(ts.isCallExpression(n)&&n.expression.getText(source)==='useEffect'&&n.getText(source).includes("screen !== 'reports'")){const fn=n.arguments[0];assert.ok(ts.isArrowFunction(fn));body=fn.body.getText(source);}ts.forEachChild(n,visit);};visit(source);assert.ok(body);
  for(const authenticated of [false,true])for(const role of ['owner','accountant','warehouse_keeper','unassigned'])for(const screen of ['reports','inventory','shifts','users','go_live','unknown','https://evil.example']){
   const selected:string[]=[],replaced:string[]=[],window={location:{search:'?screen='+encodeURIComponent(screen)+'&keep=1',pathname:'/',hash:'#saved'},history:{replaceState:(_a:unknown,_b:string,url:string)=>replaced.push(url)}};

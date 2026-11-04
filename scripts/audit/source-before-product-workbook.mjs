@@ -11,7 +11,7 @@ export function projectProductWorkbookQuerySites(source,parseSource=defaultParse
   const supplied=source.entries.filter(e=>e.file===file),pin=entries[file],saved=source.sources.find(s=>s.file===file);
   if(!pin||saved?.sha256!==pin.after){entriesOut.push(...supplied);continue;}
   const raw=readFileSync(new URL('../../'+file,import.meta.url),'utf8').replaceAll('\r\n','\n');assert.equal(hash(raw),pin.after,'WORKBOOK_QUERY_SOURCE_DRIFT');
-  const actual=parseSource(file,raw).entries,keys=Object.keys(actual[0]??{});assert.deepEqual(supplied.map(e=>Object.fromEntries(keys.map(k=>[k,e[k]]))),actual,'WORKBOOK_QUERY_ARGUMENT_DRIFT');
+  const actual=parseSource(file,raw).entries,keys=Object.keys(actual[0]??{});assert.deepEqual(supplied.map(e=>Object.fromEntries(keys.map(k=>[k,e[k]]))),actual,'HISTORICAL_QUERY_INVENTORY_DRIFT:WORKBOOK_QUERY_ARGUMENT_DRIFT');
   if(pin.beforeText===null)continue;
   const previous=parseSource(file,pin.beforeText).entries,semantic=e=>({...e,id:null,line:null,extensions:e.extensions.map(x=>({...x,line:null}))});assert.deepEqual(previous.map(semantic),actual.map(semantic),'WORKBOOK_EXISTING_QUERY_CHANGED');entriesOut.push(...supplied.map((e,i)=>({...e,...previous[i]})));
  }

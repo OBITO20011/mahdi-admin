@@ -1,4 +1,6 @@
 import {selectedViteEnvironment,environmentDefines,environmentAssets} from './scripts/environments/vite-environment.mjs';
+import {developmentFileAccess} from './scripts/environments/development-file-access.mjs';
+import {privateSourceMaps} from './scripts/environments/private-source-maps.mjs';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
@@ -22,7 +24,7 @@ export default defineConfig(({mode}) => {
       ...environmentDefines(selected),
       __NAWASRAH_BUILD_ID__: JSON.stringify(buildId),
     },
-    plugins: [react(), tailwindcss(),environmentAssets(selected,__dirname)],
+    plugins: [react(), tailwindcss(),environmentAssets(selected,__dirname),privateSourceMaps(selected,__dirname,'admin')],
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
@@ -48,6 +50,7 @@ export default defineConfig(({mode}) => {
       },
     },
     server: {
+      fs: developmentFileAccess(__dirname, true),
       // HMR is disabled in AI Studio via DISABLE_HMR env var.
       // Do not modifyâfile watching is disabled to prevent flickering during agent edits.
       hmr: process.env.DISABLE_HMR !== 'true',

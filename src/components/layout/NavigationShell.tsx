@@ -1,8 +1,10 @@
+import {installBrowserScreenHistory,screenHistoryBusy} from '../../utils/screenHistory';
+import {canUseNavigationAction} from '../../features/more/adminNavigation.config';
 import {useCallback, useEffect, useId, useLayoutEffect, useRef, useState, type ReactNode} from 'react';
 import {createPortal} from 'react-dom';
 import {X} from 'lucide-react';
 import {useDialogFocus} from '../../hooks/useDialogFocus';
-import {useAppStoreSelector} from '../../stores/useAppStore';
+import {storeEngine,useAppStoreSelector} from '../../stores/useAppStore';
 import {useAuthStore} from '../../stores/useAuthStore';
 import {UiButton} from '../ui';
 import {NavigationDrawerContext,type NavigationDrawerState} from './navigationDrawerContext';
@@ -53,35 +55,22 @@ export function NavigationShell({children}: {children: ReactNode}) {
   const [entryIntent,setIntent]=useState<NavigationDrawerState['entryIntent']>(null);
   const intentRequest=useRef(0);
   const setEntryIntent=useCallback((type:'customer_return'|'owner_withdrawals'|null)=>setIntent(type?{type,request:++intentRequest.current}:null),[]);
-  const openRef = useRef(false), historyBusy = useRef(false);
-  const marker = useId();
+  const openRef = useRef(false);
   const activeTab = useAppStoreSelector(state => state.activeTab);
   const currentModal = useAppStoreSelector(state => state.currentModal);
   const {user, roleName, roles} = useAuthStore();
   const identity = `${user?.id ?? ''}:${roleName ?? ''}:${roles.join(',')}`;
   const close = useCallback(() => {openRef.current = false; setOpen(false);}, []);
   const open = useCallback(() => {
-    if (openRef.current || historyBusy.current || window.matchMedia('(min-width: 1024px)').matches) return;
+    if (openRef.current || screenHistoryBusy() || window.matchMedia('(min-width: 1024px)').matches) return;
     openRef.current = true; setOpen(true);
   }, []);
 
-  useLayoutEffect(() => {
-    if (!isOpen) return;
-    const before: unknown = window.history.state;
-    const state = before && typeof before === 'object' && !Array.isArray(before) ? before : {};
-    window.history.pushState({...state, nawasrahNavigationDrawer: marker}, '', window.location.href);
-    let ownsEntry = true;
-    const back = () => {ownsEntry = false; historyBusy.current = false; close();};
-    window.addEventListener('popstate', back);
-    return () => {
-      window.removeEventListener('popstate', back);
-      if (ownsEntry && window.history.state?.nawasrahNavigationDrawer === marker) {
-        historyBusy.current = true;
-        window.addEventListener('popstate', () => {historyBusy.current = false;}, {once: true});
-        window.history.back();
-      }
-    };
-  }, [isOpen, marker, close]);
+  useLayoutEffect(() => installBrowserScreenHistory(
+    () => storeEngine.getState().activeTab,
+    tab => storeEngine.setActiveTab(tab),
+    tab => canUseNavigationAction({type:'tab',destination:tab},roleName,roles),
+  ), [identity, roleName, roles]);
 
   useEffect(() => {close();}, [activeTab, currentModal, identity, close]);
   useEffect(()=>{setIntent(null);},[identity]);

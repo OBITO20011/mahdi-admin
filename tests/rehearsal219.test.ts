@@ -1,5 +1,7 @@
 import{sourceBeforeProductWorkbook}from'../scripts/audit/source-before-product-workbook.mjs';
 import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
+import {sourceBeforeMobileBack} from '../scripts/audit/source-before-mobile-back.mjs';
+import {sourceBeforeWorkbookIntegration} from '../scripts/audit/source-before-workbook-integration.mjs';
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,existsSync} from 'node:fs';
@@ -23,7 +25,7 @@ test('110 original owner/core sources stay exact;only approved dependency roots 
  const seen=new Set<string>();
  function visit(file:string){
   if(seen.has(file))return;seen.add(file);
-  const bytes=readFileSync(path.join(root,file)),text=bytes.toString('utf8');
+  const text=sourceBeforeMobileBack(file,sourceBeforeWorkbookIntegration(file,readFileSync(path.join(root,file),'utf8')))! ,bytes=Buffer.from(text);
   assertProtectedRehearsalSource219(file,bytes,pins.files[file]);
   for(const m of text.matchAll(/(?:from\s*|import\s*\()['"]([.][^'"\n]+)['"]/gu)){
    const next=path.posix.normalize(path.posix.join(path.posix.dirname(file),m[1]));

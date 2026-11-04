@@ -29,4 +29,4 @@
 
 تشخيص الشاشة: الإدارة ترسل activeTab من قائمة التبويبات الثابتة (غير المعروف unknown)، لا pathname. المتجر يرسل / أو /products/ أو /offers/ أو /about/، أو النمط /product/:product/ و/category/:category/ دون أي معرّف أو query/hash. إطارات الأخطاء المجهولة الأصل تُحذف. خطأ chunk غير القابل للاستعادة يُلتقط مرة واحدة من AppErrorBoundary.
 
-Source maps مؤجلة في هذه الحزمة: لا ملفات map عامة أو رفع إلى Sentry أو تغيير نشر. الإطارات تشير إلى ملفات البناء وموضع السطر/العمود مع release SHA؛ فكها إلى المصدر الأصلي يحتاج حزمة source maps لاحقة محروسة لا تنشرها للعامة.
+خرائط المصدر الخاصة أصبحت متاحة لبناءات production وprelaunch-trial فقط، خارج dist وفي مجلد محمي بحسب release SHA. لا رفع إلى Sentry ولا token جديد. الإطارات المنقّحة الحالية تكفي للفك المحلي؛ اتبع [دليل الخرائط الخاصة](SOURCE_MAPS_PRIVATE_AR.md). verify-dist يرفض نشر أي خريطة أو تعليق sourceMappingURL.
