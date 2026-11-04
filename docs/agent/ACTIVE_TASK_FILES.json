@@ -3,47 +3,11 @@
   "files": [
     {
       "code": " M",
-      "path": "customer-web/vite.config.ts"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/project-state.json"
-    },
-    {
-      "code": " M",
       "path": "scripts/audit/source-before-sentry.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/testing/rehearsal219-legacy-view.json"
-    },
-    {
-      "code": " M",
-      "path": "vite.config.ts"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/VITE_DEV_FILES_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/development-fs-source-pins.json"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/source-before-development-fs.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/environments/development-file-access.d.mts"
-    },
-    {
-      "code": "??",
-      "path": "scripts/environments/development-file-access.mjs"
-    },
-    {
-      "code": "??",
-      "path": "tests/vite-file-access.test.ts"
+      "path": "tests/environment-separation.test.ts"
     }
   ]
 }
