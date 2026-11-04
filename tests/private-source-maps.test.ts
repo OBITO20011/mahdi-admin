@@ -11,6 +11,7 @@ import {symbolicateLocal} from '../scripts/monitoring/symbolicate-local.mjs';
 import {assertNoPublishedMaps} from '../scripts/environments/verify-dist.mjs';
 import {sanitizeEvent} from '../src/lib/monitoringPrivacy';
 import {privateMapPins,sourceBeforePrivateMaps} from '../scripts/audit/source-before-private-maps.mjs';
+import {sourceBeforeMobileBack} from '../scripts/audit/source-before-mobile-back.mjs';
 import {resolveBuildEnvironment} from '../scripts/environments/environment.mjs';
 
 const release='1111111111111111111111111111111111111111';
@@ -64,12 +65,13 @@ test('maps only production/trial; archive cannot be inside Git or dist',()=>{
 test('map projection preserves actual baseline bytes and every protected owner helper;unknown mutations remain visible',async()=>{
  const baseline='8198f6ca301a73a84067af8909744a957508fc3c';
  for(const[file,pin]of Object.entries(privateMapPins)as[string,{beforeText:string;after:string}][]){
-  const raw=(await readFile(file,'utf8')).replaceAll('\r\n','\n');
+  const raw=sourceBeforeMobileBack(file,await readFile(file,'utf8'))!.replaceAll('\r\n','\n');
   assert.equal(createHash('sha256').update(raw).digest('hex'),pin.after);
   assert.equal(pin.beforeText,execFileSync('git',['show',baseline+':'+file],{encoding:'utf8',windowsHide:true}).replaceAll('\r\n','\n'));
   assert.equal(sourceBeforePrivateMaps(file,raw),pin.beforeText);
   assert.equal(sourceBeforePrivateMaps(file,raw+'\nunknown\n'),raw+'\nunknown\n');
  }
  const protectedFiles=JSON.parse(await readFile('scripts/testing/rehearsal219-owner-source-pins.json','utf8')).files.map((entry:[string,string])=>entry[0]);
- assert.equal(execFileSync('git',['diff','--name-only',baseline,'--',...protectedFiles],{encoding:'utf8',windowsHide:true}).trim(),'');
+ const changed=execFileSync('git',['diff','--name-only',baseline,'--',...protectedFiles],{encoding:'utf8',windowsHide:true}).trim().split('\n').filter(Boolean);
+ for(const file of changed)assert.equal(sourceBeforeMobileBack(file,await readFile(file,'utf8')),execFileSync('git',['show',baseline+':'+file],{encoding:'utf8',windowsHide:true}),file);
 });

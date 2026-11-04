@@ -3,55 +3,71 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/project-state.json"
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
     },
     {
       "code": " M",
-      "path": "scripts/testing/rehearsal219-legacy-view.json"
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
     },
     {
       "code": " M",
-      "path": "src/App.tsx"
+      "path": "docs/operations/TABLE_ACCESS_AFTER_219.json"
     },
     {
       "code": " M",
-      "path": "src/components/layout/NavigationShell.tsx"
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
     },
     {
       "code": " M",
-      "path": "src/features/pos/PosView.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/stores/useAppStore.ts"
-    },
-    {
-      "code": " M",
-      "path": "src/utils/dialogFocus.ts"
-    },
-    {
-      "code": "??",
-      "path": "e2e/package-f-screen-history-harness.html"
-    },
-    {
-      "code": "??",
-      "path": "e2e/package-f-screen-history-harness.tsx"
-    },
-    {
-      "code": "??",
       "path": "e2e/package-f-screen-history.spec.ts"
     },
     {
-      "code": "??",
-      "path": "src/hooks/useScreenLeaveGuard.ts"
+      "code": " M",
+      "path": "scripts/audit/source-before-owner-telegram-format.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-pre-delivery-usability.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-pre-training.mjs"
+    },
+    {
+      "code": " M",
+      "path": "tests/owner-telegram-format.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/private-source-maps.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/rehearsal219.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/store-scroll-history.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-owner-w.test.ts"
     },
     {
       "code": "??",
-      "path": "src/utils/screenHistory.ts"
+      "path": "docs/operations/MOBILE_BACK_AR.md"
     },
     {
       "code": "??",
-      "path": "tests/screen-history.test.ts"
+      "path": "scripts/audit/mobile-back-source-pins.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-mobile-back.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/mobile-back-contracts.test.ts"
     }
   ]
 }

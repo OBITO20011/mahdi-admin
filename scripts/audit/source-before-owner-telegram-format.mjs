@@ -1,4 +1,5 @@
 // Only exact approved display changes are unwound for historical evidence.
+import {sourceBeforeMobileBack} from './source-before-mobile-back.mjs';
 import {sourceBeforeTrialTA,restoreTrialTASourceHashes} from './source-before-trial-ta.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -15,7 +16,7 @@ export function sourceBeforeOwnerTelegramFormat(file,text){
 }
 export function restoreOwnerTelegramFormatSourceHashes(sources){return restoreTrialTASourceHashes(sources).flatMap(s=>{
  const pin=telegramFormatPins[s.file];if(!pin||s.sha256!==pin.after)return [s];
- const current=readFileSync(new URL('../../'+s.file,import.meta.url),'utf8').replaceAll('\r\n','\n');
+ const current=sourceBeforeMobileBack(s.file,readFileSync(new URL('../../'+s.file,import.meta.url),'utf8')).replaceAll('\r\n','\n');
  assert.equal(hash(current),pin.after,'TELEGRAM_FORMAT_CURRENT_SOURCE_CHANGED');
  const before=sourceBeforeOwnerTelegramFormat(s.file,current);return before===null?[]:[{...s,sha256:hash(before)}];
 });}

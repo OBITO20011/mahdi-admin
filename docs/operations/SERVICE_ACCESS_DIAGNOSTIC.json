@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-02T00:17:53.693Z",
+  "startedAt": "2026-11-04T04:03:43.138Z",
   "migrationCeiling": 219,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-5mq47n",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-skCpRk",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
-      "sha256": "23756e5ebc47fedebfe37c86c16b816ee364bfa42c734d880e7d74eae30233a5"
+      "sha256": "69255b9ff44fd4a7a351ac42b5d48d5a036cbad114d4df0f84d2dc790bda096d"
     },
     {
       "file": "src/components/common/AppErrorBoundary.tsx",
@@ -43,7 +43,7 @@
     },
     {
       "file": "src/components/layout/NavigationShell.tsx",
-      "sha256": "df46275755cd30761143465ab2a3139b00423d7633c854e0a740cb90e8c21e37"
+      "sha256": "080d747243d5b8756ae26ce7cfc8766287950050780f70961138043d3da82a7c"
     },
     {
       "file": "src/components/layout/quickActions.ts",
@@ -479,7 +479,7 @@
     },
     {
       "file": "src/features/pos/PosView.tsx",
-      "sha256": "0cfd9328624d87be988d46e409a1d69ecda183b7e6c7880eb9f6c56bb4ac1762"
+      "sha256": "2745cf7f2f1689c02d3f1ffb9abdf41b8794632b33011ef2b4be4267e338a2fc"
     },
     {
       "file": "src/features/pos/saleMethods.ts",
@@ -680,6 +680,10 @@
     {
       "file": "src/hooks/useSalesHistory.ts",
       "sha256": "2b7740b772b77b00f23710f110c6dfe885528a7854799da8e40ab21cbf7c2d40"
+    },
+    {
+      "file": "src/hooks/useScreenLeaveGuard.ts",
+      "sha256": "a9c4ca2a6185ddcd784b34031c2085fb47fe48cf8a70620bd578f6f2e3c8ea5c"
     },
     {
       "file": "src/lib/async.ts",
@@ -955,7 +959,7 @@
     },
     {
       "file": "src/stores/useAppStore.ts",
-      "sha256": "487f3bd44cb3b0f49c3c3060835485f4a96dbe3aee62fecc8cb4374d910fc705"
+      "sha256": "05586737be1f941b44a7bb9e9997b222389e889ec0cf89fa2023a5713dfb25b6"
     },
     {
       "file": "src/stores/useAuthStore.ts",
@@ -1035,7 +1039,7 @@
     },
     {
       "file": "src/utils/dialogFocus.ts",
-      "sha256": "61ff87896a628125b2a74b33f04eb060407e7ca1e7b5eedbfa44dd68cb4a9e25"
+      "sha256": "ac8bbbff544985a2fe3ceb5517fcaee94a3aaf7d9616b43cf9e0dd7a9c0deb59"
     },
     {
       "file": "src/utils/documentCorrection.ts",
@@ -1128,6 +1132,10 @@
     {
       "file": "src/utils/salesHistory.ts",
       "sha256": "6e94652801ef2b13a994f54e4d6327a4de7d3b392e14b8abe6ede2e27737dd4c"
+    },
+    {
+      "file": "src/utils/screenHistory.ts",
+      "sha256": "0485cb0a73521bc2dbc7e42ba0f53806d1027045917867a7d0cc5be670a5a4d9"
     },
     {
       "file": "src/utils/supplierCancellationPreview.ts",
@@ -16341,7 +16349,7 @@
   ],
   "probes": [
     {
-      "site": "src/features/pos/PosView.tsx:168",
+      "site": "src/features/pos/PosView.tsx:174",
       "name": "get_pos_configurable_parcel_options_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -16353,7 +16361,7 @@
       "command": "SELECT public.\"get_pos_configurable_parcel_options_v1\"('92600000-0000-4000-8000-000000000201'::uuid)"
     },
     {
-      "site": "src/features/pos/PosView.tsx:168",
+      "site": "src/features/pos/PosView.tsx:174",
       "name": "get_pos_configurable_parcel_options_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -16365,7 +16373,7 @@
       "command": "SELECT public.\"get_pos_configurable_parcel_options_v1\"('92600000-0000-4000-8000-000000000201'::uuid)"
     },
     {
-      "site": "src/features/pos/PosView.tsx:168",
+      "site": "src/features/pos/PosView.tsx:174",
       "name": "get_pos_configurable_parcel_options_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -25136,7 +25144,7 @@
   ],
   "results": [
     {
-      "site": "src/features/pos/PosView.tsx:168",
+      "site": "src/features/pos/PosView.tsx:174",
       "name": "get_pos_configurable_parcel_options_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -25152,7 +25160,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/features/pos/PosView.tsx:168",
+      "site": "src/features/pos/PosView.tsx:174",
       "name": "get_pos_configurable_parcel_options_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -25168,7 +25176,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/features/pos/PosView.tsx:168",
+      "site": "src/features/pos/PosView.tsx:174",
       "name": "get_pos_configurable_parcel_options_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -45920,66 +45928,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-11-02T00:19:36.632Z",
-  "savedCatalogAssessment": {
-    "storagePolicies": [
-      {
-        "name": "ERP staff can delete own product images",
-        "check": null,
-        "roles": [
-          "authenticated"
-        ],
-        "table": "objects",
-        "using": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
-        "schema": "storage",
-        "command": "d",
-        "permissive": true
-      },
-      {
-        "name": "ERP staff can update own product images",
-        "check": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
-        "roles": [
-          "authenticated"
-        ],
-        "table": "objects",
-        "using": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
-        "schema": "storage",
-        "command": "w",
-        "permissive": true
-      },
-      {
-        "name": "ERP staff can upload own product images",
-        "check": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
-        "roles": [
-          "authenticated"
-        ],
-        "table": "objects",
-        "using": null,
-        "schema": "storage",
-        "command": "a",
-        "permissive": true
-      },
-      {
-        "name": "Public can read product images",
-        "check": null,
-        "roles": [
-          "PUBLIC"
-        ],
-        "table": "objects",
-        "using": "(bucket_id = 'product-images'::text)",
-        "schema": "storage",
-        "command": "r",
-        "permissive": true
-      }
-    ],
-    "storageBucketRows": null,
-    "publicationMembership": null,
-    "limits": [
-      "Catalog tables/schema do NOT prove bucket rows exist",
-      "Catalog functions/policies do NOT prove publication membership",
-      "No Auth,Edge environment or remote cron row snapshot in schema catalog"
-    ]
-  },
+  "endedAt": "2026-11-04T04:05:36.848Z",
   "sevenFunctions": [
     {
       "identity": "authorize_admin_ai_assistant_request()",
@@ -46263,10 +46212,6 @@
       "triggerOnly": true
     }
   ],
-  "savedCatalogProvenance": {
-    "baseline": "703fc51abb6b65ce2df2edcf14c6ecb235b74ddf",
-    "scope": "Historical15Oct saved-catalog review only;effectiveLocal and invocationResults measured anew on219;no hosted read"
-  },
   "oldReferences": [
     {
       "file": "automation/n8n/workflows/nawasrah-alerts.json",
@@ -46518,9 +46463,69 @@
     {
       "file": "tests/prelaunch-trial.test.ts",
       "lines": [
-        15
+        16
       ],
       "category": "TEST_CONTRACT"
     }
-  ]
+  ],
+  "savedCatalogAssessment": {
+    "storagePolicies": [
+      {
+        "name": "ERP staff can delete own product images",
+        "check": null,
+        "roles": [
+          "authenticated"
+        ],
+        "table": "objects",
+        "using": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
+        "schema": "storage",
+        "command": "d",
+        "permissive": true
+      },
+      {
+        "name": "ERP staff can update own product images",
+        "check": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
+        "roles": [
+          "authenticated"
+        ],
+        "table": "objects",
+        "using": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
+        "schema": "storage",
+        "command": "w",
+        "permissive": true
+      },
+      {
+        "name": "ERP staff can upload own product images",
+        "check": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
+        "roles": [
+          "authenticated"
+        ],
+        "table": "objects",
+        "using": null,
+        "schema": "storage",
+        "command": "a",
+        "permissive": true
+      },
+      {
+        "name": "Public can read product images",
+        "check": null,
+        "roles": [
+          "PUBLIC"
+        ],
+        "table": "objects",
+        "using": "(bucket_id = 'product-images'::text)",
+        "schema": "storage",
+        "command": "r",
+        "permissive": true
+      }
+    ],
+    "storageBucketRows": null,
+    "publicationMembership": null,
+    "limits": [
+      "Catalog tables/schema do NOT prove bucket rows exist",
+      "Catalog functions/policies do NOT prove publication membership",
+      "No Auth,Edge environment or remote cron row snapshot in schema catalog"
+    ]
+  },
+  "savedCatalogAssessmentSource": "historical saved catalog assessment retained from Git6229aa31;not a live project read"
 }

@@ -3,40 +3,40 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner4Nov item4 browser Back tab history and overlay-first close,existing POS cart/unknown-attempt safety;UI only,separate stackedPR on maps;no SQL/RPC/finance/permissions/merge/deploy/hosted;58Draft.",
-  "baselineSha": "6229aa3115079ea1b4d50a2588ccc04fa7fa3f56",
+  "baselineSha": "3d95e219c897d1e288e934de303d8bb9d09dfcca",
   "branch": "codex/pre-delivery2-mobile-back",
   "phase": "PACKAGE_F",
   "completed": [
-    "Pure tab history7/7PASS;overlay sentinel uses existing close/unsaved guards;App cleanup preserves metadata;store/Pos guards added without any service payload changes.",
-    "Known-own maps test-reader correction fast-forwarded into worktree;privateBacksource edits preserved.",
-    "Initialbrowser26:22PASS/4selector strict-mode status ambiguity;corrected locator only;all4unknown-pending casesPASS Chromium/WebKit390/1280;pending localStorage byte-identical andexactonewrite.",
-    "InitialfullAdmin run diagnostic: existinghistorical source/query pins correctly reject newUIsource;noSQL/financial/services changed. Next exactouter UI projection+fresh local current accessproof,without weakening historical pins."
+    "UI tab Back/Forward and overlay-first close;no business state stored or replayed;POS nonempty-cart confirmation and unknown-attempt protection.",
+    "Local:Admin1761/1761,store207/207,history7,contracts3,Chromium/WebKit26+existingnavigation56,PWA4,types/strictlint,6builds/verify-dist PASS.",
+    "Actual219 SDK157:154success/3empty/0denied/0errors;services586/18expected42501;all SQL/services/owner execution/reset/comparison sources unchanged.",
+    "Exact historical source/query/RPC location adapters preserve baseline bytes and reject unknown mutations;four compatibility fixes20/20PASS."
   ],
   "inProgress": [
-    "Complete historical exactsource projection/current actualaccess evidence;then full browser/unit/types/Gitleaks/PR/CI."
+    "Final Gitleaks,commit/push,item4 stackedPR and exact FULLCI before producttemplate package."
   ],
   "notStarted": [],
   "testsPassed": [
-    "History7/7;browser22+corrected4 (all26unique)Chromium/WebKit390/1280;Admintypes."
+    "Admin1761/store207;history7/contracts3;browser26+regression56/PWA4;types/strictlint;6builds/verify-dist;SDK157/services586."
   ],
   "testsRemaining": [
-    "One full browser pass afterfinalsource;existingnavigation regressions;historicalpins/currentaccessproof;Admin/store/types/strictlint/build/FULLCI."
+    "Gitleaks0;exact-headFULLCI/secrets/backuprecovery;thenallfour checkpoint."
   ],
   "findings": [
-    "StoreEngine.setActiveTab and openCustomerProfile are the only direct tab writes;NavigationShell already owns drawer history;all activeDialog consumers share existing Escape/unsaved/busy guards."
+    "One environmental browser rerun: concurrent build touched dist,HTTP502/EBUSY. Same-source sequential run26/26 passed,no limits/retries/skips changed;artifacts outsideGit."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "No SQL/migration/RPC/financial/permission changes;no hosted/deploy/merge;58Draft;ownercheckout/env untouched."
   ],
-  "nextExactAction": "Finish mobileBack exact historical projection and current realSDK proof;all4package PRs/fullCI before starting producttemplate package",
+  "nextExactAction": "Gitleaks0,commit/push,item4 stackedPR and exact FULLCI;allfour checkpoint before producttemplate package.",
   "startedAt": "2026-11-03T03:59:26.518Z",
-  "checkpointedAt": "2026-11-04T03:51:43.593Z",
+  "checkpointedAt": "2026-11-04T04:42:51.289Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 13,
-  "filesTouchedManifestSha256": "86cc362248f630f4a04353c28e492617d3b9bb354022d83709d1e44f57ebaf3a",
-  "workingTreeFingerprint": "F7D9A79BD2DA0182F1C0877C653E6AB5AAC6ED60E98156FE8845FA63D42A454B"
+  "filesTouchedCount": 17,
+  "filesTouchedManifestSha256": "d6ab6368b7f856fd855ba745efd3969cbf3f98f4b1ccd81845c9edfb092eb383",
+  "workingTreeFingerprint": "D69E8AF9405AB63027099F74CEA2EDE8A373DB333022E5D5677CD93866981AA0"
 }

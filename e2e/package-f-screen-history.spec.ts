@@ -1,4 +1,5 @@
 import {test,expect,type Page} from './isolated-test';
+import {checkLayout} from './package-f-layout';
 import {posFixtureIds} from './package-f-pos.fixture';
 
 const harness='/e2e/package-f-screen-history-harness.html?theme=light';
@@ -11,6 +12,7 @@ for(const width of [390,1280]){
  test(`native Back/Forward records tabs and closes nested/busy/edited layers first ${width}`,async({page},info)=>{
   await page.setViewportSize({width,height:900});await page.goto(harness);
   await expect(page.getByTestId('screen')).toHaveText('home');
+  await checkLayout(page,page.getByTestId('screen'));
   await page.getByTestId('go-orders').click();await page.getByTestId('go-products').click();
   await back(page);await waitTab(page,'orders');await forward(page);await waitTab(page,'products');
   await page.getByRole('button',{name:'افتح نافذة اختبار',exact:true}).click();
