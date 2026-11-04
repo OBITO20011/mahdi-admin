@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner4Nov producttemplate/flavors aboveunmergedPR63;approved two-phase existing-RPC identities with strict readback/recovery;noDBchanges/finance/permissions/merge/deploy/hosted.",
-  "baselineSha": "0610f65bb24df916660f69561dab0cecf868c7b9",
+  "baselineSha": "5cd13426e539be358c748b77c596e6d49469d92a",
   "branch": "codex/pre-delivery2-product-flavors",
   "phase": "PACKAGE_F",
   "completed": [
@@ -14,10 +14,10 @@
     "113owner dependencies literal;Git63 historical snapshots independently reproduced;all prior numerical/ACL/negative assertions preserved;CJS fixture split verified."
   ],
   "inProgress": [
-    "Finalcheckpoint/commitpush/PRabove63/FULLCI exactSHA."
+    "PR67Draft above63;FULLCI exact5cd13426 pending."
   ],
   "notStarted": [
-    "Ownerreview;STOPno merge."
+    "MarkReadyonlyexactFULLgreen;ownerapprovalSTOP."
   ],
   "testsPassed": [
     "Admin1780/1780;actual21912;currenttable181/service598;UI20+108;store207;types/strictlint/builds/PWA."
@@ -34,13 +34,13 @@
   "prohibitions": [
     "NoSQL/migration/RPCdefinition/financial/permissionschange;nohosted/deploy/merge;58Draft;ownercheckout/env untouched."
   ],
-  "nextExactAction": "Local1780/1780+12DB+181SDK/598RPC+UI20+108 PASS. Commitpush finalproofs; createDraftPRabove63 andFULLCI exactSHA; no merge/hosted.",
+  "nextExactAction": "PR67CI5cd historical reference builders rejectnewUI. Guarded temp legacy sourceview added,test20PASS;current219/productworkbook unprojected. WIPsave thenreal local182 andFULLCI newhead;no owner tool/SQL changes.",
   "startedAt": "2026-11-03T03:59:26.518Z",
-  "checkpointedAt": "2026-11-04T14:20:32.915Z",
+  "checkpointedAt": "2026-11-04T14:37:45.986Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 23,
-  "filesTouchedManifestSha256": "0214079071726f97ba17ad5d7760fa0c6eef41181c5daa4d0ca6d048c98dbd88",
-  "workingTreeFingerprint": "3E6045B174B8441CC753933DE78F4157AFBD40576B2F004B793FE6FF1C2E9E99"
+  "filesTouchedCount": 4,
+  "filesTouchedManifestSha256": "c1c66b8b3e3e44cfbddc38ac6ba67c68e48a7f9fbaa3fd8e8bf0a065f71566b4",
+  "workingTreeFingerprint": "8CD5A828FFE119FBE6E39F6EB42E2D1F7BCC87846ADF1D0B9C2447E53C65E0A2"
 }

@@ -3,95 +3,19 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/PRODUCT_WORKBOOK_IMPORT_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/PRODUCT_WORKBOOK_219_LOCAL.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_219.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+      "path": ".github/workflows/quality.yml"
     },
     {
       "code": " M",
       "path": "scripts/audit/product-workbook-source-pins.json"
     },
     {
-      "code": " M",
-      "path": "scripts/audit/source-before-product-workbook.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/build-product-workbook-history.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/product-workbook-historical-views.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/product-workbook-history.json"
-    },
-    {
-      "code": " M",
-      "path": "tests/approved-opening196-source.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/first-owner-preparation.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/frankfurt-public-config.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/owner-telegram-format.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/strict-product-legacy-source.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/trial-aftercare-supplier.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/trial-ta-presentation.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/trial40-ci-scheduling.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/trial41-integration.test.ts"
+      "code": "??",
+      "path": "scripts/testing/product-workbook-runtime-view.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/audit/source-before-product-workbook-text.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/product-workbook-baseline-fixture.mjs"
+      "path": "tests/product-workbook-runtime-view.test.ts"
     }
   ]
 }
