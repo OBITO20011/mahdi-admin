@@ -6,6 +6,10 @@ import {resolveBuildEnvironment,publicEnvironments,renderEnvironmentHeaders} fro
 const root=path.resolve(import.meta.dirname,'../..');
 async function files(dir){const result=[];for(const e of await readdir(dir,{withFileTypes:true})){const f=path.join(dir,e.name);if(e.isDirectory())result.push(...await files(f));else result.push(f);}return result;}
 export function loadVerificationEnvironment(environment,appRoot){return resolveBuildEnvironment({...loadEnv(environment,appRoot,''),...process.env,NAWASRAH_DEPLOYMENT_ENV:environment});}
+export function assertNoPublishedMaps(file,bytes){
+ assert.ok(!/\.map(?:\.|$)/iu.test(file),'DIST_PRIVATE_SOURCE_MAP_FORBIDDEN');
+ assert.ok(!/(?:\/\/[#@]|\/\*[#@])\s*sourceMappingURL\s*=/u.test(bytes),'DIST_SOURCE_MAP_REFERENCE_FORBIDDEN');
+}
 export async function verifyEnvironmentDist({app,environment,dir,allowFixture=false}){
  assert.ok(['admin','customer'].includes(app));const expected=loadVerificationEnvironment(environment,path.join(root,app==='customer'?'customer-web':''));
  const manifest=JSON.parse(await readFile(path.join(dir,'nawasrah-environment.json'),'utf8'));
@@ -21,6 +25,7 @@ export async function verifyEnvironmentDist({app,environment,dir,allowFixture=fa
  const opposite=publicEnvironments[environment==='staging'?'production':'staging'];let count=0,ownOrigin=false;
  for(const f of await files(dir)){
   const bytes=(await readFile(f)).toString('utf8');count++;assert.ok(!bytes.includes(opposite.projectRef),'DIST_OPPOSITE_PROJECT_ORIGIN:'+path.relative(dir,f));
+  assertNoPublishedMaps(path.relative(dir,f),bytes);
   assert.ok(!bytes.includes(opposite.key),'DIST_OPPOSITE_PUBLIC_KEY:'+path.relative(dir,f));
   assert.ok(!bytes.includes('__NAWASRAH_SUPABASE_'),'DIST_UNRESOLVED_CSP');
   if(bytes.includes(expected.url)&&f.endsWith('.js'))ownOrigin=true;

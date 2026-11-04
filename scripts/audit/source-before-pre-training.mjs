@@ -1,18 +1,20 @@
 // Exact presentation-only historical projection; current runtime always reads real sources.
+import {sourceBeforeMobileBack,restoreMobileBackHashes,pathsBeforeMobileBack} from './source-before-mobile-back.mjs';
 import {readFileSync} from 'node:fs';import {createHash} from 'node:crypto';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';
 const {entries}=JSON.parse(readFileSync(new URL('./pre-training-source-pins.json',import.meta.url),'utf8'));
 const hash=text=>createHash('sha256').update(text).digest('hex');
 export function sourceBeforePreTraining(file,text){
+ text=sourceBeforeMobileBack(file,text);
  if(text===null)return null;const raw=text.replaceAll('\r\n','\n'),pin=entries[file];
  if(!pin||hash(raw)!==pin.after)return raw;if(pin.beforeText===null)return null;
  assert.equal(hash(pin.beforeText),pin.before,'PRETRAINING_INVERSE_CORRUPT');return pin.beforeText;
 }
-export function restorePreTrainingHashes(sources){return sources.flatMap(entry=>{
+export function restorePreTrainingHashes(sources){return restoreMobileBackHashes(sources).flatMap(entry=>{
  const pin=entries[entry.file];if(!pin||entry.sha256!==pin.after)return[entry];
  return pin.beforeText===null?[]:[{...entry,sha256:pin.before}];
 });}
-export function pathsBeforePreTraining(files,reference){return files.filter(file=>{
- const pin=entries[file];if(!pin||hash(readFileSync(new URL('../../'+file,import.meta.url),'utf8').replaceAll('\r\n','\n'))!==pin.after)return true;
+export function pathsBeforePreTraining(files,reference){return pathsBeforeMobileBack(files,reference).filter(file=>{
+ const pin=entries[file];if(!pin||hash(sourceBeforeMobileBack(file,readFileSync(new URL('../../'+file,import.meta.url),'utf8'))??'')!==pin.after)return true;
  if(pin.beforeText===null)return false;if(!reference)return true;
  let historical=null;try{historical=execFileSync('git',['show',reference+':'+file],{encoding:'utf8',windowsHide:true,stdio:['ignore','pipe','pipe'],maxBuffer:32*1024**2}).replaceAll('\r\n','\n');}catch{/* Absent at exact historical reference. */}
  return historical!==pin.beforeText;

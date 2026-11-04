@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {sourceBeforeMobileBack} from '../scripts/audit/source-before-mobile-back.mjs';
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import test from 'node:test';
@@ -115,7 +116,7 @@ test('actual App link effect only selects the three approved existing screens af
  }
  const block=/ {2}\/\/ Owner alert links select existing views;[^]*? {2}\}, \[isAuthenticated, setActiveTab, roleName, roles\]\);\r?\n\r?\n/u;
  const base=execFileSync('git',['show','28ab68dbe95329d435feb4871b6edd4a1230279f:src/App.tsx'],{encoding:'utf8'});
- const normalized=app.replace(block,'').replace("import {canUseNavigationAction} from './features/more/adminNavigation.config';\n",'').replace('    roleName,\n    roles,\n','');
+ const normalized=sourceBeforeMobileBack('src/App.tsx',app)!.replaceAll('\r\n','\n').replace(block,'').replace("import {canUseNavigationAction} from './features/more/adminNavigation.config';\n",'').replace('    roleName,\n    roles,\n','');
  assert.equal(normalized,base); // all existing login,cheque,order and view permission paths stay intact.
 });
 

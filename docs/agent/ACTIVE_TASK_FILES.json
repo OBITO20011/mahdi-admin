@@ -3,31 +3,71 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/project-state.json"
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
     },
     {
       "code": " M",
-      "path": "scripts/testing/rehearsal219-legacy-view.json"
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_219.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "e2e/package-f-screen-history.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-owner-telegram-format.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-pre-delivery-usability.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-pre-training.mjs"
+    },
+    {
+      "code": " M",
+      "path": "tests/owner-telegram-format.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/private-source-maps.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/rehearsal219.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/store-scroll-history.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-owner-w.test.ts"
     },
     {
       "code": "??",
-      "path": "docs/operations/GO_LIVE_FILES_CHECK_AR.md"
+      "path": "docs/operations/MOBILE_BACK_AR.md"
     },
     {
       "code": "??",
-      "path": "scripts/operations/check-go-live-files.ps1"
+      "path": "scripts/audit/mobile-back-source-pins.json"
     },
     {
       "code": "??",
-      "path": "scripts/operations/go-live-files/check.ts"
+      "path": "scripts/audit/source-before-mobile-back.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/operations/go-live-files/cli.ts"
-    },
-    {
-      "code": "??",
-      "path": "tests/go-live-files-offline.test.ts"
+      "path": "tests/mobile-back-contracts.test.ts"
     }
   ]
 }
