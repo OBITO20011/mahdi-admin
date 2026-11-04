@@ -19,7 +19,28 @@
       "costAndSaleExact": true
     },
     {
+      "case": "actual service ordinary-parcel",
+      "passed": true,
+      "products": 1,
+      "replayAdditionalWrites": 0,
+      "costAndSaleExact": true
+    },
+    {
+      "case": "actual service ordinary-packet",
+      "passed": true,
+      "products": 1,
+      "replayAdditionalWrites": 0,
+      "costAndSaleExact": true
+    },
+    {
       "case": "actual service family",
+      "passed": true,
+      "products": 3,
+      "replayAdditionalWrites": 0,
+      "costAndSaleExact": true
+    },
+    {
+      "case": "actual service family-parcel",
       "passed": true,
       "products": 3,
       "replayAdditionalWrites": 0,
@@ -38,6 +59,10 @@
       "products": 3,
       "replayAdditionalWrites": 0,
       "costAndSaleExact": true
+    },
+    {
+      "case": "actual form barcode helper lost committed reply,resume same family,each flavor written once,no commercial change",
+      "passed": true
     },
     {
       "case": "actual published XLSX decoded and imported on219 through current adapter,leading zeros preserved",
@@ -66,7 +91,8 @@
     "src/features/goLive/productWorkbookReference.ts": "b19d3d44006a5113e68de54b253eeb9e6147929364fb45e04da1b0ef58a696a7",
     "src/features/goLive/productImportAttempt.ts": "80e1152f89cd6428f62481acde89bcd2f392c13b27815e8471b23780c2afdc6b",
     "src/services/supabase/productWorkbook.service.ts": "c75958160433a1bed704d41d9c8de1da48522f2cb866d0b5e2473841ffb6a3fe",
+    "src/services/supabase/productFamilyBarcodes.service.ts": "66baf5fba864f091b7d25c1c8998b2c6b6cb0d724b8a890de7ba6824d9709d7b",
     "src/lib/xlsx.ts": "6cdbaa22775a973cac568b43d065a5ec15eefdcf96ccc13b31d00f0defd96ea3",
-    "scripts/testing/product-workbook-db-transport.mjs": "a2aaa44595a92f419fc46bf93683c4ae3af66feebf16492cc9e1c5a255d4b1d5"
+    "scripts/testing/product-workbook-db-transport.mjs": "88677f0b304bed3397ce64d4b954504269a2c20a960baa2ca9b675e373ad7ad0"
   }
 }

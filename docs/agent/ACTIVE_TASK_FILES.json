@@ -3,35 +3,27 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/handover/templates/README.md"
+      "path": "docs/agent/OWNER_DECISIONS.md"
     },
     {
       "code": " M",
-      "path": "docs/handover/دليل-صاحب-المحل.html"
+      "path": "docs/agent/PHASE_STATUS.md"
     },
     {
       "code": " M",
-      "path": "docs/handover/دليل-صاحب-المحل.md"
+      "path": "docs/operations/PRODUCT_WORKBOOK_219_LOCAL.json"
     },
     {
       "code": " M",
-      "path": "docs/handover/ورقة-يوم-التشغيل.html"
+      "path": "scripts/audit/product-workbook-source-pins.json"
     },
     {
       "code": " M",
-      "path": "docs/handover/ورقة-يوم-التشغيل.md"
+      "path": "scripts/audit/table-access-probes.mjs"
     },
     {
       "code": " M",
-      "path": "docs/operations/GO_LIVE_FILES_CHECK_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/source-before-pre-training.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/go-live-files/check.ts"
+      "path": "scripts/testing/product-workbook-db-transport.mjs"
     },
     {
       "code": " M",
@@ -39,55 +31,11 @@
     },
     {
       "code": " M",
-      "path": "src/features/goLive/productWorkbook.ts"
-    },
-    {
-      "code": " M",
-      "path": "src/features/goLive/productWorkbookReference.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/pre-training-history.test.ts"
+      "path": "tests/product-workbook-history.test.ts"
     },
     {
       "code": " M",
       "path": "tests/product-workbook.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "docs/agent/PRODUCT_WORKBOOK_IMPORT_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/PRODUCT_WORKBOOK_219_LOCAL.json"
-    },
-    {
-      "code": "??",
-      "path": "e2e/package-f-product-workbook-harness.html"
-    },
-    {
-      "code": "??",
-      "path": "e2e/package-f-product-workbook-harness.tsx"
-    },
-    {
-      "code": "??",
-      "path": "e2e/package-f-product-workbook.fixture.ts"
-    },
-    {
-      "code": "??",
-      "path": "e2e/package-f-product-workbook.spec.ts"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/product-workbook-source-pins.json"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/source-before-product-workbook.mjs"
-    },
-    {
-      "code": "??",
-      "path": "tests/product-workbook-history.test.ts"
     }
   ]
 }

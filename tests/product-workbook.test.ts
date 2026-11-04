@@ -57,3 +57,6 @@ test('ambiguous duplicate headings and overlong flavor barcode are rejected duri
  const sheet=[C.map(c=>c.header).concat(C.at(-1)!.header),product().concat('1')];assert.ok(prepareProductWorkbook(sheet).errors.some(e=>e.message.includes('عنوان عمود مكرر')));
  assert.ok(run([{}],[{master_sku:'SUG-10',name:'ليمون',barcode:'A'.repeat(65)}]).errors.some(e=>e.sheet==='النكهات'&&e.message.includes('64')));
 });
+
+
+test('parcel-only and single-packet methods use the existing flags and sale size without changing purchase packs',()=>{const parcel=run([{sale_method:'طرد',packet_price:''}]);assert.equal(parcel.errors.length,0);assert.equal(parcel.products[0].data.parcel_only,true);const packet=run([{sale_method:'باكيت مفرد',units_per_sale_unit:'1',sale_package_price:'0.750',packet_price:'0.750'}]);assert.equal(packet.errors.length,0);assert.equal(packet.products[0].data.parcel_only,false);assert.equal(packet.products[0].data.units_per_purchase_unit,'12');assert.equal(packet.products[0].data.units_per_sale_unit,'1');assert.ok(run([{sale_method:'باكيت مفرد'}]).errors.length);});

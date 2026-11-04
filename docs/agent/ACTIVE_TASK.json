@@ -3,30 +3,25 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner4Nov producttemplate/flavors aboveunmergedPR63;approved two-phase existing-RPC identities with strict readback/recovery;noDBchanges/finance/permissions/merge/deploy/hosted.",
-  "baselineSha": "dbdd6c96457318b04b92f76ed6d8d5fa48fd1b03",
+  "baselineSha": "71ebd921bc810d1c61a304a7d98feb902e99474f",
   "branch": "codex/pre-delivery2-product-flavors",
   "phase": "PACKAGE_F",
   "completed": [
-    "PriorfourPR63/64/65/66 eachReady63/63unmerged;checkpoint saved.",
-    "Cleannewworktree above63;inherited task mismatch knownown;owner nowapproved stagedalternative;sourcefeasibility external.",
-    "Actual219 existingRPC proof PASS:flavorSKU/barcode through v5(NULLmethod)/v2;cost/commercial/stock unchanged;staleCAS+catalogunchanged;containercleaned.",
-    "Pureworkbook/attempt18PASS incl old XLSXregression,duplicate/derivedprice/optionalstock/purchasepack,unknown-create/finalize/journalquota;types+strictlintPASS.",
-    "Known-own ccf7 WIP baseline sync after continuation;all dirty source files match our delivered edits.",
-    "Actual new service via fixed authenticated DB transport219:ordinary/family/lost-create/lost-metadata each PASS;exact costs/sales;replay0,catalog0. TemporarySKU uppercasing corrected to match108 DB trigger;noDBchanges.",
-    "Workbook source parser/checker/metadata service/formbarcode/recovery implemented;pure/mock checks25 beforelatestrefinement. Artifact-exported4sheet XLSX outsideGit93KB;formula4.8/.25;RTL and visual final checks pending.",
-    "Actual219 final8groupsPASS incl publishedXLSX exacthash/zeros/no-previewwrites/replay0 and protectedstock25/WAC500/value12500;containercleaned.",
-    "Browser16current cases PASS acrossChromium/WebKit390+1440,camera/duplicates/journalreload;fixture default/advanced/session corrections recorded in external logs;no financialchange.",
-    "Six environment builds+verify-dist PASS;cutover HTML still2pages/network0;types+strictlint PASS beforelatestmetadata-only fixes."
+    "PreviousPR63/64/65/66 Ready63/63unmerged;newbranch stacks63;ownerapproved stagedalternative.",
+    "Actual219/180 final12groups PASS:all3methods,brand/max/description,SKU/barcodes,unknowncreate/finalize/formbarcode,replay0,catalog0;publishedXLSX exactzeros;stock25,WAC500,value12500. Containercleaned.",
+    "XLSX4sheets20columns/nativeRTL/freeze/validation/formulas,ArtifactTool/reader/actual219importPASS;historical214proof unchanged.",
+    "Newbrowser16+regression108PASS Chromium/WebKit390/1440;no retries/skips.6builds/verifydist/PWA4 PASS;store207/types/strictlintPASS;cutover2pages/network0.",
+    "WIP commits/push ccf7,dbdd,71eb/Gitleaks0. CurrentSDK fixture id/sku argument gap fixed narrowly;offline62chains PASS;realSDK stillneeded."
   ],
   "inProgress": [
-    "Current219 access runtime evidence,fullAdmin/store/history projection/finalCI."
+    "Actual219 table/service probes sequentially;fullAdmin/history andfinalCI."
   ],
   "notStarted": [
-    "Final browser/runtime stock proof,access/inverse evidence,FULLCI andPR."
+    "PRandFULLCI,ownerreviewSTOP."
   ],
   "testsPassed": [],
   "testsRemaining": [
-    "ExistingRPC actual219proof;focused/unit/types/lint/build/browser/access/Gitleaks/FULLCI."
+    "Currenttable/serviceSDK;fullAdmin/currentevidence;finalGitleaks/checkpoint/PR/FULLCI."
   ],
   "findings": [
     "FamilyV2 ignores flavorbarcode andgenerated SKUusesclock;ownerapproved phasedcompletion,not oneatomictransaction.",
@@ -37,13 +32,13 @@
   "prohibitions": [
     "NoSQL/migration/RPCdefinition/financial/permissionschange;nohosted/deploy/merge;58Draft;ownercheckout/env untouched."
   ],
-  "nextExactAction": "Actual2198groups and16UIcases andsixbuilds pass;currenttable/serviceaccess sequential probes thenfullAdmin/store/affectedbrowser/PWA,PRabove63/FULLCI. NoDBchanges/hosted/merge.",
+  "nextExactAction": "Local functional packagecomplete:12realDB/43focused/16newUI/108regression/store207/6build/PWA4. ActualSDK219 sequentially thenfullAdmin/FULLCI/PRabove63. NoDBchanges/merge/hosted.",
   "startedAt": "2026-11-03T03:59:26.518Z",
-  "checkpointedAt": "2026-11-04T09:45:59.864Z",
+  "checkpointedAt": "2026-11-04T10:08:07.427Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 22,
-  "filesTouchedManifestSha256": "2de9f23c669d9a3f6d5f4ff99de8a8fb91c30d3bde98ee3dc0d6fe7730928356",
-  "workingTreeFingerprint": "914500D1A6EB7AF06C9854D776AD9A85315E5CE10A0940663A292C747F1221E0"
+  "filesTouchedCount": 9,
+  "filesTouchedManifestSha256": "7228489eb48f6c8ec1f2bcfe836451b8bbbbab961e12aaffa1e8c57be8fbb770",
+  "workingTreeFingerprint": "E81EF3DE56F9009D683081D1A289F4A3FB1549F9B9B0A289F91D8528ECB006AF"
 }
