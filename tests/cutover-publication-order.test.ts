@@ -1,0 +1,66 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync,readdirSync} from 'node:fs';
+
+const read=(file:string)=>readFileSync(file,'utf8').replaceAll('\r\n','\n');
+const plan=read('docs/operations/GO_LIVE_CUTOVER_AR.md');
+const card=read('docs/handover/ورقة-يوم-التشغيل.md');
+const order=(text:string,markers:string[])=>{let previous=-1;for(const marker of markers){const at=text.indexOf(marker);assert.ok(at>previous,marker);previous=at;}};
+
+test('cutover publishes both closed apps before entering real data on production, then rebuilds only the store before opening',()=>{
+  order(card,['8أ. Auth','8ب. Edge Secrets','8ج. واتساب الرسمي','8د. كلمة المالك «انشر»','8هـ. بعد النشر','9. إدخال الحقيقي','10. مطابقة القوالب','11. نسخة «بداية حقيقية','15. بعد القبول والتوقيع','16. فتح ordersEnabled','17. أول بيع']);
+  const first=card.split('| ☐ | 8د.')[1].split('\n')[0];
+  for(const marker of ['نشر الإدارة والمتجر معاً','admin.alnawasreh.com','alnawasreh.com','verify-dist','ordersEnabled=false'])assert.ok(first.includes(marker),marker);
+  assert.ok(card.split('| ☐ | 9.')[1].split('\n')[0].includes('https://admin.alnawasreh.com فقط'));
+  const rebuild=card.split('| ☐ | 15.')[1].split('\n')[0];
+  for(const marker of ['المتجر وحده مرة واحدة','بنفس SHA','والطلبات مغلقة','productRoutes/sitemapUrls','لا نشر إدارة ثانٍ'])assert.ok(rebuild.includes(marker),marker);
+  for(const marker of ['**2.9 الانتقال للنشر المغلق:**','§8.1–8.4أ','§3','§8.4ب','§8.5','#58 يبقى Draft','لا RESET/resume بعد بدء هذه الكتابات الحقيقية'])assert.ok(plan.includes(marker),marker);
+});
+
+test('documented two deployment commands really build and verify selected production output before uploading',()=>{
+  const deployment=plan.split('### أوامر المرحلة الأولى')[1].split('### ما يقرأه المتجر')[0];
+  const blocks=[...deployment.matchAll(/```powershell\n([\s\S]*?)```/gu)].map(m=>m[1]);
+  assert.equal(blocks.length,2);
+  order(blocks[0],['NAWASRAH_DEPLOYMENT_ENV=\'production\'','npm.cmd run deploy:admin','npm.cmd --prefix customer-web run deploy:cloudflare','verify-dist.mjs admin production dist','verify-dist.mjs customer production customer-web/dist']);
+  assert.equal((blocks[1].match(/run deploy:cloudflare/gu)??[]).length,1);
+  assert.doesNotMatch(blocks[1],/deploy:admin|run build:/u);
+  order(blocks[1],['git rev-parse HEAD','git ls-remote','run deploy:cloudflare','verify-dist.mjs customer production customer-web/dist','verify-seo-output.mjs','productRoutes=','sitemapUrls=']);
+  assert.ok(blocks.every(s=>s.includes('$releaseSha')));
+  const pkg=JSON.parse(read('package.json')),store=JSON.parse(read('customer-web/package.json'));
+  assert.equal(pkg.scripts['deploy:admin'],'node scripts/deployment/deploy-admin.mjs');
+  const admin=read('scripts/deployment/deploy-admin.mjs');
+  order(admin,["'run', 'build'",'await verifyEnvironmentDist(',"'pages',","'deploy',"]);
+  order(store.scripts['deploy:cloudflare'],['assert-production-context.mjs','build:production','verify-dist.mjs customer production dist','wrangler pages deploy dist','--branch=main']);
+  const run=read('scripts/environments/run-context.mjs');
+  order(run,["'build'",'scripts/generate-seo-pages.mjs','scripts/verify-seo-output.mjs']);
+  assert.ok(plan.includes('verify-seo-output يسمح بكتالوج فارغ'));
+  assert.ok(plan.includes('sitemapUrls = 4 + categoryRoutes + productRoutes'));
+});
+
+test('runtime catalog and build-time SEO claims match actual readers without promising instantaneous refresh or empty SEO completeness',()=>{
+  const app=read('customer-web/src/App.tsx'),catalog=read('customer-web/src/services/catalog.service.ts');
+  for(const marker of ['CATALOG_STALE_TIME_MS = 90_000','fetchPublicProductCatalog(catalogQuery)','setProducts(catalog.items)',"window.addEventListener('focus'","window.addEventListener('online'"])assert.ok(app.includes(marker),marker);
+  assert.ok(catalog.includes("supabase.rpc('get_public_storefront_catalog_page'"));
+  const seo=read('customer-web/scripts/generate-seo-pages.mjs');
+  for(const marker of ['get_public_storefront_catalog_page',"p_availability: 'available'",'seenProductRoutes.size','sitemapUrls: sitemapRoutes.length',"'sitemap.xml'",'JSON.stringify'])assert.ok(seo.includes(marker),marker);
+  const routes=seo.match(/const sitemapRoutes = \[([\s\S]*?)\];/u)![1];
+  assert.equal((routes.match(/route:/gu)??[]).length,4);
+  for(const marker of ['runtime','نافذة تحديث90ثانية','p_availability=\'available\'','لا يوجد customer-web/public/_redirects','لا إجمالي صفوف products/النكهات']){
+    assert.ok(plan.includes(marker),marker);
+  }
+});
+
+test('closed-order verification documents both UI refusals and the current server guard, including idempotent replay',()=>{
+  const app=read('customer-web/src/App.tsx'),checkout=read('customer-web/src/components/CheckoutModal.tsx');
+  assert.ok(app.includes('if (!settingsTrusted)'));
+  assert.ok(app.includes('if (!storefrontSettings.ordersEnabled)'));
+  assert.ok(checkout.includes('if (!storefrontSettings.ordersEnabled)'));
+  assert.ok(app.includes('الطلبات متوقفة مؤقتًا، لكن يمكنك تصفح الأصناف والتواصل معنا عبر واتساب.'));
+  assert.ok(read('customer-web/src/services/storefront-settings.service.ts').includes("supabase.rpc('get_public_storefront_settings')"));
+  assert.ok(read('supabase/functions/submit-guest-order/index.ts').includes("const rpcName = 'submit_guest_customer_order_v2'"));
+  const definitions=readdirSync('supabase/migrations').filter(f=>f.endsWith('.sql')).sort().filter(f=>/CREATE (?:OR REPLACE )?FUNCTION public\.submit_guest_customer_order_v2\(/u.test(read('supabase/migrations/'+f)));
+  assert.equal(definitions.at(-1),'209_product_sale_methods.sql','Update the documented current writer when a new definition is added');
+  const body=read('supabase/migrations/'+definitions.at(-1)).split('CREATE OR REPLACE FUNCTION public.submit_guest_customer_order_v2(')[1];
+  order(body,["v_replay->>'decision' = 'REPLAY'",'RETURN v_replay',"WHERE id = '00000000-0000-0000-0000-000000000001'::UUID FOR SHARE",'NOT COALESCE(v_settings.orders_enabled, false)','PHASE3_CUSTOMER_ORDERS_DISABLED','INSERT INTO public.orders']);
+  for(const marker of ['ordersEnabled=false','get_public_storefront_settings','PHASE3_CUSTOMER_ORDERS_DISABLED','replay','لا ينشئ طلباً جديداً','عدم زيادة الطلبات','وليس تجربة رفض حية','لا ترسل طلباً حيّاً للتحقق من المنع قبل التوقيع'])assert.ok(plan.includes(marker),marker);
+});

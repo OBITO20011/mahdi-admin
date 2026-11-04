@@ -2,43 +2,46 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner3Nov separate docs-only D-1owner219 reference install/copy with exacthashes;PR/FULLCI thenapproval,no merge/ownerfilechanges/hosted.",
-  "baselineSha": "85c80df17a5e74cb92163d88cf38d52184758935",
-  "branch": "codex/cutover-reference-d1",
+  "objective": "Owner4Nov docs-only production publish before data entry; store SEO rebuild after signed acceptance; separate PR/fullCI/no merge or hosted access.",
+  "baselineSha": "edb9b7b700baa01c4c25bb0ce0a05c768bf543de",
+  "branch": "codex/cutover-production-data-order",
   "phase": "PACKAGE_F",
   "completed": [
-    "Readinstructions/currentmain85c80df1;PR60mergedreviewed25c870CI63;mainCIpendingelsewhere.",
-    "Separatecleanworktree;branch-only state + exactlegacyafterhash aligned;originalbytesunchanged.",
-    "ExactreferenceD1guide+plan/cardHTML links;sourcea915targetdefault,source/backup/incoming/targetSHAguards andactiveRESETmarkerfailclosed;actualreadReady219Reference localcommand.",
-    "Localfocused47PASS;literalPowerShell7syntheticcasesPASS/idempotency/negativecorruption/noownerpaths;types+ESLintPASS;A4two pages/0networkvisualreview;Gitleaksworking0."
+    "Separate clean worktree from main edb9b7b7; primary owner/docs/env files untouched.",
+    "Source-grounded runtime catalog, build-time available SEO, new-order closed guard and replay distinction.",
+    "Plan/card/A4 HTML now publish both closed apps, production data entry, signed backup, store-only rebuild, then opening.",
+    "26 focused consistency/history cases +207 store tests/types/strict changed lint/PowerShell4 parsed blocks/A4two pages no network pass.",
+    "Initial full Admin1744 had two OWNER_DECISIONS inverse failures from optional extra scope; optional change removed; both and affected docs26 pass. No historical before pins or runtime source changed."
   ],
   "inProgress": [
-    "Commit/push separate docsPR;exactFULLCI;ownerreviewSTOP,no merge."
+    "Commit/push separate PR and wait exact FULL CI; return owner approval without merge."
   ],
   "notStarted": [
-    "PR/FULLCI/approval."
+    "Commit/push/PR/exact full CI; return for approval."
   ],
   "testsPassed": [
-    "47focused;7syntheticPowerShellscenarios;typecheck;ESLint;print2A4/0network;Gitleaks0."
+    "Focused26;Store207;typecheck;strict changed lint;PS4 parse only;A4two pages bounds 1000/1027px<1046px,RTL/no network."
   ],
   "testsRemaining": [
-    "FullCI quality60+2secrets+strictrestore onfinalhead."
+    "Gitleaks staged+committed0 and exact fullCI+bothsecret scans+strictrecovery."
   ],
   "findings": [
-    "ExistingD-1 sayshashes butnoexactownerreferencecopycommand. Sourcea915b64d validatedvsolddefault56e3c557;neitherownerfiletouched."
+    "First publication after reset may productRoutes0; default SEO verification alone permits empty catalog; explicit signed eligible route counts required before open.",
+    "Historical original inverse bytes retained;only exact after hashes for reviewed docs/test and branch updated."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No merge58/newdocsPR,hosted/deploy/DB/migration/runtime/ownerlocalenv/referencechanges."
+    "No runtime/SQL/migration/financial/permission changes.",
+    "No merge58/newPR, hosted access or deployment; no owner local/env/reference changes."
   ],
-  "nextExactAction": "Push D1reference docs PR;FULLCI63 thenownerreviewSTOP;no ownerreference/env change/merge58/newPR/hosted.",
+  "nextExactAction": "Commit/push docs-only cutover publication order; open PR and wait all exact-head FULL CI without merge",
   "startedAt": "2026-11-03T03:59:26.518Z",
-  "checkpointedAt": "2026-11-03T04:05:29.335Z",
+  "checkpointedAt": "2026-11-04T00:20:59.313Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 8,
-  "filesTouchedManifestSha256": "830c11a445fbd4d9c022a16894dcc99fae09cab0a36afaca5e42cb29e72217c1",
-  "workingTreeFingerprint": "D1EF255A517BC49D6D0A1BEC9A9C0AEE0E1D4C59912F22D4F8D051DE89623C84"
+  "filesTouchedCount": 10,
+  "filesTouchedManifestSha256": "68185c6d008d68ac584d2aa852282684c2075b93bbd8db6a6fbffcd374fdd2cd",
+  "workingTreeFingerprint": "01163CCB84734915C7FE888840A129520F377683301DF8A7611904D571A12C1C"
 }

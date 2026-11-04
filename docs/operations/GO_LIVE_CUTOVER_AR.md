@@ -141,13 +141,17 @@ RestoreRemote يسترجع **محلياً بمعزل عن الشبكة**؛ لا 
 | خطوة | المنفذ والمكان الدقيق | التحقق وما يوقفنا |
 |---|---|---|
 | 2.7 Auth → URL Configuration | المالك في لوحة فرانكفورت: Site URL كان `https://staging-frankfurt.nawasrah-admin.pages.dev`؛ احفظ بدلاً منه `https://admin.alnawasreh.com`. في Redirect URLs أضف أصل الإدارة الإنتاجي `https://admin.alnawasreh.com` وصيغته ذات الشرطة النهائية `https://admin.alnawasreh.com/`؛ أزل روابط المعاينة والـhash URLs | أعد فتح الإعداد وتحقق من الحفظ ومن غياب `pages.dev` وعدم وجود wildcard. لا يوجد مسار callback مخصص في الواجهة الحالية؛ لا تخترع مسارات أو تسمح بكل النطاقات. روابط أخرى لا تُضاف إلا إذا احتاجها تدفق فعلي معتمد. بعد النشر تحقق أن أي رابط Auth مطلوب يتجه للإدارة الإنتاجية ويكتمل هناك؛ الاتجاه للمعاينة أو تعذر إكماله يوقف قبول الإطلاق |
-| 2.8 Edge Secrets — Turnstile | المالك: Project Settings → Edge Functions → Secrets (أو Edge Functions → Secrets). احذف `TURNSTILE_TEST_MODE` أو اجعله `false`. اضبط `TURNSTILE_ALLOWED_HOSTNAMES` إلى `alnawasreh.com`؛ أضف `www.alnawasreh.com` فقط إن كان المتجر يعمل عليه فعلياً. لا preview ولا hostname إدارة ولا wildcard | المالك يراجع القيمة في اللوحة دون تصويرها أو نسخ الأسرار للتقرير، ويتحقق من إعداد Turnstile للنطاق الحقيقي. وجود الاسم وحده لا يثبت أن TEST مطفأ. قبل «انشر» سجّل قبول الإعداد؛ بعد النشر نفّذ طلب المتجر الواحد في §8.4ب: CAPTCHA حقيقية، الطلب محفوظ وإشعار صاحبه وصل. لا تعِد تفعيل TEST لتجاوز فشل؛ أوقف استقبال الطلبات وشخّصه |
+| 2.8 Edge Secrets — Turnstile | المالك: Project Settings → Edge Functions → Secrets (أو Edge Functions → Secrets). احذف `TURNSTILE_TEST_MODE` أو اجعله `false`. اضبط `TURNSTILE_ALLOWED_HOSTNAMES` إلى `alnawasreh.com`؛ أضف `www.alnawasreh.com` فقط إن كان المتجر يعمل عليه فعلياً. لا preview ولا hostname إدارة ولا wildcard | المالك يراجع القيمة في اللوحة دون تصويرها أو نسخ الأسرار للتقرير، ويتحقق من إعداد Turnstile للنطاق الحقيقي. وجود الاسم وحده لا يثبت أن TEST مطفأ. قبل «انشر» سجّل قبول الإعداد؛ بعد النشر وقبول البيانات وSEO نفّذ طلب المتجر الواحد في §8.5: CAPTCHA حقيقية، الطلب محفوظ وإشعار صاحبه وصل. لا تعِد تفعيل TEST لتجاوز فشل؛ أوقف استقبال الطلبات وشخّصه |
 
 بوابة قرار المساعد: حسب التقرير `admin-ai-assistant` منشورة و`GEMINI_API_KEY` غير موجود، لذا تبويب «المساعد» غير جاهز. **قرار مالك معلّق: إخفاء التبويب أو إضافة المفتاح** بأمان ثم اختباره. يسجّل المالك اختياره أو قبوله بقاءه غير متاح قبل التدريب/الفتح؛ لا تنفذ هذه الوثيقة أياً من الخيارين ولا تغيّر الكود.
 
-## 3. إدخال البيانات الحقيقية
+**2.9 الانتقال للنشر المغلق:** بعد قبول البوابات أعلاه، يجهّز المالك/Claude الهوية §7 ثم ينفذان §8.1–8.4أ بعد كلمة «انشر»: نشر الواجهتين للإنتاج مع ordersEnabled=false، ودخول المالك وMFA. الإدخال التالي §3 يتم حصراً على admin.alnawasreh.com. لا فتح طلبات أو استخدام preview أثناء الإدخال.
 
-كل إدخال للمالك بحساب owner و MFA؛ Claude يساعد في القالب والمعاينة؛ Codex لا يدخل مبالغ.
+## 3. إدخال البيانات الحقيقية — من الإدارة الإنتاجية بعد النشر المغلق
+
+**قرار المالك 4 نوفمبر 2026 — ترتيب التنفيذ الملزم:** بعد RESET219 و§2.7–2.8، انتقل أولاً إلى §8.1–8.4أ: كلمة «انشر» ثم نشر الإدارة والمتجر معاً إلى الإنتاج، مع إبقاء ordersEnabled=false. بعدها فقط ينفذ المالك هذا القسم على **https://admin.alnawasreh.com** بحساب owner وMFA، وليس من معاينة أو رابط hash. Claude يساعد في القالب والمعاينة؛ Codex لا يدخل مبالغ. فتح الإدارة للمالك هنا استثناء محدد من تجميد §2 لإدخال البداية فقط؛ بقية الأجهزة والمستهلكات والطلبات تبقى محجوزة. لا RESET/resume بعد بدء هذه الكتابات الحقيقية.
+
+بعد القبول والتوقيع ونسخة «بداية حقيقية»، ارجع إلى §8.4ب لإعادة بناء ونشر المتجر مرة واحدة من البيانات المقبولة؛ ثم §8.5 لفتح الطلبات وأول عملية. لا تعِد نشر الإدارة في المرحلة الثانية. أقسام §4–7 تجهيز/بوابات بحسب موضعها في هذا الترتيب وليست سبباً لتأخير النشر المغلق إلى ما بعد الإدخال.
 
 | ترتيب | المكان والعمل | المطابقة | التوقف |
 |---|---|---|---|
@@ -160,7 +164,7 @@ RestoreRemote يسترجع **محلياً بمعزل عن الشبكة**؛ لا 
 | 3.7 القبول والقفل | المالك/صاحب المحل يطابقان ملفات القوالب الحقيقية مع المدخل فعلياً: عدد المنتجات/النكهات والصور، الطرود/الباكيتات وتكلفة الوحدة وقيمة المخزون، ذمم الطرفين وتواريخها والشيكات دون ازدواج؛ «افحص» ثم «إنهاء بداية التشغيل» | كشف موقّع بالأعداد والتكلفة والذمم والشيكات، و3أصناف معدودة مستقلة،لا نجاح بالعينة الوهمية وحدها | أي فرق أو قالب غير مطابق يمنع الإنهاء والبيع؛ لا SQL لفك قفل الإنهاء |
 | 3.8 الدرج | قبل أول بيع: المالك يعد الكاش ويفتح وردية بنفس المبلغ | المتوقع أول الوردية = النقد المعدود؛ CliQ والبنك خارج الدرج | وردية تجربة أو مال غير معدود؛ لا تحصيل/مصروف لتكوين الرصيد الافتتاحي |
 
-بعد البيانات ومطابقتها وقبل أول بيع: B مرة أخرى، واحفظ «بداية حقيقية قبل أول بيع» منفصلة عن «قبل التصفير». أي فشل حماية يمنع الفتح. نماذج ومحاسبة البداية موثقة في [GO_LIVE_SETUP](../design/package-f/GO_LIVE_SETUP.md).
+بعد البيانات ومطابقتها وتوقيع المالك، مع بقاء ordersEnabled=false وقبل §8.4ب وفتح الطلبات وأول بيع: B مرة أخرى، واحفظ «بداية حقيقية قبل أول بيع» منفصلة عن «قبل التصفير». أي فشل حماية يمنع الفتح. نماذج ومحاسبة البداية موثقة في [GO_LIVE_SETUP](../design/package-f/GO_LIVE_SETUP.md).
 
 ## 4. فصل البيئة التجريبية والمعاينات
 
@@ -270,7 +274,7 @@ COMMIT;
 
 C — لنقل الإرسال نفسه،بعد اختبار الوصول:اجعل OWNER_TELEGRAM_TEST_ENABLED=false وOWNER_TELEGRAM_ENABLED=true في Edge Secrets،ثم نفذ [OWNER_TELEGRAM217_ENABLE.sql](OWNER_TELEGRAM217_ENABLE.sql) فقط بعد اعتماد التشغيل. تتحقق المعاملة من المهمة وVault وصف الإعداد ثم تفك DB/cron معاً؛لا سر يُعرض. للإيقاف [OWNER_TELEGRAM217_DISABLE.sql](OWNER_TELEGRAM217_DISABLE.sql) مع Edge enabled=false. يبقى n8n مهجوراً.
 
-بعد A/B/C/D يراجع Claude **آخر تشغيل ناجح لكل cron مفعّل** بالاسم ووقت البدء/النهاية والحالة من cron.job_run_details،وoutbox وسلامة الداتا؛ اتركه يعمل مدة تكفي جدوله الطبيعي أو استخدم اختباراً معتمداً،لا تعتبر active=true دليلاً على التنفيذ. يسجل المالك تسليم Telegram فعلياً لصاحب المحل وPush فعلياً لهاتفه الصحيح بعد طلب8.4ب وقبل قبول أول بيع،مع معرّف رسالة/وقت فقط بلا أسرار؛ الاختبار المحلي لم يرسل شيئاً. اختبر أن التقنية تبقى للمطوّر وحده وأن business_integrity_warning لا يصل لصاحب المحل. مصدر مراقبة unknown لا يُسمى healthy،ويفسر قبل القبول. أي وجهة خاطئة توقف Edge/cron؛لا تحرك المال لعكس رسالة. يعاد الحجز باللقطة الجديدة لا بأرقام jobid قديمة. تحقّق217 الصارم قبل التفعيل؛بعد فك الحجز تكون مقارنة الحجز القديمة مختلفة عمداً ولا يجوز تجاوزها أو الادعاء أن verify-only المحجوز سيقبلها.
+بعد A/B/C/D يراجع Claude **آخر تشغيل ناجح لكل cron مفعّل** بالاسم ووقت البدء/النهاية والحالة من cron.job_run_details،وoutbox وسلامة الداتا؛ اتركه يعمل مدة تكفي جدوله الطبيعي أو استخدم اختباراً معتمداً،لا تعتبر active=true دليلاً على التنفيذ. يسجل المالك تسليم Telegram فعلياً لصاحب المحل وPush فعلياً لهاتفه الصحيح بعد طلب8.5 وقبل قبول أول بيع،مع معرّف رسالة/وقت فقط بلا أسرار؛ الاختبار المحلي لم يرسل شيئاً. اختبر أن التقنية تبقى للمطوّر وحده وأن business_integrity_warning لا يصل لصاحب المحل. مصدر مراقبة unknown لا يُسمى healthy،ويفسر قبل القبول. أي وجهة خاطئة توقف Edge/cron؛لا تحرك المال لعكس رسالة. يعاد الحجز باللقطة الجديدة لا بأرقام jobid قديمة. تحقّق217 الصارم قبل التفعيل؛بعد فك الحجز تكون مقارنة الحجز القديمة مختلفة عمداً ولا يجوز تجاوزها أو الادعاء أن verify-only المحجوز سيقبلها.
 
 **Edge ليست cron:** ست دوال بالمصدر (مع إضافة217 بعد دمجها): submit-guest-order و manage-staff-users و admin-ai-assistant و n8n-alert-feed و send-order-push و owner-telegram-dispatch. لا يوجد في الجرد المحلي إثبات حديث لكل نسخها المنشورة؛يوم D-1 يقارن Claude حالة Frankfurt Edge و SHA و Secrets مع النسخة المقبولة. إذا غابت دالة أو كانت قديمة،بعد كلمة «انشر» الخاصة بها فقط،من checkout الإصدار:
 
@@ -296,22 +300,26 @@ npx.cmd supabase functions deploy send-order-push --project-ref kzevmysfydaslxce
 
 الافتراض التجريبي ما زال في `customer-web/src/config/store.ts` و StorefrontSettingsModal؛لا تغيّره هذه الحزمة. قبل الإطلاق تراجع fallback paths في حزمة التحويل المعتمدة ويثبت أن كل رابط إنتاج يستعمل الرقم الرسمي المحفوظ/العام. وجود رقم في اختبار تاريخي لا يعني رابطاً خاطئاً؛لا تُحذف الاختبارات لتصفير بحثنصي. الفيديو ورقم التجربة لا يتغيران قبل يوم التشغيل.
 
-## 8. النشر — بعد كلمة «انشر» فقط
+## 8. النشر على مرحلتين — بعد كلمة «انشر» فقط
 
-قبل طلب الإذن: توقيع قبول §2.7–2.8 (Auth وTurnstile) وقرار المساعد مسجّل. لا فتح للمعاينات، ولا خلط بين فحص الإعداد قبل النشر واختبار طلب المتجر بعده.
+**الترتيب التنفيذي:** §2 RESET219 وبوابتا Supabase ← §7 الهوية وقيم البناء ← §8.1–8.4أ نشر الإدارة والمتجر معاً والطلبات مغلقة ← §3 إدخال الحقيقي على admin.alnawasreh.com ومطابقته والتوقيع ونسخة «بداية حقيقية» ← استكمال §5–6 للتنبيهات/الحجز ← §8.4ب إعادة بناء ونشر المتجر وحده مرة واحدة ← §8.5 فتح الطلبات وأول عملية ← §8.6 القبول. لا نشر ولا فتح تلقائي؛ كلمة المالك «انشر» تحدد SHA والهدفين والمرحلتين، وأي تغيير مصدر يحتاج اعتماداً جديداً. #58 يبقى Draft حتى إذن يوم القطع؛ المعاينات تبقى محظورة.
+
+قبل طلب الإذن: توقيع قبول §2.7–2.8 (Auth وTurnstile) وقرار المساعد مسجّل، والتحقق من ordersEnabled=false بعد التصفير. جهّز §7 قبل البناء الأول؛ لا تنتظر إدخال المنتجات لضبط الهوية. لا خلط بين قبول الإعداد قبل النشر واختبار الطلب بعد القبول.
 
 | خطوة | المنفذ/الأمر أو المكان | التحقق والتوقف |
 |---|---|---|
 | 8.1 مصدر نظيف | Claude: clone إصدار مستقل على main،مثلاً `C:\Users\TOP\NawasrahReleases\go-live-approved`؛إذا وُجد لا تكتب فوقه. يمكن `git clone --depth 1 --branch main --single-branch https://github.com/OBITO20011/mahdi-admin.git C:\Users\TOP\NawasrahReleases\go-live-approved` بعد الموافقة | HEAD يطابق قرار المالك و origin/main و CI. لا تحذف docs المعدلة في المجلد الرئيسي لتنظيفه؛ولا تنسخ ملفات env جملةً من بيئة التجربة |
-| 8.2 القيم العامة | Claude بمساعدة المالك: جلسة البناء أدناه،Productionbranch=main في Pages للمشروعين؛مراجعة config الذي يقرأه SEO أيضاً | URL/المفتاح العام لفـرانكفورت؛Turnstile للنطاق الرسمي؛لا service_role أو أسرار R2/Telegram في VITE. أي اختلاف يوقف البناء |
-| 8.3 النشر | Claude بعد «انشر»: الأوامر أدناه،خطوة بعد نجاح سابقتها؛تسجيل deploymentID و SHA | الإدارة ترفع dist إلى nawasrah-admin،المتجر customer-web/dist إلى nawasrah-store؛الدومينان admin.alnawasreh.com و alnawasreh.com. HTTP200 وحده لا يثبت المسار الوظيفي |
-| 8.4 PWA | المالك يحفظ أي بيع جارٍ ثم يفتح المتصفح والأيقونة ويقبل تحديث التطبيق ويغلق ويعيد الفتح | release/build يطابق SHA؛لا اختلاف بين المثبت والمتصفح. لا مسح عشوائي لبيانات الجهاز أثناء بيع |
-| 8.4أ قبول الهاتف قبل أول بيع | المالك بعد نشر الإنتاج: افتح رابط Auth فعلياً موجهاً إلى admin.alnawasreh.com، وأكمل دخول المالك وTOTP على هاتفه؛أثبت انتهاء جلسات المعاينة وحظر alias/hash والنسخة المثبتة؛راجع/جدّد اشتراك Push بعد التصفير،وتسليم Telegram للوجهة الصحيحة؛توصيل Push يُثبت بأول طلب متجر في الخطوة التالية | لا بيع قبل نجاح الدخول والرابط وTOTP والوجهات؛ اختبار البروفة استعمل claims محلية ولم يختبر الهاتف. أي فشل يمنع الفتح ويبقي الحظر والدفتر |
-| 8.4ب أول طلب متجر قبل البيع | بعد اجتيازAuth/TOTP والاشتراك: المالك يفتح استقبال الطلبات ويقدّم أول طلب متجر حقيقي معلوم على الإنتاج قبل أي بيع؛هذا اختبارTurnstile وتسليمPush الفعلي للهاتف الصحيح،ومطابقة الطلب دون ازدواج. لا زر اختبارPush مستقل في الواجهة الحالية،ولا حاجة لإضافة طلب آخر في8.5 | إذا لم يصلPush أو فشلTurnstile تُغلق الطلبات ويتوقف البيع للتشخيص. إنشاء هذا الطلب كتابة أعمال حقيقية:سجّل الوقت والمعرّف؛لاعودة إلىRESET/resume بعدها،استمر بخطةالدفتر عندالفشل |
-| 8.5 أول بيع | المالك يفتح ordersEnabled وينفذ بيعاً **حقيقياً** معلوماً،طرد ووحدة حسب المسموح،باركود وطباعة ومشاركة وإعادة طباعة؛تحقق من نفس طلب المتجر في8.4ب لا طلب ثانٍ؛اختبار Turnstile الحقيقي وpush وفق §2.8 | نسخة «بداية حقيقية» وRestoreRemote المطابق موقّعان قبل أول بيع؛الدرج=الافتتاحي+الكاش المقبوض−الخروج المعتمد،CliQ خارجه؛ثلاثة أرصدة مخزون والذمم والربح متطابقة،push له وحده. فرق قرش/حبة يوقف المسار |
-| 8.6 القبول | المالك/Claude: «افحص»،Status/Watchdog،آخر scan و cron/outbox،ثم نسخة مشفرة بعد القبول | healthy/0 ومطابقات موقعة. لا مبيعات تجريبية في بيانات المحل ولا ادعاء إطلاق قبل هذا القبول |
+| 8.2 القيم العامة | Claude بمساعدة المالك: جلسة البناء أدناه،Productionbranch=main في Pages للمشروعين؛§7 الهوية والواتساب الرسمي وإعداد Sentry production لكل تطبيق وفق دليله | URL/المفتاح العام لفرانكفورت؛Turnstile للنطاق الرسمي؛لا service_role أو أسرار R2/Telegram في VITE. أي اختلاف يوقف البناء |
+| 8.3 النشر الأول المغلق | Claude بعد «انشر»: deploy:admin ثم customer-web deploy:cloudflare في نفس مرحلة القطع، خطوة بعد نجاح سابقتها؛سجل deploymentID وSHA لكل منهما. الطلبات تبقى ordersEnabled=false | الإدارة على admin.alnawasreh.com والمتجر على alnawasreh.com؛تحقق dist لكل تطبيق وسياق production/فرانكفورت. فشل أحدهما يمنع الإدخال/الفتح؛لا تدّعِ أن الرفعين ذريّان أو أن HTTP200 يثبت العمل |
+| 8.4 PWA | المالك يفتح الإدارة الإنتاجية ويقبل تحديث التطبيق ويغلق ويعيد الفتح؛لا بيع جارٍ | release/build يطابق SHA؛لا اختلاف بين المثبت والمتصفح؛لا مسح عشوائي لبيانات الجهاز |
+| 8.4أ قبول الهاتف قبل الإدخال وأول بيع | المالك بعد نشر الإنتاج وقبل أول بيع: افتح رابط Auth فعلياً إلى admin.alnawasreh.com، وأكمل دخول المالك وTOTP على الهاتف؛أثبت انتهاء جلسات المعاينة وحظر alias/hash؛راجع/جدّد اشتراك Push بعد التصفير وتسليم Telegram للوجهة الصحيحة. بعدها §3 من الإدارة الإنتاجية فقط | لا بيع قبل نجاح الدخول والرابط وTOTP والوجهات؛لا إدخال من preview. توصيل Push يُثبت بطلب §8.5 بعد قبول البيانات، لا أثناء الإغلاق |
+| 8.4ب إعادة بناء المتجر بعد قبول البيانات | Claude بعد توقيع §3 ونسخة «بداية حقيقية» وRestoreRemote المطابق: نفس SHA المعتمد وسياق production، شغّل customer-web deploy:cloudflare مرة واحدة؛يعيد البناء وSEO والتحقق ثم يرفع المتجر فقط. ordersEnabled=false حتى نهاية التحقق | احفظ productRoutes وcategoryRoutes وsitemapUrls من سجل البناء؛طابقها مع كتالوج available المقبول لا إجمالي صفوف products/النكهات؛راجع sitemap.xml وHTML لمنتج فعلي وcanonical/JSON-LD. صفر productRoutes مع أصناف مؤهلة أو بقاء صفحات فارغة يمنع فتح الطلبات |
+| 8.5 فتح الطلبات وأول بيع | بعد القبول وSEO والتنبيهات فقط: المالك يفتح ordersEnabled،ويعيد فتح المتجر/تحديث الإعدادات،ثم أول طلب متجر حقيقي معلوم للتحقق من Turnstile وتسليم Push قبل أول بيع ووصل. بعدها بيع حقيقي معلوم،طرد وباكيت حسب المسموح،باركود وطباعة ومشاركة وإعادة طباعة؛تحقق من نفس طلب المتجر لا طلب ثانٍ | لا زر اختبارPush مستقل في الواجهة الحالية. إنشاء الطلب كتابة حقيقية؛سجل الوقت والمعرّف،ولا RESET/resume بعدها. إذا فشل Turnstile/Push تُغلق الطلبات ويتوقف البيع. الدرج=الافتتاحي+الكاش المقبوض−الخروج المعتمد،CliQ خارجه؛ثلاثة أرصدة مخزون والذمم والربح متطابقة،push له وحده. فرق قرش/باكيت يوقف المسار |
+| 8.6 القبول | المالك/Claude: «افحص»،Status/Watchdog،آخر scan وcron/outbox،ثم نسخة مشفرة بعد القبول | healthy/0 ومطابقات موقعة. لا مبيعات تجريبية في بيانات المحل ولا ادعاء إطلاق قبل هذا القبول |
 
-أوامر المستقبل من clone النظيف،وليست أوامر منفذة هنا. `deploy:admin` يفرض main/clean/remote ويضع releaseId بالـ SHA؛نشرالمتجر لا يفرض هذه الحراسة بنفسه فيجب تحققها قبله:
+### أوامر المرحلة الأولى — نشر الواجهتين والطلبات مغلقة
+
+أوامر المستقبل من clone النظيف، وليست أوامر منفذة هنا. deploy:admin يفرض main/clean/remote وreleaseId بالـSHA ويبني ثم verify-dist **قبل الرفع**. deploy:cloudflare يبني production ويولّد SEO ويتحقق منه ومن dist قبل الرفع؛لا يفرض حراسة Git بنفسه،لذلك افحص HEAD/clean/remote أدناه قبله. النسخة الأولى بعد RESET219 قد تسجل productRoutes=0؛هذا متوقع مؤقتاً ولا يسمح بفتح الطلبات. لا يلزم بناء يدوي إضافي قبل أي من أمري النشر.
 
 ```powershell
 Set-Location C:\Users\TOP\NawasrahReleases\go-live-approved
@@ -319,7 +327,14 @@ function Invoke-ReleaseStep { param([scriptblock]$Step)
   & $Step
   if ($LASTEXITCODE -ne 0) { throw 'فشلت خطوة الإصدار؛توقف.' }
 }
+$releaseSha = (git rev-parse HEAD).Trim()
+if ((git branch --show-current).Trim() -ne 'main' -or (git status --porcelain)) { throw 'مصدر الإصدار ليس main نظيفاً.' }
+$releaseRemoteSha = ((git ls-remote origin refs/heads/main) -split '\s+')[0]
+if ($LASTEXITCODE -ne 0 -or $releaseRemoteSha -ne $releaseSha) { throw 'SHA الإصدار لا يطابق origin/main.' }
+# طابق releaseSha مع SHA قرار انشر وCI؛ لا يكفي أن يكون أحدث main.
 $env:NAWASRAH_DEPLOYMENT_ENV='production'
+$env:NAWASRAH_ADMIN_RELEASE_ID=$releaseSha
+$env:NAWASRAH_STORE_RELEASE_ID=$releaseSha
 $env:VITE_SUPABASE_URL='https://kzevmysfydaslxcerogt.supabase.co'
 $env:VITE_SUPABASE_PUBLISHABLE_KEY=Read-Host 'المفتاح العام المعتمد لفرانكفورت'
 Remove-Item Env:VITE_SUPABASE_ANON_KEY -ErrorAction SilentlyContinue
@@ -332,10 +347,43 @@ Remove-Item Env:NAWASRAH_SEO_AUDIT_API_URL -ErrorAction SilentlyContinue
 Remove-Item Env:NAWASRAH_SEO_AUDIT_API_KEY -ErrorAction SilentlyContinue
 Invoke-ReleaseStep { npm.cmd ci }
 Invoke-ReleaseStep { npm.cmd --prefix customer-web ci }
-# النشر أدناه بعد كلمة المالك انشر فقط.
+# بعد كلمة المالك انشر، وبقاء ordersEnabled=false مثبتاً.
 Invoke-ReleaseStep { npm.cmd run deploy:admin }
 Invoke-ReleaseStep { npm.cmd --prefix customer-web run deploy:cloudflare }
+# إعادة تحقق محلي من المخرج نفسه بعد نجاح التحقق الداخلي قبل الرفع.
+Invoke-ReleaseStep { node scripts/environments/verify-dist.mjs admin production dist }
+Invoke-ReleaseStep { node scripts/environments/verify-dist.mjs customer production customer-web/dist }
 ```
+
+**توقف بين المرحلتين:** الآن ينفذ المالك §3 على https://admin.alnawasreh.com،ويطابق ويوقّع؛ثم نسخة «بداية حقيقية». لا تحديث Git ولا تغيير SHA/البيئة/القيم أثناء الإدخال. يبقى المتجر قابلاً للتصفح فقط واستقبال الطلبات مغلقاً.
+
+### أوامر المرحلة الثانية — المتجر وحده بعد التوقيع
+
+من clone الإصدار نفسه وبنفس الجلسة والقيم أعلاه؛إذا أُغلقت الجلسة أعد إعدادها وراجع SHA والتفويض دون تكرار نشر الإدارة. بعد قبول البيانات يظل ordersEnabled=false. الأمر الوحيد التالي يعيد بناء المتجر وينشره **مرة واحدة**؛لا تشغّل build:production مستقلاً ثم تعيد بناءه بأمر deploy.
+
+```powershell
+if ((git rev-parse HEAD).Trim() -ne $releaseSha -or (git branch --show-current).Trim() -ne 'main' -or (git status --porcelain)) { throw 'تغيّر مصدر الإصدار؛توقف.' }
+$releaseRemoteSha = ((git ls-remote origin refs/heads/main) -split '\s+')[0]
+if ($LASTEXITCODE -ne 0 -or $releaseRemoteSha -ne $releaseSha) { throw 'main تقدّم؛يلزم قرار إصدار جديد.' }
+Invoke-ReleaseStep { npm.cmd --prefix customer-web run deploy:cloudflare }
+Invoke-ReleaseStep { node scripts/environments/verify-dist.mjs customer production customer-web/dist }
+Invoke-ReleaseStep { node customer-web/scripts/verify-seo-output.mjs }
+[xml]$releaseSitemap = Get-Content -Raw -LiteralPath customer-web/dist/sitemap.xml
+$releaseUrls = @($releaseSitemap.urlset.url.loc)
+$releaseProducts = @($releaseUrls | Where-Object { $_ -like 'https://alnawasreh.com/product/*' })
+$releaseCategories = @($releaseUrls | Where-Object { $_ -like 'https://alnawasreh.com/category/*' })
+[pscustomobject]@{ productRoutes=$releaseProducts.Count; categoryRoutes=$releaseCategories.Count; sitemapUrls=$releaseUrls.Count }
+```
+
+هذه الأعداد تُطابق سطر JSON الناجح من generate-seo-pages.mjs، وsitemapUrls = 4 + categoryRoutes + productRoutes حالياً؛توجد أربع صفحات عامة ثابتة. يوقع المالك عدد المنتجات المتاحة المؤهلة بعد تجميع النكهات بحسب قارئ الكتالوج،لا عدد كل أصناف الإدارة. verify-seo-output يسمح بكتالوج فارغ،لذلك نجاحه وحده لا يكفي: افحص منتجاً ورابط قسم مقصودين في الملفات المحلية ثم في https://alnawasreh.com/sitemap.xml وصفحتيهما المنشورتين،مع canonical والإصدار الجديد. لا تستخدم fixture/QA أو تتجاوز رفض verify-dist. لا تُفتح الطلبات إذا غاب منتج مؤهل أو لم تتطابق الأعداد. بعدها فقط §8.5.
+
+### ما يقرأه المتجر وماذا يمنع الإغلاق — دليل من الكود
+
+- **الكتالوج runtime:** customer-web/src/App.tsx يستدعي loadCatalog ثم fetchPublicProductCatalog في customer-web/src/services/catalog.service.ts،عبر get_public_storefront_catalog_page أثناء التحميل وتغيير الفلاتر/التحديث والعودة للنافذة والاتصال. لذلك يرى الزبون الأصناف المدخلة بعد قراءة جديدة بلا نشر تطبيق؛ليست كل الجلسات المفتوحة متزامنة فورياً (نافذة تحديث90ثانية). افتح المتجر من جديد أو استخدم زر التحديث للتحقق.
+- **SEO ثابت وقت البناء:** customer-web/scripts/generate-seo-pages.mjs يقرأ نفس القارئ مع p_availability='available' ويولّد product/ وcategory/ وsitemap وJSON-LD. قبل البناء الثاني لا توجد صفحات/روابط المنتجات الجديدة في sitemap ولا metadata لها حتى لو ظهر الكتالوج التفاعلي. لا يوجد customer-web/public/_redirects مخصص في المصدر الحالي؛قد تخدم استضافة SPA shell عاماً للمسار غير المولّد،لكن هذا ليس صفحة SEO للمنتج. لا تفترض HTTP/metadata لمساره قبل فحص النشر؛إعادة البناء لازمة.
+- **الواجهة المغلقة:** fetchPublicStorefrontSettings يقرأ get_public_storefront_settings؛App.tsx وCheckoutModal يرفضان الإكمال عند ordersEnabled=false،وعند تعذر الوثوق بالإعدادات يُحجب checkout أيضاً. النص الظاهر: «الطلبات متوقفة مؤقتًا، لكن يمكنك تصفح الأصناف والتواصل معنا عبر واتساب.» ليس إغلاقاً للتصفح أو واتساب أو POS ولا بديلاً عن تجميد §2.
+- **الحارس الخلفي:** submit-guest-order يستدعي submit_guest_customer_order_v2 (آخر تعريف لها في 209_product_sale_methods.sql)؛تقرأ storefront_settings.orders_enabled تحت FOR SHARE وترفض الطلب الجديد بـPHASE3_CUSTOMER_ORDERS_DISABLED قبل إنشاء الطلب/الحجز. replay لمفتاح عملية ناجحة سابقاً يعيد نتيجتها قبل حارس الإغلاق ولا ينشئ طلباً جديداً؛لا تصفه كفشل حماية ولا تعِد إرسال مفاتيح قديمة لاختبار المنع.
+- **تحقق المالك يوم التنفيذ:** في «الإدارة ← إعدادات المتجر» عطّل «استقبال طلبات الموقع» واحفظ،ثم أعد فتح الإعداد،واقْرأ ordersEnabled=false من استجابة get_public_storefront_settings في Network على المتجر الإنتاجي. تحقق من رسالة الإيقاف ومنع متابعة checkout،ومن عدم زيادة الطلبات منذ آخر وقت مقبول؛راقب الأجهزة والجلسات القديمة. فحص SQL القرائي المصرّح به يمكن أن يؤكد orders_enabled=false في الصف الوحيد،ولا يُستبدل به إعداد مجهول أو قيمة fallback. هذا إثبات من مسار الكود واختبارات الاتساق،وليس تجربة رفض حية من هذه الحزمة؛لا ترسل طلباً حيّاً للتحقق من المنع قبل التوقيع كي لا تخاطر بإنشاء أعمال إذا كان الإعداد خاطئاً. بعد §8.5 فقط الطلب الحقيقي الواحد واختبار Turnstile وPush.
 
 إذا احتاج التحويل تعديل fallback/CSP/SEO، يُراجع ويُدمج مع CI قبل هذه الأوامر؛لا تعديلات عابرة على checkout أثناء النشر. بعد نجاح القبول تُعاد **مهام فرانكفورت فقط** إلى حالات تمكينها المسجلة في 2.1؛تُثبت 5 مهام SYSTEM وآخر نجاح،ويبقى القديم كما هو.
 
