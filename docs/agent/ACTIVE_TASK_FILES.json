@@ -3,11 +3,79 @@
   "files": [
     {
       "code": " M",
-      "path": "scripts/audit/source-before-sentry.mjs"
+      "path": "customer-web/vite.config.ts"
+    },
+    {
+      "code": " M",
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SENTRY_OWNER_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "scripts/environments/verify-dist.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/rehearsal219-legacy-view.json"
     },
     {
       "code": " M",
       "path": "tests/environment-separation.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/home219-evidence.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/pre-delivery-usability.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/prelaunch-trial.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/sentry-history.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/vite-file-access.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "vite.config.ts"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/SOURCE_MAPS_PRIVATE_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/private-maps-source-pins.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-private-maps.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/environments/private-source-maps.d.mts"
+    },
+    {
+      "code": "??",
+      "path": "scripts/environments/private-source-maps.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/monitoring/symbolicate-local.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/private-source-maps.test.ts"
     }
   ]
 }

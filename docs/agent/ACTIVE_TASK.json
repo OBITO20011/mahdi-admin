@@ -2,32 +2,31 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner4Nov pre-delivery2 item2 Vite fs strict allow/deny both apps without version change;no SQL/RPC/finance/permissions/hosted/deploy/merge;58Draft.",
-  "baselineSha": "db54dc25b55fc25dc4aee4dda41dbc2d18f95059",
-  "branch": "codex/pre-delivery2-vite-fs",
+  "objective": "Owner4Nov item3 hidden private source maps,never published,local release symbolication;separate stacked PR on item2,no merge/deploy/hosted/SQL/RPC/financial/permissions;58Draft.",
+  "baselineSha": "8198f6ca301a73a84067af8909744a957508fc3c",
+  "branch": "codex/pre-delivery2-private-maps",
   "phase": "PACKAGE_F",
   "completed": [
-    "Reproduced Vite6.4.4 PEM query leak with negative control;actual Admin/customer configs now strict source/public/entry/dependency allowlist and query-aware deny;no version/SQL/runtime financial changes.",
-    "HTTP deny tests/direct+raw+inline and positive real modules/sharedreceipt PASS;focused27 includes all four restored historical guards;all historical inverse/hunk files byte-identical to main.",
-    "Both types/strictlint;store207;production/staging/prelaunch real builds6 with loopback SEO and verify-dist PASS. Windows UV_HANDLE_CLOSING after successful trialbuild saved;single unchanged environmental rerun PASS.",
-    "FirstCI core unit failed4 exact owner-source guards on source-before-sentry;restored that protected helper byte-for-byte to main and connected the new config projection only in environment test. Focused27+Sentry2 PASS;no owner/protected production helper changes remain."
+    "Private hidden build maps for production/trial only;removed from bundle before dist writes;protected OS-local per app/SHA/environment/unique run with SHA hashes. No Sentry upload/token/runtime changes.",
+    "Node built-in local symbolication accepts current sanitized frame and verifies release/map hash;wrong release/tamper rejected. Published map/reference negatives PASS;executable JS byte-identical to no-map control.",
+    "Actual six Admin/customer context builds+verify-dist with loopback SEO PASS;bothtypes/strictlint PASS. Focused27 then6 then final15 cover exact historical inverses including self-references;original owner110sources/SQL remain byte-identical."
   ],
   "inProgress": [
-    "Commit/push separate item2PR and wait FULL exactCI,then private source maps item3."
+    "Save/push item3 stackedPR on corrected item2;FULLCI exact head;then item4 mobileBack in separate worktree/PR."
   ],
   "notStarted": [
-    "Item3 private maps;item4 browser Back;no merge."
+    "Item4 mobile browserBack in independentworktree/PR after item3."
   ],
   "testsPassed": [
-    "Focused27/27 including live ViteHTTP and original leak negativecontrol;types/strictlint;store207/207;six builds/verify-dist and closed preview/refused production controls."
+    "Focused map4/Sentry2 and final15 incl219/UI known businessmessages PASS;6builds/verify-dist;typesAdmin+store/strictlint;actual Windows protected ACL and Linux-mode assertion."
   ],
   "testsRemaining": [
-    "FULLCI on corrected new head;no rerun of unchanged failing head."
+    "Admin initial1751:1749pass/2 exact historical test-reader failures;both fixed and focused15PASS;complete new-head CI required.",
+    "Gitleaks0;exactFULLCI60+backup+2secrets."
   ],
   "findings": [
-    "Initial local Admin1746 run had1742pass/4 historical pin refusals caused by attempted edit to existing inverse;reverted every historical inverse byte and added exact outer two-config projection;all27 focused guards now PASS.",
-    "public/ is intentionally published by Vite separate middleware;never put secrets there.",
-    "CI failure was real strict source protection;corrected test integration,never repinned protected source or changed RESET/reference."
+    "Protected source-before helpers remain untouched;new exact map source projection is called only from historical TEST readers. Frozen historical beforeText/hashes stay intact.",
+    "Private archives live outside Git/dist;public artifacts have neither map files nor references;no JS runtime changes."
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -35,13 +34,13 @@
     "No runtime/SQL/migration/financial/permission changes.",
     "No merge58/newPR, hosted access or deployment; no owner local/env/reference changes."
   ],
-  "nextExactAction": "Push corrected test-only inverse wiring;wait new exact FULLCI;no merge",
+  "nextExactAction": "Commit/push private maps item3;stacked PR on item2;FULLCI;then separate mobileBack item4;no merge",
   "startedAt": "2026-11-03T03:59:26.518Z",
-  "checkpointedAt": "2026-11-04T02:59:02.673Z",
+  "checkpointedAt": "2026-11-04T03:19:52.107Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 2,
-  "filesTouchedManifestSha256": "a8cc3b1ebd54eb4818183d0e8ae9a50a1b0baf3c211a2bebb27d6ba8ca4e674a",
-  "workingTreeFingerprint": "5AC6F804D66E28DC398EC161796EFE942CE68F2E163D10D3E74B889DD09F8487"
+  "filesTouchedCount": 19,
+  "filesTouchedManifestSha256": "849670f81f94e20b6491d0a1ffe27eb982ae524b0625c85c67f0d70cb3af45f7",
+  "workingTreeFingerprint": "3ADA322BA5BFC10AC6B9E0A6D71B503A4318F4391E37091C265B6C03930586F8"
 }

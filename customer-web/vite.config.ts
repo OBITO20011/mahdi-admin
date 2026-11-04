@@ -1,5 +1,6 @@
 import {selectedViteEnvironment,environmentDefines,environmentAssets} from '../scripts/environments/vite-environment.mjs';
 import {developmentFileAccess} from '../scripts/environments/development-file-access.mjs';
+import {privateSourceMaps} from '../scripts/environments/private-source-maps.mjs';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vite';
@@ -7,7 +8,7 @@ import { defineConfig } from 'vite';
 export default defineConfig(({mode}) => {
  const selected=selectedViteEnvironment(mode,__dirname);return {
   define:environmentDefines(selected),
-  plugins: [react(), tailwindcss(),environmentAssets(selected,__dirname)],
+  plugins: [react(), tailwindcss(),environmentAssets(selected,__dirname),privateSourceMaps(selected,__dirname,'customer')],
   build: {
     rollupOptions: {
       output: {

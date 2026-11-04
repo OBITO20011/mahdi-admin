@@ -8,6 +8,7 @@ import test from 'node:test';
 import {createServer, normalizePath, type ViteDevServer} from 'vite';
 import {developmentFileAccess} from '../scripts/environments/development-file-access.mjs';
 import {developmentFsPins, sourceBeforeDevelopmentFs} from '../scripts/audit/source-before-development-fs.mjs';
+import {sourceBeforePrivateMaps} from '../scripts/audit/source-before-private-maps.mjs';
 
 test('both actual Vite configs reject direct/raw/inline secrets and outside files without blocking application modules', async () => {
  const scratch = await mkdtemp(path.join(os.tmpdir(), 'nawasrah-vite-fs-'));
@@ -58,7 +59,7 @@ test('both actual Vite configs reject direct/raw/inline secrets and outside file
 test('fs projection preserves every historical proof and only restores the two exact reviewed configs', async () => {
  const baseline = '376293af705837201e4c94b66967337baf524af6';
  for (const [file, pin] of Object.entries(developmentFsPins) as [string, {before:string;after:string;beforeText:string}][]) {
-  const current = (await readFile(file, 'utf8')).replaceAll('\r\n', '\n');
+  const current = sourceBeforePrivateMaps(file, (await readFile(file, 'utf8')).replaceAll('\r\n', '\n'))!;
   const previous = execFileSync('git', ['show', baseline + ':' + file], {encoding:'utf8', windowsHide:true}).replaceAll('\r\n','\n');
   assert.equal(pin.beforeText, previous);
   assert.equal(createHash('sha256').update(current).digest('hex'), pin.after);
