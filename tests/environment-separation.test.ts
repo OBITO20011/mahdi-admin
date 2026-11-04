@@ -1,5 +1,4 @@
-import {sourceBeforeDevelopmentFs} from '../scripts/audit/source-before-development-fs.mjs';
-import {sourceBeforePrivateMaps} from '../scripts/audit/source-before-private-maps.mjs';
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import {sourceBeforePrelaunchTrial} from '../scripts/audit/source-before-prelaunch-trial.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
@@ -41,7 +40,7 @@ test('CSP changes only its two explicit selected origins;all directives retain o
 });
 test('exact build inverse preserves historical files and still rejects any extra byte',()=>{
  for(const [file,pin] of Object.entries(environmentPins as Record<string,{beforeText:string}>)){
-  const source=sourceBeforePrelaunchTrial(file,sourceBeforeDevelopmentFs(file,sourceBeforePrivateMaps(file,readFileSync(file,'utf8'))))!;assert.equal(sourceBeforeEnvironments(file,source),pin.beforeText);
-  assert.throws(()=>sourceBeforeEnvironments(file,source+'\n// unapproved drift'));
+  const source=historicalProductWorkbookSource(sourceBeforePrelaunchTrial,file,readFileSync(file,'utf8'))!;assert.equal(historicalProductWorkbookSource(sourceBeforeEnvironments,file,source),pin.beforeText);
+  assert.throws(()=>historicalProductWorkbookSource(sourceBeforeEnvironments,file,source+'\n// unapproved drift'));
  }
 });

@@ -1,3 +1,4 @@
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import {sourceBeforeProductReceiving205} from '../scripts/audit/source-before-product-receiving205.mjs';
 import {sourceBeforeTrialJ} from '../scripts/audit/source-before-trial-aftercare.mjs';
 import test from 'node:test';
@@ -21,7 +22,7 @@ test('no generic piece terminology in UI source; exact import-only compatibility
     if(file===compatibility)return false;
     // J uses the owner's explicit "الحبة المعيبة/كل حباته" copy. Its exact
     // whole-file inverse rejects every other byte before this older guard.
-    let text=sourceBeforeTrialJ(file,readFileSync(file,'utf8'));if(text===null)return false;
+    let text=historicalProductWorkbookSource(sourceBeforeTrialJ,file,readFileSync(file,'utf8'));if(text===null)return false;
     if(approved.has(file)){
       // D uses the same owner label in the editable form and saved legacy view.
       assert.equal(text.split('كم حبة بالطرد').length-1,file==='src/features/more/ParcelConfigurationModal.tsx'?2:1,file+' exact owner phrase count');
@@ -64,10 +65,10 @@ test('all changed product files retain exact awaited calls, RPC/from contracts a
   const printer=ts.createPrinter({removeComments:true});
   for(const [file,pin] of Object.entries(snapshot.entries) as [string,{added?:boolean}][]){
     const current=readFileSync(file,'utf8').replaceAll('\r\n','\n');
-    if(pin.added){assert.throws(()=>sourceBeforeUnitTerminology(file,current+'\nvoid 1;'));continue;}
+    if(pin.added){assert.throws(()=>historicalProductWorkbookSource(sourceBeforeUnitTerminology,file,current+'\nvoid 1;'));continue;}
     const before=execFileSync('git',['show',snapshot.baseline+':'+file],{encoding:'utf8'}).replaceAll('\r\n','\n');
-    assert.equal(sourceBeforeUnitTerminology(file,current),before,file);
-    assert.throws(()=>sourceBeforeUnitTerminology(file,current+'\nvoid 1;'),file+' whole-file drift must fail');
+    assert.equal(historicalProductWorkbookSource(sourceBeforeUnitTerminology,file,current),before,file);
+    assert.throws(()=>historicalProductWorkbookSource(sourceBeforeUnitTerminology,file,current+'\nvoid 1;'),file+' whole-file drift must fail');
     function collect(text:string){
       const ast=ts.createSourceFile(file,text,ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX);
       const calls:string[]=[],changes:string[]=[];
@@ -78,7 +79,7 @@ test('all changed product files retain exact awaited calls, RPC/from contracts a
       }
       walk(ast);return {calls,changes};
     }
-    const old=collect(before),now=collect(sourceBeforeProductReceiving205(file,current)!);assert.deepEqual(now.calls,old.calls,file+' awaited calls and RPC payloads');
+    const old=collect(before),now=collect(historicalProductWorkbookSource(sourceBeforeProductReceiving205,file,current)!);assert.deepEqual(now.calls,old.calls,file+' awaited calls and RPC payloads');
     const remaining=[...now.changes];for(const handler of old.changes){const i=remaining.indexOf(handler);assert.ok(i>=0,file+' existing onChange unchanged');remaining.splice(i,1);}
     assert.deepEqual(remaining,file.endsWith('ProductFormModal.tsx')?['onChange={event => setUnit(event.target.value)}']:[],file+' only authorized base-unit selector is new');
   }

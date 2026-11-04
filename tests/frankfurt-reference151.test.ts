@@ -1,3 +1,4 @@
+import{historicalProductWorkbookInventory}from'../scripts/audit/source-before-product-workbook.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFile} from 'node:fs/promises';
@@ -5,7 +6,7 @@ import {fileURLToPath} from 'node:url';
 import {assertReference151} from '../scripts/operations/frankfurt-reference151.mjs';
 import {assertUpgradeHistory,upgradeVersions,upgradeLockKey} from '../scripts/operations/frankfurt-owner-upgrade.mjs';
 import {buildReference151} from '../scripts/operations/build-acl-reference151.mjs';
-import {inventoryBefore198Presentation as inventory} from '../scripts/audit/source-before198-presentation.mjs';
+import {inventoryBefore198Presentation as inventory} from '../scripts/testing/product-workbook-historical-views.mjs';
 import {readTables150} from '../scripts/testing/table-read-privileges150-contract.mjs';
 import {realtimePublicationSql,realtime151Tables} from '../scripts/testing/realtime151-contract.mjs';
 import {businessCronJobs} from '../scripts/operations/build-cron-report.mjs';
@@ -16,7 +17,7 @@ import {forecast150} from '../scripts/operations/forecast-grants150.mjs';
 import {aclEntries} from '../scripts/operations/managed-catalog-policy.mjs';
 const root=fileURLToPath(new URL('..',import.meta.url));
 test('151 admission rejects138/150,unproved membership,stale manifests and permission drift',async()=>{
- const manifest=(await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=151),source=await inventory();
+ const manifest=(await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=151),source=await historicalProductWorkbookInventory(inventory);
  const proofText=await readFile('docs/operations/TABLE_ACCESS_AFTER_150.json','utf8'),proof=JSON.parse(proofText);
  const catalog={tables:readTables150.map(name=>({name,schema:'public',owner:'postgres',kind:'r',rls:true,columns:[{name:'id',generated:''},{name:'computed_fixture',generated:'s'}],
   acl:['postgres=arwdDxtm/postgres','authenticated=r/postgres',...(name==='orders'?['service_role=r/postgres']:[])]})),

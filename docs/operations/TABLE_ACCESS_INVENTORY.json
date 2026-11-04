@@ -313,7 +313,7 @@
     },
     {
       "file": "src/features/goLive/GoLiveSetupView.tsx",
-      "sha256": "29f03982bc2a3389fa54bee5a0dde3061a65fecf3273e1e5043e7b1d8589a322"
+      "sha256": "75274fb109b823f10ad3b35dbccb717c71848d701bcfa5f0c05da43288abefd3"
     },
     {
       "file": "src/features/goLive/OpeningChequesCard.tsx",
@@ -322,6 +322,22 @@
     {
       "file": "src/features/goLive/openingChequesImport.ts",
       "sha256": "23b30c943f2ab9099041a975f4c3f804f61b8f3ab989db907a29ff9146f18fc6"
+    },
+    {
+      "file": "src/features/goLive/productImportAttempt.ts",
+      "sha256": "80e1152f89cd6428f62481acde89bcd2f392c13b27815e8471b23780c2afdc6b"
+    },
+    {
+      "file": "src/features/goLive/productWorkbook.ts",
+      "sha256": "16246aef0e0c160940bf2dc56664c978b3f697bdb7563766482e4e58b1429abb"
+    },
+    {
+      "file": "src/features/goLive/ProductWorkbookImportPanel.tsx",
+      "sha256": "092f6f2c773e1f2c5194d3b3afc015d4b93f9951770c0dfef9f3e46cae7af9bb"
+    },
+    {
+      "file": "src/features/goLive/productWorkbookReference.ts",
+      "sha256": "b19d3d44006a5113e68de54b253eeb9e6147929364fb45e04da1b0ef58a696a7"
     },
     {
       "file": "src/features/inventory/ClearInventoryBalanceDialog.tsx",
@@ -508,6 +524,10 @@
       "sha256": "1bd4884af842faa3080bb6044b1e3e42f350e231bd27cd1fe81ca19148227a9d"
     },
     {
+      "file": "src/features/products/FamilyBarcodeRecovery.tsx",
+      "sha256": "92b253887689bae86d9dd46a41a5c713aa0575a6226147efe7d01d38a4fefb62"
+    },
+    {
       "file": "src/features/products/ProductCostCorrectionPanel.tsx",
       "sha256": "e0acc44140c6bdaaf049b6c869213fa8804f6d4139d94c027ccbe5f506490a71"
     },
@@ -521,7 +541,7 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "sha256": "b1a6b8ec877657cd4dd4eb909e7633508554679f7a67a74f0fc14d2087c9f978"
+      "sha256": "2b54d086549e7b9d6f32d68fe2e524cc7820f94fd9a61f54b4a688a20fb53b7b"
     },
     {
       "file": "src/features/products/ProductFormParcelCapability.tsx",
@@ -701,7 +721,7 @@
     },
     {
       "file": "src/lib/xlsx.ts",
-      "sha256": "056a699ee071879c2b93e419cb0af623f871897a916e22e7f9b9e7ffced83ff1"
+      "sha256": "6cdbaa22775a973cac568b43d065a5ec15eefdcf96ccc13b31d00f0defd96ea3"
     },
     {
       "file": "src/main.tsx",
@@ -872,8 +892,16 @@
       "sha256": "a3c8a985bd5eb1707d56899c0463de22dfbf50a56c917414f091e35bbca3f3e4"
     },
     {
+      "file": "src/services/supabase/productFamilyBarcodes.service.ts",
+      "sha256": "66baf5fba864f091b7d25c1c8998b2c6b6cb0d724b8a890de7ba6824d9709d7b"
+    },
+    {
       "file": "src/services/supabase/products.service.ts",
       "sha256": "5104aca3528ea7fe18ce813f19945543a2c616b257694a234549b79bc9b3b5ec"
+    },
+    {
+      "file": "src/services/supabase/productWorkbook.service.ts",
+      "sha256": "8ae6b16987558f8732c2ce85758b4f5d8386122e2ca8492405d8fe076107398e"
     },
     {
       "file": "src/services/supabase/promotions.service.ts",
@@ -3017,6 +3045,798 @@
       "reachability": "has-source-consumer"
     },
     {
+      "id": "src/services/supabase/productWorkbook.service.ts:16",
+      "file": "src/services/supabase/productWorkbook.service.ts",
+      "line": 16,
+      "table": "categories",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "productWorkbook",
+      "function": "all",
+      "receiver": "db()",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'id,name_ar,is_active'"
+          ]
+        },
+        {
+          "method": "order",
+          "args": [
+            "'id'"
+          ]
+        },
+        {
+          "method": "range",
+          "args": [
+            "from",
+            "from+499"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {
+        "metadataColumns": "id,sku,barcode,name_ar,description,category_id,brand_id,unit_id,purchase_unit_id,units_per_purchase_unit,default_purchase_price_in_minor_units,sale_unit_id,units_per_sale_unit,default_sale_price_in_minor_units,cost_price_in_minor_units,min_stock_level,max_stock_level,is_active,parcel_only,updated_at,flavor_master_product_id,is_flavor_master,flavor_name_ar"
+      },
+      "source": "db().from('categories').select('id,name_ar,is_active').order('id').range(from,from+499)",
+      "embeddedTables": [],
+      "callers": [
+        "customer-web/src/App.tsx",
+        "customer-web/src/components/CategoryDrawer.tsx",
+        "customer-web/src/components/CategoryShowcase.tsx",
+        "customer-web/src/components/CheckoutProgress.tsx",
+        "customer-web/src/components/FloatingContactActions.tsx",
+        "customer-web/src/components/MerchandisingSections.tsx",
+        "customer-web/src/components/ParcelBuilderModal.tsx",
+        "customer-web/src/services/catalog.service.ts",
+        "customer-web/src/types/catalog.ts",
+        "customer-web/src/utils/catalogView.ts",
+        "src/components/common/RejectionNotice.tsx",
+        "src/components/layout/IPhoneContainer.tsx",
+        "src/features/cheques/ChequesView.tsx",
+        "src/features/crm/CrmView.tsx",
+        "src/features/crm/CustomerFilters.tsx",
+        "src/features/crm/CustomerStatement.tsx",
+        "src/features/dashboard/ChartsSection.tsx",
+        "src/features/directReceiving/CreateDirectReceiptModal.tsx",
+        "src/features/directReceiving/DirectReceivingView.tsx",
+        "src/features/goLive/GoLiveSetupView.tsx",
+        "src/features/goLive/OpeningChequesCard.tsx",
+        "src/features/inventory/InventoryOpeningSetupModal.tsx",
+        "src/features/inventory/InventoryView.tsx",
+        "src/features/inventory/StockCountModal.tsx",
+        "src/features/inventory/SupplierReplacementPanel.tsx",
+        "src/features/inventory/WarehouseTransferModal.tsx",
+        "src/features/more/DamageHistoryPanel.tsx",
+        "src/features/more/adminNavigation.config.ts",
+        "src/features/orders/CustomerLocationCard.tsx",
+        "src/features/orders/OrdersCenterView.tsx",
+        "src/features/orders/aftercarePresentation.ts",
+        "src/features/pos/PosProductCard.tsx",
+        "src/features/pos/PosView.tsx",
+        "src/features/products/BulkProductImagesPanel.tsx",
+        "src/features/products/ProductFormModal.tsx",
+        "src/features/products/ProductsView.tsx",
+        "src/features/products/bulkImages/api.ts",
+        "src/features/products/bulkImages/journal.ts",
+        "src/features/products/bulkImages/upload.ts",
+        "src/features/purchases/CreatePurchaseOrderModal.tsx",
+        "src/features/purchases/PurchaseOrderCard.tsx",
+        "src/features/purchases/PurchasesView.tsx",
+        "src/features/purchases/ReceiveGoodsModal.tsx",
+        "src/features/reports/ReportsCenterView.tsx",
+        "src/features/salesHistory/SalesHistoryView.tsx",
+        "src/features/shifts/ShiftsView.tsx",
+        "src/features/users/UserFormModal.tsx",
+        "src/features/users/UsersView.tsx",
+        "src/hooks/useCustomerAccounts.ts",
+        "src/services/supabase/adminAftercareRecovery.ts",
+        "src/services/supabase/cheques.service.ts",
+        "src/services/supabase/crm.service.ts",
+        "src/services/supabase/damageLedger215.service.ts",
+        "src/services/supabase/directReceiving.service.ts",
+        "src/services/supabase/goLive.service.ts",
+        "src/services/supabase/inventory.service.ts",
+        "src/services/supabase/mfa.service.ts",
+        "src/services/supabase/orders.service.ts",
+        "src/services/supabase/products.service.ts",
+        "src/services/supabase/purchases.service.ts",
+        "src/services/supabase/reference-data.service.ts",
+        "src/services/supabase/salesAftercare.service.ts",
+        "src/services/supabase/salesHistory.service.ts",
+        "src/services/supabase/supplierReceiptSearch.ts",
+        "src/services/supabase/supplierReplacement.service.ts",
+        "src/stores/useAppStore.ts",
+        "src/types/crm.ts",
+        "src/types/purchases.ts",
+        "src/utils/damageLedger215.ts",
+        "src/utils/orderCalculations.ts",
+        "src/utils/salesHistory.ts",
+        "supabase/functions/submit-guest-order/index.ts"
+      ],
+      "screenPaths": [
+        "cheques",
+        "crm",
+        "dashboard",
+        "directReceiving",
+        "goLive",
+        "inventory",
+        "more",
+        "orders",
+        "pos",
+        "products",
+        "purchases",
+        "reports",
+        "salesHistory",
+        "shifts",
+        "users",
+        "shared-store/auth-bootstrap"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/productWorkbook.service.ts:17",
+      "file": "src/services/supabase/productWorkbook.service.ts",
+      "line": 17,
+      "table": "units",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "productWorkbook",
+      "function": "all",
+      "receiver": "db()",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'id,code,name_ar'"
+          ]
+        },
+        {
+          "method": "order",
+          "args": [
+            "'id'"
+          ]
+        },
+        {
+          "method": "range",
+          "args": [
+            "from",
+            "from+499"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {
+        "metadataColumns": "id,sku,barcode,name_ar,description,category_id,brand_id,unit_id,purchase_unit_id,units_per_purchase_unit,default_purchase_price_in_minor_units,sale_unit_id,units_per_sale_unit,default_sale_price_in_minor_units,cost_price_in_minor_units,min_stock_level,max_stock_level,is_active,parcel_only,updated_at,flavor_master_product_id,is_flavor_master,flavor_name_ar"
+      },
+      "source": "db().from('units').select('id,code,name_ar').order('id').range(from,from+499)",
+      "embeddedTables": [],
+      "callers": [
+        "customer-web/src/App.tsx",
+        "customer-web/src/components/CategoryDrawer.tsx",
+        "customer-web/src/components/CategoryShowcase.tsx",
+        "customer-web/src/components/CheckoutProgress.tsx",
+        "customer-web/src/components/FloatingContactActions.tsx",
+        "customer-web/src/components/MerchandisingSections.tsx",
+        "customer-web/src/components/ParcelBuilderModal.tsx",
+        "customer-web/src/services/catalog.service.ts",
+        "customer-web/src/types/catalog.ts",
+        "customer-web/src/utils/catalogView.ts",
+        "src/components/common/RejectionNotice.tsx",
+        "src/components/layout/IPhoneContainer.tsx",
+        "src/features/cheques/ChequesView.tsx",
+        "src/features/crm/CrmView.tsx",
+        "src/features/crm/CustomerFilters.tsx",
+        "src/features/crm/CustomerStatement.tsx",
+        "src/features/dashboard/ChartsSection.tsx",
+        "src/features/directReceiving/CreateDirectReceiptModal.tsx",
+        "src/features/directReceiving/DirectReceivingView.tsx",
+        "src/features/goLive/GoLiveSetupView.tsx",
+        "src/features/goLive/OpeningChequesCard.tsx",
+        "src/features/inventory/InventoryOpeningSetupModal.tsx",
+        "src/features/inventory/InventoryView.tsx",
+        "src/features/inventory/StockCountModal.tsx",
+        "src/features/inventory/SupplierReplacementPanel.tsx",
+        "src/features/inventory/WarehouseTransferModal.tsx",
+        "src/features/more/DamageHistoryPanel.tsx",
+        "src/features/more/adminNavigation.config.ts",
+        "src/features/orders/CustomerLocationCard.tsx",
+        "src/features/orders/OrdersCenterView.tsx",
+        "src/features/orders/aftercarePresentation.ts",
+        "src/features/pos/PosProductCard.tsx",
+        "src/features/pos/PosView.tsx",
+        "src/features/products/BulkProductImagesPanel.tsx",
+        "src/features/products/ProductFormModal.tsx",
+        "src/features/products/ProductsView.tsx",
+        "src/features/products/bulkImages/api.ts",
+        "src/features/products/bulkImages/journal.ts",
+        "src/features/products/bulkImages/upload.ts",
+        "src/features/purchases/CreatePurchaseOrderModal.tsx",
+        "src/features/purchases/PurchaseOrderCard.tsx",
+        "src/features/purchases/PurchasesView.tsx",
+        "src/features/purchases/ReceiveGoodsModal.tsx",
+        "src/features/reports/ReportsCenterView.tsx",
+        "src/features/salesHistory/SalesHistoryView.tsx",
+        "src/features/shifts/ShiftsView.tsx",
+        "src/features/users/UserFormModal.tsx",
+        "src/features/users/UsersView.tsx",
+        "src/hooks/useCustomerAccounts.ts",
+        "src/services/supabase/adminAftercareRecovery.ts",
+        "src/services/supabase/cheques.service.ts",
+        "src/services/supabase/crm.service.ts",
+        "src/services/supabase/damageLedger215.service.ts",
+        "src/services/supabase/directReceiving.service.ts",
+        "src/services/supabase/goLive.service.ts",
+        "src/services/supabase/inventory.service.ts",
+        "src/services/supabase/mfa.service.ts",
+        "src/services/supabase/orders.service.ts",
+        "src/services/supabase/products.service.ts",
+        "src/services/supabase/purchases.service.ts",
+        "src/services/supabase/reference-data.service.ts",
+        "src/services/supabase/salesAftercare.service.ts",
+        "src/services/supabase/salesHistory.service.ts",
+        "src/services/supabase/supplierReceiptSearch.ts",
+        "src/services/supabase/supplierReplacement.service.ts",
+        "src/stores/useAppStore.ts",
+        "src/types/crm.ts",
+        "src/types/purchases.ts",
+        "src/utils/damageLedger215.ts",
+        "src/utils/orderCalculations.ts",
+        "src/utils/salesHistory.ts",
+        "supabase/functions/submit-guest-order/index.ts"
+      ],
+      "screenPaths": [
+        "cheques",
+        "crm",
+        "dashboard",
+        "directReceiving",
+        "goLive",
+        "inventory",
+        "more",
+        "orders",
+        "pos",
+        "products",
+        "purchases",
+        "reports",
+        "salesHistory",
+        "shifts",
+        "users",
+        "shared-store/auth-bootstrap"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/productWorkbook.service.ts:18",
+      "file": "src/services/supabase/productWorkbook.service.ts",
+      "line": 18,
+      "table": "brands",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "productWorkbook",
+      "function": "all",
+      "receiver": "db()",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'id,name_ar,is_active'"
+          ]
+        },
+        {
+          "method": "order",
+          "args": [
+            "'id'"
+          ]
+        },
+        {
+          "method": "range",
+          "args": [
+            "from",
+            "from+499"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {
+        "metadataColumns": "id,sku,barcode,name_ar,description,category_id,brand_id,unit_id,purchase_unit_id,units_per_purchase_unit,default_purchase_price_in_minor_units,sale_unit_id,units_per_sale_unit,default_sale_price_in_minor_units,cost_price_in_minor_units,min_stock_level,max_stock_level,is_active,parcel_only,updated_at,flavor_master_product_id,is_flavor_master,flavor_name_ar"
+      },
+      "source": "db().from('brands').select('id,name_ar,is_active').order('id').range(from,from+499)",
+      "embeddedTables": [],
+      "callers": [
+        "customer-web/src/App.tsx",
+        "customer-web/src/components/CategoryDrawer.tsx",
+        "customer-web/src/components/CategoryShowcase.tsx",
+        "customer-web/src/components/CheckoutProgress.tsx",
+        "customer-web/src/components/FloatingContactActions.tsx",
+        "customer-web/src/components/MerchandisingSections.tsx",
+        "customer-web/src/components/ParcelBuilderModal.tsx",
+        "customer-web/src/services/catalog.service.ts",
+        "customer-web/src/types/catalog.ts",
+        "customer-web/src/utils/catalogView.ts",
+        "src/components/common/RejectionNotice.tsx",
+        "src/components/layout/IPhoneContainer.tsx",
+        "src/features/cheques/ChequesView.tsx",
+        "src/features/crm/CrmView.tsx",
+        "src/features/crm/CustomerFilters.tsx",
+        "src/features/crm/CustomerStatement.tsx",
+        "src/features/dashboard/ChartsSection.tsx",
+        "src/features/directReceiving/CreateDirectReceiptModal.tsx",
+        "src/features/directReceiving/DirectReceivingView.tsx",
+        "src/features/goLive/GoLiveSetupView.tsx",
+        "src/features/goLive/OpeningChequesCard.tsx",
+        "src/features/inventory/InventoryOpeningSetupModal.tsx",
+        "src/features/inventory/InventoryView.tsx",
+        "src/features/inventory/StockCountModal.tsx",
+        "src/features/inventory/SupplierReplacementPanel.tsx",
+        "src/features/inventory/WarehouseTransferModal.tsx",
+        "src/features/more/DamageHistoryPanel.tsx",
+        "src/features/more/adminNavigation.config.ts",
+        "src/features/orders/CustomerLocationCard.tsx",
+        "src/features/orders/OrdersCenterView.tsx",
+        "src/features/orders/aftercarePresentation.ts",
+        "src/features/pos/PosProductCard.tsx",
+        "src/features/pos/PosView.tsx",
+        "src/features/products/BulkProductImagesPanel.tsx",
+        "src/features/products/ProductFormModal.tsx",
+        "src/features/products/ProductsView.tsx",
+        "src/features/products/bulkImages/api.ts",
+        "src/features/products/bulkImages/journal.ts",
+        "src/features/products/bulkImages/upload.ts",
+        "src/features/purchases/CreatePurchaseOrderModal.tsx",
+        "src/features/purchases/PurchaseOrderCard.tsx",
+        "src/features/purchases/PurchasesView.tsx",
+        "src/features/purchases/ReceiveGoodsModal.tsx",
+        "src/features/reports/ReportsCenterView.tsx",
+        "src/features/salesHistory/SalesHistoryView.tsx",
+        "src/features/shifts/ShiftsView.tsx",
+        "src/features/users/UserFormModal.tsx",
+        "src/features/users/UsersView.tsx",
+        "src/hooks/useCustomerAccounts.ts",
+        "src/services/supabase/adminAftercareRecovery.ts",
+        "src/services/supabase/cheques.service.ts",
+        "src/services/supabase/crm.service.ts",
+        "src/services/supabase/damageLedger215.service.ts",
+        "src/services/supabase/directReceiving.service.ts",
+        "src/services/supabase/goLive.service.ts",
+        "src/services/supabase/inventory.service.ts",
+        "src/services/supabase/mfa.service.ts",
+        "src/services/supabase/orders.service.ts",
+        "src/services/supabase/products.service.ts",
+        "src/services/supabase/purchases.service.ts",
+        "src/services/supabase/reference-data.service.ts",
+        "src/services/supabase/salesAftercare.service.ts",
+        "src/services/supabase/salesHistory.service.ts",
+        "src/services/supabase/supplierReceiptSearch.ts",
+        "src/services/supabase/supplierReplacement.service.ts",
+        "src/stores/useAppStore.ts",
+        "src/types/crm.ts",
+        "src/types/purchases.ts",
+        "src/utils/damageLedger215.ts",
+        "src/utils/orderCalculations.ts",
+        "src/utils/salesHistory.ts",
+        "supabase/functions/submit-guest-order/index.ts"
+      ],
+      "screenPaths": [
+        "cheques",
+        "crm",
+        "dashboard",
+        "directReceiving",
+        "goLive",
+        "inventory",
+        "more",
+        "orders",
+        "pos",
+        "products",
+        "purchases",
+        "reports",
+        "salesHistory",
+        "shifts",
+        "users",
+        "shared-store/auth-bootstrap"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/productWorkbook.service.ts:19",
+      "file": "src/services/supabase/productWorkbook.service.ts",
+      "line": 19,
+      "table": "warehouses",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "productWorkbook",
+      "function": "all",
+      "receiver": "db()",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'id,code,name_ar,is_active'"
+          ]
+        },
+        {
+          "method": "order",
+          "args": [
+            "'id'"
+          ]
+        },
+        {
+          "method": "range",
+          "args": [
+            "from",
+            "from+499"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {
+        "metadataColumns": "id,sku,barcode,name_ar,description,category_id,brand_id,unit_id,purchase_unit_id,units_per_purchase_unit,default_purchase_price_in_minor_units,sale_unit_id,units_per_sale_unit,default_sale_price_in_minor_units,cost_price_in_minor_units,min_stock_level,max_stock_level,is_active,parcel_only,updated_at,flavor_master_product_id,is_flavor_master,flavor_name_ar"
+      },
+      "source": "db().from('warehouses').select('id,code,name_ar,is_active').order('id').range(from,from+499)",
+      "embeddedTables": [],
+      "callers": [
+        "customer-web/src/App.tsx",
+        "customer-web/src/components/CategoryDrawer.tsx",
+        "customer-web/src/components/CategoryShowcase.tsx",
+        "customer-web/src/components/CheckoutProgress.tsx",
+        "customer-web/src/components/FloatingContactActions.tsx",
+        "customer-web/src/components/MerchandisingSections.tsx",
+        "customer-web/src/components/ParcelBuilderModal.tsx",
+        "customer-web/src/services/catalog.service.ts",
+        "customer-web/src/types/catalog.ts",
+        "customer-web/src/utils/catalogView.ts",
+        "src/components/common/RejectionNotice.tsx",
+        "src/components/layout/IPhoneContainer.tsx",
+        "src/features/cheques/ChequesView.tsx",
+        "src/features/crm/CrmView.tsx",
+        "src/features/crm/CustomerFilters.tsx",
+        "src/features/crm/CustomerStatement.tsx",
+        "src/features/dashboard/ChartsSection.tsx",
+        "src/features/directReceiving/CreateDirectReceiptModal.tsx",
+        "src/features/directReceiving/DirectReceivingView.tsx",
+        "src/features/goLive/GoLiveSetupView.tsx",
+        "src/features/goLive/OpeningChequesCard.tsx",
+        "src/features/inventory/InventoryOpeningSetupModal.tsx",
+        "src/features/inventory/InventoryView.tsx",
+        "src/features/inventory/StockCountModal.tsx",
+        "src/features/inventory/SupplierReplacementPanel.tsx",
+        "src/features/inventory/WarehouseTransferModal.tsx",
+        "src/features/more/DamageHistoryPanel.tsx",
+        "src/features/more/adminNavigation.config.ts",
+        "src/features/orders/CustomerLocationCard.tsx",
+        "src/features/orders/OrdersCenterView.tsx",
+        "src/features/orders/aftercarePresentation.ts",
+        "src/features/pos/PosProductCard.tsx",
+        "src/features/pos/PosView.tsx",
+        "src/features/products/BulkProductImagesPanel.tsx",
+        "src/features/products/ProductFormModal.tsx",
+        "src/features/products/ProductsView.tsx",
+        "src/features/products/bulkImages/api.ts",
+        "src/features/products/bulkImages/journal.ts",
+        "src/features/products/bulkImages/upload.ts",
+        "src/features/purchases/CreatePurchaseOrderModal.tsx",
+        "src/features/purchases/PurchaseOrderCard.tsx",
+        "src/features/purchases/PurchasesView.tsx",
+        "src/features/purchases/ReceiveGoodsModal.tsx",
+        "src/features/reports/ReportsCenterView.tsx",
+        "src/features/salesHistory/SalesHistoryView.tsx",
+        "src/features/shifts/ShiftsView.tsx",
+        "src/features/users/UserFormModal.tsx",
+        "src/features/users/UsersView.tsx",
+        "src/hooks/useCustomerAccounts.ts",
+        "src/services/supabase/adminAftercareRecovery.ts",
+        "src/services/supabase/cheques.service.ts",
+        "src/services/supabase/crm.service.ts",
+        "src/services/supabase/damageLedger215.service.ts",
+        "src/services/supabase/directReceiving.service.ts",
+        "src/services/supabase/goLive.service.ts",
+        "src/services/supabase/inventory.service.ts",
+        "src/services/supabase/mfa.service.ts",
+        "src/services/supabase/orders.service.ts",
+        "src/services/supabase/products.service.ts",
+        "src/services/supabase/purchases.service.ts",
+        "src/services/supabase/reference-data.service.ts",
+        "src/services/supabase/salesAftercare.service.ts",
+        "src/services/supabase/salesHistory.service.ts",
+        "src/services/supabase/supplierReceiptSearch.ts",
+        "src/services/supabase/supplierReplacement.service.ts",
+        "src/stores/useAppStore.ts",
+        "src/types/crm.ts",
+        "src/types/purchases.ts",
+        "src/utils/damageLedger215.ts",
+        "src/utils/orderCalculations.ts",
+        "src/utils/salesHistory.ts",
+        "supabase/functions/submit-guest-order/index.ts"
+      ],
+      "screenPaths": [
+        "cheques",
+        "crm",
+        "dashboard",
+        "directReceiving",
+        "goLive",
+        "inventory",
+        "more",
+        "orders",
+        "pos",
+        "products",
+        "purchases",
+        "reports",
+        "salesHistory",
+        "shifts",
+        "users",
+        "shared-store/auth-bootstrap"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/productWorkbook.service.ts:20",
+      "file": "src/services/supabase/productWorkbook.service.ts",
+      "line": 20,
+      "table": "products",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "productWorkbook",
+      "function": "all",
+      "receiver": "db()",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'id,sku,barcode'"
+          ]
+        },
+        {
+          "method": "order",
+          "args": [
+            "'id'"
+          ]
+        },
+        {
+          "method": "range",
+          "args": [
+            "from",
+            "from+499"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {
+        "metadataColumns": "id,sku,barcode,name_ar,description,category_id,brand_id,unit_id,purchase_unit_id,units_per_purchase_unit,default_purchase_price_in_minor_units,sale_unit_id,units_per_sale_unit,default_sale_price_in_minor_units,cost_price_in_minor_units,min_stock_level,max_stock_level,is_active,parcel_only,updated_at,flavor_master_product_id,is_flavor_master,flavor_name_ar"
+      },
+      "source": "db().from('products').select('id,sku,barcode').order('id').range(from,from+499)",
+      "embeddedTables": [],
+      "callers": [
+        "customer-web/src/App.tsx",
+        "customer-web/src/components/CategoryDrawer.tsx",
+        "customer-web/src/components/CategoryShowcase.tsx",
+        "customer-web/src/components/CheckoutProgress.tsx",
+        "customer-web/src/components/FloatingContactActions.tsx",
+        "customer-web/src/components/MerchandisingSections.tsx",
+        "customer-web/src/components/ParcelBuilderModal.tsx",
+        "customer-web/src/services/catalog.service.ts",
+        "customer-web/src/types/catalog.ts",
+        "customer-web/src/utils/catalogView.ts",
+        "src/components/common/RejectionNotice.tsx",
+        "src/components/layout/IPhoneContainer.tsx",
+        "src/features/cheques/ChequesView.tsx",
+        "src/features/crm/CrmView.tsx",
+        "src/features/crm/CustomerFilters.tsx",
+        "src/features/crm/CustomerStatement.tsx",
+        "src/features/dashboard/ChartsSection.tsx",
+        "src/features/directReceiving/CreateDirectReceiptModal.tsx",
+        "src/features/directReceiving/DirectReceivingView.tsx",
+        "src/features/goLive/GoLiveSetupView.tsx",
+        "src/features/goLive/OpeningChequesCard.tsx",
+        "src/features/inventory/InventoryOpeningSetupModal.tsx",
+        "src/features/inventory/InventoryView.tsx",
+        "src/features/inventory/StockCountModal.tsx",
+        "src/features/inventory/SupplierReplacementPanel.tsx",
+        "src/features/inventory/WarehouseTransferModal.tsx",
+        "src/features/more/DamageHistoryPanel.tsx",
+        "src/features/more/adminNavigation.config.ts",
+        "src/features/orders/CustomerLocationCard.tsx",
+        "src/features/orders/OrdersCenterView.tsx",
+        "src/features/orders/aftercarePresentation.ts",
+        "src/features/pos/PosProductCard.tsx",
+        "src/features/pos/PosView.tsx",
+        "src/features/products/BulkProductImagesPanel.tsx",
+        "src/features/products/ProductFormModal.tsx",
+        "src/features/products/ProductsView.tsx",
+        "src/features/products/bulkImages/api.ts",
+        "src/features/products/bulkImages/journal.ts",
+        "src/features/products/bulkImages/upload.ts",
+        "src/features/purchases/CreatePurchaseOrderModal.tsx",
+        "src/features/purchases/PurchaseOrderCard.tsx",
+        "src/features/purchases/PurchasesView.tsx",
+        "src/features/purchases/ReceiveGoodsModal.tsx",
+        "src/features/reports/ReportsCenterView.tsx",
+        "src/features/salesHistory/SalesHistoryView.tsx",
+        "src/features/shifts/ShiftsView.tsx",
+        "src/features/users/UserFormModal.tsx",
+        "src/features/users/UsersView.tsx",
+        "src/hooks/useCustomerAccounts.ts",
+        "src/services/supabase/adminAftercareRecovery.ts",
+        "src/services/supabase/cheques.service.ts",
+        "src/services/supabase/crm.service.ts",
+        "src/services/supabase/damageLedger215.service.ts",
+        "src/services/supabase/directReceiving.service.ts",
+        "src/services/supabase/goLive.service.ts",
+        "src/services/supabase/inventory.service.ts",
+        "src/services/supabase/mfa.service.ts",
+        "src/services/supabase/orders.service.ts",
+        "src/services/supabase/products.service.ts",
+        "src/services/supabase/purchases.service.ts",
+        "src/services/supabase/reference-data.service.ts",
+        "src/services/supabase/salesAftercare.service.ts",
+        "src/services/supabase/salesHistory.service.ts",
+        "src/services/supabase/supplierReceiptSearch.ts",
+        "src/services/supabase/supplierReplacement.service.ts",
+        "src/stores/useAppStore.ts",
+        "src/types/crm.ts",
+        "src/types/purchases.ts",
+        "src/utils/damageLedger215.ts",
+        "src/utils/orderCalculations.ts",
+        "src/utils/salesHistory.ts",
+        "supabase/functions/submit-guest-order/index.ts"
+      ],
+      "screenPaths": [
+        "cheques",
+        "crm",
+        "dashboard",
+        "directReceiving",
+        "goLive",
+        "inventory",
+        "more",
+        "orders",
+        "pos",
+        "products",
+        "purchases",
+        "reports",
+        "salesHistory",
+        "shifts",
+        "users",
+        "shared-store/auth-bootstrap"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/productWorkbook.service.ts:37",
+      "file": "src/services/supabase/productWorkbook.service.ts",
+      "line": 37,
+      "table": "products",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "productWorkbook",
+      "function": "readProductImportSnapshot",
+      "receiver": "db()",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "metadataColumns"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'id'",
+            "id"
+          ]
+        },
+        {
+          "method": "single",
+          "args": []
+        }
+      ],
+      "extensions": [],
+      "constants": {
+        "metadataColumns": "id,sku,barcode,name_ar,description,category_id,brand_id,unit_id,purchase_unit_id,units_per_purchase_unit,default_purchase_price_in_minor_units,sale_unit_id,units_per_sale_unit,default_sale_price_in_minor_units,cost_price_in_minor_units,min_stock_level,max_stock_level,is_active,parcel_only,updated_at,flavor_master_product_id,is_flavor_master,flavor_name_ar"
+      },
+      "source": "db().from('products').select(metadataColumns).eq('id',id).single()",
+      "embeddedTables": [],
+      "callers": [
+        "src/services/supabase/productFamilyBarcodes.service.ts"
+      ],
+      "screenPaths": [],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/productWorkbook.service.ts:38",
+      "file": "src/services/supabase/productWorkbook.service.ts",
+      "line": 38,
+      "table": "products",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "productWorkbook",
+      "function": "readProductImportSnapshot",
+      "receiver": "db()",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "metadataColumns"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'flavor_master_product_id'",
+            "id"
+          ]
+        },
+        {
+          "method": "order",
+          "args": [
+            "'id'"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {
+        "metadataColumns": "id,sku,barcode,name_ar,description,category_id,brand_id,unit_id,purchase_unit_id,units_per_purchase_unit,default_purchase_price_in_minor_units,sale_unit_id,units_per_sale_unit,default_sale_price_in_minor_units,cost_price_in_minor_units,min_stock_level,max_stock_level,is_active,parcel_only,updated_at,flavor_master_product_id,is_flavor_master,flavor_name_ar"
+      },
+      "source": "db().from('products').select(metadataColumns).eq('flavor_master_product_id',id).order('id')",
+      "embeddedTables": [],
+      "callers": [
+        "src/services/supabase/productFamilyBarcodes.service.ts"
+      ],
+      "screenPaths": [],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/productWorkbook.service.ts:41",
+      "file": "src/services/supabase/productWorkbook.service.ts",
+      "line": 41,
+      "table": "products",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "productWorkbook",
+      "function": "findTemporary",
+      "receiver": "db()",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'id'"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'sku'",
+            "sku"
+          ]
+        },
+        {
+          "method": "limit",
+          "args": [
+            "2"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {
+        "metadataColumns": "id,sku,barcode,name_ar,description,category_id,brand_id,unit_id,purchase_unit_id,units_per_purchase_unit,default_purchase_price_in_minor_units,sale_unit_id,units_per_sale_unit,default_sale_price_in_minor_units,cost_price_in_minor_units,min_stock_level,max_stock_level,is_active,parcel_only,updated_at,flavor_master_product_id,is_flavor_master,flavor_name_ar"
+      },
+      "source": "db().from('products').select('id').eq('sku',sku).limit(2)",
+      "embeddedTables": [],
+      "callers": [
+        "src/features/goLive/productImportAttempt.ts"
+      ],
+      "screenPaths": [
+        "goLive"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
       "id": "src/services/supabase/purchases.service.ts:62",
       "file": "src/services/supabase/purchases.service.ts",
       "line": 62,
@@ -4106,6 +4926,11 @@
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
+      "file": "src/features/goLive/productImportAttempt.ts",
+      "line": 18,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
       "file": "src/features/pos/PosView.tsx",
       "line": 653,
       "reason": "JavaScript Array/typed-array, not Supabase"
@@ -4117,7 +4942,7 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "line": 1135,
+      "line": 1156,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
@@ -4142,7 +4967,7 @@
     },
     {
       "file": "src/lib/xlsx.ts",
-      "line": 233,
+      "line": 242,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
@@ -4298,7 +5123,7 @@
     }
   ],
   "totals": {
-    "queries": 54,
+    "queries": 62,
     "tableNames": [
       "branches",
       "brands",
@@ -4331,7 +5156,7 @@
       "user_roles",
       "warehouses"
     ],
-    "authenticated": 47,
+    "authenticated": 55,
     "service_role": 7,
     "anon": 0,
     "subscriptions": 20

@@ -1,3 +1,4 @@
+import{historicalProductWorkbookInventory}from'../scripts/audit/source-before-product-workbook.mjs';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import test from 'node:test';
@@ -5,7 +6,7 @@ import {assertReference150} from '../scripts/operations/frankfurt-reference150.m
 import {generateAclPlan,alignmentTransaction,predecessor139} from '../scripts/operations/frankfurt-acl-plan.mjs';
 import {run} from '../scripts/operations/frankfurt-align-acl.mjs';
 import {buildReference150} from '../scripts/operations/build-acl-reference150.mjs';
-import {inventoryBefore198Presentation as inventory} from '../scripts/audit/source-before198-presentation.mjs';
+import {inventoryBefore198Presentation as inventory} from '../scripts/testing/product-workbook-historical-views.mjs';
 import {readTables150} from '../scripts/testing/table-read-privileges150-contract.mjs';
 import {migrationManifest,manifestDigest,sha256,canonicalLf} from '../scripts/testing/maintenance-db-contract.mjs';
 import {schemaCatalogSql} from '../scripts/testing/schema-catalog.mjs';
@@ -17,7 +18,7 @@ const root=fileURLToPath(new URL('..',import.meta.url));
 test('150 reference admission rejects the old138 target,missing reads,stale evidence and tampered history',async()=>{
  // Frozen150 admission remains tested against its actual historical manifest,
  // not a future ceiling's metadata. The public CLI moves to151 separately.
- const manifest=(await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=150),source=await inventory();
+ const manifest=(await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=150),source=await historicalProductWorkbookInventory(inventory);
  const proofText=await readFile('docs/operations/TABLE_ACCESS_AFTER_150.json','utf8'),proof=JSON.parse(proofText);
  const catalog={tables:readTables150.map(name=>({name,schema:'public',owner:'postgres',kind:'r',rls:true,
   acl:['postgres=arwdDxtm/postgres','authenticated=r/postgres',...(name==='orders'?['service_role=r/postgres']:[])]})),

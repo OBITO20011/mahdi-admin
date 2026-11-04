@@ -1,4 +1,5 @@
-import {mobileBackPins} from '../scripts/audit/source-before-mobile-back.mjs';
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
+import{pathsBeforeProductWorkbook}from'../scripts/audit/source-before-product-workbook.mjs';
 import {sourceBeforeStoreIdentity} from '../scripts/audit/source-before-store-sharing-identity.mjs';
 import {pathsBeforeHandover213} from '../scripts/audit/source-before-handover213.mjs';
 import {sourceBeforeTrialR,trialRPins} from '../scripts/audit/source-before-trial-owner-r.mjs';
@@ -13,18 +14,18 @@ import {sourceBeforeTrialW,trialWPins} from '../scripts/audit/source-before-tria
 test('W exact additive inverse preserves the delivered base and rejects unapproved source changes',()=>{
  const base='e96efc13ebf27b82217b856f8e6152de8bcc6c55';
  for(const [file,pin]of Object.entries(trialWPins) as [string,{added?:boolean;approvedHistoricalSnapshots?:{ref:string;sha256:string}[]}][]){
-  const current=readFileSync(file,'utf8'),restored=sourceBeforeTrialW(file,current);
-  assert.throws(()=>sourceBeforeTrialW(file,current+'\nvoid unapproved;\n'),file);
+  const current=readFileSync(file,'utf8'),restored=historicalProductWorkbookSource(sourceBeforeTrialW,file,current);
+  assert.throws(()=>historicalProductWorkbookSource(sourceBeforeTrialW,file,current+'\nvoid unapproved;\n'),file);
   if(pin.added)assert.equal(restored,null,file);
   else{
    const before=execFileSync('git',['show',base+':'+file],{encoding:'utf8',maxBuffer:32*1024**2}).replaceAll('\r\n','\n');
-   assert.equal(restored,before,file);assert.throws(()=>sourceBeforeTrialW(file,before+'\nvoid unapproved;\n'),file);
+   assert.equal(restored,before,file);assert.throws(()=>historicalProductWorkbookSource(sourceBeforeTrialW,file,before+'\nvoid unapproved;\n'),file);
   }
   for(const snapshot of pin.approvedHistoricalSnapshots??[]){
    const approved=execFileSync('git',['show',snapshot.ref+':'+file],{encoding:'utf8'}).replaceAll('\r\n','\n');
    assert.equal(createHash('sha256').update(approved).digest('hex'),snapshot.sha256);
-   assert.equal(sourceBeforeTrialW(file,approved),approved);
-   assert.throws(()=>sourceBeforeTrialW(file,approved+'\nvoid unapproved;\n'),file);
+   assert.equal(historicalProductWorkbookSource(sourceBeforeTrialW,file,approved),approved);
+   assert.throws(()=>historicalProductWorkbookSource(sourceBeforeTrialW,file,approved+'\nvoid unapproved;\n'),file);
   }
  }
  const changed=execFileSync('git',['diff','--name-only',base,'--','supabase','scripts/audit/*-hunks.json'],{encoding:'utf8'}).trim().split('\n').filter(Boolean);
@@ -53,8 +54,8 @@ test('W preserves every service/Supabase call and keeps authority modules unchan
  }
  for(const file of Object.keys(trialWPins).filter(file=>file.startsWith('src/')&&file.endsWith('.tsx'))){
   const before=execFileSync('git',['show',base+':'+file],{encoding:'utf8',maxBuffer:32*1024**2});
-  assert.deepEqual(calls(file,sourceBeforeTrialR(file,readFileSync(file,'utf8'))!),calls(file,before),file);
+  assert.deepEqual(calls(file,historicalProductWorkbookSource(sourceBeforeTrialR,file,readFileSync(file,'utf8'))!),calls(file,before),file);
  }
- const authority=execFileSync('git',['diff','--name-only',base,'--','supabase','src/services','src/utils','src/stores','src/lib'],{encoding:'utf8'}).trim().split('\n').filter(Boolean).filter(file=>{if(mobileBackPins[file]&&mobileBackPins[file].beforeText!==null){assert.equal(sourceBeforeStoreIdentity(file,readFileSync(file,'utf8')),execFileSync('git',['show',base+':'+file],{encoding:'utf8'}).replaceAll('\r\n','\n'));return false;}if(['src/services/deviceBiometrics.service.ts','src/stores/useAuthStore.ts'].includes(file)){assert.equal(sourceBeforeStoreIdentity(file,readFileSync(file,'utf8')),execFileSync('git',['show','f95ff0458f90298edc21e39859d3268c7f7ccac7:'+file],{encoding:'utf8'}).replaceAll('\r\n','\n'));return false;}return true;}).filter(file=>pathsBeforeHandover213([file]).length>0&&!trialRPins[file]&&file!=='supabase/migrations/212_trial_readable_cash_product_choices_damage_history.sql').join('\n');
+ const authority=execFileSync('git',['diff','--name-only',base,'--','supabase','src/services','src/utils','src/stores','src/lib'],{encoding:'utf8'}).trim().split('\n').filter(Boolean).filter(file=>{if(['src/services/deviceBiometrics.service.ts','src/stores/useAuthStore.ts'].includes(file)){assert.equal(historicalProductWorkbookSource(sourceBeforeStoreIdentity,file,readFileSync(file,'utf8')),execFileSync('git',['show','f95ff0458f90298edc21e39859d3268c7f7ccac7:'+file],{encoding:'utf8'}).replaceAll('\r\n','\n'));return false;}return true;}).filter(file=>pathsBeforeProductWorkbook([file],base).length>0).filter(file=>pathsBeforeHandover213([file]).length>0&&!trialRPins[file]&&file!=='supabase/migrations/212_trial_readable_cash_product_choices_damage_history.sql').join('\n');
  assert.equal(authority,'','No writer, reader, pricing, permission or persisted-store contract changes');
 });

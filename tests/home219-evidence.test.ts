@@ -1,4 +1,5 @@
-import {sourceBeforePrivateMaps} from '../scripts/audit/source-before-private-maps.mjs';
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
+import{sourceBeforeProductWorkbook}from'../scripts/audit/source-before-product-workbook.mjs';
 import{sourceBeforePreTraining}from'../scripts/audit/source-before-pre-training.mjs';
 import {sourceBeforeRehearsal219} from '../scripts/testing/rehearsal219-legacy-view.mjs';
 import test from 'node:test';
@@ -22,16 +23,16 @@ test('219 historical view binds actual baseline bytes and never erases an unrevi
     'scripts/testing/run-canonical-receivables197-scale.mjs','scripts/testing/run-home-damage201-scale.mjs',
     'scripts/testing/run-all-collections202-scale.mjs'])assert.ok(home219Pins.entries[file],'MISSING_REVIEWED219_PATH:'+file);
   for(const [file,pin] of Object.entries(home219Pins.entries) as [string,{after:string;before:string|null;beforeText:string|null}][]){
-    const current=sourceBeforePreTraining(file,sourceBeforeRehearsal219(file,sourceBeforePrivateMaps(file,lf(readFileSync(file,'utf8')))))!;
+    const current=historicalProductWorkbookSource(sourceBeforePreTraining,file,historicalProductWorkbookSource(sourceBeforeRehearsal219,file,sourceBeforeProductWorkbook(file,lf(readFileSync(file,'utf8')))))!;
     assert.equal(hash(current),pin.after,file);
-    assert.equal(sourceBeforeHome219(file,current),pin.beforeText,file);
+    assert.equal(historicalProductWorkbookSource(sourceBeforeHome219,file,current),pin.beforeText,file);
     if(pin.beforeText!==null){
       assert.equal(hash(pin.beforeText),pin.before,file);
       assert.equal(lf(execFileSync('git',['show',home219Pins.baseline+':'+file],{encoding:'utf8',maxBuffer:32*1024**2})),pin.beforeText,file);
     }
-    assert.equal(sourceBeforeHome219(file,current+'\nunknown219\n'),current+'\nunknown219\n',file);
+    assert.equal(historicalProductWorkbookSource(sourceBeforeHome219,file,current+'\nunknown219\n'),current+'\nunknown219\n',file);
   }
-  assert.equal(sourceBeforeHome219('unknown','unreviewed'),'unreviewed');
+  assert.equal(historicalProductWorkbookSource(sourceBeforeHome219,'unknown','unreviewed'),'unreviewed');
 });
 
 test('CI collects only allowlisted catalog/performance evidence, redacts tokens and never copies retention or Auth data',async()=>{

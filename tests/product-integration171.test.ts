@@ -1,4 +1,4 @@
-import {sourceBefore198Presentation} from '../scripts/audit/source-before198-presentation.mjs';
+import {sourceBefore198Presentation} from '../scripts/testing/product-workbook-historical-views.mjs';
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import {readFileSync} from 'node:fs';
@@ -9,7 +9,7 @@ import {assertProduct171Catalog,assertReference171} from '../scripts/operations/
 import {startupTables} from '../scripts/operations/frankfurt-reference164.mjs';
 import {serviceInventory} from '../scripts/audit/service-access-inventory.mjs';
 import {inventory} from '../scripts/audit/table-access-inventory.mjs';
-import {verifyHistoricalWarehouseCoverage as verifyProbeCoverage} from '../scripts/audit/historical-warehouse-query-sites.mjs';
+import {verifyHistoricalWarehouseCoverage as verifyProbeCoverage} from '../scripts/testing/product-workbook-historical-views.mjs';
 
 for(const file of ['src/features/products/ProductFormModal.tsx','src/features/products/ProductDetailModal.tsx','src/stores/useAppStore.ts'])
  test('171 independently pins the ENTIRE pre-change file outside approved hunks: '+file,()=>{

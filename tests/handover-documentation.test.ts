@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
+import {PRODUCT_WORKBOOK_COLUMNS,FLAVOR_WORKBOOK_COLUMNS,readProductWorkbook,prepareProductWorkbook} from '../src/features/goLive/productWorkbook';
 import {readXlsxFirstSheet,readZip} from '../src/lib/xlsx';
 import {GO_LIVE_COLUMNS,mapSheet,prepareProducts,prepareStock,prepareCustomers,prepareSuppliers} from '../src/features/goLive/goLiveImport';
 import {OPENING_CHEQUE_COLUMNS,prepareOpeningChequeSheet} from '../src/features/goLive/openingChequesImport';
@@ -13,6 +14,7 @@ const digest=(s:string|Uint8Array)=>createHash('sha256').update(s).digest('hex')
 type Kind='products'|'stock'|'customers'|'suppliers'|'cheques'|'drawer';
 const files:Record<Kind,string>={products:'المنتجات.xlsx',stock:'البضاعة-الموجودة.xlsx',suppliers:'أرصدة-الموردين.xlsx',customers:'ديون-العملاء.xlsx',cheques:'شيكات-البداية.xlsx',drawer:'الدرج-الافتتاحي.xlsx'};
 const evidence=JSON.parse(read('أدلة-المصادر.json'));
+const historicalProduct=()=>execFileSync('git',['show','0d77e587:docs/handover/templates/المنتجات.xlsx'],{maxBuffer:5*1024**2});
 
 test('handover edition binds actual UI strings to the stated main source,not invented screens',()=>{
  assert.equal(evidence.baseline,'ad4bd1f8230758a707285ceb8f0042015d16b018');
@@ -30,7 +32,7 @@ test('every requested preparation XLSX opens through the application actual read
  assert.deepEqual(readdirSync(templates).filter(f=>f.endsWith('.xlsx')).sort(),Object.values(files).sort());
  for(const [kind,file]of Object.entries(files) as [Kind,string][]){
   const bytes=readFileSync(templates+file),sheet=await readXlsxFirstSheet(bytes);
-  const expected=kind==='drawer'?['العهدة الافتتاحية (د.أ)']:kind==='cheques'?OPENING_CHEQUE_COLUMNS.map(c=>c[1]):GO_LIVE_COLUMNS[kind].map(c=>c.header);
+  const expected=kind==='drawer'?['العهدة الافتتاحية (د.أ)']:kind==='cheques'?OPENING_CHEQUE_COLUMNS.map(c=>c[1]):kind==='products'?PRODUCT_WORKBOOK_COLUMNS.map(c=>c.header):GO_LIVE_COLUMNS[kind].map(c=>c.header);
   assert.deepEqual(sheet[0],expected,file);assert.equal(sheet.filter(r=>r.some(v=>v.trim()!=='')).length,2,'Exactly one synthetic data row,no explanatory row in imported data');
   assert.equal(digest(bytes),evidence.workbooks.find((w:{kind:Kind})=>w.kind===kind).sha256);
   assert.ok(bytes.length<5*1024**2);assert.equal(evidence.workbooks.find((w:{kind:Kind})=>w.kind===kind).importSupported,kind!=='drawer');
@@ -38,7 +40,7 @@ test('every requested preparation XLSX opens through the application actual read
 });
 
 test('product example imports without errors using actual mapSheet and prepareProducts;leading zeros survive',async()=>{
- const sheet=await readXlsxFirstSheet(readFileSync(templates+files.products)),mapped=mapSheet('products',sheet);
+ const sheet=await readXlsxFirstSheet(historicalProduct()),mapped=mapSheet('products',sheet);
  assert.deepEqual(mapped.fileErrors,[]);const prepared=prepareProducts(mapped.rows);assert.deepEqual(prepared.errors,[]);assert.equal(prepared.payload.length,1);
  const row=prepared.payload[0];assert.equal(row.sku,'DOC-EXAMPLE-001');assert.equal(row.barcode,'0000000000000');assert.equal(row.sale_package_price_in_minor_units,'15000');assert.equal(row.cost_per_base_unit_in_minor_units,'1000');assert.equal(row.parcel_only,false);
  const invalid=structuredClone(mapped.rows);invalid[0].values.sale_package_price='15.0001';assert.ok(prepareProducts(invalid).errors.length>0);
@@ -51,8 +53,9 @@ test('real local214 product import evidence binds the exact workbook and reprodu
  assert.equal(proof.actualXlsxDecoded,true);assert.equal(proof.realSqlRpc,true);assert.equal(proof.previewErrors,0);assert.equal(proof.previewZeroWrites,true);
  assert.equal(proof.created,1);assert.equal(proof.replayZeroWrites,true);assert.equal(proof.productFieldsMatch,true);
  for(const field of ['openingStock','orders','cashShifts','inventoryMovements'])assert.equal(proof[field],0);
- assert.equal(proof.xlsxSha256,digest(readFileSync(templates+files.products)));
- const script=readFileSync('tests/handover-product-import.local.mjs','utf8').replaceAll('\r\n','\n');assert.equal(proof.scriptSha256,digest(script));
+ assert.equal(proof.xlsxSha256,digest(historicalProduct()));
+ const script=execFileSync('git',['show','0d77e587:tests/handover-product-import.local.mjs'],{encoding:'utf8'}).replaceAll('\r\n','\n');assert.equal(proof.scriptSha256,digest(script));
+ assert.match(readFileSync('tests/handover-product-import.local.mjs','utf8'),/historical214 artifact/u);
  assert.match(script,/nawasrah-handover-docs-test/u);assert.match(script,/--container/u);assert.match(script,/NAWASRAH_MAX_MIGRATION:'214'/u);
  assert.doesNotMatch(script,/readFile\([^\n]*(?:\.env|pooler-url|project-ref)|https:\/\//u);
 });
@@ -74,15 +77,15 @@ test('all workbook sheets have native RTL,frozen header,validations,formulas and
  for(const [kind,file]of Object.entries(files) as [Kind,string][]){
   const zip=await readZip(readFileSync(templates+file),()=>true),xml=(name:string)=>new TextDecoder().decode(zip.get(name));
   assert.ok(zip.has('[Content_Types].xml'));assert.ok(![...zip.keys()].some(n=>/vba|externalLinks/u.test(n)));
-  const sheets=[...zip.keys()].filter(n=>/^xl\/worksheets\/sheet\d+\.xml$/u.test(n));assert.equal(sheets.length,kind==='products'?3:2);
+  const sheets=[...zip.keys()].filter(n=>/^xl\/worksheets\/sheet\d+\.xml$/u.test(n));assert.equal(sheets.length,kind==='products'?4:2);
   for(const sheet of sheets){const source=xml(sheet);assert.match(source,/<(?:\w+:)?sheetView\b[^>]*rightToLeft="1"/u);assert.match(source,/<(?:\w+:)?pane\b[^>]*state="frozen"/u);}
   const all=sheets.map(xml).join('\n');if(kind!=='drawer')assert.match(all,/<(?:\w+:)?dataValidation\b/u);assert.match(all,/<(?:\w+:)?f(?:\s[^>]*)?>/u);
   const styles=xml('xl/styles.xml');assert.match(styles,/#,##0\.000/u);if(['customers','suppliers','cheques'].includes(kind))assert.match(styles,/yyyy-mm-dd/u);
-  const manifest=evidence.workbooks.find((w:{kind:Kind})=>w.kind===kind),review=xml('xl/worksheets/sheet2.xml');
+  const manifest=evidence.workbooks.find((w:{kind:Kind})=>w.kind===kind),review=xml('xl/worksheets/sheet'+(kind==='products'?'3':'2')+'.xml');
   const cached=(ref:string)=>review.match(new RegExp('<(?:\\w+:)?c\\b[^>]*r="'+ref+'"[^>]*>([^]*?)<\\/(?:\\w+:)?c>','u'))?.[1].match(/<(?:\w+:)?v>([^<]*)<\/(?:\w+:)?v>/u)?.[1];
   assert.equal(cached('B'+manifest.totalRow),({products:'1',stock:'3',suppliers:'150.5',customers:'40.25',cheques:'10',drawer:'25.5'} as const)[kind]);
   if(kind==='stock'){assert.equal(cached('E'+(manifest.totalRow+4)),'32');assert.equal(cached('G'+(manifest.totalRow+4)),'32');assert.match(review,/\*[^<]*\+/u);}
-  if(kind==='products')assert.equal(cached('B'+(manifest.totalRow+3)),'1.5');
+  if(kind==='products'){assert.equal(cached('B22'),'4.8');assert.equal(cached('B23'),'0.25');}
  }
 });
 
@@ -103,4 +106,12 @@ test('print documents are standalone A4 RTL and cover cutover,emergencies and ge
  assert.equal((read('ورقة-يوم-التشغيل.html').match(/<article class="print-page">/gu)??[]).length,2);
  assert.doesNotMatch(card,/```|--owner-id|--project-ref|functions deploy|db reset|PGPASSWORD/u,'Sensitive commands stay in referenced runbooks');
  const order=['حفظ إعدادات المتجر','إيقاف استقبال طلبات','دمج #58 المجهّز','حظر المعاينات وكل hash URLs فعلياً','إثبات وقت آخر كتابة','النسخة الفاصلة','4أ. أثناء التجميد','RESET219: dry-run','8أ. Auth','8ب. Edge Secrets','واتساب الرسمي','كلمة المالك «انشر»','8هـ. بعد النشر','إدخال الحقيقي','قبول وتوقيع','بداية حقيقية','Telegram: اختبار','Push:','تفعيل الفحص','15. بعد القبول والتوقيع','16. فتح ordersEnabled','17. أول بيع'];let previous=-1;for(const s of order){const at=card.indexOf(s);assert.ok(at>previous,s);previous=at;}
+});
+
+// This evidence is deliberately distinct from the frozen214 edition above.
+test('current219 workbook includes flavors,derived packet price,optional stock and safe native identity cells',async()=>{
+ const bytes=readFileSync(templates+files.products),decoded=await readProductWorkbook(bytes),plan=prepareProductWorkbook(decoded.products,decoded.flavors);
+ assert.deepEqual(decoded.flavors[0],FLAVOR_WORKBOOK_COLUMNS.map(c=>c.header));assert.deepEqual(plan.errors,[]);assert.deepEqual(decoded.identifierWarnings,[]);
+ assert.equal(plan.products.length,1);assert.equal(plan.products[0].flavors.length,1);assert.equal(plan.products[0].flavors[0].barcode,'0000000000001');assert.equal(plan.products[0].flavors[0].sku,'CHO-001-ليمون');assert.equal(plan.missingStock,1);
+ assert.equal(evidence.productWorkbookRevision219.xlsxSha256,digest(bytes));assert.equal(evidence.productWorkbookRevision219.supersedes214Template,true);
 });

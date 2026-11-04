@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-04T04:03:43.138Z",
+  "startedAt": "2026-11-04T19:01:03.860Z",
   "migrationCeiling": 219,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-skCpRk",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-aEHH3Z",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -315,7 +315,7 @@
     },
     {
       "file": "src/features/goLive/GoLiveSetupView.tsx",
-      "sha256": "29f03982bc2a3389fa54bee5a0dde3061a65fecf3273e1e5043e7b1d8589a322"
+      "sha256": "75274fb109b823f10ad3b35dbccb717c71848d701bcfa5f0c05da43288abefd3"
     },
     {
       "file": "src/features/goLive/OpeningChequesCard.tsx",
@@ -324,6 +324,22 @@
     {
       "file": "src/features/goLive/openingChequesImport.ts",
       "sha256": "23b30c943f2ab9099041a975f4c3f804f61b8f3ab989db907a29ff9146f18fc6"
+    },
+    {
+      "file": "src/features/goLive/productImportAttempt.ts",
+      "sha256": "80e1152f89cd6428f62481acde89bcd2f392c13b27815e8471b23780c2afdc6b"
+    },
+    {
+      "file": "src/features/goLive/productWorkbook.ts",
+      "sha256": "16246aef0e0c160940bf2dc56664c978b3f697bdb7563766482e4e58b1429abb"
+    },
+    {
+      "file": "src/features/goLive/ProductWorkbookImportPanel.tsx",
+      "sha256": "092f6f2c773e1f2c5194d3b3afc015d4b93f9951770c0dfef9f3e46cae7af9bb"
+    },
+    {
+      "file": "src/features/goLive/productWorkbookReference.ts",
+      "sha256": "b19d3d44006a5113e68de54b253eeb9e6147929364fb45e04da1b0ef58a696a7"
     },
     {
       "file": "src/features/inventory/ClearInventoryBalanceDialog.tsx",
@@ -510,6 +526,10 @@
       "sha256": "1bd4884af842faa3080bb6044b1e3e42f350e231bd27cd1fe81ca19148227a9d"
     },
     {
+      "file": "src/features/products/FamilyBarcodeRecovery.tsx",
+      "sha256": "92b253887689bae86d9dd46a41a5c713aa0575a6226147efe7d01d38a4fefb62"
+    },
+    {
       "file": "src/features/products/ProductCostCorrectionPanel.tsx",
       "sha256": "e0acc44140c6bdaaf049b6c869213fa8804f6d4139d94c027ccbe5f506490a71"
     },
@@ -523,7 +543,7 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "sha256": "b1a6b8ec877657cd4dd4eb909e7633508554679f7a67a74f0fc14d2087c9f978"
+      "sha256": "2b54d086549e7b9d6f32d68fe2e524cc7820f94fd9a61f54b4a688a20fb53b7b"
     },
     {
       "file": "src/features/products/ProductFormParcelCapability.tsx",
@@ -703,7 +723,7 @@
     },
     {
       "file": "src/lib/xlsx.ts",
-      "sha256": "056a699ee071879c2b93e419cb0af623f871897a916e22e7f9b9e7ffced83ff1"
+      "sha256": "6cdbaa22775a973cac568b43d065a5ec15eefdcf96ccc13b31d00f0defd96ea3"
     },
     {
       "file": "src/main.tsx",
@@ -874,8 +894,16 @@
       "sha256": "a3c8a985bd5eb1707d56899c0463de22dfbf50a56c917414f091e35bbca3f3e4"
     },
     {
+      "file": "src/services/supabase/productFamilyBarcodes.service.ts",
+      "sha256": "66baf5fba864f091b7d25c1c8998b2c6b6cb0d724b8a890de7ba6824d9709d7b"
+    },
+    {
       "file": "src/services/supabase/products.service.ts",
       "sha256": "5104aca3528ea7fe18ce813f19945543a2c616b257694a234549b79bc9b3b5ec"
+    },
+    {
+      "file": "src/services/supabase/productWorkbook.service.ts",
+      "sha256": "8ae6b16987558f8732c2ce85758b4f5d8386122e2ca8492405d8fe076107398e"
     },
     {
       "file": "src/services/supabase/promotions.service.ts",
@@ -21599,6 +21627,57 @@
       "command": "SELECT public.\"correct_product_cost_v1\"(NULL::uuid,0::numeric,NULL::text,'isolated-service-audit-0000000000000000000001')"
     },
     {
+      "site": "src/services/supabase/productFamilyBarcodes.service.ts:23",
+      "name": "update_product_flavor_v2",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "update_product_flavor_v2(uuid,timestamp with time zone,text,text,text,boolean)",
+      "args": [
+        "NULL::uuid",
+        "CURRENT_TIMESTAMP",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "false"
+      ],
+      "command": "SELECT public.\"update_product_flavor_v2\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,false)"
+    },
+    {
+      "site": "src/services/supabase/productFamilyBarcodes.service.ts:23",
+      "name": "update_product_flavor_v2",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "update_product_flavor_v2(uuid,timestamp with time zone,text,text,text,boolean)",
+      "args": [
+        "NULL::uuid",
+        "CURRENT_TIMESTAMP",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "false"
+      ],
+      "command": "SELECT public.\"update_product_flavor_v2\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,false)"
+    },
+    {
+      "site": "src/services/supabase/productFamilyBarcodes.service.ts:23",
+      "name": "update_product_flavor_v2",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "update_product_flavor_v2(uuid,timestamp with time zone,text,text,text,boolean)",
+      "args": [
+        "NULL::uuid",
+        "CURRENT_TIMESTAMP",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "false"
+      ],
+      "command": "SELECT public.\"update_product_flavor_v2\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,false)"
+    },
+    {
       "site": "src/services/supabase/products.service.ts:387",
       "name": "get_admin_product_page",
       "role": "authenticated",
@@ -22170,6 +22249,237 @@
         "false"
       ],
       "command": "SELECT public.\"update_product_master_v5\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,false,NULL::text,false)"
+    },
+    {
+      "site": "src/services/supabase/productWorkbook.service.ts:44",
+      "name": "update_product_master_v5",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "update_product_master_v5(uuid,timestamp with time zone,text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,boolean,text,boolean)",
+      "args": [
+        "NULL::uuid",
+        "CURRENT_TIMESTAMP",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::uuid",
+        "NULL::uuid",
+        "NULL::uuid",
+        "NULL::uuid",
+        "0::integer",
+        "0::bigint",
+        "NULL::uuid",
+        "0::integer",
+        "0::bigint",
+        "0::bigint",
+        "0::integer",
+        "0::integer",
+        "false",
+        "NULL::text",
+        "false"
+      ],
+      "command": "SELECT public.\"update_product_master_v5\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,false,NULL::text,false)"
+    },
+    {
+      "site": "src/services/supabase/productWorkbook.service.ts:44",
+      "name": "update_product_master_v5",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "update_product_master_v5(uuid,timestamp with time zone,text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,boolean,text,boolean)",
+      "args": [
+        "NULL::uuid",
+        "CURRENT_TIMESTAMP",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::uuid",
+        "NULL::uuid",
+        "NULL::uuid",
+        "NULL::uuid",
+        "0::integer",
+        "0::bigint",
+        "NULL::uuid",
+        "0::integer",
+        "0::bigint",
+        "0::bigint",
+        "0::integer",
+        "0::integer",
+        "false",
+        "NULL::text",
+        "false"
+      ],
+      "command": "SELECT public.\"update_product_master_v5\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,false,NULL::text,false)"
+    },
+    {
+      "site": "src/services/supabase/productWorkbook.service.ts:44",
+      "name": "update_product_master_v5",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "update_product_master_v5(uuid,timestamp with time zone,text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,boolean,text,boolean)",
+      "args": [
+        "NULL::uuid",
+        "CURRENT_TIMESTAMP",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::uuid",
+        "NULL::uuid",
+        "NULL::uuid",
+        "NULL::uuid",
+        "0::integer",
+        "0::bigint",
+        "NULL::uuid",
+        "0::integer",
+        "0::bigint",
+        "0::bigint",
+        "0::integer",
+        "0::integer",
+        "false",
+        "NULL::text",
+        "false"
+      ],
+      "command": "SELECT public.\"update_product_master_v5\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,false,NULL::text,false)"
+    },
+    {
+      "site": "src/services/supabase/productWorkbook.service.ts:75",
+      "name": "create_product_family_with_flavors_v2",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "create_product_family_with_flavors_v2(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,text,jsonb,boolean)",
+      "args": [
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::uuid",
+        "NULL::uuid",
+        "NULL::uuid",
+        "NULL::uuid",
+        "0::integer",
+        "0::bigint",
+        "NULL::uuid",
+        "0::integer",
+        "0::bigint",
+        "0::bigint",
+        "0::integer",
+        "0::integer",
+        "'92600000-0000-4000-8000-000000000201'::uuid",
+        "NULL::text",
+        "'{}'::jsonb",
+        "false"
+      ],
+      "command": "SELECT public.\"create_product_family_with_flavors_v2\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text,'{}'::jsonb,false)"
+    },
+    {
+      "site": "src/services/supabase/productWorkbook.service.ts:75",
+      "name": "create_product_family_with_flavors_v2",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "create_product_family_with_flavors_v2(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,text,jsonb,boolean)",
+      "args": [
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::uuid",
+        "NULL::uuid",
+        "NULL::uuid",
+        "NULL::uuid",
+        "0::integer",
+        "0::bigint",
+        "NULL::uuid",
+        "0::integer",
+        "0::bigint",
+        "0::bigint",
+        "0::integer",
+        "0::integer",
+        "'92600000-0000-4000-8000-000000000201'::uuid",
+        "NULL::text",
+        "'{}'::jsonb",
+        "false"
+      ],
+      "command": "SELECT public.\"create_product_family_with_flavors_v2\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text,'{}'::jsonb,false)"
+    },
+    {
+      "site": "src/services/supabase/productWorkbook.service.ts:75",
+      "name": "create_product_family_with_flavors_v2",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "create_product_family_with_flavors_v2(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,text,jsonb,boolean)",
+      "args": [
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::uuid",
+        "NULL::uuid",
+        "NULL::uuid",
+        "NULL::uuid",
+        "0::integer",
+        "0::bigint",
+        "NULL::uuid",
+        "0::integer",
+        "0::bigint",
+        "0::bigint",
+        "0::integer",
+        "0::integer",
+        "'92600000-0000-4000-8000-000000000201'::uuid",
+        "NULL::text",
+        "'{}'::jsonb",
+        "false"
+      ],
+      "command": "SELECT public.\"create_product_family_with_flavors_v2\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text,'{}'::jsonb,false)"
+    },
+    {
+      "site": "src/services/supabase/productWorkbook.service.ts:76",
+      "name": "import_go_live_products_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "import_go_live_products_v1(text,jsonb,boolean)",
+      "args": [
+        "'isolated-service-audit-0000000000000000000001'",
+        "'{}'::jsonb",
+        "false"
+      ],
+      "command": "SELECT public.\"import_go_live_products_v1\"('isolated-service-audit-0000000000000000000001','{}'::jsonb,false)"
+    },
+    {
+      "site": "src/services/supabase/productWorkbook.service.ts:76",
+      "name": "import_go_live_products_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "import_go_live_products_v1(text,jsonb,boolean)",
+      "args": [
+        "'isolated-service-audit-0000000000000000000001'",
+        "'{}'::jsonb",
+        "false"
+      ],
+      "command": "SELECT public.\"import_go_live_products_v1\"('isolated-service-audit-0000000000000000000001','{}'::jsonb,false)"
+    },
+    {
+      "site": "src/services/supabase/productWorkbook.service.ts:76",
+      "name": "import_go_live_products_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "import_go_live_products_v1(text,jsonb,boolean)",
+      "args": [
+        "'isolated-service-audit-0000000000000000000001'",
+        "'{}'::jsonb",
+        "false"
+      ],
+      "command": "SELECT public.\"import_go_live_products_v1\"('isolated-service-audit-0000000000000000000001','{}'::jsonb,false)"
     },
     {
       "site": "src/services/supabase/promotions.service.ts:80",
@@ -31822,53 +32132,74 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/products.service.ts:387",
-      "name": "get_admin_product_page",
+      "site": "src/services/supabase/productFamilyBarcodes.service.ts:23",
+      "name": "update_product_flavor_v2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
       "appRole": "owner",
-      "identity": "get_admin_product_page(integer,integer,text,uuid,text,text)",
+      "identity": "update_product_flavor_v2(uuid,timestamp with time zone,text,text,text,boolean)",
       "args": [
-        "1::integer",
-        "25::integer",
-        "NULL::text",
         "NULL::uuid",
+        "CURRENT_TIMESTAMP",
         "NULL::text",
-        "NULL::text"
+        "NULL::text",
+        "NULL::text",
+        "false"
       ],
-      "command": "SELECT public.\"get_admin_product_page\"(1::integer,25::integer,NULL::text,NULL::uuid,NULL::text,NULL::text)",
+      "command": "SELECT public.\"update_product_flavor_v2\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,false)",
       "probe": 357,
-      "message": "success rolled back",
-      "outcome": "success_rolled_back",
-      "sqlstate": null
+      "message": "PHASE2_PRODUCT_LOCK_SET_EMPTY: مجموعة منتجات الاستلام فارغة.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "22023"
     },
     {
-      "site": "src/services/supabase/products.service.ts:387",
-      "name": "get_admin_product_page",
+      "site": "src/services/supabase/productFamilyBarcodes.service.ts:23",
+      "name": "update_product_flavor_v2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
       "appRole": "admin",
-      "identity": "get_admin_product_page(integer,integer,text,uuid,text,text)",
+      "identity": "update_product_flavor_v2(uuid,timestamp with time zone,text,text,text,boolean)",
       "args": [
-        "1::integer",
-        "25::integer",
-        "NULL::text",
         "NULL::uuid",
+        "CURRENT_TIMESTAMP",
         "NULL::text",
-        "NULL::text"
+        "NULL::text",
+        "NULL::text",
+        "false"
       ],
-      "command": "SELECT public.\"get_admin_product_page\"(1::integer,25::integer,NULL::text,NULL::uuid,NULL::text,NULL::text)",
+      "command": "SELECT public.\"update_product_flavor_v2\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,false)",
       "probe": 358,
-      "message": "success rolled back",
-      "outcome": "success_rolled_back",
-      "sqlstate": null
+      "message": "PHASE2_PRODUCT_LOCK_SET_EMPTY: مجموعة منتجات الاستلام فارغة.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "22023"
+    },
+    {
+      "site": "src/services/supabase/productFamilyBarcodes.service.ts:23",
+      "name": "update_product_flavor_v2",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "update_product_flavor_v2(uuid,timestamp with time zone,text,text,text,boolean)",
+      "args": [
+        "NULL::uuid",
+        "CURRENT_TIMESTAMP",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "false"
+      ],
+      "command": "SELECT public.\"update_product_flavor_v2\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,false)",
+      "probe": 359,
+      "message": "ليس لديك صلاحية تعديل نكهة المنتج.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
     },
     {
       "site": "src/services/supabase/products.service.ts:387",
       "name": "get_admin_product_page",
       "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000003",
-      "appRole": "cashier",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
       "identity": "get_admin_product_page(integer,integer,text,uuid,text,text)",
       "args": [
         "1::integer",
@@ -31879,73 +32210,55 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"get_admin_product_page\"(1::integer,25::integer,NULL::text,NULL::uuid,NULL::text,NULL::text)",
-      "probe": 359,
-      "message": "success rolled back",
-      "outcome": "success_rolled_back",
-      "sqlstate": null
-    },
-    {
-      "site": "src/services/supabase/products.service.ts:428",
-      "name": "search_admin_products",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000001",
-      "appRole": "owner",
-      "identity": "search_admin_products(text,integer,uuid,text,uuid)",
-      "args": [
-        "NULL::text",
-        "25::integer",
-        "NULL::uuid",
-        "NULL::text",
-        "NULL::uuid"
-      ],
-      "command": "SELECT public.\"search_admin_products\"(NULL::text,25::integer,NULL::uuid,NULL::text,NULL::uuid)",
       "probe": 360,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/products.service.ts:428",
-      "name": "search_admin_products",
+      "site": "src/services/supabase/products.service.ts:387",
+      "name": "get_admin_product_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
       "appRole": "admin",
-      "identity": "search_admin_products(text,integer,uuid,text,uuid)",
+      "identity": "get_admin_product_page(integer,integer,text,uuid,text,text)",
       "args": [
-        "NULL::text",
+        "1::integer",
         "25::integer",
+        "NULL::text",
         "NULL::uuid",
         "NULL::text",
-        "NULL::uuid"
+        "NULL::text"
       ],
-      "command": "SELECT public.\"search_admin_products\"(NULL::text,25::integer,NULL::uuid,NULL::text,NULL::uuid)",
+      "command": "SELECT public.\"get_admin_product_page\"(1::integer,25::integer,NULL::text,NULL::uuid,NULL::text,NULL::text)",
       "probe": 361,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/products.service.ts:428",
-      "name": "search_admin_products",
+      "site": "src/services/supabase/products.service.ts:387",
+      "name": "get_admin_product_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
       "appRole": "cashier",
-      "identity": "search_admin_products(text,integer,uuid,text,uuid)",
+      "identity": "get_admin_product_page(integer,integer,text,uuid,text,text)",
       "args": [
-        "NULL::text",
+        "1::integer",
         "25::integer",
+        "NULL::text",
         "NULL::uuid",
         "NULL::text",
-        "NULL::uuid"
+        "NULL::text"
       ],
-      "command": "SELECT public.\"search_admin_products\"(NULL::text,25::integer,NULL::uuid,NULL::text,NULL::uuid)",
+      "command": "SELECT public.\"get_admin_product_page\"(1::integer,25::integer,NULL::text,NULL::uuid,NULL::text,NULL::text)",
       "probe": 362,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/products.service.ts:484",
+      "site": "src/services/supabase/products.service.ts:428",
       "name": "search_admin_products",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -31965,7 +32278,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/products.service.ts:484",
+      "site": "src/services/supabase/products.service.ts:428",
       "name": "search_admin_products",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -31985,7 +32298,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/products.service.ts:484",
+      "site": "src/services/supabase/products.service.ts:428",
       "name": "search_admin_products",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -32000,6 +32313,66 @@
       ],
       "command": "SELECT public.\"search_admin_products\"(NULL::text,25::integer,NULL::uuid,NULL::text,NULL::uuid)",
       "probe": 365,
+      "message": "success rolled back",
+      "outcome": "success_rolled_back",
+      "sqlstate": null
+    },
+    {
+      "site": "src/services/supabase/products.service.ts:484",
+      "name": "search_admin_products",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "search_admin_products(text,integer,uuid,text,uuid)",
+      "args": [
+        "NULL::text",
+        "25::integer",
+        "NULL::uuid",
+        "NULL::text",
+        "NULL::uuid"
+      ],
+      "command": "SELECT public.\"search_admin_products\"(NULL::text,25::integer,NULL::uuid,NULL::text,NULL::uuid)",
+      "probe": 366,
+      "message": "success rolled back",
+      "outcome": "success_rolled_back",
+      "sqlstate": null
+    },
+    {
+      "site": "src/services/supabase/products.service.ts:484",
+      "name": "search_admin_products",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "search_admin_products(text,integer,uuid,text,uuid)",
+      "args": [
+        "NULL::text",
+        "25::integer",
+        "NULL::uuid",
+        "NULL::text",
+        "NULL::uuid"
+      ],
+      "command": "SELECT public.\"search_admin_products\"(NULL::text,25::integer,NULL::uuid,NULL::text,NULL::uuid)",
+      "probe": 367,
+      "message": "success rolled back",
+      "outcome": "success_rolled_back",
+      "sqlstate": null
+    },
+    {
+      "site": "src/services/supabase/products.service.ts:484",
+      "name": "search_admin_products",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "search_admin_products(text,integer,uuid,text,uuid)",
+      "args": [
+        "NULL::text",
+        "25::integer",
+        "NULL::uuid",
+        "NULL::text",
+        "NULL::uuid"
+      ],
+      "command": "SELECT public.\"search_admin_products\"(NULL::text,25::integer,NULL::uuid,NULL::text,NULL::uuid)",
+      "probe": 368,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -32035,7 +32408,7 @@
         "false"
       ],
       "command": "SELECT public.\"create_product_with_opening_stock_v5\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,1::integer,NULL::text,NULL::text,false)",
-      "probe": 366,
+      "probe": 369,
       "message": "لا يُضاف مخزون أثناء إنشاء المنتج؛ استخدم الاستلام أو تهيئة المخزون الموثقة.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32071,7 +32444,7 @@
         "false"
       ],
       "command": "SELECT public.\"create_product_with_opening_stock_v5\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,1::integer,NULL::text,NULL::text,false)",
-      "probe": 367,
+      "probe": 370,
       "message": "لا يُضاف مخزون أثناء إنشاء المنتج؛ استخدم الاستلام أو تهيئة المخزون الموثقة.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32107,7 +32480,7 @@
         "false"
       ],
       "command": "SELECT public.\"create_product_with_opening_stock_v5\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,1::integer,NULL::text,NULL::text,false)",
-      "probe": 368,
+      "probe": 371,
       "message": "ليس لديك صلاحية تعريف منتج وطرق بيعه.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32128,7 +32501,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"create_product_flavor_v1\"(NULL::uuid,NULL::text,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text,NULL::text)",
-      "probe": 369,
+      "probe": 372,
       "message": "اكتب اسم النكهة.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32149,7 +32522,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"create_product_flavor_v1\"(NULL::uuid,NULL::text,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text,NULL::text)",
-      "probe": 370,
+      "probe": 373,
       "message": "اكتب اسم النكهة.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32170,7 +32543,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"create_product_flavor_v1\"(NULL::uuid,NULL::text,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text,NULL::text)",
-      "probe": 371,
+      "probe": 374,
       "message": "ليس لديك صلاحية إضافة نكهة للمنتج.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32205,7 +32578,7 @@
         "false"
       ],
       "command": "SELECT public.\"create_product_family_with_flavors_v2\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text,'{}'::jsonb,false)",
-      "probe": 372,
+      "probe": 375,
       "message": "قائمة النكهات غير صالحة.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32240,7 +32613,7 @@
         "false"
       ],
       "command": "SELECT public.\"create_product_family_with_flavors_v2\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text,'{}'::jsonb,false)",
-      "probe": 373,
+      "probe": 376,
       "message": "قائمة النكهات غير صالحة.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32275,7 +32648,7 @@
         "false"
       ],
       "command": "SELECT public.\"create_product_family_with_flavors_v2\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text,'{}'::jsonb,false)",
-      "probe": 374,
+      "probe": 377,
       "message": "ليس لديك صلاحية تعريف منتج وطرق بيعه.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32296,7 +32669,7 @@
         "false"
       ],
       "command": "SELECT public.\"update_product_flavor_v2\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,false)",
-      "probe": 375,
+      "probe": 378,
       "message": "PHASE2_PRODUCT_LOCK_SET_EMPTY: مجموعة منتجات الاستلام فارغة.",
       "outcome": "body_validation_or_error",
       "sqlstate": "22023"
@@ -32317,7 +32690,7 @@
         "false"
       ],
       "command": "SELECT public.\"update_product_flavor_v2\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,false)",
-      "probe": 376,
+      "probe": 379,
       "message": "PHASE2_PRODUCT_LOCK_SET_EMPTY: مجموعة منتجات الاستلام فارغة.",
       "outcome": "body_validation_or_error",
       "sqlstate": "22023"
@@ -32338,7 +32711,7 @@
         "false"
       ],
       "command": "SELECT public.\"update_product_flavor_v2\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,false)",
-      "probe": 377,
+      "probe": 380,
       "message": "ليس لديك صلاحية تعديل نكهة المنتج.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32355,7 +32728,7 @@
         "ARRAY[]::uuid[]"
       ],
       "command": "SELECT public.\"reorder_product_flavors_v1\"(NULL::uuid,ARRAY[]::uuid[])",
-      "probe": 378,
+      "probe": 381,
       "message": "المنتج الأساسي غير موجود.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32372,7 +32745,7 @@
         "ARRAY[]::uuid[]"
       ],
       "command": "SELECT public.\"reorder_product_flavors_v1\"(NULL::uuid,ARRAY[]::uuid[])",
-      "probe": 379,
+      "probe": 382,
       "message": "المنتج الأساسي غير موجود.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32389,7 +32762,7 @@
         "ARRAY[]::uuid[]"
       ],
       "command": "SELECT public.\"reorder_product_flavors_v1\"(NULL::uuid,ARRAY[]::uuid[])",
-      "probe": 380,
+      "probe": 383,
       "message": "ليس لديك صلاحية ترتيب نكهات المنتج.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32425,7 +32798,7 @@
         "false"
       ],
       "command": "SELECT public.\"update_product_master_v5\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,false,NULL::text,false)",
-      "probe": 381,
+      "probe": 384,
       "message": "PHASE2_PRODUCT_LOCK_SET_EMPTY: مجموعة منتجات الاستلام فارغة.",
       "outcome": "body_validation_or_error",
       "sqlstate": "22023"
@@ -32461,7 +32834,7 @@
         "false"
       ],
       "command": "SELECT public.\"update_product_master_v5\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,false,NULL::text,false)",
-      "probe": 382,
+      "probe": 385,
       "message": "PHASE2_PRODUCT_LOCK_SET_EMPTY: مجموعة منتجات الاستلام فارغة.",
       "outcome": "body_validation_or_error",
       "sqlstate": "22023"
@@ -32497,8 +32870,275 @@
         "false"
       ],
       "command": "SELECT public.\"update_product_master_v5\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,false,NULL::text,false)",
-      "probe": 383,
+      "probe": 386,
       "message": "ليس لديك صلاحية تعديل منتج وطرق بيعه.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/productWorkbook.service.ts:44",
+      "name": "update_product_master_v5",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "update_product_master_v5(uuid,timestamp with time zone,text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,boolean,text,boolean)",
+      "args": [
+        "NULL::uuid",
+        "CURRENT_TIMESTAMP",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::uuid",
+        "NULL::uuid",
+        "NULL::uuid",
+        "NULL::uuid",
+        "0::integer",
+        "0::bigint",
+        "NULL::uuid",
+        "0::integer",
+        "0::bigint",
+        "0::bigint",
+        "0::integer",
+        "0::integer",
+        "false",
+        "NULL::text",
+        "false"
+      ],
+      "command": "SELECT public.\"update_product_master_v5\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,false,NULL::text,false)",
+      "probe": 387,
+      "message": "PHASE2_PRODUCT_LOCK_SET_EMPTY: مجموعة منتجات الاستلام فارغة.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "22023"
+    },
+    {
+      "site": "src/services/supabase/productWorkbook.service.ts:44",
+      "name": "update_product_master_v5",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "update_product_master_v5(uuid,timestamp with time zone,text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,boolean,text,boolean)",
+      "args": [
+        "NULL::uuid",
+        "CURRENT_TIMESTAMP",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::uuid",
+        "NULL::uuid",
+        "NULL::uuid",
+        "NULL::uuid",
+        "0::integer",
+        "0::bigint",
+        "NULL::uuid",
+        "0::integer",
+        "0::bigint",
+        "0::bigint",
+        "0::integer",
+        "0::integer",
+        "false",
+        "NULL::text",
+        "false"
+      ],
+      "command": "SELECT public.\"update_product_master_v5\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,false,NULL::text,false)",
+      "probe": 388,
+      "message": "PHASE2_PRODUCT_LOCK_SET_EMPTY: مجموعة منتجات الاستلام فارغة.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "22023"
+    },
+    {
+      "site": "src/services/supabase/productWorkbook.service.ts:44",
+      "name": "update_product_master_v5",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "update_product_master_v5(uuid,timestamp with time zone,text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,boolean,text,boolean)",
+      "args": [
+        "NULL::uuid",
+        "CURRENT_TIMESTAMP",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::uuid",
+        "NULL::uuid",
+        "NULL::uuid",
+        "NULL::uuid",
+        "0::integer",
+        "0::bigint",
+        "NULL::uuid",
+        "0::integer",
+        "0::bigint",
+        "0::bigint",
+        "0::integer",
+        "0::integer",
+        "false",
+        "NULL::text",
+        "false"
+      ],
+      "command": "SELECT public.\"update_product_master_v5\"(NULL::uuid,CURRENT_TIMESTAMP,NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,false,NULL::text,false)",
+      "probe": 389,
+      "message": "ليس لديك صلاحية تعديل منتج وطرق بيعه.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/productWorkbook.service.ts:75",
+      "name": "create_product_family_with_flavors_v2",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "create_product_family_with_flavors_v2(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,text,jsonb,boolean)",
+      "args": [
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::uuid",
+        "NULL::uuid",
+        "NULL::uuid",
+        "NULL::uuid",
+        "0::integer",
+        "0::bigint",
+        "NULL::uuid",
+        "0::integer",
+        "0::bigint",
+        "0::bigint",
+        "0::integer",
+        "0::integer",
+        "'92600000-0000-4000-8000-000000000201'::uuid",
+        "NULL::text",
+        "'{}'::jsonb",
+        "false"
+      ],
+      "command": "SELECT public.\"create_product_family_with_flavors_v2\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text,'{}'::jsonb,false)",
+      "probe": 390,
+      "message": "قائمة النكهات غير صالحة.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/productWorkbook.service.ts:75",
+      "name": "create_product_family_with_flavors_v2",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "create_product_family_with_flavors_v2(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,text,jsonb,boolean)",
+      "args": [
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::uuid",
+        "NULL::uuid",
+        "NULL::uuid",
+        "NULL::uuid",
+        "0::integer",
+        "0::bigint",
+        "NULL::uuid",
+        "0::integer",
+        "0::bigint",
+        "0::bigint",
+        "0::integer",
+        "0::integer",
+        "'92600000-0000-4000-8000-000000000201'::uuid",
+        "NULL::text",
+        "'{}'::jsonb",
+        "false"
+      ],
+      "command": "SELECT public.\"create_product_family_with_flavors_v2\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text,'{}'::jsonb,false)",
+      "probe": 391,
+      "message": "قائمة النكهات غير صالحة.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/productWorkbook.service.ts:75",
+      "name": "create_product_family_with_flavors_v2",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "create_product_family_with_flavors_v2(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,text,jsonb,boolean)",
+      "args": [
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::uuid",
+        "NULL::uuid",
+        "NULL::uuid",
+        "NULL::uuid",
+        "0::integer",
+        "0::bigint",
+        "NULL::uuid",
+        "0::integer",
+        "0::bigint",
+        "0::bigint",
+        "0::integer",
+        "0::integer",
+        "'92600000-0000-4000-8000-000000000201'::uuid",
+        "NULL::text",
+        "'{}'::jsonb",
+        "false"
+      ],
+      "command": "SELECT public.\"create_product_family_with_flavors_v2\"(NULL::text,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,NULL::uuid,NULL::uuid,0::integer,0::bigint,NULL::uuid,0::integer,0::bigint,0::bigint,0::integer,0::integer,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text,'{}'::jsonb,false)",
+      "probe": 392,
+      "message": "ليس لديك صلاحية تعريف منتج وطرق بيعه.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/productWorkbook.service.ts:76",
+      "name": "import_go_live_products_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "import_go_live_products_v1(text,jsonb,boolean)",
+      "args": [
+        "'isolated-service-audit-0000000000000000000001'",
+        "'{}'::jsonb",
+        "false"
+      ],
+      "command": "SELECT public.\"import_go_live_products_v1\"('isolated-service-audit-0000000000000000000001','{}'::jsonb,false)",
+      "probe": 393,
+      "message": "الدفعة يجب أن تحتوي من 1 إلى 500 سطر.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/productWorkbook.service.ts:76",
+      "name": "import_go_live_products_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "import_go_live_products_v1(text,jsonb,boolean)",
+      "args": [
+        "'isolated-service-audit-0000000000000000000001'",
+        "'{}'::jsonb",
+        "false"
+      ],
+      "command": "SELECT public.\"import_go_live_products_v1\"('isolated-service-audit-0000000000000000000001','{}'::jsonb,false)",
+      "probe": 394,
+      "message": "ليس لديك صلاحية استيراد منتجات بداية التشغيل.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/productWorkbook.service.ts:76",
+      "name": "import_go_live_products_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "import_go_live_products_v1(text,jsonb,boolean)",
+      "args": [
+        "'isolated-service-audit-0000000000000000000001'",
+        "'{}'::jsonb",
+        "false"
+      ],
+      "command": "SELECT public.\"import_go_live_products_v1\"('isolated-service-audit-0000000000000000000001','{}'::jsonb,false)",
+      "probe": 395,
+      "message": "ليس لديك صلاحية استيراد منتجات بداية التشغيل.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
     },
@@ -32511,7 +33151,7 @@
       "identity": "get_promotion_codes()",
       "args": [],
       "command": "SELECT public.\"get_promotion_codes\"()",
-      "probe": 384,
+      "probe": 396,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -32525,7 +33165,7 @@
       "identity": "get_promotion_codes()",
       "args": [],
       "command": "SELECT public.\"get_promotion_codes\"()",
-      "probe": 385,
+      "probe": 397,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -32539,7 +33179,7 @@
       "identity": "get_promotion_codes()",
       "args": [],
       "command": "SELECT public.\"get_promotion_codes\"()",
-      "probe": 386,
+      "probe": 398,
       "message": "ليس لديك صلاحية عرض رموز الخصم.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32567,7 +33207,7 @@
         "false"
       ],
       "command": "SELECT public.\"upsert_promotion_code\"(NULL::text,NULL::text,0::bigint,NULL::uuid,NULL::text,0::bigint,0::bigint,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,0::integer,0::integer,false,false)",
-      "probe": 387,
+      "probe": 399,
       "message": "رمز الخصم يجب أن يحتوي 3 إلى 32 حرفاً أو رقماً.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32595,7 +33235,7 @@
         "false"
       ],
       "command": "SELECT public.\"upsert_promotion_code\"(NULL::text,NULL::text,0::bigint,NULL::uuid,NULL::text,0::bigint,0::bigint,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,0::integer,0::integer,false,false)",
-      "probe": 388,
+      "probe": 400,
       "message": "رمز الخصم يجب أن يحتوي 3 إلى 32 حرفاً أو رقماً.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32623,7 +33263,7 @@
         "false"
       ],
       "command": "SELECT public.\"upsert_promotion_code\"(NULL::text,NULL::text,0::bigint,NULL::uuid,NULL::text,0::bigint,0::bigint,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,0::integer,0::integer,false,false)",
-      "probe": 389,
+      "probe": 401,
       "message": "ليس لديك صلاحية إدارة رموز الخصم.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32640,7 +33280,7 @@
         "false"
       ],
       "command": "SELECT public.\"set_promotion_code_active\"(NULL::uuid,false)",
-      "probe": 390,
+      "probe": 402,
       "message": "رمز الخصم المطلوب غير موجود.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32657,7 +33297,7 @@
         "false"
       ],
       "command": "SELECT public.\"set_promotion_code_active\"(NULL::uuid,false)",
-      "probe": 391,
+      "probe": 403,
       "message": "رمز الخصم المطلوب غير موجود.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32674,7 +33314,7 @@
         "false"
       ],
       "command": "SELECT public.\"set_promotion_code_active\"(NULL::uuid,false)",
-      "probe": 392,
+      "probe": 404,
       "message": "ليس لديك صلاحية تفعيل أو إيقاف رمز الخصم.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32699,7 +33339,7 @@
         "false"
       ],
       "command": "SELECT public.\"save_supplier\"(NULL::text,NULL::uuid,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,false)",
-      "probe": 393,
+      "probe": 405,
       "message": "اسم الشركة أو المورد مطلوب.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32724,7 +33364,7 @@
         "false"
       ],
       "command": "SELECT public.\"save_supplier\"(NULL::text,NULL::uuid,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,false)",
-      "probe": 394,
+      "probe": 406,
       "message": "اسم الشركة أو المورد مطلوب.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32749,7 +33389,7 @@
         "false"
       ],
       "command": "SELECT public.\"save_supplier\"(NULL::text,NULL::uuid,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,false)",
-      "probe": 395,
+      "probe": 407,
       "message": "ليس لديك صلاحية إدارة الموردين.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32774,7 +33414,7 @@
         "false"
       ],
       "command": "SELECT public.\"save_supplier\"(NULL::text,NULL::uuid,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,false)",
-      "probe": 396,
+      "probe": 408,
       "message": "اسم الشركة أو المورد مطلوب.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32799,7 +33439,7 @@
         "false"
       ],
       "command": "SELECT public.\"save_supplier\"(NULL::text,NULL::uuid,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,false)",
-      "probe": 397,
+      "probe": 409,
       "message": "اسم الشركة أو المورد مطلوب.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32824,7 +33464,7 @@
         "false"
       ],
       "command": "SELECT public.\"save_supplier\"(NULL::text,NULL::uuid,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,false)",
-      "probe": 398,
+      "probe": 410,
       "message": "ليس لديك صلاحية إدارة الموردين.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32841,7 +33481,7 @@
         "false"
       ],
       "command": "SELECT public.\"set_supplier_active\"(NULL::uuid,false)",
-      "probe": 399,
+      "probe": 411,
       "message": "المورد المحدد غير موجود.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32858,7 +33498,7 @@
         "false"
       ],
       "command": "SELECT public.\"set_supplier_active\"(NULL::uuid,false)",
-      "probe": 400,
+      "probe": 412,
       "message": "المورد المحدد غير موجود.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32875,7 +33515,7 @@
         "false"
       ],
       "command": "SELECT public.\"set_supplier_active\"(NULL::uuid,false)",
-      "probe": 401,
+      "probe": 413,
       "message": "ليس لديك صلاحية تغيير حالة المورد.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32897,7 +33537,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"get_purchase_orders_page\"(1::integer,25::integer,NULL::text,NULL::text,NULL::uuid,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text)",
-      "probe": 402,
+      "probe": 414,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -32919,7 +33559,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"get_purchase_orders_page\"(1::integer,25::integer,NULL::text,NULL::text,NULL::uuid,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text)",
-      "probe": 403,
+      "probe": 415,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -32941,7 +33581,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"get_purchase_orders_page\"(1::integer,25::integer,NULL::text,NULL::text,NULL::uuid,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text)",
-      "probe": 404,
+      "probe": 416,
       "message": "ليس لديك صلاحية عرض سجل أوامر الشراء.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32966,7 +33606,7 @@
         "'[]'::jsonb"
       ],
       "command": "SELECT public.\"create_purchase_order\"(NULL::uuid,'92600000-0000-4000-8000-000000000200'::uuid,'92600000-0000-4000-8000-000000000201'::uuid,CURRENT_TIMESTAMP,0::bigint,0::bigint,NULL::text,NULL::text,NULL::text,'[]'::jsonb)",
-      "probe": 405,
+      "probe": 417,
       "message": "المورد المحدد غير موجود أو غير مفعل.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32991,7 +33631,7 @@
         "'[]'::jsonb"
       ],
       "command": "SELECT public.\"create_purchase_order\"(NULL::uuid,'92600000-0000-4000-8000-000000000200'::uuid,'92600000-0000-4000-8000-000000000201'::uuid,CURRENT_TIMESTAMP,0::bigint,0::bigint,NULL::text,NULL::text,NULL::text,'[]'::jsonb)",
-      "probe": 406,
+      "probe": 418,
       "message": "المورد المحدد غير موجود أو غير مفعل.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33016,7 +33656,7 @@
         "'[]'::jsonb"
       ],
       "command": "SELECT public.\"create_purchase_order\"(NULL::uuid,'92600000-0000-4000-8000-000000000200'::uuid,'92600000-0000-4000-8000-000000000201'::uuid,CURRENT_TIMESTAMP,0::bigint,0::bigint,NULL::text,NULL::text,NULL::text,'[]'::jsonb)",
-      "probe": 407,
+      "probe": 419,
       "message": "ليس لديك صلاحية إنشاء أوامر الشراء.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33042,7 +33682,7 @@
         "'[]'::jsonb"
       ],
       "command": "SELECT public.\"update_purchase_order\"(NULL::uuid,NULL::uuid,'92600000-0000-4000-8000-000000000200'::uuid,'92600000-0000-4000-8000-000000000201'::uuid,CURRENT_TIMESTAMP,0::bigint,0::bigint,NULL::text,NULL::text,NULL::text,'[]'::jsonb)",
-      "probe": 408,
+      "probe": 420,
       "message": "أمر الشراء المحدد غير موجود.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33068,7 +33708,7 @@
         "'[]'::jsonb"
       ],
       "command": "SELECT public.\"update_purchase_order\"(NULL::uuid,NULL::uuid,'92600000-0000-4000-8000-000000000200'::uuid,'92600000-0000-4000-8000-000000000201'::uuid,CURRENT_TIMESTAMP,0::bigint,0::bigint,NULL::text,NULL::text,NULL::text,'[]'::jsonb)",
-      "probe": 409,
+      "probe": 421,
       "message": "أمر الشراء المحدد غير موجود.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33094,7 +33734,7 @@
         "'[]'::jsonb"
       ],
       "command": "SELECT public.\"update_purchase_order\"(NULL::uuid,NULL::uuid,'92600000-0000-4000-8000-000000000200'::uuid,'92600000-0000-4000-8000-000000000201'::uuid,CURRENT_TIMESTAMP,0::bigint,0::bigint,NULL::text,NULL::text,NULL::text,'[]'::jsonb)",
-      "probe": 410,
+      "probe": 422,
       "message": "ليس لديك صلاحية تعديل أوامر الشراء.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33110,7 +33750,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"delete_draft_purchase_order\"(NULL::uuid)",
-      "probe": 411,
+      "probe": 423,
       "message": "أمر الشراء المحدد غير موجود.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33126,7 +33766,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"delete_draft_purchase_order\"(NULL::uuid)",
-      "probe": 412,
+      "probe": 424,
       "message": "أمر الشراء المحدد غير موجود.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33142,7 +33782,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"delete_draft_purchase_order\"(NULL::uuid)",
-      "probe": 413,
+      "probe": 425,
       "message": "ليس لديك صلاحية حذف أوامر الشراء.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33160,7 +33800,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"update_purchase_order_status\"(NULL::uuid,NULL::text,NULL::text)",
-      "probe": 414,
+      "probe": 426,
       "message": "طلب الشراء المحدد غير موجود.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33178,7 +33818,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"update_purchase_order_status\"(NULL::uuid,NULL::text,NULL::text)",
-      "probe": 415,
+      "probe": 427,
       "message": "طلب الشراء المحدد غير موجود.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33196,7 +33836,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"update_purchase_order_status\"(NULL::uuid,NULL::text,NULL::text)",
-      "probe": 416,
+      "probe": 428,
       "message": "ليس لديك صلاحية تغيير حالة أمر الشراء.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33214,7 +33854,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"update_purchase_order_status\"(NULL::uuid,NULL::text,NULL::text)",
-      "probe": 417,
+      "probe": 429,
       "message": "طلب الشراء المحدد غير موجود.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33232,7 +33872,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"update_purchase_order_status\"(NULL::uuid,NULL::text,NULL::text)",
-      "probe": 418,
+      "probe": 430,
       "message": "طلب الشراء المحدد غير موجود.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33250,7 +33890,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"update_purchase_order_status\"(NULL::uuid,NULL::text,NULL::text)",
-      "probe": 419,
+      "probe": 431,
       "message": "ليس لديك صلاحية تغيير حالة أمر الشراء.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33280,7 +33920,7 @@
         "'[]'::jsonb"
       ],
       "command": "SELECT public.\"receive_purchase_order_v2\"(NULL::uuid,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text,CURRENT_DATE,CURRENT_TIMESTAMP,0::bigint,0::bigint,0::bigint,0::bigint,NULL::text,NULL::text,NULL::text,NULL::text,'isolated-service-audit-0000000000000000000001','[]'::jsonb)",
-      "probe": 420,
+      "probe": 432,
       "message": "PHASE2_PRODUCT_LOCK_SET_EMPTY: مجموعة منتجات الاستلام فارغة.",
       "outcome": "body_validation_or_error",
       "sqlstate": "22023"
@@ -33310,7 +33950,7 @@
         "'[]'::jsonb"
       ],
       "command": "SELECT public.\"receive_purchase_order_v2\"(NULL::uuid,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text,CURRENT_DATE,CURRENT_TIMESTAMP,0::bigint,0::bigint,0::bigint,0::bigint,NULL::text,NULL::text,NULL::text,NULL::text,'isolated-service-audit-0000000000000000000001','[]'::jsonb)",
-      "probe": 421,
+      "probe": 433,
       "message": "PHASE2_PRODUCT_LOCK_SET_EMPTY: مجموعة منتجات الاستلام فارغة.",
       "outcome": "body_validation_or_error",
       "sqlstate": "22023"
@@ -33340,7 +33980,7 @@
         "'[]'::jsonb"
       ],
       "command": "SELECT public.\"receive_purchase_order_v2\"(NULL::uuid,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text,CURRENT_DATE,CURRENT_TIMESTAMP,0::bigint,0::bigint,0::bigint,0::bigint,NULL::text,NULL::text,NULL::text,NULL::text,'isolated-service-audit-0000000000000000000001','[]'::jsonb)",
-      "probe": 422,
+      "probe": 434,
       "message": "ليس لديك صلاحية استلام أمر شراء - نموذج الطرود.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33357,7 +33997,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"cancel_purchase_order\"(NULL::uuid,NULL::text)",
-      "probe": 423,
+      "probe": 435,
       "message": "طلب الشراء المحدد غير موجود.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33374,7 +34014,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"cancel_purchase_order\"(NULL::uuid,NULL::text)",
-      "probe": 424,
+      "probe": 436,
       "message": "طلب الشراء المحدد غير موجود.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33391,7 +34031,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"cancel_purchase_order\"(NULL::uuid,NULL::text)",
-      "probe": 425,
+      "probe": 437,
       "message": "ليس لديك صلاحية تغيير حالة أمر الشراء.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33414,7 +34054,7 @@
         "'isolated-service-audit-0000000000000000000001'"
       ],
       "command": "SELECT public.\"record_supplier_payment\"(NULL::uuid,NULL::uuid,0::bigint,NULL::text,NULL::text,CURRENT_TIMESTAMP,NULL::text,'isolated-service-audit-0000000000000000000001')",
-      "probe": 426,
+      "probe": 438,
       "message": "SUPPLIER_PAYMENT_METHOD_REQUIRED: طريقة دفع المورد مطلوبة.",
       "outcome": "body_validation_or_error",
       "sqlstate": "22004"
@@ -33437,7 +34077,7 @@
         "'isolated-service-audit-0000000000000000000001'"
       ],
       "command": "SELECT public.\"record_supplier_payment\"(NULL::uuid,NULL::uuid,0::bigint,NULL::text,NULL::text,CURRENT_TIMESTAMP,NULL::text,'isolated-service-audit-0000000000000000000001')",
-      "probe": 427,
+      "probe": 439,
       "message": "SUPPLIER_PAYMENT_METHOD_REQUIRED: طريقة دفع المورد مطلوبة.",
       "outcome": "body_validation_or_error",
       "sqlstate": "22004"
@@ -33460,7 +34100,7 @@
         "'isolated-service-audit-0000000000000000000001'"
       ],
       "command": "SELECT public.\"record_supplier_payment\"(NULL::uuid,NULL::uuid,0::bigint,NULL::text,NULL::text,CURRENT_TIMESTAMP,NULL::text,'isolated-service-audit-0000000000000000000001')",
-      "probe": 428,
+      "probe": 440,
       "message": "ليس لديك صلاحية تسجيل دفعات الموردين.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33480,7 +34120,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"get_supplier_payments_page\"(1::integer,25::integer,NULL::text,NULL::uuid,NULL::text)",
-      "probe": 429,
+      "probe": 441,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -33500,7 +34140,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"get_supplier_payments_page\"(1::integer,25::integer,NULL::text,NULL::uuid,NULL::text)",
-      "probe": 430,
+      "probe": 442,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -33520,7 +34160,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"get_supplier_payments_page\"(1::integer,25::integer,NULL::text,NULL::uuid,NULL::text)",
-      "probe": 431,
+      "probe": 443,
       "message": "ليس لديك صلاحية عرض سندات صرف الموردين.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33536,7 +34176,7 @@
         "ARRAY[]::uuid[]"
       ],
       "command": "SELECT public.\"get_receiving_purchase_context\"(ARRAY[]::uuid[])",
-      "probe": 432,
+      "probe": 444,
       "message": "اختر من صنف واحد إلى100 صنف لقراءة آخر شراء.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33552,7 +34192,7 @@
         "ARRAY[]::uuid[]"
       ],
       "command": "SELECT public.\"get_receiving_purchase_context\"(ARRAY[]::uuid[])",
-      "probe": 433,
+      "probe": 445,
       "message": "اختر من صنف واحد إلى100 صنف لقراءة آخر شراء.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33568,7 +34208,7 @@
         "ARRAY[]::uuid[]"
       ],
       "command": "SELECT public.\"get_receiving_purchase_context\"(ARRAY[]::uuid[])",
-      "probe": 434,
+      "probe": 446,
       "message": "ليس لديك صلاحية عرض آخر أسعار شراء الأصناف.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33584,7 +34224,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"get_supplier_receipt_display_context\"(NULL::uuid)",
-      "probe": 435,
+      "probe": 447,
       "message": "اختر سند الاستلام.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33600,7 +34240,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"get_supplier_receipt_display_context\"(NULL::uuid)",
-      "probe": 436,
+      "probe": 448,
       "message": "اختر سند الاستلام.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33616,7 +34256,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"get_supplier_receipt_display_context\"(NULL::uuid)",
-      "probe": 437,
+      "probe": 449,
       "message": "ليس لديك صلاحية عرض أساس أسعار سند الاستلام.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33634,225 +34274,225 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"save_product_category\"(NULL::text,NULL::uuid,NULL::text)",
-      "probe": 438,
-      "message": "اسم القسم مطلوب.",
-      "outcome": "body_validation_or_error",
-      "sqlstate": "P0001"
-    },
-    {
-      "site": "src/services/supabase/reference-data.service.ts:107",
-      "name": "save_product_category",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000002",
-      "appRole": "admin",
-      "identity": "save_product_category(text,uuid,text)",
-      "args": [
-        "NULL::text",
-        "NULL::uuid",
-        "NULL::text"
-      ],
-      "command": "SELECT public.\"save_product_category\"(NULL::text,NULL::uuid,NULL::text)",
-      "probe": 439,
-      "message": "اسم القسم مطلوب.",
-      "outcome": "body_validation_or_error",
-      "sqlstate": "P0001"
-    },
-    {
-      "site": "src/services/supabase/reference-data.service.ts:107",
-      "name": "save_product_category",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000003",
-      "appRole": "cashier",
-      "identity": "save_product_category(text,uuid,text)",
-      "args": [
-        "NULL::text",
-        "NULL::uuid",
-        "NULL::text"
-      ],
-      "command": "SELECT public.\"save_product_category\"(NULL::text,NULL::uuid,NULL::text)",
-      "probe": 440,
-      "message": "ليس لديك صلاحية إدارة أقسام المنتجات.",
-      "outcome": "body_validation_or_error",
-      "sqlstate": "P0001"
-    },
-    {
-      "site": "src/services/supabase/reference-data.service.ts:107",
-      "name": "save_product_category",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000001",
-      "appRole": "owner",
-      "identity": "save_product_category(text,uuid,text,text)",
-      "args": [
-        "NULL::text",
-        "NULL::uuid",
-        "NULL::text",
-        "NULL::text"
-      ],
-      "command": "SELECT public.\"save_product_category\"(NULL::text,NULL::uuid,NULL::text,NULL::text)",
-      "probe": 441,
-      "message": "اسم القسم مطلوب.",
-      "outcome": "body_validation_or_error",
-      "sqlstate": "P0001"
-    },
-    {
-      "site": "src/services/supabase/reference-data.service.ts:107",
-      "name": "save_product_category",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000002",
-      "appRole": "admin",
-      "identity": "save_product_category(text,uuid,text,text)",
-      "args": [
-        "NULL::text",
-        "NULL::uuid",
-        "NULL::text",
-        "NULL::text"
-      ],
-      "command": "SELECT public.\"save_product_category\"(NULL::text,NULL::uuid,NULL::text,NULL::text)",
-      "probe": 442,
-      "message": "اسم القسم مطلوب.",
-      "outcome": "body_validation_or_error",
-      "sqlstate": "P0001"
-    },
-    {
-      "site": "src/services/supabase/reference-data.service.ts:107",
-      "name": "save_product_category",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000003",
-      "appRole": "cashier",
-      "identity": "save_product_category(text,uuid,text,text)",
-      "args": [
-        "NULL::text",
-        "NULL::uuid",
-        "NULL::text",
-        "NULL::text"
-      ],
-      "command": "SELECT public.\"save_product_category\"(NULL::text,NULL::uuid,NULL::text,NULL::text)",
-      "probe": 443,
-      "message": "ليس لديك صلاحية إدارة أقسام المنتجات.",
-      "outcome": "body_validation_or_error",
-      "sqlstate": "P0001"
-    },
-    {
-      "site": "src/services/supabase/reference-data.service.ts:145",
-      "name": "set_product_category_active",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000001",
-      "appRole": "owner",
-      "identity": "set_product_category_active(uuid,boolean)",
-      "args": [
-        "NULL::uuid",
-        "false"
-      ],
-      "command": "SELECT public.\"set_product_category_active\"(NULL::uuid,false)",
-      "probe": 444,
-      "message": "معرف القسم مطلوب.",
-      "outcome": "body_validation_or_error",
-      "sqlstate": "P0001"
-    },
-    {
-      "site": "src/services/supabase/reference-data.service.ts:145",
-      "name": "set_product_category_active",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000002",
-      "appRole": "admin",
-      "identity": "set_product_category_active(uuid,boolean)",
-      "args": [
-        "NULL::uuid",
-        "false"
-      ],
-      "command": "SELECT public.\"set_product_category_active\"(NULL::uuid,false)",
-      "probe": 445,
-      "message": "معرف القسم مطلوب.",
-      "outcome": "body_validation_or_error",
-      "sqlstate": "P0001"
-    },
-    {
-      "site": "src/services/supabase/reference-data.service.ts:145",
-      "name": "set_product_category_active",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000003",
-      "appRole": "cashier",
-      "identity": "set_product_category_active(uuid,boolean)",
-      "args": [
-        "NULL::uuid",
-        "false"
-      ],
-      "command": "SELECT public.\"set_product_category_active\"(NULL::uuid,false)",
-      "probe": 446,
-      "message": "ليس لديك صلاحية إدارة أقسام المنتجات.",
-      "outcome": "body_validation_or_error",
-      "sqlstate": "P0001"
-    },
-    {
-      "site": "src/services/supabase/reference-data.service.ts:240",
-      "name": "save_product_brand",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000001",
-      "appRole": "owner",
-      "identity": "save_product_brand(text,uuid,text,text)",
-      "args": [
-        "NULL::text",
-        "NULL::uuid",
-        "NULL::text",
-        "NULL::text"
-      ],
-      "command": "SELECT public.\"save_product_brand\"(NULL::text,NULL::uuid,NULL::text,NULL::text)",
-      "probe": 447,
-      "message": "اسم العلامة التجارية مطلوب.",
-      "outcome": "body_validation_or_error",
-      "sqlstate": "P0001"
-    },
-    {
-      "site": "src/services/supabase/reference-data.service.ts:240",
-      "name": "save_product_brand",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000002",
-      "appRole": "admin",
-      "identity": "save_product_brand(text,uuid,text,text)",
-      "args": [
-        "NULL::text",
-        "NULL::uuid",
-        "NULL::text",
-        "NULL::text"
-      ],
-      "command": "SELECT public.\"save_product_brand\"(NULL::text,NULL::uuid,NULL::text,NULL::text)",
-      "probe": 448,
-      "message": "اسم العلامة التجارية مطلوب.",
-      "outcome": "body_validation_or_error",
-      "sqlstate": "P0001"
-    },
-    {
-      "site": "src/services/supabase/reference-data.service.ts:240",
-      "name": "save_product_brand",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000003",
-      "appRole": "cashier",
-      "identity": "save_product_brand(text,uuid,text,text)",
-      "args": [
-        "NULL::text",
-        "NULL::uuid",
-        "NULL::text",
-        "NULL::text"
-      ],
-      "command": "SELECT public.\"save_product_brand\"(NULL::text,NULL::uuid,NULL::text,NULL::text)",
-      "probe": 449,
-      "message": "ليس لديك صلاحية إدارة العلامات التجارية.",
-      "outcome": "body_validation_or_error",
-      "sqlstate": "P0001"
-    },
-    {
-      "site": "src/services/supabase/reference-data.service.ts:273",
-      "name": "set_product_brand_active",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000001",
-      "appRole": "owner",
-      "identity": "set_product_brand_active(uuid,boolean)",
-      "args": [
-        "NULL::uuid",
-        "false"
-      ],
-      "command": "SELECT public.\"set_product_brand_active\"(NULL::uuid,false)",
       "probe": 450,
+      "message": "اسم القسم مطلوب.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/reference-data.service.ts:107",
+      "name": "save_product_category",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "save_product_category(text,uuid,text)",
+      "args": [
+        "NULL::text",
+        "NULL::uuid",
+        "NULL::text"
+      ],
+      "command": "SELECT public.\"save_product_category\"(NULL::text,NULL::uuid,NULL::text)",
+      "probe": 451,
+      "message": "اسم القسم مطلوب.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/reference-data.service.ts:107",
+      "name": "save_product_category",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "save_product_category(text,uuid,text)",
+      "args": [
+        "NULL::text",
+        "NULL::uuid",
+        "NULL::text"
+      ],
+      "command": "SELECT public.\"save_product_category\"(NULL::text,NULL::uuid,NULL::text)",
+      "probe": 452,
+      "message": "ليس لديك صلاحية إدارة أقسام المنتجات.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/reference-data.service.ts:107",
+      "name": "save_product_category",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "save_product_category(text,uuid,text,text)",
+      "args": [
+        "NULL::text",
+        "NULL::uuid",
+        "NULL::text",
+        "NULL::text"
+      ],
+      "command": "SELECT public.\"save_product_category\"(NULL::text,NULL::uuid,NULL::text,NULL::text)",
+      "probe": 453,
+      "message": "اسم القسم مطلوب.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/reference-data.service.ts:107",
+      "name": "save_product_category",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "save_product_category(text,uuid,text,text)",
+      "args": [
+        "NULL::text",
+        "NULL::uuid",
+        "NULL::text",
+        "NULL::text"
+      ],
+      "command": "SELECT public.\"save_product_category\"(NULL::text,NULL::uuid,NULL::text,NULL::text)",
+      "probe": 454,
+      "message": "اسم القسم مطلوب.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/reference-data.service.ts:107",
+      "name": "save_product_category",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "save_product_category(text,uuid,text,text)",
+      "args": [
+        "NULL::text",
+        "NULL::uuid",
+        "NULL::text",
+        "NULL::text"
+      ],
+      "command": "SELECT public.\"save_product_category\"(NULL::text,NULL::uuid,NULL::text,NULL::text)",
+      "probe": 455,
+      "message": "ليس لديك صلاحية إدارة أقسام المنتجات.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/reference-data.service.ts:145",
+      "name": "set_product_category_active",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "set_product_category_active(uuid,boolean)",
+      "args": [
+        "NULL::uuid",
+        "false"
+      ],
+      "command": "SELECT public.\"set_product_category_active\"(NULL::uuid,false)",
+      "probe": 456,
+      "message": "معرف القسم مطلوب.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/reference-data.service.ts:145",
+      "name": "set_product_category_active",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "set_product_category_active(uuid,boolean)",
+      "args": [
+        "NULL::uuid",
+        "false"
+      ],
+      "command": "SELECT public.\"set_product_category_active\"(NULL::uuid,false)",
+      "probe": 457,
+      "message": "معرف القسم مطلوب.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/reference-data.service.ts:145",
+      "name": "set_product_category_active",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "set_product_category_active(uuid,boolean)",
+      "args": [
+        "NULL::uuid",
+        "false"
+      ],
+      "command": "SELECT public.\"set_product_category_active\"(NULL::uuid,false)",
+      "probe": 458,
+      "message": "ليس لديك صلاحية إدارة أقسام المنتجات.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/reference-data.service.ts:240",
+      "name": "save_product_brand",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "save_product_brand(text,uuid,text,text)",
+      "args": [
+        "NULL::text",
+        "NULL::uuid",
+        "NULL::text",
+        "NULL::text"
+      ],
+      "command": "SELECT public.\"save_product_brand\"(NULL::text,NULL::uuid,NULL::text,NULL::text)",
+      "probe": 459,
+      "message": "اسم العلامة التجارية مطلوب.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/reference-data.service.ts:240",
+      "name": "save_product_brand",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "save_product_brand(text,uuid,text,text)",
+      "args": [
+        "NULL::text",
+        "NULL::uuid",
+        "NULL::text",
+        "NULL::text"
+      ],
+      "command": "SELECT public.\"save_product_brand\"(NULL::text,NULL::uuid,NULL::text,NULL::text)",
+      "probe": 460,
+      "message": "اسم العلامة التجارية مطلوب.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/reference-data.service.ts:240",
+      "name": "save_product_brand",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "save_product_brand(text,uuid,text,text)",
+      "args": [
+        "NULL::text",
+        "NULL::uuid",
+        "NULL::text",
+        "NULL::text"
+      ],
+      "command": "SELECT public.\"save_product_brand\"(NULL::text,NULL::uuid,NULL::text,NULL::text)",
+      "probe": 461,
+      "message": "ليس لديك صلاحية إدارة العلامات التجارية.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/reference-data.service.ts:273",
+      "name": "set_product_brand_active",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "set_product_brand_active(uuid,boolean)",
+      "args": [
+        "NULL::uuid",
+        "false"
+      ],
+      "command": "SELECT public.\"set_product_brand_active\"(NULL::uuid,false)",
+      "probe": 462,
       "message": "العلامة التجارية المحددة غير موجودة.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33869,7 +34509,7 @@
         "false"
       ],
       "command": "SELECT public.\"set_product_brand_active\"(NULL::uuid,false)",
-      "probe": 451,
+      "probe": 463,
       "message": "العلامة التجارية المحددة غير موجودة.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33886,7 +34526,7 @@
         "false"
       ],
       "command": "SELECT public.\"set_product_brand_active\"(NULL::uuid,false)",
-      "probe": 452,
+      "probe": 464,
       "message": "ليس لديك صلاحية إدارة العلامات التجارية.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33905,7 +34545,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"save_product_unit\"(NULL::text,NULL::text,0::integer,NULL::uuid)",
-      "probe": 453,
+      "probe": 465,
       "message": "اسم الوحدة مطلوب.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33924,7 +34564,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"save_product_unit\"(NULL::text,NULL::text,0::integer,NULL::uuid)",
-      "probe": 454,
+      "probe": 466,
       "message": "اسم الوحدة مطلوب.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33943,7 +34583,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"save_product_unit\"(NULL::text,NULL::text,0::integer,NULL::uuid)",
-      "probe": 455,
+      "probe": 467,
       "message": "ليس لديك صلاحية إدارة وحدات القياس والتعبئة.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33960,7 +34600,7 @@
         "false"
       ],
       "command": "SELECT public.\"set_product_unit_active\"(NULL::uuid,false)",
-      "probe": 456,
+      "probe": 468,
       "message": "وحدة القياس المحددة غير موجودة.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33977,7 +34617,7 @@
         "false"
       ],
       "command": "SELECT public.\"set_product_unit_active\"(NULL::uuid,false)",
-      "probe": 457,
+      "probe": 469,
       "message": "وحدة القياس المحددة غير موجودة.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33994,7 +34634,7 @@
         "false"
       ],
       "command": "SELECT public.\"set_product_unit_active\"(NULL::uuid,false)",
-      "probe": 458,
+      "probe": 470,
       "message": "ليس لديك صلاحية إدارة وحدات القياس والتعبئة.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -34012,7 +34652,7 @@
         "CURRENT_DATE"
       ],
       "command": "SELECT public.\"get_operational_business_report\"('92600000-0000-4000-8000-000000000200'::uuid,CURRENT_DATE,CURRENT_DATE)",
-      "probe": 459,
+      "probe": 471,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -34030,7 +34670,7 @@
         "CURRENT_DATE"
       ],
       "command": "SELECT public.\"get_operational_business_report\"('92600000-0000-4000-8000-000000000200'::uuid,CURRENT_DATE,CURRENT_DATE)",
-      "probe": 460,
+      "probe": 472,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -34048,7 +34688,7 @@
         "CURRENT_DATE"
       ],
       "command": "SELECT public.\"get_operational_business_report\"('92600000-0000-4000-8000-000000000200'::uuid,CURRENT_DATE,CURRENT_DATE)",
-      "probe": 461,
+      "probe": 473,
       "message": "ليس لديك صلاحية عرض التقارير المالية والتشغيلية.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -34064,7 +34704,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"get_admin_sales_aftercare_context_v1\"(NULL::uuid)",
-      "probe": 462,
+      "probe": 474,
       "message": "PHASE43_ORDER_NOT_FOUND: Order does not exist.",
       "outcome": "body_validation_or_error",
       "sqlstate": "23503"
@@ -34080,7 +34720,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"get_admin_sales_aftercare_context_v1\"(NULL::uuid)",
-      "probe": 463,
+      "probe": 475,
       "message": "PHASE43_ORDER_NOT_FOUND: Order does not exist.",
       "outcome": "body_validation_or_error",
       "sqlstate": "23503"
@@ -34096,7 +34736,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"get_admin_sales_aftercare_context_v1\"(NULL::uuid)",
-      "probe": 464,
+      "probe": 476,
       "message": "ليس لديك صلاحية قراءة سياق خدمات ما بعد البيع.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -34116,270 +34756,270 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"settle_sales_replacement_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,NULL::text,NULL::text)",
-      "probe": 465,
-      "message": "PHASE43_SALE_CONTRACT_UNSUPPORTED: يتطلب الإجراء بيعاً حديثاً موثقاً بالإصدار V2.",
-      "outcome": "body_validation_or_error",
-      "sqlstate": "P0001"
-    },
-    {
-      "site": "src/services/supabase/salesAftercare.service.ts:171",
-      "name": "settle_sales_replacement_v1",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000002",
-      "appRole": "admin",
-      "identity": "settle_sales_replacement_v1(uuid,text,jsonb,text,text)",
-      "args": [
-        "NULL::uuid",
-        "'isolated-service-audit-0000000000000000000001'",
-        "'[]'::jsonb",
-        "NULL::text",
-        "NULL::text"
-      ],
-      "command": "SELECT public.\"settle_sales_replacement_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,NULL::text,NULL::text)",
-      "probe": 466,
-      "message": "PHASE43_SALE_CONTRACT_UNSUPPORTED: يتطلب الإجراء بيعاً حديثاً موثقاً بالإصدار V2.",
-      "outcome": "body_validation_or_error",
-      "sqlstate": "P0001"
-    },
-    {
-      "site": "src/services/supabase/salesAftercare.service.ts:171",
-      "name": "settle_sales_replacement_v1",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000003",
-      "appRole": "cashier",
-      "identity": "settle_sales_replacement_v1(uuid,text,jsonb,text,text)",
-      "args": [
-        "NULL::uuid",
-        "'isolated-service-audit-0000000000000000000001'",
-        "'[]'::jsonb",
-        "NULL::text",
-        "NULL::text"
-      ],
-      "command": "SELECT public.\"settle_sales_replacement_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,NULL::text,NULL::text)",
-      "probe": 467,
-      "message": "ليس لديك صلاحية إصدار استبدال مبيعات.",
-      "outcome": "body_validation_or_error",
-      "sqlstate": "P0001"
-    },
-    {
-      "site": "src/services/supabase/salesAftercare.service.ts:209",
-      "name": "settle_admin_sales_return_v1",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000001",
-      "appRole": "owner",
-      "identity": "settle_admin_sales_return_v1(uuid,text,jsonb,jsonb,text,text,text,text)",
-      "args": [
-        "NULL::uuid",
-        "'isolated-service-audit-0000000000000000000001'",
-        "'[]'::jsonb",
-        "'{}'::jsonb",
-        "NULL::text",
-        "NULL::text",
-        "NULL::text",
-        "NULL::text"
-      ],
-      "command": "SELECT public.\"settle_admin_sales_return_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,'{}'::jsonb,NULL::text,NULL::text,NULL::text,NULL::text)",
-      "probe": 468,
-      "message": "PHASE43_RETURN_PHYSICAL_SOURCES_INVALID: Physical lineage allocations must be an array.",
-      "outcome": "body_validation_or_error",
-      "sqlstate": "22023"
-    },
-    {
-      "site": "src/services/supabase/salesAftercare.service.ts:209",
-      "name": "settle_admin_sales_return_v1",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000002",
-      "appRole": "admin",
-      "identity": "settle_admin_sales_return_v1(uuid,text,jsonb,jsonb,text,text,text,text)",
-      "args": [
-        "NULL::uuid",
-        "'isolated-service-audit-0000000000000000000001'",
-        "'[]'::jsonb",
-        "'{}'::jsonb",
-        "NULL::text",
-        "NULL::text",
-        "NULL::text",
-        "NULL::text"
-      ],
-      "command": "SELECT public.\"settle_admin_sales_return_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,'{}'::jsonb,NULL::text,NULL::text,NULL::text,NULL::text)",
-      "probe": 469,
-      "message": "PHASE43_RETURN_PHYSICAL_SOURCES_INVALID: Physical lineage allocations must be an array.",
-      "outcome": "body_validation_or_error",
-      "sqlstate": "22023"
-    },
-    {
-      "site": "src/services/supabase/salesAftercare.service.ts:209",
-      "name": "settle_admin_sales_return_v1",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000003",
-      "appRole": "cashier",
-      "identity": "settle_admin_sales_return_v1(uuid,text,jsonb,jsonb,text,text,text,text)",
-      "args": [
-        "NULL::uuid",
-        "'isolated-service-audit-0000000000000000000001'",
-        "'[]'::jsonb",
-        "'{}'::jsonb",
-        "NULL::text",
-        "NULL::text",
-        "NULL::text",
-        "NULL::text"
-      ],
-      "command": "SELECT public.\"settle_admin_sales_return_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,'{}'::jsonb,NULL::text,NULL::text,NULL::text,NULL::text)",
-      "probe": 470,
-      "message": "ليس لديك صلاحية تسوية مرتجع مبيعات Admin Phase 4.3.",
-      "outcome": "body_validation_or_error",
-      "sqlstate": "P0001"
-    },
-    {
-      "site": "src/services/supabase/salesAftercare.service.ts:246",
-      "name": "settle_sales_replacement_v1",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000001",
-      "appRole": "owner",
-      "identity": "settle_sales_replacement_v1(uuid,text,jsonb,text,text)",
-      "args": [
-        "NULL::uuid",
-        "'isolated-service-audit-0000000000000000000001'",
-        "'[]'::jsonb",
-        "NULL::text",
-        "NULL::text"
-      ],
-      "command": "SELECT public.\"settle_sales_replacement_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,NULL::text,NULL::text)",
-      "probe": 471,
-      "message": "PHASE43_SALE_CONTRACT_UNSUPPORTED: يتطلب الإجراء بيعاً حديثاً موثقاً بالإصدار V2.",
-      "outcome": "body_validation_or_error",
-      "sqlstate": "P0001"
-    },
-    {
-      "site": "src/services/supabase/salesAftercare.service.ts:246",
-      "name": "settle_sales_replacement_v1",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000002",
-      "appRole": "admin",
-      "identity": "settle_sales_replacement_v1(uuid,text,jsonb,text,text)",
-      "args": [
-        "NULL::uuid",
-        "'isolated-service-audit-0000000000000000000001'",
-        "'[]'::jsonb",
-        "NULL::text",
-        "NULL::text"
-      ],
-      "command": "SELECT public.\"settle_sales_replacement_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,NULL::text,NULL::text)",
-      "probe": 472,
-      "message": "PHASE43_SALE_CONTRACT_UNSUPPORTED: يتطلب الإجراء بيعاً حديثاً موثقاً بالإصدار V2.",
-      "outcome": "body_validation_or_error",
-      "sqlstate": "P0001"
-    },
-    {
-      "site": "src/services/supabase/salesAftercare.service.ts:246",
-      "name": "settle_sales_replacement_v1",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000003",
-      "appRole": "cashier",
-      "identity": "settle_sales_replacement_v1(uuid,text,jsonb,text,text)",
-      "args": [
-        "NULL::uuid",
-        "'isolated-service-audit-0000000000000000000001'",
-        "'[]'::jsonb",
-        "NULL::text",
-        "NULL::text"
-      ],
-      "command": "SELECT public.\"settle_sales_replacement_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,NULL::text,NULL::text)",
-      "probe": 473,
-      "message": "ليس لديك صلاحية إصدار استبدال مبيعات.",
-      "outcome": "body_validation_or_error",
-      "sqlstate": "P0001"
-    },
-    {
-      "site": "src/services/supabase/salesAftercare.service.ts:256",
-      "name": "settle_admin_sales_return_v1",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000001",
-      "appRole": "owner",
-      "identity": "settle_admin_sales_return_v1(uuid,text,jsonb,jsonb,text,text,text,text)",
-      "args": [
-        "NULL::uuid",
-        "'isolated-service-audit-0000000000000000000001'",
-        "'[]'::jsonb",
-        "'{}'::jsonb",
-        "NULL::text",
-        "NULL::text",
-        "NULL::text",
-        "NULL::text"
-      ],
-      "command": "SELECT public.\"settle_admin_sales_return_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,'{}'::jsonb,NULL::text,NULL::text,NULL::text,NULL::text)",
-      "probe": 474,
-      "message": "PHASE43_RETURN_PHYSICAL_SOURCES_INVALID: Physical lineage allocations must be an array.",
-      "outcome": "body_validation_or_error",
-      "sqlstate": "22023"
-    },
-    {
-      "site": "src/services/supabase/salesAftercare.service.ts:256",
-      "name": "settle_admin_sales_return_v1",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000002",
-      "appRole": "admin",
-      "identity": "settle_admin_sales_return_v1(uuid,text,jsonb,jsonb,text,text,text,text)",
-      "args": [
-        "NULL::uuid",
-        "'isolated-service-audit-0000000000000000000001'",
-        "'[]'::jsonb",
-        "'{}'::jsonb",
-        "NULL::text",
-        "NULL::text",
-        "NULL::text",
-        "NULL::text"
-      ],
-      "command": "SELECT public.\"settle_admin_sales_return_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,'{}'::jsonb,NULL::text,NULL::text,NULL::text,NULL::text)",
-      "probe": 475,
-      "message": "PHASE43_RETURN_PHYSICAL_SOURCES_INVALID: Physical lineage allocations must be an array.",
-      "outcome": "body_validation_or_error",
-      "sqlstate": "22023"
-    },
-    {
-      "site": "src/services/supabase/salesAftercare.service.ts:256",
-      "name": "settle_admin_sales_return_v1",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000003",
-      "appRole": "cashier",
-      "identity": "settle_admin_sales_return_v1(uuid,text,jsonb,jsonb,text,text,text,text)",
-      "args": [
-        "NULL::uuid",
-        "'isolated-service-audit-0000000000000000000001'",
-        "'[]'::jsonb",
-        "'{}'::jsonb",
-        "NULL::text",
-        "NULL::text",
-        "NULL::text",
-        "NULL::text"
-      ],
-      "command": "SELECT public.\"settle_admin_sales_return_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,'{}'::jsonb,NULL::text,NULL::text,NULL::text,NULL::text)",
-      "probe": 476,
-      "message": "ليس لديك صلاحية تسوية مرتجع مبيعات Admin Phase 4.3.",
-      "outcome": "body_validation_or_error",
-      "sqlstate": "P0001"
-    },
-    {
-      "site": "src/services/supabase/salesHistory.service.ts:10",
-      "name": "get_sales_history_page",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000001",
-      "appRole": "owner",
-      "identity": "get_sales_history_page(integer,integer,text,date,date,text,text,text,text,boolean)",
-      "args": [
-        "1::integer",
-        "25::integer",
-        "NULL::text",
-        "CURRENT_DATE",
-        "CURRENT_DATE",
-        "NULL::text",
-        "NULL::text",
-        "NULL::text",
-        "NULL::text",
-        "false"
-      ],
-      "command": "SELECT public.\"get_sales_history_page\"(1::integer,25::integer,NULL::text,CURRENT_DATE,CURRENT_DATE,NULL::text,NULL::text,NULL::text,NULL::text,false)",
       "probe": 477,
+      "message": "PHASE43_SALE_CONTRACT_UNSUPPORTED: يتطلب الإجراء بيعاً حديثاً موثقاً بالإصدار V2.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/salesAftercare.service.ts:171",
+      "name": "settle_sales_replacement_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "settle_sales_replacement_v1(uuid,text,jsonb,text,text)",
+      "args": [
+        "NULL::uuid",
+        "'isolated-service-audit-0000000000000000000001'",
+        "'[]'::jsonb",
+        "NULL::text",
+        "NULL::text"
+      ],
+      "command": "SELECT public.\"settle_sales_replacement_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,NULL::text,NULL::text)",
+      "probe": 478,
+      "message": "PHASE43_SALE_CONTRACT_UNSUPPORTED: يتطلب الإجراء بيعاً حديثاً موثقاً بالإصدار V2.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/salesAftercare.service.ts:171",
+      "name": "settle_sales_replacement_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "settle_sales_replacement_v1(uuid,text,jsonb,text,text)",
+      "args": [
+        "NULL::uuid",
+        "'isolated-service-audit-0000000000000000000001'",
+        "'[]'::jsonb",
+        "NULL::text",
+        "NULL::text"
+      ],
+      "command": "SELECT public.\"settle_sales_replacement_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,NULL::text,NULL::text)",
+      "probe": 479,
+      "message": "ليس لديك صلاحية إصدار استبدال مبيعات.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/salesAftercare.service.ts:209",
+      "name": "settle_admin_sales_return_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "settle_admin_sales_return_v1(uuid,text,jsonb,jsonb,text,text,text,text)",
+      "args": [
+        "NULL::uuid",
+        "'isolated-service-audit-0000000000000000000001'",
+        "'[]'::jsonb",
+        "'{}'::jsonb",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text"
+      ],
+      "command": "SELECT public.\"settle_admin_sales_return_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,'{}'::jsonb,NULL::text,NULL::text,NULL::text,NULL::text)",
+      "probe": 480,
+      "message": "PHASE43_RETURN_PHYSICAL_SOURCES_INVALID: Physical lineage allocations must be an array.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "22023"
+    },
+    {
+      "site": "src/services/supabase/salesAftercare.service.ts:209",
+      "name": "settle_admin_sales_return_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "settle_admin_sales_return_v1(uuid,text,jsonb,jsonb,text,text,text,text)",
+      "args": [
+        "NULL::uuid",
+        "'isolated-service-audit-0000000000000000000001'",
+        "'[]'::jsonb",
+        "'{}'::jsonb",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text"
+      ],
+      "command": "SELECT public.\"settle_admin_sales_return_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,'{}'::jsonb,NULL::text,NULL::text,NULL::text,NULL::text)",
+      "probe": 481,
+      "message": "PHASE43_RETURN_PHYSICAL_SOURCES_INVALID: Physical lineage allocations must be an array.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "22023"
+    },
+    {
+      "site": "src/services/supabase/salesAftercare.service.ts:209",
+      "name": "settle_admin_sales_return_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "settle_admin_sales_return_v1(uuid,text,jsonb,jsonb,text,text,text,text)",
+      "args": [
+        "NULL::uuid",
+        "'isolated-service-audit-0000000000000000000001'",
+        "'[]'::jsonb",
+        "'{}'::jsonb",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text"
+      ],
+      "command": "SELECT public.\"settle_admin_sales_return_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,'{}'::jsonb,NULL::text,NULL::text,NULL::text,NULL::text)",
+      "probe": 482,
+      "message": "ليس لديك صلاحية تسوية مرتجع مبيعات Admin Phase 4.3.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/salesAftercare.service.ts:246",
+      "name": "settle_sales_replacement_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "settle_sales_replacement_v1(uuid,text,jsonb,text,text)",
+      "args": [
+        "NULL::uuid",
+        "'isolated-service-audit-0000000000000000000001'",
+        "'[]'::jsonb",
+        "NULL::text",
+        "NULL::text"
+      ],
+      "command": "SELECT public.\"settle_sales_replacement_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,NULL::text,NULL::text)",
+      "probe": 483,
+      "message": "PHASE43_SALE_CONTRACT_UNSUPPORTED: يتطلب الإجراء بيعاً حديثاً موثقاً بالإصدار V2.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/salesAftercare.service.ts:246",
+      "name": "settle_sales_replacement_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "settle_sales_replacement_v1(uuid,text,jsonb,text,text)",
+      "args": [
+        "NULL::uuid",
+        "'isolated-service-audit-0000000000000000000001'",
+        "'[]'::jsonb",
+        "NULL::text",
+        "NULL::text"
+      ],
+      "command": "SELECT public.\"settle_sales_replacement_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,NULL::text,NULL::text)",
+      "probe": 484,
+      "message": "PHASE43_SALE_CONTRACT_UNSUPPORTED: يتطلب الإجراء بيعاً حديثاً موثقاً بالإصدار V2.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/salesAftercare.service.ts:246",
+      "name": "settle_sales_replacement_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "settle_sales_replacement_v1(uuid,text,jsonb,text,text)",
+      "args": [
+        "NULL::uuid",
+        "'isolated-service-audit-0000000000000000000001'",
+        "'[]'::jsonb",
+        "NULL::text",
+        "NULL::text"
+      ],
+      "command": "SELECT public.\"settle_sales_replacement_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,NULL::text,NULL::text)",
+      "probe": 485,
+      "message": "ليس لديك صلاحية إصدار استبدال مبيعات.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/salesAftercare.service.ts:256",
+      "name": "settle_admin_sales_return_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "settle_admin_sales_return_v1(uuid,text,jsonb,jsonb,text,text,text,text)",
+      "args": [
+        "NULL::uuid",
+        "'isolated-service-audit-0000000000000000000001'",
+        "'[]'::jsonb",
+        "'{}'::jsonb",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text"
+      ],
+      "command": "SELECT public.\"settle_admin_sales_return_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,'{}'::jsonb,NULL::text,NULL::text,NULL::text,NULL::text)",
+      "probe": 486,
+      "message": "PHASE43_RETURN_PHYSICAL_SOURCES_INVALID: Physical lineage allocations must be an array.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "22023"
+    },
+    {
+      "site": "src/services/supabase/salesAftercare.service.ts:256",
+      "name": "settle_admin_sales_return_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "settle_admin_sales_return_v1(uuid,text,jsonb,jsonb,text,text,text,text)",
+      "args": [
+        "NULL::uuid",
+        "'isolated-service-audit-0000000000000000000001'",
+        "'[]'::jsonb",
+        "'{}'::jsonb",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text"
+      ],
+      "command": "SELECT public.\"settle_admin_sales_return_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,'{}'::jsonb,NULL::text,NULL::text,NULL::text,NULL::text)",
+      "probe": 487,
+      "message": "PHASE43_RETURN_PHYSICAL_SOURCES_INVALID: Physical lineage allocations must be an array.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "22023"
+    },
+    {
+      "site": "src/services/supabase/salesAftercare.service.ts:256",
+      "name": "settle_admin_sales_return_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "settle_admin_sales_return_v1(uuid,text,jsonb,jsonb,text,text,text,text)",
+      "args": [
+        "NULL::uuid",
+        "'isolated-service-audit-0000000000000000000001'",
+        "'[]'::jsonb",
+        "'{}'::jsonb",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text"
+      ],
+      "command": "SELECT public.\"settle_admin_sales_return_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,'{}'::jsonb,NULL::text,NULL::text,NULL::text,NULL::text)",
+      "probe": 488,
+      "message": "ليس لديك صلاحية تسوية مرتجع مبيعات Admin Phase 4.3.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/salesHistory.service.ts:10",
+      "name": "get_sales_history_page",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "get_sales_history_page(integer,integer,text,date,date,text,text,text,text,boolean)",
+      "args": [
+        "1::integer",
+        "25::integer",
+        "NULL::text",
+        "CURRENT_DATE",
+        "CURRENT_DATE",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "false"
+      ],
+      "command": "SELECT public.\"get_sales_history_page\"(1::integer,25::integer,NULL::text,CURRENT_DATE,CURRENT_DATE,NULL::text,NULL::text,NULL::text,NULL::text,false)",
+      "probe": 489,
       "message": "التواريخ المخصصة تتطلب اختيار مدى.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -34404,7 +35044,7 @@
         "false"
       ],
       "command": "SELECT public.\"get_sales_history_page\"(1::integer,25::integer,NULL::text,CURRENT_DATE,CURRENT_DATE,NULL::text,NULL::text,NULL::text,NULL::text,false)",
-      "probe": 478,
+      "probe": 490,
       "message": "التواريخ المخصصة تتطلب اختيار مدى.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -34429,7 +35069,7 @@
         "false"
       ],
       "command": "SELECT public.\"get_sales_history_page\"(1::integer,25::integer,NULL::text,CURRENT_DATE,CURRENT_DATE,NULL::text,NULL::text,NULL::text,NULL::text,false)",
-      "probe": 479,
+      "probe": 491,
       "message": "التواريخ المخصصة تتطلب اختيار مدى.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -34446,7 +35086,7 @@
         "25::integer"
       ],
       "command": "SELECT public.\"get_stock_alert_notifications\"(false,25::integer)",
-      "probe": 480,
+      "probe": 492,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -34463,7 +35103,7 @@
         "25::integer"
       ],
       "command": "SELECT public.\"get_stock_alert_notifications\"(false,25::integer)",
-      "probe": 481,
+      "probe": 493,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -34480,7 +35120,7 @@
         "25::integer"
       ],
       "command": "SELECT public.\"get_stock_alert_notifications\"(false,25::integer)",
-      "probe": 482,
+      "probe": 494,
       "message": "ليس لديك صلاحية عرض تنبيهات المخزون.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -34496,7 +35136,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"mark_stock_alert_read\"(NULL::uuid)",
-      "probe": 483,
+      "probe": 495,
       "message": "تنبيه المخزون المحدد غير موجود.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -34512,7 +35152,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"mark_stock_alert_read\"(NULL::uuid)",
-      "probe": 484,
+      "probe": 496,
       "message": "تنبيه المخزون المحدد غير موجود.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -34528,7 +35168,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"mark_stock_alert_read\"(NULL::uuid)",
-      "probe": 485,
+      "probe": 497,
       "message": "ليس لديك صلاحية تحديث حالة تنبيه المخزون.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -34542,7 +35182,7 @@
       "identity": "mark_all_stock_alerts_read()",
       "args": [],
       "command": "SELECT public.\"mark_all_stock_alerts_read\"()",
-      "probe": 486,
+      "probe": 498,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -34556,7 +35196,7 @@
       "identity": "mark_all_stock_alerts_read()",
       "args": [],
       "command": "SELECT public.\"mark_all_stock_alerts_read\"()",
-      "probe": 487,
+      "probe": 499,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -34570,7 +35210,7 @@
       "identity": "mark_all_stock_alerts_read()",
       "args": [],
       "command": "SELECT public.\"mark_all_stock_alerts_read\"()",
-      "probe": 488,
+      "probe": 500,
       "message": "ليس لديك صلاحية تحديث حالة تنبيهات المخزون.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -34584,7 +35224,7 @@
       "identity": "get_public_storefront_settings()",
       "args": [],
       "command": "SELECT public.\"get_public_storefront_settings\"()",
-      "probe": 489,
+      "probe": 501,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -34598,7 +35238,7 @@
       "identity": "get_public_storefront_settings()",
       "args": [],
       "command": "SELECT public.\"get_public_storefront_settings\"()",
-      "probe": 490,
+      "probe": 502,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -34612,7 +35252,7 @@
       "identity": "get_public_storefront_settings()",
       "args": [],
       "command": "SELECT public.\"get_public_storefront_settings\"()",
-      "probe": 491,
+      "probe": 503,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -34643,7 +35283,7 @@
         "false"
       ],
       "command": "SELECT public.\"save_storefront_settings_v3\"(NULL::text,NULL::text,NULL::text,false,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,0::bigint,0::bigint,0::bigint,false,false,false,false)",
-      "probe": 492,
+      "probe": 504,
       "message": "اسم المتجر يجب أن يكون بين حرفين و120 حرفًا.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -34674,7 +35314,7 @@
         "false"
       ],
       "command": "SELECT public.\"save_storefront_settings_v3\"(NULL::text,NULL::text,NULL::text,false,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,0::bigint,0::bigint,0::bigint,false,false,false,false)",
-      "probe": 493,
+      "probe": 505,
       "message": "اسم المتجر يجب أن يكون بين حرفين و120 حرفًا.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -34705,7 +35345,7 @@
         "false"
       ],
       "command": "SELECT public.\"save_storefront_settings_v3\"(NULL::text,NULL::text,NULL::text,false,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,0::bigint,0::bigint,0::bigint,false,false,false,false)",
-      "probe": 494,
+      "probe": 506,
       "message": "ليس لديك صلاحية إدارة إعدادات المتجر الإلكتروني.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -34722,7 +35362,7 @@
         "'{}'::jsonb"
       ],
       "command": "SELECT public.\"preview_supplier_replacement_credit_v1\"(NULL::text,'{}'::jsonb)",
-      "probe": 495,
+      "probe": 507,
       "message": "SUPPLIER215_CREDIT_REQUEST_INVALID",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -34739,7 +35379,7 @@
         "'{}'::jsonb"
       ],
       "command": "SELECT public.\"preview_supplier_replacement_credit_v1\"(NULL::text,'{}'::jsonb)",
-      "probe": 496,
+      "probe": 508,
       "message": "SUPPLIER_REPLACEMENT_OWNER_ONLY",
       "outcome": "permission_denied",
       "sqlstate": "42501"
@@ -34756,7 +35396,7 @@
         "'{}'::jsonb"
       ],
       "command": "SELECT public.\"preview_supplier_replacement_credit_v1\"(NULL::text,'{}'::jsonb)",
-      "probe": 497,
+      "probe": 509,
       "message": "SUPPLIER_REPLACEMENT_OWNER_ONLY",
       "outcome": "permission_denied",
       "sqlstate": "42501"
@@ -34774,7 +35414,7 @@
         "25::integer"
       ],
       "command": "SELECT public.\"get_supplier_replacement_credits_v1\"(NULL::uuid,1::integer,25::integer)",
-      "probe": 498,
+      "probe": 510,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -34792,7 +35432,7 @@
         "25::integer"
       ],
       "command": "SELECT public.\"get_supplier_replacement_credits_v1\"(NULL::uuid,1::integer,25::integer)",
-      "probe": 499,
+      "probe": 511,
       "message": "SUPPLIER_REPLACEMENT_OWNER_ONLY",
       "outcome": "permission_denied",
       "sqlstate": "42501"
@@ -34810,7 +35450,7 @@
         "25::integer"
       ],
       "command": "SELECT public.\"get_supplier_replacement_credits_v1\"(NULL::uuid,1::integer,25::integer)",
-      "probe": 500,
+      "probe": 512,
       "message": "SUPPLIER_REPLACEMENT_OWNER_ONLY",
       "outcome": "permission_denied",
       "sqlstate": "42501"
@@ -34830,7 +35470,7 @@
         "25::integer"
       ],
       "command": "SELECT public.\"get_supplier_replacements_page_v1\"(NULL::uuid,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text,1::integer,25::integer)",
-      "probe": 501,
+      "probe": 513,
       "message": "SUPPLIER_REPLACEMENT_PAGE_INVALID",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -34850,7 +35490,7 @@
         "25::integer"
       ],
       "command": "SELECT public.\"get_supplier_replacements_page_v1\"(NULL::uuid,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text,1::integer,25::integer)",
-      "probe": 502,
+      "probe": 514,
       "message": "SUPPLIER_REPLACEMENT_ROLE_DENIED",
       "outcome": "permission_denied",
       "sqlstate": "42501"
@@ -34870,7 +35510,7 @@
         "25::integer"
       ],
       "command": "SELECT public.\"get_supplier_replacements_page_v1\"(NULL::uuid,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text,1::integer,25::integer)",
-      "probe": 503,
+      "probe": 515,
       "message": "SUPPLIER_REPLACEMENT_ROLE_DENIED",
       "outcome": "permission_denied",
       "sqlstate": "42501"
@@ -34889,7 +35529,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"get_supplier_replacement_options_v1\"(NULL::text,NULL::text,NULL::text,NULL::uuid)",
-      "probe": 504,
+      "probe": 516,
       "message": "SUPPLIER_REPLACEMENT_ACTION_INVALID",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -34908,7 +35548,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"get_supplier_replacement_options_v1\"(NULL::text,NULL::text,NULL::text,NULL::uuid)",
-      "probe": 505,
+      "probe": 517,
       "message": "SUPPLIER_REPLACEMENT_ACTION_INVALID",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -34927,7 +35567,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"get_supplier_replacement_options_v1\"(NULL::text,NULL::text,NULL::text,NULL::uuid)",
-      "probe": 506,
+      "probe": 518,
       "message": "SUPPLIER_REPLACEMENT_ACTION_INVALID",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -34944,7 +35584,7 @@
         "'{}'::jsonb"
       ],
       "command": "SELECT public.\"preview_supplier_replacement_v1\"(NULL::text,'{}'::jsonb)",
-      "probe": 507,
+      "probe": 519,
       "message": "SUPPLIER_REPLACEMENT_ACTION_INVALID",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -34961,7 +35601,7 @@
         "'{}'::jsonb"
       ],
       "command": "SELECT public.\"preview_supplier_replacement_v1\"(NULL::text,'{}'::jsonb)",
-      "probe": 508,
+      "probe": 520,
       "message": "SUPPLIER_REPLACEMENT_ACTION_INVALID",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -34978,7 +35618,7 @@
         "'{}'::jsonb"
       ],
       "command": "SELECT public.\"preview_supplier_replacement_v1\"(NULL::text,'{}'::jsonb)",
-      "probe": 509,
+      "probe": 521,
       "message": "SUPPLIER_REPLACEMENT_ACTION_INVALID",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -34997,7 +35637,7 @@
         "'isolated-service-audit-0000000000000000000001'"
       ],
       "command": "SELECT public.\"settle_supplier_replacement_credit_v1\"(NULL::text,'{}'::jsonb,'isolated-service-audit-0000000000000000000001','isolated-service-audit-0000000000000000000001')",
-      "probe": 510,
+      "probe": 522,
       "message": "SUPPLIER215_CREDIT_PREVIEW_REQUIRED",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -35016,7 +35656,7 @@
         "'isolated-service-audit-0000000000000000000001'"
       ],
       "command": "SELECT public.\"settle_supplier_replacement_credit_v1\"(NULL::text,'{}'::jsonb,'isolated-service-audit-0000000000000000000001','isolated-service-audit-0000000000000000000001')",
-      "probe": 511,
+      "probe": 523,
       "message": "SUPPLIER_REPLACEMENT_OWNER_ONLY",
       "outcome": "permission_denied",
       "sqlstate": "42501"
@@ -35035,7 +35675,7 @@
         "'isolated-service-audit-0000000000000000000001'"
       ],
       "command": "SELECT public.\"settle_supplier_replacement_credit_v1\"(NULL::text,'{}'::jsonb,'isolated-service-audit-0000000000000000000001','isolated-service-audit-0000000000000000000001')",
-      "probe": 512,
+      "probe": 524,
       "message": "SUPPLIER_REPLACEMENT_OWNER_ONLY",
       "outcome": "permission_denied",
       "sqlstate": "42501"
@@ -35053,7 +35693,7 @@
         "'{}'::jsonb"
       ],
       "command": "SELECT public.\"execute_aftercare_supplier_v1\"(NULL::text,'isolated-service-audit-0000000000000000000001','{}'::jsonb)",
-      "probe": 513,
+      "probe": 525,
       "message": "SUPPLIER_REPLACEMENT_ACTION_INVALID",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -35071,7 +35711,7 @@
         "'{}'::jsonb"
       ],
       "command": "SELECT public.\"execute_aftercare_supplier_v1\"(NULL::text,'isolated-service-audit-0000000000000000000001','{}'::jsonb)",
-      "probe": 514,
+      "probe": 526,
       "message": "SUPPLIER_REPLACEMENT_OWNER_ONLY",
       "outcome": "permission_denied",
       "sqlstate": "42501"
@@ -35089,7 +35729,7 @@
         "'{}'::jsonb"
       ],
       "command": "SELECT public.\"execute_aftercare_supplier_v1\"(NULL::text,'isolated-service-audit-0000000000000000000001','{}'::jsonb)",
-      "probe": 515,
+      "probe": 527,
       "message": "SUPPLIER_REPLACEMENT_OWNER_ONLY",
       "outcome": "permission_denied",
       "sqlstate": "42501"
@@ -35107,7 +35747,7 @@
         "'isolated-service-audit-0000000000000000000001'"
       ],
       "command": "SELECT public.\"execute_supplier_replacement_v1\"(NULL::text,'{}'::jsonb,'isolated-service-audit-0000000000000000000001')",
-      "probe": 516,
+      "probe": 528,
       "message": "SUPPLIER_REPLACEMENT_ACTION_INVALID",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -35125,7 +35765,7 @@
         "'isolated-service-audit-0000000000000000000001'"
       ],
       "command": "SELECT public.\"execute_supplier_replacement_v1\"(NULL::text,'{}'::jsonb,'isolated-service-audit-0000000000000000000001')",
-      "probe": 517,
+      "probe": 529,
       "message": "SUPPLIER_REPLACEMENT_ACTION_INVALID",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -35143,7 +35783,7 @@
         "'isolated-service-audit-0000000000000000000001'"
       ],
       "command": "SELECT public.\"execute_supplier_replacement_v1\"(NULL::text,'{}'::jsonb,'isolated-service-audit-0000000000000000000001')",
-      "probe": 518,
+      "probe": 530,
       "message": "SUPPLIER_REPLACEMENT_ACTION_INVALID",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -35159,7 +35799,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"get_aftercare_damage_candidates_v1\"(NULL::uuid)",
-      "probe": 519,
+      "probe": 531,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -35175,7 +35815,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"get_aftercare_damage_candidates_v1\"(NULL::uuid)",
-      "probe": 520,
+      "probe": 532,
       "message": "SUPPLIER_REPLACEMENT_OWNER_ONLY",
       "outcome": "permission_denied",
       "sqlstate": "42501"
@@ -35191,7 +35831,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"get_aftercare_damage_candidates_v1\"(NULL::uuid)",
-      "probe": 521,
+      "probe": 533,
       "message": "SUPPLIER_REPLACEMENT_OWNER_ONLY",
       "outcome": "permission_denied",
       "sqlstate": "42501"
@@ -35209,7 +35849,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"preview_aftercare_supplier_v1\"(NULL::text,NULL::uuid,NULL::uuid)",
-      "probe": 522,
+      "probe": 534,
       "message": "AFTERCARE211_SOURCE_INVALID",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -35227,7 +35867,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"preview_aftercare_supplier_v1\"(NULL::text,NULL::uuid,NULL::uuid)",
-      "probe": 523,
+      "probe": 535,
       "message": "SUPPLIER_REPLACEMENT_OWNER_ONLY",
       "outcome": "permission_denied",
       "sqlstate": "42501"
@@ -35245,7 +35885,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"preview_aftercare_supplier_v1\"(NULL::text,NULL::uuid,NULL::uuid)",
-      "probe": 524,
+      "probe": 536,
       "message": "SUPPLIER_REPLACEMENT_OWNER_ONLY",
       "outcome": "permission_denied",
       "sqlstate": "42501"
@@ -35259,7 +35899,7 @@
       "identity": "get_owner_warehouses_v1()",
       "args": [],
       "command": "SELECT public.\"get_owner_warehouses_v1\"()",
-      "probe": 525,
+      "probe": 537,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -35273,7 +35913,7 @@
       "identity": "get_owner_warehouses_v1()",
       "args": [],
       "command": "SELECT public.\"get_owner_warehouses_v1\"()",
-      "probe": 526,
+      "probe": 538,
       "message": "ليس لديك صلاحية إدارة الفروع والمستودعات.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -35287,7 +35927,7 @@
       "identity": "get_owner_warehouses_v1()",
       "args": [],
       "command": "SELECT public.\"get_owner_warehouses_v1\"()",
-      "probe": 527,
+      "probe": 539,
       "message": "ليس لديك صلاحية إدارة الفروع والمستودعات.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -35308,7 +35948,7 @@
         "CURRENT_TIMESTAMP"
       ],
       "command": "SELECT public.\"save_owner_warehouse_v1\"(NULL::uuid,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,false,CURRENT_TIMESTAMP)",
-      "probe": 528,
+      "probe": 540,
       "message": "WAREHOUSE_INPUT_INVALID: تحقق من اسم المستودع والفرع.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -35329,7 +35969,7 @@
         "CURRENT_TIMESTAMP"
       ],
       "command": "SELECT public.\"save_owner_warehouse_v1\"(NULL::uuid,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,false,CURRENT_TIMESTAMP)",
-      "probe": 529,
+      "probe": 541,
       "message": "ليس لديك صلاحية حفظ مستودع.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -35350,7 +35990,7 @@
         "CURRENT_TIMESTAMP"
       ],
       "command": "SELECT public.\"save_owner_warehouse_v1\"(NULL::uuid,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,false,CURRENT_TIMESTAMP)",
-      "probe": 530,
+      "probe": 542,
       "message": "ليس لديك صلاحية حفظ مستودع.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -35366,7 +36006,7 @@
         "ARRAY[]::uuid[]"
       ],
       "command": "SELECT public.\"get_public_configurable_parcel_options\"(ARRAY[]::uuid[])",
-      "probe": 531,
+      "probe": 543,
       "message": "PUBLIC_CONFIGURABLE_PARCEL_REQUEST_INVALID: Provide between 1 and 48 valid Family IDs.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -35390,7 +36030,7 @@
         "ARRAY[]::uuid[]"
       ],
       "command": "SELECT public.\"get_public_storefront_catalog_page\"(25::integer,0::integer,NULL::uuid,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,ARRAY[]::uuid[])",
-      "probe": 532,
+      "probe": 544,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -35404,7 +36044,7 @@
       "identity": "get_public_storefront_merchandising()",
       "args": [],
       "command": "SELECT public.\"get_public_storefront_merchandising\"()",
-      "probe": 533,
+      "probe": 545,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -35418,7 +36058,7 @@
       "identity": "get_public_storefront_offers()",
       "args": [],
       "command": "SELECT public.\"get_public_storefront_offers\"()",
-      "probe": 534,
+      "probe": 546,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -35436,7 +36076,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"preview_guest_promotion_v2\"('[]'::jsonb,NULL::text,NULL::text)",
-      "probe": 535,
+      "probe": 547,
       "message": "PHASE3_SALE_CONTRACT_INVALID: Sale lines must be a non-empty array.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -35454,7 +36094,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"preview_guest_promotion\"(NULL::text,'[]'::jsonb,NULL::text)",
-      "probe": 536,
+      "probe": 548,
       "message": "اكتب رمز خصم صحيحاً.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -35471,7 +36111,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"track_guest_order\"(NULL::text,NULL::text)",
-      "probe": 537,
+      "probe": 549,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -35487,7 +36127,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"track_guest_order_by_token\"(NULL::text)",
-      "probe": 538,
+      "probe": 550,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -35503,7 +36143,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"get_public_pos_receipt\"(NULL::uuid)",
-      "probe": 539,
+      "probe": 551,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -35517,7 +36157,7 @@
       "identity": "get_public_storefront_settings()",
       "args": [],
       "command": "SELECT public.\"get_public_storefront_settings\"()",
-      "probe": 540,
+      "probe": 552,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -35531,7 +36171,7 @@
       "identity": "authorize_admin_ai_assistant_request()",
       "args": [],
       "command": "SELECT public.\"authorize_admin_ai_assistant_request\"()",
-      "probe": 541,
+      "probe": 553,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -35545,7 +36185,7 @@
       "identity": "authorize_admin_ai_assistant_request()",
       "args": [],
       "command": "SELECT public.\"authorize_admin_ai_assistant_request\"()",
-      "probe": 542,
+      "probe": 554,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -35559,7 +36199,7 @@
       "identity": "authorize_admin_ai_assistant_request()",
       "args": [],
       "command": "SELECT public.\"authorize_admin_ai_assistant_request\"()",
-      "probe": 543,
+      "probe": 555,
       "message": "ليس لديك صلاحية استخدام مساعد الإدارة الذكي.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -35573,7 +36213,7 @@
       "identity": "get_admin_ai_inventory_snapshot()",
       "args": [],
       "command": "SELECT public.\"get_admin_ai_inventory_snapshot\"()",
-      "probe": 544,
+      "probe": 556,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -35587,7 +36227,7 @@
       "identity": "get_admin_ai_inventory_snapshot()",
       "args": [],
       "command": "SELECT public.\"get_admin_ai_inventory_snapshot\"()",
-      "probe": 545,
+      "probe": 557,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -35601,7 +36241,7 @@
       "identity": "get_admin_ai_inventory_snapshot()",
       "args": [],
       "command": "SELECT public.\"get_admin_ai_inventory_snapshot\"()",
-      "probe": 546,
+      "probe": 558,
       "message": "ليس لديك صلاحية قراءة مخزون وأسعار مساعد الإدارة الذكي.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -35615,7 +36255,7 @@
       "identity": "get_home_dashboard()",
       "args": [],
       "command": "SELECT public.\"get_home_dashboard\"()",
-      "probe": 547,
+      "probe": 559,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -35629,7 +36269,7 @@
       "identity": "get_home_dashboard()",
       "args": [],
       "command": "SELECT public.\"get_home_dashboard\"()",
-      "probe": 548,
+      "probe": 560,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -35643,7 +36283,7 @@
       "identity": "get_home_dashboard()",
       "args": [],
       "command": "SELECT public.\"get_home_dashboard\"()",
-      "probe": 549,
+      "probe": 561,
       "message": "ليس لديك صلاحية عرض الصفحة الرئيسية.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -35657,7 +36297,7 @@
       "identity": "get_admin_ai_monthly_report()",
       "args": [],
       "command": "SELECT public.\"get_admin_ai_monthly_report\"()",
-      "probe": 550,
+      "probe": 562,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -35671,7 +36311,7 @@
       "identity": "get_admin_ai_monthly_report()",
       "args": [],
       "command": "SELECT public.\"get_admin_ai_monthly_report\"()",
-      "probe": 551,
+      "probe": 563,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -35685,7 +36325,7 @@
       "identity": "get_admin_ai_monthly_report()",
       "args": [],
       "command": "SELECT public.\"get_admin_ai_monthly_report\"()",
-      "probe": 552,
+      "probe": 564,
       "message": "ليس لديك صلاحية قراءة التقرير الشهري لمساعد الإدارة الذكي.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -35701,7 +36341,7 @@
         "ARRAY[]::text[]"
       ],
       "command": "SELECT public.\"has_erp_role\"(ARRAY[]::text[])",
-      "probe": 553,
+      "probe": 565,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -35717,7 +36357,7 @@
         "ARRAY[]::text[]"
       ],
       "command": "SELECT public.\"has_erp_role\"(ARRAY[]::text[])",
-      "probe": 554,
+      "probe": 566,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -35733,7 +36373,7 @@
         "ARRAY[]::text[]"
       ],
       "command": "SELECT public.\"has_erp_role\"(ARRAY[]::text[])",
-      "probe": 555,
+      "probe": 567,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -35747,7 +36387,7 @@
       "identity": "get_erp_staff_accounts()",
       "args": [],
       "command": "SELECT public.\"get_erp_staff_accounts\"()",
-      "probe": 556,
+      "probe": 568,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -35761,7 +36401,7 @@
       "identity": "get_erp_staff_accounts()",
       "args": [],
       "command": "SELECT public.\"get_erp_staff_accounts\"()",
-      "probe": 557,
+      "probe": 569,
       "message": "ليس لديك صلاحية إدارة حسابات الموظفين.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -35775,7 +36415,7 @@
       "identity": "get_erp_staff_accounts()",
       "args": [],
       "command": "SELECT public.\"get_erp_staff_accounts\"()",
-      "probe": 558,
+      "probe": 570,
       "message": "ليس لديك صلاحية إدارة حسابات الموظفين.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -35791,7 +36431,7 @@
         "25::integer"
       ],
       "command": "SELECT public.\"get_erp_staff_account_audit_logs\"(25::integer)",
-      "probe": 559,
+      "probe": 571,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -35807,7 +36447,7 @@
         "25::integer"
       ],
       "command": "SELECT public.\"get_erp_staff_account_audit_logs\"(25::integer)",
-      "probe": 560,
+      "probe": 572,
       "message": "ليس لديك صلاحية عرض سجل إدارة الموظفين.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -35823,7 +36463,7 @@
         "25::integer"
       ],
       "command": "SELECT public.\"get_erp_staff_account_audit_logs\"(25::integer)",
-      "probe": 561,
+      "probe": 573,
       "message": "ليس لديك صلاحية عرض سجل إدارة الموظفين.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -35844,7 +36484,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"create_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 562,
+      "probe": 574,
       "message": "اسم المستخدم يجب أن يكون بين حرفين و120 حرفًا.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -35865,7 +36505,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"create_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 563,
+      "probe": 575,
       "message": "ليس لديك صلاحية إضافة حساب موظف أو مالك نظام.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -35886,7 +36526,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"create_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 564,
+      "probe": 576,
       "message": "ليس لديك صلاحية إضافة حساب موظف أو مالك نظام.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -35907,7 +36547,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"update_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 565,
+      "probe": 577,
       "message": "لا يمكن تعديل حسابك الحالي من إدارة المستخدمين.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -35928,7 +36568,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"update_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 566,
+      "probe": 578,
       "message": "ليس لديك صلاحية تعديل حساب موظف أو مالك نظام.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -35949,7 +36589,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"update_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 567,
+      "probe": 579,
       "message": "ليس لديك صلاحية تعديل حساب موظف أو مالك نظام.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -35966,7 +36606,7 @@
         "false"
       ],
       "command": "SELECT public.\"set_erp_staff_account_active\"('92600000-0000-4000-8000-000000000001'::uuid,false)",
-      "probe": 568,
+      "probe": 580,
       "message": "لا يمكن تعطيل أو تعديل حسابك الحالي.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -35983,7 +36623,7 @@
         "false"
       ],
       "command": "SELECT public.\"set_erp_staff_account_active\"('92600000-0000-4000-8000-000000000001'::uuid,false)",
-      "probe": 569,
+      "probe": 581,
       "message": "ليس لديك صلاحية تفعيل أو تعطيل حساب مستخدم.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -36000,7 +36640,7 @@
         "false"
       ],
       "command": "SELECT public.\"set_erp_staff_account_active\"('92600000-0000-4000-8000-000000000001'::uuid,false)",
-      "probe": 570,
+      "probe": 582,
       "message": "ليس لديك صلاحية تفعيل أو تعطيل حساب مستخدم.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -36016,7 +36656,7 @@
         "'92600000-0000-4000-8000-000000000001'::uuid"
       ],
       "command": "SELECT public.\"record_erp_staff_password_reset\"('92600000-0000-4000-8000-000000000001'::uuid)",
-      "probe": 571,
+      "probe": 583,
       "message": "لا يمكن إعادة تعيين كلمة مرور حسابك الحالي من هذه الشاشة.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -36032,7 +36672,7 @@
         "'92600000-0000-4000-8000-000000000001'::uuid"
       ],
       "command": "SELECT public.\"record_erp_staff_password_reset\"('92600000-0000-4000-8000-000000000001'::uuid)",
-      "probe": 572,
+      "probe": 584,
       "message": "ليس لديك صلاحية إعادة تعيين كلمة مرور مستخدم.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -36048,7 +36688,7 @@
         "'92600000-0000-4000-8000-000000000001'::uuid"
       ],
       "command": "SELECT public.\"record_erp_staff_password_reset\"('92600000-0000-4000-8000-000000000001'::uuid)",
-      "probe": 573,
+      "probe": 585,
       "message": "ليس لديك صلاحية إعادة تعيين كلمة مرور مستخدم.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -36066,7 +36706,7 @@
         "0::integer"
       ],
       "command": "SELECT public.\"claim_automation_deliveries\"(NULL::text,25::integer,0::integer)",
-      "probe": 574,
+      "probe": 586,
       "message": "Invalid automation delivery channel.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -36085,7 +36725,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"complete_automation_delivery\"(NULL::uuid,NULL::text,false,NULL::text)",
-      "probe": 575,
+      "probe": 587,
       "message": "Invalid automation delivery completion.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -36101,7 +36741,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"claim_owner_telegram_deliveries_v1\"(NULL::uuid)",
-      "probe": 576,
+      "probe": 588,
       "message": "OWNER_TELEGRAM_RUN_ID_REQUIRED",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -36117,7 +36757,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"owner_telegram_dispatch_lease_valid_v1\"(NULL::uuid)",
-      "probe": 577,
+      "probe": 589,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -36136,7 +36776,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"complete_owner_telegram_delivery_v1\"(NULL::uuid,NULL::uuid,false,NULL::text)",
-      "probe": 578,
+      "probe": 590,
       "message": "OWNER_TELEGRAM_LEASE_LOST",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -36152,7 +36792,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"release_owner_telegram_dispatch_v1\"(NULL::uuid)",
-      "probe": 579,
+      "probe": 591,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -36166,7 +36806,7 @@
       "identity": "get_push_webhook_secret()",
       "args": [],
       "command": "SELECT public.\"get_push_webhook_secret\"()",
-      "probe": 580,
+      "probe": 592,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -36182,7 +36822,7 @@
         "'92600000-0000-4000-8000-000000000001'::uuid"
       ],
       "command": "SELECT public.\"get_active_order_push_targets\"('92600000-0000-4000-8000-000000000001'::uuid)",
-      "probe": 581,
+      "probe": 593,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -36201,7 +36841,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"authorize_guest_order_gateway\"(NULL::uuid,NULL::text,NULL::text,NULL::text)",
-      "probe": 582,
+      "probe": 594,
       "message": "Invalid gateway request.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -36239,7 +36879,7 @@
         "0::bigint"
       ],
       "command": "SELECT public.\"submit_guest_customer_order_v2\"('isolated-service-audit-0000000000000000000001',NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,0::double precision,0::double precision,NULL::text,'[]'::jsonb,NULL::text,NULL::text,NULL::text,0::bigint,0::bigint,0::bigint,0::bigint)",
-      "probe": 583,
+      "probe": 595,
       "message": "PHASE3_IDEMPOTENCY_INPUT_INVALID: Customer operation identity is invalid.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -36257,7 +36897,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"finalize_guest_order_gateway\"(NULL::uuid,NULL::text,NULL::uuid)",
-      "probe": 584,
+      "probe": 596,
       "message": "Gateway authorization was not found.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -36275,7 +36915,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"finalize_guest_order_gateway\"(NULL::uuid,NULL::text,NULL::uuid)",
-      "probe": 585,
+      "probe": 597,
       "message": "Gateway authorization was not found.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -45928,7 +46568,66 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-11-04T04:05:36.848Z",
+  "endedAt": "2026-11-04T19:03:16.248Z",
+  "savedCatalogAssessment": {
+    "storagePolicies": [
+      {
+        "name": "ERP staff can delete own product images",
+        "check": null,
+        "roles": [
+          "authenticated"
+        ],
+        "table": "objects",
+        "using": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
+        "schema": "storage",
+        "command": "d",
+        "permissive": true
+      },
+      {
+        "name": "ERP staff can update own product images",
+        "check": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
+        "roles": [
+          "authenticated"
+        ],
+        "table": "objects",
+        "using": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
+        "schema": "storage",
+        "command": "w",
+        "permissive": true
+      },
+      {
+        "name": "ERP staff can upload own product images",
+        "check": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
+        "roles": [
+          "authenticated"
+        ],
+        "table": "objects",
+        "using": null,
+        "schema": "storage",
+        "command": "a",
+        "permissive": true
+      },
+      {
+        "name": "Public can read product images",
+        "check": null,
+        "roles": [
+          "PUBLIC"
+        ],
+        "table": "objects",
+        "using": "(bucket_id = 'product-images'::text)",
+        "schema": "storage",
+        "command": "r",
+        "permissive": true
+      }
+    ],
+    "storageBucketRows": null,
+    "publicationMembership": null,
+    "limits": [
+      "Catalog tables/schema do NOT prove bucket rows exist",
+      "Catalog functions/policies do NOT prove publication membership",
+      "No Auth,Edge environment or remote cron row snapshot in schema catalog"
+    ]
+  },
   "sevenFunctions": [
     {
       "identity": "authorize_admin_ai_assistant_request()",
@@ -46212,6 +46911,10 @@
       "triggerOnly": true
     }
   ],
+  "savedCatalogProvenance": {
+    "baseline": "703fc51abb6b65ce2df2edcf14c6ecb235b74ddf",
+    "scope": "Historical15Oct saved-catalog review only;effectiveLocal and invocationResults measured anew on219;no hosted read"
+  },
   "oldReferences": [
     {
       "file": "automation/n8n/workflows/nawasrah-alerts.json",
@@ -46233,7 +46936,7 @@
     {
       "file": "docs/agent/OWNER_DECISIONS.md",
       "lines": [
-        793
+        797
       ],
       "category": "HISTORICAL_DOCUMENTATION"
     },
@@ -46428,14 +47131,14 @@
     {
       "file": "tests/frankfurt-public-config.test.ts",
       "lines": [
-        20
+        22
       ],
       "category": "TEST_CONTRACT"
     },
     {
       "file": "tests/frankfurt-reference150.test.ts",
       "lines": [
-        75
+        76
       ],
       "category": "TEST_CONTRACT"
     },
@@ -46467,65 +47170,5 @@
       ],
       "category": "TEST_CONTRACT"
     }
-  ],
-  "savedCatalogAssessment": {
-    "storagePolicies": [
-      {
-        "name": "ERP staff can delete own product images",
-        "check": null,
-        "roles": [
-          "authenticated"
-        ],
-        "table": "objects",
-        "using": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
-        "schema": "storage",
-        "command": "d",
-        "permissive": true
-      },
-      {
-        "name": "ERP staff can update own product images",
-        "check": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
-        "roles": [
-          "authenticated"
-        ],
-        "table": "objects",
-        "using": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
-        "schema": "storage",
-        "command": "w",
-        "permissive": true
-      },
-      {
-        "name": "ERP staff can upload own product images",
-        "check": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
-        "roles": [
-          "authenticated"
-        ],
-        "table": "objects",
-        "using": null,
-        "schema": "storage",
-        "command": "a",
-        "permissive": true
-      },
-      {
-        "name": "Public can read product images",
-        "check": null,
-        "roles": [
-          "PUBLIC"
-        ],
-        "table": "objects",
-        "using": "(bucket_id = 'product-images'::text)",
-        "schema": "storage",
-        "command": "r",
-        "permissive": true
-      }
-    ],
-    "storageBucketRows": null,
-    "publicationMembership": null,
-    "limits": [
-      "Catalog tables/schema do NOT prove bucket rows exist",
-      "Catalog functions/policies do NOT prove publication membership",
-      "No Auth,Edge environment or remote cron row snapshot in schema catalog"
-    ]
-  },
-  "savedCatalogAssessmentSource": "historical saved catalog assessment retained from Git6229aa31;not a live project read"
+  ]
 }

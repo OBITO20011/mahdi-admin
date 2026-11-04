@@ -165,6 +165,11 @@ function numberText(raw: string): string {
 
 // ---------------------------------------------------------------- read
 export async function readXlsxFirstSheet(input: ArrayBuffer | Uint8Array): Promise<string[][]> {
+  return readXlsxSheet(input);
+}
+
+/** Select a named worksheet using its workbook relationship, with the same ZIP/cell limits. */
+export async function readXlsxSheet(input: ArrayBuffer | Uint8Array, sheetName?: string): Promise<string[][]> {
   const bytes = input instanceof Uint8Array ? input : new Uint8Array(input);
   if (bytes.length > XLSX_MAX_BYTES) throw new XlsxError('حجم الملف أكبر من 5 ميغابايت.');
   if (bytes.length < 4 || bytes[0] !== 0x50 || bytes[1] !== 0x4b) {
@@ -174,7 +179,11 @@ export async function readXlsxFirstSheet(input: ArrayBuffer | Uint8Array): Promi
     || name === 'xl/sharedStrings.xml' || /^xl\/worksheets\/[^/]+\.xml$/u.test(name));
   const workbook = files.get('xl/workbook.xml');
   if (!workbook) throw new XlsxError('الملف لا يحتوي ورقة عمل Excel.');
-  const sheetTag = /<(?:\w+:)?sheet\s[^>]*>/u.exec(decoder.decode(workbook))?.[0] ?? '';
+  const sheetTags = [...decoder.decode(workbook).matchAll(/<(?:\w+:)?sheet\s[^>]*>/gu)].map(match => match[0]);
+  const matchingSheets=sheetName===undefined?[]:sheetTags.filter(tag=>decodeXml(/\bname="([^"]*)"/u.exec(tag)?.[1]??'')===sheetName);
+  if(matchingSheets.length>1)throw new XlsxError('اسم ورقة النكهات مكرر؛ أبقِ ورقة واحدة بالاسم المعتمد.');
+  const sheetTag = sheetName === undefined ? sheetTags[0] ?? '' : matchingSheets[0];
+  if (sheetTag === undefined) return []; // Optional named sheet absent; never read a different one.
   const relationId = /\br:id="([^"]+)"/u.exec(sheetTag)?.[1] ?? /\bid="([^"]+)"/u.exec(sheetTag)?.[1];
   let sheetPath = 'xl/worksheets/sheet1.xml';
   const rels = files.get('xl/_rels/workbook.xml.rels');

@@ -1,3 +1,5 @@
+import{historicalProductWorkbookInventory}from'../scripts/audit/source-before-product-workbook.mjs';
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {test} from 'node:test';
@@ -7,11 +9,11 @@ import {verifyProbeCoverage} from '../scripts/audit/table-access-probes.mjs';
 import {assert204History} from '../scripts/operations/frankfurt-owner-upgrade204.mjs';
 const read=(f:string)=>readFileSync(f,'utf8').replaceAll('\r\n','\n');
 test('204 historical projection restores complete accepted203 files before parsing query IDs/arguments/callers',async()=>{
-  const historical=await inventoryBeforeSales204(),proof=JSON.parse(read('docs/operations/TABLE_ACCESS_AFTER_203.json'));
+  const historical=await historicalProductWorkbookInventory(inventoryBeforeSales204),proof=JSON.parse(read('docs/operations/TABLE_ACCESS_AFTER_203.json'));
   assert.deepEqual(historical.sources,proof.sourceHashes);assert.deepEqual(verifyProbeCoverage(historical,proof.results),proof.coverage);
   for(const [file,p]of Object.entries(sales204Pins) as Array<[string,{added?:boolean;before?:string;after:string}]>){
-    const current=read(file),restored=sourceBeforeSales204(file,current);
-    assert.throws(()=>sourceBeforeSales204(file,current+'\n// unrelated change\n'),/(?:SALES204|NAVIGATION206|CORRECTIONS207)_ENTIRE_CURRENT_FILE_CHANGED|HANDOVER214_UNREVIEWED_SOURCE/u);
+    const current=read(file),restored=historicalProductWorkbookSource(sourceBeforeSales204,file,current);
+    assert.throws(()=>historicalProductWorkbookSource(sourceBeforeSales204,file,current+'\n// unrelated change\n'),/(?:SALES204|NAVIGATION206|CORRECTIONS207)_ENTIRE_CURRENT_FILE_CHANGED|HANDOVER214_UNREVIEWED_SOURCE/u);
     if(p.added)assert.equal(restored,null);else assert.equal(createHash('sha256').update(restored!).digest('hex'),p.before);
   }
 });

@@ -1,3 +1,4 @@
+import{sourceBeforeProductWorkbook}from'../scripts/audit/source-before-product-workbook-text.mjs';
 import assert from 'node:assert/strict';
 import {sourceBeforeUnitTerminology} from '../scripts/audit/source-before-unit-terminology.mjs';
 const hunks:Record<string,readonly string[]>={
@@ -11,6 +12,7 @@ const hunks:Record<string,readonly string[]>={
  ],
 };
 export function approvedOpening196Source(file:string,source:string):string{
+ source=sourceBeforeProductWorkbook(file,source)??source;
  source=sourceBeforeUnitTerminology(file,source) ?? source;
  source=source.replaceAll('\r\n','\n');
  for(const hunk of hunks[file]??[]){assert.equal(source.split(hunk).length-1,1,'EXACT_APPROVED_OPENING196_HUNK:'+file);source=source.replace(hunk,'');}

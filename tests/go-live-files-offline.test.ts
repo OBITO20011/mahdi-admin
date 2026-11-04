@@ -1,3 +1,5 @@
+import ts from 'typescript';
+import {PRODUCT_WORKBOOK_COLUMNS,FLAVOR_WORKBOOK_COLUMNS} from '../src/features/goLive/productWorkbook';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,mkdtempSync,writeFileSync,mkdirSync,rmSync,statSync} from 'node:fs';
@@ -82,8 +84,23 @@ test('real CLI has zero network, read-only inputs and protected local report; in
  }finally{rmSync(root,{recursive:true,force:true});}
 });
 
-test('backend validation source anchors remain current: no operational/SQL source was changed by this tool',()=>{
+test('backend/financial sources and legacy import write/key/recovery branch remain exact;new workbook is a separate approved route',()=>{
  const productSql=readFileSync('supabase/migrations/209_product_sale_methods.sql','utf8'),units=readFileSync('supabase/migrations/160_go_live_setup_foundation.sql','utf8'),stock=readFileSync('supabase/migrations/047_inventory_opening_setup.sql','utf8');
  for(const marker of ['CHAR_LENGTH(v_sku) > 64','CHAR_LENGTH(v_name) > 200','WHERE barcode = v_barcode'])assert.ok(productSql.includes(marker));assert.ok(units.includes('upper(code) = upper(BTRIM(p_value))'));assert.ok(stock.includes("'unitsPerPackage', GREATEST(1, COALESCE(p.units_per_purchase_unit, 1))"));
- const sqlDiff=execFileSync('git',['diff','376293af705837201e4c94b66967337baf524af6','--','supabase','src/features/goLive','src/lib/xlsx.ts','src/features/products/bulkImages'],{encoding:'utf8'});assert.equal(sqlDiff,'');
+ const baseline='376293af705837201e4c94b66967337baf524af6';
+ const sqlDiff=execFileSync('git',['diff',baseline,'--','supabase','src/features/goLive/goLiveImport.ts','src/features/goLive/openingChequesImport.ts','src/services/supabase/goLive.service.ts','src/services/supabase/inventory-opening.service.ts','src/features/products/bulkImages'],{encoding:'utf8'});assert.equal(sqlDiff,'');
+ const file='src/features/goLive/GoLiveSetupView.tsx';
+ const legacySave=(text:string)=>{const sf=ts.createSourceFile(file,text,ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX);let found:ts.Node|undefined;const visit=(n:ts.Node)=>{if(ts.isVariableDeclaration(n)&&n.name.getText(sf)==='ImportPanel'&&n.initializer){const nested=(child:ts.Node)=>{if(ts.isVariableDeclaration(child)&&child.name.getText(sf)==='save')found=child;ts.forEachChild(child,nested);};nested(n.initializer);}ts.forEachChild(n,visit);};visit(sf);assert.ok(found);return ts.createPrinter({removeComments:true}).printNode(ts.EmitHint.Unspecified,found,sf);};
+ assert.equal(legacySave(readFileSync(file,'utf8')),legacySave(execFileSync('git',['show',baseline+':'+file],{encoding:'utf8'})),'legacy write/key/payload/recovery branch is exact');
+});
+
+
+test('enhanced workbook flavors,optional stock and image names are checked offline through the same purchase-pack path',async()=>{
+ const values=Object.fromEntries(GO_LIVE_COLUMNS.products.map((c,i)=>[c.key,product[i]]));values.barcode='';
+ const row=PRODUCT_WORKBOOK_COLUMNS.map(c=>({...values,sale_method:'الاثنين',packet_price:'1.250'}[c.key]??''));
+ const flavors=[FLAVOR_WORKBOOK_COLUMNS.map(c=>c.header),...['ليمون','برتقال'].map((name,i)=>FLAVOR_WORKBOOK_COLUMNS.map(c=>({master_sku:'SUG-10',name,barcode:i?'':'000555',opening_stock:i?'':'14'}[c.key]??'')))];
+ const f=fixture(),input={name:INPUT_FILES.products,bytes:writeXlsx([{name:'المنتجات',rows:[PRODUCT_WORKBOOK_COLUMNS.map(c=>c.header),row]},{name:'النكهات',rows:flavors}])};
+ const r=await checkFiles({...f,products:input,stock:undefined},reference(),[{name:'SUG-10-ليمون.jpg',size:100}],today);
+ assert.equal(r.ok,true,JSON.stringify(r.issues));assert.equal(r.productCount,3);assert.equal(r.totals.stockValueInMinor,'14014');assert.ok(r.issues.some(i=>i.severity==='warning'&&i.reason.includes('1 صنف بلا مخزون')));assert.ok(!r.issues.some(i=>i.reason==='لا يوجد منتج أو نكهة برمز اسم الملف.'));
+ const duplicateStock=await checkFiles({...f,products:input},reference(),undefined,today);assert.ok(duplicateStock.issues.some(i=>i.reason.includes('أفرغ أحد المصدرين')));
 });

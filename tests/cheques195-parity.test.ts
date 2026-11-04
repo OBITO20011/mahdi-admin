@@ -11,7 +11,7 @@ import {homeDamage201Pins} from '../scripts/audit/source-before-home-damage201.m
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {approvedCheques195Source,cheques195Files} from './approved-cheques195-source';
-import {restore198CollectionPresentation} from '../scripts/audit/source-before198-presentation.mjs';
+import {restore198CollectionPresentation} from '../scripts/testing/product-workbook-historical-views.mjs';
 
 const baseline='18217d193acf0041c6319064f29501484501d8c7';
 for(const file of cheques195Files)test('cheques: every byte outside exact approved additions matches accepted182: '+file,()=>{

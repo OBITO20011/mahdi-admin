@@ -1,3 +1,4 @@
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import {sourceBeforeSentry} from '../scripts/audit/source-before-sentry.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -8,7 +9,7 @@ import {runInNewContext} from 'node:vm';
 import {packageFShardCount,packageFShards,isPackageFShardArgument} from '../scripts/testing/package-f-ci-shards.mjs';
 import {browserBalancePins,sourceBeforeBrowserBalance} from '../scripts/audit/source-before-browser-balance.mjs';
 const baseline='8f48e49b0107d395e114f81967fc52d3cd2c40d7';
-const lf=(s:string)=>s.replaceAll('\r\n','\n'),read=(f:string)=>sourceBeforeSentry(f,lf(readFileSync(f,'utf8')))!;
+const lf=(s:string)=>s.replaceAll('\r\n','\n'),read=(f:string)=>historicalProductWorkbookSource(sourceBeforeSentry,f,lf(readFileSync(f,'utf8')))!;
 const old=(f:string)=>lf(execFileSync('git',['show',baseline+':'+f],{encoding:'utf8',windowsHide:true,maxBuffer:4*1024**2}));
 const hash=(s:string)=>createHash('sha256').update(s).digest('hex');
 
@@ -41,9 +42,9 @@ test('actual YAML concurrency expressions cancel replaced PRs only; main, manual
 
 test('historical proof accepts only eight exact reviewed source changes and exposes unknown edits; previous pins are immutable',()=>{
  assert.equal(browserBalancePins.baseline,baseline);assert.equal(Object.keys(browserBalancePins.entries).length,8);
- for(const[file,pin]of Object.entries(browserBalancePins.entries)as Array<[string,{before:string,after:string,beforeText:string}]>){const current=read(file),before=old(file);assert.equal(hash(current),pin.after,file);assert.equal(hash(before),pin.before,file);assert.equal(pin.beforeText,before,file);assert.equal(sourceBeforeBrowserBalance(file,current),before,file);const unknown=current+'\n// unapproved change\n';assert.equal(sourceBeforeBrowserBalance(file,unknown),unknown,file);}
+ for(const[file,pin]of Object.entries(browserBalancePins.entries)as Array<[string,{before:string,after:string,beforeText:string}]>){const current=read(file),before=old(file);assert.equal(hash(current),pin.after,file);assert.equal(hash(before),pin.before,file);assert.equal(pin.beforeText,before,file);assert.equal(historicalProductWorkbookSource(sourceBeforeBrowserBalance,file,current),before,file);const unknown=current+'\n// unapproved change\n';assert.equal(historicalProductWorkbookSource(sourceBeforeBrowserBalance,file,unknown),unknown,file);}
  for(const file of ['scripts/audit/ci-dedup-source-pins.json','scripts/audit/preflight120-source-pins.json','scripts/audit/owner-telegram217-source-pins.json'])assert.equal(read(file),old(file),file);
- assert.equal(sourceBeforeBrowserBalance('unknown','unknown'),'unknown');assert.equal(sourceBeforeBrowserBalance('unknown',null),null);
+ assert.equal(historicalProductWorkbookSource(sourceBeforeBrowserBalance,'unknown','unknown'),'unknown');assert.equal(historicalProductWorkbookSource(sourceBeforeBrowserBalance,'unknown',null),null);
 });
 
 test('W2 is permanently cancelled in current deferred lists while dated delivery history is retained',()=>{

@@ -1,7 +1,7 @@
 // Optional local evidence reproduction. Never reads env files or linked project.
 // Run: node --import tsx tests/handover-product-import.local.mjs
 import assert from 'node:assert/strict';
-import {readFile,writeFile,mkdtemp} from 'node:fs/promises';
+import {writeFile,mkdtemp} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {execFile} from 'node:child_process';
@@ -23,7 +23,8 @@ const sql=async text=>{const r=await executeInput(executor,text);assert.equal(r.
 const rpc=async call=>JSON.parse(await sql(`BEGIN;DO $$BEGIN PERFORM set_config('request.jwt.claims',${q(JSON.stringify({sub:owner,role:'authenticated',aal:'aal2'}))},true);END$$;SET LOCAL ROLE authenticated;SELECT public.${call};COMMIT;`));
 const report={ok:false,output,migrationCeiling:214,managedAccess:false,hostedConnections:0};let local;
 try{
- const mapped=mapSheet('products',await readXlsxFirstSheet(await readFile(path.join(root,'docs/handover/templates/المنتجات.xlsx'))));
+ const {stdout:historical}=await run('git',['show','0d77e587:docs/handover/templates/المنتجات.xlsx'],{cwd:root,encoding:'buffer',maxBuffer:5*1024**2,windowsHide:true}); // Reproduce the historical214 artifact,not the later219 revision.
+ const mapped=mapSheet('products',await readXlsxFirstSheet(historical));
  assert.deepEqual(mapped.fileErrors,[]);const prepared=prepareProducts(mapped.rows);assert.deepEqual(prepared.errors,[]);assert.equal(prepared.payload.length,1);
  const boot=await run(process.execPath,[path.join(root,'scripts/testing/bootstrap-isolated-supabase.mjs')],{cwd:root,windowsHide:true,maxBuffer:8*1024**2,env:{...process.env,NAWASRAH_ISOLATED_PROJECT_ID:project,NAWASRAH_MAX_MIGRATION:'214',NAWASRAH_SKIP_REDUNDANT_DB_RESET:'true',NAWASRAH_SUPABASE_EXCLUDE:'gotrue,kong,postgrest,realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor'}});
  local=JSON.parse(boot.stdout).isolatedProjectRoot;

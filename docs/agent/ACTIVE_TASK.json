@@ -1,42 +1,50 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
+  "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner4Nov item4 browser Back tab history and overlay-first close,existing POS cart/unknown-attempt safety;UI only,separate stackedPR on maps;no SQL/RPC/finance/permissions/merge/deploy/hosted;58Draft.",
-  "baselineSha": "3d95e219c897d1e288e934de303d8bb9d09dfcca",
-  "branch": "codex/pre-delivery2-mobile-back",
+  "objective": "Owner4Nov explicit approval: merge63 then66(includes64/65) then67 after exact FULL green; real main merges and full main CI after each; safe primary ff-only 20owner+4env bytes/state5; sync58 Draft. No deploy/Frankfurt.",
+  "baselineSha": "bdb915e7a7343e031071e352d7c20573135108f4",
+  "branch": "codex/pre-delivery2-product-flavors",
   "phase": "PACKAGE_F",
   "completed": [
-    "UI tab Back/Forward and overlay-first close;no business state stored or replayed;POS nonempty-cart confirmation and unknown-attempt protection.",
-    "Local:Admin1761/1761,store207/207,history7,contracts3,Chromium/WebKit26+existingnavigation56,PWA4,types/strictlint,6builds/verify-dist PASS.",
-    "Actual219 SDK157:154success/3empty/0denied/0errors;services586/18expected42501;all SQL/services/owner execution/reset/comparison sources unchanged.",
-    "Exact historical source/query/RPC location adapters preserve baseline bytes and reject unknown mutations;four compatibility fixes20/20PASS."
+    "PR63/64/65/66 Ready63/63unmerged;thisbranch stacks63 andapproved stagedexistingRPCcontract.",
+    "Actual219/180 final12groups PASS,unknown replies/replay0,SKU/barcodes,publishedXLSX zeros,stock25/WAC500/value12500,catalog0. DisposableDBcleaned.",
+    "CurrentSDK62sites/181chains success172/empty9/error0;205RPCsites/598probes/18expecteddenials. Current sources bind actual proofs,unprojected.",
+    "Admin1784/1784/types/strictlint PASS. NewUI20+regression108 Chromium/WebKit390/1440;store207,sixbuild/verifydist,PWA4,print2pages/network0.",
+    "113owner dependencies literal;Git63 historical snapshots independently reproduced;all prior numerical/ACL/negative assertions preserved;CJS fixture split verified.",
+    "Finalbdb runtimeviewpositive14sources+strict157fixture/current181unchanged+ownerbytes+cleanupPASS;negativejunctionpreserves target. Realold37RESET182+firstOwnerPASS,allownedcontainers/viewcleaned;foreignn8n only.",
+    "PR67 Ready bdb915e7: exactFULLquality61/61 run41856842296 attempt1 + encrypted recovery1/1 + both scans2/2 =64/64. No rerun/merge/deploy. GitHub finalization lag resolved.",
+    "Owner approved63/66(includes64/65)/67;63 merged76943e03 and main FULL60+recovery+scan PASS. Primaryff-only76943e03/preflightPASS;20owner+4env identical,state5literal.66 true syncb492 then exact3-tool fixture fix545ba11,14focused/Gitleaks0.",
+    "63merged/main60+backup+scan green/primary76943e03;66mergeda4fc9dd4/main60+backup+scan green/primarya4fc9dd4.20owner/4env exact,state5 literal/preflightPASS.64merged;65closed included66."
   ],
   "inProgress": [
-    "Final Gitleaks,commit/push,item4 stackedPR and exact FULLCI before producttemplate package."
+    "67 true merge maina4fc9dd4 inprogress;app no conflicts. Test/history composition only;actual219 mergedSDK181(172/9/0error),services598/18denied refreshed,containerscleaned."
   ],
-  "notStarted": [],
+  "notStarted": [
+    "Each exact synchronized head FULLCI and mainCI;safe primary ff-only;58 Draft sync ifneeded."
+  ],
   "testsPassed": [
-    "Admin1761/store207;history7/contracts3;browser26+regression56/PWA4;types/strictlint;6builds/verify-dist;SDK157/services586."
+    "Admin1784/1784/types/strictlint;actual21912/currentSDK181+598;UI20+108/store207/builds/PWA;view7focused+positive/cleanup andactual182/firstOwner."
   ],
   "testsRemaining": [
-    "Gitleaks0;exact-headFULLCI/secrets/backuprecovery;thenallfour checkpoint."
+    "Full local units aftercombined source pins,types/lint,fixed runtimeview;commit/push exactPR67FULL thenmerge/mainFULL/safeprimary;58Draftsync."
   ],
   "findings": [
-    "One environmental browser rerun: concurrent build touched dist,HTTP502/EBUSY. Same-source sequential run26/26 passed,no limits/retries/skips changed;artifacts outsideGit."
+    "FamilyV2 ignores flavorbarcode andgenerated SKUusesclock;ownerapproved phasedcompletion,not oneatomictransaction.",
+    "209 inheritedmethod requires NULL/nochange for flavorv5;explicitfalse rejected as designed."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No SQL/migration/RPC/financial/permission changes;no hosted/deploy/merge;58Draft;ownercheckout/env untouched."
+    "No SQL/migration/RPC/finance/permissions change or hosted/deploy.58Draft unmerged. Preserve20owner/4env byte-identical andstate5."
   ],
-  "nextExactAction": "Gitleaks0,commit/push,item4 stackedPR and exact FULLCI;allfour checkpoint before producttemplate package.",
+  "nextExactAction": "63+66 merged/mainCI green/primarya4fc9dd4 safe.67 true merge pending;actualmerged219SDK181+services598 PASS. Finishcomposition/fullunits+runtimeview then commit/push/FULLCI;mergeonlygreen.58Draft.",
   "startedAt": "2026-11-03T03:59:26.518Z",
-  "checkpointedAt": "2026-11-04T04:42:51.289Z",
+  "checkpointedAt": "2026-11-04T19:05:17.577Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 17,
-  "filesTouchedManifestSha256": "d6ab6368b7f856fd855ba745efd3969cbf3f98f4b1ccd81845c9edfb092eb383",
-  "workingTreeFingerprint": "D69E8AF9405AB63027099F74CEA2EDE8A373DB333022E5D5677CD93866981AA0"
+  "filesTouchedCount": 46,
+  "filesTouchedManifestSha256": "86c7cce8a5bff66438789a5e3c127581e0247af6ce58bb510b38fd61950f2480",
+  "workingTreeFingerprint": "381D808D2360DFBAB3DED1F3B7857F8A31FEEE600FD8D2E86F473B8F2EA83F46"
 }

@@ -1,3 +1,5 @@
+import{historicalProductWorkbookInventory}from'../scripts/audit/source-before-product-workbook.mjs';
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFileSync} from 'node:fs';
@@ -66,15 +68,15 @@ test('206 adds only one STABLE reader with four existing report roles and bounde
   assert.match(sql,/FROM PUBLIC,anon,service_role/u);assert.match(sql,/TO authenticated/u);
 });
 test('206 exact source inverse restores accepted205 evidence without repinning old proofs',async()=>{
-  const historical=await inventoryBeforeNavigation206(),proof=JSON.parse(read('docs/operations/TABLE_ACCESS_AFTER_205.json'));
+  const historical=await historicalProductWorkbookInventory(inventoryBeforeNavigation206),proof=JSON.parse(read('docs/operations/TABLE_ACCESS_AFTER_205.json'));
   assert.deepEqual(historical.sources,proof.sourceHashes);assert.deepEqual(verifyProbeCoverage(historical,proof.results),proof.coverage);
-  for(const [file,pin] of Object.entries(navigation206Pins) as Array<[string,{before:string|null;after:string;added?:boolean}]>){const current=read(file),restored=sourceBeforeNavigation206(file,current);
-    assert.throws(()=>sourceBeforeNavigation206(file,current+'\nvoid 206;\n'),/(?:NAVIGATION206|CORRECTIONS207)_ENTIRE_CURRENT_FILE_CHANGED/u);
+  for(const [file,pin] of Object.entries(navigation206Pins) as Array<[string,{before:string|null;after:string;added?:boolean}]>){const current=read(file),restored=historicalProductWorkbookSource(sourceBeforeNavigation206,file,current);
+    assert.throws(()=>historicalProductWorkbookSource(sourceBeforeNavigation206,file,current+'\nvoid 206;\n'),/(?:NAVIGATION206|CORRECTIONS207)_ENTIRE_CURRENT_FILE_CHANGED/u);
     if(pin.added)assert.equal(restored,null);else assert.equal(createHash('sha256').update(restored!).digest('hex'),pin.before);
   }
 });
 test('composed source restoration admits only exact older BEFORE hashes and still rejects extra code',()=>{
-  const file='src/App.tsx',older=sourceBeforeSales204(file,read(file))!;
-  assert.equal(sourceBeforeNavigation206(file,older),older);
-  assert.throws(()=>sourceBeforeNavigation206(file,older+'\nvoid unapproved;\n'),/(?:NAVIGATION206|CORRECTIONS207)_ENTIRE_CURRENT_FILE_CHANGED/u);
+  const file='src/App.tsx',older=historicalProductWorkbookSource(sourceBeforeSales204,file,read(file))!;
+  assert.equal(historicalProductWorkbookSource(sourceBeforeNavigation206,file,older),older);
+  assert.throws(()=>historicalProductWorkbookSource(sourceBeforeNavigation206,file,older+'\nvoid unapproved;\n'),/(?:NAVIGATION206|CORRECTIONS207)_ENTIRE_CURRENT_FILE_CHANGED/u);
 });

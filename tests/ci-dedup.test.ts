@@ -1,3 +1,4 @@
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import test from 'node:test';
 import {sourceBeforeBrowserBalance} from '../scripts/audit/source-before-browser-balance.mjs';
 import assert from 'node:assert/strict';
@@ -8,7 +9,7 @@ import {ciDedupPins,sourceBeforeCiDedup} from '../scripts/audit/source-before-ci
 
 const baseline='b1789e1e973b7ca42dcea850f69d28a5b63cc3db';
 const lf=(s:string)=>s.replaceAll('\r\n','\n');
-const read=(f:string)=>sourceBeforeBrowserBalance(f,lf(readFileSync(f,'utf8')))!;
+const read=(f:string)=>historicalProductWorkbookSource(sourceBeforeBrowserBalance,f,lf(readFileSync(f,'utf8')))!;
 const gitRead=(f:string)=>lf(execFileSync('git',['show',baseline+':'+f],{encoding:'utf8',windowsHide:true,maxBuffer:4*1024**2}));
 const hash=(s:string)=>createHash('sha256').update(s).digest('hex');
 
@@ -31,11 +32,11 @@ test('historical CI view maps only four exact reviewed files to actual accepted 
  for(const[file,pin]of Object.entries(ciDedupPins.entries)as Array<[string,{before:string,after:string,beforeText:string}]>){
   const current=read(file),old=gitRead(file);
   assert.equal(hash(current),pin.after,file);assert.equal(pin.beforeText,old,file);assert.equal(hash(old),pin.before,file);
-  assert.equal(sourceBeforeCiDedup(file,current),old,file);
-  const unknown=current+'\n// unreviewed scheduling mutation\n';assert.equal(sourceBeforeCiDedup(file,unknown),unknown,file);
+  assert.equal(historicalProductWorkbookSource(sourceBeforeCiDedup,file,current),old,file);
+  const unknown=current+'\n// unreviewed scheduling mutation\n';assert.equal(historicalProductWorkbookSource(sourceBeforeCiDedup,file,unknown),unknown,file);
  }
- assert.equal(sourceBeforeCiDedup('unknown.ts','unreviewed'),'unreviewed');
- assert.equal(sourceBeforeCiDedup('missing.ts',null),null);
+ assert.equal(historicalProductWorkbookSource(sourceBeforeCiDedup,'unknown.ts','unreviewed'),'unreviewed');
+ assert.equal(historicalProductWorkbookSource(sourceBeforeCiDedup,'missing.ts',null),null);
  for(const file of ['scripts/audit/partial216-source-pins.json','scripts/audit/owner-telegram217-source-pins.json','scripts/audit/preflight120-source-pins.json'])assert.equal(read(file),gitRead(file),file);
 });
 

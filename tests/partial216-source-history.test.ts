@@ -1,3 +1,5 @@
+import{historicalProductWorkbookHashes}from'../scripts/audit/source-before-product-workbook.mjs';
+import{historicalProductWorkbookSource,restoreProductWorkbookHashes}from'../scripts/audit/source-before-product-workbook.mjs';
 import {sourceBeforePreflight120} from '../scripts/audit/source-before-preflight120.mjs';
 import {sourceBeforeRehearsal219} from '../scripts/testing/rehearsal219-legacy-view.mjs';
 import {sourceBeforeAftercareCleanup} from '../scripts/audit/source-before-aftercare-cleanup.mjs';
@@ -9,19 +11,19 @@ const lf=(s:string)=>s.replaceAll('\r\n','\n'),hash=(s:string)=>createHash('sha2
 test('216 exact historical inverse is grounded in approved main bytes; an unknown edit is never erased',()=>{
  assert.equal(partial216SourcePins.baseline,baseline);const paths=Object.keys(partial216SourcePins.entries);
  const existing=new Set(execFileSync('git',['-c','core.quotepath=false','ls-tree','-r','--name-only',baseline,'--',...paths],{encoding:'utf8',maxBuffer:32*1024**2}).trim().split('\n'));
- for(const file of paths){const pin=partial216SourcePins.entries[file],current=sourceBeforeAftercareCleanup(file,sourceBeforePreflight120(file,sourceBeforeRehearsal219(file,lf(readFileSync(file,'utf8')))))!;assert.equal(hash(current),pin.after,file);
+ for(const file of paths){const pin=partial216SourcePins.entries[file],current=historicalProductWorkbookSource(sourceBeforeAftercareCleanup,file,historicalProductWorkbookSource(sourceBeforePreflight120,file,historicalProductWorkbookSource(sourceBeforeRehearsal219,file,lf(readFileSync(file,'utf8')))))!;assert.equal(hash(current),pin.after,file);
   const before=existing.has(file)?lf(execFileSync('git',['show',baseline+':'+file],{encoding:'utf8',maxBuffer:32*1024**2})):null;
-  assert.equal(pin.beforeText,before,file);assert.equal(sourceBeforePartial216(file,current),before,file);assert.equal(pin.before,before===null?null:hash(before));
-  const unknown=current+'\n// unreviewed216 mutation\n';assert.equal(sourceBeforePartial216(file,unknown),unknown,file);
+  assert.equal(pin.beforeText,before,file);assert.equal(historicalProductWorkbookSource(sourceBeforePartial216,file,current),before,file);assert.equal(pin.before,before===null?null:hash(before));
+  const unknown=current+'\n// unreviewed216 mutation\n';assert.equal(historicalProductWorkbookSource(sourceBeforePartial216,file,unknown),unknown,file);
  }
  const oldPins='scripts/audit/aftercare215-source-pins.json';assert.equal(hash(lf(readFileSync(oldPins,'utf8'))),hash(lf(execFileSync('git',['show',baseline+':'+oldPins],{encoding:'utf8',maxBuffer:32*1024**2}))),'215_PROOF_PINS_NEVER_RELEARNED');
 });
 test('current216 SDK is unprojected and includes the atomic payment RPC; only historical215 sees its original source hashes',async()=>{
- const current=await inventory(),old=await inventory({projectSource:sourceBeforePartial216}),saved=JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_AFTER_215.json','utf8'));
- assert.deepEqual(old.sources,saved.sourceHashes);assert.deepEqual(restorePartial216SourceHashes(current.sources),old.sources);assert.notDeepEqual(current.sources,old.sources);
- const currentRpc=await serviceInventory(),oldRpc=await serviceInventory({projectSource:sourceBeforePartial216});
+ const current=await inventory(),old=await inventory({projectSource:(file:string,text:string|null)=>historicalProductWorkbookSource(sourceBeforePartial216,file,text)}),saved=JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_AFTER_215.json','utf8'));
+ assert.deepEqual(old.sources,saved.sourceHashes);assert.deepEqual(historicalProductWorkbookHashes(restorePartial216SourceHashes,restoreProductWorkbookHashes(current.sources)),old.sources);assert.notDeepEqual(current.sources,old.sources);
+ const currentRpc=await serviceInventory(),oldRpc=await serviceInventory({projectSource:(file:string,text:string|null)=>historicalProductWorkbookSource(sourceBeforePartial216,file,text)});
  assert.deepEqual(currentRpc.functionNames.filter((name:string)=>!oldRpc.functionNames.includes(name)),['claim_owner_telegram_deliveries_v1','complete_owner_telegram_delivery_v1','create_pos_sale_with_initial_payment_v1','owner_telegram_dispatch_lease_valid_v1','release_owner_telegram_dispatch_v1']);
- const bad=current.sources.map((s:{file:string;sha256:string})=>s.file==='src/features/pos/PosView.tsx'?{...s,sha256:'0'.repeat(64)}:s);assert.notDeepEqual(restorePartial216SourceHashes(bad),old.sources);
+ const bad=current.sources.map((s:{file:string;sha256:string})=>s.file==='src/features/pos/PosView.tsx'?{...s,sha256:'0'.repeat(64)}:s);assert.notDeepEqual(historicalProductWorkbookHashes(restorePartial216SourceHashes,restoreProductWorkbookHashes(bad)),old.sources);
 });
 test('216 closes the existing literal closing reader only; the whole-file allowance rejects even an appended mutation',()=>{
  const sql=readFileSync('supabase/migrations/216_pos_partial_payments.sql','utf8');assert.deepEqual(futureMigrationViolations(sql),[]);assert.ok(futureMigrationViolations(sql+'\n-- unreviewed\n').includes('NEW_BEFORE_FUNCTION'));

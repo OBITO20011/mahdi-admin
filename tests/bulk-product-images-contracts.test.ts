@@ -1,3 +1,5 @@
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
+import{sourceBeforeProductWorkbook}from'../scripts/audit/source-before-product-workbook.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -13,12 +15,12 @@ const digest=(text:string)=>createHash('sha256').update(text).digest('hex');
 
 test('bulk image historical projection is exact and rejects a changed upload writer',()=>{
  for(const [file,pin]of Object.entries(bulkImagePins) as [string,{added?:boolean;after:string}][]){
-  const actual=projectTrial40Source(file,read(file),'bulk');assert.equal(digest(actual),pin.after,file);
-  const before=sourceBeforeBulkProductImages(file,actual);
+  const actual=historicalProductWorkbookSource(projectTrial40Source,file,read(file),'bulk');assert.equal(digest(actual),pin.after,file);
+  const before=historicalProductWorkbookSource(sourceBeforeBulkProductImages,file,actual);
   if(pin.added)assert.equal(before,null);else assert.equal(before,execFileSync('git',['show','f95ff0458f90298edc21e39859d3268c7f7ccac7:'+file],{encoding:'utf8',maxBuffer:8*1024**2}).replaceAll('\r\n','\n'),file);
  }
- assert.throws(()=>sourceBeforeBulkProductImages('src/services/supabase/product-images.service.ts',read('src/services/supabase/product-images.service.ts')+'\nvoid unapproved;\n'),/UNREVIEWED_SOURCE/u);
- assert.throws(()=>sourceBeforeBulkProductImages('src/features/products/bulkImages/api.ts',read('src/features/products/bulkImages/api.ts')+'\nvoid unapproved;\n'),/UNREVIEWED_SOURCE/u);
+ assert.throws(()=>historicalProductWorkbookSource(sourceBeforeBulkProductImages,'src/services/supabase/product-images.service.ts',read('src/services/supabase/product-images.service.ts')+'\nvoid unapproved;\n'),/UNREVIEWED_SOURCE/u);
+ assert.throws(()=>historicalProductWorkbookSource(sourceBeforeBulkProductImages,'src/features/products/bulkImages/api.ts',read('src/features/products/bulkImages/api.ts')+'\nvoid unapproved;\n'),/UNREVIEWED_SOURCE/u);
 });
 
 test('new image cleanup query and image-only writer have fresh unprojected actual role evidence',async()=>{
@@ -39,5 +41,5 @@ test('handover instructions include upload after products without changing the f
  for(const file of ['docs/handover/دليل-صاحب-المحل.md','docs/handover/دليل-صاحب-المحل.html'])assert.ok(read(file).includes('بعد إدخال المنتجات: رفع مجلد الصور'));
  for(const file of ['docs/handover/ورقة-يوم-التشغيل.md','docs/handover/ورقة-يوم-التشغيل.html'])assert.ok(read(file).includes('المنتجات والنكهات والطرق ← رفع مجلد الصور ← المخزون'));
  const instructions=read('docs/handover/templates/README.md');for(const text of ['SUG-10.jpg','PRG-BBQ.jpg','خلفية فاتحة','لا تطابق بالاسم'])assert.ok(instructions.includes(text));
- const base=JSON.parse(execFileSync('git',['show','f95ff0458f90298edc21e39859d3268c7f7ccac7:docs/handover/أدلة-المصادر.json'],{encoding:'utf8',maxBuffer:2*1024**2}));assert.deepEqual(JSON.parse(read('docs/handover/أدلة-المصادر.json')),base);
+ const base=JSON.parse(execFileSync('git',['show','f95ff0458f90298edc21e39859d3268c7f7ccac7:docs/handover/أدلة-المصادر.json'],{encoding:'utf8',maxBuffer:2*1024**2}));assert.deepEqual(JSON.parse(sourceBeforeProductWorkbook('docs/handover/أدلة-المصادر.json',read('docs/handover/أدلة-المصادر.json'))!),base);
 });
