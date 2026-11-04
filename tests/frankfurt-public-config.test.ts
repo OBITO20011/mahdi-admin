@@ -16,7 +16,7 @@ import {inventoryBeforeSales204 as inventory} from '../scripts/audit/source-befo
 import {verifyProbeCoverage} from '../scripts/audit/table-access-probes.mjs';
 const url='https://kzevmysfydaslxcerogt.supabase.co',key='sb_publishable_d4TElxRQFkC-AZko3_ASeg_YotqxGjV';
 test('historical Frankfurt defaults remain exact through the environment inverse;no financial evidence is repinned',async()=>{
- const source=await historicalProductWorkbookInventory(inventory),restored=await sourceBeforeStagingConfig(source.sources);
+ const source=await historicalProductWorkbookInventory(inventory),restored=await historicalProductWorkbookHashes(sourceBeforeStagingConfig,source.sources);
  for(const file of ['src/config/supabase-public-config.ts','customer-web/src/config/supabase-public-config.ts']){
   const text=historicalProductWorkbookSource(sourceBeforeEnvironments,file,await readFile(file,'utf8'));assert.ok(text.includes(url));assert.ok(text.includes(key));
   const old=restoreStagingConfig(file,text);assert.ok(old.includes('https://acjtabdqqnpwhdvbvnyw.supabase.co'));

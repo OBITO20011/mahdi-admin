@@ -1,3 +1,4 @@
+import{pathsBeforeProductWorkbook}from'../scripts/audit/source-before-product-workbook.mjs';
 import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import {sourceBeforeRehearsal219} from '../scripts/testing/rehearsal219-legacy-view.mjs';
 import {pathsBeforeAftercare215} from '../scripts/audit/source-before-aftercare215.mjs';
@@ -31,7 +32,7 @@ test('T-A POS bottle product shows only parcel/packet sales methods and preserve
 test('T-A exact inverse retains original historical bytes;DB,services and price calculation modules are unchanged',()=>{
  for(const [file,pin]of Object.entries(trialTAPins) as [string,{after:string;added?:boolean}][]){const raw=historicalProductWorkbookSource(projectTrial41Source,file,read(file),'trialTA') as string;assert.equal(hash(raw),pin.after,file);const before=historicalProductWorkbookSource(sourceBeforeTrialTA,file,raw);if(pin.added)assert.equal(before,null);else assert.equal(before,execFileSync('git',['show','f95ff0458f90298edc21e39859d3268c7f7ccac7:'+file],{encoding:'utf8',maxBuffer:8*1024**2}).replaceAll('\r\n','\n'));}
  assert.throws(()=>historicalProductWorkbookSource(sourceBeforeTrialTA,'customer-web/src/utils/saleUnitLabels.ts',read('customer-web/src/utils/saleUnitLabels.ts')+'\nvoid unapproved;\n'),/UNREVIEWED_SOURCE/u);
- const unchanged=execFileSync('git',['diff','--name-only',trial41Integration.approvedRefs.previousMain,'--','supabase','src/services','src/features/pos/posV2Cart.ts','customer-web/src/services','customer-web/src/utils/checkout.ts'],{encoding:'utf8'}).trim();assert.deepEqual(pathsBeforeAftercare215(unchanged.split('\n').filter(Boolean)),[]);
+ const unchanged=execFileSync('git',['diff','--name-only',trial41Integration.approvedRefs.previousMain,'--','supabase','src/services','src/features/pos/posV2Cart.ts','customer-web/src/services','customer-web/src/utils/checkout.ts'],{encoding:'utf8'}).trim();assert.deepEqual(pathsBeforeProductWorkbook(pathsBeforeAftercare215(unchanged.split('\n').filter(Boolean))),[]);
 });
 
 test('T-A current actual SDK evidence binds all new presentation sources without rewriting frozen214 reference',async()=>{

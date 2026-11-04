@@ -1,3 +1,4 @@
+import{sourceBeforeProductWorkbook}from'../scripts/audit/source-before-product-workbook-text.mjs';
 import {approvedWithdrawals182Source} from './approved-withdrawals182-source';
 import {sourceBeforeUnitTerminology} from '../scripts/audit/source-before-unit-terminology.mjs';
 // Historic source pins include erased annotations and pre-narrowing spellings.
@@ -157,6 +158,7 @@ const productEditConflictHunks:Readonly<Record<string,readonly (readonly [string
  ]
 };
 export function approvedProductEditConflictSource(file:string,source:string):string {
+ source=sourceBeforeProductWorkbook(file,source)??source;
   source=sourceBeforeUnitTerminology(file,source) ?? source;
   source=approvedWithdrawals182Source(file,source);
   const hunks=Object.entries(productEditConflictHunks).find(([path])=>file.endsWith(path))?.[1];

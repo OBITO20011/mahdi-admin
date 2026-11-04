@@ -9,3 +9,6 @@ export function sourceBefore198Presentation(rows){return historicalProductWorkbo
 export function inventoryBefore198Presentation(){return historicalProductWorkbookInventory(originalInventory198);}
 export function verifyHistoricalWarehouseCoverage(source,results){return verifyProbeCoverage(historicalProductWorkbookQuery(originalSites,source),results);}
 export function projectHistoricalWarehouseQuerySites(source){return historicalProductWorkbookQuery(originalSites,source);}
+
+import{verifiedInventoryBeforeTrialR as originalVerifiedR,inventoryBeforeTrialR as originalInventoryR}from'../audit/source-before-trial-owner-r.mjs';
+export async function verifiedInventoryBeforeTrialR(){await originalVerifiedR();return historicalProductWorkbookInventory(originalInventoryR);}

@@ -28,6 +28,7 @@ try{
    }
   }
  }
+ modules.set('inventoryBeforeTrialR','../scripts/audit/source-before-trial-owner-r.mjs');
  modules.set('sourceBefore198Presentation','../scripts/audit/source-before198-presentation.mjs');modules.set('projectHistoricalWarehouseQuerySites','../scripts/audit/historical-warehouse-query-sites.mjs');
  const views={},hashOperations={},queryOperations={},unsupported=[];
  for(const[name,file]of[...modules].sort((a,b)=>a[0].localeCompare(b[0]))){
@@ -36,6 +37,8 @@ try{
   try{if(name==='sourceBefore198Presentation'||name.startsWith('restore'))hashOperations[name]={[hashSig]:(await fn(current.sources)).map(intern)};
   else queryOperations[name]={[currentSig]:pack(await fn(current,parseSource))};}catch{unsupported.push(name);}
  }
+ const {sourceBeforeStagingConfig}=await import('./scripts/audit/source-before-staging-config.mjs');hashOperations.sourceBeforeStagingConfig={};
+ for(const candidate of [current.sources,...Object.values(views).map(v=>v.sources.map(k=>records[k]))])try{hashOperations.sourceBeforeStagingConfig[digest(candidate)]=(await sourceBeforeStagingConfig(candidate)).map(intern);}catch{/* Other historical input scopes remain unsupported and fail closed. */}
  console.log(JSON.stringify({baseline:${JSON.stringify(baseline)},records,current:pack(current),currentSignature:currentSig,currentHashSignature:hashSig,views,hashOperations,queryOperations,unsupported}));`;
  writeFileSync(path.join(dir,'history-reader.mjs'),source);
  const gitDir=execFileSync('git',['rev-parse','--absolute-git-dir'],{cwd:root,encoding:'utf8'}).trim();

@@ -313,7 +313,7 @@
     },
     {
       "file": "src/features/goLive/GoLiveSetupView.tsx",
-      "sha256": "fe2c11d33948d0168ba15e253e1cddf4636a65052072e228c505b31093c0e457"
+      "sha256": "75274fb109b823f10ad3b35dbccb717c71848d701bcfa5f0c05da43288abefd3"
     },
     {
       "file": "src/features/goLive/OpeningChequesCard.tsx",
@@ -333,7 +333,7 @@
     },
     {
       "file": "src/features/goLive/ProductWorkbookImportPanel.tsx",
-      "sha256": "da8c7749285a3305912167e92f5fbba5cc2d20ffeb07c1489029fed3143e9395"
+      "sha256": "092f6f2c773e1f2c5194d3b3afc015d4b93f9951770c0dfef9f3e46cae7af9bb"
     },
     {
       "file": "src/features/goLive/productWorkbookReference.ts",
@@ -541,7 +541,7 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "sha256": "3a3c2a6da2c1f8ea91934361230ed2f78146ea5ce6860cf965f2254a4c081937"
+      "sha256": "2b54d086549e7b9d6f32d68fe2e524cc7820f94fd9a61f54b4a688a20fb53b7b"
     },
     {
       "file": "src/features/products/ProductFormParcelCapability.tsx",
@@ -897,7 +897,7 @@
     },
     {
       "file": "src/services/supabase/productWorkbook.service.ts",
-      "sha256": "c75958160433a1bed704d41d9c8de1da48522f2cb866d0b5e2473841ffb6a3fe"
+      "sha256": "8ae6b16987558f8732c2ce85758b4f5d8386122e2ca8492405d8fe076107398e"
     },
     {
       "file": "src/services/supabase/promotions.service.ts",

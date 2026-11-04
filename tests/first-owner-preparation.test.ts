@@ -1,3 +1,5 @@
+import{withProductWorkbookBaseline}from'../scripts/testing/product-workbook-baseline-fixture.mjs';
+import{pathToFileURL}from'node:url';
 import{historicalProductWorkbookInventory}from'../scripts/audit/source-before-product-workbook.mjs';
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
@@ -5,11 +7,10 @@ import {readFileSync} from 'node:fs';
 import {mkdtemp,writeFile,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
-import {fileURLToPath} from 'node:url';
 import {execFileSync} from 'node:child_process';
 import {bindFirstOwnerSql,validateFirstOwner} from '../scripts/operations/first-owner-core.mjs';
 import {firstOwnerArguments} from '../scripts/operations/frankfurt-first-owner.mjs';
-import {assertFirstOwner198Access,readFirstOwner198Reference} from '../scripts/operations/first-owner-reference198.mjs';
+import {assertFirstOwner198Access} from '../scripts/operations/first-owner-reference198.mjs';
 import {inventoryBeforeSales204 as inventory} from '../scripts/audit/source-before-sales-history204.mjs';
 const input={ownerId:'92600000-0000-4000-8000-000000000001',email:'owner@example.test',name:'المالك',branchCode:'BR-MAIN',branchName:'الفرع الرئيسي'};
 test('first owner is a guarded data bootstrap,not an unauthenticated RPC or a second-owner bypass',()=>{
@@ -46,13 +47,15 @@ test('first owner198 requires current real access identities,roles,history,catal
 
 test('old150/182 references are rejected before password,connection or report creation;no fallback reader',async()=>{
  const dir=await mkdtemp(path.join(tmpdir(),'nawasrah-old-owner-reference-'));
- try{
+ try{await withProductWorkbookBaseline(async(baselineRoot:string)=>{
+  for(const name of ['first-owner-reference198.mjs','frankfurt-reference198.mjs'])assert.equal(readFileSync('scripts/operations/'+name,'utf8'),readFileSync(path.join(baselineRoot,'scripts/operations',name),'utf8'),'historical reader must be the exact current protected source');
+  const {readFirstOwner198Reference:readHistoricalReference}=await import(pathToFileURL(path.join(baselineRoot,'scripts/operations/first-owner-reference198.mjs')).href);
   const file=path.join(dir,'local-reference-through198-ready.json');
   for(const [format,ceiling]of[[3,150],[7,182],[8,195]]){
    await writeFile(file,JSON.stringify({format,migrationCeiling:ceiling}));
-   await assert.rejects(()=>readFirstOwner198Reference(fileURLToPath(new URL('..',import.meta.url)),file),/READY198_REFERENCE_REQUIRED/u);
+   await assert.rejects(()=>readHistoricalReference(baselineRoot,file),/READY198_REFERENCE_REQUIRED/u);
   }
- }finally{await rm(dir,{recursive:true,force:true});}
+ });}finally{await rm(dir,{recursive:true,force:true});}
  const code=readFileSync('scripts/operations/frankfurt-first-owner.mjs','utf8');
  assert.ok(code.includes('await readReady199Reference'));
  assert.doesNotMatch(code,/readReference182|readyReference182Name|frankfurt-reference150/u);

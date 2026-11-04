@@ -3,25 +3,27 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner4Nov producttemplate/flavors aboveunmergedPR63;approved two-phase existing-RPC identities with strict readback/recovery;noDBchanges/finance/permissions/merge/deploy/hosted.",
-  "baselineSha": "e4b05d7e2e13d40fad838b001072faad5fb8513c",
+  "baselineSha": "0610f65bb24df916660f69561dab0cecf868c7b9",
   "branch": "codex/pre-delivery2-product-flavors",
   "phase": "PACKAGE_F",
   "completed": [
-    "PreviousPR63/64/65/66 Ready63/63unmerged;newbranch stacks63;ownerapproved stagedalternative.",
-    "Actual219/180 final12groups PASS:all3methods,brand/max/description,SKU/barcodes,unknowncreate/finalize/formbarcode,replay0,catalog0;publishedXLSX exactzeros;stock25,WAC500,value12500. Containercleaned.",
-    "XLSX4sheets20columns/nativeRTL/freeze/validation/formulas,ArtifactTool/reader/actual219importPASS;historical214proof unchanged.",
-    "Newbrowser16+regression108PASS Chromium/WebKit390/1440;no retries/skips.6builds/verifydist/PWA4 PASS;store207/types/strictlintPASS;cutover2pages/network0.",
-    "WIP commits/push ccf7,dbdd,71eb/Gitleaks0. CurrentSDK fixture id/sku argument gap fixed narrowly;offline62chains PASS;realSDK stillneeded."
+    "PR63/64/65/66 Ready63/63unmerged;thisbranch stacks63 andapproved stagedexistingRPCcontract.",
+    "Actual219/180 final12groups PASS,unknown replies/replay0,SKU/barcodes,publishedXLSX zeros,stock25/WAC500/value12500,catalog0. DisposableDBcleaned.",
+    "CurrentSDK62sites/181chains success172/empty9/error0;205RPCsites/598probes/18expecteddenials. Current sources bind actual proofs,unprojected.",
+    "Admin1780/1780/types/strictlint PASS. NewUI20+regression108 Chromium/WebKit390/1440;store207,sixbuild/verifydist,PWA4,print2pages/network0.",
+    "113owner dependencies literal;Git63 historical snapshots independently reproduced;all prior numerical/ACL/negative assertions preserved;CJS fixture split verified."
   ],
   "inProgress": [
-    "Actual219 table/service probes sequentially;fullAdmin/history andfinalCI."
+    "Finalcheckpoint/commitpush/PRabove63/FULLCI exactSHA."
   ],
   "notStarted": [
-    "PRandFULLCI,ownerreviewSTOP."
+    "Ownerreview;STOPno merge."
   ],
-  "testsPassed": [],
+  "testsPassed": [
+    "Admin1780/1780;actual21912;currenttable181/service598;UI20+108;store207;types/strictlint/builds/PWA."
+  ],
   "testsRemaining": [
-    "Currenttable/serviceSDK;fullAdmin/currentevidence;finalGitleaks/checkpoint/PR/FULLCI."
+    "Exact final SHA FULLquality+backup recovery+pushandPRsecret scans."
   ],
   "findings": [
     "FamilyV2 ignores flavorbarcode andgenerated SKUusesclock;ownerapproved phasedcompletion,not oneatomictransaction.",
@@ -32,13 +34,13 @@
   "prohibitions": [
     "NoSQL/migration/RPCdefinition/financial/permissionschange;nohosted/deploy/merge;58Draft;ownercheckout/env untouched."
   ],
-  "nextExactAction": "Lock/late-file cases and113protected sources pass; refresh actual12DB and181table/598service source-bound proofs, fullAdmin/build; PR/FULLCI. NoDBchanges/merge/hosted.",
+  "nextExactAction": "Local1780/1780+12DB+181SDK/598RPC+UI20+108 PASS. Commitpush finalproofs; createDraftPRabove63 andFULLCI exactSHA; no merge/hosted.",
   "startedAt": "2026-11-03T03:59:26.518Z",
-  "checkpointedAt": "2026-11-04T11:16:25.818Z",
+  "checkpointedAt": "2026-11-04T14:20:32.915Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 101,
-  "filesTouchedManifestSha256": "c9af1151f4747cfea391cabc32e91de1fbf3e25e2ba50958e6d435db1705d6c4",
-  "workingTreeFingerprint": "EA0D4C9006E9079331754BF30DB3B25FD4F32CA346E319FAF088324C65C0896B"
+  "filesTouchedCount": 23,
+  "filesTouchedManifestSha256": "0214079071726f97ba17ad5d7760fa0c6eef41181c5daa4d0ca6d048c98dbd88",
+  "workingTreeFingerprint": "3E6045B174B8441CC753933DE78F4157AFBD40576B2F004B793FE6FF1C2E9E99"
 }

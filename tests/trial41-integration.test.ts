@@ -1,3 +1,4 @@
+import{pathsBeforeProductWorkbook}from'../scripts/audit/source-before-product-workbook.mjs';
 import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import {sourceBeforeRehearsal219} from '../scripts/testing/rehearsal219-legacy-view.mjs';
 import {sourceBeforeAftercare215,pathsBeforeAftercare215} from '../scripts/audit/source-before-aftercare215.mjs';
@@ -7,10 +8,10 @@ const refs=trial41Integration.approvedRefs,read=(f:string)=>historicalProductWor
 const git=(a:string[])=>execFileSync('git',a,{encoding:'utf8',stdio:['ignore','pipe','pipe'],maxBuffer:32*1024**2}).replaceAll('\r\n','\n');
 test('ordered integration preserves every approved application change and SQL/historical proof pins',()=>{
  const changes=(ref:string)=>git(['diff','--name-only',refs.baseline,ref,'--','src','customer-web/src']).trim().split('\n').filter(Boolean),previous=changes(refs.previousMain),ta=changes(refs.trialTA),all=[...new Set([...previous,...ta])].sort();
- assert.deepEqual(previous.filter(f=>ta.includes(f)),['customer-web/src/utils/storefrontSeo.ts']);assert.deepEqual(pathsBeforeAftercare215(git(['diff','--name-only',refs.baseline,'--','src','customer-web/src']).trim().split('\n').filter(Boolean),refs.baseline).sort(),all);
+ assert.deepEqual(previous.filter(f=>ta.includes(f)),['customer-web/src/utils/storefrontSeo.ts']);assert.deepEqual(pathsBeforeProductWorkbook(pathsBeforeAftercare215(git(['diff','--name-only',refs.baseline,'--','src','customer-web/src']).trim().split('\n').filter(Boolean),refs.baseline),refs.baseline).sort(),all);
  for(const f of all){if(!previous.includes(f)||!ta.includes(f)){assert.equal(read(f),git(['show',(ta.includes(f)?refs.trialTA:refs.previousMain)+':'+f]),f);continue;}
  const temp=mkdtempSync(path.join(tmpdir(),'trial41-merge-'));try{const files=['previous','base','ta'].map((n,i)=>{const p=path.join(temp,n);writeFileSync(p,git(['show',[refs.previousMain,refs.baseline,refs.trialTA][i]+':'+f]));return p;});assert.equal(read(f),git(['merge-file','-p',...files]),f);}finally{rmSync(temp,{recursive:true,force:true});}}
- assert.equal(pathsBeforeAftercare215(git(['diff','--name-only',refs.baseline,'--','supabase','scripts/audit/*-hunks.json','scripts/audit/*-inverse.json']).trim().split('\n').filter(Boolean)).join('\n'),'');
+ assert.equal(pathsBeforeProductWorkbook(pathsBeforeAftercare215(git(['diff','--name-only',refs.baseline,'--','supabase','scripts/audit/*-hunks.json','scripts/audit/*-inverse.json']).trim().split('\n').filter(Boolean))).join('\n'),'');
  for(const [ref,p]of [[refs.previousMain,'trial40-integration'],[refs.previousMain,'bulk-product-images'],[refs.previousMain,'store-sharing-identity'],[refs.trialTA,'trial-ta']]){const f='scripts/audit/'+p+'-source-pins.json';assert.equal(read(f),git(['show',ref+':'+f]),f);}
 });
 test('new combined projections bind exact bytes to approved Git snapshots and expose unknown edits',()=>{
