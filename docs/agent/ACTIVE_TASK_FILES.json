@@ -3,19 +3,23 @@
   "files": [
     {
       "code": " M",
-      "path": ".github/workflows/quality.yml"
+      "path": "docs/agent/PRODUCT_WORKBOOK_IMPORT_AR.md"
     },
     {
       "code": " M",
       "path": "scripts/audit/product-workbook-source-pins.json"
     },
     {
-      "code": "??",
+      "code": " M",
       "path": "scripts/testing/product-workbook-runtime-view.mjs"
     },
     {
-      "code": "??",
+      "code": " M",
       "path": "tests/product-workbook-runtime-view.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/product-workbook-runtime-view-pins.json"
     }
   ]
 }

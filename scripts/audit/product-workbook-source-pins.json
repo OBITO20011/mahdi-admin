@@ -19,7 +19,7 @@
     "docs/agent/PRODUCT_WORKBOOK_IMPORT_AR.md": {
       "before": null,
       "beforeText": null,
-      "after": "b16d1834fd0fdc35a9de4e64609b366f3b003dfa4e8d8b13e3fbed5eec257104"
+      "after": "ad5cd99fcbaeee61d608572ae640f151badb47ead1df473e8f8835ecce99a2ea"
     },
     "docs/handover/templates/README.md": {
       "before": "2f9fa6c606f2ab7b5286d0ca336e48c4e441eb75d7d75fc716a4c9416d6c0106",
@@ -126,10 +126,15 @@
       "beforeText": null,
       "after": "4e25ac8517fa35ca3eb157315afa4c3c52e84f948389de4f7309709ad485e5ba"
     },
+    "scripts/testing/product-workbook-runtime-view-pins.json": {
+      "before": null,
+      "beforeText": null,
+      "after": "cdae4d253da80cb7053167f93351b6800edf1f70e7d5b4eedb0aab8160e777e7"
+    },
     "scripts/testing/product-workbook-runtime-view.mjs": {
       "before": null,
       "beforeText": null,
-      "after": "4321e1b05df2744619b09b9c8fd466bdcb6752dc93262da386dc75227e541dbd"
+      "after": "31e27703d3e8da7e25a66d16b8ce6f7ead6c5e79d34dbdfec47e8ce03b8f2981"
     },
     "scripts/testing/run-product-template-existing-rpcs.mjs": {
       "before": null,
@@ -454,7 +459,7 @@
     "tests/product-workbook-runtime-view.test.ts": {
       "before": null,
       "beforeText": null,
-      "after": "c334fe1c99dd99d503a99e49dd51509b841e48db0a687f165fd7e55daf9507da"
+      "after": "e24dee797d770cf6797efc451e6c453b653b777b9aab1c0fe30772d2bb5deae0"
     },
     "tests/product-workbook-service.test.ts": {
       "before": null,
