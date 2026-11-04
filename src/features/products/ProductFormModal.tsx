@@ -1645,7 +1645,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
       </div>
 
       <BarcodeCameraCaptureModal
-        isOpen={(isBarcodeCameraOpen && !isFlavorMaster)||Boolean(flavorCameraId)}
+        isOpen={(isBarcodeCameraOpen && !isFlavorMaster) || Boolean(flavorCameraId)}
         onClose={() => {setIsBarcodeCameraOpen(false);setFlavorCameraId(null);}}
         onCapture={value=>{if(flavorCameraId){updateFlavorDraft(flavorCameraId,{barcode:value.trim()});setFlavorCameraId(null);}else captureBarcode(value);}}
         startScanner={startBarcodeScanner}

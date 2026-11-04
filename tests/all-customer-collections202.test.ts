@@ -1,3 +1,4 @@
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFileSync} from 'node:fs';
@@ -47,8 +48,8 @@ test('202 actual report mapper keeps minor units;invalid present capability reje
 });
 test('202 exact source inverse restores committed201 bytes and rejects unrelated changes',()=>{
  for(const file of Object.keys(collections202Pins)){
-  const source=readFileSync(file,'utf8').replaceAll('\r\n','\n'),restored=sourceBeforeCollections202(file,source);
-  assert.throws(()=>sourceBeforeCollections202(file,source+'\n// drift\n'));
+  const source=readFileSync(file,'utf8').replaceAll('\r\n','\n'),restored=historicalProductWorkbookSource(sourceBeforeCollections202,file,source);
+  assert.throws(()=>historicalProductWorkbookSource(sourceBeforeCollections202,file,source+'\n// drift\n'));
   if(restored!==null){const old=execFileSync('git',['show','79b30bef201907d5a5f44d69db290f55e75102ab:'+file],{encoding:'utf8',windowsHide:true}).replaceAll('\r\n','\n');assert.equal(restored,old);}
  }
 });

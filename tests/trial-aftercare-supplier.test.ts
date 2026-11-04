@@ -1,3 +1,5 @@
+import{historicalProductWorkbookInventory}from'../scripts/audit/source-before-product-workbook.mjs';
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import {sourceBeforeRehearsal219} from '../scripts/testing/rehearsal219-legacy-view.mjs';
 import {verifiedInventoryBeforeTrialR} from '../scripts/audit/source-before-trial-owner-r.mjs';
 import assert from 'node:assert/strict';
@@ -37,11 +39,11 @@ test('legacy stored package names display as parcels without changing arbitrary 
 test('J exact additive inverse preserves delivered210 sources and fails closed on any extra mutation',()=>{
   const base='74cc431e9b8d4bf01c03c65e5d1740a61647fd56';
   for(const [file,pin] of Object.entries(trialJPins) as [string,{added?:boolean}][]){
-    const current=sourceBeforeRehearsal219(file,readFileSync(file,'utf8'))!,restored=sourceBeforeTrialJ(file,current);
-    assert.throws(()=>sourceBeforeTrialJ(file,current+'\nvoid unapproved;\n'));
+    const current=historicalProductWorkbookSource(sourceBeforeRehearsal219,file,readFileSync(file,'utf8'))!,restored=historicalProductWorkbookSource(sourceBeforeTrialJ,file,current);
+    assert.throws(()=>historicalProductWorkbookSource(sourceBeforeTrialJ,file,current+'\nvoid unapproved;\n'));
     if(pin.added)assert.equal(restored,null);else{
       const previous=execFileSync('git',['show',base+':'+file],{encoding:'utf8',maxBuffer:32*1024**2}).replaceAll('\r\n','\n');
-      assert.equal(restored,previous,file);assert.throws(()=>sourceBeforeTrialJ(file,previous+'\nvoid unapproved;\n'));
+      assert.equal(restored,previous,file);assert.throws(()=>historicalProductWorkbookSource(sourceBeforeTrialJ,file,previous+'\nvoid unapproved;\n'));
     }
   }
   const changed=execFileSync('git',['diff','--name-only',base,'--','supabase/migrations'],{encoding:'utf8'}).trim().split('\n').filter(Boolean);
@@ -52,7 +54,7 @@ test('J current actual SDK evidence covers every real source/actor/variant while
   const proof=JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_AFTER_211.json','utf8')),current=await verifiedInventoryBeforeTrialR();
   assert.equal(proof.migrationCeiling,211);assert.equal(proof.managedAccess,false);assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);
   assert.deepEqual(proof.sourceHashes,current.sources);assert.deepEqual(proof.coverage,verifyProbeCoverage(current,proof.results));assert.ok(proof.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));
-  assert.deepEqual((await inventoryBeforeTrialJ()).sources,JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_AFTER_210.json','utf8')).sourceHashes);
+  assert.deepEqual((await historicalProductWorkbookInventory(inventoryBeforeTrialJ)).sources,JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_AFTER_210.json','utf8')).sourceHashes);
 });
 
 test('defective-unit211 changes only replacement admission;full-return commercial guard and209 sales guards are immutable',()=>{

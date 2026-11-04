@@ -1,3 +1,4 @@
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import {sourceBeforeRehearsal219} from '../scripts/testing/rehearsal219-legacy-view.mjs';
 import {pathsBeforeHandover213} from '../scripts/audit/source-before-handover213.mjs';
 import {parseCashDocumentDisplay} from '../src/services/supabase/cashDocumentDisplay.service';
@@ -9,9 +10,9 @@ import {orderProductChoices} from '../src/components/ui/productPickerModel';
 import {parseDamageHistoryPage} from '../src/services/supabase/damageHistory.service';
 import {parseCashShiftMovementPage} from '../src/services/supabase/cashShiftMovements.service';
 import {sourceBeforeTrialR,trialRPins} from '../scripts/audit/source-before-trial-owner-r.mjs';
-const read=(file:string)=>sourceBeforeRehearsal219(file,readFileSync(file,'utf8').replaceAll('\r\n','\n'))!;
+const read=(file:string)=>historicalProductWorkbookSource(sourceBeforeRehearsal219,file,readFileSync(file,'utf8').replaceAll('\r\n','\n'))!;
 test('R exact additive inverse restores88c7bd4 and rejects even one unexpected byte',()=>{
- for(const [file,pin]of Object.entries(trialRPins) as [string,{added?:boolean}][]){const current=read(file),before=sourceBeforeTrialR(file,current);assert.throws(()=>sourceBeforeTrialR(file,current+'\nvoid unapproved;\n'),file);if(pin.added)assert.equal(before,null);else assert.equal(before,execFileSync('git',['show','88c7bd446ab19338d320108a86ea25cddcbf6d2d:'+file],{encoding:'utf8',maxBuffer:32*1024**2}).replaceAll('\r\n','\n'),file);}
+ for(const [file,pin]of Object.entries(trialRPins) as [string,{added?:boolean}][]){const current=read(file),before=historicalProductWorkbookSource(sourceBeforeTrialR,file,current);assert.throws(()=>historicalProductWorkbookSource(sourceBeforeTrialR,file,current+'\nvoid unapproved;\n'),file);if(pin.added)assert.equal(before,null);else assert.equal(before,execFileSync('git',['show','88c7bd446ab19338d320108a86ea25cddcbf6d2d:'+file],{encoding:'utf8',maxBuffer:32*1024**2}).replaceAll('\r\n','\n'),file);}
 });
 test('212 contains only approved read functions;206 money attribution remains byte-identical',()=>{
  const sql=read('supabase/migrations/212_trial_readable_cash_product_choices_damage_history.sql');assert.equal((sql.match(/CREATE(?: OR REPLACE)? FUNCTION/gu)??[]).length,4);assert.doesNotMatch(sql,/\b(?:CREATE TABLE|ALTER TABLE|INSERT INTO|UPDATE public|DELETE FROM|CREATE POLICY|FOR UPDATE)\b/iu);

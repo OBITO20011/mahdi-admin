@@ -1,3 +1,4 @@
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -13,14 +14,14 @@ import {sourceBeforePreTraining} from '../scripts/audit/source-before-pre-traini
 import {sourceBeforeUsability} from '../scripts/audit/source-before-pre-delivery-usability.mjs';
 
 const pins=JSON.parse(readFileSync('scripts/audit/pre-delivery-usability-source-pins.json','utf8'));
-const read=(file:string)=>sourceBeforePreTraining(file,readFileSync(file,'utf8').replaceAll('\r\n','\n'))!;
+const read=(file:string)=>historicalProductWorkbookSource(sourceBeforePreTraining,file,readFileSync(file,'utf8').replaceAll('\r\n','\n'))!;
 const hash=(value:string)=>createHash('sha256').update(value).digest('hex');
 
 test('UI historical projection is exact, bound to merged baseline, and rejects unknown mutations',()=>{
   for(const [file,pin] of Object.entries(pins.entries) as [string,{beforeText:string|null;before:string|null;after:string}][]){
     const source=read(file);assert.equal(hash(source),pin.after,file);
-    assert.equal(sourceBeforeUsability(file,source),pin.beforeText,file);
-    assert.equal(sourceBeforeUsability(file,source+'\n// unknown change'),source+'\n// unknown change');
+    assert.equal(historicalProductWorkbookSource(sourceBeforeUsability,file,source),pin.beforeText,file);
+    assert.equal(historicalProductWorkbookSource(sourceBeforeUsability,file,source+'\n// unknown change'),source+'\n// unknown change');
     if(pin.beforeText!==null){
       assert.equal(hash(pin.beforeText),pin.before);
       assert.equal(execFileSync('git',['show',pins.baseline+':'+file],{encoding:'utf8'}).replaceAll('\r\n','\n'),pin.beforeText);

@@ -1,3 +1,4 @@
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import {sourceBeforeAftercareCleanup} from '../scripts/audit/source-before-aftercare-cleanup.mjs';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -104,7 +105,7 @@ test('historical return service stays identifiable but Admin Legacy creation is 
   assert.match(orderDetail, /للقراءة فقط/u);
   assert.doesNotMatch(orderDetail, /تسجيل مرتجع كامل ورد المبلغ|اعتماد المرتجع ورد المبلغ|handleReturnCompletedOrder/u);
   assert.match(orderDetail, /<AdminAftercarePanel/u);
-  const panel=sourceBeforeAftercareCleanup('src/features/orders/AdminAftercarePanel.tsx',readFileSync(new URL('../src/features/orders/AdminAftercarePanel.tsx',import.meta.url),'utf8'))!;
+  const panel=historicalProductWorkbookSource(sourceBeforeAftercareCleanup,'src/features/orders/AdminAftercarePanel.tsx',readFileSync(new URL('../src/features/orders/AdminAftercarePanel.tsx',import.meta.url),'utf8'))!;
   assert.match(panel,/settleAdminReturn/u);
   assert.match(panel,/غير قابل للبيع/u);
 });

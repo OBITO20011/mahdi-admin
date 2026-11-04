@@ -63,7 +63,7 @@ async function inspectContext(plan:ProductWorkbookPlan,actor:string,storage:Stor
  return{context,key,planHash,attempt,reference,errors};
 }
 export async function inspectProductWorkbook(plan:ProductWorkbookPlan,actor:string,storage:Storage){const value=await inspectContext(plan,actor,storage);return{errors:value.errors,pending:Boolean(value.attempt&&!value.attempt.entries.every(e=>e.complete))};}
-export async function saveProductWorkbook(plan:ProductWorkbookPlan,actor:string,storage:Storage,progress?:(done:number,total:number)=>void){
+async function saveProductWorkbookUnlocked(plan:ProductWorkbookPlan,actor:string,storage:Storage,progress?:(done:number,total:number)=>void){
  const{context,key,planHash,reference,errors}=await inspectContext(plan,actor,storage);let attempt=loadProductImportAttempt(storage,key);assert(!errors.length,'PRODUCT_IMPORT_REFERENCE_INVALID');
  if(!attempt){attempt=createProductImportAttempt(actor,context.project,planHash,plan.products.length);storage.setItem(key,JSON.stringify(attempt));}
  const core=['name_ar','category_id','unit_id','purchase_unit_id','units_per_purchase_unit','default_purchase_price_in_minor_units','sale_unit_id','units_per_sale_unit','default_sale_price_in_minor_units','cost_price_in_minor_units','min_stock_level','parcel_only','is_active'];
@@ -83,9 +83,20 @@ export async function saveProductWorkbook(plan:ProductWorkbookPlan,actor:string,
 }
 export const productImportErrorText=(error:unknown)=>{
  const code=error instanceof Error?error.message:'';
+ if(code==='PRODUCT_IMPORT_BUSY')return 'هناك استيراد جارٍ في نافذة أخرى. انتظر اكتماله ثم استأنف الملف نفسه (IMP-05).';
+ if(code==='PRODUCT_IMPORT_LOCK_REQUIRED')return 'افتح آخر إصدار من Chrome أو Safari للاستيراد الآمن، ومن جهاز ومتصفح واحد فقط (IMP-05).';
  if(code==='PRODUCT_IMPORT_ATTEMPT_MISMATCH')return 'توجد محاولة محفوظة لملف آخر. اختر الملف نفسه لاستئنافها؛ لا تبدأ استيراداً جديداً.';
  if(code==='PRODUCT_IMPORT_SETUP_FINISHED')return 'بداية التشغيل منتهية؛ لا يمكن بدء استيراد افتتاحي جديد.';
  if(code.includes('JOURNAL')||code==='QuotaExceededError')return 'تعذر حفظ سجل المحاولة على الجهاز. لا تغلقه؛ أصلح مساحة التخزين ثم استأنف الملف نفسه.';
  if(code.includes('READBACK')||code.includes('CONCURRENT')||code.includes('FLAVOR_ID'))return 'لم تتطابق بيانات الصنف مع المحاولة. توقف وراجع المطوّر قبل المتابعة (IMP-02).';
  return 'لم نتأكد من اكتمال الاستيراد. اختر استئناف المحاولة بنفس الملف؛ لا تنشئ محاولة جديدة (IMP-01).';
 };
+
+// The durable journal has one writer across tabs of the same browser profile.
+export const productWorkbookLockName=(actor:string)=>'nawasrah-product-workbook:'+sanitizedSupabaseUrl+':'+actor;
+export async function saveProductWorkbook(plan:ProductWorkbookPlan,actor:string,storage:Storage,progress?:(done:number,total:number)=>void){
+ if(typeof navigator==='undefined'||!navigator.locks)throw Error('PRODUCT_IMPORT_LOCK_REQUIRED');
+ return navigator.locks.request(productWorkbookLockName(actor),{ifAvailable:true},async lock=>{
+  if(!lock)throw Error('PRODUCT_IMPORT_BUSY');return saveProductWorkbookUnlocked(plan,actor,storage,progress);
+ });
+}

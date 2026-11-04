@@ -1,3 +1,4 @@
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import {sourceBeforeHome219} from '../scripts/audit/source-before-home-performance219.mjs';
 import {sourceBeforeRehearsal219} from '../scripts/testing/rehearsal219-legacy-view.mjs';
 import test from 'node:test';
@@ -13,12 +14,12 @@ test('historical preflight view binds only five exact files to actual accepted m
  assert.equal(preflight120Pins.baseline,baseline);
  assert.deepEqual(Object.keys(preflight120Pins.entries).sort(),['scripts/operations/backup-task-preflight.mjs','tests/aftercare-cleanup.test.ts','tests/aftercare215-source-compat.test.ts','tests/partial216-source-history.test.ts','tests/upgrade-preparation216.test.ts']);
  for(const[file,pin]of Object.entries(preflight120Pins.entries)as Array<[string,{before:string,after:string,beforeText:string}]>){
-  const current=sourceBeforeHome219(file,sourceBeforeRehearsal219(file,lf(readFileSync(file,'utf8'))))!,old=gitRead(file);
+  const current=historicalProductWorkbookSource(sourceBeforeHome219,file,historicalProductWorkbookSource(sourceBeforeRehearsal219,file,lf(readFileSync(file,'utf8'))))!,old=gitRead(file);
   assert.equal(hash(current),pin.after,file);assert.equal(pin.beforeText,old,file);assert.equal(hash(old),pin.before,file);
-  assert.equal(sourceBeforePreflight120(file,current),old,file);
-  const unreviewed=current+'\n// unreviewed preflight mutation\n';assert.equal(sourceBeforePreflight120(file,unreviewed),unreviewed,file);
+  assert.equal(historicalProductWorkbookSource(sourceBeforePreflight120,file,current),old,file);
+  const unreviewed=current+'\n// unreviewed preflight mutation\n';assert.equal(historicalProductWorkbookSource(sourceBeforePreflight120,file,unreviewed),unreviewed,file);
  }
- assert.equal(sourceBeforePreflight120('unrelated.mjs','untouched'),'untouched');
+ assert.equal(historicalProductWorkbookSource(sourceBeforePreflight120,'unrelated.mjs','untouched'),'untouched');
 });
 test('original216 and217 evidence pins remain byte-identical;no historical pin is relearned',()=>{
  for(const file of ['scripts/audit/partial216-source-pins.json','scripts/audit/owner-telegram217-source-pins.json'])

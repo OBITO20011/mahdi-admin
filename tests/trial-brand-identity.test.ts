@@ -1,3 +1,4 @@
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import {pathsBeforeHandover213} from '../scripts/audit/source-before-handover213.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
@@ -40,7 +41,7 @@ test('H live identity is official while trial contacts, video and historical SQL
 test('H exact outer inverse preserves delivered211 sources and rejects any unapproved mutation',()=>{
  const base='6a7d99e48d6fff5299eb2bc4550d67a8b8908bfb';
  for(const [file,pin] of Object.entries(trialHPins) as [string,{added?:boolean}][]){
-  const current=read(file),restored=sourceBeforeTrialH(file,current);assert.throws(()=>sourceBeforeTrialH(file,current+'\nvoid unapproved;\n'));
-  if(pin.added)assert.equal(restored,null);else{const before=execFileSync('git',['show',base+':'+file],{encoding:'utf8',maxBuffer:32*1024**2}).replaceAll('\r\n','\n');assert.equal(restored,before,file);assert.throws(()=>sourceBeforeTrialH(file,before+'\nvoid unapproved;\n'));}
+  const current=read(file),restored=historicalProductWorkbookSource(sourceBeforeTrialH,file,current);assert.throws(()=>historicalProductWorkbookSource(sourceBeforeTrialH,file,current+'\nvoid unapproved;\n'));
+  if(pin.added)assert.equal(restored,null);else{const before=execFileSync('git',['show',base+':'+file],{encoding:'utf8',maxBuffer:32*1024**2}).replaceAll('\r\n','\n');assert.equal(restored,before,file);assert.throws(()=>historicalProductWorkbookSource(sourceBeforeTrialH,file,before+'\nvoid unapproved;\n'));}
  }
 });

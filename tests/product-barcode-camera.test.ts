@@ -1,3 +1,4 @@
+import{sourceBeforeProductWorkbook}from'../scripts/audit/source-before-product-workbook.mjs';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
@@ -195,7 +196,10 @@ test('barcode precheck rejects duplicates and cross-field collisions but exclude
 });
 
 test('product and flavor forms use shared one-shot capture while flavor master stays barcode-free', () => {
-  const productForm = readSource('../src/features/products/ProductFormModal.tsx');
+  const actualForm=readSource('../src/features/products/ProductFormModal.tsx');
+  const productForm = sourceBeforeProductWorkbook('src/features/products/ProductFormModal.tsx',actualForm)!;
+  assert.match(actualForm,/isOpen=\{\(isBarcodeCameraOpen && !isFlavorMaster\) \|\| Boolean\(flavorCameraId\)\}/u);
+  assert.match(actualForm,/باركود النكهة \(اختياري\)/u);
   const productDetail = readSource('../src/features/products/ProductDetailModal.tsx');
   const captureModal = readSource(
     '../src/features/barcode/BarcodeCameraCaptureModal.tsx'

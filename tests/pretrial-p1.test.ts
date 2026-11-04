@@ -1,3 +1,5 @@
+import{historicalProductWorkbookInventory}from'../scripts/audit/source-before-product-workbook.mjs';
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFileSync} from 'node:fs';
@@ -38,21 +40,21 @@ test('P1 preserves all service contracts,money/quantity calculations and histori
   for(const file of historicalMigrations)assert.equal(read(file),execFileSync('git',['show',base+':'+file],{encoding:'utf8',maxBuffer:32*1024**2}).replaceAll('\r\n','\n'),file);
   const paths=['src/services/supabase','src/utils/receivingCalculations.ts','src/utils/supplierReplacement.ts','src/utils/documentCorrection.ts'];
   const changed=execFileSync('git',['diff','--name-only',base,'--',...paths],{encoding:'utf8'}).trim().split('\n').filter(Boolean);
-  for(const file of changed){const restored=sourceBeforeTrialOwnerA(file,read(file));if(restored!==null)assert.equal(restored,execFileSync('git',['show',base+':'+file],{encoding:'utf8',maxBuffer:32*1024**2}).replaceAll('\r\n','\n'));}
+  for(const file of changed){const restored=historicalProductWorkbookSource(sourceBeforeTrialOwnerA,file,read(file));if(restored!==null)assert.equal(restored,execFileSync('git',['show',base+':'+file],{encoding:'utf8',maxBuffer:32*1024**2}).replaceAll('\r\n','\n'));}
 });
 
 test('P1 exact inverse restores every accepted baseline byte;current and restored mutations fail closed',()=>{
   for(const [file,pin]of Object.entries(pretrialP1Pins) as Array<[string,{added?:boolean;before?:string}]>){
-    const current=read(file),restored=sourceBeforePretrialP1(file,current);
-    assert.throws(()=>sourceBeforePretrialP1(file,current+'\nvoid unapproved;\n'));
+    const current=read(file),restored=historicalProductWorkbookSource(sourceBeforePretrialP1,file,current);
+    assert.throws(()=>historicalProductWorkbookSource(sourceBeforePretrialP1,file,current+'\nvoid unapproved;\n'));
     if(pin.added)assert.equal(restored,null);else{assert.equal(restored,execFileSync('git',['show',base+':'+file],{encoding:'utf8',maxBuffer:32*1024**2}).replaceAll('\r\n','\n'));assert.equal(createHash('sha256').update(restored!).digest('hex'),pin.before);}
   }
 });
 
 test('P1 keeps immutable208 owner evidence and fresh current SDK proof bound to every source and probe',async()=>{
-  const old=JSON.parse(read('docs/operations/TABLE_ACCESS_AFTER_208.json')),historical=await inventoryBeforePretrialP1();
+  const old=JSON.parse(read('docs/operations/TABLE_ACCESS_AFTER_208.json')),historical=await historicalProductWorkbookInventory(inventoryBeforePretrialP1);
   assert.deepEqual(historical.sources,old.sourceHashes);assert.deepEqual(verifyProbeCoverage(historical,old.results),old.coverage);
-  const current=await inventoryBeforeTrialOwnerA(),proof=JSON.parse(read('docs/operations/TABLE_ACCESS_AFTER_PRETRIAL_P1.json'));
+  const current=await historicalProductWorkbookInventory(inventoryBeforeTrialOwnerA),proof=JSON.parse(read('docs/operations/TABLE_ACCESS_AFTER_PRETRIAL_P1.json'));
   assert.equal(JSON.parse(read('docs/agent/project-state.json')).currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_219.json');
   assert.deepEqual(current.sources,proof.sourceHashes);assert.deepEqual(verifyProbeCoverage(current,proof.results),proof.coverage);
   assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);assert.equal(proof.managedAccess,false);assert.equal(proof.results.length,142);assert.ok(proof.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));

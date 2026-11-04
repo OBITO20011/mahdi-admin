@@ -1,3 +1,4 @@
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import {sourceBeforeOwnerTelegram217} from '../scripts/audit/source-before-owner-telegram217.mjs';
 import {sourceBeforeRehearsal219} from '../scripts/testing/rehearsal219-legacy-view.mjs';
 import {sourceBeforePreflight120} from '../scripts/audit/source-before-preflight120.mjs';
@@ -10,7 +11,7 @@ import {supplierPacketQuantity,supplierDecisionHelp} from '../src/features/inven
 import {wizard215Scenario} from '../e2e/aftercare215-wizard.fixture';
 import {buildWizard215,selectWizardPhysical215,physicalKey215,type WizardRequest215} from '../src/features/orders/aftercare215Draft';
 import {aftercareCleanupSourcePins,sourceBeforeAftercareCleanup} from '../scripts/audit/source-before-aftercare-cleanup.mjs';
-const read=(file:string)=>sourceBeforeRehearsal219(file,readFileSync(file,'utf8'))!;
+const read=(file:string)=>historicalProductWorkbookSource(sourceBeforeRehearsal219,file,readFileSync(file,'utf8'))!;
 const hash=(s:string)=>createHash('sha256').update(s).digest('hex');
 test('supplier display uses saved parcel factor and exact packet totals without mutating stored units',()=>{
   assert.equal(supplierPacketQuantity(14,12),'1 طرد + 2 باكيت');
@@ -55,8 +56,8 @@ test('invoice has one current wizard, recoveries for all old actions and a lazy 
 test('cleanup historical projection is bound to approved216 bytes and never erases an unknown mutation',()=>{
   assert.equal(aftercareCleanupSourcePins.baseline,'015ffcae98da6241514cd8ab3b646dd2993c9eb2');
   for(const [file,pin] of Object.entries(aftercareCleanupSourcePins.entries) as [string,{after:string;before:string|null;beforeText:string|null}][]){
-    const current=sourceBeforeOwnerTelegram217(file,sourceBeforePreflight120(file,read(file)))!;assert.equal(hash(current),pin.after,file);assert.equal(sourceBeforeAftercareCleanup(file,current),pin.beforeText,file);
+    const current=historicalProductWorkbookSource(sourceBeforeOwnerTelegram217,file,historicalProductWorkbookSource(sourceBeforePreflight120,file,read(file)))!;assert.equal(hash(current),pin.after,file);assert.equal(historicalProductWorkbookSource(sourceBeforeAftercareCleanup,file,current),pin.beforeText,file);
     if(pin.beforeText!==null){assert.equal(hash(pin.beforeText),pin.before);assert.equal(pin.beforeText,execFileSync('git',['show',aftercareCleanupSourcePins.baseline+':'+file],{encoding:'utf8',maxBuffer:32*1024**2}).replaceAll('\r\n','\n'));}
-    const unknown=current+'\n// unexpected mutation\n';assert.equal(sourceBeforeAftercareCleanup(file,unknown),unknown);
+    const unknown=current+'\n// unexpected mutation\n';assert.equal(historicalProductWorkbookSource(sourceBeforeAftercareCleanup,file,unknown),unknown);
   }
 });

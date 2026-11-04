@@ -1,3 +1,4 @@
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import {sourceBeforeCorrections207} from '../scripts/audit/source-before-corrections207.mjs';
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
@@ -41,7 +42,7 @@ test('phone tabs preserve mounted children/readers; no fabricated statement or f
   assert.match(source, /role="dialog" aria-modal="true"/);
   assert.doesNotMatch(source, /\.rpc\(|FromSupabase|localStorage|confirm\(|prompt\(/);
   const profileFile = 'src/features/crm/CustomerDetailView.tsx';
-  const profile = sourceBeforeCorrections207(profileFile,readFileSync(profileFile, 'utf8'))!;
+  const profile = historicalProductWorkbookSource(sourceBeforeCorrections207,profileFile,readFileSync(profileFile, 'utf8'))!;
   assert.match(profile, /defaultValue="summary"/);
   assert.match(profile, /value:'statement',label:'كشف الحساب'/);
   assert.match(profile, /<CustomerStatement customerId=\{customer\.id\} revision=\{customer\} \/>/);

@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
+  "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner4Nov producttemplate/flavors aboveunmergedPR63;approved two-phase existing-RPC identities with strict readback/recovery;noDBchanges/finance/permissions/merge/deploy/hosted.",
-  "baselineSha": "71ebd921bc810d1c61a304a7d98feb902e99474f",
+  "baselineSha": "e4b05d7e2e13d40fad838b001072faad5fb8513c",
   "branch": "codex/pre-delivery2-product-flavors",
   "phase": "PACKAGE_F",
   "completed": [
@@ -32,13 +32,13 @@
   "prohibitions": [
     "NoSQL/migration/RPCdefinition/financial/permissionschange;nohosted/deploy/merge;58Draft;ownercheckout/env untouched."
   ],
-  "nextExactAction": "Local functional packagecomplete:12realDB/43focused/16newUI/108regression/store207/6build/PWA4. ActualSDK219 sequentially thenfullAdmin/FULLCI/PRabove63. NoDBchanges/merge/hosted.",
+  "nextExactAction": "Lock/late-file cases and113protected sources pass; refresh actual12DB and181table/598service source-bound proofs, fullAdmin/build; PR/FULLCI. NoDBchanges/merge/hosted.",
   "startedAt": "2026-11-03T03:59:26.518Z",
-  "checkpointedAt": "2026-11-04T10:08:07.427Z",
+  "checkpointedAt": "2026-11-04T11:16:25.818Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 9,
-  "filesTouchedManifestSha256": "7228489eb48f6c8ec1f2bcfe836451b8bbbbab961e12aaffa1e8c57be8fbb770",
-  "workingTreeFingerprint": "E81EF3DE56F9009D683081D1A289F4A3FB1549F9B9B0A289F91D8528ECB006AF"
+  "filesTouchedCount": 101,
+  "filesTouchedManifestSha256": "c9af1151f4747cfea391cabc32e91de1fbf3e25e2ba50958e6d435db1705d6c4",
+  "workingTreeFingerprint": "EA0D4C9006E9079331754BF30DB3B25FD4F32CA346E319FAF088324C65C0896B"
 }

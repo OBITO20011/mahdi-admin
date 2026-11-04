@@ -3,19 +3,59 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/OWNER_DECISIONS.md"
+      "path": "docs/agent/PRODUCT_WORKBOOK_IMPORT_AR.md"
     },
     {
       "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
     },
     {
       "code": " M",
-      "path": "docs/operations/PRODUCT_WORKBOOK_219_LOCAL.json"
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_219.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.md"
+    },
+    {
+      "code": " M",
+      "path": "e2e/package-f-product-workbook-harness.tsx"
+    },
+    {
+      "code": " M",
+      "path": "e2e/package-f-product-workbook.fixture.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/package-f-product-workbook.spec.ts"
     },
     {
       "code": " M",
       "path": "scripts/audit/product-workbook-source-pins.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/run-service-access-diagnostic.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/run-table-access-diagnostic.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-pre-training.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-product-workbook.mjs"
     },
     {
       "code": " M",
@@ -27,7 +67,207 @@
     },
     {
       "code": " M",
-      "path": "scripts/testing/run-product-template-existing-rpcs.mjs"
+      "path": "src/features/goLive/GoLiveSetupView.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/goLive/ProductWorkbookImportPanel.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/products/ProductFormModal.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/services/supabase/productWorkbook.service.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/admin-focus-business-parity.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/aftercare-cleanup.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/aftercare215-source-compat.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/all-customer-collections202.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/browser-balance.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/bulk-product-images-contracts.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/canonical-receivables197.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/cashier-collections198.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/cheques195-admission.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/cheques195-parity.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/ci-dedup.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/correction-recovery-c8.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/cutover-platform-documentation.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/document-corrections207-evidence.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/environment-separation.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/first-owner-preparation.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/frankfurt-application-acl.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/frankfurt-public-config.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/frankfurt-reference150.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/frankfurt-reference151.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/frankfurt-reference198.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/go-live-integration164.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/handover213.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/handover214.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/home-damage201.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/home219-evidence.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/navigation-cash206.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/opening-cheques196.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/orders-panel-presentation.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/owner-telegram-format.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/owner-warehouses.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/package-f-auth-assistant.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/package-f-customers.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/package-f-phone-polish.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/package-f-remaining-batch1.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/parcel209.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/partial216-operations.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/partial216-source-history.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/phase43-admin-aftercare-integration.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/pre-delivery-usability.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/pre-training-history.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/preflight120-source-history.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/prelaunch-trial.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/pretrial-p1.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/product-barcode-camera.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/product-integration171.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/product-receiving205.test.ts"
     },
     {
       "code": " M",
@@ -35,7 +275,135 @@
     },
     {
       "code": " M",
-      "path": "tests/product-workbook.test.ts"
+      "path": "tests/product-workbook-service.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/receiving-unit-pricing.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/rehearsal219.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/reset214-resume.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/reset214.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/reset219-reference-d1-docs.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/sales-history204-evidence.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/sales-returns.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/sentry-history.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/sentry-retention-integration.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/store-scroll-history.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/store-sharing-identity.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/storefront-c6.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/strict-test-contracts.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/supplier-replacement208-evidence.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/table-access-inventory.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/table-embed-fk-parity.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-aftercare-supplier.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-brand-identity.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-owner-a.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-owner-r.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-owner-w.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-sale-receipts.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-ta-presentation.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial40-ci-scheduling.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial40-integration.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial41-integration.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/unit-terminology.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/withdrawals182-admission.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/build-product-workbook-history.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/product-workbook-historical-views.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/product-workbook-history.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/product-workbook-probe-scope.mjs"
     }
   ]
 }

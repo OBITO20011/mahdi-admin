@@ -1,6 +1,6 @@
 // Loopback-only UI fixture;real writers separately exercised on isolated219.
 export function productWorkbookFixture(actor:string,finished:()=>boolean){
- let next=100,version=0,loseCreate=false,loseWrite=false;const uid=()=>`92600000-0000-4000-8000-${String(++next).padStart(12,'0')}`;
+ let next=100,version=0,loseCreate=false,loseWrite=false,holdCreate=false;let releaseCreate:(()=>void)|undefined;const uid=()=>`92600000-0000-4000-8000-${String(++next).padStart(12,'0')}`;
  const initial:Record<string,any[]>={categories:[{id:'cat',name_ar:'شوكولاتة',is_active:true}],units:[{id:'pkt',code:'PKT',name_ar:'باكيت'},{id:'ctn',code:'CTN',name_ar:'طرد'}],brands:[],warehouses:[{id:'wh',code:'WH-MAIN',name_ar:'الرئيسي',is_active:true}],products:[]};
  const tables:Record<string,any[]>=JSON.parse(localStorage.getItem('product-workbook-fixture')??'null')??initial;next+=tables.products.length;
  const calls:{name:string;args:any}[]=[];
@@ -13,6 +13,6 @@ export function productWorkbookFixture(actor:string,finished:()=>boolean){
  if(name==='import_go_live_products_v1'){for(const p of a.p_rows)create({p_units_per_purchase_unit:p.units_per_purchase_unit,p_units_per_sale_unit:p.units_per_sale_unit,p_default_purchase_price_in_minor_units:p.purchase_package_price_in_minor_units,p_default_sale_price_in_minor_units:p.sale_package_price_in_minor_units,p_cost_price_in_minor_units:p.cost_per_base_unit_in_minor_units,p_min_stock_level:p.min_stock_level,p_parcel_only:p.parcel_only},p.sku,p.name_ar,p.barcode||null);return{data:{success:true},error:null};}
  if(name==='update_product_flavor_v2'){const row=tables.products.find(p=>p.id===a.p_flavor_product_id);if(row.updated_at!==a.p_expected_updated_at)throw Error('LOCAL_CAS_CONFLICT');row.barcode=a.p_barcode;row.updated_at=String(++version);if(loseWrite){loseWrite=false;return{data:null,error:{message:'RAW TOKEN'}};}return{data:{success:true},error:null};}
  if(name==='update_product_master_v5'){const row=tables.products.find(p=>p.id===a.p_product_id);if(row.updated_at!==a.p_expected_updated_at)throw Error('LOCAL_CAS_CONFLICT');if(row.flavor_master_product_id&&a.p_parcel_only!==null)throw Error('LOCAL_INHERITED_METHOD');for(const[key,value]of Object.entries(a))if(!['p_product_id','p_expected_updated_at','p_image_url'].includes(key)&&!(key==='p_parcel_only'&&value===null))row[key.slice(2)]=value;row.updated_at=String(++version);if(loseWrite&&row.flavor_master_product_id){loseWrite=false;return{data:null,error:{message:'RAW'}};}return{data:{success:true},error:null};}throw Error('UNEXPECTED_RPC');}};
- const rpc=client.rpc;client.rpc=async(name,a)=>{try{return await rpc(name,a);}finally{localStorage.setItem('product-workbook-fixture',JSON.stringify(tables));}};
- return{client,tables,calls,loseCreate:()=>{loseCreate=true;},loseWrite:()=>{loseWrite=true;}};
+ const rpc=client.rpc;client.rpc=async(name,a)=>{try{const result=await rpc(name,a);if(name==='create_product_family_with_flavors_v2'&&holdCreate){holdCreate=false;await new Promise<void>(resolve=>releaseCreate=resolve);}return result;}finally{localStorage.setItem('product-workbook-fixture',JSON.stringify(tables));}};
+ return{client,tables,calls,holdCreate:()=>{holdCreate=true;},releaseCreate:()=>releaseCreate?.(),loseCreate:()=>{loseCreate=true;},loseWrite:()=>{loseWrite=true;}};
 }

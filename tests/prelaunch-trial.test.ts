@@ -1,3 +1,4 @@
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import {prelaunchTrialPins,sourceBeforePrelaunchTrial} from '../scripts/audit/source-before-prelaunch-trial.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
@@ -30,6 +31,6 @@ test('only the fixed preview project/branch is admitted;production commands refu
 
 test('temporary context inverse preserves every original source byte and rejects drift',()=>{
  for(const [file,pin]of Object.entries(prelaunchTrialPins) as [string,{beforeText:string}][]){
- const raw=readFileSync(file,'utf8');assert.equal(sourceBeforePrelaunchTrial(file,raw),pin.beforeText);assert.throws(()=>sourceBeforePrelaunchTrial(file,raw+'\n// unknown'));
+ const raw=readFileSync(file,'utf8');assert.equal(historicalProductWorkbookSource(sourceBeforePrelaunchTrial,file,raw),pin.beforeText);assert.throws(()=>historicalProductWorkbookSource(sourceBeforePrelaunchTrial,file,raw+'\n// unknown'));
  }
 });

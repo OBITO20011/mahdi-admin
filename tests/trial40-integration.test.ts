@@ -1,3 +1,4 @@
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import {pathsBeforeAftercare215} from '../scripts/audit/source-before-aftercare215.mjs';
 import {projectTrial41Source,trial41Integration} from '../scripts/audit/source-before-trial41-integration.mjs';
 import assert from 'node:assert/strict';
@@ -8,7 +9,7 @@ import {createHash} from 'node:crypto';
 import {trial40IntegrationPins,projectTrial40Source} from '../scripts/audit/source-before-trial40-integration.mjs';
 
 const refs={baseline:'f95ff0458f90298edc21e39859d3268c7f7ccac7',identity:'2471fda5dcef5e0119feb0cc77168822a58b9581',bulk:'5ad57e1ca265390ca589d2924cf29092c98d5cf9'};
-const read=(file:string)=>projectTrial41Source(file,readFileSync(file,'utf8'),'previousMain') as string;
+const read=(file:string)=>historicalProductWorkbookSource(projectTrial41Source,file,readFileSync(file,'utf8'),'previousMain') as string;
 const git=(args:string[])=>execFileSync('git',args,{encoding:'utf8',stdio:['ignore','pipe','pipe'],maxBuffer:16*1024**2}).replaceAll('\r\n','\n');
 const hash=(text:string)=>createHash('sha256').update(text).digest('hex');
 
@@ -30,10 +31,10 @@ test('exact integration projections equal recorded Git branches;unknown edits ar
     const raw=read(file);assert.equal(hash(raw),pin.after,file);
     for(const [target,ref]of Object.entries(refs)){
       const snapshot=pin.targets[target];
-      if(snapshot===null){assert.throws(()=>git(['cat-file','-e',ref+':'+file]));assert.equal(projectTrial40Source(file,raw,target),null);}
-      else{assert.equal(snapshot.text,git(['show',ref+':'+file]));assert.equal(projectTrial40Source(file,raw,target),snapshot.text);}
-      const changed=raw+'\nvoid unapproved;\n';assert.equal(projectTrial40Source(file,changed,target),changed);
+      if(snapshot===null){assert.throws(()=>git(['cat-file','-e',ref+':'+file]));assert.equal(historicalProductWorkbookSource(projectTrial40Source,file,raw,target),null);}
+      else{assert.equal(snapshot.text,git(['show',ref+':'+file]));assert.equal(historicalProductWorkbookSource(projectTrial40Source,file,raw,target),snapshot.text);}
+      const changed=raw+'\nvoid unapproved;\n';assert.equal(historicalProductWorkbookSource(projectTrial40Source,file,changed,target),changed);
     }
   }
-  assert.throws(()=>projectTrial40Source('src/App.tsx','anything','unknown'),/TARGET_INVALID/u);
+  assert.throws(()=>historicalProductWorkbookSource(projectTrial40Source,'src/App.tsx','anything','unknown'),/TARGET_INVALID/u);
 });

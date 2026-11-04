@@ -20,8 +20,7 @@ export function testJwt(role,actor,secret){const b=v=>Buffer.from(JSON.stringify
  const unsigned=b({alg:'HS256',typ:'JWT'})+'.'+b({role,sub:actor,aal:'aal2',exp:Math.floor(Date.now()/1000)+3600});
  return unsigned+'.'+createHmac('sha256',secret).update(unsigned).digest('base64url');}
 export function scopes(ids,actor){return {orderId:ids.orderId,orderIds:[ids.orderId],operationId:ids.operationId,
- // Exact symbols used by product-workbook's UUID/temporary-SKU readers;not a fallback evaluator.
- id:fixtureId(101),sku:'LOCAL-AUDIT-ABSENT-SKU',userId:actor,receiptId:ids.receiptId,supplierId:fixtureId(301),poId:ids.poId,createdProdId:fixtureId(101),
+ userId:actor,receiptId:ids.receiptId,supplierId:fixtureId(301),poId:ids.poId,createdProdId:fixtureId(101),
  result:{data:{orderId:ids.orderId}},instances:ids.instances.map(id=>({id})),previewLimit:50,from:0,pageSize:25,
  input:{purchasePackage:'باكيت',salePackage:'باكيت',unitName:'باكيت'},body:{eventKey:'audit-local-dispatch',type:'new_order',orderId:ids.orderId},
  orderError:{message:'isolated diagnostic'},targetsError:{message:'isolated diagnostic'},target:{subscription_id:ids.subscriptionId},

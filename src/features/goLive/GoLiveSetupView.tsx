@@ -77,6 +77,7 @@ interface ImportPanelProps {
 
 /** Template → file → local checks → database dry run → summary → batched idempotent save. */
 const ImportPanel: React.FC<ImportPanelProps> = ({ kind, disabled, warehouseId, onSaved }) => {
+  const [productBusy,setProductBusy]=useState(false);
   const [productFile,setProductFile]=useState<File|null>(null);
   const inputId = useId();
   const fileRef = useRef<HTMLInputElement>(null);
@@ -172,16 +173,16 @@ const ImportPanel: React.FC<ImportPanelProps> = ({ kind, disabled, warehouseId, 
       </ul>
       <div className="flex flex-wrap gap-2">
         <UiButton onClick={() => downloadTemplate(kind)}><Download className="h-4 w-4" aria-hidden="true" />تنزيل القالب</UiButton>
-        <label htmlFor={inputId} className={`inline-flex h-11 cursor-pointer items-center justify-center gap-2 rounded-xl border border-nw-border bg-nw-surface px-4 text-sm font-semibold text-nw-text hover:bg-nw-surface-2 ${disabled || busy ? 'pointer-events-none opacity-60' : ''}`}>
+        <label htmlFor={inputId} className={`inline-flex h-11 cursor-pointer items-center justify-center gap-2 rounded-xl border border-nw-border bg-nw-surface px-4 text-sm font-semibold text-nw-text hover:bg-nw-surface-2 ${disabled || busy || productBusy ? 'pointer-events-none opacity-60' : ''}`}>
           <FileSpreadsheet className="h-4 w-4" aria-hidden="true" />اختيار ملف Excel
         </label>
-        <input id={inputId} ref={fileRef} type="file" className="sr-only" disabled={disabled || Boolean(busy)}
+        <input id={inputId} ref={fileRef} type="file" className="sr-only" disabled={disabled || Boolean(busy) || productBusy}
           accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
           onChange={event => { const file = event.target.files?.[0]; if (file) void analyse(file); }} />
       </div>
       {busy && <p role="status" className="m-0 text-sm text-nw-muted">{busy}</p>}
       {message && <p role={message.tone === 'bad' ? 'alert' : 'status'} className={`m-0 rounded-xl p-3 text-sm ${message.tone === 'bad' ? 'bg-nw-bad-bg text-nw-bad' : 'bg-nw-ok-bg text-nw-ok'}`}>{message.text}</p>}
-      {productFile&&<ProductWorkbookImportPanel file={productFile} disabled={disabled} onSaved={onSaved}/>}
+      {productFile&&<ProductWorkbookImportPanel onBusyChange={setProductBusy} file={productFile} disabled={disabled} onSaved={onSaved}/>}
       {preview && (
         <div className="space-y-3" data-testid={`go-live-preview-${kind}`}>
           <p className="m-0 text-sm font-semibold text-nw-text">{`معاينة الملف: ${preview.fileName}`}</p>

@@ -1,3 +1,4 @@
+import{historicalProductWorkbookInventory}from'../scripts/audit/source-before-product-workbook.mjs';
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -27,7 +28,7 @@ test('binding SQL and all business/Auth validation remain byte-identical to deli
 });
 
 test('first owner198 requires current real access identities,roles,history,catalog and complete source hashes',async()=>{
- const source=await inventory(),proof=JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_STAGING_198.json','utf8'));
+ const source=await historicalProductWorkbookInventory(inventory),proof=JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_STAGING_198.json','utf8'));
  const reference={migrationCeiling:198,catalog:proof.catalog,buildUtcDate:proof.startedAt.slice(0,10),manifest:proof.manifest.map((name:string)=>({name})),manifestDigest:'attested-by-readReady198Reference'};
  const accepted=assertFirstOwner198Access(reference,JSON.stringify(proof),source);assert.equal(accepted.queries,proof.results.length);
  const changedSource=structuredClone(source);changedSource.entries[0].id+=':unapproved';assert.throws(()=>assertFirstOwner198Access(reference,JSON.stringify(proof),changedSource),/INCOMPLETE_QUERY_PROBE_COVERAGE/u,'Historical source projection never bypasses exact query identities');

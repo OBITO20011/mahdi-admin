@@ -1,4 +1,5 @@
-import{test,expect}from'./isolated-test';import type{Page}from'@playwright/test';import{readFile}from'node:fs/promises';
+import {test,expect} from './isolated-test';
+import {checkLayout} from './package-f-layout';import type{Page}from'@playwright/test';import{readFile}from'node:fs/promises';
 import{PRODUCT_WORKBOOK_COLUMNS as C,FLAVOR_WORKBOOK_COLUMNS as F}from'../src/features/goLive/productWorkbook';import{writeXlsx,readXlsxFirstSheet,XLSX_MIME}from'../src/lib/xlsx';
 const url=(q='')=>'/e2e/package-f-product-workbook-harness.html?'+q;
 const sample=(changes:Record<string,string>={})=>C.map(c=>({sku:'TPL',name_ar:'عائلة وهمية',category_name:'شوكولاتة',base_unit_name:'PKT',purchase_unit_name:'CTN',units_per_purchase_unit:'12',sale_unit_name:'CTN',units_per_sale_unit:'12',sale_package_price:'9.000',purchase_package_price:'6.000',cost_per_base_unit:'0.500',sale_method:'الاثنين',packet_price:'0.750',...changes}[c.key]??''));
@@ -10,7 +11,7 @@ test.beforeEach(async({page})=>{await page.setViewportSize({width:390,height:844
 
 test('actual generated workbook previews20columns and flavor autoSKU/leading zeros,zero writes',async({page})=>{
  await page.goto(url());await load(page,{name:'المنتجات.xlsx',mimeType:XLSX_MIME,buffer:await readFile('docs/handover/templates/المنتجات.xlsx')});
- const panel=page.getByTestId('product-workbook-preview');await expect(panel).toContainText('CHO-001-ليمون');await expect(panel).toContainText('0000000000001');await expect(panel).toContainText('رمز تلقائي');await expect(panel).toContainText('1 صنف بلا مخزون');expect(await fixture(page)).toEqual([]);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ const panel=page.getByTestId('product-workbook-preview');await expect(panel).toContainText('CHO-001-ليمون');await expect(panel).toContainText('0000000000001');await expect(panel).toContainText('رمز تلقائي');await expect(panel).toContainText('1 صنف بلا مخزون');expect(await fixture(page)).toEqual([]);await checkLayout(page,page.locator('main'));expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });
 test('family save confirms final identities before stock export,packet units preserved',async({page})=>{
  await page.goto(url());await load(page,file(true,{}, {opening_stock:'25'}));const save=page.getByRole('button',{name:'حفظ المنتجات والنكهات ومطابقتها'});await expect(save).toBeEnabled();await save.click();await expect(page.getByTestId('saved')).toBeVisible();
@@ -40,5 +41,14 @@ test('existing product barcode refuses a new flavor before any creation',async({
 test('desktop1440 preview and mobile390 form remain readable with final identities',async({page,browserName})=>{
  await page.setViewportSize({width:1440,height:900});await page.goto(url());await load(page);await expect(page.getByTestId('product-workbook-preview')).toContainText('TPL-ليمون');expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  const folder=process.env.NAWASRAH_PRODUCT_WORKBOOK_SCREENSHOT_DIR;if(folder)await page.screenshot({path:folder+'/preview-'+browserName+'-1440.png',fullPage:true});
- await page.setViewportSize({width:390,height:844});await fillForm(page);await expect(page.getByLabel('باركود النكهة (اختياري) 1')).toBeVisible();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);if(folder)await page.screenshot({path:folder+'/flavor-barcode-'+browserName+'-390.png',fullPage:true});
+ await page.setViewportSize({width:390,height:844});await fillForm(page);await expect(page.getByLabel('باركود النكهة (اختياري) 1')).toBeVisible();await checkLayout(page,page.locator('main'));expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);if(folder)await page.screenshot({path:folder+'/flavor-barcode-'+browserName+'-390.png',fullPage:true});
+});
+
+
+test('real browser lock prevents a second tab from writing the same journal or creating another family',async({page})=>{await page.goto(url());await page.evaluate(()=>(window as any).__holdImportLock());const second=await page.context().newPage();try{await second.goto(url());await load(second);await expect(second.getByRole('button',{name:'حفظ المنتجات والنكهات ومطابقتها'})).toBeEnabled();await second.getByRole('button',{name:'حفظ المنتجات والنكهات ومطابقتها'}).click();await expect(second.getByRole('alert')).toContainText('IMP-05');expect(await fixture(second)).toEqual([]);await page.evaluate(()=>(window as any).__releaseImportLock());await second.getByRole('button',{name:'استئناف المحاولة ومطابقة بياناتها'}).click();await expect(second.getByTestId('saved')).toBeVisible();expect((await fixture(second)).length).toBe(2);}finally{await page.evaluate(()=>(window as any).__releaseImportLock());await second.close();}});
+
+
+test('late completion for an earlier file cannot mark another preview complete or export its stock',async({page})=>{
+ await page.goto(url());await load(page,file(true,{}, {opening_stock:'25'}));await expect(page.getByRole('button',{name:'حفظ المنتجات والنكهات ومطابقتها'})).toBeEnabled();await page.evaluate(()=>(window as any).__workbookFixture.holdCreate());await page.getByRole('button',{name:'حفظ المنتجات والنكهات ومطابقتها'}).click();await expect.poll(async()=>(await fixture(page)).length).toBe(2);
+ await load(page,{...file(false,{sku:'OTHER',name_ar:'منتج ثان وهمي',opening_stock:'5'}),name:'OTHER.xlsx'});await expect(page.getByTestId('product-workbook-preview')).toContainText('OTHER.xlsx');await expect(page.getByRole('alert')).toContainText('ملف آخر');await page.evaluate(()=>(window as any).__workbookFixture.releaseCreate());await expect(page.getByTestId('saved')).toBeVisible();await expect(page.getByTestId('product-workbook-preview')).not.toContainText('اكتمل تعريف');await expect(page.getByRole('button',{name:/تنزيل ملف البضاعة الموجودة/})).toHaveCount(0);expect((await fixture(page)).some((r:any)=>r.sku==='OTHER')).toBe(false);
 });

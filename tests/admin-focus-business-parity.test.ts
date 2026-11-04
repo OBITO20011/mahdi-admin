@@ -1,3 +1,4 @@
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import assert from 'node:assert/strict';import test from 'node:test';import {readFileSync} from 'node:fs';import {createHash} from 'node:crypto';import ts from 'typescript';
 import {sourceBeforeTrialW} from '../scripts/audit/source-before-trial-owner-w.mjs';
 // Captured from d8bc619 BEFORE the approved display/focus repair,not current source.
@@ -7,7 +8,7 @@ const baseline=[
 ];
 const hash=(v:unknown)=>createHash('sha256').update(JSON.stringify(v)).digest('hex');
 for(const expected of baseline)test(`focus repair preserves ALL calls,full form and validation/location bodies:${expected.file}`,()=>{
- const ast=ts.createSourceFile(expected.file,sourceBeforeTrialW(expected.file,readFileSync(expected.file,'utf8')),ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX),printer=ts.createPrinter({removeComments:true});
+ const ast=ts.createSourceFile(expected.file,historicalProductWorkbookSource(sourceBeforeTrialW,expected.file,readFileSync(expected.file,'utf8')),ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX),printer=ts.createPrinter({removeComments:true});
  const calls:string[]=[],forms:string[]=[],bodies:Record<string,string>={};const print=(n:ts.Node)=>printer.printNode(ts.EmitHint.Unspecified,n,ast);
  const visit=(n:ts.Node)=>{if(ts.isCallExpression(n))calls.push(print(n));
   if(ts.isVariableDeclaration(n)&&['submit','getLocation'].includes(n.name.getText(ast))&&n.initializer)bodies[n.name.getText(ast)]=print(n.initializer);

@@ -1,3 +1,4 @@
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import {sourceBeforeReset214} from '../scripts/audit/source-before-reset214.mjs';
 import {sourceBeforeRehearsal219} from '../scripts/testing/rehearsal219-legacy-view.mjs';
 import {pathsBeforeAftercare215} from '../scripts/audit/source-before-aftercare215.mjs';
@@ -10,7 +11,7 @@ import {handover214Pins, sourceBeforeHandover214, pathsBeforeHandover214} from '
 import {assert214History, upgrade214Versions} from '../scripts/operations/frankfurt-owner-upgrade214.mjs';
 import {changed214Functions} from '../scripts/testing/handover214-contract.mjs';
 import {futureMigrationViolations} from '../scripts/testing/maintenance-db-contract.mjs';
-const read = (file: string) => sourceBeforeReset214(file,sourceBeforeRehearsal219(file,readFileSync(file, 'utf8')))!;
+const read = (file: string) => historicalProductWorkbookSource(sourceBeforeReset214,file,historicalProductWorkbookSource(sourceBeforeRehearsal219,file,readFileSync(file, 'utf8')))!;
 const hash = (text: string) => createHash('sha256').update(text).digest('hex');
 const baseline = '2c2dcacaa45b20ee83da6e67fddbac3ca749d808';
 
@@ -19,8 +20,8 @@ test('Z exact outer inverse retains every prior pin and refuses arbitrary source
     const current = read(file);
     assert.equal(hash(current), pin.after, file);
     assert.equal(hash(pin.beforeText), pin.before, file);
-    assert.equal(sourceBeforeHandover214(file, current), pin.added ? null : pin.beforeText, file);
-    assert.throws(() => sourceBeforeHandover214(file, current + '\nvoid unreviewed;\n'), /HANDOVER214_UNREVIEWED_SOURCE/, file);
+    assert.equal(historicalProductWorkbookSource(sourceBeforeHandover214,file, current), pin.added ? null : pin.beforeText, file);
+    assert.throws(() => historicalProductWorkbookSource(sourceBeforeHandover214,file, current + '\nvoid unreviewed;\n'), /HANDOVER214_UNREVIEWED_SOURCE/, file);
     if (!pin.added) assert.equal(pin.beforeText, execFileSync('git', ['show', baseline + ':' + file], {encoding: 'utf8', maxBuffer: 8 * 1024 ** 2}).replaceAll('\r\n', '\n'), file);
   }
   assert.deepEqual(pathsBeforeHandover214(['supabase/unapproved.sql']), ['supabase/unapproved.sql']);
