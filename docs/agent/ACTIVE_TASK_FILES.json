@@ -10,24 +10,32 @@
       "path": "scripts/testing/rehearsal219-legacy-view.json"
     },
     {
-      "code": "??",
-      "path": "docs/operations/GO_LIVE_FILES_CHECK_AR.md"
+      "code": " M",
+      "path": "src/lib/xlsx.ts"
     },
     {
       "code": "??",
-      "path": "scripts/operations/check-go-live-files.ps1"
+      "path": "docs/operations/PRODUCT_WORKBOOK_AR.md"
     },
     {
       "code": "??",
-      "path": "scripts/operations/go-live-files/check.ts"
+      "path": "scripts/testing/run-product-template-existing-rpcs.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/operations/go-live-files/cli.ts"
+      "path": "src/features/goLive/productImportAttempt.ts"
     },
     {
       "code": "??",
-      "path": "tests/go-live-files-offline.test.ts"
+      "path": "src/features/goLive/productWorkbook.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/product-import-attempt.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/product-workbook.test.ts"
     }
   ]
 }

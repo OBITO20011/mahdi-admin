@@ -2,43 +2,42 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner4Nov pre-delivery2 item1 offline Excel checker;then independent Vite fs hardening,private maps,mobile back PRs in order. No SQL/RPC/financial/permissions/merge/deploy/hosted.58Draft.",
-  "baselineSha": "376293af705837201e4c94b66967337baf524af6",
-  "branch": "codex/pre-delivery2-excel-validator",
+  "objective": "Owner4Nov producttemplate/flavors aboveunmergedPR63;approved two-phase existing-RPC identities with strict readback/recovery;noDBchanges/finance/permissions/merge/deploy/hosted.",
+  "baselineSha": "2dafe8433bc4efef68a82fee904590aabf5fc8ad",
+  "branch": "codex/pre-delivery2-product-flavors",
   "phase": "PACKAGE_F",
   "completed": [
-    "Read current376293af instructions,GoLiveSetup pure parsers/backend validation and templates;new isolatedworktree;ownercheckout untouched.",
-    "Implemented standaloneofflinechecker/PowerShell wrapper andArabicguide;pureXLSX/GoLive parsers unchanged;localreference failclosed;BigInttotals;protectedreports/no rawPII terminal.",
-    "Focused11includingactualCLI withforbiddennetwork/read-onlyinputproof,Admin1754/1754,types/strictlint,PowerShellsyntax PASS;noSQL/runtime/client changes."
+    "PriorfourPR63/64/65/66 eachReady63/63unmerged;checkpoint saved.",
+    "Cleannewworktree above63;inherited task mismatch knownown;owner nowapproved stagedalternative;sourcefeasibility external.",
+    "Actual219 existingRPC proof PASS:flavorSKU/barcode through v5(NULLmethod)/v2;cost/commercial/stock unchanged;staleCAS+catalogunchanged;containercleaned.",
+    "Pureworkbook/attempt18PASS incl old XLSXregression,duplicate/derivedprice/optionalstock/purchasepack,unknown-create/finalize/journalquota;types+strictlintPASS."
   ],
   "inProgress": [
-    "Savecommit/push item1 andseparatePR/fullCI;then item2 inindependent worktree after item1delivery."
+    "Implement service adapter and UI,checker/XLSX/camera;actual integratedresumes and browser thenFULLCI."
   ],
   "notStarted": [
-    "Item1 PR/fullCI/review;then2Vite,3private maps,4back navigation separatePRs;never merge."
+    "Templates+checker+UI+runtime/browser tests+PR/FULLCI."
   ],
-  "testsPassed": [
-    "Admin1754/1754;focused11CLI/zero network/bytespreserved/identifierzeros/BigInt;typecheck;strictESLint;PowerShellsyntax."
-  ],
+  "testsPassed": [],
   "testsRemaining": [
-    "Gitleaks0 andexactFULLCIquality/recovery/bothsecrets."
+    "ExistingRPC actual219proof;focused/unit/types/lint/build/browser/access/Gitleaks/FULLCI."
   ],
   "findings": [
-    "Categories/units/party matches are database-state dependent;require local reference input,never silently infer from template examples.",
-    "Flavors are created manually;stock/images need explicit flavor/product records in local reference."
+    "FamilyV2 ignores flavorbarcode andgenerated SKUusesclock;ownerapproved phasedcompletion,not oneatomictransaction.",
+    "209 inheritedmethod requires NULL/nochange for flavorv5;explicitfalse rejected as designed."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No SQL/migration/RPC/financial/permission change;no hosted/deploy/merge;keep58Draft;preserveownerlocalenv."
+    "NoSQL/migration/RPCdefinition/financial/permissionschange;nohosted/deploy/merge;58Draft;ownercheckout/env untouched."
   ],
-  "nextExactAction": "Commit/push item1 offline checker after Gitleaks;PR/fullCI,no merge;then item2",
+  "nextExactAction": "Implement existing-RPC service adapter with strict metadata readback/temporarySKU fence,then UI/checker/XLSX/camera/runtime/browser/FULLCI;no DBchanges.",
   "startedAt": "2026-11-03T03:59:26.518Z",
-  "checkpointedAt": "2026-11-04T02:24:03.872Z",
+  "checkpointedAt": "2026-11-04T07:04:14.623Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 7,
-  "filesTouchedManifestSha256": "93c5042ee5d25b297e06b95b79595a0fd36f0e7309dbfdb1a69fb67395bd20e0",
-  "workingTreeFingerprint": "2F4FA8A6F19B60EBB9189E8794B7C5489BF09607B0D31174DD0C3917F3B2FD2C"
+  "filesTouchedCount": 9,
+  "filesTouchedManifestSha256": "b16cc4303b790f048a9d3c711835d81871d59f74e02670571032b13b87be2410",
+  "workingTreeFingerprint": "F46CE38E4D744013A3C18624656BF8193C9BFA24BF5BCB555E66306C2679A17A"
 }
