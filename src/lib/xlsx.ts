@@ -180,7 +180,9 @@ export async function readXlsxSheet(input: ArrayBuffer | Uint8Array, sheetName?:
   const workbook = files.get('xl/workbook.xml');
   if (!workbook) throw new XlsxError('الملف لا يحتوي ورقة عمل Excel.');
   const sheetTags = [...decoder.decode(workbook).matchAll(/<(?:\w+:)?sheet\s[^>]*>/gu)].map(match => match[0]);
-  const sheetTag = sheetName === undefined ? sheetTags[0] ?? '' : sheetTags.find(tag => decodeXml(/\bname="([^"]*)"/u.exec(tag)?.[1] ?? '') === sheetName);
+  const matchingSheets=sheetName===undefined?[]:sheetTags.filter(tag=>decodeXml(/\bname="([^"]*)"/u.exec(tag)?.[1]??'')===sheetName);
+  if(matchingSheets.length>1)throw new XlsxError('اسم ورقة النكهات مكرر؛ أبقِ ورقة واحدة بالاسم المعتمد.');
+  const sheetTag = sheetName === undefined ? sheetTags[0] ?? '' : matchingSheets[0];
   if (sheetTag === undefined) return []; // Optional named sheet absent; never read a different one.
   const relationId = /\br:id="([^"]+)"/u.exec(sheetTag)?.[1] ?? /\bid="([^"]+)"/u.exec(sheetTag)?.[1];
   let sheetPath = 'xl/worksheets/sheet1.xml';

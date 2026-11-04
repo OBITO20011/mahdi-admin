@@ -1,3 +1,5 @@
+import {ProductWorkbookImportPanel} from './ProductWorkbookImportPanel';
+import {PRODUCT_WORKBOOK_COLUMNS,FLAVOR_WORKBOOK_COLUMNS,PRODUCT_WORKBOOK_NOTES,readProductWorkbook} from './productWorkbook';
 import {BulkProductImagesPanel} from '../products/BulkProductImagesPanel';
 import React, { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { AlertTriangle, Boxes, CheckCircle2, Download, FileSpreadsheet, Lock, Package, PencilLine, ShieldAlert, Truck, Users } from 'lucide-react';
@@ -33,9 +35,9 @@ const kindTitle: Readonly<Record<GoLiveKind, string>> = {
 const fieldClass = 'h-11 w-full rounded-xl border border-nw-border bg-nw-surface px-3 text-sm text-nw-text';
 
 function downloadTemplate(kind: GoLiveKind) {
-  const notes = GO_LIVE_TEMPLATE_NOTES[kind].map(line => [line]);
+  const notes = (kind==='products'?PRODUCT_WORKBOOK_NOTES:GO_LIVE_TEMPLATE_NOTES[kind]).map(line => [line]);
   const bytes = writeXlsx([
-    { name: 'البيانات', rows: templateRows(kind), widths: GO_LIVE_COLUMNS[kind].map(column => column.width ?? 22) },
+    ...(kind==='products'?[{name:'المنتجات',rows:[PRODUCT_WORKBOOK_COLUMNS.map(c=>c.header),PRODUCT_WORKBOOK_COLUMNS.map(c=>c.key==='barcode'?'':c.example)],widths:PRODUCT_WORKBOOK_COLUMNS.map(c=>c.width??24)},{name:'النكهات',rows:[FLAVOR_WORKBOOK_COLUMNS.map(c=>c.header),FLAVOR_WORKBOOK_COLUMNS.map(c=>c.example)],widths:FLAVOR_WORKBOOK_COLUMNS.map(c=>c.width??24)}]:[{ name: 'البيانات', rows: templateRows(kind), widths: GO_LIVE_COLUMNS[kind].map(column => column.width ?? 22) }]),
     { name: 'تعليمات', rows: [['تعليمات القالب'], ...notes, ['احذف سطر المثال قبل الاستيراد، ولا تغيّر عناوين الصف الأول.']], widths: [110] },
   ]);
   const url = URL.createObjectURL(new Blob([bytes as BlobPart], { type: XLSX_MIME }));
@@ -75,6 +77,7 @@ interface ImportPanelProps {
 
 /** Template → file → local checks → database dry run → summary → batched idempotent save. */
 const ImportPanel: React.FC<ImportPanelProps> = ({ kind, disabled, warehouseId, onSaved }) => {
+  const [productFile,setProductFile]=useState<File|null>(null);
   const inputId = useId();
   const fileRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<Preview | null>(null);
@@ -84,8 +87,14 @@ const ImportPanel: React.FC<ImportPanelProps> = ({ kind, disabled, warehouseId, 
   const confirmId = useId();
 
   const analyse = async (file: File) => {
+    setProductFile(null);
     setPreview(null); setMessage(null); setConfirmNew(false); setBusy('جارٍ قراءة الملف والتحقق من الأسطر…');
     try {
+      if(kind==='products'){
+        const book=await readProductWorkbook(new Uint8Array(await file.arrayBuffer()));
+        const enriched=book.products[0]?.some(h=>PRODUCT_WORKBOOK_COLUMNS.some(c=>c.header===h&&!GO_LIVE_COLUMNS.products.some(old=>old.header===h)));
+        if(book.flavors.length||enriched){setProductFile(file);return;}
+      }
       const sheet = await readXlsxFirstSheet(await file.arrayBuffer());
       const { rows, fileErrors } = mapSheet(kind, sheet);
       if (fileErrors.length) { setMessage({ tone: 'bad', text: fileErrors.join(' ') }); return; }
@@ -159,7 +168,7 @@ const ImportPanel: React.FC<ImportPanelProps> = ({ kind, disabled, warehouseId, 
   return (
     <div className="mt-3 space-y-3 rounded-2xl border border-nw-border bg-nw-surface-2 p-3" data-testid={`go-live-import-${kind}`}>
       <ul className="m-0 list-disc space-y-1 ps-5 text-[13px] text-nw-muted">
-        {GO_LIVE_TEMPLATE_NOTES[kind].map(line => <li key={line}>{line}</li>)}
+        {(kind==='products'?PRODUCT_WORKBOOK_NOTES:GO_LIVE_TEMPLATE_NOTES[kind]).map(line => <li key={line}>{line}</li>)}
       </ul>
       <div className="flex flex-wrap gap-2">
         <UiButton onClick={() => downloadTemplate(kind)}><Download className="h-4 w-4" aria-hidden="true" />تنزيل القالب</UiButton>
@@ -172,6 +181,7 @@ const ImportPanel: React.FC<ImportPanelProps> = ({ kind, disabled, warehouseId, 
       </div>
       {busy && <p role="status" className="m-0 text-sm text-nw-muted">{busy}</p>}
       {message && <p role={message.tone === 'bad' ? 'alert' : 'status'} className={`m-0 rounded-xl p-3 text-sm ${message.tone === 'bad' ? 'bg-nw-bad-bg text-nw-bad' : 'bg-nw-ok-bg text-nw-ok'}`}>{message.text}</p>}
+      {productFile&&<ProductWorkbookImportPanel file={productFile} disabled={disabled} onSaved={onSaved}/>}
       {preview && (
         <div className="space-y-3" data-testid={`go-live-preview-${kind}`}>
           <p className="m-0 text-sm font-semibold text-nw-text">{`معاينة الملف: ${preview.fileName}`}</p>

@@ -1,3 +1,6 @@
+import {useAuthStore} from '../../stores/useAuthStore';
+import {FamilyBarcodeRecovery} from './FamilyBarcodeRecovery';
+import {completeFamilyBarcodes,pendingFamilyBarcodes,familyBarcodeErrorText} from '../../services/supabase/productFamilyBarcodes.service';
 import {Card,FormFields,SwitchTrack,UiButton,formatJod} from '../../components/ui';
 import {WarehouseChoice} from '../../components/ui/WarehouseChoice';
 import React, { useCallback, useEffect, useMemo, useState, useRef } from 'react';
@@ -62,6 +65,7 @@ interface ProductFormModalProps {
 }
 
 interface ProductFlavorDraft {
+  barcode: string;
   id: string;
   nameAr: string;
   imageFile: File | null;
@@ -69,6 +73,7 @@ interface ProductFlavorDraft {
 }
 
 const createFlavorDraft = (): ProductFlavorDraft => ({
+  barcode: '',
   id:
     typeof crypto !== 'undefined' && 'randomUUID' in crypto
       ? crypto.randomUUID()
@@ -101,6 +106,11 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   onClose,
   startBarcodeScanner,
 }) => {
+  const {user:barcodeActor}=useAuthStore();
+  const [flavorCameraId,setFlavorCameraId]=useState<string|null>(null);
+  const [barcodeRecovery,setBarcodeRecovery]=useState(()=>{try{return{ids:barcodeActor?.id?pendingFamilyBarcodes(barcodeActor.id,localStorage):[],error:''};}catch{return{ids:[] as string[],error:'تعذر قراءة سجل باركود النكهات. توقف وراجع المطوّر قبل إنشاء عائلة جديدة (FLV-01).'};}});
+  const barcodeRecoveryIds=barcodeRecovery.ids;
+  const setBarcodeRecoveryIds=(ids:string[])=>setBarcodeRecovery({ids,error:''});
   const imageUploadInput=useRef<HTMLInputElement>(null),cameraImageInput=useRef<HTMLInputElement>(null);
   const {
     categories,
@@ -701,6 +711,8 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         setToast('أضف نكهة واحدة على الأقل.', 'error');
         return;
       }
+      const seenBarcodes=new Set<string>();
+      for(const draft of flavorDrafts){const value=draft.barcode.trim();if(!value)continue;const known=validateProductBarcode(products,{barcode:value});if(!known.valid){setToast(known.message,'error');return;}const normalized=value.toLowerCase();if(seenBarcodes.has(normalized)||normalized===sku.trim().toLowerCase()){setToast('باركود النكهة مكرر في القائمة أو يطابق رمز المنتج الأساسي.','error');return;}seenBarcodes.add(normalized);}
       const normalizedFlavorNames = flavorDrafts.map((draft) =>
         draft.nameAr.trim().toLocaleLowerCase('ar')
       );
@@ -857,6 +869,12 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
 
       if (result?.success) {
         productWasPersisted = true;
+        if(hasFlavors&&!isEditing&&flavorDrafts.some(f=>f.barcode.trim())){
+          if(!result.productId||!barcodeActor?.id)throw Error('العائلة محفوظة؛ استكمل باركود النكهات من تفاصيل المنتج، ولا تنشئها مرة أخرى (FLV-02).');
+          setBarcodeRecoveryIds([result.productId]);
+          await completeFamilyBarcodes(barcodeActor.id,result.productId,localStorage,flavorDrafts.map(f=>({name:f.nameAr.trim(),barcode:f.barcode.trim()})));
+          setBarcodeRecoveryIds([]);
+        }
         if (hasFlavors && !isEditing) {
           await refreshProductsFromSupabase();
           setToast(
@@ -892,13 +910,16 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
 
       setSubmitError({
         message:
-          error?.message || 'حدث خطأ غير متوقع أثناء حفظ المنتج.',
+          productWasPersisted&&flavorDrafts.some(f=>f.barcode.trim())?familyBarcodeErrorText(error):error?.message || 'حدث خطأ غير متوقع أثناء حفظ المنتج.',
         code: 'CLIENT_EXCEPTION',
       });
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  if(!isEditing&&barcodeRecovery.error)return <p role="alert">{barcodeRecovery.error}</p>;
+  if(!isEditing&&barcodeRecoveryIds.length&&barcodeActor?.id)return <FamilyBarcodeRecovery actor={barcodeActor.id} familyIds={barcodeRecoveryIds} initialItems={flavorDrafts.map(f=>({name:f.nameAr.trim(),barcode:f.barcode.trim()}))} onComplete={async()=>{await refreshProductsFromSupabase();onClose();}}/>;
 
   return (
     <FormFields className="nw-products-fields min-w-0"><form onSubmit={handleSubmit} onChangeCapture={()=>setFormChanged(true)} onInvalidCapture={event=>{const details=(event.target as HTMLElement).closest('details');if(details)details.open=true;}} aria-busy={isSubmitting} data-unsaved={hasFlavors} dir="rtl" className="nw-products-fields min-w-0 space-y-4 text-nw-text text-sm">
@@ -1467,6 +1488,12 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
                         </label>
                       </div>
                     </div>
+                      <div className="mt-3 min-w-0">
+                        <label className="mb-1.5 block text-xs font-bold">باركود النكهة (اختياري)
+                          <input aria-label={`باركود النكهة (اختياري) ${index+1}`} value={draft.barcode} onChange={event=>updateFlavorDraft(draft.id,{barcode:event.target.value})} inputMode="text" className={inputClass}/>
+                        </label>
+                        <UiButton type="button" variant="plain" aria-label={`مسح باركود النكهة بالكاميرا ${index+1}`} onClick={()=>setFlavorCameraId(draft.id)}><Camera className="h-4 w-4"/>مسح بالكاميرا</UiButton>
+                      </div>
                   </div>
                 ))}
               </div>
@@ -1618,9 +1645,9 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
       </div>
 
       <BarcodeCameraCaptureModal
-        isOpen={isBarcodeCameraOpen && !isFlavorMaster}
-        onClose={() => setIsBarcodeCameraOpen(false)}
-        onCapture={captureBarcode}
+        isOpen={(isBarcodeCameraOpen && !isFlavorMaster)||Boolean(flavorCameraId)}
+        onClose={() => {setIsBarcodeCameraOpen(false);setFlavorCameraId(null);}}
+        onCapture={value=>{if(flavorCameraId){updateFlavorDraft(flavorCameraId,{barcode:value.trim()});setFlavorCameraId(null);}else captureBarcode(value);}}
         startScanner={startBarcodeScanner}
       />
     </form></FormFields>

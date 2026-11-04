@@ -3,20 +3,23 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner4Nov producttemplate/flavors aboveunmergedPR63;approved two-phase existing-RPC identities with strict readback/recovery;noDBchanges/finance/permissions/merge/deploy/hosted.",
-  "baselineSha": "2dafe8433bc4efef68a82fee904590aabf5fc8ad",
+  "baselineSha": "ccf7c24fb759e5f62f5f12ef09dc5b249bc3871d",
   "branch": "codex/pre-delivery2-product-flavors",
   "phase": "PACKAGE_F",
   "completed": [
     "PriorfourPR63/64/65/66 eachReady63/63unmerged;checkpoint saved.",
     "Cleannewworktree above63;inherited task mismatch knownown;owner nowapproved stagedalternative;sourcefeasibility external.",
     "Actual219 existingRPC proof PASS:flavorSKU/barcode through v5(NULLmethod)/v2;cost/commercial/stock unchanged;staleCAS+catalogunchanged;containercleaned.",
-    "Pureworkbook/attempt18PASS incl old XLSXregression,duplicate/derivedprice/optionalstock/purchasepack,unknown-create/finalize/journalquota;types+strictlintPASS."
+    "Pureworkbook/attempt18PASS incl old XLSXregression,duplicate/derivedprice/optionalstock/purchasepack,unknown-create/finalize/journalquota;types+strictlintPASS.",
+    "Known-own ccf7 WIP baseline sync after continuation;all dirty source files match our delivered edits.",
+    "Actual new service via fixed authenticated DB transport219:ordinary/family/lost-create/lost-metadata each PASS;exact costs/sales;replay0,catalog0. TemporarySKU uppercasing corrected to match108 DB trigger;noDBchanges.",
+    "Workbook source parser/checker/metadata service/formbarcode/recovery implemented;pure/mock checks25 beforelatestrefinement. Artifact-exported4sheet XLSX outsideGit93KB;formula4.8/.25;RTL and visual final checks pending."
   ],
   "inProgress": [
-    "Implement service adapter and UI,checker/XLSX/camera;actual integratedresumes and browser thenFULLCI."
+    "Finish XLSX RTL/visual/cell validation,identifier warnings and final integration tests;browser coverage/docs/currentaccess/PR/FULLCI stillneeded."
   ],
   "notStarted": [
-    "Templates+checker+UI+runtime/browser tests+PR/FULLCI."
+    "Final browser/runtime stock proof,access/inverse evidence,FULLCI andPR."
   ],
   "testsPassed": [],
   "testsRemaining": [
@@ -31,13 +34,13 @@
   "prohibitions": [
     "NoSQL/migration/RPCdefinition/financial/permissionschange;nohosted/deploy/merge;58Draft;ownercheckout/env untouched."
   ],
-  "nextExactAction": "Implement existing-RPC service adapter with strict metadata readback/temporarySKU fence,then UI/checker/XLSX/camera/runtime/browser/FULLCI;no DBchanges.",
+  "nextExactAction": "Known-own source refinements after ccf7;verify20col workbook/render/copy then actual219staticworkbook+stock/browser/docs/access/FULLCI. NoDBchanges.",
   "startedAt": "2026-11-03T03:59:26.518Z",
-  "checkpointedAt": "2026-11-04T07:04:14.623Z",
+  "checkpointedAt": "2026-11-04T09:10:05.329Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 9,
-  "filesTouchedManifestSha256": "b16cc4303b790f048a9d3c711835d81871d59f74e02670571032b13b87be2410",
-  "workingTreeFingerprint": "F46CE38E4D744013A3C18624656BF8193C9BFA24BF5BCB555E66306C2679A17A"
+  "filesTouchedCount": 16,
+  "filesTouchedManifestSha256": "0afd18f25a374db2e142e658e858f8cef7f1a933779f937c4af132bc0fda7d3e",
+  "workingTreeFingerprint": "7E6DBA4027195DCF210B6F5F032137DABA79ED13351DF39ABD6D14ABC3734E27"
 }

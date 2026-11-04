@@ -1,7 +1,7 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {PRODUCT_WORKBOOK_COLUMNS as C,FLAVOR_WORKBOOK_COLUMNS as F,prepareProductWorkbook,productWorkbookStockRows,deterministicFlavorSku,readProductWorkbook} from '../src/features/goLive/productWorkbook';
 import {GO_LIVE_COLUMNS,templateRows} from '../src/features/goLive/goLiveImport';
-import {writeXlsx,readXlsxFirstSheet} from '../src/lib/xlsx';
+import {writeXlsx,readXlsxFirstSheet,readZip,createZip} from '../src/lib/xlsx';
 const product=(values:Record<string,string>={})=>C.map(c=>({sku:'SUG-10',barcode:'',name_ar:'سكر وهمي',category_name:'أغذية',base_unit_name:'باكيت',purchase_unit_name:'طرد',units_per_purchase_unit:'12',sale_unit_name:'طرد',units_per_sale_unit:'12',sale_package_price:'9.000',purchase_package_price:'6.000',cost_per_base_unit:'0.500',min_stock_level:'0',parcel_only:'لا',sale_method:'الاثنين',packet_price:'0.750',...values}[c.key]??''));
 const flavor=(values:Record<string,string>)=>F.map(c=>values[c.key]??'');
 const run=(p:Record<string,string>[]=[{}],f:Record<string,string>[]=[])=>(prepareProductWorkbook([C.map(c=>c.header),...p.map(product)],f.length?[F.map(c=>c.header),...f.map(flavor)]:[]));
@@ -30,6 +30,7 @@ test('missing stock warns,explicit zero is preserved;filled base quantity export
  const a=run();assert.equal(a.errors.length,0);assert.equal(a.missingStock,1);assert.equal(productWorkbookStockRows(a).length,0);
  const b=run([{opening_stock:'14'}]);assert.deepEqual(productWorkbookStockRows(b),[{sku:'SUG-10',packageCount:1,looseUnits:2}]);
  assert.equal(run([{opening_stock:'0'}]).missingStock,0);
+ assert.deepEqual(productWorkbookStockRows(run([{warehouse_code:'WH-2',opening_stock:'14'}])),[{sku:'SUG-10',warehouse:'WH-2',packageCount:1,looseUnits:2}]);
  const different=run([{units_per_purchase_unit:'24',opening_stock:'25'}]);assert.deepEqual(productWorkbookStockRows(different),[{sku:'SUG-10',packageCount:1,looseUnits:1}]);
  const f=run([{}],[{master_sku:'SUG-10',name:'ليمون',opening_stock:'25'}]);assert.deepEqual(productWorkbookStockRows(f),[{sku:'SUG-10-ليمون',packageCount:2,looseUnits:1}]);
 });
@@ -37,4 +38,16 @@ test('named flavor sheet uses exact relationship/name;legacy first-sheet reader 
  const bytes=writeXlsx([{name:'المنتجات',rows:[C.map(c=>c.header),product()]},{name:'النكهات',rows:[F.map(c=>c.header),flavor({master_sku:'SUG-10',name:'ليمون'})]},{name:'تعليمات',rows:[['ليست نكهة']]}]);
  const read=await readProductWorkbook(bytes);assert.deepEqual(await readXlsxFirstSheet(bytes),read.products);assert.equal(prepareProductWorkbook(read.products,read.flavors).products[0].flavors.length,1);
  const old=await readProductWorkbook(writeXlsx([{name:'البيانات',rows:templateRows('products')}]));assert.deepEqual(old.flavors,[]);
+});
+
+
+test('duplicate named flavor worksheets and invalid required method fail closed',async()=>{
+ await assert.rejects(readProductWorkbook(writeXlsx([{name:'المنتجات',rows:[C.map(c=>c.header),product()]},{name:'النكهات',rows:[F.map(c=>c.header)]},{name:'النكهات',rows:[F.map(c=>c.header)]}])));
+ assert.ok(run([{sale_method:''}]).errors.some(e=>e.message.includes('طريقة البيع مطلوبة')));
+ assert.ok(run([{sku:'A'.repeat(65)}]).errors.some(e=>e.message.includes('64')));
+});
+test('numeric flavor identifiers warn about lost leading digits without inventing replacements',async()=>{
+ const bytes=writeXlsx([{name:'المنتجات',rows:[C.map(c=>c.header),product()]},{name:'النكهات',rows:[F.map(c=>c.header),flavor({master_sku:'SUG-10',name:'ليمون',barcode:'00123'})]}]);
+ const files=await readZip(bytes,()=>true),xml=new TextDecoder().decode(files.get('xl/worksheets/sheet2.xml')).replace(/<c r="C2"[^>]*>[^]*?<\/c>/u,'<c r="C2"><v>123</v></c>');files.set('xl/worksheets/sheet2.xml',new TextEncoder().encode(xml));
+ const read=await readProductWorkbook(createZip([...files].map(([name,data])=>({name,data}))));assert.equal(read.identifierWarnings.length,1);assert.equal(read.identifierWarnings[0].sheet,'النكهات');assert.equal(read.flavors[1][2],'123');
 });

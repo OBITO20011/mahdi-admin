@@ -1,3 +1,5 @@
+import {prepareProductWorkbook,readProductWorkbook,productWorkbookStockRows,PRODUCT_WORKBOOK_COLUMNS,type ProductWorkbookPlan} from '../../../src/features/goLive/productWorkbook';
+import {validateProductWorkbookReference} from '../../../src/features/goLive/productWorkbookReference';
 /** Offline preparation only. No database client, environment loader or network. */
 import {readXlsxFirstSheet, readZip, columnIndex, XLSX_MAX_BYTES} from '../../../src/lib/xlsx';
 import {GO_LIVE_COLUMNS, mapSheet, prepareProducts, prepareStock, prepareCustomers, prepareSuppliers, parseJodToMinor, ammanToday, type GoLiveKind, type SheetRow, type RowError} from '../../../src/features/goLive/goLiveImport';
@@ -8,7 +10,7 @@ export const INPUT_FILES={products:'المنتجات.xlsx',stock:'البضاعة
 export type Kind=keyof typeof INPUT_FILES;
 export interface Party {id:string;name:string;phone:string;active:boolean}
 export interface LocalProduct {sku:string;barcode:string;name:string;unitsPerPackage:number;costInMinor:string;eligible:boolean;imageUrl?:string}
-export interface LocalReference {format:1;asOf:string;categories:{name:string;active:boolean}[];units:{code:string;name:string}[];products:LocalProduct[];customers:Party[];suppliers:Party[];chequeKeys:{kind:'customer'|'supplier';partyId:string;bank:string;number:string}[]}
+export interface LocalReference {brands?:{name:string;active:boolean}[];warehouses?:{code:string;active:boolean}[];format:1;asOf:string;categories:{name:string;active:boolean}[];units:{code:string;name:string}[];products:LocalProduct[];customers:Party[];suppliers:Party[];chequeKeys:{kind:'customer'|'supplier';partyId:string;bank:string;number:string}[]}
 export interface Issue {file:string;row:number;column:string;severity:'error'|'warning'|'incomplete';reason:string;fix:string}
 export interface ImageInput {name:string;size:number}
 export interface FileInput {name:string;bytes:Uint8Array}
@@ -23,6 +25,7 @@ export function validReference(v:unknown):v is LocalReference {
  return list('categories',r=>object(r)&&text(r.name)&&typeof r.active==='boolean')&&list('units',r=>object(r)&&text(r.code)&&text(r.name))
  &&list('products',r=>object(r)&&['sku','barcode','name','costInMinor'].every(k=>text(r[k]))&&typeof r.unitsPerPackage==='number'&&Number.isSafeInteger(r.unitsPerPackage)&&r.unitsPerPackage>=1&&r.unitsPerPackage<=999999&&/^[0-9]{1,12}$/u.test(String(r.costInMinor))&&typeof r.eligible==='boolean'&&(r.imageUrl===undefined||text(r.imageUrl)))
  &&['customers','suppliers'].every(k=>list(k,r=>object(r)&&['id','name','phone'].every(k=>text(r[k]))&&typeof r.active==='boolean'))
+ &&(v.brands===undefined||list('brands',r=>object(r)&&text(r.name)&&typeof r.active==='boolean'))&&(v.warehouses===undefined||list('warehouses',r=>object(r)&&text(r.code)&&typeof r.active==='boolean'))
  &&list('chequeKeys',r=>object(r)&&['customer','supplier'].includes(String(r.kind))&&['partyId','bank','number'].every(k=>text(r[k])));
 }
 function columnFor(kind:Kind,error:RowError):string {
@@ -41,11 +44,13 @@ export async function checkFiles(inputs:Partial<Record<Kind,FileInput>>,referenc
  const ref=validReference(reference)?reference:null;
  if(!ref)add('reference',0,'المرجع','المرجع المحلي غائب أو غير مكتمل؛ لم تُثبت الأقسام والوحدات والأطراف الحالية.','incomplete','جهّز reference.json وفق الدليل من القوائم المعتمدة المحفوظة محلياً؛ لا تستخدم مثالاً كمرجع حي.');
  if(ref&&ref.asOf!==today)add('reference',0,'asOf','المرجع بتاريخ مختلف عن يوم الفحص؛ راجع أنه ما زال يمثل القوائم المحفوظة.','warning','حدّث المرجع يدوياً من قوائم معتمدة؛ لا تغيّر التاريخ وحده لإسكات التحذير.');
+ let workbook:ProductWorkbookPlan|null=null,embeddedStock=false;
  const sheets:Partial<Record<Kind,string[][]>>={},rows:Partial<Record<GoLiveKind,SheetRow[]>>={},counts:Partial<Record<Kind,number>>={};
- for(const kind of Object.keys(INPUT_FILES) as Kind[]){const input=inputs[kind];if(!input){if(kind!=='cheques'||!options.noOpeningCheques)add(kind,0,'الملف','ملف القالب غير موجود.');continue;}
+ for(const kind of Object.keys(INPUT_FILES) as Kind[]){const input=inputs[kind];if(!input){if(kind==='stock'&&embeddedStock){add('stock',0,'المخزون','المخزون اختياري؛ يُعبأ بعد الجرد يوم D−1/يوم التشغيل.','warning');continue;}if(kind!=='cheques'||!options.noOpeningCheques)add(kind,0,'الملف','ملف القالب غير موجود.');continue;}
   if(input.bytes.length>XLSX_MAX_BYTES){add(kind,0,'الملف','حجم الملف أكبر من 5 ميغابايت.');continue;}
-  try{sheets[kind]=await readXlsxFirstSheet(input.bytes);}catch{add(kind,0,'الملف','تعذر قراءة XLSX صالح ضمن حدود قارئ النظام.');continue;}
-  if(['products','stock','customers','suppliers'].includes(kind)){const mapped=mapSheet(kind as GoLiveKind,sheets[kind]!);rows[kind as GoLiveKind]=mapped.rows;counts[kind]=mapped.rows.length;for(const m of mapped.fileErrors)add(kind,1,'رؤوس الأعمدة',m);}
+  try{if(kind==='products'){const book=await readProductWorkbook(input.bytes);sheets[kind]=book.products;workbook=prepareProductWorkbook(book.products,book.flavors);workbook.warnings.push(...book.identifierWarnings);embeddedStock=Boolean(book.flavors.length||book.products[0]?.includes(PRODUCT_WORKBOOK_COLUMNS.find(c=>c.key==='opening_stock')!.header));}else sheets[kind]=await readXlsxFirstSheet(input.bytes);}catch{add(kind,0,'الملف','تعذر قراءة XLSX صالح ضمن حدود قارئ النظام.');continue;}
+  if(kind==='products'){counts.products=workbook?.products.length??0;}
+  if(['stock','customers','suppliers'].includes(kind)){const mapped=mapSheet(kind as GoLiveKind,sheets[kind]!);rows[kind as GoLiveKind]=mapped.rows;counts[kind]=mapped.rows.length;for(const m of mapped.fileErrors)if(!(kind==='stock'&&embeddedStock&&!mapped.rows.length&&!m.includes('العمود')))add(kind,1,'رؤوس الأعمدة',m);}
   // Detect unsafe identifier cell types without changing the authoritative reader.
   const files=await readZip(input.bytes,n=>n==='xl/workbook.xml'||n==='xl/_rels/workbook.xml.rels'||/^xl\/worksheets\/[^/]+\.xml$/u.test(n));
   const xmlText=(name:string)=>new TextDecoder().decode(files.get(name)??new Uint8Array());
@@ -62,8 +67,11 @@ export async function checkFiles(inputs:Partial<Record<Kind,FileInput>>,referenc
    if(identifierHeaders.has(h)&&! /\bt="(?:s|inlineStr|str)"/u.test(match[1])&&/<v>[^<]+<\/v>/u.test(match[2]))add(kind,Number(coord[2]),h,'الخانة محفوظة كرقم؛ الأصفار البادئة أو الأرقام بعد الخانة15 قد تكون فُقدت قبل الفحص.','warning','قارن بالأصل وأعد كتابة المعرف كنص؛ تغيير تنسيق رقم فقد أصفاره لا يعيدها.');
   }
  }
- const prepared={products:prepareProducts(rows.products??[]),customers:prepareCustomers(rows.customers??[],today),suppliers:prepareSuppliers(rows.suppliers??[],today)};
- for(const kind of ['products','customers','suppliers'] as const)for(const e of prepared[kind].errors)add(kind,e.row,columnFor(kind,e),e.message);
+ const productPayload=workbook?.products.flatMap(p=>[{...p.data,sourceRow:p.row},...p.flavors.map(f=>({...p.data,sourceRow:f.row,sku:f.sku,barcode:f.barcode,name_ar:p.data.name_ar+' - '+f.name}))]);
+ if(workbook)for(const w of workbook.warnings)add('products',w.row,w.sheet==='النكهات'?'النكهات / المعرّف والباركود':'المخزون (باكيت)',w.message,'warning');
+ if(workbook&&ref)for(const e of validateProductWorkbookReference(workbook,ref))add('products',e.row,'المرجع / الرمز',e.message);
+ const prepared={products:workbook?{payload:productPayload??[],errors:workbook.errors}:prepareProducts(rows.products??[]),customers:prepareCustomers(rows.customers??[],today),suppliers:prepareSuppliers(rows.suppliers??[],today)};
+ for(const kind of ['products','customers','suppliers'] as const)for(const e of prepared[kind].errors)add(kind,e.row,('sheet'in e&&e.sheet==='النكهات'?'النكهات / ':'')+columnFor(kind,e),e.message);
  const products:LocalProduct[]=[...(ref?.products??[])],productCosts=new Map<string,string>();
  const productRows=prepared.products.payload;
  for(const r of productRows){const test=(column:string,reason:string)=>add('products',r.sourceRow,column,reason);
@@ -72,11 +80,14 @@ export async function checkFiles(inputs:Partial<Record<Kind,FileInput>>,referenc
    for(const key of ['base_unit_name','purchase_unit_name','sale_unit_name'] as const){const value=r[key];const byCode=ref.units.filter(u=>u.code.toUpperCase()===value.toUpperCase());const matches=byCode.length?byCode:ref.units.filter(u=>u.name===value);if(matches.length!==1)test(GO_LIVE_COLUMNS.products.find(c=>c.key===key)!.header,'الوحدة غير موجودة أو اسمها مكرر؛ اكتب رمز الوحدة الصحيح مثل PKT/CTN.');}
    if(ref.products.some(p=>p.sku.toLowerCase()===r.sku.toLowerCase()))test('رمز الصنف SKU','رمز SKU مستخدم لمنتج موجود في المرجع.');if(r.barcode&&ref.products.some(p=>p.barcode===r.barcode))test('الباركود','الباركود مستخدم لمنتج موجود في المرجع.');
   }
-  products.push({sku:r.sku,barcode:r.barcode,name:r.name_ar,unitsPerPackage:Number(r.units_per_purchase_unit),costInMinor:r.cost_per_base_unit_in_minor_units,eligible:true});
+  products.push({sku:r.sku,barcode:r.barcode,name:r.name_ar,unitsPerPackage:Number(r.units_per_purchase_unit),costInMinor:r.cost_per_base_unit_in_minor_units,eligible:!workbook?.products.some(p=>p.data.sku===r.sku&&p.flavors.length>0)});
  }
  const seenBarcode=new Map<string,number>();for(const r of productRows){if(r.barcode){if(seenBarcode.has(r.barcode))add('products',r.sourceRow,'الباركود',`الباركود مكرر داخل الملف (السطر ${seenBarcode.get(r.barcode)}).`);else seenBarcode.set(r.barcode,r.sourceRow);}}
  const refs=products.map((p,i)=>{const id='local-product-'+i;productCosts.set(id,p.costInMinor);return{productId:id,sku:p.sku,barcode:p.barcode,productName:p.name,unitsPerPackage:p.unitsPerPackage,costPriceInMinorUnits:Number(p.costInMinor),eligible:p.eligible};});
- const stock=prepareStock(rows.stock??[],refs);for(const e of stock.errors)add('stock',e.row,columnFor('stock',e),e.message);
+ const generated=workbook?productWorkbookStockRows(workbook):[];
+ if(generated.length&&(rows.stock??[]).length)add('products',0,'المخزون','المخزون معبأ في أعمدة المنتجات/النكهات وفي ملف البضاعة؛ أفرغ أحد المصدرين حتى لا يُحتسب مرتين.');
+ const generatedRows=generated.map((r,i)=>({row:i+2,values:{code:r.sku,name:'',package_count:String(r.packageCount),loose_units:String(r.looseUnits)}}));
+ const stock=prepareStock((rows.stock??[]).length?rows.stock!:generatedRows,refs);for(const e of stock.errors)add('stock',e.row,columnFor('stock',e),e.message);
  const parties={customers:[...(ref?.customers??[])],suppliers:[...(ref?.suppliers??[])]};
  for(const kind of ['customers','suppliers'] as const){const seen=new Map<string,number>(),newNames=new Map<string,string>();
   for(const row of prepared[kind].payload){const r=row as unknown as Record<string,string|number>,name=String(r[kind==='customers'?'customer_name':'supplier_name']??''),phone=normalizePhone(String(r[kind==='customers'?'customer_phone':'supplier_phone']??''));const existing=(ref?.[kind]??[]).filter(p=>p.active);let key='';
@@ -106,9 +117,9 @@ export async function checkFiles(inputs:Partial<Record<Kind,FileInput>>,referenc
  const sum=(kind:'customers'|'suppliers',direction?:string)=>prepared[kind].payload.reduce((s,r)=>!issues.some(i=>i.file===INPUT_FILES[kind]&&i.row===r.sourceRow&&i.severity==='error')&&(!direction||('direction'in r&&r.direction===direction))?s+BigInt(r.amount_in_minor_units):s,0n);
  const stockValue=stock.payload.reduce((s,r)=>s+BigInt(r.baseQuantity)*BigInt(productCosts.get(r.productId)??'0'),0n);
  const totals={stockValueInMinor:stockValue.toString(),customerDebtInMinor:sum('customers').toString(),supplierPayableInMinor:sum('suppliers','payable').toString(),supplierAdvanceInMinor:sum('suppliers','advance').toString(),chequesInMinor:chequeTotal.toString(),drawerInMinor:drawer};
- return {format:1,noOpeningCheques:options.noOpeningCheques===true,ok:!issues.some(i=>i.severity!=='warning'),offline:true,databaseWrites:0,referenceDate:ref?.asOf??null,checkedDate:today,counts,productCount:productRows.length,totals,issues,limits:['فحص تحضيري محلي؛ لا يثبت أن المرجع يطابق الحالة الحية. تبقى معاينة النظام المحمية يوم الإدخال إلزامية.','المجاميع تخص الأسطر المحضّرة؛ إذا وُجد خطأ فهي مؤقتة وليست توقيع قبول.','الأصفار المفقودة داخل Excel لا يمكن استعادتها، والصور تُفحص بالاسم والحجم فقط؛ فك الصورة وضغطها في واجهة الرفع.','النكهات لا يستوردها قالب المنتجات؛ أضف تعريفاتها يدوياً للمرجع بعد تحضيرها من النموذج.']};
+ return {format:1,noOpeningCheques:options.noOpeningCheques===true,ok:!issues.some(i=>i.severity!=='warning'),offline:true,databaseWrites:0,referenceDate:ref?.asOf??null,checkedDate:today,counts,productCount:productRows.length,familyCount:workbook?.products.filter(p=>p.flavors.length>0).length??0,flavorCount:workbook?.products.reduce((n,p)=>n+p.flavors.length,0)??0,totals,issues,limits:['فحص تحضيري محلي؛ لا يثبت أن المرجع يطابق الحالة الحية. تبقى معاينة النظام المحمية يوم الإدخال إلزامية.','المجاميع تخص الأسطر المحضّرة؛ إذا وُجد خطأ فهي مؤقتة وليست توقيع قبول.','الأصفار المفقودة داخل Excel لا يمكن استعادتها، والصور تُفحص بالاسم والحجم فقط؛ فك الصورة وضغطها في واجهة الرفع.','ورقة النكهات تنشئ تعريفات صفرية ثم تثبت هويتها بالاستئناف؛ المخزون الاختياري يُحوّل لمسار البضاعة الموجودة المحروس ولا يُكتب بالفاحص.']};
 }
 export function arabicReport(report:Awaited<ReturnType<typeof checkFiles>>):string {
  const heading=report.ok?'اجتاز الفحص التحضيري المحلي':'لم يجتز الفحص التحضيري المحلي';
- return ['# فحص ملفات بداية التشغيل',heading,'بلا اتصال وبلا كتابة على قاعدة بيانات.','تاريخ الفحص: '+report.checkedDate,'','## الملخص',`عدد المنتجات المحضّرة: ${report.productCount}`,`قيمة المخزون المحضّر: ${money(BigInt(report.totals.stockValueInMinor))}`,`ديون العملاء الصالحة محلياً: ${money(BigInt(report.totals.customerDebtInMinor))}`,`للموردين علينا: ${money(BigInt(report.totals.supplierPayableInMinor))}`,`على الموردين لنا: ${money(BigInt(report.totals.supplierAdvanceInMinor))}`,`مجموع الشيكات للمتابعة فقط: ${money(BigInt(report.totals.chequesInMinor))}`,`الدرج للتحضير اليدوي فقط: ${report.totals.drawerInMinor===null?'غير متاح':money(BigInt(report.totals.drawerInMinor))}`,'','## النتائج',...report.issues.map(i=>`- ${i.severity==='error'?'خطأ':i.severity==='warning'?'تنبيه':'غير مكتمل'} | ${i.file} | صف ${i.row||'—'} | ${i.column}: ${i.reason} الحل: ${i.fix}`),'','## حدود الفحص',...report.limits.map(l=>'- '+l),''].join('\n');
+ return ['# فحص ملفات بداية التشغيل',heading,'بلا اتصال وبلا كتابة على قاعدة بيانات.','تاريخ الفحص: '+report.checkedDate,'','## الملخص',`عدد بطاقات الأصناف المحضّرة: ${report.productCount} (منها ${report.familyCount} أساسي للتجميع و${report.flavorCount} نكهة)`,`قيمة المخزون المحضّر: ${money(BigInt(report.totals.stockValueInMinor))}`,`ديون العملاء الصالحة محلياً: ${money(BigInt(report.totals.customerDebtInMinor))}`,`للموردين علينا: ${money(BigInt(report.totals.supplierPayableInMinor))}`,`على الموردين لنا: ${money(BigInt(report.totals.supplierAdvanceInMinor))}`,`مجموع الشيكات للمتابعة فقط: ${money(BigInt(report.totals.chequesInMinor))}`,`الدرج للتحضير اليدوي فقط: ${report.totals.drawerInMinor===null?'غير متاح':money(BigInt(report.totals.drawerInMinor))}`,'','## النتائج',...report.issues.map(i=>`- ${i.severity==='error'?'خطأ':i.severity==='warning'?'تنبيه':'غير مكتمل'} | ${i.file} | صف ${i.row||'—'} | ${i.column}: ${i.reason} الحل: ${i.fix}`),'','## حدود الفحص',...report.limits.map(l=>'- '+l),''].join('\n');
 }

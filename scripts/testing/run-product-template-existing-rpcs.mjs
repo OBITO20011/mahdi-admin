@@ -1,5 +1,8 @@
+import {productWorkbookDbTransport} from './product-workbook-db-transport.mjs';
+import {prepareProductWorkbook,PRODUCT_WORKBOOK_COLUMNS,FLAVOR_WORKBOOK_COLUMNS,productWorkbookStockRows,readProductWorkbook} from '../../src/features/goLive/productWorkbook.ts';
 // Existing219 RPC feasibility only. Fixed disposable database, no hosted inputs.
 import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
 import {readFile,writeFile,mkdtemp} from 'node:fs/promises';
@@ -41,6 +44,42 @@ try{
  const stale=await executeInput(executor,auth(`SELECT public.update_product_flavor_v2(${q(flavor)},${q(before.updated_at)}::timestamptz,'مرفوض','BAD',NULL,true);`));assert.notEqual(stale.code,0);assert.match(stale.stderr,/PRODUCT_EDIT_CONFLICT/u);assert.deepEqual(await readApplicationFingerprint(executor),fp);
  assert.deepEqual(catalogDifference(catalog,await json(schemaCatalogSql)),[]);
  results.push({case:'stale metadata CAS refused;all application data/sequences and catalog unchanged',passed:true});
+ stage='actual import service through fixed local authenticated DB transport';
+ for(const mode of ['ordinary','family','lost-create','lost-metadata']){
+  stage='actual import service '+mode;
+  const familyMode=mode!=='ordinary',sku='ACTUAL-'+mode.toUpperCase();
+  const values={sku,barcode:'',name_ar:'صنف خدمة وهمي',category_name:'اختبار اليوم',base_unit_name:'E-PACKET',purchase_unit_name:'E-PACKET',units_per_purchase_unit:'12',sale_unit_name:'E-PACKET',units_per_sale_unit:'12',sale_package_price:'9.000',purchase_package_price:'6.000',cost_per_base_unit:'0.500',min_stock_level:'0',parcel_only:'لا',sale_method:'الاثنين',packet_price:'0.750',description:'وصف وهمي',warehouse_code:'E-GOLDEN'};
+  const plan=prepareProductWorkbook([PRODUCT_WORKBOOK_COLUMNS.map(c=>c.header),PRODUCT_WORKBOOK_COLUMNS.map(c=>values[c.key]??'')],familyMode?[FLAVOR_WORKBOOK_COLUMNS.map(c=>c.header),...['ليمون','برتقال'].map((name,i)=>FLAVOR_WORKBOOK_COLUMNS.map(c=>({master_sku:sku,name,barcode:i?'':mode==='family'?'000881':mode==='lost-create'?'000882':'000883'}[c.key]??'')))]:[]);
+  assert.equal(plan.errors.length,0);const bridge=await productWorkbookDbTransport({json,auth,actor:owner,container:'supabase_db_'+project});
+  if(mode==='lost-create')bridge.loseCreate();if(mode==='lost-metadata')bridge.loseWrite();
+  if(mode.startsWith('lost-'))await assert.rejects(bridge.service.saveProductWorkbook(plan,owner,bridge.storage));
+  await bridge.service.saveProductWorkbook(plan,owner,bridge.storage);
+  const ids=await json(`SELECT jsonb_agg(id ORDER BY id) FROM products WHERE sku=${q(sku)} OR flavor_master_product_id=(SELECT id FROM products WHERE sku=${q(sku)});`);
+  const writesBefore=bridge.calls.filter(c=>c.name!=='get_go_live_setup_status_v1').length;
+  await bridge.service.saveProductWorkbook(plan,owner,bridge.storage);assert.equal(bridge.calls.filter(c=>c.name!=='get_go_live_setup_status_v1').length,writesBefore);
+  assert.equal(ids.length,familyMode?3:1);assert.equal(bridge.calls.filter(c=>c.name==='create_product_family_with_flavors_v2').length,familyMode?1:0);
+  const rows=await json(`SELECT jsonb_agg(jsonb_build_object('sku',sku,'barcode',barcode,'cost',cost_price_in_minor_units,'sale',default_sale_price_in_minor_units,'family',flavor_master_product_id) ORDER BY sku) FROM products WHERE id IN(SELECT value::uuid FROM jsonb_array_elements_text(${j(ids)}) value);`);assert.ok(rows.every(p=>p.cost===500&&p.sale===9000));assert.ok(rows.every(p=>!p.sku.startsWith('GI-')));
+  results.push({case:'actual service '+mode,passed:true,products:ids.length,replayAdditionalWrites:0,costAndSaleExact:true});console.log(JSON.stringify(results.at(-1)));
+ }
+ stage='published XLSX through actual219 import service';
+ const xlsx=await readFile(path.join(root,'docs/handover/templates/المنتجات.xlsx')),decoded=await readProductWorkbook(xlsx),template=prepareProductWorkbook(decoded.products,decoded.flavors);assert.deepEqual(template.errors,[]);assert.deepEqual(decoded.identifierWarnings,[]);
+ await sql(`INSERT INTO categories(code,name_ar) SELECT 'TPL-CHOC','شوكولاتة' WHERE NOT EXISTS(SELECT 1 FROM categories WHERE name_ar='شوكولاتة' AND is_active);INSERT INTO units(code,name_ar) VALUES('PKT','باكيت مثال'),('CTN','طرد مثال') ON CONFLICT(code) DO NOTHING;`);
+ const templateBridge=await productWorkbookDbTransport({json,auth,actor:owner,container:'supabase_db_'+project});
+ const beforePreview=await readApplicationFingerprint(executor);assert.deepEqual((await templateBridge.service.inspectProductWorkbook(template,owner,templateBridge.storage)).errors,[]);assert.deepEqual(await readApplicationFingerprint(executor),beforePreview);
+ await templateBridge.service.saveProductWorkbook(template,owner,templateBridge.storage);
+ const t=await json(`SELECT jsonb_agg(jsonb_build_object('sku',sku,'barcode',barcode,'cost',cost_price_in_minor_units,'sale',default_sale_price_in_minor_units,'size',units_per_sale_unit) ORDER BY sku) FROM products WHERE sku='CHO-001' OR flavor_master_product_id=(SELECT id FROM products WHERE sku='CHO-001');`);assert.equal(t.length,2);assert.equal(t[1].barcode,'0000000000001');assert.equal(t[1].sku,'CHO-001-ليمون');assert.ok(t.every(r=>r.cost===200&&r.sale===6000&&r.size===24));
+ const afterTemplate=await readApplicationFingerprint(executor);await templateBridge.service.saveProductWorkbook(template,owner,templateBridge.storage);assert.deepEqual(await readApplicationFingerprint(executor),afterTemplate);
+ results.push({case:'actual published XLSX decoded and imported on219 through current adapter,leading zeros preserved',passed:true,xlsxSha256:createHash('sha256').update(xlsx).digest('hex'),actualXlsxDecoded:true,previewZeroWrites:true,replayZeroWrites:true,products:2,openingStock:0,flavorSku:'CHO-001-ليمون',barcode:'0000000000001'});
+ stage='optional stock through existing protected opening writer';
+ const countedSku='ACTUAL-FAMILY-ليمون';
+ const countedId=await json(`SELECT to_jsonb(id) FROM products WHERE sku=${q(countedSku)};`);
+ const shape=productWorkbookStockRows({products:[{data:{sku:'MASTER',units_per_purchase_unit:'12'},flavors:[{sku:countedSku,openingStock:25}]}]});assert.deepEqual(shape,[{sku:countedSku,packageCount:2,looseUnits:1}]);
+ const stockCall=`apply_inventory_opening_setup(${q(id(201))},${j([{productId:countedId,packageCount:shape[0].packageCount,looseUnits:shape[0].looseUnits}])},'جرد وهمي من القالب','product-template-stock-0001')`;
+ assert.equal((await rpc(stockCall)).success,true);assert.equal(await sql(`SELECT on_hand_quantity FROM inventory_balances WHERE product_id=${q(countedId)} AND warehouse_id=${q(id(201))};`),'25');assert.equal(await json(`SELECT to_jsonb(wac_cost_in_minor_units_exact) FROM products WHERE id=${q(countedId)};`),500);
+ const afterStock=await readApplicationFingerprint(executor);await rpc(stockCall);assert.deepEqual(await readApplicationFingerprint(executor),afterStock);
+ results.push({case:'optional stock exported as purchase parcels+packets,protected opening writer,replay0 andWAC500',passed:true,quantity:25,inventoryValueInMinor:12500});
+ assert.deepEqual(catalogDifference(catalog,await json(schemaCatalogSql)),[]);
+
  await writeFile(path.join(out,'proof.json'),JSON.stringify({ok:true,results,history:180,ceiling:219,noHostedAccess:true},null,2)+'\n');console.log(JSON.stringify({ok:true,out,results}));
 }catch(error){await writeFile(path.join(out,'failure.json'),JSON.stringify({ok:false,stage,message:error.message},null,2)+'\n');console.error(JSON.stringify({ok:false,stage,out,message:error.message}));process.exitCode=1;}
 finally{if(local)await exec(process.execPath,[cli,'stop','--no-backup','--workdir',local],{cwd:root,windowsHide:true,timeout:120000,maxBuffer:1024**2});}

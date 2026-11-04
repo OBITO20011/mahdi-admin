@@ -299,7 +299,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset, warehouse-management, owner-withdrawals, deferred-cheques, opening-cheques, legacy-product-cost, home-damage201, all-collections202, all-collections203, sales-history204, product-receiving205, navigation-cash206, document-corrections207, supplier-replacement208, parcel209, receipt210, aftercare211, trial212, handover213, handover214, reset214-resume, prelaunch-trial, bulk-product-images, aftercare215, partial216, owner-telegram217, owner-telegram217-operations, home-performance219, home219-operations]
+        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset, warehouse-management, owner-withdrawals, deferred-cheques, opening-cheques, legacy-product-cost, home-damage201, all-collections202, all-collections203, sales-history204, product-receiving205, navigation-cash206, document-corrections207, supplier-replacement208, parcel209, receipt210, aftercare211, trial212, handover213, handover214, reset214-resume, prelaunch-trial, bulk-product-images, aftercare215, partial216, owner-telegram217, owner-telegram217-operations, home-performance219, home219-operations, product-workbook]
     env:
       NAWASRAH_PACKAGE_D_CURRENT: '1'
     steps:
@@ -576,6 +576,10 @@ jobs:
       - name: Install customer browser dependencies
         if: matrix.suite == 'pos-browser'
         run: npm --prefix customer-web ci
+
+      - name: Prove product workbook with real existing219 RPCs,recovery and protected stock writer
+        if: matrix.suite == 'product-workbook'
+        run: node --import tsx scripts/testing/run-product-template-existing-rpcs.mjs
 
       - name: Install fullstack browsers
         if: matrix.suite == 'pos-browser' || matrix.suite == 'bulk-product-images' || matrix.suite == 'aftercare215' || matrix.suite == 'partial216'

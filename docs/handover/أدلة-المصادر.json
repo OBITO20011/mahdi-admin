@@ -719,8 +719,8 @@
       ],
       "importSupported": true,
       "moneyFormat": "#,##0.000;[Red]-#,##0.000;0.000",
-      "totalRow": 14,
-      "sha256": "34225e78b63fd59ab8e24717e471915d25b0d60c7b8a7abee8260e3a815de8b1"
+      "totalRow": 21,
+      "sha256": "6c23368bea1b1f8382ac0c7107b005c11e7ed953edc01db0635cf670a4880bfc"
     },
     {
       "kind": "stock",
@@ -963,5 +963,14 @@
     "endedAt": "2026-10-27T16:10:04.247Z",
     "xlsxSha256": "34225e78b63fd59ab8e24717e471915d25b0d60c7b8a7abee8260e3a815de8b1",
     "scriptSha256": "88d978a23b0c3fe0a2e576322f3749919b0db9b96f24fcc43b223a7a01b849cd"
+  },
+  "productWorkbookRevision219": {
+    "xlsxSha256": "6c23368bea1b1f8382ac0c7107b005c11e7ed953edc01db0635cf670a4880bfc",
+    "supersedes214Template": true,
+    "scope": "20 product columns,flavors sheet,derived packet price,optional stock;existing219 RPCs in two verified stages",
+    "historical214EvidenceUnchanged": true,
+    "runtimeProof": "docs/operations/PRODUCT_WORKBOOK_219_LOCAL.json",
+    "author": "ArtifactTool;RTL-only OOXML metadata patch;all other parts unchanged",
+    "nativeExcelNotAutomated": true
   }
 }

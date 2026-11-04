@@ -3,39 +3,67 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/project-state.json"
+      "path": "scripts/operations/go-live-files/check.ts"
     },
     {
       "code": " M",
-      "path": "scripts/testing/rehearsal219-legacy-view.json"
+      "path": "scripts/testing/run-product-template-existing-rpcs.mjs"
+    },
+    {
+      "code": " M",
+      "path": "src/features/goLive/GoLiveSetupView.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/goLive/productImportAttempt.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/features/goLive/productWorkbook.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/features/products/ProductFormModal.tsx"
     },
     {
       "code": " M",
       "path": "src/lib/xlsx.ts"
     },
     {
-      "code": "??",
-      "path": "docs/operations/PRODUCT_WORKBOOK_AR.md"
+      "code": " M",
+      "path": "tests/go-live-files-offline.test.ts"
     },
     {
-      "code": "??",
-      "path": "scripts/testing/run-product-template-existing-rpcs.mjs"
-    },
-    {
-      "code": "??",
-      "path": "src/features/goLive/productImportAttempt.ts"
-    },
-    {
-      "code": "??",
-      "path": "src/features/goLive/productWorkbook.ts"
-    },
-    {
-      "code": "??",
-      "path": "tests/product-import-attempt.test.ts"
-    },
-    {
-      "code": "??",
+      "code": " M",
       "path": "tests/product-workbook.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/product-workbook-db-transport.mjs"
+    },
+    {
+      "code": "??",
+      "path": "src/features/goLive/ProductWorkbookImportPanel.tsx"
+    },
+    {
+      "code": "??",
+      "path": "src/features/goLive/productWorkbookReference.ts"
+    },
+    {
+      "code": "??",
+      "path": "src/features/products/FamilyBarcodeRecovery.tsx"
+    },
+    {
+      "code": "??",
+      "path": "src/services/supabase/productFamilyBarcodes.service.ts"
+    },
+    {
+      "code": "??",
+      "path": "src/services/supabase/productWorkbook.service.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/product-workbook-service.test.ts"
     }
   ]
 }
