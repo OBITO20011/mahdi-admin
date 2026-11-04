@@ -3,13 +3,14 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner4Nov item3 hidden private source maps,never published,local release symbolication;separate stacked PR on item2,no merge/deploy/hosted/SQL/RPC/financial/permissions;58Draft.",
-  "baselineSha": "8198f6ca301a73a84067af8909744a957508fc3c",
+  "baselineSha": "91d7737f7b7f2b6d079960ef852bdcbb705d6ccc",
   "branch": "codex/pre-delivery2-private-maps",
   "phase": "PACKAGE_F",
   "completed": [
     "Private hidden build maps for production/trial only;removed from bundle before dist writes;protected OS-local per app/SHA/environment/unique run with SHA hashes. No Sentry upload/token/runtime changes.",
     "Node built-in local symbolication accepts current sanitized frame and verifies release/map hash;wrong release/tamper rejected. Published map/reference negatives PASS;executable JS byte-identical to no-map control.",
-    "Actual six Admin/customer context builds+verify-dist with loopback SEO PASS;bothtypes/strictlint PASS. Focused27 then6 then final15 cover exact historical inverses including self-references;original owner110sources/SQL remain byte-identical."
+    "Actual six Admin/customer context builds+verify-dist with loopback SEO PASS;bothtypes/strictlint PASS. Focused27 then6 then final15 cover exact historical inverses including self-references;original owner110sources/SQL remain byte-identical.",
+    "CI firsthead91d7737f failed only legacy-reader hash of adapted home219 test;wrapped that reader in test-only exact maps projection,leaving original pins and owner110 untouched. Final local Admin1751/1751 plus focused25 PASS;types/strictlint and6builds unchanged PASS."
   ],
   "inProgress": [
     "Save/push item3 stackedPR on corrected item2;FULLCI exact head;then item4 mobileBack in separate worktree/PR."
@@ -18,11 +19,11 @@
     "Item4 mobile browserBack in independentworktree/PR after item3."
   ],
   "testsPassed": [
-    "Focused map4/Sentry2 and final15 incl219/UI known businessmessages PASS;6builds/verify-dist;typesAdmin+store/strictlint;actual Windows protected ACL and Linux-mode assertion."
+    "Focused map4/Sentry2 and final15 incl219/UI known businessmessages PASS;6builds/verify-dist;typesAdmin+store/strictlint;actual Windows protected ACL and Linux-mode assertion.",
+    "Final full local Admin1751/1751,0skip/0fail;focused25 andstrictlint include RESET legacy proof and unchanged owner110."
   ],
   "testsRemaining": [
-    "Admin initial1751:1749pass/2 exact historical test-reader failures;both fixed and focused15PASS;complete new-head CI required.",
-    "Gitleaks0;exactFULLCI60+backup+2secrets."
+    "New-head FULLCI60+backup+2secrets;no merge."
   ],
   "findings": [
     "Protected source-before helpers remain untouched;new exact map source projection is called only from historical TEST readers. Frozen historical beforeText/hashes stay intact.",
@@ -34,13 +35,13 @@
     "No runtime/SQL/migration/financial/permission changes.",
     "No merge58/newPR, hosted access or deployment; no owner local/env/reference changes."
   ],
-  "nextExactAction": "Commit/push private maps item3;stacked PR on item2;FULLCI;then separate mobileBack item4;no merge",
+  "nextExactAction": "Push maps corrected test-reader proof;wait exactFULLCI;continue BackUI in ownworktree",
   "startedAt": "2026-11-03T03:59:26.518Z",
-  "checkpointedAt": "2026-11-04T03:19:52.107Z",
+  "checkpointedAt": "2026-11-04T03:35:18.493Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 19,
-  "filesTouchedManifestSha256": "849670f81f94e20b6491d0a1ffe27eb982ae524b0625c85c67f0d70cb3af45f7",
-  "workingTreeFingerprint": "3ADA322BA5BFC10AC6B9E0A6D71B503A4318F4391E37091C265B6C03930586F8"
+  "filesTouchedCount": 2,
+  "filesTouchedManifestSha256": "f2880ec79cbbe6df390003f115f412a4f0665057a66e898e845e3c2341082936",
+  "workingTreeFingerprint": "4F6BCBE514DE5FCE3F13179D6F53E878467CAD6B64C31226F0F8BE1871695A3A"
 }

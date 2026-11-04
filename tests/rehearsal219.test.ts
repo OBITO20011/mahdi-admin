@@ -1,3 +1,4 @@
+import {sourceBeforePrivateMaps} from '../scripts/audit/source-before-private-maps.mjs';
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,existsSync} from 'node:fs';
@@ -61,7 +62,7 @@ test('test-only legacy view binds exact current and baseline Git bytes;unknown e
  assert.deepEqual(Object.keys(pins.files).sort(),['docs/agent/project-state.json','scripts/backup/complete-backup.mjs','scripts/testing/run-dual-backup-runtime.mjs','scripts/testing/run-owner-upgrade219-runtime.mjs','scripts/testing/run-reset219-resume-runtime.mjs',
   'tests/aftercare-cleanup.test.ts','tests/aftercare215-source-compat.test.ts','tests/handover213.test.ts','tests/handover214.test.ts','tests/home219-evidence.test.ts','tests/parcel209.test.ts','tests/partial216-source-history.test.ts','tests/preflight120-source-history.test.ts','tests/trial-aftercare-supplier.test.ts','tests/trial-owner-r.test.ts','tests/trial-sale-receipts.test.ts','tests/trial-ta-presentation.test.ts','tests/trial41-integration.test.ts']);
  for(const [file,pin] of Object.entries(pins.files) as [string,{beforeText:string;before:string;after:string}][]){
-  const current=readFileSync(file,'utf8').replaceAll('\r\n','\n');
+  const current=sourceBeforePrivateMaps(file,readFileSync(file,'utf8').replaceAll('\r\n','\n'))!;
   assert.equal(createHash('sha256').update(current).digest('hex'),pin.after);
   assert.equal(pin.beforeText,execFileSync('git',['show',pins.baseline+':'+file],{encoding:'utf8',maxBuffer:8*1024**2}).replaceAll('\r\n','\n'));
   assert.equal(createHash('sha256').update(pin.beforeText).digest('hex'),pin.before);
