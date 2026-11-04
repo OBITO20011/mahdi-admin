@@ -69,7 +69,7 @@ export async function checkFiles(inputs:Partial<Record<Kind,FileInput>>,referenc
  }
  const productPayload=workbook?.products.flatMap(p=>[{...p.data,sourceRow:p.row},...p.flavors.map(f=>({...p.data,sourceRow:f.row,sku:f.sku,barcode:f.barcode,name_ar:p.data.name_ar+' - '+f.name}))]);
  if(workbook)for(const w of workbook.warnings)add('products',w.row,w.sheet==='النكهات'?'النكهات / المعرّف والباركود':'المخزون (باكيت)',w.message,'warning');
- if(workbook&&ref)for(const e of validateProductWorkbookReference(workbook,ref))add('products',e.row,'المرجع / الرمز',e.message);
+ if(workbook&&ref)for(const e of validateProductWorkbookReference(workbook,ref))add('products',e.row,(e.sheet==='النكهات'?'النكهات / ':'')+'المرجع / الرمز',e.message);
  const prepared={products:workbook?{payload:productPayload??[],errors:workbook.errors}:prepareProducts(rows.products??[]),customers:prepareCustomers(rows.customers??[],today),suppliers:prepareSuppliers(rows.suppliers??[],today)};
  for(const kind of ['products','customers','suppliers'] as const)for(const e of prepared[kind].errors)add(kind,e.row,('sheet'in e&&e.sheet==='النكهات'?'النكهات / ':'')+columnFor(kind,e),e.message);
  const products:LocalProduct[]=[...(ref?.products??[])],productCosts=new Map<string,string>();

@@ -46,8 +46,8 @@ export async function readProductWorkbook(bytes:Uint8Array){
   const xml=(name:string)=>new TextDecoder().decode(files.get(name)??new Uint8Array());
   const tag=[...xml('xl/workbook.xml').matchAll(/<(?:\w+:)?sheet\s[^>]*>/gu)].find(m=>decodeXml(/\bname="([^"]*)"/u.exec(m[0])?.[1]??'')==='النكهات')?.[0]??'';
   const id=/\br:id="([^"]+)"/u.exec(tag)?.[1];let sheetPath='';
-  for(const relation of xml('xl/_rels/workbook.xml.rels').matchAll(/<Relationship\s[^>]*>/gu))if(relation[0].includes(`Id="${id}"`)){const t=/Target="([^"]+)"/u.exec(relation[0])?.[1]??'';sheetPath=t.startsWith('/')?t.slice(1):'xl/'+t.replace(/^\.\//u,'');}
-  const headings=flavors[0]??[];for(const c of xml(sheetPath).matchAll(/<c\b([^>]*?)>([\s\S]*?)<\/c>/gu)){const coord=/\br="([A-Z]+)(\d+)"/u.exec(c[1]);if(!coord||Number(coord[2])<2)continue;
+  for(const relation of xml('xl/_rels/workbook.xml.rels').matchAll(/<(?:\w+:)?Relationship\s[^>]*>/gu))if(relation[0].includes(`Id="${id}"`)){const t=/Target="([^"]+)"/u.exec(relation[0])?.[1]??'';sheetPath=t.startsWith('/')?t.slice(1):'xl/'+t.replace(/^\.\//u,'');}
+  const headings=flavors[0]??[];for(const c of xml(sheetPath).matchAll(/<(?:\w+:)?c\b([^>]*?)>([\s\S]*?)<\/(?:\w+:)?c>/gu)){const coord=/\br="([A-Z]+)(\d+)"/u.exec(c[1]);if(!coord||Number(coord[2])<2)continue;
    if(['رمز المنتج الأساسي','باركود النكهة','رمز النكهة (اختياري)'].includes(headings[columnIndex(coord[1])])&&!/\bt="(?:s|inlineStr|str)"/u.test(c[1])&&/<(?:\w+:)?v>[^<]+<\/(?:\w+:)?v>/u.test(c[2]))identifierWarnings.push({row:Number(coord[2]),sheet:'النكهات',warning:true,message:'معرّف النكهة محفوظ كرقم؛ راجع الأصفار البادئة والأرقام الطويلة من الأصل. تغيير التنسيق لا يعيد الأرقام المفقودة.'});
   }
  }
@@ -60,6 +60,7 @@ export function prepareProductWorkbook(productSheet:readonly(readonly string[])[
  for(const c of GO_LIVE_COLUMNS.products)if(legacyHeader.filter(h=>h===c.header).length>1)errors.push({row:1,message:`عنوان العمود مكرر: ${c.header}`});
  const mapped=mapSheet('products',[legacyHeader,...productSheet.slice(1)]);
  for(const message of mapped.fileErrors)errors.push({row:1,message});
+ for(const h of new Set(header))if(h&&header.filter(c=>c===h).length>1)errors.push({row:1,message:'عنوان عمود مكرر؛ اترك عموداً واحداً لكل حقل.'});
  const extra=new Map<number,Record<string,string>>();
  for(const row of mapped.rows){
   row.values.sku=skuKey(row.values.sku);
@@ -89,11 +90,13 @@ export function prepareProductWorkbook(productSheet:readonly(readonly string[])[
   return{row:p.sourceRow,data:p,brand:v.brand_name,description:v.description,warehouse:v.warehouse_code,maxStock:max,openingStock:stock(v.opening_stock,p.sourceRow),flavors:[] as WorkbookFlavor[]};});
  const byMaster=new Map(products.map(p=>[skuKey(p.data.sku),p]));
  if(flavorSheet.length){const fh=(flavorSheet[0]??[]).map(c=>c.trim());
+  for(const h of new Set(fh))if(h&&fh.filter(c=>c===h).length>1)errors.push({row:1,sheet:'النكهات',message:'النكهات: عنوان عمود مكرر؛ اترك عموداً واحداً لكل حقل.'});
   for(const c of FLAVOR_WORKBOOK_COLUMNS.filter(c=>c.required))if(!fh.includes(c.header))errors.push({row:1,message:`النكهات: العمود "${c.header}" مطلوب.`});
   flavorSheet.slice(1).forEach((cells,i)=>{if(!cells.some(c=>c.trim()))return;const row=i+2,v=valueRow(FLAVOR_WORKBOOK_COLUMNS,fh,cells),parent=byMaster.get(skuKey(v.master_sku));
    if(!parent){errors.push({row,sheet:'النكهات',message:'النكهات: رمز المنتج الأساسي غير موجود في ورقة المنتجات.'});return;}
    if(!v.name||v.name.length>80){errors.push({row,sheet:'النكهات',message:'النكهات: الاسم مطلوب وبحد أقصى 80 حرفاً.'});return;}
    if(parent.flavors.some(f=>f.name.trim().toLocaleLowerCase('ar')===v.name.toLocaleLowerCase('ar')))errors.push({row,sheet:'النكهات',message:'النكهات: اسم نكهة مكرر لنفس المنتج.'});
+   if([...v.barcode].length>64)errors.push({row,sheet:'النكهات',message:'باركود النكهة بحد أقصى64 حرفاً.'});
    const sku=(v.sku?skuKey(v.sku):'')||deterministicFlavorSku(parent.data.sku,v.name);
    if(!sku||[...sku].length>64)errors.push({row,sheet:'النكهات',message:'النكهات: رمز النكهة مطلوب وبحد أقصى 64 حرفاً.'});
    parent.flavors.push({row,name:v.name,sku,barcode:v.barcode,openingStock:stock(v.opening_stock,row,'النكهات'),generatedSku:!v.sku});

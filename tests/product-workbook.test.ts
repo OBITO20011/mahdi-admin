@@ -51,3 +51,9 @@ test('numeric flavor identifiers warn about lost leading digits without inventin
  const files=await readZip(bytes,()=>true),xml=new TextDecoder().decode(files.get('xl/worksheets/sheet2.xml')).replace(/<c r="C2"[^>]*>[^]*?<\/c>/u,'<c r="C2"><v>123</v></c>');files.set('xl/worksheets/sheet2.xml',new TextEncoder().encode(xml));
  const read=await readProductWorkbook(createZip([...files].map(([name,data])=>({name,data}))));assert.equal(read.identifierWarnings.length,1);assert.equal(read.identifierWarnings[0].sheet,'النكهات');assert.equal(read.flavors[1][2],'123');
 });
+
+
+test('ambiguous duplicate headings and overlong flavor barcode are rejected during preview',()=>{
+ const sheet=[C.map(c=>c.header).concat(C.at(-1)!.header),product().concat('1')];assert.ok(prepareProductWorkbook(sheet).errors.some(e=>e.message.includes('عنوان عمود مكرر')));
+ assert.ok(run([{}],[{master_sku:'SUG-10',name:'ليمون',barcode:'A'.repeat(65)}]).errors.some(e=>e.sheet==='النكهات'&&e.message.includes('64')));
+});

@@ -3,7 +3,7 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner4Nov producttemplate/flavors aboveunmergedPR63;approved two-phase existing-RPC identities with strict readback/recovery;noDBchanges/finance/permissions/merge/deploy/hosted.",
-  "baselineSha": "ccf7c24fb759e5f62f5f12ef09dc5b249bc3871d",
+  "baselineSha": "dbdd6c96457318b04b92f76ed6d8d5fa48fd1b03",
   "branch": "codex/pre-delivery2-product-flavors",
   "phase": "PACKAGE_F",
   "completed": [
@@ -13,10 +13,13 @@
     "Pureworkbook/attempt18PASS incl old XLSXregression,duplicate/derivedprice/optionalstock/purchasepack,unknown-create/finalize/journalquota;types+strictlintPASS.",
     "Known-own ccf7 WIP baseline sync after continuation;all dirty source files match our delivered edits.",
     "Actual new service via fixed authenticated DB transport219:ordinary/family/lost-create/lost-metadata each PASS;exact costs/sales;replay0,catalog0. TemporarySKU uppercasing corrected to match108 DB trigger;noDBchanges.",
-    "Workbook source parser/checker/metadata service/formbarcode/recovery implemented;pure/mock checks25 beforelatestrefinement. Artifact-exported4sheet XLSX outsideGit93KB;formula4.8/.25;RTL and visual final checks pending."
+    "Workbook source parser/checker/metadata service/formbarcode/recovery implemented;pure/mock checks25 beforelatestrefinement. Artifact-exported4sheet XLSX outsideGit93KB;formula4.8/.25;RTL and visual final checks pending.",
+    "Actual219 final8groupsPASS incl publishedXLSX exacthash/zeros/no-previewwrites/replay0 and protectedstock25/WAC500/value12500;containercleaned.",
+    "Browser16current cases PASS acrossChromium/WebKit390+1440,camera/duplicates/journalreload;fixture default/advanced/session corrections recorded in external logs;no financialchange.",
+    "Six environment builds+verify-dist PASS;cutover HTML still2pages/network0;types+strictlint PASS beforelatestmetadata-only fixes."
   ],
   "inProgress": [
-    "Finish XLSX RTL/visual/cell validation,identifier warnings and final integration tests;browser coverage/docs/currentaccess/PR/FULLCI stillneeded."
+    "Current219 access runtime evidence,fullAdmin/store/history projection/finalCI."
   ],
   "notStarted": [
     "Final browser/runtime stock proof,access/inverse evidence,FULLCI andPR."
@@ -34,13 +37,13 @@
   "prohibitions": [
     "NoSQL/migration/RPCdefinition/financial/permissionschange;nohosted/deploy/merge;58Draft;ownercheckout/env untouched."
   ],
-  "nextExactAction": "Known-own source refinements after ccf7;verify20col workbook/render/copy then actual219staticworkbook+stock/browser/docs/access/FULLCI. NoDBchanges.",
+  "nextExactAction": "Actual2198groups and16UIcases andsixbuilds pass;currenttable/serviceaccess sequential probes thenfullAdmin/store/affectedbrowser/PWA,PRabove63/FULLCI. NoDBchanges/hosted/merge.",
   "startedAt": "2026-11-03T03:59:26.518Z",
-  "checkpointedAt": "2026-11-04T09:10:05.329Z",
+  "checkpointedAt": "2026-11-04T09:45:59.864Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 16,
-  "filesTouchedManifestSha256": "0afd18f25a374db2e142e658e858f8cef7f1a933779f937c4af132bc0fda7d3e",
-  "workingTreeFingerprint": "7E6DBA4027195DCF210B6F5F032137DABA79ED13351DF39ABD6D14ABC3734E27"
+  "filesTouchedCount": 22,
+  "filesTouchedManifestSha256": "2de9f23c669d9a3f6d5f4ff99de8a8fb91c30d3bde98ee3dc0d6fe7730928356",
+  "workingTreeFingerprint": "914500D1A6EB7AF06C9854D776AD9A85315E5CE10A0940663A292C747F1221E0"
 }

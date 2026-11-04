@@ -3,6 +3,34 @@
   "files": [
     {
       "code": " M",
+      "path": "docs/handover/templates/README.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/handover/دليل-صاحب-المحل.html"
+    },
+    {
+      "code": " M",
+      "path": "docs/handover/دليل-صاحب-المحل.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/handover/ورقة-يوم-التشغيل.html"
+    },
+    {
+      "code": " M",
+      "path": "docs/handover/ورقة-يوم-التشغيل.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/GO_LIVE_FILES_CHECK_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-pre-training.mjs"
+    },
+    {
+      "code": " M",
       "path": "scripts/operations/go-live-files/check.ts"
     },
     {
@@ -11,27 +39,15 @@
     },
     {
       "code": " M",
-      "path": "src/features/goLive/GoLiveSetupView.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/features/goLive/productImportAttempt.ts"
-    },
-    {
-      "code": " M",
       "path": "src/features/goLive/productWorkbook.ts"
     },
     {
       "code": " M",
-      "path": "src/features/products/ProductFormModal.tsx"
+      "path": "src/features/goLive/productWorkbookReference.ts"
     },
     {
       "code": " M",
-      "path": "src/lib/xlsx.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/go-live-files-offline.test.ts"
+      "path": "tests/pre-training-history.test.ts"
     },
     {
       "code": " M",
@@ -39,31 +55,39 @@
     },
     {
       "code": "??",
-      "path": "scripts/testing/product-workbook-db-transport.mjs"
+      "path": "docs/agent/PRODUCT_WORKBOOK_IMPORT_AR.md"
     },
     {
       "code": "??",
-      "path": "src/features/goLive/ProductWorkbookImportPanel.tsx"
+      "path": "docs/operations/PRODUCT_WORKBOOK_219_LOCAL.json"
     },
     {
       "code": "??",
-      "path": "src/features/goLive/productWorkbookReference.ts"
+      "path": "e2e/package-f-product-workbook-harness.html"
     },
     {
       "code": "??",
-      "path": "src/features/products/FamilyBarcodeRecovery.tsx"
+      "path": "e2e/package-f-product-workbook-harness.tsx"
     },
     {
       "code": "??",
-      "path": "src/services/supabase/productFamilyBarcodes.service.ts"
+      "path": "e2e/package-f-product-workbook.fixture.ts"
     },
     {
       "code": "??",
-      "path": "src/services/supabase/productWorkbook.service.ts"
+      "path": "e2e/package-f-product-workbook.spec.ts"
     },
     {
       "code": "??",
-      "path": "tests/product-workbook-service.test.ts"
+      "path": "scripts/audit/product-workbook-source-pins.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-product-workbook.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/product-workbook-history.test.ts"
     }
   ]
 }

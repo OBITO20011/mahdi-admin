@@ -1,0 +1,72 @@
+{
+  "ok": true,
+  "results": [
+    {
+      "case": "atomic family then SKU/barcode with existing versioned RPCs",
+      "passed": true,
+      "zeroOpeningStock": true,
+      "commercialAndCostUnchanged": true
+    },
+    {
+      "case": "stale metadata CAS refused;all application data/sequences and catalog unchanged",
+      "passed": true
+    },
+    {
+      "case": "actual service ordinary",
+      "passed": true,
+      "products": 1,
+      "replayAdditionalWrites": 0,
+      "costAndSaleExact": true
+    },
+    {
+      "case": "actual service family",
+      "passed": true,
+      "products": 3,
+      "replayAdditionalWrites": 0,
+      "costAndSaleExact": true
+    },
+    {
+      "case": "actual service lost-create",
+      "passed": true,
+      "products": 3,
+      "replayAdditionalWrites": 0,
+      "costAndSaleExact": true
+    },
+    {
+      "case": "actual service lost-metadata",
+      "passed": true,
+      "products": 3,
+      "replayAdditionalWrites": 0,
+      "costAndSaleExact": true
+    },
+    {
+      "case": "actual published XLSX decoded and imported on219 through current adapter,leading zeros preserved",
+      "passed": true,
+      "xlsxSha256": "6c23368bea1b1f8382ac0c7107b005c11e7ed953edc01db0635cf670a4880bfc",
+      "actualXlsxDecoded": true,
+      "previewZeroWrites": true,
+      "replayZeroWrites": true,
+      "products": 2,
+      "openingStock": 0,
+      "flavorSku": "CHO-001-ليمون",
+      "barcode": "0000000000001"
+    },
+    {
+      "case": "optional stock exported as purchase parcels+packets,protected opening writer,replay0 andWAC500",
+      "passed": true,
+      "quantity": 25,
+      "inventoryValueInMinor": 12500
+    }
+  ],
+  "history": 180,
+  "ceiling": 219,
+  "noHostedAccess": true,
+  "sourceHashes": {
+    "src/features/goLive/productWorkbook.ts": "16246aef0e0c160940bf2dc56664c978b3f697bdb7563766482e4e58b1429abb",
+    "src/features/goLive/productWorkbookReference.ts": "b19d3d44006a5113e68de54b253eeb9e6147929364fb45e04da1b0ef58a696a7",
+    "src/features/goLive/productImportAttempt.ts": "80e1152f89cd6428f62481acde89bcd2f392c13b27815e8471b23780c2afdc6b",
+    "src/services/supabase/productWorkbook.service.ts": "c75958160433a1bed704d41d9c8de1da48522f2cb866d0b5e2473841ffb6a3fe",
+    "src/lib/xlsx.ts": "6cdbaa22775a973cac568b43d065a5ec15eefdcf96ccc13b31d00f0defd96ea3",
+    "scripts/testing/product-workbook-db-transport.mjs": "a2aaa44595a92f419fc46bf93683c4ae3af66feebf16492cc9e1c5a255d4b1d5"
+  }
+}
