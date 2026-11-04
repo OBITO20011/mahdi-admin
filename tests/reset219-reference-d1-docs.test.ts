@@ -84,5 +84,14 @@ test('exact historical inverse updates only reviewed doc hashes and branch metad
     assert.equal(pins.entries[file].after, createHash('sha256').update(sourceBeforeProductWorkbook(file,read(file))!).digest('hex'));
     pins.entries[file].after = oldPins.entries[file].after;
   }
+  // PR58 retains exactly its already-reviewed four-line Draft phase prefix.
+  // Permit only its after hash; historical before bytes and every other pin remain exact.
+  const phase = 'docs/agent/PHASE_STATUS.md';
+  if (pins.entries[phase].after !== oldPins.entries[phase].after) {
+    const reviewedDraft = execFileSync('git', ['show', '0385d57f4e8197374a6d2c466e724806f6b74872:' + phase], { encoding: 'utf8', maxBuffer: 32 * 1024 ** 2 }).replaceAll('\r\n', '\n');
+    assert.equal(read(phase), reviewedDraft);
+    assert.equal(pins.entries[phase].after, createHash('sha256').update(reviewedDraft).digest('hex'));
+    pins.entries[phase].after = oldPins.entries[phase].after;
+  }
   assert.deepEqual(pins, oldPins);
 });

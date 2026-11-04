@@ -3,187 +3,43 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+      "path": "docs/agent/PRELAUNCH_CUTOVER_DRAFT_AR.md"
     },
     {
       "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_219.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/product-workbook-source-pins.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/product-workbook-runtime-view-pins.json"
-    },
-    {
-      "code": " M",
-      "path": "tests/owner-telegram-format.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/rehearsal219.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/store-scroll-history.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/source-before-workbook-integration.mjs"
-    },
-    {
-      "code": "??",
-      "path": "tests/workbook-integration-history.test.ts"
+      "path": "tests/prelaunch-cutover.test.ts"
     },
     {
       "code": "A ",
-      "path": "docs/operations/MOBILE_BACK_AR.md"
-    },
-    {
-      "code": "A ",
-      "path": "docs/operations/SOURCE_MAPS_PRIVATE_AR.md"
-    },
-    {
-      "code": "A ",
-      "path": "docs/operations/VITE_DEV_FILES_AR.md"
-    },
-    {
-      "code": "A ",
-      "path": "e2e/package-f-screen-history-harness.html"
-    },
-    {
-      "code": "A ",
-      "path": "e2e/package-f-screen-history-harness.tsx"
-    },
-    {
-      "code": "A ",
-      "path": "e2e/package-f-screen-history.spec.ts"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/audit/development-fs-source-pins.json"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/audit/mobile-back-source-pins.json"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/audit/private-maps-source-pins.json"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/audit/source-before-development-fs.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/audit/source-before-mobile-back.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/audit/source-before-private-maps.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/environments/development-file-access.d.mts"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/environments/development-file-access.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/environments/private-source-maps.d.mts"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/environments/private-source-maps.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/monitoring/symbolicate-local.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "src/hooks/useScreenLeaveGuard.ts"
-    },
-    {
-      "code": "A ",
-      "path": "src/utils/screenHistory.ts"
-    },
-    {
-      "code": "A ",
-      "path": "tests/screen-history.test.ts"
-    },
-    {
-      "code": "A ",
-      "path": "tests/vite-file-access.test.ts"
-    },
-    {
-      "code": "AM",
-      "path": "tests/mobile-back-contracts.test.ts"
-    },
-    {
-      "code": "AM",
-      "path": "tests/private-source-maps.test.ts"
+      "path": "tests/cutover-publication-order.test.ts"
     },
     {
       "code": "M ",
-      "path": "customer-web/vite.config.ts"
+      "path": "docs/handover/ورقة-يوم-التشغيل.html"
     },
     {
       "code": "M ",
-      "path": "docs/operations/SENTRY_OWNER_AR.md"
+      "path": "docs/handover/ورقة-يوم-التشغيل.md"
     },
     {
       "code": "M ",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
     },
     {
       "code": "M ",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+      "path": "scripts/audit/home-performance219-source-pins.json"
     },
     {
       "code": "M ",
-      "path": "scripts/audit/source-before-owner-telegram-format.mjs"
+      "path": "tests/cutover-platform-documentation.test.ts"
     },
     {
       "code": "M ",
-      "path": "scripts/audit/source-before-pre-delivery-usability.mjs"
+      "path": "tests/handover-documentation.test.ts"
     },
     {
       "code": "M ",
-      "path": "scripts/audit/source-before-pre-training.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/environments/verify-dist.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "src/App.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/components/layout/NavigationShell.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/pos/PosView.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/stores/useAppStore.ts"
-    },
-    {
-      "code": "M ",
-      "path": "src/utils/dialogFocus.ts"
-    },
-    {
-      "code": "M ",
-      "path": "vite.config.ts"
+      "path": "tests/reset219-reference-d1-docs.test.ts"
     }
   ]
 }

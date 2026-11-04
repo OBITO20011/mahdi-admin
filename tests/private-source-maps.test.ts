@@ -14,6 +14,7 @@ import {privateMapPins,sourceBeforePrivateMaps} from '../scripts/audit/source-be
 import {sourceBeforeMobileBack} from '../scripts/audit/source-before-mobile-back.mjs';
 import {resolveBuildEnvironment} from '../scripts/environments/environment.mjs';
 import {sourceBeforeWorkbookIntegration} from '../scripts/audit/source-before-workbook-integration.mjs';
+import {PRELAUNCH_TRIAL_OPEN} from '../scripts/environments/prelaunch-trial-control.mjs';
 
 const release='1111111111111111111111111111111111111111';
 test('hidden maps leave no publishable file/reference, are protected by release, and symbolicate the existing Sentry frame locally', async () => {
@@ -57,7 +58,13 @@ test('dist rejects map files, compressed maps, inline/external mapping comments 
 });
 
 test('maps only production/trial; archive cannot be inside Git or dist',()=>{
- for(const environment of ['production','prelaunch-trial','staging'])assert.equal(privateMapsEnabled(resolveBuildEnvironment({NAWASRAH_DEPLOYMENT_ENV:environment})),environment!=='staging');
+ for(const environment of ['production','staging'])assert.equal(privateMapsEnabled(resolveBuildEnvironment({NAWASRAH_DEPLOYMENT_ENV:environment})),environment!=='staging');
+ if(PRELAUNCH_TRIAL_OPEN)assert.equal(privateMapsEnabled(resolveBuildEnvironment({NAWASRAH_DEPLOYMENT_ENV:'prelaunch-trial'})),true);
+ else{
+  assert.throws(()=>resolveBuildEnvironment({NAWASRAH_DEPLOYMENT_ENV:'prelaunch-trial'}),/PRELAUNCH_TRIAL_CLOSED/u);
+  // Test the map policy independently; this does not admit a closed build.
+  assert.equal(privateMapsEnabled({...resolveBuildEnvironment({NAWASRAH_DEPLOYMENT_ENV:'production'}),environment:'prelaunch-trial'}),true);
+ }
  assert.equal(privateMapsEnabled(resolveBuildEnvironment({VITE_BROWSER_QA_ISOLATED:'true',VITE_SUPABASE_URL:'http://127.0.0.1:54321',VITE_SUPABASE_ANON_KEY:'isolated-private-maps-test-key'})),false);
  assert.throws(()=>assertPrivateMapPath(path.resolve('dist/maps'),path.resolve('dist')),/PRIVATE_MAPS_PATH_INSIDE_DIST/u);
  assert.throws(()=>assertPrivateMapPath(path.resolve('maps'),path.resolve('dist')),/PRIVATE_MAPS_PATH_INSIDE_GIT/u);
