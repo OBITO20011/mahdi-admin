@@ -1,3 +1,5 @@
+import{historicalProductWorkbookQuery,historicalProductWorkbookInventory}from'../scripts/audit/source-before-product-workbook.mjs';
+import{historicalProductWorkbookSource,projectProductWorkbookQuerySites}from'../scripts/audit/source-before-product-workbook.mjs';
 import {sourceBeforeProductReceiving205} from '../scripts/audit/source-before-product-receiving205.mjs';
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
@@ -12,7 +14,7 @@ import {bindFirstOwnerSql} from '../scripts/operations/first-owner-core.mjs';
 import {assert199History} from '../scripts/operations/frankfurt-owner-upgrade199.mjs';
 import {inventory} from '../scripts/audit/table-access-inventory.mjs';
 import {verifyProbeCoverage} from '../scripts/audit/table-access-probes.mjs';
-import {projectHistoricalWarehouseQuerySites,verifyHistoricalWarehouseCoverage} from '../scripts/audit/historical-warehouse-query-sites.mjs';
+import {projectHistoricalWarehouseQuerySites,verifyHistoricalWarehouseCoverage} from '../scripts/testing/product-workbook-historical-views.mjs';
 import {inventoryBeforeTrialOwnerA} from '../scripts/audit/source-before-trial-owner-a.mjs';
 
 test('sole active branch warehouse only, never an arbitrary warehouse in another branch',()=>{
@@ -63,11 +65,11 @@ test('all existing financial awaits, RPC payloads and event-value handlers are u
   };
   for(const [file,pin] of Object.entries(snapshot.entries) as [string,{added?:boolean}][]){
     const current=readFileSync(file,'utf8').replaceAll('\r\n','\n');
-    assert.throws(()=>sourceBeforeWarehouseManagement(file,current+'\nvoid 1;'),file+' whole-file drift must fail');
-    if(pin.added){assert.equal(sourceBeforeWarehouseManagement(file,current),null);continue;}
+    assert.throws(()=>historicalProductWorkbookSource(sourceBeforeWarehouseManagement,file,current+'\nvoid 1;'),file+' whole-file drift must fail');
+    if(pin.added){assert.equal(historicalProductWorkbookSource(sourceBeforeWarehouseManagement,file,current),null);continue;}
     const before=execFileSync('git',['show',snapshot.baseline+':'+file],{encoding:'utf8'}).replaceAll('\r\n','\n');
-    assert.equal(sourceBeforeWarehouseManagement(file,current),before,file);
-    assert.deepEqual(collect(file,sourceBeforeProductReceiving205(file,current)!),collect(file,before),file+' AST calls/handlers/required/disabled must be identical');
+    assert.equal(historicalProductWorkbookSource(sourceBeforeWarehouseManagement,file,current),before,file);
+    assert.deepEqual(collect(file,historicalProductWorkbookSource(sourceBeforeProductReceiving205,file,current)!),collect(file,before),file+' AST calls/handlers/required/disabled must be identical');
   }
 });
 test('new warehouse RPCs have owner gate, stock/history guards and no direct table grants or delete',()=>{
@@ -90,10 +92,10 @@ test('historical line-ID projection proves exact query content;current real gate
  const source=await inventory(),old=JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_AFTER_198.json','utf8'));
  assert.throws(()=>verifyProbeCoverage(source,old.results),/INCOMPLETE_QUERY_PROBE_COVERAGE/u);
  assert.deepEqual(verifyHistoricalWarehouseCoverage(source,old.results),old.coverage);
- assert.equal(projectHistoricalWarehouseQuerySites(source).entries.length,(await inventoryBeforeTrialOwnerA()).entries.length);
+ assert.equal(historicalProductWorkbookQuery(projectHistoricalWarehouseQuerySites,projectProductWorkbookQuerySites(source)).entries.length,(await historicalProductWorkbookInventory(inventoryBeforeTrialOwnerA)).entries.length);
  assert.throws(()=>verifyHistoricalWarehouseCoverage(source,old.results.slice(1)),/INCOMPLETE_QUERY_PROBE_COVERAGE/u);
  assert.throws(()=>verifyHistoricalWarehouseCoverage(source,[...old.results,old.results[0]]),/DUPLICATE_QUERY_PROBE/u);
  const changed=structuredClone(source),entry=changed.entries.find(e=>e.file==='src/features/pos/PosView.tsx')!;
  entry.calls[0].args=['"different_column"'];
- assert.throws(()=>projectHistoricalWarehouseQuerySites(changed),/HISTORICAL_QUERY_INVENTORY_DRIFT/u);
+ assert.throws(()=>historicalProductWorkbookQuery(projectHistoricalWarehouseQuerySites,projectProductWorkbookQuerySites(changed)),/HISTORICAL_QUERY_INVENTORY_DRIFT/u);
 });

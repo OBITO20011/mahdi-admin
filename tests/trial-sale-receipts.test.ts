@@ -1,3 +1,5 @@
+import{historicalProductWorkbookInventory}from'../scripts/audit/source-before-product-workbook.mjs';
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import {sourceBeforeRehearsal219} from '../scripts/testing/rehearsal219-legacy-view.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
@@ -64,12 +66,12 @@ test('D missing historical evidence is explicit and never inferred from quantity
 test('D exact additive inverse preserves delivered209 source and rejects current/restored mutations',()=>{
   const baseline='581cb972a247ef13dbdc697b75bcc5c674bfa97d';
   for(const [file,pin] of Object.entries(trialDPins) as [string,{added?:boolean}][]){
-    const current=sourceBeforeRehearsal219(file,readFileSync(file,'utf8'))!,restored=sourceBeforeTrialD(file,current);
-    assert.throws(()=>sourceBeforeTrialD(file,current+'\nvoid unapproved;\n'));
+    const current=historicalProductWorkbookSource(sourceBeforeRehearsal219,file,readFileSync(file,'utf8'))!,restored=historicalProductWorkbookSource(sourceBeforeTrialD,file,current);
+    assert.throws(()=>historicalProductWorkbookSource(sourceBeforeTrialD,file,current+'\nvoid unapproved;\n'));
     if(pin.added)assert.equal(restored,null);
     else {
       const before=execFileSync('git',['show',baseline+':'+file],{encoding:'utf8',maxBuffer:32*1024**2}).replaceAll('\r\n','\n');
-      assert.equal(restored,before,file);assert.throws(()=>sourceBeforeTrialD(file,before+'\nvoid unapproved;\n'));
+      assert.equal(restored,before,file);assert.throws(()=>historicalProductWorkbookSource(sourceBeforeTrialD,file,before+'\nvoid unapproved;\n'));
     }
   }
   assert.deepEqual(execFileSync('git',['diff','--name-only',baseline,'--','supabase/migrations'],{encoding:'utf8'}).trim().split('\n').filter(f=>f&&Number(f.split('/').at(-1)!.slice(0,3))<=209),[],'001-209 immutable;only approved210 additive');
@@ -77,7 +79,7 @@ test('D exact additive inverse preserves delivered209 source and rejects current
 
 test('D actual SDK evidence covers saved unit/token columns for all existing actors and keeps frozen209 separate',async()=>{
   const read=(path:string)=>JSON.parse(readFileSync(path,'utf8'));
-  const current=await inventoryBeforeTrialJ(),proof=read('docs/operations/TABLE_ACCESS_AFTER_210.json');
+  const current=await historicalProductWorkbookInventory(inventoryBeforeTrialJ),proof=read('docs/operations/TABLE_ACCESS_AFTER_210.json');
   assert.equal(proof.migrationCeiling,210);assert.equal(proof.managedAccess,false);
   assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);
   assert.deepEqual(proof.sourceHashes,current.sources);assert.deepEqual(proof.coverage,verifyProbeCoverage(current,proof.results));
@@ -89,5 +91,5 @@ test('D actual SDK evidence covers saved unit/token columns for all existing act
     assert.deepEqual([...new Set(rows.map((r:{appRole:string})=>r.appRole))].sort(),['cashier','admin','owner'].sort());
   }
   assert.ok(queries.some((r:{evaluated:unknown})=>JSON.stringify(r.evaluated).includes('public_receipt_token')));
-  const frozen=await inventoryBeforeTrialD();assert.deepEqual(frozen.sources,read('docs/operations/TABLE_ACCESS_AFTER_209.json').sourceHashes);
+  const frozen=await historicalProductWorkbookInventory(inventoryBeforeTrialD);assert.deepEqual(frozen.sources,read('docs/operations/TABLE_ACCESS_AFTER_209.json').sourceHashes);
 });

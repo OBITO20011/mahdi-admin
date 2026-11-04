@@ -1,3 +1,4 @@
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {mkdtemp,readFile,writeFile,rm} from 'node:fs/promises';
@@ -21,9 +22,9 @@ test('owner ACL verifier inverse exactly restores delivered source and rejects u
   'scripts/operations/frankfurt-owner-upgrade212.mjs','scripts/testing/run-trial212-gates.mjs'].sort());
  for(const file of Object.keys(ownerAcl212Inverse.entries)){
   const current=readFileSync(file,'utf8'),before=execFileSync('git',['show',ownerAcl212Inverse.baseline+':'+file],{encoding:'utf8'}).replaceAll('\r\n','\n');
-  assert.equal(sourceBeforeOwnerAcl212(file,current),before);assert.equal(sourceBeforeOwnerAcl212(file,before),before);
-  assert.throws(()=>sourceBeforeOwnerAcl212(file,current+'\nvoid unapproved;\n'));
-  assert.throws(()=>sourceBeforeOwnerAcl212(file,before+'\nvoid unapproved;\n'));
+  assert.equal(historicalProductWorkbookSource(sourceBeforeOwnerAcl212,file,current),before);assert.equal(historicalProductWorkbookSource(sourceBeforeOwnerAcl212,file,before),before);
+  assert.throws(()=>historicalProductWorkbookSource(sourceBeforeOwnerAcl212,file,current+'\nvoid unapproved;\n'));
+  assert.throws(()=>historicalProductWorkbookSource(sourceBeforeOwnerAcl212,file,before+'\nvoid unapproved;\n'));
  }
 });
 

@@ -1,9 +1,11 @@
+import {readFileSync} from 'node:fs';
+import{historicalProductWorkbookInventory,historicalProductWorkbookHashes}from'../scripts/audit/source-before-product-workbook.mjs';
+import{historicalProductWorkbookSource,restoreProductWorkbookHashes}from'../scripts/audit/source-before-product-workbook.mjs';
 import {sourceBeforeEnvironments} from '../scripts/audit/source-before-environments.mjs';
 import {resolveBuildEnvironment} from '../scripts/environments/environment.mjs';
 import test from 'node:test';
 import {restoreHomeDamage201SourceHashes} from '../scripts/audit/source-before-home-damage201.mjs';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
 import {readFile,mkdtemp,mkdir,writeFile,copyFile,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
@@ -15,18 +17,18 @@ import {inventoryBeforeSales204 as inventory} from '../scripts/audit/source-befo
 import {verifyProbeCoverage} from '../scripts/audit/table-access-probes.mjs';
 const url='https://kzevmysfydaslxcerogt.supabase.co',key='sb_publishable_d4TElxRQFkC-AZko3_ASeg_YotqxGjV';
 test('historical Frankfurt defaults remain exact through the environment inverse;no financial evidence is repinned',async()=>{
- const source=await inventory(),restored=await sourceBeforeStagingConfig(source.sources);
+ const source=await historicalProductWorkbookInventory(inventory),restored=await historicalProductWorkbookHashes(sourceBeforeStagingConfig,source.sources);
  for(const file of ['src/config/supabase-public-config.ts','customer-web/src/config/supabase-public-config.ts']){
-  const text=sourceBeforeEnvironments(file,await readFile(file,'utf8'));assert.ok(text.includes(url));assert.ok(text.includes(key));
+  const text=historicalProductWorkbookSource(sourceBeforeEnvironments,file,await readFile(file,'utf8'));assert.ok(text.includes(url));assert.ok(text.includes(key));
   const old=restoreStagingConfig(file,text);assert.ok(old.includes('https://acjtabdqqnpwhdvbvnyw.supabase.co'));
   for(const mutation of [text.replace(key,key+'x'),text.replace(url,url+'x'),text+'\n// unrelated drift'])assert.throws(()=>restoreStagingConfig(file,mutation));
-  assert.notEqual(restored.find((s:{file:string;sha256:string})=>s.file===file)?.sha256,source.sources.find(s=>s.file===file)?.sha256);
+  assert.notEqual(restored.find((s:{file:string;sha256:string})=>s.file===file)?.sha256,source.sources.find((s:{file:string;sha256:string})=>s.file===file)?.sha256);
  }
  const oldProof=JSON.parse(await readFile('docs/operations/TABLE_ACCESS_AFTER_198.json','utf8'));
  assert.deepEqual(restored,oldProof.sourceHashes);
  const current=JSON.parse(await readFile('docs/operations/TABLE_ACCESS_STAGING_198.json','utf8'));
  assert.equal(current.migrationCeiling,198);assert.equal(current.managedAccess,false);assert.equal(current.applicationReady,true);
- assert.deepEqual(current.sourceHashes,restoreHomeDamage201SourceHashes(source.sources));assert.deepEqual(verifyProbeCoverage(source,current.results),current.coverage);
+ assert.deepEqual(current.sourceHashes,historicalProductWorkbookHashes(restoreHomeDamage201SourceHashes,restoreProductWorkbookHashes(source.sources)));assert.deepEqual(verifyProbeCoverage(source,current.results),current.coverage);
  assert.ok(current.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));
  const services=JSON.parse(await readFile('docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json','utf8'));
  assert.deepEqual(services.oldReferences.filter((r:{category:string})=>['APP_FALLBACK','CSP_CONNECT_SRC'].includes(r.category)),[]);

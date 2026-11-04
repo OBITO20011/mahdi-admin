@@ -1,3 +1,5 @@
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
+import{sourceBeforeProductWorkbook}from'../scripts/audit/source-before-product-workbook.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -137,7 +139,7 @@ test('documentation pins bind current copies and preserve original historical in
   const allowed = ['docs/agent/project-state.json', 'docs/operations/GO_LIVE_CUTOVER_AR.md',
     'docs/handover/ورقة-يوم-التشغيل.md', 'docs/handover/ورقة-يوم-التشغيل.html', 'tests/handover-documentation.test.ts'];
   for (const path of allowed) {
-    const projected = path === 'docs/agent/project-state.json' ? sourceBeforeRehearsal219(path, read(path))! : read(path);
+    const projected = path === 'docs/agent/project-state.json' ? historicalProductWorkbookSource(sourceBeforeRehearsal219,path, read(path))! : sourceBeforeProductWorkbook(path,read(path))!;
     assert.equal(now.entries[path].after, createHash('sha256').update(projected).digest('hex'));
   }
   for (const [path, pin] of Object.entries(old.entries) as [string, { before: string; beforeText: string }][] ) {

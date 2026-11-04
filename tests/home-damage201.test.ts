@@ -1,3 +1,4 @@
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFileSync} from 'node:fs';
@@ -66,9 +67,9 @@ test('201 actual dashboard service rejects malformed/missing collection numbers 
 
 test('201 historical source inverse rejects all unrelated drift and restores exact approved whole files',()=>{
  for(const file of Object.keys(homeDamage201Pins)){
-  const text=readFileSync(file,'utf8').replaceAll('\r\n','\n');const restored=sourceBeforeHomeDamage201(file,text);
-  assert.throws(()=>sourceBeforeHomeDamage201(file,text+'\n// unapproved drift\n'));
-  if(restored!==null)assert.equal(sourceBeforeHomeDamage201(file,restored),restored);
+  const text=readFileSync(file,'utf8').replaceAll('\r\n','\n');const restored=historicalProductWorkbookSource(sourceBeforeHomeDamage201,file,text);
+  assert.throws(()=>historicalProductWorkbookSource(sourceBeforeHomeDamage201,file,text+'\n// unapproved drift\n'));
+  if(restored!==null)assert.equal(historicalProductWorkbookSource(sourceBeforeHomeDamage201,file,restored),restored);
  }
 });
 

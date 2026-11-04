@@ -1,3 +1,4 @@
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import {sourceBeforeAftercareCleanup} from '../scripts/audit/source-before-aftercare-cleanup.mjs';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
@@ -18,7 +19,7 @@ const aftercareService = readFileSync(new URL(
 const aftercareRecovery = readFileSync(new URL(
   '../src/services/supabase/adminAftercareRecovery.ts', import.meta.url,
 ), 'utf8');
-const aftercarePanel = sourceBeforeAftercareCleanup('src/features/orders/AdminAftercarePanel.tsx',readFileSync(new URL(
+const aftercarePanel = historicalProductWorkbookSource(sourceBeforeAftercareCleanup,'src/features/orders/AdminAftercarePanel.tsx',readFileSync(new URL(
   '../src/features/orders/AdminAftercarePanel.tsx', import.meta.url,
 ), 'utf8'))!;
 const orderModal = readFileSync(new URL(

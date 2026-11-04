@@ -1,3 +1,4 @@
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import {readFileSync} from 'node:fs';
@@ -66,7 +67,7 @@ for(const file of checks)test(`strict tests: every original assertion remains, w
   // This is the historical assertion contract. The owner-approved cleanup
   // removes old UI buttons; its exact baseline inverse preserves this proof.
   // Live browser coverage exercises the current wizard and real saved recovery.
-  const old=collect(before(file)),now=collect(sourceBeforeAftercareCleanup(file,readFileSync(file,'utf8'))!);
+  const old=collect(before(file)),now=collect(historicalProductWorkbookSource(sourceBeforeAftercareCleanup,file,readFileSync(file,'utf8'))!);
   assert.ok(old.length>0,'Original assertions must be discovered');
   let cursor=0;
   for(const assertion of now)if(assertion===old[cursor])cursor++;

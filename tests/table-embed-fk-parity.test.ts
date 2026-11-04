@@ -1,3 +1,4 @@
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
@@ -14,7 +15,7 @@ const files=[
 ] as const;
 const hints=/!(?:order_items_product_id_fkey|purchase_order_items_product_id_fkey|purchase_receipt_items_purchase_receipt_id_fkey|supplier_receipts_received_by_fkey)/gu;
 for(const [name,hash,count] of files)test(`only the approved explicit relationship hints change the ENTIRE AST:${name}`,async()=>{
- const file=`src/services/supabase/${name}.service.ts`,text=sourceBeforeUnitTerminology(file,await readFile(file,'utf8'))!;
+ const file=`src/services/supabase/${name}.service.ts`,text=historicalProductWorkbookSource(sourceBeforeUnitTerminology,file,await readFile(file,'utf8'))!;
  assert.equal([...text.matchAll(hints)].length,count);
  // Remove only the four named PostgREST hints BEFORE parsing,so the printer
  // retains original literal spelling/quote style instead of synthesizing every

@@ -1,3 +1,6 @@
+import{pathsBeforeProductWorkbook}from'../scripts/audit/source-before-product-workbook.mjs';
+import{sourceBeforeProductWorkbook}from'../scripts/audit/source-before-product-workbook.mjs';
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
@@ -98,14 +101,14 @@ test('native n8n expression delimiters occur only at the outer boundary',()=>{
 
 test('exact display inverse restores prior App bytes without accepting any extra product logic or repinning history',()=>{
  const app=readFileSync('src/App.tsx','utf8'),base=execFileSync('git',['show','28ab68dbe95329d435feb4871b6edd4a1230279f:src/App.tsx'],{encoding:'utf8'});
- assert.equal(sourceBeforeOwnerTelegramFormat('src/App.tsx',app),base);
- assert.throws(()=>sourceBeforeNavigation206('src/App.tsx',app+'\nconst unauthorized=1;'),/NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED/u);
- const helper='scripts/audit/source-before-environments.mjs';assert.throws(()=>sourceBeforeOwnerTelegramFormat(helper,readFileSync(helper,'utf8')+'\n// unknown'),/HANDOVER214_UNREVIEWED_SOURCE:TELEGRAM_FORMAT/u);
- assert.deepEqual(pathsBeforeBulkProductImages(execFileSync('git',['diff','--name-only','28ab68dbe95329d435feb4871b6edd4a1230279f','--','supabase','src/services','scripts/audit/*-hunks.json','scripts/audit/*-inverse.json'],{encoding:'utf8'}).trim().split('\n').filter(Boolean)),[]);
+ assert.equal(historicalProductWorkbookSource(sourceBeforeOwnerTelegramFormat,'src/App.tsx',app),base);
+ assert.throws(()=>historicalProductWorkbookSource(sourceBeforeNavigation206,'src/App.tsx',app+'\nconst unauthorized=1;'),/NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED/u);
+ const helper='scripts/audit/source-before-environments.mjs';assert.throws(()=>historicalProductWorkbookSource(sourceBeforeOwnerTelegramFormat,helper,readFileSync(helper,'utf8')+'\n// unknown'),/HANDOVER214_UNREVIEWED_SOURCE:TELEGRAM_FORMAT/u);
+ assert.deepEqual(pathsBeforeProductWorkbook(pathsBeforeBulkProductImages(execFileSync('git',['diff','--name-only','28ab68dbe95329d435feb4871b6edd4a1230279f','--','supabase','src/services','scripts/audit/*-hunks.json','scripts/audit/*-inverse.json'],{encoding:'utf8'}).trim().split('\n').filter(Boolean))),[]);
 });
 
 test('actual App link effect only selects the three approved existing screens after authentication',()=>{
- const app=readFileSync('src/App.tsx','utf8'),source=ts.createSourceFile('App.tsx',app,ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX);let body='';
+ const app=sourceBeforeProductWorkbook('src/App.tsx',readFileSync('src/App.tsx','utf8'))!,source=ts.createSourceFile('App.tsx',app,ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX);let body='';
  const visit=(n:ts.Node)=>{if(ts.isCallExpression(n)&&n.expression.getText(source)==='useEffect'&&n.getText(source).includes("screen !== 'reports'")){const fn=n.arguments[0];assert.ok(ts.isArrowFunction(fn));body=fn.body.getText(source);}ts.forEachChild(n,visit);};visit(source);assert.ok(body);
  for(const authenticated of [false,true])for(const role of ['owner','accountant','warehouse_keeper','unassigned'])for(const screen of ['reports','inventory','shifts','users','go_live','unknown','https://evil.example']){
   const selected:string[]=[],replaced:string[]=[],window={location:{search:'?screen='+encodeURIComponent(screen)+'&keep=1',pathname:'/',hash:'#saved'},history:{replaceState:(_a:unknown,_b:string,url:string)=>replaced.push(url)}};
@@ -125,12 +128,12 @@ test('214 operational reference retains its frozen source proof while current SD
  const old=JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_AFTER_214.json','utf8'));
  const state=JSON.parse(readFileSync('docs/agent/project-state.json','utf8'));
  const fresh=JSON.parse(readFileSync(state.currentTableReadinessEvidence,'utf8'));
- const projected=await inventory({projectSource:sourceBeforeOwnerTelegramFormat}),current=await inventory();
+ const projected=await inventory({projectSource:(file:string,text:string|null)=>historicalProductWorkbookSource(sourceBeforeOwnerTelegramFormat,file,text)}),current=await inventory();
  assert.deepEqual(projected.sources,old.sourceHashes);assert.deepEqual(current.sources,fresh.sourceHashes);
  assert.deepEqual(verifyProbeCoverage(projected,old.results),old.coverage);assert.deepEqual(verifyProbeCoverage(current,fresh.results),fresh.coverage);
- const changed=await inventory({projectSource:(file:string,text:string)=>sourceBeforeOwnerTelegramFormat(file,file==='src/App.tsx'?text+'\nvoid unreviewed;':text)});
+ const changed=await inventory({projectSource:(file:string,text:string)=>historicalProductWorkbookSource(sourceBeforeOwnerTelegramFormat,file,file==='src/App.tsx'?text+'\nvoid unreviewed;':text)});
  assert.notDeepEqual(changed.sources,old.sourceHashes);
  for(const file of ['scripts/operations/build-acl-reference214.mjs','scripts/operations/frankfurt-reference214.mjs','scripts/testing/run-handover214-gates.mjs']){
-  assert.equal(sourceBeforeOwnerTelegramFormat(file,readFileSync(file,'utf8')),execFileSync('git',['show','28ab68dbe95329d435feb4871b6edd4a1230279f:'+file],{encoding:'utf8'}));
+  assert.equal(historicalProductWorkbookSource(sourceBeforeOwnerTelegramFormat,file,readFileSync(file,'utf8')),execFileSync('git',['show','28ab68dbe95329d435feb4871b6edd4a1230279f:'+file],{encoding:'utf8'}));
  }
 });

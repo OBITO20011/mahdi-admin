@@ -1,4 +1,5 @@
 /** Active dialogs share a stack: only the top dialog handles keyboard/focus. */
+import {registerBackLayer} from './screenHistory';
 const dialogs: HTMLElement[] = [];
 let handoverTarget: HTMLElement | null = null;
 const selector = 'button, a[href], input, select, textarea, summary, [tabindex]';
@@ -45,6 +46,7 @@ export function activateDialog(panel: HTMLElement, onEscape: () => void): () => 
   if (descendant < 0) dialogs.push(panel);
   else dialogs.splice(descendant, 0, panel);
   const top = () => activeDialog() === panel;
+  const stopBack = registerBackLayer(onEscape, top);
   const focusFirst = () => (focusable(panel)[0] || panel).focus({preventScroll: true});
   // Animation does not have to finish before keyboard access becomes safe.
   // Do not steal an already valid interaction; neutral initial focus also
@@ -71,6 +73,7 @@ export function activateDialog(panel: HTMLElement, onEscape: () => void): () => 
   document.addEventListener('keydown', keydown, true);
   document.addEventListener('focusin', focusin);
   return () => {
+    stopBack();
     const wasTop = dialogs.at(-1) === panel;
     const index = dialogs.indexOf(panel);
     if (index >= 0) dialogs.splice(index, 1);

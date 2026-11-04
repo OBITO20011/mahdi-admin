@@ -1,13 +1,14 @@
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import {sourceBeforeRehearsal219} from '../scripts/testing/rehearsal219-legacy-view.mjs';
 import {sourceBeforeHandover214} from '../scripts/audit/source-before-handover214.mjs';
 import assert from 'node:assert/strict';import test from 'node:test';import {readFileSync} from 'node:fs';import {execFileSync} from 'node:child_process';import {createHash} from 'node:crypto';
 import {handover213Pins,sourceBeforeHandover213,pathsBeforeHandover213} from '../scripts/audit/source-before-handover213.mjs';
 import {sourceBeforeOwnerAcl212} from '../scripts/audit/source-before-owner-acl212.mjs';
 import {assert213History} from '../scripts/operations/frankfurt-owner-upgrade213.mjs';
-const read=(f:string)=>sourceBeforeHandover214(f,sourceBeforeRehearsal219(f,readFileSync(f,'utf8')))!,hash=(s:string)=>createHash('sha256').update(s).digest('hex');
+const read=(f:string)=>historicalProductWorkbookSource(sourceBeforeHandover214,f,historicalProductWorkbookSource(sourceBeforeRehearsal219,f,readFileSync(f,'utf8')))!,hash=(s:string)=>createHash('sha256').update(s).digest('hex');
 test('Y exact inverse preserves every historical byte and the existing rejection of unknown package mutations',()=>{
- for(const [file,pin]of Object.entries(handover213Pins) as [string,{before:string;after:string;beforeText:string;added?:boolean}][]){const current=read(file);assert.equal(hash(current),pin.after,file);assert.equal(hash(pin.beforeText),pin.before,file);assert.equal(sourceBeforeHandover213(file,current),pin.beforeText,file);if(!pin.added)assert.equal(pin.beforeText,execFileSync('git',['show','703fc51abb6b65ce2df2edcf14c6ecb235b74ddf:'+file],{encoding:'utf8',maxBuffer:8*1024**2}).replaceAll('\r\n','\n'));}
- assert.throws(()=>sourceBeforeOwnerAcl212('package.json',read('package.json')+'\nvoid unreviewed;\n'));
+ for(const [file,pin]of Object.entries(handover213Pins) as [string,{before:string;after:string;beforeText:string;added?:boolean}][]){const current=read(file);assert.equal(hash(current),pin.after,file);assert.equal(hash(pin.beforeText),pin.before,file);assert.equal(historicalProductWorkbookSource(sourceBeforeHandover213,file,current),pin.beforeText,file);if(!pin.added)assert.equal(pin.beforeText,execFileSync('git',['show','703fc51abb6b65ce2df2edcf14c6ecb235b74ddf:'+file],{encoding:'utf8',maxBuffer:8*1024**2}).replaceAll('\r\n','\n'));}
+ assert.throws(()=>historicalProductWorkbookSource(sourceBeforeOwnerAcl212,'package.json',read('package.json')+'\nvoid unreviewed;\n'));
  assert.deepEqual(pathsBeforeHandover213(['supabase/unapproved.sql']),['supabase/unapproved.sql']);
 });
 test('213 owner upgrade admits only the complete212 or213 prefix,never gaps or backfill',()=>{

@@ -1,3 +1,5 @@
+import{historicalProductWorkbookInventory}from'../scripts/audit/source-before-product-workbook.mjs';
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFileSync} from 'node:fs';
@@ -12,7 +14,7 @@ import {supplier208Pins,sourceBeforeSupplierReplacement208} from '../scripts/aud
 const read=(f:string)=>readFileSync(f,'utf8'),json=(f:string)=>JSON.parse(read(f));
 
 test('208 immutable SDK evidence binds every accepted208 source restored before P1 and all142 real probes',async()=>{
- const current=await inventory(),proof=json('docs/operations/TABLE_ACCESS_AFTER_208.json'),state=json('docs/agent/project-state.json');
+ const current=await historicalProductWorkbookInventory(inventory),proof=json('docs/operations/TABLE_ACCESS_AFTER_208.json'),state=json('docs/agent/project-state.json');
  assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_219.json');assert.equal(state.migrationCeiling,219);
  assert.equal(proof.migrationCeiling,208);assert.equal(proof.managedAccess,false);assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);
  assert.deepEqual(proof.sourceHashes,current.sources);assert.deepEqual(verifyProbeCoverage(current,proof.results),proof.coverage);assert.equal(proof.results.length,142);assert.ok(proof.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));assertReady208Catalog(proof.catalog);
@@ -32,7 +34,7 @@ test('208 owner admission accepts complete199..208 prefixes and rejects gaps,dup
 });
 
 test('208 source inverse exactly restores delivered C8 main;every candidate byte is protected',()=>{
- for(const [file,pin]of Object.entries(supplier208Pins) as [string,{added?:boolean}][]){const source=read(file);const restored=sourceBeforeSupplierReplacement208(file,source);if(pin.added)assert.equal(restored,null);else assert.equal(restored,execFileSync('git',['show',`7e325a00bbeea7711ae1f2e650848fe61ec99f93:${file}`],{encoding:'utf8',maxBuffer:16*1024**2}).replaceAll('\r\n','\n'));assert.throws(()=>sourceBeforeSupplierReplacement208(file,source+'\nvoid 209;\n'));}
+ for(const [file,pin]of Object.entries(supplier208Pins) as [string,{added?:boolean}][]){const source=read(file);const restored=historicalProductWorkbookSource(sourceBeforeSupplierReplacement208,file,source);if(pin.added)assert.equal(restored,null);else assert.equal(restored,execFileSync('git',['show',`7e325a00bbeea7711ae1f2e650848fe61ec99f93:${file}`],{encoding:'utf8',maxBuffer:16*1024**2}).replaceAll('\r\n','\n'));assert.throws(()=>historicalProductWorkbookSource(sourceBeforeSupplierReplacement208,file,source+'\nvoid 209;\n'));}
 });
 
 test('208 grants are explicit and strict gate includes real writers,read scale,full restore,upgrade/reset',()=>{

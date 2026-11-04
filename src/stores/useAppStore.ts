@@ -1,3 +1,4 @@
+import {requestScreenNavigation} from '../utils/screenHistory';
 /**
  * Nawasrah Business Manager - Global Application Store & State Engine
  */
@@ -594,11 +595,13 @@ class StoreEngine {
   }
 
   public setActiveTab(tab: AppState['activeTab']) {
+    if (!requestScreenNavigation(tab)) return;
     this.state.activeTab = tab;
     this.notify();
   }
 
   public openCustomerProfile(customerId: string) {
+    if (!requestScreenNavigation('accounts')) return;
     this.state.currentModal = null;
     this.state.modalData = null;
     this.state.customerNavigationTarget = customerId;

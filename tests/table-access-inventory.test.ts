@@ -1,10 +1,12 @@
+import{historicalProductWorkbookQuery}from'../scripts/audit/source-before-product-workbook.mjs';
+import{projectProductWorkbookQuerySites}from'../scripts/audit/source-before-product-workbook.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {inventory,parseSource,embeddedTables} from '../scripts/audit/table-access-inventory.mjs';
-import {sourceBefore198Presentation} from '../scripts/audit/source-before198-presentation.mjs';
+import {sourceBefore198Presentation} from '../scripts/testing/product-workbook-historical-views.mjs';
 import {evaluateArgument,verifyProbeCoverage} from '../scripts/audit/table-access-probes.mjs';
-import {projectHistoricalWarehouseQuerySites,verifyHistoricalWarehouseCoverage} from '../scripts/audit/historical-warehouse-query-sites.mjs';
+import {projectHistoricalWarehouseQuerySites,verifyHistoricalWarehouseCoverage} from '../scripts/testing/product-workbook-historical-views.mjs';
 import {proposedAccess} from '../scripts/audit/table-access-report.mjs';
 
 test('table inventory follows actual AST chains,extensions and every write operation',()=>{
@@ -47,7 +49,7 @@ test('checked-in access inventory exactly covers current production-source queri
  const evidence=JSON.parse(await readFile('docs/operations/TABLE_ACCESS_DIAGNOSTIC.json','utf8'));
  assert.equal(evidence.managedAccess,false);assert.equal(evidence.migrationCeiling,138);assert.equal(evidence.infrastructureOk,true);
  assert.deepEqual(evidence.sourceHashes,await sourceBefore198Presentation(actual.sources));
- for(const e of projectHistoricalWarehouseQuerySites(actual).entries){const rows=evidence.results.filter((r:{id:string})=>r.id===e.id);
+ for(const e of historicalProductWorkbookQuery(projectHistoricalWarehouseQuerySites,projectProductWorkbookQuerySites(actual)).entries){const rows=evidence.results.filter((r:{id:string})=>r.id===e.id);
   assert.ok(rows.length>0,`NO_REAL_QUERY_EVIDENCE:${e.id}`);
   assert.deepEqual([...new Set(rows.map((r:{appRole:string})=>r.appRole))].sort(),e.role==='service_role'?['service_role']:['admin','cashier','owner']);
   assert.ok(rows.every((r:{sqlstate:string|null})=>r.sqlstate!=='PGRST125'),'Invalid local gateway routing is NOT ACL evidence');

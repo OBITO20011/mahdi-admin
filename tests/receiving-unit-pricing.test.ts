@@ -1,3 +1,4 @@
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFileSync} from 'node:fs';
@@ -58,6 +59,6 @@ test('POS sale/recovery/payment/print/share action bodies remain AST-identical',
   const printer=ts.createPrinter({removeComments:true});
   function visit(n:ts.Node){if(ts.isVariableDeclaration(n)&&names.includes(n.name.getText(ast))&&n.initializer)result[n.name.getText(ast)]=printer.printNode(ts.EmitHint.Unspecified,n.initializer,ast);ts.forEachChild(n,visit);}visit(ast);return result;
  };
- const before=extract(execFileSync('git',['show',`d293ec38d29ba7d3dd74e0c4b732edf9e01ad469:${file}`],{encoding:'utf8'})),after=extract(sourceBeforeParcel209(file,readFileSync(file,'utf8'))!);
+ const before=extract(execFileSync('git',['show',`d293ec38d29ba7d3dd74e0c4b732edf9e01ad469:${file}`],{encoding:'utf8'})),after=extract(historicalProductWorkbookSource(sourceBeforeParcel209,file,readFileSync(file,'utf8'))!);
  assert.deepEqual(Object.keys(before).sort(),names.sort());assert.deepEqual(after,before);
 });

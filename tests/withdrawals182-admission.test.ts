@@ -1,11 +1,11 @@
-import {sourceBefore198Presentation} from '../scripts/audit/source-before198-presentation.mjs';
+import {sourceBefore198Presentation} from '../scripts/testing/product-workbook-historical-views.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFile} from 'node:fs/promises';
 import {allUpgrade182Versions,assert182History,inputs182} from '../scripts/operations/frankfurt-owner-upgrade182.mjs';
 import {assertReference182,assertWithdrawals182Catalog} from '../scripts/operations/frankfurt-reference182.mjs';
 import {inventory} from '../scripts/audit/table-access-inventory.mjs';
-import {verifyHistoricalWarehouseCoverage as verifyProbeCoverage} from '../scripts/audit/historical-warehouse-query-sites.mjs';
+import {verifyHistoricalWarehouseCoverage as verifyProbeCoverage} from '../scripts/testing/product-workbook-historical-views.mjs';
 
 test('182 history accepts only the exact ordered approved prefix,not gap backfills or unknown versions',async()=>{
  const base=Array.from({length:138},(_,n)=>String(n+1).padStart(3,'0'));

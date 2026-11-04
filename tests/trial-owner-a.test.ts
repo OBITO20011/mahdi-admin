@@ -1,3 +1,5 @@
+import{historicalProductWorkbookInventory}from'../scripts/audit/source-before-product-workbook.mjs';
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {createElement} from 'react';
@@ -39,17 +41,17 @@ test('modern receipt preview uses saved commercial quantity rather than physical
 });
 test('trial A exact inverse preserves every delivered source byte and rejects current or restored mutation',()=>{
  for(const [file,pin]of Object.entries(trialOwnerAPins) as [string,{added?:boolean}][]){
-  const current=readFileSync(file,'utf8').replaceAll('\r\n','\n'),restored=sourceBeforeTrialOwnerA(file,current);
-  assert.throws(()=>sourceBeforeTrialOwnerA(file,current+'\nvoid unapproved;\n'));
+  const current=readFileSync(file,'utf8').replaceAll('\r\n','\n'),restored=historicalProductWorkbookSource(sourceBeforeTrialOwnerA,file,current);
+  assert.throws(()=>historicalProductWorkbookSource(sourceBeforeTrialOwnerA,file,current+'\nvoid unapproved;\n'));
   if(pin.added)assert.equal(restored,null);else{
    const baseline=execFileSync('git',['show','4795e70e40b0462100e92fe5006b61cd62df1b9d:'+file],{encoding:'utf8',maxBuffer:32*1024**2}).replaceAll('\r\n','\n');
-   assert.equal(restored,baseline);assert.throws(()=>sourceBeforeTrialOwnerA(file,baseline+'\nvoid unapproved;\n'));
+   assert.equal(restored,baseline);assert.throws(()=>historicalProductWorkbookSource(sourceBeforeTrialOwnerA,file,baseline+'\nvoid unapproved;\n'));
   }
  }
  assert.equal(execFileSync('git',['diff','--name-only','4795e70e40b0462100e92fe5006b61cd62df1b9d','d7779f56dc0bdfe77091bb4881cbae4ad50ced3a','--','supabase/migrations'],{encoding:'utf8'}).trim(),'');
 });
 test('trial A frozen SDK proof retains every accepted source and real query behind exact209 inverse',async()=>{
- const current=await inventoryBeforeParcel209(),proof=JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_AFTER_TRIAL_A.json','utf8'));
+ const current=await historicalProductWorkbookInventory(inventoryBeforeParcel209),proof=JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_AFTER_TRIAL_A.json','utf8'));
  const state=JSON.parse(readFileSync('docs/agent/project-state.json','utf8'));
  assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_219.json');
  assert.equal(state.migrationCeiling,219);assert.deepEqual(current.sources,proof.sourceHashes);

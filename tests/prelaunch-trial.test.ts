@@ -1,3 +1,4 @@
+import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import {PRELAUNCH_TRIAL_OPEN} from '../scripts/environments/prelaunch-trial-control.mjs';
 import {prelaunchTrialPins,sourceBeforePrelaunchTrial} from '../scripts/audit/source-before-prelaunch-trial.mjs';
 import assert from 'node:assert/strict';
@@ -27,6 +28,6 @@ test('cutover source switch rejects trial build manifest and every upload target
 
 test('temporary context inverse preserves every original source byte and rejects drift',()=>{
  for(const [file,pin]of Object.entries(prelaunchTrialPins) as [string,{beforeText:string}][]){
- const raw=readFileSync(file,'utf8');assert.equal(sourceBeforePrelaunchTrial(file,raw),pin.beforeText);assert.throws(()=>sourceBeforePrelaunchTrial(file,raw+'\n// unknown'));
+ const raw=readFileSync(file,'utf8');assert.equal(historicalProductWorkbookSource(sourceBeforePrelaunchTrial,file,raw),pin.beforeText);assert.throws(()=>historicalProductWorkbookSource(sourceBeforePrelaunchTrial,file,raw+'\n// unknown'));
  }
 });
