@@ -137,7 +137,7 @@ export const App: React.FC = () => {
       params.delete('order');
       const query = params.toString();
       window.history.replaceState(
-        null,
+        window.history.state,
         '',
         `${window.location.pathname}${query ? `?${query}` : ''}${window.location.hash}`,
       );
@@ -154,7 +154,7 @@ export const App: React.FC = () => {
     setActiveTab(screen);
     params.delete('screen');
     const query = params.toString();
-    window.history.replaceState(null, '', `${window.location.pathname}${query ? `?${query}` : ''}${window.location.hash}`);
+    window.history.replaceState(window.history.state, '', `${window.location.pathname}${query ? `?${query}` : ''}${window.location.hash}`);
   }, [isAuthenticated, setActiveTab, roleName, roles]);
 
   // Cheque notifications use the existing authenticated shell and page ACL.
@@ -165,7 +165,7 @@ export const App: React.FC = () => {
     setActiveTab('cheques');
     params.delete('screen');
     const query = params.toString();
-    window.history.replaceState(null, '', `${window.location.pathname}${query ? `?${query}` : ''}${window.location.hash}`);
+    window.history.replaceState(window.history.state, '', `${window.location.pathname}${query ? `?${query}` : ''}${window.location.hash}`);
   }, [isAuthenticated, setActiveTab]);
 
   useEffect(() => {

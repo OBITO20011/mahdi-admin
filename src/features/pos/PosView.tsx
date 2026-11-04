@@ -1,3 +1,4 @@
+import {useScreenLeaveGuard} from '../../hooks/useScreenLeaveGuard';
 /**
  * Nawasrah Business Manager - POS (Point of Sale) View
  */
@@ -145,6 +146,11 @@ export const PosView: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [openPosShift, setOpenPosShift] = useState<OpenPosShift | null>(null);
   const [isShiftStatusLoading, setIsShiftStatusLoading] = useState(true);
+  useScreenLeaveGuard('pos', () => {
+    if (isSubmitting) {setToast('البيع قيد الإرسال. انتظر النتيجة قبل الرجوع.', 'info'); return false;}
+    if (recoveryBlocked) {setToast(operatorErrorMessage('saleUnknown'), 'error'); return false;}
+    return cartItems.length === 0 || window.confirm('السلة غير محفوظة. هل تريد مغادرة نقطة البيع وإفراغ السلة؟');
+  });
   const knownProductsRef = useRef<Map<string, Product>>(new Map());
   const cartWarehouseRef = useRef<string>('');
   const searchInputRef = useRef<HTMLInputElement>(null);

@@ -3,11 +3,55 @@
   "files": [
     {
       "code": " M",
-      "path": "scripts/audit/private-maps-source-pins.json"
+      "path": "docs/agent/project-state.json"
     },
     {
       "code": " M",
-      "path": "tests/rehearsal219.test.ts"
+      "path": "scripts/testing/rehearsal219-legacy-view.json"
+    },
+    {
+      "code": " M",
+      "path": "src/App.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/components/layout/NavigationShell.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/pos/PosView.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/stores/useAppStore.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/utils/dialogFocus.ts"
+    },
+    {
+      "code": "??",
+      "path": "e2e/package-f-screen-history-harness.html"
+    },
+    {
+      "code": "??",
+      "path": "e2e/package-f-screen-history-harness.tsx"
+    },
+    {
+      "code": "??",
+      "path": "e2e/package-f-screen-history.spec.ts"
+    },
+    {
+      "code": "??",
+      "path": "src/hooks/useScreenLeaveGuard.ts"
+    },
+    {
+      "code": "??",
+      "path": "src/utils/screenHistory.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/screen-history.test.ts"
     }
   ]
 }
