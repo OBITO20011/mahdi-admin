@@ -2,32 +2,30 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner4Nov docs-only production publish before data entry; store SEO rebuild after signed acceptance; separate PR/fullCI/no merge or hosted access.",
-  "baselineSha": "edb9b7b700baa01c4c25bb0ce0a05c768bf543de",
-  "branch": "codex/cutover-production-data-order",
+  "objective": "Owner4Nov pre-delivery2 item2 Vite fs strict allow/deny both apps without version change;no SQL/RPC/finance/permissions/hosted/deploy/merge;58Draft.",
+  "baselineSha": "376293af705837201e4c94b66967337baf524af6",
+  "branch": "codex/pre-delivery2-vite-fs",
   "phase": "PACKAGE_F",
   "completed": [
-    "Separate clean worktree from main edb9b7b7; primary owner/docs/env files untouched.",
-    "Source-grounded runtime catalog, build-time available SEO, new-order closed guard and replay distinction.",
-    "Plan/card/A4 HTML now publish both closed apps, production data entry, signed backup, store-only rebuild, then opening.",
-    "26 focused consistency/history cases +207 store tests/types/strict changed lint/PowerShell4 parsed blocks/A4two pages no network pass.",
-    "Initial full Admin1744 had two OWNER_DECISIONS inverse failures from optional extra scope; optional change removed; both and affected docs26 pass. No historical before pins or runtime source changed."
+    "Reproduced Vite6.4.4 PEM query leak with negative control;actual Admin/customer configs now strict source/public/entry/dependency allowlist and query-aware deny;no version/SQL/runtime financial changes.",
+    "HTTP deny tests/direct+raw+inline and positive real modules/sharedreceipt PASS;focused27 includes all four restored historical guards;all historical inverse/hunk files byte-identical to main.",
+    "Both types/strictlint;store207;production/staging/prelaunch real builds6 with loopback SEO and verify-dist PASS. Windows UV_HANDLE_CLOSING after successful trialbuild saved;single unchanged environmental rerun PASS."
   ],
   "inProgress": [
-    "Commit/push separate PR and wait exact FULL CI; return owner approval without merge."
+    "Commit/push separate item2PR and wait FULL exactCI,then private source maps item3."
   ],
   "notStarted": [
-    "Commit/push/PR/exact full CI; return for approval."
+    "Item3 private maps;item4 browser Back;no merge."
   ],
   "testsPassed": [
-    "Focused26;Store207;typecheck;strict changed lint;PS4 parse only;A4two pages bounds 1000/1027px<1046px,RTL/no network."
+    "Focused27/27 including live ViteHTTP and original leak negativecontrol;types/strictlint;store207/207;six builds/verify-dist and closed preview/refused production controls."
   ],
   "testsRemaining": [
-    "Gitleaks staged+committed0 and exact fullCI+bothsecret scans+strictrecovery."
+    "FULLCI60jobs+backuprecovery+two secrets;Gitleaks0."
   ],
   "findings": [
-    "First publication after reset may productRoutes0; default SEO verification alone permits empty catalog; explicit signed eligible route counts required before open.",
-    "Historical original inverse bytes retained;only exact after hashes for reviewed docs/test and branch updated."
+    "Initial local Admin1746 run had1742pass/4 historical pin refusals caused by attempted edit to existing inverse;reverted every historical inverse byte and added exact outer two-config projection;all27 focused guards now PASS.",
+    "public/ is intentionally published by Vite separate middleware;never put secrets there."
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -35,13 +33,13 @@
     "No runtime/SQL/migration/financial/permission changes.",
     "No merge58/newPR, hosted access or deployment; no owner local/env/reference changes."
   ],
-  "nextExactAction": "Commit/push docs-only cutover publication order; open PR and wait all exact-head FULL CI without merge",
+  "nextExactAction": "Commit/push item2 Vite fs PR after Gitleaks;FULLCI exact head;then item3 private maps separate worktree",
   "startedAt": "2026-11-03T03:59:26.518Z",
-  "checkpointedAt": "2026-11-04T00:20:59.313Z",
+  "checkpointedAt": "2026-11-04T02:48:18.265Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 10,
-  "filesTouchedManifestSha256": "68185c6d008d68ac584d2aa852282684c2075b93bbd8db6a6fbffcd374fdd2cd",
-  "workingTreeFingerprint": "01163CCB84734915C7FE888840A129520F377683301DF8A7611904D571A12C1C"
+  "filesTouchedCount": 11,
+  "filesTouchedManifestSha256": "5c02dc08a7f8838e0a28b1eeaa592ab9892d75afcc150020c3fe24b0223d840b",
+  "workingTreeFingerprint": "447C798A28D2F6EF6C1A9FBB625FADCEA48D961D3E47C025393E16A54179AEA2"
 }

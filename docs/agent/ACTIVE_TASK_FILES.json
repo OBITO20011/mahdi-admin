@@ -3,23 +3,15 @@
   "files": [
     {
       "code": " M",
+      "path": "customer-web/vite.config.ts"
+    },
+    {
+      "code": " M",
       "path": "docs/agent/project-state.json"
     },
     {
       "code": " M",
-      "path": "docs/handover/ورقة-يوم-التشغيل.html"
-    },
-    {
-      "code": " M",
-      "path": "docs/handover/ورقة-يوم-التشغيل.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/home-performance219-source-pins.json"
+      "path": "scripts/audit/source-before-sentry.mjs"
     },
     {
       "code": " M",
@@ -27,19 +19,31 @@
     },
     {
       "code": " M",
-      "path": "tests/cutover-platform-documentation.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/handover-documentation.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/reset219-reference-d1-docs.test.ts"
+      "path": "vite.config.ts"
     },
     {
       "code": "??",
-      "path": "tests/cutover-publication-order.test.ts"
+      "path": "docs/operations/VITE_DEV_FILES_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/development-fs-source-pins.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-development-fs.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/environments/development-file-access.d.mts"
+    },
+    {
+      "code": "??",
+      "path": "scripts/environments/development-file-access.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/vite-file-access.test.ts"
     }
   ]
 }

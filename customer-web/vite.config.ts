@@ -1,4 +1,5 @@
 import {selectedViteEnvironment,environmentDefines,environmentAssets} from '../scripts/environments/vite-environment.mjs';
+import {developmentFileAccess} from '../scripts/environments/development-file-access.mjs';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vite';
@@ -24,6 +25,7 @@ export default defineConfig(({mode}) => {
     },
   },
   server: {
+    fs: developmentFileAccess(__dirname),
     port: 3002,
   },
 };});
