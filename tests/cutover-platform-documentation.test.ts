@@ -24,7 +24,7 @@ test('platform gates follow successful reset and precede production publishing i
     }
   };
   ordered(plan, ['| 2.5 التنفيذ', '| 2.6 افحص', '| 2.7 Auth', '| 2.8 Edge Secrets', '## 8. النشر']);
-  ordered(card, ['6. RESET219: dry-run', '7. «افحص»', '8أ. Auth', '8ب. Edge Secrets', '16. كلمة المالك «انشر»', '17. قبل أول بيع']);
+  ordered(card, ['6. RESET219: dry-run', '7. «افحص»', '8أ. Auth', '8ب. Edge Secrets', '8د. كلمة المالك «انشر»', '9. إدخال الحقيقي', '15. بعد القبول والتوقيع', '16. فتح ordersEnabled', '17. أول بيع']);
   for (const text of [plan, card, print]) {
     for (const marker of ['Auth', 'URL Configuration', 'Site URL', 'https://admin.alnawasreh.com', 'Redirect URLs',
       'TURNSTILE_TEST_MODE', 'false', 'TURNSTILE_ALLOWED_HOSTNAMES', 'alnawasreh.com', 'بعد النشر']) {
@@ -33,7 +33,7 @@ test('platform gates follow successful reset and precede production publishing i
   }
   assert.ok(plan.includes('https://admin.alnawasreh.com/'));
   assert.ok(plan.includes('لا يوجد مسار callback مخصص'));
-  assert.ok(plan.includes('طلب المتجر الواحد في §8.4ب'));
+  assert.ok(plan.includes('طلب المتجر الواحد في §8.5'));
   assert.ok(plan.includes('لا تعِد تفعيل TEST'));
   assert.ok(plan.includes('أعد فتح الإعداد'));
 });
@@ -86,15 +86,15 @@ test('real phone Auth/TOTP, notifications, template totals and restored opening 
       assert.ok(text.includes(marker), marker);
     }
   }
-  const acceptance = plan.split('| 8.4أ')[1].split('| 8.5 أول بيع')[0];
+  const acceptance = plan.split('| 8.4أ')[1].split('| 8.5 فتح الطلبات وأول بيع')[0];
   for (const marker of ['بعد نشر الإنتاج', 'قبل أول بيع', 'تسليم Telegram', 'لا بيع قبل نجاح الدخول']) assert.ok(acceptance.includes(marker), marker);
   assert.ok(plan.includes('active=true دليلاً على التنفيذ'));
   assert.ok(plan.includes('وقت البدء/النهاية والحالة'));
   assert.ok(plan.includes('مصدر مراقبة unknown لا يُسمى healthy'));
-  assert.ok(plan.indexOf('| 8.4أ قبول الهاتف') < plan.indexOf('| 8.4ب أول طلب متجر قبل البيع'));
-  assert.ok(plan.indexOf('| 8.4ب أول طلب متجر قبل البيع') < plan.indexOf('| 8.5 أول بيع'));
+  assert.ok(plan.indexOf('| 8.4أ قبول الهاتف') < plan.indexOf('| 8.4ب إعادة بناء المتجر بعد قبول البيانات'));
+  assert.ok(plan.indexOf('| 8.4ب إعادة بناء المتجر بعد قبول البيانات') < plan.indexOf('| 8.5 فتح الطلبات وأول بيع'));
   assert.ok(plan.includes('لا زر اختبارPush مستقل في الواجهة الحالية'));
-  assert.ok(plan.includes('لا حاجة لإضافة طلب آخر في8.5'));
+  assert.ok(plan.includes('لا طلب ثانٍ'));
   assert.ok(card.includes('Turnstile وتسليم Push قبل أول بيع'));
 });
 

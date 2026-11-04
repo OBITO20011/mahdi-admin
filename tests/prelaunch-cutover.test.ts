@@ -11,10 +11,10 @@ test('cutover changes only the approved source Boolean;production config/CSP/run
 test('closed real CLI gate retains production/staging positive builds and all refusal paths;launch merge precedes reset',()=>{
  const runner=read('scripts/testing/run-prelaunch-trial-builds.mjs'),closed=read('scripts/testing/run-prelaunch-closed-gates.mjs');assert.ok(runner.includes("if(!PRELAUNCH_TRIAL_OPEN){await import('./run-prelaunch-closed-gates.mjs');process.exit(0);}"));
  for(const token of ['run-environment-builds.mjs','run-context.mjs','verify-dist.mjs','deploy-prelaunch-trial.mjs','existingArtifactRefusals','environmentOverrideRefusals'])assert.ok(closed.includes(token),token);
- const main='edb9b7b700baa01c4c25bb0ce0a05c768bf543de';
+ const main='376293af705837201e4c94b66967337baf524af6';
  for(const f of ['docs/handover/ورقة-يوم-التشغيل.md','docs/handover/ورقة-يوم-التشغيل.html']){
   const s=read(f),baseline=execFileSync('git',['show',main+':'+f],{encoding:'utf8',maxBuffer:32*1024**2}).replaceAll('\r\n','\n');
-  assert.equal(s,baseline,'Preserve every owner-approved60/61 checklist byte,not just selected keywords');
+  assert.equal(s,baseline,'Preserve every owner-approved60/61/62 checklist byte,not just selected keywords');
   const merge=s.indexOf('2. بإذن يوم التشغيل: دمج #58 المجهّز'),block=s.indexOf('3. حظر المعاينات وكل hash URLs فعلياً'),backup=s.indexOf('4. إثبات وقت آخر كتابة'),reset=s.indexOf('6. RESET219: dry-run');
   assert.ok(merge>=0&&block>merge&&backup>block&&reset>backup,'day-only merge then real write block then separator backup then RESET');
   for(const marker of ['تجهيز #58 وCI له في D-1 دون دمجه الآن','03:00','4أ. أثناء التجميد','رابط Auth فعلي','pg_cron'])assert.ok(s.includes(marker),marker);

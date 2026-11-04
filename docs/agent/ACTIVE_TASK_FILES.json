@@ -11,11 +11,7 @@
     },
     {
       "code": "A ",
-      "path": "docs/operations/RESET219_REFERENCE_D1_AR.md"
-    },
-    {
-      "code": "AM",
-      "path": "tests/reset219-reference-d1-docs.test.ts"
+      "path": "tests/cutover-publication-order.test.ts"
     },
     {
       "code": "M ",
@@ -32,6 +28,18 @@
     {
       "code": "M ",
       "path": "scripts/audit/home-performance219-source-pins.json"
+    },
+    {
+      "code": "M ",
+      "path": "tests/cutover-platform-documentation.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/handover-documentation.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/reset219-reference-d1-docs.test.ts"
     }
   ]
 }
