@@ -24,7 +24,16 @@ test('navigation projection binds every actual baseline byte and never erases an
 
 test('no SQL, service or owner execution/connection/ACL/reset comparison source changes',()=>{
  const unchanged=['supabase','src/services','scripts/operations','scripts/backup','scripts/monitoring','scripts/testing/rehearsal219-protected-sources.mjs','scripts/testing/schema-catalog.mjs','scripts/testing/maintenance-db-contract.mjs'];
- assert.equal(execFileSync('git',['diff','--name-only',baseline,'--',...unchanged],{encoding:'utf8',windowsHide:true}).trim(),'');
+ // PR63 is an independently approved, offline-only addition merged into main.
+ // Keep every original guard, and bind just its three new tool files to Git63.
+ const approvedTools=new Set(['scripts/operations/check-go-live-files.ps1','scripts/operations/go-live-files/check.ts','scripts/operations/go-live-files/cli.ts']);
+ const changed=execFileSync('git',['diff','--name-only',baseline,'--',...unchanged],{encoding:'utf8',windowsHide:true}).trim().split('\n').filter(Boolean);
+ for(const file of changed.filter(file=>approvedTools.has(file))){
+  assert.equal(execFileSync('git',['ls-tree','--name-only',baseline,'--',file],{encoding:'utf8',windowsHide:true}).trim(),'','PR63 tool must be new, not replace an old source');
+  const approved=execFileSync('git',['show','2dafe8433bc4efef68a82fee904590aabf5fc8ad:'+file],{windowsHide:true});
+  assert.deepEqual(readFileSync(file),approved,'Unknown PR63 tool edit: '+file);
+ }
+ assert.equal(changed.filter(file=>!approvedTools.has(file)).join('\n'),'');
 });
 
 test('all RPC/table calls and every StoreEngine method except the two navigation entry points are unchanged',()=>{
