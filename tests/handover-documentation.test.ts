@@ -102,5 +102,5 @@ test('print documents are standalone A4 RTL and cover cutover,emergencies and ge
  assert.equal(evidence.print.find((p:{name:string})=>p.name==='ورقة-يوم-التشغيل').pages,2);
  assert.equal((read('ورقة-يوم-التشغيل.html').match(/<article class="print-page">/gu)??[]).length,2);
  assert.doesNotMatch(card,/```|--owner-id|--project-ref|functions deploy|db reset|PGPASSWORD/u,'Sensitive commands stay in referenced runbooks');
- const order=['حفظ إعدادات المتجر','إيقاف استقبال طلبات','دمج #58 المجهّز','حظر المعاينات وكل hash URLs فعلياً','إثبات وقت آخر كتابة','النسخة الفاصلة','4أ. أثناء التجميد','RESET219: dry-run','إدخال الحقيقي','Telegram: اختبار','Push:','تفعيل الفحص','واتساب الرسمي','كلمة المالك «انشر»','17. قبل أول بيع'];let previous=-1;for(const s of order){const at=card.indexOf(s);assert.ok(at>previous,s);previous=at;}
+ const order=['حفظ إعدادات المتجر','إيقاف استقبال طلبات','دمج #58 المجهّز','حظر المعاينات وكل hash URLs فعلياً','إثبات وقت آخر كتابة','النسخة الفاصلة','4أ. أثناء التجميد','RESET219: dry-run','8أ. Auth','8ب. Edge Secrets','واتساب الرسمي','كلمة المالك «انشر»','8هـ. بعد النشر','إدخال الحقيقي','قبول وتوقيع','بداية حقيقية','Telegram: اختبار','Push:','تفعيل الفحص','15. بعد القبول والتوقيع','16. فتح ordersEnabled','17. أول بيع'];let previous=-1;for(const s of order){const at=card.indexOf(s);assert.ok(at>previous,s);previous=at;}
 });

@@ -79,7 +79,7 @@ test('exact historical inverse updates only reviewed doc hashes and branch metad
   const pinFile = 'scripts/audit/home-performance219-source-pins.json';
   const pins = JSON.parse(read(pinFile));
   const oldPins = git(pinFile);
-  for (const file of ['docs/operations/GO_LIVE_CUTOVER_AR.md', 'docs/handover/ورقة-يوم-التشغيل.md', 'docs/handover/ورقة-يوم-التشغيل.html']) {
+  for (const file of ['docs/operations/GO_LIVE_CUTOVER_AR.md', 'docs/handover/ورقة-يوم-التشغيل.md', 'docs/handover/ورقة-يوم-التشغيل.html', 'tests/handover-documentation.test.ts']) {
     assert.equal(pins.entries[file].after, createHash('sha256').update(read(file)).digest('hex'));
     pins.entries[file].after = oldPins.entries[file].after;
   }
