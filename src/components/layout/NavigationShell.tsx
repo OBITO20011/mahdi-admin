@@ -16,14 +16,6 @@ function MobileNavigationDrawer({onClose}: {onClose: () => void}) {
   const panel = useDialogFocus(true, onClose, false, true);
   const backdrop=useRef<HTMLDivElement>(null);
   const pointer = useRef<{x: number; y: number; id: number} | null>(null);
-  useLayoutEffect(()=>{
-    const overlay=backdrop.current;if(!overlay)return;
-    const siblings=Array.from(document.body.children).filter((item):item is HTMLElement=>item instanceof HTMLElement&&item!==overlay);
-    const saved=siblings.map(item=>({item,inert:item.inert}));
-    const overflow=document.body.style.overflow;
-    siblings.forEach(item=>{item.inert=true;});document.body.style.overflow='hidden';
-    return()=>{saved.forEach(({item,inert})=>{item.inert=inert;});document.body.style.overflow=overflow;};
-  },[]);
   return createPortal(
     <div ref={backdrop} dir="rtl" className="mobile-navigation-backdrop fixed inset-0 z-40 bg-black/60"
       onClick={event => {if (event.target === event.currentTarget) onClose();}}>

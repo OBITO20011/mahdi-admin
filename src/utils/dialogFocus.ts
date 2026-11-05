@@ -1,5 +1,6 @@
 /** Active dialogs share a stack: only the top dialog handles keyboard/focus. */
 import {registerBackLayer} from './screenHistory';
+import {syncDialogIsolation} from './dialogIsolation';
 const dialogs: HTMLElement[] = [];
 let handoverTarget: HTMLElement | null = null;
 const selector = 'button, a[href], input, select, textarea, summary, [tabindex]';
@@ -45,6 +46,7 @@ export function activateDialog(panel: HTMLElement, onEscape: () => void): () => 
   const descendant = dialogs.findIndex(dialog => panel.contains(dialog));
   if (descendant < 0) dialogs.push(panel);
   else dialogs.splice(descendant, 0, panel);
+  syncDialogIsolation(dialogs);
   const top = () => activeDialog() === panel;
   const stopBack = registerBackLayer(onEscape, top);
   const focusFirst = () => (focusable(panel)[0] || panel).focus({preventScroll: true});
@@ -77,6 +79,7 @@ export function activateDialog(panel: HTMLElement, onEscape: () => void): () => 
     const wasTop = dialogs.at(-1) === panel;
     const index = dialogs.indexOf(panel);
     if (index >= 0) dialogs.splice(index, 1);
+    syncDialogIsolation(dialogs);
     document.removeEventListener('keydown', keydown, true);
     document.removeEventListener('focusin', focusin);
     const remaining = activeDialog();
