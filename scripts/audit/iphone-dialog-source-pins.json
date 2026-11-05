@@ -1,0 +1,101 @@
+{
+  "baseline": "52c9a8b53f9e1d2bad504c88f9c6255547b09e7c",
+  "entries": {
+    "src/utils/dialogFocus.ts": {
+      "before": "ac8bbbff544985a2fe3ceb5517fcaee94a3aaf7d9616b43cf9e0dd7a9c0deb59",
+      "after": "00f5fa01abd2f35c28157ddd6175d03651f3b5de0f09c090301ede03f8f0f2a9"
+    },
+    "src/utils/dialogIsolation.ts": {
+      "before": null,
+      "after": "3e556a82e3ad99e556b10df35a6f98b701a194594672dc4fa0f4229fddffbd8c"
+    },
+    "src/utils/screenHistory.ts": {
+      "before": "0485cb0a73521bc2dbc7e42ba0f53806d1027045917867a7d0cc5be670a5a4d9",
+      "after": "ee9a1fe9e328a7086a1157e23fc17b85974eb69488dc32aa8f55e3513b7d3634"
+    },
+    "src/components/layout/NavigationShell.tsx": {
+      "before": "080d747243d5b8756ae26ce7cfc8766287950050780f70961138043d3da82a7c",
+      "after": "c2b322c76476b53e07ca642d67e06b5298a2c76de6af3b447841a2dda711c0f4"
+    },
+    "src/features/barcode/BarcodeCameraCaptureModal.tsx": {
+      "before": "a8d450922953f7f7b2956a7dc53c22ea5f9f4ae5ec64832dc0eb777e52b8693b",
+      "after": "73869d662295767cfe50c6af5020682d2dbb78a4ae01524dca74235a550621e8"
+    },
+    "src/index.css": {
+      "before": "4fdedccc18468fdb49bedd9d926628786abf4c6a6bb3567cf7c5de1a9eb70856",
+      "after": "f843e63b85d5749a9834208dd0ac6d0284564251fc2fa87560a2a80fb8cd2292"
+    },
+    "src/styles/dialogs.css": {
+      "before": null,
+      "after": "771146e068d230b35833cf63af06114e0078e3e8de03f995cfd52a0e960dd989"
+    },
+    "customer-web/src/components/StoreHeader.tsx": {
+      "before": "cb6ef8a842a604c39548357458dd3e166ee520b4755db99020574db7a55bfcff",
+      "after": "bb828e0152fc27e25a46599acec329377d792c556e4b3740a591e197a3d2946c"
+    },
+    "customer-web/src/index.css": {
+      "before": "05bdb8bb41af128308706af9339ecac1ac4506e738a03854002062fe98afd548",
+      "after": "1f6b4bb05b7c69d45a72996a76ccd7945d62c62053aa3a92f6cd971ea444af39"
+    },
+    "e2e/package-f-iphone-dialogs-harness.tsx": {
+      "before": null,
+      "after": "df5b18e5eb6cb1a915fefc9794b30cd184be6819bbf22c90ee72550e190a7613"
+    },
+    "docs/agent/project-state.json": {
+      "before": "264a1a1342e5e1c964f758d46492272a0ac275b8c71b0005424c4768648e9326",
+      "after": "d1983ce02eb7f72379cbd19e72b6b7199439f8c9485437fb2069ff49e93d1536"
+    },
+    "scripts/audit/source-before-product-workbook-text.mjs": {
+      "before": "bf98b6a1ac31fff84f3d3bb4445c5bbe3a393657afd6c835e3cd52c1310689d7",
+      "after": "31a725575d2678568d784aaf27f020b85b03b9623f29dea0f9d7a106061c1ace"
+    },
+    "scripts/audit/source-before-workbook-integration.mjs": {
+      "before": "e0d2b8fd6472b2f36a93b0037b80f7d4ec0ce5603b912620ba03cfad847da7ae",
+      "after": "7680fad9480ab0fb74ff6d4af24ae7306a465527fe72a9881b71a9ccf508a977"
+    },
+    "e2e/package-f-iphone-dialogs-harness.html": {
+      "before": null,
+      "after": "9dba328e249689f052c5c4dccd55c263abf81166087ef84d6c0c9ed94f07d727"
+    },
+    "e2e/package-f-iphone-dialogs.spec.ts": {
+      "before": null,
+      "after": "6a3445606a4f5d45a8f776dbfcf80a1ec3f61f6c95d1a3577ec4bf59d345320a"
+    },
+    "docs/operations/TABLE_ACCESS_AFTER_219.json": {
+      "before": "f8be723887c11a8974cf1a2fd76c31dc66eb79203b3611ba896d5b7249d7b2e5",
+      "after": "b3ba1f4ba0ad8ab8349016f5279b9a39b3786ee95250166eb7cf6c548096a80e"
+    },
+    "docs/operations/TABLE_ACCESS_INVENTORY.json": {
+      "before": "1bef9a4bbd40c8f3aed904d39463e4f57e23300a5bc12fd01a2861c1f8ed308c",
+      "after": "98b02e059260457092dc0673aec1a0d3773e32ca413e166e5b432ac615a767ce"
+    },
+    "docs/operations/SERVICE_ACCESS_INVENTORY.json": {
+      "before": "fade3480b9342d1113afa6caaab2670709813ba01f1090894cce50cce08da759",
+      "after": "4249e49f0c4e67dab81e6a363a5450b5088a36270eafe7e141d588119f96e4fc"
+    },
+    "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json": {
+      "before": "9200683d8f574f4450a725dcdcce76e53f31a8b09b8037520546b5d218533ec3",
+      "after": "953129e2accfde2d56462c9437fc2c3ae470e8c94065ca8bf53eb8af0fe7871d"
+    },
+    "scripts/testing/product-workbook-runtime-view.mjs": {
+      "before": "55a93839dbc40fd17db8aa1ee997dfca535549f37c670fb73942940a4565d077",
+      "after": "871f9f00703ee503ccdf5bed30036de7e369d1bbca29e3d473e841300a7f649a"
+    },
+    "scripts/testing/product-workbook-runtime-view-pins.json": {
+      "before": "c1bb1f2eb4b5bff6d0bb70088220a9fe44b97d15fcbb28632e283f1d44e6d329",
+      "after": "65c690d6c0b539d02759e61c83ad98a8711a0c68c532d381d42d12ee4916f5c3"
+    },
+    "tests/cutover-platform-documentation.test.ts": {
+      "before": "177509ef1565012739c7cf35e548b677fe6b4586206980c122a0b5e312ba20e7",
+      "after": "a4fe4dce0892aa2fe950b46e910e86db23c4431a9ba4318f6e23546458e94764"
+    },
+    "tests/reset219-reference-d1-docs.test.ts": {
+      "before": "3b14eec324c998860f1b25f1778c135d4fe1e6bbad668523e1fff4f13b49905e",
+      "after": "2af85ee6898d7d9e1c3d3c45255f7c52822b2aee52fbbe1a511f37a8fbaca108"
+    },
+    "tests/product-workbook-history.test.ts": {
+      "before": "ea61aeead127c7ad36010113829d6144ac0b52d2341dc1dc3194e7a4fe27a19e",
+      "after": "c6be58ab6d5fde2ab7b334301f243b628851d12bbb0588672cc939e0225ae10c"
+    }
+  }
+}

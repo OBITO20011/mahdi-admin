@@ -35,15 +35,15 @@
     },
     "scripts/audit/source-before-product-workbook-text.mjs": {
       "before": "bf98b6a1ac31fff84f3d3bb4445c5bbe3a393657afd6c835e3cd52c1310689d7",
-      "after": "d9302c8e100ba67f470dfe5a5f72f49ece25d87956c627ca97c36c6a5ff3655f"
+      "after": "1b734a3109747cf8d018058da27da1ffbfd92d16d1fc89ddfcb3a4a6129df85f"
     },
     "scripts/audit/source-before-workbook-integration.mjs": {
       "before": "e0d2b8fd6472b2f36a93b0037b80f7d4ec0ce5603b912620ba03cfad847da7ae",
-      "after": "1a9d17bd87c2fa06fd0e7234bb36f4f00053781d619ed304eca3f862bc1e743d"
+      "after": "45092dd5508d6f196728fc505786e985a5e612e51512e6b756464d9626aaa8db"
     },
     "scripts/testing/product-workbook-runtime-view.mjs": {
       "before": "55a93839dbc40fd17db8aa1ee997dfca535549f37c670fb73942940a4565d077",
-      "after": "bc7b383fa6989e125c21a6c58b45002a12db88ebfe46cc1f94ca5d0ef9bec318"
+      "after": "620c8e86aba7aa91cb033553a1528e9f96f60c2c4ed27d77c66a4fe3dcc9ed84"
     },
     "tests/cutover-platform-documentation.test.ts": {
       "before": "177509ef1565012739c7cf35e548b677fe6b4586206980c122a0b5e312ba20e7",
@@ -55,7 +55,7 @@
     },
     "tests/product-workbook-history.test.ts": {
       "before": "ea61aeead127c7ad36010113829d6144ac0b52d2341dc1dc3194e7a4fe27a19e",
-      "after": "5d7244120f58a3188748038653ad09238946cee73cd4bcd09221910ca12edd0c"
+      "after": "7e6b735f04e8e1d58d0d7205c973518788a2d7e34b40245b43a298cbae989503"
     },
     "e2e/package-f-record-order-harness.tsx": {
       "before": null,
@@ -71,23 +71,23 @@
     },
     "docs/operations/TABLE_ACCESS_AFTER_219.json": {
       "before": "f8be723887c11a8974cf1a2fd76c31dc66eb79203b3611ba896d5b7249d7b2e5",
-      "after": "dab8c9b8926a54c5f61176c79a32a93e70c5bf6576879d45ef991bb1321f0a57"
+      "after": "f8140c0ed79a890ef1b025d4c65ad7ddcb0a6e729188fdc222d7dad084ed4874"
     },
     "docs/operations/TABLE_ACCESS_INVENTORY.json": {
       "before": "1bef9a4bbd40c8f3aed904d39463e4f57e23300a5bc12fd01a2861c1f8ed308c",
-      "after": "c816b49a031d9bbd9820018d0cd29aa32cdbec9459eb0fd8f44cec855d3e9116"
+      "after": "32d772b01d07fe09328d5bd634e06e136d42e0911183f0d2f956eff546216c63"
     },
     "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json": {
       "before": "9200683d8f574f4450a725dcdcce76e53f31a8b09b8037520546b5d218533ec3",
-      "after": "a358dc830647f52358ec50112e5d74dd57ef8c6ec8ef9457b48cdf76fa94a271"
+      "after": "a70b2a1a6b05e714083dad63fbe68aafcfe99708af9c66cbd6fe8e1f4a2e12a3"
     },
     "docs/operations/SERVICE_ACCESS_INVENTORY.json": {
       "before": "fade3480b9342d1113afa6caaab2670709813ba01f1090894cce50cce08da759",
-      "after": "0d81c957eaf10e87424ace13d1446faef7e61cec139354b4cfd7765f96ba0c79"
+      "after": "ca26cc194695c31dc2d18a554894b441ea70e2266aec081d31e58c1a0f22713e"
     },
     "scripts/testing/product-workbook-runtime-view-pins.json": {
       "before": "c1bb1f2eb4b5bff6d0bb70088220a9fe44b97d15fcbb28632e283f1d44e6d329",
-      "after": "addd941a0f68df151a41a4a56a6b7b62032bb156876e1ac2ddbd577cfe3fa2fa"
+      "after": "43d288632cfa631250df80336d8ce42da2d70dd6244ce14bc887676660722e4a"
     },
     "tests/trial40-ci-scheduling.test.ts": {
       "before": "a27fe645d632aefee108e7fcf7e82eac5705a1b729c18fda0c1f5f5ede9c705c",

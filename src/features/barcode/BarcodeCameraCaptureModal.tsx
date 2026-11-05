@@ -24,6 +24,8 @@ export const BarcodeCameraCaptureModal: React.FC<
   const [attempt, setAttempt] = useState(0);
   const dialogRef = useDialogFocus(isOpen, onClose);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+  const callbacks = useRef({onCapture, onClose});
+  callbacks.current = {onCapture, onClose};
 
 
   useEffect(() => {
@@ -40,8 +42,11 @@ export const BarcodeCameraCaptureModal: React.FC<
         productBarcodesOnly: true,
         onDecoded: (value) => {
           if (disposed) return;
-          onCapture(value);
-          onClose();
+          // One session consumes at most one decoded result, including queued
+          // callbacks after Cancel. Parent renders must not restart a camera.
+          disposed = true;
+          callbacks.current.onCapture(value);
+          callbacks.current.onClose();
         },
       })
         .then((startedController) => {
@@ -61,7 +66,7 @@ export const BarcodeCameraCaptureModal: React.FC<
       window.clearTimeout(timer);
       if (controller) void controller.stop();
     };
-  }, [attempt, isOpen, onCapture, onClose, regionId, startScanner]);
+  }, [attempt, isOpen, regionId, startScanner]);
 
 
   if (!isOpen) return null;
@@ -75,6 +80,7 @@ export const BarcodeCameraCaptureModal: React.FC<
       aria-modal="true"
       aria-labelledby={`${regionId}-title`}
       dir="rtl"
+      onClick={event => event.stopPropagation()}
     >
       <div className="w-full max-w-md overflow-hidden rounded-3xl border border-nw-border bg-nw-surface shadow-2xl">
         <div className="flex items-center justify-between border-b border-nw-border p-4">

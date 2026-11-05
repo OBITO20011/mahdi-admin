@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner5Nov independent PR B frommain52: newest-first complete records, audit RPC pagination barriers and formed-parcel activation copy. No SQL/RPC/financial/permission/hosted/deploy/merge;58Draft.",
-  "baselineSha": "b23e5532982420a8877822761da5deaa15b4ffd3",
+  "objective": "Owner5Nov approved #69 merge after #68: real merge main f0969642, combined evidence and FULL CI before merge. No SQL/RPC/finance/permission/hosted/deploy;58Draft.",
+  "baselineSha": "3cba78976cfd3e6ee64d45969aaa726a090d39b4",
   "branch": "codex/records-newest-and-parcel-copy",
   "phase": "PACKAGE_F",
   "completed": [
@@ -16,7 +16,9 @@
     "PR69b23e5532pushed;positivehistoricalview34PASS/cleanup;firstold-labelCI failuredocumentedinPR.",
     "PR69b23e5532 exactFULLquality61/61+2secrets+backupPASS;strictverifieraccepted;ReadyforReviewunmerged. PR68sameFULLaccepted225a1171."
   ],
-  "inProgress": [],
+  "inProgress": [
+    "Real merge #68 and #69; compose both exact historical presentation views, regenerate actual current219 proof."
+  ],
   "notStarted": [
     "Nextauthorized1000productworkbookpackage afterthischeckpoint."
   ],
@@ -28,7 +30,7 @@
     "types/strictlint/Gitleaks0"
   ],
   "testsRemaining": [
-    "Ownerreview/approvalonly for68and69;no merge authorized."
+    "Combined local gates, full PR CI, main68 and primary preservation before merge69, full main69 and ff-only"
   ],
   "findings": [
     "Pagedsuppliercases208ASC andchequeduequeue195ASC remain unchanged;ownerDBdecisionlater,nostagedSQL."
@@ -36,15 +38,15 @@
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "NoSQL/migration/RPC/financial/permission change or hosted/deploy/merge;owner/env untouched;58Draft."
+    "No SQL/migration/RPC/finance/permission change or hosted/deploy; #58 stays Draft"
   ],
-  "nextExactAction": "68and69Ready exactFULL61+2secrets+backup each;implementationcomplete/unmerged. Nextcreateindependent1000productworktreeaftercontracts;58Draft,noSQL/hosted/merge.",
+  "nextExactAction": "Run combined #68/#69 tests and full PR CI; after main68 green and primary preflight, merge69. Test-only conflict resolution.",
   "startedAt": "2026-11-03T03:59:26.518Z",
-  "checkpointedAt": "2026-11-05T02:10:38.980Z",
+  "checkpointedAt": "2026-11-05T05:31:38.394Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 0,
-  "filesTouchedManifestSha256": "b6429e7d08029a34589e9c8956ef86dffab2fb6dd9ee37c08d5e9204e14cdbe6",
-  "workingTreeFingerprint": "AA7E1BEB9E33AF6D66638C52C546101F72793A005AEECF061D58701DF90BBB38"
+  "filesTouchedCount": 27,
+  "filesTouchedManifestSha256": "7564dc2ae101d7e803ba74457106de28ae7b7969aab3e9d1b0dad9be50255316",
+  "workingTreeFingerprint": "3AEAD0923B31E7F9D43C6659A37E1E1D99375A5B6021BB987453856E19C75724"
 }

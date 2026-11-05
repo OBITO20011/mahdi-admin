@@ -4,6 +4,7 @@
 @import "./components/ui/phone-presentation.css";
 @import "./components/ui/phone-type.css";
 @import "./features/shifts/cashFlow.css";
+@import "./styles/dialogs.css";
 
 /* Package F: both themes read the same semantic palette; no class-name patches. */
 :root { color-scheme: light; }
