@@ -110,6 +110,10 @@
     "tests/store-scroll-history.test.ts": {
       "before": "44f128d8b0d84d796a91b14a2820d952d33c176c52f1c1355092730b2e70f507",
       "after": "344ea57a7ce93e3b35415e43249c3443a1c75de469538c3cc53b48c8088a8235"
+    },
+    "e2e/customer-category-grid.spec.ts": {
+      "before": "061b4819922c737cdf5aa61e95ca3a2d32e179b3912afc686e582b89b86c4e6b",
+      "after": "dd3cc3b3992673218f1c0d77ce603edb831e8688c20825655f21ff878c0bebeb"
     }
   }
 }
