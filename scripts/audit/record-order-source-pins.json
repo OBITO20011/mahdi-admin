@@ -112,6 +112,14 @@
     "scripts/testing/record-order-historical-views.mjs": {
       "before": null,
       "after": "ece9efa04a3c8ad65a53cc73493b39599b5b9ec9a4d4f77e3e7fb104da24f623"
+    },
+    "e2e/package-d-settings.spec.ts": {
+      "before": "e3919b38d0a902879697f84ce0afff30bd01ec559e7283e3894becf44077e7a5",
+      "after": "d3c8ae581cde011c7b2d4645d303419d5c8e768fb1e70d6e18792e75891b02cb"
+    },
+    "e2e/package-f-trial-sale-receipts.spec.ts": {
+      "before": "c4ef58db4e2afa2a1921e4ba0c9521d3deccb767a7b6eddc4edd4014220a8643",
+      "after": "b06ef7a2b41a8b25215a66a8c93e3963ba11856d7933107d95bf5370fe65a321"
     }
   }
 }

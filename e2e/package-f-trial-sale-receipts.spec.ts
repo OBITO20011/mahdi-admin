@@ -102,7 +102,7 @@ test('D legacy single SKU configuration is read-only and can only be disabled un
   await page.goto('/e2e/package-d-settings-harness.html');
   await expect(page.getByLabel('نمط الطرد',{exact:true})).toHaveCount(0);
   await expect(page.getByRole('option',{name:/طرد قديم محفوظ/})).toHaveCount(0);
-  await expect(page.getByLabel('متاح للبيع كطرد مشكّل',{exact:true})).toBeVisible();
+  await expect(page.getByLabel('الطرد المشكّل مفعّل للبيع',{exact:true})).toBeVisible();
   const legacy=page.getByRole('region',{name:'إعدادات الطرد القديمة'});
   await expect(legacy).toContainText('كم حبة بالطرد: 10');await expect(legacy.locator('input,select')).toHaveCount(0);
   expect(saved).toEqual([]);await legacy.getByRole('button',{name:'إيقاف الإعداد القديم — طرد قديم محفوظ',exact:true}).click();
