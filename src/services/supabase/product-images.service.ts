@@ -1,3 +1,4 @@
+import {createProductThumbnail, productThumbnailPath} from '../../utils/productImageThumbnail';
 import {
   isSupabaseConfigured,
   supabase,
@@ -81,7 +82,7 @@ async function uploadCatalogImageToSupabase(
   const { error: uploadError } = await supabase.storage
     .from(PRODUCT_IMAGE_BUCKET)
     .upload(storagePath, file, {
-      cacheControl: '3600',
+      cacheControl: '31536000',
       contentType: file.type,
       upsert: false,
     });
@@ -97,6 +98,18 @@ async function uploadCatalogImageToSupabase(
     };
   }
 
+  const thumbnail = await createProductThumbnail(file);
+  if (thumbnail) {
+    try {
+      // Same owner/path and upsert:false; a resumed pair can already exist.
+      await supabase.storage.from(PRODUCT_IMAGE_BUCKET).upload(productThumbnailPath(storagePath), thumbnail, {
+        cacheControl: '31536000', contentType: 'image/webp', upsert: false,
+      });
+    } catch {
+      // Keep the original authoritative; storefront falls back once if absent.
+    }
+  }
+
   const { data: publicUrlData } = supabase.storage
     .from(PRODUCT_IMAGE_BUCKET)
     .getPublicUrl(storagePath);
@@ -104,7 +117,7 @@ async function uploadCatalogImageToSupabase(
   if (!publicUrlData.publicUrl) {
     await supabase.storage
       .from(PRODUCT_IMAGE_BUCKET)
-      .remove([storagePath]);
+      .remove([storagePath, productThumbnailPath(storagePath)]);
 
     return {
       success: false,
@@ -150,7 +163,7 @@ export async function removeBulkUploadedProductImage(storagePath: string): Promi
   const {data, error: sessionError} = await supabase.auth.getSession();
   const userId = data.session?.user.id;
   if (sessionError || !userId || !storagePath.startsWith(userId + '/') || storagePath.includes('..')) return false;
-  const {error} = await supabase.storage.from(PRODUCT_IMAGE_BUCKET).remove([storagePath]);
+  const {error} = await supabase.storage.from(PRODUCT_IMAGE_BUCKET).remove([storagePath, productThumbnailPath(storagePath)]);
   return !error;
 }
 
@@ -169,7 +182,7 @@ export async function removeUploadedProductImage(
 
   const { error } = await supabase.storage
     .from(PRODUCT_IMAGE_BUCKET)
-    .remove([storagePath]);
+    .remove([storagePath, productThumbnailPath(storagePath)]);
 
   if (error) {
     console.warn(

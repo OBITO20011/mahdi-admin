@@ -1,3 +1,4 @@
+import {ProductImage} from './ProductImage';
 import { ArrowLeft } from 'lucide-react';
 import type { CatalogCategory, CatalogProduct } from '../types/catalog';
 import { getCategoryVisual } from './categoryVisuals';
@@ -75,15 +76,7 @@ export function HomeCategoryMosaic({
                 <Icon className="h-10 w-10" />
               </span>
               {coverUrl && (
-                <img
-                  src={coverUrl}
-                  alt=""
-                  loading="lazy"
-                  onError={(event) => {
-                    event.currentTarget.style.display = 'none';
-                  }}
-                  className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
-                />
+                <ProductImage src={coverUrl} alt="" imageClassName="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" fallbackClassName="hidden" />
               )}
               <span className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/10 to-transparent" />
 

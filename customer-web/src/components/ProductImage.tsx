@@ -1,9 +1,12 @@
+import {productThumbnailUrl} from '../utils/productThumbnail';
 import { useState } from 'react';
 import { ImageOff } from 'lucide-react';
 
 interface ProductImageProps {
   src?: string | null;
   alt: string;
+  priority?: boolean;
+  useThumbnail?: boolean;
   imageClassName: string;
   fallbackClassName?: string;
   fallbackLabel?: string;
@@ -13,11 +16,17 @@ interface ProductImageProps {
 export function ProductImage({
   src,
   alt,
+  priority = false,
+  useThumbnail = true,
   imageClassName,
   fallbackClassName = 'grid h-full w-full place-items-center text-slate-300',
   fallbackLabel,
 }: ProductImageProps) {
-  const [failed, setFailed] = useState(false);
+  const [failure, setFailure] = useState<{src: string; stage: number} | null>(null);
+  const thumbnail = src ? (useThumbnail ? productThumbnailUrl(src) : src) : '';
+  const stage = failure?.src === thumbnail ? failure.stage : 0;
+  const displayed = stage === 0 ? thumbnail : src;
+  const failed = stage >= (thumbnail === src ? 1 : 2);
 
   if (!src || failed) {
     return (
@@ -32,11 +41,14 @@ export function ProductImage({
 
   return (
     <img
-      src={src}
+      src={displayed ?? undefined}
       alt={alt}
-      loading="lazy"
+      loading={priority ? 'eager' : 'lazy'}
+      fetchPriority={priority ? 'high' : undefined}
+      width={400}
+      height={400}
       decoding="async"
-      onError={() => setFailed(true)}
+      onError={() => setFailure({src: thumbnail, stage: stage + 1})}
       className={imageClassName}
     />
   );

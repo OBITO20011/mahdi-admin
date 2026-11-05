@@ -2,48 +2,40 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner5Nov: after68+69FULLgreen/checkpoints, independent deterministic1000products400-500flavors scale validation/offline checker/actual2198s3s/resume/stock/mobilepreview/smallCI. No hosted/preview/SQLmigration/RPCfinancialpermissionchange/merge;58Draft.",
-  "baselineSha": "f8d6d01af41b18e913c369d8e4a5540bc7f60e76",
-  "branch": "codex/product-workbook-scale",
+  "objective": "Owner5Nov storefront speed B, independent PR from main70: derived400px browser WebP on single/bulk upload,unique immutable paths,original fallback,dimensions/lazy/LCP,3x4medians. NoSQL/RPC/financial/permissions/hosted/deploy/merge.58Draft;animation waits speedmerge.",
+  "baselineSha": "d102074583c7369502954eaf8ea70d2595f6a19c",
+  "branch": "codex/storefront-speed-images",
   "phase": "PACKAGE_F",
   "completed": [
-    "PR68 and PR69 merged to f0969642 and 87f29aba, exact PR CI green. Main68 green/primary ff preserved; main69 verification running.",
-    "Scale full local219/180:1480 exact,3 recovery points,966 stock/340298 units/143633000 fils,130.7s,catalog0. Normalized old category maps to same identity.",
-    "22 browser regressions and final2 scale engines390 pass, all16 pages; 964/1403ms ready; input47/129ms. Focused24,12+small real service,types/strictlint pass."
+    "Fresh approved clean worktree exactly main70, prior committed task metadata belongs delivered70; bounded new task replaces it.",
+    "Source review: random UUID upload paths and upsert:false in both single and bulk; existing setters/ACL unchanged.",
+    "Actual canvas/service/storage mock browser proof both engines:400x267 WebP,EXIF40x80,single/category/bulk-resume,unique immutableyearcache,pair cleanup,original failure/permission unchanged,legacy fallbackonce andzoom quality toggle corrected.",
+    "Root/customer types and focusedthumbnailunit pass. No hosted connections or SQL differences."
   ],
   "inProgress": [
-    "Real merge main87f29aba into scale, local final gates then push Draft/CI"
+    "Local B implementation saved; full/fresh access/history/metrics/CI pending. A loading branch still under functional browser verification; no speed PR merge."
   ],
   "notStarted": [
-    "Final browser and evidence, strict lint/units/Gitleaks, PR/FULLCI; read-only pagination report; approved merge68 then69; sync scale.",
-    "After prerequisites, customer-web speed baseline and two PRs; animation waits for speed merge."
+    "Implementation/gates/CI/PR"
   ],
-  "testsPassed": [
-    "Standalone small46 and original12+small gate; full166.16s maxRPC352.46ms, stock351.83ms; normalization unit2.",
-    "Synchronized current219 access181/598 and18 expected denials, proof regenerated"
-  ],
+  "testsPassed": [],
   "testsRemaining": [
-    "Combined access proof, full unit/build gates and Gitleaks0/PR/FULL CI on synchronized scale head; read-only records report"
+    "Full local/FULLCI/Gitleaks"
   ],
-  "findings": [
-    "Offline 7 injected faults/8 findings from duplicate barcode detection; normalized fixture warns exactly2 product+1 customer+1 supplier."
-  ],
+  "findings": [],
   "blockers": [],
-  "activeProcesses": [
-    "finish-mobile-integration.mjs waits exact main69 CI then ff-only"
-  ],
+  "activeProcesses": [],
   "prohibitions": [
-    "No hosted/Frankfurt/preview/Sentry/Telegram/Cloudflare/deploy/merge",
-    "No SQL/migration/RPCdefinition/financial/permissionchange;stopifDBchangeneeded",
-    "Do notread/importownerrealproductfile;preserveowner/env;58Draft"
+    "No SQL/migration/newRPC/financial/permissions/auth/CSPweakening",
+    "No hosted/preview/Sentry/Telegram/Cloudflare/deploy/merge/ownerfiles/env changes",
+    "58Draft;noanimationbefore speedmerged"
   ],
-  "nextExactAction": "Commit synchronized scale and push; open independent Draft and wait exact-head FULL CI, no merge. main69 CI/ff already coordinated. Then read-only records; no speed until both complete.",
-  "startedAt": "2026-11-05T02:17:09.217Z",
-  "checkpointedAt": "2026-11-05T06:28:18.996Z",
+  "nextExactAction": "B canvas/storage browser both engines and root/customer types PASS. A still verifying; next bind separate image PR against final A or retain independentmain with explicit comparison. Need metrics/current219proof/FULLCI/Gitleaks; no hosted/deploy/PRmerge,58Draft.",
+  "checkpointedAt": "2026-11-05T12:39:27.666Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 54,
-  "filesTouchedManifestSha256": "2c341a95d6d39a6e198f274506887418f4d08c32587033a6d217d2548d6254d2",
-  "workingTreeFingerprint": "6067ECE27569B78325816456D3B0EEA8DAAB56E48C474B92A5D27707431D6A49"
+  "filesTouchedCount": 13,
+  "filesTouchedManifestSha256": "942a6dbb6a37a8b4920eee6b98c1326300b289c84b4adc739a8424a0f3bb4f82",
+  "workingTreeFingerprint": "5AF73EE74C9D90F40FA4E76164C7C06FB7DB29215F5C90640FDDDCA85900717F"
 }

@@ -190,6 +190,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   const [activePage, setActivePage] = useState<StorePage>(
     () => readStoreLocationRoute(window.location).page
   );
+  const [initialImageRoute] = useState(() => readStoreLocationRoute(window.location));
   const [products, setProducts] = useState<CatalogProduct[]>([]);
   const [catalogCategories, setCatalogCategories] = useState<
     CatalogCategory[]
@@ -1880,10 +1881,11 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
               </div>
             ) : (
               <div data-testid="catalog-products-grid" className="mt-6 grid grid-cols-2 gap-3 min-[380px]:grid-cols-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
-                {filteredProducts.map((product) => (
+                {filteredProducts.map((product, index) => (
                   <ProductCard
                     key={product.id}
                     product={product}
+                    imagePriority={index === 0 && initialImageRoute.page === 'catalog' && !initialImageRoute.productKey}
                     cartQuantity={catalogCartQuantityByProduct.get(product.id) || 0}
                     reservedQuantity={reservedBaseUnits.get(product.id) ?? 0}
                     isFavorite={favoriteProductIds.includes(product.id)}
@@ -2128,6 +2130,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       {selectedProduct && (
         <ProductDetailsModal
           product={selectedProduct}
+          imagePriority={Boolean(initialImageRoute.productKey)}
           initialVariantId={selectedProductVariantId ?? undefined}
           cartQuantityByProduct={cartQuantityByProduct}
           reservedBaseUnits={reservedBaseUnits}

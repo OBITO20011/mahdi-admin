@@ -17,6 +17,7 @@ import { getProductPath } from '../utils/publicRoutes';
 
 interface ProductCardProps {
   product: CatalogProduct;
+  imagePriority?: boolean;
   cartQuantity: number;
   reservedQuantity?: number;
   isFavorite: boolean;
@@ -28,6 +29,7 @@ interface ProductCardProps {
 
 export function ProductCard({
   product,
+  imagePriority = false,
   cartQuantity,
   reservedQuantity = 0,
   isFavorite,
@@ -55,6 +57,7 @@ export function ProductCard({
         className="relative block aspect-square w-full overflow-hidden bg-gradient-to-br from-slate-50 to-blue-50 text-right sm:aspect-[4/3]"
       >
         <ProductImage
+          priority={imagePriority}
           src={product.imageUrl}
           alt={product.nameAr}
           imageClassName="h-full w-full object-contain p-2 transition duration-500 group-hover:scale-105 sm:p-3"
