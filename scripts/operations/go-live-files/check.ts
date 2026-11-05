@@ -1,5 +1,6 @@
 import {prepareProductWorkbook,readProductWorkbook,productWorkbookStockRows,PRODUCT_WORKBOOK_COLUMNS,type ProductWorkbookPlan} from '../../../src/features/goLive/productWorkbook';
 import {validateProductWorkbookReference} from '../../../src/features/goLive/productWorkbookReference';
+import {normalizeImportDisplayText as display,importNormalizationNotice} from '../../../src/features/goLive/importDisplayText';
 /** Offline preparation only. No database client, environment loader or network. */
 import {readXlsxFirstSheet, readZip, columnIndex, XLSX_MAX_BYTES} from '../../../src/lib/xlsx';
 import {GO_LIVE_COLUMNS, mapSheet, prepareProducts, prepareStock, prepareCustomers, prepareSuppliers, parseJodToMinor, ammanToday, type GoLiveKind, type SheetRow, type RowError} from '../../../src/features/goLive/goLiveImport';
@@ -16,7 +17,7 @@ export interface ImageInput {name:string;size:number}
 export interface FileInput {name:string;bytes:Uint8Array}
 const money=(value:bigint)=>{const sign=value<0n?'-':'';const n=value<0n?-value:value;return sign+(n/1000n).toString().replace(/\B(?=(\d{3})+(?!\d))/gu,',')+'.'+(n%1000n).toString().padStart(3,'0')+' د.أ';};
 export const normalizePhone=(s:string)=>{let n=s.trim().replace(/[^0-9]/gu,'');if(n.startsWith('00962'))n=n.slice(2);return /^962[0-9]{9}$/u.test(n)?'0'+n.slice(3):/^7[0-9]{8}$/u.test(n)?'0'+n:n;};
-export const normalizeName=(s:string)=>{const from='أإآٱةىؤئ \u0640\u064b\u064c\u064d\u064e\u064f\u0650\u0651\u0652',to='ااااهيوي';return [...s.trim().toLowerCase()].map(c=>{const at=from.indexOf(c);return at<0?c:to[at]??'';}).join('');};
+export const normalizeName=(s:string)=>{const from='أإآٱةىؤئ \u0640\u064b\u064c\u064d\u064e\u064f\u0650\u0651\u0652',to='ااااهيوي';return [...display(s).toLowerCase()].map(c=>{const at=from.indexOf(c);return at<0?c:to[at]??'';}).join('');};
 const text=(v:unknown):v is string=>typeof v==='string';
 const object=(v:unknown):v is Record<string,unknown>=>Boolean(v&&typeof v==='object'&&!Array.isArray(v));
 export function validReference(v:unknown):v is LocalReference {
@@ -30,6 +31,14 @@ export function validReference(v:unknown):v is LocalReference {
 }
 function columnFor(kind:Kind,error:RowError):string {
  const m=error.message;if(error.row===1)return 'رؤوس الأعمدة';const quoted=/"([^"]+)"/u.exec(m)?.[1];if(quoted)return quoted;
+ if(kind==='products'){
+  if(m.includes('سعر بيع الباكيت المفرد')||m.includes('سعر الباكيت لا يطابق'))return 'سعر بيع الباكيت المفرد (د.أ)';
+  if(m.includes('رمز المنتج الأساسي غير موجود'))return 'رمز المنتج الأساسي';
+  if(m.includes('اسم نكهة مكرر'))return 'اسم النكهة';
+  if(m.includes('الحد الأعلى 30 نكهة'))return 'ورقة النكهات / رمز المنتج الأساسي';
+  if(m.includes('المنتج الأساسي للنكهات بلا باركود'))return 'الباركود / المخزون (باكيت)';
+  if(m.includes('مكرر عبر ورقتي'))return 'رمز الصنف / الباركود (الورقتان)';
+ }
  if(kind==='cheques')return m.includes('تاريخ')?m.split(': ').at(-1)!:'المبلغ (د.أ)';
  if(m.includes('SKU'))return 'رمز الصنف SKU';if(m.includes('الباركود'))return 'الباركود';
  if(m.includes('سعر بيع'))return 'سعر بيع الطرد (د.أ)';if(m.includes('التكلفة')||m.includes('سعر الشراء'))return 'سعر شراء الطرد / تكلفة الباكيت (د.أ)';
@@ -50,25 +59,25 @@ export async function checkFiles(inputs:Partial<Record<Kind,FileInput>>,referenc
   if(input.bytes.length>XLSX_MAX_BYTES){add(kind,0,'الملف','حجم الملف أكبر من 5 ميغابايت.');continue;}
   try{if(kind==='products'){const book=await readProductWorkbook(input.bytes);sheets[kind]=book.products;workbook=prepareProductWorkbook(book.products,book.flavors);workbook.warnings.push(...book.identifierWarnings);embeddedStock=Boolean(book.flavors.length||book.products[0]?.includes(PRODUCT_WORKBOOK_COLUMNS.find(c=>c.key==='opening_stock')!.header));}else sheets[kind]=await readXlsxFirstSheet(input.bytes);}catch{add(kind,0,'الملف','تعذر قراءة XLSX صالح ضمن حدود قارئ النظام.');continue;}
   if(kind==='products'){counts.products=workbook?.products.length??0;}
-  if(['stock','customers','suppliers'].includes(kind)){const mapped=mapSheet(kind as GoLiveKind,sheets[kind]!);rows[kind as GoLiveKind]=mapped.rows;counts[kind]=mapped.rows.length;for(const m of mapped.fileErrors)if(!(kind==='stock'&&embeddedStock&&!mapped.rows.length&&!m.includes('العمود')))add(kind,1,'رؤوس الأعمدة',m);}
+  if(['stock','customers','suppliers'].includes(kind)){const mapped=mapSheet(kind as GoLiveKind,sheets[kind]!);rows[kind as GoLiveKind]=mapped.rows;counts[kind]=mapped.rows.length;if(mapped.normalizedFields)add(kind,0,'النصوص الوصفية',importNormalizationNotice(mapped.normalizedFields),'warning');for(const m of mapped.fileErrors)if(!(kind==='stock'&&embeddedStock&&!mapped.rows.length&&!m.includes('العمود')))add(kind,1,'رؤوس الأعمدة',m);}
   // Detect unsafe identifier cell types without changing the authoritative reader.
   const files=await readZip(input.bytes,n=>n==='xl/workbook.xml'||n==='xl/_rels/workbook.xml.rels'||/^xl\/worksheets\/[^/]+\.xml$/u.test(n));
   const xmlText=(name:string)=>new TextDecoder().decode(files.get(name)??new Uint8Array());
   const firstTag=/<(?:\w+:)?sheet\s[^>]*>/u.exec(xmlText('xl/workbook.xml'))?.[0]??'';
   const firstId=/\br:id="([^"]+)"/u.exec(firstTag)?.[1];
   let firstPath='xl/worksheets/sheet1.xml';
-  for(const match of xmlText('xl/_rels/workbook.xml.rels').matchAll(/<Relationship\s[^>]*>/gu))if(match[0].includes(`Id="${firstId}"`)){
+  for(const match of xmlText('xl/_rels/workbook.xml.rels').matchAll(/<(?:\w+:)?Relationship\s[^>]*>/gu))if(match[0].includes(`Id="${firstId}"`)){
    const target=/Target="([^"]+)"/u.exec(match[0])?.[1]??'';firstPath=target.startsWith('/')?target.slice(1):'xl/'+target.replace(/^\.\//u,'');
   }
   const headers=sheets[kind]![0]??[];const identifierHeaders=new Set(['رمز الصنف SKU','الباركود','الباركود أو SKU','هاتف العميل','هاتف المورد','رقم الشيك']);
   // Values from only the actual first-sheet reader; a numeric warning is not a new rejection rule.
-  for(const match of xmlText(firstPath).matchAll(/<c\b([^>]*?)>([\s\S]*?)<\/c>/gu)){
+  for(const match of xmlText(firstPath).matchAll(/<(?:\w+:)?c\b([^>]*?)>([\s\S]*?)<\/(?:\w+:)?c>/gu)){
    const coord=/\br="([A-Z]+)(\d+)"/u.exec(match[1]);if(!coord||Number(coord[2])<2)continue;const h=headers[columnIndex(coord[1])];
-   if(identifierHeaders.has(h)&&! /\bt="(?:s|inlineStr|str)"/u.test(match[1])&&/<v>[^<]+<\/v>/u.test(match[2]))add(kind,Number(coord[2]),h,'الخانة محفوظة كرقم؛ الأصفار البادئة أو الأرقام بعد الخانة15 قد تكون فُقدت قبل الفحص.','warning','قارن بالأصل وأعد كتابة المعرف كنص؛ تغيير تنسيق رقم فقد أصفاره لا يعيدها.');
+   if(identifierHeaders.has(h)&&! /\bt="(?:s|inlineStr|str)"/u.test(match[1])&&/<(?:\w+:)?v>[^<]+<\/(?:\w+:)?v>/u.test(match[2]))add(kind,Number(coord[2]),h,'الخانة محفوظة كرقم؛ الأصفار البادئة أو الأرقام بعد الخانة15 قد تكون فُقدت قبل الفحص.','warning','قارن بالأصل وأعد كتابة المعرف كنص؛ تغيير تنسيق رقم فقد أصفاره لا يعيدها.');
   }
  }
  const productPayload=workbook?.products.flatMap(p=>[{...p.data,sourceRow:p.row},...p.flavors.map(f=>({...p.data,sourceRow:f.row,sku:f.sku,barcode:f.barcode,name_ar:p.data.name_ar+' - '+f.name}))]);
- if(workbook)for(const w of workbook.warnings)add('products',w.row,w.sheet==='النكهات'?'النكهات / المعرّف والباركود':'المخزون (باكيت)',w.message,'warning');
+ if(workbook)for(const w of workbook.warnings)add('products',w.row,w.sheet==='النكهات'?'النكهات / المعرّف والباركود':w.message.startsWith('تم تطبيع')?'النصوص الوصفية':'المخزون (باكيت)',w.message,'warning');
  if(workbook&&ref)for(const e of validateProductWorkbookReference(workbook,ref))add('products',e.row,(e.sheet==='النكهات'?'النكهات / ':'')+'المرجع / الرمز',e.message);
  const prepared={products:workbook?{payload:productPayload??[],errors:workbook.errors}:prepareProducts(rows.products??[]),customers:prepareCustomers(rows.customers??[],today),suppliers:prepareSuppliers(rows.suppliers??[],today)};
  for(const kind of ['products','customers','suppliers'] as const)for(const e of prepared[kind].errors)add(kind,e.row,('sheet'in e&&e.sheet==='النكهات'?'النكهات / ':'')+columnFor(kind,e),e.message);
@@ -76,8 +85,8 @@ export async function checkFiles(inputs:Partial<Record<Kind,FileInput>>,referenc
  const productRows=prepared.products.payload;
  for(const r of productRows){const test=(column:string,reason:string)=>add('products',r.sourceRow,column,reason);
   if(r.sku.length>64)test('رمز الصنف SKU','رمز الصنف SKU مطلوب وبحد أقصى 64 حرفاً.');if(r.name_ar.length>200)test('اسم المنتج','اسم المنتج أطول من 200 حرف.');if(r.barcode.length>64)test('الباركود','الباركود أطول من64 حرفاً.');
-  if(ref){const categories=ref.categories.filter(c=>c.active&&c.name===r.category_name);if(categories.length!==1)test('القسم',categories.length?'اسم القسم مكرر في المرجع؛ صحح الأقسام أولاً.':'القسم غير موجود؛ أضفه أولاً أو صحّح اسمه.');
-   for(const key of ['base_unit_name','purchase_unit_name','sale_unit_name'] as const){const value=r[key];const byCode=ref.units.filter(u=>u.code.toUpperCase()===value.toUpperCase());const matches=byCode.length?byCode:ref.units.filter(u=>u.name===value);if(matches.length!==1)test(GO_LIVE_COLUMNS.products.find(c=>c.key===key)!.header,'الوحدة غير موجودة أو اسمها مكرر؛ اكتب رمز الوحدة الصحيح مثل PKT/CTN.');}
+  if(ref){const categories=ref.categories.filter(c=>c.active&&display(c.name)===r.category_name);if(categories.length!==1)test('القسم',categories.length?'اسم القسم مكرر في المرجع؛ صحح الأقسام أولاً.':'القسم غير موجود؛ أضفه أولاً أو صحّح اسمه.');
+   for(const key of ['base_unit_name','purchase_unit_name','sale_unit_name'] as const){const value=r[key];const byCode=ref.units.filter(u=>u.code.toUpperCase()===value.toUpperCase());const matches=byCode.length?byCode:ref.units.filter(u=>display(u.name)===value);if(matches.length!==1)test(GO_LIVE_COLUMNS.products.find(c=>c.key===key)!.header,'الوحدة غير موجودة أو اسمها مكرر؛ اكتب رمز الوحدة الصحيح مثل PKT/CTN.');}
    if(ref.products.some(p=>p.sku.toLowerCase()===r.sku.toLowerCase()))test('رمز الصنف SKU','رمز SKU مستخدم لمنتج موجود في المرجع.');if(r.barcode&&ref.products.some(p=>p.barcode===r.barcode))test('الباركود','الباركود مستخدم لمنتج موجود في المرجع.');
   }
   products.push({sku:r.sku,barcode:r.barcode,name:r.name_ar,unitsPerPackage:Number(r.units_per_purchase_unit),costInMinor:r.cost_per_base_unit_in_minor_units,eligible:!workbook?.products.some(p=>p.data.sku===r.sku&&p.flavors.length>0)});
@@ -92,14 +101,14 @@ export async function checkFiles(inputs:Partial<Record<Kind,FileInput>>,referenc
  for(const kind of ['customers','suppliers'] as const){const seen=new Map<string,number>(),newNames=new Map<string,string>();
   for(const row of prepared[kind].payload){const r=row as unknown as Record<string,string|number>,name=String(r[kind==='customers'?'customer_name':'supplier_name']??''),phone=normalizePhone(String(r[kind==='customers'?'customer_phone':'supplier_phone']??''));const existing=(ref?.[kind]??[]).filter(p=>p.active);let key='';
    if(name.length>150)add(kind,row.sourceRow,'الاسم','اسم الطرف أطول من150 حرفاً.');if(String(r.notes??'').length>300)add(kind,row.sourceRow,'ملاحظة','الملاحظة أطول من300 حرف.');
-   const candidates=phone?existing.filter(p=>normalizePhone(p.phone)===phone):existing.filter(p=>p.name.trim()===name);
+   const candidates=phone?existing.filter(p=>normalizePhone(p.phone)===phone):existing.filter(p=>display(p.name)===name);
    if(candidates.length>1)add(kind,row.sourceRow,'الاسم / الهاتف','الطرف غير فريد؛ اختره يدوياً أو صحح الهاتف.');
    else if(candidates.length===1)key=candidates[0].id;
    else{const similar=existing.some(p=>normalizeName(p.name)===normalizeName(name));if(similar)add(kind,row.sourceRow,'الاسم / الهاتف','اسم مطابق أو مشابه بهاتف مختلف؛ لن يُنشأ طرف مكرر.');else if(kind==='customers'&&(!name||!phone||!/^\d{9,15}$/u.test(phone)))add(kind,row.sourceRow,'هاتف العميل / اسم العميل','العميل غير موجود؛ الاسم وهاتف صحيح مطلوبان لإضافته.');else if(!name)add(kind,row.sourceRow,'اسم المورد','اسم المورد مطلوب لإضافته.');else{const newKey=kind==='customers'?phone:normalizeName(name);key='new:'+kind+':'+newKey;if(newNames.has(key)&&newNames.get(key)!==normalizeName(name))add(kind,row.sourceRow,'الاسم / الهاتف','نفس الهاتف الجديد ورد باسم آخر؛ وحّد الاسم أو الهاتف.');newNames.set(key,normalizeName(name));if(!parties[kind].some(p=>p.id===key))parties[kind].push({id:key,name,phone,active:true});}}
    if(key){const unique=kind==='customers'?key+':'+r.original_debt_date+':'+r.amount_in_minor_units:key;if(seen.has(unique))add(kind,row.sourceRow,'الاسم / الهاتف',`سطر مكرر لنفس الطرف${kind==='customers'?' والتاريخ والمبلغ':''} (السطر ${seen.get(unique)}).`);else seen.set(unique,row.sourceRow);}
   }
  }
- let chequeTotal=0n;const noChequeRows=!(sheets.cheques??[]).slice(1).some(row=>row.some(c=>c.trim()));const chequeRows=options.noOpeningCheques&&noChequeRows?{rows:[],errors:[]}:prepareOpeningChequeSheet(sheets.cheques??[]);if(options.noOpeningCheques&&!noChequeRows)add('cheques',1,'الملف','تأكيد عدم وجود شيكات يتعارض مع ملف يحوي أسطراً؛ أزل التأكيد أو راجع الملف.');counts.cheques=chequeRows.rows.length;for(const e of chequeRows.errors)add('cheques',e.row,columnFor('cheques',e),e.message);
+ let chequeTotal=0n;const noChequeRows=!(sheets.cheques??[]).slice(1).some(row=>row.some(c=>c.trim()));const chequeRows=options.noOpeningCheques&&noChequeRows?{rows:[],errors:[],normalizedFields:0}:prepareOpeningChequeSheet(sheets.cheques??[]);if(options.noOpeningCheques&&!noChequeRows)add('cheques',1,'الملف','تأكيد عدم وجود شيكات يتعارض مع ملف يحوي أسطراً؛ أزل التأكيد أو راجع الملف.');counts.cheques=chequeRows.rows.length;if(chequeRows.normalizedFields)add('cheques',0,'النصوص الوصفية',importNormalizationNotice(chequeRows.normalizedFields),'warning');for(const e of chequeRows.errors)add('cheques',e.row,columnFor('cheques',e),e.message);
  if(chequeRows.rows.length>500)add('cheques',1,'الملف','شيكات البداية تقبل500 سطر كحد أقصى.');
  const chequeSeen=new Set((ref?.chequeKeys??[]).map(k=>[k.kind,k.partyId,k.bank.toLowerCase(),k.number].join('|')));
  for(const r of chequeRows.rows){const n=r.sourceRow as number,bank=String(r.bank_name??''),number=String(r.cheque_number??''),status=String(r.initial_status||'pending');

@@ -1,6 +1,7 @@
 /** Workbook presentation/validation only. Existing RPCs remain authoritative. */
 import {GO_LIVE_COLUMNS,mapSheet,prepareProducts,parseJodToMinor,parseWholeNumber,normalizeDigits,type GoLiveColumn,type RowError,type ProductPayload} from './goLiveImport';
 import {readXlsxFirstSheet,readXlsxSheet,readZip,decodeXml,columnIndex} from '../../lib/xlsx';
+import {normalizeImportDisplayText,importNormalizationNotice} from './importDisplayText';
 const renamed:Record<string,string>={sale_package_price:'سعر بيع الطرد للزبون (د.أ)',purchase_package_price:'سعر شراء الطرد من المورد (د.أ)',cost_per_base_unit:'سعر شراء الباكيت (التكلفة) (د.أ)',units_per_sale_unit:'كم باكيت في طرد البيع',units_per_purchase_unit:'كم باكيت في طرد الشراء'};
 export const PRODUCT_WORKBOOK_COLUMNS:readonly GoLiveColumn[]=[...GO_LIVE_COLUMNS.products.filter(c=>c.key!=='parcel_only').map(c=>({...c,header:renamed[c.key]??c.header})),
  {key:'sale_method',header:'طريقة البيع (طرد/باكيت مفرد/الاثنين)',required:true,example:'الاثنين',width:30},
@@ -59,6 +60,7 @@ export function prepareProductWorkbook(productSheet:readonly(readonly string[])[
  const legacyHeader=header.map(h=>GO_LIVE_COLUMNS.products.find(c=>renamed[c.key]===h)?.header??h);
  for(const c of GO_LIVE_COLUMNS.products)if(legacyHeader.filter(h=>h===c.header).length>1)errors.push({row:1,message:`عنوان العمود مكرر: ${c.header}`});
  const mapped=mapSheet('products',[legacyHeader,...productSheet.slice(1)]);
+ let normalizedFields=mapped.normalizedFields;
  for(const message of mapped.fileErrors)errors.push({row:1,message});
  for(const h of new Set(header))if(h&&header.filter(c=>c===h).length>1)errors.push({row:1,message:'عنوان عمود مكرر؛ اترك عموداً واحداً لكل حقل.'});
  const extra=new Map<number,Record<string,string>>();
@@ -68,6 +70,7 @@ export function prepareProductWorkbook(productSheet:readonly(readonly string[])[
   if([...row.values.name_ar].length>200)errors.push({row:row.row,message:'اسم المنتج بحد أقصى200 حرف.'});
   if([...row.values.barcode].length>64)errors.push({row:row.row,message:'باركود المنتج بحد أقصى64 حرفاً.'});
   const v=valueRow(PRODUCT_WORKBOOK_COLUMNS,header,productSheet[row.row-1]);extra.set(row.row,v);
+  for(const key of ['brand_name','description']){const raw=v[key];v[key]=normalizeImportDisplayText(raw);if(v[key]!==raw)normalizedFields++;}
   const method=v.sale_method;
   if(header.includes(PRODUCT_WORKBOOK_COLUMNS.find(c=>c.key==='sale_method')!.header)&&!method)errors.push({row:row.row,message:'طريقة البيع مطلوبة في القالب الجديد؛ اختر طرد أو باكيت مفرد أو الاثنين.'});const size=parseWholeNumber(row.values.units_per_sale_unit,{min:1});
   if(method&&!['طرد','باكيت مفرد','الاثنين'].includes(method))errors.push({row:row.row,message:'طريقة البيع: اختر طرد أو باكيت مفرد أو الاثنين.'});
@@ -93,6 +96,7 @@ export function prepareProductWorkbook(productSheet:readonly(readonly string[])[
   for(const h of new Set(fh))if(h&&fh.filter(c=>c===h).length>1)errors.push({row:1,sheet:'النكهات',message:'النكهات: عنوان عمود مكرر؛ اترك عموداً واحداً لكل حقل.'});
   for(const c of FLAVOR_WORKBOOK_COLUMNS.filter(c=>c.required))if(!fh.includes(c.header))errors.push({row:1,message:`النكهات: العمود "${c.header}" مطلوب.`});
   flavorSheet.slice(1).forEach((cells,i)=>{if(!cells.some(c=>c.trim()))return;const row=i+2,v=valueRow(FLAVOR_WORKBOOK_COLUMNS,fh,cells),parent=byMaster.get(skuKey(v.master_sku));
+   const rawName=v.name;v.name=normalizeImportDisplayText(rawName);if(v.name!==rawName)normalizedFields++;
    if(!parent){errors.push({row,sheet:'النكهات',message:'النكهات: رمز المنتج الأساسي غير موجود في ورقة المنتجات.'});return;}
    if(!v.name||v.name.length>80){errors.push({row,sheet:'النكهات',message:'النكهات: الاسم مطلوب وبحد أقصى 80 حرفاً.'});return;}
    if(parent.flavors.some(f=>f.name.trim().toLocaleLowerCase('ar')===v.name.toLocaleLowerCase('ar')))errors.push({row,sheet:'النكهات',message:'النكهات: اسم نكهة مكرر لنفس المنتج.'});
@@ -111,6 +115,7 @@ export function prepareProductWorkbook(productSheet:readonly(readonly string[])[
  }
  const missingStock=products.reduce((n,p)=>n+(p.flavors.length?p.flavors.filter(f=>f.openingStock===null).length:Number(p.openingStock===null)),0);
  if(missingStock)warnings.push({row:0,warning:true,message:`${missingStock} صنف بلا مخزون — يُعبأ بعد الجرد يوم D−1/يوم التشغيل.`});
+ if(normalizedFields)warnings.push({row:0,warning:true,message:importNormalizationNotice(normalizedFields)});
  return{products,errors,warnings,missingStock};
 }
 export function productWorkbookStockRows(plan:ProductWorkbookPlan){

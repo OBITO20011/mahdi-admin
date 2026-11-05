@@ -1,0 +1,5 @@
+{
+  "scripts/operations/go-live-files/check.ts": "74291c4880ab210aa566362d7c164f0efabcc2ec0c9f5c6a71790f8168b4d137",
+  "src/features/goLive/goLiveImport.ts": "c6c5ff1de1a8be2a233a1fbea817137e85989b37f63ebcf6a94cd9263d15b6c9",
+  "src/features/goLive/openingChequesImport.ts": "59f0bb7ff83e8dba4ce03258c9a1e2f85f5f016c26a276c26a0e29c9a10540fb"
+}

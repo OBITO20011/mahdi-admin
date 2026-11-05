@@ -4,6 +4,7 @@ import {skuKey,type WorkbookProduct,type ProductWorkbookPlan}from'../../features
 import {type ProductWorkbookReference,validateProductWorkbookReference}from'../../features/goLive/productWorkbookReference';
 import {createProductImportAttempt,resumeProductImport,type ProductImportAttempt,type ProductImportEntry,type ProductImportSnapshot}from'../../features/goLive/productImportAttempt';
 import {fetchGoLiveStatus}from'./goLive.service';
+import {normalizeImportDisplayText as display}from'../../features/goLive/importDisplayText';
 type Row=Record<string,unknown>;
 const metadataColumns='id,sku,barcode,name_ar,description,category_id,brand_id,unit_id,purchase_unit_id,units_per_purchase_unit,default_purchase_price_in_minor_units,sale_unit_id,units_per_sale_unit,default_sale_price_in_minor_units,cost_price_in_minor_units,min_stock_level,max_stock_level,is_active,parcel_only,updated_at,flavor_master_product_id,is_flavor_master,flavor_name_ar';
 function db(){if(!isSupabaseConfigured||!supabase)throw Error('PRODUCT_IMPORT_NO_CLIENT');return supabase;}
@@ -29,8 +30,8 @@ export async function fetchProductWorkbookReference():Promise<ProductWorkbookRef
 }
 const unique=<T,>(rows:T[])=>{assert(rows.length===1,'PRODUCT_IMPORT_REFERENCE_AMBIGUOUS');return rows[0];};
 function wanted(row:WorkbookProduct,ref:ProductWorkbookReference):Row{const p=row.data;
- const unit=(value:string)=>{const code=ref.units.filter(u=>skuKey(u.code)===skuKey(value));return unique(code.length?code:ref.units.filter(u=>u.name===value)).id!;};
- return{sku:p.sku,barcode:p.barcode||null,name_ar:p.name_ar,description:row.description||null,category_id:unique(ref.categories.filter(c=>c.active&&c.name===p.category_name)).id!,brand_id:row.brand?unique(ref.brands!.filter(b=>b.active&&b.name===row.brand)).id!:null,unit_id:unit(p.base_unit_name),purchase_unit_id:unit(p.purchase_unit_name),units_per_purchase_unit:p.units_per_purchase_unit,default_purchase_price_in_minor_units:p.purchase_package_price_in_minor_units,sale_unit_id:unit(p.sale_unit_name),units_per_sale_unit:p.units_per_sale_unit,default_sale_price_in_minor_units:p.sale_package_price_in_minor_units,cost_price_in_minor_units:p.cost_per_base_unit_in_minor_units,min_stock_level:p.min_stock_level,max_stock_level:row.maxStock,parcel_only:p.parcel_only??false,is_active:true};
+ const unit=(value:string)=>{const code=ref.units.filter(u=>skuKey(u.code)===skuKey(value));return unique(code.length?code:ref.units.filter(u=>display(u.name)===value)).id!;};
+ return{sku:p.sku,barcode:p.barcode||null,name_ar:p.name_ar,description:row.description||null,category_id:unique(ref.categories.filter(c=>c.active&&display(c.name)===p.category_name)).id!,brand_id:row.brand?unique(ref.brands!.filter(b=>b.active&&display(b.name)===row.brand)).id!:null,unit_id:unit(p.base_unit_name),purchase_unit_id:unit(p.purchase_unit_name),units_per_purchase_unit:p.units_per_purchase_unit,default_purchase_price_in_minor_units:p.purchase_package_price_in_minor_units,sale_unit_id:unit(p.sale_unit_name),units_per_sale_unit:p.units_per_sale_unit,default_sale_price_in_minor_units:p.sale_package_price_in_minor_units,cost_price_in_minor_units:p.cost_per_base_unit_in_minor_units,min_stock_level:p.min_stock_level,max_stock_level:row.maxStock,parcel_only:p.parcel_only??false,is_active:true};
 }
 function compare(actual:Row,expected:Row,keys=Object.keys(expected)){for(const key of keys)assert(str(actual[key])===str(expected[key]),'PRODUCT_IMPORT_READBACK_DIFFER');}
 export async function readProductImportSnapshot(id:string):Promise<ProductImportSnapshot>{
@@ -73,7 +74,13 @@ async function saveProductWorkbookUnlocked(plan:ProductWorkbookPlan,actor:string
   create:async(row,temp,operationKey)=>{const p=row.data,w=wanted(row,reference);let data:unknown;
    if(row.flavors.length){const warehouse=row.warehouse?unique(reference.warehouses!.filter(x=>x.active&&skuKey(x.code)===skuKey(row.warehouse))).id:reference.warehouses?.find(w=>w.active)?.id;assert(warehouse,'PRODUCT_IMPORT_WAREHOUSE_REQUIRED');
     data=await result(db().rpc('create_product_family_with_flavors_v2',{p_sku:temp,p_barcode:null,p_name_ar:w.name_ar,p_description:w.description,p_category_id:w.category_id,p_brand_id:w.brand_id,p_unit_id:w.unit_id,p_purchase_unit_id:w.purchase_unit_id,p_units_per_purchase_unit:w.units_per_purchase_unit,p_default_purchase_price_in_minor_units:w.default_purchase_price_in_minor_units,p_sale_unit_id:w.sale_unit_id,p_units_per_sale_unit:w.units_per_sale_unit,p_default_sale_price_in_minor_units:w.default_sale_price_in_minor_units,p_cost_price_in_minor_units:w.cost_price_in_minor_units,p_min_stock_level:w.min_stock_level,p_max_stock_level:w.max_stock_level,p_warehouse_id:warehouse,p_image_url:null,p_flavors:row.flavors.map(f=>({nameAr:f.name,openingSalePackages:0,imageUrl:null})),p_parcel_only:w.parcel_only}));
-   }else data=await result(db().rpc('import_go_live_products_v1',{p_idempotency_key:operationKey,p_rows:[{...p,sku:temp}],p_dry_run:false}));assert(record(data).success===true);},
+   }else{
+    // The legacy RPC resolves exact database names/codes. Keep its existing
+    // identity after matching the workbook's normalized descriptive labels.
+    const category=unique(reference.categories.filter(c=>c.id===w.category_id));
+    const unitCode=(id:unknown)=>unique(reference.units.filter(u=>u.id===id)).code;
+    data=await result(db().rpc('import_go_live_products_v1',{p_idempotency_key:operationKey,p_rows:[{...p,sku:temp,category_name:category.name,base_unit_name:unitCode(w.unit_id),purchase_unit_name:unitCode(w.purchase_unit_id),sale_unit_name:unitCode(w.sale_unit_id)}],p_dry_run:false}));
+   }assert(record(data).success===true);},
   finalize:async(row,entry:ProductImportEntry)=>{let current=await readProductImportSnapshot(entry.masterId!);assertFamily(row,current);assert(current.sku===entry.temporarySku||current.sku===row.data.sku);
    const target=wanted(row,reference);let final=false;try{compare(current.metadata!,target);final=true;}catch{/* Exact initial metadata may still need the reviewed enrichment phase. */}
    if(!final){const m=current.metadata!;for(const k of ['brand_id','description','max_stock_level'])assert(str(m[k])===''||str(m[k])===str(target[k]),'PRODUCT_IMPORT_CONCURRENT_CHANGE');await write(m,target,target.parcel_only as boolean);}

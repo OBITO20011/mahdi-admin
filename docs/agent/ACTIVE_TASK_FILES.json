@@ -3,11 +3,11 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+      "path": "docs/agent/project-state.json"
     },
     {
       "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_219.json"
+      "path": "docs/operations/PRODUCT_WORKBOOK_219_LOCAL.json"
     },
     {
       "code": " M",
@@ -15,175 +15,139 @@
     },
     {
       "code": " M",
-      "path": "scripts/testing/product-workbook-runtime-view-pins.json"
+      "path": "scripts/operations/go-live-files/check.ts"
     },
     {
       "code": " M",
-      "path": "tests/owner-telegram-format.test.ts"
+      "path": "scripts/testing/run-product-template-existing-rpcs.mjs"
     },
     {
       "code": " M",
-      "path": "tests/rehearsal219.test.ts"
+      "path": "src/features/goLive/goLiveImport.ts"
     },
     {
       "code": " M",
-      "path": "tests/store-scroll-history.test.ts"
+      "path": "src/features/goLive/GoLiveSetupView.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/goLive/OpeningChequesCard.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/goLive/openingChequesImport.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/features/goLive/productWorkbook.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/features/goLive/ProductWorkbookImportPanel.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/goLive/productWorkbookReference.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/services/supabase/productWorkbook.service.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/go-live-files-offline.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/product-workbook-history.test.ts"
     },
     {
       "code": "??",
-      "path": "scripts/audit/source-before-workbook-integration.mjs"
+      "path": "docs/operations/PRODUCT_WORKBOOK_SCALE_AR.md"
     },
     {
       "code": "??",
-      "path": "tests/workbook-integration-history.test.ts"
+      "path": "e2e/package-f-product-scale-harness.html"
     },
     {
-      "code": "A ",
-      "path": "docs/operations/MOBILE_BACK_AR.md"
+      "code": "??",
+      "path": "e2e/package-f-product-scale-harness.tsx"
     },
     {
-      "code": "A ",
-      "path": "docs/operations/SOURCE_MAPS_PRIVATE_AR.md"
+      "code": "??",
+      "path": "e2e/package-f-product-scale.spec.ts"
     },
     {
-      "code": "A ",
-      "path": "docs/operations/VITE_DEV_FILES_AR.md"
+      "code": "??",
+      "path": "scripts/audit/product-scale-source-pins.json"
     },
     {
-      "code": "A ",
-      "path": "e2e/package-f-screen-history-harness.html"
+      "code": "??",
+      "path": "scripts/audit/source-before-product-scale.mjs"
     },
     {
-      "code": "A ",
-      "path": "e2e/package-f-screen-history-harness.tsx"
+      "code": "??",
+      "path": "scripts/testing/export-product-workbook-scale.mjs"
     },
     {
-      "code": "A ",
-      "path": "e2e/package-f-screen-history.spec.ts"
+      "code": "??",
+      "path": "scripts/testing/fixtures/product-workbook-scale/expected.json"
     },
     {
-      "code": "A ",
-      "path": "scripts/audit/development-fs-source-pins.json"
+      "code": "??",
+      "path": "scripts/testing/fixtures/product-workbook-scale/reference.json"
     },
     {
-      "code": "A ",
-      "path": "scripts/audit/mobile-back-source-pins.json"
+      "code": "??",
+      "path": "scripts/testing/fixtures/product-workbook-scale/أرصدة-الموردين.xlsx"
     },
     {
-      "code": "A ",
-      "path": "scripts/audit/private-maps-source-pins.json"
+      "code": "??",
+      "path": "scripts/testing/fixtures/product-workbook-scale/الدرج-الافتتاحي.xlsx"
     },
     {
-      "code": "A ",
-      "path": "scripts/audit/source-before-development-fs.mjs"
+      "code": "??",
+      "path": "scripts/testing/fixtures/product-workbook-scale/المنتجات-وهمي-1000.xlsx"
     },
     {
-      "code": "A ",
-      "path": "scripts/audit/source-before-mobile-back.mjs"
+      "code": "??",
+      "path": "scripts/testing/fixtures/product-workbook-scale/المنتجات-وهمي-أخطاء.xlsx"
     },
     {
-      "code": "A ",
-      "path": "scripts/audit/source-before-private-maps.mjs"
+      "code": "??",
+      "path": "scripts/testing/fixtures/product-workbook-scale/ديون-العملاء.xlsx"
     },
     {
-      "code": "A ",
-      "path": "scripts/environments/development-file-access.d.mts"
+      "code": "??",
+      "path": "scripts/testing/generate-product-workbook-scale.mjs"
     },
     {
-      "code": "A ",
-      "path": "scripts/environments/development-file-access.mjs"
+      "code": "??",
+      "path": "scripts/testing/product-workbook-scale-case.mjs"
     },
     {
-      "code": "A ",
-      "path": "scripts/environments/private-source-maps.d.mts"
+      "code": "??",
+      "path": "scripts/testing/product-workbook-scale-data.ts"
     },
     {
-      "code": "A ",
-      "path": "scripts/environments/private-source-maps.mjs"
+      "code": "??",
+      "path": "scripts/testing/run-product-workbook-scale.mjs"
     },
     {
-      "code": "A ",
-      "path": "scripts/monitoring/symbolicate-local.mjs"
+      "code": "??",
+      "path": "scripts/testing/scale-utf8-stream.mjs"
     },
     {
-      "code": "A ",
-      "path": "src/hooks/useScreenLeaveGuard.ts"
+      "code": "??",
+      "path": "src/features/goLive/importDisplayText.ts"
     },
     {
-      "code": "A ",
-      "path": "src/utils/screenHistory.ts"
+      "code": "??",
+      "path": "tests/import-display-text.test.ts"
     },
     {
-      "code": "A ",
-      "path": "tests/screen-history.test.ts"
-    },
-    {
-      "code": "A ",
-      "path": "tests/vite-file-access.test.ts"
-    },
-    {
-      "code": "AM",
-      "path": "tests/mobile-back-contracts.test.ts"
-    },
-    {
-      "code": "AM",
-      "path": "tests/private-source-maps.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "customer-web/vite.config.ts"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/SENTRY_OWNER_AR.md"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/audit/source-before-owner-telegram-format.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/audit/source-before-pre-delivery-usability.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/audit/source-before-pre-training.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/environments/verify-dist.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "src/App.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/components/layout/NavigationShell.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/pos/PosView.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/stores/useAppStore.ts"
-    },
-    {
-      "code": "M ",
-      "path": "src/utils/dialogFocus.ts"
-    },
-    {
-      "code": "M ",
-      "path": "vite.config.ts"
+      "code": "??",
+      "path": "tests/product-workbook-scale.test.ts"
     }
   ]
 }

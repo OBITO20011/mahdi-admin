@@ -11,6 +11,7 @@ import {writeXlsx,readZip,createZip,readXlsxFirstSheet} from '../src/lib/xlsx';
 import {GO_LIVE_COLUMNS,mapSheet,prepareProducts,prepareStock,prepareCustomers,prepareSuppliers} from '../src/features/goLive/goLiveImport';
 import {OPENING_CHEQUE_COLUMNS,prepareOpeningChequeSheet} from '../src/features/goLive/openingChequesImport';
 import {checkFiles,arabicReport,INPUT_FILES,normalizeName,normalizePhone,type Kind,type LocalReference,type FileInput} from '../scripts/operations/go-live-files/check';
+import {sourceBeforeProductScale} from '../scripts/audit/source-before-product-scale.mjs';
 const today='2026-11-04';
 const reference=():LocalReference=>({format:1,asOf:today,categories:[{name:'سكر',active:true}],units:[{code:'PKT',name:'باكيت'},{code:'CTN',name:'طرد'}],products:[],customers:[{id:'customer1',name:'عميل مثال',phone:'0790000000',active:true}],suppliers:[{id:'supplier1',name:'مورد مثال',phone:'0780000000',active:true}],chequeKeys:[]});
 const header=(kind:Kind)=>kind==='cheques'?OPENING_CHEQUE_COLUMNS.map(c=>c[1]):kind==='drawer'?['العهدة الافتتاحية (د.أ)']:GO_LIVE_COLUMNS[kind].map(c=>c.header);
@@ -88,7 +89,8 @@ test('backend/financial sources and legacy import write/key/recovery branch rema
  const productSql=readFileSync('supabase/migrations/209_product_sale_methods.sql','utf8'),units=readFileSync('supabase/migrations/160_go_live_setup_foundation.sql','utf8'),stock=readFileSync('supabase/migrations/047_inventory_opening_setup.sql','utf8');
  for(const marker of ['CHAR_LENGTH(v_sku) > 64','CHAR_LENGTH(v_name) > 200','WHERE barcode = v_barcode'])assert.ok(productSql.includes(marker));assert.ok(units.includes('upper(code) = upper(BTRIM(p_value))'));assert.ok(stock.includes("'unitsPerPackage', GREATEST(1, COALESCE(p.units_per_purchase_unit, 1))"));
  const baseline='376293af705837201e4c94b66967337baf524af6';
- const sqlDiff=execFileSync('git',['diff',baseline,'--','supabase','src/features/goLive/goLiveImport.ts','src/features/goLive/openingChequesImport.ts','src/services/supabase/goLive.service.ts','src/services/supabase/inventory-opening.service.ts','src/features/products/bulkImages'],{encoding:'utf8'});assert.equal(sqlDiff,'');
+ const sqlDiff=execFileSync('git',['diff',baseline,'--','supabase','src/services/supabase/goLive.service.ts','src/services/supabase/inventory-opening.service.ts','src/features/products/bulkImages'],{encoding:'utf8'});assert.equal(sqlDiff,'');
+ for(const file of ['src/features/goLive/goLiveImport.ts','src/features/goLive/openingChequesImport.ts'])assert.equal(sourceBeforeProductScale(file,readFileSync(file,'utf8')),execFileSync('git',['show',baseline+':'+file],{encoding:'utf8'}));
  const file='src/features/goLive/GoLiveSetupView.tsx';
  const legacySave=(text:string)=>{const sf=ts.createSourceFile(file,text,ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX);let found:ts.Node|undefined;const visit=(n:ts.Node)=>{if(ts.isVariableDeclaration(n)&&n.name.getText(sf)==='ImportPanel'&&n.initializer){const nested=(child:ts.Node)=>{if(ts.isVariableDeclaration(child)&&child.name.getText(sf)==='save')found=child;ts.forEachChild(child,nested);};nested(n.initializer);}ts.forEachChild(n,visit);};visit(sf);assert.ok(found);return ts.createPrinter({removeComments:true}).printNode(ts.EmitHint.Unspecified,found,sf);};
  assert.equal(legacySave(readFileSync(file,'utf8')),legacySave(execFileSync('git',['show',baseline+':'+file],{encoding:'utf8'})),'legacy write/key/payload/recovery branch is exact');

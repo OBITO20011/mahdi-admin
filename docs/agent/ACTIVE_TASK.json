@@ -1,50 +1,46 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner4Nov explicit approval: merge63 then66(includes64/65) then67 after exact FULL green; real main merges and full main CI after each; safe primary ff-only 20owner+4env bytes/state5; sync58 Draft. No deploy/Frankfurt.",
-  "baselineSha": "bdb915e7a7343e031071e352d7c20573135108f4",
-  "branch": "codex/pre-delivery2-product-flavors",
+  "objective": "Owner5Nov: after68+69FULLgreen/checkpoints, independent deterministic1000products400-500flavors scale validation/offline checker/actual2198s3s/resume/stock/mobilepreview/smallCI. No hosted/preview/SQLmigration/RPCfinancialpermissionchange/merge;58Draft.",
+  "baselineSha": "52c9a8b53f9e1d2bad504c88f9c6255547b09e7c",
+  "branch": "codex/product-workbook-scale",
   "phase": "PACKAGE_F",
   "completed": [
-    "PR63/64/65/66 Ready63/63unmerged;thisbranch stacks63 andapproved stagedexistingRPCcontract.",
-    "Actual219/180 final12groups PASS,unknown replies/replay0,SKU/barcodes,publishedXLSX zeros,stock25/WAC500/value12500,catalog0. DisposableDBcleaned.",
-    "CurrentSDK62sites/181chains success172/empty9/error0;205RPCsites/598probes/18expecteddenials. Current sources bind actual proofs,unprojected.",
-    "Admin1784/1784/types/strictlint PASS. NewUI20+regression108 Chromium/WebKit390/1440;store207,sixbuild/verifydist,PWA4,print2pages/network0.",
-    "113owner dependencies literal;Git63 historical snapshots independently reproduced;all prior numerical/ACL/negative assertions preserved;CJS fixture split verified.",
-    "Finalbdb runtimeviewpositive14sources+strict157fixture/current181unchanged+ownerbytes+cleanupPASS;negativejunctionpreserves target. Realold37RESET182+firstOwnerPASS,allownedcontainers/viewcleaned;foreignn8n only.",
-    "PR67 Ready bdb915e7: exactFULLquality61/61 run41856842296 attempt1 + encrypted recovery1/1 + both scans2/2 =64/64. No rerun/merge/deploy. GitHub finalization lag resolved.",
-    "Owner approved63/66(includes64/65)/67;63 merged76943e03 and main FULL60+recovery+scan PASS. Primaryff-only76943e03/preflightPASS;20owner+4env identical,state5literal.66 true syncb492 then exact3-tool fixture fix545ba11,14focused/Gitleaks0.",
-    "63merged/main60+backup+scan green/primary76943e03;66mergeda4fc9dd4/main60+backup+scan green/primarya4fc9dd4.20owner/4env exact,state5 literal/preflightPASS.64merged;65closed included66."
+    "68 merged f0969642; its main CI awaiting one environmental rerun. 69 synced/pushed cf071f64, full CI pending.",
+    "Scale full local219/180:1480 exact,3 recovery points,966 stock/340298 units/143633000 fils,130.7s,catalog0. Normalized old category maps to same identity.",
+    "22 browser regressions and final2 scale engines390 pass, all16 pages; 964/1403ms ready; input47/129ms. Focused24,12+small real service,types/strictlint pass."
   ],
   "inProgress": [
-    "67 true merge maina4fc9dd4 inprogress;app no conflicts. Test/history composition only;actual219 mergedSDK181(172/9/0error),services598/18denied refreshed,containerscleaned."
+    "Save local scale implementation; synchronize only after merged69 and generate current219 proof at combined source."
   ],
   "notStarted": [
-    "Each exact synchronized head FULLCI and mainCI;safe primary ff-only;58 Draft sync ifneeded."
+    "Final browser and evidence, strict lint/units/Gitleaks, PR/FULLCI; read-only pagination report; approved merge68 then69; sync scale.",
+    "After prerequisites, customer-web speed baseline and two PRs; animation waits for speed merge."
   ],
   "testsPassed": [
-    "Admin1784/1784/types/strictlint;actual21912/currentSDK181+598;UI20+108/store207/builds/PWA;view7focused+positive/cleanup andactual182/firstOwner."
+    "Standalone small46 and original12+small gate; full166.16s maxRPC352.46ms, stock351.83ms; normalization unit2."
   ],
   "testsRemaining": [
-    "Full local units aftercombined source pins,types/lint,fixed runtimeview;commit/push exactPR67FULL thenmerge/mainFULL/safeprimary;58Draftsync."
+    "Combined access proof, full unit/build gates and Gitleaks0/PR/FULL CI on synchronized scale head; read-only records report"
   ],
   "findings": [
-    "FamilyV2 ignores flavorbarcode andgenerated SKUusesclock;ownerapproved phasedcompletion,not oneatomictransaction.",
-    "209 inheritedmethod requires NULL/nochange for flavorv5;explicitfalse rejected as designed."
+    "Offline 7 injected faults/8 findings from duplicate barcode detection; normalized fixture warns exactly2 product+1 customer+1 supplier."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No SQL/migration/RPC/finance/permissions change or hosted/deploy.58Draft unmerged. Preserve20owner/4env byte-identical andstate5."
+    "No hosted/Frankfurt/preview/Sentry/Telegram/Cloudflare/deploy/merge",
+    "No SQL/migration/RPCdefinition/financial/permissionchange;stopifDBchangeneeded",
+    "Do notread/importownerrealproductfile;preserveowner/env;58Draft"
   ],
-  "nextExactAction": "63+66 merged/mainCI green/primarya4fc9dd4 safe.67 true merge pending;actualmerged219SDK181+services598 PASS. Finishcomposition/fullunits+runtimeview then commit/push/FULLCI;mergeonlygreen.58Draft.",
-  "startedAt": "2026-11-03T03:59:26.518Z",
-  "checkpointedAt": "2026-11-04T19:05:17.577Z",
+  "nextExactAction": "Commit locally; wait approved main69 integration and safe ff, then real merge main into scale, rebuild current access proof, PR FULL CI; no deployment or hosted database.",
+  "startedAt": "2026-11-05T02:17:09.217Z",
+  "checkpointedAt": "2026-11-05T05:48:18.848Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 46,
-  "filesTouchedManifestSha256": "86c7cce8a5bff66438789a5e3c127581e0247af6ce58bb510b38fd61950f2480",
-  "workingTreeFingerprint": "381D808D2360DFBAB3DED1F3B7857F8A31FEEE600FD8D2E86F473B8F2EA83F46"
+  "filesTouchedCount": 37,
+  "filesTouchedManifestSha256": "52dc0eafb84e2cc949c0d6cee0abec5a3d11a52b86cf3c7ea04797ec36ff22ee",
+  "workingTreeFingerprint": "E6A4325A6617E00F170B90B3D863A4918F079A4E5CFBE49F8EB621ECCDA681DD"
 }
