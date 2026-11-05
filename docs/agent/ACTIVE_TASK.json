@@ -3,7 +3,7 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner5Nov storefront speed A: first300products local isolated build,Lighthouse mobile4G/CPU4x3 runs forhome/category/product/cart. Only measured need:cache/font/loading. No financial/permissions/SQL/RPC/CSP weakening/hosted/deploy/merge;58Draft. Bimages separate. Animation waits for speed merges.",
-  "baselineSha": "48bd9d4cb5050724e277b59b7bd94608de21c7ad",
+  "baselineSha": "7b17de9944d37463e07d699a78be41acefb4d966",
   "branch": "codex/storefront-speed-loading",
   "phase": "PACKAGE_F",
   "completed": [
@@ -17,7 +17,8 @@
     "Post-fix actualbudget8+negative,productionSEO+trialbuild/verify andStore209 PASS;metadata/source adapters retain exact before bytes."
   ],
   "inProgress": [
-    "Commit final evidence,push Draft A and verify FULLCI on exact head;continue independent B."
+    "Save source-bound runtime fixture correction,run actual strict staged-view locally;push only if accepted. PR71 Draft/no merge.",
+    "Independent B:current219real pairsPASS;final LCP image priority based on measured product image only;category/cart LCP are header text."
   ],
   "notStarted": [
     "PRs/fullCI/ownerapproval. No merge or animation."
@@ -35,7 +36,9 @@
   "findings": [
     "Raw baseline/candidate/current metrics preserved including regressions;CPU calibration varied substantially.",
     "Warm/hidden first commit restores cold lazy Checkout focus without changing financial path.",
-    "Fonts use existing OS Tahoma/Arial/system;zero fonts transferred,none added/subset."
+    "Fonts use existing OS Tahoma/Arial/system;zero fonts transferred,none added/subset.",
+    "PR71 head7b17 CI:26 historical jobs reject new actual219proof before test at HISTORICAL_VIEW_UNREVIEWED_EVIDENCE. Known tooling gap,not environmental. No retry.",
+    "Added strict scoped Git70 source/evidence layer composition in test-only runtime preparer;6focused incl negatives/types/strictlint PASS. Need real staged-view gate after commit,before push."
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -44,9 +47,9 @@
     "NoSQL/migration/RPC/finance/permission/auth/CSPweakening",
     "Noanimationbefore speedmerge;58Draft"
   ],
-  "nextExactAction": "A finalsource48bd9d4 measured3x4 andlocalgatesPASS exceptLCPgoal pendingimages. Push DraftA/FULLCI thenfinishindependentB pluscombinedproof. No merge/hosted/animation,58Draft.",
-  "workingTreeFingerprint": "88D14AEE1BD3A13520A3296A84115C055DC7A8369F7FBBD63DD57EB592F96089",
-  "checkpointedAt": "2026-11-05T15:13:36.287Z",
-  "filesTouchedCount": 3,
-  "filesTouchedManifestSha256": "187f2c3d7d67fafb42e3035a409725a10c54089d379c9f311bda2cfc869918e3"
+  "nextExactAction": "PR71 oldhead26historicalevidenceguards failed. Commit bounded runtime-layer fix then actualprepare/strictrolecoverage locally before pushing;no rerunoldSHA,no SQL/ownerchanges. B independent pending.",
+  "workingTreeFingerprint": "4F0BDED25D31F61F65D80A1BFDF6E19C8BA13394B5FF966E5E1DA3615682318D",
+  "checkpointedAt": "2026-11-05T15:38:43.455Z",
+  "filesTouchedCount": 4,
+  "filesTouchedManifestSha256": "5650243aef2e8f2fb60060e612a3124631be082b6c437a14e07fcb37c717bf5a"
 }

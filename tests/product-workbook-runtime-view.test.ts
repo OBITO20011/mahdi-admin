@@ -1,3 +1,4 @@
+import{composeWorkbookRuntimeLayer,projectWorkbookRuntimeEvidence}from'../scripts/testing/product-workbook-runtime-view.mjs';
 import{sourceBeforeStorefrontSpeed}from'../scripts/audit/source-before-storefront-speed.mjs';
 import{mkdtemp,mkdir,writeFile,readFile,unlink,rm,lstat}from'node:fs/promises';import{symlinkSync}from'node:fs';import path from'node:path';import{tmpdir}from'node:os';import{randomUUID}from'node:crypto';import{cleanupWorkbookRuntimeView}from'../scripts/testing/product-workbook-runtime-view.mjs';
 import test from'node:test';import assert from'node:assert/strict';import{readFileSync}from'node:fs';import{execFileSync}from'node:child_process';import{createHash}from'node:crypto';import{workbookHistoricalSuites,projectWorkbookRuntimeSource}from'../scripts/testing/product-workbook-runtime-view.mjs';
@@ -8,3 +9,18 @@ test('CI keeps every prior command,condition,limit and assertion;only historical
 test('historical role evidence fixture is fixed to Git63 while current219 gates keep the real181 probes',()=>{const p=JSON.parse(readFileSync('scripts/testing/product-workbook-runtime-view-pins.json','utf8'));assert.equal(p.baseline,'2dafe8433bc4efef68a82fee904590aabf5fc8ad');assert.deepEqual(p.evidence.map((x:{file:string})=>x.file),['docs/operations/TABLE_ACCESS_AFTER_219.json']);for(const pin of p.evidence){assert.equal(hash(sourceBeforeStorefrontSpeed(pin.file,readFileSync(pin.file,'utf8'))!.replaceAll('\r\n','\n')),pin.after);assert.equal(hash(execFileSync('git',['show',p.baseline+':'+pin.file],{encoding:'utf8',maxBuffer:32*1024**2}).replaceAll('\r\n','\n')),pin.before);}assert.equal(JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_AFTER_219.json','utf8')).results.length,181);const code=readFileSync('scripts/testing/product-workbook-runtime-view.mjs','utf8');assert.match(code,/HISTORICAL_VIEW_PROOF_SOURCE_MISMATCH/u);assert.match(code,/HISTORICAL_VIEW_OWNER_TOOL_CHANGED/u);assert.match(code,/node_modules/u);assert.match(code,/noLinks/u);});
 
 test('runtime cleanup refuses a root junction before reading its target and preserves the target bytes',async()=>{const own=await mkdtemp(path.join(tmpdir(),'workbook-cleanup-negative-')),target=path.join(own,'target'),link=path.join(tmpdir(),'nawasrah-workbook-runtime-view-'+randomUUID());await mkdir(target);await writeFile(path.join(target,'keep.txt'),'untouched');try{symlinkSync(target,link,process.platform==='win32'?'junction':'dir');await assert.rejects(()=>cleanupWorkbookRuntimeView(link),/HISTORICAL_VIEW_ROOT_LINK/u);assert.equal(await readFile(path.join(target,'keep.txt'),'utf8'),'untouched');}finally{if((await lstat(link).catch(()=>null))?.isSymbolicLink())await unlink(link);assert.equal(path.dirname(path.resolve(own)),path.resolve(tmpdir()));assert.ok(path.basename(own).startsWith('workbook-cleanup-negative-'));await rm(own,{recursive:true,force:true});}});
+
+test('new runtime layers compose only reviewed source/evidence bytes and reject unknown or corrupt changes',()=>{
+ const file='customer-web/src/App.tsx',name='storefront-speed-source-pins.json',main='same main and Git63',after='reviewed loading',evidence='docs/operations/TABLE_ACCESS_AFTER_219.json',oldProof='original main proof',newProof='fresh source-bound actual proof';
+ const layer={format:1,baseline:'d102074583c7369502954eaf8ea70d2595f6a19c',entries:{[file]:{before:hash(main),after:hash(after)},[evidence]:{before:hash(oldProof),after:hash(newProof)}}};
+ const lookup=(_sha:string,target:string)=>target===file?main:target===evidence?oldProof:null;
+ const pins=composeWorkbookRuntimeLayer({entries:{}},name,layer,lookup);assert.deepEqual(pins.entries[file],{beforeText:main,before:hash(main),after:hash(after)});
+ const pin={file:evidence,after:hash(oldProof)};assert.equal(projectWorkbookRuntimeEvidence(newProof,pin,[{name,layer}],lookup),oldProof);
+ assert.throws(()=>projectWorkbookRuntimeEvidence(newProof+'unknown',pin,[{name,layer}],lookup),/UNREVIEWED_EVIDENCE/u);
+ assert.throws(()=>projectWorkbookRuntimeEvidence(newProof,pin,[],lookup),/UNREVIEWED_EVIDENCE/u);
+ assert.throws(()=>composeWorkbookRuntimeLayer({entries:{}},name,{...layer,entries:{'src/features/pos/PosView.tsx':{before:null,after:'unapproved'}}},lookup),/LAYER_SCOPE/u);
+ assert.throws(()=>composeWorkbookRuntimeLayer({entries:{}},name,{...layer,baseline:'unapproved'},lookup),/LAYER_BASELINE/u);
+ assert.throws(()=>composeWorkbookRuntimeLayer({entries:{}},name,layer,()=>main+'unknown'),/MAIN_DRIFT/u);
+ assert.throws(()=>composeWorkbookRuntimeLayer({entries:{[file]:{after:'unknown',beforeText:main}}},name,layer,lookup),/INTERMEDIATE_DRIFT/u);
+ assert.throws(()=>projectWorkbookRuntimeEvidence(newProof,pin,[{name,layer}],()=>oldProof+'unknown'),/EVIDENCE_MAIN_DRIFT/u);
+});

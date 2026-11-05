@@ -97,7 +97,7 @@
     },
     "tests/product-workbook-runtime-view.test.ts": {
       "before": "96adf9456ee94c7f59f6195fe24e50c3fa6b3924346b5377007dbc5ac93fc925",
-      "after": "fef1f5f4dfcfcae9ce856c1a25bc8853887684899d9fb7da79a6501dd011869e"
+      "after": "4d22ca38e44a663999010518cd2ee7ea1127a559c70a4b0600f84a9718d13cd0"
     },
     "docs/operations/SENTRY_OWNER_AR.md": {
       "before": "56a3996458d0931d481d99313a090373d6f53a259c01151087d2cf7425d1a975",
