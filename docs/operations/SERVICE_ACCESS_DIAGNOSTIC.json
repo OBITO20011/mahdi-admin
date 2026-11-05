@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-04T23:42:33.559Z",
+  "startedAt": "2026-11-05T00:58:52.125Z",
   "migrationCeiling": 219,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-vtTwTg",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-GI9jYo",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -1067,11 +1067,11 @@
     },
     {
       "file": "src/utils/dialogFocus.ts",
-      "sha256": "2c84a0bf7b06b81064ceb49e40b3d077f742b545e5cacd34ab3b3802892ebddd"
+      "sha256": "00f5fa01abd2f35c28157ddd6175d03651f3b5de0f09c090301ede03f8f0f2a9"
     },
     {
       "file": "src/utils/dialogIsolation.ts",
-      "sha256": "e3362874f62b35c985a70969a48cf5676feaf955dd541d71920cc77243b240f3"
+      "sha256": "3e556a82e3ad99e556b10df35a6f98b701a194594672dc4fa0f4229fddffbd8c"
     },
     {
       "file": "src/utils/documentCorrection.ts",
@@ -46572,7 +46572,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-11-04T23:44:35.859Z",
+  "endedAt": "2026-11-05T01:00:40.472Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {

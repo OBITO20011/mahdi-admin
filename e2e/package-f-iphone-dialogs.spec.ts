@@ -1,8 +1,7 @@
 import {checkLayout} from './package-f-layout';
 import {test,expect} from './isolated-test';
-import {devices} from '@playwright/test';
 test.use({viewport:{width:390,height:844},hasTouch:true,isMobile:true,
- userAgent:async({browserName},use)=>{await use(devices[browserName==='webkit'?'iPhone 13':'Pixel 7'].userAgent);},
+ userAgent:async({browserName},use)=>{await use({"webkit":"Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5 Mobile/15E148 Safari/604.1","chromium":"Mozilla/5.0 (Linux; Android 14; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.7922.34 Mobile Safari/537.36"}[browserName==='webkit'?'webkit':'chromium']);},
 });
 test.beforeEach(async({page,browserName})=>{expect(await page.evaluate(()=>navigator.userAgent)).toMatch(browserName==='webkit'?/iPhone/u:/Android/u);});
 const url='/e2e/package-f-iphone-dialogs-harness.html';

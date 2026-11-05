@@ -1,6 +1,6 @@
 /** Active dialogs share a stack: only the top dialog handles keyboard/focus. */
 import {registerBackLayer} from './screenHistory';
-import {syncDialogIsolation} from './dialogIsolation';
+import {prepareDialogActivation, syncDialogIsolation} from './dialogIsolation';
 const dialogs: HTMLElement[] = [];
 let handoverTarget: HTMLElement | null = null;
 const selector = 'button, a[href], input, select, textarea, summary, [tabindex]';
@@ -30,7 +30,8 @@ function restoreAfterCommit(opener: HTMLElement, closedPanel: HTMLElement) {
   });
 }
 export function activateDialog(panel: HTMLElement, onEscape: () => void): () => void {
-  if (!available(panel)) return () => undefined;
+  prepareDialogActivation();
+  if (!available(panel)) { syncDialogIsolation(dialogs); return () => undefined; }
   const pointer = lastPointer && performance.now() - lastPointer.at < 1000
     && !panel.contains(lastPointer.element) ? lastPointer.element : null;
   const active = document.activeElement instanceof HTMLElement ? document.activeElement : null;

@@ -6,9 +6,19 @@ let currentLayer: HTMLElement | undefined;
 let observer: MutationObserver | undefined;
 let allowed: HTMLElement | undefined;
 
+function rememberExternalInert(records: MutationRecord[]) {
+  for (const record of records) {
+    if (record.type === 'attributes' && record.target instanceof HTMLElement && inerted.has(record.target)) {
+      inerted.set(record.target, record.target.inert);
+    }
+  }
+}
 function restoreInert() {
+  rememberExternalInert(observer?.takeRecords() ?? []);
   inerted.forEach((value, element) => { element.inert = value; });
   inerted.clear();
+  // Do not mistake our own restoration for a caller's independent inert lock.
+  observer?.takeRecords();
 }
 function isolate() {
   restoreInert();
@@ -20,7 +30,13 @@ function isolate() {
     }
     if (child.parentElement === document.body) break;
   }
+  observer?.takeRecords();
 }
+/** Release only locks owned by this stack before testing a newly mounted layer.
+ * A sibling dialog may have committed under an ancestor we made inert. Callers'
+ * independent locks are retained, and isolation is re-established synchronously.
+ */
+export function prepareDialogActivation() { restoreInert(); }
 function lockPage() {
   const x = window.scrollX, y = window.scrollY, body = document.body, html = document.documentElement;
   const before = new Map(['position','top','left','width','overflow'].map(key => [key, body.style.getPropertyValue(key)]));
@@ -43,8 +59,8 @@ function lockPage() {
   const height = html.style.getPropertyValue('--nw-dialog-height'), top = html.style.getPropertyValue('--nw-dialog-top');
   viewport(); window.addEventListener('resize', viewport);
   window.visualViewport?.addEventListener('resize', viewport); window.visualViewport?.addEventListener('scroll', viewport);
-  observer = new MutationObserver(() => isolate());
-  observer.observe(body, {childList:true, subtree:true});
+  observer = new MutationObserver(records => { rememberExternalInert(records); isolate(); });
+  observer.observe(body, {childList:true, subtree:true, attributes:true, attributeFilter:['inert']});
   return () => {
     observer?.disconnect(); observer = undefined;
     document.removeEventListener('pointerdown', preventOutside, true); document.removeEventListener('click', preventOutside, true);

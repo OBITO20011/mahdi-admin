@@ -29,7 +29,9 @@ test('iPhone presentation inverse binds full delivered bytes, exposes any unknow
 });
 test('central modal stack owns isolation; drawer has no competing body/inert lock and existing busy/unsaved guards remain',()=>{
  const focus=read('src/utils/dialogFocus.ts'),shell=read('src/components/layout/NavigationShell.tsx'),isolation=read('src/utils/dialogIsolation.ts');
- assert.equal((focus.match(/syncDialogIsolation\(dialogs\)/gu)??[]).length,2);
+ assert.equal((focus.match(/syncDialogIsolation\(dialogs\)/gu)??[]).length,3);
+ assert.ok(focus.indexOf('prepareDialogActivation();')<focus.indexOf('if (!available(panel))'));
+ assert.match(isolation,/rememberExternalInert\(observer\?\.takeRecords\(\)/u);
  assert.doesNotMatch(shell,/body\.style\.overflow|siblings\.forEach/u);
  for(const expression of [/element\.inert = value/u,/position:'fixed'/u,/window\.scrollTo\(x, y\)/u,/showPopover/u,/MutationObserver/u,/visualViewport/u])assert.match(isolation,expression);
  assert.match(read('src/hooks/useDialogFocus.ts'),/if \(!protectUnsaved \|\| !edited\) escape\.current\(\)/u);
