@@ -1,50 +1,54 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner4Nov explicit approval: merge63 then66(includes64/65) then67 after exact FULL green; real main merges and full main CI after each; safe primary ff-only 20owner+4env bytes/state5; sync58 Draft. No deploy/Frankfurt.",
-  "baselineSha": "bdb915e7a7343e031071e352d7c20573135108f4",
-  "branch": "codex/pre-delivery2-product-flavors",
+  "objective": "Owner5Nov PR A iPhone modal foundation UI only; then independent PR B records/text. No SQL/RPC/migration/financial/permissions/hosted/deploy/merge;58Draft.",
+  "baselineSha": "14b9f5d1eb828f6e01916c7a93204a7dad947d44",
+  "branch": "codex/iphone-modal-foundation",
   "phase": "PACKAGE_F",
   "completed": [
-    "PR63/64/65/66 Ready63/63unmerged;thisbranch stacks63 andapproved stagedexistingRPCcontract.",
-    "Actual219/180 final12groups PASS,unknown replies/replay0,SKU/barcodes,publishedXLSX zeros,stock25/WAC500/value12500,catalog0. DisposableDBcleaned.",
-    "CurrentSDK62sites/181chains success172/empty9/error0;205RPCsites/598probes/18expecteddenials. Current sources bind actual proofs,unprojected.",
-    "Admin1784/1784/types/strictlint PASS. NewUI20+regression108 Chromium/WebKit390/1440;store207,sixbuild/verifydist,PWA4,print2pages/network0.",
-    "113owner dependencies literal;Git63 historical snapshots independently reproduced;all prior numerical/ACL/negative assertions preserved;CJS fixture split verified.",
-    "Finalbdb runtimeviewpositive14sources+strict157fixture/current181unchanged+ownerbytes+cleanupPASS;negativejunctionpreserves target. Realold37RESET182+firstOwnerPASS,allownedcontainers/viewcleaned;foreignn8n only.",
-    "PR67 Ready bdb915e7: exactFULLquality61/61 run41856842296 attempt1 + encrypted recovery1/1 + both scans2/2 =64/64. No rerun/merge/deploy. GitHub finalization lag resolved.",
-    "Owner approved63/66(includes64/65)/67;63 merged76943e03 and main FULL60+recovery+scan PASS. Primaryff-only76943e03/preflightPASS;20owner+4env identical,state5literal.66 true syncb492 then exact3-tool fixture fix545ba11,14focused/Gitleaks0.",
-    "63merged/main60+backup+scan green/primary76943e03;66mergeda4fc9dd4/main60+backup+scan green/primarya4fc9dd4.20owner/4env exact,state5 literal/preflightPASS.64merged;65closed included66."
+    "New owner task starts from verified delivered main52c9a8b5 in separate worktree; inherited committed task metadata superseded, no unknown edits.",
+    "Local actual SDK181:172success9empty0error;598service18expecteddenials.120/120 affectedtouch/focus/Back/PWA/browser casesPASS/no retries. Sourcefrozen;tests/types/strictlint initiallyPASS;freshproofsgenerated.",
+    "6actualbuilds/verify-dist/CSP/opposite-origin/SEO negativegatesPASS; initialallunits1799/1807 thenall8failuresfixed and26focusedPASS. OriginalGit63 child120s timedoutunderparallelbuildload;oneisolatedunchangedretry48sPASS, no limits/retries/skip changes.",
+    "Final default standalone Admin1807/1807 andCustomer207/207 PASS;types/strictlintPASS;new6checkLayouttouchcasesPASS;Gitleaks33files0. Lasttest-only precision:explicitPixel7/iPhone13UA withassertion,bothhasTouch/mobile390;run16cases+type/lint beforecommit.",
+    "ALL local final gates PASS:1807Admin/207Customer,120affectedbrowser+16explicitPixel7/iPhone13 touch incllayout,6build/verifydist,types/strictlint,181SDK598services18expecteddenials,Gitleaks33files0. No SQL/RPC/owner-source changes.",
+    "Committed verifiedUI14b9f5d (29files).Main/owner checkout untouched;16explicitdevicecases,types/lint/4lastcontracts andGitleaks31files0PASS.",
+    "PR68 Draftopenedon14b9f5d;positivehistoricalview33files/strictsource+rolecoverage/cleanupPASS; pushedhead.",
+    "First CI identified3root failures plusaggregate;bounded corrections now26focused/58browser/types/strictlint/currentSDK181+598PASS. No owner helper,SQL or financial call change."
   ],
   "inProgress": [
-    "67 true merge maina4fc9dd4 inprogress;app no conflicts. Test/history composition only;actual219 mergedSDK181(172/9/0error),services598/18denied refreshed,containerscleaned."
+    "Commit corrected metadata and UI,positive historicalview,push PR68 then exactFULLCI."
   ],
   "notStarted": [
-    "Each exact synchronized head FULLCI and mainCI;safe primary ff-only;58 Draft sync ifneeded."
+    "PR B records inventory newest-first where safe; RPC pagination barriers report, no SQL."
   ],
   "testsPassed": [
-    "Admin1784/1784/types/strictlint;actual21912/currentSDK181+598;UI20+108/store207/builds/PWA;view7focused+positive/cleanup andactual182/firstOwner."
+    "actual219/180SDK181 and598services",
+    "120 Chromium/WebKit touch+focus+Back/PWA cases",
+    "types/strictlint PASS",
+    "6build/verifydist plusCSP/SEO/opposite-origin negatives",
+    "26correctedhistorical/pin/layout/source contracts",
+    "final26focused and58browser;fresh181tables/598services/18expecteddenials"
   ],
   "testsRemaining": [
-    "Full local units aftercombined source pins,types/lint,fixed runtimeview;commit/push exactPR67FULL thenmerge/mainFULL/safeprimary;58Draftsync."
+    "ExactnewheadFULLCI+secrets+backup; no merge."
   ],
   "findings": [
-    "FamilyV2 ignores flavorbarcode andgenerated SKUusesclock;ownerapproved phasedcompletion,not oneatomictransaction.",
-    "209 inheritedmethod requires NULL/nochange for flavorv5;explicitfalse rejected as designed."
+    "Original physical-iPhonecamera reopen not reproduced locally;callback lifecycle restart proven/fixed;manualownercheck remains.",
+    "CI identified independent caller inert ownership and sibling-modal activation;fixed centrally,existing regressions pass."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No SQL/migration/RPC/finance/permissions change or hosted/deploy.58Draft unmerged. Preserve20owner/4env byte-identical andstate5."
+    "No SQL/migration/RPC/finance/permission change;no hosted/deploy/merge;preserve owner/env;58Draft."
   ],
-  "nextExactAction": "63+66 merged/mainCI green/primarya4fc9dd4 safe.67 true merge pending;actualmerged219SDK181+services598 PASS. Finishcomposition/fullunits+runtimeview then commit/push/FULLCI;mergeonlygreen.58Draft.",
+  "nextExactAction": "CommitcorrectedPR68metadata/UI afterGitleaks;positivehistoricalview,push/fullCI;Bfinalgatesindependent. No merge/hosted.",
   "startedAt": "2026-11-03T03:59:26.518Z",
-  "checkpointedAt": "2026-11-04T19:05:17.577Z",
+  "checkpointedAt": "2026-11-05T01:04:34.344Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 46,
-  "filesTouchedManifestSha256": "86c7cce8a5bff66438789a5e3c127581e0247af6ce58bb510b38fd61950f2480",
-  "workingTreeFingerprint": "381D808D2360DFBAB3DED1F3B7857F8A31FEEE600FD8D2E86F473B8F2EA83F46"
+  "filesTouchedCount": 11,
+  "filesTouchedManifestSha256": "91a64c489539b653f5c4dcccc982298206e6e3e66dd84aa5440adde3aa775069",
+  "workingTreeFingerprint": "2FC7785D46BE96A7E7ED2085E1FEC1F9F315CAB8AF6F0E2D8088033500F4DEF8"
 }

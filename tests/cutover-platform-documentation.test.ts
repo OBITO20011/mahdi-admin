@@ -1,3 +1,4 @@
+import{sourceBeforeIphoneDialogs}from'../scripts/audit/source-before-iphone-dialogs.mjs';
 import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import{sourceBeforeProductWorkbook}from'../scripts/audit/source-before-product-workbook.mjs';
 import test from 'node:test';
@@ -153,7 +154,7 @@ test('documentation pins bind current copies and preserve original historical in
   }));
   const legacy = JSON.parse(read(legacyFile));
   const state = 'docs/agent/project-state.json';
-  assert.equal(legacy.files[state].after, createHash('sha256').update(read(state)).digest('hex'));
+  assert.equal(legacy.files[state].after, createHash('sha256').update(sourceBeforeIphoneDialogs(state,read(state))!).digest('hex'));
   legacy.files[state].after = merged.files[state].after;
   assert.deepEqual(legacy, merged, 'Only exact branch metadata after hash changes; all original bytes and guards stay');
 });

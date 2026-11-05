@@ -41,7 +41,7 @@
     },
     {
       "file": "src/components/layout/NavigationShell.tsx",
-      "sha256": "080d747243d5b8756ae26ce7cfc8766287950050780f70961138043d3da82a7c"
+      "sha256": "c2b322c76476b53e07ca642d67e06b5298a2c76de6af3b447841a2dda711c0f4"
     },
     {
       "file": "src/components/layout/quickActions.ts",
@@ -193,7 +193,7 @@
     },
     {
       "file": "src/features/barcode/BarcodeCameraCaptureModal.tsx",
-      "sha256": "a8d450922953f7f7b2956a7dc53c22ea5f9f4ae5ec64832dc0eb777e52b8693b"
+      "sha256": "73869d662295767cfe50c6af5020682d2dbb78a4ae01524dca74235a550621e8"
     },
     {
       "file": "src/features/cheques/ChequeRegistrationForm.tsx",
@@ -1065,7 +1065,11 @@
     },
     {
       "file": "src/utils/dialogFocus.ts",
-      "sha256": "ac8bbbff544985a2fe3ceb5517fcaee94a3aaf7d9616b43cf9e0dd7a9c0deb59"
+      "sha256": "00f5fa01abd2f35c28157ddd6175d03651f3b5de0f09c090301ede03f8f0f2a9"
+    },
+    {
+      "file": "src/utils/dialogIsolation.ts",
+      "sha256": "3e556a82e3ad99e556b10df35a6f98b701a194594672dc4fa0f4229fddffbd8c"
     },
     {
       "file": "src/utils/documentCorrection.ts",
@@ -1161,7 +1165,7 @@
     },
     {
       "file": "src/utils/screenHistory.ts",
-      "sha256": "0485cb0a73521bc2dbc7e42ba0f53806d1027045917867a7d0cc5be670a5a4d9"
+      "sha256": "ee9a1fe9e328a7086a1157e23fc17b85974eb69488dc32aa8f55e3513b7d3634"
     },
     {
       "file": "src/utils/supplierCancellationPreview.ts",
@@ -1309,7 +1313,7 @@
     },
     {
       "file": "customer-web/src/components/StoreHeader.tsx",
-      "sha256": "cb6ef8a842a604c39548357458dd3e166ee520b4755db99020574db7a55bfcff"
+      "sha256": "bb828e0152fc27e25a46599acec329377d792c556e4b3740a591e197a3d2946c"
     },
     {
       "file": "customer-web/src/components/StoreHero.tsx",
