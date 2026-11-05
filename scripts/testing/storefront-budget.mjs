@@ -34,7 +34,7 @@ export function assertStorefrontBudget(report) {
   for(const [key,limit]of Object.entries(storefrontBudget))assert.ok(report[key]<=limit,`STOREFRONT_BUDGET_${key}:${report[key]}>${limit}`);
   return report;
 }
-export const storefrontRequestBudget = Object.freeze({home: {rpc:4,total:45},category: {rpc:5,total:80},product: {rpc:6,total:65},cart: {rpc:5,total:65}});
+export const storefrontRequestBudget = Object.freeze({home: {rpc:4,total:45},category: {rpc:3,total:80},product: {rpc:4,total:65},cart: {rpc:3,total:65}});
 export function assertStorefrontRequests(page, report) {
   const limit=storefrontRequestBudget[page];assert.ok(limit,'STOREFRONT_UNKNOWN_PAGE');
   assert.ok(report.rpc<=limit.rpc,`STOREFRONT_RPC_REQUEST_BUDGET:${page}:${report.rpc}>${limit.rpc}`);

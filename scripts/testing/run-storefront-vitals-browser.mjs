@@ -11,7 +11,7 @@ const root=path.resolve(import.meta.dirname,'../..').replaceAll('\\','/'),eviden
 const secret='SensitiveFixture 0771234567 100.500 token-private cart-private';
 for(const environment of ['production','isolated','missing']){
  const out=path.join(evidence,environment);await mkdir(out);
- await build({absWorkingDir:root,stdin:{contents:`import{initErrorMonitoring}from'${root}/customer-web/src/lib/errorMonitoring.ts';window.fixtureStatus=initErrorMonitoring();window.fixtureReady=async()=>Boolean((await import('@sentry/react')).getClient());window.fixtureFlush=async()=>{await(await import('@sentry/react')).flush(2000)};document.querySelector('button').addEventListener('click',()=>{const end=performance.now()+130;while(performance.now()<end){}});`,resolveDir:root,sourcefile:'vitals-fixture.ts',loader:'ts'},bundle:true,splitting:true,format:'esm',platform:'browser',outdir:out,plugins:[{name:'deterministic-vitals-sampling-only',setup(b){b.onLoad({filter:/customer-web[\\/]src[\\/]lib[\\/]errorMonitoring\.ts$/},async({path:file})=>{const source=await readFile(file,'utf8'),line="const random = typeof globalThis.crypto === 'undefined' ? 1 : crypto.getRandomValues(new Uint32Array(1))[0] / 2 ** 32;";assert.equal(source.split(line).length,2,'SAMPLING_TEST_SEAM_DRIFT');return{contents:source.replace(line,'const random = window.fixtureRandom;'),loader:'ts'};});}}],define:{'process.env.NODE_ENV':'"production"','import.meta.env':JSON.stringify({PROD:true,VITE_MONITORING_ENV:environment==='missing'?'production':environment,VITE_MONITORING_RELEASE:'87f29abad10718bd533a6f9f0789194d967ee0f3',VITE_SENTRY_DSN:environment==='missing'?'':'https://fixture@o123.ingest.de.sentry.io/103'})}});
+ await build({absWorkingDir:root,stdin:{contents:`import{initErrorMonitoring}from'${root}/customer-web/src/lib/errorMonitoring.ts';window.fixtureStatus=initErrorMonitoring();window.fixtureTimings=[];try{new PerformanceObserver(list=>window.fixtureTimings.push(...list.getEntries().map(e=>({duration:e.duration,name:e.name,interactionId:e.interactionId})))).observe({type:'event',durationThreshold:16,buffered:true})}catch{};window.fixtureReady=async()=>Boolean((await import('@sentry/react')).getClient());window.fixtureFlush=async()=>{await(await import('@sentry/react')).flush(2000)};document.querySelector('button').addEventListener('click',()=>{const end=performance.now()+130;while(performance.now()<end){}});`,resolveDir:root,sourcefile:'vitals-fixture.ts',loader:'ts'},bundle:true,splitting:true,format:'esm',platform:'browser',outdir:out,plugins:[{name:'deterministic-vitals-sampling-only',setup(b){b.onLoad({filter:/customer-web[\\/]src[\\/]lib[\\/]errorMonitoring\.ts$/},async({path:file})=>{const source=await readFile(file,'utf8'),line="const random = typeof globalThis.crypto === 'undefined' ? 1 : crypto.getRandomValues(new Uint32Array(1))[0] / 2 ** 32;";assert.equal(source.split(line).length,2,'SAMPLING_TEST_SEAM_DRIFT');return{contents:source.replace(line,'const random = window.fixtureRandom;'),loader:'ts'};});}}],define:{'process.env.NODE_ENV':'"production"','import.meta.env':JSON.stringify({PROD:true,VITE_MONITORING_ENV:environment==='missing'?'production':environment,VITE_MONITORING_RELEASE:'87f29abad10718bd533a6f9f0789194d967ee0f3',VITE_SENTRY_DSN:environment==='missing'?'':'https://fixture@o123.ingest.de.sentry.io/103'})}});
  await writeFile(path.join(out,'index.html'),`<!doctype html><meta charset="utf-8"><h1 style="width:350px;height:240px">متجر وهمي لقياس محلي</h1><input value="${secret}"><button id="SensitiveFixture" aria-label="${secret}">اختبار</button><script type="module" src="/stdin.js"></script>`);
 }
 let current='production',browser,proxy;const proofs=[];
@@ -34,16 +34,21 @@ try{
    const supported=await page.evaluate(()=>PerformanceObserver.supportedEntryTypes);
    if(environment==='production'&&sampled){
     await page.waitForFunction(async()=>await window.fixtureReady());
+    // INP must describe an actual post-load interaction, not an unfinished pageload.
+    await page.waitForTimeout(1800);
     await page.getByRole('button').click();
-    await page.waitForTimeout(1800);await page.evaluate(()=>window.fixtureFlush());
+    // End the real measured interaction at a simulated background/pagehide boundary.
+    await page.waitForTimeout(1800);await page.evaluate(()=>{Object.defineProperty(document,'visibilityState',{configurable:true,get:()=> 'hidden'});window.dispatchEvent(new Event('visibilitychange'));window.dispatchEvent(new PageTransitionEvent('pagehide'));return window.fixtureFlush()});
+
     await page.goto('http://127.0.0.1:4189/empty.html');await page.waitForTimeout(300);
     assert.ok(events.length,'NO_VITAL_ENVELOPE:'+name);
     const transaction=events.find(event=>event.type==='transaction');assert.ok(transaction,'NO_PAGELOAD:'+name);
     assert.equal(transaction.transaction,'/product/:product/');
     if(supported.includes('largest-contentful-paint'))assert.ok(transaction.measurements?.lcp?.value>=0,'LCP_NOT_RETAINED:'+name);
+    if(supported.includes('event'))assert.ok(events.some(event=>event.measurements?.inp?.value>0),'INP_NOT_RETAINED:'+name);
    }else{await page.waitForTimeout(500);assert.deepEqual(events,[],'VITALS_NOT_DISABLED:'+environment+':'+sampled);}
    const serialized=JSON.stringify(envelopes);for(const fragment of [secret,'SensitiveFixture','0771234567','100.500','token-private','cart-private','?token','user_agent.original','client.address','http.url','http.request'])assert.ok(!serialized.includes(fragment),'VITAL_PRIVACY_LEAK:'+fragment);
-   assert.deepEqual(escaped,[]);proofs.push({engine:name,environment,sampled,envelopes:events.length,supported});await writeFile(path.join(evidence,'progress.json'),JSON.stringify(proofs,null,2));
+   assert.deepEqual(escaped,[]);proofs.push({engine:name,environment,sampled,envelopes:events.length,timings:environment==='production'&&sampled?'real event timing;pagehide simulated':undefined,metrics:events.map(event=>({type:event.type,op:event.op,measurements:event.measurements})),supported});await writeFile(path.join(evidence,'progress.json'),JSON.stringify(proofs,null,2));
    }catch(error){await writeFile(path.join(evidence,'failure.json'),JSON.stringify({name,environment,sampled,message:error.message,pageErrors,requests,escaped,envelopes},null,2));console.error(JSON.stringify({failureEvidence:evidence}));throw error;}
    await context.close();
   }

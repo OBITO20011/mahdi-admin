@@ -7,7 +7,7 @@ import {sourceBeforeStorefrontSpeed,restoreStorefrontSpeedHashes} from '../scrip
 const hash=(text:string)=>createHash('sha256').update(text.replaceAll('\r\n','\n')).digest('hex');
 test('speed history is bound to exact delivered Git bytes and preserves every unknown mutation',()=>{
  const pins=JSON.parse(readFileSync('scripts/audit/storefront-speed-source-pins.json','utf8'));
- assert.equal(pins.baseline,'87f29abad10718bd533a6f9f0789194d967ee0f3');
+ assert.equal(pins.baseline,'d102074583c7369502954eaf8ea70d2595f6a19c');
  for(const[file,pin]of Object.entries(pins.entries)as[string,{before:string|null;after:string}][]){
   const current=readFileSync(file,'utf8');assert.equal(hash(current),pin.after,file);
   const before=sourceBeforeStorefrontSpeed(file,current);

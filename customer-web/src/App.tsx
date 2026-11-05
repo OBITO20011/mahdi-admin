@@ -485,14 +485,19 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     [isStale]
   );
 
+  const activePageRef = useRef(activePage);
+  activePageRef.current = activePage;
+  useEffect(() => {
+    if (activePage === 'home' || activePage === 'offers') void loadStorefrontOffers();
+    if (activePage === 'home') void loadFeaturedProducts();
+  }, [activePage, loadStorefrontOffers, loadFeaturedProducts]);
+
   useEffect(() => {
     void loadStorefrontSettings(true);
-    void loadStorefrontOffers(true);
-    void loadFeaturedProducts();
     const handleFocus = () => {
       if (document.visibilityState !== 'visible') return;
       void loadCatalogRef.current(true);
-      void loadStorefrontOffers();
+      if (activePageRef.current === 'home' || activePageRef.current === 'offers') void loadStorefrontOffers();
       void loadStorefrontSettings();
     };
     const handleVisibilityChange = () => {
@@ -502,8 +507,8 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       setIsOnline(true);
       void loadCatalogRef.current(true, true);
       void loadStorefrontSettings(true);
-      void loadStorefrontOffers(true);
-      void loadFeaturedProducts();
+      if (activePageRef.current === 'home' || activePageRef.current === 'offers') void loadStorefrontOffers(true);
+      if (activePageRef.current === 'home') void loadFeaturedProducts();
     };
     const handleOffline = () => setIsOnline(false);
     window.addEventListener('focus', handleFocus);
@@ -569,6 +574,8 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       }
 
       const productKey = route.productKey;
+      // The initial page may already contain this SKU; do not race a second read.
+      if (isLoading && products.length === 0) return;
 
       const localProductLink = findPublicProductLink(products, productKey);
       if (localProductLink) {
@@ -646,7 +653,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       window.removeEventListener('hashchange', syncProductFromLocation);
       window.removeEventListener('popstate', syncProductFromLocation);
     };
-  }, [products, showToast]);
+  }, [isLoading, products, showToast]);
 
   useEffect(() => {
     if (

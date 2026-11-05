@@ -1201,7 +1201,7 @@
     },
     {
       "file": "customer-web/src/App.tsx",
-      "sha256": "4c0606d1c621df8f5859c70227642d8ee724329bfbfff5b268f879f89d5441f4"
+      "sha256": "a7fbe5a8dc1af3040f6ce2af21856953b1ce9cd59814bbb48728322fa0703769"
     },
     {
       "file": "customer-web/src/components/AboutStorePage.tsx",
@@ -1238,6 +1238,10 @@
     {
       "file": "customer-web/src/components/CheckoutReceiptPanel.tsx",
       "sha256": "d1c9f687c7e639af4b10bea4180c26b187d69dc72a6d94958273aa25e02461f2"
+    },
+    {
+      "file": "customer-web/src/components/DeferredDialog.tsx",
+      "sha256": "7334c3b79c89ca5eaea52577dcf95c4040cd273dc2ed5ad84f8b7b698fbe146c"
     },
     {
       "file": "customer-web/src/components/FloatingContactActions.tsx",
@@ -1325,7 +1329,7 @@
     },
     {
       "file": "customer-web/src/components/StoreHero.tsx",
-      "sha256": "8f801149669598ddb1954e7e4f3ec76541ec7147a69ceac0568b8966b2bef937"
+      "sha256": "2b1ac68dc3fff972aa7e7ea889b0ffa6bca38af941ce66b0f96d4cfd3448700d"
     },
     {
       "file": "customer-web/src/components/StoreInfoSection.tsx",
@@ -1365,7 +1369,7 @@
     },
     {
       "file": "customer-web/src/lib/errorMonitoring.ts",
-      "sha256": "4c364bde97ec120438388c800f3f4645a7a8029afe3325efbfb139dcf202e457"
+      "sha256": "4f3cccaf292996fe201a264f74ea0d81dc6d0360b1e82672a3719f026301e6ee"
     },
     {
       "file": "customer-web/src/lib/monitoringPrivacy.ts",
@@ -1374,6 +1378,10 @@
     {
       "file": "customer-web/src/lib/supabase.ts",
       "sha256": "b4bc81ec8573b9f813b2117a772c636a2f2cd21a2314c310088f400aecca5178"
+    },
+    {
+      "file": "customer-web/src/lib/webVitalsPrivacy.ts",
+      "sha256": "0bc3a2f56a1d69921802c037a716f36948090719f4da15c9ea9032a2d63e4144"
     },
     {
       "file": "customer-web/src/main.tsx",

@@ -1,3 +1,4 @@
+import {sourceBeforeStorefrontSpeed} from '../scripts/audit/source-before-storefront-speed.mjs';
 import assert from 'node:assert/strict';
 import {createHash, randomUUID} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
@@ -59,7 +60,7 @@ test('both actual Vite configs reject direct/raw/inline secrets and outside file
 test('fs projection preserves every historical proof and only restores the two exact reviewed configs', async () => {
  const baseline = '376293af705837201e4c94b66967337baf524af6';
  for (const [file, pin] of Object.entries(developmentFsPins) as [string, {before:string;after:string;beforeText:string}][]) {
-  const current = sourceBeforePrivateMaps(file, (await readFile(file, 'utf8')).replaceAll('\r\n', '\n'))!;
+  const current = sourceBeforePrivateMaps(file, sourceBeforeStorefrontSpeed(file, (await readFile(file, 'utf8')).replaceAll('\r\n', '\n'))!)!;
   const previous = execFileSync('git', ['show', baseline + ':' + file], {encoding:'utf8', windowsHide:true}).replaceAll('\r\n','\n');
   assert.equal(pin.beforeText, previous);
   assert.equal(createHash('sha256').update(current).digest('hex'), pin.after);

@@ -1,5 +1,4 @@
 /*
-  Cache-Control: no-cache
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Strict-Transport-Security: max-age=31536000; includeSubDomains
@@ -20,4 +19,43 @@
   Cache-Control: no-cache
 
 /nawasrah-store-logo.jpg
+  Cache-Control: no-cache
+
+/
+  Cache-Control: no-cache
+
+/*.html
+  Cache-Control: no-cache
+
+/products/*
+  Cache-Control: no-cache
+
+/category/*
+  Cache-Control: no-cache
+
+/product/*
+  Cache-Control: no-cache
+
+/offers/*
+  Cache-Control: no-cache
+
+/about/*
+  Cache-Control: no-cache
+
+/sw.js
+  Cache-Control: no-cache
+
+/service-worker.js
+  Cache-Control: no-cache
+
+/site.webmanifest
+  Cache-Control: no-cache
+
+/robots.txt
+  Cache-Control: no-cache
+
+/sitemap.xml
+  Cache-Control: no-cache
+
+/nawasrah-environment.json
   Cache-Control: no-cache
