@@ -1,0 +1,27 @@
+{
+  "format": 1,
+  "baseline": "87f29abad10718bd533a6f9f0789194d967ee0f3",
+  "scope": "Exact speed A source inverse for frozen history only; current diagnostics unprojected",
+  "entries": {
+    "customer-web/src/App.tsx": {
+      "before": "4c0606d1c621df8f5859c70227642d8ee724329bfbfff5b268f879f89d5441f4",
+      "after": "ff1ef3a5b782a4cc36bfa8246876215c78ef2f8d652f3055b73493b18b207944"
+    },
+    "customer-web/src/components/StoreHero.tsx": {
+      "before": "8f801149669598ddb1954e7e4f3ec76541ec7147a69ceac0568b8966b2bef937",
+      "after": "2b1ac68dc3fff972aa7e7ea889b0ffa6bca38af941ce66b0f96d4cfd3448700d"
+    },
+    "customer-web/src/components/DeferredDialog.tsx": {
+      "before": null,
+      "after": "5d7c9694e294c1a03f2808d189595326b3317245df27fb0708839c7c9c1a68ff"
+    },
+    "customer-web/src/lib/errorMonitoring.ts": {
+      "before": "4c364bde97ec120438388c800f3f4645a7a8029afe3325efbfb139dcf202e457",
+      "after": "4f3cccaf292996fe201a264f74ea0d81dc6d0360b1e82672a3719f026301e6ee"
+    },
+    "customer-web/src/lib/webVitalsPrivacy.ts": {
+      "before": null,
+      "after": "0bc3a2f56a1d69921802c037a716f36948090719f4da15c9ea9032a2d63e4144"
+    }
+  }
+}

@@ -13,24 +13,17 @@ import {
   ShieldCheck,
   Truck,
 } from 'lucide-react';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { CartDrawer } from './components/CartDrawer';
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { CategoryDrawer } from './components/CategoryDrawer';
 import { CategoryShowcase } from './components/CategoryShowcase';
-import { CheckoutModal } from './components/CheckoutModal';
 import { FloatingContactActions } from './components/FloatingContactActions';
 import { GuidedStoreAssistant } from './components/GuidedStoreAssistant';
 import { HomeCategoryMosaic } from './components/HomeCategoryMosaic';
 import { NetworkStatusBanner } from './components/NetworkStatusBanner';
 import { MerchandisingSections } from './components/MerchandisingSections';
 import { MobileStoreNav } from './components/MobileStoreNav';
-import { OrderTrackingModal } from './components/OrderTrackingModal';
-import { PrivacyPolicyModal } from './components/PrivacyPolicyModal';
 import { OffersPage } from './components/OffersPage';
 import { ProductCard } from './components/ProductCard';
-import { ProductDetailsModal } from './components/ProductDetailsModal';
-import { ParcelBuilderModal } from './components/ParcelBuilderModal';
-import { PublicPosReceiptPage } from './components/PublicPosReceiptPage';
 import { PromotionOffers } from './components/PromotionOffers';
 import { StoreHeader } from './components/StoreHeader';
 import { StoreFooter } from './components/StoreFooter';
@@ -95,6 +88,16 @@ import {
 import {useStorefrontSeo} from './utils/storefrontSeo';
 import { useCustomerCommerce } from './hooks/useCustomerCommerce';
 import { reviewPolicyFor } from './services/commerceStorage';
+
+import { DeferredDialog } from './components/DeferredDialog';
+
+const CartDrawer = lazy(() => import('./components/CartDrawer').then(module => ({ default: module.CartDrawer })));
+const CheckoutModal = lazy(() => import('./components/CheckoutModal').then(module => ({ default: module.CheckoutModal })));
+const OrderTrackingModal = lazy(() => import('./components/OrderTrackingModal').then(module => ({ default: module.OrderTrackingModal })));
+const PrivacyPolicyModal = lazy(() => import('./components/PrivacyPolicyModal').then(module => ({ default: module.PrivacyPolicyModal })));
+const ProductDetailsModal = lazy(() => import('./components/ProductDetailsModal').then(module => ({ default: module.ProductDetailsModal })));
+const ParcelBuilderModal = lazy(() => import('./components/ParcelBuilderModal').then(module => ({ default: module.ParcelBuilderModal })));
+const PublicPosReceiptPage = lazy(() => import('./components/PublicPosReceiptPage').then(module => ({ default: module.PublicPosReceiptPage })));
 
 interface ToastState {
   message: string;
@@ -163,7 +166,7 @@ export function App() {
     robots.content = 'noindex, nofollow, noarchive';
   }, [locationRoute.receiptToken]);
 
-  if (locationRoute.receiptToken) return <PublicPosReceiptPage token={locationRoute.receiptToken} />;
+  if (locationRoute.receiptToken) return <Suspense fallback={<p role="status">جارٍ تحميل الوصل…</p>}><PublicPosReceiptPage token={locationRoute.receiptToken} /></Suspense>;
   return <StorefrontApp trackingToken={locationRoute.trackingToken} />;
 }
 
@@ -2126,6 +2129,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       />
 
       {selectedProduct && (
+        <Suspense fallback={<p role="status">جارٍ تحميل النافذة…</p>}>
         <ProductDetailsModal
           product={selectedProduct}
           initialVariantId={selectedProductVariantId ?? undefined}
@@ -2146,6 +2150,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
           onToggleFavorite={toggleProductFavorite}
           onOpenAssistant={() => setAssistantOpen(true)}
         />
+        </Suspense>
       )}
 
       <GuidedStoreAssistant
@@ -2167,6 +2172,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         hasCartItems={cartPackages > 0}
       />
 
+      <DeferredDialog open={cartOpen}>
       <CartDrawer
         isOpen={cartOpen}
         items={cartItems}
@@ -2217,7 +2223,9 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
             : undefined
         }
       />
+      </DeferredDialog>
 
+      <DeferredDialog open={checkoutOpen}>
       <CheckoutModal
         isOpen={checkoutOpen}
         items={cartItems}
@@ -2232,8 +2240,10 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         onOrderCreated={handleOrderCreated}
         onTrackOrder={openCreatedOrderTracking}
       />
+      </DeferredDialog>
 
       {parcelBuilder && (
+        <Suspense fallback={<p role="status">جارٍ تحميل النافذة…</p>}>
         <ParcelBuilderModal
           option={parcelBuilder.option}
           initialInstance={parcelBuilder.edit?.instance}
@@ -2241,8 +2251,10 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
           onClose={() => setParcelBuilder(null)}
           onSave={saveParcelBuilder}
         />
+        </Suspense>
       )}
 
+      <DeferredDialog open={trackingOpen}>
       <OrderTrackingModal
         isOpen={trackingOpen}
         trackingToken={trackingToken}
@@ -2254,13 +2266,16 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
           }
         }}
       />
+      </DeferredDialog>
 
+      <DeferredDialog open={privacyPolicyOpen}>
       <PrivacyPolicyModal
         isOpen={privacyPolicyOpen}
         onClose={() => setPrivacyPolicyOpen(false)}
         storeName={SEO_BRAND.officialName}
         whatsappNumber={storefrontSettings.whatsappNumber}
       />
+      </DeferredDialog>
 
       <MobileStoreNav cartPackages={cartPackages} cartSummary={formatCartQuantitySummary(cartItems)} cartTotal={cartSubtotal} whatsappUrl={storeWhatsappUrl} onHome={() => navigateStorePage('home')} onCategories={() => navigateStorePage('categories')} onSearch={() => { setActivePage('catalog'); changeStoreLocation(getStorePagePath('catalog')); setSearchOpenSignal((value) => value + 1); }} onCart={() => openCart()} />
 

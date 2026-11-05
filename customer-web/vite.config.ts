@@ -1,3 +1,4 @@
+import {storefrontBudgetPlugin} from '../scripts/testing/storefront-budget.mjs';
 import {selectedViteEnvironment,environmentDefines,environmentAssets} from '../scripts/environments/vite-environment.mjs';
 import {developmentFileAccess} from '../scripts/environments/development-file-access.mjs';
 import {privateSourceMaps} from '../scripts/environments/private-source-maps.mjs';
@@ -8,7 +9,7 @@ import { defineConfig } from 'vite';
 export default defineConfig(({mode}) => {
  const selected=selectedViteEnvironment(mode,__dirname);return {
   define:environmentDefines(selected),
-  plugins: [react(), tailwindcss(),environmentAssets(selected,__dirname),privateSourceMaps(selected,__dirname,'customer')],
+  plugins: [react(), tailwindcss(),environmentAssets(selected,__dirname),privateSourceMaps(selected,__dirname,'customer'),storefrontBudgetPlugin()],
   build: {
     rollupOptions: {
       output: {

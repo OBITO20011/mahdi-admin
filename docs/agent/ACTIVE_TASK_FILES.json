@@ -2,112 +2,84 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": "A ",
-      "path": "docs/operations/IPHONE_MODAL_CHECKLIST_AR.md"
+      "code": " M",
+      "path": "customer-web/index.html"
     },
     {
-      "code": "A ",
-      "path": "docs/operations/IPHONE_MODAL_FOUNDATION_AR.md"
+      "code": " M",
+      "path": "customer-web/public/_headers"
     },
     {
-      "code": "A ",
-      "path": "e2e/package-f-iphone-dialogs-harness.html"
+      "code": " M",
+      "path": "customer-web/src/App.tsx"
     },
     {
-      "code": "A ",
-      "path": "e2e/package-f-iphone-dialogs-harness.tsx"
+      "code": " M",
+      "path": "customer-web/src/components/StoreHero.tsx"
     },
     {
-      "code": "A ",
-      "path": "e2e/package-f-iphone-dialogs.spec.ts"
+      "code": " M",
+      "path": "customer-web/src/lib/errorMonitoring.ts"
     },
     {
-      "code": "A ",
-      "path": "scripts/audit/iphone-dialog-source-pins.json"
+      "code": " M",
+      "path": "customer-web/vite.config.ts"
     },
     {
-      "code": "A ",
-      "path": "scripts/audit/source-before-iphone-dialogs.mjs"
+      "code": " M",
+      "path": "docs/agent/project-state.json"
     },
     {
-      "code": "A ",
-      "path": "src/styles/dialogs.css"
+      "code": " M",
+      "path": "package.json"
     },
     {
-      "code": "A ",
-      "path": "src/utils/dialogIsolation.ts"
-    },
-    {
-      "code": "A ",
-      "path": "tests/iphone-dialog-contracts.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "customer-web/src/components/StoreHeader.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "customer-web/src/index.css"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_219.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/audit/record-order-source-pins.json"
-    },
-    {
-      "code": "M ",
+      "code": " M",
       "path": "scripts/audit/source-before-product-workbook-text.mjs"
     },
     {
-      "code": "M ",
-      "path": "scripts/audit/source-before-workbook-integration.mjs"
+      "code": "??",
+      "path": "customer-web/src/components/DeferredDialog.tsx"
     },
     {
-      "code": "M ",
-      "path": "scripts/testing/product-workbook-runtime-view-pins.json"
+      "code": "??",
+      "path": "customer-web/src/lib/webVitalsPrivacy.ts"
     },
     {
-      "code": "M ",
-      "path": "scripts/testing/product-workbook-runtime-view.mjs"
+      "code": "??",
+      "path": "customer-web/tests/storefront-speed.test.ts"
     },
     {
-      "code": "M ",
-      "path": "src/components/layout/NavigationShell.tsx"
+      "code": "??",
+      "path": "scripts/audit/source-before-storefront-speed.mjs"
     },
     {
-      "code": "M ",
-      "path": "src/features/barcode/BarcodeCameraCaptureModal.tsx"
+      "code": "??",
+      "path": "scripts/audit/storefront-speed-source-pins.json"
     },
     {
-      "code": "M ",
-      "path": "src/index.css"
+      "code": "??",
+      "path": "scripts/testing/run-storefront-budget-browser.mjs"
     },
     {
-      "code": "M ",
-      "path": "src/utils/dialogFocus.ts"
+      "code": "??",
+      "path": "scripts/testing/run-storefront-vitals-browser.mjs"
     },
     {
-      "code": "M ",
-      "path": "src/utils/screenHistory.ts"
+      "code": "??",
+      "path": "scripts/testing/storefront-budget.mjs"
     },
     {
-      "code": "M ",
-      "path": "tests/product-workbook-history.test.ts"
+      "code": "??",
+      "path": "scripts/testing/storefront-speed-fixture.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/storefront-budget.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/storefront-speed-history.test.ts"
     }
   ]
 }
