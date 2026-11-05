@@ -3,19 +3,7 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/operations/STOREFRONT_SPEED_A_AR.md"
-    },
-    {
-      "code": " M",
       "path": "scripts/audit/storefront-speed-source-pins.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/product-workbook-runtime-view.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/product-workbook-runtime-view.test.ts"
     }
   ]
 }

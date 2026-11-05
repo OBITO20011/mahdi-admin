@@ -3,22 +3,21 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner5Nov storefront speed A: first300products local isolated build,Lighthouse mobile4G/CPU4x3 runs forhome/category/product/cart. Only measured need:cache/font/loading. No financial/permissions/SQL/RPC/CSP weakening/hosted/deploy/merge;58Draft. Bimages separate. Animation waits for speed merges.",
-  "baselineSha": "7b17de9944d37463e07d699a78be41acefb4d966",
+  "baselineSha": "0d349709ffd6c2b777b5f04a46e7aa99ebe2021a",
   "branch": "codex/storefront-speed-loading",
   "phase": "PACKAGE_F",
   "completed": [
-    "Prerequisite70 merged main d1020745 FULL61+scan+backup;primary owner20/env4/state5 preserved/preflightPASS. SpeedA true sync a842174.",
-    "300photo1200px304KB baseline3x4 plus candidate rounds retained. Final source measurement pending after cold-dialog correction; no target claim.",
-    "Current219 actual SDK181:172success9empty0denial/error;RPC/services598/18expecteddenials,sourcebound fresh after dialog fix.",
-    "All1824 Admin pass;Store209;root/customer types and strictlint.6contextbuilds/verify-dist,8actual budget/negative,8privatevitalsSDKinclrealINP and12error regressions pass.",
-    "Cold dialog handover failed2; wrapper recreates original hidden initial commit. Original6focus tests nowpass bothengines;34other regressions pass/2baselineconditionals. No tests/limits weakened.",
-    "Separate B worktree d442be0 WIP;real219 Auth/Storage/DB bothengines,9roles,180migrations,113protectedtablesidentical,8imagepairs,0orphans. Not full B acceptance.",
-    "Final corrected source48bd9d4 LH3x4:home3490/78,category3036/80,product4621/126.5,cart4844/133.5(LCP/TBTms);CLS<0.1 all. LCP not accepted; B+combined measurements pending.",
-    "Post-fix actualbudget8+negative,productionSEO+trialbuild/verify andStore209 PASS;metadata/source adapters retain exact before bytes."
+    "Main70 d102 delivered/primarypreserved;speedA source48bd9d4 verified. No merges ofspeed.",
+    "Final3x4 LH A:home3490/78,category3036/80,product4621/126.5,cart4844/133.5(LCP/TBTms);CLS<.1;LCPpendingimages.",
+    "Admin1824/store209/types/strictlint,6buildcontexts/verify-dist,SDK219181+598/18expecteddenials,budget8+negative,vitals8+errors12 PASS.",
+    "Cold-dialog focus2fail corrected inloading wrapper;original6testsPASS/34otherregressionsPASS/2oldconditionals.",
+    "PR71 Draft created;runtime source/evidence layer fix actualstagedview52files/strictsource+rolecoverage/113owner+SQLunchangedPASS;6negativeunits andtypes/lintPASS.",
+    "Frozen runtime/phase doc inverses nowincluded by exactGit70bytes;focused8PASS.Gitleaks0.",
+    "Separate B d442 WIP:actual219 Storage/Auth/MFA,bothengines,180migrations,113tablesidentical,8pairs/0orphans;finalBdeliverypending."
   ],
   "inProgress": [
-    "Save source-bound runtime fixture correction,run actual strict staged-view locally;push only if accepted. PR71 Draft/no merge.",
-    "Independent B:current219real pairsPASS;final LCP image priority based on measured product image only;category/cart LCP are header text."
+    "Push reviewed scope pin closure andawait exacthead FULLCI forPR71;old7b17/0d349 failures documented,not environmental.",
+    "Independent B metrics/history/fullgates/PR pending;58Draft,animation waits owner-approved speedmerges."
   ],
   "notStarted": [
     "PRs/fullCI/ownerapproval. No merge or animation."
@@ -31,14 +30,11 @@
     "Budget8+negative;privateSDKvitals8/realINP;errors12;fixedfocus6;34otherbrowserregressions"
   ],
   "testsRemaining": [
-    "A exact-headFULLCI;B remaining metrics/history/currentproof/fullCI."
+    "PR71 finalexactheadFULLCI;B finalsourceproof/metrics/CI;combined localmeasurement."
   ],
   "findings": [
-    "Raw baseline/candidate/current metrics preserved including regressions;CPU calibration varied substantially.",
-    "Warm/hidden first commit restores cold lazy Checkout focus without changing financial path.",
-    "Fonts use existing OS Tahoma/Arial/system;zero fonts transferred,none added/subset.",
-    "PR71 head7b17 CI:26 historical jobs reject new actual219proof before test at HISTORICAL_VIEW_UNREVIEWED_EVIDENCE. Known tooling gap,not environmental. No retry.",
-    "Added strict scoped Git70 source/evidence layer composition in test-only runtime preparer;6focused incl negatives/types/strictlint PASS. Need real staged-view gate after commit,before push."
+    "CI7b17 historical26guards rejected currentactualreport;test-only preparation nowuses exactscopedGit70layers,unknownmutationsrefused.",
+    "CI0d349 core exposedmissing inverse forchangedruntime/phase docs;fixedwith8focused tests;all55othercompletedjobspassed."
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -47,9 +43,9 @@
     "NoSQL/migration/RPC/finance/permission/auth/CSPweakening",
     "Noanimationbefore speedmerge;58Draft"
   ],
-  "nextExactAction": "PR71 oldhead26historicalevidenceguards failed. Commit bounded runtime-layer fix then actualprepare/strictrolecoverage locally before pushing;no rerunoldSHA,no SQL/ownerchanges. B independent pending.",
-  "workingTreeFingerprint": "4F0BDED25D31F61F65D80A1BFDF6E19C8BA13394B5FF966E5E1DA3615682318D",
-  "checkpointedAt": "2026-11-05T15:38:43.455Z",
-  "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "5650243aef2e8f2fb60060e612a3124631be082b6c437a14e07fcb37c717bf5a"
+  "nextExactAction": "PR71 currentruntime/source52/113ownerPASS;8frozeninverse testsPASS. Push pin closure thenawait exactFULLCI;finish independentB metrics/FULLCI andcombinedlocalproof. No merge/hosted/animation,58Draft.",
+  "workingTreeFingerprint": "1270EAE58996519C425B5BDDA515BCCA2CC15DC790CA9729E1F47EB7B204ED53",
+  "checkpointedAt": "2026-11-05T16:14:15.069Z",
+  "filesTouchedCount": 1,
+  "filesTouchedManifestSha256": "629d6fb78ae374babe9ff87ce81738be557524412c79230ed0317018bdd4048d"
 }

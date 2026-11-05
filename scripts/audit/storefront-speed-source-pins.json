@@ -106,6 +106,14 @@
     "e2e/public-apps.spec.ts": {
       "before": "97861565b7d0a7455b68725846c60bc2250f6735269ece55f53c0ac0c0996a9e",
       "after": "2b1bd856d5a1af1dbf78f9711b24aff2ad5706d265497d17cefd85cd5f1d5764"
+    },
+    "scripts/testing/product-workbook-runtime-view.mjs": {
+      "before": "620c8e86aba7aa91cb033553a1528e9f96f60c2c4ed27d77c66a4fe3dcc9ed84",
+      "after": "94a36b3c627b3eae97f438c75b463de273281c70c86fe94d612b02e10e200948"
+    },
+    "docs/agent/PHASE_STATUS.md": {
+      "before": "9b8c2a2ddcb0bf4e300efea2226ffecc155b68d2eb389dc3e91513e0da4d089c",
+      "after": "59970dc93188079bac397b3a99cb732bb28a129841cf2d8a97db2adbd73a38df"
     }
   }
 }
