@@ -1,4 +1,5 @@
 import {productWorkbookDbTransport} from './product-workbook-db-transport.mjs';
+import {runProductWorkbookScaleCase} from './product-workbook-scale-case.mjs';
 import {prepareProductWorkbook,PRODUCT_WORKBOOK_COLUMNS,FLAVOR_WORKBOOK_COLUMNS,productWorkbookStockRows,readProductWorkbook} from '../../src/features/goLive/productWorkbook.ts';
 // Existing219 RPC feasibility only. Fixed disposable database, no hosted inputs.
 import assert from 'node:assert/strict';
@@ -91,6 +92,11 @@ try{
  results.push({case:'optional stock exported as purchase parcels+packets,protected opening writer,replay0 andWAC500',passed:true,quantity:25,inventoryValueInMinor:12500});
  assert.deepEqual(catalogDifference(catalog,await json(schemaCatalogSql)),[]);
 
- await writeFile(path.join(out,'proof.json'),JSON.stringify({ok:true,results,history:180,ceiling:219,noHostedAccess:true,sourceHashes:Object.fromEntries(await Promise.all(['src/features/goLive/productWorkbook.ts','src/features/goLive/productWorkbookReference.ts','src/features/goLive/productImportAttempt.ts','src/services/supabase/productWorkbook.service.ts','src/services/supabase/productFamilyBarcodes.service.ts','src/lib/xlsx.ts','scripts/testing/product-workbook-db-transport.mjs'].map(async file=>[file,createHash('sha256').update((await readFile(path.join(root,file),'utf8')).replaceAll('\r\n','\n')).digest('hex')])))},null,2)+'\n');console.log(JSON.stringify({ok:true,out,results}));
+ stage='permanent small scale,three disk-restored interruptions and protected stock';
+ const scaleAuth=text=>auth("SET LOCAL statement_timeout='8s';"+text);
+ await runProductWorkbookScaleCase({json,sql,auth:scaleAuth,actor:owner,container:'supabase_db_'+project,out});
+ assert.deepEqual(catalogDifference(catalog,await json(schemaCatalogSql)),[]);
+
+ await writeFile(path.join(out,'proof.json'),JSON.stringify({ok:true,results,history:180,ceiling:219,noHostedAccess:true,sourceHashes:Object.fromEntries(await Promise.all(['src/features/goLive/importDisplayText.ts','src/features/goLive/goLiveImport.ts','src/features/goLive/productWorkbook.ts','src/features/goLive/productWorkbookReference.ts','src/features/goLive/productImportAttempt.ts','src/services/supabase/productWorkbook.service.ts','src/services/supabase/productFamilyBarcodes.service.ts','src/lib/xlsx.ts','scripts/testing/product-workbook-db-transport.mjs'].map(async file=>[file,createHash('sha256').update((await readFile(path.join(root,file),'utf8')).replaceAll('\r\n','\n')).digest('hex')])))},null,2)+'\n');console.log(JSON.stringify({ok:true,out,results}));
 }catch(error){await writeFile(path.join(out,'failure.json'),JSON.stringify({ok:false,stage,message:error.message},null,2)+'\n');console.error(JSON.stringify({ok:false,stage,out,message:error.message}));process.exitCode=1;}
 finally{if(local)await exec(process.execPath,[cli,'stop','--no-backup','--workdir',local],{cwd:root,windowsHide:true,timeout:120000,maxBuffer:1024**2});}

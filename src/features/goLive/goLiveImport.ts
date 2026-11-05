@@ -6,6 +6,7 @@
  */
 
 import { LEGACY_UNIT_HEADERS } from '../../utils/legacyUnitImportHeaders';
+import {IMPORT_DESCRIPTIVE_KEYS,normalizeImportDisplayText} from './importDisplayText';
 
 export type GoLiveKind = 'products' | 'stock' | 'customers' | 'suppliers';
 
@@ -137,7 +138,7 @@ export function ammanToday(now = new Date()): string {
 export interface SheetRow { row: number; values: Record<string, string> }
 
 /** Matches the template headers (row 1) and returns the non-empty data rows. */
-export function mapSheet(kind: GoLiveKind, sheet: readonly (readonly string[])[]): { rows: SheetRow[]; fileErrors: string[] } {
+export function mapSheet(kind: GoLiveKind, sheet: readonly (readonly string[])[]): { rows: SheetRow[]; fileErrors: string[]; normalizedFields:number } {
   const columns = GO_LIVE_COLUMNS[kind];
   const header = (sheet[0] ?? []).map(cell => cell.replace(/\s+/gu, ' ').trim());
   const indexes = new Map<string, number>();
@@ -148,14 +149,15 @@ export function mapSheet(kind: GoLiveKind, sheet: readonly (readonly string[])[]
     else if (column.required) fileErrors.push(`العمود "${column.header}" غير موجود في الصف الأول؛ استخدم القالب كما هو.`);
   }
   const rows: SheetRow[] = [];
+  let normalizedFields=0;
   sheet.slice(1).forEach((cells, offset) => {
     if (!cells.some(cell => cell.trim() !== '')) return;
     const values: Record<string, string> = {};
-    for (const column of columns) values[column.key] = (cells[indexes.get(column.key) ?? -1] ?? '').trim();
+    for (const column of columns) {const raw=(cells[indexes.get(column.key) ?? -1] ?? '').trim(),value=IMPORT_DESCRIPTIVE_KEYS.has(column.key)?normalizeImportDisplayText(raw):raw;values[column.key]=value;if(value!==raw)normalizedFields++;}
     rows.push({ row: offset + 2, values });
   });
   if (!fileErrors.length && rows.length === 0) fileErrors.push('الملف لا يحتوي أي سطر بيانات تحت العناوين.');
-  return { rows, fileErrors };
+  return { rows, fileErrors, normalizedFields };
 }
 
 export interface StockProductRef {

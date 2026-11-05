@@ -1,3 +1,4 @@
+import{sourceBeforeProductScale}from'../scripts/audit/source-before-product-scale.mjs';
 import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync,readdirSync} from 'node:fs';import {execFileSync} from 'node:child_process';
 import {newestRecords} from '../src/utils/newestRecords';
 const read=(f:string)=>readFileSync(f,'utf8');
@@ -11,7 +12,9 @@ test('absolute timestamps, exact ties, unknown dates and empty complete historie
  assert.deepEqual(newestRecords(rows.slice(0,2),r=>r.at),rows.slice(0,2));assert.deepEqual(newestRecords([],()=>null),[]);
 });
 test('server pages, running balances, all writer services, migrations and owner tools stay byte identical to delivered main52',()=>{
- assert.equal(execFileSync('git',['diff','--name-only','52c9a8b53f9e1d2bad504c88f9c6255547b09e7c','--','supabase','src/services','scripts/operations','scripts/backup','src/utils/customerStatement.ts','src/hooks/useCustomerStatement.ts'],{encoding:'utf8',windowsHide:true}).trim(),'');
+ const base='52c9a8b53f9e1d2bad504c88f9c6255547b09e7c';
+ const diff=execFileSync('git',['diff','--name-only',base,'--','supabase','src/services','scripts/operations','scripts/backup','src/utils/customerStatement.ts','src/hooks/useCustomerStatement.ts'],{encoding:'utf8',windowsHide:true}).trim().split('\n').filter(Boolean);
+ for(const file of diff){assert.ok(['src/services/supabase/productWorkbook.service.ts','scripts/operations/go-live-files/check.ts'].includes(file),file);assert.equal(sourceBeforeProductScale(file,read(file)),execFileSync('git',['show',base+':'+file],{encoding:'utf8',windowsHide:true}),file);}
  const panel=read('src/features/inventory/SupplierReplacementPanel.tsx');assert.match(panel,/page\.cases\.map/u);assert.doesNotMatch(panel,/newestRecords\(page\.cases|page\.cases\.reverse/u);
  assert.match(panel,/newestRecords\(c\.events,e=>e\.occurredAt,e=>e\.id\)/u);
  assert.match(read('src/features/cheques/ChequesView.tsx'),/\[\.\.\.detail\.events\]\.reverse\(\)/u);

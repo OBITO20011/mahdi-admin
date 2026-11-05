@@ -22,6 +22,10 @@
     "customer-web/src/lib/webVitalsPrivacy.ts": {
       "before": null,
       "after": "0bc3a2f56a1d69921802c037a716f36948090719f4da15c9ea9032a2d63e4144"
+    },
+    "docs/agent/project-state.json": {
+      "before": "630e3ea33282954ee10d0a27f839a89b7dc881b91b1878a517b5c31a199389e4",
+      "after": "1b42c636e334b4f7949cfd1afd8181c35d7a4d3bd4fa1985268e26f62c3721a4"
     }
   }
 }

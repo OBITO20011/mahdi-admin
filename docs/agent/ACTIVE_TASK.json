@@ -3,7 +3,7 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner5Nov storefront speed A: first300products local isolated build,Lighthouse mobile4G/CPU4x3 runs forhome/category/product/cart. Only measured need:cache/font/loading. No financial/permissions/SQL/RPC/CSP weakening/hosted/deploy/merge;58Draft. Bimages separate. Animation waits for speed merges.",
-  "baselineSha": "87f29abad10718bd533a6f9f0789194d967ee0f3",
+  "baselineSha": "d102074583c7369502954eaf8ea70d2595f6a19c",
   "branch": "codex/storefront-speed-loading",
   "phase": "PACKAGE_F",
   "completed": [
@@ -11,7 +11,8 @@
     "Newowner-authorized cleanworktree exactmain87; inheritedcommittedoldtask belongspriorcompleteintegration,explicitnewtask supersedes.",
     "Baseline300fictionalimages1200px304KB:standard Lighthouse3x4 summary saved;raw directCPU diagnostic NO_TTI retained separately.",
     "Local browserbudget Chromium/WebKit390 eightPASS;extra-real-RPC negative rejected; SentrySDK vitals8PASS incl noPII envelope andisolated/missingoff,errors12PASS.",
-    "Ownerapproved70 exactd4cce234 FULL64 reverified andmerged d1020745;mainCI41993511287 pending;primaryunchanged87 pendinggreen."
+    "Ownerapproved70 merged d1020745;mainFULL61+scan+backup firstattempt green41993511287;primaryff20owner4env5fields identical/preflightPASS.",
+    "SpeedA synchronized with main70 by true merge;only taskmetadata/state branch and exacthistoricalview resolved, allproductworkbook changes preserved."
   ],
   "inProgress": [
     "SpeedA WIP notacceptance:deferred dialogs maintain mountedstate,posterpreload,videoafterfirstintent,hashedcache/no-cache,5percentproductionvitalsfreshsanitizers,fixedinitialasset/requestbudgets.",
@@ -28,7 +29,6 @@
     "Gitleaks0 onWIPbeforelastaddedtools; finalscanneeded"
   ],
   "testsRemaining": [
-    "main70 FULL thenprimaryffpreserving20+4+5fields/preflight;truesyncspeedbranch",
     "A finalmeasure/CIproofs/browsers/buildcontexts/currentSDKandFULLPR; Bimagesseparate"
   ],
   "findings": [
@@ -42,7 +42,7 @@
     "NoSQL/migration/RPC/finance/permission/auth/CSPweakening",
     "Noanimationbefore speedmerge;58Draft"
   ],
-  "nextExactAction": "Waitmain70 exactd1020745FULLCI watcher;ff-primary70 preserve20+4+5/preflight;WIPcommit thentrue-sync speedbranch. A37historical/currentproof fixes+finalgates stillrequired;Bnotstarted;58Draft.",
+  "nextExactAction": "Continue speedA from local true-main70 merge:37historical/currentevidence fixes,finalmeasure3x4 allpages;Sentry/budgetbrowser pass unchanged;A/BPRFULLCI unmerged. Bnotstarted;animation waits speedmerge;58Draft.",
   "workingTreeFingerprint": "748A1DA03515177C71CE881877796BDE5C5A5912182D7D1C30304F1DC7ADDCEE",
   "checkpointedAt": "2026-11-05T08:28:32.849Z",
   "filesTouchedCount": 20,

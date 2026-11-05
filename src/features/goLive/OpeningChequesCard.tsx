@@ -7,6 +7,7 @@ import {fetchOpeningCheques,previewOpeningCheques,saveOpeningCheques,type Openin
 import {chequeStatusLabels} from '../../services/supabase/cheques.service';
 import {parseJodToMinor} from './goLiveImport';
 import {OPENING_CHEQUE_COLUMNS,openingChequeTemplateRows,prepareOpeningChequeSheet} from './openingChequesImport';
+import {importNormalizationNotice} from './importDisplayText';
 
 const field='h-11 w-full min-w-0 rounded-xl border border-nw-border bg-nw-surface px-3 text-sm text-nw-text';
 const blank={direction:'incoming',status:'pending',customer:'',supplier:'',endorsed:'',bank:'',number:'',due:'',amount:'',chequeDate:'',originalDate:'',notes:''};
@@ -44,6 +45,7 @@ export function OpeningChequesCard({branchId,locked,onSaved}:{branchId:string|nu
  const file=async(value:File)=>{setBusy(true);resetPreview();try{const prepared=prepareOpeningChequeSheet(await readXlsxFirstSheet(await value.arrayBuffer()));
    if(prepared.errors.length){setError(prepared.errors.map(e=>`السطر ${e.row}: ${e.message}`).join(' '));return;}
    await analyse(prepared.rows,value.name);
+   if(prepared.normalizedFields)setNotice(importNormalizationNotice(prepared.normalizedFields));
   }catch(e){setError(message(e));}finally{setBusy(false);}};
  const save=async()=>{if(!preview||!branchId||!confirmed||preview.data.errors.length)return;setBusy(true);setError('');
   try{const result=await saveOpeningCheques(branchId,preview.key,preview.rows);setNotice(`تم الحفظ للمتابعة فقط؛ العدد: ${result.created}. لم يتغير أي رصيد.`);
