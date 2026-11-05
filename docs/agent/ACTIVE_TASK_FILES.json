@@ -7,51 +7,131 @@
     },
     {
       "code": " M",
-      "path": "customer-web/src/components/CategoryShowcase.tsx"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/components/HomeCategoryMosaic.tsx"
-    },
-    {
-      "code": " M",
       "path": "customer-web/src/components/ProductCard.tsx"
     },
     {
       "code": " M",
-      "path": "customer-web/src/components/ProductDetailsModal.tsx"
+      "path": "customer-web/tests/image-fallback-and-featured.test.ts"
     },
     {
       "code": " M",
-      "path": "customer-web/src/components/ProductImage.tsx"
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
     },
     {
       "code": " M",
-      "path": "docs/agent/project-state.json"
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
     },
     {
       "code": " M",
-      "path": "package.json"
+      "path": "docs/operations/TABLE_ACCESS_AFTER_219.json"
     },
     {
       "code": " M",
-      "path": "src/services/supabase/product-images.service.ts"
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
     },
     {
-      "code": "??",
-      "path": "customer-web/src/utils/productThumbnail.ts"
+      "code": " M",
+      "path": "scripts/audit/source-before-product-scale.mjs"
     },
     {
-      "code": "??",
-      "path": "scripts/testing/run-product-thumbnail-browser.mjs"
+      "code": " M",
+      "path": "scripts/audit/source-before-product-workbook-text.mjs"
     },
     {
-      "code": "??",
-      "path": "src/utils/productImageThumbnail.ts"
+      "code": " M",
+      "path": "scripts/audit/source-before-product-workbook.mjs"
     },
     {
-      "code": "??",
+      "code": " M",
+      "path": "scripts/testing/product-workbook-runtime-view.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-bulk-product-images-runtime.mjs"
+    },
+    {
+      "code": " M",
+      "path": "tests/bulk-images-browser/images.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/iphone-dialog-contracts.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/mobile-back-contracts.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/newest-records.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/owner-telegram-format.test.ts"
+    },
+    {
+      "code": " M",
       "path": "tests/product-thumbnail.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/product-workbook-runtime-view.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/record-order-source-contracts.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/store-scroll-history.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-owner-w.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-ta-presentation.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/STOREFRONT_SPEED_B_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/STOREFRONT_SPEED_B_LOCAL.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-storefront-images.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/storefront-images-source-pins.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/generate-storefront-speed-images.py"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/generate-storefront-speed-thumbnails.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/product-thumbnail-orphans.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-storefront-speed-lab.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/storefront-speed-fixture.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/storefront-images-history.test.ts"
     }
   ]
 }

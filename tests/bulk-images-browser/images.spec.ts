@@ -9,8 +9,8 @@ test('real local Auth/Storage/RPC:preview,flavor,late SKU,failure cleanup,lost r
  const suffix=info.project.name==='chromium'?'C':'W';
  await page.setViewportSize({width:390,height:920});
  await page.addInitScript(value=>{(window as unknown as {bulkImageLiveSession:Session}).bulkImageLiveSession=value;},session);
- const pages:number[]=[],uploads:string[]=[],deletes:string[]=[];let loseReply=true;
- page.on('request',request=>{const url=new URL(request.url());if(url.pathname.endsWith('/get_admin_product_page'))pages.push((request.postDataJSON() as {p_page:number}).p_page);if(url.pathname.includes('/storage/v1/object/product-images/')&&request.method()==='POST')uploads.push(url.pathname);if(request.method()==='DELETE'&&url.pathname.endsWith('/product-images'))deletes.push(url.pathname);});
+ const pages:number[]=[],uploads:string[]=[],thumbnails:string[]=[],deletes:string[]=[],deletedPairs:string[][]=[];let loseReply=true;
+ page.on('request',request=>{const url=new URL(request.url());if(url.pathname.endsWith('/get_admin_product_page'))pages.push((request.postDataJSON() as {p_page:number}).p_page);if(url.pathname.includes('/storage/v1/object/product-images/')&&request.method()==='POST')(url.pathname.endsWith('-400.webp')?thumbnails:uploads).push(url.pathname);if(request.method()==='DELETE'&&url.pathname.endsWith('/product-images')){deletes.push(url.pathname);deletedPairs.push((request.postDataJSON() as {prefixes:string[]}).prefixes);}});
  await page.route('**/rest/v1/rpc/set_product_primary_image',async route=>{
   if(loseReply){loseReply=false;const response=await route.fetch();expect(response.ok()).toBe(true);await route.abort('failed');return;}
   await route.continue();
@@ -19,13 +19,13 @@ test('real local Auth/Storage/RPC:preview,flavor,late SKU,failure cleanup,lost r
  await page.getByRole('button',{name:'رفع صور المنتجات حسب الرمز',exact:true}).click();await expect(page.getByRole('button',{name:'اختيار صور متعددة',exact:true})).toBeEnabled();
  expect(pages).toEqual([1,2]);
  const files=['SUG-10-','PRG-BBQ-','FAIL-','LAST-'].map(prefix=>({name:prefix+suffix+'.jpg',mimeType:'image/jpeg',buffer:jpeg}));
- await page.getByLabel('اختيار ملفات صور متعددة',{exact:true}).setInputFiles(files);await expect(page.getByRole('button',{name:'اختيار صور متعددة',exact:true})).toBeEnabled();expect(uploads.length).toBe(0);
+ await page.getByLabel('اختيار ملفات صور متعددة',{exact:true}).setInputFiles(files);await expect(page.getByRole('button',{name:'اختيار صور متعددة',exact:true})).toBeEnabled();expect(uploads.length).toBe(0);expect(thumbnails.length).toBe(0);
  await page.getByRole('button',{name:'تأكيد رفع الصور المطابقة',exact:true}).click();
- await expect(page.getByText('نجح: 3 · فشل: 1 · متخطّى: 0',{exact:true})).toBeVisible();expect(uploads.length).toBe(4);expect(deletes.length).toBe(1);
+ await expect(page.getByText('نجح: 3 · فشل: 1 · متخطّى: 0',{exact:true})).toBeVisible();expect(uploads.length).toBe(4);expect(thumbnails.length).toBe(4);expect(thumbnails.sort()).toEqual(uploads.map(path=>path+'-400.webp').sort());expect(deletes.length).toBe(1);expect(deletedPairs[0]).toHaveLength(2);expect(deletedPairs[0][1]).toBe(deletedPairs[0][0]+'-400.webp');
  const enabled=await page.request.post(new URL('/enable-image-save',control).href,{headers:{'x-local-control':nonce??''},data:{sku:'FAIL-'+suffix}});expect(enabled.ok()).toBe(true);
- await page.getByRole('button',{name:'أعد المحاولة للفاشل',exact:true}).click();await expect(page.getByText('نجح: 4 · فشل: 0 · متخطّى: 0',{exact:true})).toBeVisible();expect(uploads.length).toBe(5);
+ await page.getByRole('button',{name:'أعد المحاولة للفاشل',exact:true}).click();await expect(page.getByText('نجح: 4 · فشل: 0 · متخطّى: 0',{exact:true})).toBeVisible();expect(uploads.length).toBe(5);expect(thumbnails.length).toBe(5);expect(new Set(uploads).size).toBe(5);expect(thumbnails.sort()).toEqual(uploads.map(path=>path+'-400.webp').sort());
  await page.reload();await page.getByRole('button',{name:'رفع صور المنتجات حسب الرمز',exact:true}).click();await expect(page.getByRole('button',{name:'اختيار صور متعددة',exact:true})).toBeEnabled();
- await page.getByLabel('اختيار ملفات صور متعددة',{exact:true}).setInputFiles(files);await expect(page.getByRole('button',{name:'اختيار صور متعددة',exact:true})).toBeEnabled();await page.getByRole('button',{name:'تأكيد رفع الصور المطابقة',exact:true}).click();await expect(page.getByText('نجح: 0 · فشل: 0 · متخطّى: 4',{exact:true})).toBeVisible();expect(uploads.length).toBe(5);
+ await page.getByLabel('اختيار ملفات صور متعددة',{exact:true}).setInputFiles(files);await expect(page.getByRole('button',{name:'اختيار صور متعددة',exact:true})).toBeEnabled();await page.getByRole('button',{name:'تأكيد رفع الصور المطابقة',exact:true}).click();await expect(page.getByText('نجح: 0 · فشل: 0 · متخطّى: 4',{exact:true})).toBeVisible();expect(uploads.length).toBe(5);expect(thumbnails.length).toBe(5);expect(new Set(uploads).size).toBe(5);expect(thumbnails.sort()).toEqual(uploads.map(path=>path+'-400.webp').sort());
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await page.screenshot({path:info.outputPath('actual-local-bulk-images.png'),fullPage:true});
 });

@@ -1,3 +1,4 @@
+import{pathsBeforeStorefrontImages}from'../scripts/audit/source-before-storefront-images.mjs';
 import{sourceBeforeProductScale}from'../scripts/audit/source-before-product-scale.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -27,7 +28,8 @@ test('record presentation inverse binds full delivered bytes, exposes any unknow
  }
  assert.equal(sourceBeforeRecordOrder('unknown.sql','unknown'),'unknown');
  const changes=execFileSync('git',['diff','--name-only',baseline,'--','supabase','src/services','scripts/operations','scripts/backup','scripts/monitoring'],{encoding:'utf8',windowsHide:true}).trim().split('\n').filter(Boolean);
- for(const file of changes){assert.ok(['src/services/supabase/productWorkbook.service.ts','scripts/operations/go-live-files/check.ts'].includes(file),file);assert.equal(sourceBeforeProductScale(file,read(file)),execFileSync('git',['show',baseline+':'+file],{encoding:'utf8',windowsHide:true}),file);}
+ const historicalChanges=pathsBeforeStorefrontImages(changes,'d102074583c7369502954eaf8ea70d2595f6a19c');
+ for(const file of historicalChanges){assert.ok(['src/services/supabase/productWorkbook.service.ts','scripts/operations/go-live-files/check.ts'].includes(file),file);assert.equal(sourceBeforeProductScale(file,read(file)),execFileSync('git',['show',baseline+':'+file],{encoding:'utf8',windowsHide:true}),file);}
 });
 
 

@@ -3,26 +3,32 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner5Nov storefront speed B, independent PR from main70: derived400px browser WebP on single/bulk upload,unique immutable paths,original fallback,dimensions/lazy/LCP,3x4medians. NoSQL/RPC/financial/permissions/hosted/deploy/merge.58Draft;animation waits speedmerge.",
-  "baselineSha": "d102074583c7369502954eaf8ea70d2595f6a19c",
+  "baselineSha": "d442be0854be40b926726646e175c0fbc179c20a",
   "branch": "codex/storefront-speed-images",
   "phase": "PACKAGE_F",
   "completed": [
-    "Fresh approved clean worktree exactly main70, prior committed task metadata belongs delivered70; bounded new task replaces it.",
-    "Source review: random UUID upload paths and upsert:false in both single and bulk; existing setters/ACL unchanged.",
-    "Actual canvas/service/storage mock browser proof both engines:400x267 WebP,EXIF40x80,single/category/bulk-resume,unique immutableyearcache,pair cleanup,original failure/permission unchanged,legacy fallbackonce andzoom quality toggle corrected.",
-    "Root/customer types and focusedthumbnailunit pass. No hosted connections or SQL differences."
+    "Main70 independent B;no SQL/RPC/finance/permissions/hosted changes.",
+    "Actual219 Auth/MFA/Storage,8pairs0orphans,113protectedtables unchanged;181tableprobes+598services/18expecteddenials.",
+    "Thumbnailmock bothengines,EXIF,paircleanup,resume/fallbackonce;Store207/types/strictlint/6buildcontexts PASS.",
+    "InitialAdmin1817passed/8historicalfailures corrected+1localtimeout;affected35/35+3negativePASS,same deadlines.",
+    "B3x4/combined3x4 median and rawhashes saved;combined fixedbudget8+negativePASS."
   ],
   "inProgress": [
-    "Local B implementation saved; full/fresh access/history/metrics/CI pending. A loading branch still under functional browser verification; no speed PR merge."
+    "Commit+strict actualhistoricalruntime staging then independent PR/fullCI."
   ],
   "notStarted": [
-    "Implementation/gates/CI/PR"
+    "Owner review/approval;no merge."
   ],
-  "testsPassed": [],
+  "testsPassed": [
+    "Current219 reads+services;realStorage bothengines;store207;types/lint;6builds;history35+3;3x4measurements;combinedbudget8"
+  ],
   "testsRemaining": [
-    "Full local/FULLCI/Gitleaks"
+    "Committed runtime strict source/coverage;Gitleaks/finalPR/FULLCI."
   ],
-  "findings": [],
+  "findings": [
+    "LCP goal2.5s unmet:combined3.524/2.916/4.620/4.037s;TBT50/88.5/64/94ms andCLS<.1. CartLCP~3.4% abovebaseline. No hidden success claim.",
+    "Combinedcountfixture initiallyservedHTMLforthumbs;Afixedsamecountcaps andpassed8,sourceproductionunchanged."
+  ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
@@ -30,12 +36,12 @@
     "No hosted/preview/Sentry/Telegram/Cloudflare/deploy/merge/ownerfiles/env changes",
     "58Draft;noanimationbefore speedmerged"
   ],
-  "nextExactAction": "B canvas/storage browser both engines and root/customer types PASS. A still verifying; next bind separate image PR against final A or retain independentmain with explicit comparison. Need metrics/current219proof/FULLCI/Gitleaks; no hosted/deploy/PRmerge,58Draft.",
-  "checkpointedAt": "2026-11-05T12:39:27.666Z",
+  "nextExactAction": "B source/proofs saved for finalreview;LCPgoalnotmet noted. Commit,actualruntimeview then PR/FULLCI. No merge/hosted/animation,58Draft.",
+  "checkpointedAt": "2026-11-05T17:10:59.544Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 13,
-  "filesTouchedManifestSha256": "942a6dbb6a37a8b4920eee6b98c1326300b289c84b4adc739a8424a0f3bb4f82",
-  "workingTreeFingerprint": "5AF73EE74C9D90F40FA4E76164C7C06FB7DB29215F5C90640FDDDCA85900717F"
+  "filesTouchedCount": 33,
+  "filesTouchedManifestSha256": "383d0231c68e61dd52c020d15b9261fec58d1cf7089eea42188923d9c9af77ef",
+  "workingTreeFingerprint": "DFE37458EDA5D378EFDB910EC9283EFF41CC43711758B64B39825D8B48AB42D8"
 }

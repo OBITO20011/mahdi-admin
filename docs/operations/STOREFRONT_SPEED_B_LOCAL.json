@@ -1,0 +1,1354 @@
+{
+  "format": 1,
+  "ok": true,
+  "productionGoalMet": false,
+  "noHostedAccess": true,
+  "noSql": true,
+  "base": "d102074583c7369502954eaf8ea70d2595f6a19c",
+  "loadingProductionSource": "48bd9d4cb5050724e277b59b7bd94608de21c7ad",
+  "imageSourceHashes": {
+    "customer-web/src/App.tsx": "fa6897963b359bd15ea6f89924c5dfd3db60f7fbde45926accec4fba40f269ac",
+    "customer-web/src/components/CategoryShowcase.tsx": "e8cce67edbbdd205dc4f8350eab8dbedfcca434e1b17ffe1bdfe37f17d2720f8",
+    "customer-web/src/components/HomeCategoryMosaic.tsx": "0ef85482036d6c1c8a5873e22d8ba11a5e0246afd763865f894755a125bb0a28",
+    "customer-web/src/components/ProductDetailsModal.tsx": "4c3e7f27659a059a5ac67422505c5c0e9b862940fc2a4860b5f2cb10f4b74b72",
+    "customer-web/src/components/ProductImage.tsx": "9499bc5471fd43aeed18588d3eb07168a6e21b8cf26a186d9c047a1ee130e802",
+    "customer-web/src/utils/productThumbnail.ts": "9446b3d0a530afe038c0b5e739c39220fd3f63c7fc4fc6954b413a9ac5cd1872",
+    "src/services/supabase/product-images.service.ts": "229bc5f593ce20d0a6d5c017f5591e037189ec692e9afd1e54242dcbfe8f84ca",
+    "src/utils/productImageThumbnail.ts": "d04fa25d5b2e27bef48d0321e9d25f2fbeff9018277e74df05c2fd23c02770ab"
+  },
+  "measurements": {
+    "baseline": [
+      {
+        "page": "home",
+        "samples": [
+          {
+            "file": "baseline/home-1.json",
+            "sha256": "01421f33e0ddbf1d7e4c88f01e12d3ce624ca8e81933d034fe8a0079d2092749",
+            "LCP": 3657.2690000000002,
+            "TBT": 337.15862500000003,
+            "CLS": 0.035011123028084117,
+            "requests": 32,
+            "rpc": 4,
+            "apiHttp": 8,
+            "storageEquivalent": 12,
+            "resources": {
+              "script": 215961,
+              "stylesheet": 17085,
+              "font": 0,
+              "image": 3790529,
+              "media": 2711878,
+              "total": 6777761
+            },
+            "benchmarkIndex": 1770
+          },
+          {
+            "file": "baseline/home-2.json",
+            "sha256": "9cf3916e3fb4b2a3184934ad4d728c26b8e94b09b3d517a9f4fdaa56629c5eb6",
+            "LCP": 3361.1247999999996,
+            "TBT": 126,
+            "CLS": 0.034937164484176,
+            "requests": 32,
+            "rpc": 4,
+            "apiHttp": 8,
+            "storageEquivalent": 12,
+            "resources": {
+              "script": 215961,
+              "stylesheet": 17085,
+              "font": 0,
+              "image": 3790529,
+              "media": 2711878,
+              "total": 6777761
+            },
+            "benchmarkIndex": 1677.5
+          },
+          {
+            "file": "baseline/home-3.json",
+            "sha256": "5875fceef81e7c6ad2c077aee54f6bda09ddea8fef2a3b9c78a4591ef68f4c45",
+            "LCP": 3666.4140000000007,
+            "TBT": 163.5,
+            "CLS": 0.034937164484176,
+            "requests": 32,
+            "rpc": 4,
+            "apiHttp": 8,
+            "storageEquivalent": 12,
+            "resources": {
+              "script": 215961,
+              "stylesheet": 17085,
+              "font": 0,
+              "image": 3790529,
+              "media": 2711878,
+              "total": 6777761
+            },
+            "benchmarkIndex": 1994
+          }
+        ],
+        "LCP": 3657.2690000000002,
+        "TBT": 163.5,
+        "CLS": 0.034937164484176,
+        "requests": 32,
+        "rpc": 4,
+        "apiHttp": 8,
+        "storageEquivalent": 12,
+        "resources": {
+          "script": 215961,
+          "stylesheet": 17085,
+          "font": 0,
+          "image": 3790529,
+          "media": 2711878,
+          "total": 6777761
+        }
+      },
+      {
+        "page": "category",
+        "samples": [
+          {
+            "file": "baseline/category-1.json",
+            "sha256": "39bab417d60f861a6c68dc7d41c6f8fca24db4f7e55bee320f4e62c1e9f12ce8",
+            "LCP": 3296.3629499999997,
+            "TBT": 254,
+            "CLS": 0.05217604045721148,
+            "requests": 63,
+            "rpc": 5,
+            "apiHttp": 9,
+            "storageEquivalent": 44,
+            "resources": {
+              "script": 215961,
+              "stylesheet": 17085,
+              "font": 0,
+              "image": 13487615,
+              "media": 0,
+              "total": 13785810
+            },
+            "benchmarkIndex": 1603.5
+          },
+          {
+            "file": "baseline/category-2.json",
+            "sha256": "afb6e1f9163c9dc8755707746978057497957ccaadf07c0cb804717a0b18df6e",
+            "LCP": 3302.6939500000003,
+            "TBT": 236,
+            "CLS": 0.03523715323732274,
+            "requests": 67,
+            "rpc": 5,
+            "apiHttp": 9,
+            "storageEquivalent": 48,
+            "resources": {
+              "script": 215961,
+              "stylesheet": 17085,
+              "font": 0,
+              "image": 14706639,
+              "media": 0,
+              "total": 15004834
+            },
+            "benchmarkIndex": 1526
+          },
+          {
+            "file": "baseline/category-3.json",
+            "sha256": "628e765aeb819f4c4b0f14894c770bcde541623976b3549eaeca91734fa6ab50",
+            "LCP": 3123.3967500000003,
+            "TBT": 174.49999999999977,
+            "CLS": 0.05333665173097512,
+            "requests": 63,
+            "rpc": 5,
+            "apiHttp": 9,
+            "storageEquivalent": 44,
+            "resources": {
+              "script": 215961,
+              "stylesheet": 17085,
+              "font": 0,
+              "image": 13487615,
+              "media": 0,
+              "total": 13785810
+            },
+            "benchmarkIndex": 1544
+          }
+        ],
+        "LCP": 3296.3629499999997,
+        "TBT": 236,
+        "CLS": 0.05217604045721148,
+        "requests": 63,
+        "rpc": 5,
+        "apiHttp": 9,
+        "storageEquivalent": 44,
+        "resources": {
+          "script": 215961,
+          "stylesheet": 17085,
+          "font": 0,
+          "image": 13487615,
+          "media": 0,
+          "total": 13785810
+        }
+      },
+      {
+        "page": "product",
+        "samples": [
+          {
+            "file": "baseline/product-1.json",
+            "sha256": "fdd71fda1c70d625f76961ece70d24d6dc02259dd87ccdb67a65ea09be0ff6f9",
+            "LCP": 9774.34,
+            "TBT": 384,
+            "CLS": 0.034937164484176,
+            "requests": 46,
+            "rpc": 6,
+            "apiHttp": 12,
+            "storageEquivalent": 24,
+            "resources": {
+              "script": 215961,
+              "stylesheet": 17085,
+              "font": 0,
+              "image": 7391604,
+              "media": 0,
+              "total": 7670026
+            },
+            "benchmarkIndex": 1755
+          },
+          {
+            "file": "baseline/product-2.json",
+            "sha256": "361fc9e3c10a7d0c93ab19329b47d9125e9f574fd293b59b492b058f38be2c8a",
+            "LCP": 4812.4193749999995,
+            "TBT": 264.87924999999996,
+            "CLS": 0.034937164484176,
+            "requests": 46,
+            "rpc": 6,
+            "apiHttp": 12,
+            "storageEquivalent": 24,
+            "resources": {
+              "script": 215961,
+              "stylesheet": 17085,
+              "font": 0,
+              "image": 7391604,
+              "media": 0,
+              "total": 7670026
+            },
+            "benchmarkIndex": 1795.5
+          },
+          {
+            "file": "baseline/product-3.json",
+            "sha256": "bb7793d58ae2416458de38387001f73c98b29e629139810d50a83adf1d9e2ef5",
+            "LCP": 9778.832599999998,
+            "TBT": 211,
+            "CLS": 0.034937164484176,
+            "requests": 45,
+            "rpc": 6,
+            "apiHttp": 11,
+            "storageEquivalent": 24,
+            "resources": {
+              "script": 215961,
+              "stylesheet": 17085,
+              "font": 0,
+              "image": 7391604,
+              "media": 0,
+              "total": 7670026
+            },
+            "benchmarkIndex": 2032
+          }
+        ],
+        "LCP": 9774.34,
+        "TBT": 264.87924999999996,
+        "CLS": 0.034937164484176,
+        "requests": 46,
+        "rpc": 6,
+        "apiHttp": 12,
+        "storageEquivalent": 24,
+        "resources": {
+          "script": 215961,
+          "stylesheet": 17085,
+          "font": 0,
+          "image": 7391604,
+          "media": 0,
+          "total": 7670026
+        }
+      },
+      {
+        "page": "cart",
+        "samples": [
+          {
+            "file": "baseline/cart-1.json",
+            "sha256": "e907819364d08e732bd9ef155088eafaf30edc88b330826f6303e16d68bfc7c1",
+            "LCP": 3806.1894,
+            "TBT": 256.4999999999998,
+            "CLS": 0.07629264841310841,
+            "requests": 43,
+            "rpc": 5,
+            "apiHttp": 9,
+            "storageEquivalent": 24,
+            "resources": {
+              "script": 215961,
+              "stylesheet": 17085,
+              "font": 0,
+              "image": 7391604,
+              "media": 0,
+              "total": 7669659
+            },
+            "benchmarkIndex": 2032
+          },
+          {
+            "file": "baseline/cart-2.json",
+            "sha256": "a061d27c6805d032a70214d99e9f7cb6bcd89a2ebeb3d22ff912be4e1fbfc111",
+            "LCP": 3966.3895,
+            "TBT": 428.0362499999999,
+            "CLS": 0.07629264841310841,
+            "requests": 43,
+            "rpc": 5,
+            "apiHttp": 9,
+            "storageEquivalent": 24,
+            "resources": {
+              "script": 215961,
+              "stylesheet": 17085,
+              "font": 0,
+              "image": 7391604,
+              "media": 0,
+              "total": 7669659
+            },
+            "benchmarkIndex": 1443
+          },
+          {
+            "file": "baseline/cart-3.json",
+            "sha256": "f45fd26a67c5e0e63e80d62e1606578f1c5e6c087e97e38526f3449191cf98df",
+            "LCP": 3904.1015000000007,
+            "TBT": 444.7512499999998,
+            "CLS": 0.0268693425574448,
+            "requests": 43,
+            "rpc": 5,
+            "apiHttp": 9,
+            "storageEquivalent": 24,
+            "resources": {
+              "script": 215961,
+              "stylesheet": 17085,
+              "font": 0,
+              "image": 7391604,
+              "media": 0,
+              "total": 7669659
+            },
+            "benchmarkIndex": 1735.5
+          }
+        ],
+        "LCP": 3904.1015000000007,
+        "TBT": 428.0362499999999,
+        "CLS": 0.07629264841310841,
+        "requests": 43,
+        "rpc": 5,
+        "apiHttp": 9,
+        "storageEquivalent": 24,
+        "resources": {
+          "script": 215961,
+          "stylesheet": 17085,
+          "font": 0,
+          "image": 7391604,
+          "media": 0,
+          "total": 7669659
+        }
+      }
+    ],
+    "loading": [
+      {
+        "page": "home",
+        "samples": [
+          {
+            "file": "after-a-verified/home-1.json",
+            "sha256": "05314ff953f96d38bf1043be45f24b00381b24478bf96f0ea9c651d0a4a01c89",
+            "LCP": 3535.9448999999995,
+            "TBT": 110,
+            "CLS": 0.034937164484176,
+            "requests": 31,
+            "rpc": 4,
+            "apiHttp": 8,
+            "storageEquivalent": 12,
+            "resources": {
+              "script": 188893,
+              "stylesheet": 17097,
+              "font": 0,
+              "image": 3790529,
+              "media": 0,
+              "total": 4038828
+            },
+            "benchmarkIndex": 2277.5
+          },
+          {
+            "file": "after-a-verified/home-2.json",
+            "sha256": "a2b99bf5a9137bd02ac1ac0bf3b563705b414139eb03d2eca7144a710f991e7c",
+            "LCP": 3490.4998500000006,
+            "TBT": 78,
+            "CLS": 0.034937164484176,
+            "requests": 31,
+            "rpc": 4,
+            "apiHttp": 8,
+            "storageEquivalent": 12,
+            "resources": {
+              "script": 188893,
+              "stylesheet": 17097,
+              "font": 0,
+              "image": 3790529,
+              "media": 0,
+              "total": 4038828
+            },
+            "benchmarkIndex": 1910.5
+          },
+          {
+            "file": "after-a-verified/home-3.json",
+            "sha256": "f2a6ebded35efd90a08664d932201f935488e1e07ae28597be42a961b24463a2",
+            "LCP": 3485.4298500000004,
+            "TBT": 76,
+            "CLS": 0.034937164484176,
+            "requests": 31,
+            "rpc": 4,
+            "apiHttp": 8,
+            "storageEquivalent": 12,
+            "resources": {
+              "script": 188893,
+              "stylesheet": 17097,
+              "font": 0,
+              "image": 3790529,
+              "media": 0,
+              "total": 4038828
+            },
+            "benchmarkIndex": 2242
+          }
+        ],
+        "LCP": 3490.4998500000006,
+        "TBT": 78,
+        "CLS": 0.034937164484176,
+        "requests": 31,
+        "rpc": 4,
+        "apiHttp": 8,
+        "storageEquivalent": 12,
+        "resources": {
+          "script": 188893,
+          "stylesheet": 17097,
+          "font": 0,
+          "image": 3790529,
+          "media": 0,
+          "total": 4038828
+        }
+      },
+      {
+        "page": "category",
+        "samples": [
+          {
+            "file": "after-a-verified/category-1.json",
+            "sha256": "cdb8796378f0f8be80e8f6fbb6e9c048326be0bc80c7f908646546e603e52598",
+            "LCP": 3036.1719,
+            "TBT": 87.5,
+            "CLS": 0.036781865067349366,
+            "requests": 59,
+            "rpc": 3,
+            "apiHttp": 5,
+            "storageEquivalent": 44,
+            "resources": {
+              "script": 188893,
+              "stylesheet": 17097,
+              "font": 0,
+              "image": 13487615,
+              "media": 0,
+              "total": 13747510
+            },
+            "benchmarkIndex": 2316.5
+          },
+          {
+            "file": "after-a-verified/category-2.json",
+            "sha256": "684480d9e77630adbc2e3ef3703578c86f155b37c9f1fd221b8b3cbb09083575",
+            "LCP": 3036.1582499999995,
+            "TBT": 80,
+            "CLS": 0.05333665173097512,
+            "requests": 59,
+            "rpc": 3,
+            "apiHttp": 5,
+            "storageEquivalent": 44,
+            "resources": {
+              "script": 188893,
+              "stylesheet": 17097,
+              "font": 0,
+              "image": 13487615,
+              "media": 0,
+              "total": 13747510
+            },
+            "benchmarkIndex": 1916
+          },
+          {
+            "file": "after-a-verified/category-3.json",
+            "sha256": "6875d613e71d0f1403d466e8bcfa8eee1e2be9b50140a29938c002dd8f1a8a88",
+            "LCP": 2933.1434000000004,
+            "TBT": 67,
+            "CLS": 0.036781865067349366,
+            "requests": 59,
+            "rpc": 3,
+            "apiHttp": 5,
+            "storageEquivalent": 44,
+            "resources": {
+              "script": 188893,
+              "stylesheet": 17097,
+              "font": 0,
+              "image": 13487615,
+              "media": 0,
+              "total": 13747510
+            },
+            "benchmarkIndex": 2253.5
+          }
+        ],
+        "LCP": 3036.1582499999995,
+        "TBT": 80,
+        "CLS": 0.036781865067349366,
+        "requests": 59,
+        "rpc": 3,
+        "apiHttp": 5,
+        "storageEquivalent": 44,
+        "resources": {
+          "script": 188893,
+          "stylesheet": 17097,
+          "font": 0,
+          "image": 13487615,
+          "media": 0,
+          "total": 13747510
+        }
+      },
+      {
+        "page": "product",
+        "samples": [
+          {
+            "file": "after-a-verified/product-1.json",
+            "sha256": "5c1e0b404a505edc3597511e721a2a01f9f38160b0fa5c3d4b8eb98cbc83af36",
+            "LCP": 4619.247700000001,
+            "TBT": 126.5,
+            "CLS": 0.05149195114780175,
+            "requests": 41,
+            "rpc": 3,
+            "apiHttp": 6,
+            "storageEquivalent": 24,
+            "resources": {
+              "script": 194069,
+              "stylesheet": 17097,
+              "font": 0,
+              "image": 7391604,
+              "media": 0,
+              "total": 7634201
+            },
+            "benchmarkIndex": 2171
+          },
+          {
+            "file": "after-a-verified/product-2.json",
+            "sha256": "a828433a9faf771f5283f0e887083f8e735e5bf2d52fc22ea4f45e101ca37b4d",
+            "LCP": 4655.3156,
+            "TBT": 94,
+            "CLS": 0.05149195114780175,
+            "requests": 41,
+            "rpc": 3,
+            "apiHttp": 6,
+            "storageEquivalent": 24,
+            "resources": {
+              "script": 194069,
+              "stylesheet": 17097,
+              "font": 0,
+              "image": 7391604,
+              "media": 0,
+              "total": 7634201
+            },
+            "benchmarkIndex": 2201
+          },
+          {
+            "file": "after-a-verified/product-3.json",
+            "sha256": "f2929ee1b49c275b9b20237e3dac700417e41c1d07b3772661eba6de15f8f59e",
+            "LCP": 4621.01555,
+            "TBT": 131,
+            "CLS": 0.05149195114780175,
+            "requests": 41,
+            "rpc": 3,
+            "apiHttp": 6,
+            "storageEquivalent": 24,
+            "resources": {
+              "script": 194069,
+              "stylesheet": 17097,
+              "font": 0,
+              "image": 7391604,
+              "media": 0,
+              "total": 7634201
+            },
+            "benchmarkIndex": 1970.5
+          }
+        ],
+        "LCP": 4621.01555,
+        "TBT": 126.5,
+        "CLS": 0.05149195114780175,
+        "requests": 41,
+        "rpc": 3,
+        "apiHttp": 6,
+        "storageEquivalent": 24,
+        "resources": {
+          "script": 194069,
+          "stylesheet": 17097,
+          "font": 0,
+          "image": 7391604,
+          "media": 0,
+          "total": 7634201
+        }
+      },
+      {
+        "page": "cart",
+        "samples": [
+          {
+            "file": "after-a-verified/cart-1.json",
+            "sha256": "be2ef512b78f226a06d963a17c60f49a5b0a0e8f483ed6116efbbf24f403ab64",
+            "LCP": 3075.046375,
+            "TBT": 128.5,
+            "CLS": 0.05149195114780175,
+            "requests": 41,
+            "rpc": 3,
+            "apiHttp": 5,
+            "storageEquivalent": 24,
+            "resources": {
+              "script": 194533,
+              "stylesheet": 17097,
+              "font": 0,
+              "image": 7391604,
+              "media": 0,
+              "total": 7636999
+            },
+            "benchmarkIndex": 2306
+          },
+          {
+            "file": "after-a-verified/cart-2.json",
+            "sha256": "135341619ff841fa66aad52ccc2c95eafdadac96b24df5257104fd4003f5219c",
+            "LCP": 4844.1645,
+            "TBT": 150.5,
+            "CLS": 0,
+            "requests": 41,
+            "rpc": 3,
+            "apiHttp": 5,
+            "storageEquivalent": 24,
+            "resources": {
+              "script": 194533,
+              "stylesheet": 17097,
+              "font": 0,
+              "image": 7391604,
+              "media": 0,
+              "total": 7636999
+            },
+            "benchmarkIndex": 2325
+          },
+          {
+            "file": "after-a-verified/cart-3.json",
+            "sha256": "36bde6532bfb488d2b3a323f3e38f31cf8f3c540324541476edc40d61dcc350c",
+            "LCP": 4847.523625,
+            "TBT": 133.5,
+            "CLS": 0,
+            "requests": 41,
+            "rpc": 3,
+            "apiHttp": 5,
+            "storageEquivalent": 24,
+            "resources": {
+              "script": 194533,
+              "stylesheet": 17097,
+              "font": 0,
+              "image": 7391604,
+              "media": 0,
+              "total": 7636999
+            },
+            "benchmarkIndex": 2152.5
+          }
+        ],
+        "LCP": 4844.1645,
+        "TBT": 133.5,
+        "CLS": 0,
+        "requests": 41,
+        "rpc": 3,
+        "apiHttp": 5,
+        "storageEquivalent": 24,
+        "resources": {
+          "script": 194533,
+          "stylesheet": 17097,
+          "font": 0,
+          "image": 7391604,
+          "media": 0,
+          "total": 7636999
+        }
+      }
+    ],
+    "images": [
+      {
+        "page": "home",
+        "samples": [
+          {
+            "file": "after-b/home-1.json",
+            "sha256": "2938930e986843b088fd8eebcf57671c2821cd4a81ea2d43e1c4db61e64c4c49",
+            "LCP": 3640.3458000000005,
+            "TBT": 145.54322500000012,
+            "CLS": 0.035011123028084117,
+            "requests": 32,
+            "rpc": 4,
+            "apiHttp": 8,
+            "storageEquivalent": 12,
+            "resources": {
+              "script": 216195,
+              "stylesheet": 17085,
+              "font": 0,
+              "image": 589645,
+              "media": 2711878,
+              "total": 3577112
+            },
+            "benchmarkIndex": 1872.5
+          },
+          {
+            "file": "after-b/home-2.json",
+            "sha256": "69e3e9f37ddd29ac12297d4f8e3f78f58d73fa1ab5427509a151251f28b65c10",
+            "LCP": 3506.9725,
+            "TBT": 91.99999999999955,
+            "CLS": 0.034937164484176,
+            "requests": 32,
+            "rpc": 4,
+            "apiHttp": 8,
+            "storageEquivalent": 12,
+            "resources": {
+              "script": 216195,
+              "stylesheet": 17085,
+              "font": 0,
+              "image": 589645,
+              "media": 2711878,
+              "total": 3577112
+            },
+            "benchmarkIndex": 2239.5
+          },
+          {
+            "file": "after-b/home-3.json",
+            "sha256": "7160da8917bf2907cb9c2676bf59593ff9ad2253cdfb5d3865fc7065d7ae3f18",
+            "LCP": 3629.3984,
+            "TBT": 91.5,
+            "CLS": 0.034937164484176,
+            "requests": 32,
+            "rpc": 4,
+            "apiHttp": 8,
+            "storageEquivalent": 12,
+            "resources": {
+              "script": 216195,
+              "stylesheet": 17085,
+              "font": 0,
+              "image": 589645,
+              "media": 2711878,
+              "total": 3577112
+            },
+            "benchmarkIndex": 2045
+          }
+        ],
+        "LCP": 3629.3984,
+        "TBT": 91.99999999999955,
+        "CLS": 0.034937164484176,
+        "requests": 32,
+        "rpc": 4,
+        "apiHttp": 8,
+        "storageEquivalent": 12,
+        "resources": {
+          "script": 216195,
+          "stylesheet": 17085,
+          "font": 0,
+          "image": 589645,
+          "media": 2711878,
+          "total": 3577112
+        }
+      },
+      {
+        "page": "category",
+        "samples": [
+          {
+            "file": "after-b/category-1.json",
+            "sha256": "8eab035719c40bb19682112b5ac8c735d8510124e9973b3189c9ff868266c5e6",
+            "LCP": 3197.5482999999995,
+            "TBT": 128.5,
+            "CLS": 0.036781865067349366,
+            "requests": 63,
+            "rpc": 5,
+            "apiHttp": 9,
+            "storageEquivalent": 44,
+            "resources": {
+              "script": 216195,
+              "stylesheet": 17085,
+              "font": 0,
+              "image": 1737088,
+              "media": 0,
+              "total": 2035518
+            },
+            "benchmarkIndex": 2460.5
+          },
+          {
+            "file": "after-b/category-2.json",
+            "sha256": "30387030fa83b8c6d7f0a80fdfe812d63c8f9fea239b60d6a8e4bdeb2c007c60",
+            "LCP": 3210.4938,
+            "TBT": 65,
+            "CLS": 0.036781865067349366,
+            "requests": 63,
+            "rpc": 5,
+            "apiHttp": 9,
+            "storageEquivalent": 44,
+            "resources": {
+              "script": 216195,
+              "stylesheet": 17085,
+              "font": 0,
+              "image": 1737088,
+              "media": 0,
+              "total": 2035518
+            },
+            "benchmarkIndex": 2004.5
+          },
+          {
+            "file": "after-b/category-3.json",
+            "sha256": "3cfce502be96245376dd8aa1c9831c55b3febe78dcb2a81af918baaba12b73b4",
+            "LCP": 3220.1829,
+            "TBT": 81,
+            "CLS": 0.05217604045721148,
+            "requests": 63,
+            "rpc": 5,
+            "apiHttp": 9,
+            "storageEquivalent": 44,
+            "resources": {
+              "script": 216195,
+              "stylesheet": 17085,
+              "font": 0,
+              "image": 1737088,
+              "media": 0,
+              "total": 2035518
+            },
+            "benchmarkIndex": 2264
+          }
+        ],
+        "LCP": 3210.4938,
+        "TBT": 81,
+        "CLS": 0.036781865067349366,
+        "requests": 63,
+        "rpc": 5,
+        "apiHttp": 9,
+        "storageEquivalent": 44,
+        "resources": {
+          "script": 216195,
+          "stylesheet": 17085,
+          "font": 0,
+          "image": 1737088,
+          "media": 0,
+          "total": 2035518
+        }
+      },
+      {
+        "page": "product",
+        "samples": [
+          {
+            "file": "after-b/product-1.json",
+            "sha256": "92be24fd68d360f9ce2fac7c202d1dd5af63e02344afba8bfb2b151db038c8e5",
+            "LCP": 4748.97725,
+            "TBT": 141.5,
+            "CLS": 0.05149195114780175,
+            "requests": 46,
+            "rpc": 6,
+            "apiHttp": 12,
+            "storageEquivalent": 24,
+            "resources": {
+              "script": 216195,
+              "stylesheet": 17085,
+              "font": 0,
+              "image": 985116,
+              "media": 0,
+              "total": 1263773
+            },
+            "benchmarkIndex": 2378.5
+          },
+          {
+            "file": "after-b/product-2.json",
+            "sha256": "0ddeb90df157303e4ab88cce2c56372c450267a96e15ad2fba6c352330319d89",
+            "LCP": 5045.3166,
+            "TBT": 85,
+            "CLS": 0.034937164484176,
+            "requests": 46,
+            "rpc": 6,
+            "apiHttp": 12,
+            "storageEquivalent": 24,
+            "resources": {
+              "script": 216195,
+              "stylesheet": 17085,
+              "font": 0,
+              "image": 985116,
+              "media": 0,
+              "total": 1263773
+            },
+            "benchmarkIndex": 2461.5
+          },
+          {
+            "file": "after-b/product-3.json",
+            "sha256": "36386cc807fe7a8009880887d2bd735465da65cb44162ccb5565561a111f8b83",
+            "LCP": 5048.24595,
+            "TBT": 131.50000000000045,
+            "CLS": 0.034937164484176,
+            "requests": 46,
+            "rpc": 6,
+            "apiHttp": 12,
+            "storageEquivalent": 24,
+            "resources": {
+              "script": 216195,
+              "stylesheet": 17085,
+              "font": 0,
+              "image": 985116,
+              "media": 0,
+              "total": 1263773
+            },
+            "benchmarkIndex": 2346
+          }
+        ],
+        "LCP": 5045.3166,
+        "TBT": 131.50000000000045,
+        "CLS": 0.034937164484176,
+        "requests": 46,
+        "rpc": 6,
+        "apiHttp": 12,
+        "storageEquivalent": 24,
+        "resources": {
+          "script": 216195,
+          "stylesheet": 17085,
+          "font": 0,
+          "image": 985116,
+          "media": 0,
+          "total": 1263773
+        }
+      },
+      {
+        "page": "cart",
+        "samples": [
+          {
+            "file": "after-b/cart-1.json",
+            "sha256": "0e00098ae481b2031e0d0e893e531d058fe5bb35767492e28fdc9a5ba8160b60",
+            "LCP": 3556.9769999999994,
+            "TBT": 285.0000000000002,
+            "CLS": 0.07629264841310841,
+            "requests": 43,
+            "rpc": 5,
+            "apiHttp": 9,
+            "storageEquivalent": 24,
+            "resources": {
+              "script": 216195,
+              "stylesheet": 17085,
+              "font": 0,
+              "image": 985116,
+              "media": 0,
+              "total": 1263406
+            },
+            "benchmarkIndex": 2083
+          },
+          {
+            "file": "after-b/cart-2.json",
+            "sha256": "cb45d264d6bf6af7b0d7ef0e9b85e2264da4913822076739e3ae80ff83c4a0d0",
+            "LCP": 3463.4059000000007,
+            "TBT": 182.90665000000035,
+            "CLS": 0.07629264841310841,
+            "requests": 43,
+            "rpc": 5,
+            "apiHttp": 9,
+            "storageEquivalent": 24,
+            "resources": {
+              "script": 216195,
+              "stylesheet": 17085,
+              "font": 0,
+              "image": 985116,
+              "media": 0,
+              "total": 1263406
+            },
+            "benchmarkIndex": 2123
+          },
+          {
+            "file": "after-b/cart-3.json",
+            "sha256": "019a79802d47cd5de5b85496e8f037e2d1973a8944fae828731b3f37dd489fde",
+            "LCP": 3504.7019,
+            "TBT": 235.52665000000025,
+            "CLS": 0.09884661171132723,
+            "requests": 43,
+            "rpc": 5,
+            "apiHttp": 9,
+            "storageEquivalent": 24,
+            "resources": {
+              "script": 216195,
+              "stylesheet": 17085,
+              "font": 0,
+              "image": 985116,
+              "media": 0,
+              "total": 1263406
+            },
+            "benchmarkIndex": 2182
+          }
+        ],
+        "LCP": 3504.7019,
+        "TBT": 235.52665000000025,
+        "CLS": 0.07629264841310841,
+        "requests": 43,
+        "rpc": 5,
+        "apiHttp": 9,
+        "storageEquivalent": 24,
+        "resources": {
+          "script": 216195,
+          "stylesheet": 17085,
+          "font": 0,
+          "image": 985116,
+          "media": 0,
+          "total": 1263406
+        }
+      }
+    ],
+    "combined": [
+      {
+        "page": "home",
+        "samples": [
+          {
+            "file": "combined/after-b/home-1.json",
+            "sha256": "33d4ff3b43358bb0be8128403e061c0f99d261b6ee2cda75d1582413b2c38672",
+            "LCP": 3528.3071,
+            "TBT": 50,
+            "CLS": 0.034937164484176,
+            "requests": 31,
+            "rpc": 4,
+            "apiHttp": 8,
+            "storageEquivalent": 12,
+            "resources": {
+              "script": 189153,
+              "stylesheet": 17097,
+              "font": 0,
+              "image": 589645,
+              "media": 0,
+              "total": 838204
+            },
+            "benchmarkIndex": 2607
+          },
+          {
+            "file": "combined/after-b/home-2.json",
+            "sha256": "4556455d87087f096316467cb952b26843fb2c1f63a8535d98b2fc2325da6b16",
+            "LCP": 3368.73995,
+            "TBT": 34,
+            "CLS": 0.034937164484176,
+            "requests": 31,
+            "rpc": 4,
+            "apiHttp": 8,
+            "storageEquivalent": 12,
+            "resources": {
+              "script": 189153,
+              "stylesheet": 17097,
+              "font": 0,
+              "image": 589645,
+              "media": 0,
+              "total": 838204
+            },
+            "benchmarkIndex": 2189.5
+          },
+          {
+            "file": "combined/after-b/home-3.json",
+            "sha256": "28c63b5bd9a44fc7142c07d3667a879fc7a927aeb56c86a0cb651c9d0e5a8e5a",
+            "LCP": 3524.1093,
+            "TBT": 52,
+            "CLS": 0.035011123028084117,
+            "requests": 31,
+            "rpc": 4,
+            "apiHttp": 8,
+            "storageEquivalent": 12,
+            "resources": {
+              "script": 189153,
+              "stylesheet": 17097,
+              "font": 0,
+              "image": 589645,
+              "media": 0,
+              "total": 838204
+            },
+            "benchmarkIndex": 1738.5
+          }
+        ],
+        "LCP": 3524.1093,
+        "TBT": 50,
+        "CLS": 0.034937164484176,
+        "requests": 31,
+        "rpc": 4,
+        "apiHttp": 8,
+        "storageEquivalent": 12,
+        "resources": {
+          "script": 189153,
+          "stylesheet": 17097,
+          "font": 0,
+          "image": 589645,
+          "media": 0,
+          "total": 838204
+        }
+      },
+      {
+        "page": "category",
+        "samples": [
+          {
+            "file": "combined/after-b/category-1.json",
+            "sha256": "cbfcc67d891a3c8c94ed128ce1585de60b2980766150ef4dfdfea7ba062e756f",
+            "LCP": 2916.4204,
+            "TBT": 88.5,
+            "CLS": 0.036781865067349366,
+            "requests": 59,
+            "rpc": 3,
+            "apiHttp": 5,
+            "storageEquivalent": 44,
+            "resources": {
+              "script": 189153,
+              "stylesheet": 17097,
+              "font": 0,
+              "image": 1737088,
+              "media": 0,
+              "total": 1997243
+            },
+            "benchmarkIndex": 2075
+          },
+          {
+            "file": "combined/after-b/category-2.json",
+            "sha256": "0c3dbc712216f3466c4f33cb67dcb71f4b306c272261bf8084b620a9dc0e2e65",
+            "LCP": 2915.4384499999996,
+            "TBT": 66.5,
+            "CLS": 0.05333665173097512,
+            "requests": 59,
+            "rpc": 3,
+            "apiHttp": 5,
+            "storageEquivalent": 44,
+            "resources": {
+              "script": 189153,
+              "stylesheet": 17097,
+              "font": 0,
+              "image": 1737088,
+              "media": 0,
+              "total": 1997243
+            },
+            "benchmarkIndex": 2196.5
+          },
+          {
+            "file": "combined/after-b/category-3.json",
+            "sha256": "4f5aca5cce6b89016b075b1a4fdd5d468f6d2e4fae3bfc5d5eb1167a08660f44",
+            "LCP": 2927.5250499999997,
+            "TBT": 94.5,
+            "CLS": 0.052960208807756516,
+            "requests": 59,
+            "rpc": 3,
+            "apiHttp": 5,
+            "storageEquivalent": 44,
+            "resources": {
+              "script": 189153,
+              "stylesheet": 17097,
+              "font": 0,
+              "image": 1737088,
+              "media": 0,
+              "total": 1997243
+            },
+            "benchmarkIndex": 2312.5
+          }
+        ],
+        "LCP": 2916.4204,
+        "TBT": 88.5,
+        "CLS": 0.052960208807756516,
+        "requests": 59,
+        "rpc": 3,
+        "apiHttp": 5,
+        "storageEquivalent": 44,
+        "resources": {
+          "script": 189153,
+          "stylesheet": 17097,
+          "font": 0,
+          "image": 1737088,
+          "media": 0,
+          "total": 1997243
+        }
+      },
+      {
+        "page": "product",
+        "samples": [
+          {
+            "file": "combined/after-b/product-1.json",
+            "sha256": "0b0415eaa1f7725d44149bfeff21b8fa00f059d99726858fab429766f8cbfb4e",
+            "LCP": 4619.9146,
+            "TBT": 44,
+            "CLS": 0.034937164484176,
+            "requests": 41,
+            "rpc": 3,
+            "apiHttp": 6,
+            "storageEquivalent": 24,
+            "resources": {
+              "script": 194361,
+              "stylesheet": 17097,
+              "font": 0,
+              "image": 985116,
+              "media": 0,
+              "total": 1228005
+            },
+            "benchmarkIndex": 2469.5
+          },
+          {
+            "file": "combined/after-b/product-2.json",
+            "sha256": "a2b98cdd6319eef8565ef0aa7176304b120ec29fadcc20e331274d9185c8fff5",
+            "LCP": 4370.9928,
+            "TBT": 156.99879999999962,
+            "CLS": 0.05149195114780175,
+            "requests": 41,
+            "rpc": 3,
+            "apiHttp": 6,
+            "storageEquivalent": 24,
+            "resources": {
+              "script": 194361,
+              "stylesheet": 17097,
+              "font": 0,
+              "image": 985116,
+              "media": 0,
+              "total": 1228005
+            },
+            "benchmarkIndex": 2287
+          },
+          {
+            "file": "combined/after-b/product-3.json",
+            "sha256": "49e0bb900786eade4500c37cc25c046f91418309acf5f983f8665ce0e31bd37c",
+            "LCP": 4622.0538,
+            "TBT": 64,
+            "CLS": 0.034937164484176,
+            "requests": 41,
+            "rpc": 3,
+            "apiHttp": 6,
+            "storageEquivalent": 24,
+            "resources": {
+              "script": 194361,
+              "stylesheet": 17097,
+              "font": 0,
+              "image": 985116,
+              "media": 0,
+              "total": 1228005
+            },
+            "benchmarkIndex": 2340.5
+          }
+        ],
+        "LCP": 4619.9146,
+        "TBT": 64,
+        "CLS": 0.034937164484176,
+        "requests": 41,
+        "rpc": 3,
+        "apiHttp": 6,
+        "storageEquivalent": 24,
+        "resources": {
+          "script": 194361,
+          "stylesheet": 17097,
+          "font": 0,
+          "image": 985116,
+          "media": 0,
+          "total": 1228005
+        }
+      },
+      {
+        "page": "cart",
+        "samples": [
+          {
+            "file": "combined/after-b/cart-1.json",
+            "sha256": "82a0d0b1e55942078120947c561ed089da54d5bf1e6fb54e1eafa4d35b40758e",
+            "LCP": 2998.3642,
+            "TBT": 88.5,
+            "CLS": 0.05376551090266247,
+            "requests": 41,
+            "rpc": 3,
+            "apiHttp": 5,
+            "storageEquivalent": 24,
+            "resources": {
+              "script": 194791,
+              "stylesheet": 17097,
+              "font": 0,
+              "image": 985116,
+              "media": 0,
+              "total": 1230769
+            },
+            "benchmarkIndex": 2175.5
+          },
+          {
+            "file": "combined/after-b/cart-2.json",
+            "sha256": "570a99338ad7761f3a0bb677562c89089477912feff73b8478bcd84a2dd8077b",
+            "LCP": 4037.4628000000002,
+            "TBT": 94,
+            "CLS": 0.0618065070416208,
+            "requests": 41,
+            "rpc": 3,
+            "apiHttp": 5,
+            "storageEquivalent": 24,
+            "resources": {
+              "script": 194791,
+              "stylesheet": 17097,
+              "font": 0,
+              "image": 985116,
+              "media": 0,
+              "total": 1230769
+            },
+            "benchmarkIndex": 2232.5
+          },
+          {
+            "file": "combined/after-b/cart-3.json",
+            "sha256": "dab22debfc90095a536fe13320d2553cc1360ecdfaa513aefc0ab5a23b6816b0",
+            "LCP": 4405.59545,
+            "TBT": 157.5,
+            "CLS": 0.0618065070416208,
+            "requests": 41,
+            "rpc": 3,
+            "apiHttp": 5,
+            "storageEquivalent": 24,
+            "resources": {
+              "script": 194791,
+              "stylesheet": 17097,
+              "font": 0,
+              "image": 985116,
+              "media": 0,
+              "total": 1230769
+            },
+            "benchmarkIndex": 2450.5
+          }
+        ],
+        "LCP": 4037.4628000000002,
+        "TBT": 94,
+        "CLS": 0.0618065070416208,
+        "requests": 41,
+        "rpc": 3,
+        "apiHttp": 5,
+        "storageEquivalent": 24,
+        "resources": {
+          "script": 194791,
+          "stylesheet": 17097,
+          "font": 0,
+          "image": 985116,
+          "media": 0,
+          "total": 1230769
+        }
+      }
+    ]
+  },
+  "thumbnailFixture": {
+    "manifestSha256": "79ae089ecad3361d32939880473c47da8cd9580ea96b1dac2043c9f8b5520c81",
+    "count": 300,
+    "maxSide": 400,
+    "bytes": [
+      36892,
+      38130
+    ]
+  },
+  "current219": {
+    "ok": true,
+    "records": {
+      "table219": {
+        "infrastructureOk": true,
+        "applicationReady": true,
+        "stage": "rls-and-acl",
+        "counts": {
+          "success": 172,
+          "permission_denied": 0,
+          "zero_rows": 9,
+          "other_error": 0
+        },
+        "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-sxXueX"
+      },
+      "service219": {
+        "ok": true,
+        "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-N4J06t",
+        "count": 598,
+        "denied": 18
+      }
+    },
+    "service": {
+      "ok": true,
+      "probes": 598,
+      "historicalReviewObjects": 7,
+      "hostedRead": false
+    }
+  },
+  "limitations": [
+    "Isolated production Vite SPA. Actual production DB/DNS/4G not accessed.",
+    "Lighthouse simulated Lantern slow4G150ms/1.6Mbps CPU4x mobile390;every numeric summary is median of3.",
+    "Cart is a drawer on cold /products/ with an automatically opened fictional persisted line.",
+    "storageEquivalent counts fictional loopback image GETs,not hosted Supabase requests.",
+    "TBT proxy only;no production INP measured. All raw samples and CPU calibration retained."
+  ]
+}

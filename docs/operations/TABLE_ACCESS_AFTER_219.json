@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-05T06:09:58.482Z",
+  "startedAt": "2026-11-05T16:11:46.338Z",
   "managedAccess": false,
   "migrationCeiling": 219,
   "manifest": [
@@ -185,7 +185,7 @@
     "217_owner_telegram_dispatch.sql",
     "219_home_financial_facts_narrow_projection.sql"
   ],
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-MgRNUj",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-sxXueX",
   "stage": "rls-and-acl",
   "results": [
     {
@@ -213,7 +213,7 @@
           "method": "eq",
           "args": [
             "id",
-            "f5cc31bd-91a1-4efd-ba84-fc3859495619"
+            "db53dfee-520d-46ca-9f12-64b68d2a1d92"
           ]
         },
         {
@@ -248,7 +248,7 @@
           "method": "eq",
           "args": [
             "id",
-            "f5cc31bd-91a1-4efd-ba84-fc3859495619"
+            "db53dfee-520d-46ca-9f12-64b68d2a1d92"
           ]
         },
         {
@@ -283,7 +283,7 @@
           "method": "eq",
           "args": [
             "id",
-            "f5cc31bd-91a1-4efd-ba84-fc3859495619"
+            "db53dfee-520d-46ca-9f12-64b68d2a1d92"
           ]
         },
         {
@@ -318,7 +318,7 @@
           "method": "eq",
           "args": [
             "id",
-            "f5cc31bd-91a1-4efd-ba84-fc3859495619"
+            "db53dfee-520d-46ca-9f12-64b68d2a1d92"
           ]
         },
         {
@@ -353,7 +353,7 @@
           "method": "eq",
           "args": [
             "id",
-            "f5cc31bd-91a1-4efd-ba84-fc3859495619"
+            "db53dfee-520d-46ca-9f12-64b68d2a1d92"
           ]
         },
         {
@@ -388,7 +388,7 @@
           "method": "eq",
           "args": [
             "id",
-            "f5cc31bd-91a1-4efd-ba84-fc3859495619"
+            "db53dfee-520d-46ca-9f12-64b68d2a1d92"
           ]
         },
         {
@@ -423,7 +423,7 @@
           "method": "eq",
           "args": [
             "id",
-            "1446f0a6-b011-4bd6-bf72-75193155def9"
+            "1fd29a4f-e146-4a9c-a0ed-573d4d0368df"
           ]
         },
         {
@@ -458,7 +458,7 @@
           "method": "eq",
           "args": [
             "id",
-            "1446f0a6-b011-4bd6-bf72-75193155def9"
+            "1fd29a4f-e146-4a9c-a0ed-573d4d0368df"
           ]
         },
         {
@@ -493,7 +493,7 @@
           "method": "eq",
           "args": [
             "id",
-            "1446f0a6-b011-4bd6-bf72-75193155def9"
+            "1fd29a4f-e146-4a9c-a0ed-573d4d0368df"
           ]
         },
         {
@@ -726,7 +726,7 @@
           "method": "eq",
           "args": [
             "id",
-            "dd0e4fdf-0efa-4c2c-80ca-4b24a64ad685"
+            "8b260407-95a7-4100-ba62-2dffc8669162"
           ]
         },
         {
@@ -761,7 +761,7 @@
           "method": "eq",
           "args": [
             "id",
-            "dd0e4fdf-0efa-4c2c-80ca-4b24a64ad685"
+            "8b260407-95a7-4100-ba62-2dffc8669162"
           ]
         },
         {
@@ -796,7 +796,7 @@
           "method": "eq",
           "args": [
             "id",
-            "dd0e4fdf-0efa-4c2c-80ca-4b24a64ad685"
+            "8b260407-95a7-4100-ba62-2dffc8669162"
           ]
         },
         {
@@ -831,7 +831,7 @@
           "method": "eq",
           "args": [
             "id",
-            "cc501aca-41eb-4ba0-bae8-162cf7303b9d"
+            "d297c42d-390c-4c66-8848-34e6502bdb46"
           ]
         },
         {
@@ -866,7 +866,7 @@
           "method": "eq",
           "args": [
             "id",
-            "cc501aca-41eb-4ba0-bae8-162cf7303b9d"
+            "d297c42d-390c-4c66-8848-34e6502bdb46"
           ]
         },
         {
@@ -901,7 +901,7 @@
           "method": "eq",
           "args": [
             "id",
-            "cc501aca-41eb-4ba0-bae8-162cf7303b9d"
+            "d297c42d-390c-4c66-8848-34e6502bdb46"
           ]
         },
         {
@@ -936,7 +936,7 @@
           "method": "eq",
           "args": [
             "id",
-            "dd0e4fdf-0efa-4c2c-80ca-4b24a64ad685"
+            "8b260407-95a7-4100-ba62-2dffc8669162"
           ]
         },
         {
@@ -971,7 +971,7 @@
           "method": "eq",
           "args": [
             "id",
-            "dd0e4fdf-0efa-4c2c-80ca-4b24a64ad685"
+            "8b260407-95a7-4100-ba62-2dffc8669162"
           ]
         },
         {
@@ -1006,7 +1006,7 @@
           "method": "eq",
           "args": [
             "id",
-            "dd0e4fdf-0efa-4c2c-80ca-4b24a64ad685"
+            "8b260407-95a7-4100-ba62-2dffc8669162"
           ]
         },
         {
@@ -1537,7 +1537,7 @@
           "args": [
             "id",
             [
-              "f5cc31bd-91a1-4efd-ba84-fc3859495619"
+              "db53dfee-520d-46ca-9f12-64b68d2a1d92"
             ]
           ]
         }
@@ -1570,7 +1570,7 @@
           "args": [
             "id",
             [
-              "f5cc31bd-91a1-4efd-ba84-fc3859495619"
+              "db53dfee-520d-46ca-9f12-64b68d2a1d92"
             ]
           ]
         }
@@ -1603,7 +1603,7 @@
           "args": [
             "id",
             [
-              "f5cc31bd-91a1-4efd-ba84-fc3859495619"
+              "db53dfee-520d-46ca-9f12-64b68d2a1d92"
             ]
           ]
         }
@@ -1636,7 +1636,7 @@
           "args": [
             "order_id",
             [
-              "f5cc31bd-91a1-4efd-ba84-fc3859495619"
+              "db53dfee-520d-46ca-9f12-64b68d2a1d92"
             ]
           ]
         },
@@ -1702,7 +1702,7 @@
           "args": [
             "order_id",
             [
-              "f5cc31bd-91a1-4efd-ba84-fc3859495619"
+              "db53dfee-520d-46ca-9f12-64b68d2a1d92"
             ]
           ]
         },
@@ -1768,7 +1768,7 @@
           "args": [
             "order_id",
             [
-              "f5cc31bd-91a1-4efd-ba84-fc3859495619"
+              "db53dfee-520d-46ca-9f12-64b68d2a1d92"
             ]
           ]
         },
@@ -1833,7 +1833,7 @@
           "method": "eq",
           "args": [
             "id",
-            "f5cc31bd-91a1-4efd-ba84-fc3859495619"
+            "db53dfee-520d-46ca-9f12-64b68d2a1d92"
           ]
         },
         {
@@ -1868,7 +1868,7 @@
           "method": "eq",
           "args": [
             "id",
-            "f5cc31bd-91a1-4efd-ba84-fc3859495619"
+            "db53dfee-520d-46ca-9f12-64b68d2a1d92"
           ]
         },
         {
@@ -1903,7 +1903,7 @@
           "method": "eq",
           "args": [
             "id",
-            "f5cc31bd-91a1-4efd-ba84-fc3859495619"
+            "db53dfee-520d-46ca-9f12-64b68d2a1d92"
           ]
         },
         {
@@ -1938,7 +1938,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "f5cc31bd-91a1-4efd-ba84-fc3859495619"
+            "db53dfee-520d-46ca-9f12-64b68d2a1d92"
           ]
         },
         {
@@ -1975,7 +1975,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "f5cc31bd-91a1-4efd-ba84-fc3859495619"
+            "db53dfee-520d-46ca-9f12-64b68d2a1d92"
           ]
         },
         {
@@ -2012,7 +2012,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "f5cc31bd-91a1-4efd-ba84-fc3859495619"
+            "db53dfee-520d-46ca-9f12-64b68d2a1d92"
           ]
         },
         {
@@ -2050,7 +2050,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "0fc64e14-564e-4319-acbd-1bbe76c7b0bb"
+              "aa2440fd-2cb5-489c-aa8a-d2b5446b0592"
             ]
           ]
         }
@@ -2083,7 +2083,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "0fc64e14-564e-4319-acbd-1bbe76c7b0bb"
+              "aa2440fd-2cb5-489c-aa8a-d2b5446b0592"
             ]
           ]
         }
@@ -2116,7 +2116,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "0fc64e14-564e-4319-acbd-1bbe76c7b0bb"
+              "aa2440fd-2cb5-489c-aa8a-d2b5446b0592"
             ]
           ]
         }
@@ -2124,7 +2124,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/product-images.service.ts:142",
+      "id": "src/services/supabase/product-images.service.ts:155",
       "table": "product_images",
       "operation": "select",
       "role": "authenticated",
@@ -2161,7 +2161,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/product-images.service.ts:142",
+      "id": "src/services/supabase/product-images.service.ts:155",
       "table": "product_images",
       "operation": "select",
       "role": "authenticated",
@@ -2198,7 +2198,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/product-images.service.ts:142",
+      "id": "src/services/supabase/product-images.service.ts:155",
       "table": "product_images",
       "operation": "select",
       "role": "authenticated",
@@ -4977,7 +4977,7 @@
           "method": "eq",
           "args": [
             "id",
-            "cc501aca-41eb-4ba0-bae8-162cf7303b9d"
+            "d297c42d-390c-4c66-8848-34e6502bdb46"
           ]
         },
         {
@@ -5012,7 +5012,7 @@
           "method": "eq",
           "args": [
             "id",
-            "cc501aca-41eb-4ba0-bae8-162cf7303b9d"
+            "d297c42d-390c-4c66-8848-34e6502bdb46"
           ]
         },
         {
@@ -5047,7 +5047,7 @@
           "method": "eq",
           "args": [
             "id",
-            "cc501aca-41eb-4ba0-bae8-162cf7303b9d"
+            "d297c42d-390c-4c66-8848-34e6502bdb46"
           ]
         },
         {
@@ -6734,7 +6734,7 @@
             {
               "event_key": "audit-local-dispatch",
               "event_type": "new_order",
-              "entity_id": "f5cc31bd-91a1-4efd-ba84-fc3859495619",
+              "entity_id": "db53dfee-520d-46ca-9f12-64b68d2a1d92",
               "status": "processing"
             }
           ]
@@ -6767,7 +6767,7 @@
           "method": "eq",
           "args": [
             "id",
-            "f5cc31bd-91a1-4efd-ba84-fc3859495619"
+            "db53dfee-520d-46ca-9f12-64b68d2a1d92"
           ]
         },
         {
@@ -6806,7 +6806,7 @@
               "status": "failed",
               "failed_count": 1,
               "last_error": "isolated diagnostic",
-              "completed_at": "2026-11-05T06:12:00.281Z"
+              "completed_at": "2026-11-05T16:13:40.492Z"
             }
           ]
         },
@@ -6842,7 +6842,7 @@
               "status": "failed",
               "failed_count": 1,
               "last_error": "isolated diagnostic",
-              "completed_at": "2026-11-05T06:12:00.308Z"
+              "completed_at": "2026-11-05T16:13:40.533Z"
             }
           ]
         },
@@ -6876,9 +6876,9 @@
           "args": [
             {
               "failure_count": 0,
-              "last_success_at": "2026-11-05T06:12:00.334Z",
+              "last_success_at": "2026-11-05T16:13:40.567Z",
               "last_failure_message": null,
-              "updated_at": "2026-11-05T06:12:00.334Z"
+              "updated_at": "2026-11-05T16:13:40.567Z"
             }
           ]
         },
@@ -6913,9 +6913,9 @@
             {
               "is_active": false,
               "failure_count": 1,
-              "last_failure_at": "2026-11-05T06:12:00.362Z",
+              "last_failure_at": "2026-11-05T16:13:40.602Z",
               "last_failure_message": "isolated diagnostic",
-              "updated_at": "2026-11-05T06:12:00.362Z"
+              "updated_at": "2026-11-05T16:13:40.602Z"
             }
           ]
         },
@@ -6952,7 +6952,7 @@
               "delivered_count": 1,
               "failed_count": 0,
               "last_error": null,
-              "completed_at": "2026-11-05T06:12:00.394Z"
+              "completed_at": "2026-11-05T16:13:40.628Z"
             }
           ]
         },
@@ -75606,7 +75606,7 @@
     },
     {
       "file": "src/services/supabase/product-images.service.ts",
-      "sha256": "9a3eaadd19b531ae465dd752e3a469fa880e9ec26ab1e072f35ae57fe25fba44"
+      "sha256": "229bc5f593ce20d0a6d5c017f5591e037189ec692e9afd1e54242dcbfe8f84ca"
     },
     {
       "file": "src/services/supabase/productCost.service.ts",
@@ -75857,6 +75857,10 @@
       "sha256": "795a153eba33933cf6fcd7b28faed58020a821ad40205ff8753aec27fc87d8b8"
     },
     {
+      "file": "src/utils/productImageThumbnail.ts",
+      "sha256": "d04fa25d5b2e27bef48d0321e9d25f2fbeff9018277e74df05c2fd23c02770ab"
+    },
+    {
       "file": "src/utils/receipt.ts",
       "sha256": "48b0264545056a17b5da624d7597f8e9ef18d8e5e127fe4563dee676280733f4"
     },
@@ -75918,7 +75922,7 @@
     },
     {
       "file": "customer-web/src/App.tsx",
-      "sha256": "4c0606d1c621df8f5859c70227642d8ee724329bfbfff5b268f879f89d5441f4"
+      "sha256": "fa6897963b359bd15ea6f89924c5dfd3db60f7fbde45926accec4fba40f269ac"
     },
     {
       "file": "customer-web/src/components/AboutStorePage.tsx",
@@ -75938,7 +75942,7 @@
     },
     {
       "file": "customer-web/src/components/CategoryShowcase.tsx",
-      "sha256": "563b264544af8f09b91e1122d49965aabcbb8165e29530325f5acabacfcbce34"
+      "sha256": "e8cce67edbbdd205dc4f8350eab8dbedfcca434e1b17ffe1bdfe37f17d2720f8"
     },
     {
       "file": "customer-web/src/components/categoryVisuals.ts",
@@ -75966,7 +75970,7 @@
     },
     {
       "file": "customer-web/src/components/HomeCategoryMosaic.tsx",
-      "sha256": "fc2bf3e1e855b4affd43b843c8db7c941899b4ec9d143282857ce48346ef05a8"
+      "sha256": "0ef85482036d6c1c8a5873e22d8ba11a5e0246afd763865f894755a125bb0a28"
     },
     {
       "file": "customer-web/src/components/MerchandisingSections.tsx",
@@ -76010,11 +76014,11 @@
     },
     {
       "file": "customer-web/src/components/ProductDetailsModal.tsx",
-      "sha256": "0ae11958bac0da718a83d8deb1101e24d93c11c71656aff5f7740f7f4e63a676"
+      "sha256": "4c3e7f27659a059a5ac67422505c5c0e9b862940fc2a4860b5f2cb10f4b74b72"
     },
     {
       "file": "customer-web/src/components/ProductImage.tsx",
-      "sha256": "2d581a7599faa0924b0aa01b9f8870ac9fe55cc97e31a53984d63925e11aeac6"
+      "sha256": "9499bc5471fd43aeed18588d3eb07168a6e21b8cf26a186d9c047a1ee130e802"
     },
     {
       "file": "customer-web/src/components/ProductPurchaseControl.tsx",
@@ -76197,6 +76201,10 @@
       "sha256": "eed0f30e37703310dc7a0346d4a8ec0dbe56cb63756da932840db5bdc06b5f14"
     },
     {
+      "file": "customer-web/src/utils/productThumbnail.ts",
+      "sha256": "9446b3d0a530afe038c0b5e739c39220fd3f63c7fc4fc6954b413a9ac5cd1872"
+    },
+    {
       "file": "customer-web/src/utils/publicRoutes.ts",
       "sha256": "ba934021602b4d460055d89bcf5b3bdc6c29279d1ae7ca3c59e834720c150224"
     },
@@ -76254,13 +76262,13 @@
     }
   ],
   "fixture": {
-    "orderId": "f5cc31bd-91a1-4efd-ba84-fc3859495619",
-    "operationId": "1446f0a6-b011-4bd6-bf72-75193155def9",
-    "receiptId": "dd0e4fdf-0efa-4c2c-80ca-4b24a64ad685",
-    "poId": "cc501aca-41eb-4ba0-bae8-162cf7303b9d",
+    "orderId": "db53dfee-520d-46ca-9f12-64b68d2a1d92",
+    "operationId": "1fd29a4f-e146-4a9c-a0ed-573d4d0368df",
+    "receiptId": "8b260407-95a7-4100-ba62-2dffc8669162",
+    "poId": "d297c42d-390c-4c66-8848-34e6502bdb46",
     "subscriptionId": "92600000-0000-4000-8000-000000000701",
     "instances": [
-      "0fc64e14-564e-4319-acbd-1bbe76c7b0bb"
+      "aa2440fd-2cb5-489c-aa8a-d2b5446b0592"
     ]
   },
   "access": [
@@ -82022,5 +82030,5 @@
     "zero_rows": 9,
     "other_error": 0
   },
-  "endedAt": "2026-11-05T06:14:51.935Z"
+  "endedAt": "2026-11-05T16:16:16.091Z"
 }

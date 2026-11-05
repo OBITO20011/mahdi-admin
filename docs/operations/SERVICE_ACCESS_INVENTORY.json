@@ -889,7 +889,7 @@
     },
     {
       "file": "src/services/supabase/product-images.service.ts",
-      "sha256": "9a3eaadd19b531ae465dd752e3a469fa880e9ec26ab1e072f35ae57fe25fba44"
+      "sha256": "229bc5f593ce20d0a6d5c017f5591e037189ec692e9afd1e54242dcbfe8f84ca"
     },
     {
       "file": "src/services/supabase/productCost.service.ts",
@@ -1140,6 +1140,10 @@
       "sha256": "795a153eba33933cf6fcd7b28faed58020a821ad40205ff8753aec27fc87d8b8"
     },
     {
+      "file": "src/utils/productImageThumbnail.ts",
+      "sha256": "d04fa25d5b2e27bef48d0321e9d25f2fbeff9018277e74df05c2fd23c02770ab"
+    },
+    {
       "file": "src/utils/receipt.ts",
       "sha256": "48b0264545056a17b5da624d7597f8e9ef18d8e5e127fe4563dee676280733f4"
     },
@@ -1201,7 +1205,7 @@
     },
     {
       "file": "customer-web/src/App.tsx",
-      "sha256": "4c0606d1c621df8f5859c70227642d8ee724329bfbfff5b268f879f89d5441f4"
+      "sha256": "fa6897963b359bd15ea6f89924c5dfd3db60f7fbde45926accec4fba40f269ac"
     },
     {
       "file": "customer-web/src/components/AboutStorePage.tsx",
@@ -1221,7 +1225,7 @@
     },
     {
       "file": "customer-web/src/components/CategoryShowcase.tsx",
-      "sha256": "563b264544af8f09b91e1122d49965aabcbb8165e29530325f5acabacfcbce34"
+      "sha256": "e8cce67edbbdd205dc4f8350eab8dbedfcca434e1b17ffe1bdfe37f17d2720f8"
     },
     {
       "file": "customer-web/src/components/categoryVisuals.ts",
@@ -1249,7 +1253,7 @@
     },
     {
       "file": "customer-web/src/components/HomeCategoryMosaic.tsx",
-      "sha256": "fc2bf3e1e855b4affd43b843c8db7c941899b4ec9d143282857ce48346ef05a8"
+      "sha256": "0ef85482036d6c1c8a5873e22d8ba11a5e0246afd763865f894755a125bb0a28"
     },
     {
       "file": "customer-web/src/components/MerchandisingSections.tsx",
@@ -1293,11 +1297,11 @@
     },
     {
       "file": "customer-web/src/components/ProductDetailsModal.tsx",
-      "sha256": "0ae11958bac0da718a83d8deb1101e24d93c11c71656aff5f7740f7f4e63a676"
+      "sha256": "4c3e7f27659a059a5ac67422505c5c0e9b862940fc2a4860b5f2cb10f4b74b72"
     },
     {
       "file": "customer-web/src/components/ProductImage.tsx",
-      "sha256": "2d581a7599faa0924b0aa01b9f8870ac9fe55cc97e31a53984d63925e11aeac6"
+      "sha256": "9499bc5471fd43aeed18588d3eb07168a6e21b8cf26a186d9c047a1ee130e802"
     },
     {
       "file": "customer-web/src/components/ProductPurchaseControl.tsx",
@@ -1478,6 +1482,10 @@
     {
       "file": "customer-web/src/utils/productDetails.ts",
       "sha256": "eed0f30e37703310dc7a0346d4a8ec0dbe56cb63756da932840db5bdc06b5f14"
+    },
+    {
+      "file": "customer-web/src/utils/productThumbnail.ts",
+      "sha256": "9446b3d0a530afe038c0b5e739c39220fd3f63c7fc4fc6954b413a9ac5cd1872"
     },
     {
       "file": "customer-web/src/utils/publicRoutes.ts",
@@ -3125,9 +3133,9 @@
       ]
     },
     {
-      "id": "src/services/supabase/product-images.service.ts:134",
+      "id": "src/services/supabase/product-images.service.ts:147",
       "file": "src/services/supabase/product-images.service.ts",
-      "line": 134,
+      "line": 147,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "saveProductPrimaryImage",
@@ -4384,7 +4392,7 @@
   "storage": [
     {
       "file": "src/services/supabase/product-images.service.ts",
-      "line": 76,
+      "line": 77,
       "role": "authenticated",
       "operation": "getPublicUrl",
       "bucket": "PRODUCT_IMAGE_BUCKET",
@@ -4392,15 +4400,23 @@
     },
     {
       "file": "src/services/supabase/product-images.service.ts",
-      "line": 81,
+      "line": 82,
       "role": "authenticated",
       "operation": "upload",
       "bucket": "PRODUCT_IMAGE_BUCKET",
-      "source": "supabase.storage\n    .from(PRODUCT_IMAGE_BUCKET)\n    .upload(storagePath, file, {\n      cacheControl: '3600',\n      contentType: file.type,\n      upsert: false,\n    })"
+      "source": "supabase.storage\n    .from(PRODUCT_IMAGE_BUCKET)\n    .upload(storagePath, file, {\n      cacheControl: '31536000',\n      contentType: file.type,\n      upsert: false,\n    })"
     },
     {
       "file": "src/services/supabase/product-images.service.ts",
-      "line": 100,
+      "line": 105,
+      "role": "authenticated",
+      "operation": "upload",
+      "bucket": "PRODUCT_IMAGE_BUCKET",
+      "source": "supabase.storage.from(PRODUCT_IMAGE_BUCKET).upload(productThumbnailPath(storagePath), thumbnail, {\n        cacheControl: '31536000', contentType: 'image/webp', upsert: false,\n      })"
+    },
+    {
+      "file": "src/services/supabase/product-images.service.ts",
+      "line": 113,
       "role": "authenticated",
       "operation": "getPublicUrl",
       "bucket": "PRODUCT_IMAGE_BUCKET",
@@ -4408,27 +4424,27 @@
     },
     {
       "file": "src/services/supabase/product-images.service.ts",
-      "line": 105,
+      "line": 118,
       "role": "authenticated",
       "operation": "remove",
       "bucket": "PRODUCT_IMAGE_BUCKET",
-      "source": "supabase.storage\n      .from(PRODUCT_IMAGE_BUCKET)\n      .remove([storagePath])"
+      "source": "supabase.storage\n      .from(PRODUCT_IMAGE_BUCKET)\n      .remove([storagePath, productThumbnailPath(storagePath)])"
     },
     {
       "file": "src/services/supabase/product-images.service.ts",
-      "line": 153,
+      "line": 166,
       "role": "authenticated",
       "operation": "remove",
       "bucket": "PRODUCT_IMAGE_BUCKET",
-      "source": "supabase.storage.from(PRODUCT_IMAGE_BUCKET).remove([storagePath])"
+      "source": "supabase.storage.from(PRODUCT_IMAGE_BUCKET).remove([storagePath, productThumbnailPath(storagePath)])"
     },
     {
       "file": "src/services/supabase/product-images.service.ts",
-      "line": 170,
+      "line": 183,
       "role": "authenticated",
       "operation": "remove",
       "bucket": "PRODUCT_IMAGE_BUCKET",
-      "source": "supabase.storage\n    .from(PRODUCT_IMAGE_BUCKET)\n    .remove([storagePath])"
+      "source": "supabase.storage\n    .from(PRODUCT_IMAGE_BUCKET)\n    .remove([storagePath, productThumbnailPath(storagePath)])"
     }
   ],
   "channels": [

@@ -1,3 +1,4 @@
+import {classifyProductImageObjects} from './product-thumbnail-orphans.mjs';
 // Actual disposable214 Auth/Storage/DB plus both browsers. No linked projects.
 import assert from 'node:assert/strict';
 import {execFile} from 'node:child_process';
@@ -12,19 +13,23 @@ import {executorFor,executeInput} from '../operations/build-empty-supabase.mjs';
 import {startIsolatedVite} from './isolated-vite-server.mjs';
 import {localTotp} from './local-totp.mjs';
 const root=path.resolve(import.meta.dirname,'../..'),exec=promisify(execFile),cli=path.join(root,'node_modules/supabase/dist/supabase.js');
+const args=process.argv.slice(2);assert.ok(args.length===0||args.length===1&&args[0]==='--current219','LOCAL_BULK_RUNTIME_ARGUMENT_REFUSED');
+const ceiling=args.length?219:214;
 const project='nawasrah-bulk-images-'+randomBytes(4).toString('hex')+'-test',output=await mkdtemp(path.join(tmpdir(),'nawasrah-bulk-images-'));
 const executor=executorFor(['--container','supabase_db_'+project]),q=value=>"'"+String(value).replaceAll("'","''")+"'";
 const sql=async text=>{const result=await executeInput(executor,text);assert.equal(result.code,0,'BULK_LOCAL_SQL_FAILED:'+result.stderr.slice(0,200));return result.stdout.trim();};
 const json=async text=>JSON.parse(await sql(text));
 const secrets=new Set(),sanitize=value=>{let text=String(value);for(const secret of secrets)if(secret)text=text.replaceAll(secret,'[local-test-credential]');return text;};
-const report={schemaVersion:1,startedAt:new Date().toISOString(),output,ceiling:214,hostedConnections:0,applicationServiceRole:false};
+const report={schemaVersion:1,startedAt:new Date().toISOString(),output,ceiling,hostedConnections:0,applicationServiceRole:false};
 let local,vite,control,stage='bootstrap';
 try{
- const boot=await exec(process.execPath,[path.join(root,'scripts/testing/bootstrap-isolated-supabase.mjs')],{cwd:root,windowsHide:true,maxBuffer:8*1024**2,env:{...process.env,NAWASRAH_ISOLATED_PROJECT_ID:project,NAWASRAH_MAX_MIGRATION:'214',NAWASRAH_SKIP_REDUNDANT_DB_RESET:'true',NAWASRAH_SUPABASE_EXCLUDE:'realtime,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor'}});
+ const boot=await exec(process.execPath,[path.join(root,'scripts/testing/bootstrap-isolated-supabase.mjs')],{cwd:root,windowsHide:true,maxBuffer:8*1024**2,env:{...process.env,NAWASRAH_ISOLATED_PROJECT_ID:project,NAWASRAH_MAX_MIGRATION:String(ceiling),NAWASRAH_SKIP_REDUNDANT_DB_RESET:'true',NAWASRAH_SUPABASE_EXCLUDE:'realtime,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor'}});
  local=JSON.parse(boot.stdout).isolatedProjectRoot;
  await sql('SELECT cron.alter_job(jobid,active:=false) FROM cron.job;ALTER TABLE public.orders DISABLE TRIGGER trg_notify_new_website_order_push;');
  const status=JSON.parse((await exec(process.execPath,[cli,'status','-o','json','--workdir',local],{cwd:root,windowsHide:true,maxBuffer:2*1024**2})).stdout),api=new URL(status.API_URL);
  assert.ok(['127.0.0.1','localhost'].includes(api.hostname));assert.equal(api.port,'25431');
+ report.migrations=Number(await sql('SELECT count(*) FROM supabase_migrations.schema_migrations;'));assert.equal(report.migrations,ceiling===219?180:176);
+ report.bucket=await json("SELECT jsonb_build_object('limit',file_size_limit,'mime',allowed_mime_types) FROM storage.buckets WHERE id='product-images';");assert.equal(report.bucket.limit,5242880);assert.deepEqual(report.bucket.mime,['image/jpeg','image/png','image/webp']);
  // This local-only admin client provisions fictional accounts;it is never sent
  // to Vite,browsers,application code,arguments or reports.
  secrets.add(status.SERVICE_ROLE_KEY);
@@ -94,7 +99,13 @@ try{
  const checks=await json(`SELECT jsonb_build_object('orphans',(SELECT count(*) FROM storage.objects o WHERE o.bucket_id='product-images' AND NOT EXISTS(SELECT 1 FROM public.product_images i WHERE i.image_url=${q(api.origin+'/storage/v1/object/public/product-images/')}||o.name)),
   'uploaded',(SELECT count(*) FROM storage.objects WHERE bucket_id='product-images'),'applicationImages',(SELECT count(*) FROM product_images WHERE product_id IN (${Object.values(imageIds).map(q).join(',')})),
   'doublePrimary',(SELECT count(*) FROM(SELECT product_id FROM product_images WHERE is_primary GROUP BY product_id HAVING count(*)>1) duplicates));`);
- assert.equal(checks.orphans,0,'ORPHAN_STORAGE_OBJECT');assert.equal(checks.doublePrimary,0);assert.equal(checks.applicationImages,8);report.storage=checks;
+ const physical=await json(`SELECT jsonb_build_object('objects',(SELECT jsonb_agg(jsonb_build_object('name',name,'mimetype',metadata->>'mimetype')) FROM storage.objects WHERE bucket_id='product-images'),'images',(SELECT jsonb_agg(image_url) FROM public.product_images));`);
+ const paired=classifyProductImageObjects(physical.objects??[],physical.images??[],api.origin+'/storage/v1/object/public/product-images/');
+ // The old raw count includes the new derived assets; account for every one.
+ assert.equal(checks.orphans,paired.thumbnails.length,'UNACCOUNTED_PHYSICAL_IMAGE');
+ assert.deepEqual(paired.orphans,[],'ORPHAN_STORAGE_OBJECT');assert.equal(paired.thumbnails.length,8,'MISSING_PHYSICAL_THUMBNAIL');
+ assert.equal(checks.uploaded,actors.filter(actor=>actor.allowed).length+16,'UNEXPECTED_STORAGE_OBJECT_COUNT');
+ assert.equal(checks.doublePrimary,0);assert.equal(checks.applicationImages,8);report.storage={...checks,rawUnreferenced:checks.orphans,orphans:paired.orphans.length,thumbnails:paired.thumbnails.length};
  report.ok=true;report.actualBrowserEngines=['Chromium','WebKit'];report.authMfa=true;report.businessDataIdentical=true;report.catalogFieldsAndWacIdentical=true;report.before=before;report.after=after;
 }catch(error){report.ok=false;report.stage=stage;report.error=sanitize(error.message).split('\n')[0];process.exitCode=1;}
 finally{await vite?.close();if(control)await new Promise(resolve=>control.close(resolve));if(local)await exec(process.execPath,[cli,'stop','--no-backup','--workdir',local],{cwd:root,windowsHide:true,maxBuffer:2*1024**2});report.endedAt=new Date().toISOString();await writeFile(path.join(output,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({ok:report.ok,stage:report.stage,error:report.error,output,engines:report.actualBrowserEngines,protectedTables:report.protectedTables,storage:report.storage}));}

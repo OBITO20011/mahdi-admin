@@ -1,0 +1,115 @@
+{
+  "format": 1,
+  "baseline": "d102074583c7369502954eaf8ea70d2595f6a19c",
+  "scope": "Exact image-only inverse for frozen history;current probes unprojected",
+  "entries": {
+    "customer-web/src/App.tsx": {
+      "before": "4c0606d1c621df8f5859c70227642d8ee724329bfbfff5b268f879f89d5441f4",
+      "after": "fa6897963b359bd15ea6f89924c5dfd3db60f7fbde45926accec4fba40f269ac"
+    },
+    "customer-web/src/components/CategoryShowcase.tsx": {
+      "before": "563b264544af8f09b91e1122d49965aabcbb8165e29530325f5acabacfcbce34",
+      "after": "e8cce67edbbdd205dc4f8350eab8dbedfcca434e1b17ffe1bdfe37f17d2720f8"
+    },
+    "customer-web/src/components/HomeCategoryMosaic.tsx": {
+      "before": "fc2bf3e1e855b4affd43b843c8db7c941899b4ec9d143282857ce48346ef05a8",
+      "after": "0ef85482036d6c1c8a5873e22d8ba11a5e0246afd763865f894755a125bb0a28"
+    },
+    "customer-web/src/components/ProductDetailsModal.tsx": {
+      "before": "0ae11958bac0da718a83d8deb1101e24d93c11c71656aff5f7740f7f4e63a676",
+      "after": "4c3e7f27659a059a5ac67422505c5c0e9b862940fc2a4860b5f2cb10f4b74b72"
+    },
+    "customer-web/src/components/ProductImage.tsx": {
+      "before": "2d581a7599faa0924b0aa01b9f8870ac9fe55cc97e31a53984d63925e11aeac6",
+      "after": "9499bc5471fd43aeed18588d3eb07168a6e21b8cf26a186d9c047a1ee130e802"
+    },
+    "customer-web/src/utils/productThumbnail.ts": {
+      "before": null,
+      "after": "9446b3d0a530afe038c0b5e739c39220fd3f63c7fc4fc6954b413a9ac5cd1872"
+    },
+    "src/services/supabase/product-images.service.ts": {
+      "before": "9a3eaadd19b531ae465dd752e3a469fa880e9ec26ab1e072f35ae57fe25fba44",
+      "after": "229bc5f593ce20d0a6d5c017f5591e037189ec692e9afd1e54242dcbfe8f84ca"
+    },
+    "src/utils/productImageThumbnail.ts": {
+      "before": null,
+      "after": "d04fa25d5b2e27bef48d0321e9d25f2fbeff9018277e74df05c2fd23c02770ab"
+    },
+    "docs/agent/project-state.json": {
+      "before": "b5df6fd8275ecda739cea3d0733b991ed6acc80e59803485c9c8d8d908e4dca4",
+      "after": "97dd6d0515dd9d24e9d042e8e5dc9a9c602427c1d5027aff1c054ef3c0eb06ed"
+    },
+    "package.json": {
+      "before": "72670173270261a097e5e99c635873bfe5701bbc53d58680e2b204edf77996d8",
+      "after": "474b8adc3f40d8e03e2496807d8d95dd8330e120c8252a92f51ea1a349d79e8c"
+    },
+    "scripts/audit/source-before-product-workbook-text.mjs": {
+      "before": "cccbc7b3298b4fef693d469ec73601fc59166f13d716b3b2125fdb97e300e26b",
+      "after": "f0a803546637db76b7fd9011cc3e396f3fe5cc6d587d9d2ee5a3fc89d07d6379"
+    },
+    "scripts/audit/source-before-product-workbook.mjs": {
+      "before": "5eaa12a4ebb15cd10b5eeda2a42617c566609f50ee07fa8a90deaaa7aea44d20",
+      "after": "cb87f221d5b259983f390e5c3541942b61f6be7b34f2b4b5346a7646f6d5482f"
+    },
+    "scripts/audit/source-before-product-scale.mjs": {
+      "before": "c48ad817716bc7407688d3278ce15d4fe2f7f0625559f9c828a700de83ba05d6",
+      "after": "6849b5e556e4b2c228500d76728002f3efd76419cfb4a9814e8c547f45780865"
+    },
+    "docs/operations/TABLE_ACCESS_AFTER_219.json": {
+      "before": "7bbae8effd19f1000b99d420edf5f340924a007c0e3d2a7c0f6ee333ce6a8fe0",
+      "after": "f8a5902781666e0a78d23ecc34c2ba4f22e259375b97ffbeb71667202d22e8fd"
+    },
+    "docs/operations/TABLE_ACCESS_INVENTORY.json": {
+      "before": "49a335af066b09165b7e27b885e493ba3a5c6d0f9d609c56522ccd695210e03d",
+      "after": "ef02d292fdbf45fd9e665467a94e61d1137711ec1845401235375bf20b1a36bc"
+    },
+    "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json": {
+      "before": "71f19bc54d422c0fb23461bb2821566e3bfc6de48ffb756cf1b41ddca0ff58d2",
+      "after": "accc2336e464dc8c96ac826640b4e495c32b34bc39aad87c5a8546f50ac7b02b"
+    },
+    "docs/operations/SERVICE_ACCESS_INVENTORY.json": {
+      "before": "039ef1acc55bb360fe63af91ad1bf0e48a8c601d51b0d6ffb49b6b60fd9f7cd3",
+      "after": "a17872a48be1fca63cedbc80b171cf5f662ef2a06761a68e2a17b9d195f24af2"
+    },
+    "tests/product-workbook-runtime-view.test.ts": {
+      "before": "96adf9456ee94c7f59f6195fe24e50c3fa6b3924346b5377007dbc5ac93fc925",
+      "after": "81240255d65f55b9e6d755cd52e49813f1923a7fad941b3708aeb822d8cb3a48"
+    },
+    "scripts/testing/product-workbook-runtime-view.mjs": {
+      "before": "620c8e86aba7aa91cb033553a1528e9f96f60c2c4ed27d77c66a4fe3dcc9ed84",
+      "after": "94a36b3c627b3eae97f438c75b463de273281c70c86fe94d612b02e10e200948"
+    },
+    "tests/mobile-back-contracts.test.ts": {
+      "before": "d5a1311795a0313a4d01fccbe1e6a887a64460eb9a19e67781504280f01ed467",
+      "after": "b87843cbce3fccdd54d649ae8c8a9ae8af3b22b451e288823e85d818c4c363df"
+    },
+    "tests/iphone-dialog-contracts.test.ts": {
+      "before": "475b0aebb1ace11434373125e0fe15c9c17baca55a20e0e62a04d2a4cbde2628",
+      "after": "af1fd9090fc9910673e9a22c095a3f77830f4ec4e9bc3523599be906962d0189"
+    },
+    "tests/newest-records.test.ts": {
+      "before": "6eb3c691d2e736e0cb763ea21bd0d3abf14203d7c47c913553e53b55a66eeb0d",
+      "after": "1e5fb9ebad7b8e45c0ef4cafa1a262ca46e91d7abbc87f28a77c26dd2d72cb7f"
+    },
+    "tests/record-order-source-contracts.test.ts": {
+      "before": "0472a83e4f03ace8fe768b435d236577649da533ea9ac432c1cd71ddcf7a9674",
+      "after": "917d67433281ccbc1e4efcd41586d17f32d9798b048ba075e671aab8c3fb2963"
+    },
+    "tests/owner-telegram-format.test.ts": {
+      "before": "bbcdf8ce2b66b8705fa3a48da3efd3150c5ad45ac0d496c0cab2083a660e7154",
+      "after": "c5e59c6c46ae7c9cbf506597826d87796359a76affc2781382895b9a84d6c92e"
+    },
+    "tests/trial-owner-w.test.ts": {
+      "before": "7fdc916f693b8a7e3135202eea31dc25a99452d39211b67139f87770641ff2da",
+      "after": "765da83c9f6cca1d0e822a9a7832b15c70a9d232a16835d1f47fab68bb8263aa"
+    },
+    "tests/trial-ta-presentation.test.ts": {
+      "before": "3c90dcf2d1b86c986ee9b4ab012a284543b4cd0d0ca042e5ce9a703709cff260",
+      "after": "ae9ce18667b5d97c1c49a2cc336b226234a95aec577e73d0f3aa7f684ac661ae"
+    },
+    "tests/store-scroll-history.test.ts": {
+      "before": "44f128d8b0d84d796a91b14a2820d952d33c176c52f1c1355092730b2e70f507",
+      "after": "344ea57a7ce93e3b35415e43249c3443a1c75de469538c3cc53b48c8088a8235"
+    }
+  }
+}

@@ -1,3 +1,4 @@
+import{projectStorefrontImageQueries}from'./source-before-storefront-images.mjs';
 // Runtime inventories are ESM-only; synchronous legacy test readers import text.mjs.
 import{sourceBeforeProductWorkbook,restoreProductWorkbookHashes,entries}from'./source-before-product-workbook-text.mjs';
 export{sourceBeforeProductWorkbook,restoreProductWorkbookHashes,pathsBeforeProductWorkbook}from'./source-before-product-workbook-text.mjs';
@@ -6,6 +7,7 @@ import{readFileSync}from'node:fs';import{createHash}from'node:crypto';import ass
 const hash=s=>createHash('sha256').update(s).digest('hex');
 // Frozen historical proofs only. Default/current runtime coverage stays unprojected.
 export function projectProductWorkbookQuerySites(source,parseSource=defaultParseSource){
+ source=projectStorefrontImageQueries(source,parseSource);
  const entriesOut=[];
  for(const file of new Set(source.entries.map(e=>e.file))){
   const supplied=source.entries.filter(e=>e.file===file),pin=entries[file],saved=source.sources.find(s=>s.file===file);
