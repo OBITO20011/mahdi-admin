@@ -1,17 +1,4 @@
 {
   "schemaVersion": 1,
-  "files": [
-    {
-      "code": " M",
-      "path": "e2e/package-d-settings.spec.ts"
-    },
-    {
-      "code": " M",
-      "path": "e2e/package-f-trial-sale-receipts.spec.ts"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/record-order-source-pins.json"
-    }
-  ]
+  "files": []
 }
