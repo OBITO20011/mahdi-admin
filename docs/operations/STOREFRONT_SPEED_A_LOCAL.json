@@ -266,11 +266,11 @@
         ]
       }
     ],
-    "after-a-current": [
+    "after-a-verified": [
       {
         "page": "home",
-        "LCP": 3656.3645499999993,
-        "TBT": 374.7725749999993,
+        "LCP": 3490.4998500000006,
+        "TBT": 78,
         "CLS": 0.034937164484176,
         "requests": 31,
         "rpcRequests": 4,
@@ -278,7 +278,7 @@
           {
             "resourceType": "total",
             "requestCount": 31,
-            "transferSize": 4038780
+            "transferSize": 4038828
           },
           {
             "resourceType": "image",
@@ -288,7 +288,7 @@
           {
             "resourceType": "script",
             "requestCount": 5,
-            "transferSize": 188845
+            "transferSize": 188893
           },
           {
             "resourceType": "other",
@@ -324,40 +324,40 @@
         "samples": [
           {
             "sample": 1,
-            "LCP": 3659.9812500000007,
-            "TBT": 388.5031250000004,
+            "LCP": 3535.9448999999995,
+            "TBT": 110,
             "CLS": 0.034937164484176,
             "requests": 31,
             "rpcRequests": 4,
-            "benchmarkIndex": 951.5,
-            "lhrSha256": "cc0713297f235cd056fe1eb7d197e64a538f9bacb3a684a1277001170b597e2f"
+            "benchmarkIndex": 2277.5,
+            "lhrSha256": "05314ff953f96d38bf1043be45f24b00381b24478bf96f0ea9c651d0a4a01c89"
           },
           {
             "sample": 2,
-            "LCP": 3656.3645499999993,
-            "TBT": 374.7725749999993,
+            "LCP": 3490.4998500000006,
+            "TBT": 78,
             "CLS": 0.034937164484176,
             "requests": 31,
             "rpcRequests": 4,
-            "benchmarkIndex": 932.5,
-            "lhrSha256": "978a41897ac08affdf6f2847ced3ef67fe77b4a33d6c50a6a2c67e0cf74b6e56"
+            "benchmarkIndex": 1910.5,
+            "lhrSha256": "a2b99bf5a9137bd02ac1ac0bf3b563705b414139eb03d2eca7144a710f991e7c"
           },
           {
             "sample": 3,
-            "LCP": 3654.9032500000003,
-            "TBT": 305.01612499999965,
-            "CLS": 7.395854390811828e-05,
+            "LCP": 3485.4298500000004,
+            "TBT": 76,
+            "CLS": 0.034937164484176,
             "requests": 31,
             "rpcRequests": 4,
-            "benchmarkIndex": 971.5,
-            "lhrSha256": "55b1bc207733708da76feae0d4fe7a6925bdff0c8ffd9b9aaa6b143b86900dd4"
+            "benchmarkIndex": 2242,
+            "lhrSha256": "f2a6ebded35efd90a08664d932201f935488e1e07ae28597be42a961b24463a2"
           }
         ]
       },
       {
         "page": "category",
-        "LCP": 3038.4897,
-        "TBT": 434.5,
+        "LCP": 3036.1582499999995,
+        "TBT": 80,
         "CLS": 0.036781865067349366,
         "requests": 59,
         "rpcRequests": 3,
@@ -365,7 +365,7 @@
           {
             "resourceType": "total",
             "requestCount": 59,
-            "transferSize": 13747462
+            "transferSize": 13747510
           },
           {
             "resourceType": "image",
@@ -375,7 +375,7 @@
           {
             "resourceType": "script",
             "requestCount": 5,
-            "transferSize": 188845
+            "transferSize": 188893
           },
           {
             "resourceType": "other",
@@ -411,48 +411,48 @@
         "samples": [
           {
             "sample": 1,
-            "LCP": 3038.4897,
-            "TBT": 426,
-            "CLS": 0.03640542214413076,
-            "requests": 59,
-            "rpcRequests": 3,
-            "benchmarkIndex": 886.5,
-            "lhrSha256": "d7a6377cab975bd8f59c45a008f37433f07f4a4eb9b61f9023fe2c52364a0e4c"
-          },
-          {
-            "sample": 2,
-            "LCP": 3009.68245,
-            "TBT": 434.5,
+            "LCP": 3036.1719,
+            "TBT": 87.5,
             "CLS": 0.036781865067349366,
             "requests": 59,
             "rpcRequests": 3,
-            "benchmarkIndex": 882,
-            "lhrSha256": "79ad39d5be4d445d7e53ffec711eb0a82b8da25468d0ee0a4552b9517f09d64d"
+            "benchmarkIndex": 2316.5,
+            "lhrSha256": "cdb8796378f0f8be80e8f6fbb6e9c048326be0bc80c7f908646546e603e52598"
+          },
+          {
+            "sample": 2,
+            "LCP": 3036.1582499999995,
+            "TBT": 80,
+            "CLS": 0.05333665173097512,
+            "requests": 59,
+            "rpcRequests": 3,
+            "benchmarkIndex": 1916,
+            "lhrSha256": "684480d9e77630adbc2e3ef3703578c86f155b37c9f1fd221b8b3cbb09083575"
           },
           {
             "sample": 3,
-            "LCP": 3040.6561,
-            "TBT": 559.7812999999996,
-            "CLS": 0.05217604045721148,
+            "LCP": 2933.1434000000004,
+            "TBT": 67,
+            "CLS": 0.036781865067349366,
             "requests": 59,
             "rpcRequests": 3,
-            "benchmarkIndex": 893,
-            "lhrSha256": "c421a49076dbc09bea54a5e9b50315da4b90aedb9b956e02fd0e2f62c2036362"
+            "benchmarkIndex": 2253.5,
+            "lhrSha256": "6875d613e71d0f1403d466e8bcfa8eee1e2be9b50140a29938c002dd8f1a8a88"
           }
         ]
       },
       {
         "page": "product",
-        "LCP": 4820.4378,
-        "TBT": 433.5,
-        "CLS": 0.01655478666362575,
+        "LCP": 4621.01555,
+        "TBT": 126.5,
+        "CLS": 0.05149195114780175,
         "requests": 41,
         "rpcRequests": 3,
         "resources": [
           {
             "resourceType": "total",
             "requestCount": 41,
-            "transferSize": 7634152
+            "transferSize": 7634201
           },
           {
             "resourceType": "image",
@@ -462,7 +462,7 @@
           {
             "resourceType": "script",
             "requestCount": 6,
-            "transferSize": 194020
+            "transferSize": 194069
           },
           {
             "resourceType": "other",
@@ -498,48 +498,48 @@
         "samples": [
           {
             "sample": 1,
-            "LCP": 9577.0622,
-            "TBT": 856,
-            "CLS": 0.01655478666362575,
+            "LCP": 4619.247700000001,
+            "TBT": 126.5,
+            "CLS": 0.05149195114780175,
             "requests": 41,
             "rpcRequests": 3,
-            "benchmarkIndex": 917.5,
-            "lhrSha256": "f2fc6075a5d31cc6747900cb85d4fb9b7655c83e3b16a25a293c564c28f9d7de"
+            "benchmarkIndex": 2171,
+            "lhrSha256": "5c1e0b404a505edc3597511e721a2a01f9f38160b0fa5c3d4b8eb98cbc83af36"
           },
           {
             "sample": 2,
-            "LCP": 4820.4378,
-            "TBT": 433.5,
-            "CLS": 0.01655478666362575,
+            "LCP": 4655.3156,
+            "TBT": 94,
+            "CLS": 0.05149195114780175,
             "requests": 41,
             "rpcRequests": 3,
-            "benchmarkIndex": 973,
-            "lhrSha256": "d41e8ef1618adc9a48042a7b1b110ece9bdd38ccabfd3fc1311f78b498fefd8d"
+            "benchmarkIndex": 2201,
+            "lhrSha256": "a828433a9faf771f5283f0e887083f8e735e5bf2d52fc22ea4f45e101ca37b4d"
           },
           {
             "sample": 3,
-            "LCP": 4745.7880000000005,
-            "TBT": 432.5,
-            "CLS": 0.034937164484176,
+            "LCP": 4621.01555,
+            "TBT": 131,
+            "CLS": 0.05149195114780175,
             "requests": 41,
             "rpcRequests": 3,
-            "benchmarkIndex": 894,
-            "lhrSha256": "e707b54592373959c8cec533449aff9c1885b3be3f5be8fd502ad474004aad92"
+            "benchmarkIndex": 1970.5,
+            "lhrSha256": "f2929ee1b49c275b9b20237e3dac700417e41c1d07b3772661eba6de15f8f59e"
           }
         ]
       },
       {
         "page": "cart",
-        "LCP": 3879.7450500000004,
-        "TBT": 660.5,
-        "CLS": 0.0618065070416208,
+        "LCP": 4844.1645,
+        "TBT": 133.5,
+        "CLS": 0,
         "requests": 41,
         "rpcRequests": 3,
         "resources": [
           {
             "resourceType": "total",
             "requestCount": 41,
-            "transferSize": 7636949
+            "transferSize": 7636999
           },
           {
             "resourceType": "image",
@@ -549,7 +549,7 @@
           {
             "resourceType": "script",
             "requestCount": 7,
-            "transferSize": 194483
+            "transferSize": 194533
           },
           {
             "resourceType": "other",
@@ -585,40 +585,41 @@
         "samples": [
           {
             "sample": 1,
-            "LCP": 3829.156725,
-            "TBT": 660.5,
-            "CLS": 0.0618065070416208,
+            "LCP": 3075.046375,
+            "TBT": 128.5,
+            "CLS": 0.05149195114780175,
             "requests": 41,
             "rpcRequests": 3,
-            "benchmarkIndex": 1006,
-            "lhrSha256": "edc2d84e390554d8fd44fb06dd8ba17708c55caffd60d3b25a652777933bda48"
+            "benchmarkIndex": 2306,
+            "lhrSha256": "be2ef512b78f226a06d963a17c60f49a5b0a0e8f483ed6116efbbf24f403ab64"
           },
           {
             "sample": 2,
-            "LCP": 5011.466,
-            "TBT": 329,
+            "LCP": 4844.1645,
+            "TBT": 150.5,
             "CLS": 0,
             "requests": 41,
             "rpcRequests": 3,
-            "benchmarkIndex": 917,
-            "lhrSha256": "6d064454cad010efd7427fd06be1cf73433a51e86315a3486c9bddd2880d01ba"
+            "benchmarkIndex": 2325,
+            "lhrSha256": "135341619ff841fa66aad52ccc2c95eafdadac96b24df5257104fd4003f5219c"
           },
           {
             "sample": 3,
-            "LCP": 3879.7450500000004,
-            "TBT": 660.7663000000002,
-            "CLS": 0.0618065070416208,
+            "LCP": 4847.523625,
+            "TBT": 133.5,
+            "CLS": 0,
             "requests": 41,
             "rpcRequests": 3,
-            "benchmarkIndex": 726.5,
-            "lhrSha256": "02f4d12b7cc1e9abbd8abc89e58a6285b7e3df3624b3f38ca2dca817a5fb4f11"
+            "benchmarkIndex": 2152.5,
+            "lhrSha256": "36bde6532bfb488d2b3a323f3e38f31cf8f3c540324541476edc40d61dcc350c"
           }
         ]
       }
     ]
   },
   "limitations": [
-    "CPU calibration varied between baseline and after; no causal TBT improvement claimed. Raw benchmarkIndex retained.",
+    "CPU calibration varied between candidate rounds; all raw rounds are retained outside Git. Final corrected source measured anew; no source-independent latency guarantee.",
     "Initial HTML has no global poster preload; only the mounted home hero uses high image priority."
-  ]
+  ],
+  "measuredSourceSha": "48bd9d4cb5050724e277b59b7bd94608de21c7ad"
 }

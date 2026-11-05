@@ -3,123 +3,15 @@
   "files": [
     {
       "code": " M",
-      "path": "customer-web/index.html"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/public/_headers"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/App.tsx"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/components/DeferredDialog.tsx"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SENTRY_OWNER_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_219.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "e2e/public-apps.spec.ts"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/source-before-product-scale.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/storefront-speed-source-pins.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-storefront-vitals-browser.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/storefront-budget.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/environment-separation.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/error-monitoring.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/frankfurt-staging-csp.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/mobile-back-contracts.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/product-workbook-runtime-view.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/store-scroll-history.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/storefront-speed-history.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/vite-file-access.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/workbook-integration-history.test.ts"
-    },
-    {
-      "code": "??",
       "path": "docs/operations/STOREFRONT_SPEED_A_AR.md"
     },
     {
-      "code": "??",
+      "code": " M",
       "path": "docs/operations/STOREFRONT_SPEED_A_LOCAL.json"
     },
     {
-      "code": "??",
-      "path": "scripts/testing/generate-storefront-speed-images.py"
-    },
-    {
-      "code": "??",
+      "code": " M",
       "path": "scripts/testing/run-storefront-speed-lab.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/storefront-budget.d.mts"
-    },
-    {
-      "code": "??",
-      "path": "tests/storefront-cache-policy.test.ts"
     }
   ]
 }

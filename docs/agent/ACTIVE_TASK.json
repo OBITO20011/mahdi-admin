@@ -3,7 +3,7 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner5Nov storefront speed A: first300products local isolated build,Lighthouse mobile4G/CPU4x3 runs forhome/category/product/cart. Only measured need:cache/font/loading. No financial/permissions/SQL/RPC/CSP weakening/hosted/deploy/merge;58Draft. Bimages separate. Animation waits for speed merges.",
-  "baselineSha": "a84217439b87cbe1f6b2f889d552d4f648ddbf78",
+  "baselineSha": "48bd9d4cb5050724e277b59b7bd94608de21c7ad",
   "branch": "codex/storefront-speed-loading",
   "phase": "PACKAGE_F",
   "completed": [
@@ -12,11 +12,12 @@
     "Current219 actual SDK181:172success9empty0denial/error;RPC/services598/18expecteddenials,sourcebound fresh after dialog fix.",
     "All1824 Admin pass;Store209;root/customer types and strictlint.6contextbuilds/verify-dist,8actual budget/negative,8privatevitalsSDKinclrealINP and12error regressions pass.",
     "Cold dialog handover failed2; wrapper recreates original hidden initial commit. Original6focus tests nowpass bothengines;34other regressions pass/2baselineconditionals. No tests/limits weakened.",
-    "Separate B worktree d442be0 WIP;real219 Auth/Storage/DB bothengines,9roles,180migrations,113protectedtablesidentical,8imagepairs,0orphans. Not full B acceptance."
+    "Separate B worktree d442be0 WIP;real219 Auth/Storage/DB bothengines,9roles,180migrations,113protectedtablesidentical,8imagepairs,0orphans. Not full B acceptance.",
+    "Final corrected source48bd9d4 LH3x4:home3490/78,category3036/80,product4621/126.5,cart4844/133.5(LCP/TBTms);CLS<0.1 all. LCP not accepted; B+combined measurements pending.",
+    "Post-fix actualbudget8+negative,productionSEO+trialbuild/verify andStore209 PASS;metadata/source adapters retain exact before bytes."
   ],
   "inProgress": [
-    "Final A source frozen;final3x4 metrics thenlocal build/browser sanity/Gitleaks/commit/push/PR/FULLCI.",
-    "B separate review: paired thumbnails implemented/tested;metrics/history/current219proof/fullCI stillpending."
+    "Commit final evidence,push Draft A and verify FULLCI on exact head;continue independent B."
   ],
   "notStarted": [
     "PRs/fullCI/ownerapproval. No merge or animation."
@@ -29,7 +30,7 @@
     "Budget8+negative;privateSDKvitals8/realINP;errors12;fixedfocus6;34otherbrowserregressions"
   ],
   "testsRemaining": [
-    "Final A metrics/buildsanity/PR/FULLCI;B full package."
+    "A exact-headFULLCI;B remaining metrics/history/currentproof/fullCI."
   ],
   "findings": [
     "Raw baseline/candidate/current metrics preserved including regressions;CPU calibration varied substantially.",
@@ -43,9 +44,9 @@
     "NoSQL/migration/RPC/finance/permission/auth/CSPweakening",
     "Noanimationbefore speedmerge;58Draft"
   ],
-  "nextExactAction": "Final A3x4 LH after hidden-mount fix;alloldrawreports retained. Local1824/store209,role181+598,6builds,vitals8,budget8,focus6 PASS. Bactual219pairsPASS in separate worktree. Then A PR/FULLCI and B finish;no merge/hosted/animation,58Draft.",
-  "workingTreeFingerprint": "CC2A36CB9A18EE7C706E03EE62C31E84092CAEFF3FEE7A779F60338A21D3BB6A",
-  "checkpointedAt": "2026-11-05T14:58:56.457Z",
-  "filesTouchedCount": 30,
-  "filesTouchedManifestSha256": "b6bf7d767e49844b000f9e863f2d680e332582bbbbf35cc4a3cd7bc771dc94dc"
+  "nextExactAction": "A finalsource48bd9d4 measured3x4 andlocalgatesPASS exceptLCPgoal pendingimages. Push DraftA/FULLCI thenfinishindependentB pluscombinedproof. No merge/hosted/animation,58Draft.",
+  "workingTreeFingerprint": "88D14AEE1BD3A13520A3296A84115C055DC7A8369F7FBBD63DD57EB592F96089",
+  "checkpointedAt": "2026-11-05T15:13:36.287Z",
+  "filesTouchedCount": 3,
+  "filesTouchedManifestSha256": "187f2c3d7d67fafb42e3035a409725a10c54089d379c9f311bda2cfc869918e3"
 }
