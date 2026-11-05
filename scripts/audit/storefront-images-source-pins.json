@@ -1,0 +1,123 @@
+{
+  "format": 1,
+  "baseline": "1ab2cd880547661390149a972a4794b0b5df29da",
+  "scope": "Exact image-only inverse for frozen history;current probes unprojected",
+  "entries": {
+    "customer-web/src/App.tsx": {
+      "before": "a7fbe5a8dc1af3040f6ce2af21856953b1ce9cd59814bbb48728322fa0703769",
+      "after": "0fce44df50185805a2834d2eb7832b33280458e7721466b4f8dce6ae3c414844"
+    },
+    "customer-web/src/components/CategoryShowcase.tsx": {
+      "before": "563b264544af8f09b91e1122d49965aabcbb8165e29530325f5acabacfcbce34",
+      "after": "e8cce67edbbdd205dc4f8350eab8dbedfcca434e1b17ffe1bdfe37f17d2720f8"
+    },
+    "customer-web/src/components/HomeCategoryMosaic.tsx": {
+      "before": "fc2bf3e1e855b4affd43b843c8db7c941899b4ec9d143282857ce48346ef05a8",
+      "after": "0ef85482036d6c1c8a5873e22d8ba11a5e0246afd763865f894755a125bb0a28"
+    },
+    "customer-web/src/components/ProductDetailsModal.tsx": {
+      "before": "0ae11958bac0da718a83d8deb1101e24d93c11c71656aff5f7740f7f4e63a676",
+      "after": "4c3e7f27659a059a5ac67422505c5c0e9b862940fc2a4860b5f2cb10f4b74b72"
+    },
+    "customer-web/src/components/ProductImage.tsx": {
+      "before": "2d581a7599faa0924b0aa01b9f8870ac9fe55cc97e31a53984d63925e11aeac6",
+      "after": "9499bc5471fd43aeed18588d3eb07168a6e21b8cf26a186d9c047a1ee130e802"
+    },
+    "customer-web/src/utils/productThumbnail.ts": {
+      "before": null,
+      "after": "9446b3d0a530afe038c0b5e739c39220fd3f63c7fc4fc6954b413a9ac5cd1872"
+    },
+    "src/services/supabase/product-images.service.ts": {
+      "before": "9a3eaadd19b531ae465dd752e3a469fa880e9ec26ab1e072f35ae57fe25fba44",
+      "after": "229bc5f593ce20d0a6d5c017f5591e037189ec692e9afd1e54242dcbfe8f84ca"
+    },
+    "src/utils/productImageThumbnail.ts": {
+      "before": null,
+      "after": "d04fa25d5b2e27bef48d0321e9d25f2fbeff9018277e74df05c2fd23c02770ab"
+    },
+    "docs/agent/project-state.json": {
+      "before": "1b42c636e334b4f7949cfd1afd8181c35d7a4d3bd4fa1985268e26f62c3721a4",
+      "after": "97dd6d0515dd9d24e9d042e8e5dc9a9c602427c1d5027aff1c054ef3c0eb06ed"
+    },
+    "package.json": {
+      "before": "d49165f4fba379e46a2928ba78de89dd8d9faf96141593ce75067eb6950a588f",
+      "after": "53b41ded20320ed21bcd9db6d4a99f7aa8420082c5570fa5d85e0f38feb9b5e1"
+    },
+    "scripts/audit/source-before-product-workbook-text.mjs": {
+      "before": "16f16669f1d93beeb11a43c17ae4c1193c3b3e340c9ce79711c6de34712874be",
+      "after": "a33fe451170585d9f2cec3ed9c27a7d1a673eb6f4c14d7d1a1ce2c5ad0e65ca0"
+    },
+    "scripts/audit/source-before-product-workbook.mjs": {
+      "before": "5eaa12a4ebb15cd10b5eeda2a42617c566609f50ee07fa8a90deaaa7aea44d20",
+      "after": "cb87f221d5b259983f390e5c3541942b61f6be7b34f2b4b5346a7646f6d5482f"
+    },
+    "scripts/audit/source-before-product-scale.mjs": {
+      "before": "098a8b9c53ee6522e7502542c1ef5121b70709c729c298fc5c391c3c4b2a7d5b",
+      "after": "e7855b841b2b9827a2142adaea3ba51eaba6f12208109500a47eb5f99aef99b9"
+    },
+    "docs/operations/TABLE_ACCESS_AFTER_219.json": {
+      "before": "3a98f6abf7e040a7ef593ba28b13b67fa050aa792b3ae7748907fe80e7da5ad4",
+      "after": "09199a0832f3a29b5eb1ded96e073e9e3b7c2d91065f92b2b7eb7a2013912782"
+    },
+    "docs/operations/TABLE_ACCESS_INVENTORY.json": {
+      "before": "460e79a577bbfba650d8004d46f138205de8a69f0482b99892796e50715f1f8f",
+      "after": "0944adddb07c084fad6862d98e6def1192635bbcdaea1214f4d5b03ad8ddbe58"
+    },
+    "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json": {
+      "before": "c2b3ab59de05680c3e9b8f092033ac896f9b1719758d97ac42ae059fb2a6a254",
+      "after": "2590ef8e7416a0159df2963ed1446cf6ca20991d88d51cea198d3ef67b5eb04c"
+    },
+    "docs/operations/SERVICE_ACCESS_INVENTORY.json": {
+      "before": "a1d04e07c4b970fe229bbee76fb3c738cbbd47e8107a729522326f09afa78e61",
+      "after": "34d1d529ffa0d0714e46001743b3cbc910c0cfd1e374ff7903a0d86ae101cb10"
+    },
+    "tests/product-workbook-runtime-view.test.ts": {
+      "before": "4d22ca38e44a663999010518cd2ee7ea1127a559c70a4b0600f84a9718d13cd0",
+      "after": "d16c8bcb487c7ca2380bd35e932b63cee4764e6169b544eb070b351219423721"
+    },
+    "scripts/testing/product-workbook-runtime-view.mjs": {
+      "before": "94a36b3c627b3eae97f438c75b463de273281c70c86fe94d612b02e10e200948",
+      "after": "b7d550b2d549acb98eccf5429ad0e8443140cd7c44431f5e238f1f0fad91ce75"
+    },
+    "tests/mobile-back-contracts.test.ts": {
+      "before": "aade05f579fc3968a9a0d9fdca748c947a387887eca4a08ed3dd6c4bc9cbbb3d",
+      "after": "78002cc88c4855f8b86e841cc846fdfc831721dc9b0775fbe624201b68b5f8c1"
+    },
+    "tests/iphone-dialog-contracts.test.ts": {
+      "before": "475b0aebb1ace11434373125e0fe15c9c17baca55a20e0e62a04d2a4cbde2628",
+      "after": "af1fd9090fc9910673e9a22c095a3f77830f4ec4e9bc3523599be906962d0189"
+    },
+    "tests/newest-records.test.ts": {
+      "before": "6eb3c691d2e736e0cb763ea21bd0d3abf14203d7c47c913553e53b55a66eeb0d",
+      "after": "1e5fb9ebad7b8e45c0ef4cafa1a262ca46e91d7abbc87f28a77c26dd2d72cb7f"
+    },
+    "tests/record-order-source-contracts.test.ts": {
+      "before": "0472a83e4f03ace8fe768b435d236577649da533ea9ac432c1cd71ddcf7a9674",
+      "after": "917d67433281ccbc1e4efcd41586d17f32d9798b048ba075e671aab8c3fb2963"
+    },
+    "tests/owner-telegram-format.test.ts": {
+      "before": "bbcdf8ce2b66b8705fa3a48da3efd3150c5ad45ac0d496c0cab2083a660e7154",
+      "after": "c5e59c6c46ae7c9cbf506597826d87796359a76affc2781382895b9a84d6c92e"
+    },
+    "tests/trial-owner-w.test.ts": {
+      "before": "7fdc916f693b8a7e3135202eea31dc25a99452d39211b67139f87770641ff2da",
+      "after": "765da83c9f6cca1d0e822a9a7832b15c70a9d232a16835d1f47fab68bb8263aa"
+    },
+    "tests/trial-ta-presentation.test.ts": {
+      "before": "3c90dcf2d1b86c986ee9b4ab012a284543b4cd0d0ca042e5ce9a703709cff260",
+      "after": "ae9ce18667b5d97c1c49a2cc336b226234a95aec577e73d0f3aa7f684ac661ae"
+    },
+    "tests/store-scroll-history.test.ts": {
+      "before": "acb605708ca13907d972365085dd667107064d0c1e78c7e54bc7c2f6e5bad42c",
+      "after": "4098c4ff719d790d18b43fa6cee9594227edcc18d178199d276f935bd956284b"
+    },
+    "e2e/customer-category-grid.spec.ts": {
+      "before": "061b4819922c737cdf5aa61e95ca3a2d32e179b3912afc686e582b89b86c4e6b",
+      "after": "dd3cc3b3992673218f1c0d77ce603edb831e8688c20825655f21ff878c0bebeb"
+    },
+    "tests/storefront-speed-history.test.ts": {
+      "before": "76cf8269ea51f61ffb67527d65b8ab3170d59b6405f7b335fc4299661ab86458",
+      "after": "70f0b3f3659ef961365a35c6287f60e5bb6e89192847cbd7f1ca17dfdc4568b2"
+    }
+  }
+}

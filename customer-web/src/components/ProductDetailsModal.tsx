@@ -27,6 +27,7 @@ import { buildWhatsAppUrl } from '../utils/checkout';
 
 interface ProductDetailsModalProps {
   product: CatalogProduct;
+  imagePriority?: boolean;
   initialVariantId?: string;
   cartQuantityByProduct: ReadonlyMap<string, number>;
   reservedBaseUnits: ReadonlyMap<string, number>;
@@ -46,6 +47,7 @@ interface ProductDetailsModalProps {
 
 export function ProductDetailsModal({
   product: familyProduct,
+  imagePriority = false,
   initialVariantId,
   cartQuantityByProduct,
   reservedBaseUnits,
@@ -262,6 +264,8 @@ export function ProductDetailsModal({
             <div className="bg-gradient-to-br from-slate-50 via-white to-blue-50 p-4 sm:p-7">
               <button type="button" onClick={() => setImageZoomed((value) => !value)} aria-label={imageZoomed ? 'تصغير صورة المنتج' : 'تكبير صورة المنتج'} className="relative mx-auto block aspect-[4/3] max-h-[46vh] w-full overflow-hidden rounded-[2rem] border border-white bg-white shadow-[0_24px_70px_-44px_rgba(15,23,42,0.7)] sm:aspect-square sm:max-h-[440px]">
                 <ProductImage
+                  useThumbnail={!imageZoomed}
+                  priority={imagePriority}
                   src={product.imageUrl}
                   alt={product.nameAr}
                   imageClassName={`h-full w-full object-contain p-3 transition duration-300 sm:p-5 ${imageZoomed ? 'scale-150' : 'scale-100'}`}

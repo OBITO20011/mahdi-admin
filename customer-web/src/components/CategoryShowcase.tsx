@@ -1,3 +1,4 @@
+import {ProductImage} from './ProductImage';
 import { ImageOff } from 'lucide-react';
 import type { CSSProperties } from 'react';
 import type { CatalogCategory, CatalogProduct } from '../types/catalog';
@@ -67,15 +68,7 @@ function CategoryCard({
           )}
         </span>
         {category.coverUrl && (
-          <img
-            src={category.coverUrl}
-            alt=""
-            loading="lazy"
-            onError={(event) => {
-              event.currentTarget.style.display = 'none';
-            }}
-            className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
-          />
+          <ProductImage src={category.coverUrl} alt="" imageClassName="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105" fallbackClassName="hidden" />
         )}
         <span className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/10 to-transparent" />
 

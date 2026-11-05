@@ -1,3 +1,4 @@
+import{pathsBeforeStorefrontImages}from'../scripts/audit/source-before-storefront-images.mjs';
 import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import{pathsBeforeProductWorkbook}from'../scripts/audit/source-before-product-workbook.mjs';
 import {sourceBeforeStoreIdentity} from '../scripts/audit/source-before-store-sharing-identity.mjs';
@@ -56,6 +57,6 @@ test('W preserves every service/Supabase call and keeps authority modules unchan
   const before=execFileSync('git',['show',base+':'+file],{encoding:'utf8',maxBuffer:32*1024**2});
   assert.deepEqual(calls(file,historicalProductWorkbookSource(sourceBeforeTrialR,file,readFileSync(file,'utf8'))!),calls(file,before),file);
  }
- const authority=execFileSync('git',['diff','--name-only',base,'--','supabase','src/services','src/utils','src/stores','src/lib'],{encoding:'utf8'}).trim().split('\n').filter(Boolean).filter(file=>{if(['src/services/deviceBiometrics.service.ts','src/stores/useAuthStore.ts'].includes(file)){assert.equal(historicalProductWorkbookSource(sourceBeforeStoreIdentity,file,readFileSync(file,'utf8')),execFileSync('git',['show','f95ff0458f90298edc21e39859d3268c7f7ccac7:'+file],{encoding:'utf8'}).replaceAll('\r\n','\n'));return false;}return true;}).filter(file=>pathsBeforeProductWorkbook([file],base).length>0).filter(file=>pathsBeforeHandover213([file]).length>0&&!trialRPins[file]&&file!=='supabase/migrations/212_trial_readable_cash_product_choices_damage_history.sql').join('\n');
+ const authority=execFileSync('git',['diff','--name-only',base,'--','supabase','src/services','src/utils','src/stores','src/lib'],{encoding:'utf8'}).trim().split('\n').filter(Boolean).filter(file=>{if(['src/services/deviceBiometrics.service.ts','src/stores/useAuthStore.ts'].includes(file)){assert.equal(historicalProductWorkbookSource(sourceBeforeStoreIdentity,file,readFileSync(file,'utf8')),execFileSync('git',['show','f95ff0458f90298edc21e39859d3268c7f7ccac7:'+file],{encoding:'utf8'}).replaceAll('\r\n','\n'));return false;}return true;}).filter(file=>pathsBeforeStorefrontImages([file],'d102074583c7369502954eaf8ea70d2595f6a19c').length>0).filter(file=>pathsBeforeProductWorkbook([file],base).length>0).filter(file=>pathsBeforeHandover213([file]).length>0&&!trialRPins[file]&&file!=='supabase/migrations/212_trial_readable_cash_product_choices_damage_history.sql').join('\n');
  assert.equal(authority,'','No writer, reader, pricing, permission or persisted-store contract changes');
 });

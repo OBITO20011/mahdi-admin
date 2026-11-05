@@ -193,6 +193,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   const [activePage, setActivePage] = useState<StorePage>(
     () => readStoreLocationRoute(window.location).page
   );
+  const [initialImageRoute] = useState(() => readStoreLocationRoute(window.location));
   const [products, setProducts] = useState<CatalogProduct[]>([]);
   const [catalogCategories, setCatalogCategories] = useState<
     CatalogCategory[]
@@ -2139,6 +2140,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         <Suspense fallback={<p role="status">جارٍ تحميل النافذة…</p>}>
         <ProductDetailsModal
           product={selectedProduct}
+          imagePriority={Boolean(initialImageRoute.productKey)}
           initialVariantId={selectedProductVariantId ?? undefined}
           cartQuantityByProduct={cartQuantityByProduct}
           reservedBaseUnits={reservedBaseUnits}

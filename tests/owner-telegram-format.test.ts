@@ -1,3 +1,4 @@
+import{pathsBeforeStorefrontImages}from'../scripts/audit/source-before-storefront-images.mjs';
 import{pathsBeforeProductWorkbook}from'../scripts/audit/source-before-product-workbook.mjs';
 import{sourceBeforeProductWorkbook}from'../scripts/audit/source-before-product-workbook.mjs';
 import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
@@ -104,7 +105,7 @@ test('exact display inverse restores prior App bytes without accepting any extra
  assert.equal(historicalProductWorkbookSource(sourceBeforeOwnerTelegramFormat,'src/App.tsx',app),base);
  assert.throws(()=>historicalProductWorkbookSource(sourceBeforeNavigation206,'src/App.tsx',app+'\nconst unauthorized=1;'),/NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED/u);
  const helper='scripts/audit/source-before-environments.mjs';assert.throws(()=>historicalProductWorkbookSource(sourceBeforeOwnerTelegramFormat,helper,readFileSync(helper,'utf8')+'\n// unknown'),/HANDOVER214_UNREVIEWED_SOURCE:TELEGRAM_FORMAT/u);
- assert.deepEqual(pathsBeforeProductWorkbook(pathsBeforeBulkProductImages(execFileSync('git',['diff','--name-only','28ab68dbe95329d435feb4871b6edd4a1230279f','--','supabase','src/services','scripts/audit/*-hunks.json','scripts/audit/*-inverse.json'],{encoding:'utf8'}).trim().split('\n').filter(Boolean))),[]);
+ assert.deepEqual(pathsBeforeProductWorkbook(pathsBeforeBulkProductImages(pathsBeforeStorefrontImages(execFileSync('git',['diff','--name-only','28ab68dbe95329d435feb4871b6edd4a1230279f','--','supabase','src/services','scripts/audit/*-hunks.json','scripts/audit/*-inverse.json'],{encoding:'utf8'}).trim().split('\n').filter(Boolean),'d102074583c7369502954eaf8ea70d2595f6a19c'))),[]);
 });
 
 test('actual App link effect only selects the three approved existing screens after authentication',()=>{

@@ -193,8 +193,10 @@ test.describe('شبكة تصنيفات متجر العملاء', () => {
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
     }
 
-    const brokenImage = page.locator('img[src="https://test.invalid/broken-category-cover.jpg"]');
-    await expect(brokenImage).toHaveCSS('display', 'none');
+    const brokenCard = page.getByTestId('category-grid').getByRole('link', { name: `فتح قسم ${categories[0].nameAr}`, exact: true });
+    await expect(brokenCard.locator('img')).toHaveCount(0);
+    await expect(brokenCard.locator('[role="img"]')).toHaveCSS('display', 'none');
+    await expect(brokenCard.locator('svg').first()).toBeVisible();
 
     await page.getByRole('link', { name: 'فتح قسم مياه' }).click();
     await expect(page.locator('#catalog')).toBeVisible();

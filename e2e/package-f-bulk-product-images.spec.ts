@@ -24,6 +24,9 @@ async function setup(page:Page,options:{failSave?:boolean;unknownUpload?:boolean
 }
 async function open(page:Page){await page.getByRole('button',{name:'رفع صور المنتجات حسب الرمز',exact:true}).click();await expect(page.getByRole('button',{name:'اختيار صور متعددة',exact:true})).toBeEnabled();}
 const choose=async(page:Page,files:{name:string;mimeType:string;buffer:Buffer}[])=>{await page.getByLabel('اختيار ملفات صور متعددة',{exact:true}).setInputFiles(files);await expect(page.getByRole('button',{name:'اختيار صور متعددة',exact:true})).toBeEnabled();};
+const originals=(state:Awaited<ReturnType<typeof setup>>)=>state.calls.uploads.filter(path=>!path.endsWith('-400.webp'));
+const thumbnailUploads=(state:Awaited<ReturnType<typeof setup>>)=>state.calls.uploads.filter(path=>path.endsWith('-400.webp'));
+function expectPairs(state:Awaited<ReturnType<typeof setup>>,count:number){const paths=[...state.objects];expect(paths).toHaveLength(count*2);const original=paths.filter(path=>!path.endsWith('-400.webp'));expect(original).toHaveLength(count);expect(paths.filter(path=>path.endsWith('-400.webp')).sort()).toEqual(original.map(path=>path+'-400.webp').sort());}
 const image=(name:string)=>({name,mimeType:name.endsWith('.png')?'image/png':'image/jpeg',buffer:name.endsWith('.png')?png:jpeg});
 
 test('bulk preview,flavor/default skip,middle failure/cleanup and failed-only retry 390',async({page},info)=>{
@@ -32,8 +35,8 @@ test('bulk preview,flavor/default skip,middle failure/cleanup and failed-only re
  await expect(page.getByTestId('bulk-image-row')).toHaveCount(4);expect(state.calls.uploads).toHaveLength(0);expect(state.calls.saves).toBe(0);
  await expect(page.getByRole('cell',{name:'ملف بلا منتج لا يوجد منتج أو نكهة بهذا الرمز.',exact:true})).toBeVisible();await expect(page.getByLabel('استبدال (الافتراضي: تخطَّ)',{exact:true})).not.toBeChecked();
  await page.getByRole('button',{name:'تأكيد رفع الصور المطابقة',exact:true}).click();
- await expect(page.getByText('نجح: 1 · فشل: 1 · متخطّى: 2',{exact:true})).toBeVisible();expect(state.calls.removes).toHaveLength(1);expect(state.objects.size).toBe(1);
- await page.getByRole('button',{name:'أعد المحاولة للفاشل',exact:true}).click();await expect(page.getByText('نجح: 2 · فشل: 0 · متخطّى: 2',{exact:true})).toBeVisible();expect(state.objects.size).toBe(2);expect(state.refs.size).toBe(2);
+ await expect(page.getByText('نجح: 1 · فشل: 1 · متخطّى: 2',{exact:true})).toBeVisible();expect(state.calls.removes).toHaveLength(2);expect(state.calls.removes[1]).toBe(state.calls.removes[0]+'-400.webp');expectPairs(state,1);
+ await page.getByRole('button',{name:'أعد المحاولة للفاشل',exact:true}).click();await expect(page.getByText('نجح: 2 · فشل: 0 · متخطّى: 2',{exact:true})).toBeVisible();expectPairs(state,2);expect(state.refs.size).toBe(2);
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await checkLayout(page,page.getByTestId('bulk-product-images'));
  await page.screenshot({path:info.outputPath('bulk-images-390.png'),fullPage:true});
@@ -42,21 +45,21 @@ test('case/digit duplicates block all upload until removal;an existing image nee
  const state=await setup(page);await open(page);await choose(page,[image('SUG-10.jpg'),image('sug-١٠.png'),image('EXIST.jpg')]);
  await expect(page.getByRole('button',{name:'تأكيد رفع الصور المطابقة',exact:true})).toBeDisabled();expect(state.calls.uploads.length).toBe(0);
  await page.getByRole('button',{name:'إزالة sug-١٠.png',exact:true}).click();await expect(page.getByRole('button',{name:'تأكيد رفع الصور المطابقة',exact:true})).toBeEnabled();
- await page.getByLabel('استبدال (الافتراضي: تخطَّ)',{exact:true}).check();await page.getByRole('button',{name:'تأكيد رفع الصور المطابقة',exact:true}).click();await expect(page.getByText('نجح: 2 · فشل: 0 · متخطّى: 0',{exact:true})).toBeVisible();expect(state.calls.uploads.length).toBe(2);
+ await page.getByLabel('استبدال (الافتراضي: تخطَّ)',{exact:true}).check();await page.getByRole('button',{name:'تأكيد رفع الصور المطابقة',exact:true}).click();await expect(page.getByText('نجح: 2 · فشل: 0 · متخطّى: 0',{exact:true})).toBeVisible();expect(originals(state)).toHaveLength(2);expect(thumbnailUploads(state)).toHaveLength(2);
 });
 test('reload/reselection skips completed files and resolves an unknown Storage reply on exactly the same path',async({page})=>{
  const state=await setup(page,{unknownUpload:true});await open(page);await choose(page,[image('SUG-10.jpg')]);await page.getByRole('button',{name:'تأكيد رفع الصور المطابقة',exact:true}).click();await expect(page.getByText('نجح: 0 · فشل: 1 · متخطّى: 0',{exact:true})).toBeVisible();expect(state.calls.removes.length).toBe(0);
- await page.getByRole('button',{name:'أعد المحاولة للفاشل',exact:true}).click();await expect(page.getByText('نجح: 1 · فشل: 0 · متخطّى: 0',{exact:true})).toBeVisible();expect(new Set(state.calls.uploads).size).toBe(1);expect(state.objects.size).toBe(1);
- await page.reload();await open(page);await choose(page,[image('SUG-10.jpg')]);await page.getByRole('button',{name:'تأكيد رفع الصور المطابقة',exact:true}).click();await expect(page.getByText('نجح: 0 · فشل: 0 · متخطّى: 1',{exact:true})).toBeVisible();expect(state.calls.uploads.length).toBe(2);
+ await page.getByRole('button',{name:'أعد المحاولة للفاشل',exact:true}).click();await expect(page.getByText('نجح: 1 · فشل: 0 · متخطّى: 0',{exact:true})).toBeVisible();expect(new Set(originals(state)).size).toBe(1);expect(thumbnailUploads(state)).toHaveLength(1);expectPairs(state,1);
+ await page.reload();await open(page);await choose(page,[image('SUG-10.jpg')]);await page.getByRole('button',{name:'تأكيد رفع الصور المطابقة',exact:true}).click();await expect(page.getByText('نجح: 0 · فشل: 0 · متخطّى: 1',{exact:true})).toBeVisible();expect(originals(state)).toHaveLength(2);expect(thumbnailUploads(state)).toHaveLength(1);
 });
 test('cleanup stays visible and durable across reload until a confirmed failed write can be cleaned',async({page})=>{
- const state=await setup(page,{failSave:true,cleanupFails:true});await open(page);await choose(page,[image('PRG-BBQ.jpg')]);await page.getByRole('button',{name:'تأكيد رفع الصور المطابقة',exact:true}).click();await expect(page.getByText('نجح: 0 · فشل: 1 · متخطّى: 0',{exact:true})).toBeVisible();expect(state.objects.size).toBe(1);
+ const state=await setup(page,{failSave:true,cleanupFails:true});await open(page);await choose(page,[image('PRG-BBQ.jpg')]);await page.getByRole('button',{name:'تأكيد رفع الصور المطابقة',exact:true}).click();await expect(page.getByText('نجح: 0 · فشل: 1 · متخطّى: 0',{exact:true})).toBeVisible();expectPairs(state,1);
  await page.reload();await open(page);await expect(page.getByText(/هناك 1 صورة من رفع سابق/u)).toBeVisible();state.allowCleanup();await page.getByRole('button',{name:'تحقق من الرفع السابق ونظّف غير المحفوظ',exact:true}).click();await expect(page.getByText(/هناك 1 صورة من رفع سابق/u)).toHaveCount(0);expect(state.objects.size).toBe(0);
 });
 test('catalog beyond50 includes the last product;corrupt files fail before Storage',async({page})=>{
  const state=await setup(page,{many:true});await open(page);expect(state.calls.pages).toEqual([1,2]);
  await choose(page,[image('P121.jpg'),{name:'P120.jpg',mimeType:'image/jpeg',buffer:Buffer.from('broken')}]);
- await expect(page.getByText('ملف الصورة تالف أو تعذر قراءته. اختر صورة JPG أو PNG أو WebP سليمة.',{exact:true})).toBeVisible();await page.getByRole('button',{name:'تأكيد رفع الصور المطابقة',exact:true}).click();await expect(page.getByText('نجح: 1 · فشل: 1 · متخطّى: 0',{exact:true})).toBeVisible();expect(state.calls.uploads.length).toBe(1);expect(state.catalog.get(id(130))?.image_url).not.toBe('');
+ await expect(page.getByText('ملف الصورة تالف أو تعذر قراءته. اختر صورة JPG أو PNG أو WebP سليمة.',{exact:true})).toBeVisible();await page.getByRole('button',{name:'تأكيد رفع الصور المطابقة',exact:true}).click();await expect(page.getByText('نجح: 1 · فشل: 1 · متخطّى: 0',{exact:true})).toBeVisible();expect(originals(state)).toHaveLength(1);expect(thumbnailUploads(state)).toHaveLength(1);expect(state.catalog.get(id(130))?.image_url).not.toBe('');
 });
 test('a user without product edit rights cannot open the uploader or start any reads/writes',async({page})=>{
  const state=await setup(page,{role:'cashier'});await expect(page.getByTestId('bulk-product-images')).toHaveCount(0);expect(state.calls.pages.length).toBe(0);expect(state.calls.uploads.length).toBe(0);expect(state.calls.saves).toBe(0);

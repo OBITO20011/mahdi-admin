@@ -13,7 +13,9 @@ const merchandising = readFileSync(
 const app = readFileSync(new URL('../src/App.tsx', import.meta.url), 'utf8');
 
 test('product image failures render the shared customer-safe fallback', () => {
-  assert.match(productImage, /onError=\{\(\) => setFailed\(true\)\}/);
+  assert.match(productImage, /onError=\{\(\) => setFailure\(\{src: thumbnail, stage: stage \+ 1\}\)\}/);
+  assert.match(productImage, /const displayed = stage === 0 \? thumbnail : src/);
+  assert.match(productImage, /const failed = stage >= \(thumbnail === src \? 1 : 2\)/);
   assert.match(productImage, /role="img"/);
   assert.match(productImage, /لا توجد صورة/);
   assert.match(productImage, /ImageOff/);

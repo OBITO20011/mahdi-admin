@@ -1,3 +1,4 @@
+import{pathsBeforeStorefrontImages}from'../scripts/audit/source-before-storefront-images.mjs';
 import{sourceBeforeStorefrontSpeed}from'../scripts/audit/source-before-storefront-speed.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
@@ -29,7 +30,7 @@ test('no SQL, service or owner execution/connection/ACL/reset comparison source 
  // PR63 is an independently approved, offline-only addition merged into main.
  // Keep every original guard, and bind just its three new tool files to Git63.
  const approvedTools=new Set(['scripts/operations/check-go-live-files.ps1','scripts/operations/go-live-files/check.ts','scripts/operations/go-live-files/cli.ts']);
- const changed:string[]=pathsBeforeWorkbookIntegration(execFileSync('git',['diff','--name-only',baseline,'--',...unchanged],{encoding:'utf8',windowsHide:true}).trim().split('\n').filter(Boolean));
+ const changed:string[]=pathsBeforeWorkbookIntegration(pathsBeforeStorefrontImages(execFileSync('git',['diff','--name-only',baseline,'--',...unchanged],{encoding:'utf8',windowsHide:true}).trim().split('\n').filter(Boolean),baseline));
  for(const file of changed.filter(file=>approvedTools.has(file))){
   assert.equal(execFileSync('git',['ls-tree','--name-only',baseline,'--',file],{encoding:'utf8',windowsHide:true}).trim(),'','PR63 tool must be new, not replace an old source');
   const approved=execFileSync('git',['show','2dafe8433bc4efef68a82fee904590aabf5fc8ad:'+file],{windowsHide:true});
