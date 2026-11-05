@@ -11,6 +11,10 @@
     },
     {
       "code": "A ",
+      "path": "docs/operations/RECORD_ORDER_AUDIT_AR.md"
+    },
+    {
+      "code": "A ",
       "path": "e2e/package-f-iphone-dialogs-harness.html"
     },
     {
@@ -23,11 +27,35 @@
     },
     {
       "code": "A ",
+      "path": "e2e/package-f-record-order-harness.html"
+    },
+    {
+      "code": "A ",
+      "path": "e2e/package-f-record-order-harness.tsx"
+    },
+    {
+      "code": "A ",
+      "path": "e2e/package-f-record-order.spec.ts"
+    },
+    {
+      "code": "A ",
       "path": "scripts/audit/iphone-dialog-source-pins.json"
     },
     {
       "code": "A ",
+      "path": "scripts/audit/record-order-source-pins.json"
+    },
+    {
+      "code": "A ",
       "path": "scripts/audit/source-before-iphone-dialogs.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/audit/source-before-record-order.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/testing/record-order-historical-views.mjs"
     },
     {
       "code": "A ",
@@ -39,7 +67,19 @@
     },
     {
       "code": "A ",
+      "path": "src/utils/newestRecords.ts"
+    },
+    {
+      "code": "A ",
       "path": "tests/iphone-dialog-contracts.test.ts"
+    },
+    {
+      "code": "A ",
+      "path": "tests/record-order-source-contracts.test.ts"
+    },
+    {
+      "code": "AM",
+      "path": "tests/newest-records.test.ts"
     },
     {
       "code": "M ",
@@ -67,11 +107,11 @@
     },
     {
       "code": "M ",
-      "path": "scripts/audit/record-order-source-pins.json"
+      "path": "e2e/package-d-settings.spec.ts"
     },
     {
       "code": "M ",
-      "path": "scripts/audit/source-before-product-workbook-text.mjs"
+      "path": "e2e/package-f-trial-sale-receipts.spec.ts"
     },
     {
       "code": "M ",
@@ -95,6 +135,30 @@
     },
     {
       "code": "M ",
+      "path": "src/features/cheques/ChequesView.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/features/directReceiving/SupplierReceiptDetailView.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/features/inventory/SupplierReplacementPanel.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/features/more/ParcelConfigurationModal.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/features/orders/OrderDetailModal.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/features/purchases/PurchaseOrderDetailView.tsx"
+    },
+    {
+      "code": "M ",
       "path": "src/index.css"
     },
     {
@@ -107,7 +171,51 @@
     },
     {
       "code": "M ",
+      "path": "tests/cutover-platform-documentation.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/package-f-remaining-batch3.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/partial216-source-history.test.ts"
+    },
+    {
+      "code": "M ",
       "path": "tests/product-workbook-history.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/reset219-reference-d1-docs.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/trial-aftercare-supplier.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/trial40-ci-scheduling.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/trial41-integration.test.ts"
+    },
+    {
+      "code": "MM",
+      "path": "scripts/audit/product-scale-source-pins.json"
+    },
+    {
+      "code": "MM",
+      "path": "scripts/audit/product-workbook-source-pins.json"
+    },
+    {
+      "code": "MM",
+      "path": "scripts/audit/source-before-product-scale.mjs"
+    },
+    {
+      "code": "MM",
+      "path": "scripts/audit/source-before-product-workbook-text.mjs"
     }
   ]
 }

@@ -1,0 +1,40 @@
+{
+  "format": 1,
+  "asOf": "2026-11-05",
+  "categories": [
+    {
+      "name": "شوكولاتة",
+      "active": true
+    },
+    {
+      "name": "مشروبات وهمية",
+      "active": true
+    }
+  ],
+  "units": [
+    {
+      "code": "PKT",
+      "name": "باكيت"
+    },
+    {
+      "code": "CTN",
+      "name": "طرد"
+    }
+  ],
+  "brands": [
+    {
+      "name": "علامة اختبار حجم وهمية",
+      "active": true
+    }
+  ],
+  "warehouses": [
+    {
+      "code": "WH-MAIN",
+      "active": true
+    }
+  ],
+  "products": [],
+  "customers": [],
+  "suppliers": [],
+  "chequeKeys": []
+}

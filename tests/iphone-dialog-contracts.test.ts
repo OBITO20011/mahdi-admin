@@ -1,3 +1,4 @@
+import{sourceBeforeProductScale}from'../scripts/audit/source-before-product-scale.mjs';
 import{sourceBeforeRecordOrder}from'../scripts/audit/source-before-record-order.mjs';
 import{sourceBeforeMobilePresentation}from'../scripts/audit/source-before-product-workbook-text.mjs';
 import test from 'node:test';
@@ -12,7 +13,7 @@ const read=(file:string)=>readFileSync(file,'utf8');
 const hash=(s:string)=>createHash('sha256').update(s.replaceAll('\r\n','\n')).digest('hex');
 test('iPhone presentation inverse binds full delivered bytes, exposes any unknown change and preserves all RPC/table content',()=>{
  for(const [file,pin] of Object.entries(iphoneDialogPins) as [string,{before:string|null;after:string}][]){
-  const actual=read(file),recordView=sourceBeforeRecordOrder(file,actual);
+  const raw=read(file),actual=sourceBeforeProductScale(file,raw)!,recordView=sourceBeforeRecordOrder(file,actual);
   const current=recordView===actual?actual:execFileSync('git',['show','f096964266d4d04ba0d4f2818641f2229b1dabeb:'+file],{encoding:'utf8',windowsHide:true,maxBuffer:64*1024**2});
   assert.equal(hash(current),pin.after,file);
   assert.equal(sourceBeforeMobilePresentation(file,actual+'\n// unknown merge mutation'),actual+'\n// unknown merge mutation');
@@ -30,7 +31,8 @@ test('iPhone presentation inverse binds full delivered bytes, exposes any unknow
   }
  }
  assert.equal(sourceBeforeIphoneDialogs('unknown.sql','unknown'),'unknown');
- assert.equal(execFileSync('git',['diff','--name-only',baseline,'--','supabase','src/services','scripts/operations','scripts/backup','scripts/monitoring'],{encoding:'utf8',windowsHide:true}).trim(),'');
+ const changes=execFileSync('git',['diff','--name-only',baseline,'--','supabase','src/services','scripts/operations','scripts/backup','scripts/monitoring'],{encoding:'utf8',windowsHide:true}).trim().split('\n').filter(Boolean);
+ for(const file of changes){assert.ok(['src/services/supabase/productWorkbook.service.ts','scripts/operations/go-live-files/check.ts'].includes(file),file);assert.equal(sourceBeforeProductScale(file,read(file)),execFileSync('git',['show',baseline+':'+file],{encoding:'utf8',windowsHide:true}),file);}
 });
 test('central modal stack owns isolation; drawer has no competing body/inert lock and existing busy/unsaved guards remain',()=>{
  const focus=read('src/utils/dialogFocus.ts'),shell=read('src/components/layout/NavigationShell.tsx'),isolation=read('src/utils/dialogIsolation.ts');

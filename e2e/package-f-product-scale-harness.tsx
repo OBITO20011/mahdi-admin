@@ -1,0 +1,13 @@
+import React from 'react';import{createRoot}from'react-dom/client';
+import '@fontsource/ibm-plex-sans-arabic/400.css';import '../src/index.css';
+import{ProductWorkbookImportPanel}from'../src/features/goLive/ProductWorkbookImportPanel';
+import{prepareProductWorkbook,readProductWorkbook}from'../src/features/goLive/productWorkbook';
+import{authStoreEngine,type AuthState}from'../src/stores/useAuthStore';
+import{supabase,sanitizedSupabaseUrl}from'../src/lib/supabase';import{productWorkbookFixture}from'./package-f-product-workbook.fixture';
+if(!supabase||!['127.0.0.1','localhost','[::1]'].includes(new URL(sanitizedSupabaseUrl).hostname))throw Error('LOCAL_ONLY');
+const actor='92600000-0000-4000-8000-000000000001',fixture=productWorkbookFixture(actor,()=>false);
+fixture.tables.categories.push({id:'cat-drinks',name_ar:'مشروبات وهمية',is_active:true});fixture.tables.brands.push({id:'brand-scale',name_ar:'علامة اختبار حجم وهمية',is_active:true});
+Object.assign(supabase,{from:fixture.client.from,rpc:fixture.client.rpc});Object.assign(supabase.auth,{getUser:fixture.client.auth.getUser});
+const auth=authStoreEngine as unknown as{state:AuthState;getState:()=>AuthState;initAuth:()=>Promise<void>};auth.state={...auth.getState(),user:{id:actor}as AuthState['user'],roleName:'owner',roles:['owner'],isAuthenticated:true,isLoading:false};auth.initAuth=async()=>undefined;
+Object.assign(window,{__scaleCalls:fixture.calls,__scaleMeasureRead:async()=>{const f=document.querySelector<HTMLInputElement>('input[type=file]')?.files?.[0];if(!f)throw Error('SCALE_NO_FILE');const t=performance.now(),decoded=await readProductWorkbook(new Uint8Array(await f.arrayBuffer()));const readMs=performance.now()-t,plan=prepareProductWorkbook(decoded.products,decoded.flavors);return{readMs,validationMs:performance.now()-t-readMs,rows:plan.products.length,errors:plan.errors.length};}});
+function Harness(){const[file,setFile]=React.useState<File|null>(null);return<main dir="rtl" className="mx-auto max-w-4xl p-3"><h1>معاينة وهمية لاختبار الحجم فقط</h1><label>ملف المنتجات<input aria-label="ملف المنتجات" type="file" onChange={e=>setFile(e.target.files?.[0]??null)}/></label><label>اختبار الاستجابة<input aria-label="اختبار الاستجابة"/></label>{file&&<ProductWorkbookImportPanel file={file} disabled={false} onSaved={()=>{throw Error('PREVIEW_MUST_NOT_WRITE');}}/>}</main>;}createRoot(document.getElementById('root')!).render(<Harness/>);

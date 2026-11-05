@@ -97,7 +97,7 @@ const ImportPanel: React.FC<ImportPanelProps> = ({ kind, disabled, warehouseId, 
         if(book.flavors.length||enriched){setProductFile(file);return;}
       }
       const sheet = await readXlsxFirstSheet(await file.arrayBuffer());
-      const { rows, fileErrors } = mapSheet(kind, sheet);
+      const { rows, fileErrors, normalizedFields } = mapSheet(kind, sheet);
       if (fileErrors.length) { setMessage({ tone: 'bad', text: fileErrors.join(' ') }); return; }
       const session = Math.random().toString(36).slice(2, 10);
       let errors: RowError[] = [], payload: Record<string, unknown>[] = [], summary: Preview['summary'] = [];
@@ -128,6 +128,7 @@ const ImportPanel: React.FC<ImportPanelProps> = ({ kind, disabled, warehouseId, 
             : [{ label: 'له (علينا للمورد)', value: <Money minor={sum(ok.filter(r => r.direction === 'payable'))} /> },
               { label: 'عليه (للمحل)', value: <Money minor={sum(ok.filter(r => r.direction === 'advance'))} /> }];
       }
+      if(normalizedFields)summary.push({label:'حقول وصفية طُبّعت (الحروف والمسافات فقط)',value:<Num value={normalizedFields}/>});
       errors.sort((a, b) => a.row - b.row);
       const batches = chunk(payload as { sourceRow: number }[], GO_LIVE_BATCH_SIZE[kind]).map(batch => batch.map(stripSourceRow));
       setPreview({ fileName: file.name, rowCount: rows.length, errors, batches, summary, session, newParties });

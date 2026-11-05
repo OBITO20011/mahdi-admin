@@ -1,0 +1,76 @@
+{
+  "seed": 99537433,
+  "date": "2026-11-05",
+  "expected": {
+    "parents": 1000,
+    "families": 32,
+    "flavors": 480,
+    "totalProducts": 1480,
+    "stockable": 1448,
+    "missingStock": 482,
+    "filledStock": 966
+  },
+  "faults": [
+    {
+      "id": "cross-sheet-barcode",
+      "sheet": "المنتجات",
+      "row": 34,
+      "column": "barcode",
+      "reason": "مكرر عبر ورقتي"
+    },
+    {
+      "id": "missing-master",
+      "sheet": "النكهات",
+      "row": 481,
+      "column": "master_sku",
+      "reason": "رمز المنتج الأساسي غير موجود"
+    },
+    {
+      "id": "missing-packet-price",
+      "sheet": "المنتجات",
+      "row": 37,
+      "column": "packet_price",
+      "reason": "سعر بيع الباكيت المفرد مطلوب"
+    },
+    {
+      "id": "packet-parcel-mismatch",
+      "sheet": "المنتجات",
+      "row": 40,
+      "column": "packet_price",
+      "reason": "سعر الباكيت لا يطابق"
+    },
+    {
+      "id": "duplicate-flavor-name",
+      "sheet": "النكهات",
+      "row": 6,
+      "column": "name",
+      "reason": "اسم نكهة مكرر"
+    },
+    {
+      "id": "over-30-flavors",
+      "sheet": "المنتجات",
+      "row": 31,
+      "column": "flavors",
+      "reason": "الحد الأعلى 30 نكهة"
+    },
+    {
+      "id": "master-barcode",
+      "sheet": "المنتجات",
+      "row": 7,
+      "column": "barcode",
+      "reason": "المنتج الأساسي للنكهات بلا باركود"
+    }
+  ],
+  "numericIdentifiers": [
+    {
+      "sheet": "المنتجات",
+      "row": 102,
+      "column": "barcode"
+    },
+    {
+      "sheet": "النكهات",
+      "row": 481,
+      "column": "barcode"
+    }
+  ]
+}

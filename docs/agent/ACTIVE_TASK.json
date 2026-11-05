@@ -2,51 +2,48 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner5Nov approved #69 merge after #68: real merge main f0969642, combined evidence and FULL CI before merge. No SQL/RPC/finance/permission/hosted/deploy;58Draft.",
-  "baselineSha": "3cba78976cfd3e6ee64d45969aaa726a090d39b4",
-  "branch": "codex/records-newest-and-parcel-copy",
+  "objective": "Owner5Nov: after68+69FULLgreen/checkpoints, independent deterministic1000products400-500flavors scale validation/offline checker/actual2198s3s/resume/stock/mobilepreview/smallCI. No hosted/preview/SQLmigration/RPCfinancialpermissionchange/merge;58Draft.",
+  "baselineSha": "f8d6d01af41b18e913c369d8e4a5540bc7f60e76",
+  "branch": "codex/product-workbook-scale",
   "phase": "PACKAGE_F",
   "completed": [
-    "IndependentB frommain52:6completehistorydisplaypaths+parcelcopy;22rowRPCaudit with2explicitpagedbarriers unchanged.",
-    "1811Admin/207store,types/strictlint,144regression+4newbrowserPASS;6builds/verifydist/CSP/SEO PASS;actualSDK181services598/18expecteddenials/Gitleaks0.",
-    "Known historical-entry drifts fixed strictly;all113ownerhelpers exact;defaultstandaloneallunitsPASS withunchanged120s guard.",
-    "Committed247463ad35files includingactualtaskbranchmetadata;allprotectedpathsuntouched.",
-    "Positivecommittedhistoricalview34strictcoveragePASS/cleanup;pushverifiedPR69Draft247463ad;alllocalgatesPASS.",
-    "PR69firstCI failedoldlabel inlegacyconfiguration browser;exact2copyreferences corrected,all existingpayload/guardassertionsunchanged.30browser+9contracts/types/strictlintPASS.",
-    "PR69b23e5532pushed;positivehistoricalview34PASS/cleanup;firstold-labelCI failuredocumentedinPR.",
-    "PR69b23e5532 exactFULLquality61/61+2secrets+backupPASS;strictverifieraccepted;ReadyforReviewunmerged. PR68sameFULLaccepted225a1171."
+    "PR68 and PR69 merged to f0969642 and 87f29aba, exact PR CI green. Main68 green/primary ff preserved; main69 verification running.",
+    "Scale full local219/180:1480 exact,3 recovery points,966 stock/340298 units/143633000 fils,130.7s,catalog0. Normalized old category maps to same identity.",
+    "22 browser regressions and final2 scale engines390 pass, all16 pages; 964/1403ms ready; input47/129ms. Focused24,12+small real service,types/strictlint pass."
   ],
   "inProgress": [
-    "Real merge #68 and #69; compose both exact historical presentation views, regenerate actual current219 proof."
+    "Real merge main87f29aba into scale, local final gates then push Draft/CI"
   ],
   "notStarted": [
-    "Nextauthorized1000productworkbookpackage afterthischeckpoint."
+    "Final browser and evidence, strict lint/units/Gitleaks, PR/FULLCI; read-only pagination report; approved merge68 then69; sync scale.",
+    "After prerequisites, customer-web speed baseline and two PRs; animation waits for speed merge."
   ],
   "testsPassed": [
-    "1811Admin/207store",
-    "148browserChromiumWebKit",
-    "actual219/180181SDK598services18denials",
-    "6buildverify/CSPSEO",
-    "types/strictlint/Gitleaks0"
+    "Standalone small46 and original12+small gate; full166.16s maxRPC352.46ms, stock351.83ms; normalization unit2.",
+    "Synchronized current219 access181/598 and18 expected denials, proof regenerated"
   ],
   "testsRemaining": [
-    "Combined local gates, full PR CI, main68 and primary preservation before merge69, full main69 and ff-only"
+    "Combined access proof, full unit/build gates and Gitleaks0/PR/FULL CI on synchronized scale head; read-only records report"
   ],
   "findings": [
-    "Pagedsuppliercases208ASC andchequeduequeue195ASC remain unchanged;ownerDBdecisionlater,nostagedSQL."
+    "Offline 7 injected faults/8 findings from duplicate barcode detection; normalized fixture warns exactly2 product+1 customer+1 supplier."
   ],
   "blockers": [],
-  "activeProcesses": [],
-  "prohibitions": [
-    "No SQL/migration/RPC/finance/permission change or hosted/deploy; #58 stays Draft"
+  "activeProcesses": [
+    "finish-mobile-integration.mjs waits exact main69 CI then ff-only"
   ],
-  "nextExactAction": "Run combined #68/#69 tests and full PR CI; after main68 green and primary preflight, merge69. Test-only conflict resolution.",
-  "startedAt": "2026-11-03T03:59:26.518Z",
-  "checkpointedAt": "2026-11-05T05:31:38.394Z",
+  "prohibitions": [
+    "No hosted/Frankfurt/preview/Sentry/Telegram/Cloudflare/deploy/merge",
+    "No SQL/migration/RPCdefinition/financial/permissionchange;stopifDBchangeneeded",
+    "Do notread/importownerrealproductfile;preserveowner/env;58Draft"
+  ],
+  "nextExactAction": "Commit synchronized scale and push; open independent Draft and wait exact-head FULL CI, no merge. main69 CI/ff already coordinated. Then read-only records; no speed until both complete.",
+  "startedAt": "2026-11-05T02:17:09.217Z",
+  "checkpointedAt": "2026-11-05T06:28:18.996Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 27,
-  "filesTouchedManifestSha256": "7564dc2ae101d7e803ba74457106de28ae7b7969aab3e9d1b0dad9be50255316",
-  "workingTreeFingerprint": "3AEAD0923B31E7F9D43C6659A37E1E1D99375A5B6021BB987453856E19C75724"
+  "filesTouchedCount": 54,
+  "filesTouchedManifestSha256": "2c341a95d6d39a6e198f274506887418f4d08c32587033a6d217d2548d6254d2",
+  "workingTreeFingerprint": "6067ECE27569B78325816456D3B0EEA8DAAB56E48C474B92A5D27707431D6A49"
 }

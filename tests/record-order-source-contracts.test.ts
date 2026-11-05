@@ -1,3 +1,4 @@
+import{sourceBeforeProductScale}from'../scripts/audit/source-before-product-scale.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -10,7 +11,7 @@ const read=(file:string)=>readFileSync(file,'utf8');
 const hash=(s:string)=>createHash('sha256').update(s.replaceAll('\r\n','\n')).digest('hex');
 test('record presentation inverse binds full delivered bytes, exposes any unknown change and preserves all RPC/table content',()=>{
  for(const [file,pin] of Object.entries(recordOrderPins) as [string,{before:string|null;after:string}][]){
-  const current=read(file);assert.equal(hash(current),pin.after,file);
+  const raw=read(file),current=sourceBeforeProductScale(file,raw)!;assert.equal(sourceBeforeProductScale(file,raw+'\nunknown-scale'),raw+'\nunknown-scale');assert.equal(hash(current),pin.after,file);
   const before=pin.before===null?null:execFileSync('git',['show',baseline+':'+file],{encoding:'utf8',windowsHide:true,maxBuffer:64*1024**2});
   assert.equal(sourceBeforeRecordOrder(file,current),before,file);
   assert.equal(sourceBeforeRecordOrder(file,current+'\n// unknown mutation\n'),current+'\n// unknown mutation\n',file);
@@ -25,7 +26,8 @@ test('record presentation inverse binds full delivered bytes, exposes any unknow
   }
  }
  assert.equal(sourceBeforeRecordOrder('unknown.sql','unknown'),'unknown');
- assert.equal(execFileSync('git',['diff','--name-only',baseline,'--','supabase','src/services','scripts/operations','scripts/backup','scripts/monitoring'],{encoding:'utf8',windowsHide:true}).trim(),'');
+ const changes=execFileSync('git',['diff','--name-only',baseline,'--','supabase','src/services','scripts/operations','scripts/backup','scripts/monitoring'],{encoding:'utf8',windowsHide:true}).trim().split('\n').filter(Boolean);
+ for(const file of changes){assert.ok(['src/services/supabase/productWorkbook.service.ts','scripts/operations/go-live-files/check.ts'].includes(file),file);assert.equal(sourceBeforeProductScale(file,read(file)),execFileSync('git',['show',baseline+':'+file],{encoding:'utf8',windowsHide:true}),file);}
 });
 
 
