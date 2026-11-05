@@ -1,4 +1,5 @@
 import {sanitizeEvent,sanitizeBreadcrumb,monitoringScreen} from './monitoringPrivacy';
+import {sampleWebVitals,sanitizeVitalSpan,sanitizeVitalTransaction} from './webVitalsPrivacy';
 
 const jordanPhonePattern = /(?:\+?962|0)7[789]\d{7}/g;
 const emailPattern = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi;
@@ -7,6 +8,7 @@ type SentrySdk = typeof import('@sentry/react');
 
 const pendingChunkKey='nawasrah:monitoring:pending-chunk';
 const isChunkFailure=(error:Error)=>/chunk|dynamically imported|module script/iu.test(error.message);
+let performanceSampled = false;
 let monitoringSdk: SentrySdk | null = null;
 let monitoringLoad: Promise<SentrySdk> | null = null;
 let bootstrapListenersInstalled = false;
@@ -45,14 +47,17 @@ function loadMonitoringSdk(): Promise<SentrySdk> | null {
         environment: import.meta.env.VITE_MONITORING_ENV,
         release: import.meta.env.VITE_MONITORING_RELEASE,
         defaultIntegrations: false,
-        integrations: [sdk.globalHandlersIntegration(),sdk.dedupeIntegration()],
+        integrations: [sdk.globalHandlersIntegration(),sdk.dedupeIntegration(), ...(performanceSampled ? [sdk.browserTracingIntegration({ instrumentNavigation: false, traceFetch: false, traceXHR: false, enableLongTask: false, enableHTTPTimings: false, ignorePerformanceApiSpans: [/.*/u], ignoreResourceSpans: ['resource.script','resource.css','resource.img','resource.other'], linkPreviousTrace: 'off', beforeStartSpan: options => ({...options, name: monitoringScreen(window.location.pathname)}) })] : [])],
         replaysSessionSampleRate: 0,
         replaysOnErrorSampleRate: 0,
         sendDefaultPii: false,
         attachStacktrace: true,
         maxBreadcrumbs: 30,
         normalizeDepth: 4,
-        tracesSampleRate: 0,
+        tracesSampleRate: performanceSampled ? 1 : 0,
+        tracePropagationTargets: [],
+        beforeSendSpan: sanitizeVitalSpan,
+        beforeSendTransaction: event => sanitizeVitalTransaction(event,window.location.pathname),
         beforeBreadcrumb: sanitizeBreadcrumb,
         beforeSend: (event) => sanitizeEvent(event, {screen: event.tags?.screen ?? window.location.pathname}),
       });
@@ -100,6 +105,9 @@ export function initErrorMonitoring(): boolean {
   };
   bootstrapListenersInstalled = true;
   try {if(window.sessionStorage.getItem(pendingChunkKey)==='1')captureRenderError(new Error('CHUNK_LOAD_ERROR'));}catch{/* Storage may be unavailable; normal capture still works. */}
+  const random = typeof globalThis.crypto === 'undefined' ? 1 : crypto.getRandomValues(new Uint32Array(1))[0] / 2 ** 32;
+  performanceSampled = sampleWebVitals(import.meta.env.VITE_MONITORING_ENV,Boolean(getMonitoringDsn()),random);
+  if(performanceSampled)void loadMonitoringSdk()?.catch(() => undefined);
   return true;
 }
 

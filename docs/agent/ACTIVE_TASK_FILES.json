@@ -3,135 +3,171 @@
   "files": [
     {
       "code": " M",
-      "path": "customer-web/src/App.tsx"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/components/ProductCard.tsx"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/tests/image-fallback-and-featured.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_219.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/source-before-product-scale.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/source-before-product-workbook-text.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/source-before-product-workbook.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/product-workbook-runtime-view.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-bulk-product-images-runtime.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/bulk-images-browser/images.spec.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/iphone-dialog-contracts.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/mobile-back-contracts.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/newest-records.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/owner-telegram-format.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/product-thumbnail.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/product-workbook-runtime-view.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/record-order-source-contracts.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/store-scroll-history.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/trial-owner-w.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/trial-ta-presentation.test.ts"
-    },
-    {
-      "code": "??",
       "path": "docs/operations/STOREFRONT_SPEED_B_AR.md"
     },
     {
-      "code": "??",
+      "code": " M",
       "path": "docs/operations/STOREFRONT_SPEED_B_LOCAL.json"
     },
     {
-      "code": "??",
-      "path": "scripts/audit/source-before-storefront-images.mjs"
+      "code": "A ",
+      "path": "customer-web/src/components/DeferredDialog.tsx"
     },
     {
-      "code": "??",
+      "code": "A ",
+      "path": "customer-web/src/lib/webVitalsPrivacy.ts"
+    },
+    {
+      "code": "A ",
+      "path": "customer-web/tests/storefront-speed.test.ts"
+    },
+    {
+      "code": "A ",
+      "path": "docs/operations/STOREFRONT_SPEED_A_AR.md"
+    },
+    {
+      "code": "A ",
+      "path": "docs/operations/STOREFRONT_SPEED_A_LOCAL.json"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/audit/source-before-storefront-speed.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/audit/storefront-speed-source-pins.json"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/testing/run-storefront-budget-browser.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/testing/run-storefront-vitals-browser.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/testing/storefront-budget.d.mts"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/testing/storefront-budget.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "tests/storefront-budget.test.ts"
+    },
+    {
+      "code": "A ",
+      "path": "tests/storefront-cache-policy.test.ts"
+    },
+    {
+      "code": "A ",
+      "path": "tests/storefront-speed-history.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/public/_headers"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/App.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/components/StoreHero.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/lib/errorMonitoring.ts"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/vite.config.ts"
+    },
+    {
+      "code": "M ",
+      "path": "docs/agent/PHASE_STATUS.md"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/SENTRY_OWNER_AR.md"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_219.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": "M ",
+      "path": "e2e/public-apps.spec.ts"
+    },
+    {
+      "code": "M ",
+      "path": "package.json"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/audit/source-before-product-scale.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/audit/source-before-product-workbook-text.mjs"
+    },
+    {
+      "code": "M ",
       "path": "scripts/audit/storefront-images-source-pins.json"
     },
     {
-      "code": "??",
-      "path": "scripts/testing/generate-storefront-speed-images.py"
+      "code": "M ",
+      "path": "scripts/testing/product-workbook-runtime-view.mjs"
     },
     {
-      "code": "??",
-      "path": "scripts/testing/generate-storefront-speed-thumbnails.mjs"
+      "code": "M ",
+      "path": "tests/environment-separation.test.ts"
     },
     {
-      "code": "??",
-      "path": "scripts/testing/product-thumbnail-orphans.mjs"
+      "code": "M ",
+      "path": "tests/error-monitoring.test.ts"
     },
     {
-      "code": "??",
-      "path": "scripts/testing/run-storefront-speed-lab.mjs"
+      "code": "M ",
+      "path": "tests/frankfurt-staging-csp.test.ts"
     },
     {
-      "code": "??",
-      "path": "scripts/testing/storefront-speed-fixture.mjs"
+      "code": "M ",
+      "path": "tests/mobile-back-contracts.test.ts"
     },
     {
-      "code": "??",
+      "code": "M ",
+      "path": "tests/product-workbook-runtime-view.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/store-scroll-history.test.ts"
+    },
+    {
+      "code": "M ",
       "path": "tests/storefront-images-history.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/vite-file-access.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/workbook-integration-history.test.ts"
     }
   ]
 }

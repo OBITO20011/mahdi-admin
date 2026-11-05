@@ -195,6 +195,9 @@ test.describe('متجر العملاء العام', () => {
         ? '[data-testid="mobile-hero-video"] video'
         : '[data-testid="desktop-hero-video"]',
     );
+    await expect(heroVideo).toHaveCount(0);
+    // Decorative media loads only after intent; keep resolution/mute assertions.
+    await page.locator('#top').dispatchEvent('pointerdown');
     await expect(heroVideo).toBeAttached();
     const expectedSource =
       testInfo.project.name === 'mobile-webkit'
@@ -257,6 +260,9 @@ test.describe('متجر العملاء العام', () => {
     await expect(page.locator('#top')).toBeVisible();
     await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'auto' }));
 
+    await expect(page.locator('#top video')).toHaveCount(0);
+    await page.locator('#top').dispatchEvent('pointerdown');
+    await expect.poll(async () => (await readViewportState()).videoReadyState).toBeGreaterThanOrEqual(1);
     const initial = await readViewportState();
     await page.waitForTimeout(20_000);
     const afterIdle = await readViewportState();
@@ -307,6 +313,7 @@ test.describe('متجر العملاء العام', () => {
     const stageBox = await videoStage.boundingBox();
     expect(stageBox).not.toBeNull();
     expect(stageBox!.width / stageBox!.height).toBeCloseTo(16 / 9, 1);
+    await videoStage.dispatchEvent('pointerdown');
     await expect(videoStage.locator('video')).toHaveCSS('object-fit', 'contain');
 
     const heroBox = await hero.boundingBox();

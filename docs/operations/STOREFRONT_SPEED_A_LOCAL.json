@@ -1,0 +1,625 @@
+{
+  "scope": "Storefront A only; not LCP target acceptance or hosted evidence",
+  "baseline": "d102074583c7369502954eaf8ea70d2595f6a19c",
+  "fixture": {
+    "seed": "5eed300",
+    "products": 300,
+    "images": 300,
+    "width": 1200,
+    "height": 1200,
+    "minBytes": 304115,
+    "maxBytes": 304895
+  },
+  "lighthouse": "13.0.1",
+  "samplesPerPage": 3,
+  "method": "standard Lantern simulated slow4G,150ms RTT,1.6Mbps,CPU4,390x844,cold profiles",
+  "noHostedAccess": true,
+  "networkGuardEscapes": 0,
+  "measurements": {
+    "baseline": [
+      {
+        "page": "home",
+        "LCP": 3657.2690000000002,
+        "TBT": 163.5,
+        "CLS": 0.034937164484176,
+        "requests": 32,
+        "rpcRequests": 4,
+        "resources": [
+          {
+            "resourceType": "script",
+            "transferSize": 215961
+          },
+          {
+            "resourceType": "stylesheet",
+            "transferSize": 17085
+          },
+          {
+            "resourceType": "font",
+            "transferSize": 0
+          },
+          {
+            "resourceType": "image",
+            "transferSize": 3790529
+          },
+          {
+            "resourceType": "media",
+            "transferSize": 2711878
+          }
+        ],
+        "samples": [
+          {
+            "sample": 1,
+            "LCP": 3657.2690000000002,
+            "TBT": 337.15862500000003,
+            "CLS": 0.035011123028084117,
+            "requests": 32,
+            "rpcRequests": 4,
+            "benchmarkIndex": 1770,
+            "lhrSha256": "01421f33e0ddbf1d7e4c88f01e12d3ce624ca8e81933d034fe8a0079d2092749"
+          },
+          {
+            "sample": 2,
+            "LCP": 3361.1247999999996,
+            "TBT": 126,
+            "CLS": 0.034937164484176,
+            "requests": 32,
+            "rpcRequests": 4,
+            "benchmarkIndex": 1677.5,
+            "lhrSha256": "9cf3916e3fb4b2a3184934ad4d728c26b8e94b09b3d517a9f4fdaa56629c5eb6"
+          },
+          {
+            "sample": 3,
+            "LCP": 3666.4140000000007,
+            "TBT": 163.5,
+            "CLS": 0.034937164484176,
+            "requests": 32,
+            "rpcRequests": 4,
+            "benchmarkIndex": 1994,
+            "lhrSha256": "5875fceef81e7c6ad2c077aee54f6bda09ddea8fef2a3b9c78a4591ef68f4c45"
+          }
+        ]
+      },
+      {
+        "page": "category",
+        "LCP": 3296.3629499999997,
+        "TBT": 236,
+        "CLS": 0.05217604045721148,
+        "requests": 63,
+        "rpcRequests": 5,
+        "resources": [
+          {
+            "resourceType": "script",
+            "transferSize": 215961
+          },
+          {
+            "resourceType": "stylesheet",
+            "transferSize": 17085
+          },
+          {
+            "resourceType": "font",
+            "transferSize": 0
+          },
+          {
+            "resourceType": "image",
+            "transferSize": 13487615
+          },
+          {
+            "resourceType": "media",
+            "transferSize": 0
+          }
+        ],
+        "samples": [
+          {
+            "sample": 1,
+            "LCP": 3296.3629499999997,
+            "TBT": 254,
+            "CLS": 0.05217604045721148,
+            "requests": 63,
+            "rpcRequests": 5,
+            "benchmarkIndex": 1603.5,
+            "lhrSha256": "39bab417d60f861a6c68dc7d41c6f8fca24db4f7e55bee320f4e62c1e9f12ce8"
+          },
+          {
+            "sample": 2,
+            "LCP": 3302.6939500000003,
+            "TBT": 236,
+            "CLS": 0.03523715323732274,
+            "requests": 67,
+            "rpcRequests": 5,
+            "benchmarkIndex": 1526,
+            "lhrSha256": "afb6e1f9163c9dc8755707746978057497957ccaadf07c0cb804717a0b18df6e"
+          },
+          {
+            "sample": 3,
+            "LCP": 3123.3967500000003,
+            "TBT": 174.49999999999977,
+            "CLS": 0.05333665173097512,
+            "requests": 63,
+            "rpcRequests": 5,
+            "benchmarkIndex": 1544,
+            "lhrSha256": "628e765aeb819f4c4b0f14894c770bcde541623976b3549eaeca91734fa6ab50"
+          }
+        ]
+      },
+      {
+        "page": "product",
+        "LCP": 9774.34,
+        "TBT": 264.87924999999996,
+        "CLS": 0.034937164484176,
+        "requests": 46,
+        "rpcRequests": 6,
+        "resources": [
+          {
+            "resourceType": "script",
+            "transferSize": 215961
+          },
+          {
+            "resourceType": "stylesheet",
+            "transferSize": 17085
+          },
+          {
+            "resourceType": "font",
+            "transferSize": 0
+          },
+          {
+            "resourceType": "image",
+            "transferSize": 7391604
+          },
+          {
+            "resourceType": "media",
+            "transferSize": 0
+          }
+        ],
+        "samples": [
+          {
+            "sample": 1,
+            "LCP": 9774.34,
+            "TBT": 384,
+            "CLS": 0.034937164484176,
+            "requests": 46,
+            "rpcRequests": 6,
+            "benchmarkIndex": 1755,
+            "lhrSha256": "fdd71fda1c70d625f76961ece70d24d6dc02259dd87ccdb67a65ea09be0ff6f9"
+          },
+          {
+            "sample": 2,
+            "LCP": 4812.4193749999995,
+            "TBT": 264.87924999999996,
+            "CLS": 0.034937164484176,
+            "requests": 46,
+            "rpcRequests": 6,
+            "benchmarkIndex": 1795.5,
+            "lhrSha256": "361fc9e3c10a7d0c93ab19329b47d9125e9f574fd293b59b492b058f38be2c8a"
+          },
+          {
+            "sample": 3,
+            "LCP": 9778.832599999998,
+            "TBT": 211,
+            "CLS": 0.034937164484176,
+            "requests": 45,
+            "rpcRequests": 6,
+            "benchmarkIndex": 2032,
+            "lhrSha256": "bb7793d58ae2416458de38387001f73c98b29e629139810d50a83adf1d9e2ef5"
+          }
+        ]
+      },
+      {
+        "page": "cart",
+        "LCP": 3904.1015000000007,
+        "TBT": 428.0362499999999,
+        "CLS": 0.07629264841310841,
+        "requests": 43,
+        "rpcRequests": 5,
+        "resources": [
+          {
+            "resourceType": "script",
+            "transferSize": 215961
+          },
+          {
+            "resourceType": "stylesheet",
+            "transferSize": 17085
+          },
+          {
+            "resourceType": "font",
+            "transferSize": 0
+          },
+          {
+            "resourceType": "image",
+            "transferSize": 7391604
+          },
+          {
+            "resourceType": "media",
+            "transferSize": 0
+          }
+        ],
+        "samples": [
+          {
+            "sample": 1,
+            "LCP": 3806.1894,
+            "TBT": 256.4999999999998,
+            "CLS": 0.07629264841310841,
+            "requests": 43,
+            "rpcRequests": 5,
+            "benchmarkIndex": 2032,
+            "lhrSha256": "e907819364d08e732bd9ef155088eafaf30edc88b330826f6303e16d68bfc7c1"
+          },
+          {
+            "sample": 2,
+            "LCP": 3966.3895,
+            "TBT": 428.0362499999999,
+            "CLS": 0.07629264841310841,
+            "requests": 43,
+            "rpcRequests": 5,
+            "benchmarkIndex": 1443,
+            "lhrSha256": "a061d27c6805d032a70214d99e9f7cb6bcd89a2ebeb3d22ff912be4e1fbfc111"
+          },
+          {
+            "sample": 3,
+            "LCP": 3904.1015000000007,
+            "TBT": 444.7512499999998,
+            "CLS": 0.0268693425574448,
+            "requests": 43,
+            "rpcRequests": 5,
+            "benchmarkIndex": 1735.5,
+            "lhrSha256": "f45fd26a67c5e0e63e80d62e1606578f1c5e6c087e97e38526f3449191cf98df"
+          }
+        ]
+      }
+    ],
+    "after-a-verified": [
+      {
+        "page": "home",
+        "LCP": 3490.4998500000006,
+        "TBT": 78,
+        "CLS": 0.034937164484176,
+        "requests": 31,
+        "rpcRequests": 4,
+        "resources": [
+          {
+            "resourceType": "total",
+            "requestCount": 31,
+            "transferSize": 4038828
+          },
+          {
+            "resourceType": "image",
+            "requestCount": 14,
+            "transferSize": 3790529
+          },
+          {
+            "resourceType": "script",
+            "requestCount": 5,
+            "transferSize": 188893
+          },
+          {
+            "resourceType": "other",
+            "requestCount": 10,
+            "transferSize": 40695
+          },
+          {
+            "resourceType": "stylesheet",
+            "requestCount": 1,
+            "transferSize": 17097
+          },
+          {
+            "resourceType": "document",
+            "requestCount": 1,
+            "transferSize": 1614
+          },
+          {
+            "resourceType": "media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "font",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "requestCount": 0,
+            "transferSize": 0
+          }
+        ],
+        "samples": [
+          {
+            "sample": 1,
+            "LCP": 3535.9448999999995,
+            "TBT": 110,
+            "CLS": 0.034937164484176,
+            "requests": 31,
+            "rpcRequests": 4,
+            "benchmarkIndex": 2277.5,
+            "lhrSha256": "05314ff953f96d38bf1043be45f24b00381b24478bf96f0ea9c651d0a4a01c89"
+          },
+          {
+            "sample": 2,
+            "LCP": 3490.4998500000006,
+            "TBT": 78,
+            "CLS": 0.034937164484176,
+            "requests": 31,
+            "rpcRequests": 4,
+            "benchmarkIndex": 1910.5,
+            "lhrSha256": "a2b99bf5a9137bd02ac1ac0bf3b563705b414139eb03d2eca7144a710f991e7c"
+          },
+          {
+            "sample": 3,
+            "LCP": 3485.4298500000004,
+            "TBT": 76,
+            "CLS": 0.034937164484176,
+            "requests": 31,
+            "rpcRequests": 4,
+            "benchmarkIndex": 2242,
+            "lhrSha256": "f2a6ebded35efd90a08664d932201f935488e1e07ae28597be42a961b24463a2"
+          }
+        ]
+      },
+      {
+        "page": "category",
+        "LCP": 3036.1582499999995,
+        "TBT": 80,
+        "CLS": 0.036781865067349366,
+        "requests": 59,
+        "rpcRequests": 3,
+        "resources": [
+          {
+            "resourceType": "total",
+            "requestCount": 59,
+            "transferSize": 13747510
+          },
+          {
+            "resourceType": "image",
+            "requestCount": 45,
+            "transferSize": 13487615
+          },
+          {
+            "resourceType": "script",
+            "requestCount": 5,
+            "transferSize": 188893
+          },
+          {
+            "resourceType": "other",
+            "requestCount": 7,
+            "transferSize": 52291
+          },
+          {
+            "resourceType": "stylesheet",
+            "requestCount": 1,
+            "transferSize": 17097
+          },
+          {
+            "resourceType": "document",
+            "requestCount": 1,
+            "transferSize": 1614
+          },
+          {
+            "resourceType": "media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "font",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "requestCount": 0,
+            "transferSize": 0
+          }
+        ],
+        "samples": [
+          {
+            "sample": 1,
+            "LCP": 3036.1719,
+            "TBT": 87.5,
+            "CLS": 0.036781865067349366,
+            "requests": 59,
+            "rpcRequests": 3,
+            "benchmarkIndex": 2316.5,
+            "lhrSha256": "cdb8796378f0f8be80e8f6fbb6e9c048326be0bc80c7f908646546e603e52598"
+          },
+          {
+            "sample": 2,
+            "LCP": 3036.1582499999995,
+            "TBT": 80,
+            "CLS": 0.05333665173097512,
+            "requests": 59,
+            "rpcRequests": 3,
+            "benchmarkIndex": 1916,
+            "lhrSha256": "684480d9e77630adbc2e3ef3703578c86f155b37c9f1fd221b8b3cbb09083575"
+          },
+          {
+            "sample": 3,
+            "LCP": 2933.1434000000004,
+            "TBT": 67,
+            "CLS": 0.036781865067349366,
+            "requests": 59,
+            "rpcRequests": 3,
+            "benchmarkIndex": 2253.5,
+            "lhrSha256": "6875d613e71d0f1403d466e8bcfa8eee1e2be9b50140a29938c002dd8f1a8a88"
+          }
+        ]
+      },
+      {
+        "page": "product",
+        "LCP": 4621.01555,
+        "TBT": 126.5,
+        "CLS": 0.05149195114780175,
+        "requests": 41,
+        "rpcRequests": 3,
+        "resources": [
+          {
+            "resourceType": "total",
+            "requestCount": 41,
+            "transferSize": 7634201
+          },
+          {
+            "resourceType": "image",
+            "requestCount": 25,
+            "transferSize": 7391604
+          },
+          {
+            "resourceType": "script",
+            "requestCount": 6,
+            "transferSize": 194069
+          },
+          {
+            "resourceType": "other",
+            "requestCount": 8,
+            "transferSize": 29817
+          },
+          {
+            "resourceType": "stylesheet",
+            "requestCount": 1,
+            "transferSize": 17097
+          },
+          {
+            "resourceType": "document",
+            "requestCount": 1,
+            "transferSize": 1614
+          },
+          {
+            "resourceType": "media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "font",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "requestCount": 0,
+            "transferSize": 0
+          }
+        ],
+        "samples": [
+          {
+            "sample": 1,
+            "LCP": 4619.247700000001,
+            "TBT": 126.5,
+            "CLS": 0.05149195114780175,
+            "requests": 41,
+            "rpcRequests": 3,
+            "benchmarkIndex": 2171,
+            "lhrSha256": "5c1e0b404a505edc3597511e721a2a01f9f38160b0fa5c3d4b8eb98cbc83af36"
+          },
+          {
+            "sample": 2,
+            "LCP": 4655.3156,
+            "TBT": 94,
+            "CLS": 0.05149195114780175,
+            "requests": 41,
+            "rpcRequests": 3,
+            "benchmarkIndex": 2201,
+            "lhrSha256": "a828433a9faf771f5283f0e887083f8e735e5bf2d52fc22ea4f45e101ca37b4d"
+          },
+          {
+            "sample": 3,
+            "LCP": 4621.01555,
+            "TBT": 131,
+            "CLS": 0.05149195114780175,
+            "requests": 41,
+            "rpcRequests": 3,
+            "benchmarkIndex": 1970.5,
+            "lhrSha256": "f2929ee1b49c275b9b20237e3dac700417e41c1d07b3772661eba6de15f8f59e"
+          }
+        ]
+      },
+      {
+        "page": "cart",
+        "LCP": 4844.1645,
+        "TBT": 133.5,
+        "CLS": 0,
+        "requests": 41,
+        "rpcRequests": 3,
+        "resources": [
+          {
+            "resourceType": "total",
+            "requestCount": 41,
+            "transferSize": 7636999
+          },
+          {
+            "resourceType": "image",
+            "requestCount": 25,
+            "transferSize": 7391604
+          },
+          {
+            "resourceType": "script",
+            "requestCount": 7,
+            "transferSize": 194533
+          },
+          {
+            "resourceType": "other",
+            "requestCount": 7,
+            "transferSize": 32151
+          },
+          {
+            "resourceType": "stylesheet",
+            "requestCount": 1,
+            "transferSize": 17097
+          },
+          {
+            "resourceType": "document",
+            "requestCount": 1,
+            "transferSize": 1614
+          },
+          {
+            "resourceType": "media",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "font",
+            "requestCount": 0,
+            "transferSize": 0
+          },
+          {
+            "resourceType": "third-party",
+            "requestCount": 0,
+            "transferSize": 0
+          }
+        ],
+        "samples": [
+          {
+            "sample": 1,
+            "LCP": 3075.046375,
+            "TBT": 128.5,
+            "CLS": 0.05149195114780175,
+            "requests": 41,
+            "rpcRequests": 3,
+            "benchmarkIndex": 2306,
+            "lhrSha256": "be2ef512b78f226a06d963a17c60f49a5b0a0e8f483ed6116efbbf24f403ab64"
+          },
+          {
+            "sample": 2,
+            "LCP": 4844.1645,
+            "TBT": 150.5,
+            "CLS": 0,
+            "requests": 41,
+            "rpcRequests": 3,
+            "benchmarkIndex": 2325,
+            "lhrSha256": "135341619ff841fa66aad52ccc2c95eafdadac96b24df5257104fd4003f5219c"
+          },
+          {
+            "sample": 3,
+            "LCP": 4847.523625,
+            "TBT": 133.5,
+            "CLS": 0,
+            "requests": 41,
+            "rpcRequests": 3,
+            "benchmarkIndex": 2152.5,
+            "lhrSha256": "36bde6532bfb488d2b3a323f3e38f31cf8f3c540324541476edc40d61dcc350c"
+          }
+        ]
+      }
+    ]
+  },
+  "limitations": [
+    "CPU calibration varied between candidate rounds; all raw rounds are retained outside Git. Final corrected source measured anew; no source-independent latency guarantee.",
+    "Initial HTML has no global poster preload; only the mounted home hero uses high image priority."
+  ],
+  "measuredSourceSha": "48bd9d4cb5050724e277b59b7bd94608de21c7ad"
+}

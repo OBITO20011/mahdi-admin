@@ -1,4 +1,5 @@
 import{pathsBeforeStorefrontImages}from'../scripts/audit/source-before-storefront-images.mjs';
+import{sourceBeforeStorefrontSpeed}from'../scripts/audit/source-before-storefront-speed.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFileSync} from 'node:fs';
@@ -17,7 +18,7 @@ const canonical=(text:string)=>text.replaceAll('\r\n','\n');
 
 test('navigation projection binds every actual baseline byte and never erases an unknown source/payload change',()=>{
  for(const[file,pin]of Object.entries(mobileBackPins)as[string,{beforeText:string|null;before:string|null;after:string}][]){
-  const raw=sourceBeforeWorkbookIntegration(file,readFileSync(file,'utf8'))!;assert.equal(hash(canonical(raw)),pin.after,file);
+  const raw=sourceBeforeWorkbookIntegration(file,sourceBeforeStorefrontSpeed(file,readFileSync(file,'utf8')))!;assert.equal(hash(canonical(raw)),pin.after,file);
   if(pin.before!==null){const before=mobileBackBeforeText(file);assert.equal(canonical(git(file)),canonical(before),file);assert.equal(hash(canonical(before)),pin.before,file);}
   assert.equal(sourceBeforeMobileBack(file,raw),pin.before===null?null:git(file),file);
   assert.equal(sourceBeforeMobileBack(file,raw+'\n// unknown mutation\n'),raw+'\n// unknown mutation\n',file);
@@ -33,7 +34,7 @@ test('no SQL, service or owner execution/connection/ACL/reset comparison source 
  for(const file of changed.filter(file=>approvedTools.has(file))){
   assert.equal(execFileSync('git',['ls-tree','--name-only',baseline,'--',file],{encoding:'utf8',windowsHide:true}).trim(),'','PR63 tool must be new, not replace an old source');
   const approved=execFileSync('git',['show','2dafe8433bc4efef68a82fee904590aabf5fc8ad:'+file],{windowsHide:true});
-  assert.deepEqual(Buffer.from(sourceBeforeWorkbookIntegration(file,readFileSync(file,'utf8'))!),approved,'Unknown PR63 tool edit: '+file);
+  assert.deepEqual(Buffer.from(sourceBeforeWorkbookIntegration(file,sourceBeforeStorefrontSpeed(file,readFileSync(file,'utf8')))!),approved,'Unknown PR63 tool edit: '+file);
  }
  assert.equal(changed.filter(file=>!approvedTools.has(file)).join('\n'),'');
 });

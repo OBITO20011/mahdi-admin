@@ -1,3 +1,4 @@
+import{sourceBeforeStorefrontSpeed}from'../scripts/audit/source-before-storefront-speed.mjs';
 import{sourceBeforeStorefrontImages,historicalStorefrontImagesRpcSite}from'../scripts/audit/source-before-storefront-images.mjs';
 import{historicalProductWorkbookHashes}from'../scripts/audit/source-before-product-workbook.mjs';
 import{historicalProductWorkbookSource,restoreProductWorkbookHashes}from'../scripts/audit/source-before-product-workbook.mjs';
@@ -10,7 +11,7 @@ const lf=(s:string)=>s.replaceAll('\r\n','\n'),hash=(s:string)=>createHash('sha2
 test('scroll fallback exact view binds actual main bytes and refuses any unknown source mutation',()=>{
  const pins=JSON.parse(readFileSync('scripts/audit/store-scroll-source-pins.json','utf8'));assert.equal(pins.baseline,'fceb062ecb42636f9edcc69d536278a5bad93785');
  for(const[file,pin]of Object.entries(pins.entries)as[string,{after:string;before:string|null;beforeText:string|null}][]){
-  const current=lf(sourceBeforeStorefrontImages(file,readFileSync(file,'utf8'))!);assert.equal(hash(current),pin.after,file);assert.equal(historicalProductWorkbookSource(sourceBeforeStoreScroll,file,current),pin.beforeText,file);
+  const current=lf(sourceBeforeStorefrontSpeed(file,sourceBeforeStorefrontImages(file,readFileSync(file,'utf8')))!);assert.equal(hash(current),pin.after,file);assert.equal(historicalProductWorkbookSource(sourceBeforeStoreScroll,file,current),pin.beforeText,file);
   if(pin.beforeText!==null){assert.equal(hash(pin.beforeText),pin.before);assert.equal(lf(execFileSync('git',['show',pins.baseline+':'+file],{encoding:'utf8',maxBuffer:32*1024**2})),pin.beforeText,file);}
   assert.equal(historicalProductWorkbookSource(sourceBeforeStoreScroll,file,current+'\nunknown-scroll\n'),current+'\nunknown-scroll\n',file);
  }

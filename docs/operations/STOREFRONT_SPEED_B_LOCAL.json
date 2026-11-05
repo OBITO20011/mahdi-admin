@@ -1350,5 +1350,64 @@
     "Cart is a drawer on cold /products/ with an automatically opened fictional persisted line.",
     "storageEquivalent counts fictional loopback image GETs,not hosted Supabase requests.",
     "TBT proxy only;no production INP measured. All raw samples and CPU calibration retained."
-  ]
+  ],
+  "integration": {
+    "approvedByOwner": "2026-11-05;LCP gap accepted",
+    "base": "1ab2cd880547661390149a972a4794b0b5df29da",
+    "standaloneImageSourceHashesRetained": true,
+    "combinedMeasuredSourcesIdentical": true,
+    "sourceHashes": {
+      "customer-web/src/App.tsx": "0fce44df50185805a2834d2eb7832b33280458e7721466b4f8dce6ae3c414844",
+      "customer-web/src/components/CategoryShowcase.tsx": "e8cce67edbbdd205dc4f8350eab8dbedfcca434e1b17ffe1bdfe37f17d2720f8",
+      "customer-web/src/components/HomeCategoryMosaic.tsx": "0ef85482036d6c1c8a5873e22d8ba11a5e0246afd763865f894755a125bb0a28",
+      "customer-web/src/components/ProductDetailsModal.tsx": "4c3e7f27659a059a5ac67422505c5c0e9b862940fc2a4860b5f2cb10f4b74b72",
+      "customer-web/src/components/ProductImage.tsx": "9499bc5471fd43aeed18588d3eb07168a6e21b8cf26a186d9c047a1ee130e802",
+      "customer-web/src/utils/productThumbnail.ts": "9446b3d0a530afe038c0b5e739c39220fd3f63c7fc4fc6954b413a9ac5cd1872",
+      "src/services/supabase/product-images.service.ts": "229bc5f593ce20d0a6d5c017f5591e037189ec692e9afd1e54242dcbfe8f84ca",
+      "src/utils/productImageThumbnail.ts": "d04fa25d5b2e27bef48d0321e9d25f2fbeff9018277e74df05c2fd23c02770ab"
+    },
+    "local219": {
+      "ok": true,
+      "records": {
+        "table219": {
+          "infrastructureOk": true,
+          "applicationReady": true,
+          "stage": "rls-and-acl",
+          "counts": {
+            "success": 172,
+            "permission_denied": 0,
+            "zero_rows": 9,
+            "other_error": 0
+          },
+          "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-QHbPb6"
+        },
+        "service219": {
+          "ok": true,
+          "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-gr59Ey",
+          "count": 598,
+          "denied": 18
+        }
+      },
+      "service": {
+        "ok": true,
+        "probes": 598,
+        "historicalReviewObjects": 7,
+        "hostedRead": false
+      }
+    },
+    "localGates": {
+      "admin": 1831,
+      "store": 209,
+      "budgetBothEngines": 8,
+      "privateVitalsBothEngines": 8,
+      "thumbnailBothEngines": 2,
+      "publicBrowserPassed": 28,
+      "existingConditionalCases": 2,
+      "realBuildContexts": 6,
+      "focusedPassed": 21,
+      "oneSame120sHistoricalBuildRerunPassed": true
+    },
+    "sqlChanged": false,
+    "ownerToolsChanged": false
+  }
 }

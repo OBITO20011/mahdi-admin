@@ -8,7 +8,7 @@ import {parseServices} from '../scripts/audit/service-access-inventory.mjs';
 import {parseSource} from '../scripts/audit/table-access-inventory.mjs';
 const hash=(text:string)=>createHash('sha256').update(text.replaceAll('\r\n','\n')).digest('hex');
 test('image history reproduces exact Git70 bytes and never admits an unknown source or evidence mutation',()=>{
- const p=JSON.parse(readFileSync('scripts/audit/storefront-images-source-pins.json','utf8'));assert.equal(p.baseline,'d102074583c7369502954eaf8ea70d2595f6a19c');
+ const p=JSON.parse(readFileSync('scripts/audit/storefront-images-source-pins.json','utf8'));assert.equal(p.baseline,'1ab2cd880547661390149a972a4794b0b5df29da');
  for(const[file,pin]of Object.entries(p.entries)as[string,{before:string|null;after:string}][]){const raw=readFileSync(file,'utf8');assert.equal(hash(raw),pin.after,file);const before=sourceBeforeStorefrontImages(file,raw);if(pin.before===null)assert.equal(before,null,file);else{const git=execFileSync('git',['show',p.baseline+':'+file],{encoding:'utf8',windowsHide:true,maxBuffer:32*1024**2});assert.equal(hash(git),pin.before,file);assert.equal(before!.replaceAll('\r\n','\n'),git.replaceAll('\r\n','\n'),file);}const unknown=raw+'\n// unknown image mutation';assert.equal(sourceBeforeStorefrontImages(file,unknown),unknown,file);}
 });
 test('image query projection preserves the actual unchanged read and rejects argument or identity substitution',()=>{
