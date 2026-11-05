@@ -1,3 +1,5 @@
+import{sourceBeforeProductScale}from'../scripts/audit/source-before-product-scale.mjs';
+import{sourceBeforeRecordOrder}from'../scripts/audit/source-before-record-order.mjs';
 import{sourceBeforeProductWorkbook}from'../scripts/audit/source-before-product-workbook.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -74,7 +76,7 @@ test('exact historical inverse updates only reviewed doc hashes and branch metad
   const legacy = JSON.parse(read(legacyFile));
   const oldLegacy = git(legacyFile);
   const state = 'docs/agent/project-state.json';
-  assert.equal(legacy.files[state].after, createHash('sha256').update(read(state)).digest('hex'));
+  assert.equal(legacy.files[state].after, createHash('sha256').update(sourceBeforeRecordOrder(state,sourceBeforeProductScale(state,read(state)))!).digest('hex'));
   legacy.files[state].after = oldLegacy.files[state].after;
   assert.deepEqual(legacy, oldLegacy);
   const pinFile = 'scripts/audit/home-performance219-source-pins.json';

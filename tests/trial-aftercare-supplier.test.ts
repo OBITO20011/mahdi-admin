@@ -1,7 +1,7 @@
 import{historicalProductWorkbookInventory}from'../scripts/audit/source-before-product-workbook.mjs';
 import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import {sourceBeforeRehearsal219} from '../scripts/testing/rehearsal219-legacy-view.mjs';
-import {verifiedInventoryBeforeTrialR} from '../scripts/testing/product-workbook-historical-views.mjs';
+import {verifiedRecordOrderInventoryBeforeTrialR as verifiedInventoryBeforeTrialR} from '../scripts/testing/record-order-historical-views.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {assertCompleteReturnAllocation} from '../src/features/orders/aftercarePresentation';

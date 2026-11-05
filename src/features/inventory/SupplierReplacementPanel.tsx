@@ -1,3 +1,4 @@
+import {newestRecords} from '../../utils/newestRecords';
 import {useCallback,useEffect,useLayoutEffect,useRef,useState} from 'react';
 import {ProductPicker} from '../../components/ui/ProductPicker';
 import {Card,FormFields,MoneyText,SearchField,UiButton,formatUiDate} from '../../components/ui';
@@ -176,7 +177,7 @@ export function SupplierReplacementPanel({productId:initialProductId,supplierId:
         <details><summary className="min-h-11 cursor-pointer text-sm">⋯ السجل{owner?' والخسارة والعكس':''}</summary>
           {owner&&c.pendingQuantity>0&&<UiButton disabled={busy||unresolved} onClick={()=>openCase(c,'writeoff')}>معاينة رفض المورد</UiButton>}
           {selection?.item.id===c.id&&selection.action==='writeoff'&&renderCaseWorkflow()}
-          <ul className="space-y-2">{c.events.map(e=><li key={e.id} className="text-sm">{eventLabels[e.action]} · {supplierCaseQuantity(c,e.quantity)} · {formatUiDate(e.occurredAt,{day:'numeric',month:'short',year:'numeric'})}{e.isReversed?' · معكوس':''}
+          <ul className="space-y-2">{newestRecords(c.events,e=>e.occurredAt,e=>e.id).map(e=><li key={e.id} className="text-sm">{eventLabels[e.action]} · {supplierCaseQuantity(c,e.quantity)} · {formatUiDate(e.occurredAt,{day:'numeric',month:'short',year:'numeric'})}{e.isReversed?' · معكوس':''}
             {owner&&e.reason&&<p className="text-xs text-nw-muted">{e.reason}</p>}{owner&&!e.isReversed&&e.action!=='reverse'&&<UiButton disabled={busy||unresolved} onClick={()=>e.action==='credit'?setCreditSelection({item:c,eventId:e.id}):openCase(c,'reverse',e.id)}>{e.action==='credit'?'عكس الخصم وإعادة المعلّق':'معاينة العكس'}</UiButton>}{selection?.action==='reverse'&&selection.eventId===e.id&&renderCaseWorkflow()}</li>)}</ul>
           {owner&&c.supplierId&&<SupplierCreditStatement215 key={`${user?.id}:${roleKey}:${revision}:${c.supplierId}`} supplierId={c.supplierId}/>}
         </details>

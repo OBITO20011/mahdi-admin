@@ -123,7 +123,7 @@ export function StoreHeader({
   );
 
   return (
-    <header>
+    <header data-store-header>
       <div className="bg-[#081835] px-4 py-2 text-center text-[11px] font-bold text-blue-100 sm:text-xs">
         <span className="inline-flex items-center gap-2">
           <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />

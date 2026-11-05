@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-04T18:56:04.290Z",
+  "startedAt": "2026-11-05T06:09:58.482Z",
   "managedAccess": false,
   "migrationCeiling": 219,
   "manifest": [
@@ -185,7 +185,7 @@
     "217_owner_telegram_dispatch.sql",
     "219_home_financial_facts_narrow_projection.sql"
   ],
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-X7S7iX",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-MgRNUj",
   "stage": "rls-and-acl",
   "results": [
     {
@@ -213,7 +213,7 @@
           "method": "eq",
           "args": [
             "id",
-            "fb8c418b-629e-4608-8874-6052dde5de79"
+            "f5cc31bd-91a1-4efd-ba84-fc3859495619"
           ]
         },
         {
@@ -248,7 +248,7 @@
           "method": "eq",
           "args": [
             "id",
-            "fb8c418b-629e-4608-8874-6052dde5de79"
+            "f5cc31bd-91a1-4efd-ba84-fc3859495619"
           ]
         },
         {
@@ -283,7 +283,7 @@
           "method": "eq",
           "args": [
             "id",
-            "fb8c418b-629e-4608-8874-6052dde5de79"
+            "f5cc31bd-91a1-4efd-ba84-fc3859495619"
           ]
         },
         {
@@ -318,7 +318,7 @@
           "method": "eq",
           "args": [
             "id",
-            "fb8c418b-629e-4608-8874-6052dde5de79"
+            "f5cc31bd-91a1-4efd-ba84-fc3859495619"
           ]
         },
         {
@@ -353,7 +353,7 @@
           "method": "eq",
           "args": [
             "id",
-            "fb8c418b-629e-4608-8874-6052dde5de79"
+            "f5cc31bd-91a1-4efd-ba84-fc3859495619"
           ]
         },
         {
@@ -388,7 +388,7 @@
           "method": "eq",
           "args": [
             "id",
-            "fb8c418b-629e-4608-8874-6052dde5de79"
+            "f5cc31bd-91a1-4efd-ba84-fc3859495619"
           ]
         },
         {
@@ -423,7 +423,7 @@
           "method": "eq",
           "args": [
             "id",
-            "663c71f8-b42c-4b66-ab24-48c676d42f7b"
+            "1446f0a6-b011-4bd6-bf72-75193155def9"
           ]
         },
         {
@@ -458,7 +458,7 @@
           "method": "eq",
           "args": [
             "id",
-            "663c71f8-b42c-4b66-ab24-48c676d42f7b"
+            "1446f0a6-b011-4bd6-bf72-75193155def9"
           ]
         },
         {
@@ -493,7 +493,7 @@
           "method": "eq",
           "args": [
             "id",
-            "663c71f8-b42c-4b66-ab24-48c676d42f7b"
+            "1446f0a6-b011-4bd6-bf72-75193155def9"
           ]
         },
         {
@@ -726,7 +726,7 @@
           "method": "eq",
           "args": [
             "id",
-            "ca8da291-2c95-4eb8-b66d-31bfa581f9ed"
+            "dd0e4fdf-0efa-4c2c-80ca-4b24a64ad685"
           ]
         },
         {
@@ -761,7 +761,7 @@
           "method": "eq",
           "args": [
             "id",
-            "ca8da291-2c95-4eb8-b66d-31bfa581f9ed"
+            "dd0e4fdf-0efa-4c2c-80ca-4b24a64ad685"
           ]
         },
         {
@@ -796,7 +796,7 @@
           "method": "eq",
           "args": [
             "id",
-            "ca8da291-2c95-4eb8-b66d-31bfa581f9ed"
+            "dd0e4fdf-0efa-4c2c-80ca-4b24a64ad685"
           ]
         },
         {
@@ -831,7 +831,7 @@
           "method": "eq",
           "args": [
             "id",
-            "7b74cced-14bb-49e4-800d-a64ef44c4f3a"
+            "cc501aca-41eb-4ba0-bae8-162cf7303b9d"
           ]
         },
         {
@@ -866,7 +866,7 @@
           "method": "eq",
           "args": [
             "id",
-            "7b74cced-14bb-49e4-800d-a64ef44c4f3a"
+            "cc501aca-41eb-4ba0-bae8-162cf7303b9d"
           ]
         },
         {
@@ -901,7 +901,7 @@
           "method": "eq",
           "args": [
             "id",
-            "7b74cced-14bb-49e4-800d-a64ef44c4f3a"
+            "cc501aca-41eb-4ba0-bae8-162cf7303b9d"
           ]
         },
         {
@@ -936,7 +936,7 @@
           "method": "eq",
           "args": [
             "id",
-            "ca8da291-2c95-4eb8-b66d-31bfa581f9ed"
+            "dd0e4fdf-0efa-4c2c-80ca-4b24a64ad685"
           ]
         },
         {
@@ -971,7 +971,7 @@
           "method": "eq",
           "args": [
             "id",
-            "ca8da291-2c95-4eb8-b66d-31bfa581f9ed"
+            "dd0e4fdf-0efa-4c2c-80ca-4b24a64ad685"
           ]
         },
         {
@@ -1006,7 +1006,7 @@
           "method": "eq",
           "args": [
             "id",
-            "ca8da291-2c95-4eb8-b66d-31bfa581f9ed"
+            "dd0e4fdf-0efa-4c2c-80ca-4b24a64ad685"
           ]
         },
         {
@@ -1537,7 +1537,7 @@
           "args": [
             "id",
             [
-              "fb8c418b-629e-4608-8874-6052dde5de79"
+              "f5cc31bd-91a1-4efd-ba84-fc3859495619"
             ]
           ]
         }
@@ -1570,7 +1570,7 @@
           "args": [
             "id",
             [
-              "fb8c418b-629e-4608-8874-6052dde5de79"
+              "f5cc31bd-91a1-4efd-ba84-fc3859495619"
             ]
           ]
         }
@@ -1603,7 +1603,7 @@
           "args": [
             "id",
             [
-              "fb8c418b-629e-4608-8874-6052dde5de79"
+              "f5cc31bd-91a1-4efd-ba84-fc3859495619"
             ]
           ]
         }
@@ -1636,7 +1636,7 @@
           "args": [
             "order_id",
             [
-              "fb8c418b-629e-4608-8874-6052dde5de79"
+              "f5cc31bd-91a1-4efd-ba84-fc3859495619"
             ]
           ]
         },
@@ -1702,7 +1702,7 @@
           "args": [
             "order_id",
             [
-              "fb8c418b-629e-4608-8874-6052dde5de79"
+              "f5cc31bd-91a1-4efd-ba84-fc3859495619"
             ]
           ]
         },
@@ -1768,7 +1768,7 @@
           "args": [
             "order_id",
             [
-              "fb8c418b-629e-4608-8874-6052dde5de79"
+              "f5cc31bd-91a1-4efd-ba84-fc3859495619"
             ]
           ]
         },
@@ -1833,7 +1833,7 @@
           "method": "eq",
           "args": [
             "id",
-            "fb8c418b-629e-4608-8874-6052dde5de79"
+            "f5cc31bd-91a1-4efd-ba84-fc3859495619"
           ]
         },
         {
@@ -1868,7 +1868,7 @@
           "method": "eq",
           "args": [
             "id",
-            "fb8c418b-629e-4608-8874-6052dde5de79"
+            "f5cc31bd-91a1-4efd-ba84-fc3859495619"
           ]
         },
         {
@@ -1903,7 +1903,7 @@
           "method": "eq",
           "args": [
             "id",
-            "fb8c418b-629e-4608-8874-6052dde5de79"
+            "f5cc31bd-91a1-4efd-ba84-fc3859495619"
           ]
         },
         {
@@ -1938,7 +1938,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "fb8c418b-629e-4608-8874-6052dde5de79"
+            "f5cc31bd-91a1-4efd-ba84-fc3859495619"
           ]
         },
         {
@@ -1975,7 +1975,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "fb8c418b-629e-4608-8874-6052dde5de79"
+            "f5cc31bd-91a1-4efd-ba84-fc3859495619"
           ]
         },
         {
@@ -2012,7 +2012,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "fb8c418b-629e-4608-8874-6052dde5de79"
+            "f5cc31bd-91a1-4efd-ba84-fc3859495619"
           ]
         },
         {
@@ -2050,7 +2050,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "da797af3-003e-4989-87d2-6ac2ea6af195"
+              "0fc64e14-564e-4319-acbd-1bbe76c7b0bb"
             ]
           ]
         }
@@ -2083,7 +2083,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "da797af3-003e-4989-87d2-6ac2ea6af195"
+              "0fc64e14-564e-4319-acbd-1bbe76c7b0bb"
             ]
           ]
         }
@@ -2116,7 +2116,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "da797af3-003e-4989-87d2-6ac2ea6af195"
+              "0fc64e14-564e-4319-acbd-1bbe76c7b0bb"
             ]
           ]
         }
@@ -3852,7 +3852,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/productWorkbook.service.ts:16",
+      "id": "src/services/supabase/productWorkbook.service.ts:17",
       "table": "categories",
       "operation": "select",
       "role": "authenticated",
@@ -3889,7 +3889,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/productWorkbook.service.ts:16",
+      "id": "src/services/supabase/productWorkbook.service.ts:17",
       "table": "categories",
       "operation": "select",
       "role": "authenticated",
@@ -3926,7 +3926,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/productWorkbook.service.ts:16",
+      "id": "src/services/supabase/productWorkbook.service.ts:17",
       "table": "categories",
       "operation": "select",
       "role": "authenticated",
@@ -3963,7 +3963,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/productWorkbook.service.ts:17",
+      "id": "src/services/supabase/productWorkbook.service.ts:18",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -4000,7 +4000,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/productWorkbook.service.ts:17",
+      "id": "src/services/supabase/productWorkbook.service.ts:18",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -4037,7 +4037,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/productWorkbook.service.ts:17",
+      "id": "src/services/supabase/productWorkbook.service.ts:18",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -4074,7 +4074,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/productWorkbook.service.ts:18",
+      "id": "src/services/supabase/productWorkbook.service.ts:19",
       "table": "brands",
       "operation": "select",
       "role": "authenticated",
@@ -4111,7 +4111,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/productWorkbook.service.ts:18",
+      "id": "src/services/supabase/productWorkbook.service.ts:19",
       "table": "brands",
       "operation": "select",
       "role": "authenticated",
@@ -4148,7 +4148,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/productWorkbook.service.ts:18",
+      "id": "src/services/supabase/productWorkbook.service.ts:19",
       "table": "brands",
       "operation": "select",
       "role": "authenticated",
@@ -4185,7 +4185,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/productWorkbook.service.ts:19",
+      "id": "src/services/supabase/productWorkbook.service.ts:20",
       "table": "warehouses",
       "operation": "select",
       "role": "authenticated",
@@ -4222,7 +4222,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/productWorkbook.service.ts:19",
+      "id": "src/services/supabase/productWorkbook.service.ts:20",
       "table": "warehouses",
       "operation": "select",
       "role": "authenticated",
@@ -4259,7 +4259,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/productWorkbook.service.ts:19",
+      "id": "src/services/supabase/productWorkbook.service.ts:20",
       "table": "warehouses",
       "operation": "select",
       "role": "authenticated",
@@ -4296,7 +4296,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/productWorkbook.service.ts:20",
+      "id": "src/services/supabase/productWorkbook.service.ts:21",
       "table": "products",
       "operation": "select",
       "role": "authenticated",
@@ -4333,7 +4333,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/productWorkbook.service.ts:20",
+      "id": "src/services/supabase/productWorkbook.service.ts:21",
       "table": "products",
       "operation": "select",
       "role": "authenticated",
@@ -4370,7 +4370,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/productWorkbook.service.ts:20",
+      "id": "src/services/supabase/productWorkbook.service.ts:21",
       "table": "products",
       "operation": "select",
       "role": "authenticated",
@@ -4407,7 +4407,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/productWorkbook.service.ts:37",
+      "id": "src/services/supabase/productWorkbook.service.ts:38",
       "table": "products",
       "operation": "select",
       "role": "authenticated",
@@ -4442,7 +4442,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/productWorkbook.service.ts:37",
+      "id": "src/services/supabase/productWorkbook.service.ts:38",
       "table": "products",
       "operation": "select",
       "role": "authenticated",
@@ -4477,7 +4477,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/productWorkbook.service.ts:37",
+      "id": "src/services/supabase/productWorkbook.service.ts:38",
       "table": "products",
       "operation": "select",
       "role": "authenticated",
@@ -4512,7 +4512,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/productWorkbook.service.ts:38",
+      "id": "src/services/supabase/productWorkbook.service.ts:39",
       "table": "products",
       "operation": "select",
       "role": "authenticated",
@@ -4549,7 +4549,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/productWorkbook.service.ts:38",
+      "id": "src/services/supabase/productWorkbook.service.ts:39",
       "table": "products",
       "operation": "select",
       "role": "authenticated",
@@ -4586,7 +4586,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/productWorkbook.service.ts:38",
+      "id": "src/services/supabase/productWorkbook.service.ts:39",
       "table": "products",
       "operation": "select",
       "role": "authenticated",
@@ -4623,7 +4623,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/productWorkbook.service.ts:41",
+      "id": "src/services/supabase/productWorkbook.service.ts:42",
       "table": "products",
       "operation": "select",
       "role": "authenticated",
@@ -4660,7 +4660,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/productWorkbook.service.ts:41",
+      "id": "src/services/supabase/productWorkbook.service.ts:42",
       "table": "products",
       "operation": "select",
       "role": "authenticated",
@@ -4697,7 +4697,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/productWorkbook.service.ts:41",
+      "id": "src/services/supabase/productWorkbook.service.ts:42",
       "table": "products",
       "operation": "select",
       "role": "authenticated",
@@ -4977,7 +4977,7 @@
           "method": "eq",
           "args": [
             "id",
-            "7b74cced-14bb-49e4-800d-a64ef44c4f3a"
+            "cc501aca-41eb-4ba0-bae8-162cf7303b9d"
           ]
         },
         {
@@ -5012,7 +5012,7 @@
           "method": "eq",
           "args": [
             "id",
-            "7b74cced-14bb-49e4-800d-a64ef44c4f3a"
+            "cc501aca-41eb-4ba0-bae8-162cf7303b9d"
           ]
         },
         {
@@ -5047,7 +5047,7 @@
           "method": "eq",
           "args": [
             "id",
-            "7b74cced-14bb-49e4-800d-a64ef44c4f3a"
+            "cc501aca-41eb-4ba0-bae8-162cf7303b9d"
           ]
         },
         {
@@ -6734,7 +6734,7 @@
             {
               "event_key": "audit-local-dispatch",
               "event_type": "new_order",
-              "entity_id": "fb8c418b-629e-4608-8874-6052dde5de79",
+              "entity_id": "f5cc31bd-91a1-4efd-ba84-fc3859495619",
               "status": "processing"
             }
           ]
@@ -6767,7 +6767,7 @@
           "method": "eq",
           "args": [
             "id",
-            "fb8c418b-629e-4608-8874-6052dde5de79"
+            "f5cc31bd-91a1-4efd-ba84-fc3859495619"
           ]
         },
         {
@@ -6806,7 +6806,7 @@
               "status": "failed",
               "failed_count": 1,
               "last_error": "isolated diagnostic",
-              "completed_at": "2026-11-04T18:58:03.058Z"
+              "completed_at": "2026-11-05T06:12:00.281Z"
             }
           ]
         },
@@ -6842,7 +6842,7 @@
               "status": "failed",
               "failed_count": 1,
               "last_error": "isolated diagnostic",
-              "completed_at": "2026-11-04T18:58:03.084Z"
+              "completed_at": "2026-11-05T06:12:00.308Z"
             }
           ]
         },
@@ -6876,9 +6876,9 @@
           "args": [
             {
               "failure_count": 0,
-              "last_success_at": "2026-11-04T18:58:03.099Z",
+              "last_success_at": "2026-11-05T06:12:00.334Z",
               "last_failure_message": null,
-              "updated_at": "2026-11-04T18:58:03.099Z"
+              "updated_at": "2026-11-05T06:12:00.334Z"
             }
           ]
         },
@@ -6913,9 +6913,9 @@
             {
               "is_active": false,
               "failure_count": 1,
-              "last_failure_at": "2026-11-04T18:58:03.119Z",
+              "last_failure_at": "2026-11-05T06:12:00.362Z",
               "last_failure_message": "isolated diagnostic",
-              "updated_at": "2026-11-04T18:58:03.119Z"
+              "updated_at": "2026-11-05T06:12:00.362Z"
             }
           ]
         },
@@ -6952,7 +6952,7 @@
               "delivered_count": 1,
               "failed_count": 0,
               "last_error": null,
-              "completed_at": "2026-11-04T18:58:03.147Z"
+              "completed_at": "2026-11-05T06:12:00.394Z"
             }
           ]
         },
@@ -30524,131 +30524,6 @@
         ],
         "rls": false,
         "kind": "r",
-        "name": "messages_2026_11_03",
-        "view": null,
-        "owner": "supabase_realtime_admin",
-        "schema": "realtime",
-        "columns": [
-          {
-            "acl": null,
-            "name": "topic",
-            "type": "text",
-            "number": 1,
-            "default": null,
-            "notNull": true,
-            "identity": "",
-            "collation": "default",
-            "generated": ""
-          },
-          {
-            "acl": null,
-            "name": "extension",
-            "type": "text",
-            "number": 2,
-            "default": null,
-            "notNull": true,
-            "identity": "",
-            "collation": "default",
-            "generated": ""
-          },
-          {
-            "acl": null,
-            "name": "payload",
-            "type": "jsonb",
-            "number": 3,
-            "default": null,
-            "notNull": false,
-            "identity": "",
-            "collation": null,
-            "generated": ""
-          },
-          {
-            "acl": null,
-            "name": "event",
-            "type": "text",
-            "number": 4,
-            "default": null,
-            "notNull": false,
-            "identity": "",
-            "collation": "default",
-            "generated": ""
-          },
-          {
-            "acl": null,
-            "name": "private",
-            "type": "boolean",
-            "number": 5,
-            "default": "false",
-            "notNull": false,
-            "identity": "",
-            "collation": null,
-            "generated": ""
-          },
-          {
-            "acl": null,
-            "name": "updated_at",
-            "type": "timestamp without time zone",
-            "number": 6,
-            "default": "now()",
-            "notNull": true,
-            "identity": "",
-            "collation": null,
-            "generated": ""
-          },
-          {
-            "acl": null,
-            "name": "inserted_at",
-            "type": "timestamp without time zone",
-            "number": 7,
-            "default": "now()",
-            "notNull": true,
-            "identity": "",
-            "collation": null,
-            "generated": ""
-          },
-          {
-            "acl": null,
-            "name": "id",
-            "type": "uuid",
-            "number": 8,
-            "default": "gen_random_uuid()",
-            "notNull": true,
-            "identity": "",
-            "collation": null,
-            "generated": ""
-          },
-          {
-            "acl": null,
-            "name": "binary_payload",
-            "type": "bytea",
-            "number": 9,
-            "default": null,
-            "notNull": false,
-            "identity": "",
-            "collation": null,
-            "generated": ""
-          }
-        ],
-        "options": null,
-        "parents": [
-          {
-            "name": "messages",
-            "schema": "realtime"
-          }
-        ],
-        "forceRls": false,
-        "partition": "FOR VALUES FROM ('2026-11-03 00:00:00') TO ('2026-11-04 00:00:00')",
-        "persistence": "p",
-        "replicaIdentity": "d"
-      },
-      {
-        "acl": [
-          "supabase_realtime_admin=arwdDxtm/supabase_realtime_admin",
-          "postgres=arwdDxtm/supabase_realtime_admin",
-          "dashboard_user=arwdDxtm/supabase_realtime_admin"
-        ],
-        "rls": false,
-        "kind": "r",
         "name": "messages_2026_11_04",
         "view": null,
         "owner": "supabase_realtime_admin",
@@ -31138,6 +31013,131 @@
         ],
         "forceRls": false,
         "partition": "FOR VALUES FROM ('2026-11-07 00:00:00') TO ('2026-11-08 00:00:00')",
+        "persistence": "p",
+        "replicaIdentity": "d"
+      },
+      {
+        "acl": [
+          "supabase_realtime_admin=arwdDxtm/supabase_realtime_admin",
+          "postgres=arwdDxtm/supabase_realtime_admin",
+          "dashboard_user=arwdDxtm/supabase_realtime_admin"
+        ],
+        "rls": false,
+        "kind": "r",
+        "name": "messages_2026_11_08",
+        "view": null,
+        "owner": "supabase_realtime_admin",
+        "schema": "realtime",
+        "columns": [
+          {
+            "acl": null,
+            "name": "topic",
+            "type": "text",
+            "number": 1,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "extension",
+            "type": "text",
+            "number": 2,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "payload",
+            "type": "jsonb",
+            "number": 3,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "event",
+            "type": "text",
+            "number": 4,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "private",
+            "type": "boolean",
+            "number": 5,
+            "default": "false",
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "updated_at",
+            "type": "timestamp without time zone",
+            "number": 6,
+            "default": "now()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "inserted_at",
+            "type": "timestamp without time zone",
+            "number": 7,
+            "default": "now()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "id",
+            "type": "uuid",
+            "number": 8,
+            "default": "gen_random_uuid()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "binary_payload",
+            "type": "bytea",
+            "number": 9,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          }
+        ],
+        "options": null,
+        "parents": [
+          {
+            "name": "messages",
+            "schema": "realtime"
+          }
+        ],
+        "forceRls": false,
+        "partition": "FOR VALUES FROM ('2026-11-08 00:00:00') TO ('2026-11-09 00:00:00')",
         "persistence": "p",
         "replicaIdentity": "d"
       },
@@ -40192,32 +40192,6 @@
         "replicaIdentity": false
       },
       {
-        "name": "messages_2026_11_03_inserted_at_topic_idx",
-        "owner": "supabase_realtime_admin",
-        "ready": true,
-        "table": "messages_2026_11_03",
-        "valid": true,
-        "schema": "realtime",
-        "unique": false,
-        "primary": false,
-        "clustered": false,
-        "definition": "CREATE INDEX messages_2026_11_03_inserted_at_topic_idx ON realtime.messages_2026_11_03 USING btree (inserted_at DESC, topic) WHERE ((extension = 'broadcast'::text) AND (private IS TRUE))",
-        "replicaIdentity": false
-      },
-      {
-        "name": "messages_2026_11_03_pkey",
-        "owner": "supabase_realtime_admin",
-        "ready": true,
-        "table": "messages_2026_11_03",
-        "valid": true,
-        "schema": "realtime",
-        "unique": true,
-        "primary": true,
-        "clustered": false,
-        "definition": "CREATE UNIQUE INDEX messages_2026_11_03_pkey ON realtime.messages_2026_11_03 USING btree (id, inserted_at)",
-        "replicaIdentity": false
-      },
-      {
         "name": "messages_2026_11_04_inserted_at_topic_idx",
         "owner": "supabase_realtime_admin",
         "ready": true,
@@ -40319,6 +40293,32 @@
         "primary": true,
         "clustered": false,
         "definition": "CREATE UNIQUE INDEX messages_2026_11_07_pkey ON realtime.messages_2026_11_07 USING btree (id, inserted_at)",
+        "replicaIdentity": false
+      },
+      {
+        "name": "messages_2026_11_08_inserted_at_topic_idx",
+        "owner": "supabase_realtime_admin",
+        "ready": true,
+        "table": "messages_2026_11_08",
+        "valid": true,
+        "schema": "realtime",
+        "unique": false,
+        "primary": false,
+        "clustered": false,
+        "definition": "CREATE INDEX messages_2026_11_08_inserted_at_topic_idx ON realtime.messages_2026_11_08 USING btree (inserted_at DESC, topic) WHERE ((extension = 'broadcast'::text) AND (private IS TRUE))",
+        "replicaIdentity": false
+      },
+      {
+        "name": "messages_2026_11_08_pkey",
+        "owner": "supabase_realtime_admin",
+        "ready": true,
+        "table": "messages_2026_11_08",
+        "valid": true,
+        "schema": "realtime",
+        "unique": true,
+        "primary": true,
+        "clustered": false,
+        "definition": "CREATE UNIQUE INDEX messages_2026_11_08_pkey ON realtime.messages_2026_11_08 USING btree (id, inserted_at)",
         "replicaIdentity": false
       },
       {
@@ -73790,38 +73790,6 @@
         "initiallyDeferred": false
       },
       {
-        "name": "messages_2026_11_03_pkey",
-        "type": "p",
-        "local": false,
-        "match": " ",
-        "table": "messages_2026_11_03",
-        "schema": "realtime",
-        "onDelete": " ",
-        "onUpdate": " ",
-        "noInherit": false,
-        "validated": true,
-        "deferrable": false,
-        "definition": "PRIMARY KEY (id, inserted_at)",
-        "inheritanceCount": 1,
-        "initiallyDeferred": false
-      },
-      {
-        "name": "messages_payload_exclusive",
-        "type": "c",
-        "local": false,
-        "match": " ",
-        "table": "messages_2026_11_03",
-        "schema": "realtime",
-        "onDelete": " ",
-        "onUpdate": " ",
-        "noInherit": false,
-        "validated": true,
-        "deferrable": false,
-        "definition": "CHECK (((payload IS NULL) OR (binary_payload IS NULL)))",
-        "inheritanceCount": 1,
-        "initiallyDeferred": false
-      },
-      {
         "name": "messages_2026_11_04_pkey",
         "type": "p",
         "local": false,
@@ -73939,6 +73907,38 @@
         "local": false,
         "match": " ",
         "table": "messages_2026_11_07",
+        "schema": "realtime",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "CHECK (((payload IS NULL) OR (binary_payload IS NULL)))",
+        "inheritanceCount": 1,
+        "initiallyDeferred": false
+      },
+      {
+        "name": "messages_2026_11_08_pkey",
+        "type": "p",
+        "local": false,
+        "match": " ",
+        "table": "messages_2026_11_08",
+        "schema": "realtime",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (id, inserted_at)",
+        "inheritanceCount": 1,
+        "initiallyDeferred": false
+      },
+      {
+        "name": "messages_payload_exclusive",
+        "type": "c",
+        "local": false,
+        "match": " ",
+        "table": "messages_2026_11_08",
         "schema": "realtime",
         "onDelete": " ",
         "onUpdate": " ",
@@ -74758,7 +74758,7 @@
     },
     {
       "file": "src/components/layout/NavigationShell.tsx",
-      "sha256": "080d747243d5b8756ae26ce7cfc8766287950050780f70961138043d3da82a7c"
+      "sha256": "c2b322c76476b53e07ca642d67e06b5298a2c76de6af3b447841a2dda711c0f4"
     },
     {
       "file": "src/components/layout/quickActions.ts",
@@ -74910,7 +74910,7 @@
     },
     {
       "file": "src/features/barcode/BarcodeCameraCaptureModal.tsx",
-      "sha256": "a8d450922953f7f7b2956a7dc53c22ea5f9f4ae5ec64832dc0eb777e52b8693b"
+      "sha256": "73869d662295767cfe50c6af5020682d2dbb78a4ae01524dca74235a550621e8"
     },
     {
       "file": "src/features/cheques/ChequeRegistrationForm.tsx",
@@ -74918,7 +74918,7 @@
     },
     {
       "file": "src/features/cheques/ChequesView.tsx",
-      "sha256": "4059055146c3e283fb3bdd5f9df42d890a4a9d6bb946e419b09818efd7a7dbb6"
+      "sha256": "37d4a7c306a9d09c300bbd8dfb68358b35b788300925dd6b228b17fffc055b38"
     },
     {
       "file": "src/features/corrections/DocumentCorrectionAction.tsx",
@@ -75006,7 +75006,7 @@
     },
     {
       "file": "src/features/directReceiving/SupplierReceiptDetailView.tsx",
-      "sha256": "05d786499ae7469151ceafad0f1def09d1d08499da8522a65dbe6ddcaaced82e"
+      "sha256": "aa29ffbf8a349f7a486b02ed620c9a3063a081bf11842c3e7d5baf55bcf110c1"
     },
     {
       "file": "src/features/directReceiving/SupplierReceiptItemsPreview.tsx",
@@ -75026,19 +75026,23 @@
     },
     {
       "file": "src/features/goLive/goLiveImport.ts",
-      "sha256": "0b99b2cc61c724e6eb6da28d38931ed717aaf76dcb45470fe7b37f0f1145a11e"
+      "sha256": "c6c5ff1de1a8be2a233a1fbea817137e85989b37f63ebcf6a94cd9263d15b6c9"
     },
     {
       "file": "src/features/goLive/GoLiveSetupView.tsx",
-      "sha256": "75274fb109b823f10ad3b35dbccb717c71848d701bcfa5f0c05da43288abefd3"
+      "sha256": "57d1faeaedc3b693eb64e6a204207e9bbfe1d0f0df415e3635064677ea0ca1d3"
+    },
+    {
+      "file": "src/features/goLive/importDisplayText.ts",
+      "sha256": "6846d9f5d7b6614ea5c3d511df7947e1c9d776c145d17a1661e716712682a4b9"
     },
     {
       "file": "src/features/goLive/OpeningChequesCard.tsx",
-      "sha256": "6e6a2a8c2eb7c8a279d27b22a82004e25968917a77979f67a9dcf066499dccbe"
+      "sha256": "f74a2f60b33dfe89965ed83ebfc8d61acdcf90c1ff7b84e7c3db75906db3bda0"
     },
     {
       "file": "src/features/goLive/openingChequesImport.ts",
-      "sha256": "23b30c943f2ab9099041a975f4c3f804f61b8f3ab989db907a29ff9146f18fc6"
+      "sha256": "59f0bb7ff83e8dba4ce03258c9a1e2f85f5f016c26a276c26a0e29c9a10540fb"
     },
     {
       "file": "src/features/goLive/productImportAttempt.ts",
@@ -75046,15 +75050,15 @@
     },
     {
       "file": "src/features/goLive/productWorkbook.ts",
-      "sha256": "16246aef0e0c160940bf2dc56664c978b3f697bdb7563766482e4e58b1429abb"
+      "sha256": "8994269d2d1d43ea770318d5386e1175a47438130c21a572271fad25acef773a"
     },
     {
       "file": "src/features/goLive/ProductWorkbookImportPanel.tsx",
-      "sha256": "092f6f2c773e1f2c5194d3b3afc015d4b93f9951770c0dfef9f3e46cae7af9bb"
+      "sha256": "786ba3fb81e2dcb84b8a182979efd26575dbd0450bd12484600fda9ab7ece9ab"
     },
     {
       "file": "src/features/goLive/productWorkbookReference.ts",
-      "sha256": "b19d3d44006a5113e68de54b253eeb9e6147929364fb45e04da1b0ef58a696a7"
+      "sha256": "104bf50b3d906ea9ae2319acb39e3bcf273a85a3d9462a352bc0f0fdca36e486"
     },
     {
       "file": "src/features/inventory/ClearInventoryBalanceDialog.tsx",
@@ -75078,7 +75082,7 @@
     },
     {
       "file": "src/features/inventory/SupplierReplacementPanel.tsx",
-      "sha256": "c9d611efde5d54c93ba8e69b87953fb4f75d702897ed568a8476ad9a7350de43"
+      "sha256": "fea0dd76e1964061c889803d01ae80c0304fa81b0bad4de27501b5bfbbc4fd09"
     },
     {
       "file": "src/features/inventory/supplierReplacementPresentation.ts",
@@ -75122,7 +75126,7 @@
     },
     {
       "file": "src/features/more/ParcelConfigurationModal.tsx",
-      "sha256": "0b67ab2653f3cdd48a83b41327747834bec5e824d3719b13f3fb03e9e348bf98"
+      "sha256": "bffb334bd193e5b226830568fc4cb4cc30b5e42b313120e349042f3d42cd24f6"
     },
     {
       "file": "src/features/more/ProfileModal.tsx",
@@ -75174,7 +75178,7 @@
     },
     {
       "file": "src/features/orders/OrderDetailModal.tsx",
-      "sha256": "ffcae22835298bfe625d59780367151860c653139dba0fcbb6b0e8e380663faa"
+      "sha256": "97983c9c58a1bab069b8977e6b3cc8c2059c109fdd0612de1b4e8bd32872b6f0"
     },
     {
       "file": "src/features/orders/OrdersCenterView.tsx",
@@ -75286,7 +75290,7 @@
     },
     {
       "file": "src/features/purchases/PurchaseOrderDetailView.tsx",
-      "sha256": "84243f1504c985918de2fc7cb87f4da7a4a7af78ad0680a9478375c3a0dc8c67"
+      "sha256": "fc174d1cf8359f7702aae27cb04fd74399011e5056c1f5bf4d341055ea7e65ff"
     },
     {
       "file": "src/features/purchases/PurchasesView.tsx",
@@ -75618,7 +75622,7 @@
     },
     {
       "file": "src/services/supabase/productWorkbook.service.ts",
-      "sha256": "8ae6b16987558f8732c2ce85758b4f5d8386122e2ca8492405d8fe076107398e"
+      "sha256": "49c93f4276da340a09bd1f0d7966221568271e052b28284fe329f5f616b483d2"
     },
     {
       "file": "src/services/supabase/promotions.service.ts",
@@ -75782,7 +75786,11 @@
     },
     {
       "file": "src/utils/dialogFocus.ts",
-      "sha256": "ac8bbbff544985a2fe3ceb5517fcaee94a3aaf7d9616b43cf9e0dd7a9c0deb59"
+      "sha256": "00f5fa01abd2f35c28157ddd6175d03651f3b5de0f09c090301ede03f8f0f2a9"
+    },
+    {
+      "file": "src/utils/dialogIsolation.ts",
+      "sha256": "3e556a82e3ad99e556b10df35a6f98b701a194594672dc4fa0f4229fddffbd8c"
     },
     {
       "file": "src/utils/documentCorrection.ts",
@@ -75803,6 +75811,10 @@
     {
       "file": "src/utils/legacyUnitImportHeaders.ts",
       "sha256": "58002e7c231a2059900db63b82d9b10a734a9e976aebb14b78c84bdd6e41a0de"
+    },
+    {
+      "file": "src/utils/newestRecords.ts",
+      "sha256": "1251e7a2ff40a5b498e239c4dd7e0da4df14bf39e40c0dc6c164b332f2b4a663"
     },
     {
       "file": "src/utils/operatorError.ts",
@@ -75878,7 +75890,7 @@
     },
     {
       "file": "src/utils/screenHistory.ts",
-      "sha256": "0485cb0a73521bc2dbc7e42ba0f53806d1027045917867a7d0cc5be670a5a4d9"
+      "sha256": "ee9a1fe9e328a7086a1157e23fc17b85974eb69488dc32aa8f55e3513b7d3634"
     },
     {
       "file": "src/utils/supplierCancellationPreview.ts",
@@ -76026,7 +76038,7 @@
     },
     {
       "file": "customer-web/src/components/StoreHeader.tsx",
-      "sha256": "cb6ef8a842a604c39548357458dd3e166ee520b4755db99020574db7a55bfcff"
+      "sha256": "bb828e0152fc27e25a46599acec329377d792c556e4b3740a591e197a3d2946c"
     },
     {
       "file": "customer-web/src/components/StoreHero.tsx",
@@ -76242,13 +76254,13 @@
     }
   ],
   "fixture": {
-    "orderId": "fb8c418b-629e-4608-8874-6052dde5de79",
-    "operationId": "663c71f8-b42c-4b66-ab24-48c676d42f7b",
-    "receiptId": "ca8da291-2c95-4eb8-b66d-31bfa581f9ed",
-    "poId": "7b74cced-14bb-49e4-800d-a64ef44c4f3a",
+    "orderId": "f5cc31bd-91a1-4efd-ba84-fc3859495619",
+    "operationId": "1446f0a6-b011-4bd6-bf72-75193155def9",
+    "receiptId": "dd0e4fdf-0efa-4c2c-80ca-4b24a64ad685",
+    "poId": "cc501aca-41eb-4ba0-bae8-162cf7303b9d",
     "subscriptionId": "92600000-0000-4000-8000-000000000701",
     "instances": [
-      "da797af3-003e-4989-87d2-6ac2ea6af195"
+      "0fc64e14-564e-4319-acbd-1bbe76c7b0bb"
     ]
   },
   "access": [
@@ -82010,5 +82022,5 @@
     "zero_rows": 9,
     "other_error": 0
   },
-  "endedAt": "2026-11-04T19:00:59.466Z"
+  "endedAt": "2026-11-05T06:14:51.935Z"
 }

@@ -115,6 +115,10 @@ export function registerBackLayer(close:()=>void,top:()=>boolean){
 }
 export function installBrowserScreenHistory(getTab:()=>ActiveTab,navigate:(tab:ActiveTab)=>void,canVisit:(tab:ActiveTab)=>boolean){
  active?.dispose();
+ // Overlay entries are pushed while the body is fixed. Native restoration would
+ // overwrite the modal's saved scroll with that artificial zero on close.
+ const scrollRestoration=window.history.scrollRestoration;
+ window.history.scrollRestoration='manual';
  const controller=createScreenHistory({
   state:()=>window.history.state,
   push:state=>window.history.pushState(state,'',window.location.href),
@@ -127,5 +131,5 @@ export function installBrowserScreenHistory(getTab:()=>ActiveTab,navigate:(tab:A
   hasLayer:()=>[...layers.values()].some(layer=>layer.top()),
   closeLayer:()=>[...layers.values()].reverse().find(layer=>layer.top())?.close(),
  });
- active=controller;return()=>{controller.dispose();if(active===controller)active=null;};
+ active=controller;return()=>{controller.dispose();if(active===controller){active=null;window.history.scrollRestoration=scrollRestoration;}};
 }

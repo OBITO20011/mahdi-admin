@@ -1,0 +1,125 @@
+{
+  "baseline": "52c9a8b53f9e1d2bad504c88f9c6255547b09e7c",
+  "entries": {
+    "src/utils/newestRecords.ts": {
+      "before": null,
+      "after": "1251e7a2ff40a5b498e239c4dd7e0da4df14bf39e40c0dc6c164b332f2b4a663"
+    },
+    "src/features/inventory/SupplierReplacementPanel.tsx": {
+      "before": "c9d611efde5d54c93ba8e69b87953fb4f75d702897ed568a8476ad9a7350de43",
+      "after": "fea0dd76e1964061c889803d01ae80c0304fa81b0bad4de27501b5bfbbc4fd09"
+    },
+    "src/features/cheques/ChequesView.tsx": {
+      "before": "4059055146c3e283fb3bdd5f9df42d890a4a9d6bb946e419b09818efd7a7dbb6",
+      "after": "37d4a7c306a9d09c300bbd8dfb68358b35b788300925dd6b228b17fffc055b38"
+    },
+    "src/features/directReceiving/SupplierReceiptDetailView.tsx": {
+      "before": "05d786499ae7469151ceafad0f1def09d1d08499da8522a65dbe6ddcaaced82e",
+      "after": "aa29ffbf8a349f7a486b02ed620c9a3063a081bf11842c3e7d5baf55bcf110c1"
+    },
+    "src/features/purchases/PurchaseOrderDetailView.tsx": {
+      "before": "84243f1504c985918de2fc7cb87f4da7a4a7af78ad0680a9478375c3a0dc8c67",
+      "after": "fc174d1cf8359f7702aae27cb04fd74399011e5056c1f5bf4d341055ea7e65ff"
+    },
+    "src/features/orders/OrderDetailModal.tsx": {
+      "before": "ffcae22835298bfe625d59780367151860c653139dba0fcbb6b0e8e380663faa",
+      "after": "97983c9c58a1bab069b8977e6b3cc8c2059c109fdd0612de1b4e8bd32872b6f0"
+    },
+    "src/features/more/ParcelConfigurationModal.tsx": {
+      "before": "0b67ab2653f3cdd48a83b41327747834bec5e824d3719b13f3fb03e9e348bf98",
+      "after": "bffb334bd193e5b226830568fc4cb4cc30b5e42b313120e349042f3d42cd24f6"
+    },
+    "docs/agent/project-state.json": {
+      "before": "264a1a1342e5e1c964f758d46492272a0ac275b8c71b0005424c4768648e9326",
+      "after": "630e3ea33282954ee10d0a27f839a89b7dc881b91b1878a517b5c31a199389e4"
+    },
+    "scripts/audit/source-before-product-workbook-text.mjs": {
+      "before": "bf98b6a1ac31fff84f3d3bb4445c5bbe3a393657afd6c835e3cd52c1310689d7",
+      "after": "1b734a3109747cf8d018058da27da1ffbfd92d16d1fc89ddfcb3a4a6129df85f"
+    },
+    "scripts/audit/source-before-workbook-integration.mjs": {
+      "before": "e0d2b8fd6472b2f36a93b0037b80f7d4ec0ce5603b912620ba03cfad847da7ae",
+      "after": "45092dd5508d6f196728fc505786e985a5e612e51512e6b756464d9626aaa8db"
+    },
+    "scripts/testing/product-workbook-runtime-view.mjs": {
+      "before": "55a93839dbc40fd17db8aa1ee997dfca535549f37c670fb73942940a4565d077",
+      "after": "620c8e86aba7aa91cb033553a1528e9f96f60c2c4ed27d77c66a4fe3dcc9ed84"
+    },
+    "tests/cutover-platform-documentation.test.ts": {
+      "before": "177509ef1565012739c7cf35e548b677fe6b4586206980c122a0b5e312ba20e7",
+      "after": "fdcc178cee98a18e93f06d48c164a939af4f240d30db69acd23d93aae68ea5e8"
+    },
+    "tests/reset219-reference-d1-docs.test.ts": {
+      "before": "3b14eec324c998860f1b25f1778c135d4fe1e6bbad668523e1fff4f13b49905e",
+      "after": "5f12b6f638d7ba93cf65250a91879438dda735b9fc8acb2a915d0f95f31e2437"
+    },
+    "tests/product-workbook-history.test.ts": {
+      "before": "ea61aeead127c7ad36010113829d6144ac0b52d2341dc1dc3194e7a4fe27a19e",
+      "after": "7e6b735f04e8e1d58d0d7205c973518788a2d7e34b40245b43a298cbae989503"
+    },
+    "e2e/package-f-record-order-harness.tsx": {
+      "before": null,
+      "after": "447f3e0f15a905cbc05481cfd49c46b848cdc495c75932675b45456affeeafa2"
+    },
+    "e2e/package-f-record-order-harness.html": {
+      "before": null,
+      "after": "674e1d3a0e999d167e88549ea4e0dab2bf19210c566da464f5239a2b7b6d4c70"
+    },
+    "e2e/package-f-record-order.spec.ts": {
+      "before": null,
+      "after": "b2bb58c7ebaf31452f951aa4b91cacf93071e8480d57bde152df442724ca4d74"
+    },
+    "docs/operations/TABLE_ACCESS_AFTER_219.json": {
+      "before": "f8be723887c11a8974cf1a2fd76c31dc66eb79203b3611ba896d5b7249d7b2e5",
+      "after": "f8140c0ed79a890ef1b025d4c65ad7ddcb0a6e729188fdc222d7dad084ed4874"
+    },
+    "docs/operations/TABLE_ACCESS_INVENTORY.json": {
+      "before": "1bef9a4bbd40c8f3aed904d39463e4f57e23300a5bc12fd01a2861c1f8ed308c",
+      "after": "32d772b01d07fe09328d5bd634e06e136d42e0911183f0d2f956eff546216c63"
+    },
+    "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json": {
+      "before": "9200683d8f574f4450a725dcdcce76e53f31a8b09b8037520546b5d218533ec3",
+      "after": "a70b2a1a6b05e714083dad63fbe68aafcfe99708af9c66cbd6fe8e1f4a2e12a3"
+    },
+    "docs/operations/SERVICE_ACCESS_INVENTORY.json": {
+      "before": "fade3480b9342d1113afa6caaab2670709813ba01f1090894cce50cce08da759",
+      "after": "ca26cc194695c31dc2d18a554894b441ea70e2266aec081d31e58c1a0f22713e"
+    },
+    "scripts/testing/product-workbook-runtime-view-pins.json": {
+      "before": "c1bb1f2eb4b5bff6d0bb70088220a9fe44b97d15fcbb28632e283f1d44e6d329",
+      "after": "43d288632cfa631250df80336d8ce42da2d70dd6244ce14bc887676660722e4a"
+    },
+    "tests/trial40-ci-scheduling.test.ts": {
+      "before": "a27fe645d632aefee108e7fcf7e82eac5705a1b729c18fda0c1f5f5ede9c705c",
+      "after": "70df1b9487b12ee09e171a3bb55df14a7b74d7aeaf38938c02ba687f84db4e7a"
+    },
+    "tests/trial41-integration.test.ts": {
+      "before": "bbd6200dca88c5616bdd13f724f0c105e366c2f3fd8e384b0f5fa9420f3ffe49",
+      "after": "8ea68100dfbc5fd6d1c16a8c7a68a66749a56bbb0445078dd5692ddb517c3295"
+    },
+    "tests/partial216-source-history.test.ts": {
+      "before": "21848ac24430445db49046fb319d03ab5e344fa0c69a361b0c483e69621cf8a4",
+      "after": "a0a18374a0faba8e09d978e7d4678e42f6cc33e7b96c54dcb2eecf760ae20176"
+    },
+    "tests/trial-aftercare-supplier.test.ts": {
+      "before": "a9995e9c7ce793e6d93034119240622ce29e5bfaf808657e8faea92901e69c90",
+      "after": "0a69193795cd83d602aac886c91b495123f2c5da4ef555d17e003c340e7a8899"
+    },
+    "tests/package-f-remaining-batch3.test.ts": {
+      "before": "a811173bbc4a16fd2e575f7d25c73070ddc719949fdd3939d2c99d0be00da80b",
+      "after": "a5f17d7bc67e78c5b9073fe3e412e1c83288d62be0d6bb57bebf800d06ccfd4f"
+    },
+    "scripts/testing/record-order-historical-views.mjs": {
+      "before": null,
+      "after": "ece9efa04a3c8ad65a53cc73493b39599b5b9ec9a4d4f77e3e7fb104da24f623"
+    },
+    "e2e/package-d-settings.spec.ts": {
+      "before": "e3919b38d0a902879697f84ce0afff30bd01ec559e7283e3894becf44077e7a5",
+      "after": "d3c8ae581cde011c7b2d4645d303419d5c8e768fb1e70d6e18792e75891b02cb"
+    },
+    "e2e/package-f-trial-sale-receipts.spec.ts": {
+      "before": "c4ef58db4e2afa2a1921e4ba0c9521d3deccb767a7b6eddc4edd4014220a8643",
+      "after": "b06ef7a2b41a8b25215a66a8c93e3963ba11856d7933107d95bf5370fe65a321"
+    }
+  }
+}
