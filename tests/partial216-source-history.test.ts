@@ -1,4 +1,4 @@
-import{historicalProductWorkbookHashes}from'../scripts/audit/source-before-product-workbook.mjs';
+import{historicalRecordOrderHashes as historicalProductWorkbookHashes}from'../scripts/testing/record-order-historical-views.mjs';
 import{historicalProductWorkbookSource,restoreProductWorkbookHashes}from'../scripts/audit/source-before-product-workbook.mjs';
 import {sourceBeforePreflight120} from '../scripts/audit/source-before-preflight120.mjs';
 import {sourceBeforeRehearsal219} from '../scripts/testing/rehearsal219-legacy-view.mjs';

@@ -1,3 +1,4 @@
+import {newestRecords} from '../../utils/newestRecords';
 import React,{useCallback,useEffect,useId,useState} from 'react';
 import {Modal} from '../../components/common/Modal';
 import {Card,PageHeader,KpiGrid,KpiCard,FilterChips,SearchField,SegmentedControl,TableShell,Th,Tr,Td,MoneyText,
@@ -148,14 +149,14 @@ export function ChequesView() {
           <UiButton onClick={()=>{drawer.reset();setPayment({claimId:c.id,supplierId:detail.cheque.supplierId??detail.cheque.endorsedSupplierId??'',reference:c.reference,key:newChequeKey()});setPaymentAmount('');setPaymentReference('');}}>سداد قيد المورد</UiButton>
         </div>)}
         {detail.supplierClaimPayments.length>0&&<section aria-label="دفعات سداد القيد"><h2 className="font-bold">دفعات سداد القيد</h2>
-          <ul className="list-none space-y-2 p-0">{detail.supplierClaimPayments.map(p=><li key={p.id} className="space-y-2 rounded-xl border border-nw-border p-3">
+          <ul className="list-none space-y-2 p-0">{newestRecords(detail.supplierClaimPayments,p=>p.paidAt,p=>p.id).map(p=><li key={p.id} className="space-y-2 rounded-xl border border-nw-border p-3">
             <div className="flex flex-wrap items-center justify-between gap-2"><MoneyText amount={p.amount/1000} />
               <span>{p.method==='cash'?'كاش':p.method==='cliq'?'CliQ':p.method==='bank_transfer'?'تحويل بنكي':'شيك مؤجل'} · {date(p.paidAt)}</span></div>
             {p.isReversed?<p className="text-nw-muted">سداد معكوس · {p.reason}</p>:owner&&p.canReverse?
               <UiButton variant="danger" disabled={busy} onClick={()=>{setReversalReason('');setReversal({paymentId:p.id,amount:p.amount,key:newChequeKey()});}}>عكس سداد القيد</UiButton>:null}
           </li>)}</ul>
         </section>}
-        <section><h2 className="font-bold">سجل الشيك</h2><ol className="space-y-2 ps-5">{detail.events.map(e=><li key={e.id}>
+        <section><h2 className="font-bold">سجل الشيك</h2><ol className="space-y-2 ps-5">{[...detail.events].reverse().map(e=><li key={e.id}>
           {e.kind==='received'?'استلام':e.kind==='issued'?'إصدار':e.kind==='opening_registered'?'شيك قائم قبل النظام':chequeStatusLabels[e.kind as Cheque['status']]??e.kind}
           {' · '}{date(e.at)} · {e.actor}{e.reason&&<p className="text-nw-muted">{e.reason}</p>}
         </li>)}</ol></section>

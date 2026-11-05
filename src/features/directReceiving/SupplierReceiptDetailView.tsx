@@ -1,3 +1,4 @@
+import {newestRecords} from '../../utils/newestRecords';
 import {FormFields, formatJod, Card, UiButton, formatUiDate} from '../../components/ui';
 /**
  * Nawasrah Business Manager - Supplier Receipt Detail View
@@ -239,7 +240,7 @@ export const SupplierReceiptDetailView: React.FC<SupplierReceiptDetailViewProps>
             {receipt.payments?.length === 0 ? (
               <div className="p-4 text-center text-nw-muted">لا توجد دفعات مسجلة على هذا السند بعد.</div>
             ) : (
-              receipt.payments?.map((p) => (
+              newestRecords(receipt.payments??[],p=>p.paymentDate,p=>p.id).map((p) => (
                 <div
                   key={p.id}
                   className={`flex items-center justify-between rounded-xl border p-3 ${

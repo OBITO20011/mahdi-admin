@@ -2,48 +2,112 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": " M",
+      "code": "A ",
+      "path": "docs/operations/IPHONE_MODAL_CHECKLIST_AR.md"
+    },
+    {
+      "code": "A ",
       "path": "docs/operations/IPHONE_MODAL_FOUNDATION_AR.md"
     },
     {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+      "code": "A ",
+      "path": "e2e/package-f-iphone-dialogs-harness.html"
     },
     {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+      "code": "A ",
+      "path": "e2e/package-f-iphone-dialogs-harness.tsx"
     },
     {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_219.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
+      "code": "A ",
       "path": "e2e/package-f-iphone-dialogs.spec.ts"
     },
     {
-      "code": " M",
+      "code": "A ",
       "path": "scripts/audit/iphone-dialog-source-pins.json"
     },
     {
-      "code": " M",
-      "path": "scripts/testing/product-workbook-runtime-view-pins.json"
+      "code": "A ",
+      "path": "scripts/audit/source-before-iphone-dialogs.mjs"
     },
     {
-      "code": " M",
-      "path": "src/utils/dialogFocus.ts"
+      "code": "A ",
+      "path": "src/styles/dialogs.css"
     },
     {
-      "code": " M",
+      "code": "A ",
       "path": "src/utils/dialogIsolation.ts"
     },
     {
-      "code": " M",
+      "code": "A ",
       "path": "tests/iphone-dialog-contracts.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/components/StoreHeader.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/index.css"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_219.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/audit/record-order-source-pins.json"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/audit/source-before-product-workbook-text.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/audit/source-before-workbook-integration.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/testing/product-workbook-runtime-view-pins.json"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/testing/product-workbook-runtime-view.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "src/components/layout/NavigationShell.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/features/barcode/BarcodeCameraCaptureModal.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/index.css"
+    },
+    {
+      "code": "M ",
+      "path": "src/utils/dialogFocus.ts"
+    },
+    {
+      "code": "M ",
+      "path": "src/utils/screenHistory.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/product-workbook-history.test.ts"
     }
   ]
 }

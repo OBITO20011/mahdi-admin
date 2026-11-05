@@ -97,7 +97,8 @@ export function ParcelConfigurationModal({initialFamilyProductId}:{initialFamily
           </select></label>
           {form && product && <>
             <label>كم حبة بالطرد<input inputMode="numeric" enterKeyHint="next" className={inputClass} required type="number" min="1" step="1" value={form.units} onChange={e=>setForm({...form,units:Number(e.target.value)})}/></label>
-            <label className="flex gap-2"><input type="checkbox" checked={form.active} onChange={e=>setForm({...form,active:e.target.checked})}/>متاح للبيع كطرد مشكّل</label>
+              <div><label className="flex gap-2"><input type="checkbox" checked={form.active} onChange={e=>setForm({...form,active:e.target.checked})}/>الطرد المشكّل مفعّل للبيع</label>
+                <p className="mt-1 text-sm text-nw-muted">أزل الإشارة لإيقافه مؤقتاً؛ يبقى الإعداد محفوظاً.</p></div>
             {form.mode==='configurable_mix' && <fieldset className="space-y-2"><legend>النكهات المسموحة</legend>
               {product.components.filter(p=>p.productId!==product.familyProductId).map(component=><label className="flex gap-2" key={component.productId}>
                 <input type="checkbox" checked={form.allowed.includes(component.productId)} onChange={e=>setForm({...form,allowed:e.target.checked?[...form.allowed,component.productId]:form.allowed.filter(id=>id!==component.productId)})}/>

@@ -1,3 +1,4 @@
+import {newestRecords} from '../../utils/newestRecords';
 import {FormFields, Card, UiButton, formatUiDate, formatJod, DataTable, Tr, Th, Td} from '../../components/ui';
 /**
  * Nawasrah Business Manager - Purchase Order Detail View Sheet
@@ -719,7 +720,7 @@ export const PurchaseOrderDetailView: React.FC<PurchaseOrderDetailViewProps> = (
                       لا يوجد سندات صرف أو مدفوعات مسجلة لهذا الطلب بعد.
                     </div>
                   ) : (
-                    po.payments.map((sp) => (
+                    newestRecords(po.payments,p=>p.paymentDate,p=>p.id).map((sp) => (
                       <div
                         key={sp.id}
                         className="bg-nw-bg p-3.5 rounded-2xl border border-nw-border flex items-center justify-between"

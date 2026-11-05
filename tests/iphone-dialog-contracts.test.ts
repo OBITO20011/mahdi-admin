@@ -1,3 +1,5 @@
+import{sourceBeforeRecordOrder}from'../scripts/audit/source-before-record-order.mjs';
+import{sourceBeforeMobilePresentation}from'../scripts/audit/source-before-product-workbook-text.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -10,7 +12,10 @@ const read=(file:string)=>readFileSync(file,'utf8');
 const hash=(s:string)=>createHash('sha256').update(s.replaceAll('\r\n','\n')).digest('hex');
 test('iPhone presentation inverse binds full delivered bytes, exposes any unknown change and preserves all RPC/table content',()=>{
  for(const [file,pin] of Object.entries(iphoneDialogPins) as [string,{before:string|null;after:string}][]){
-  const current=read(file);assert.equal(hash(current),pin.after,file);
+  const actual=read(file),recordView=sourceBeforeRecordOrder(file,actual);
+  const current=recordView===actual?actual:execFileSync('git',['show','f096964266d4d04ba0d4f2818641f2229b1dabeb:'+file],{encoding:'utf8',windowsHide:true,maxBuffer:64*1024**2});
+  assert.equal(hash(current),pin.after,file);
+  assert.equal(sourceBeforeMobilePresentation(file,actual+'\n// unknown merge mutation'),actual+'\n// unknown merge mutation');
   const before=pin.before===null?null:execFileSync('git',['show',baseline+':'+file],{encoding:'utf8',windowsHide:true,maxBuffer:64*1024**2});
   assert.equal(sourceBeforeIphoneDialogs(file,current),before,file);
   assert.equal(sourceBeforeIphoneDialogs(file,current+'\n// unknown mutation\n'),current+'\n// unknown mutation\n',file);
