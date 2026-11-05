@@ -2,140 +2,52 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": " M",
+      "code": "A ",
+      "path": "docs/operations/RECORD_ORDER_AUDIT_AR.md"
+    },
+    {
+      "code": "A ",
+      "path": "e2e/package-f-record-order-harness.html"
+    },
+    {
+      "code": "A ",
+      "path": "e2e/package-f-record-order-harness.tsx"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/audit/source-before-record-order.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "src/utils/newestRecords.ts"
+    },
+    {
+      "code": "A ",
+      "path": "tests/newest-records.test.ts"
+    },
+    {
+      "code": "A ",
+      "path": "tests/record-order-source-contracts.test.ts"
+    },
+    {
+      "code": "AM",
+      "path": "e2e/package-f-record-order.spec.ts"
+    },
+    {
+      "code": "AM",
+      "path": "scripts/audit/record-order-source-pins.json"
+    },
+    {
+      "code": "AM",
+      "path": "scripts/testing/record-order-historical-views.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": "M ",
       "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_219.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/product-workbook-source-pins.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/product-workbook-runtime-view-pins.json"
-    },
-    {
-      "code": " M",
-      "path": "tests/owner-telegram-format.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/rehearsal219.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/store-scroll-history.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/source-before-workbook-integration.mjs"
-    },
-    {
-      "code": "??",
-      "path": "tests/workbook-integration-history.test.ts"
-    },
-    {
-      "code": "A ",
-      "path": "docs/operations/MOBILE_BACK_AR.md"
-    },
-    {
-      "code": "A ",
-      "path": "docs/operations/SOURCE_MAPS_PRIVATE_AR.md"
-    },
-    {
-      "code": "A ",
-      "path": "docs/operations/VITE_DEV_FILES_AR.md"
-    },
-    {
-      "code": "A ",
-      "path": "e2e/package-f-screen-history-harness.html"
-    },
-    {
-      "code": "A ",
-      "path": "e2e/package-f-screen-history-harness.tsx"
-    },
-    {
-      "code": "A ",
-      "path": "e2e/package-f-screen-history.spec.ts"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/audit/development-fs-source-pins.json"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/audit/mobile-back-source-pins.json"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/audit/private-maps-source-pins.json"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/audit/source-before-development-fs.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/audit/source-before-mobile-back.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/audit/source-before-private-maps.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/environments/development-file-access.d.mts"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/environments/development-file-access.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/environments/private-source-maps.d.mts"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/environments/private-source-maps.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/monitoring/symbolicate-local.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "src/hooks/useScreenLeaveGuard.ts"
-    },
-    {
-      "code": "A ",
-      "path": "src/utils/screenHistory.ts"
-    },
-    {
-      "code": "A ",
-      "path": "tests/screen-history.test.ts"
-    },
-    {
-      "code": "A ",
-      "path": "tests/vite-file-access.test.ts"
-    },
-    {
-      "code": "AM",
-      "path": "tests/mobile-back-contracts.test.ts"
-    },
-    {
-      "code": "AM",
-      "path": "tests/private-source-maps.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "customer-web/vite.config.ts"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/SENTRY_OWNER_AR.md"
     },
     {
       "code": "M ",
@@ -143,47 +55,83 @@
     },
     {
       "code": "M ",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_219.json"
+    },
+    {
+      "code": "M ",
       "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
     },
     {
       "code": "M ",
-      "path": "scripts/audit/source-before-owner-telegram-format.mjs"
+      "path": "scripts/audit/source-before-product-workbook-text.mjs"
     },
     {
       "code": "M ",
-      "path": "scripts/audit/source-before-pre-delivery-usability.mjs"
+      "path": "scripts/audit/source-before-workbook-integration.mjs"
     },
     {
       "code": "M ",
-      "path": "scripts/audit/source-before-pre-training.mjs"
+      "path": "scripts/testing/product-workbook-runtime-view-pins.json"
     },
     {
       "code": "M ",
-      "path": "scripts/environments/verify-dist.mjs"
+      "path": "scripts/testing/product-workbook-runtime-view.mjs"
     },
     {
       "code": "M ",
-      "path": "src/App.tsx"
+      "path": "src/features/cheques/ChequesView.tsx"
     },
     {
       "code": "M ",
-      "path": "src/components/layout/NavigationShell.tsx"
+      "path": "src/features/directReceiving/SupplierReceiptDetailView.tsx"
     },
     {
       "code": "M ",
-      "path": "src/features/pos/PosView.tsx"
+      "path": "src/features/inventory/SupplierReplacementPanel.tsx"
     },
     {
       "code": "M ",
-      "path": "src/stores/useAppStore.ts"
+      "path": "src/features/more/ParcelConfigurationModal.tsx"
     },
     {
       "code": "M ",
-      "path": "src/utils/dialogFocus.ts"
+      "path": "src/features/orders/OrderDetailModal.tsx"
     },
     {
       "code": "M ",
-      "path": "vite.config.ts"
+      "path": "src/features/purchases/PurchaseOrderDetailView.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "tests/cutover-platform-documentation.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/package-f-remaining-batch3.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/partial216-source-history.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/product-workbook-history.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/reset219-reference-d1-docs.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/trial-aftercare-supplier.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/trial40-ci-scheduling.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/trial41-integration.test.ts"
     }
   ]
 }

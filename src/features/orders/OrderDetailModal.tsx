@@ -1,3 +1,4 @@
+import {newestRecords} from '../../utils/newestRecords';
 import React, { useCallback, useState, useSyncExternalStore } from 'react';
 import {
   AlertTriangle,
@@ -1178,7 +1179,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
             سجل حالة الطلب
           </h4>
           <div className="space-y-2">
-            {order.statusHistory.map((entry, index) => (
+            {newestRecords(order.statusHistory,e=>e.changedAt).map((entry, index) => (
               <div
                 key={`${entry.status}-${entry.changedAt}-${index}`}
                 className="flex items-start gap-2 border-r border-nw-border pr-3"

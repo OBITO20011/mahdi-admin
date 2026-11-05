@@ -201,7 +201,7 @@
     },
     {
       "file": "src/features/cheques/ChequesView.tsx",
-      "sha256": "4059055146c3e283fb3bdd5f9df42d890a4a9d6bb946e419b09818efd7a7dbb6"
+      "sha256": "37d4a7c306a9d09c300bbd8dfb68358b35b788300925dd6b228b17fffc055b38"
     },
     {
       "file": "src/features/corrections/DocumentCorrectionAction.tsx",
@@ -289,7 +289,7 @@
     },
     {
       "file": "src/features/directReceiving/SupplierReceiptDetailView.tsx",
-      "sha256": "05d786499ae7469151ceafad0f1def09d1d08499da8522a65dbe6ddcaaced82e"
+      "sha256": "aa29ffbf8a349f7a486b02ed620c9a3063a081bf11842c3e7d5baf55bcf110c1"
     },
     {
       "file": "src/features/directReceiving/SupplierReceiptItemsPreview.tsx",
@@ -361,7 +361,7 @@
     },
     {
       "file": "src/features/inventory/SupplierReplacementPanel.tsx",
-      "sha256": "c9d611efde5d54c93ba8e69b87953fb4f75d702897ed568a8476ad9a7350de43"
+      "sha256": "fea0dd76e1964061c889803d01ae80c0304fa81b0bad4de27501b5bfbbc4fd09"
     },
     {
       "file": "src/features/inventory/supplierReplacementPresentation.ts",
@@ -405,7 +405,7 @@
     },
     {
       "file": "src/features/more/ParcelConfigurationModal.tsx",
-      "sha256": "0b67ab2653f3cdd48a83b41327747834bec5e824d3719b13f3fb03e9e348bf98"
+      "sha256": "bffb334bd193e5b226830568fc4cb4cc30b5e42b313120e349042f3d42cd24f6"
     },
     {
       "file": "src/features/more/ProfileModal.tsx",
@@ -457,7 +457,7 @@
     },
     {
       "file": "src/features/orders/OrderDetailModal.tsx",
-      "sha256": "ffcae22835298bfe625d59780367151860c653139dba0fcbb6b0e8e380663faa"
+      "sha256": "97983c9c58a1bab069b8977e6b3cc8c2059c109fdd0612de1b4e8bd32872b6f0"
     },
     {
       "file": "src/features/orders/OrdersCenterView.tsx",
@@ -569,7 +569,7 @@
     },
     {
       "file": "src/features/purchases/PurchaseOrderDetailView.tsx",
-      "sha256": "84243f1504c985918de2fc7cb87f4da7a4a7af78ad0680a9478375c3a0dc8c67"
+      "sha256": "fc174d1cf8359f7702aae27cb04fd74399011e5056c1f5bf4d341055ea7e65ff"
     },
     {
       "file": "src/features/purchases/PurchasesView.tsx",
@@ -1086,6 +1086,10 @@
     {
       "file": "src/utils/legacyUnitImportHeaders.ts",
       "sha256": "58002e7c231a2059900db63b82d9b10a734a9e976aebb14b78c84bdd6e41a0de"
+    },
+    {
+      "file": "src/utils/newestRecords.ts",
+      "sha256": "1251e7a2ff40a5b498e239c4dd7e0da4df14bf39e40c0dc6c164b332f2b4a663"
     },
     {
       "file": "src/utils/operatorError.ts",
