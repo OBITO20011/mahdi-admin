@@ -1,0 +1,119 @@
+{
+  "format": 1,
+  "baseline": "d102074583c7369502954eaf8ea70d2595f6a19c",
+  "scope": "Exact speed A source inverse for frozen history only; current diagnostics unprojected",
+  "entries": {
+    "customer-web/src/App.tsx": {
+      "before": "4c0606d1c621df8f5859c70227642d8ee724329bfbfff5b268f879f89d5441f4",
+      "after": "a7fbe5a8dc1af3040f6ce2af21856953b1ce9cd59814bbb48728322fa0703769"
+    },
+    "customer-web/src/components/StoreHero.tsx": {
+      "before": "8f801149669598ddb1954e7e4f3ec76541ec7147a69ceac0568b8966b2bef937",
+      "after": "2b1ac68dc3fff972aa7e7ea889b0ffa6bca38af941ce66b0f96d4cfd3448700d"
+    },
+    "customer-web/src/components/DeferredDialog.tsx": {
+      "before": null,
+      "after": "7334c3b79c89ca5eaea52577dcf95c4040cd273dc2ed5ad84f8b7b698fbe146c"
+    },
+    "customer-web/src/lib/errorMonitoring.ts": {
+      "before": "4c364bde97ec120438388c800f3f4645a7a8029afe3325efbfb139dcf202e457",
+      "after": "4f3cccaf292996fe201a264f74ea0d81dc6d0360b1e82672a3719f026301e6ee"
+    },
+    "customer-web/src/lib/webVitalsPrivacy.ts": {
+      "before": null,
+      "after": "0bc3a2f56a1d69921802c037a716f36948090719f4da15c9ea9032a2d63e4144"
+    },
+    "docs/agent/project-state.json": {
+      "before": "b5df6fd8275ecda739cea3d0733b991ed6acc80e59803485c9c8d8d908e4dca4",
+      "after": "1b42c636e334b4f7949cfd1afd8181c35d7a4d3bd4fa1985268e26f62c3721a4"
+    },
+    "package.json": {
+      "before": "72670173270261a097e5e99c635873bfe5701bbc53d58680e2b204edf77996d8",
+      "after": "d49165f4fba379e46a2928ba78de89dd8d9faf96141593ce75067eb6950a588f"
+    },
+    "customer-web/vite.config.ts": {
+      "before": "08485c5e4e8c1ca3d1140612faebe04a7b4280f382a26d2b09ceaee8da6cc662",
+      "after": "f0af9a5de778d8f9f19524a63f5ef84cbf07e86d4bc3d10f3ecc487d592900da"
+    },
+    "customer-web/index.html": {
+      "before": "f486b31b0081afb301a1b1eac6922c937e47e920d1fe385d56723bb9009cef98",
+      "after": "f486b31b0081afb301a1b1eac6922c937e47e920d1fe385d56723bb9009cef98"
+    },
+    "customer-web/public/_headers": {
+      "before": "84ceb5068f62cc9a5668f5d0c3ca15f560ca86325d46d9b4b4a53c9c231b2d08",
+      "after": "eb71b226e40c43df9b44b517658311749075ffa3dc778cbe86bdbd97b3cbbdcb"
+    },
+    "scripts/audit/source-before-product-workbook-text.mjs": {
+      "before": "cccbc7b3298b4fef693d469ec73601fc59166f13d716b3b2125fdb97e300e26b",
+      "after": "16f16669f1d93beeb11a43c17ae4c1193c3b3e340c9ce79711c6de34712874be"
+    },
+    "scripts/audit/source-before-product-scale.mjs": {
+      "before": "c48ad817716bc7407688d3278ce15d4fe2f7f0625559f9c828a700de83ba05d6",
+      "after": "098a8b9c53ee6522e7502542c1ef5121b70709c729c298fc5c391c3c4b2a7d5b"
+    },
+    "docs/operations/TABLE_ACCESS_AFTER_219.json": {
+      "before": "7bbae8effd19f1000b99d420edf5f340924a007c0e3d2a7c0f6ee333ce6a8fe0",
+      "after": "3a98f6abf7e040a7ef593ba28b13b67fa050aa792b3ae7748907fe80e7da5ad4"
+    },
+    "docs/operations/TABLE_ACCESS_INVENTORY.json": {
+      "before": "49a335af066b09165b7e27b885e493ba3a5c6d0f9d609c56522ccd695210e03d",
+      "after": "460e79a577bbfba650d8004d46f138205de8a69f0482b99892796e50715f1f8f"
+    },
+    "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json": {
+      "before": "71f19bc54d422c0fb23461bb2821566e3bfc6de48ffb756cf1b41ddca0ff58d2",
+      "after": "c2b3ab59de05680c3e9b8f092033ac896f9b1719758d97ac42ae059fb2a6a254"
+    },
+    "docs/operations/SERVICE_ACCESS_INVENTORY.json": {
+      "before": "039ef1acc55bb360fe63af91ad1bf0e48a8c601d51b0d6ffb49b6b60fd9f7cd3",
+      "after": "a1d04e07c4b970fe229bbee76fb3c738cbbd47e8107a729522326f09afa78e61"
+    },
+    "tests/environment-separation.test.ts": {
+      "before": "759cddcc917475346df55468288a6bc93cdeaf36263628df3e48b4248c7b9d39",
+      "after": "664705b44617bf8b422cfe900aacc9648fdb3444a36aa4ad47991c1994365959"
+    },
+    "tests/error-monitoring.test.ts": {
+      "before": "95ded992386298d859684b233653932d9f39247c06523fbf0a2d56ef6433887c",
+      "after": "5719c9aaba376faf3e3dc8e3a44769023829eea4a641d87fcd183e4364462e45"
+    },
+    "tests/frankfurt-staging-csp.test.ts": {
+      "before": "5311c0ee752ccea99a88a0edff2f4d3f2fc086f544726a5b1cf647455182ca9a",
+      "after": "49cd72e5aba06509bf412786b9b62c787f915fbab7982e93e01dbb3437923d4f"
+    },
+    "tests/store-scroll-history.test.ts": {
+      "before": "44f128d8b0d84d796a91b14a2820d952d33c176c52f1c1355092730b2e70f507",
+      "after": "acb605708ca13907d972365085dd667107064d0c1e78c7e54bc7c2f6e5bad42c"
+    },
+    "tests/vite-file-access.test.ts": {
+      "before": "f8e19e98afba0c7b23e208396a851260c02dd11ddbf5d2c864df18dc7fb926db",
+      "after": "a368fba4f7699df98424ecc9295b1310553d8a11ff8c18df57c69563cc72dc07"
+    },
+    "tests/mobile-back-contracts.test.ts": {
+      "before": "d5a1311795a0313a4d01fccbe1e6a887a64460eb9a19e67781504280f01ed467",
+      "after": "aade05f579fc3968a9a0d9fdca748c947a387887eca4a08ed3dd6c4bc9cbbb3d"
+    },
+    "tests/workbook-integration-history.test.ts": {
+      "before": "a23425ed378b636f293ea69b44332003ba08db0bd46c877779e53c916b849414",
+      "after": "41f32a12280f0a82b19b1925e6d540240c3eb56dd6fb2384cbc9c21f68854f80"
+    },
+    "tests/product-workbook-runtime-view.test.ts": {
+      "before": "96adf9456ee94c7f59f6195fe24e50c3fa6b3924346b5377007dbc5ac93fc925",
+      "after": "4d22ca38e44a663999010518cd2ee7ea1127a559c70a4b0600f84a9718d13cd0"
+    },
+    "docs/operations/SENTRY_OWNER_AR.md": {
+      "before": "56a3996458d0931d481d99313a090373d6f53a259c01151087d2cf7425d1a975",
+      "after": "b1bec2bea95571dfeb2e227a586e57922ac37c60c1de960bff002fff8060faaa"
+    },
+    "e2e/public-apps.spec.ts": {
+      "before": "97861565b7d0a7455b68725846c60bc2250f6735269ece55f53c0ac0c0996a9e",
+      "after": "2b1bd856d5a1af1dbf78f9711b24aff2ad5706d265497d17cefd85cd5f1d5764"
+    },
+    "scripts/testing/product-workbook-runtime-view.mjs": {
+      "before": "620c8e86aba7aa91cb033553a1528e9f96f60c2c4ed27d77c66a4fe3dcc9ed84",
+      "after": "94a36b3c627b3eae97f438c75b463de273281c70c86fe94d612b02e10e200948"
+    },
+    "docs/agent/PHASE_STATUS.md": {
+      "before": "9b8c2a2ddcb0bf4e300efea2226ffecc155b68d2eb389dc3e91513e0da4d089c",
+      "after": "59970dc93188079bac397b3a99cb732bb28a129841cf2d8a97db2adbd73a38df"
+    }
+  }
+}

@@ -1,3 +1,4 @@
+import{sourceBeforeStorefrontSpeed}from'../scripts/audit/source-before-storefront-speed.mjs';
 import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import {sourceBeforePrelaunchTrial} from '../scripts/audit/source-before-prelaunch-trial.mjs';
 import assert from 'node:assert/strict';
@@ -35,7 +36,7 @@ test('CSP changes only its two explicit selected origins;all directives retain o
  for(const file of ['public/_headers','customer-web/public/_headers'])for(const environment of ['production','staging'] as const){
   const template=readFileSync(file,'utf8'),selected=resolveBuildEnvironment({NAWASRAH_DEPLOYMENT_ENV:environment}),headers=renderEnvironmentHeaders(template,selected);
   assert.equal(headers.replace(selected.url,'__NAWASRAH_SUPABASE_HTTPS__').replace(selected.url.replace('https:','wss:'),'__NAWASRAH_SUPABASE_WSS__'),template);
-  assert.equal(renderEnvironmentHeaders(template,resolveBuildEnvironment({NAWASRAH_DEPLOYMENT_ENV:'production'})).replaceAll('\r\n','\n'),environmentPins[file].beforeText);
+  assert.equal(renderEnvironmentHeaders(sourceBeforeStorefrontSpeed(file,template)!,resolveBuildEnvironment({NAWASRAH_DEPLOYMENT_ENV:'production'})).replaceAll('\r\n','\n'),environmentPins[file].beforeText);
  }
 });
 test('exact build inverse preserves historical files and still rejects any extra byte',()=>{

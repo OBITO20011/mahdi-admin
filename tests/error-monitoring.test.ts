@@ -20,10 +20,15 @@ for (const [application, source] of [
     assert.match(source, /VITE_SENTRY_DSN/);
     assert.match(source, /import\('@sentry\/react'\)/);
     assert.match(source, /sendDefaultPii:\s*false/);
-    assert.match(source, /tracesSampleRate:\s*0/);
+    if(application === 'admin') assert.match(source, /tracesSampleRate:\s*0/);
+    else {
+      assert.match(source, /tracesSampleRate: performanceSampled \? 1 : 0/u);
+      for(const term of ['sampleWebVitals','beforeSendSpan: sanitizeVitalSpan','beforeSendTransaction: event => sanitizeVitalTransaction','traceFetch: false','traceXHR: false','tracePropagationTargets: []'])assert.ok(source.includes(term),term);
+    }
     assert.match(source, /sanitizeEvent,sanitizeBreadcrumb/);
     assert.match(source, /defaultIntegrations:\s*false/);
-    assert.doesNotMatch(source, /replayIntegration|browserTracingIntegration/i);
+    assert.doesNotMatch(source, /replayIntegration/i);
+    if(application === 'admin')assert.doesNotMatch(source, /browserTracingIntegration/i);
   });
 }
 
@@ -39,7 +44,7 @@ test('admin downloads Sentry only after a real browser or React error', () => {
   assert.match(adminMonitoring, /void loadMonitoringSdk\(\)\?\.catch/);
 });
 
-test('storefront downloads Sentry only after a real browser or React error', () => {
+test('storefront downloads Sentry only for a sampled production visit or a real error', () => {
   assert.match(storeMonitoring, /function loadMonitoringSdk/);
   assert.match(storeMonitoring, /window\.addEventListener\('error'/);
   assert.match(storeMonitoring, /window\.addEventListener\('unhandledrejection'/);

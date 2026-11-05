@@ -30,6 +30,13 @@ export function StoreHero({
   onBrowseProducts,
   announcementText,
 }: StoreHeroProps) {
+  const [mediaRequested, setMediaRequested] = useState(false);
+  useEffect(() => {
+    const request = () => setMediaRequested(true);
+    window.addEventListener('pointerdown', request, {once: true, passive: true});
+    window.addEventListener('keydown', request, {once: true});
+    return () => { window.removeEventListener('pointerdown', request); window.removeEventListener('keydown', request); };
+  }, []);
   const [heroMediaPreferences, setHeroMediaPreferences] = useState(
     getHeroMediaPreferences,
   );
@@ -53,9 +60,9 @@ export function StoreHero({
   }, []);
 
   const shouldRenderMobileVideo =
-    !heroMediaPreferences.isDesktop && !heroMediaPreferences.prefersReducedMotion;
+    mediaRequested && !heroMediaPreferences.isDesktop && !heroMediaPreferences.prefersReducedMotion;
   const shouldRenderDesktopVideo =
-    heroMediaPreferences.isDesktop && !heroMediaPreferences.prefersReducedMotion;
+    mediaRequested && heroMediaPreferences.isDesktop && !heroMediaPreferences.prefersReducedMotion;
 
   const stats = [
     { label: 'صنف جملة', value: productsCount, icon: PackageCheck, color: 'text-orange-300' },
@@ -77,6 +84,7 @@ export function StoreHero({
           className="absolute inset-0 scale-110 bg-cover bg-center opacity-45 blur-xl"
           style={{ backgroundImage: "url('/nawasrah-hero-poster.webp')" }}
         />
+        <img src="/nawasrah-hero-poster.webp" alt="" aria-hidden="true" width={1280} height={720} fetchPriority="high" decoding="async" className="absolute inset-0 h-full w-full object-contain" />
         {shouldRenderMobileVideo && (
           <video
             aria-hidden="true"

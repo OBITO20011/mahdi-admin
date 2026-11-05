@@ -1,3 +1,4 @@
+import{sourceBeforeStorefrontSpeed}from'../scripts/audit/source-before-storefront-speed.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFileSync} from 'node:fs';
@@ -7,7 +8,7 @@ import {sourceBeforeWorkbookIntegration} from '../scripts/audit/source-before-wo
 test('integrated workbook inverse binds approved main66 bytes and exposes every unknown mutation',()=>{
  const baseline='a4fc9dd43c75fab544df4480b5182776f2e35ef5';
  for(const file of Object.keys(entries)){
-  const raw=readFileSync(file,'utf8');
+  const raw=sourceBeforeStorefrontSpeed(file,readFileSync(file,'utf8'))!;
   const known=spawnSync('git',['cat-file','-e',baseline+':'+file],{windowsHide:true});
   const expected=known.status===0?execFileSync('git',['show',baseline+':'+file],{encoding:'utf8',windowsHide:true,maxBuffer:32*1024**2}):null;
   assert.equal(sourceBeforeWorkbookIntegration(file,raw),expected,file);

@@ -9,6 +9,34 @@ export function projectWorkbookRuntimeSource(file,raw,pin){assert.ok(sourceScope
 export async function cleanupWorkbookRuntimeView(dir){
  const absolute=path.resolve(dir);assert.ok(path.dirname(absolute)===path.resolve(tmpdir())&&path.basename(absolute).startsWith(prefix),'HISTORICAL_VIEW_CLEANUP_SCOPE');const rootStat=await lstat(absolute);assert.ok(rootStat.isDirectory()&&!rootStat.isSymbolicLink(),'HISTORICAL_VIEW_ROOT_LINK');assert.equal(path.dirname(await realpath(absolute)),await realpath(tmpdir()),'HISTORICAL_VIEW_REAL_PARENT');const marker=JSON.parse(await readFile(path.join(absolute,'.workbook-runtime-view.json'),'utf8'));assert.equal(marker.root,absolute);assert.equal(marker.sourceRoot,root);assert.match(marker.nonce,/^[a-f0-9-]{36}$/u);const link=path.join(absolute,'node_modules'),s=await lstat(link).catch(e=>e.code==='ENOENT'?null:Promise.reject(e));if(s){assert.ok(s.isSymbolicLink(),'HISTORICAL_VIEW_EXPECTED_DEPENDENCY_LINK');await unlink(link);}await noLinks(absolute);await rm(absolute,{recursive:true,force:true});
 }
+const runtimeLayers = Object.freeze({
+ 'storefront-speed-source-pins.json': ['customer-web/src/App.tsx','customer-web/src/components/StoreHero.tsx','customer-web/src/components/DeferredDialog.tsx','customer-web/src/lib/errorMonitoring.ts','customer-web/src/lib/webVitalsPrivacy.ts'],
+ 'storefront-images-source-pins.json': ['customer-web/src/App.tsx','customer-web/src/components/CategoryShowcase.tsx','customer-web/src/components/HomeCategoryMosaic.tsx','customer-web/src/components/ProductCard.tsx','customer-web/src/components/ProductDetailsModal.tsx','customer-web/src/components/ProductImage.tsx','customer-web/src/utils/productThumbnail.ts','src/services/supabase/product-images.service.ts','src/utils/productImageThumbnail.ts'],
+});
+const layerBaseline='d102074583c7369502954eaf8ea70d2595f6a19c';
+function historicalText(sha,file){try{return git(['show',sha+':'+file]).toString('utf8').replaceAll('\r\n','\n');}catch{return null;}}
+function validateRuntimeLayer(name,layer){assert.ok(Object.hasOwn(runtimeLayers,name),'HISTORICAL_RUNTIME_UNKNOWN_LAYER');assert.equal(layer.baseline,layerBaseline,'HISTORICAL_RUNTIME_LAYER_BASELINE');assert.equal(layer.format,1,'HISTORICAL_RUNTIME_LAYER_FORMAT');}
+export function composeWorkbookRuntimeLayer(pins,name,layer,lookup=historicalText){
+ validateRuntimeLayer(name,layer);
+ for(const[file,pin]of Object.entries(layer.entries)){
+  if(!sourceScope(file))continue;
+  assert.ok(runtimeLayers[name].includes(file),'HISTORICAL_RUNTIME_LAYER_SCOPE');
+  const previous=lookup(layer.baseline,file);assert.equal(previous===null?null:hash(previous),pin.before,'HISTORICAL_RUNTIME_LAYER_MAIN_DRIFT');
+  const known=pins.entries[file];let before;
+  if(known){assert.equal(known.after,pin.before,'HISTORICAL_RUNTIME_LAYER_INTERMEDIATE_DRIFT');before=known.beforeText;}
+  else{before=lookup(baseline,file);assert.equal(before===null?null:hash(before),pin.before,'HISTORICAL_RUNTIME_LAYER_UNACCOUNTED_CHANGE');}
+  pins.entries[file]={beforeText:before,before:before===null?null:hash(before),after:pin.after};
+ }
+ return pins;
+}
+export function projectWorkbookRuntimeEvidence(raw,pin,layers,lookup=historicalText){
+ assert.equal(pin.file,'docs/operations/TABLE_ACCESS_AFTER_219.json','HISTORICAL_VIEW_EVIDENCE_SCOPE');
+ let text=raw.replaceAll('\r\n','\n');
+ for(const{name,layer}of layers){validateRuntimeLayer(name,layer);const known=layer.entries[pin.file];if(!known||hash(text)!==known.after)continue;
+  const before=lookup(layer.baseline,pin.file);assert.ok(before!==null,'HISTORICAL_VIEW_EVIDENCE_MAIN_MISSING');assert.equal(hash(before),known.before,'HISTORICAL_VIEW_EVIDENCE_MAIN_DRIFT');text=before;
+ }
+ assert.equal(hash(text),pin.after,'HISTORICAL_VIEW_UNREVIEWED_EVIDENCE');return text;
+}
 export async function prepareWorkbookRuntimeView(){
  const status=git(['status','--porcelain','-z']).toString('utf8').split('\0').filter(Boolean);assert.ok(status.every(line=>['docs/agent/ACTIVE_TASK.json','docs/agent/ACTIVE_TASK_FILES.json'].includes(line.slice(3))),'HISTORICAL_VIEW_REQUIRES_COMMITTED_SOURCES');assert.equal(git(['diff',baseline,'HEAD','--','supabase']).length,0,'HISTORICAL_VIEW_SQL_CHANGED');
  const head=git(['rev-parse','HEAD']).toString('utf8').trim(),dir=await mkdtemp(path.join(tmpdir(),prefix)),marker={root:path.resolve(dir),sourceRoot:root,head,baseline,nonce:randomUUID()},changed=[];
@@ -31,8 +59,9 @@ export async function prepareWorkbookRuntimeView(){
     pins.entries[file]={beforeText:before,before:before===null?null:hash(before),after:pin.after};
   }
   }
+  const sourceLayers=[];for(const name of Object.keys(runtimeLayers)){let layer;try{layer=JSON.parse(await readFile(path.join(root,'scripts/audit',name),'utf8'));}catch(error){if(error.code==='ENOENT')continue;throw error;}sourceLayers.push({name,layer});composeWorkbookRuntimeLayer(pins,name,layer);}
   for(const[file,pin]of Object.entries(pins.entries)){if(!sourceScope(file))continue;const target=path.join(dir,file),raw=await readFile(target,'utf8'),before=projectWorkbookRuntimeSource(file,raw,pin);if(before===null)await unlink(target);else{assert.equal(git(['show',baseline+':'+file]).toString('utf8').replaceAll('\r\n','\n'),before,'HISTORICAL_VIEW_NOT_GIT63');await writeFile(target,before);}changed.push({file,after:pin.after,before:pin.before});}
-  const evidencePins=JSON.parse(await readFile(path.join(root,'scripts/testing/product-workbook-runtime-view-pins.json'),'utf8'));assert.equal(evidencePins.baseline,baseline);assert.deepEqual(evidencePins.evidence.map(p=>p.file),['docs/operations/TABLE_ACCESS_AFTER_219.json']);for(const pin of evidencePins.evidence){const target=path.join(dir,pin.file);assert.equal(hash((await readFile(target,'utf8')).replaceAll('\r\n','\n')),pin.after,'HISTORICAL_VIEW_UNREVIEWED_EVIDENCE');const old=git(['show',baseline+':'+pin.file]).toString('utf8').replaceAll('\r\n','\n');assert.equal(hash(old),pin.before,'HISTORICAL_VIEW_EVIDENCE_BASELINE_CORRUPT');await writeFile(target,old);}
+  const evidencePins=JSON.parse(await readFile(path.join(root,'scripts/testing/product-workbook-runtime-view-pins.json'),'utf8'));assert.equal(evidencePins.baseline,baseline);assert.deepEqual(evidencePins.evidence.map(p=>p.file),['docs/operations/TABLE_ACCESS_AFTER_219.json']);for(const pin of evidencePins.evidence){const target=path.join(dir,pin.file);projectWorkbookRuntimeEvidence(await readFile(target,'utf8'),pin,sourceLayers);const old=git(['show',baseline+':'+pin.file]).toString('utf8').replaceAll('\r\n','\n');assert.equal(hash(old),pin.before,'HISTORICAL_VIEW_EVIDENCE_BASELINE_CORRUPT');await writeFile(target,old);}
   // Snapshot only these reviewed application substitutions; every test/script/SQL
   // comes from the CURRENT head,not a historical runner or a modified owner tool.
   const ownerPins=JSON.parse(await readFile(path.join(root,'scripts/testing/rehearsal219-owner-source-pins.json'),'utf8'));for(const[file]of ownerPins.files)assert.deepEqual(await readFile(path.join(root,file)),await readFile(path.join(dir,file)),'HISTORICAL_VIEW_OWNER_TOOL_CHANGED:'+file);
