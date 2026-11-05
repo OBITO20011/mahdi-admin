@@ -22,7 +22,7 @@ try{
  });await new Promise((resolve,reject)=>{api.once('error',reject);api.listen(4176,'127.0.0.1',resolve);});
  site=createServer(async(req,res)=>{try{
   const pathname=new URL(req.url,'http://127.0.0.1:4174').pathname;
-  if(/^\/fixture-images\/\d+\.jpg$/u.test(pathname)){res.setHeader('Content-Type','image/png');res.end(png);return;}
+  if(/^\/fixture-images\/\d+\.jpg(?:-400\.webp)?$/u.test(pathname)){res.setHeader('Content-Type','image/png');res.end(png);return;}
   let file=path.resolve(dist,'.'+decodeURIComponent(pathname));assert.ok(file===dist||file.startsWith(dist+path.sep));let bytes;try{bytes=await readFile(file);}catch{file=path.join(dist,'index.html');bytes=await readFile(file);}
   const type=mime[path.extname(file)]||'application/json';res.setHeader('Content-Type',type);res.setHeader('Access-Control-Allow-Origin',req.headers.origin==='https://127.0.0.1:4174'?'https://127.0.0.1:4174':'http://127.0.0.1:4174');
   if(type.startsWith('text/html')){const headers=await readFile(path.join(dist,'_headers'),'utf8');const csp=headers.split(/\r?\n/u).find(line=>line.trim().startsWith('Content-Security-Policy:'));assert.ok(csp);res.setHeader('Content-Security-Policy',csp.trim().slice('Content-Security-Policy:'.length).trim());}
