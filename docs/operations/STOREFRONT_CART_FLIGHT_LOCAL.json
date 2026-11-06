@@ -5,61 +5,91 @@
   "deployments": 0,
   "sourceHashes": {
     "customer-web/src/App.tsx": "205596893921593c04cf84f5ed3ebebd9bdf81a2bc2568cc10ec9bc913a7e3f0",
-    "customer-web/src/components/CargoAddButton.tsx": "c711f2301498f241cb8d40e569818aca00727838df47c6aeb8abd4da92e173ee",
+    "customer-web/src/components/CargoAddButton.tsx": "5fdb9851f76905d42ccd97cdcf62905d1ce9db379d98d1f5e14778683ba0fa91",
     "customer-web/src/components/ProductCard.tsx": "4c11dfdc0fcb2222e2618344073be1fcb771c1be5dcc8e0eacbd538ae9ec9a04",
     "customer-web/src/components/StoreHeader.tsx": "da024cba1ffbd92d23e613bd863e2e6b5defd17d801e8f3273d3d298d5df639e",
     "customer-web/src/components/MobileStoreNav.tsx": "708aa5b08f3ded75358a8f12608bece064be13c87be91ff44d365b152480cd3f",
-    "customer-web/src/utils/cartAdditionAnimation.ts": "72c15d3c762e130457bce667640f0c507872f460391d0b834d92349bc7745412",
-    "scripts/testing/run-cart-flight-browser.mjs": "c94f55f89d4785583d64af50743b72c7607197ef1c1388c6324dcc6d7e3c1444"
+    "customer-web/src/utils/cartAdditionAnimation.ts": "4456486bc983fd9fbbce6f163cc817ca3798e66dd96d4166b6891049381c5785",
+    "scripts/testing/run-cart-flight-browser.mjs": "fa81ea54893726b8801c0f071b9ea4d75301a9a0f802885fe4f9b302afdaa555"
   },
   "browser": [
     {
       "engine": "chromium",
       "width": 360,
+      "height": 900,
       "max": 3,
-      "adds": 104.20000004768372,
-      "firstFinished": 640.2000000476837,
-      "finalQuantity": 25
+      "endpointMaxErrorPx": 0,
+      "adds": 241.5,
+      "firstVisualEndMs": 670,
+      "nativeCompletions": 3,
+      "cleanupCancellations": 0,
+      "finalQuantity": 26,
+      "hiddenTarget": true
     },
     {
       "engine": "chromium",
       "width": 390,
+      "height": 900,
       "max": 3,
-      "adds": 86.89999997615814,
-      "firstFinished": 677.1999999284744,
-      "finalQuantity": 25
+      "endpointMaxErrorPx": 0.00008838834766632552,
+      "adds": 120.59999990463257,
+      "firstVisualEndMs": 688.5999999046326,
+      "nativeCompletions": 3,
+      "cleanupCancellations": 0,
+      "finalQuantity": 26,
+      "hiddenTarget": true
     },
     {
       "engine": "chromium",
       "width": 1440,
+      "height": 1200,
       "max": 3,
-      "adds": 87.20000004768372,
-      "firstFinished": 652.9000000953674,
-      "finalQuantity": 25
+      "endpointMaxErrorPx": 0,
+      "adds": 94.79999995231628,
+      "firstVisualEndMs": 750,
+      "nativeCompletions": 0,
+      "cleanupCancellations": 3,
+      "finalQuantity": 26,
+      "hiddenTarget": true
     },
     {
       "engine": "webkit",
       "width": 360,
+      "height": 900,
       "max": 3,
-      "adds": 147,
-      "firstFinished": 703,
-      "finalQuantity": 25
+      "endpointMaxErrorPx": 0,
+      "adds": 297,
+      "firstVisualEndMs": 720,
+      "nativeCompletions": 3,
+      "cleanupCancellations": 0,
+      "finalQuantity": 26,
+      "hiddenTarget": true
     },
     {
       "engine": "webkit",
       "width": 390,
+      "height": 900,
       "max": 3,
-      "adds": 437,
-      "firstFinished": 825,
-      "finalQuantity": 25
+      "endpointMaxErrorPx": 7.071067392069087e-7,
+      "adds": 478,
+      "firstVisualEndMs": 959,
+      "nativeCompletions": 3,
+      "cleanupCancellations": 0,
+      "finalQuantity": 26,
+      "hiddenTarget": true
     },
     {
       "engine": "webkit",
       "width": 1440,
+      "height": 1200,
       "max": 3,
-      "adds": 788,
-      "firstFinished": 904,
-      "finalQuantity": 25
+      "endpointMaxErrorPx": 0,
+      "adds": 529,
+      "firstVisualEndMs": 1150,
+      "nativeCompletions": 3,
+      "cleanupCancellations": 0,
+      "finalQuantity": 26,
+      "hiddenTarget": true
     }
   ],
   "budget": {
@@ -100,9 +130,9 @@
     "after": {
       "chunks": [
         {
-          "file": "assets/index-BvTERuFS.js",
-          "bytes": 232552,
-          "gzip": 61199
+          "file": "assets/index-RrDVew_s.js",
+          "bytes": 232337,
+          "gzip": 61141
         },
         {
           "file": "assets/react-CwLxVZiS.js",
@@ -115,9 +145,9 @@
           "gzip": 3485
         },
         {
-          "file": "assets/icons-tghQ8jLo.js",
-          "bytes": 38555,
-          "gzip": 8452
+          "file": "assets/icons-CHPMS1pa.js",
+          "bytes": 38054,
+          "gzip": 8391
         },
         {
           "file": "assets/supabase-Cm7hymYJ.js",
@@ -125,8 +155,8 @@
           "gzip": 55499
         }
       ],
-      "initialJsBytes": 683323,
-      "initialJsGzip": 187836,
+      "initialJsBytes": 682607,
+      "initialJsGzip": 187717,
       "cssGzip": 16952,
       "fonts": 0,
       "initialScriptRequests": 5
@@ -146,11 +176,11 @@
           "zero_rows": 9,
           "other_error": 0
         },
-        "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-SpfzHg"
+        "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-TG2RdY"
       },
       "service219": {
         "ok": true,
-        "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-lOBUfr",
+        "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-zjVcFV",
         "count": 598,
         "denied": 18
       }
@@ -175,7 +205,8 @@
         "sourceUnchanged": true,
         "scope": "One exact child rerun only after1834otherunitspassed;priorETIMEDOUT120060ms/nooutput underparalleltestload;noCIrerun/no source/limit/skipchanges"
       },
-      "additionalEvidenceBindingTest": "Focused verification before commit"
+      "additionalEvidenceBindingTest": "Focused verification before commit",
+      "coverage": "Full prior same-PR revision before decorative SVG alignment and harness refinements;business functions unchanged;final-head CI remains mandatory."
     },
     "customerUnits": 209,
     "types": "both PASS",
@@ -192,8 +223,27 @@
   "limits": [
     "No new LCP measurement or claim;owner accepted prior speed LCP gap.",
     "One local exact Git63 child environmental rerun,120000ms unchanged;no CI reruns.",
-    "Developer Telegram/owner channels untouched."
+    "Developer Telegram/owner channels untouched.",
+    "Terminal proof counts both native completion and fail-safe cancellation;requires3finite events,no empty-arrayInfinity pass.",
+    "The race emits one accepted and one rejected cart outcome;existing shared toast ordering/autodismiss remains unchanged,only fixed outcome codes are observed."
   ],
-  "reviewEvidence": "C:/Users/TOP/NawasrahFrankfurt/storefront-cart-flight-20261106/browser-evidence",
-  "ci": "Required on final PR head;not yet delivered"
+  "reviewEvidence": "C:/Users/TOP/NawasrahFrankfurt/storefront-cart-flight-20261106/browser-evidence-terminal",
+  "ci": "Required on final PR head;not yet delivered",
+  "geometryRegression": {
+    "expectedFailure": true,
+    "error": "Flight must land at the actual SVG icon centre, not the surrounding button",
+    "originalErrorsPx": [
+      14.00000217982684,
+      14.00000217982684,
+      14.00000217982684
+    ],
+    "limitPx": 1,
+    "noLimitsChanged": true,
+    "head": "37e7276c04cd6cf13737e2ec6d9a602c2fdbe0d6"
+  },
+  "fixture": {
+    "type": "Deterministic64x64 RGBA PNG,computedCRC32/deflate",
+    "defaultCIPathSixCasesPassed": true,
+    "reviewWebPGeometrySixCasesPassed": true
+  }
 }

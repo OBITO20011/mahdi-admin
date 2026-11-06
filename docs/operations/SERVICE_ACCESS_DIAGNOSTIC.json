@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-06T00:27:35.090Z",
+  "startedAt": "2026-11-06T04:12:42.013Z",
   "migrationCeiling": 219,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-lOBUfr",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-zjVcFV",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -1215,7 +1215,7 @@
     },
     {
       "file": "customer-web/src/components/CargoAddButton.tsx",
-      "sha256": "c711f2301498f241cb8d40e569818aca00727838df47c6aeb8abd4da92e173ee"
+      "sha256": "5fdb9851f76905d42ccd97cdcf62905d1ce9db379d98d1f5e14778683ba0fa91"
     },
     {
       "file": "customer-web/src/components/CartDrawer.tsx",
@@ -1467,7 +1467,7 @@
     },
     {
       "file": "customer-web/src/utils/cartAdditionAnimation.ts",
-      "sha256": "72c15d3c762e130457bce667640f0c507872f460391d0b834d92349bc7745412"
+      "sha256": "4456486bc983fd9fbbce6f163cc817ca3798e66dd96d4166b6891049381c5785"
     },
     {
       "file": "customer-web/src/utils/catalogView.ts",
@@ -46600,7 +46600,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-11-06T00:29:22.729Z",
+  "endedAt": "2026-11-06T04:14:34.748Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {

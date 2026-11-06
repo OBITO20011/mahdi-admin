@@ -3,35 +3,33 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner5Nov cartflight customer-only:immediate5adds,max3WAAPIoverlays,noflightdialogs,noextra initialJS,separatePR/FULLCI/no merge.",
-  "baselineSha": "f098f0afaa7b54b052b18d8266f3789d67e8de76",
+  "baselineSha": "37e7276c04cd6cf13737e2ec6d9a602c2fdbe0d6",
   "branch": "codex/storefront-cart-flight",
   "phase": "PACKAGE_F",
   "completed": [
-    "71/72 merged mainf098FULLgreen+safeprimaryff preserved20owner/4env/5state;58Draft.",
-    "WAAPI560ms deferredafterexisting success;3cap,canvasdisplayedimage,noimagefetch,dialogs/reduced/cleanupfail-safe implemented.",
-    "Bothengines360/390/1440 sixcasesPASSincl5actualcommitsbeforecompletion,stockrace1accepted/1rejected,WAAPIthrow/absent,zeroescaped.",
-    "TypesAdmin+Store/strictlint/10focusedexact-history+ASTbusinessidentityPASS;initialJS683323<683725,gzip187832<187840.",
-    "Actualfresh219:181tableprobes172success/9empty/0denied/0other;598service/18expecteddenials;owncontainerscleaned,n8nuntouched.",
-    "Alllocalgates accepted:Store209,budget8,vitals8,public64+2oldconditionals,6builds/verifydist/negativeCSP/origins/trialguards."
+    "71/72mergedmainf098FULLgreen;primary20owner/4env/5statepreserved/preflightPASS;58Draft.",
+    "FinalUI:immediatecart,WAAPI560ms/max3,actualSVGendpoint<.0001px,dialogs/reduced/fail-safe cleanup;businessAST5unchanged.",
+    "FinaldefaultCI-PNG6PASS/finite3ends,hidden-target,26counter;negativeoldendpoint14pxcaught;sourcebudget682607/187717.",
+    "Raw219final181(172success9empty0errors),598/18expecteddenials;ownstacksremoved,n8nuntouched.",
+    "Local15focused/types/strictlint/budget8/6buildsPASS;earlierStore209/public64+2old/vitals8;Admin1834+oneexact48.6senv(original120s)."
   ],
   "inProgress": [
-    "Precommitsecretscan thencommit/strictcurrentruntimeview,pushandPRFULLCI,no merge."
+    "Newnormalcommit offinalcorrection,actualstrictview/Gitleaks thenpushsamePR73/finalHEADFULLCI."
   ],
   "notStarted": [
     "PR/fullCI/review;no merge."
   ],
   "testsPassed": [
-    "6realbuilt-bundlebrowsercases/10focused/types/strictlint",
-    "Admin1834PASS+oneexactGit63childenvironmentalrerunPASS48.6s underoriginal120s,sourceunchanged;noCIreruns.",
-    "Store209/budget8/vitals8/public64+2oldconditionals/6builds PASS",
-    "Finalfocused15PASSinclnewlocalproofbinding;allinitialJSbytesandrequestsbudgetsunchanged."
+    "Final6browser(defaultPNG)+15focused+types+strictlint+budget8+6builds;raw219source/roleproofs.",
+    "PriorAdmin1834+exactGit63oneenv48.6s/Store209/public64+2old/vitals8;no productionfinancialchange."
   ],
   "testsRemaining": [
-    "Committedruntimeview/Gitleaks/PR/FULLCI"
+    "Newheadstrictview/Gitleaks/PR73FULLCI"
   ],
   "findings": [
     "Managedfreshworktree cleanfromdeliveredf098;standingknown-ownmetadata sync;productioncontracts unchanged.",
-    "Rootparallelfile-testload causedGit63childETIMEDOUT/nooutput;onlyboundedoneenvironmentalrerun used,no assertion/timeout changes."
+    "Rootparallelfile-testload causedGit63childETIMEDOUT/nooutput;onlyboundedoneenvironmentalrerun used,no assertion/timeout changes.",
+    "CI37equalityfailedinvalidlegacy1pxfixturePNGdecode;replacedwithdeterministicPNGcomputedCRC,defaultCIpath6PASS,no limit/retry/skip changes."
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -39,12 +37,12 @@
     "NoSQL/migration/RPC/money/cartpayload/permissions/auth/hosted/deploy/owner-envchanges.",
     "No newdependency/motion/initialJSincrease;58Draft;noanimationmerge."
   ],
-  "nextExactAction": "Alllocalproofaccepted/Gitleaks0;newfileLFonlycanonicalhashesunchanged. Committhenstrictactualruntimeview andPRFULLCI/no merge.",
-  "checkpointedAt": "2026-11-06T03:41:21.694Z",
+  "nextExactAction": "Finalalllocalaccepted;normalnewcommitcorrectedCRC/SVGgeometry+strictterminaltests,strictactualview/Gitleaks thenpushPR73/FULLCI,no merge.",
+  "checkpointedAt": "2026-11-06T04:40:12.563Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 24,
-  "filesTouchedManifestSha256": "d3c1bd02b9eadc27c402cac6687c6c2d7bc9b262af0d8ad068d63e431e50222e",
-  "workingTreeFingerprint": "DD99E73312D35DDE83AF529A76E00818BFBFBE63311FA35EA802B6318C1FFB6D"
+  "filesTouchedCount": 12,
+  "filesTouchedManifestSha256": "bde893aaedb1fe6a8a0c1edaafe8d53debeb1a713c6a8603ad64a46d5abb91f1",
+  "workingTreeFingerprint": "9FBAC11FAED98DCF70A065F7A887773FC83DF7E26B26DB725B0F39F067E50405"
 }

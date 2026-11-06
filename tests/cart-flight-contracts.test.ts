@@ -82,7 +82,7 @@ test('published local flight evidence binds the actual sources and all six manda
  assert.equal(proof.ok,true);assert.equal(proof.hostedAccess,false);assert.equal(proof.deployments,0);
  for(const[file,sha]of Object.entries(proof.sourceHashes))assert.equal(hash(readFileSync(file,'utf8')),sha,file);
  assert.deepEqual(proof.browser.map((r:{engine:string;width:number})=>[r.engine,r.width]),[['chromium',360],['chromium',390],['chromium',1440],['webkit',360],['webkit',390],['webkit',1440]]);
- assert.ok(proof.browser.every((r:{max:number;finalQuantity:number;adds:number;firstFinished:number})=>r.max===3&&r.finalQuantity===25&&r.adds<r.firstFinished));
+ assert.ok(proof.browser.every((r:{max:number;finalQuantity:number;adds:number;firstVisualEndMs:number;endpointMaxErrorPx:number;hiddenTarget:boolean})=>r.max===3&&r.finalQuantity===26&&r.adds<r.firstVisualEndMs&&r.endpointMaxErrorPx<1&&r.hiddenTarget));
  assert.ok(proof.budget.after.initialJsBytes<=proof.budget.before.initialJsBytes);
  assert.ok(proof.budget.after.initialJsGzip<=proof.budget.before.initialJsGzip);
  assert.deepEqual(proof.escapedExternalRequests,[]);

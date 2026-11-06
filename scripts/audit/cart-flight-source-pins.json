@@ -13,7 +13,7 @@
     },
     "customer-web/src/components/CargoAddButton.tsx": {
       "before": "c5e7e287e970394097c678ea67347aa5086c06833b15083dbd5015ca8f36d94e",
-      "after": "c711f2301498f241cb8d40e569818aca00727838df47c6aeb8abd4da92e173ee"
+      "after": "5fdb9851f76905d42ccd97cdcf62905d1ce9db379d98d1f5e14778683ba0fa91"
     },
     "customer-web/src/components/MobileStoreNav.tsx": {
       "before": "cb777e2d450eaeb894caacf8fce5100b29e83366fa8d66fbe871bf44bc0d45f2",
@@ -29,11 +29,11 @@
     },
     "customer-web/src/utils/cartAdditionAnimation.ts": {
       "before": null,
-      "after": "72c15d3c762e130457bce667640f0c507872f460391d0b834d92349bc7745412"
+      "after": "4456486bc983fd9fbbce6f163cc817ca3798e66dd96d4166b6891049381c5785"
     },
     "docs/agent/PHASE_STATUS.md": {
       "before": "59970dc93188079bac397b3a99cb732bb28a129841cf2d8a97db2adbd73a38df",
-      "after": "51e0ee7d58ab98a5926ccf669a0e6f6d2f0b21de90f60bca270296de44c8b9db"
+      "after": "583113c4c8ec46f277f300c1eab3226e2acac080bddf1c7fa218384f34826fe7"
     },
     "docs/agent/project-state.json": {
       "before": "97dd6d0515dd9d24e9d042e8e5dc9a9c602427c1d5027aff1c054ef3c0eb06ed",
@@ -41,27 +41,27 @@
     },
     "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json": {
       "before": "2590ef8e7416a0159df2963ed1446cf6ca20991d88d51cea198d3ef67b5eb04c",
-      "after": "489591389267f87028c6be4711b19c19b99da421aadad357a528d8f8355b8380"
+      "after": "4a5885bdc3428bc61b73825576d18090cf319798ef346a3a5a83d609fd0c2b26"
     },
     "docs/operations/SERVICE_ACCESS_INVENTORY.json": {
       "before": "34d1d529ffa0d0714e46001743b3cbc910c0cfd1e374ff7903a0d86ae101cb10",
-      "after": "69a864936523ab15d3feb78dabe57524a6953efbe9d2a0cff18097a4d2397280"
+      "after": "87214c238488b64cfd64c87e7e275e18e04304b635d94b80a34567d56bc29ea2"
     },
     "docs/operations/STOREFRONT_CART_FLIGHT_AR.md": {
       "before": null,
-      "after": "60ede7ba57498e3c8649bcc0b6126c5b2944a807b5db082ee6f8ec903658ee70"
+      "after": "732e268fb0803fc7414e754d0eecf743e55a06b59882054425fe46937a329c26"
     },
     "docs/operations/STOREFRONT_CART_FLIGHT_LOCAL.json": {
       "before": null,
-      "after": "1ee114308e4c94e16787e2adf44dd860102847f14f35736850beb497a18daec9"
+      "after": "9603d59ed4652177bb23ffc097c4b934c556033bea2081506984764912d2e3cb"
     },
     "docs/operations/TABLE_ACCESS_AFTER_219.json": {
       "before": "09199a0832f3a29b5eb1ded96e073e9e3b7c2d91065f92b2b7eb7a2013912782",
-      "after": "87e36c3682257fcd7da473e3a3ceb489446d8405486481b3c35867b9ea3b5745"
+      "after": "1c477dc5566ae94c22bf563bb75ea064925ca49bd13f8ffd7b9a368e2e5fc699"
     },
     "docs/operations/TABLE_ACCESS_INVENTORY.json": {
       "before": "0944adddb07c084fad6862d98e6def1192635bbcdaea1214f4d5b03ad8ddbe58",
-      "after": "86aa122b0ea99de15e74031dbd6ab02a75bcf5c0081dbb5fb5ffe31d34c2623d"
+      "after": "3cb2a4933d58299aaa1ffe24483f452a1304aa88527ae786a5c83de234aa0593"
     },
     "package.json": {
       "before": "53b41ded20320ed21bcd9db6d4a99f7aa8420082c5570fa5d85e0f38feb9b5e1",
@@ -81,11 +81,11 @@
     },
     "scripts/testing/run-cart-flight-browser.mjs": {
       "before": null,
-      "after": "c94f55f89d4785583d64af50743b72c7607197ef1c1388c6324dcc6d7e3c1444"
+      "after": "fa81ea54893726b8801c0f071b9ea4d75301a9a0f802885fe4f9b302afdaa555"
     },
     "tests/cart-flight-contracts.test.ts": {
       "before": null,
-      "after": "caf3064e76f0348d8b4ef38a4670f28c4c6f7ea0dbf71c6129178b9bc4f06a7b"
+      "after": "09c414cd4cb407f0ac53446a68bc5cbb92bff53daae9c4f30a6a90b0b6913c4e"
     },
     "tests/product-workbook-runtime-view.test.ts": {
       "before": "d16c8bcb487c7ca2380bd35e932b63cee4764e6169b544eb070b351219423721",

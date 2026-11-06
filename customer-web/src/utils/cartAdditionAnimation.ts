@@ -3,6 +3,7 @@
 const flights = new Set<() => void>();
 const bounces = new WeakMap<Element, Animation>();
 const DURATION = 560;
+const cartIcon = (target: Element) => target.querySelector('svg') ?? target;
 
 function visible(element: Element) {
   const rect = element.getBoundingClientRect();
@@ -16,11 +17,11 @@ function cartTarget() {
   // Prefer the header. The mobile navigation is the visible fallback when
   // the header has scrolled out of view; never fly to an off-screen target.
   const targets = [...document.querySelectorAll<HTMLElement>('[data-cart-target]')];
-  return targets.find(visible) ?? targets[0];
+  return targets.find(target => visible(cartIcon(target))) ?? targets[0];
 }
 
 function bounce(target: HTMLElement) {
-  const icon = target.querySelector('svg') ?? target;
+  const icon = cartIcon(target);
   if (typeof icon.animate !== 'function') return;
   bounces.get(icon)?.cancel();
   const animation = icon.animate([
@@ -48,7 +49,7 @@ export function animateCartAddition(source?: HTMLElement) {
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const target = cartTarget();
   if (!target) return;
-  if (!visible(target) || !source?.isConnected || source.closest('[role="dialog"], [aria-modal="true"]')
+  if (!visible(cartIcon(target)) || !source?.isConnected || source.closest('[role="dialog"], [aria-modal="true"]')
       || [...document.querySelectorAll('[aria-modal="true"]')].some(dialog =>
         !dialog.closest('[inert], [aria-hidden="true"]') && visible(dialog)) || flights.size >= 3
       || typeof Element.prototype.animate !== 'function') {
@@ -59,7 +60,7 @@ export function animateCartAddition(source?: HTMLElement) {
   const image = source.querySelector('img');
   const origin = image && visible(image) ? image : source;
   if (!visible(origin)) { bounce(target); return; }
-  const from = origin.getBoundingClientRect(), to = target.getBoundingClientRect();
+  const from = origin.getBoundingClientRect(), to = cartIcon(target).getBoundingClientRect();
   const overlay = document.createElement('canvas');
   overlay.width = overlay.height = 144;
   overlay.dataset.cartFlight = '';

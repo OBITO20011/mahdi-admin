@@ -1,4 +1,4 @@
-import { Package, ShoppingCart } from 'lucide-react';
+import { ShoppingCart } from 'lucide-react';
 import type { ReactNode } from 'react';
 
 interface CargoAddButtonProps {
@@ -34,11 +34,7 @@ export function CargoAddButton({
       } ${className}`}
     >
       <span className={`flex min-w-0 items-center ${compact ? '' : 'gap-2'}`}>
-        <span className="cargo-scene relative block h-7 w-12 shrink-0" aria-hidden="true">
-          <span className="cargo-track absolute" />
-          <Package className="cargo-box-icon absolute h-4 w-4" />
-          <ShoppingCart className="cargo-cart-icon absolute h-4 w-4" />
-        </span>
+        <ShoppingCart className="h-5 w-5 shrink-0" aria-hidden="true" />
         {!compact && (
           <span className="truncate text-xs font-black">{label}</span>
         )}

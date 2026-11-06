@@ -2,100 +2,52 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": "A ",
-      "path": "customer-web/src/utils/cartAdditionAnimation.ts"
-    },
-    {
-      "code": "A ",
-      "path": "docs/operations/STOREFRONT_CART_FLIGHT_AR.md"
-    },
-    {
-      "code": "A ",
-      "path": "docs/operations/STOREFRONT_CART_FLIGHT_LOCAL.json"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/audit/cart-flight-source-pins.json"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/audit/source-before-cart-flight.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/testing/run-cart-flight-browser.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "tests/cart-flight-contracts.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": ".github/workflows/quality.yml"
-    },
-    {
-      "code": "M ",
-      "path": "customer-web/src/App.tsx"
-    },
-    {
-      "code": "M ",
+      "code": " M",
       "path": "customer-web/src/components/CargoAddButton.tsx"
     },
     {
-      "code": "M ",
-      "path": "customer-web/src/components/MobileStoreNav.tsx"
+      "code": " M",
+      "path": "customer-web/src/utils/cartAdditionAnimation.ts"
     },
     {
-      "code": "M ",
-      "path": "customer-web/src/components/ProductCard.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "customer-web/src/components/StoreHeader.tsx"
-    },
-    {
-      "code": "M ",
+      "code": " M",
       "path": "docs/agent/PHASE_STATUS.md"
     },
     {
-      "code": "M ",
-      "path": "docs/agent/project-state.json"
-    },
-    {
-      "code": "M ",
+      "code": " M",
       "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
     },
     {
-      "code": "M ",
+      "code": " M",
       "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
     },
     {
-      "code": "M ",
+      "code": " M",
+      "path": "docs/operations/STOREFRONT_CART_FLIGHT_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/STOREFRONT_CART_FLIGHT_LOCAL.json"
+    },
+    {
+      "code": " M",
       "path": "docs/operations/TABLE_ACCESS_AFTER_219.json"
     },
     {
-      "code": "M ",
+      "code": " M",
       "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
     },
     {
-      "code": "M ",
-      "path": "package.json"
+      "code": " M",
+      "path": "scripts/audit/cart-flight-source-pins.json"
     },
     {
-      "code": "M ",
-      "path": "scripts/audit/source-before-storefront-images.mjs"
+      "code": " M",
+      "path": "scripts/testing/run-cart-flight-browser.mjs"
     },
     {
-      "code": "M ",
-      "path": "scripts/testing/product-workbook-runtime-view.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "tests/product-workbook-runtime-view.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/storefront-images-history.test.ts"
+      "code": " M",
+      "path": "tests/cart-flight-contracts.test.ts"
     }
   ]
 }
