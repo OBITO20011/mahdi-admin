@@ -1,3 +1,4 @@
+import{sourceBeforeCartFlight}from'../scripts/audit/source-before-cart-flight.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFileSync} from 'node:fs';
@@ -9,7 +10,7 @@ import {parseSource} from '../scripts/audit/table-access-inventory.mjs';
 const hash=(text:string)=>createHash('sha256').update(text.replaceAll('\r\n','\n')).digest('hex');
 test('image history reproduces exact Git70 bytes and never admits an unknown source or evidence mutation',()=>{
  const p=JSON.parse(readFileSync('scripts/audit/storefront-images-source-pins.json','utf8'));assert.equal(p.baseline,'1ab2cd880547661390149a972a4794b0b5df29da');
- for(const[file,pin]of Object.entries(p.entries)as[string,{before:string|null;after:string}][]){const raw=readFileSync(file,'utf8');assert.equal(hash(raw),pin.after,file);const before=sourceBeforeStorefrontImages(file,raw);if(pin.before===null)assert.equal(before,null,file);else{const git=execFileSync('git',['show',p.baseline+':'+file],{encoding:'utf8',windowsHide:true,maxBuffer:32*1024**2});assert.equal(hash(git),pin.before,file);assert.equal(before!.replaceAll('\r\n','\n'),git.replaceAll('\r\n','\n'),file);}const unknown=raw+'\n// unknown image mutation';assert.equal(sourceBeforeStorefrontImages(file,unknown),unknown,file);}
+ for(const[file,pin]of Object.entries(p.entries)as[string,{before:string|null;after:string}][]){const raw=sourceBeforeCartFlight(file,readFileSync(file,'utf8'))!;assert.equal(hash(raw),pin.after,file);const before=sourceBeforeStorefrontImages(file,raw);if(pin.before===null)assert.equal(before,null,file);else{const git=execFileSync('git',['show',p.baseline+':'+file],{encoding:'utf8',windowsHide:true,maxBuffer:32*1024**2});assert.equal(hash(git),pin.before,file);assert.equal(before!.replaceAll('\r\n','\n'),git.replaceAll('\r\n','\n'),file);}const unknown=raw+'\n// unknown image mutation';assert.equal(sourceBeforeStorefrontImages(file,unknown),unknown,file);}
 });
 test('image query projection preserves the actual unchanged read and rejects argument or identity substitution',()=>{
  const file='src/services/supabase/product-images.service.ts',raw=readFileSync(file,'utf8'),parsed=parseSource(file,raw);const current={entries:parsed.entries,sources:[{file,sha256:hash(raw)}]};const old=execFileSync('git',['show','d1020745:'+file],{encoding:'utf8'});

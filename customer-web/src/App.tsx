@@ -99,6 +99,12 @@ const ProductDetailsModal = lazy(() => import('./components/ProductDetailsModal'
 const ParcelBuilderModal = lazy(() => import('./components/ParcelBuilderModal').then(module => ({ default: module.ParcelBuilderModal })));
 const PublicPosReceiptPage = lazy(() => import('./components/PublicPosReceiptPage').then(module => ({ default: module.PublicPosReceiptPage })));
 
+// Decoration is fetched only after the existing successful cart operation.
+// Its failure is intentionally independent of cart persistence and messages.
+const showCartAddition = (source?: HTMLElement) => {
+  void import('./utils/cartAdditionAnimation').then(module => module.animateCartAddition(source)).catch(() => {});
+};
+
 interface ToastState {
   message: string;
   type: 'success' | 'error' | 'info';
@@ -859,7 +865,8 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
 
   const addQuantityToCart = (
     product: CatalogProduct,
-    requestedQuantity = 1
+    requestedQuantity = 1,
+    source?: HTMLElement
   ) => {
     if (cartStorageRecovery) {
       setCartOpen(true);
@@ -905,13 +912,13 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
           : item
       );
     }).then(() => {
-      if (addedQuantity > 0) showToast(`تمت إضافة ${addedQuantity.toLocaleString('ar-JO')} ${storefrontSaleUnit(product)} من ${product.nameAr}.`);
+      if (addedQuantity > 0) { showToast(`تمت إضافة ${addedQuantity.toLocaleString('ar-JO')} ${storefrontSaleUnit(product)} من ${product.nameAr}.`); showCartAddition(source); }
       else showToast('وصلت السلة إلى كامل المخزون المتاح من هذا الصنف.', 'info');
     }).catch(() => showToast('تعذر حفظ الإضافة في السلة. راجع حالة السلة وحاول مجددًا.', 'error'));
   };
 
-  const addToCart = (product: CatalogProduct) => {
-    addQuantityToCart(product, 1);
+  const addToCart = (product: CatalogProduct, source?: HTMLElement) => {
+    addQuantityToCart(product, 1, source);
   };
 
   const addBaseUnitToCart = (product: CatalogProduct, requestedQuantity = 1) => {
@@ -947,7 +954,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         ? { ...item, localRevision: item.localRevision + 1, quantity: item.quantity + actualQuantity }
         : item);
     }).then(() => {
-      if (addedQuantity > 0) showToast(`تمت إضافة ${addedQuantity.toLocaleString('ar-JO')} ${storefrontUnitName(product.unitNameAr)} من ${product.nameAr}.`);
+      if (addedQuantity > 0) { showToast(`تمت إضافة ${addedQuantity.toLocaleString('ar-JO')} ${storefrontUnitName(product.unitNameAr)} من ${product.nameAr}.`); showCartAddition(); }
       else showToast('وصلت السلة إلى كامل المخزون المتاح من هذا الصنف.', 'info');
     }).catch(() => showToast('تعذر حفظ الإضافة في السلة. راجع حالة السلة وحاول مجددًا.', 'error'));
   };
@@ -993,6 +1000,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     });
     setParcelBuilder(null);
     showToast('تم حفظ الطرد بالنكهات في السلة.');
+    if (!parcelBuilder.edit) showCartAddition();
   };
 
   const editParcelInstance = (lineId: string, instance: ParcelInstanceSelection) => {
@@ -1226,12 +1234,12 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
 
   // Catalogue counters aggregate legacy parcels;the cart writer takes a line ID.
   // Resolve only an editable parcel line,never a base-unit or frozen line.
-  const updateCatalogCartQuantity = (productId: string, quantity: number) => {
+  const updateCatalogCartQuantity = (productId: string, quantity: number, source?: HTMLElement) => {
     if (cartStorageRecovery) return;
     const currentQuantity = cartQuantityByProduct.get(productId) ?? 0;
     if (quantity > currentQuantity) {
       const product = sellableProducts.find(candidate => candidate.id === productId);
-      if (product) addQuantityToCart(product, quantity - currentQuantity);
+      if (product) addQuantityToCart(product, quantity - currentQuantity, source);
       return;
     }
     if (quantity >= currentQuantity) return;
@@ -2291,7 +2299,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       <FloatingContactActions whatsappUrl={storeWhatsappUrl} />
 
       {toast && (
-        <div
+        <div role="status" aria-live="polite"
           className={`fixed bottom-5 left-1/2 z-[70] flex -translate-x-1/2 items-center gap-2 rounded-2xl px-4 py-3 text-xs font-extrabold text-white shadow-2xl ${
             toast.type === 'error'
               ? 'bg-rose-600'

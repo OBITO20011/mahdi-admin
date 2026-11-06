@@ -1,0 +1,199 @@
+{
+  "ok": true,
+  "baseline": "f098f0afaa7b54b052b18d8266f3789d67e8de76",
+  "hostedAccess": false,
+  "deployments": 0,
+  "sourceHashes": {
+    "customer-web/src/App.tsx": "205596893921593c04cf84f5ed3ebebd9bdf81a2bc2568cc10ec9bc913a7e3f0",
+    "customer-web/src/components/CargoAddButton.tsx": "c711f2301498f241cb8d40e569818aca00727838df47c6aeb8abd4da92e173ee",
+    "customer-web/src/components/ProductCard.tsx": "4c11dfdc0fcb2222e2618344073be1fcb771c1be5dcc8e0eacbd538ae9ec9a04",
+    "customer-web/src/components/StoreHeader.tsx": "da024cba1ffbd92d23e613bd863e2e6b5defd17d801e8f3273d3d298d5df639e",
+    "customer-web/src/components/MobileStoreNav.tsx": "708aa5b08f3ded75358a8f12608bece064be13c87be91ff44d365b152480cd3f",
+    "customer-web/src/utils/cartAdditionAnimation.ts": "72c15d3c762e130457bce667640f0c507872f460391d0b834d92349bc7745412",
+    "scripts/testing/run-cart-flight-browser.mjs": "c94f55f89d4785583d64af50743b72c7607197ef1c1388c6324dcc6d7e3c1444"
+  },
+  "browser": [
+    {
+      "engine": "chromium",
+      "width": 360,
+      "max": 3,
+      "adds": 104.20000004768372,
+      "firstFinished": 640.2000000476837,
+      "finalQuantity": 25
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "max": 3,
+      "adds": 86.89999997615814,
+      "firstFinished": 677.1999999284744,
+      "finalQuantity": 25
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "max": 3,
+      "adds": 87.20000004768372,
+      "firstFinished": 652.9000000953674,
+      "finalQuantity": 25
+    },
+    {
+      "engine": "webkit",
+      "width": 360,
+      "max": 3,
+      "adds": 147,
+      "firstFinished": 703,
+      "finalQuantity": 25
+    },
+    {
+      "engine": "webkit",
+      "width": 390,
+      "max": 3,
+      "adds": 437,
+      "firstFinished": 825,
+      "finalQuantity": 25
+    },
+    {
+      "engine": "webkit",
+      "width": 1440,
+      "max": 3,
+      "adds": 788,
+      "firstFinished": 904,
+      "finalQuantity": 25
+    }
+  ],
+  "budget": {
+    "before": {
+      "chunks": [
+        {
+          "file": "assets/index-y-xZL89a.js",
+          "bytes": 232954,
+          "gzip": 61203
+        },
+        {
+          "file": "assets/react-CwLxVZiS.js",
+          "bytes": 189844,
+          "gzip": 59201
+        },
+        {
+          "file": "assets/vendor-BZT6OhgI.js",
+          "bytes": 10024,
+          "gzip": 3485
+        },
+        {
+          "file": "assets/icons-tghQ8jLo.js",
+          "bytes": 38555,
+          "gzip": 8452
+        },
+        {
+          "file": "assets/supabase-Cm7hymYJ.js",
+          "bytes": 212348,
+          "gzip": 55499
+        }
+      ],
+      "initialJsBytes": 683725,
+      "initialJsGzip": 187840,
+      "cssGzip": 16841,
+      "fonts": 0,
+      "initialScriptRequests": 5
+    },
+    "after": {
+      "chunks": [
+        {
+          "file": "assets/index-BvTERuFS.js",
+          "bytes": 232552,
+          "gzip": 61199
+        },
+        {
+          "file": "assets/react-CwLxVZiS.js",
+          "bytes": 189844,
+          "gzip": 59201
+        },
+        {
+          "file": "assets/vendor-BZT6OhgI.js",
+          "bytes": 10024,
+          "gzip": 3485
+        },
+        {
+          "file": "assets/icons-tghQ8jLo.js",
+          "bytes": 38555,
+          "gzip": 8452
+        },
+        {
+          "file": "assets/supabase-Cm7hymYJ.js",
+          "bytes": 212348,
+          "gzip": 55499
+        }
+      ],
+      "initialJsBytes": 683323,
+      "initialJsGzip": 187836,
+      "cssGzip": 16952,
+      "fonts": 0,
+      "initialScriptRequests": 5
+    }
+  },
+  "escapedExternalRequests": [],
+  "current219": {
+    "ok": true,
+    "records": {
+      "table219": {
+        "infrastructureOk": true,
+        "applicationReady": true,
+        "stage": "rls-and-acl",
+        "counts": {
+          "success": 172,
+          "permission_denied": 0,
+          "zero_rows": 9,
+          "other_error": 0
+        },
+        "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-SpfzHg"
+      },
+      "service219": {
+        "ok": true,
+        "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-lOBUfr",
+        "count": 598,
+        "denied": 18
+      }
+    },
+    "service": {
+      "ok": true,
+      "probes": 598,
+      "historicalReviewObjects": 7,
+      "hostedRead": false
+    }
+  },
+  "localGates": {
+    "admin": {
+      "passedDirect": 1834,
+      "environmentalExactChild": {
+        "ok": true,
+        "status": 0,
+        "elapsedMs": 48609,
+        "timeout": 120000,
+        "maxBuffer": 2097152,
+        "sourceSha256": "420d9b17abbc8401294cc9e12172c0492a1ae43b2865e730a4f283aca9e954b5",
+        "sourceUnchanged": true,
+        "scope": "One exact child rerun only after1834otherunitspassed;priorETIMEDOUT120060ms/nooutput underparalleltestload;noCIrerun/no source/limit/skipchanges"
+      },
+      "additionalEvidenceBindingTest": "Focused verification before commit"
+    },
+    "customerUnits": 209,
+    "types": "both PASS",
+    "strictlint": true,
+    "publicBrowser": {
+      "passed": 64,
+      "unchangedConditional": 2
+    },
+    "budgetCases": 8,
+    "vitalsCases": 8,
+    "environmentBuilds": 6
+  },
+  "noSqlChanged": true,
+  "limits": [
+    "No new LCP measurement or claim;owner accepted prior speed LCP gap.",
+    "One local exact Git63 child environmental rerun,120000ms unchanged;no CI reruns.",
+    "Developer Telegram/owner channels untouched."
+  ],
+  "reviewEvidence": "C:/Users/TOP/NawasrahFrankfurt/storefront-cart-flight-20261106/browser-evidence",
+  "ci": "Required on final PR head;not yet delivered"
+}

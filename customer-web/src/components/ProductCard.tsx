@@ -20,8 +20,8 @@ interface ProductCardProps {
   cartQuantity: number;
   reservedQuantity?: number;
   isFavorite: boolean;
-  onAdd: (product: CatalogProduct) => void;
-  onQuantityChange: (productId: string, quantity: number) => void;
+  onAdd: (product: CatalogProduct, source?: HTMLElement) => void;
+  onQuantityChange: (productId: string, quantity: number, source?: HTMLElement) => void;
   onOpenDetails: (product: CatalogProduct) => void;
   onToggleFavorite: (product: CatalogProduct) => void;
 }
@@ -187,7 +187,7 @@ export function ProductCard({
               <>
               <CargoAddButton
                 compact
-                onAdd={() => onAdd(product)}
+                onAdd={(button) => onAdd(product, button.closest('article') ?? undefined)}
                 disabled={!canAdd}
                 ariaLabel={`زيادة ${product.nameAr} في السلة`}
                 className="w-full sm:hidden"
@@ -208,8 +208,8 @@ export function ProductCard({
                 </span>
                 <button
                   type="button"
-                  onClick={() =>
-                    onQuantityChange(product.id, cartQuantity + 1)
+                  onClick={(event) =>
+                    onQuantityChange(product.id, cartQuantity + 1, event.currentTarget.closest('article') ?? undefined)
                   }
                   disabled={!canAdd}
                   aria-label={`زيادة ${product.nameAr} في السلة`}
@@ -222,7 +222,7 @@ export function ProductCard({
             ) : (
               <CargoAddButton
                 compact
-                onAdd={() => onAdd(product)}
+                onAdd={(button) => onAdd(product, button.closest('article') ?? undefined)}
                 disabled={!canAdd}
                 ariaLabel={`إضافة ${product.nameAr} إلى السلة`}
                 className="w-full sm:w-14"

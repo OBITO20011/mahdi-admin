@@ -102,6 +102,15 @@ jobs:
           PRIVATE_CI_FILES: ${{ needs.scope.outputs.core_files }}
         run: node scripts/testing/run-private-ci.mjs core
 
+      - name: Upload synthetic cart flight evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: cart-flight-chromium-webkit
+          path: ${{ runner.temp }}/nawasrah-cart-flight-*/
+          retention-days: 7
+          if-no-files-found: ignore
+
       - name: Upload Playwright report on failure
         if: failure()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

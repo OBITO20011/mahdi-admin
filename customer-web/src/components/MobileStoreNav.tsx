@@ -30,7 +30,7 @@ export function MobileStoreNav({ cartPackages, cartSummary, cartTotal, whatsappU
       <nav className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 border-t border-slate-200 bg-white/95 px-2 pb-[max(.55rem,env(safe-area-inset-bottom))] pt-2 shadow-[0_-12px_35px_-25px_rgba(15,23,42,.55)] backdrop-blur-xl md:hidden" aria-label="تنقل المتجر">
         {items.map((item) => {
           const Icon = item.icon;
-          return <button type="button" key={item.label} onClick={item.action} className="relative flex flex-col items-center gap-1 text-[9px] font-black text-slate-600"><Icon className="h-5 w-5 text-blue-700" />{item.label}{item.label === 'السلة' && cartPackages > 0 && <span className="absolute -top-1 left-3 rounded-full bg-orange-500 px-1.5 text-[8px] text-white">{cartPackages}</span>}</button>;
+          return <button type="button" key={item.label} data-cart-target={item.label === 'السلة' ? 'mobile' : undefined} onClick={item.action} className="relative flex flex-col items-center gap-1 text-[9px] font-black text-slate-600"><Icon className="h-5 w-5 text-blue-700" />{item.label}{item.label === 'السلة' && cartPackages > 0 && <span className="absolute -top-1 left-3 rounded-full bg-orange-500 px-1.5 text-[8px] text-white">{cartPackages}</span>}</button>;
         })}
         <a href={whatsappUrl} target="_blank" rel="noreferrer" className="flex flex-col items-center gap-1 text-[9px] font-black text-emerald-700"><MessageCircle className="h-5 w-5" />واتساب</a>
       </nav>

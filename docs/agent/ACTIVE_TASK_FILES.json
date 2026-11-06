@@ -2,72 +2,36 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": " M",
-      "path": "docs/operations/STOREFRONT_SPEED_B_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/STOREFRONT_SPEED_B_LOCAL.json"
+      "code": "A ",
+      "path": "customer-web/src/utils/cartAdditionAnimation.ts"
     },
     {
       "code": "A ",
-      "path": "customer-web/src/components/DeferredDialog.tsx"
+      "path": "docs/operations/STOREFRONT_CART_FLIGHT_AR.md"
     },
     {
       "code": "A ",
-      "path": "customer-web/src/lib/webVitalsPrivacy.ts"
+      "path": "docs/operations/STOREFRONT_CART_FLIGHT_LOCAL.json"
     },
     {
       "code": "A ",
-      "path": "customer-web/tests/storefront-speed.test.ts"
+      "path": "scripts/audit/cart-flight-source-pins.json"
     },
     {
       "code": "A ",
-      "path": "docs/operations/STOREFRONT_SPEED_A_AR.md"
+      "path": "scripts/audit/source-before-cart-flight.mjs"
     },
     {
       "code": "A ",
-      "path": "docs/operations/STOREFRONT_SPEED_A_LOCAL.json"
+      "path": "scripts/testing/run-cart-flight-browser.mjs"
     },
     {
       "code": "A ",
-      "path": "scripts/audit/source-before-storefront-speed.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/audit/storefront-speed-source-pins.json"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/testing/run-storefront-budget-browser.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/testing/run-storefront-vitals-browser.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/testing/storefront-budget.d.mts"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/testing/storefront-budget.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "tests/storefront-budget.test.ts"
-    },
-    {
-      "code": "A ",
-      "path": "tests/storefront-cache-policy.test.ts"
-    },
-    {
-      "code": "A ",
-      "path": "tests/storefront-speed-history.test.ts"
+      "path": "tests/cart-flight-contracts.test.ts"
     },
     {
       "code": "M ",
-      "path": "customer-web/public/_headers"
+      "path": ".github/workflows/quality.yml"
     },
     {
       "code": "M ",
@@ -75,15 +39,19 @@
     },
     {
       "code": "M ",
-      "path": "customer-web/src/components/StoreHero.tsx"
+      "path": "customer-web/src/components/CargoAddButton.tsx"
     },
     {
       "code": "M ",
-      "path": "customer-web/src/lib/errorMonitoring.ts"
+      "path": "customer-web/src/components/MobileStoreNav.tsx"
     },
     {
       "code": "M ",
-      "path": "customer-web/vite.config.ts"
+      "path": "customer-web/src/components/ProductCard.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/components/StoreHeader.tsx"
     },
     {
       "code": "M ",
@@ -91,7 +59,7 @@
     },
     {
       "code": "M ",
-      "path": "docs/operations/SENTRY_OWNER_AR.md"
+      "path": "docs/agent/project-state.json"
     },
     {
       "code": "M ",
@@ -111,23 +79,11 @@
     },
     {
       "code": "M ",
-      "path": "e2e/public-apps.spec.ts"
-    },
-    {
-      "code": "M ",
       "path": "package.json"
     },
     {
       "code": "M ",
-      "path": "scripts/audit/source-before-product-scale.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/audit/source-before-product-workbook-text.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/audit/storefront-images-source-pins.json"
+      "path": "scripts/audit/source-before-storefront-images.mjs"
     },
     {
       "code": "M ",
@@ -135,39 +91,11 @@
     },
     {
       "code": "M ",
-      "path": "tests/environment-separation.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/error-monitoring.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/frankfurt-staging-csp.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/mobile-back-contracts.test.ts"
-    },
-    {
-      "code": "M ",
       "path": "tests/product-workbook-runtime-view.test.ts"
     },
     {
       "code": "M ",
-      "path": "tests/store-scroll-history.test.ts"
-    },
-    {
-      "code": "M ",
       "path": "tests/storefront-images-history.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/vite-file-access.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/workbook-integration-history.test.ts"
     }
   ]
 }
