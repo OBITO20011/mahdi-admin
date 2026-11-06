@@ -9,7 +9,7 @@
     },
     "customer-web/src/components/StoreHero.tsx": {
       "before": "8f801149669598ddb1954e7e4f3ec76541ec7147a69ceac0568b8966b2bef937",
-      "after": "2b1ac68dc3fff972aa7e7ea889b0ffa6bca38af941ce66b0f96d4cfd3448700d"
+      "after": "739ce43eeed7f7a65cdbd3dc847d78686e18d1e09515da78ba594461522cf035"
     },
     "customer-web/src/components/DeferredDialog.tsx": {
       "before": null,
@@ -105,7 +105,7 @@
     },
     "e2e/public-apps.spec.ts": {
       "before": "97861565b7d0a7455b68725846c60bc2250f6735269ece55f53c0ac0c0996a9e",
-      "after": "2b1bd856d5a1af1dbf78f9711b24aff2ad5706d265497d17cefd85cd5f1d5764"
+      "after": "371470bc83123982b0347b66981798a99502a5c9e9e7336e433aad3d7cfc5728"
     },
     "scripts/testing/product-workbook-runtime-view.mjs": {
       "before": "620c8e86aba7aa91cb033553a1528e9f96f60c2c4ed27d77c66a4fe3dcc9ed84",
@@ -114,6 +114,14 @@
     "docs/agent/PHASE_STATUS.md": {
       "before": "9b8c2a2ddcb0bf4e300efea2226ffecc155b68d2eb389dc3e91513e0da4d089c",
       "after": "59970dc93188079bac397b3a99cb732bb28a129841cf2d8a97db2adbd73a38df"
+    },
+    "customer-web/src/utils/heroMedia.ts": {
+      "before": null,
+      "after": "eee60486ed60b320ebbc04b92f163c87495c5f2b0b4258fe0fd1314530de7714"
+    },
+    "customer-web/src/components/HeroVideo.tsx": {
+      "before": null,
+      "after": "1083e728a2287739f0c586edacd2122f798e0b356fe1485a3e76793781d6e033"
     }
   }
 }

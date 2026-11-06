@@ -37,7 +37,7 @@ try{
  for(const[name,engine]of[['chromium',chromium],['webkit',webkit]]){
   browser=await engine.launch({headless:true,proxy:{server:'http://127.0.0.1:4175',bypass:'<-loopback>'}});
   for(const[pageName,route]of[['home','/'],['category','/category/speed-0/'],['product','/product/SPEED-0000/'],['cart','/products/']]){
-   const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,serviceWorkers:'block'}),page=await context.newPage(),requests=[],escaped=[];
+   const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,serviceWorkers:'block',reducedMotion:'no-preference'}),page=await context.newPage(),requests=[],escaped=[];
    let loopbackHttpsFulfilled=0;
    await context.route('**/*',async r=>{
     const request=r.request(),url=new URL(request.url());
@@ -51,6 +51,17 @@ try{
     }
     return r.continue();
    });
+   await context.addInitScript(() => {
+    if(navigator.connection)Object.defineProperty(navigator,'connection',{configurable:true,value:Object.assign(new EventTarget(),{effectiveType:'4g',saveData:false})});
+    window.heroVideoProof={mountedAt:0,playCalls:0,failures:[],modules:[]};
+    window.addEventListener('vite:preloadError',event=>window.heroVideoProof.modules.push({name:event.payload?.name}));
+    new MutationObserver(records=>{
+     if(window.heroVideoProof.mountedAt)return;
+     for(const record of records)for(const node of record.addedNodes)if(node instanceof Element&&(node.matches('video')||node.querySelector('video')))window.heroVideoProof.mountedAt=performance.now();
+    }).observe(document,{subtree:true,childList:true});
+    const nativePlay=HTMLMediaElement.prototype.play;
+    HTMLMediaElement.prototype.play=function(...args){window.heroVideoProof.playCalls++;const result=nativePlay.apply(this,args);void result?.catch(error=>window.heroVideoProof.failures.push(error.name));return result;};
+   });
    page.on('request',r=>requests.push({url:r.url(),method:r.method(),type:r.resourceType()}));
    const consoleErrors=[];page.on('pageerror',error=>consoleErrors.push(error.message));page.on('console',message=>{if(message.type()==='error')consoleErrors.push(message.text());});
    try{
@@ -60,17 +71,41 @@ try{
    else await page.getByTestId('catalog-products-grid').waitFor();
    if(pageName==='cart'){await page.getByRole('button',{name:/^فتح السلة،/u}).click();await page.getByRole('dialog').waitFor();}
    await page.waitForLoadState('networkidle');
+   let videoOutcome=null;
+   if(pageName==='home'){
+    await page.waitForFunction(()=>window.heroVideoProof.mountedAt>0&&window.heroVideoProof.playCalls>0);
+    if(name==='chromium')await page.waitForFunction(()=>document.querySelector('video')?.currentTime>0);
+    await page.waitForLoadState('networkidle');
+    videoOutcome=await page.evaluate(()=>({...window.heroVideoProof,load:performance.getEntriesByType('navigation')[0].loadEventEnd,playing:(document.querySelector('video')?.currentTime??0)>0,pending:[...document.querySelectorAll('video')].map(v=>({ready:v.readyState,opacity:getComputedStyle(v).opacity,muted:v.muted,inline:v.playsInline}))}));
+    assert.ok(videoOutcome.mountedAt>=videoOutcome.load+950,'HERO_BEFORE_POST_LOAD_DELAY');
+    if(videoOutcome.failures.length){
+     // This WebKit fixture fulfils HTTPS over plain loopback HTTP; its native
+     // media loader rejects that synthetic transport. Assert the requested
+     // quiet-poster failure path, not an unhandled error or a gesture retry.
+     assert.equal(name,'webkit');assert.ok(videoOutcome.failures.every(code=>code==='AbortError'));
+     assert.equal(await page.locator('video').count(),0);assert.equal(await page.locator('#top img[fetchpriority="high"]').count(),1);
+     assert.deepEqual(consoleErrors,[]);
+    }else if(!videoOutcome.playing){
+     // Native WebKit media may remain pending on the same synthetic HTTPS
+     // transport. The real-codec positive case remains mandatory elsewhere.
+     assert.equal(name,'webkit');assert.equal(videoOutcome.pending.length,1);
+     assert.deepEqual(videoOutcome.pending[0],{ready:0,opacity:'0',muted:true,inline:true});
+     assert.equal(await page.locator('#top img[fetchpriority="high"]').count(),1);
+     assert.deepEqual(consoleErrors,[]);
+    }
+   }
    const report=()=>({rpc:requests.filter(r=>r.method==='POST'&&r.url.includes('/rest/v1/rpc/')).length,total:requests.length,fonts:requests.filter(r=>r.type==='font').length});
    assertStorefrontRequests(pageName,report());assert.deepEqual(escaped,[]);
    const positive=report();let negative=false;
    if(pageName==='home'){
-    assert.equal(await page.locator('video').count(),0,'Decorative video must not compete with first paint');
+    // The unchanged caps now include autonomous media attempts. Native autoplay
+    // success is required separately in both real-browser public-apps tests.
     await page.evaluate(()=>fetch('http://127.0.0.1:4176/rest/v1/rpc/get_public_storefront_settings',{method:'POST',headers:{'content-type':'application/json',apikey:'isolated-performance-public-key'},body:'{}'}));
     assert.throws(()=>assertStorefrontRequests(pageName,report()),/STOREFRONT_RPC_REQUEST_BUDGET/u);negative=true;
-    await page.locator('#top').tap({position:{x:10,y:20}});await page.locator('video').waitFor();
+
    }
-   proofs.push({engine:name,page:pageName,...positive,negativeExtraRealRequestRejected:negative,loopbackHttpsFulfilled,cspUnchanged:true});
-   }catch(error){await page.screenshot({path:path.join(evidence,name+'-'+pageName+'-failure.png')});await writeFile(path.join(evidence,'failure.json'),JSON.stringify({message:error.message,consoleErrors,requests,failures,body:await page.locator('body').innerText()},null,2));console.error(JSON.stringify({failureEvidence:evidence}));throw error;}
+   proofs.push({engine:name,page:pageName,...positive,videoOutcome,negativeExtraRealRequestRejected:negative,loopbackHttpsFulfilled,cspUnchanged:true});
+   }catch(error){await page.screenshot({path:path.join(evidence,name+'-'+pageName+'-failure.png')});await writeFile(path.join(evidence,'failure.json'),JSON.stringify({message:error.message,consoleErrors,requests,failures,hero:await page.evaluate(()=>({proof:window.heroVideoProof,reduced:matchMedia('(prefers-reduced-motion: reduce)').matches,desktop:matchMedia('(min-width:768px)').matches,connection:navigator.connection?{effectiveType:navigator.connection.effectiveType,saveData:navigator.connection.saveData}:null})),body:await page.locator('body').innerText()},null,2));console.error(JSON.stringify({failureEvidence:evidence}));throw error;}
    await context.close();
   }
   await browser.close();browser=null;

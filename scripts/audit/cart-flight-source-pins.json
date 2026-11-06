@@ -33,19 +33,19 @@
     },
     "docs/agent/PHASE_STATUS.md": {
       "before": "59970dc93188079bac397b3a99cb732bb28a129841cf2d8a97db2adbd73a38df",
-      "after": "583113c4c8ec46f277f300c1eab3226e2acac080bddf1c7fa218384f34826fe7"
+      "after": "0661272e1703b14d61cc1d37d61d849c4a9c01d1c5f728470749fe7fa29c68a2"
     },
     "docs/agent/project-state.json": {
       "before": "97dd6d0515dd9d24e9d042e8e5dc9a9c602427c1d5027aff1c054ef3c0eb06ed",
-      "after": "05a1e96a609daab51208723fdf4eb30d004fa0c33f96ba0ba2dc8cba5938f832"
+      "after": "397d3237ceac0a355f6a6fc996074b4f4a64fe4cd97bc4c9d8a1ed73854e4fa9"
     },
     "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json": {
       "before": "2590ef8e7416a0159df2963ed1446cf6ca20991d88d51cea198d3ef67b5eb04c",
-      "after": "4a5885bdc3428bc61b73825576d18090cf319798ef346a3a5a83d609fd0c2b26"
+      "after": "dcd4dd2e0791dc417cb8d1b8d0f50c4854e716d7892266a674572daf1c36b4ce"
     },
     "docs/operations/SERVICE_ACCESS_INVENTORY.json": {
       "before": "34d1d529ffa0d0714e46001743b3cbc910c0cfd1e374ff7903a0d86ae101cb10",
-      "after": "87214c238488b64cfd64c87e7e275e18e04304b635d94b80a34567d56bc29ea2"
+      "after": "d6788ab4ed111d055fcb5e042741299c39a7eb229fbb1ee1ef8fef3e400d18a9"
     },
     "docs/operations/STOREFRONT_CART_FLIGHT_AR.md": {
       "before": null,
@@ -57,11 +57,11 @@
     },
     "docs/operations/TABLE_ACCESS_AFTER_219.json": {
       "before": "09199a0832f3a29b5eb1ded96e073e9e3b7c2d91065f92b2b7eb7a2013912782",
-      "after": "1c477dc5566ae94c22bf563bb75ea064925ca49bd13f8ffd7b9a368e2e5fc699"
+      "after": "f135a81bf1e014acf2a3d15fba4ca6106b7e5628e3b61852abde378adf5f335a"
     },
     "docs/operations/TABLE_ACCESS_INVENTORY.json": {
       "before": "0944adddb07c084fad6862d98e6def1192635bbcdaea1214f4d5b03ad8ddbe58",
-      "after": "3cb2a4933d58299aaa1ffe24483f452a1304aa88527ae786a5c83de234aa0593"
+      "after": "8d43106596185baf4ac02d452fce16f79f3e0356cededcdc1939712db06e1f9e"
     },
     "package.json": {
       "before": "53b41ded20320ed21bcd9db6d4a99f7aa8420082c5570fa5d85e0f38feb9b5e1",
@@ -77,7 +77,7 @@
     },
     "scripts/testing/product-workbook-runtime-view.mjs": {
       "before": "b7d550b2d549acb98eccf5429ad0e8443140cd7c44431f5e238f1f0fad91ce75",
-      "after": "e8a913633a45069675fcfd44a068302c31355f4bef59bee0b6f3e9165ea86f1a"
+      "after": "7e28c9ce3bf7acfa15e3b60b3eed6dfa9ef92b2d31ae7e1f2b77b8ff5f85299b"
     },
     "scripts/testing/run-cart-flight-browser.mjs": {
       "before": null,
