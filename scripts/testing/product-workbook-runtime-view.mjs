@@ -12,8 +12,9 @@ export async function cleanupWorkbookRuntimeView(dir){
 const runtimeLayers = Object.freeze({
  'storefront-speed-source-pins.json': ['customer-web/src/App.tsx','customer-web/src/components/StoreHero.tsx','customer-web/src/components/DeferredDialog.tsx','customer-web/src/lib/errorMonitoring.ts','customer-web/src/lib/webVitalsPrivacy.ts'],
  'storefront-images-source-pins.json': ['customer-web/src/App.tsx','customer-web/src/components/CategoryShowcase.tsx','customer-web/src/components/HomeCategoryMosaic.tsx','customer-web/src/components/ProductCard.tsx','customer-web/src/components/ProductDetailsModal.tsx','customer-web/src/components/ProductImage.tsx','customer-web/src/utils/productThumbnail.ts','src/services/supabase/product-images.service.ts','src/utils/productImageThumbnail.ts'],
+ 'cart-flight-source-pins.json': ['customer-web/src/App.tsx','customer-web/src/components/CargoAddButton.tsx','customer-web/src/components/ProductCard.tsx','customer-web/src/components/StoreHeader.tsx','customer-web/src/components/MobileStoreNav.tsx','customer-web/src/utils/cartAdditionAnimation.ts'],
 });
-const layerBaselines=Object.freeze({'storefront-speed-source-pins.json':'d102074583c7369502954eaf8ea70d2595f6a19c','storefront-images-source-pins.json':'1ab2cd880547661390149a972a4794b0b5df29da'});
+const layerBaselines=Object.freeze({'cart-flight-source-pins.json':'f098f0afaa7b54b052b18d8266f3789d67e8de76','storefront-speed-source-pins.json':'d102074583c7369502954eaf8ea70d2595f6a19c','storefront-images-source-pins.json':'1ab2cd880547661390149a972a4794b0b5df29da'});
 function historicalText(sha,file){try{return git(['show',sha+':'+file]).toString('utf8').replaceAll('\r\n','\n');}catch{return null;}}
 function validateRuntimeLayer(name,layer){assert.ok(Object.hasOwn(runtimeLayers,name),'HISTORICAL_RUNTIME_UNKNOWN_LAYER');assert.equal(layer.baseline,layerBaselines[name],'HISTORICAL_RUNTIME_LAYER_BASELINE');assert.equal(layer.format,1,'HISTORICAL_RUNTIME_LAYER_FORMAT');}
 export function composeWorkbookRuntimeLayer(pins,name,layer,lookup=historicalText){

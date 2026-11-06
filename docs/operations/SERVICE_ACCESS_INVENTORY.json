@@ -1205,7 +1205,7 @@
     },
     {
       "file": "customer-web/src/App.tsx",
-      "sha256": "0fce44df50185805a2834d2eb7832b33280458e7721466b4f8dce6ae3c414844"
+      "sha256": "205596893921593c04cf84f5ed3ebebd9bdf81a2bc2568cc10ec9bc913a7e3f0"
     },
     {
       "file": "customer-web/src/components/AboutStorePage.tsx",
@@ -1213,7 +1213,7 @@
     },
     {
       "file": "customer-web/src/components/CargoAddButton.tsx",
-      "sha256": "c5e7e287e970394097c678ea67347aa5086c06833b15083dbd5015ca8f36d94e"
+      "sha256": "5fdb9851f76905d42ccd97cdcf62905d1ce9db379d98d1f5e14778683ba0fa91"
     },
     {
       "file": "customer-web/src/components/CartDrawer.tsx",
@@ -1265,7 +1265,7 @@
     },
     {
       "file": "customer-web/src/components/MobileStoreNav.tsx",
-      "sha256": "cb777e2d450eaeb894caacf8fce5100b29e83366fa8d66fbe871bf44bc0d45f2"
+      "sha256": "708aa5b08f3ded75358a8f12608bece064be13c87be91ff44d365b152480cd3f"
     },
     {
       "file": "customer-web/src/components/NetworkStatusBanner.tsx",
@@ -1297,7 +1297,7 @@
     },
     {
       "file": "customer-web/src/components/ProductCard.tsx",
-      "sha256": "fc120b66588db4c93285db419499bee1a7838545f5f586619cf8702a39385200"
+      "sha256": "4c11dfdc0fcb2222e2618344073be1fcb771c1be5dcc8e0eacbd538ae9ec9a04"
     },
     {
       "file": "customer-web/src/components/ProductDetailsModal.tsx",
@@ -1329,7 +1329,7 @@
     },
     {
       "file": "customer-web/src/components/StoreHeader.tsx",
-      "sha256": "bb828e0152fc27e25a46599acec329377d792c556e4b3740a591e197a3d2946c"
+      "sha256": "da024cba1ffbd92d23e613bd863e2e6b5defd17d801e8f3273d3d298d5df639e"
     },
     {
       "file": "customer-web/src/components/StoreHero.tsx",
@@ -1462,6 +1462,10 @@
     {
       "file": "customer-web/src/utils/cart.ts",
       "sha256": "aefe240ac7843d1091893a98ff4d7003b6484118714e7656d770fd47729de6e3"
+    },
+    {
+      "file": "customer-web/src/utils/cartAdditionAnimation.ts",
+      "sha256": "4456486bc983fd9fbbce6f163cc817ca3798e66dd96d4166b6891049381c5785"
     },
     {
       "file": "customer-web/src/utils/catalogView.ts",

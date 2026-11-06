@@ -1,0 +1,249 @@
+{
+  "ok": true,
+  "baseline": "f098f0afaa7b54b052b18d8266f3789d67e8de76",
+  "hostedAccess": false,
+  "deployments": 0,
+  "sourceHashes": {
+    "customer-web/src/App.tsx": "205596893921593c04cf84f5ed3ebebd9bdf81a2bc2568cc10ec9bc913a7e3f0",
+    "customer-web/src/components/CargoAddButton.tsx": "5fdb9851f76905d42ccd97cdcf62905d1ce9db379d98d1f5e14778683ba0fa91",
+    "customer-web/src/components/ProductCard.tsx": "4c11dfdc0fcb2222e2618344073be1fcb771c1be5dcc8e0eacbd538ae9ec9a04",
+    "customer-web/src/components/StoreHeader.tsx": "da024cba1ffbd92d23e613bd863e2e6b5defd17d801e8f3273d3d298d5df639e",
+    "customer-web/src/components/MobileStoreNav.tsx": "708aa5b08f3ded75358a8f12608bece064be13c87be91ff44d365b152480cd3f",
+    "customer-web/src/utils/cartAdditionAnimation.ts": "4456486bc983fd9fbbce6f163cc817ca3798e66dd96d4166b6891049381c5785",
+    "scripts/testing/run-cart-flight-browser.mjs": "fa81ea54893726b8801c0f071b9ea4d75301a9a0f802885fe4f9b302afdaa555"
+  },
+  "browser": [
+    {
+      "engine": "chromium",
+      "width": 360,
+      "height": 900,
+      "max": 3,
+      "endpointMaxErrorPx": 0,
+      "adds": 241.5,
+      "firstVisualEndMs": 670,
+      "nativeCompletions": 3,
+      "cleanupCancellations": 0,
+      "finalQuantity": 26,
+      "hiddenTarget": true
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "height": 900,
+      "max": 3,
+      "endpointMaxErrorPx": 0.00008838834766632552,
+      "adds": 120.59999990463257,
+      "firstVisualEndMs": 688.5999999046326,
+      "nativeCompletions": 3,
+      "cleanupCancellations": 0,
+      "finalQuantity": 26,
+      "hiddenTarget": true
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "height": 1200,
+      "max": 3,
+      "endpointMaxErrorPx": 0,
+      "adds": 94.79999995231628,
+      "firstVisualEndMs": 750,
+      "nativeCompletions": 0,
+      "cleanupCancellations": 3,
+      "finalQuantity": 26,
+      "hiddenTarget": true
+    },
+    {
+      "engine": "webkit",
+      "width": 360,
+      "height": 900,
+      "max": 3,
+      "endpointMaxErrorPx": 0,
+      "adds": 297,
+      "firstVisualEndMs": 720,
+      "nativeCompletions": 3,
+      "cleanupCancellations": 0,
+      "finalQuantity": 26,
+      "hiddenTarget": true
+    },
+    {
+      "engine": "webkit",
+      "width": 390,
+      "height": 900,
+      "max": 3,
+      "endpointMaxErrorPx": 7.071067392069087e-7,
+      "adds": 478,
+      "firstVisualEndMs": 959,
+      "nativeCompletions": 3,
+      "cleanupCancellations": 0,
+      "finalQuantity": 26,
+      "hiddenTarget": true
+    },
+    {
+      "engine": "webkit",
+      "width": 1440,
+      "height": 1200,
+      "max": 3,
+      "endpointMaxErrorPx": 0,
+      "adds": 529,
+      "firstVisualEndMs": 1150,
+      "nativeCompletions": 3,
+      "cleanupCancellations": 0,
+      "finalQuantity": 26,
+      "hiddenTarget": true
+    }
+  ],
+  "budget": {
+    "before": {
+      "chunks": [
+        {
+          "file": "assets/index-y-xZL89a.js",
+          "bytes": 232954,
+          "gzip": 61203
+        },
+        {
+          "file": "assets/react-CwLxVZiS.js",
+          "bytes": 189844,
+          "gzip": 59201
+        },
+        {
+          "file": "assets/vendor-BZT6OhgI.js",
+          "bytes": 10024,
+          "gzip": 3485
+        },
+        {
+          "file": "assets/icons-tghQ8jLo.js",
+          "bytes": 38555,
+          "gzip": 8452
+        },
+        {
+          "file": "assets/supabase-Cm7hymYJ.js",
+          "bytes": 212348,
+          "gzip": 55499
+        }
+      ],
+      "initialJsBytes": 683725,
+      "initialJsGzip": 187840,
+      "cssGzip": 16841,
+      "fonts": 0,
+      "initialScriptRequests": 5
+    },
+    "after": {
+      "chunks": [
+        {
+          "file": "assets/index-RrDVew_s.js",
+          "bytes": 232337,
+          "gzip": 61141
+        },
+        {
+          "file": "assets/react-CwLxVZiS.js",
+          "bytes": 189844,
+          "gzip": 59201
+        },
+        {
+          "file": "assets/vendor-BZT6OhgI.js",
+          "bytes": 10024,
+          "gzip": 3485
+        },
+        {
+          "file": "assets/icons-CHPMS1pa.js",
+          "bytes": 38054,
+          "gzip": 8391
+        },
+        {
+          "file": "assets/supabase-Cm7hymYJ.js",
+          "bytes": 212348,
+          "gzip": 55499
+        }
+      ],
+      "initialJsBytes": 682607,
+      "initialJsGzip": 187717,
+      "cssGzip": 16952,
+      "fonts": 0,
+      "initialScriptRequests": 5
+    }
+  },
+  "escapedExternalRequests": [],
+  "current219": {
+    "ok": true,
+    "records": {
+      "table219": {
+        "infrastructureOk": true,
+        "applicationReady": true,
+        "stage": "rls-and-acl",
+        "counts": {
+          "success": 172,
+          "permission_denied": 0,
+          "zero_rows": 9,
+          "other_error": 0
+        },
+        "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-TG2RdY"
+      },
+      "service219": {
+        "ok": true,
+        "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-zjVcFV",
+        "count": 598,
+        "denied": 18
+      }
+    },
+    "service": {
+      "ok": true,
+      "probes": 598,
+      "historicalReviewObjects": 7,
+      "hostedRead": false
+    }
+  },
+  "localGates": {
+    "admin": {
+      "passedDirect": 1834,
+      "environmentalExactChild": {
+        "ok": true,
+        "status": 0,
+        "elapsedMs": 48609,
+        "timeout": 120000,
+        "maxBuffer": 2097152,
+        "sourceSha256": "420d9b17abbc8401294cc9e12172c0492a1ae43b2865e730a4f283aca9e954b5",
+        "sourceUnchanged": true,
+        "scope": "One exact child rerun only after1834otherunitspassed;priorETIMEDOUT120060ms/nooutput underparalleltestload;noCIrerun/no source/limit/skipchanges"
+      },
+      "additionalEvidenceBindingTest": "Focused verification before commit",
+      "coverage": "Full prior same-PR revision before decorative SVG alignment and harness refinements;business functions unchanged;final-head CI remains mandatory."
+    },
+    "customerUnits": 209,
+    "types": "both PASS",
+    "strictlint": true,
+    "publicBrowser": {
+      "passed": 64,
+      "unchangedConditional": 2
+    },
+    "budgetCases": 8,
+    "vitalsCases": 8,
+    "environmentBuilds": 6
+  },
+  "noSqlChanged": true,
+  "limits": [
+    "No new LCP measurement or claim;owner accepted prior speed LCP gap.",
+    "One local exact Git63 child environmental rerun,120000ms unchanged;no CI reruns.",
+    "Developer Telegram/owner channels untouched.",
+    "Terminal proof counts both native completion and fail-safe cancellation;requires3finite events,no empty-arrayInfinity pass.",
+    "The race emits one accepted and one rejected cart outcome;existing shared toast ordering/autodismiss remains unchanged,only fixed outcome codes are observed."
+  ],
+  "reviewEvidence": "C:/Users/TOP/NawasrahFrankfurt/storefront-cart-flight-20261106/browser-evidence-terminal",
+  "ci": "Required on final PR head;not yet delivered",
+  "geometryRegression": {
+    "expectedFailure": true,
+    "error": "Flight must land at the actual SVG icon centre, not the surrounding button",
+    "originalErrorsPx": [
+      14.00000217982684,
+      14.00000217982684,
+      14.00000217982684
+    ],
+    "limitPx": 1,
+    "noLimitsChanged": true,
+    "head": "37e7276c04cd6cf13737e2ec6d9a602c2fdbe0d6"
+  },
+  "fixture": {
+    "type": "Deterministic64x64 RGBA PNG,computedCRC32/deflate",
+    "defaultCIPathSixCasesPassed": true,
+    "reviewWebPGeometrySixCasesPassed": true
+  }
+}
