@@ -1,43 +1,43 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner7Nov approved fixed pg_net raw sequence state capture and Docker-only replay;separate PR/fullCI,no merge before Claude;no RESET guard or comparator change.",
-  "baselineSha": "01d4b036136304876da1be8b701cff9e342e3b4d",
-  "branch": "codex/restore219-pg-net-sequence-state",
+  "objective": "Owner7Nov documentation risk acceptance PR/FULLCI/merge;H1phone confirmation,R2not applicable no employees/no future reminder,R3monitor,R4low. No219SQL or hosted/deploy;58/79Draft.",
+  "baselineSha": "d0cbf421fedb613c52b48483ba6a9aa44b087adc",
+  "branch": "codex/security-risk-acceptance",
   "phase": "PACKAGE_F",
   "completed": [
-    "Approved76,75,77 merged in order;all exact-headFULL64/mainFULL63 and byte-preserving primaryFF/preflight verified.",
-    "Actual encrypted/strict214–219 compatibility,emptyStorage,17integrity and4raw-state cases/6negative cases/repeatedRestore pass.",
-    "Legacy synthetic used3 -> strictRestore -> new encrypted raw3,true backup -> strictRestore pass;owned containers cleaned.",
-    "44focused;final23history/state;types/strictlint pass. Source/comparator/RESET11protected pins unchanged."
+    "Known-own78/main d0cbf421 FULL63 delivered;old merged task metadata replaced only in this new authorized worktree.",
+    "Decision/card/guide historical reminders synchronized;no executable/SQL change.",
+    "Focused docs10PASS;print2A4 pages heights1012.53/1030.39px under1046.93px;before inverse bytes preserved;preflightPASS."
   ],
   "inProgress": [
-    "Final review,Gitleaks,commit/push,independentPR/FULLCI;NO merge before Claude."
+    "Documentation-only decision and matching cutover warning;focused checks/print/FULLCI then approved merge."
   ],
-  "notStarted": [],
+  "notStarted": [
+    "After documentation merge:H1draft79,then220tools Draft over79."
+  ],
   "testsPassed": [
-    "Actual214–219 andstate4+negative6,replay,protectionChain",
-    "44focused,23finalhistory/state,types,strictlint"
+    "Focused documentation10,print2pages,no runtime diff,branch-only state+after-only doc pins."
   ],
   "testsRemaining": [
-    "FULL final exact-headCI."
+    "Exact feature FULL64;then authorized docs merge and mainFULL63/safe primary FF."
   ],
   "findings": [
-    "Old null/missing/unsafe-value evidence fails closed;positive safe legacy evidence proved.",
-    "One local120s frozen-view timeout under full parallel units;unchanged exact suite passed62.3s then final58.3s;no retry/timeout policy changed."
+    "Owner explicitly accepts H1 before public opening;not a repair;R2supersedes pre-hiring reminders."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hosted/Frankfurt/deploy;no migrations or financial/permission changes;do not merge repair;58Draft;no owner/env/reference edits."
+    "No219SQL/production behavior change/hosted access/deploy.",
+    "No merge58/79 or tools220;no owner/env/reference changes."
   ],
-  "nextExactAction": "All merges/main63/primary owner preservation complete. pg_net repair local actual214–219+chain+44focused+23history pass. Final staged Gitleaks,commit,push,separatePR/FULLCI;no merge;then220Draft per owner.",
+  "nextExactAction": "Commit/push docs-only risk decision;FULL64 then merge if allgreen;mainFULL63/safe primaryFF;then H1Draft79.",
+  "checkpointedAt": "2026-11-07T15:58:53.259Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "C97FA50B12CBB3D51903768934DED762798B9251FAD9CDDF5D179B0F470D7F80",
-  "checkpointedAt": "2026-11-07T08:41:44.788Z",
-  "filesTouchedCount": 16,
-  "filesTouchedManifestSha256": "fee83b176a48b8c8500f7fff8be06e0f1934ea11a708d541948a5cd40939411c"
+  "filesTouchedCount": 9,
+  "filesTouchedManifestSha256": "cd155ae385b40a405b71047dea7f11eccda58b928b3d4aef01b783e03e2b5deb",
+  "workingTreeFingerprint": "A9DDF2B35F1566625BEB16E4E4E0DAFEE93A0053F46636679F79A62AEAE5F98D"
 }

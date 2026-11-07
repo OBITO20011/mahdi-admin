@@ -3,7 +3,11 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
+      "path": "docs/agent/HANDOVER_FIXES_Z_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/agent/OWNER_DECISIONS.md"
     },
     {
       "code": " M",
@@ -11,59 +15,27 @@
     },
     {
       "code": " M",
-      "path": "scripts/audit/cart-flight-source-pins.json"
+      "path": "docs/handover/ورقة-يوم-التشغيل.html"
     },
     {
       "code": " M",
-      "path": "scripts/audit/source-before-empty-storage-restore.mjs"
+      "path": "docs/handover/ورقة-يوم-التشغيل.md"
     },
     {
       "code": " M",
-      "path": "scripts/backup/complete-backup.mjs"
+      "path": "docs/MAINTAINER_GUIDE_AR.md"
     },
     {
       "code": " M",
-      "path": "scripts/backup/postgres-diagnostic.mjs"
+      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
     },
     {
       "code": " M",
-      "path": "scripts/testing/run-dual-backup-runtime.mjs"
+      "path": "scripts/audit/home-performance219-source-pins.json"
     },
     {
       "code": " M",
-      "path": "tests/record-order-source-contracts.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/workbook-integration-history.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "docs/agent/PG_NET_SEQUENCE_RESTORE_LOCAL.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/PG_NET_SEQUENCE_RESTORE_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/source-before-pg-net-sequence-state.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/backup/pg-net-sequence-state.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/fixtures/pg-net-state-protected-sources.json"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/pg-net-sequence-runtime.mjs"
-    },
-    {
-      "code": "??",
-      "path": "tests/pg-net-sequence-state.test.ts"
+      "path": "scripts/testing/rehearsal219-legacy-view.json"
     }
   ]
 }
