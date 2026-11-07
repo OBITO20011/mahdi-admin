@@ -55,6 +55,8 @@ export async function prepareWorkbookRuntimeView({owner219Only=false}={}){
    const raw=await readFile(path.join(root,file),'utf8'),before=sourceBeforeOwnerTools220(file,raw);assert.notEqual(before,raw,'HISTORICAL_VIEW_OWNER220_UNKNOWN_BYTES:'+file);
    const target=path.join(dir,file);if(before===null)await unlink(target);else await writeFile(target,before);
   }
+  // Historical metadata must describe the same219 branch as its projected state.
+  for(const file of ['docs/agent/ACTIVE_TASK.json','docs/agent/ACTIVE_TASK_FILES.json'])await writeFile(path.join(dir,file),git(['show',ownerTools220Pins.baseline+':'+file]));
   if(!owner219Only){
   const pins=JSON.parse(await readFile(path.join(root,'scripts/audit/product-workbook-source-pins.json'),'utf8'));assert.equal(pins.baseline,baseline);
   // Compose only exact, new presentation bytes into the existing Git63 view.

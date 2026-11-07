@@ -16,7 +16,7 @@ import {read220BackupEvidence,assert220ProtectionComplete} from '../operations/u
 import {readOnlyPsqlSessionArgs} from '../operations/frankfurt-catalog-verification.mjs';
 const root=path.resolve(import.meta.dirname,'../..'),exec=promisify(execFile),cli=path.join(root,'node_modules/supabase/dist/supabase.js');
 const project='nawasrah-owner-upgrade220-test',container='supabase_db_'+project,executor=executorFor(['--container',container]);
-const output=await mkdtemp(path.join(tmpdir(),'nawasrah-owner-upgrade220-')),report={output,hostedAccess:false,ok:false,timings:{}};
+const output=await mkdtemp(path.join(process.env.RUNNER_TEMP??tmpdir(),'nawasrah-owner-upgrade220-')),report={output,hostedAccess:false,ok:false,timings:{}};
 let local,stage='reference',containerId;
 const sql=async(input,ex=executor)=>{const r=await executeInput(ex,input);assert.equal(r.code,0,'LOCAL_OWNER220_SQL_FAILED:'+r.stderr.slice(-400));return r.stdout.trim();};
 const owned=async()=>{assert.ok(containerId);const value=JSON.parse((await exec('docker',['inspect',container],{windowsHide:true})).stdout)[0];assert.equal(value.Id,containerId,'OWNER220_OWNED_SOURCE_REQUIRED');};

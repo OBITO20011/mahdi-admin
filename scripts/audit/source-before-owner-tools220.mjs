@@ -15,4 +15,5 @@ export function sourceBeforeOwnerTools220(file,text){
 }
 
 export function restoreOwnerTools220Hashes(rows){return rows.flatMap(row=>{const p=ownerTools220Pins.entries[row.file];return !p||p.after!==row.sha256?[row]:p.before===null?[]:[{...row,sha256:p.before}];});}
+/** @param {string[]} files @param {string|undefined} [reference] @returns {string[]} */
 export function pathsBeforeOwnerTools220(files,reference){return files.filter(file=>{const pin=ownerTools220Pins.entries[file];if(!pin)return true;const raw=readFileSync(new URL('../../'+file,import.meta.url),'utf8'),before=sourceBeforeOwnerTools220(file,raw);if(before===null)return false;if(before===raw||!reference)return true;try{return hash(execFileSync('git',['show',reference+':'+file],{cwd:root,encoding:'utf8',windowsHide:true,stdio:['ignore','pipe','pipe'],maxBuffer:32*1024**2}))!==hash(before);}catch{return true;}});}

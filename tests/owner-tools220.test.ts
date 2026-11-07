@@ -9,7 +9,7 @@ import {upgrade220Arguments,assert220History,run220} from '../scripts/operations
 import {reset220Arguments} from '../scripts/operations/frankfurt-owner-reset220.mjs';
 import {reset220CronStatements,guardedReset220CronUnits,assertReset220CronIdentity} from '../scripts/operations/reset220-pg-cron-guard.mjs';
 import {migrationManifest} from '../scripts/testing/maintenance-db-contract.mjs';
-import {ownerTools220Pins,sourceBeforeOwnerTools220,restoreOwnerTools220Hashes} from '../scripts/audit/source-before-owner-tools220.mjs';
+import {ownerTools220Pins,sourceBeforeOwnerTools220,restoreOwnerTools220Hashes,pathsBeforeOwnerTools220} from '../scripts/audit/source-before-owner-tools220.mjs';
 const read=(f:string)=>readFileSync(f,'utf8').replaceAll('\r\n','\n');
 const digest=(s:string|Buffer)=>createHash('sha256').update(s).digest('hex');
 const base='7bf949b3bfe88bcacbc527184930ed6f9291481c';
@@ -27,6 +27,25 @@ test('220 historical adapter binds every reviewed byte to Git79 and exposes all 
   assert.deepEqual(restoreOwnerTools220Hashes([{file,sha256:'unreviewed'}]),[{file,sha256:'unreviewed'}]);
  }
  assert.equal(sourceBeforeOwnerTools220('unreviewed/file','raw'),'raw');
+ assert.deepEqual(pathsBeforeOwnerTools220(['supabase/unreviewed.sql']),['supabase/unreviewed.sql']);
+ assert.deepEqual(pathsBeforeOwnerTools220(['supabase/migrations/'+owner220MigrationName]),[]);
+});
+
+test('220 safe summaries use the exact CI artifact root and remain mandatory,without raw backup or snapshot uploads',()=>{
+ const workflow=read('.github/workflows/quality.yml');
+ const block=workflow.slice(workflow.indexOf('- name: Retain allowlisted owner220 synthetic summaries'));
+ assert.ok(block.startsWith('- name: Retain allowlisted owner220 synthetic summaries'));
+ const artifact=block.split('\n      - name:')[0];
+ for(const[runner,prefix,summary]of [
+  ['run-owner-upgrade220-runtime.mjs','nawasrah-owner-upgrade220-','summary.json'],
+  ['run-reset220-resume-runtime.mjs','nawasrah-reset220-resume-','summary220.json'],
+ ]){
+  const source=read('scripts/testing/'+runner);
+  assert.ok(source.includes("await mkdtemp(path.join(process.env.RUNNER_TEMP??tmpdir(),'"+prefix+"'))"));
+  assert.ok(artifact.includes('${{ runner.temp }}/'+prefix+'*/'+summary));
+ }
+ assert.match(artifact,/if-no-files-found: error/u);assert.match(artifact,/retention-days: 7/u);
+ assert.doesNotMatch(artifact,/report\.json|\.nwb|snapshot|\.dump|\*\*\//u);
 });
 
 test('owner219 entrypoints/connection guards/cron guard stay byte-identical;001–219 remain immutable and218 reserved',async()=>{

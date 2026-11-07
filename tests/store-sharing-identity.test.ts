@@ -1,3 +1,4 @@
+import{pathsBeforeOwnerTools220}from'../scripts/audit/source-before-owner-tools220.mjs';
 import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
@@ -35,5 +36,5 @@ test('exact identity adapter preserves every prior source byte and rejects extra
   const source=readFileSync(file,'utf8');assert.equal(historicalProductWorkbookSource(sourceBeforeStoreIdentity,file,source),before,file);
   if(file.startsWith('src/')||file.startsWith('customer-web/'))assert.throws(()=>historicalProductWorkbookSource(sourceBeforeStoreIdentity,file,source+'\nvoid unapproved;'),/HANDOVER214_UNREVIEWED_SOURCE:STORE_IDENTITY/u);
  }
- assert.deepEqual(pathsBeforeAftercare215(execFileSync('git',['diff','--name-only','f95ff0458f90298edc21e39859d3268c7f7ccac7','--','supabase','scripts/audit/*-hunks.json','scripts/audit/*-inverse.json'],{encoding:'utf8'}).trim().split('\n').filter(Boolean)),[]);
+ assert.deepEqual(pathsBeforeOwnerTools220(pathsBeforeAftercare215(execFileSync('git',['diff','--name-only','f95ff0458f90298edc21e39859d3268c7f7ccac7','--','supabase','scripts/audit/*-hunks.json','scripts/audit/*-inverse.json'],{encoding:'utf8'}).trim().split('\n').filter(Boolean))),[]);
 });

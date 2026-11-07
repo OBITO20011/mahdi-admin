@@ -24,7 +24,7 @@ import {localTotp} from './local-totp.mjs';
 import {frankfurtPgNetFixture} from './frankfurt-pg-net-fixture.mjs';
 import {pgNetIdentitySql,provePgNetRunnable219} from './reset219-dependency-probe.mjs';
 const exec=promisify(execFile),root=path.resolve(import.meta.dirname,'../..'),cli=path.join(root,'node_modules/supabase/dist/supabase.js');
-const output=await mkdtemp(path.join(tmpdir(),'nawasrah-reset220-resume-')),project='nawasrah-reset220-resume-test',executor=persistentLocalExecutor(executorFor(['--container','supabase_db_'+project]));
+const output=await mkdtemp(path.join(process.env.RUNNER_TEMP??tmpdir(),'nawasrah-reset220-resume-')),project='nawasrah-reset220-resume-test',executor=persistentLocalExecutor(executorFor(['--container','supabase_db_'+project]));
 const report={output,managedAccess:false,startedAt:new Date().toISOString(),cases:[]};let local,stage='bootstrap';
 const sql=async(input,ex=executor)=>{const r=await executeInput(ex,input);assert.equal(r.code,0,'LOCAL_RESET220B_SQL_FAILED:'+r.stderr.slice(-350));return r.stdout.trim();};
 const json=async s=>JSON.parse(await sql(s));
