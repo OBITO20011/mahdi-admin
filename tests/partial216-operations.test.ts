@@ -24,7 +24,7 @@ test('216 admission rejects exposed private payment evidence and altered public 
 
 test('216 required CI retains earlier jobs and includes actual browser DB and full operational rehearsals',()=>{
  const workflow=readFileSync('.github/workflows/quality.yml','utf8'),gate=readFileSync('scripts/testing/run-partial216-gates.mjs','utf8');
- assert.match(workflow,/aftercare215, partial216, owner-telegram217, owner-telegram217-operations, home-performance219, home219-operations, product-workbook, posthandover220-draft\]/);assert.match(workflow,/run-partial216-gates\.mjs/);assert.match(workflow,/node --import tsx scripts\/testing\/run-product-template-existing-rpcs\.mjs/u);
+ assert.match(workflow,/aftercare215, partial216, owner-telegram217, owner-telegram217-operations, home-performance219, home219-operations, product-workbook, posthandover220-draft, owner-tools220\]/);assert.match(workflow,/run-partial216-gates\.mjs/);assert.match(workflow,/node --import tsx scripts\/testing\/run-product-template-existing-rpcs\.mjs/u);
  for(const runner of['run-partial216-runtime','run-partial216-fullstack','run-table-access-diagnostic','run-service-access-diagnostic','build-acl-reference216','run-partial-upgrade216-runtime','run-reset216-resume-runtime','run-reset216-cli-contract'])assert.ok(gate.includes(runner),runner);
  const backup=readFileSync('scripts/testing/run-dual-backup-runtime.mjs','utf8');for(const literal of['historyCeiling,214','historyCeiling,215','historyCeiling,216','restore216.ok,true','old215AfterUpdate.ok,true'])assert.ok(backup.includes(literal),literal);
 });

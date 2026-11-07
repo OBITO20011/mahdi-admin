@@ -1,3 +1,4 @@
+import{sourceBeforeOwnerTools220}from'../scripts/audit/source-before-owner-tools220.mjs';
 import {sourceBeforePgNetSequenceState} from '../scripts/audit/source-before-pg-net-sequence-state.mjs';
 import{sourceBeforeStorefrontSpeed}from'../scripts/audit/source-before-storefront-speed.mjs';
 import assert from 'node:assert/strict';
@@ -24,6 +25,6 @@ test('owner RESET/build helpers retain main66 bytes;approved pg_net diagnostics 
   const approved=execFileSync('git',['show','a4fc9dd43c75fab544df4480b5182776f2e35ef5:'+file],{windowsHide:true,maxBuffer:32*1024**2});
   // Approved pg_net repair adds only a fixed diagnostic category/stage.
   // Exact inverse proves old bytes;all other owner helpers remain raw byte-equal.
-  const raw=readFileSync(file);assert.deepEqual(file==='scripts/backup/postgres-diagnostic.mjs'?Buffer.from(sourceBeforePgNetSequenceState(file,raw.toString('utf8'))!):raw,approved,file);
+  const raw=Buffer.from(sourceBeforeOwnerTools220(file,readFileSync(file,'utf8'))!);assert.deepEqual(file==='scripts/backup/postgres-diagnostic.mjs'?Buffer.from(sourceBeforePgNetSequenceState(file,raw.toString('utf8'))!):raw,approved,file);
  }
 });

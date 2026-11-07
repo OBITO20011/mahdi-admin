@@ -1,8 +1,10 @@
+import{sourceBeforeOwnerTools220}from'../scripts/audit/source-before-owner-tools220.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
+import {buildOwner220Migration,owner220MigrationName} from '../scripts/testing/build-owner220-migration.mjs';
 import {buildHome219Migration,extractSqlFunction} from '../scripts/testing/build-home219-read-sql.mjs';
 import {sourceBeforeDraft220Workflow} from '../scripts/audit/source-before-draft220.mjs';
 import {inlineLegacyQuantities220} from '../scripts/testing/draft220-quantity-inline.mjs';
@@ -10,14 +12,14 @@ const read=(f:string)=>readFileSync(f,'utf8').replaceAll('\r\n','\n');
 const draft=read('docs/design/migration220/220_posthandover_read_performance.sql');
 const body=(sql:string)=>{const m=/\bAS\s+(\$[a-z_]*\$)/iu.exec(sql)!;return sql.slice(m.index+m[0].length,sql.lastIndexOf(m[1]));};
 test('older CI assertions see only the exact reviewed workflow inverse; unknown mutations remain visible',()=>{
- const raw=read('.github/workflows/quality.yml'),old=execFileSync('git',['show','01d4b036136304876da1be8b701cff9e342e3b4d:.github/workflows/quality.yml'],{encoding:'utf8',windowsHide:true}).replaceAll('\r\n','\n');
+ const raw=sourceBeforeOwnerTools220('.github/workflows/quality.yml',read('.github/workflows/quality.yml'))!,old=execFileSync('git',['show','01d4b036136304876da1be8b701cff9e342e3b4d:.github/workflows/quality.yml'],{encoding:'utf8',windowsHide:true}).replaceAll('\r\n','\n');
  assert.equal(sourceBeforeDraft220Workflow(raw),old);assert.equal(sourceBeforeDraft220Workflow(raw+'\n# unknown'),raw+'\n# unknown');
  assert.ok(raw.includes('posthandover220-draft'));assert.equal(raw.replace(', posthandover220-draft','').replace(raw.slice(raw.indexOf('      - name: Quarantined post-handover220'),raw.indexOf('      - name: Collect allowlisted safe reset')), ''),old);
 });
-test('220 stays quarantined: history/tools/RESET219 remain exact main219, no deployment entry',()=>{
- const migrations=readdirSync('supabase/migrations');assert.equal(migrations.filter(n=>/^\d{3}_.*\.sql$/u.test(n)).length,180);assert.ok(!migrations.some(n=>n.startsWith('220_')));
- const changes=execFileSync('git',['diff','--name-only','d0cbf421fedb613c52b48483ba6a9aa44b087adc','--','supabase','scripts/operations','scripts/backup'],{encoding:'utf8',windowsHide:true});assert.equal(changes.trim(),'');
- assert.equal(JSON.parse(read('docs/agent/project-state.json')).migrationCeiling,219);
+test('reviewed220 candidate stays quarantined;separate owner-tools promotion is exact/atomic and historical SQL immutable',async()=>{
+ const migrations=readdirSync('supabase/migrations');assert.equal(migrations.filter(n=>/^\d{3}_.*\.sql$/u.test(n)).length,181);assert.deepEqual(migrations.filter(n=>n.startsWith('220_')),[owner220MigrationName]);assert.equal(read('supabase/migrations/'+owner220MigrationName),await buildOwner220Migration(process.cwd()));
+ const changes=execFileSync('git',['diff','--name-only','d0cbf421fedb613c52b48483ba6a9aa44b087adc','--','supabase'],{encoding:'utf8',windowsHide:true});assert.ok(changes.trim().split(/\r?\n/u).filter(Boolean).every(file=>file==='supabase/migrations/'+owner220MigrationName));
+ assert.equal(JSON.parse(read('docs/agent/project-state.json')).migrationCeiling,220);
  assert.match(draft,/DRAFT220_REQUIRES_EXACT_219_HISTORY/u);assert.match(draft,/DRAFT220_REQUIRES_REVIEWED_219_READERS/u);
  assert.doesNotMatch(draft.split('-- GUEST220_SOURCE_GUARD:')[0],/\b(?:GRANT|REVOKE|INSERT|UPDATE|DELETE|TRUNCATE)\s/iu);
  assert.doesNotMatch(draft,/\b(?:GRANT|REVOKE|ALTER ROLE)\s/iu);

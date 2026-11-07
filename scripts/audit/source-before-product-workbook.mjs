@@ -1,3 +1,4 @@
+import{sourceBeforeOwnerTools220}from'./source-before-owner-tools220.mjs';
 import{projectStorefrontImageQueries}from'./source-before-storefront-images.mjs';
 // Runtime inventories are ESM-only; synchronous legacy test readers import text.mjs.
 import{sourceBeforeProductWorkbook,restoreProductWorkbookHashes,entries}from'./source-before-product-workbook-text.mjs';
@@ -20,7 +21,7 @@ export function projectProductWorkbookQuerySites(source,parseSource=defaultParse
  return{...source,entries:entriesOut,sources:restoreProductWorkbookHashes(source.sources)};
 }
 
-export function historicalProductWorkbookSource(project,file,text,...rest){const prior=sourceBeforeProductWorkbook(file,text);return prior===null?null:project(file,prior,...rest);}
+export function historicalProductWorkbookSource(project,file,text,...rest){const prior=sourceBeforeProductWorkbook(file,sourceBeforeOwnerTools220(file,text));return prior===null?null:project(file,prior,...rest);}
 
 // Read-only Git63 views are reproduced by build-product-workbook-history.mjs.
 // Each use is bound to the entire exact projected source/query tree;current

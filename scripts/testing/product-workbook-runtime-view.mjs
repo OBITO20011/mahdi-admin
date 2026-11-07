@@ -1,3 +1,4 @@
+import{sourceBeforeOwnerTools220,ownerTools220Pins}from'../audit/source-before-owner-tools220.mjs';
 // Historical CI fixtures only. Owner tools and every SQL byte stay unmodified.
 import assert from'node:assert/strict';import{execFileSync}from'node:child_process';import{mkdtemp,writeFile,readFile,unlink,rm,lstat,readdir,realpath}from'node:fs/promises';import{symlinkSync}from'node:fs';import path from'node:path';import{tmpdir}from'node:os';import{createHash,randomUUID}from'node:crypto';import{pathToFileURL}from'node:url';
 export const workbookHistoricalSuites=Object.freeze(['operations-reset','warehouse-management','owner-withdrawals','deferred-cheques','opening-cheques','legacy-product-cost','home-damage201','all-collections202','all-collections203','sales-history204','product-receiving205','navigation-cash206','document-corrections207','supplier-replacement208','parcel209','receipt210','aftercare211','trial212','handover213','handover214','reset214-resume','aftercare215','partial216','owner-telegram217','owner-telegram217-operations','package-f-reads']);
@@ -40,12 +41,23 @@ export function projectWorkbookRuntimeEvidence(raw,pin,layers,lookup=historicalT
  }
  assert.equal(hash(text),pin.after,'HISTORICAL_VIEW_UNREVIEWED_EVIDENCE');return text;
 }
-export async function prepareWorkbookRuntimeView(){
- const status=git(['status','--porcelain','-z']).toString('utf8').split('\0').filter(Boolean);assert.ok(status.every(line=>['docs/agent/ACTIVE_TASK.json','docs/agent/ACTIVE_TASK_FILES.json'].includes(line.slice(3))),'HISTORICAL_VIEW_REQUIRES_COMMITTED_SOURCES');assert.equal(git(['diff',baseline,'HEAD','--','supabase']).length,0,'HISTORICAL_VIEW_SQL_CHANGED');
+export async function prepareWorkbookRuntimeView({owner219Only=false}={}){
+ assert.equal(typeof owner219Only,'boolean');
+ const status=git(['status','--porcelain','-z']).toString('utf8').split('\0').filter(Boolean);assert.ok(status.every(line=>['docs/agent/ACTIVE_TASK.json','docs/agent/ACTIVE_TASK_FILES.json'].includes(line.slice(3))),'HISTORICAL_VIEW_REQUIRES_COMMITTED_SOURCES');const sqlChanges=git(['diff','--name-only',baseline,'HEAD','--','supabase']).toString('utf8').trim().split(/\r?\n/u).filter(Boolean);for(const file of sqlChanges){assert.equal(file,'supabase/migrations/220_posthandover_reads_and_guest_identity.sql','HISTORICAL_VIEW_SQL_CHANGED');assert.equal(sourceBeforeOwnerTools220(file,await readFile(path.join(root,file),'utf8')),null,'HISTORICAL_VIEW_UNREVIEWED220_SQL');}
  const head=git(['rev-parse','HEAD']).toString('utf8').trim(),dir=await mkdtemp(path.join(tmpdir(),prefix)),marker={root:path.resolve(dir),sourceRoot:root,head,baseline,nonce:randomUUID()},changed=[];
  try{
   git(['clone','--shared','--no-checkout',root,dir]);git(['update-ref','--no-deref','HEAD',head],dir);git(['read-tree',head],dir);await writeFile(path.join(dir,'.git/info/exclude'),'\n/node_modules\n/.workbook-runtime-view.json\n',{flag:'a'});assert.equal(git(['rev-parse','HEAD'],dir).toString('utf8').trim(),head);
   const tar=git(['archive','--format=tar',head]);execFileSync('tar',['-xf','-','-C',dir],{input:tar,windowsHide:true,maxBuffer:1024**2});await noLinks(dir);await writeFile(path.join(dir,'.workbook-runtime-view.json'),JSON.stringify(marker));
+  // Exact current220 -> delivered219 tool/metadata view,only for historical gates.
+  // Fresh220 proof never calls this. Reject unreviewed bytes rather than hiding them.
+  for(const file of Object.keys(ownerTools220Pins.entries)){
+   assert.ok(!file.startsWith('src/')&&!file.startsWith('customer-web/'),'HISTORICAL_VIEW_OWNER220_SCOPE');
+   const raw=await readFile(path.join(root,file),'utf8'),before=sourceBeforeOwnerTools220(file,raw);assert.notEqual(before,raw,'HISTORICAL_VIEW_OWNER220_UNKNOWN_BYTES:'+file);
+   const target=path.join(dir,file);if(before===null)await unlink(target);else await writeFile(target,before);
+  }
+  // Historical metadata must describe the same219 branch as its projected state.
+  for(const file of ['docs/agent/ACTIVE_TASK.json','docs/agent/ACTIVE_TASK_FILES.json'])await writeFile(path.join(dir,file),git(['show',ownerTools220Pins.baseline+':'+file]));
+  if(!owner219Only){
   const pins=JSON.parse(await readFile(path.join(root,'scripts/audit/product-workbook-source-pins.json'),'utf8'));assert.equal(pins.baseline,baseline);
   // Compose only exact, new presentation bytes into the existing Git63 view.
   // Keep its old beforeText/hash untouched and prove the intervening main52 byte.
@@ -65,9 +77,10 @@ export async function prepareWorkbookRuntimeView(){
   const sourceLayers=[];for(const name of Object.keys(runtimeLayers)){let layer;try{layer=JSON.parse(await readFile(path.join(root,'scripts/audit',name),'utf8'));}catch(error){if(error.code==='ENOENT')continue;throw error;}sourceLayers.push({name,layer});composeWorkbookRuntimeLayer(pins,name,layer);}
   for(const[file,pin]of Object.entries(pins.entries)){if(!sourceScope(file))continue;const target=path.join(dir,file),raw=await readFile(target,'utf8'),before=projectWorkbookRuntimeSource(file,raw,pin);if(before===null)await unlink(target);else{assert.equal(git(['show',baseline+':'+file]).toString('utf8').replaceAll('\r\n','\n'),before,'HISTORICAL_VIEW_NOT_GIT63');await writeFile(target,before);}changed.push({file,after:pin.after,before:pin.before});}
   const evidencePins=JSON.parse(await readFile(path.join(root,'scripts/testing/product-workbook-runtime-view-pins.json'),'utf8'));assert.equal(evidencePins.baseline,baseline);assert.deepEqual(evidencePins.evidence.map(p=>p.file),['docs/operations/TABLE_ACCESS_AFTER_219.json']);for(const pin of evidencePins.evidence){const target=path.join(dir,pin.file);projectWorkbookRuntimeEvidence(await readFile(target,'utf8'),pin,sourceLayers);const old=git(['show',baseline+':'+pin.file]).toString('utf8').replaceAll('\r\n','\n');assert.equal(hash(old),pin.before,'HISTORICAL_VIEW_EVIDENCE_BASELINE_CORRUPT');await writeFile(target,old);}
+  }
   // Snapshot only these reviewed application substitutions; every test/script/SQL
   // comes from the CURRENT head,not a historical runner or a modified owner tool.
-  const ownerPins=JSON.parse(await readFile(path.join(root,'scripts/testing/rehearsal219-owner-source-pins.json'),'utf8'));for(const[file]of ownerPins.files)assert.deepEqual(await readFile(path.join(root,file)),await readFile(path.join(dir,file)),'HISTORICAL_VIEW_OWNER_TOOL_CHANGED:'+file);
+  const ownerPins=JSON.parse(await readFile(path.join(root,'scripts/testing/rehearsal219-owner-source-pins.json'),'utf8'));for(const[file]of ownerPins.files)assert.equal(sourceBeforeOwnerTools220(file,await readFile(path.join(root,file),'utf8')),await readFile(path.join(dir,file),'utf8'),'HISTORICAL_VIEW_OWNER_TOOL_CHANGED:'+file);
   await writeFile(path.join(dir,'.workbook-runtime-view.json'),JSON.stringify({...marker,changed}));symlinkSync(path.join(root,'node_modules'),path.join(dir,'node_modules'),process.platform==='win32'?'junction':'dir');
   const sourceCheck="import assert from'node:assert/strict';import{readFile}from'node:fs/promises';import{inventory}from'./scripts/audit/table-access-inventory.mjs';import{verifyProbeCoverage}from'./scripts/audit/table-access-probes.mjs';const source=await inventory(),proof=JSON.parse(await readFile('docs/operations/TABLE_ACCESS_AFTER_219.json','utf8'));assert.deepEqual(source.sources,proof.sourceHashes,'HISTORICAL_VIEW_PROOF_SOURCE_MISMATCH');assert.deepEqual(verifyProbeCoverage(source,proof.results),proof.coverage);console.log('HISTORICAL_VIEW_STRICT_SOURCE_AND_ROLE_COVERAGE_OK');";execFileSync(process.execPath,['--input-type=module','-e',sourceCheck],{cwd:dir,windowsHide:true,maxBuffer:1024**2});
   return{...marker,changed};
@@ -76,5 +89,5 @@ export async function prepareWorkbookRuntimeView(){
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){
  const args=process.argv.slice(2);assert.ok(!args.length||args.length===1&&args[0]==='--cleanup','HISTORICAL_VIEW_FIXED_OPTIONS');
  if(args[0]==='--cleanup'){const dir=process.env.NAWASRAH_WORKBOOK_VIEW_ROOT;assert.ok(dir,'HISTORICAL_VIEW_CONTEXT_REQUIRED');await cleanupWorkbookRuntimeView(dir);console.log(JSON.stringify({ok:true,cleaned:true}));}
- else{assert.ok(workbookHistoricalSuites.includes(process.env.NAWASRAH_WORKBOOK_SUITE),'HISTORICAL_VIEW_SUITE_REQUIRED');const view=await prepareWorkbookRuntimeView();if(process.env.GITHUB_OUTPUT)await writeFile(process.env.GITHUB_OUTPUT,'root='+view.root+'\n',{flag:'a'});console.log(JSON.stringify({ok:true,head:view.head,root:view.root,projectedApplicationFiles:view.changed.length,sqlChanged:false,ownerToolsChanged:false}));}
+ else{assert.ok(workbookHistoricalSuites.includes(process.env.NAWASRAH_WORKBOOK_SUITE)||process.env.NAWASRAH_WORKBOOK_SUITE==='home219-operations','HISTORICAL_VIEW_SUITE_REQUIRED');const view=await prepareWorkbookRuntimeView({owner219Only:process.env.NAWASRAH_WORKBOOK_SUITE==='home219-operations'});if(process.env.GITHUB_OUTPUT)await writeFile(process.env.GITHUB_OUTPUT,'root='+view.root+'\n',{flag:'a'});console.log(JSON.stringify({ok:true,head:view.head,root:view.root,projectedApplicationFiles:view.changed.length,sqlChanged:false,ownerToolsChanged:false}));}
 }

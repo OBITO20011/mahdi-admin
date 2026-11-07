@@ -3,11 +3,67 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/design/migration220/LOCAL_EVIDENCE.json"
+      "path": "docs/agent/PHASE_STATUS.md"
     },
     {
       "code": " M",
-      "path": "docs/design/migration220/README_AR.md"
+      "path": "docs/operations/UPGRADE220_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/owner-tools220-source-pins.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-owner-tools220.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/product-workbook-runtime-view.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-owner-upgrade220-runtime.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-reset220-resume-runtime.mjs"
+    },
+    {
+      "code": " M",
+      "path": "tests/go-live-files-offline.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/handover214.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/owner-tools220.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/store-sharing-identity.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-brand-identity.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-owner-r.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-owner-w.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial40-integration.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/vite-file-access.test.ts"
     }
   ]
 }

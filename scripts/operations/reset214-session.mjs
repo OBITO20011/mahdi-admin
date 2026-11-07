@@ -15,7 +15,8 @@ export const reset215Marker='RESET215_IN_PROGRESS.json';
 export const reset216Marker='RESET216_IN_PROGRESS.json';
 export const reset217Marker='RESET217_IN_PROGRESS.json';
 export const reset219Marker='RESET219_IN_PROGRESS.json';
-const markers=Object.freeze({214:reset214Marker,215:reset215Marker,216:reset216Marker,217:reset217Marker,219:reset219Marker});
+export const reset220Marker='RESET220_IN_PROGRESS.json';
+const markers=Object.freeze({214:reset214Marker,215:reset215Marker,216:reset216Marker,217:reset217Marker,219:reset219Marker,220:reset220Marker});
 const progressFile=session=>`reset${session.reference.migrationCeiling}-progress.json`;
 const within=(root,relative)=>{assert.equal(path.isAbsolute(relative),false,'RESET214_STATE_PATH_INVALID');const p=path.resolve(root,relative),r=path.relative(root,p);assert.ok(r&&!r.startsWith('..')&&!path.isAbsolute(r),'RESET214_STATE_PATH_INVALID');return p;};
 async function readSql(executor,input){const r=await executeInput(executor,input);assert.equal(r.code,0,'RESET214_SESSION_SQL_FAILED');return r.stdout.trim();}

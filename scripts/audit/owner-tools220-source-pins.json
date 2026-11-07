@@ -1,0 +1,367 @@
+{
+  "format": 1,
+  "baseline": "7bf949b3bfe88bcacbc527184930ed6f9291481c",
+  "scope": "Approved separate220 tools only;exact historical inverse,never current runtime proof.",
+  "entries": {
+    ".github/workflows/backup-recovery.yml": {
+      "before": "356be4fe24a2454f81190b60e32e69363be6815a67f113c8f4749ae53c1b0e2b",
+      "after": "8609023a7168d8383f7f10183bd4bee3c1ef34f5e522afb6cee0edf314aa2a1b"
+    },
+    ".github/workflows/quality.yml": {
+      "before": "27814f474e4c2d695cabc3b786fec8bcc96ff20e846b097941882353b181db5e",
+      "after": "d6fae39d4fa779ae43bd6ef7d7c694fb1eea5ff9d546c19665db4583137d6e02"
+    },
+    "docs/MAINTAINER_GUIDE_AR.md": {
+      "before": "362078bdc03a2925fc13a6dbea0181c1c3b5f3568632a4c8bf0996646973485f",
+      "after": "5dff125b514eb7ab9288a487f482e0470e363ac29050e79195beed9c02d7f0a7"
+    },
+    "docs/agent/PHASE_STATUS.md": {
+      "before": "e441fee45dcebb8c51ef339317c6e5fdc71679078a43ba0e52e6eb5f97dc6818",
+      "after": "70221f420b0ffa6dc4df95abb33570a257335012586012185721711e0ebe1c42"
+    },
+    "docs/agent/project-state.json": {
+      "before": "efb58e88f515fb90dd9020255f33d57228c7f9d10ca213c4e7f37d858f45e633",
+      "after": "e781677226e304adacef739e92fc01e3c9ac9442af53c8769cfae2730239e60d"
+    },
+    "docs/generated/DB_FUNCTIONS.md": {
+      "before": "a95ef5a2015b144fa3ef028e19f30a8ca1b2bac1b3544f9e9bcc6c1de5a7edbf",
+      "after": "28b236f3b405c3bc3ceb32307794c28e510be68110d09837f56004c885915a96"
+    },
+    "docs/operations/RECORD_ORDER_AUDIT_AR.md": {
+      "before": "4628cae49974f480779f0c421064c056976374966c6d00b9b7136d670125f083",
+      "after": "c1ad52c247e91247ff85fcd55d9a8e97ac967f9d12ca32e4e22718a4c4708830"
+    },
+    "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json": {
+      "before": "55919283dcffff804478351054df73eb22347986840e4e4ca58b1beb48b011ec",
+      "after": "6f98ff6159c374172f148cd024fee746ad8629379fb297e121d8cc90de183001"
+    },
+    "docs/operations/SERVICE_ACCESS_INVENTORY.json": {
+      "before": "fd449e8e93e6af9dcaf72eb42db609929f6a392480c975c39dfd9a71f0f2ee97",
+      "after": "8fb12f1bb51c161faf960156db5c53d1f540d68aaa670b813587b45b6d510a65"
+    },
+    "docs/operations/TABLE_ACCESS_AFTER_220.json": {
+      "before": null,
+      "after": "869bc9068e9798325d3e8aab6bbb741dba4e1829d6fa4ec2aeea8877706d3fd9"
+    },
+    "docs/operations/TABLE_ACCESS_INVENTORY.json": {
+      "before": "c10c678311135689d631cb2076195edb499c54723bdbb1ee3227e46d626987f2",
+      "after": "04a2007c2fe1256c52a73848fe9f1bfc99805e6b1b30218fc14edec5e14b4434"
+    },
+    "docs/operations/UPGRADE220_AR.md": {
+      "before": null,
+      "after": "ff337490e9d4115c97183c2fb7d2b642e24f4e0117af3e6b2aef601e26c1d7a8"
+    },
+    "package.json": {
+      "before": "cfe25bc64f5409ba7d521cbb4b002f02b6741a85194a4bc4b96e039be9946188",
+      "after": "f56f81f9285cd37b190092e842b48833a52507d50554661b860f7ba94dac86eb"
+    },
+    "scripts/agent/lib.mjs": {
+      "before": "62f615510a6ecf11451e886539adbd389add5920b74344511cb6a0633d692bb6",
+      "after": "60975c7bfebc0983adfcc39610ccba9a4190be9277ba62ee98437d28554bea61"
+    },
+    "scripts/agent/preflight.mjs": {
+      "before": "5d9154801468279f0bfc832aa20e5c53ef5afb0009d48769a6d2397c10046981",
+      "after": "ef442ba30819ad8f24d8206f2d059307d5c089ca425e28df3cb2763113732e13"
+    },
+    "scripts/audit/enrich-service217-evidence.mjs": {
+      "before": "0efc608925fbdff263e196e6310f1bbc3715daa4ee40c97df6e211310d2ebda4",
+      "after": "2b4e136f5df819af840c3ce980284b8f717499f91d1aecdf8e601d68c7e3caae"
+    },
+    "scripts/audit/run-service-access-diagnostic.mjs": {
+      "before": "261251a13454fbe97befed7ea9f32823dc0cdcd5a563b4a75beb31e7bb080568",
+      "after": "053d0cd0916aad4c15292bbbfc57a4713f66d239095d6e101cfa6d77adcc7660"
+    },
+    "scripts/audit/run-table-access-diagnostic.mjs": {
+      "before": "7e8d1ef72e732287d6f6f19786e26d5fd299a706e3099232a2d6ea3cbf0e03d5",
+      "after": "a4bd7be437c0ce2bca410129777b3b99a1b55dd12c4a28b9cda25b8dfef8f143"
+    },
+    "scripts/audit/source-before-draft220.mjs": {
+      "before": "a42ccfb1e6014ea1dc92fa0af6b51228b7a40a9c9fdf26c214b90ed7fb984783",
+      "after": "a5a3f827a50c6e4a4d26519ddefdbef0d8cd08bdd49aa0c36a7e26c2086d6cfd"
+    },
+    "scripts/audit/source-before-pg-net-sequence-state.mjs": {
+      "before": "9efde96eaaa9dbdc4e510ee5bb5ece89e31c89edb852f4d6c856eb8abed45ee4",
+      "after": "c42f9156ceb39c9c0e8d61ff3eb67abb8aa9c62d02b70142d12e49fbe3184ea8"
+    },
+    "scripts/audit/source-before-product-scale.mjs": {
+      "before": "e7855b841b2b9827a2142adaea3ba51eaba6f12208109500a47eb5f99aef99b9",
+      "after": "0597be11b3c8c7e61c9c8b1037f47e30973972f03565cc69d4b2eed773bf50dd"
+    },
+    "scripts/audit/source-before-product-workbook.mjs": {
+      "before": "cb87f221d5b259983f390e5c3541942b61f6be7b34f2b4b5346a7646f6d5482f",
+      "after": "ade4bb1a4d9b5eaa7ab72ed5936c60548661a1a59dadcd84d8670b0b4fdf31bb"
+    },
+    "scripts/audit/source-before-record-order.mjs": {
+      "before": "6433f0868a45593395a3c23ab1112530b89f8fca247da336a905fe3c055289f0",
+      "after": "cfb2d032f61ba698be22251ba3a2d7cc95b9e2a01fcc9d34b04e90be7c03e050"
+    },
+    "scripts/audit/source-before-storefront-speed.mjs": {
+      "before": "f698142af568193b0e749f879c7904cf925d82be568a5936254c619bb0c09c57",
+      "after": "e954e1a81b1fc2d61c6968ac101a0f57e94d2467fe23a3a15beac8cf06f69cef"
+    },
+    "scripts/backup/complete-backup.mjs": {
+      "before": "5375ff8514146e427aa234c4b38239a930249d7d1360faba2513bae48536a9c0",
+      "after": "3bd7b42db31c925ca4fb3f5c8115bb9c4c330612495475bde0164d40096fe687"
+    },
+    "scripts/operations/build-acl-reference220.mjs": {
+      "before": null,
+      "after": "077d4855787675dd0b642bb81be55d96c25d1aefee2527f74468df4d1887d420"
+    },
+    "scripts/operations/frankfurt-owner-reset220.mjs": {
+      "before": null,
+      "after": "f20e5e5e4ac3cfb791f269f7b632066243463fe6ac253fd91c31de39bf815f37"
+    },
+    "scripts/operations/frankfurt-owner-upgrade220.mjs": {
+      "before": null,
+      "after": "128c4ea77b41820100ab21b7658f1e988670543d9717ab85107d7d73864de04e"
+    },
+    "scripts/operations/frankfurt-reference220.mjs": {
+      "before": null,
+      "after": "32e5c66d8215f9d1d6a262239a4ae7740f81112fe599a9519f957dbe659fe71e"
+    },
+    "scripts/operations/function-reference220.mjs": {
+      "before": null,
+      "after": "423eb1556a37b6059fdf7b2aa8c3719b86618df73d8d41581734a8d1ad179322"
+    },
+    "scripts/operations/reset214-session.mjs": {
+      "before": "791e4c72e3923f430aed6caaacc71f17884d723df18d4326d1543f66a6966c2a",
+      "after": "2e518aaf8bb01ad86b97446e55a22d1a5c36be7f0640a4b950a0050dbeccfc34"
+    },
+    "scripts/operations/reset220-pg-cron-guard.mjs": {
+      "before": null,
+      "after": "e1f5a8d1c676a35cbbf751299b507069d170280d4cb861b70149e6bd2bd5520a"
+    },
+    "scripts/operations/trial-reset-core.mjs": {
+      "before": "8fa1618ab6f5164b33a229956b37c2ddbc0b6fd2e2ad5294c9916e897217da2b",
+      "after": "b377f5d850ceca2fa3d4a019df0cf891c64c38e2d1d815daa0993c467486af82"
+    },
+    "scripts/operations/trial-reset214-core.mjs": {
+      "before": "a2f2d68604efc56a123c08841fc056f82c3893a55c746d4f2b1ec4b417eae698",
+      "after": "aae84df6a67a42f90ab80b86fdecbfaf5624c73aaa422f6382f0917446298afa"
+    },
+    "scripts/operations/trial-reset220-core.mjs": {
+      "before": null,
+      "after": "542935115f92d0ec9c26471532b23753d28a2f4d443e0265975205706211fd82"
+    },
+    "scripts/operations/upgrade220-protection.mjs": {
+      "before": null,
+      "after": "c82754d3ad5c167059713652d0e41c578fe203bac6f74f4e489d576ef863d50d"
+    },
+    "scripts/operations/upgrade220-runtime-state.mjs": {
+      "before": null,
+      "after": "19f1837e2b1a595db3569c74ddfd92357562746faae2fa33895751ea8de87472"
+    },
+    "scripts/testing/build-owner220-migration.mjs": {
+      "before": null,
+      "after": "9efa0fc1811ce488119fea9836290452b3c4f3e84415e9aca3219c26fc774d54"
+    },
+    "scripts/testing/collect-safe-db-diagnostics.mjs": {
+      "before": "62a7612443ffdc012a3c6400270ee895e8c343aaf5717e919217ca397d5052c9",
+      "after": "5bc9fe90f0f741f75b775ac3bf2a0a4eaf76dcacd37c291ff760080bdde477b2"
+    },
+    "scripts/testing/maintenance-db-contract.mjs": {
+      "before": "a44b121f0484a39402aed7a171e5816055e74d3fd71440d0b80b691769ba283d",
+      "after": "f0e7047a7b5c204ad4f2d0ce1916f90f6a51bd17f140dafe78a953bc23218ef7"
+    },
+    "scripts/testing/product-workbook-runtime-view.mjs": {
+      "before": "dc469f57612f33b7d578bbe68ec097db0594663a37b809f0ed48597233b64a1d",
+      "after": "ac9954756c802b144641208062bd68e7e6284167522cc7f83b2217fab2bb635a"
+    },
+    "scripts/testing/rehearsal219-protected-sources.mjs": {
+      "before": "925cfcb606c233ba4feb9e0cccbfaf8679ab3e6b76ddfe54c06bfde643214da9",
+      "after": "e4fb5eb16368775251e7b65a84bd7f59ee08b6069d54508145b87e1b90af1a2f"
+    },
+    "scripts/testing/run-dual-backup-runtime.mjs": {
+      "before": "ef3a1bc05933087f88dbb63e0c79f7d0834cda1d228eb7fa9aa4364d5b473d76",
+      "after": "8d18159465a1a712f07b2d30d9f839ac099c2ae116acdc4dc352da92f60c49f5"
+    },
+    "scripts/testing/run-owner-tools220-gates.mjs": {
+      "before": null,
+      "after": "1daa127c9a1fffacb26c353aa9727cbeb996a7343d62b1faf8ef044aef6acb22"
+    },
+    "scripts/testing/run-owner-upgrade220-runtime.mjs": {
+      "before": null,
+      "after": "769bb46a8e68c89d1c1d97e19fc50bdf53f56d70fde0d8533bac8655a57f2af4"
+    },
+    "scripts/testing/run-reset220-cli-contract.mjs": {
+      "before": null,
+      "after": "0d6ed80af0d4a3e3ee105270492ee27a5cd5f335569f3ca052f2fd0c95c8000c"
+    },
+    "scripts/testing/run-reset220-resume-runtime.mjs": {
+      "before": null,
+      "after": "83e70d3c663ecad598f86d6fcaa1eb345c6633838d8845eac1fab93965b5ef02"
+    },
+    "supabase/migrations/220_posthandover_reads_and_guest_identity.sql": {
+      "before": null,
+      "after": "ca7d0b02ab3ca500064d3dd4a901fbd59b21c46de5961952cf3073847ee45e3d"
+    },
+    "tests/aftercare215-admission.test.ts": {
+      "before": "13e585a0ab7b0aa6bc6d0c71300314f52b816a4acaacbf83951a5dbb95e56166",
+      "after": "aed0a610f26ae09a462f57e3ade844b19bc625bb5e7a8816e3bdc970193bd933"
+    },
+    "tests/aftercare215-source-compat.test.ts": {
+      "before": "7399ab66f2dad5285dd35412bb2cb857c347990cbb4399e1a421902f4219ae37",
+      "after": "56714f8d45b3950fbe883222ae2566b13b10c3de9ca708d1cd85d74cf79ea19b"
+    },
+    "tests/all-customer-collections203.test.ts": {
+      "before": "cd7c53fa68143c7bfc9c3dfb009810efc3d05b64e13137cc1958550b58444d5f",
+      "after": "7e623fdaad69cf7196ebbbbe645e985b806b1a0793a527113cbecace96ca5dc1"
+    },
+    "tests/bulk-product-images-contracts.test.ts": {
+      "before": "8293aebcbd43b612236f52786432b326afadca80b837631987cbd6f94f568c98",
+      "after": "0b62f6cb819f63fd522ccf2ef538785f083b99a9d5c125a002d5afd057377c16"
+    },
+    "tests/canonical-receivables197.test.ts": {
+      "before": "8fc0fa077f1e141dbb504b0d352532b5873f23c37a0f6c81f2cc516dbb541db2",
+      "after": "fe3bd57fe017f70206ff507e0e152b0c88e9969d6bcbcb606514838186b20d2c"
+    },
+    "tests/cart-flight-contracts.test.ts": {
+      "before": "ba1fdedd15514810ed2c91a5e24cbe84c805c5c59b78072ac8823f3f12ff0e57",
+      "after": "1f69fbe45c15d99c9edb4fcf4f81106e4c0832cbc6e67d3e824843deadac14af"
+    },
+    "tests/cashier-collections198.test.ts": {
+      "before": "0da502e47ded3870ad80822d6af7c21c64a4ce4409df6bcba4d15b57ba2b4b7f",
+      "after": "bced1d2a4a72ca0f878577a819fc8eb3260c6ddc1ad9c53a503da1c6e999e4a1"
+    },
+    "tests/cheques195-admission.test.ts": {
+      "before": "4a879b2dd509dff400ad6d82568be5c129301712ce9069d4a05c3431457e656e",
+      "after": "583f2d175131b7dc9d29efa377b7825641571177fc5ae4084c86a929e7c09911"
+    },
+    "tests/cutover-publication-order.test.ts": {
+      "before": "ab1378591135a14c3ba20a95d0496980260df85ac23e99c27a37897d9c7e9998",
+      "after": "f7b4494ecbdb6c4baedb299d575ca8155cd69872056f832d6c6e39901427e886"
+    },
+    "tests/go-live-files-offline.test.ts": {
+      "before": "6a11113dad0fdbf1b89cda925922f3d95d6f676acee9019db58fc97ba0921096",
+      "after": "99f6cfcfe94defb795d7859fedecbf26997682fa9235dafb398f7304c148fbf0"
+    },
+    "tests/go-live-integration164.test.ts": {
+      "before": "46192ebcd3f12e263123f171f89d47f43fcc79d8fc39715ce6eec7a553105002",
+      "after": "ae449a3d8479499dd1eaf6a50d0e4fd67be94dd50d42d4aa8b458a7181c2f03a"
+    },
+    "tests/handover214.test.ts": {
+      "before": "b963b01af2c069d08aeba5666d4a7d78f39079f96d23ab924e8da12b82265360",
+      "after": "4a087b84cf6dd95444bf716410ca3453722943f1019c2d0b565f44bfb6c2f9a3"
+    },
+    "tests/newest-records.test.ts": {
+      "before": "1e5fb9ebad7b8e45c0ef4cafa1a262ca46e91d7abbc87f28a77c26dd2d72cb7f",
+      "after": "cd2f5433fa9a97f42f665f6af6ce387f5cba4ded0db2e5f533119077fbbd0a39"
+    },
+    "tests/opening-cheques196.test.ts": {
+      "before": "2a78019b705d151747129ac76fcdf0b8b38b420a4e7f42d04d1ab3d2b845dda6",
+      "after": "fc6f5f272b8885f7c3139a750a750e2249667e49631abf0ac20015ab6e2e0b9b"
+    },
+    "tests/operational-schema.test.ts": {
+      "before": "580efcb0d468b601030807f7f6620884708ff4a1881a08f09ce1038a33618916",
+      "after": "fd1b189e439b0fe46615d049ff8d32e6e60e90428e2e695f07d0f0a37a0ef56b"
+    },
+    "tests/owner-tools220.test.ts": {
+      "before": null,
+      "after": "e60eff9a4c43ebee9c8923cf99c4e7ca1ec8392177e9db89cd0163f60123fd0a"
+    },
+    "tests/partial216-operations.test.ts": {
+      "before": "a93b3f0e3a7569fc300401bd17e5d481f9b7f406f619d0aaf1ddb6d82ea387e5",
+      "after": "c6cc060b20acf3b41f0d9972ddcd3ccfa3229b825286cb8ac44151458ad9421b"
+    },
+    "tests/pg-net-sequence-state.test.ts": {
+      "before": "7aaba917421dbbf1bc216ce405e12223d70e8879643a9f32a92e9fa3bf164d45",
+      "after": "23a5433c430f86534caa928bbc215a43d8dd52095f1baf2dce4b3dcfb1d2b0e7"
+    },
+    "tests/posthandover220-draft.test.ts": {
+      "before": "27b770161daefc21b87be7cc3b6db7d0b16bc4b2bf9f54cf8e712e2ce6b61ed0",
+      "after": "059a349cdcfde7ac90e480f81c86a106edaa87ee81491cf77623efc700a2726b"
+    },
+    "tests/pretrial-p1.test.ts": {
+      "before": "6523d606ff039ff4eb472fc21e6a51fa790e95c9bd56217b5570b15b40f3eafd",
+      "after": "9a3fc40ac2ccf15dfdd133ee13607904f2e0a74d9f6c34d86dcc3798cf4026bb"
+    },
+    "tests/product-integration171.test.ts": {
+      "before": "e8e8c96325a3c25837ce5d0aaef2ead0bb1474e2dd37d51b074ef2e47c52dad7",
+      "after": "640b2ab7fd5713a7253fc16c841889545af8781d162b69d4c8c2cb340445e132"
+    },
+    "tests/product-receiving205.test.ts": {
+      "before": "fd2236b1dd28fc05447bf0e46bc11716c6064ea7399e414134074afd189c54ab",
+      "after": "7cd09204162bbc3573a7afc8a2ed587c7373c4fc59e20b0eee004bf2e6dcefa5"
+    },
+    "tests/product-workbook-history.test.ts": {
+      "before": "8856554c080117a8b14cb62c7eacdd27337a9ceb005812896f1ab3905c69a40a",
+      "after": "01b645bfee0f2ab8cdb98abee754021101454910e332a987069a007ee38374e7"
+    },
+    "tests/product-workbook-runtime-view.test.ts": {
+      "before": "16816f56369a49d0dd65a9b85a71e66dc1459a18cab8a39a449f149c06eb95e0",
+      "after": "41ed3645163b1c2747ee81c6d3ae9df4fbf393ef560139cc7e7ad21fcf489ccb"
+    },
+    "tests/receipt210.test.ts": {
+      "before": "d1ecc1438aa639ce5ca83e283e6775bd708e3c4e000998ea4cc32afc84caf346",
+      "after": "8afa279f4171001743f59f6f55ecd3ba297ed05d6124edd5016b92e222d19f79"
+    },
+    "tests/record-order-source-contracts.test.ts": {
+      "before": "eac07e02ccd555514f758936dabc957b5571e4135bf3b4c73c8a6319d07f7127",
+      "after": "9b5a3d44db785701fa439eb1656e4ba38156d3b5098db0e7fc6d552318cd2f6b"
+    },
+    "tests/rehearsal219.test.ts": {
+      "before": "715767d3688cd0494b19f47e78b17d89dd5bc26013aedc1e7e4c9ee7e25c0bb7",
+      "after": "0e82d35512acfd5f90324f5a5d2342689dce41fc9cf2263e8e3bbc2bb4d43474"
+    },
+    "tests/reset219-pg-cron-guard.test.ts": {
+      "before": "6c6bd7611121197a048a48bae35041efeae68ffaf5357d3756c37541b33182ff",
+      "after": "62ca3c48814ce0467739e4a0ae597af6129d16f5cf20e2289755fb7c1ecf9cbe"
+    },
+    "tests/sales-history204-evidence.test.ts": {
+      "before": "db4a074f96b2919d6641f085afe4143be713afbe75898fcbaef2df16f4e663ad",
+      "after": "1db2cf9c87545e589b463913c7f883ebb54eb881de95c5ed6a1accf8316aac03"
+    },
+    "tests/service-access-inventory.test.ts": {
+      "before": "4c43df5a8b6989787764b0965aa93f57af68cf59626832188d320901de743553",
+      "after": "9e529331d878049a09705a66d1c5399fc3399b3149ffdff07cb4cc74327f0ce5"
+    },
+    "tests/store-sharing-identity.test.ts": {
+      "before": "2415cd9e288f7588a4315ef8bc84bd2ca01835a45c7888ff53c271d5c45a7b6c",
+      "after": "e7bbfb564cfccdb2fad3a07da2212d6f88f691e0bfa48a705cd0a575a2f1c38a"
+    },
+    "tests/supplier-replacement208-evidence.test.ts": {
+      "before": "be28e73ba7b59e7b417aaf535d3fd188bed7c82fbf16e16cab5c553443892750",
+      "after": "289ecff2ef050d48a165085e7556d6554dfc7fcf18fa2670da749a126e345273"
+    },
+    "tests/trial-brand-identity.test.ts": {
+      "before": "a6dd7590883b9091cd1fd9c58ed3ba7969f3f9da3d6ff382b942ad9dbb92fa6a",
+      "after": "d9a55ca0a4243bdb3703a583569e11f06f7324cddef8b5d95d11ae38d4f8e1f1"
+    },
+    "tests/trial-owner-a.test.ts": {
+      "before": "8b55b1b9c72c799d0fc958c95f809f68ba6645cd6a3a5de367832659e096d8f8",
+      "after": "5267b3dad9fc5be4db44d3daa636ea548db955860190ee6b02d3974989f1979a"
+    },
+    "tests/trial-owner-r.test.ts": {
+      "before": "11a8cb19e79a0932b6e720fff941eb032de75811016226bdf76e18ba9884c0be",
+      "after": "9a16dfc5e150af58bd479149596c876908a29ac2852d95e6bef1faa412319c40"
+    },
+    "tests/trial-owner-w.test.ts": {
+      "before": "765da83c9f6cca1d0e822a9a7832b15c70a9d232a16835d1f47fab68bb8263aa",
+      "after": "6afce0cb818a252f523b3c2dab89b2d252b16b7ddba0fed0b389466927dd1d41"
+    },
+    "tests/trial-ta-presentation.test.ts": {
+      "before": "ae9ce18667b5d97c1c49a2cc336b226234a95aec577e73d0f3aa7f684ac661ae",
+      "after": "8d50a831829481ac488e68e665d6c856f5d26b47c38199cafcc26ed61f0ffd1c"
+    },
+    "tests/trial40-integration.test.ts": {
+      "before": "4f8141c973fcef5646ddad32d4f4e1b03358729e2763eddd9866aa334ee532c1",
+      "after": "ed673deceaf07ee8c8d44fe5212b550399f6fb3bd42ccbf16c82f51c1c95f7e3"
+    },
+    "tests/upgrade220-protection.test.ts": {
+      "before": null,
+      "after": "d845300bcef111e1ddd59bee6fad3930ab719aa1f588816bf7d7d48cb2637ff9"
+    },
+    "tests/vite-file-access.test.ts": {
+      "before": "a368fba4f7699df98424ecc9295b1310553d8a11ff8c18df57c69563cc72dc07",
+      "after": "50228a9b445272d181c15fea790fa4053432e81ab799d6ea169a146bc3b466c2"
+    },
+    "tests/withdrawals182-admission.test.ts": {
+      "before": "37f30b9ea1ea700b73af65dc9ba1666de2524be4dd0b2dec32529f9774cf11f8",
+      "after": "cdb200d15f2920514ce5c7ae989a2c8ec3fb69426916901a69fbeaa62073d7db"
+    },
+    "tests/workbook-integration-history.test.ts": {
+      "before": "eb72f311e6893908e7edc44ca83cd1ab708d91976d09ea27ed1fb1e9d2c36922",
+      "after": "2f49deae3a57dcb7c0785f83a09ced4e5b9270403a3dd0354b8be537e957e40b"
+    }
+  }
+}

@@ -134,7 +134,10 @@
     "frankfurt-owner-reset217": "node scripts/operations/frankfurt-owner-reset217.mjs",
     "test:owner-telegram217:runtime": "node --import tsx scripts/testing/run-owner-telegram217-runtime.mjs",
     "frankfurt-owner-upgrade219": "node scripts/operations/frankfurt-owner-upgrade219.mjs",
-    "frankfurt-owner-reset219": "node scripts/operations/frankfurt-owner-reset219.mjs"
+    "frankfurt-owner-reset219": "node scripts/operations/frankfurt-owner-reset219.mjs",
+    "frankfurt-owner-upgrade220": "node scripts/operations/frankfurt-owner-upgrade220.mjs",
+    "frankfurt-owner-reset220": "node scripts/operations/frankfurt-owner-reset220.mjs",
+    "frankfurt:reference220": "node scripts/operations/build-acl-reference220.mjs"
   },
   "dependencies": {
     "@fontsource/ibm-plex-sans-arabic": "5.3.0",

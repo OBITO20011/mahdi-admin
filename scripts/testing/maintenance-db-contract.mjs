@@ -53,12 +53,14 @@ export function futureMigrationViolations(sql) {
   const reviewed215 = sha256(canonicalLf(sql)) === '2d20594d6112c206a23130c43ce555ecc5357921cc9e4058019d0446223a4e57';
   const reviewed216 = sha256(canonicalLf(sql)) === '3a30798f8f9dd385dd915ed74b25440b8e40c6b46893541aca049a5b94e09462';
   const reviewed219 = sha256(canonicalLf(sql)) === '63e1907c2f89f7ffb0de1cfa659a5e7c5fbe5a2bda2f192bcc731e70c63d070c';
+  // Owner7Nov: exact atomic220,existing replacements and read-only md5 guards only.
+  const reviewed220 = sha256(canonicalLf(sql)) === 'ca7d0b02ab3ca500064d3dd4a901fbd59b21c46de5961952cf3073847ee45e3d';
   for (const match of code.matchAll(declaration)) if ((/_before_/iu.test(match[1]) || match[1] === 'public.phase6_financial_facts_before208_internal') &&
     !(existing214ReturnLeaf && match[1] === 'public.package_d_settle_sales_return_before_guard_internal' && /^create\s+or\s+replace\b/iu.test(match[0]))
-    && !((reviewed215 || reviewed216) && match[1] === 'public._get_cash_shift_closing_report_before_snapshot' && /^create\s+or\s+replace\b/iu.test(match[0])) && !(reviewed219 && ['public.phase6_financial_facts_before208_internal','public._get_home_dashboard_before133'].includes(match[1]) && /^create\s+or\s+replace\b/iu.test(match[0]))) errors.push('NEW_BEFORE_FUNCTION');
+    && !((reviewed215 || reviewed216) && match[1] === 'public._get_cash_shift_closing_report_before_snapshot' && /^create\s+or\s+replace\b/iu.test(match[0])) && !(reviewed219 && ['public.phase6_financial_facts_before208_internal','public._get_home_dashboard_before133'].includes(match[1]) && /^create\s+or\s+replace\b/iu.test(match[0])) && !(reviewed220 && ['public.phase6_financial_facts_before208_internal','public.package_d_create_customer_order_before_source_guard_internal'].includes(match[1]) && /^create\s+or\s+replace\b/iu.test(match[0]))) errors.push('NEW_BEFORE_FUNCTION');
   for (const match of code.matchAll(/\balter\s+(?:function|procedure)\b[^;]*?\brename\s+to\s+("(?:[^"]|"")+"|[a-z_][a-z0-9_$]*)/giu))
     if (/_before_/iu.test(match[1]) && !(reviewed215 && ['tb215_finalize_before_exchange_internal','tb215_shift_before_exchange_internal','tb215_completion_before_exchange_internal'].includes(match[1]))) errors.push('NEW_BEFORE_RENAME');
-  if (/\bpg_get_functiondef"?\s*\(/iu.test(code)) errors.push('FUNCTION_DEFINITION_INTROSPECTION_IN_MIGRATION');
+  if (!reviewed220 && /\bpg_get_functiondef"?\s*\(/iu.test(code)) errors.push('FUNCTION_DEFINITION_INTROSPECTION_IN_MIGRATION');
   // Conservative: REPLACE/regexp_replace + EXECUTE in one migration needs an
   // explicit rewrite, not a text-derived function body. Ordinary data REPLACE
   // without dynamic execution remains permitted; CREATE OR REPLACE is permitted.

@@ -26,7 +26,7 @@ function latestBody(name:string){let body='';for(const f of readdirSync('supabas
  assert.ok(body,name);return body;
 }
 test('documented paged-reader barriers reflect the LATEST SQL and no partial-page inversion claims newest globally',()=>{
- assert.match(latestBody('get_supplier_replacements_page_v1'),/ORDER BY occurred_at,id LIMIT p_page_size OFFSET/u);
+ assert.match(latestBody('get_supplier_replacements_page_v1'),/ORDER BY occurred_at DESC,id DESC LIMIT p_page_size OFFSET/u);
  assert.match(latestBody('get_deferred_cheques_page'),/ORDER BY due_date,id OFFSET/u);
  const doc=read('docs/operations/RECORD_ORDER_AUDIT_AR.md');for(const term of ['get_supplier_replacements_page_v1','get_deferred_cheques_page','متوقف','لا نعكس'])assert.ok(doc.includes(term),term);
 });
