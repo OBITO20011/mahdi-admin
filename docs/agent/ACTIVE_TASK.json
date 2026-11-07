@@ -1,17 +1,18 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
+  "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner Nov 7: compress only the storefront mobile hero video, tighten its byte budget, measure matched Lighthouse medians, independent PR and full CI.",
+  "objective": "Owner Nov7 approved PR75 integration after76;real main merge,fullCI,owner primary byte-preservingFF,no hosted/deploy.",
   "baselineSha": "96cf7b9553aac99be655a5a342d801b99367ca66",
   "branch": "codex/storefront-mobile-hero-compression",
   "phase": "PACKAGE_F",
   "completed": [
     "PR74 merged at 96cf7b95 after owner approval of TBT; main CI 63/63, primary ff-only and preflight verified.",
-    "FFmpeg 9.0: 924187 B H264 Main 832x468, yuv420p, 240/24 fps and 10 seconds, no audio and faststart. All frame timestamps match."
+    "FFmpeg 9.0: 924187 B H264 Main 832x468, yuv420p, 240/24 fps and 10 seconds, no audio and faststart. All frame timestamps match.",
+    "Owner explicitly accepted +9ms LCP and +17.5ms TBT and authorized PR75 merge after76."
   ],
   "inProgress": [
-    "Publish independent PR with frame comparison and full CI."
+    "Main e7f92818 genuinely merged;focused integration gates before full PR CI."
   ],
   "notStarted": [],
   "testsPassed": [
@@ -27,14 +28,14 @@
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No desktop video, poster or autoplay logic changes. No hosted project access, deploy or merge. PR58 stays draft."
+    "No hosted services,deploy,owner/env edits.58Draft."
   ],
-  "nextExactAction": "Commit the scoped video asset, frame preview and 1 MB cap. Open independent PR and verify full CI. Report the 9 ms LCP and 17.5 ms TBT median increases.",
+  "nextExactAction": "Owner approved PR75;sync genuine main76 merge passed25focused. Commit merge,full exact-head CI,then merge only after main76 CI+safeFF",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "CFB609E777C52AE4C23862DA17524667B77BDB06DCF6B5CB46EAF018566C33EA",
-  "checkpointedAt": "2026-11-07T01:18:33.189Z",
-  "filesTouchedCount": 8,
-  "filesTouchedManifestSha256": "0dc1023a60e345e84f91418261af1b7b90f2fda0c1a01958d3aa58fb062c56c9"
+  "workingTreeFingerprint": "5374F0B38AD4CD5EDE1BD5E88BB1307E821866AAA2EEBE4FACB0EA4E9DE3C009",
+  "checkpointedAt": "2026-11-07T06:51:56.943Z",
+  "filesTouchedCount": 6,
+  "filesTouchedManifestSha256": "4ee11d1d370a1d28c451bbbdef0d380b6f3bd597f0a386bb40def06c410ef4d5"
 }
