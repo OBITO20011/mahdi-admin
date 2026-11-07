@@ -77,7 +77,7 @@
     },
     "scripts/testing/product-workbook-runtime-view.mjs": {
       "before": "b7d550b2d549acb98eccf5429ad0e8443140cd7c44431f5e238f1f0fad91ce75",
-      "after": "7e28c9ce3bf7acfa15e3b60b3eed6dfa9ef92b2d31ae7e1f2b77b8ff5f85299b"
+      "after": "1d5ef1948c7c83aec473c6079edcea9759d602aaf3ea55ff2cff29d23a5ba631"
     },
     "scripts/testing/run-cart-flight-browser.mjs": {
       "before": null,
@@ -89,7 +89,7 @@
     },
     "tests/product-workbook-runtime-view.test.ts": {
       "before": "d16c8bcb487c7ca2380bd35e932b63cee4764e6169b544eb070b351219423721",
-      "after": "57aa4dfb18be6cbd3b6cae126a7b6d4e22ad5142ad3ab3bb9be8c0e0ed67a82a"
+      "after": "16816f56369a49d0dd65a9b85a71e66dc1459a18cab8a39a449f149c06eb95e0"
     },
     "tests/storefront-images-history.test.ts": {
       "before": "d8295f919d14b32b3178f144399b6b435b6e36b2496ea6a5113c82b3f1dc8a4c",

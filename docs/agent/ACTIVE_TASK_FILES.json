@@ -3,79 +3,15 @@
   "files": [
     {
       "code": " M",
-      "path": ".github/workflows/quality.yml"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/project-state.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_219.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
       "path": "scripts/audit/cart-flight-source-pins.json"
     },
     {
       "code": " M",
-      "path": "src/features/inventory/SupplierReplacementPanel.tsx"
+      "path": "scripts/testing/product-workbook-runtime-view.mjs"
     },
     {
       "code": " M",
-      "path": "tests/cart-flight-contracts.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/partial216-operations.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "docs/design/migration220/220_posthandover_read_performance.sql"
-    },
-    {
-      "code": "??",
-      "path": "docs/design/migration220/LOCAL_EVIDENCE.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/design/migration220/README_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/source-before-draft220.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/draft220-quantity-inline.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/posthandover220-proof.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/run-posthandover220-draft.mjs"
-    },
-    {
-      "code": "??",
-      "path": "tests/posthandover220-draft.test.ts"
+      "path": "tests/product-workbook-runtime-view.test.ts"
     }
   ]
 }
