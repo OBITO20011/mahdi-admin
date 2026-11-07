@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-07T16:46:33.671Z",
-  "migrationCeiling": 219,
+  "startedAt": "2026-11-07T18:52:45.723Z",
+  "migrationCeiling": 220,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-Jv2czR",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-BNtKtS",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -2457,7 +2457,8 @@
       "identity": "_get_operational_business_report_before_phase6(uuid,date,date)",
       "returnType": "jsonb",
       "configuration": [
-        "search_path=public, pg_temp"
+        "search_path=public, pg_temp",
+        "work_mem=8MB"
       ],
       "securityDefiner": true
     },
@@ -46612,7 +46613,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-11-07T16:48:24.223Z",
+  "endedAt": "2026-11-07T18:54:34.647Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {
@@ -46957,7 +46958,7 @@
   ],
   "savedCatalogProvenance": {
     "baseline": "703fc51abb6b65ce2df2edcf14c6ecb235b74ddf",
-    "scope": "Historical15Oct saved-catalog review only;effectiveLocal and invocationResults measured anew on219;no hosted read"
+    "scope": "Historical15Oct saved-catalog review only;effectiveLocal and invocationResults measured anew on220;no hosted read"
   },
   "oldReferences": [
     {
@@ -46980,7 +46981,7 @@
     {
       "file": "docs/agent/OWNER_DECISIONS.md",
       "lines": [
-        797
+        808
       ],
       "category": "HISTORICAL_DOCUMENTATION"
     },

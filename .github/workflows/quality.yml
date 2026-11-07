@@ -308,7 +308,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset, warehouse-management, owner-withdrawals, deferred-cheques, opening-cheques, legacy-product-cost, home-damage201, all-collections202, all-collections203, sales-history204, product-receiving205, navigation-cash206, document-corrections207, supplier-replacement208, parcel209, receipt210, aftercare211, trial212, handover213, handover214, reset214-resume, prelaunch-trial, bulk-product-images, aftercare215, partial216, owner-telegram217, owner-telegram217-operations, home-performance219, home219-operations, product-workbook, posthandover220-draft]
+        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset, warehouse-management, owner-withdrawals, deferred-cheques, opening-cheques, legacy-product-cost, home-damage201, all-collections202, all-collections203, sales-history204, product-receiving205, navigation-cash206, document-corrections207, supplier-replacement208, parcel209, receipt210, aftercare211, trial212, handover213, handover214, reset214-resume, prelaunch-trial, bulk-product-images, aftercare215, partial216, owner-telegram217, owner-telegram217-operations, home-performance219, home219-operations, product-workbook, posthandover220-draft, owner-tools220]
     env:
       NAWASRAH_PACKAGE_D_CURRENT: '1'
     steps:
@@ -331,7 +331,7 @@ jobs:
 
       - name: Stage exact reviewed application view for historical schemas only
         id: workbook-historical-view
-        if: contains(fromJSON('["operations-reset","warehouse-management","owner-withdrawals","deferred-cheques","opening-cheques","legacy-product-cost","home-damage201","all-collections202","all-collections203","sales-history204","product-receiving205","navigation-cash206","document-corrections207","supplier-replacement208","parcel209","receipt210","aftercare211","trial212","handover213","handover214","reset214-resume","aftercare215","partial216","owner-telegram217","owner-telegram217-operations","package-f-reads"]'), matrix.suite)
+        if: contains(fromJSON('["operations-reset","warehouse-management","owner-withdrawals","deferred-cheques","opening-cheques","legacy-product-cost","home-damage201","all-collections202","all-collections203","sales-history204","product-receiving205","navigation-cash206","document-corrections207","supplier-replacement208","parcel209","receipt210","aftercare211","trial212","handover213","handover214","reset214-resume","aftercare215","partial216","owner-telegram217","owner-telegram217-operations","package-f-reads"]'), matrix.suite) || matrix.suite == 'home219-operations'
         env:
           NAWASRAH_WORKBOOK_SUITE: ${{ matrix.suite }}
         run: node scripts/testing/product-workbook-runtime-view.mjs
@@ -678,6 +678,11 @@ jobs:
       - name: Current219 strict SDK reference upgrade reset and resume
         if: matrix.suite == 'home219-operations'
         run: node scripts/testing/run-home219-operations-gates.mjs
+        working-directory: ${{ steps.workbook-historical-view.outputs.root || github.workspace }}
+
+      - name: Post-launch220 strict source protection upgrade RESET resume and UTC
+        if: matrix.suite == 'owner-tools220'
+        run: node scripts/testing/run-owner-tools220-gates.mjs
 
       - name: Current219 full-scale original and optimized performance
         if: matrix.suite == 'home-performance219'
@@ -699,6 +704,17 @@ jobs:
           path: |
             ${{ runner.temp }}/nawasrah-draft220-*/proof220.json
             ${{ runner.temp }}/nawasrah-guest220-*/guest-identity220.json
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Retain allowlisted owner220 synthetic summaries
+        if: always() && matrix.suite == 'owner-tools220'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: owner220-synthetic-summary
+          path: |
+            ${{ runner.temp }}/nawasrah-owner-upgrade220-*/summary.json
+            ${{ runner.temp }}/nawasrah-reset220-resume-*/summary220.json
           if-no-files-found: error
           retention-days: 7
 

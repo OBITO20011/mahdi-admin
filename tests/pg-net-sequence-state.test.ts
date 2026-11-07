@@ -1,3 +1,4 @@
+import{sourceBeforeOwnerTools220}from'../scripts/audit/source-before-owner-tools220.mjs';
 import {execFileSync} from 'node:child_process';
 import {sourceBeforePgNetSequenceState,restorePgNetStateSourceHashes} from '../scripts/audit/source-before-pg-net-sequence-state.mjs';
 import assert from 'node:assert/strict';
@@ -73,7 +74,7 @@ test('strict comparator and owner reset/build/connection guards remain byte-iden
  const pins=JSON.parse(readFileSync(new URL('../scripts/testing/fixtures/pg-net-state-protected-sources.json',import.meta.url),'utf8'));
  assert.match(pins.baseline,/^[a-f0-9]{40}$/u);
  for(const [file,expected]of Object.entries(pins.files)){
-  const actual=createHash('sha256').update(readFileSync(file)).digest('hex');assert.equal(actual,expected,file);
+  const actual=createHash('sha256').update(sourceBeforeOwnerTools220(file,readFileSync(file,'utf8'))!).digest('hex');assert.equal(actual,expected,file);
  }
 });
 

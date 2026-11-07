@@ -14,7 +14,7 @@ import {readRealtimePublication} from '../testing/realtime151-contract.mjs';
 import {operationalSchema,assertOperationalManifest,assertSupportedResetReference} from './operational-schema.mjs';
 
 export const resetCeiling=182;
-const resetFileCounts=Object.freeze({182:151,199:161,200:162,201:163,202:164,203:165,204:166,205:167,206:168,207:169,208:170,209:171,210:172,211:173,212:174,213:175,214:176,215:177,216:178,217:179,219:180});
+const resetFileCounts=Object.freeze({182:151,199:161,200:162,201:163,202:164,203:165,204:166,205:167,206:168,207:169,208:170,209:171,210:172,211:173,212:174,213:175,214:176,215:177,216:178,217:179,219:180,220:181});
 export function assertResetCeiling(reference){
  if(reference.migrationCeiling===operationalSchema.ceiling){assert.equal(reference.manifestDigest,operationalSchema.manifestSha256,'RESET_CURRENT_MANIFEST_UNREVIEWED');return reference.manifest.length;}
  assert.ok(Object.hasOwn(resetFileCounts,reference.migrationCeiling),'RESET_REFERENCE_CEILING');
@@ -133,7 +133,7 @@ export const externalDependentsSql=`WITH RECURSIVE roots(classid,objid,objsubid)
 export function assertExternalDependents(rows,migrationCeiling=182){
  const allowed=['ERP staff can upload own product images','ERP staff can update own product images','ERP staff can delete own product images'];
  //213 recreates this exact reviewed storage policy after rebuilding public helpers.
- if([213,214,215,216,217,operationalSchema.ceiling].includes(migrationCeiling))allowed.push('ERP staff can read own product image metadata');
+ if([213,214,215,216,217,219,operationalSchema.ceiling].includes(migrationCeiling))allowed.push('ERP staff can read own product image metadata');
  for(const r of rows){if(r.schema==='pg_toast')continue;
   if(r.class==='pg_trigger'&&r.schema==='auth'&&r.internalFk===true)continue;
   if(r.class==='pg_publication_rel'&&r.publication==='supabase_realtime')continue;

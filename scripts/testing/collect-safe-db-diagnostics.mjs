@@ -28,7 +28,7 @@ export async function collectSafeDbDiagnostics(source,destination){
     }
   };
   for(const entry of await readdir(source,{withFileTypes:true})){
-    if(!entry.isDirectory()||!/^nawasrah-(?:trial-reset-|reset21[45679]-|home-|home219-|canonical197-)/u.test(entry.name))continue;
+    if(!entry.isDirectory()||!/^nawasrah-(?:trial-reset-|reset(?:21[45679]|220)-|home-|home219-|canonical197-)/u.test(entry.name))continue;
     await collect(path.join(source,entry.name),entry.name);
   }
   const result={format:1,files,errors,allowlist:[...allowed].sort(),rawReportsCopied:false,retentionOrAuthFilesCopied:false};

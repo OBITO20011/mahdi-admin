@@ -1,3 +1,4 @@
+import{sourceBeforeOwnerTools220}from'./source-before-owner-tools220.mjs';
 import{sourceBeforeStorefrontSpeed}from'./source-before-storefront-speed.mjs';
 import{sourceBeforeStorefrontImages}from'./source-before-storefront-images.mjs';
 // Historical contract-test view only. Current checker/runtime always use reality.
@@ -5,6 +6,7 @@ import{createHash}from'node:crypto';import{execFileSync}from'node:child_process'
 const pins=Object.fromEntries(JSON.parse(readFileSync(new URL('./product-scale-source-pins.json',import.meta.url),'utf8')));
 const originals=new Map();
 export function sourceBeforeProductScale(file,text){
+ text=sourceBeforeOwnerTools220(file,text);
  text=sourceBeforeStorefrontSpeed(file,sourceBeforeStorefrontImages(file,text));
  if(!Object.hasOwn(pins,file)||text===null)return text;
  if(createHash('sha256').update(text.replaceAll('\r\n','\n')).digest('hex')!==pins[file])return text;

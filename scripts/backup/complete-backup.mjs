@@ -108,7 +108,7 @@ export async function createCompleteBackup({projectRef,outputRoot,passphrase,ret
     await verifyBackupArchive({archivePath:partial,passphrase});const archivePath=path.join(outputRoot,name);await rename(partial,archivePath);
     const prior=(await readdir(outputRoot)).filter(n=>/^nawasrah-backup-[0-9TZ-]+\.nwb$/u.test(n)).sort().reverse();
     for(const old of prior.slice(retentionCount))await rm(path.join(outputRoot,old));
-    status={ok:true,projectRef,formatVersion:2,finishedAt:new Date().toISOString(),archiveName:name,archivePath,archiveBytes:(await stat(archivePath)).size,sha256:await sha256(archivePath),storageObjectCount:objects.length,historyCeiling:accepted.ceiling,historyFiles:accepted.files,retentionCount};return status;
+    status={ok:true,projectRef,formatVersion:2,sourceEvidenceSha256:createHash('sha256').update(JSON.stringify(before)).digest('hex'),finishedAt:new Date().toISOString(),archiveName:name,archivePath,archiveBytes:(await stat(archivePath)).size,sha256:await sha256(archivePath),storageObjectCount:objects.length,historyCeiling:accepted.ceiling,historyFiles:accepted.files,retentionCount};return status;
   }catch(cause){status={ok:false,projectRef,stage,finishedAt:new Date().toISOString(),error:'COMPLETE_BACKUP_FAILED_NO_SUCCESS_CLAIM',diagnostic:postgresDiagnostic(cause,{stage})};throw diagnosticError(status.error,status.diagnostic);}
   finally{await session?.close().catch(()=>{});await rm(partial,{force:true});await rm(work,{recursive:true,force:true});if(status)await writeFile(path.join(outputRoot,'last-backup-status.json'),JSON.stringify(status,null,2)+'\n');}
 }
@@ -135,7 +135,8 @@ export async function restoreCompleteBackup({archivePath,passphrase,reportPath,r
   const args=['exec','-i',container,'psql','-h','/tmp/socket','-p',String(restorePort),'-U','supabase_admin','-d','postgres','-X','-q','-A','-t','-w','-v','ON_ERROR_STOP=1','-v','VERBOSITY=verbose'];
   let session,rehearsalArchiveSha256,stage='archive-verification';
   try{
-    if(afterVerified){await protectResetPath(work,true);rehearsalArchiveSha256=await sha256(archivePath);}
+    rehearsalArchiveSha256=await sha256(archivePath);
+    if(afterVerified)await protectResetPath(work,true);
     await verifyBackupArchive({archivePath,passphrase,extractTo:content});const manifest=JSON.parse(await readFile(path.join(content,'manifest.json'),'utf8'));
     assert.equal(manifest.formatVersion,2);assertApprovedBackupProject(manifest.projectRef);
     const before=JSON.parse(await readFile(path.join(content,'database','source-evidence.json'),'utf8'));
@@ -196,7 +197,8 @@ export async function restoreCompleteBackup({archivePath,passphrase,reportPath,r
     const integrity=(scan?.checks??[]).filter(c=>c.key.startsWith('integrity:')).map(({key,status,issueCount})=>({key,status,issueCount}));
     assert.ok(integrity.length>5,'RESTORE_INTEGRITY_SCAN_MISSING');
     assert.ok(integrity.every(c=>c.status==='healthy'&&Number(c.issueCount)===0),'RESTORE_EXISTING_INTEGRITY_CHECK_FAILED');
-    report={ok:true,projectRef:manifest.projectRef,mode:'isolated-complete-restore',postgresImage:IMAGE,completedAt:new Date().toISOString(),hostedConnectionsMade:false,network:'none',liveVolumesModified:false,historyCeiling:accepted.ceiling,historyFiles:accepted.files,tablesCompared:Object.keys(before.tables).length,storageObjectsCompared:manifest.storageObjects.length,integrityChecks:integrity,tocCoverage:restorePartition.proof,extensions:extensionProof,platform:platformProof,cronSequenceAcl:cronAclProof,pgNetSequenceState:pgNetStateProof,...proof};
+    assert.equal(await sha256(archivePath),rehearsalArchiveSha256,'RESTORE_ARCHIVE_CHANGED_DURING_VERIFICATION');
+    report={ok:true,archiveSha256:rehearsalArchiveSha256,sourceEvidenceSha256:createHash('sha256').update(JSON.stringify(before)).digest('hex'),projectRef:manifest.projectRef,mode:'isolated-complete-restore',postgresImage:IMAGE,completedAt:new Date().toISOString(),hostedConnectionsMade:false,network:'none',liveVolumesModified:false,historyCeiling:accepted.ceiling,historyFiles:accepted.files,tablesCompared:Object.keys(before.tables).length,storageObjectsCompared:manifest.storageObjects.length,integrityChecks:integrity,tocCoverage:restorePartition.proof,extensions:extensionProof,platform:platformProof,cronSequenceAcl:cronAclProof,pgNetSequenceState:pgNetStateProof,...proof};
     if(afterVerified){
       // AFTER strict comparison and the rolled-back scanner. The same finally
       // owns cleanup even if the rehearsal throws. No default network changes.

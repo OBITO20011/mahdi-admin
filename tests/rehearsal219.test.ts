@@ -1,3 +1,4 @@
+import{sourceBeforeOwnerTools220}from'../scripts/audit/source-before-owner-tools220.mjs';
 import{sourceBeforeProductWorkbook}from'../scripts/audit/source-before-product-workbook.mjs';
 import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import {sourceBeforeMobileBack} from '../scripts/audit/source-before-mobile-back.mjs';
@@ -36,7 +37,7 @@ test('110 original owner/core sources stay exact;only approved dependency roots 
 });
 
 test('second owner exception reconstructs exact original core and rejects any extra guard edit',()=>{
- const a=pgCronResetApproval219,before=execFileSync('git',['show',a.baseline+':'+a.file],{encoding:'utf8',maxBuffer:8*1024**2}),current=readFileSync(a.file,'utf8');
+ const a=pgCronResetApproval219,before=execFileSync('git',['show',a.baseline+':'+a.file],{encoding:'utf8',maxBuffer:8*1024**2}),current=sourceBeforeOwnerTools220(a.file,readFileSync(a.file,'utf8'))!;
  assert.equal(createHash('sha256').update(before).digest('hex'),a.beforeSha256);
  let applied=before;for(const p of a.patches){assert.equal(applied.split(p.before).length,2);applied=applied.replace(p.before,p.after);}
  assert.equal(applied,current);assert.equal(historicalProductWorkbookSource(sourceBeforeDependencyRoots219,a.file,current),before);
@@ -51,7 +52,7 @@ test('owner exception reconstructs exact Git bytes and rejects every other trial
  const before=execFileSync('git',['show',a.baseline+':'+a.file],{encoding:'utf8',maxBuffer:8*1024**2});
  assert.equal(createHash('sha256').update(before).digest('hex'),a.beforeSha256);
  assert.equal(before.split(a.before).length,2);
- const current=readFileSync(a.file,'utf8');assert.equal(before.replace(a.before,a.after),current);
+ const current=sourceBeforeOwnerTools220(a.file,readFileSync(a.file,'utf8'))!;assert.equal(before.replace(a.before,a.after),current);
  assert.equal(historicalProductWorkbookSource(sourceBeforeDependencyRoots219,a.file,current),before);
  assert.match(a.before,/SELECT 'pg_namespace'/u);assert.doesNotMatch(a.after,/SELECT 'pg_namespace'/u);
  assert.match(a.after,/deptype IN\('i','e'\)/u);

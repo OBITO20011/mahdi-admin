@@ -1,3 +1,4 @@
+import{sourceBeforeOwnerTools220}from'../scripts/audit/source-before-owner-tools220.mjs';
 import {sourceBeforePgNetSequenceState} from '../scripts/audit/source-before-pg-net-sequence-state.mjs';
 import{pathsBeforeStorefrontImages}from'../scripts/audit/source-before-storefront-images.mjs';
 import{sourceBeforeProductScale}from'../scripts/audit/source-before-product-scale.mjs';
@@ -39,5 +40,5 @@ test('historical readiness and RESET helpers remain exact;only approved pinned p
  const assertions=old.slice(old.indexOf(' assert.match('),old.indexOf('return inventoryBeforeTrialR();')).trim();
  assert.ok(read('scripts/testing/record-order-historical-views.mjs').includes(assertions));
  const pins=JSON.parse(read('scripts/testing/rehearsal219-owner-source-pins.json'));
- for(const [file] of pins.files)assert.equal((file==='scripts/backup/postgres-diagnostic.mjs'?sourceBeforePgNetSequenceState(file,read(file))!:read(file)).replaceAll('\r\n','\n'),execFileSync('git',['show',baseline+':'+file],{encoding:'utf8',windowsHide:true,maxBuffer:64*1024**2}).replaceAll('\r\n','\n'),file);
+ for(const [file] of pins.files)assert.equal((file==='scripts/backup/postgres-diagnostic.mjs'?sourceBeforePgNetSequenceState(file,read(file))!:sourceBeforeOwnerTools220(file,read(file))!).replaceAll('\r\n','\n'),execFileSync('git',['show',baseline+':'+file],{encoding:'utf8',windowsHide:true,maxBuffer:64*1024**2}).replaceAll('\r\n','\n'),file);
 });

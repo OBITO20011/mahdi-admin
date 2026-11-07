@@ -72,7 +72,7 @@ test('closed-order verification documents both UI refusals and the current serve
   assert.ok(read('customer-web/src/services/storefront-settings.service.ts').includes("supabase.rpc('get_public_storefront_settings')"));
   assert.ok(read('supabase/functions/submit-guest-order/index.ts').includes("const rpcName = 'submit_guest_customer_order_v2'"));
   const definitions=readdirSync('supabase/migrations').filter(f=>f.endsWith('.sql')).sort().filter(f=>/CREATE (?:OR REPLACE )?FUNCTION public\.submit_guest_customer_order_v2\(/u.test(read('supabase/migrations/'+f)));
-  assert.equal(definitions.at(-1),'209_product_sale_methods.sql','Update the documented current writer when a new definition is added');
+  assert.equal(definitions.at(-1),'220_posthandover_reads_and_guest_identity.sql','Update the documented current writer when a new definition is added');
   const body=read('supabase/migrations/'+definitions.at(-1)).split('CREATE OR REPLACE FUNCTION public.submit_guest_customer_order_v2(')[1];
   order(body,["v_replay->>'decision' = 'REPLAY'",'RETURN v_replay',"WHERE id = '00000000-0000-0000-0000-000000000001'::UUID FOR SHARE",'NOT COALESCE(v_settings.orders_enabled, false)','PHASE3_CUSTOMER_ORDERS_DISABLED','INSERT INTO public.orders']);
   for(const marker of ['ordersEnabled=false','get_public_storefront_settings','PHASE3_CUSTOMER_ORDERS_DISABLED','replay','لا ينشئ طلباً جديداً','عدم زيادة الطلبات','وليس تجربة رفض حية','لا ترسل طلباً حيّاً للتحقق من المنع قبل التوقيع'])assert.ok(plan.includes(marker),marker);

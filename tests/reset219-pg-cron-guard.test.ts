@@ -5,7 +5,7 @@ import {reset219CronStatements,reset219CronIdentity,assertReset219CronIdentity,g
 import {resetUnits} from '../scripts/operations/trial-reset-core.mjs';
 import {migrationManifest,manifestDigest} from '../scripts/testing/maintenance-db-contract.mjs';
 const identity={name:'pg_cron',version:'1.6.4',schema:'pg_catalog',owner:'supabase_admin'};
-const fixture=async()=>({migrationCeiling:219,catalog:{extensions:[identity]},manifest:await migrationManifest(process.cwd())});
+const fixture=async()=>({migrationCeiling:219,catalog:{extensions:[identity]},manifest:(await migrationManifest(process.cwd())).filter(m=>Number(m.name.slice(0,3))<=219)});
 test('219 exact file/line/hash guard replaces only three known extension statements;all other CREATE EXTENSION remains literal',async()=>{
  const ref=await fixture(),source=reset219CronStatements.map(s=>({name:s.name,input:readFileSync('supabase/migrations/'+s.name)}));
  const other={name:'033_order_web_push_notifications.sql',input:readFileSync('supabase/migrations/033_order_web_push_notifications.sql')};
@@ -29,7 +29,7 @@ test('missing,different version/owner/schema and duplicates reject with read-onl
  const core=readFileSync('scripts/operations/trial-reset214-core.mjs','utf8');assert.ok(core.indexOf('await verifyExistingReset219Cron')<core.indexOf("report.stage='retention-preflight'"));assert.match(core,/policy\.ceiling===219\?guardedReset219CronUnits/u);
 });
 test('fresh/resetUnits source is unchanged and never imports or applies the RESET-only guard',async()=>{
- const manifest=await migrationManifest(process.cwd()),ref={migrationCeiling:219,manifest,manifestDigest:manifestDigest(manifest)};const units=await resetUnits(process.cwd(),ref);
+ const manifest=(await migrationManifest(process.cwd())).filter(m=>Number(m.name.slice(0,3))<=219),ref={migrationCeiling:219,manifest,manifestDigest:manifestDigest(manifest)};const units=await resetUnits(process.cwd(),ref);
  for(const spec of reset219CronStatements){const unit=units.find((u:any)=>u.name===spec.name);assert.ok(unit);assert.ok(unit.input.toString().includes('CREATE EXTENSION IF NOT EXISTS pg_cron;'));}
  const guarded=guardedReset219CronUnits(units,{...ref,catalog:{extensions:[identity]}});assert.equal(guarded.replaced.length,3);
  const build=readFileSync('scripts/operations/build-empty-supabase.mjs','utf8');assert.ok(!build.includes('reset219-pg-cron-guard'));assert.ok(!readFileSync('scripts/operations/trial-reset-core.mjs','utf8').includes('reset219-pg-cron-guard'));

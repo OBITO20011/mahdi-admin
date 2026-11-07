@@ -1,3 +1,4 @@
+import{sourceBeforeOwnerTools220}from'../audit/source-before-owner-tools220.mjs';
 // Exactly two owner-approved differences plus the pinned new219 guard helper.
 // No owner CLI or runtime guard imports this test-only historical/pin helper.
 import {readFileSync} from 'node:fs';
@@ -7,6 +8,7 @@ export const dependencyRootApproval219=JSON.parse(readFileSync(new URL('./rehear
 export const pgCronResetApproval219=JSON.parse(readFileSync(new URL('./rehearsal219-pg-cron-approval.json',import.meta.url),'utf8'));
 export const sourceHash219=bytes=>createHash('sha256').update(bytes).digest('hex');
 export function assertProtectedRehearsalSource219(file,bytes,beforeHash){
+ const projected=sourceBeforeOwnerTools220(file,bytes.toString('utf8'));if(projected!==null&&projected!==bytes.toString('utf8'))bytes=Buffer.from(projected);
  const approval=dependencyRootApproval219;
  if(file===approval.file){
   assert.equal(beforeHash,approval.beforeSha256,'REHEARSAL_EXCEPTION_BASELINE_CHANGED');
@@ -20,6 +22,7 @@ export function assertProtectedRehearsalSource219(file,bytes,beforeHash){
  }else assert.equal(sourceHash219(bytes),beforeHash,'REHEARSAL_PROTECTED_SOURCE_CHANGED:'+file);
 }
 export function sourceBeforeDependencyRoots219(file,text){
+ text=sourceBeforeOwnerTools220(file,text);
  if(text===null)return null;
  const cron=pgCronResetApproval219;
  if(file===cron.file&&sourceHash219(text)===cron.afterSha256){

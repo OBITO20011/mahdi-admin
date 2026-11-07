@@ -49,7 +49,7 @@ export const captureReset215=options=>{assertSupportedResetReference(options.ref
 export const captureReset216=options=>{assertSupportedResetReference(options.reference);return captureRetainedReset(options,policy216);};
 export const captureReset217=options=>{assertSupportedResetReference(options.reference);return captureRetainedReset(options,policy217);};
 export const captureReset219=options=>{assertCurrentResetReference(options.reference);return captureRetainedReset(options,policy219);};
-async function captureRetainedReset({executor,ownerId,reference},policy){
+export async function captureRetainedReset({executor,ownerId,reference},policy){
  assert.equal(reference.migrationCeiling,policy.ceiling,'RESET_REFERENCE_REQUIRED');assert.equal(reference.manifest.length,policy.files);
  const sql=async input=>{const r=await executeInput(executor,input);assert.equal(r.code,0,'RESET214_READ_FAILED');return r.stdout.trim();};
  const json=async input=>JSON.parse(await sql(input));
@@ -97,7 +97,7 @@ export const reset215WithExecutor=options=>{assertSupportedResetReference(option
 export const reset216WithExecutor=options=>{assertSupportedResetReference(options.reference);return runRetainedReset(options,policy216);};
 export const reset217WithExecutor=options=>{assertSupportedResetReference(options.reference);return runRetainedReset(options,policy217);};
 export const reset219WithExecutor=options=>{assertCurrentResetReference(options.reference);return runRetainedReset(options,policy219);};
-async function runRetainedReset(options,policy){
+export async function runRetainedReset(options,policy){
  const {executor,reference,ownerId,output}=options;
  assert.equal(reference.migrationCeiling,policy.ceiling,'RESET_REFERENCE_REQUIRED');assert.equal(reference.manifest.length,policy.files);
  const target=options.report??{};
@@ -108,6 +108,7 @@ async function runRetainedReset(options,policy){
  const report=new Proxy(target,{set(object,key,value){object[key]=value;if(key==='destructiveStarted'&&value===true)object.recoveryRequired=true;if(key==='stage'||key==='destructiveStarted')persist();return true;}});
  try{
   if(policy.ceiling===219)report.pgCronResetGuard=await verifyExistingReset219Cron(executor,reference);
+  else if(policy.verifyExistingCron)report.pgCronResetGuard=await policy.verifyExistingCron(executor,reference);
   report.stage='retention-preflight';
   const state=session?retainedSessionState(session):await captureRetainedReset({executor,ownerId,reference},policy);report.plan=state.plan;
   if(options.expectedPlan)assert.deepEqual(state.plan,options.expectedPlan,'RESET214_PREVIEW_CHANGED');
@@ -132,7 +133,7 @@ async function runRetainedReset(options,policy){
 async function rebuild214({executor,root,reference,output,repair,clearHistory,emptyStorage,deleteOtherAuth,finalDryRun,ownerId,report={},state,session,policy,boundary=async()=>{}}){
  const sql=async input=>{const r=await executeInput(executor,input);assert.equal(r.code,0,reset214SqlFailureCode(r.stderr));return r.stdout.trim();};
  const json=async input=>JSON.parse(await sql(input));
- const originalUnits=await resetUnits(root,reference),cronGuard=policy.ceiling===219?guardedReset219CronUnits(originalUnits,reference):null;
+ const originalUnits=await resetUnits(root,reference),cronGuard=policy.ceiling===219?guardedReset219CronUnits(originalUnits,reference):policy.guardedCronUnits?.(originalUnits,reference)??null;
  const units=cronGuard?.units??originalUnits;if(cronGuard)report.pgCronResetGuard.replaced=cronGuard.replaced;uuid(ownerId);
  Object.assign(report,{stage:'catalog-preflight',applied:[],recorded:[],destructiveStarted:false});
  let before;
@@ -228,6 +229,7 @@ async function rebuild214({executor,root,reference,output,repair,clearHistory,em
  if(policy.ceiling>=217)await assertOwner217HeldSettings(executor);
  assert.deepEqual(await json('SELECT jsonb_agg(version ORDER BY version) FROM supabase_migrations.schema_migrations;'),reference.appliedVersions,'RESET214_FINAL_HISTORY_MISMATCH');
  if(policy.ceiling===219)report.migrationSourceProof=await verifyReset219MigrationManifest(root,reference);
+ else if(policy.verifyMigrationManifest)report.migrationSourceProof=await policy.verifyMigrationManifest(root,reference);
  await finalDryRun();Object.assign(report,{stage:'complete',preserved:true,catalogDifferences:0,applicationAclDifferences:0,comparisonPolicy:'same-database-literal-all-schemas'});return report;
  }catch(error){await captureResetFailureEvidence({output,before,readAfter:()=>json(schemaCatalogSql),stage:report.stage});throw error;}
 }

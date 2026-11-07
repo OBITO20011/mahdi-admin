@@ -23,7 +23,7 @@ assert.match(project,/^nawasrah-(?:service|table)-audit-[a-f0-9]+-test$/u,'LOCAL
 let workdir=options['--workdir'];
 if(workdir){assert.ok(options['--local-project'],'EXPLICIT_LOCAL_PROJECT_REQUIRED');const config=await readFile(path.join(workdir,'supabase/config.toml'),'utf8');assert.equal(config.match(/^project_id\s*=\s*"([^"]+)"/mu)?.[1],project,'LOCAL_WORKDIR_PROJECT_MISMATCH');}
 const migrationCeiling=Number(options['--migration-ceiling']??JSON.parse(await readFile(path.join(root,'docs/agent/project-state.json'),'utf8')).migrationCeiling);
-assert.ok([198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,219].includes(migrationCeiling),'APPROVED_SERVICE_AUDIT_CEILING_REQUIRED');
+assert.ok([198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,219,220].includes(migrationCeiling),'APPROVED_SERVICE_AUDIT_CEILING_REQUIRED');
 const output=await mkdtemp(path.join(tmpdir(),'nawasrah-service-access-')),
  report={schemaVersion:1,startedAt:new Date().toISOString(),migrationCeiling,managedAccess:false,output};
 const q=v=>"'"+String(v).replaceAll("'","''")+"'";
