@@ -1,0 +1,261 @@
+{
+  "kind": "DRAFT220_LOCAL_ONLY",
+  "hostedAccess": false,
+  "activeCeiling": 219,
+  "activeMigrationFiles": 180,
+  "candidateSha256": "6fd2a616523bf8e713f5289b3dcf66c6e1920c40d73c22f35a56a777add06113",
+  "seedOrders": 50000,
+  "additionalRealSales": {
+    "mixed": 10,
+    "base": 10
+  },
+  "annualBefore": {
+    "executionMs": 31775.26,
+    "timeout8sRejected": true,
+    "earlier50000Samples": [
+      31384.131,
+      29316.944,
+      30565.915
+    ]
+  },
+  "annualAfter": {
+    "samples": [
+      {
+        "executionMs": 4558.096,
+        "wallMs": 4560.8364,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4760.348,
+        "wallMs": 4762.924100000004,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4988.422,
+        "wallMs": 4991.00420000001,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4740.848,
+        "wallMs": 4743.621100000004,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4698.31,
+        "wallMs": 4703.347899999993,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4603.101,
+        "wallMs": 4607.776500000007,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4962.199,
+        "wallMs": 4967.080999999991,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4613.169,
+        "wallMs": 4617.0809999999765,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4835.589,
+        "wallMs": 4839.565899999987,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4747.446,
+        "wallMs": 4751.231599999999,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4807.619,
+        "wallMs": 4811.021700000012,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 5221.647,
+        "wallMs": 5225.265299999999,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4706.524,
+        "wallMs": 4710.185899999982,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4031.205,
+        "wallMs": 4034.092000000004,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4277.31,
+        "wallMs": 4280.020099999994,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4889.181,
+        "wallMs": 4891.627399999998,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4769.399,
+        "wallMs": 4772.074299999978,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4301.655,
+        "wallMs": 4304.207999999984,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4677.337,
+        "wallMs": 4681.768199999991,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4872.532,
+        "wallMs": 4875.349200000026,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      }
+    ],
+    "warmups": 3,
+    "p50": 4740.848,
+    "p95": 4988.422,
+    "max": 5221.647,
+    "hardTimeoutMs": 8000,
+    "callerMemoryAfter": "4MB"
+  },
+  "functional": {
+    "parity": [
+      "annual",
+      "today",
+      "month",
+      "first6",
+      "empty",
+      "other-branch",
+      "role:admin",
+      "role:manager",
+      "role:accountant",
+      "role:sales",
+      "role:warehouse_keeper",
+      "role:delivery_driver",
+      "role:none"
+    ],
+    "errorParity": 4,
+    "quantityVectors": {
+      "count": 1100,
+      "exact": true
+    },
+    "supplier": {
+      "cases": 60,
+      "pages": 3,
+      "deterministicDesc": true
+    },
+    "indexNegativeDetected": true,
+    "rlsAccessUnchanged": true,
+    "rollbackExact": true,
+    "completeJsonLiteral": true,
+    "fieldsExcluded": []
+  },
+  "rls": {
+    "before": [
+      {
+        "table": "supplier_receipts",
+        "executionMs": 5.135
+      },
+      {
+        "table": "supplier_receipt_items",
+        "executionMs": 14.358
+      }
+    ],
+    "after": [
+      {
+        "table": "supplier_receipts",
+        "executionMs": 1.78
+      },
+      {
+        "table": "supplier_receipt_items",
+        "executionMs": 5.021
+      }
+    ]
+  },
+  "receiptRead": {
+    "beforeMs": [
+      14.779,
+      14.362,
+      14.261
+    ],
+    "afterMs": [
+      3.095,
+      3.58,
+      5.487
+    ]
+  },
+  "canonicalWriteExperiment": {
+    "beforeMs": [
+      236.97,
+      42.805,
+      75.609,
+      41.366,
+      35.54,
+      60.363,
+      27.034,
+      22.198,
+      27.817,
+      33.667
+    ],
+    "afterMs": [
+      28.327,
+      41.214,
+      33.905,
+      31.6,
+      34.533,
+      45.551,
+      29.749,
+      32.112,
+      34.565,
+      34.383
+    ],
+    "indexBytes": 253952
+  },
+  "rejectedCandidates": [
+    "Group+8MB only:failed actual8s after prior success;not adopted.",
+    "All3legacy package calls inlined:changed tied Top Products selection;not adopted.",
+    "Partial inline+group with4MB:p95=7161.326/max7203.989 all<8s but failed stricter7s margin."
+  ],
+  "memoryNote": "Final8MB function-only. Final paired tempRead22562→22559 is small;do not attribute timing improvement solely to memory. Production RAM/concurrency not measured;promotion gate required.",
+  "sourceProof": {
+    "tableSuccess": 172,
+    "tableExpectedZero": 9,
+    "tableDenied": 0,
+    "tableOtherErrors": 0,
+    "serviceProbes": 598,
+    "expectedRoleDenials": 18
+  },
+  "externalEvidence": "C:/Users/TOP/NawasrahFrankfurt/posthandover220-draft-20261107",
+  "finalExactShaCi": "PENDING",
+  "activeOwnerToolsChanged": false
+}

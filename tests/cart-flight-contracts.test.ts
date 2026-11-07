@@ -1,3 +1,4 @@
+import {sourceBeforeDraft220Workflow} from '../scripts/audit/source-before-draft220.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -71,7 +72,7 @@ test('CI changes only add bounded synthetic evidence upload, with no changed gat
           if-no-files-found: ignore
 
 `;
- const file='.github/workflows/quality.yml',raw=readFileSync(file,'utf8').replaceAll('\r\n','\n');
+ const file='.github/workflows/quality.yml',raw=sourceBeforeDraft220Workflow(readFileSync(file,'utf8').replaceAll('\r\n','\n'));
  assert.ok(raw.includes(block));assert.equal(raw.replace(block,''),previous(file));
  const command=JSON.parse(readFileSync('package.json','utf8')).scripts.quality;
  assert.equal(command.replace(' && node scripts/testing/run-cart-flight-browser.mjs',''),JSON.parse(previous('package.json')).scripts.quality);

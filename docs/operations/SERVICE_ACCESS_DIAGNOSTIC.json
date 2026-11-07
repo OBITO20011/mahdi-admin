@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-06T18:42:00.861Z",
+  "startedAt": "2026-11-07T11:08:20.842Z",
   "migrationCeiling": 219,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-9PfTnU",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-oKTweo",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -367,7 +367,7 @@
     },
     {
       "file": "src/features/inventory/SupplierReplacementPanel.tsx",
-      "sha256": "fea0dd76e1964061c889803d01ae80c0304fa81b0bad4de27501b5bfbbc4fd09"
+      "sha256": "e1d0f8ba07d1e72ed5573a4b28e8a0ac11882651c5cd55920a58033475994535"
     },
     {
       "file": "src/features/inventory/supplierReplacementPresentation.ts",
@@ -46608,7 +46608,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-11-06T18:43:54.309Z",
+  "endedAt": "2026-11-07T11:09:54.611Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {

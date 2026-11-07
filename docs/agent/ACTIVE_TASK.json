@@ -1,43 +1,56 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner7Nov approved fixed pg_net raw sequence state capture and Docker-only replay;separate PR/fullCI,no merge before Claude;no RESET guard or comparator change.",
-  "baselineSha": "01d4b036136304876da1be8b701cff9e342e3b4d",
-  "branch": "codex/restore219-pg-net-sequence-state",
+  "objective": "Owner7Nov:78merged main d0cbf421 FULL63 safeFF complete;220PR79 Draft final scopedCOUNT guard FULL65 pending;then authorized visual/LCP. No hosted/220merge.",
+  "baselineSha": "1a7cc4f38ffb247f478e40e80e583012f2d62359",
+  "branch": "codex/posthandover220-draft",
   "phase": "PACKAGE_F",
   "completed": [
-    "Approved76,75,77 merged in order;all exact-headFULL64/mainFULL63 and byte-preserving primaryFF/preflight verified.",
-    "Actual encrypted/strict214–219 compatibility,emptyStorage,17integrity and4raw-state cases/6negative cases/repeatedRestore pass.",
-    "Legacy synthetic used3 -> strictRestore -> new encrypted raw3,true backup -> strictRestore pass;owned containers cleaned.",
-    "44focused;final23history/state;types/strictlint pass. Source/comparator/RESET11protected pins unchanged."
+    "Approved76/75/77 main01d4 FULL63,safe primary FF owner20+env4+state5 preserved.",
+    "Owner reviewed78;merged7Nov main d0cbf421,mainFULL CI+safeFF in progress. Used-pg_net protection chain proof retained.",
+    "Draft220 quarantined outside migrations;active219/180 exact. Final50k+20 M01 before31.775s/8s reject;20+3 afterp95=4988.422/max5221.647ms.",
+    "Literal completeJSON6periods/7roles/4errors/8facts/1100qty exact;60supplier cases3DESC pages;FK used/drop-index negative;rollback4reader defs/ACL exact.",
+    "Actual219 access refresh172success/9expectedzero/0denied/0errors;598service probes18expected role denials.",
+    "220saved5ec22a01,genuine main78 mergec000a795;5metadata conflicts preserve both phase notes/before pins/state branch only. Postmerge23PASS;Gitleaks0;PR79Draft opened.",
+    "79scope assertion diagnosed pre-DB;only pinned SupplierPanel admitted,new unknown-source negatives;types/strictlint13unitPASS;actualcommitted view65sources/owner+SQLunchanged/cleanupPASS. Fix1a7cc4f3 pushed,PRDraft maintained;Gitleaks0.",
+    "main78FULL63 and primary safeFFd0cbf421 complete;20owner+4env+5state byte-identical,preflightPASS."
   ],
   "inProgress": [
-    "Final review,Gitleaks,commit/push,independentPR/FULLCI;NO merge before Claude."
+    "Strengthen scope observability only:typed scopedCOUNT/datewindow before same50000 benchmark;tests then new79head/FULL65. SQLcandidate/samples/limits unchanged."
   ],
-  "notStarted": [],
+  "notStarted": [
+    "After79FULL:finalpopover visual audit and LCP-only report."
+  ],
   "testsPassed": [
-    "Actual214–219 andstate4+negative6,replay,protectionChain",
-    "44focused,23finalhistory/state,types,strictlint"
+    "Final20+3hard8 proof and literal financial/roles/quantity/supplier/FK/RLS oracles.",
+    "Current219 actual table+service diagnostics;owned DBs stopped.",
+    "Types/strictESLint PASS;originalfull1832pass/11fail then focused58pass2hashfail;bothhashcasesPASS after after-only pins refresh;frozenGit63 under original120sPASS.",
+    "ScopedCOUNT/datewindow guard:types+strictlint+6unit PASS;old1a7 featureFULL65 PASS.",
+    "ScopedCOUNT/datewindow guard:types+strictlint+6unit PASS;old1a7 featureFULL65 PASS."
   ],
   "testsRemaining": [
-    "FULL final exact-headCI."
+    "New scoped guard commit FULL65;then visual/LCP."
   ],
   "findings": [
-    "Old null/missing/unsafe-value evidence fails closed;positive safe legacy evidence proved.",
-    "One local120s frozen-view timeout under full parallel units;unchanged exact suite passed62.3s then final58.3s;no retry/timeout policy changed."
+    "Only item_sales1package+1base literal119 expansion;Top Products untouched. Function-local8MB/caller4MB;RAM/concurrency promotion gate documented.",
+    "No hosted/owner/env/reference edits;78merged/58Draft.",
+    "Scope misread RETRACTED:branch_n is shift index/time;orders.branch_id fixed2. Actual extra100k DBcount100k samebranch;original50000 allsamebranch. ExtraDBstopped. Prior50k timing valid;new explicit scoped annual50000COUNT guard and exact fixture365/366day range."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hosted/Frankfurt/deploy;no migrations or financial/permission changes;do not merge repair;58Draft;no owner/env/reference edits."
+    "No hosted/Frankfurt/Sentry/Telegram/Cloudflare/deploy.",
+    "No merge220/79 or58;58Draft.",
+    "No owner/env/reference edits;active219/180 unchanged.",
+    "No financial/permission semantics changes or unapproved new SQL."
   ],
-  "nextExactAction": "All merges/main63/primary owner preservation complete. pg_net repair local actual214–219+chain+44focused+23history pass. Final staged Gitleaks,commit,push,separatePR/FULLCI;no merge;then220Draft per owner.",
+  "nextExactAction": "Commit scopedCOUNT guard,push79 newhead,FULL65;then visual audit/LCP.No merge220/58 or hosted.",
+  "checkpointedAt": "2026-11-07T13:06:40.532Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "C97FA50B12CBB3D51903768934DED762798B9251FAD9CDDF5D179B0F470D7F80",
-  "checkpointedAt": "2026-11-07T08:41:44.788Z",
-  "filesTouchedCount": 16,
-  "filesTouchedManifestSha256": "fee83b176a48b8c8500f7fff8be06e0f1934ea11a708d541948a5cd40939411c"
+  "filesTouchedCount": 4,
+  "filesTouchedManifestSha256": "fbe82e9b6900b1493d9d58e9e3a8ae2c22181cdb63f130d43a72ee877e197a55",
+  "workingTreeFingerprint": "387DA51A568164A20F3A974DB786B28386AD50DF7C66118FC6306C49D9517724"
 }
