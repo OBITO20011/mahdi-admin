@@ -1,0 +1,156 @@
+{
+  "baseline": "01d4b036136304876da1be8b701cff9e342e3b4d",
+  "fixtureOnly": true,
+  "hostedConnectionsMade": false,
+  "migrationCeiling": 219,
+  "migrationFiles": 180,
+  "runtime": {
+    "ok": true,
+    "fixtureOnly": true,
+    "hostedConnectionsMade": false,
+    "current219": {
+      "ok": true,
+      "historyCeiling": 219,
+      "historyFiles": 180,
+      "allRowsAndHashesMatch": true,
+      "allSequencesMatch": true,
+      "rolesAndMembershipsMatch": true,
+      "catalogAclOwnerSettingsMatch": true,
+      "exceptionsApplied": []
+    },
+    "legacyCompatibility": [
+      214,
+      215,
+      216,
+      217,
+      219
+    ],
+    "pgNet": {
+      "ok": true,
+      "fixtureOnly": true,
+      "hostedConnectionsMade": false,
+      "cases": [
+        {
+          "label": "unused-default",
+          "rawState": {
+            "lastValue": "1",
+            "isCalled": false
+          },
+          "strict": true,
+          "milliseconds": 24500
+        },
+        {
+          "label": "unused-nondefault",
+          "rawState": {
+            "lastValue": "17",
+            "isCalled": false
+          },
+          "strict": true,
+          "milliseconds": 24000
+        },
+        {
+          "label": "used",
+          "rawState": {
+            "lastValue": "31",
+            "isCalled": true
+          },
+          "strict": true,
+          "milliseconds": 39949
+        },
+        {
+          "label": "http-probe-rolled-back",
+          "rawState": {
+            "lastValue": "32",
+            "isCalled": true
+          },
+          "strict": true,
+          "milliseconds": 22056
+        }
+      ],
+      "negative": [
+        {
+          "label": "legacy-null",
+          "rejected": true,
+          "noOwnedContainer": true
+        },
+        {
+          "label": "legacy-missing",
+          "rejected": true,
+          "noOwnedContainer": true
+        },
+        {
+          "label": "wrong-owner",
+          "rejected": true,
+          "noOwnedContainer": true
+        },
+        {
+          "label": "wrong-sequence",
+          "rejected": true,
+          "noOwnedContainer": true
+        },
+        {
+          "label": "target-membership",
+          "rejected": true,
+          "rawStateUnchanged": true
+        },
+        {
+          "label": "target-owner",
+          "rejected": true,
+          "rawStateUnchanged": true
+        }
+      ],
+      "repeatedSameArchive": true,
+      "legacyPositive": true,
+      "authority": {
+        "role": "postgres",
+        "select": true,
+        "update": true,
+        "superuser": false
+      },
+      "businessRolesAclOwnersUnchanged": true,
+      "noNewGrants": true
+    },
+    "storageEmpty": 0,
+    "integrityHealthy": 17,
+    "roleFlagsRetained": true,
+    "aclRetained": true
+  },
+  "protectionChain": {
+    "fixtureOnly": true,
+    "hostedConnectionsMade": false,
+    "oldArchiveSha256": "c428ec82faf340c752b7cdbe2e5d61a3856c79cbd64ff781e83acd4eb7f8ac46",
+    "capturedRawState": {
+      "lastValue": "3",
+      "isCalled": true
+    },
+    "newArchiveSha256": "43d35531bf0f12165f86bd5896257a24e9e4ecde82da5fb5906f0cc95f1154c7",
+    "legacyStrict": true,
+    "ok": true,
+    "newStrict": true,
+    "exceptionsApplied": [],
+    "ownedContainersCleaned": true
+  },
+  "unitVerification": {
+    "focused": 44,
+    "stateAndHistoricalFinal": 23,
+    "types": true,
+    "strictlint": true,
+    "fullInitial": {
+      "tests": 1845,
+      "pass": 1837,
+      "fail": 8
+    },
+    "initialFailures": "Seven exact historical compatibility assertions plus one local120s Git-view build timeout. Exact projections fixed;no thresholds/assertions/retries changed. Relevant final suites23/23 pass;FULL CI still required."
+  },
+  "sourceSha256": {
+    "scripts/backup/complete-backup.mjs": "5375ff8514146e427aa234c4b38239a930249d7d1360faba2513bae48536a9c0",
+    "scripts/backup/pg-net-sequence-state.mjs": "c6ac93638f830b7a964a3848f9becf8f05979e3f6cefe28665deae671353c1ab",
+    "scripts/backup/postgres-diagnostic.mjs": "81617ee06f3c0ac8be01682875cb2ebb6fb4583c1dffd3a9c2b22d7d2df64d44",
+    "scripts/testing/run-dual-backup-runtime.mjs": "ef3a1bc05933087f88dbb63e0c79f7d0834cda1d228eb7fa9aa4364d5b473d76",
+    "scripts/testing/pg-net-sequence-runtime.mjs": "4eacf7099e154dec4ed071a42d4ee2cb3ba6f5bf793e17112127619de2304c49"
+  },
+  "protectedSourcePins": "scripts/testing/fixtures/pg-net-state-protected-sources.json",
+  "noComparatorOrResetChange": true,
+  "noGrantsOnSource": true,
+  "ownerReviewBeforeMerge": true
+}

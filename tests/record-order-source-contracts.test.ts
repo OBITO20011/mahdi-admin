@@ -1,3 +1,4 @@
+import {sourceBeforePgNetSequenceState} from '../scripts/audit/source-before-pg-net-sequence-state.mjs';
 import{pathsBeforeStorefrontImages}from'../scripts/audit/source-before-storefront-images.mjs';
 import{sourceBeforeProductScale}from'../scripts/audit/source-before-product-scale.mjs';
 import test from 'node:test';
@@ -33,10 +34,10 @@ test('record presentation inverse binds full delivered bytes, exposes any unknow
 });
 
 
-test('historical adapters retain every current readiness assertion and all owner dependencies byte for byte',()=>{
+test('historical readiness and RESET helpers remain exact;only approved pinned pg_net diagnostics differ',()=>{
  const old=read('scripts/audit/source-before-trial-owner-r.mjs').split('export async function verifiedInventoryBeforeTrialR(){')[1];
  const assertions=old.slice(old.indexOf(' assert.match('),old.indexOf('return inventoryBeforeTrialR();')).trim();
  assert.ok(read('scripts/testing/record-order-historical-views.mjs').includes(assertions));
  const pins=JSON.parse(read('scripts/testing/rehearsal219-owner-source-pins.json'));
- for(const [file] of pins.files)assert.equal(read(file).replaceAll('\r\n','\n'),execFileSync('git',['show',baseline+':'+file],{encoding:'utf8',windowsHide:true,maxBuffer:64*1024**2}).replaceAll('\r\n','\n'),file);
+ for(const [file] of pins.files)assert.equal((file==='scripts/backup/postgres-diagnostic.mjs'?sourceBeforePgNetSequenceState(file,read(file))!:read(file)).replaceAll('\r\n','\n'),execFileSync('git',['show',baseline+':'+file],{encoding:'utf8',windowsHide:true,maxBuffer:64*1024**2}).replaceAll('\r\n','\n'),file);
 });

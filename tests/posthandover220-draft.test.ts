@@ -16,7 +16,7 @@ test('older CI assertions see only the exact reviewed workflow inverse; unknown 
 });
 test('220 stays quarantined: history/tools/RESET219 remain exact main219, no deployment entry',()=>{
  const migrations=readdirSync('supabase/migrations');assert.equal(migrations.filter(n=>/^\d{3}_.*\.sql$/u.test(n)).length,180);assert.ok(!migrations.some(n=>n.startsWith('220_')));
- const changes=execFileSync('git',['diff','--name-only','01d4b036136304876da1be8b701cff9e342e3b4d','--','supabase','scripts/operations','scripts/backup'],{encoding:'utf8',windowsHide:true});assert.equal(changes.trim(),'');
+ const changes=execFileSync('git',['diff','--name-only','d0cbf421fedb613c52b48483ba6a9aa44b087adc','--','supabase','scripts/operations','scripts/backup'],{encoding:'utf8',windowsHide:true});assert.equal(changes.trim(),'');
  assert.equal(JSON.parse(read('docs/agent/project-state.json')).migrationCeiling,219);
  assert.match(draft,/DRAFT220_REQUIRES_EXACT_219_HISTORY/u);assert.match(draft,/DRAFT220_REQUIRES_REVIEWED_219_READERS/u);
  assert.doesNotMatch(draft,/\b(?:GRANT|REVOKE|INSERT|UPDATE|DELETE|TRUNCATE)\s/iu);

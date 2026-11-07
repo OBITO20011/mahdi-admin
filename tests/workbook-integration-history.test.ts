@@ -1,3 +1,4 @@
+import {sourceBeforePgNetSequenceState} from '../scripts/audit/source-before-pg-net-sequence-state.mjs';
 import{sourceBeforeStorefrontSpeed}from'../scripts/audit/source-before-storefront-speed.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
@@ -17,10 +18,12 @@ test('integrated workbook inverse binds approved main66 bytes and exposes every 
  }
  assert.equal(sourceBeforeWorkbookIntegration('unreviewed.ts','unknown'),'unknown');
 });
-test('all actual production owner helpers retain the approved main66 bytes during workbook integration',()=>{
+test('owner RESET/build helpers retain main66 bytes;approved pg_net diagnostics have an exact historical view',()=>{
  const protectedFiles=JSON.parse(readFileSync('scripts/testing/rehearsal219-owner-source-pins.json','utf8')).files.map((entry:[string,string])=>entry[0]);
  for(const file of protectedFiles){
   const approved=execFileSync('git',['show','a4fc9dd43c75fab544df4480b5182776f2e35ef5:'+file],{windowsHide:true,maxBuffer:32*1024**2});
-  assert.deepEqual(readFileSync(file),approved,file);
+  // Approved pg_net repair adds only a fixed diagnostic category/stage.
+  // Exact inverse proves old bytes;all other owner helpers remain raw byte-equal.
+  const raw=readFileSync(file);assert.deepEqual(file==='scripts/backup/postgres-diagnostic.mjs'?Buffer.from(sourceBeforePgNetSequenceState(file,raw.toString('utf8'))!):raw,approved,file);
  }
 });

@@ -3,6 +3,10 @@
 Active219/180 and owner tools untouched. 50k+20 real sales:original31.775s rejects8s;20+3 finalp50=4.741s/p95=4.988s/max5.222s,hard8s. FullJSON6periods/7roles/4errors/8facts/1100quantity vectors exact;60suppliercases3DESCpages;FKnegative and ACL/owner/security preserved;rollback exact. Literal119 expands item_sales1package+1base only;Top Products stays exact. Legacy-wrapper work_mem8MB only,caller4MB;RAM/concurrency must be reviewed before future220 promotion. Actual219access172success9expectedzero0denied0error;598services18expected role denials. DraftSQL outside active migrations. FULLCI pending,no merge or hosted;78Ready NOTmerged,58Draft.
 
 
+# 7Nov2026 — approved pg_net backup/Restore state repair,local verification pending
+
+Separate PR after approved76/75/77. Capture fixed net sequence raw last_value/is_called without grants;Docker-only exact-state replay,ambiguous old evidence fails closed. Original strict comparator and RESET219/connection guards unchanged. No migration/hosted/deploy/merge permission. Full214–219 and source/restore data-role-ACL equality required.58Draft.
+
 # 7 نوفمبر 2026 — ضغط فيديو الرئيسية على الهاتف
 
 اعتمد المالك فرق TBT في #74 ودُمج إلى `96cf7b95`. نجح CI على main بنتيجة 63/63، وتحقق تحديث المجلد الأساسي مع حفظ ملفات المالك والبيئة ونجاح preflight.
