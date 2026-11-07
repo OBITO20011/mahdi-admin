@@ -8,13 +8,26 @@ const card=read('docs/handover/ورقة-يوم-التشغيل.md');
 const order=(text:string,markers:string[])=>{let previous=-1;for(const marker of markers){const at=text.indexOf(marker);assert.ok(at>previous,marker);previous=at;}};
 
 test('cutover publishes both closed apps before entering real data on production, then rebuilds only the store before opening',()=>{
-  order(card,['8أ. Auth','8ب. Edge Secrets','8ج. واتساب الرسمي','8د. كلمة المالك «انشر»','8هـ. بعد النشر','9. إدخال الحقيقي','10. مطابقة القوالب','11. نسخة «بداية حقيقية','15. بعد القبول والتوقيع','16. فتح ordersEnabled','17. أول بيع']);
+  order(card,['8أ. Auth','8ب. Edge Secrets','8ج. واتساب الرسمي','8د. كلمة المالك «انشر»','8هـ. بعد النشر','8و. تعريف الأقسام قبل الاستيراد','9. إدخال الحقيقي','10. مطابقة القوالب','11. نسخة «بداية حقيقية','15. بعد القبول والتوقيع','16. فتح ordersEnabled','17. أول بيع']);
   const first=card.split('| ☐ | 8د.')[1].split('\n')[0];
   for(const marker of ['نشر الإدارة والمتجر معاً','admin.alnawasreh.com','alnawasreh.com','verify-dist','ordersEnabled=false'])assert.ok(first.includes(marker),marker);
   assert.ok(card.split('| ☐ | 9.')[1].split('\n')[0].includes('https://admin.alnawasreh.com فقط'));
   const rebuild=card.split('| ☐ | 15.')[1].split('\n')[0];
   for(const marker of ['المتجر وحده مرة واحدة','بنفس SHA','والطلبات مغلقة','productRoutes/sitemapUrls','لا نشر إدارة ثانٍ'])assert.ok(rebuild.includes(marker),marker);
   for(const marker of ['**2.9 الانتقال للنشر المغلق:**','§8.1–8.4أ','§3','§8.4ب','§8.5','#58 يبقى Draft','لا RESET/resume بعد بدء هذه الكتابات الحقيقية'])assert.ok(plan.includes(marker),marker);
+});
+
+test('categories are matched and saved through the current admin modal before product import',()=>{
+  const print=read('docs/handover/ورقة-يوم-التشغيل.html');
+  order(print,['8د. كلمة المالك «انشر»','8هـ. بعد النشر','8و. تعريف الأقسام قبل الاستيراد','9. إدخال الحقيقي']);
+  order(plan,['| 3.1 المواقع والإعدادات','| 3.1أ تعريف الأقسام قبل الاستيراد','| 3.2 المنتجات']);
+  const products=read('src/features/products/ProductsView.tsx');
+  assert.match(products,/openModal\('manage_categories'\)[\s\S]{0,600}الأقسام/u);
+  const modal=read('src/components/modals/CategoriesModal.tsx');
+  for(const label of ['قسم جديد','اسم القسم بالعربية','حفظ القسم'])assert.ok(modal.includes(label),label);
+  for(const copy of [card,print])for(const label of ['قسم جديد','حفظ القسم','قسم مفقود أو غير نشط أو اسم مكرر'])assert.ok(copy.includes(label),label);
+  const reference=read('src/features/goLive/productWorkbookReference.ts');
+  assert.ok(reference.includes('c.active&&display(c.name)===row.data.category_name'));
 });
 
 test('documented two deployment commands really build and verify selected production output before uploading',()=>{
