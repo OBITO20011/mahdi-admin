@@ -1,45 +1,43 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
+  "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner7Nov documentation risk acceptance PR/FULLCI/merge;H1phone confirmation,R2not applicable no employees/no future reminder,R3monitor,R4low. No219SQL or hosted/deploy;58/79Draft.",
-  "baselineSha": "0e5b0ec4e436dd206e8f0d4716404a1eb5ebaae9",
-  "branch": "codex/security-risk-acceptance",
+  "objective": "Owner7Nov approved fixed pg_net raw sequence state capture and Docker-only replay;separate PR/fullCI,no merge before Claude;no RESET guard or comparator change.",
+  "baselineSha": "01d4b036136304876da1be8b701cff9e342e3b4d",
+  "branch": "codex/restore219-pg-net-sequence-state",
   "phase": "PACKAGE_F",
   "completed": [
-    "Known-own78/main d0cbf421 FULL63 delivered;old merged task metadata replaced only in this new authorized worktree.",
-    "Decision/card/guide historical reminders synchronized;no executable/SQL change.",
-    "Focused docs10PASS;print2A4 pages heights1012.53/1030.39px under1046.93px;before inverse bytes preserved;preflightPASS."
+    "Approved76,75,77 merged in order;all exact-headFULL64/mainFULL63 and byte-preserving primaryFF/preflight verified.",
+    "Actual encrypted/strict214–219 compatibility,emptyStorage,17integrity and4raw-state cases/6negative cases/repeatedRestore pass.",
+    "Legacy synthetic used3 -> strictRestore -> new encrypted raw3,true backup -> strictRestore pass;owned containers cleaned.",
+    "44focused;final23history/state;types/strictlint pass. Source/comparator/RESET11protected pins unchanged."
   ],
   "inProgress": [
-    "Documentation-only decision and matching cutover warning;focused checks/print/FULLCI then approved merge."
+    "Final review,Gitleaks,commit/push,independentPR/FULLCI;NO merge before Claude."
   ],
-  "notStarted": [
-    "After documentation merge:H1draft79,then220tools Draft over79."
-  ],
+  "notStarted": [],
   "testsPassed": [
-    "Focused documentation10,print2pages,no runtime diff,branch-only state+after-only doc pins.",
-    "29historical cases:26PASS then remaining3 corrected and8PASS;no prior baseline/unknown mutation assertion removed."
+    "Actual214–219 andstate4+negative6,replay,protectionChain",
+    "44focused,23finalhistory/state,types,strictlint"
   ],
   "testsRemaining": [
-    "Exact feature FULL64;then authorized docs merge and mainFULL63/safe primary FF."
+    "FULL final exact-headCI."
   ],
   "findings": [
-    "Owner explicitly accepts H1 before public opening;not a repair;R2supersedes pre-hiring reminders.",
-    "CI doc hash failure diagnosed;local branch kept outside delivered docs;exact doc after pins only,original bytes/unknown-mutation checks unchanged."
+    "Old null/missing/unsafe-value evidence fails closed;positive safe legacy evidence proved.",
+    "One local120s frozen-view timeout under full parallel units;unchanged exact suite passed62.3s then final58.3s;no retry/timeout policy changed."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No219SQL/production behavior change/hosted access/deploy.",
-    "No merge58/79 or tools220;no owner/env/reference changes."
+    "No hosted/Frankfurt/deploy;no migrations or financial/permission changes;do not merge repair;58Draft;no owner/env/reference edits."
   ],
-  "nextExactAction": "Wait FULL64 on corrected doc head;merge80 only green,mainFULL63,primaryFF;then H1Draft79.",
-  "checkpointedAt": "2026-11-07T16:12:38.120Z",
+  "nextExactAction": "All merges/main63/primary owner preservation complete. pg_net repair local actual214–219+chain+44focused+23history pass. Final staged Gitleaks,commit,push,separatePR/FULLCI;no merge;then220Draft per owner.",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 5,
-  "filesTouchedManifestSha256": "d55785328ae4a0dbcec0aa17560ced404790db750e69d1310bcd3531244ba57d",
-  "workingTreeFingerprint": "2506DA965C27BE4DB6BF4FF34D3A8B2A4A4EF562966DD2BE0BC4B4EDF51C84A2"
+  "workingTreeFingerprint": "C97FA50B12CBB3D51903768934DED762798B9251FAD9CDDF5D179B0F470D7F80",
+  "checkpointedAt": "2026-11-07T08:41:44.788Z",
+  "filesTouchedCount": 16,
+  "filesTouchedManifestSha256": "fee83b176a48b8c8500f7fff8be06e0f1934ea11a708d541948a5cd40939411c"
 }

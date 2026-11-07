@@ -3,23 +3,67 @@
   "files": [
     {
       "code": " M",
+      "path": "docs/agent/PHASE_STATUS.md"
+    },
+    {
+      "code": " M",
       "path": "docs/agent/project-state.json"
     },
     {
       "code": " M",
-      "path": "scripts/audit/home-performance219-source-pins.json"
+      "path": "scripts/audit/cart-flight-source-pins.json"
     },
     {
       "code": " M",
-      "path": "scripts/audit/product-workbook-source-pins.json"
+      "path": "scripts/audit/source-before-empty-storage-restore.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/testing/rehearsal219-legacy-view.json"
+      "path": "scripts/backup/complete-backup.mjs"
     },
     {
       "code": " M",
-      "path": "tests/reset219-reference-d1-docs.test.ts"
+      "path": "scripts/backup/postgres-diagnostic.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-dual-backup-runtime.mjs"
+    },
+    {
+      "code": " M",
+      "path": "tests/record-order-source-contracts.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/workbook-integration-history.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "docs/agent/PG_NET_SEQUENCE_RESTORE_LOCAL.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/PG_NET_SEQUENCE_RESTORE_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-pg-net-sequence-state.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/backup/pg-net-sequence-state.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/fixtures/pg-net-state-protected-sources.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/pg-net-sequence-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/pg-net-sequence-state.test.ts"
     }
   ]
 }
