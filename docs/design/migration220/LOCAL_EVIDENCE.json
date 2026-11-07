@@ -10,141 +10,142 @@
     "base": 10
   },
   "annualBefore": {
-    "executionMs": 31775.26,
+    "executionMs": 29515.504,
     "timeout8sRejected": true,
     "earlier50000Samples": [
       31384.131,
       29316.944,
-      30565.915
+      30565.915,
+      31775.26
     ]
   },
   "annualAfter": {
     "samples": [
       {
-        "executionMs": 4558.096,
-        "wallMs": 4560.8364,
+        "executionMs": 4067.282,
+        "wallMs": 4069.9646000000066,
         "tempRead": 22559,
         "tempWritten": 12461
       },
       {
-        "executionMs": 4760.348,
-        "wallMs": 4762.924100000004,
+        "executionMs": 4764.746,
+        "wallMs": 4767.382400000002,
         "tempRead": 22559,
         "tempWritten": 12461
       },
       {
-        "executionMs": 4988.422,
-        "wallMs": 4991.00420000001,
+        "executionMs": 4906.165,
+        "wallMs": 4908.830400000006,
         "tempRead": 22559,
         "tempWritten": 12461
       },
       {
-        "executionMs": 4740.848,
-        "wallMs": 4743.621100000004,
+        "executionMs": 4649.764,
+        "wallMs": 4652.591099999991,
         "tempRead": 22559,
         "tempWritten": 12461
       },
       {
-        "executionMs": 4698.31,
-        "wallMs": 4703.347899999993,
+        "executionMs": 4393.922,
+        "wallMs": 4398.312399999995,
         "tempRead": 22559,
         "tempWritten": 12461
       },
       {
-        "executionMs": 4603.101,
-        "wallMs": 4607.776500000007,
+        "executionMs": 4336.384,
+        "wallMs": 4338.872800000012,
         "tempRead": 22559,
         "tempWritten": 12461
       },
       {
-        "executionMs": 4962.199,
-        "wallMs": 4967.080999999991,
+        "executionMs": 4523.442,
+        "wallMs": 4527.686900000001,
         "tempRead": 22559,
         "tempWritten": 12461
       },
       {
-        "executionMs": 4613.169,
-        "wallMs": 4617.0809999999765,
+        "executionMs": 4177.082,
+        "wallMs": 4186.34500000003,
         "tempRead": 22559,
         "tempWritten": 12461
       },
       {
-        "executionMs": 4835.589,
-        "wallMs": 4839.565899999987,
+        "executionMs": 4234.8,
+        "wallMs": 4239.964900000021,
         "tempRead": 22559,
         "tempWritten": 12461
       },
       {
-        "executionMs": 4747.446,
-        "wallMs": 4751.231599999999,
+        "executionMs": 4421.517,
+        "wallMs": 4424.406900000002,
         "tempRead": 22559,
         "tempWritten": 12461
       },
       {
-        "executionMs": 4807.619,
-        "wallMs": 4811.021700000012,
+        "executionMs": 4225.399,
+        "wallMs": 4229.8208999999915,
         "tempRead": 22559,
         "tempWritten": 12461
       },
       {
-        "executionMs": 5221.647,
-        "wallMs": 5225.265299999999,
+        "executionMs": 4363.821,
+        "wallMs": 4367.061300000001,
         "tempRead": 22559,
         "tempWritten": 12461
       },
       {
-        "executionMs": 4706.524,
-        "wallMs": 4710.185899999982,
+        "executionMs": 4210.703,
+        "wallMs": 4213.213199999998,
         "tempRead": 22559,
         "tempWritten": 12461
       },
       {
-        "executionMs": 4031.205,
-        "wallMs": 4034.092000000004,
+        "executionMs": 4186.016,
+        "wallMs": 4195.632699999958,
         "tempRead": 22559,
         "tempWritten": 12461
       },
       {
-        "executionMs": 4277.31,
-        "wallMs": 4280.020099999994,
+        "executionMs": 4212.413,
+        "wallMs": 4219.086299999966,
         "tempRead": 22559,
         "tempWritten": 12461
       },
       {
-        "executionMs": 4889.181,
-        "wallMs": 4891.627399999998,
+        "executionMs": 4967.074,
+        "wallMs": 4971.6054,
         "tempRead": 22559,
         "tempWritten": 12461
       },
       {
-        "executionMs": 4769.399,
-        "wallMs": 4772.074299999978,
+        "executionMs": 4510.593,
+        "wallMs": 4514.155299999984,
         "tempRead": 22559,
         "tempWritten": 12461
       },
       {
-        "executionMs": 4301.655,
-        "wallMs": 4304.207999999984,
+        "executionMs": 4505.27,
+        "wallMs": 4508.6660000000265,
         "tempRead": 22559,
         "tempWritten": 12461
       },
       {
-        "executionMs": 4677.337,
-        "wallMs": 4681.768199999991,
+        "executionMs": 5267.279,
+        "wallMs": 5274.544899999979,
         "tempRead": 22559,
         "tempWritten": 12461
       },
       {
-        "executionMs": 4872.532,
-        "wallMs": 4875.349200000026,
+        "executionMs": 5192.448,
+        "wallMs": 5198.059300000023,
         "tempRead": 22559,
         "tempWritten": 12461
       }
     ],
     "warmups": 3,
-    "p50": 4740.848,
-    "p95": 4988.422,
-    "max": 5221.647,
+    "p50": 4393.922,
+    "p95": 5192.448,
+    "max": 5267.279,
     "hardTimeoutMs": 8000,
     "callerMemoryAfter": "4MB"
   },
@@ -178,7 +179,8 @@
     "rlsAccessUnchanged": true,
     "rollbackExact": true,
     "completeJsonLiteral": true,
-    "fieldsExcluded": []
+    "fieldsExcluded": [],
+    "rollbackDefinitions": 7
   },
   "rls": {
     "before": [
@@ -259,5 +261,27 @@
   "finalExactShaCi": "PENDING",
   "activeOwnerToolsChanged": false,
   "previousReadCandidateSha256": "6fd2a616523bf8e713f5289b3dcf66c6e1920c40d73c22f35a56a777add06113",
-  "h1VerificationPending": true
+  "h1VerificationPending": false,
+  "postH1Validation": {
+    "localOnly": true,
+    "sourceHead": "e395df2e62825aa431d39385dbaa006aa8e3c35a",
+    "annualPeriod": {
+      "to": "2026-11-07",
+      "days": 365,
+      "from": "2025-11-08"
+    },
+    "scopedAnnualInvoices": 50000,
+    "cases": 8,
+    "postgresBlockingRaces": 4,
+    "browserPass": 2,
+    "types": true,
+    "strictLint": true,
+    "adminUnitPass": 1856,
+    "adminUnitCompletion": "1854full+exactafterpin focusedPASS+one isolatedGit63 environmental rerun120s PASS28.9s;negative assertions unchanged",
+    "storeUnitPass": 213,
+    "buildContexts": 6,
+    "ownerTools219Unchanged": true,
+    "sourceQueryArgumentsAndRolesExact": true,
+    "fullFinancialJson": true
+  }
 }

@@ -3,7 +3,7 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner7Nov:H1fix in Draft79/220 then separate owner220tools Draft;R2not applicable/no employees/no future reminder. Docs80merge only FULLgreen.No219activation/hosted/deploy/merge79/58.",
-  "baselineSha": "0b60bb2511de9171ff0d24c9b0142b56a700b0aa",
+  "baselineSha": "e395df2e62825aa431d39385dbaa006aa8e3c35a",
   "branch": "codex/posthandover220-draft",
   "phase": "PACKAGE_F",
   "completed": [
@@ -24,11 +24,13 @@
     "After79currentFULLCI:separate Draft owner220tools/proof,not merged."
   ],
   "testsPassed": [
-    "Current H1 runtime8+4,UI2,types,literal inverses and actual219SDK/services.",
-    "H1contracts23PASS then sole exact runtime-view after hash fixed;flight history focusedPASS."
+    "H1runtime8groups/4real races/replay/rollback/master/default/debt/stock exact;browser2;types/strictlint/store213.",
+    "Admin1856full+focused completion;56historygroups and one Git63envrerun original120s PASS28.9s.",
+    "50k M01 original29.516s/8s reject;20+3afterp95=5192.448/max5267.279ms;literalJSON6periods/7roles/4errors/1100vectors/60supplier cases/negativeindex/7definitionrollback.",
+    "Sixbuilds/verify-dist/SEOloopback and closedpreview/CSP/oppositeorigin negatives PASS."
   ],
   "testsRemaining": [
-    "50kM01same20+3/8s/7s and literalfinancialJSON/7roles/negative/7definitionrollback;6builds/verify;historicalruntime committedview;Gitleaks0/new79FULL65."
+    "Commit source/evidence;actual historical committed runtime-view;finalGitleaks and79Draft FULL65;then220toolsDraft."
   ],
   "findings": [
     "H1does not restore old219 card changes;fix future guest writes only. Owner manual approval uses existing CRM."
@@ -40,12 +42,12 @@
     "No merge79/tools220/58;58Draft.",
     "No owner/env/reference edits;active219/180 unchanged;no financial/permission semantic changes."
   ],
-  "nextExactAction": "SaveH1adapter locally;genuine README main merge;run50kM01/builds/historyview alone;thenfinal79DraftFULLCI and220toolsDraft.",
-  "checkpointedAt": "2026-11-07T17:59:37.311Z",
+  "nextExactAction": "Commit finalH1evidence;actual committedhistoryview;push79Draft/FULL65;README81mainCI/safeFF watcher independent;then220toolsDraft.",
+  "checkpointedAt": "2026-11-07T18:09:57.408Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 5,
-  "filesTouchedManifestSha256": "54692ce5fc03b268ffef96e1373c3b10ccfb8140beb33c113326159c8f7e5913",
-  "workingTreeFingerprint": "C14AB67D24DB5FB8A6F7120F1A77C32D2BB48CF584CBD63BC1E33B804D5A90D8"
+  "filesTouchedCount": 2,
+  "filesTouchedManifestSha256": "d1b996d4eaff2999cd1ed1ca9b9a5434aa16885c73f0dcbdf2b874179b7c3657",
+  "workingTreeFingerprint": "61C5EF6F0D07B0FCFADD4B3D9BBC3E83C2288F4D4395E1369D989ADE752DA4B8"
 }

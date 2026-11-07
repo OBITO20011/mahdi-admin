@@ -3,23 +3,11 @@
   "files": [
     {
       "code": " M",
-      "path": "scripts/audit/cart-flight-source-pins.json"
+      "path": "docs/design/migration220/LOCAL_EVIDENCE.json"
     },
     {
       "code": " M",
-      "path": "scripts/audit/source-before-cart-flight.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/source-before-storefront-images.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/guest-identity220.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/storefront-images-history.test.ts"
+      "path": "docs/design/migration220/README_AR.md"
     }
   ]
 }
