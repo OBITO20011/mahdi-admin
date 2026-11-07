@@ -2,6 +2,7 @@ import type {Plugin} from 'vite';
 export interface StorefrontMeasurement {
   chunks: Array<{file: string; bytes: number; gzip: number}>;
   initialJsBytes: number; initialJsGzip: number; cssGzip: number; fonts: number; initialScriptRequests: number;
+  mobileHeroVideoBytes: number;
 }
 export const storefrontBudget: Readonly<Record<Exclude<keyof StorefrontMeasurement, 'chunks'>, number>>;
 export function measureStorefrontBudget(dist: string): Promise<StorefrontMeasurement>;

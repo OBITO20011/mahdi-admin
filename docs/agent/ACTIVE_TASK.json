@@ -1,42 +1,41 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
+  "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner Nov 7: isolated 219 cutover rehearsal on latest main with fictional data; docs/tests PR if needed.",
+  "objective": "Owner Nov7 approved PR75 integration after76;real main merge,fullCI,owner primary byte-preservingFF,no hosted/deploy.",
   "baselineSha": "96cf7b9553aac99be655a5a342d801b99367ca66",
-  "branch": "codex/go-live-rehearsal-current219",
+  "branch": "codex/storefront-mobile-hero-compression",
   "phase": "PACKAGE_F",
   "completed": [
-    "Prerequisites verified: PR74 merged; PR75 draft green; main at 96cf7b95.",
-    "Candidate 219 local builder passed: 180 files, 636 functions, 13 Realtime members, zero fresh/incremental differences, 181 access checks. SHA-256 6f3c11e7…",
-    "Documented category entry before import in plan and Markdown/HTML card. Focused 29/29; rendered A4 2 pages."
+    "PR74 merged at 96cf7b95 after owner approval of TBT; main CI 63/63, primary ff-only and preflight verified.",
+    "FFmpeg 9.0: 924187 B H264 Main 832x468, yuv420p, 240/24 fps and 10 seconds, no audio and faststart. All frame timestamps match.",
+    "Owner explicitly accepted +9ms LCP and +17.5ms TBT and authorized PR75 merge after76."
   ],
   "inProgress": [
-    "Open independent documentation PR and verify full CI. Prepare fictional workbook fixtures offline."
+    "Main e7f92818 genuinely merged;focused integration gates before full PR CI."
   ],
-  "notStarted": [
-    "Cutover execution depends on the documented reference gate."
+  "notStarted": [],
+  "testsPassed": [
+    "21 focused checks, lint, isolated build, request budget browser 8, playback 17 with one existing conditional skip, six paired Lighthouse samples."
   ],
-  "testsPassed": [],
   "testsRemaining": [
-    "Candidate reference, cutover documentation and focused tests."
+    "Final patch scan and exact-head full GitHub CI."
   ],
   "findings": [
-    "Old documented SHA-256 matches; readiness rejected old coverage 157 vs 181 on main."
+    "Fresh clean worktree from known own merge; aligned inherited task and branch metadata only.",
+    "Lighthouse medians: LCP 3530.13 to 3539.14ms (+9.01ms), TBT 45.5 to 63ms (target <=200), CLS 0.034937 both. Report numeric delta; no equivalence claim. Decoder benchmark CPU 4.00 to 1.562 seconds per 1200 frames."
   ],
-  "blockers": [
-    "Documented reference SHA a915b64d… has 157 old access checks. D-1 guide requires an approved replacement. Candidate awaiting local-only acceptance."
-  ],
+  "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hosted access, deploy, SQL/migration changes, real owner spreadsheet, merge or owner-file edits. PR58 stays draft."
+    "No hosted services,deploy,owner/env edits.58Draft."
   ],
-  "nextExactAction": "Publish category step in separate docs/test PR and verify full CI. Await owner approval to run RESET with the new reference candidate, keeping owner files unchanged.",
+  "nextExactAction": "Owner approved PR75;sync genuine main76 merge passed25focused. Commit merge,full exact-head CI,then merge only after main76 CI+safeFF",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "22F3F01C2DEBB4F7B39ADBAD79A2023336069AFE08B116F5372CBDA4B21E1F62",
-  "checkpointedAt": "2026-11-07T02:13:32.294Z",
-  "filesTouchedCount": 8,
-  "filesTouchedManifestSha256": "b389d7ae9e2ce1060966d00dfdb0ac522907cd2f2e9f3bf8e58b6c19b7f67ae0"
+  "workingTreeFingerprint": "5374F0B38AD4CD5EDE1BD5E88BB1307E821866AAA2EEBE4FACB0EA4E9DE3C009",
+  "checkpointedAt": "2026-11-07T06:51:56.943Z",
+  "filesTouchedCount": 6,
+  "filesTouchedManifestSha256": "4ee11d1d370a1d28c451bbbdef0d380b6f3bd597f0a386bb40def06c410ef4d5"
 }

@@ -2,35 +2,27 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": " M",
-      "path": "docs/agent/project-state.json"
-    },
-    {
-      "code": " M",
+      "code": "M ",
       "path": "docs/handover/ورقة-يوم-التشغيل.html"
     },
     {
-      "code": " M",
+      "code": "M ",
       "path": "docs/handover/ورقة-يوم-التشغيل.md"
     },
     {
-      "code": " M",
+      "code": "M ",
       "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
     },
     {
-      "code": " M",
-      "path": "scripts/audit/cart-flight-source-pins.json"
-    },
-    {
-      "code": " M",
+      "code": "M ",
       "path": "scripts/audit/home-performance219-source-pins.json"
     },
     {
-      "code": " M",
+      "code": "M ",
       "path": "scripts/audit/product-workbook-source-pins.json"
     },
     {
-      "code": " M",
+      "code": "M ",
       "path": "tests/cutover-publication-order.test.ts"
     }
   ]
