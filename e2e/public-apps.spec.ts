@@ -188,6 +188,28 @@ test.describe('متجر العملاء العام', () => {
     { page },
     testInfo,
   ) => {
+    await page.emulateMedia({reducedMotion:'no-preference'});
+    await page.addInitScript(() => {
+      if(navigator.userAgent.includes('Chrome'))Object.defineProperty(navigator,'connection',{configurable:true,value:Object.assign(new EventTarget(),{effectiveType:'4g',saveData:false})});
+      const proof = {mountedAt: 0, inputs: 0, shifts: [] as {at: number; value: number}[], lcp: ''};
+      Object.assign(window, {heroAutoplayProof: proof});
+      for (const name of ['pointerdown', 'keydown']) window.addEventListener(name, () => proof.inputs++);
+      new MutationObserver(() => {
+        if (!proof.mountedAt && document.querySelector('#top video')) proof.mountedAt = performance.now();
+      }).observe(document, {subtree: true, childList: true});
+      if (PerformanceObserver.supportedEntryTypes.includes('layout-shift')) new PerformanceObserver(list => {
+        for (const entry of list.getEntries()) {
+          const shift = entry as PerformanceEntry & {value: number; hadRecentInput: boolean};
+          if (!shift.hadRecentInput) proof.shifts.push({at: shift.startTime, value: shift.value});
+        }
+      }).observe({type: 'layout-shift', buffered: true});
+      if (PerformanceObserver.supportedEntryTypes.includes('largest-contentful-paint')) new PerformanceObserver(list => {
+        for (const entry of list.getEntries()) {
+          const element = (entry as PerformanceEntry & {element: Element | null}).element;
+          proof.lcp = element?.getAttribute('src') ?? element?.tagName ?? '';
+        }
+      }).observe({type: 'largest-contentful-paint', buffered: true});
+    });
     await page.goto(customerBaseUrl, { waitUntil: 'domcontentloaded' });
 
     const heroVideo = page.locator(
@@ -195,9 +217,7 @@ test.describe('متجر العملاء العام', () => {
         ? '[data-testid="mobile-hero-video"] video'
         : '[data-testid="desktop-hero-video"]',
     );
-    await expect(heroVideo).toHaveCount(0);
-    // Decorative media loads only after intent; keep resolution/mute assertions.
-    await page.locator('#top').dispatchEvent('pointerdown');
+    // No pointer/keyboard gesture: decoration starts after load plus one second.
     await expect(heroVideo).toBeAttached();
     const expectedSource =
       testInfo.project.name === 'mobile-webkit'
@@ -218,6 +238,24 @@ test.describe('متجر العملاء العام', () => {
         (element) => (element as HTMLVideoElement).muted,
       ),
     ).toBe(true);
+    await expect.poll(() => heroVideo.evaluate(element =>
+      (element as HTMLVideoElement).currentTime)).toBeGreaterThan(0);
+    expect(await heroVideo.evaluate(element => (element as HTMLVideoElement).playsInline)).toBe(true);
+    expect(await heroVideo.evaluate(element => (element as HTMLVideoElement).autoplay)).toBe(true);
+    const stage = page.locator(testInfo.project.name === 'mobile-webkit' ? '[data-testid="mobile-hero-video"]' : '#top');
+    const before = await stage.boundingBox();
+    await page.waitForTimeout(1000);
+    expect(await stage.boundingBox()).toEqual(before);
+    const proof = await page.evaluate(() => {
+      const saved = (window as unknown as {heroAutoplayProof: {mountedAt: number; inputs: number; shifts: {at: number; value: number}[]; lcp: string}}).heroAutoplayProof;
+      const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+      return {...saved, load: navigation.loadEventEnd, clsAfterVideo: saved.shifts.filter(s => s.at >= saved.mountedAt).reduce((sum, s) => sum + s.value, 0)};
+    });
+    expect(proof.inputs).toBe(0);
+    expect(proof.mountedAt).toBeGreaterThanOrEqual(proof.load + 950);
+    expect(proof.clsAfterVideo).toBe(0);
+    await testInfo.attach('hero-autoplay-proof', {body: JSON.stringify(proof), contentType: 'application/json'});
+    await testInfo.attach('hero-autoplay-visible', {body: await page.screenshot(), contentType: 'image/png'});
 
     if (testInfo.project.name !== 'mobile-webkit') {
       await expect
@@ -231,6 +269,78 @@ test.describe('متجر العملاء العام', () => {
         )
         .toEqual({ height: 1080, width: 1920 });
     }
+  });
+
+  for (const policy of ['reduced', 'saveData', 'slow-2g', '2g', '3g']) {
+    test('لا يطلب فيديو الزينة مع سياسة ' + policy, async ({page}) => {
+      const requests: string[] = [];
+      page.on('request', request => { if (/nawasrah-hero.*\.mp4/u.test(request.url())) requests.push(request.url()); });
+      if (policy === 'reduced') await page.emulateMedia({reducedMotion: 'reduce'});
+      else await page.addInitScript(policy => {
+        const connection = Object.assign(new EventTarget(), {saveData: policy === 'saveData', effectiveType: policy === 'saveData' ? '4g' : policy});
+        Object.defineProperty(navigator, 'connection', {configurable: true, value: connection});
+      }, policy);
+      await page.goto(customerBaseUrl);
+      await expect(page.locator('#top')).toBeVisible();
+      await page.waitForTimeout(2500);
+      await expect(page.locator('#top video')).toHaveCount(0);
+      expect(requests).toEqual([]);
+      await expect(page.locator('#top img[fetchpriority="high"]')).toBeAttached();
+    });
+  }
+
+  test('وصول أعداد المخزون لا يغيّر عرض أعمدة إحصاءات الـHero', async ({page}) => {
+    let release!: () => void;
+    const pending = new Promise<void>(resolve => { release = resolve; });
+    await page.route('**/rest/v1/rpc/get_public_storefront_catalog_page', async route => {
+      await pending;
+      await route.fulfill({json: {items: [], categories: [], brands: [], saleUnits: [], total: 0, limit: 24, offset: 0,
+        summary: {availableProducts: 1000, availableSalePackages: 6000, lowStockProducts: 0}}});
+    });
+    try {
+    await page.goto(customerBaseUrl, {waitUntil: 'domcontentloaded'});
+    const cells = page.getByTestId('hero-stats').locator('.min-w-0');
+    await expect(cells).toHaveCount(3);
+    const before = await cells.evaluateAll(nodes => nodes.map(node => node.getBoundingClientRect().width));
+    release();
+    await expect(page.getByTestId('hero-stats').getByText('٦٬٠٠٠', {exact: true})).toBeVisible();
+    expect(await cells.evaluateAll(nodes => nodes.map(node => node.getBoundingClientRect().width))).toEqual(before);
+    } finally { release(); }
+  });
+
+  test('فشل تحميل مشغل الزينة يبقي الصورة والمتجر دون خطأ', async ({page}) => {
+    const errors: string[] = [];
+    page.on('pageerror', error => errors.push(error.name));
+    let blockedImports = 0;
+    await page.route('**/src/components/HeroVideo.tsx*', route => { blockedImports++; return route.abort(); });
+    await page.goto(customerBaseUrl);
+    await expect(page.locator('#top')).toBeVisible();
+    await page.waitForTimeout(2500);
+    await expect(page.locator('#top video')).toHaveCount(0);
+    await expect(page.locator('#top img[fetchpriority="high"]')).toBeAttached();
+    await expect(page.getByRole('button', {name: 'تصفح أصناف الجملة'}).first()).toBeVisible();
+    expect(errors).toEqual([]);
+    expect(blockedImports).toBeGreaterThan(0);
+  });
+
+  test('رفض التشغيل التلقائي يبقي الصورة بلا خطأ أو زر بديل', async ({page}) => {
+    const errors: string[] = [];
+    page.on('pageerror', error => errors.push(error.name));
+    await page.emulateMedia({reducedMotion:'no-preference'});
+    await page.addInitScript(() => {
+      Object.defineProperty(navigator,'connection',{configurable:true,value:Object.assign(new EventTarget(),{effectiveType:'4g',saveData:false})});
+      let refused = 0;
+      Object.assign(window,{heroRefusalCount:()=>refused});
+      HTMLMediaElement.prototype.play = () => { refused++; return Promise.reject(new DOMException('Synthetic autoplay refusal', 'NotAllowedError')); };
+    });
+    await page.goto(customerBaseUrl);
+    await expect(page.locator('#top')).toBeVisible();
+    await page.waitForTimeout(2500);
+    await expect(page.locator('#top video')).toHaveCount(0);
+    await expect(page.locator('#top img[fetchpriority="high"]')).toBeAttached();
+    expect(errors).toEqual([]);
+    await expect(page.getByRole('button', {name: /تشغيل الفيديو|play video/i})).toHaveCount(0);
+    expect(await page.evaluate(()=>(window as unknown as {heroRefusalCount:()=>number}).heroRefusalCount())).toBeGreaterThan(0);
   });
 
   test('الواجهة الرئيسية لا تغيّر موضع الصفحة تلقائيًا بعد تحميل الـHero', async (
@@ -260,8 +370,6 @@ test.describe('متجر العملاء العام', () => {
     await expect(page.locator('#top')).toBeVisible();
     await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'auto' }));
 
-    await expect(page.locator('#top video')).toHaveCount(0);
-    await page.locator('#top').dispatchEvent('pointerdown');
     await expect.poll(async () => (await readViewportState()).videoReadyState).toBeGreaterThanOrEqual(1);
     const initial = await readViewportState();
     await page.waitForTimeout(20_000);

@@ -1256,6 +1256,10 @@
       "sha256": "daaa0ebe002ebbae2bc442b792a7f1aa1c8231c723c5d03b8952822e5227d366"
     },
     {
+      "file": "customer-web/src/components/HeroVideo.tsx",
+      "sha256": "1083e728a2287739f0c586edacd2122f798e0b356fe1485a3e76793781d6e033"
+    },
+    {
       "file": "customer-web/src/components/HomeCategoryMosaic.tsx",
       "sha256": "0ef85482036d6c1c8a5873e22d8ba11a5e0246afd763865f894755a125bb0a28"
     },
@@ -1333,7 +1337,7 @@
     },
     {
       "file": "customer-web/src/components/StoreHero.tsx",
-      "sha256": "2b1ac68dc3fff972aa7e7ea889b0ffa6bca38af941ce66b0f96d4cfd3448700d"
+      "sha256": "739ce43eeed7f7a65cdbd3dc847d78686e18d1e09515da78ba594461522cf035"
     },
     {
       "file": "customer-web/src/components/StoreInfoSection.tsx",
@@ -1486,6 +1490,10 @@
     {
       "file": "customer-web/src/utils/googleMaps.ts",
       "sha256": "ce458def64a203ed7364cfc3d9ebdfa42c40eeb0f23e8742056a96638bf32bdf"
+    },
+    {
+      "file": "customer-web/src/utils/heroMedia.ts",
+      "sha256": "eee60486ed60b320ebbc04b92f163c87495c5f2b0b4258fe0fd1314530de7714"
     },
     {
       "file": "customer-web/src/utils/money.ts",

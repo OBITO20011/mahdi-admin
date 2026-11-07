@@ -1,19 +1,8 @@
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { Boxes, PackageCheck, ShieldCheck, Sparkles } from 'lucide-react';
+import { requestHeroVideoAfterLoad } from '../utils/heroMedia';
 
-const desktopHeroMediaQuery = '(min-width: 768px)';
-const reducedMotionMediaQuery = '(prefers-reduced-motion: reduce)';
-
-function getHeroMediaPreferences() {
-  if (typeof window === 'undefined') {
-    return { isDesktop: false, prefersReducedMotion: false };
-  }
-
-  return {
-    isDesktop: window.matchMedia(desktopHeroMediaQuery).matches,
-    prefersReducedMotion: window.matchMedia(reducedMotionMediaQuery).matches,
-  };
-}
+const HeroVideo = lazy(() => import('./HeroVideo').catch(() => ({default: () => null})));
 
 interface StoreHeroProps {
   productsCount: number;
@@ -31,38 +20,10 @@ export function StoreHero({
   announcementText,
 }: StoreHeroProps) {
   const [mediaRequested, setMediaRequested] = useState(false);
-  useEffect(() => {
-    const request = () => setMediaRequested(true);
-    window.addEventListener('pointerdown', request, {once: true, passive: true});
-    window.addEventListener('keydown', request, {once: true});
-    return () => { window.removeEventListener('pointerdown', request); window.removeEventListener('keydown', request); };
-  }, []);
-  const [heroMediaPreferences, setHeroMediaPreferences] = useState(
-    getHeroMediaPreferences,
-  );
-
-  useEffect(() => {
-    const desktopMedia = window.matchMedia(desktopHeroMediaQuery);
-    const reducedMotionMedia = window.matchMedia(reducedMotionMediaQuery);
-    const updatePreferences = () => {
-      setHeroMediaPreferences({
-        isDesktop: desktopMedia.matches,
-        prefersReducedMotion: reducedMotionMedia.matches,
-      });
-    };
-
-    desktopMedia.addEventListener('change', updatePreferences);
-    reducedMotionMedia.addEventListener('change', updatePreferences);
-    return () => {
-      desktopMedia.removeEventListener('change', updatePreferences);
-      reducedMotionMedia.removeEventListener('change', updatePreferences);
-    };
-  }, []);
-
-  const shouldRenderMobileVideo =
-    mediaRequested && !heroMediaPreferences.isDesktop && !heroMediaPreferences.prefersReducedMotion;
-  const shouldRenderDesktopVideo =
-    mediaRequested && heroMediaPreferences.isDesktop && !heroMediaPreferences.prefersReducedMotion;
+  useEffect(() => requestHeroVideoAfterLoad(() => setMediaRequested(true)), []);
+  const renderVideo = (desktop: boolean) => mediaRequested
+    ? <Suspense fallback={null}><HeroVideo desktop={desktop} /></Suspense>
+    : null;
 
   const stats = [
     { label: 'صنف جملة', value: productsCount, icon: PackageCheck, color: 'text-orange-300' },
@@ -85,21 +46,7 @@ export function StoreHero({
           style={{ backgroundImage: "url('/nawasrah-hero-poster.webp')" }}
         />
         <img src="/nawasrah-hero-poster.webp" alt="" aria-hidden="true" width={1280} height={720} fetchPriority="high" decoding="async" className="absolute inset-0 h-full w-full object-contain" />
-        {shouldRenderMobileVideo && (
-          <video
-            aria-hidden="true"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            disablePictureInPicture
-            poster="/nawasrah-hero-poster.webp"
-            className="absolute inset-0 h-full w-full bg-[#07152f] object-contain"
-          >
-            <source src="/nawasrah-hero-mobile.mp4" type="video/mp4" />
-          </video>
-        )}
+        {renderVideo(false)}
       </div>
 
       <div
@@ -107,22 +54,7 @@ export function StoreHero({
         className="absolute -inset-8 -z-30 hidden scale-110 bg-cover bg-center opacity-65 blur-2xl md:block"
         style={{ backgroundImage: "url('/nawasrah-hero-poster.webp')" }}
       />
-      {shouldRenderDesktopVideo && (
-        <video
-          data-testid="desktop-hero-video"
-          aria-hidden="true"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          disablePictureInPicture
-          poster="/nawasrah-hero-poster.webp"
-          className="absolute inset-0 -z-20 h-full w-full bg-[#07152f] object-contain object-center opacity-100"
-        >
-          <source src="/nawasrah-hero-desktop-1080p.mp4" type="video/mp4" />
-        </video>
-      )}
+      {renderVideo(true)}
       <div className="absolute inset-0 -z-10 hidden bg-gradient-to-l from-[#07152f]/72 via-[#0b1b3f]/34 to-[#07152f]/60 md:block" />
       <div className="absolute inset-0 -z-10 hidden bg-gradient-to-t from-[#081632]/54 via-transparent to-[#081632]/16 md:block" />
       <div className="hero-orb hero-orb-one hidden md:block" />
@@ -172,7 +104,7 @@ export function StoreHero({
                 className="rounded-2xl border border-white/10 bg-white/[0.06] p-2.5 backdrop-blur-md lg:rounded-3xl lg:bg-white/[0.07] lg:p-5"
               >
                 <div className="flex flex-col-reverse items-center justify-between gap-2 text-center lg:flex-row lg:gap-4 lg:text-right">
-                  <div className="min-w-0">
+                  <div className="min-w-0 w-full">
                     <p className="text-xl font-black sm:text-3xl">
                       {stat.value.toLocaleString('ar-JO')}
                     </p>
