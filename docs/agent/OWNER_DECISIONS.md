@@ -1,3 +1,14 @@
+# 7 نوفمبر 2026 — قبول مخاطر المراجعة الأمنية قبل الفتح وتأجيل المعالجة
+
+اعتمد المالك صراحةً فتح المتجر مع قبول المخاطر وتأجيل بنود المراجعة إلى ما بعد التشغيل؛ لا migration ولا تغيير لمسار219 قبل التشغيل. المراجعة تخص main d0cbf421، والقبول لا يعني أن النتائج أُصلحت.
+
+- **H1: مقبولة مؤقتاً.** لكل طلب متجر يتصل المالك لتأكيده ويقارن الاسم والعنوان مع بطاقة الزبون قبل التأكيد. تحديث البطاقة/العنوان قد يحدث عند إرسال الطلب، قبل تأكيده؛ هذه مراجعة تشغيلية لا حارس منع، وعند اختلاف أو اشتباه يُراجع المالك البيانات السابقة ومعرفته بالزبون. إصلاح فصل بيانات المستلم وعنوان الطلب عن بطاقة الزبون القائم يُضاف إلى مسودة ما بعد التسليم #79/220، دون دمج أو تطبيق قبل التشغيل.
+- **R2: غير منطبق بقرار المالك: لا موظفين.** هذا القرار الأحدث يلغي إلزام/تذكير التوظيف السابق؛ لا بند إصلاح لاحق ولا خطة أو تذكير لهذا الموضوع. لا تغيير فعلي للأدوار أو المنح بهذا التوثيق.
+- **R3: مراقبة.** يراقب المالك جدية الطلبات والحجوزات والتأخر ويعالجها من المسار القائم؛ لا تغيير حد أو مدة حجز قبل التشغيل.
+- **R4: منخفضة.** مؤجلة لما بعد التشغيل، بلا تعديل على219.
+
+التسلسل المعتمد: PR الوثائق فقط يُدمج بعد CI كامل أخضر؛ ثم إصلاح H1 واختباراته في #79 كمسودة؛ ثم تجهيز أدوات220 فوق #79 المحدّث كمسودة مستقلة. #58 و#79 لا يُدمجان بهذا القرار، ولا نشر ولا اتصال بفرانكفورت أو أي مشروع مستضاف.
+
 # 4 نوفمبر2026 — قالب المنتجات والنكهات، البديل المعتمد بلا DB
 
 اعتمد المالك إنشاء العائلة ذرياً بالدالة القائمة، ثم تثبيت رموز/باركود النكهات بالدوال الحالية مع journal مرتبط بالمستخدم والمشروع وبصمة الخطة، وقراءة ومطابقة واستئناف. **ليس كل الاستيراد معاملة واحدة**؛ لا يُعلن الاكتمال حتى المطابقة، والمخزون بعد ذلك فقط عبر مسار الجرد الافتتاحي المحروس. السعر الفردي يطابق السعر المشتق القائم، ولا سعر مستقل جديد. لا migration أو تعديل RPC/حسابات/صلاحيات. الفرع فوق PR63 غير المدموج؛ لا تفويض دمج أو نشر. التفاصيل PRODUCT_WORKBOOK_IMPORT_AR.md.
@@ -66,11 +77,11 @@ Direct owner/Claude-authorized message:merge45 only after17e08fbb FULLCI;safe ma
 
 اعتمد المالكPR32 للدمج،ثم طلب حزمة1ب مستقلة قبل فصل البيئات:لقطة rawTables دائمة داخل workdir محمية للمستخدم الحالي/Administrators بلا وراثة،وبلا أسرارAuth/MFA؛استئناف صريح بنفس المشروع والمالك ومرجع214 وبصمته. يعيد البناء176 كاملة بعد مراجعة سبب الانقطاع،ولا يتخطى migration جزئية. الكتابات الحقيقية الجديدة تمنع الاستئناف وتستلزم مسار الأرشيف المعتمد؛الانقطاع وحده لا يستلزم استرجاعاً حياً. لا اتصال مستضاف أو نشر؛PR/CI كامل/Gitleaks0/checkpoint،واعتماد قبل الدمج. بعد جاهزية1ب يُستأنف تجهيز الحزمة2 دون انتظار دمج1ب،مع PR واعتماد مستقلين.
 
-#25Oct — owner Package Z and mandatory pre-hiring cost privacy
+#25Oct — owner Package Z; cost-privacy requirement superseded7Nov
 
-Owner approved Z1 pre-service staff authorization,Z2 exact POS/return costs,Z3 exact Maps hosts,Z4 pre-read cash guard,Z5 collection lock order only;additive214 if needed,own worktree/PR/FULLCI,commit+push each item. No hostedaccess/deploy or Z merge. Employee table/RPC cost,WAC,profit visibility explicitly DEFERRED while owner works alone. Mandatory BEFORE hiring any employee:safe read DTOs and revoke general cost-column SELECT;raw-role regression required. See HANDOVER_FIXES_Z_AR.md.
+Owner approved Z1 pre-service staff authorization,Z2 exact POS/return costs,Z3 exact Maps hosts,Z4 pre-read cash guard,Z5 collection lock order only;additive214 if needed,own worktree/PR/FULLCI,commit+push each item. No hostedaccess/deploy or Z merge. Historical cost-privacy requirement superseded by owner7Nov: R2 is not applicable because there are no employees; no follow-up plan or reminder. See HANDOVER_FIXES_Z_AR.md.
 
-قرار ملزم قبل توظيف أي موظف: قراءة التكلفة وWAC والربح عبر الجداول وقارئ المنتج مؤجلة ما دام المالك يعمل وحده. يجب أولاً توفير واجهات قراءة آمنة وسحب أعمدة التكلفة من القراءة العامة، وإثبات الفصل باختبارات الأدوار الفعلية. حزمة ز لا تعالج هذا البند المؤجل ولا تعتبره مغلقاً.
+قرار7نوفمبر2026 الأحدث: R2 غير منطبق بقرار المالك: لا موظفين. أُلغي الالتزام السابق؛ لا إصلاح مؤجل أو تذكير لاحق لهذا البند، ولا تغيير صلاحيات ضمن هذا التوثيق.
 
 #24Oct — owner recovery and incremental remote saves
 

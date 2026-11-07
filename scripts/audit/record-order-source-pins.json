@@ -51,7 +51,7 @@
     },
     "tests/reset219-reference-d1-docs.test.ts": {
       "before": "3b14eec324c998860f1b25f1778c135d4fe1e6bbad668523e1fff4f13b49905e",
-      "after": "5f12b6f638d7ba93cf65250a91879438dda735b9fc8acb2a915d0f95f31e2437"
+      "after": "6583bf1e1b01255be3b8a67e797e220e4692686dffbcba2511d31143d85580a1"
     },
     "tests/product-workbook-history.test.ts": {
       "before": "ea61aeead127c7ad36010113829d6144ac0b52d2341dc1dc3194e7a4fe27a19e",
