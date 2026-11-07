@@ -5,7 +5,7 @@
   "entries": {
     ".github/workflows/quality.yml": {
       "before": "bec5ef1b33c23a54396bad31bb5c335ab4835823697337b62d240b30a14e72dd",
-      "after": "1cb00b274ee52e86b8889d31507c11be67d8e6f5f2efa7d34d8284ee6fb2f52b"
+      "after": "131bcce595bd7867c5c6891c497245888971221972679052b02586aebef43b7f"
     },
     "customer-web/src/App.tsx": {
       "before": "0fce44df50185805a2834d2eb7832b33280458e7721466b4f8dce6ae3c414844",
@@ -33,19 +33,19 @@
     },
     "docs/agent/PHASE_STATUS.md": {
       "before": "59970dc93188079bac397b3a99cb732bb28a129841cf2d8a97db2adbd73a38df",
-      "after": "4b6a70455051805f84ec0206912bd10b0aef1cf5ee50c33195483d24f5d8896b"
+      "after": "b86e90808ee6de7fe7bee8cf9dd271f66c63e929f9ecafe27091e8ceb4dbb053"
     },
     "docs/agent/project-state.json": {
       "before": "97dd6d0515dd9d24e9d042e8e5dc9a9c602427c1d5027aff1c054ef3c0eb06ed",
-      "after": "7e448fae058007a0aa744f479b79845deba5981442dcaacb90df426a88c44ece"
+      "after": "efb58e88f515fb90dd9020255f33d57228c7f9d10ca213c4e7f37d858f45e633"
     },
     "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json": {
       "before": "2590ef8e7416a0159df2963ed1446cf6ca20991d88d51cea198d3ef67b5eb04c",
-      "after": "dcd4dd2e0791dc417cb8d1b8d0f50c4854e716d7892266a674572daf1c36b4ce"
+      "after": "a88cbbdd230c3ed36d348ff5f03323312f63018c486a2a034513fb778e06cfec"
     },
     "docs/operations/SERVICE_ACCESS_INVENTORY.json": {
       "before": "34d1d529ffa0d0714e46001743b3cbc910c0cfd1e374ff7903a0d86ae101cb10",
-      "after": "d6788ab4ed111d055fcb5e042741299c39a7eb229fbb1ee1ef8fef3e400d18a9"
+      "after": "0389a8c03fc68494dffb5b3345c04d32495a515d54b66bf91283484187bd860f"
     },
     "docs/operations/STOREFRONT_CART_FLIGHT_AR.md": {
       "before": null,
@@ -57,11 +57,11 @@
     },
     "docs/operations/TABLE_ACCESS_AFTER_219.json": {
       "before": "09199a0832f3a29b5eb1ded96e073e9e3b7c2d91065f92b2b7eb7a2013912782",
-      "after": "f135a81bf1e014acf2a3d15fba4ca6106b7e5628e3b61852abde378adf5f335a"
+      "after": "143fd1785d3ae96b4de90667a91bf87cdc46f60b5c257430b959749d003764a7"
     },
     "docs/operations/TABLE_ACCESS_INVENTORY.json": {
       "before": "0944adddb07c084fad6862d98e6def1192635bbcdaea1214f4d5b03ad8ddbe58",
-      "after": "8d43106596185baf4ac02d452fce16f79f3e0356cededcdc1939712db06e1f9e"
+      "after": "05c33047c29f67e07e6ca77e666bd9c8632a07d7da8fc077f17ca820b2649595"
     },
     "package.json": {
       "before": "53b41ded20320ed21bcd9db6d4a99f7aa8420082c5570fa5d85e0f38feb9b5e1",
@@ -85,7 +85,7 @@
     },
     "tests/cart-flight-contracts.test.ts": {
       "before": null,
-      "after": "09c414cd4cb407f0ac53446a68bc5cbb92bff53daae9c4f30a6a90b0b6913c4e"
+      "after": "ba1fdedd15514810ed2c91a5e24cbe84c805c5c59b78072ac8823f3f12ff0e57"
     },
     "tests/product-workbook-runtime-view.test.ts": {
       "before": "d16c8bcb487c7ca2380bd35e932b63cee4764e6169b544eb070b351219423721",
@@ -94,6 +94,14 @@
     "tests/storefront-images-history.test.ts": {
       "before": "d8295f919d14b32b3178f144399b6b435b6e36b2496ea6a5113c82b3f1dc8a4c",
       "after": "bb7b3946ed239f20898b17136d8a7e77ac2526a4461555e7e4ac88d285b48eeb"
+    },
+    "src/features/inventory/SupplierReplacementPanel.tsx": {
+      "before": "fea0dd76e1964061c889803d01ae80c0304fa81b0bad4de27501b5bfbbc4fd09",
+      "after": "e1d0f8ba07d1e72ed5573a4b28e8a0ac11882651c5cd55920a58033475994535"
+    },
+    "tests/partial216-operations.test.ts": {
+      "before": "1f9e5c84cf85e5f69bc3cc899104362183250c946d4de88e30a512db1fd8c2f7",
+      "after": "a93b3f0e3a7569fc300401bd17e5d481f9b7f406f619d0aaf1ddb6d82ea387e5"
     }
   }
 }

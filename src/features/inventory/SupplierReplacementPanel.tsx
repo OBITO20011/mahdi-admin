@@ -160,6 +160,7 @@ export function SupplierReplacementPanel({productId:initialProductId,supplierId:
     </fieldset></FormFields>}
     {tab==='new'&&<UiButton disabled={busy||unresolved||!recoveryReady||!options} onClick={()=>void inspect()}>معاينة العملية</UiButton>}
     {tab!=='new'&&(page?<>
+      <p className="text-sm text-nw-muted">الأحدث أولاً؛ الصفحة التالية تعرض الأقدم.</p>
       <SupplierReplacementQuantities data={page}/>{owner&&page.pendingValueInMinorUnitsExact!==undefined&&<p className="text-sm">القيمة الإجمالية للمعلّق: <MoneyText amount={replacementMoney(page.pendingValueInMinorUnitsExact)} currency /></p>}
       {page.cases.length===0?<p role="status">لا توجد عمليات مطابقة.</p>:page.cases.map(c=><Card key={c.id} className="space-y-2" data-testid="replacement-case">
         <p className="font-bold">{c.productName} · {c.supplierName??'تلف المحل'}</p><p className="text-sm">المعلّق {supplierCaseQuantity(c,c.pendingQuantity)} · استُلم {supplierCaseQuantity(c,c.receivedQuantity)} · رُفض {supplierCaseQuantity(c,c.writtenOffQuantity)}{c.creditedQuantity!==undefined&&` · خُصم ${supplierCaseQuantity(c,c.creditedQuantity)}`}</p>

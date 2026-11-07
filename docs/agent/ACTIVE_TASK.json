@@ -1,44 +1,56 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner Nov7 approved PR77 integration after75;real main merge,fullCI,owner primary byte-preservingFF,no hosted/deploy.",
-  "baselineSha": "a4bcf3ab8bb7ea5b16c276f0868c4c86f0c5b6b1",
-  "branch": "codex/restore219-empty-storage",
+  "objective": "Owner7Nov authorized post-go-live220 DRAFT only:annualM01 read performance/supplier case DESC pages/RLS initplans measured;isolated proof only,219 tools remain active,no hosted/merge/deploy.",
+  "baselineSha": "01d4b036136304876da1be8b701cff9e342e3b4d",
+  "branch": "codex/posthandover220-draft",
   "phase": "PACKAGE_F",
   "completed": [
-    "Reproduced missing empty Storage directory in valid 219 v2 archive; one conditional copy fixes it.",
-    "Complete isolated backup/restore 214–219 passed, zero-image 219 strict proof passed, default Restore cleanup passed.",
-    "Types and strictlint passed. Focused32, corrected history34/35 then remaining22/22, and new inverse negative1/1 passed.",
-    "Owner explicitly approved empty-storage Restore fix and PR77 merge after76/75.",
-    "Real merge main9cc87ae2 after75;36 focused integration tests pass,0failed."
+    "Approved76/75/77 main01d4 FULL63,safe primary FF owner20+env4+state5 preserved.",
+    "Owner reviewed78;merged7Nov main d0cbf421,mainFULL CI+safeFF in progress. Used-pg_net protection chain proof retained.",
+    "Draft220 quarantined outside migrations;active219/180 exact. Final50k+20 M01 before31.775s/8s reject;20+3 afterp95=4988.422/max5221.647ms.",
+    "Literal completeJSON6periods/7roles/4errors/8facts/1100qty exact;60supplier cases3DESC pages;FK used/drop-index negative;rollback4reader defs/ACL exact.",
+    "Actual219 access refresh172success/9expectedzero/0denied/0errors;598service probes18expected role denials."
   ],
   "inProgress": [
-    "Main after75 genuinely merged;focused integration gates before full PR CI."
+    "Save tested220 checkpoint;genuine merge of approved main78;resolve metadata/pins only;DraftPR/FULLCI,no merge220."
   ],
-  "notStarted": [],
+  "notStarted": [
+    "Draft220 SQL opt-in isolated only;no active migration ceiling change.",
+    "Exact financial/error/ACL parity and before/after performance.",
+    "Draft PR/FULLCI;future owner-tool promotion checklist.",
+    "After220:popover visual audit and LCP-only study."
+  ],
   "testsPassed": [
-    "Local complete backup runtime,32focused,history corrections,22focused,new1negative,typecheck,strictlint.",
-    "Integration77 focused36/36,no skips."
+    "Final20+3hard8 proof and literal financial/roles/quantity/supplier/FK/RLS oracles.",
+    "Current219 actual table+service diagnostics;owned DBs stopped.",
+    "Types/strictESLint PASS;originalfull1832pass/11fail then focused58pass2hashfail;bothhashcasesPASS after after-only pins refresh;frozenGit63 under original120sPASS."
   ],
   "testsRemaining": [
-    "FULL CI and secrets on committed PR head."
+    "Gitleaks/real main78merge/focused merged guards/DraftFULLCI.",
+    "Then popover visual audit and LCP-only study."
   ],
   "findings": [
-    "Connected rehearsal app96cf finished via verified accepted archive after corrected synthetic HTTP IP/type transport and bounded local Telegram queue.",
-    "Owner approved separate pg_net raw sequence-state backup/Restore repair after merges;not implemented here."
+    "Only item_sales1package+1base literal119 expansion;Top Products untouched. Function-local8MB/caller4MB;RAM/concurrency promotion gate documented.",
+    "No hosted/owner/env/reference edits;78notmerged/58Draft."
   ],
   "blockers": [],
-  "activeProcesses": [],
-  "prohibitions": [
-    "No hosted services,deploy,owner/env edits.58Draft."
+  "activeProcesses": [
+    "External main78 CI observer71444;updates primary only after full green and byte preservation."
   ],
-  "nextExactAction": "Commit and push genuine main merge77;FULL exact head CI;merge only after main75 green and primaryFF;then main77 green and safeFF. No hosted/deploy;58Draft.",
+  "prohibitions": [
+    "No hosted/Frankfurt/Sentry/Telegram/Cloudflare/deploy.",
+    "No merge220 or78;58Draft.",
+    "No owner/env/reference edits;no financial or permission policy changes.",
+    "Do not raise active219 ceiling or weaken RESET/backup/upgrade guards."
+  ],
+  "nextExactAction": "Approved78 merged d0cbf421/mainCI watcher;save220 tested commit then genuine main78 merge metadata/pins;DraftFULLCI. No220merge/hosted/owner edits.",
+  "checkpointedAt": "2026-11-07T11:26:41.816Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "8DD8940A49189F3CDE86D55849331FEEA6B88018C2799EDEAE4A7A81E936F49D",
-  "checkpointedAt": "2026-11-07T07:36:04.364Z",
-  "filesTouchedCount": 14,
-  "filesTouchedManifestSha256": "626e176f0420b00458ef519ef8f32eb767afefd55e12fe97c5a9c6fba7c5f2c4"
+  "filesTouchedCount": 19,
+  "filesTouchedManifestSha256": "9b2f8a56e63867ff9544ef9871669685f10a73518c9fe4eafcba1a1d3127107c",
+  "workingTreeFingerprint": "DBA7FF7D7B2E90FAB610DC59EE8B1DC02760FE2448FFA50E74640C1B324EEFFA"
 }

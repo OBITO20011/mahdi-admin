@@ -2,60 +2,80 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": "A ",
-      "path": "docs/operations/hero-mobile-frame-comparison.webp"
+      "code": " M",
+      "path": ".github/workflows/quality.yml"
     },
     {
-      "code": "M ",
-      "path": "customer-web/public/nawasrah-hero-mobile.mp4"
-    },
-    {
-      "code": "M ",
+      "code": " M",
       "path": "docs/agent/PHASE_STATUS.md"
     },
     {
-      "code": "M ",
-      "path": "docs/handover/ورقة-يوم-التشغيل.html"
+      "code": " M",
+      "path": "docs/agent/project-state.json"
     },
     {
-      "code": "M ",
-      "path": "docs/handover/ورقة-يوم-التشغيل.md"
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
     },
     {
-      "code": "M ",
-      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
     },
     {
-      "code": "M ",
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_219.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
       "path": "scripts/audit/cart-flight-source-pins.json"
     },
     {
-      "code": "M ",
-      "path": "scripts/audit/home-performance219-source-pins.json"
+      "code": " M",
+      "path": "src/features/inventory/SupplierReplacementPanel.tsx"
     },
     {
-      "code": "M ",
-      "path": "scripts/audit/product-workbook-source-pins.json"
+      "code": " M",
+      "path": "tests/cart-flight-contracts.test.ts"
     },
     {
-      "code": "M ",
-      "path": "scripts/testing/storefront-budget.d.mts"
+      "code": " M",
+      "path": "tests/partial216-operations.test.ts"
     },
     {
-      "code": "M ",
-      "path": "scripts/testing/storefront-budget.mjs"
+      "code": "??",
+      "path": "docs/design/migration220/220_posthandover_read_performance.sql"
     },
     {
-      "code": "M ",
-      "path": "tests/cutover-publication-order.test.ts"
+      "code": "??",
+      "path": "docs/design/migration220/LOCAL_EVIDENCE.json"
     },
     {
-      "code": "M ",
-      "path": "tests/storefront-budget.test.ts"
+      "code": "??",
+      "path": "docs/design/migration220/README_AR.md"
     },
     {
-      "code": "M ",
-      "path": "tests/trial-brand-identity.test.ts"
+      "code": "??",
+      "path": "scripts/audit/source-before-draft220.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/draft220-quantity-inline.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/posthandover220-proof.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-posthandover220-draft.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/posthandover220-draft.test.ts"
     }
   ]
 }
