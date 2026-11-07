@@ -69,11 +69,11 @@
     },
     "scripts/audit/source-before-cart-flight.mjs": {
       "before": null,
-      "after": "e6afd4f94d43215e48387c01dddec489794ac73fcf198ff9e0f328ade51d2ab9"
+      "after": "28e6330858a3c368779010e36823c9be5e8326de6af0d2c2cd2e547266d0ffca"
     },
     "scripts/audit/source-before-storefront-images.mjs": {
       "before": "d94e66b5a5c693be0c89454d751a95df5ccda0b382109b4bb8cb1ae293bf9fe5",
-      "after": "ba16322e0734bf9d058487b4d69d5c9c03a998deee563fea3e540804daa1370f"
+      "after": "45c44e375dcb3fe70ce7b9f74c23215460989f3d99633bd52e7a80e24fc32db8"
     },
     "scripts/testing/product-workbook-runtime-view.mjs": {
       "before": "b7d550b2d549acb98eccf5429ad0e8443140cd7c44431f5e238f1f0fad91ce75",
@@ -93,7 +93,7 @@
     },
     "tests/storefront-images-history.test.ts": {
       "before": "d8295f919d14b32b3178f144399b6b435b6e36b2496ea6a5113c82b3f1dc8a4c",
-      "after": "bb7b3946ed239f20898b17136d8a7e77ac2526a4461555e7e4ac88d285b48eeb"
+      "after": "6259fae74cfa984ed417bb0afb8fccb5b5bd9b7b218ccd81e48b41292849f3c6"
     },
     "src/features/inventory/SupplierReplacementPanel.tsx": {
       "before": "fea0dd76e1964061c889803d01ae80c0304fa81b0bad4de27501b5bfbbc4fd09",
@@ -118,6 +118,14 @@
     "src/types/index.ts": {
       "before": "84b2b347113f1dcf45943263491b0dec6a8cac5f8fe31ac7bd1b58a1304ee18b",
       "after": "e10f8c376c6d15a1b5c1847d0623c60233886cb3c19a762c4c229244353da4ce"
+    },
+    "e2e/package-f-orders.spec.ts": {
+      "before": "8e4c4bf03b3e3b2f01bcd4f661b41aabb5e932dd34cb4f16f6807659e7588974",
+      "after": "a6729d3d6793d4f5cc7d39f926e1587c1212c8495a7e5d0f0566aa41cbac27eb"
+    },
+    "e2e/package-f-orders-harness.tsx": {
+      "before": "773dc41431d72f555790ccbfd7df78e3016c5307452657ab9f134fae22af9511",
+      "after": "3f8cc1b6e5e9e78dc9b67eed3a7fc6ef908bba258c793579674e5ae6eeaa69f3"
     }
   }
 }

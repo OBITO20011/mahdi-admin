@@ -1,4 +1,4 @@
-import{sourceBeforeCartFlight,restoreCartFlightHashes,pathsBeforeCartFlight}from'./source-before-cart-flight.mjs';
+import{sourceBeforeCartFlight,restoreCartFlightHashes,pathsBeforeCartFlight,projectGuest220QueryLocations,historicalGuest220RpcSite}from'./source-before-cart-flight.mjs';
 // Frozen history only. Current runtime diagnostics never project these sources.
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -26,6 +26,7 @@ export function pathsBeforeStorefrontImages(files,reference){return pathsBeforeC
 // The single unchanged table read moved from line142 to155. Validate the real
 // source and supplied arguments before restoring locations for frozen history.
 export function projectStorefrontImageQueries(source,parseSource){
+ source=projectGuest220QueryLocations(source,parseSource);
  const result=[];
  for(const file of new Set(source.entries.map(entry=>entry.file))){
   const supplied=source.entries.filter(entry=>entry.file===file),pin=entries[file],saved=source.sources.find(entry=>entry.file===file);
@@ -44,6 +45,7 @@ export function projectStorefrontImageQueries(source,parseSource){
 
 // Current role proof remains raw; only historical comparison restores exact RPC locations.
 export function historicalStorefrontImagesRpcSite(site,parseServices){
+ site=historicalGuest220RpcSite(site,parseServices);
  const file=site.slice(0,site.lastIndexOf(':')),pin=entries[file];if(file!=='src/services/supabase/product-images.service.ts'||!pin)return site;
  const raw=readFileSync(new URL('../../'+file,import.meta.url),'utf8');assert.equal(hash(raw),pin.after,'IMAGE_RPC_SOURCE_CHANGED');
  const current=parseServices(file,raw).rpc,prior=parseServices(file,sourceBeforeStorefrontImages(file,raw)).rpc;

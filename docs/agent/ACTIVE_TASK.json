@@ -3,7 +3,7 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner7Nov:H1fix in Draft79/220 then separate owner220tools Draft;R2not applicable/no employees/no future reminder. Docs80merge only FULLgreen.No219activation/hosted/deploy/merge79/58.",
-  "baselineSha": "c6827fb692cf51268f3a8c471bd768ef44030e1f",
+  "baselineSha": "0b60bb2511de9171ff0d24c9b0142b56a700b0aa",
   "branch": "codex/posthandover220-draft",
   "phase": "PACKAGE_F",
   "completed": [
@@ -11,19 +11,24 @@
     "H1V2+serviceV1 identity/default protection derived literally from018/023/209;only quarantined SQL,001–219/ownerops/backup unchanged.",
     "Actual219 8H1groups+4blocked races/rollback/replay PASS;card/default/debt/oldorders exact,onhand99/reserved15;ownedDBstopped.",
     "Types/8focused including exact3bodyinverse PASS;proposal Chromium+WebKit390 2PASS,zero retry;manual-review navigation only.",
-    "Current219actual SDK172success+9expectedzero/0error;598service probes/18expecteddenials;ownedDBs stopped."
+    "Current219actual SDK172success+9expectedzero/0error;598service probes/18expecteddenials;ownedDBs stopped.",
+    "OwnH1localcommita8673704;genuine main80 merge7f31,R2notapplicable decision preserved.80feature64PASS/mainCIpending.",
+    "README81ownerpriority completed:fa7529e8FULL64 merged16ef354c;mainwatch/safeprimary pending.",
+    "H1Admin1856:1854PASS+2fixes;last afterpin focusedPASS;one isolatedGit63 environmental rerun original120sPASS28.9s,no limit change.",
+    "Historical query/RPC location adapter proves all arguments/roles unchanged,unknown-source/argument negative controls;56focusedPASS;types/strictlint/store213PASS."
   ],
   "inProgress": [
-    "Final full regressions,50kperformance/parity,source-bound evidence and genuine main sync after80."
+    "H1final50kM01/builds/historyview thenPR79DraftFULLCI;README81merged,mainCI/primarywatch independent."
   ],
   "notStarted": [
     "After79currentFULLCI:separate Draft owner220tools/proof,not merged."
   ],
   "testsPassed": [
-    "Current H1 runtime8+4,UI2,types,literal inverses and actual219SDK/services."
+    "Current H1 runtime8+4,UI2,types,literal inverses and actual219SDK/services.",
+    "H1contracts23PASS then sole exact runtime-view after hash fixed;flight history focusedPASS."
   ],
   "testsRemaining": [
-    "Full Admin/store/strictlint/build contexts+verify-dist;50000/20+3/8s/7s M01 with7definition rollback;historical runtime view;Gitleaks0;FULL65 new79."
+    "50kM01same20+3/8s/7s and literalfinancialJSON/7roles/negative/7definitionrollback;6builds/verify;historicalruntime committedview;Gitleaks0/new79FULL65."
   ],
   "findings": [
     "H1does not restore old219 card changes;fix future guest writes only. Owner manual approval uses existing CRM."
@@ -35,12 +40,12 @@
     "No merge79/tools220/58;58Draft.",
     "No owner/env/reference edits;active219/180 unchanged;no financial/permission semantic changes."
   ],
-  "nextExactAction": "H1WIP committed locally;genuine merge delivered80/main;final Admin/store/M01/build/inverses/Gitleaks/FULLCI then220toolsDraft.",
-  "checkpointedAt": "2026-11-07T16:55:20.962Z",
+  "nextExactAction": "SaveH1adapter locally;genuine README main merge;run50kM01/builds/historyview alone;thenfinal79DraftFULLCI and220toolsDraft.",
+  "checkpointedAt": "2026-11-07T17:59:37.311Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 24,
-  "filesTouchedManifestSha256": "e41e3faaeaa00c9eecd280e3b241a8c09de7261fa9fd8180bf540ab5575747c0",
-  "workingTreeFingerprint": "990D81D29032FBF366715EE213A0D7EAC851573CCA73884DB6529754B978AC66"
+  "filesTouchedCount": 5,
+  "filesTouchedManifestSha256": "54692ce5fc03b268ffef96e1373c3b10ccfb8140beb33c113326159c8f7e5913",
+  "workingTreeFingerprint": "C14AB67D24DB5FB8A6F7120F1A77C32D2BB48CF584CBD63BC1E33B804D5A90D8"
 }
