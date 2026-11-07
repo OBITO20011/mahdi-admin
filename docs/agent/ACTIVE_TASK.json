@@ -2,43 +2,42 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner Nov7 approved PR77 integration after75;real main merge,fullCI,owner primary byte-preservingFF,no hosted/deploy.",
-  "baselineSha": "a4bcf3ab8bb7ea5b16c276f0868c4c86f0c5b6b1",
-  "branch": "codex/restore219-empty-storage",
+  "objective": "Owner7Nov approved fixed pg_net raw sequence state capture and Docker-only replay;separate PR/fullCI,no merge before Claude;no RESET guard or comparator change.",
+  "baselineSha": "01d4b036136304876da1be8b701cff9e342e3b4d",
+  "branch": "codex/restore219-pg-net-sequence-state",
   "phase": "PACKAGE_F",
   "completed": [
-    "Reproduced missing empty Storage directory in valid 219 v2 archive; one conditional copy fixes it.",
-    "Complete isolated backup/restore 214–219 passed, zero-image 219 strict proof passed, default Restore cleanup passed.",
-    "Types and strictlint passed. Focused32, corrected history34/35 then remaining22/22, and new inverse negative1/1 passed.",
-    "Owner explicitly approved empty-storage Restore fix and PR77 merge after76/75.",
-    "Real merge main9cc87ae2 after75;36 focused integration tests pass,0failed."
+    "Approved76,75,77 merged in order;all exact-headFULL64/mainFULL63 and byte-preserving primaryFF/preflight verified.",
+    "Actual encrypted/strict214–219 compatibility,emptyStorage,17integrity and4raw-state cases/6negative cases/repeatedRestore pass.",
+    "Legacy synthetic used3 -> strictRestore -> new encrypted raw3,true backup -> strictRestore pass;owned containers cleaned.",
+    "44focused;final23history/state;types/strictlint pass. Source/comparator/RESET11protected pins unchanged."
   ],
   "inProgress": [
-    "Main after75 genuinely merged;focused integration gates before full PR CI."
+    "Final review,Gitleaks,commit/push,independentPR/FULLCI;NO merge before Claude."
   ],
   "notStarted": [],
   "testsPassed": [
-    "Local complete backup runtime,32focused,history corrections,22focused,new1negative,typecheck,strictlint.",
-    "Integration77 focused36/36,no skips."
+    "Actual214–219 andstate4+negative6,replay,protectionChain",
+    "44focused,23finalhistory/state,types,strictlint"
   ],
   "testsRemaining": [
-    "FULL CI and secrets on committed PR head."
+    "FULL final exact-headCI."
   ],
   "findings": [
-    "Connected rehearsal app96cf finished via verified accepted archive after corrected synthetic HTTP IP/type transport and bounded local Telegram queue.",
-    "Owner approved separate pg_net raw sequence-state backup/Restore repair after merges;not implemented here."
+    "Old null/missing/unsafe-value evidence fails closed;positive safe legacy evidence proved.",
+    "One local120s frozen-view timeout under full parallel units;unchanged exact suite passed62.3s then final58.3s;no retry/timeout policy changed."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hosted services,deploy,owner/env edits.58Draft."
+    "No hosted/Frankfurt/deploy;no migrations or financial/permission changes;do not merge repair;58Draft;no owner/env/reference edits."
   ],
-  "nextExactAction": "Commit and push genuine main merge77;FULL exact head CI;merge only after main75 green and primaryFF;then main77 green and safeFF. No hosted/deploy;58Draft.",
+  "nextExactAction": "All merges/main63/primary owner preservation complete. pg_net repair local actual214–219+chain+44focused+23history pass. Final staged Gitleaks,commit,push,separatePR/FULLCI;no merge;then220Draft per owner.",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "8DD8940A49189F3CDE86D55849331FEEA6B88018C2799EDEAE4A7A81E936F49D",
-  "checkpointedAt": "2026-11-07T07:36:04.364Z",
-  "filesTouchedCount": 14,
-  "filesTouchedManifestSha256": "626e176f0420b00458ef519ef8f32eb767afefd55e12fe97c5a9c6fba7c5f2c4"
+  "workingTreeFingerprint": "C97FA50B12CBB3D51903768934DED762798B9251FAD9CDDF5D179B0F470D7F80",
+  "checkpointedAt": "2026-11-07T08:41:44.788Z",
+  "filesTouchedCount": 16,
+  "filesTouchedManifestSha256": "fee83b176a48b8c8500f7fff8be06e0f1934ea11a708d541948a5cd40939411c"
 }

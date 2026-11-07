@@ -1,3 +1,4 @@
+import {sourceBeforePgNetSequenceState,restorePgNetStateSourceHashes,pathsBeforePgNetSequenceState} from './source-before-pg-net-sequence-state.mjs';
 // Exact projection for historical checks. Operational backup and Restore always use current bytes.
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -20,6 +21,7 @@ const hash=text=>createHash('sha256').update(canonical(text)).digest('hex');
 const old=new Map();
 
 export function sourceBeforeEmptyStorageRestore(file,text){
+ text=sourceBeforePgNetSequenceState(file,text);
  const pin=pins[file];
  if(text===null||!pin||hash(text)!==pin.after)return text;
  if(!old.has(file)){
@@ -31,14 +33,14 @@ export function sourceBeforeEmptyStorageRestore(file,text){
 }
 
 export function restoreEmptyStorageSourceHashes(rows){
- return rows.map(row=>{
+ return restorePgNetStateSourceHashes(rows).map(row=>{
   const pin=pins[row.file];
   return pin&&row.sha256===pin.after?{...row,sha256:pin.before}:row;
  });
 }
 
 export function pathsBeforeEmptyStorageRestore(files,reference){
- return files.filter(file=>{
+ return pathsBeforePgNetSequenceState(files,reference).filter(file=>{
   if(!reference||!pins[file])return true;
   const actual=readFileSync(new URL('../../'+file,import.meta.url),'utf8');
   const before=sourceBeforeEmptyStorageRestore(file,actual);

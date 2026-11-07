@@ -18,6 +18,7 @@ import {partitionRestoreToc,prepareRestoreExtensions,restoredPlatformSql,assertP
 import {restoreToolError,saveRestoreLogs} from './restore-log.mjs';
 import {assertStrictRestoreComparison} from './restore-comparison.mjs';
 import {restoreCronSequenceAcl} from './restore-cron-acl.mjs';
+import {capturePgNetSequenceState,planPgNetSequenceState,restorePgNetSequenceState} from './pg-net-sequence-state.mjs';
 import {verifiedSupabaseCa} from './supabase-ca.mjs';
 import {postgresDiagnostic,diagnosticError,classifiedError} from './postgres-diagnostic.mjs';
 import {protectResetPath} from '../operations/reset214-private-state.mjs';
@@ -50,7 +51,7 @@ export async function captureEvidence(session){
     const key=table.schema+'.'+table.name;
     tables[key]=await json(session,`SELECT jsonb_build_object('rows',count(*),'hash',md5(coalesce(string_agg(to_jsonb(t)::text,E'\\n' ORDER BY to_jsonb(t)::text COLLATE "C"),''))) FROM ${qi(table.schema)}.${qi(table.name)} t;`);
   }
-  return {catalog,tables,roles:await json(session,rolesSql),memberships:await json(session,membershipSql),history:await json(session,historySql),sequences:await json(session,sequencesSql),storage:await json(session,storageSql),preload:(await session.query('SHOW shared_preload_libraries;')).trim()};
+  return {catalog,tables,pgNetSequenceState:await capturePgNetSequenceState(session),roles:await json(session,rolesSql),memberships:await json(session,membershipSql),history:await json(session,historySql),sequences:await json(session,sequencesSql),storage:await json(session,storageSql),preload:(await session.query('SHOW shared_preload_libraries;')).trim()};
 }
 export function assertRestoreEvidence(before,after){
   return assertStrictRestoreComparison(before,after);
@@ -97,6 +98,7 @@ export async function createCompleteBackup({projectRef,outputRoot,passphrase,ret
       assert.deepEqual(await json(fresh,rolesSql),before.roles,'ROLES_CHANGED_DURING_BACKUP_RETRY');
       assert.deepEqual(await json(fresh,membershipSql),before.memberships,'MEMBERSHIP_CHANGED_DURING_BACKUP_RETRY');
       assert.deepEqual(await json(fresh,sequencesSql),before.sequences,'SEQUENCES_CHANGED_DURING_BACKUP_RETRY');
+      assert.deepEqual(await capturePgNetSequenceState(fresh),before.pgNetSequenceState,'PG_NET_SEQUENCE_STATE_CHANGED_DURING_BACKUP_RETRY');
       assert.deepEqual(await json(fresh,stripTransaction(schemaCatalogSql)),before.catalog,'DDL_CHANGED_DURING_BACKUP_RETRY');
     }finally{await fresh.close();}
     await writeFile(path.join(content,'database','source-evidence.json'),JSON.stringify(before)+'\n');
@@ -127,7 +129,7 @@ export async function restoreCompleteBackup({archivePath,passphrase,reportPath,r
   // Ordinary Restore keeps its existing private socket port unchanged.
   const restorePort=afterVerified?5432:25435;
   const work=await mkdtemp(path.join(tmpdir(),'nawasrah-full-restore-')),content=path.join(work,'content');
-  const container='nawasrah-full-restore-'+process.pid+'-'+randomBytes(4).toString('hex');let started=false,report,restoreStderr='',restoreToc='',failure,logCapture,restorePartition,extensionProof,cronAclProof;
+  const container='nawasrah-full-restore-'+process.pid+'-'+randomBytes(4).toString('hex');let started=false,report,restoreStderr='',restoreToc='',failure,logCapture,restorePartition,extensionProof,cronAclProof,pgNetStateProof,restoreContainerId;
   const localToolEnv={...process.env,LC_ALL:'C',LANG:'C',LANGUAGE:'C'};
   const docker=async args=>exec('docker',args,{env:localToolEnv,windowsHide:true,timeout:600_000,maxBuffer:16*1024**2});
   const args=['exec','-i',container,'psql','-h','/tmp/socket','-p',String(restorePort),'-U','supabase_admin','-d','postgres','-X','-q','-A','-t','-w','-v','ON_ERROR_STOP=1','-v','VERBOSITY=verbose'];
@@ -138,9 +140,11 @@ export async function restoreCompleteBackup({archivePath,passphrase,reportPath,r
     assert.equal(manifest.formatVersion,2);assertApprovedBackupProject(manifest.projectRef);
     const before=JSON.parse(await readFile(path.join(content,'database','source-evidence.json'),'utf8'));
     const accepted=await assertOperationalHistory(before.history);
+    stage='restore-pg-net-sequence-state';
+    try{planPgNetSequenceState(before);}catch{throw classifiedError('RESTORE_PG_NET_SEQUENCE_STATE_UNSUPPORTED',{stage,tool:'internal'});}
     assert.match(before.preload,/^[a-z_]+(?:,\s*[a-z_]+)*$/u);
     // No port, live volume or external network. No database URL is accepted by this API.
-    stage='isolated-cluster-start';await docker(['run','--detach','--rm','--network','none','--name',container,'--entrypoint','sleep',IMAGE,'infinity']);started=true;
+    stage='isolated-cluster-start';restoreContainerId=(await docker(['run','--detach','--rm','--network','none','--name',container,'--entrypoint','sleep',IMAGE,'infinity'])).stdout.trim();started=true;
     await docker(['exec',container,'mkdir','-p','/restore','/tmp/socket']);await docker(['exec',container,'chown','postgres:postgres','/tmp/socket']);
     await docker(['cp',path.join(content,'database'),container+':/restore/database']);
     // A valid v2 archive with no product images has no storage directory.
@@ -169,12 +173,15 @@ export async function restoreCompleteBackup({archivePath,passphrase,reportPath,r
     // Extension-member ACL entries in pg_dump are relative to pg_init_privs.
     // Apply the captured FINAL ACL after dump replay,not an assumed initial ACL.
     stage='restore-cron-sequence-acl';cronAclProof=await restoreCronSequenceAcl(session,before);
+    stage='restore-pg-net-sequence-state';pgNetStateProof=await restorePgNetSequenceState({container,containerId:restoreContainerId,port:restorePort},before);
     stage='restore-platform-postinit';let postInit;
     try{postInit=platformPostInitSql(before.catalog);}catch{throw classifiedError('RESTORE_PLATFORM_SETTINGS_UNSUPPORTED',{stage,tool:'internal'});}
     await session.query(postInit);
     const platformProof=assertPlatformTocRestored(restorePartition.platform,await json(session,restoredPlatformSql));
     // Compare as the source postgres role, including hidden sequence values and privileges.
-    stage='compare-data-catalog-acl';await session.query('SET ROLE postgres;BEGIN READ ONLY;');const after=await captureEvidence(session);const proof=assertRestoreEvidence(before,after);
+    stage='compare-data-catalog-acl';await session.query('SET ROLE postgres;BEGIN READ ONLY;');const after=await captureEvidence(session);
+    if(Object.hasOwn(before,'pgNetSequenceState'))assert.deepEqual(after.pgNetSequenceState,before.pgNetSequenceState,'RESTORE_PG_NET_RAW_STATE_DIFFER');
+    const proof=assertRestoreEvidence(before,after);
     for(const object of manifest.storageObjects){
       const name=safeObjectName(object.name),file='/restore/storage/product-images/'+name;
       const {stdout}=await docker(['exec',container,'sha256sum','--',file]);assert.equal(stdout.slice(0,64),object.sha256,'RESTORED_STORAGE_BYTES_DIFFER');
@@ -189,7 +196,7 @@ export async function restoreCompleteBackup({archivePath,passphrase,reportPath,r
     const integrity=(scan?.checks??[]).filter(c=>c.key.startsWith('integrity:')).map(({key,status,issueCount})=>({key,status,issueCount}));
     assert.ok(integrity.length>5,'RESTORE_INTEGRITY_SCAN_MISSING');
     assert.ok(integrity.every(c=>c.status==='healthy'&&Number(c.issueCount)===0),'RESTORE_EXISTING_INTEGRITY_CHECK_FAILED');
-    report={ok:true,projectRef:manifest.projectRef,mode:'isolated-complete-restore',postgresImage:IMAGE,completedAt:new Date().toISOString(),hostedConnectionsMade:false,network:'none',liveVolumesModified:false,historyCeiling:accepted.ceiling,historyFiles:accepted.files,tablesCompared:Object.keys(before.tables).length,storageObjectsCompared:manifest.storageObjects.length,integrityChecks:integrity,tocCoverage:restorePartition.proof,extensions:extensionProof,platform:platformProof,cronSequenceAcl:cronAclProof,...proof};
+    report={ok:true,projectRef:manifest.projectRef,mode:'isolated-complete-restore',postgresImage:IMAGE,completedAt:new Date().toISOString(),hostedConnectionsMade:false,network:'none',liveVolumesModified:false,historyCeiling:accepted.ceiling,historyFiles:accepted.files,tablesCompared:Object.keys(before.tables).length,storageObjectsCompared:manifest.storageObjects.length,integrityChecks:integrity,tocCoverage:restorePartition.proof,extensions:extensionProof,platform:platformProof,cronSequenceAcl:cronAclProof,pgNetSequenceState:pgNetStateProof,...proof};
     if(afterVerified){
       // AFTER strict comparison and the rolled-back scanner. The same finally
       // owns cleanup even if the rehearsal throws. No default network changes.

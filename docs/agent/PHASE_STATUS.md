@@ -1,3 +1,7 @@
+# 7Nov2026 — approved pg_net backup/Restore state repair,local verification pending
+
+Separate PR after approved76/75/77. Capture fixed net sequence raw last_value/is_called without grants;Docker-only exact-state replay,ambiguous old evidence fails closed. Original strict comparator and RESET219/connection guards unchanged. No migration/hosted/deploy/merge permission. Full214–219 and source/restore data-role-ACL equality required.58Draft.
+
 # 7 نوفمبر 2026 — ضغط فيديو الرئيسية على الهاتف
 
 اعتمد المالك فرق TBT في #74 ودُمج إلى `96cf7b95`. نجح CI على main بنتيجة 63/63، وتحقق تحديث المجلد الأساسي مع حفظ ملفات المالك والبيئة ونجاح preflight.
