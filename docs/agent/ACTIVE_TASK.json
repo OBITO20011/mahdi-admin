@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner7Nov:78merged d0cbf421 pending mainFULL/safeFF;220PR79 Draft c000a795 genuine main78 merge,FULLCI;then authorized popover visual/LCP study.No hosted/deploy or220merge.",
-  "baselineSha": "c000a795617367f06b5351da195736b8e7e4c47f",
+  "objective": "Owner7Nov:78merged main d0cbf421 FULL63 safeFF complete;220PR79 Draft final scopedCOUNT guard FULL65 pending;then authorized visual/LCP. No hosted/220merge.",
+  "baselineSha": "1a7cc4f38ffb247f478e40e80e583012f2d62359",
   "branch": "codex/posthandover220-draft",
   "phase": "PACKAGE_F",
   "completed": [
@@ -12,10 +12,12 @@
     "Draft220 quarantined outside migrations;active219/180 exact. Final50k+20 M01 before31.775s/8s reject;20+3 afterp95=4988.422/max5221.647ms.",
     "Literal completeJSON6periods/7roles/4errors/8facts/1100qty exact;60supplier cases3DESC pages;FK used/drop-index negative;rollback4reader defs/ACL exact.",
     "Actual219 access refresh172success/9expectedzero/0denied/0errors;598service probes18expected role denials.",
-    "220saved5ec22a01,genuine main78 mergec000a795;5metadata conflicts preserve both phase notes/before pins/state branch only. Postmerge23PASS;Gitleaks0;PR79Draft opened."
+    "220saved5ec22a01,genuine main78 mergec000a795;5metadata conflicts preserve both phase notes/before pins/state branch only. Postmerge23PASS;Gitleaks0;PR79Draft opened.",
+    "79scope assertion diagnosed pre-DB;only pinned SupplierPanel admitted,new unknown-source negatives;types/strictlint13unitPASS;actualcommitted view65sources/owner+SQLunchanged/cleanupPASS. Fix1a7cc4f3 pushed,PRDraft maintained;Gitleaks0.",
+    "main78FULL63 and primary safeFFd0cbf421 complete;20owner+4env+5state byte-identical,preflightPASS."
   ],
   "inProgress": [
-    "79CI first failed before DB:HISTORICAL_RUNTIME_LAYER_SCOPE for pinned SupplierReplacementPanel caption. Exact singlefile scope addition+negative tests;no rerun/limits changed. main78 CI continues."
+    "Strengthen scope observability only:typed scopedCOUNT/datewindow before same50000 benchmark;tests then new79head/FULL65. SQLcandidate/samples/limits unchanged."
   ],
   "notStarted": [
     "After79FULL:finalpopover visual audit and LCP-only report."
@@ -23,32 +25,32 @@
   "testsPassed": [
     "Final20+3hard8 proof and literal financial/roles/quantity/supplier/FK/RLS oracles.",
     "Current219 actual table+service diagnostics;owned DBs stopped.",
-    "Types/strictESLint PASS;originalfull1832pass/11fail then focused58pass2hashfail;bothhashcasesPASS after after-only pins refresh;frozenGit63 under original120sPASS."
+    "Types/strictESLint PASS;originalfull1832pass/11fail then focused58pass2hashfail;bothhashcasesPASS after after-only pins refresh;frozenGit63 under original120sPASS.",
+    "ScopedCOUNT/datewindow guard:types+strictlint+6unit PASS;old1a7 featureFULL65 PASS.",
+    "ScopedCOUNT/datewindow guard:types+strictlint+6unit PASS;old1a7 featureFULL65 PASS."
   ],
   "testsRemaining": [
-    "Types/strictlint/scope unit then commit/actual committed historical view/cleanup;pushnew79head/FULL65.",
-    "main78 FULL63/primaryFF;then visual/LCP."
+    "New scoped guard commit FULL65;then visual/LCP."
   ],
   "findings": [
     "Only item_sales1package+1base literal119 expansion;Top Products untouched. Function-local8MB/caller4MB;RAM/concurrency promotion gate documented.",
-    "No hosted/owner/env/reference edits;78notmerged/58Draft."
+    "No hosted/owner/env/reference edits;78merged/58Draft.",
+    "Scope misread RETRACTED:branch_n is shift index/time;orders.branch_id fixed2. Actual extra100k DBcount100k samebranch;original50000 allsamebranch. ExtraDBstopped. Prior50k timing valid;new explicit scoped annual50000COUNT guard and exact fixture365/366day range."
   ],
   "blockers": [],
-  "activeProcesses": [
-    "main78CI observer71444. Old79CI stopped read observer99072 after real scope assertion;no automatic rerun."
-  ],
+  "activeProcesses": [],
   "prohibitions": [
     "No hosted/Frankfurt/Sentry/Telegram/Cloudflare/deploy.",
     "No merge220/79 or58;58Draft.",
     "No owner/env/reference edits;active219/180 unchanged.",
     "No financial/permission semantics changes or unapproved new SQL."
   ],
-  "nextExactAction": "79scope fix exact SupplierPanel caption;commit and prove actual committed Git63 view/cleanup beforepush. main78 CI observer/safeFF continues.",
-  "checkpointedAt": "2026-11-07T11:45:36.684Z",
+  "nextExactAction": "Commit scopedCOUNT guard,push79 newhead,FULL65;then visual audit/LCP.No merge220/58 or hosted.",
+  "checkpointedAt": "2026-11-07T13:06:40.532Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 3,
-  "filesTouchedManifestSha256": "da9e9235579a311bc247231980d10f9deb5ab75241c10730bfa7baac7ea18b59",
-  "workingTreeFingerprint": "1BD6F43EF9DCF1D1D439B61CC8995FA2495DDAB50EC273A1AFC776CD0591F937"
+  "filesTouchedCount": 4,
+  "filesTouchedManifestSha256": "fbe82e9b6900b1493d9d58e9e3a8ae2c22181cdb63f130d43a72ee877e197a55",
+  "workingTreeFingerprint": "387DA51A568164A20F3A974DB786B28386AD50DF7C66118FC6306C49D9517724"
 }

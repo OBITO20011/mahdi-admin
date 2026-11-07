@@ -27,8 +27,15 @@ try{
  const batches=[];for(let from=1;from<=params.modern;from+=100)batches.push('BEGIN;'+claims+batch.replaceAll('__E2_FROM__',String(from)).replaceAll('__E2_TO__',String(Math.min(from+99,params.modern)))+'COMMIT;');
  await sql(setup+batches.join('\n')+finish,params);
  const counts=JSON.parse(await sql("SELECT jsonb_build_object('skus',(SELECT count(*) FROM products WHERE NOT is_flavor_master),'families',(SELECT count(*) FROM products WHERE is_flavor_master),'customers',(SELECT count(*) FROM customers),'suppliers',(SELECT count(*) FROM suppliers),'orders',(SELECT count(*) FROM orders),'items',(SELECT count(*) FROM order_items),'receipts',(SELECT count(*) FROM supplier_receipts)+(SELECT count(*) FROM purchase_receipts),'payments',(SELECT count(*) FROM customer_payments),'returns',(SELECT count(*) FROM sales_returns)+(SELECT count(*) FROM sales_return_events),'replacements',(SELECT count(*) FROM sales_replacement_events WHERE issuance_status='issued'),'shifts',(SELECT count(*) FROM cash_shifts),'movements',(SELECT count(*) FROM inventory_movements));"));assertCounts(counts,params);report.counts=counts;
+ // Match the exact fixture period,including a possible midnight during seed.
+ // No easier fixed day and no invoices silently outside the measured window.
+ const period=JSON.parse(await sql(`SELECT jsonb_build_object('from',to_char(min(h.created_at) AT TIME ZONE 'Asia/Amman','YYYY-MM-DD'),'to',to_char(max(h.created_at) AT TIME ZONE 'Asia/Amman','YYYY-MM-DD'),'days',(max(h.created_at) AT TIME ZONE 'Asia/Amman')::date-(min(h.created_at) AT TIME ZONE 'Asia/Amman')::date+1) FROM public.orders o JOIN public.order_status_history h ON h.order_id=o.id AND h.new_status='completed' WHERE o.branch_id='${branch}' AND o.status IN('completed','returned');`));
+ assert.match(period.from,/^\d{4}-\d{2}-\d{2}$/u);assert.match(period.to,/^\d{4}-\d{2}-\d{2}$/u);assert.ok([365,366].includes(period.days),'FULL_YEAR_FIXTURE_PERIOD_REQUIRED');
+ const scoped=Number(await sql(`SELECT count(DISTINCT o.id) FROM public.orders o JOIN public.order_status_history h ON h.order_id=o.id AND h.new_status='completed' WHERE o.branch_id='${branch}' AND o.status IN('completed','returned') AND h.created_at>='${period.from}'::timestamp AT TIME ZONE 'Asia/Amman' AND h.created_at<('${period.to}'::date+1)::timestamp AT TIME ZONE 'Asia/Amman';`));
+ assert.equal(scoped,50000,'DRAFT220_REQUIRES_50000_SCOPED_INVOICES_NOT_DATABASE_TOTAL');report.scopedAnnualInvoices=scoped;
+ report.annualPeriod=period;
  const record=async proof=>{report.proof=proof;await writeFile(path.join(output,'proof220.json'),JSON.stringify(report,null,2)+'\n');};
- await proveDraft220({root,session:async()=>{await own();return new SnapshotSession('docker',args);},owner,branch,id,record});report.ok=true;
+ await proveDraft220({root,session:async()=>{await own();return new SnapshotSession('docker',args);},owner,branch,id,record,annualPeriod:period});report.ok=true;
 }catch(e){report.ok=false;report.error=e.message;process.exitCode=1;console.error(report.error);}
 finally{
  if(local){await own();await exec(process.execPath,['node_modules/supabase/dist/supabase.js','stop','--no-backup','--workdir',local],{cwd:root,windowsHide:true,maxBuffer:4*1024**2});report.databaseStopped=true;}

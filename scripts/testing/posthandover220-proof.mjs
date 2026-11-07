@@ -5,11 +5,13 @@ import path from 'node:path';
 import {quantityExpression220} from './draft220-quantity-inline.mjs';
 export const draft220Path='docs/design/migration220/220_posthandover_read_performance.sql';
 const q=v=>"'"+String(v).replaceAll("'","''")+"'";
-export async function proveDraft220({root,session,owner,branch,id,record,measure=true,focus='all'}) {
+export async function proveDraft220({root,session,owner,branch,id,record,measure=true,focus='all',annualPeriod=null}) {
  const s=await session(),report={kind:'quarantined220-on219',hostedAccess:false,parity:[],performance:[]};
  const query=async sql=>(await s.query(sql.trimEnd().endsWith(';')?sql:sql+';')).trim(),json=async sql=>JSON.parse(await query(sql));
  const today="(NOW() AT TIME ZONE 'Asia/Amman')::date";
- const annual=`SELECT public.get_operational_business_report('${branch}',${today}-364,${today})`;
+ const annualFrom=annualPeriod?q(annualPeriod.from)+'::date':today+'-364',annualTo=annualPeriod?q(annualPeriod.to)+'::date':today;
+ const annual=`SELECT public.get_operational_business_report('${branch}',${annualFrom},${annualTo})`;
+ report.annualPeriod=annualPeriod??{from:'today-364',to:'today'};
  const role=(uid=owner,dbRole='authenticated')=>`RESET ROLE;SELECT set_config('request.jwt.claims',${q(JSON.stringify({sub:uid,role:dbRole,aal:'aal2'}))},true);SET LOCAL ROLE ${dbRole};`;
  const outcome=call=>json('SELECT pg_temp.outcome('+q(call)+');');
  const explain=async call=>{const start=performance.now(),p=JSON.parse(await query('EXPLAIN(ANALYZE,BUFFERS,FORMAT JSON) '+call+';'))[0];return {executionMs:p['Execution Time'],wallMs:performance.now()-start,tempRead:p.Plan['Temp Read Blocks'],tempWritten:p.Plan['Temp Written Blocks'],plan:p.Plan};};
@@ -36,7 +38,7 @@ export async function proveDraft220({root,session,owner,branch,id,record,measure
   // whole-JSON oracle instead of sorting/dropping selected SKUs or money fields.
   for(let n=1;n<=10;n++){const quantity=20*(n+1),base={commercial_line_kind:'base_unit',product_id:id(15,n),base_quantity:quantity,price_authority:'server_catalog',line_discount_in_minor_units:0};const sale=await json(`SELECT public.create_pos_sale_v2('${id(11,2)}','${branch}','${id(13,1)}','اختبار220','cash',${q(JSON.stringify([base]))}::jsonb,0,${quantity*1000},'draft220-base-case-${n}');`);assert.equal(sale.success,true);}
   report.mixedSalesFixture=10;report.diverseBaseSalesFixture=10;await query('RESET ROLE;');
-  const periods=[['annual',`${today}-364`,today],['today',today,today],['month',`date_trunc('month',${today})::date`,today],['first6',`date_trunc('month',${today})::date`,`date_trunc('month',${today})::date+5`],['empty',"'2001-01-01'::date","'2001-01-03'::date"],['other-branch',`${today}-7`,today]];
+  const periods=[['annual',annualFrom,annualTo],['today',today,today],['month',`date_trunc('month',${today})::date`,today],['first6',`date_trunc('month',${today})::date`,`date_trunc('month',${today})::date+5`],['empty',"'2001-01-01'::date","'2001-01-03'::date"],['other-branch',`${today}-7`,today]];
   const calls=periods.map(([name,from,to])=>({name,call:`SELECT public.get_operational_business_report('${name==='other-branch'?id(10,1):branch}',${from},${to})`}));
   // Every supported/denied role exercises the unchanged current role gate.
   const roleUsers=[];

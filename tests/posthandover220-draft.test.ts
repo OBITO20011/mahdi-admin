@@ -65,7 +65,8 @@ test('supplier reader changes only both page/order clauses; cheque due-date orde
 });
 test('CI has the opt-in50k real authenticated8s acceptance and original slow negative, preserves20+3',()=>{
  const runner=read('scripts/testing/run-posthandover220-draft.mjs'),proof=read('scripts/testing/posthandover220-proof.mjs'),workflow=read('.github/workflows/quality.yml');
- assert.match(runner,/orders:50000/u);assert.match(runner,/EXISTING_CONTAINER_MUST_NOT_BE_REUSED/u);assert.match(runner,/DRAFT220_REQUIRES_OWN_CREATED_CONTAINER/u);assert.match(runner,/stop','--no-backup/u);
+ assert.match(runner,/orders:50000/u);assert.match(runner,/DRAFT220_REQUIRES_50000_SCOPED_INVOICES_NOT_DATABASE_TOTAL/u);assert.match(runner,/scoped,50000/u);assert.match(runner,/EXISTING_CONTAINER_MUST_NOT_BE_REUSED/u);assert.match(runner,/DRAFT220_REQUIRES_OWN_CREATED_CONTAINER/u);assert.match(runner,/stop','--no-backup/u);
+ assert.match(runner,/FULL_YEAR_FIXTURE_PERIOD_REQUIRED/u);assert.match(runner,/annualPeriod:period/u);assert.match(proof,/\['annual',annualFrom,annualTo\]/u);
  assert.match(proof,/i=-3;i<20/u);assert.match(proof,/statement_timeout='8s'/u);assert.match(proof,/ORIGINAL_MUST_FAIL_REAL_8S/u);assert.match(proof,/M01_REQUIRES_ONE_SECOND_MARGIN/u);assert.match(proof,/ROLLBACK_RESTORES_ALL_READER_DEFINITIONS_CONFIG_ACL/u);assert.match(proof,/INDEX|indexNegativeDetected/u);
  assert.match(workflow,/node scripts\/testing\/run-posthandover220-draft\.mjs --isolated-draft220/u);
  const evidence=JSON.parse(read('docs/design/migration220/LOCAL_EVIDENCE.json'));
