@@ -1,4 +1,37 @@
 {
   "schemaVersion": 1,
-  "files": []
+  "files": [
+    {
+      "code": " M",
+      "path": "customer-web/public/nawasrah-hero-mobile.mp4"
+    },
+    {
+      "code": " M",
+      "path": "docs/agent/PHASE_STATUS.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/cart-flight-source-pins.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/storefront-budget.d.mts"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/storefront-budget.mjs"
+    },
+    {
+      "code": " M",
+      "path": "tests/storefront-budget.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/hero-mobile-frame-comparison.webp"
+    }
+  ]
 }

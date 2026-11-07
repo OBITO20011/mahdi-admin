@@ -2,42 +2,39 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner6Nov restore automatic deferred StoreHero video afterload+1s;posterLCP unchanged;reduced/saveData/slow networks no media;real Chromium/WebKit+3LH medians;PR/FULLCI/no merge.",
-  "baselineSha": "23daa26d283fa7d7d7221d79ca7d8a67f438aade",
-  "branch": "codex/storefront-hero-autoplay",
+  "objective": "Owner Nov 7: compress only the storefront mobile hero video, tighten its byte budget, measure matched Lighthouse medians, independent PR and full CI.",
+  "baselineSha": "96cf7b9553aac99be655a5a342d801b99367ca66",
+  "branch": "codex/storefront-mobile-hero-compression",
   "phase": "PACKAGE_F",
   "completed": [
-    "Implementation and frozen local gates passed. Lighthouse comparison retained in LOCAL evidence."
+    "PR74 merged at 96cf7b95 after owner approval of TBT; main CI 63/63, primary ff-only and preflight verified.",
+    "FFmpeg 9.0: 924187 B H264 Main 832x468, yuv420p, 240/24 fps and 10 seconds, no audio and faststart. All frame timestamps match."
   ],
   "inProgress": [
-    "Independent draft PR and exact-head full CI."
+    "Publish independent PR with frame comparison and full CI."
   ],
   "notStarted": [],
   "testsPassed": [
-    "1836 admin; 213 store; types; strictlint; 6 contexts; public browser 40 with 2 pre-existing conditional skips; cart 6; budget 8; local 219 access proofs.",
-    "Gitleaks: 0 findings on full staged patch; focused final source history: 16/16."
+    "21 focused checks, lint, isolated build, request budget browser 8, playback 17 with one existing conditional skip, six paired Lighthouse samples."
   ],
   "testsRemaining": [
-    "Exact-head GitHub full CI."
+    "Final patch scan and exact-head full GitHub CI."
   ],
   "findings": [
-    "Initialpreflight onlyknowninheritedcartflightbranch/head mismatch;sourcecleanandcurrentapprovedmain996.",
-    "No unknownsourcechanges;onlyknown inheritedtask/projectstatebranch aligned;no ceiling/hashchange.",
-    "PR74 first core job 128113145402 found inherited committed cart-flight task metadata. Align task and manifest with this branch; application, assertions, thresholds, and workflows are byte-identical to the first PR head."
+    "Fresh clean worktree from known own merge; aligned inherited task and branch metadata only.",
+    "Lighthouse medians: LCP 3530.13 to 3539.14ms (+9.01ms), TBT 45.5 to 63ms (target <=200), CLS 0.034937 both. Report numeric delta; no equivalence claim. Decoder benchmark CPU 4.00 to 1.562 seconds per 1200 frames."
   ],
-  "blockers": [
-    "Owner performance criterion unmet: LCP 3532.48 to 3538.50ms, TBT 95 to 219ms, CLS unchanged. Keep draft."
-  ],
+  "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "NoSQL/migration/RPC/money/auth/permissions/ownerfiles/env/hosted/deploy/merge;58Draft."
+    "No desktop video, poster or autoplay logic changes. No hosted project access, deploy or merge. PR58 stays draft."
   ],
-  "nextExactAction": "Verify full CI for PR74 on its updated head and leave draft for owner decision on the measured performance regression.",
+  "nextExactAction": "Commit the scoped video asset, frame preview and 1 MB cap. Open independent PR and verify full CI. Report the 9 ms LCP and 17.5 ms TBT median increases.",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "AA7E1BEB9E33AF6D66638C52C546101F72793A005AEECF061D58701DF90BBB38",
-  "checkpointedAt": "2026-11-06T19:42:51.362Z",
-  "filesTouchedCount": 0,
-  "filesTouchedManifestSha256": "b6429e7d08029a34589e9c8956ef86dffab2fb6dd9ee37c08d5e9204e14cdbe6"
+  "workingTreeFingerprint": "CFB609E777C52AE4C23862DA17524667B77BDB06DCF6B5CB46EAF018566C33EA",
+  "checkpointedAt": "2026-11-07T01:18:33.189Z",
+  "filesTouchedCount": 8,
+  "filesTouchedManifestSha256": "0dc1023a60e345e84f91418261af1b7b90f2fda0c1a01958d3aa58fb062c56c9"
 }
