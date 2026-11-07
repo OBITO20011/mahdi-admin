@@ -37,7 +37,7 @@
     },
     "docs/agent/project-state.json": {
       "before": "97dd6d0515dd9d24e9d042e8e5dc9a9c602427c1d5027aff1c054ef3c0eb06ed",
-      "after": "f3512de9e8e8695ec514be328cdb1a8bdf4f02e6a76472c16d49f1da01d2ee64"
+      "after": "7e448fae058007a0aa744f479b79845deba5981442dcaacb90df426a88c44ece"
     },
     "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json": {
       "before": "2590ef8e7416a0159df2963ed1446cf6ca20991d88d51cea198d3ef67b5eb04c",
@@ -69,7 +69,7 @@
     },
     "scripts/audit/source-before-cart-flight.mjs": {
       "before": null,
-      "after": "678943c079a310dc19bb0683fc86e722b0f2984270576fb6f38f3c6291f4d199"
+      "after": "e6afd4f94d43215e48387c01dddec489794ac73fcf198ff9e0f328ade51d2ab9"
     },
     "scripts/audit/source-before-storefront-images.mjs": {
       "before": "d94e66b5a5c693be0c89454d751a95df5ccda0b382109b4bb8cb1ae293bf9fe5",

@@ -143,7 +143,8 @@ export async function restoreCompleteBackup({archivePath,passphrase,reportPath,r
     stage='isolated-cluster-start';await docker(['run','--detach','--rm','--network','none','--name',container,'--entrypoint','sleep',IMAGE,'infinity']);started=true;
     await docker(['exec',container,'mkdir','-p','/restore','/tmp/socket']);await docker(['exec',container,'chown','postgres:postgres','/tmp/socket']);
     await docker(['cp',path.join(content,'database'),container+':/restore/database']);
-    await docker(['cp',path.join(content,'storage'),container+':/restore/storage']);
+    // A valid v2 archive with no product images has no storage directory.
+    if(manifest.storageObjectCount>0)await docker(['cp',path.join(content,'storage'),container+':/restore/storage']);
     await docker(['exec','--user','postgres',container,'initdb','-D','/tmp/pgdata','-U','supabase_admin','--auth=trust']);
     await docker(['exec','--user','postgres',container,'pg_ctl','-D','/tmp/pgdata','-l','/tmp/restore.log','-o',`-p ${restorePort} -k /tmp/socket -c listen_addresses='' -c shared_preload_libraries='${before.preload}' -c cron.database_name=postgres -c cron.launch_active_jobs=off -c wal_level=logical -c log_error_verbosity=verbose -c log_min_error_statement=panic -c log_line_prefix='[state=%e] '` ,'-w','start']);
     session=new SnapshotSession('docker',args);

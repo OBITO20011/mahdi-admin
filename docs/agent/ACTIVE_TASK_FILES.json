@@ -2,6 +2,18 @@
   "schemaVersion": 1,
   "files": [
     {
+      "code": "A ",
+      "path": "docs/operations/hero-mobile-frame-comparison.webp"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/public/nawasrah-hero-mobile.mp4"
+    },
+    {
+      "code": "M ",
+      "path": "docs/agent/PHASE_STATUS.md"
+    },
+    {
       "code": "M ",
       "path": "docs/handover/ورقة-يوم-التشغيل.html"
     },
@@ -15,6 +27,10 @@
     },
     {
       "code": "M ",
+      "path": "scripts/audit/cart-flight-source-pins.json"
+    },
+    {
+      "code": "M ",
       "path": "scripts/audit/home-performance219-source-pins.json"
     },
     {
@@ -23,7 +39,23 @@
     },
     {
       "code": "M ",
+      "path": "scripts/testing/storefront-budget.d.mts"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/testing/storefront-budget.mjs"
+    },
+    {
+      "code": "M ",
       "path": "tests/cutover-publication-order.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/storefront-budget.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/trial-brand-identity.test.ts"
     }
   ]
 }
