@@ -1,4 +1,33 @@
 {
   "schemaVersion": 1,
-  "files": []
+  "files": [
+    {
+      "code": " M",
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/cart-flight-source-pins.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-cart-flight.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/backup/complete-backup.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-dual-backup-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-empty-storage-restore.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/empty-storage-restore.test.ts"
+    }
+  ]
 }
