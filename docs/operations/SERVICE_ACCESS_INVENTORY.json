@@ -456,12 +456,16 @@
       "sha256": "28d8942eecf945e530b67047692c1ceb09bb233a001b2760e665820e3fedc638"
     },
     {
+      "file": "src/features/orders/GuestDeliveryProposal.tsx",
+      "sha256": "9b7137d2815b7b9c3b7d11449ec17960a8da816d8d7a324e08cac2bf850167ac"
+    },
+    {
       "file": "src/features/orders/OrderCommercialSummary.tsx",
       "sha256": "b5200183bd72389f59144b7056d8aa59f2e3d340cf5de83cb284171353147553"
     },
     {
       "file": "src/features/orders/OrderDetailModal.tsx",
-      "sha256": "97983c9c58a1bab069b8977e6b3cc8c2059c109fdd0612de1b4e8bd32872b6f0"
+      "sha256": "e1bf41c48b4bb5eacbf5b0c61fe75f98fbf53bb2d7d350316f1477f5847d6924"
     },
     {
       "file": "src/features/orders/OrdersCenterView.tsx",
@@ -861,7 +865,7 @@
     },
     {
       "file": "src/services/supabase/orders.service.ts",
-      "sha256": "b84b915f526f2429820f81c46615560e4824af461f957d35c53ae4c21f245192"
+      "sha256": "b7c5173229f41c389803f9827e899f00e5f7d7b7943f04862f07fd2688cbaedc"
     },
     {
       "file": "src/services/supabase/ownerWithdrawals.service.ts",
@@ -1013,7 +1017,7 @@
     },
     {
       "file": "src/types/index.ts",
-      "sha256": "84b2b347113f1dcf45943263491b0dec6a8cac5f8fe31ac7bd1b58a1304ee18b"
+      "sha256": "e10f8c376c6d15a1b5c1847d0623c60233886cb3c19a762c4c229244353da4ce"
     },
     {
       "file": "src/types/monitoring.ts",
@@ -2776,9 +2780,9 @@
       "source": "client().rpc('get_go_live_cheques_v1',{p_page:page,p_page_size:25})"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:615",
+      "id": "src/services/supabase/orders.service.ts:616",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 615,
+      "line": 616,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "fetchOrderByIdFromSupabase",
@@ -2790,9 +2794,9 @@
       "source": "supabase.rpc('get_order_exchange_details_v1',{p_order_id:orderId})"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:634",
+      "id": "src/services/supabase/orders.service.ts:635",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 634,
+      "line": 635,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "confirmOrderInSupabase",
@@ -2804,9 +2808,9 @@
       "source": "supabase.rpc('accept_order_for_preparation', {\n      p_order_id: orderId,\n      p_notes: notes || null,\n    })"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:668",
+      "id": "src/services/supabase/orders.service.ts:669",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 668,
+      "line": 669,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "completeWebsiteOrderWithPaymentInSupabase",
@@ -2818,9 +2822,9 @@
       "source": "supabase.rpc(\n      'complete_website_order_with_payment',\n      {\n        p_order_id: orderId,\n        p_payment_method: paymentMethod,\n        p_reference_number: referenceNumber?.trim() || null,\n        p_notes: notes || null,\n      }\n    )"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:713",
+      "id": "src/services/supabase/orders.service.ts:714",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 713,
+      "line": 714,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "cancelOrderInSupabase",
@@ -2832,9 +2836,9 @@
       "source": "supabase.rpc('update_order_status', {\n        p_order_id: orderId,\n        p_new_status: 'cancelled',\n        p_notes: notes || null,\n      })"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:756",
+      "id": "src/services/supabase/orders.service.ts:757",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 756,
+      "line": 757,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "fetchOperationalOrdersPageFromSupabase",
@@ -2846,9 +2850,9 @@
       "source": "supabase.rpc('get_operational_orders_page', {\n      p_page: page,\n      p_page_size: pageSize,\n      p_filter: input.filter,\n      p_search: searchQuery,\n      p_sort: sort,\n    })"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:868",
+      "id": "src/services/supabase/orders.service.ts:869",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 868,
+      "line": 869,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "fetchOperationalOrdersSummaryFromSupabase",
@@ -2860,9 +2864,9 @@
       "source": "supabase.rpc('get_operational_orders_page', {\n      p_page: 1,\n      p_page_size: 1,\n      p_filter: 'action',\n      p_search: null,\n      p_sort: 'newest',\n    })"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:949",
+      "id": "src/services/supabase/orders.service.ts:950",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 949,
+      "line": 950,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "completeWebsiteOrderWithSettlementInSupabase",
@@ -2874,9 +2878,9 @@
       "source": "supabase.rpc('complete_website_order_with_settlement', {\n        p_order_id: input.orderId,\n        p_payment_method: request.paymentMethod,\n        p_amount_collected_in_minor_units: request.amountCollectedInMinorUnits,\n        p_delivery_fee_in_minor_units: request.deliveryFeeInMinorUnits,\n        p_reference_number: request.referenceNumber,\n        p_notes: request.notes,\n      })"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:1000",
+      "id": "src/services/supabase/orders.service.ts:1001",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 1000,
+      "line": 1001,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "returnCompletedWebsiteOrderInSupabase",
@@ -2888,9 +2892,9 @@
       "source": "supabase.rpc(\n      'return_completed_website_order',\n      {\n        p_order_id: input.orderId,\n        p_reason: input.reason.trim(),\n        p_stock_disposition: input.stockDisposition,\n        p_refund_method: input.refundMethod,\n        p_reference_number: input.referenceNumber?.trim() || null,\n        p_notes: input.notes?.trim() || null,\n      }\n    )"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:1045",
+      "id": "src/services/supabase/orders.service.ts:1046",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 1045,
+      "line": 1046,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "updateOrderStatusInSupabase",
@@ -2902,9 +2906,9 @@
       "source": "supabase.rpc('update_order_status', {\n      p_order_id: orderId,\n      p_new_status: newStatus,\n      p_notes: notes || null,\n    })"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:1096",
+      "id": "src/services/supabase/orders.service.ts:1097",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 1096,
+      "line": 1097,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "startOrUpdateOrderDeliveryInSupabase",
@@ -2916,9 +2920,9 @@
       "source": "supabase.rpc(\n      'start_or_update_order_delivery',\n      {\n        p_order_id: orderId,\n        p_eta_minutes: etaMinutes,\n        p_driver_phone: driverPhone.trim(),\n        p_notes: notes?.trim() || null,\n      }\n    )"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:1154",
+      "id": "src/services/supabase/orders.service.ts:1155",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 1154,
+      "line": 1155,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "updateOrderDeliveryAddressInSupabase",
@@ -4488,7 +4492,7 @@
     },
     {
       "file": "src/services/supabase/orders.service.ts",
-      "line": 1233,
+      "line": 1234,
       "role": "authenticated",
       "source": "client\n    .channel(`public-orders-changes-${crypto.randomUUID()}`)"
     },

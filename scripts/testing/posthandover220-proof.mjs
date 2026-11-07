@@ -16,11 +16,12 @@ export async function proveDraft220({root,session,owner,branch,id,record,measure
  const outcome=call=>json('SELECT pg_temp.outcome('+q(call)+');');
  const explain=async call=>{const start=performance.now(),p=JSON.parse(await query('EXPLAIN(ANALYZE,BUFFERS,FORMAT JSON) '+call+';'))[0];return {executionMs:p['Execution Time'],wallMs:performance.now()-start,tempRead:p.Plan['Temp Read Blocks'],tempWritten:p.Plan['Temp Written Blocks'],plan:p.Plan};};
  const signatures=['phase6_financial_facts_before208_internal(uuid,timestamptz,timestamptz,text,boolean)','_get_operational_business_report_before_phase6(uuid,date,date)','_get_operational_business_report_v1(uuid,date,date)','get_supplier_replacements_page_v1(uuid,uuid,text,integer,integer)'];
- const definitionsSql=`SELECT jsonb_agg(jsonb_build_object('signature',p.oid::regprocedure::text,'definition',pg_get_functiondef(p.oid),'acl',p.proacl,'owner',p.proowner) ORDER BY p.oid) FROM pg_proc p WHERE p.oid IN(${signatures.map(n=>q('public.'+n)+'::regprocedure').join(',')});`;
+ const definitionsSql=`SELECT jsonb_agg(jsonb_build_object('signature',p.oid::regprocedure::text,'definition',pg_get_functiondef(p.oid),'acl',p.proacl,'owner',p.proowner) ORDER BY p.oid) FROM pg_proc p WHERE p.oid IN(${signatures.map(n=>q('public.'+n)+'::regprocedure').join(',')}) OR (p.pronamespace='public'::regnamespace AND p.proname IN('submit_guest_customer_order_v2','create_customer_order_base_units_legacy','package_d_create_customer_order_before_source_guard_internal'));`;
  let before;
  try {
   await query('BEGIN;SET LOCAL statement_timeout=\'120s\';');
   before=await json(definitionsSql);
+  assert.equal(before.length,7,'EXACT_FOUR_READERS_AND_THREE_GUEST_WRITERS_REQUIRED');
   // Errors remain errors. Preserve SQLSTATE and fixed business code as an oracle.
   await query(`CREATE FUNCTION pg_temp.outcome(command text) RETURNS jsonb LANGUAGE plpgsql AS $$DECLARE result jsonb;BEGIN EXECUTE command INTO result;RETURN jsonb_build_object('ok',true,'result',result);EXCEPTION WHEN query_canceled THEN RETURN jsonb_build_object('ok',false,'sqlstate',SQLSTATE,'message',SQLERRM);WHEN OTHERS THEN RETURN jsonb_build_object('ok',false,'sqlstate',SQLSTATE,'message',SQLERRM);END $$;`);
   if(focus!=='supplier'){

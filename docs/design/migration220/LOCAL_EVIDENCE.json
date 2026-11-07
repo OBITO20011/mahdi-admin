@@ -3,7 +3,7 @@
   "hostedAccess": false,
   "activeCeiling": 219,
   "activeMigrationFiles": 180,
-  "candidateSha256": "6fd2a616523bf8e713f5289b3dcf66c6e1920c40d73c22f35a56a777add06113",
+  "candidateSha256": "f8ad1bf651495b44d73b1d16e6d05f2d73d04fd47ae384abb69d9e1b629a9cde",
   "seedOrders": 50000,
   "additionalRealSales": {
     "mixed": 10,
@@ -257,5 +257,7 @@
   },
   "externalEvidence": "C:/Users/TOP/NawasrahFrankfurt/posthandover220-draft-20261107",
   "finalExactShaCi": "PENDING",
-  "activeOwnerToolsChanged": false
+  "activeOwnerToolsChanged": false,
+  "previousReadCandidateSha256": "6fd2a616523bf8e713f5289b3dcf66c6e1920c40d73c22f35a56a777add06113",
+  "h1VerificationPending": true
 }

@@ -3,7 +3,51 @@
   "files": [
     {
       "code": " M",
+      "path": ".github/workflows/quality.yml"
+    },
+    {
+      "code": " M",
+      "path": "docs/design/migration220/220_posthandover_read_performance.sql"
+    },
+    {
+      "code": " M",
+      "path": "docs/design/migration220/LOCAL_EVIDENCE.json"
+    },
+    {
+      "code": " M",
       "path": "docs/design/migration220/README_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_219.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "e2e/package-f-orders-harness.tsx"
+    },
+    {
+      "code": " M",
+      "path": "e2e/package-f-orders.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/cart-flight-source-pins.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-draft220.mjs"
     },
     {
       "code": " M",
@@ -11,11 +55,47 @@
     },
     {
       "code": " M",
-      "path": "scripts/testing/run-posthandover220-draft.mjs"
+      "path": "scripts/testing/product-workbook-runtime-view.mjs"
+    },
+    {
+      "code": " M",
+      "path": "src/features/orders/OrderDetailModal.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/services/supabase/orders.service.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/types/index.ts"
     },
     {
       "code": " M",
       "path": "tests/posthandover220-draft.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "docs/design/migration220/GUEST_IDENTITY_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "docs/design/migration220/GUEST_IDENTITY_LOCAL.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/build-guest-identity220.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-guest-identity220.mjs"
+    },
+    {
+      "code": "??",
+      "path": "src/features/orders/GuestDeliveryProposal.tsx"
+    },
+    {
+      "code": "??",
+      "path": "tests/guest-identity220.test.ts"
     }
   ]
 }

@@ -2,55 +2,45 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner7Nov:78merged main d0cbf421 FULL63 safeFF complete;220PR79 Draft final scopedCOUNT guard FULL65 pending;then authorized visual/LCP. No hosted/220merge.",
-  "baselineSha": "1a7cc4f38ffb247f478e40e80e583012f2d62359",
+  "objective": "Owner7Nov:H1fix in Draft79/220 then separate owner220tools Draft;R2not applicable/no employees/no future reminder. Docs80merge only FULLgreen.No219activation/hosted/deploy/merge79/58.",
+  "baselineSha": "c6827fb692cf51268f3a8c471bd768ef44030e1f",
   "branch": "codex/posthandover220-draft",
   "phase": "PACKAGE_F",
   "completed": [
-    "Approved76/75/77 main01d4 FULL63,safe primary FF owner20+env4+state5 preserved.",
-    "Owner reviewed78;merged7Nov main d0cbf421,mainFULL CI+safeFF in progress. Used-pg_net protection chain proof retained.",
-    "Draft220 quarantined outside migrations;active219/180 exact. Final50k+20 M01 before31.775s/8s reject;20+3 afterp95=4988.422/max5221.647ms.",
-    "Literal completeJSON6periods/7roles/4errors/8facts/1100qty exact;60supplier cases3DESC pages;FK used/drop-index negative;rollback4reader defs/ACL exact.",
-    "Actual219 access refresh172success/9expectedzero/0denied/0errors;598service probes18expected role denials.",
-    "220saved5ec22a01,genuine main78 mergec000a795;5metadata conflicts preserve both phase notes/before pins/state branch only. Postmerge23PASS;Gitleaks0;PR79Draft opened.",
-    "79scope assertion diagnosed pre-DB;only pinned SupplierPanel admitted,new unknown-source negatives;types/strictlint13unitPASS;actualcommitted view65sources/owner+SQLunchanged/cleanupPASS. Fix1a7cc4f3 pushed,PRDraft maintained;Gitleaks0.",
-    "main78FULL63 and primary safeFFd0cbf421 complete;20owner+4env+5state byte-identical,preflightPASS."
+    "Prior79 c6827fb6 FULL65 on main d0cb;50kM01p95=4658.546ms;prior reports and full records in Git/evidence.",
+    "H1V2+serviceV1 identity/default protection derived literally from018/023/209;only quarantined SQL,001–219/ownerops/backup unchanged.",
+    "Actual219 8H1groups+4blocked races/rollback/replay PASS;card/default/debt/oldorders exact,onhand99/reserved15;ownedDBstopped.",
+    "Types/8focused including exact3bodyinverse PASS;proposal Chromium+WebKit390 2PASS,zero retry;manual-review navigation only.",
+    "Current219actual SDK172success+9expectedzero/0error;598service probes/18expecteddenials;ownedDBs stopped."
   ],
   "inProgress": [
-    "Strengthen scope observability only:typed scopedCOUNT/datewindow before same50000 benchmark;tests then new79head/FULL65. SQLcandidate/samples/limits unchanged."
+    "Final full regressions,50kperformance/parity,source-bound evidence and genuine main sync after80."
   ],
   "notStarted": [
-    "After79FULL:finalpopover visual audit and LCP-only report."
+    "After79currentFULLCI:separate Draft owner220tools/proof,not merged."
   ],
   "testsPassed": [
-    "Final20+3hard8 proof and literal financial/roles/quantity/supplier/FK/RLS oracles.",
-    "Current219 actual table+service diagnostics;owned DBs stopped.",
-    "Types/strictESLint PASS;originalfull1832pass/11fail then focused58pass2hashfail;bothhashcasesPASS after after-only pins refresh;frozenGit63 under original120sPASS.",
-    "ScopedCOUNT/datewindow guard:types+strictlint+6unit PASS;old1a7 featureFULL65 PASS.",
-    "ScopedCOUNT/datewindow guard:types+strictlint+6unit PASS;old1a7 featureFULL65 PASS."
+    "Current H1 runtime8+4,UI2,types,literal inverses and actual219SDK/services."
   ],
   "testsRemaining": [
-    "New scoped guard commit FULL65;then visual/LCP."
+    "Full Admin/store/strictlint/build contexts+verify-dist;50000/20+3/8s/7s M01 with7definition rollback;historical runtime view;Gitleaks0;FULL65 new79."
   ],
   "findings": [
-    "Only item_sales1package+1base literal119 expansion;Top Products untouched. Function-local8MB/caller4MB;RAM/concurrency promotion gate documented.",
-    "No hosted/owner/env/reference edits;78merged/58Draft.",
-    "Scope misread RETRACTED:branch_n is shift index/time;orders.branch_id fixed2. Actual extra100k DBcount100k samebranch;original50000 allsamebranch. ExtraDBstopped. Prior50k timing valid;new explicit scoped annual50000COUNT guard and exact fixture365/366day range."
+    "H1does not restore old219 card changes;fix future guest writes only. Owner manual approval uses existing CRM."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "No hosted/Frankfurt/Sentry/Telegram/Cloudflare/deploy.",
-    "No merge220/79 or58;58Draft.",
-    "No owner/env/reference edits;active219/180 unchanged.",
-    "No financial/permission semantics changes or unapproved new SQL."
+    "No merge79/tools220/58;58Draft.",
+    "No owner/env/reference edits;active219/180 unchanged;no financial/permission semantic changes."
   ],
-  "nextExactAction": "Commit scopedCOUNT guard,push79 newhead,FULL65;then visual audit/LCP.No merge220/58 or hosted.",
-  "checkpointedAt": "2026-11-07T13:06:40.532Z",
+  "nextExactAction": "H1WIP committed locally;genuine merge delivered80/main;final Admin/store/M01/build/inverses/Gitleaks/FULLCI then220toolsDraft.",
+  "checkpointedAt": "2026-11-07T16:55:20.962Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "fbe82e9b6900b1493d9d58e9e3a8ae2c22181cdb63f130d43a72ee877e197a55",
-  "workingTreeFingerprint": "387DA51A568164A20F3A974DB786B28386AD50DF7C66118FC6306C49D9517724"
+  "filesTouchedCount": 24,
+  "filesTouchedManifestSha256": "e41e3faaeaa00c9eecd280e3b241a8c09de7261fa9fd8180bf540ab5575747c0",
+  "workingTreeFingerprint": "990D81D29032FBF366715EE213A0D7EAC851573CCA73884DB6529754B978AC66"
 }

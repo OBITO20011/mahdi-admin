@@ -687,12 +687,18 @@ jobs:
         if: matrix.suite == 'posthandover220-draft'
         run: node scripts/testing/run-posthandover220-draft.mjs --isolated-draft220
 
+      - name: Quarantined guest220 identity isolation and real concurrency
+        if: matrix.suite == 'posthandover220-draft'
+        run: node scripts/testing/run-guest-identity220.mjs --isolated-draft220
+
       - name: Retain synthetic draft220 plans and exact parity result
         if: always() && matrix.suite == 'posthandover220-draft'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: posthandover220-synthetic-proof
-          path: ${{ runner.temp }}/nawasrah-draft220-*/proof220.json
+          path: |
+            ${{ runner.temp }}/nawasrah-draft220-*/proof220.json
+            ${{ runner.temp }}/nawasrah-guest220-*/guest-identity220.json
           if-no-files-found: error
           retention-days: 7
 

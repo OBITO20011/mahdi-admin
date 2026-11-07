@@ -35,6 +35,11 @@ engine.refreshStockNotificationsFromSupabase = async () => [];
 storeEngine.setActiveTab('orders');
 const fixture = structuredClone(ordersFixture);
 const list = structuredClone(orderListFixture);
+if (params.has('guest-proposal')) {
+  fixture[1].source = 'website';
+  fixture[1].guestRecipientName = 'مستلم مختلف للطلب';
+  fixture[1].customerName = 'اسم بطاقة الزبون المحفوظ';
+}
 if (params.has('long')) {
   fixture[1].customerName = list[1].customerName = 'سوبرماركت الحي الكبير للمواد التموينية والمنتجات الغذائية والمشروبات';
   fixture[1].items[0].productName = 'عصير البرتقال الطبيعي عبوة عائلية طويلة الاسم للمراجعة على الشاشات الصغيرة';

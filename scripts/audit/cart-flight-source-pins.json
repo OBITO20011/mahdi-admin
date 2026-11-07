@@ -1,11 +1,11 @@
 {
   "format": 1,
   "baseline": "f098f0afaa7b54b052b18d8266f3789d67e8de76",
-  "scope": "Exact decorative-only inverse for frozen historical proofs;current219 runs raw source",
+  "scope": "Exact approved presentation inverses for frozen historical proofs,including Draft220 caption and guest delivery proposal;current219 diagnostics always use raw source",
   "entries": {
     ".github/workflows/quality.yml": {
       "before": "bec5ef1b33c23a54396bad31bb5c335ab4835823697337b62d240b30a14e72dd",
-      "after": "131bcce595bd7867c5c6891c497245888971221972679052b02586aebef43b7f"
+      "after": "27814f474e4c2d695cabc3b786fec8bcc96ff20e846b097941882353b181db5e"
     },
     "customer-web/src/App.tsx": {
       "before": "0fce44df50185805a2834d2eb7832b33280458e7721466b4f8dce6ae3c414844",
@@ -41,11 +41,11 @@
     },
     "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json": {
       "before": "2590ef8e7416a0159df2963ed1446cf6ca20991d88d51cea198d3ef67b5eb04c",
-      "after": "a88cbbdd230c3ed36d348ff5f03323312f63018c486a2a034513fb778e06cfec"
+      "after": "55919283dcffff804478351054df73eb22347986840e4e4ca58b1beb48b011ec"
     },
     "docs/operations/SERVICE_ACCESS_INVENTORY.json": {
       "before": "34d1d529ffa0d0714e46001743b3cbc910c0cfd1e374ff7903a0d86ae101cb10",
-      "after": "0389a8c03fc68494dffb5b3345c04d32495a515d54b66bf91283484187bd860f"
+      "after": "fd449e8e93e6af9dcaf72eb42db609929f6a392480c975c39dfd9a71f0f2ee97"
     },
     "docs/operations/STOREFRONT_CART_FLIGHT_AR.md": {
       "before": null,
@@ -57,11 +57,11 @@
     },
     "docs/operations/TABLE_ACCESS_AFTER_219.json": {
       "before": "09199a0832f3a29b5eb1ded96e073e9e3b7c2d91065f92b2b7eb7a2013912782",
-      "after": "143fd1785d3ae96b4de90667a91bf87cdc46f60b5c257430b959749d003764a7"
+      "after": "6b62887913da1db64d8d244878476270c98da87493f13aec65eee3971b54968c"
     },
     "docs/operations/TABLE_ACCESS_INVENTORY.json": {
       "before": "0944adddb07c084fad6862d98e6def1192635bbcdaea1214f4d5b03ad8ddbe58",
-      "after": "05c33047c29f67e07e6ca77e666bd9c8632a07d7da8fc077f17ca820b2649595"
+      "after": "c10c678311135689d631cb2076195edb499c54723bdbb1ee3227e46d626987f2"
     },
     "package.json": {
       "before": "53b41ded20320ed21bcd9db6d4a99f7aa8420082c5570fa5d85e0f38feb9b5e1",
@@ -77,7 +77,7 @@
     },
     "scripts/testing/product-workbook-runtime-view.mjs": {
       "before": "b7d550b2d549acb98eccf5429ad0e8443140cd7c44431f5e238f1f0fad91ce75",
-      "after": "1d5ef1948c7c83aec473c6079edcea9759d602aaf3ea55ff2cff29d23a5ba631"
+      "after": "dc469f57612f33b7d578bbe68ec097db0594663a37b809f0ed48597233b64a1d"
     },
     "scripts/testing/run-cart-flight-browser.mjs": {
       "before": null,
@@ -102,6 +102,22 @@
     "tests/partial216-operations.test.ts": {
       "before": "1f9e5c84cf85e5f69bc3cc899104362183250c946d4de88e30a512db1fd8c2f7",
       "after": "a93b3f0e3a7569fc300401bd17e5d481f9b7f406f619d0aaf1ddb6d82ea387e5"
+    },
+    "src/features/orders/OrderDetailModal.tsx": {
+      "before": "97983c9c58a1bab069b8977e6b3cc8c2059c109fdd0612de1b4e8bd32872b6f0",
+      "after": "e1bf41c48b4bb5eacbf5b0c61fe75f98fbf53bb2d7d350316f1477f5847d6924"
+    },
+    "src/features/orders/GuestDeliveryProposal.tsx": {
+      "before": null,
+      "after": "9b7137d2815b7b9c3b7d11449ec17960a8da816d8d7a324e08cac2bf850167ac"
+    },
+    "src/services/supabase/orders.service.ts": {
+      "before": "b84b915f526f2429820f81c46615560e4824af461f957d35c53ae4c21f245192",
+      "after": "b7c5173229f41c389803f9827e899f00e5f7d7b7943f04862f07fd2688cbaedc"
+    },
+    "src/types/index.ts": {
+      "before": "84b2b347113f1dcf45943263491b0dec6a8cac5f8fe31ac7bd1b58a1304ee18b",
+      "after": "e10f8c376c6d15a1b5c1847d0623c60233886cb3c19a762c4c229244353da4ce"
     }
   }
 }

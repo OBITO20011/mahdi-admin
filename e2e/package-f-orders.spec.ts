@@ -6,6 +6,18 @@ import { ordersFixture } from './package-f-orders.fixture';
 
 const base = process.env.ADMIN_BASE_URL ?? 'http://127.0.0.1:4173';
 const url = (query = '') => `${base}/e2e/package-f-orders-harness.html?${query}`;
+test('guest delivery details remain an explicit proposal; review navigates without approving or confirming', async ({page}) => {
+  await page.goto(url('select=1&guest-proposal=1'));
+  const proposal = page.getByRole('region', {name: 'بيانات مستلم طلب المتجر'});
+  await expect(proposal).toBeVisible();
+  await expect(proposal).toContainText('مستلم مختلف للطلب');
+  await expect(proposal).toContainText('اسم بطاقة الزبون المحفوظ');
+  await expect(proposal).toContainText('لا يُعتمد تلقائياً');
+  await expect(page.getByTestId('orders-action')).toHaveText('');
+  await proposal.getByRole('button', {name: 'مراجعة بطاقة الزبون لاعتماد التغيير يدوياً'}).click();
+  await expect(page.getByTestId('orders-action')).toContainText('openCustomerProfile');
+  await expect(page.getByTestId('orders-action')).not.toContainText('confirmOrder');
+});
 async function layout(page: Page) {
   await checkLayout(page,page.getByTestId('orders-workbench'));
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);

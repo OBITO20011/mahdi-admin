@@ -707,3 +707,1562 @@ ALTER POLICY "Allow authenticated users to select supplier receipt items" ON pub
 CREATE INDEX idx_supplier_receipt_items_receipt220 ON public.supplier_receipt_items(supplier_receipt_id);
 -- Bounded legacy-reader-only sort/hash memory; caller/default remains4MB.
 ALTER FUNCTION public._get_operational_business_report_before_phase6(uuid,date,date) SET work_mem='8MB';
+
+-- GUEST220_SOURCE_GUARD: exact current219 definitions,including compatibility wrappers.
+DO $guest_guard$ BEGIN
+ IF md5(pg_get_functiondef('public.submit_guest_customer_order_v2(text,text,text,text,text,text,text,text,text,text,text,text,double precision,double precision,text,jsonb,text,text,text,bigint,bigint,bigint,bigint)'::regprocedure)) <> '357069ebfdf932b966c46893c96b8b52' OR md5(pg_get_functiondef('public.create_customer_order_base_units_legacy(text,text,text,text,text,text,text,text,text,text,text,double precision,double precision,text,text,text,uuid,uuid,jsonb,bigint,bigint,text,text,text)'::regprocedure)) <> 'd372b6e9b17379d68095464e88ad810a' OR md5(pg_get_functiondef('public.package_d_create_customer_order_before_source_guard_internal(text,text,text,text,text,text,text,text,text,text,text,double precision,double precision,text,text,text,uuid,uuid,jsonb,bigint,bigint,text,text,text)'::regprocedure)) <> 'b030ce72164342d4ce7342c24d173d6d' THEN RAISE EXCEPTION 'DRAFT220_REQUIRES_REVIEWED_219_GUEST_WRITERS'; END IF;
+END $guest_guard$;
+-- GUEST220_IDENTITY_ONLY: owner approved7Nov;no financial or privilege change.
+CREATE OR REPLACE FUNCTION public.submit_guest_customer_order_v2(p_idempotency_key text, p_guest_phone_hash text, p_guest_session_hash text, p_customer_full_name text, p_customer_phone text, p_governorate text, p_city text, p_area text, p_street text, p_building text, p_address_notes text, p_google_maps_url text, p_latitude double precision, p_longitude double precision, p_customer_notes text, p_lines jsonb, p_promotion_code text, p_payment_method text, p_delivery_zone text, p_expected_subtotal_in_minor_units bigint, p_expected_discount_in_minor_units bigint, p_expected_delivery_fee_in_minor_units bigint, p_expected_total_in_minor_units bigint)
+ RETURNS jsonb
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'public', 'pg_temp'
+AS $function$
+DECLARE
+  v_key TEXT := LOWER(NULLIF(BTRIM(p_idempotency_key), ''));
+  v_phone TEXT := public.normalize_customer_phone(p_customer_phone);
+  v_payment_method TEXT := LOWER(NULLIF(BTRIM(p_payment_method), ''));
+  v_delivery_zone TEXT := LOWER(NULLIF(BTRIM(p_delivery_zone), ''));
+  v_actor_hash TEXT;
+  v_delivery_hash TEXT;
+  v_request JSONB;
+  v_canonical_request JSONB;
+  v_quote_lines JSONB;
+  v_fingerprint TEXT;
+  v_replay JSONB;
+  v_line JSONB;
+  v_instance JSONB;
+  v_component JSONB;
+  v_validated JSONB;
+  v_plan_lines JSONB := '[]'::JSONB;
+  v_final_lines JSONB := '[]'::JSONB;
+  v_plan_instances JSONB;
+  v_plan_components JSONB;
+  v_line_weights JSONB;
+  v_instance_weights JSONB;
+  v_product_ids UUID[];
+  v_configuration_ids UUID[];
+  v_family_ids UUID[];
+  v_line_sequence INTEGER := 0;
+  v_line_kind TEXT;
+  v_line_identity TEXT;
+  v_expected_price BIGINT;
+  v_product public.products%ROWTYPE;
+  v_settings public.storefront_settings%ROWTYPE;
+  v_order_id UUID := gen_random_uuid();
+  v_operation_id UUID := gen_random_uuid();
+  v_order_item_id UUID;
+  v_instance_id UUID;
+  v_customer_id UUID;
+  v_address_id UUID := gen_random_uuid();
+  v_customer_reused BOOLEAN := false;
+  v_customer_is_blocked BOOLEAN;
+  v_customer_is_active BOOLEAN;
+  v_branch_id UUID;
+  v_warehouse_id UUID;
+  v_order_number TEXT;
+  v_tracking_token UUID := gen_random_uuid();
+  v_base_unit_name TEXT;
+  v_parcel_unit_name TEXT;
+  v_commercial_quantity INTEGER;
+  v_base_quantity BIGINT;
+  v_units_per_parcel INTEGER;
+  v_unit_price BIGINT;
+  v_line_gross BIGINT;
+  v_line_discount BIGINT;
+  v_line_net BIGINT;
+  v_instance_discount BIGINT;
+  v_subtotal BIGINT := 0;
+  v_discount BIGINT := 0;
+  v_delivery_fee BIGINT;
+  v_total BIGINT;
+  v_promotion public.promotion_codes%ROWTYPE;
+  v_promotion_id UUID;
+  v_promotion_code TEXT;
+  v_recent_orders INTEGER;
+  v_demand RECORD;
+  v_on_hand INTEGER;
+  v_reserved INTEGER;
+  v_result_items JSONB;
+  v_result JSONB;
+  v_formatted_address TEXT;
+  v_google_maps_url TEXT;
+  v_location_source TEXT;
+BEGIN
+  IF auth.role() IS DISTINCT FROM 'service_role' THEN
+    RAISE EXCEPTION USING ERRCODE = 'P0001',
+      MESSAGE = 'PHASE3_ACTOR_NOT_AUTHORIZED: Customer V2 requires the protected gateway.';
+  END IF;
+  IF v_key IS NULL
+    OR v_key !~ '^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'
+    OR COALESCE(p_guest_phone_hash, '') !~ '^[0-9a-f]{64}$'
+    OR COALESCE(p_guest_session_hash, '') !~ '^[0-9a-f]{64}$'
+  THEN
+    RAISE EXCEPTION USING ERRCODE = 'P0001',
+      MESSAGE = 'PHASE3_IDEMPOTENCY_INPUT_INVALID: Customer operation identity is invalid.';
+  END IF;
+  IF NULLIF(BTRIM(p_customer_full_name), '') IS NULL
+    OR CHAR_LENGTH(BTRIM(p_customer_full_name)) NOT BETWEEN 2 AND 120
+    OR v_phone !~ '^07[789][0-9]{7}$'
+  THEN
+    RAISE EXCEPTION USING ERRCODE = 'P0001',
+      MESSAGE = 'PHASE3_CUSTOMER_INPUT_INVALID: Customer identity is invalid.';
+  END IF;
+  IF NULLIF(BTRIM(p_governorate), '') IS NULL
+    OR NULLIF(BTRIM(p_city), '') IS NULL
+    OR NULLIF(BTRIM(p_area), '') IS NULL
+    OR NULLIF(BTRIM(p_street), '') IS NULL
+    OR CHAR_LENGTH(BTRIM(p_governorate)) > 80
+    OR CHAR_LENGTH(BTRIM(p_city)) > 80
+    OR CHAR_LENGTH(BTRIM(p_area)) > 120
+    OR CHAR_LENGTH(BTRIM(p_street)) > 300
+    OR CHAR_LENGTH(COALESCE(BTRIM(p_building), '')) > 120
+    OR CHAR_LENGTH(COALESCE(BTRIM(p_address_notes), '')) > 500
+    OR CHAR_LENGTH(COALESCE(BTRIM(p_customer_notes), '')) > 1000
+  THEN
+    RAISE EXCEPTION USING ERRCODE = 'P0001',
+      MESSAGE = 'PHASE3_CUSTOMER_INPUT_INVALID: Address fields are invalid.';
+  END IF;
+  IF (p_latitude IS NULL) <> (p_longitude IS NULL)
+    OR (p_latitude IS NOT NULL AND (
+      p_latitude NOT BETWEEN -90 AND 90 OR p_longitude NOT BETWEEN -180 AND 180
+    ))
+  THEN
+    RAISE EXCEPTION USING ERRCODE = 'P0001',
+      MESSAGE = 'PHASE3_CUSTOMER_INPUT_INVALID: Delivery coordinates are invalid.';
+  END IF;
+  IF v_payment_method NOT IN ('cash_on_delivery', 'cliq')
+    OR v_delivery_zone NOT IN ('inside_ramtha', 'outside_ramtha')
+    OR COALESCE(p_expected_subtotal_in_minor_units, -1) < 0
+    OR COALESCE(p_expected_discount_in_minor_units, -1) < 0
+    OR COALESCE(p_expected_delivery_fee_in_minor_units, -1) < 0
+    OR COALESCE(p_expected_total_in_minor_units, -1) < 0
+  THEN
+    RAISE EXCEPTION USING ERRCODE = 'P0001',
+      MESSAGE = 'PHASE3_CUSTOMER_QUOTE_INVALID: Customer quote is invalid.';
+  END IF;
+
+  IF JSONB_TYPEOF(p_lines) IS DISTINCT FROM 'array'
+    OR JSONB_ARRAY_LENGTH(p_lines) NOT BETWEEN 1 AND 50
+  THEN
+    RAISE EXCEPTION USING ERRCODE = 'P0001',
+      MESSAGE = 'PHASE3_SALE_CONTRACT_INVALID: Customer lines are invalid.';
+  END IF;
+
+  SELECT JSONB_AGG(JSONB_BUILD_OBJECT(
+    'line_identity', public.phase3_customer_line_identity_internal(value),
+    'expected_unit_price_in_minor_units',
+      public.phase3_require_nonnegative_bigint_internal(
+        value->>'expected_unit_price_in_minor_units',
+        'expected_unit_price_in_minor_units'
+      )
+  ) ORDER BY public.phase3_customer_line_identity_internal(value))
+  INTO v_quote_lines
+  FROM JSONB_ARRAY_ELEMENTS(p_lines);
+
+  IF EXISTS (
+    SELECT 1 FROM JSONB_ARRAY_ELEMENTS(p_lines) candidate
+    GROUP BY public.phase3_customer_line_identity_internal(candidate)
+    HAVING COUNT(*) > 1
+  ) THEN
+    RAISE EXCEPTION USING ERRCODE = 'P0001',
+      MESSAGE = 'PHASE3_SALE_CONTRACT_INVALID: Customer commercial identities must be unique.';
+  END IF;
+
+  v_actor_hash := public.phase3_actor_scope_hash_internal(
+    'guest_gateway', NULL, LOWER(p_guest_phone_hash), LOWER(p_guest_session_hash)
+  );
+  v_delivery_hash := ENCODE(extensions.digest(
+    JSONB_BUILD_OBJECT(
+      'governorate', BTRIM(p_governorate), 'city', BTRIM(p_city),
+      'area', BTRIM(p_area), 'street', BTRIM(p_street),
+      'building', NULLIF(BTRIM(p_building), ''),
+      'latitude', p_latitude, 'longitude', p_longitude
+    )::TEXT, 'sha256'::TEXT
+  ), 'hex');
+
+  v_request := JSONB_BUILD_OBJECT(
+    'contract_version', 'phase3-sale-v1',
+    'actor_scope_type', 'guest_gateway',
+    'actor_scope_hash', v_actor_hash,
+    'operation_source', 'customer_reservation',
+    'warehouse_id', '00000000-0000-0000-0000-000000000001',
+    'customer_identity_hash', LOWER(p_guest_phone_hash),
+    'delivery_identity_hash', v_delivery_hash,
+    'payment_method', v_payment_method,
+    'delivery_zone', v_delivery_zone,
+    'promotion_code', NULLIF(BTRIM(p_promotion_code), ''),
+    'order_discount_in_minor_units', 0,
+    'lines', p_lines
+  );
+  v_canonical_request := public.phase3_canonicalize_sale_request_internal(v_request)
+    || JSONB_BUILD_OBJECT('customer_quote', JSONB_BUILD_OBJECT(
+      'lines', v_quote_lines,
+      'subtotal_in_minor_units', p_expected_subtotal_in_minor_units,
+      'discount_in_minor_units', p_expected_discount_in_minor_units,
+      'delivery_fee_in_minor_units', p_expected_delivery_fee_in_minor_units,
+      'total_in_minor_units', p_expected_total_in_minor_units
+    ));
+  v_fingerprint := public.phase3_request_fingerprint_internal(v_canonical_request);
+
+  -- Same raw-key lock as V1. Replay is decided before current feature, price,
+  -- configuration, inventory or storefront state is consulted.
+  PERFORM pg_advisory_xact_lock(hashtextextended(v_key, 0));
+  v_replay := public.phase3_resolve_operation_replay_internal(
+    'phase3_customer_reservation_v1', v_key, 'guest_gateway',
+    v_actor_hash, v_fingerprint
+  );
+  IF v_replay->>'decision' = 'REPLAY' THEN
+    RETURN v_replay->'result_snapshot';
+  END IF;
+  IF EXISTS (SELECT 1 FROM public.orders WHERE idempotency_key = v_key) THEN
+    RAISE EXCEPTION USING ERRCODE = 'P0001',
+      MESSAGE = 'PHASE3_IDEMPOTENCY_CONFLICT: Operation identity is unavailable.';
+  END IF;
+
+  SELECT * INTO v_settings FROM public.storefront_settings
+  WHERE id = '00000000-0000-0000-0000-000000000001'::UUID FOR SHARE;
+  IF NOT FOUND OR NOT COALESCE(v_settings.orders_enabled, false) THEN
+    RAISE EXCEPTION USING ERRCODE = 'P0001',
+      MESSAGE = 'PHASE3_CUSTOMER_ORDERS_DISABLED: Customer orders are unavailable.';
+  END IF;
+  IF v_delivery_zone = 'inside_ramtha'
+    AND CONCAT_WS(' ', p_governorate, p_city, p_area) NOT ILIKE '%الرمثا%'
+  THEN
+    RAISE EXCEPTION USING ERRCODE = 'P0001',
+      MESSAGE = 'PHASE3_CUSTOMER_DELIVERY_ZONE_MISMATCH: Delivery zone does not match address.';
+  END IF;
+
+  SELECT warehouse.branch_id, warehouse.id
+  INTO v_branch_id, v_warehouse_id
+  FROM public.warehouses warehouse
+  JOIN public.branches branch ON branch.id = warehouse.branch_id
+  WHERE warehouse.is_active AND branch.is_active
+  ORDER BY warehouse.created_at, warehouse.id
+  LIMIT 1;
+  IF v_warehouse_id IS NULL THEN
+    RAISE EXCEPTION USING ERRCODE = 'P0001',
+      MESSAGE = 'PHASE3_CUSTOMER_LOCATION_UNAVAILABLE: No active storefront warehouse.';
+  END IF;
+
+  -- Customer V1 already serializes normalized customer identity before taking
+  -- inventory locks.  V2 follows the same relative order so mixed-version
+  -- requests cannot form Customer -> Inventory / Inventory -> Customer cycles.
+  PERFORM pg_advisory_xact_lock(hashtext(v_phone)::BIGINT);
+  SELECT id, is_blocked, is_active INTO
+    v_customer_id, v_customer_is_blocked, v_customer_is_active
+  FROM public.customers
+  WHERE public.normalize_customer_phone(phone) = v_phone AND is_deleted = false
+  LIMIT 1 FOR UPDATE;
+
+  IF EXISTS (
+    SELECT 1 FROM JSONB_ARRAY_ELEMENTS(v_canonical_request->'lines') candidate
+    WHERE candidate->>'commercial_line_kind' = 'configurable_parcel'
+  ) THEN
+    PERFORM public.phase3_assert_configurable_parcel_creation_allowed_internal(
+      'guest_gateway', NULL
+    );
+  END IF;
+
+  PERFORM public.parcel209_guard_modern_lines_internal(v_canonical_request->'lines');
+
+  SELECT ARRAY_AGG(DISTINCT (candidate->>'parcel_configuration_id')::UUID
+      ORDER BY (candidate->>'parcel_configuration_id')::UUID),
+    ARRAY_AGG(DISTINCT (candidate->>'family_product_id')::UUID
+      ORDER BY (candidate->>'family_product_id')::UUID)
+  INTO v_configuration_ids, v_family_ids
+  FROM JSONB_ARRAY_ELEMENTS(v_canonical_request->'lines') candidate
+  WHERE candidate->>'commercial_line_kind' = 'configurable_parcel';
+  IF COALESCE(CARDINALITY(v_configuration_ids), 0) > 0 THEN
+    PERFORM configuration.id FROM public.product_parcel_configurations configuration
+    WHERE configuration.id = ANY(v_configuration_ids)
+    ORDER BY configuration.id FOR SHARE;
+    PERFORM family.id FROM public.products family
+    WHERE family.id = ANY(v_family_ids)
+    ORDER BY family.id FOR SHARE;
+  END IF;
+
+  SELECT ARRAY_AGG(DISTINCT identity.product_id ORDER BY identity.product_id)
+  INTO v_product_ids
+  FROM (
+    SELECT (candidate->>'product_id')::UUID AS product_id
+    FROM JSONB_ARRAY_ELEMENTS(v_canonical_request->'lines') candidate
+    WHERE candidate->>'commercial_line_kind' IN ('base_unit', 'legacy_single_sku_parcel')
+    UNION ALL
+    SELECT (component->>'product_id')::UUID
+    FROM JSONB_ARRAY_ELEMENTS(v_canonical_request->'lines') candidate
+    CROSS JOIN LATERAL JSONB_ARRAY_ELEMENTS(candidate->'parcel_instances') parcel
+    CROSS JOIN LATERAL JSONB_ARRAY_ELEMENTS(parcel->'components') component
+    WHERE candidate->>'commercial_line_kind' = 'configurable_parcel'
+  ) identity;
+  PERFORM public.phase3_lock_inventory_products_internal(v_product_ids);
+
+  FOR v_line IN
+    SELECT value FROM JSONB_ARRAY_ELEMENTS(v_canonical_request->'lines')
+    ORDER BY value::TEXT
+  LOOP
+    v_line_sequence := v_line_sequence + 1;
+    v_order_item_id := gen_random_uuid();
+    v_line_kind := v_line->>'commercial_line_kind';
+    v_line_identity := public.phase3_customer_line_identity_internal(v_line);
+    SELECT public.phase3_require_nonnegative_bigint_internal(
+      raw_line->>'expected_unit_price_in_minor_units',
+      'expected_unit_price_in_minor_units'
+    ) INTO v_expected_price
+    FROM JSONB_ARRAY_ELEMENTS(p_lines) raw_line
+    WHERE public.phase3_customer_line_identity_internal(raw_line) = v_line_identity;
+    v_plan_instances := '[]'::JSONB;
+
+    IF v_line_kind = 'base_unit' THEN
+      SELECT * INTO v_product FROM public.products
+      WHERE id = (v_line->>'product_id')::UUID AND is_active;
+      IF NOT FOUND OR v_product.is_flavor_master THEN
+        RAISE EXCEPTION USING ERRCODE = 'P0001',
+          MESSAGE = 'PHASE3_CUSTOMER_PRODUCT_INVALID: Base Unit is unavailable.';
+      END IF;
+      v_commercial_quantity := (v_line->>'base_quantity')::INTEGER;
+      v_base_quantity := v_commercial_quantity;
+      v_units_per_parcel := 1;
+      v_unit_price := v_product.sale_price_in_minor_units;
+      SELECT COALESCE(unit.name_ar, 'وحدة') INTO v_base_unit_name
+      FROM public.units unit WHERE unit.id = v_product.unit_id;
+      v_base_unit_name := COALESCE(v_base_unit_name, 'وحدة');
+      v_parcel_unit_name := v_base_unit_name;
+    ELSIF v_line_kind = 'legacy_single_sku_parcel' THEN
+      SELECT * INTO v_product FROM public.products
+      WHERE id = (v_line->>'product_id')::UUID AND is_active;
+      IF NOT FOUND OR v_product.units_per_sale_unit IS DISTINCT FROM
+          (v_line->>'units_per_parcel')::INTEGER
+        OR COALESCE(v_product.default_sale_price_in_minor_units, 0) <= 0
+      THEN
+        RAISE EXCEPTION USING ERRCODE = 'P0001',
+          MESSAGE = 'PHASE3_CUSTOMER_PRICE_OR_PACKAGE_STALE: Legacy Parcel changed.';
+      END IF;
+      v_commercial_quantity := (v_line->>'parcel_quantity')::INTEGER;
+      v_units_per_parcel := v_product.units_per_sale_unit;
+      v_base_quantity := v_commercial_quantity::BIGINT * v_units_per_parcel;
+      v_unit_price := v_product.default_sale_price_in_minor_units;
+      SELECT COALESCE(base_unit.name_ar, 'وحدة'), COALESCE(parcel_unit.name_ar, 'طرد')
+      INTO v_base_unit_name, v_parcel_unit_name
+      FROM public.products product
+      LEFT JOIN public.units base_unit ON base_unit.id = product.unit_id
+      LEFT JOIN public.units parcel_unit ON parcel_unit.id = product.sale_unit_id
+      WHERE product.id = v_product.id;
+    ELSE
+      SELECT * INTO v_product FROM public.products
+      WHERE id = (v_line->>'family_product_id')::UUID AND is_active;
+      IF NOT FOUND OR NOT v_product.is_flavor_master
+        OR COALESCE(v_product.default_sale_price_in_minor_units, 0) <= 0
+      THEN
+        RAISE EXCEPTION USING ERRCODE = 'P0001',
+          MESSAGE = 'PHASE3_CUSTOMER_PRICE_OR_PACKAGE_STALE: Configurable Parcel changed.';
+      END IF;
+      v_commercial_quantity := (v_line->>'parcel_quantity')::INTEGER;
+      v_units_per_parcel := v_product.units_per_sale_unit;
+      v_base_quantity := v_commercial_quantity::BIGINT * v_units_per_parcel;
+      v_unit_price := v_product.default_sale_price_in_minor_units;
+      SELECT COALESCE(base_unit.name_ar, 'وحدة'), COALESCE(parcel_unit.name_ar, 'طرد')
+      INTO v_base_unit_name, v_parcel_unit_name
+      FROM public.products product
+      LEFT JOIN public.units base_unit ON base_unit.id = product.unit_id
+      LEFT JOIN public.units parcel_unit ON parcel_unit.id = product.sale_unit_id
+      WHERE product.id = v_product.id;
+
+      FOR v_instance IN
+        SELECT value FROM JSONB_ARRAY_ELEMENTS(v_line->'parcel_instances')
+        ORDER BY (value->>'instance_sequence')::INTEGER
+      LOOP
+        v_validated := public.phase3_validate_configurable_parcel_internal(
+          'guest_gateway', NULL, (v_line->>'family_product_id')::UUID,
+          (v_line->>'parcel_configuration_id')::UUID,
+          (v_line->>'configuration_revision')::INTEGER,
+          v_instance->'components'
+        );
+        v_instance_id := gen_random_uuid();
+        SELECT JSONB_AGG(JSONB_BUILD_OBJECT(
+          'component_id', gen_random_uuid(),
+          'reservation_id', gen_random_uuid(),
+          'product_id', component->>'product_id',
+          'base_quantity', (component->>'base_quantity')::INTEGER,
+          'product_name_snapshot', component->>'product_name_snapshot',
+          'sku_snapshot', component->>'sku_snapshot',
+          'base_unit_name_snapshot', COALESCE(
+            NULLIF(component->>'base_unit_name_snapshot', ''), v_base_unit_name
+          )
+        ) ORDER BY (component->>'product_id')::UUID)
+        INTO v_plan_components
+        FROM JSONB_ARRAY_ELEMENTS(v_validated->'components') component;
+        v_plan_instances := v_plan_instances || JSONB_BUILD_ARRAY(JSONB_BUILD_OBJECT(
+          'instance_id', v_instance_id,
+          'instance_sequence', (v_instance->>'instance_sequence')::INTEGER,
+          'configuration_revision', (v_line->>'configuration_revision')::INTEGER,
+          'units_per_parcel', (v_validated->>'units_per_parcel')::INTEGER,
+          'composition_fingerprint', v_validated->>'composition_fingerprint',
+          'gross_amount_in_minor_units', v_unit_price,
+          'components', v_plan_components
+        ));
+      END LOOP;
+    END IF;
+
+    IF v_base_quantity > 2147483647 THEN
+      RAISE EXCEPTION USING ERRCODE = '22003',
+        MESSAGE = 'PHASE3_CUSTOMER_QUANTITY_OVERFLOW: Base quantity exceeds safe capacity.';
+    END IF;
+    IF v_unit_price IS DISTINCT FROM v_expected_price THEN
+      RAISE EXCEPTION USING ERRCODE = 'P0001',
+        MESSAGE = 'PHASE3_CUSTOMER_QUOTE_STALE: Commercial price changed.';
+    END IF;
+    v_line_gross := v_commercial_quantity::BIGINT * v_unit_price;
+    v_subtotal := v_subtotal + v_line_gross;
+    v_plan_lines := v_plan_lines || JSONB_BUILD_ARRAY(JSONB_BUILD_OBJECT(
+      'line_sequence', v_line_sequence,
+      'order_item_id', v_order_item_id,
+      'reservation_id', CASE WHEN v_line_kind = 'configurable_parcel'
+        THEN NULL ELSE gen_random_uuid() END,
+      'commercial_line_kind', v_line_kind,
+      'product_id', v_product.id,
+      'product_name_snapshot', v_product.name_ar,
+      'sku_snapshot', v_product.sku,
+      'family_product_id', CASE WHEN v_line_kind = 'configurable_parcel'
+        THEN v_line->>'family_product_id' ELSE NULL END,
+      'parcel_configuration_id', CASE WHEN v_line_kind = 'configurable_parcel'
+        THEN v_line->>'parcel_configuration_id' ELSE NULL END,
+      'configuration_revision', CASE WHEN v_line_kind = 'configurable_parcel'
+        THEN (v_line->>'configuration_revision')::INTEGER ELSE NULL END,
+      'commercial_quantity', v_commercial_quantity,
+      'base_quantity', v_base_quantity,
+      'units_per_parcel', v_units_per_parcel,
+      'base_unit_name_snapshot', v_base_unit_name,
+      'parcel_unit_name_snapshot', v_parcel_unit_name,
+      'unit_price_in_minor_units', v_unit_price,
+      'gross_amount_in_minor_units', v_line_gross,
+      'parcel_instances', v_plan_instances
+    ));
+  END LOOP;
+
+  IF v_subtotal IS DISTINCT FROM p_expected_subtotal_in_minor_units THEN
+    RAISE EXCEPTION USING ERRCODE = 'P0001',
+      MESSAGE = 'PHASE3_CUSTOMER_QUOTE_STALE: Subtotal changed.';
+  END IF;
+  IF v_subtotal < v_settings.minimum_order_in_minor_units THEN
+    RAISE EXCEPTION USING ERRCODE = 'P0001',
+      MESSAGE = 'PHASE3_CUSTOMER_MINIMUM_ORDER: Order is below the current minimum.';
+  END IF;
+
+  IF NULLIF(BTRIM(p_promotion_code), '') IS NOT NULL THEN
+    SELECT * INTO v_promotion FROM public.promotion_codes
+    WHERE code = UPPER(BTRIM(p_promotion_code)) FOR UPDATE;
+    IF NOT FOUND OR NOT v_promotion.is_active
+      OR (v_promotion.starts_at IS NOT NULL AND NOW() < v_promotion.starts_at)
+      OR (v_promotion.expires_at IS NOT NULL AND NOW() >= v_promotion.expires_at)
+      OR v_subtotal < v_promotion.minimum_subtotal_in_minor_units
+    THEN
+      RAISE EXCEPTION USING ERRCODE = 'P0001',
+        MESSAGE = 'PHASE3_CUSTOMER_PROMOTION_INVALID: Promotion is unavailable.';
+    END IF;
+    IF v_promotion.maximum_total_redemptions IS NOT NULL AND (
+      SELECT COUNT(*) FROM public.promotion_redemptions redemption
+      WHERE redemption.promotion_code_id = v_promotion.id
+    ) >= v_promotion.maximum_total_redemptions THEN
+      RAISE EXCEPTION USING ERRCODE = 'P0001',
+        MESSAGE = 'PHASE3_CUSTOMER_PROMOTION_INVALID: Promotion is exhausted.';
+    END IF;
+    IF (SELECT COUNT(*) FROM public.promotion_redemptions redemption
+      WHERE redemption.promotion_code_id = v_promotion.id
+        AND redemption.customer_phone = v_phone
+    ) >= v_promotion.maximum_redemptions_per_phone THEN
+      RAISE EXCEPTION USING ERRCODE = 'P0001',
+        MESSAGE = 'PHASE3_CUSTOMER_PROMOTION_INVALID: Promotion is unavailable for this customer.';
+    END IF;
+    v_promotion_id := v_promotion.id;
+    v_promotion_code := v_promotion.code;
+    IF v_promotion.discount_type = 'fixed' THEN
+      v_discount := LEAST(v_promotion.discount_value, v_subtotal);
+    ELSE
+      v_discount := FLOOR(v_subtotal::NUMERIC * v_promotion.discount_value / 10000)::BIGINT;
+      IF v_promotion.maximum_discount_in_minor_units IS NOT NULL THEN
+        v_discount := LEAST(v_discount, v_promotion.maximum_discount_in_minor_units);
+      END IF;
+    END IF;
+    v_discount := LEAST(GREATEST(v_discount, 0), v_subtotal);
+  END IF;
+
+  v_delivery_fee := CASE v_delivery_zone
+    WHEN 'inside_ramtha' THEN v_settings.inside_ramtha_delivery_fee_in_minor_units
+    ELSE v_settings.outside_ramtha_delivery_fee_in_minor_units END;
+  v_total := v_subtotal - v_discount + v_delivery_fee;
+  IF v_discount IS DISTINCT FROM p_expected_discount_in_minor_units
+    OR v_delivery_fee IS DISTINCT FROM p_expected_delivery_fee_in_minor_units
+    OR v_total IS DISTINCT FROM p_expected_total_in_minor_units
+  THEN
+    RAISE EXCEPTION USING ERRCODE = 'P0001',
+      MESSAGE = 'PHASE3_CUSTOMER_QUOTE_STALE: Accepted totals changed.';
+  END IF;
+
+  SELECT JSONB_AGG(JSONB_BUILD_OBJECT(
+    'key', line->>'line_sequence',
+    'weight', (line->>'gross_amount_in_minor_units')::BIGINT
+  ) ORDER BY (line->>'line_sequence')::INTEGER)
+  INTO v_line_weights FROM JSONB_ARRAY_ELEMENTS(v_plan_lines) line;
+  FOR v_line IN SELECT value FROM JSONB_ARRAY_ELEMENTS(v_plan_lines)
+    ORDER BY (value->>'line_sequence')::INTEGER
+  LOOP
+    SELECT allocated_amount INTO v_line_discount
+    FROM public.phase2_allocate_largest_remainder_internal(v_discount, v_line_weights)
+    WHERE allocation_key = v_line->>'line_sequence';
+    v_line_discount := COALESCE(v_line_discount, 0);
+    v_line_gross := (v_line->>'gross_amount_in_minor_units')::BIGINT;
+    v_line_net := v_line_gross - v_line_discount;
+    v_plan_instances := v_line->'parcel_instances';
+    IF v_line->>'commercial_line_kind' = 'configurable_parcel' THEN
+      SELECT JSONB_AGG(JSONB_BUILD_OBJECT(
+        'key', instance->>'instance_sequence',
+        'weight', (instance->>'gross_amount_in_minor_units')::BIGINT
+      ) ORDER BY (instance->>'instance_sequence')::INTEGER)
+      INTO v_instance_weights FROM JSONB_ARRAY_ELEMENTS(v_plan_instances) instance;
+      v_plan_instances := '[]'::JSONB;
+      FOR v_instance IN SELECT value FROM JSONB_ARRAY_ELEMENTS(v_line->'parcel_instances')
+        ORDER BY (value->>'instance_sequence')::INTEGER
+      LOOP
+        SELECT allocated_amount INTO v_instance_discount
+        FROM public.phase2_allocate_largest_remainder_internal(v_line_discount, v_instance_weights)
+        WHERE allocation_key = v_instance->>'instance_sequence';
+        v_plan_instances := v_plan_instances || JSONB_BUILD_ARRAY(
+          v_instance || JSONB_BUILD_OBJECT(
+            'allocated_discount_in_minor_units', COALESCE(v_instance_discount, 0),
+            'net_refundable_amount_in_minor_units',
+              (v_instance->>'gross_amount_in_minor_units')::BIGINT
+                - COALESCE(v_instance_discount, 0)
+          )
+        );
+      END LOOP;
+    END IF;
+    v_final_lines := v_final_lines || JSONB_BUILD_ARRAY(
+      v_line || JSONB_BUILD_OBJECT(
+        'allocated_discount_in_minor_units', v_line_discount,
+        'net_refundable_amount_in_minor_units', v_line_net,
+        'parcel_instances', v_plan_instances
+      )
+    );
+  END LOOP;
+
+  FOR v_demand IN
+    WITH demand AS (
+      SELECT (line->>'product_id')::UUID product_id,
+        (line->>'base_quantity')::INTEGER quantity
+      FROM JSONB_ARRAY_ELEMENTS(v_final_lines) line
+      WHERE line->>'commercial_line_kind' <> 'configurable_parcel'
+      UNION ALL
+      SELECT (component->>'product_id')::UUID,
+        (component->>'base_quantity')::INTEGER
+      FROM JSONB_ARRAY_ELEMENTS(v_final_lines) line
+      CROSS JOIN LATERAL JSONB_ARRAY_ELEMENTS(line->'parcel_instances') instance
+      CROSS JOIN LATERAL JSONB_ARRAY_ELEMENTS(instance->'components') component
+      WHERE line->>'commercial_line_kind' = 'configurable_parcel'
+    ) SELECT product_id, SUM(quantity)::INTEGER quantity
+      FROM demand GROUP BY product_id ORDER BY product_id
+  LOOP
+    SELECT balance.on_hand_quantity, balance.reserved_quantity
+    INTO v_on_hand, v_reserved
+    FROM public.inventory_balances balance
+    WHERE balance.warehouse_id = v_warehouse_id
+      AND balance.product_id = v_demand.product_id
+    FOR UPDATE;
+    IF NOT FOUND OR v_on_hand - v_reserved < v_demand.quantity THEN
+      RAISE EXCEPTION USING ERRCODE = 'P0001',
+        MESSAGE = 'PHASE3_CUSTOMER_INSUFFICIENT_INVENTORY: Component inventory is unavailable.';
+    END IF;
+  END LOOP;
+
+  SELECT COUNT(*)::INTEGER INTO v_recent_orders
+  FROM public.orders customer_order
+  JOIN public.customers customer ON customer.id = customer_order.customer_id
+  WHERE customer_order.source = 'website'
+    AND public.normalize_customer_phone(customer.phone) = v_phone
+    AND customer_order.created_at >= NOW() - INTERVAL '10 minutes';
+  IF v_recent_orders >= 3 THEN
+    RAISE EXCEPTION USING ERRCODE = 'P0001',
+      MESSAGE = 'PHASE3_CUSTOMER_RATE_LIMITED: Too many recent orders.';
+  END IF;
+
+  IF v_customer_id IS NOT NULL THEN
+    IF v_customer_is_blocked OR NOT v_customer_is_active THEN
+      RAISE EXCEPTION USING ERRCODE = 'P0001',
+        MESSAGE = 'PHASE3_CUSTOMER_UNAVAILABLE: Customer account is unavailable.';
+    END IF;
+    v_customer_reused := true;
+    -- Guest delivery details belong to this order,not the existing CRM card.
+  ELSE
+    v_customer_id := gen_random_uuid();
+    INSERT INTO public.customers(
+      id, full_name, phone, governorate, customer_type,
+      is_active, is_blocked, is_deleted
+    ) VALUES (
+      v_customer_id, BTRIM(p_customer_full_name), v_phone,
+      BTRIM(p_governorate), 'wholesale', true, false, false
+    );
+  END IF;
+
+  -- Existing default addresses remain unchanged,including when none exists.
+  v_formatted_address := CONCAT_WS(' - ', BTRIM(p_governorate), BTRIM(p_city),
+    BTRIM(p_area), BTRIM(p_street), NULLIF(BTRIM(p_building), ''));
+  v_google_maps_url := COALESCE(NULLIF(BTRIM(p_google_maps_url), ''), CASE
+    WHEN p_latitude IS NOT NULL THEN 'https://www.google.com/maps?q='
+      || p_latitude::TEXT || ',' || p_longitude::TEXT ELSE NULL END);
+  IF v_google_maps_url IS NOT NULL AND (
+    CHAR_LENGTH(v_google_maps_url) > 1000 OR v_google_maps_url !~* '^https://'
+  ) THEN
+    RAISE EXCEPTION USING ERRCODE = 'P0001',
+      MESSAGE = 'PHASE3_CUSTOMER_INPUT_INVALID: Map URL is invalid.';
+  END IF;
+  v_location_source := CASE WHEN p_latitude IS NOT NULL THEN 'gps'
+    WHEN v_google_maps_url IS NOT NULL THEN 'map_pin' ELSE 'manual' END;
+  INSERT INTO public.customer_addresses(
+    id, customer_id, governorate, city, area, street, building, notes,
+    latitude, longitude, formatted_address, google_maps_url,
+    location_source, location_confirmed, is_default
+  ) VALUES (
+    v_address_id, v_customer_id, BTRIM(p_governorate), BTRIM(p_city),
+    BTRIM(p_area), BTRIM(p_street), NULLIF(BTRIM(p_building), ''),
+    NULLIF(BTRIM(p_address_notes), ''), p_latitude, p_longitude,
+    v_formatted_address, v_google_maps_url, v_location_source,
+    p_latitude IS NOT NULL, NOT v_customer_reused
+  );
+
+  LOOP
+    v_order_number := 'ORD-' || TO_CHAR(NOW(), 'YYYYMMDD') || '-'
+      || LPAD((FLOOR(RANDOM() * 89999 + 10000))::TEXT, 5, '0');
+    EXIT WHEN NOT EXISTS (SELECT 1 FROM public.orders WHERE order_number = v_order_number);
+  END LOOP;
+
+  SELECT COALESCE(JSONB_AGG(JSONB_BUILD_OBJECT(
+    'id', line->>'order_item_id', 'productId', line->>'product_id',
+    'productName', line->>'product_name_snapshot', 'sku', line->>'sku_snapshot',
+    'commercialLineKind', line->>'commercial_line_kind',
+    'quantity', (line->>'commercial_quantity')::INTEGER,
+    'baseQuantity', (line->>'base_quantity')::BIGINT,
+    'unitPriceInMinorUnits', (line->>'unit_price_in_minor_units')::BIGINT,
+    'lineTotalInMinorUnits', (line->>'gross_amount_in_minor_units')::BIGINT,
+    'allocatedDiscountInMinorUnits', (line->>'allocated_discount_in_minor_units')::BIGINT,
+    'netRefundableAmountInMinorUnits', (line->>'net_refundable_amount_in_minor_units')::BIGINT,
+    'costFinalized', false, 'parcelInstances', line->'parcel_instances'
+  ) ORDER BY (line->>'line_sequence')::INTEGER), '[]'::JSONB)
+  INTO v_result_items FROM JSONB_ARRAY_ELEMENTS(v_final_lines) line;
+  v_result := JSONB_BUILD_OBJECT(
+    'success', true, 'idempotent_replay', false,
+    'contract_version', 'phase3-customer-reservation-v2',
+    'operation_id', v_operation_id, 'order_id', v_order_id,
+    'order_number', v_order_number, 'customer_id', v_customer_id,
+    'customer_address_id', v_address_id, 'customer_reused', v_customer_reused,
+    'status', 'new', 'subtotal', v_subtotal, 'discount', v_discount,
+    'delivery_fee', v_delivery_fee, 'total', v_total,
+    'promotion_code', v_promotion_code, 'payment_method', v_payment_method,
+    'payment_status', 'unpaid', 'tracking_token', v_tracking_token,
+    'tracking_path', '/#track=' || v_tracking_token::TEXT,
+    'items', v_result_items,
+    'message', 'تم إنشاء طلب V2 وحجز مكوناته بدقة.'
+  );
+
+  INSERT INTO public.business_operations(
+    id, operation_type, idempotency_key, request_fingerprint, initiated_by,
+    result_snapshot, completed_at, request_identity_version,
+    request_identity_snapshot, actor_scope_type, actor_scope_hash
+  ) VALUES (
+    v_operation_id, 'phase3_customer_reservation_v1', v_key, v_fingerprint,
+    NULL, v_result, NOW(), 301, v_canonical_request,
+    'guest_gateway', v_actor_hash
+  );
+  INSERT INTO public.orders(
+    id, order_number, customer_id, customer_address_id, customer_name_snapshot,
+    branch_id, warehouse_id, status, payment_method, payment_status,
+    subtotal_in_minor_units, delivery_fee_in_minor_units,
+    discount_in_minor_units, total_in_minor_units, amount_paid_in_minor_units,
+    customer_notes, internal_notes, whatsapp_message, source,
+    idempotency_key, promotion_code_id, promotion_code_snapshot,
+    delivery_zone, tracking_token, operation_id
+  ) VALUES (
+    v_order_id, v_order_number, v_customer_id, v_address_id,
+    BTRIM(p_customer_full_name), v_branch_id, v_warehouse_id, 'new',
+    v_payment_method, 'unpaid', v_subtotal, v_delivery_fee, v_discount,
+    v_total, 0, NULLIF(BTRIM(p_customer_notes), ''),
+    'طلب عميل V2 محجوز بالمكونات',
+    'تم استلام طلبك رقم ' || v_order_number, 'website', v_key,
+    v_promotion_id, v_promotion_code, v_delivery_zone, v_tracking_token,
+    v_operation_id
+  );
+
+  FOR v_line IN SELECT value FROM JSONB_ARRAY_ELEMENTS(v_final_lines)
+    ORDER BY (value->>'line_sequence')::INTEGER
+  LOOP
+    INSERT INTO public.order_items(
+      id, order_id, product_id, product_name_snapshot, sku_snapshot,
+      quantity, unit_price_in_minor_units, line_total_in_minor_units,
+      sale_package_quantity, units_per_sale_package,
+      sale_package_name_snapshot, sale_package_price_in_minor_units,
+      commercial_line_kind, family_product_id, parcel_configuration_id,
+      parcel_configuration_revision, base_unit_name_snapshot,
+      allocated_discount_snapshot_in_minor_units,
+      net_refundable_amount_snapshot_in_minor_units
+    ) VALUES (
+      (v_line->>'order_item_id')::UUID, v_order_id,
+      (v_line->>'product_id')::UUID, v_line->>'product_name_snapshot',
+      v_line->>'sku_snapshot', CASE
+        WHEN v_line->>'commercial_line_kind' = 'configurable_parcel'
+        THEN (v_line->>'commercial_quantity')::INTEGER
+        ELSE (v_line->>'base_quantity')::INTEGER END,
+      (v_line->>'unit_price_in_minor_units')::BIGINT,
+      (v_line->>'gross_amount_in_minor_units')::BIGINT,
+      (v_line->>'commercial_quantity')::INTEGER,
+      (v_line->>'units_per_parcel')::INTEGER,
+      v_line->>'parcel_unit_name_snapshot',
+      (v_line->>'unit_price_in_minor_units')::BIGINT,
+      v_line->>'commercial_line_kind',
+      NULLIF(v_line->>'family_product_id', '')::UUID,
+      NULLIF(v_line->>'parcel_configuration_id', '')::UUID,
+      NULLIF(v_line->>'configuration_revision', '')::INTEGER,
+      v_line->>'base_unit_name_snapshot',
+      (v_line->>'allocated_discount_in_minor_units')::BIGINT,
+      (v_line->>'net_refundable_amount_in_minor_units')::BIGINT
+    );
+
+    IF v_line->>'commercial_line_kind' = 'configurable_parcel' THEN
+      FOR v_instance IN SELECT value FROM JSONB_ARRAY_ELEMENTS(v_line->'parcel_instances')
+        ORDER BY (value->>'instance_sequence')::INTEGER
+      LOOP
+        INSERT INTO public.order_parcel_instances(
+          id, order_item_id, order_id, operation_id, parcel_configuration_id,
+          family_product_id, instance_sequence, configuration_revision,
+          units_per_parcel_snapshot, parcel_unit_name_snapshot,
+          gross_amount_snapshot_in_minor_units,
+          allocated_discount_snapshot_in_minor_units,
+          net_refundable_amount_snapshot_in_minor_units,
+          cogs_snapshot_in_minor_units, composition_fingerprint
+        ) VALUES (
+          (v_instance->>'instance_id')::UUID,
+          (v_line->>'order_item_id')::UUID, v_order_id, v_operation_id,
+          (v_line->>'parcel_configuration_id')::UUID,
+          (v_line->>'family_product_id')::UUID,
+          (v_instance->>'instance_sequence')::INTEGER,
+          (v_instance->>'configuration_revision')::INTEGER,
+          (v_instance->>'units_per_parcel')::INTEGER,
+          v_line->>'parcel_unit_name_snapshot',
+          (v_instance->>'gross_amount_in_minor_units')::BIGINT,
+          (v_instance->>'allocated_discount_in_minor_units')::BIGINT,
+          (v_instance->>'net_refundable_amount_in_minor_units')::BIGINT,
+          0, v_instance->>'composition_fingerprint'
+        );
+        FOR v_component IN SELECT value FROM JSONB_ARRAY_ELEMENTS(v_instance->'components')
+          ORDER BY (value->>'product_id')::UUID
+        LOOP
+          INSERT INTO public.order_parcel_components(
+            id, parcel_instance_id, operation_id, product_id, base_quantity,
+            product_name_snapshot, sku_snapshot, base_unit_name_snapshot,
+            unit_cost_snapshot_in_minor_units, cogs_snapshot_in_minor_units
+          ) VALUES (
+            (v_component->>'component_id')::UUID,
+            (v_instance->>'instance_id')::UUID, v_operation_id,
+            (v_component->>'product_id')::UUID,
+            (v_component->>'base_quantity')::INTEGER,
+            v_component->>'product_name_snapshot', v_component->>'sku_snapshot',
+            v_component->>'base_unit_name_snapshot', 0, 0
+          );
+        END LOOP;
+        PERFORM public.finalize_order_parcel_instance_internal(
+          (v_instance->>'instance_id')::UUID
+        );
+      END LOOP;
+    END IF;
+  END LOOP;
+
+  FOR v_line IN SELECT value FROM JSONB_ARRAY_ELEMENTS(v_final_lines)
+    ORDER BY (value->>'line_sequence')::INTEGER
+  LOOP
+    IF v_line->>'commercial_line_kind' <> 'configurable_parcel' THEN
+      INSERT INTO public.order_inventory_reservations(
+        id, operation_id, order_id, order_item_id, parcel_instance_id,
+        warehouse_id, product_id, reserved_quantity
+      ) VALUES (
+        (v_line->>'reservation_id')::UUID, v_operation_id, v_order_id,
+        (v_line->>'order_item_id')::UUID, NULL, v_warehouse_id,
+        (v_line->>'product_id')::UUID, (v_line->>'base_quantity')::INTEGER
+      );
+    ELSE
+      FOR v_instance IN SELECT value FROM JSONB_ARRAY_ELEMENTS(v_line->'parcel_instances')
+        ORDER BY (value->>'instance_sequence')::INTEGER
+      LOOP
+        FOR v_component IN SELECT value FROM JSONB_ARRAY_ELEMENTS(v_instance->'components')
+          ORDER BY (value->>'product_id')::UUID
+        LOOP
+          INSERT INTO public.order_inventory_reservations(
+            id, operation_id, order_id, order_item_id, parcel_instance_id,
+            warehouse_id, product_id, reserved_quantity
+          ) VALUES (
+            (v_component->>'reservation_id')::UUID, v_operation_id, v_order_id,
+            (v_line->>'order_item_id')::UUID,
+            (v_instance->>'instance_id')::UUID, v_warehouse_id,
+            (v_component->>'product_id')::UUID,
+            (v_component->>'base_quantity')::INTEGER
+          );
+        END LOOP;
+      END LOOP;
+    END IF;
+  END LOOP;
+
+  FOR v_demand IN
+    SELECT reservation.product_id, SUM(reservation.reserved_quantity)::INTEGER quantity
+    FROM public.order_inventory_reservations reservation
+    WHERE reservation.order_id = v_order_id
+      AND reservation.reservation_state = 'active'
+    GROUP BY reservation.product_id ORDER BY reservation.product_id
+  LOOP
+    UPDATE public.inventory_balances
+    SET reserved_quantity = reserved_quantity + v_demand.quantity,
+      updated_at = NOW()
+    WHERE warehouse_id = v_warehouse_id AND product_id = v_demand.product_id;
+  END LOOP;
+
+  IF v_promotion_id IS NOT NULL THEN
+    INSERT INTO public.promotion_redemptions(
+      promotion_code_id, order_id, customer_id, customer_phone,
+      code_snapshot, discount_in_minor_units
+    ) VALUES (
+      v_promotion_id, v_order_id, v_customer_id, v_phone,
+      v_promotion_code, v_discount
+    );
+  END IF;
+  INSERT INTO public.order_status_history(order_id, old_status, new_status, changed_by, notes)
+  VALUES (v_order_id, NULL, 'new', NULL, 'إنشاء طلب عميل V2 وحجز المكونات ذريًا');
+  INSERT INTO public.audit_logs(user_id, action, entity_name, entity_id, details)
+  VALUES (NULL, 'CREATE_CUSTOMER_ORDER_V2', 'orders', v_order_id,
+    JSONB_BUILD_OBJECT('operation_id', v_operation_id, 'commercial_lines',
+      JSONB_ARRAY_LENGTH(v_final_lines), 'reserved_components', (
+        SELECT COUNT(*) FROM public.order_inventory_reservations
+        WHERE order_id = v_order_id
+      )));
+  RETURN v_result;
+END;
+$function$;
+
+CREATE OR REPLACE FUNCTION public.create_customer_order_base_units_legacy(
+  p_customer_full_name TEXT,
+  p_customer_phone TEXT,
+  p_customer_email TEXT DEFAULT NULL,
+  p_governorate TEXT DEFAULT NULL,
+  p_city TEXT DEFAULT NULL,
+  p_area TEXT DEFAULT NULL,
+  p_street TEXT DEFAULT NULL,
+  p_building TEXT DEFAULT NULL,
+  p_floor TEXT DEFAULT NULL,
+  p_apartment TEXT DEFAULT NULL,
+  p_address_notes TEXT DEFAULT NULL,
+  p_latitude DOUBLE PRECISION DEFAULT NULL,
+  p_longitude DOUBLE PRECISION DEFAULT NULL,
+  p_formatted_address TEXT DEFAULT NULL,
+  p_google_maps_url TEXT DEFAULT NULL,
+  p_location_source TEXT DEFAULT 'manual',
+  p_branch_id UUID DEFAULT NULL,
+  p_warehouse_id UUID DEFAULT NULL,
+  p_items JSONB DEFAULT '[]'::jsonb,
+  p_delivery_fee_in_minor_units BIGINT DEFAULT 0,
+  p_discount_in_minor_units BIGINT DEFAULT 0,
+  p_customer_notes TEXT DEFAULT NULL,
+  p_internal_notes TEXT DEFAULT NULL,
+  p_source TEXT DEFAULT 'website'
+)
+RETURNS JSONB
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public, pg_temp
+AS $$
+DECLARE
+  v_customer_id UUID;
+  v_customer_is_blocked BOOLEAN;
+  v_customer_is_active BOOLEAN;
+  v_customer_reused BOOLEAN := false;
+  v_customer_phone TEXT :=
+    public.normalize_customer_phone(p_customer_phone);
+  v_address_id UUID;
+  v_branch_id UUID := p_branch_id;
+  v_warehouse_id UUID := p_warehouse_id;
+  v_order_id UUID;
+  v_order_number TEXT;
+  v_item JSONB;
+  v_prod_id UUID;
+  v_qty INT;
+  v_prod_name TEXT;
+  v_prod_sku TEXT;
+  v_unit_price BIGINT;
+  v_is_active BOOLEAN;
+  v_on_hand INT;
+  v_reserved INT;
+  v_available INT;
+  v_line_total BIGINT;
+  v_subtotal BIGINT := 0;
+  v_total BIGINT;
+  v_user_id UUID := auth.uid();
+  v_formatted_address TEXT;
+  v_google_maps_url TEXT;
+BEGIN
+  IF NULLIF(TRIM(p_customer_full_name), '') IS NULL THEN
+    RAISE EXCEPTION 'اسم العميل مطلوب ولا يمكن أن يكون فارغاً.';
+  END IF;
+  IF NULLIF(v_customer_phone, '') IS NULL
+    OR v_customer_phone !~ '^[0-9]{9,15}$'
+  THEN
+    RAISE EXCEPTION 'رقم هاتف العميل غير صحيح.';
+  END IF;
+  IF p_items IS NULL
+    OR jsonb_typeof(p_items) <> 'array'
+    OR jsonb_array_length(p_items) = 0
+  THEN
+    RAISE EXCEPTION 'سلة الطلب فارغة، يجب تقديم صنف واحد على الأقل.';
+  END IF;
+  IF COALESCE(p_delivery_fee_in_minor_units, 0) < 0
+    OR COALESCE(p_discount_in_minor_units, 0) < 0
+  THEN
+    RAISE EXCEPTION 'رسوم التوصيل والخصم لا يمكن أن تكون سالبة.';
+  END IF;
+  IF COALESCE(p_location_source, 'manual')
+    NOT IN ('gps', 'map_pin', 'manual')
+  THEN
+    RAISE EXCEPTION 'مصدر موقع التوصيل غير معتمد.';
+  END IF;
+  IF (p_latitude IS NULL) <> (p_longitude IS NULL) THEN
+    RAISE EXCEPTION 'يجب إدخال خط العرض وخط الطول معاً.';
+  END IF;
+  IF p_latitude IS NOT NULL
+    AND (
+      p_latitude NOT BETWEEN -90 AND 90
+      OR p_longitude NOT BETWEEN -180 AND 180
+    )
+  THEN
+    RAISE EXCEPTION 'إحداثيات موقع التوصيل غير صحيحة.';
+  END IF;
+
+  IF v_branch_id IS NULL THEN
+    SELECT id
+    INTO v_branch_id
+    FROM public.branches
+    WHERE is_active = true
+    ORDER BY created_at ASC
+    LIMIT 1;
+  END IF;
+
+  IF v_warehouse_id IS NULL THEN
+    SELECT id
+    INTO v_warehouse_id
+    FROM public.warehouses
+    WHERE is_active = true
+    ORDER BY created_at ASC
+    LIMIT 1;
+  END IF;
+
+  IF v_warehouse_id IS NULL THEN
+    RAISE EXCEPTION 'لم يتم العثور على مستودع فعال لمعالجة الطلب.';
+  END IF;
+
+  -- One transaction at a time may resolve a specific customer phone.
+  PERFORM pg_advisory_xact_lock(hashtext(v_customer_phone)::BIGINT);
+
+  SELECT id, is_blocked, is_active
+  INTO
+    v_customer_id,
+    v_customer_is_blocked,
+    v_customer_is_active
+  FROM public.customers
+  WHERE public.normalize_customer_phone(phone) = v_customer_phone
+    AND is_deleted = false
+  LIMIT 1
+  FOR UPDATE;
+
+  IF v_customer_id IS NOT NULL THEN
+    IF v_customer_is_blocked OR NOT v_customer_is_active THEN
+      RAISE EXCEPTION
+        'لا يمكن إنشاء طلب لهذا العميل لأن ملفه موقوف أو محظور.';
+    END IF;
+
+    v_customer_reused := true;
+
+    IF NOT (auth.role() IS NOT DISTINCT FROM 'service_role' AND COALESCE(NULLIF(TRIM(p_source), ''), 'website') = 'website') THEN
+    UPDATE public.customers
+    SET
+      full_name = TRIM(p_customer_full_name),
+      phone = v_customer_phone,
+      email = COALESCE(NULLIF(TRIM(p_customer_email), ''), email),
+      governorate = COALESCE(
+        NULLIF(TRIM(p_governorate), ''),
+        governorate
+      ),
+      updated_at = NOW()
+    WHERE id = v_customer_id;
+    END IF;
+  ELSE
+    INSERT INTO public.customers (
+      full_name,
+      phone,
+      email,
+      governorate,
+      customer_type,
+      is_active,
+      is_blocked,
+      is_deleted
+    ) VALUES (
+      TRIM(p_customer_full_name),
+      v_customer_phone,
+      NULLIF(TRIM(p_customer_email), ''),
+      NULLIF(TRIM(p_governorate), ''),
+      'retail',
+      true,
+      false,
+      false
+    )
+    RETURNING id INTO v_customer_id;
+  END IF;
+
+  -- The latest website delivery address becomes the single default address.
+  IF NOT (v_customer_reused AND auth.role() IS NOT DISTINCT FROM 'service_role' AND COALESCE(NULLIF(TRIM(p_source), ''), 'website') = 'website') THEN
+  UPDATE public.customer_addresses
+  SET is_default = false
+  WHERE customer_id = v_customer_id
+    AND is_default = true;
+  END IF;
+
+  v_formatted_address := COALESCE(
+    NULLIF(TRIM(p_formatted_address), ''),
+    NULLIF(
+      CONCAT_WS(
+        ' - ',
+        NULLIF(TRIM(p_governorate), ''),
+        NULLIF(TRIM(p_city), ''),
+        NULLIF(TRIM(p_area), ''),
+        NULLIF(TRIM(p_street), ''),
+        NULLIF(TRIM(p_building), '')
+      ),
+      ''
+    )
+  );
+  v_google_maps_url := COALESCE(
+    NULLIF(TRIM(p_google_maps_url), ''),
+    CASE
+      WHEN p_latitude IS NOT NULL AND p_longitude IS NOT NULL
+      THEN
+        'https://www.google.com/maps?q='
+        || p_latitude::TEXT
+        || ','
+        || p_longitude::TEXT
+      ELSE NULL
+    END
+  );
+
+  INSERT INTO public.customer_addresses (
+    customer_id,
+    governorate,
+    city,
+    area,
+    street,
+    building,
+    floor,
+    apartment,
+    notes,
+    latitude,
+    longitude,
+    formatted_address,
+    google_maps_url,
+    location_source,
+    location_confirmed,
+    is_default
+  ) VALUES (
+    v_customer_id,
+    NULLIF(TRIM(p_governorate), ''),
+    NULLIF(TRIM(p_city), ''),
+    NULLIF(TRIM(p_area), ''),
+    NULLIF(TRIM(p_street), ''),
+    NULLIF(TRIM(p_building), ''),
+    NULLIF(TRIM(p_floor), ''),
+    NULLIF(TRIM(p_apartment), ''),
+    NULLIF(TRIM(p_address_notes), ''),
+    p_latitude,
+    p_longitude,
+    v_formatted_address,
+    v_google_maps_url,
+    COALESCE(p_location_source, 'manual'),
+    p_latitude IS NOT NULL AND p_longitude IS NOT NULL,
+    NOT (v_customer_reused AND auth.role() IS NOT DISTINCT FROM 'service_role' AND COALESCE(NULLIF(TRIM(p_source), ''), 'website') = 'website')
+  )
+  RETURNING id INTO v_address_id;
+
+  -- Prices and availability are canonical and locked server-side.
+  FOR v_item IN SELECT * FROM jsonb_array_elements(p_items)
+  LOOP
+    BEGIN
+      v_prod_id := (v_item->>'product_id')::UUID;
+      v_qty := (v_item->>'quantity')::INT;
+    EXCEPTION
+      WHEN invalid_text_representation THEN
+        RAISE EXCEPTION 'بيانات صنف الطلب غير صحيحة.';
+    END;
+
+    IF v_prod_id IS NULL THEN
+      RAISE EXCEPTION 'معرف المنتج مفقود في عناصر الطلب.';
+    END IF;
+    IF v_qty IS NULL OR v_qty <= 0 THEN
+      RAISE EXCEPTION 'كمية المنتج يجب أن تكون أكبر من صفر.';
+    END IF;
+
+    SELECT name_ar, sku, sale_price_in_minor_units, is_active
+    INTO v_prod_name, v_prod_sku, v_unit_price, v_is_active
+    FROM public.products
+    WHERE id = v_prod_id;
+
+    IF NOT FOUND THEN
+      RAISE EXCEPTION
+        'المنتج المحدد برقم (%) غير موجود في النظام.',
+        v_prod_id;
+    END IF;
+    IF NOT v_is_active THEN
+      RAISE EXCEPTION
+        'المنتج (%) غير نشط حالياً ولا يمكن طلبه.',
+        v_prod_name;
+    END IF;
+
+    SELECT on_hand_quantity, reserved_quantity
+    INTO v_on_hand, v_reserved
+    FROM public.inventory_balances
+    WHERE warehouse_id = v_warehouse_id
+      AND product_id = v_prod_id
+    FOR UPDATE;
+
+    IF NOT FOUND THEN
+      RAISE EXCEPTION
+        'المنتج (%) غير مسجل له رصيد في المستودع المحدد.',
+        v_prod_name;
+    END IF;
+
+    v_available := v_on_hand - v_reserved;
+    IF v_available < v_qty THEN
+      RAISE EXCEPTION
+        'الكمية المتاحة للمنتج (%) غير كافية. المتاح: %، المطلوب: %.',
+        v_prod_name,
+        v_available,
+        v_qty;
+    END IF;
+
+    v_line_total := v_unit_price * v_qty;
+    v_subtotal := v_subtotal + v_line_total;
+  END LOOP;
+
+  v_total :=
+    v_subtotal
+    + COALESCE(p_delivery_fee_in_minor_units, 0)
+    - COALESCE(p_discount_in_minor_units, 0);
+
+  IF v_total < 0 THEN
+    RAISE EXCEPTION 'قيمة الخصم أكبر من إجمالي الطلب.';
+  END IF;
+
+  LOOP
+    v_order_number :=
+      'ORD-'
+      || TO_CHAR(NOW(), 'YYYYMMDD')
+      || '-'
+      || LPAD(
+        (FLOOR(RANDOM() * 89999 + 10000))::TEXT,
+        5,
+        '0'
+      );
+    EXIT WHEN NOT EXISTS (
+      SELECT 1
+      FROM public.orders
+      WHERE order_number = v_order_number
+    );
+  END LOOP;
+
+  INSERT INTO public.orders (
+    order_number,
+    customer_id,
+    customer_address_id,
+    customer_name_snapshot,
+    branch_id,
+    warehouse_id,
+    status,
+    payment_method,
+    payment_status,
+    subtotal_in_minor_units,
+    delivery_fee_in_minor_units,
+    discount_in_minor_units,
+    total_in_minor_units,
+    customer_notes,
+    internal_notes,
+    whatsapp_message,
+    source
+  ) VALUES (
+    v_order_number,
+    v_customer_id,
+    v_address_id,
+    TRIM(p_customer_full_name),
+    v_branch_id,
+    v_warehouse_id,
+    'new',
+    'cash_on_delivery',
+    'unpaid',
+    v_subtotal,
+    COALESCE(p_delivery_fee_in_minor_units, 0),
+    COALESCE(p_discount_in_minor_units, 0),
+    v_total,
+    NULLIF(TRIM(p_customer_notes), ''),
+    NULLIF(TRIM(p_internal_notes), ''),
+    'تم استلام طلبك رقم '
+      || v_order_number
+      || ' بقيمة إجمالية '
+      || (v_total::NUMERIC / 1000)::TEXT
+      || ' د.أ. سيتم التواصل معك لتأكيد التوصيل.',
+    COALESCE(NULLIF(TRIM(p_source), ''), 'website')
+  )
+  RETURNING id INTO v_order_id;
+
+  FOR v_item IN SELECT * FROM jsonb_array_elements(p_items)
+  LOOP
+    v_prod_id := (v_item->>'product_id')::UUID;
+    v_qty := (v_item->>'quantity')::INT;
+
+    SELECT name_ar, sku, sale_price_in_minor_units
+    INTO v_prod_name, v_prod_sku, v_unit_price
+    FROM public.products
+    WHERE id = v_prod_id;
+
+    v_line_total := v_unit_price * v_qty;
+
+    INSERT INTO public.order_items (
+      order_id,
+      product_id,
+      product_name_snapshot,
+      sku_snapshot,
+      quantity,
+      unit_price_in_minor_units,
+      line_total_in_minor_units
+    ) VALUES (
+      v_order_id,
+      v_prod_id,
+      v_prod_name,
+      v_prod_sku,
+      v_qty,
+      v_unit_price,
+      v_line_total
+    );
+
+    UPDATE public.inventory_balances
+    SET
+      reserved_quantity = reserved_quantity + v_qty,
+      updated_at = NOW()
+    WHERE warehouse_id = v_warehouse_id
+      AND product_id = v_prod_id;
+  END LOOP;
+
+  INSERT INTO public.order_status_history (
+    order_id,
+    old_status,
+    new_status,
+    changed_by,
+    notes
+  ) VALUES (
+    v_order_id,
+    NULL,
+    'new',
+    v_user_id,
+    'إنشاء الطلب وربطه بالعميل وحجز الكميات تلقائياً'
+  );
+
+  INSERT INTO public.audit_logs (
+    user_id,
+    action,
+    entity_name,
+    entity_id,
+    details
+  ) VALUES (
+    v_user_id,
+    'create_customer_order',
+    'orders',
+    v_order_id,
+    jsonb_build_object(
+      'order_number', v_order_number,
+      'customer_id', v_customer_id,
+      'customer_phone', v_customer_phone,
+      'customer_reused', v_customer_reused,
+      'customer_address_id', v_address_id,
+      'total_in_minor_units', v_total,
+      'items_count', jsonb_array_length(p_items)
+    )
+  );
+
+  RETURN jsonb_build_object(
+    'success', true,
+    'order_id', v_order_id,
+    'order_number', v_order_number,
+    'customer_id', v_customer_id,
+    'customer_address_id', v_address_id,
+    'customer_reused', v_customer_reused,
+    'subtotal', v_subtotal,
+    'total', v_total,
+    'status', 'new',
+    'message', 'تم إنشاء الطلب وربطه بملف العميل وحجز الكميات بنجاح.'
+  );
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION public.package_d_create_customer_order_before_source_guard_internal(
+  p_customer_full_name TEXT,
+  p_customer_phone TEXT,
+  p_customer_email TEXT DEFAULT NULL,
+  p_governorate TEXT DEFAULT NULL,
+  p_city TEXT DEFAULT NULL,
+  p_area TEXT DEFAULT NULL,
+  p_street TEXT DEFAULT NULL,
+  p_building TEXT DEFAULT NULL,
+  p_floor TEXT DEFAULT NULL,
+  p_apartment TEXT DEFAULT NULL,
+  p_address_notes TEXT DEFAULT NULL,
+  p_latitude DOUBLE PRECISION DEFAULT NULL,
+  p_longitude DOUBLE PRECISION DEFAULT NULL,
+  p_formatted_address TEXT DEFAULT NULL,
+  p_google_maps_url TEXT DEFAULT NULL,
+  p_location_source TEXT DEFAULT 'manual',
+  p_branch_id UUID DEFAULT NULL,
+  p_warehouse_id UUID DEFAULT NULL,
+  p_items JSONB DEFAULT '[]'::jsonb,
+  p_delivery_fee_in_minor_units BIGINT DEFAULT 0,
+  p_discount_in_minor_units BIGINT DEFAULT 0,
+  p_customer_notes TEXT DEFAULT NULL,
+  p_internal_notes TEXT DEFAULT NULL,
+  p_source TEXT DEFAULT 'website'
+)
+RETURNS JSONB
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public, pg_temp
+AS $$
+DECLARE
+  v_item JSONB;
+  v_product_id UUID;
+  v_package_quantity INTEGER;
+  v_units_per_package INTEGER;
+  v_package_price BIGINT;
+  v_package_name TEXT;
+  v_base_quantity INTEGER;
+  v_line_total BIGINT;
+  v_exact_subtotal BIGINT := 0;
+  v_exact_total BIGINT;
+  v_base_items JSONB := '[]'::jsonb;
+  v_line_snapshots JSONB := '[]'::jsonb;
+  v_legacy_result JSONB;
+  v_order_id UUID;
+  v_customer_id UUID;
+  v_order_number TEXT;
+BEGIN
+  IF p_items IS NULL
+    OR jsonb_typeof(p_items) <> 'array'
+    OR jsonb_array_length(p_items) = 0
+  THEN
+    RAISE EXCEPTION 'سلة الطلب فارغة، يجب اختيار طرد واحد على الأقل.';
+  END IF;
+
+  IF COALESCE(p_delivery_fee_in_minor_units, 0) < 0
+    OR COALESCE(p_discount_in_minor_units, 0) < 0
+  THEN
+    RAISE EXCEPTION 'رسوم التوصيل والخصم لا يمكن أن تكون سالبة.';
+  END IF;
+
+  FOR v_item IN
+    SELECT item.value
+    FROM jsonb_array_elements(p_items) AS item(value)
+    ORDER BY item.value->>'product_id'
+  LOOP
+    BEGIN
+      v_product_id := (v_item->>'product_id')::UUID;
+      v_package_quantity := (v_item->>'quantity')::INTEGER;
+    EXCEPTION
+      WHEN invalid_text_representation THEN
+        RAISE EXCEPTION 'بيانات أحد طرود الطلب غير صحيحة.';
+    END;
+
+    IF v_product_id IS NULL
+      OR v_package_quantity IS NULL
+      OR v_package_quantity <= 0
+    THEN
+      RAISE EXCEPTION 'كل صنف يحتاج منتجاً وعدد طرود صحيحاً أكبر من صفر.';
+    END IF;
+
+    SELECT
+      p.units_per_sale_unit,
+      p.default_sale_price_in_minor_units,
+      COALESCE(su.name_ar, 'طرد')
+    INTO
+      v_units_per_package,
+      v_package_price,
+      v_package_name
+    FROM public.products p
+    LEFT JOIN public.units su ON su.id = p.sale_unit_id
+    WHERE p.id = v_product_id
+      AND p.is_active = true;
+
+    IF NOT FOUND THEN
+      RAISE EXCEPTION 'أحد منتجات الطلب غير متاح للبيع على الموقع.';
+    END IF;
+
+    IF COALESCE(v_units_per_package, 0) <= 0
+      OR COALESCE(v_package_price, 0) <= 0
+    THEN
+      RAISE EXCEPTION 'طرد بيع المنتج غير مضبوط، تواصل مع إدارة المتجر.';
+    END IF;
+
+    v_base_quantity := v_package_quantity * v_units_per_package;
+    v_line_total := v_package_quantity * v_package_price;
+    v_exact_subtotal := v_exact_subtotal + v_line_total;
+
+    v_base_items := v_base_items || jsonb_build_array(
+      jsonb_build_object(
+        'product_id', v_product_id,
+        'quantity', v_base_quantity
+      )
+    );
+    v_line_snapshots := v_line_snapshots || jsonb_build_array(
+      jsonb_build_object(
+        'product_id', v_product_id,
+        'package_quantity', v_package_quantity,
+        'units_per_package', v_units_per_package,
+        'package_name', v_package_name,
+        'package_price', v_package_price,
+        'line_total', v_line_total
+      )
+    );
+  END LOOP;
+
+  v_exact_total :=
+    v_exact_subtotal
+    + COALESCE(p_delivery_fee_in_minor_units, 0)
+    - COALESCE(p_discount_in_minor_units, 0);
+
+  IF v_exact_total < 0 THEN
+    RAISE EXCEPTION 'قيمة الخصم أكبر من إجمالي الطلب.';
+  END IF;
+
+  v_legacy_result :=
+    public.create_customer_order_base_units_legacy(
+      p_customer_full_name,
+      p_customer_phone,
+      p_customer_email,
+      p_governorate,
+      p_city,
+      p_area,
+      p_street,
+      p_building,
+      p_floor,
+      p_apartment,
+      p_address_notes,
+      p_latitude,
+      p_longitude,
+      p_formatted_address,
+      p_google_maps_url,
+      p_location_source,
+      p_branch_id,
+      p_warehouse_id,
+      v_base_items,
+      p_delivery_fee_in_minor_units,
+      0,
+      p_customer_notes,
+      p_internal_notes,
+      p_source
+    );
+
+  IF NOT COALESCE((v_legacy_result->>'success')::BOOLEAN, false) THEN
+    RETURN v_legacy_result;
+  END IF;
+
+  v_order_id := (v_legacy_result->>'order_id')::UUID;
+  v_customer_id := (v_legacy_result->>'customer_id')::UUID;
+  v_order_number := v_legacy_result->>'order_number';
+
+  IF NOT (COALESCE((v_legacy_result->>'customer_reused')::BOOLEAN, false) AND auth.role() IS NOT DISTINCT FROM 'service_role' AND COALESCE(NULLIF(TRIM(p_source), ''), 'website') = 'website') THEN
+  UPDATE public.customers
+  SET customer_type = 'wholesale', updated_at = NOW()
+  WHERE id = v_customer_id;
+  END IF;
+
+  FOR v_item IN SELECT * FROM jsonb_array_elements(v_line_snapshots)
+  LOOP
+    UPDATE public.order_items
+    SET
+      sale_package_quantity =
+        (v_item->>'package_quantity')::INTEGER,
+      units_per_sale_package =
+        (v_item->>'units_per_package')::INTEGER,
+      sale_package_name_snapshot = v_item->>'package_name',
+      sale_package_price_in_minor_units =
+        (v_item->>'package_price')::BIGINT,
+      line_total_in_minor_units =
+        (v_item->>'line_total')::BIGINT,
+      cogs_in_minor_units =
+        quantity * unit_cost_in_minor_units,
+      profit_in_minor_units =
+        (v_item->>'line_total')::BIGINT
+        - (quantity * unit_cost_in_minor_units)
+    WHERE order_id = v_order_id
+      AND product_id = (v_item->>'product_id')::UUID;
+  END LOOP;
+
+  UPDATE public.orders
+  SET
+    subtotal_in_minor_units = v_exact_subtotal,
+    discount_in_minor_units =
+      COALESCE(p_discount_in_minor_units, 0),
+    total_in_minor_units = v_exact_total,
+    whatsapp_message =
+      'تم استلام طلبك رقم '
+      || v_order_number
+      || ' بقيمة إجمالية '
+      || (v_exact_total::NUMERIC / 1000)::TEXT
+      || ' د.أ. سيتم التواصل معك لتأكيد التوصيل.',
+    updated_at = NOW()
+  WHERE id = v_order_id;
+
+  INSERT INTO public.audit_logs (
+    user_id,
+    action,
+    entity_name,
+    entity_id,
+    details
+  ) VALUES (
+    auth.uid(),
+    'APPLY_WHOLESALE_CUSTOMER_ORDER_ACCOUNTING',
+    'orders',
+    v_order_id,
+    jsonb_build_object(
+      'subtotal_in_minor_units', v_exact_subtotal,
+      'delivery_fee_in_minor_units',
+        COALESCE(p_delivery_fee_in_minor_units, 0),
+      'discount_in_minor_units',
+        COALESCE(p_discount_in_minor_units, 0),
+      'total_in_minor_units', v_exact_total,
+      'package_lines', v_line_snapshots
+    )
+  );
+
+  RETURN jsonb_build_object(
+    'success', true,
+    'order_id', v_order_id,
+    'order_number', v_order_number,
+    'customer_id', v_customer_id,
+    'customer_address_id',
+      v_legacy_result->>'customer_address_id',
+    'customer_reused',
+      COALESCE(
+        (v_legacy_result->>'customer_reused')::BOOLEAN,
+        false
+      ),
+    'subtotal', v_exact_subtotal,
+    'total', v_exact_total,
+    'status', 'new',
+    'message', 'تم إنشاء طلب طرود الجملة وحجز حباتها من المخزون بدقة.'
+  );
+END;
+$$;

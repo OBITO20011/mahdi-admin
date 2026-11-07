@@ -13,7 +13,8 @@ const runtimeLayers = Object.freeze({
  'storefront-speed-source-pins.json': ['customer-web/src/components/HeroVideo.tsx','customer-web/src/utils/heroMedia.ts','customer-web/src/App.tsx','customer-web/src/components/StoreHero.tsx','customer-web/src/components/DeferredDialog.tsx','customer-web/src/lib/errorMonitoring.ts','customer-web/src/lib/webVitalsPrivacy.ts'],
  'storefront-images-source-pins.json': ['customer-web/src/App.tsx','customer-web/src/components/CategoryShowcase.tsx','customer-web/src/components/HomeCategoryMosaic.tsx','customer-web/src/components/ProductCard.tsx','customer-web/src/components/ProductDetailsModal.tsx','customer-web/src/components/ProductImage.tsx','customer-web/src/utils/productThumbnail.ts','src/services/supabase/product-images.service.ts','src/utils/productImageThumbnail.ts'],
  'cart-flight-source-pins.json': ['customer-web/src/App.tsx','customer-web/src/components/CargoAddButton.tsx','customer-web/src/components/ProductCard.tsx','customer-web/src/components/StoreHeader.tsx','customer-web/src/components/MobileStoreNav.tsx','customer-web/src/utils/cartAdditionAnimation.ts',
-  'src/features/inventory/SupplierReplacementPanel.tsx'], // Exact220 explanatory-caption pin only.
+  'src/features/inventory/SupplierReplacementPanel.tsx','src/features/orders/OrderDetailModal.tsx',
+  'src/features/orders/GuestDeliveryProposal.tsx','src/services/supabase/orders.service.ts','src/types/index.ts'], // Exact220 caption/guest delivery presentation;no SQL in historical views.
 });
 const layerBaselines=Object.freeze({'cart-flight-source-pins.json':'f098f0afaa7b54b052b18d8266f3789d67e8de76','storefront-speed-source-pins.json':'d102074583c7369502954eaf8ea70d2595f6a19c','storefront-images-source-pins.json':'1ab2cd880547661390149a972a4794b0b5df29da'});
 function historicalText(sha,file){try{return git(['show',sha+':'+file]).toString('utf8').replaceAll('\r\n','\n');}catch{return null;}}

@@ -19,7 +19,8 @@ test('220 stays quarantined: history/tools/RESET219 remain exact main219, no dep
  const changes=execFileSync('git',['diff','--name-only','d0cbf421fedb613c52b48483ba6a9aa44b087adc','--','supabase','scripts/operations','scripts/backup'],{encoding:'utf8',windowsHide:true});assert.equal(changes.trim(),'');
  assert.equal(JSON.parse(read('docs/agent/project-state.json')).migrationCeiling,219);
  assert.match(draft,/DRAFT220_REQUIRES_EXACT_219_HISTORY/u);assert.match(draft,/DRAFT220_REQUIRES_REVIEWED_219_READERS/u);
- assert.doesNotMatch(draft,/\b(?:GRANT|REVOKE|INSERT|UPDATE|DELETE|TRUNCATE)\s/iu);
+ assert.doesNotMatch(draft.split('-- GUEST220_SOURCE_GUARD:')[0],/\b(?:GRANT|REVOKE|INSERT|UPDATE|DELETE|TRUNCATE)\s/iu);
+ assert.doesNotMatch(draft,/\b(?:GRANT|REVOKE|ALTER ROLE)\s/iu);
  assert.equal((draft.match(/CREATE INDEX /gu)??[]).length,1);assert.match(draft,/supplier_receipt_items\(supplier_receipt_id\)/u);
  assert.equal((draft.match(/ALTER POLICY /gu)??[]).length,2);assert.equal((draft.match(/USING \(\(select auth\.uid\(\)\) IS NOT NULL\)/gu)??[]).length,2);
  assert.equal((draft.match(/ALTER FUNCTION .*work_mem/gu)??[]).length,1);assert.match(draft,/_get_operational_business_report_before_phase6\(uuid,date,date\) SET work_mem='8MB'/u);
