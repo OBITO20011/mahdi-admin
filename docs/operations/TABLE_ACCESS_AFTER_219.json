@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-06T18:37:39.050Z",
+  "startedAt": "2026-11-07T16:42:33.396Z",
   "managedAccess": false,
   "migrationCeiling": 219,
   "manifest": [
@@ -185,7 +185,7 @@
     "217_owner_telegram_dispatch.sql",
     "219_home_financial_facts_narrow_projection.sql"
   ],
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-MhZvhp",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-cMy36t",
   "stage": "rls-and-acl",
   "results": [
     {
@@ -213,7 +213,7 @@
           "method": "eq",
           "args": [
             "id",
-            "032562bb-c64c-473f-abae-8073b7500576"
+            "618258f8-29bf-4134-97bf-ee0dde943171"
           ]
         },
         {
@@ -248,7 +248,7 @@
           "method": "eq",
           "args": [
             "id",
-            "032562bb-c64c-473f-abae-8073b7500576"
+            "618258f8-29bf-4134-97bf-ee0dde943171"
           ]
         },
         {
@@ -283,7 +283,7 @@
           "method": "eq",
           "args": [
             "id",
-            "032562bb-c64c-473f-abae-8073b7500576"
+            "618258f8-29bf-4134-97bf-ee0dde943171"
           ]
         },
         {
@@ -318,7 +318,7 @@
           "method": "eq",
           "args": [
             "id",
-            "032562bb-c64c-473f-abae-8073b7500576"
+            "618258f8-29bf-4134-97bf-ee0dde943171"
           ]
         },
         {
@@ -353,7 +353,7 @@
           "method": "eq",
           "args": [
             "id",
-            "032562bb-c64c-473f-abae-8073b7500576"
+            "618258f8-29bf-4134-97bf-ee0dde943171"
           ]
         },
         {
@@ -388,7 +388,7 @@
           "method": "eq",
           "args": [
             "id",
-            "032562bb-c64c-473f-abae-8073b7500576"
+            "618258f8-29bf-4134-97bf-ee0dde943171"
           ]
         },
         {
@@ -423,7 +423,7 @@
           "method": "eq",
           "args": [
             "id",
-            "545d3976-3e92-4f0d-813d-74e0828c688f"
+            "d3cc26de-e2f8-4385-8d62-35c9d87d3a39"
           ]
         },
         {
@@ -458,7 +458,7 @@
           "method": "eq",
           "args": [
             "id",
-            "545d3976-3e92-4f0d-813d-74e0828c688f"
+            "d3cc26de-e2f8-4385-8d62-35c9d87d3a39"
           ]
         },
         {
@@ -493,7 +493,7 @@
           "method": "eq",
           "args": [
             "id",
-            "545d3976-3e92-4f0d-813d-74e0828c688f"
+            "d3cc26de-e2f8-4385-8d62-35c9d87d3a39"
           ]
         },
         {
@@ -726,7 +726,7 @@
           "method": "eq",
           "args": [
             "id",
-            "95cfa751-2b20-4c5d-8350-b133d47df42a"
+            "2cb4a644-5d74-4655-997e-f664509fe035"
           ]
         },
         {
@@ -761,7 +761,7 @@
           "method": "eq",
           "args": [
             "id",
-            "95cfa751-2b20-4c5d-8350-b133d47df42a"
+            "2cb4a644-5d74-4655-997e-f664509fe035"
           ]
         },
         {
@@ -796,7 +796,7 @@
           "method": "eq",
           "args": [
             "id",
-            "95cfa751-2b20-4c5d-8350-b133d47df42a"
+            "2cb4a644-5d74-4655-997e-f664509fe035"
           ]
         },
         {
@@ -831,7 +831,7 @@
           "method": "eq",
           "args": [
             "id",
-            "6f6589d7-e0b1-4440-ae61-3df67348ab84"
+            "82dd30ae-c072-4152-ab92-8b3e62b3bd38"
           ]
         },
         {
@@ -866,7 +866,7 @@
           "method": "eq",
           "args": [
             "id",
-            "6f6589d7-e0b1-4440-ae61-3df67348ab84"
+            "82dd30ae-c072-4152-ab92-8b3e62b3bd38"
           ]
         },
         {
@@ -901,7 +901,7 @@
           "method": "eq",
           "args": [
             "id",
-            "6f6589d7-e0b1-4440-ae61-3df67348ab84"
+            "82dd30ae-c072-4152-ab92-8b3e62b3bd38"
           ]
         },
         {
@@ -936,7 +936,7 @@
           "method": "eq",
           "args": [
             "id",
-            "95cfa751-2b20-4c5d-8350-b133d47df42a"
+            "2cb4a644-5d74-4655-997e-f664509fe035"
           ]
         },
         {
@@ -971,7 +971,7 @@
           "method": "eq",
           "args": [
             "id",
-            "95cfa751-2b20-4c5d-8350-b133d47df42a"
+            "2cb4a644-5d74-4655-997e-f664509fe035"
           ]
         },
         {
@@ -1006,7 +1006,7 @@
           "method": "eq",
           "args": [
             "id",
-            "95cfa751-2b20-4c5d-8350-b133d47df42a"
+            "2cb4a644-5d74-4655-997e-f664509fe035"
           ]
         },
         {
@@ -1537,7 +1537,7 @@
           "args": [
             "id",
             [
-              "032562bb-c64c-473f-abae-8073b7500576"
+              "618258f8-29bf-4134-97bf-ee0dde943171"
             ]
           ]
         }
@@ -1570,7 +1570,7 @@
           "args": [
             "id",
             [
-              "032562bb-c64c-473f-abae-8073b7500576"
+              "618258f8-29bf-4134-97bf-ee0dde943171"
             ]
           ]
         }
@@ -1603,7 +1603,7 @@
           "args": [
             "id",
             [
-              "032562bb-c64c-473f-abae-8073b7500576"
+              "618258f8-29bf-4134-97bf-ee0dde943171"
             ]
           ]
         }
@@ -1636,7 +1636,7 @@
           "args": [
             "order_id",
             [
-              "032562bb-c64c-473f-abae-8073b7500576"
+              "618258f8-29bf-4134-97bf-ee0dde943171"
             ]
           ]
         },
@@ -1702,7 +1702,7 @@
           "args": [
             "order_id",
             [
-              "032562bb-c64c-473f-abae-8073b7500576"
+              "618258f8-29bf-4134-97bf-ee0dde943171"
             ]
           ]
         },
@@ -1768,7 +1768,7 @@
           "args": [
             "order_id",
             [
-              "032562bb-c64c-473f-abae-8073b7500576"
+              "618258f8-29bf-4134-97bf-ee0dde943171"
             ]
           ]
         },
@@ -1809,7 +1809,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:580",
+      "id": "src/services/supabase/orders.service.ts:581",
       "table": "orders",
       "operation": "select",
       "role": "authenticated",
@@ -1833,7 +1833,7 @@
           "method": "eq",
           "args": [
             "id",
-            "032562bb-c64c-473f-abae-8073b7500576"
+            "618258f8-29bf-4134-97bf-ee0dde943171"
           ]
         },
         {
@@ -1844,7 +1844,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:580",
+      "id": "src/services/supabase/orders.service.ts:581",
       "table": "orders",
       "operation": "select",
       "role": "authenticated",
@@ -1868,7 +1868,7 @@
           "method": "eq",
           "args": [
             "id",
-            "032562bb-c64c-473f-abae-8073b7500576"
+            "618258f8-29bf-4134-97bf-ee0dde943171"
           ]
         },
         {
@@ -1879,7 +1879,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:580",
+      "id": "src/services/supabase/orders.service.ts:581",
       "table": "orders",
       "operation": "select",
       "role": "authenticated",
@@ -1903,7 +1903,7 @@
           "method": "eq",
           "args": [
             "id",
-            "032562bb-c64c-473f-abae-8073b7500576"
+            "618258f8-29bf-4134-97bf-ee0dde943171"
           ]
         },
         {
@@ -1914,7 +1914,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:601",
+      "id": "src/services/supabase/orders.service.ts:602",
       "table": "order_parcel_instances",
       "operation": "select",
       "role": "authenticated",
@@ -1938,7 +1938,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "032562bb-c64c-473f-abae-8073b7500576"
+            "618258f8-29bf-4134-97bf-ee0dde943171"
           ]
         },
         {
@@ -1951,7 +1951,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:601",
+      "id": "src/services/supabase/orders.service.ts:602",
       "table": "order_parcel_instances",
       "operation": "select",
       "role": "authenticated",
@@ -1975,7 +1975,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "032562bb-c64c-473f-abae-8073b7500576"
+            "618258f8-29bf-4134-97bf-ee0dde943171"
           ]
         },
         {
@@ -1988,7 +1988,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:601",
+      "id": "src/services/supabase/orders.service.ts:602",
       "table": "order_parcel_instances",
       "operation": "select",
       "role": "authenticated",
@@ -2012,7 +2012,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "032562bb-c64c-473f-abae-8073b7500576"
+            "618258f8-29bf-4134-97bf-ee0dde943171"
           ]
         },
         {
@@ -2025,7 +2025,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:607",
+      "id": "src/services/supabase/orders.service.ts:608",
       "table": "order_parcel_components",
       "operation": "select",
       "role": "authenticated",
@@ -2050,7 +2050,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "e63c0fce-cda7-43ff-b792-6692d8d0f7c3"
+              "3964daeb-82ab-45c9-b88f-99a8c729d4b7"
             ]
           ]
         }
@@ -2058,7 +2058,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:607",
+      "id": "src/services/supabase/orders.service.ts:608",
       "table": "order_parcel_components",
       "operation": "select",
       "role": "authenticated",
@@ -2083,7 +2083,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "e63c0fce-cda7-43ff-b792-6692d8d0f7c3"
+              "3964daeb-82ab-45c9-b88f-99a8c729d4b7"
             ]
           ]
         }
@@ -2091,7 +2091,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:607",
+      "id": "src/services/supabase/orders.service.ts:608",
       "table": "order_parcel_components",
       "operation": "select",
       "role": "authenticated",
@@ -2116,7 +2116,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "e63c0fce-cda7-43ff-b792-6692d8d0f7c3"
+              "3964daeb-82ab-45c9-b88f-99a8c729d4b7"
             ]
           ]
         }
@@ -4977,7 +4977,7 @@
           "method": "eq",
           "args": [
             "id",
-            "6f6589d7-e0b1-4440-ae61-3df67348ab84"
+            "82dd30ae-c072-4152-ab92-8b3e62b3bd38"
           ]
         },
         {
@@ -5012,7 +5012,7 @@
           "method": "eq",
           "args": [
             "id",
-            "6f6589d7-e0b1-4440-ae61-3df67348ab84"
+            "82dd30ae-c072-4152-ab92-8b3e62b3bd38"
           ]
         },
         {
@@ -5047,7 +5047,7 @@
           "method": "eq",
           "args": [
             "id",
-            "6f6589d7-e0b1-4440-ae61-3df67348ab84"
+            "82dd30ae-c072-4152-ab92-8b3e62b3bd38"
           ]
         },
         {
@@ -6734,7 +6734,7 @@
             {
               "event_key": "audit-local-dispatch",
               "event_type": "new_order",
-              "entity_id": "032562bb-c64c-473f-abae-8073b7500576",
+              "entity_id": "618258f8-29bf-4134-97bf-ee0dde943171",
               "status": "processing"
             }
           ]
@@ -6767,7 +6767,7 @@
           "method": "eq",
           "args": [
             "id",
-            "032562bb-c64c-473f-abae-8073b7500576"
+            "618258f8-29bf-4134-97bf-ee0dde943171"
           ]
         },
         {
@@ -6806,7 +6806,7 @@
               "status": "failed",
               "failed_count": 1,
               "last_error": "isolated diagnostic",
-              "completed_at": "2026-11-06T18:39:18.980Z"
+              "completed_at": "2026-11-07T16:43:59.898Z"
             }
           ]
         },
@@ -6842,7 +6842,7 @@
               "status": "failed",
               "failed_count": 1,
               "last_error": "isolated diagnostic",
-              "completed_at": "2026-11-06T18:39:18.997Z"
+              "completed_at": "2026-11-07T16:43:59.914Z"
             }
           ]
         },
@@ -6876,9 +6876,9 @@
           "args": [
             {
               "failure_count": 0,
-              "last_success_at": "2026-11-06T18:39:19.028Z",
+              "last_success_at": "2026-11-07T16:43:59.929Z",
               "last_failure_message": null,
-              "updated_at": "2026-11-06T18:39:19.028Z"
+              "updated_at": "2026-11-07T16:43:59.929Z"
             }
           ]
         },
@@ -6913,9 +6913,9 @@
             {
               "is_active": false,
               "failure_count": 1,
-              "last_failure_at": "2026-11-06T18:39:19.045Z",
+              "last_failure_at": "2026-11-07T16:43:59.938Z",
               "last_failure_message": "isolated diagnostic",
-              "updated_at": "2026-11-06T18:39:19.045Z"
+              "updated_at": "2026-11-07T16:43:59.938Z"
             }
           ]
         },
@@ -6952,7 +6952,7 @@
               "delivered_count": 1,
               "failed_count": 0,
               "last_error": null,
-              "completed_at": "2026-11-06T18:39:19.080Z"
+              "completed_at": "2026-11-07T16:43:59.953Z"
             }
           ]
         },
@@ -30524,131 +30524,6 @@
         ],
         "rls": false,
         "kind": "r",
-        "name": "messages_2026_11_05",
-        "view": null,
-        "owner": "supabase_realtime_admin",
-        "schema": "realtime",
-        "columns": [
-          {
-            "acl": null,
-            "name": "topic",
-            "type": "text",
-            "number": 1,
-            "default": null,
-            "notNull": true,
-            "identity": "",
-            "collation": "default",
-            "generated": ""
-          },
-          {
-            "acl": null,
-            "name": "extension",
-            "type": "text",
-            "number": 2,
-            "default": null,
-            "notNull": true,
-            "identity": "",
-            "collation": "default",
-            "generated": ""
-          },
-          {
-            "acl": null,
-            "name": "payload",
-            "type": "jsonb",
-            "number": 3,
-            "default": null,
-            "notNull": false,
-            "identity": "",
-            "collation": null,
-            "generated": ""
-          },
-          {
-            "acl": null,
-            "name": "event",
-            "type": "text",
-            "number": 4,
-            "default": null,
-            "notNull": false,
-            "identity": "",
-            "collation": "default",
-            "generated": ""
-          },
-          {
-            "acl": null,
-            "name": "private",
-            "type": "boolean",
-            "number": 5,
-            "default": "false",
-            "notNull": false,
-            "identity": "",
-            "collation": null,
-            "generated": ""
-          },
-          {
-            "acl": null,
-            "name": "updated_at",
-            "type": "timestamp without time zone",
-            "number": 6,
-            "default": "now()",
-            "notNull": true,
-            "identity": "",
-            "collation": null,
-            "generated": ""
-          },
-          {
-            "acl": null,
-            "name": "inserted_at",
-            "type": "timestamp without time zone",
-            "number": 7,
-            "default": "now()",
-            "notNull": true,
-            "identity": "",
-            "collation": null,
-            "generated": ""
-          },
-          {
-            "acl": null,
-            "name": "id",
-            "type": "uuid",
-            "number": 8,
-            "default": "gen_random_uuid()",
-            "notNull": true,
-            "identity": "",
-            "collation": null,
-            "generated": ""
-          },
-          {
-            "acl": null,
-            "name": "binary_payload",
-            "type": "bytea",
-            "number": 9,
-            "default": null,
-            "notNull": false,
-            "identity": "",
-            "collation": null,
-            "generated": ""
-          }
-        ],
-        "options": null,
-        "parents": [
-          {
-            "name": "messages",
-            "schema": "realtime"
-          }
-        ],
-        "forceRls": false,
-        "partition": "FOR VALUES FROM ('2026-11-05 00:00:00') TO ('2026-11-06 00:00:00')",
-        "persistence": "p",
-        "replicaIdentity": "d"
-      },
-      {
-        "acl": [
-          "supabase_realtime_admin=arwdDxtm/supabase_realtime_admin",
-          "postgres=arwdDxtm/supabase_realtime_admin",
-          "dashboard_user=arwdDxtm/supabase_realtime_admin"
-        ],
-        "rls": false,
-        "kind": "r",
         "name": "messages_2026_11_06",
         "view": null,
         "owner": "supabase_realtime_admin",
@@ -31138,6 +31013,131 @@
         ],
         "forceRls": false,
         "partition": "FOR VALUES FROM ('2026-11-09 00:00:00') TO ('2026-11-10 00:00:00')",
+        "persistence": "p",
+        "replicaIdentity": "d"
+      },
+      {
+        "acl": [
+          "supabase_realtime_admin=arwdDxtm/supabase_realtime_admin",
+          "postgres=arwdDxtm/supabase_realtime_admin",
+          "dashboard_user=arwdDxtm/supabase_realtime_admin"
+        ],
+        "rls": false,
+        "kind": "r",
+        "name": "messages_2026_11_10",
+        "view": null,
+        "owner": "supabase_realtime_admin",
+        "schema": "realtime",
+        "columns": [
+          {
+            "acl": null,
+            "name": "topic",
+            "type": "text",
+            "number": 1,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "extension",
+            "type": "text",
+            "number": 2,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "payload",
+            "type": "jsonb",
+            "number": 3,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "event",
+            "type": "text",
+            "number": 4,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "private",
+            "type": "boolean",
+            "number": 5,
+            "default": "false",
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "updated_at",
+            "type": "timestamp without time zone",
+            "number": 6,
+            "default": "now()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "inserted_at",
+            "type": "timestamp without time zone",
+            "number": 7,
+            "default": "now()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "id",
+            "type": "uuid",
+            "number": 8,
+            "default": "gen_random_uuid()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "binary_payload",
+            "type": "bytea",
+            "number": 9,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          }
+        ],
+        "options": null,
+        "parents": [
+          {
+            "name": "messages",
+            "schema": "realtime"
+          }
+        ],
+        "forceRls": false,
+        "partition": "FOR VALUES FROM ('2026-11-10 00:00:00') TO ('2026-11-11 00:00:00')",
         "persistence": "p",
         "replicaIdentity": "d"
       },
@@ -40192,32 +40192,6 @@
         "replicaIdentity": false
       },
       {
-        "name": "messages_2026_11_05_inserted_at_topic_idx",
-        "owner": "supabase_realtime_admin",
-        "ready": true,
-        "table": "messages_2026_11_05",
-        "valid": true,
-        "schema": "realtime",
-        "unique": false,
-        "primary": false,
-        "clustered": false,
-        "definition": "CREATE INDEX messages_2026_11_05_inserted_at_topic_idx ON realtime.messages_2026_11_05 USING btree (inserted_at DESC, topic) WHERE ((extension = 'broadcast'::text) AND (private IS TRUE))",
-        "replicaIdentity": false
-      },
-      {
-        "name": "messages_2026_11_05_pkey",
-        "owner": "supabase_realtime_admin",
-        "ready": true,
-        "table": "messages_2026_11_05",
-        "valid": true,
-        "schema": "realtime",
-        "unique": true,
-        "primary": true,
-        "clustered": false,
-        "definition": "CREATE UNIQUE INDEX messages_2026_11_05_pkey ON realtime.messages_2026_11_05 USING btree (id, inserted_at)",
-        "replicaIdentity": false
-      },
-      {
         "name": "messages_2026_11_06_inserted_at_topic_idx",
         "owner": "supabase_realtime_admin",
         "ready": true,
@@ -40319,6 +40293,32 @@
         "primary": true,
         "clustered": false,
         "definition": "CREATE UNIQUE INDEX messages_2026_11_09_pkey ON realtime.messages_2026_11_09 USING btree (id, inserted_at)",
+        "replicaIdentity": false
+      },
+      {
+        "name": "messages_2026_11_10_inserted_at_topic_idx",
+        "owner": "supabase_realtime_admin",
+        "ready": true,
+        "table": "messages_2026_11_10",
+        "valid": true,
+        "schema": "realtime",
+        "unique": false,
+        "primary": false,
+        "clustered": false,
+        "definition": "CREATE INDEX messages_2026_11_10_inserted_at_topic_idx ON realtime.messages_2026_11_10 USING btree (inserted_at DESC, topic) WHERE ((extension = 'broadcast'::text) AND (private IS TRUE))",
+        "replicaIdentity": false
+      },
+      {
+        "name": "messages_2026_11_10_pkey",
+        "owner": "supabase_realtime_admin",
+        "ready": true,
+        "table": "messages_2026_11_10",
+        "valid": true,
+        "schema": "realtime",
+        "unique": true,
+        "primary": true,
+        "clustered": false,
+        "definition": "CREATE UNIQUE INDEX messages_2026_11_10_pkey ON realtime.messages_2026_11_10 USING btree (id, inserted_at)",
         "replicaIdentity": false
       },
       {
@@ -73790,38 +73790,6 @@
         "initiallyDeferred": false
       },
       {
-        "name": "messages_2026_11_05_pkey",
-        "type": "p",
-        "local": false,
-        "match": " ",
-        "table": "messages_2026_11_05",
-        "schema": "realtime",
-        "onDelete": " ",
-        "onUpdate": " ",
-        "noInherit": false,
-        "validated": true,
-        "deferrable": false,
-        "definition": "PRIMARY KEY (id, inserted_at)",
-        "inheritanceCount": 1,
-        "initiallyDeferred": false
-      },
-      {
-        "name": "messages_payload_exclusive",
-        "type": "c",
-        "local": false,
-        "match": " ",
-        "table": "messages_2026_11_05",
-        "schema": "realtime",
-        "onDelete": " ",
-        "onUpdate": " ",
-        "noInherit": false,
-        "validated": true,
-        "deferrable": false,
-        "definition": "CHECK (((payload IS NULL) OR (binary_payload IS NULL)))",
-        "inheritanceCount": 1,
-        "initiallyDeferred": false
-      },
-      {
         "name": "messages_2026_11_06_pkey",
         "type": "p",
         "local": false,
@@ -73939,6 +73907,38 @@
         "local": false,
         "match": " ",
         "table": "messages_2026_11_09",
+        "schema": "realtime",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "CHECK (((payload IS NULL) OR (binary_payload IS NULL)))",
+        "inheritanceCount": 1,
+        "initiallyDeferred": false
+      },
+      {
+        "name": "messages_2026_11_10_pkey",
+        "type": "p",
+        "local": false,
+        "match": " ",
+        "table": "messages_2026_11_10",
+        "schema": "realtime",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (id, inserted_at)",
+        "inheritanceCount": 1,
+        "initiallyDeferred": false
+      },
+      {
+        "name": "messages_payload_exclusive",
+        "type": "c",
+        "local": false,
+        "match": " ",
+        "table": "messages_2026_11_10",
         "schema": "realtime",
         "onDelete": " ",
         "onUpdate": " ",
@@ -75082,7 +75082,7 @@
     },
     {
       "file": "src/features/inventory/SupplierReplacementPanel.tsx",
-      "sha256": "fea0dd76e1964061c889803d01ae80c0304fa81b0bad4de27501b5bfbbc4fd09"
+      "sha256": "e1d0f8ba07d1e72ed5573a4b28e8a0ac11882651c5cd55920a58033475994535"
     },
     {
       "file": "src/features/inventory/supplierReplacementPresentation.ts",
@@ -75173,12 +75173,16 @@
       "sha256": "28d8942eecf945e530b67047692c1ceb09bb233a001b2760e665820e3fedc638"
     },
     {
+      "file": "src/features/orders/GuestDeliveryProposal.tsx",
+      "sha256": "9b7137d2815b7b9c3b7d11449ec17960a8da816d8d7a324e08cac2bf850167ac"
+    },
+    {
       "file": "src/features/orders/OrderCommercialSummary.tsx",
       "sha256": "b5200183bd72389f59144b7056d8aa59f2e3d340cf5de83cb284171353147553"
     },
     {
       "file": "src/features/orders/OrderDetailModal.tsx",
-      "sha256": "97983c9c58a1bab069b8977e6b3cc8c2059c109fdd0612de1b4e8bd32872b6f0"
+      "sha256": "e1bf41c48b4bb5eacbf5b0c61fe75f98fbf53bb2d7d350316f1477f5847d6924"
     },
     {
       "file": "src/features/orders/OrdersCenterView.tsx",
@@ -75578,7 +75582,7 @@
     },
     {
       "file": "src/services/supabase/orders.service.ts",
-      "sha256": "b84b915f526f2429820f81c46615560e4824af461f957d35c53ae4c21f245192"
+      "sha256": "b7c5173229f41c389803f9827e899f00e5f7d7b7943f04862f07fd2688cbaedc"
     },
     {
       "file": "src/services/supabase/ownerWithdrawals.service.ts",
@@ -75730,7 +75734,7 @@
     },
     {
       "file": "src/types/index.ts",
-      "sha256": "84b2b347113f1dcf45943263491b0dec6a8cac5f8fe31ac7bd1b58a1304ee18b"
+      "sha256": "e10f8c376c6d15a1b5c1847d0623c60233886cb3c19a762c4c229244353da4ce"
     },
     {
       "file": "src/types/monitoring.ts",
@@ -76282,13 +76286,13 @@
     }
   ],
   "fixture": {
-    "orderId": "032562bb-c64c-473f-abae-8073b7500576",
-    "operationId": "545d3976-3e92-4f0d-813d-74e0828c688f",
-    "receiptId": "95cfa751-2b20-4c5d-8350-b133d47df42a",
-    "poId": "6f6589d7-e0b1-4440-ae61-3df67348ab84",
+    "orderId": "618258f8-29bf-4134-97bf-ee0dde943171",
+    "operationId": "d3cc26de-e2f8-4385-8d62-35c9d87d3a39",
+    "receiptId": "2cb4a644-5d74-4655-997e-f664509fe035",
+    "poId": "82dd30ae-c072-4152-ab92-8b3e62b3bd38",
     "subscriptionId": "92600000-0000-4000-8000-000000000701",
     "instances": [
-      "e63c0fce-cda7-43ff-b792-6692d8d0f7c3"
+      "3964daeb-82ab-45c9-b88f-99a8c729d4b7"
     ]
   },
   "access": [
@@ -82050,5 +82054,5 @@
     "zero_rows": 9,
     "other_error": 0
   },
-  "endedAt": "2026-11-06T18:41:59.731Z"
+  "endedAt": "2026-11-07T16:46:30.148Z"
 }

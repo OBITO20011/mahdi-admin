@@ -365,7 +365,7 @@
     },
     {
       "file": "src/features/inventory/SupplierReplacementPanel.tsx",
-      "sha256": "fea0dd76e1964061c889803d01ae80c0304fa81b0bad4de27501b5bfbbc4fd09"
+      "sha256": "e1d0f8ba07d1e72ed5573a4b28e8a0ac11882651c5cd55920a58033475994535"
     },
     {
       "file": "src/features/inventory/supplierReplacementPresentation.ts",
@@ -456,12 +456,16 @@
       "sha256": "28d8942eecf945e530b67047692c1ceb09bb233a001b2760e665820e3fedc638"
     },
     {
+      "file": "src/features/orders/GuestDeliveryProposal.tsx",
+      "sha256": "9b7137d2815b7b9c3b7d11449ec17960a8da816d8d7a324e08cac2bf850167ac"
+    },
+    {
       "file": "src/features/orders/OrderCommercialSummary.tsx",
       "sha256": "b5200183bd72389f59144b7056d8aa59f2e3d340cf5de83cb284171353147553"
     },
     {
       "file": "src/features/orders/OrderDetailModal.tsx",
-      "sha256": "97983c9c58a1bab069b8977e6b3cc8c2059c109fdd0612de1b4e8bd32872b6f0"
+      "sha256": "e1bf41c48b4bb5eacbf5b0c61fe75f98fbf53bb2d7d350316f1477f5847d6924"
     },
     {
       "file": "src/features/orders/OrdersCenterView.tsx",
@@ -861,7 +865,7 @@
     },
     {
       "file": "src/services/supabase/orders.service.ts",
-      "sha256": "b84b915f526f2429820f81c46615560e4824af461f957d35c53ae4c21f245192"
+      "sha256": "b7c5173229f41c389803f9827e899f00e5f7d7b7943f04862f07fd2688cbaedc"
     },
     {
       "file": "src/services/supabase/ownerWithdrawals.service.ts",
@@ -1013,7 +1017,7 @@
     },
     {
       "file": "src/types/index.ts",
-      "sha256": "84b2b347113f1dcf45943263491b0dec6a8cac5f8fe31ac7bd1b58a1304ee18b"
+      "sha256": "e10f8c376c6d15a1b5c1847d0623c60233886cb3c19a762c4c229244353da4ce"
     },
     {
       "file": "src/types/monitoring.ts",
@@ -2241,9 +2245,9 @@
       "reachability": "no-static-consumer-found"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:580",
+      "id": "src/services/supabase/orders.service.ts:581",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 580,
+      "line": 581,
       "table": "orders",
       "operation": "select",
       "role": "authenticated",
@@ -2299,9 +2303,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:601",
+      "id": "src/services/supabase/orders.service.ts:602",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 601,
+      "line": 602,
       "table": "order_parcel_instances",
       "operation": "select",
       "role": "authenticated",
@@ -2350,9 +2354,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:607",
+      "id": "src/services/supabase/orders.service.ts:608",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 607,
+      "line": 608,
       "table": "order_parcel_components",
       "operation": "select",
       "role": "authenticated",
@@ -4860,7 +4864,7 @@
     },
     {
       "file": "src/services/supabase/orders.service.ts",
-      "line": 1233,
+      "line": 1234,
       "event": "*",
       "schema": "public",
       "table": "orders",

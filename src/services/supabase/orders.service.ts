@@ -502,6 +502,7 @@ function mapOrderRows(data: unknown[]): Order[] {
       orderNumber: ord.order_number,
       customerId: cust.id || ord.customer_id || undefined,
       customerName: cust.full_name || ord.customer_name_snapshot || 'زبون نقدي',
+      guestRecipientName: ord.source === 'website' ? ord.customer_name_snapshot || undefined : undefined,
       customerPhone: cust.phone || '',
       governorate: addr.governorate || 'غير محدد',
       region: addr.area || addr.city || 'غير محدد',

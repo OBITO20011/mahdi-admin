@@ -336,6 +336,7 @@ export interface Order {
   governorate: string;
   region: string;
   address: string;
+  guestRecipientName?: string;
   customerAddress?: CustomerAddress;
   latitude?: number;
   longitude?: number;

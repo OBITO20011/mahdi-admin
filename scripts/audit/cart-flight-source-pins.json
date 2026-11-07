@@ -1,11 +1,11 @@
 {
   "format": 1,
   "baseline": "f098f0afaa7b54b052b18d8266f3789d67e8de76",
-  "scope": "Exact decorative-only inverse for frozen historical proofs;current219 runs raw source",
+  "scope": "Exact approved presentation inverses for frozen historical proofs,including Draft220 caption and guest delivery proposal;current219 diagnostics always use raw source",
   "entries": {
     ".github/workflows/quality.yml": {
       "before": "bec5ef1b33c23a54396bad31bb5c335ab4835823697337b62d240b30a14e72dd",
-      "after": "1cb00b274ee52e86b8889d31507c11be67d8e6f5f2efa7d34d8284ee6fb2f52b"
+      "after": "27814f474e4c2d695cabc3b786fec8bcc96ff20e846b097941882353b181db5e"
     },
     "customer-web/src/App.tsx": {
       "before": "0fce44df50185805a2834d2eb7832b33280458e7721466b4f8dce6ae3c414844",
@@ -33,19 +33,19 @@
     },
     "docs/agent/PHASE_STATUS.md": {
       "before": "59970dc93188079bac397b3a99cb732bb28a129841cf2d8a97db2adbd73a38df",
-      "after": "55867a55df93b7870ed402ab6e6612ebe29f94555d9e841d08eba582eba6783f"
+      "after": "e441fee45dcebb8c51ef339317c6e5fdc71679078a43ba0e52e6eb5f97dc6818"
     },
     "docs/agent/project-state.json": {
       "before": "97dd6d0515dd9d24e9d042e8e5dc9a9c602427c1d5027aff1c054ef3c0eb06ed",
-      "after": "a0debf7197fe2c0981ee16d1ed652e3753e5ea63159d8de931f507b9c9289ba3"
+      "after": "efb58e88f515fb90dd9020255f33d57228c7f9d10ca213c4e7f37d858f45e633"
     },
     "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json": {
       "before": "2590ef8e7416a0159df2963ed1446cf6ca20991d88d51cea198d3ef67b5eb04c",
-      "after": "dcd4dd2e0791dc417cb8d1b8d0f50c4854e716d7892266a674572daf1c36b4ce"
+      "after": "55919283dcffff804478351054df73eb22347986840e4e4ca58b1beb48b011ec"
     },
     "docs/operations/SERVICE_ACCESS_INVENTORY.json": {
       "before": "34d1d529ffa0d0714e46001743b3cbc910c0cfd1e374ff7903a0d86ae101cb10",
-      "after": "d6788ab4ed111d055fcb5e042741299c39a7eb229fbb1ee1ef8fef3e400d18a9"
+      "after": "fd449e8e93e6af9dcaf72eb42db609929f6a392480c975c39dfd9a71f0f2ee97"
     },
     "docs/operations/STOREFRONT_CART_FLIGHT_AR.md": {
       "before": null,
@@ -57,11 +57,11 @@
     },
     "docs/operations/TABLE_ACCESS_AFTER_219.json": {
       "before": "09199a0832f3a29b5eb1ded96e073e9e3b7c2d91065f92b2b7eb7a2013912782",
-      "after": "f135a81bf1e014acf2a3d15fba4ca6106b7e5628e3b61852abde378adf5f335a"
+      "after": "6b62887913da1db64d8d244878476270c98da87493f13aec65eee3971b54968c"
     },
     "docs/operations/TABLE_ACCESS_INVENTORY.json": {
       "before": "0944adddb07c084fad6862d98e6def1192635bbcdaea1214f4d5b03ad8ddbe58",
-      "after": "8d43106596185baf4ac02d452fce16f79f3e0356cededcdc1939712db06e1f9e"
+      "after": "c10c678311135689d631cb2076195edb499c54723bdbb1ee3227e46d626987f2"
     },
     "package.json": {
       "before": "53b41ded20320ed21bcd9db6d4a99f7aa8420082c5570fa5d85e0f38feb9b5e1",
@@ -69,15 +69,15 @@
     },
     "scripts/audit/source-before-cart-flight.mjs": {
       "before": null,
-      "after": "e6afd4f94d43215e48387c01dddec489794ac73fcf198ff9e0f328ade51d2ab9"
+      "after": "28e6330858a3c368779010e36823c9be5e8326de6af0d2c2cd2e547266d0ffca"
     },
     "scripts/audit/source-before-storefront-images.mjs": {
       "before": "d94e66b5a5c693be0c89454d751a95df5ccda0b382109b4bb8cb1ae293bf9fe5",
-      "after": "ba16322e0734bf9d058487b4d69d5c9c03a998deee563fea3e540804daa1370f"
+      "after": "45c44e375dcb3fe70ce7b9f74c23215460989f3d99633bd52e7a80e24fc32db8"
     },
     "scripts/testing/product-workbook-runtime-view.mjs": {
       "before": "b7d550b2d549acb98eccf5429ad0e8443140cd7c44431f5e238f1f0fad91ce75",
-      "after": "7e28c9ce3bf7acfa15e3b60b3eed6dfa9ef92b2d31ae7e1f2b77b8ff5f85299b"
+      "after": "dc469f57612f33b7d578bbe68ec097db0594663a37b809f0ed48597233b64a1d"
     },
     "scripts/testing/run-cart-flight-browser.mjs": {
       "before": null,
@@ -85,15 +85,47 @@
     },
     "tests/cart-flight-contracts.test.ts": {
       "before": null,
-      "after": "09c414cd4cb407f0ac53446a68bc5cbb92bff53daae9c4f30a6a90b0b6913c4e"
+      "after": "ba1fdedd15514810ed2c91a5e24cbe84c805c5c59b78072ac8823f3f12ff0e57"
     },
     "tests/product-workbook-runtime-view.test.ts": {
       "before": "d16c8bcb487c7ca2380bd35e932b63cee4764e6169b544eb070b351219423721",
-      "after": "57aa4dfb18be6cbd3b6cae126a7b6d4e22ad5142ad3ab3bb9be8c0e0ed67a82a"
+      "after": "16816f56369a49d0dd65a9b85a71e66dc1459a18cab8a39a449f149c06eb95e0"
     },
     "tests/storefront-images-history.test.ts": {
       "before": "d8295f919d14b32b3178f144399b6b435b6e36b2496ea6a5113c82b3f1dc8a4c",
-      "after": "bb7b3946ed239f20898b17136d8a7e77ac2526a4461555e7e4ac88d285b48eeb"
+      "after": "6259fae74cfa984ed417bb0afb8fccb5b5bd9b7b218ccd81e48b41292849f3c6"
+    },
+    "src/features/inventory/SupplierReplacementPanel.tsx": {
+      "before": "fea0dd76e1964061c889803d01ae80c0304fa81b0bad4de27501b5bfbbc4fd09",
+      "after": "e1d0f8ba07d1e72ed5573a4b28e8a0ac11882651c5cd55920a58033475994535"
+    },
+    "tests/partial216-operations.test.ts": {
+      "before": "1f9e5c84cf85e5f69bc3cc899104362183250c946d4de88e30a512db1fd8c2f7",
+      "after": "a93b3f0e3a7569fc300401bd17e5d481f9b7f406f619d0aaf1ddb6d82ea387e5"
+    },
+    "src/features/orders/OrderDetailModal.tsx": {
+      "before": "97983c9c58a1bab069b8977e6b3cc8c2059c109fdd0612de1b4e8bd32872b6f0",
+      "after": "e1bf41c48b4bb5eacbf5b0c61fe75f98fbf53bb2d7d350316f1477f5847d6924"
+    },
+    "src/features/orders/GuestDeliveryProposal.tsx": {
+      "before": null,
+      "after": "9b7137d2815b7b9c3b7d11449ec17960a8da816d8d7a324e08cac2bf850167ac"
+    },
+    "src/services/supabase/orders.service.ts": {
+      "before": "b84b915f526f2429820f81c46615560e4824af461f957d35c53ae4c21f245192",
+      "after": "b7c5173229f41c389803f9827e899f00e5f7d7b7943f04862f07fd2688cbaedc"
+    },
+    "src/types/index.ts": {
+      "before": "84b2b347113f1dcf45943263491b0dec6a8cac5f8fe31ac7bd1b58a1304ee18b",
+      "after": "e10f8c376c6d15a1b5c1847d0623c60233886cb3c19a762c4c229244353da4ce"
+    },
+    "e2e/package-f-orders.spec.ts": {
+      "before": "8e4c4bf03b3e3b2f01bcd4f661b41aabb5e932dd34cb4f16f6807659e7588974",
+      "after": "a6729d3d6793d4f5cc7d39f926e1587c1212c8495a7e5d0f0566aa41cbac27eb"
+    },
+    "e2e/package-f-orders-harness.tsx": {
+      "before": "773dc41431d72f555790ccbfd7df78e3016c5307452657ab9f134fae22af9511",
+      "after": "3f8cc1b6e5e9e78dc9b67eed3a7fc6ef908bba258c793579674e5ae6eeaa69f3"
     }
   }
 }

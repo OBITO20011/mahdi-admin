@@ -308,7 +308,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset, warehouse-management, owner-withdrawals, deferred-cheques, opening-cheques, legacy-product-cost, home-damage201, all-collections202, all-collections203, sales-history204, product-receiving205, navigation-cash206, document-corrections207, supplier-replacement208, parcel209, receipt210, aftercare211, trial212, handover213, handover214, reset214-resume, prelaunch-trial, bulk-product-images, aftercare215, partial216, owner-telegram217, owner-telegram217-operations, home-performance219, home219-operations, product-workbook]
+        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset, warehouse-management, owner-withdrawals, deferred-cheques, opening-cheques, legacy-product-cost, home-damage201, all-collections202, all-collections203, sales-history204, product-receiving205, navigation-cash206, document-corrections207, supplier-replacement208, parcel209, receipt210, aftercare211, trial212, handover213, handover214, reset214-resume, prelaunch-trial, bulk-product-images, aftercare215, partial216, owner-telegram217, owner-telegram217-operations, home-performance219, home219-operations, product-workbook, posthandover220-draft]
     env:
       NAWASRAH_PACKAGE_D_CURRENT: '1'
     steps:
@@ -682,6 +682,25 @@ jobs:
       - name: Current219 full-scale original and optimized performance
         if: matrix.suite == 'home-performance219'
         run: node scripts/testing/run-home219-scale.mjs
+
+      - name: Quarantined post-handover220 opt-in read proof at50000 orders
+        if: matrix.suite == 'posthandover220-draft'
+        run: node scripts/testing/run-posthandover220-draft.mjs --isolated-draft220
+
+      - name: Quarantined guest220 identity isolation and real concurrency
+        if: matrix.suite == 'posthandover220-draft'
+        run: node scripts/testing/run-guest-identity220.mjs --isolated-draft220
+
+      - name: Retain synthetic draft220 plans and exact parity result
+        if: always() && matrix.suite == 'posthandover220-draft'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: posthandover220-synthetic-proof
+          path: |
+            ${{ runner.temp }}/nawasrah-draft220-*/proof220.json
+            ${{ runner.temp }}/nawasrah-guest220-*/guest-identity220.json
+          if-no-files-found: error
+          retention-days: 7
 
       - name: Collect allowlisted safe reset and performance diagnostics
         if: always()

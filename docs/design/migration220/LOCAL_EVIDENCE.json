@@ -1,0 +1,287 @@
+{
+  "kind": "DRAFT220_LOCAL_ONLY",
+  "hostedAccess": false,
+  "activeCeiling": 219,
+  "activeMigrationFiles": 180,
+  "candidateSha256": "f8ad1bf651495b44d73b1d16e6d05f2d73d04fd47ae384abb69d9e1b629a9cde",
+  "seedOrders": 50000,
+  "additionalRealSales": {
+    "mixed": 10,
+    "base": 10
+  },
+  "annualBefore": {
+    "executionMs": 29515.504,
+    "timeout8sRejected": true,
+    "earlier50000Samples": [
+      31384.131,
+      29316.944,
+      30565.915,
+      31775.26
+    ]
+  },
+  "annualAfter": {
+    "samples": [
+      {
+        "executionMs": 4067.282,
+        "wallMs": 4069.9646000000066,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4764.746,
+        "wallMs": 4767.382400000002,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4906.165,
+        "wallMs": 4908.830400000006,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4649.764,
+        "wallMs": 4652.591099999991,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4393.922,
+        "wallMs": 4398.312399999995,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4336.384,
+        "wallMs": 4338.872800000012,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4523.442,
+        "wallMs": 4527.686900000001,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4177.082,
+        "wallMs": 4186.34500000003,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4234.8,
+        "wallMs": 4239.964900000021,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4421.517,
+        "wallMs": 4424.406900000002,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4225.399,
+        "wallMs": 4229.8208999999915,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4363.821,
+        "wallMs": 4367.061300000001,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4210.703,
+        "wallMs": 4213.213199999998,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4186.016,
+        "wallMs": 4195.632699999958,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4212.413,
+        "wallMs": 4219.086299999966,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4967.074,
+        "wallMs": 4971.6054,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4510.593,
+        "wallMs": 4514.155299999984,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 4505.27,
+        "wallMs": 4508.6660000000265,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 5267.279,
+        "wallMs": 5274.544899999979,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      },
+      {
+        "executionMs": 5192.448,
+        "wallMs": 5198.059300000023,
+        "tempRead": 22559,
+        "tempWritten": 12461
+      }
+    ],
+    "warmups": 3,
+    "p50": 4393.922,
+    "p95": 5192.448,
+    "max": 5267.279,
+    "hardTimeoutMs": 8000,
+    "callerMemoryAfter": "4MB"
+  },
+  "functional": {
+    "parity": [
+      "annual",
+      "today",
+      "month",
+      "first6",
+      "empty",
+      "other-branch",
+      "role:admin",
+      "role:manager",
+      "role:accountant",
+      "role:sales",
+      "role:warehouse_keeper",
+      "role:delivery_driver",
+      "role:none"
+    ],
+    "errorParity": 4,
+    "quantityVectors": {
+      "count": 1100,
+      "exact": true
+    },
+    "supplier": {
+      "cases": 60,
+      "pages": 3,
+      "deterministicDesc": true
+    },
+    "indexNegativeDetected": true,
+    "rlsAccessUnchanged": true,
+    "rollbackExact": true,
+    "completeJsonLiteral": true,
+    "fieldsExcluded": [],
+    "rollbackDefinitions": 7
+  },
+  "rls": {
+    "before": [
+      {
+        "table": "supplier_receipts",
+        "executionMs": 5.135
+      },
+      {
+        "table": "supplier_receipt_items",
+        "executionMs": 14.358
+      }
+    ],
+    "after": [
+      {
+        "table": "supplier_receipts",
+        "executionMs": 1.78
+      },
+      {
+        "table": "supplier_receipt_items",
+        "executionMs": 5.021
+      }
+    ]
+  },
+  "receiptRead": {
+    "beforeMs": [
+      14.779,
+      14.362,
+      14.261
+    ],
+    "afterMs": [
+      3.095,
+      3.58,
+      5.487
+    ]
+  },
+  "canonicalWriteExperiment": {
+    "beforeMs": [
+      236.97,
+      42.805,
+      75.609,
+      41.366,
+      35.54,
+      60.363,
+      27.034,
+      22.198,
+      27.817,
+      33.667
+    ],
+    "afterMs": [
+      28.327,
+      41.214,
+      33.905,
+      31.6,
+      34.533,
+      45.551,
+      29.749,
+      32.112,
+      34.565,
+      34.383
+    ],
+    "indexBytes": 253952
+  },
+  "rejectedCandidates": [
+    "Group+8MB only:failed actual8s after prior success;not adopted.",
+    "All3legacy package calls inlined:changed tied Top Products selection;not adopted.",
+    "Partial inline+group with4MB:p95=7161.326/max7203.989 all<8s but failed stricter7s margin."
+  ],
+  "memoryNote": "Final8MB function-only. Final paired tempRead22562→22559 is small;do not attribute timing improvement solely to memory. Production RAM/concurrency not measured;promotion gate required.",
+  "sourceProof": {
+    "tableSuccess": 172,
+    "tableExpectedZero": 9,
+    "tableDenied": 0,
+    "tableOtherErrors": 0,
+    "serviceProbes": 598,
+    "expectedRoleDenials": 18
+  },
+  "externalEvidence": "C:/Users/TOP/NawasrahFrankfurt/posthandover220-draft-20261107",
+  "finalExactShaCi": "PENDING",
+  "activeOwnerToolsChanged": false,
+  "previousReadCandidateSha256": "6fd2a616523bf8e713f5289b3dcf66c6e1920c40d73c22f35a56a777add06113",
+  "h1VerificationPending": false,
+  "postH1Validation": {
+    "localOnly": true,
+    "sourceHead": "e395df2e62825aa431d39385dbaa006aa8e3c35a",
+    "annualPeriod": {
+      "to": "2026-11-07",
+      "days": 365,
+      "from": "2025-11-08"
+    },
+    "scopedAnnualInvoices": 50000,
+    "cases": 8,
+    "postgresBlockingRaces": 4,
+    "browserPass": 2,
+    "types": true,
+    "strictLint": true,
+    "adminUnitPass": 1856,
+    "adminUnitCompletion": "1854full+exactafterpin focusedPASS+one isolatedGit63 environmental rerun120s PASS28.9s;negative assertions unchanged",
+    "storeUnitPass": 213,
+    "buildContexts": 6,
+    "ownerTools219Unchanged": true,
+    "sourceQueryArgumentsAndRolesExact": true,
+    "fullFinancialJson": true
+  }
+}

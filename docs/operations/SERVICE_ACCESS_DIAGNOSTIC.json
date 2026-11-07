@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-06T18:42:00.861Z",
+  "startedAt": "2026-11-07T16:46:33.671Z",
   "migrationCeiling": 219,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-9PfTnU",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-Jv2czR",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -367,7 +367,7 @@
     },
     {
       "file": "src/features/inventory/SupplierReplacementPanel.tsx",
-      "sha256": "fea0dd76e1964061c889803d01ae80c0304fa81b0bad4de27501b5bfbbc4fd09"
+      "sha256": "e1d0f8ba07d1e72ed5573a4b28e8a0ac11882651c5cd55920a58033475994535"
     },
     {
       "file": "src/features/inventory/supplierReplacementPresentation.ts",
@@ -458,12 +458,16 @@
       "sha256": "28d8942eecf945e530b67047692c1ceb09bb233a001b2760e665820e3fedc638"
     },
     {
+      "file": "src/features/orders/GuestDeliveryProposal.tsx",
+      "sha256": "9b7137d2815b7b9c3b7d11449ec17960a8da816d8d7a324e08cac2bf850167ac"
+    },
+    {
       "file": "src/features/orders/OrderCommercialSummary.tsx",
       "sha256": "b5200183bd72389f59144b7056d8aa59f2e3d340cf5de83cb284171353147553"
     },
     {
       "file": "src/features/orders/OrderDetailModal.tsx",
-      "sha256": "97983c9c58a1bab069b8977e6b3cc8c2059c109fdd0612de1b4e8bd32872b6f0"
+      "sha256": "e1bf41c48b4bb5eacbf5b0c61fe75f98fbf53bb2d7d350316f1477f5847d6924"
     },
     {
       "file": "src/features/orders/OrdersCenterView.tsx",
@@ -863,7 +867,7 @@
     },
     {
       "file": "src/services/supabase/orders.service.ts",
-      "sha256": "b84b915f526f2429820f81c46615560e4824af461f957d35c53ae4c21f245192"
+      "sha256": "b7c5173229f41c389803f9827e899f00e5f7d7b7943f04862f07fd2688cbaedc"
     },
     {
       "file": "src/services/supabase/ownerWithdrawals.service.ts",
@@ -1015,7 +1019,7 @@
     },
     {
       "file": "src/types/index.ts",
-      "sha256": "84b2b347113f1dcf45943263491b0dec6a8cac5f8fe31ac7bd1b58a1304ee18b"
+      "sha256": "e10f8c376c6d15a1b5c1847d0623c60233886cb3c19a762c4c229244353da4ce"
     },
     {
       "file": "src/types/monitoring.ts",
@@ -20200,7 +20204,7 @@
       "command": "SELECT public.\"get_go_live_cheques_v1\"(1::integer,25::integer)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:615",
+      "site": "src/services/supabase/orders.service.ts:616",
       "name": "get_order_exchange_details_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -20212,7 +20216,7 @@
       "command": "SELECT public.\"get_order_exchange_details_v1\"(NULL::uuid)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:615",
+      "site": "src/services/supabase/orders.service.ts:616",
       "name": "get_order_exchange_details_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -20224,7 +20228,7 @@
       "command": "SELECT public.\"get_order_exchange_details_v1\"(NULL::uuid)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:615",
+      "site": "src/services/supabase/orders.service.ts:616",
       "name": "get_order_exchange_details_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -20236,7 +20240,7 @@
       "command": "SELECT public.\"get_order_exchange_details_v1\"(NULL::uuid)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:634",
+      "site": "src/services/supabase/orders.service.ts:635",
       "name": "accept_order_for_preparation",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -20249,7 +20253,7 @@
       "command": "SELECT public.\"accept_order_for_preparation\"(NULL::uuid,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:634",
+      "site": "src/services/supabase/orders.service.ts:635",
       "name": "accept_order_for_preparation",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -20262,7 +20266,7 @@
       "command": "SELECT public.\"accept_order_for_preparation\"(NULL::uuid,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:634",
+      "site": "src/services/supabase/orders.service.ts:635",
       "name": "accept_order_for_preparation",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -20275,7 +20279,7 @@
       "command": "SELECT public.\"accept_order_for_preparation\"(NULL::uuid,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:668",
+      "site": "src/services/supabase/orders.service.ts:669",
       "name": "complete_website_order_with_payment",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -20290,7 +20294,7 @@
       "command": "SELECT public.\"complete_website_order_with_payment\"(NULL::uuid,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:668",
+      "site": "src/services/supabase/orders.service.ts:669",
       "name": "complete_website_order_with_payment",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -20305,7 +20309,7 @@
       "command": "SELECT public.\"complete_website_order_with_payment\"(NULL::uuid,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:668",
+      "site": "src/services/supabase/orders.service.ts:669",
       "name": "complete_website_order_with_payment",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -20320,7 +20324,7 @@
       "command": "SELECT public.\"complete_website_order_with_payment\"(NULL::uuid,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:713",
+      "site": "src/services/supabase/orders.service.ts:714",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -20334,7 +20338,7 @@
       "command": "SELECT public.\"update_order_status\"(NULL::uuid,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:713",
+      "site": "src/services/supabase/orders.service.ts:714",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -20348,7 +20352,7 @@
       "command": "SELECT public.\"update_order_status\"(NULL::uuid,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:713",
+      "site": "src/services/supabase/orders.service.ts:714",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -20362,55 +20366,7 @@
       "command": "SELECT public.\"update_order_status\"(NULL::uuid,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:756",
-      "name": "get_operational_orders_page",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000001",
-      "appRole": "owner",
-      "identity": "get_operational_orders_page(integer,integer,text,text,text)",
-      "args": [
-        "1::integer",
-        "25::integer",
-        "NULL::text",
-        "NULL::text",
-        "NULL::text"
-      ],
-      "command": "SELECT public.\"get_operational_orders_page\"(1::integer,25::integer,NULL::text,NULL::text,NULL::text)"
-    },
-    {
-      "site": "src/services/supabase/orders.service.ts:756",
-      "name": "get_operational_orders_page",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000002",
-      "appRole": "admin",
-      "identity": "get_operational_orders_page(integer,integer,text,text,text)",
-      "args": [
-        "1::integer",
-        "25::integer",
-        "NULL::text",
-        "NULL::text",
-        "NULL::text"
-      ],
-      "command": "SELECT public.\"get_operational_orders_page\"(1::integer,25::integer,NULL::text,NULL::text,NULL::text)"
-    },
-    {
-      "site": "src/services/supabase/orders.service.ts:756",
-      "name": "get_operational_orders_page",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000003",
-      "appRole": "cashier",
-      "identity": "get_operational_orders_page(integer,integer,text,text,text)",
-      "args": [
-        "1::integer",
-        "25::integer",
-        "NULL::text",
-        "NULL::text",
-        "NULL::text"
-      ],
-      "command": "SELECT public.\"get_operational_orders_page\"(1::integer,25::integer,NULL::text,NULL::text,NULL::text)"
-    },
-    {
-      "site": "src/services/supabase/orders.service.ts:868",
+      "site": "src/services/supabase/orders.service.ts:757",
       "name": "get_operational_orders_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -20426,7 +20382,7 @@
       "command": "SELECT public.\"get_operational_orders_page\"(1::integer,25::integer,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:868",
+      "site": "src/services/supabase/orders.service.ts:757",
       "name": "get_operational_orders_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -20442,7 +20398,7 @@
       "command": "SELECT public.\"get_operational_orders_page\"(1::integer,25::integer,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:868",
+      "site": "src/services/supabase/orders.service.ts:757",
       "name": "get_operational_orders_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -20458,7 +20414,55 @@
       "command": "SELECT public.\"get_operational_orders_page\"(1::integer,25::integer,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:949",
+      "site": "src/services/supabase/orders.service.ts:869",
+      "name": "get_operational_orders_page",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "get_operational_orders_page(integer,integer,text,text,text)",
+      "args": [
+        "1::integer",
+        "25::integer",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text"
+      ],
+      "command": "SELECT public.\"get_operational_orders_page\"(1::integer,25::integer,NULL::text,NULL::text,NULL::text)"
+    },
+    {
+      "site": "src/services/supabase/orders.service.ts:869",
+      "name": "get_operational_orders_page",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "get_operational_orders_page(integer,integer,text,text,text)",
+      "args": [
+        "1::integer",
+        "25::integer",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text"
+      ],
+      "command": "SELECT public.\"get_operational_orders_page\"(1::integer,25::integer,NULL::text,NULL::text,NULL::text)"
+    },
+    {
+      "site": "src/services/supabase/orders.service.ts:869",
+      "name": "get_operational_orders_page",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "get_operational_orders_page(integer,integer,text,text,text)",
+      "args": [
+        "1::integer",
+        "25::integer",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text"
+      ],
+      "command": "SELECT public.\"get_operational_orders_page\"(1::integer,25::integer,NULL::text,NULL::text,NULL::text)"
+    },
+    {
+      "site": "src/services/supabase/orders.service.ts:950",
       "name": "complete_website_order_with_settlement",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -20475,7 +20479,7 @@
       "command": "SELECT public.\"complete_website_order_with_settlement\"(NULL::uuid,NULL::text,0::bigint,0::bigint,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:949",
+      "site": "src/services/supabase/orders.service.ts:950",
       "name": "complete_website_order_with_settlement",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -20492,7 +20496,7 @@
       "command": "SELECT public.\"complete_website_order_with_settlement\"(NULL::uuid,NULL::text,0::bigint,0::bigint,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:949",
+      "site": "src/services/supabase/orders.service.ts:950",
       "name": "complete_website_order_with_settlement",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -20509,7 +20513,7 @@
       "command": "SELECT public.\"complete_website_order_with_settlement\"(NULL::uuid,NULL::text,0::bigint,0::bigint,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1000",
+      "site": "src/services/supabase/orders.service.ts:1001",
       "name": "return_completed_website_order",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -20526,7 +20530,7 @@
       "command": "SELECT public.\"return_completed_website_order\"(NULL::uuid,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1000",
+      "site": "src/services/supabase/orders.service.ts:1001",
       "name": "return_completed_website_order",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -20543,7 +20547,7 @@
       "command": "SELECT public.\"return_completed_website_order\"(NULL::uuid,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1000",
+      "site": "src/services/supabase/orders.service.ts:1001",
       "name": "return_completed_website_order",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -20560,7 +20564,7 @@
       "command": "SELECT public.\"return_completed_website_order\"(NULL::uuid,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1045",
+      "site": "src/services/supabase/orders.service.ts:1046",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -20574,7 +20578,7 @@
       "command": "SELECT public.\"update_order_status\"(NULL::uuid,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1045",
+      "site": "src/services/supabase/orders.service.ts:1046",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -20588,7 +20592,7 @@
       "command": "SELECT public.\"update_order_status\"(NULL::uuid,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1045",
+      "site": "src/services/supabase/orders.service.ts:1046",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -20602,7 +20606,7 @@
       "command": "SELECT public.\"update_order_status\"(NULL::uuid,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1096",
+      "site": "src/services/supabase/orders.service.ts:1097",
       "name": "start_or_update_order_delivery",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -20617,7 +20621,7 @@
       "command": "SELECT public.\"start_or_update_order_delivery\"(NULL::uuid,0::integer,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1096",
+      "site": "src/services/supabase/orders.service.ts:1097",
       "name": "start_or_update_order_delivery",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -20632,7 +20636,7 @@
       "command": "SELECT public.\"start_or_update_order_delivery\"(NULL::uuid,0::integer,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1096",
+      "site": "src/services/supabase/orders.service.ts:1097",
       "name": "start_or_update_order_delivery",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -20647,7 +20651,7 @@
       "command": "SELECT public.\"start_or_update_order_delivery\"(NULL::uuid,0::integer,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1154",
+      "site": "src/services/supabase/orders.service.ts:1155",
       "name": "update_order_delivery_address",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -20671,7 +20675,7 @@
       "command": "SELECT public.\"update_order_delivery_address\"(NULL::uuid,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,0::double precision,0::double precision,NULL::text,false)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1154",
+      "site": "src/services/supabase/orders.service.ts:1155",
       "name": "update_order_delivery_address",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -20695,7 +20699,7 @@
       "command": "SELECT public.\"update_order_delivery_address\"(NULL::uuid,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,0::double precision,0::double precision,NULL::text,false)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1154",
+      "site": "src/services/supabase/orders.service.ts:1155",
       "name": "update_order_delivery_address",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -30321,7 +30325,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:615",
+      "site": "src/services/supabase/orders.service.ts:616",
       "name": "get_order_exchange_details_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -30337,7 +30341,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:615",
+      "site": "src/services/supabase/orders.service.ts:616",
       "name": "get_order_exchange_details_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -30353,7 +30357,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:615",
+      "site": "src/services/supabase/orders.service.ts:616",
       "name": "get_order_exchange_details_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -30369,7 +30373,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:634",
+      "site": "src/services/supabase/orders.service.ts:635",
       "name": "accept_order_for_preparation",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -30386,7 +30390,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:634",
+      "site": "src/services/supabase/orders.service.ts:635",
       "name": "accept_order_for_preparation",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -30403,7 +30407,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:634",
+      "site": "src/services/supabase/orders.service.ts:635",
       "name": "accept_order_for_preparation",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -30420,7 +30424,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:668",
+      "site": "src/services/supabase/orders.service.ts:669",
       "name": "complete_website_order_with_payment",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -30439,7 +30443,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:668",
+      "site": "src/services/supabase/orders.service.ts:669",
       "name": "complete_website_order_with_payment",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -30458,7 +30462,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:668",
+      "site": "src/services/supabase/orders.service.ts:669",
       "name": "complete_website_order_with_payment",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -30477,7 +30481,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:713",
+      "site": "src/services/supabase/orders.service.ts:714",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -30495,7 +30499,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:713",
+      "site": "src/services/supabase/orders.service.ts:714",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -30513,7 +30517,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:713",
+      "site": "src/services/supabase/orders.service.ts:714",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -30531,7 +30535,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:756",
+      "site": "src/services/supabase/orders.service.ts:757",
       "name": "get_operational_orders_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -30551,7 +30555,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/orders.service.ts:756",
+      "site": "src/services/supabase/orders.service.ts:757",
       "name": "get_operational_orders_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -30571,7 +30575,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/orders.service.ts:756",
+      "site": "src/services/supabase/orders.service.ts:757",
       "name": "get_operational_orders_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -30591,7 +30595,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/orders.service.ts:868",
+      "site": "src/services/supabase/orders.service.ts:869",
       "name": "get_operational_orders_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -30611,7 +30615,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/orders.service.ts:868",
+      "site": "src/services/supabase/orders.service.ts:869",
       "name": "get_operational_orders_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -30631,7 +30635,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/orders.service.ts:868",
+      "site": "src/services/supabase/orders.service.ts:869",
       "name": "get_operational_orders_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -30651,7 +30655,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/orders.service.ts:949",
+      "site": "src/services/supabase/orders.service.ts:950",
       "name": "complete_website_order_with_settlement",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -30672,7 +30676,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:949",
+      "site": "src/services/supabase/orders.service.ts:950",
       "name": "complete_website_order_with_settlement",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -30693,7 +30697,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:949",
+      "site": "src/services/supabase/orders.service.ts:950",
       "name": "complete_website_order_with_settlement",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -30714,7 +30718,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1000",
+      "site": "src/services/supabase/orders.service.ts:1001",
       "name": "return_completed_website_order",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -30735,7 +30739,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1000",
+      "site": "src/services/supabase/orders.service.ts:1001",
       "name": "return_completed_website_order",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -30756,7 +30760,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1000",
+      "site": "src/services/supabase/orders.service.ts:1001",
       "name": "return_completed_website_order",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -30777,7 +30781,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1045",
+      "site": "src/services/supabase/orders.service.ts:1046",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -30795,7 +30799,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1045",
+      "site": "src/services/supabase/orders.service.ts:1046",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -30813,7 +30817,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1045",
+      "site": "src/services/supabase/orders.service.ts:1046",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -30831,7 +30835,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1096",
+      "site": "src/services/supabase/orders.service.ts:1097",
       "name": "start_or_update_order_delivery",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -30850,7 +30854,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1096",
+      "site": "src/services/supabase/orders.service.ts:1097",
       "name": "start_or_update_order_delivery",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -30869,7 +30873,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1096",
+      "site": "src/services/supabase/orders.service.ts:1097",
       "name": "start_or_update_order_delivery",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -30888,7 +30892,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1154",
+      "site": "src/services/supabase/orders.service.ts:1155",
       "name": "update_order_delivery_address",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -30916,7 +30920,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1154",
+      "site": "src/services/supabase/orders.service.ts:1155",
       "name": "update_order_delivery_address",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -30944,7 +30948,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1154",
+      "site": "src/services/supabase/orders.service.ts:1155",
       "name": "update_order_delivery_address",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -46608,7 +46612,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-11-06T18:43:54.309Z",
+  "endedAt": "2026-11-07T16:48:24.223Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {

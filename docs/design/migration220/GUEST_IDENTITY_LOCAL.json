@@ -1,0 +1,34 @@
+{
+  "hostedAccess": false,
+  "activeCeiling": 219,
+  "cases": [
+    "candidate applies without rewriting219 rows/sequences or guest ACL",
+    "existing debtor master/default exact;order recipient snapshot independent",
+    "missing existing governorate/default stays missing;delivery snapshot retained",
+    "V1 compatibility existing master/type/default unchanged and replay stable",
+    "new customer still has original creation/default semantics",
+    "mid-creation failure and same-key resume preserve atomicity and do not duplicate",
+    "real blocked concurrent distinct orders,same-key replay,and owner edit preserve identity",
+    "on-hand99 unchanged by guests,reservations15 exact;existing debt/ledger/snapshots unchanged"
+  ],
+  "races": [
+    {
+      "kind": "new-customer",
+      "postgresBlocking": true
+    },
+    {
+      "kind": "same-customer",
+      "postgresBlocking": true
+    },
+    {
+      "kind": "same-key",
+      "postgresBlocking": true
+    },
+    {
+      "kind": "owner-edit",
+      "postgresBlocking": true
+    }
+  ],
+  "ok": true,
+  "databaseStopped": true
+}

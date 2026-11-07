@@ -29,6 +29,7 @@ import { CURRENCY } from '../../constants';
 import { useAppStoreActions, useAppStoreSelector } from '../../stores/useAppStore';
 import { Order, OrderStatus } from '../../types';
 import { CustomerLocationCard } from './CustomerLocationCard';
+import {GuestDeliveryProposal} from './GuestDeliveryProposal';
 import { EditAddressModal } from './EditAddressModal';
 import { AdminAftercarePanel } from './AdminAftercarePanel';
 import { buildStorefrontTrackingUrl } from '../../services/supabase/orders.service';
@@ -426,6 +427,12 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
 
       <bdi dir="ltr" className="block text-xs text-nw-muted">{order.customerPhone || 'لا يوجد رقم هاتف'}</bdi>
       <p className="text-xs text-nw-muted">{order.governorate} · {order.region} · {order.address}</p>
+      {order.source === 'website' && order.guestRecipientName && order.customerId && <GuestDeliveryProposal
+        recipientName={order.guestRecipientName}
+        customerName={order.customerName}
+        address={order.address}
+        onReview={() => openCustomerProfile(order.customerId!)}
+      />}
       <div className="flex flex-wrap gap-2 print:hidden" aria-label="وصل الشراء">
         <UiButton variant="primary" disabled={!savedReceipt} onClick={() => setShowReceipt(true)}><Printer className="h-4 w-4" />طباعة الوصل</UiButton>
         {receiptResult.error&&<p role="alert" className="w-full text-sm text-nw-bad">{receiptResult.error}</p>}
