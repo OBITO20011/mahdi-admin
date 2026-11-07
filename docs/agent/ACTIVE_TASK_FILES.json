@@ -3,31 +3,7 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/HANDOVER_FIXES_Z_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/OWNER_DECISIONS.md"
-    },
-    {
-      "code": " M",
       "path": "docs/agent/project-state.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/handover/ورقة-يوم-التشغيل.html"
-    },
-    {
-      "code": " M",
-      "path": "docs/handover/ورقة-يوم-التشغيل.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/MAINTAINER_GUIDE_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
     },
     {
       "code": " M",
@@ -35,7 +11,15 @@
     },
     {
       "code": " M",
+      "path": "scripts/audit/product-workbook-source-pins.json"
+    },
+    {
+      "code": " M",
       "path": "scripts/testing/rehearsal219-legacy-view.json"
+    },
+    {
+      "code": " M",
+      "path": "tests/reset219-reference-d1-docs.test.ts"
     }
   ]
 }

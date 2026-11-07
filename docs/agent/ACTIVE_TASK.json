@@ -3,7 +3,7 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner7Nov documentation risk acceptance PR/FULLCI/merge;H1phone confirmation,R2not applicable no employees/no future reminder,R3monitor,R4low. No219SQL or hosted/deploy;58/79Draft.",
-  "baselineSha": "d0cbf421fedb613c52b48483ba6a9aa44b087adc",
+  "baselineSha": "0e5b0ec4e436dd206e8f0d4716404a1eb5ebaae9",
   "branch": "codex/security-risk-acceptance",
   "phase": "PACKAGE_F",
   "completed": [
@@ -18,13 +18,15 @@
     "After documentation merge:H1draft79,then220tools Draft over79."
   ],
   "testsPassed": [
-    "Focused documentation10,print2pages,no runtime diff,branch-only state+after-only doc pins."
+    "Focused documentation10,print2pages,no runtime diff,branch-only state+after-only doc pins.",
+    "29historical cases:26PASS then remaining3 corrected and8PASS;no prior baseline/unknown mutation assertion removed."
   ],
   "testsRemaining": [
     "Exact feature FULL64;then authorized docs merge and mainFULL63/safe primary FF."
   ],
   "findings": [
-    "Owner explicitly accepts H1 before public opening;not a repair;R2supersedes pre-hiring reminders."
+    "Owner explicitly accepts H1 before public opening;not a repair;R2supersedes pre-hiring reminders.",
+    "CI doc hash failure diagnosed;local branch kept outside delivered docs;exact doc after pins only,original bytes/unknown-mutation checks unchanged."
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -32,12 +34,12 @@
     "No219SQL/production behavior change/hosted access/deploy.",
     "No merge58/79 or tools220;no owner/env/reference changes."
   ],
-  "nextExactAction": "Commit/push docs-only risk decision;FULL64 then merge if allgreen;mainFULL63/safe primaryFF;then H1Draft79.",
-  "checkpointedAt": "2026-11-07T15:58:53.259Z",
+  "nextExactAction": "Wait FULL64 on corrected doc head;merge80 only green,mainFULL63,primaryFF;then H1Draft79.",
+  "checkpointedAt": "2026-11-07T16:12:38.120Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 9,
-  "filesTouchedManifestSha256": "cd155ae385b40a405b71047dea7f11eccda58b928b3d4aef01b783e03e2b5deb",
-  "workingTreeFingerprint": "A9DDF2B35F1566625BEB16E4E4E0DAFEE93A0053F46636679F79A62AEAE5F98D"
+  "filesTouchedCount": 5,
+  "filesTouchedManifestSha256": "d55785328ae4a0dbcec0aa17560ced404790db750e69d1310bcd3531244ba57d",
+  "workingTreeFingerprint": "2506DA965C27BE4DB6BF4FF34D3A8B2A4A4EF562966DD2BE0BC4B4EDF51C84A2"
 }
