@@ -1,11 +1,11 @@
 import assert from 'node:assert/strict';
-import {readFile} from 'node:fs/promises';
+import {readFile, stat} from 'node:fs/promises';
 import path from 'node:path';
 import {gzipSync} from 'node:zlib';
 import ts from 'typescript';
 
-// Fixed cold-entry budgets. Dynamic dialogs/monitoring/SDK are measured separately.
-export const storefrontBudget = Object.freeze({initialJsBytes: 700_000, initialJsGzip: 200_000, cssGzip: 19_000, fonts: 0, initialScriptRequests: 5});
+// Fixed cold-entry budgets plus a separate cap for the deferred mobile hero video.
+export const storefrontBudget = Object.freeze({initialJsBytes: 700_000, initialJsGzip: 200_000, cssGzip: 19_000, fonts: 0, initialScriptRequests: 5, mobileHeroVideoBytes: 1_000_000});
 export async function measureStorefrontBudget(dist) {
   const root = path.resolve(dist), html = await readFile(path.join(root,'index.html'),'utf8');
   const resolve = (specifier, parent = path.join(root,'index.html')) => {
@@ -28,7 +28,10 @@ export async function measureStorefrontBudget(dist) {
   const css = [...html.matchAll(/<link\b[^>]*href=["']([^"']+\.css)["'][^>]*>/gu)].map(match=>resolve(match[1]));
   let cssGzip = 0, fonts = 0;
   for(const file of css){const bytes=await readFile(file);cssGzip+=gzipSync(bytes).length;fonts+=[...bytes.toString('utf8').matchAll(/url\([^)]*\.(?:woff2?|ttf|otf)[^)]*\)/gu)].length;}
-  return {chunks,initialJsBytes:chunks.reduce((sum,item)=>sum+item.bytes,0),initialJsGzip:chunks.reduce((sum,item)=>sum+item.gzip,0),cssGzip,fonts,initialScriptRequests:chunks.length};
+  const mobileHeroVideo = await stat(path.join(root, 'nawasrah-hero-mobile.mp4'));
+  assert.ok(mobileHeroVideo.isFile() && mobileHeroVideo.size > 0, 'STOREFRONT_MOBILE_HERO_VIDEO_REQUIRED');
+  const mobileHeroVideoBytes = mobileHeroVideo.size;
+  return {chunks,mobileHeroVideoBytes,initialJsBytes:chunks.reduce((sum,item)=>sum+item.bytes,0),initialJsGzip:chunks.reduce((sum,item)=>sum+item.gzip,0),cssGzip,fonts,initialScriptRequests:chunks.length};
 }
 export function assertStorefrontBudget(report) {
   for(const [key,limit]of Object.entries(storefrontBudget))assert.ok(report[key]<=limit,`STOREFRONT_BUDGET_${key}:${report[key]}>${limit}`);

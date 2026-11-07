@@ -2,42 +2,43 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Restore zero-image archives, isolated cutover tool fix, draft/full CI/no merge",
-  "baselineSha": "96cf7b9553aac99be655a5a342d801b99367ca66",
+  "objective": "Owner Nov7 approved PR77 integration after75;real main merge,fullCI,owner primary byte-preservingFF,no hosted/deploy.",
+  "baselineSha": "a4bcf3ab8bb7ea5b16c276f0868c4c86f0c5b6b1",
   "branch": "codex/restore219-empty-storage",
   "phase": "PACKAGE_F",
   "completed": [
     "Reproduced missing empty Storage directory in valid 219 v2 archive; one conditional copy fixes it.",
     "Complete isolated backup/restore 214–219 passed, zero-image 219 strict proof passed, default Restore cleanup passed.",
-    "Types and strictlint passed. Focused32, corrected history34/35 then remaining22/22, and new inverse negative1/1 passed."
+    "Types and strictlint passed. Focused32, corrected history34/35 then remaining22/22, and new inverse negative1/1 passed.",
+    "Owner explicitly approved empty-storage Restore fix and PR77 merge after76/75.",
+    "Real merge main9cc87ae2 after75;36 focused integration tests pass,0failed."
   ],
   "inProgress": [
-    "Commit/push draft PR; full exact-head CI."
+    "Main after75 genuinely merged;focused integration gates before full PR CI."
   ],
   "notStarted": [],
   "testsPassed": [
-    "Local complete backup runtime,32focused,history corrections,22focused,new1negative,typecheck,strictlint."
+    "Local complete backup runtime,32focused,history corrections,22focused,new1negative,typecheck,strictlint.",
+    "Integration77 focused36/36,no skips."
   ],
   "testsRemaining": [
     "FULL CI and secrets on committed PR head."
   ],
   "findings": [
-    "Separate pg_net extension sequence restore mismatch reproduced:3 before vs null after; requires SQL-state restore decision before 220.",
-    "Connected rehearsal app96cf finished via verified accepted archive after corrected synthetic HTTP IP/type transport and bounded local Telegram queue."
+    "Connected rehearsal app96cf finished via verified accepted archive after corrected synthetic HTTP IP/type transport and bounded local Telegram queue.",
+    "Owner approved separate pg_net raw sequence-state backup/Restore repair after merges;not implemented here."
   ],
-  "blockers": [
-    "Do not begin220: seek owner decision on exact pg_net sequence restoration SQL; keep strict comparison."
-  ],
+  "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "NoSQL/migration/RPC/money/auth/permissions/ownerfiles/env/hosted/deploy/merge;58Draft."
+    "No hosted services,deploy,owner/env edits.58Draft."
   ],
-  "nextExactAction": "Push independent empty-storage Restore draft and monitor full CI; report pg_net sequence blocker for owner decision before 220",
+  "nextExactAction": "Commit and push genuine main merge77;FULL exact head CI;merge only after main75 green and primaryFF;then main77 green and safeFF. No hosted/deploy;58Draft.",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "8C3AAC2C5847DCBFA9947E1C4B737D9AA783467420181294E119BABB7D4F6ACB",
-  "checkpointedAt": "2026-11-07T05:57:20.988Z",
-  "filesTouchedCount": 7,
-  "filesTouchedManifestSha256": "ad9e43c4cc7f9f51ce29be177ea0d002ada7308c669c82d4a09f55b5dd96518a"
+  "workingTreeFingerprint": "8DD8940A49189F3CDE86D55849331FEEA6B88018C2799EDEAE4A7A81E936F49D",
+  "checkpointedAt": "2026-11-07T07:36:04.364Z",
+  "filesTouchedCount": 14,
+  "filesTouchedManifestSha256": "626e176f0420b00458ef519ef8f32eb767afefd55e12fe97c5a9c6fba7c5f2c4"
 }
