@@ -2,60 +2,68 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": "A ",
-      "path": "docs/operations/hero-mobile-frame-comparison.webp"
-    },
-    {
-      "code": "M ",
-      "path": "customer-web/public/nawasrah-hero-mobile.mp4"
-    },
-    {
-      "code": "M ",
+      "code": " M",
       "path": "docs/agent/PHASE_STATUS.md"
     },
     {
-      "code": "M ",
-      "path": "docs/handover/ورقة-يوم-التشغيل.html"
+      "code": " M",
+      "path": "docs/agent/project-state.json"
     },
     {
-      "code": "M ",
-      "path": "docs/handover/ورقة-يوم-التشغيل.md"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
-    },
-    {
-      "code": "M ",
+      "code": " M",
       "path": "scripts/audit/cart-flight-source-pins.json"
     },
     {
-      "code": "M ",
-      "path": "scripts/audit/home-performance219-source-pins.json"
+      "code": " M",
+      "path": "scripts/audit/source-before-empty-storage-restore.mjs"
     },
     {
-      "code": "M ",
-      "path": "scripts/audit/product-workbook-source-pins.json"
+      "code": " M",
+      "path": "scripts/backup/complete-backup.mjs"
     },
     {
-      "code": "M ",
-      "path": "scripts/testing/storefront-budget.d.mts"
+      "code": " M",
+      "path": "scripts/backup/postgres-diagnostic.mjs"
     },
     {
-      "code": "M ",
-      "path": "scripts/testing/storefront-budget.mjs"
+      "code": " M",
+      "path": "scripts/testing/run-dual-backup-runtime.mjs"
     },
     {
-      "code": "M ",
-      "path": "tests/cutover-publication-order.test.ts"
+      "code": " M",
+      "path": "tests/record-order-source-contracts.test.ts"
     },
     {
-      "code": "M ",
-      "path": "tests/storefront-budget.test.ts"
+      "code": " M",
+      "path": "tests/workbook-integration-history.test.ts"
     },
     {
-      "code": "M ",
-      "path": "tests/trial-brand-identity.test.ts"
+      "code": "??",
+      "path": "docs/agent/PG_NET_SEQUENCE_RESTORE_LOCAL.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/PG_NET_SEQUENCE_RESTORE_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-pg-net-sequence-state.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/backup/pg-net-sequence-state.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/fixtures/pg-net-state-protected-sources.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/pg-net-sequence-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/pg-net-sequence-state.test.ts"
     }
   ]
 }
