@@ -1,3 +1,4 @@
+import{sourceBeforeD1Kit}from'./source-before-d1-reference-kit.mjs';
 // Test-only exact inverse to delivered main52. Current SDK/role diagnostics
 // never use it. A single unknown byte is returned unchanged to historical guards.
 import {readFileSync} from 'node:fs';
@@ -8,6 +9,7 @@ export const {baseline,entries:recordOrderPins}=JSON.parse(readFileSync(new URL(
 const hash=text=>createHash('sha256').update(text.replaceAll('\r\n','\n')).digest('hex');
 const baselineText=new Map();
 export function sourceBeforeRecordOrder(file,text){
+ text=sourceBeforeD1Kit(file,text);
  if(text===null)return null;const pin=recordOrderPins[file];if(!pin||hash(text)!==pin.after)return text;
  if(pin.before===null)return null;
  let before=baselineText.get(file);

@@ -1,3 +1,7 @@
+# 8Nov2026 — D1 reference kit,local preparation PASS;PR/fullCI next
+
+Owner-approved separate prepare/install,219 only,no SQL/hosted/deploy/merge. Actual PowerShell5.1 prepare on main16ef:180/636/13/181queries,fresh-incremental0,candidate3a27bac3…TEST_ONLY/no install. Known20ownerfiles/4env/ownerreference hashes unchanged;Docker cleaned. Approval1A4/card2A4,negative hash/RESET marker/dirty/head/CI/catalog/rollback/junction tests PASS. Types/strictlint PASS;finalfocused+Gitleaks/PR/FULLCI pending.58/79/82Draft.
+
 # 7Nov2026 — approved pg_net backup/Restore state repair,local verification pending
 
 Separate PR after approved76/75/77. Capture fixed net sequence raw last_value/is_called without grants;Docker-only exact-state replay,ambiguous old evidence fails closed. Original strict comparator and RESET219/connection guards unchanged. No migration/hosted/deploy/merge permission. Full214–219 and source/restore data-role-ACL equality required.58Draft.

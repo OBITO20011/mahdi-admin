@@ -1,3 +1,4 @@
+import{sourceBeforeD1Kit}from'./source-before-d1-reference-kit.mjs';
 // Exact historical view only;current Backup/Restore always executes current code.
 import assert from'node:assert/strict';import{readFileSync}from'node:fs';import{createHash}from'node:crypto';import{execFileSync}from'node:child_process';
 const baseline="01d4b036136304876da1be8b701cff9e342e3b4d",pins={
@@ -36,6 +37,7 @@ const baseline="01d4b036136304876da1be8b701cff9e342e3b4d",pins={
 };
 const canonical=t=>t.replaceAll('\r\n','\n'),hash=t=>createHash('sha256').update(canonical(t)).digest('hex'),old=new Map();
 export function sourceBeforePgNetSequenceState(file,text){
+ text=sourceBeforeD1Kit(file,text);
  const p=pins[file];if(text===null||!p||hash(text)!==p.after)return text;
  if(p.before===null)return null;
  if(!old.has(file)){const before=execFileSync('git',['show',baseline+':'+file],{encoding:'utf8',windowsHide:true,maxBuffer:32*1024**2});assert.equal(hash(before),p.before,'PGNET_STATE_BASELINE_CHANGED');old.set(file,canonical(before));}

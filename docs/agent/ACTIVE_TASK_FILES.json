@@ -11,59 +11,87 @@
     },
     {
       "code": " M",
-      "path": "scripts/audit/cart-flight-source-pins.json"
+      "path": "docs/handover/ورقة-يوم-التشغيل.html"
     },
     {
       "code": " M",
-      "path": "scripts/audit/source-before-empty-storage-restore.mjs"
+      "path": "docs/handover/ورقة-يوم-التشغيل.md"
     },
     {
       "code": " M",
-      "path": "scripts/backup/complete-backup.mjs"
+      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
     },
     {
       "code": " M",
-      "path": "scripts/backup/postgres-diagnostic.mjs"
+      "path": "docs/operations/RESET219_REFERENCE_D1_AR.md"
     },
     {
       "code": " M",
-      "path": "scripts/testing/run-dual-backup-runtime.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/record-order-source-contracts.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/workbook-integration-history.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "docs/agent/PG_NET_SEQUENCE_RESTORE_LOCAL.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/PG_NET_SEQUENCE_RESTORE_AR.md"
-    },
-    {
-      "code": "??",
       "path": "scripts/audit/source-before-pg-net-sequence-state.mjs"
     },
     {
-      "code": "??",
-      "path": "scripts/backup/pg-net-sequence-state.mjs"
+      "code": " M",
+      "path": "scripts/audit/source-before-record-order.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-storefront-speed.mjs"
+    },
+    {
+      "code": " M",
+      "path": "tests/cart-flight-contracts.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/reset219-reference-d1-docs.test.ts"
     },
     {
       "code": "??",
-      "path": "scripts/testing/fixtures/pg-net-state-protected-sources.json"
+      "path": "docs/operations/D1_REFERENCE_KIT_AR.md"
     },
     {
       "code": "??",
-      "path": "scripts/testing/pg-net-sequence-runtime.mjs"
+      "path": "docs/operations/D1_REFERENCE_KIT_LOCAL.json"
     },
     {
       "code": "??",
-      "path": "tests/pg-net-sequence-state.test.ts"
+      "path": "docs/operations/D1_REFERENCE_KIT_TEST_APPROVAL_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/d1-reference-kit-source-pins.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-d1-reference-kit.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/d1-known-owner-files.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/d1-reference-ci.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/d1-reference-install.ps1"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/d1-reference-kit.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/d1-reference-kit.ps1"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/d1-reference-state.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/d1-reference-kit.test.ts"
     }
   ]
 }

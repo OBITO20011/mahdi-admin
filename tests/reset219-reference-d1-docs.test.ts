@@ -1,3 +1,4 @@
+import{sourceBeforeD1Kit}from'../scripts/audit/source-before-d1-reference-kit.mjs';
 import{sourceBeforeProductScale}from'../scripts/audit/source-before-product-scale.mjs';
 import{sourceBeforeRecordOrder}from'../scripts/audit/source-before-record-order.mjs';
 import{sourceBeforeProductWorkbook}from'../scripts/audit/source-before-product-workbook.mjs';
@@ -7,7 +8,8 @@ import { readFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 
-const read = (file: string) => readFileSync(file, 'utf8').replaceAll('\r\n', '\n');
+// This retained test proves the historical D1 protocol;new kit tests inspect actual current docs.
+const read = (file: string) => sourceBeforeD1Kit(file,readFileSync(file, 'utf8'))!.replaceAll('\r\n', '\n');
 const guideFile = 'docs/operations/RESET219_REFERENCE_D1_AR.md';
 const guide = read(guideFile);
 const sha = 'A915B64DE94BCA2FB8A2FC3942113B7A64379CC1E8746375FAE9297DB7A26333';
