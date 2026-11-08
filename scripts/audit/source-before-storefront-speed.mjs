@@ -1,3 +1,4 @@
+import{sourceBeforeD1Kit}from'./source-before-d1-reference-kit.mjs';
 // Frozen history only. Current runtime diagnostics never project these sources.
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -7,6 +8,7 @@ const {baseline,entries}=JSON.parse(readFileSync(new URL('./storefront-speed-sou
 const hash=text=>createHash('sha256').update(text.replaceAll('\r\n','\n')).digest('hex');
 const old=new Map();
 export function sourceBeforeStorefrontSpeed(file,text){
+ text=sourceBeforeD1Kit(file,text);
  if(text===null)return null;const pin=entries[file];if(!pin||hash(text)!==pin.after)return text;
  if(pin.before===null)return null;
  if(!old.has(file)){const before=execFileSync('git',['show',baseline+':'+file],{encoding:'utf8',windowsHide:true,maxBuffer:32*1024**2});assert.equal(hash(before),pin.before,'STOREFRONT_SPEED_BASELINE_DRIFT');old.set(file,before);}

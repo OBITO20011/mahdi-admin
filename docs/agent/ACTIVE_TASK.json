@@ -1,43 +1,40 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner7Nov approved fixed pg_net raw sequence state capture and Docker-only replay;separate PR/fullCI,no merge before Claude;no RESET guard or comparator change.",
-  "baselineSha": "01d4b036136304876da1be8b701cff9e342e3b4d",
-  "branch": "codex/restore219-pg-net-sequence-state",
+  "objective": "Owner8Nov D-1 candidate kit:main exactFULLCI/local219reference/hashes/Arabicapproval;separate hash-approved atomic install,docs/tests/PRFULLCI,no merge/hosted/SQL/owner edits.",
+  "baselineSha": "c365d59a65f503e22df0e0e3749f75c76220de51",
+  "branch": "codex/d1-reference-kit",
   "phase": "PACKAGE_F",
   "completed": [
-    "Approved76,75,77 merged in order;all exact-headFULL64/mainFULL63 and byte-preserving primaryFF/preflight verified.",
-    "Actual encrypted/strict214–219 compatibility,emptyStorage,17integrity and4raw-state cases/6negative cases/repeatedRestore pass.",
-    "Legacy synthetic used3 -> strictRestore -> new encrypted raw3,true backup -> strictRestore pass;owned containers cleaned.",
-    "44focused;final23history/state;types/strictlint pass. Source/comparator/RESET11protected pins unchanged."
+    "Actualmain16efPowerShellpreparePASS219/180/636/13/181queries/diff0;candidateTEST_ONLY3a27bac3,no install.",
+    "Owner20/env4/currentreferenceunchanged;Dockercleaned;approval1page/card2A4.",
+    "Negativefixtures+strictrollback/hash/marker/CI/dirty/head/catalog/junction PASS;types/strictlintPASS.",
+    "83Draft c365d59a pushed;Gitleaks0;actualcandidate/report attached,testonly.",
+    "83firstCIbackup/secretsPASS;4historicalpath/doc assertions fixed via exacthash only,focused5/types/lintPASS."
   ],
   "inProgress": [
-    "Final review,Gitleaks,commit/push,independentPR/FULLCI;NO merge before Claude."
+    "Commit/push exact historical proof corrections then FULLCI on newhead."
   ],
   "notStarted": [],
-  "testsPassed": [
-    "Actual214–219 andstate4+negative6,replay,protectionChain",
-    "44focused,23finalhistory/state,types,strictlint"
-  ],
+  "testsPassed": [],
   "testsRemaining": [
-    "FULL final exact-headCI."
+    "Focused final/pins,Gitleaks,PR FULLCI."
   ],
-  "findings": [
-    "Old null/missing/unsafe-value evidence fails closed;positive safe legacy evidence proved.",
-    "One local120s frozen-view timeout under full parallel units;unchanged exact suite passed62.3s then final58.3s;no retry/timeout policy changed."
-  ],
+  "findings": [],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hosted/Frankfurt/deploy;no migrations or financial/permission changes;do not merge repair;58Draft;no owner/env/reference edits."
+    "No SQL/migration/RPC/finance/permissions,hosted/deploy/merge.",
+    "Do not changeowner/env/readyreference/workdir;58/79/82Draft."
   ],
-  "nextExactAction": "All merges/main63/primary owner preservation complete. pg_net repair local actual214–219+chain+44focused+23history pass. Final staged Gitleaks,commit,push,separatePR/FULLCI;no merge;then220Draft per owner.",
+  "nextExactAction": "PR83 firstCI4historyonly failures repaired,focused5/type/lint PASS;commit/push newhead then FULLCI.No tool/SQL/guard changes;actualmaincandidate testonly,ownerfilesuntouched.",
+  "checkpointedAt": "2026-11-08T04:58:39.713Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "C97FA50B12CBB3D51903768934DED762798B9251FAD9CDDF5D179B0F470D7F80",
-  "checkpointedAt": "2026-11-07T08:41:44.788Z",
-  "filesTouchedCount": 16,
-  "filesTouchedManifestSha256": "fee83b176a48b8c8500f7fff8be06e0f1934ea11a708d541948a5cd40939411c"
+  "filesTouchedCount": 6,
+  "filesTouchedManifestSha256": "e5833190644c76bb33f94b107fe751074d43d1fb7c80ee257cf7cd19f9e7f2fb",
+  "workingTreeFingerprint": "5BA3CE7A2FC1CEB4FA1F650C6BE746BC3810CCCB9D605E763A0163C6D4C15DAA",
+  "historyBaseline": "16ef354cb5ecab7e8689975b6d1c7ba3fadbed24"
 }

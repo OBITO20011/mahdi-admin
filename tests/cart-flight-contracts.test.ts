@@ -1,3 +1,4 @@
+import {sourceBeforeD1Kit} from '../scripts/audit/source-before-d1-reference-kit.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -16,7 +17,7 @@ test('flight history admits only exact reviewed presentation bytes and preserves
  const pins=JSON.parse(readFileSync('scripts/audit/cart-flight-source-pins.json','utf8'));
  assert.equal(pins.baseline,baseline);
  for(const[file,pin]of Object.entries(pins.entries)as[string,{before:string|null;after:string}][]){
-  const raw=readFileSync(file,'utf8');assert.equal(hash(raw),pin.after,file);
+  const raw=sourceBeforeD1Kit(file,readFileSync(file,'utf8'))!;assert.equal(hash(raw),pin.after,file);
   assert.equal(sourceBeforeCartFlight(file,raw)?.replaceAll('\r\n','\n')??null,pin.before===null?null:previous(file),file);
   const mutation=raw+'\n// unknown flight mutation';assert.equal(sourceBeforeCartFlight(file,mutation),mutation,file);
  }

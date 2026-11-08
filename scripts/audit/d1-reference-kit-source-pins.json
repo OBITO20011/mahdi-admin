@@ -1,0 +1,95 @@
+{
+  "format": 1,
+  "baseline": "16ef354cb5ecab7e8689975b6d1c7ba3fadbed24",
+  "scope": "Owner8Nov D1 kit exact known docs/tool delta for historical tests only;runtime always actual.",
+  "entries": {
+    "docs/agent/PHASE_STATUS.md": {
+      "before": "55867a55df93b7870ed402ab6e6612ebe29f94555d9e841d08eba582eba6783f",
+      "after": "6d6c528c74c14b7a688588d0beeeaceb6871fced31f7f57b0da07e646304abf8"
+    },
+    "docs/agent/project-state.json": {
+      "before": "a0debf7197fe2c0981ee16d1ed652e3753e5ea63159d8de931f507b9c9289ba3",
+      "after": "7297d928e3c7772d1127d367c8b9feb97772577e9c222a639b59d0b3ade886e8"
+    },
+    "docs/handover/ورقة-يوم-التشغيل.html": {
+      "before": "d7cd93ec5d77983620808e0837778313d4607590e74616f2410069972e38462a",
+      "after": "ae73b3264e61412e004747e20cb6a747c9130f743100539664596307c2a3bcf8"
+    },
+    "docs/handover/ورقة-يوم-التشغيل.md": {
+      "before": "b08848bf1f356692b0d8b971170436525d8044920ad1f0a234a6a849d9700b9e",
+      "after": "6fe51b7dc8373be2c502ed12ef83aada036e469cb569040349740a53a12c45d6"
+    },
+    "docs/operations/D1_REFERENCE_KIT_AR.md": {
+      "before": null,
+      "after": "da97c03441ead4a8881fc477c889c158d5db48800d83fac63f93702168adee1c"
+    },
+    "docs/operations/D1_REFERENCE_KIT_LOCAL.json": {
+      "before": null,
+      "after": "78287fbc4ba7c1bd7b27215eacd0988a1e4744d1945880746fa07988cf180fd0"
+    },
+    "docs/operations/D1_REFERENCE_KIT_TEST_APPROVAL_AR.md": {
+      "before": null,
+      "after": "4fd40dfc9330e235add8e26039f8695ed5972ceeadbdf852275d7028b91bcd08"
+    },
+    "docs/operations/GO_LIVE_CUTOVER_AR.md": {
+      "before": "83b52b67d02d4dd2743dc959b3448c67604786f986e58fe17dac88b1169eab74",
+      "after": "1066ce5d18c90a568865d4094c425158ab0aa903cf634bcb2009e64327fd3e16"
+    },
+    "docs/operations/RESET219_REFERENCE_D1_AR.md": {
+      "before": "914969936e64639247f9a374fb3e29b9c9c1c2ff29ceef53df806c2bb93c1eac",
+      "after": "f77eb5a1e75d3a3f4b5c094c5a88815893d78952aa8ff644a40404bb759bb463"
+    },
+    "scripts/audit/source-before-pg-net-sequence-state.mjs": {
+      "before": "9efde96eaaa9dbdc4e510ee5bb5ece89e31c89edb852f4d6c856eb8abed45ee4",
+      "after": "08d50799764576d9d9376045a263194dcf10928a6501e4c8627214a3b00124e0"
+    },
+    "scripts/audit/source-before-record-order.mjs": {
+      "before": "6433f0868a45593395a3c23ab1112530b89f8fca247da336a905fe3c055289f0",
+      "after": "15478156581ca3c136d03b16f56cf09284f91e9b435b277e2d15c2c204fc2eca"
+    },
+    "scripts/audit/source-before-storefront-speed.mjs": {
+      "before": "f698142af568193b0e749f879c7904cf925d82be568a5936254c619bb0c09c57",
+      "after": "b6109a03acf2dec3ab7ba5e276aabf58251a91ecd35e76a2d0234c3b508837f3"
+    },
+    "scripts/operations/d1-known-owner-files.json": {
+      "before": null,
+      "after": "0ff0977b771d63555bc28bf260f611bf65cb955846dbdb10d9c71436aa999134"
+    },
+    "scripts/operations/d1-reference-ci.mjs": {
+      "before": null,
+      "after": "389d389f32c5bcdd924c3b4379b5d1b4739e1a988737d72d1d252da7070542cb"
+    },
+    "scripts/operations/d1-reference-install.ps1": {
+      "before": null,
+      "after": "2b0c5f8e35d80206300fff7a4563fd6df6d837e421530d1fd908164468f608fe"
+    },
+    "scripts/operations/d1-reference-kit.mjs": {
+      "before": null,
+      "after": "cfd4946043c02d063cde947cfda861459f567349485735adb47642e81dfaf30f"
+    },
+    "scripts/operations/d1-reference-kit.ps1": {
+      "before": null,
+      "after": "5fd2bb7315b7588b72b2b9de8dee1ee90566e46db70b0833812c1c3cf2714561"
+    },
+    "scripts/operations/d1-reference-state.mjs": {
+      "before": null,
+      "after": "fa91eafe6f06b5e227c8bb4090a0908907d9e300ab6c35c0219e7073e4ca7232"
+    },
+    "tests/cart-flight-contracts.test.ts": {
+      "before": "09c414cd4cb407f0ac53446a68bc5cbb92bff53daae9c4f30a6a90b0b6913c4e",
+      "after": "5efcfc06b18b3cf157b5e0b827bcab03e83ecf113f0d0cba47bf61ba26f098bf"
+    },
+    "tests/d1-reference-kit.test.ts": {
+      "before": null,
+      "after": "97c866fa1ed00544f235fa17e3dc98064e2da386b88a66bc267a7a20578dfbe3"
+    },
+    "tests/pg-net-sequence-state.test.ts": {
+      "before": "7aaba917421dbbf1bc216ce405e12223d70e8879643a9f32a92e9fa3bf164d45",
+      "after": "d96c7c8c826b4222e57b71bffecd203437b961d47b6bc7eaedbf044dcf91778e"
+    },
+    "tests/reset219-reference-d1-docs.test.ts": {
+      "before": "6583bf1e1b01255be3b8a67e797e220e4692686dffbcba2511d31143d85580a1",
+      "after": "23821e58350da7258892aa1dc94b6b11d34165e514cbc232faf35a34d14de3a7"
+    }
+  }
+}
