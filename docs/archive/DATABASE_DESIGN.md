@@ -95,7 +95,7 @@ npx supabase migration list
 - دوال ERP التي تغير المخزون أو المال تتحقق من الهوية والدور، وتطبق MFA عند الحاجة.
 - كل عكس أو إلغاء يبقي السجل واضحًا: لا حذف صامت لحركة مالية أو مخزنية مؤثرة.
 - `service_role` محصور داخل Edge Functions الموثقة، ولا يرسل إلى React أو n8n.
-- Business new-order automation payload بعد `102` لا يحمل اسم العميل أو هاتفه أو عنوانه أو موقعه؛ راجع [Privacy Data Map](./docs/operations/PRIVACY_DATA_MAP.md).
+- Business new-order automation payload بعد `102` لا يحمل اسم العميل أو هاتفه أو عنوانه أو موقعه؛ راجع [Privacy Data Map](../operations/PRIVACY_DATA_MAP.md).
 
 ## استمرارية البيانات
 

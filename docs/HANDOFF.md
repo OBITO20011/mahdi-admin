@@ -14,7 +14,7 @@ Nawasrah ERP نظام جملة عربي RTL:
 - n8n محلي لتسليم Business Alerts فقط.
 - Windows Developer Watchdog وGitHub Actions للمراقبة التقنية المستقلة.
 
-راجع [ARCHITECTURE.md](../ARCHITECTURE.md) و[DATABASE_DESIGN.md](../DATABASE_DESIGN.md).
+راجع [ARCHITECTURE.md](archive/ARCHITECTURE.md) و[DATABASE_DESIGN.md](archive/DATABASE_DESIGN.md).
 
 ## 2. Production baseline
 
