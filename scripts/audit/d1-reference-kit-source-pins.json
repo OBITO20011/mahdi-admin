@@ -1,7 +1,7 @@
 {
   "format": 1,
   "baseline": "16ef354cb5ecab7e8689975b6d1c7ba3fadbed24",
-  "scope": "Owner8Nov D1 kit exact known docs/tool delta for historical tests only;runtime always actual.",
+  "scope": "Owner8Nov D1 kit plus owner9Nov exact root-documentation link/test-only deltas;whole-source hashes only,unknown edits visible;runtime always actual.",
   "entries": {
     "docs/agent/PHASE_STATUS.md": {
       "before": "55867a55df93b7870ed402ab6e6612ebe29f94555d9e841d08eba582eba6783f",
@@ -81,7 +81,7 @@
     },
     "tests/d1-reference-kit.test.ts": {
       "before": null,
-      "after": "97c866fa1ed00544f235fa17e3dc98064e2da386b88a66bc267a7a20578dfbe3"
+      "after": "9fe20e8b39a7e556159417883e1078a8e401690aaf93e9231d0af7de1424e329"
     },
     "tests/pg-net-sequence-state.test.ts": {
       "before": "7aaba917421dbbf1bc216ce405e12223d70e8879643a9f32a92e9fa3bf164d45",
@@ -90,6 +90,22 @@
     "tests/reset219-reference-d1-docs.test.ts": {
       "before": "6583bf1e1b01255be3b8a67e797e220e4692686dffbcba2511d31143d85580a1",
       "after": "23821e58350da7258892aa1dc94b6b11d34165e514cbc232faf35a34d14de3a7"
+    },
+    "supabase/README.md": {
+      "before": "315d2d3b583599b9ce7d18adc1f8480720213d93acfaa0e5ee5dc0735d45e477",
+      "after": "843ba9661744460fe0d503c26bf13d2b19a1b7234d3e6e16b8325275df9a7e43"
+    },
+    "tests/go-live-files-offline.test.ts": {
+      "before": "6a11113dad0fdbf1b89cda925922f3d95d6f676acee9019db58fc97ba0921096",
+      "after": "b598b3778fc612531c0786311870fc75e4bc401e1459a0e57e10a6678b80e4c1"
+    },
+    "tests/product-workbook-history.test.ts": {
+      "before": "8856554c080117a8b14cb62c7eacdd27337a9ceb005812896f1ab3905c69a40a",
+      "after": "567afc8ed7f77f1d15fb3227ec822abc9e50e3bb0efa55004bd18c1ad565288a"
+    },
+    "scripts/testing/product-workbook-runtime-view.mjs": {
+      "before": "7e28c9ce3bf7acfa15e3b60b3eed6dfa9ef92b2d31ae7e1f2b77b8ff5f85299b",
+      "after": "d25024846b64ce8f6e2aba59356c11cb92a1f238d6de52571ce8a244a52ff301"
     }
   }
 }

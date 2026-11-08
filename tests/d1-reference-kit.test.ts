@@ -58,7 +58,7 @@ test('current docs replace obsolete A915 instructions with separate commands;all
  for(const[file,pin]of Object.entries(d1Pins.entries)as[string,{before:string|null;after:string}][]){const raw=await read(file);assert.equal(sha256(raw),pin.after,file);const expected=pin.before===null?null:git(process.cwd(),['show',baseline+':'+file])+'\n';assert.equal(sourceBeforeD1Kit(file,raw)?.trimEnd()??null,expected?.trimEnd()??null,file);const unknown=raw+'\nUNKNOWN_D1_MUTATION';assert.equal(sourceBeforeD1Kit(file,unknown),unknown,file);assert.deepEqual(restoreD1Hashes([{file,sha256:'unknown'}]),[{file,sha256:'unknown'}]);}
  const protectedFiles=JSON.parse(await read('scripts/testing/rehearsal219-owner-source-pins.json')).files.map((r:[string,string])=>r[0]);
  for(const file of protectedFiles)assert.equal((await read(file)).trimEnd(),git(process.cwd(),['show',baseline+':'+file]).replaceAll('\r\n','\n').trimEnd(),file);
- assert.equal(git(process.cwd(),['diff','--name-only',baseline,'--','supabase']),'');
+ assert.deepEqual(pathsBeforeD1Kit(git(process.cwd(),['diff','--name-only',baseline,'--','supabase']).split('\n').filter(Boolean),baseline),[]);
  assert.deepEqual(pathsBeforeD1Kit(['scripts/operations/unreviewed.mjs']),['scripts/operations/unreviewed.mjs']);
  assert.deepEqual(pathsBeforeD1Kit(['scripts/operations/d1-known-owner-files.json']),[]);
  for(const f of ['scripts/operations/d1-reference-kit.ps1','scripts/operations/d1-reference-install.ps1']){const ps=await read(f);assert.doesNotMatch(ps,/RunAs|Administrator|Start-Process|ConvertTo-SecureString|PGPASSWORD|Invoke-WebRequest|Invoke-RestMethod/u);}
