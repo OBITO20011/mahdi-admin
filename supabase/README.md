@@ -78,6 +78,6 @@ recovery. لا يحل أحدهما محل الآخر. Clean baseline لاحق ت
 - حماية closing-snapshot guard في migration `110` وPOS idempotency replay في
   migration `111`.
 
-التفاصيل في [DATABASE_DESIGN.md](../DATABASE_DESIGN.md)، ودورة الطلب في
+التفاصيل في [DATABASE_DESIGN.md](../docs/archive/DATABASE_DESIGN.md)، ودورة الطلب في
 [README-orders.md](./README-orders.md)، وكل contract دقيق مصدره ملف migration
 نفسه واختباراته.

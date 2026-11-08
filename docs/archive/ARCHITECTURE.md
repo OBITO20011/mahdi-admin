@@ -109,7 +109,7 @@ Encrypted ERP/n8n backups are stored outside runtime data and verified by drills
 
 ## الخصوصية
 
-راجع [docs/operations/PRIVACY_DATA_MAP.md](./docs/operations/PRIVACY_DATA_MAP.md).
+راجع [docs/operations/PRIVACY_DATA_MAP.md](../operations/PRIVACY_DATA_MAP.md).
 لا تحمل Developer Alerts بيانات العملاء، وBusiness new-order payload لا يحمل
 اسمًا أو هاتفًا أو عنوانًا أو موقعًا بعد migration `102`. هذا توصيف تقني وليس
 ادعاء توافق قانوني كامل.
@@ -117,5 +117,5 @@ Encrypted ERP/n8n backups are stored outside runtime data and verified by drills
 ## التشغيل والتسليم
 
 الإجراءات والأوامر وحالة Production الحالية موجودة في
-[docs/HANDOFF.md](./docs/HANDOFF.md). لا تُستخدم هذه الوثيقة بدل migrations أو
+[docs/HANDOFF.md](../HANDOFF.md). لا تُستخدم هذه الوثيقة بدل migrations أو
 التحقق الحي من CI/deployments/incidents.

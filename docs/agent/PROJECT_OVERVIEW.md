@@ -578,7 +578,7 @@ Mobile shell geometry remains unchanged; desktop/tablet layout only for item 8.
 `ACTIVE_TASK.json` records only the current step; prior detailed continuity
 evidence is preserved in Git at that baseline and in the phase evidence files.
 
-Repository architecture references remain useful: `ARCHITECTURE.md`, `DATABASE_DESIGN.md`, and `docs/operations/`. Where an older document conflicts with `docs/agent/`, the current approved state and owner decisions in `docs/agent/` govern until deliberately updated and verified.
+Repository architecture references remain useful: `docs/archive/ARCHITECTURE.md`, `docs/archive/DATABASE_DESIGN.md`, and `docs/operations/`. Where an older document conflicts with `docs/agent/`, the current approved state and owner decisions in `docs/agent/` govern until deliberately updated and verified.
 
 ## Current boundary
 

@@ -119,7 +119,7 @@ workers/                Independent integration workers
 - [Maintainer guide](docs/MAINTAINER_GUIDE_AR.md): current screen/service/RPC map and safe change procedures
 - [AGENTS.md](AGENTS.md): repository agent contract
 - [Project overview](docs/agent/PROJECT_OVERVIEW.md) and [operating rules](docs/agent/OPERATING_RULES.md)
-- [Architecture](ARCHITECTURE.md) and [database design](DATABASE_DESIGN.md)
+- [Historical architecture and database design](docs/archive/README.md) (superseded; use the maintainer guide for current behavior)
 - [Owner handover guide](docs/handover/دليل-صاحب-المحل.md) and [go-live cutover plan](docs/operations/GO_LIVE_CUTOVER_AR.md)
 - [Backup and restore](scripts/backup/README.md), [monitoring runbooks](docs/operations/MONITORING_RUNBOOKS.md), and [privacy data map](docs/operations/PRIVACY_DATA_MAP.md)
 

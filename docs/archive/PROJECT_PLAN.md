@@ -174,4 +174,4 @@ Cloudflare Insights cleanup وPWA-01 كلها مكتملة، وليست بنود
   الاستجابات القديمة وربط النتيجة بالجلسة الحالية.
   `MFA RETRY RECOVERY = VERIFIED FIXED`.
 
-راجع [docs/HANDOFF.md](./docs/HANDOFF.md) للأوامر وخطوات التشغيل الآمنة.
+راجع [docs/HANDOFF.md](../HANDOFF.md) للأوامر وخطوات التشغيل الآمنة.
