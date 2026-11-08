@@ -5,7 +5,7 @@
   "entries": {
     "docs/agent/PHASE_STATUS.md": {
       "before": "55867a55df93b7870ed402ab6e6612ebe29f94555d9e841d08eba582eba6783f",
-      "after": "595a7493b420488002999e1524ff0f6b64b192c31cee9b63831cbc97e395d4d9"
+      "after": "6d6c528c74c14b7a688588d0beeeaceb6871fced31f7f57b0da07e646304abf8"
     },
     "docs/agent/project-state.json": {
       "before": "a0debf7197fe2c0981ee16d1ed652e3753e5ea63159d8de931f507b9c9289ba3",
@@ -41,7 +41,7 @@
     },
     "scripts/audit/source-before-pg-net-sequence-state.mjs": {
       "before": "9efde96eaaa9dbdc4e510ee5bb5ece89e31c89edb852f4d6c856eb8abed45ee4",
-      "after": "c9b133f836c1e31239236442853eef0d97b85baefadfbad42f3a03033b965756"
+      "after": "08d50799764576d9d9376045a263194dcf10928a6501e4c8627214a3b00124e0"
     },
     "scripts/audit/source-before-record-order.mjs": {
       "before": "6433f0868a45593395a3c23ab1112530b89f8fca247da336a905fe3c055289f0",
@@ -81,7 +81,11 @@
     },
     "tests/d1-reference-kit.test.ts": {
       "before": null,
-      "after": "2eddb1b39e0316274eb5fb97b826d89466b51d230bd31aad26a0f083972f0744"
+      "after": "97c866fa1ed00544f235fa17e3dc98064e2da386b88a66bc267a7a20578dfbe3"
+    },
+    "tests/pg-net-sequence-state.test.ts": {
+      "before": "7aaba917421dbbf1bc216ce405e12223d70e8879643a9f32a92e9fa3bf164d45",
+      "after": "d96c7c8c826b4222e57b71bffecd203437b961d47b6bc7eaedbf044dcf91778e"
     },
     "tests/reset219-reference-d1-docs.test.ts": {
       "before": "6583bf1e1b01255be3b8a67e797e220e4692686dffbcba2511d31143d85580a1",

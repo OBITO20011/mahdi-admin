@@ -1,4 +1,4 @@
-import{sourceBeforeD1Kit}from'./source-before-d1-reference-kit.mjs';
+import{sourceBeforeD1Kit,pathsBeforeD1Kit}from'./source-before-d1-reference-kit.mjs';
 // Exact historical view only;current Backup/Restore always executes current code.
 import assert from'node:assert/strict';import{readFileSync}from'node:fs';import{createHash}from'node:crypto';import{execFileSync}from'node:child_process';
 const baseline="01d4b036136304876da1be8b701cff9e342e3b4d",pins={
@@ -44,7 +44,7 @@ export function sourceBeforePgNetSequenceState(file,text){
  return old.get(file);
 }
 export function restorePgNetStateSourceHashes(rows){return rows.flatMap(row=>{const p=pins[row.file];return !p||p.after!==row.sha256?[row]:p.before===null?[]:[{...row,sha256:p.before}];});}
-export function pathsBeforePgNetSequenceState(files,reference){return files.filter(file=>{
+export function pathsBeforePgNetSequenceState(files,reference){return pathsBeforeD1Kit(files,reference).filter(file=>{
  if(!pins[file])return true;const current=readFileSync(new URL('../../'+file,import.meta.url),'utf8'),before=sourceBeforePgNetSequenceState(file,current);
  if(before===null)return false;if(before===current||!reference)return true;
  try{return hash(execFileSync('git',['show',reference+':'+file],{encoding:'utf8',windowsHide:true,stdio:['ignore','pipe','pipe']}))!==hash(before);}catch{return true;}

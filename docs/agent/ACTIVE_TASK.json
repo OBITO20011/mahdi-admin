@@ -3,16 +3,18 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner8Nov D-1 candidate kit:main exactFULLCI/local219reference/hashes/Arabicapproval;separate hash-approved atomic install,docs/tests/PRFULLCI,no merge/hosted/SQL/owner edits.",
-  "baselineSha": "16ef354cb5ecab7e8689975b6d1c7ba3fadbed24",
+  "baselineSha": "c365d59a65f503e22df0e0e3749f75c76220de51",
   "branch": "codex/d1-reference-kit",
   "phase": "PACKAGE_F",
   "completed": [
     "Actualmain16efPowerShellpreparePASS219/180/636/13/181queries/diff0;candidateTEST_ONLY3a27bac3,no install.",
     "Owner20/env4/currentreferenceunchanged;Dockercleaned;approval1page/card2A4.",
-    "Negativefixtures+strictrollback/hash/marker/CI/dirty/head/catalog/junction PASS;types/strictlintPASS."
+    "Negativefixtures+strictrollback/hash/marker/CI/dirty/head/catalog/junction PASS;types/strictlintPASS.",
+    "83Draft c365d59a pushed;Gitleaks0;actualcandidate/report attached,testonly.",
+    "83firstCIbackup/secretsPASS;4historicalpath/doc assertions fixed via exacthash only,focused5/types/lintPASS."
   ],
   "inProgress": [
-    "Final exacthistorymetadata branchadapter and PR preparation."
+    "Commit/push exact historical proof corrections then FULLCI on newhead."
   ],
   "notStarted": [],
   "testsPassed": [],
@@ -26,12 +28,13 @@
     "No SQL/migration/RPC/finance/permissions,hosted/deploy/merge.",
     "Do not changeowner/env/readyreference/workdir;58/79/82Draft."
   ],
-  "nextExactAction": "D1 kit implemented;actualmain16efPowerShellpreparePASS219/180/636/13/181queries/diff0,testonly/noinstall;owner20/env4/referenceuntouched. Focused51+fixedcart5,newnegative7/currentdocs1,types/strictlint/print1and2 PASS. Gitleaks/commit/push/PR/FULLCI next;no merge/hosted.",
-  "checkpointedAt": "2026-11-08T04:49:49.042Z",
+  "nextExactAction": "PR83 firstCI4historyonly failures repaired,focused5/type/lint PASS;commit/push newhead then FULLCI.No tool/SQL/guard changes;actualmaincandidate testonly,ownerfilesuntouched.",
+  "checkpointedAt": "2026-11-08T04:58:39.713Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 23,
-  "filesTouchedManifestSha256": "31061fa4b38d6f0deeb246bf424af5f15b696135894760b40953a988c331098f",
-  "workingTreeFingerprint": "8C5ADFED09EC19292CC5D240D0D87CB288A58C67AC9D6877F0D9B7483D23D62D"
+  "filesTouchedCount": 6,
+  "filesTouchedManifestSha256": "e5833190644c76bb33f94b107fe751074d43d1fb7c80ee257cf7cd19f9e7f2fb",
+  "workingTreeFingerprint": "5BA3CE7A2FC1CEB4FA1F650C6BE746BC3810CCCB9D605E763A0163C6D4C15DAA",
+  "historyBaseline": "16ef354cb5ecab7e8689975b6d1c7ba3fadbed24"
 }

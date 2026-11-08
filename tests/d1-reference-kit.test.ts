@@ -4,7 +4,7 @@ import path from 'node:path';import {tmpdir} from 'node:os';import {execFileSync
 import {prepareD1,installD1,d1ErrorCode,d1Main} from '../scripts/operations/d1-reference-kit.mjs';
 import {repositoryState,sha256,externalPath} from '../scripts/operations/d1-reference-state.mjs';
 import {verifyD1Ci} from '../scripts/operations/d1-reference-ci.mjs';
-import {d1Pins,sourceBeforeD1Kit,restoreD1Hashes} from '../scripts/audit/source-before-d1-reference-kit.mjs';
+import {d1Pins,sourceBeforeD1Kit,restoreD1Hashes,pathsBeforeD1Kit} from '../scripts/audit/source-before-d1-reference-kit.mjs';
 const name='local-reference-through219-ready.json';
 const git=(root:string,args:string[])=>execFileSync('git',args,{cwd:root,encoding:'utf8',windowsHide:true,stdio:['ignore','pipe','pipe']}).trim();
 async function fixture(){
@@ -59,6 +59,8 @@ test('current docs replace obsolete A915 instructions with separate commands;all
  const protectedFiles=JSON.parse(await read('scripts/testing/rehearsal219-owner-source-pins.json')).files.map((r:[string,string])=>r[0]);
  for(const file of protectedFiles)assert.equal((await read(file)).trimEnd(),git(process.cwd(),['show',baseline+':'+file]).replaceAll('\r\n','\n').trimEnd(),file);
  assert.equal(git(process.cwd(),['diff','--name-only',baseline,'--','supabase']),'');
+ assert.deepEqual(pathsBeforeD1Kit(['scripts/operations/unreviewed.mjs']),['scripts/operations/unreviewed.mjs']);
+ assert.deepEqual(pathsBeforeD1Kit(['scripts/operations/d1-known-owner-files.json']),[]);
  for(const f of ['scripts/operations/d1-reference-kit.ps1','scripts/operations/d1-reference-install.ps1']){const ps=await read(f);assert.doesNotMatch(ps,/RunAs|Administrator|Start-Process|ConvertTo-SecureString|PGPASSWORD|Invoke-WebRequest|Invoke-RestMethod/u);}
 });
 test('output inside repo or owner workdir and linked folders are refused;no command-line CI bypass',async()=>{

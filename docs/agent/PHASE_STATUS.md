@@ -1,6 +1,6 @@
 # 8Nov2026 — D1 reference kit,local preparation PASS;PR/fullCI next
 
-Owner-approved separate prepare/install,219 only,no SQL/hosted/deploy/merge. Actual PowerShell5.1 prepare on main16ef:180/636/13/181queries,fresh-incremental0,candidate3a27bac3…TEST_ONLY/no install. Known20ownerfiles/4env/ownerreference hashes unchanged;Docker cleaned. Approval1A4/card2A4,negative hash/RESET marker/dirty/head/CI/catalog/rollback/junction tests PASS. Types/strictlint PASS;finalfocused+Gitleaks/PR/FULLCI pending.58/79/82Draft.
+Owner-approved separate prepare/install,219 only,no SQL/hosted/deploy/merge. Actual PowerShell5.1 prepare on main16ef:180/636/13/181queries,fresh-incremental0,candidate3a27bac3…TEST_ONLY/no install. Known20ownerfiles/4env/ownerreference hashes unchanged;Docker cleaned. Approval1A4/card2A4,negative hash/RESET marker/dirty/head/CI/catalog/rollback/junction tests PASS. Types/strictlint PASS;finalfocused+Gitleaks/PR/FULLCI pending.58/79/82Draft. PR83 firstCI1853/1857:4history path/doc assertions rejected newkit additions/obsolete guide;exact inverse fixed,5focused/type/lintPASS,no runtime guard changed. BackupCI andsecretsPASS;FULLCI correctedhead pending.
 
 # 7Nov2026 — approved pg_net backup/Restore state repair,local verification pending
 

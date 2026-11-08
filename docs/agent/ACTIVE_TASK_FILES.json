@@ -7,23 +7,11 @@
     },
     {
       "code": " M",
-      "path": "docs/agent/project-state.json"
+      "path": "scripts/audit/d1-reference-kit-source-pins.json"
     },
     {
       "code": " M",
-      "path": "docs/handover/ورقة-يوم-التشغيل.html"
-    },
-    {
-      "code": " M",
-      "path": "docs/handover/ورقة-يوم-التشغيل.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/RESET219_REFERENCE_D1_AR.md"
+      "path": "scripts/audit/source-before-d1-reference-kit.mjs"
     },
     {
       "code": " M",
@@ -31,67 +19,11 @@
     },
     {
       "code": " M",
-      "path": "scripts/audit/source-before-record-order.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/source-before-storefront-speed.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/cart-flight-contracts.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/reset219-reference-d1-docs.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/D1_REFERENCE_KIT_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/D1_REFERENCE_KIT_LOCAL.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/D1_REFERENCE_KIT_TEST_APPROVAL_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/d1-reference-kit-source-pins.json"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/source-before-d1-reference-kit.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/d1-known-owner-files.json"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/d1-reference-ci.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/d1-reference-install.ps1"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/d1-reference-kit.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/d1-reference-kit.ps1"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/d1-reference-state.mjs"
-    },
-    {
-      "code": "??",
       "path": "tests/d1-reference-kit.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/pg-net-sequence-state.test.ts"
     }
   ]
 }
