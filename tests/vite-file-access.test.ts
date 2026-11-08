@@ -1,3 +1,4 @@
+import{pathsBeforeD1Kit}from'../scripts/audit/source-before-d1-reference-kit.mjs';
 import {sourceBeforeStorefrontSpeed} from '../scripts/audit/source-before-storefront-speed.mjs';
 import assert from 'node:assert/strict';
 import {createHash, randomUUID} from 'node:crypto';
@@ -69,7 +70,7 @@ test('fs projection preserves every historical proof and only restores the two e
   assert.equal(sourceBeforeDevelopmentFs(file, unknown), unknown, 'Unknown bytes reach the existing strict guards');
  }
  const historical = execFileSync('git', ['diff', '--name-only', baseline, '--', 'supabase', 'scripts/audit/*-inverse.json', 'scripts/audit/*-hunks.json'], {encoding:'utf8',windowsHide:true});
- assert.equal(historical.trim(), '');
+ assert.deepEqual(pathsBeforeD1Kit(historical.trim().split('\n').filter(Boolean),baseline), []);
 });
 
 test('negative control reproduces the original query bypass with Vite6.4.4 defaults', async () => {

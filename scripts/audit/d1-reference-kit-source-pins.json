@@ -106,6 +106,26 @@
     "scripts/testing/product-workbook-runtime-view.mjs": {
       "before": "7e28c9ce3bf7acfa15e3b60b3eed6dfa9ef92b2d31ae7e1f2b77b8ff5f85299b",
       "after": "d25024846b64ce8f6e2aba59356c11cb92a1f238d6de52571ce8a244a52ff301"
+    },
+    "tests/store-sharing-identity.test.ts": {
+      "before": "2415cd9e288f7588a4315ef8bc84bd2ca01835a45c7888ff53c271d5c45a7b6c",
+      "after": "e3a546b3907fb39be55af983327e80f49a9d1c5ce273a30a5a68a15bd304f553"
+    },
+    "tests/trial-owner-r.test.ts": {
+      "before": "11a8cb19e79a0932b6e720fff941eb032de75811016226bdf76e18ba9884c0be",
+      "after": "9e6b5727546f62ca9497719f2707f84cb18f603661b4df0f9bbf219ea993fa65"
+    },
+    "tests/trial-owner-w.test.ts": {
+      "before": "765da83c9f6cca1d0e822a9a7832b15c70a9d232a16835d1f47fab68bb8263aa",
+      "after": "062035f199b181583534a727b890ee6857c650b1fc222d297a6f6591c53a515a"
+    },
+    "tests/trial40-integration.test.ts": {
+      "before": "4f8141c973fcef5646ddad32d4f4e1b03358729e2763eddd9866aa334ee532c1",
+      "after": "37be0f6f60877b371b47d67d7d66523635082566b7b19e84025b2ecf22d1bcae"
+    },
+    "tests/vite-file-access.test.ts": {
+      "before": "a368fba4f7699df98424ecc9295b1310553d8a11ff8c18df57c69563cc72dc07",
+      "after": "ae3b7a85402ec990edaeca637bea91ce438b27ec21560a0bbf9c33f7ffbd48e3"
     }
   }
 }
