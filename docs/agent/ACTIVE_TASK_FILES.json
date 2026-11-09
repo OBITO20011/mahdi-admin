@@ -3,27 +3,11 @@
   "files": [
     {
       "code": " M",
-      "path": ".github/workflows/sales-only-phase1.yml"
+      "path": "docs/design/sales-only-phase2/guest-lifecycle.sql"
     },
     {
       "code": " M",
-      "path": "customer-web/src/services/receipts.service.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/tests/public-pos-receipt.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "e2e/isolated-test.ts"
-    },
-    {
-      "code": " M",
-      "path": "e2e/package-f-customers-harness.tsx"
-    },
-    {
-      "code": " M",
-      "path": "e2e/package-f-public-receipt210.spec.ts"
+      "path": "e2e/admin-lifecycle-recovery.spec.ts"
     },
     {
       "code": " M",
@@ -31,15 +15,19 @@
     },
     {
       "code": " M",
-      "path": "scripts/testing/sales-only-phase2-installer.mjs"
+      "path": "scripts/testing/sales-only-phase2-lifecycle-runtime.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/testing/sales-only-phase2-return-runtime.mjs"
+      "path": "src/services/supabase/adminCustomerV2Lifecycle.ts"
     },
     {
       "code": " M",
-      "path": "src/services/supabase/customerStatement.service.ts"
+      "path": "src/services/supabase/orders.service.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/phase36-admin-integration.test.ts"
     },
     {
       "code": " M",
@@ -47,19 +35,11 @@
     },
     {
       "code": "??",
-      "path": "docs/design/sales-only-phase2/LEDGER_READERS_PROOF_AR.md"
+      "path": "docs/design/sales-only-phase2/LIFECYCLE_ADAPTER_PROOF_AR.md"
     },
     {
       "code": "??",
-      "path": "docs/design/sales-only-phase2/ledger-readers.sql"
-    },
-    {
-      "code": "??",
-      "path": "e2e/sales-only-phase2-receipts.spec.ts"
-    },
-    {
-      "code": "??",
-      "path": "tests/sales-only-phase2-ledger-readers.test.ts"
+      "path": "src/services/supabase/salesOnlyOrderTransition.ts"
     }
   ]
 }

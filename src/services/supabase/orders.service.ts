@@ -1,7 +1,8 @@
+import {transitionLiteOrder} from './salesOnlyOrderTransition';
 import {safeGoogleMapsUrl, validMapCoordinates} from '../../utils/googleMaps';
 import { supabase, isSupabaseConfigured } from '../../lib/supabase';
 import { Order, OrderStatus, PaymentMethod, PaymentStatus } from '../../types';
-import { isCustomerV2Order, runCustomerV2AdminAction } from './adminCustomerV2Lifecycle';
+import { isCustomerV2Order, readOrderLifecycleContract, runCustomerV2AdminAction } from './adminCustomerV2Lifecycle';
 import { attachHistoricalParcelComposition } from './historicalParcelComposition';
 import {storefrontReceiptUrl} from './pos.service';
 import {orderExchangeFunding} from '../../utils/orderExchangeFunding';
@@ -631,7 +632,10 @@ export async function confirmOrderInSupabase(
   }
 
   try {
-    const { data, error } = await supabase.rpc('accept_order_for_preparation', {
+    const contract=await readOrderLifecycleContract(supabase,orderId);
+    const { data, error } = contract==='sales-only'
+      ? await transitionLiteOrder(supabase,orderId,'preparing',notes)
+      : await supabase.rpc('accept_order_for_preparation', {
       p_order_id: orderId,
       p_notes: notes || null,
     });
@@ -707,9 +711,10 @@ export async function cancelOrderInSupabase(
   }
 
   try {
-    const customerV2 = await isCustomerV2Order(supabase, orderId);
+    const contract=await readOrderLifecycleContract(supabase,orderId);
+    const customerV2=contract!=='legacy';
     const { data, error } = customerV2
-      ? await runCustomerV2AdminAction(supabase, orderId, 'cancel', { reason: notes || null })
+      ? await runCustomerV2AdminAction(supabase, orderId, 'cancel', { reason: notes || null,...(contract==='sales-only'?{accountingMode:'sales-only'}:{}) })
       : await supabase.rpc('update_order_status', {
         p_order_id: orderId,
         p_new_status: 'cancelled',
@@ -936,14 +941,16 @@ export async function completeWebsiteOrderWithSettlementInSupabase(
   }
 
   try {
+    const contract=await readOrderLifecycleContract(supabase,input.orderId);
     const request = {
+      ...(contract==='sales-only'?{accountingMode:'sales-only'}:{}),
       paymentMethod: input.paymentMethod,
       amountCollectedInMinorUnits,
       deliveryFeeInMinorUnits,
       referenceNumber: input.referenceNumber?.trim() || null,
       notes: input.notes?.trim() || null,
     };
-    const customerV2 = await isCustomerV2Order(supabase, input.orderId);
+    const customerV2 = contract!=='legacy';
     const { data, error } = customerV2
       ? await runCustomerV2AdminAction(supabase, input.orderId, 'complete', request)
       : await supabase.rpc('complete_website_order_with_settlement', {
@@ -1042,7 +1049,10 @@ export async function updateOrderStatusInSupabase(
   }
 
   try {
-    const { data, error } = await supabase.rpc('update_order_status', {
+    const contract=await readOrderLifecycleContract(supabase,orderId);
+    const { data, error } = contract==='sales-only'
+      ? await transitionLiteOrder(supabase,orderId,newStatus,notes)
+      : await supabase.rpc('update_order_status', {
       p_order_id: orderId,
       p_new_status: newStatus,
       p_notes: notes || null,

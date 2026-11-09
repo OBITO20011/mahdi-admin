@@ -3,7 +3,7 @@ import {readFileSync} from 'node:fs';
 import test from 'node:test';
 import type {SupabaseClient} from '@supabase/supabase-js';
 import type {Order} from '../src/types';
-import {isCustomerV2Order, runCustomerV2AdminAction,
+import {isCustomerV2Order,readOrderLifecycleContract, runCustomerV2AdminAction,
   withAdminActionLock} from '../src/services/supabase/adminCustomerV2Lifecycle';
 import {attachHistoricalParcelComposition} from '../src/services/supabase/historicalParcelComposition';
 
@@ -633,8 +633,8 @@ test('historical parcel instances retain their own component snapshots and do no
 
 test('service entrypoints route cancellation and settlement without changing legacy RPCs', () => {
   const source = readFileSync(new URL('../src/services/supabase/orders.service.ts', import.meta.url), 'utf8');
-  assert.match(source, /cancelOrderInSupabase[\s\S]*isCustomerV2Order[\s\S]*runCustomerV2AdminAction[\s\S]*'update_order_status'/u);
-  assert.match(source, /completeWebsiteOrderWithSettlementInSupabase[\s\S]*isCustomerV2Order[\s\S]*runCustomerV2AdminAction[\s\S]*'complete_website_order_with_settlement'/u);
+  assert.match(source, /cancelOrderInSupabase[\s\S]*readOrderLifecycleContract[\s\S]*runCustomerV2AdminAction[\s\S]*'update_order_status'/u);
+  assert.match(source, /completeWebsiteOrderWithSettlementInSupabase[\s\S]*readOrderLifecycleContract[\s\S]*runCustomerV2AdminAction[\s\S]*'complete_website_order_with_settlement'/u);
   assert.match(source, /if \(newStatus === 'cancelled'\) return cancelOrderInSupabase/u);
   const legacyPayment = source.split('export async function completeWebsiteOrderWithPaymentInSupabase(')[1]
     .split('export async function cancelOrderInSupabase(')[0];
@@ -642,4 +642,40 @@ test('service entrypoints route cancellation and settlement without changing leg
     .split('export async function updateOrderStatusInSupabase(')[0];
   assert.match(legacyPayment, /isCustomerV2Order\(supabase, orderId\)/u);
   assert.doesNotMatch(returnPath, /isCustomerV2Order\(supabase, orderId\)/u);
+});
+
+test('lite contract is derived from immutable creation operation,never a current mode or parcel heuristic',async()=>{
+ for(const [operationType,expected] of [['phase3_customer_reservation_v1','full-v2'],['lite1_guest','sales-only'],['lite1_pos','legacy'],['unknown','legacy']] as const){
+  const {client}=fakeClient(operationType);assert.equal(await readOrderLifecycleContract(client,orderId),expected);
+  assert.equal(await isCustomerV2Order(client,orderId),expected!=='legacy');
+ }
+});
+test('lite delivery lost response preserves captured mode/body/key;changed request cannot replace unknown attempt',async()=>{
+ const previous=globalThis.localStorage,storage=new MemoryStorage();Object.defineProperty(globalThis,'localStorage',{value:storage,configurable:true});
+ const calls:Array<{name:string;args:Record<string,unknown>}>=[];
+ const result={...success('complete'),accountingTracked:false};
+ const client={auth:{getUser:async()=>({data:{user:{id:actorId}},error:null})},rpc:async(name:string,args:Record<string,unknown>)=>{
+  calls.push({name,args:structuredClone(args)});return calls.length===1?{data:null,error:{message:'network timeout'}}:{data:result,error:null};
+ }} as unknown as SupabaseClient;
+ const request={accountingMode:'sales-only',paymentMethod:'cash',amountCollectedInMinorUnits:1000,deliveryFeeInMinorUnits:0,referenceNumber:null,notes:null};
+ try{
+  assert.ok((await runCustomerV2AdminAction(client,orderId,'complete',request)).error);
+  const before=storage.getItem([...storage.values.keys()][0]);
+  await assert.rejects(runCustomerV2AdminAction(client,orderId,'complete',{...request,accountingMode:undefined}),/غير محسومة|غير متطابقة|تغيرت/);
+  assert.equal(calls.length,1);assert.equal(storage.getItem([...storage.values.keys()][0]),before);
+  assert.deepEqual((await runCustomerV2AdminAction(client,orderId,'complete',request)).data,result);assert.deepEqual(calls[0],calls[1]);
+  assert.equal(calls[0].name,'lite1_complete2');assert.equal(calls[0].args.p_amount_collected_in_minor_units,1000);assert.equal(calls[0].args.p_order,orderId);
+  assert.equal(JSON.parse([...storage.values.values()][0]).status,'SUCCEEDED');
+  await runCustomerV2AdminAction(client,orderId,'complete',request);assert.equal(calls.length,2);
+ }finally{Object.defineProperty(globalThis,'localStorage',{value:previous,configurable:true});}
+});
+test('lite cancellation declares no reservation tracking;full cannot accept a lite proof',async()=>{
+ const previous=globalThis.localStorage,storage=new MemoryStorage();Object.defineProperty(globalThis,'localStorage',{value:storage,configurable:true});
+ const lite={...success('cancel'),accountingTracked:false,reservation_state:'not_tracked',released_reservations:0};
+ const calls:string[]=[],client={auth:{getUser:async()=>({data:{user:{id:actorId}},error:null})},rpc:async(name:string)=>{calls.push(name);return {data:lite,error:null};}} as unknown as SupabaseClient;
+ try{
+  assert.equal((await runCustomerV2AdminAction(client,orderId,'cancel',{reason:'اختبار',accountingMode:'sales-only'})).data.reservation_state,'not_tracked');
+  storage.clear();const full=await runCustomerV2AdminAction(client,orderId,'cancel',{reason:'اختبار'});assert.ok(full.error);
+  assert.equal(JSON.parse([...storage.values.values()][0]).status,'OUTCOME_UNKNOWN');assert.deepEqual(calls,['lite1_cancel_guest2','cancel_customer_order_v2']);
+ }finally{Object.defineProperty(globalThis,'localStorage',{value:previous,configurable:true});}
 });

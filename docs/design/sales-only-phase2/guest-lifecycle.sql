@@ -57,7 +57,7 @@ BEGIN
  END IF;
  INSERT INTO sales_lite1.completions(order_id) VALUES(p_order);
  INSERT INTO public.order_status_history(order_id,old_status,new_status,changed_by,notes) VALUES(p_order,o.status,'completed',auth.uid(),COALESCE(NULLIF(btrim(p_notes),''),'تسليم دون تتبع مخزون'));
- result:=jsonb_build_object('success',true,'order_id',p_order,'order_number',o.order_number,'status','completed','payment_method',CASE WHEN remaining>0 THEN 'debt' ELSE method END,
+ result:=jsonb_build_object('success',true,'operation_id',gen_random_uuid(),'order_id',p_order,'order_number',o.order_number,'status','completed','payment_method',CASE WHEN remaining>0 THEN 'debt' ELSE method END,
   'payment_status',CASE WHEN remaining=0 THEN 'paid' WHEN collected>0 THEN 'partially_paid' ELSE 'unpaid' END,
   'total_in_minor_units',total,'amount_paid_in_minor_units',collected,'remaining_in_minor_units',remaining,'customer_payment_number',payment->>'payment_number','accountingTracked',false);
  RETURN sales_lite1.finish(p_key,result);
@@ -78,7 +78,7 @@ BEGIN
  OR EXISTS(SELECT 1 FROM sales_lite1.completions WHERE order_id=p_order) THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_LIFECYCLE_INVALID';END IF;
  UPDATE public.orders SET status='cancelled',updated_at=now() WHERE id=p_order;
  INSERT INTO public.order_status_history(order_id,old_status,new_status,changed_by,notes) VALUES(p_order,o.status,'cancelled',auth.uid(),btrim(p_reason));
- RETURN sales_lite1.finish(p_key,jsonb_build_object('success',true,'order_id',p_order,'order_number',o.order_number,'status','cancelled','accountingTracked',false));
+ RETURN sales_lite1.finish(p_key,jsonb_build_object('success',true,'operation_id',gen_random_uuid(),'order_id',p_order,'order_number',o.order_number,'status','cancelled','accountingTracked',false,'reservation_state','not_tracked','released_reservations',0));
 END $cancel_guest$;
 REVOKE ALL ON FUNCTION public.lite1_cancel_guest2(UUID,TEXT,TEXT) FROM PUBLIC,anon,authenticated,service_role;
 GRANT EXECUTE ON FUNCTION public.lite1_cancel_guest2(UUID,TEXT,TEXT) TO authenticated;

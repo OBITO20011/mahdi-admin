@@ -87,20 +87,21 @@ const persist = (storageKey: string, attempt: LifecycleAttempt): void => {
 const minorUnits = (value: unknown): value is number =>
   typeof value === 'number' && Number.isSafeInteger(value) && value >= 0;
 const nullableText = (value: unknown) => value === null || typeof value === 'string';
-const requestIsValid = (action: Action, value: Record<string, unknown>) => action === 'cancel'
-  ? Object.keys(value).length === 1 && nullableText(value.reason)
-  : Object.keys(value).length === 5 && typeof value.paymentMethod === 'string'
+const requestIsValid = (action: Action, value: Record<string, unknown>) => (value.accountingMode===undefined||value.accountingMode==='sales-only') && (action === 'cancel'
+  ? Object.keys(value).length === (value.accountingMode==='sales-only'?2:1) && nullableText(value.reason)
+  : Object.keys(value).length === (value.accountingMode==='sales-only'?6:5) && typeof value.paymentMethod === 'string'
     && ['cash', 'cliq', 'debt'].includes(value.paymentMethod)
     && minorUnits(value.amountCollectedInMinorUnits) && minorUnits(value.deliveryFeeInMinorUnits)
-    && nullableText(value.referenceNumber) && nullableText(value.notes);
-const responseIsSuccess = (action: Action, orderId: string, value: unknown):
+    && nullableText(value.referenceNumber) && nullableText(value.notes));
+const responseIsSuccess = (action: Action, orderId: string, value: unknown,salesOnly=false):
   value is Record<string, unknown> => {
   if (!isObject(value) || value.success !== true || value.order_id !== orderId
     || typeof value.operation_id !== 'string'
     || !/^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$/iu.test(value.operation_id)
-    || value.status !== (action === 'complete' ? 'completed' : 'cancelled')) return false;
-  if (action === 'cancel') return value.reservation_state === 'cancelled'
-    && minorUnits(value.released_reservations);
+    || value.status !== (action === 'complete' ? 'completed' : 'cancelled')
+    || (salesOnly?value.accountingTracked!==false:value.accountingTracked===false)) return false;
+  if (action === 'cancel') return salesOnly?value.reservation_state==='not_tracked'&&value.released_reservations===0
+    :value.reservation_state === 'cancelled' && minorUnits(value.released_reservations);
   if (!minorUnits(value.total_in_minor_units) || !minorUnits(value.amount_paid_in_minor_units)
     || !minorUnits(value.remaining_in_minor_units)) return false;
   return value.total_in_minor_units - value.amount_paid_in_minor_units === value.remaining_in_minor_units
@@ -133,7 +134,7 @@ Promise<LifecycleAttempt> {
       break;
     case 'SUCCEEDED':
       if (value.executionGeneration < 1 || value.errorIdentity !== undefined
-        || !responseIsSuccess(action, orderId, value.result)) throw reviewRequired();
+        || !responseIsSuccess(action, orderId, value.result,value.request.accountingMode==='sales-only')) throw reviewRequired();
       if (action === 'complete' && value.result!.amount_paid_in_minor_units !==
         (value.request.paymentMethod === 'debt' ? 0 : value.request.amountCollectedInMinorUnits)) throw reviewRequired();
       if (action === 'complete' && value.result!.payment_method !==
@@ -180,7 +181,7 @@ const sameCommercialResult = (action: Action, left: Record<string, unknown>, rig
     ? ['order_id', 'operation_id', 'status', 'reservation_state', 'released_reservations']
     : ['order_id', 'operation_id', 'status', 'payment_method', 'payment_status',
       'total_in_minor_units', 'amount_paid_in_minor_units', 'remaining_in_minor_units', 'customer_payment_number'];
-  return fields.every((field) => left[field] === right[field]);
+  return left.accountingTracked===right.accountingTracked&&fields.every((field) => left[field] === right[field]);
 };
 const invalidResponse = () => ({
   code: 'ADMIN_LIFECYCLE_RESPONSE_INVALID',
@@ -217,21 +218,25 @@ export async function withAdminActionLock<T>(
 }
 
 // The operation type, not the presence of parcel rows, identifies Customer V2.
-export async function isCustomerV2Order(client: SupabaseClient, orderId: string): Promise<boolean> {
+export async function readOrderLifecycleContract(client: SupabaseClient, orderId: string): Promise<'full-v2'|'sales-only'|'legacy'> {
   const orderResult = await client.from('orders').select('operation_id').eq('id', orderId).single();
   if (orderResult.error || !orderResult.data) {
     throw new Error(orderResult.error?.message || 'تعذر تحديد نوع الطلب.');
   }
   const operationId = orderResult.data.operation_id;
-  if (!operationId) return false;
+  if (!operationId) return 'legacy';
   const operationResult = await client.from('business_operations')
     .select('operation_type').eq('id', operationId).single();
   if (operationResult.error || !operationResult.data) {
     throw new Error(operationResult.error?.message || 'تعذر تحديد عقد العملية الأصلية.');
   }
-  return operationResult.data.operation_type === 'phase3_customer_reservation_v1';
+  const type=operationResult.data.operation_type;
+  return type==='phase3_customer_reservation_v1'?'full-v2':type==='lite1_guest'?'sales-only':'legacy';
 }
 
+export async function isCustomerV2Order(client:SupabaseClient,orderId:string):Promise<boolean>{
+  return await readOrderLifecycleContract(client,orderId)!=='legacy';
+}
 export async function runCustomerV2AdminAction(
   client: SupabaseClient, orderId: string, action: Action, request: Record<string, unknown>,
 ): Promise<{ data: any; error: any }> {
@@ -286,7 +291,7 @@ export async function runCustomerV2AdminAction(
         }
 
         if (attempt.status === 'SUCCEEDED') {
-          if (!sameRequest(attempt.request, request) || !responseIsSuccess(action, orderId, attempt.result)) {
+          if (!sameRequest(attempt.request, request) || !responseIsSuccess(action, orderId, attempt.result,attempt.request.accountingMode==='sales-only')) {
             throw new Error('الطلب ناجح سابقًا لكن دليل النتيجة غير متطابق. راجع حالة الطلب.');
           }
           return {data: attempt.result, error: null};
@@ -316,7 +321,13 @@ export async function runCustomerV2AdminAction(
       }
       let result: {data: any; error: any};
       try {
-        result = action === 'cancel'
+        result = attempt.request.accountingMode==='sales-only'
+          ? action==='cancel'
+            ? await client.rpc('lite1_cancel_guest2',{p_order:orderId,p_key:attempt.key,p_reason:attempt.request.reason})
+            : await client.rpc('lite1_complete2',{p_order:orderId,p_key:attempt.key,p_payment_method:attempt.request.paymentMethod,
+              p_amount_collected_in_minor_units:attempt.request.amountCollectedInMinorUnits,p_delivery_fee_in_minor_units:attempt.request.deliveryFeeInMinorUnits,
+              p_reference_number:attempt.request.referenceNumber,p_notes:attempt.request.notes})
+          : action === 'cancel'
           ? await client.rpc('cancel_customer_order_v2', {p_order_id: orderId,
             p_idempotency_key: attempt.key, p_reason: attempt.request.reason})
           : await client.rpc('complete_website_order_with_settlement_v2', {p_order_id: orderId,
@@ -334,12 +345,12 @@ export async function runCustomerV2AdminAction(
 
       const {fresh, raw: freshRaw} = await readAttempt(storageKey, attempt);
       if (fresh.status === 'SUCCEEDED') {
-        if (!result.error && responseIsSuccess(action, orderId, result.data)
+        if (!result.error && responseIsSuccess(action, orderId, result.data,fresh.request.accountingMode==='sales-only')
           && !sameCommercialResult(action, fresh.result!, result.data)) throw reviewRequired();
         return {data: fresh.result, error: null};
       }
       if (fresh.status !== 'IN_FLIGHT') throw reviewRequired();
-      if (!result.error && responseIsSuccess(action, orderId, result.data)) {
+      if (!result.error && responseIsSuccess(action, orderId, result.data,fresh.request.accountingMode==='sales-only')) {
         await writeAttempt(storageKey, {...fresh, status: 'SUCCEEDED', result: result.data,
           errorIdentity: undefined}, freshRaw);
         return result;
