@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner9Nov phase2:additive sales-only build above85;reuse existing UI/pure calculation helpers;opening epoch included;quarantined SQL/Draft PR/fullCI only.",
-  "baselineSha": "3782419313c3bf10fee026a18a81499f7ad87542",
+  "baselineSha": "ec9fca2edfebb2678f6cee31823b59fcf0b58b18",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase2",
   "phase": "SALES_ONLY_PHASE2",
@@ -37,10 +37,11 @@
     "Costfree report parallel pinned219+immutablelite completions/returns;fullJSON exact,actualTS decoder;PG7groups8comparisons/integrity0/636/network0/cleanuptrue.10units17history/types/lint/14browserPASS;initial reader completeness and independent oracle corrected with preserved logs. Owner24hashes unchanged.",
     "ActualApp verified-mode root/nav/control wired;failedinitial blocks,failedrefresh preservescart/writesfenced. ReusedDashboardHome distinctcostfreeDTO+singleunionperiod RPC;actualday/month/collections/due parity PG8groups/8returns/636/integrity0/network0/cleanuptrue.22units/types/lint;18browser then12affected PASS,owner24hashesunchanged.",
     "OFF ChequesView reusesincoming serverpagination/writers;no supplier reads/newactions;pending full form/body/key preserved and blockedOFF.74browser cases covered:73firstPASS+1documented NET_CHANGED firstload,one same-source environmental rerunPASS.49focusedunits/type/lintPASS;whole371historical AST/hash exact inverse rejectsforgedpath/hash/query/role. Owner24hashes unchanged.",
-    "Public parallel catalog/parcel/merchandising DBreads:7/9pinnedhunks,newwrapper fullJSONexact;OFF manualparent/flavor/nullquantity,no cost/stock.9units;actualPG5groupsinclEdge/H1/pricing/delivery/replay/integrity0/636/network0/cleanuptrue. Frontend/cartnotwiredyet."
+    "Public parallel catalog/parcel/merchandising DBreads:7/9pinnedhunks,newwrapper fullJSONexact;OFF manualparent/flavor/nullquantity,no cost/stock.9units;actualPG5groupsinclEdge/H1/pricing/delivery/replay/integrity0/636/network0/cleanuptrue. Frontend/cartnotwiredyet.",
+    "Storefront/client quantity-free manual availability wired in existing cards/details/cart/mixed builder;schema2 nullquantity/freshmode reconciliation/prices retained.217storeunits/typesboth/strictlint/history11;16existingfull+C6 browser plus12new touch identities PASS across2engines/3901440 (corrected test copy/counter,original failed logs preserved).Actualmapper→PG5groups/628636/integrity0/network0/cleanuptrue;owner24hashes unchanged."
   ],
   "inProgress": [
-    "Storefront explicit no-quantity/manualavailability,canonical lists/delivery/chequesOFF,openingepochUI+scale,mixed historicalreport completeness,FULLCI/Draft."
+    "Public promotion preview still needs parallel no-WAC dispatch for mixed parcels;canonical operational lists/delivery,opening epochUI+scale,mixed history/fullCI/Draft."
   ],
   "notStarted": [
     "Remaining storefront/operational UI/epoch scale and mixed history proof",
@@ -85,12 +86,12 @@
     "No owner/env edits;no Docker factory reset or unknown volume deletion",
     "628original function bodies frozen;8exact approved patches only"
   ],
-  "nextExactAction": "Commit/push public parallel read proof;then customer catalog/cart explicit nullquantity+manualavailability/recovery,tests",
-  "checkpointedAt": "2026-11-09T18:20:18.751Z",
+  "nextExactAction": "Milestone storefront client PASS;next public no-WAC promotion preview dispatch,then remaining operational/epoch/mixed history and FULLCI Draft.",
+  "checkpointedAt": "2026-11-09T18:47:02.224Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 7,
-  "filesTouchedManifestSha256": "6cd894d44cd618860efa6405516114b19ff62a858eb4ce7b5addda236fcadef5",
-  "workingTreeFingerprint": "54489BCF99A587A258F3E72C6A001FC3E2E90897A069CB5B16C6752069640E20"
+  "filesTouchedCount": 23,
+  "filesTouchedManifestSha256": "626143cb142c37d702c93b6bbda8fac87fa8f81accf9690d782f1d6443780a9e",
+  "workingTreeFingerprint": "775C87CD4F2EB5642A56C7423206A4EE84C6AACD6A00EC7593D00C7617690B47"
 }

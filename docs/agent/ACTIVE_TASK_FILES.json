@@ -3,31 +3,95 @@
   "files": [
     {
       "code": " M",
-      "path": "scripts/testing/sales-only-phase2-guest-runtime.mjs"
+      "path": "customer-web/src/App.tsx"
     },
     {
       "code": " M",
-      "path": "scripts/testing/sales-only-phase2-installer.mjs"
+      "path": "customer-web/src/components/CartDrawer.tsx"
     },
     {
-      "code": "??",
-      "path": "docs/design/sales-only-phase2/STOREFRONT_READ_PROOF_AR.md"
+      "code": " M",
+      "path": "customer-web/src/components/MerchandisingSections.tsx"
     },
     {
-      "code": "??",
-      "path": "docs/design/sales-only-phase2/storefront-readers.sql"
+      "code": " M",
+      "path": "customer-web/src/components/ParcelBuilderModal.tsx"
     },
     {
-      "code": "??",
+      "code": " M",
+      "path": "customer-web/src/components/ProductCard.tsx"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/components/ProductDetailsModal.tsx"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/components/ProductPurchaseControl.tsx"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/components/StoreHero.tsx"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/services/catalog.service.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/types/catalog.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/utils/cart.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/utils/catalogView.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/utils/productDetails.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/utils/storefrontUnits.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/tests/storefront-management.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/isolated-test.ts"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/sales-only-phase2-source-pins.json"
+    },
+    {
+      "code": " M",
       "path": "scripts/testing/sales-only-phase2-storefront-runtime.mjs"
     },
     {
-      "code": "??",
-      "path": "scripts/testing/sales-only-phase2-storefront.mjs"
+      "code": " M",
+      "path": "tests/sales-only-phase2.test.ts"
     },
     {
       "code": "??",
-      "path": "tests/sales-only-phase2-storefront.test.ts"
+      "path": "customer-web/src/services/operatingCatalog.ts"
+    },
+    {
+      "code": "??",
+      "path": "customer-web/tests/sales-only-catalog.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "docs/design/sales-only-phase2/STOREFRONT_CLIENT_PROOF_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "e2e/sales-only-phase2-storefront.spec.ts"
     }
   ]
 }

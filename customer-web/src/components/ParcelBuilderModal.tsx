@@ -35,10 +35,11 @@ export function ParcelBuilderModal({
   const remaining = option.unitsPerParcel - selectedCount;
   const availableFor = (productId: string, current: number) => {
     const component = option.components.find((candidate) => candidate.productId === productId);
+    if(component?.quantityTracked===false)return component.manualAvailable===true?option.unitsPerParcel:0; // Real parcel capacity,not stock.
     const reservedElsewhere = Math.max(0, (reservedByProductId.get(productId) ?? 0) - current);
     return Math.max(0, (component?.availableQuantity ?? 0) - reservedElsewhere);
   };
-  const canSave = remaining === 0;
+  const canSave = remaining===0&&(option.quantityTracked!==false||Object.entries(selection).every(([id,quantity])=>quantity===0||option.components.some(c=>c.productId===id&&c.manualAvailable===true)))&&option.components.every(c=>(selection[c.productId]??0)===0||c.quantityTracked!==false||c.manualAvailable===true);
   const summary = useMemo(() => option.components.flatMap((component) => {
     const quantity = selection[component.productId] ?? 0;
     return quantity > 0 ? [`${component.flavorNameAr || component.nameAr} × ${quantity}`] : [];
@@ -105,7 +106,7 @@ export function ParcelBuilderModal({
                 <div className="h-14 w-14 shrink-0 overflow-hidden rounded-2xl bg-slate-100"><ProductImage src={component.imageUrl} alt={component.flavorNameAr || component.nameAr} imageClassName="h-full w-full object-contain" /></div>
                 <div className="min-w-0 flex-1">
                   <h3 className="truncate text-xs font-black text-slate-900">{component.flavorNameAr || component.nameAr}</h3>
-                  <p className="mt-1 text-[9px] font-bold text-slate-500">المتاح لهذه السلة: {available.toLocaleString('ar-JO')} {storefrontUnitName(component.unitNameAr)}</p>
+                  <p className="mt-1 text-[9px] font-bold text-slate-500">{component.quantityTracked===false?'متوفر':<>المتاح لهذه السلة: {available.toLocaleString('ar-JO')} {storefrontUnitName(component.unitNameAr)}</>}</p>
                 </div>
                 <div className="flex items-center rounded-2xl border border-slate-200 bg-slate-50">
                   <button type="button" aria-label={`إنقاص ${component.flavorNameAr}`} onClick={() => change(component.productId, -1)} disabled={quantity === 0} className="grid h-11 w-10 place-items-center disabled:text-slate-300"><Minus className="h-4 w-4" /></button>

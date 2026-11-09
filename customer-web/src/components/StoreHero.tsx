@@ -7,7 +7,7 @@ const HeroVideo = lazy(() => import('./HeroVideo').catch(() => ({default: () => 
 interface StoreHeroProps {
   productsCount: number;
   categoriesCount: number;
-  availablePackages: number;
+  availablePackages: number|null;
   onBrowseProducts: () => void;
   announcementText: string;
 }
@@ -27,7 +27,7 @@ export function StoreHero({
 
   const stats = [
     { label: 'صنف جملة', value: productsCount, icon: PackageCheck, color: 'text-orange-300' },
-    { label: 'طرد متاح', value: availablePackages, icon: Boxes, color: 'text-emerald-300' },
+    ...(availablePackages===null?[]:[{ label:'طرد متاح', value:availablePackages, icon:Boxes,color:'text-emerald-300' }]),
     { label: 'قسم', value: categoriesCount, icon: Sparkles, color: 'text-blue-300' },
   ];
 
@@ -95,7 +95,7 @@ export function StoreHero({
           </div>
         </div>
 
-        <div data-testid="hero-stats" className="grid grid-cols-3 gap-2 sm:gap-3 lg:grid-cols-1">
+        <div data-testid="hero-stats" className={`grid ${availablePackages===null?'grid-cols-2':'grid-cols-3'} gap-2 sm:gap-3 lg:grid-cols-1`}>
           {stats.map((stat) => {
             const Icon = stat.icon;
             return (

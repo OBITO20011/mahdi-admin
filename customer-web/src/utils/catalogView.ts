@@ -34,9 +34,10 @@ export function normalizeCatalogSearch(value: string): string {
 
 export function isLowStockProduct(product: CatalogProduct): boolean {
   return (
+    product.quantityTracked!==false&&
     product.isAvailable &&
-    product.availableSalePackages > 0 &&
-    product.availableSalePackages <= LOW_STOCK_PACKAGE_THRESHOLD
+    (product.availableSalePackages??0) > 0 &&
+    (product.availableSalePackages??0) <= LOW_STOCK_PACKAGE_THRESHOLD
   );
 }
 
@@ -122,7 +123,7 @@ export function buildCatalogView(
           break;
         case 'stock_desc':
           comparison =
-            second.availableSalePackages - first.availableSalePackages;
+            (second.availableSalePackages??0) - (first.availableSalePackages??0);
           break;
         case 'recommended':
         default:

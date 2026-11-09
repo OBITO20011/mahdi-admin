@@ -1,5 +1,5 @@
 import {scrollWindowTo} from './utils/scroll';
-import {storefrontSaleUnit,storefrontUnitName, remainingStorefrontParcels} from './utils/storefrontUnits';
+import {storefrontSaleUnit,storefrontUnitName, remainingStorefrontParcels,remainingStorefrontUnits,capStorefrontQuantity} from './utils/storefrontUnits';
 import {
   AlertTriangle,
   Boxes,
@@ -63,6 +63,7 @@ import {
   createBaseUnitCartItem,
   createCartItem,
   createConfigurableParcelCartItem,
+  parcelAvailabilityFields,
   duplicateParcelInstance,
   reconcileCartPage,
   reconcileCartSnapshot,
@@ -884,14 +885,11 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       return;
     }
 
-    const quantityToAdd = Math.min(
-      remainingPackages,
-      Math.max(1, Math.floor(requestedQuantity || 1))
-    );
+    const quantityToAdd = capStorefrontQuantity(Math.max(1,Math.floor(requestedQuantity||1)),remainingPackages);
 
     let addedQuantity = 0;
     void mutateCart((currentItems) => {
-      const actualQuantity = Math.min(quantityToAdd, remainingStorefrontParcels(product, requiredBaseUnitsByProductId(currentItems).get(product.id) ?? 0));
+      const actualQuantity = capStorefrontQuantity(quantityToAdd,remainingStorefrontParcels(product, requiredBaseUnitsByProductId(currentItems).get(product.id) ?? 0));
       if (actualQuantity === 0) return currentItems;
       addedQuantity = actualQuantity;
       const currentItem = currentItems.find(
@@ -928,19 +926,19 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       showToast('راجع حالة السلة المحفوظة قبل إضافة أصناف جديدة.', 'info');
       return;
     }
-    if (product.salePriceInMinorUnits <= 0 || product.availableQuantity < 1) {
+    if (!product.isAvailable||product.salePriceInMinorUnits <= 0 || (product.quantityTracked!==false&&(product.availableQuantity??0)<1)) {
       showToast('هذا الباكيت غير متاح للبيع مفرداً حاليًا.', 'info');
       return;
     }
     const alreadyRequired = requiredBaseUnitsByProductId(cartItems).get(product.id) ?? 0;
-    if (alreadyRequired >= product.availableQuantity) {
+    if (product.quantityTracked!==false&&alreadyRequired >= (product.availableQuantity??0)) {
       showToast('وصلت السلة إلى كامل المخزون المتاح من هذه النكهة.', 'info');
       return;
     }
-    const quantityToAdd = Math.min(product.availableQuantity - alreadyRequired, Math.max(1, Math.floor(requestedQuantity || 1)));
+    const quantityToAdd = capStorefrontQuantity(Math.max(1,Math.floor(requestedQuantity||1)),remainingStorefrontUnits(product,alreadyRequired));
     let addedQuantity = 0;
     void mutateCart((current) => {
-      const actualQuantity = Math.min(quantityToAdd, Math.max(0, product.availableQuantity - (requiredBaseUnitsByProductId(current).get(product.id) ?? 0)));
+      const actualQuantity = capStorefrontQuantity(quantityToAdd,remainingStorefrontUnits(product,requiredBaseUnitsByProductId(current).get(product.id)??0));
       if (actualQuantity === 0) return current;
       addedQuantity = actualQuantity;
       const existing = current.find(
@@ -1030,8 +1028,9 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     const requirements = requiredBaseUnitsByProductId(cartItems);
     const option = parcelOptionsByFamily.get(line.familyProductId);
     const unavailable = duplicate.components.some((component) => {
-      const available = option?.components.find((candidate) => candidate.productId === component.productId)?.availableQuantity ?? 0;
-      return (requirements.get(component.productId) ?? 0) + component.baseQuantity > available;
+      const current=option?.components.find(candidate=>candidate.productId===component.productId);
+      if(!current)return true;if(current.quantityTracked===false)return current.manualAvailable!==true;
+      return (requirements.get(component.productId)??0)+component.baseQuantity>(current.availableQuantity??0);
     });
     if (unavailable) {
       showToast('لا يكفي المخزون الحالي لتكرار هذا الطرد.', 'info');
@@ -1115,8 +1114,10 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
           ) {
             throw new Error('تغيّر إعداد أحد الطرود. افتح المنتج وراجع تكوينه قبل المتابعة.');
           }
+          if(option.quantityTracked===false&&item.parcelInstances.some(instance=>instance.components.some(c=>!option.components.some(fresh=>fresh.productId===c.productId&&fresh.manualAvailable===true))))throw Error('تغيّر توفر إحدى النكهات؛ راجع الطرد قبل المتابعة.');
           return {
             ...item,
+            ...parcelAvailabilityFields(option),
             unitPriceInMinorUnits: option.parcelPriceInMinorUnits,
             saleUnitNameAr: option.saleUnitNameAr,
           };
@@ -1124,7 +1125,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         const required = requiredBaseUnitsByProductId(parcelItems);
         for (const option of parcelResponse?.options ?? []) {
           for (const component of option.components) {
-            if ((required.get(component.productId) ?? 0) > component.availableQuantity) {
+            if (component.quantityTracked===false?component.manualAvailable!==true:(required.get(component.productId)??0)>(component.availableQuantity??0)) {
               throw new Error(`الكمية المطلوبة من ${component.flavorNameAr || component.nameAr} لم تعد متاحة.`);
             }
           }
@@ -1138,7 +1139,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
             if (item.commercialLineKind !== 'configurable_parcel') return item;
             const option = optionByFamily.get(item.familyProductId);
             return option && option.configurationRevision === item.configurationRevision
-              ? { ...item, unitPriceInMinorUnits: option.parcelPriceInMinorUnits, saleUnitNameAr: option.saleUnitNameAr }
+              ? { ...item,...parcelAvailabilityFields(option), unitPriceInMinorUnits: option.parcelPriceInMinorUnits, saleUnitNameAr: option.saleUnitNameAr }
               : item;
           }),
           expectedCartRevision
@@ -1222,10 +1223,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
           ? {
               ...item,
               localRevision: item.localRevision + 1,
-              quantity: Math.min(
-                Math.max(1, Math.floor(quantity)),
-                item.maxAvailablePackages
-              ),
+              quantity: capStorefrontQuantity(Math.max(1,Math.floor(quantity)),item.maxAvailablePackages),
             }
           : item
       )
@@ -1502,11 +1500,12 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
             option.configurationRevision !== saved.configurationRevision ||
             option.unitsPerParcel !== saved.capacity
           ) return [];
-          const availableByProduct = new Map(option.components.map((component) => [component.productId, component.availableQuantity]));
+          const availableByProduct = new Map(option.components.map(component=>[component.productId,component]));
           const required = requiredBaseUnitsByProductId([saved]);
-          if ([...required].some(([productId, quantity]) => quantity > (availableByProduct.get(productId) ?? 0))) return [];
+          if([...required].some(([productId,quantity])=>{const c=availableByProduct.get(productId);return !c||(c.quantityTracked===false?c.manualAvailable!==true:quantity>(c.availableQuantity??0));}))return[];
           return [{
             ...saved,
+            ...parcelAvailabilityFields(option),
             localLineId: crypto.randomUUID(),
             localRevision: 1,
             unitPriceInMinorUnits: option.parcelPriceInMinorUnits,
@@ -1777,7 +1776,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
                         )})`,
                       },
                     ] as const
-                  ).map((filter) => (
+                  ).filter(filter=>catalogSummary.quantityTracked!==false||filter.value!=='low_stock').map((filter) => (
                     <button
                       type="button"
                       key={filter.value}
@@ -1813,7 +1812,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
                     <option value="name_asc">الاسم</option>
                     <option value="price_asc">السعر: الأقل أولًا</option>
                     <option value="price_desc">السعر: الأعلى أولًا</option>
-                    <option value="stock_desc">الأكثر توفرًا</option>
+                    {catalogSummary.quantityTracked!==false&&<option value="stock_desc">الأكثر توفرًا</option>}
                   </select>
                 </label>
               </div>

@@ -38,7 +38,7 @@ export function ProductCard({
 }: ProductCardProps) {
   const hasVariants = product.variants.length > 0;
   const remainingAfterCart = remainingStorefrontParcels(product, reservedQuantity);
-  const canAdd = product.isAvailable && remainingAfterCart > 0;
+  const canAdd = product.isAvailable && (remainingAfterCart===null||remainingAfterCart>0);
   const isLowStock = isLowStockProduct(product);
   const shareProduct = () => {
     const url = buildProductShareUrl(window.location.href, product.sku || product.id);
@@ -157,8 +157,7 @@ export function ProductCard({
             <p className="mt-0.5 truncate text-[9px] font-bold text-slate-500 sm:mt-1 sm:text-emerald-700">
               <span className="sm:hidden">{storefrontSaleUnit(product)}</span>
               <span className="hidden sm:inline">
-              متاح {product.availableSalePackages.toLocaleString('ar-JO')}{' '}
-              {storefrontSaleUnit(product)}
+              {product.quantityTracked===false?(product.isAvailable?'متوفر':'غير متوفر'):<>متاح {product.availableSalePackages?.toLocaleString('ar-JO')}{' '}{storefrontSaleUnit(product)}</>}
               </span>
             </p>
           </div>
@@ -233,8 +232,7 @@ export function ProductCard({
 
         {cartQuantity > 0 && !hasVariants && (
           <div className="mt-3 hidden rounded-xl border border-orange-200 bg-orange-50 px-3 py-2 text-[10px] font-extrabold text-orange-700 sm:block">
-            في السلة: {cartQuantity.toLocaleString('ar-JO')} {storefrontSaleUnit(product)} • المتبقي للإضافة:{' '}
-            {remainingAfterCart.toLocaleString('ar-JO')}
+            في السلة: {cartQuantity.toLocaleString('ar-JO')} {storefrontSaleUnit(product)}{remainingAfterCart!==null&&<> • المتبقي للإضافة: {remainingAfterCart.toLocaleString('ar-JO')}</>}
           </div>
         )}
       </div>

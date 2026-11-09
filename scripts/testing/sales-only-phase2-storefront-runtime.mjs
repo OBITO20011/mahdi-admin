@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {tsImport} from 'tsx/esm/api';
 import {readApplicationFingerprint} from './backup-restore-contract.mjs';
 export async function verifyLiteStorefront(c,report){
  const {json,rpc,sql,id,q,executor}=c;
@@ -16,6 +17,10 @@ export async function verifyLiteStorefront(c,report){
  assert.equal(all.summary.availableSalePackages,null);assert.equal(all.summary.quantityTracked,false);assert.equal(all.summary.lowStockProducts,0);
  const p=await parcel();assert.equal(p.guestCreationEnabled,true);assert.equal(p.options.length,1);assert.equal(p.options[0].quantityTracked,false);assert.equal(p.options[0].parcelPriceInMinorUnits,5000);
  assert.equal(p.options[0].components.length,2);for(const component of p.options[0].components){assert.equal(component.quantityTracked,false);assert.equal(component.availableQuantity,null);assert.equal(component.manualAvailable,true);}
+ const mapper=await tsImport('../../customer-web/src/services/catalog.service.ts',import.meta.url),cart=await tsImport('../../customer-web/src/utils/cart.ts',import.meta.url);
+ const mapped=mapper.mapCatalogItems(all.items),basicModel=mapped.find(item=>item.id===basic.id);assert.ok(basicModel);assert.equal(basicModel.isAvailable,true);
+ const saved={...cart.createCartItem(basicModel),quantity:7};assert.equal(saved.maxAvailablePackages,null);assert.equal(cart.isCurrentCartItem(saved),true);assert.equal(cart.reconcileCartSnapshot([saved],mapped,[basic.id]).items[0].quantity,7);assert.equal(cart.calculateCartSubtotal([saved]),31500);
+ const mappedParcel=mapper.mapPublicConfigurableParcelResponse(p);assert.equal(mappedParcel.options[0].quantityTracked,false);assert.equal(mappedParcel.options[0].components[0].availableQuantity,null);
  const merchandising=await rpc('lite1_merchandising2()',null,'anon');assert.equal(merchandising.quantityTracked,false);assert.deepEqual(merchandising.lowStock,[]);
  const publicData=JSON.stringify([all,p,merchandising]);assert.doesNotMatch(publicData,/wac|cost|supplier|customerPhone|purchase_price|session|token/i);
  assert.deepEqual(await readApplicationFingerprint(executor),fp,'PUBLIC_READERS_ZERO_WRITES');

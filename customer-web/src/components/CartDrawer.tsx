@@ -271,7 +271,7 @@ export function CartDrawer({
               ) : (
                 <div className="flex items-center justify-between px-1">
                   <p className="text-[10px] font-bold text-slate-400">
-                    الأسعار والكميات تُراجع تلقائيًا مع المخزون
+                    {items.every(item=>item.quantityTracked===false)?'الأسعار والتوفر اليدوي يُراجعان قبل إرسال الطلب':'الأسعار والكميات تُراجع تلقائيًا مع المخزون'}
                   </p>
                   <button
                     type="button"
@@ -314,9 +314,7 @@ export function CartDrawer({
                           </p>
                           <p className="mt-1 text-[9px] font-bold text-blue-600">
                             السعر {formatJod(item.unitPriceInMinorUnits)} •
-                            المتاح {item.maxAvailablePackages.toLocaleString(
-                              'ar-JO'
-                            )}
+                            {item.quantityTracked===false?'التوفر يدوي':<>المتاح {item.maxAvailablePackages?.toLocaleString('ar-JO')}</>}
                           </p>
                         </div>
                         <button
@@ -377,7 +375,7 @@ export function CartDrawer({
                             disabled={
                               lineLocked ||
                               Boolean(cartStorageRecovery) ||
-                              item.quantity >= item.maxAvailablePackages
+                              (item.maxAvailablePackages!==null&&item.quantity>=item.maxAvailablePackages)
                             }
                             onClick={() =>
                               onQuantityChange(
@@ -412,7 +410,7 @@ export function CartDrawer({
                   className="mb-3 rounded-2xl border border-sky-200 bg-sky-50 p-3 text-[10px] font-bold leading-5 text-sky-900"
                 >
                   {isRefreshingSnapshot
-                    ? 'جارٍ التحقق من سعر ومخزون السلة.'
+                    ? (items.every(item=>item.quantityTracked===false)?'جارٍ التحقق من السعر والتوفر اليدوي.':'جارٍ التحقق من سعر ومخزون السلة.')
                     : snapshotNotice}
                 </div>
               )}

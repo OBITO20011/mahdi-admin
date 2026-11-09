@@ -16,6 +16,8 @@ const catalogService = readFileSync(
   'utf8'
 );
 
+const operatingCatalog = readFileSync(new URL('../src/services/operatingCatalog.ts',import.meta.url),'utf8');
+
 test('customer site receives public settings from Supabase', () => {
   assert.match(service, /rpc\('get_public_storefront_settings'\)/);
   assert.match(app, /fetchPublicStorefrontSettings/);
@@ -39,11 +41,14 @@ test('homepage sections respect public settings while keeping real data sources'
   assert.match(app, /storefrontSettings\.showOffers \? offerProducts : \[\]/);
   assert.match(app, /storefrontSettings\.showLowStock \? lowStockProducts : \[\]/);
   assert.match(app, /loadFeaturedProducts/);
-  assert.match(catalogService, /get_public_storefront_catalog_page/);
+  assert.match(catalogService, /readOperatingCatalog\(operatingCatalogRpc,'lite1_catalog_page2'/);
+  assert.match(operatingCatalog,/supabase\.rpc\('get_public_storefront_catalog_page',args\)/);
 });
 
 test('home merchandising uses one bounded RPC instead of four independent catalog reads', () => {
-  assert.match(catalogService, /rpc\('get_public_storefront_merchandising'\)/);
+  assert.match(catalogService, /readOperatingCatalog\(operatingCatalogRpc,'lite1_merchandising2'\)/);
+  assert.match(operatingCatalog,/supabase\.rpc\('lite1_merchandising2'/);
+  assert.match(operatingCatalog,/supabase\.rpc\('get_public_storefront_merchandising'\)/);
   assert.match(app, /setFeaturedProducts\(await fetchPublicStorefrontMerchandising\(\)\)/);
   assert.doesNotMatch(app, /fetchPublicProductCatalog\(\{ limit: 6, sort: 'newest' \}\)/);
 });

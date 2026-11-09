@@ -175,12 +175,12 @@ export function ProductDetailsModal({
   };
 
   const handleAdd = () => {
-    if (quantity < 1 || remainingPackages < 1) return;
+    if (quantity < 1 || (remainingPackages!==null&&remainingPackages<1)) return;
     onAddQuantity(product, quantity);
   };
 
   const isLowStock =
-    product.isAvailable && product.availableSalePackages <= 2;
+    product.quantityTracked!==false&&product.isAvailable&&(product.availableSalePackages??0)<=2;
 
   return (
     <div className="fixed inset-0 z-[55]" dir="rtl">
@@ -364,7 +364,7 @@ export function ProductDetailsModal({
                               </strong>
                               <span className={`mt-0.5 block text-[8px] font-bold ${selected ? 'text-violet-100' : variant.isAvailable ? 'text-emerald-600' : 'text-rose-500'}`}>
                                 {variant.isAvailable
-                                  ? `${variant.availableSalePackages.toLocaleString('ar-JO')} ${storefrontSaleUnit(variant)}`
+                                  ? variant.quantityTracked===false?'متوفر':`${variant.availableSalePackages?.toLocaleString('ar-JO')} ${storefrontSaleUnit(variant)}`
                                   : 'نافدة حاليًا'}
                               </span>
                             </div>
@@ -519,7 +519,7 @@ export function ProductDetailsModal({
               disabled={!product.isAvailable} onChange={handleQuantityChange} onAdd={handleAdd} />
             {!product.parcelOnly&&product.unitsPerSalePackage > 1 && <ProductPurchaseControl label={storefrontUnitName(product.unitNameAr)} unit={storefrontUnitName(product.unitNameAr)} productName={product.nameAr}
               price={product.salePriceInMinorUnits} quantity={unitQuantity} remaining={remainingUnits}
-              disabled={product.salePriceInMinorUnits <= 0 || remainingUnits === 0}
+              disabled={!product.isAvailable||product.salePriceInMinorUnits <= 0 || remainingUnits === 0}
               onChange={next => setUnitQuantity(clampProductSelectionQuantity(next, remainingUnits, 0))}
               onAdd={() => onAddBaseUnit(product, unitQuantity)} />}
           </div>

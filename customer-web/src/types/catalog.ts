@@ -17,8 +17,10 @@ export interface CatalogProduct {
   parcelOnly?: boolean;
   salePriceInMinorUnits: number;
   salePackagePriceInMinorUnits: number;
-  availableQuantity: number;
-  availableSalePackages: number;
+  quantityTracked?:boolean;
+  manualAvailable?:boolean;
+  availableQuantity: number|null;
+  availableSalePackages: number|null;
   minimumOrderPackages: number;
   imageUrl: string;
   isAvailable: boolean;
@@ -47,8 +49,9 @@ export interface CatalogFacet {
 }
 
 export interface CatalogSummary {
+  quantityTracked?:boolean;
   availableProducts: number;
-  availableSalePackages: number;
+  availableSalePackages: number|null;
   lowStockProducts: number;
 }
 
@@ -104,7 +107,8 @@ export interface CartDisplayFields {
   unitsPerSalePackage: number;
   unitPriceInMinorUnits: number;
   quantity: number;
-  maxAvailablePackages: number;
+  quantityTracked?:boolean;
+  maxAvailablePackages: number|null;
 }
 
 export interface BaseUnitCartItem extends CartDisplayFields {
@@ -156,10 +160,13 @@ export interface PublicParcelComponentOption {
   flavorNameAr: string;
   unitNameAr: string;
   imageUrl: string;
-  availableQuantity: number;
+  quantityTracked?:boolean;
+  manualAvailable?:boolean;
+  availableQuantity: number|null;
 }
 
 export interface PublicConfigurableParcelOption {
+  quantityTracked?:boolean;
   familyProductId: string;
   parcelConfigurationId: string;
   configurationRevision: number;
