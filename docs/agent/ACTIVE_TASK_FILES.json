@@ -3,19 +3,11 @@
   "files": [
     {
       "code": " M",
-      "path": "customer-web/scripts/generate-seo-pages.mjs"
+      "path": "docs/design/sales-only-phase2/OPENING_EPOCH_PROOF_AR.md"
     },
     {
       "code": " M",
-      "path": "customer-web/src/services/catalog.service.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/services/operatingCatalog.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/tests/sales-only-catalog.test.ts"
+      "path": "docs/design/sales-only-phase2/opening-epoch.sql"
     },
     {
       "code": " M",
@@ -23,23 +15,11 @@
     },
     {
       "code": " M",
-      "path": "scripts/testing/run-customer-isolated-build.mjs"
+      "path": "scripts/testing/sales-only-phase2-epoch-runtime.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/testing/run-storefront-budget-browser.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/storefront-speed-fixture.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/cutover-publication-order.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/frankfurt-public-config.test.ts"
+      "path": "src/features/operatingMode/OperatingModePanel.tsx"
     },
     {
       "code": " M",
@@ -47,11 +27,31 @@
     },
     {
       "code": "??",
-      "path": "customer-web/src/utils/operatingRead.ts"
+      "path": "e2e/sales-only-phase2-epoch-harness.html"
     },
     {
       "code": "??",
-      "path": "docs/design/sales-only-phase2/STOREFRONT_SEO_PROOF_AR.md"
+      "path": "e2e/sales-only-phase2-epoch-harness.tsx"
+    },
+    {
+      "code": "??",
+      "path": "e2e/sales-only-phase2-epoch.spec.ts"
+    },
+    {
+      "code": "??",
+      "path": "src/features/operatingMode/openingEpoch.ts"
+    },
+    {
+      "code": "??",
+      "path": "src/features/operatingMode/OpeningEpochPanel.tsx"
+    },
+    {
+      "code": "??",
+      "path": "src/services/supabase/openingEpoch.service.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/sales-only-phase2-epoch-ui.test.ts"
     }
   ]
 }

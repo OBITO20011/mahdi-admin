@@ -33,6 +33,20 @@ export async function verifyOpeningEpoch(c,report){
  await rpc('lite1_set_mode2(false)');
  await verifyLiteProductDefinitions(c,report);
  await verifyLiteWorkbookImport(c,report);
+ // Synthetic catalog only:72 parent families,345 new flavors,820 leaf SKUs.
+ const currentLeaves=Number(await sql('SELECT count(*) FROM public.products WHERE is_active AND NOT is_flavor_master;'));
+ const newLeaves=820-currentLeaves;assert.ok(newLeaves>=345);
+ const seeded=[...Array.from({length:72},(_,i)=>({id:id(20000+i),sku:'EPOCH-FAMILY-'+i,name:'عائلة جرد وهمية '+i,master:true,parent:null,flavor:null})),...Array.from({length:newLeaves},(_,i)=>({id:id(10000+i),sku:'000-EPOCH-'+String(i).padStart(5,'0'),name:'صنف جرد وهمي '+i,master:false,parent:i<345?id(20000+i%72):null,flavor:i<345?'نكهة '+i:null}))];
+ await sql(`INSERT INTO public.products(id,sku,name_ar,category_id,unit_id,purchase_unit_id,sale_unit_id,units_per_purchase_unit,units_per_sale_unit,default_purchase_price_in_minor_units,default_sale_price_in_minor_units,cost_price_in_minor_units,sale_price_in_minor_units,wholesale_price_in_minor_units,min_stock_level,is_active,is_flavor_master,flavor_master_product_id,flavor_name_ar,wac_cost_in_minor_units_exact)
+ SELECT(x->>'id')::UUID,x->>'sku',x->>'name',p.category_id,p.unit_id,p.purchase_unit_id,p.sale_unit_id,p.units_per_purchase_unit,p.units_per_sale_unit,0,p.default_sale_price_in_minor_units,0,p.sale_price_in_minor_units,p.wholesale_price_in_minor_units,0,true,(x->>'master')::BOOLEAN,(x->>'parent')::UUID,x->>'flavor',NULL
+ FROM jsonb_array_elements(${j(seeded)}) x CROSS JOIN public.products p WHERE p.id=${q(pid)} ORDER BY (x->>'master')::BOOLEAN DESC,x->>'id';`);
+ const warehouseCount=Number(await sql('SELECT count(*) FROM public.warehouses w JOIN public.branches b ON b.id=w.branch_id WHERE w.is_active AND b.is_active;'));assert.ok(warehouseCount<=2);
+ if(warehouseCount<2)await sql(`INSERT INTO public.warehouses(id,branch_id,code,name_ar,is_active) VALUES(${q(id(202))},${q(branch)},'EPOCH-SECOND','مستودع الجرد الثاني',true);`);
+ const epochModel=await tsImport('../../src/features/operatingMode/openingEpoch.ts',import.meta.url),epochService=await tsImport('../../src/services/supabase/openingEpoch.service.ts',import.meta.url);
+ const epochClient={auth:{getUser:async()=>({data:{user:{id:id(1)}},error:null}),mfa:{getAuthenticatorAssuranceLevel:async()=>({data:{currentLevel:'aal2'},error:null})}},rpc:async(name,args={})=>{
+  assert.ok(['lite1_epoch_catalog2','lite1_preview_epoch2','lite1_activate_epoch2'].includes(name),'EXPECTED_EPOCH_RPC_ONLY');const argumentsSql=Object.entries(args).map(([name,value])=>name+':='+(typeof value==='object'&&value!==null?j(value):q(value))).join(',');return {data:await rpc(name+'('+argumentsSql+')'),error:null};}};
+ const catalogBefore=await readApplicationFingerprint(executor),epochCatalog=await epochService.readEpochCatalogWithClient(epochClient,id(1));assert.equal(epochCatalog.length,1640);assert.deepEqual(await readApplicationFingerprint(executor),catalogBefore,'EPOCH_CATALOG_READONLY');
+ report.cases.push({name:'realTS activationmanifest ownerAAL2→1640rows/820leafSKUs/72newfamilies+345flavors/2warehouses;readonly',passed:true});
  const optionsBefore=await readApplicationFingerprint(executor),options=await rpc(`lite1_pos_options2(${q(warehouse)})`);
  assert.equal(options.options.length,1);assert.equal(options.options[0].quantityTracked,false);assert.equal(options.options[0].components.length,2);
  assert.ok(options.options[0].components.every(p=>p.manualAvailable===true&&!('availableQuantity' in p)));
@@ -57,7 +71,7 @@ export async function verifyOpeningEpoch(c,report){
   'service',has_function_privilege('service_role','public.lite1_set_available2(uuid,boolean,integer)','EXECUTE'));`);
  assert.deepEqual(acl,{anon:false,service:false});
  report.cases.push({name:'actualavailability client→PG;manualfamily/leaf inheritance+revisionCAS;oldprototype/anon/service entrypoints denied;no synthetic quantity',passed:true});
- const rows=await json(`SELECT jsonb_agg(jsonb_build_object('productId',p.id,'warehouseId',w.id,'actualQuantity',20,'unitCostInMinorUnits',500) ORDER BY p.id,w.id)
+ const rows=await json(`SELECT jsonb_agg(jsonb_build_object('productId',p.id,'warehouseId',w.id,'actualQuantity',CASE WHEN p.id IN(${q(pid)}::UUID,(SELECT first.id FROM public.products first WHERE first.is_active AND NOT first.is_flavor_master ORDER BY first.id LIMIT 1)) OR hashtext(p.id::TEXT)%2<>0 THEN 20 ELSE 0 END,'unitCostInMinorUnits',500) ORDER BY p.id,w.id)
  FROM public.products p CROSS JOIN public.warehouses w JOIN public.branches b ON b.id=w.branch_id WHERE p.is_active AND NOT p.is_flavor_master AND w.is_active AND b.is_active;`);
  const notes='جرد تفعيل بعد فترة تشغيل مبسطة - بيانات وهمية';
  const previewCall=(r=rows,n=notes)=>`lite1_preview_epoch2(${j(r)},${q(n)})`;
@@ -75,8 +89,11 @@ export async function verifyOpeningEpoch(c,report){
  const history=await ledger(),canonical=await rpc(`lite1_customer_statement2(${q(id(401))},1,100)`);
  assert.equal(canonical.closing_balance_in_minor_units,2500);
  await fail(`apply_inventory_opening_setup(${q(warehouse)},${j([{productId:pid,packageCount:1,looseUnits:0}])},'جرد محمي قديم',${q(key())})`,/GO_LIVE_SETUP_FINISHED/);
- const readOnly=await readApplicationFingerprint(executor);let preview=await rpc(previewCall());
- assert.equal(preview.itemCount,rows.length);assert.equal(preview.totalValueExact,String(rows.length*20*500));
+ const readOnly=await readApplicationFingerprint(executor),previewStart=performance.now();
+ const clientPreview=await epochService.previewOpeningEpochWithClient(epochClient,id(1),rows,notes),previewReadMs=performance.now()-previewStart;
+ assert.ok(previewReadMs<8000,'EPOCH_PREVIEW_8S');let preview=await rpc(previewCall());
+ assert.deepEqual(epochModel.parseEpochPreview(preview,rows),clientPreview);
+ assert.equal(preview.itemCount,rows.length);assert.equal(preview.totalValueExact,epochModel.epochTotals(rows).totalValueExact);
  assert.deepEqual(await readApplicationFingerprint(executor),readOnly,'EPOCH_PREVIEW_ZERO_WRITES');
  const assertDenied=async(r,pattern)=>{const fp=await readApplicationFingerprint(executor),state=await ownState();await fail(previewCall(r),pattern);assert.deepEqual(await readApplicationFingerprint(executor),fp);assert.deepEqual(await ownState(),state);};
  await assertDenied(rows.slice(1),/LITE2_EPOCH_COMPLETE_COUNT_REQUIRED/);
@@ -103,9 +120,18 @@ export async function verifyOpeningEpoch(c,report){
  for(const name of Object.keys(afterFailure.sequences))if(name!=='inventory_movement_mutation_seq')assert.equal(afterFailure.sequences[name],beforeFailure.sequences[name],name);
  assert.ok(Number(afterFailure.sequences.inventory_movement_mutation_seq)>Number(beforeFailure.sequences.inventory_movement_mutation_seq),'POSTGRES_NONTRANSACTIONAL_SEQUENCE_GAP_RECORDED');
  await sql('DROP TRIGGER lite2_test_failure ON sales_lite2.opening_epoch_items;DROP FUNCTION sales_lite2.inject_epoch_failure();');
- const activationKey=key(),call=apply(preview,activationKey),start=performance.now();
+ const journal=new Map(),disk={getItem:key=>journal.get(key)??null,setItem:(key,value)=>journal.set(key,value)};
+ const prepared=epochService.prepareOpeningEpochAttempt(id(1),epochModel.parseEpochPreview(preview,rows),notes,disk);
+ // Process-crash fixture:journal persisted before two deliberately concurrent
+ // same-key requests;neither response reached this client before its restart.
+ disk.setItem(epochService.openingEpochJournalKey(id(1)),JSON.stringify({...prepared,status:'IN_FLIGHT'}));
+ const activationKey=prepared.key,call=apply(preview,activationKey),start=performance.now();
  const pair=await Promise.all([rpc(call),rpc(call)]),elapsed=performance.now()-start;
  assert.deepEqual(pair[0],pair[1]);assert.equal(pair[0].fullAccounting,true);
+ assert.ok(elapsed<8000,'EPOCH_ACTIVATION_8S');
+ assert.deepEqual(await epochService.runOpeningEpochAttemptWithClient(epochClient,id(1),disk),pair[0]);
+ assert.equal(epochService.readOpeningEpochAttempt(id(1),disk).key,activationKey);
+ assert.equal(epochService.readOpeningEpochAttempt(id(1),disk).status,'SUCCEEDED');
  await fail(`lite1_pos_options2(${q(warehouse)})`,/LITE1_MODE_DISABLED/);
  await fail(`lite1_set_available2(${q(pid)},false,0)`,/LITE1_MODE_DISABLED/);
  assert.equal((await ownState()).epochs,1);assert.equal((await ownState()).items,rows.length);
@@ -118,8 +144,8 @@ export async function verifyOpeningEpoch(c,report){
  FROM sales_lite2.opening_epoch_items i JOIN public.inventory_balances b ON b.product_id=i.product_id AND b.warehouse_id=i.warehouse_id JOIN public.products p ON p.id=i.product_id WHERE i.epoch_id=${q(pair[0].epochId)};`);
  assert.deepEqual(actual,rows);
  assert.equal(Number(await sql(`SELECT count(*) FROM sales_lite2.opening_epoch_items i JOIN public.products p ON p.id=i.product_id WHERE p.wac_cost_in_minor_units_exact IS DISTINCT FROM i.unit_cost::NUMERIC;`)),0);
- assert.equal(Number(await sql(`SELECT count(*) FROM public.inventory_movements WHERE reference_type='sales_lite2_opening_epoch' AND reference_id=${q(pair[0].epochId)};`)),rows.length);
- report.cases.push({name:'atomicrollback allrows/mode/evidence;2concurrentidenticalrequests oneepoch;replayreadonly;counts/WAC exact andGoLive/ledger/IDs preserved',passed:true,activationWithReplayMs:elapsed});
+ assert.equal(Number(await sql(`SELECT count(*) FROM public.inventory_movements WHERE reference_type='sales_lite2_opening_epoch' AND reference_id=${q(pair[0].epochId)};`)),rows.filter(row=>row.actualQuantity!==0).length);
+ report.cases.push({name:'atomicrollback allrows/mode/evidence;2concurrentidenticalrequests oneepoch;actualTS crashjournal recovery;replayreadonly;counts/WAC exact andGoLive/ledger/IDs preserved',passed:true,activationWithReplayMs:elapsed,previewReadMs,itemCount:rows.length});
  const stock=()=>json(`SELECT jsonb_build_object('moves',(SELECT jsonb_agg(to_jsonb(x) ORDER BY id) FROM public.inventory_movements x),'balances',(SELECT jsonb_agg(to_jsonb(x) ORDER BY id) FROM public.inventory_balances x),'costs',(SELECT jsonb_agg(jsonb_build_array(id,cost_price_in_minor_units,wac_cost_in_minor_units_exact) ORDER BY id) FROM public.products));`);
  const stockAtEpoch=await stock(),item=await json(`SELECT to_jsonb(id) FROM public.order_items WHERE order_id=${q(sale.orderId)};`);
  const payload=returnPayload215({sale,item,pid},{quantity:1,good:1,method:'cash'}),returnPreview=await rpc(`lite1_preview_return2(${j(payload)})`);

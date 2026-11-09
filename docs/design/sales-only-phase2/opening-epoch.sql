@@ -142,3 +142,20 @@ BEGIN
 END $$;
 REVOKE ALL ON FUNCTION public.lite1_activate_epoch2(JSONB,TEXT,TEXT,TEXT,TEXT) FROM PUBLIC,anon,authenticated,service_role;
 GRANT EXECUTE ON FUNCTION public.lite1_activate_epoch2(JSONB,TEXT,TEXT,TEXT,TEXT) TO authenticated;
+-- Owner's activation worksheet only. Not a normal stock/cost screen.
+CREATE FUNCTION public.lite1_epoch_catalog2() RETURNS JSONB
+LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=pg_catalog,public AS $$
+DECLARE rows JSONB;
+BEGIN
+ PERFORM sales_lite1.owner();IF auth.jwt()->>'aal' IS DISTINCT FROM 'aal2' THEN RAISE EXCEPTION 'LITE2_OWNER_AAL2_REQUIRED';END IF;
+ IF NOT sales_lite1.enabled() THEN RAISE EXCEPTION 'LITE1_MODE_DISABLED';END IF;
+ SELECT COALESCE(jsonb_agg(jsonb_build_object('productId',p.id,'warehouseId',w.id,'sku',p.sku,'productName',p.name_ar,
+  'warehouseName',w.name_ar,'baseUnitName',COALESCE(u.name_ar,'باكيت'),'previousQuantity',COALESCE(b.on_hand_quantity,0)) ORDER BY p.id,w.id),'[]'::JSONB) INTO rows
+ FROM public.products p CROSS JOIN public.warehouses w JOIN public.branches branch ON branch.id=w.branch_id
+ LEFT JOIN public.units u ON u.id=p.unit_id LEFT JOIN public.inventory_balances b ON b.product_id=p.id AND b.warehouse_id=w.id
+ WHERE p.is_active AND NOT p.is_flavor_master AND w.is_active AND branch.is_active;
+ IF jsonb_array_length(rows) NOT BETWEEN 1 AND 10000 THEN RAISE EXCEPTION 'LITE2_EPOCH_INPUT_INVALID';END IF;
+ RETURN jsonb_build_object('contractVersion','sales-only-epoch-catalog2-v1','fullAccounting',false,'itemCount',jsonb_array_length(rows),'rows',rows);
+END $$;
+REVOKE ALL ON FUNCTION public.lite1_epoch_catalog2() FROM PUBLIC,anon,authenticated,service_role;
+GRANT EXECUTE ON FUNCTION public.lite1_epoch_catalog2() TO authenticated;

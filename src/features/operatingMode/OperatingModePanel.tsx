@@ -1,3 +1,4 @@
+import {OpeningEpochPanel} from './OpeningEpochPanel';
 import {useRef,useState} from 'react';
 import {useAuthStore} from '../../stores/useAuthStore';
 import {UiButton} from '../../components/ui';
@@ -31,6 +32,7 @@ export function OperatingModePanel(){
    <UiButton disabled={!confirmed||busy||unknown||!mode.verified} onClick={()=>void disable()}>إطفاء المحاسبة والمخزون</UiButton>
   </>}
   {mode.mode==='sales-only'&&<p className="text-sm text-nw-muted">الديون والفواتير محفوظة. إعادة المحاسبة تتم من أداة جرد التفعيل، ولا تعيد احتساب أرباح المبيعات السابقة.</p>}
+  {mode.installed&&<OpeningEpochPanel key={actor} actorId={actor}/>}
   <UiButton disabled={busy||mode.status==='loading'} onClick={()=>void read()}>إعادة قراءة وضع التشغيل</UiButton>
  </section>;
 }
