@@ -12,10 +12,11 @@ export async function verifyGuestLifecycle(c,report){
  const cases=[{method:'cash',paid:4000},{method:'cliq',paid:4000},{method:'debt',paid:0},{method:'cash',paid:500}];
  const projection=r=>Object.fromEntries(['status','payment_method','payment_status','total_in_minor_units','amount_paid_in_minor_units','remaining_in_minor_units'].map(k=>[k,r[k]]));
  await rpc(`create_direct_supplier_receipt_v2(p_supplier_id:=${q(id(301))},p_branch_id:=${q(branch)},p_warehouse_id:=${q(warehouse)},p_idempotency_key:=${q(randomUUID())},p_payment_method:='deferred',p_lines:=${j([{client_line_id:randomUUID(),line_kind:'base_unit',commercial_quantity:100,base_unit_name:'باكيت',gross_amount_in_minor_units:50000,line_discount_in_minor_units:0,components:[{product_id:pid,base_quantity:100}]}])})`);
- const fullShift=(await rpc(`open_cash_shift(${q(branch)},0)`)).id,fullResults=[];
+ const fullShift=(await rpc(`open_cash_shift(${q(branch)},0)`)).id,fullResults=[],fullRequests=[];
  for(let i=0;i<cases.length;i++){
   const test=cases[i],phone='079660'+String(7000+i);
-  const order=await rpc(`submit_guest_customer_order_v2(${q(randomUUID())},repeat('c',64),repeat('d',64),'كامل وهمي',${q(phone)},'إربد','الرمثا','حي وهمي','شارع وهمي',NULL,NULL,NULL,NULL,NULL,NULL,${j(lines)},NULL,'cash_on_delivery','inside_ramtha',3000,0,1000,4000)`,null,'service_role');
+  const guestKey=randomUUID(),guestCall=`submit_guest_customer_order_v2(${q(guestKey)},repeat('c',64),repeat('d',64),'كامل وهمي',${q(phone)},'إربد','الرمثا','حي وهمي','شارع وهمي',NULL,NULL,NULL,NULL,NULL,NULL,${j(lines)},NULL,'cash_on_delivery','inside_ramtha',3000,0,1000,4000)`;
+  const order=await rpc(guestCall,null,'service_role');fullRequests.push({key:guestKey,call:guestCall,result:order});
   await rpc(`accept_order_for_preparation(${q(order.order_id)},'مقارنة')`);await rpc(`update_order_status(${q(order.order_id)},'ready','مقارنة')`);
   const result=await rpc(`complete_website_order_with_settlement_v2(${q(order.order_id)},${q(randomUUID())},${q(test.method)},${test.paid},1000,${q(test.method==='cliq'?'FIXTURE-CLIQ':null)},'مقارنة')`);
   fullResults.push(projection(result));
@@ -26,12 +27,17 @@ export async function verifyGuestLifecycle(c,report){
  assertFrozenFunctions(before,await json(functionCatalogSql));
  assert.deepEqual(await rpc(`get_cash_shift_closing_report(${q(fullShift)})`),fullSnapshot);
  await rpc('lite1_set_mode2(false)');
+ for(const old of fullRequests){
+  assert.equal((await rpc(`lite1_operating_mode(${q(old.key)})`,null,'service_role')).fullAccounting,true);
+  const replay=await rpc(old.call,null,'service_role');assert.equal(replay.order_id,old.result.order_id);
+ }
  const inventory=()=>json(`SELECT jsonb_build_object('movements',(SELECT jsonb_agg(to_jsonb(x) ORDER BY id) FROM public.inventory_movements x),'reservations',(SELECT jsonb_agg(to_jsonb(x) ORDER BY id) FROM public.order_inventory_reservations x),'balances',(SELECT jsonb_agg(to_jsonb(x) ORDER BY id) FROM public.inventory_balances x),'costs',(SELECT jsonb_agg(jsonb_build_array(id,cost_price_in_minor_units,wac_cost_in_minor_units_exact) ORDER BY id) FROM public.products));`);
  const stock=await inventory();const liteShift=(await rpc(`open_cash_shift(${q(branch)},0)`)).id;
  let sequence=0;
  const create=async()=>{
   const request={phoneHash:'c'.repeat(64),sessionHash:'d'.repeat(64),recipient:{fullName:'مبسّط وهمي',phone:'079660'+String(8000+ ++sequence),governorate:'إربد',city:'الرمثا',area:'حي وهمي',street:'شارع وهمي'},lines,promotionCode:null,paymentMethod:'cash_on_delivery',deliveryZone:'inside_ramtha',expectedQuote:{subtotalInMinorUnits:3000,discountInMinorUnits:0,deliveryFeeInMinorUnits:1000,totalInMinorUnits:4000}};
-  return rpc(`lite1_guest2(${j(request)},${q(randomUUID())})`,null,'service_role');
+  const guestKey=randomUUID(),call=`lite1_guest2(${j(request)},${q(guestKey)})`,result=await rpc(call,null,'service_role');
+  return {...result,_proof:{key:guestKey,call}};
  };
  const fail=async(call,re)=>{let error;try{await rpc(call);}catch(e){error=e;}assert.ok(error,'EXPECTED_LIFECYCLE_REFUSAL');assert.match(error.message,re);};
  const ready=async order=>{
@@ -59,6 +65,14 @@ export async function verifyGuestLifecycle(c,report){
  const pair=await Promise.all([rpc(raceCall),rpc(raceCall)]);assert.deepEqual(pair[0],pair[1]);
  assert.equal(Number(await sql(`SELECT count(*) FROM sales_lite1.completions WHERE order_id=${q(invalid.order_id)};`)),1);
  await fail(`lite1_cancel_guest2(${q(invalid.order_id)},${q(randomUUID())},'إلغاء متأخر')`,/PHASE3_CUSTOMER_LIFECYCLE_INVALID/);
+ // Fixture-only simulation of a future opening epoch. No mode activation
+ // implementation or permission is inferred by this read/replay proof.
+ await sql('UPDATE sales_lite1.mode SET full_accounting=true;');
+ assert.equal((await rpc(`lite1_operating_mode(${q(invalid._proof.key)})`,null,'service_role')).fullAccounting,false);
+ const replayBefore=await readApplicationFingerprint(executor),replayed=await rpc(invalid._proof.call,null,'service_role');assert.equal(replayed.order_id,invalid.order_id);assert.deepEqual(await readApplicationFingerprint(executor),replayBefore);
+ await sql('UPDATE sales_lite1.mode SET full_accounting=false;');
+ await fail(`lite1_operating_mode(${q(invalid._proof.key)})`,/LITE2_GATEWAY_ONLY/);
+ report.cases.push({name:'fullguest routes/replays fullwhileOFF;liteguest routes/replays liteafterfutureactivation;requestproof unchanged;nondisclosing anon route refused',passed:true});
  assert.deepEqual(await inventory(),stock);
  const monitor=await json('SELECT public.run_advanced_monitoring_checks();');assert.equal(monitor.integrityIssueCount,0,JSON.stringify(monitor));
  assertFrozenFunctions(before,await json(functionCatalogSql));

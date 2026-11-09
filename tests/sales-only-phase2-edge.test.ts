@@ -26,7 +26,7 @@ test('actual Edge gates Turnstile+gateway beforetrusted mode;OFF ignoresclientmo
   assert.equal(url.hostname,'127.0.0.1','ALL_NETWORK_MOCKED_NO_HOSTED_TARGET');
   const payload=JSON.parse(String(init?.body));
   if(url.pathname.endsWith('/authorize_guest_order_gateway'))return Response.json({allowed:true});
-  if(url.pathname.endsWith('/lite1_operating_mode'))return Response.json({contractVersion:'sales-only-phase2-v1',fullAccounting:false});
+  if(url.pathname.endsWith('/lite1_operating_mode')){assert.deepEqual(payload,{p_guest_key:key});return Response.json({contractVersion:'sales-only-phase2-v1',fullAccounting:false});}
   if(url.pathname.endsWith('/lite1_guest2')){writes.push(payload);return Response.json({success:true,order_id:orderId,idempotent_replay:writes.length>1});}
   if(url.pathname.endsWith('/finalize_guest_order_gateway')){finalized.push(payload);return new Response(null,{status:204});}
   throw Error('UNEXPECTED_UPSTREAM');

@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner9Nov phase2:additive sales-only build above85;reuse existing UI/pure calculation helpers;opening epoch included;quarantined SQL/Draft PR/fullCI only.",
-  "baselineSha": "5068782d68a18a497c7048000ce276c56bba4fd2",
+  "baselineSha": "80db50ced51839c97c4432392e40a10c801b85c6",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase2",
   "phase": "SALES_ONLY_PHASE2",
@@ -19,10 +19,11 @@
     "Owner-approved repeat recovery ab62527e pushed;app startup cleanup ignoredGitlock;worktree movedoutside managedroot to C:/Users/TOP/NawasrahWorktrees/sales-only-phase2/mahdi-admin. POS cancellation/issue race and commercialactor18 recheckPASS;no activeDB.",
     "Guest writerH1/replay/race/promo/delivery/unavailable/closedstore/anon negativesPASS;pending integrity0/zero stockcost/636guard;network0/cleanuptrue. Sharednewmaterializer reusedbyPOSandguest;POSrecheckpending.",
     "ActualEdge\u2192real localgateway/mode/litewriter/finalizer PASS twiceoneorder;ownerAAL2 required;34unitPASS;POS16+cancelrace aftershared materializerPASS;network0/cleanuptrue.",
-    "Lifecycle4actual full-vs-lite cash/CliQ/debt/partial monetaryJSON+drawer parityPASS;cancel/state/reference/overpay/race/zero stock/integrity0/636guardPASS;cleanuptrue."
+    "Lifecycle4actual full-vs-lite cash/CliQ/debt/partial monetaryJSON+drawer parityPASS;cancel/state/reference/overpay/race/zero stock/integrity0/636guardPASS;cleanuptrue.",
+    "Guestreplayroute acrossmodechangePASS:4originalfullguest replayswhileOFF,litereplayafterfixtureON,zero writes+role denial;completionparity stillPASS."
   ],
   "inProgress": [
-    "Stable guest replay route acrossfuture modechanges;thenreturns/cheques/UI/import/reports/openingepoch/FULLCI."
+    "Returnpreview/settlement using existing canonicalization andmonetaryrules+cheques;UI/import/reports/openingepoch/fullCI pending."
   ],
   "notStarted": [
     "Commercial pricing/parcel/delivery/discount parity and writers",
@@ -51,8 +52,8 @@
     "No owner/env edits;no Docker factory reset or unknown volume deletion",
     "628original function bodies frozen;8exact approved patches only"
   ],
-  "nextExactAction": "Buildguest lifecycle/settlement andlocalproof;thenreturns/cheques/UI/import/reports/openingepoch. ActualEdgeDB+POSshared+unit34PASS,pushed;nohosted/merge/extraoriginalbridge.",
-  "checkpointedAt": "2026-11-09T12:02:11.268Z",
+  "nextExactAction": "Preserveguest replayoriginalroute acrossmodechanges;thenreturns/cheques/UI/import/reports/openingepoch/FULLCI/DraftPR. Lifecycle4fullparityPASS,pushed. Noextraoriginalbridge orhosted/merge.",
+  "checkpointedAt": "2026-11-09T12:06:38.112Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
