@@ -1,3 +1,5 @@
+import {startLiteDelivery} from './salesOnlyDelivery';
+import {readOperatingOrdersPage,parseLiteOrderAmounts} from './operatingOrdersPage';
 import {transitionLiteOrder} from './salesOnlyOrderTransition';
 import {orderTracksAccounting,parseSalesOnlyOrderDetails} from './salesOnlyOrderContext';
 import {safeGoogleMapsUrl, validMapCoordinates} from '../../utils/googleMaps';
@@ -233,6 +235,7 @@ function parseOperationalOrdersPagePayload(value: unknown): {
   summary: OperationalOrdersSummary;
 } | null {
   if (!isRecord(value) || !Array.isArray(value.order_ids)) return null;
+  if(value.contractVersion!==undefined){try{parseLiteOrderAmounts(value,value.order_ids);}catch{return null;}}
 
   const summary = isRecord(value.summary) ? value.summary : {};
   return {
@@ -769,7 +772,7 @@ export async function fetchOperationalOrdersPageFromSupabase(
   }
 
   try {
-    const { data, error } = await supabase.rpc('get_operational_orders_page', {
+    const { data, error } = await readOperatingOrdersPage({
       p_page: page,
       p_page_size: pageSize,
       p_filter: input.filter,
@@ -836,9 +839,10 @@ export async function fetchOperationalOrdersPageFromSupabase(
     const ordersById = new Map(
       listResult.orders.map((order) => [order.id, order])
     );
+    const liteAmounts=parseLiteOrderAmounts(data,pagePayload.orderIds);
     const orders = pagePayload.orderIds.flatMap((orderId) => {
       const order = ordersById.get(orderId);
-      return order ? [order] : [];
+      const amount=liteAmounts.get(orderId);return order ? [amount?{...order,customerName:amount.customerName,amountPaid:amount.amountPaidInMinorUnits/1000,amountDue:amount.amountDueInMinorUnits/1000}:order] : [];
     });
 
     return {
@@ -881,7 +885,7 @@ export async function fetchOperationalOrdersSummaryFromSupabase(): Promise<{
   }
 
   try {
-    const { data, error } = await supabase.rpc('get_operational_orders_page', {
+    const { data, error } = await readOperatingOrdersPage({
       p_page: 1,
       p_page_size: 1,
       p_filter: 'action',
@@ -1114,7 +1118,8 @@ export async function startOrUpdateOrderDeliveryInSupabase(
   }
 
   try {
-    const { data, error } = await supabase.rpc(
+    const lite=(await readOrderLifecycleContract(supabase,orderId))==='sales-only';
+    const {data,error}=lite?{data:await startLiteDelivery(orderId,etaMinutes,driverPhone.trim(),notes),error:null}:await supabase.rpc(
       'start_or_update_order_delivery',
       {
         p_order_id: orderId,

@@ -1,5 +1,6 @@
+import {pendingLiteDelivery,recoverLiteDelivery} from '../../services/supabase/salesOnlyDelivery';
 import {newestRecords} from '../../utils/newestRecords';
-import React, { useCallback, useState, useSyncExternalStore } from 'react';
+import React, { useCallback, useEffect, useState, useSyncExternalStore } from 'react';
 import {
   AlertTriangle,
   Banknote,
@@ -188,6 +189,10 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
     order.deliveryDriverPhone || ''
   );
   const [latestTrackingUrl, setLatestTrackingUrl] = useState('');
+  const [deliveryPending,setDeliveryPending]=useState(false),[deliveryJournalError,setDeliveryJournalError]=useState(false);
+  useEffect(()=>{let active=true;if(order.accountingTracked===false&&['preparing','ready','out_for_delivery'].includes(order.status))void pendingLiteDelivery(order.id).then(pending=>{if(active)setDeliveryPending(Boolean(pending));},()=>{if(active)setDeliveryJournalError(true);});return()=>{active=false;};},[order.id,order.accountingTracked,order.status]);
+  const recoverSavedDelivery=async()=>{if(busy)return;setBusy(true);try{const result=await recoverLiteDelivery(order.id);setLatestTrackingUrl(buildStorefrontTrackingUrl(result.tracking_token));setDeliveryDriverPhone(result.driver_phone);setDeliveryPending(false);setShowDeliveryEtaForm(false);await onOrderChanged?.();}catch{setToast('تعذر استرجاع التوصيل؛ احتفظ بالمحاولة ولا تبدأ مفتاحاً جديداً. (DELIVERY-01)','error');}finally{setBusy(false);}};
+
   const nextStep = nextOrderStep(order.status);
   const phoneViewport = useSyncExternalStore(subscribePhoneViewport, isPhoneViewport, () => false);
   const fullScreenDetail = embedded && phoneViewport && !historyContext;
@@ -314,6 +319,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
         deliveryEtaMinutes,
         normalizedDriverPhone
       );
+      if (!result.success&&order.accountingTracked===false){try{setDeliveryPending(Boolean(await pendingLiteDelivery(order.id)));}catch{setDeliveryJournalError(true);}}
       if (result.success) {
         setLatestTrackingUrl(result.trackingUrl || '');
         setDeliveryDriverPhone(
@@ -529,7 +535,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
       <div id={`order-action-area-${order.id}`} className="space-y-2 scroll-mt-4">
         {order.source==='pos'&&(order.paymentMethod==='exchange_credit'?<p className="text-sm text-nw-muted">فاتورة البديل مرتبطة بتبديل موحّد. للإرجاع استخدم «إرجاع أو استبدال»؛ لا تعكسها كبيع نقدي مستقل.</p>:<DocumentCorrectionAction action="pos_sale" recordId={order.id} insideMenu={historyContext} onChanged={async()=>{await onOrderChanged?.();setToast('تم عكس البيع وحفظ أثره التدقيقي.','success');}}/>)}
 
-        {(showDeliveryEtaForm || order.status === 'out_for_delivery') && (
+        {(showDeliveryEtaForm || order.status === 'out_for_delivery'||deliveryPending||deliveryJournalError) && (
           <div className="space-y-3 rounded-2xl border border-nw-info bg-nw-info-bg p-3">
             <div className="flex items-start justify-between gap-2">
               <div>
@@ -570,7 +576,8 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
               </div>
             )}
 
-            {showDeliveryEtaForm && (
+            {order.accountingTracked===false&&(deliveryPending||deliveryJournalError)&&<div role="alert" className="space-y-2 rounded-xl border border-nw-warn p-3"><p>{deliveryJournalError?'تعذر قراءة سجل التوصيل؛ لا تمسحه ولا تبدأ محاولة جديدة. (DELIVERY-02)':'يوجد توصيل محفوظ غير محسوم؛ استرجع نفس الطلب قبل تعديل البيانات.'}</p>{deliveryPending&&<UiButton disabled={busy||deliveryJournalError} onClick={()=>void recoverSavedDelivery()}>استرجاع التوصيل المحفوظ</UiButton>}</div>}
+            {showDeliveryEtaForm&&!deliveryPending&&!deliveryJournalError && (
               <>
                 <div className="grid grid-cols-4 gap-1.5">
                   {[15, 30, 45, 60].map((minutes) => (

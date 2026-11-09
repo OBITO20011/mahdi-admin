@@ -3,11 +3,11 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/design/sales-only-phase2/OPENING_EPOCH_PROOF_AR.md"
+      "path": "e2e/isolated-test.ts"
     },
     {
       "code": " M",
-      "path": "docs/design/sales-only-phase2/opening-epoch.sql"
+      "path": "e2e/package-f-orders-harness.tsx"
     },
     {
       "code": " M",
@@ -15,11 +15,23 @@
     },
     {
       "code": " M",
-      "path": "scripts/testing/sales-only-phase2-epoch-runtime.mjs"
+      "path": "scripts/testing/sales-only-phase2-installer.mjs"
     },
     {
       "code": " M",
-      "path": "src/features/operatingMode/OperatingModePanel.tsx"
+      "path": "scripts/testing/sales-only-phase2-lifecycle-runtime.mjs"
+    },
+    {
+      "code": " M",
+      "path": "src/features/orders/OrderDetailModal.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/services/supabase/orders.service.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/services/supabase/salesOnlyOrderTransition.ts"
     },
     {
       "code": " M",
@@ -27,31 +39,27 @@
     },
     {
       "code": "??",
-      "path": "e2e/sales-only-phase2-epoch-harness.html"
+      "path": "docs/design/sales-only-phase2/OPERATIONAL_ORDERS_PROOF_AR.md"
     },
     {
       "code": "??",
-      "path": "e2e/sales-only-phase2-epoch-harness.tsx"
+      "path": "docs/design/sales-only-phase2/operational-orders.sql"
     },
     {
       "code": "??",
-      "path": "e2e/sales-only-phase2-epoch.spec.ts"
+      "path": "e2e/sales-only-phase2-delivery.spec.ts"
     },
     {
       "code": "??",
-      "path": "src/features/operatingMode/openingEpoch.ts"
+      "path": "src/services/supabase/operatingOrdersPage.ts"
     },
     {
       "code": "??",
-      "path": "src/features/operatingMode/OpeningEpochPanel.tsx"
+      "path": "src/services/supabase/salesOnlyDelivery.ts"
     },
     {
       "code": "??",
-      "path": "src/services/supabase/openingEpoch.service.ts"
-    },
-    {
-      "code": "??",
-      "path": "tests/sales-only-phase2-epoch-ui.test.ts"
+      "path": "tests/sales-only-phase2-operations.test.ts"
     }
   ]
 }

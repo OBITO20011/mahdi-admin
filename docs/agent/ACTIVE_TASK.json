@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner9Nov phase2:additive sales-only build above85;reuse existing UI/pure calculation helpers;opening epoch included;quarantined SQL/Draft PR/fullCI only.",
-  "baselineSha": "544367a4d5fb884c906075766f17dd9029781368",
+  "baselineSha": "86f4bccf13b4a41c8608a1b762fb2dd6a517f562",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase2",
   "phase": "SALES_ONLY_PHASE2",
@@ -41,10 +41,11 @@
     "Storefront/client quantity-free manual availability wired in existing cards/details/cart/mixed builder;schema2 nullquantity/freshmode reconciliation/prices retained.217storeunits/typesboth/strictlint/history11;16existingfull+C6 browser plus12new touch identities PASS across2engines/3901440 (corrected test copy/counter,original failed logs preserved).Actualmapper→PG5groups/628636/integrity0/network0/cleanuptrue;owner24hashes unchanged.",
     "Public parallel promotion preview dispatch reuses pinned private commercial preview;fullJSON exact andmixed WAC NULL quote→actualTS mapper PASS onowned219/180;5PGgroups/628636/integrity0/network0/cleanuptrue.218storeunits/typesboth/strictlint/9guards and2actualChromiumWebKit quote→localgateway→receipt canonical5500PASS. OriginalfullRPC unchanged.",
     "Shared browser/build pure readprotocol and strict OFF catalog envelope;localmanual+legacy219 SEO builds1product/1category/6URLsPASS;8productionbundle browser page budgets bothenginesPASS,negative realextra request rejected/noegress/CSPsame.219storeunits/types/lint/history10PASS;3selectedmanifest+loopbackguards and6cutover contractsPASS. Frozen198hash test still requires exact history repair,not declaredgreen.",
-    "Openingepoch owner/AAL2 worksheet+existingXLSX/integer parsers+durable samekey journal;5newmodel/recovery units and17focusedPASS;types/strictlint/8ChromiumWebKit mobile3901280 UI+navPASS. Owned219/180real820leaves/72newfamilies345newflavors/2warehouses1640rows8groupsPASS;preview926.805ms/activation+concurrent replay1788.446ms under8s;actualTS crashjournal resume afterON;allfinancialIDs/GoLive identical,oldlitereturnnostock,fullPOS500cost resumed;integrity0/628636/network0/cleanuptrue."
+    "Openingepoch owner/AAL2 worksheet+existingXLSX/integer parsers+durable samekey journal;5newmodel/recovery units and17focusedPASS;types/strictlint/8ChromiumWebKit mobile3901280 UI+navPASS. Owned219/180real820leaves/72newfamilies345newflavors/2warehouses1640rows8groupsPASS;preview926.805ms/activation+concurrent replay1788.446ms under8s;actualTS crashjournal resume afterON;allfinancialIDs/GoLive identical,oldlitereturnnostock,fullPOS500cost resumed;integrity0/628636/network0/cleanuptrue.",
+    "Canonical operational page wrapper leavesfull-only allJSON/filter/sort/pagesexact;lite summary/rows followactual1000debtreturn andrecipientorder snapshot,actualTS decoderreadonly. Reusedoriginaldeliverymetadata afterparallelpreparing-ready-out;durablecapture/lock/recovery samekey/bodyETA oneaudit/no stock.36units/types/strictlint;14priorlifecycle browser+2newtouchdeliveryPASS (firstselectorlabel corrected,pendingUI restoredafterreload).RealPG6groups/4fullfinancialcomparisons/628636/integrity0/network0/cleanuptrue."
   ],
   "inProgress": [
-    "Canonical operational lists/delivery/live drawer guards;full-mode mixed-history reporting afteractivation;exact historical/currentACL evidence;FULLCI/Draft."
+    "Mixed-history home/report completeness afteropeningepoch,live drawer/reversal boundaries,actualRESTembeddedrelation/currentroles/historyevidence,FULLCI/Draft."
   ],
   "notStarted": [
     "Remaining storefront/operational UI/epoch scale and mixed history proof",
@@ -91,12 +92,12 @@
     "No owner/env edits;no Docker factory reset or unknown volume deletion",
     "628original function bodies frozen;8exact approved patches only"
   ],
-  "nextExactAction": "Commit/push activation worksheet+1640row proof;then mixed history dashboard/reports andcanonical operations/newroles evidence/FULLCI Draft.",
-  "checkpointedAt": "2026-11-09T19:24:03.144Z",
+  "nextExactAction": "Commit/push canonicaloperations anddelivery proof;create explicitINCOMPLETE phase2 Draft above85 tostartfullCI,then mixedhistory/drawer/currentevidence.",
+  "checkpointedAt": "2026-11-09T19:48:55.860Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 13,
-  "filesTouchedManifestSha256": "1adbaa327bd635eb88874e94ef42e99d3b34da94fe4eb802be8ec94991efbbd2",
-  "workingTreeFingerprint": "3864AFC152C6CE4810785BB77CCED8960E5D168EB2D2D0F245659E56693EBB15"
+  "filesTouchedCount": 15,
+  "filesTouchedManifestSha256": "019d47ee7a7985bbdefb6c7fcc5a8ae53e9abf7255187266a0697bd800c9ca6b",
+  "workingTreeFingerprint": "39DAE9AEE454180BCB501C9994802EE59BF43DE719B9AB5BED6980D7340F3B85"
 }

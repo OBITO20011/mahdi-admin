@@ -1,10 +1,10 @@
 import {tsImport} from 'tsx/esm/api';
 import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
-import {readFile} from 'node:fs/promises';
-import {bridgeSql,assertFrozenFunctions} from './sales-only-phase1-bridges.mjs';
+import {assertFrozenFunctions} from './sales-only-phase1-bridges.mjs';
 import {functionCatalogSql} from './sales-only-phase1-runtime.mjs';
-import {commercialSql} from './sales-only-phase2-commercial.mjs';
+import {phase2PrototypeSql} from './sales-only-phase2-installer.mjs';
+import {returnPayload215} from './aftercare215-return-cases.mjs';
 import {readApplicationFingerprint} from './backup-restore-contract.mjs';
 
 export async function verifyGuestLifecycle(c,report){
@@ -19,6 +19,7 @@ export async function verifyGuestLifecycle(c,report){
   if(name==='lite1_complete2')call=`lite1_complete2(${q(args.p_order)},${q(args.p_key)},${q(args.p_payment_method)},${args.p_amount_collected_in_minor_units},${args.p_delivery_fee_in_minor_units},${q(args.p_reference_number)},${q(args.p_notes)})`;
   else if(name==='lite1_cancel_guest2')call=`lite1_cancel_guest2(${q(args.p_order)},${q(args.p_key)},${q(args.p_reason)})`;
   else if(name==='lite1_transition2')call=`lite1_transition2(${q(args.p_order)},${q(args.p_next)},${q(args.p_key)},${q(args.p_notes)})`;
+  else if(name==='lite1_delivery2')call=`lite1_delivery2(${q(args.p_order_id)},${args.p_eta_minutes},${q(args.p_driver_phone)},${q(args.p_notes)},${q(args.p_key)})`;
   else assert.fail('UNEXPECTED_CLIENT_RPC:'+name);
   const data=await rpc(call);if(loseReply){loseReply=false;return {data:null,error:{message:'network timeout'}};}return {data,error:null};
  }};
@@ -36,10 +37,14 @@ export async function verifyGuestLifecycle(c,report){
   fullResults.push(projection(result));
  }
  const fullSummary=await rpc(`get_cash_shift_summary(${q(fullShift)})`);await rpc(`close_cash_shift(${q(fullShift)},${fullSummary.expectedCashInMinorUnits},NULL)`);
- const fullSnapshot=await rpc(`get_cash_shift_closing_report(${q(fullShift)})`),before=await json(functionCatalogSql),read=n=>readFile(new URL('../../docs/design/sales-only-phase'+n,import.meta.url),'utf8');
- await sql(`BEGIN;SELECT set_config('nawasrah.sales_lite1_test','OWNED_LOCAL_DB219',true);SELECT set_config('nawasrah.sales_lite2_test','OWNED_LOCAL_DB219',true);${await read('1/prototype.sql')}\n${bridgeSql(before)}\n${commercialSql(before)}\n${await read('2/pos-writer.sql')}\n${await read('2/guest-writer.sql')}\n${await read('2/operating-mode.sql')}\n${await read('2/guest-lifecycle.sql')}COMMIT;`);
+ const fullSnapshot=await rpc(`get_cash_shift_closing_report(${q(fullShift)})`),before=await json(functionCatalogSql);
+ await sql(phase2PrototypeSql(before));
  assertFrozenFunctions(before,await json(functionCatalogSql));
  assert.deepEqual(await rpc(`get_cash_shift_closing_report(${q(fullShift)})`),fullSnapshot);
+ for(const sort of ['oldest','newest'])for(const filter of ['all','action','active','completed','returned','cancelled']){
+  const args=`1,2,${q(filter)},NULL,${q(sort)}`;
+  assert.deepEqual(await rpc(`lite1_operational_orders_page2(${args})`),await rpc(`get_operational_orders_page(${args})`),'FULL_ONLY_OPERATIONAL_ALL_JSON_EXACT');
+ }
  await rpc('lite1_set_mode2(false)');
  for(const old of fullRequests){
   assert.equal((await rpc(`lite1_operating_mode(${q(old.key)})`,null,'service_role')).fullAccounting,true);
@@ -58,8 +63,9 @@ export async function verifyGuestLifecycle(c,report){
   assert.equal((await transitionLiteOrder(client,order.order_id,'preparing','بدء التجهيز')).data.success,true);
   const result=await transitionLiteOrder(client,order.order_id,'ready','جاهز');assert.deepEqual(await transitionLiteOrder(client,order.order_id,'ready','جاهز'),result);
  };
- for(let i=0;i<cases.length;i++){
+ const liteOrders=[];for(let i=0;i<cases.length;i++){
   const test=cases[i],order=await create();await ready(order);
+  liteOrders.push(order);
   const request={accountingMode:'sales-only',paymentMethod:test.method,amountCollectedInMinorUnits:test.paid,deliveryFeeInMinorUnits:1000,referenceNumber:test.method==='cliq'?'FIXTURE-CLIQ':null,notes:'تسليم'};
   const result=(await runCustomerV2AdminAction(client,order.order_id,'complete',request)).data;assert.deepEqual(projection(result),fullResults[i],'FULL_AND_LITE_COMPLETION_MONETARY_JSON_EQUAL');
   const fp=await readApplicationFingerprint(executor),count=sent.length;assert.deepEqual((await runCustomerV2AdminAction(client,order.order_id,'complete',request)).data,result);assert.equal(sent.length,count,'CLIENT_SUCCESS_REPLAY_ZERO_RPC');assert.deepEqual(await readApplicationFingerprint(executor),fp);
@@ -69,6 +75,34 @@ export async function verifyGuestLifecycle(c,report){
  const liteSummary=await rpc(`get_cash_shift_summary(${q(liteShift)})`);
  for(const key of ['expectedCashInMinorUnits','cashSalesInMinorUnits','cliqSalesInMinorUnits','cashReceiptsInMinorUnits','cliqReceiptsInMinorUnits'])assert.equal(liteSummary[key],fullSummary[key],key);
  report.cases.push({name:'actual full vs litecash/CliQ/debt/partial delivery monetaryJSON anddrawer fields equal;unchanged historicfull close;replay zero writes',passed:true,comparisons:4});
+ const {parseLiteOrderAmounts}=await tsImport('../../src/services/supabase/operatingOrdersPage.ts',import.meta.url);
+ const page=()=>rpc("lite1_operational_orders_page2(1,100,'completed',NULL,'newest')");
+ const beforeReturn=await page(),baseDue=beforeReturn.summary.due_in_minor_units;
+ assert.equal(baseDue,15000);const amounts=parseLiteOrderAmounts(beforeReturn,beforeReturn.order_ids);
+ for(let i=0;i<liteOrders.length;i++){const amount=amounts.get(liteOrders[i].order_id);assert.equal(amount.amountDueInMinorUnits,4000-cases[i].paid);assert.equal(amount.customerName,'مبسّط وهمي');}
+ const debtOrder=liteOrders[2],item=await json(`SELECT to_jsonb(id) FROM public.order_items WHERE order_id=${q(debtOrder.order_id)};`);
+ const payload=returnPayload215({sale:{orderId:debtOrder.order_id},item,pid},{quantity:1,good:1,method:'debt'}),returnPreview=await rpc(`lite1_preview_return2(${j(payload)})`);
+ await rpc(`lite1_settle_return2(${j(payload)},${q(randomUUID())},${q(returnPreview.previewFingerprint)})`);
+ const beforePage=await readApplicationFingerprint(executor),returned=await page();assert.equal(returned.summary.due_in_minor_units,baseDue-1000);
+ assert.equal(parseLiteOrderAmounts(returned,returned.order_ids).get(debtOrder.order_id).amountDueInMinorUnits,3000);assert.deepEqual(await readApplicationFingerprint(executor),beforePage);
+ assert.deepEqual(await inventory(),stock);
+ report.cases.push({name:'operational pagination/sort/filter/fullJSON exact;lite page canonical dues/recipient snapshots andsummary followrealdebtreturn1000;actualTS decoder/readonly/nostock',passed:true});
+ const delivery=await create();await transitionLiteOrder(client,delivery.order_id,'preparing','بدء التجهيز');
+ const {runLiteDeliveryWithClient,readLiteDeliveryAttempt}=await tsImport('../../src/services/supabase/salesOnlyDelivery.ts',import.meta.url);
+ const disk={getItem:k=>values.get(k)??null,setItem:(k,v)=>values.set(k,v)},metadata={etaMinutes:20,driverPhone:'0791234567',notes:'توصيل وهمي محلي'};
+ const deliveryInventory=await inventory();loseReply=true;
+ await assert.rejects(runLiteDeliveryWithClient(client,id(1),delivery.order_id,metadata,disk));
+ const saved=readLiteDeliveryAttempt(id(1),delivery.order_id,disk);assert.equal(saved.status,'OUTCOME_UNKNOWN');
+ await assert.rejects(runLiteDeliveryWithClient(client,id(1),delivery.order_id,{...metadata,etaMinutes:45},disk));
+ const recovered=await runLiteDeliveryWithClient(client,id(1),delivery.order_id,null,disk,true),fpDelivery=await readApplicationFingerprint(executor);
+ assert.equal(recovered.status,'out_for_delivery');assert.equal(recovered.driver_phone,metadata.driverPhone);
+ assert.equal(Number(await sql(`SELECT count(*) FROM public.audit_logs WHERE action='start_or_update_order_delivery' AND entity_id=${q(delivery.order_id)};`)),1);
+ assert.equal(Number(await sql(`SELECT count(*) FROM public.order_status_history WHERE order_id=${q(delivery.order_id)} AND new_status IN('ready','out_for_delivery');`)),2);
+ assert.equal(Number(await sql(`SELECT EXTRACT(EPOCH FROM estimated_arrival_at-delivery_started_at) FROM public.orders WHERE id=${q(delivery.order_id)};`)),1200);
+ assert.deepEqual(await runLiteDeliveryWithClient(client,id(1),delivery.order_id,null,disk,true),recovered);assert.deepEqual(await readApplicationFingerprint(executor),fpDelivery);assert.deepEqual(await inventory(),deliveryInventory);
+ const metadataSends=sent.filter(x=>x.name==='lite1_delivery2');assert.equal(metadataSends.length,2);assert.deepEqual(metadataSends[0].args,metadataSends[1].args);
+ await runCustomerV2AdminAction(client,delivery.order_id,'cancel',{accountingMode:'sales-only',reason:'إغلاق البروفة'});
+ report.cases.push({name:'realTS delivery preparing→ready→out via paralleltransitions thenunchangedmetadata writer;lostreply samekey/body/ETA;oneaudit/twohistory/zero stock;recoveryreadonly',passed:true});
  const cancelled=await create(),cancelCall=`lite1_cancel_guest2(${q(cancelled.order_id)},${q(randomUUID())},'إلغاء طلب وهمي')`;
  const cancel=await rpc(cancelCall);assert.equal(cancel.status,'cancelled');assert.deepEqual(await rpc(cancelCall),cancel);
  await fail(`lite1_transition2(${q(cancelled.order_id)},'preparing',${q(randomUUID())})`,/PHASE3_CUSTOMER_LIFECYCLE_INVALID/);

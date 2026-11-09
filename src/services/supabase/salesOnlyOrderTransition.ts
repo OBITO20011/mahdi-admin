@@ -8,5 +8,6 @@ export async function transitionLiteOrder(client:SupabaseClient,orderId:string,n
  const identity=JSON.stringify([actor.data.user.id,orderId,next]);
  const hash=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(identity));
  const key='lite2-transition:'+Array.from(new Uint8Array(hash),byte=>byte.toString(16).padStart(2,'0')).join('');
+ const latest=await client.auth.getUser();if(latest.error||latest.data.user?.id!==actor.data.user.id)throw Error('تعذر التحقق من المستخدم.');
  return client.rpc('lite1_transition2',{p_order:orderId,p_next:next,p_key:key,p_notes:notes||null});
 }
