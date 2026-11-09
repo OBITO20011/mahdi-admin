@@ -219,7 +219,7 @@ const AppShell: React.FC = () => {
       case 'expenses':
         return <ExpensesView />;
       case 'shifts':
-        return <ShiftsView />;
+        return <ShiftsView operatingMode={operatingMode} />;
       case 'reports':
         return <ReportsCenterView operatingMode={operatingMode} />;
       case 'users':

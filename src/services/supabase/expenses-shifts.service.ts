@@ -1,3 +1,4 @@
+import {readOperatingShiftReversal,assertLiteShiftReversalBlock,shiftReversalGuardMessage} from './operatingShiftReversal';
 import {readOperatingShiftReport} from './operatingShiftReport';
 import {parseSalesOnlyShiftReport,type CashShiftClosingResult} from './salesOnlyShiftReport';
 import { isSupabaseConfigured, supabase } from '../../lib/supabase';
@@ -56,6 +57,7 @@ export interface CashShiftFullReversalOperation {
 }
 
 export interface CashShiftFullReversalPreview {
+  liteMonetaryRefundBlocked?:true;
   shiftId: string;
   shiftNumber: string;
   shiftStatus: string;
@@ -207,16 +209,15 @@ const mapFullShiftReversalOperation = (
 export async function previewCashShiftFullReversalFromSupabase(
   shiftId: string
 ): Promise<CashShiftFullReversalPreview> {
-  const { data, error } = await requireClient().rpc(
-    'preview_cash_shift_full_reversal',
-    { p_shift_id: shiftId }
-  );
-  if (error) throw new Error(error.message || 'تعذر معاينة عكس الوردية.');
+  const {data,error}=await readOperatingShiftReversal(shiftId);
+  if (error) throw new Error('SHIFT-03: تعذر التحقق من معاينة عكس الوردية؛ أعد قراءتها.');
+  assertLiteShiftReversalBlock(data,shiftId);
   const payload = (data || {}) as RpcRecord;
   if (payload.success !== true) {
     throw new Error(textValue(payload.message) || 'تعذر معاينة عكس الوردية.');
   }
   return {
+    ...(payload.liteMonetaryRefundBlocked===true?{liteMonetaryRefundBlocked:true as const}:{}),
     shiftId: textValue(payload.shiftId),
     shiftNumber: textValue(payload.shiftNumber),
     shiftStatus: textValue(payload.shiftStatus),
@@ -283,7 +284,7 @@ export async function reverseCashShiftWithOperationsInSupabase(
       p_idempotency_key: idempotencyKey,
     }
   );
-  if (error) throw new Error(error.message || 'تعذر عكس عمليات الوردية.');
+  if (error) throw new Error(shiftReversalGuardMessage(error)||error.message||'تعذر عكس عمليات الوردية.');
   const payload = (data || {}) as RpcRecord;
   if (payload.success !== true) {
     throw new Error(textValue(payload.message) || 'تعذر عكس عمليات الوردية.');

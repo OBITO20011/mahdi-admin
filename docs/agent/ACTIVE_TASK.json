@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
+  "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner9Nov phase2:additive sales-only build above85;reuse existing UI/pure calculation helpers;opening epoch included;quarantined SQL/Draft PR/fullCI only.",
-  "baselineSha": "bc2a02fc0222913ad6dbdf3fbeca32dd432132b8",
+  "baselineSha": "44bbdbacd7b802adbf0e2024185b1c5385f744d8",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase2",
   "phase": "SALES_ONLY_PHASE2",
@@ -13,21 +13,23 @@
     "Commercial18,POS16,guest/EdgeH1,lifecycle4,returns8,import/cheques/mode/availability/catalog/SEO/delivery proof PASS;628/636 exact eight approved bridges;see tracked phase2 *_PROOF_AR.md.",
     "Openingepoch1640rows/820leafSKUs/72families345flavors:standalone2277ms,oldlitecashrefund1000 innewfullshift/closingmoney0,integration0 and628636/network0/cleanuptrue.",
     "Mixedreport/home10units/types/lint/bothenginesPASS;oneChromium502 @vite/client rerunPASS.Mixedclosing8units/types/lint/10browserPASS.Owner20/env4byteunchanged.",
-    "Optimizednewepoch1640rows1963.574ms/preview798.730ms;canonicalJSON exact,financialIDs/WAC/rollback/integrity0/628636PASS.MixedclosingfullJSONexact/count1/refund1000/read-onlyPASS;12units/type/lint/10browser.No newsharedguardimplemented."
+    "Optimizednewepoch1640rows1963.574ms/preview798.730ms;canonicalJSON exact,financialIDs/WAC/rollback/integrity0/628636PASS.MixedclosingfullJSONexact/count1/refund1000/read-onlyPASS;12units/type/lint/10browser.No newsharedguardimplemented.",
+    "Ownerapprovednarrowstatusguard+parallelpreviewimplementedquarantined;no628/8body changes.19units/types/strictlint/58full+newtouchbrowserPASS. ActualPGcash/CliQ/zero/cancel/reallockraces pending."
   ],
-  "inProgress": [],
+  "inProgress": [
+    "Implementapprovedshiftguard;actualPGfullparity/cashCliQ/zero/cancel/races;thenfinishphase2remainingevidence/FULLCI."
+  ],
   "notStarted": [
     "Live drawer details/reversal boundary,actualRESTembedding/currentrole evidence/historyrepairs,FULLCI/finalreport."
   ],
   "testsPassed": [
-    "Proofs are labeled per tracked docs/externallogs;no overall green claim.Draft86 earlyCI red:history inverses/currentrole evidence not updated."
+    "Proofs are labeled per tracked docs/externallogs;no overall green claim.Draft86 earlyCI red:history inverses/currentrole evidence not updated.",
+    "Gitleaks709priorcommits+stagedmilestonediff:0findings.44bbdbac committed/pushed;ownerfiles unchanged;Docker cleanuptrue."
   ],
   "testsRemaining": [
     "Fresh epoch/mixedclosing/reversal proof;whole local quality/build/verify/Gitleaks/exactFULLCI."
   ],
-  "blockers": [
-    "OWNER_DECISION_REQUIRED:actual mixedshift reversal canExecute=true/executedinsideROLLBACK;summaryrefund0 whileprivate1000 persists.Allpublicrows rollbackverified.See SHIFT_REVERSAL_GUARD_PROPOSAL_AR.md."
-  ],
+  "blockers": [],
   "prohibitions": [
     "No merge/phase3/active migration or ceiling change",
     "No main/58/79/82 changes",
@@ -35,16 +37,16 @@
     "No owner/env edits;no Docker factory reset or unknown volume deletion",
     "628original function bodies frozen;8exact approved patches only"
   ],
-  "nextExactAction": "WAIT OWNER:approve SHIFT_REVERSAL_GUARD_PROPOSAL_AR.md extra statusguard+parallelpreview;no newbridge implemented,no automaticresume.",
-  "checkpointedAt": "2026-11-09T20:40:37.922Z",
+  "nextExactAction": "RunapprovedguardPG standalone withfullscaleepoch andrealrowlock races;no newbridge.58browser/19units/types/lintPASS.",
+  "checkpointedAt": "2026-11-09T21:14:58.585Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 17,
-  "filesTouchedManifestSha256": "7a76bfcdc1860d394b0aa29eb7275756f7e19216b02794f96843c89664f389a9",
-  "workingTreeFingerprint": "313F8FF15D82108BDED817CFCE43464637F7B2EB9B6134572A8DAC014BC25D32",
+  "filesTouchedCount": 19,
+  "filesTouchedManifestSha256": "7bbdea9fffcc7520bfd441e876cbbd4dca091634822ace82bd231f500d47add5",
+  "workingTreeFingerprint": "0FA96E10B1A73154F5FE09DE230A88F55DD64D4E8C550665D39595B00D8A39B4",
   "activeProcesses": [],
   "findings": [
-    "Confirmed owner-decision gap: old full-shift reversal ignores private lite monetary refund. Proposal preserves628 original bodies and8 approved bridges via narrow additional status trigger,not implemented."
+    "Ownerexplicitlyapproved narrowadditionalstatusguard+parallelpreview9Nov;keep628 originalbodies/eightbridgepatches unchanged."
   ]
 }

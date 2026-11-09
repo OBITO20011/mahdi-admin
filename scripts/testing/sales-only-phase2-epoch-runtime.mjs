@@ -1,3 +1,4 @@
+import {verifyShiftReversalGuard} from './sales-only-phase2-shift-guard-runtime.mjs';
 import {verifyLiteWorkbookImport} from './sales-only-phase2-workbook-runtime.mjs';
 import {verifyLiteProductDefinitions} from './sales-only-phase2-product-definitions.mjs';
 import assert from 'node:assert/strict';
@@ -84,6 +85,7 @@ export async function verifyOpeningEpoch(c,report){
  const line={commercial_line_kind:'base_unit',product_id:pid,base_quantity:3};
  const sale=await rpc(`lite1_pos2(${j({branchId:branch,warehouseId:warehouse,customerId:id(401),paymentMethod:'debt',lines:[line],discountInMinorUnits:0,amountReceivedInMinorUnits:0})},${q(key())})`);
  const paidLiteSale=await rpc(`lite1_pos2(${j({branchId:branch,warehouseId:warehouse,customerId:id(401),paymentMethod:'cash',lines:[{...line,base_quantity:1}],discountInMinorUnits:0,amountReceivedInMinorUnits:1000})},${q(key())})`);
+ const oldCliQSale=await rpc(`lite1_pos2(${j({branchId:branch,warehouseId:warehouse,customerId:id(401),paymentMethod:'cliq',lines:[{...line,base_quantity:3}],discountInMinorUnits:0,amountReceivedInMinorUnits:3000})},${q(key())})`);
  await rpc(`record_customer_order_payment_once(${q(sale.orderId)},500,'cash',NULL,'تحصيل على فاتورة مبسطة',${q(key())})`);
  await fail(previewCall(),/LITE1_MODE_REQUIRES_QUIESCENCE/);
  const summary=await rpc(`get_cash_shift_summary(${q(shift)})`);await rpc(`close_cash_shift(${q(shift)},${summary.expectedCashInMinorUnits},NULL)`);
@@ -168,16 +170,9 @@ export async function verifyOpeningEpoch(c,report){
  const stockBeforeOldCash=await stock();await rpc(`lite1_settle_return2(${j(cashReturnPayload)},${q(key())},${q(cashReturnPreview.previewFingerprint)})`);assert.deepEqual(await stock(),stockBeforeOldCash);
  const fullSummary=await rpc(`get_cash_shift_summary(${q(fullShift)})`);
  assert.equal(fullSummary.cashRefundsInMinorUnits,1000);assert.equal(fullSummary.expectedCashInMinorUnits,0);
- const exceptionalPreview=await rpc(`preview_cash_shift_full_reversal(${q(fullShift)})`);
- report.mixedReversal={preview:exceptionalPreview,executedInsideRollbackOnly:false};
- if(exceptionalPreview.canExecute===true){
-  const beforeReversal=await readApplicationFingerprint(executor);
-  try{
-   const observed=await json(`BEGIN;SELECT set_config('request.jwt.claims',${j({sub:id(1),role:'authenticated',aal:'aal2'})}::TEXT,true);SET LOCAL ROLE authenticated;SELECT public.reverse_cash_shift_with_operations(${q(fullShift)},'اختبار محلي ثم تراجع كامل',${q(key())});RESET ROLE;SELECT jsonb_build_object('summary',public.get_cash_shift_summary(${q(fullShift)}),'privateRefundInMinorUnits',(SELECT sum(money_refund) FROM sales_lite1.returns WHERE shift_id=${q(fullShift)}));ROLLBACK;`);
-   report.mixedReversal.executedInsideRollbackOnly=true;report.mixedReversal.observed=observed;
-  }catch(error){report.mixedReversal.executionRejected=String(error.message).slice(0,1200);assert.match(report.mixedReversal.executionRejected,/PHASE|LITE|محجوب|غير مدعوم/,'UNEXPECTED_REVERSAL_PROBE_ERROR');}
-  assert.deepEqual((await readApplicationFingerprint(executor)).tables,beforeReversal.tables,'EXCEPTIONAL_REVERSAL_PROBE_ROLLED_BACK_EVERY_PUBLIC_ROW');
- }
+ const exceptionalPreview=await rpc(`lite1_preview_shift_reversal2(${q(fullShift)})`);assert.equal(exceptionalPreview.canExecute,false);assert.equal(exceptionalPreview.liteMonetaryRefundBlocked,true);
+ const beforeRejected=await readApplicationFingerprint(executor);await fail(`reverse_cash_shift_with_operations(${q(fullShift)},'حارس رد مبلغ قديم',${q(key())})`,/LITE2_SHIFT_REVERSAL_HAS_LITE_REFUND/);assert.deepEqual((await readApplicationFingerprint(executor)).tables,beforeRejected.tables,'APPROVED_GUARD_ROLLS_BACK_ALL_PRIMITIVES');
+ report.mixedReversal={preview:exceptionalPreview,directRejected:true,allPublicRowsIdentical:true};
  await rpc(`close_cash_shift(${q(fullShift)},${fullSummary.expectedCashInMinorUnits},NULL)`);
  const mixedClosing=await rpc(`get_cash_shift_closing_report(${q(fullShift)})`);
  report.mixedClosing={shift:mixedClosing.shift,reconciliation:mixedClosing.reconciliation,outflows:mixedClosing.outflows};
@@ -193,9 +188,10 @@ export async function verifyOpeningEpoch(c,report){
  const reporting=await tsImport('../../src/services/supabase/reportingDispatch.service.ts',import.meta.url);
  assert.equal(reporting.parseAccountingReport(rawMixedReport,branch,period.from,period.to).kind,'mixed');
  assert.equal(reporting.parseAccountingHome(rawMixedHome,branch).historyWithoutCost,true);
- assert.equal(rawMixedReport.sales.grossSalesInMinorUnits,5000);assert.equal(rawMixedReport.sales.returnEntitlementInMinorUnits,2000);assert.equal(rawMixedReport.sales.netSalesInMinorUnits,3000);
+ assert.equal(rawMixedReport.sales.grossSalesInMinorUnits,8000);assert.equal(rawMixedReport.sales.returnEntitlementInMinorUnits,2000);assert.equal(rawMixedReport.sales.netSalesInMinorUnits,6000);
+ await verifyShiftReversalGuard(c,report,oldCliQSale);
  const monitor=await json('SELECT public.run_advanced_monitoring_checks();');assert.equal(monitor.integrityIssueCount,0,JSON.stringify(monitor));
  assertFrozenFunctions(before,await json(functionCatalogSql));
  report.cases.push({name:'realactivation thenoldlitereturn nostock/debtcorrect;90daywindowclosed;unchangedfullPOS resumesrealstock/cost;mixedclosingreadonly/counts;integrity0 and628/636 guard',passed:true});
- if(report.mixedReversal.executedInsideRollbackOnly)assert.fail('LITE2_MIXED_SHIFT_REVERSAL_UNGUARDED_OWNER_DECISION_REQUIRED');
+
 }

@@ -32,7 +32,7 @@ try{
  await sql('SELECT cron.alter_job(jobid,active:=false) FROM cron.job;ALTER TABLE public.orders DISABLE TRIGGER trg_notify_new_website_order_push;');
  await sql(await readFile(new URL('./package-e-golden-day-fixture.sql',import.meta.url),'utf8'));
  await rpc(`set_go_live_main_branch_v1(${q(id(200))})`);
- await verifyOpeningEpoch({sql,json,rpc,id,q,j,executor},report);
+ await verifyOpeningEpoch({sql,json,rpc,id,q,j,executor,assertOwned:owned,ownedContainerId:ownedId},report);
  assertVerificationSourceFreeze(freeze,await readVerificationSourceFreeze(root));
  report.ok=true;report.networkAttachments=0;
 }catch(e){report.error=String(e.message).slice(0,5000);console.error(report.error);process.exitCode=1;}

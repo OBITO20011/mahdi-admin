@@ -1,3 +1,7 @@
+#9Nov2026 — owner approved narrow shift status guard;phase2 resumes
+
+Explicitapproval: additional private monetary-refund guard on cash_shifts cancellation/reversal plusparallelpreview. Keep628original bodies/eightbridgepatches unchanged;quarantinedonly/Draft86. DirectRPC/zero/CliQ/fullparity/dailyclose/real-lock races toverify;thenremainingphase2/FULLCI. No main/58/79/82/hosted/deploy/merge/phase3. Earlier WAIT_OWNER below is historical,resolved bythisapproval.
+
 #9Nov2026 — phase2 WAIT OWNER: exceptional shift-reversal gap
 
 Draft86 incomplete. Owned219/180 real1640rowepoch1963.574ms/preview798.730ms afternew-only optimization;canonicalJSON/ledger/WAC/integrity0/628636PASS. Mixedcashrefund/closing1000/0 andnewcostfree reader/count1PASS;12focusedunits/types/lint/10browser. Newnegative gate exposedold full-shift reversal ignoringprivate1000refund (previewtrue,summary0 afterreversal insideROLLBACK);allpublicrows restored,cleanuptrue. No unapprovedguardimplemented. Proposal SHIFT_REVERSAL_GUARD_PROPOSAL_AR.md recommendsnarrowextra status-trigger+parallelpreview,preserving628/8. Await explicitapproval;no main/hosted/deploy/merge/phase3. Detailedhistory/evidenceexternal;finalFULLCI notgreen.

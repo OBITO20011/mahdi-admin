@@ -1,3 +1,4 @@
+import type {OperatingMode} from '../../services/supabase/operatingMode.service';
 import {CashFlowSummary} from './CashFlowSummary';
 /**
  * Nawasrah Business Manager - RPC-backed shift and cash reconciliation.
@@ -33,7 +34,7 @@ import { OwnerWithdrawalsPanel } from './OwnerWithdrawalsPanel';
 
 const money = (value: number) => <MoneyText amount={value} currency/>;
 
-export const ShiftsView: React.FC = () => {
+export const ShiftsView: React.FC<{operatingMode?:OperatingMode}> = ({operatingMode='full'}) => {
   const {roleName,roles}=useAuthStore();
   const entry=useNavigationDrawer()?.entryIntent;
   const withdrawalsEntry=useRef<HTMLDivElement>(null);
@@ -245,6 +246,7 @@ export const ShiftsView: React.FC = () => {
     operational_expense: 'مصروف تشغيلي',
     unsupported_sales_return: 'مرتجع مبيعات غير مدعوم',
     phase42_sales_return: 'مرتجع مبيعات مسوّى',
+    lite_monetary_refund: 'ردّ مبلغ لفاتورة بلا مخزون',
     shift: 'الوردية',
   }[operationType] ?? operationType);
   const isOwner = hasNavigationRole(['owner'],roleName,roles);
@@ -364,7 +366,7 @@ export const ShiftsView: React.FC = () => {
               </div>
               <div data-testid="cash-expected"><p className="m-0 mb-1 text-xs text-nw-side-muted">النقد المتوقع بالدرج</p><strong className="text-4xl"><MoneyText amount={currentShift.expectedCash} currency/></strong></div>
             </header>
-            <div className="p-4"><SectionHeader title="حركة الدرج"/><div className="mt-3"><CashFlowSummary shift={currentShift}/></div></div>
+            <div className="p-4"><SectionHeader title="حركة الدرج"/><div className="mt-3"><CashFlowSummary shift={currentShift} salesOnly={operatingMode==='sales-only'}/></div></div>
             </Card>
           {isOwner && <div ref={withdrawalsEntry} tabIndex={-1}><OwnerWithdrawalsPanel shift={currentShift} onChanged={() => void refreshExpenseShiftCenterFromSupabase().catch(() => undefined)} /></div>}
           <UiButton onClick={() => void handleOpenReport(currentShift.id)}><FileText className="h-4 w-4"/>عرض التقرير المالي الحي</UiButton>
@@ -455,12 +457,12 @@ export const ShiftsView: React.FC = () => {
                         <div className="rounded-lg bg-nw-surface-2 p-2 text-nw-text">الكاش: {money(effectValue('cash_in_minor_units') / 1000)}</div>
                         <div className="rounded-lg bg-nw-surface-2 p-2 text-nw-text">CliQ: {money(effectValue('cliq_in_minor_units') / 1000)}</div>
                         <div className="rounded-lg bg-nw-surface-2 p-2 text-nw-text">ذمم العملاء: {money(effectValue('customer_balance_in_minor_units') / 1000)}</div>
-                        <div className="rounded-lg bg-nw-surface-2 p-2 text-nw-text">ذمم الموردين: {money(effectValue('supplier_balance_in_minor_units') / 1000)}</div>
-                        <div className="rounded-lg bg-nw-surface-2 p-2 text-nw-text">المخزون: {effectValue('inventory_base_units_delta')} وحدة أساسية</div>
+                        {operatingMode==='full'&&<div className="rounded-lg bg-nw-surface-2 p-2 text-nw-text">ذمم الموردين: {money(effectValue('supplier_balance_in_minor_units') / 1000)}</div>}
+                        {operatingMode==='full'&&!fullReversalPreview.liteMonetaryRefundBlocked&&<div className="rounded-lg bg-nw-surface-2 p-2 text-nw-text">المخزون: {effectValue('inventory_base_units_delta')} وحدة أساسية</div>}
                         <div className="rounded-lg bg-nw-surface-2 p-2 text-nw-text">المبيعات: {money(effectValue('sales_in_minor_units') / 1000)}</div>
                         <div className="rounded-lg bg-nw-surface-2 p-2 text-nw-text">الخصم: {money(effectValue('discount_in_minor_units') / 1000)}</div>
-                        <div className="rounded-lg bg-nw-surface-2 p-2 text-nw-text">تكلفة البضاعة: {money(effectValue('cogs_in_minor_units') / 1000)}</div>
-                        <div className="col-span-2 rounded-lg bg-nw-surface-2 p-2 text-nw-text">الربح: {money(effectValue('profit_in_minor_units') / 1000)}</div>
+                        {operatingMode==='full'&&!fullReversalPreview.liteMonetaryRefundBlocked&&<div className="rounded-lg bg-nw-surface-2 p-2 text-nw-text">تكلفة البضاعة: {money(effectValue('cogs_in_minor_units') / 1000)}</div>}
+                        {operatingMode==='full'&&!fullReversalPreview.liteMonetaryRefundBlocked&&<div className="col-span-2 rounded-lg bg-nw-surface-2 p-2 text-nw-text">الربح: {money(effectValue('profit_in_minor_units') / 1000)}</div>}
                       </div>
                       <div className="max-h-48 space-y-1 overflow-y-auto rounded-lg border border-nw-border bg-nw-surface-2 p-2 text-[10px]">
                         {fullReversalPreview.operations.map((operation) => (

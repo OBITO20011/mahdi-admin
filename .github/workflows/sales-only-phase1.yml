@@ -33,7 +33,7 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - run: node --import tsx --test tests/sales-only-phase1.test.ts tests/sales-only-phase2.test.ts tests/sales-only-phase2-edge.test.ts tests/sales-only-phase2-mode.test.ts tests/sales-only-phase2-availability.test.ts tests/sales-only-phase2-pos-ui.test.ts tests/sales-only-phase2-ledger-readers.test.ts tests/sales-only-phase2-aftercare.test.ts tests/guest-order-security-gateway.test.ts
+      - run: node --import tsx --test tests/sales-only-phase1.test.ts tests/sales-only-phase2.test.ts tests/sales-only-phase2-edge.test.ts tests/sales-only-phase2-mode.test.ts tests/sales-only-phase2-availability.test.ts tests/sales-only-phase2-pos-ui.test.ts tests/sales-only-phase2-ledger-readers.test.ts tests/sales-only-phase2-aftercare.test.ts tests/sales-only-phase2-shift-reversal.test.ts tests/guest-order-security-gateway.test.ts
       - run: node scripts/testing/run-sales-only-phase1.mjs
       - name: Preserve synthetic result only
         if: always()

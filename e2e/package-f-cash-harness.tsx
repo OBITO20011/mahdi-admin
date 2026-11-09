@@ -39,4 +39,4 @@ client.rpc=(name,args)=>{
   return original(name,args);
 };
 createRoot(document.getElementById('root')!).render(<div dir="rtl" className="flex h-[100dvh] bg-nw-bg font-sans text-nw-text"><SideNav/><div className="flex min-w-0 flex-1 flex-col"><Header/>
-  <main data-testid="cash-scroll" className="min-h-0 flex-1 overflow-y-auto"><ShiftsView/></main><div className="lg:hidden"><BottomTabs/></div></div></div>);
+  <main data-testid="cash-scroll" className="min-h-0 flex-1 overflow-y-auto"><ShiftsView operatingMode={params.has('lite')?'sales-only':'full'}/></main><div className="lg:hidden"><BottomTabs/></div></div></div>);
