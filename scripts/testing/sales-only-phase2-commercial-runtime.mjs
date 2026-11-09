@@ -6,6 +6,8 @@ import {readApplicationFingerprint} from './backup-restore-contract.mjs';
 
 export async function verifyCommercial(c,report){
  const {sql,json,rpc,id,q,j,executor}=c,branch=id(200),warehouse=id(201);
+ const ownerJson=text=>json(`BEGIN;SELECT set_config('request.jwt.claims',${j({sub:id(1),role:'authenticated',aal:'aal2'})}::text,true);${text}COMMIT;`);
+ const gatewayJson=text=>json(`BEGIN;SELECT set_config('request.jwt.claims','{"role":"service_role"}',true);${text}COMMIT;`);
  const original=await json(functionCatalogSql);
  await sql(`BEGIN;SELECT set_config('nawasrah.sales_lite2_test','OWNED_LOCAL_DB219',true);${commercialSql(original)}COMMIT;`);
  assert.deepEqual(await json(functionCatalogSql),original,'COMMERCIAL_ADDITION_CHANGES_NO_PUBLIC_FUNCTION');
@@ -22,7 +24,7 @@ export async function verifyCommercial(c,report){
  for(const lines of [[base],[parcel],[mixed],[base,parcel,mixed]]){
   for(const discount of [0,101,1001]){
    const fp=await readApplicationFingerprint(executor);
-   const plan=await json(`SELECT sales_lite2.plan(${j(lines)},'admin_pos',${discount});`);
+   const plan=await ownerJson(`SELECT sales_lite2.plan(${j(lines)},'admin_pos',${discount});`);
    assert.deepEqual(await readApplicationFingerprint(executor),fp,'PLANNER_ZERO_PUBLIC_WRITES');
    const full=await rpc(`create_pos_sale_v2(${q(warehouse)},${q(branch)},${q(id(401))},'مقارنة وهمية','cash',${j(lines)},${discount},${plan.totalInMinorUnits},${q(randomUUID())})`);
    for(const field of ['subtotalInMinorUnits','discountInMinorUnits','totalInMinorUnits'])assert.equal(plan[field],full[field],field);
@@ -39,19 +41,22 @@ export async function verifyCommercial(c,report){
   // has a distinct synthetic identity; never relax the real redemption policy.
   const phone='079660'+String(5000+comparisons);
   const fullPreview=await rpc(`preview_guest_promotion_v2(${j(guestLines)},${q(promotion)},${q(phone)})`,null,'anon');
-  const preview=await json(`SELECT sales_lite2.preview(${j(guestLines)},${q(promotion)},${q(phone)});`);assert.deepEqual(preview,fullPreview,'WHOLE_PREVIEW_JSON_EQUAL');
-  const plan=await json(`SELECT sales_lite2.plan(${j(guestLines)},'customer_v2',0,${q(promotion)},${q(phone)},${q(zone)});`);
+  const preview=await gatewayJson(`SELECT sales_lite2.preview(${j(guestLines)},${q(promotion)},${q(phone)});`);assert.deepEqual(preview,fullPreview,'WHOLE_PREVIEW_JSON_EQUAL');
+  const plan=await gatewayJson(`SELECT sales_lite2.plan(${j(guestLines)},'customer_v2',0,${q(promotion)},${q(phone)},${q(zone)});`);
   const full=await rpc(`submit_guest_customer_order_v2(${q(randomUUID())},repeat('c',64),repeat('d',64),'طلب مقارنة وهمي',${q(phone)},'إربد','الرمثا','حي وهمي','شارع وهمي',NULL,NULL,NULL,NULL,NULL,NULL,${j(guestLines)},${q(promotion)},'cash_on_delivery',${q(zone)},${plan.subtotalInMinorUnits},${plan.discountInMinorUnits},${plan.deliveryFeeInMinorUnits},${plan.totalInMinorUnits})`,null,'service_role');
   const actual=await json(`SELECT jsonb_build_array(subtotal_in_minor_units,discount_in_minor_units,delivery_fee_in_minor_units,total_in_minor_units) FROM public.orders WHERE id=${q(full.order_id)};`);
   assert.deepEqual(actual,[plan.subtotalInMinorUnits,plan.discountInMinorUnits,plan.deliveryFeeInMinorUnits,plan.totalInMinorUnits]);
   await rpc(`cancel_customer_order_v2(${q(full.order_id)},${q(randomUUID())},'انتهاء المقارنة')`);comparisons++;
  }
  report.cases.push({name:'guest full writer and whole promotion preview JSON equal:null/fixed/percentage andboth delivery zones',passed:true,comparisons:6});
- const noWac=await json(`BEGIN;UPDATE public.products SET wac_cost_in_minor_units_exact=NULL WHERE id IN(${q(id(101))},${q(id(102))});SELECT sales_lite2.preview(${j([{...mixed,expected_unit_price_in_minor_units:5000}])},NULL,NULL);ROLLBACK;`);
+ const noWac=await json(`BEGIN;SELECT set_config('request.jwt.claims','{"role":"service_role"}',true);UPDATE public.products SET wac_cost_in_minor_units_exact=NULL WHERE id IN(${q(id(101))},${q(id(102))});SELECT sales_lite2.preview(${j([{...mixed,expected_unit_price_in_minor_units:5000}])},NULL,NULL);ROLLBACK;`);
  assert.equal(noWac.merchandiseSubtotalInMinorUnits,10000);
  await expectFailure(`BEGIN;UPDATE public.products SET wac_cost_in_minor_units_exact=NULL WHERE id=${q(id(101))};SELECT public.preview_guest_promotion_v2(${j([{...mixed,expected_unit_price_in_minor_units:5000}])},NULL,NULL);ROLLBACK;`,/PHASE3_EXACT_WAC_UNAVAILABLE/);
  await expectFailure(`SELECT sales_lite2.plan(${j([{...guestLines[0],expected_unit_price_in_minor_units:1}])},'customer_v2',0,NULL,'0796600403','inside_ramtha');`,/PHASE3_CUSTOMER_QUOTE_STALE/);
- await expectFailure(`SELECT sales_lite2.plan(${j([{...mixed,parcel_instances:[{components:[{product_id:id(101),base_quantity:4}]}]}])},'admin_pos');`,/PARCEL_CAPACITY_MISMATCH/);
+ await expectFailure(`BEGIN;SELECT set_config('request.jwt.claims',${j({sub:id(1),role:'authenticated',aal:'aal2'})}::text,true);SELECT sales_lite2.plan(${j([{...mixed,parcel_instances:[{components:[{product_id:id(101),base_quantity:4}]}]}])},'admin_pos');COMMIT;`,/PARCEL_CAPACITY_MISMATCH/);
+ await rpc("set_configurable_parcel_feature_state_v1('OWNER_PILOT')");
+ const pilot=await ownerJson(`SELECT sales_lite2.plan(${j([mixed])},'admin_pos');`);assert.equal(pilot.totalInMinorUnits,10000);
+ await expectFailure(`BEGIN;SELECT set_config('request.jwt.claims','{"role":"service_role"}',true);SELECT sales_lite2.preview(${j([{...mixed,expected_unit_price_in_minor_units:5000}])},NULL,NULL);COMMIT;`,/CONFIGURABLE_PARCEL/);
  const acl=await json("SELECT jsonb_agg(jsonb_build_array(r.rolname,has_function_privilege(r.oid,p.oid,'EXECUTE')) ORDER BY r.rolname,p.proname) FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace CROSS JOIN pg_roles r WHERE n.nspname='sales_lite2' AND r.rolname IN('anon','authenticated','service_role');");
  assert.ok(acl.length===6&&acl.every(x=>x[1]===false));
  report.cases.push({name:'cost-free mixed planner withoutWAC;original still rejects;stalequote/capacity/ACL negatives preserved',passed:true});

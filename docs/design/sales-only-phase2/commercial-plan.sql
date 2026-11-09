@@ -42,7 +42,7 @@ BEGIN
    'commercial_quantity',quantity,'base_quantity',quantity::BIGINT*size,'units_per_parcel',size,
    'unit_price_in_minor_units',price,'gross_amount_in_minor_units',gross));
  END LOOP;
- quote:=sales_lite2.preview(CASE WHEN p_channel='admin_pos' THEN quoted ELSE p_lines END,p_promotion,p_phone);
+ quote:=sales_lite2.preview(CASE WHEN p_channel='admin_pos' THEN quoted ELSE p_lines END,p_promotion,p_phone,CASE WHEN p_channel='admin_pos' THEN 'erp_user' ELSE 'guest_gateway' END);
  IF(quote->>'merchandiseSubtotalInMinorUnits')::BIGINT IS DISTINCT FROM subtotal THEN RAISE EXCEPTION 'LITE2_INTERNAL_PRICE_MISMATCH';END IF;
  discount:=CASE WHEN p_channel='admin_pos' THEN p_discount ELSE(quote->>'promotionDiscountInMinorUnits')::BIGINT END;
  IF discount>subtotal THEN RAISE EXCEPTION 'PHASE3_POS_DISCOUNT_EXCEEDS_SUBTOTAL';END IF;

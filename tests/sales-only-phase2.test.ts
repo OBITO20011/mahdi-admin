@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {bridges,sha256} from '../scripts/testing/sales-only-phase1-bridges.mjs';
 import {sourceBeforeSalesOnlyPhase2,salesOnlyPhase2Pins} from '../scripts/audit/source-before-sales-only-phase2.mjs';
-import {untrackedPreviewSource,costOnlyPreviewFragments} from '../scripts/testing/sales-only-phase2-commercial.mjs';
+import {untrackedPreviewSource,costOnlyPreviewFragments,guestFeatureFragment,sharedFeatureFragment} from '../scripts/testing/sales-only-phase2-commercial.mjs';
 
 const root=new URL('../',import.meta.url),read=(file:string)=>readFileSync(new URL(file,root),'utf8').replaceAll('\r\n','\n');
 test('only owner-approved monitoring bridge diff changes;other7 byte-identical to85',()=>{
@@ -32,7 +32,7 @@ test('phase2 metadata inverse is exact;unknown bytes remain visible;runtime stat
  }
  const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.currentPhase,'SALES_ONLY_PHASE2');assert.equal(state.migrationCeiling,219);assert.equal(state.phaseSALES_ONLY_PHASE2ImplementationAllowed,true);
 });
-test('new private preview is original pinned source minus exactly3cost-only fragments',()=>{
+test('private preview keeps pinned commercial body;3cost fragments and exact shared actor guard only',()=>{
  const sql=read('supabase/migrations/132_package_d_system_unification.sql');
  const start=sql.indexOf('CREATE OR REPLACE FUNCTION public.preview_guest_promotion_v2(');
  const tail=sql.slice(start),begin=tail.indexOf('AS $$')+5,end=tail.indexOf('$$;',begin);
@@ -40,6 +40,7 @@ test('new private preview is original pinned source minus exactly3cost-only frag
  const row={signature:'preview_guest_promotion_v2(jsonb,text,text)',source:tail.slice(begin,end)};
  const actual=untrackedPreviewSource(row);let expected=row.source;
  costOnlyPreviewFragments.forEach((fragment,i)=>{expected=expected.replace(fragment,i===1?'          )\n        INTO v_component_total, v_invalid_component_count':'');});
+ expected=expected.replace(guestFeatureFragment,sharedFeatureFragment);
  assert.equal(actual,expected);assert.doesNotMatch(actual,/wac_cost|v_missing_wac/);
  assert.throws(()=>untrackedPreviewSource({...row,source:row.source+' '}),/COMMERCIAL_ORIGINAL_SOURCE_DRIFT/);
  const plan=read('docs/design/sales-only-phase2/commercial-plan.sql');
