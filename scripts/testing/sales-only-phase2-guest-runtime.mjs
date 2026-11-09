@@ -9,10 +9,15 @@ import {readApplicationFingerprint} from './backup-restore-contract.mjs';
 export async function verifyCommercialGuest(c,report){
  const {sql,json,rpc,id,q,j,executor}=c;
  const rows=await json(functionCatalogSql),read=n=>readFile(new URL('../../docs/design/sales-only-phase'+n,import.meta.url),'utf8');
- await sql(`BEGIN;SELECT set_config('nawasrah.sales_lite1_test','OWNED_LOCAL_DB219',true);SELECT set_config('nawasrah.sales_lite2_test','OWNED_LOCAL_DB219',true);${await read('1/prototype.sql')}\n${bridgeSql(rows)}\n${commercialSql(rows)}\n${await read('2/pos-writer.sql')}\n${await read('2/guest-writer.sql')}COMMIT;`);
+ await sql(`BEGIN;SELECT set_config('nawasrah.sales_lite1_test','OWNED_LOCAL_DB219',true);SELECT set_config('nawasrah.sales_lite2_test','OWNED_LOCAL_DB219',true);${await read('1/prototype.sql')}\n${bridgeSql(rows)}\n${commercialSql(rows)}\n${await read('2/pos-writer.sql')}\n${await read('2/guest-writer.sql')}\n${await read('2/operating-mode.sql')}COMMIT;`);
  assertFrozenFunctions(rows,await json(functionCatalogSql));
  const config=(await rpc(`save_product_parcel_configuration_v1(${q(id(100))},'configurable_mix',true,5,ARRAY[${q(id(101))},${q(id(102))}]::UUID[])`)).configuration;
- await rpc("set_configurable_parcel_feature_state_v1('ENABLED')");await rpc('lite1_set_mode(false)');
+ await rpc("set_configurable_parcel_feature_state_v1('ENABLED')");
+ assert.deepEqual(await rpc('lite1_operating_mode()',null,'anon'),{contractVersion:'sales-only-phase2-v1',fullAccounting:true});
+ let aalFailure;try{await json(`BEGIN;SELECT set_config('request.jwt.claims',${j({sub:id(1),role:'authenticated',aal:'aal1'})}::text,true);SET LOCAL ROLE authenticated;SELECT public.lite1_set_mode2(false);COMMIT;`);}catch(error){aalFailure=error;}
+ assert.ok(aalFailure);assert.match(aalFailure.message,/LITE2_OWNER_AAL2_REQUIRED/);
+ await rpc('lite1_set_mode2(false)');
+ assert.deepEqual(await rpc('lite1_operating_mode()',null,'service_role'),{contractVersion:'sales-only-phase2-v1',fullAccounting:false});
  await sql(`INSERT INTO public.customer_addresses(id,customer_id,governorate,city,area,street,is_default) VALUES(${q(id(700))},${q(id(401))},'إربد','الرمثا','حي البطاقة','شارع البطاقة',true);`);
  const card=()=>json(`SELECT to_jsonb(c) FROM public.customers c WHERE id=${q(id(401))};`);
  const defaultAddress=()=>json(`SELECT to_jsonb(a) FROM public.customer_addresses a WHERE id=${q(id(700))};`);
@@ -57,6 +62,32 @@ export async function verifyCommercialGuest(c,report){
  await sql('UPDATE public.storefront_settings SET orders_enabled=false;');await fail(badRequest,/PHASE3_CUSTOMER_ORDERS_DISABLED/);await sql('UPDATE public.storefront_settings SET orders_enabled=true;');
  await fail({...firstRequest,recipient:{...firstRequest.recipient,fullName:'تغيير مرفوض'}},/LITE1_IDEMPOTENCY_CONFLICT/,firstKey);
  report.cases.push({name:'guest newcustomer/promotions/CliQ/existingdelivery;invalidaddress/quote/identity/clientoverride/ACL/unavailable/closedstore refused withoutpartialwrites',passed:true});
+ // Execute the ACTUAL Edge handler with local Postgres for every RPC. Only
+ // Turnstile's verification is mocked; no fetch reaches any network service.
+ const {handleGuestOrderRequest}=await import('../../supabase/functions/submit-guest-order/index.ts');
+ const edgeCalls=[];
+ const edgeFetch=async(input,init)=>{
+  const url=new URL(String(input));edgeCalls.push(url.pathname);
+  if(url.hostname==='challenges.cloudflare.com')return Response.json({success:true,action:'guest-order',hostname:'nawasrah-store.pages.dev'});
+  assert.equal(url.hostname,'127.0.0.1','NO_HOSTED_EDGE_OR_DB');
+  const name=url.pathname.split('/').at(-1),payload=JSON.parse(String(init.body));
+  assert.ok(['authorize_guest_order_gateway','lite1_operating_mode','lite1_guest2','finalize_guest_order_gateway'].includes(name),'UNAPPROVED_LOCAL_EDGE_RPC');
+  const args=Object.entries(payload).map(([key,value])=>key+':='+(typeof value==='object'&&value!==null?j(value):q(value))).join(',');
+  const result=await rpc(name+'('+args+')',null,'service_role');
+  return Response.json(result);
+ };
+ const edgeKey=randomUUID(),edgeRequest=await request({phone:'0796600990',lines:[base,mixed]});
+ const body={contractVersion:'phase3-customer-reservation-v2',idempotencyKey:edgeKey,clientSessionId:randomUUID(),turnstileToken:'local-fixture-token',customer:edgeRequest.recipient,items:edgeRequest.lines,paymentMethod:edgeRequest.paymentMethod,deliveryZone:edgeRequest.deliveryZone,promotionCode:null,expectedQuote:edgeRequest.expectedQuote};
+ const edgeResults=[];
+ for(let retry=0;retry<2;retry++){
+  const response=await handleGuestOrderRequest(new Request('http://127.0.0.1:54321/functions/v1/submit-guest-order',{method:'POST',headers:{origin:'http://127.0.0.1:4174','content-type':'application/json','x-forwarded-for':'198.51.100.44'},body:JSON.stringify(body)}),{
+   getEnv:name=>({SUPABASE_URL:'http://127.0.0.1:54321',SUPABASE_SERVICE_ROLE_KEY:'isolated-fixture-role',TURNSTILE_SECRET_KEY:'isolated-fixture-turnstile',GUEST_ORDER_HASH_SECRET:'isolated-fixture-long-hmac-secret',TURNSTILE_ALLOWED_HOSTNAMES:'nawasrah-store.pages.dev'}[name]),fetchImpl:edgeFetch});
+  const result=await response.json();assert.equal(response.status,200,JSON.stringify(result));edgeResults.push(result);
+ }
+ assert.deepEqual(edgeResults[0],edgeResults[1]);
+ assert.equal(Number(await sql(`SELECT count(*) FROM public.orders WHERE idempotency_key=${q(edgeKey)};`)),1);
+ assert.ok(edgeCalls.includes('/rest/v1/rpc/authorize_guest_order_gateway'));assert.ok(edgeCalls.includes('/rest/v1/rpc/finalize_guest_order_gateway'));
+ report.cases.push({name:'actual Edge→local authorize→trustedmode→liteguest→finalize;Tworequestsoneorder;Turnstilemockonly,noexternalrequests;modeAAL2 enforced',passed:true});
  assert.deepEqual(await inventory(),originalInventory);
  const monitor=await json('SELECT public.run_advanced_monitoring_checks();');assert.equal(monitor.integrityIssueCount,0,JSON.stringify(monitor));
  assertFrozenFunctions(rows,await json(functionCatalogSql));
