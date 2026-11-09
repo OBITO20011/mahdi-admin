@@ -1,49 +1,52 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
+  "status": "IN_PROGRESS",
   "owner": "codex",
-  "objective": "Owner9Nov phase1 only: additive sales without accounting, isolated219 prototype and narrow shared bridges; Draft PR, no merge.",
-  "baselineSha": "4f3d6409e284da89cc33972b3fac36e135bebd35",
-  "branch": "codex/sales-only-phase1",
-  "phase": "SALES_ONLY_PHASE1",
-  "startedAt": "2026-11-09T02:31:12.061Z",
+  "objective": "Owner9Nov phase2:additive sales-only build above85;reuse existing UI/pure calculation helpers;opening epoch included;quarantined SQL/Draft PR/fullCI only.",
+  "baselineSha": "b305421c40bd1e47a5cc4ce313d617762555eb1d",
+  "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
+  "branch": "codex/sales-only-phase2",
+  "phase": "SALES_ONLY_PHASE2",
+  "startedAt": "2026-11-09T10:43:35.259Z",
   "completed": [
-    "Quarantined real DB219/180:9groups PASS with200s fresh bootstrap/cleanup;full JSON/data/replay parity;636 exact function declarations/source/ACL/owner/config,8 reviewed bridges.",
-    "707 active source files unchanged;full app/Edge/owner tools remain frozen;private availability/completion/return evidence and narrow trigger guards only.",
-    "Admin1865/1865,focused6,historical25,types/strictlint PASS. Gitleaks672commits0;staged scan/PR pending."
+    "New clean worktree from approved85 b305421c;Docker29.7.2 healthy;primary20/env4 hashes preserved;approved8bridge and636function pins copied externally.",
+    "Unchanged approved85 pending-guest foundation probe on fresh isolated219/180:integrity0 before,1 whilepending (orders:reservations),0 aftercompletion;zero moves/reservations,network0,cleanupPASS;636function/source guard PASS.",
+    "Reuse map and exact one-predicate proposal prepared;approved8patches and628frozen bodies untouched;owner20/env4 hashes unchanged."
   ],
   "inProgress": [
-    "Commit/push Draft PR then exact FULL quality/secrets/backup + prototype CI;external Arabic report prepared."
+    "Owner approved pending-guest fallback predicate in monitoring bridge only;implement five real PostgreSQL acceptance cases before continuing phase2."
   ],
   "notStarted": [
-    "Owner phase2/activation is NOT authorized."
+    "Commercial pricing/parcel/delivery/discount parity and writers",
+    "Store/Edge/POS/receipts/returns/cheques/UI/import/reports",
+    "Opening epoch after simulated months",
+    "Local full tests/Draft PR/exact fullCI/report"
   ],
   "testsPassed": [
-    "DB2199groups",
-    "Admin1865",
-    "Focused6/historical25",
-    "Types/strictlint",
-    "Gitleaks history0"
+    "Fresh219180 migration foundation diagnostic;628/8source+metadata guard;noegress andcleanup"
   ],
   "testsRemaining": [
-    "Staged Gitleaks",
-    "Draft PR exact FULLCI"
+    "Five approved pending-guest acceptance tests",
+    "Full phase2 scope incl opening epoch/UI/browser/FULLCI"
   ],
-  "findings": [],
+  "findings": [
+    "Approved monitoring bridge omits legacy pending-website reservation fallback;full phase2 needs a narrowly approved extra predicate in that SAME function."
+  ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No main/#58/#79/#82 changes or merge",
-    "No active migration SQL or ceiling change",
-    "No owner/env changes, hosted access or deployment",
-    "No Docker factory reset/data deletion"
+    "No merge/phase3/active migration or ceiling change",
+    "No main/58/79/82 changes",
+    "No hosted Frankfurt/preview or deployment",
+    "No owner/env edits;no Docker factory reset or unknown volume deletion",
+    "628original function bodies frozen;8exact approved patches only"
   ],
-  "nextExactAction": "Local phase1 accepted:DB2199groups/Admin1865/focused6/types/lint/Gitleaks0;commit+push Draft PR and follow exact FULLCI.No merge/phase2/hosted.",
-  "checkpointedAt": "2026-11-09T07:21:04.445Z",
+  "nextExactAction": "Run five pending-guest acceptance tests on owned local219/180;628 original bodies and other7 bridge patches unchanged.",
+  "checkpointedAt": "2026-11-09T10:51:03.839Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 20,
-  "filesTouchedManifestSha256": "bcff6a0a651e02eda34d3ec7b9a746d11e8c832bf6d6e6c3985d85afe3ef9ecc",
-  "workingTreeFingerprint": "A7F2F9BD5A7F22ACAB3D2F501EC5721220777EB01C19CE8C8C103FAFFB122692"
+  "filesTouchedCount": 5,
+  "filesTouchedManifestSha256": "1e03b7665c1b958c7eff312d5e27fc0513cac2f7b3f93015268a37af1c3867d0",
+  "workingTreeFingerprint": "BE9172B7D0FFF71C6BD8D14CD3B7956EE79AA75A9E46F33E9E36F2CBFE97B6CB"
 }

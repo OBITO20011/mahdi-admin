@@ -1,3 +1,7 @@
+# 9Nov2026 — phase2 sales-only approved build;Draft/local only
+
+Owner approved8phase1 bridges plus exact additive triggers;opening epoch included,real existing delivery fees retained. Separate branchabove85 b305421c. Active219/180 and628frozen bodies unchanged;8approvedpatches only. Reuse UI/components and pure server helpers;no main/58/79/82/hosted/deploy/merge/phase3. Full build/local/browser/CI pending.
+
 # 9Nov2026 — phase1 sales-only: local proof PASS;Draft review only
 
 Additive quarantined prototype,219/180 unchanged;636 exact function/707 source pins,8 shared bridges. Real isolated tests coverfull JSON/data parity,zero stock/cost,Cash/CliQ/debt/partial/guest/manualavailability/return/collection/expense/ownerwithdrawal/close,concurrency/modeNOWAIT/late rollback. Docker cleaned. No production app wiring/hosted/deploy/merge/phase2. Current task authority SALES_ONLY_PHASE1;main/58/79/82/owner20/env4 unchanged. Historical metadata inverse is exact hash-only;unknown edits remain visible. Draft PR/fullCI and final review report pending.

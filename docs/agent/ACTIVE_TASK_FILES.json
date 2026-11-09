@@ -2,84 +2,24 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": "A ",
-      "path": ".github/workflows/sales-only-phase1.yml"
-    },
-    {
-      "code": "A ",
-      "path": "docs/design/sales-only-phase1/bridges.patch"
-    },
-    {
-      "code": "A ",
-      "path": "docs/design/sales-only-phase1/frozen-functions.json"
-    },
-    {
-      "code": "A ",
-      "path": "docs/design/sales-only-phase1/frozen-source.json"
-    },
-    {
-      "code": "A ",
-      "path": "docs/design/sales-only-phase1/LOCAL_PROOF.json"
-    },
-    {
-      "code": "A ",
-      "path": "docs/design/sales-only-phase1/prototype.sql"
-    },
-    {
-      "code": "A ",
-      "path": "docs/design/sales-only-phase1/README_AR.md"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/audit/sales-only-phase1-source-pins.json"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/audit/source-before-sales-only-phase1.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/testing/run-sales-only-phase1.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/testing/sales-only-phase1-bridges.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/testing/sales-only-phase1-context.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/testing/sales-only-phase1-freeze.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/testing/sales-only-phase1-mode-race.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/testing/sales-only-phase1-runtime.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "tests/sales-only-phase1.test.ts"
-    },
-    {
-      "code": "M ",
+      "code": " M",
       "path": "docs/agent/PHASE_STATUS.md"
     },
     {
-      "code": "M ",
+      "code": " M",
       "path": "docs/agent/project-state.json"
     },
     {
-      "code": "M ",
-      "path": "scripts/audit/source-before-d1-reference-kit.mjs"
+      "code": "??",
+      "path": "docs/design/sales-only-phase2/PENDING_GUEST_BRIDGE_PROPOSAL_AR.md"
     },
     {
-      "code": "M ",
-      "path": "tests/d1-reference-kit.test.ts"
+      "code": "??",
+      "path": "docs/design/sales-only-phase2/REUSE_MAP_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-sales-only-phase2-foundations.mjs"
     }
   ]
 }
