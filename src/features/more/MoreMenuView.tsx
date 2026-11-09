@@ -1,3 +1,5 @@
+import type {OperatingMode} from '../../services/supabase/operatingMode.service';
+import {allowsOperatingDestination,operatingNavigation} from '../operatingMode/navigationPolicy';
 import React, {useEffect, useState} from 'react';
 import {ChevronLeft, LogOut, Moon, Scan, Sun} from 'lucide-react';
 import {shallowEqual, useAppStoreActions, useAppStoreSelector} from '../../stores/useAppStore';
@@ -19,7 +21,7 @@ function NavigationItem({item, list, onClick}: {item: AdminNavigationItem; list:
   </UiButton>;
 }
 
-export const MoreMenuView: React.FC = () => {
+export const MoreMenuView: React.FC<{operatingMode?:OperatingMode}> = ({operatingMode='full'}) => {
   const {signOut, roleName, roles}=useAuthStore();
   const state=useAppStoreSelector(value=>({activeBranch:value.activeBranch,branches:value.branches,
     isBiometricsEnabled:value.isBiometricsEnabled,currentUserName:value.currentUser.name,currentUserRole:value.currentUser.role,
@@ -31,11 +33,11 @@ export const MoreMenuView: React.FC = () => {
   const [isUpdatingBiometrics,setIsUpdatingBiometrics]=useState(false);
   const isDarkMode=state.themeMode!=='light';
   const userBranch=state.branches.find(branch=>branch.id===state.currentUserBranchId)?.name||state.activeBranch.name;
-  const groups=searchNavigationGroups(search,roleName,roles);
+  const groups=operatingNavigation(searchNavigationGroups(search,roleName,roles),operatingMode);
   useEffect(()=>{let active=true;void isDeviceBiometricAvailable().then(value=>{if(active)setIsBiometricSupported(value);});return()=>{active=false;};},[]);
   const handleBiometricToggle=async()=>{setIsUpdatingBiometrics(true);try{await toggleBiometrics();}finally{setIsUpdatingBiometrics(false);}};
   const run=(action:AdminNavigationAction)=>{
-    if(!canUseNavigationAction(action,roleName,roles))return;
+    if(!canUseNavigationAction(action,roleName,roles)||!allowsOperatingDestination(action.type,action.destination,operatingMode))return;
     drawer?.close();
     drawer?.setEntryIntent(action.type==='tab'?action.intent??null:null);
     if(action.type==='tab')setActiveTab(action.destination);else openModal(action.destination);

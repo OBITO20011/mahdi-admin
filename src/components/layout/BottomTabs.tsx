@@ -1,3 +1,4 @@
+import type {OperatingMode} from '../../services/supabase/operatingMode.service';
 /**
  * Nawasrah Business Manager - phone bottom navigation (Package F spec §4.2).
  * Order from the right: Home, Orders, the raised centre "بيع" (POS),
@@ -32,7 +33,7 @@ interface NavigationTab {
 const join = (...parts: Array<string | false | null | undefined>) =>
   parts.filter(Boolean).join(' ');
 
-export const BottomTabs: React.FC = () => {
+export const BottomTabs: React.FC<{operatingMode?:OperatingMode}> = ({operatingMode='full'}) => {
   const { activeTab, newOrdersCount } = useAppStoreSelector(
     (state) => ({
       activeTab: state.activeTab,
@@ -53,7 +54,7 @@ export const BottomTabs: React.FC = () => {
     { id: 'home', label: 'الرئيسية', icon: Home },
     { id: 'orders', label: 'الطلبات', icon: ShoppingBag, badge: newOrdersCount },
     { id: 'pos', label: 'بيع', icon: Plus, centre: true },
-    { id: 'inventory', label: 'المخزون', icon: Boxes },
+    operatingMode==='sales-only'?{id:'products',label:'المنتجات',icon:Boxes}:{ id: 'inventory', label: 'المخزون', icon: Boxes },
     { id: 'more', label: 'المزيد', icon: MoreHorizontal },
   ];
 

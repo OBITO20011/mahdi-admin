@@ -3,75 +3,31 @@
   "files": [
     {
       "code": " M",
-      "path": ".github/workflows/sales-only-phase1.yml"
-    },
-    {
-      "code": " M",
-      "path": "docs/design/sales-only-phase2/returns.sql"
-    },
-    {
-      "code": " M",
-      "path": "e2e/aftercare215-wizard-harness.tsx"
-    },
-    {
-      "code": " M",
-      "path": "e2e/package-f-orders-harness.tsx"
-    },
-    {
-      "code": " M",
       "path": "scripts/audit/sales-only-phase2-source-pins.json"
     },
     {
       "code": " M",
-      "path": "scripts/testing/sales-only-phase2-guest-runtime.mjs"
+      "path": "scripts/audit/source-before-d1-reference-kit.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/testing/sales-only-phase2-installer.mjs"
+      "path": "scripts/audit/source-before-sales-only-phase2.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/testing/sales-only-phase2-return-runtime.mjs"
+      "path": "src/components/layout/BottomTabs.tsx"
     },
     {
       "code": " M",
-      "path": "src/features/orders/AdminAftercarePanel.tsx"
+      "path": "src/components/layout/NavigationShell.tsx"
     },
     {
       "code": " M",
-      "path": "src/features/orders/aftercare215Draft.ts"
+      "path": "src/components/layout/SideNav.tsx"
     },
     {
       "code": " M",
-      "path": "src/features/orders/AftercareWizard215.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/features/orders/OrderDetailModal.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/services/supabase/aftercare215.service.ts"
-    },
-    {
-      "code": " M",
-      "path": "src/services/supabase/aftercare215Rpc.ts"
-    },
-    {
-      "code": " M",
-      "path": "src/services/supabase/orders.service.ts"
-    },
-    {
-      "code": " M",
-      "path": "src/services/supabase/salesAftercare.service.ts"
-    },
-    {
-      "code": " M",
-      "path": "src/types/index.ts"
-    },
-    {
-      "code": " M",
-      "path": "src/utils/aftercare215Contracts.ts"
+      "path": "src/features/more/MoreMenuView.tsx"
     },
     {
       "code": " M",
@@ -79,23 +35,35 @@
     },
     {
       "code": "??",
-      "path": "docs/design/sales-only-phase2/AFTERCARE_CONTEXT_PROOF_AR.md"
+      "path": "docs/design/sales-only-phase2/NAVIGATION_MODE_CONTROL_PROOF_AR.md"
     },
     {
       "code": "??",
-      "path": "docs/design/sales-only-phase2/aftercare-context.sql"
+      "path": "e2e/sales-only-phase2-navigation-harness.html"
     },
     {
       "code": "??",
-      "path": "e2e/sales-only-phase2-aftercare.spec.ts"
+      "path": "e2e/sales-only-phase2-navigation-harness.tsx"
     },
     {
       "code": "??",
-      "path": "src/services/supabase/salesOnlyOrderContext.ts"
+      "path": "e2e/sales-only-phase2-navigation.spec.ts"
     },
     {
       "code": "??",
-      "path": "tests/sales-only-phase2-aftercare.test.ts"
+      "path": "src/features/operatingMode/navigationPolicy.ts"
+    },
+    {
+      "code": "??",
+      "path": "src/features/operatingMode/OperatingModePanel.tsx"
+    },
+    {
+      "code": "??",
+      "path": "src/services/supabase/operatingModeCommand.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/sales-only-phase2-navigation.test.ts"
     }
   ]
 }
