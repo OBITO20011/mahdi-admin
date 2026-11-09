@@ -38,12 +38,14 @@ export async function verifyPendingGuestBridge(c,report){
  const order=await rpc(`lite1_guest(${j({branchId:branch,warehouseId:warehouse,recipient:{name:'طلب وهمي معزول',phone:'0796600401',address:'عنوان وهمي'},lines:[{productId:product,quantity:2}]})},'approved-pending-lite')`,null,'service_role');
  const liteState=()=>json(`SELECT jsonb_build_object('status',o.status,'source',o.source,'released',o.reservation_released_at,'reservations',(SELECT count(*) FROM public.order_inventory_reservations WHERE order_id=o.id),'movements',(SELECT count(*) FROM public.inventory_movements WHERE reference_id=o.id),'costErrors',(SELECT count(*) FROM public.order_items i WHERE i.order_id=o.id AND(i.unit_cost_in_minor_units<>0 OR i.cogs_in_minor_units<>0 OR i.profit_in_minor_units<>0 OR i.cost_finalized_at IS NOT NULL OR i.exact_cogs_snapshot_in_minor_units IS NOT NULL OR i.unit_cost_snapshot_in_minor_units_exact IS NOT NULL))) FROM public.orders o WHERE o.id=${q(order.orderId)};`);
  const stages=[];
- for(const status of ['new','preparing']){
-  if(status==='preparing')await sql(`UPDATE public.orders SET status='preparing' WHERE id=${q(order.orderId)};`);
-  const pending=await liteState();assert.equal(pending.status,status);assert.equal(pending.source,'website');assert.equal(pending.released,null);
-  for(const field of ['reservations','movements','costErrors'])assert.equal(pending[field],0);
-  assert.equal((await snapshot()).monitoring.integrityIssueCount,0);stages.push(pending);
- }
+ const pending=await liteState();assert.equal(pending.status,'new');assert.equal(pending.source,'website');assert.equal(pending.released,null);
+ for(const field of ['reservations','movements','costErrors'])assert.equal(pending[field],0);
+ assert.equal((await snapshot()).monitoring.integrityIssueCount,0);stages.push(pending);
+ // Exercise preparing inside a rolled-back fixture transaction. The phase1
+ // completion writer intentionally accepts new only; do not alter it to test
+ // this approved monitoring predicate. Phase2 lifecycle is a separate build.
+ const preparing=await json(`BEGIN;UPDATE public.orders SET status='preparing' WHERE id=${q(order.orderId)};SELECT public.run_advanced_monitoring_checks(${observation});SELECT jsonb_build_object('status',(SELECT status FROM public.orders WHERE id=${q(order.orderId)}),'issues',(SELECT count(*) FROM public.advanced_monitoring_checks WHERE check_key LIKE 'integrity:%' AND status<>'healthy'));ROLLBACK;`);
+ assert.equal(preparing.status,'preparing');assert.equal(preparing.issues,0);stages.push(preparing);
  const corrupt=await json(`BEGIN;SET LOCAL session_replication_role=replica;INSERT INTO public.order_inventory_reservations(operation_id,order_id,order_item_id,warehouse_id,product_id,reserved_quantity) SELECT o.operation_id,o.id,i.id,o.warehouse_id,i.product_id,1 FROM public.orders o JOIN public.order_items i ON i.order_id=o.id WHERE o.id=${q(order.orderId)};SET LOCAL session_replication_role=origin;SELECT public.run_advanced_monitoring_checks(${observation});SELECT jsonb_build_object('privateCount',sales_lite1.integrity_count(),'checks',(SELECT jsonb_object_agg(check_key,status) FROM public.advanced_monitoring_checks WHERE check_key IN('integrity:orders:reservations','integrity:lite1:evidence')));ROLLBACK;`);
  assert.ok(corrupt.privateCount>0);assert.equal(corrupt.checks['integrity:orders:reservations'],'critical');assert.equal(corrupt.checks['integrity:lite1:evidence'],'critical');
  pass('explicit illegal lite reservation is detected by both unchanged balance comparison and private evidence',corrupt);

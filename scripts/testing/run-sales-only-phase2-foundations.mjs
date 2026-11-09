@@ -38,5 +38,6 @@ try{
 }catch(e){report.error=String(e.message).slice(0,5000);console.error(report.error);process.exitCode=1;}
 finally{
  if(local&&ownedId){try{await docker('version','--format','{{.Server.Version}}');const current=JSON.parse((await docker('inspect',container)).stdout)[0];assert.equal(current.Id,ownedId);await exec(process.execPath,[path.join(root,'node_modules/supabase/dist/supabase.js'),'stop','--workdir',local,'--no-backup'],{cwd:root,windowsHide:true,maxBuffer:8*1024**2});report.cleanup=true;}catch{report.cleanup=false;process.exitCode=1;}}
+ await mkdir(output,{recursive:true});
  await writeFile(path.join(output,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));
 }

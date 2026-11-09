@@ -1,3 +1,7 @@
+#9Nov2026 — phase2 pending-guest bridge acceptance PASS;build continues
+
+Five real PostgreSQL219/180 cases PASS:lite new/preparing/completed integrity0,full pending exact parity,full defect evenOFF/forgedtype detected,illegal lite reservation detected,628bodies/636metadata and8exactpatches withunknownbyte negatives. Only monitoring fallback predicate added by ownerapproval. Recovery292b8689 pushed;Codex startup auto-cleanup cause documented;hourly/milestone commitpush. Fullphase2 UI/commercial/openingepoch andCI NOT complete.
+
 # 9Nov2026 — phase2 sales-only approved build;Draft/local only
 
 Owner approved8phase1 bridges plus exact additive triggers;opening epoch included,real existing delivery fees retained. Separate branchabove85 b305421c. Active219/180 and628frozen bodies unchanged;8approvedpatches only. Reuse UI/components and pure server helpers;no main/58/79/82/hosted/deploy/merge/phase3. Full build/local/browser/CI pending.

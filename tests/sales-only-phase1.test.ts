@@ -6,6 +6,7 @@ import {bridges,bridgedSource,replaceDefinitionSource} from '../scripts/testing/
 import {assertFrozenSource,frozenSource,root} from '../scripts/testing/sales-only-phase1-freeze.mjs';
 import {execFileSync} from 'node:child_process';
 import {sourceBeforeSalesOnlyPhase1,salesOnlyPhase1Pins} from '../scripts/audit/source-before-sales-only-phase1.mjs';
+import {sourceBeforeSalesOnlyPhase2} from '../scripts/audit/source-before-sales-only-phase2.mjs';
 
 test('phase1 quarantine preserves every frozen application/Edge/owner-tool/migration source',()=>{
  assert.equal(frozenSource.baseline,'4f3d6409e284da89cc33972b3fac36e135bebd35');assertFrozenSource();
@@ -47,6 +48,6 @@ test('historical metadata projection is exact Git4f3d, never a path exemption or
   assert.equal(sourceBeforeSalesOnlyPhase1(file,raw+'\nUNKNOWN_PHASE1_CHANGE'),raw+'\nUNKNOWN_PHASE1_CHANGE');
  }
  assert.equal(sourceBeforeSalesOnlyPhase1('supabase/migrations/unreviewed.sql','arbitrary SQL'),'arbitrary SQL');
- const actual=JSON.parse(readFileSync(path.join(root,'docs/agent/project-state.json'),'utf8'));assert.equal(actual.currentPhase,'SALES_ONLY_PHASE1');assert.equal(actual.phaseSALES_ONLY_PHASE1ImplementationAllowed,true);
+ const actual=JSON.parse(sourceBeforeSalesOnlyPhase2('docs/agent/project-state.json',readFileSync(path.join(root,'docs/agent/project-state.json'),'utf8')));assert.equal(actual.currentPhase,'SALES_ONLY_PHASE1');assert.equal(actual.phaseSALES_ONLY_PHASE1ImplementationAllowed,true);
  for(const file of ['scripts/testing/run-sales-only-phase1.mjs','scripts/testing/sales-only-phase1-bridges.mjs','scripts/operations/d1-reference-kit.mjs','scripts/audit/table-access-inventory.mjs'])assert.doesNotMatch(readFileSync(path.join(root,file),'utf8'),/sourceBeforeSalesOnlyPhase1|source-before-sales-only-phase1/);
 });
