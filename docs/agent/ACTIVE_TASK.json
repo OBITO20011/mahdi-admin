@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner9Nov phase2:additive sales-only build above85;reuse existing UI/pure calculation helpers;opening epoch included;quarantined SQL/Draft PR/fullCI only.",
-  "baselineSha": "d2457f91c2ec6fc24a8ddf766821888b049ff750",
+  "baselineSha": "87cf2a86f3b0f527cdb6ff056e291b6f7f77b38f",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase2",
   "phase": "SALES_ONLY_PHASE2",
@@ -12,22 +12,22 @@
     "Durable detailed history/evidence:C:/Users/TOP/NawasrahFrankfurt/sales-only-phase2-20261109/CHECKPOINT_HISTORY_FULL.json;quarantinedDraft86 above85 only.",
     "Commercial18,POS16,guest/EdgeH1,lifecycle4,returns8,import/cheques/mode/availability/catalog/SEO/delivery proof PASS;628/636 exact eight approved bridges;see tracked phase2 *_PROOF_AR.md.",
     "Mixedreport/home10units/types/lint/bothenginesPASS;oneChromium502 @vite/client rerunPASS.Mixedclosing8units/types/lint/10browserPASS.Owner20/env4byteunchanged.",
-    "Ownerapprovednarrowstatusguard+parallelpreviewimplementedquarantined;no628/8body changes.19units/types/strictlint/58full+newtouchbrowserPASS. ActualPGcash/CliQ/zero/cancel/reallockraces pending.",
     "Approvedadditionalshiftguard actualPG12groupsPASS:cash/CliQ/directcancel/zero/fullJSON+originalfullreversal/2realblocked-session raceorders/close.1640rows1909.567ms preview678.190ms;integrity0/628636/network0/cleanuptrue;GUARD_PG_PASS.json.",
-    "Drawer13actualPGgroupsPASS:TSdecoder canonicalcash/CliQ/collections/literefundpages1/noduplicates/read-only/fullJSONexact;guard/reallockraces stillPASS.1640rows1426.930ms;628636/integrity0/network0/cleanuptrue.14units/type/lint+4browserPASS;2initialnewselectorfailuresfixedtestonly."
+    "Drawer13actualPGgroupsPASS:TSdecoder canonicalcash/CliQ/collections/literefundpages1/noduplicates/read-only/fullJSONexact;guard/reallockraces stillPASS.1640rows1426.930ms;628636/integrity0/network0/cleanuptrue.14units/type/lint+4browserPASS;2initialnewselectorfailuresfixedtestonly.",
+    "Current unprojectedRPC235sites/695actualroleprobes/18expecteddenials PASS;local219+quarantined overlay,original628/eightpatches checked;18focusedunitsPASS. ACCESS_SERVICE2/ACCESS_MILESTONE_UNITS logs external."
   ],
   "inProgress": [
     "Current actual access/REST evidence and strict historical views;FULLCI/finalreport."
   ],
   "notStarted": [
-    "Live drawer details/reversal boundary,actualRESTembedding/currentrole evidence/historyrepairs,FULLCI/finalreport."
+    "Wholelocalquality/build/verify/Gitleaks/exactFULLCI/finalreport"
   ],
   "testsPassed": [
     "Proofs are labeled per tracked docs/externallogs;no overall green claim.Draft86 earlyCI red:history inverses/currentrole evidence not updated.",
     "Gitleaks709priorcommits+stagedmilestonediff:0findings.44bbdbac committed/pushed;ownerfiles unchanged;Docker cleanuptrue."
   ],
   "testsRemaining": [
-    "Fresh epoch/mixedclosing/reversal proof;whole local quality/build/verify/Gitleaks/exactFULLCI."
+    "Current REST219/workbookproof/historyrepair;whole quality/build/FULLCI."
   ],
   "blockers": [],
   "prohibitions": [
@@ -37,14 +37,14 @@
     "No owner/env edits;no Docker factory reset or unknown volume deletion",
     "628original function bodies frozen;8exact approved patches only"
   ],
-  "nextExactAction": "Drawer/guard13PGgroupsPASS;finish exacthistoricalviews/currentroleRESTevidence/FULLCI;no newbridge or activeSQL.",
-  "checkpointedAt": "2026-11-09T21:37:10.790Z",
+  "nextExactAction": "Actual table219 REST/protected12group workbook proof;then complete localquality/history/build/FULLCI. Draft86 only.",
+  "checkpointedAt": "2026-11-09T21:54:45.432Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "filesTouchedCount": 13,
-  "filesTouchedManifestSha256": "4a3cd04ee93b6c64a42b6c2a405a64f706e8b792cef0a5090f141b3e30dfbc18",
-  "workingTreeFingerprint": "AA1AF2014755DC06A71D44758874F95C8C82466E83075EE240ED9A2BB502D72F",
+  "filesTouchedManifestSha256": "9f2be40b5d9d0d702c14424e081e66ec14c13049577b79c50f6e10b594c78e26",
+  "workingTreeFingerprint": "770B2CCA88A073E24B4F856464F3DE6D7EFF63E708125875205379793E35F647",
   "activeProcesses": [],
   "findings": [
     "Ownerexplicitlyapproved narrowadditionalstatusguard+parallelpreview9Nov;keep628 originalbodies/eightbridgepatches unchanged."

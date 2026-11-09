@@ -1,3 +1,4 @@
+import {installSalesOnlyAudit,assertSalesOnlyAuditTarget,salesOnlyAuditEvidence} from '../testing/sales-only-phase2-audit-context.mjs';
 import{historicalProductWorkbookSource}from'./source-before-product-workbook.mjs';
 import{productWorkbookProbeScope}from'../testing/product-workbook-probe-scope.mjs';
 import {sourceBeforeOwnerTelegram217} from './source-before-owner-telegram217.mjs';
@@ -19,6 +20,8 @@ import {executorFor,executeInput} from '../operations/build-empty-supabase.mjs';
 import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
 const exec=promisify(execFile),root=path.resolve(import.meta.dirname,'../..');
 const option=n=>process.argv.includes(n)?process.argv[process.argv.indexOf(n)+1]:null;
+const salesOnlyAudit=process.argv.includes('--sales-only-phase2');
+const suppliedWorkdir=option('--workdir');
 const ceiling=Number(option('--migration-ceiling')||(process.argv.includes('--require-access')?199:138));
 assert.ok([138,150,164,171,182,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,219].includes(ceiling),'ONLY_APPROVED_AUDIT_CEILINGS');
 const historicSource=ceiling<215?sourceBeforeAftercare215:ceiling===215?sourceBeforePartial216:ceiling===216?sourceBeforeOwnerTelegram217:undefined;
@@ -34,6 +37,7 @@ const sql=async text=>{const r=await executeInput(executor,text);assert.equal(r.
 const json=async text=>JSON.parse(await sql(text));
 const ownerRpc=command=>json(`BEGIN;SET LOCAL ROLE authenticated;DO $$BEGIN PERFORM set_config('request.jwt.claims',${q(JSON.stringify({sub:id(1),role:'authenticated',aal:'aal2'}))},true);END$$;
  SELECT public.${command};COMMIT;`);
+if(salesOnlyAudit)assertSalesOnlyAuditTarget({project,ceiling,existingWorkdir:suppliedWorkdir??undefined,executor});
 const report={schemaVersion:1,startedAt:new Date().toISOString(),managedAccess:false,migrationCeiling:ceiling,manifest,output,stage:'bootstrap',results:[]};
 let workdir=option('--workdir'),restStarted=false;
 try{
@@ -42,7 +46,13 @@ try{
   NAWASRAH_SUPABASE_EXCLUDE:'gotrue,kong,postgrest,realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor'}});
   workdir=JSON.parse(boot.stdout).isolatedProjectRoot;}
  assert.deepEqual(await json('SELECT jsonb_agg(version ORDER BY version) FROM supabase_migrations.schema_migrations;'),manifest.map(n=>n.slice(0,3)),'EXACT_APPROVED_HISTORY_REQUIRED');
- const catalog=JSON.parse(await sql(schemaCatalogSql));report.catalog=catalog;
+ let catalog=JSON.parse(await sql(schemaCatalogSql));report.catalog=catalog;
+ if(salesOnlyAudit){const proof=await installSalesOnlyAudit({project,ceiling,existingWorkdir:suppliedWorkdir??undefined,executor,sql,json,inspect:async()=>JSON.parse((await exec('docker',['inspect',container],{windowsHide:true,maxBuffer:1024**2})).stdout)[0]});
+  report.quarantinedPrototype=salesOnlyAuditEvidence(proof);
+  report.catalogStage=report.quarantinedPrototype.catalogStage;report.runtimeCatalog=proof.runtimeCatalog;
+  catalog=report.runtimeCatalog;
+ }
+
  const source=await inventory({projectSource});report.sourceTotals=source.totals;report.sourceHashes=source.sources;
  report.stage='fixture';
  // Explicit LOCAL notification isolation;never inspect Vault or call an Edge URL.

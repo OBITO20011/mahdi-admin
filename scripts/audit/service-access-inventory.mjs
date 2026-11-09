@@ -4,6 +4,7 @@ import {readFile,writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {inventory} from './table-access-inventory.mjs';
+import {boundedRpcNames} from './bounded-rpc-names.mjs';
 const root=path.resolve(import.meta.dirname,'../..');
 const method=n=>ts.isCallExpression(n)&&ts.isPropertyAccessExpression(n.expression)?n.expression.name.text:null;
 const literal=n=>n&&ts.isStringLiteralLike(n)?n.text:null;
@@ -21,7 +22,8 @@ export function parseServices(file,text){
   if(ts.isCallExpression(n)){
    const name=method(n),line=sf.getLineAndCharacterOfPosition(n.getStart()).line+1;
    if(name==='rpc')rpc.push({id:file+':'+line,file,line,role,receiver:n.expression.expression.getText(sf),function:enclosing(n),
-    name:literal(n.arguments[0]),dynamic:n.arguments[0]?.getText(sf),arguments:n.arguments.slice(1).map(a=>a.getText(sf)),source:n.getText(sf)});
+    name:literal(n.arguments[0]),dynamic:n.arguments[0]?.getText(sf),arguments:n.arguments.slice(1).map(a=>a.getText(sf)),source:n.getText(sf),
+    ...(!literal(n.arguments[0])&&boundedRpcNames(sf,n)?{resolutions:boundedRpcNames(sf,n)}:{})});
    if(name==='from'&&n.expression.expression.getText(sf).includes('.storage')){
     let tail=n;while(ts.isPropertyAccessExpression(tail.parent)&&ts.isCallExpression(tail.parent.parent))tail=tail.parent.parent;
     storage.push({file,line,role,operation:method(tail),bucket:literal(n.arguments[0])||n.arguments[0]?.getText(sf),source:tail.getText(sf)});
@@ -45,6 +47,7 @@ export async function serviceInventory({projectSource=(_file,text)=>text}={}){co
   for(const key of ['rpc','storage','channels','env','wrapperCalls'])result[key].push(...parsed[key]);}
  // Resolve dynamic sinks by their actual wrapper invocations;fail unknown sinks.
  for(const r of result.rpc.filter(r=>!r.name)){
+  if(r.resolutions?.length)continue;
   let calls=[];
   if(r.file.endsWith('/parcelConfiguration.service.ts'))calls=result.wrapperCalls.filter(c=>c.file===r.file&&c.wrapper==='rpc'&&c.name);
   else if(r.file.endsWith('/posV2.service.ts')||r.file.endsWith('/posV2Recovery.ts'))calls=result.wrapperCalls.filter(c=>c.wrapper==='executeRpc'&&c.name);

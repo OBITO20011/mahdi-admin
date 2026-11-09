@@ -3,11 +3,19 @@
   "files": [
     {
       "code": " M",
-      "path": ".github/workflows/sales-only-phase1.yml"
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
     },
     {
       "code": " M",
-      "path": "e2e/isolated-test.ts"
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/run-service-access-diagnostic.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/run-table-access-diagnostic.mjs"
     },
     {
       "code": " M",
@@ -15,15 +23,15 @@
     },
     {
       "code": " M",
-      "path": "scripts/testing/sales-only-phase2-epoch-runtime.mjs"
+      "path": "scripts/audit/service-access-inventory.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/testing/sales-only-phase2-installer.mjs"
+      "path": "scripts/audit/source-before-product-workbook.mjs"
     },
     {
       "code": " M",
-      "path": "src/services/supabase/cashShiftMovements.service.ts"
+      "path": "scripts/testing/product-workbook-runtime-view.mjs"
     },
     {
       "code": " M",
@@ -31,27 +39,19 @@
     },
     {
       "code": "??",
-      "path": "docs/design/sales-only-phase2/DRAWER_GUARD_PROOF_AR.md"
+      "path": "scripts/audit/bounded-rpc-names.mjs"
     },
     {
       "code": "??",
-      "path": "docs/design/sales-only-phase2/drawer-readers.sql"
+      "path": "scripts/testing/sales-only-phase2-audit-context.mjs"
     },
     {
       "code": "??",
-      "path": "e2e/sales-only-phase2-drawer.spec.ts"
+      "path": "tests/bounded-rpc-names.test.ts"
     },
     {
       "code": "??",
-      "path": "scripts/testing/sales-only-phase2-drawer.mjs"
-    },
-    {
-      "code": "??",
-      "path": "src/services/supabase/operatingShiftMovements.ts"
-    },
-    {
-      "code": "??",
-      "path": "tests/sales-only-phase2-drawer.test.ts"
+      "path": "tests/sales-only-phase2-audit.test.ts"
     }
   ]
 }

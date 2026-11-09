@@ -9,6 +9,10 @@ import{readFileSync}from'node:fs';import{createHash}from'node:crypto';import ass
 const hash=s=>createHash('sha256').update(s).digest('hex');
 // Frozen historical proofs only. Default/current runtime coverage stays unprojected.
 export function projectProductWorkbookQuerySites(source,parseSource=defaultParseSource){
+ if(source.sources.some(row=>salesOnlyPhase2Pins.entries[row.file]?.after===row.sha256)){
+  assert.equal(parseSource,defaultParseSource,'UNAPPROVED_HISTORICAL_PARSER');
+  try{return projectSalesOnlyPhase2Inventory(source);}catch(error){throw Error('HISTORICAL_QUERY_INVENTORY_DRIFT:WORKBOOK_QUERY_ARGUMENT_DRIFT',{cause:error});}
+ }
  source=projectStorefrontImageQueries(source,parseSource);
  const entriesOut=[];
  for(const file of new Set(source.entries.map(e=>e.file))){
