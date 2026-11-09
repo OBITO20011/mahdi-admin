@@ -1,3 +1,4 @@
+import {verifyLiteWorkbookImport} from './sales-only-phase2-workbook-runtime.mjs';
 import {verifyLiteProductDefinitions} from './sales-only-phase2-product-definitions.mjs';
 import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
@@ -31,6 +32,7 @@ export async function verifyOpeningEpoch(c,report){
  assert.deepEqual((await rpc(`get_pos_configurable_parcel_options_v1(${q(warehouse)})`)).options,[],'FULL_READER_STILL_REQUIRES_WAC_AND_STOCK');
  await rpc('lite1_set_mode2(false)');
  await verifyLiteProductDefinitions(c,report);
+ await verifyLiteWorkbookImport(c,report);
  const optionsBefore=await readApplicationFingerprint(executor),options=await rpc(`lite1_pos_options2(${q(warehouse)})`);
  assert.equal(options.options.length,1);assert.equal(options.options[0].quantityTracked,false);assert.equal(options.options[0].components.length,2);
  assert.ok(options.options[0].components.every(p=>p.manualAvailable===true&&!('availableQuantity' in p)));

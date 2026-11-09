@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner9Nov phase2:additive sales-only build above85;reuse existing UI/pure calculation helpers;opening epoch included;quarantined SQL/Draft PR/fullCI only.",
-  "baselineSha": "10ea1db132561d52cbd9babcf6e8bd8cd4f105db",
+  "baselineSha": "b73a0194bccaf964b43215dcee307481fcc3fac6",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase2",
   "phase": "SALES_ONLY_PHASE2",
@@ -32,7 +32,8 @@
     "Aftercare/H1 UI+immutable context:11units/types/strictlint/4touchChromiumWebKit;PGreturn8comparisons5groups+guest4groups/628636/integrity0/network0/cleanuptrue. Existingdurable return recovery capturedmode;customer card preserved/proposalonly;canonicaldue read. RESTembeddedrelation/rootintegration stillpending.",
     "Navigation policy+modecontrol foundation:14units/types/strictlint;57browserPASS2preexistingconditionalSkips;full nav/history regression retained. Owner+AAL2one OFF mutation/no automaticretry;ON onlyepoch. Exact historical path inverse repaired,newfileabsence+unknownbyte guards11PASS. ActualAppnotwiredyet.",
     "Lite immutable shift closing reader/view reuses original closing/drawer/printing;no zero-filled full sections.27units/types/strictlint/10full-litebrowser+2changedUI PASS;realPG6groups8returncomparisons,actualmapper/closedcashrefunds/fils/snapshotstableafterepoch/malformedrefused;integrity0/636/network0/cleanuptrue. No bridge/SQL change.",
-    "ProductForm reused:lite hides purchase/cost/profit/stock;new product zero cost/stock;edit retains oldcost/thresholds inclconflict;modepre/postawait gates.86browser full+lite/type/lint/20units/27historyPASS. Existing219writers actual product+2flavors andoldcost/WAC preservation PG6groupsPASS;epoch6rows526ms/integrity0/636/network0/cleanuptrue."
+    "ProductForm reused:lite hides purchase/cost/profit/stock;new product zero cost/stock;edit retains oldcost/thresholds inclconflict;modepre/postawait gates.86browser full+lite/type/lint/20units/27historyPASS. Existing219writers actual product+2flavors andoldcost/WAC preservation PG6groupsPASS;epoch6rows526ms/integrity0/636/network0/cleanuptrue.",
+    "Mode-aware GoLive/template/offlinechecker reused;lite costoptional0/manualavailability,nofilledstock/suppliers,customerchequesonly;modebounddurablejournal/freshread.30units/types/lint/24browser across original22+2correctedselectors PASS. Actualservice→PG4identities/leadingzeros/normalization/lostcreateresume/replayzerowrites;8s;epoch7groups6rows770ms/integrity0/636/network0/cleanuptrue."
   ],
   "inProgress": [
     "Wire central verifiedmode intoApp/nav andremainingexistingUI;productflavor switches/storecatalog/receipt/returns/import/simple reports/openingUI+scale/FULLCI."
@@ -58,7 +59,8 @@
     "AFTERCARE_CONTEXT_PASS5PGgroups8comparisons;RECIPIENT_PROPOSAL_PASS4groups;11units/types/strictlint/4browser",
     "NAVIGATION14units/types/strictlint;57browser2existingconditionalSkips;history11PASS",
     "SHIFT_REPORT27units/types/lint;10browser+2affected;PG6groups/8comparisonsPASS",
-    "PRODUCT_FORM86browser/types/lint/20units/27history;PRODUCT_DEFINITIONS_PASS6groups"
+    "PRODUCT_FORM86browser/types/lint/20units/27history;PRODUCT_DEFINITIONS_PASS6groups",
+    "IMPORT30units/type/lint/24browser;WORKBOOK_IMPORT_PASS7realPGgroups"
   ],
   "testsRemaining": [
     "CentralApp/navigation/product/store/import/receipt/returns/simple reports/openingUI+scale/mobile/FULLCI"
@@ -75,12 +77,12 @@
     "No owner/env edits;no Docker factory reset or unknown volume deletion",
     "628original function bodies frozen;8exact approved patches only"
   ],
-  "nextExactAction": "Commit/push verified ProductForm milestone;next mode-aware GoLive workbook/parser/checker,then root/safe reports/storecatalog/epochUI scale/FULLCI.",
-  "checkpointedAt": "2026-11-09T16:24:07.506Z",
+  "nextExactAction": "Commit/push verified mode-aware GoLive/workbook/offlinechecker. Next safe simple report/home and App/provider/nav wiring;storecatalog/cart,orderlist/delivery,epochUI+scale/fullchecks/DraftPR pending.",
+  "checkpointedAt": "2026-11-09T16:37:44.036Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 9,
-  "filesTouchedManifestSha256": "cf376658a6763066087707db06d9a05e0ee9b03ea4ea7ceaea537bca8c599e81",
-  "workingTreeFingerprint": "9A7EA53BC10198D4832B85B40A4F75CE9DF806232D7BA0CBD59E78C5CB1B447B"
+  "filesTouchedCount": 21,
+  "filesTouchedManifestSha256": "7305a2f58fd3664b94f4b8994e34c7febcd8e2c0a2edee2822ffc17a63c1d958",
+  "workingTreeFingerprint": "BCC29BCFCE5496CEA22B215C9F618349A0A41F984E99A653FB1DE7DCEA7653A8"
 }

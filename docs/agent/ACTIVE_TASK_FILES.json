@@ -3,7 +3,11 @@
   "files": [
     {
       "code": " M",
-      "path": "e2e/package-f-products-harness.tsx"
+      "path": "e2e/package-f-go-live-harness.tsx"
+    },
+    {
+      "code": " M",
+      "path": "e2e/package-f-product-workbook-harness.tsx"
     },
     {
       "code": " M",
@@ -11,15 +15,55 @@
     },
     {
       "code": " M",
+      "path": "scripts/operations/check-go-live-files.ps1"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/go-live-files/check.ts"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/go-live-files/cli.ts"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/product-workbook-db-transport.mjs"
+    },
+    {
+      "code": " M",
       "path": "scripts/testing/sales-only-phase2-epoch-runtime.mjs"
     },
     {
       "code": " M",
-      "path": "src/components/modals/AllModals.tsx"
+      "path": "src/features/goLive/goLiveImport.ts"
     },
     {
       "code": " M",
-      "path": "src/features/products/ProductFormModal.tsx"
+      "path": "src/features/goLive/GoLiveSetupView.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/goLive/OpeningChequesCard.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/goLive/openingChequesImport.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/features/goLive/productWorkbook.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/features/goLive/ProductWorkbookImportPanel.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/services/supabase/productWorkbook.service.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/product-workbook-service.test.ts"
     },
     {
       "code": " M",
@@ -27,15 +71,19 @@
     },
     {
       "code": "??",
-      "path": "docs/design/sales-only-phase2/PRODUCT_FORM_PROOF_AR.md"
+      "path": "docs/design/sales-only-phase2/IMPORT_MODE_PROOF_AR.md"
     },
     {
       "code": "??",
-      "path": "e2e/sales-only-phase2-product-form.spec.ts"
+      "path": "e2e/sales-only-phase2-import.spec.ts"
     },
     {
       "code": "??",
-      "path": "scripts/testing/sales-only-phase2-product-definitions.mjs"
+      "path": "scripts/testing/sales-only-phase2-workbook-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/sales-only-phase2-import.test.ts"
     }
   ]
 }

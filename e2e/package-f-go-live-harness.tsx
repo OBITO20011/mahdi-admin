@@ -148,4 +148,4 @@ client.from=(table)=>{
 };
 installOpeningChequeHarness(client,state,customers.map(c=>({id:c.id,name:c.full_name,phone:c.phone})),suppliers.map(s=>({id:s.id,name:s.company_name,phone:s.phone})));
 createRoot(document.getElementById('root')!).render(<div dir="rtl" className="flex h-[100dvh] bg-nw-bg font-sans text-nw-text"><SideNav/><div className="flex min-w-0 flex-1 flex-col"><Header/>
-  <main data-testid="go-live-scroll" className="min-h-0 flex-1 overflow-y-auto"><GoLiveSetupView/></main><div className="lg:hidden"><BottomTabs/></div></div></div>);
+  <main data-testid="go-live-scroll" className="min-h-0 flex-1 overflow-y-auto"><GoLiveSetupView operatingMode={params.has('sales-only')?'sales-only':'full'}/></main><div className="lg:hidden"><BottomTabs/></div></div></div>);

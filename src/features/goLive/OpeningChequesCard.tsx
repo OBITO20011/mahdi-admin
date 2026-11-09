@@ -1,3 +1,4 @@
+import type {OperatingMode} from '../../services/supabase/operatingMode.service';
 import React,{useCallback,useEffect,useId,useState} from 'react';
 import {Card,SectionHeader,UiButton,FormFields,MoneyText,StatusBadge} from '../../components/ui';
 import {formatUiDate} from '../../components/ui/uiFormat';
@@ -14,7 +15,7 @@ const blank={direction:'incoming',status:'pending',customer:'',supplier:'',endor
 const message=(e:unknown)=>e instanceof Error?e.message:'تعذر تنفيذ العملية.';
 const Money=({minor}:{minor:number})=><MoneyText amount={minor/1000} currency/>;
 
-export function OpeningChequesCard({branchId,locked,onSaved}:{branchId:string|null;locked:boolean;onSaved:()=>void}){
+export function OpeningChequesCard({branchId,locked,onSaved,operatingMode='full'}:{branchId:string|null;locked:boolean;onSaved:()=>void;operatingMode?:OperatingMode}){
  const id=useId();const [open,setOpen]=useState<'manual'|'excel'|null>(null),[form,setForm]=useState(blank);
  const [customers,setCustomers]=useState<PartyOption[]>([]),[suppliers,setSuppliers]=useState<PartyOption[]>([]),[search,setSearch]=useState('');
  const [page,setPage]=useState<OpeningChequePage|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState(''),[notice,setNotice]=useState('');
@@ -22,12 +23,13 @@ export function OpeningChequesCard({branchId,locked,onSaved}:{branchId:string|nu
  const load=useCallback(async()=>{try{setPage(await fetchOpeningCheques());}catch(e){setError(message(e));}},[]);
  useEffect(()=>{void load();},[load]);
  useEffect(()=>{if(open!=='manual')return;let active=true;
-  Promise.all([searchCustomers(search),listActiveSuppliers()]).then(([c,s])=>{if(active){setCustomers(c);setSuppliers(s);}}).catch(e=>{if(active)setError(message(e));});
-  return()=>{active=false;};},[open,search]);
+  Promise.all([searchCustomers(search),operatingMode==='sales-only'?Promise.resolve([]):listActiveSuppliers()]).then(([c,s])=>{if(active){setCustomers(c);setSuppliers(s);}}).catch(e=>{if(active)setError(message(e));});
+  return()=>{active=false;};},[open,search,operatingMode]);
  const resetPreview=()=>{setPreview(null);setConfirmed(false);setNotice('');setError('');};
  const change=(name:keyof typeof blank,value:string)=>{setForm(current=>({...current,[name]:value}));resetPreview();};
  const analyse=async(rows:OpeningChequeRow[],file:string)=>{
-  if(!branchId){setError('اختر الفرع الرئيسي أولاً.');return;}setBusy(true);resetPreview();
+  if(!branchId){setError('اختر الفرع الرئيسي أولاً.');return;}
+  if(operatingMode==='sales-only'&&rows.some(r=>r.direction!=='incoming'||r.initial_status!=='pending')){setError('وضع المبيعات والذمم يقبل شيك عميل وارد قيد الانتظار فقط؛ الموردون والتجيير مطفآن.');return;}setBusy(true);resetPreview();
   try{
    // One authoritative preview for the complete file detects cross-batch duplicates.
    if(rows.length>500)throw Error('الدفعة بحد أقصى 500 شيك؛ قسّم الملف إلى ملفات أصغر.');
@@ -42,7 +44,7 @@ export function OpeningChequesCard({branchId,locked,onSaved}:{branchId:string|nu
   else row.supplier_id=form.supplier;
   await analyse([row],'إدخال يدوي');
  };
- const file=async(value:File)=>{setBusy(true);resetPreview();try{const prepared=prepareOpeningChequeSheet(await readXlsxFirstSheet(await value.arrayBuffer()));
+ const file=async(value:File)=>{setBusy(true);resetPreview();try{const prepared=prepareOpeningChequeSheet(await readXlsxFirstSheet(await value.arrayBuffer()),operatingMode);
    if(prepared.errors.length){setError(prepared.errors.map(e=>`السطر ${e.row}: ${e.message}`).join(' '));return;}
    await analyse(prepared.rows,value.name);
    if(prepared.normalizedFields)setNotice(importNormalizationNotice(prepared.normalizedFields));
@@ -65,8 +67,8 @@ export function OpeningChequesCard({branchId,locked,onSaved}:{branchId:string|nu
   {page&&<div className="my-3 grid grid-cols-1 gap-2 text-sm sm:grid-cols-3"><p className="m-0">وارد قيد الانتظار: <Money minor={page.incoming}/></p><p className="m-0">صادر قيد الانتظار: <Money minor={page.outgoing}/></p><p className="m-0">مجيّر: <Money minor={page.endorsed}/></p></div>}
   <div className="mt-3 flex flex-wrap gap-2"><UiButton disabled={disabled} onClick={()=>{setOpen(open==='manual'?null:'manual');resetPreview();}}>إدخال يدوي</UiButton><UiButton disabled={disabled} onClick={()=>{setOpen(open==='excel'?null:'excel');resetPreview();}}>استيراد من Excel</UiButton></div>
   {open==='manual'&&<form className="mt-3 space-y-3" onSubmit={e=>void manual(e)} data-testid="go-live-cheques-manual"><FormFields className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-   <label className="block space-y-1 text-sm">الاتجاه<select className={field} disabled={disabled} value={form.direction} onChange={e=>{change('direction',e.target.value);change('status','pending');}}><option value="incoming">وارد من عميل</option><option value="outgoing">صادر لمورد</option></select></label>
-   {form.direction==='incoming'&&<label className="block space-y-1 text-sm">الحالة<select className={field} disabled={disabled} value={form.status} onChange={e=>change('status',e.target.value)}><option value="pending">قيد الانتظار</option><option value="endorsed">مجيّر لمورد</option></select></label>}
+   <label className="block space-y-1 text-sm">الاتجاه<select className={field} disabled={disabled} value={form.direction} onChange={e=>{change('direction',e.target.value);change('status','pending');}}><option value="incoming">وارد من عميل</option>{operatingMode==='full'&&<option value="outgoing">صادر لمورد</option>}</select></label>
+   {form.direction==='incoming'&&<label className="block space-y-1 text-sm">الحالة<select className={field} disabled={disabled} value={form.status} onChange={e=>change('status',e.target.value)}><option value="pending">قيد الانتظار</option>{operatingMode==='full'&&<option value="endorsed">مجيّر لمورد</option>}</select></label>}
    {form.direction==='incoming'?<><label className="block space-y-1 text-sm">بحث العميل<input className={field} value={search} disabled={disabled} onChange={e=>{setSearch(e.target.value);change('customer','');}}/></label>{select('customer','العميل',customers)}</>:select('supplier','المورد',suppliers)}
    {form.direction==='incoming'&&form.status==='endorsed'&&select('endorsed','المورد المجيّر له',suppliers)}
    {input('bank','البنك','text',true)}{input('number','رقم الشيك','text',true)}{input('due','تاريخ الاستحقاق','date',true)}{input('amount','المبلغ (د.أ)','text',true)}
