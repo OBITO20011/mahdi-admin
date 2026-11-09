@@ -1,17 +1,4 @@
 {
   "schemaVersion": 1,
-  "files": [
-    {
-      "code": " M",
-      "path": "scripts/testing/run-sales-only-phase2-foundations.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/sales-only-phase2-pending-guest.mjs"
-    },
-    {
-      "code": "??",
-      "path": "docs/design/sales-only-phase2/WORKTREE_RECOVERY_AR.md"
-    }
-  ]
+  "files": []
 }

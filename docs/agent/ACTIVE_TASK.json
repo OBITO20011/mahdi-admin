@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
+  "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner9Nov phase2:additive sales-only build above85;reuse existing UI/pure calculation helpers;opening epoch included;quarantined SQL/Draft PR/fullCI only.",
-  "baselineSha": "292b8689a5e4baeb91474b28b8c08bf97901c949",
+  "baselineSha": "5a846b6b84da52d254db797972733269a4d164cf",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase2",
   "phase": "SALES_ONLY_PHASE2",
@@ -13,10 +13,11 @@
     "Unchanged approved85 pending-guest foundation probe on fresh isolated219/180:integrity0 before,1 whilepending (orders:reservations),0 aftercompletion;zero moves/reservations,network0,cleanupPASS;636function/source guard PASS.",
     "Reuse map and exact one-predicate proposal prepared;approved8patches and628frozen bodies untouched;owner20/env4 hashes unchanged.",
     "Owner-approved recovery: app startup-cleanup force-removed worktree10:59:52UTC; recovered exact snapshot292b8689 into sales-only-phase2-recovery and pushed to GitHub. Git worktree locked; hourly/each milestone commit+push required.",
-    "Five pending-guest acceptance cases PASS on isolated219/180,network0,cleanuptrue;full rows/checkJSON unchanged,real defects still detected,628/636 unknownbyte guardsPASS."
+    "Five pending-guest acceptance cases PASS on isolated219/180,network0,cleanuptrue;full rows/checkJSON unchanged,real defects still detected,628/636 unknownbyte guardsPASS.",
+    "Commercial private planner18real full comparisons PASS:12POS all line/parcel fils,6guest promoJSON/delivery;original636 unchanged;zero writes/ACL/WAC/staleprice/capacity negatives;network0/cleanuptrue."
   ],
   "inProgress": [
-    "Phase2 pure commercial planner+runtime parity;UI/Edge/opening epoch pending."
+    "Build quarantined commercial writers,then existing UI/Edge adapters andopeningepoch;no extra shared bridge authorization."
   ],
   "notStarted": [
     "Commercial pricing/parcel/delivery/discount parity and writers",
@@ -26,7 +27,8 @@
   ],
   "testsPassed": [
     "Fresh219180 migration foundation diagnostic;628/8source+metadata guard;noegress andcleanup",
-    "Approved pending-guest five-case acceptance:PASS"
+    "Approved pending-guest five-case acceptance:PASS",
+    "Commercial18comparisons+unit9PASS"
   ],
   "testsRemaining": [
     "Commercial planner/runtime parity and fullphase2 scope incl openingepoch/UI/browser/FULLCI"
@@ -43,12 +45,12 @@
     "No owner/env edits;no Docker factory reset or unknown volume deletion",
     "628original function bodies frozen;8exact approved patches only"
   ],
-  "nextExactAction": "Run corrected five pending-guest acceptance cases on owned219/180;then continue fullphase2 reuse build. Owner-approved recovery from snapshot292b8689;milestone/hourly commit+push.",
-  "checkpointedAt": "2026-11-09T11:05:13.248Z",
+  "nextExactAction": "Continuephase2:quarantined commercial planner reusing canonical/pricing/discount helpers;financial parity tests;all UI/openingepoch/fullCI stillpending. Five acceptance casesPASS,pushed;hourlymilestone commits required.",
+  "checkpointedAt": "2026-11-09T11:09:04.327Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 3,
-  "filesTouchedManifestSha256": "9284d526c19ffba5673f9bfe47de93818d914722df0bc146ffb9792163cb3fcb",
-  "workingTreeFingerprint": "7B3CEE43A995473DC05E7F81F6BF49383BD0CD5886D1BC981BA8A687AFE706DE"
+  "filesTouchedCount": 0,
+  "filesTouchedManifestSha256": "b6429e7d08029a34589e9c8956ef86dffab2fb6dd9ee37c08d5e9204e14cdbe6",
+  "workingTreeFingerprint": "AA7E1BEB9E33AF6D66638C52C546101F72793A005AEECF061D58701DF90BBB38"
 }
