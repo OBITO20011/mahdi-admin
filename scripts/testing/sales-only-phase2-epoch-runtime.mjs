@@ -24,7 +24,17 @@ export async function verifyOpeningEpoch(c,report){
   'items',(SELECT jsonb_agg(to_jsonb(x) ORDER BY id) FROM public.order_items x),'payments',(SELECT jsonb_agg(to_jsonb(x) ORDER BY id) FROM public.customer_payments x),
   'openings',(SELECT jsonb_agg(to_jsonb(x) ORDER BY id) FROM public.customer_opening_balances x),'shifts',(SELECT jsonb_agg(to_jsonb(x) ORDER BY id) FROM public.cash_shifts x));`);
  await fail('lite1_set_mode(false)',/permission denied/);
+ await rpc(`save_product_parcel_configuration_v1(${q(id(100))},'configurable_mix',true,5,ARRAY[${q(id(101))},${q(id(102))}]::UUID[])`);
+ await rpc("set_configurable_parcel_feature_state_v1('ENABLED')");
+ await sql(`UPDATE public.products SET wac_cost_in_minor_units_exact=NULL WHERE id IN(${q(id(101))},${q(id(102))});`);
+ assert.deepEqual((await rpc(`get_pos_configurable_parcel_options_v1(${q(warehouse)})`)).options,[],'FULL_READER_STILL_REQUIRES_WAC_AND_STOCK');
  await rpc('lite1_set_mode2(false)');
+ const optionsBefore=await readApplicationFingerprint(executor),options=await rpc(`lite1_pos_options2(${q(warehouse)})`);
+ assert.equal(options.options.length,1);assert.equal(options.options[0].quantityTracked,false);assert.equal(options.options[0].components.length,2);
+ assert.ok(options.options[0].components.every(p=>p.manualAvailable===true&&!('availableQuantity' in p)));
+ assert.deepEqual(await readApplicationFingerprint(executor),optionsBefore,'LITE_OPTIONS_READONLY');
+ assert.equal(await sql("SELECT has_function_privilege('anon','public.lite1_pos_options2(uuid)','EXECUTE');"),'f');
+ report.cases.push({name:'parallel POS mixed options with no WAC;no synthetic stock;read-only/anon denied;full reader unchanged',passed:true});
  const availability=await tsImport('../../src/services/supabase/manualAvailability.service.ts',import.meta.url);
  const availabilityRpc=async(name,args)=>({data:await rpc(name==='lite1_product_availability2'
   ?`lite1_product_availability2(p_product_ids:=ARRAY[${args.p_product_ids.map(q).join(',')}]::UUID[])`
@@ -36,6 +46,7 @@ export async function verifyOpeningEpoch(c,report){
  assert.equal(manual.products.find(p=>p.productId===id(101)).effectiveAvailable,false,'PARENT_MANUAL_FLAG_IS_INHERITED');
  assert.equal(manual.products.find(p=>p.productId===id(101)).available,true);
  await fail(`lite1_set_available2(${q(id(100))},true,0)`,/LITE1_AVAILABILITY_STALE/);
+ assert.ok((await rpc(`lite1_pos_options2(${q(warehouse)})`)).options[0].components.every(p=>p.manualAvailable===false),'MIXED_PARENT_AVAILABILITY_IS_INHERITED');
  await availability.setManualAvailabilityWithRpc(id(100),true,1,availabilityRpc);
  await fail(`lite1_set_available(${q(pid)},false,0)`,/permission denied/);
  const acl=await json(`SELECT jsonb_build_object('anon',has_function_privilege('anon','public.lite1_product_availability2(uuid[])','EXECUTE'),
@@ -91,6 +102,7 @@ export async function verifyOpeningEpoch(c,report){
  const activationKey=key(),call=apply(preview,activationKey),start=performance.now();
  const pair=await Promise.all([rpc(call),rpc(call)]),elapsed=performance.now()-start;
  assert.deepEqual(pair[0],pair[1]);assert.equal(pair[0].fullAccounting,true);
+ await fail(`lite1_pos_options2(${q(warehouse)})`,/LITE1_MODE_DISABLED/);
  await fail(`lite1_set_available2(${q(pid)},false,0)`,/LITE1_MODE_DISABLED/);
  assert.equal((await ownState()).epochs,1);assert.equal((await ownState()).items,rows.length);
  const done=await readApplicationFingerprint(executor),donePrivate=await ownState();assert.deepEqual(await rpc(call),pair[0]);

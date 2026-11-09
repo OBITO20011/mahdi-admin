@@ -26,7 +26,7 @@ test('only owner-approved monitoring bridge diff changes;other7 byte-identical t
  assert.equal(execFileSync('git',['diff',pins.baseline,'--','supabase/migrations','docs/design/sales-only-phase1/frozen-functions.json'],{cwd:root,encoding:'utf8'}),'');
 });
 test('phase2 metadata inverse is exact;unknown bytes remain visible;runtime state isphase2',()=>{
- assert.deepEqual(Object.keys(salesOnlyPhase2Pins.entries).sort(),['docs/agent/PHASE_STATUS.md','docs/agent/project-state.json','src/services/supabase/posV2.service.ts','src/services/supabase/posV2Recovery.ts','src/services/supabase/posV2Validation.ts','src/utils/posKnownRejectionCopy.ts','supabase/functions/submit-guest-order/index.ts']);
+ assert.deepEqual(Object.keys(salesOnlyPhase2Pins.entries).sort(),["docs/agent/PHASE_STATUS.md","docs/agent/project-state.json","e2e/package-f-pos-harness.tsx","src/features/pos/PosParcelBuilder.tsx","src/features/pos/PosProductCard.tsx","src/features/pos/PosView.tsx","src/features/pos/posV2Cart.ts","src/services/supabase/posV2.service.ts","src/services/supabase/posV2Recovery.ts","src/services/supabase/posV2Validation.ts","src/types/index.ts","src/utils/posKnownRejectionCopy.ts","supabase/functions/submit-guest-order/index.ts"]);
  for(const file of Object.keys(salesOnlyPhase2Pins.entries)){
   const current=read(file),old=execFileSync('git',['show',salesOnlyPhase2Pins.baseline+':'+file],{cwd:root,encoding:'utf8'}).replaceAll('\r\n','\n');
   assert.equal(sourceBeforeSalesOnlyPhase2(file,current),old);

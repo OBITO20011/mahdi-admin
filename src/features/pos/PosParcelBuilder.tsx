@@ -6,7 +6,8 @@ import type {PosV2ConfigurableParcelLine} from '../../services/supabase/posV2.se
 export interface PosParcelOption {
   familyProductId: string; nameAr: string; parcelConfigurationId: string;
   configurationRevision: number; unitsPerParcel: number; parcelPriceInMinorUnits: number;
-  components: Array<{productId: string; nameAr: string; flavorNameAr?: string; sku: string; availableQuantity: number}>;
+  quantityTracked?: boolean;
+  components: Array<{productId: string; nameAr: string; flavorNameAr?: string; sku: string; availableQuantity?: number; manualAvailable?:boolean}>;
 }
 export function PosParcelBuilder({option, initialComponents, onClose, onAdd}: {option: PosParcelOption;
   initialComponents?: Array<{product_id: string; base_quantity: number}>;
@@ -17,14 +18,14 @@ export function PosParcelBuilder({option, initialComponents, onClose, onAdd}: {o
   const valid = total === option.unitsPerParcel
     && Object.keys(quantities).every(id => option.components.some(c => c.productId === id)) && option.components.every(c => {
     const q = quantities[c.productId] || 0;
-    return Number.isSafeInteger(q) && q >= 0 && q <= c.availableQuantity;
+    return Number.isSafeInteger(q) && q >= 0 && q <= (option.quantityTracked===false?option.unitsPerParcel:c.availableQuantity??0);
   });
   return <Modal isOpen onClose={onClose} title={`تركيب طرد: ${option.nameAr}`}>
     <div className="space-y-4 p-4" data-unsaved={total > 0 ? 'true' : undefined}>
       <p role="status">المختار: {total} / {option.unitsPerParcel} باكيت — السعر {(option.parcelPriceInMinorUnits / 1000).toFixed(3)} د.أ</p>
       {option.components.map(c => <label key={c.productId} className="flex items-center justify-between gap-3">
-        <span>{c.flavorNameAr || c.nameAr} <small>المتاح: {c.availableQuantity}</small></span>
-        <input inputMode="numeric" enterKeyHint="next" type="number" min={0} max={c.availableQuantity} step={1} value={quantities[c.productId] || 0}
+        <span>{c.flavorNameAr || c.nameAr} <small>{option.quantityTracked===false?(c.manualAvailable?'متوفر يدوياً':'غير متوفر — يحتاج تأكيداً'):`المتاح: ${c.availableQuantity}`}</small></span>
+        <input inputMode="numeric" enterKeyHint="next" type="number" min={0} max={option.quantityTracked===false?option.unitsPerParcel:c.availableQuantity} step={1} value={quantities[c.productId] || 0}
           aria-label={`كمية ${c.flavorNameAr || c.nameAr}`} className="min-h-11 w-20 rounded-xl border border-nw-border bg-nw-surface-2 p-2 text-nw-text"
           onChange={e => setQuantities(q => ({...q, [c.productId]: Number(e.target.value)}))}/>
       </label>)}

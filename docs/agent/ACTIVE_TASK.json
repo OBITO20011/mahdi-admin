@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner9Nov phase2:additive sales-only build above85;reuse existing UI/pure calculation helpers;opening epoch included;quarantined SQL/Draft PR/fullCI only.",
-  "baselineSha": "002d393af079432540ee21b4625c57e6c023c5a7",
+  "baselineSha": "d9292e227c22020c5ad00aea834fb51ddc2b7b9a",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase2",
   "phase": "SALES_ONLY_PHASE2",
@@ -24,10 +24,11 @@
     "Return8full-vs-lite financial/damage comparisons PASS;preview/replay/zeroentitlement/race,existingcheque collection+bounce,parallelstatement full3pagesJSON andlitecanonical parity;closedshiftdebtreturn afterfixtureON zero stock;integrity0/636/network0/cleanuptrue.37unitsPASS.",
     "Openingepoch kernel PASS:ownerAAL2/fullcount/stale/busy/rollback guards;6rows;concurrentreplay oneepoch530.765ms;GoLive+financialallrows/IDs identical;oldlitereturnnostock afterrealactivation;fullPOS realstock/500cost;integrity0/636/network0/cleanuptrue.38units/types/strictlintPASS.",
     "ExistingPOS adapter/validator/recovery extendedwith durablemode+explicitavailabilityack;actualadapter→realPG16variantsPASS andallpriorPOSproofs;unknown/key/cancellation proofsafe;71units/types/strictlintPASS. PosView notwiredyet.",
-    "Mode reader/controller/provider builtbutnotAppwired:strictEdge-equivalent decoder/legacy404only,actor+forcedrefresh race/logout guards. Manualavailability client→PG familyinheritance/revisionCAS/ownerACL PASS;central fullquarantineinstaller+epochrecheckPASS,636/integrity0/network0/cleanuptrue.79units/types/changedfile strictlintPASS."
+    "Mode reader/controller/provider builtbutnotAppwired:strictEdge-equivalent decoder/legacy404only,actor+forcedrefresh race/logout guards. Manualavailability client→PG familyinheritance/revisionCAS/ownerACL PASS;central fullquarantineinstaller+epochrecheckPASS,636/integrity0/network0/cleanuptrue.79units/types/changedfile strictlintPASS.",
+    "ExistingPosView modeprops/stockfreecart/manualavailabilityfreshread+explicitimmutableack;costNULL invoice;parallelPOSmixedreader noWAC/fakequantity.92units/types/strictlintPASS;32ChromiumWebKit existingfull+newtouchPASS;PG5groups/636/integrity0/network0/cleanuptrue. Appnotwiredyet."
   ],
   "inProgress": [
-    "Wire verifiedOperatingModeProvider intoApp andexistingUI;manualavailability productflavor controls,POS/storecatalog nofakequantities,receipts/simple reports/import/openingUI+realisticscale/mobile/FULLCI."
+    "Wire central verifiedmode intoApp/nav andremainingexistingUI;productflavor switches/storecatalog/receipt/returns/import/simple reports/openingUI+scale/FULLCI."
   ],
   "notStarted": [
     "Existing mode-aware UI/import/receipt/simple reports wiring andmobile browsers",
@@ -42,10 +43,11 @@
     "Return+cheque+statement real219/180:4groups/8financialcomparisons;full3pagesJSON exact;37units;sourcefrozen628/636;network0/cleanuptrue",
     "EPOCH_PASS:3actualgroups/6rows/8s RPC;failure rollback allpublictables plus private mode/evidence;normalPostgres sequencegap checked;38units/types/strictlint",
     "POS_ADAPTER_PASS actualTypeScript adapter→real21916cases;71unit inclhistory/currentdictionary+both recovery routes;types/strictlint",
-    "MODE_AVAILABILITY79units/types/focusedstrictlint;actualclient→PG CAS+parentinheritance andcompletequarantineinstaller epochrecheck PASS"
+    "MODE_AVAILABILITY79units/types/focusedstrictlint;actualclient→PG CAS+parentinheritance andcompletequarantineinstaller epochrecheck PASS",
+    "POS_UI:92units;types;strictlint;32full/lite Chromium+WebKit touch regression;POS_OPTIONS_PASS5realgroups"
   ],
   "testsRemaining": [
-    "Openingepoch/activation/late returns;UI/store/import/reports/receipts;mobile Chromium+WebKit;full local+FULLCI"
+    "CentralApp/navigation/product/store/import/receipt/returns/simple reports/openingUI+scale/mobile/FULLCI"
   ],
   "findings": [
     "get_customer_statement192 doesnotinclude private lite returns;new parallel pinned reader adds genuine movement andkeeps canonical mismatch guard. Original functionand8bridges unchanged."
@@ -59,12 +61,12 @@
     "No owner/env edits;no Docker factory reset or unknown volume deletion",
     "628original function bodies frozen;8exact approved patches only"
   ],
-  "nextExactAction": "Wire App/Navigation andPosView using verifiedmode preservingcart/recovery;add manualavailability product/flavor UI andstockfree catalog;thenreceipts/import/simple reports/openingUI+scale/mobile/FULLCI. NoDraftPRyet.",
-  "checkpointedAt": "2026-11-09T13:13:42.040Z",
+  "nextExactAction": "POS_UI milestone:92unit/types/lint,32browser full+lite andPG5groups PASS. Commitpush then wire central App/navigation/productflavor availability/storecatalog/receipts/import/simple reports/openingUI+scale andFULLCI. No activeDB or servers.",
+  "checkpointedAt": "2026-11-09T14:07:35.401Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 0,
-  "filesTouchedManifestSha256": "b6429e7d08029a34589e9c8956ef86dffab2fb6dd9ee37c08d5e9204e14cdbe6",
-  "workingTreeFingerprint": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+  "filesTouchedCount": 16,
+  "filesTouchedManifestSha256": "68ed428a62ed9e0ed86f0574f6faa329cc105a6e14bd658c660299de313935af",
+  "workingTreeFingerprint": "4A0F5A45AFC37EF4F2472E6DA2839D57CB7738FD764C27C489729FB90A008CCE"
 }

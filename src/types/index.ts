@@ -303,7 +303,9 @@ export interface OrderItem {
   sku: string;
   unit: string;
   unitPrice: number;
-  costPrice: number;
+  /** null means this sale did not track cost. It is never a zero-cost profit. */
+  costPrice: number | null;
+  accountingTracked?: boolean;
   quantity: number;
   baseQuantity?: number;
   unitsPerSalePackage?: number;
@@ -397,6 +399,7 @@ export interface Invoice {
   id: string;
   invoiceNumber: string;
   orderId?: string;
+  accountingTracked?: boolean;
   customerName: string;
   customerPhone?: string;
   items: OrderItem[];

@@ -1,4 +1,69 @@
 {
   "schemaVersion": 1,
-  "files": []
+  "files": [
+    {
+      "code": " M",
+      "path": ".github/workflows/sales-only-phase1.yml"
+    },
+    {
+      "code": " M",
+      "path": "e2e/package-f-pos-harness.tsx"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/sales-only-phase2-source-pins.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/sales-only-phase2-epoch-runtime.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/sales-only-phase2-installer.mjs"
+    },
+    {
+      "code": " M",
+      "path": "src/features/pos/PosParcelBuilder.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/pos/PosProductCard.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/pos/posV2Cart.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/features/pos/PosView.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/types/index.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/sales-only-phase2.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "docs/design/sales-only-phase2/POS_UI_PROOF_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "docs/design/sales-only-phase2/pos-options.sql"
+    },
+    {
+      "code": "??",
+      "path": "e2e/sales-only-phase2-pos.spec.ts"
+    },
+    {
+      "code": "??",
+      "path": "src/features/pos/salesOnlyPos.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/sales-only-phase2-pos-ui.test.ts"
+    }
+  ]
 }
