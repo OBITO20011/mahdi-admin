@@ -1,3 +1,5 @@
+import type {OperatingMode} from '../../services/supabase/operatingMode.service';
+import {ManualAvailabilityPanel} from '../operatingMode/ManualAvailabilityPanel';
 import {Card,FormFields,UiButton,formatJod} from '../../components/ui';
 import React, { useCallback, useState } from 'react';
 import {
@@ -50,13 +52,16 @@ interface ProductDetailModalProps {
   product: Product;
   onClose: () => void;
   startBarcodeScanner?: StartBarcodeCamera;
+  operatingMode?:OperatingMode;
+  modeVerified?:boolean;
 }
 
 export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   product,
   onClose,
-  startBarcodeScanner,
+  startBarcodeScanner,operatingMode='full',modeVerified=true,
 }) => {
+  const salesOnly=operatingMode==='sales-only';
   const {
     categories,
     products,
@@ -445,7 +450,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           )}
           <span
             className={`absolute right-3 top-3 rounded-full border px-2.5 py-1 text-xs font-black ${
-              product.status === 'hidden'
+              product.status === 'hidden' || salesOnly
                 ? 'border-nw-border bg-nw-surface-2 text-nw-muted'
                 : isOutOfStock
                   ? 'border-nw-border bg-nw-bad-bg text-nw-bad'
@@ -456,7 +461,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           >
             {product.status === 'hidden'
               ? 'مخفي'
-              : isOutOfStock
+              : salesOnly ? 'ظاهر في الكتالوج' : isOutOfStock
                 ? 'نافد'
                 : isLowStock
                   ? 'مخزون منخفض'
@@ -491,6 +496,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
         </div>
       </Card>
 
+      {salesOnly&&<ManualAvailabilityPanel disabled={!modeVerified} products={[{id:product.id,name:product.nameAr},...flavors.map(f=>({id:f.id,name:f.flavorNameAr||f.nameAr}))]}/>}
       {!product.flavorMasterProductId && (
         <Card padded={false} className="rounded-2xl border border-nw-border    p-3.5">
           <div className="flex items-start justify-between gap-3">
@@ -499,7 +505,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               <div>
                 <h4 className="font-black text-nw-text">النكهات</h4>
                 <p className="mt-0.5 text-xs leading-4 text-nw-muted">
-                  السعر والطرد من المنتج الأساسي، والمخزون مستقل لكل نكهة.
+                  {salesOnly?'السعر والطرد من المنتج الأساسي، والتوفر اليدوي مستقل لكل نكهة.':'السعر والطرد من المنتج الأساسي، والمخزون مستقل لكل نكهة.'}
                 </p>
               </div>
             </div>
@@ -565,7 +571,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 <img src={flavorImagePreview} alt="معاينة النكهة" className="h-20 w-full rounded-xl bg-nw-surface-2 object-contain" />
               )}
               <p className="rounded-xl border border-nw-border bg-nw-ok-bg p-2 text-xs font-bold leading-4 text-nw-ok">
-                تُنشأ النكهة برصيد صفر. استلم كميتها الفعلية لاحقًا من شاشة الاستلام.
+                {salesOnly?'تُنشأ النكهة بلا تتبع مخزون؛ حدّد توفرها يدوياً.':'تُنشأ النكهة برصيد صفر. استلم كميتها الفعلية لاحقًا من شاشة الاستلام.'}
               </p>
               {!isFlavorFamily && product.onHandQuantity > 0 && (
                 <p className="rounded-xl border border-nw-border bg-nw-warn-bg p-2 text-xs font-bold leading-4 text-nw-warn">
@@ -617,11 +623,11 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                                 ? 'bg-nw-bad-bg text-nw-bad'
                                 : 'bg-nw-ok-bg text-nw-ok'
                           }`}>
-                            {isHidden ? 'متوقفة' : out ? 'نافدة' : 'متوفرة'}
+                            {isHidden ? 'متوقفة' : salesOnly ? 'ظاهرة' : out ? 'نافدة' : 'متوفرة'}
                           </span>
                         </div>
                         <p className="mt-1 text-xs font-bold text-nw-muted">
-                          المتاح: {flavorAvailable.cartonFormatted}
+                          {salesOnly?'توفرها من المفتاح أعلاه':`المتاح: ${flavorAvailable.cartonFormatted}`}
                           {flavor.barcode ? ` • ${flavor.barcode}` : ''}
                         </p>
                       </div>
@@ -749,7 +755,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                           />
                         )}
 
-                        {!editFlavorActive && flavor.onHandQuantity > 0 && (
+                        {!salesOnly && !editFlavorActive && flavor.onHandQuantity > 0 && (
                           <p className="rounded-xl bg-nw-warn-bg p-2 text-xs font-bold leading-4 text-nw-warn">
                             إيقاف النكهة يخفيها عن العملاء فقط؛ رصيدها وحركاتها سيبقيان محفوظين.
                           </p>
@@ -789,7 +795,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                       </div>
                     )}
 
-                    {!isEditingFlavor && (
+                    {!salesOnly && !isEditingFlavor && (
                       <UiButton variant="plain"
                         type="button"
                         onClick={() => {
@@ -817,7 +823,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
         <div className="mb-3 flex items-center gap-2">
           <ReceiptText className="h-4 w-4 text-nw-ok" />
           <div>
-            <h4 className="font-black text-nw-text">الأسعار والربحية</h4>
+            <h4 className="font-black text-nw-text">{salesOnly?'أسعار البيع':'الأسعار والربحية'}</h4>
             <p className="text-xs text-nw-muted">
               سعر البيع للوحدة المحددة: {unitsPerSalePackage===1?product.unit:'طرد'}
             </p>
@@ -825,11 +831,11 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
         </div>
 
         <div className="grid grid-cols-3 gap-2">
-          <PriceMetric
+          {!salesOnly&&<PriceMetric
             label={`تكلفة ${unitsPerSalePackage===1?product.unit:'الطرد'}`}
             value={salePackageCost}
             color="text-nw-warn"
-          />
+          />}
           <PriceMetric
             label="سعر بيع الطرد"
             value={salePackagePrice}
@@ -855,7 +861,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
             حدّد طرد بيع الجملة وعدد {product.unit} وسعر الطرد قبل إظهار
             المنتج للزبائن.
           </div>
-        ) : (
+        ) : !salesOnly && (
           <div className="mt-2">
             <ProfitMetric
               label={`ربح ${unitsPerSalePackage===1?product.unit:'الطرد'}`}
@@ -865,7 +871,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           </div>
         )}
 
-        {!needsSalePackageSetup && salePackageProfit.isLoss && (
+        {!salesOnly && !needsSalePackageSetup && salePackageProfit.isLoss && (
           <div className="mt-2 flex items-start gap-2 rounded-xl border border-nw-border bg-nw-bad-bg p-2.5 text-xs font-bold text-nw-bad">
             <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
             سعر بيع الطرد أقل من تكلفته الحالية.
@@ -873,6 +879,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
         )}
       </Card>
 
+      {!salesOnly&&<>
       <Card padded={false} className="rounded-2xl border border-nw-border bg-nw-surface p-3.5">
         <div className="mb-3 flex items-center gap-2">
           <Layers3 className="h-4 w-4 text-nw-info" />
@@ -970,6 +977,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
         </div>
       </Card>
 
+      </>}
       <div className="grid grid-cols-2 gap-2">
         <UiButton variant="plain"
           type="button"
@@ -997,8 +1005,8 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
       </div>
 
       {/* Owner only; the database refuses every other role as well. */}
-      {!isFlavorFamily&&canUseSupplierReplacement(roles,roleName)&&<UiButton onClick={()=>openModal('supplier_replacement',{productId:product.id})}>استبدال المورد والمعلّق</UiButton>}
-      {roleName === 'owner' && (isFlavorFamily ? flavors.length > 0 : true) && (
+      {!salesOnly&&!isFlavorFamily&&canUseSupplierReplacement(roles,roleName)&&<UiButton onClick={()=>openModal('supplier_replacement',{productId:product.id})}>استبدال المورد والمعلّق</UiButton>}
+      {!salesOnly && roleName === 'owner' && (isFlavorFamily ? flavors.length > 0 : true) && (
         showCostCorrection ? (
           <ProductCostCorrectionPanel
             targets={isFlavorFamily

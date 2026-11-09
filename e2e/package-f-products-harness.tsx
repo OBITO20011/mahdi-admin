@@ -31,7 +31,7 @@ const rows=inventoryProducts.slice(0,7).map((p,i)=>({...p,warehouse_id:warehouse
  flavor_sort_order:i>4?i-4:0,on_hand_quantity:i===4?0:p.on_hand_quantity,available_quantity:i===4?0:p.available_quantity}));
 const products=rows.map(mapAdminProductRecord);
 const auth=authStoreEngine as unknown as {state:AuthState;getState:()=>AuthState;initAuth:()=>Promise<void>};
-auth.state={...auth.getState(),roleName:'owner',roles:['owner'],isAuthenticated:true,isLoading:false};auth.initAuth=async()=>undefined;
+auth.state={...auth.getState(),user:{id:'88888888-8888-4888-8888-000000000098'} as NonNullable<AuthState['user']>,roleName:params.has('not-owner')?'sales':'owner',roles:params.has('not-owner')?['sales']:['owner'],isAuthenticated:true,isLoading:false};auth.initAuth=async()=>undefined;
 const store=storeEngine as unknown as {state:AppState;getState:()=>AppState};
 store.state={...store.getState(),products,units:[
  {id:'packet',nameAr:'باكيت',code:'PKT',conversionFactor:1},
@@ -78,9 +78,9 @@ function Harness(){
    {['products','detail','form','stock','parcel'].map((key,i)=><UiButton key={key} onClick={()=>{storeEngine.closeModal();setView(key);}}>{['المنتجات','تفاصيل','نموذج المنتج','تعديل مخزون','إعداد الطرود'][i]}</UiButton>)}
   </nav>
   {params.has('realDialogs') && <UiButton onClick={()=>storeEngine.openModal('view_product',chosen)}>تفاصيل الصنف الفعلية</UiButton>}
-  <ProductsView/>
-  {params.has('realDialogs') ? <AllModals/> : <Modal isOpen={Boolean(form||detail||stock||parcel)} onClose={close} title={title} maxWidth="max-w-2xl">
-   {form?<ProductFormModal initialProduct={modal==='edit_product'?target:undefined} onClose={close}/>:detail?<ProductDetailModal product={target} onClose={close}/>:stock?<StockAdjustmentModal product={chosen} onClose={close}/>:parcel?<ParcelConfigurationModal/>:null}
+  <ProductsView operatingMode={params.has('sales-only')?'sales-only':'full'}/>
+  {params.has('realDialogs') ? <AllModals operatingMode={params.has('sales-only')?'sales-only':'full'}/> : <Modal isOpen={Boolean(form||detail||stock||parcel)} onClose={close} title={title} maxWidth="max-w-2xl">
+   {form?<ProductFormModal initialProduct={modal==='edit_product'?target:undefined} onClose={close}/>:detail?<ProductDetailModal product={target} onClose={close} operatingMode={params.has('sales-only')?'sales-only':'full'} modeVerified={!params.has('unverified')}/>:stock?<StockAdjustmentModal product={chosen} onClose={close}/>:parcel?<ParcelConfigurationModal/>:null}
   </Modal>}
  </main>;
 }

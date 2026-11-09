@@ -3,11 +3,7 @@
   "files": [
     {
       "code": " M",
-      "path": ".github/workflows/sales-only-phase1.yml"
-    },
-    {
-      "code": " M",
-      "path": "e2e/package-f-pos-harness.tsx"
+      "path": "e2e/package-f-products-harness.tsx"
     },
     {
       "code": " M",
@@ -15,31 +11,15 @@
     },
     {
       "code": " M",
-      "path": "scripts/testing/sales-only-phase2-epoch-runtime.mjs"
+      "path": "src/components/modals/AllModals.tsx"
     },
     {
       "code": " M",
-      "path": "scripts/testing/sales-only-phase2-installer.mjs"
+      "path": "src/features/products/ProductDetailModal.tsx"
     },
     {
       "code": " M",
-      "path": "src/features/pos/PosParcelBuilder.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/features/pos/PosProductCard.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/features/pos/posV2Cart.ts"
-    },
-    {
-      "code": " M",
-      "path": "src/features/pos/PosView.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/types/index.ts"
+      "path": "src/features/products/ProductsView.tsx"
     },
     {
       "code": " M",
@@ -47,23 +27,15 @@
     },
     {
       "code": "??",
-      "path": "docs/design/sales-only-phase2/POS_UI_PROOF_AR.md"
+      "path": "docs/design/sales-only-phase2/PRODUCT_UI_PROOF_AR.md"
     },
     {
       "code": "??",
-      "path": "docs/design/sales-only-phase2/pos-options.sql"
+      "path": "e2e/sales-only-phase2-availability.spec.ts"
     },
     {
       "code": "??",
-      "path": "e2e/sales-only-phase2-pos.spec.ts"
-    },
-    {
-      "code": "??",
-      "path": "src/features/pos/salesOnlyPos.ts"
-    },
-    {
-      "code": "??",
-      "path": "tests/sales-only-phase2-pos-ui.test.ts"
+      "path": "src/features/operatingMode/ManualAvailabilityPanel.tsx"
     }
   ]
 }

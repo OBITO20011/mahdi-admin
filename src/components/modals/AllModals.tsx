@@ -1,3 +1,4 @@
+import type {OperatingMode} from '../../services/supabase/operatingMode.service';
 /**
  * Nawasrah Business Manager - Modal Dispatcher & Sheet Center
  */
@@ -42,7 +43,7 @@ import {
   PackageOpen,
 } from 'lucide-react';
 
-export const AllModals: React.FC = () => {
+export const AllModals: React.FC<{operatingMode?:OperatingMode;modeVerified?:boolean}> = ({operatingMode='full',modeVerified=true}) => {
   const {
     currentModal,
     modalData,
@@ -95,7 +96,7 @@ export const AllModals: React.FC = () => {
         subtitle="عرض الأسعار والكميات والمستودع"
       >
         {currentModal === 'view_product' && isProductModalPayload(modalData) && (
-          <ProductDetailModal product={modalData} onClose={closeModal} />
+          <ProductDetailModal product={modalData} onClose={closeModal} operatingMode={operatingMode} modeVerified={modeVerified} />
         )}
       </Modal>
 

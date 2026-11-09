@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner9Nov phase2:additive sales-only build above85;reuse existing UI/pure calculation helpers;opening epoch included;quarantined SQL/Draft PR/fullCI only.",
-  "baselineSha": "d9292e227c22020c5ad00aea834fb51ddc2b7b9a",
+  "baselineSha": "0f52a9563d41dd46011fceeba98043260d8c958a",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase2",
   "phase": "SALES_ONLY_PHASE2",
@@ -25,7 +25,8 @@
     "Openingepoch kernel PASS:ownerAAL2/fullcount/stale/busy/rollback guards;6rows;concurrentreplay oneepoch530.765ms;GoLive+financialallrows/IDs identical;oldlitereturnnostock afterrealactivation;fullPOS realstock/500cost;integrity0/636/network0/cleanuptrue.38units/types/strictlintPASS.",
     "ExistingPOS adapter/validator/recovery extendedwith durablemode+explicitavailabilityack;actualadapter→realPG16variantsPASS andallpriorPOSproofs;unknown/key/cancellation proofsafe;71units/types/strictlintPASS. PosView notwiredyet.",
     "Mode reader/controller/provider builtbutnotAppwired:strictEdge-equivalent decoder/legacy404only,actor+forcedrefresh race/logout guards. Manualavailability client→PG familyinheritance/revisionCAS/ownerACL PASS;central fullquarantineinstaller+epochrecheckPASS,636/integrity0/network0/cleanuptrue.79units/types/changedfile strictlintPASS.",
-    "ExistingPosView modeprops/stockfreecart/manualavailabilityfreshread+explicitimmutableack;costNULL invoice;parallelPOSmixedreader noWAC/fakequantity.92units/types/strictlintPASS;32ChromiumWebKit existingfull+newtouchPASS;PG5groups/636/integrity0/network0/cleanuptrue. Appnotwiredyet."
+    "ExistingPosView modeprops/stockfreecart/manualavailabilityfreshread+explicitimmutableack;costNULL invoice;parallelPOSmixedreader noWAC/fakequantity.92units/types/strictlintPASS;32ChromiumWebKit existingfull+newtouchPASS;PG5groups/636/integrity0/network0/cleanuptrue. Appnotwiredyet.",
+    "ExistingProductsView/ProductDetailModal mode-aware:no inventory/cost/profit/receiving inOFF;groupedowner manualavailabilitypanel CAS+actor/generation guards,no lostreplyretry;62units/types/strictlint and40ChromiumWebKit full/litePASS. Root/form/importstillpending."
   ],
   "inProgress": [
     "Wire central verifiedmode intoApp/nav andremainingexistingUI;productflavor switches/storecatalog/receipt/returns/import/simple reports/openingUI+scale/FULLCI."
@@ -44,7 +45,8 @@
     "EPOCH_PASS:3actualgroups/6rows/8s RPC;failure rollback allpublictables plus private mode/evidence;normalPostgres sequencegap checked;38units/types/strictlint",
     "POS_ADAPTER_PASS actualTypeScript adapter→real21916cases;71unit inclhistory/currentdictionary+both recovery routes;types/strictlint",
     "MODE_AVAILABILITY79units/types/focusedstrictlint;actualclient→PG CAS+parentinheritance andcompletequarantineinstaller epochrecheck PASS",
-    "POS_UI:92units;types;strictlint;32full/lite Chromium+WebKit touch regression;POS_OPTIONS_PASS5realgroups"
+    "POS_UI:92units;types;strictlint;32full/lite Chromium+WebKit touch regression;POS_OPTIONS_PASS5realgroups",
+    "PRODUCT_UI:62units/types/strictlint;40browser full+lite,no retries"
   ],
   "testsRemaining": [
     "CentralApp/navigation/product/store/import/receipt/returns/simple reports/openingUI+scale/mobile/FULLCI"
@@ -61,12 +63,12 @@
     "No owner/env edits;no Docker factory reset or unknown volume deletion",
     "628original function bodies frozen;8exact approved patches only"
   ],
-  "nextExactAction": "POS_UI milestone:92unit/types/lint,32browser full+lite andPG5groups PASS. Commitpush then wire central App/navigation/productflavor availability/storecatalog/receipts/import/simple reports/openingUI+scale andFULLCI. No activeDB or servers.",
-  "checkpointedAt": "2026-11-09T14:07:35.401Z",
+  "nextExactAction": "CommitpushPRODUCT_UI milestone;then provenance-safe receipt/statement/returns,centralmodeApp/nav/import/forms/reports/openingUI+scale/FULLCI. 40productbrowser+62unitsPASS,no activeprocess.",
+  "checkpointedAt": "2026-11-09T14:30:11.122Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 16,
-  "filesTouchedManifestSha256": "68ed428a62ed9e0ed86f0574f6faa329cc105a6e14bd658c660299de313935af",
-  "workingTreeFingerprint": "4A0F5A45AFC37EF4F2472E6DA2839D57CB7738FD764C27C489729FB90A008CCE"
+  "filesTouchedCount": 9,
+  "filesTouchedManifestSha256": "300116cafe92ca8fe166f3bf90087bc6f2625586096ee6b4b08fb6daddbdc8b4",
+  "workingTreeFingerprint": "26F3C66D52BA3F4E7EF8FEA88BE194E3457911EFDB64B84493F24C8EDFCC576D"
 }
