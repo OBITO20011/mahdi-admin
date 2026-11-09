@@ -13,6 +13,7 @@ import {readApplicationFingerprint} from './backup-restore-contract.mjs';
 
 export async function verifyLiteReturns(c,report){
  const {sql,json,rpc,id,q,j,executor}=c,branch=id(200),warehouse=id(201),pid=id(103),key=()=>randomUUID();
+ const {parseSalesOnlyHome}=await tsImport('../../src/services/supabase/salesOnlyHome.service.ts',import.meta.url);
  const {parseSalesOnlyBusinessReport}=await tsImport('../../src/services/supabase/salesOnlyReport.service.ts',import.meta.url);
  const {invokeAftercare215}=await tsImport('../../src/services/supabase/aftercare215Rpc.ts',import.meta.url);
  const {parseAftercare215Preview,aftercare215SuccessMatches}=await tsImport('../../src/utils/aftercare215Contracts.ts',import.meta.url);
@@ -59,7 +60,8 @@ export async function verifyLiteReturns(c,report){
  const costFree=f=>{const value=structuredClone(f);for(const k of ['cogsInMinorUnits','replacementCostInMinorUnits','restockRecoveryInMinorUnits','grossProfitInMinorUnits','aftercareAdjustedMarginInMinorUnits','netProfitInMinorUnits','damageLosses'])delete value.sales[k];return value;};
  const before=await json(functionCatalogSql),read=n=>readFile(new URL('../../docs/design/sales-only-phase'+n,import.meta.url),'utf8');
  await sql(`BEGIN;SELECT set_config('nawasrah.sales_lite1_test','OWNED_LOCAL_DB219',true);SELECT set_config('nawasrah.sales_lite2_test','OWNED_LOCAL_DB219',true);${await read('1/prototype.sql')}\n${bridgeSql(before)}\n${commercialSql(before)}\n${await read('2/pos-writer.sql')}\n${await read('2/operating-mode.sql')}\n${returnSql(before)}\n${await read('2/aftercare-context.sql')}\n${statementSql(before)}\n${await read('2/ledger-readers.sql')}
-${simpleReportSql(before)}COMMIT;`);
+${simpleReportSql(before)}
+${await read('2/simple-home.sql')}COMMIT;`);
  const simpleFull=await rpc(`lite1_business_report2(${q(branch)},${q(reportPeriod.from)},${q(reportPeriod.to)})`);
  const {success:rs,contractVersion:rv,accountingTracked:ra,branchId:rb,generatedAt:rg,period:rp,...fullProjection}=simpleFull;
  assert.equal(rs,true);assert.equal(rv,'lite2-business-report-v1');assert.equal(ra,false);assert.equal(rb,branch);assert.ok(rg&&rp);assert.deepEqual(fullProjection,costFree(fullFacts),'FULL_COSTFREE_REPORT_ALL_JSON_EXACT');
@@ -166,6 +168,13 @@ ${simpleReportSql(before)}COMMIT;`);
  assert.equal(await sql("SELECT has_function_privilege('anon','public.lite1_business_report2(uuid,date,date)','EXECUTE');"),'f');
  const reportFp=await readApplicationFingerprint(executor);await rpc(`lite1_business_report2(${q(branch)},${q(reportPeriod.from)},${q(reportPeriod.to)})`);assert.deepEqual(await readApplicationFingerprint(executor),reportFp,'SIMPLE_REPORT_READONLY');
  report.cases.push({name:'costfree parallel report fullJSONmatches219oracle;allactual lite returns+debt+refund/daily/canonicalbalance exact;no cost fields/readonly/anon denied',passed:true});
+ const home=await rpc(`lite1_home2(${q(branch)})`),mappedHome=parseSalesOnlyHome(home,branch);
+ const homeDates=await json("SELECT jsonb_build_object('today',((now() AT TIME ZONE 'Asia/Amman')::date)::text,'month',date_trunc('month',now() AT TIME ZONE 'Asia/Amman')::date::text);");
+ const monthReport=await rpc(`lite1_business_report2(${q(branch)},${q(homeDates.month)},${q(homeDates.today)})`),dayReport=await rpc(`lite1_business_report2(${q(branch)},${q(homeDates.today)},${q(homeDates.today)})`);
+ assert.equal(mappedHome.summary.monthSalesInMinorUnits,monthReport.sales.grossSalesInMinorUnits);assert.equal(mappedHome.summary.monthNetSalesInMinorUnits,monthReport.sales.netSalesInMinorUnits);assert.equal(mappedHome.summary.todaySalesInMinorUnits,dayReport.sales.grossSalesInMinorUnits);assert.deepEqual(mappedHome.summary.todayCollections,dayReport.cashFlow.customerCollections);assert.equal(mappedHome.summary.customerReceivablesInMinorUnits,monthReport.balances.customerDueInMinorUnits);assert.equal(mappedHome.sevenDaySales.length,7);
+ assert.doesNotMatch(JSON.stringify(home),/cogs|profit|cost|stock|supplier|outgoingDue/i);assert.equal(await sql("SELECT has_function_privilege('anon','public.lite1_home2(uuid)','EXECUTE');"),'f');
+ const homeFp=await readApplicationFingerprint(executor);await rpc(`lite1_home2(${q(branch)})`);assert.deepEqual(await readApplicationFingerprint(executor),homeFp,'HOME_READONLY');
+ report.cases.push({name:'sameHome newparallel singleunionperiod reader+actualTS decoder matches actual day/month/collections/canonicaldue;incomingchequesonly;no stockcost/readonly/anon denied',passed:true});
  const monitor=await json('SELECT public.run_advanced_monitoring_checks();');assert.equal(monitor.integrityIssueCount,0,JSON.stringify(monitor));assertFrozenFunctions(before,await json(functionCatalogSql));
  report.cases.push({name:'debt-only oldlitereturn afterfutureepoch needsnoopenshift;parallelstatement includesrealreturnmovement notadjustment;full3pagesJSONidentical;nostock/debtintact;integrity0 and636guard',passed:true});
 }

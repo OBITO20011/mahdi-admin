@@ -3,6 +3,10 @@
   "files": [
     {
       "code": " M",
+      "path": "e2e/owner-alert-links-harness.tsx"
+    },
+    {
+      "code": " M",
       "path": "scripts/audit/sales-only-phase2-source-pins.json"
     },
     {
@@ -15,7 +19,27 @@
     },
     {
       "code": " M",
-      "path": "src/features/reports/ReportsCenterView.tsx"
+      "path": "src/App.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/components/common/Header.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/components/modals/AllModals.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/dashboard/DashboardHome.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/dashboard/DashboardView.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/more/MoreMenuView.tsx"
     },
     {
       "code": " M",
@@ -23,43 +47,39 @@
     },
     {
       "code": "??",
-      "path": "docs/design/sales-only-phase2/SIMPLE_REPORT_PROOF_AR.md"
+      "path": "docs/design/sales-only-phase2/APP_HOME_PROOF_AR.md"
     },
     {
       "code": "??",
-      "path": "docs/design/sales-only-phase2/simple-report.sql"
+      "path": "docs/design/sales-only-phase2/simple-home.sql"
     },
     {
       "code": "??",
-      "path": "e2e/sales-only-phase2-report-harness.html"
+      "path": "e2e/sales-only-phase2-app-harness.html"
     },
     {
       "code": "??",
-      "path": "e2e/sales-only-phase2-report-harness.tsx"
+      "path": "e2e/sales-only-phase2-app-harness.tsx"
     },
     {
       "code": "??",
-      "path": "e2e/sales-only-phase2-report.fixture.ts"
+      "path": "e2e/sales-only-phase2-app.spec.ts"
     },
     {
       "code": "??",
-      "path": "e2e/sales-only-phase2-report.spec.ts"
+      "path": "e2e/sales-only-phase2-home.fixture.ts"
     },
     {
       "code": "??",
-      "path": "scripts/testing/sales-only-phase2-report.mjs"
+      "path": "src/features/dashboard/SalesOnlyDashboardView.tsx"
     },
     {
       "code": "??",
-      "path": "src/features/reports/SalesOnlyReportsView.tsx"
+      "path": "src/services/supabase/salesOnlyHome.service.ts"
     },
     {
       "code": "??",
-      "path": "src/services/supabase/salesOnlyReport.service.ts"
-    },
-    {
-      "code": "??",
-      "path": "tests/sales-only-phase2-report.test.ts"
+      "path": "tests/sales-only-phase2-home.test.ts"
     }
   ]
 }

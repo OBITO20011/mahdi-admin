@@ -1,3 +1,5 @@
+import type {OperatingMode} from '../../services/supabase/operatingMode.service';
+import {SalesOnlyDashboardView} from './SalesOnlyDashboardView';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { AlertCircle, RefreshCw } from 'lucide-react';
 import { Card, UiButton } from '../../components/ui';
@@ -10,7 +12,8 @@ import {canReadSalesHistory} from '../../utils/salesHistory';
 import {SalesInvoiceDialog} from '../salesHistory/SalesInvoiceDialog';
 import { DashboardHome } from './DashboardHome';
 
-export const DashboardView: React.FC = () => {
+export const DashboardView:React.FC<{operatingMode?:OperatingMode}>=({operatingMode='full'})=>operatingMode==='sales-only'?<SalesOnlyDashboardView/>:<FullDashboardView/>;
+const FullDashboardView: React.FC = () => {
   const currentUserName = useAppStoreSelector((state) => state.currentUser.name);
   const currentShift = useAppStoreSelector((state) => state.currentShift);
   const { openModal, setActiveTab } = useAppStoreActions();

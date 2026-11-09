@@ -1,3 +1,4 @@
+import {OperatingModePanel} from '../operatingMode/OperatingModePanel';
 import type {OperatingMode} from '../../services/supabase/operatingMode.service';
 import {allowsOperatingDestination,operatingNavigation} from '../operatingMode/navigationPolicy';
 import React, {useEffect, useState} from 'react';
@@ -21,7 +22,7 @@ function NavigationItem({item, list, onClick}: {item: AdminNavigationItem; list:
   </UiButton>;
 }
 
-export const MoreMenuView: React.FC<{operatingMode?:OperatingMode}> = ({operatingMode='full'}) => {
+export const MoreMenuView: React.FC<{operatingMode?:OperatingMode;showOperatingModeControl?:boolean}> = ({operatingMode='full',showOperatingModeControl=false}) => {
   const {signOut, roleName, roles}=useAuthStore();
   const state=useAppStoreSelector(value=>({activeBranch:value.activeBranch,branches:value.branches,
     isBiometricsEnabled:value.isBiometricsEnabled,currentUserName:value.currentUser.name,currentUserRole:value.currentUser.role,
@@ -57,6 +58,7 @@ export const MoreMenuView: React.FC<{operatingMode?:OperatingMode}> = ({operatin
         {groups.length===0&&<p role="status" className="rounded-xl border border-nw-border p-4 text-sm text-nw-muted">لا توجد شاشة مطابقة.</p>}
       </div>
     </div>
+    {showOperatingModeControl&&<OperatingModePanel/>}
     <section aria-label="الحساب والأمان" className="space-y-3">
       <Card padded={false}>
         <UiButton variant="plain" type="button" data-navigation-id="profile-summary" onClick={()=>openModal('profile')}

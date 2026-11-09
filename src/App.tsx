@@ -1,3 +1,6 @@
+import {OperatingModeProvider} from './features/operatingMode/OperatingModeProvider';
+import {useOperatingMode} from './features/operatingMode/operatingModeContext';
+import {allowsOperatingDestination} from './features/operatingMode/navigationPolicy';
 /**
  * Nawasrah Business Manager - Root Application Component
  * Standalone iPhone iOS Business & Accounting App Engine
@@ -108,7 +111,9 @@ const ViewLoadingFallback: React.FC = () => (
   </div>
 );
 
-export const App: React.FC = () => {
+const AppShell: React.FC = () => {
+  const mode=useOperatingMode();
+  const operatingMode=mode.mode??'full'; // Never rendered until the initial verified-mode gate below.
   const { activeTab, currentModal, themeMode } = useAppStoreSelector(
     (state) => ({
       activeTab: state.activeTab,
@@ -191,19 +196,22 @@ export const App: React.FC = () => {
       ?.setAttribute('content', activeThemeMode === 'light' ? '#f7f8fa' : '#020617');
   }, [themeMode]);
 
+  useEffect(()=>{if(mode.verified&&mode.mode&&!allowsOperatingDestination('tab',activeTab,mode.mode))setActiveTab('home');},[mode.verified,mode.mode,activeTab,setActiveTab]);
+
   const renderActiveTabContent = () => {
+    if(!mode.mode||!allowsOperatingDestination('tab',activeTab,mode.mode))return null;
     switch (activeTab) {
       case 'home':
       case 'dashboard':
-        return <DashboardView />;
+        return <DashboardView operatingMode={operatingMode} />;
       case 'orders':
         return <OrdersCenterView />;
       case 'sales_history':
         return <SalesHistoryView />;
       case 'pos':
-        return <PosView />;
+        return <PosView operatingMode={operatingMode} modeVerified={mode.verified} />;
       case 'products':
-        return <ProductsView />;
+        return <ProductsView operatingMode={operatingMode} />;
       case 'accounts':
         return <AccountsView />;
       case 'inventory':
@@ -213,7 +221,7 @@ export const App: React.FC = () => {
       case 'shifts':
         return <ShiftsView />;
       case 'reports':
-        return <ReportsCenterView />;
+        return <ReportsCenterView operatingMode={operatingMode} />;
       case 'users':
         return <UsersView />;
       case 'purchases':
@@ -221,15 +229,15 @@ export const App: React.FC = () => {
       case 'assistant':
         return <AdminAssistantView />;
       case 'more':
-        return <MoreMenuView />;
+        return <MoreMenuView operatingMode={operatingMode} showOperatingModeControl />;
       case 'go_live':
-        return <GoLiveSetupView />;
+        return <GoLiveSetupView operatingMode={operatingMode} modeVerified={mode.verified} />;
       case 'cheques':
         return <ChequesView />;
       case 'warehouses':
         return <WarehousesView />;
       default:
-        return <DashboardView />;
+        return <DashboardView operatingMode={operatingMode} />;
     }
   };
 
@@ -259,17 +267,25 @@ export const App: React.FC = () => {
     );
   }
 
-  // 3. Authenticated -> Full Application Interface
+  // A failed initial read never mounts a full/accounting screen. Later failed
+  // refreshes retain the mounted cart/form; verified-only writes remain fenced.
+  if(!mode.mode)return <IPhoneContainer><section dir="rtl" className="space-y-3 p-6" role={mode.status==='error'?'alert':'status'}>
+    {mode.status==='error'?'تعذر التحقق من وضع التشغيل. أعد قراءة الحالة قبل بدء العمل. (MODE-02)':'جارٍ التحقق من وضع التشغيل…'}
+    {mode.status==='error'&&<button type="button" onClick={()=>void mode.refresh()}>إعادة قراءة وضع التشغيل</button>}
+  </section></IPhoneContainer>;
+
+  // 3. Authenticated -> Verified-mode Application Interface
   return (
     <IPhoneContainer>
-      <NavigationShell>
+      <NavigationShell operatingMode={operatingMode}>
       {/* Desktop: side navigation (POS collapses it to an icon rail). Phone: bottom tabs. */}
       <div className="flex h-full min-h-0 w-full">
-      <SideNav collapsed={activeTab === 'pos'} />
+      <SideNav collapsed={activeTab === 'pos'} operatingMode={operatingMode} />
       <div className="flex min-h-0 min-w-0 flex-1 flex-col">
       {/* Top Header Bar */}
-      <Header />
+      <Header operatingMode={operatingMode} />
 
+      {mode.status==='error'&&<p dir="rtl" role="alert" className="bg-nw-warn-bg p-2 text-sm text-nw-warn">لم نتأكد من الوضع الحالي؛ السلة محفوظة، ولا تبدأ عملية جديدة حتى إعادة القراءة. (MODE-02) <button type="button" onClick={()=>void mode.refresh()}>إعادة القراءة</button></p>}
       {/* Main Active View Scroll Area */}
       <main ref={mainScrollRef} className="flex-1 overflow-y-auto no-scrollbar">
         <AppErrorBoundary key={activeTab}>
@@ -281,7 +297,7 @@ export const App: React.FC = () => {
 
       {/* Phone-only bottom tabs with the centre "بيع"; desktop uses the SideNav. */}
       <div className="contents lg:hidden">
-        <BottomTabs />
+        <BottomTabs operatingMode={operatingMode} />
       </div>
       </div>
       </div>
@@ -289,7 +305,7 @@ export const App: React.FC = () => {
       {/* All Modal Sheets Dispatcher */}
       {currentModal && (
         <Suspense fallback={null}>
-          <AllModals />
+          <AllModals operatingMode={operatingMode} modeVerified={mode.verified} />
         </Suspense>
       )}
       </NavigationShell>
@@ -297,4 +313,5 @@ export const App: React.FC = () => {
   );
 };
 
+export const App:React.FC=()=><OperatingModeProvider><AppShell/></OperatingModeProvider>;
 export default App;

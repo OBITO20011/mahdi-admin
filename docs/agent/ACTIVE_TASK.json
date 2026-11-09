@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner9Nov phase2:additive sales-only build above85;reuse existing UI/pure calculation helpers;opening epoch included;quarantined SQL/Draft PR/fullCI only.",
-  "baselineSha": "5ec4f840d66d888533212e36d50a787125ef04cb",
+  "baselineSha": "867bb2975a2f2b1b0e37dc4e6fd0ae59cb7b3fa2",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase2",
   "phase": "SALES_ONLY_PHASE2",
@@ -34,14 +34,14 @@
     "Lite immutable shift closing reader/view reuses original closing/drawer/printing;no zero-filled full sections.27units/types/strictlint/10full-litebrowser+2changedUI PASS;realPG6groups8returncomparisons,actualmapper/closedcashrefunds/fils/snapshotstableafterepoch/malformedrefused;integrity0/636/network0/cleanuptrue. No bridge/SQL change.",
     "ProductForm reused:lite hides purchase/cost/profit/stock;new product zero cost/stock;edit retains oldcost/thresholds inclconflict;modepre/postawait gates.86browser full+lite/type/lint/20units/27historyPASS. Existing219writers actual product+2flavors andoldcost/WAC preservation PG6groupsPASS;epoch6rows526ms/integrity0/636/network0/cleanuptrue.",
     "Mode-aware GoLive/template/offlinechecker reused;lite costoptional0/manualavailability,nofilledstock/suppliers,customerchequesonly;modebounddurablejournal/freshread.30units/types/lint/24browser across original22+2correctedselectors PASS. Actualservice→PG4identities/leadingzeros/normalization/lostcreateresume/replayzerowrites;8s;epoch7groups6rows770ms/integrity0/636/network0/cleanuptrue.",
-    "Costfree report parallel pinned219+immutablelite completions/returns;fullJSON exact,actualTS decoder;PG7groups8comparisons/integrity0/636/network0/cleanuptrue.10units17history/types/lint/14browserPASS;initial reader completeness and independent oracle corrected with preserved logs. Owner24hashes unchanged."
+    "Costfree report parallel pinned219+immutablelite completions/returns;fullJSON exact,actualTS decoder;PG7groups8comparisons/integrity0/636/network0/cleanuptrue.10units17history/types/lint/14browserPASS;initial reader completeness and independent oracle corrected with preserved logs. Owner24hashes unchanged.",
+    "ActualApp verified-mode root/nav/control wired;failedinitial blocks,failedrefresh preservescart/writesfenced. ReusedDashboardHome distinctcostfreeDTO+singleunionperiod RPC;actualday/month/collections/due parity PG8groups/8returns/636/integrity0/network0/cleanuptrue.22units/types/lint;18browser then12affected PASS,owner24hashesunchanged."
   ],
   "inProgress": [
-    "Wire central verifiedmode intoApp/nav andremainingexistingUI;productflavor switches/storecatalog/receipt/returns/import/simple reports/openingUI+scale/FULLCI."
+    "Storefront explicit no-quantity/manualavailability,canonical lists/delivery/chequesOFF,openingepochUI+scale,mixed historicalreport completeness,FULLCI/Draft."
   ],
   "notStarted": [
-    "Existing mode-aware UI/import/receipt/simple reports wiring andmobile browsers",
-    "Openingepoch UI andrealistic scale evidence",
+    "Remaining storefront/operational UI/epoch scale and mixed history proof",
     "Draft PR/exact fullCI/final Arabic report"
   ],
   "testsPassed": [
@@ -62,7 +62,8 @@
     "SHIFT_REPORT27units/types/lint;10browser+2affected;PG6groups/8comparisonsPASS",
     "PRODUCT_FORM86browser/types/lint/20units/27history;PRODUCT_DEFINITIONS_PASS6groups",
     "IMPORT30units/type/lint/24browser;WORKBOOK_IMPORT_PASS7realPGgroups",
-    "SIMPLE_REPORT:10units17history/types/lint/14browser;7PGgroups8returns/fullJSON+lite totals actualdecoder PASS"
+    "SIMPLE_REPORT:10units17history/types/lint/14browser;7PGgroups8returns/fullJSON+lite totals actualdecoder PASS",
+    "APP_HOME:22units/types/strictlint;18browser+12affected;PG8groups allPASS"
   ],
   "testsRemaining": [
     "CentralApp/navigation/product/store/import/receipt/returns/simple reports/openingUI+scale/mobile/FULLCI"
@@ -79,12 +80,12 @@
     "No owner/env edits;no Docker factory reset or unknown volume deletion",
     "628original function bodies frozen;8exact approved patches only"
   ],
-  "nextExactAction": "Commit/push verified simple report; then App verified-mode wiring and costfree home/store/epochUI+scale, fullCI/Draft remain",
-  "checkpointedAt": "2026-11-09T17:07:50.995Z",
+  "nextExactAction": "Commit/push verified App/root/costfreeHome;next safe storefront no-quantity public parallel readers/cart;cheques/delivery/epochUI+scale/mixedhistory/fullCI pending",
+  "checkpointedAt": "2026-11-09T17:25:21.966Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 15,
-  "filesTouchedManifestSha256": "0367fa697efc4c4798dd70fef88201d12d404d56226d1ab33705c534626bb9c3",
-  "workingTreeFingerprint": "146310896B4FB1C596B1007D1C8E5272CA314A5456E0B8C6CCEB811B6C11F577"
+  "filesTouchedCount": 20,
+  "filesTouchedManifestSha256": "23fed0113fe77c8cafca1ea97d89afddaa4cecc02af7d9681c5c8d2e72594216",
+  "workingTreeFingerprint": "94116D1CAE3BC61A91E56A971D52E19C23707BEE0803A53349BDDAF95A7D9B8E"
 }

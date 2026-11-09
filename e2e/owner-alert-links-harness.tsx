@@ -9,7 +9,7 @@ declare global {interface Window {__OWNER_ALERT_TAB__:()=>string}}
 const params=new URLSearchParams(location.search),role=params.get('role')||'owner';
 const authenticated=params.get('auth')!=='no'&&role!=='unassigned';
 const engine=authStoreEngine as unknown as {state:AuthState;getState:()=>AuthState;initAuth:()=>Promise<void>};
-engine.state={...engine.getState(),roleName:role==='unassigned'?null:role,roles:role==='unassigned'?[]:[role],isAuthenticated:authenticated,isLoading:false};
+engine.state={...engine.getState(),user:authenticated?{id:'10000000-0000-4000-8000-000000000001'} as AuthState['user']:null,roleName:role==='unassigned'?null:role,roles:role==='unassigned'?[]:[role],isAuthenticated:authenticated,isLoading:false};
 engine.initAuth=async()=>undefined;
 storeEngine.setCurrentUser({id:'10000000-0000-4000-8000-000000000001',name:'مالك اختبار معزول',role:role==='owner'?'Owner':'View Only',themeMode:'light',avatarUrl:'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=='});
 storeEngine.setActiveTab('home');
