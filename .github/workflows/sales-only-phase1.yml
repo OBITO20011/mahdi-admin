@@ -46,7 +46,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        suite: [foundations, commercial, pos, guest]
+        suite: [foundations, commercial, pos, guest, lifecycle]
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:

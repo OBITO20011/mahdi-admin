@@ -61,3 +61,11 @@ test('guest writer preservescard/defaultaddress;newwriters share one parcel mate
  assert.match(guest,/recent>=3/);assert.match(guest,/INTERVAL '10 minutes'/i);
  assert.doesNotMatch(guest,/UPDATE public\.business_operations|inventory_movements|order_inventory_reservations/);
 });
+test('lite lifecycle uses existing orderlock/payment writer;no stock or historywriter replacement',()=>{
+ const sql=read('docs/design/sales-only-phase2/guest-lifecycle.sql');
+ assert.match(sql,/public\.phase4_lock_customer_order_context_internal\(p_order,method<>'debt',false\)/);
+ assert.match(sql,/public\.record_customer_order_payment_once/);
+ assert.match(sql,/o.status NOT IN\('ready','out_for_delivery'\)/);
+ assert.doesNotMatch(sql,/CREATE OR REPLACE FUNCTION|inventory_movements|inventory_balances|order_inventory_reservations|UPDATE public\.business_operations/);
+ assert.match(sql,/collected>total/);assert.match(sql,/PHASE3_CUSTOMER_SETTLEMENT_REFERENCE_REQUIRED/);
+});
