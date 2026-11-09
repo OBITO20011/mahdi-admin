@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "project": "Nawasrah ERP",
-  "branch": "codex/d1-reference-kit",
+  "branch": "codex/sales-only-phase1",
   "approvedBaseline": "cab1c5aed8c2069e2919c566ea09c2da9757896d",
   "closedPhases": [
     "3",
@@ -14,7 +14,7 @@
     "6"
   ],
   "phase4Closed": true,
-  "currentPhase": "PACKAGE_F",
+  "currentPhase": "SALES_ONLY_PHASE1",
   "phase6Closed": true,
   "phase6ClosureBaseline": "5aaeab11e13c2be454af677ee176f77aa2d9cde4",
   "phase6ClosureExactShaCi": "PASS",
@@ -280,5 +280,6 @@
   "ownerDeferredBackupMigrationNumbers": [
     218
   ],
-  "homePerformance219Status": "OWNER_APPROVED_IMPLEMENTATION_IN_PROGRESS_NO_HOSTED_APPLY"
+  "homePerformance219Status": "OWNER_APPROVED_IMPLEMENTATION_IN_PROGRESS_NO_HOSTED_APPLY",
+  "phaseSALES_ONLY_PHASE1ImplementationAllowed": true
 }

@@ -1,3 +1,7 @@
+# 9Nov2026 — phase1 sales-only: local proof PASS;Draft review only
+
+Additive quarantined prototype,219/180 unchanged;636 exact function/707 source pins,8 shared bridges. Real isolated tests coverfull JSON/data parity,zero stock/cost,Cash/CliQ/debt/partial/guest/manualavailability/return/collection/expense/ownerwithdrawal/close,concurrency/modeNOWAIT/late rollback. Docker cleaned. No production app wiring/hosted/deploy/merge/phase2. Current task authority SALES_ONLY_PHASE1;main/58/79/82/owner20/env4 unchanged. Historical metadata inverse is exact hash-only;unknown edits remain visible. Draft PR/fullCI and final review report pending.
+
 # 8Nov2026 — D1 reference kit,local preparation PASS;PR/fullCI next
 
 Owner-approved separate prepare/install,219 only,no SQL/hosted/deploy/merge. Actual PowerShell5.1 prepare on main16ef:180/636/13/181queries,fresh-incremental0,candidate3a27bac3…TEST_ONLY/no install. Known20ownerfiles/4env/ownerreference hashes unchanged;Docker cleaned. Approval1A4/card2A4,negative hash/RESET marker/dirty/head/CI/catalog/rollback/junction tests PASS. Types/strictlint PASS;finalfocused+Gitleaks/PR/FULLCI pending.58/79/82Draft. PR83 firstCI1853/1857:4history path/doc assertions rejected newkit additions/obsolete guide;exact inverse fixed,5focused/type/lintPASS,no runtime guard changed. BackupCI andsecretsPASS;FULLCI correctedhead pending.

@@ -1,3 +1,4 @@
+import{sourceBeforeSalesOnlyPhase1}from'../scripts/audit/source-before-sales-only-phase1.mjs';
 import test from 'node:test';import assert from 'node:assert/strict';
 import {mkdtemp,mkdir,readFile,writeFile,readdir,rm,symlink,lstat} from 'node:fs/promises';
 import path from 'node:path';import {tmpdir} from 'node:os';import {execFileSync} from 'node:child_process';
@@ -48,7 +49,7 @@ test('failure after atomic replacement rolls back byte-for-byte;incoming corrupt
  }finally{await f.close();}
 });
 test('current docs replace obsolete A915 instructions with separate commands;all historical bytes remain exact and unknown edits visible',async()=>{
- const read=async(f:string)=>(await readFile(f,'utf8')).replaceAll('\r\n','\n');
+ const read=async(f:string)=>sourceBeforeSalesOnlyPhase1(f,(await readFile(f,'utf8')).replaceAll('\r\n','\n'))!;
  const guide=await read('docs/operations/RESET219_REFERENCE_D1_AR.md'),kit=await read('docs/operations/D1_REFERENCE_KIT_AR.md');
  assert.match(guide,/A915B64D[\s\S]*لم يعد صالحاً/u);assert.ok(guide.includes('157فحص وصول قديم مقابل181'));
  assert.doesNotMatch(guide,/\$referenceExpectedSha|Copy-Item|Move-Item/u);

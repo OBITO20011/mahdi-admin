@@ -1,0 +1,51 @@
+--- DB219/_get_cash_shift_closing_report_before_snapshot
++++ quarantined-phase1/_get_cash_shift_closing_report_before_snapshot
+@@ -20,0 +21,4 @@
++  IF EXISTS(SELECT 1 FROM sales_lite1.shifts WHERE shift_id=p_shift_id) THEN
++    PERFORM sales_lite1.owner();
++    RETURN sales_lite1.closing_report(p_shift_id);
++  END IF;
+--- DB219/enqueue_stock_automation_event
++++ quarantined-phase1/enqueue_stock_automation_event
+@@ -6,0 +7 @@
++  IF sales_lite1.enabled() THEN RETURN NEW;END IF;
+--- DB219/get_cash_shift_summary
++++ quarantined-phase1/get_cash_shift_summary
+@@ -6,0 +7 @@
++ result:=sales_lite1.adjust_shift(result,p_shift_id);
+--- DB219/phase42_order_financial_position_internal
++++ quarantined-phase1/phase42_order_financial_position_internal
+@@ -8 +8 @@
+-          AND event.contract_version = 401), 0)::BIGINT AS prior_debt,
++          AND event.contract_version = 401), 0)::BIGINT + COALESCE((SELECT sum(r.debt_reduction) FROM sales_lite1.returns r WHERE r.order_id=customer_order.id),0)::BIGINT AS prior_debt,
+@@ -11 +11 @@
+-          AND event.contract_version = 401), 0)::BIGINT AS prior_refunds
++          AND event.contract_version = 401), 0)::BIGINT + COALESCE((SELECT sum(r.money_refund) FROM sales_lite1.returns r WHERE r.order_id=customer_order.id),0)::BIGINT AS prior_refunds
+--- DB219/phase6_financial_facts_before208_internal
++++ quarantined-phase1/phase6_financial_facts_before208_internal
+@@ -199 +199 @@
+-        - COALESCE(d.amount, 0), 0)::BIGINT END AS outstanding
++        - COALESCE(d.amount, 0) - COALESCE((SELECT sum(r.debt_reduction) FROM sales_lite1.returns r WHERE r.order_id=o.id),0), 0)::BIGINT END AS outstanding
+--- DB219/populate_order_item_cost_snapshot
++++ quarantined-phase1/populate_order_item_cost_snapshot
+@@ -12 +12 @@
+-  IF v_operation_type = 'phase3_customer_reservation_v1' THEN
++  IF v_operation_type = 'phase3_customer_reservation_v1' OR sales_lite1.is_order(NEW.order_id) THEN
+--- DB219/run_advanced_monitoring_checks
++++ quarantined-phase1/run_advanced_monitoring_checks
+@@ -117 +117 @@
+-    WHERE o.status IN ('completed','returned')
++    WHERE o.status IN ('completed','returned') AND NOT sales_lite1.is_order(o.id)
+@@ -130 +130 @@
+-    WHERE o.status IN ('completed','returned')
++    WHERE o.status IN ('completed','returned') AND NOT sales_lite1.is_order(o.id)
+@@ -195,0 +196 @@
++    WHEN sales_lite1.is_order(customer_order.id) THEN item.unit_cost_in_minor_units<>0 OR item.cogs_in_minor_units<>0 OR item.profit_in_minor_units<>0 OR item.cost_finalized_at IS NOT NULL OR item.exact_cogs_snapshot_in_minor_units IS NOT NULL OR item.unit_cost_snapshot_in_minor_units_exact IS NOT NULL
+@@ -496,0 +498,3 @@
++  v_count:=sales_lite1.integrity_count();
++  v_total_integrity:=v_total_integrity+v_count;
++  PERFORM public._set_advanced_monitoring_check('integrity:lite1:evidence','orders','database',CASE WHEN v_count=0 THEN 'healthy' ELSE 'critical' END,'critical',v_count,'سلامة المبيعات بلا تتبع مخزون',jsonb_build_object('mismatchCount',v_count),p_observed_at);
+--- DB219/sync_stock_alert
++++ quarantined-phase1/sync_stock_alert
+@@ -10,0 +11 @@
++  IF sales_lite1.enabled() THEN RETURN;END IF;
