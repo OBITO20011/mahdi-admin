@@ -1,9 +1,11 @@
+import {fetchAccountingHome} from '../../services/supabase/reportingDispatch.service';
+import type {SalesOnlyHomeData} from '../../services/supabase/salesOnlyHome.service';
 import type {OperatingMode} from '../../services/supabase/operatingMode.service';
 import {SalesOnlyDashboardView} from './SalesOnlyDashboardView';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { AlertCircle, RefreshCw } from 'lucide-react';
 import { Card, UiButton } from '../../components/ui';
-import { fetchHomeDashboardFromSupabase, subscribeToDashboardRealtime } from '../../services/supabase/dashboard.service';
+import { subscribeToDashboardRealtime } from '../../services/supabase/dashboard.service';
 import { useAppStoreActions, useAppStoreSelector } from '../../stores/useAppStore';
 import type { HomeDashboardData } from '../../types/dashboard';
 import {useAuthStore} from '../../stores/useAuthStore';
@@ -12,8 +14,9 @@ import {canReadSalesHistory} from '../../utils/salesHistory';
 import {SalesInvoiceDialog} from '../salesHistory/SalesInvoiceDialog';
 import { DashboardHome } from './DashboardHome';
 
-export const DashboardView:React.FC<{operatingMode?:OperatingMode}>=({operatingMode='full'})=>operatingMode==='sales-only'?<SalesOnlyDashboardView/>:<FullDashboardView/>;
+export const DashboardView:React.FC<{operatingMode?:OperatingMode}>=({operatingMode='full'})=>{const {user}=useAuthStore(),actor=user?.id??'',branch=useAppStoreSelector(s=>s.activeBranch.id);return operatingMode==='sales-only'?<SalesOnlyDashboardView/>:<FullDashboardView key={actor+':'+branch}/>;};
 const FullDashboardView: React.FC = () => {
+  const branchId=useAppStoreSelector(state=>state.activeBranch.id);
   const currentUserName = useAppStoreSelector((state) => state.currentUser.name);
   const currentShift = useAppStoreSelector((state) => state.currentShift);
   const { openModal, setActiveTab } = useAppStoreActions();
@@ -22,7 +25,7 @@ const FullDashboardView: React.FC = () => {
   const salesHistory=useSalesHistory({page:1,pageSize:5,period:'day',salesOnly:true},canReadSales,user?.id);
   const [invoiceId,setInvoiceId]=useState<string|null>(null);
   useEffect(()=>{setInvoiceId(null);},[user?.id,canReadSales]);
-  const [data, setData] = useState<HomeDashboardData | null>(null);
+  const [data, setData] = useState<HomeDashboardData|SalesOnlyHomeData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [realtimeConnected, setRealtimeConnected] = useState(false);
@@ -40,21 +43,14 @@ const FullDashboardView: React.FC = () => {
       if (mountedRef.current) setError(null);
       do {
         queuedRefreshRef.current = false;
-        const result = await fetchHomeDashboardFromSupabase();
-        if (!mountedRef.current) return;
-        if (result.success) {
-          setData(result.data);
-          setError(null);
-        } else if ('error' in result) {
-          setError(result.error);
-        }
+        try{const result=await fetchAccountingHome(branchId);if(!mountedRef.current)return;setData(result);setError(null);}catch{if(!mountedRef.current)return;setData(null);setError('تعذر التحقق من مركز اليوم. أعد القراءة؛ لا تعتمد أرقاماً ناقصة. (REPORTING-01)');}
       } while (queuedRefreshRef.current && mountedRef.current);
       if (!silent && mountedRef.current) setLoading(false);
     };
     const promise = refresh().finally(() => { refreshPromiseRef.current = null; });
     refreshPromiseRef.current = promise;
     return promise;
-  }, []);
+  }, [branchId]);
 
   useEffect(() => {
     mountedRef.current = true;

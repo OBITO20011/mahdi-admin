@@ -67,6 +67,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ data, currentUserN
         <div className="mt-2"><SegmentedControl<'day'|'week'|'month'> touchSize label="فترة المبيعات" value={period} onChange={setPeriod} options={[{value:'day',label:'اليوم'},{value:'week',label:'الأسبوع'},{value:'month',label:'الشهر'}]}/></div>
       </section>
       <div className="space-y-3 px-4 pb-8 lg:space-y-5 lg:px-8">
+        {'historyWithoutCost' in data&&data.historyWithoutCost&&<Card role="status">الفترة تشمل مبيعات قبل تفعيل المخزون بلا تكلفة. إجماليات البيع والتحصيل والذمم كاملة؛ الربح غير متاح لهذه الفترة.</Card>}
         {error&&<p role="alert" className="rounded-xl bg-nw-bad-bg p-3 text-sm text-nw-bad">تعذر التحديث: {error}</p>}
         {!available&&!loading&&!error&&<p role="status" className="rounded-xl bg-nw-warn-bg p-3 text-sm text-nw-warn">الأرقام المالية غير متاحة حالياً؛ أعد المحاولة أو راجع التقارير.</p>}
         <div data-testid="home-kpis">

@@ -3,7 +3,7 @@ import {parseCustomerCollections} from '../../utils/customerCollections';
 import type {HomeDashboardData,HomeDashboardSummary,HomeDashboardSalesDay} from '../../types/dashboard';
 
 export interface SalesOnlyHomeData {
- accountingTracked:false;generatedAt:string;financialFactsAvailable:true;
+ accountingTracked:false;historyWithoutCost?:true;generatedAt:string;financialFactsAvailable:true;
  summary:Pick<HomeDashboardSummary,'todayCollections'|'todayCashCollectedInMinorUnits'|'todayCliqCollectedInMinorUnits'|'todaySalesInMinorUnits'|'todayCompletedOrders'|'monthSalesInMinorUnits'|'monthNetSalesInMinorUnits'|'customerReceivablesInMinorUnits'|'activeProductsCount'|'activeCustomersCount'>;
  sevenDaySales:HomeDashboardSalesDay[];orderStatuses:HomeDashboardData['orderStatuses'];latestOrders:HomeDashboardData['latestOrders'];chequeAlerts:{due:number;overdue:number};
 }

@@ -33,7 +33,12 @@ export function SalesOnlyReportsView(){
   </FormFields>
   {loading&&<p role="status">جارٍ قراءة التقرير…</p>}
   {!loading&&!data&&<p role="alert">تعذر التحقق من التقرير. راجع الفترة والاتصال وأعد القراءة؛ لا تعتمد أرقاماً ناقصة. (SREP-01)</p>}
-  {data&&<>
+  {data&&<SalesOnlyReportContent data={data}/>}
+
+ </div>;
+}
+
+export function SalesOnlyReportContent({data}:{data:SalesOnlyBusinessReport}){return <>
    <Card><dl className="grid grid-cols-2 gap-4 sm:grid-cols-3">
     {([['إجمالي المبيعات',data.sales.grossSalesInMinorUnits],['استحقاق المرتجعات',data.sales.returnEntitlementInMinorUnits],['صافي المبيعات',data.sales.netSalesInMinorUnits],['رسوم التوصيل',data.sales.deliveryFeesInMinorUnits],['ذمم العملاء الحالية',data.balances.customerDueInMinorUnits],['المصروفات',data.expenses.totalInMinorUnits]] as const).map(([label,value])=><div key={label}><dt className="text-sm text-nw-muted">{label}</dt><dd className="m-0 font-bold">{money(value)}</dd></div>)}
    </dl><p className="mt-3 text-xs text-nw-muted">الفواتير المكتملة: {data.sales.completedOrderCount}. الذمم رصيد حالي؛ حركات الفترة لا تعني تحصيل فواتير الفترة نفسها.</p></Card>
@@ -42,6 +47,4 @@ export function SalesOnlyReportsView(){
     {([['تخفيض دين بمرتجع',data.sales.debtReductionInMinorUnits],['مبالغ مرتجعة',data.sales.refundsInMinorUnits],['مرتجعات كاش',data.cashFlow.cashRefundedInMinorUnits],['مرتجعات CliQ',data.cashFlow.cliqRefundedInMinorUnits],['مصروفات كاش',data.expenses.cashInMinorUnits],['مصروفات CliQ',data.expenses.cliqInMinorUnits]] as const).map(([label,value])=><div key={label}><dt className="text-sm text-nw-muted">{label}</dt><dd className="m-0 font-bold">{money(value)}</dd></div>)}
    </dl></Card>
    <Card><h3 className="font-bold">المبيعات اليومية</h3><DataTable caption="المبيعات اليومية" style={{minWidth:400}}><thead><Tr><Th>اليوم</Th><Th>الفواتير</Th><Th>صافي المبيعات</Th></Tr></thead><tbody>{data.dailyBreakdown.map(d=><Tr key={d.date}><Td>{d.date}</Td><Td>{d.completedOrderCount}</Td><Td>{money(d.netSalesInMinorUnits)}</Td></Tr>)}</tbody></DataTable></Card>
-  </>}
- </div>;
-}
+</>;}

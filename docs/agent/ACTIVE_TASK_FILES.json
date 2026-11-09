@@ -7,11 +7,11 @@
     },
     {
       "code": " M",
-      "path": "e2e/package-f-orders-harness.tsx"
+      "path": "scripts/audit/sales-only-phase2-source-pins.json"
     },
     {
       "code": " M",
-      "path": "scripts/audit/sales-only-phase2-source-pins.json"
+      "path": "scripts/testing/sales-only-phase2-epoch-runtime.mjs"
     },
     {
       "code": " M",
@@ -19,19 +19,31 @@
     },
     {
       "code": " M",
-      "path": "scripts/testing/sales-only-phase2-lifecycle-runtime.mjs"
+      "path": "src/features/dashboard/DashboardHome.tsx"
     },
     {
       "code": " M",
-      "path": "src/features/orders/OrderDetailModal.tsx"
+      "path": "src/features/dashboard/DashboardView.tsx"
     },
     {
       "code": " M",
-      "path": "src/services/supabase/orders.service.ts"
+      "path": "src/features/reports/ReportsCenterView.tsx"
     },
     {
       "code": " M",
-      "path": "src/services/supabase/salesOnlyOrderTransition.ts"
+      "path": "src/features/reports/SalesOnlyReportsView.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/services/supabase/dashboard.service.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/services/supabase/reports.service.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/services/supabase/salesOnlyHome.service.ts"
     },
     {
       "code": " M",
@@ -39,27 +51,19 @@
     },
     {
       "code": "??",
-      "path": "docs/design/sales-only-phase2/OPERATIONAL_ORDERS_PROOF_AR.md"
+      "path": "docs/design/sales-only-phase2/reporting-dispatch.sql"
     },
     {
       "code": "??",
-      "path": "docs/design/sales-only-phase2/operational-orders.sql"
+      "path": "e2e/sales-only-phase2-mixed-history.spec.ts"
     },
     {
       "code": "??",
-      "path": "e2e/sales-only-phase2-delivery.spec.ts"
+      "path": "src/services/supabase/reportingDispatch.service.ts"
     },
     {
       "code": "??",
-      "path": "src/services/supabase/operatingOrdersPage.ts"
-    },
-    {
-      "code": "??",
-      "path": "src/services/supabase/salesOnlyDelivery.ts"
-    },
-    {
-      "code": "??",
-      "path": "tests/sales-only-phase2-operations.test.ts"
+      "path": "tests/sales-only-phase2-mixed-history.test.ts"
     }
   ]
 }
