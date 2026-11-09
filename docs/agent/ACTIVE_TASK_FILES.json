@@ -3,11 +3,7 @@
   "files": [
     {
       "code": " M",
-      "path": "e2e/package-e-closing-harness.tsx"
-    },
-    {
-      "code": " M",
-      "path": "e2e/phase6-package-a-harness.tsx"
+      "path": "e2e/package-f-products-harness.tsx"
     },
     {
       "code": " M",
@@ -15,27 +11,15 @@
     },
     {
       "code": " M",
-      "path": "scripts/testing/sales-only-phase2-return-runtime.mjs"
+      "path": "scripts/testing/sales-only-phase2-epoch-runtime.mjs"
     },
     {
       "code": " M",
-      "path": "src/features/shifts/CashFlowSummary.tsx"
+      "path": "src/components/modals/AllModals.tsx"
     },
     {
       "code": " M",
-      "path": "src/features/shifts/ShiftClosingReportModal.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/features/shifts/ShiftsView.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/services/supabase/expenses-shifts.service.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/aftercare215-closing.test.ts"
+      "path": "src/features/products/ProductFormModal.tsx"
     },
     {
       "code": " M",
@@ -43,27 +27,15 @@
     },
     {
       "code": "??",
-      "path": "docs/design/sales-only-phase2/SHIFT_REPORT_PROOF_AR.md"
+      "path": "docs/design/sales-only-phase2/PRODUCT_FORM_PROOF_AR.md"
     },
     {
       "code": "??",
-      "path": "e2e/sales-only-phase2-closing.fixture.ts"
+      "path": "e2e/sales-only-phase2-product-form.spec.ts"
     },
     {
       "code": "??",
-      "path": "e2e/sales-only-phase2-closing.spec.ts"
-    },
-    {
-      "code": "??",
-      "path": "src/features/shifts/SalesOnlyShiftClosingReportModal.tsx"
-    },
-    {
-      "code": "??",
-      "path": "src/services/supabase/salesOnlyShiftReport.ts"
-    },
-    {
-      "code": "??",
-      "path": "tests/sales-only-phase2-closing.test.ts"
+      "path": "scripts/testing/sales-only-phase2-product-definitions.mjs"
     }
   ]
 }

@@ -24,6 +24,7 @@ document.documentElement.classList.toggle('theme-light',theme==='light');
 document.documentElement.classList.toggle('theme-dark',theme==='dark');document.documentElement.dataset.theme=theme;
 if(!supabase||!['localhost','127.0.0.1','[::1]'].includes(new URL(import.meta.env.VITE_SUPABASE_URL ?? '').hostname))throw Error('Products preview requires loopback');
 supabase.auth.getUser=async()=>({data:{user:{id:'88888888-8888-4888-8888-000000000098'}},error:null}) as Awaited<ReturnType<NonNullable<typeof supabase>['auth']['getUser']>>;
+if(params.has('sales-only'))supabase.auth.getSession=async()=>({data:{session:{user:{id:'88888888-8888-4888-8888-000000000098'},access_token:'isolated-local-only'}},error:null}) as Awaited<ReturnType<NonNullable<typeof supabase>['auth']['getSession']>>;
 const warehouseId='88888888-8888-4888-8888-000000000099',familyId=inventoryProducts[4].id;
 const rows=inventoryProducts.slice(0,7).map((p,i)=>({...p,warehouse_id:warehouseId,image_url:'',
  name_ar:i===4?'عائلة شيبس بنكهاته':i===5?'شيبس جبنة':i===6?'شيبس فلفل':p.name_ar,
@@ -80,7 +81,7 @@ function Harness(){
   {params.has('realDialogs') && <UiButton onClick={()=>storeEngine.openModal('view_product',chosen)}>تفاصيل الصنف الفعلية</UiButton>}
   <ProductsView operatingMode={params.has('sales-only')?'sales-only':'full'}/>
   {params.has('realDialogs') ? <AllModals operatingMode={params.has('sales-only')?'sales-only':'full'}/> : <Modal isOpen={Boolean(form||detail||stock||parcel)} onClose={close} title={title} maxWidth="max-w-2xl">
-   {form?<ProductFormModal initialProduct={modal==='edit_product'?target:undefined} onClose={close}/>:detail?<ProductDetailModal product={target} onClose={close} operatingMode={params.has('sales-only')?'sales-only':'full'} modeVerified={!params.has('unverified')}/>:stock?<StockAdjustmentModal product={chosen} onClose={close}/>:parcel?<ParcelConfigurationModal/>:null}
+   {form?<ProductFormModal initialProduct={modal==='edit_product'?target:undefined} onClose={close} operatingMode={params.has('sales-only')?'sales-only':'full'} modeVerified={!params.has('unverified')}/>:detail?<ProductDetailModal product={target} onClose={close} operatingMode={params.has('sales-only')?'sales-only':'full'} modeVerified={!params.has('unverified')}/>:stock?<StockAdjustmentModal product={chosen} onClose={close}/>:parcel?<ParcelConfigurationModal/>:null}
   </Modal>}
  </main>;
 }

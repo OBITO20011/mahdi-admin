@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner9Nov phase2:additive sales-only build above85;reuse existing UI/pure calculation helpers;opening epoch included;quarantined SQL/Draft PR/fullCI only.",
-  "baselineSha": "09d837a6726d4c084043425d7f7d5bbd25061da0",
+  "baselineSha": "10ea1db132561d52cbd9babcf6e8bd8cd4f105db",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase2",
   "phase": "SALES_ONLY_PHASE2",
@@ -31,7 +31,8 @@
     "ExistingdurableGuestLifecycle capturesliteflag/from immutableoperationtype;actualTS→PG4fullfinancialcomparisons,lostreply samekey/body/route,replayzeroRPC,cancel explicitlynottracked,stabletransitionidentity.58units/types/lint/14ChromiumWebKitPASS;PG4groups/636/integrity0/network0/cleanuptrue. FullOrderUI/deliverymetadata pending.",
     "Aftercare/H1 UI+immutable context:11units/types/strictlint/4touchChromiumWebKit;PGreturn8comparisons5groups+guest4groups/628636/integrity0/network0/cleanuptrue. Existingdurable return recovery capturedmode;customer card preserved/proposalonly;canonicaldue read. RESTembeddedrelation/rootintegration stillpending.",
     "Navigation policy+modecontrol foundation:14units/types/strictlint;57browserPASS2preexistingconditionalSkips;full nav/history regression retained. Owner+AAL2one OFF mutation/no automaticretry;ON onlyepoch. Exact historical path inverse repaired,newfileabsence+unknownbyte guards11PASS. ActualAppnotwiredyet.",
-    "Lite immutable shift closing reader/view reuses original closing/drawer/printing;no zero-filled full sections.27units/types/strictlint/10full-litebrowser+2changedUI PASS;realPG6groups8returncomparisons,actualmapper/closedcashrefunds/fils/snapshotstableafterepoch/malformedrefused;integrity0/636/network0/cleanuptrue. No bridge/SQL change."
+    "Lite immutable shift closing reader/view reuses original closing/drawer/printing;no zero-filled full sections.27units/types/strictlint/10full-litebrowser+2changedUI PASS;realPG6groups8returncomparisons,actualmapper/closedcashrefunds/fils/snapshotstableafterepoch/malformedrefused;integrity0/636/network0/cleanuptrue. No bridge/SQL change.",
+    "ProductForm reused:lite hides purchase/cost/profit/stock;new product zero cost/stock;edit retains oldcost/thresholds inclconflict;modepre/postawait gates.86browser full+lite/type/lint/20units/27historyPASS. Existing219writers actual product+2flavors andoldcost/WAC preservation PG6groupsPASS;epoch6rows526ms/integrity0/636/network0/cleanuptrue."
   ],
   "inProgress": [
     "Wire central verifiedmode intoApp/nav andremainingexistingUI;productflavor switches/storecatalog/receipt/returns/import/simple reports/openingUI+scale/FULLCI."
@@ -56,7 +57,8 @@
     "LIFECYCLE_ADAPTER:58units/types/strictlint;actualTS→PG4groups/4moneycomparisons;14browser full+litePASS",
     "AFTERCARE_CONTEXT_PASS5PGgroups8comparisons;RECIPIENT_PROPOSAL_PASS4groups;11units/types/strictlint/4browser",
     "NAVIGATION14units/types/strictlint;57browser2existingconditionalSkips;history11PASS",
-    "SHIFT_REPORT27units/types/lint;10browser+2affected;PG6groups/8comparisonsPASS"
+    "SHIFT_REPORT27units/types/lint;10browser+2affected;PG6groups/8comparisonsPASS",
+    "PRODUCT_FORM86browser/types/lint/20units/27history;PRODUCT_DEFINITIONS_PASS6groups"
   ],
   "testsRemaining": [
     "CentralApp/navigation/product/store/import/receipt/returns/simple reports/openingUI+scale/mobile/FULLCI"
@@ -73,12 +75,12 @@
     "No owner/env edits;no Docker factory reset or unknown volume deletion",
     "628original function bodies frozen;8exact approved patches only"
   ],
-  "nextExactAction": "Commit/push verified closing report;then mode-aware ProductForm and GoLive workbook/import/checker;root nav/safe reports/storecatalog/epochUI+scale/FULLCI stillpending.",
-  "checkpointedAt": "2026-11-09T15:41:05.900Z",
+  "nextExactAction": "Commit/push verified ProductForm milestone;next mode-aware GoLive workbook/parser/checker,then root/safe reports/storecatalog/epochUI scale/FULLCI.",
+  "checkpointedAt": "2026-11-09T16:24:07.506Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 16,
-  "filesTouchedManifestSha256": "084a7167f00b9013f04d28b82a576b2bdebc7d43e156ff70ee31cc0c34a5c290",
-  "workingTreeFingerprint": "1B461F3DE5F4866C35344CF4254170DD3F17024051E641B027C2436010EE710C"
+  "filesTouchedCount": 9,
+  "filesTouchedManifestSha256": "cf376658a6763066087707db06d9a05e0ee9b03ea4ea7ceaea537bca8c599e81",
+  "workingTreeFingerprint": "9A7EA53BC10198D4832B85B40A4F75CE9DF806232D7BA0CBD59E78C5CB1B447B"
 }

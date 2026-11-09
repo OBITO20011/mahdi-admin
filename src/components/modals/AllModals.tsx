@@ -83,17 +83,17 @@ export const AllModals: React.FC<{operatingMode?:OperatingMode;modeVerified?:boo
         isOpen={currentModal === 'add_product' || currentModal === 'edit_product'}
         onClose={closeModal}
         title={currentModal === 'edit_product' ? 'تعديل بطاقة المنتج' : 'إضافة منتج جديد'}
-        subtitle="عرّف طرد الشراء وطرد بيع الجملة وحدود المخزون"
+        subtitle={operatingMode==='sales-only'?'عرّف المنتج وطرق بيعه ونكهاته؛ التوفر يُضبط يدوياً':'عرّف طرد الشراء وطرد بيع الجملة وحدود المخزون'}
       >
-        <ProductFormModal initialProduct={productFormInitialProduct} onClose={closeModal} />
+        <ProductFormModal initialProduct={productFormInitialProduct} onClose={closeModal} operatingMode={operatingMode} modeVerified={modeVerified} />
       </Modal>
 
       {/* 2. View Product Details Modal */}
       <Modal
         isOpen={currentModal === 'view_product' && isProductModalPayload(modalData)}
         onClose={closeModal}
-        title="تفاصيل الصنف والمخزون"
-        subtitle="عرض الأسعار والكميات والمستودع"
+        title={operatingMode==='sales-only'?'تفاصيل الصنف':'تفاصيل الصنف والمخزون'}
+        subtitle={operatingMode==='sales-only'?'الأسعار والنكهات والتوفر اليدوي':'عرض الأسعار والكميات والمستودع'}
       >
         {currentModal === 'view_product' && isProductModalPayload(modalData) && (
           <ProductDetailModal product={modalData} onClose={closeModal} operatingMode={operatingMode} modeVerified={modeVerified} />
