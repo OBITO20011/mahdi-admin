@@ -1,21 +1,19 @@
 import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
-import {readFile} from 'node:fs/promises';
 import {performance} from 'node:perf_hooks';
 import {setTimeout} from 'node:timers/promises';
 import {executeInput} from '../operations/build-empty-supabase.mjs';
-import {bridgeSql,assertFrozenFunctions} from './sales-only-phase1-bridges.mjs';
+import {assertFrozenFunctions} from './sales-only-phase1-bridges.mjs';
 import {functionCatalogSql} from './sales-only-phase1-runtime.mjs';
-import {commercialSql} from './sales-only-phase2-commercial.mjs';
-import {returnSql} from './sales-only-phase2-returns.mjs';
-import {statementSql} from './sales-only-phase2-statement.mjs';
+import {phase2PrototypeSql} from './sales-only-phase2-installer.mjs';
+import {tsImport} from 'tsx/esm/api';
 import {returnPayload215} from './aftercare215-return-cases.mjs';
 import {readApplicationFingerprint} from './backup-restore-contract.mjs';
 
 export async function verifyOpeningEpoch(c,report){
  const {sql,json,rpc,id,q,j,executor}=c,key=()=>randomUUID(),branch=id(200),warehouse=id(201),pid=id(103);
- const before=await json(functionCatalogSql),read=n=>readFile(new URL('../../docs/design/sales-only-phase'+n,import.meta.url),'utf8');
- await sql(`BEGIN;SELECT set_config('nawasrah.sales_lite1_test','OWNED_LOCAL_DB219',true);SELECT set_config('nawasrah.sales_lite2_test','OWNED_LOCAL_DB219',true);${await read('1/prototype.sql')}\n${bridgeSql(before)}\n${commercialSql(before)}\n${await read('2/pos-writer.sql')}\n${await read('2/guest-writer.sql')}\n${await read('2/guest-lifecycle.sql')}\n${await read('2/operating-mode.sql')}\n${returnSql(before)}\n${statementSql(before)}\n${await read('2/opening-epoch.sql')}\n${await read('2/entrypoints.sql')}COMMIT;`);
+ const before=await json(functionCatalogSql);
+ await sql(phase2PrototypeSql(before));
  assertFrozenFunctions(before,await json(functionCatalogSql));
  const fail=async(call,pattern)=>{let error;try{await rpc(call);}catch(e){error=e;}assert.ok(error,'EXPECTED_EPOCH_REFUSAL');assert.match(error.message,pattern);};
  const ownState=()=>json(`SELECT jsonb_build_object('mode',(SELECT to_jsonb(m) FROM sales_lite1.mode m),
@@ -27,6 +25,23 @@ export async function verifyOpeningEpoch(c,report){
   'openings',(SELECT jsonb_agg(to_jsonb(x) ORDER BY id) FROM public.customer_opening_balances x),'shifts',(SELECT jsonb_agg(to_jsonb(x) ORDER BY id) FROM public.cash_shifts x));`);
  await fail('lite1_set_mode(false)',/permission denied/);
  await rpc('lite1_set_mode2(false)');
+ const availability=await tsImport('../../src/services/supabase/manualAvailability.service.ts',import.meta.url);
+ const availabilityRpc=async(name,args)=>({data:await rpc(name==='lite1_product_availability2'
+  ?`lite1_product_availability2(p_product_ids:=ARRAY[${args.p_product_ids.map(q).join(',')}]::UUID[])`
+  :`lite1_set_available2(p_product:=${q(args.p_product)},p_available:=${args.p_available},p_revision:=${args.p_revision})`),error:null});
+ let manual=await availability.readManualAvailabilityWithRpc([id(100),id(101),pid],availabilityRpc);
+ assert.ok(manual.products.every(p=>p.available&&p.effectiveAvailable&&p.revision===0));
+ await availability.setManualAvailabilityWithRpc(id(100),false,0,availabilityRpc);
+ manual=await availability.readManualAvailabilityWithRpc([id(100),id(101)],availabilityRpc);
+ assert.equal(manual.products.find(p=>p.productId===id(101)).effectiveAvailable,false,'PARENT_MANUAL_FLAG_IS_INHERITED');
+ assert.equal(manual.products.find(p=>p.productId===id(101)).available,true);
+ await fail(`lite1_set_available2(${q(id(100))},true,0)`,/LITE1_AVAILABILITY_STALE/);
+ await availability.setManualAvailabilityWithRpc(id(100),true,1,availabilityRpc);
+ await fail(`lite1_set_available(${q(pid)},false,0)`,/permission denied/);
+ const acl=await json(`SELECT jsonb_build_object('anon',has_function_privilege('anon','public.lite1_product_availability2(uuid[])','EXECUTE'),
+  'service',has_function_privilege('service_role','public.lite1_set_available2(uuid,boolean,integer)','EXECUTE'));`);
+ assert.deepEqual(acl,{anon:false,service:false});
+ report.cases.push({name:'actualavailability client→PG;manualfamily/leaf inheritance+revisionCAS;oldprototype/anon/service entrypoints denied;no synthetic quantity',passed:true});
  const rows=await json(`SELECT jsonb_agg(jsonb_build_object('productId',p.id,'warehouseId',w.id,'actualQuantity',20,'unitCostInMinorUnits',500) ORDER BY p.id,w.id)
  FROM public.products p CROSS JOIN public.warehouses w JOIN public.branches b ON b.id=w.branch_id WHERE p.is_active AND NOT p.is_flavor_master AND w.is_active AND b.is_active;`);
  const notes='جرد تفعيل بعد فترة تشغيل مبسطة - بيانات وهمية';
@@ -76,6 +91,7 @@ export async function verifyOpeningEpoch(c,report){
  const activationKey=key(),call=apply(preview,activationKey),start=performance.now();
  const pair=await Promise.all([rpc(call),rpc(call)]),elapsed=performance.now()-start;
  assert.deepEqual(pair[0],pair[1]);assert.equal(pair[0].fullAccounting,true);
+ await fail(`lite1_set_available2(${q(pid)},false,0)`,/LITE1_MODE_DISABLED/);
  assert.equal((await ownState()).epochs,1);assert.equal((await ownState()).items,rows.length);
  const done=await readApplicationFingerprint(executor),donePrivate=await ownState();assert.deepEqual(await rpc(call),pair[0]);
  assert.deepEqual(await readApplicationFingerprint(executor),done,'ACTIVATION_REPLAY_ZERO_WRITES');assert.deepEqual(await ownState(),donePrivate);

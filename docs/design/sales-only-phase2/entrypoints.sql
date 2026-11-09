@@ -3,3 +3,4 @@
 -- No219 entrypoint or role is changed by this quarantine-only file.
 REVOKE ALL ON FUNCTION public.lite1_set_mode(BOOLEAN),public.lite1_pos(JSONB,TEXT),public.lite1_complete(UUID,TEXT),public.lite1_return(UUID,INTEGER,TEXT,TEXT) FROM PUBLIC,anon,authenticated,service_role;
 REVOKE ALL ON FUNCTION public.lite1_guest(JSONB,TEXT) FROM PUBLIC,anon,authenticated,service_role;
+REVOKE ALL ON FUNCTION public.lite1_set_available(UUID,BOOLEAN,INTEGER) FROM PUBLIC,anon,authenticated,service_role;
