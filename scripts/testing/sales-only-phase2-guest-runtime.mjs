@@ -1,3 +1,4 @@
+import {verifyLiteStorefront} from './sales-only-phase2-storefront-runtime.mjs';
 import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
 import {assertFrozenFunctions} from './sales-only-phase1-bridges.mjs';
@@ -92,6 +93,7 @@ export async function verifyCommercialGuest(c,report){
  assert.equal(Number(await sql(`SELECT count(*) FROM public.orders WHERE idempotency_key=${q(edgeKey)};`)),1);
  assert.ok(edgeCalls.includes('/rest/v1/rpc/authorize_guest_order_gateway'));assert.ok(edgeCalls.includes('/rest/v1/rpc/finalize_guest_order_gateway'));
  report.cases.push({name:'actual Edge→local authorize→trustedmode→liteguest→finalize;Tworequestsoneorder;Turnstilemockonly,noexternalrequests;modeAAL2 enforced',passed:true});
+ await verifyLiteStorefront(c,report);
  assert.deepEqual(await inventory(),originalInventory);
  const monitor=await json('SELECT public.run_advanced_monitoring_checks();');assert.equal(monitor.integrityIssueCount,0,JSON.stringify(monitor));
  assertFrozenFunctions(rows,await json(functionCatalogSql));

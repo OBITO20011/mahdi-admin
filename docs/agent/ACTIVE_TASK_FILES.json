@@ -3,55 +3,31 @@
   "files": [
     {
       "code": " M",
-      "path": "e2e/package-f-cheques-harness.tsx"
+      "path": "scripts/testing/sales-only-phase2-guest-runtime.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/audit/sales-only-phase2-source-pins.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/source-before-product-workbook-text.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/source-before-product-workbook.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/source-before-sales-only-phase2.mjs"
-    },
-    {
-      "code": " M",
-      "path": "src/App.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/features/cheques/ChequeRegistrationForm.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/features/cheques/ChequesView.tsx"
-    },
-    {
-      "code": " M",
-      "path": "tests/sales-only-phase2.test.ts"
+      "path": "scripts/testing/sales-only-phase2-installer.mjs"
     },
     {
       "code": "??",
-      "path": "docs/design/sales-only-phase2/CHEQUES_MODE_PROOF_AR.md"
+      "path": "docs/design/sales-only-phase2/STOREFRONT_READ_PROOF_AR.md"
     },
     {
       "code": "??",
-      "path": "e2e/sales-only-phase2-cheques.spec.ts"
+      "path": "docs/design/sales-only-phase2/storefront-readers.sql"
     },
     {
       "code": "??",
-      "path": "scripts/testing/sales-only-phase2-history.mjs"
+      "path": "scripts/testing/sales-only-phase2-storefront-runtime.mjs"
     },
     {
       "code": "??",
-      "path": "tests/sales-only-phase2-history.test.ts"
+      "path": "scripts/testing/sales-only-phase2-storefront.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/sales-only-phase2-storefront.test.ts"
     }
   ]
 }
