@@ -1,3 +1,4 @@
+import {readOperatingCatalog,operatingCatalogRpc} from './operatingCatalog';
 import {
   invokePublicEdgeFunction,
   isSupabaseConfigured,
@@ -128,7 +129,7 @@ export async function previewGuestPromotionV2(
     throw new Error('إعدادات الاتصال بـ Supabase غير مكتملة.');
   }
   const normalizedPhone = customerPhone ? normalizeJordanPhone(customerPhone) : null;
-  const { data, error } = await supabase.rpc('preview_guest_promotion_v2', {
+  const { data, error } = await readOperatingCatalog(operatingCatalogRpc,'lite1_preview_guest2', {
     p_lines: lines,
     p_promotion_code: code?.trim() || null,
     p_customer_phone: normalizedPhone,

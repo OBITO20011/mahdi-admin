@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner9Nov phase2:additive sales-only build above85;reuse existing UI/pure calculation helpers;opening epoch included;quarantined SQL/Draft PR/fullCI only.",
-  "baselineSha": "ec9fca2edfebb2678f6cee31823b59fcf0b58b18",
+  "baselineSha": "9e10be4b2cb7915920a67f63fbba51373cfcffae",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase2",
   "phase": "SALES_ONLY_PHASE2",
@@ -38,10 +38,11 @@
     "ActualApp verified-mode root/nav/control wired;failedinitial blocks,failedrefresh preservescart/writesfenced. ReusedDashboardHome distinctcostfreeDTO+singleunionperiod RPC;actualday/month/collections/due parity PG8groups/8returns/636/integrity0/network0/cleanuptrue.22units/types/lint;18browser then12affected PASS,owner24hashesunchanged.",
     "OFF ChequesView reusesincoming serverpagination/writers;no supplier reads/newactions;pending full form/body/key preserved and blockedOFF.74browser cases covered:73firstPASS+1documented NET_CHANGED firstload,one same-source environmental rerunPASS.49focusedunits/type/lintPASS;whole371historical AST/hash exact inverse rejectsforgedpath/hash/query/role. Owner24hashes unchanged.",
     "Public parallel catalog/parcel/merchandising DBreads:7/9pinnedhunks,newwrapper fullJSONexact;OFF manualparent/flavor/nullquantity,no cost/stock.9units;actualPG5groupsinclEdge/H1/pricing/delivery/replay/integrity0/636/network0/cleanuptrue. Frontend/cartnotwiredyet.",
-    "Storefront/client quantity-free manual availability wired in existing cards/details/cart/mixed builder;schema2 nullquantity/freshmode reconciliation/prices retained.217storeunits/typesboth/strictlint/history11;16existingfull+C6 browser plus12new touch identities PASS across2engines/3901440 (corrected test copy/counter,original failed logs preserved).Actualmapper→PG5groups/628636/integrity0/network0/cleanuptrue;owner24hashes unchanged."
+    "Storefront/client quantity-free manual availability wired in existing cards/details/cart/mixed builder;schema2 nullquantity/freshmode reconciliation/prices retained.217storeunits/typesboth/strictlint/history11;16existingfull+C6 browser plus12new touch identities PASS across2engines/3901440 (corrected test copy/counter,original failed logs preserved).Actualmapper→PG5groups/628636/integrity0/network0/cleanuptrue;owner24hashes unchanged.",
+    "Public parallel promotion preview dispatch reuses pinned private commercial preview;fullJSON exact andmixed WAC NULL quote→actualTS mapper PASS onowned219/180;5PGgroups/628636/integrity0/network0/cleanuptrue.218storeunits/typesboth/strictlint/9guards and2actualChromiumWebKit quote→localgateway→receipt canonical5500PASS. OriginalfullRPC unchanged."
   ],
   "inProgress": [
-    "Public promotion preview still needs parallel no-WAC dispatch for mixed parcels;canonical operational lists/delivery,opening epochUI+scale,mixed history/fullCI/Draft."
+    "SEO build still stockfiltered oldcatalog;openingepochUI+scale;canonical operational lists/delivery;fullmixed report history;actual currentACL/fullCI/Draft."
   ],
   "notStarted": [
     "Remaining storefront/operational UI/epoch scale and mixed history proof",
@@ -86,12 +87,12 @@
     "No owner/env edits;no Docker factory reset or unknown volume deletion",
     "628original function bodies frozen;8exact approved patches only"
   ],
-  "nextExactAction": "Milestone storefront client PASS;next public no-WAC promotion preview dispatch,then remaining operational/epoch/mixed history and FULLCI Draft.",
-  "checkpointedAt": "2026-11-09T18:47:02.224Z",
+  "nextExactAction": "Save publicpreview PASS;then make SEO use same fail-closed operating read with localfixture SEO tests;remaining epoch/operations/mixed history/FULLCI.",
+  "checkpointedAt": "2026-11-09T18:56:00.620Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 23,
-  "filesTouchedManifestSha256": "626143cb142c37d702c93b6bbda8fac87fa8f81accf9690d782f1d6443780a9e",
-  "workingTreeFingerprint": "775C87CD4F2EB5642A56C7423206A4EE84C6AACD6A00EC7593D00C7617690B47"
+  "filesTouchedCount": 10,
+  "filesTouchedManifestSha256": "d986a01781dca1bb48f52305c411aeeab91d875338fa63a1ebabde3f2096033d",
+  "workingTreeFingerprint": "9583E24B57A7A4868D207F79B7E20DB7D1170277942E069C50FF94F37998A5F0"
 }

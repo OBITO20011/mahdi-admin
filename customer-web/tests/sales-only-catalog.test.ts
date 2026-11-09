@@ -28,3 +28,5 @@ test('families and mixed parcels retain real capacity and prices;null stock neve
 });
 
 test('fresh parcel mode clears stale no-quantity flags after opening epoch and preserves OFF explicit null',()=>{assert.deepEqual(parcelAvailabilityFields({quantityTracked:false}),{quantityTracked:false,maxAvailablePackages:null});assert.deepEqual(parcelAvailabilityFields({}),{quantityTracked:undefined,maxAvailablePackages:Number.MAX_SAFE_INTEGER});});
+
+test('public promotion preview uses same arguments and only exact missingRPC falls back',async()=>{const args={p_lines:[{commercial_line_kind:'base_unit',product_id:'a',base_quantity:1}],p_customer_phone:'0790000000',p_promotion_code:'TEST'};const calls:unknown[]=[];await readOperatingCatalog(async(name,input)=>{calls.push([name,input]);return name==='lite1_preview_guest2'?{data:null,error:{code:'PGRST202',message:'public.lite1_preview_guest2'},status:404}:{data:{success:true},error:null};},'lite1_preview_guest2',args);assert.deepEqual(calls,[['lite1_preview_guest2',args],['preview_guest_promotion_v2',args]]);});

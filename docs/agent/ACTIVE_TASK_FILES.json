@@ -3,67 +3,27 @@
   "files": [
     {
       "code": " M",
-      "path": "customer-web/src/App.tsx"
+      "path": "customer-web/src/services/operatingCatalog.ts"
     },
     {
       "code": " M",
-      "path": "customer-web/src/components/CartDrawer.tsx"
+      "path": "customer-web/src/services/orders.service.ts"
     },
     {
       "code": " M",
-      "path": "customer-web/src/components/MerchandisingSections.tsx"
+      "path": "customer-web/tests/sales-only-catalog.test.ts"
     },
     {
       "code": " M",
-      "path": "customer-web/src/components/ParcelBuilderModal.tsx"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/components/ProductCard.tsx"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/components/ProductDetailsModal.tsx"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/components/ProductPurchaseControl.tsx"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/components/StoreHero.tsx"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/services/catalog.service.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/types/catalog.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/utils/cart.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/utils/catalogView.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/utils/productDetails.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/utils/storefrontUnits.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/tests/storefront-management.test.ts"
+      "path": "docs/design/sales-only-phase2/storefront-readers.sql"
     },
     {
       "code": " M",
       "path": "e2e/isolated-test.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/sales-only-phase2-storefront.spec.ts"
     },
     {
       "code": " M",
@@ -79,19 +39,7 @@
     },
     {
       "code": "??",
-      "path": "customer-web/src/services/operatingCatalog.ts"
-    },
-    {
-      "code": "??",
-      "path": "customer-web/tests/sales-only-catalog.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "docs/design/sales-only-phase2/STOREFRONT_CLIENT_PROOF_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "e2e/sales-only-phase2-storefront.spec.ts"
+      "path": "docs/design/sales-only-phase2/PUBLIC_QUOTE_PROOF_AR.md"
     }
   ]
 }

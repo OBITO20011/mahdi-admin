@@ -35,3 +35,17 @@ BEGIN
 END $$;
 REVOKE ALL ON FUNCTION public.lite1_merchandising2() FROM PUBLIC,anon,authenticated,service_role;
 GRANT EXECUTE ON FUNCTION public.lite1_merchandising2() TO anon,authenticated;
+
+-- Same public preview contract. Only OFF uses the already pinned cost-free
+-- preview;the original full RPC and its ACL/body are never modified.
+CREATE FUNCTION public.lite1_preview_guest2(p_lines JSONB,p_promotion_code TEXT DEFAULT NULL,p_customer_phone TEXT DEFAULT NULL)
+RETURNS JSONB LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=pg_catalog,public AS $$
+BEGIN
+ IF (SELECT full_accounting FROM sales_lite1.mode WHERE id) THEN RETURN public.preview_guest_promotion_v2(p_lines,p_promotion_code,p_customer_phone);END IF;
+ IF (SELECT full_accounting FROM sales_lite1.mode WHERE id) IS DISTINCT FROM false THEN RAISE EXCEPTION 'LITE2_MODE_MISSING';END IF;
+ IF jsonb_typeof(p_lines) IS DISTINCT FROM 'array' THEN RAISE EXCEPTION 'PHASE3_SALE_CONTRACT_INVALID';END IF;
+ IF jsonb_array_length(p_lines) NOT BETWEEN 1 AND 50 THEN RAISE EXCEPTION 'PHASE3_SALE_REQUEST_LIMIT_EXCEEDED';END IF;
+ RETURN sales_lite2.preview(p_lines,p_promotion_code,p_customer_phone,'guest_gateway');
+END $$;
+REVOKE ALL ON FUNCTION public.lite1_preview_guest2(JSONB,TEXT,TEXT) FROM PUBLIC,anon,authenticated,service_role;
+GRANT EXECUTE ON FUNCTION public.lite1_preview_guest2(JSONB,TEXT,TEXT) TO anon,authenticated;

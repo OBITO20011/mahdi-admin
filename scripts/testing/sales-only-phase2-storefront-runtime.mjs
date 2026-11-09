@@ -21,6 +21,12 @@ export async function verifyLiteStorefront(c,report){
  const mapped=mapper.mapCatalogItems(all.items),basicModel=mapped.find(item=>item.id===basic.id);assert.ok(basicModel);assert.equal(basicModel.isAvailable,true);
  const saved={...cart.createCartItem(basicModel),quantity:7};assert.equal(saved.maxAvailablePackages,null);assert.equal(cart.isCurrentCartItem(saved),true);assert.equal(cart.reconcileCartSnapshot([saved],mapped,[basic.id]).items[0].quantity,7);assert.equal(cart.calculateCartSubtotal([saved]),31500);
  const mappedParcel=mapper.mapPublicConfigurableParcelResponse(p);assert.equal(mappedParcel.options[0].quantityTracked,false);assert.equal(mappedParcel.options[0].components[0].availableQuantity,null);
+ const lines=[{commercial_line_kind:'base_unit',product_id:basic.id,base_quantity:3,expected_unit_price_in_minor_units:1000},{commercial_line_kind:'configurable_parcel',family_product_id:id(100),parcel_configuration_id:p.options[0].parcelConfigurationId,configuration_revision:p.options[0].configurationRevision,expected_unit_price_in_minor_units:5000,parcel_instances:[{components:[{product_id:id(101),base_quantity:2},{product_id:id(102),base_quantity:3}]}]}];
+ const args=q(JSON.stringify(lines))+"::JSONB,NULL,'0796600401'",quoteCall='lite1_preview_guest2('+args+')',quote=await rpc(quoteCall,null,'anon');
+ assert.equal(quote.merchandiseSubtotalInMinorUnits,8000);assert.equal(quote.finalMerchandiseTotalInMinorUnits,8000);
+ const decoder=await tsImport('../../customer-web/src/services/orders.service.ts',import.meta.url);assert.equal(decoder.mapGuestPromotionQuoteV2(quote).totalInMinorUnits,8000);
+ const noWac=await json(`BEGIN;UPDATE sales_lite1.mode SET full_accounting=true;UPDATE public.products SET wac_cost_in_minor_units_exact=NULL WHERE id IN(${q(id(101))},${q(id(102))});UPDATE sales_lite1.mode SET full_accounting=false;SET LOCAL ROLE anon;SELECT public.${quoteCall};ROLLBACK;`);assert.deepEqual(noWac,quote,'PUBLIC_LITE_QUOTE_NO_WAC_SAME_FINANCIAL_JSON');
+ for(const value of [null,[],Array.from({length:51},()=>lines[0])]){await assert.rejects(rpc('lite1_preview_guest2('+q(JSON.stringify(value))+'::JSONB)',null,'anon'),/PHASE3_SALE_/);}
  const merchandising=await rpc('lite1_merchandising2()',null,'anon');assert.equal(merchandising.quantityTracked,false);assert.deepEqual(merchandising.lowStock,[]);
  const publicData=JSON.stringify([all,p,merchandising]);assert.doesNotMatch(publicData,/wac|cost|supplier|customerPhone|purchase_price|session|token/i);
  assert.deepEqual(await readApplicationFingerprint(executor),fp,'PUBLIC_READERS_ZERO_WRITES');
@@ -39,6 +45,7 @@ export async function verifyLiteStorefront(c,report){
  // Full delegates the original complete public JSON,including stock quantities.
  await sql('UPDATE sales_lite1.mode SET full_accounting=true;');
  try{
+  assert.deepEqual(await rpc(quoteCall,null,'anon'),await rpc('preview_guest_promotion_v2('+args+')',null,'anon'),'FULL_QUOTE_WHOLE_JSON_UNCHANGED');
   assert.deepEqual(await catalog(),await original(),'FULL_CATALOG_ALL_JSON_UNCHANGED');
   assert.deepEqual(await parcel(),await rpc(`get_public_configurable_parcel_options(ARRAY[${q(id(100))}]::UUID[])`,null,'anon'),'FULL_PARCEL_ALL_JSON_UNCHANGED');
   assert.deepEqual(await rpc('lite1_merchandising2()',null,'anon'),await rpc('get_public_storefront_merchandising()',null,'anon'),'FULL_MERCHANDISING_ALL_JSON_UNCHANGED');
