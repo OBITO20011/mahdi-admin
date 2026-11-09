@@ -5,8 +5,10 @@ import {bridgeSql,assertFrozenFunctions} from './sales-only-phase1-bridges.mjs';
 import {functionCatalogSql} from './sales-only-phase1-runtime.mjs';
 import {commercialSql} from './sales-only-phase2-commercial.mjs';
 import {readApplicationFingerprint} from './backup-restore-contract.mjs';
+import {tsImport} from 'tsx/esm/api';
 
 export async function verifyCommercialPos(c,report){
+ const {submitPosSaleV2WithRpc}=await tsImport('../../src/services/supabase/posV2.service.ts',import.meta.url);
  const {sql,json,rpc,id,q,j,executor}=c,branch=id(200),warehouse=id(201),product=id(103);
  const before=await json(functionCatalogSql),read=name=>readFile(new URL('../../docs/design/sales-only-phase'+name,import.meta.url),'utf8');
  await sql(`BEGIN;SELECT set_config('nawasrah.sales_lite1_test','OWNED_LOCAL_DB219',true);SELECT set_config('nawasrah.sales_lite2_test','OWNED_LOCAL_DB219',true);${await read('1/prototype.sql')}\n${bridgeSql(before)}\n${commercialSql(before)}\n${await read('2/pos-writer.sql')}COMMIT;`);
@@ -22,7 +24,13 @@ export async function verifyCommercialPos(c,report){
  for(const lines of [[base],[parcel],[mixed],[base,parcel,mixed]])for(const paymentMethod of ['cash','cliq','debt','partial']){
   const partial=paymentMethod==='partial';
   const request={branchId:branch,warehouseId:warehouse,customerId:id(401),paymentMethod:partial?'debt':paymentMethod,lines,discountInMinorUnits:101,amountReceivedInMinorUnits:0,...(partial?{initialPayment:{amountInMinorUnits:500,method:'cash'}}:{})};
-  const key=randomUUID(),call=`lite1_pos2(${j(request)},${q(key)})`,result=await rpc(call);
+  const key=randomUUID();let call;
+  const outcome=await submitPosSaleV2WithRpc({...request,idempotencyKey:key,accountingMode:'sales-only'},async(name,args)=>{
+   assert.equal(name,'lite1_pos2');assert.equal(args.p_key,key);
+   call=`lite1_pos2(p_request:=${j(args.p_request)},p_key:=${q(args.p_key)})`;
+   return {data:await rpc(call),error:null};
+  });
+  assert.equal(outcome.ok,true,JSON.stringify(outcome));const result=outcome.data;
   assert.equal(result.accountingTracked,false);assert.equal(result.discountInMinorUnits,101);assert.equal(result.totalInMinorUnits,result.subtotalInMinorUnits-101);
   assert.equal(result.amountPaidInMinorUnits,paymentMethod==='debt'?0:partial?500:result.totalInMinorUnits);
   assert.equal(result.remainingInMinorUnits,result.totalInMinorUnits-result.amountPaidInMinorUnits);
@@ -32,7 +40,7 @@ export async function verifyCommercialPos(c,report){
   assert.equal(Number(await sql(`SELECT outstanding_total_in_minor_units FROM public.phase42_order_financial_position_internal(${q(result.orderId)});`)),result.remainingInMinorUnits);
   assert.deepEqual(await inventory(),stock,'NO_INVENTORY_BALANCE_MOVEMENT_RESERVATION_OR_WAC_EFFECT');sales++;
  }
- report.cases.push({name:'16real lite POS variants:three commercial kinds+combined ×cash/CliQ/debt/partial;real parcels finalized;receivables/replay correct;zero stock/cost',passed:true,sales});
+ report.cases.push({name:'actualfrontend adapter+validator→realPG16lite POSvariants:three commercial kinds+combined ×cash/CliQ/debt/partial;parcels/receivables/replay/zero stockcost',passed:true,sales});
  await rpc(`lite1_set_available(${q(product)},false,0)`);
  const request={branchId:branch,warehouseId:warehouse,customerId:id(401),paymentMethod:'cash',lines:[base],discountInMinorUnits:0};
  await fail(`lite1_pos2(${j(request)},${q(randomUUID())})`,/LITE1_UNAVAILABLE_CONFIRM_REQUIRED/);

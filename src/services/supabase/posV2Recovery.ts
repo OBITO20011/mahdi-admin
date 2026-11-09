@@ -17,6 +17,7 @@ interface Attempt {
 }
 const prefix = 'nawasrah:pos-v2:attempt:v1:';
 const rejectionIdentities = new Set([
+  'LITE1_UNAVAILABLE_CONFIRM_REQUIRED','LITE1_MODE_DISABLED',
   'POS216_INITIAL_PAYMENT_INVALID', 'POS216_SALE_CONTRACT_CHANGED',
   'PARCEL209_UNIT_SALE_FORBIDDEN','PARCEL209_FAMILY_CHANGED_RETRY',
   'CONFIGURABLE_PARCEL_DISABLED', 'PARCEL_CONFIGURATION_STALE', 'PARCEL_CAPACITY_MISMATCH',
@@ -88,14 +89,18 @@ export async function inspectOrCancelPosV2Attempt(
     const a = await validate(observedRaw, actorId);
     if (!['IN_FLIGHT', 'OUTCOME_UNKNOWN', 'CANCELLED_UNCOMMITTED'].includes(a.status)) throw review();
     const args = {p_idempotency_key: a.request.idempotencyKey, p_request_fingerprint: a.fingerprint};
-    const {data, error} = await client.rpc('get_pos_sale_attempt_state_v1', args);
+    const {data, error} = a.request.accountingMode === 'sales-only'
+      ? await client.rpc('lite1_pos2_attempt_state', args)
+      : await client.rpc('get_pos_sale_attempt_state_v1', args);
     if (error || !proofMatches(data, a)
       || !['ABSENT', 'EXISTS', 'CANCELLED_UNCOMMITTED'].includes(String(data.state))) throw review();
     if (localStorage.getItem(storageKey) !== observedRaw) throw review();
     await validate(observedRaw, actorId);
     if (!confirmed || data.state === 'EXISTS') return data.state as 'ABSENT' | 'EXISTS' | 'CANCELLED_UNCOMMITTED';
     // Recheck-and-cancel is atomic on the server; a stale ABSENT read is not sufficient.
-    const cancelled = await client.rpc('cancel_uncommitted_pos_sale_attempt_v1', {...args, p_confirmed: true});
+    const cancelled = a.request.accountingMode === 'sales-only'
+      ? await client.rpc('lite1_cancel_pos2_attempt', {...args,p_confirmed:true})
+      : await client.rpc('cancel_uncommitted_pos_sale_attempt_v1', {...args, p_confirmed: true});
     if (cancelled.error || !cancellationMatches(cancelled.data, a)
       || localStorage.getItem(storageKey) !== observedRaw) throw review();
     await validate(observedRaw, actorId);

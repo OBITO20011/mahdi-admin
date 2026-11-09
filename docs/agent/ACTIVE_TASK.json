@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner9Nov phase2:additive sales-only build above85;reuse existing UI/pure calculation helpers;opening epoch included;quarantined SQL/Draft PR/fullCI only.",
-  "baselineSha": "f764264e735bafffae359c30d6070c8790742d2f",
+  "baselineSha": "b8d77913b78662096b7df3a5dc0016e55839fc12",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase2",
   "phase": "SALES_ONLY_PHASE2",
@@ -22,10 +22,11 @@
     "Lifecycle4actual full-vs-lite cash/CliQ/debt/partial monetaryJSON+drawer parityPASS;cancel/state/reference/overpay/race/zero stock/integrity0/636guardPASS;cleanuptrue.",
     "Guestreplayroute acrossmodechangePASS:4originalfullguest replayswhileOFF,litereplayafterfixtureON,zero writes+role denial;completionparity stillPASS.",
     "Return8full-vs-lite financial/damage comparisons PASS;preview/replay/zeroentitlement/race,existingcheque collection+bounce,parallelstatement full3pagesJSON andlitecanonical parity;closedshiftdebtreturn afterfixtureON zero stock;integrity0/636/network0/cleanuptrue.37unitsPASS.",
-    "Openingepoch kernel PASS:ownerAAL2/fullcount/stale/busy/rollback guards;6rows;concurrentreplay oneepoch530.765ms;GoLive+financialallrows/IDs identical;oldlitereturnnostock afterrealactivation;fullPOS realstock/500cost;integrity0/636/network0/cleanuptrue.38units/types/strictlintPASS."
+    "Openingepoch kernel PASS:ownerAAL2/fullcount/stale/busy/rollback guards;6rows;concurrentreplay oneepoch530.765ms;GoLive+financialallrows/IDs identical;oldlitereturnnostock afterrealactivation;fullPOS realstock/500cost;integrity0/636/network0/cleanuptrue.38units/types/strictlintPASS.",
+    "ExistingPOS adapter/validator/recovery extendedwith durablemode+explicitavailabilityack;actualadapter→realPG16variantsPASS andallpriorPOSproofs;unknown/key/cancellation proofsafe;71units/types/strictlintPASS. PosView notwiredyet."
   ],
   "inProgress": [
-    "Wire existing UI andservice contracts toserver mode;imports/store/manualavailability/receipts/simple reports;opening UI+realisticscale;mobile browsers/FULLCI."
+    "Operatingmode provider andexisting UI wiring next;catalog/manualavailability/receipt/import/simple reports/openingUI+scale/mobile/FULLCI. ExistingPOS servicelayerPASS,notyetcalledbyPosView inlite."
   ],
   "notStarted": [
     "Existing mode-aware UI/import/receipt/simple reports wiring andmobile browsers",
@@ -38,7 +39,8 @@
     "Commercial18comparisons+unit9PASS",
     "Lite commercialPOS16+race/override/closePASS;unit9PASS",
     "Return+cheque+statement real219/180:4groups/8financialcomparisons;full3pagesJSON exact;37units;sourcefrozen628/636;network0/cleanuptrue",
-    "EPOCH_PASS:3actualgroups/6rows/8s RPC;failure rollback allpublictables plus private mode/evidence;normalPostgres sequencegap checked;38units/types/strictlint"
+    "EPOCH_PASS:3actualgroups/6rows/8s RPC;failure rollback allpublictables plus private mode/evidence;normalPostgres sequencegap checked;38units/types/strictlint",
+    "POS_ADAPTER_PASS actualTypeScript adapter→real21916cases;71unit inclhistory/currentdictionary+both recovery routes;types/strictlint"
   ],
   "testsRemaining": [
     "Openingepoch/activation/late returns;UI/store/import/reports/receipts;mobile Chromium+WebKit;full local+FULLCI"
@@ -55,8 +57,8 @@
     "No owner/env edits;no Docker factory reset or unknown volume deletion",
     "628original function bodies frozen;8exact approved patches only"
   ],
-  "nextExactAction": "Wire safe operatingmode client+POS validation/recovery preservingfullcontract;thenstockfreecatalog/manualavailability/UI/import/receipts/reports/openingUI+scale andmobile/FULLCI.",
-  "checkpointedAt": "2026-11-09T12:45:13.400Z",
+  "nextExactAction": "Implement verified operatingmode provider andmanualavailability readmodel,thenexistingPosView/storecatalog/UI/import/receipt/reports/openingUI+scale/mobile/FULLCI;71units+actualPOSadapterPASS.",
+  "checkpointedAt": "2026-11-09T12:56:25.304Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],

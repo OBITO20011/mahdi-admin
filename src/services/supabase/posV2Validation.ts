@@ -25,6 +25,10 @@ export function posV2RequestValid(value: unknown): value is CreatePosSaleV2Input
     || !money(value.discountInMinorUnits) || !money(value.amountReceivedInMinorUnits)
     || typeof value.idempotencyKey !== 'string' || !value.idempotencyKey.trim()
     || !Array.isArray(value.lines) || !value.lines.length) return false;
+  if (value.accountingMode !== undefined && !['full', 'sales-only'].includes(String(value.accountingMode))) return false;
+  if (value.unavailableConfirmed !== undefined && (value.accountingMode !== 'sales-only'
+    || !Array.isArray(value.unavailableConfirmed) || !value.unavailableConfirmed.every(uuid)
+    || new Set(value.unavailableConfirmed).size !== value.unavailableConfirmed.length)) return false;
   if (value.initialPayment !== undefined) {
     const initial = value.initialPayment;
     if (!object(initial) || value.paymentMethod !== 'debt' || value.amountReceivedInMinorUnits !== 0
@@ -48,6 +52,11 @@ export function posV2RequestValid(value: unknown): value is CreatePosSaleV2Input
 
 export function posV2ResultMatches(input: CreatePosSaleV2Input, value: unknown): value is PosV2SaleResult {
   if (!posV2RequestValid(input) || !object(value)) return false;
+  const lite = input.accountingMode === 'sales-only';
+  if (lite ? value.accountingTracked !== false : value.accountingTracked === false) return false;
+  if (lite && (!Array.isArray(value.unavailableConfirmed) || !value.unavailableConfirmed.every(uuid)
+    || new Set(value.unavailableConfirmed).size !== value.unavailableConfirmed.length
+    || value.unavailableConfirmed.some(id => !input.unavailableConfirmed?.includes(id)))) return false;
   const initial = input.initialPayment;
   if (initial && (!uuid(value.initialPaymentId) || value.initialPaymentMethod !== initial.method
     || !money(value.totalInMinorUnits) || initial.amountInMinorUnits >= value.totalInMinorUnits
@@ -75,11 +84,12 @@ export function posV2ResultMatches(input: CreatePosSaleV2Input, value: unknown):
       || typeof item.salePackage !== 'string' || !positive(item.quantity) || !positive(item.baseQuantity)
       || !positive(item.unitsPerSalePackage) || !money(item.unitPriceInMinorUnits)
       || !money(item.lineTotalInMinorUnits) || !money(item.allocatedDiscountInMinorUnits)
-      || !money(item.netRefundableAmountInMinorUnits) || !money(item.cogsInMinorUnits)
-      || !Number.isSafeInteger(item.profitInMinorUnits)
+      || !money(item.netRefundableAmountInMinorUnits)
+      || (lite ? item.accountingTracked !== false || 'cogsInMinorUnits' in item || 'profitInMinorUnits' in item
+        : !money(item.cogsInMinorUnits) || !Number.isSafeInteger(item.profitInMinorUnits)
+          || item.profitInMinorUnits !== item.netRefundableAmountInMinorUnits - item.cogsInMinorUnits)
       || item.lineTotalInMinorUnits !== item.unitPriceInMinorUnits * item.quantity
       || item.netRefundableAmountInMinorUnits !== item.lineTotalInMinorUnits - item.allocatedDiscountInMinorUnits
-      || item.profitInMinorUnits !== item.netRefundableAmountInMinorUnits - item.cogsInMinorUnits
       || item.baseQuantity !== item.quantity * item.unitsPerSalePackage) return false;
     const index = remaining.findIndex(line => {
       if (line.commercial_line_kind !== item.commercialLineKind) return false;

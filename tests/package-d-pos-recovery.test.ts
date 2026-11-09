@@ -278,3 +278,57 @@ test('post-read CAS substitution and a sale committing between read and cancel c
     assert.equal(readPosV2Recovery(actor)?.status, 'OUTCOME_UNKNOWN');
   }
 });
+
+// Phase2 deliberately reuses the same capture/storage/unknown-outcome engine.
+const liteInput = (): CreatePosSaleV2Input => ({...input(),accountingMode:'sales-only'});
+const liteSuccess = () => {
+  const result=success();
+  const {cogsInMinorUnits:_cost,profitInMinorUnits:_profit,...item}=result.items[0];
+  return {...result,accountingTracked:false,unavailableConfirmed:[],items:[{...item,accountingTracked:false}]};
+};
+test('sales-only result preserves all POS identities/arithmetic without fabricated cost;full contract remainsstrict',()=>{
+  assert.equal(posV2ResultMatches(liteInput(),liteSuccess()),true);
+  assert.equal(posV2ResultMatches(input(),liteSuccess()),false);
+  assert.equal(posV2ResultMatches(liteInput(),success()),false);
+  const withCost=liteSuccess();Object.assign(withCost.items[0],{cogsInMinorUnits:0,profitInMinorUnits:0});
+  assert.equal(posV2ResultMatches(liteInput(),withCost),false);
+  const bad=liteSuccess();bad.items[0].baseQuantity=9;assert.equal(posV2ResultMatches(liteInput(),bad),false);
+  const falseAck=liteSuccess();Object.assign(falseAck,{unavailableConfirmed:[actor]});assert.equal(posV2ResultMatches(liteInput(),falseAck),false);
+  assert.equal(posV2RequestValid({...liteInput(),unavailableConfirmed:[actor,actor]}),false);
+  assert.equal(posV2RequestValid({...input(),unavailableConfirmed:[actor]}),false);
+});
+test('lite lost response recovers original route/body/key evenif caller mode changes;no automatic retry',async()=>{
+  const calls:Record<string,unknown>[]=[];
+  const client=setup(async(name,parameters)=>{
+    assert.equal(name,'lite1_pos2');assert.equal('accountingMode' in (parameters.p_request as object),false);
+    assert.equal('p_lines' in parameters,false);calls.push(structuredClone(parameters));
+    return calls.length===1?{data:null,error:{message:'network timeout'}}:{data:liteSuccess(),error:null};
+  });
+  const original=liteInput();const first=await runPosV2Attempt(client,actor,'START_NEW',original);
+  assert.equal(first.ok,false);assert.equal(calls.length,1);original.accountingMode='full';
+  await assert.rejects(runPosV2Attempt(client,actor,'START_NEW',original));
+  const recovered=await runPosV2Attempt(client,actor,'RECOVER_EXISTING');assert.equal(recovered.ok,true);
+  assert.deepEqual(calls[0],calls[1]);assert.equal(readPosV2Recovery(actor)?.request.accountingMode,'sales-only');
+});
+test('lite cancellation uses matching namedRPCarguments anddurable fingerprintproof beforeallowingnewkey',async()=>{
+  const names:string[]=[];
+  const client=setup(async(name,p)=>{
+    names.push(name);
+    if(name==='lite1_pos2')return {data:null,error:{message:'network timeout'}};
+    assert.equal(typeof p.p_idempotency_key,'string');assert.equal(typeof p.p_request_fingerprint,'string');assert.equal('p_key' in p,false);
+    return {data:{state:name==='lite1_pos2_attempt_state'?'ABSENT':'CANCELLED_UNCOMMITTED',actorId:actor,
+      idempotencyKey:p.p_idempotency_key,requestFingerprint:p.p_request_fingerprint,
+      ...(name==='lite1_cancel_pos2_attempt'?{cancellationId:actor}:{})},error:null};
+  });
+  await runPosV2Attempt(client,actor,'START_NEW',liteInput());
+  assert.equal(await inspectOrCancelPosV2Attempt(client,actor,true),'CANCELLED_UNCOMMITTED');
+  assert.equal(readPosV2Recovery(actor)?.status,'CANCELLED_UNCOMMITTED');
+  assert.deepEqual(names,['lite1_pos2','lite1_pos2_attempt_state','lite1_cancel_pos2_attempt']);
+});
+test('lite keyconflict/cancellation text doesnotreplace proof orclear unknownhistory',async()=>{
+  for(const message of ['LITE1_IDEMPOTENCY_CONFLICT','PACKAGE_D_POS_ATTEMPT_CANCELLED','LITE1_MODE_DISABLED']){
+    let count=0;const client=setup(async()=>({data:null,error:++count===1?{message:'network timeout'}:{code:'P0001',message}}));
+    await runPosV2Attempt(client,actor,'START_NEW',liteInput());await runPosV2Attempt(client,actor,'RECOVER_EXISTING');
+    assert.equal(readPosV2Recovery(actor)?.status,'OUTCOME_UNKNOWN');await assert.rejects(runPosV2Attempt(client,actor,'START_NEW',liteInput()));
+  }
+});

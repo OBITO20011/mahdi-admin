@@ -78,7 +78,9 @@ function literalDictionary(source:string,name:string):Record<string,string>{
   }visit(file);assert.ok(result,'Checked-in POS dictionary must exist');return result;
 }
 test('every trusted POS identity keeps the exact service translation with POS04 and no raw-message channel',()=>{
-  const approved=literalDictionary(read('src/services/supabase/posV2.service.ts'),'knownErrors');
+  // This is a live translation-drift guard. Historical source projections
+  // belong to the chronology checks, never this current runtime comparison.
+  const approved=literalDictionary(readFileSync('src/services/supabase/posV2.service.ts','utf8'),'knownErrors');
   assert.deepEqual(posKnownRejectionCopy,approved);
   for(const [identity,copy] of Object.entries(approved))assert.equal(operatorPosRejectionMessage(identity),`${copy} مرجع: POS-04`);
   for(const identity of ['__proto__','constructor','UNKNOWN_CODE','PHASE3_POS_OPEN_SHIFT_REQUIRED: اسم 0799999999']){
