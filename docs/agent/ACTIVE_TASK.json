@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner9Nov phase2:additive sales-only build above85;reuse existing UI/pure calculation helpers;opening epoch included;quarantined SQL/Draft PR/fullCI only.",
-  "baselineSha": "8bc421d86683cf133adca090f02b898472b41709",
+  "baselineSha": "8e4dc8426fe2752a419677165414d7c97457aae0",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase2",
   "phase": "SALES_ONLY_PHASE2",
@@ -47,8 +47,8 @@
     "No owner/env edits;no Docker factory reset or unknown volume deletion",
     "628original function bodies frozen;8exact approved patches only"
   ],
-  "nextExactAction": "Build quarantined commercial POS/guest writers using provedplanner,protectedrequestrecords andsamebook;then UI/Edge/import/reports/openingepoch. No extra original bridge withoutownerapproval. Milestonepushdone.",
-  "checkpointedAt": "2026-11-09T11:17:15.129Z",
+  "nextExactAction": "Continuephase2 guestwriter/Edge/H1,returns/cheques/UI/import/reports/openingepoch;commercial18 recheck afternewprivate actor guard. POS16PASS,pushed;no originalbridge expansion.",
+  "checkpointedAt": "2026-11-09T11:29:17.572Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],

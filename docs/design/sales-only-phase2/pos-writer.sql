@@ -28,6 +28,7 @@ BEGIN
  -- in addition to the private sealed-request guard introduced by phase1.
  PERFORM pg_advisory_xact_lock(hashtext(p_key));
  replay:=sales_lite1.lock_request(p_key,'pos2',p_request);IF replay IS NOT NULL THEN RETURN replay;END IF;
+ IF EXISTS(SELECT 1 FROM public.pos_uncommitted_attempt_cancellations WHERE actor_id=auth.uid() AND idempotency_key=p_key) THEN RAISE EXCEPTION 'PACKAGE_D_POS_ATTEMPT_CANCELLED';END IF;
  bid:=(p_request->>'branchId')::UUID;wid:=(p_request->>'warehouseId')::UUID;cid:=NULLIF(p_request->>'customerId','')::UUID;
  method:=p_request->>'paymentMethod';received:=COALESCE((p_request->>'amountReceivedInMinorUnits')::BIGINT,0);
  IF method IS NULL OR method NOT IN('cash','cliq','debt') OR received<0 THEN RAISE EXCEPTION 'PHASE3_POS_PAYMENT_METHOD_INVALID';END IF;
@@ -137,3 +138,37 @@ CREATE FUNCTION public.lite1_pos2(p_request JSONB,p_key TEXT) RETURNS JSONB
 LANGUAGE sql SECURITY DEFINER SET search_path=pg_catalog,public AS $$ SELECT sales_lite2.pos(p_request,p_key) $$;
 REVOKE ALL ON FUNCTION public.lite1_pos2(JSONB,TEXT) FROM PUBLIC,anon,authenticated,service_role;
 GRANT EXECUTE ON FUNCTION public.lite1_pos2(JSONB,TEXT) TO authenticated;
+
+-- New contract adapter only. The full attempt/cancellation functions stay
+-- byte-identical; their existing immutable cancellation table is reused.
+CREATE FUNCTION public.lite1_pos2_attempt_state(p_idempotency_key TEXT,p_request_fingerprint TEXT)
+RETURNS JSONB LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog,public AS $state$
+DECLARE r sales_lite1.requests;
+BEGIN
+ PERFORM sales_lite1.owner();
+ IF p_idempotency_key IS NULL OR length(p_idempotency_key) NOT BETWEEN 16 AND 128 OR p_idempotency_key<>btrim(p_idempotency_key)
+ OR p_request_fingerprint IS NULL OR p_request_fingerprint!~'^[a-f0-9]{64}$' THEN RAISE EXCEPTION 'PACKAGE_D_POS_ATTEMPT_IDENTITY_INVALID';END IF;
+ PERFORM pg_advisory_xact_lock(hashtext(p_idempotency_key));
+ SELECT * INTO r FROM sales_lite1.requests WHERE key=p_idempotency_key;
+ IF FOUND THEN
+  IF r.actor IS DISTINCT FROM auth.uid() OR r.kind<>'pos2' OR r.result IS NULL THEN RAISE EXCEPTION 'PHASE3_IDEMPOTENCY_CONFLICT';END IF;
+  RETURN jsonb_build_object('state','EXISTS','actorId',auth.uid(),'idempotencyKey',p_idempotency_key,'requestFingerprint',p_request_fingerprint);
+ END IF;
+ RETURN public.get_pos_sale_attempt_state_v1(p_idempotency_key,p_request_fingerprint);
+END $state$;
+REVOKE ALL ON FUNCTION public.lite1_pos2_attempt_state(TEXT,TEXT) FROM PUBLIC,anon,authenticated,service_role;
+GRANT EXECUTE ON FUNCTION public.lite1_pos2_attempt_state(TEXT,TEXT) TO authenticated;
+
+CREATE FUNCTION public.lite1_cancel_pos2_attempt(p_idempotency_key TEXT,p_request_fingerprint TEXT,p_confirmed BOOLEAN)
+RETURNS JSONB LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog,public AS $cancel$
+DECLARE r JSONB;
+BEGIN
+ IF p_confirmed IS DISTINCT FROM true THEN RAISE EXCEPTION 'PACKAGE_D_POS_CANCEL_CONFIRMATION_REQUIRED';END IF;
+ r:=public.lite1_pos2_attempt_state(p_idempotency_key,p_request_fingerprint);
+ IF r->>'state'='EXISTS' THEN RAISE EXCEPTION 'PACKAGE_D_POS_ATTEMPT_COMMITTED';END IF;
+ -- Same transaction and reentrant raw-key lock: an ABSENT observation alone
+ -- never permits a new key. The original cancellation writer seals the proof.
+ RETURN public.cancel_uncommitted_pos_sale_attempt_v1(p_idempotency_key,p_request_fingerprint,true);
+END $cancel$;
+REVOKE ALL ON FUNCTION public.lite1_cancel_pos2_attempt(TEXT,TEXT,BOOLEAN) FROM PUBLIC,anon,authenticated,service_role;
+GRANT EXECUTE ON FUNCTION public.lite1_cancel_pos2_attempt(TEXT,TEXT,BOOLEAN) TO authenticated;
