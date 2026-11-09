@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner9Nov phase2:additive sales-only build above85;reuse existing UI/pure calculation helpers;opening epoch included;quarantined SQL/Draft PR/fullCI only.",
-  "baselineSha": "80db50ced51839c97c4432392e40a10c801b85c6",
+  "baselineSha": "41b4c115d8a334ce7e15cac00dbf40916450c5d9",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase2",
   "phase": "SALES_ONLY_PHASE2",
@@ -18,30 +18,31 @@
     "CommercialPOS16variantsPASS with unchangedpublic636/8bridges,zero stock/cost,realparcel finalization,partialvoucher,debt,availability override,samekeyrace,existingclose,integrity0;network0/cleanuptrue.",
     "Owner-approved repeat recovery ab62527e pushed;app startup cleanup ignoredGitlock;worktree movedoutside managedroot to C:/Users/TOP/NawasrahWorktrees/sales-only-phase2/mahdi-admin. POS cancellation/issue race and commercialactor18 recheckPASS;no activeDB.",
     "Guest writerH1/replay/race/promo/delivery/unavailable/closedstore/anon negativesPASS;pending integrity0/zero stockcost/636guard;network0/cleanuptrue. Sharednewmaterializer reusedbyPOSandguest;POSrecheckpending.",
-    "ActualEdge\u2192real localgateway/mode/litewriter/finalizer PASS twiceoneorder;ownerAAL2 required;34unitPASS;POS16+cancelrace aftershared materializerPASS;network0/cleanuptrue.",
+    "ActualEdge→real localgateway/mode/litewriter/finalizer PASS twiceoneorder;ownerAAL2 required;34unitPASS;POS16+cancelrace aftershared materializerPASS;network0/cleanuptrue.",
     "Lifecycle4actual full-vs-lite cash/CliQ/debt/partial monetaryJSON+drawer parityPASS;cancel/state/reference/overpay/race/zero stock/integrity0/636guardPASS;cleanuptrue.",
-    "Guestreplayroute acrossmodechangePASS:4originalfullguest replayswhileOFF,litereplayafterfixtureON,zero writes+role denial;completionparity stillPASS."
+    "Guestreplayroute acrossmodechangePASS:4originalfullguest replayswhileOFF,litereplayafterfixtureON,zero writes+role denial;completionparity stillPASS.",
+    "Return8full-vs-lite financial/damage comparisons PASS;preview/replay/zeroentitlement/race,existingcheque collection+bounce,parallelstatement full3pagesJSON andlitecanonical parity;closedshiftdebtreturn afterfixtureON zero stock;integrity0/636/network0/cleanuptrue.37unitsPASS."
   ],
   "inProgress": [
-    "Returnpreview/settlement using existing canonicalization andmonetaryrules+cheques;UI/import/reports/openingepoch/fullCI pending."
+    "Openingepoch tool next;then mode-aware existing UI/import/reports/receipts/browser/FULLCI. Returnwriter accepts currentwizard oneroot only;no claim of multirootbatch."
   ],
   "notStarted": [
-    "Commercial pricing/parcel/delivery/discount parity and writers",
-    "Store/Edge/POS/receipts/returns/cheques/UI/import/reports",
-    "Opening epoch after simulated months",
-    "Local full tests/Draft PR/exact fullCI/report"
+    "Openingepoch after simulatedmonths",
+    "Existing UI/import/receipt/simple reports wiring andmobile browsers",
+    "Draft PR/exact fullCI/final Arabic report"
   ],
   "testsPassed": [
     "Fresh219180 migration foundation diagnostic;628/8source+metadata guard;noegress andcleanup",
     "Approved pending-guest five-case acceptance:PASS",
     "Commercial18comparisons+unit9PASS",
-    "Lite commercialPOS16+race/override/closePASS;unit9PASS"
+    "Lite commercialPOS16+race/override/closePASS;unit9PASS",
+    "Return+cheque+statement real219/180:4groups/8financialcomparisons;full3pagesJSON exact;37units;sourcefrozen628/636;network0/cleanuptrue"
   ],
   "testsRemaining": [
-    "Commercial planner/runtime parity and fullphase2 scope incl openingepoch/UI/browser/FULLCI"
+    "Openingepoch/activation/late returns;UI/store/import/reports/receipts;mobile Chromium+WebKit;full local+FULLCI"
   ],
   "findings": [
-    "Approved monitoring bridge omits legacy pending-website reservation fallback;full phase2 needs a narrowly approved extra predicate in that SAME function."
+    "get_customer_statement192 doesnotinclude private lite returns;new parallel pinned reader adds genuine movement andkeeps canonical mismatch guard. Original functionand8bridges unchanged."
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -52,8 +53,8 @@
     "No owner/env edits;no Docker factory reset or unknown volume deletion",
     "628original function bodies frozen;8exact approved patches only"
   ],
-  "nextExactAction": "Preserveguest replayoriginalroute acrossmodechanges;thenreturns/cheques/UI/import/reports/openingepoch/FULLCI/DraftPR. Lifecycle4fullparityPASS,pushed. Noextraoriginalbridge orhosted/merge.",
-  "checkpointedAt": "2026-11-09T12:06:38.112Z",
+  "nextExactAction": "Build ownerAAL2 openingepoch tool inquarantine;preserveGoLive/debts/IDs andoldlitereturnnostock,thenexistingUI/import/reports/receipts/browser/FULLCI.",
+  "checkpointedAt": "2026-11-09T12:14:24.129Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],

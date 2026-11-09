@@ -55,7 +55,8 @@ BEGIN
    instances:=instances||jsonb_build_array(instance||jsonb_build_object('instance_id',instance_id,'components',proof_components,'configuration_revision',(line#>>'{line,configuration_revision}')::INTEGER,'units_per_parcel',(line->>'units_per_parcel')::INTEGER));
    proof_instances:=proof_instances||jsonb_build_array(instance||jsonb_build_object('instance_id',instance_id,'components',proof_components));
   END LOOP;
-  proof_lines:=proof_lines||jsonb_build_array(line||jsonb_build_object('orderItemId',item_id,'parcel_instances',proof_instances));
+  effective_price:=CASE WHEN line->>'commercial_line_kind'='legacy_single_sku_parcel' THEN public.phase4_effective_standalone_unit_price_internal(product.id,p_channel,p_phone,p_promotion) ELSE NULL END;
+  proof_lines:=proof_lines||jsonb_build_array(line||jsonb_build_object('orderItemId',item_id,'parcel_instances',proof_instances,'effectiveStandaloneUnitPriceInMinorUnits',effective_price));
   item:=jsonb_build_object('id',item_id,'productId',product.id,'productName',product.name_ar,'sku',product.sku,'commercialLineKind',line->>'commercial_line_kind',
    'quantity',(line->>'commercial_quantity')::INTEGER,'baseQuantity',(line->>'base_quantity')::INTEGER,'unitsPerSalePackage',(line->>'units_per_parcel')::INTEGER,'salePackage',parcel_name,
    'unitPriceInMinorUnits',(line->>'unit_price_in_minor_units')::BIGINT,'lineTotalInMinorUnits',(line->>'gross_amount_in_minor_units')::BIGINT,

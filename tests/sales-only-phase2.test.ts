@@ -5,6 +5,8 @@ import {execFileSync} from 'node:child_process';
 import {bridges,sha256} from '../scripts/testing/sales-only-phase1-bridges.mjs';
 import {sourceBeforeSalesOnlyPhase2,salesOnlyPhase2Pins} from '../scripts/audit/source-before-sales-only-phase2.mjs';
 import {untrackedPreviewSource,costOnlyPreviewFragments,guestFeatureFragment,sharedFeatureFragment} from '../scripts/testing/sales-only-phase2-commercial.mjs';
+import {liteReturnSource,returnSourceHunks} from '../scripts/testing/sales-only-phase2-returns.mjs';
+import {liteStatementSource,statementHunks} from '../scripts/testing/sales-only-phase2-statement.mjs';
 
 const root=new URL('../',import.meta.url),read=(file:string)=>readFileSync(new URL(file,root),'utf8').replaceAll('\r\n','\n');
 test('only owner-approved monitoring bridge diff changes;other7 byte-identical to85',()=>{
@@ -68,4 +70,31 @@ test('lite lifecycle uses existing orderlock/payment writer;no stock or historyw
  assert.match(sql,/o.status NOT IN\('ready','out_for_delivery'\)/);
  assert.doesNotMatch(sql,/CREATE OR REPLACE FUNCTION|inventory_movements|inventory_balances|order_inventory_reservations|UPDATE public\.business_operations/);
  assert.match(sql,/collected>total/);assert.match(sql,/PHASE3_CUSTOMER_SETTLEMENT_REFERENCE_REQUIRED/);
+});
+
+test('lite return preserves pinned215 entitlement algorithm and physical-source identity;unknown body refused',()=>{
+ const sql=read('supabase/migrations/215_inspected_aftercare_and_supplier_credit.sql');
+ const tail=sql.slice(sql.indexOf('CREATE FUNCTION public.tb215_prepare_return_internal(')),begin=tail.indexOf('AS $$')+5,end=tail.indexOf('$$;',begin);
+ const row={signature:'tb215_prepare_return_internal(jsonb)',source:tail.slice(begin,end)};
+ let expected=row.source;for(const [from,to] of returnSourceHunks)expected=expected.replace(from,()=>to);
+ assert.equal(liteReturnSource(row),expected);
+ assert.throws(()=>liteReturnSource({...row,source:row.source+'UNKNOWN'}),/RETURN_ORIGINAL_SOURCE_DRIFT/);
+ assert.match(expected,/public\.phase43_assert_return_physical_source_internal/);
+ assert.match(expected,/public\.phase42_order_financial_position_internal/);
+ const writer=read('docs/design/sales-only-phase2/returns.sql');
+ assert.doesNotMatch(writer,/CREATE OR REPLACE FUNCTION|INSERT INTO public\.(?:inventory_movements|sales_return_events)|UPDATE public\.(?:products|order_items)/);
+ assert.match(writer,/return_money_requires_shift CHECK\(money_refund=0 OR shift_id IS NOT NULL\)/);
+ assert.match(writer,/REVOKE ALL ON FUNCTION public\.lite1_return/);
+});
+
+test('parallel statement adds only provenlite movements and completiondate;canonical mismatch guard retained',()=>{
+ const sql=read('supabase/migrations/192_cheque_compensation_receivable_readers.sql');
+ const tail=sql.slice(sql.indexOf('CREATE OR REPLACE FUNCTION public.get_customer_statement(')),begin=tail.indexOf('AS $$')+5,end=tail.indexOf('$$;',begin);
+ const row={signature:'get_customer_statement(uuid,integer,integer)',source:tail.slice(begin,end)};
+ let expected=row.source;for(const [from,to] of statementHunks)expected=expected.replace(from,()=>to);
+ assert.equal(liteStatementSource(row),expected);
+ assert.match(expected,/v_evidence_total IS DISTINCT FROM v_canonical/);
+ assert.match(expected,/sales_lite1\.is_order\(r.order_id\)/);
+ assert.doesNotMatch(expected,/\b(?:INSERT|UPDATE|DELETE|TRUNCATE|ALTER)\b/u);
+ assert.throws(()=>liteStatementSource({...row,source:row.source+'UNKNOWN'}),/STATEMENT_ORIGINAL_SOURCE_DRIFT/);
 });
