@@ -49,3 +49,15 @@ test('private preview keeps pinned commercial body;3cost fragments and exact sha
  assert.match(plan,/public\.phase2_allocate_largest_remainder_internal/);
  assert.match(plan,/public\.parcel209_effective_only_internal/);
 });
+test('guest writer preservescard/defaultaddress;newwriters share one parcel materializer',()=>{
+ const guest=read('docs/design/sales-only-phase2/guest-writer.sql');
+ assert.doesNotMatch(guest,/UPDATE public\.(?:customers|customer_addresses)|DELETE FROM public\.(?:customers|customer_addresses)/u);
+ assert.match(guest,/lat IS NOT NULL,false\)/);
+ assert.match(guest,/sales_lite2\.materialize\(oid,op,plan,'customer_v2',phone,promotion\)/);
+ const pos=read('docs/design/sales-only-phase2/pos-writer.sql');
+ assert.match(pos,/sales_lite2\.materialize\(oid,op,plan,'admin_pos'\)/);
+ assert.equal((pos.match(/CREATE FUNCTION sales_lite2.materialize/g)??[]).length,1);
+ assert.match(guest,/FOR UPDATE;END IF;[\s\S]*plan:=sales_lite2.plan/);
+ assert.match(guest,/recent>=3/);assert.match(guest,/INTERVAL '10 minutes'/i);
+ assert.doesNotMatch(guest,/UPDATE public\.business_operations|inventory_movements|order_inventory_reservations/);
+});

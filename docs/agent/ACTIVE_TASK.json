@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner9Nov phase2:additive sales-only build above85;reuse existing UI/pure calculation helpers;opening epoch included;quarantined SQL/Draft PR/fullCI only.",
-  "baselineSha": "ab62527e25f837be96ed1232d1f2bb9db02adc1a",
+  "baselineSha": "4facc4fc02f95f086b4dd3be1452699eecc35d24",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase2",
   "phase": "SALES_ONLY_PHASE2",
@@ -16,10 +16,11 @@
     "Five pending-guest acceptance cases PASS on isolated219/180,network0,cleanuptrue;full rows/checkJSON unchanged,real defects still detected,628/636 unknownbyte guardsPASS.",
     "Commercial private planner18real full comparisons PASS:12POS all line/parcel fils,6guest promoJSON/delivery;original636 unchanged;zero writes/ACL/WAC/staleprice/capacity negatives;network0/cleanuptrue.",
     "CommercialPOS16variantsPASS with unchangedpublic636/8bridges,zero stock/cost,realparcel finalization,partialvoucher,debt,availability override,samekeyrace,existingclose,integrity0;network0/cleanuptrue.",
-    "Owner-approved repeat recovery ab62527e pushed;app startup cleanup ignoredGitlock;worktree movedoutside managedroot to C:/Users/TOP/NawasrahWorktrees/sales-only-phase2/mahdi-admin. POS cancellation/issue race and commercialactor18 recheckPASS;no activeDB."
+    "Owner-approved repeat recovery ab62527e pushed;app startup cleanup ignoredGitlock;worktree movedoutside managedroot to C:/Users/TOP/NawasrahWorktrees/sales-only-phase2/mahdi-admin. POS cancellation/issue race and commercialactor18 recheckPASS;no activeDB.",
+    "Guest writerH1/replay/race/promo/delivery/unavailable/closedstore/anon negativesPASS;pending integrity0/zero stockcost/636guard;network0/cleanuptrue. Sharednewmaterializer reusedbyPOSandguest;POSrecheckpending."
   ],
   "inProgress": [
-    "Next:guest writer/EdgeH1,existing UI and receipts/returns/cheques,import/reports,openingepoch;DraftPR/FULLCI stillpending."
+    "Wiretrusted Edge mode selection;recheckPOS aftershared materializer;remaining UI/returns/cheques/openingepoch."
   ],
   "notStarted": [
     "Commercial pricing/parcel/delivery/discount parity and writers",
@@ -48,8 +49,8 @@
     "No owner/env edits;no Docker factory reset or unknown volume deletion",
     "628original function bodies frozen;8exact approved patches only"
   ],
-  "nextExactAction": "Continuephase2 guestwriter/Edge/H1,returns/cheques/UI/import/reports/openingepoch;commercial18 recheck afternewprivate actor guard. POS16PASS,pushed;no originalbridge expansion.",
-  "checkpointedAt": "2026-11-09T11:29:17.572Z",
+  "nextExactAction": "Currentroot C:/Users/TOP/NawasrahWorktrees/sales-only-phase2/mahdi-admin;branchcodex/sales-only-phase2 pushed4facc4fc. Pending5,commercial18,POS16+cancelrace PASS. Nextguestwriter/EdgeH1,UI/receipts/returns/cheques/import/reports/openingepoch. Draft/FULLCI pending,nohosted/merge.",
+  "checkpointedAt": "2026-11-09T11:41:21.522Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
