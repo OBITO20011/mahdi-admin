@@ -10,7 +10,9 @@ const page = readFileSync('src/components/PublicPosReceiptPage.tsx', 'utf8');
 test('store opens a dedicated public receipt page from an unguessable hash token', () => {
   assert.match(publicRoutes, /readUuidHash\(location\.hash, 'receipt'\)/);
   assert.match(app, /PublicPosReceiptPage/);
-  assert.match(service, /rpc\('get_public_pos_receipt'/);
+  assert.match(service, /execute\('lite1_public_pos_receipt2',args\)/);
+  assert.match(service, /result\.status===404&&result\.data==null&&result\.error\?\.code==='PGRST202'/);
+  assert.match(service, /execute\('get_public_pos_receipt',args\)/);
   assert.match(service, /\[0-9a-f\]\{8\}/);
 });
 

@@ -3,7 +3,27 @@
   "files": [
     {
       "code": " M",
-      "path": "e2e/package-f-products-harness.tsx"
+      "path": ".github/workflows/sales-only-phase1.yml"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/services/receipts.service.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/tests/public-pos-receipt.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/isolated-test.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/package-f-customers-harness.tsx"
+    },
+    {
+      "code": " M",
+      "path": "e2e/package-f-public-receipt210.spec.ts"
     },
     {
       "code": " M",
@@ -11,15 +31,15 @@
     },
     {
       "code": " M",
-      "path": "src/components/modals/AllModals.tsx"
+      "path": "scripts/testing/sales-only-phase2-installer.mjs"
     },
     {
       "code": " M",
-      "path": "src/features/products/ProductDetailModal.tsx"
+      "path": "scripts/testing/sales-only-phase2-return-runtime.mjs"
     },
     {
       "code": " M",
-      "path": "src/features/products/ProductsView.tsx"
+      "path": "src/services/supabase/customerStatement.service.ts"
     },
     {
       "code": " M",
@@ -27,15 +47,19 @@
     },
     {
       "code": "??",
-      "path": "docs/design/sales-only-phase2/PRODUCT_UI_PROOF_AR.md"
+      "path": "docs/design/sales-only-phase2/LEDGER_READERS_PROOF_AR.md"
     },
     {
       "code": "??",
-      "path": "e2e/sales-only-phase2-availability.spec.ts"
+      "path": "docs/design/sales-only-phase2/ledger-readers.sql"
     },
     {
       "code": "??",
-      "path": "src/features/operatingMode/ManualAvailabilityPanel.tsx"
+      "path": "e2e/sales-only-phase2-receipts.spec.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/sales-only-phase2-ledger-readers.test.ts"
     }
   ]
 }

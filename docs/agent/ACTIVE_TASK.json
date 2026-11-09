@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner9Nov phase2:additive sales-only build above85;reuse existing UI/pure calculation helpers;opening epoch included;quarantined SQL/Draft PR/fullCI only.",
-  "baselineSha": "0f52a9563d41dd46011fceeba98043260d8c958a",
+  "baselineSha": "b8217069fea7b437bdbaeaceb83d1fac7c90eeea",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase2",
   "phase": "SALES_ONLY_PHASE2",
@@ -26,7 +26,8 @@
     "ExistingPOS adapter/validator/recovery extendedwith durablemode+explicitavailabilityack;actualadapter→realPG16variantsPASS andallpriorPOSproofs;unknown/key/cancellation proofsafe;71units/types/strictlintPASS. PosView notwiredyet.",
     "Mode reader/controller/provider builtbutnotAppwired:strictEdge-equivalent decoder/legacy404only,actor+forcedrefresh race/logout guards. Manualavailability client→PG familyinheritance/revisionCAS/ownerACL PASS;central fullquarantineinstaller+epochrecheckPASS,636/integrity0/network0/cleanuptrue.79units/types/changedfile strictlintPASS.",
     "ExistingPosView modeprops/stockfreecart/manualavailabilityfreshread+explicitimmutableack;costNULL invoice;parallelPOSmixedreader noWAC/fakequantity.92units/types/strictlintPASS;32ChromiumWebKit existingfull+newtouchPASS;PG5groups/636/integrity0/network0/cleanuptrue. Appnotwiredyet.",
-    "ExistingProductsView/ProductDetailModal mode-aware:no inventory/cost/profit/receiving inOFF;groupedowner manualavailabilitypanel CAS+actor/generation guards,no lostreplyretry;62units/types/strictlint and40ChromiumWebKit full/litePASS. Root/form/importstillpending."
+    "ExistingProductsView/ProductDetailModal mode-aware:no inventory/cost/profit/receiving inOFF;groupedowner manualavailabilitypanel CAS+actor/generation guards,no lostreplyretry;62units/types/strictlint and40ChromiumWebKit full/litePASS. Root/form/importstillpending.",
+    "Immutableprovenance ledgerreaders:publicreceipt originaltokengate/fullJSON;litepaid/due/currentreturn noPII/cost. Customerstatementdispatch full3pagesexact/litereturn afterepoch;frontendlegacyfallback explicit404only. PG5groups/8returncomparisons/636/integrity0/network0/cleanuptrue;19+2units/typesboth/lint/30browserPASS."
   ],
   "inProgress": [
     "Wire central verifiedmode intoApp/nav andremainingexistingUI;productflavor switches/storecatalog/receipt/returns/import/simple reports/openingUI+scale/FULLCI."
@@ -46,7 +47,8 @@
     "POS_ADAPTER_PASS actualTypeScript adapter→real21916cases;71unit inclhistory/currentdictionary+both recovery routes;types/strictlint",
     "MODE_AVAILABILITY79units/types/focusedstrictlint;actualclient→PG CAS+parentinheritance andcompletequarantineinstaller epochrecheck PASS",
     "POS_UI:92units;types;strictlint;32full/lite Chromium+WebKit touch regression;POS_OPTIONS_PASS5realgroups",
-    "PRODUCT_UI:62units/types/strictlint;40browser full+lite,no retries"
+    "PRODUCT_UI:62units/types/strictlint;40browser full+lite,no retries",
+    "LEDGER_READERS:PG5groups8comparisons;19admin+2storeunits;typesboth/strictlint;30ChromiumWebKitPASS"
   ],
   "testsRemaining": [
     "CentralApp/navigation/product/store/import/receipt/returns/simple reports/openingUI+scale/mobile/FULLCI"
@@ -63,12 +65,12 @@
     "No owner/env edits;no Docker factory reset or unknown volume deletion",
     "628original function bodies frozen;8exact approved patches only"
   ],
-  "nextExactAction": "CommitpushPRODUCT_UI milestone;then provenance-safe receipt/statement/returns,centralmodeApp/nav/import/forms/reports/openingUI+scale/FULLCI. 40productbrowser+62unitsPASS,no activeprocess.",
-  "checkpointedAt": "2026-11-09T14:30:11.122Z",
+  "nextExactAction": "Commitpush ledgerreader milestone;thenwire immutableorigin lifecycle andreturnUI/recovery,centralmodeApp/nav/import/forms/reports/openingUI+scale/FULLCI. Full628/8bridgesfrozen.",
+  "checkpointedAt": "2026-11-09T14:42:50.169Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 9,
-  "filesTouchedManifestSha256": "300116cafe92ca8fe166f3bf90087bc6f2625586096ee6b4b08fb6daddbdc8b4",
-  "workingTreeFingerprint": "26F3C66D52BA3F4E7EF8FEA88BE194E3457911EFDB64B84493F24C8EDFCC576D"
+  "filesTouchedCount": 15,
+  "filesTouchedManifestSha256": "6bdddde531a2ae12391f1049ca95e7d628a0e5706191566e971ce96952c3c123",
+  "workingTreeFingerprint": "208C12459FA76515BDC1132C74C957C1221FBB73D416AD9542C177B3C4449E4E"
 }

@@ -36,7 +36,8 @@ export async function verifyLiteReturns(c,report){
    const payload=await payloadFor(sale,part),preview=await rpc(`preview_admin_sales_return_v2(${j(payload)})`);
    assert.equal(preview.canConfirm,true);await rpc(`settle_admin_sales_return_v2(${j(payload)},${q(key())},${q(preview.previewFingerprint)})`);results.push(projections(preview));
   }
-  return {lines,discount,partial,parts,results};
+  const token=(await rpc(`get_or_create_pos_receipt_token(${q(sale.orderId)})`)).receiptToken;
+  return {lines,discount,partial,parts,results,token,receipt:await rpc(`get_public_pos_receipt(${q(token)})`,id(1),'anon')};
  };
  const fullCases=[];
  fullCases.push(await fullCase([base],101,false,[{quantity:1,good:1,method:'cash'},{quantity:1,good:1,method:'cash'},{quantity:1,good:1,method:'cash'}]));
@@ -46,9 +47,14 @@ export async function verifyLiteReturns(c,report){
  const fullSummary=await rpc(`get_cash_shift_summary(${q(fullShift)})`);await rpc(`close_cash_shift(${q(fullShift)},${fullSummary.expectedCashInMinorUnits},NULL)`);
  const fullStatements=await Promise.all([[1,1],[2,2],[1,100]].map(([page,size])=>rpc(`get_customer_statement(${q(id(401))},${page},${size})`)));
  const before=await json(functionCatalogSql),read=n=>readFile(new URL('../../docs/design/sales-only-phase'+n,import.meta.url),'utf8');
- await sql(`BEGIN;SELECT set_config('nawasrah.sales_lite1_test','OWNED_LOCAL_DB219',true);SELECT set_config('nawasrah.sales_lite2_test','OWNED_LOCAL_DB219',true);${await read('1/prototype.sql')}\n${bridgeSql(before)}\n${commercialSql(before)}\n${await read('2/pos-writer.sql')}\n${await read('2/operating-mode.sql')}\n${returnSql(before)}\n${statementSql(before)}COMMIT;`);
+ await sql(`BEGIN;SELECT set_config('nawasrah.sales_lite1_test','OWNED_LOCAL_DB219',true);SELECT set_config('nawasrah.sales_lite2_test','OWNED_LOCAL_DB219',true);${await read('1/prototype.sql')}\n${bridgeSql(before)}\n${commercialSql(before)}\n${await read('2/pos-writer.sql')}\n${await read('2/operating-mode.sql')}\n${returnSql(before)}\n${statementSql(before)}\n${await read('2/ledger-readers.sql')}COMMIT;`);
  const parallelStatements=await Promise.all([[1,1],[2,2],[1,100]].map(([page,size])=>rpc(`lite1_customer_statement2(${q(id(401))},${page},${size})`)));
  assert.deepEqual(parallelStatements,fullStatements,'FULL_STATEMENT_ALL_JSON_AND_PAGES_IDENTICAL');
+ const dispatchStatements=await Promise.all([[1,1],[2,2],[1,100]].map(([page,size])=>rpc(`lite1_statement_dispatch2(${q(id(401))},${page},${size})`)));
+ assert.deepEqual(dispatchStatements,fullStatements,'DISPATCH_FULL_ALL_JSON_IDENTICAL');
+ for(const f of fullCases)assert.deepEqual(await rpc(`lite1_public_pos_receipt2(${q(f.token)})`,id(1),'anon'),f.receipt,'FULL_RECEIPT_TOKEN_AND_LINES_UNCHANGED');
+ const invalid=key();assert.deepEqual(await rpc(`lite1_public_pos_receipt2(${q(invalid)})`,id(1),'anon'),await rpc(`get_public_pos_receipt(${q(invalid)})`,id(1),'anon'));
+ assert.deepEqual(await rpc('lite1_public_pos_receipt2(NULL)',id(1),'anon'),await rpc('get_public_pos_receipt(NULL)',id(1),'anon'));
  assertFrozenFunctions(before,await json(functionCatalogSql));await rpc('lite1_set_mode2(false)');
  const stock=()=>json(`SELECT jsonb_build_object('moves',(SELECT jsonb_agg(to_jsonb(x) ORDER BY id) FROM public.inventory_movements x),'reservations',(SELECT jsonb_agg(to_jsonb(x) ORDER BY id) FROM public.order_inventory_reservations x),'balances',(SELECT jsonb_agg(to_jsonb(x) ORDER BY id) FROM public.inventory_balances x),'costs',(SELECT jsonb_agg(jsonb_build_array(id,cost_price_in_minor_units,wac_cost_in_minor_units_exact) ORDER BY id) FROM public.products));`);
  const stockBefore=await stock();
@@ -58,6 +64,12 @@ export async function verifyLiteReturns(c,report){
  let comparisons=0;
  for(const fixture of fullCases){
   const sale=await create(fixture);
+  const token=(await rpc(`get_or_create_pos_receipt_token(${q(sale.orderId)})`)).receiptToken;
+  const readReceipt=()=>rpc(`lite1_public_pos_receipt2(${q(token)})`,id(1),'anon');
+  const beforeReceipt=await readApplicationFingerprint(executor),receipt=await readReceipt();
+  assert.equal(receipt.amountPaidInMinorUnits,sale.amountPaidInMinorUnits);assert.equal(receipt.remainingInMinorUnits,sale.remainingInMinorUnits);
+  assert.equal(receipt.initialPaymentMethod,fixture.partial?'cash':undefined);assert.doesNotMatch(JSON.stringify(receipt),/cogs|profit|wac|cost|customerPhone|customerAddress/i);
+  assert.deepEqual(await readApplicationFingerprint(executor),beforeReceipt,'PUBLIC_LITE_RECEIPT_READ_ONLY');
   for(let i=0;i<fixture.parts.length;i++){
    const payload=await payloadFor(sale,fixture.parts[i]);
    const fp=await readApplicationFingerprint(executor),preview=await rpc(`lite1_preview_return2(${j(payload)})`);
@@ -66,6 +78,7 @@ export async function verifyLiteReturns(c,report){
    assert.doesNotMatch(JSON.stringify(preview),/profit|cogs|wac|RestockValue|badLoss|supplierHeld/i);
    const call=`lite1_settle_return2(${j(payload)},${q(key())},${q(preview.previewFingerprint)})`,result=await rpc(call),after=await readApplicationFingerprint(executor);
    assert.deepEqual(await rpc(call),result);assert.deepEqual(await readApplicationFingerprint(executor),after,'SETTLE_REPLAY_ZERO_WRITES');
+   const paidReceipt=await readReceipt();assert.equal(paidReceipt.remainingInMinorUnits,Number(await sql(`SELECT outstanding_total_in_minor_units FROM public.phase42_order_financial_position_internal(${q(sale.orderId)});`)));
    assert.deepEqual(await stock(),stockBefore);comparisons++;
   }
  }
@@ -102,6 +115,9 @@ export async function verifyLiteReturns(c,report){
  const statement=await rpc(`lite1_customer_statement2(${q(id(499))},1,100)`);
  assert.equal(statement.closing_balance_in_minor_units,1000,'INDEPENDENT_CHEQUE_CLAIM_REMAINS');
  assert.equal(statement.movements.filter(m=>m.movement_id.startsWith('lite_return:')).length,1);
+ assert.deepEqual(await rpc(`lite1_statement_dispatch2(${q(id(499))},1,100)`),statement,'POST_EPOCH_READS_IMMUTABLE_LITE_PROVENANCE');
+ assert.equal(await sql("SELECT has_function_privilege('anon','public.lite1_statement_dispatch2(uuid,integer,integer)','EXECUTE');"),'f');
+ report.cases.push({name:'publictokenreceipt fullJSONunchanged;litecurrentpaid/debt/returns,no cost/PII,readonly;statementdispatch full3pagesexact andpostepochlite evidence;anonstatementdenied',passed:true});
  assert.deepEqual(await stock(),stockBefore,'OLD_LITE_RETURN_AFTER_ACTIVATION_STILL_ZERO_STOCK');
  const monitor=await json('SELECT public.run_advanced_monitoring_checks();');assert.equal(monitor.integrityIssueCount,0,JSON.stringify(monitor));assertFrozenFunctions(before,await json(functionCatalogSql));
  report.cases.push({name:'debt-only oldlitereturn afterfutureepoch needsnoopenshift;parallelstatement includesrealreturnmovement notadjustment;full3pagesJSONidentical;nostock/debtintact;integrity0 and636guard',passed:true});

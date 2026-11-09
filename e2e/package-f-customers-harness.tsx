@@ -26,6 +26,7 @@ storeEngine.setActiveTab('accounts');
 const original=supabase.rpc.bind(supabase);
 const client=supabase as unknown as {rpc:(name:string,args?:Record<string,unknown>)=>unknown};
 client.rpc=(name,args)=>{
+  if(name==='lite1_statement_dispatch2')return Promise.resolve({data:null,error:{code:'PGRST202',message:'public.lite1_statement_dispatch2 absent on legacy219 fixture'},status:404});
   if(params.has('live'))return original(name,args);
   if(name==='get_crm_customer_page'){
     const status=String(args?.p_status??'all'),search=String(args?.p_search??'');
