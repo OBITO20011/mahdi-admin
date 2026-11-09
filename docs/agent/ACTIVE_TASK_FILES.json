@@ -3,7 +3,7 @@
   "files": [
     {
       "code": " M",
-      "path": "e2e/owner-alert-links-harness.tsx"
+      "path": "e2e/package-f-cheques-harness.tsx"
     },
     {
       "code": " M",
@@ -11,11 +11,15 @@
     },
     {
       "code": " M",
-      "path": "scripts/testing/sales-only-phase2-installer.mjs"
+      "path": "scripts/audit/source-before-product-workbook-text.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/testing/sales-only-phase2-return-runtime.mjs"
+      "path": "scripts/audit/source-before-product-workbook.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-sales-only-phase2.mjs"
     },
     {
       "code": " M",
@@ -23,23 +27,11 @@
     },
     {
       "code": " M",
-      "path": "src/components/common/Header.tsx"
+      "path": "src/features/cheques/ChequeRegistrationForm.tsx"
     },
     {
       "code": " M",
-      "path": "src/components/modals/AllModals.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/features/dashboard/DashboardHome.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/features/dashboard/DashboardView.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/features/more/MoreMenuView.tsx"
+      "path": "src/features/cheques/ChequesView.tsx"
     },
     {
       "code": " M",
@@ -47,39 +39,19 @@
     },
     {
       "code": "??",
-      "path": "docs/design/sales-only-phase2/APP_HOME_PROOF_AR.md"
+      "path": "docs/design/sales-only-phase2/CHEQUES_MODE_PROOF_AR.md"
     },
     {
       "code": "??",
-      "path": "docs/design/sales-only-phase2/simple-home.sql"
+      "path": "e2e/sales-only-phase2-cheques.spec.ts"
     },
     {
       "code": "??",
-      "path": "e2e/sales-only-phase2-app-harness.html"
+      "path": "scripts/testing/sales-only-phase2-history.mjs"
     },
     {
       "code": "??",
-      "path": "e2e/sales-only-phase2-app-harness.tsx"
-    },
-    {
-      "code": "??",
-      "path": "e2e/sales-only-phase2-app.spec.ts"
-    },
-    {
-      "code": "??",
-      "path": "e2e/sales-only-phase2-home.fixture.ts"
-    },
-    {
-      "code": "??",
-      "path": "src/features/dashboard/SalesOnlyDashboardView.tsx"
-    },
-    {
-      "code": "??",
-      "path": "src/services/supabase/salesOnlyHome.service.ts"
-    },
-    {
-      "code": "??",
-      "path": "tests/sales-only-phase2-home.test.ts"
+      "path": "tests/sales-only-phase2-history.test.ts"
     }
   ]
 }

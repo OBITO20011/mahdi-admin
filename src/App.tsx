@@ -233,7 +233,7 @@ const AppShell: React.FC = () => {
       case 'go_live':
         return <GoLiveSetupView operatingMode={operatingMode} modeVerified={mode.verified} />;
       case 'cheques':
-        return <ChequesView />;
+        return <ChequesView operatingMode={operatingMode} />;
       case 'warehouses':
         return <WarehousesView />;
       default:

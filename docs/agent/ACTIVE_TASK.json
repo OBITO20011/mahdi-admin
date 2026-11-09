@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner9Nov phase2:additive sales-only build above85;reuse existing UI/pure calculation helpers;opening epoch included;quarantined SQL/Draft PR/fullCI only.",
-  "baselineSha": "867bb2975a2f2b1b0e37dc4e6fd0ae59cb7b3fa2",
+  "baselineSha": "a51031cee846c4144ec780a2fca9674be9a5dc79",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase2",
   "phase": "SALES_ONLY_PHASE2",
@@ -35,7 +35,8 @@
     "ProductForm reused:lite hides purchase/cost/profit/stock;new product zero cost/stock;edit retains oldcost/thresholds inclconflict;modepre/postawait gates.86browser full+lite/type/lint/20units/27historyPASS. Existing219writers actual product+2flavors andoldcost/WAC preservation PG6groupsPASS;epoch6rows526ms/integrity0/636/network0/cleanuptrue.",
     "Mode-aware GoLive/template/offlinechecker reused;lite costoptional0/manualavailability,nofilledstock/suppliers,customerchequesonly;modebounddurablejournal/freshread.30units/types/lint/24browser across original22+2correctedselectors PASS. Actualservice→PG4identities/leadingzeros/normalization/lostcreateresume/replayzerowrites;8s;epoch7groups6rows770ms/integrity0/636/network0/cleanuptrue.",
     "Costfree report parallel pinned219+immutablelite completions/returns;fullJSON exact,actualTS decoder;PG7groups8comparisons/integrity0/636/network0/cleanuptrue.10units17history/types/lint/14browserPASS;initial reader completeness and independent oracle corrected with preserved logs. Owner24hashes unchanged.",
-    "ActualApp verified-mode root/nav/control wired;failedinitial blocks,failedrefresh preservescart/writesfenced. ReusedDashboardHome distinctcostfreeDTO+singleunionperiod RPC;actualday/month/collections/due parity PG8groups/8returns/636/integrity0/network0/cleanuptrue.22units/types/lint;18browser then12affected PASS,owner24hashesunchanged."
+    "ActualApp verified-mode root/nav/control wired;failedinitial blocks,failedrefresh preservescart/writesfenced. ReusedDashboardHome distinctcostfreeDTO+singleunionperiod RPC;actualday/month/collections/due parity PG8groups/8returns/636/integrity0/network0/cleanuptrue.22units/types/lint;18browser then12affected PASS,owner24hashesunchanged.",
+    "OFF ChequesView reusesincoming serverpagination/writers;no supplier reads/newactions;pending full form/body/key preserved and blockedOFF.74browser cases covered:73firstPASS+1documented NET_CHANGED firstload,one same-source environmental rerunPASS.49focusedunits/type/lintPASS;whole371historical AST/hash exact inverse rejectsforgedpath/hash/query/role. Owner24hashes unchanged."
   ],
   "inProgress": [
     "Storefront explicit no-quantity/manualavailability,canonical lists/delivery/chequesOFF,openingepochUI+scale,mixed historicalreport completeness,FULLCI/Draft."
@@ -63,13 +64,15 @@
     "PRODUCT_FORM86browser/types/lint/20units/27history;PRODUCT_DEFINITIONS_PASS6groups",
     "IMPORT30units/type/lint/24browser;WORKBOOK_IMPORT_PASS7realPGgroups",
     "SIMPLE_REPORT:10units17history/types/lint/14browser;7PGgroups8returns/fullJSON+lite totals actualdecoder PASS",
-    "APP_HOME:22units/types/strictlint;18browser+12affected;PG8groups allPASS"
+    "APP_HOME:22units/types/strictlint;18browser+12affected;PG8groups allPASS",
+    "CHEQUES_MODE:74cases covered inclone documentedenvironmental rerun;49focusedunits/types/lint;noSQL"
   ],
   "testsRemaining": [
     "CentralApp/navigation/product/store/import/receipt/returns/simple reports/openingUI+scale/mobile/FULLCI"
   ],
   "findings": [
-    "get_customer_statement192 doesnotinclude private lite returns;new parallel pinned reader adds genuine movement andkeeps canonical mismatch guard. Original functionand8bridges unchanged."
+    "get_customer_statement192 doesnotinclude private lite returns;new parallel pinned reader adds genuine movement andkeeps canonical mismatch guard. Original functionand8bridges unchanged.",
+    "Current219 TABLE/SERVICE source evidence and current216 exactRPC delta tests remain legitimately outdated for phase2 new sources;need actual quarantined phase2 currentACL/RPC evidence at final delivery,not historical projection. Broadhistory54/56;focused49/49."
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -80,12 +83,12 @@
     "No owner/env edits;no Docker factory reset or unknown volume deletion",
     "628original function bodies frozen;8exact approved patches only"
   ],
-  "nextExactAction": "Commit/push verified App/root/costfreeHome;next safe storefront no-quantity public parallel readers/cart;cheques/delivery/epochUI+scale/mixedhistory/fullCI pending",
-  "checkpointedAt": "2026-11-09T17:25:21.966Z",
+  "nextExactAction": "Commit/push verified cheques OFF/history guard;then storefront parallel public readers+cart;currentACLproof and fullCI remain",
+  "checkpointedAt": "2026-11-09T17:56:08.789Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 20,
-  "filesTouchedManifestSha256": "23fed0113fe77c8cafca1ea97d89afddaa4cecc02af7d9681c5c8d2e72594216",
-  "workingTreeFingerprint": "94116D1CAE3BC61A91E56A971D52E19C23707BEE0803A53349BDDAF95A7D9B8E"
+  "filesTouchedCount": 13,
+  "filesTouchedManifestSha256": "1b864aa4563c30d598f853570cb6f01f61772634c25f9ab2286c52d365550371",
+  "workingTreeFingerprint": "3A3B1C37BDEDE2A8C962096D12E813D4C2268CA3242700B7A2140CB6F5A0EE17"
 }

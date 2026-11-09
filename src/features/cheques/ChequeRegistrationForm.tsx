@@ -1,4 +1,4 @@
-import React,{useEffect,useId,useState} from 'react';
+import React,{useEffect,useId,useState,useRef} from 'react';
 import {FormFields,MoneyText,UiButton,StatusBadge,formatUiDate} from '../../components/ui';
 import {parseJodToMinor} from '../goLive/goLiveImport';
 import {newChequeKey,previewCustomerCheque,previewSupplierCheque,receiveCustomerCheque,issueSupplierCheque,
@@ -6,10 +6,11 @@ import {newChequeKey,previewCustomerCheque,previewSupplierCheque,receiveCustomer
 import type {CollectionPart} from '../../services/supabase/goLive.service';
 
 export interface ChequeParty {id:string;name:string;phone?:string}
-interface Props {direction:ChequeDirection;parties:ChequeParty[];partyId?:string;claimId?:string;purchaseOrderId?:string;openingOnly?:boolean;initialAmount?:string;initialNotes?:string;branchId:string|null;onBusyChange?:(busy:boolean)=>void;onSaved:(result:ChequeResult)=>void;onClose:()=>void}
+interface Props {allowSubmission?:boolean;direction:ChequeDirection;parties:ChequeParty[];partyId?:string;claimId?:string;purchaseOrderId?:string;openingOnly?:boolean;initialAmount?:string;initialNotes?:string;branchId:string|null;onBusyChange?:(busy:boolean)=>void;onSaved:(result:ChequeResult)=>void;onClose:()=>void}
 const field='h-11 w-full min-w-0 rounded-xl border border-nw-border bg-nw-surface px-3 text-sm text-nw-text';
 /** Monetary inputs are parsed to exact integer fils; allocation/caps only DB. */
-export function ChequeRegistrationForm({direction,parties,partyId,claimId,purchaseOrderId,openingOnly,initialAmount='',initialNotes='',branchId,onBusyChange,onSaved,onClose}:Props) {
+export function ChequeRegistrationForm({allowSubmission=true,direction,parties,partyId,claimId,purchaseOrderId,openingOnly,initialAmount='',initialNotes='',branchId,onBusyChange,onSaved,onClose}:Props) {
+  const allowed=useRef(allowSubmission);allowed.current=allowSubmission;
   const prefix=useId(),[selectedParty,setParty]=useState(partyId??''),[bank,setBank]=useState(''),[number,setNumber]=useState('');
   const party=partyId??selectedParty;
   const [dueDate,setDueDate]=useState(''),[amount,setAmount]=useState(initialAmount),[notes,setNotes]=useState(initialNotes);
@@ -25,6 +26,7 @@ export function ChequeRegistrationForm({direction,parties,partyId,claimId,purcha
   </div>;
   const run=async(event:React.FormEvent)=>{
     event.preventDefault();setError('');
+    if(!allowed.current){setError('تسجيل شيكات الموردين متوقف في وضع المبيعات والذمم؛ المسودة محفوظة.');return;}
     if(!party||!branchId||!bank.trim()||!number.trim()||!dueDate||minor===null||!Number.isSafeInteger(minor)||minor<=0){setError('أكمل الطرف والفرع وبيانات الشيك والمبلغ الصحيح.');return;}
     setBusy(true);
     try {
@@ -41,6 +43,7 @@ export function ChequeRegistrationForm({direction,parties,partyId,claimId,purcha
     }catch(e){setError(e instanceof Error?e.message:'تعذر تسجيل الشيك.');}finally{setBusy(false);}
   };
   return <FormFields><form dir="rtl" className="space-y-4" onSubmit={e=>void run(e)} aria-busy={busy} data-testid="cheque-registration">
+    {!allowSubmission&&<p role="alert">تسجيل شيكات الموردين متوقف في وضع المبيعات والذمم؛ المسودة محفوظة ولا يمكن تأكيدها.</p>}
     {partyId?<p className="m-0 font-semibold">{parties.find(p=>p.id===partyId)?.name??'الطرف المحدد'}</p>:<div>
       <label htmlFor={`${prefix}-party`} className="mb-1 block text-sm font-semibold">{direction==='incoming'?'العميل':'المورد'}</label>
       <select id={`${prefix}-party`} className={field} value={party} disabled={busy} required onChange={e=>setParty(e.target.value)}>
@@ -63,7 +66,7 @@ export function ChequeRegistrationForm({direction,parties,partyId,claimId,purcha
     </div>}
     {error&&<p role="alert" className="rounded-xl bg-nw-bad-bg p-3 text-sm text-nw-bad">{error}</p>}
     <div className="sticky bottom-0 flex flex-wrap gap-2 border-t border-nw-border bg-nw-surface py-3">
-      <UiButton type="submit" variant="accent" disabled={busy}>{busy?'جارٍ التنفيذ…':current?'تأكيد تسجيل الشيك':'معاينة قبل التسجيل'}</UiButton>
+      <UiButton type="submit" variant="accent" disabled={busy||!allowSubmission}>{busy?'جارٍ التنفيذ…':current?'تأكيد تسجيل الشيك':'معاينة قبل التسجيل'}</UiButton>
       <UiButton onClick={onClose} disabled={busy}>إلغاء</UiButton>
     </div>
   </form></FormFields>;

@@ -1,3 +1,4 @@
+import type {OperatingMode} from '../../services/supabase/operatingMode.service';
 import {newestRecords} from '../../utils/newestRecords';
 import React,{useCallback,useEffect,useId,useState} from 'react';
 import {Modal} from '../../components/common/Modal';
@@ -22,11 +23,12 @@ type Registration={direction:ChequeDirection;partyId?:string;claimId?:string};
 const errorText=(e:unknown)=>e instanceof Error?e.message:'تعذر تنفيذ العملية.';
 const date=(value:string)=>formatUiDate(value,{year:'numeric',month:'2-digit',day:'2-digit'});
 
-export function ChequesView() {
+export function ChequesView({operatingMode='full'}:{operatingMode?:OperatingMode}={}) {
+  const salesOnly=operatingMode==='sales-only';
   const drawer=useDrawerShortfallConfirm();
   const {roles}=useAuthStore(),canManage=roles.some(r=>r==='owner'||r==='manager'),owner=roles.includes('owner');
   const branchId=useAppStoreSelector(s=>s.activeBranch?.id??null);
-  const [data,setData]=useState<ChequePage|null>(null),[page,setPage]=useState(1),[status,setStatus]=useState<ChequeFilter>('all');
+  const [loadedData,setData]=useState<ChequePage|null>(null),[dataMode,setDataMode]=useState(operatingMode),[page,setPage]=useState(1),[status,setStatus]=useState<ChequeFilter>('all');
   const [direction,setDirection]=useState<ChequeDirection|'all'>('all'),[search,setSearch]=useState('');
   const [busy,setBusy]=useState(false),[error,setError]=useState(''),[notice,setNotice]=useState(''),[revision,setRevision]=useState(0);
   const [detail,setDetail]=useState<ChequeDetail|null>(null),[action,setAction]=useState<Action|null>(null),[reason,setReason]=useState('');
@@ -36,23 +38,25 @@ export function ChequesView() {
   const [paymentAmount,setPaymentAmount]=useState(''),[paymentMethod,setPaymentMethod]=useState<'cash'|'cliq'|'bank_transfer'>('cash');
   const [paymentReference,setPaymentReference]=useState('');const ids=useId();
   const [reversal,setReversal]=useState<{paymentId:string;amount:number;key:string}|null>(null),[reversalReason,setReversalReason]=useState('');
+  const data=dataMode===operatingMode?loadedData:null;
+  useEffect(()=>{setPage(1);},[salesOnly]);
   useEffect(()=>{if(!canManage)return;let live=true;setBusy(true);setError('');
-    fetchCheques({page,status,direction,branchId,search}).then(r=>{if(live)setData(r);}).catch(e=>{if(live)setError(errorText(e));})
+    fetchCheques({page,status,direction:salesOnly?'incoming':direction,branchId,search}).then(r=>{if(live){setDataMode(operatingMode);setData(r);}}).catch(e=>{if(live)setError(errorText(e));})
       .finally(()=>{if(live)setBusy(false);});return()=>{live=false;};
-  },[page,status,direction,branchId,search,revision,canManage]);
-  useEffect(()=>{if(!canManage)return;let live=true;
+  },[page,status,direction,branchId,search,revision,canManage,salesOnly,operatingMode]);
+  useEffect(()=>{if(!canManage||salesOnly)return;let live=true;
     fetchSuppliersFromSupabase().then(s=>{if(live)setSuppliers(s.map(s=>({id:s.id,name:s.companyName,phone:s.phone})));})
       .catch(e=>{if(live)setError(errorText(e));});return()=>{live=false;};
-  },[canManage]);
+  },[canManage,salesOnly]);
   useEffect(()=>{if(!registration||registration.direction!=='incoming'||!canManage)return;let live=true;
     fetchPosCustomersFromSupabase({page:1,pageSize:100,search:partySearch}).then(r=>{if(live)setCustomers(r.customers);})
       .catch(e=>{if(live)setError(errorText(e));});return()=>{live=false;};
   },[registration,partySearch,canManage]);
   const refresh=useCallback(()=>setRevision(r=>r+1),[]);
   const openDetail=async(c:Cheque)=>{setBusy(true);setError('');try{setDetail(await fetchChequeDetail(c.id));}catch(e){setError(errorText(e));}finally{setBusy(false);}};
-  const begin=(kind:Action['kind'],c:Cheque)=>{setReason('');setEndorseSupplier('');setAction({kind,cheque:c,key:newChequeKey()});};
+  const begin=(kind:Action['kind'],c:Cheque)=>{if(salesOnly&&(kind==='endorse'||c.direction==='outgoing'))return;setReason('');setEndorseSupplier('');setAction({kind,cheque:c,key:newChequeKey()});};
   const runAction=async()=>{
-    if(!action)return;setBusy(true);setError('');
+    if(!action||(salesOnly&&(action.kind==='endorse'||action.cheque.direction==='outgoing')))return;setBusy(true);setError('');
     try {
       const {cheque:c,key,kind}=action;
       if(kind==='clear')await clearCheque(c.id,c.version,key);
@@ -63,7 +67,7 @@ export function ChequesView() {
     }catch(e){setError(errorText(e));}finally{setBusy(false);}
   };
   const pay=async(event:React.FormEvent)=>{
-    event.preventDefault();if(!payment)return;const minor=parseJodToMinor(paymentAmount);
+    event.preventDefault();if(!payment||salesOnly)return;const minor=parseJodToMinor(paymentAmount);
     if(minor===null||minor==='0'){setError('أدخل مبلغاً صحيحاً أكبر من صفر.');return;}
     if(!drawer.confirmCash(Number(minor)/1000,paymentMethod==='cash',branchId))return;
     setBusy(true);setError('');
@@ -73,7 +77,7 @@ export function ChequesView() {
     }catch(e){setError(errorText(e));}finally{setBusy(false);}
   };
   const reversePayment=async()=>{
-    if(!reversal||!owner||reversalReason.trim().length<5||reversalReason.trim().length>500)return;
+    if(salesOnly||!reversal||!owner||reversalReason.trim().length<5||reversalReason.trim().length>500)return;
     setBusy(true);setError('');
     try{await reverseSupplierChequeClaimPayment(reversal.paymentId,reversalReason,reversal.key);
       setReversal(null);if(detail)setDetail(await fetchChequeDetail(detail.cheque.id));refresh();setNotice('تم عكس سداد القيد وإعادة ذمة المورد.');
@@ -82,21 +86,21 @@ export function ChequesView() {
   const errors=error?<p role="alert" className="rounded-xl bg-nw-bad-bg p-3 text-sm text-nw-bad">{error}</p>:null;
   if(!canManage)return <Card className="m-4"><h1 className="text-xl font-bold">الشيكات</h1><p>هذه الصفحة للمالك والمدير. استلام شيك العميل متاح من التحصيل أو نقطة البيع للأدوار المصرّح لها.</p></Card>;
   return <main dir="rtl" className="min-w-0 pb-28 text-nw-text" data-testid="cheques-workbench">
-    <PageHeader title="الشيكات" description="استلام وإصدار ومتابعة الشيكات دون حركة على درج الصندوق" actions={<>
+    <PageHeader title="الشيكات" description={salesOnly?'شيكات العملاء وتحصيلها ومتابعة استحقاقها دون حركة على درج الصندوق':'استلام وإصدار ومتابعة الشيكات دون حركة على درج الصندوق'} actions={<>
       <UiButton variant="primary" disabled={busy} onClick={()=>setRegistration({direction:'incoming'})}>استلام شيك</UiButton>
-      <UiButton variant="accent" disabled={busy} onClick={()=>setRegistration({direction:'outgoing'})}>إصدار شيك</UiButton>
+      {!salesOnly&&<UiButton variant="accent" disabled={busy} onClick={()=>setRegistration({direction:'outgoing'})}>إصدار شيك</UiButton>}
     </>} />
     <div className="space-y-4 p-4 lg:p-8">
       {errors}{notice&&<p role="status" className="rounded-xl bg-nw-ok-bg p-3 text-sm text-nw-ok">{notice}</p>}
       <KpiGrid>
         <KpiCard label="شيكات واردة قيد المتابعة" value={data?<MoneyText amount={data.summary.incoming/1000} />:'غير متاح'} note="تشمل المُجيّرة؛ ليست ديناً إضافياً" />
-        <KpiCard label="شيكات صادرة قائمة" value={data?<MoneyText amount={data.summary.outgoing/1000} />:'غير متاح'} />
+        {!salesOnly&&<KpiCard label="شيكات صادرة قائمة" value={data?<MoneyText amount={data.summary.outgoing/1000} />:'غير متاح'} />}
         <KpiCard label="من الوارد: شيكات مُجيّرة" value={data?<MoneyText amount={data.summary.endorsed/1000} />:'غير متاح'} />
       </KpiGrid>
       <div className="flex flex-wrap gap-3">
         <SearchField className="min-w-0 flex-1" label="البحث في الشيكات" placeholder="رقم الشيك أو البنك أو الطرف" value={search} onChange={e=>{setSearch(e.target.value);setPage(1);}} />
-        <SegmentedControl label="اتجاه الشيك" options={[{value:'all',label:'الكل'},{value:'incoming',label:'وارد'},{value:'outgoing',label:'صادر'}]} value={direction}
-          onChange={v=>{setDirection(v);setPage(1);}} />
+        {!salesOnly&&<SegmentedControl label="اتجاه الشيك" options={[{value:'all',label:'الكل'},{value:'incoming',label:'وارد'},{value:'outgoing',label:'صادر'}]} value={direction}
+          onChange={v=>{setDirection(v);setPage(1);}} />}
       </div>
       <FilterChips label="حالة الشيكات" options={filters.map(f=>({...f,count:data?.counts[f.value]}))} value={status} onChange={v=>{setStatus(v);setPage(1);}} touchSize />
       {busy&&!data&&<p role="status">جارٍ تحميل الشيكات…</p>}
@@ -119,7 +123,7 @@ export function ChequesView() {
         <div className="flex items-center justify-between gap-3 text-sm"><UiButton disabled={page<=1||busy} onClick={()=>setPage(p=>p-1)}>السابق</UiButton>
           <span>صفحة <bdi>{page}</bdi></span><UiButton disabled={!data.hasMore||busy} onClick={()=>setPage(p=>p+1)}>التالي</UiButton></div>
         <Card><SectionHeader title="المجاميع حسب أسبوع الاستحقاق" hint="شيكات قيد الانتظار أو مُجيّرة؛ ليست مصروفات أو أرباحاً" />
-          <ul className="mt-3 list-none space-y-2 p-0 text-sm">{data.weeks.map(w=><li key={`${w.weekStart}-${w.direction}`} className="flex flex-wrap justify-between gap-2">
+          <ul className="mt-3 list-none space-y-2 p-0 text-sm">{data.weeks.filter(w=>!salesOnly||w.direction==='incoming').map(w=><li key={`${w.weekStart}-${w.direction}`} className="flex flex-wrap justify-between gap-2">
             <span>{date(w.weekStart)} · {w.direction==='incoming'?'وارد':'صادر'}</span><MoneyText amount={w.amount/1000} />
           </li>)}</ul>
         </Card>
@@ -131,10 +135,10 @@ export function ChequesView() {
         <p>{detail.cheque.bank} · الاستحقاق {date(detail.cheque.dueDate)}</p>
         <MoneyText className="text-3xl font-bold" amount={detail.cheque.amount/1000} currency />
         {detail.cheque.origin==='opening'&&<p className="text-nw-muted">شيك قائم قبل النظام — تسجيله للمتابعة فقط، دون خصم جديد من الرصيد.</p>}
-        {['pending','endorsed'].includes(detail.cheque.status)&&<div className="sticky top-0 z-10 flex flex-wrap gap-2 border-y border-nw-border bg-nw-surface py-3">
+        {(!salesOnly||detail.cheque.direction==='incoming')&&['pending','endorsed'].includes(detail.cheque.status)&&<div className="sticky top-0 z-10 flex flex-wrap gap-2 border-y border-nw-border bg-nw-surface py-3">
           <UiButton variant="primary" onClick={()=>begin('clear',detail.cheque)} disabled={busy}>صُرف</UiButton>
           <UiButton variant="danger" onClick={()=>begin('return',detail.cheque)} disabled={busy}>شيك راجع</UiButton>
-          {detail.cheque.status==='pending'&&detail.cheque.direction==='incoming'&&<UiButton onClick={()=>begin('endorse',detail.cheque)} disabled={busy}>تجيير لمورد</UiButton>}
+          {!salesOnly&&detail.cheque.status==='pending'&&detail.cheque.direction==='incoming'&&<UiButton onClick={()=>begin('endorse',detail.cheque)} disabled={busy}>تجيير لمورد</UiButton>}
           {owner&&detail.cheque.status==='pending'&&<UiButton onClick={()=>begin('cancel',detail.cheque)} disabled={busy}>إلغاء تسجيل خاطئ</UiButton>}
         </div>}
         <section><h2 className="font-bold">أصول الدين المثبتة</h2><ul className="list-none space-y-2 p-0">{detail.allocations.map(a=><li key={a.id} className="flex flex-wrap justify-between gap-2">
@@ -146,13 +150,13 @@ export function ChequesView() {
         </Card>)}
         {detail.supplierClaims.filter(c=>c.outstanding>0).map(c=><div key={c.id} className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-nw-border p-3">
           <span>متبقي قيد المورد <MoneyText amount={c.outstanding/1000} /></span>
-          <UiButton onClick={()=>{drawer.reset();setPayment({claimId:c.id,supplierId:detail.cheque.supplierId??detail.cheque.endorsedSupplierId??'',reference:c.reference,key:newChequeKey()});setPaymentAmount('');setPaymentReference('');}}>سداد قيد المورد</UiButton>
+          {!salesOnly&&<UiButton onClick={()=>{drawer.reset();setPayment({claimId:c.id,supplierId:detail.cheque.supplierId??detail.cheque.endorsedSupplierId??'',reference:c.reference,key:newChequeKey()});setPaymentAmount('');setPaymentReference('');}}>سداد قيد المورد</UiButton>}
         </div>)}
         {detail.supplierClaimPayments.length>0&&<section aria-label="دفعات سداد القيد"><h2 className="font-bold">دفعات سداد القيد</h2>
           <ul className="list-none space-y-2 p-0">{newestRecords(detail.supplierClaimPayments,p=>p.paidAt,p=>p.id).map(p=><li key={p.id} className="space-y-2 rounded-xl border border-nw-border p-3">
             <div className="flex flex-wrap items-center justify-between gap-2"><MoneyText amount={p.amount/1000} />
               <span>{p.method==='cash'?'كاش':p.method==='cliq'?'CliQ':p.method==='bank_transfer'?'تحويل بنكي':'شيك مؤجل'} · {date(p.paidAt)}</span></div>
-            {p.isReversed?<p className="text-nw-muted">سداد معكوس · {p.reason}</p>:owner&&p.canReverse?
+            {p.isReversed?<p className="text-nw-muted">سداد معكوس · {p.reason}</p>:!salesOnly&&owner&&p.canReverse?
               <UiButton variant="danger" disabled={busy} onClick={()=>{setReversalReason('');setReversal({paymentId:p.id,amount:p.amount,key:newChequeKey()});}}>عكس سداد القيد</UiButton>:null}
           </li>)}</ul>
         </section>}
@@ -173,7 +177,7 @@ export function ChequesView() {
         {action.kind==='endorse'&&<div><label htmlFor={`${ids}-endorse`} className="mb-1 block font-semibold">المورد</label><select id={`${ids}-endorse`} className={field} value={endorseSupplier} disabled={busy} onChange={e=>setEndorseSupplier(e.target.value)}>
           <option value="">اختر المورد</option>{suppliers.map(s=><option key={s.id} value={s.id}>{s.name}</option>)}</select></div>}
         <div className="flex flex-wrap gap-2"><UiButton variant={action.kind==='return'||action.kind==='cancel'?'danger':'accent'}
-          disabled={busy||((action.kind==='return'||action.kind==='cancel')&&reason.trim().length<5)||(action.kind==='endorse'&&!endorseSupplier)} onClick={()=>void runAction()}>تأكيد العملية</UiButton>
+          disabled={busy||(salesOnly&&(action.kind==='endorse'||action.cheque.direction==='outgoing'))||((action.kind==='return'||action.kind==='cancel')&&reason.trim().length<5)||(action.kind==='endorse'&&!endorseSupplier)} onClick={()=>void runAction()}>تأكيد العملية</UiButton>
           <UiButton disabled={busy} onClick={()=>setAction(null)}>رجوع</UiButton></div>
       </div>}
     </Modal>
@@ -183,7 +187,7 @@ export function ChequesView() {
         <p>الكاش وCliQ يتطلبان بقاء وردية الدفعة الأصلية مفتوحة؛ التحويل البنكي بلا أثر على الدرج.</p>
         <label className="block" htmlFor={`${ids}-reversal-reason`}>سبب عكس السداد (5–500 حرف)</label>
         <textarea id={`${ids}-reversal-reason`} className={`${field} !h-24 py-3`} value={reversalReason} maxLength={500} disabled={busy} onChange={e=>setReversalReason(e.target.value)} />
-        <div className="flex flex-wrap gap-2"><UiButton variant="danger" disabled={busy||reversalReason.trim().length<5||reversalReason.trim().length>500} onClick={()=>void reversePayment()}>تأكيد عكس السداد</UiButton>
+        <div className="flex flex-wrap gap-2"><UiButton variant="danger" disabled={busy||salesOnly||reversalReason.trim().length<5||reversalReason.trim().length>500} onClick={()=>void reversePayment()}>تأكيد عكس السداد</UiButton>
           <UiButton disabled={busy} onClick={()=>setReversal(null)}>رجوع</UiButton></div>
       </div>}
     </Modal>
@@ -191,7 +195,7 @@ export function ChequesView() {
       {registration&&<>
         {registration.direction==='incoming'&&!registration.partyId&&<SearchField label="البحث عن عميل للشيك" placeholder="اسم العميل أو الهاتف" value={partySearch} onChange={e=>setPartySearch(e.target.value)} className="mb-3" />}
         <ChequeRegistrationForm key={`${registration.direction}-${registration.partyId??''}-${registration.claimId??''}`} direction={registration.direction}
-          parties={registration.direction==='incoming'?customers:suppliers} partyId={registration.partyId} claimId={registration.claimId} branchId={branchId}
+          allowSubmission={!salesOnly||registration.direction==='incoming'} parties={registration.direction==='incoming'?customers:suppliers} partyId={registration.partyId} claimId={registration.claimId} branchId={branchId}
           onClose={()=>setRegistration(null)} onSaved={()=>{setRegistration(null);setDetail(null);setNotice('تم تسجيل الشيك.');refresh();}} />
       </>}
     </Modal>
@@ -202,8 +206,8 @@ export function ChequesView() {
           <option value="cash">كاش من وردية الفرع</option><option value="cliq">CliQ من وردية الفرع</option><option value="bank_transfer">تحويل بنكي بلا وردية</option></select>
         <label className="block" htmlFor={`${ids}-pay-reference`}>المرجع</label><input id={`${ids}-pay-reference`} className={field} value={paymentReference} onChange={e=>setPaymentReference(e.target.value)} disabled={busy} />
         <p className="text-nw-muted">دفعة مستقلة، لا تُسجّل مقابل أمر شراء أو استلام أصلي.</p>
-        <div className="flex flex-wrap gap-2"><UiButton type="submit" variant="accent" disabled={busy}>تأكيد السداد</UiButton>
-          <UiButton disabled={busy} onClick={()=>{setRegistration({direction:'outgoing',partyId:payment.supplierId,claimId:payment.claimId});setPayment(null);}}>السداد بشيك مؤجل</UiButton>
+        <div className="flex flex-wrap gap-2"><UiButton type="submit" variant="accent" disabled={busy||salesOnly}>تأكيد السداد</UiButton>
+          <UiButton disabled={busy||salesOnly} onClick={()=>{setRegistration({direction:'outgoing',partyId:payment.supplierId,claimId:payment.claimId});setPayment(null);}}>السداد بشيك مؤجل</UiButton>
           <UiButton disabled={busy} onClick={()=>setPayment(null)}>إلغاء</UiButton></div>
       </form></FormFields>}
     </Modal>
