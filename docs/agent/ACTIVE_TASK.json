@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner9Nov phase2:additive sales-only build above85;reuse existing UI/pure calculation helpers;opening epoch included;quarantined SQL/Draft PR/fullCI only.",
-  "baselineSha": "8e4dc8426fe2752a419677165414d7c97457aae0",
+  "baselineSha": "ab62527e25f837be96ed1232d1f2bb9db02adc1a",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase2",
   "phase": "SALES_ONLY_PHASE2",
@@ -15,10 +15,11 @@
     "Owner-approved recovery: app startup-cleanup force-removed worktree10:59:52UTC; recovered exact snapshot292b8689 into sales-only-phase2-recovery and pushed to GitHub. Git worktree locked; hourly/each milestone commit+push required.",
     "Five pending-guest acceptance cases PASS on isolated219/180,network0,cleanuptrue;full rows/checkJSON unchanged,real defects still detected,628/636 unknownbyte guardsPASS.",
     "Commercial private planner18real full comparisons PASS:12POS all line/parcel fils,6guest promoJSON/delivery;original636 unchanged;zero writes/ACL/WAC/staleprice/capacity negatives;network0/cleanuptrue.",
-    "CommercialPOS16variantsPASS with unchangedpublic636/8bridges,zero stock/cost,realparcel finalization,partialvoucher,debt,availability override,samekeyrace,existingclose,integrity0;network0/cleanuptrue."
+    "CommercialPOS16variantsPASS with unchangedpublic636/8bridges,zero stock/cost,realparcel finalization,partialvoucher,debt,availability override,samekeyrace,existingclose,integrity0;network0/cleanuptrue.",
+    "Owner-approved repeat recovery ab62527e pushed;app startup cleanup ignoredGitlock;worktree movedoutside managedroot to C:/Users/TOP/NawasrahWorktrees/sales-only-phase2/mahdi-admin. POS cancellation/issue race and commercialactor18 recheckPASS;no activeDB."
   ],
   "inProgress": [
-    "Finish guest/Edge,return/cheque,UI/import/reports/openingepoch;recheck commercial18 afteractorcontextguard extension in NEW private helper."
+    "Next:guest writer/EdgeH1,existing UI and receipts/returns/cheques,import/reports,openingepoch;DraftPR/FULLCI stillpending."
   ],
   "notStarted": [
     "Commercial pricing/parcel/delivery/discount parity and writers",
