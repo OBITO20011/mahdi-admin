@@ -3,11 +3,19 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/design/sales-only-phase2/guest-lifecycle.sql"
+      "path": ".github/workflows/sales-only-phase1.yml"
     },
     {
       "code": " M",
-      "path": "e2e/admin-lifecycle-recovery.spec.ts"
+      "path": "docs/design/sales-only-phase2/returns.sql"
+    },
+    {
+      "code": " M",
+      "path": "e2e/aftercare215-wizard-harness.tsx"
+    },
+    {
+      "code": " M",
+      "path": "e2e/package-f-orders-harness.tsx"
     },
     {
       "code": " M",
@@ -15,11 +23,39 @@
     },
     {
       "code": " M",
-      "path": "scripts/testing/sales-only-phase2-lifecycle-runtime.mjs"
+      "path": "scripts/testing/sales-only-phase2-guest-runtime.mjs"
     },
     {
       "code": " M",
-      "path": "src/services/supabase/adminCustomerV2Lifecycle.ts"
+      "path": "scripts/testing/sales-only-phase2-installer.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/sales-only-phase2-return-runtime.mjs"
+    },
+    {
+      "code": " M",
+      "path": "src/features/orders/AdminAftercarePanel.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/orders/aftercare215Draft.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/features/orders/AftercareWizard215.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/orders/OrderDetailModal.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/services/supabase/aftercare215.service.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/services/supabase/aftercare215Rpc.ts"
     },
     {
       "code": " M",
@@ -27,7 +63,15 @@
     },
     {
       "code": " M",
-      "path": "tests/phase36-admin-integration.test.ts"
+      "path": "src/services/supabase/salesAftercare.service.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/types/index.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/utils/aftercare215Contracts.ts"
     },
     {
       "code": " M",
@@ -35,11 +79,23 @@
     },
     {
       "code": "??",
-      "path": "docs/design/sales-only-phase2/LIFECYCLE_ADAPTER_PROOF_AR.md"
+      "path": "docs/design/sales-only-phase2/AFTERCARE_CONTEXT_PROOF_AR.md"
     },
     {
       "code": "??",
-      "path": "src/services/supabase/salesOnlyOrderTransition.ts"
+      "path": "docs/design/sales-only-phase2/aftercare-context.sql"
+    },
+    {
+      "code": "??",
+      "path": "e2e/sales-only-phase2-aftercare.spec.ts"
+    },
+    {
+      "code": "??",
+      "path": "src/services/supabase/salesOnlyOrderContext.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/sales-only-phase2-aftercare.test.ts"
     }
   ]
 }

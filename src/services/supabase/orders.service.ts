@@ -1,4 +1,5 @@
 import {transitionLiteOrder} from './salesOnlyOrderTransition';
+import {orderTracksAccounting,parseSalesOnlyOrderDetails} from './salesOnlyOrderContext';
 import {safeGoogleMapsUrl, validMapCoordinates} from '../../utils/googleMaps';
 import { supabase, isSupabaseConfigured } from '../../lib/supabase';
 import { Order, OrderStatus, PaymentMethod, PaymentStatus } from '../../types';
@@ -80,6 +81,8 @@ const EMPTY_OPERATIONAL_ORDERS_SUMMARY: OperationalOrdersSummary = {
 
 const ORDER_DETAIL_SELECT = `
   id,
+  operation_id,
+  creation_operation:business_operations!orders_operation_id_fkey(id,operation_type),
   order_number,
   customer_id,
   customer_name_snapshot,
@@ -421,6 +424,7 @@ function mapOperationalOrderListRows(
 
 function mapOrderRows(data: unknown[]): Order[] {
   return data.map((ord: any) => {
+    const accountingTracked=orderTracksAccounting(ord);
     const cust = ord.customers || {};
     const addr = ord.customer_addresses || {};
 
@@ -428,7 +432,7 @@ function mapOrderRows(data: unknown[]): Order[] {
       const prod = item.products || {};
       const unitPrice = Number(item.unit_price_in_minor_units || 0) / 1000;
       const lineTotal = Number(item.line_total_in_minor_units || 0) / 1000;
-      const costPrice = Number(prod.cost_price_in_minor_units || 0) / 1000;
+      const costPrice = accountingTracked?Number(prod.cost_price_in_minor_units || 0) / 1000:null;
       const packageQuantity = Number(item.sale_package_quantity || 0);
       const unitsPerSalePackage = Number(item.units_per_sale_package || 0);
       const isWholesaleSnapshot = packageQuantity > 0 && unitsPerSalePackage > 0;
@@ -456,6 +460,7 @@ function mapOrderRows(data: unknown[]): Order[] {
         unit: unitName,
         unitPrice: displayUnitPrice,
         costPrice,
+        ...(!accountingTracked?{accountingTracked:false}:{}),
         quantity: displayQuantity,
         baseQuantity: Number(item.quantity || 1),
         unitsPerSalePackage: unitsPerSalePackage || undefined,
@@ -500,9 +505,10 @@ function mapOrderRows(data: unknown[]): Order[] {
 
     return {
       id: ord.id,
+      ...(!accountingTracked?{accountingTracked:false}:{}),
       orderNumber: ord.order_number,
       customerId: cust.id || ord.customer_id || undefined,
-      customerName: cust.full_name || ord.customer_name_snapshot || 'زبون نقدي',
+      customerName: accountingTracked?cust.full_name || ord.customer_name_snapshot || 'زبون نقدي':ord.customer_name_snapshot || cust.full_name || 'زبون نقدي',
       customerPhone: cust.phone || '',
       governorate: addr.governorate || 'غير محدد',
       region: addr.area || addr.city || 'غير محدد',
@@ -595,6 +601,11 @@ export async function fetchOrderByIdFromSupabase(
     const [order] = mapOrderRows([data]);
     if (!order) {
       return { success: false, error: 'الطلب غير موجود في قاعدة البيانات.' };
+    }
+    if(order.accountingTracked===false){
+      const recipient=await supabase.rpc('lite1_order_details2',{p_order_id:orderId});
+      if(recipient.error)throw recipient.error;
+      Object.assign(order,parseSalesOnlyOrderDetails(recipient.data,orderId));
     }
 
     const parcelItems = order.items.filter((item) => item.commercialLineKind === 'configurable_parcel');

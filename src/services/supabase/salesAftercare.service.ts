@@ -20,6 +20,7 @@ export interface AftercarePhysicalRepresentative {
 }
 export type AdminAftercareCapability =
   | 'phase43_modern'
+  | 'sales_only'
   | 'legacy_website_return_v1'
   | 'legacy_pos_v1_unsupported'
   | 'unsupported_contract';
@@ -53,7 +54,8 @@ interface AdminAftercareContextBase {
 }
 export interface AdminAftercareModernContext extends AdminAftercareContextBase {
   supported: true;
-  capability: 'phase43_modern';
+  capability: 'phase43_modern'|'sales_only';
+  accountingTracked?:boolean;
   order: {
     id: string; orderNumber: string; status: string; saleContract: string;
     branchId: string; warehouseId: string; completedAt: string;
@@ -67,7 +69,7 @@ export interface AdminAftercareModernContext extends AdminAftercareContextBase {
 }
 export interface AdminAftercareLegacyContext extends AdminAftercareContextBase {
   supported: false;
-  capability: Exclude<AdminAftercareCapability, 'phase43_modern'>;
+  capability: Exclude<AdminAftercareCapability, 'phase43_modern'|'sales_only'>;
   order: {
     id: string; orderNumber: string; status: string; saleContract: string | null;
     source: string; branchId: string | null; warehouseId: string | null;
@@ -130,10 +132,10 @@ interface ReturnMutationRequest {
 const unavailable = () => ({success: false, error: 'اتصال قاعدة البيانات غير متاح.'});
 
 export async function fetchAdminAftercareContext(
-  orderId: string,
+  orderId: string,accountingTracked=true,
 ): Promise<{success: boolean; data?: AdminAftercareContext; error?: string}> {
   if (!isSupabaseConfigured || !supabase) return unavailable();
-  const {data, error} = await supabase.rpc('get_admin_sales_aftercare_context_v1', {
+  const {data, error} = await supabase.rpc(accountingTracked?'get_admin_sales_aftercare_context_v1':'lite1_aftercare_context2', {
     p_order_id: orderId,
   });
   if (error) return {success: false, error: error.message};
@@ -144,7 +146,7 @@ export async function fetchAdminAftercareContext(
     || capability === 'legacy_pos_v1_unsupported'
     || capability === 'unsupported_contract';
   const supportBindingValid = context?.supported === true
-    ? capability === 'phase43_modern'
+    ? accountingTracked?capability==='phase43_modern':capability==='sales_only'&&(context as Partial<AdminAftercareModernContext>).accountingTracked===false
     : context?.supported === false && capabilityValid && capability !== 'phase43_modern';
   if (!context || context.contractVersion !== 403 || !supportBindingValid) {
     return {success: false, error: 'سياق خدمات ما بعد البيع غير مكتمل.'};

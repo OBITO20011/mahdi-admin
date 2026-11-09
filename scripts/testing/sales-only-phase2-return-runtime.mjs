@@ -1,3 +1,4 @@
+import {tsImport} from 'tsx/esm/api';
 import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
 import {readFile} from 'node:fs/promises';
@@ -11,6 +12,10 @@ import {readApplicationFingerprint} from './backup-restore-contract.mjs';
 
 export async function verifyLiteReturns(c,report){
  const {sql,json,rpc,id,q,j,executor}=c,branch=id(200),warehouse=id(201),pid=id(103),key=()=>randomUUID();
+ const {invokeAftercare215}=await tsImport('../../src/services/supabase/aftercare215Rpc.ts',import.meta.url);
+ const {parseAftercare215Preview,aftercare215SuccessMatches}=await tsImport('../../src/utils/aftercare215Contracts.ts',import.meta.url);
+ const {orderTracksAccounting,parseSalesOnlyOrderDetails}=await tsImport('../../src/services/supabase/salesOnlyOrderContext.ts',import.meta.url);
+ const client={rpc:async(name,args)=>{assert.equal(name,'lite1_settle_return2');return {data:await rpc(`lite1_settle_return2(${j(args.p_payload)},${q(args.p_key)},${q(args.p_preview)})`),error:null};}};
  const projections=p=>Object.fromEntries(['entitlementInMinorUnits','debtReductionInMinorUnits','moneyRefundInMinorUnits','customerDamageDeductionInMinorUnits','goodQuantity','badQuantity','customerDamageQuantity','refundMethod'].map(k=>[k,p[k]]));
  const itemId=oid=>json(`SELECT to_jsonb(id) FROM public.order_items WHERE order_id=${q(oid)};`);
  for(const stocked of [pid,id(101),id(102)])await rpc(`create_direct_supplier_receipt_v2(p_supplier_id:=${q(id(301))},p_branch_id:=${q(branch)},p_warehouse_id:=${q(warehouse)},p_idempotency_key:=${q(key())},p_payment_method:='deferred',p_lines:=${j([{client_line_id:key(),line_kind:'base_unit',commercial_quantity:1000,base_unit_name:'باكيت',gross_amount_in_minor_units:500000,line_discount_in_minor_units:0,components:[{product_id:stocked,base_quantity:1000}]}])})`);
@@ -47,7 +52,7 @@ export async function verifyLiteReturns(c,report){
  const fullSummary=await rpc(`get_cash_shift_summary(${q(fullShift)})`);await rpc(`close_cash_shift(${q(fullShift)},${fullSummary.expectedCashInMinorUnits},NULL)`);
  const fullStatements=await Promise.all([[1,1],[2,2],[1,100]].map(([page,size])=>rpc(`get_customer_statement(${q(id(401))},${page},${size})`)));
  const before=await json(functionCatalogSql),read=n=>readFile(new URL('../../docs/design/sales-only-phase'+n,import.meta.url),'utf8');
- await sql(`BEGIN;SELECT set_config('nawasrah.sales_lite1_test','OWNED_LOCAL_DB219',true);SELECT set_config('nawasrah.sales_lite2_test','OWNED_LOCAL_DB219',true);${await read('1/prototype.sql')}\n${bridgeSql(before)}\n${commercialSql(before)}\n${await read('2/pos-writer.sql')}\n${await read('2/operating-mode.sql')}\n${returnSql(before)}\n${statementSql(before)}\n${await read('2/ledger-readers.sql')}COMMIT;`);
+ await sql(`BEGIN;SELECT set_config('nawasrah.sales_lite1_test','OWNED_LOCAL_DB219',true);SELECT set_config('nawasrah.sales_lite2_test','OWNED_LOCAL_DB219',true);${await read('1/prototype.sql')}\n${bridgeSql(before)}\n${commercialSql(before)}\n${await read('2/pos-writer.sql')}\n${await read('2/operating-mode.sql')}\n${returnSql(before)}\n${await read('2/aftercare-context.sql')}\n${statementSql(before)}\n${await read('2/ledger-readers.sql')}COMMIT;`);
  const parallelStatements=await Promise.all([[1,1],[2,2],[1,100]].map(([page,size])=>rpc(`lite1_customer_statement2(${q(id(401))},${page},${size})`)));
  assert.deepEqual(parallelStatements,fullStatements,'FULL_STATEMENT_ALL_JSON_AND_PAGES_IDENTICAL');
  const dispatchStatements=await Promise.all([[1,1],[2,2],[1,100]].map(([page,size])=>rpc(`lite1_statement_dispatch2(${q(id(401))},${page},${size})`)));
@@ -64,6 +69,10 @@ export async function verifyLiteReturns(c,report){
  let comparisons=0;
  for(const fixture of fullCases){
   const sale=await create(fixture);
+  const creation=await json(`SELECT jsonb_build_object('operation_id',o.operation_id,'creation_operation',jsonb_build_object('id',b.id,'operation_type',b.operation_type)) FROM public.orders o JOIN public.business_operations b ON b.id=o.operation_id WHERE o.id=${q(sale.orderId)};`);assert.equal(orderTracksAccounting(creation),false);
+  const context=await rpc(`lite1_aftercare_context2(${q(sale.orderId)})`);assert.equal(context.accountingTracked,false);assert.equal(context.capability,'sales_only');
+  assert.equal(context.order.id,sale.orderId);assert.doesNotMatch(JSON.stringify(context),/cogs|wac|cost|profit/i);
+  const details=parseSalesOnlyOrderDetails(await rpc(`lite1_order_details2(${q(sale.orderId)})`),sale.orderId);assert.equal(details.amountDue,sale.remainingInMinorUnits/1000);assert.equal(details.recipientProposal,undefined);
   const token=(await rpc(`get_or_create_pos_receipt_token(${q(sale.orderId)})`)).receiptToken;
   const readReceipt=()=>rpc(`lite1_public_pos_receipt2(${q(token)})`,id(1),'anon');
   const beforeReceipt=await readApplicationFingerprint(executor),receipt=await readReceipt();
@@ -76,8 +85,13 @@ export async function verifyLiteReturns(c,report){
    assert.equal(preview.canConfirm,true);assert.deepEqual(await readApplicationFingerprint(executor),fp,'PREVIEW_WRITES_NOTHING');
    assert.deepEqual(projections(preview),fixture.results[i],'FULL_LITE_RETURN_MONEY_DAMAGE_AND_QUANTITY_IDENTICAL');
    assert.doesNotMatch(JSON.stringify(preview),/profit|cogs|wac|RestockValue|badLoss|supplierHeld/i);
-   const call=`lite1_settle_return2(${j(payload)},${q(key())},${q(preview.previewFingerprint)})`,result=await rpc(call),after=await readApplicationFingerprint(executor);
-   assert.deepEqual(await rpc(call),result);assert.deepEqual(await readApplicationFingerprint(executor),after,'SETTLE_REPLAY_ZERO_WRITES');
+   const parsed=parseAftercare215Preview('sealed_return',sale.orderId,preview,true);assert.equal(parsed.canConfirm,true);
+   const request={payload,previewFingerprint:preview.previewFingerprint,accountingMode:'sales-only'},identity=key();
+   const result=(await invokeAftercare215(client,'sealed_return',sale.orderId,identity,request)).data,after=await readApplicationFingerprint(executor);
+   assert.equal(aftercare215SuccessMatches('sealed_return',sale.orderId,request,result),true,'ACTUAL_DURABLE_SUCCESS_VALIDATOR');
+   assert.deepEqual((await invokeAftercare215(client,'sealed_return',sale.orderId,identity,request)).data,result);assert.deepEqual(await readApplicationFingerprint(executor),after,'SETTLE_REPLAY_ZERO_WRITES');
+   const updatedContext=await rpc(`lite1_aftercare_context2(${q(sale.orderId)})`);assert.equal(updatedContext.returns.length,i+1);
+   const updatedDetails=parseSalesOnlyOrderDetails(await rpc(`lite1_order_details2(${q(sale.orderId)})`),sale.orderId);assert.equal(updatedDetails.amountDue,Number(await sql(`SELECT outstanding_total_in_minor_units FROM public.phase42_order_financial_position_internal(${q(sale.orderId)});`))/1000);
    const paidReceipt=await readReceipt();assert.equal(paidReceipt.remainingInMinorUnits,Number(await sql(`SELECT outstanding_total_in_minor_units FROM public.phase42_order_financial_position_internal(${q(sale.orderId)});`)));
    assert.deepEqual(await stock(),stockBefore);comparisons++;
   }
@@ -113,6 +127,8 @@ export async function verifyLiteReturns(c,report){
  const preview=await rpc(`lite1_preview_return2(${j(payload)})`);assert.equal(preview.debtReductionInMinorUnits,'1000');await rpc(`lite1_settle_return2(${j(payload)},${q(key())},${q(preview.previewFingerprint)})`);
  await fail(`get_customer_statement(${q(id(499))},1,100)`,/CUSTOMER_STATEMENT_EVIDENCE_MISMATCH/);
  const statement=await rpc(`lite1_customer_statement2(${q(id(499))},1,100)`);
+ assert.equal((await rpc(`lite1_aftercare_context2(${q(debtSale.orderId)})`)).accountingTracked,false,'POST_EPOCH_RETURN_CONTEXT_STAYS_LITE');
+ assert.equal(await sql("SELECT has_function_privilege('anon','public.lite1_aftercare_context2(uuid)','EXECUTE') OR has_function_privilege('anon','public.lite1_order_details2(uuid)','EXECUTE');"),'f');
  assert.equal(statement.closing_balance_in_minor_units,1000,'INDEPENDENT_CHEQUE_CLAIM_REMAINS');
  assert.equal(statement.movements.filter(m=>m.movement_id.startsWith('lite_return:')).length,1);
  assert.deepEqual(await rpc(`lite1_statement_dispatch2(${q(id(499))},1,100)`),statement,'POST_EPOCH_READS_IMMUTABLE_LITE_PROVENANCE');

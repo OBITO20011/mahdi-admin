@@ -330,6 +330,8 @@ export interface OrderItem {
 }
 
 export interface Order {
+  accountingTracked?:boolean;
+  recipientProposal?:{proposed:boolean;recipient:Record<string,string>;customerCard:{fullName:string;governorate:string|null;defaultAddress:string|null}};
   id: string;
   orderNumber: string;
   customerId?: string;

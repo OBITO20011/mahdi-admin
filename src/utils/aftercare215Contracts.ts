@@ -80,6 +80,7 @@ export function aftercare215SuccessMatches(action:Aftercare215Action,orderId:str
   if(!aftercare215Record(value)||value.success!==true||!uuid(value.operationId)||!aftercare215Record(request.payload)
    ||typeof request.previewFingerprint!=='string'||!/^[0-9a-f]{64}$/u.test(request.previewFingerprint)
    ||Object.keys(value).some(k=>/cost|cogs|wac|profit|recovery|loss|ownerValues/iu.test(k)))return false;
+  if(request.accountingMode==='sales-only'?value.accountingTracked!==false||action!=='sealed_return':value.accountingTracked===false)return false;
   const payload=request.payload;
   if(action==='exchange') {
    if(!aftercare215Record(payload.returnRequest)||payload.returnRequest.orderId!==orderId||value.originalOrderId!==orderId||!uuid(value.newOrderId)||value.newOrderId===orderId||!uuid(value.returnId))return false;

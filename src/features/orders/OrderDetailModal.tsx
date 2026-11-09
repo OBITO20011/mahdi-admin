@@ -451,7 +451,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
                 ? 'راجع الأصناف ثم ابدأ التجهيز'
                 : order.status === 'out_for_delivery'
                   ? 'سجّل التسليم والتحصيل'
-                  : nextStep?.label || 'لا يوجد إجراء مطلوب الآن'}
+                  : order.accountingTracked===false&&nextStep?.status==='delivered'?'تأكيد التسليم والتحصيل':nextStep?.label || 'لا يوجد إجراء مطلوب الآن'}
             </h4>
             <p className="mt-1 text-[10px] text-nw-muted">
               الإجمالي {order.totalAmount.toFixed(3)} {CURRENCY} ·{' '}
@@ -461,6 +461,13 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
           <StatusBadge tone={getOrderStatus(order.status).tone}>{STATUS_LABELS[order.status] || order.status}</StatusBadge>
         </div>
 
+        {order.recipientProposal?.proposed&&<section aria-label="مراجعة بيانات مستلم الطلب" className="my-3 space-y-2 rounded-xl border border-nw-warn bg-nw-warn-bg p-3">
+          <h4 className="font-bold">بيانات مستلم مقترحة — بطاقة الزبون لم تتغير</h4>
+          <p>الاسم في البطاقة: {order.recipientProposal.customerCard.fullName} · المحافظة: {order.recipientProposal.customerCard.governorate??'غير مسجلة'}</p>
+          <p>المستلم في هذا الطلب: {order.recipientProposal.recipient.fullName} · {['governorate','city','area','street','building'].map(k=>order.recipientProposal?.recipient[k]).filter(Boolean).join(' - ')}</p>
+          <p className="text-sm">تأكد من الزبون قبل القبول. إذا أراد تغيير بطاقته الدائمة، افتح ملفه وعدّل البيانات يدوياً؛ الطلب لا يعدّلها تلقائياً.</p>
+          {order.customerId&&<UiButton onClick={()=>openCustomerProfile(order.customerId!)}>فتح بطاقة الزبون للمراجعة</UiButton>}
+        </section>}
         {order.status === 'new' && (
           <UiButton variant="primary"
             type="button"
@@ -873,7 +880,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
         {['completed', 'delivered'].includes(order.status) && (
           <div className="flex items-center justify-center gap-1.5 rounded-xl border border-nw-ok bg-nw-ok-bg p-3 font-bold text-nw-text">
             <CheckCircle2 className="h-4 w-4" />
-            {historyContext ? "حالة الفاتورة: مكتملة" : "تم التسليم وخصم الكمية من المخزون"}
+            {historyContext ? "حالة الفاتورة: مكتملة" : order.accountingTracked===false?"تم التسليم وتسجيل التحصيل والذمة بلا تتبع مخزون":"تم التسليم وخصم الكمية من المخزون"}
           </div>
         )}
 
@@ -1044,9 +1051,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
         <div className="flex items-start gap-2">
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-nw-info" />
           <p>
-            كميات هذا الطلب محجوزة منذ إنشائه في المتجر. قبول الطلب يبدأ
-            التجهيز مباشرة، والخصم الفعلي من المخزون يحدث عند اعتماد
-            التسليم والحساب.
+            {order.accountingTracked===false?'هذا الطلب بلا تتبع مخزون أو حجز. القبول يبدأ التجهيز، والتسليم يسجل التحصيل والذمة.':'كميات هذا الطلب محجوزة منذ إنشائه في المتجر. قبول الطلب يبدأ التجهيز مباشرة، والخصم الفعلي من المخزون يحدث عند اعتماد التسليم والحساب.'}
           </p>
         </div>
       </div>

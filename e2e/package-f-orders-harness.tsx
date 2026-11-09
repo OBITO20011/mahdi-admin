@@ -35,6 +35,11 @@ engine.refreshStockNotificationsFromSupabase = async () => [];
 storeEngine.setActiveTab('orders');
 const fixture = structuredClone(ordersFixture);
 const list = structuredClone(orderListFixture);
+if(params.has('liteRecipient')){
+ fixture[1].accountingTracked=false;fixture[1].status=list[1].status='new';fixture[1].customerName=list[1].customerName='مستلم الطلب المقترح';
+ fixture[1].recipientProposal={proposed:true,recipient:{fullName:'مستلم الطلب المقترح',governorate:'إربد',city:'الرمثا',area:'حي التوصيل',street:'شارع التوصيل'},customerCard:{fullName:'اسم البطاقة المحفوظ',governorate:null,defaultAddress:'عنوان البطاقة المحفوظ'}};
+ fixture[1].items.forEach(item=>{item.accountingTracked=false;item.costPrice=null;});
+}
 if (params.has('long')) {
   fixture[1].customerName = list[1].customerName = 'سوبرماركت الحي الكبير للمواد التموينية والمنتجات الغذائية والمشروبات';
   fixture[1].items[0].productName = 'عصير البرتقال الطبيعي عبوة عائلية طويلة الاسم للمراجعة على الشاشات الصغيرة';

@@ -90,8 +90,10 @@ BEGIN
  VALUES(rid,o.id,(item->>'order_item_id')::UUID,quantity,(plan->>'entitlementInMinorUnits')::BIGINT,(plan->>'debtReductionInMinorUnits')::BIGINT,(plan->>'moneyRefundInMinorUnits')::BIGINT,method,sid,p_key,auth.uid());
  INSERT INTO sales_lite2.return_details(return_id,parcel_instance_id,applied_damage,request_snapshot,plan_snapshot)
  VALUES(rid,NULLIF(item->>'parcel_instance_id','')::UUID,(plan->>'customerDamageDeductionInMinorUnits')::BIGINT,request,plan);
- result:=jsonb_build_object('success',true,'operationId',rid,'returnId',rid,'orderId',o.id,'entitlementInMinorUnits',plan->'entitlementInMinorUnits',
-  'debtReductionInMinorUnits',plan->'debtReductionInMinorUnits','moneyRefundInMinorUnits',plan->'moneyRefundInMinorUnits','accountingTracked',false);
+ result:=jsonb_build_object('success',true,'contractVersion',215,'operationId',rid,'returnOperationId',rid,'returnId',rid,'returnNumber','L2R-'||rid::TEXT,'orderId',o.id,'entitlementInMinorUnits',plan->'entitlementInMinorUnits',
+  'debtReductionInMinorUnits',plan->'debtReductionInMinorUnits','moneyRefundInMinorUnits',plan->'moneyRefundInMinorUnits','accountingTracked',false,
+  'goodQuantity',plan->'goodQuantity','badQuantity',plan->'badQuantity','customerDamageQuantity',plan->'customerDamageQuantity',
+  'refundMethod',CASE WHEN(plan->>'moneyRefundInMinorUnits')::BIGINT>0 THEN method ELSE NULL END);
  INSERT INTO public.audit_logs(user_id,action,entity_name,entity_id,details) VALUES(auth.uid(),'LITE2_RETURN','orders',o.id,jsonb_build_object('returnId',rid,'preview',p_preview));
  RETURN sales_lite1.finish(p_key,result);
 END $$;

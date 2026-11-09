@@ -1,15 +1,16 @@
 import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
-import {readFile} from 'node:fs/promises';
-import {bridgeSql,assertFrozenFunctions} from './sales-only-phase1-bridges.mjs';
+import {assertFrozenFunctions} from './sales-only-phase1-bridges.mjs';
 import {functionCatalogSql} from './sales-only-phase1-runtime.mjs';
-import {commercialSql} from './sales-only-phase2-commercial.mjs';
+import {phase2PrototypeSql} from './sales-only-phase2-installer.mjs';
+import {tsImport} from 'tsx/esm/api';
 import {readApplicationFingerprint} from './backup-restore-contract.mjs';
 
 export async function verifyCommercialGuest(c,report){
  const {sql,json,rpc,id,q,j,executor}=c;
- const rows=await json(functionCatalogSql),read=n=>readFile(new URL('../../docs/design/sales-only-phase'+n,import.meta.url),'utf8');
- await sql(`BEGIN;SELECT set_config('nawasrah.sales_lite1_test','OWNED_LOCAL_DB219',true);SELECT set_config('nawasrah.sales_lite2_test','OWNED_LOCAL_DB219',true);${await read('1/prototype.sql')}\n${bridgeSql(rows)}\n${commercialSql(rows)}\n${await read('2/pos-writer.sql')}\n${await read('2/guest-writer.sql')}\n${await read('2/operating-mode.sql')}COMMIT;`);
+ const rows=await json(functionCatalogSql);
+ await sql(phase2PrototypeSql(rows));
+ const {parseSalesOnlyOrderDetails}=await tsImport('../../src/services/supabase/salesOnlyOrderContext.ts',import.meta.url);
  assertFrozenFunctions(rows,await json(functionCatalogSql));
  const config=(await rpc(`save_product_parcel_configuration_v1(${q(id(100))},'configurable_mix',true,5,ARRAY[${q(id(101))},${q(id(102))}]::UUID[])`)).configuration;
  await rpc("set_configurable_parcel_feature_state_v1('ENABLED')");
@@ -34,6 +35,9 @@ export async function verifyCommercialGuest(c,report){
  const guest=(r,key=randomUUID())=>rpc(`lite1_guest2(${j(r)},${q(key)})`,null,'service_role');
  const fail=async(r,pattern,key=randomUUID(),role='service_role')=>{let e;try{await rpc(`lite1_guest2(${j(r)},${q(key)})`,null,role);}catch(error){e=error;}assert.ok(e,'EXPECTED_GUEST_REFUSAL');assert.match(String(e.message),pattern);};
  const firstRequest=await request({phone:'0796600401'}),firstKey=randomUUID(),first=await guest(firstRequest,firstKey);
+ const recipientProof=await rpc(`lite1_order_details2(${q(first.order_id)})`),recipientView=parseSalesOnlyOrderDetails(recipientProof,first.order_id);
+ assert.equal(recipientView.recipientProposal.proposed,true);assert.equal(recipientView.recipientProposal.recipient.fullName,firstRequest.recipient.fullName);assert.equal(recipientView.recipientProposal.customerCard.fullName,originalCard.full_name);
+ assert.equal(recipientView.amountDue,first.total/1000);assert.doesNotMatch(JSON.stringify(recipientProof),/phoneHash|sessionHash|customerNotes|wac|cogs|profit/);
  assert.equal(first.customer_id,id(401));assert.equal(first.customer_reused,true);assert.equal(first.total,4000);assert.equal(first.delivery_fee,1000);
  assert.deepEqual(await card(),originalCard);assert.deepEqual(await defaultAddress(),originalAddress);
  assert.equal(await json(`SELECT to_jsonb(is_default) FROM public.customer_addresses WHERE id=${q(first.customer_address_id)};`),false);
@@ -58,7 +62,7 @@ export async function verifyCommercialGuest(c,report){
  await fail({...badRequest,unavailableConfirmed:[id(103)]},/PHASE3_IDEMPOTENCY_INPUT_INVALID/);
  await fail(badRequest,/permission denied/,randomUUID(),'anon');
  assert.deepEqual(await json(`SELECT jsonb_build_object('customerCount',(SELECT count(*) FROM public.customers),'addressCount',(SELECT count(*) FROM public.customer_addresses),'orderCount',(SELECT count(*) FROM public.orders),'requestCount',(SELECT count(*) FROM sales_lite1.requests));`),beforeFailure);
- await rpc(`lite1_set_available(${q(id(103))},false,0)`);await fail(badRequest,/LITE1_UNAVAILABLE_CONFIRM_REQUIRED/);await rpc(`lite1_set_available(${q(id(103))},true,1)`);
+ await rpc(`lite1_set_available2(${q(id(103))},false,0)`);await fail(badRequest,/LITE1_UNAVAILABLE_CONFIRM_REQUIRED/);await rpc(`lite1_set_available2(${q(id(103))},true,1)`);
  await sql('UPDATE public.storefront_settings SET orders_enabled=false;');await fail(badRequest,/PHASE3_CUSTOMER_ORDERS_DISABLED/);await sql('UPDATE public.storefront_settings SET orders_enabled=true;');
  await fail({...firstRequest,recipient:{...firstRequest.recipient,fullName:'تغيير مرفوض'}},/LITE1_IDEMPOTENCY_CONFLICT/,firstKey);
  report.cases.push({name:'guest newcustomer/promotions/CliQ/existingdelivery;invalidaddress/quote/identity/clientoverride/ACL/unavailable/closedstore refused withoutpartialwrites',passed:true});
