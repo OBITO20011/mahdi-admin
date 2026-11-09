@@ -3,67 +3,19 @@
   "files": [
     {
       "code": " M",
-      "path": "e2e/package-f-go-live-harness.tsx"
-    },
-    {
-      "code": " M",
-      "path": "e2e/package-f-product-workbook-harness.tsx"
-    },
-    {
-      "code": " M",
       "path": "scripts/audit/sales-only-phase2-source-pins.json"
     },
     {
       "code": " M",
-      "path": "scripts/operations/check-go-live-files.ps1"
+      "path": "scripts/testing/sales-only-phase2-installer.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/operations/go-live-files/check.ts"
+      "path": "scripts/testing/sales-only-phase2-return-runtime.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/operations/go-live-files/cli.ts"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/product-workbook-db-transport.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/sales-only-phase2-epoch-runtime.mjs"
-    },
-    {
-      "code": " M",
-      "path": "src/features/goLive/goLiveImport.ts"
-    },
-    {
-      "code": " M",
-      "path": "src/features/goLive/GoLiveSetupView.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/features/goLive/OpeningChequesCard.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/features/goLive/openingChequesImport.ts"
-    },
-    {
-      "code": " M",
-      "path": "src/features/goLive/productWorkbook.ts"
-    },
-    {
-      "code": " M",
-      "path": "src/features/goLive/ProductWorkbookImportPanel.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/services/supabase/productWorkbook.service.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/product-workbook-service.test.ts"
+      "path": "src/features/reports/ReportsCenterView.tsx"
     },
     {
       "code": " M",
@@ -71,19 +23,43 @@
     },
     {
       "code": "??",
-      "path": "docs/design/sales-only-phase2/IMPORT_MODE_PROOF_AR.md"
+      "path": "docs/design/sales-only-phase2/SIMPLE_REPORT_PROOF_AR.md"
     },
     {
       "code": "??",
-      "path": "e2e/sales-only-phase2-import.spec.ts"
+      "path": "docs/design/sales-only-phase2/simple-report.sql"
     },
     {
       "code": "??",
-      "path": "scripts/testing/sales-only-phase2-workbook-runtime.mjs"
+      "path": "e2e/sales-only-phase2-report-harness.html"
     },
     {
       "code": "??",
-      "path": "tests/sales-only-phase2-import.test.ts"
+      "path": "e2e/sales-only-phase2-report-harness.tsx"
+    },
+    {
+      "code": "??",
+      "path": "e2e/sales-only-phase2-report.fixture.ts"
+    },
+    {
+      "code": "??",
+      "path": "e2e/sales-only-phase2-report.spec.ts"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/sales-only-phase2-report.mjs"
+    },
+    {
+      "code": "??",
+      "path": "src/features/reports/SalesOnlyReportsView.tsx"
+    },
+    {
+      "code": "??",
+      "path": "src/services/supabase/salesOnlyReport.service.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/sales-only-phase2-report.test.ts"
     }
   ]
 }

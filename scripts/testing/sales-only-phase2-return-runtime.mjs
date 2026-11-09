@@ -1,3 +1,4 @@
+import {simpleReportSql} from './sales-only-phase2-report.mjs';
 import {tsImport} from 'tsx/esm/api';
 import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
@@ -12,6 +13,7 @@ import {readApplicationFingerprint} from './backup-restore-contract.mjs';
 
 export async function verifyLiteReturns(c,report){
  const {sql,json,rpc,id,q,j,executor}=c,branch=id(200),warehouse=id(201),pid=id(103),key=()=>randomUUID();
+ const {parseSalesOnlyBusinessReport}=await tsImport('../../src/services/supabase/salesOnlyReport.service.ts',import.meta.url);
  const {invokeAftercare215}=await tsImport('../../src/services/supabase/aftercare215Rpc.ts',import.meta.url);
  const {parseAftercare215Preview,aftercare215SuccessMatches}=await tsImport('../../src/utils/aftercare215Contracts.ts',import.meta.url);
  const {parseCashShiftClosingReport}=await tsImport('../../src/services/supabase/expenses-shifts.service.ts',import.meta.url);
@@ -52,8 +54,15 @@ export async function verifyLiteReturns(c,report){
  fullCases.push(await fullCase([mixed],101,false,[{mixed:true,instance:0,damage:1},{mixed:true,instance:1,damage:0}]));
  const fullSummary=await rpc(`get_cash_shift_summary(${q(fullShift)})`);await rpc(`close_cash_shift(${q(fullShift)},${fullSummary.expectedCashInMinorUnits},NULL)`);
  const fullStatements=await Promise.all([[1,1],[2,2],[1,100]].map(([page,size])=>rpc(`get_customer_statement(${q(id(401))},${page},${size})`)));
+ const reportPeriod=await json("SELECT jsonb_build_object('from',((now() AT TIME ZONE 'Asia/Amman')::DATE-1)::TEXT,'to',((now() AT TIME ZONE 'Asia/Amman')::DATE+1)::TEXT);"),reportStart=q(reportPeriod.from)+"::timestamp AT TIME ZONE 'Asia/Amman'",reportEnd="("+q(reportPeriod.to)+"::date+1)::timestamp AT TIME ZONE 'Asia/Amman'";
+ const reportArgs=`${q(branch)},${reportStart},${reportEnd},'Asia/Amman',true`,fullFacts=await json(`SELECT public.phase6_financial_facts_internal(${reportArgs});`);
+ const costFree=f=>{const value=structuredClone(f);for(const k of ['cogsInMinorUnits','replacementCostInMinorUnits','restockRecoveryInMinorUnits','grossProfitInMinorUnits','aftercareAdjustedMarginInMinorUnits','netProfitInMinorUnits','damageLosses'])delete value.sales[k];return value;};
  const before=await json(functionCatalogSql),read=n=>readFile(new URL('../../docs/design/sales-only-phase'+n,import.meta.url),'utf8');
- await sql(`BEGIN;SELECT set_config('nawasrah.sales_lite1_test','OWNED_LOCAL_DB219',true);SELECT set_config('nawasrah.sales_lite2_test','OWNED_LOCAL_DB219',true);${await read('1/prototype.sql')}\n${bridgeSql(before)}\n${commercialSql(before)}\n${await read('2/pos-writer.sql')}\n${await read('2/operating-mode.sql')}\n${returnSql(before)}\n${await read('2/aftercare-context.sql')}\n${statementSql(before)}\n${await read('2/ledger-readers.sql')}COMMIT;`);
+ await sql(`BEGIN;SELECT set_config('nawasrah.sales_lite1_test','OWNED_LOCAL_DB219',true);SELECT set_config('nawasrah.sales_lite2_test','OWNED_LOCAL_DB219',true);${await read('1/prototype.sql')}\n${bridgeSql(before)}\n${commercialSql(before)}\n${await read('2/pos-writer.sql')}\n${await read('2/operating-mode.sql')}\n${returnSql(before)}\n${await read('2/aftercare-context.sql')}\n${statementSql(before)}\n${await read('2/ledger-readers.sql')}
+${simpleReportSql(before)}COMMIT;`);
+ const simpleFull=await rpc(`lite1_business_report2(${q(branch)},${q(reportPeriod.from)},${q(reportPeriod.to)})`);
+ const {success:rs,contractVersion:rv,accountingTracked:ra,branchId:rb,generatedAt:rg,period:rp,...fullProjection}=simpleFull;
+ assert.equal(rs,true);assert.equal(rv,'lite2-business-report-v1');assert.equal(ra,false);assert.equal(rb,branch);assert.ok(rg&&rp);assert.deepEqual(fullProjection,costFree(fullFacts),'FULL_COSTFREE_REPORT_ALL_JSON_EXACT');
  const parallelStatements=await Promise.all([[1,1],[2,2],[1,100]].map(([page,size])=>rpc(`lite1_customer_statement2(${q(id(401))},${page},${size})`)));
  assert.deepEqual(parallelStatements,fullStatements,'FULL_STATEMENT_ALL_JSON_AND_PAGES_IDENTICAL');
  const dispatchStatements=await Promise.all([[1,1],[2,2],[1,100]].map(([page,size])=>rpc(`lite1_statement_dispatch2(${q(id(401))},${page},${size})`)));
@@ -143,6 +152,20 @@ export async function verifyLiteReturns(c,report){
  assert.equal(await sql("SELECT has_function_privilege('anon','public.lite1_statement_dispatch2(uuid,integer,integer)','EXECUTE');"),'f');
  report.cases.push({name:'publictokenreceipt fullJSONunchanged;litecurrentpaid/debt/returns,no cost/PII,readonly;statementdispatch full3pagesexact andpostepochlite evidence;anonstatementdenied',passed:true});
  assert.deepEqual(await stock(),stockBefore,'OLD_LITE_RETURN_AFTER_ACTIVATION_STILL_ZERO_STOCK');
+ const simple=await rpc(`lite1_business_report2(${q(branch)},${q(reportPeriod.from)},${q(reportPeriod.to)})`);
+ const privateReturns=await json(`SELECT jsonb_build_object('entitlement',COALESCE(sum(r.entitlement),0),'refund',COALESCE(sum(r.money_refund),0),'debt',COALESCE(sum(r.debt_reduction),0)) FROM sales_lite1.returns r JOIN public.orders o ON o.id=r.order_id WHERE o.branch_id=${q(branch)} AND r.created_at>=(${reportStart}) AND r.created_at<(${reportEnd});`);
+ const currentBase=await json(`SELECT public.phase6_financial_facts_internal(${reportArgs});`);
+ for(const [field,key] of [['returnEntitlementInMinorUnits','entitlement'],['refundsInMinorUnits','refund'],['debtReductionInMinorUnits','debt']])assert.equal(simple.sales[field],currentBase.sales[field]+privateReturns[key],field);
+ const missingCompletions=await json(`SELECT jsonb_build_object('gross',COALESCE(sum(o.total_in_minor_units),0),'count',count(*),'cash',COALESCE(sum(o.total_in_minor_units) FILTER(WHERE o.payment_method IN('cash','cash_on_delivery')),0),'cliq',COALESCE(sum(o.total_in_minor_units) FILTER(WHERE o.payment_method='cliq'),0)) FROM public.orders o JOIN sales_lite1.completions l ON l.order_id=o.id WHERE o.branch_id=${q(branch)} AND o.status IN('completed','returned') AND l.completed_at>=(${reportStart}) AND l.completed_at<(${reportEnd}) AND NOT EXISTS(SELECT 1 FROM public.order_status_history h WHERE h.order_id=o.id AND h.new_status='completed');`);
+ assert.ok(missingCompletions.count>0);assert.equal(simple.sales.grossSalesInMinorUnits,currentBase.sales.grossSalesInMinorUnits+missingCompletions.gross,'LITE_COMPLETION_GROSS_INCLUDED');assert.equal(simple.sales.completedOrderCount,currentBase.sales.completedOrderCount+missingCompletions.count);
+ assert.equal(simple.sales.netSalesInMinorUnits,currentBase.sales.netSalesInMinorUnits+missingCompletions.gross-privateReturns.entitlement,'GROSS_AND_RETURN_BOTH_IN_NET');assert.equal(simple.balances.customerDueInMinorUnits,currentBase.balances.customerDueInMinorUnits);
+ assert.equal(simple.cashFlow.cashCollectedInMinorUnits,currentBase.cashFlow.cashCollectedInMinorUnits+missingCompletions.cash);assert.equal(simple.cashFlow.cliqCollectedInMinorUnits,currentBase.cashFlow.cliqCollectedInMinorUnits+missingCompletions.cliq);
+ const parsedReport=parseSalesOnlyBusinessReport(simple,branch,reportPeriod.from,reportPeriod.to);assert.equal(parsedReport.sales.netSalesInMinorUnits,simple.sales.netSalesInMinorUnits);assert.equal(parsedReport.cashFlow.customerCollections.totalInMinorUnits,simple.cashFlow.customerCollections.totalInMinorUnits);
+ assert.doesNotMatch(JSON.stringify(simple),/cogs|profit|cost|inventory|supplier/i);
+ assert.equal(simple.dailyBreakdown.reduce((n,d)=>n+d.netSalesInMinorUnits,0),simple.sales.netSalesInMinorUnits);
+ assert.equal(await sql("SELECT has_function_privilege('anon','public.lite1_business_report2(uuid,date,date)','EXECUTE');"),'f');
+ const reportFp=await readApplicationFingerprint(executor);await rpc(`lite1_business_report2(${q(branch)},${q(reportPeriod.from)},${q(reportPeriod.to)})`);assert.deepEqual(await readApplicationFingerprint(executor),reportFp,'SIMPLE_REPORT_READONLY');
+ report.cases.push({name:'costfree parallel report fullJSONmatches219oracle;allactual lite returns+debt+refund/daily/canonicalbalance exact;no cost fields/readonly/anon denied',passed:true});
  const monitor=await json('SELECT public.run_advanced_monitoring_checks();');assert.equal(monitor.integrityIssueCount,0,JSON.stringify(monitor));assertFrozenFunctions(before,await json(functionCatalogSql));
  report.cases.push({name:'debt-only oldlitereturn afterfutureepoch needsnoopenshift;parallelstatement includesrealreturnmovement notadjustment;full3pagesJSONidentical;nostock/debtintact;integrity0 and636guard',passed:true});
 }

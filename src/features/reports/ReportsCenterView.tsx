@@ -1,3 +1,5 @@
+import type {OperatingMode} from '../../services/supabase/operatingMode.service';
+import {SalesOnlyReportsView} from './SalesOnlyReportsView';
 import {reportToday,readReportPeriod,saveReportPeriod} from '../../utils/reportPeriodSelection';
 import {CustomerCollectionsSection} from './CustomerCollectionsSection';
 import {DamageLossReportSection} from './DamageLossReportSection';
@@ -99,7 +101,8 @@ const MetricCard: React.FC<{
   );
 };
 
-export const ReportsCenterView: React.FC = () => {
+export const ReportsCenterView: React.FC<{operatingMode?:OperatingMode}> = ({operatingMode='full'}) => operatingMode==='sales-only'?<SalesOnlyReportsView/>:<FullReportsCenterView/>;
+const FullReportsCenterView: React.FC = () => {
   const activeBranch = useAppStoreSelector((state) => state.activeBranch);
   const { setToast } = useAppStoreActions();
   const [selection, setSelection] = useState(readReportPeriod);

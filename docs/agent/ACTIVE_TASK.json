@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner9Nov phase2:additive sales-only build above85;reuse existing UI/pure calculation helpers;opening epoch included;quarantined SQL/Draft PR/fullCI only.",
-  "baselineSha": "b73a0194bccaf964b43215dcee307481fcc3fac6",
+  "baselineSha": "5ec4f840d66d888533212e36d50a787125ef04cb",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase2",
   "phase": "SALES_ONLY_PHASE2",
@@ -33,7 +33,8 @@
     "Navigation policy+modecontrol foundation:14units/types/strictlint;57browserPASS2preexistingconditionalSkips;full nav/history regression retained. Owner+AAL2one OFF mutation/no automaticretry;ON onlyepoch. Exact historical path inverse repaired,newfileabsence+unknownbyte guards11PASS. ActualAppnotwiredyet.",
     "Lite immutable shift closing reader/view reuses original closing/drawer/printing;no zero-filled full sections.27units/types/strictlint/10full-litebrowser+2changedUI PASS;realPG6groups8returncomparisons,actualmapper/closedcashrefunds/fils/snapshotstableafterepoch/malformedrefused;integrity0/636/network0/cleanuptrue. No bridge/SQL change.",
     "ProductForm reused:lite hides purchase/cost/profit/stock;new product zero cost/stock;edit retains oldcost/thresholds inclconflict;modepre/postawait gates.86browser full+lite/type/lint/20units/27historyPASS. Existing219writers actual product+2flavors andoldcost/WAC preservation PG6groupsPASS;epoch6rows526ms/integrity0/636/network0/cleanuptrue.",
-    "Mode-aware GoLive/template/offlinechecker reused;lite costoptional0/manualavailability,nofilledstock/suppliers,customerchequesonly;modebounddurablejournal/freshread.30units/types/lint/24browser across original22+2correctedselectors PASS. Actualservice→PG4identities/leadingzeros/normalization/lostcreateresume/replayzerowrites;8s;epoch7groups6rows770ms/integrity0/636/network0/cleanuptrue."
+    "Mode-aware GoLive/template/offlinechecker reused;lite costoptional0/manualavailability,nofilledstock/suppliers,customerchequesonly;modebounddurablejournal/freshread.30units/types/lint/24browser across original22+2correctedselectors PASS. Actualservice→PG4identities/leadingzeros/normalization/lostcreateresume/replayzerowrites;8s;epoch7groups6rows770ms/integrity0/636/network0/cleanuptrue.",
+    "Costfree report parallel pinned219+immutablelite completions/returns;fullJSON exact,actualTS decoder;PG7groups8comparisons/integrity0/636/network0/cleanuptrue.10units17history/types/lint/14browserPASS;initial reader completeness and independent oracle corrected with preserved logs. Owner24hashes unchanged."
   ],
   "inProgress": [
     "Wire central verifiedmode intoApp/nav andremainingexistingUI;productflavor switches/storecatalog/receipt/returns/import/simple reports/openingUI+scale/FULLCI."
@@ -60,7 +61,8 @@
     "NAVIGATION14units/types/strictlint;57browser2existingconditionalSkips;history11PASS",
     "SHIFT_REPORT27units/types/lint;10browser+2affected;PG6groups/8comparisonsPASS",
     "PRODUCT_FORM86browser/types/lint/20units/27history;PRODUCT_DEFINITIONS_PASS6groups",
-    "IMPORT30units/type/lint/24browser;WORKBOOK_IMPORT_PASS7realPGgroups"
+    "IMPORT30units/type/lint/24browser;WORKBOOK_IMPORT_PASS7realPGgroups",
+    "SIMPLE_REPORT:10units17history/types/lint/14browser;7PGgroups8returns/fullJSON+lite totals actualdecoder PASS"
   ],
   "testsRemaining": [
     "CentralApp/navigation/product/store/import/receipt/returns/simple reports/openingUI+scale/mobile/FULLCI"
@@ -77,12 +79,12 @@
     "No owner/env edits;no Docker factory reset or unknown volume deletion",
     "628original function bodies frozen;8exact approved patches only"
   ],
-  "nextExactAction": "Commit/push verified mode-aware GoLive/workbook/offlinechecker. Next safe simple report/home and App/provider/nav wiring;storecatalog/cart,orderlist/delivery,epochUI+scale/fullchecks/DraftPR pending.",
-  "checkpointedAt": "2026-11-09T16:37:44.036Z",
+  "nextExactAction": "Commit/push verified simple report; then App verified-mode wiring and costfree home/store/epochUI+scale, fullCI/Draft remain",
+  "checkpointedAt": "2026-11-09T17:07:50.995Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 21,
-  "filesTouchedManifestSha256": "7305a2f58fd3664b94f4b8994e34c7febcd8e2c0a2edee2822ffc17a63c1d958",
-  "workingTreeFingerprint": "BCC29BCFCE5496CEA22B215C9F618349A0A41F984E99A653FB1DE7DCEA7653A8"
+  "filesTouchedCount": 15,
+  "filesTouchedManifestSha256": "0367fa697efc4c4798dd70fef88201d12d404d56226d1ab33705c534626bb9c3",
+  "workingTreeFingerprint": "146310896B4FB1C596B1007D1C8E5272CA314A5456E0B8C6CCEB811B6C11F577"
 }

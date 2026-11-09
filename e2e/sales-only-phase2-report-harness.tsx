@@ -1,0 +1,10 @@
+import {createRoot} from 'react-dom/client';
+import '../src/index.css';
+import {ReportsCenterView} from '../src/features/reports/ReportsCenterView';
+import {authStoreEngine,type AuthState} from '../src/stores/useAuthStore';
+import {storeEngine,type AppState} from '../src/stores/useAppStore';
+import {liteReportBranch} from './sales-only-phase2-report.fixture';
+const auth=authStoreEngine as unknown as {state:AuthState;getState:()=>AuthState;initAuth:()=>Promise<void>};
+auth.state={...auth.getState(),user:{id:'92600000-0000-4000-8000-000000000001'} as AuthState['user'],isAuthenticated:true,isLoading:false,roleName:'owner',roles:['owner']};auth.initAuth=async()=>undefined;
+const store=storeEngine as unknown as {state:AppState};store.state={...storeEngine.getState(),activeBranch:{id:liteReportBranch,name:'فرع الاختبار',address:'',city:'',phone:''}};
+createRoot(document.getElementById('root')!).render(<ReportsCenterView operatingMode="sales-only"/>);
