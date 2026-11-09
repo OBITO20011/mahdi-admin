@@ -1,91 +1,33 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner9Nov phase2:additive sales-only build above85;reuse existing UI/pure calculation helpers;opening epoch included;quarantined SQL/Draft PR/fullCI only.",
-  "baselineSha": "3f0d6b4fe9260e8937ab6b88574b1b58c6ac0b8f",
+  "baselineSha": "bc2a02fc0222913ad6dbdf3fbeca32dd432132b8",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase2",
   "phase": "SALES_ONLY_PHASE2",
   "startedAt": "2026-11-09T10:43:35.259Z",
   "completed": [
-    "New clean worktree from approved85 b305421c;Docker29.7.2 healthy;primary20/env4 hashes preserved;approved8bridge and636function pins copied externally.",
-    "Unchanged approved85 pending-guest foundation probe on fresh isolated219/180:integrity0 before,1 whilepending (orders:reservations),0 aftercompletion;zero moves/reservations,network0,cleanupPASS;636function/source guard PASS.",
-    "Reuse map and exact one-predicate proposal prepared;approved8patches and628frozen bodies untouched;owner20/env4 hashes unchanged.",
-    "Owner-approved recovery: app startup-cleanup force-removed worktree10:59:52UTC; recovered exact snapshot292b8689 into sales-only-phase2-recovery and pushed to GitHub. Git worktree locked; hourly/each milestone commit+push required.",
-    "Five pending-guest acceptance cases PASS on isolated219/180,network0,cleanuptrue;full rows/checkJSON unchanged,real defects still detected,628/636 unknownbyte guardsPASS.",
-    "Commercial private planner18real full comparisons PASS:12POS all line/parcel fils,6guest promoJSON/delivery;original636 unchanged;zero writes/ACL/WAC/staleprice/capacity negatives;network0/cleanuptrue.",
-    "CommercialPOS16variantsPASS with unchangedpublic636/8bridges,zero stock/cost,realparcel finalization,partialvoucher,debt,availability override,samekeyrace,existingclose,integrity0;network0/cleanuptrue.",
-    "Owner-approved repeat recovery ab62527e pushed;app startup cleanup ignoredGitlock;worktree movedoutside managedroot to C:/Users/TOP/NawasrahWorktrees/sales-only-phase2/mahdi-admin. POS cancellation/issue race and commercialactor18 recheckPASS;no activeDB.",
-    "Guest writerH1/replay/race/promo/delivery/unavailable/closedstore/anon negativesPASS;pending integrity0/zero stockcost/636guard;network0/cleanuptrue. Sharednewmaterializer reusedbyPOSandguest;POSrecheckpending.",
-    "ActualEdge→real localgateway/mode/litewriter/finalizer PASS twiceoneorder;ownerAAL2 required;34unitPASS;POS16+cancelrace aftershared materializerPASS;network0/cleanuptrue.",
-    "Lifecycle4actual full-vs-lite cash/CliQ/debt/partial monetaryJSON+drawer parityPASS;cancel/state/reference/overpay/race/zero stock/integrity0/636guardPASS;cleanuptrue.",
-    "Guestreplayroute acrossmodechangePASS:4originalfullguest replayswhileOFF,litereplayafterfixtureON,zero writes+role denial;completionparity stillPASS.",
-    "Return8full-vs-lite financial/damage comparisons PASS;preview/replay/zeroentitlement/race,existingcheque collection+bounce,parallelstatement full3pagesJSON andlitecanonical parity;closedshiftdebtreturn afterfixtureON zero stock;integrity0/636/network0/cleanuptrue.37unitsPASS.",
-    "Openingepoch kernel PASS:ownerAAL2/fullcount/stale/busy/rollback guards;6rows;concurrentreplay oneepoch530.765ms;GoLive+financialallrows/IDs identical;oldlitereturnnostock afterrealactivation;fullPOS realstock/500cost;integrity0/636/network0/cleanuptrue.38units/types/strictlintPASS.",
-    "ExistingPOS adapter/validator/recovery extendedwith durablemode+explicitavailabilityack;actualadapter→realPG16variantsPASS andallpriorPOSproofs;unknown/key/cancellation proofsafe;71units/types/strictlintPASS. PosView notwiredyet.",
-    "Mode reader/controller/provider builtbutnotAppwired:strictEdge-equivalent decoder/legacy404only,actor+forcedrefresh race/logout guards. Manualavailability client→PG familyinheritance/revisionCAS/ownerACL PASS;central fullquarantineinstaller+epochrecheckPASS,636/integrity0/network0/cleanuptrue.79units/types/changedfile strictlintPASS.",
-    "ExistingPosView modeprops/stockfreecart/manualavailabilityfreshread+explicitimmutableack;costNULL invoice;parallelPOSmixedreader noWAC/fakequantity.92units/types/strictlintPASS;32ChromiumWebKit existingfull+newtouchPASS;PG5groups/636/integrity0/network0/cleanuptrue. Appnotwiredyet.",
-    "ExistingProductsView/ProductDetailModal mode-aware:no inventory/cost/profit/receiving inOFF;groupedowner manualavailabilitypanel CAS+actor/generation guards,no lostreplyretry;62units/types/strictlint and40ChromiumWebKit full/litePASS. Root/form/importstillpending.",
-    "Immutableprovenance ledgerreaders:publicreceipt originaltokengate/fullJSON;litepaid/due/currentreturn noPII/cost. Customerstatementdispatch full3pagesexact/litereturn afterepoch;frontendlegacyfallback explicit404only. PG5groups/8returncomparisons/636/integrity0/network0/cleanuptrue;19+2units/typesboth/lint/30browserPASS.",
-    "ExistingdurableGuestLifecycle capturesliteflag/from immutableoperationtype;actualTS→PG4fullfinancialcomparisons,lostreply samekey/body/route,replayzeroRPC,cancel explicitlynottracked,stabletransitionidentity.58units/types/lint/14ChromiumWebKitPASS;PG4groups/636/integrity0/network0/cleanuptrue. FullOrderUI/deliverymetadata pending.",
-    "Aftercare/H1 UI+immutable context:11units/types/strictlint/4touchChromiumWebKit;PGreturn8comparisons5groups+guest4groups/628636/integrity0/network0/cleanuptrue. Existingdurable return recovery capturedmode;customer card preserved/proposalonly;canonicaldue read. RESTembeddedrelation/rootintegration stillpending.",
-    "Navigation policy+modecontrol foundation:14units/types/strictlint;57browserPASS2preexistingconditionalSkips;full nav/history regression retained. Owner+AAL2one OFF mutation/no automaticretry;ON onlyepoch. Exact historical path inverse repaired,newfileabsence+unknownbyte guards11PASS. ActualAppnotwiredyet.",
-    "Lite immutable shift closing reader/view reuses original closing/drawer/printing;no zero-filled full sections.27units/types/strictlint/10full-litebrowser+2changedUI PASS;realPG6groups8returncomparisons,actualmapper/closedcashrefunds/fils/snapshotstableafterepoch/malformedrefused;integrity0/636/network0/cleanuptrue. No bridge/SQL change.",
-    "ProductForm reused:lite hides purchase/cost/profit/stock;new product zero cost/stock;edit retains oldcost/thresholds inclconflict;modepre/postawait gates.86browser full+lite/type/lint/20units/27historyPASS. Existing219writers actual product+2flavors andoldcost/WAC preservation PG6groupsPASS;epoch6rows526ms/integrity0/636/network0/cleanuptrue.",
-    "Mode-aware GoLive/template/offlinechecker reused;lite costoptional0/manualavailability,nofilledstock/suppliers,customerchequesonly;modebounddurablejournal/freshread.30units/types/lint/24browser across original22+2correctedselectors PASS. Actualservice→PG4identities/leadingzeros/normalization/lostcreateresume/replayzerowrites;8s;epoch7groups6rows770ms/integrity0/636/network0/cleanuptrue.",
-    "Costfree report parallel pinned219+immutablelite completions/returns;fullJSON exact,actualTS decoder;PG7groups8comparisons/integrity0/636/network0/cleanuptrue.10units17history/types/lint/14browserPASS;initial reader completeness and independent oracle corrected with preserved logs. Owner24hashes unchanged.",
-    "ActualApp verified-mode root/nav/control wired;failedinitial blocks,failedrefresh preservescart/writesfenced. ReusedDashboardHome distinctcostfreeDTO+singleunionperiod RPC;actualday/month/collections/due parity PG8groups/8returns/636/integrity0/network0/cleanuptrue.22units/types/lint;18browser then12affected PASS,owner24hashesunchanged.",
-    "OFF ChequesView reusesincoming serverpagination/writers;no supplier reads/newactions;pending full form/body/key preserved and blockedOFF.74browser cases covered:73firstPASS+1documented NET_CHANGED firstload,one same-source environmental rerunPASS.49focusedunits/type/lintPASS;whole371historical AST/hash exact inverse rejectsforgedpath/hash/query/role. Owner24hashes unchanged.",
-    "Public parallel catalog/parcel/merchandising DBreads:7/9pinnedhunks,newwrapper fullJSONexact;OFF manualparent/flavor/nullquantity,no cost/stock.9units;actualPG5groupsinclEdge/H1/pricing/delivery/replay/integrity0/636/network0/cleanuptrue. Frontend/cartnotwiredyet.",
-    "Storefront/client quantity-free manual availability wired in existing cards/details/cart/mixed builder;schema2 nullquantity/freshmode reconciliation/prices retained.217storeunits/typesboth/strictlint/history11;16existingfull+C6 browser plus12new touch identities PASS across2engines/3901440 (corrected test copy/counter,original failed logs preserved).Actualmapper→PG5groups/628636/integrity0/network0/cleanuptrue;owner24hashes unchanged.",
-    "Public parallel promotion preview dispatch reuses pinned private commercial preview;fullJSON exact andmixed WAC NULL quote→actualTS mapper PASS onowned219/180;5PGgroups/628636/integrity0/network0/cleanuptrue.218storeunits/typesboth/strictlint/9guards and2actualChromiumWebKit quote→localgateway→receipt canonical5500PASS. OriginalfullRPC unchanged.",
-    "Shared browser/build pure readprotocol and strict OFF catalog envelope;localmanual+legacy219 SEO builds1product/1category/6URLsPASS;8productionbundle browser page budgets bothenginesPASS,negative realextra request rejected/noegress/CSPsame.219storeunits/types/lint/history10PASS;3selectedmanifest+loopbackguards and6cutover contractsPASS. Frozen198hash test still requires exact history repair,not declaredgreen.",
-    "Openingepoch owner/AAL2 worksheet+existingXLSX/integer parsers+durable samekey journal;5newmodel/recovery units and17focusedPASS;types/strictlint/8ChromiumWebKit mobile3901280 UI+navPASS. Owned219/180real820leaves/72newfamilies345newflavors/2warehouses1640rows8groupsPASS;preview926.805ms/activation+concurrent replay1788.446ms under8s;actualTS crashjournal resume afterON;allfinancialIDs/GoLive identical,oldlitereturnnostock,fullPOS500cost resumed;integrity0/628636/network0/cleanuptrue.",
-    "Canonical operational page wrapper leavesfull-only allJSON/filter/sort/pagesexact;lite summary/rows followactual1000debtreturn andrecipientorder snapshot,actualTS decoderreadonly. Reusedoriginaldeliverymetadata afterparallelpreparing-ready-out;durablecapture/lock/recovery samekey/bodyETA oneaudit/no stock.36units/types/strictlint;14priorlifecycle browser+2newtouchdeliveryPASS (firstselectorlabel corrected,pendingUI restoredafterreload).RealPG6groups/4fullfinancialcomparisons/628636/integrity0/network0/cleanuptrue.",
-    "Mixed-history report/home UI keyedactor+branch;strictprovenance decoder,full parsers reused;10units/types/strictlintPASS.WebKitPASS;Chromium firstlocal502 @vite/client traced andone standaloneenvironmentalrerunPASS.No bridge expanded.PGfullscale cashrefund closure stillpending."
+    "Durable detailed history/evidence:C:/Users/TOP/NawasrahFrankfurt/sales-only-phase2-20261109/CHECKPOINT_HISTORY_FULL.json;quarantinedDraft86 above85 only.",
+    "Commercial18,POS16,guest/EdgeH1,lifecycle4,returns8,import/cheques/mode/availability/catalog/SEO/delivery proof PASS;628/636 exact eight approved bridges;see tracked phase2 *_PROOF_AR.md.",
+    "Openingepoch1640rows/820leafSKUs/72families345flavors:standalone2277ms,oldlitecashrefund1000 innewfullshift/closingmoney0,integration0 and628636/network0/cleanuptrue.",
+    "Mixedreport/home10units/types/lint/bothenginesPASS;oneChromium502 @vite/client rerunPASS.Mixedclosing8units/types/lint/10browserPASS.Owner20/env4byteunchanged.",
+    "Optimizednewepoch1640rows1963.574ms/preview798.730ms;canonicalJSON exact,financialIDs/WAC/rollback/integrity0/628636PASS.MixedclosingfullJSONexact/count1/refund1000/read-onlyPASS;12units/type/lint/10browser.No newsharedguardimplemented."
   ],
-  "inProgress": [
-    "Mixed-history home/report completeness afteropeningepoch,live drawer/reversal boundaries,actualRESTembeddedrelation/currentroles/historyevidence,FULLCI/Draft."
-  ],
+  "inProgress": [],
   "notStarted": [
-    "Remaining storefront/operational UI/epoch scale and mixed history proof",
-    "Draft PR/exact fullCI/final Arabic report"
+    "Live drawer details/reversal boundary,actualRESTembedding/currentrole evidence/historyrepairs,FULLCI/finalreport."
   ],
   "testsPassed": [
-    "Fresh219180 migration foundation diagnostic;628/8source+metadata guard;noegress andcleanup",
-    "Approved pending-guest five-case acceptance:PASS",
-    "Commercial18comparisons+unit9PASS",
-    "Lite commercialPOS16+race/override/closePASS;unit9PASS",
-    "Return+cheque+statement real219/180:4groups/8financialcomparisons;full3pagesJSON exact;37units;sourcefrozen628/636;network0/cleanuptrue",
-    "EPOCH_PASS:3actualgroups/6rows/8s RPC;failure rollback allpublictables plus private mode/evidence;normalPostgres sequencegap checked;38units/types/strictlint",
-    "POS_ADAPTER_PASS actualTypeScript adapter→real21916cases;71unit inclhistory/currentdictionary+both recovery routes;types/strictlint",
-    "MODE_AVAILABILITY79units/types/focusedstrictlint;actualclient→PG CAS+parentinheritance andcompletequarantineinstaller epochrecheck PASS",
-    "POS_UI:92units;types;strictlint;32full/lite Chromium+WebKit touch regression;POS_OPTIONS_PASS5realgroups",
-    "PRODUCT_UI:62units/types/strictlint;40browser full+lite,no retries",
-    "LEDGER_READERS:PG5groups8comparisons;19admin+2storeunits;typesboth/strictlint;30ChromiumWebKitPASS",
-    "LIFECYCLE_ADAPTER:58units/types/strictlint;actualTS→PG4groups/4moneycomparisons;14browser full+litePASS",
-    "AFTERCARE_CONTEXT_PASS5PGgroups8comparisons;RECIPIENT_PROPOSAL_PASS4groups;11units/types/strictlint/4browser",
-    "NAVIGATION14units/types/strictlint;57browser2existingconditionalSkips;history11PASS",
-    "SHIFT_REPORT27units/types/lint;10browser+2affected;PG6groups/8comparisonsPASS",
-    "PRODUCT_FORM86browser/types/lint/20units/27history;PRODUCT_DEFINITIONS_PASS6groups",
-    "IMPORT30units/type/lint/24browser;WORKBOOK_IMPORT_PASS7realPGgroups",
-    "SIMPLE_REPORT:10units17history/types/lint/14browser;7PGgroups8returns/fullJSON+lite totals actualdecoder PASS",
-    "APP_HOME:22units/types/strictlint;18browser+12affected;PG8groups allPASS",
-    "CHEQUES_MODE:74cases covered inclone documentedenvironmental rerun;49focusedunits/types/lint;noSQL",
-    "STOREFRONT_READ:9units,PG5groups/fullJSONexact"
+    "Proofs are labeled per tracked docs/externallogs;no overall green claim.Draft86 earlyCI red:history inverses/currentrole evidence not updated."
   ],
   "testsRemaining": [
-    "CentralApp/navigation/product/store/import/receipt/returns/simple reports/openingUI+scale/mobile/FULLCI"
+    "Fresh epoch/mixedclosing/reversal proof;whole local quality/build/verify/Gitleaks/exactFULLCI."
   ],
-  "findings": [
-    "get_customer_statement192 doesnotinclude private lite returns;new parallel pinned reader adds genuine movement andkeeps canonical mismatch guard. Original functionand8bridges unchanged.",
-    "Current219 TABLE/SERVICE source evidence and current216 exactRPC delta tests remain legitimately outdated for phase2 new sources;need actual quarantined phase2 currentACL/RPC evidence at final delivery,not historical projection. Broadhistory54/56;focused49/49.",
-    "SEO context broader suite8/10:current dualwriter textual guard corrected andcutover6PASS;old198 hash transform expected284sources vs275frozen evidence remains;do not repin old financial/current evidence or bypass. Exact projection repair required beforeFULLCI.",
-    "Openingepoch worksheet localreader5000row limit explicit;server10000 remains.1640row realisticproofPASS.90day returnwindow tested viaexisting pureguard,no immutable timestamp rewrite or actualclock change."
+  "blockers": [
+    "OWNER_DECISION_REQUIRED:actual mixedshift reversal canExecute=true/executedinsideROLLBACK;summaryrefund0 whileprivate1000 persists.Allpublicrows rollbackverified.See SHIFT_REVERSAL_GUARD_PROPOSAL_AR.md."
   ],
-  "blockers": [],
-  "activeProcesses": [],
   "prohibitions": [
     "No merge/phase3/active migration or ceiling change",
     "No main/58/79/82 changes",
@@ -93,12 +35,16 @@
     "No owner/env edits;no Docker factory reset or unknown volume deletion",
     "628original function bodies frozen;8exact approved patches only"
   ],
-  "nextExactAction": "Runfullscale epoch standalone;paidoldlitecashrefund innewfullshift plusimmutableclosing mustpass;no extra bridge allowed.",
-  "checkpointedAt": "2026-11-09T20:05:24.395Z",
+  "nextExactAction": "WAIT OWNER:approve SHIFT_REVERSAL_GUARD_PROPOSAL_AR.md extra statusguard+parallelpreview;no newbridge implemented,no automaticresume.",
+  "checkpointedAt": "2026-11-09T20:40:37.922Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 16,
-  "filesTouchedManifestSha256": "c0bcf343a523a663f52d78e7a7d6f5e362fa350d4b5e8c97100c9f7f4b9b9f00",
-  "workingTreeFingerprint": "26499F8EF31765F7B64C3E85A45B26CB5BDD22F228B7C6173E6F0A7CAFABD39C"
+  "filesTouchedCount": 17,
+  "filesTouchedManifestSha256": "7a76bfcdc1860d394b0aa29eb7275756f7e19216b02794f96843c89664f389a9",
+  "workingTreeFingerprint": "313F8FF15D82108BDED817CFCE43464637F7B2EB9B6134572A8DAC014BC25D32",
+  "activeProcesses": [],
+  "findings": [
+    "Confirmed owner-decision gap: old full-shift reversal ignores private lite monetary refund. Proposal preserves628 original bodies and8 approved bridges via narrow additional status trigger,not implemented."
+  ]
 }

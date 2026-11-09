@@ -34,8 +34,9 @@ BEGIN
   pid:=public.phase3_require_uuid_internal(row->>'productId','epoch product');wid:=public.phase3_require_uuid_internal(row->>'warehouseId','epoch warehouse');
   quantity:=(row->>'actualQuantity')::BIGINT;cost:=(row->>'unitCostInMinorUnits')::BIGINT;
   IF quantity>2147483647 OR(quantity>0 AND cost<=0) THEN RAISE EXCEPTION 'LITE2_EPOCH_COST_QUANTITY_INVALID';END IF;
-  canonical:=canonical||jsonb_build_array(jsonb_build_object('productId',pid,'warehouseId',wid,'actualQuantity',quantity,'unitCostInMinorUnits',cost));
+  -- Validation stays row-specific; aggregate once instead of copying an ever-growing JSON array.
  END LOOP;
+ SELECT jsonb_agg(jsonb_build_object('productId',(x->>'productId')::UUID,'warehouseId',(x->>'warehouseId')::UUID,'actualQuantity',(x->>'actualQuantity')::BIGINT,'unitCostInMinorUnits',(x->>'unitCostInMinorUnits')::BIGINT)) INTO canonical FROM jsonb_array_elements(p_rows) x;
  IF EXISTS(SELECT 1 FROM jsonb_array_elements(canonical) x GROUP BY x->>'productId',x->>'warehouseId' HAVING count(*)>1)
  OR EXISTS(SELECT 1 FROM jsonb_array_elements(canonical) x GROUP BY x->>'productId' HAVING count(DISTINCT x->>'unitCostInMinorUnits')>1)
  THEN RAISE EXCEPTION 'LITE2_EPOCH_DUPLICATE_OR_COST_CONFLICT';END IF;
@@ -119,10 +120,13 @@ BEGIN
  -- Mode, physical counts and costs commit atomically. Any error rolls back ALL.
  -- The original inventory/cost guards now admit only ordinary full-mode work.
  UPDATE sales_lite1.mode SET full_accounting=true WHERE id;
+ -- One cost per SKU was already validated across every warehouse. Update each
+ -- product once, not once per warehouse; keep all ordinary triggers enabled.
+ UPDATE public.products p SET cost_price_in_minor_units=c.cost,
+  wac_cost_in_minor_units_exact=c.cost::NUMERIC,updated_at=at
+ FROM (SELECT DISTINCT (x->>'productId')::UUID pid,(x->>'unitCostInMinorUnits')::BIGINT cost FROM jsonb_array_elements(plan->'lines') x) c WHERE p.id=c.pid;
  FOR line IN SELECT value FROM jsonb_array_elements(plan->'lines') LOOP
   pid:=(line->>'productId')::UUID;wid:=(line->>'warehouseId')::UUID;
-  UPDATE public.products SET cost_price_in_minor_units=(line->>'unitCostInMinorUnits')::BIGINT,
-   wac_cost_in_minor_units_exact=(line->>'unitCostInMinorUnits')::NUMERIC,updated_at=at WHERE id=pid;
   INSERT INTO public.inventory_balances(product_id,warehouse_id,on_hand_quantity,reserved_quantity,updated_at)
    VALUES(pid,wid,(line->>'actualQuantity')::INTEGER,0,at)
    ON CONFLICT(product_id,warehouse_id) DO UPDATE SET on_hand_quantity=EXCLUDED.on_hand_quantity,updated_at=EXCLUDED.updated_at;

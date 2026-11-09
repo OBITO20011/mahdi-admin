@@ -1,3 +1,7 @@
+#9Nov2026 — phase2 WAIT OWNER: exceptional shift-reversal gap
+
+Draft86 incomplete. Owned219/180 real1640rowepoch1963.574ms/preview798.730ms afternew-only optimization;canonicalJSON/ledger/WAC/integrity0/628636PASS. Mixedcashrefund/closing1000/0 andnewcostfree reader/count1PASS;12focusedunits/types/lint/10browser. Newnegative gate exposedold full-shift reversal ignoringprivate1000refund (previewtrue,summary0 afterreversal insideROLLBACK);allpublicrows restored,cleanuptrue. No unapprovedguardimplemented. Proposal SHIFT_REVERSAL_GUARD_PROPOSAL_AR.md recommendsnarrowextra status-trigger+parallelpreview,preserving628/8. Await explicitapproval;no main/hosted/deploy/merge/phase3. Detailedhistory/evidenceexternal;finalFULLCI notgreen.
+
 #9Nov2026 — phase2 pending-guest bridge acceptance PASS;build continues
 
 Five real PostgreSQL219/180 cases PASS:lite new/preparing/completed integrity0,full pending exact parity,full defect evenOFF/forgedtype detected,illegal lite reservation detected,628bodies/636metadata and8exactpatches withunknownbyte negatives. Only monitoring fallback predicate added by ownerapproval. Recovery292b8689 pushed;Codex startup auto-cleanup cause documented;hourly/milestone commitpush. Fullphase2 UI/commercial/openingepoch andCI NOT complete.

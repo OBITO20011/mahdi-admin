@@ -126,6 +126,7 @@ export async function verifyOpeningEpoch(c,report){
  // Process-crash fixture:journal persisted before two deliberately concurrent
  // same-key requests;neither response reached this client before its restart.
  disk.setItem(epochService.openingEpochJournalKey(id(1)),JSON.stringify({...prepared,status:'IN_FLIGHT'}));
+ const canonicalRequest=await json(`SELECT sales_lite2.epoch_request(${j(rows)},${q(notes)});`);assert.deepEqual(canonicalRequest,{notes:notes.trim(),rows:[...rows].sort((a,b)=>a.productId.localeCompare(b.productId)||a.warehouseId.localeCompare(b.warehouseId))},'CANONICAL_MANIFEST_UNCHANGED_AFTER_AGGREGATION');
  const activationKey=prepared.key,call=apply(preview,activationKey),start=performance.now();
  const pair=await Promise.all([rpc(call),rpc(call)]),elapsed=performance.now()-start;
  assert.deepEqual(pair[0],pair[1]);assert.equal(pair[0].fullAccounting,true);
@@ -158,6 +159,7 @@ export async function verifyOpeningEpoch(c,report){
  await assert.rejects(sql("SELECT sales_lite1.assert_return_window(clock_timestamp()-interval '90 days',clock_timestamp());"),/PHASE4_RETURN_WINDOW_EXPIRED/);
  const fullShift=(await rpc(`open_cash_shift(${q(branch)},0)`)).id;
  const full=await rpc(`create_pos_sale_v2(${q(warehouse)},${q(branch)},${q(id(401))},'بعد التفعيل','cash',${j([{...line,base_quantity:1}])},0,1000,${q(key())})`);
+ const fullPair=await json(`BEGIN;SELECT set_config('request.jwt.claims',${j({sub:id(1),role:'authenticated',aal:'aal2'})}::TEXT,true);SET LOCAL ROLE authenticated;SELECT jsonb_build_object('current',public.lite1_shift_closing2(${q(fullShift)}),'original',public.get_cash_shift_closing_report(${q(fullShift)}));COMMIT;`);assert.deepEqual(fullPair.current,fullPair.original,'FULL_SHIFT_WITHOUT_LITE_REFUND_EXACT_JSON');
  assert.equal(full.totalInMinorUnits,1000);assert.equal(full.items[0].cogsInMinorUnits,500);
  assert.equal(Number(await sql(`SELECT on_hand_quantity FROM public.inventory_balances WHERE product_id=${q(pid)} AND warehouse_id=${q(warehouse)};`)),19);
  const paidLiteItem=await json(`SELECT to_jsonb(id) FROM public.order_items WHERE order_id=${q(paidLiteSale.orderId)};`);
@@ -166,11 +168,26 @@ export async function verifyOpeningEpoch(c,report){
  const stockBeforeOldCash=await stock();await rpc(`lite1_settle_return2(${j(cashReturnPayload)},${q(key())},${q(cashReturnPreview.previewFingerprint)})`);assert.deepEqual(await stock(),stockBeforeOldCash);
  const fullSummary=await rpc(`get_cash_shift_summary(${q(fullShift)})`);
  assert.equal(fullSummary.cashRefundsInMinorUnits,1000);assert.equal(fullSummary.expectedCashInMinorUnits,0);
+ const exceptionalPreview=await rpc(`preview_cash_shift_full_reversal(${q(fullShift)})`);
+ report.mixedReversal={preview:exceptionalPreview,executedInsideRollbackOnly:false};
+ if(exceptionalPreview.canExecute===true){
+  const beforeReversal=await readApplicationFingerprint(executor);
+  try{
+   const observed=await json(`BEGIN;SELECT set_config('request.jwt.claims',${j({sub:id(1),role:'authenticated',aal:'aal2'})}::TEXT,true);SET LOCAL ROLE authenticated;SELECT public.reverse_cash_shift_with_operations(${q(fullShift)},'اختبار محلي ثم تراجع كامل',${q(key())});RESET ROLE;SELECT jsonb_build_object('summary',public.get_cash_shift_summary(${q(fullShift)}),'privateRefundInMinorUnits',(SELECT sum(money_refund) FROM sales_lite1.returns WHERE shift_id=${q(fullShift)}));ROLLBACK;`);
+   report.mixedReversal.executedInsideRollbackOnly=true;report.mixedReversal.observed=observed;
+  }catch(error){report.mixedReversal.executionRejected=String(error.message).slice(0,1200);assert.match(report.mixedReversal.executionRejected,/PHASE|LITE|محجوب|غير مدعوم/,'UNEXPECTED_REVERSAL_PROBE_ERROR');}
+  assert.deepEqual((await readApplicationFingerprint(executor)).tables,beforeReversal.tables,'EXCEPTIONAL_REVERSAL_PROBE_ROLLED_BACK_EVERY_PUBLIC_ROW');
+ }
  await rpc(`close_cash_shift(${q(fullShift)},${fullSummary.expectedCashInMinorUnits},NULL)`);
  const mixedClosing=await rpc(`get_cash_shift_closing_report(${q(fullShift)})`);
  report.mixedClosing={shift:mixedClosing.shift,reconciliation:mixedClosing.reconciliation,outflows:mixedClosing.outflows};
  assert.equal(mixedClosing.shift.cashRefundsInMinorUnits,1000,'MIXED_FULL_SHIFT_SUMMARY_OLD_LITE_REFUND');
  assert.equal(mixedClosing.outflows.cashRefundsInMinorUnits,1000,'MIXED_FULL_SHIFT_SNAPSHOT_OLD_LITE_REFUND');
+ const closingReader=await tsImport('../../src/services/supabase/expenses-shifts.service.ts',import.meta.url),closedRows=await json(`SELECT to_jsonb(s) FROM public.cash_shifts s WHERE id=${q(fullShift)};`);
+ const mixedRead=await rpc(`lite1_shift_closing2(${q(fullShift)})`),mappedMixed=closingReader.parseCashShiftClosingReport(mixedRead,fullShift);
+ assert.equal(mixedRead.historyWithoutCost,true);assert.equal(mixedRead.returnCount,1);assert.equal(mixedRead.orderCount,1);assert.equal(mixedRead.returnMoneyInMinorUnits,1000);assert.equal(mappedMixed.returnCount,1);assert.equal(mappedMixed.shift.expectedCash,0);assert.equal(mappedMixed.shift.cashRefunds,1);
+ assert.doesNotMatch(JSON.stringify(mixedRead),/grossProfit|cogs|unitCost|profitIn|costIn/i);assert.deepEqual(await json(`SELECT to_jsonb(s) FROM public.cash_shifts s WHERE id=${q(fullShift)};`),closedRows,'MIXED_READ_CANNOT_REWRITE_SNAPSHOT');
+ assert.equal(await sql("SELECT has_function_privilege('anon','public.lite1_shift_closing2(uuid)','EXECUTE');"),'f');
  const period=await json(`SELECT jsonb_build_object('from',(now() AT TIME ZONE 'Asia/Amman')::DATE,'to',(now() AT TIME ZONE 'Asia/Amman')::DATE);`);
  const rawMixedReport=await rpc(`lite1_reporting_report2(${q(branch)},${q(period.from)},${q(period.to)})`),rawMixedHome=await rpc(`lite1_reporting_home2(${q(branch)})`);
  const reporting=await tsImport('../../src/services/supabase/reportingDispatch.service.ts',import.meta.url);
@@ -179,5 +196,6 @@ export async function verifyOpeningEpoch(c,report){
  assert.equal(rawMixedReport.sales.grossSalesInMinorUnits,5000);assert.equal(rawMixedReport.sales.returnEntitlementInMinorUnits,2000);assert.equal(rawMixedReport.sales.netSalesInMinorUnits,3000);
  const monitor=await json('SELECT public.run_advanced_monitoring_checks();');assert.equal(monitor.integrityIssueCount,0,JSON.stringify(monitor));
  assertFrozenFunctions(before,await json(functionCatalogSql));
- report.cases.push({name:'realactivation thenoldlitereturn nostock/debtcorrect;90daywindowclosed;unchangedfullPOS resumesrealstock/cost;integrity0 and628/636 guard',passed:true});
+ report.cases.push({name:'realactivation thenoldlitereturn nostock/debtcorrect;90daywindowclosed;unchangedfullPOS resumesrealstock/cost;mixedclosingreadonly/counts;integrity0 and628/636 guard',passed:true});
+ if(report.mixedReversal.executedInsideRollbackOnly)assert.fail('LITE2_MIXED_SHIFT_REVERSAL_UNGUARDED_OWNER_DECISION_REQUIRED');
 }

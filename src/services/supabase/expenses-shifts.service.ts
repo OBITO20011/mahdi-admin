@@ -1,3 +1,4 @@
+import {readOperatingShiftReport} from './operatingShiftReport';
 import {parseSalesOnlyShiftReport,type CashShiftClosingResult} from './salesOnlyShiftReport';
 import { isSupabaseConfigured, supabase } from '../../lib/supabase';
 import type { Expense, Shift, ShiftClosingReport } from '../../types';
@@ -303,10 +304,7 @@ export async function reverseCashShiftWithOperationsInSupabase(
 export async function fetchCashShiftClosingReportFromSupabase(
   shiftId: string
 ): Promise<CashShiftClosingResult> {
-  const { data, error } = await requireClient().rpc(
-    'get_cash_shift_closing_report',
-    { p_shift_id: shiftId }
-  );
+  const {data,error}=await readOperatingShiftReport(shiftId);
   if (error) {
     throw new Error(error.message || 'تعذر تحميل تقرير إغلاق الوردية.');
   }

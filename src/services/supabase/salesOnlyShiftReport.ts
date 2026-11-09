@@ -1,9 +1,10 @@
 import type {Shift,ShiftClosingReport} from '../../types';
 
-export interface SalesOnlyShiftClosingReport {
+interface CostFreeShiftCore {
  accountingTracked:false;shift:Shift;snapshotStatus:'immutable'|'legacy_recalculated'|'live'|'not_applicable';
- orderCount:number;returnEntitlementInMinorUnits:number;netMovementInMinorUnits:number;
+ orderCount:number;netMovementInMinorUnits:number;
 }
+export type SalesOnlyShiftClosingReport=CostFreeShiftCore&({historyWithoutCost?:undefined;returnEntitlementInMinorUnits:number}|{historyWithoutCost:true;returnMoneyInMinorUnits:number;returnCount:number});
 export type CashShiftClosingResult=ShiftClosingReport|SalesOnlyShiftClosingReport;
 const record=(v:unknown):v is Record<string,unknown>=>!!v&&typeof v==='object'&&!Array.isArray(v);
 const invalid=()=>Error('SHIFT-01: تعذر التحقق من تقرير الوردية؛ أعد قراءة التقرير ولا تعتمد أرقاماً ناقصة.');
@@ -15,7 +16,7 @@ export function isSalesOnlyShiftReport(value:CashShiftClosingResult):value is Sa
  * order totals to reconstruct an old closing snapshot. */
 export function parseSalesOnlyShiftReport(value:unknown,shiftId:string,mapShift:(summary:Record<string,unknown>)=>Shift):SalesOnlyShiftClosingReport {
  if(!record(value)||value.success!==true||value.accountingTracked!==false||value.shiftId!==shiftId
-  ||!record(value.summary)||!record(value.reconciliation)||!Array.isArray(value.sales))throw invalid();
+  ||!record(value.summary)||!record(value.reconciliation))throw invalid();
  const s=value.summary,r=value.reconciliation;
  if(s.id!==shiftId||typeof s.shiftNumber!=='string'||typeof s.branchId!=='string'||typeof s.startTime!=='string'
   ||!['open','closed','cancelled','reversed'].includes(String(s.status))
@@ -38,6 +39,13 @@ export function parseSalesOnlyShiftReport(value:unknown,shiftId:string,mapShift:
  if(!Number.isSafeInteger(net)||net!==minor(r.netMovementInMinorUnits))throw invalid();
  if(s.status==='closed'&&(s.actualCashInMinorUnits===null||s.cashDiscrepancyInMinorUnits===null
   ||minor(s.actualCashInMinorUnits)-minor(s.expectedCashInMinorUnits)!==s.cashDiscrepancyInMinorUnits||value.snapshotStatus!=='immutable'))throw invalid();
+ if(minor(value.cashExpensesInMinorUnits)!==s.cashExpensesInMinorUnits)throw invalid();
+ if(value.historyWithoutCost===true){
+  if(value.contractVersion!=='lite2-mixed-shift-v1'||minor(value.orderCount)<0||minor(value.returnCount)<1||minor(value.returnMoneyInMinorUnits)<=0
+   ||value.returnMoneyInMinorUnits!==minor(s.cashRefundsInMinorUnits)+minor(s.cliqRefundsInMinorUnits))throw invalid();
+  return {accountingTracked:false,historyWithoutCost:true,shift:mapShift(s),snapshotStatus:value.snapshotStatus as CostFreeShiftCore['snapshotStatus'],orderCount:minor(value.orderCount),returnMoneyInMinorUnits:minor(value.returnMoneyInMinorUnits),returnCount:minor(value.returnCount),netMovementInMinorUnits:minor(r.netMovementInMinorUnits)};
+ }
+ if(value.historyWithoutCost!==undefined||!Array.isArray(value.sales))throw invalid();
  const ids=new Set<string>();
  for(const order of value.sales){if(!record(order)||typeof order.orderId!=='string'||ids.has(order.orderId)||minor(order.totalInMinorUnits)<0
   ||minor(order.collectedInMinorUnits)<0||minor(order.collectedInMinorUnits)>minor(order.totalInMinorUnits))throw invalid();ids.add(order.orderId);}

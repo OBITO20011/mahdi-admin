@@ -3,7 +3,23 @@
   "files": [
     {
       "code": " M",
+      "path": "docs/agent/PHASE_STATUS.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/design/sales-only-phase2/opening-epoch.sql"
+    },
+    {
+      "code": " M",
       "path": "e2e/isolated-test.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/sales-only-phase2-closing.fixture.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/sales-only-phase2-closing.spec.ts"
     },
     {
       "code": " M",
@@ -19,31 +35,23 @@
     },
     {
       "code": " M",
-      "path": "src/features/dashboard/DashboardHome.tsx"
+      "path": "src/features/shifts/SalesOnlyShiftClosingReportModal.tsx"
     },
     {
       "code": " M",
-      "path": "src/features/dashboard/DashboardView.tsx"
+      "path": "src/services/supabase/expenses-shifts.service.ts"
     },
     {
       "code": " M",
-      "path": "src/features/reports/ReportsCenterView.tsx"
+      "path": "src/services/supabase/salesOnlyShiftReport.ts"
     },
     {
       "code": " M",
-      "path": "src/features/reports/SalesOnlyReportsView.tsx"
+      "path": "tests/aftercare215-closing.test.ts"
     },
     {
       "code": " M",
-      "path": "src/services/supabase/dashboard.service.ts"
-    },
-    {
-      "code": " M",
-      "path": "src/services/supabase/reports.service.ts"
-    },
-    {
-      "code": " M",
-      "path": "src/services/supabase/salesOnlyHome.service.ts"
+      "path": "tests/sales-only-phase2-closing.test.ts"
     },
     {
       "code": " M",
@@ -51,19 +59,15 @@
     },
     {
       "code": "??",
-      "path": "docs/design/sales-only-phase2/reporting-dispatch.sql"
+      "path": "docs/design/sales-only-phase2/SHIFT_REVERSAL_GUARD_PROPOSAL_AR.md"
     },
     {
       "code": "??",
-      "path": "e2e/sales-only-phase2-mixed-history.spec.ts"
+      "path": "docs/design/sales-only-phase2/shift-report.sql"
     },
     {
       "code": "??",
-      "path": "src/services/supabase/reportingDispatch.service.ts"
-    },
-    {
-      "code": "??",
-      "path": "tests/sales-only-phase2-mixed-history.test.ts"
+      "path": "src/services/supabase/operatingShiftReport.ts"
     }
   ]
 }
