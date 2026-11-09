@@ -98,3 +98,16 @@ test('parallel statement adds only provenlite movements and completiondate;canon
  assert.doesNotMatch(expected,/\b(?:INSERT|UPDATE|DELETE|TRUNCATE|ALTER)\b/u);
  assert.throws(()=>liteStatementSource({...row,source:row.source+'UNKNOWN'}),/STATEMENT_ORIGINAL_SOURCE_DRIFT/);
 });
+
+test('opening epoch isquarantined,atomic anddistinctfrom047;ownerAAL2 andcount/seal/busy guards',()=>{
+ const sql=read('docs/design/sales-only-phase2/opening-epoch.sql');
+ assert.doesNotMatch(sql,/CREATE OR REPLACE FUNCTION|(?:INSERT INTO|UPDATE|DELETE FROM) public\.(?:orders|order_items|customers|customer_payments|go_live_setup_state|inventory_opening_sessions|inventory_opening_items)/);
+ assert.equal((sql.match(/auth\.jwt\(\)->>'aal' IS DISTINCT FROM 'aal2'/g)??[]).length,2);
+ assert.match(sql,/FOR UPDATE NOWAIT/);assert.match(sql,/SHARE ROW EXCLUSIVE MODE NOWAIT/);
+ assert.match(sql,/LITE2_EPOCH_COMPLETE_COUNT_REQUIRED/);assert.match(sql,/LITE2_EPOCH_PREVIEW_CHANGED/);
+ assert.match(sql,/LITE2_EPOCH_GO_LIVE_NOT_FINISHED/);assert.match(sql,/reservation_state='active'/);
+ assert.match(sql,/CREATE TRIGGER lite2_immutable/);
+ const flip=sql.indexOf('UPDATE sales_lite1.mode SET full_accounting=true'),stock=sql.indexOf('UPDATE public.products SET cost_price');
+ assert.ok(flip>sql.indexOf('LITE2_EPOCH_PREVIEW_CHANGED')&&stock>flip);
+ assert.match(read('docs/design/sales-only-phase2/entrypoints.sql'),/REVOKE ALL ON FUNCTION public\.lite1_set_mode\(BOOLEAN\)/);
+});
