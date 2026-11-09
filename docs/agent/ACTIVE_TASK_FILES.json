@@ -7,27 +7,11 @@
     },
     {
       "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/design/sales-only-phase2/SHIFT_REVERSAL_GUARD_PROPOSAL_AR.md"
-    },
-    {
-      "code": " M",
       "path": "e2e/isolated-test.ts"
     },
     {
       "code": " M",
-      "path": "e2e/package-f-cash-harness.tsx"
-    },
-    {
-      "code": " M",
       "path": "scripts/audit/sales-only-phase2-source-pins.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-sales-only-phase2-epoch.mjs"
     },
     {
       "code": " M",
@@ -39,19 +23,7 @@
     },
     {
       "code": " M",
-      "path": "src/App.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/features/shifts/ShiftsView.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/services/supabase/expenses-shifts.service.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/aftercare215-closing.test.ts"
+      "path": "src/services/supabase/cashShiftMovements.service.ts"
     },
     {
       "code": " M",
@@ -59,23 +31,27 @@
     },
     {
       "code": "??",
-      "path": "docs/design/sales-only-phase2/shift-reversal-guard.sql"
+      "path": "docs/design/sales-only-phase2/DRAWER_GUARD_PROOF_AR.md"
     },
     {
       "code": "??",
-      "path": "e2e/sales-only-phase2-shift-reversal.spec.ts"
+      "path": "docs/design/sales-only-phase2/drawer-readers.sql"
     },
     {
       "code": "??",
-      "path": "scripts/testing/sales-only-phase2-shift-guard-runtime.mjs"
+      "path": "e2e/sales-only-phase2-drawer.spec.ts"
     },
     {
       "code": "??",
-      "path": "src/services/supabase/operatingShiftReversal.ts"
+      "path": "scripts/testing/sales-only-phase2-drawer.mjs"
     },
     {
       "code": "??",
-      "path": "tests/sales-only-phase2-shift-reversal.test.ts"
+      "path": "src/services/supabase/operatingShiftMovements.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/sales-only-phase2-drawer.test.ts"
     }
   ]
 }

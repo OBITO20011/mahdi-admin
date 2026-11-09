@@ -1,3 +1,4 @@
+import {readOperatingShiftMovements} from './operatingShiftMovements';
 import {supabase,isSupabaseConfigured} from '../../lib/supabase';
 import type {CashFlowKind} from '../../features/shifts/cashFlowModel';
 
@@ -43,9 +44,8 @@ export function parseCashShiftMovementPage(value:unknown):CashShiftMovementPage 
 }
 export async function fetchCashShiftMovementPage(shiftId:string,kind:CashFlowKind,method:'cash'|'cliq'|'card',page:number,signal?:AbortSignal):Promise<CashShiftMovementPage> {
   if(!supabase||!isSupabaseConfigured)throw new Error('تفاصيل الوردية غير متاحة حالياً.');
-  const request=supabase.rpc('get_cash_shift_movement_page',{p_shift_id:shiftId,p_kind:kind,p_method:method,p_page:page,p_page_size:25});
-  const {data,error}=await (signal?request.abortSignal(signal):request);
-  if(error)throw new Error(error.code==='PGRST202'?'تفاصيل العمليات تحتاج ترقية قاعدة البيانات إلى 206.':error.message||'تعذر تحميل تفاصيل الوردية.');
+  const {data,error}=await readOperatingShiftMovements({p_shift_id:shiftId,p_kind:kind,p_method:method,p_page:page,p_page_size:25},signal);
+  if(error)throw new Error('SHIFT-04: تعذر التحقق من تفاصيل الوردية. أعد قراءتها؛ يبقى مبلغ الإغلاق المحفوظ كما هو.');
   const result=parseCashShiftMovementPage(data);
   if(result.shiftId!==shiftId||result.kind!==kind||result.method!==method||result.page!==page)throw new Error('تفاصيل الوردية لا تطابق الطلب.');
   return result;

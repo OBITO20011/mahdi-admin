@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner9Nov phase2:additive sales-only build above85;reuse existing UI/pure calculation helpers;opening epoch included;quarantined SQL/Draft PR/fullCI only.",
-  "baselineSha": "44bbdbacd7b802adbf0e2024185b1c5385f744d8",
+  "baselineSha": "d2457f91c2ec6fc24a8ddf766821888b049ff750",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase2",
   "phase": "SALES_ONLY_PHASE2",
@@ -11,13 +11,13 @@
   "completed": [
     "Durable detailed history/evidence:C:/Users/TOP/NawasrahFrankfurt/sales-only-phase2-20261109/CHECKPOINT_HISTORY_FULL.json;quarantinedDraft86 above85 only.",
     "Commercial18,POS16,guest/EdgeH1,lifecycle4,returns8,import/cheques/mode/availability/catalog/SEO/delivery proof PASS;628/636 exact eight approved bridges;see tracked phase2 *_PROOF_AR.md.",
-    "Openingepoch1640rows/820leafSKUs/72families345flavors:standalone2277ms,oldlitecashrefund1000 innewfullshift/closingmoney0,integration0 and628636/network0/cleanuptrue.",
     "Mixedreport/home10units/types/lint/bothenginesPASS;oneChromium502 @vite/client rerunPASS.Mixedclosing8units/types/lint/10browserPASS.Owner20/env4byteunchanged.",
-    "Optimizednewepoch1640rows1963.574ms/preview798.730ms;canonicalJSON exact,financialIDs/WAC/rollback/integrity0/628636PASS.MixedclosingfullJSONexact/count1/refund1000/read-onlyPASS;12units/type/lint/10browser.No newsharedguardimplemented.",
-    "Ownerapprovednarrowstatusguard+parallelpreviewimplementedquarantined;no628/8body changes.19units/types/strictlint/58full+newtouchbrowserPASS. ActualPGcash/CliQ/zero/cancel/reallockraces pending."
+    "Ownerapprovednarrowstatusguard+parallelpreviewimplementedquarantined;no628/8body changes.19units/types/strictlint/58full+newtouchbrowserPASS. ActualPGcash/CliQ/zero/cancel/reallockraces pending.",
+    "Approvedadditionalshiftguard actualPG12groupsPASS:cash/CliQ/directcancel/zero/fullJSON+originalfullreversal/2realblocked-session raceorders/close.1640rows1909.567ms preview678.190ms;integrity0/628636/network0/cleanuptrue;GUARD_PG_PASS.json.",
+    "Drawer13actualPGgroupsPASS:TSdecoder canonicalcash/CliQ/collections/literefundpages1/noduplicates/read-only/fullJSONexact;guard/reallockraces stillPASS.1640rows1426.930ms;628636/integrity0/network0/cleanuptrue.14units/type/lint+4browserPASS;2initialnewselectorfailuresfixedtestonly."
   ],
   "inProgress": [
-    "Implementapprovedshiftguard;actualPGfullparity/cashCliQ/zero/cancel/races;thenfinishphase2remainingevidence/FULLCI."
+    "Current actual access/REST evidence and strict historical views;FULLCI/finalreport."
   ],
   "notStarted": [
     "Live drawer details/reversal boundary,actualRESTembedding/currentrole evidence/historyrepairs,FULLCI/finalreport."
@@ -37,14 +37,14 @@
     "No owner/env edits;no Docker factory reset or unknown volume deletion",
     "628original function bodies frozen;8exact approved patches only"
   ],
-  "nextExactAction": "RunapprovedguardPG standalone withfullscaleepoch andrealrowlock races;no newbridge.58browser/19units/types/lintPASS.",
-  "checkpointedAt": "2026-11-09T21:14:58.585Z",
+  "nextExactAction": "Drawer/guard13PGgroupsPASS;finish exacthistoricalviews/currentroleRESTevidence/FULLCI;no newbridge or activeSQL.",
+  "checkpointedAt": "2026-11-09T21:37:10.790Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 19,
-  "filesTouchedManifestSha256": "7bbdea9fffcc7520bfd441e876cbbd4dca091634822ace82bd231f500d47add5",
-  "workingTreeFingerprint": "0FA96E10B1A73154F5FE09DE230A88F55DD64D4E8C550665D39595B00D8A39B4",
+  "filesTouchedCount": 13,
+  "filesTouchedManifestSha256": "4a3cd04ee93b6c64a42b6c2a405a64f706e8b792cef0a5090f141b3e30dfbc18",
+  "workingTreeFingerprint": "AA1AF2014755DC06A71D44758874F95C8C82466E83075EE240ED9A2BB502D72F",
   "activeProcesses": [],
   "findings": [
     "Ownerexplicitlyapproved narrowadditionalstatusguard+parallelpreview9Nov;keep628 originalbodies/eightbridgepatches unchanged."
