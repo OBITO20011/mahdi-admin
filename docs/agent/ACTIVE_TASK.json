@@ -30,7 +30,8 @@
     "Immutableprovenance ledgerreaders:publicreceipt originaltokengate/fullJSON;litepaid/due/currentreturn noPII/cost. Customerstatementdispatch full3pagesexact/litereturn afterepoch;frontendlegacyfallback explicit404only. PG5groups/8returncomparisons/636/integrity0/network0/cleanuptrue;19+2units/typesboth/lint/30browserPASS.",
     "ExistingdurableGuestLifecycle capturesliteflag/from immutableoperationtype;actualTS→PG4fullfinancialcomparisons,lostreply samekey/body/route,replayzeroRPC,cancel explicitlynottracked,stabletransitionidentity.58units/types/lint/14ChromiumWebKitPASS;PG4groups/636/integrity0/network0/cleanuptrue. FullOrderUI/deliverymetadata pending.",
     "Aftercare/H1 UI+immutable context:11units/types/strictlint/4touchChromiumWebKit;PGreturn8comparisons5groups+guest4groups/628636/integrity0/network0/cleanuptrue. Existingdurable return recovery capturedmode;customer card preserved/proposalonly;canonicaldue read. RESTembeddedrelation/rootintegration stillpending.",
-    "Navigation policy+modecontrol foundation:14units/types/strictlint;57browserPASS2preexistingconditionalSkips;full nav/history regression retained. Owner+AAL2one OFF mutation/no automaticretry;ON onlyepoch. Exact historical path inverse repaired,newfileabsence+unknownbyte guards11PASS. ActualAppnotwiredyet."
+    "Navigation policy+modecontrol foundation:14units/types/strictlint;57browserPASS2preexistingconditionalSkips;full nav/history regression retained. Owner+AAL2one OFF mutation/no automaticretry;ON onlyepoch. Exact historical path inverse repaired,newfileabsence+unknownbyte guards11PASS. ActualAppnotwiredyet.",
+    "Lite immutable shift closing reader/view reuses original closing/drawer/printing;no zero-filled full sections.27units/types/strictlint/10full-litebrowser+2changedUI PASS;realPG6groups8returncomparisons,actualmapper/closedcashrefunds/fils/snapshotstableafterepoch/malformedrefused;integrity0/636/network0/cleanuptrue. No bridge/SQL change."
   ],
   "inProgress": [
     "Wire central verifiedmode intoApp/nav andremainingexistingUI;productflavor switches/storecatalog/receipt/returns/import/simple reports/openingUI+scale/FULLCI."
@@ -54,7 +55,8 @@
     "LEDGER_READERS:PG5groups8comparisons;19admin+2storeunits;typesboth/strictlint;30ChromiumWebKitPASS",
     "LIFECYCLE_ADAPTER:58units/types/strictlint;actualTS→PG4groups/4moneycomparisons;14browser full+litePASS",
     "AFTERCARE_CONTEXT_PASS5PGgroups8comparisons;RECIPIENT_PROPOSAL_PASS4groups;11units/types/strictlint/4browser",
-    "NAVIGATION14units/types/strictlint;57browser2existingconditionalSkips;history11PASS"
+    "NAVIGATION14units/types/strictlint;57browser2existingconditionalSkips;history11PASS",
+    "SHIFT_REPORT27units/types/lint;10browser+2affected;PG6groups/8comparisonsPASS"
   ],
   "testsRemaining": [
     "CentralApp/navigation/product/store/import/receipt/returns/simple reports/openingUI+scale/mobile/FULLCI"
@@ -71,12 +73,12 @@
     "No owner/env edits;no Docker factory reset or unknown volume deletion",
     "628original function bodies frozen;8exact approved patches only"
   ],
-  "nextExactAction": "Commit/push navigation foundation;normalize lite immutable shift report with real PG proof,then safe home/report read and centralApp wiring;forms/store/import/epochUI stillpending.",
-  "checkpointedAt": "2026-11-09T15:29:39.962Z",
+  "nextExactAction": "Commit/push verified closing report;then mode-aware ProductForm and GoLive workbook/import/checker;root nav/safe reports/storecatalog/epochUI+scale/FULLCI stillpending.",
+  "checkpointedAt": "2026-11-09T15:41:05.900Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "filesTouchedCount": 16,
-  "filesTouchedManifestSha256": "ccc7d1a0d3b74ac9e035297f2867614cffc768c3b85da655a7a87d61ef38e76f",
-  "workingTreeFingerprint": "451D7EBB8A0D7418765E64FABD37078DB699F316D237190037132C213724A55D"
+  "filesTouchedManifestSha256": "084a7167f00b9013f04d28b82a576b2bdebc7d43e156ff70ee31cc0c34a5c290",
+  "workingTreeFingerprint": "1B461F3DE5F4866C35344CF4254170DD3F17024051E641B027C2436010EE710C"
 }

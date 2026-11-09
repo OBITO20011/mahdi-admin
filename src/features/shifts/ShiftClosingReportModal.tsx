@@ -1,3 +1,5 @@
+import {isSalesOnlyShiftReport,type CashShiftClosingResult} from '../../services/supabase/salesOnlyShiftReport';
+import {SalesOnlyShiftClosingReportModal} from './SalesOnlyShiftClosingReportModal';
 import {CashFlowSummary} from './CashFlowSummary';
 import React from 'react';
 import {
@@ -16,12 +18,11 @@ import {
 } from 'lucide-react';
 import { Modal } from '../../components/common/Modal';
 import {UiButton, MoneyText} from '../../components/ui';
-import type { ShiftClosingReport } from '../../types';
 import {formatExactMinorJod} from '../../utils/aftercare215Money';
 
 interface ShiftClosingReportModalProps {
   isOpen: boolean;
-  report: ShiftClosingReport | null;
+  report: CashShiftClosingResult | null;
   isLoading: boolean;
   error?: string;
   onClose: () => void;
@@ -53,6 +54,7 @@ const Metric: React.FC<{
 export const ShiftClosingReportModal: React.FC<
   ShiftClosingReportModalProps
 > = ({ isOpen, report, isLoading, error, onClose, onRetry }) => {
+  if(report&&isSalesOnlyShiftReport(report))return <SalesOnlyShiftClosingReportModal report={report} isOpen={isOpen} onClose={onClose} isLoading={isLoading} error={error} onRetry={onRetry}/>;
   const detailedSales=report?.sales.salesDefinitionVersion===133||report?.sales.salesDefinitionVersion===215;
   const handlePrint = () => window.print();
 

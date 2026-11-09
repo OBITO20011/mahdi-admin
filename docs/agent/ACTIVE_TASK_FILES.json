@@ -3,31 +3,39 @@
   "files": [
     {
       "code": " M",
+      "path": "e2e/package-e-closing-harness.tsx"
+    },
+    {
+      "code": " M",
+      "path": "e2e/phase6-package-a-harness.tsx"
+    },
+    {
+      "code": " M",
       "path": "scripts/audit/sales-only-phase2-source-pins.json"
     },
     {
       "code": " M",
-      "path": "scripts/audit/source-before-d1-reference-kit.mjs"
+      "path": "scripts/testing/sales-only-phase2-return-runtime.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/audit/source-before-sales-only-phase2.mjs"
+      "path": "src/features/shifts/CashFlowSummary.tsx"
     },
     {
       "code": " M",
-      "path": "src/components/layout/BottomTabs.tsx"
+      "path": "src/features/shifts/ShiftClosingReportModal.tsx"
     },
     {
       "code": " M",
-      "path": "src/components/layout/NavigationShell.tsx"
+      "path": "src/features/shifts/ShiftsView.tsx"
     },
     {
       "code": " M",
-      "path": "src/components/layout/SideNav.tsx"
+      "path": "src/services/supabase/expenses-shifts.service.ts"
     },
     {
       "code": " M",
-      "path": "src/features/more/MoreMenuView.tsx"
+      "path": "tests/aftercare215-closing.test.ts"
     },
     {
       "code": " M",
@@ -35,35 +43,27 @@
     },
     {
       "code": "??",
-      "path": "docs/design/sales-only-phase2/NAVIGATION_MODE_CONTROL_PROOF_AR.md"
+      "path": "docs/design/sales-only-phase2/SHIFT_REPORT_PROOF_AR.md"
     },
     {
       "code": "??",
-      "path": "e2e/sales-only-phase2-navigation-harness.html"
+      "path": "e2e/sales-only-phase2-closing.fixture.ts"
     },
     {
       "code": "??",
-      "path": "e2e/sales-only-phase2-navigation-harness.tsx"
+      "path": "e2e/sales-only-phase2-closing.spec.ts"
     },
     {
       "code": "??",
-      "path": "e2e/sales-only-phase2-navigation.spec.ts"
+      "path": "src/features/shifts/SalesOnlyShiftClosingReportModal.tsx"
     },
     {
       "code": "??",
-      "path": "src/features/operatingMode/navigationPolicy.ts"
+      "path": "src/services/supabase/salesOnlyShiftReport.ts"
     },
     {
       "code": "??",
-      "path": "src/features/operatingMode/OperatingModePanel.tsx"
-    },
-    {
-      "code": "??",
-      "path": "src/services/supabase/operatingModeCommand.ts"
-    },
-    {
-      "code": "??",
-      "path": "tests/sales-only-phase2-navigation.test.ts"
+      "path": "tests/sales-only-phase2-closing.test.ts"
     }
   ]
 }

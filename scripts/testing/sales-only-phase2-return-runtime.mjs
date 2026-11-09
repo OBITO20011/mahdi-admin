@@ -14,6 +14,7 @@ export async function verifyLiteReturns(c,report){
  const {sql,json,rpc,id,q,j,executor}=c,branch=id(200),warehouse=id(201),pid=id(103),key=()=>randomUUID();
  const {invokeAftercare215}=await tsImport('../../src/services/supabase/aftercare215Rpc.ts',import.meta.url);
  const {parseAftercare215Preview,aftercare215SuccessMatches}=await tsImport('../../src/utils/aftercare215Contracts.ts',import.meta.url);
+ const {parseCashShiftClosingReport}=await tsImport('../../src/services/supabase/expenses-shifts.service.ts',import.meta.url);
  const {orderTracksAccounting,parseSalesOnlyOrderDetails}=await tsImport('../../src/services/supabase/salesOnlyOrderContext.ts',import.meta.url);
  const client={rpc:async(name,args)=>{assert.equal(name,'lite1_settle_return2');return {data:await rpc(`lite1_settle_return2(${j(args.p_payload)},${q(args.p_key)},${q(args.p_preview)})`),error:null};}};
  const projections=p=>Object.fromEntries(['entitlementInMinorUnits','debtReductionInMinorUnits','moneyRefundInMinorUnits','customerDamageDeductionInMinorUnits','goodQuantity','badQuantity','customerDamageQuantity','refundMethod'].map(k=>[k,p[k]]));
@@ -122,7 +123,14 @@ export async function verifyLiteReturns(c,report){
  const debtSale=await rpc(`lite1_pos2(${j({branchId:branch,warehouseId:warehouse,customerId:id(499),paymentMethod:'debt',lines:[{...base,base_quantity:1}],discountInMinorUnits:0,amountReceivedInMinorUnits:0})},${q(key())})`);
  const closing=await json(`SELECT to_jsonb(id) FROM public.cash_shifts WHERE branch_id=${q(branch)} AND status='open';`);
  const closingSummary=await rpc(`get_cash_shift_summary(${q(closing)})`);await rpc(`close_cash_shift(${q(closing)},${closingSummary.expectedCashInMinorUnits},NULL)`);
+ const rawLiteClosing=await rpc(`get_cash_shift_closing_report(${q(closing)})`),mappedLiteClosing=parseCashShiftClosingReport(rawLiteClosing,closing);
+ assert.equal(mappedLiteClosing.accountingTracked,false);assert.equal(mappedLiteClosing.shift.id,closing);assert.equal(mappedLiteClosing.shift.expectedCash,closingSummary.expectedCashInMinorUnits/1000);assert.equal(mappedLiteClosing.shift.actualCash,mappedLiteClosing.shift.expectedCash);assert.equal(mappedLiteClosing.shift.cashDiscrepancy,0);
+ assert.equal(mappedLiteClosing.shift.cashRefunds,closingSummary.cashRefundsInMinorUnits/1000);assert.equal(mappedLiteClosing.shift.cliqRefunds,closingSummary.cliqRefundsInMinorUnits/1000);assert.equal(mappedLiteClosing.snapshotStatus,'immutable');
+ assert.throws(()=>parseCashShiftClosingReport({...rawLiteClosing,summary:{...rawLiteClosing.summary,cashRefundsInMinorUnits:undefined}},closing));
+ assert.throws(()=>parseCashShiftClosingReport(rawLiteClosing,id(999)));
+ report.cases.push({name:'actual lite closing service consumes immutable snapshot without zero-filled full sections;cash/CliQ refunds and countedcash exact;missing money/wrongidentity failclosed',passed:true});
  await sql('UPDATE sales_lite1.mode SET full_accounting=true;');
+ assert.deepEqual(await rpc(`get_cash_shift_closing_report(${q(closing)})`),rawLiteClosing,'CLOSING_SNAPSHOT_UNCHANGED_AFTER_MODE_ACTIVATION');
  const afterEpochItem=await itemId(debtSale.orderId),payload=returnPayload215({sale:debtSale,item:afterEpochItem,pid},{quantity:1,good:1,method:'cash'});
  const preview=await rpc(`lite1_preview_return2(${j(payload)})`);assert.equal(preview.debtReductionInMinorUnits,'1000');await rpc(`lite1_settle_return2(${j(payload)},${q(key())},${q(preview.previewFingerprint)})`);
  await fail(`get_customer_statement(${q(id(499))},1,100)`,/CUSTOMER_STATEMENT_EVIDENCE_MISMATCH/);

@@ -26,7 +26,7 @@ import {
   previewCashShiftFullReversalFromSupabase,
   type CashShiftFullReversalPreview,
 } from '../../services/supabase/expenses-shifts.service';
-import type { ShiftClosingReport } from '../../types';
+import type {CashShiftClosingResult} from '../../services/supabase/salesOnlyShiftReport';
 import { ShiftClosingReportModal } from './ShiftClosingReportModal';
 import { ShiftArchiveSection } from './ShiftArchiveSection';
 import { OwnerWithdrawalsPanel } from './OwnerWithdrawalsPanel';
@@ -65,7 +65,7 @@ export const ShiftsView: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [reportShiftId, setReportShiftId] = useState<string | null>(null);
-  const [closingReport, setClosingReport] = useState<ShiftClosingReport | null>(
+  const [closingReport, setClosingReport] = useState<CashShiftClosingResult | null>(
     null
   );
   const [reportError, setReportError] = useState('');

@@ -6,7 +6,7 @@ import {CashFlowDetails} from './CashFlowDetails';
 import {MoneyText} from '../../components/ui';
 import {cashFlowRows,type CashFlowRow} from './cashFlowModel';
 
-export function CashFlowSummary({shift,onSelect}:{shift:Shift;onSelect?:(row:CashFlowRow)=>void}) {
+export function CashFlowSummary({shift,onSelect,detailsAvailable=true,salesOnly=false}:{shift:Shift;onSelect?:(row:CashFlowRow)=>void;detailsAvailable?:boolean;salesOnly?:boolean}) {
   const {roleName,roles}=useAuthStore();
   const canRead=hasNavigationRole(['owner','admin','manager','accountant'],roleName,roles);
   const [selected,setSelected]=useState<CashFlowRow|null>(null);
@@ -21,8 +21,8 @@ export function CashFlowSummary({shift,onSelect}:{shift:Shift;onSelect?:(row:Cas
     if(media.matches)expand();
     return()=>{window.removeEventListener('beforeprint',expand);window.removeEventListener('afterprint',restore);media.removeEventListener('change',changed);restore();};
   },[]);
-  const select=canRead?(onSelect??setSelected):undefined;
-  const rows=cashFlowRows(shift);
+  const select=canRead&&detailsAvailable?(onSelect??setSelected):undefined;
+  const rows=cashFlowRows(shift).filter(row=>!salesOnly||row.kind!=='supplier_payments'||row.amount!==0);
   const row=(item:CashFlowRow)=><div key={`${item.kind}:${item.method}`} data-cash-flow={`${item.kind}:${item.method}`} className="flex min-h-11 items-center justify-between gap-3 border-b border-nw-border py-1 text-sm last:border-0">
     {select?<button type="button" className="min-h-11 text-right underline decoration-dotted underline-offset-4 print:no-underline" onClick={()=>select(item)} aria-label={`تفصيل ${item.label}`}>{item.label}</button>:<span>{item.label}</span>}
     <strong className={item.direction==='in'?'text-nw-ok':'text-nw-bad'}><bdi dir="ltr">{item.direction==='in'&&'+'}<MoneyText amount={item.direction==='out'?-item.amount:item.amount}/></bdi></strong>

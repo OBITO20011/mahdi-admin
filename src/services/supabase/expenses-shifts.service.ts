@@ -1,3 +1,4 @@
+import {parseSalesOnlyShiftReport,type CashShiftClosingResult} from './salesOnlyShiftReport';
 import { isSupabaseConfigured, supabase } from '../../lib/supabase';
 import type { Expense, Shift, ShiftClosingReport } from '../../types';
 import {exchangeClosingCredit215} from '../../utils/exchangeClosing215';
@@ -301,7 +302,7 @@ export async function reverseCashShiftWithOperationsInSupabase(
 
 export async function fetchCashShiftClosingReportFromSupabase(
   shiftId: string
-): Promise<ShiftClosingReport> {
+): Promise<CashShiftClosingResult> {
   const { data, error } = await requireClient().rpc(
     'get_cash_shift_closing_report',
     { p_shift_id: shiftId }
@@ -310,6 +311,10 @@ export async function fetchCashShiftClosingReportFromSupabase(
     throw new Error(error.message || 'تعذر تحميل تقرير إغلاق الوردية.');
   }
 
+  return parseCashShiftClosingReport(data,shiftId);
+}
+
+export function parseCashShiftClosingReport(data:unknown,shiftId:string):CashShiftClosingResult {
   const payload = (data || {}) as RpcRecord;
   if (payload.success !== true) {
     throw new Error(
@@ -317,6 +322,7 @@ export async function fetchCashShiftClosingReportFromSupabase(
     );
   }
 
+  if(payload.accountingTracked===false)return parseSalesOnlyShiftReport(payload,shiftId,mapShift);
   const sales = (payload.sales || {}) as RpcRecord;
   const internalExchangeCreditInMinorUnits=exchangeClosingCredit215(payload);
   const detailedSales=sales.salesDefinitionVersion===133||sales.salesDefinitionVersion===215;
