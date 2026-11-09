@@ -1,4 +1,4 @@
-import {readOperatingCatalog,quantityFreePayload,operatingCatalogRpc} from './operatingCatalog';
+import {readOperatingCatalog,quantityFreePayload,operatingCatalogRpc,validateOperatingCatalog} from './operatingCatalog';
 import { isSupabaseConfigured, supabase } from '../lib/supabase';
 import {
   CatalogFacet,
@@ -424,8 +424,7 @@ export async function fetchPublicProductCatalog(
     throw new Error(error.message || 'تعذر تحميل كتالوج الجملة.');
   }
 
-  const untracked=quantityFreePayload(data,'lite2-catalog-v1'),payload=data as RawCatalogItem;
-  if(untracked&&(!Array.isArray(payload.items)||payload.items.some((p:RawCatalogItem)=>p.quantityTracked!==false)))throw Error('تعذر التحقق من توفر المنتجات.');
+  validateOperatingCatalog(data);const payload=data as RawCatalogItem;
   const items = mapCatalogItems(payload.items);
   const rawCategories = Array.isArray(payload.categories)
     ? payload.categories

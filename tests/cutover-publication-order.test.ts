@@ -53,9 +53,11 @@ test('documented two deployment commands really build and verify selected produc
 test('runtime catalog and build-time SEO claims match actual readers without promising instantaneous refresh or empty SEO completeness',()=>{
   const app=read('customer-web/src/App.tsx'),catalog=read('customer-web/src/services/catalog.service.ts');
   for(const marker of ['CATALOG_STALE_TIME_MS = 90_000','fetchPublicProductCatalog(catalogQuery)','setProducts(catalog.items)',"window.addEventListener('focus'","window.addEventListener('online'"])assert.ok(app.includes(marker),marker);
-  assert.ok(catalog.includes("supabase.rpc('get_public_storefront_catalog_page'"));
+  assert.ok(catalog.includes("readOperatingCatalog(operatingCatalogRpc,'lite1_catalog_page2'"));
+  assert.ok(read('customer-web/src/services/operatingCatalog.ts').includes("supabase.rpc('get_public_storefront_catalog_page'"));
+  assert.ok(read('customer-web/src/utils/operatingRead.ts').includes("lite1_catalog_page2:'get_public_storefront_catalog_page'"));
   const seo=read('customer-web/scripts/generate-seo-pages.mjs');
-  for(const marker of ['get_public_storefront_catalog_page',"p_availability: 'available'",'seenProductRoutes.size','sitemapUrls: sitemapRoutes.length',"'sitemap.xml'",'JSON.stringify'])assert.ok(seo.includes(marker),marker);
+  for(const marker of ['lite1_catalog_page2',"p_availability:'available'",'seenProductRoutes.size','sitemapUrls: sitemapRoutes.length',"'sitemap.xml'",'JSON.stringify'])assert.ok(seo.includes(marker),marker);
   const routes=seo.match(/const sitemapRoutes = \[([\s\S]*?)\];/u)![1];
   assert.equal((routes.match(/route:/gu)??[]).length,4);
   for(const marker of ['runtime','نافذة تحديث90ثانية','p_availability=\'available\'','لا يوجد customer-web/public/_redirects','لا إجمالي صفوف products/النكهات']){
@@ -70,7 +72,9 @@ test('closed-order verification documents both UI refusals and the current serve
   assert.ok(checkout.includes('if (!storefrontSettings.ordersEnabled)'));
   assert.ok(app.includes('الطلبات متوقفة مؤقتًا، لكن يمكنك تصفح الأصناف والتواصل معنا عبر واتساب.'));
   assert.ok(read('customer-web/src/services/storefront-settings.service.ts').includes("supabase.rpc('get_public_storefront_settings')"));
-  assert.ok(read('supabase/functions/submit-guest-order/index.ts').includes("const rpcName = 'submit_guest_customer_order_v2'"));
+  assert.ok(read('supabase/functions/submit-guest-order/index.ts').includes("const rpcName = fullAccounting ? 'submit_guest_customer_order_v2' : 'lite1_guest2'"));
+  order(read('docs/design/sales-only-phase2/guest-writer.sql'),["sales_lite1.lock_request(p_key,'guest2',p_request)",'RETURN replay','plan:=sales_lite2.plan','INSERT INTO public.orders']);
+  const litePlan=read('docs/design/sales-only-phase2/commercial-plan.sql');order(litePlan,['SELECT * INTO settings','NOT settings.orders_enabled','PHASE3_CUSTOMER_ORDERS_DISABLED']);
   const definitions=readdirSync('supabase/migrations').filter(f=>f.endsWith('.sql')).sort().filter(f=>/CREATE (?:OR REPLACE )?FUNCTION public\.submit_guest_customer_order_v2\(/u.test(read('supabase/migrations/'+f)));
   assert.equal(definitions.at(-1),'209_product_sale_methods.sql','Update the documented current writer when a new definition is added');
   const body=read('supabase/migrations/'+definitions.at(-1)).split('CREATE OR REPLACE FUNCTION public.submit_guest_customer_order_v2(')[1];

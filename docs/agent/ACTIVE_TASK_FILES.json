@@ -3,11 +3,15 @@
   "files": [
     {
       "code": " M",
-      "path": "customer-web/src/services/operatingCatalog.ts"
+      "path": "customer-web/scripts/generate-seo-pages.mjs"
     },
     {
       "code": " M",
-      "path": "customer-web/src/services/orders.service.ts"
+      "path": "customer-web/src/services/catalog.service.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/services/operatingCatalog.ts"
     },
     {
       "code": " M",
@@ -15,23 +19,27 @@
     },
     {
       "code": " M",
-      "path": "docs/design/sales-only-phase2/storefront-readers.sql"
-    },
-    {
-      "code": " M",
-      "path": "e2e/isolated-test.ts"
-    },
-    {
-      "code": " M",
-      "path": "e2e/sales-only-phase2-storefront.spec.ts"
-    },
-    {
-      "code": " M",
       "path": "scripts/audit/sales-only-phase2-source-pins.json"
     },
     {
       "code": " M",
-      "path": "scripts/testing/sales-only-phase2-storefront-runtime.mjs"
+      "path": "scripts/testing/run-customer-isolated-build.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-storefront-budget-browser.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/storefront-speed-fixture.mjs"
+    },
+    {
+      "code": " M",
+      "path": "tests/cutover-publication-order.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/frankfurt-public-config.test.ts"
     },
     {
       "code": " M",
@@ -39,7 +47,11 @@
     },
     {
       "code": "??",
-      "path": "docs/design/sales-only-phase2/PUBLIC_QUOTE_PROOF_AR.md"
+      "path": "customer-web/src/utils/operatingRead.ts"
+    },
+    {
+      "code": "??",
+      "path": "docs/design/sales-only-phase2/STOREFRONT_SEO_PROOF_AR.md"
     }
   ]
 }

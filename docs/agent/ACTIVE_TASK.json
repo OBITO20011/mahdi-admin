@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner9Nov phase2:additive sales-only build above85;reuse existing UI/pure calculation helpers;opening epoch included;quarantined SQL/Draft PR/fullCI only.",
-  "baselineSha": "9e10be4b2cb7915920a67f63fbba51373cfcffae",
+  "baselineSha": "84201d8752ddc59401e8b6953ab6628ab8669374",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase2",
   "phase": "SALES_ONLY_PHASE2",
@@ -39,10 +39,11 @@
     "OFF ChequesView reusesincoming serverpagination/writers;no supplier reads/newactions;pending full form/body/key preserved and blockedOFF.74browser cases covered:73firstPASS+1documented NET_CHANGED firstload,one same-source environmental rerunPASS.49focusedunits/type/lintPASS;whole371historical AST/hash exact inverse rejectsforgedpath/hash/query/role. Owner24hashes unchanged.",
     "Public parallel catalog/parcel/merchandising DBreads:7/9pinnedhunks,newwrapper fullJSONexact;OFF manualparent/flavor/nullquantity,no cost/stock.9units;actualPG5groupsinclEdge/H1/pricing/delivery/replay/integrity0/636/network0/cleanuptrue. Frontend/cartnotwiredyet.",
     "Storefront/client quantity-free manual availability wired in existing cards/details/cart/mixed builder;schema2 nullquantity/freshmode reconciliation/prices retained.217storeunits/typesboth/strictlint/history11;16existingfull+C6 browser plus12new touch identities PASS across2engines/3901440 (corrected test copy/counter,original failed logs preserved).Actualmapper→PG5groups/628636/integrity0/network0/cleanuptrue;owner24hashes unchanged.",
-    "Public parallel promotion preview dispatch reuses pinned private commercial preview;fullJSON exact andmixed WAC NULL quote→actualTS mapper PASS onowned219/180;5PGgroups/628636/integrity0/network0/cleanuptrue.218storeunits/typesboth/strictlint/9guards and2actualChromiumWebKit quote→localgateway→receipt canonical5500PASS. OriginalfullRPC unchanged."
+    "Public parallel promotion preview dispatch reuses pinned private commercial preview;fullJSON exact andmixed WAC NULL quote→actualTS mapper PASS onowned219/180;5PGgroups/628636/integrity0/network0/cleanuptrue.218storeunits/typesboth/strictlint/9guards and2actualChromiumWebKit quote→localgateway→receipt canonical5500PASS. OriginalfullRPC unchanged.",
+    "Shared browser/build pure readprotocol and strict OFF catalog envelope;localmanual+legacy219 SEO builds1product/1category/6URLsPASS;8productionbundle browser page budgets bothenginesPASS,negative realextra request rejected/noegress/CSPsame.219storeunits/types/lint/history10PASS;3selectedmanifest+loopbackguards and6cutover contractsPASS. Frozen198hash test still requires exact history repair,not declaredgreen."
   ],
   "inProgress": [
-    "SEO build still stockfiltered oldcatalog;openingepochUI+scale;canonical operational lists/delivery;fullmixed report history;actual currentACL/fullCI/Draft."
+    "OpeningepochUI+scale;canonical operational lists/delivery;fullmixed report history;exact historical/currentACL evidence;FULLCI/Draft."
   ],
   "notStarted": [
     "Remaining storefront/operational UI/epoch scale and mixed history proof",
@@ -76,7 +77,8 @@
   ],
   "findings": [
     "get_customer_statement192 doesnotinclude private lite returns;new parallel pinned reader adds genuine movement andkeeps canonical mismatch guard. Original functionand8bridges unchanged.",
-    "Current219 TABLE/SERVICE source evidence and current216 exactRPC delta tests remain legitimately outdated for phase2 new sources;need actual quarantined phase2 currentACL/RPC evidence at final delivery,not historical projection. Broadhistory54/56;focused49/49."
+    "Current219 TABLE/SERVICE source evidence and current216 exactRPC delta tests remain legitimately outdated for phase2 new sources;need actual quarantined phase2 currentACL/RPC evidence at final delivery,not historical projection. Broadhistory54/56;focused49/49.",
+    "SEO context broader suite8/10:current dualwriter textual guard corrected andcutover6PASS;old198 hash transform expected284sources vs275frozen evidence remains;do not repin old financial/current evidence or bypass. Exact projection repair required beforeFULLCI."
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -87,12 +89,12 @@
     "No owner/env edits;no Docker factory reset or unknown volume deletion",
     "628original function bodies frozen;8exact approved patches only"
   ],
-  "nextExactAction": "Save publicpreview PASS;then make SEO use same fail-closed operating read with localfixture SEO tests;remaining epoch/operations/mixed history/FULLCI.",
-  "checkpointedAt": "2026-11-09T18:56:00.620Z",
+  "nextExactAction": "Commit/push SEO andunchanged budget proof;then openingepochUI+realistic scale/operations/mixedhistory/exacthistorical evidence,FULLCI Draft.",
+  "checkpointedAt": "2026-11-09T19:03:25.238Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 10,
-  "filesTouchedManifestSha256": "d986a01781dca1bb48f52305c411aeeab91d875338fa63a1ebabde3f2096033d",
-  "workingTreeFingerprint": "9583E24B57A7A4868D207F79B7E20DB7D1170277942E069C50FF94F37998A5F0"
+  "filesTouchedCount": 13,
+  "filesTouchedManifestSha256": "02786786cb393d2680095297cb57b68bcd721544957af458d25cc4d8debb732c",
+  "workingTreeFingerprint": "42F7206E01202378D9C5553098E5D1323857597F0CA99E4A224DADE8741F7C17"
 }

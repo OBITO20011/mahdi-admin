@@ -1,3 +1,4 @@
+import {readOperatingCatalog,validateOperatingCatalog} from '../src/utils/operatingRead.ts';
 import {validatePublicBuildManifest} from '../../scripts/environments/environment.mjs';
 import {mkdir, readFile, writeFile} from 'node:fs/promises';
 import path from 'node:path';
@@ -95,17 +96,13 @@ function homeSchema() {
 }
 
 async function callCatalog(offset) {
-  const response = await fetch(`${url.replace(/\/+$/, '')}/rest/v1/rpc/get_public_storefront_catalog_page`, {
-    method: 'POST',
-    headers: {apikey: key, Authorization: `Bearer ${key}`, 'Content-Type': 'application/json'},
-    body: JSON.stringify({
-      p_limit: 48, p_offset: offset, p_category_id: null, p_search: null,
-      p_availability: 'available', p_sort: 'recommended', p_brand_id: null,
-      p_sale_unit_id: null, p_product_ids: null,
-    }),
-  });
-  if (!response.ok) throw new Error(`Catalog RPC returned ${response.status} while generating SEO pages.`);
-  return response.json();
+  const args={p_limit:48,p_offset:offset,p_category_id:null,p_search:null,p_availability:'available',p_sort:'recommended',p_brand_id:null,p_sale_unit_id:null,p_product_ids:null};
+  const result=await readOperatingCatalog(async(name,parameters)=>{
+    const response=await fetch(`${url.replace(/\/+$/, '')}/rest/v1/rpc/${name}`,{method:'POST',headers:{apikey:key,Authorization:`Bearer ${key}`,'Content-Type':'application/json'},body:JSON.stringify(parameters)});
+    const payload=await response.json();return {data:response.ok?payload:null,error:response.ok?null:payload,status:response.status};
+  },'lite1_catalog_page2',args);
+  if(result.error)throw new Error(`Catalog RPC returned ${result.status} while generating SEO pages.`);
+  validateOperatingCatalog(result.data);return result.data;
 }
 
 async function callOffers() {
