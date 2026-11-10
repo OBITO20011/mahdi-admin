@@ -3,23 +3,23 @@
   "files": [
     {
       "code": " M",
-      "path": ".github/workflows/quality.yml"
+      "path": "docs/design/sales-only-phase2/FINAL_CI_RECONCILIATION_AR.md"
     },
     {
       "code": " M",
-      "path": "customer-web/src/App.tsx"
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
     },
     {
       "code": " M",
-      "path": "customer-web/src/components/GuidedStoreAssistant.tsx"
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
     },
     {
       "code": " M",
-      "path": "customer-web/tests/guided-store-assistant.test.ts"
+      "path": "docs/operations/TABLE_ACCESS_AFTER_219.json"
     },
     {
       "code": " M",
-      "path": "e2e/guided-store-assistant.spec.ts"
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
     },
     {
       "code": " M",
@@ -27,55 +27,7 @@
     },
     {
       "code": " M",
-      "path": "scripts/testing/product-workbook-runtime-view.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-cart-flight-browser.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-home219-operations-gates.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-storefront-budget-browser.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/storefront-speed-fixture.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/phase6-bc-dialog-safety.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/sales-only-phase2.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "customer-web/src/components/GuidedStoreAssistantDialog.tsx"
-    },
-    {
-      "code": "??",
-      "path": "customer-web/tests/sales-only-deferred-content.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "docs/design/sales-only-phase2/FINAL_CI_RECONCILIATION_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/home219-service-probe.mjs"
-    },
-    {
-      "code": "??",
-      "path": "tests/home219-service-probe.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "tests/storefront-versioned-fixture.test.ts"
+      "path": "tests/cart-flight-contracts.test.ts"
     }
   ]
 }

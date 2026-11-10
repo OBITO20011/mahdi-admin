@@ -1313,7 +1313,7 @@
     },
     {
       "file": "customer-web/src/App.tsx",
-      "sha256": "4ebe56b6fff12a28b21bc9afd583e6eafd4e5baff474ef80fb7f240e1f827ed1"
+      "sha256": "0f8fb7ea5ac005efd1b697b76e022f2ddae5b7bad782a34fec4474832101e177"
     },
     {
       "file": "customer-web/src/components/AboutStorePage.tsx",
@@ -1361,7 +1361,11 @@
     },
     {
       "file": "customer-web/src/components/GuidedStoreAssistant.tsx",
-      "sha256": "daaa0ebe002ebbae2bc442b792a7f1aa1c8231c723c5d03b8952822e5227d366"
+      "sha256": "9277f810ce7fec55bf4769b36370fbb21d2b8f17e52382cd650ee6d0ba44aa07"
+    },
+    {
+      "file": "customer-web/src/components/GuidedStoreAssistantDialog.tsx",
+      "sha256": "1bc1cec256db6bddee48df375e173484044706ab8ddbc95baec3849e5069361f"
     },
     {
       "file": "customer-web/src/components/HeroVideo.tsx",
