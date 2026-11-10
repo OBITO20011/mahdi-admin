@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner10Nov phase3:220liteonly/628frozen/8exactbridges;owner220tools+D1/full local rehearsal/docs;Draft only.",
-  "baselineSha": "bfc669408b3e31e0fc661b06c9779ffedd1c0a9c",
+  "baselineSha": "42b33f3153031f6e12d81c539bc4e4c9bcb20f02",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase3",
   "phase": "SALES_ONLY_PHASE3",
@@ -11,10 +11,11 @@
   "completed": [
     "Phase2 bfc FULL72/72;54mobile/21negative/types/lint;owner24unchanged.",
     "Owner resolved:exclude79 from220;defer H1full/M01/supplierDESC to221;79keptDraft/comment6769427296.",
-    "Independent worktree outside managed cleanup;phase2/primary/58/79source/82untouched."
+    "Independent worktree outside managed cleanup;phase2/primary/58/79source/82untouched.",
+    "Literal220 actual219promotion PASS763.968ms/181migrations/678publicfunctions;fullJSON/rows/sequences/replay exact;628frozen/8exact;liteOFF zeroStock/integrity0;unknownbyte/history/reapply negatives;cleanupPASS."
   ],
   "inProgress": [
-    "Promote exact approved phase2 install to deterministic220;real219to220/fresh parity before owner tools."
+    "Owner220 reference/backup/reset adapters;include private lite rows and foreign-write fence without touching219entrypoints/core."
   ],
   "notStarted": [
     "Upgrade/backupRestore/RESET220/watchdog/D1kit220 without altering219entrypoints",
@@ -22,7 +23,8 @@
     "FullCI/Gitleaks0/DraftPR/report thenstop"
   ],
   "testsPassed": [
-    "Phase2 gate exact72/72 verified"
+    "Phase2 gate exact72/72 verified",
+    "Compiler3/3;literal220 realDocker promotion/full-v-lite proof PASS"
   ],
   "testsRemaining": [
     "All phase3 runtime/negative/financial/history/browser/owner tools gates"
@@ -34,13 +36,13 @@
     "628originalbodies frozen;8exactapproveddiffs only;any expansionstopask",
     "79 remainsDraft/deferred221;no adoption ofitsSQL;219 tools retained"
   ],
-  "nextExactAction": "Run literal220 promotion proof on owned isolated219;source frozen until it finishes.",
+  "nextExactAction": "Build220 catalog/readiness and import bounded82tool modules;no79 SQL;extend220 reset/private protection;keep219entrypoints/core byte-identical.",
   "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "ADE8D5F48D6C6C9193385E756E2140FF58027BA4AB26DF275942711AB750AC93",
-  "checkpointedAt": "2026-11-10T14:14:20.606Z",
-  "filesTouchedCount": 6,
-  "filesTouchedManifestSha256": "fe1f5ce8728a986e95e4695710119eb64e2d85d50ce344569010a35e4fbd0790"
+  "workingTreeFingerprint": "DFB1EB685D05883FC288EC7B8625D60F714BA0D524E05D7E86E7DE1BCF296F20",
+  "checkpointedAt": "2026-11-10T14:24:06.724Z",
+  "filesTouchedCount": 1,
+  "filesTouchedManifestSha256": "b90c851a968ec00c68ac180812f58b20db6d5aac929ce71dfc31ec89555dd6a0"
 }

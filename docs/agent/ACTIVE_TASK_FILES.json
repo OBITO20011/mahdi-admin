@@ -2,28 +2,8 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": " M",
-      "path": "docs/agent/project-state.json"
-    },
-    {
       "code": "??",
-      "path": "scripts/testing/build-sales-only220.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/run-sales-only220-migration.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/sales-only220-compiler.mjs"
-    },
-    {
-      "code": "??",
-      "path": "supabase/migrations/220_sales_only_operating_mode.sql"
-    },
-    {
-      "code": "??",
-      "path": "tests/sales-only220-compiler.test.ts"
+      "path": "docs/design/sales-only-phase3/README_AR.md"
     }
   ]
 }
