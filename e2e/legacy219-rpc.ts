@@ -5,6 +5,7 @@ export const legacy219ReadRpcNames=Object.freeze([
  'lite1_reporting_report2','lite1_reporting_home2','lite1_operational_orders_page2',
  'lite1_preview_guest2','lite1_catalog_page2','lite1_parcel_options2','lite1_merchandising2',
  'lite1_operating_mode','lite1_statement_dispatch2','lite1_public_pos_receipt2',
+ 'lite1_debt_aging2','lite1_crm_page2',
 ]);
 export const legacy219MissingRpcName=(pathname:string)=>legacy219ReadRpcNames.find(name=>pathname===`/rest/v1/rpc/${name}`);
 interface LegacyRoute {

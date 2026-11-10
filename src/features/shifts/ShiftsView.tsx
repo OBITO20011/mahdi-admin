@@ -247,6 +247,7 @@ export const ShiftsView: React.FC<{operatingMode?:OperatingMode}> = ({operatingM
     unsupported_sales_return: 'مرتجع مبيعات غير مدعوم',
     phase42_sales_return: 'مرتجع مبيعات مسوّى',
     lite_monetary_refund: 'ردّ مبلغ لفاتورة بلا مخزون',
+    lite_shift: 'وردية بيع مبسّط — الإلغاء والعكس محجوبان',
     shift: 'الوردية',
   }[operationType] ?? operationType);
   const isOwner = hasNavigationRole(['owner'],roleName,roles);
