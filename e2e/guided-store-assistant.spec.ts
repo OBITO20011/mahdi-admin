@@ -32,23 +32,19 @@ async function mockStorefront(page: Page) {
   await page.route('**/rest/v1/rpc/get_public_storefront_merchandising', (route) => route.fulfill({
     contentType: 'application/json', body: JSON.stringify({newest: [], bestSellers: [], offers: [], lowStock: []}),
   }));
-  await page.route('**/rest/v1/rpc/get_public_storefront_offers', (route) => route.fulfill({contentType: 'application/json', body: '[]'}));
+  await page.route('**/rest/v1/rpc/get_public_storefront_offers', (route) => route.fulfill({contentType: 'application/json', body: JSON.stringify({success:true,offers:[]})}));
 }
 
-test('guided store assistant starts fully hidden and remains interactive on desktop', async ({page}) => {
-  await page.setViewportSize({width: 1440, height: 900});
-  await mockStorefront(page);
-  await page.goto(customerBaseUrl, {waitUntil: 'domcontentloaded'});
-
-  const assistant = page.getByTestId('guided-store-assistant-panel');
-  const assistantRoot = assistant.locator('xpath=..');
-  await expect(assistantRoot).toHaveAttribute('aria-hidden', 'true');
-  await expect.poll(async () => (await assistant.boundingBox())?.y ?? 0).toBeGreaterThanOrEqual(900);
-
-  await page.getByTestId('guided-store-assistant-trigger').click();
-  await expect(assistantRoot).toHaveAttribute('aria-hidden', 'false');
-  await assistant.getByTestId('guided-store-assistant-delivery').click();
-  await expect(assistant.getByText('داخل الرمثا')).toBeVisible();
+test('guided store assistant defers its dialog, keeps its immediate trigger and retains hidden geometry after close', async ({page}) => {
+  await page.setViewportSize({width:1440,height:900});await mockStorefront(page);
+  const requests:string[]=[];page.on('request',request=>{if(request.url().includes('/src/components/GuidedStoreAssistantDialog.tsx'))requests.push(request.url());});
+  await page.goto(customerBaseUrl,{waitUntil:'domcontentloaded'});
+  const assistant=page.getByTestId('guided-store-assistant-panel'),assistantRoot=assistant.locator('xpath=..'),trigger=page.getByTestId('guided-store-assistant-trigger');
+  await expect(trigger).toBeVisible();await expect(assistant).toHaveCount(0);expect(requests).toEqual([]);
+  await trigger.click();await expect(assistantRoot).toHaveAttribute('aria-hidden','false');await expect.poll(()=>requests.length).toBe(1);
+  await assistant.getByTestId('guided-store-assistant-delivery').click();await expect(assistant.getByText('داخل الرمثا')).toBeVisible();
+  await assistant.getByRole('button',{name:'إغلاق',exact:true}).click();await expect(assistantRoot).toHaveAttribute('aria-hidden','true');
+  await expect.poll(async()=>(await assistant.boundingBox())?.y??0).toBeGreaterThanOrEqual(900);await expect(trigger).toBeFocused();
 });
 
 test('assistant above product details owns focus and Escape closes only the upper dialog', async ({page}) => {
@@ -132,4 +128,12 @@ test('guided store assistant stays clear of the mobile navigation and cart actio
     expect(triggerWithCartBox, `${width}px: assistant trigger with cart`).not.toBeNull();
     expect(triggerWithCartBox!.y + triggerWithCartBox!.height, `${width}px: trigger must clear cart action`).toBeLessThanOrEqual(cartActionBox!.y);
   }
+});
+
+test('deferred about and offers deep links preserve existing browse actions without initial page module requests',async({page})=>{
+ await mockStorefront(page);const requests:string[]=[];page.on('request',r=>{if(/\/(?:AboutStorePage|OffersPage)\.tsx/.test(r.url()))requests.push(r.url());});
+ await page.goto(customerBaseUrl+'/products/');await expect(page.getByTestId('catalog-products-grid')).toBeVisible();expect(requests).toEqual([]);
+ await page.goto(customerBaseUrl+'/about/');await expect(page.getByRole('region',{name:'نبذة عن النواصرة لتجارة الجملة والمواد الغذائية',exact:true})).toBeVisible();await page.getByRole('button',{name:'تصفح منتجات الجملة',exact:true}).click();await expect(page.getByTestId('catalog-products-grid')).toBeVisible();
+ await page.goto(customerBaseUrl+'/offers/');await expect(page.getByRole('heading',{name:'لا توجد عروض فعّالة الآن',exact:true})).toBeVisible();await page.getByRole('button',{name:'تصفّح أصناف الجملة',exact:true}).click();await expect(page.getByTestId('catalog-products-grid')).toBeVisible();
+ expect(requests.some(r=>r.includes('/AboutStorePage.tsx'))).toBe(true);expect(requests.some(r=>r.includes('/OffersPage.tsx'))).toBe(true);
 });

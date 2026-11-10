@@ -8,7 +8,7 @@ import path from 'node:path';
 import os from 'node:os';
 import {deflateSync} from 'node:zlib';
 import {chromium,webkit} from '@playwright/test';
-import {speedRpc,speedProducts,speedId} from './storefront-speed-fixture.mjs';
+import {speedRpc,speedProducts,speedId,speedRpcPath,fullSpeedRpcName} from './storefront-speed-fixture.mjs';
 import {measureStorefrontBudget,assertStorefrontBudget} from './storefront-budget.mjs';
 import {expect} from '@playwright/test';
 const root=path.resolve(import.meta.dirname,'../..'),dist=path.join(root,'customer-web/dist'),evidence=await mkdtemp(path.join(process.env.RUNNER_TEMP || os.tmpdir(),'nawasrah-cart-flight-'));
@@ -25,6 +25,7 @@ if(process.env.NAWASRAH_CART_FLIGHT_REVIEW_IMAGES)png=await readFile(path.join(p
 const family={...speedProducts[0],id:speedId(9900),sku:'FLIGHT-FAMILY',nameAr:'عائلة اختبار الحركة',isFlavorMaster:true};
 const flavors=['تفاح','عنب'].map((flavorNameAr,i)=>({...speedProducts[0],id:speedId(9901+i),sku:'FLIGHT-FLAVOR-'+i,nameAr:family.nameAr+' - '+flavorNameAr,flavorNameAr,flavorMasterProductId:family.id,isFlavorMaster:false}));
 function fixtureRpc(name,args){
+ name=fullSpeedRpcName(name);
  if(name==='get_public_configurable_parcel_options')return{featureState:'ENABLED',guestCreationEnabled:true,options:[{familyProductId:family.id,parcelConfigurationId:speedId(9910),configurationRevision:1,compositionMode:'configurable_mix',unitsPerParcel:2,parcelPriceInMinorUnits:1000,baseUnitNameAr:'باكيت',saleUnitNameAr:'طرد',components:flavors.map(p=>({...p,productId:p.id}))}]};
  if(name==='get_public_storefront_catalog_page'){
   if(args.p_search?.includes('FLIGHT-FAMILY')||args.p_product_ids?.includes(family.id))return{...speedRpc(name,{}),items:[family,...flavors],total:1};
@@ -38,7 +39,7 @@ try{
  api=createServer(async(req,res)=>{
   res.setHeader('Access-Control-Allow-Origin',req.headers.origin==='https://127.0.0.1:4174'?'https://127.0.0.1:4174':'http://127.0.0.1:4174');res.setHeader('Access-Control-Allow-Headers',req.headers['access-control-request-headers']||'apikey,authorization,content-type,x-client-info');res.setHeader('Access-Control-Allow-Methods','POST,OPTIONS');
   if(req.method==='OPTIONS'){res.writeHead(204).end();return;}
-  try{assert.equal(req.method,'POST');assert.match(req.url,/^\/rest\/v1\/rpc\/[a-z_]+$/u);const chunks=[];for await(const chunk of req)chunks.push(chunk);const data=fixtureRpc(req.url.split('/').at(-1),JSON.parse(Buffer.concat(chunks).toString('utf8')||'{}'));res.setHeader('Content-Type','application/json');res.end(JSON.stringify(data));}
+  try{assert.equal(req.method,'POST');assert.match(req.url,speedRpcPath);const chunks=[];for await(const chunk of req)chunks.push(chunk);const data=fixtureRpc(req.url.split('/').at(-1),JSON.parse(Buffer.concat(chunks).toString('utf8')||'{}'));res.setHeader('Content-Type','application/json');res.end(JSON.stringify(data));}
   catch(error){failures.push(error.message);res.writeHead(500).end('FIXTURE_REFUSED');}
  });await new Promise((resolve,reject)=>{api.once('error',reject);api.listen(4176,'127.0.0.1',resolve);});
  site=createServer(async(req,res)=>{try{

@@ -3,35 +3,23 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
+      "path": ".github/workflows/quality.yml"
     },
     {
       "code": " M",
-      "path": "e2e/isolated-test.ts"
+      "path": "customer-web/src/App.tsx"
     },
     {
       "code": " M",
-      "path": "e2e/package-f-admin-focus-handover.spec.ts"
+      "path": "customer-web/src/components/GuidedStoreAssistant.tsx"
     },
     {
       "code": " M",
-      "path": "e2e/package-f-collections202.spec.ts"
+      "path": "customer-web/tests/guided-store-assistant.test.ts"
     },
     {
       "code": " M",
-      "path": "e2e/package-f-customers.spec.ts"
-    },
-    {
-      "code": " M",
-      "path": "e2e/package-f-financial.spec.ts"
-    },
-    {
-      "code": " M",
-      "path": "e2e/package-f-orders.spec.ts"
-    },
-    {
-      "code": " M",
-      "path": "e2e/package-f-sales-history204.spec.ts"
+      "path": "e2e/guided-store-assistant.spec.ts"
     },
     {
       "code": " M",
@@ -39,35 +27,55 @@
     },
     {
       "code": " M",
-      "path": "scripts/audit/source-before-mobile-back.mjs"
-    },
-    {
-      "code": " M",
       "path": "scripts/testing/product-workbook-runtime-view.mjs"
     },
     {
       "code": " M",
-      "path": "tests/partial216-source-history.test.ts"
+      "path": "scripts/testing/run-cart-flight-browser.mjs"
     },
     {
       "code": " M",
-      "path": "tests/product-workbook-runtime-view.test.ts"
+      "path": "scripts/testing/run-home219-operations-gates.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-storefront-budget-browser.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/storefront-speed-fixture.mjs"
+    },
+    {
+      "code": " M",
+      "path": "tests/phase6-bc-dialog-safety.test.ts"
     },
     {
       "code": " M",
       "path": "tests/sales-only-phase2.test.ts"
     },
     {
-      "code": " M",
-      "path": "tests/store-scroll-history.test.ts"
+      "code": "??",
+      "path": "customer-web/src/components/GuidedStoreAssistantDialog.tsx"
     },
     {
       "code": "??",
-      "path": "e2e/legacy219-rpc.ts"
+      "path": "customer-web/tests/sales-only-deferred-content.test.ts"
     },
     {
       "code": "??",
-      "path": "tests/legacy219-rpc.test.ts"
+      "path": "docs/design/sales-only-phase2/FINAL_CI_RECONCILIATION_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/home219-service-probe.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/home219-service-probe.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/storefront-versioned-fixture.test.ts"
     }
   ]
 }

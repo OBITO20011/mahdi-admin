@@ -22,13 +22,11 @@ import { HomeCategoryMosaic } from './components/HomeCategoryMosaic';
 import { NetworkStatusBanner } from './components/NetworkStatusBanner';
 import { MerchandisingSections } from './components/MerchandisingSections';
 import { MobileStoreNav } from './components/MobileStoreNav';
-import { OffersPage } from './components/OffersPage';
 import { ProductCard } from './components/ProductCard';
 import { PromotionOffers } from './components/PromotionOffers';
 import { StoreHeader } from './components/StoreHeader';
 import { StoreFooter } from './components/StoreFooter';
 import { StoreHero } from './components/StoreHero';
-import { AboutStorePage } from './components/AboutStorePage';
 import { DEFAULT_STOREFRONT_SETTINGS } from './config/store';
 import { SEO_BRAND } from './config/seoBrand';
 import {
@@ -99,6 +97,9 @@ const PrivacyPolicyModal = lazy(() => import('./components/PrivacyPolicyModal').
 const ProductDetailsModal = lazy(() => import('./components/ProductDetailsModal').then(module => ({ default: module.ProductDetailsModal })));
 const ParcelBuilderModal = lazy(() => import('./components/ParcelBuilderModal').then(module => ({ default: module.ParcelBuilderModal })));
 const PublicPosReceiptPage = lazy(() => import('./components/PublicPosReceiptPage').then(module => ({ default: module.PublicPosReceiptPage })));
+const OffersPage = lazy(() => import('./components/OffersPage').then(module => ({ default: module.OffersPage })));
+const AboutStorePage = lazy(() => import('./components/AboutStorePage').then(module => ({ default: module.AboutStorePage })));
+const storePageLoading = <section role="status" aria-busy="true" className="min-h-[70vh] bg-[#fbf7f0] px-4 py-10 text-center">جارٍ تحميل الصفحة…</section>;
 
 // Decoration is fetched only after the existing successful cart operation.
 // Its failure is intentionally independent of cart persistence and messages.
@@ -1682,6 +1683,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         )}
 
         {activePage === 'offers' && (
+          <Suspense fallback={storePageLoading}>
           <OffersPage
             offers={settingsTrusted && storefrontSettings.showOffers ? storefrontOffers : []}
             isLoading={offersLoading}
@@ -1693,15 +1695,18 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
             onBrowseProducts={showAllProducts}
             onUseOffer={usePromotionOffer}
           />
+          </Suspense>
         )}
 
         {activePage === 'about' && (
+          <Suspense fallback={storePageLoading}>
           <AboutStorePage
             onBrowseProducts={showAllProducts}
             whatsappUrl={storeWhatsappUrl}
             onTrackOrder={() => setTrackingOpen(true)}
             settings={settingsTrusted ? storefrontSettings : null}
           />
+          </Suspense>
         )}
 
         {activePage === 'catalog' && (

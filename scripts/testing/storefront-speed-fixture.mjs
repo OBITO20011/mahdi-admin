@@ -2,9 +2,12 @@
 export const speedId=n=>'93000000-0000-4000-8000-'+String(n).padStart(12,'0');
 export const speedCategories=Array.from({length:6},(_,i)=>({id:speedId(1001+i),code:'speed-'+i,nameAr:['مشروبات','شوكولاتة','سكاكر','مواد تموينية','بسكويت','معلبات'][i],imageUrl:'http://127.0.0.1:4174/fixture-images/'+i+'.jpg',productCount:50,availableProductCount:50}));
 export const speedProducts=Array.from({length:300},(_,i)=>({id:speedId(i+1),sku:'SPEED-'+String(i).padStart(4,'0'),barcode:'000990'+String(i).padStart(7,'0'),nameAr:'منتج وهمي '+i+' '+speedCategories[i%6].nameAr,description:'كتالوج اختبار محلي فقط، ليس بضاعة المحل.',categoryId:speedCategories[i%6].id,categoryCode:speedCategories[i%6].code,categoryNameAr:speedCategories[i%6].nameAr,brandId:speedId(2001),brandNameAr:'علامة وهمية',unitId:speedId(2002),unitNameAr:'باكيت',saleUnitId:speedId(2003),saleUnitNameAr:'طرد',unitsPerSalePackage:12,parcelOnly:false,salePriceInMinorUnits:500,salePackagePriceInMinorUnits:6000,availableQuantity:240,availableSalePackages:20,minimumOrderPackages:1,lowStockThreshold:12,isAvailable:true,imageUrl:'http://127.0.0.1:4174/fixture-images/'+i+'.jpg',variants:[]}));
+export const speedRpcPath=/^\/rest\/v1\/rpc\/[a-z][a-z0-9_]*$/u;
+const parallelReaders=Object.freeze({lite1_catalog_page2:'get_public_storefront_catalog_page',lite1_merchandising2:'get_public_storefront_merchandising',lite1_parcel_options2:'get_public_configurable_parcel_options'});
+export const fullSpeedRpcName=name=>Object.hasOwn(parallelReaders,name)?parallelReaders[name]:name;
 export function speedRpc(name,args={}){
  // Installed parallel readers delegate the exact original full response.
- name=({lite1_catalog_page2:'get_public_storefront_catalog_page',lite1_merchandising2:'get_public_storefront_merchandising',lite1_parcel_options2:'get_public_configurable_parcel_options'})[name]??name;
+ name=fullSpeedRpcName(name);
  if(name==='get_public_storefront_settings')return{storeNameAr:'النواصرة لتجارة الجملة والمواد الغذائية',ordersEnabled:true,minimumOrderInMinorUnits:0,insideRamthaDeliveryFeeInMinorUnits:0,outsideRamthaDeliveryFeeInMinorUnits:0,showNewestProducts:true,showBestSellers:true,showOffers:true,showLowStock:true,announcementText:'كتالوج سرعة وهمي محلي فقط'};
  if(name==='get_public_storefront_offers')return{success:true,offers:[]};
  if(name==='get_public_storefront_merchandising')return{newest:speedProducts.slice(0,6),bestSellers:speedProducts.slice(6,12),offers:[],lowStock:[]};

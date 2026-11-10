@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner9Nov phase2:additive sales-only build above85;reuse existing UI/pure calculation helpers;opening epoch included;quarantined SQL/Draft PR/fullCI only.",
-  "baselineSha": "60b8f65f8aa6835a9a15872b9d44396b003f4151",
+  "baselineSha": "6c80978775805a8d196b1168745b9d8e92fdcf99",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase2",
   "phase": "SALES_ONLY_PHASE2",
@@ -16,10 +16,11 @@
     "Drawer13actualPGgroupsPASS:TSdecoder canonicalcash/CliQ/collections/literefundpages1/noduplicates/read-only/fullJSONexact;guard/reallockraces stillPASS.1640rows1426.930ms;628636/integrity0/network0/cleanuptrue.14units/type/lint+4browserPASS;2initialnewselectorfailuresfixedtestonly.",
     "Current unprojectedRPC235sites/695actualroleprobes/18expecteddenials PASS;local219+quarantined overlay,original628/eightpatches checked;18focusedunitsPASS. ACCESS_SERVICE2/ACCESS_MILESTONE_UNITS logs external.",
     "ActualREST219:181/172success/9empty/0error;workbook12groups+46row4interruptions/replay0 PASS. Historical92focused89+corrected24PASS;types/strictlint0. Rawlogs ACCESS_TABLE/WORKBOOK/LEGACY_RECONCILE*.",
-    "Legacybrowser136:135PASS+oneunchangedcoldgoto rerunPASS;traceexternal. Allknown history failures corrected focused;types/strictlintPASS;owner24hashunchanged."
+    "Legacybrowser136:135PASS+oneunchangedcoldgoto rerunPASS;traceexternal. Allknown history failures corrected focused;types/strictlintPASS;owner24hashunchanged.",
+    "10Nov cart-flight6/6 and assistant/deep links10/10 correctedPASS;customer221/type/strictlintPASS;original byte/request caps unchanged. Current219 proof regeneration and final FULLCI still pending."
   ],
   "inProgress": [
-    "Committedhistoricalruntimeview prep;finalwholequality/build/FULLCI/report"
+    "Rebuild actual219 current access evidence + owner upgrade/reset/resume gates; six-context build and final FULLCI."
   ],
   "notStarted": [
     "Wholelocalquality/build/verify/Gitleaks/exactFULLCI/finalreport"
@@ -39,14 +40,14 @@
     "No owner/env edits;no Docker factory reset or unknown volume deletion",
     "628original function bodies frozen;8exact approved patches only"
   ],
-  "nextExactAction": "Prepare committed strict runtimeview andcleanup;finalwhole quality/build/FULLCI/report. Draft86 only.",
-  "checkpointedAt": "2026-11-10T03:47:57.381Z",
+  "nextExactAction": "Actual219 access+owner gates; six contexts; exact final FULLCI. Draft86 only.",
+  "checkpointedAt": "2026-11-10T04:49:50.545Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 17,
-  "filesTouchedManifestSha256": "7492dc2edda4a1c0e78ef0d7877b8b16876b142e9552e02e1358dae0db9a0bd4",
-  "workingTreeFingerprint": "D8D4BDC21119B67FAA72655479A5C901DD093D0EA970C484CF31E95DD89A8F13",
+  "filesTouchedCount": 19,
+  "filesTouchedManifestSha256": "92e61e469b445c0b1d5b8a2885152c29862cdeb79b415eeac4cff9fcf8259c07",
+  "workingTreeFingerprint": "6C74B780003903C974B12E5532B9E809E7655FF5AFE231E2F3437DC1F988C69F",
   "activeProcesses": [],
   "findings": [
     "Ownerexplicitlyapproved narrowadditionalstatusguard+parallelpreview9Nov;keep628 originalbodies/eightbridgepatches unchanged."

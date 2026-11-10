@@ -31,7 +31,7 @@ test('both standalone dialog implementations run the identical behavioral safety
   assert.doesNotMatch(contract,/if\s*\(\s*name\s*===|test\.skip|test\.fixme|waitForTimeout/u);
   assert.match(contract,/const path='\/src\/utils\/dialogFocus\.ts'/u);
   assert.doesNotMatch(read('customer-web/src/hooks/useDialogFocus.ts'), /\.\.\/\.\.\/\.\.\/src/u);
-  for (const name of ['GuidedStoreAssistant', 'OrderTrackingModal']) {
+  for (const name of ['GuidedStoreAssistantDialog', 'OrderTrackingModal']) {
     const source = read(`customer-web/src/components/${name}.tsx`);
     assert.match(source, /useDialogFocus\(isOpen/u);
     assert.doesNotMatch(source, /addEventListener\('keydown'/u);

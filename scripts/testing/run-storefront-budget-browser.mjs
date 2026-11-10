@@ -7,7 +7,7 @@ import {promisify} from 'node:util';
 import path from 'node:path';
 import os from 'node:os';
 import {chromium,webkit} from '@playwright/test';
-import {speedRpc} from './storefront-speed-fixture.mjs';
+import {speedRpcPath,speedRpc} from './storefront-speed-fixture.mjs';
 import {assertStorefrontRequests} from './storefront-budget.mjs';
 const root=path.resolve(import.meta.dirname,'../..'),dist=path.join(root,'customer-web/dist'),evidence=await mkdtemp(path.join(os.tmpdir(),'nawasrah-storefront-budget-'));
 const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9Wl6v7sAAAAASUVORK5CYII=','base64');
@@ -17,7 +17,7 @@ try{
  api=createServer(async(req,res)=>{
   res.setHeader('Access-Control-Allow-Origin',req.headers.origin==='https://127.0.0.1:4174'?'https://127.0.0.1:4174':'http://127.0.0.1:4174');res.setHeader('Access-Control-Allow-Headers',req.headers['access-control-request-headers']||'apikey,authorization,content-type,x-client-info');res.setHeader('Access-Control-Allow-Methods','POST,OPTIONS');
   if(req.method==='OPTIONS'){res.writeHead(204).end();return;}
-  try{assert.equal(req.method,'POST');assert.match(req.url,/^\/rest\/v1\/rpc\/[a-z][a-z0-9_]*$/u);const chunks=[];for await(const chunk of req)chunks.push(chunk);const data=speedRpc(req.url.split('/').at(-1),JSON.parse(Buffer.concat(chunks).toString('utf8')||'{}'));res.setHeader('Content-Type','application/json');res.end(JSON.stringify(data));}
+  try{assert.equal(req.method,'POST');assert.match(req.url,speedRpcPath);const chunks=[];for await(const chunk of req)chunks.push(chunk);const data=speedRpc(req.url.split('/').at(-1),JSON.parse(Buffer.concat(chunks).toString('utf8')||'{}'));res.setHeader('Content-Type','application/json');res.end(JSON.stringify(data));}
   catch(error){failures.push(error.message);res.writeHead(500).end('FIXTURE_REFUSED');}
  });await new Promise((resolve,reject)=>{api.once('error',reject);api.listen(4176,'127.0.0.1',resolve);});
  site=createServer(async(req,res)=>{try{
