@@ -47,6 +47,10 @@ if (params.has('long')) {
   fixture[1].items[0].productName = 'عصير البرتقال الطبيعي عبوة عائلية طويلة الاسم للمراجعة على الشاشات الصغيرة';
 }
 if(params.has('liteDelivery')){const actor='92600000-0000-4000-8000-000000000001';auth.state.user={id:actor} as AuthState['user'];fixture[1].accountingTracked=false;fixture[1].items.forEach(item=>{item.accountingTracked=false;item.costPrice=null;});if(!supabase)throw Error('LOCAL_CLIENT_REQUIRED');supabase.auth.getUser=async()=>({data:{user:{id:actor} as NonNullable<AuthState['user']>},error:null});}
+if(params.has('liteReceipt')){
+ fixture[1].accountingTracked=false;fixture[1].publicReceiptUrl='http://127.0.0.1:4174/#receipt=92600000-0000-4000-8000-000000000935';
+ fixture[1].items.forEach(item=>{item.accountingTracked=false;item.costPrice=null;});
+}
 const Harness = () => {
   const [filter, setFilter] = useState<OperationalOrderFilter>('all');
   const [search, setSearch] = useState('');

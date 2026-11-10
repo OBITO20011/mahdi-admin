@@ -12,6 +12,10 @@ engine.state={...engine.state,activeBranch:branch,branches:[branch],categories:[
 storeEngine.setCurrentUser({id:posFixtureIds.actor,name:'مالك اختبار',role:'Owner',themeMode:'light'});storeEngine.setActiveTab('more');
 if(!supabase)throw Error('LOOPBACK_FIXTURE_REQUIRED');
 supabase.auth.getUser=async()=>({data:{user:{id:posFixtureIds.actor}},error:null}) as Awaited<ReturnType<NonNullable<typeof supabase>['auth']['getUser']>>;
+// Test identity only: the real command still performs both identity reads and
+// its AAL2 check. No production auth method or mutation is replaced here.
+const assurance=new URLSearchParams(location.search).get('owner-assurance');
+if(assurance==='aal1'||assurance==='aal2')supabase.auth.mfa.getAuthenticatorAssuranceLevel=async()=>({data:{currentLevel:assurance,nextLevel:'aal2',currentAuthenticationMethods:[]},error:null});
 const original=supabase.rpc.bind(supabase),client=supabase as unknown as {rpc:(name:string,args?:Record<string,unknown>)=>unknown};
 client.rpc=(name,args)=>{
  const ok=(data:unknown)=>Promise.resolve({data,error:null});

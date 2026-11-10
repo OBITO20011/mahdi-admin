@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner9Nov phase2 above85:build additive sales-only mode;reuse UI/math;opening epoch;quarantined SQL/Draft86/fullCI only.",
-  "baselineSha": "ac78046bb54c79b552d86bceccbafb19ff39dc59",
+  "objective": "Owner10Nov:close phase2 six browser gates then phase3 Draft220/tools/rehearsal;frozen628 and further bridge edits require new approval.",
+  "baselineSha": "590a72ea89c8ee3e08febac8a705c377e5d58243",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase2",
   "phase": "SALES_ONLY_PHASE2",
@@ -14,36 +14,40 @@
     "Openingepoch1640rows1426.930ms/preview660.944ms;activation/resume/latereturn/fullstockPASS. Workbook12groups46rows4interruptions/replay0PASS.",
     "Current219actualREST181(172success9empty0errors),RPC235sites695probes18expecteddenials;reference180/636/13freshincremental0;upgrade11negatives/reset4interruptions/CLI12PASS.",
     "Admin1945/store221/type/strictlintPASS;6buildverify/assistant10/flight6/budget8/vitals8PASS;runtimeview146files/SQL-ownerunchanged/cleanupPASS.",
-    "Currentbundle662851raw183992gzip below original683725/187840 caps;Gitleaks718commits0;owner20/env4 unchanged.37f and4e30162d pushed."
+    "Currentbundle662851raw183992gzip below original683725/187840 caps;Gitleaks718commits0;owner20/env4 unchanged.37f and4e30162d pushed.",
+    "Exact590a72ea FULLCI72/72 PASS:quality61/SQL8/backup1/secrets2,attempt1;verifyFullDeliveryJobs+remotehead PASS. Report/PR updated;Draft86 kept.",
+    "Owner10Nov six-gate closure:54unique Chromium/WebKit touch cases PASS;App AAL2/AAL1/expense-close/POS+order share/openingdebt explicit;types/strictlintPASS;test/docs changes only."
   ],
   "inProgress": [
-    "Final FULLCI after exact legacy219 orders-focus mock fix;8browser/9unitPASS. ac core cancelled20min from missing fixture reader,notaccepted."
+    "Commit/push six-gate additions;exact-head fullCI required."
   ],
-  "notStarted": [],
+  "notStarted": [
+    "Phase3 after phase2 exact-head fullCI;check explicit frozen628 composition boundary before SQL."
+  ],
   "testsPassed": [
-    "All current local functional/role/owner/build/browser gatesPASS;see external logs and tracked proofs."
+    "All local gates recorded;exact590a72ea FULLCI72/72 success;Gitleaks720/0. See externalEXACT_PR_REVIEW_VERIFICATION.json and Arabicreport."
   ],
   "testsRemaining": [
-    "Exact final FULLCI and final owner-review report."
+    "Exact newhead fullCI/Gitleaks/final checkpoint"
   ],
-  "blockers": [],
+  "blockers": [
+    "Before220 composition:owner decision requested for #79 fivefrozen body edits+oneconfig andexistingfactsbridge composition;noSQLchanged."
+  ],
   "prohibitions": [
-    "No merge/phase3/active migration or ceiling change",
-    "No main/58/79/82 changes",
-    "No hosted Frankfurt/preview or deployment",
-    "No owner/env edits;no Docker factory reset or unknown volume deletion",
-    "628original function bodies frozen;8exact approved patches only"
+    "No merge/main/58 changes or deployment/hosted access",
+    "No owner/env edits;no unknown cleanup",
+    "628 original functions frozen;only eight approved bridge diffs;new expansion requires owner approval"
   ],
-  "nextExactAction": "Exact final FULLCI including cancelled/timeouts;Draft86 report then ownerSTOP.",
-  "checkpointedAt": "2026-11-10T05:50:42.649Z",
+  "nextExactAction": "Push six-gate test/docs checkpoint;monitor exact-head FULLCI;do not compose220 before bounded frozen-function decision.",
+  "checkpointedAt": "2026-11-10T13:28:37.092Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "910991372bd3520793b24f01e0c33e667bdb2cffb46eae73e5a13f54c8f3538c",
-  "workingTreeFingerprint": "EE603806F7F20C2E8EB1FD8B5EC3290CD0A0717B19968464AC4093659A0353D4",
+  "filesTouchedCount": 8,
+  "filesTouchedManifestSha256": "0d51e3073aa82d5771002b2edbbd50fe6859edd5b2bceab0286fb0dbf4cc2b94",
+  "workingTreeFingerprint": "473B0924074C24EE9A405BCE147D03D5DD44DA3BBD3779E0A71D08DDCC7EB5F0",
   "activeProcesses": [],
   "findings": [
-    "No new bridge beyond owner approvals;no hosted/deploy/main changes."
+    "WebKit1flaky oldfragmented-return inspectioncheckbox passed existingCIretry;299firstpass/32oldconditions;localcasePASS,causeunresolved. Disclosed,notclaimedflakefree."
   ]
 }

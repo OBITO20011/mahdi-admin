@@ -3,19 +3,35 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/design/sales-only-phase2/FINAL_CI_RECONCILIATION_AR.md"
+      "path": "docs/agent/PHASE_STATUS.md"
     },
     {
       "code": " M",
-      "path": "e2e/orders-focus-restoration.spec.ts"
+      "path": "e2e/package-f-orders-harness.tsx"
     },
     {
       "code": " M",
-      "path": "scripts/audit/sales-only-phase2-source-pins.json"
+      "path": "e2e/sales-only-phase2-app-harness.tsx"
     },
     {
       "code": " M",
-      "path": "tests/sales-only-phase2.test.ts"
+      "path": "e2e/sales-only-phase2-app.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/sales-only-phase2-delivery.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/sales-only-phase2-import.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/sales-only-phase2-pos.spec.ts"
+    },
+    {
+      "code": "??",
+      "path": "docs/design/sales-only-phase2/PHASE2_COMPLETION_GATE_AR.md"
     }
   ]
 }
