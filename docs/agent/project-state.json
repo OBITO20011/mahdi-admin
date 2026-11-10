@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "project": "Nawasrah ERP",
-  "branch": "codex/sales-only-phase2",
+  "branch": "codex/sales-only-phase3",
   "approvedBaseline": "cab1c5aed8c2069e2919c566ea09c2da9757896d",
   "closedPhases": [
     "3",
@@ -14,7 +14,7 @@
     "6"
   ],
   "phase4Closed": true,
-  "currentPhase": "SALES_ONLY_PHASE2",
+  "currentPhase": "SALES_ONLY_PHASE3",
   "phase6Closed": true,
   "phase6ClosureBaseline": "5aaeab11e13c2be454af677ee176f77aa2d9cde4",
   "phase6ClosureExactShaCi": "PASS",
@@ -92,7 +92,7 @@
   "phase5Slice4ClosureExactShaCi": "PASS",
   "phase5Slice3AuthorizationBaseline": "6fac32ac422206a3b5e5716159304806f30d0aed",
   "phase5PublicActivationAllowed": false,
-  "migrationCeiling": 219,
+  "migrationCeiling": 220,
   "migration199CanonicalLfSha256": "A34808EE64C80744FD8973559207983391ACA0F53025F8F2764BE74E52C2FCF0",
   "migration197CanonicalLfSha256": "3CAABD6C454A22A607761B57FFF66E9C41119C468D468F54C1DE9197111E7722",
   "migration198CanonicalLfSha256": "1F494DC9F95B6A4DB5887F5EF675C4E792FF7CD7EF681F37588489F88C094BAB",
@@ -260,17 +260,18 @@
   "migration215CanonicalLfSha256": "2D20594D6112C206A23130C43CE555ECC5357921CC9E4058019D0446223A4E57",
   "trialTb215Status": "LOCAL_DB_UI_SDK_REFERENCE_OWNER_BACKUP_RESET_PASS_FULLQUALITY_EXACT_CI_PENDING",
   "operationalSchema": {
-    "manifestSha256": "1a6c507b6ff8b3965e1c01c71abf2280b84544498989085223abae90569fd916",
+    "manifestSha256": "5c0c8368f94b45a9d43ffc01cb51e13131ab9c62218796acef0349460cd269e5",
     "archiveFormatVersion": 2,
     "legacyArchiveCeilings": [
       214,
       215,
       216,
-      217
+      217,
+      219
     ],
-    "resetCommand": "frankfurt-owner-reset219",
-    "upgradeCommand": "frankfurt-owner-upgrade219",
-    "readyReferenceName": "local-reference-through219-ready.json"
+    "resetCommand": "frankfurt-owner-reset220",
+    "upgradeCommand": "frankfurt-owner-upgrade220",
+    "readyReferenceName": "local-reference-through220-ready.json"
   },
   "migration216CanonicalLfSha256": "3A30798F8F9DD385DD915ED74B25440B8E40C6B46893541ACA049A5B94E09462",
   "trialTc216Status": "LOCAL_DB_UI_HTTP_SDK_REFERENCE_UPGRADE_RESET_ARCHIVE_COMPAT_PASS_EXACT_FULL_CI_PENDING",
@@ -282,5 +283,7 @@
   ],
   "homePerformance219Status": "OWNER_APPROVED_IMPLEMENTATION_IN_PROGRESS_NO_HOSTED_APPLY",
   "phaseSALES_ONLY_PHASE1ImplementationAllowed": true,
-  "phaseSALES_ONLY_PHASE2ImplementationAllowed": true
+  "phaseSALES_ONLY_PHASE2ImplementationAllowed": true,
+  "phaseSALES_ONLY_PHASE3ImplementationAllowed": true,
+  "migration220CanonicalLfSha256": "F85E6757334A6996816D6E1EC0CC1BBFABB0D91BD0E0A015CF1DD8F48217DDEB"
 }

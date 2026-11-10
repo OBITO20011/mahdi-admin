@@ -3,7 +3,27 @@
   "files": [
     {
       "code": " M",
-      "path": "scripts/audit/sales-only-phase2-source-pins.json"
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/build-sales-only220.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-sales-only220-migration.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/sales-only220-compiler.mjs"
+    },
+    {
+      "code": "??",
+      "path": "supabase/migrations/220_sales_only_operating_mode.sql"
+    },
+    {
+      "code": "??",
+      "path": "tests/sales-only220-compiler.test.ts"
     }
   ]
 }

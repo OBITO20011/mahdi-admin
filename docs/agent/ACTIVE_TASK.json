@@ -2,52 +2,45 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner10Nov:close phase2 six browser gates then phase3 Draft220/tools/rehearsal;frozen628 and further bridge edits require new approval.",
-  "baselineSha": "590a72ea89c8ee3e08febac8a705c377e5d58243",
+  "objective": "Owner10Nov phase3:220liteonly/628frozen/8exactbridges;owner220tools+D1/full local rehearsal/docs;Draft only.",
+  "baselineSha": "bfc669408b3e31e0fc661b06c9779ffedd1c0a9c",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
-  "branch": "codex/sales-only-phase2",
-  "phase": "SALES_ONLY_PHASE2",
-  "startedAt": "2026-11-09T10:43:35.259Z",
+  "branch": "codex/sales-only-phase3",
+  "phase": "SALES_ONLY_PHASE3",
+  "startedAt": "2026-11-10T14:07:21.558Z",
   "completed": [
-    "Detailed evidence/history:C:/Users/TOP/NawasrahFrankfurt/sales-only-phase2-20261109/;tracked phase2 *_PROOF_AR.md.",
-    "Commercial18/POS16/guestH1/lifecycle4/returns8/full-v-lite parityPASS;628bodies/eightapproveddiffs/636metadata exact;approved additionalshiftguard12groups/drawer13groups/races/integrity0PASS.",
-    "Openingepoch1640rows1426.930ms/preview660.944ms;activation/resume/latereturn/fullstockPASS. Workbook12groups46rows4interruptions/replay0PASS.",
-    "Current219actualREST181(172success9empty0errors),RPC235sites695probes18expecteddenials;reference180/636/13freshincremental0;upgrade11negatives/reset4interruptions/CLI12PASS.",
-    "Admin1945/store221/type/strictlintPASS;6buildverify/assistant10/flight6/budget8/vitals8PASS;runtimeview146files/SQL-ownerunchanged/cleanupPASS.",
-    "Currentbundle662851raw183992gzip below original683725/187840 caps;Gitleaks718commits0;owner20/env4 unchanged.37f and4e30162d pushed.",
-    "Exact590a72ea FULLCI72/72 PASS:quality61/SQL8/backup1/secrets2,attempt1;verifyFullDeliveryJobs+remotehead PASS. Report/PR updated;Draft86 kept.",
-    "Owner10Nov six-gate closure:54unique Chromium/WebKit touch cases PASS;App AAL2/AAL1/expense-close/POS+order share/openingdebt explicit;types/strictlintPASS;test/docs changes only."
+    "Phase2 bfc FULL72/72;54mobile/21negative/types/lint;owner24unchanged.",
+    "Owner resolved:exclude79 from220;defer H1full/M01/supplierDESC to221;79keptDraft/comment6769427296.",
+    "Independent worktree outside managed cleanup;phase2/primary/58/79source/82untouched."
   ],
   "inProgress": [
-    "Commit/push six-gate additions;exact-head fullCI required."
+    "Promote exact approved phase2 install to deterministic220;real219to220/fresh parity before owner tools."
   ],
   "notStarted": [
-    "Phase3 after phase2 exact-head fullCI;check explicit frozen628 composition boundary before SQL."
+    "Upgrade/backupRestore/RESET220/watchdog/D1kit220 without altering219entrypoints",
+    "Owner-scale OFF rehearsal andlateraccounting activation;cutover/template/owner docs",
+    "FullCI/Gitleaks0/DraftPR/report thenstop"
   ],
   "testsPassed": [
-    "All local gates recorded;exact590a72ea FULLCI72/72 success;Gitleaks720/0. See externalEXACT_PR_REVIEW_VERIFICATION.json and Arabicreport."
+    "Phase2 gate exact72/72 verified"
   ],
   "testsRemaining": [
-    "Exact newhead fullCI/Gitleaks/final checkpoint"
+    "All phase3 runtime/negative/financial/history/browser/owner tools gates"
   ],
-  "blockers": [
-    "Before220 composition:owner decision requested for #79 fivefrozen body edits+oneconfig andexistingfactsbridge composition;noSQLchanged."
-  ],
+  "findings": [],
+  "blockers": [],
   "prohibitions": [
-    "No merge/main/58 changes or deployment/hosted access",
-    "No owner/env edits;no unknown cleanup",
-    "628 original functions frozen;only eight approved bridge diffs;new expansion requires owner approval"
+    "No merge/main/58/deploy/hostedaccess;noowner/env edits",
+    "628originalbodies frozen;8exactapproveddiffs only;any expansionstopask",
+    "79 remainsDraft/deferred221;no adoption ofitsSQL;219 tools retained"
   ],
-  "nextExactAction": "Push exact two-hash audit-pin repair;FULLCI on corrected head;hold220 composition for bounded owner decision.",
-  "checkpointedAt": "2026-11-10T13:32:52.412Z",
+  "nextExactAction": "Run literal220 promotion proof on owned isolated219;source frozen until it finishes.",
+  "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 1,
-  "filesTouchedManifestSha256": "9a2bd83631bef57bc62238a3b15dfa6537f6a5bd37c2abc718045dfcaf59dd32",
-  "workingTreeFingerprint": "5D61677B5874B21254315F0181A5EA3F42E603F1495DD848DF1A539C34D98B0C",
-  "activeProcesses": [],
-  "findings": [
-    "WebKit1flaky oldfragmented-return inspectioncheckbox passed existingCIretry;299firstpass/32oldconditions;localcasePASS,causeunresolved. Disclosed,notclaimedflakefree."
-  ]
+  "workingTreeFingerprint": "ADE8D5F48D6C6C9193385E756E2140FF58027BA4AB26DF275942711AB750AC93",
+  "checkpointedAt": "2026-11-10T14:14:20.606Z",
+  "filesTouchedCount": 6,
+  "filesTouchedManifestSha256": "fe1f5ce8728a986e95e4695710119eb64e2d85d50ce344569010a35e4fbd0790"
 }

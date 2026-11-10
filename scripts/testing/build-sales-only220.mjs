@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import {readFile,writeFile} from 'node:fs/promises';
+import path from 'node:path';
+import {buildSalesOnly220,salesOnly220Name} from './sales-only220-compiler.mjs';
+const args=process.argv.slice(2);assert.ok((args.length===2||args.length===3&&args[2]==='--check')&&args[0]==='--catalog','USAGE:--catalog captured-original219.json [--check]');
+const rows=JSON.parse(await readFile(path.resolve(args[1]),'utf8')),sql=buildSalesOnly220(rows);
+const target=new URL('../../supabase/migrations/'+salesOnly220Name,import.meta.url);
+if(args[2]==='--check')assert.equal(await readFile(target,'utf8'),sql,'GENERATED_LITE220_DRIFT');
+else await writeFile(target,sql,{flag:'wx'});
+console.log(JSON.stringify({ok:true,checkOnly:args[2]==='--check',migration:salesOnly220Name,originalFunctions:636,frozenBodies:628,exactBridges:8,bytes:Buffer.byteLength(sql),pr79Included:false}));
