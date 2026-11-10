@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner11Nov:Fable review fixes inDraft87;finish frozen fca units/access first;PG RED thenadditiveGREEN;627+9unchanged;thenfinal220 evidence/CI.",
-  "baselineSha": "5f065702bcf462b8aae0afc1332703e9eeb671bb",
+  "objective": "Owner11Nov:close Fable RED/GREEN additive corrections inDraft87;627originals+9approved diffs frozen;stop for review before readyreference/rehearsal/finalCI.",
+  "baselineSha": "925d998a149c696bee15eb5d2fffdcf427da9b30",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase3",
   "phase": "SALES_ONLY_PHASE3",
@@ -16,16 +16,15 @@
     "Summaryninthowner10Novimplemented;fullJSON/dailyweekly/enqueueparity7acbPASS;oldcaseguardtestretained."
   ],
   "inProgress": [
-    "StrengthenedGREENfull-only108CRMparity/actualoldexpiry+safe fullpaymentreversal;globalaging vsstatement;focusedmobileUI gates next.",
-    "Current5f frozenfocused15unitsPASS;types/lint ongoing/need result;no reference/expandedrehearsal/finalCI."
+    "Finish review evidence and current catalog fingerprints only;no readyreference/expandedrehearsal/finalCI."
   ],
   "notStarted": [
-    "Fable A1/M1 debtaging+CRM parallels;M2 neverautoexpire;M3 paymentreversal+integrity;M4 all liteshiftblock;N1indexes/N2revoke;owner-readonly636diagnostic;correctreport.",
-    "Do not build reference/expandedrehearsal/fullCI until review cases proven RED/GREEN."
+    "New ready220 reference,expanded owner rehearsal,final FULLCI remain held for owner review."
   ],
   "testsPassed": [
     "ActualPGFable8RED→8GREEN;readonlyownerdiagnostic local2190+negatives;627/9sameguard.",
-    "15currentfocusedunitsPASS;lintpreviouspassed."
+    "15currentfocusedunitsPASS;lintpreviouspassed.",
+    "PG925d8GREEN+108CRM wholeJSON/aging+fullcost5000/fullpaymentreverse/fullguestexpiry/rollbackPASS;12mobilebrowser37PASS;15focusedunits/types/strictlint5fPASS."
   ],
   "testsRemaining": [
     "ExtendedfullparityPG/roles/epochmodeblock;Chromium/WebKit390 FableUI;types/lint;source/hash/report final;no reference/rehearsal/fullCI untilownerreview."
@@ -41,13 +40,13 @@
     "79 remainsDraft/deferred221;no adoption ofitsSQL;219 tools retained",
     "No new627 body or ninebridge diff changes;Fable fixes additive only;no newreference/rehearsal/finalCI before review."
   ],
-  "nextExactAction": "Fable8GREEN+12mobile/legacybrowserPASS;extendedfullparity stoppedfixtureUUID key corrected;rerunPGonlythenupdatecatalogpins(no newreadyref/rehearsal/finalCI).",
+  "nextExactAction": "Complete additive Fable evidence+catalog fingerprints;stop for review before readyreference/rehearsal/finalCI.",
   "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "2E5314CE35F10F3DB3E407F3886E7591914D9CF6B9FD8F91F7295716AFF71459",
-  "checkpointedAt": "2026-11-10T21:52:42.669Z",
-  "filesTouchedCount": 10,
-  "filesTouchedManifestSha256": "492b38abb3317cab93c57fe6145a7cdc0af654789e42848a5f3d7d7869498cc3"
+  "workingTreeFingerprint": "AA7E1BEB9E33AF6D66638C52C546101F72793A005AEECF061D58701DF90BBB38",
+  "checkpointedAt": "2026-11-10T21:57:48.099Z",
+  "filesTouchedCount": 0,
+  "filesTouchedManifestSha256": "b6429e7d08029a34589e9c8956ef86dffab2fb6dd9ee37c08d5e9204e14cdbe6"
 }

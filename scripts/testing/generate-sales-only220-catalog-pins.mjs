@@ -27,4 +27,4 @@ const publicFunctions=await read('public220-functions.json');assert.equal(public
 // and cleaned its container. No tracked source is edited during verification.
 await writeFile(new URL('../../docs/design/sales-only-phase3/catalog220-pins.json',import.meta.url),JSON.stringify(pins,null,2)+'\n');
 await writeFile(new URL('../../docs/generated/DB_FUNCTIONS.md',import.meta.url),renderFunctionReference(manifest,publicFunctions.map(r=>({...r,definition:canonicalDefinitionLf(r.definition)}))));
-console.log(JSON.stringify({ok:true,functions:718,publicFunctions:680,privateFunctions:37,unchangedBodies:627,bridges:9,generatedAfterCleanup:true}));
+console.log(JSON.stringify({ok:true,functions:718,publicFunctions:680,privateFunctions:38,unchangedBodies:627,bridges:9,generatedAfterCleanup:true}));

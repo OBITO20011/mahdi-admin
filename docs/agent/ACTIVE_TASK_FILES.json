@@ -1,45 +1,4 @@
 {
   "schemaVersion": 1,
-  "files": [
-    {
-      "code": " M",
-      "path": "docs/operations/D1_REFERENCE_KIT220_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/sales-only-phase3-source-pins.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-reference220.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/function-reference220.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/sales-only220-catalog.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/capture-sales-only220-catalog.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/generate-sales-only220-catalog-pins.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/lite220-fable-additions.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/lite220-fable-parity.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/sales-only220-runtime-functions.mjs"
-    }
-  ]
+  "files": []
 }
