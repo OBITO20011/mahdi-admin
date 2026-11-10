@@ -82,7 +82,10 @@ test('closing report is one canonical authenticated RPC with complete reconcilia
 });
 
 test('frontend loads the report through RPC and never queries accounting tables directly', () => {
-  assert.match(service, /\.rpc\(\s*'get_cash_shift_closing_report'/);
+  assert.match(service, /readOperatingShiftReport\(shiftId\)/);
+  const dispatch=readFileSync('src/services/supabase/operatingShiftReport.ts','utf8');
+  assert.match(dispatch, /client\.rpc\('get_cash_shift_closing_report',args\)/);
+  assert.doesNotMatch(dispatch, /\.from\(/);
   assert.doesNotMatch(service, /\.from\(/);
   assert.match(view, /fetchCashShiftClosingReportFromSupabase/);
   assert.match(view, /CashFlowSummary shift=\{currentShift\}/);assert.match(readFileSync('src/features/shifts/cashFlowModel.ts','utf8'),/shift\.cliqSupplierPayments/);

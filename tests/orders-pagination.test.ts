@@ -39,7 +39,8 @@ test('operational order paging is server-side, guarded, and excludes POS', () =>
 
 test('order page service requests server page metadata then only bounded lightweight rows', () => {
   assert.match(orderService, /export async function fetchOperationalOrdersPageFromSupabase/);
-  assert.match(orderService, /supabase\.rpc\('get_operational_orders_page'/);
+  assert.match(orderService, /readOperatingOrdersPage\(\{/);
+  assert.match(readFileSync('src/services/supabase/operatingOrdersPage.ts','utf8'),/client\.rpc\('get_operational_orders_page',input\)/);
   assert.match(orderService, /p_page_size: pageSize/);
   assert.match(orderService, /p_filter: input\.filter/);
   assert.match(orderService, /p_search: searchQuery/);

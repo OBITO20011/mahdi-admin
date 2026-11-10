@@ -35,6 +35,8 @@ test('empty-image restore history admits only exact current bytes and preserves 
     ]);
   }
   assert.deepEqual(pathsBeforeEmptyStorageRestore(files, baseline), []);
-  assert.deepEqual(pathsBeforeEmptyStorageRestore(['src/App.tsx'], baseline), ['src/App.tsx']);
+  // App now has an independently approved exact-byte phase2 inverse. An
+  // unknown path must still survive every historical projection unchanged.
+  assert.deepEqual(pathsBeforeEmptyStorageRestore(['src/unapproved-history-probe.ts'], baseline), ['src/unapproved-history-probe.ts']);
   assert.equal(sourceBeforeEmptyStorageRestore('src/App.tsx', 'unknown'), 'unknown');
 });

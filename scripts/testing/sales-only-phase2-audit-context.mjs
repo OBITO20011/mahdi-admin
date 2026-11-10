@@ -7,7 +7,10 @@ import {functionCatalogSql} from './sales-only-phase1-runtime.mjs';
 import {assertFrozenFunctions} from './sales-only-phase1-bridges.mjs';
 import {schemaCatalogSql} from './schema-catalog.mjs';
 
-export function salesOnlyAuditEvidence({originalCatalog,runtimeCatalog,...proof}){
+/** @template {{originalCatalog:unknown,runtimeCatalog:unknown}} T
+ * @param {T} audit */
+export function salesOnlyAuditEvidence(audit){
+ const {originalCatalog,runtimeCatalog,...proof}=audit;
  const digest=catalog=>createHash('sha256').update(JSON.stringify(catalog)).digest('hex');
  return {...proof,originalCatalogSha256:digest(originalCatalog),runtimeCatalogSha256:digest(runtimeCatalog)};
 }

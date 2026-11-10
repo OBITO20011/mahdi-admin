@@ -1,4 +1,5 @@
 import{pathsBeforeStorefrontImages}from'../scripts/audit/source-before-storefront-images.mjs';
+import{sourceBeforeSalesOnlyPhase2}from'../scripts/audit/source-before-sales-only-phase2.mjs';
 import{sourceBeforeStorefrontSpeed}from'../scripts/audit/source-before-storefront-speed.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
@@ -43,7 +44,7 @@ test('all RPC/table calls and every StoreEngine method except the two navigation
  const files=['src/App.tsx','src/features/pos/PosView.tsx','src/stores/useAppStore.ts'];
  const withoutLocation=(value:unknown):unknown=>Array.isArray(value)?value.map(withoutLocation):value&&typeof value==='object'?Object.fromEntries(Object.entries(value).filter(([key])=>!['id','line'].includes(key)).map(([key,item])=>[key,withoutLocation(item)])):value;
  for(const file of files){
-  const current=readFileSync(file,'utf8'),before=git(file);
+  const current=sourceBeforeSalesOnlyPhase2(file,readFileSync(file,'utf8'))!,before=git(file);
   for(const parse of [parseSource,parseServices])assert.deepEqual(withoutLocation(parse(file,current)),withoutLocation(parse(file,before)),file);
  }
  const file='src/stores/useAppStore.ts';

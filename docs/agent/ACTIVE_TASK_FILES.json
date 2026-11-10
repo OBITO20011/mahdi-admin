@@ -3,19 +3,19 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+      "path": "docs/MAINTAINER_GUIDE_AR.md"
     },
     {
       "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+      "path": "docs/operations/PRODUCT_WORKBOOK_219_LOCAL.json"
     },
     {
       "code": " M",
-      "path": "scripts/audit/run-service-access-diagnostic.mjs"
+      "path": "docs/operations/TABLE_ACCESS_AFTER_219.json"
     },
     {
       "code": " M",
-      "path": "scripts/audit/run-table-access-diagnostic.mjs"
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
     },
     {
       "code": " M",
@@ -23,35 +23,91 @@
     },
     {
       "code": " M",
-      "path": "scripts/audit/service-access-inventory.mjs"
+      "path": "scripts/testing/build-product-workbook-history.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/audit/source-before-product-workbook.mjs"
+      "path": "scripts/testing/product-workbook-history.json"
     },
     {
       "code": " M",
-      "path": "scripts/testing/product-workbook-runtime-view.mjs"
+      "path": "scripts/testing/sales-only-phase2-audit-context.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/sales-only-phase2-guest-runtime.mjs"
+    },
+    {
+      "code": " M",
+      "path": "tests/app-store-boundaries-characterization.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/bounded-rpc-names.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/cart-flight-contracts.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/customer-statement-ui.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/daily-shift-closing-report.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/empty-storage-restore.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/first-owner-preparation.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/handover-z-maps.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/mobile-back-contracts.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/operational-reports.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/orders-pagination.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/package-f-inventory.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/package-f-shell.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/pre-training-history.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/sales-only-phase2-audit.test.ts"
     },
     {
       "code": " M",
       "path": "tests/sales-only-phase2.test.ts"
     },
     {
-      "code": "??",
-      "path": "scripts/audit/bounded-rpc-names.mjs"
+      "code": " M",
+      "path": "tests/storefront-images-history.test.ts"
     },
     {
-      "code": "??",
-      "path": "scripts/testing/sales-only-phase2-audit-context.mjs"
-    },
-    {
-      "code": "??",
-      "path": "tests/bounded-rpc-names.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "tests/sales-only-phase2-audit.test.ts"
+      "code": " M",
+      "path": "tests/table-access-inventory.test.ts"
     }
   ]
 }

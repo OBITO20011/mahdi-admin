@@ -49,9 +49,9 @@ test('active state follows activeTab, with dashboard treated as Home', () => {
 });
 
 test('desktop shows the SideNav (POS collapses it); phones get the bottom tabs only', () => {
-  assert.match(app, /<SideNav collapsed=\{activeTab === 'pos'\} \/>/);
+  assert.match(app, /<SideNav collapsed=\{activeTab === 'pos'\} operatingMode=\{operatingMode\} \/>/);
   const phoneChrome = app.slice(app.indexOf('className="contents lg:hidden"'));
-  assert.ok(phoneChrome.indexOf('<BottomTabs />') > 0, 'bottom tabs are phone chrome');
+  assert.ok(phoneChrome.indexOf('<BottomTabs operatingMode={operatingMode} />') > 0, 'bottom tabs are phone chrome');
   assert.doesNotMatch(app, /QuickActionButton|data-navigation-action-dock|admin-fab/);
   assert.match(sideNav, /hidden shrink-0 flex-col[^"]*lg:flex/);
   assert.match(sideNav, /aria-label="القائمة الجانبية"/);

@@ -85,8 +85,8 @@ export async function verifyCommercialGuest(c,report){
  const body={contractVersion:'phase3-customer-reservation-v2',idempotencyKey:edgeKey,clientSessionId:randomUUID(),turnstileToken:'local-fixture-token',customer:edgeRequest.recipient,items:edgeRequest.lines,paymentMethod:edgeRequest.paymentMethod,deliveryZone:edgeRequest.deliveryZone,promotionCode:null,expectedQuote:edgeRequest.expectedQuote};
  const edgeResults=[];
  for(let retry=0;retry<2;retry++){
-  const response=await handleGuestOrderRequest(new Request('http://127.0.0.1:54321/functions/v1/submit-guest-order',{method:'POST',headers:{origin:'http://127.0.0.1:4174','content-type':'application/json','x-forwarded-for':'198.51.100.44'},body:JSON.stringify(body)}),{
-   getEnv:name=>({SUPABASE_URL:'http://127.0.0.1:54321',SUPABASE_SERVICE_ROLE_KEY:'isolated-fixture-role',TURNSTILE_SECRET_KEY:'isolated-fixture-turnstile',GUEST_ORDER_HASH_SECRET:'isolated-fixture-long-hmac-secret',TURNSTILE_ALLOWED_HOSTNAMES:'nawasrah-store.pages.dev'}[name]),fetchImpl:edgeFetch});
+  const response=await handleGuestOrderRequest(new Request('http://127.0.0.1:1/functions/v1/submit-guest-order',{method:'POST',headers:{origin:'http://127.0.0.1:4174','content-type':'application/json','x-forwarded-for':'198.51.100.44'},body:JSON.stringify(body)}),{
+   getEnv:name=>({SUPABASE_URL:'http://127.0.0.1:1',SUPABASE_SERVICE_ROLE_KEY:'isolated-fixture-role',TURNSTILE_SECRET_KEY:'isolated-fixture-turnstile',GUEST_ORDER_HASH_SECRET:'isolated-fixture-long-hmac-secret',TURNSTILE_ALLOWED_HOSTNAMES:'nawasrah-store.pages.dev'}[name]),fetchImpl:edgeFetch});
   const result=await response.json();assert.equal(response.status,200,JSON.stringify(result));edgeResults.push(result);
  }
  assert.deepEqual(edgeResults[0],edgeResults[1]);

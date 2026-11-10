@@ -54,7 +54,7 @@ test('checked-in access inventory exactly covers current production-source queri
   assert.deepEqual([...new Set(rows.map((r:{appRole:string})=>r.appRole))].sort(),e.role==='service_role'?['service_role']:['admin','cashier','owner']);
   assert.ok(rows.every((r:{sqlstate:string|null})=>r.sqlstate!=='PGRST125'),'Invalid local gateway routing is NOT ACL evidence');
  }
- const proposal=proposedAccess(actual,evidence);
+ const proposal=proposedAccess(historicalProductWorkbookQuery(projectHistoricalWarehouseQuerySites,projectProductWorkbookQuerySites(actual)),evidence);
  assert.equal(proposal.filter(p=>p.role==='anon').length,0);
  assert.equal(proposal.find(p=>p.table==='business_operations')?.action,'KEEP_EXISTING_COLUMN_GRANTS');
  assert.ok(evidence.results.some((r:{sqlstate:string|null})=>r.sqlstate==='42501'),'Current reference is NOT application-ready;do not mislabel the diagnostic as readiness');

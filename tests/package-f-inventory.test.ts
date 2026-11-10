@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {sourceBeforeSalesOnlyPhase2} from '../scripts/audit/source-before-sales-only-phase2.mjs';
 import {test} from 'node:test';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -28,7 +29,7 @@ test('Inventory and POS business-call traces match the independently captured fa
   ] as const;
   const printer=ts.createPrinter({removeComments:true});
   for(const [file,count,hash] of expected){
-    let source=readFileSync(file,'utf8');
+    let source=sourceBeforeSalesOnlyPhase2(file,readFileSync(file,'utf8'))!;
     if(file==='src/features/pos/PosView.tsx'){
       // D adds saved unit names to this existing read only. Every other actual
       // await/business call remains in the original trace, including its args.

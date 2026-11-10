@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner9Nov phase2:additive sales-only build above85;reuse existing UI/pure calculation helpers;opening epoch included;quarantined SQL/Draft PR/fullCI only.",
-  "baselineSha": "87cf2a86f3b0f527cdb6ff056e291b6f7f77b38f",
+  "baselineSha": "0dfd213a16f4ae512a14d4e9511f5f31462c67bd",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase2",
   "phase": "SALES_ONLY_PHASE2",
@@ -14,7 +14,8 @@
     "Mixedreport/home10units/types/lint/bothenginesPASS;oneChromium502 @vite/client rerunPASS.Mixedclosing8units/types/lint/10browserPASS.Owner20/env4byteunchanged.",
     "Approvedadditionalshiftguard actualPG12groupsPASS:cash/CliQ/directcancel/zero/fullJSON+originalfullreversal/2realblocked-session raceorders/close.1640rows1909.567ms preview678.190ms;integrity0/628636/network0/cleanuptrue;GUARD_PG_PASS.json.",
     "Drawer13actualPGgroupsPASS:TSdecoder canonicalcash/CliQ/collections/literefundpages1/noduplicates/read-only/fullJSONexact;guard/reallockraces stillPASS.1640rows1426.930ms;628636/integrity0/network0/cleanuptrue.14units/type/lint+4browserPASS;2initialnewselectorfailuresfixedtestonly.",
-    "Current unprojectedRPC235sites/695actualroleprobes/18expecteddenials PASS;local219+quarantined overlay,original628/eightpatches checked;18focusedunitsPASS. ACCESS_SERVICE2/ACCESS_MILESTONE_UNITS logs external."
+    "Current unprojectedRPC235sites/695actualroleprobes/18expecteddenials PASS;local219+quarantined overlay,original628/eightpatches checked;18focusedunitsPASS. ACCESS_SERVICE2/ACCESS_MILESTONE_UNITS logs external.",
+    "ActualREST219:181/172success/9empty/0error;workbook12groups+46row4interruptions/replay0 PASS. Historical92focused89+corrected24PASS;types/strictlint0. Rawlogs ACCESS_TABLE/WORKBOOK/LEGACY_RECONCILE*."
   ],
   "inProgress": [
     "Current actual access/REST evidence and strict historical views;FULLCI/finalreport."
@@ -37,14 +38,14 @@
     "No owner/env edits;no Docker factory reset or unknown volume deletion",
     "628original function bodies frozen;8exact approved patches only"
   ],
-  "nextExactAction": "Actual table219 REST/protected12group workbook proof;then complete localquality/history/build/FULLCI. Draft86 only.",
-  "checkpointedAt": "2026-11-09T21:54:45.432Z",
+  "nextExactAction": "Verify historical runtime view on committed head;remaining complete units/browser/build/FULLCI. Draft86, no merge.",
+  "checkpointedAt": "2026-11-10T03:22:18.470Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 13,
-  "filesTouchedManifestSha256": "9f2be40b5d9d0d702c14424e081e66ec14c13049577b79c50f6e10b594c78e26",
-  "workingTreeFingerprint": "770B2CCA88A073E24B4F856464F3DE6D7EFF63E708125875205379793E35F647",
+  "filesTouchedCount": 27,
+  "filesTouchedManifestSha256": "12c25ebcd2e816c90bb13b7879df2c3a1d29bf3c74d3771a3f01cba977641d2a",
+  "workingTreeFingerprint": "975774D330FEC2A84039C15CA3A1A2EDC44DEF2D34C8BEDC39D8A229EA14F10D",
   "activeProcesses": [],
   "findings": [
     "Ownerexplicitlyapproved narrowadditionalstatusguard+parallelpreview9Nov;keep628 originalbodies/eightbridgepatches unchanged."

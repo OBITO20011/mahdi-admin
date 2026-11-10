@@ -29,7 +29,8 @@ test('statement addition leaves every original CRM business/event/value/confirma
   const normalized=after.replace(/<MobileTabSection value="statement"><CustomerStatement customerId=\{customer\.id\} revision=\{customer\} \/><\/MobileTabSection>/g,'');
   assert.deepEqual(financialUiContract(file,normalized),financialUiContract(file,before));
   const service=readFileSync('src/services/supabase/customerStatement.service.ts','utf8');
-  assert.equal([...service.matchAll(/supabase\.rpc\(/g)].length,1);assert.match(service,/'get_customer_statement'/);
+  assert.equal([...service.matchAll(/client\.rpc\(/g)].length,1);assert.match(service,/execute\('get_customer_statement',args\)/);
+  assert.match(service,/readCustomerStatementWithRpc\(customerId,page,\(name,args\)=>client\.rpc\(name,args\)\)/);
   assert.match(service,/p_customer_id:customerId,p_page:page,p_page_size:25/);
   assert.doesNotMatch(service,/\.from\(|insert\(|update\(|delete\(/);
 });
