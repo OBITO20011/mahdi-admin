@@ -14,7 +14,7 @@ import {inventory} from '../audit/table-access-inventory.mjs';
 import {verifyProbeCoverage} from '../audit/table-access-probes.mjs';
 import {salesOnly220Name} from '../testing/sales-only220-compiler.mjs';
 export const ready220Ceiling=220,ready220ReferenceName='local-reference-through220-ready.json';
-export function assertReady220Catalog(catalog){assertReady217Catalog(catalog);return assertSalesOnly220Catalog(catalog);}
+export function assertReady220Catalog(catalog,options){assertReady217Catalog(catalog);return assertSalesOnly220Catalog(catalog,options);}
 export function assertExisting219AclPreserved(before,after){
  const original=new Set(before.functions.filter(f=>f.schema==='public').map(f=>f.identity));assert.equal(original.size,636);
  const existing={...after,functions:after.functions.filter(f=>f.schema!=='public'||original.has(f.identity))};

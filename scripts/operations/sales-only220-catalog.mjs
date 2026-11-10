@@ -18,10 +18,15 @@ export function readSalesOnly220Pins(){
  assert.equal(p.migrationSha256,sha256(canonicalLf(readFileSync(new URL('../../supabase/migrations/'+salesOnly220Name,import.meta.url),'utf8'))),'LITE220_CATALOG_PINS_MIGRATION_DRIFT');
  assert.equal(p.publicFunctions,678);assert.equal(p.privateFunctions,35);assert.equal(p.frozenBodies,628);assert.equal(p.bridges,8);assert.equal(p.freshIncrementalDifferences,0);return p;
 }
-export function assertSalesOnly220Catalog(catalog){
+export function assertSalesOnly220PublicGuards(triggers,{notificationTriggerEnabled='O'}={}){
+ assert.ok(['O','D'].includes(notificationTriggerEnabled),'LITE220_NOTIFICATION_TRIGGER_STATE_REQUIRED');
+ const p=readSalesOnly220Pins();const expected=structuredClone(p.publicTriggers),notification=expected.filter(r=>r.table==='orders'&&r.name==='trg_notify_new_website_order_push');assert.equal(notification.length,1);assert.equal(notification[0].enabled,'O');notification[0].enabled=notificationTriggerEnabled;
+ assert.deepEqual(triggers.filter(r=>r.schema==='public'),expected,'LITE220_EXACT_PUBLIC_GUARDS');
+}
+export function assertSalesOnly220Catalog(catalog,options){
  const p=readSalesOnly220Pins();
  assert.deepEqual(salesOnly220FunctionSnapshot(catalog),p.functions,'LITE220_EXACT_PUBLIC_PRIVATE_FUNCTIONS');
  assert.deepEqual(salesOnly220PrivateSnapshot(catalog),p.privateObjects,'LITE220_EXACT_PRIVATE_OBJECTS');
- assert.deepEqual(catalog.triggers.filter(r=>r.schema==='public'),p.publicTriggers,'LITE220_EXACT_PUBLIC_GUARDS');
+ assertSalesOnly220PublicGuards(catalog.triggers,options);
  return catalog;
 }

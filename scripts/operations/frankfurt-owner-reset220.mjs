@@ -76,7 +76,7 @@ export async function runOwnerReset220(args){
    await validateResetResume(session,readOnly);state=session.saved.state;report.previousAttempt={...session.previous,observedRecorded:session.observedHistory};report.plan=state.plan;
   }else{
    const original=JSON.parse(await readFile(path.join(workdir,'notification-before.json'),'utf8'));
-   await verifyCatalogReadOnly(readOnly,output,reference,original,{beforeBuildDate:reference.buildUtcDate,afterBuildDate:new Date().toISOString().slice(0,10)},report,{strictApplicationAcl:true,assertReadyCatalog:assertReady220Catalog,expectedNotifications:expectedHeld217Notifications});
+   await verifyCatalogReadOnly(readOnly,output,reference,original,{beforeBuildDate:reference.buildUtcDate,afterBuildDate:new Date().toISOString().slice(0,10)},report,{strictApplicationAcl:true,assertReadyCatalog:catalog=>assertReady220Catalog(catalog,{notificationTriggerEnabled:'D'}),expectedNotifications:expectedHeld217Notifications});
    state=await captureReset220({executor:readOnly,ownerId,reference});report.plan=state.plan;
    if(mode==='dry-run'){Object.assign(report,{ok:true,complete:true,exactCountsAvailable:true,stage:'read-only-preview-complete'});return report;}
    session=await prepareResetSession({workdir,output,ownerId,projectRef:TARGET.id,referenceSha256:report.reference.sha256,state,reference});

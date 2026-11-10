@@ -37,7 +37,7 @@ export const reset214RetentionSql=id=>{
 export const reset214RetentionRawSql=id=>`WITH retained(v) AS (${reset214RetentionSql(id).replace(/;$/u,'')})
  SELECT jsonb_object_agg(key,value::text) FROM retained,LATERAL jsonb_each(v);`;
 const fingerprints=raw=>Object.fromEntries(Object.entries(raw).map(([name,text])=>[name,{rows:JSON.parse(text).length,sha256:sha256(text)}]));
-const policy220={ceiling:220,files:181,assertCatalog:assertReady220Catalog};
+const policy220={ceiling:220,files:181,assertCatalog:catalog=>assertReady220Catalog(catalog,{notificationTriggerEnabled:'D'})};
 export const captureReset220=options=>{assertCurrentResetReference(options.reference);return captureRetainedReset(options,policy220);};
 async function captureRetainedReset({executor,ownerId,reference},policy){
  assert.equal(reference.migrationCeiling,policy.ceiling,'RESET_REFERENCE_REQUIRED');assert.equal(reference.manifest.length,policy.files);

@@ -3,7 +3,7 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner10Nov phase3:220liteonly/628frozen/8exactbridges;owner220tools+D1/full local rehearsal/docs;Draft only.",
-  "baselineSha": "6c1fa31d258f9608cee61a8dc33a86f2a21fd3e8",
+  "baselineSha": "5c8a99bb2f25cbb1b846d67511644190ea2e3eab",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase3",
   "phase": "SALES_ONLY_PHASE3",
@@ -13,7 +13,8 @@
     "Owner resolved:exclude79 from220;defer H1full/M01/supplierDESC to221;79keptDraft/comment6769427296.",
     "Independent worktree outside managed cleanup;phase2/primary/58/79source/82untouched.",
     "Literal220 actual219promotion PASS763.968ms/181migrations/678publicfunctions;fullJSON/rows/sequences/replay exact;628frozen/8exact;liteOFF zeroStock/integrity0;unknownbyte/history/reapply negatives;cleanupPASS.",
-    "Actual fresh/incremental220 catalog0diff;678public+35private;628frozen/8exactmetadata;cleanupPASS."
+    "Actual fresh/incremental220 catalog0diff;678public+35private;628frozen/8exactmetadata;cleanupPASS.",
+    "Actual220access181/172success9empty0error;readyreference31/678/13/fresh0;offlineCLI12PASS."
   ],
   "inProgress": [
     "Independent220 reset/upgrade/backupprivate/D1 adapters;runtimepending."
@@ -26,25 +27,28 @@
   "testsPassed": [
     "Phase2 gate exact72/72 verified",
     "Compiler3/3;literal220 realDocker promotion/full-v-lite proof PASS",
-    "9focused compiler/upgrade/reset-scope testsPASS;generated220engine exact5files;219sourcesunchanged."
+    "9focused compiler/upgrade/reset-scope testsPASS;generated220engine exact5files;219sourcesunchanged.",
+    "strictlintPASS;typesPASS afterfixtureannotation;4readiness/generated-reset negativesPASS."
   ],
   "testsRemaining": [
     "All phase3 runtime/negative/financial/history/browser/owner tools gates"
   ],
-  "findings": [],
+  "findings": [
+    "FirstRESET220stopped beforedeletion:expectedO vs heldD notificationtrigger;fixed explicit callerstate only,4negativeguardtestsPASS;rerunrequired."
+  ],
   "blockers": [],
   "prohibitions": [
     "No merge/main/58/deploy/hostedaccess;noowner/env edits",
     "628originalbodies frozen;8exactapproveddiffs only;any expansionstopask",
     "79 remainsDraft/deferred221;no adoption ofitsSQL;219 tools retained"
   ],
-  "nextExactAction": "Phase3 lite-only220:16focused tools testsPASS;actual fresh/incremental0. Complete220access evidence/reference thenactualRESET220/resume/backup/fullrehearsal. No79SQL;628frozen;runtime adapters stillpending.",
+  "nextExactAction": "CorrectedRESET220held-triggerguard;runactualresume/UTC/privatewrites from frozen clone. Complete220upgrade/backup/D1/rehearsal/docs;no79SQL;628frozen;nohosted/merge.",
   "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "1F42BFE809818FDBFA61740C92CA41D815CBE4DAD434FB43C67C6142EE7FE52C",
-  "checkpointedAt": "2026-11-10T14:50:38.097Z",
-  "filesTouchedCount": 31,
-  "filesTouchedManifestSha256": "7fd0763d34d4cd2ae196cc69a5392d322ff64ab141d0a337a882ceea6850542e"
+  "workingTreeFingerprint": "23D0A321E1F5C67C6B189F5A54724E21035E0219348C857ECFB1D007B44A91DC",
+  "checkpointedAt": "2026-11-10T15:03:30.384Z",
+  "filesTouchedCount": 16,
+  "filesTouchedManifestSha256": "6a9674e7eb21fd92a0f0d8909176f96c3d441350b16e7100359772472f1f4212"
 }

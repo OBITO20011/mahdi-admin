@@ -42,7 +42,7 @@ async function verify220Prefix(executor,output,reference,version,runtime,report)
  await writeFile(path.join(output,'runtime-state.json'),JSON.stringify(runtime,null,2)+'\n');
  const comparison=await persistCatalogComparison(output,expected,observed,dates,report);assert.equal(comparison.unexpectedDifferenceCount,0,'UPGRADE220_UNEXPECTED_CATALOG_DIFFERENCE');
  const acl=compareApplicationAcl(prefix.catalog,observed);await writeFile(path.join(output,'application-acl-comparison.json'),JSON.stringify(acl,null,2)+'\n');assert.equal(acl.ok,true,'UPGRADE220_ACL_MISMATCH');
- (version==='219'?assertReady219Catalog:assertReady220Catalog)(observed);
+ if(version==='219')assertReady219Catalog(observed);else assertReady220Catalog(observed,{notificationTriggerEnabled:runtime.notifications.trigger.enabled});
  assert.deepEqual(await readRealtimePublication(executor),prefix.realtimePublication,'UPGRADE220_PUBLICATION_CHANGED');
  assert.deepEqual(await capture220RuntimeState(executor,reference),runtime,'UPGRADE220_RUNTIME_STATE_CHANGED');
  report.catalogUnexpectedDifferenceCount=0;report.runtimeStatePreserved=true;return observed;

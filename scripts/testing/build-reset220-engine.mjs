@@ -50,7 +50,7 @@ core=once(core,"from './trial-reset-core.mjs'","from './reset220-foundation.mjs'
 for(const version of [214,215,216,217,219])core=once(core,`import {assertReady${version}Catalog} from './frankfurt-reference${version}.mjs';\n`,'');
 core="// Independent220 engine: literal219 engine plus pinned private-schema scope.\nimport {assertReady220Catalog} from './frankfurt-reference220.mjs';\n"+core;
 const pStart=core.indexOf('const policy214='),pEnd=core.indexOf('async function captureRetainedReset',pStart);assert.ok(pEnd>pStart);
-core=core.slice(0,pStart)+`const policy220={ceiling:220,files:181,assertCatalog:assertReady220Catalog};
+core=core.slice(0,pStart)+`const policy220={ceiling:220,files:181,assertCatalog:catalog=>assertReady220Catalog(catalog,{notificationTriggerEnabled:'D'})};
 export const captureReset220=options=>{assertCurrentResetReference(options.reference);return captureRetainedReset(options,policy220);};
 `+core.slice(pEnd);
 const eStart=core.indexOf('export const reset214WithExecutor='),eEnd=core.indexOf('async function runRetainedReset',eStart);assert.ok(eEnd>eStart);

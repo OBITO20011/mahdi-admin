@@ -3,127 +3,67 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/generated/DB_FUNCTIONS.md"
+      "path": "docs/agent/project-state.json"
     },
     {
       "code": " M",
-      "path": "scripts/agent/lib.mjs"
+      "path": "package.json"
     },
     {
       "code": " M",
-      "path": "scripts/agent/preflight.mjs"
+      "path": "scripts/audit/run-service-access-diagnostic.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/backup/complete-backup.mjs"
+      "path": "scripts/audit/run-table-access-diagnostic.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/testing/maintenance-db-contract.mjs"
-    },
-    {
-      "code": "??",
-      "path": "docs/design/sales-only-phase3/catalog220-pins.json"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/build-acl-reference220.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/d1-reference220-install.ps1"
-    },
-    {
-      "code": "??",
       "path": "scripts/operations/d1-reference220-kit.mjs"
     },
     {
-      "code": "??",
-      "path": "scripts/operations/d1-reference220-kit.ps1"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/d1-reference220-state.mjs"
-    },
-    {
-      "code": "??",
+      "code": " M",
       "path": "scripts/operations/frankfurt-owner-reset220.mjs"
     },
     {
-      "code": "??",
+      "code": " M",
       "path": "scripts/operations/frankfurt-owner-upgrade220.mjs"
     },
     {
-      "code": "??",
+      "code": " M",
       "path": "scripts/operations/frankfurt-reference220.mjs"
     },
     {
-      "code": "??",
-      "path": "scripts/operations/function-reference220.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/reset220-foundation.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/reset220-pg-cron-guard.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/reset220-private-state.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/reset220-session.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/reset220-write-guard.mjs"
-    },
-    {
-      "code": "??",
+      "code": " M",
       "path": "scripts/operations/sales-only220-catalog.mjs"
     },
     {
-      "code": "??",
+      "code": " M",
       "path": "scripts/operations/trial-reset220-core.mjs"
     },
     {
-      "code": "??",
-      "path": "scripts/operations/upgrade220-data.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/upgrade220-protection.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/upgrade220-runtime-state.mjs"
-    },
-    {
-      "code": "??",
+      "code": " M",
       "path": "scripts/testing/build-reset220-engine.mjs"
     },
     {
-      "code": "??",
-      "path": "scripts/testing/capture-sales-only220-catalog.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/generate-sales-only220-catalog-pins.mjs"
-    },
-    {
-      "code": "??",
-      "path": "tests/d1-reference220-kit.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "tests/reset220-private-scope.test.ts"
-    },
-    {
-      "code": "??",
+      "code": " M",
       "path": "tests/upgrade220-lite-data.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_220.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-reset220-cli-contract.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-reset220-resume-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/sales-only220-readiness.test.ts"
     }
   ]
 }
