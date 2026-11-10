@@ -1,3 +1,4 @@
+import{historical220Text}from'../scripts/testing/lite220-historical-test-view.mjs';
 import{historical220Inventory as inventory}from'../scripts/testing/lite220-historical-test-view.mjs';
 import{pathsBeforeStorefrontImages}from'../scripts/audit/source-before-storefront-images.mjs';
 import{pathsBeforeProductWorkbook}from'../scripts/audit/source-before-product-workbook.mjs';
@@ -38,5 +39,5 @@ test('T-A exact inverse retains original historical bytes;DB,services and price 
 });
 
 test('T-A current actual SDK evidence binds all new presentation sources without rewriting frozen214 reference',async()=>{
- const current=await inventory(),state=JSON.parse(readFileSync('docs/agent/project-state.json','utf8')),proof=JSON.parse(readFileSync(state.currentTableReadinessEvidence,'utf8'));assert.equal(state.migrationCeiling,219);assert.equal(proof.migrationCeiling,219);assert.equal(proof.managedAccess,false);assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);assert.deepEqual(proof.sourceHashes,current.sources);assert.deepEqual(proof.coverage,verifyProbeCoverage(current,proof.results));
+ const current=await inventory(),state=JSON.parse(historical220Text('docs/agent/project-state.json',readFileSync('docs/agent/project-state.json','utf8'))),proof=JSON.parse(readFileSync(state.currentTableReadinessEvidence,'utf8'));assert.equal(state.migrationCeiling,219);assert.equal(proof.migrationCeiling,219);assert.equal(proof.managedAccess,false);assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);assert.deepEqual(proof.sourceHashes,current.sources);assert.deepEqual(proof.coverage,verifyProbeCoverage(current,proof.results));
 });

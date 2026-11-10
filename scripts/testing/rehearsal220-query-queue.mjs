@@ -1,0 +1,2 @@
+// Per owned psql session serialization only;no retry,role change or timeout extension.
+export function rehearsal220QueryQueue(){const tails=new Map();let closing=false;return{run(token,action){if(closing)return Promise.reject(Error('REHEARSAL220_QUERY_QUEUE_CLOSED'));const previous=tails.get(token)??Promise.resolve(),next=previous.then(action,action),tail=next.catch(()=>{});tails.set(token,tail);return next;},async close(){closing=true;await Promise.all(tails.values());tails.clear();}};}

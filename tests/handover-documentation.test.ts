@@ -1,3 +1,4 @@
+import{historical220Text}from'../scripts/testing/lite220-historical-test-view.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
@@ -9,7 +10,7 @@ import {GO_LIVE_COLUMNS,mapSheet,prepareProducts,prepareStock,prepareCustomers,p
 import {OPENING_CHEQUE_COLUMNS,prepareOpeningChequeSheet} from '../src/features/goLive/openingChequesImport';
 
 const folder='docs/handover/',templates=folder+'templates/';
-const read=(file:string)=>readFileSync(folder+file,'utf8');
+const read=(file:string)=>historical220Text(folder+file,readFileSync(folder+file,'utf8'));
 const digest=(s:string|Uint8Array)=>createHash('sha256').update(s).digest('hex');
 type Kind='products'|'stock'|'customers'|'suppliers'|'cheques'|'drawer';
 const files:Record<Kind,string>={products:'المنتجات.xlsx',stock:'البضاعة-الموجودة.xlsx',suppliers:'أرصدة-الموردين.xlsx',customers:'ديون-العملاء.xlsx',cheques:'شيكات-البداية.xlsx',drawer:'الدرج-الافتتاحي.xlsx'};

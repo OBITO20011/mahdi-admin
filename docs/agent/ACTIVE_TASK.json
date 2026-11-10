@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner10Nov phase3:220liteonly/628frozen/8exactbridges;owner220tools+D1/full local rehearsal/docs;Draft only.",
-  "baselineSha": "fe28f5ac81d8c835c8e2926d555ca1fd39a9bd24",
+  "baselineSha": "59ce63e84a23b88c49da13b31cfa924411f6dd22",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase3",
   "phase": "SALES_ONLY_PHASE3",
@@ -21,8 +21,8 @@
     "Actual220 service695/18expecteddenials+REST181/0errors;source-bound;Gitleaks732commits0+realnegativePASS;card2A4 visuallyverified."
   ],
   "inProgress": [
-    "Draft87 fe28CI:oldhistory tests+function doc+219fixture ceiling issues diagnosed;strict metadata inverse/legacy testtree implemented,not owner/runtime exemption.",
-    "Owner rehearsal RESET+resumeUTC PASS;emptySEO offers0arg signature fixed,test-build transport only;full import/day pending."
+    "Draft87:actualownerReset/resume/UTC+emptyproductionSEO PASS;importfirstparallelreference reads collided in testpsql transport. Per-session queue2negativeunitsPASS;new frozenrehearsal next.",
+    "Fullunit59ce1966/1978;all12 historicalfailures nowfocusedPASS(47+5);latesttypePASS;current220access/service181+695PASS."
   ],
   "notStarted": [
     "Owner-scale220 OFF rehearsal/lateractivation;cutover/template/owner docs",
@@ -36,13 +36,12 @@
     "latesttypecheckPASS;historical17+currenttable/ACL/template negativegroupsPASS"
   ],
   "testsRemaining": [
-    "owner-size220rehearsal/current220serviceaccess",
-    "latesttypes/lint/allunits/browser/build/old214–219restore/FULLCI/Gitleaks"
+    "fullowner-size220 day+Telegramsummarycompatibility",
+    "legacy214–219Restore/currenthistoricalruntimeview,latestFULLCI/browser/build/lint/Gitleaks"
   ],
   "findings": [
     "220-only held-trigger admission andresumeIFEXISTS fixes provedactual;no219or628edit.",
-    "LF frozenclone nowall181rawGitbytes exact;failedcopies stopped/cleaned.",
-    "ActualRestore13ownerACL representations only confirmed;defaultstrictRestorePASS. Fixturecron metadata error caught beforedestruction;local launcher fix preserves canonical activecleanup."
+    "LF frozenclone nowall181rawGitbytes exact;failedcopies stopped/cleaned."
   ],
   "blockers": [],
   "prohibitions": [
@@ -50,13 +49,13 @@
     "628originalbodies frozen;8exactapproveddiffs only;any expansionstopask",
     "79 remainsDraft/deferred221;no adoption ofitsSQL;219 tools retained"
   ],
-  "nextExactAction": "Actual220695service/181tablePASS;frozenowner rehearsal next;CI87failedhistory gates corrected;noSQL628/8difference.",
+  "nextExactAction": "PR87:local queue+historical fixes;new frozen full220rehearsal and finalCI;628frozen/8exact.",
   "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "07501B644F57016FAB57FB70220692F26B598ADFEDB3C347E252E7825CACFCB7",
-  "checkpointedAt": "2026-11-10T19:57:17.704Z",
-  "filesTouchedCount": 40,
-  "filesTouchedManifestSha256": "772782d4ef9d4ee1bbf3ea5603b0f59f668ec53669374ca730d1cebf5fff8345"
+  "workingTreeFingerprint": "A8FD6E95737EFC038E8B8505D725A8C9FB96B55083DB9194BF13B4907EC29CD4",
+  "checkpointedAt": "2026-11-10T20:11:22.533Z",
+  "filesTouchedCount": 18,
+  "filesTouchedManifestSha256": "57b1e0c7192b5b3b006512bc3d35676a1280d8e473dda5d02d3ce855ab01e980"
 }

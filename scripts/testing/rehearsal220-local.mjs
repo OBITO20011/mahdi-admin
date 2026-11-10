@@ -1,3 +1,4 @@
+import{rehearsal220QueryQueue}from'./rehearsal220-query-queue.mjs';
 // Test-only transport. No URL, project link, credential, owner CLI or reset-core edits.
 import assert from 'node:assert/strict';
 import {execFile} from 'node:child_process';
@@ -27,15 +28,15 @@ export async function rehearsal220Executor(context){
   const inspected=JSON.parse((await exec('docker',['inspect',context.containerId],{windowsHide:true})).stdout)[0];
   assertRehearsalTarget(context,inspected);
   const args=Object.freeze(['exec','-i',context.containerId,'psql','-h','/tmp/socket','-p','5432','-U','postgres','-d','postgres','-X','-q','-At','-w','-v','ON_ERROR_STOP=1']);
-  const sessions=new Map();
+  const sessions=new Map(),queue=rehearsal220QueryQueue();
   const sessionFor=token=>{let s=sessions.get(token);if(!s||s.closed){s=new Rehearsal220Session(args);sessions.set(token,s);}return s;};
   const base={command:'docker',args,localOnly:true,
-    localExecute:async(input,token='')=>{
+    localExecute:(input,token='')=>queue.run(token,async()=>{
       assertActiveRehearsal220(context);
       try{return await sessionFor(token).query(`ROLLBACK;RESET ROLE;RESET ALL;SET reset214.writer=${q(token)};\n${input}`);}
       catch{return {code:1,stdout:'',stderr:'REHEARSAL_LOCAL_SQL_FAILED'};}
-    },
-    closeLocal:async()=>{for(const s of sessions.values())await s.close();sessions.clear();},
+    }),
+    closeLocal:async()=>{await queue.close();for(const s of sessions.values())await s.close();sessions.clear();},
   };
   return Object.freeze(base);
 }

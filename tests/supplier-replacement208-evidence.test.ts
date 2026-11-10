@@ -1,3 +1,4 @@
+import{historical220Text}from'../scripts/testing/lite220-historical-test-view.mjs';
 import{historicalProductWorkbookInventory}from'../scripts/audit/source-before-product-workbook.mjs';
 import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import assert from 'node:assert/strict';
@@ -11,7 +12,7 @@ import {assertReady208Catalog} from '../scripts/operations/frankfurt-reference20
 import {assert208History} from '../scripts/operations/frankfurt-owner-upgrade208.mjs';
 import {migrationManifest,futureMigrationViolations} from '../scripts/testing/maintenance-db-contract.mjs';
 import {supplier208Pins,sourceBeforeSupplierReplacement208} from '../scripts/audit/source-before-supplier-replacement208.mjs';
-const read=(f:string)=>readFileSync(f,'utf8'),json=(f:string)=>JSON.parse(read(f));
+const read=(f:string)=>historical220Text(f,readFileSync(f,'utf8')),json=(f:string)=>JSON.parse(read(f));
 
 test('208 immutable SDK evidence binds every accepted208 source restored before P1 and all142 real probes',async()=>{
  const current=await historicalProductWorkbookInventory(inventory),proof=json('docs/operations/TABLE_ACCESS_AFTER_208.json'),state=json('docs/agent/project-state.json');
