@@ -23,8 +23,9 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - run: node --import tsx --test tests/sales-only220-compiler.test.ts tests/owner-tools220.test.ts tests/upgrade220-protection.test.ts tests/upgrade220-lite-data.test.ts tests/reset220-private-scope.test.ts tests/sales-only220-readiness.test.ts tests/d1-reference220-kit.test.ts tests/sales-only-phase3-history.test.ts tests/sales-only220-workbook-fixture.test.ts tests/rehearsal220-private-acl.test.ts tests/lite220-handover.test.ts
+      - run: node --import tsx --test tests/sales-only220-compiler.test.ts tests/owner-tools220.test.ts tests/upgrade220-protection.test.ts tests/upgrade220-lite-data.test.ts tests/reset220-private-scope.test.ts tests/sales-only220-readiness.test.ts tests/d1-reference220-kit.test.ts tests/sales-only-phase3-history.test.ts tests/sales-only220-workbook-fixture.test.ts tests/rehearsal220-private-acl.test.ts tests/lite220-handover.test.ts tests/lite220-fable-additions.test.ts tests/lite220-fable-dispatch.test.ts
       - run: node scripts/testing/run-sales-only220-migration.mjs
+      - run: node scripts/testing/run-lite220-fable-review.mjs --expect-green
       - run: node scripts/testing/capture-sales-only220-catalog.mjs
       - run: node scripts/testing/generate-sales-only220-catalog-pins.mjs
       - run: git diff --exit-code -- docs/generated/DB_FUNCTIONS.md docs/design/sales-only-phase3/catalog220-pins.json
@@ -34,6 +35,7 @@ jobs:
           name: lite220-literal-synthetic-proof
           path: |
             test-results/sales-only220-migration/report.json
+            test-results/lite220-fable/green.json
             test-results/sales-only220-catalog/report.json
             test-results/sales-only220-catalog/fresh-incremental-differences.json
           retention-days: 7

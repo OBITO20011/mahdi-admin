@@ -28,5 +28,5 @@ export function withFableAdditions(body,rows){
  CREATE INDEX lite3_returns_item_id_idx ON sales_lite1.returns(item_id);
  CREATE INDEX lite3_returns_shift_id_idx ON sales_lite1.returns(shift_id);
  REVOKE ALL ON FUNCTION public.lite1_expense(UUID,BIGINT,TEXT,TEXT,TEXT) FROM PUBLIC,anon,authenticated,service_role;
-`;
+`+' '; // Preserve the exact reviewed artifact separator without source trailing whitespace.
 }
