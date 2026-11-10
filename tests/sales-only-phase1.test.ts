@@ -1,3 +1,4 @@
+import{pathsBeforeSalesOnlyPhase3}from'../scripts/audit/source-before-sales-only-phase3.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFileSync,readdirSync} from 'node:fs';
@@ -10,8 +11,9 @@ import {sourceBeforeSalesOnlyPhase2} from '../scripts/audit/source-before-sales-
 
 test('phase1 quarantine preserves every frozen application/Edge/owner-tool/migration source',()=>{
  assert.equal(frozenSource.baseline,'4f3d6409e284da89cc33972b3fac36e135bebd35');assertFrozenSource();
- assert.equal(readdirSync(path.join(root,'supabase/migrations')).filter(p=>/^\d+_.+\.sql$/.test(p)).length,180);
- assert.equal(JSON.parse(readFileSync(path.join(root,'docs/agent/project-state.json'),'utf8')).migrationCeiling,219);
+ const currentMigrations=readdirSync(path.join(root,'supabase/migrations')).filter(p=>/^\d+_.+\.sql$/.test(p)).map(p=>'supabase/migrations/'+p);
+ assert.equal(currentMigrations.length,181);assert.equal(pathsBeforeSalesOnlyPhase3(currentMigrations).length,180);
+ assert.equal(JSON.parse(sourceBeforeSalesOnlyPhase2('docs/agent/project-state.json',readFileSync(path.join(root,'docs/agent/project-state.json'),'utf8'))!).migrationCeiling,219);
  assert.ok(Object.keys(frozenSource.files).includes('scripts/operations/frankfurt-owner-reset219.mjs'));
  assert.ok(Object.keys(frozenSource.files).includes('supabase/functions/submit-guest-order/index.ts'));
 });

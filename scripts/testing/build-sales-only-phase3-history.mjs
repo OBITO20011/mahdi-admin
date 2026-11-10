@@ -1,0 +1,7 @@
+// Exact historical test projection only;the real220 runtime uses actual bytes.
+import assert from 'node:assert/strict';import{execFileSync}from'node:child_process';import{readFile,writeFile}from'node:fs/promises';import{createHash}from'node:crypto';
+const baseline='bfc669408b3e31e0fc661b06c9779ffedd1c0a9c',file='scripts/audit/sales-only-phase3-source-pins.json',git=a=>execFileSync('git',a,{encoding:'utf8',maxBuffer:64*1024**2,stdio:['ignore','pipe','pipe']});
+assert.equal(git(['branch','--show-current']).trim(),'codex/sales-only-phase3');
+const paths=[...new Set([...git(['diff','--name-only',baseline,'--']).trim().split('\n'),...git(['ls-files','--others','--exclude-standard']).trim().split('\n')])].filter(p=>p&&p!==file).sort(),entries={},hash=s=>createHash('sha256').update(s.replaceAll('\r\n','\n')).digest('hex');
+for(const p of paths){const text=(await readFile(p,'utf8')).replaceAll('\r\n','\n');let before=null;try{before=git(['show',baseline+':'+p]).replaceAll('\r\n','\n');}catch{}if(before===text)continue;entries[p]={before:before===null?null:hash(before),after:hash(text),beforeText:before};}
+await writeFile(file,JSON.stringify({format:1,baseline,description:'Exact phase3 test history only. Unknown bytes and all runtime220 admission remain visible;no PostgreSQL body exemptions.',entries},null,2)+'\n');console.log(JSON.stringify({ok:true,entries:Object.keys(entries).length}));

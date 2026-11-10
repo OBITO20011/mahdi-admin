@@ -60,7 +60,7 @@ export const ownerRecordSql=owner=>`SELECT jsonb_build_object('profile',to_jsonb
  WHERE p.id=${sqlLiteral(uuid(owner))}::uuid AND p.is_active;`;
 // Explicit public-only boundary. Platform schemas and Vault are NEVER dropped.
 export const dropPublicSql=`BEGIN;SET LOCAL search_path=pg_catalog;
- DROP SCHEMA sales_lite2 CASCADE;DROP SCHEMA sales_lite1 CASCADE;
+ DROP SCHEMA IF EXISTS sales_lite2 CASCADE;DROP SCHEMA IF EXISTS sales_lite1 CASCADE;
  DO $rebuild$ DECLARE r record;BEGIN
  FOR r IN SELECT relname,relkind FROM pg_class WHERE relnamespace='public'::regnamespace AND relkind IN('r','p','v','m','f') LOOP
  IF to_regclass(format('public.%I',r.relname)) IS NOT NULL THEN

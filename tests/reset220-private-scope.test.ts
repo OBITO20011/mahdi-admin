@@ -8,7 +8,7 @@ import {externalDependentsSql,assertExternalDependents,dropPublicSql,rowCountsSq
 import {publicFingerprintSql,attachGuardSql,removeGuardSql,lockAndCheckGuardSql} from '../scripts/operations/reset220-write-guard.mjs';
 const read=(p:string)=>readFileSync(p,'utf8');
 test('RESET220 drops exactly public business objects and the two reviewed lite schemas;dependency closure retains extension guards',()=>{
- assert.match(dropPublicSql,/DROP SCHEMA sales_lite2 CASCADE;DROP SCHEMA sales_lite1 CASCADE;/);
+ assert.match(dropPublicSql,/DROP SCHEMA IF EXISTS sales_lite2 CASCADE;DROP SCHEMA IF EXISTS sales_lite1 CASCADE;/);
  assert.doesNotMatch(dropPublicSql,/DROP (?:SCHEMA|EXTENSION) (?:net|pg_net|cron|pg_cron|storage|auth|vault)/i);
  assert.match(externalDependentsSql,/deptype IN\('i','e'\)/);assert.match(externalDependentsSql,/nspname IN\('sales_lite1','sales_lite2'\)/);
  for(const row of [{class:'pg_class',schema:'other',description:'cross-schema dependent'},{class:'pg_extension',schema:null,description:'unexpected extension dependency'},{class:'pg_proc',schema:'net',description:'unexpected function dependency'}])assert.throws(()=>assertExternalDependents([row],220),/UNREVIEWED_EXTERNAL_DROP_DEPENDENT/);

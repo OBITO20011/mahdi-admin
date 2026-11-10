@@ -16,7 +16,7 @@ foundation=once(foundation,'217:179,219:180});','217:179,219:180,220:181});');
 foundation=once(foundation,'roles:0,storefront_settings:1,units:11,warehouses:0});',"roles:0,storefront_settings:1,units:11,warehouses:0,'sales_lite1.mode':1});");
 foundation=once(foundation,"FOR r IN SELECT tablename FROM pg_tables WHERE schemaname='public' ORDER BY tablename LOOP\n EXECUTE format('SELECT count(*) FROM public.%I',r.tablename) INTO n;v=v||jsonb_build_object(r.tablename,n);END LOOP;",`FOR r IN SELECT schemaname,tablename FROM pg_tables WHERE schemaname IN${schemaSet} ORDER BY schemaname,tablename LOOP
  EXECUTE format('SELECT count(*) FROM %I.%I',r.schemaname,r.tablename) INTO n;v=v||jsonb_build_object(CASE WHEN r.schemaname='public' THEN r.tablename ELSE r.schemaname||'.'||r.tablename END,n);END LOOP;`);
-foundation=once(foundation,'DO $rebuild$ DECLARE r record;BEGIN','DROP SCHEMA sales_lite2 CASCADE;DROP SCHEMA sales_lite1 CASCADE;\n DO $rebuild$ DECLARE r record;BEGIN');
+foundation=once(foundation,'DO $rebuild$ DECLARE r record;BEGIN','DROP SCHEMA IF EXISTS sales_lite2 CASCADE;DROP SCHEMA IF EXISTS sales_lite1 CASCADE;\n DO $rebuild$ DECLARE r record;BEGIN');
 foundation=once(foundation,"if(row.schema!=='public')continue;",`if(!['public','sales_lite1','sales_lite2'].includes(row.schema))continue;`);
 foundation=once(foundation,"r.schema==='public'&&(section==='functions'?",'r.schema===row.schema&&(section===\'functions\'?');
 foundation=once(foundation,"target='FUNCTION public.'+row.identity;","target='FUNCTION '+ident(row.schema)+'.'+row.identity;");

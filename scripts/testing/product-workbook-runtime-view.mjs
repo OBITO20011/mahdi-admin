@@ -1,3 +1,4 @@
+import{pathsBeforeSalesOnlyPhase3}from'../audit/source-before-sales-only-phase3.mjs';
 import{pathsBeforeD1Kit}from'../audit/source-before-d1-reference-kit.mjs';
 // Historical CI fixtures only. Owner tools and every SQL byte stay unmodified.
 import assert from'node:assert/strict';import{execFileSync}from'node:child_process';import{mkdtemp,writeFile,readFile,unlink,rm,lstat,readdir,realpath}from'node:fs/promises';import{symlinkSync}from'node:fs';import path from'node:path';import{tmpdir}from'node:os';import{createHash,randomUUID}from'node:crypto';import{pathToFileURL}from'node:url';
@@ -42,7 +43,7 @@ export function projectWorkbookRuntimeEvidence(raw,pin,layers,lookup=historicalT
  assert.equal(hash(text),pin.after,'HISTORICAL_VIEW_UNREVIEWED_EVIDENCE');return text;
 }
 export async function prepareWorkbookRuntimeView(){
- const status=git(['status','--porcelain','-z']).toString('utf8').split('\0').filter(Boolean);assert.ok(status.every(line=>['docs/agent/ACTIVE_TASK.json','docs/agent/ACTIVE_TASK_FILES.json'].includes(line.slice(3))),'HISTORICAL_VIEW_REQUIRES_COMMITTED_SOURCES');assert.deepEqual(pathsBeforeD1Kit(git(['diff','--name-only',baseline,'HEAD','--','supabase']).toString('utf8').trim().split('\n').filter(Boolean),baseline),[],'HISTORICAL_VIEW_SQL_CHANGED');
+ const status=git(['status','--porcelain','-z']).toString('utf8').split('\0').filter(Boolean);assert.ok(status.every(line=>['docs/agent/ACTIVE_TASK.json','docs/agent/ACTIVE_TASK_FILES.json'].includes(line.slice(3))),'HISTORICAL_VIEW_REQUIRES_COMMITTED_SOURCES');assert.deepEqual(pathsBeforeD1Kit(pathsBeforeSalesOnlyPhase3(git(['diff','--name-only',baseline,'HEAD','--','supabase']).toString('utf8').trim().split('\n').filter(Boolean),baseline),baseline),[],'HISTORICAL_VIEW_SQL_CHANGED');
  const head=git(['rev-parse','HEAD']).toString('utf8').trim(),dir=await mkdtemp(path.join(tmpdir(),prefix)),marker={root:path.resolve(dir),sourceRoot:root,head,baseline,nonce:randomUUID()},changed=[];
  try{
   git(['clone','--shared','--no-checkout',root,dir]);git(['update-ref','--no-deref','HEAD',head],dir);git(['read-tree',head],dir);await writeFile(path.join(dir,'.git/info/exclude'),'\n/node_modules\n/.workbook-runtime-view.json\n',{flag:'a'});assert.equal(git(['rev-parse','HEAD'],dir).toString('utf8').trim(),head);

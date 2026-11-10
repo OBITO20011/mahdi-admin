@@ -3,43 +3,11 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/project-state.json"
+      "path": "scripts/audit/source-before-sales-only-phase2.mjs"
     },
     {
       "code": " M",
-      "path": "package.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/run-service-access-diagnostic.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/run-table-access-diagnostic.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/d1-reference220-kit.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-owner-reset220.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-owner-upgrade220.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-reference220.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/sales-only220-catalog.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/trial-reset220-core.mjs"
+      "path": "scripts/operations/reset220-foundation.mjs"
     },
     {
       "code": " M",
@@ -47,23 +15,39 @@
     },
     {
       "code": " M",
-      "path": "tests/upgrade220-lite-data.test.ts"
+      "path": "scripts/testing/product-workbook-runtime-view.mjs"
+    },
+    {
+      "code": " M",
+      "path": "tests/operational-schema.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/reset220-private-scope.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/sales-only-phase1.test.ts"
     },
     {
       "code": "??",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_220.json"
+      "path": "scripts/audit/sales-only-phase3-source-pins.json"
     },
     {
       "code": "??",
-      "path": "scripts/testing/run-reset220-cli-contract.mjs"
+      "path": "scripts/audit/source-before-sales-only-phase3.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/testing/run-reset220-resume-runtime.mjs"
+      "path": "scripts/testing/build-sales-only-phase3-history.mjs"
     },
     {
       "code": "??",
-      "path": "tests/sales-only220-readiness.test.ts"
+      "path": "scripts/testing/run-owner-upgrade220-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/sales-only-phase3-history.test.ts"
     }
   ]
 }

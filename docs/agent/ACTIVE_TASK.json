@@ -3,7 +3,7 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner10Nov phase3:220liteonly/628frozen/8exactbridges;owner220tools+D1/full local rehearsal/docs;Draft only.",
-  "baselineSha": "5c8a99bb2f25cbb1b846d67511644190ea2e3eab",
+  "baselineSha": "0de7539ad984d39621cf2308ebb6b7070b0caea2",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase3",
   "phase": "SALES_ONLY_PHASE3",
@@ -14,7 +14,8 @@
     "Independent worktree outside managed cleanup;phase2/primary/58/79source/82untouched.",
     "Literal220 actual219promotion PASS763.968ms/181migrations/678publicfunctions;fullJSON/rows/sequences/replay exact;628frozen/8exact;liteOFF zeroStock/integrity0;unknownbyte/history/reapply negatives;cleanupPASS.",
     "Actual fresh/incremental220 catalog0diff;678public+35private;628frozen/8exactmetadata;cleanupPASS.",
-    "Actual220access181/172success9empty0error;readyreference31/678/13/fresh0;offlineCLI12PASS."
+    "Actual220access181/172success9empty0error;readyreference31/678/13/fresh0;offlineCLI12PASS.",
+    "RESET220normal+afterStorageResume actual181/0catalog/0ACL/ownerMFA/pg_net+UTC PASS;nextinterruption foundresumeDROP missingprivate schema;new220onlyIFEXISTS correction3scope negativesPASS."
   ],
   "inProgress": [
     "Independent220 reset/upgrade/backupprivate/D1 adapters;runtimepending."
@@ -34,7 +35,8 @@
     "All phase3 runtime/negative/financial/history/browser/owner tools gates"
   ],
   "findings": [
-    "FirstRESET220stopped beforedeletion:expectedO vs heldD notificationtrigger;fixed explicit callerstate only,4negativeguardtestsPASS;rerunrequired."
+    "FirstRESET220stopped beforedeletion:expectedO vs heldD notificationtrigger;fixed explicit callerstate only,4negativeguardtestsPASS;rerunrequired.",
+    "Verificationclone initialCRLF SQL drift;all181 rawGitbytes restored;noSQLguard weakened."
   ],
   "blockers": [],
   "prohibitions": [
@@ -42,13 +44,13 @@
     "628originalbodies frozen;8exactapproveddiffs only;any expansionstopask",
     "79 remainsDraft/deferred221;no adoption ofitsSQL;219 tools retained"
   ],
-  "nextExactAction": "CorrectedRESET220held-triggerguard;runactualresume/UTC/privatewrites from frozen clone. Complete220upgrade/backup/D1/rehearsal/docs;no79SQL;628frozen;nohosted/merge.",
+  "nextExactAction": "Phase3 correction:RESET220resume must allow recorded already-dropped private schemas;628/8and219tools unchanged. Rerunactualallinterruptions;complete tools220/rehearsal/docs/DraftFULLCI.",
   "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "23D0A321E1F5C67C6B189F5A54724E21035E0219348C857ECFB1D007B44A91DC",
-  "checkpointedAt": "2026-11-10T15:03:30.384Z",
-  "filesTouchedCount": 16,
-  "filesTouchedManifestSha256": "6a9674e7eb21fd92a0f0d8909176f96c3d441350b16e7100359772472f1f4212"
+  "workingTreeFingerprint": "1160AAB36E221A494687B5E7E0DCB33B49FE93DF11F4EA1C3C60AC74F78CE361",
+  "checkpointedAt": "2026-11-10T15:13:09.533Z",
+  "filesTouchedCount": 12,
+  "filesTouchedManifestSha256": "d7a4adb80c031b2e34715116a59c79e5a99ed3042862e2a237f37787bbfd6902"
 }
