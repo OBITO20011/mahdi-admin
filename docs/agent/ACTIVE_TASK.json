@@ -44,13 +44,13 @@
     "79 remainsDraft/deferred221;no adoption ofitsSQL;219 tools retained",
     "No new627 body or ninebridge diff changes;Fable fixes additive only;no newreference/rehearsal/finalCI before review."
   ],
-  "nextExactAction": "Run FableRED onunchanged220 thencaptureallfailures;onlyafteradditivefixes. Reference/rehearsal/finalCI remainheld.",
+  "nextExactAction": "RED confirmedM1/A1/M3;fixonlytestsetup(cronpostgres+rollbackrefundreversal),rerunRED tocoverM2/M4/N1/N2 beforeproductfixes.",
   "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "170188439EDCA4BF3BA4F2FBD9BBEF890B6005D13C3DBDC52F8C3E441EA186CC",
-  "checkpointedAt": "2026-11-10T21:25:07.005Z",
-  "filesTouchedCount": 2,
-  "filesTouchedManifestSha256": "0f2233fc5093dd25564b5e4b4c1b7f19ce892eae5fbc6cca789c9a6529d84e69"
+  "workingTreeFingerprint": "62B28C4647AA81511655AF8DE0F237B07104AAB8F18C34ACAD92141644DDDC0D",
+  "checkpointedAt": "2026-11-10T21:28:36.822Z",
+  "filesTouchedCount": 3,
+  "filesTouchedManifestSha256": "92b3961e9d6b696e38b7e3260a009f33c1e6edd8c118ab8087b03a233f2ea672"
 }

@@ -6,8 +6,12 @@
       "path": "scripts/audit/sales-only-phase3-source-pins.json"
     },
     {
-      "code": "??",
+      "code": " M",
       "path": "scripts/testing/run-lite220-fable-review.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/lite220-owner-frozen-diagnostic.mjs"
     }
   ]
 }

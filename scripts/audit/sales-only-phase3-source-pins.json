@@ -318,6 +318,11 @@
       "after": "e5d424e2a02f08fbdb23cd63215d72eb8549ce94c6d616c467cab34925236bec",
       "beforeText": null
     },
+    "scripts/testing/lite220-owner-frozen-diagnostic.mjs": {
+      "before": null,
+      "after": "4ceb14a069ad28b94c311f7001fb08076a09ca96376793d4b257fc2145acbf69",
+      "beforeText": null
+    },
     "scripts/testing/lite220-summary-runtime.mjs": {
       "before": null,
       "after": "012854306c2dc585b9734486e50ae6817ee015c069b478ae94570387cbe02607",
@@ -450,7 +455,7 @@
     },
     "scripts/testing/run-lite220-fable-review.mjs": {
       "before": null,
-      "after": "11e40970eb8835389834c4769f7536d8e1700af40247dd09ff6e85acafe84ad0",
+      "after": "540788ba769599a01a46c61fde7e797dbf0778110704f48f4cd77af6d530e6bf",
       "beforeText": null
     },
     "scripts/testing/run-lite220-rehearsal.mjs": {
