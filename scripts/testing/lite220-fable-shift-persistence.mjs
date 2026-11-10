@@ -7,10 +7,16 @@ import {liteShiftReason} from './lite220-fable-additions.mjs';
 export async function verifyFableShiftPersistence(c,report){
  const {sql,json,q,j,id,executor,markedShift,invoiceShift}=c;
  const before=await readApplicationFingerprint(executor);
+ const triggerState=()=>sql("SELECT coalesce(jsonb_agg(jsonb_build_array(tgname,tgenabled) ORDER BY tgname),'[]') FROM pg_trigger WHERE tgrelid='sales_lite1.shifts'::REGCLASS;");
+ const triggers=await triggerState();
  assert.equal(await sql('SELECT sales_lite1.enabled();'),'t');
  const result=await json(`BEGIN;
  UPDATE sales_lite1.mode SET full_accounting=true WHERE id;
+ -- The real evidence is immutable. Remove a marker only in this negative
+ -- transaction to test the independent invoice predicate, then ROLLBACK.
+ ALTER TABLE sales_lite1.shifts DISABLE TRIGGER USER;
  DELETE FROM sales_lite1.shifts WHERE shift_id=${q(invoiceShift)};
+ ALTER TABLE sales_lite1.shifts ENABLE TRIGGER USER;
  SELECT set_config('request.jwt.claims',${j({sub:id(1),role:'authenticated',aal:'aal2'})}::TEXT,true);
  DO $guard$ DECLARE shift UUID;target TEXT;blocked BOOLEAN;BEGIN
  FOREACH shift IN ARRAY ARRAY[${q(markedShift)},${q(invoiceShift)}]::UUID[] LOOP
@@ -38,6 +44,8 @@ export async function verifyFableShiftPersistence(c,report){
  assert.deepEqual((await readApplicationFingerprint(executor)).tables,before.tables);
  assert.equal(await sql('SELECT sales_lite1.enabled();'),'t');
  assert.equal(await sql(`SELECT count(*) FROM sales_lite1.shifts WHERE shift_id=${q(invoiceShift)};`),'1');
+ assert.equal(await triggerState(),triggers,'SHIFT_EVIDENCE_TRIGGER_STATE_ROLLED_BACK');
  report.shiftPersistence={markedAndInvoiceBranches:true,explicitModeOnFixture:true,
-  realOpeningEpochClaimed:false,cancelAndReverseBothDenied:true,arabicReasonExact:true,rowsRolledBack:true};
+  markerRemovedOnlyInNegativeRollbackFixture:true,realOpeningEpochClaimed:false,
+  cancelAndReverseBothDenied:true,arabicReasonExact:true,rowsAndTriggerStateRolledBack:true};
 }

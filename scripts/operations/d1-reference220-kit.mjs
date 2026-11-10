@@ -39,11 +39,11 @@ export async function prepareD1({root,outputRoot=path.join(homedir(),'NawasrahFr
  try{
   const build=await d.build(root,candidate,folder);requireD1(build.ok===true&&build.repositoryStayedFrozen===true,'D1_REFERENCE_BUILD_FAILED');
   const differences=await json(path.join(folder,'fresh-incremental-differences.json'));requireD1(Array.isArray(differences)&&differences.length===0,'D1_CATALOG_DIFFERENCE');
-  stage='readiness';const ref=await d.ready(root,candidate);requireD1(ref.migrationCeiling===220&&ref.manifest.length===181&&ref.functions===678&&ref.realtimePublication.tables.length===13&&ref.freshIncrementalDifferenceCount===0,'D1_REFERENCE_NOT_READY');
+  stage='readiness';const ref=await d.ready(root,candidate);requireD1(ref.migrationCeiling===220&&ref.manifest.length===181&&ref.functions===680&&ref.realtimePublication.tables.length===13&&ref.freshIncrementalDifferenceCount===0,'D1_REFERENCE_NOT_READY');
   requireD1(JSON.stringify(before)===JSON.stringify(await d.hashes(root)),'D1_SOURCE_CHANGED');requireD1(JSON.stringify(state)===JSON.stringify(await d.state(root,known)),'D1_SOURCE_CHANGED');
   await d.ci(root,state.head); // Remote main/CI may have changed during the local build.
   const source={mainSha:state.head,hashes:before,dependencyHashesSha256:sha256(JSON.stringify(before))};
-  const report={format:1,ok:true,status:'CANDIDATE_AWAITING_OWNER_APPROVAL',testCandidateOnly,createdAt:new Date().toISOString(),root,folder,candidate,candidateSha256:sha256(await readFile(candidate)),source,ci,localOnly:true,hostedAccess:false,currentReferenceTouched:false,installed:false,migrations:181,functions:678,realtime:13,accessQueries:ref.readiness.queries,freshIncrementalDifferences:0,ownerSignature:null};
+  const report={format:1,ok:true,status:'CANDIDATE_AWAITING_OWNER_APPROVAL',testCandidateOnly,createdAt:new Date().toISOString(),root,folder,candidate,candidateSha256:sha256(await readFile(candidate)),source,ci,localOnly:true,hostedAccess:false,currentReferenceTouched:false,installed:false,migrations:181,functions:680,realtime:13,accessQueries:ref.readiness.queries,freshIncrementalDifferences:0,ownerSignature:null};
   await writeFile(path.join(folder,'approval.json'),JSON.stringify(report,null,2)+'\n',{flag:'wx'});
   const line=file=>'`'+before[file]+'`';
   await writeFile(path.join(folder,'اعتماد-مرجع-D1.md'),[
@@ -58,7 +58,7 @@ export async function prepareD1({root,outputRoot=path.join(homedir(),'NawasrahFr
    '- النواة trial-reset-core: '+line(files[2]),
    '- حارس pg_cron: '+line(files[3]),
    '- بصمة مجموعة تبعيات الأداة: `'+source.dependencyHashesSha256+'`؛التفاصيل فيapproval.json.',
-   '- الجاهزية:220/181 ملفاً/678 دالة/13Realtime/'+report.accessQueries+'فحص وصول؛fresh-incremental-differences.json=[]؛مصادر المستودع ثابتة.',
+   '- الجاهزية:220/181 ملفاً/680 دالة/13Realtime/'+report.accessQueries+'فحص وصول؛fresh-incremental-differences.json=[]؛مصادر المستودع ثابتة.',
    '- CI: '+Object.values(ci.runs).map(r=>r.url).join(' · '),
    '',
    '**ما يعتمده المالك:** هذا الملف بعينه وبصمته الكاملة على رأس main والبصمات أعلاه،للاستعمال مع RESET220 فقط بعد بروفة النسخة الفاصلة. لا يشمل توقيعه تنفيذ RESET أو النشر. لا تُقبل البصمة التاريخية A915…؛لا تركيب أثناء محاولة قائمة أوresume. أي تغيير في الرأس أو المصادر يستلزم مرشحاً ومراجعة جديدين.',

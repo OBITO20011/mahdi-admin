@@ -11,7 +11,7 @@ async function fixture(){
  git(root,['init','-b','main']);git(root,['config','user.email','local@example.test']);git(root,['config','user.name','Local']);git(root,['remote','add','origin','https://github.com/OBITO20011/mahdi-admin.git']);
  await writeFile(path.join(root,'docs/agent/project-state.json'),JSON.stringify({migrationCeiling:220}));git(root,['add','.']);git(root,['commit','-m','fixture']);const head=git(root,['rev-parse','HEAD']);git(root,['update-ref','refs/remotes/origin/main',head]);
  const target=path.join(workdir,name),before=Buffer.from('old-owner-reference-byte-proof');await writeFile(target,before);
- const ref={migrationCeiling:220,manifest:Array.from({length:181},(_,i)=>i),functions:678,realtimePublication:{tables:Array.from({length:13},(_,i)=>i)},freshIncrementalDifferenceCount:0,readiness:{queries:181}};
+ const ref={migrationCeiling:220,manifest:Array.from({length:181},(_,i)=>i),functions:680,realtimePublication:{tables:Array.from({length:13},(_,i)=>i)},freshIncrementalDifferenceCount:0,readiness:{queries:181}};
  const hashes={'script':'a'.repeat(64)},ci={head,runs:{quality:{id:1,url:'https://github.com/OBITO20011/mahdi-admin/actions/runs/1'}}};
  const deps={state:async(r:string)=>repositoryState(r,{files:[]}),ci:async()=>ci,hashes:async()=>hashes,ready:async(_r:string,f:string)=>{const v=JSON.parse(await readFile(f,'utf8'));assert.deepEqual(v,ref);return v;},build:async(_r:string,c:string,folder:string)=>{await writeFile(c,JSON.stringify(ref));await writeFile(path.join(folder,'fresh-incremental-differences.json'),'[]');return {ok:true,repositoryStayedFrozen:true};}};
  return {dir,root,workdir,target,before,ref,deps,head,close:()=>rm(dir,{recursive:true,force:true})};
@@ -30,6 +30,14 @@ test('CI unavailable/red or changed source/catalog refuses candidate approval an
  const f=await fixture();try{for(const code of ['D1_CI_UNVERIFIED_MANUAL_REVIEW_REQUIRED','D1_CI_NOT_FULL_GREEN']){await assert.rejects(()=>prepareD1({root:f.root,outputRoot:path.join(f.dir,'out')},{...f.deps,ci:async()=>{throw new Error(code);}}),new RegExp(code));}
  await assert.rejects(()=>prepareD1({root:f.root,outputRoot:path.join(f.dir,'out')},{...f.deps,build:async(r:string,c:string,o:string)=>{const b=await f.deps.build(r,c,o);await writeFile(path.join(o,'fresh-incremental-differences.json'),'[{"schema":"public","name":"real_difference"}]');return b;}}),/D1_CATALOG_DIFFERENCE/u);
  assert.deepEqual(await readFile(f.target),f.before);const dirs=await readdir(path.join(f.dir,'out'));assert.equal(dirs.length,1);assert.ok(!(await readdir(path.join(f.dir,'out',dirs[0]))).includes('approval.json'));
+ }finally{await f.close();}
+});
+
+test('220 preparation refuses the superseded 678-function catalog and preserves the owner reference',async()=>{
+ const f=await fixture();try{
+  await assert.rejects(()=>prepareD1({root:f.root,outputRoot:path.join(f.dir,'out')},
+   {...f.deps,ready:async()=>({...f.ref,functions:678})}),/D1_REFERENCE_NOT_READY/u);
+  assert.deepEqual(await readFile(f.target),f.before);
  }finally{await f.close();}
 });
 test('wrong/short hash,active RESET,test-only candidate and stale main all refuse installation without modifying current reference',async()=>{
