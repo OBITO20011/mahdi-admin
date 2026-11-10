@@ -19,12 +19,12 @@ for(const f of originalFunctions){
  assert.deepEqual(after,{...f,definition:expected},'EXACT636_FUNCTION_BODY_AND_METADATA');if(expected===f.definition)unchanged++;
 }
 assert.equal(unchanged,627);
-const pins={migrationSha256:report.migrationSha256,publicFunctions:678,privateFunctions:37,frozenBodies:627,bridges:9,freshIncrementalDifferences:0,functions:salesOnly220FunctionSnapshot(current),privateObjects:salesOnly220PrivateSnapshot(current),publicTriggers:current.triggers.filter(r=>r.schema==='public')};
-assert.equal(pins.functions.length,715);
+const pins={migrationSha256:report.migrationSha256,publicFunctions:680,privateFunctions:38,frozenBodies:627,bridges:9,freshIncrementalDifferences:0,functions:salesOnly220FunctionSnapshot(current),privateObjects:salesOnly220PrivateSnapshot(current),publicTriggers:current.triggers.filter(r=>r.schema==='public')};
+assert.equal(pins.functions.length,718);
 const manifest=await migrationManifest(fileURLToPath(new URL('../..',import.meta.url)));assert.equal(manifestDigest(manifest),report.manifestSha256);
-const publicFunctions=await read('public220-functions.json');assert.equal(publicFunctions.length,678);
+const publicFunctions=await read('public220-functions.json');assert.equal(publicFunctions.length,680);
 // Generation occurs only after the independent read-only build has finished
 // and cleaned its container. No tracked source is edited during verification.
 await writeFile(new URL('../../docs/design/sales-only-phase3/catalog220-pins.json',import.meta.url),JSON.stringify(pins,null,2)+'\n');
 await writeFile(new URL('../../docs/generated/DB_FUNCTIONS.md',import.meta.url),renderFunctionReference(manifest,publicFunctions.map(r=>({...r,definition:canonicalDefinitionLf(r.definition)}))));
-console.log(JSON.stringify({ok:true,functions:715,publicFunctions:678,privateFunctions:37,unchangedBodies:627,bridges:9,generatedAfterCleanup:true}));
+console.log(JSON.stringify({ok:true,functions:718,publicFunctions:680,privateFunctions:37,unchangedBodies:627,bridges:9,generatedAfterCleanup:true}));

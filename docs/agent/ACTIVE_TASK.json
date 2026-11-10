@@ -41,13 +41,13 @@
     "79 remainsDraft/deferred221;no adoption ofitsSQL;219 tools retained",
     "No new627 body or ninebridge diff changes;Fable fixes additive only;no newreference/rehearsal/finalCI before review."
   ],
-  "nextExactAction": "Fable8PGRED→GREEN andownerreadonlydiagnosticPASS;extendedfullparity andfocusedmobileUI next,thenreportstop. No newreference/rehearsal/finalCI.",
+  "nextExactAction": "Fable8GREEN+12mobile/legacybrowserPASS;extendedfullparity stoppedfixtureUUID key corrected;rerunPGonlythenupdatecatalogpins(no newreadyref/rehearsal/finalCI).",
   "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "7D616D65D186F61749483B65EF7270D8599581517FF5FCF77148BAE43180C41F",
-  "checkpointedAt": "2026-11-10T21:47:52.891Z",
-  "filesTouchedCount": 7,
-  "filesTouchedManifestSha256": "e80959b47c8b81b7dfd7a9530d506ee20ea4394ab9e94b621b285e326c0b091c"
+  "workingTreeFingerprint": "2E5314CE35F10F3DB3E407F3886E7591914D9CF6B9FD8F91F7295716AFF71459",
+  "checkpointedAt": "2026-11-10T21:52:42.669Z",
+  "filesTouchedCount": 10,
+  "filesTouchedManifestSha256": "492b38abb3317cab93c57fe6145a7cdc0af654789e42848a5f3d7d7869498cc3"
 }

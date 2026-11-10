@@ -90,7 +90,7 @@
     },
     "docs/operations/D1_REFERENCE_KIT220_AR.md": {
       "before": null,
-      "after": "0ab13f4271bc3d6f70bbb00617b27737599da1d26fdb4176c4daa963eea27d5b",
+      "after": "5fdbe51a53922aa78616f62d0cd04eda839e8cfe1f8ca925d30e22d717e11f60",
       "beforeText": null
     },
     "docs/operations/GO_LIVE_CUTOVER_AR.md": {
@@ -250,12 +250,12 @@
     },
     "scripts/operations/frankfurt-reference220.mjs": {
       "before": null,
-      "after": "f1026686dfbf0372c40d94d61595e5aa77344e53bb2460f35fbf94ca13cc292a",
+      "after": "c03199492e27f7000df0ef12aec8c2d5892633319999cb80156e6dbf7a73a2d3",
       "beforeText": null
     },
     "scripts/operations/function-reference220.mjs": {
       "before": null,
-      "after": "8990b6204ebd342e67725df6fe115bbf813cb5e18eaebd9aeef2ac720cf443a2",
+      "after": "20d2db5d007fdf82a05373e83533ca8ea7c09cd781ac7da56a5e5513f3527bdf",
       "beforeText": null
     },
     "scripts/operations/reset220-foundation.mjs": {
@@ -285,7 +285,7 @@
     },
     "scripts/operations/sales-only220-catalog.mjs": {
       "before": null,
-      "after": "becfcd5226a0b99c59f3fd31833ccbd3eb426a04d1b2f939e800bd580363bfac",
+      "after": "e46aac7515f8a84b89dffee98fade669d8ff541c0ac9cd88f7858755be7d3fdf",
       "beforeText": null
     },
     "scripts/operations/trial-reset220-core.mjs": {
@@ -325,12 +325,12 @@
     },
     "scripts/testing/capture-sales-only220-catalog.mjs": {
       "before": null,
-      "after": "2091652f5c0185cb522b2a3b378cde02b14af22f4665fef66af1d7bb8d9bafdc",
+      "after": "90b5b875db9ab4140910223488480912acc5f573e4da9129cd562bf533995340",
       "beforeText": null
     },
     "scripts/testing/generate-sales-only220-catalog-pins.mjs": {
       "before": null,
-      "after": "cab009528534d15052e074287d1b044edcb1d528ff06ae05ed19bd1954eff760",
+      "after": "772b2e299f6c09ccc5324b8c546b196632f3c41fcb146d3cb0d73d280f544e11",
       "beforeText": null
     },
     "scripts/testing/legacy219-restore-lifecycle220.mjs": {
@@ -340,12 +340,12 @@
     },
     "scripts/testing/lite220-fable-additions.mjs": {
       "before": null,
-      "after": "f09ac2149a4e0cc76a829fd2bb2caa33291b2846f58fe694bc7092b4195a9423",
+      "after": "837fd54a9338d34c89c2572d7b446778acf57960fe2fa39a05bf95c9f782b067",
       "beforeText": null
     },
     "scripts/testing/lite220-fable-parity.mjs": {
       "before": null,
-      "after": "e0eb9f038abf1348de7bc63ee23885088aa9c8510508b738bbf828ed9abbac55",
+      "after": "17aa80b640814326adbdd5181e98a9ea2ec38f074766d5433cf9bda4171b29eb",
       "beforeText": null
     },
     "scripts/testing/lite220-fable-readers.mjs": {
@@ -555,7 +555,7 @@
     },
     "scripts/testing/sales-only220-runtime-functions.mjs": {
       "before": null,
-      "after": "436e7c10e4ae7067941d91c0ee6be17ce32ba44c41085b6e6d26d991a6707026",
+      "after": "3e06dd5632223d1c37422d94c854b84eb67e67b91a940396486f883443d322ea",
       "beforeText": null
     },
     "scripts/testing/sales-only220-workbook-fixture.mjs": {
