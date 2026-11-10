@@ -1,3 +1,7 @@
+#10Nov2026 — phase2 current access and browser regressions verified locally
+
+Draft86 only;active219/180. Current235RPCsites/695roleprobes/18expecteddenials;REST181/172success/9empty/0errors;actualworkbook12groupsPASS. Browser136cases:135PASS plus1 unchanged environmental rerunPASS after initial page.goto timeout;failure trace external. Types/strictlintPASS;owner20/env4 hashes unchanged. Historical role-view guestTS reconstruction andfinalFULLCI/build/report remain;no merge/phase3/hosted/deploy.
+
 #9Nov2026 — owner approved narrow shift status guard;phase2 resumes
 
 Explicitapproval: additional private monetary-refund guard on cash_shifts cancellation/reversal plusparallelpreview. Keep628original bodies/eightbridgepatches unchanged;quarantinedonly/Draft86. DirectRPC/zero/CliQ/fullparity/dailyclose/real-lock races toverify;thenremainingphase2/FULLCI. No main/58/79/82/hosted/deploy/merge/phase3. Earlier WAIT_OWNER below is historical,resolved bythisapproval.

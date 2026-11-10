@@ -1,4 +1,5 @@
 import{historicalRecordOrderHashes as historicalProductWorkbookHashes}from'../scripts/testing/record-order-historical-views.mjs';
+import{sourceBeforeSalesOnlyPhase2}from'../scripts/audit/source-before-sales-only-phase2.mjs';
 import{historicalProductWorkbookSource,restoreProductWorkbookHashes}from'../scripts/audit/source-before-product-workbook.mjs';
 import {sourceBeforePreflight120} from '../scripts/audit/source-before-preflight120.mjs';
 import {sourceBeforeRehearsal219} from '../scripts/testing/rehearsal219-legacy-view.mjs';
@@ -22,7 +23,9 @@ test('current216 SDK is unprojected and includes the atomic payment RPC; only hi
  const current=await inventory(),old=await inventory({projectSource:(file:string,text:string|null)=>historicalProductWorkbookSource(sourceBeforePartial216,file,text)}),saved=JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_AFTER_215.json','utf8'));
  assert.deepEqual(old.sources,saved.sourceHashes);assert.deepEqual(historicalProductWorkbookHashes(restorePartial216SourceHashes,restoreProductWorkbookHashes(current.sources)),old.sources);assert.notDeepEqual(current.sources,old.sources);
  const currentRpc=await serviceInventory(),oldRpc=await serviceInventory({projectSource:(file:string,text:string|null)=>historicalProductWorkbookSource(sourceBeforePartial216,file,text)});
- assert.deepEqual(currentRpc.functionNames.filter((name:string)=>!oldRpc.functionNames.includes(name)),['claim_owner_telegram_deliveries_v1','complete_owner_telegram_delivery_v1','create_pos_sale_with_initial_payment_v1','owner_telegram_dispatch_lease_valid_v1','release_owner_telegram_dispatch_v1']);
+ assert.ok(currentRpc.functionNames.includes('create_pos_sale_with_initial_payment_v1'));
+ const beforePrototype=await serviceInventory({projectSource:sourceBeforeSalesOnlyPhase2});
+ assert.deepEqual(beforePrototype.functionNames.filter((name:string)=>!oldRpc.functionNames.includes(name)),['claim_owner_telegram_deliveries_v1','complete_owner_telegram_delivery_v1','create_pos_sale_with_initial_payment_v1','owner_telegram_dispatch_lease_valid_v1','release_owner_telegram_dispatch_v1']);
  const bad=current.sources.map((s:{file:string;sha256:string})=>s.file==='src/features/pos/PosView.tsx'?{...s,sha256:'0'.repeat(64)}:s);assert.notDeepEqual(historicalProductWorkbookHashes(restorePartial216SourceHashes,restoreProductWorkbookHashes(bad)),old.sources);
 });
 test('216 closes the existing literal closing reader only; the whole-file allowance rejects even an appended mutation',()=>{

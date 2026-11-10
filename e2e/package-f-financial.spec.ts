@@ -88,7 +88,7 @@ test('no open shift keeps original route and prevents expense submission',async(
 });
 test('report failure preserves no-financial-output and explicit retry',async({page})=>{
  await page.goto('/e2e/package-f-financial-harness.html?view=reports&report=error');
- await expect(page.getByText('تعذر قراءة التقرير في المعاينة',{exact:true})).toBeVisible();
+ await expect(page.getByText('REPORTING-01: تعذر التحقق من التقرير؛ أعد القراءة ولا تعتمد بيانات ناقصة.',{exact:true})).toBeVisible();
  await expect(page.locator('.operational-report-print')).toHaveCount(0);
  await expect(page.getByRole('button',{name:'إعادة المحاولة',exact:true})).toBeVisible();
 });

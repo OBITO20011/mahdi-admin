@@ -39,3 +39,5 @@ test('speed then image layers retain Git63 sources and unwind current role evide
  assert.throws(()=>projectWorkbookRuntimeEvidence(combined+'unknown',proof,layers,lookup),/UNREVIEWED_EVIDENCE/u);
  assert.throws(()=>composeWorkbookRuntimeLayer({entries:{}},'storefront-images-source-pins.json',{...imageLayer,baseline:base},lookup),/LAYER_BASELINE/u);
 });
+
+test('historical source scope admits only two reviewed guest TS files, never SQL or another Edge function',()=>{const after='reviewed',pin={after:hash(after),before:null,beforeText:null};for(const file of ['supabase/functions/submit-guest-order/index.ts','supabase/functions/submit-guest-order/operatingMode.ts'])assert.equal(projectWorkbookRuntimeSource(file,after,pin),null);for(const file of ['supabase/functions/send-order-push/index.ts','supabase/functions/submit-guest-order/unreviewed.ts','supabase/migrations/219.sql'])assert.throws(()=>projectWorkbookRuntimeSource(file,after,pin),/SOURCE_SCOPE/);});

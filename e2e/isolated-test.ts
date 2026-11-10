@@ -1,3 +1,4 @@
+import {legacy219MissingRpcName} from './legacy219-rpc';
 import {
   expect,
   test as base,
@@ -12,7 +13,7 @@ const isolatedSupabaseOrigin = 'http://127.0.0.1:4176';
 const isolatedApiResponse = (route: Route) => {
   const url = new URL(route.request().url());
   const path = url.pathname;
-  const legacyMissing=['lite1_shift_movements2','lite1_preview_shift_reversal2','lite1_shift_closing2','lite1_reporting_report2','lite1_reporting_home2','lite1_operational_orders_page2','lite1_preview_guest2','lite1_catalog_page2','lite1_parcel_options2','lite1_merchandising2','lite1_operating_mode','lite1_statement_dispatch2','lite1_public_pos_receipt2'].find(name=>path===`/rest/v1/rpc/${name}`);
+  const legacyMissing=legacy219MissingRpcName(path);
   if(legacyMissing)return route.fulfill({status:404,json:{code:'PGRST202',message:`Could not find public.${legacyMissing} in the legacy219 fixture`}});
   if (path.endsWith('/get_public_storefront_settings')) {
     return route.fulfill({ json: {

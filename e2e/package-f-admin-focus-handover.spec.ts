@@ -1,3 +1,4 @@
+import {replyLegacy219MissingRpc} from './legacy219-rpc';
 import {test,expect} from './isolated-test';
 import {waitForPackageFMotion} from './package-f-accessibility';
 import {checkLayout} from './package-f-layout';
@@ -23,7 +24,8 @@ for(const theme of ['light','dark'])for(const kind of ['edit','address']){
 
   test(`customer ${kind} ${theme}: dirty Escape asks, preserves data, then discards only child`,async({page})=>{
     const writes:string[]=[];
-    await page.route('**/rest/v1/rpc/**',route=>{const name=route.request().url().split('/').at(-1)!;
+    await page.route('**/rest/v1/rpc/**',async route=>{
+    if(await replyLegacy219MissingRpc(route))return;const name=route.request().url().split('/').at(-1)!;
       if(!name.startsWith('get_')&&!name.startsWith('search_'))writes.push(name);
       return route.fulfill({json:{items:[],unreadCount:0}});
     });
@@ -48,7 +50,8 @@ for(const theme of ['light','dark'])for(const kind of ['edit','address']){
 }
 
 for(const theme of ['light','dark'])test(`real AllModals product handover ${theme}: immediate Enter does not close or submit`,async({page})=>{
-  const writes:string[]=[];await page.route('**/rest/v1/rpc/**',route=>{const name=route.request().url().split('/').at(-1)!;
+  const writes:string[]=[];await page.route('**/rest/v1/rpc/**',async route=>{
+    if(await replyLegacy219MissingRpc(route))return;const name=route.request().url().split('/').at(-1)!;
     if(!name.startsWith('get_')&&!name.startsWith('search_'))writes.push(name);return route.fulfill({json:[]});});
   await page.setViewportSize({width:390,height:844});await page.goto(`/e2e/package-f-products-harness.html?theme=${theme}&realDialogs`);
   await page.getByRole('button',{name:'تفاصيل الصنف الفعلية',exact:true}).click();
