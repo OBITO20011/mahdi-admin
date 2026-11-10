@@ -1,33 +1,4 @@
 {
   "schemaVersion": 1,
-  "files": [
-    {
-      "code": " M",
-      "path": "docs/design/sales-only-phase2/FINAL_CI_RECONCILIATION_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_219.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/sales-only-phase2-source-pins.json"
-    },
-    {
-      "code": " M",
-      "path": "tests/cart-flight-contracts.test.ts"
-    }
-  ]
+  "files": []
 }

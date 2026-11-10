@@ -2,36 +2,29 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner9Nov phase2:additive sales-only build above85;reuse existing UI/pure calculation helpers;opening epoch included;quarantined SQL/Draft PR/fullCI only.",
-  "baselineSha": "37f43051fa068e01b537a5a4b859e8e1f6b63ad9",
+  "objective": "Owner9Nov phase2 above85:build additive sales-only mode;reuse UI/math;opening epoch;quarantined SQL/Draft86/fullCI only.",
+  "baselineSha": "4e30162d993f8822cd3219ac14fd29b929b6ea02",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase2",
   "phase": "SALES_ONLY_PHASE2",
   "startedAt": "2026-11-09T10:43:35.259Z",
   "completed": [
-    "Durable detailed history/evidence:C:/Users/TOP/NawasrahFrankfurt/sales-only-phase2-20261109/CHECKPOINT_HISTORY_FULL.json;quarantinedDraft86 above85 only.",
-    "Commercial18,POS16,guest/EdgeH1,lifecycle4,returns8,import/cheques/mode/availability/catalog/SEO/delivery proof PASS;628/636 exact eight approved bridges;see tracked phase2 *_PROOF_AR.md.",
-    "Mixedreport/home10units/types/lint/bothenginesPASS;oneChromium502 @vite/client rerunPASS.Mixedclosing8units/types/lint/10browserPASS.Owner20/env4byteunchanged.",
-    "Approvedadditionalshiftguard actualPG12groupsPASS:cash/CliQ/directcancel/zero/fullJSON+originalfullreversal/2realblocked-session raceorders/close.1640rows1909.567ms preview678.190ms;integrity0/628636/network0/cleanuptrue;GUARD_PG_PASS.json.",
-    "Drawer13actualPGgroupsPASS:TSdecoder canonicalcash/CliQ/collections/literefundpages1/noduplicates/read-only/fullJSONexact;guard/reallockraces stillPASS.1640rows1426.930ms;628636/integrity0/network0/cleanuptrue.14units/type/lint+4browserPASS;2initialnewselectorfailuresfixedtestonly.",
-    "Current unprojectedRPC235sites/695actualroleprobes/18expecteddenials PASS;local219+quarantined overlay,original628/eightpatches checked;18focusedunitsPASS. ACCESS_SERVICE2/ACCESS_MILESTONE_UNITS logs external.",
-    "ActualREST219:181/172success/9empty/0error;workbook12groups+46row4interruptions/replay0 PASS. Historical92focused89+corrected24PASS;types/strictlint0. Rawlogs ACCESS_TABLE/WORKBOOK/LEGACY_RECONCILE*.",
-    "Legacybrowser136:135PASS+oneunchangedcoldgoto rerunPASS;traceexternal. Allknown history failures corrected focused;types/strictlintPASS;owner24hashunchanged.",
-    "10Nov cart-flight6/6 and assistant/deep links10/10 correctedPASS;customer221/type/strictlintPASS;original byte/request caps unchanged. Current219 proof regeneration and final FULLCI still pending.",
-    "10Nov current219 local owner chain PASS180/636/13/freshincremental0;actualtable181/RPC695;upgrade11negatives/reset4interruptions/CLI12;Admin1945/1945,store221/221,sixbuildverifyPASS."
+    "Detailed evidence/history:C:/Users/TOP/NawasrahFrankfurt/sales-only-phase2-20261109/;tracked phase2 *_PROOF_AR.md.",
+    "Commercial18/POS16/guestH1/lifecycle4/returns8/full-v-lite parityPASS;628bodies/eightapproveddiffs/636metadata exact;approved additionalshiftguard12groups/drawer13groups/races/integrity0PASS.",
+    "Openingepoch1640rows1426.930ms/preview660.944ms;activation/resume/latereturn/fullstockPASS. Workbook12groups46rows4interruptions/replay0PASS.",
+    "Current219actualREST181(172success9empty0errors),RPC235sites695probes18expecteddenials;reference180/636/13freshincremental0;upgrade11negatives/reset4interruptions/CLI12PASS.",
+    "Admin1945/store221/type/strictlintPASS;6buildverify/assistant10/flight6/budget8/vitals8PASS;runtimeview146files/SQL-ownerunchanged/cleanupPASS.",
+    "Currentbundle662851raw183992gzip below original683725/187840 caps;Gitleaks718commits0;owner20/env4 unchanged.37f and4e30162d pushed."
   ],
   "inProgress": [
-    "Final committed runtime-view and existing storefront performance/browser gates; final FULLCI on refreshed proof head."
+    "Exact final FULLCI;4e core1944/1945 failed only checkpoint>4KB;compact metadata without changing test/limit."
   ],
-  "notStarted": [
-    "Wholelocalquality/build/verify/Gitleaks/exactFULLCI/finalreport"
-  ],
+  "notStarted": [],
   "testsPassed": [
-    "Proofs are labeled per tracked docs/externallogs;no overall green claim.Draft86 earlyCI red:history inverses/currentrole evidence not updated.",
-    "Gitleaks709priorcommits+stagedmilestonediff:0findings.44bbdbac committed/pushed;ownerfiles unchanged;Docker cleanuptrue."
+    "All current local functional/role/owner/build/browser gatesPASS;see external logs and tracked proofs."
   ],
   "testsRemaining": [
-    "Final storefront budget/vitals/flight current bundle; runtime-view current committed head; exact FULLCI"
+    "Exact final FULLCI and final owner-review report."
   ],
   "blockers": [],
   "prohibitions": [
@@ -41,16 +34,16 @@
     "No owner/env edits;no Docker factory reset or unknown volume deletion",
     "628original function bodies frozen;8exact approved patches only"
   ],
-  "nextExactAction": "Committed runtimeview and current storefront gates then exact FULLCI. Draft86 only.",
-  "checkpointedAt": "2026-11-10T05:18:29.462Z",
+  "nextExactAction": "Exact final FULLCI all pages;Draft86 report then STOP beforePhase3.",
+  "checkpointedAt": "2026-11-10T05:26:12.507Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 7,
-  "filesTouchedManifestSha256": "a4b1c7968cedb060e6349acb50a116d3d0293f250a45161baefc30717ebc6127",
-  "workingTreeFingerprint": "97C62D56375EE31503A19A40319144BE64442CBE07B5FA488EA2FBB770633611",
+  "filesTouchedCount": 0,
+  "filesTouchedManifestSha256": "b6429e7d08029a34589e9c8956ef86dffab2fb6dd9ee37c08d5e9204e14cdbe6",
+  "workingTreeFingerprint": "AA7E1BEB9E33AF6D66638C52C546101F72793A005AEECF061D58701DF90BBB38",
   "activeProcesses": [],
   "findings": [
-    "Ownerexplicitlyapproved narrowadditionalstatusguard+parallelpreview9Nov;keep628 originalbodies/eightbridgepatches unchanged."
+    "No new bridge beyond owner approvals;no hosted/deploy/main changes."
   ]
 }
