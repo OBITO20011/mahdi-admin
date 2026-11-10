@@ -38,14 +38,14 @@
     "No owner/env edits;no unknown cleanup",
     "628 original functions frozen;only eight approved bridge diffs;new expansion requires owner approval"
   ],
-  "nextExactAction": "Push six-gate test/docs checkpoint;monitor exact-head FULLCI;do not compose220 before bounded frozen-function decision.",
-  "checkpointedAt": "2026-11-10T13:28:37.092Z",
+  "nextExactAction": "Push exact two-hash audit-pin repair;FULLCI on corrected head;hold220 composition for bounded owner decision.",
+  "checkpointedAt": "2026-11-10T13:32:52.412Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 8,
-  "filesTouchedManifestSha256": "0d51e3073aa82d5771002b2edbbd50fe6859edd5b2bceab0286fb0dbf4cc2b94",
-  "workingTreeFingerprint": "473B0924074C24EE9A405BCE147D03D5DD44DA3BBD3779E0A71D08DDCC7EB5F0",
+  "filesTouchedCount": 1,
+  "filesTouchedManifestSha256": "9a2bd83631bef57bc62238a3b15dfa6537f6a5bd37c2abc718045dfcaf59dd32",
+  "workingTreeFingerprint": "5D61677B5874B21254315F0181A5EA3F42E603F1495DD848DF1A539C34D98B0C",
   "activeProcesses": [],
   "findings": [
     "WebKit1flaky oldfragmented-return inspectioncheckbox passed existingCIretry;299firstpass/32oldconditions;localcasePASS,causeunresolved. Disclosed,notclaimedflakefree."

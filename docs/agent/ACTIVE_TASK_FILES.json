@@ -3,35 +3,7 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
-    },
-    {
-      "code": " M",
-      "path": "e2e/package-f-orders-harness.tsx"
-    },
-    {
-      "code": " M",
-      "path": "e2e/sales-only-phase2-app-harness.tsx"
-    },
-    {
-      "code": " M",
-      "path": "e2e/sales-only-phase2-app.spec.ts"
-    },
-    {
-      "code": " M",
-      "path": "e2e/sales-only-phase2-delivery.spec.ts"
-    },
-    {
-      "code": " M",
-      "path": "e2e/sales-only-phase2-import.spec.ts"
-    },
-    {
-      "code": " M",
-      "path": "e2e/sales-only-phase2-pos.spec.ts"
-    },
-    {
-      "code": "??",
-      "path": "docs/design/sales-only-phase2/PHASE2_COMPLETION_GATE_AR.md"
+      "path": "scripts/audit/sales-only-phase2-source-pins.json"
     }
   ]
 }
