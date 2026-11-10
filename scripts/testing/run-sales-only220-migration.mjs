@@ -8,8 +8,9 @@ import path from 'node:path';
 import {executorFor,executeInput} from '../operations/build-empty-supabase.mjs';
 import {readApplicationFingerprint} from './backup-restore-contract.mjs';
 import {functionCatalogSql} from './sales-only-phase1-runtime.mjs';
-import {assertFrozenFunctions,replaceDefinitionSource} from './sales-only-phase1-bridges.mjs';
+import {assertFrozenFunctions,replaceDefinitionSource} from './sales-only220-bridges.mjs';
 import {buildSalesOnly220,salesOnly220Name} from './sales-only220-compiler.mjs';
+import {verifyLite220Summary} from './lite220-summary-runtime.mjs';
 import {returnPayload215} from './aftercare215-return-cases.mjs';
 import {readVerificationSourceFreeze,assertVerificationSourceFreeze} from './verification-source-freeze.mjs';
 assert.equal(process.argv.length,2,'NO_TARGET_OR_RESUME_ARGUMENTS');
@@ -45,12 +46,12 @@ try{
  const item=await json(`SELECT to_jsonb(id) FROM public.order_items WHERE order_id=${q(full[0].result.orderId)};`),request=returnPayload215({sale:full[0].result,item,pid},{quantity:2,good:2,method:'cash'}),preview=await rpc(`preview_admin_sales_return_v2(${j(request)})`),call=`settle_admin_sales_return_v2(${j(request)},'lite220-full-return',${q(preview.previewFingerprint)})`;full.push({call,result:await rpc(call)});
  for(const f of full)f.replay=await rpc(f.call);
  await rpc(`create_operational_expense(${q(branch)},'كهرباء','مصروف اصطناعي',1000,'cash',NULL)`);
- const snap=`jsonb_build_object('facts',public.phase6_financial_facts_internal(${q(branch)},date_trunc('day',now())-interval '1 day',date_trunc('day',now())+interval '1 day','Asia/Amman',true),'summary',public.get_cash_shift_summary(${q(shift)}),'report',public._get_cash_shift_closing_report_before_snapshot(${q(shift)}),'debt',public.phase42_customer_receivable_total_internal(${q(customer)}),'positions',(SELECT jsonb_agg(to_jsonb(p) ORDER BY o.id) FROM public.orders o CROSS JOIN LATERAL public.phase42_order_financial_position_internal(o.id) p))`;
+ const snap=`jsonb_build_object('telegramDaily',public.build_business_summary('daily',(now() AT TIME ZONE 'Asia/Amman')::DATE,(now() AT TIME ZONE 'Asia/Amman')::DATE,now()),'telegramWeekly',public.build_business_summary('weekly',(now() AT TIME ZONE 'Asia/Amman')::DATE-6,(now() AT TIME ZONE 'Asia/Amman')::DATE,now()),'facts',public.phase6_financial_facts_internal(${q(branch)},date_trunc('day',now())-interval '1 day',date_trunc('day',now())+interval '1 day','Asia/Amman',true),'summary',public.get_cash_shift_summary(${q(shift)}),'report',public._get_cash_shift_closing_report_before_snapshot(${q(shift)}),'debt',public.phase42_customer_receivable_total_internal(${q(customer)}),'positions',(SELECT jsonb_agg(to_jsonb(p) ORDER BY o.id) FROM public.orders o CROSS JOIN LATERAL public.phase42_order_financial_position_internal(o.id) p))`;
  const existingData=await readApplicationFingerprint(executor),t=performance.now();
  await sql(`BEGIN;SELECT set_config('request.jwt.claims',${j({sub:id(1),role:'authenticated',aal:'aal2'})}::text,true);CREATE TEMP TABLE full_before220 AS SELECT ${snap} value;${body}DO $parity$ BEGIN IF (SELECT value FROM full_before220) IS DISTINCT FROM (${snap}) THEN RAISE EXCEPTION 'FULL_JSON_PARITY_FAILED';END IF;END $parity$;COMMIT;`);
  report.timings.applyMs=performance.now()-t;assert.deepEqual(await readApplicationFingerprint(executor),existingData,'ALL_EXISTING_ROWS_SEQUENCES_UNCHANGED');
  assertFrozenFunctions(beforeFunctions,await json(functionCatalogSql));for(const f of full)assert.deepEqual(await rpc(f.call),f.replay);assert.deepEqual(await readApplicationFingerprint(executor),existingData,'FULL_REPLAY_NO_WRITES');
- report.cases.push('literal220:cash/CliQ/debt/partial/return/expense whole JSON exact;all original rows/sequences unchanged;full writer replays exact;628bodies/eightbridges exact');
+ report.cases.push('literal220:cash/CliQ/debt/partial/return/expense whole JSON exact;all original rows/sequences unchanged;full writer replays exact;627bodies/ninebridges exact');
  await negative(artifact,/LITE220_CLEAN219_REQUIRED/);report.cases.push('second application refused without writes');
  await rpc(`close_cash_shift(${q(shift)},${(await rpc(`get_cash_shift_summary(${q(shift)})`)).expectedCashInMinorUnits},NULL)`);await rpc('lite1_set_mode2(false)');
  const stock=()=>json("SELECT jsonb_build_object('moves',(SELECT jsonb_agg(to_jsonb(x) ORDER BY id) FROM public.inventory_movements x),'reservations',(SELECT jsonb_agg(to_jsonb(x) ORDER BY id) FROM public.order_inventory_reservations x),'balances',(SELECT jsonb_agg(to_jsonb(x) ORDER BY id) FROM public.inventory_balances x),'costs',(SELECT jsonb_agg(jsonb_build_array(id,cost_price_in_minor_units,wac_cost_in_minor_units_exact) ORDER BY id) FROM public.products));"),stockBefore=await stock();
@@ -59,9 +60,10 @@ try{
  await rpc(`create_operational_expense(${q(branch)},'كهرباء','مصروف lite220',1000,'cash',NULL)`);
  const summary=await rpc(`get_cash_shift_summary(${q(liteShift)})`);assert.equal(summary.cashExpensesInMinorUnits,1000);await rpc(`close_cash_shift(${q(liteShift)},${summary.expectedCashInMinorUnits},NULL)`);
  assert.equal((await rpc(`get_cash_shift_closing_report(${q(liteShift)})`)).accountingTracked,false);assert.deepEqual(await stock(),stockBefore);assert.equal((await json('SELECT public.run_advanced_monitoring_checks();')).integrityIssueCount,0);assertFrozenFunctions(beforeFunctions,await json(functionCatalogSql));
+ await verifyLite220Summary({sql,json,q,j,rpc,branch,warehouse,pid,customer},report);
  report.cases.push('compiled220 OFF:cash/CliQ/debt replay,expense/close/integrity0;zero stock/reservation/WAC changes');
  await sql("INSERT INTO supabase_migrations.schema_migrations(version,name,statements) VALUES('220','sales_only_operating_mode','{}');");
  report.migrations=await json('SELECT jsonb_build_object(\'ceiling\',max(version::integer),\'files\',count(*)) FROM supabase_migrations.schema_migrations;');assert.deepEqual(report.migrations,{ceiling:220,files:181});
- report.publicFunctions=(await json(functionCatalogSql)).length;report.frozenBodies=628;report.bridges=8;report.pr79Included=false;report.networkAttachments=0;report.ok=true;assertVerificationSourceFreeze(frozen,await readVerificationSourceFreeze(root));
+ report.publicFunctions=(await json(functionCatalogSql)).length;report.frozenBodies=627;report.bridges=9;report.pr79Included=false;report.networkAttachments=0;report.ok=true;assertVerificationSourceFreeze(frozen,await readVerificationSourceFreeze(root));
 }catch(e){report.error=String(e.message).slice(0,6000);console.error(report.error);process.exitCode=1;}
 finally{if(local&&ownedId){try{const a=JSON.parse((await docker('inspect',container)).stdout)[0];assert.equal(a.Id,ownedId);await exec(process.execPath,[path.join(root,'node_modules/supabase/dist/supabase.js'),'stop','--workdir',local,'--no-backup'],{cwd:root,windowsHide:true,maxBuffer:8*1024**2});report.cleanup=true;}catch{report.cleanup=false;process.exitCode=1;}}await writeFile(path.join(output,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));}

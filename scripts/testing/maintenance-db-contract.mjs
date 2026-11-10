@@ -56,7 +56,7 @@ export function futureMigrationViolations(sql) {
   // Owner10Nov: exact lite-only220. Literal approved bridges plus read-only
   // before/after definition hashes;private-table RLS setup is retained from
   // the reviewed prototype. No dynamic function DDL exemption.
-  const reviewed220 = sha256(canonicalLf(sql)) === 'f85e6757334a6996816d6e1ec0cc1bbfabb0d91bd0e0a015cf1dd8f48217ddeb';
+  const reviewed220 = sha256(canonicalLf(sql)) === 'a0512e78db34521d23f301630873aeb02e212bf01faf3bc539554bf7d52b769c';
   for (const match of code.matchAll(declaration)) if ((/_before_/iu.test(match[1]) || match[1] === 'public.phase6_financial_facts_before208_internal') &&
     !(existing214ReturnLeaf && match[1] === 'public.package_d_settle_sales_return_before_guard_internal' && /^create\s+or\s+replace\b/iu.test(match[0]))
     && !((reviewed215 || reviewed216) && match[1] === 'public._get_cash_shift_closing_report_before_snapshot' && /^create\s+or\s+replace\b/iu.test(match[0])) && !(reviewed219 && ['public.phase6_financial_facts_before208_internal','public._get_home_dashboard_before133'].includes(match[1]) && /^create\s+or\s+replace\b/iu.test(match[0])) && !(reviewed220 && ['public.phase6_financial_facts_before208_internal','public._get_cash_shift_closing_report_before_snapshot'].includes(match[1]) && /^create\s+or\s+replace\b/iu.test(match[0]))) errors.push('NEW_BEFORE_FUNCTION');

@@ -1,3 +1,7 @@
+#10Nov2026 — approved narrow ninth summary bridge;implementation resumes
+
+Owner explicitly approved build_business_summary exception+liteformatter only.627frozen/8previous exact+9th summary. No further original function or permission change. Actual summary SQL/role/period/enqueue/full-parity tests and220catalog/reference refresh pending. Draft87;no merge/hosted/deploy/ownerfiles.
+
 #10Nov2026 — Phase3 WAIT OWNER: Telegram summary in OFF is incomplete
 
 Draft87/local only. Owner-size220 day passed820rows/345flavors/14categories/585666ms;RESET/resume/UTC/strictRestore/actualimport/SEO/POS/return/expense/close/integrity0/cleanuptrue. Read-only diagnostic proves frozen build_business_summary omits lite POS/refund and formatter prints profit/inventory/suppliers. Proposal TELEGRAM_SUMMARY_BRIDGE_PROPOSAL_AR.md requests explicit ninth bridge or owner deferral of daily/weekly summary;NO expansion implemented,628/8 unchanged.1980units/types/strictlint PASS. FULLCI NOT green:legacy219Restore fixture pending,quality in progress;220four andphase1/2eight gates PASS. Stop for owner decision;no main/58/79/82/owner/env/hosted/deploy/merge.

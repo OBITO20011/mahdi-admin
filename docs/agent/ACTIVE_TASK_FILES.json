@@ -7,7 +7,11 @@
     },
     {
       "code": " M",
-      "path": "docs/operations/D1_REFERENCE_KIT220_AR.md"
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/design/sales-only-phase3/TELEGRAM_SUMMARY_BRIDGE_PROPOSAL_AR.md"
     },
     {
       "code": " M",
@@ -15,23 +19,51 @@
     },
     {
       "code": " M",
-      "path": "scripts/operations/d1-reference220-ci.mjs"
+      "path": "scripts/operations/sales-only220-catalog.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/testing/run-dual-backup-runtime.mjs"
+      "path": "scripts/testing/generate-sales-only220-catalog-pins.mjs"
     },
     {
       "code": " M",
-      "path": "tests/d1-reference220-kit.test.ts"
+      "path": "scripts/testing/maintenance-db-contract.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-sales-only220-migration.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/sales-only220-compiler.mjs"
+    },
+    {
+      "code": " M",
+      "path": "supabase/functions/_shared/owner-telegram-format.ts"
+    },
+    {
+      "code": " M",
+      "path": "supabase/migrations/220_sales_only_operating_mode.sql"
+    },
+    {
+      "code": " M",
+      "path": "tests/sales-only220-compiler.test.ts"
     },
     {
       "code": "??",
-      "path": "docs/design/sales-only-phase3/TELEGRAM_SUMMARY_BRIDGE_PROPOSAL_AR.md"
+      "path": "docs/design/sales-only-phase3/telegram-summary.sql"
     },
     {
       "code": "??",
-      "path": "scripts/testing/legacy219-restore-lifecycle220.mjs"
+      "path": "scripts/testing/lite220-summary-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/sales-only220-bridges.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/lite220-telegram-summary.test.ts"
     }
   ]
 }

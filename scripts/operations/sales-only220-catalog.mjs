@@ -16,7 +16,7 @@ export function salesOnly220PrivateSnapshot(catalog){
 export function readSalesOnly220Pins(){
  const p=JSON.parse(readFileSync(new URL('../../docs/design/sales-only-phase3/catalog220-pins.json',import.meta.url),'utf8'));
  assert.equal(p.migrationSha256,sha256(canonicalLf(readFileSync(new URL('../../supabase/migrations/'+salesOnly220Name,import.meta.url),'utf8'))),'LITE220_CATALOG_PINS_MIGRATION_DRIFT');
- assert.equal(p.publicFunctions,678);assert.equal(p.privateFunctions,35);assert.equal(p.frozenBodies,628);assert.equal(p.bridges,8);assert.equal(p.freshIncrementalDifferences,0);return p;
+ assert.equal(p.publicFunctions,678);assert.equal(p.privateFunctions,37);assert.equal(p.frozenBodies,627);assert.equal(p.bridges,9);assert.equal(p.freshIncrementalDifferences,0);return p;
 }
 export function assertSalesOnly220PublicGuards(triggers,{notificationTriggerEnabled='O'}={}){
  assert.ok(['O','D'].includes(notificationTriggerEnabled),'LITE220_NOTIFICATION_TRIGGER_STATE_REQUIRED');

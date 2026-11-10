@@ -1,62 +1,50 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
+  "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner10Nov phase3:220liteonly/628frozen/8exactbridges;owner220tools+D1/full local rehearsal/docs;Draft only.",
-  "baselineSha": "29b061a09414e7595a06a166dfc323d537415ed6",
+  "objective": "Owner10Nov phase3:220liteonly/627frozen/8exactprevious+approved9thsummary bridge;owner220tools/D1/rehearsal/Draft only.",
+  "baselineSha": "16982e5ef5beaa27de885859ee12c4352b674604",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase3",
   "phase": "SALES_ONLY_PHASE3",
   "startedAt": "2026-11-10T14:07:21.558Z",
   "completed": [
-    "Phase2 bfc FULL72/72;54mobile/21negative/types/lint;owner24unchanged.",
-    "Owner resolved:exclude79 from220;defer H1full/M01/supplierDESC to221;79keptDraft/comment6769427296.",
-    "Independent worktree outside managed cleanup;phase2/primary/58/79source/82untouched.",
-    "Literal220 actual219promotion PASS763.968ms/181migrations/678publicfunctions;fullJSON/rows/sequences/replay exact;628frozen/8exact;liteOFF zeroStock/integrity0;unknownbyte/history/reapply negatives;cleanupPASS.",
-    "Actual fresh/incremental220 catalog0diff;678public+35private;628frozen/8exactmetadata;cleanupPASS.",
-    "Actual220access181/172success9empty0error;readyreference31/678/13/fresh0;offlineCLI12PASS.",
-    "RESET220 actualnormal+4interruptions/resume/UTC/ownerMFA/private2sessionfence/pg_net PASS;cleanuptrue.",
-    "Actualencrypted219BackupRestore→220upgrade→220BackupRestore→verifyonly PASS;6negatives;219sourcesimmutable.",
-    "Literal220 lateraccounting13groupsPASS/1640rows/1281ms;full628+8exact/cleanup/nohosted.",
-    "Actual220 service695/18expecteddenials+REST181/0errors;source-bound;Gitleaks732commits0+realnegativePASS;card2A4 visuallyverified.",
-    "Owner-size220 actual820rows/345flavors/14cats/1165IDs/POS4/store delivery+offer+mix/return/expense/close/integrity0 PASS585666ms;network0/cleanuptrue."
+    "Phase2bfc FULL72/72/54mobile complete;primary24ownerfiles unchanged.",
+    "220before ninth:literal/fullJSON+allrows parity/fresh0/181REST695RPC/reset4resumeUTC/privatefence/strictBackupRestore+upgrade6negative/epoch13groups passed;externalreport holdsdetails.",
+    "Owner-size220before ninth:820rows345flavors14cats1165IDs;all transactional steps585666ms/stock0/integrity0/cleanuptrue/network0;1980units/types/lintPASS.",
+    "Owner resolved:79defer221;628freeze nowexplicit627+8previous+approvedsummary ninth only.",
+    "Summary scoped implementation+formatter/compile6focusedtests/lintPASS;realSQL/catalog refresh next."
   ],
   "inProgress": [
-    "Draft87 paused for owner:daily/weekly Telegram frozen producer omits lite POS/refund;profit/inventory/supplier sections remain. Read-only actual proof;no bridge expansion."
+    "Owner explicitly approved narrow ninth build_business_summary bridge +new private lite reader/formatter;all original8 unchanged. Implementation/test generation in progress."
   ],
   "notStarted": [
-    "Approved summary decision implementation;remaining rehearsal activation/closed-preview/receipt evidence;final FULLCI/report."
+    "Remainingrehearsalactivation/closedpreview/receipt,finalCI/report"
   ],
   "testsPassed": [
-    "Phase2 exact72/72;54mobile gates",
-    "Literal220/fullparity/fresh-incremental0/readiness181+678+13/actualaccess181PASS",
-    "RESET2204resume/UTC/privatewritefencePASS;backupRestore219+220/protection6negativePASS",
-    "D1kit8/owner2206/history10focusedPASS;types+strictlintPASS beforelatesttesthelpers",
-    "latesttypecheckPASS;historical17+currenttable/ACL/template negativegroupsPASS",
-    "1980/1980units/types/strictlint29b PASS;D1 strengthened9tests+focusedlintPASS;CI220four+phase1/2eight+secretsPASS."
+    "Prior1980units/types/lint+realDB220proofs;all before ninth,not finalcurrent.",
+    "Current6summary/compile/negativeunits+focusedlintPASS."
   ],
   "testsRemaining": [
-    "Legacy214-219Restore fixture wrapper WIP/unverified;quality/fullCI not complete;summary correctness gate pending owner."
+    "Actualsummary fullJSON/parity/enqueue/roles/periods;catalog/readiness refresh;legacy214-219Restore;remainingrehearsal gates;FULLCI/Gitleaks."
   ],
   "findings": [
-    "Actualread-only summary:lite5invoices/net16500/refund1000 vslegacy1/net9500/refund0;legacy falseprofit8300. Ledger/closing/debt intact.",
-    "No628or8diff changed;proposal ninth build_business_summary only or explicit deferral."
+    "Ninth approval onlybuild_business_summary/newprivate cost-freehelpers/formatter;all8previous sources untouched.",
+    "Legacy219Restore fixturewrapper still WIP;actualcurrent220proofs remain separate."
   ],
-  "blockers": [
-    "Owner decision required under explicit628freeze before summary correction;proposal docs/design/sales-only-phase3/TELEGRAM_SUMMARY_BRIDGE_PROPOSAL_AR.md"
-  ],
+  "blockers": [],
   "prohibitions": [
     "No merge/main/58/deploy/hostedaccess;noowner/env edits",
-    "628originalbodies frozen;8exactapproveddiffs only;any expansionstopask",
+    "627originalbodies frozen;8exactprevious+approvedsummarydiff only;anyotherexpansionstopask",
     "79 remainsDraft/deferred221;no adoption ofitsSQL;219 tools retained"
   ],
-  "nextExactAction": "WAIT OWNER:Telegram summary bridge proposal or explicit daily/weekly deferral;no628 expansion without approval.",
+  "nextExactAction": "Approved ninth summary implemented;run actual literal220/parity/summary roles+enqueue and fresh catalog;then refresh pins/reference and full CI.",
   "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "8407FDCABB8BA378F5254DA7A3308FBEE436B54F960765A4C9C17F4D9DB3DB4C",
-  "checkpointedAt": "2026-11-10T20:27:04.601Z",
-  "filesTouchedCount": 8,
-  "filesTouchedManifestSha256": "5e7d312917eabc9ab24e04b22f71b8ada6e8211ee1e08d8b971842369807cebc"
+  "workingTreeFingerprint": "8D8F8DAE9F596CD6D18C77231C34EFFE6C2B501591D85327F373730AAC5396D2",
+  "checkpointedAt": "2026-11-10T20:37:51.417Z",
+  "filesTouchedCount": 16,
+  "filesTouchedManifestSha256": "1090c01c08c206e59e8eb14d5d133990f99c4c960e4ea3d112899560f898ab3c"
 }

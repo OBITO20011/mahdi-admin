@@ -3,7 +3,7 @@ import {readFile,writeFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import {salesOnly220FunctionSnapshot,salesOnly220PrivateSnapshot} from '../operations/sales-only220-catalog.mjs';
 import {migrationManifest,manifestDigest,renderFunctionReference,canonicalDefinitionLf,canonicalLf,sha256} from './maintenance-db-contract.mjs';
-import {bridges,bridgedSource,replaceDefinitionSource} from './sales-only-phase1-bridges.mjs';
+import {bridges,bridgedSource,replaceDefinitionSource} from './sales-only220-bridges.mjs';
 import {salesOnly220Name} from './sales-only220-compiler.mjs';
 assert.equal(process.argv.length,2,'NO_TARGET_OR_HOSTED_INPUT');
 const read=name=>readFile(new URL('../../test-results/sales-only220-catalog/'+name,import.meta.url),'utf8').then(JSON.parse),report=await read('report.json');
@@ -18,13 +18,13 @@ for(const f of originalFunctions){
  const expected=bridges.some(b=>b.name===name)?replaceDefinitionSource(f.definition,source,bridgedSource({name,signature:sig,source})):f.definition;
  assert.deepEqual(after,{...f,definition:expected},'EXACT636_FUNCTION_BODY_AND_METADATA');if(expected===f.definition)unchanged++;
 }
-assert.equal(unchanged,628);
-const pins={migrationSha256:report.migrationSha256,publicFunctions:678,privateFunctions:35,frozenBodies:628,bridges:8,freshIncrementalDifferences:0,functions:salesOnly220FunctionSnapshot(current),privateObjects:salesOnly220PrivateSnapshot(current),publicTriggers:current.triggers.filter(r=>r.schema==='public')};
-assert.equal(pins.functions.length,713);
+assert.equal(unchanged,627);
+const pins={migrationSha256:report.migrationSha256,publicFunctions:678,privateFunctions:37,frozenBodies:627,bridges:9,freshIncrementalDifferences:0,functions:salesOnly220FunctionSnapshot(current),privateObjects:salesOnly220PrivateSnapshot(current),publicTriggers:current.triggers.filter(r=>r.schema==='public')};
+assert.equal(pins.functions.length,715);
 const manifest=await migrationManifest(fileURLToPath(new URL('../..',import.meta.url)));assert.equal(manifestDigest(manifest),report.manifestSha256);
 const publicFunctions=await read('public220-functions.json');assert.equal(publicFunctions.length,678);
 // Generation occurs only after the independent read-only build has finished
 // and cleaned its container. No tracked source is edited during verification.
 await writeFile(new URL('../../docs/design/sales-only-phase3/catalog220-pins.json',import.meta.url),JSON.stringify(pins,null,2)+'\n');
 await writeFile(new URL('../../docs/generated/DB_FUNCTIONS.md',import.meta.url),renderFunctionReference(manifest,publicFunctions.map(r=>({...r,definition:canonicalDefinitionLf(r.definition)}))));
-console.log(JSON.stringify({ok:true,functions:713,publicFunctions:678,privateFunctions:35,unchangedBodies:628,bridges:8,generatedAfterCleanup:true}));
+console.log(JSON.stringify({ok:true,functions:715,publicFunctions:678,privateFunctions:37,unchangedBodies:627,bridges:9,generatedAfterCleanup:true}));
