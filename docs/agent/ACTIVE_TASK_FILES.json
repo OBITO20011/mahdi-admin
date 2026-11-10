@@ -2,76 +2,36 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": "A ",
-      "path": "scripts/testing/rehearsal220-query-queue.mjs"
+      "code": " M",
+      "path": "docs/agent/PHASE_STATUS.md"
     },
     {
-      "code": "A ",
-      "path": "tests/rehearsal220-query-queue.test.ts"
+      "code": " M",
+      "path": "docs/operations/D1_REFERENCE_KIT220_AR.md"
     },
     {
-      "code": "M ",
-      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
-    },
-    {
-      "code": "M ",
+      "code": " M",
       "path": "scripts/audit/sales-only-phase3-source-pins.json"
     },
     {
-      "code": "M ",
-      "path": "scripts/testing/rehearsal220-local.mjs"
+      "code": " M",
+      "path": "scripts/operations/d1-reference220-ci.mjs"
     },
     {
-      "code": "M ",
-      "path": "tests/handover-documentation.test.ts"
+      "code": " M",
+      "path": "scripts/testing/run-dual-backup-runtime.mjs"
     },
     {
-      "code": "M ",
-      "path": "tests/handover214.test.ts"
+      "code": " M",
+      "path": "tests/d1-reference220-kit.test.ts"
     },
     {
-      "code": "M ",
-      "path": "tests/product-integration171.test.ts"
+      "code": "??",
+      "path": "docs/design/sales-only-phase3/TELEGRAM_SUMMARY_BRIDGE_PROPOSAL_AR.md"
     },
     {
-      "code": "M ",
-      "path": "tests/product-workbook-history.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/supplier-replacement208-evidence.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/trial-brand-identity.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/trial-owner-a.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/trial-owner-w.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/trial-ta-presentation.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/withdrawals182-admission.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/workbook-integration-history.test.ts"
-    },
-    {
-      "code": "MM",
-      "path": "scripts/testing/rehearsal220-sales.mjs"
-    },
-    {
-      "code": "MM",
-      "path": "scripts/testing/run-lite220-rehearsal.mjs"
+      "code": "??",
+      "path": "scripts/testing/legacy219-restore-lifecycle220.mjs"
     }
   ]
 }

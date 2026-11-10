@@ -12,16 +12,20 @@ export async function verifyD1Ci(root,head,{get=readD1Github,verifyJobs}={}){
  const runs=[];for(let page=1;;page++){const result=await get('actions/runs?head_sha='+head+'&per_page=100&page='+page);runs.push(...result.workflow_runs);if(result.workflow_runs.length<100)break;}
  const results={head,checkedAt:new Date().toISOString(),runs:{}};
  if(!verifyJobs)({verifyFullDeliveryJobs:verifyJobs}=await import(pathToFileURL(path.join(root,'scripts/agent/verify-delivery-ci.mjs')).href));
- for(const name of ['Nawasrah code quality','Nawasrah secret scanning','Nawasrah complete backup recovery','Nawasrah lite220 owner tools']){
+ for(const name of ['Nawasrah code quality','Nawasrah secret scanning','Nawasrah complete backup recovery','Nawasrah lite220 owner tools','Quarantined sales-only phase1']){
   const run=runs.filter(r=>r.name===name&&r.head_sha===head&&r.head_branch==='main'&&['push','workflow_dispatch'].includes(r.event)).sort((a,b)=>b.id-a.id)[0];
   requireD1(run&&run.status==='completed'&&run.conclusion==='success','D1_CI_NOT_FULL_GREEN');
   const jobs=[];for(let page=1;;page++){const result=await get('actions/runs/'+run.id+'/jobs?filter=latest&per_page=100&page='+page);jobs.push(...result.jobs);if(result.jobs.length<100)break;}
   requireD1(jobs.length>0&&jobs.every(j=>j.head_sha===head&&j.status==='completed'&&j.conclusion==='success'),'D1_CI_NOT_FULL_GREEN');
   if(name==='Nawasrah code quality')try{verifyJobs(jobs);}catch{throw new Error('D1_CI_NOT_FULL_GREEN');}
   if(name==='Nawasrah lite220 owner tools')try{verify220OwnerToolJobs(jobs);}catch{throw new Error('D1_CI_NOT_FULL_GREEN');}
+  if(name==='Quarantined sales-only phase1')try{verify220PredecessorJobs(jobs);}catch{throw new Error('D1_CI_NOT_FULL_GREEN');}
   results.runs[name]={id:run.id,event:run.event,jobs:jobs.length,url:'https://github.com/OBITO20011/mahdi-admin/actions/runs/'+run.id};
  }return results;
 }
 
 export const owner220DeliveryJobs=Object.freeze(['Literal220 migration and full parity','RESET220 interruption and private fence','Upgrade220 encrypted protection chain','Lite220 owner-size go-live and later activation']);
 export function verify220OwnerToolJobs(jobs){for(const name of owner220DeliveryJobs){const rows=jobs.filter(j=>j.name===name);requireD1(rows.length===1&&rows[0].conclusion==='success','D1_CI_NOT_FULL_GREEN');}requireD1(jobs.length===owner220DeliveryJobs.length,'D1_CI_NOT_FULL_GREEN');}
+
+export const predecessor220Jobs=Object.freeze(['Isolated219 prototype and exact full-mode parity',...['foundations','commercial','pos','guest','lifecycle','return','epoch'].map(s=>'Phase2 isolated219 ('+s+')')]);
+export function verify220PredecessorJobs(jobs){requireD1(jobs.length===predecessor220Jobs.length,'D1_CI_NOT_FULL_GREEN');for(const name of predecessor220Jobs){const rows=jobs.filter(j=>j.name===name);requireD1(rows.length===1&&rows[0].conclusion==='success','D1_CI_NOT_FULL_GREEN');}}

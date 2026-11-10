@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner10Nov phase3:220liteonly/628frozen/8exactbridges;owner220tools+D1/full local rehearsal/docs;Draft only.",
-  "baselineSha": "59ce63e84a23b88c49da13b31cfa924411f6dd22",
+  "baselineSha": "29b061a09414e7595a06a166dfc323d537415ed6",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase3",
   "phase": "SALES_ONLY_PHASE3",
@@ -18,44 +18,45 @@
     "RESET220 actualnormal+4interruptions/resume/UTC/ownerMFA/private2sessionfence/pg_net PASS;cleanuptrue.",
     "Actualencrypted219BackupRestore→220upgrade→220BackupRestore→verifyonly PASS;6negatives;219sourcesimmutable.",
     "Literal220 lateraccounting13groupsPASS/1640rows/1281ms;full628+8exact/cleanup/nohosted.",
-    "Actual220 service695/18expecteddenials+REST181/0errors;source-bound;Gitleaks732commits0+realnegativePASS;card2A4 visuallyverified."
+    "Actual220 service695/18expecteddenials+REST181/0errors;source-bound;Gitleaks732commits0+realnegativePASS;card2A4 visuallyverified.",
+    "Owner-size220 actual820rows/345flavors/14cats/1165IDs/POS4/store delivery+offer+mix/return/expense/close/integrity0 PASS585666ms;network0/cleanuptrue."
   ],
   "inProgress": [
-    "Draft87:actualownerReset/resume/UTC+emptyproductionSEO PASS;importfirstparallelreference reads collided in testpsql transport. Per-session queue2negativeunitsPASS;new frozenrehearsal next.",
-    "Fullunit59ce1966/1978;all12 historicalfailures nowfocusedPASS(47+5);latesttypePASS;current220access/service181+695PASS."
+    "Draft87 paused for owner:daily/weekly Telegram frozen producer omits lite POS/refund;profit/inventory/supplier sections remain. Read-only actual proof;no bridge expansion."
   ],
   "notStarted": [
-    "Owner-scale220 OFF rehearsal/lateractivation;cutover/template/owner docs",
-    "FULLCI/Gitleaks0/DraftPR/report thenstop"
+    "Approved summary decision implementation;remaining rehearsal activation/closed-preview/receipt evidence;final FULLCI/report."
   ],
   "testsPassed": [
     "Phase2 exact72/72;54mobile gates",
     "Literal220/fullparity/fresh-incremental0/readiness181+678+13/actualaccess181PASS",
     "RESET2204resume/UTC/privatewritefencePASS;backupRestore219+220/protection6negativePASS",
     "D1kit8/owner2206/history10focusedPASS;types+strictlintPASS beforelatesttesthelpers",
-    "latesttypecheckPASS;historical17+currenttable/ACL/template negativegroupsPASS"
+    "latesttypecheckPASS;historical17+currenttable/ACL/template negativegroupsPASS",
+    "1980/1980units/types/strictlint29b PASS;D1 strengthened9tests+focusedlintPASS;CI220four+phase1/2eight+secretsPASS."
   ],
   "testsRemaining": [
-    "fullowner-size220 day+Telegramsummarycompatibility",
-    "legacy214–219Restore/currenthistoricalruntimeview,latestFULLCI/browser/build/lint/Gitleaks"
+    "Legacy214-219Restore fixture wrapper WIP/unverified;quality/fullCI not complete;summary correctness gate pending owner."
   ],
   "findings": [
-    "220-only held-trigger admission andresumeIFEXISTS fixes provedactual;no219or628edit.",
-    "LF frozenclone nowall181rawGitbytes exact;failedcopies stopped/cleaned."
+    "Actualread-only summary:lite5invoices/net16500/refund1000 vslegacy1/net9500/refund0;legacy falseprofit8300. Ledger/closing/debt intact.",
+    "No628or8diff changed;proposal ninth build_business_summary only or explicit deferral."
   ],
-  "blockers": [],
+  "blockers": [
+    "Owner decision required under explicit628freeze before summary correction;proposal docs/design/sales-only-phase3/TELEGRAM_SUMMARY_BRIDGE_PROPOSAL_AR.md"
+  ],
   "prohibitions": [
     "No merge/main/58/deploy/hostedaccess;noowner/env edits",
     "628originalbodies frozen;8exactapproveddiffs only;any expansionstopask",
     "79 remainsDraft/deferred221;no adoption ofitsSQL;219 tools retained"
   ],
-  "nextExactAction": "PR87:local queue+historical fixes;new frozen full220rehearsal and finalCI;628frozen/8exact.",
+  "nextExactAction": "WAIT OWNER:Telegram summary bridge proposal or explicit daily/weekly deferral;no628 expansion without approval.",
   "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "A8FD6E95737EFC038E8B8505D725A8C9FB96B55083DB9194BF13B4907EC29CD4",
-  "checkpointedAt": "2026-11-10T20:11:22.533Z",
-  "filesTouchedCount": 18,
-  "filesTouchedManifestSha256": "57b1e0c7192b5b3b006512bc3d35676a1280d8e473dda5d02d3ce855ab01e980"
+  "workingTreeFingerprint": "8407FDCABB8BA378F5254DA7A3308FBEE436B54F960765A4C9C17F4D9DB3DB4C",
+  "checkpointedAt": "2026-11-10T20:27:04.601Z",
+  "filesTouchedCount": 8,
+  "filesTouchedManifestSha256": "5e7d312917eabc9ab24e04b22f71b8ada6e8211ee1e08d8b971842369807cebc"
 }
