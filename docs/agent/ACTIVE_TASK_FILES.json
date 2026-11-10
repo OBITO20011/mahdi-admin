@@ -2,68 +2,36 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": " M",
+      "code": "A ",
+      "path": "scripts/testing/render-lite220-cutover.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "tests/lite220-handover.test.ts"
+    },
+    {
+      "code": "M ",
       "path": ".github/workflows/lite220-tools.yml"
     },
     {
-      "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/handover/دليل-صاحب-المحل.html"
-    },
-    {
-      "code": " M",
+      "code": "M ",
       "path": "docs/handover/ورقة-يوم-التشغيل.html"
     },
     {
-      "code": " M",
-      "path": "docs/handover/ورقة-يوم-التشغيل.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/D1_REFERENCE_KIT220_AR.md"
-    },
-    {
-      "code": " M",
+      "code": "M ",
       "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
     },
     {
-      "code": " M",
-      "path": "docs/operations/RESET220_OWNER_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SALES_ONLY220_OWNER_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/UPGRADE220_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/sales-only-phase3-source-pins.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/rehearsal220-reset.mjs"
-    },
-    {
-      "code": " M",
+      "code": "M ",
       "path": "scripts/testing/run-lite220-rehearsal.mjs"
     },
     {
-      "code": " M",
-      "path": "tests/sales-only220-workbook-fixture.test.ts"
+      "code": "MM",
+      "path": "docs/handover/ورقة-يوم-التشغيل.md"
     },
     {
-      "code": "??",
-      "path": "scripts/testing/rehearsal220-private-acl.mjs"
-    },
-    {
-      "code": "??",
-      "path": "tests/rehearsal220-private-acl.test.ts"
+      "code": "MM",
+      "path": "scripts/audit/sales-only-phase3-source-pins.json"
     }
   ]
 }

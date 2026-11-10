@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner10Nov phase3:220liteonly/628frozen/8exactbridges;owner220tools+D1/full local rehearsal/docs;Draft only.",
-  "baselineSha": "e2e6606143a5bddb9e84b2f39015d312fe26432f",
+  "baselineSha": "4e4ab94751548566fd02af7048f870894f8a8508",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase3",
   "phase": "SALES_ONLY_PHASE3",
@@ -20,8 +20,8 @@
     "Literal220 lateraccounting13groupsPASS/1640rows/1281ms;full628+8exact/cleanup/nohosted."
   ],
   "inProgress": [
-    "Owner rehearsal frozen e2:source MFA/Backup/defaultRestore/supautilsPASS;stopped predestruction private13 ownerACL representations. Source-pinned local helper/2negativegroupsPASS;production reset/comparator untouched.",
-    "Cutover/card220 OFF draftupdated;print/fullCI pending."
+    "Owner rehearsal:13localprivate ACL representations proved same rights;strictRESET next rejected fixture all-cron-off vs canonical cleanup-active. Corrected to original hold217 transition+local cron.launch_active_jobs=off,production code unchanged.",
+    "Current220OFF cutover/card/template+4units;card2A4 visually verified/no externalrequests. New frozenclone owner run next."
   ],
   "notStarted": [
     "Owner-scale220 OFF rehearsal/lateractivation;cutover/template/owner docs",
@@ -39,7 +39,8 @@
   ],
   "findings": [
     "220-only held-trigger admission andresumeIFEXISTS fixes provedactual;no219or628edit.",
-    "LF frozenclone nowall181rawGitbytes exact;failedcopies stopped/cleaned."
+    "LF frozenclone nowall181rawGitbytes exact;failedcopies stopped/cleaned.",
+    "ActualRestore13ownerACL representations only confirmed;defaultstrictRestorePASS. Fixturecron metadata error caught beforedestruction;local launcher fix preserves canonical activecleanup."
   ],
   "blockers": [],
   "prohibitions": [
@@ -47,13 +48,13 @@
     "628originalbodies frozen;8exactapproveddiffs only;any expansionstopask",
     "79 remainsDraft/deferred221;no adoption ofitsSQL;219 tools retained"
   ],
-  "nextExactAction": "Owner-size rehearsal correction:13privateACL representations local-only;new frozenclone;628/8/owner219tools unchanged.",
+  "nextExactAction": "New frozen owner220 full rehearsal;canonical hold metadata and local cron launcher off;card2A4 verified.",
   "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "794E8B0E42E39369D266DAB352B5429262CE2B373D1CD3ED2B97E47012D1AC95",
-  "checkpointedAt": "2026-11-10T18:19:13.553Z",
-  "filesTouchedCount": 16,
-  "filesTouchedManifestSha256": "35832fdda42c5589c489761f2d94ed77f01079a788080f180ce67f881a9937ae"
+  "workingTreeFingerprint": "F508C128A5C5B5DEC0D413C4F5FF0859EEE56D1485189968BC678DE5F0BDEB71",
+  "checkpointedAt": "2026-11-10T18:28:17.402Z",
+  "filesTouchedCount": 8,
+  "filesTouchedManifestSha256": "eb0ba0bd6ac48e4608d6d671b288961084371c7f53c008ea222590288d3ded20"
 }
