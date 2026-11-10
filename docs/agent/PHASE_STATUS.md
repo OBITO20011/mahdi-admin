@@ -1,3 +1,7 @@
+# 11 نوفمبر 2026 — تصحيحات Fable؛ توقف للمراجعة قبل المرجع والبروفة وCI النهائي
+
+مسودة87 فقط. اكتملت فحوص fca335f9 الجارية أولاً: HTTP181/RPC695 ناجحة، والوحدات1960/1986 مع26 فشل بصمات/مناظير تاريخية محفوظة. ثبتت الحالات الثماني RED49ab ثم GREEN6db مع108 مقارنة CRM/full، ذمم صفر، حراسة عكس التحصيل/وردية lite، أدوار القارئين، و12 متصفح موبايل ناجحاً. جميع التغييرات في تعريفات lite الجديدة؛627 أصلية وتسعة جسور كما هي. الجسر التاسع مطبق باعتماد المالك10نوفمبر، والفقرات الأقدم WAIT تاريخية. الكتالوج المحلي680+38/13Realtime/fresh-incremental0 والبصمات627/9 متحققة؛مرجع220 الجاهز والبروفة الموسعة وCI النهائي لم تُعتمد. انظر design/sales-only-phase3/FABLE_REVIEW_ACCEPTANCE_AR.md. لا دمج أو نشر أو اتصال مستضاف؛main/58/79/82/ملفات المالك والبيئة محفوظة.
+
 #10Nov2026 — approved narrow ninth summary bridge;implementation resumes
 
 Owner explicitly approved build_business_summary exception+liteformatter only.627frozen/8previous exact+9th summary. No further original function or permission change. Actual summary SQL/role/period/enqueue/full-parity tests and220catalog/reference refresh pending. Draft87;no merge/hosted/deploy/ownerfiles.

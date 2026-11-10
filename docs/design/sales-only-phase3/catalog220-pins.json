@@ -1,7 +1,7 @@
 {
-  "migrationSha256": "019963fa3a90c85c8d81acdcd54583f513e9d7b8db862f8eacc66a751298f308",
-  "publicFunctions": 678,
-  "privateFunctions": 37,
+  "migrationSha256": "48221190a67b97965b6c1655b06c5566ad319882f79ebbcde0a10027d5ad132e",
+  "publicFunctions": 680,
+  "privateFunctions": 38,
   "frozenBodies": 627,
   "bridges": 9,
   "freshIncrementalDifferences": 0,
@@ -4182,11 +4182,39 @@
       "kind": "f",
       "owner": "postgres",
       "schema": "public",
+      "identity": "lite1_crm_page2(p_page integer, p_page_size integer, p_search text, p_status text, p_sort text)",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "definitionSha256": "b7ea598807961670df44dbf6911d59fb7bab9882372d7fa5479f70501fe8c03a"
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
       "identity": "lite1_customer_statement2(p_customer_id uuid, p_page integer, p_page_size integer)",
       "configuration": [
         "search_path=pg_catalog, public"
       ],
       "definitionSha256": "e13db56a2542db9bbed554c0f9a64b83972152d1c9afcd58cf8fec858561cd74"
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "lite1_debt_aging2(p_customer_id uuid)",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "definitionSha256": "9879752948dca6904bb54870541e94f69f552406063cd74c2d1d64f82addfb5f"
     },
     {
       "acl": [
@@ -4218,8 +4246,7 @@
     },
     {
       "acl": [
-        "postgres=X/postgres",
-        "authenticated=X/postgres"
+        "postgres=X/postgres"
       ],
       "kind": "f",
       "owner": "postgres",
@@ -4455,7 +4482,7 @@
       "configuration": [
         "search_path=pg_catalog, public"
       ],
-      "definitionSha256": "117192c2f6a3e806aa1c4aabb67a4d22b8a5a6eb8119b861b9bc1fb3f1b0d42f"
+      "definitionSha256": "749dbd61bf4561d9548ef1632eabdc0c38af7c77734238f1f4f963fe64ba7b82"
     },
     {
       "acl": [
@@ -9240,7 +9267,7 @@
       "configuration": [
         "search_path=pg_catalog, public"
       ],
-      "definitionSha256": "6ec893542d6ed7710d70e5e3eb41fededc54ed79b2b9310e1f29157fe3318953"
+      "definitionSha256": "d9981e57aaf62926cdccfaeccd937bd900f6136c5c741a828037051fc5bcfe8e"
     },
     {
       "acl": [
@@ -9405,11 +9432,24 @@
       "kind": "f",
       "owner": "postgres",
       "schema": "sales_lite2",
+      "identity": "guard_payment_lite_refund()",
+      "configuration": [
+        "search_path=pg_catalog, public"
+      ],
+      "definitionSha256": "b9f4708f0dffb4a5070f03df83cadd911890df9c0108e657499b84b9d01e0c37"
+    },
+    {
+      "acl": [
+        "postgres=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "sales_lite2",
       "identity": "guard_shift_lite_refund()",
       "configuration": [
         "search_path=pg_catalog, public"
       ],
-      "definitionSha256": "a53c18948ee7e63a50c068c7264f8ce64b0298eb2d84b66ba442f501e33d0409"
+      "definitionSha256": "ad3237b37b1e5a4e8e26ec48a6f9f29607a684a39cd37315ecb787b1874ef577"
     },
     {
       "acl": [
@@ -9422,7 +9462,7 @@
       "configuration": [
         "search_path=pg_catalog, public, extensions"
       ],
-      "definitionSha256": "e68d031db7844e44daa849f9109414eaea86f62586a4cee48b6683b6ecb87da0"
+      "definitionSha256": "66413bd83613c8dcb7ecb7cfee5c3bf07c948756e2ee2931862b072c318abc8d"
     },
     {
       "acl": [
@@ -10489,6 +10529,45 @@
         "replicaIdentity": false
       },
       {
+        "name": "lite3_returns_item_id_idx",
+        "owner": "postgres",
+        "ready": true,
+        "table": "returns",
+        "valid": true,
+        "schema": "sales_lite1",
+        "unique": false,
+        "primary": false,
+        "clustered": false,
+        "definition": "CREATE INDEX lite3_returns_item_id_idx ON sales_lite1.returns USING btree (item_id)",
+        "replicaIdentity": false
+      },
+      {
+        "name": "lite3_returns_order_id_idx",
+        "owner": "postgres",
+        "ready": true,
+        "table": "returns",
+        "valid": true,
+        "schema": "sales_lite1",
+        "unique": false,
+        "primary": false,
+        "clustered": false,
+        "definition": "CREATE INDEX lite3_returns_order_id_idx ON sales_lite1.returns USING btree (order_id)",
+        "replicaIdentity": false
+      },
+      {
+        "name": "lite3_returns_shift_id_idx",
+        "owner": "postgres",
+        "ready": true,
+        "table": "returns",
+        "valid": true,
+        "schema": "sales_lite1",
+        "unique": false,
+        "primary": false,
+        "clustered": false,
+        "definition": "CREATE INDEX lite3_returns_shift_id_idx ON sales_lite1.returns USING btree (shift_id)",
+        "replicaIdentity": false
+      },
+      {
         "name": "returns_key_key",
         "owner": "postgres",
         "ready": true,
@@ -10903,7 +10982,7 @@
         "owner": "postgres",
         "schema": "sales_lite1",
         "identity": "integrity_count()",
-        "definition": "CREATE OR REPLACE FUNCTION sales_lite1.integrity_count()\n RETURNS bigint\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\n SELECT (SELECT count(*) FROM sales_lite1.orders l JOIN public.orders o ON o.id=l.order_id WHERE NOT sales_lite1.is_order(o.id) OR o.cost_finalized_at IS NOT NULL)\n +(SELECT count(*) FROM sales_lite1.orders l JOIN public.orders o ON o.id=l.order_id WHERE o.status='completed' AND NOT EXISTS(SELECT 1 FROM sales_lite1.completions c WHERE c.order_id=o.id))\n +(SELECT count(*) FROM public.inventory_movements m JOIN sales_lite1.orders l ON l.order_id=m.reference_id)\n +(SELECT count(*) FROM public.order_inventory_reservations r JOIN sales_lite1.orders l ON l.order_id=r.order_id)\n +(SELECT count(*) FROM public.order_items i JOIN sales_lite1.orders l ON l.order_id=i.order_id WHERE i.unit_cost_in_minor_units<>0 OR i.cogs_in_minor_units<>0 OR i.profit_in_minor_units<>0 OR i.cost_finalized_at IS NOT NULL OR i.exact_cogs_snapshot_in_minor_units IS NOT NULL OR i.unit_cost_snapshot_in_minor_units_exact IS NOT NULL)\n +(SELECT count(*) FROM sales_lite1.returns r JOIN public.order_items i ON i.id=r.item_id WHERE i.order_id<>r.order_id OR NOT sales_lite1.is_order(r.order_id))\n +(SELECT count(*) FROM (SELECT item_id,sum(quantity) q,sum(entitlement) e FROM sales_lite1.returns GROUP BY item_id) r JOIN public.order_items i ON i.id=r.item_id WHERE r.q>i.quantity OR r.e>i.net_refundable_amount_snapshot_in_minor_units);\n$function$\n",
+        "definition": "CREATE OR REPLACE FUNCTION sales_lite1.integrity_count()\n RETURNS bigint\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\n SELECT (SELECT count(*) FROM sales_lite1.orders l JOIN public.orders o ON o.id=l.order_id WHERE NOT sales_lite1.is_order(o.id) OR o.cost_finalized_at IS NOT NULL)\n +(SELECT count(*) FROM sales_lite1.orders l JOIN public.orders o ON o.id=l.order_id WHERE o.status='completed' AND NOT EXISTS(SELECT 1 FROM sales_lite1.completions c WHERE c.order_id=o.id))\n +(SELECT count(*) FROM public.inventory_movements m JOIN sales_lite1.orders l ON l.order_id=m.reference_id)\n +(SELECT count(*) FROM public.order_inventory_reservations r JOIN sales_lite1.orders l ON l.order_id=r.order_id)\n +(SELECT count(*) FROM public.order_items i JOIN sales_lite1.orders l ON l.order_id=i.order_id WHERE i.unit_cost_in_minor_units<>0 OR i.cogs_in_minor_units<>0 OR i.profit_in_minor_units<>0 OR i.cost_finalized_at IS NOT NULL OR i.exact_cogs_snapshot_in_minor_units IS NOT NULL OR i.unit_cost_snapshot_in_minor_units_exact IS NOT NULL)\n +(SELECT count(*) FROM sales_lite1.returns r JOIN public.order_items i ON i.id=r.item_id WHERE i.order_id<>r.order_id OR NOT sales_lite1.is_order(r.order_id))\n +(SELECT count(*) FROM (SELECT item_id,sum(quantity) q,sum(entitlement) e FROM sales_lite1.returns GROUP BY item_id) r JOIN public.order_items i ON i.id=r.item_id WHERE r.q>i.quantity OR r.e>i.net_refundable_amount_snapshot_in_minor_units)\n +(SELECT count(*) FROM (SELECT order_id,sum(money_refund) AS refunded FROM sales_lite1.returns GROUP BY order_id) r\n JOIN public.orders o ON o.id=r.order_id WHERE r.refunded>o.amount_paid_in_minor_units);\n$function$\n",
         "configuration": [
           "search_path=pg_catalog, public"
         ]
@@ -11071,8 +11150,21 @@
         "kind": "f",
         "owner": "postgres",
         "schema": "sales_lite2",
+        "identity": "guard_payment_lite_refund()",
+        "definition": "CREATE OR REPLACE FUNCTION sales_lite2.guard_payment_lite_refund()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nBEGIN\n IF NOT OLD.is_reversed AND NEW.is_reversed AND EXISTS(\n  SELECT 1 FROM sales_lite1.returns r WHERE r.order_id=OLD.order_id AND r.money_refund>0\n ) THEN RAISE EXCEPTION USING ERRCODE='P0001',MESSAGE='LITE3_COLLECTION_REVERSAL_HAS_LITE_REFUND',\n  DETAIL='لا يمكن عكس سند القبض بعد رد مبلغ بمرتجع لهذه الفاتورة. راجع المرتجع والتحصيل أولاً.';\n END IF;\n RETURN NEW;\nEND $function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      },
+      {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "sales_lite2",
         "identity": "guard_shift_lite_refund()",
-        "definition": "CREATE OR REPLACE FUNCTION sales_lite2.guard_shift_lite_refund()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nBEGIN\n -- The UPDATE already owns the shift row lock. Do not add a mode/order lock\n -- with a different ordering. VOLATILE reads see a refund committed while\n -- the original reversal was waiting for that same row lock.\n IF NEW.status IS DISTINCT FROM OLD.status AND NEW.status IN('cancelled','reversed')\n AND EXISTS(SELECT 1 FROM sales_lite1.returns r WHERE r.shift_id=OLD.id AND r.money_refund>0)\n THEN RAISE EXCEPTION USING ERRCODE='P0001',MESSAGE='LITE2_SHIFT_REVERSAL_HAS_LITE_REFUND';END IF;\n RETURN NEW;\nEND $function$\n",
+        "definition": "CREATE OR REPLACE FUNCTION sales_lite2.guard_shift_lite_refund()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nBEGIN\n -- The UPDATE already owns the shift row lock. Do not add a mode/order lock\n -- with a different ordering. VOLATILE reads see a refund committed while\n -- the original reversal was waiting for that same row lock.\n IF NEW.status IS DISTINCT FROM OLD.status AND NEW.status IN('cancelled','reversed') AND(EXISTS(SELECT 1 FROM sales_lite1.shifts s WHERE s.shift_id=OLD.id)\n OR EXISTS(SELECT 1 FROM public.orders o JOIN sales_lite1.orders l ON l.order_id=o.id WHERE o.cash_shift_id=OLD.id)) THEN\n  RAISE EXCEPTION USING ERRCODE='P0001',MESSAGE='هذه الوردية تتبع وضع البيع المبسّط. لا يمكن إلغاؤها أو عكس عملياتها؛ استخدم المرتجع وعدّ الدرج والإغلاق اليومي.';\n END IF;\n IF NEW.status IS DISTINCT FROM OLD.status AND NEW.status IN('cancelled','reversed')\n AND EXISTS(SELECT 1 FROM sales_lite1.returns r WHERE r.shift_id=OLD.id AND r.money_refund>0)\n THEN RAISE EXCEPTION USING ERRCODE='P0001',MESSAGE='LITE2_SHIFT_REVERSAL_HAS_LITE_REFUND';END IF;\n RETURN NEW;\nEND $function$\n",
         "configuration": [
           "search_path=pg_catalog, public"
         ]
@@ -11085,7 +11177,7 @@
         "owner": "postgres",
         "schema": "sales_lite2",
         "identity": "guest(p_request jsonb, p_key text)",
-        "definition": "CREATE OR REPLACE FUNCTION sales_lite2.guest(p_request jsonb, p_key text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public', 'extensions'\nAS $function$\n<<guest_context>>\nDECLARE\n replay JSONB;plan JSONB;materialized JSONB;result JSONB;recipient JSONB;\n phone TEXT;name TEXT;method TEXT;zone TEXT;promotion TEXT;field TEXT;limit_length INTEGER;\n customer public.customers;cid UUID;bid UUID;wid UUID;oid UUID:=gen_random_uuid();op UUID:=gen_random_uuid();address_id UUID:=gen_random_uuid();tracking UUID:=gen_random_uuid();\n ids UUID[];pid UUID;promo_id UUID;reused BOOLEAN:=false;maps TEXT;lat DOUBLE PRECISION;lon DOUBLE PRECISION;recent INTEGER;\nBEGIN\n IF auth.role() IS DISTINCT FROM 'service_role' THEN RAISE EXCEPTION 'PHASE3_ACTOR_NOT_AUTHORIZED';END IF;\n IF jsonb_typeof(p_request) IS DISTINCT FROM 'object' OR octet_length(p_request::TEXT)>65536\n OR(p_request-ARRAY['phoneHash','sessionHash','recipient','lines','promotionCode','paymentMethod','deliveryZone','expectedQuote'])<>'{}'::JSONB\n OR p_key IS NULL OR p_key!~'^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'\n OR COALESCE(p_request->>'phoneHash','')!~'^[0-9a-f]{64}$' OR COALESCE(p_request->>'sessionHash','')!~'^[0-9a-f]{64}$'\n THEN RAISE EXCEPTION 'PHASE3_IDEMPOTENCY_INPUT_INVALID';END IF;\n recipient:=p_request->'recipient';\n IF jsonb_typeof(recipient) IS DISTINCT FROM 'object' OR(recipient-ARRAY['fullName','phone','governorate','city','area','street','building','addressNotes','googleMapsUrl','latitude','longitude','customerNotes'])<>'{}'::JSONB THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_INPUT_INVALID';END IF;\n name:=btrim(recipient->>'fullName');phone:=public.normalize_customer_phone(recipient->>'phone');\n IF name IS NULL OR length(name) NOT BETWEEN 2 AND 120 OR phone IS NULL OR phone!~'^07[789][0-9]{7}$' THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_INPUT_INVALID';END IF;\n FOREACH field IN ARRAY ARRAY['governorate','city','area','street','building','addressNotes','customerNotes'] LOOP\n  limit_length:=CASE field WHEN 'governorate' THEN 80 WHEN 'city' THEN 80 WHEN 'area' THEN 120 WHEN 'street' THEN 300 WHEN 'building' THEN 120 WHEN 'addressNotes' THEN 500 ELSE 1000 END;\n  IF(field IN('governorate','city','area','street') AND NULLIF(btrim(recipient->>field),'') IS NULL)\n  OR length(COALESCE(btrim(recipient->>field),''))>limit_length THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_INPUT_INVALID';END IF;\n END LOOP;\n lat:=(recipient->>'latitude')::DOUBLE PRECISION;lon:=(recipient->>'longitude')::DOUBLE PRECISION;\n IF(lat IS NULL)<>(lon IS NULL) OR(lat IS NOT NULL AND(lat NOT BETWEEN -90 AND 90 OR lon NOT BETWEEN -180 AND 180)) THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_INPUT_INVALID';END IF;\n maps:=COALESCE(NULLIF(btrim(recipient->>'googleMapsUrl'),''),CASE WHEN lat IS NOT NULL THEN 'https://www.google.com/maps?q='||lat::TEXT||','||lon::TEXT END);\n IF maps IS NOT NULL AND(length(maps)>1000 OR maps!~*'^https://') THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_INPUT_INVALID';END IF;\n method:=lower(btrim(p_request->>'paymentMethod'));zone:=lower(btrim(p_request->>'deliveryZone'));promotion:=upper(NULLIF(btrim(p_request->>'promotionCode'),''));\n IF method IS NULL OR method NOT IN('cash_on_delivery','cliq') OR zone IS NULL OR zone NOT IN('inside_ramtha','outside_ramtha') THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_QUOTE_INVALID';END IF;\n IF zone='inside_ramtha' AND concat_ws(' ',recipient->>'governorate',recipient->>'city',recipient->>'area') NOT ILIKE '%الرمثا%' THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_DELIVERY_ZONE_MISMATCH';END IF;\n PERFORM pg_advisory_xact_lock(hashtext(p_key));\n replay:=sales_lite1.lock_request(p_key,'guest2',p_request);IF replay IS NOT NULL THEN RETURN replay;END IF;\n SELECT warehouse.branch_id,warehouse.id INTO bid,wid FROM public.warehouses warehouse JOIN public.branches branch ON branch.id=warehouse.branch_id\n WHERE warehouse.is_active AND branch.is_active ORDER BY warehouse.created_at,warehouse.id LIMIT 1;\n IF wid IS NULL THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_LOCATION_UNAVAILABLE';END IF;\n PERFORM pg_advisory_xact_lock(hashtext(phone)::BIGINT);\n SELECT * INTO customer FROM public.customers c WHERE public.normalize_customer_phone(c.phone)=guest_context.phone AND NOT is_deleted ORDER BY id LIMIT 1 FOR UPDATE;\n IF FOUND THEN\n  IF NOT customer.is_active OR customer.is_blocked THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_UNAVAILABLE';END IF;\n  cid:=customer.id;reused:=true;\n END IF;\n -- Same promotion row lock as full checkout: preview alone does not reserve\n -- quota. Lock before the final plan and insert redemption in this transaction.\n IF promotion IS NOT NULL THEN SELECT id INTO promo_id FROM public.promotion_codes WHERE code=promotion FOR UPDATE;END IF;\n plan:=sales_lite2.plan(p_request->'lines','customer_v2',0,promotion,phone,zone);\n SELECT array_agg(DISTINCT id ORDER BY id) INTO ids FROM(\n  SELECT(value->>'product_id')::UUID id FROM jsonb_array_elements(plan->'lines')\n  UNION SELECT(c->>'product_id')::UUID FROM jsonb_array_elements(plan->'lines') l CROSS JOIN LATERAL jsonb_array_elements(l->'parcel_instances') i CROSS JOIN LATERAL jsonb_array_elements(i->'components') c\n ) x;\n PERFORM 1 FROM public.products WHERE id=ANY(ids) OR id IN(SELECT flavor_master_product_id FROM public.products WHERE id=ANY(ids)) ORDER BY id FOR UPDATE;\n plan:=sales_lite2.plan(p_request->'lines','customer_v2',0,promotion,phone,zone);\n FOREACH pid IN ARRAY ids LOOP IF NOT sales_lite1.available(pid) THEN RAISE EXCEPTION 'LITE1_UNAVAILABLE_CONFIRM_REQUIRED';END IF;END LOOP;\n IF jsonb_typeof(p_request->'expectedQuote') IS DISTINCT FROM 'object'\n OR(p_request->'expectedQuote') IS DISTINCT FROM(plan-ARRAY['lines']) THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_QUOTE_STALE';END IF;\n SELECT count(*) INTO recent FROM public.orders o JOIN public.customers c ON c.id=o.customer_id WHERE o.source='website' AND public.normalize_customer_phone(c.phone)=guest_context.phone AND o.created_at>=now()-interval '10 minutes';\n IF recent>=3 THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_RATE_LIMITED';END IF;\n IF cid IS NULL THEN INSERT INTO public.customers(full_name,phone,governorate,customer_type,is_active,is_blocked,is_deleted)\n VALUES(name,phone,btrim(recipient->>'governorate'),'wholesale',true,false,false) RETURNING id INTO cid;END IF;\n -- H1: never overwrite an existing card or clear/replace its default address.\n -- This row is an order delivery snapshot, always non-default. The private\n -- recipient evidence retains the submitted name for manual owner comparison.\n INSERT INTO public.customer_addresses(id,customer_id,governorate,city,area,street,building,notes,latitude,longitude,formatted_address,google_maps_url,location_source,location_confirmed,is_default)\n VALUES(address_id,cid,btrim(recipient->>'governorate'),btrim(recipient->>'city'),btrim(recipient->>'area'),btrim(recipient->>'street'),NULLIF(btrim(recipient->>'building'),''),NULLIF(btrim(recipient->>'addressNotes'),''),lat,lon,\n  concat_ws(' - ',btrim(recipient->>'governorate'),btrim(recipient->>'city'),btrim(recipient->>'area'),btrim(recipient->>'street'),NULLIF(btrim(recipient->>'building'),'')),maps,\n  CASE WHEN lat IS NOT NULL THEN 'gps' WHEN maps IS NOT NULL THEN 'map_pin' ELSE 'manual' END,lat IS NOT NULL,false);\n result:=jsonb_build_object('success',true,'idempotent_replay',false,'contract_version','lite2-guest-v1','operation_id',op,'order_id',oid,'order_number','L2-'||oid::TEXT,\n  'customer_id',cid,'customer_address_id',address_id,'customer_reused',reused,'status','new','subtotal',(plan->>'subtotalInMinorUnits')::BIGINT,'discount',(plan->>'discountInMinorUnits')::BIGINT,\n  'delivery_fee',(plan->>'deliveryFeeInMinorUnits')::BIGINT,'total',(plan->>'totalInMinorUnits')::BIGINT,'promotion_code',promotion,'payment_method',method,'payment_status','unpaid',\n  'tracking_token',tracking,'tracking_path','/#track='||tracking::TEXT,'accountingTracked',false);\n INSERT INTO public.business_operations(id,operation_type,idempotency_key,request_fingerprint,result_snapshot,completed_at)\n VALUES(op,'lite1_guest',p_key,(SELECT fingerprint FROM sales_lite1.requests WHERE key=p_key),result,now());\n INSERT INTO sales_lite1.orders VALUES(oid,op,recipient,'{}');\n INSERT INTO public.orders(id,order_number,customer_id,customer_address_id,customer_name_snapshot,branch_id,warehouse_id,status,payment_method,payment_status,\n  subtotal_in_minor_units,delivery_fee_in_minor_units,discount_in_minor_units,total_in_minor_units,amount_paid_in_minor_units,source,idempotency_key,operation_id,\n  delivery_zone,promotion_code_id,promotion_code_snapshot,tracking_token,customer_notes)\n VALUES(oid,'L2-'||oid::TEXT,cid,address_id,name,bid,wid,'new',method,'unpaid',(plan->>'subtotalInMinorUnits')::BIGINT,(plan->>'deliveryFeeInMinorUnits')::BIGINT,\n  (plan->>'discountInMinorUnits')::BIGINT,(plan->>'totalInMinorUnits')::BIGINT,0,'website',p_key,op,zone,promo_id,promotion,tracking,NULLIF(btrim(recipient->>'customerNotes'),''));\n materialized:=sales_lite2.materialize(oid,op,plan,'customer_v2',phone,promotion);\n INSERT INTO sales_lite2.sales(order_id,request_key,plan) VALUES(oid,p_key,plan||jsonb_build_object('lines',materialized->'lines'));\n IF promo_id IS NOT NULL THEN INSERT INTO public.promotion_redemptions(promotion_code_id,order_id,customer_id,customer_phone,code_snapshot,discount_in_minor_units)\n VALUES(promo_id,oid,cid,phone,promotion,(plan->>'discountInMinorUnits')::BIGINT);END IF;\n INSERT INTO public.order_status_history(order_id,old_status,new_status,changed_by,notes) VALUES(oid,NULL,'new',NULL,'طلب دون تتبع مخزون');\n INSERT INTO public.audit_logs(user_id,action,entity_name,entity_id,details) VALUES(NULL,'LITE2_GUEST','orders',oid,jsonb_build_object('operationId',op,'recipientChangeProposed',reused));\n RETURN sales_lite1.finish(p_key,result||jsonb_build_object('items',materialized->'items'));\nEND $function$\n",
+        "definition": "CREATE OR REPLACE FUNCTION sales_lite2.guest(p_request jsonb, p_key text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public', 'extensions'\nAS $function$\n<<guest_context>>\nDECLARE\n replay JSONB;plan JSONB;materialized JSONB;result JSONB;recipient JSONB;\n phone TEXT;name TEXT;method TEXT;zone TEXT;promotion TEXT;field TEXT;limit_length INTEGER;\n customer public.customers;cid UUID;bid UUID;wid UUID;oid UUID:=gen_random_uuid();op UUID:=gen_random_uuid();address_id UUID:=gen_random_uuid();tracking UUID:=gen_random_uuid();\n ids UUID[];pid UUID;promo_id UUID;reused BOOLEAN:=false;maps TEXT;lat DOUBLE PRECISION;lon DOUBLE PRECISION;recent INTEGER;\nBEGIN\n IF auth.role() IS DISTINCT FROM 'service_role' THEN RAISE EXCEPTION 'PHASE3_ACTOR_NOT_AUTHORIZED';END IF;\n IF jsonb_typeof(p_request) IS DISTINCT FROM 'object' OR octet_length(p_request::TEXT)>65536\n OR(p_request-ARRAY['phoneHash','sessionHash','recipient','lines','promotionCode','paymentMethod','deliveryZone','expectedQuote'])<>'{}'::JSONB\n OR p_key IS NULL OR p_key!~'^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'\n OR COALESCE(p_request->>'phoneHash','')!~'^[0-9a-f]{64}$' OR COALESCE(p_request->>'sessionHash','')!~'^[0-9a-f]{64}$'\n THEN RAISE EXCEPTION 'PHASE3_IDEMPOTENCY_INPUT_INVALID';END IF;\n recipient:=p_request->'recipient';\n IF jsonb_typeof(recipient) IS DISTINCT FROM 'object' OR(recipient-ARRAY['fullName','phone','governorate','city','area','street','building','addressNotes','googleMapsUrl','latitude','longitude','customerNotes'])<>'{}'::JSONB THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_INPUT_INVALID';END IF;\n name:=btrim(recipient->>'fullName');phone:=public.normalize_customer_phone(recipient->>'phone');\n IF name IS NULL OR length(name) NOT BETWEEN 2 AND 120 OR phone IS NULL OR phone!~'^07[789][0-9]{7}$' THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_INPUT_INVALID';END IF;\n FOREACH field IN ARRAY ARRAY['governorate','city','area','street','building','addressNotes','customerNotes'] LOOP\n  limit_length:=CASE field WHEN 'governorate' THEN 80 WHEN 'city' THEN 80 WHEN 'area' THEN 120 WHEN 'street' THEN 300 WHEN 'building' THEN 120 WHEN 'addressNotes' THEN 500 ELSE 1000 END;\n  IF(field IN('governorate','city','area','street') AND NULLIF(btrim(recipient->>field),'') IS NULL)\n  OR length(COALESCE(btrim(recipient->>field),''))>limit_length THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_INPUT_INVALID';END IF;\n END LOOP;\n lat:=(recipient->>'latitude')::DOUBLE PRECISION;lon:=(recipient->>'longitude')::DOUBLE PRECISION;\n IF(lat IS NULL)<>(lon IS NULL) OR(lat IS NOT NULL AND(lat NOT BETWEEN -90 AND 90 OR lon NOT BETWEEN -180 AND 180)) THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_INPUT_INVALID';END IF;\n maps:=COALESCE(NULLIF(btrim(recipient->>'googleMapsUrl'),''),CASE WHEN lat IS NOT NULL THEN 'https://www.google.com/maps?q='||lat::TEXT||','||lon::TEXT END);\n IF maps IS NOT NULL AND(length(maps)>1000 OR maps!~*'^https://') THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_INPUT_INVALID';END IF;\n method:=lower(btrim(p_request->>'paymentMethod'));zone:=lower(btrim(p_request->>'deliveryZone'));promotion:=upper(NULLIF(btrim(p_request->>'promotionCode'),''));\n IF method IS NULL OR method NOT IN('cash_on_delivery','cliq') OR zone IS NULL OR zone NOT IN('inside_ramtha','outside_ramtha') THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_QUOTE_INVALID';END IF;\n IF zone='inside_ramtha' AND concat_ws(' ',recipient->>'governorate',recipient->>'city',recipient->>'area') NOT ILIKE '%الرمثا%' THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_DELIVERY_ZONE_MISMATCH';END IF;\n PERFORM pg_advisory_xact_lock(hashtext(p_key));\n replay:=sales_lite1.lock_request(p_key,'guest2',p_request);IF replay IS NOT NULL THEN RETURN replay;END IF;\n SELECT warehouse.branch_id,warehouse.id INTO bid,wid FROM public.warehouses warehouse JOIN public.branches branch ON branch.id=warehouse.branch_id\n WHERE warehouse.is_active AND branch.is_active ORDER BY warehouse.created_at,warehouse.id LIMIT 1;\n IF wid IS NULL THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_LOCATION_UNAVAILABLE';END IF;\n PERFORM pg_advisory_xact_lock(hashtext(phone)::BIGINT);\n SELECT * INTO customer FROM public.customers c WHERE public.normalize_customer_phone(c.phone)=guest_context.phone AND NOT is_deleted ORDER BY id LIMIT 1 FOR UPDATE;\n IF FOUND THEN\n  IF NOT customer.is_active OR customer.is_blocked THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_UNAVAILABLE';END IF;\n  cid:=customer.id;reused:=true;\n END IF;\n -- Same promotion row lock as full checkout: preview alone does not reserve\n -- quota. Lock before the final plan and insert redemption in this transaction.\n IF promotion IS NOT NULL THEN SELECT id INTO promo_id FROM public.promotion_codes WHERE code=promotion FOR UPDATE;END IF;\n plan:=sales_lite2.plan(p_request->'lines','customer_v2',0,promotion,phone,zone);\n SELECT array_agg(DISTINCT id ORDER BY id) INTO ids FROM(\n  SELECT(value->>'product_id')::UUID id FROM jsonb_array_elements(plan->'lines')\n  UNION SELECT(c->>'product_id')::UUID FROM jsonb_array_elements(plan->'lines') l CROSS JOIN LATERAL jsonb_array_elements(l->'parcel_instances') i CROSS JOIN LATERAL jsonb_array_elements(i->'components') c\n ) x;\n PERFORM 1 FROM public.products WHERE id=ANY(ids) OR id IN(SELECT flavor_master_product_id FROM public.products WHERE id=ANY(ids)) ORDER BY id FOR UPDATE;\n plan:=sales_lite2.plan(p_request->'lines','customer_v2',0,promotion,phone,zone);\n FOREACH pid IN ARRAY ids LOOP IF NOT sales_lite1.available(pid) THEN RAISE EXCEPTION 'LITE1_UNAVAILABLE_CONFIRM_REQUIRED';END IF;END LOOP;\n IF jsonb_typeof(p_request->'expectedQuote') IS DISTINCT FROM 'object'\n OR(p_request->'expectedQuote') IS DISTINCT FROM(plan-ARRAY['lines']) THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_QUOTE_STALE';END IF;\n SELECT count(*) INTO recent FROM public.orders o JOIN public.customers c ON c.id=o.customer_id WHERE o.source='website' AND public.normalize_customer_phone(c.phone)=guest_context.phone AND o.created_at>=now()-interval '10 minutes';\n IF recent>=3 THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_RATE_LIMITED';END IF;\n IF cid IS NULL THEN INSERT INTO public.customers(full_name,phone,governorate,customer_type,is_active,is_blocked,is_deleted)\n VALUES(name,phone,btrim(recipient->>'governorate'),'wholesale',true,false,false) RETURNING id INTO cid;END IF;\n -- H1: never overwrite an existing card or clear/replace its default address.\n -- This row is an order delivery snapshot, always non-default. The private\n -- recipient evidence retains the submitted name for manual owner comparison.\n INSERT INTO public.customer_addresses(id,customer_id,governorate,city,area,street,building,notes,latitude,longitude,formatted_address,google_maps_url,location_source,location_confirmed,is_default)\n VALUES(address_id,cid,btrim(recipient->>'governorate'),btrim(recipient->>'city'),btrim(recipient->>'area'),btrim(recipient->>'street'),NULLIF(btrim(recipient->>'building'),''),NULLIF(btrim(recipient->>'addressNotes'),''),lat,lon,\n  concat_ws(' - ',btrim(recipient->>'governorate'),btrim(recipient->>'city'),btrim(recipient->>'area'),btrim(recipient->>'street'),NULLIF(btrim(recipient->>'building'),'')),maps,\n  CASE WHEN lat IS NOT NULL THEN 'gps' WHEN maps IS NOT NULL THEN 'map_pin' ELSE 'manual' END,lat IS NOT NULL,false);\n result:=jsonb_build_object('success',true,'idempotent_replay',false,'contract_version','lite2-guest-v1','operation_id',op,'order_id',oid,'order_number','L2-'||oid::TEXT,\n  'customer_id',cid,'customer_address_id',address_id,'customer_reused',reused,'status','new','subtotal',(plan->>'subtotalInMinorUnits')::BIGINT,'discount',(plan->>'discountInMinorUnits')::BIGINT,\n  'delivery_fee',(plan->>'deliveryFeeInMinorUnits')::BIGINT,'total',(plan->>'totalInMinorUnits')::BIGINT,'promotion_code',promotion,'payment_method',method,'payment_status','unpaid',\n  'tracking_token',tracking,'tracking_path','/#track='||tracking::TEXT,'accountingTracked',false);\n INSERT INTO public.business_operations(id,operation_type,idempotency_key,request_fingerprint,result_snapshot,completed_at)\n VALUES(op,'lite1_guest',p_key,(SELECT fingerprint FROM sales_lite1.requests WHERE key=p_key),result,now());\n INSERT INTO sales_lite1.orders VALUES(oid,op,recipient,'{}');\n INSERT INTO public.orders(id,order_number,customer_id,customer_address_id,customer_name_snapshot,branch_id,warehouse_id,status,payment_method,payment_status,\n  subtotal_in_minor_units,delivery_fee_in_minor_units,discount_in_minor_units,total_in_minor_units,amount_paid_in_minor_units,source,idempotency_key,operation_id,\n  delivery_zone,promotion_code_id,promotion_code_snapshot,tracking_token,customer_notes,reservation_released_at)\n VALUES(oid,'L2-'||oid::TEXT,cid,address_id,name,bid,wid,'new',method,'unpaid',(plan->>'subtotalInMinorUnits')::BIGINT,(plan->>'deliveryFeeInMinorUnits')::BIGINT,\n  (plan->>'discountInMinorUnits')::BIGINT,(plan->>'totalInMinorUnits')::BIGINT,0,'website',p_key,op,zone,promo_id,promotion,tracking,NULLIF(btrim(recipient->>'customerNotes'),''),clock_timestamp());\n materialized:=sales_lite2.materialize(oid,op,plan,'customer_v2',phone,promotion);\n INSERT INTO sales_lite2.sales(order_id,request_key,plan) VALUES(oid,p_key,plan||jsonb_build_object('lines',materialized->'lines'));\n IF promo_id IS NOT NULL THEN INSERT INTO public.promotion_redemptions(promotion_code_id,order_id,customer_id,customer_phone,code_snapshot,discount_in_minor_units)\n VALUES(promo_id,oid,cid,phone,promotion,(plan->>'discountInMinorUnits')::BIGINT);END IF;\n INSERT INTO public.order_status_history(order_id,old_status,new_status,changed_by,notes) VALUES(oid,NULL,'new',NULL,'طلب دون تتبع مخزون');\n INSERT INTO public.audit_logs(user_id,action,entity_name,entity_id,details) VALUES(NULL,'LITE2_GUEST','orders',oid,jsonb_build_object('operationId',op,'recipientChangeProposed',reused));\n RETURN sales_lite1.finish(p_key,result||jsonb_build_object('items',materialized->'items'));\nEND $function$\n",
         "configuration": [
           "search_path=pg_catalog, public, extensions"
         ]
@@ -12402,6 +12494,13 @@
       "schema": "public",
       "enabled": "O",
       "definition": "CREATE TRIGGER trg_customer_opening_balances_no_truncate BEFORE TRUNCATE ON public.customer_opening_balances FOR EACH STATEMENT EXECUTE FUNCTION go_live_reject_truncate()"
+    },
+    {
+      "name": "lite3_payment_refund_guard",
+      "table": "customer_payments",
+      "schema": "public",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER lite3_payment_refund_guard BEFORE UPDATE OF is_reversed ON public.customer_payments FOR EACH ROW WHEN (((NOT old.is_reversed) AND new.is_reversed)) EXECUTE FUNCTION sales_lite2.guard_payment_lite_refund()"
     },
     {
       "name": "trg_cheque_original_customer_payment",
