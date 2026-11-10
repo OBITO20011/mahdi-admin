@@ -12,7 +12,8 @@ import {returnPayload215} from './aftercare215-return-cases.mjs';
 export async function verifyShiftReversalGuard(c,report,oldCliQSale){
  const {sql,json,rpc,id,q,j,executor,ownedContainerId,assertOwned}=c;
  assert.equal(executor.command,'docker');
- assert.deepEqual(executor.args.slice(0,3),['exec','-i','supabase_db_nawasrah-sales-lite2-epoch-test']);
+ const target=c.container??'supabase_db_nawasrah-sales-lite2-epoch-test';assert.ok(['supabase_db_nawasrah-sales-lite2-epoch-test','supabase_db_nawasrah-sales-lite3-epoch-test'].includes(target),'SHIFT_GUARD_FIXED_LOCAL_TARGET_REQUIRED');
+ assert.deepEqual(executor.args.slice(0,3),['exec','-i',target]);
  assert.match(ownedContainerId,/^[a-f0-9]{64}$/);
  const pinnedExecutor={...executor,args:[...executor.args.slice(0,2),ownedContainerId,...executor.args.slice(3)]};
  const branch=id(200),warehouse=id(201),pid=id(103),key=()=>randomUUID();

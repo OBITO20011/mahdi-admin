@@ -45,13 +45,13 @@
     "628originalbodies frozen;8exactapproveddiffs only;any expansionstopask",
     "79 remainsDraft/deferred221;no adoption ofitsSQL;219 tools retained"
   ],
-  "nextExactAction": "Actual220reset+upgradeBackupRestorePASS;next frozen220epoch andowner-size OFFrehearsal,docs/FULLCI/Draft. No79SQL/628diff/hosted/merge.",
+  "nextExactAction": "Actual220reset+upgrade/RestorePASS. Build owner-size rehearsal(new strict220 callback) andrerunepochfinal fixed-container guard;D1ready tests8PASS. No628/79/hosted/merge.",
   "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "E060D130D86B680153B2E89368682154FB5C395F65ED66C37AB56224001A8B3B",
-  "checkpointedAt": "2026-11-10T17:42:04.201Z",
-  "filesTouchedCount": 19,
-  "filesTouchedManifestSha256": "e0ed8c0d8da1664ef24fdcb981fb3979764755ee96ef2a614d92453bf4c7b626"
+  "workingTreeFingerprint": "932D12B09301AE77D77BA33D6AA510BA5A350E07B1402E089D3C95AD60099097",
+  "checkpointedAt": "2026-11-10T17:51:16.424Z",
+  "filesTouchedCount": 9,
+  "filesTouchedManifestSha256": "4c9c965f9226766dad8a41725b7f18dce9ab3bc50cb37f1c59b5e01611677ce9"
 }

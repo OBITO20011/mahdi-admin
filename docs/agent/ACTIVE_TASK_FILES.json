@@ -7,75 +7,35 @@
     },
     {
       "code": " M",
-      "path": "scripts/operations/d1-reference220-kit.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/d1-reference220-state.mjs"
-    },
-    {
-      "code": " M",
       "path": "scripts/testing/product-workbook-db-transport.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/testing/sales-only-phase2-workbook-runtime.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/d1-reference220-kit.test.ts"
+      "path": "scripts/testing/sales-only-phase2-shift-guard-runtime.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/operations/d1-known-owner220-files.json"
+      "path": "scripts/testing/rehearsal220-builds.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/operations/d1-reference220-ci.mjs"
+      "path": "scripts/testing/rehearsal220-opening.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/testing/rehearsal220-local.mjs"
+      "path": "scripts/testing/rehearsal220-sales.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/testing/rehearsal220-reset.mjs"
+      "path": "scripts/testing/rehearsal220-services.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/testing/rehearsal220-sequence-acl.mjs"
+      "path": "scripts/testing/run-lite220-rehearsal.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/testing/rehearsal220-session.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/rehearsal220-supautils.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/rehearsal220-table-acl.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/run-sales-only220-epoch.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/sales-only220-epoch-runtime.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/sales-only220-runtime-functions.mjs"
-    },
-    {
-      "code": "??",
-      "path": "tests/owner-tools220.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "tests/upgrade220-protection.test.ts"
+      "path": "scripts/testing/sales-only220-workbook-fixture.mjs"
     }
   ]
 }

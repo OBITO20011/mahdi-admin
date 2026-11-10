@@ -1,3 +1,4 @@
+import{assertActiveRehearsal220}from'../backup/complete-backup.mjs';
 // Real public RPC/SELECT transport for the fixed isolated product-template runner.
 // No hosted URL/client,AuthAdmin,service_role or arbitrary SQL endpoint.
 import assert from 'node:assert/strict';import vm from 'node:vm';import path from 'node:path';import{build}from'esbuild';import{webcrypto}from'node:crypto';
@@ -5,8 +6,9 @@ const root=path.resolve(import.meta.dirname,'../..');
 const functions=new Set(['get_go_live_setup_status_v1','import_go_live_products_v1','create_product_family_with_flavors_v2','update_product_master_v5','update_product_flavor_v2']);
 const tables=new Set(['products','categories','units','brands','warehouses']);
 const q=v=>v===null?'NULL':"'"+String(v).replaceAll("'","''")+"'";
-export async function productWorkbookDbTransport({json,auth,actor,container}){
- const lite=['supabase_db_nawasrah-sales-lite2-epoch-test','supabase_db_nawasrah-sales-lite3-epoch-test','supabase_db_nawasrah-sales-lite3-rehearsal-test'].includes(container);
+export async function productWorkbookDbTransport({json,auth,actor,container,rehearsalContext}){
+ if(rehearsalContext){assertActiveRehearsal220(rehearsalContext);assert.equal(container,rehearsalContext.containerName);}
+ const lite=['supabase_db_nawasrah-sales-lite2-epoch-test','supabase_db_nawasrah-sales-lite3-epoch-test','supabase_db_nawasrah-sales-lite3-rehearsal-test'].includes(container)||Boolean(rehearsalContext);
  assert.ok(lite||container==='supabase_db_nawasrah-product-template-test','FIXED_OWNED_PRODUCT_DATABASE_REQUIRED');
  const allowedFunctions=lite?new Set([...functions,'lite1_operating_mode']):functions;
  let loseCreate=false,loseWrite=false,loseBarcode=false;const calls=[];
