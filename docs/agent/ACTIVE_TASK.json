@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner10Nov phase3:220liteonly/627frozen/8exactprevious+approved9thsummary bridge;owner220tools/D1/rehearsal/Draft only.",
-  "baselineSha": "7acb6ea45e04ae24350cceb3ab760d104a3e62af",
+  "objective": "Owner11Nov:Fable review fixes inDraft87;finish frozen fca units/access first;PG RED thenadditiveGREEN;627+9unchanged;thenfinal220 evidence/CI.",
+  "baselineSha": "fca335f9c8b6c6d22fbd7d3beb0ce667da262868",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase3",
   "phase": "SALES_ONLY_PHASE3",
@@ -14,18 +14,21 @@
     "Owner-size220before ninth:820rows345flavors14cats1165IDs;all transactional steps585666ms/stock0/integrity0/cleanuptrue/network0;1980units/types/lintPASS.",
     "Owner resolved:79defer221;628freeze nowexplicit627+8previous+approvedsummary ninth only.",
     "Summary scoped implementation+formatter/compile6focusedtests/lintPASS;realSQL/catalog refresh next.",
-    "Actualsummary and freshcatalog7acb PASS;canonicalLFartifact019963fa… identical to testedGitbytes;original8 source bytecomparisonPASS."
+    "Actualsummary and freshcatalog7acb PASS;canonicalLFartifact019963fa… identical to testedGitbytes;original8 source bytecomparisonPASS.",
+    "Owner-requested currentfca access completeHTTP181/RPC695PASS;units1960/1986+26failures saved."
   ],
   "inProgress": [
-    "Actual ninth summary literal220/fullJSON/roles/allbranches/enqueue replay PASS879ms;fresh/incremental0/678public37private/627frozen9bridges. Currentpins/docs refreshed;SDK evidence+expandedownerrehearsal next."
+    "FablePGREDscriptready;NO reviewer fix applied yet. Tests forA1/M1/M2/M3refund+integrity/M4/N1/N2 onowned220 next."
   ],
   "notStarted": [
-    "Remainingrehearsalactivation/closedpreview/receipt,finalCI/report"
+    "Fable A1/M1 debtaging+CRM parallels;M2 neverautoexpire;M3 paymentreversal+integrity;M4 all liteshiftblock;N1indexes/N2revoke;owner-readonly636diagnostic;correctreport.",
+    "Do not build reference/expandedrehearsal/fullCI until review cases proven RED/GREEN."
   ],
   "testsPassed": [
     "Prior1980units/types/lint+realDB220proofs;all before ninth,not finalcurrent.",
     "Current6summary/compile/negativeunits+focusedlintPASS.",
-    "8currentfocusedsummary/compile/activationshape tests+lintPASS;compiler deterministic shuffledrows/checkPASS."
+    "8currentfocusedsummary/compile/activationshape tests+lintPASS;compiler deterministic shuffledrows/checkPASS.",
+    "fcaHTTP181+service695allactualPASS;fullunitsran1986/1960PASS26FAIL(NOgreenclaim)."
   ],
   "testsRemaining": [
     "Actualsummary fullJSON/parity/enqueue/roles/periods;catalog/readiness refresh;legacy214-219Restore;remainingrehearsal gates;FULLCI/Gitleaks."
@@ -38,15 +41,16 @@
   "prohibitions": [
     "No merge/main/58/deploy/hostedaccess;noowner/env edits",
     "627originalbodies frozen;8exactprevious+approvedsummarydiff only;anyotherexpansionstopask",
-    "79 remainsDraft/deferred221;no adoption ofitsSQL;219 tools retained"
+    "79 remainsDraft/deferred221;no adoption ofitsSQL;219 tools retained",
+    "No new627 body or ninebridge diff changes;Fable fixes additive only;no newreference/rehearsal/finalCI before review."
   ],
-  "nextExactAction": "Actual ninth summary/fullparity/fresh0 PASS;run currentHTTP181/RPC695 then newready220 reference,expandedrehearsal/epoch/strictprotection/legacy and FULLCI.",
+  "nextExactAction": "Run FableRED onunchanged220 thencaptureallfailures;onlyafteradditivefixes. Reference/rehearsal/finalCI remainheld.",
   "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "B4BCE91E28D3108EE9DD492F4568DA69190543CBEB9F2AC8AB1C24EDDD50F814",
-  "checkpointedAt": "2026-11-10T21:10:45.196Z",
-  "filesTouchedCount": 19,
-  "filesTouchedManifestSha256": "2846af669b76b4c128c7f184080f1e4cd9559dd419b89cd4345052e5f490d4bb"
+  "workingTreeFingerprint": "170188439EDCA4BF3BA4F2FBD9BBEF890B6005D13C3DBDC52F8C3E441EA186CC",
+  "checkpointedAt": "2026-11-10T21:25:07.005Z",
+  "filesTouchedCount": 2,
+  "filesTouchedManifestSha256": "0f2233fc5093dd25564b5e4b4c1b7f19ce892eae5fbc6cca789c9a6529d84e69"
 }
