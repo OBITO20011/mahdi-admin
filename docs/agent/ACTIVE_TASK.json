@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner10Nov phase3:220liteonly/627frozen/8exactprevious+approved9thsummary bridge;owner220tools/D1/rehearsal/Draft only.",
-  "baselineSha": "16982e5ef5beaa27de885859ee12c4352b674604",
+  "baselineSha": "681941de4314491318434a7f8fe54bfcfc02a950",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase3",
   "phase": "SALES_ONLY_PHASE3",
@@ -16,7 +16,7 @@
     "Summary scoped implementation+formatter/compile6focusedtests/lintPASS;realSQL/catalog refresh next."
   ],
   "inProgress": [
-    "Owner explicitly approved narrow ninth build_business_summary bridge +new private lite reader/formatter;all original8 unchanged. Implementation/test generation in progress."
+    "Approved9thsummary implemented;sevenfocusedtests+lintPASS;actualDB initialgate refused beforeSQL because219catalog row order differed. Compiler now canonicalizes guard rows;unknownbytes/636pins intact. New literal/catalog run next."
   ],
   "notStarted": [
     "Remainingrehearsalactivation/closedpreview/receipt,finalCI/report"
@@ -38,13 +38,13 @@
     "627originalbodies frozen;8exactprevious+approvedsummarydiff only;anyotherexpansionstopask",
     "79 remainsDraft/deferred221;no adoption ofitsSQL;219 tools retained"
   ],
-  "nextExactAction": "Approved ninth summary implemented;run actual literal220/parity/summary roles+enqueue and fresh catalog;then refresh pins/reference and full CI.",
+  "nextExactAction": "Run canonical220 literal/full parity/summary/roles/enqueue and fresh catalog;old database proof stopped before SQL,cleanuptrue.",
   "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "8D8F8DAE9F596CD6D18C77231C34EFFE6C2B501591D85327F373730AAC5396D2",
-  "checkpointedAt": "2026-11-10T20:37:51.417Z",
-  "filesTouchedCount": 16,
-  "filesTouchedManifestSha256": "1090c01c08c206e59e8eb14d5d133990f99c4c960e4ea3d112899560f898ab3c"
+  "workingTreeFingerprint": "BA4FAC02EAB73E9C0DFC9960DB09D3CE4C17E8055989AD23A089FA7014889B16",
+  "checkpointedAt": "2026-11-10T20:46:57.770Z",
+  "filesTouchedCount": 7,
+  "filesTouchedManifestSha256": "bee221467a06d3b4cb92f615d07a1a3fcaaf5f12f93383e428efbecbd8029977"
 }

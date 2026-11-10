@@ -3,15 +3,7 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/project-state.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/design/sales-only-phase3/TELEGRAM_SUMMARY_BRIDGE_PROPOSAL_AR.md"
+      "path": "docs/agent/OWNER_DECISIONS.md"
     },
     {
       "code": " M",
@@ -19,19 +11,11 @@
     },
     {
       "code": " M",
-      "path": "scripts/operations/sales-only220-catalog.mjs"
+      "path": "scripts/testing/lite220-summary-runtime.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/testing/generate-sales-only220-catalog-pins.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/maintenance-db-contract.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-sales-only220-migration.mjs"
+      "path": "scripts/testing/rehearsal220-sales.mjs"
     },
     {
       "code": " M",
@@ -39,30 +23,10 @@
     },
     {
       "code": " M",
-      "path": "supabase/functions/_shared/owner-telegram-format.ts"
+      "path": "scripts/testing/sales-only220-epoch-runtime.mjs"
     },
     {
       "code": " M",
-      "path": "supabase/migrations/220_sales_only_operating_mode.sql"
-    },
-    {
-      "code": " M",
-      "path": "tests/sales-only220-compiler.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "docs/design/sales-only-phase3/telegram-summary.sql"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/lite220-summary-runtime.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/sales-only220-bridges.mjs"
-    },
-    {
-      "code": "??",
       "path": "tests/lite220-telegram-summary.test.ts"
     }
   ]

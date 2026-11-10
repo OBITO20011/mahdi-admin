@@ -32,6 +32,7 @@ function functionGuard(rows,stage){
 }
 export function buildSalesOnly220(rows){
  assertOriginal219Functions(rows);
+ rows=[...rows].sort((a,b)=>a.signature<b.signature?-1:a.signature>b.signature?1:0);
  const prefix="BEGIN;SELECT set_config('nawasrah.sales_lite1_test','OWNED_LOCAL_DB219',true);SELECT set_config('nawasrah.sales_lite2_test','OWNED_LOCAL_DB219',true);";
  let body=phase2PrototypeSql(rows);assert.ok(body.startsWith(prefix+'\n'));assert.ok(body.endsWith('\nCOMMIT;'));
  body=body.slice(prefix.length, -'COMMIT;'.length);

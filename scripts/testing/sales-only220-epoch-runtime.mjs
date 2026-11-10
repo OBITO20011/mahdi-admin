@@ -1,3 +1,4 @@
+import{verifyLite220SummaryAfterEpoch}from'./lite220-summary-runtime.mjs';
 import {verifyShiftReversalGuard} from './sales-only-phase2-shift-guard-runtime.mjs';
 import {verifyLiteWorkbookImport} from './sales-only-phase2-workbook-runtime.mjs';
 import {verifyLiteProductDefinitions} from './sales-only-phase2-product-definitions.mjs';
@@ -201,6 +202,7 @@ export async function verifyOpeningEpoch220(c,report){
  await proveMovements(fullShift,'refunds','cash',1000,'lite_return');
  report.cases.push({name:'actualTS drawerdecoder true litecash/CliQ/collections/refunds;boundedpages/noduplicates/canonicalequality/read-only/full-onlywholeJSONexact',passed:true});
  await verifyShiftReversalGuard(c,report,oldCliQSale);
+ await verifyLite220SummaryAfterEpoch(c,report);
  const monitor=await json('SELECT public.run_advanced_monitoring_checks();');assert.equal(monitor.integrityIssueCount,0,JSON.stringify(monitor));
  assertLiteral220FunctionRows(await json(functionCatalogSql));
  report.cases.push({name:'realactivation thenoldlitereturn nostock/debtcorrect;90daywindowclosed;unchangedfullPOS resumesrealstock/cost;mixedclosingreadonly/counts;integrity0 and628/636 guard',passed:true});
