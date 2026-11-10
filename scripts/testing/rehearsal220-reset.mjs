@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {readFile,mkdir,lstat,unlink} from 'node:fs/promises';
+import {readFile,writeFile,mkdir,lstat,unlink} from 'node:fs/promises';
 import path from 'node:path';
 import {captureReset220,reset220WithExecutor} from '../operations/trial-reset220-core.mjs';
 import {prepareResetSession,startResetAttempt,validateResetResume,finishResetSession} from '../operations/reset220-session.mjs';
@@ -7,10 +7,13 @@ import {executeResetInput} from '../operations/reset214-io.mjs';
 import {sqlLiteral as q} from '../operations/reset220-foundation.mjs';
 import {safeObjectName} from '../backup/complete-backup.mjs';
 import {sha256} from './maintenance-db-contract.mjs';
+import {schemaCatalogSql,catalogDifference} from './schema-catalog.mjs';
+import {salesOnly220PrivateSnapshot,readSalesOnly220Pins} from '../operations/sales-only220-catalog.mjs';
 import {pgNetIdentitySql,provePgNetRunnable219} from './reset219-dependency-probe.mjs';
 export async function rehearseReset220({context,executor,root,referenceFile,reference,ownerId,output}){
  const sql=async(input,ex=executor)=>{const r=await executeResetInput(ex,input);assert.equal(r.code,0,'REHEARSAL_RESET_SQL_FAILED');return r.stdout.trim();};
  const json=async text=>JSON.parse(await sql(text));
+ const privateBefore=salesOnly220PrivateSnapshot(await json(schemaCatalogSql));const privateDifferences=catalogDifference(readSalesOnly220Pins().privateObjects,privateBefore);await writeFile(path.join(output,'private-catalog-before-reset-differences.json'),JSON.stringify(privateDifferences,null,2)+'\n');
  const baseline=await captureReset220({executor,ownerId,reference});
  const pgNetBefore=await json(pgNetIdentitySql);
  const common={workdir:output,ownerId,projectRef:context.projectRef,referenceSha256:sha256(await readFile(referenceFile)),reference};

@@ -3,19 +3,43 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/OWNER_DECISIONS.md"
+      "path": ".github/workflows/lite220-tools.yml"
     },
     {
       "code": " M",
-      "path": "docs/handover/templates/README.md"
+      "path": "docs/agent/PHASE_STATUS.md"
     },
     {
       "code": " M",
-      "path": "docs/handover/دليل-صاحب-المحل.md"
+      "path": "docs/handover/دليل-صاحب-المحل.html"
     },
     {
       "code": " M",
-      "path": "package.json"
+      "path": "docs/handover/ورقة-يوم-التشغيل.html"
+    },
+    {
+      "code": " M",
+      "path": "docs/handover/ورقة-يوم-التشغيل.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/D1_REFERENCE_KIT220_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/RESET220_OWNER_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SALES_ONLY220_OWNER_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/UPGRADE220_AR.md"
     },
     {
       "code": " M",
@@ -23,11 +47,7 @@
     },
     {
       "code": " M",
-      "path": "scripts/testing/build-sales-only-phase3-history.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/rehearsal220-builds.mjs"
+      "path": "scripts/testing/rehearsal220-reset.mjs"
     },
     {
       "code": " M",
@@ -35,35 +55,15 @@
     },
     {
       "code": " M",
-      "path": "scripts/testing/sales-only220-workbook-fixture.mjs"
-    },
-    {
-      "code": "??",
-      "path": ".github/workflows/lite220-tools.yml"
-    },
-    {
-      "code": "??",
-      "path": "docs/handover/templates/lite/المنتجات-lite.xlsx"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/D1_REFERENCE_KIT220_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/RESET220_OWNER_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/SALES_ONLY220_OWNER_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/UPGRADE220_AR.md"
-    },
-    {
-      "code": "??",
       "path": "tests/sales-only220-workbook-fixture.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/rehearsal220-private-acl.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/rehearsal220-private-acl.test.ts"
     }
   ]
 }

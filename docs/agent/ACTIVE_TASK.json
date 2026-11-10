@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner10Nov phase3:220liteonly/628frozen/8exactbridges;owner220tools+D1/full local rehearsal/docs;Draft only.",
-  "baselineSha": "8f44286526154d060e3707a336e013d0e03acd1c",
+  "baselineSha": "e2e6606143a5bddb9e84b2f39015d312fe26432f",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase3",
   "phase": "SALES_ONLY_PHASE3",
@@ -20,7 +20,8 @@
     "Literal220 lateraccounting13groupsPASS/1640rows/1281ms;full628+8exact/cleanup/nohosted."
   ],
   "inProgress": [
-    "Corrected synthetic MFA timestamps/packet-only fixture;actual owner-size rehearsal pending;no unknown writer changes."
+    "Owner rehearsal frozen e2:source MFA/Backup/defaultRestore/supautilsPASS;stopped predestruction private13 ownerACL representations. Source-pinned local helper/2negativegroupsPASS;production reset/comparator untouched.",
+    "Cutover/card220 OFF draftupdated;print/fullCI pending."
   ],
   "notStarted": [
     "Owner-scale220 OFF rehearsal/lateractivation;cutover/template/owner docs",
@@ -46,13 +47,13 @@
     "628originalbodies frozen;8exactapproveddiffs only;any expansionstopask",
     "79 remainsDraft/deferred221;no adoption ofitsSQL;219 tools retained"
   ],
-  "nextExactAction": "MFA/packetonly fixtures corrected;epoch13PASS;frozenclone owner220 full rehearsal next;FULLCI pending.",
+  "nextExactAction": "Owner-size rehearsal correction:13privateACL representations local-only;new frozenclone;628/8/owner219tools unchanged.",
   "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "6A67E7A958C4F5DA46E6AD2967DE31BB55CD06CF6C97C721500E1DF7199EB8C3",
-  "checkpointedAt": "2026-11-10T18:11:26.968Z",
+  "workingTreeFingerprint": "794E8B0E42E39369D266DAB352B5429262CE2B373D1CD3ED2B97E47012D1AC95",
+  "checkpointedAt": "2026-11-10T18:19:13.553Z",
   "filesTouchedCount": 16,
-  "filesTouchedManifestSha256": "1071e9e6ef21904a3fc4a081f64b9f5d7ca843ee840ee8e18871b6bc4d21a5b7"
+  "filesTouchedManifestSha256": "35832fdda42c5589c489761f2d94ed77f01079a788080f180ce67f881a9937ae"
 }
