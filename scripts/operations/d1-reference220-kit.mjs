@@ -7,15 +7,15 @@ import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
 import {pathToFileURL} from 'node:url';
 import {sha256,requireD1,repositoryState,externalPath,ordinaryPath} from './d1-reference220-state.mjs';
-import {verifyD1Ci} from './d1-reference-ci.mjs';
+import {verifyD1Ci} from './d1-reference220-ci.mjs';
 const exec=promisify(execFile),name='local-reference-through220-ready.json';
-const policyFile=new URL('./d1-known-owner-files.json',import.meta.url);
-const files=['scripts/operations/frankfurt-owner-reset220.mjs','scripts/operations/trial-reset220-core.mjs','scripts/operations/reset220-foundation.mjs','scripts/operations/reset220-pg-cron-guard.mjs','scripts/operations/frankfurt-owner-build.mjs','docs/operations/TABLE_ACCESS_AFTER_220.json','scripts/operations/reset220-write-guard.mjs','scripts/operations/reset220-session.mjs','scripts/operations/reset220-private-state.mjs','scripts/operations/sales-only220-catalog.mjs','docs/design/sales-only-phase3/catalog220-pins.json','scripts/operations/frankfurt-reference220.mjs','scripts/operations/function-reference220.mjs','scripts/operations/d1-reference220-kit.mjs','scripts/operations/d1-reference220-state.mjs','scripts/operations/build-acl-reference220.mjs','scripts/testing/sales-only220-compiler.mjs'];
+const policyFile=new URL('./d1-known-owner220-files.json',import.meta.url);
+const files=['scripts/operations/frankfurt-owner-reset220.mjs','scripts/operations/trial-reset220-core.mjs','scripts/operations/reset220-foundation.mjs','scripts/operations/reset220-pg-cron-guard.mjs','scripts/operations/frankfurt-owner-build.mjs','docs/operations/TABLE_ACCESS_AFTER_220.json','scripts/operations/reset220-write-guard.mjs','scripts/operations/reset220-session.mjs','scripts/operations/reset220-private-state.mjs','scripts/operations/sales-only220-catalog.mjs','docs/design/sales-only-phase3/catalog220-pins.json','scripts/operations/frankfurt-reference220.mjs','scripts/operations/function-reference220.mjs','scripts/operations/d1-reference220-kit.mjs','scripts/operations/d1-reference220-state.mjs','scripts/operations/build-acl-reference220.mjs','scripts/testing/sales-only220-compiler.mjs','scripts/operations/d1-reference220-ci.mjs','scripts/operations/d1-known-owner220-files.json'];
 const json=async file=>JSON.parse(await readFile(file,'utf8'));
 const exists=async file=>{try{await access(file);return true;}catch(e){if(e.code==='ENOENT')return false;throw e;}};
 export async function d1Readiness(root,file){const module=await import(pathToFileURL(path.join(root,'scripts/operations/frankfurt-reference220.mjs')).href);return module.readReady220Reference(root,file);}
 export async function d1SourceHashes(root){
- const protectedPins=await json(path.join(root,'scripts/testing/rehearsal220-owner-source-pins.json'));
+ const protectedPins=await json(path.join(root,'scripts/testing/rehearsal219-owner-source-pins.json'));
  const hashes={};for(const file of [...new Set([...files,...protectedPins.files.map(p=>p[0])])].sort())hashes[file]=sha256(await readFile(path.join(root,file)));
  return hashes;
 }

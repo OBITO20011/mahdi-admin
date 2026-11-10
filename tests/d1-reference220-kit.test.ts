@@ -3,7 +3,7 @@ import {mkdtemp,mkdir,readFile,writeFile,readdir,rm,symlink,lstat} from 'node:fs
 import path from 'node:path';import {tmpdir} from 'node:os';import {execFileSync} from 'node:child_process';
 import {prepareD1,installD1,d1ErrorCode,d1Main} from '../scripts/operations/d1-reference220-kit.mjs';
 import {repositoryState,sha256,externalPath} from '../scripts/operations/d1-reference220-state.mjs';
-import {verifyD1Ci} from '../scripts/operations/d1-reference-ci.mjs';
+import {verifyD1Ci} from '../scripts/operations/d1-reference220-ci.mjs';
 const name='local-reference-through220-ready.json';
 const git=(root:string,args:string[])=>execFileSync('git',args,{cwd:root,encoding:'utf8',windowsHide:true,stdio:['ignore','pipe','pipe']}).trim();
 async function fixture(){
@@ -52,9 +52,18 @@ test('output inside repo or owner workdir and linked folders are refused;no comm
  }finally{await f.close();}
 });
 test('GitHub verification binds remote head/every job/full matrix and never accepts red,skipped,wrong SHA or stale green runs',async()=>{
- const head='a'.repeat(40),names=['Nawasrah code quality','Nawasrah secret scanning','Nawasrah complete backup recovery'],runs=names.map((name,i)=>({id:i+1,name,head_sha:head,head_branch:'main',event:'push',status:'completed',conclusion:'success'}));
+ const head='a'.repeat(40),names=['Nawasrah code quality','Nawasrah secret scanning','Nawasrah complete backup recovery','Nawasrah lite220 owner tools'],runs=names.map((name,i)=>({id:i+1,name,head_sha:head,head_branch:'main',event:'push',status:'completed',conclusion:'success'}));
  const job={head_sha:head,status:'completed',conclusion:'success'};let bad:any=null;
- const get=async(route:string)=>route==='git/ref/heads/main'?{object:{sha:bad==='remote'?'b'.repeat(40):head}}:route.startsWith('actions/runs?')?{workflow_runs:bad==='new-red'?[...runs,{...runs[0],id:99,conclusion:'failure'}]:runs}:{jobs:[{...job,...(bad==='wrong-sha'?{head_sha:'b'.repeat(40)}:bad==='skip'?{conclusion:'skipped'}:{})}]};
+ const get=async(route:string)=>route==='git/ref/heads/main'?{object:{sha:bad==='remote'?'b'.repeat(40):head}}:route.startsWith('actions/runs?')?{workflow_runs:bad==='new-red'?[...runs,{...runs[0],id:99,conclusion:'failure'}]:runs}:{jobs:(route.startsWith('actions/runs/4/')?['Literal220 migration and full parity','RESET220 interruption and private fence','Upgrade220 encrypted protection chain','Lite220 owner-size go-live and later activation']:[undefined]).map(name=>({name,...job,...(bad==='wrong-sha'?{head_sha:'b'.repeat(40)}:bad==='skip'?{conclusion:'skipped'}:{})}))};
  let verified=0;assert.equal((await verifyD1Ci('',head,{get,verifyJobs:()=>{verified++;}})).head,head);assert.equal(verified,1);
  for(bad of ['remote','new-red','wrong-sha','skip'])await assert.rejects(()=>verifyD1Ci('',head,{get,verifyJobs:()=>{}}));bad=null;await assert.rejects(()=>verifyD1Ci('',head,{get,verifyJobs:()=>{throw new Error('MISSING_FULL_MATRIX');}}),/D1_CI_NOT_FULL_GREEN/u);
+});
+
+test('220 owner state permits only reviewed five-field overlay over HEAD;ceiling or any sixth field drift refuses',async()=>{
+ const f=await fixture();try{const filename=path.join(f.root,'docs/agent/project-state.json'),base={migrationCeiling:220,branch:'codex/final-reviewed',retainedGuard:true};await writeFile(filename,JSON.stringify(base));git(f.root,['add','.']);git(f.root,['commit','-m','known220 state']);const head=git(f.root,['rev-parse','HEAD']);git(f.root,['update-ref','refs/remotes/origin/main',head]);
+ const fields={ownerAcl212Delivered:true,ownerAcl212DeliveryBaseline:'reviewed',ownerAcl212DeliveryCiRuns:[1,2],ownerAcl212DeliveryEvidence:'local-proof'},known={files:[],ownerStateFieldsSha256:Object.fromEntries(Object.entries(fields).map(([k,v])=>[k,sha256(JSON.stringify(v))]))};
+ const actual={...base,branch:'main',...fields};await writeFile(filename,JSON.stringify(actual));assert.equal((await repositoryState(f.root,known)).ownerFiles.length,1);
+ for(const value of [{...actual,migrationCeiling:219},{...actual,retainedGuard:false},{...actual,ownerAcl212Delivered:false},{...actual,unapprovedSixthField:true}]){await writeFile(filename,JSON.stringify(value));await assert.rejects(()=>repositoryState(f.root,known),/D1_OWNER_FILE_CHANGED/);}
+ assert.deepEqual(await readFile(f.target),f.before);
+ }finally{await f.close();}
 });

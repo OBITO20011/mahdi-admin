@@ -16,7 +16,7 @@ export async function verifyLiteWorkbookImport(c,report){
  assert.deepEqual(plan.errors,[]);assert.equal(plan.products[0].data.cost_per_base_unit_in_minor_units,'0');
  const before=await readApplicationFingerprint(executor);
  const auth=text=>`BEGIN;SELECT set_config('request.jwt.claims',${j({sub:actor,role:'authenticated',aal:'aal2'})}::text,true);SET LOCAL ROLE authenticated;SET LOCAL statement_timeout='8s';${text}COMMIT;`;
- const bridge=await productWorkbookDbTransport({json,auth,actor,container:'supabase_db_nawasrah-sales-lite2-epoch-test'});
+ const bridge=await productWorkbookDbTransport({json,auth,actor,container:c.container??'supabase_db_nawasrah-sales-lite2-epoch-test'});
  bridge.loseCreate();await assert.rejects(bridge.service.saveProductWorkbook(plan,actor,bridge.storage));
  const idsBeforeResume=await json("SELECT jsonb_agg(id ORDER BY id) FROM public.products WHERE sku LIKE 'LITEIMPORT-%' OR sku LIKE 'GI-%';");
  await bridge.service.saveProductWorkbook(plan,actor,bridge.storage);

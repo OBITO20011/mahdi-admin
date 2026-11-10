@@ -6,7 +6,7 @@ const functions=new Set(['get_go_live_setup_status_v1','import_go_live_products_
 const tables=new Set(['products','categories','units','brands','warehouses']);
 const q=v=>v===null?'NULL':"'"+String(v).replaceAll("'","''")+"'";
 export async function productWorkbookDbTransport({json,auth,actor,container}){
- const lite=container==='supabase_db_nawasrah-sales-lite2-epoch-test';
+ const lite=['supabase_db_nawasrah-sales-lite2-epoch-test','supabase_db_nawasrah-sales-lite3-epoch-test','supabase_db_nawasrah-sales-lite3-rehearsal-test'].includes(container);
  assert.ok(lite||container==='supabase_db_nawasrah-product-template-test','FIXED_OWNED_PRODUCT_DATABASE_REQUIRED');
  const allowedFunctions=lite?new Set([...functions,'lite1_operating_mode']):functions;
  let loseCreate=false,loseWrite=false,loseBarcode=false;const calls=[];

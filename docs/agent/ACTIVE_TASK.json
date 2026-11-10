@@ -3,7 +3,7 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner10Nov phase3:220liteonly/628frozen/8exactbridges;owner220tools+D1/full local rehearsal/docs;Draft only.",
-  "baselineSha": "0de7539ad984d39621cf2308ebb6b7070b0caea2",
+  "baselineSha": "72028f529389dce47309de6c3c01732fce628a9a",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase3",
   "phase": "SALES_ONLY_PHASE3",
@@ -15,28 +15,29 @@
     "Literal220 actual219promotion PASS763.968ms/181migrations/678publicfunctions;fullJSON/rows/sequences/replay exact;628frozen/8exact;liteOFF zeroStock/integrity0;unknownbyte/history/reapply negatives;cleanupPASS.",
     "Actual fresh/incremental220 catalog0diff;678public+35private;628frozen/8exactmetadata;cleanupPASS.",
     "Actual220access181/172success9empty0error;readyreference31/678/13/fresh0;offlineCLI12PASS.",
-    "RESET220normal+afterStorageResume actual181/0catalog/0ACL/ownerMFA/pg_net+UTC PASS;nextinterruption foundresumeDROP missingprivate schema;new220onlyIFEXISTS correction3scope negativesPASS."
+    "RESET220 actualnormal+4interruptions/resume/UTC/ownerMFA/private2sessionfence/pg_net PASS;cleanuptrue.",
+    "Actualencrypted219BackupRestore→220upgrade→220BackupRestore→verifyonly PASS;6negatives;219sourcesimmutable."
   ],
   "inProgress": [
-    "Independent220 reset/upgrade/backupprivate/D1 adapters;runtimepending."
+    "D1kit2208tests/ownerprotection6testsPASS;owner-size localrehearsal andepoch220runtime prep."
   ],
   "notStarted": [
-    "Upgrade/backupRestore/RESET220/watchdog/D1kit220 without altering219entrypoints",
-    "Owner-scale OFF rehearsal andlateraccounting activation;cutover/template/owner docs",
-    "FullCI/Gitleaks0/DraftPR/report thenstop"
+    "Owner-scale220 OFF rehearsal/lateractivation;cutover/template/owner docs",
+    "FULLCI/Gitleaks0/DraftPR/report thenstop"
   ],
   "testsPassed": [
-    "Phase2 gate exact72/72 verified",
-    "Compiler3/3;literal220 realDocker promotion/full-v-lite proof PASS",
-    "9focused compiler/upgrade/reset-scope testsPASS;generated220engine exact5files;219sourcesunchanged.",
-    "strictlintPASS;typesPASS afterfixtureannotation;4readiness/generated-reset negativesPASS."
+    "Phase2 exact72/72;54mobile gates",
+    "Literal220/fullparity/fresh-incremental0/readiness181+678+13/actualaccess181PASS",
+    "RESET2204resume/UTC/privatewritefencePASS;backupRestore219+220/protection6negativePASS",
+    "D1kit8/owner2206/history10focusedPASS;types+strictlintPASS beforelatesttesthelpers"
   ],
   "testsRemaining": [
-    "All phase3 runtime/negative/financial/history/browser/owner tools gates"
+    "owner-size220rehearsal/lateractivation/current220serviceaccess",
+    "latesttypes/lint/allunits/browser/build/old214–219restore/FULLCI/Gitleaks"
   ],
   "findings": [
-    "FirstRESET220stopped beforedeletion:expectedO vs heldD notificationtrigger;fixed explicit callerstate only,4negativeguardtestsPASS;rerunrequired.",
-    "Verificationclone initialCRLF SQL drift;all181 rawGitbytes restored;noSQLguard weakened."
+    "220-only held-trigger admission andresumeIFEXISTS fixes provedactual;no219or628edit.",
+    "LF frozenclone nowall181rawGitbytes exact;failedcopies stopped/cleaned."
   ],
   "blockers": [],
   "prohibitions": [
@@ -44,13 +45,13 @@
     "628originalbodies frozen;8exactapproveddiffs only;any expansionstopask",
     "79 remainsDraft/deferred221;no adoption ofitsSQL;219 tools retained"
   ],
-  "nextExactAction": "Phase3 correction:RESET220resume must allow recorded already-dropped private schemas;628/8and219tools unchanged. Rerunactualallinterruptions;complete tools220/rehearsal/docs/DraftFULLCI.",
+  "nextExactAction": "Actual220reset+upgradeBackupRestorePASS;next frozen220epoch andowner-size OFFrehearsal,docs/FULLCI/Draft. No79SQL/628diff/hosted/merge.",
   "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "1160AAB36E221A494687B5E7E0DCB33B49FE93DF11F4EA1C3C60AC74F78CE361",
-  "checkpointedAt": "2026-11-10T15:13:09.533Z",
-  "filesTouchedCount": 12,
-  "filesTouchedManifestSha256": "d7a4adb80c031b2e34715116a59c79e5a99ed3042862e2a237f37787bbfd6902"
+  "workingTreeFingerprint": "E060D130D86B680153B2E89368682154FB5C395F65ED66C37AB56224001A8B3B",
+  "checkpointedAt": "2026-11-10T17:42:04.201Z",
+  "filesTouchedCount": 19,
+  "filesTouchedManifestSha256": "e0ed8c0d8da1664ef24fdcb981fb3979764755ee96ef2a614d92453bf4c7b626"
 }

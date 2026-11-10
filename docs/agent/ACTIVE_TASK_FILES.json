@@ -3,51 +3,79 @@
   "files": [
     {
       "code": " M",
-      "path": "scripts/audit/source-before-sales-only-phase2.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/reset220-foundation.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/build-reset220-engine.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/product-workbook-runtime-view.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/operational-schema.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/reset220-private-scope.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/sales-only-phase1.test.ts"
-    },
-    {
-      "code": "??",
       "path": "scripts/audit/sales-only-phase3-source-pins.json"
     },
     {
-      "code": "??",
-      "path": "scripts/audit/source-before-sales-only-phase3.mjs"
+      "code": " M",
+      "path": "scripts/operations/d1-reference220-kit.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/d1-reference220-state.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/product-workbook-db-transport.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/sales-only-phase2-workbook-runtime.mjs"
+    },
+    {
+      "code": " M",
+      "path": "tests/d1-reference220-kit.test.ts"
     },
     {
       "code": "??",
-      "path": "scripts/testing/build-sales-only-phase3-history.mjs"
+      "path": "scripts/operations/d1-known-owner220-files.json"
     },
     {
       "code": "??",
-      "path": "scripts/testing/run-owner-upgrade220-runtime.mjs"
+      "path": "scripts/operations/d1-reference220-ci.mjs"
     },
     {
       "code": "??",
-      "path": "tests/sales-only-phase3-history.test.ts"
+      "path": "scripts/testing/rehearsal220-local.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/rehearsal220-reset.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/rehearsal220-sequence-acl.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/rehearsal220-session.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/rehearsal220-supautils.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/rehearsal220-table-acl.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-sales-only220-epoch.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/sales-only220-epoch-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/sales-only220-runtime-functions.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/owner-tools220.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/upgrade220-protection.test.ts"
     }
   ]
 }
