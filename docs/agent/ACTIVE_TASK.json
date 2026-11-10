@@ -48,13 +48,13 @@
     "628originalbodies frozen;8exactapproveddiffs only;any expansionstopask",
     "79 remainsDraft/deferred221;no adoption ofitsSQL;219 tools retained"
   ],
-  "nextExactAction": "New frozen owner220 full rehearsal;canonical hold metadata and local cron launcher off;card2A4 verified.",
+  "nextExactAction": "PR87CI exposed test-history and archive-buffer issues corrected;new frozen full rehearsal includes last-JSON parsing+portable production builder;strict628/8 unchanged.",
   "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "F508C128A5C5B5DEC0D413C4F5FF0859EEE56D1485189968BC678DE5F0BDEB71",
-  "checkpointedAt": "2026-11-10T18:28:17.402Z",
-  "filesTouchedCount": 8,
-  "filesTouchedManifestSha256": "eb0ba0bd6ac48e4608d6d671b288961084371c7f53c008ea222590288d3ded20"
+  "workingTreeFingerprint": "A5BA40B7C040E58887FCF914E1AAB5C3808D7266CCB53363F9C41F289CD66465",
+  "checkpointedAt": "2026-11-10T18:37:04.851Z",
+  "filesTouchedCount": 6,
+  "filesTouchedManifestSha256": "083cc4859c476e092f71d5b62875021e18506c37e188698e00418d1a5aeecbcc"
 }

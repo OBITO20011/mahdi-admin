@@ -2,36 +2,28 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": "A ",
-      "path": "scripts/testing/render-lite220-cutover.mjs"
+      "code": " M",
+      "path": ".gitleaksignore"
     },
     {
-      "code": "A ",
-      "path": "tests/lite220-handover.test.ts"
+      "code": " M",
+      "path": "scripts/audit/sales-only-phase3-source-pins.json"
     },
     {
-      "code": "M ",
-      "path": ".github/workflows/lite220-tools.yml"
+      "code": " M",
+      "path": "scripts/testing/product-workbook-runtime-view.mjs"
     },
     {
-      "code": "M ",
-      "path": "docs/handover/ورقة-يوم-التشغيل.html"
+      "code": " M",
+      "path": "scripts/testing/rehearsal220-builds.mjs"
     },
     {
-      "code": "M ",
-      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
-    },
-    {
-      "code": "M ",
+      "code": " M",
       "path": "scripts/testing/run-lite220-rehearsal.mjs"
     },
     {
-      "code": "MM",
-      "path": "docs/handover/ورقة-يوم-التشغيل.md"
-    },
-    {
-      "code": "MM",
-      "path": "scripts/audit/sales-only-phase3-source-pins.json"
+      "code": " M",
+      "path": "tests/sales-only-phase2.test.ts"
     }
   ]
 }
