@@ -1,3 +1,4 @@
+import{historical220Text}from'../scripts/testing/lite220-historical-test-view.mjs';
 import{sourceBeforeProductScale}from'../scripts/audit/source-before-product-scale.mjs';
 import{sourceBeforeRecordOrder}from'../scripts/audit/source-before-record-order.mjs';
 import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
@@ -9,7 +10,7 @@ import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { sourceBeforeRehearsal219 } from '../scripts/testing/rehearsal219-legacy-view.mjs';
 
-const read = (file: string) => readFileSync(file, 'utf8').replaceAll('\r\n', '\n');
+const read=(file:string)=>historical220Text(file,readFileSync(file, 'utf8').replaceAll('\r\n', '\n'));
 const plan = read('docs/operations/GO_LIVE_CUTOVER_AR.md');
 const card = read('docs/handover/ورقة-يوم-التشغيل.md');
 const print = read('docs/handover/ورقة-يوم-التشغيل.html');

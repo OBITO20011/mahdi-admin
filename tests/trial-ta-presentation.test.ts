@@ -1,3 +1,4 @@
+import{historical220Inventory as inventory}from'../scripts/testing/lite220-historical-test-view.mjs';
 import{pathsBeforeStorefrontImages}from'../scripts/audit/source-before-storefront-images.mjs';
 import{pathsBeforeProductWorkbook}from'../scripts/audit/source-before-product-workbook.mjs';
 import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
@@ -18,7 +19,7 @@ import {savedReceiptLine} from '../src/features/receipts/saleReceipt';
 import {receiptLineDescription} from '../customer-web/src/receipts/commercialReceipt';
 import {trialDItems} from '../e2e/trial-d-receipt.fixture';
 import {trialTAPins,sourceBeforeTrialTA} from '../scripts/audit/source-before-trial-ta.mjs';
-import {inventory} from '../scripts/audit/table-access-inventory.mjs';
+
 import {verifyProbeCoverage} from '../scripts/audit/table-access-probes.mjs';
 const read=(file:string)=>historicalProductWorkbookSource(sourceBeforeRehearsal219,file,readFileSync(file,'utf8').replaceAll('\r\n','\n'))!,hash=(s:string)=>createHash('sha256').update(s).digest('hex');
 

@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-10T04:54:26.024Z",
-  "migrationCeiling": 219,
+  "startedAt": "2026-11-10T18:45:55.071Z",
+  "migrationCeiling": 220,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-XXcKA6",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-Hwwg8U",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -1690,18 +1690,6 @@
       "sha256": "2ff2d8cd464d0f8d5f2d664124d0ad7c76f17bb07c99eb2d7e18e0a8a2d50f92"
     }
   ],
-  "quarantinedPrototype": {
-    "enabled": true,
-    "localOnly": true,
-    "activeMigrationCeiling": 219,
-    "activeMigrationFiles": 180,
-    "originalBodiesUnchanged": 628,
-    "exactApprovedBridges": 8,
-    "additionalApprovedShiftStatusGuard": true,
-    "catalogStage": "original219-before-quarantined-overlay",
-    "originalCatalogSha256": "4d3594d5c123f091e175c8d66d2d9450badd0b552d03388d95a223eef2e2df0b",
-    "runtimeCatalogSha256": "e7ba28f7277277639119370f3ef14b07520903bbea92570ca00d315a21fab500"
-  },
   "functions": [
     {
       "acl": [
@@ -51297,7 +51285,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-11-10T04:56:15.295Z",
+  "endedAt": "2026-11-10T18:47:50.716Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {
@@ -51642,7 +51630,7 @@
   ],
   "savedCatalogProvenance": {
     "baseline": "703fc51abb6b65ce2df2edcf14c6ecb235b74ddf",
-    "scope": "Historical15Oct saved-catalog review only;effectiveLocal and invocationResults measured anew on219;no hosted read"
+    "scope": "Historical15Oct saved-catalog review only;effectiveLocal and invocationResults measured anew on220;no hosted read"
   },
   "oldReferences": [
     {
@@ -51694,7 +51682,7 @@
     {
       "file": "docs/operations/GO_LIVE_CUTOVER_AR.md",
       "lines": [
-        60
+        64
       ],
       "category": "HISTORICAL_DOCUMENTATION"
     },

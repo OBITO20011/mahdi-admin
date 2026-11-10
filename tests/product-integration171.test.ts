@@ -1,3 +1,4 @@
+import{historical220Inventory as inventory}from'../scripts/testing/lite220-historical-test-view.mjs';
 import {sourceBefore198Presentation} from '../scripts/testing/product-workbook-historical-views.mjs';
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
@@ -8,7 +9,7 @@ import {assert171History,allUpgrade171Versions} from '../scripts/operations/fran
 import {assertProduct171Catalog,assertReference171} from '../scripts/operations/frankfurt-reference171.mjs';
 import {startupTables} from '../scripts/operations/frankfurt-reference164.mjs';
 import {serviceInventory} from '../scripts/audit/service-access-inventory.mjs';
-import {inventory} from '../scripts/audit/table-access-inventory.mjs';
+
 import {verifyHistoricalWarehouseCoverage as verifyProbeCoverage} from '../scripts/testing/product-workbook-historical-views.mjs';
 
 for(const file of ['src/features/products/ProductFormModal.tsx','src/features/products/ProductDetailModal.tsx','src/stores/useAppStore.ts'])

@@ -1,9 +1,10 @@
+import{historical220Inventory as inventory}from'../scripts/testing/lite220-historical-test-view.mjs';
 import {sourceBefore198Presentation} from '../scripts/testing/product-workbook-historical-views.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFile} from 'node:fs/promises';
 import {assertChequesCatalog,assertChequesReference} from '../scripts/operations/frankfurt-reference-cheques.mjs';
-import {inventory} from '../scripts/audit/table-access-inventory.mjs';
+
 import {verifyHistoricalWarehouseCoverage as verifyProbeCoverage} from '../scripts/testing/product-workbook-historical-views.mjs';
 
 test('195 reference rejects obsolete ceilings;actual SDK evidence exactly covers current source and no cheque table leaks',async()=>{

@@ -1,3 +1,4 @@
+import{historical220Text}from'../scripts/testing/lite220-historical-test-view.mjs';
 import{historicalProductWorkbookInventory}from'../scripts/audit/source-before-product-workbook.mjs';
 import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import assert from 'node:assert/strict';
@@ -7,7 +8,7 @@ import {createHash} from 'node:crypto';
 import {sales204Pins,sourceBeforeSales204,inventoryBeforeSales204} from '../scripts/audit/source-before-sales-history204.mjs';
 import {verifyProbeCoverage} from '../scripts/audit/table-access-probes.mjs';
 import {assert204History} from '../scripts/operations/frankfurt-owner-upgrade204.mjs';
-const read=(f:string)=>readFileSync(f,'utf8').replaceAll('\r\n','\n');
+const read=(f:string)=>historical220Text(f,readFileSync(f,'utf8').replaceAll('\r\n','\n'));
 test('204 historical projection restores complete accepted203 files before parsing query IDs/arguments/callers',async()=>{
   const historical=await historicalProductWorkbookInventory(inventoryBeforeSales204),proof=JSON.parse(read('docs/operations/TABLE_ACCESS_AFTER_203.json'));
   assert.deepEqual(historical.sources,proof.sourceHashes);assert.deepEqual(verifyProbeCoverage(historical,proof.results),proof.coverage);

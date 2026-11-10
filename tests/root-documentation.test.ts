@@ -1,3 +1,4 @@
+import{historical220Text}from'../scripts/testing/lite220-historical-test-view.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync, existsSync} from 'node:fs';
@@ -6,7 +7,7 @@ import path from 'node:path';
 import {sourceBeforeD1Kit, pathsBeforeD1Kit} from '../scripts/audit/source-before-d1-reference-kit.mjs';
 
 const baseline='ef3507561652ea842229cdad66515cd89d82f882';
-const read=(file:string)=>readFileSync(file,'utf8').replaceAll('\r\n','\n');
+const read=(file:string)=>historical220Text(file,readFileSync(file,'utf8').replaceAll('\r\n','\n'));
 
 test('archived root documents preserve their historical content with working relocated links',()=>{
  for(const file of ['PROJECT_PLAN.md','DESIGN_SYSTEM.md','ARCHITECTURE.md','DATABASE_DESIGN.md']){

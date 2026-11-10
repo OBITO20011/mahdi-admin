@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';import {execFileSync} from 'node:child_p
 import {oldReferences} from './service-access-report.mjs';import {serviceInventory} from './service-access-inventory.mjs';
 const root=path.resolve(import.meta.dirname,'../..'),baseline='703fc51abb6b65ce2df2edcf14c6ecb235b74ddf';
 export async function enrichService217Evidence(file,{ceiling=217}={}){
- assert.ok([217,219].includes(ceiling),'APPROVED_SERVICE_EVIDENCE_CEILING');
+ assert.ok([217,219,220].includes(ceiling),'APPROVED_SERVICE_EVIDENCE_CEILING');
  const evidence=JSON.parse(await readFile(file,'utf8')),source=await serviceInventory();assert.equal(evidence.ok,true);assert.equal(evidence.migrationCeiling,ceiling);assert.deepEqual(evidence.sourceHashes,source.sourceHashes);
  const historic=JSON.parse(execFileSync('git',['show',baseline+':docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json'],{cwd:root,encoding:'utf8',maxBuffer:8*1024**2}));assert.equal(historic.sevenFunctions.length,7);
  evidence.savedCatalogAssessment=historic.savedCatalogAssessment;

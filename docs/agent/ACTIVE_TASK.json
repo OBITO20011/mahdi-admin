@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner10Nov phase3:220liteonly/628frozen/8exactbridges;owner220tools+D1/full local rehearsal/docs;Draft only.",
-  "baselineSha": "4e4ab94751548566fd02af7048f870894f8a8508",
+  "baselineSha": "fe28f5ac81d8c835c8e2926d555ca1fd39a9bd24",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase3",
   "phase": "SALES_ONLY_PHASE3",
@@ -17,11 +17,12 @@
     "Actual220access181/172success9empty0error;readyreference31/678/13/fresh0;offlineCLI12PASS.",
     "RESET220 actualnormal+4interruptions/resume/UTC/ownerMFA/private2sessionfence/pg_net PASS;cleanuptrue.",
     "Actualencrypted219BackupRestore→220upgrade→220BackupRestore→verifyonly PASS;6negatives;219sourcesimmutable.",
-    "Literal220 lateraccounting13groupsPASS/1640rows/1281ms;full628+8exact/cleanup/nohosted."
+    "Literal220 lateraccounting13groupsPASS/1640rows/1281ms;full628+8exact/cleanup/nohosted.",
+    "Actual220 service695/18expecteddenials+REST181/0errors;source-bound;Gitleaks732commits0+realnegativePASS;card2A4 visuallyverified."
   ],
   "inProgress": [
-    "Owner rehearsal:13localprivate ACL representations proved same rights;strictRESET next rejected fixture all-cron-off vs canonical cleanup-active. Corrected to original hold217 transition+local cron.launch_active_jobs=off,production code unchanged.",
-    "Current220OFF cutover/card/template+4units;card2A4 visually verified/no externalrequests. New frozenclone owner run next."
+    "Draft87 fe28CI:oldhistory tests+function doc+219fixture ceiling issues diagnosed;strict metadata inverse/legacy testtree implemented,not owner/runtime exemption.",
+    "Owner rehearsal RESET+resumeUTC PASS;emptySEO offers0arg signature fixed,test-build transport only;full import/day pending."
   ],
   "notStarted": [
     "Owner-scale220 OFF rehearsal/lateractivation;cutover/template/owner docs",
@@ -31,7 +32,8 @@
     "Phase2 exact72/72;54mobile gates",
     "Literal220/fullparity/fresh-incremental0/readiness181+678+13/actualaccess181PASS",
     "RESET2204resume/UTC/privatewritefencePASS;backupRestore219+220/protection6negativePASS",
-    "D1kit8/owner2206/history10focusedPASS;types+strictlintPASS beforelatesttesthelpers"
+    "D1kit8/owner2206/history10focusedPASS;types+strictlintPASS beforelatesttesthelpers",
+    "latesttypecheckPASS;historical17+currenttable/ACL/template negativegroupsPASS"
   ],
   "testsRemaining": [
     "owner-size220rehearsal/current220serviceaccess",
@@ -48,13 +50,13 @@
     "628originalbodies frozen;8exactapproveddiffs only;any expansionstopask",
     "79 remainsDraft/deferred221;no adoption ofitsSQL;219 tools retained"
   ],
-  "nextExactAction": "PR87CI exposed test-history and archive-buffer issues corrected;new frozen full rehearsal includes last-JSON parsing+portable production builder;strict628/8 unchanged.",
+  "nextExactAction": "Actual220695service/181tablePASS;frozenowner rehearsal next;CI87failedhistory gates corrected;noSQL628/8difference.",
   "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "A5BA40B7C040E58887FCF914E1AAB5C3808D7266CCB53363F9C41F289CD66465",
-  "checkpointedAt": "2026-11-10T18:37:04.851Z",
-  "filesTouchedCount": 6,
-  "filesTouchedManifestSha256": "083cc4859c476e092f71d5b62875021e18506c37e188698e00418d1a5aeecbcc"
+  "workingTreeFingerprint": "07501B644F57016FAB57FB70220692F26B598ADFEDB3C347E252E7825CACFCB7",
+  "checkpointedAt": "2026-11-10T19:57:17.704Z",
+  "filesTouchedCount": 40,
+  "filesTouchedManifestSha256": "772782d4ef9d4ee1bbf3ea5603b0f59f668ec53669374ca730d1cebf5fff8345"
 }

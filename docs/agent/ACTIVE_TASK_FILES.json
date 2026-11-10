@@ -2,28 +2,164 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": " M",
-      "path": ".gitleaksignore"
+      "code": "A ",
+      "path": "scripts/testing/lite220-historical-test-view.mjs"
     },
     {
-      "code": " M",
+      "code": "A ",
+      "path": "tests/lite220-historical-test-view.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "docs/MAINTAINER_GUIDE_AR.md"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/audit/enrich-service217-evidence.mjs"
+    },
+    {
+      "code": "M ",
       "path": "scripts/audit/sales-only-phase3-source-pins.json"
     },
     {
-      "code": " M",
+      "code": "M ",
+      "path": "scripts/audit/source-before-pg-net-sequence-state.mjs"
+    },
+    {
+      "code": "M ",
       "path": "scripts/testing/product-workbook-runtime-view.mjs"
     },
     {
-      "code": " M",
+      "code": "M ",
+      "path": "scripts/testing/prove-reset219-cron-guard.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/testing/rehearsal219-legacy-view.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/testing/run-go-live-setup-runtime.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/testing/run-home219-operations-gates.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "tests/aftercare215-admission.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/aftercare215-source-compat.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/all-customer-collections203.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/bulk-product-images-contracts.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/canonical-receivables197.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/cashier-collections198.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/cheques195-admission.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/cutover-platform-documentation.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/cutover-publication-order.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/go-live-integration164.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/maintainer-guide.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/opening-cheques196.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/pretrial-p1.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/product-integration171.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/product-receiving205.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/product-workbook-history.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/receipt210.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/record-order-source-contracts.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/reset219-pg-cron-guard.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/root-documentation.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/sales-history204-evidence.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/service-access-inventory.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/trial-brand-identity.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/withdrawals182-admission.test.ts"
+    },
+    {
+      "code": "MM",
       "path": "scripts/testing/rehearsal220-builds.mjs"
     },
     {
-      "code": " M",
-      "path": "scripts/testing/run-lite220-rehearsal.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/sales-only-phase2.test.ts"
+      "code": "MM",
+      "path": "tests/trial-ta-presentation.test.ts"
     }
   ]
 }

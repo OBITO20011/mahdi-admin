@@ -1,3 +1,5 @@
+import{historical220Inventory as inventory}from'../scripts/testing/lite220-historical-test-view.mjs';
+import{historical220Text}from'../scripts/testing/lite220-historical-test-view.mjs';
 import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import{sourceBeforeProductWorkbook}from'../scripts/audit/source-before-product-workbook.mjs';
 import test from 'node:test';
@@ -6,11 +8,11 @@ import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {bulkImagePins,sourceBeforeBulkProductImages} from '../scripts/audit/source-before-bulk-product-images.mjs';
-import {inventory} from '../scripts/audit/table-access-inventory.mjs';
+
 import {serviceInventory} from '../scripts/audit/service-access-inventory.mjs';
 import {verifyProbeCoverage} from '../scripts/audit/table-access-probes.mjs';
 import {projectTrial40Source} from '../scripts/audit/source-before-trial40-integration.mjs';
-const read=(file:string)=>readFileSync(file,'utf8').replaceAll('\r\n','\n');
+const read=(file:string)=>historical220Text(file,readFileSync(file,'utf8').replaceAll('\r\n','\n'));
 const digest=(text:string)=>createHash('sha256').update(text).digest('hex');
 
 test('bulk image historical projection is exact and rejects a changed upload writer',()=>{

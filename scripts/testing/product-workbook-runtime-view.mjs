@@ -1,4 +1,4 @@
-import{pathsBeforeSalesOnlyPhase3}from'../audit/source-before-sales-only-phase3.mjs';
+import{sourceBeforeSalesOnlyPhase3,pathsBeforeSalesOnlyPhase3}from'../audit/source-before-sales-only-phase3.mjs';
 import{pathsBeforeD1Kit}from'../audit/source-before-d1-reference-kit.mjs';
 // Historical CI fixtures only. Owner tools and every SQL byte stay unmodified.
 import assert from'node:assert/strict';import{execFileSync}from'node:child_process';import{mkdtemp,writeFile,readFile,unlink,rm,lstat,readdir,realpath}from'node:fs/promises';import{symlinkSync}from'node:fs';import path from'node:path';import{tmpdir}from'node:os';import{createHash,randomUUID}from'node:crypto';import{pathToFileURL}from'node:url';
@@ -42,13 +42,14 @@ export function projectWorkbookRuntimeEvidence(raw,pin,layers,lookup=historicalT
  }
  assert.equal(hash(text),pin.after,'HISTORICAL_VIEW_UNREVIEWED_EVIDENCE');return text;
 }
-export async function prepareWorkbookRuntimeView(){
+export async function prepareWorkbookRuntimeView({schemaOnly=false}={}){
  const status=git(['status','--porcelain','-z']).toString('utf8').split('\0').filter(Boolean);assert.ok(status.every(line=>['docs/agent/ACTIVE_TASK.json','docs/agent/ACTIVE_TASK_FILES.json'].includes(line.slice(3))),'HISTORICAL_VIEW_REQUIRES_COMMITTED_SOURCES');assert.deepEqual(pathsBeforeD1Kit(pathsBeforeSalesOnlyPhase3(git(['diff','--name-only',baseline,'HEAD','--','supabase']).toString('utf8').trim().split('\n').filter(Boolean),baseline),baseline),[],'HISTORICAL_VIEW_SQL_CHANGED');
  const head=git(['rev-parse','HEAD']).toString('utf8').trim(),dir=await mkdtemp(path.join(tmpdir(),prefix)),marker={root:path.resolve(dir),sourceRoot:root,head,baseline,nonce:randomUUID()},changed=[];
  try{
   git(['clone','--shared','--no-checkout',root,dir]);git(['update-ref','--no-deref','HEAD',head],dir);git(['read-tree',head],dir);await writeFile(path.join(dir,'.git/info/exclude'),'\n/node_modules\n/.workbook-runtime-view.json\n',{flag:'a'});assert.equal(git(['rev-parse','HEAD'],dir).toString('utf8').trim(),head);
   // Git materializes raw objects without buffering a full archive or tar filename conversion.
   git(['config','core.autocrlf','false'],dir);git(['checkout-index','--all'],dir);await noLinks(dir);await writeFile(path.join(dir,'.workbook-runtime-view.json'),JSON.stringify(marker));
+  if(!schemaOnly){
   const pins=JSON.parse(await readFile(path.join(root,'scripts/audit/product-workbook-source-pins.json'),'utf8'));assert.equal(pins.baseline,baseline);
   // Compose only exact, new presentation bytes into the existing Git63 view.
   // Keep its old beforeText/hash untouched and prove the intervening main52 byte.
@@ -72,16 +73,22 @@ export async function prepareWorkbookRuntimeView(){
   sourceLayers.push({name:phase2Name,layer:phase2});composeWorkbookRuntimeLayer(pins,phase2Name,phase2);
   for(const[file,pin]of Object.entries(pins.entries)){if(!sourceScope(file))continue;const target=path.join(dir,file),raw=await readFile(target,'utf8'),before=projectWorkbookRuntimeSource(file,raw,pin);if(before===null)await unlink(target);else{assert.equal(git(['show',baseline+':'+file]).toString('utf8').replaceAll('\r\n','\n'),before,'HISTORICAL_VIEW_NOT_GIT63');await writeFile(target,before);}changed.push({file,after:pin.after,before:pin.before});}
   const evidencePins=JSON.parse(await readFile(path.join(root,'scripts/testing/product-workbook-runtime-view-pins.json'),'utf8'));assert.equal(evidencePins.baseline,baseline);assert.deepEqual(evidencePins.evidence.map(p=>p.file),['docs/operations/TABLE_ACCESS_AFTER_219.json']);for(const pin of evidencePins.evidence){const target=path.join(dir,pin.file);projectWorkbookRuntimeEvidence(await readFile(target,'utf8'),pin,sourceLayers);const old=git(['show',baseline+':'+pin.file]).toString('utf8').replaceAll('\r\n','\n');assert.equal(hash(old),pin.before,'HISTORICAL_VIEW_EVIDENCE_BASELINE_CORRUPT');await writeFile(target,old);}
+  }
+  // Exact prior219 metadata/doc and deletion of the hash-pinned220 addition
+  // in a disposable legacy fixture;original SQL001-219 and owner tools stay raw.
+  const schemaFiles=['docs/agent/project-state.json','docs/generated/DB_FUNCTIONS.md','docs/operations/SERVICE_ACCESS_INVENTORY.json','docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json','docs/operations/TABLE_ACCESS_INVENTORY.json','supabase/migrations/220_sales_only_operating_mode.sql'];
+  for(const file of schemaFiles){const raw=await readFile(path.join(root,file),'utf8'),before=sourceBeforeSalesOnlyPhase3(file,raw);assert.notEqual(before,raw,'LEGACY219_SCHEMA_SOURCE_NOT_PINNED:'+file);if(before===null)await unlink(path.join(dir,file));else await writeFile(path.join(dir,file),before);}
+  const legacyState=JSON.parse(await readFile(path.join(dir,'docs/agent/project-state.json'),'utf8'));assert.equal(legacyState.migrationCeiling,219);
   // Snapshot only these reviewed application substitutions; every test/script/SQL
   // comes from the CURRENT head,not a historical runner or a modified owner tool.
   const ownerPins=JSON.parse(await readFile(path.join(root,'scripts/testing/rehearsal219-owner-source-pins.json'),'utf8'));for(const[file]of ownerPins.files)assert.deepEqual(await readFile(path.join(root,file)),await readFile(path.join(dir,file)),'HISTORICAL_VIEW_OWNER_TOOL_CHANGED:'+file);
   await writeFile(path.join(dir,'.workbook-runtime-view.json'),JSON.stringify({...marker,changed}));symlinkSync(path.join(root,'node_modules'),path.join(dir,'node_modules'),process.platform==='win32'?'junction':'dir');
   const sourceCheck="import assert from'node:assert/strict';import{readFile}from'node:fs/promises';import{inventory}from'./scripts/audit/table-access-inventory.mjs';import{verifyProbeCoverage}from'./scripts/audit/table-access-probes.mjs';const source=await inventory(),proof=JSON.parse(await readFile('docs/operations/TABLE_ACCESS_AFTER_219.json','utf8'));assert.deepEqual(source.sources,proof.sourceHashes,'HISTORICAL_VIEW_PROOF_SOURCE_MISMATCH');assert.deepEqual(verifyProbeCoverage(source,proof.results),proof.coverage);console.log('HISTORICAL_VIEW_STRICT_SOURCE_AND_ROLE_COVERAGE_OK');";execFileSync(process.execPath,['--input-type=module','-e',sourceCheck],{cwd:dir,windowsHide:true,maxBuffer:1024**2});
-  return{...marker,changed};
+  return{...marker,changed,schemaOnly};
  }catch(error){const file=path.join(dir,'.workbook-runtime-view.json');await writeFile(file,JSON.stringify(marker));await cleanupWorkbookRuntimeView(dir);throw error;}
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){
  const args=process.argv.slice(2);assert.ok(!args.length||args.length===1&&args[0]==='--cleanup','HISTORICAL_VIEW_FIXED_OPTIONS');
  if(args[0]==='--cleanup'){const dir=process.env.NAWASRAH_WORKBOOK_VIEW_ROOT;assert.ok(dir,'HISTORICAL_VIEW_CONTEXT_REQUIRED');await cleanupWorkbookRuntimeView(dir);console.log(JSON.stringify({ok:true,cleaned:true}));}
- else{assert.ok(workbookHistoricalSuites.includes(process.env.NAWASRAH_WORKBOOK_SUITE),'HISTORICAL_VIEW_SUITE_REQUIRED');const view=await prepareWorkbookRuntimeView();if(process.env.GITHUB_OUTPUT)await writeFile(process.env.GITHUB_OUTPUT,'root='+view.root+'\n',{flag:'a'});console.log(JSON.stringify({ok:true,head:view.head,root:view.root,projectedApplicationFiles:view.changed.length,sqlChanged:false,ownerToolsChanged:false}));}
+ else{assert.ok(workbookHistoricalSuites.includes(process.env.NAWASRAH_WORKBOOK_SUITE),'HISTORICAL_VIEW_SUITE_REQUIRED');const view=await prepareWorkbookRuntimeView();if(process.env.GITHUB_OUTPUT)await writeFile(process.env.GITHUB_OUTPUT,'root='+view.root+'\n',{flag:'a'});console.log(JSON.stringify({ok:true,head:view.head,root:view.root,projectedApplicationFiles:view.changed.length,historicalCeiling:219,removedOnlyExact220:true,historicalSql001Through219Changed:false,ownerToolsChanged:false}));}
 }

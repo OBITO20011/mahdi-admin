@@ -1,3 +1,4 @@
+import{historical220Text}from'../scripts/testing/lite220-historical-test-view.mjs';
 import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import {pathsBeforeHandover213} from '../scripts/audit/source-before-handover213.mjs';
 import assert from 'node:assert/strict';
@@ -10,7 +11,7 @@ import {APP_NAME_AR} from '../src/constants';
 import {SEO_BRAND} from '../customer-web/src/config/seoBrand';
 const official='النواصرة لتجارة الجملة والمواد الغذائية';
 const hash=(value:Buffer|string)=>createHash('sha256').update(value).digest('hex');
-const read=(p:string)=>readFileSync(p,'utf8');
+const read=(p:string)=>historical220Text(p,readFileSync(p,'utf8'));
 test('H approved original and every icon derivative have exact provenance and valid dimensions',()=>{
  const proof=JSON.parse(read('docs/assets/TRIAL_BRAND_ASSETS.json'));
  assert.equal(proof.sourceSha256,'10160ee26ebc78fcd2b2d40830fc533b4eee55c9f04d0184cf6dc625936a57c0');

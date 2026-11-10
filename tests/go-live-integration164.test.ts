@@ -1,10 +1,11 @@
+import{historical220Inventory as inventory}from'../scripts/testing/lite220-historical-test-view.mjs';
 import {sourceBefore198Presentation} from '../scripts/testing/product-workbook-historical-views.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFile} from 'node:fs/promises';
 import {assert164History,allUpgrade164Versions,inputs164} from '../scripts/operations/frankfurt-owner-upgrade164.mjs';
 import {assertStartupTableAcl,assertReference164,startupTables} from '../scripts/operations/frankfurt-reference164.mjs';
-import {inventory} from '../scripts/audit/table-access-inventory.mjs';
+
 import {verifyHistoricalWarehouseCoverage as verifyProbeCoverage} from '../scripts/testing/product-workbook-historical-views.mjs';
 import {execFileSync,spawnSync} from 'node:child_process';
 import {mkdtemp,rm} from 'node:fs/promises';

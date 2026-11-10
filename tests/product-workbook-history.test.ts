@@ -1,8 +1,9 @@
+import{historical220Inventory as inventory}from'../scripts/testing/lite220-historical-test-view.mjs';
 import{pathsBeforeD1Kit}from'../scripts/audit/source-before-d1-reference-kit.mjs';
 import{sourceBeforeProductScale}from'../scripts/audit/source-before-product-scale.mjs';
 import{sourceBeforeMobilePresentation}from'../scripts/audit/source-before-product-workbook-text.mjs';
 import{productWorkbookProbeScope}from'../scripts/testing/product-workbook-probe-scope.mjs';
-import{inventory,parseSource}from'../scripts/audit/table-access-inventory.mjs';
+import{parseSource}from'../scripts/audit/table-access-inventory.mjs';
 import{projectProductWorkbookQuerySites}from'../scripts/audit/source-before-product-workbook.mjs';
 import{scopes,evaluateArgument,fixtureId}from'../scripts/audit/table-access-probes.mjs';
 import test from'node:test';import assert from'node:assert/strict';import{readFileSync}from'node:fs';import{createHash}from'node:crypto';import{execFileSync}from'node:child_process';import{sourceBeforeProductWorkbook,restoreProductWorkbookHashes}from'../scripts/audit/source-before-product-workbook.mjs';

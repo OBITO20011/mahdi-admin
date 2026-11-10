@@ -1,3 +1,4 @@
+import{restoreSalesOnlyPhase3Hashes}from'./source-before-sales-only-phase3.mjs';
 import{sourceBeforeD1Kit,pathsBeforeD1Kit}from'./source-before-d1-reference-kit.mjs';
 // Exact historical view only;current Backup/Restore always executes current code.
 import assert from'node:assert/strict';import{readFileSync}from'node:fs';import{createHash}from'node:crypto';import{execFileSync}from'node:child_process';
@@ -43,7 +44,7 @@ export function sourceBeforePgNetSequenceState(file,text){
  if(!old.has(file)){const before=execFileSync('git',['show',baseline+':'+file],{encoding:'utf8',windowsHide:true,maxBuffer:32*1024**2});assert.equal(hash(before),p.before,'PGNET_STATE_BASELINE_CHANGED');old.set(file,canonical(before));}
  return old.get(file);
 }
-export function restorePgNetStateSourceHashes(rows){return rows.flatMap(row=>{const p=pins[row.file];return !p||p.after!==row.sha256?[row]:p.before===null?[]:[{...row,sha256:p.before}];});}
+export function restorePgNetStateSourceHashes(rows){return restoreSalesOnlyPhase3Hashes(rows).flatMap(row=>{const p=pins[row.file];return !p||p.after!==row.sha256?[row]:p.before===null?[]:[{...row,sha256:p.before}];});}
 export function pathsBeforePgNetSequenceState(files,reference){return pathsBeforeD1Kit(files,reference).filter(file=>{
  if(!pins[file])return true;const current=readFileSync(new URL('../../'+file,import.meta.url),'utf8'),before=sourceBeforePgNetSequenceState(file,current);
  if(before===null)return false;if(before===current||!reference)return true;

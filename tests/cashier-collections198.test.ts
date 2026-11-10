@@ -1,3 +1,4 @@
+import{historical220Text}from'../scripts/testing/lite220-historical-test-view.mjs';
 import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import {sourceBeforeTrialW} from '../scripts/audit/source-before-trial-owner-w.mjs';
 import test from 'node:test';
@@ -7,7 +8,7 @@ import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import ts from 'typescript';
 import {futureMigrationViolations} from '../scripts/testing/maintenance-db-contract.mjs';
-const read=(p:string)=>readFileSync(p,'utf8').replaceAll('\r\n','\n');
+const read=(p:string)=>historical220Text(p,readFileSync(p,'utf8').replaceAll('\r\n','\n'));
 const file='supabase/migrations/198_cashier_customer_collection_access.sql',sql=read(file);
 function body(s:string,n:string){const re=new RegExp('CREATE (?:OR REPLACE )?FUNCTION public\\.'+n+'\\('),m=re.exec(s);assert.ok(m,n);return s.slice(m.index,s.indexOf('\n$$;',m.index)+4).replace(/^CREATE FUNCTION/u,'CREATE OR REPLACE FUNCTION');}
 test('198 five explicit role-only changes rewind exactly to original191/163/121;no payload/math/validation/reversal changes',()=>{

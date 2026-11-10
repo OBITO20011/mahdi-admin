@@ -1,10 +1,11 @@
+import{historical220Text}from'../scripts/testing/lite220-historical-test-view.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {futureMigrationViolations} from '../scripts/testing/maintenance-db-contract.mjs';
 import {assert203History} from '../scripts/operations/frankfurt-owner-upgrade203.mjs';
-const read=(f:string)=>readFileSync(f,'utf8').replaceAll('\r\n','\n');
+const read=(f:string)=>historical220Text(f,readFileSync(f,'utf8').replaceAll('\r\n','\n'));
 test('203 changes only persisted payment/reversal eligibility;every other202 byte and financial equation is exact',()=>{
  const before=read('supabase/migrations/202_all_customer_collections_read_model.sql'),after=read('supabase/migrations/203_customer_payment_receipts_without_completion.sql');
  assert.equal(createHash('sha256').update(before).digest('hex'),'c6fd0cc7e0d1d79d2fd1e157225cf773431af1bddbe3bffa58a9d2a927645e12');

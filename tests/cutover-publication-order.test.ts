@@ -1,8 +1,9 @@
+import{historical220Text}from'../scripts/testing/lite220-historical-test-view.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 
-const read=(file:string)=>readFileSync(file,'utf8').replaceAll('\r\n','\n');
+const read=(file:string)=>historical220Text(file,readFileSync(file,'utf8').replaceAll('\r\n','\n'));
 const plan=read('docs/operations/GO_LIVE_CUTOVER_AR.md');
 const card=read('docs/handover/ورقة-يوم-التشغيل.md');
 const order=(text:string,markers:string[])=>{let previous=-1;for(const marker of markers){const at=text.indexOf(marker);assert.ok(at>previous,marker);previous=at;}};

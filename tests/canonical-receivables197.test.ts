@@ -1,12 +1,14 @@
+import{historical220Inventory as inventory}from'../scripts/testing/lite220-historical-test-view.mjs';
+import{historical220Text}from'../scripts/testing/lite220-historical-test-view.mjs';
 import {sourceBefore198Presentation} from '../scripts/testing/product-workbook-historical-views.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
-import {inventory} from '../scripts/audit/table-access-inventory.mjs';
+
 import {verifyHistoricalWarehouseCoverage as verifyProbeCoverage} from '../scripts/testing/product-workbook-historical-views.mjs';
 import {futureMigrationViolations} from '../scripts/testing/maintenance-db-contract.mjs';
-const read=(name:string)=>readFileSync(name,'utf8').replaceAll('\r\n','\n');
+const read=(name:string)=>historical220Text(name,readFileSync(name,'utf8').replaceAll('\r\n','\n'));
 const file='supabase/migrations/197_canonical_home_customer_receivables.sql';
 const sql=read(file),factsName='CREATE OR REPLACE FUNCTION public.phase6_financial_facts_internal(',monitorName='CREATE OR REPLACE FUNCTION public.run_advanced_monitoring_checks(';
 const facts=(source:string)=>source.slice(source.indexOf(factsName),source.indexOf('CREATE OR REPLACE FUNCTION public.',source.indexOf(factsName)+factsName.length)).trim();

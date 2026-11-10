@@ -1,3 +1,5 @@
+import{historical220Inventory as inventory}from'../scripts/testing/lite220-historical-test-view.mjs';
+import{historical220Text}from'../scripts/testing/lite220-historical-test-view.mjs';
 import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import {sourceBefore198Presentation} from '../scripts/testing/product-workbook-historical-views.mjs';
 import {sourceBeforeUnitTerminology} from '../scripts/audit/source-before-unit-terminology.mjs';
@@ -5,12 +7,12 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
-import {inventory} from '../scripts/audit/table-access-inventory.mjs';
+
 import {verifyHistoricalWarehouseCoverage as verifyProbeCoverage} from '../scripts/testing/product-workbook-historical-views.mjs';
 import {assertChequesCatalog} from '../scripts/operations/frankfurt-reference-cheques.mjs';
 import {prepareOpeningChequeSheet,openingChequeTemplateRows,OPENING_CHEQUE_COLUMNS} from '../src/features/goLive/openingChequesImport';
 
-const read=(file:string)=>readFileSync(file,'utf8').replaceAll('\r\n','\n');
+const read=(file:string)=>historical220Text(file,readFileSync(file,'utf8').replaceAll('\r\n','\n'));
 test('196 follow-up is exactly four explicit JSONB initializer casts;SQL business expressions and all other bytes stay unchanged',()=>{
  const file='supabase/migrations/196_go_live_opening_cheques.sql',source=read(file);
  const casts=/(JSONB:='(?:\[\]|\{\})')::JSONB/gu;
