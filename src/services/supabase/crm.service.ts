@@ -1,3 +1,4 @@
+import{readOperatingReceivablesWithRpc}from'./operatingReceivables';
 import {safeGoogleMapsUrl, validMapCoordinates} from '../../utils/googleMaps';
 import { supabase, isSupabaseConfigured } from '../../lib/supabase';
 import {
@@ -158,14 +159,14 @@ export async function fetchCustomersCrmFromSupabase(
   }
 
   try {
-    const { data, error } = await supabase.rpc('get_crm_customer_page', {
+    const { data, error } = await readOperatingReceivablesWithRpc((name,args)=>supabase!.rpc(name,args),'crm', {
       p_page: page,
       p_page_size: Math.min(pageSize, 100),
       p_search: params.searchQuery?.trim() || null,
       p_status: statusFilter,
       p_sort: sortBy,
     });
-    if (error) return failure(error.message);
+    if (error) return failure(error.message||'تعذر قراءة قائمة العملاء.');
 
     const payload =
       data && typeof data === 'object'

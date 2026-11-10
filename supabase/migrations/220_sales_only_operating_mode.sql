@@ -915,7 +915,9 @@ CREATE FUNCTION sales_lite1.integrity_count() RETURNS BIGINT LANGUAGE sql STABLE
  +(SELECT count(*) FROM public.order_inventory_reservations r JOIN sales_lite1.orders l ON l.order_id=r.order_id)
  +(SELECT count(*) FROM public.order_items i JOIN sales_lite1.orders l ON l.order_id=i.order_id WHERE i.unit_cost_in_minor_units<>0 OR i.cogs_in_minor_units<>0 OR i.profit_in_minor_units<>0 OR i.cost_finalized_at IS NOT NULL OR i.exact_cogs_snapshot_in_minor_units IS NOT NULL OR i.unit_cost_snapshot_in_minor_units_exact IS NOT NULL)
  +(SELECT count(*) FROM sales_lite1.returns r JOIN public.order_items i ON i.id=r.item_id WHERE i.order_id<>r.order_id OR NOT sales_lite1.is_order(r.order_id))
- +(SELECT count(*) FROM (SELECT item_id,sum(quantity) q,sum(entitlement) e FROM sales_lite1.returns GROUP BY item_id) r JOIN public.order_items i ON i.id=r.item_id WHERE r.q>i.quantity OR r.e>i.net_refundable_amount_snapshot_in_minor_units);
+ +(SELECT count(*) FROM (SELECT item_id,sum(quantity) q,sum(entitlement) e FROM sales_lite1.returns GROUP BY item_id) r JOIN public.order_items i ON i.id=r.item_id WHERE r.q>i.quantity OR r.e>i.net_refundable_amount_snapshot_in_minor_units)
+ +(SELECT count(*) FROM (SELECT order_id,sum(money_refund) AS refunded FROM sales_lite1.returns GROUP BY order_id) r
+ JOIN public.orders o ON o.id=r.order_id WHERE r.refunded>o.amount_paid_in_minor_units);
 $$;
 
 -- No default-executable definer helpers, including newly added public RPCs.
@@ -2896,9 +2898,9 @@ BEGIN
  INSERT INTO sales_lite1.orders VALUES(oid,op,recipient,'{}');
  INSERT INTO public.orders(id,order_number,customer_id,customer_address_id,customer_name_snapshot,branch_id,warehouse_id,status,payment_method,payment_status,
   subtotal_in_minor_units,delivery_fee_in_minor_units,discount_in_minor_units,total_in_minor_units,amount_paid_in_minor_units,source,idempotency_key,operation_id,
-  delivery_zone,promotion_code_id,promotion_code_snapshot,tracking_token,customer_notes)
+  delivery_zone,promotion_code_id,promotion_code_snapshot,tracking_token,customer_notes,reservation_released_at)
  VALUES(oid,'L2-'||oid::TEXT,cid,address_id,name,bid,wid,'new',method,'unpaid',(plan->>'subtotalInMinorUnits')::BIGINT,(plan->>'deliveryFeeInMinorUnits')::BIGINT,
-  (plan->>'discountInMinorUnits')::BIGINT,(plan->>'totalInMinorUnits')::BIGINT,0,'website',p_key,op,zone,promo_id,promotion,tracking,NULLIF(btrim(recipient->>'customerNotes'),''));
+  (plan->>'discountInMinorUnits')::BIGINT,(plan->>'totalInMinorUnits')::BIGINT,0,'website',p_key,op,zone,promo_id,promotion,tracking,NULLIF(btrim(recipient->>'customerNotes'),''),clock_timestamp());
  materialized:=sales_lite2.materialize(oid,op,plan,'customer_v2',phone,promotion);
  INSERT INTO sales_lite2.sales(order_id,request_key,plan) VALUES(oid,p_key,plan||jsonb_build_object('lines',materialized->'lines'));
  IF promo_id IS NOT NULL THEN INSERT INTO public.promotion_redemptions(promotion_code_id,order_id,customer_id,customer_phone,code_snapshot,discount_in_minor_units)
@@ -3336,6 +3338,10 @@ BEGIN
  -- The UPDATE already owns the shift row lock. Do not add a mode/order lock
  -- with a different ordering. VOLATILE reads see a refund committed while
  -- the original reversal was waiting for that same row lock.
+ IF NEW.status IS DISTINCT FROM OLD.status AND NEW.status IN('cancelled','reversed') AND(EXISTS(SELECT 1 FROM sales_lite1.shifts s WHERE s.shift_id=OLD.id)
+ OR EXISTS(SELECT 1 FROM public.orders o JOIN sales_lite1.orders l ON l.order_id=o.id WHERE o.cash_shift_id=OLD.id)) THEN
+  RAISE EXCEPTION USING ERRCODE='P0001',MESSAGE='هذه الوردية تتبع وضع البيع المبسّط. لا يمكن إلغاؤها أو عكس عملياتها؛ استخدم المرتجع وعدّ الدرج والإغلاق اليومي.';
+ END IF;
  IF NEW.status IS DISTINCT FROM OLD.status AND NEW.status IN('cancelled','reversed')
  AND EXISTS(SELECT 1 FROM sales_lite1.returns r WHERE r.shift_id=OLD.id AND r.money_refund>0)
  THEN RAISE EXCEPTION USING ERRCODE='P0001',MESSAGE='LITE2_SHIFT_REVERSAL_HAS_LITE_REFUND';END IF;
@@ -3352,6 +3358,12 @@ DECLARE result JSONB;
 BEGIN
  -- Preserve the existing owner/MFA permission check and full-only JSON.
  result:=public.preview_cash_shift_full_reversal(p_shift_id);
+ IF EXISTS(SELECT 1 FROM sales_lite1.shifts s WHERE s.shift_id=p_shift_id)
+ OR EXISTS(SELECT 1 FROM public.orders o JOIN sales_lite1.orders l ON l.order_id=o.id WHERE o.cash_shift_id=p_shift_id) THEN
+  RETURN result||jsonb_build_object('canExecute',false,'liteShiftBlocked',true,'operations',
+   COALESCE(result->'operations','[]'::JSONB)||jsonb_build_array(jsonb_build_object('operationType','lite_shift',
+    'originalRecordId',p_shift_id,'status','BLOCKED','reason','هذه الوردية تتبع وضع البيع المبسّط. لا يمكن إلغاؤها أو عكس عملياتها؛ استخدم المرتجع وعدّ الدرج والإغلاق اليومي.','expectedEffect','{}'::JSONB)));
+ END IF;
  IF EXISTS(SELECT 1 FROM sales_lite1.returns r WHERE r.shift_id=p_shift_id AND r.money_refund>0) THEN
   RETURN result||jsonb_build_object('canExecute',false,'liteMonetaryRefundBlocked',true,'operations',
    COALESCE(result->'operations','[]'::JSONB)||jsonb_build_array(jsonb_build_object(
@@ -4930,6 +4942,392 @@ DECLARE v_result JSONB; BEGIN
   v_result:=public._build_business_summary_before133(p_summary_type,p_period_start,p_period_end,p_generated_at);
   RETURN jsonb_set(v_result,'{balances}',(v_result->'balances')||public.phase133_supplier_balances_internal());
 END; $function$;
+CREATE FUNCTION public.lite1_debt_aging2(p_customer_id uuid DEFAULT NULL::uuid)
+ RETURNS jsonb
+ LANGUAGE plpgsql
+ STABLE SECURITY DEFINER
+ SET search_path TO 'public', 'pg_temp'
+AS $function$
+DECLARE
+  v_result JSONB;
+BEGIN
+  PERFORM public.assert_erp_role(
+    ARRAY['owner', 'admin', 'manager', 'accountant', 'sales'],
+    'عرض عمر ذمم العملاء'
+  );
+
+  WITH eligible AS MATERIALIZED (
+    SELECT o.id, o.customer_id, o.total_in_minor_units,
+      o.amount_paid_in_minor_units, o.operation_id
+    FROM public.orders o
+    WHERE o.status IN ('completed', 'delivered')
+      AND o.customer_id IS NOT NULL
+      AND (p_customer_id IS NULL OR o.customer_id = p_customer_id)
+      AND (COALESCE(o.source, 'website') <> 'pos' OR o.payment_method = 'debt')
+  ), prior_debt AS MATERIALIZED (
+    -- Exact set-based form of121 phase42_order_financial_position_internal's
+    -- prior_debt source. Do not introduce a projection/cache or new authority.
+    SELECT e.order_id, SUM(e.debt_reduction_amount_in_minor_units)::BIGINT AS amount
+    FROM public.sales_return_events e JOIN eligible o ON o.id = e.order_id
+    WHERE e.settlement_status = 'settled' AND e.contract_version = 401
+      AND o.amount_paid_in_minor_units < o.total_in_minor_units
+    GROUP BY e.order_id
+  ), financial_positions AS MATERIALIZED (
+    SELECT o.*, CASE
+      WHEN o.amount_paid_in_minor_units >= o.total_in_minor_units THEN 0::BIGINT
+      ELSE GREATEST(o.total_in_minor_units - o.amount_paid_in_minor_units
+        - COALESCE(d.amount, 0) - COALESCE((SELECT sum(r.debt_reduction) FROM sales_lite1.returns r WHERE r.order_id=o.id),0), 0)::BIGINT END AS outstanding
+    FROM eligible o LEFT JOIN prior_debt d ON d.order_id = o.id
+  ), active_payments AS MATERIALIZED (
+    SELECT p.order_id, SUM(p.amount_in_minor_units)::BIGINT AS amount
+    FROM public.customer_payments p JOIN eligible o ON o.id = p.order_id
+    WHERE NOT p.is_reversed
+    GROUP BY p.order_id
+  ), completion_history AS MATERIALIZED (
+    SELECT h.order_id, MIN(h.created_at) AS at
+    FROM public.order_status_history h JOIN eligible o ON o.id = h.order_id
+    WHERE h.new_status = 'completed'
+    GROUP BY h.order_id
+  ), completion_operations AS MATERIALIZED (
+    SELECT o.id AS order_id, MIN(b.completed_at) AS at
+    FROM eligible o JOIN public.business_operations b
+      ON b.operation_type = 'phase3_customer_completion_v1'
+      AND b.result_snapshot->>'order_id' = o.id::TEXT
+      AND b.request_identity_snapshot->>'order_id' = o.id::TEXT
+      AND b.completed_at IS NOT NULL
+    GROUP BY o.id
+  ), principals AS MATERIALIZED (
+    SELECT o.id, o.customer_id, o.outstanding,
+      -- amount_paid contains initial collection plus effective later vouchers.
+      -- Remove only proven active vouchers to recover the original exposure;
+      -- the bounded difference to current outstanding is display FIFO coverage.
+      LEAST(o.total_in_minor_units, GREATEST(
+        o.total_in_minor_units - o.amount_paid_in_minor_units
+          + COALESCE(p.amount, 0), o.outstanding, 0))::BIGINT AS principal,
+      COALESCE(h.at, c.at, (SELECT completed_at FROM sales_lite1.completions WHERE order_id=o.id), CASE
+        WHEN creation.operation_type = 'phase3_pos_sale_v1'
+          AND creation.result_snapshot->>'orderId' = o.id::TEXT
+        THEN creation.completed_at END) AS completed_at
+    FROM financial_positions o
+    LEFT JOIN active_payments p ON p.order_id = o.id
+    LEFT JOIN completion_history h ON h.order_id = o.id
+    LEFT JOIN completion_operations c ON c.order_id = o.id
+    LEFT JOIN public.business_operations creation ON creation.id = o.operation_id
+    UNION ALL
+    -- 161: an active opening debt is a principal at its original date; its
+    -- allocated opening collections (163) are coverage like vouchers, and
+    -- FIFO still presents all coverage against the oldest principal first.
+    SELECT opening.id, opening.customer_id, opening.outstanding,
+      opening.principal, opening.occurred_at
+    FROM public.go_live_customer_opening_positions_internal(p_customer_id) opening
+    UNION ALL
+    SELECT c.id,c.customer_id,c.outstanding,c.principal,c.occurred_at
+    FROM public.cheque_customer_claim_positions_internal(p_customer_id)c
+  ), ordered AS (
+    SELECT *,
+      SUM(principal - outstanding) OVER (PARTITION BY customer_id) AS coverage,
+      COALESCE(SUM(principal) OVER (PARTITION BY customer_id
+        ORDER BY completed_at NULLS FIRST, id
+        ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING), 0) AS prior_principal
+    FROM principals
+    -- Zero principal contributes neither coverage nor remaining debt. Keep
+    -- positive fully-paid principals: their coverage still belongs in FIFO.
+    WHERE principal > 0
+  ), allocated AS (
+    SELECT *, GREATEST(principal - GREATEST(coverage - prior_principal, 0), 0)::BIGINT AS remaining,
+      CASE WHEN completed_at IS NOT NULL THEN GREATEST(
+        (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Amman')::DATE
+        - (completed_at AT TIME ZONE 'Asia/Amman')::DATE, 0) END AS age_days
+    FROM ordered
+  ), buckets AS (
+    SELECT customer_id, SUM(remaining)::BIGINT AS total,
+      COALESCE(SUM(remaining) FILTER (WHERE age_days BETWEEN 0 AND 7), 0)::BIGINT AS days_0_7,
+      COALESCE(SUM(remaining) FILTER (WHERE age_days BETWEEN 8 AND 30), 0)::BIGINT AS days_8_30,
+      COALESCE(SUM(remaining) FILTER (WHERE age_days > 30), 0)::BIGINT AS days_over_30,
+      COALESCE(SUM(remaining) FILTER (WHERE age_days IS NULL), 0)::BIGINT AS age_unavailable,
+      COUNT(*) FILTER (WHERE remaining > 0 AND age_days IS NULL)::INTEGER AS undated_debt_count,
+      CASE WHEN BOOL_OR(remaining > 0 AND age_days IS NULL) THEN NULL
+        ELSE MIN(completed_at) FILTER (WHERE remaining > 0) END AS oldest_debt_at,
+      CASE WHEN BOOL_OR(remaining > 0 AND age_days IS NULL) THEN NULL
+        ELSE MAX(age_days) FILTER (WHERE remaining > 0) END AS oldest_debt_age_days
+    FROM allocated GROUP BY customer_id
+  ), payment_dates AS (
+    SELECT customer_id, MAX(at) AS last_payment_at FROM (
+      SELECT p.customer_id, p.created_at AS at
+      FROM public.customer_payments p
+      WHERE NOT p.is_reversed
+        AND (p_customer_id IS NULL OR p.customer_id = p_customer_id)
+      UNION ALL
+      SELECT c.customer_id, c.created_at FROM public.customer_collection_operations c
+      WHERE NOT c.is_reversed AND c.opening_amount_in_minor_units+c.compensation_amount_in_minor_units > 0
+        AND (p_customer_id IS NULL OR c.customer_id = p_customer_id)
+    ) paid
+    GROUP BY customer_id
+  ), customers AS (
+    SELECT c.id AS customer_id, c.full_name, c.phone, c.credit_limit_in_minor_units,
+      COALESCE(b.total, 0) AS total_in_minor_units,
+      COALESCE(b.days_0_7, 0) AS days_0_7_in_minor_units,
+      COALESCE(b.days_8_30, 0) AS days_8_30_in_minor_units,
+      COALESCE(b.days_over_30, 0) AS days_over_30_in_minor_units,
+      COALESCE(b.age_unavailable, 0) AS age_unavailable_in_minor_units,
+      COALESCE(b.undated_debt_count, 0) AS undated_debt_count,
+      b.oldest_debt_at, b.oldest_debt_age_days, p.last_payment_at,
+      COALESCE((SELECT SUM(q.amount_in_minor_units) FROM public.deferred_cheques q
+        WHERE q.customer_id=c.id AND q.status IN ('pending','endorsed')),0)::BIGINT AS outstanding_cheques_in_minor_units,
+      EXISTS(SELECT 1 FROM public.deferred_cheques q WHERE q.customer_id=c.id AND q.status='returned') AS has_returned_cheque
+    FROM public.customers c LEFT JOIN buckets b ON b.customer_id = c.id
+    LEFT JOIN payment_dates p ON p.customer_id = c.id
+    WHERE p_customer_id IS NULL OR c.id = p_customer_id
+  )
+  SELECT CASE WHEN p_customer_id IS NOT NULL THEN
+    (SELECT TO_JSONB(c) FROM customers c)
+  ELSE JSONB_BUILD_OBJECT(
+    'total_in_minor_units', COALESCE(SUM(c.total_in_minor_units), 0),
+    'days_0_7_in_minor_units', COALESCE(SUM(c.days_0_7_in_minor_units), 0),
+    'days_8_30_in_minor_units', COALESCE(SUM(c.days_8_30_in_minor_units), 0),
+    'days_over_30_in_minor_units', COALESCE(SUM(c.days_over_30_in_minor_units), 0),
+    'age_unavailable_in_minor_units', COALESCE(SUM(c.age_unavailable_in_minor_units), 0),
+    'undated_debt_count', COALESCE(SUM(c.undated_debt_count), 0),
+    'overdue_customer_count', COUNT(*) FILTER (WHERE c.days_over_30_in_minor_units > 0),
+    'over_limit_customer_count', COUNT(*) FILTER (
+      WHERE c.credit_limit_in_minor_units > 0 AND c.total_in_minor_units > c.credit_limit_in_minor_units),
+    'top_overdue_limit', 50,
+    'top_overdue', COALESCE((SELECT JSONB_AGG(TO_JSONB(t)
+      ORDER BY t.days_over_30_in_minor_units DESC, t.customer_id)
+      FROM (SELECT * FROM customers WHERE days_over_30_in_minor_units > 0
+        ORDER BY days_over_30_in_minor_units DESC, customer_id LIMIT 50) t), '[]'::JSONB)
+  ) END INTO v_result FROM customers c;
+  RETURN v_result;
+END;
+$function$;
+REVOKE ALL ON FUNCTION public.lite1_debt_aging2(UUID) FROM PUBLIC,anon,authenticated,service_role;
+GRANT EXECUTE ON FUNCTION public.lite1_debt_aging2(UUID) TO authenticated;
+CREATE FUNCTION public.lite1_crm_page2(p_page integer DEFAULT 1, p_page_size integer DEFAULT 10, p_search text DEFAULT NULL::text, p_status text DEFAULT 'all'::text, p_sort text DEFAULT 'latest'::text)
+ RETURNS jsonb
+ LANGUAGE plpgsql
+ STABLE SECURITY DEFINER
+ SET search_path TO 'public', 'pg_temp'
+AS $function$
+DECLARE
+  v_page INTEGER := COALESCE(p_page, 1);
+  v_page_size INTEGER := COALESCE(p_page_size, 10);
+  v_search TEXT := NULLIF(BTRIM(p_search), '');
+  v_status TEXT := COALESCE(NULLIF(BTRIM(p_status), ''), 'all');
+  v_sort TEXT := COALESCE(NULLIF(BTRIM(p_sort), ''), 'latest');
+  v_offset INTEGER;
+BEGIN
+  PERFORM public.assert_erp_role(
+    ARRAY[
+      'owner', 'admin', 'manager', 'accountant', 'cashier', 'sales',
+      'warehouse_keeper', 'orders', 'delivery_driver', 'view_only'
+    ],
+    'عرض دليل العملاء'
+  );
+  IF v_page < 1 OR v_page > 100000 THEN RAISE EXCEPTION 'رقم الصفحة غير صالح.'; END IF;
+  IF v_page_size < 1 OR v_page_size > 100 THEN RAISE EXCEPTION 'حجم الصفحة يجب أن يكون بين 1 و100.'; END IF;
+  IF v_status NOT IN ('all', 'vip', 'active', 'inactive', 'blocked',
+    'has_debt', 'overdue', 'over_limit', 'wholesale') THEN RAISE EXCEPTION 'فلتر العملاء غير صالح.'; END IF;
+  IF v_sort NOT IN ('latest', 'highest_spending', 'most_orders') THEN RAISE EXCEPTION 'ترتيب العملاء غير صالح.'; END IF;
+  IF v_search IS NOT NULL AND CHAR_LENGTH(v_search) > 100 THEN RAISE EXCEPTION 'عبارة البحث طويلة جدًا.'; END IF;
+  v_offset := (v_page - 1) * v_page_size;
+
+  RETURN (
+    WITH candidates AS MATERIALIZED (
+      SELECT c.* FROM public.customers c
+      WHERE c.is_deleted = false
+        AND (v_search IS NULL OR c.full_name ILIKE '%' || v_search || '%'
+          OR COALESCE(c.phone, '') ILIKE '%' || v_search || '%'
+          OR COALESCE(c.email, '') ILIKE '%' || v_search || '%')
+        AND (v_status IN ('all', 'has_debt', 'overdue', 'over_limit')
+          OR (v_status = 'vip' AND c.is_vip = true)
+          OR (v_status = 'active' AND c.is_active = true AND c.is_blocked = false)
+          OR (v_status = 'inactive' AND c.is_active = false AND c.is_blocked = false)
+          OR (v_status = 'blocked' AND c.is_blocked = true)
+          OR (v_status = 'wholesale' AND c.customer_type = 'wholesale'))
+    ), eligible AS MATERIALIZED (
+      SELECT o.id, o.customer_id, o.total_in_minor_units,
+        o.amount_paid_in_minor_units, o.operation_id
+      FROM public.orders o JOIN candidates c ON c.id = o.customer_id
+      WHERE v_status IN ('has_debt', 'overdue', 'over_limit')
+        AND o.status IN ('completed', 'delivered')
+        AND (COALESCE(o.source, 'website') <> 'pos' OR o.payment_method = 'debt')
+        -- A fully covered order without an active payment has zero principal
+        -- and zero outstanding in136,so it cannot affect balance or FIFO.
+        -- Retain fully covered orders WITH active payments:their coverage still
+        -- pays the oldest principal (including a different,undated order).
+        AND (o.amount_paid_in_minor_units < o.total_in_minor_units
+          OR (v_status = 'overdue' AND o.id IN (
+            SELECT p.order_id FROM public.customer_payments p WHERE NOT p.is_reversed)))
+    ), prior_debt AS MATERIALIZED (
+      -- Same prior_debt source and set-based expression proven in136 against
+      -- phase42_customer_receivable_total_internal for every fixture customer.
+      SELECT e.order_id, SUM(e.debt_reduction_amount_in_minor_units)::BIGINT AS amount
+      FROM public.sales_return_events e JOIN eligible o ON o.id = e.order_id
+      WHERE e.settlement_status = 'settled' AND e.contract_version = 401
+        AND o.amount_paid_in_minor_units < o.total_in_minor_units
+      GROUP BY e.order_id
+    ), financial_positions AS NOT MATERIALIZED (
+      SELECT o.*, CASE
+        WHEN o.amount_paid_in_minor_units >= o.total_in_minor_units THEN 0::BIGINT
+        ELSE GREATEST(o.total_in_minor_units - o.amount_paid_in_minor_units
+          - COALESCE(d.amount, 0) - COALESCE((SELECT sum(r.debt_reduction) FROM sales_lite1.returns r WHERE r.order_id=o.id),0), 0)::BIGINT END AS outstanding
+      FROM eligible o LEFT JOIN prior_debt d ON d.order_id = o.id
+    ), opening_debts AS MATERIALIZED (
+      -- 161: active opening debts of candidate customers, original date kept.
+      SELECT opening.id, opening.customer_id, opening.principal, opening.outstanding AS amount,
+        opening.occurred_at
+      FROM public.go_live_customer_opening_positions_internal(NULL) opening
+      JOIN candidates c ON c.id = opening.customer_id
+      WHERE v_status IN ('has_debt', 'overdue', 'over_limit')
+      UNION ALL
+      SELECT d.id,d.customer_id,d.principal,d.outstanding,d.occurred_at
+      FROM public.cheque_customer_claim_positions_internal(NULL)d JOIN candidates c ON c.id=d.customer_id
+      WHERE v_status IN ('has_debt','overdue','over_limit')
+    ), balances AS (
+      SELECT customer_id, SUM(amount)::BIGINT AS amount
+      FROM (SELECT customer_id, outstanding AS amount FROM financial_positions
+        UNION ALL SELECT customer_id, amount FROM opening_debts) debt
+      GROUP BY customer_id
+    ), active_payments AS NOT MATERIALIZED (
+      SELECT p.order_id, SUM(p.amount_in_minor_units)::BIGINT AS amount
+      FROM public.customer_payments p JOIN eligible o ON o.id = p.order_id
+      WHERE v_status = 'overdue' AND NOT p.is_reversed
+      GROUP BY p.order_id
+    ), completion_history AS NOT MATERIALIZED (
+      SELECT h.order_id, MIN(h.created_at) AS at
+      FROM public.order_status_history h JOIN eligible o ON o.id = h.order_id
+      WHERE v_status = 'overdue' AND h.new_status = 'completed'
+      GROUP BY h.order_id
+    ), completion_operations AS NOT MATERIALIZED (
+      SELECT o.id AS order_id, MIN(b.completed_at) AS at
+      FROM eligible o JOIN public.business_operations b
+        ON b.operation_type = 'phase3_customer_completion_v1'
+        AND b.result_snapshot->>'order_id' = o.id::TEXT
+        AND b.request_identity_snapshot->>'order_id' = o.id::TEXT
+        AND b.completed_at IS NOT NULL
+      WHERE v_status = 'overdue'
+      GROUP BY o.id
+    ), principals AS NOT MATERIALIZED (
+      SELECT o.id, o.customer_id, o.outstanding,
+        LEAST(o.total_in_minor_units, GREATEST(
+          o.total_in_minor_units - o.amount_paid_in_minor_units
+            + COALESCE(p.amount, 0), o.outstanding, 0))::BIGINT AS principal,
+        COALESCE(h.at, c.at, (SELECT completed_at FROM sales_lite1.completions WHERE order_id=o.id), CASE
+          WHEN creation.operation_type = 'phase3_pos_sale_v1'
+            AND creation.result_snapshot->>'orderId' = o.id::TEXT
+          THEN creation.completed_at END) AS completed_at
+      FROM financial_positions o
+      LEFT JOIN active_payments p ON p.order_id = o.id
+      LEFT JOIN completion_history h ON h.order_id = o.id
+      LEFT JOIN completion_operations c ON c.order_id = o.id
+      LEFT JOIN public.business_operations creation ON creation.id = o.operation_id
+      WHERE v_status = 'overdue'
+      UNION ALL
+      SELECT opening.id, opening.customer_id, opening.amount, opening.principal, opening.occurred_at
+      FROM opening_debts opening WHERE v_status = 'overdue'
+    ), ordered AS (
+      SELECT *, SUM(principal - outstanding) OVER (PARTITION BY customer_id) AS coverage,
+        COALESCE(SUM(principal) OVER (PARTITION BY customer_id
+          ORDER BY completed_at NULLS FIRST, id
+          ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING), 0) AS prior_principal
+      FROM principals WHERE principal > 0
+    ), allocated AS (
+      SELECT *, GREATEST(principal - GREATEST(coverage - prior_principal, 0), 0)::BIGINT AS remaining,
+        CASE WHEN completed_at IS NOT NULL THEN GREATEST(
+          (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Amman')::DATE
+          - (completed_at AT TIME ZONE 'Asia/Amman')::DATE, 0) END AS age_days
+      FROM ordered
+    ), overdue AS (
+      SELECT customer_id, SUM(remaining)::BIGINT AS amount
+      FROM allocated
+      WHERE age_days > 30
+      GROUP BY customer_id
+    ), customer_directory AS (
+      SELECT c.id, c.full_name, c.phone, c.email, c.whatsapp, c.governorate,
+        c.notes, c.customer_type, c.is_active, c.is_vip, c.is_blocked, c.is_deleted,
+        c.credit_limit_in_minor_units, c.created_at, c.updated_at,
+        COALESCE(c.governorate, '') AS address_governorate,
+        COALESCE(order_stats.total_orders_count, 0)::INTEGER AS total_orders_count,
+        COALESCE(order_stats.total_spending_in_minor_units, 0)::BIGINT AS total_spending_in_minor_units
+      FROM candidates c
+      LEFT JOIN balances balance ON balance.customer_id = c.id
+      LEFT JOIN overdue debt_age ON debt_age.customer_id = c.id
+      LEFT JOIN LATERAL (
+        SELECT COUNT(*) FILTER (WHERE COALESCE(o.source, 'website') <> 'pos')::INTEGER AS total_orders_count,
+          COALESCE(SUM(o.total_in_minor_units) FILTER (
+            WHERE COALESCE(o.source, 'website') <> 'pos'
+              AND o.status IN ('completed', 'delivered')), 0)::BIGINT AS total_spending_in_minor_units
+        FROM public.orders o WHERE o.customer_id = c.id
+          AND v_sort IN ('highest_spending', 'most_orders')
+      ) order_stats ON true
+      WHERE (v_status <> 'has_debt' OR COALESCE(balance.amount, 0) > 0)
+        AND (v_status <> 'overdue' OR COALESCE(debt_age.amount, 0) > 0)
+        AND (v_status <> 'over_limit' OR (c.credit_limit_in_minor_units > 0
+          AND COALESCE(balance.amount, 0) > c.credit_limit_in_minor_units))
+    ), paged_customers AS (
+      SELECT * FROM customer_directory
+      ORDER BY
+        CASE WHEN v_sort = 'highest_spending' THEN total_spending_in_minor_units END DESC,
+        CASE WHEN v_sort = 'most_orders' THEN total_orders_count END DESC,
+        CASE WHEN v_sort = 'latest' THEN created_at END DESC,
+        id DESC
+      OFFSET v_offset LIMIT v_page_size
+    )
+    SELECT jsonb_build_object(
+      'customers', COALESCE((SELECT jsonb_agg(to_jsonb(pc) || jsonb_build_object(
+        -- Display-only fields are read for the page,not every matching client.
+        -- Historical spend/count are still computed before paging when sorting
+        -- by them;their old definitions and tie-break order are unchanged.
+        'address_governorate', COALESCE(address.governorate, pc.governorate, ''),
+        'total_orders_count', CASE WHEN v_sort = 'latest'
+          THEN COALESCE(order_stats.total_orders_count, 0) ELSE pc.total_orders_count END,
+        'total_spending_in_minor_units', CASE WHEN v_sort = 'latest'
+          THEN COALESCE(order_stats.total_spending_in_minor_units, 0) ELSE pc.total_spending_in_minor_units END,
+        'current_balance_in_minor_units', public.phase42_customer_receivable_total_internal(pc.id),
+        'outstanding_cheques_in_minor_units',COALESCE((SELECT SUM(q.amount_in_minor_units) FROM public.deferred_cheques q
+          WHERE q.customer_id=pc.id AND q.status IN ('pending','endorsed')),0),
+        'has_returned_cheque',EXISTS(SELECT 1 FROM public.deferred_cheques q WHERE q.customer_id=pc.id AND q.status='returned')))
+        FROM paged_customers pc
+        LEFT JOIN LATERAL (
+          SELECT ca.governorate FROM public.customer_addresses ca
+          WHERE ca.customer_id = pc.id
+          ORDER BY ca.is_default DESC, ca.created_at DESC LIMIT 1
+        ) address ON true
+        LEFT JOIN LATERAL (
+          SELECT COUNT(*) FILTER (WHERE COALESCE(o.source, 'website') <> 'pos')::INTEGER AS total_orders_count,
+            COALESCE(SUM(o.total_in_minor_units) FILTER (
+              WHERE COALESCE(o.source, 'website') <> 'pos'
+                AND o.status IN ('completed', 'delivered')), 0)::BIGINT AS total_spending_in_minor_units
+          FROM public.orders o WHERE o.customer_id = pc.id AND v_sort = 'latest'
+        ) order_stats ON true), '[]'::JSONB),
+      'total_count', (SELECT COUNT(*)::INTEGER FROM customer_directory)
+    )
+  );
+END;
+$function$;
+REVOKE ALL ON FUNCTION public.lite1_crm_page2(INTEGER,INTEGER,TEXT,TEXT,TEXT) FROM PUBLIC,anon,authenticated,service_role;
+GRANT EXECUTE ON FUNCTION public.lite1_crm_page2(INTEGER,INTEGER,TEXT,TEXT,TEXT) TO authenticated;
+-- Owner11Nov M3. New trigger;no existing payment/reversal writer is changed.
+CREATE FUNCTION sales_lite2.guard_payment_lite_refund() RETURNS TRIGGER
+LANGUAGE plpgsql VOLATILE SECURITY DEFINER SET search_path=pg_catalog,public AS $$
+BEGIN
+ IF NOT OLD.is_reversed AND NEW.is_reversed AND EXISTS(
+  SELECT 1 FROM sales_lite1.returns r WHERE r.order_id=OLD.order_id AND r.money_refund>0
+ ) THEN RAISE EXCEPTION USING ERRCODE='P0001',MESSAGE='LITE3_COLLECTION_REVERSAL_HAS_LITE_REFUND',
+  DETAIL='لا يمكن عكس سند القبض بعد رد مبلغ بمرتجع لهذه الفاتورة. راجع المرتجع والتحصيل أولاً.';
+ END IF;
+ RETURN NEW;
+END $$;
+REVOKE ALL ON FUNCTION sales_lite2.guard_payment_lite_refund() FROM PUBLIC,anon,authenticated,service_role;
+CREATE TRIGGER lite3_payment_refund_guard BEFORE UPDATE OF is_reversed ON public.customer_payments
+FOR EACH ROW WHEN(NOT OLD.is_reversed AND NEW.is_reversed)
+EXECUTE FUNCTION sales_lite2.guard_payment_lite_refund();
+
+ CREATE INDEX lite3_returns_order_id_idx ON sales_lite1.returns(order_id);
+ CREATE INDEX lite3_returns_item_id_idx ON sales_lite1.returns(item_id);
+ CREATE INDEX lite3_returns_shift_id_idx ON sales_lite1.returns(shift_id);
+ REVOKE ALL ON FUNCTION public.lite1_expense(UUID,BIGINT,TEXT,TEXT,TEXT) FROM PUBLIC,anon,authenticated,service_role;
+ 
 DO $frozen220_after$ DECLARE mismatches BIGINT; BEGIN
  WITH expected(signature,source_hash,definition_hash,owner_name,config,acl) AS(VALUES
 ('_archive_supplier_receipt_impl(uuid,boolean)','0307f405475c908e3e5eca343e6833c6713f813d6755c03705e0790d6ee7b572','0fa8d35048847084afde6de1433d4fa843c337754f8de2cba4b8d82cdd6ce2f1','postgres','["search_path=public, pg_temp"]'::jsonb,'{postgres=X/postgres}'),

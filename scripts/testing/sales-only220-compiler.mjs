@@ -1,3 +1,4 @@
+import{withFableAdditions}from'./lite220-fable-additions.mjs';
 // Promotion only: immutable approved phase2 financial SQL and eight exact
 // bridges; no PR79 reader/H1 rewrite is admitted to the220 artifact.
 import assert from 'node:assert/strict';
@@ -46,7 +47,7 @@ export function buildSalesOnly220(rows){
  for(const guard of [phase1Guard,phase2Guard]){assert.equal(body.split(guard).length,2,'EXACT_PROMOTION_GUARD');body=body.replace(guard,'-- Local prototype admission replaced by the exact219/636 migration guard above.');}
  assert.doesNotMatch(body,/sales_lite[12]_test|OWNED_LOCAL_DB219/);
  body+='\n'+readFileSync(new URL('../../docs/design/sales-only-phase3/telegram-summary.sql',import.meta.url),'utf8')+'\n'+summaryBridgeSql(rows);
- body=body.replaceAll('\r\n','\n');
+ body=withFableAdditions(body.replaceAll('\r\n','\n'),rows).replaceAll('\r\n','\n');
  const after=rows.map(row=>{if(!bridges.some(b=>b.name===row.name))return row;const source=bridgedSource(row);return {...row,source,definition:replaceDefinitionSource(row.definition,row.source,source)};});
  const guard=`DO $migration220$ BEGIN
  IF (SELECT count(*) FROM supabase_migrations.schema_migrations)<>180 OR (SELECT max(version::integer) FROM supabase_migrations.schema_migrations)<>219 THEN RAISE EXCEPTION 'LITE220_EXACT219_HISTORY_REQUIRED';END IF;

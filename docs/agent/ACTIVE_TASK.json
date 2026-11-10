@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner11Nov:Fable review fixes inDraft87;finish frozen fca units/access first;PG RED thenadditiveGREEN;627+9unchanged;thenfinal220 evidence/CI.",
-  "baselineSha": "fca335f9c8b6c6d22fbd7d3beb0ce667da262868",
+  "baselineSha": "49ab962e45184f6e3a14a73c998913d1112b8a69",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase3",
   "phase": "SALES_ONLY_PHASE3",
@@ -15,10 +15,12 @@
     "Owner resolved:79defer221;628freeze nowexplicit627+8previous+approvedsummary ninth only.",
     "Summary scoped implementation+formatter/compile6focusedtests/lintPASS;realSQL/catalog refresh next.",
     "Actualsummary and freshcatalog7acb PASS;canonicalLFartifact019963fa… identical to testedGitbytes;original8 source bytecomparisonPASS.",
-    "Owner-requested currentfca access completeHTTP181/RPC695PASS;units1960/1986+26failures saved."
+    "Owner-requested currentfca access completeHTTP181/RPC695PASS;units1960/1986+26failures saved.",
+    "Fable realPGRED49ab:all8acceptancecasesRED incl actualcancel_empty success;source/DBcleanup/network0;NOproductfixpreproof."
   ],
   "inProgress": [
-    "FablePGREDscriptready;NO reviewer fix applied yet. Tests forA1/M1/M2/M3refund+integrity/M4/N1/N2 onowned220 next."
+    "Fable fixes compiled additive-only:parallelAgingCRM+completiondate;guest releasedmarker;paymentrefundtrigger/privateintegrity;allliteshiftblock;returns3indexes/expenseREVOKE.",
+    "627+9 afterguard values byte-identical;ownerreadonly636diagnostic generated,actual219+negative proof inGREENrunner next;no reference/rehearsal/fullCI."
   ],
   "notStarted": [
     "Fable A1/M1 debtaging+CRM parallels;M2 neverautoexpire;M3 paymentreversal+integrity;M4 all liteshiftblock;N1indexes/N2revoke;owner-readonly636diagnostic;correctreport.",
@@ -28,10 +30,11 @@
     "Prior1980units/types/lint+realDB220proofs;all before ninth,not finalcurrent.",
     "Current6summary/compile/negativeunits+focusedlintPASS.",
     "8currentfocusedsummary/compile/activationshape tests+lintPASS;compiler deterministic shuffledrows/checkPASS.",
-    "fcaHTTP181+service695allactualPASS;fullunitsran1986/1960PASS26FAIL(NOgreenclaim)."
+    "fcaHTTP181+service695allactualPASS;fullunitsran1986/1960PASS26FAIL(NOgreenclaim).",
+    "7focuseddispatch/SQLshape/627+9/strictknownmessages PASS;focusedlintPASS."
   ],
   "testsRemaining": [
-    "Actualsummary fullJSON/parity/enqueue/roles/periods;catalog/readiness refresh;legacy214-219Restore;remainingrehearsal gates;FULLCI/Gitleaks."
+    "ActualPGGREEN eightFablecases+ownerreadonlydiagnostic;fullreaders parity/permissions/epochshiftguard;focusedUI+types;updatedsourcehashes/report."
   ],
   "findings": [
     "Ninth approval onlybuild_business_summary/newprivate cost-freehelpers/formatter;all8previous sources untouched.",
@@ -44,13 +47,13 @@
     "79 remainsDraft/deferred221;no adoption ofitsSQL;219 tools retained",
     "No new627 body or ninebridge diff changes;Fable fixes additive only;no newreference/rehearsal/finalCI before review."
   ],
-  "nextExactAction": "RED confirmedM1/A1/M3;fixonlytestsetup(cronpostgres+rollbackrefundreversal),rerunRED tocoverM2/M4/N1/N2 beforeproductfixes.",
+  "nextExactAction": "AllFableREDconfirmed49ab;runownedPGGREENforadditivefixes+read-onlyD1diagnostic.627+9unchanged. Reference/rehearsal/finalCIheld.",
   "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "62B28C4647AA81511655AF8DE0F237B07104AAB8F18C34ACAD92141644DDDC0D",
-  "checkpointedAt": "2026-11-10T21:28:36.822Z",
-  "filesTouchedCount": 3,
-  "filesTouchedManifestSha256": "92b3961e9d6b696e38b7e3260a009f33c1e6edd8c118ab8087b03a233f2ea672"
+  "workingTreeFingerprint": "810AA1BF5E9E1EF4608BC966C745ADDC4289E65DCF3002AA9E1A214027ABEAA2",
+  "checkpointedAt": "2026-11-10T21:39:35.892Z",
+  "filesTouchedCount": 20,
+  "filesTouchedManifestSha256": "53421226f5ba861b8a2582de11baac8735fcf04b57c91e8b67158be226928e0d"
 }

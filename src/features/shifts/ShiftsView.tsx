@@ -458,11 +458,11 @@ export const ShiftsView: React.FC<{operatingMode?:OperatingMode}> = ({operatingM
                         <div className="rounded-lg bg-nw-surface-2 p-2 text-nw-text">CliQ: {money(effectValue('cliq_in_minor_units') / 1000)}</div>
                         <div className="rounded-lg bg-nw-surface-2 p-2 text-nw-text">ذمم العملاء: {money(effectValue('customer_balance_in_minor_units') / 1000)}</div>
                         {operatingMode==='full'&&<div className="rounded-lg bg-nw-surface-2 p-2 text-nw-text">ذمم الموردين: {money(effectValue('supplier_balance_in_minor_units') / 1000)}</div>}
-                        {operatingMode==='full'&&!fullReversalPreview.liteMonetaryRefundBlocked&&<div className="rounded-lg bg-nw-surface-2 p-2 text-nw-text">المخزون: {effectValue('inventory_base_units_delta')} وحدة أساسية</div>}
+                        {operatingMode==='full'&&!fullReversalPreview.liteMonetaryRefundBlocked&&!fullReversalPreview.liteShiftBlocked&&<div className="rounded-lg bg-nw-surface-2 p-2 text-nw-text">المخزون: {effectValue('inventory_base_units_delta')} وحدة أساسية</div>}
                         <div className="rounded-lg bg-nw-surface-2 p-2 text-nw-text">المبيعات: {money(effectValue('sales_in_minor_units') / 1000)}</div>
                         <div className="rounded-lg bg-nw-surface-2 p-2 text-nw-text">الخصم: {money(effectValue('discount_in_minor_units') / 1000)}</div>
-                        {operatingMode==='full'&&!fullReversalPreview.liteMonetaryRefundBlocked&&<div className="rounded-lg bg-nw-surface-2 p-2 text-nw-text">تكلفة البضاعة: {money(effectValue('cogs_in_minor_units') / 1000)}</div>}
-                        {operatingMode==='full'&&!fullReversalPreview.liteMonetaryRefundBlocked&&<div className="col-span-2 rounded-lg bg-nw-surface-2 p-2 text-nw-text">الربح: {money(effectValue('profit_in_minor_units') / 1000)}</div>}
+                        {operatingMode==='full'&&!fullReversalPreview.liteMonetaryRefundBlocked&&!fullReversalPreview.liteShiftBlocked&&<div className="rounded-lg bg-nw-surface-2 p-2 text-nw-text">تكلفة البضاعة: {money(effectValue('cogs_in_minor_units') / 1000)}</div>}
+                        {operatingMode==='full'&&!fullReversalPreview.liteMonetaryRefundBlocked&&!fullReversalPreview.liteShiftBlocked&&<div className="col-span-2 rounded-lg bg-nw-surface-2 p-2 text-nw-text">الربح: {money(effectValue('profit_in_minor_units') / 1000)}</div>}
                       </div>
                       <div className="max-h-48 space-y-1 overflow-y-auto rounded-lg border border-nw-border bg-nw-surface-2 p-2 text-[10px]">
                         {fullReversalPreview.operations.map((operation) => (

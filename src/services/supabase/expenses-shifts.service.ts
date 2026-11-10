@@ -58,6 +58,7 @@ export interface CashShiftFullReversalOperation {
 
 export interface CashShiftFullReversalPreview {
   liteMonetaryRefundBlocked?:true;
+  liteShiftBlocked?:true;
   shiftId: string;
   shiftNumber: string;
   shiftStatus: string;
@@ -218,6 +219,7 @@ export async function previewCashShiftFullReversalFromSupabase(
   }
   return {
     ...(payload.liteMonetaryRefundBlocked===true?{liteMonetaryRefundBlocked:true as const}:{}),
+    ...(payload.liteShiftBlocked===true?{liteShiftBlocked:true as const}:{}),
     shiftId: textValue(payload.shiftId),
     shiftNumber: textValue(payload.shiftNumber),
     shiftStatus: textValue(payload.shiftStatus),

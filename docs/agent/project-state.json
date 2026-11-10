@@ -260,7 +260,7 @@
   "migration215CanonicalLfSha256": "2D20594D6112C206A23130C43CE555ECC5357921CC9E4058019D0446223A4E57",
   "trialTb215Status": "LOCAL_DB_UI_SDK_REFERENCE_OWNER_BACKUP_RESET_PASS_FULLQUALITY_EXACT_CI_PENDING",
   "operationalSchema": {
-    "manifestSha256": "5c0c8368f94b45a9d43ffc01cb51e13131ab9c62218796acef0349460cd269e5",
+    "manifestSha256": "7de16aca6e65b40dfbb3d42c60a6aed4711905719e71c52da3d053075b866e8f",
     "archiveFormatVersion": 2,
     "legacyArchiveCeilings": [
       214,
@@ -285,5 +285,5 @@
   "phaseSALES_ONLY_PHASE1ImplementationAllowed": true,
   "phaseSALES_ONLY_PHASE2ImplementationAllowed": true,
   "phaseSALES_ONLY_PHASE3ImplementationAllowed": true,
-  "migration220CanonicalLfSha256": "019963FA3A90C85C8D81ACDCD54583F513E9D7B8DB862F8EACC66A751298F308"
+  "migration220CanonicalLfSha256": "48221190A67B97965B6C1655B06C5566AD319882F79EBBCDE0A10027D5AD132E"
 }

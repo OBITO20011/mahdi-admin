@@ -12,12 +12,19 @@ export function readOperatingShiftReversal(shiftId:string){
 }
 export function assertLiteShiftReversalBlock(value:unknown,shiftId:string){
  if(!value||typeof value!=='object'||Array.isArray(value))throw invalid();const p=value as Record<string,unknown>;
+ if(p.liteShiftBlocked!==undefined){
+  if(p.liteShiftBlocked!==true||p.success!==true||p.shiftId!==shiftId||p.canExecute!==false||!Array.isArray(p.operations)
+   ||!p.operations.some(v=>v&&typeof v==='object'&&v.operationType==='lite_shift'&&v.originalRecordId===shiftId
+    &&v.status==='BLOCKED'&&typeof v.reason==='string'&&v.reason.trim().length>0))throw invalid();
+ }
  if(p.liteMonetaryRefundBlocked===undefined)return;
  if(p.liteMonetaryRefundBlocked!==true||p.success!==true||p.shiftId!==shiftId||p.canExecute!==false||!Array.isArray(p.operations)
   ||!p.operations.some(v=>v&&typeof v==='object'&&v.operationType==='lite_monetary_refund'&&v.originalRecordId===shiftId
    &&v.status==='BLOCKED'&&typeof v.reason==='string'&&v.reason.trim().length>0))throw invalid();
 }
 export function shiftReversalGuardMessage(error:{code?:string;message?:string}){
+ if(error.code==='P0001'&&error.message==='هذه الوردية تتبع وضع البيع المبسّط. لا يمكن إلغاؤها أو عكس عملياتها؛ استخدم المرتجع وعدّ الدرج والإغلاق اليومي.')
+  return 'هذه الوردية تتبع وضع البيع المبسّط. استخدم المرتجع وعدّ الدرج والإغلاق اليومي؛ الإلغاء والعكس محجوبان. (SHIFT-03)';
  return error.code==='P0001'&&error.message==='LITE2_SHIFT_REVERSAL_HAS_LITE_REFUND'
   ?'هذه الوردية تتضمن ردّ مبلغ لفاتورة قديمة بلا مخزون. استخدم عدّ الدرج والإغلاق اليومي؛ الإلغاء والعكس محجوبان. (SHIFT-03)':null;
 }

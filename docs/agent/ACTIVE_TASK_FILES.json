@@ -3,15 +3,83 @@
   "files": [
     {
       "code": " M",
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": " M",
       "path": "scripts/audit/sales-only-phase3-source-pins.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/maintenance-db-contract.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/rehearsal220-sales.mjs"
     },
     {
       "code": " M",
       "path": "scripts/testing/run-lite220-fable-review.mjs"
     },
     {
+      "code": " M",
+      "path": "scripts/testing/sales-only220-compiler.mjs"
+    },
+    {
+      "code": " M",
+      "path": "src/features/shifts/ShiftsView.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/services/supabase/crm.service.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/services/supabase/customerDebtAging.service.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/services/supabase/expenses-shifts.service.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/services/supabase/operatingShiftReversal.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/utils/businessError.ts"
+    },
+    {
+      "code": " M",
+      "path": "supabase/migrations/220_sales_only_operating_mode.sql"
+    },
+    {
       "code": "??",
-      "path": "scripts/testing/lite220-owner-frozen-diagnostic.mjs"
+      "path": "docs/design/sales-only-phase3/collection-refund-guard.sql"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/RESET220_BEFORE_D1_READ_ONLY.sql"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/lite220-fable-additions.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/lite220-fable-readers.mjs"
+    },
+    {
+      "code": "??",
+      "path": "src/services/supabase/operatingReceivables.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/lite220-fable-additions.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/lite220-fable-dispatch.test.ts"
     }
   ]
 }
