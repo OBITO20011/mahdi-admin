@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner10Nov phase3:220liteonly/627frozen/8exactprevious+approved9thsummary bridge;owner220tools/D1/rehearsal/Draft only.",
-  "baselineSha": "681941de4314491318434a7f8fe54bfcfc02a950",
+  "baselineSha": "7acb6ea45e04ae24350cceb3ab760d104a3e62af",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase3",
   "phase": "SALES_ONLY_PHASE3",
@@ -13,17 +13,19 @@
     "220before ninth:literal/fullJSON+allrows parity/fresh0/181REST695RPC/reset4resumeUTC/privatefence/strictBackupRestore+upgrade6negative/epoch13groups passed;externalreport holdsdetails.",
     "Owner-size220before ninth:820rows345flavors14cats1165IDs;all transactional steps585666ms/stock0/integrity0/cleanuptrue/network0;1980units/types/lintPASS.",
     "Owner resolved:79defer221;628freeze nowexplicit627+8previous+approvedsummary ninth only.",
-    "Summary scoped implementation+formatter/compile6focusedtests/lintPASS;realSQL/catalog refresh next."
+    "Summary scoped implementation+formatter/compile6focusedtests/lintPASS;realSQL/catalog refresh next.",
+    "Actualsummary and freshcatalog7acb PASS;canonicalLFartifact019963fa… identical to testedGitbytes;original8 source bytecomparisonPASS."
   ],
   "inProgress": [
-    "Approved9thsummary implemented;sevenfocusedtests+lintPASS;actualDB initialgate refused beforeSQL because219catalog row order differed. Compiler now canonicalizes guard rows;unknownbytes/636pins intact. New literal/catalog run next."
+    "Actual ninth summary literal220/fullJSON/roles/allbranches/enqueue replay PASS879ms;fresh/incremental0/678public37private/627frozen9bridges. Currentpins/docs refreshed;SDK evidence+expandedownerrehearsal next."
   ],
   "notStarted": [
     "Remainingrehearsalactivation/closedpreview/receipt,finalCI/report"
   ],
   "testsPassed": [
     "Prior1980units/types/lint+realDB220proofs;all before ninth,not finalcurrent.",
-    "Current6summary/compile/negativeunits+focusedlintPASS."
+    "Current6summary/compile/negativeunits+focusedlintPASS.",
+    "8currentfocusedsummary/compile/activationshape tests+lintPASS;compiler deterministic shuffledrows/checkPASS."
   ],
   "testsRemaining": [
     "Actualsummary fullJSON/parity/enqueue/roles/periods;catalog/readiness refresh;legacy214-219Restore;remainingrehearsal gates;FULLCI/Gitleaks."
@@ -38,13 +40,13 @@
     "627originalbodies frozen;8exactprevious+approvedsummarydiff only;anyotherexpansionstopask",
     "79 remainsDraft/deferred221;no adoption ofitsSQL;219 tools retained"
   ],
-  "nextExactAction": "Run canonical220 literal/full parity/summary/roles/enqueue and fresh catalog;old database proof stopped before SQL,cleanuptrue.",
+  "nextExactAction": "Actual ninth summary/fullparity/fresh0 PASS;run currentHTTP181/RPC695 then newready220 reference,expandedrehearsal/epoch/strictprotection/legacy and FULLCI.",
   "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "BA4FAC02EAB73E9C0DFC9960DB09D3CE4C17E8055989AD23A089FA7014889B16",
-  "checkpointedAt": "2026-11-10T20:46:57.770Z",
-  "filesTouchedCount": 7,
-  "filesTouchedManifestSha256": "bee221467a06d3b4cb92f615d07a1a3fcaaf5f12f93383e428efbecbd8029977"
+  "workingTreeFingerprint": "B4BCE91E28D3108EE9DD492F4568DA69190543CBEB9F2AC8AB1C24EDDD50F814",
+  "checkpointedAt": "2026-11-10T21:10:45.196Z",
+  "filesTouchedCount": 19,
+  "filesTouchedManifestSha256": "2846af669b76b4c128c7f184080f1e4cd9559dd419b89cd4345052e5f490d4bb"
 }

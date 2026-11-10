@@ -7,4 +7,4 @@ const rows=JSON.parse(await readFile(path.resolve(args[1]),'utf8')),sql=buildSal
 const target=new URL('../../supabase/migrations/'+salesOnly220Name,import.meta.url);
 if(args[2]==='--check')assert.equal(await readFile(target,'utf8'),sql,'GENERATED_LITE220_DRIFT');
 else await writeFile(target,sql,{flag:'wx'});
-console.log(JSON.stringify({ok:true,checkOnly:args[2]==='--check',migration:salesOnly220Name,originalFunctions:636,frozenBodies:628,exactBridges:8,bytes:Buffer.byteLength(sql),pr79Included:false}));
+console.log(JSON.stringify({ok:true,checkOnly:args[2]==='--check',migration:salesOnly220Name,originalFunctions:636,frozenBodies:627,exactBridges:9,bytes:Buffer.byteLength(sql),pr79Included:false}));

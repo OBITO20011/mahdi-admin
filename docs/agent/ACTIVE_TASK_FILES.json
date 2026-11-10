@@ -3,7 +3,31 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/OWNER_DECISIONS.md"
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/design/sales-only-phase3/catalog220-pins.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/generated/DB_FUNCTIONS.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/MAINTAINER_GUIDE_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/D1_REFERENCE_KIT220_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/RESET220_OWNER_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/UPGRADE220_AR.md"
     },
     {
       "code": " M",
@@ -11,7 +35,11 @@
     },
     {
       "code": " M",
-      "path": "scripts/testing/lite220-summary-runtime.mjs"
+      "path": "scripts/testing/build-sales-only220.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/maintenance-db-contract.mjs"
     },
     {
       "code": " M",
@@ -19,15 +47,35 @@
     },
     {
       "code": " M",
+      "path": "scripts/testing/run-lite220-rehearsal.mjs"
+    },
+    {
+      "code": " M",
       "path": "scripts/testing/sales-only220-compiler.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/testing/sales-only220-epoch-runtime.mjs"
+      "path": "supabase/migrations/220_sales_only_operating_mode.sql"
     },
     {
-      "code": " M",
-      "path": "tests/lite220-telegram-summary.test.ts"
+      "code": "??",
+      "path": "scripts/testing/rehearsal220-activation.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/rehearsal220-closed-trial.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/rehearsal220-real-start.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/rehearsal220-receipts.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/rehearsal220-activation.test.ts"
     }
   ]
 }
