@@ -1,3 +1,4 @@
+import {replyLegacy219MissingRpc} from './legacy219-rpc';
 import { test, expect } from './isolated-test';
 import { ordersFixture } from './package-f-orders.fixture';
 
@@ -9,6 +10,7 @@ for (const theme of ['light', 'dark']) {
       let releaseBackRead: (() => void) | undefined;
       const fixture = ordersFixture[0];
       await page.route('http://127.0.0.1:4176/rest/v1/**', async (route) => {
+        if(await replyLegacy219MissingRpc(route))return;
         const request = route.request();
         const parsed = new URL(request.url());
         const path = parsed.pathname.split('/').pop();

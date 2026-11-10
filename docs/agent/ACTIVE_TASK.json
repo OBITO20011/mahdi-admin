@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner9Nov phase2 above85:build additive sales-only mode;reuse UI/math;opening epoch;quarantined SQL/Draft86/fullCI only.",
-  "baselineSha": "4e30162d993f8822cd3219ac14fd29b929b6ea02",
+  "baselineSha": "ac78046bb54c79b552d86bceccbafb19ff39dc59",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase2",
   "phase": "SALES_ONLY_PHASE2",
@@ -17,7 +17,7 @@
     "Currentbundle662851raw183992gzip below original683725/187840 caps;Gitleaks718commits0;owner20/env4 unchanged.37f and4e30162d pushed."
   ],
   "inProgress": [
-    "Exact final FULLCI;4e core1944/1945 failed only checkpoint>4KB;compact metadata without changing test/limit."
+    "Final FULLCI after exact legacy219 orders-focus mock fix;8browser/9unitPASS. ac core cancelled20min from missing fixture reader,notaccepted."
   ],
   "notStarted": [],
   "testsPassed": [
@@ -34,14 +34,14 @@
     "No owner/env edits;no Docker factory reset or unknown volume deletion",
     "628original function bodies frozen;8exact approved patches only"
   ],
-  "nextExactAction": "Exact final FULLCI all pages;Draft86 report then STOP beforePhase3.",
-  "checkpointedAt": "2026-11-10T05:26:12.507Z",
+  "nextExactAction": "Exact final FULLCI including cancelled/timeouts;Draft86 report then ownerSTOP.",
+  "checkpointedAt": "2026-11-10T05:50:42.649Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 0,
-  "filesTouchedManifestSha256": "b6429e7d08029a34589e9c8956ef86dffab2fb6dd9ee37c08d5e9204e14cdbe6",
-  "workingTreeFingerprint": "AA7E1BEB9E33AF6D66638C52C546101F72793A005AEECF061D58701DF90BBB38",
+  "filesTouchedCount": 4,
+  "filesTouchedManifestSha256": "910991372bd3520793b24f01e0c33e667bdb2cffb46eae73e5a13f54c8f3538c",
+  "workingTreeFingerprint": "EE603806F7F20C2E8EB1FD8B5EC3290CD0A0717B19968464AC4093659A0353D4",
   "activeProcesses": [],
   "findings": [
     "No new bridge beyond owner approvals;no hosted/deploy/main changes."
