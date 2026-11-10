@@ -3,39 +3,67 @@
   "files": [
     {
       "code": " M",
+      "path": "docs/agent/OWNER_DECISIONS.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/handover/templates/README.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/handover/دليل-صاحب-المحل.md"
+    },
+    {
+      "code": " M",
+      "path": "package.json"
+    },
+    {
+      "code": " M",
       "path": "scripts/audit/sales-only-phase3-source-pins.json"
     },
     {
       "code": " M",
-      "path": "scripts/testing/product-workbook-db-transport.mjs"
+      "path": "scripts/testing/build-sales-only-phase3-history.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/testing/sales-only-phase2-shift-guard-runtime.mjs"
-    },
-    {
-      "code": "??",
       "path": "scripts/testing/rehearsal220-builds.mjs"
     },
     {
-      "code": "??",
-      "path": "scripts/testing/rehearsal220-opening.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/rehearsal220-sales.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/rehearsal220-services.mjs"
-    },
-    {
-      "code": "??",
+      "code": " M",
       "path": "scripts/testing/run-lite220-rehearsal.mjs"
     },
     {
-      "code": "??",
+      "code": " M",
       "path": "scripts/testing/sales-only220-workbook-fixture.mjs"
+    },
+    {
+      "code": "??",
+      "path": ".github/workflows/lite220-tools.yml"
+    },
+    {
+      "code": "??",
+      "path": "docs/handover/templates/lite/المنتجات-lite.xlsx"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/D1_REFERENCE_KIT220_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/RESET220_OWNER_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/SALES_ONLY220_OWNER_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/UPGRADE220_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "tests/sales-only220-workbook-fixture.test.ts"
     }
   ]
 }

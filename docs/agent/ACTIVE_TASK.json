@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
+  "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner10Nov phase3:220liteonly/628frozen/8exactbridges;owner220tools+D1/full local rehearsal/docs;Draft only.",
-  "baselineSha": "72028f529389dce47309de6c3c01732fce628a9a",
+  "baselineSha": "8f44286526154d060e3707a336e013d0e03acd1c",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/sales-only-phase3",
   "phase": "SALES_ONLY_PHASE3",
@@ -16,10 +16,11 @@
     "Actual fresh/incremental220 catalog0diff;678public+35private;628frozen/8exactmetadata;cleanupPASS.",
     "Actual220access181/172success9empty0error;readyreference31/678/13/fresh0;offlineCLI12PASS.",
     "RESET220 actualnormal+4interruptions/resume/UTC/ownerMFA/private2sessionfence/pg_net PASS;cleanuptrue.",
-    "Actualencrypted219BackupRestore→220upgrade→220BackupRestore→verifyonly PASS;6negatives;219sourcesimmutable."
+    "Actualencrypted219BackupRestore→220upgrade→220BackupRestore→verifyonly PASS;6negatives;219sourcesimmutable.",
+    "Literal220 lateraccounting13groupsPASS/1640rows/1281ms;full628+8exact/cleanup/nohosted."
   ],
   "inProgress": [
-    "D1kit2208tests/ownerprotection6testsPASS;owner-size localrehearsal andepoch220runtime prep."
+    "Corrected synthetic MFA timestamps/packet-only fixture;actual owner-size rehearsal pending;no unknown writer changes."
   ],
   "notStarted": [
     "Owner-scale220 OFF rehearsal/lateractivation;cutover/template/owner docs",
@@ -32,7 +33,7 @@
     "D1kit8/owner2206/history10focusedPASS;types+strictlintPASS beforelatesttesthelpers"
   ],
   "testsRemaining": [
-    "owner-size220rehearsal/lateractivation/current220serviceaccess",
+    "owner-size220rehearsal/current220serviceaccess",
     "latesttypes/lint/allunits/browser/build/old214–219restore/FULLCI/Gitleaks"
   ],
   "findings": [
@@ -45,13 +46,13 @@
     "628originalbodies frozen;8exactapproveddiffs only;any expansionstopask",
     "79 remainsDraft/deferred221;no adoption ofitsSQL;219 tools retained"
   ],
-  "nextExactAction": "Actual220reset+upgrade/RestorePASS. Build owner-size rehearsal(new strict220 callback) andrerunepochfinal fixed-container guard;D1ready tests8PASS. No628/79/hosted/merge.",
+  "nextExactAction": "MFA/packetonly fixtures corrected;epoch13PASS;frozenclone owner220 full rehearsal next;FULLCI pending.",
   "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "932D12B09301AE77D77BA33D6AA510BA5A350E07B1402E089D3C95AD60099097",
-  "checkpointedAt": "2026-11-10T17:51:16.424Z",
-  "filesTouchedCount": 9,
-  "filesTouchedManifestSha256": "4c9c965f9226766dad8a41725b7f18dce9ab3bc50cb37f1c59b5e01611677ce9"
+  "workingTreeFingerprint": "6A67E7A958C4F5DA46E6AD2967DE31BB55CD06CF6C97C721500E1DF7199EB8C3",
+  "checkpointedAt": "2026-11-10T18:11:26.968Z",
+  "filesTouchedCount": 16,
+  "filesTouchedManifestSha256": "1071e9e6ef21904a3fc4a081f64b9f5d7ca843ee840ee8e18871b6bc4d21a5b7"
 }

@@ -1,6 +1,6 @@
 // Build only,actual catalog reads through a loopback proxy to owned PostgreSQL.
 import assert from'node:assert/strict';import{createServer}from'node:http';import{spawn}from'node:child_process';import{readFile}from'node:fs/promises';import path from'node:path';import{verifyEnvironmentDist}from'../environments/verify-dist.mjs';
-export async function buildRehearsal220Apps({root,json,anon,q,j,empty=false,admin=false}){
+export async function buildRehearsal220Apps({root,json,anon,q,empty=false,admin=false}){
  const seen={catalog:0,offers:0},server=createServer(async(req,res)=>{try{assert.equal(req.method,'POST');assert.equal(req.headers.apikey,'isolated-rehearsal220-key');const parts=[];let size=0;for await(const b of req){size+=b.length;assert.ok(size<65536);parts.push(b);}const args=JSON.parse(Buffer.concat(parts).toString('utf8')),name=req.url?.split('/').at(-1);assert.ok(['lite1_catalog_page2','get_public_storefront_offers'].includes(name));
  const signature=await json(`SELECT jsonb_object_agg(p.proargnames[g],format_type(p.proargtypes[g-1],NULL)) FROM pg_proc p,LATERAL generate_series(1,p.pronargs)g WHERE p.pronamespace='public'::regnamespace AND p.proname=${q(name)};`);
  const params=Object.entries(args).map(([k,v])=>{assert.ok(Object.hasOwn(signature,k));return k+':='+(v===null?'NULL':q(typeof v==='object'?JSON.stringify(v):v))+'::'+signature[k];}).join(',');const value=await anon(name+'('+params+')');seen[name==='lite1_catalog_page2'?'catalog':'offers']++;res.setHeader('Content-Type','application/json');res.end(JSON.stringify(value));
