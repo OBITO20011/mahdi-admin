@@ -1,3 +1,5 @@
+import {frankfurt220TriggerAclFixtureSql,frankfurt220TriggerAclReadSql} from './frankfurt220-trigger-acl-fixture.mjs';
+import {frankfurt220TriggerAcl,frozen220TriggerAclProfile} from '../operations/frozen220-trigger-acl.mjs';
 import{verifyFableShiftPersistence}from'./lite220-fable-shift-persistence.mjs';
 import{verifyFableFullParity}from'./lite220-fable-parity.mjs';
 // Real PostgreSQL RED/GREEN acceptance;fixed owned networkless220 only.
@@ -15,11 +17,34 @@ async function returned(s,quantity){const item=await json(`SELECT to_jsonb(id) F
 async function caseRun(name,setup,assertion){try{const fixture=await setup();try{await assertion(fixture);report.cases.push({name,status:'GREEN'});}catch(error){if(error.code!=='ERR_ASSERTION')throw error;report.cases.push({name,status:'RED',error:String(error.message).slice(0,1200),actual:error.actual,expected:error.expected});}}catch(error){report.cases.push({name,status:'SETUP_ERROR',error:String(error.message).slice(0,2000)});}}
 try{
  const frozen=await readVerificationSourceFreeze(root),boot=await exec(process.execPath,['scripts/testing/bootstrap-isolated-supabase.mjs'],{cwd:root,windowsHide:true,maxBuffer:32*1024**2,env:{...process.env,NAWASRAH_ISOLATED_PROJECT_ID:project,NAWASRAH_MAX_MIGRATION:red?'220':'219',NAWASRAH_SKIP_REDUNDANT_DB_RESET:'true',NAWASRAH_SUPABASE_EXCLUDE:'gotrue,kong,postgrest,realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor'}});local=JSON.parse(boot.stdout).isolatedProjectRoot;const first=JSON.parse((await docker('inspect',container)).stdout)[0];ownedId=first.Id;assert.equal(path.resolve(first.Config.Labels['com.supabase.cli.workdir']).toLowerCase(),path.resolve(local).toLowerCase());for(const n of Object.keys(first.NetworkSettings.Networks))await docker('network','disconnect',n,container);
- if(!red){const artifact=await readFile(path.join(root,'supabase/migrations/220_sales_only_operating_mode.sql'),'utf8'),diagnostic=frozen220BeforeDiagnostic(artifact);assert.equal(await sql(diagnostic),'','LOCAL219_BEFORE_GUARD_ZERO');
-  const query=diagnostic.split('BEGIN READ ONLY;\n')[1].split('\nROLLBACK;')[0],original=(await json(functionCatalogSql)).find(r=>r.name==='get_customer_debt_aging');
-  const changed=await sql('BEGIN;'+replaceDefinitionSource(original.definition,original.source,original.source+'\n--LOCAL_UNKNOWN_BYTE')+";ALTER FUNCTION public.get_customer_debt_aging(UUID) SET work_mem='5MB';REVOKE EXECUTE ON FUNCTION public.get_customer_debt_aging(UUID) FROM authenticated;"+query+'ROLLBACK;');
-  for(const value of['get_customer_debt_aging(uuid)','source_hash','definition_hash','config','raw_acl'])assert.ok(changed.includes(value),'OWNER_DIAGNOSTIC_MISSING_REASON:'+value);assert.equal(await sql(diagnostic),'','OWNER_DIAGNOSTIC_ROLLBACK_ZERO');
-  report.ownerReadOnlyDiagnostic={local219Zero:true,injectedUnknownBodyConfigAclDetected:true,rollbackZero:true,hostedExecution:false};await sql(artifact);await sql("INSERT INTO supabase_migrations.schema_migrations(version,name,statements)VALUES('220','sales_only_operating_mode','{}');");
+ if(!red){
+  const artifact=await readFile(path.join(root,'supabase/migrations/220_sales_only_operating_mode.sql'),'utf8');
+  const diagnostic=frozen220BeforeDiagnostic(artifact),readAcl=async()=>frozen220TriggerAclProfile(await json(frankfurt220TriggerAclReadSql));
+  assert.equal(await readAcl(),'local');
+  assert.deepEqual((await sql(diagnostic)).split(/\r?\n/u),frankfurt220TriggerAcl.signatures.map(name=>name+'|{raw_acl}'));
+  await sql(frankfurt220TriggerAclFixtureSql);
+  assert.equal(await readAcl(),'frankfurt');
+  assert.equal(await sql('BEGIN READ ONLY;'+diagnostic+'ROLLBACK;'),'','FRANKFURT219_BEFORE_GUARD_ZERO');
+  const original=(await json(functionCatalogSql)).find(r=>r.name==='get_customer_debt_aging');
+  const changed=await sql('BEGIN;'+replaceDefinitionSource(original.definition,original.source,original.source+'\n--LOCAL_UNKNOWN_BYTE')+
+    ";ALTER FUNCTION public.get_customer_debt_aging(UUID) SET work_mem='5MB';REVOKE EXECUTE ON FUNCTION public.get_customer_debt_aging(UUID) FROM authenticated;"+diagnostic+'ROLLBACK;');
+  for(const value of['get_customer_debt_aging(uuid)','source_hash','definition_hash','config','raw_acl'])assert.ok(changed.includes(value),'OWNER_DIAGNOSTIC_MISSING_REASON:'+value);
+  const target=frankfurt220TriggerAcl.signatures[0],outsider='enforce_order_collection_before_completion()';
+  const scoped=await sql('BEGIN;REVOKE EXECUTE ON FUNCTION public.'+target+' FROM PUBLIC;GRANT EXECUTE ON FUNCTION public.'+outsider+' TO PUBLIC;'+diagnostic+'ROLLBACK;');
+  assert.deepEqual(scoped.split(/\r?\n/u),[target+'|{raw_acl}',outsider+'|{raw_acl}']);
+  const beforeGuard=artifact.match(/DO \$frozen220_before\$[\s\S]*?END \$frozen220_before\$;/u)?.[0];
+  const afterGuard=artifact.match(/DO \$frozen220_after\$[\s\S]*?END \$frozen220_after\$;/u)?.[0];
+  assert.ok(beforeGuard&&afterGuard);
+  await assert.rejects(()=>sql('BEGIN;GRANT EXECUTE ON FUNCTION public.'+target+' TO anon;'+beforeGuard+'ROLLBACK;'),/LITE220_FROZEN_BEFORE_MISMATCH/u);
+  await assert.rejects(()=>sql('BEGIN;GRANT EXECUTE ON FUNCTION public.'+outsider+' TO PUBLIC;'+beforeGuard+'ROLLBACK;'),/LITE220_FROZEN_BEFORE_MISMATCH/u);
+  assert.equal(await sql(diagnostic),'','OWNER_DIAGNOSTIC_ROLLBACK_ZERO');
+  await sql(artifact);
+  assert.equal(await readAcl(),'frankfurt','APPLY_MUST_PRESERVE_EXACT_ACL');
+  const guardProfile=await sql("SELECT COALESCE(current_setting('nawasrah.frozen220_acl_count',true),'');");
+  assert.equal(guardProfile,'','GUARD_SETTING_MUST_NOT_ESCAPE_TRANSACTION');
+  await assert.rejects(()=>sql("BEGIN;SELECT set_config('nawasrah.frozen220_acl_count','0',true);"+afterGuard+'ROLLBACK;'),/LITE220_FROZEN_AFTER_MISMATCH/u);
+  report.ownerReadOnlyDiagnostic={localNullSignaturesDetected:4,simulatedFrankfurt219Zero:true,injectedUnknownBodyConfigAclDetected:true,unlistedAclRejected:true,exactRawAclPreserved:true,rollbackZero:true,hostedExecution:false};
+  await sql("INSERT INTO supabase_migrations.schema_migrations(version,name,statements)VALUES('220','sales_only_operating_mode','{}');");
  }
  await sql('SELECT cron.alter_job(jobid,active:=false) FROM cron.job;ALTER TABLE orders DISABLE TRIGGER trg_notify_new_website_order_push;');await sql(await readFile(path.join(root,'scripts/testing/package-e-golden-day-fixture.sql'),'utf8'));await rpc(`set_go_live_main_branch_v1(${q(branch)})`);if(!red)await verifyFableFullParity({sql,json,q,j,id,executor},report);await rpc('lite1_set_mode2(false)');const originalFunctions=await json(functionCatalogSql),firstShift=(await rpc(`open_cash_shift(${q(branch)},100000)`)).id;
  const agingName=await sql("SELECT CASE WHEN to_regprocedure('public.lite1_debt_aging2(uuid)') IS NULL THEN 'get_customer_debt_aging' ELSE 'lite1_debt_aging2' END;"),crmName=await sql("SELECT CASE WHEN to_regprocedure('public.lite1_crm_page2(integer,integer,text,text,text)') IS NULL THEN 'get_crm_customer_page' ELSE 'lite1_crm_page2' END;");

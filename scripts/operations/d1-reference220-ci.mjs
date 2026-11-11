@@ -10,12 +10,14 @@ export async function readD1Github(route){
 export async function verifyD1Ci(root,head,{get=readD1Github,verifyJobs}={}){
  const branch=await get('git/ref/heads/main');requireD1(branch.object?.sha===head,'D1_REMOTE_MAIN_MISMATCH');
  const runs=[];for(let page=1;;page++){const result=await get('actions/runs?head_sha='+head+'&per_page=100&page='+page);runs.push(...result.workflow_runs);if(result.workflow_runs.length<100)break;}
+ /** @type {{head:string, checkedAt:string, runs:Record<string,{id:number,event:string,jobs:number,url:string}>}} */
  const results={head,checkedAt:new Date().toISOString(),runs:{}};
+ const jobsPageSize=50;
  if(!verifyJobs)({verifyFullDeliveryJobs:verifyJobs}=await import(pathToFileURL(path.join(root,'scripts/agent/verify-delivery-ci.mjs')).href));
  for(const name of ['Nawasrah code quality','Nawasrah secret scanning','Nawasrah complete backup recovery','Nawasrah lite220 owner tools','Quarantined sales-only phase1']){
   const run=runs.filter(r=>r.name===name&&r.head_sha===head&&r.head_branch==='main'&&['push','workflow_dispatch'].includes(r.event)).sort((a,b)=>b.id-a.id)[0];
   requireD1(run&&run.status==='completed'&&run.conclusion==='success','D1_CI_NOT_FULL_GREEN');
-  const jobs=[];for(let page=1;;page++){const result=await get('actions/runs/'+run.id+'/jobs?filter=latest&per_page=100&page='+page);jobs.push(...result.jobs);if(result.jobs.length<100)break;}
+  const jobs=[];for(let page=1;;page++){const result=await get('actions/runs/'+run.id+'/jobs?filter=latest&per_page='+jobsPageSize+'&page='+page);jobs.push(...result.jobs);if(result.jobs.length<jobsPageSize)break;}
   requireD1(jobs.length>0&&jobs.every(j=>j.head_sha===head&&j.status==='completed'&&j.conclusion==='success'),'D1_CI_NOT_FULL_GREEN');
   if(name==='Nawasrah code quality')try{verifyJobs(jobs);}catch{throw new Error('D1_CI_NOT_FULL_GREEN');}
   if(name==='Nawasrah lite220 owner tools')try{verify220OwnerToolJobs(jobs);}catch{throw new Error('D1_CI_NOT_FULL_GREEN');}

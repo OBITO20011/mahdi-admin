@@ -3,7 +3,7 @@ import {mkdtemp,mkdir,readFile,writeFile,readdir,rm,symlink,lstat} from 'node:fs
 import path from 'node:path';import {tmpdir} from 'node:os';import {execFileSync} from 'node:child_process';
 import {prepareD1,installD1,d1ErrorCode,d1Main} from '../scripts/operations/d1-reference220-kit.mjs';
 import {repositoryState,sha256,externalPath} from '../scripts/operations/d1-reference220-state.mjs';
-import {verifyD1Ci,predecessor220Jobs,verify220PredecessorJobs} from '../scripts/operations/d1-reference220-ci.mjs';
+import {verifyD1Ci,predecessor220Jobs,verify220PredecessorJobs,owner220DeliveryJobs} from '../scripts/operations/d1-reference220-ci.mjs';
 const name='local-reference-through220-ready.json';
 const git=(root:string,args:string[])=>execFileSync('git',args,{cwd:root,encoding:'utf8',windowsHide:true,stdio:['ignore','pipe','pipe']}).trim();
 async function fixture(){
@@ -77,3 +77,39 @@ test('220 owner state permits only reviewed five-field overlay over HEAD;ceiling
 });
 
 test('D1 refuses missing,duplicated,failed or extra predecessor gate;all8 must bind the reviewed phase2 behavior',()=>{const jobs=predecessor220Jobs.map(name=>({name,conclusion:'success'}));verify220PredecessorJobs(jobs);for(const bad of [jobs.slice(1),[...jobs,jobs[0]],jobs.map((j,i)=>i===0?{...j,conclusion:'failure'}:j),[...jobs.slice(1),{name:'UNKNOWN',conclusion:'success'}]])assert.throws(()=>verify220PredecessorJobs(bad),/D1_CI_NOT_FULL_GREEN/);});
+
+test('D1 reads the latest quality jobs in 50-item pages and rejects a bad or missing second page',async()=>{
+ const head='a'.repeat(40);
+ const names=['Nawasrah code quality','Nawasrah secret scanning','Nawasrah complete backup recovery','Nawasrah lite220 owner tools','Quarantined sales-only phase1'];
+ const runs=names.map((name,i)=>({id:i+1,name,head_sha:head,head_branch:'main',event:'push',status:'completed',conclusion:'success'}));
+ const job={head_sha:head,status:'completed',conclusion:'success'};
+ const matrix=Array.from({length:61},(_,i)=>({id:i+1,name:'quality-'+i,...job}));
+ const qualityPages:string[]=[];
+ let lastPage:'good'|'missing'|'failed'|'wrong-sha'='good';
+ const get=async(route:string)=>{
+  if(route==='git/ref/heads/main')return{object:{sha:head}};
+  if(route.startsWith('actions/runs?'))return{workflow_runs:runs};
+  const url=new URL(route,'https://api.github.com/');
+  assert.equal(url.searchParams.get('filter'),'latest');
+  assert.equal(url.searchParams.get('per_page'),'50');
+  if(route.startsWith('actions/runs/1/')){
+   const page=url.searchParams.get('page');assert.ok(page==='1'||page==='2');
+   qualityPages.push(page);
+   if(page==='1')return{jobs:matrix.slice(0,50)};
+   if(lastPage==='missing')return{jobs:[]};
+   return{jobs:matrix.slice(50).map((row,i)=>i!==0||lastPage==='good'?row:
+    lastPage==='failed'?{...row,conclusion:'failure'}:{...row,head_sha:'b'.repeat(40)})};
+  }
+  const gateNames=route.startsWith('actions/runs/4/')?owner220DeliveryJobs:
+   route.startsWith('actions/runs/5/')?predecessor220Jobs:['successful gate'];
+  return{jobs:gateNames.map(name=>({name,...job}))};
+ };
+ const verifyJobs=(jobs:typeof matrix)=>assert.deepEqual(jobs,matrix);
+ const result=await verifyD1Ci('',head,{get,verifyJobs});
+ assert.deepEqual(qualityPages,['1','2']);
+ assert.equal(result.runs['Nawasrah code quality'].jobs,61);
+ for(const bad of ['missing','failed','wrong-sha'] as const){
+  lastPage=bad;
+  await assert.rejects(()=>verifyD1Ci('',head,{get,verifyJobs}),/D1_CI_NOT_FULL_GREEN/u);
+ }
+});

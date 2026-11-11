@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "project": "Nawasrah ERP",
-  "branch": "codex/sales-only-phase3",
+  "branch": "codex/frankfurt220-frozen-acl",
   "approvedBaseline": "cab1c5aed8c2069e2919c566ea09c2da9757896d",
   "closedPhases": [
     "3",
@@ -260,7 +260,7 @@
   "migration215CanonicalLfSha256": "2D20594D6112C206A23130C43CE555ECC5357921CC9E4058019D0446223A4E57",
   "trialTb215Status": "LOCAL_DB_UI_SDK_REFERENCE_OWNER_BACKUP_RESET_PASS_FULLQUALITY_EXACT_CI_PENDING",
   "operationalSchema": {
-    "manifestSha256": "7de16aca6e65b40dfbb3d42c60a6aed4711905719e71c52da3d053075b866e8f",
+    "manifestSha256": "5721801a702faa79bc01b8b3bc7d2cee4a7ce9029d4d4905b7ea95889adc1c5b",
     "archiveFormatVersion": 2,
     "legacyArchiveCeilings": [
       214,
@@ -285,5 +285,5 @@
   "phaseSALES_ONLY_PHASE1ImplementationAllowed": true,
   "phaseSALES_ONLY_PHASE2ImplementationAllowed": true,
   "phaseSALES_ONLY_PHASE3ImplementationAllowed": true,
-  "migration220CanonicalLfSha256": "48221190A67B97965B6C1655B06C5566AD319882F79EBBCDE0A10027D5AD132E"
+  "migration220CanonicalLfSha256": "08BCD03CE79DC1421A49B66C7A0C44CABFDA4673ADBEFC9707AFDDFDE7EF49FA"
 }

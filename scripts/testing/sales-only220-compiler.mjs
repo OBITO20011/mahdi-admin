@@ -5,6 +5,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {phase2PrototypeSql} from './sales-only-phase2-installer.mjs';
+import {frankfurt220TriggerAcl,frankfurt220RawTriggerAcl} from '../operations/frozen220-trigger-acl.mjs';
 import {bridges,bridgedSource,replaceDefinitionSource,summaryBridgeSql} from './sales-only220-bridges.mjs';
 const pins=JSON.parse(readFileSync(new URL('../../docs/design/sales-only-phase1/frozen-functions.json',import.meta.url),'utf8'));
 const hash=s=>createHash('sha256').update(s).digest('hex');
@@ -19,16 +20,30 @@ export function assertOriginal219Functions(rows){
   for(const field of ['owner','config','acl'])assert.deepEqual(row[field],pin[field],'ORIGINAL219_METADATA_DRIFT:'+row.signature+':'+field);
  }
 }
+export const frozen220FrankfurtAclCte=`frankfurt_acl(signature,acl) AS(VALUES
+${frankfurt220TriggerAcl.signatures.map(signature=>' ('+q(signature)+','+q(frankfurt220RawTriggerAcl)+')').join(',\n')})`;
+const frozenAclCountSetting='nawasrah.frozen220_acl_count';
 function functionGuard(rows,stage){
  const values=rows.map(row=>`(${q(row.signature)},${q(hash(row.source))},${q(hash(row.definition))},${q(row.owner)},${q(JSON.stringify(row.config))}::jsonb,${q(row.acl)})`).join(',\n');
- return `DO $frozen220_${stage}$ DECLARE mismatches BIGINT; BEGIN
- WITH expected(signature,source_hash,definition_hash,owner_name,config,acl) AS(VALUES\n${values})
- SELECT count(*) INTO mismatches FROM expected e LEFT JOIN pg_proc p ON p.oid=to_regprocedure('public.'||e.signature)
- WHERE p.oid IS NULL OR encode(pg_catalog.sha256(convert_to(p.prosrc,'UTF8')),'hex') IS DISTINCT FROM e.source_hash
+ const preserveProfile=stage==='before'
+  ? `
+ PERFORM pg_catalog.set_config('${frozenAclCountSetting}',frankfurt_matches::text,true);`
+  : '';
+ const requireSameProfile=stage==='after'
+  ? ` OR frankfurt_matches::text IS DISTINCT FROM pg_catalog.current_setting('${frozenAclCountSetting}',true)`
+  : '';
+ return `DO $frozen220_${stage}$ DECLARE mismatches BIGINT; frankfurt_matches BIGINT; BEGIN
+ WITH expected(signature,source_hash,definition_hash,owner_name,config,acl) AS(VALUES\n${values}),
+ ${frozen220FrankfurtAclCte}
+ SELECT count(*) FILTER(WHERE p.oid IS NULL OR encode(pg_catalog.sha256(convert_to(p.prosrc,'UTF8')),'hex') IS DISTINCT FROM e.source_hash
  OR encode(pg_catalog.sha256(convert_to(pg_get_functiondef(p.oid),'UTF8')),'hex') IS DISTINCT FROM e.definition_hash
  OR p.proowner::regrole::text IS DISTINCT FROM e.owner_name OR to_jsonb(p.proconfig) IS DISTINCT FROM NULLIF(e.config,'null'::jsonb)
- OR p.proacl::text IS DISTINCT FROM e.acl;
- IF mismatches<>0 THEN RAISE EXCEPTION 'LITE220_FROZEN_${stage.toUpperCase()}_MISMATCH:%',mismatches;END IF;
+ OR (p.proacl::text IS DISTINCT FROM e.acl AND p.proacl::text IS DISTINCT FROM COALESCE(f.acl,e.acl))),
+ count(*) FILTER(WHERE f.signature IS NOT NULL AND p.proacl::text=f.acl)
+ INTO mismatches,frankfurt_matches FROM expected e LEFT JOIN pg_proc p ON p.oid=to_regprocedure('public.'||e.signature)
+ LEFT JOIN frankfurt_acl f ON f.signature=e.signature;
+ IF mismatches<>0 OR frankfurt_matches NOT IN (0,${frankfurt220TriggerAcl.signatures.length})${requireSameProfile}
+ THEN RAISE EXCEPTION 'LITE220_FROZEN_${stage.toUpperCase()}_MISMATCH:% (Frankfurt ACL matches:%)',mismatches,frankfurt_matches;END IF;${preserveProfile}
  END $frozen220_${stage}$;`;
 }
 export function buildSalesOnly220(rows){

@@ -1,3 +1,5 @@
+import {frankfurt220TriggerAclFixtureSql,frankfurt220TriggerAclReadSql} from './frankfurt220-trigger-acl-fixture.mjs';
+import {frozen220TriggerAclProfile} from '../operations/frozen220-trigger-acl.mjs';
 import {hold217Notifications} from '../operations/owner-telegram217-notifications.mjs';
 // Actual isolated PostgreSQL+GoTrue+Storage. No hosted target or credentials.
 import assert from 'node:assert/strict';
@@ -36,6 +38,8 @@ try{
   NAWASRAH_ISOLATED_PROJECT_ID:project,NAWASRAH_MAX_MIGRATION:'220',NAWASRAH_SKIP_REDUNDANT_DB_RESET:'true',
   NAWASRAH_SUPABASE_EXCLUDE:'realtime,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor'}});
  local=JSON.parse(boot.stdout).isolatedProjectRoot;
+ await sql(frankfurt220TriggerAclFixtureSql);
+ assert.equal(frozen220TriggerAclProfile(await json(frankfurt220TriggerAclReadSql)),'frankfurt');
  report.pgNetFixture=await frankfurtPgNetFixture(executor);
  const pgNetBefore=await json(pgNetIdentitySql);
  const cliCall=flags=>exec(process.execPath,[cli,...flags,'--local','--workdir',local,'--agent','no'],{cwd:root,windowsHide:true,maxBuffer:8*1024**2});
@@ -104,6 +108,8 @@ try{
   assert.deepEqual(await json(pgNetIdentitySql),pgNetBefore,'PG_NET_CHANGED_AFTER_RESET');
   await provePgNetRunnable219({...executor,localOnly:true});
   report.pgNetPreserved=true;
+  assert.equal(frozen220TriggerAclProfile(await json(frankfurt220TriggerAclReadSql)),'frankfurt','RESET220_FRANKFURT_RAW_ACL_CHANGED');
+  report.frankfurtTriggerAclPreserved=true;
   await finishResetSession(session);return r;
  };
  stage='snapshot-write-failure';
