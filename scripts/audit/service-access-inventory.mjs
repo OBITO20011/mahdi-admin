@@ -39,6 +39,7 @@ function importedReceivableNames(sf,sink,helper){
  return names.map(name=>({name,callsite,source:call.getText(sf),adapter:receivableHelper,adapterSha256:receivableHelperSha}));
 }
 function enclosing(node){for(let n=node.parent;n;n=n.parent)if(ts.isFunctionLike(n))return n.name?.getText()||n.parent?.name?.getText()||'<callback>';return '<module>';}
+/** @param {string | null} [receivableSource=null] */
 export function parseServices(file,text,receivableSource=null){
  const source=text.replaceAll('\r\n','\n'),sf=ts.createSourceFile(file,source,ts.ScriptTarget.Latest,true,file.endsWith('x')?ts.ScriptKind.TSX:ts.ScriptKind.TS);
  const rpc=[],storage=[],channels=[],env=[],wrapperCalls=[],bindings=[];
