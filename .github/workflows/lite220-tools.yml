@@ -108,6 +108,8 @@ jobs:
           name: lite220-rehearsal-synthetic-summary
           path: |
             test-results/lite220-rehearsal/summary.json
+            test-results/lite220-rehearsal/lock-snapshot.json
             test-results/sales-only220-epoch/report.json
+            test-results/sales-only220-epoch/lock-snapshot.json
           retention-days: 7
           if-no-files-found: error

@@ -1,4 +1,5 @@
 import{verifyLite220SummaryAfterEpoch}from'./lite220-summary-runtime.mjs';
+import {verifyKnownEpochVacuumBusy220} from './epoch220-known-vacuum.mjs';
 import {verifyShiftReversalGuard} from './sales-only-phase2-shift-guard-runtime.mjs';
 import {verifyLiteWorkbookImport} from './sales-only-phase2-workbook-runtime.mjs';
 import {verifyLiteProductDefinitions} from './sales-only-phase2-product-definitions.mjs';
@@ -131,6 +132,8 @@ export async function verifyOpeningEpoch220(c,report){
  for(const name of Object.keys(afterFailure.sequences))if(name!=='inventory_movement_mutation_seq')assert.equal(afterFailure.sequences[name],beforeFailure.sequences[name],name);
  assert.ok(Number(afterFailure.sequences.inventory_movement_mutation_seq)>Number(beforeFailure.sequences.inventory_movement_mutation_seq),'POSTGRES_NONTRANSACTIONAL_SEQUENCE_GAP_RECORDED');
  await sql('DROP TRIGGER lite2_test_failure ON sales_lite2.opening_epoch_items;DROP FUNCTION sales_lite2.inject_epoch_failure();');
+  const knownVacuumKey=key();
+  await verifyKnownEpochVacuumBusy220(c,report,apply(preview,knownVacuumKey),knownVacuumKey);
  const journal=new Map(),disk={getItem:key=>journal.get(key)??null,setItem:(key,value)=>journal.set(key,value)};
  const prepared=epochService.prepareOpeningEpochAttempt(id(1),epochModel.parseEpochPreview(preview,rows),notes,disk);
  // Process-crash fixture:journal persisted before two deliberately concurrent
