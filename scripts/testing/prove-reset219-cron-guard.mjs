@@ -6,7 +6,7 @@ import {migrationManifest} from './maintenance-db-contract.mjs';
 import {guardedReset219CronUnits,reset219CronStatements,verifyExistingReset219Cron,reset219CronIdentitySql} from '../operations/reset219-pg-cron-guard.mjs';
 export async function proveReset219CronGuard(executor,root){
  const query=async input=>{const r=await executor.localExecute(input);assert.equal(r.code,0,'CRON_GUARD_RUNTIME_SQL_FAILED');return r.stdout.trim();};
- const before=JSON.parse(await query(schemaCatalogSql)),reference={migrationCeiling:219,catalog:before,manifest:await migrationManifest(root)};
+ const before=JSON.parse(await query(schemaCatalogSql)),reference={migrationCeiling:219,catalog:before,manifest:(await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=219)};
  const identity=(await verifyExistingReset219Cron(executor,reference)).identity;
  const units=await Promise.all(reset219CronStatements.map(async s=>({name:s.name,input:await readFile(path.join(root,'supabase/migrations',s.name))})));
  const plan=guardedReset219CronUnits(units,reference),guardOf=p=>p.units[0].input.toString().match(/DO \$reset219_existing_cron\$[\s\S]*?END \$reset219_existing_cron\$;/u)[0];

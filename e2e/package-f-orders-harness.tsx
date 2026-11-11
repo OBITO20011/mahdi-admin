@@ -1,3 +1,5 @@
+import {supabase} from '../src/lib/supabase';
+import {startOrUpdateOrderDeliveryInSupabase} from '../src/services/supabase/orders.service';
 import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import '@fontsource/ibm-plex-sans-arabic/400.css';
@@ -35,9 +37,19 @@ engine.refreshStockNotificationsFromSupabase = async () => [];
 storeEngine.setActiveTab('orders');
 const fixture = structuredClone(ordersFixture);
 const list = structuredClone(orderListFixture);
+if(params.has('liteRecipient')){
+ fixture[1].accountingTracked=false;fixture[1].status=list[1].status='new';fixture[1].customerName=list[1].customerName='مستلم الطلب المقترح';
+ fixture[1].recipientProposal={proposed:true,recipient:{fullName:'مستلم الطلب المقترح',governorate:'إربد',city:'الرمثا',area:'حي التوصيل',street:'شارع التوصيل'},customerCard:{fullName:'اسم البطاقة المحفوظ',governorate:null,defaultAddress:'عنوان البطاقة المحفوظ'}};
+ fixture[1].items.forEach(item=>{item.accountingTracked=false;item.costPrice=null;});
+}
 if (params.has('long')) {
   fixture[1].customerName = list[1].customerName = 'سوبرماركت الحي الكبير للمواد التموينية والمنتجات الغذائية والمشروبات';
   fixture[1].items[0].productName = 'عصير البرتقال الطبيعي عبوة عائلية طويلة الاسم للمراجعة على الشاشات الصغيرة';
+}
+if(params.has('liteDelivery')){const actor='92600000-0000-4000-8000-000000000001';auth.state.user={id:actor} as AuthState['user'];fixture[1].accountingTracked=false;fixture[1].items.forEach(item=>{item.accountingTracked=false;item.costPrice=null;});if(!supabase)throw Error('LOCAL_CLIENT_REQUIRED');supabase.auth.getUser=async()=>({data:{user:{id:actor} as NonNullable<AuthState['user']>},error:null});}
+if(params.has('liteReceipt')){
+ fixture[1].accountingTracked=false;fixture[1].publicReceiptUrl='http://127.0.0.1:4174/#receipt=92600000-0000-4000-8000-000000000935';
+ fixture[1].items.forEach(item=>{item.accountingTracked=false;item.costPrice=null;});
 }
 const Harness = () => {
   const [filter, setFilter] = useState<OperationalOrderFilter>('all');
@@ -50,6 +62,7 @@ const Harness = () => {
   for (const method of params.has('live') ? [] : ['confirmOrder', 'cancelOrder', 'advanceOrderStatus', 'startOrUpdateOrderDelivery', 'completeWebsiteOrderWithSettlement', 'openCustomerProfile']) {
     actions[method] = async (...args: unknown[]) => { setAction(JSON.stringify({ method, args })); return method === 'startOrUpdateOrderDelivery' ? { success: true, trackingUrl: '/#track=fixture', driverPhone: '0791234567' } : true; };
   }
+  if(params.has('liteDelivery'))actions.startOrUpdateOrderDelivery=async(orderId:string,eta:number,phone:string,notes?:string)=>{const result=await startOrUpdateOrderDeliveryInSupabase(orderId,eta,phone,notes);if(!result.success)storeEngine.setToast(result.error??'تعذر التوصيل','error');return result;};
   const rows = list.filter((order) => matchesOperationalOrderFilter(order.status, filter) && `${order.orderNumber} ${order.customerName} ${order.customerPhone}`.includes(search));
   if (sort === 'oldest') rows.reverse();
   const current = fixture.find((order) => order.id === selected);

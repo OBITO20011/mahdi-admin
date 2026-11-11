@@ -37,6 +37,9 @@ export type PosV2Line =
   | PosV2ConfigurableParcelLine;
 
 export interface CreatePosSaleV2Input {
+  /** Captured with the durable attempt; recovery never follows a later toggle. */
+  accountingMode?: 'full' | 'sales-only';
+  unavailableConfirmed?: string[];
   warehouseId: string;
   branchId: string;
   customerId?: string;
@@ -50,6 +53,8 @@ export interface CreatePosSaleV2Input {
 }
 
 export interface PosV2SaleResult {
+  accountingTracked?: boolean;
+  unavailableConfirmed?: string[];
   warehouseId: string;
   branchId: string;
   customerName: string;
@@ -89,7 +94,7 @@ export type CreatePosSaleV2Outcome =
     };
 
 export type PosV2RpcExecutor = (
-  functionName: 'create_pos_sale_v2' | 'create_pos_sale_with_initial_payment_v1',
+  functionName: 'create_pos_sale_v2' | 'create_pos_sale_with_initial_payment_v1' | 'lite1_pos2',
   parameters: Record<string, unknown>,
 ) => PromiseLike<{ data: unknown; error: { code?: string; message?: string } | null }>;
 
@@ -101,6 +106,11 @@ const recoveryInstruction: PosV2RecoveryInstruction = {
 };
 
 const knownErrors: Record<string, string> = {
+  LITE1_UNAVAILABLE_CONFIRM_REQUIRED: 'الصنف غير متوفر يدوياً. راجع الأصناف وأكّد البيع رغم عدم التوفر قبل بدء محاولة جديدة.',
+  LITE2_REQUEST_INVALID: 'تعذر إثبات بيانات البيع أو وضع التشغيل. حدّث الشاشة واسترجع أي محاولة معلقة أولاً.',
+  LITE1_MODE_DISABLED: 'تغيّر وضع التشغيل. حدّث الشاشة واسترجع أي محاولة معلقة قبل بدء بيع جديد.',
+  LITE1_IDEMPOTENCY_CONFLICT: 'هوية المحاولة لا تطابق الطلب المحفوظ. استرجع المحاولة الأصلية ولا تنشئ بيعاً جديداً.',
+  PACKAGE_D_POS_ATTEMPT_CANCELLED: 'هذه المحاولة أُلغيت بإثبات الخادم. ابدأ محاولة جديدة من السلة بعد مراجعتها.',
   POS216_INITIAL_PAYMENT_INVALID: 'راجع المدفوع الآن؛ يجب أن يكون أقل من صافي الفاتورة للدفع الجزئي.',
   POS216_SALE_CONTRACT_CHANGED: 'تغيّرت بيانات البيع؛ لم تُحفظ العملية. راجع السلة قبل المحاولة مجدداً.',
   PARCEL209_UNIT_SALE_FORBIDDEN:
@@ -127,16 +137,18 @@ const knownErrors: Record<string, string> = {
     'افتح وردية الصندوق قبل إتمام البيع.',
 };
 
-const extractStableIdentity = (message: string | undefined): string | null => {
+const extractStableIdentity = (message: string | undefined, lite = false): string | null => {
+  if (lite && message && Object.hasOwn(knownErrors, message.trim())) return message.trim();
   const match = message?.match(/\b([A-Z][A-Z0-9_]{4,})\s*:/u);
   return match?.[1] || null;
 };
 
 const isAmbiguousTransportFailure = (
   error: { code?: string; message?: string } | null,
+  lite = false,
 ): boolean => {
   if (!error) return false;
-  if (extractStableIdentity(error.message)) return false;
+  if (extractStableIdentity(error.message,lite)) return false;
   return !error.code || /network|fetch|timeout|timed out|connection|abort/iu.test(
     error.message || '',
   );
@@ -163,23 +175,40 @@ const partialRpcParameters = (input: CreatePosSaleV2Input) => ({
   p_idempotency_key: input.idempotencyKey,
 });
 
+const liteRpcParameters = (input: CreatePosSaleV2Input) => ({
+  p_key: input.idempotencyKey,
+  p_request: {
+    warehouseId: input.warehouseId, branchId: input.branchId,
+    ...(input.customerId ? {customerId: input.customerId} : {}),
+    customerName: input.customerName?.trim() || 'زبون نقدي',
+    paymentMethod: input.paymentMethod, lines: input.lines,
+    discountInMinorUnits: input.discountInMinorUnits,
+    amountReceivedInMinorUnits: input.amountReceivedInMinorUnits,
+    ...(input.initialPayment ? {initialPayment: input.initialPayment} : {}),
+    ...(input.unavailableConfirmed ? {unavailableConfirmed: input.unavailableConfirmed} : {}),
+  },
+});
+
 export async function submitPosSaleV2WithRpc(
   input: CreatePosSaleV2Input,
   executeRpc: PosV2RpcExecutor,
 ): Promise<CreatePosSaleV2Outcome> {
   input = structuredClone(input);
-  if(input.initialPayment!==undefined&&!posV2RequestValid(input))return {
-    ok:false,status:'rejected',errorIdentity:'POS216_INITIAL_PAYMENT_INVALID',rejectionCode:'22023',
-    message:knownErrors.POS216_INITIAL_PAYMENT_INVALID,recovery:recoveryInstruction,
+  const initialContract=input.initialPayment!==undefined;
+  if((initialContract||input.accountingMode!==undefined||input.unavailableConfirmed!==undefined)&&!posV2RequestValid(input))return {
+    ok:false,status:'rejected',errorIdentity:initialContract?'POS216_INITIAL_PAYMENT_INVALID':'LITE2_REQUEST_INVALID',rejectionCode:'22023',
+    message:initialContract?knownErrors.POS216_INITIAL_PAYMENT_INVALID:knownErrors.LITE2_REQUEST_INVALID,recovery:recoveryInstruction,
   };
   try {
     // Literal sinks keep the current RPC inventory independently auditable.
-    const { data, error } = input.initialPayment
+    const { data, error } = input.accountingMode === 'sales-only'
+      ? await executeRpc('lite1_pos2',liteRpcParameters(structuredClone(input)))
+      : input.initialPayment
       ? await executeRpc('create_pos_sale_with_initial_payment_v1',partialRpcParameters(structuredClone(input)))
       : await executeRpc('create_pos_sale_v2',rpcParameters(structuredClone(input)));
     if (error) {
-      const identity = extractStableIdentity(error.message);
-      if (data != null || isAmbiguousTransportFailure(error)) {
+      const identity = extractStableIdentity(error.message,input.accountingMode==='sales-only');
+      if (data != null || isAmbiguousTransportFailure(error,input.accountingMode==='sales-only')) {
         return {
           ok: false,
           status: 'unknown',

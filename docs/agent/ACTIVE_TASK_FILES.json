@@ -1,29 +1,4 @@
 {
   "schemaVersion": 1,
-  "files": [
-    {
-      "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/d1-reference-kit-source-pins.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/source-before-d1-reference-kit.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/source-before-pg-net-sequence-state.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/d1-reference-kit.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/pg-net-sequence-state.test.ts"
-    }
-  ]
+  "files": []
 }

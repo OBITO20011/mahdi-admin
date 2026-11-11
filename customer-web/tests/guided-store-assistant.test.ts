@@ -5,7 +5,7 @@ import test from 'node:test';
 const read = (path: string) => readFileSync(new URL(path, import.meta.url), 'utf8');
 
 test('guided store assistant is a local, guided surface with the required safe actions', () => {
-  const assistant = read('../src/components/GuidedStoreAssistant.tsx');
+  const assistant = read('../src/components/GuidedStoreAssistant.tsx')+read('../src/components/GuidedStoreAssistantDialog.tsx');
 
   for (const label of [
     'تصفح المنتجات',

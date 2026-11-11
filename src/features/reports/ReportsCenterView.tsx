@@ -1,3 +1,6 @@
+import {useAuthStore} from '../../stores/useAuthStore';
+import type {OperatingMode} from '../../services/supabase/operatingMode.service';
+import {SalesOnlyReportsView,SalesOnlyReportContent} from './SalesOnlyReportsView';
 import {reportToday,readReportPeriod,saveReportPeriod} from '../../utils/reportPeriodSelection';
 import {CustomerCollectionsSection} from './CustomerCollectionsSection';
 import {DamageLossReportSection} from './DamageLossReportSection';
@@ -23,7 +26,8 @@ import {
   Users,
 } from 'lucide-react';
 import { CURRENCY } from '../../constants';
-import { fetchOperationalBusinessReportFromSupabase } from '../../services/supabase/reports.service';
+import {fetchAccountingReport} from '../../services/supabase/reportingDispatch.service';
+import type {SalesOnlyBusinessReport} from '../../services/supabase/salesOnlyReport.service';
 import {
   useAppStoreActions,
   useAppStoreSelector,
@@ -99,7 +103,8 @@ const MetricCard: React.FC<{
   );
 };
 
-export const ReportsCenterView: React.FC = () => {
+export const ReportsCenterView: React.FC<{operatingMode?:OperatingMode}> = ({operatingMode='full'}) => {const {user}=useAuthStore(),actor=user?.id??'',branch=useAppStoreSelector(s=>s.activeBranch.id);return operatingMode==='sales-only'?<SalesOnlyReportsView/>:<FullReportsCenterView key={actor+':'+branch}/>;};
+const FullReportsCenterView: React.FC = () => {
   const activeBranch = useAppStoreSelector((state) => state.activeBranch);
   const { setToast } = useAppStoreActions();
   const [selection, setSelection] = useState(readReportPeriod);
@@ -109,6 +114,8 @@ export const ReportsCenterView: React.FC = () => {
   const setDateTo = (value: string) => {userSelected.current=true;setSelection(previous=>({...previous,dateTo:value}));};
   useEffect(()=>{if(userSelected.current)saveReportPeriod(selection);},[selection]);
   const [report, setReport] = useState<OperationalBusinessReport | null>(null);
+  const [mixedReport,setMixedReport]=useState<SalesOnlyBusinessReport|null>(null);
+  const reportGeneration=useRef(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
   const [integrity, setIntegrity] = useState<AftercareIntegrityStatus | null>(null);
@@ -123,21 +130,24 @@ export const ReportsCenterView: React.FC = () => {
   const loadReport = useCallback(async () => {
     if (!activeBranch.id) return;
     if (!dateFrom || !dateTo || dateTo < dateFrom) {
+      ++reportGeneration.current;setIsLoading(false);setReport(null);setMixedReport(null);
       setError('اختر فترة صحيحة: تاريخ النهاية يجب ألا يسبق البداية.');
       return;
     }
 
-    setIsLoading(true);
-    setError('');
+    const generation=++reportGeneration.current;setIsLoading(true);
+    setError('');setReport(null);setMixedReport(null);
     try {
       const [nextReport, monitoring] = await Promise.all([
-        fetchOperationalBusinessReportFromSupabase(activeBranch.id, dateFrom, dateTo),
+        fetchAccountingReport(activeBranch.id, dateFrom, dateTo),
         getAftercareIntegrityStatus().catch(() => null),
       ]);
+      if(generation!==reportGeneration.current)return;
       setIntegrity(monitoring);
       setIntegrityNow(Date.now());
-      setReport(nextReport);
+      if(nextReport.kind==='full')setReport(nextReport.report);else setMixedReport(nextReport.report);
     } catch (loadError) {
+      if(generation!==reportGeneration.current)return;setMixedReport(null);
       setReport(null);
       setError(
         loadError instanceof Error
@@ -145,7 +155,7 @@ export const ReportsCenterView: React.FC = () => {
           : 'تعذر تحميل التقرير من قاعدة البيانات.'
       );
     } finally {
-      setIsLoading(false);
+      if(generation===reportGeneration.current)setIsLoading(false);
     }
   }, [activeBranch.id, dateFrom, dateTo]);
 
@@ -178,7 +188,7 @@ export const ReportsCenterView: React.FC = () => {
   }, []);
 
   const handlePrint = () => {
-    if (!report) {
+    if (!report&&!mixedReport) {
       setToast('حمّل التقرير أولاً قبل الطباعة أو الحفظ PDF.', 'error');
       return;
     }
@@ -233,7 +243,7 @@ export const ReportsCenterView: React.FC = () => {
           <UiButton variant="primary"
             type="button"
             onClick={handlePrint}
-            disabled={!report || isLoading}
+            disabled={(!report&&!mixedReport) || isLoading}
             className="shrink-0 whitespace-nowrap text-xs"
           >
             <FileDown className="h-4 w-4" />
@@ -295,13 +305,14 @@ export const ReportsCenterView: React.FC = () => {
         </section>
       )}
 
-      {isLoading && !report && !error && (
+      {isLoading && !report&&!mixedReport && !error && (
         <div className="flex min-h-52 flex-col items-center justify-center gap-3 text-nw-muted">
           <Loader2 className="h-8 w-8 animate-spin text-nw-info" />
           <span className="text-xs font-bold">جاري تحميل التقرير...</span>
         </div>
       )}
 
+      {mixedReport&&<main className="operational-report-print space-y-4" dir="rtl" data-testid="mixed-history-report"><Card role="status">هذه الفترة تشمل مبيعات بلا تكلفة قبل التفعيل. المبيعات والذمم والتحصيل والمرتجعات كاملة؛ لا يمكن احتساب ربح موثوق لهذه الفترة. اختر فترة لاحقة لا تشملها لعرض التقرير المحاسبي الكامل.</Card><SalesOnlyReportContent data={mixedReport}/></main>}
       {report && (
         <main className="operational-report-print space-y-4" dir="rtl">
           {integrityWarning && (

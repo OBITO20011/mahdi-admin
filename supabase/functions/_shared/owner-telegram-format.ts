@@ -64,7 +64,15 @@ export function formatOwnerMessage($json:OwnerEvent):string {
  if(!(typeof t==='string'&&Object.hasOwn(titles,t))&&!(t==='business_alert_recovery'&&typeof p.resolvedAlertType==='string'&&Object.hasOwn(titles,p.resolvedAlertType)))throw new Error('OWNER_BUSINESS_EVENT_NOT_ALLOWED');
  const title='<b>'+(t==='business_alert_recovery'?'✅ تمت المعالجة':titles[t])+'</b>';
  let sections:string[];
- if(t==='business_daily_summary'||t==='business_weekly_summary'){
+ if((t==='business_daily_summary'||t==='business_weekly_summary')&&p.accountingTracked===false&&p.contractVersion==='lite220-business-summary-v1'){
+  const s=p.sales||{},f=p.cashFlow||{},e=p.expenses||{},b=p.balances||{};
+  sections=[title+'\n<i>'+h(range(p.period?.dateFrom,p.period?.dateTo))+'</i>',
+   '<b>المبيعات</b>\nالصافي: '+m(s.netSalesInMinorUnits)+'\n(مبيعات '+m(s.grossSalesInMinorUnits)+' − مرتجعات '+m(s.returnEntitlementInMinorUnits??s.refundsInMinorUnits)+')',
+   '<b>المقبوض</b>\nكاش: '+m(f.cashCollectedInMinorUnits)+'\nCliQ: '+m(f.cliqCollectedInMinorUnits),
+   '<b>المبالغ المعادة</b>\nكاش: '+m(f.cashRefundedInMinorUnits)+'\nCliQ: '+m(f.cliqRefundedInMinorUnits),
+   '<b>المصاريف</b>\n'+m(e.totalInMinorUnits),
+   '<b>الذمم</b>\nعلى الزبائن: '+m(b.customerDueInMinorUnits)];
+ }else if(t==='business_daily_summary'||t==='business_weekly_summary'){
   const s=p.sales||{},f=p.cashFlow||{},e=p.expenses||{},i=p.inventory||{},b=p.balances||{};
   sections=[title+'\n<i>'+h(range(p.period?.dateFrom,p.period?.dateTo))+'</i>',
    '<b>المبيعات</b>\nالصافي: '+m(s.netSalesInMinorUnits)+'\n(مبيعات '+m(s.grossSalesInMinorUnits)+' − مرتجعات '+m(s.returnEntitlementInMinorUnits??s.refundsInMinorUnits)+')',

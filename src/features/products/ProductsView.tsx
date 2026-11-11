@@ -40,6 +40,8 @@ import {
   type AdminProductPage,
 } from '../../services/supabase/products.service';
 
+import type {OperatingMode} from '../../services/supabase/operatingMode.service';
+
 type StatusFilter = 'all' | 'healthy' | 'low_stock' | 'out_of_stock' | 'hidden';
 type SortOption = 'name' | 'stock_asc' | 'stock_desc' | 'profit_desc';
 
@@ -47,11 +49,13 @@ const money = (value: number) => formatJod(value);
 
 interface ProductsViewProps {
   fetchProductPage?: typeof fetchAdminProductPage;
+  operatingMode?:OperatingMode;
 }
 
 export const ProductsView: React.FC<ProductsViewProps> = ({
-  fetchProductPage = fetchAdminProductPage,
+  fetchProductPage = fetchAdminProductPage,operatingMode='full',
 }) => {
+  const salesOnly=operatingMode==='sales-only';
   const {categories, productDataRevision} = useAppStoreSelector(
     (state) => ({
       categories: state.categories,
@@ -99,8 +103,8 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
       pageSize: 24,
       search: debouncedSearch,
       categoryId: selectedCategory === 'all' ? undefined : selectedCategory,
-      status: statusFilter,
-      sort: sortBy,
+      status: salesOnly&&statusFilter!=='hidden'?'all':statusFilter,
+      sort: salesOnly?'name':sortBy,
     })
       .then((result) => {
         if (!active) return;
@@ -128,7 +132,7 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
     refreshToken,
     selectedCategory,
     sortBy,
-    statusFilter,
+    statusFilter,salesOnly,
   ]);
 
   const products = productPage.products;
@@ -187,7 +191,7 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
                   <Boxes className="h-5 w-5" />
                 </span>
                 <div>
-                  <PageHeader title="دليل المنتجات" description="الأسعار والطرود والربح في مكان واحد" />
+                  <PageHeader title="دليل المنتجات" description={salesOnly?'الأسعار والطرود والتوفر اليدوي':'الأسعار والطرود والربح في مكان واحد'} />
                 </div>
               </div>
               <div
@@ -221,22 +225,22 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
           </div>
         </div>
 
-        <div className="grid grid-cols-3 border-t border-nw-border bg-nw-surface">
+        <div className={salesOnly?'grid grid-cols-1 border-t border-nw-border bg-nw-surface':'grid grid-cols-3 border-t border-nw-border bg-nw-surface'}>
           <HeroMetric
             label="عدد المنتجات"
             value={productPage.totalCount.toLocaleString('ar-JO-u-nu-latn')}
             tone="blue"
           />
-          <HeroMetric
+          {!salesOnly&&<HeroMetric
             label="تكلفة الرصيد"
             value={money(metrics.inventoryCost)}
             tone="amber"
-          />
-          <HeroMetric
+          />}
+          {!salesOnly&&<HeroMetric
             label="ربح متوقع"
             value={money(metrics.potentialProfit)}
             tone="emerald"
-          />
+          />}
         </div>
       </Card>
 
@@ -249,14 +253,14 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
           <Plus className="h-4 w-4" />
           إضافة منتج
         </UiButton>
-        <UiButton variant="plain"
+        {!salesOnly&&<UiButton variant="plain"
           type="button"
           onClick={() => openModal('receive_goods')}
           className="flex items-center justify-center gap-1.5 rounded-2xl border border-nw-border bg-nw-info-bg px-2 py-3 font-bold text-nw-info transition active:scale-[0.98]"
         >
           <Truck className="h-4 w-4" />
           استلام
-        </UiButton>
+        </UiButton>}
         <UiButton variant="plain"
           type="button"
           onClick={() => openModal('manage_categories')}
@@ -288,7 +292,7 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
 
       <BulkProductImagesPanel onSaved={() => setRefreshToken(value => value + 1)} />
 
-      {(metrics.lowStock > 0 || metrics.outOfStock > 0) && (
+      {!salesOnly && (metrics.lowStock > 0 || metrics.outOfStock > 0) && (
         <div className="flex items-center justify-between rounded-2xl border border-nw-border bg-nw-warn-bg px-3 py-2.5">
           <div className="flex items-center gap-2">
             <AlertTriangle className="h-4 w-4 text-nw-warn" />
@@ -358,7 +362,7 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
             ))}
           </select>
           <select
-            aria-label="تصفية المنتجات حسب حالة المخزون"
+            aria-label={salesOnly?'تصفية ظهور المنتجات':'تصفية المنتجات حسب حالة المخزون'}
             value={statusFilter}
             onChange={(event) =>
               setStatusFilter(event.target.value as StatusFilter)
@@ -366,9 +370,9 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
             className="min-w-0 rounded-xl border border-nw-border bg-nw-surface-2 px-2 py-2 text-xs font-bold text-nw-text outline-none"
           >
             <option value="all">كل الحالات</option>
-            <option value="healthy">متوفر</option>
-            <option value="low_stock">منخفض</option>
-            <option value="out_of_stock">نافد</option>
+            {!salesOnly&&<option value="healthy">متوفر</option>}
+            {!salesOnly&&<option value="low_stock">منخفض</option>}
+            {!salesOnly&&<option value="out_of_stock">نافد</option>}
             <option value="hidden">مخفي</option>
           </select>
           <label className="relative">
@@ -382,9 +386,9 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
               className="h-full w-full min-w-0 appearance-none rounded-xl border border-nw-border bg-nw-surface-2 py-2 pl-1 pr-6 text-xs font-bold text-nw-text outline-none"
             >
               <option value="name">الاسم</option>
-              <option value="stock_asc">الأقل مخزونًا</option>
-              <option value="stock_desc">الأكثر مخزونًا</option>
-              <option value="profit_desc">الأعلى ربحًا</option>
+              {!salesOnly&&<option value="stock_asc">الأقل مخزونًا</option>}
+              {!salesOnly&&<option value="stock_desc">الأكثر مخزونًا</option>}
+              {!salesOnly&&<option value="profit_desc">الأعلى ربحًا</option>}
             </select>
           </label>
         </div>
@@ -443,6 +447,7 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
             <ProductCatalogCard
               key={product.id}
               product={product}
+              quantityTracked={!salesOnly}
               categoryName={
                 categoryNames.get(product.categoryId) || 'بدون قسم'
               }
@@ -514,6 +519,7 @@ const HeroMetric: React.FC<{
 
 const ProductCatalogCard: React.FC<{
   product: Product;
+  quantityTracked?:boolean;
   categoryName: string;
   flavors: Product[];
   onView: () => void;
@@ -525,7 +531,7 @@ const ProductCatalogCard: React.FC<{
   flavors,
   onView,
   onEdit,
-  onReceiveFlavor,
+  onReceiveFlavor,quantityTracked=true,
 }) => {
   const [imageFailed, setImageFailed] = useState(false);
   const [areFlavorsExpanded, setAreFlavorsExpanded] = useState(false);
@@ -595,13 +601,13 @@ const ProductCatalogCard: React.FC<{
                 </p>
               </div>
               <span
-                className={`shrink-0 rounded-full border px-2 py-1 text-xs font-black ${status.color}`}
+                className={`shrink-0 rounded-full border px-2 py-1 text-xs font-black ${quantityTracked?status.color:'text-nw-muted border-nw-border'}`}
               >
-                {status.label}
+                {quantityTracked?status.label:product.status==='hidden'?'مخفي':'ظاهر في الكتالوج'}
               </span>
             </div>
 
-            <div className="mt-2 grid grid-cols-1 gap-1 rounded-xl border border-nw-border bg-nw-surface-2 px-2 py-1.5 sm:grid-cols-2 sm:px-2.5 sm:py-2">
+            {quantityTracked&&<div className="mt-2 grid grid-cols-1 gap-1 rounded-xl border border-nw-border bg-nw-surface-2 px-2 py-1.5 sm:grid-cols-2 sm:px-2.5 sm:py-2">
               <div className="min-w-0">
                 <span className="block text-xs font-bold text-nw-muted">
                   {product.isFlavorMaster
@@ -622,7 +628,7 @@ const ProductCatalogCard: React.FC<{
                   {(product.unitsPerPackage || 1) === 1 ? product.unit : `طرد × ${product.unitsPerPackage} ${product.unit}`}
                 </strong>
               </div>
-            </div>
+            </div>}
           </div>
         </div>
       </UiButton>
@@ -644,7 +650,7 @@ const ProductCatalogCard: React.FC<{
                   {flavors.length.toLocaleString('ar-JO-u-nu-latn')} نكهات
                 </strong>
                 <span className="text-xs text-nw-muted">
-                  اضغط لعرض رصيد كل نكهة
+                  {quantityTracked?'اضغط لعرض رصيد كل نكهة':'اضغط لعرض النكهات'}
                 </span>
               </span>
             </span>
@@ -688,17 +694,17 @@ const ProductCatalogCard: React.FC<{
                         )}
                       </div>
                       <p className="mt-0.5 text-xs font-bold text-nw-warn">
-                        {flavorAvailable.cartonFormatted} متاح
+                        {quantityTracked?`${flavorAvailable.cartonFormatted} متاح`:'التوفر من تفاصيل المنتج'}
                       </p>
                     </div>
-                    <UiButton variant="plain"
+                    {quantityTracked&&<UiButton variant="plain"
                       type="button"
                       onClick={() => onReceiveFlavor(flavor.id)}
                       className="flex min-h-11 w-full items-center justify-center gap-1 rounded-lg border border-nw-border bg-nw-info-bg px-2 text-xs font-black text-nw-info sm:w-auto"
                     >
                       <Truck className="h-3 w-3" />
                       استلام
-                    </UiButton>
+                    </UiButton>}
                   </div>
                 );
               })}
@@ -734,7 +740,7 @@ const ProductCatalogCard: React.FC<{
               : 'text-nw-info'
           }
         />
-        <div className="border-l border-nw-border px-2 py-2.5 text-center last:border-l-0">
+        {quantityTracked&&<div className="border-l border-nw-border px-2 py-2.5 text-center last:border-l-0">
           <span className="block text-xs font-bold text-nw-muted">
             ربح / هامش
           </span>
@@ -751,7 +757,7 @@ const ProductCatalogCard: React.FC<{
               ? '—'
               : `${formatJod(salePackageProfit.profitPerUnit)} • %${salePackageProfit.marginPercentage.toFixed(1)}`}
           </strong>
-        </div>
+        </div>}
       </div>
 
       <div className="flex border-t border-nw-border p-2">

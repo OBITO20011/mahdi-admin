@@ -1,3 +1,6 @@
+import {readOperatingShiftReversal,assertLiteShiftReversalBlock,shiftReversalGuardMessage} from './operatingShiftReversal';
+import {readOperatingShiftReport} from './operatingShiftReport';
+import {parseSalesOnlyShiftReport,type CashShiftClosingResult} from './salesOnlyShiftReport';
 import { isSupabaseConfigured, supabase } from '../../lib/supabase';
 import type { Expense, Shift, ShiftClosingReport } from '../../types';
 import {exchangeClosingCredit215} from '../../utils/exchangeClosing215';
@@ -54,6 +57,8 @@ export interface CashShiftFullReversalOperation {
 }
 
 export interface CashShiftFullReversalPreview {
+  liteMonetaryRefundBlocked?:true;
+  liteShiftBlocked?:true;
   shiftId: string;
   shiftNumber: string;
   shiftStatus: string;
@@ -205,16 +210,16 @@ const mapFullShiftReversalOperation = (
 export async function previewCashShiftFullReversalFromSupabase(
   shiftId: string
 ): Promise<CashShiftFullReversalPreview> {
-  const { data, error } = await requireClient().rpc(
-    'preview_cash_shift_full_reversal',
-    { p_shift_id: shiftId }
-  );
-  if (error) throw new Error(error.message || 'تعذر معاينة عكس الوردية.');
+  const {data,error}=await readOperatingShiftReversal(shiftId);
+  if (error) throw new Error('SHIFT-03: تعذر التحقق من معاينة عكس الوردية؛ أعد قراءتها.');
+  assertLiteShiftReversalBlock(data,shiftId);
   const payload = (data || {}) as RpcRecord;
   if (payload.success !== true) {
     throw new Error(textValue(payload.message) || 'تعذر معاينة عكس الوردية.');
   }
   return {
+    ...(payload.liteMonetaryRefundBlocked===true?{liteMonetaryRefundBlocked:true as const}:{}),
+    ...(payload.liteShiftBlocked===true?{liteShiftBlocked:true as const}:{}),
     shiftId: textValue(payload.shiftId),
     shiftNumber: textValue(payload.shiftNumber),
     shiftStatus: textValue(payload.shiftStatus),
@@ -281,7 +286,7 @@ export async function reverseCashShiftWithOperationsInSupabase(
       p_idempotency_key: idempotencyKey,
     }
   );
-  if (error) throw new Error(error.message || 'تعذر عكس عمليات الوردية.');
+  if (error) throw new Error(shiftReversalGuardMessage(error)||error.message||'تعذر عكس عمليات الوردية.');
   const payload = (data || {}) as RpcRecord;
   if (payload.success !== true) {
     throw new Error(textValue(payload.message) || 'تعذر عكس عمليات الوردية.');
@@ -301,15 +306,16 @@ export async function reverseCashShiftWithOperationsInSupabase(
 
 export async function fetchCashShiftClosingReportFromSupabase(
   shiftId: string
-): Promise<ShiftClosingReport> {
-  const { data, error } = await requireClient().rpc(
-    'get_cash_shift_closing_report',
-    { p_shift_id: shiftId }
-  );
+): Promise<CashShiftClosingResult> {
+  const {data,error}=await readOperatingShiftReport(shiftId);
   if (error) {
     throw new Error(error.message || 'تعذر تحميل تقرير إغلاق الوردية.');
   }
 
+  return parseCashShiftClosingReport(data,shiftId);
+}
+
+export function parseCashShiftClosingReport(data:unknown,shiftId:string):CashShiftClosingResult {
   const payload = (data || {}) as RpcRecord;
   if (payload.success !== true) {
     throw new Error(
@@ -317,6 +323,7 @@ export async function fetchCashShiftClosingReportFromSupabase(
     );
   }
 
+  if(payload.accountingTracked===false)return parseSalesOnlyShiftReport(payload,shiftId,mapShift);
   const sales = (payload.sales || {}) as RpcRecord;
   const internalExchangeCreditInMinorUnits=exchangeClosingCredit215(payload);
   const detailedSales=sales.salesDefinitionVersion===133||sales.salesDefinitionVersion===215;

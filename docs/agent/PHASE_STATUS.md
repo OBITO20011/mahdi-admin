@@ -1,3 +1,47 @@
+# 11 نوفمبر 2026 — تصحيحات Fable؛ توقف للمراجعة قبل المرجع والبروفة وCI النهائي
+
+مسودة87 فقط. اكتملت فحوص fca335f9 الجارية أولاً: HTTP181/RPC695 ناجحة، والوحدات1960/1986 مع26 فشل بصمات/مناظير تاريخية محفوظة. ثبتت الحالات الثماني RED49ab ثم GREEN6db مع108 مقارنة CRM/full، ذمم صفر، حراسة عكس التحصيل/وردية lite، أدوار القارئين، و12 متصفح موبايل ناجحاً. جميع التغييرات في تعريفات lite الجديدة؛627 أصلية وتسعة جسور كما هي. الجسر التاسع مطبق باعتماد المالك10نوفمبر، والفقرات الأقدم WAIT تاريخية. الكتالوج المحلي680+38/13Realtime/fresh-incremental0 والبصمات627/9 متحققة؛مرجع220 الجاهز والبروفة الموسعة وCI النهائي لم تُعتمد. انظر design/sales-only-phase3/FABLE_REVIEW_ACCEPTANCE_AR.md. لا دمج أو نشر أو اتصال مستضاف؛main/58/79/82/ملفات المالك والبيئة محفوظة.
+
+#10Nov2026 — approved narrow ninth summary bridge;implementation resumes
+
+Owner explicitly approved build_business_summary exception+liteformatter only.627frozen/8previous exact+9th summary. No further original function or permission change. Actual summary SQL/role/period/enqueue/full-parity tests and220catalog/reference refresh pending. Draft87;no merge/hosted/deploy/ownerfiles.
+
+#10Nov2026 — Phase3 WAIT OWNER: Telegram summary in OFF is incomplete
+
+Draft87/local only. Owner-size220 day passed820rows/345flavors/14categories/585666ms;RESET/resume/UTC/strictRestore/actualimport/SEO/POS/return/expense/close/integrity0/cleanuptrue. Read-only diagnostic proves frozen build_business_summary omits lite POS/refund and formatter prints profit/inventory/suppliers. Proposal TELEGRAM_SUMMARY_BRIDGE_PROPOSAL_AR.md requests explicit ninth bridge or owner deferral of daily/weekly summary;NO expansion implemented,628/8 unchanged.1980units/types/strictlint PASS. FULLCI NOT green:legacy219Restore fixture pending,quality in progress;220four andphase1/2eight gates PASS. Stop for owner decision;no main/58/79/82/owner/env/hosted/deploy/merge.
+
+#10Nov2026 — phase3 lite-only220 local proof;owner-size rehearsal not complete
+
+Phase2 bfc669408b FULL72/72 complete (Draft86). Owner:220lite only;628frozen/8exact;79deferred221/comment6769427296. Actual220 promotion763.968ms/fullJSON rows parity;fresh-incremental0;181access reads0errors/ready31;RESETnormal+4resume/UTC/privatefencePASS;219→220 encryptedBackupRestore+6negativesPASS. Lateractivation13groupsPASS/1640rows/1281ms. Owner-size rehearsal blocked beforedestruction by Restore NULL-vs-owner ACL representation on11newprivate tables+2schemas;strictguard retained,local-only source-pinned representation helper+negativeunits now prepared. FULLCI/currentservices/browser/build/cardprint remain. No main/ownerfiles/hosted/deploy/merge;58/79/82Draft.
+
+#10Nov2026 — owner six-item phase2 closure;phase3 composition decision pending
+
+Owner10Nov authorizes phase3 afterphase2 fullCI. Six App/mobile gates now explicitly documented in design/sales-only-phase2/PHASE2_COMPLETION_GATE_AR.md:owner AAL2 success/AAL1 reject,availability,expense separate fromwithdrawal/closing,unavailable POS acknowledgement,POS+order receipt/share,zero-cost workbook/openingdebt/simplereports. Union54 Chromium/WebKit cases PASS;types/strictlint PASS. Test/docs-only additions;exact newhead FULLCI pending (previous590a72ea72/72 remains historical). Read-only #79 inventory found five frozen628body edits+onework_memconfig andone existing factsbridge composition;noSQLedited/applied. Explicit new approval requested under owner's frozen628 boundary before220 composition. Main/58/79/82/owner24 untouched;no merge/hosted/deploy.
+
+#10Nov2026 — phase2 current access and browser regressions verified locally
+
+Draft86 only;active219/180. Current235RPCsites/695roleprobes/18expecteddenials;REST181/172success/9empty/0errors;actualworkbook12groupsPASS. Browser136cases:135PASS plus1 unchanged environmental rerunPASS after initial page.goto timeout;failure trace external. Types/strictlintPASS;owner20/env4 hashes unchanged. Historical role-view guestTS reconstruction andfinalFULLCI/build/report remain;no merge/phase3/hosted/deploy.
+
+#9Nov2026 — owner approved narrow shift status guard;phase2 resumes
+
+Explicitapproval: additional private monetary-refund guard on cash_shifts cancellation/reversal plusparallelpreview. Keep628original bodies/eightbridgepatches unchanged;quarantinedonly/Draft86. DirectRPC/zero/CliQ/fullparity/dailyclose/real-lock races toverify;thenremainingphase2/FULLCI. No main/58/79/82/hosted/deploy/merge/phase3. Earlier WAIT_OWNER below is historical,resolved bythisapproval.
+
+#9Nov2026 — phase2 WAIT OWNER: exceptional shift-reversal gap
+
+Draft86 incomplete. Owned219/180 real1640rowepoch1963.574ms/preview798.730ms afternew-only optimization;canonicalJSON/ledger/WAC/integrity0/628636PASS. Mixedcashrefund/closing1000/0 andnewcostfree reader/count1PASS;12focusedunits/types/lint/10browser. Newnegative gate exposedold full-shift reversal ignoringprivate1000refund (previewtrue,summary0 afterreversal insideROLLBACK);allpublicrows restored,cleanuptrue. No unapprovedguardimplemented. Proposal SHIFT_REVERSAL_GUARD_PROPOSAL_AR.md recommendsnarrowextra status-trigger+parallelpreview,preserving628/8. Await explicitapproval;no main/hosted/deploy/merge/phase3. Detailedhistory/evidenceexternal;finalFULLCI notgreen.
+
+#9Nov2026 — phase2 pending-guest bridge acceptance PASS;build continues
+
+Five real PostgreSQL219/180 cases PASS:lite new/preparing/completed integrity0,full pending exact parity,full defect evenOFF/forgedtype detected,illegal lite reservation detected,628bodies/636metadata and8exactpatches withunknownbyte negatives. Only monitoring fallback predicate added by ownerapproval. Recovery292b8689 pushed;Codex startup auto-cleanup cause documented;hourly/milestone commitpush. Fullphase2 UI/commercial/openingepoch andCI NOT complete.
+
+# 9Nov2026 — phase2 sales-only approved build;Draft/local only
+
+Owner approved8phase1 bridges plus exact additive triggers;opening epoch included,real existing delivery fees retained. Separate branchabove85 b305421c. Active219/180 and628frozen bodies unchanged;8approvedpatches only. Reuse UI/components and pure server helpers;no main/58/79/82/hosted/deploy/merge/phase3. Full build/local/browser/CI pending.
+
+# 9Nov2026 — phase1 sales-only: local proof PASS;Draft review only
+
+Additive quarantined prototype,219/180 unchanged;636 exact function/707 source pins,8 shared bridges. Real isolated tests coverfull JSON/data parity,zero stock/cost,Cash/CliQ/debt/partial/guest/manualavailability/return/collection/expense/ownerwithdrawal/close,concurrency/modeNOWAIT/late rollback. Docker cleaned. No production app wiring/hosted/deploy/merge/phase2. Current task authority SALES_ONLY_PHASE1;main/58/79/82/owner20/env4 unchanged. Historical metadata inverse is exact hash-only;unknown edits remain visible. Draft PR/fullCI and final review report pending.
+
 # 8Nov2026 — D1 reference kit,local preparation PASS;PR/fullCI next
 
 Owner-approved separate prepare/install,219 only,no SQL/hosted/deploy/merge. Actual PowerShell5.1 prepare on main16ef:180/636/13/181queries,fresh-incremental0,candidate3a27bac3…TEST_ONLY/no install. Known20ownerfiles/4env/ownerreference hashes unchanged;Docker cleaned. Approval1A4/card2A4,negative hash/RESET marker/dirty/head/CI/catalog/rollback/junction tests PASS. Types/strictlint PASS;finalfocused+Gitleaks/PR/FULLCI pending.58/79/82Draft. PR83 firstCI1853/1857:4history path/doc assertions rejected newkit additions/obsolete guide;exact inverse fixed,5focused/type/lintPASS,no runtime guard changed. BackupCI andsecretsPASS;FULLCI correctedhead pending.

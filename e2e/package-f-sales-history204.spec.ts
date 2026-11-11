@@ -1,3 +1,4 @@
+import {replyLegacy219MissingRpc} from './legacy219-rpc';
 import AxeBuilder from '@axe-core/playwright';
 import {expect,test,type Page} from './isolated-test';
 import {checkLayout} from './package-f-layout';
@@ -16,6 +17,7 @@ function payload(input:Record<string,unknown>,empty=false){
 async function api(page:Page,mode:{empty?:boolean;failed?:boolean;malformed?:boolean}={}){
   const reads:Record<string,unknown>[]=[],replacementReads:Record<string,unknown>[]=[],writes:string[]=[];
   await page.route('**/rest/v1/**',async route=>{
+    if(await replyLegacy219MissingRpc(route))return;
     const request=route.request(),url=new URL(request.url()),name=url.pathname.split('/').at(-1)!;
     if(name==='get_sales_history_page'){
       const input=request.postDataJSON();reads.push(input);

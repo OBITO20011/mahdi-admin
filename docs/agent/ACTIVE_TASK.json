@@ -2,39 +2,51 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner8Nov D-1 candidate kit:main exactFULLCI/local219reference/hashes/Arabicapproval;separate hash-approved atomic install,docs/tests/PRFULLCI,no merge/hosted/SQL/owner edits.",
-  "baselineSha": "c365d59a65f503e22df0e0e3749f75c76220de51",
-  "branch": "codex/d1-reference-kit",
-  "phase": "PACKAGE_F",
+  "objective": "Owner11Nov Fable review corrections delivered inDraft87;STOP for review before ready220reference,expanded rehearsal,finalFULLCI.",
+  "baselineSha": "925d998a149c696bee15eb5d2fffdcf427da9b30",
+  "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
+  "branch": "codex/sales-only-phase3",
+  "phase": "SALES_ONLY_PHASE3",
+  "startedAt": "2026-11-10T14:07:21.558Z",
   "completed": [
-    "Actualmain16efPowerShellpreparePASS219/180/636/13/181queries/diff0;candidateTEST_ONLY3a27bac3,no install.",
-    "Owner20/env4/currentreferenceunchanged;Dockercleaned;approval1page/card2A4.",
-    "Negativefixtures+strictrollback/hash/marker/CI/dirty/head/catalog/junction PASS;types/strictlintPASS.",
-    "83Draft c365d59a pushed;Gitleaks0;actualcandidate/report attached,testonly.",
-    "83firstCIbackup/secretsPASS;4historicalpath/doc assertions fixed via exacthash only,focused5/types/lintPASS."
+    "Phase2bfc72/72+54mobile historical;main/58/79/82/owner/env untouched.",
+    "FcaHTTP181/RPC695 donePASS;units1960/1986+26 source/history failures preserved.",
+    "PGRED49ab8/8 thenGREEN6db8/8;108CRM/fullJSON,globalaging0,fullcost5000/paymentreverse/guestexpiry parity;roles and ON-fixture shiftguard PASS.",
+    "Browser37:12/12 Chromium/WebKit390touch/retries0;25focusedEA8+2history/readiness+types/currentchangedlint PASS.",
+    "Fresh/incrementalEA8 zero;680public+38private/13Realtime;generatedpins627unchanged+9exact;SQL48221190;ownerreadonly636 zero/injectedbody-config-ACL/rollbackzero.",
+    "Ninthsummary implemented byowner10Nov approval;Fable Arabic acceptance/current external report corrected;owned Docker cleaned."
   ],
-  "inProgress": [
-    "Commit/push exact historical proof corrections then FULLCI on newhead."
+  "inProgress": [],
+  "notStarted": [
+    "Await owner review;no newready220reference,expanded rehearsal,finalFULLCI.",
+    "After review:currentaccess evidence,historicalprotection chain,fullrehearsal/finalCI andphase3 closure."
   ],
-  "notStarted": [],
-  "testsPassed": [],
+  "testsPassed": [
+    "PG8RED→8GREEN+108fullCRM+roles+shiftpersistence;cleanup/network0.",
+    "25focused+2history/readiness;12mobile;types0/changedlint0;627/9exact andfreshincremental0."
+  ],
   "testsRemaining": [
-    "Focused final/pins,Gitleaks,PR FULLCI."
+    "No finalFULLCI/currentreadyreference/rehearsal claim;fca26failures retained for subsequent closure."
   ],
-  "findings": [],
+  "findings": [
+    "Only newlite definitions changed;original627/nine approved diffs identical.",
+    "ON guard negative fixture removesimmutable marker onlyinsideROLLBACK with trigger restoration;not a new openingepoch rehearsal.",
+    "Fixture UUID/immutable evidence andgenerator separator issues fixedwithout changingSQL48221190 or weakening assertions."
+  ],
   "blockers": [],
-  "activeProcesses": [],
   "prohibitions": [
-    "No SQL/migration/RPC/finance/permissions,hosted/deploy/merge.",
-    "Do not changeowner/env/readyreference/workdir;58/79/82Draft."
+    "No merge/main/58/deploy/hostedaccess;noowner/env edits",
+    "627originalbodies frozen;8exactprevious+approvedsummarydiff only;anyotherexpansionstopask",
+    "79 remainsDraft/deferred221;no adoption ofitsSQL;219 tools retained",
+    "No new627 body or ninebridge diff changes;Fable fixes additive only;no newreference/rehearsal/finalCI before review."
   ],
-  "nextExactAction": "PR83 firstCI4historyonly failures repaired,focused5/type/lint PASS;commit/push newhead then FULLCI.No tool/SQL/guard changes;actualmaincandidate testonly,ownerfilesuntouched.",
-  "checkpointedAt": "2026-11-08T04:58:39.713Z",
+  "nextExactAction": "STOP for owner review of Fable acceptance inDraft87;do not begin ready220reference,expanded rehearsal orfinalFULLCI without review.",
+  "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 6,
-  "filesTouchedManifestSha256": "e5833190644c76bb33f94b107fe751074d43d1fb7c80ee257cf7cd19f9e7f2fb",
-  "workingTreeFingerprint": "5BA3CE7A2FC1CEB4FA1F650C6BE746BC3810CCCB9D605E763A0163C6D4C15DAA",
-  "historyBaseline": "16ef354cb5ecab7e8689975b6d1c7ba3fadbed24"
+  "workingTreeFingerprint": "AA7E1BEB9E33AF6D66638C52C546101F72793A005AEECF061D58701DF90BBB38",
+  "checkpointedAt": "2026-11-10T21:57:48.099Z",
+  "filesTouchedCount": 0,
+  "filesTouchedManifestSha256": "b6429e7d08029a34589e9c8956ef86dffab2fb6dd9ee37c08d5e9204e14cdbe6"
 }

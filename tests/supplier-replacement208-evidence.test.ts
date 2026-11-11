@@ -1,3 +1,5 @@
+import{historical220Text}from'../scripts/testing/lite220-historical-test-view.mjs';
+import {sourceBeforeSalesOnlyPhase3} from '../scripts/audit/source-before-sales-only-phase3.mjs';
 import{historicalProductWorkbookInventory}from'../scripts/audit/source-before-product-workbook.mjs';
 import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import assert from 'node:assert/strict';
@@ -11,7 +13,7 @@ import {assertReady208Catalog} from '../scripts/operations/frankfurt-reference20
 import {assert208History} from '../scripts/operations/frankfurt-owner-upgrade208.mjs';
 import {migrationManifest,futureMigrationViolations} from '../scripts/testing/maintenance-db-contract.mjs';
 import {supplier208Pins,sourceBeforeSupplierReplacement208} from '../scripts/audit/source-before-supplier-replacement208.mjs';
-const read=(f:string)=>readFileSync(f,'utf8'),json=(f:string)=>JSON.parse(read(f));
+const read=(f:string)=>historical220Text(f,readFileSync(f,'utf8')),json=(f:string)=>JSON.parse(read(f));
 
 test('208 immutable SDK evidence binds every accepted208 source restored before P1 and all142 real probes',async()=>{
  const current=await historicalProductWorkbookInventory(inventory),proof=json('docs/operations/TABLE_ACCESS_AFTER_208.json'),state=json('docs/agent/project-state.json');
@@ -21,7 +23,7 @@ test('208 immutable SDK evidence binds every accepted208 source restored before 
 });
 
 test('208 all current RPC dispatches bind source;only exact new supplier reader denies admin/cashier',async()=>{
- const current=await serviceInventory(),proof=json('docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json');assert.equal(proof.ok,true);assert.equal(proof.migrationCeiling,219);assert.equal(proof.managedAccess,false);assert.deepEqual(proof.sourceHashes,current.sourceHashes);
+ const current=await serviceInventory({projectSource:sourceBeforeSalesOnlyPhase3}),proof=json('docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json');assert.equal(proof.ok,true);assert.equal(proof.migrationCeiling,219);assert.equal(proof.managedAccess,false);assert.deepEqual(proof.sourceHashes,current.sourceHashes);
  const denied=proof.results.filter((r:{sqlstate:string|null})=>r.sqlstate==='42501');assert.deepEqual(denied.map((r:{name:string;appRole:string})=>[r.name,r.appRole]).sort(),['get_supplier_replacements_page_v1','execute_aftercare_supplier_v1','preview_aftercare_supplier_v1','get_aftercare_damage_candidates_v1','get_damage_history_page_v1','get_damage_ledger_page_v2','preview_supplier_replacement_credit_v1','get_supplier_replacement_credits_v1','settle_supplier_replacement_credit_v1'].flatMap(name=>['admin','cashier'].map(role=>[name,role])).sort());
  assert.ok(denied.every((r:{site:string;name:string})=>r.site.startsWith(r.name==='get_damage_history_page_v1'?'src/services/supabase/damageHistory.service.ts:':r.name==='get_damage_ledger_page_v2'?'src/services/supabase/damageLedger215.service.ts:':['preview_supplier_replacement_credit_v1','get_supplier_replacement_credits_v1'].includes(r.name)?'src/services/supabase/supplierCredit215.service.ts:':'src/services/supabase/supplierReplacement.service.ts:')));
  for(const name of ['execute_supplier_replacement_v1','preview_supplier_replacement_v1','get_supplier_replacements_page_v1','get_supplier_replacement_options_v1'])assert.ok(current.functionNames.includes(name));

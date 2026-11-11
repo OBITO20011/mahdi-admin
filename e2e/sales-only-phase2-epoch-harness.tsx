@@ -1,0 +1,12 @@
+import {createRoot} from 'react-dom/client';
+import '../src/index.css';
+import {supabase} from '../src/lib/supabase';
+import {OperatingModeProvider} from '../src/features/operatingMode/OperatingModeProvider';
+import {OperatingModePanel} from '../src/features/operatingMode/OperatingModePanel';
+import {authStoreEngine,type AuthState} from '../src/stores/useAuthStore';
+const actor='92600000-0000-4000-8000-000000000001',engine=authStoreEngine as unknown as {state:AuthState;getState:()=>AuthState;initAuth:()=>Promise<void>};
+engine.state={...engine.getState(),user:{id:actor} as AuthState['user'],roleName:'owner',roles:['owner'],isAuthenticated:true,isLoading:false};engine.initAuth=async()=>undefined;
+if(!supabase)throw Error('LOCAL_CLIENT_REQUIRED');
+supabase.auth.getUser=async()=>({data:{user:{id:actor} as NonNullable<AuthState['user']>},error:null});
+supabase.auth.mfa.getAuthenticatorAssuranceLevel=async()=>({data:{currentLevel:'aal2',nextLevel:'aal2',currentAuthenticationMethods:[]},error:null});
+createRoot(document.getElementById('root')!).render(<OperatingModeProvider><main dir="rtl" className="p-4"><OperatingModePanel/></main></OperatingModeProvider>);

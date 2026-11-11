@@ -252,7 +252,7 @@ function ProductRail({
               <span className="mt-2 flex items-end justify-between gap-2">
                 <span className="text-sm font-black text-orange-700">{formatJod(product.salePackagePriceInMinorUnits)}</span>
                 <span className="text-[8px] font-black text-emerald-700">
-                  {product.availableSalePackages.toLocaleString('ar-JO')} متاح
+                  {product.quantityTracked===false?'متوفر':`${product.availableSalePackages?.toLocaleString('ar-JO')} متاح`}
                 </span>
               </span>
             </span>

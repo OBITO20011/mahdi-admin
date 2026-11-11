@@ -1,0 +1,29 @@
+import {createRoot} from 'react-dom/client';
+import '../src/index.css';
+import {App} from '../src/App';
+import {authStoreEngine,type AuthState} from '../src/stores/useAuthStore';
+import {storeEngine,type AppState} from '../src/stores/useAppStore';
+import {supabase} from '../src/lib/supabase';
+import {posFixtureIds,posFixtureProducts} from './package-f-pos.fixture';
+const auth=authStoreEngine as unknown as {state:AuthState;getState:()=>AuthState;initAuth:()=>Promise<void>};
+auth.state={...auth.getState(),user:{id:posFixtureIds.actor} as AuthState['user'],roleName:'owner',roles:['owner'],isAuthenticated:true,isLoading:false};auth.initAuth=async()=>undefined;
+const engine=storeEngine as unknown as {state:AppState};const branch={id:posFixtureIds.branch,name:'فرع اختبار',address:'',city:'الرمثا',phone:'',isMain:true};
+engine.state={...engine.state,activeBranch:branch,branches:[branch],categories:[],warehouses:[{id:posFixtureIds.warehouse,name:'مستودع اختبار',branchId:branch.id,location:'الرمثا'}]};
+storeEngine.setCurrentUser({id:posFixtureIds.actor,name:'مالك اختبار',role:'Owner',themeMode:'light'});storeEngine.setActiveTab('more');
+if(!supabase)throw Error('LOOPBACK_FIXTURE_REQUIRED');
+supabase.auth.getUser=async()=>({data:{user:{id:posFixtureIds.actor}},error:null}) as Awaited<ReturnType<NonNullable<typeof supabase>['auth']['getUser']>>;
+// Test identity only: the real command still performs both identity reads and
+// its AAL2 check. No production auth method or mutation is replaced here.
+const assurance=new URLSearchParams(location.search).get('owner-assurance');
+if(assurance==='aal1'||assurance==='aal2')supabase.auth.mfa.getAuthenticatorAssuranceLevel=async()=>({data:{currentLevel:assurance,nextLevel:'aal2',currentAuthenticationMethods:[]},error:null});
+const original=supabase.rpc.bind(supabase),client=supabase as unknown as {rpc:(name:string,args?:Record<string,unknown>)=>unknown};
+client.rpc=(name,args)=>{
+ const ok=(data:unknown)=>Promise.resolve({data,error:null});
+ if(name==='search_admin_products')return ok(posFixtureProducts.map(v=>({...v,available_quantity:0,on_hand_quantity:0,cost_price_in_minor_units:0})));
+ if(name==='get_open_pos_shift')return ok({success:true,hasOpenShift:true,shift:{id:posFixtureIds.configuration,shiftNumber:'TEST-SHIFT',branchId:branch.id,startTime:'2026-11-09T05:00:00Z'}});
+ if(name==='lite1_pos_options2')return ok({options:[]});
+ if(name==='get_pos_customer_page')return ok({customers:[],page:1,page_size:25,total_count:0,has_more:false});
+ return original(name,args);
+};
+Object.assign(window,{__LITE_APP_TAB__:(tab:Parameters<typeof storeEngine.setActiveTab>[0])=>storeEngine.setActiveTab(tab),__LITE_APP_MODAL__:()=>storeEngine.openModal('receive_goods')});
+createRoot(document.getElementById('root')!).render(<App/>);

@@ -10,6 +10,11 @@ import {
   PublicConfigurableParcelOption,
 } from '../types/catalog';
 
+// Mode follows the freshly verified option;never retain an OFF flag after ON.
+export function parcelAvailabilityFields(option: Pick<PublicConfigurableParcelOption,'quantityTracked'>) {
+  return {quantityTracked: option.quantityTracked===false?false:undefined,maxAvailablePackages:option.quantityTracked===false?null:Number.MAX_SAFE_INTEGER};
+}
+
 export const CART_STORAGE_KEY = 'nawasrah-wholesale-cart-v1';
 export const CART_RECOVERY_BACKUP_STORAGE_KEY =
   'nawasrah-wholesale-cart-recovery-backup-v1';
@@ -72,6 +77,7 @@ function cartDisplayFields(product: CatalogProduct) {
     unitsPerSalePackage: product.unitsPerSalePackage,
     unitPriceInMinorUnits: product.salePackagePriceInMinorUnits,
     quantity: 1,
+    ...(product.quantityTracked===false?{quantityTracked:false}:{}),
     maxAvailablePackages: product.availableSalePackages,
   };
 }
@@ -139,7 +145,8 @@ export function createConfigurableParcelCartItem(
     unitsPerSalePackage: option.unitsPerParcel,
     unitPriceInMinorUnits: option.parcelPriceInMinorUnits,
     quantity: 1,
-    maxAvailablePackages: Number.MAX_SAFE_INTEGER,
+    ...(option.quantityTracked===false?{quantityTracked:false}:{}),
+    maxAvailablePackages: option.quantityTracked===false?null:Number.MAX_SAFE_INTEGER,
     parcelInstances: [instance],
   };
 }
@@ -206,8 +213,7 @@ export function isCurrentCartItem(value: unknown): value is CartItem {
     Number(item.unitPriceInMinorUnits) >= 0 &&
     Number.isInteger(item.quantity) &&
     Number(item.quantity) > 0 &&
-    Number.isInteger(item.maxAvailablePackages) &&
-    Number(item.maxAvailablePackages) > 0;
+    (item.quantityTracked===false?item.maxAvailablePackages===null:(item.quantityTracked===undefined||item.quantityTracked===true)&&Number.isInteger(item.maxAvailablePackages)&&Number(item.maxAvailablePackages)>0);
   if (
     !validDisplayFields ||
     !['base_unit', 'legacy_single_sku_parcel', 'configurable_parcel'].includes(
@@ -280,18 +286,20 @@ export function reconcileCart(
     const product = productsById.get(item.productId);
     const isBaseUnit = item.commercialLineKind === 'base_unit';
     if(isBaseUnit&&product?.parcelOnly)return [...result,item];
-    const available = isBaseUnit ? product?.availableQuantity ?? 0 : product?.availableSalePackages ?? 0;
-    if (!product || !product.isAvailable || available < 1) return result;
+    const available = product?.quantityTracked===false?null:isBaseUnit?product?.availableQuantity??0:product?.availableSalePackages??0;
+    if (!product || !product.isAvailable || (product.quantityTracked!==false&&(available??0)<1)) return result;
+    const {quantityTracked:_oldTracking,...previous}=item;
     return [...result, {
-      ...item,
+      ...previous,
       sku: product.sku,
       nameAr: product.nameAr,
       imageUrl: product.imageUrl,
       saleUnitNameAr: isBaseUnit || product.unitsPerSalePackage <= 1 ? product.unitNameAr || 'باكيت' : 'طرد',
       unitsPerSalePackage: isBaseUnit ? 1 : product.unitsPerSalePackage,
       unitPriceInMinorUnits: isBaseUnit ? product.salePriceInMinorUnits : product.salePackagePriceInMinorUnits,
-      maxAvailablePackages: available,
-      quantity: Math.min(positiveInteger(item.quantity), available),
+      ...(product.quantityTracked===false?{quantityTracked:false}:{}),
+      maxAvailablePackages: product.quantityTracked===false?null:available,
+      quantity: available===null?positiveInteger(item.quantity):Math.min(positiveInteger(item.quantity), available),
     } as CartItem];
   }, []);
 }
@@ -329,11 +337,11 @@ export function restoreLastOrderFromSnapshot(
   const items = Array.from(requestedQuantityByProductId.entries()).flatMap(
     ([productId, requestedQuantity]) => {
       const product = productsById.get(productId);
-      if (!product || !product.isAvailable || product.availableSalePackages < 1) {
+      if (!product || !product.isAvailable || (product.quantityTracked!==false&&(product.availableSalePackages??0)<1)) {
         unavailableItems += 1;
         return [];
       }
-      const quantity = Math.min(requestedQuantity, product.availableSalePackages);
+      const quantity = product.availableSalePackages===null?requestedQuantity:Math.min(requestedQuantity, product.availableSalePackages);
       if (quantity !== requestedQuantity) quantityAdjustments += 1;
       return [{ ...createCartItem(product), quantity }];
     }

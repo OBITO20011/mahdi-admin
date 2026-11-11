@@ -4,7 +4,9 @@ import {aftercare215Record,type Aftercare215Action} from '../../utils/aftercare2
 export function assertAftercare215Request(action:Aftercare215Action,orderId:string,request:Record<string,unknown>):void{
   const payload=request.payload;
   const invalid=()=>new Error('AFTERCARE_REVIEW_REQUIRED: طلب المعاينة المحفوظ غير مطابق للفاتورة.');
-  if(Object.keys(request).sort().join(',')!=='payload,previewFingerprint'||!aftercare215Record(payload)
+  const lite=request.accountingMode==='sales-only';
+  if((request.accountingMode!==undefined&&!lite)||(lite&&action!=='sealed_return')
+    ||Object.keys(request).sort().join(',')!==(lite?'accountingMode,payload,previewFingerprint':'payload,previewFingerprint')||!aftercare215Record(payload)
     ||typeof request.previewFingerprint!=='string'||!/^[0-9a-f]{64}$/u.test(request.previewFingerprint))throw invalid();
   const source=action==='exchange'?payload.returnRequest:payload;
   if(!aftercare215Record(source)||source.orderId!==orderId)throw invalid();
@@ -21,6 +23,7 @@ export function assertAftercare215Request(action:Aftercare215Action,orderId:stri
 /** Every retry uses the persisted payload, seal and key, without preview again. */
 export async function invokeAftercare215(client:SupabaseClient,action:Aftercare215Action,orderId:string,key:string,request:Record<string,unknown>){
   assertAftercare215Request(action,orderId,request);
+  if(request.accountingMode==='sales-only')return await client.rpc('lite1_settle_return2',{p_payload:request.payload,p_key:key,p_preview:request.previewFingerprint});
   const args={p_payload:request.payload,p_idempotency_key:key,p_preview_fingerprint:request.previewFingerprint};
   if(action==='sealed_return')return await client.rpc('settle_admin_sales_return_v2',args);
   if(action==='inspected_replacement')return await client.rpc('settle_inspected_sales_replacement_v2',args);

@@ -33,9 +33,11 @@ export function receiptBaseUnitNames(value:unknown):ReadonlyMap<string,string>{
 export function posV2Invoice(sale: PosV2SaleResult, actor: {id: string; name: string}, createdAt: string,baseUnits:ReadonlyMap<string,string>=new Map()): Invoice & {changeDue: number} {
   const items = sale.items as Array<Record<string, any>>;
   return {id: sale.orderId, invoiceNumber: sale.orderNumber, orderId: sale.orderId, customerName: sale.customerName,
+    ...(sale.accountingTracked===false?{accountingTracked:false}:{}),
     items: items.map(i => ({id: i.id, productId: i.productId, productName: i.productName, sku: i.sku,
       productImage: '', unit: i.salePackage, unitPrice: i.unitPriceInMinorUnits / 1000,
-      costPrice: i.cogsInMinorUnits / i.baseQuantity / 1000, quantity: i.quantity, baseQuantity: i.baseQuantity,
+      costPrice: sale.accountingTracked===false ? null : i.cogsInMinorUnits / i.baseQuantity / 1000,
+      ...(sale.accountingTracked===false?{accountingTracked:false}:{}), quantity: i.quantity, baseQuantity: i.baseQuantity,
       unitsPerSalePackage: i.unitsPerSalePackage, salePackage: i.salePackage, discount: i.allocatedDiscountInMinorUnits / 1000,
       totalPrice: i.lineTotalInMinorUnits / 1000, commercialLineKind: i.commercialLineKind,
       ...(baseUnits.has(i.id)?{baseUnitName:baseUnits.get(i.id)}:{}),

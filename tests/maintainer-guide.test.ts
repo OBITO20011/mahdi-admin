@@ -21,8 +21,8 @@ function tokens(sql:string):Token[]{
     if(dollar){const end=sql.indexOf(dollar[0],at+dollar[0].length);assert.ok(end>=0,'Unclosed SQL body');out.push({value:'',kind:'opaque',anonymousBody:sql.slice(at+dollar[0].length,end)});at=end+dollar[0].length;continue;}
     const quote=sql[at];
     if(quote==="'"||quote==='"'){
-      at++;let value='',closed=false;
-      while(at<sql.length){const c=sql[at++];if(c===quote){if(sql[at]===quote){value+=c;at++;}else{closed=true;break;}}else if(c==='\\'&&quote==="'"){at++;}else value+=c;}
+      const escapes=quote==="'"&&/[eE]/u.test(sql[at-1]??'')&&!/[a-z0-9_$]/iu.test(sql[at-2]??'');at++;let value='',closed=false;
+      while(at<sql.length){const c=sql[at++];if(c===quote){if(sql[at]===quote){value+=c;at++;}else{closed=true;break;}}else if(c==='\\'&&escapes){at++;}else value+=c;}
       assert.ok(closed,'Unclosed SQL quote');out.push({value:quote==='"'?value.toLowerCase():'',kind:quote==='"'?'word':'opaque'});continue;
     }
     const word=/^[a-z_][a-z_0-9$]*/iu.exec(rest);if(word){out.push({value:word[0].toLowerCase(),kind:'word'});at+=word[0].length;continue;}
@@ -117,4 +117,9 @@ test('guide stays discoverable, linked, ceiling-bound and names-only for configu
   const secretSection=guide.split('## 4.')[1].split('## 5.')[0];
   assert.doesNotMatch(secretSection,/https?:\/\/|sb_(?:publishable|secret)_|eyJ[A-Za-z0-9_-]{10}|-----BEGIN|(?:TOKEN|PASSWORD|DSN|SECRET|PASSPHRASE)\s*=\s*[^\s|]+/u);
   for(const label of ['StoreEngine','useSyncExternalStore','ليس','M01','WAC','Asia/Amman','junction','service_role','Gitleaks','verify-only','--resume','الدفتر الورقي','قبل التوظيف'])assert.ok(guide.includes(label),label);
+});
+
+test('SQL reader distinguishes standard backslash strings from E escape strings inside anonymous blocks',()=>{
+ const definitions=currentFunctions([{file:'fixture.sql',sql:String.raw`DO $block$ BEGIN PERFORM '\'; PERFORM E'\\'; END $block$; CREATE FUNCTION public.real_after_backslash() RETURNS int LANGUAGE sql AS $$ SELECT 1 $$;`}]);
+ assert.equal(definitions.size,1);assert.ok(definitions.has('real_after_backslash'));
 });

@@ -8,6 +8,9 @@
 import { LEGACY_UNIT_HEADERS } from '../../utils/legacyUnitImportHeaders';
 import {IMPORT_DESCRIPTIVE_KEYS,normalizeImportDisplayText} from './importDisplayText';
 
+export type ImportOperatingMode='full'|'sales-only';
+export const importColumns=(kind:GoLiveKind,mode:ImportOperatingMode='full'):readonly GoLiveColumn[]=>GO_LIVE_COLUMNS[kind].map(c=>kind==='products'&&mode==='sales-only'&&c.key==='cost_per_base_unit'?{...c,required:false}:c);
+
 export type GoLiveKind = 'products' | 'stock' | 'customers' | 'suppliers';
 
 export interface GoLiveColumn {
@@ -138,8 +141,8 @@ export function ammanToday(now = new Date()): string {
 export interface SheetRow { row: number; values: Record<string, string> }
 
 /** Matches the template headers (row 1) and returns the non-empty data rows. */
-export function mapSheet(kind: GoLiveKind, sheet: readonly (readonly string[])[]): { rows: SheetRow[]; fileErrors: string[]; normalizedFields:number } {
-  const columns = GO_LIVE_COLUMNS[kind];
+export function mapSheet(kind: GoLiveKind, sheet: readonly (readonly string[])[],mode:ImportOperatingMode='full'): { rows: SheetRow[]; fileErrors: string[]; normalizedFields:number } {
+  const columns = importColumns(kind,mode);
   const header = (sheet[0] ?? []).map(cell => cell.replace(/\s+/gu, ' ').trim());
   const indexes = new Map<string, number>();
   const fileErrors: string[] = [];
@@ -183,18 +186,18 @@ function requireText(values: Record<string, string>, columns: readonly GoLiveCol
   return missing ? `"${missing.header}" مطلوب.` : null;
 }
 
-export function prepareProducts(rows: readonly SheetRow[]): PreparedRows<ProductPayload> {
+export function prepareProducts(rows: readonly SheetRow[],mode:ImportOperatingMode='full'): PreparedRows<ProductPayload> {
   const result: PreparedRows<ProductPayload> = { payload: [], errors: [] };
   const seen = new Map<string, number>();
   for (const { row, values } of rows) {
     const fail = (message: string) => result.errors.push({ row, message });
-    const missing = requireText(values, GO_LIVE_COLUMNS.products);
+    const missing = requireText(values, importColumns('products',mode));
     if (missing) { fail(missing); continue; }
     const perPurchase = parseWholeNumber(values.units_per_purchase_unit, { min: 1 });
     const perSale = parseWholeNumber(values.units_per_sale_unit, { min: 1 });
     const salePrice = parseJodToMinor(values.sale_package_price);
     const purchasePrice = values.purchase_package_price ? parseJodToMinor(values.purchase_package_price) : '0';
-    const cost = parseJodToMinor(values.cost_per_base_unit);
+    const cost = mode==='sales-only'&&!values.cost_per_base_unit?'0':parseJodToMinor(values.cost_per_base_unit);
     const minStock = values.min_stock_level ? parseWholeNumber(values.min_stock_level) : 0;
     const methodValue=(values.parcel_only??'').trim().toLowerCase();
     const parcelOnly=['نعم','true','1'].includes(methodValue);

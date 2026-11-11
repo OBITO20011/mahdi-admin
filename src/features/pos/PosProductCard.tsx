@@ -2,8 +2,9 @@ import type {Product} from '../../types';
 import {MoneyText,ProductGlyph,UiButton} from '../../components/ui';
 import type {PosSingleProductMode} from './saleMethods';
 
-export function PosProductCard({product,stock,parcelQuantity,unitQuantity,disabled,onAdd,onReduce}:{
+export function PosProductCard({product,stock,parcelQuantity,unitQuantity,disabled,onAdd,onReduce,quantityTracked=true,manualAvailable}:{
   product:Product;stock:number;parcelQuantity:number;unitQuantity:number;disabled:boolean;
+  quantityTracked?:boolean;manualAvailable?:boolean;
   onAdd:(mode:PosSingleProductMode)=>void;onReduce:(mode:PosSingleProductMode)=>void;
 }){
   const parcel=(product.unitsPerSalePackage??1)>1,unit=!product.parcelOnly;
@@ -14,7 +15,8 @@ export function PosProductCard({product,stock,parcelQuantity,unitQuantity,disabl
       <ProductGlyph name={product.nameAr} image={product.imageUrl} className="h-14 w-14 shrink-0"/>
       <div className="min-w-0"><h3 className="break-words text-sm font-bold">{product.nameAr}</h3>
         <bdi dir="ltr" className="block break-all text-xs text-nw-muted">{product.barcode}</bdi>
-        <p className={'text-xs '+(stock<=product.reorderLevel?'text-nw-warn':'text-nw-muted')}><bdi dir="ltr">{stock}</bdi> باكيت · {stock===0?'نفد':'متوفر'}</p>
+        {quantityTracked?<p className={'text-xs '+(stock<=product.reorderLevel?'text-nw-warn':'text-nw-muted')}><bdi dir="ltr">{stock}</bdi> باكيت · {stock===0?'نفد':'متوفر'}</p>
+          :<p className={'text-xs '+(manualAvailable===false?'text-nw-warn':'text-nw-muted')}>{manualAvailable===undefined?'جارٍ التحقق من التوفر':manualAvailable?'متوفر يدوياً':'غير متوفر — البيع يحتاج تأكيداً'}</p>}
       </div>
     </div>
     {product.parcelOnly&&<p className="text-xs font-bold text-nw-info">طرد فقط</p>}
@@ -23,7 +25,7 @@ export function PosProductCard({product,stock,parcelQuantity,unitQuantity,disabl
         const priceReady=typeof method.price==='number'&&Number.isFinite(method.price)&&method.price>=0;
         return <div key={method.mode} data-pos-sale-method={method.mode} className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-2">
           <UiButton data-pos-product-card={index===0?product.id:undefined} data-pos-add-method={method.mode}
-            aria-label={`إضافة ${method.label} من ${product.nameAr}`} disabled={disabled||!priceReady||stock<(method.mode==='base_unit'?1:product.unitsPerSalePackage??1)}
+            aria-label={`إضافة ${method.label} من ${product.nameAr}`} disabled={disabled||!priceReady||(quantityTracked&&stock<(method.mode==='base_unit'?1:product.unitsPerSalePackage??1))}
             onKeyDown={event=>{if(event.key==='Enter'&&event.repeat)event.preventDefault();}}
             onClick={()=>onAdd(method.mode)} className="min-w-0 flex-wrap justify-start px-2 text-xs">
             + {method.label} {priceReady?<MoneyText amount={method.price!}/>:<span>السعر غير متاح</span>}

@@ -1,0 +1,2127 @@
+{
+  "baseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
+  "encoding": "UTF8 with repository canonical LF; database prosrc separately compared byte-for-byte",
+  "files": {
+    "customer-web/src/App.tsx": {
+      "sha256": "205596893921593c04cf84f5ed3ebebd9bdf81a2bc2568cc10ec9bc913a7e3f0"
+    },
+    "customer-web/src/components/AboutStorePage.tsx": {
+      "sha256": "3109129e6e4243e08cb33318433d10ed4847a21436a0e37e8b70f01b7f46dfc0"
+    },
+    "customer-web/src/components/CargoAddButton.tsx": {
+      "sha256": "5fdb9851f76905d42ccd97cdcf62905d1ce9db379d98d1f5e14778683ba0fa91"
+    },
+    "customer-web/src/components/CartDrawer.tsx": {
+      "sha256": "bd7310071fc3f76b1a46585ad4ebbc3a7294737dba49f112b146e6bd2265940a"
+    },
+    "customer-web/src/components/CategoryDrawer.tsx": {
+      "sha256": "7f577988947367fd548284ed5a34ff3405317d1a6faf8944f3451e1c7915935e"
+    },
+    "customer-web/src/components/CategoryShowcase.tsx": {
+      "sha256": "e8cce67edbbdd205dc4f8350eab8dbedfcca434e1b17ffe1bdfe37f17d2720f8"
+    },
+    "customer-web/src/components/CheckoutModal.tsx": {
+      "sha256": "fee549e463ceabafffae60cb0d5596553afb5f17304ef40ac394f100e9383d83"
+    },
+    "customer-web/src/components/CheckoutProgress.tsx": {
+      "sha256": "2a0de8146a0ff0fd0d26df6e056017fa3e62da27d24fbe1aaee33a9506042fb1"
+    },
+    "customer-web/src/components/CheckoutReceiptPanel.tsx": {
+      "sha256": "d1c9f687c7e639af4b10bea4180c26b187d69dc72a6d94958273aa25e02461f2"
+    },
+    "customer-web/src/components/DeferredDialog.tsx": {
+      "sha256": "7334c3b79c89ca5eaea52577dcf95c4040cd273dc2ed5ad84f8b7b698fbe146c"
+    },
+    "customer-web/src/components/FloatingContactActions.tsx": {
+      "sha256": "ed92f72ab8e6e4088bc7bbfa2aeb17876ecbe37518f1075276c02998ca42553e"
+    },
+    "customer-web/src/components/GuidedStoreAssistant.tsx": {
+      "sha256": "daaa0ebe002ebbae2bc442b792a7f1aa1c8231c723c5d03b8952822e5227d366"
+    },
+    "customer-web/src/components/HeroVideo.tsx": {
+      "sha256": "1083e728a2287739f0c586edacd2122f798e0b356fe1485a3e76793781d6e033"
+    },
+    "customer-web/src/components/HomeCategoryMosaic.tsx": {
+      "sha256": "0ef85482036d6c1c8a5873e22d8ba11a5e0246afd763865f894755a125bb0a28"
+    },
+    "customer-web/src/components/MerchandisingSections.tsx": {
+      "sha256": "fbca06a7155daa7006def40d857534e83d145bd6d2eb9b7abde158019e7713de"
+    },
+    "customer-web/src/components/MobileStoreNav.tsx": {
+      "sha256": "708aa5b08f3ded75358a8f12608bece064be13c87be91ff44d365b152480cd3f"
+    },
+    "customer-web/src/components/NetworkStatusBanner.tsx": {
+      "sha256": "ac8312df98ba6b1f5c168beb2aa96166706e111cdbf2106cf39fb15d1af4051d"
+    },
+    "customer-web/src/components/OffersPage.tsx": {
+      "sha256": "3f58f999951223cc0d2b2ed7d77e10a0b6d57898c31cbcec0d0fd6a699c3e1b9"
+    },
+    "customer-web/src/components/OrderTrackingModal.tsx": {
+      "sha256": "122ff2f7535ac8e0897b60ba9051ddf3e9a175028326e874cb440e274b174549"
+    },
+    "customer-web/src/components/OrderTrackingTimeline.tsx": {
+      "sha256": "bf343cdc56f36850ed12eceb40177e316c4f7e002c6e2da1c89b93218008824a"
+    },
+    "customer-web/src/components/ParcelBuilderModal.tsx": {
+      "sha256": "c2ab7151acd7134ea1fb260110c1bce4b7a92651bc18207a9fcbf8709bb1ba73"
+    },
+    "customer-web/src/components/PrivacyPolicyModal.tsx": {
+      "sha256": "88fb34bfd4f38b6a7e31aa218ef657f1881aa538a2c2668d273e678148ddcd8f"
+    },
+    "customer-web/src/components/ProductCard.tsx": {
+      "sha256": "4c11dfdc0fcb2222e2618344073be1fcb771c1be5dcc8e0eacbd538ae9ec9a04"
+    },
+    "customer-web/src/components/ProductDetailsModal.tsx": {
+      "sha256": "4c3e7f27659a059a5ac67422505c5c0e9b862940fc2a4860b5f2cb10f4b74b72"
+    },
+    "customer-web/src/components/ProductImage.tsx": {
+      "sha256": "9499bc5471fd43aeed18588d3eb07168a6e21b8cf26a186d9c047a1ee130e802"
+    },
+    "customer-web/src/components/ProductPurchaseControl.tsx": {
+      "sha256": "4c8e5b27e2208ecf9cbfccb53fe20732b62269174f2b1dad1b6c6d4598e43059"
+    },
+    "customer-web/src/components/PromotionOffers.tsx": {
+      "sha256": "4d08c5a6589feb3418118dc2a0c87ad0de3488c89db04a4a5672486593de0a45"
+    },
+    "customer-web/src/components/PublicPosReceiptPage.tsx": {
+      "sha256": "a7570652154a9f9eb9f9500732057ff3c78959b0ea19724be31721ce012d35e8"
+    },
+    "customer-web/src/components/StoreErrorBoundary.tsx": {
+      "sha256": "f12a6de644559f313f5ca2f40677fb53a98bdc073c9005a62a675afea4811698"
+    },
+    "customer-web/src/components/StoreFooter.tsx": {
+      "sha256": "5f15fb35fbbf67c9819c06b644425faf1541899f6bd2c03cfd39303484cfdb32"
+    },
+    "customer-web/src/components/StoreHeader.tsx": {
+      "sha256": "da024cba1ffbd92d23e613bd863e2e6b5defd17d801e8f3273d3d298d5df639e"
+    },
+    "customer-web/src/components/StoreHero.tsx": {
+      "sha256": "739ce43eeed7f7a65cdbd3dc847d78686e18d1e09515da78ba594461522cf035"
+    },
+    "customer-web/src/components/StoreInfoSection.tsx": {
+      "sha256": "977c93c13802d38ad8ebc91724991e818d97bc96abe05eea553a16036571445c"
+    },
+    "customer-web/src/components/StoreLogoMark.tsx": {
+      "sha256": "a39beaa46805cab2a2f43be6227da2a501b781a8b3c551bec229d6d22bd2eb7f"
+    },
+    "customer-web/src/components/TurnstileWidget.tsx": {
+      "sha256": "37d639422e84c97f19ece80609aecf63330edf9f2b9f2ec105a939cb377d291b"
+    },
+    "customer-web/src/components/categoryVisuals.ts": {
+      "sha256": "aec26f41b506e0f2cb072474fb11ed5e656e52492ab1ba08657c4b59634e2719"
+    },
+    "customer-web/src/components/orderTrackingPresentation.ts": {
+      "sha256": "b9a47eda700c1add33c82ffb94c6cdf1c88e9807827fc1461e6af25a6b58ad54"
+    },
+    "customer-web/src/config/publicSite.ts": {
+      "sha256": "ebad7c0e78ce66481c82dbe4ab6816627fc7706d856beb26ac7927f5f05181f2"
+    },
+    "customer-web/src/config/seoBrand.ts": {
+      "sha256": "c3284c8ec1abb2412308088c5dab717ccd4565644e1fffa04a77013fbcb18994"
+    },
+    "customer-web/src/config/store.ts": {
+      "sha256": "52793eb1406ad350d08eeaa38b31513993ba906e3dd043b9d6951e17573bff10"
+    },
+    "customer-web/src/config/supabase-public-config.ts": {
+      "sha256": "58d710e32d82b1656cbc07003ab5303792347c8105adecaf89c660cd3e594b1b"
+    },
+    "customer-web/src/hooks/useCustomerCommerce.ts": {
+      "sha256": "e66bd9afb1dfc159721da60fbd154bf1896a0ca2659f60c9a7eee1b35bb9a89a"
+    },
+    "customer-web/src/hooks/useDialogFocus.ts": {
+      "sha256": "d0ec02cc98cbbb0669f40d09c806aa995f15d3f0add937427fc4dfd0d4372be1"
+    },
+    "customer-web/src/lib/errorMonitoring.ts": {
+      "sha256": "4f3cccaf292996fe201a264f74ea0d81dc6d0360b1e82672a3719f026301e6ee"
+    },
+    "customer-web/src/lib/monitoringPrivacy.ts": {
+      "sha256": "284710318e28848df628b3ccc00d5b2189fa041d24f01a80caedafa566e8635f"
+    },
+    "customer-web/src/lib/supabase.ts": {
+      "sha256": "b4bc81ec8573b9f813b2117a772c636a2f2cd21a2314c310088f400aecca5178"
+    },
+    "customer-web/src/lib/webVitalsPrivacy.ts": {
+      "sha256": "0bc3a2f56a1d69921802c037a716f36948090719f4da15c9ea9032a2d63e4144"
+    },
+    "customer-web/src/main.tsx": {
+      "sha256": "123ea144a5d9c07e89696a0e4393b775dbd9f29d8008fb3c87ac63da1fe95ba9"
+    },
+    "customer-web/src/receipts/ReceiptDocument.tsx": {
+      "sha256": "b7512883055bacd4b0ac86af8ff508bbec9fa274a707592f4f79a80ab3ab144d"
+    },
+    "customer-web/src/receipts/commercialReceipt.ts": {
+      "sha256": "fddb4c76e92b3930e151552e5d317067aa8ad81d8640620c34458180186bf25c"
+    },
+    "customer-web/src/receipts/exactMoney.ts": {
+      "sha256": "e381946d561739b1c9a4536740c972951be2fda3c31448aadd375d6ff0696ff7"
+    },
+    "customer-web/src/receipts/exchangeFunding.ts": {
+      "sha256": "c29f18a60d6b65c174515e6f115b2b48043cda286dc6970c28b91b56fa02c0db"
+    },
+    "customer-web/src/receipts/publicReceipt.ts": {
+      "sha256": "66812607e162c9674fbf89ada7c2bce93e004725f2208c77fe259f7c6a8628dc"
+    },
+    "customer-web/src/services/catalog.service.ts": {
+      "sha256": "4da530b39146d8d3c9736a73f25241f403b176e4056a71dcc42d15f2677b6def"
+    },
+    "customer-web/src/services/checkoutRecoveryCoordinator.ts": {
+      "sha256": "1a6fe01c8a2364c6168c4494be33c5b89eb34dd3e86819a2029a11326c641690"
+    },
+    "customer-web/src/services/commerceStorage.ts": {
+      "sha256": "08ac8012afdc1cd02631e2ebcc52f53c035e279a0e8ca7c2a60b3a201a1ebeb3"
+    },
+    "customer-web/src/services/offers.service.ts": {
+      "sha256": "0a6bbe7145146a7bd5d525110a07f032baa8436bacae913a3cff175b9eea779f"
+    },
+    "customer-web/src/services/orders.service.ts": {
+      "sha256": "dcfe32b02c18de9a861d95a8ce00478621e14dacfad4a7664b02c7d020354785"
+    },
+    "customer-web/src/services/receipts.service.ts": {
+      "sha256": "eeb7ed11ef9df4aebe7c115f863c69f2c01b346cc873ab8929129e0e8fd6cbd7"
+    },
+    "customer-web/src/services/storefront-settings.service.ts": {
+      "sha256": "a46ca638890c6c4e127a1d0a4f7938a4805c423b503762ee5530298991bcf5e9"
+    },
+    "customer-web/src/types/catalog.ts": {
+      "sha256": "f55c64fc40254816deb09d0e13d178af4520b479b3c3a0a8c158d35e251c56e8"
+    },
+    "customer-web/src/types/checkout.ts": {
+      "sha256": "21ddde950b3ccd6c690b769d490206f483e4ba133f0539cfb5403ae91c0ece28"
+    },
+    "customer-web/src/types/offers.ts": {
+      "sha256": "096195d022c61cb84baf1b6421996c267632b7bc74559f0aaf69841230c3d0e2"
+    },
+    "customer-web/src/types/receipt.ts": {
+      "sha256": "a9c3db32cf874877a19872e4ed07a62fd90101e8b1a4b52a292b880bd231a7e3"
+    },
+    "customer-web/src/types/storefront.ts": {
+      "sha256": "b6efb2f7a0e5514a9de186550597302681c8d843e0517cbb000b8860f2d7b175"
+    },
+    "customer-web/src/utils/cart.ts": {
+      "sha256": "aefe240ac7843d1091893a98ff4d7003b6484118714e7656d770fd47729de6e3"
+    },
+    "customer-web/src/utils/cartAdditionAnimation.ts": {
+      "sha256": "4456486bc983fd9fbbce6f163cc817ca3798e66dd96d4166b6891049381c5785"
+    },
+    "customer-web/src/utils/catalogView.ts": {
+      "sha256": "02744d68143facc4a919243a345f40cedb13bc97daab0fc7ec008d6b073503c1"
+    },
+    "customer-web/src/utils/checkout.ts": {
+      "sha256": "aaee46cd792d7db2ebd4bf943bd5288d3aa387aaa29f0a67dae27e990d74b265"
+    },
+    "customer-web/src/utils/checkoutErrorMessage.ts": {
+      "sha256": "af108f77db1b37e59a3c9059e7dd59382d2139111fd979c9fcfdc607e4386f40"
+    },
+    "customer-web/src/utils/dialogFocus.ts": {
+      "sha256": "245e78a39c65e917015fa146ef52d209ecd4f7b1bb8ec2f80d7e94dfbdd7db8b"
+    },
+    "customer-web/src/utils/googleMaps.ts": {
+      "sha256": "ce458def64a203ed7364cfc3d9ebdfa42c40eeb0f23e8742056a96638bf32bdf"
+    },
+    "customer-web/src/utils/heroMedia.ts": {
+      "sha256": "eee60486ed60b320ebbc04b92f163c87495c5f2b0b4258fe0fd1314530de7714"
+    },
+    "customer-web/src/utils/money.ts": {
+      "sha256": "22e3a604940ec4781c81a4f32d3608cad1d4f59dc29ed65a16bc38beca4f7d9e"
+    },
+    "customer-web/src/utils/productDetails.ts": {
+      "sha256": "eed0f30e37703310dc7a0346d4a8ec0dbe56cb63756da932840db5bdc06b5f14"
+    },
+    "customer-web/src/utils/productThumbnail.ts": {
+      "sha256": "9446b3d0a530afe038c0b5e739c39220fd3f63c7fc4fc6954b413a9ac5cd1872"
+    },
+    "customer-web/src/utils/publicRoutes.ts": {
+      "sha256": "ba934021602b4d460055d89bcf5b3bdc6c29279d1ae7ca3c59e834720c150224"
+    },
+    "customer-web/src/utils/saleUnitLabels.ts": {
+      "sha256": "6372ec26ba5a2470c845d68a4fa36dac7b49a8852dc999fc9b9d5d39a96618c1"
+    },
+    "customer-web/src/utils/scroll.ts": {
+      "sha256": "f0b7fc9210dbc179289bc3e5671226aec207b1314e54421d5b7f42af4042f485"
+    },
+    "customer-web/src/utils/storefrontSeo.ts": {
+      "sha256": "c4849610bbc448e21adacbde836a8f77f68fa62dc2b01edd2e0e0515747f3ea3"
+    },
+    "customer-web/src/utils/storefrontUnits.ts": {
+      "sha256": "2fcce575796dafd5ca2cff667321cc8d3076a02f14e00ce9f35356072c1b758e"
+    },
+    "scripts/operations/application-acl-verification.mjs": {
+      "sha256": "9a808084d902824bd24bd033bba2d6d047c8ed9da72d6564aace7b93e44d9f65"
+    },
+    "scripts/operations/backup-task-preflight.mjs": {
+      "sha256": "bb93aed205c5367e782ab9d1339c28aa2c670db0d582b617a516a1cd1504cbb8"
+    },
+    "scripts/operations/build-acl-reference-cheques.mjs": {
+      "sha256": "b855d03d3ef0f4e15f1f204d37d789fb2ec7812c57e0c867d1760776781ce203"
+    },
+    "scripts/operations/build-acl-reference150.mjs": {
+      "sha256": "065eedb0742cf991bda85c2f2615dc60e9acd3e22e7d7c9ed7ef212d4929de8e"
+    },
+    "scripts/operations/build-acl-reference151.mjs": {
+      "sha256": "e6d24ea3f97b4735021da625b7369f1950f0823bcf84ddad05a0be87877ef8cc"
+    },
+    "scripts/operations/build-acl-reference164.mjs": {
+      "sha256": "697f6ee6f116eba2d93932b8210612f58ffd7f1225aa647f2d78a5b1aa3aa678"
+    },
+    "scripts/operations/build-acl-reference171.mjs": {
+      "sha256": "8b049ce21befe67a1df9829f2b7dbb0ad2436a3ecd5c7104a382d23cc1dfda06"
+    },
+    "scripts/operations/build-acl-reference182.mjs": {
+      "sha256": "26453e7a3e3589d8e11c6fe8c9c04ea504b72c0f5e05bd369874f9190b51cb25"
+    },
+    "scripts/operations/build-acl-reference198.mjs": {
+      "sha256": "87e7a3cab0e0ea57ce2ef876cfc0d7feb36a5fcc44a43266c6dd21c12581d34d"
+    },
+    "scripts/operations/build-acl-reference199.mjs": {
+      "sha256": "e2abe13569a1a63b8702ff15d448580a4ee8979856ce99f80ca9ba288bf32b07"
+    },
+    "scripts/operations/build-acl-reference200.mjs": {
+      "sha256": "827d676e4f7991ab5850176daaeac0d6ce680f9f80b355e08b3fb95f599b90e2"
+    },
+    "scripts/operations/build-acl-reference201.mjs": {
+      "sha256": "2f09d294958da3aaf8cab3440ea671860b542d80c1c8120392d71589df08f402"
+    },
+    "scripts/operations/build-acl-reference202.mjs": {
+      "sha256": "a5f04ff17f7e51c0f93460d7ee184f760d4ead7fa0cb93e4bf3403acc2446aa7"
+    },
+    "scripts/operations/build-acl-reference203.mjs": {
+      "sha256": "77248a00afa47f92dd8cbee63f9fef230c96240c7a28e957378defdf55cd28dd"
+    },
+    "scripts/operations/build-acl-reference204.mjs": {
+      "sha256": "cc2ae19921ea4e5c6a8d3e7040d1f5330b4b54161b4b820f1b8244414b34fdab"
+    },
+    "scripts/operations/build-acl-reference205.mjs": {
+      "sha256": "a27772a8744b2aba8fb8cd7cc801ee007b557af5de41dd15cf1f063d190615c6"
+    },
+    "scripts/operations/build-acl-reference206.mjs": {
+      "sha256": "cf1cc106908783f59d992f06b356609ac254708956905d256e700f0b14213b42"
+    },
+    "scripts/operations/build-acl-reference207.mjs": {
+      "sha256": "911c2e7b86ab9542437e655cf4d91643cd5d9f7e5cd5a6babc5b0f0c06fdf4db"
+    },
+    "scripts/operations/build-acl-reference208.mjs": {
+      "sha256": "c9d73af944e08d1313f592809bf5963ba90b7597b897babc5901ccb6f423422a"
+    },
+    "scripts/operations/build-acl-reference209.mjs": {
+      "sha256": "76ccc89ae419ee699a9f8527176e80e44e90edb6c5b1f890a9fabb4b9977dd2d"
+    },
+    "scripts/operations/build-acl-reference210.mjs": {
+      "sha256": "9686304cbfe04e9d91eacfa26553a67deaffe2a33425ca25c6d3811322d861d4"
+    },
+    "scripts/operations/build-acl-reference211.mjs": {
+      "sha256": "68f3c2e3efd212c63c7b4faa7278bd28a16933a2c610c63e8d47b1cea7250cd5"
+    },
+    "scripts/operations/build-acl-reference212.mjs": {
+      "sha256": "c07c2d7a2bb5207aedfde2e13d3f50f84fa95932947c43f786720a9e132b78fb"
+    },
+    "scripts/operations/build-acl-reference213.mjs": {
+      "sha256": "dfb344dcd014b15665190751b44b5f8a15d419dbd2d0c5cd21d15599b90c2e54"
+    },
+    "scripts/operations/build-acl-reference214.mjs": {
+      "sha256": "83f0c4ebaa5335ead12a0cbc585f6fa0280d673a4a4514e113b6221571a3d108"
+    },
+    "scripts/operations/build-acl-reference215.mjs": {
+      "sha256": "31170f176c430b2322c26bf69cab30ad24f36011dcf37080b49c65a86a3771e5"
+    },
+    "scripts/operations/build-acl-reference216.mjs": {
+      "sha256": "687b1b1c9354413f7e4c731e6e78bfcc26d41944e039d3e08b8bfecc0cd6b0e3"
+    },
+    "scripts/operations/build-acl-reference217.mjs": {
+      "sha256": "387a6b13581ce0b29a16c170696791d553b9c3febdfea53b8c154cc23e71ca53"
+    },
+    "scripts/operations/build-acl-reference219.mjs": {
+      "sha256": "a9cac4be4640239dd4cd06ef2fbf0b93e7d15b0d1d35218a1c1a9b38550ff4b9"
+    },
+    "scripts/operations/build-cron-report.mjs": {
+      "sha256": "d03caaabb99a17471587c745502642b27ae5b9be3a50d06b235c136896dad988"
+    },
+    "scripts/operations/build-empty-supabase.mjs": {
+      "sha256": "12408a16032d5abb33ea2ccfd663ee46874f45b9ed04af10f7e07ebb1e8a3a4a"
+    },
+    "scripts/operations/check-go-live-files.ps1": {
+      "sha256": "79b6a06950c9d153c1c32bbcc1a930ad4073c29ba3c141e88090a989791a25bb"
+    },
+    "scripts/operations/d1-reference-ci.mjs": {
+      "sha256": "389d389f32c5bcdd924c3b4379b5d1b4739e1a988737d72d1d252da7070542cb"
+    },
+    "scripts/operations/d1-reference-install.ps1": {
+      "sha256": "2b0c5f8e35d80206300fff7a4563fd6df6d837e421530d1fd908164468f608fe"
+    },
+    "scripts/operations/d1-reference-kit.mjs": {
+      "sha256": "cfd4946043c02d063cde947cfda861459f567349485735adb47642e81dfaf30f"
+    },
+    "scripts/operations/d1-reference-kit.ps1": {
+      "sha256": "5fd2bb7315b7588b72b2b9de8dee1ee90566e46db70b0833812c1c3cf2714561"
+    },
+    "scripts/operations/d1-reference-state.mjs": {
+      "sha256": "fa91eafe6f06b5e227c8bb4090a0908907d9e300ab6c35c0219e7073e4ca7232"
+    },
+    "scripts/operations/first-owner-core.mjs": {
+      "sha256": "dd2326c68abaf300185d57db3120258612006804515cd6266b4f26755eff4f78"
+    },
+    "scripts/operations/first-owner-reference198.mjs": {
+      "sha256": "6547d17c7d959b9c7bb71d1942a90a12747f007938dd78439bc4001d8c753b27"
+    },
+    "scripts/operations/first-owner-warehouse-core.mjs": {
+      "sha256": "cbbf3a5c0b6902f1e903d04f36e5169bf59979a9d6bda8107ad1610ca238c897"
+    },
+    "scripts/operations/forecast-grants150.mjs": {
+      "sha256": "fe846e493a3af33b3e6c22f7784ade5b21498f7b228b4a6c8288adbefa405403"
+    },
+    "scripts/operations/frankfurt-acl-plan.mjs": {
+      "sha256": "ffb614771446ff9899547be52e67dfc3be262f1e9a56d41e0807fe420508f3ef"
+    },
+    "scripts/operations/frankfurt-align-acl.mjs": {
+      "sha256": "a3ea86645fded25eb468e09150a8ade4c2d3fe2dee8e1976a19d45e3707ec48e"
+    },
+    "scripts/operations/frankfurt-backup-owner.ps1": {
+      "sha256": "2eecc3b4b6f262c55bf66f31016cb3148f37a54a7eaf6e372de6fcc592f79f3e"
+    },
+    "scripts/operations/frankfurt-backup-runtime.mjs": {
+      "sha256": "fc3c07142e346d6218cf79f4506b224a799af8c947234f5fbbc680af61c96c79"
+    },
+    "scripts/operations/frankfurt-catalog-verification.mjs": {
+      "sha256": "19094d853009ddaf8436198aec04d351e5bf259e67ebe172b6ff798a597c1f75"
+    },
+    "scripts/operations/frankfurt-first-owner.mjs": {
+      "sha256": "6ec5bd09b8074f3c554567ac0ff52b58bd042b364ed451c400dd02d0f833b72d"
+    },
+    "scripts/operations/frankfurt-main-warehouse.mjs": {
+      "sha256": "713c02373c2a86c3c5c645b404c072cb6e3faf1770e9f0f703cd9eb3e2fcb759"
+    },
+    "scripts/operations/frankfurt-migration139.mjs": {
+      "sha256": "0aa008a51a83a0cd22dd77c09b24ef00d5ce009b79091443739314026d6dc731"
+    },
+    "scripts/operations/frankfurt-notification-hold.mjs": {
+      "sha256": "4f76ac83d17028060e0a685327cfc4a2f84aaa17910240c675f6ed0920af6ca1"
+    },
+    "scripts/operations/frankfurt-owner-acl212.mjs": {
+      "sha256": "000bf27d9e3983c2ac0fa632b3089ebdc4faf311e337c045e381fa2543982212"
+    },
+    "scripts/operations/frankfurt-owner-build.mjs": {
+      "sha256": "ccd2927eec6a04f6efa7a75f0e074457d0adf512f175a476ad934b4f033a6513"
+    },
+    "scripts/operations/frankfurt-owner-reset214.mjs": {
+      "sha256": "1391a26a8eda27add0bc8ac5317e830af737af3344617a9f5d1ffd00cb195d26"
+    },
+    "scripts/operations/frankfurt-owner-reset215.mjs": {
+      "sha256": "f46e172713a9774af3b2f2bbbe4db5c81e4596c23fef8c23ef7c7d4d05ca46a4"
+    },
+    "scripts/operations/frankfurt-owner-reset216.mjs": {
+      "sha256": "9c97d1a0e119f56357ae3677ce6d6ca83ddade74953ed6663634fb989f314e9c"
+    },
+    "scripts/operations/frankfurt-owner-reset217.mjs": {
+      "sha256": "d833f86c984f5c44b87b4e80d7b6d7cb3d62a640716953aaaf42aabc3885335a"
+    },
+    "scripts/operations/frankfurt-owner-reset219.mjs": {
+      "sha256": "9591b9735f0d7b8155e51e090ff602baf447905e550940da9991c7865e0f512e"
+    },
+    "scripts/operations/frankfurt-owner-safety.ps1": {
+      "sha256": "573a8ebc3688cacebdfdb3c2a19baeecb3500278142f1fbe6ae11ae16001dc9f"
+    },
+    "scripts/operations/frankfurt-owner-upgrade.mjs": {
+      "sha256": "1e76b927c6288c4cf07dfd4eeebd41e87d5b39c4677fe557ea891f1e56c4043a"
+    },
+    "scripts/operations/frankfurt-owner-upgrade164.mjs": {
+      "sha256": "baa6f0773f2b9352f65824662b29ac4a8ac5e127539a9561ddd68a87fb88ea55"
+    },
+    "scripts/operations/frankfurt-owner-upgrade171.mjs": {
+      "sha256": "a26efdff0dac3c020c2c6b53d6c38292ee23685b24a9c852228d4638a4246b63"
+    },
+    "scripts/operations/frankfurt-owner-upgrade182.mjs": {
+      "sha256": "6650ef6d6dd9e47377828e183bbfa8dbe8838d21634fb6ca6896ecb629cb216e"
+    },
+    "scripts/operations/frankfurt-owner-upgrade198.mjs": {
+      "sha256": "eb5ce8860531ff2a6ef88ff41ecca24ae66264ff1ffcdd397d86331e4e867ac1"
+    },
+    "scripts/operations/frankfurt-owner-upgrade199.mjs": {
+      "sha256": "ac279a3146d6c29b5c378f91e28ea16405cfe74ea6c4615e185539e28ed6ccb4"
+    },
+    "scripts/operations/frankfurt-owner-upgrade200.mjs": {
+      "sha256": "f10ead4fdf8a12e5ef7e499bf1bc301a8fa80f960495e783279cbf7374e4eb84"
+    },
+    "scripts/operations/frankfurt-owner-upgrade201.mjs": {
+      "sha256": "e60563c45990e4951548735d244d820be499e4cf75f4372183232bd976fd9556"
+    },
+    "scripts/operations/frankfurt-owner-upgrade202.mjs": {
+      "sha256": "e3058ae6a417baae76b2709730347fe647d00073dbb7682f9343fbc8a6192e25"
+    },
+    "scripts/operations/frankfurt-owner-upgrade203.mjs": {
+      "sha256": "6a10e1ba3d84f6c9cba445e3cb61e176ece325e922bdd6461059315e9eada0f7"
+    },
+    "scripts/operations/frankfurt-owner-upgrade204.mjs": {
+      "sha256": "e9621268849205a4a17be35f004f255778eb7298def640b9c58276a6cce7cab9"
+    },
+    "scripts/operations/frankfurt-owner-upgrade205.mjs": {
+      "sha256": "77a12e970794f1b67416d99fc2f2e28ee9599691ddb60c58a45f51966b37f35b"
+    },
+    "scripts/operations/frankfurt-owner-upgrade206.mjs": {
+      "sha256": "f7c95148035584623672579a96958b7dd7179959505bd8455020ce60b3bbbde2"
+    },
+    "scripts/operations/frankfurt-owner-upgrade207.mjs": {
+      "sha256": "208cc78e13a4a7c1e786f147f864491bdbe309c57a836f95f70e1c466744d0c1"
+    },
+    "scripts/operations/frankfurt-owner-upgrade208.mjs": {
+      "sha256": "3e6a24a290c98d5a4fe8396635b447ad77db8e478647582856a514c7a6550d7f"
+    },
+    "scripts/operations/frankfurt-owner-upgrade209.mjs": {
+      "sha256": "defc451b2ee3deab1d582e7559467b225ab1c8f26a660914e82a52ed4d69d339"
+    },
+    "scripts/operations/frankfurt-owner-upgrade210.mjs": {
+      "sha256": "5f31570aea93e6b6571e6db126eeb85b65ff28200b972194c3ef99741e158173"
+    },
+    "scripts/operations/frankfurt-owner-upgrade211.mjs": {
+      "sha256": "b43669b4f314f3f83e7d38ee8abe8edff7d3c6c4f32d336303f75be268efc5d1"
+    },
+    "scripts/operations/frankfurt-owner-upgrade212.mjs": {
+      "sha256": "fd02b56c4ff0ad72f3c9c147b6fda44e3f1c16e5ac2b50d6170e1382d0bfcffb"
+    },
+    "scripts/operations/frankfurt-owner-upgrade213.mjs": {
+      "sha256": "0fd2475a176a3c07b2966d55e537a4e314e545bf9a4685b54c887e60133028b4"
+    },
+    "scripts/operations/frankfurt-owner-upgrade214.mjs": {
+      "sha256": "0ef992f08a90b5676c15fd8bfe327054668603110e57ede71ed171f587505d49"
+    },
+    "scripts/operations/frankfurt-owner-upgrade215.mjs": {
+      "sha256": "226688171cf35bff8e139cc58e96a8b13c2d048ff9131bc02de26569d8a7364b"
+    },
+    "scripts/operations/frankfurt-owner-upgrade216.mjs": {
+      "sha256": "10b051f4ed7f211a6fa331318311c45a1204303cdecab0569d2c8da083e39230"
+    },
+    "scripts/operations/frankfurt-owner-upgrade217.mjs": {
+      "sha256": "42c168e160ccb8513b74191e573d1258713a36ea913c58b44f9724c2def7e3f6"
+    },
+    "scripts/operations/frankfurt-owner-upgrade219.mjs": {
+      "sha256": "1b8f05a3f2c84739b05dd488f6b1dbfe4ccb5e8d63b59feb50f055c7979433ac"
+    },
+    "scripts/operations/frankfurt-reference-cheques.mjs": {
+      "sha256": "798997c53cc8217343a5a775962f4b531b3007c38cd4648a5627ae9f92abfa8f"
+    },
+    "scripts/operations/frankfurt-reference150.mjs": {
+      "sha256": "004a16011663326625fb4e2bf7e966b533b8f805e9dc670ce9ecb4d2b9822ece"
+    },
+    "scripts/operations/frankfurt-reference151.mjs": {
+      "sha256": "c9966ede9179e6e32ff21f799819fa7fcdd2496ff087cd31f7601363105f5b5b"
+    },
+    "scripts/operations/frankfurt-reference164.mjs": {
+      "sha256": "64cea2b142d419f81cb90041ffef7e0c837e35e66aff91559a4f127b3c1063c1"
+    },
+    "scripts/operations/frankfurt-reference171.mjs": {
+      "sha256": "703ef373b8546cfa078b78224a6dfdeb694c146e921ef4900b09013020cb0c8f"
+    },
+    "scripts/operations/frankfurt-reference182.mjs": {
+      "sha256": "22899595cf2813193fc26a9357abddcb8eeb170646bcc28796f63a203bed62de"
+    },
+    "scripts/operations/frankfurt-reference198.mjs": {
+      "sha256": "403e28165f8a2241eb24ca732c8cc492354350beef9ca681bd34e30dafd40a5b"
+    },
+    "scripts/operations/frankfurt-reference199.mjs": {
+      "sha256": "494ee8fc8724782b9b61925716c6934ff478f924e363d799d643fb0d109a8fe5"
+    },
+    "scripts/operations/frankfurt-reference200.mjs": {
+      "sha256": "7024631d95d36eaddd3c7467d0e625fe831a510f1fe6de0ba30c5190e3d2d029"
+    },
+    "scripts/operations/frankfurt-reference201.mjs": {
+      "sha256": "04fa300cb41d98e3b2b8264a8ad41480d632ded2295a016803a4b9d01226852d"
+    },
+    "scripts/operations/frankfurt-reference202.mjs": {
+      "sha256": "cd678cab03741c90d6302babff15d951fdad8a5948788d8ba91eac7ae59a2362"
+    },
+    "scripts/operations/frankfurt-reference203.mjs": {
+      "sha256": "c071eef978ce7f4a507ebf0770fd86fb32ab0f7d959c646140396bc93800b252"
+    },
+    "scripts/operations/frankfurt-reference204.mjs": {
+      "sha256": "1f032d834a7ddd5cccebeb01f9181738ee7fe8c274055385f07d5a523de064d4"
+    },
+    "scripts/operations/frankfurt-reference205.mjs": {
+      "sha256": "bac4d16e657a8ce78a9281592d0e0dcca0502464f75c585001f329b1eb610ea4"
+    },
+    "scripts/operations/frankfurt-reference206.mjs": {
+      "sha256": "b3f59a1e96b2ff19e1ca089a6edc369a88a501febc5f1e7c414f73a1b9473147"
+    },
+    "scripts/operations/frankfurt-reference207.mjs": {
+      "sha256": "e9d0afd8514ee00a343d52d5d11a51bf5a7829888979288ebb319f87cf640595"
+    },
+    "scripts/operations/frankfurt-reference208.mjs": {
+      "sha256": "e33ddeb1e3fdc0ae26275556876a0895c62df2535459e0dd683bc474027001e9"
+    },
+    "scripts/operations/frankfurt-reference209.mjs": {
+      "sha256": "17590a64a9c8961562b47d2524d8a0707db9b0a8dce86ca0f230ca9234f8632a"
+    },
+    "scripts/operations/frankfurt-reference210.mjs": {
+      "sha256": "1b59e332bdb67807176c3dd661c30509a74b91cf1708b1e9dd2d7f90ba36b7bb"
+    },
+    "scripts/operations/frankfurt-reference211.mjs": {
+      "sha256": "e0ea90b8e14962e09aa02842e2db033d3992b7cb180f407c7b92b8d8266e2102"
+    },
+    "scripts/operations/frankfurt-reference212.mjs": {
+      "sha256": "0b57c4559d22ed7435bd6932f5eabf298eba71aabe1de23276d9b3341c34e6ff"
+    },
+    "scripts/operations/frankfurt-reference213.mjs": {
+      "sha256": "90a8c7a2ee45188e8da32658c1b44dc37db84b6a6c552957bd97f422414dd85d"
+    },
+    "scripts/operations/frankfurt-reference214.mjs": {
+      "sha256": "2070ca50f725cecde1e5c4ea1649f4b725305ca696c699d5d40f112dfd040692"
+    },
+    "scripts/operations/frankfurt-reference215.mjs": {
+      "sha256": "31c4681f72f5ea005474bf4eb686e33fe6cac8cf83e7b1a740e7d407b38fdfe3"
+    },
+    "scripts/operations/frankfurt-reference216.mjs": {
+      "sha256": "496d543924f69dd3c66257e99721d36ba7c126f0519a08267135188646701671"
+    },
+    "scripts/operations/frankfurt-reference217.mjs": {
+      "sha256": "b4bb060b2e44607d3014e528e6a23b7ad44398d6d28fa917496a8a447bb0cdbb"
+    },
+    "scripts/operations/frankfurt-reference219.mjs": {
+      "sha256": "dd9bed2bedd24bf16ea1ac18e38c915258832478b847c9d54fbe18860d18dd41"
+    },
+    "scripts/operations/frankfurt-trial-reset.mjs": {
+      "sha256": "73b1ba56cab595e23b137845dfc276657bacc39739213d34064a969b301d40b5"
+    },
+    "scripts/operations/go-live-files/check.ts": {
+      "sha256": "74291c4880ab210aa566362d7c164f0efabcc2ec0c9f5c6a71790f8168b4d137"
+    },
+    "scripts/operations/go-live-files/cli.ts": {
+      "sha256": "6407faa1f1b1333263ecd035d3699a4977a2174e7e5fb0ee94930c8a379763ae"
+    },
+    "scripts/operations/inventory-backup-local.ps1": {
+      "sha256": "ed7b61db985ce6de68b9ea6fafed3561de26cdf546b3f4486779ec22f2374521"
+    },
+    "scripts/operations/main-warehouse-core.mjs": {
+      "sha256": "bbdf72dbe4d2dc1749d798e72889e7533f8dbf216c1866f8c94accc0949c3c1a"
+    },
+    "scripts/operations/managed-catalog-policy.mjs": {
+      "sha256": "51255acba87f872088965565191a2a5218cb3fce024bd2259e55630aba12f194"
+    },
+    "scripts/operations/operational-schema.mjs": {
+      "sha256": "976c44e0dbccc534c9d9b73307479dfe5a6a3e3f3db4a2159f967258f9b20ee5"
+    },
+    "scripts/operations/owner-acl212-bundle.mjs": {
+      "sha256": "1b0e0a0d32f68c62f907ef3cfc7b8a4be3415b34e6e1687a39a6a981964bc945"
+    },
+    "scripts/operations/owner-acl212-sequences.mjs": {
+      "sha256": "6530f77d4e9eae81e4771ed6cd49fd13b72d84003e5b133a1b8cbcb5a7d39419"
+    },
+    "scripts/operations/owner-acl212-sql.mjs": {
+      "sha256": "1835cf7fd171bbb72095061d81bf3f41ee969932de20d7075f92fcf2986fe10e"
+    },
+    "scripts/operations/owner-operation.mjs": {
+      "sha256": "ca9774f53482af7d625f004c651eb14523708698bac338c3920cf4b341649520"
+    },
+    "scripts/operations/owner-telegram217-notifications.mjs": {
+      "sha256": "70af7764e8281bf20b45d980b8e18bd32c75a68fd7549c050cab569143bb2162"
+    },
+    "scripts/operations/owner-telegram217-test.ps1": {
+      "sha256": "579b1e46f65f803f724e79eb9cbb7bc6de6fa18d969bbba94e111e070d01f8cb"
+    },
+    "scripts/operations/prepare-frankfurt-acl212-offline.mjs": {
+      "sha256": "63ff0275d8bfcdbcd8c1115bdf43db36ea1e10ca180a323d83e45fa82d5130d4"
+    },
+    "scripts/operations/reset-catalog-comparison.mjs": {
+      "sha256": "13306944214c93edb09837a5a8c8f7d14efa48b431b8661c63a3e45c39c8433d"
+    },
+    "scripts/operations/reset214-diagnostics.mjs": {
+      "sha256": "302937b7df506150bee294b01de766e6ef1ec5c3a62bf4ac02fd7ab61cdb0f41"
+    },
+    "scripts/operations/reset214-io.mjs": {
+      "sha256": "d55bdd9e9f4d79f483a12122a6eb6eef33ac91e6db69577bf9174d891fadefa7"
+    },
+    "scripts/operations/reset214-private-state.mjs": {
+      "sha256": "09bbe447a91a2a6fb70450a06e6cc6d4eb0d7c7ddac3ca49e8b60619fbfd6c32"
+    },
+    "scripts/operations/reset214-session.mjs": {
+      "sha256": "791e4c72e3923f430aed6caaacc71f17884d723df18d4326d1543f66a6966c2a"
+    },
+    "scripts/operations/reset214-write-guard.mjs": {
+      "sha256": "25eeda01fa4ead4d62e85b75805c7bdb22a4098a18d959c3dad49c5d018439e3"
+    },
+    "scripts/operations/reset219-pg-cron-guard.mjs": {
+      "sha256": "c73cad315e2fbca9bd6fe0b69652191fcc5a7fc10d3049ed1e10e2b092388f1f"
+    },
+    "scripts/operations/trial-reset-core.mjs": {
+      "sha256": "8fa1618ab6f5164b33a229956b37c2ddbc0b6fd2e2ad5294c9916e897217da2b"
+    },
+    "scripts/operations/trial-reset214-core.mjs": {
+      "sha256": "a2f2d68604efc56a123c08841fc056f82c3893a55c746d4f2b1ec4b417eae698"
+    },
+    "scripts/operations/upgrade-preparation-errors.mjs": {
+      "sha256": "c42a9441691d7a2eddb9d993829c3e566bd9b9adde09df17a4f2f9c72008861d"
+    },
+    "scripts/operations/verify-frankfurt-acl-readonly-offline.mjs": {
+      "sha256": "e5d198a3f6f57a1819f572d333a1eec3e61a2c0749f357db9221dd1ac190ffa6"
+    },
+    "scripts/operations/verify-frankfurt-acl212-offline.mjs": {
+      "sha256": "0f640a3f21ecf0f558e413ff0fd7365485581116d04012cfc310cae251cf4a32"
+    },
+    "src/App.tsx": {
+      "sha256": "69255b9ff44fd4a7a351ac42b5d48d5a036cbad114d4df0f84d2dc790bda096d"
+    },
+    "src/components/common/AppErrorBoundary.tsx": {
+      "sha256": "20c095354809d9770e64901361c879ebf7af9998634a5040a37957e7ce9dc58a"
+    },
+    "src/components/common/Header.tsx": {
+      "sha256": "e2de0b5b53e7f763aa48abdecf97d3642da7945766ec33c8df4cc804a0f90eed"
+    },
+    "src/components/common/Modal.tsx": {
+      "sha256": "6d6a6d4d73d17d20ef2622669841ad7bd7156a0f9caf064176a207aa9ebc7de5"
+    },
+    "src/components/common/RejectionNotice.tsx": {
+      "sha256": "6d1aaee309cf8e784f52875a6f99096ae08e57a8ebc1b9fefacb39952beb23df"
+    },
+    "src/components/layout/AdminToast.tsx": {
+      "sha256": "b49370de28d33b69b374813b93e8868fbd49928aab4ed5ab2ea29c0327cc9c67"
+    },
+    "src/components/layout/BottomTabs.tsx": {
+      "sha256": "f1e4215060fa9e5f0d7a8f9c0094405c9d1b4aee962e1f3667d51c30ba746f22"
+    },
+    "src/components/layout/IPhoneContainer.tsx": {
+      "sha256": "6a87422b8f8e20f925ac0506f579e1e25bfd47b8b684a996a22a76de268a69c2"
+    },
+    "src/components/layout/NavigationShell.tsx": {
+      "sha256": "c2b322c76476b53e07ca642d67e06b5298a2c76de6af3b447841a2dda711c0f4"
+    },
+    "src/components/layout/SideNav.tsx": {
+      "sha256": "2aceaa8f5ddda44c2662ef41c8a2a6f6c148f18c840a48d39dc78fcae70a5dff"
+    },
+    "src/components/layout/navigationDrawerContext.ts": {
+      "sha256": "6d57b306dc8c79cc187ebf727d3a0866d547cf678110dde551e6d84b99f1472d"
+    },
+    "src/components/layout/quickActions.ts": {
+      "sha256": "dfe2f87fcf0433aac9549fcd1631bae7b366ee55e4f5bd65ffa6859c9a26d734"
+    },
+    "src/components/layout/sideNavigationModel.ts": {
+      "sha256": "5273c2c8b9061d80f74461e98e17419310bd50e7e9ea6d1bb693a56a6dc5668b"
+    },
+    "src/components/modals/AllModals.tsx": {
+      "sha256": "957a0be7b175081947f3420a5e5ce912e0e4a4e35741184c67915673829c9962"
+    },
+    "src/components/modals/BrandsModal.tsx": {
+      "sha256": "b43ebc1e0b010c9ef4f64e03b7abde8e0f05d951d419bf374644c23c0f224f1d"
+    },
+    "src/components/modals/CategoriesModal.tsx": {
+      "sha256": "695094f396749c8d57f553e39cf3789cce7a10790d6c070828a49f17141707be"
+    },
+    "src/components/modals/UnitsModal.tsx": {
+      "sha256": "33ec9093653f7b64b20ecc266126b9ff565eab0a01c1171d71427ed1b98d6083"
+    },
+    "src/components/ui/CashDenominationCounter.tsx": {
+      "sha256": "eeffdef6f2dae5e5eb4384c0139513e264543836b67e29dc5170740e070c58bc"
+    },
+    "src/components/ui/Controls.tsx": {
+      "sha256": "5d48571bcba95e2da2cca06700c414665c0792bd7f122956025370a95e626eeb"
+    },
+    "src/components/ui/DataDisplay.tsx": {
+      "sha256": "d798defdcdec05c7d96426e3b08752f4b2df0c542af6cedf39416a9a018a459c"
+    },
+    "src/components/ui/FormFields.tsx": {
+      "sha256": "197f4419c26abbb67772e522edd791ea2ca80e02f3524281274fc589a37f7224"
+    },
+    "src/components/ui/PhonePresentation.tsx": {
+      "sha256": "139b65b9c1a0953890c932dde6fe6795dcd503bfdc7d88c760c501e774a12f92"
+    },
+    "src/components/ui/ProductGlyph.tsx": {
+      "sha256": "b28f37c9dd12ce880dd9c18b22697261b2017b0606b44ba4a25e43ac36df39e4"
+    },
+    "src/components/ui/ProductPicker.tsx": {
+      "sha256": "a213b1bf1bd9ec43c333a6b3df1b324b5e8658583327281fd9dd7b23d84c0471"
+    },
+    "src/components/ui/ReceivingUnitFields.tsx": {
+      "sha256": "1cdf2883258a427a5a9d84ab23357da569b3cc935bf19e03edd9389c369aee71"
+    },
+    "src/components/ui/ResponsiveActionPanel.tsx": {
+      "sha256": "00e00e7544d8a615e6712bf482c286aead0b510a50e2e2c25442b29af69e00bb"
+    },
+    "src/components/ui/ResponsiveCartPanel.tsx": {
+      "sha256": "03ccf18ffa0967a985cbe4de19372af178f5c82012ef4955856a31f95cae8a5a"
+    },
+    "src/components/ui/SalesBarChart.tsx": {
+      "sha256": "2d3b4a8013a9bddb6dcce29300749c88f0eb70579cd40bc9473825a1420bfc70"
+    },
+    "src/components/ui/Surface.tsx": {
+      "sha256": "3d8991706e103362b48fc0f9994d1313363eae2c369003e2c6db99ccfd61d542"
+    },
+    "src/components/ui/SwitchTrack.tsx": {
+      "sha256": "e31c26cc5fd6819556c9de43f03024caa4c0946ec9aefed377208f2c387a1508"
+    },
+    "src/components/ui/TableShell.tsx": {
+      "sha256": "becc45ae07fa25e7eeece98c6fa43c9d1bb0d718b0f7c6a9758a49147db2fe1d"
+    },
+    "src/components/ui/UserAvatar.tsx": {
+      "sha256": "39bd80d9a937d22555450472799cc74030c7657236ca2624a70c3f1783f0cc71"
+    },
+    "src/components/ui/WarehouseChoice.tsx": {
+      "sha256": "fb23c4096691aff86940fb9971f8ef807b796a2eb0e6abdb49f7daa583fb8073"
+    },
+    "src/components/ui/cashCounting.ts": {
+      "sha256": "e3ff0e7851ea4e4de5ae723127f6f17d7d3803fde07383a7a42e81502d7059a3"
+    },
+    "src/components/ui/index.ts": {
+      "sha256": "edfad1adeb0b974541f2a585aa6e03cc1e62efc654f3c1864425674ee6f6e9e4"
+    },
+    "src/components/ui/productPickerModel.ts": {
+      "sha256": "fe07cab6a67bdc3384dd5aab07f0b13d5c5048e7f34fb0c53f0760824c866762"
+    },
+    "src/components/ui/singleWarehouseOption.ts": {
+      "sha256": "4069f238d26e02b2a6f3f63d7688f0c7bffefc0e864be8cf647d223a6ee1cb17"
+    },
+    "src/components/ui/uiFormat.ts": {
+      "sha256": "f5933fcafa8dca20ba5adf496af2c6f62cfc2bad9cd5acac3ce0e67d99c373da"
+    },
+    "src/config/supabase-public-config.ts": {
+      "sha256": "58d710e32d82b1656cbc07003ab5303792347c8105adecaf89c660cd3e594b1b"
+    },
+    "src/constants/index.ts": {
+      "sha256": "b4e72befb22f9d9248c746552f3330e6bd10abb37909bab94cd44f6cd8029286"
+    },
+    "src/features/accounts/AccountsView.tsx": {
+      "sha256": "14a184c739301a70f44a023a5ed129fe27cd37f9d65dbc26a478a111f208f215"
+    },
+    "src/features/accounts/CustomerBalancesView.tsx": {
+      "sha256": "cb04e0ece2fe16113dc3fcd77621ba1440a0b374fa496cee1a0751e16d89fd07"
+    },
+    "src/features/accounts/RecordCustomerPaymentModal.tsx": {
+      "sha256": "59252febc3bf31643c7b8b2a08e7e3bb20edaa0bd2958bdcf6ad628ad5f68764"
+    },
+    "src/features/assistant/AdminAssistantView.tsx": {
+      "sha256": "10d5ae256fe5c7dafe1900e7e18ee870221491498f08dc16f82432e9d7a80072"
+    },
+    "src/features/auth/LoginView.tsx": {
+      "sha256": "f74b3ad29e8ed0091c2d8a75f3c3cf100547db9834e099a61863e59ebaee10bf"
+    },
+    "src/features/auth/TurnstileWidget.tsx": {
+      "sha256": "e6039b4cfe49f7c6a423866ac245fba0d2616f428d2b5310983c85fab8351909"
+    },
+    "src/features/barcode/BarcodeCameraCaptureModal.tsx": {
+      "sha256": "73869d662295767cfe50c6af5020682d2dbb78a4ae01524dca74235a550621e8"
+    },
+    "src/features/barcode/barcodeCamera.ts": {
+      "sha256": "c99b574022197d2ee734f0a131c8426f1d48e58511aa9a3394132922a009f343"
+    },
+    "src/features/cheques/ChequeRegistrationForm.tsx": {
+      "sha256": "1e65c20918052e9f042595ced67997dd089aa4c5f1d678bc19a2db2cf93cc75d"
+    },
+    "src/features/cheques/ChequesView.tsx": {
+      "sha256": "37d4a7c306a9d09c300bbd8dfb68358b35b788300925dd6b228b17fffc055b38"
+    },
+    "src/features/corrections/DocumentCorrectionAction.tsx": {
+      "sha256": "141c7dd98d5821a08e4f3a2b0d77aeddbab73703efeb2902558f57b799ef82f0"
+    },
+    "src/features/crm/AddAddressModal.tsx": {
+      "sha256": "61a5d11c1d85a586adc257cc1fbd0ce6693540af48cc35d7fd77b8062aad2669"
+    },
+    "src/features/crm/AddCustomerModalContent.tsx": {
+      "sha256": "6c84380fd2984b8196025e07fda8b4146b64de58b187436184e174a3f9cbaf80"
+    },
+    "src/features/crm/CrmView.tsx": {
+      "sha256": "eec70fa1f375de8ad342aa10208dd07a1df40312df0a72b70a184527d6ea6e5b"
+    },
+    "src/features/crm/CustomerAging.tsx": {
+      "sha256": "1bfcb74b7138ab15f859b6048d56613fb3c92c5311c32091819b5937108cd2d2"
+    },
+    "src/features/crm/CustomerCollectionModal.tsx": {
+      "sha256": "ffa2dac897149f9cb8bd3b187fa869efed9aa1d531423916130fb8f300945633"
+    },
+    "src/features/crm/CustomerDetailView.tsx": {
+      "sha256": "ea21d8dcaa23d424b05ab1807ded05df8e95b53eabcc6f5ad21c78a6c393cdb8"
+    },
+    "src/features/crm/CustomerEditModal.tsx": {
+      "sha256": "f13d589c31beebe0ba53d8b3d3a3de59201cf4f9e2ddd66ab110ffc583ff5a35"
+    },
+    "src/features/crm/CustomerFilters.tsx": {
+      "sha256": "0cfae06241c094709601b16e9aeeabd40e59da9aa9f91a14d46ff6c8add19b4a"
+    },
+    "src/features/crm/CustomerList.tsx": {
+      "sha256": "48d1d022ed2f7665e21a3e50ccf38dff0a783f08f7cd186c9287031f944be97d"
+    },
+    "src/features/crm/CustomerStatement.tsx": {
+      "sha256": "65242cbbc2d90b56681264f552f8d8f4fdcc774500814028b05911e894470621"
+    },
+    "src/features/dashboard/ChartsSection.tsx": {
+      "sha256": "1b96b19a5a0e12732992c394656acadb565e4c5957eadce6d29cc203a8419436"
+    },
+    "src/features/dashboard/DashboardHome.tsx": {
+      "sha256": "99f3990f40b67a2e9885ff1e6d0718eac2dcd805da8a7462a3d1a33788d51423"
+    },
+    "src/features/dashboard/DashboardView.tsx": {
+      "sha256": "2afa33e459e2ca21e8c032f683105af8815df5781e8fb69e123d193fa21acb26"
+    },
+    "src/features/dashboard/KpiCards.tsx": {
+      "sha256": "384566b25aaa2d7f9bf7e7e3b101a5e26e54bc158882b0ff2a5ca3de1cc0edf9"
+    },
+    "src/features/dashboard/QuickActions.tsx": {
+      "sha256": "344fe408df348787d4b492a21d375c0b00585e32c86efeb58070d8a682fa3594"
+    },
+    "src/features/dashboard/WidgetsSection.tsx": {
+      "sha256": "9b79e41c71c24bf87c1387da7758d79940429be522dae2a12bf51149b2c7599c"
+    },
+    "src/features/directReceiving/CancelSupplierReceiptDialog.tsx": {
+      "sha256": "3c8cde5d57e5cf9b3b8fec6e3572a03507d617ab50590505b0df490baf4eb280"
+    },
+    "src/features/directReceiving/CreateDirectReceiptModal.tsx": {
+      "sha256": "8fc57e0d3d5b0452f27eaa90556d59a638aaf7fbdc2a7c5b97931d0ffb33b8fd"
+    },
+    "src/features/directReceiving/DirectReceivingView.tsx": {
+      "sha256": "be388ae692d48a7d568d974e91cb6de1497225d4308d33cc96507a923a14e783"
+    },
+    "src/features/directReceiving/RecordSupplierPaymentModal.tsx": {
+      "sha256": "548a18abdf1f2762b6bb3200673e5bda9abc30f194ed1db3f6051b026664398c"
+    },
+    "src/features/directReceiving/SupplierReceiptDetailView.tsx": {
+      "sha256": "aa29ffbf8a349f7a486b02ed620c9a3063a081bf11842c3e7d5baf55bcf110c1"
+    },
+    "src/features/directReceiving/SupplierReceiptItemsPreview.tsx": {
+      "sha256": "7db554563d60e725ed02e23240b3884573c24da9603b00ff2deaf0bd8274e7c5"
+    },
+    "src/features/directReceiving/SupplierReceiptLines.tsx": {
+      "sha256": "dfa78784e566146bfef164343fd8cb1b4e22c60988a31f55b1fdbe43f22fb088"
+    },
+    "src/features/expenses/ExpenseFormModal.tsx": {
+      "sha256": "186237990e30bba01a8454b43a6fc4a3974713beef773e28b855f124daa66a56"
+    },
+    "src/features/expenses/ExpensesView.tsx": {
+      "sha256": "6510c4039c2d22b393060c26959fb729b9fa330291d7c6f67c784c98a1a5bbda"
+    },
+    "src/features/goLive/GoLiveSetupView.tsx": {
+      "sha256": "57d1faeaedc3b693eb64e6a204207e9bbfe1d0f0df415e3635064677ea0ca1d3"
+    },
+    "src/features/goLive/OpeningChequesCard.tsx": {
+      "sha256": "f74a2f60b33dfe89965ed83ebfc8d61acdcf90c1ff7b84e7c3db75906db3bda0"
+    },
+    "src/features/goLive/ProductWorkbookImportPanel.tsx": {
+      "sha256": "786ba3fb81e2dcb84b8a182979efd26575dbd0450bd12484600fda9ab7ece9ab"
+    },
+    "src/features/goLive/goLiveImport.ts": {
+      "sha256": "c6c5ff1de1a8be2a233a1fbea817137e85989b37f63ebcf6a94cd9263d15b6c9"
+    },
+    "src/features/goLive/importDisplayText.ts": {
+      "sha256": "6846d9f5d7b6614ea5c3d511df7947e1c9d776c145d17a1661e716712682a4b9"
+    },
+    "src/features/goLive/openingChequesImport.ts": {
+      "sha256": "59f0bb7ff83e8dba4ce03258c9a1e2f85f5f016c26a276c26a0e29c9a10540fb"
+    },
+    "src/features/goLive/productImportAttempt.ts": {
+      "sha256": "80e1152f89cd6428f62481acde89bcd2f392c13b27815e8471b23780c2afdc6b"
+    },
+    "src/features/goLive/productWorkbook.ts": {
+      "sha256": "8994269d2d1d43ea770318d5386e1175a47438130c21a572271fad25acef773a"
+    },
+    "src/features/goLive/productWorkbookReference.ts": {
+      "sha256": "104bf50b3d906ea9ae2319acb39e3bcf273a85a3d9462a352bc0f0fdca36e486"
+    },
+    "src/features/inventory/ClearInventoryBalanceDialog.tsx": {
+      "sha256": "f672730b45f6536e3464345c54b76adc37d7f24894063966d4c8a8ad2bae4ad5"
+    },
+    "src/features/inventory/InventoryOpeningSetupModal.tsx": {
+      "sha256": "a2d297dfe204ffe05e7020403b579c6238d07676840adf1a78c4c98e5f44f4eb"
+    },
+    "src/features/inventory/InventoryView.tsx": {
+      "sha256": "13e051e6167c78c41e88ae35082224337632f46af8138b2f74e6cb48d5357a0f"
+    },
+    "src/features/inventory/StockCountModal.tsx": {
+      "sha256": "f800e073bdb38ab5bc7e7cb62fa29e90f30de05d199d096ec267ff2eadcd0c0d"
+    },
+    "src/features/inventory/SupplierCredit215Panel.tsx": {
+      "sha256": "a036fc19fa3db9d14747d6defd9a7d23e93169fbedebbed61f076920ab608e6c"
+    },
+    "src/features/inventory/SupplierReplacementPanel.tsx": {
+      "sha256": "fea0dd76e1964061c889803d01ae80c0304fa81b0bad4de27501b5bfbbc4fd09"
+    },
+    "src/features/inventory/SupplierReplacementQuantities.tsx": {
+      "sha256": "074153854e4b0967a46f0bd7cd4150e68822e3147b9fb953c6dc8fb158b82b41"
+    },
+    "src/features/inventory/SupplierReplacementSummary.tsx": {
+      "sha256": "40db75c9f74c57200d2e51ee4beaf3f8db955c0a700c6069fddec5346d1f81b4"
+    },
+    "src/features/inventory/WarehouseTransferModal.tsx": {
+      "sha256": "af94c43253a8b3e95b096bcc82cf09df8c1d6a963e3d069c74b23a2f58420c92"
+    },
+    "src/features/inventory/supplierReplacementPresentation.ts": {
+      "sha256": "d2e330bb255f9f2058c43475e8aefd23af3acacc17e73d72c7a2f517746db9b2"
+    },
+    "src/features/more/DamageHistoryPanel.tsx": {
+      "sha256": "122f3ad0891d94d6d2edc0302e0b7d8154368fdbe30e747b6ebbee567dc32f08"
+    },
+    "src/features/more/DamageProductSelection.tsx": {
+      "sha256": "9d85ef445989edfba56210dab6f4de717c974e0412a6a3c654422a1a3669d575"
+    },
+    "src/features/more/InstallAppPanel.tsx": {
+      "sha256": "c98919df9464e176d93c8e853e78e49bf5d555d2bedcc396c158b9d6683719a6"
+    },
+    "src/features/more/MonitoringDashboardModal.tsx": {
+      "sha256": "0f6b7d09803ce634a7e70b0f2a670873dcf9e59d5063befd5a1dfb14fdee1f5a"
+    },
+    "src/features/more/MoreMenuView.tsx": {
+      "sha256": "89ec7580a87c064807bdbb18d5e704bc514ae35591af8bfc96b7bc2f03e747c4"
+    },
+    "src/features/more/ParcelConfigurationModal.tsx": {
+      "sha256": "bffb334bd193e5b226830568fc4cb4cc30b5e42b313120e349042f3d42cd24f6"
+    },
+    "src/features/more/ProfileModal.tsx": {
+      "sha256": "007a5bb78dee403bc97a974206a415240906026389ff190dae24d2938a1a9878"
+    },
+    "src/features/more/PromotionCodesModal.tsx": {
+      "sha256": "4ccc3939a6e66fc7cd32f595552bc4baceeb0c233dba6c1a27aada85e578889a"
+    },
+    "src/features/more/PushNotificationControls.tsx": {
+      "sha256": "f7c81ca5a13bf222bdf8d8c18af3c7900a088871ecf304da4a009379508a2a36"
+    },
+    "src/features/more/StorefrontSettingsModal.tsx": {
+      "sha256": "2acc4db74469a06760908d26b9306cbba725a701d90cee10ce1ce8f4bdf46025"
+    },
+    "src/features/more/adminNavigation.config.ts": {
+      "sha256": "f69efb0fc768c729c971c5ee82db65475fdbd628f972f39152322d1de851d991"
+    },
+    "src/features/orders/AdminAftercarePanel.tsx": {
+      "sha256": "3a6d5bd1747a51fe89841366a1b815330a66c6e7884fb8ad2e5759cacaf3ffdd"
+    },
+    "src/features/orders/AftercareSupplierSafety.tsx": {
+      "sha256": "773edd505d27ce865ec9481a44850ee882c7c38201e36428d9e35da01dc8d410"
+    },
+    "src/features/orders/AftercareWizard215.tsx": {
+      "sha256": "10d0f79ac4ee74eebb5a9ba0ff801f3d727e31cebdf734c0ee9743ea966463b7"
+    },
+    "src/features/orders/CustomerLocationCard.tsx": {
+      "sha256": "29521d2efc7b7d4396099c1c4e35feb37f82ccd2486a2a87aa1bb3aa208593c4"
+    },
+    "src/features/orders/EditAddressModal.tsx": {
+      "sha256": "28d8942eecf945e530b67047692c1ceb09bb233a001b2760e665820e3fedc638"
+    },
+    "src/features/orders/OrderCommercialSummary.tsx": {
+      "sha256": "b5200183bd72389f59144b7056d8aa59f2e3d340cf5de83cb284171353147553"
+    },
+    "src/features/orders/OrderDetailModal.tsx": {
+      "sha256": "97983c9c58a1bab069b8977e6b3cc8c2059c109fdd0612de1b4e8bd32872b6f0"
+    },
+    "src/features/orders/OrdersCenterView.tsx": {
+      "sha256": "9d1217e90ab1016e6c68fa37e63bbd09bd28d36d044ecda58375d58d3fe8836a"
+    },
+    "src/features/orders/aftercare215Draft.ts": {
+      "sha256": "9ae4cc6da8696fa6570c885aa4c5111547278530a00770ce3d9eba17926298b9"
+    },
+    "src/features/orders/aftercarePresentation.ts": {
+      "sha256": "2e1448d52964e67a6b3b04bc259b1f5ab67400dfbf29d07aa3d7b65897f8af7e"
+    },
+    "src/features/orders/orderStatus.ts": {
+      "sha256": "c9e0468c1d8e221f1b11af1d54eaebdd88435fa69718a3bdf47b8d4c66bc2188"
+    },
+    "src/features/pos/BarcodeScannerModal.tsx": {
+      "sha256": "56768f2f300e7575aed8f9e0aabcc042777d3afa54cc4343d99ab2fa22055e91"
+    },
+    "src/features/pos/PosParcelBuilder.tsx": {
+      "sha256": "48e957a4967e90a3a0c2e719da43e70a486c0c1403f82c555b7138060fe1c463"
+    },
+    "src/features/pos/PosProductCard.tsx": {
+      "sha256": "5a13351e5fb76075f09e6f06670e2f195669cc4976f44ccd6b0ec78d62755866"
+    },
+    "src/features/pos/PosView.tsx": {
+      "sha256": "2745cf7f2f1689c02d3f1ffb9abdf41b8794632b33011ef2b4be4267e338a2fc"
+    },
+    "src/features/pos/partialPayment216.ts": {
+      "sha256": "0c028728e60befe91c8849ff59ad657b31188535548445fa14e5a5d91e367455"
+    },
+    "src/features/pos/posSearchFocus.ts": {
+      "sha256": "b0b31f92ab76a176e3b3e9942724ece1e2dceb09391f8de0a8efd45b857cde42"
+    },
+    "src/features/pos/posV2Cart.ts": {
+      "sha256": "1eb2ba14da3e2bc4020d2874103a2b99b97d42a465620fd8a64846de4677d72a"
+    },
+    "src/features/pos/saleMethods.ts": {
+      "sha256": "1e8a9c68d969b4dbabb7479c1bbac6d0e4ea03d4dd6a79e271f7d545cb4c8774"
+    },
+    "src/features/products/BulkProductImagesPanel.tsx": {
+      "sha256": "1bd4884af842faa3080bb6044b1e3e42f350e231bd27cd1fe81ca19148227a9d"
+    },
+    "src/features/products/FamilyBarcodeRecovery.tsx": {
+      "sha256": "92b253887689bae86d9dd46a41a5c713aa0575a6226147efe7d01d38a4fefb62"
+    },
+    "src/features/products/ProductCostCorrectionPanel.tsx": {
+      "sha256": "e0acc44140c6bdaaf049b6c869213fa8804f6d4139d94c027ccbe5f506490a71"
+    },
+    "src/features/products/ProductDetailModal.tsx": {
+      "sha256": "3e6ffa5fe59a2249a532f9dde82a405a3ac050cf22105c6ec9f844929b6acc4f"
+    },
+    "src/features/products/ProductEditConflictPanel.tsx": {
+      "sha256": "85090ffb2e51c87e13f6dfffed4231565cd3ecd4663121e536475a473a17943b"
+    },
+    "src/features/products/ProductFormModal.tsx": {
+      "sha256": "2b54d086549e7b9d6f32d68fe2e524cc7820f94fd9a61f54b4a688a20fb53b7b"
+    },
+    "src/features/products/ProductFormParcelCapability.tsx": {
+      "sha256": "66fa9d03f7f19fc418cecf38d1a6bea6b7c5a0da9648596a65ebbba4ac04f865"
+    },
+    "src/features/products/ProductsView.tsx": {
+      "sha256": "9048cfee25dcb28382a035bdc98911c1915a3f7f63d6ae0885045d757b700933"
+    },
+    "src/features/products/StockAdjustmentModal.tsx": {
+      "sha256": "fa8dfa2fd906d0bedabdacf0063c9b2bb53cbaea5feefd3f269d52c974e44796"
+    },
+    "src/features/products/bulkImages/api.ts": {
+      "sha256": "f3c45c14f89eff420ae6326cf0d223ca0ef15556dde17fa4e7bf19968f743b7f"
+    },
+    "src/features/products/bulkImages/compress.ts": {
+      "sha256": "278e1ce24470473881f65a543b0f23fb5abf21532efccc7e77fd00943b34ee61"
+    },
+    "src/features/products/bulkImages/journal.ts": {
+      "sha256": "d5a34cf8dd1bd84a9938441604fc6497284c21ea76628d929e7145a9e74dc701"
+    },
+    "src/features/products/bulkImages/model.ts": {
+      "sha256": "7054e370f66aa983f9a7b023b45da43b8e1aa7ad45117a7c3cdfe7537d054324"
+    },
+    "src/features/products/bulkImages/upload.ts": {
+      "sha256": "0edcc6701bc9697588e59deaea18ae3b38331090d63f925db2705239a6203db7"
+    },
+    "src/features/purchases/CreatePurchaseOrderModal.tsx": {
+      "sha256": "ce15e94727651070cf7db8735edc05b4fedc57f70c9f651d2356dbcb2baa5af1"
+    },
+    "src/features/purchases/CreateSupplierModal.tsx": {
+      "sha256": "0b33d931694c4b8504094dc163626bdbcc1c45097d60353bfdba0fe0f54612b0"
+    },
+    "src/features/purchases/PurchaseOrderCard.tsx": {
+      "sha256": "63213d76926a18ee2dc6b1c2ecc1b755749e636a982239d8cc50351931678b5d"
+    },
+    "src/features/purchases/PurchaseOrderDetailView.tsx": {
+      "sha256": "fc174d1cf8359f7702aae27cb04fd74399011e5056c1f5bf4d341055ea7e65ff"
+    },
+    "src/features/purchases/PurchasesView.tsx": {
+      "sha256": "7811b214162861f143e23b46a8d8123c3c7c1ab1020fbb8a9072a1d6d8e504e3"
+    },
+    "src/features/purchases/ReceiveGoodsModal.tsx": {
+      "sha256": "746253abefd21183266c21b50fdc41a10e3cae752e8ee7e755cc69b67284c48f"
+    },
+    "src/features/purchases/ReceivingProductPriceEditor.tsx": {
+      "sha256": "bf2ee274085c074aed6746941378cb3c494b2f59dfacaa02a9e865f979ac702e"
+    },
+    "src/features/purchases/ReceivingPurchaseHint.tsx": {
+      "sha256": "e29842b1597bc09580f03070dc0a8553e51df19f855a7e325c0a1435aa091616"
+    },
+    "src/features/purchases/SupplierPaymentModal.tsx": {
+      "sha256": "89ae723824cfe24e011f239d9e2a2fc75ba357a5ae105559e3184a0143b49127"
+    },
+    "src/features/receipts/SaleReceiptDialog.tsx": {
+      "sha256": "f3160c2948c8f73bb31aceee71eecc64206173373f88b4b589dc15d9eef893e2"
+    },
+    "src/features/receipts/saleReceipt.ts": {
+      "sha256": "470bf5d412539ef25320df6825f0b1be4afe9b26cc2b5a63f9a4a48b3e1dac22"
+    },
+    "src/features/reports/CustomerCollectionsSection.tsx": {
+      "sha256": "4d69574dd3fa320fd19f5ddb102ceffef9c59a14f8ccea97950d8f4db637577d"
+    },
+    "src/features/reports/DamageLossReportSection.tsx": {
+      "sha256": "73cf137158e311d95610fb8a6c5ffbbe878cb0d92e627a4e90c0dee839fc5a9c"
+    },
+    "src/features/reports/OwnerWithdrawalsReportSection.tsx": {
+      "sha256": "e0c62a95dce65b824b94fbe0395d2d5c59992557d6bf3a39c8e9e68bff8146f1"
+    },
+    "src/features/reports/ReportsCenterView.tsx": {
+      "sha256": "38fd6b1a936a7d714cab180eb0c70df869942aa03b03ad35f560b18faff89727"
+    },
+    "src/features/salesHistory/RecentSalesCard.tsx": {
+      "sha256": "a67a2c2d2abc58d5a077b1610dd6e11aa19ad2092c72615dbae590b69f6a07b5"
+    },
+    "src/features/salesHistory/SalesHistoryView.tsx": {
+      "sha256": "7207e7f62977463f0400d2fa5a67606eef777597f721c4531655f723450d4229"
+    },
+    "src/features/salesHistory/SalesInvoiceDialog.tsx": {
+      "sha256": "7f28fff7005c6ce927664469c32b478e16c3e1b185895b6a75090bb1f5fd56d0"
+    },
+    "src/features/shifts/CashFlowDetails.tsx": {
+      "sha256": "1bec40d4fd37dc3bacdd6340767f461362a7e154f659fc96791e46130719ef68"
+    },
+    "src/features/shifts/CashFlowSummary.tsx": {
+      "sha256": "908daa59ee136c102b2e9418741b494f3ad6968b780f80810122a7ed264c4fcd"
+    },
+    "src/features/shifts/CashMovementDocument.tsx": {
+      "sha256": "8459eb6d184765d4cf165e1abffb0e646b1a7c6e4394972d87cb17346825d5f0"
+    },
+    "src/features/shifts/CashSourceDocumentLines.tsx": {
+      "sha256": "07696975ec54a643926d2b772572fcac27b807f679d9e264727b1a55501ace80"
+    },
+    "src/features/shifts/OwnerWithdrawalsPanel.tsx": {
+      "sha256": "e3c6f3dbbe7b3449fb7024177b4c1ff6793093708d9ed2e777f48d3a19332d70"
+    },
+    "src/features/shifts/ShiftArchiveSection.tsx": {
+      "sha256": "4962eb1077cdf79e4e210a8e6d9c3448a71b68996209d487e29206da6bc5ad93"
+    },
+    "src/features/shifts/ShiftClosingReportModal.tsx": {
+      "sha256": "adcba25856013d905e8f5fe706fa7771c2723dca41971c6210ff419c8fefd656"
+    },
+    "src/features/shifts/ShiftsView.tsx": {
+      "sha256": "f7326143b02047226483e0b274c765b9d77694dc2967ba52a99899f0e6af4c6a"
+    },
+    "src/features/shifts/cashFlowModel.ts": {
+      "sha256": "eff0e563aeddda82920a96679006fcee3be32bb030324768f6e8f26e43617d02"
+    },
+    "src/features/users/UserFormModal.tsx": {
+      "sha256": "10da1d6a3e0ea4044fa618c14fe0eabe2ff8041cca53a12a355151446aa6be1c"
+    },
+    "src/features/users/UsersView.tsx": {
+      "sha256": "3d8942f23587f1197bbc606de03358d6c1fee4ddd30b527c18b470a67e14b686"
+    },
+    "src/features/warehouses/WarehousesView.tsx": {
+      "sha256": "d1e6be3cae8ec90b5fe1c1833bae0a4c504d93293fa4e134b1328805fb31a123"
+    },
+    "src/hooks/useCustomerAccounts.ts": {
+      "sha256": "30f5987987187b0616c08a815d4f33855048cd7e9bcca771476d6256c99d9eed"
+    },
+    "src/hooks/useCustomerStatement.ts": {
+      "sha256": "539132e422b2e392b597a44dec0cd72b330907b1f61a61e0c95697d1783b9435"
+    },
+    "src/hooks/useDialogFocus.ts": {
+      "sha256": "89a29a5cc60cf49879949ef2a0dbbe9eab6c3f8c6e53539be319b1135d063a44"
+    },
+    "src/hooks/useDrawerShortfallConfirm.tsx": {
+      "sha256": "20384c7ad7b77fce7837257b06575bb9b80b6fcfed493ca6c827c82b96470e87"
+    },
+    "src/hooks/useReceivingPurchaseContexts.ts": {
+      "sha256": "625dd4aa42752d3b010d8c831e6423f6bfe7c9160bba16aefe35c7ef871d1edf"
+    },
+    "src/hooks/useSalesHistory.ts": {
+      "sha256": "2b7740b772b77b00f23710f110c6dfe885528a7854799da8e40ab21cbf7c2d40"
+    },
+    "src/hooks/useScreenLeaveGuard.ts": {
+      "sha256": "a9c4ca2a6185ddcd784b34031c2085fb47fe48cf8a70620bd578f6f2e3c8ea5c"
+    },
+    "src/lib/async.ts": {
+      "sha256": "f30ad527a2e25ca01062d5ef07b2d16029bf143a817a01f84fe565e70246b55e"
+    },
+    "src/lib/errorMonitoring.ts": {
+      "sha256": "c67f4a8d6df3c839b46ac0266331a3e8116470ab8bcd4a0f265d28fcaa94446d"
+    },
+    "src/lib/monitoringPrivacy.ts": {
+      "sha256": "a378ed5610bacaa7c3855d7dfb445b6a061cc9e073d2751a04f0bf4d470badf1"
+    },
+    "src/lib/supabase.ts": {
+      "sha256": "a666d78ed706ae86d111b5bef993200e34a490910b3bfec203ec678e3d8691f2"
+    },
+    "src/lib/xlsx.ts": {
+      "sha256": "6cdbaa22775a973cac568b43d065a5ec15eefdcf96ccc13b31d00f0defd96ea3"
+    },
+    "src/main.tsx": {
+      "sha256": "3de4c6f3bdf938c537cc4f941520d31448b59670cd68e10737a2ecb1b434906c"
+    },
+    "src/pwa/pwa.ts": {
+      "sha256": "feacf5d30ef159822a4926ef401b703af04ccd74f8cb16bdd6fff8865934358d"
+    },
+    "src/services/deviceBiometrics.service.ts": {
+      "sha256": "240a753cb542a4d3961335a0f7fcc881f32824b1a31e5da7622da2b5787f370c"
+    },
+    "src/services/pushNotifications.service.ts": {
+      "sha256": "2880f31f4a055c5f6b5882bf6103269bd7f1a1cdca2822ab2224673a9db5d3db"
+    },
+    "src/services/sessionSecurity.service.ts": {
+      "sha256": "923504f53fe0cace7485fbae008ac4e6896191dc5f02263677d35d15f80c2744"
+    },
+    "src/services/supabase/adminAftercareFence.ts": {
+      "sha256": "a127b72c234f5007d775b6a75f576ad3440e9714e15f8b98ab17177d76e5998a"
+    },
+    "src/services/supabase/adminAftercareRecovery.ts": {
+      "sha256": "a9937d8f62ef8bd5ba9b9b4c0cf169e9518777cdb27eaceee27fccc76ccb82b5"
+    },
+    "src/services/supabase/adminAssistant.service.ts": {
+      "sha256": "90f7942e07a6d2f198cc3900b4b550319f535de2bc5ada037b8088e1479a9134"
+    },
+    "src/services/supabase/adminCustomerV2Lifecycle.ts": {
+      "sha256": "bd6aff97de10b49f68b7afc2cca789040e63b324fdcc8874cffb8f47dee2d054"
+    },
+    "src/services/supabase/aftercare215.service.ts": {
+      "sha256": "818bd4ac6e9f6dc18d4578091076b4827edaf51c4a13fdc201f5d3c433eb78ba"
+    },
+    "src/services/supabase/aftercare215Rpc.ts": {
+      "sha256": "8b1e38b778525b4e82db3d094287550f714922da5eb02f7a3195e36ebebc3371"
+    },
+    "src/services/supabase/auth.service.ts": {
+      "sha256": "54f4b09369865e042f375d2507ba67b429e1dc7e7cae20a387870eb6d617b3ea"
+    },
+    "src/services/supabase/cashDocumentDisplay.service.ts": {
+      "sha256": "9493527e78e3aeda2393750a594bfb924fb6738e0297ef664d01e265d3bc6aa6"
+    },
+    "src/services/supabase/cashShiftMovements.service.ts": {
+      "sha256": "08caf1f298db15ebcb282e970fb50c73488ea8e1d2a7c4b13016b5ce626c31af"
+    },
+    "src/services/supabase/cheques.service.ts": {
+      "sha256": "6ddc046c3f809af7850ef25af9ef4ffd363e38dbbd4d7a95247b9e2ba2595630"
+    },
+    "src/services/supabase/crm.service.ts": {
+      "sha256": "b096655ba7d8b4fa19fd1603b2888d892078f8e8d17c2bfcef36dcf015e8a1f0"
+    },
+    "src/services/supabase/customerAccounts.service.ts": {
+      "sha256": "f39aa12377d95475fb7dfc276f0373bc795ac9f23fbf451b5513f4cf360c7264"
+    },
+    "src/services/supabase/customerDebtAging.service.ts": {
+      "sha256": "f9b3e95c290fd777d03da877ee3fae818d586d0dbd18c9dc6059d58ebd7771cb"
+    },
+    "src/services/supabase/customerStatement.service.ts": {
+      "sha256": "6d029b95c2abde98d6291e41e1383a707271306d6807dfef21b73e49ac442a58"
+    },
+    "src/services/supabase/damageHistory.service.ts": {
+      "sha256": "5f43a7e6602276ec4ae4719d12bb9906bae9f92e174a9363bcaa93253ae8956c"
+    },
+    "src/services/supabase/damageLedger215.service.ts": {
+      "sha256": "6125164c370ea7fa9da21ab15a93e6838ade54b40ad8449edab9e573ebfe4d06"
+    },
+    "src/services/supabase/dashboard.service.ts": {
+      "sha256": "ff38d28eb554223af227f7cae66b836c31dead27d80692e9d298cca2fafe64a1"
+    },
+    "src/services/supabase/directReceiving.service.ts": {
+      "sha256": "62f1b1d863d3aad853f937a1a9c430bcd82d59d5dedc1a8f8fde0108eaf3ba6b"
+    },
+    "src/services/supabase/documentCorrections.service.ts": {
+      "sha256": "d96a4cbe2d0d28c465464da71282fbb2f6ce9de80fa71d14cc370e70eb069e32"
+    },
+    "src/services/supabase/expenses-shifts.service.ts": {
+      "sha256": "d30902ba792ee469b592aabd4ddceb5ddcfe49cef7aaa856f222abbf2b49afbb"
+    },
+    "src/services/supabase/goLive.service.ts": {
+      "sha256": "45dd1e73712762f65072b78cf5e393d07c9e627a7ae10867e303f4ef92333359"
+    },
+    "src/services/supabase/historicalParcelComposition.ts": {
+      "sha256": "8c79715e2f63930044203db59b06b322bdbea1a929efa0b4ca1a3fa0870e8200"
+    },
+    "src/services/supabase/inventory-opening.service.ts": {
+      "sha256": "75f15fe9f0f056416eb4cd872b219394c706e9560347987e30cdce3a373ea145"
+    },
+    "src/services/supabase/inventory.service.ts": {
+      "sha256": "01fb51715644b7f6f0ef0fb22519dfd3dd6e8d9ad79e760de864420516b5ab0d"
+    },
+    "src/services/supabase/mfa.service.ts": {
+      "sha256": "9189039e3885d08c1460d3bf5a2c72659f10ad187e9264eeea53c46ed6e302ac"
+    },
+    "src/services/supabase/mfaStatusRequest.ts": {
+      "sha256": "c5f92a93263e1c7ab16326fe835b5b202756512a2abfaf9f053a7bba2e5a918a"
+    },
+    "src/services/supabase/monitoring.service.ts": {
+      "sha256": "a3a2600ef2fcd5330a5e90f4e73906833e6076a7f7c5633615a82951c2101241"
+    },
+    "src/services/supabase/openingCheques.service.ts": {
+      "sha256": "ece04150a0f42c31f51194337f82b4f3b839b12481361e74dd8776914e296a5b"
+    },
+    "src/services/supabase/orders.service.ts": {
+      "sha256": "b84b915f526f2429820f81c46615560e4824af461f957d35c53ae4c21f245192"
+    },
+    "src/services/supabase/ownerWithdrawals.service.ts": {
+      "sha256": "01132d9845f0fbe804c88f8ce6029f0b8f0fd1245b6de7eb4055b8d0d24a97d3"
+    },
+    "src/services/supabase/parcelConfiguration.service.ts": {
+      "sha256": "4552ef2f7d960bf2a4486f48f929154d01d579e4ab9e7941d23602b8e29ca44b"
+    },
+    "src/services/supabase/pos.service.ts": {
+      "sha256": "e3bde172911896ef20f71a3b8ebf77c573074b6430ecb4d2757d03aca86ada8b"
+    },
+    "src/services/supabase/posV2.service.ts": {
+      "sha256": "d6c2b86c7eb0e11b7e45f23db8fe2be423079b44b2b332723273b8224facf160"
+    },
+    "src/services/supabase/posV2Recovery.ts": {
+      "sha256": "f29c09f5383ac795f85f7a7a003b901d53dc4dc7dde3a18f084fd75e5c2d7f6f"
+    },
+    "src/services/supabase/posV2Validation.ts": {
+      "sha256": "d7f5de23c0620c684e3dfa31ede8c4d4a41076e499f427af36d4bb79a1b84379"
+    },
+    "src/services/supabase/product-images.service.ts": {
+      "sha256": "229bc5f593ce20d0a6d5c017f5591e037189ec692e9afd1e54242dcbfe8f84ca"
+    },
+    "src/services/supabase/productCost.service.ts": {
+      "sha256": "a3c8a985bd5eb1707d56899c0463de22dfbf50a56c917414f091e35bbca3f3e4"
+    },
+    "src/services/supabase/productFamilyBarcodes.service.ts": {
+      "sha256": "66baf5fba864f091b7d25c1c8998b2c6b6cb0d724b8a890de7ba6824d9709d7b"
+    },
+    "src/services/supabase/productWorkbook.service.ts": {
+      "sha256": "49c93f4276da340a09bd1f0d7966221568271e052b28284fe329f5f616b483d2"
+    },
+    "src/services/supabase/products.service.ts": {
+      "sha256": "5104aca3528ea7fe18ce813f19945543a2c616b257694a234549b79bc9b3b5ec"
+    },
+    "src/services/supabase/promotions.service.ts": {
+      "sha256": "888ad5466f6e21c497344866de3ed016fbb220b282aba44e8fb872bc68c5b03a"
+    },
+    "src/services/supabase/purchases.service.ts": {
+      "sha256": "e1fa00d0562f3c7e3d5dccd8b505dd1f8866b3eb5ee8eae1b02e780962242e9a"
+    },
+    "src/services/supabase/receivingPurchaseContext.service.ts": {
+      "sha256": "1bd2d9c285e7b2724bc81f1370d12ebe2ca29bcc2db053a3a466e9cbf04722b4"
+    },
+    "src/services/supabase/reference-data.service.ts": {
+      "sha256": "dc966701d358ca7e3f4f2fd6fa0f94560a693c095b12955f98e4b5462249341f"
+    },
+    "src/services/supabase/reports.service.ts": {
+      "sha256": "ea4eb62637f23ad2d8354e71b20da2ffb950cd19000df7fd4365437b65d655d2"
+    },
+    "src/services/supabase/salesAftercare.service.ts": {
+      "sha256": "e801837455fafa63e8c57adc27cd9ea7544e4061295ecb1897e0f76df474aee7"
+    },
+    "src/services/supabase/salesHistory.service.ts": {
+      "sha256": "d85b108f7be04b3decc0f79a71045c9d318e3ee26bd57caf1ece2e43e1443540"
+    },
+    "src/services/supabase/staffAccounts.service.ts": {
+      "sha256": "a3f441aaa5f5c168e156f12c70e0805886f454446887a378f692fac1373249ae"
+    },
+    "src/services/supabase/stockAlerts.service.ts": {
+      "sha256": "b727d0a47f96360ae1c4f37c33c8cdd36ef7a835a9283ccbe52368a4f3af72c1"
+    },
+    "src/services/supabase/storefront-settings.service.ts": {
+      "sha256": "ea2ea5e5d41b0f024055ccab9932dd12a343464256a458edcfe2047322148470"
+    },
+    "src/services/supabase/supplierCredit215.service.ts": {
+      "sha256": "63bb8ee6ecf53bb7a18bc3803f5d59e4317842ba3f476dce92779c78e7f350f6"
+    },
+    "src/services/supabase/supplierReceiptSearch.ts": {
+      "sha256": "e73e0e5384fe7b677fe1400835ffb2604df85f9f68f0359297af35291187cfd2"
+    },
+    "src/services/supabase/supplierReplacement.service.ts": {
+      "sha256": "fcebf62450781d769a018fe7293248fafbdff6dd87138253076a8d227ae16d88"
+    },
+    "src/services/supabase/supplierReplacementIntent.ts": {
+      "sha256": "852096aa9e3792de22ec274def66f90564087a57dda19a55a4be4a1b5c7ab1b2"
+    },
+    "src/services/supabase/warehouses.service.ts": {
+      "sha256": "98704b3aad3ac46ba9a8deb33921c5f865f7401015418e32d369c5dce95f95dc"
+    },
+    "src/stores/appStorePreferences.ts": {
+      "sha256": "cd20d545115b5095482c03ab8139e3e9885988a355d81f86b4fb84d702c35620"
+    },
+    "src/stores/modalTypes.ts": {
+      "sha256": "5d55c1b4b8cdf6e0da7e65e2a86a12a861162bca07e4124f62db24f4898b5add"
+    },
+    "src/stores/referenceData.storeSlice.ts": {
+      "sha256": "b540915774ff04272b66e5572baf146dfefef10abbe1ccf12a8b56df7d78798e"
+    },
+    "src/stores/stockNotifications.storeSlice.ts": {
+      "sha256": "6328f30888c884f4d4a7201c244af89a9e7032a800d17c2d861fabc64b1a5490"
+    },
+    "src/stores/storeSelectors.ts": {
+      "sha256": "c0e774bed8ac615769c5bef22e8d0aa4bc7b03bf0a90595bb20a4a61eb6b28b8"
+    },
+    "src/stores/useAppStore.ts": {
+      "sha256": "05586737be1f941b44a7bb9e9997b222389e889ec0cf89fa2023a5713dfb25b6"
+    },
+    "src/stores/useAuthStore.ts": {
+      "sha256": "ba401838a000f2cc521cce05df1ee88f8725a19af7169fa1abae6e853cdd71a4"
+    },
+    "src/types/adminAssistant.ts": {
+      "sha256": "6d38d968f69042ae27cddd89a41310c0ff56ab8288d2c27149f7c29a33d1698e"
+    },
+    "src/types/crm.ts": {
+      "sha256": "96a6d8d3088f9016c5a85f376adc8fb74739a514b92084770e549127016229db"
+    },
+    "src/types/dashboard.ts": {
+      "sha256": "e9cc5e2d09997ed78e007079c18728ab8b3a6b61c1d70a0cbbe8e94d78b835ea"
+    },
+    "src/types/directReceiving.ts": {
+      "sha256": "8c5ae54f724239f8e44fc89c2a70902bd3b8fc2d368b405118238d39bbb10b5e"
+    },
+    "src/types/index.ts": {
+      "sha256": "84b2b347113f1dcf45943263491b0dec6a8cac5f8fe31ac7bd1b58a1304ee18b"
+    },
+    "src/types/monitoring.ts": {
+      "sha256": "be62777a32b350fb8d349f475f178d6c062185a91ec87f12c47bf5010210f627"
+    },
+    "src/types/promotions.ts": {
+      "sha256": "f91b52645ed617cabd01f203347dfe1e82c19e8b4ccfd5dc807da20afe95eb9b"
+    },
+    "src/types/purchases.ts": {
+      "sha256": "d2864d3985f4aea65cee6aab8d33810e2c90dcb2adec3f1eafef862bcb2b147a"
+    },
+    "src/types/reports.ts": {
+      "sha256": "0e65480ff5472f5779e890a2485acbfee98a949e1e20fc88c3176029130e86c5"
+    },
+    "src/types/storefront.ts": {
+      "sha256": "423091593984a88126b60644d823acf7e679ae8bc242a9f5a2ff42e44b20fcbb"
+    },
+    "src/utils/aftercare215Contracts.ts": {
+      "sha256": "a76c90034474d06c4a41941ed658b5736f05b32698d27d0869b63dfe73c3e056"
+    },
+    "src/utils/aftercare215Money.ts": {
+      "sha256": "93b62a7ab88cd4ba75891ea481c35a9e71b6cc4e057cf8a5349d496e10c67928"
+    },
+    "src/utils/aftercareIntegrity.ts": {
+      "sha256": "f43f57360672f030839a4d6f58309e75058aa4e695cc9f56c76769fd87041b09"
+    },
+    "src/utils/businessError.ts": {
+      "sha256": "5f79238a9cf4046795800ce9cd0cd5383c7b1a59a8fab310a2169fa92ccef29a"
+    },
+    "src/utils/customerCollections.ts": {
+      "sha256": "ea9d29a4db3ce97ad3965ab6bf81f08264e0a89ef19328f6199c56b9213eadee"
+    },
+    "src/utils/customerDebtAging.ts": {
+      "sha256": "7bc32a3fe0cfa3025e6ec82ceeeec516990d779e0abce343ef27f96303d705ba"
+    },
+    "src/utils/customerStatement.ts": {
+      "sha256": "e87531b1f9fb6c0565e9af9c76cea553137debe82b8af7e3f5ba71fa208e1c6a"
+    },
+    "src/utils/damageLedger215.ts": {
+      "sha256": "1b0a22b14a043078ebd77fe8aa4edcabaaa98dd16516ca8090bc30c7268fc2ad"
+    },
+    "src/utils/dialogFocus.ts": {
+      "sha256": "00f5fa01abd2f35c28157ddd6175d03651f3b5de0f09c090301ede03f8f0f2a9"
+    },
+    "src/utils/dialogIsolation.ts": {
+      "sha256": "3e556a82e3ad99e556b10df35a6f98b701a194594672dc4fa0f4229fddffbd8c"
+    },
+    "src/utils/documentCorrection.ts": {
+      "sha256": "1585cef59c464506938f85831136b2730c04776f1da7827d2f1f9451bc937f8f"
+    },
+    "src/utils/exchangeClosing215.ts": {
+      "sha256": "b4a94faeffd104ed9e7fdffcbf58a081fa7ae12bb16544027a7ccecaa597a1ae"
+    },
+    "src/utils/googleMaps.ts": {
+      "sha256": "ce458def64a203ed7364cfc3d9ebdfa42c40eeb0f23e8742056a96638bf32bdf"
+    },
+    "src/utils/inventoryFormatter.ts": {
+      "sha256": "98c62f5906ae24925cbaaa68b364c1cd502cc33329bc9911af6f01af4a842296"
+    },
+    "src/utils/legacyUnitImportHeaders.ts": {
+      "sha256": "58002e7c231a2059900db63b82d9b10a734a9e976aebb14b78c84bdd6e41a0de"
+    },
+    "src/utils/newestRecords.ts": {
+      "sha256": "1251e7a2ff40a5b498e239c4dd7e0da4df14bf39e40c0dc6c164b332f2b4a663"
+    },
+    "src/utils/operatorError.ts": {
+      "sha256": "985d47432b9cefe311ce40eb95ee34cd1a13cd73bba9fceb689b7fce92f2a49e"
+    },
+    "src/utils/orderCalculations.ts": {
+      "sha256": "db2ba662bea92fb169b5d5adb03726d5d87112c2fabb47f51a7890dc65e0cfd0"
+    },
+    "src/utils/orderExchangeFunding.ts": {
+      "sha256": "ea9c1525641d61632271ad1dec40ba4a0af83ecef7285776b15553f39d55b4f3"
+    },
+    "src/utils/orderPresentation.ts": {
+      "sha256": "f05d5c0efccca8ac7d3f6bc6770a18a4c5ad6222923060bb2cd02aab6d9c2edd"
+    },
+    "src/utils/posCalculations.ts": {
+      "sha256": "183639642a22347fe9b8f8ed3ff24da451fd81f0fd4e4bdd187f8f5bea0fc59e"
+    },
+    "src/utils/posKnownRejectionCopy.ts": {
+      "sha256": "ddb438fbb91848f0ed5704e7d522ca9bc760dc03d9c0376f6037e6dcd3e93a55"
+    },
+    "src/utils/productCalculations.ts": {
+      "sha256": "b8a02fd49d6e3344556f26bcbd009106041320280fa6405eaa17a87a43a851c0"
+    },
+    "src/utils/productEditConflict.ts": {
+      "sha256": "820a7a95f9e899d795a6d6aabb6f52df63e9839b97f4433958f55453f610c839"
+    },
+    "src/utils/productIdentifiers.ts": {
+      "sha256": "9af6616db1f5051d3880488a2fde149710f22e16e1b266b5ff5b02d01a2150d5"
+    },
+    "src/utils/productImage.ts": {
+      "sha256": "795a153eba33933cf6fcd7b28faed58020a821ad40205ff8753aec27fc87d8b8"
+    },
+    "src/utils/productImageThumbnail.ts": {
+      "sha256": "d04fa25d5b2e27bef48d0321e9d25f2fbeff9018277e74df05c2fd23c02770ab"
+    },
+    "src/utils/receipt.ts": {
+      "sha256": "48b0264545056a17b5da624d7597f8e9ef18d8e5e127fe4563dee676280733f4"
+    },
+    "src/utils/receivingCalculations.ts": {
+      "sha256": "996ed8e06d7be777fce82e49e8746c4931ac2c67e055e3745e04e29e89932dde"
+    },
+    "src/utils/receivingPurchaseContext.ts": {
+      "sha256": "5e8b160add9948a45a2fdfdd17d3c8985458be9723bc7bc5c2f14f3599108dea"
+    },
+    "src/utils/receivingV2.ts": {
+      "sha256": "1fcb7262d6e1d58eddd19d16cf600e001385922f4d57c050a4f2a52b5962579b"
+    },
+    "src/utils/rejectionMessage.ts": {
+      "sha256": "0730bb29d9d53add372e5a9f084d156c2de8976e6b58c434b1a20c2582dda755"
+    },
+    "src/utils/reportPeriodSelection.ts": {
+      "sha256": "8cbc0dca86c7c72330669c1f38dc83a5d0b2f08afd9a97d9dbc1169dcda13216"
+    },
+    "src/utils/roleLabels.ts": {
+      "sha256": "bc19440ecf8a4dfa5bb5489283118024a3cec09ba7cf84a151657aa325edd091"
+    },
+    "src/utils/salesHistory.ts": {
+      "sha256": "6e94652801ef2b13a994f54e4d6327a4de7d3b392e14b8abe6ede2e27737dd4c"
+    },
+    "src/utils/screenHistory.ts": {
+      "sha256": "ee9a1fe9e328a7086a1157e23fc17b85974eb69488dc32aa8f55e3513b7d3634"
+    },
+    "src/utils/supplierCancellationPreview.ts": {
+      "sha256": "ef8874db2352ef148615e92202d8211d89db48f756d0e8ed634ed547519abc31"
+    },
+    "src/utils/supplierCredit215.ts": {
+      "sha256": "a9b398d4a436a1ab33585fd8475d0b07eecf1b646a3c56b8bdeea7a696d7383f"
+    },
+    "src/utils/supplierPaymentLimit.ts": {
+      "sha256": "7ec4b5cf0ec390087c4ee37506d5644570c3840a83a1ab37e1682683fc103769"
+    },
+    "src/utils/supplierReplacement.ts": {
+      "sha256": "30bdd09ecb21eed8068dc8af819cb480553f43b7f7ff5890fa1600665fabb754"
+    },
+    "src/utils/unitLabels.ts": {
+      "sha256": "33c12742419d4e0ab00291d5afd39411a07f6692c18e4754705d1487a242ecf9"
+    },
+    "src/vite-env.d.ts": {
+      "sha256": "fa1c94060a056a77686a14ff2ef30924adde848d17854fa6a80e8cbbe0a257e6"
+    },
+    "supabase/functions/_shared/owner-telegram-format.ts": {
+      "sha256": "1ea25cd00443e729b1d444fd2d6658252e7107bb3fa1abd2736533b26f5a38d9"
+    },
+    "supabase/functions/admin-ai-assistant/index.ts": {
+      "sha256": "b7663a899b5fbf868066716d5f3431fb9947dd04688b52878b2967276cd5dc5f"
+    },
+    "supabase/functions/manage-staff-users/index.ts": {
+      "sha256": "e752c91afcaef52f2eed05266bb6c418f3a2dbdea3cc1c01fa37f3beb8bb48c8"
+    },
+    "supabase/functions/n8n-alert-feed/index.ts": {
+      "sha256": "30bab3af0da1ced5c9001f1d3e0a925c79b994e077ab8e1f67dd137fc75e001d"
+    },
+    "supabase/functions/owner-telegram-dispatch/handler.ts": {
+      "sha256": "93bea2151e8f7e488c64ee5242d9fb0bec178eedc6933152a903eaf1ef648e98"
+    },
+    "supabase/functions/owner-telegram-dispatch/index.ts": {
+      "sha256": "6357feda9f76d7fb761f83c7cc776ebcc311a5af0affac352006ccdee063259d"
+    },
+    "supabase/functions/send-order-push/index.ts": {
+      "sha256": "b1f587cce14da734d4575a03dfefa5ef61a9a78663c8a9ccc13fdafebd7d53f2"
+    },
+    "supabase/functions/submit-guest-order/index.ts": {
+      "sha256": "4cae3f7df1a46cf5ec7b043e1a0d9beaf7b38939cfc26331b5d9f3feccb9d9ec"
+    },
+    "supabase/functions/submit-guest-order/security.ts": {
+      "sha256": "2ff2d8cd464d0f8d5f2d664124d0ad7c76f17bb07c99eb2d7e18e0a8a2d50f92"
+    },
+    "supabase/migrations/001_initial_schema.sql": {
+      "sha256": "c87a85aa9b16b938b5427c72ed348da56a8cc2b620a567bc2ab316dc24fea93c"
+    },
+    "supabase/migrations/002_rls_policies.sql": {
+      "sha256": "456c69fea03f73381c3b11a639ce44fbb488324d321d8d2f0fdda28dcbbcaf8d"
+    },
+    "supabase/migrations/003_inventory_functions.sql": {
+      "sha256": "5c1bcf20a04bf435674d482e8de8800a71fadc3422755438ae9990690825d055"
+    },
+    "supabase/migrations/004_customers_orders.sql": {
+      "sha256": "31a9830dadd6e51a015b4c4c0a59f809499665f8e31d0db17be49f8b08e45fc3"
+    },
+    "supabase/migrations/005_order_status_transitions.sql": {
+      "sha256": "54e3707fea6f39de07b2fc35dc23aac8af65341bb4c1b77c49b5466c312ae070"
+    },
+    "supabase/migrations/006_test_system_rpcs.sql": {
+      "sha256": "70212be725ca6d38aa2db56e5e5f79a1786b1157ea7dc6b24fffca0eaf061329"
+    },
+    "supabase/migrations/007_dashboard_analytics_rpc.sql": {
+      "sha256": "15d0fc39063917dd70737bea0f8203d1004d195bfad35aae591e12aff73dab3b"
+    },
+    "supabase/migrations/008_purchase_orders.sql": {
+      "sha256": "42c2d0fa8b5698a6f381df115c20cdf7dc5eb38a43177adece1c820b4e04890e"
+    },
+    "supabase/migrations/009_direct_goods_receiving.sql": {
+      "sha256": "1b7b34616bd79a4a1b121479e2ca3870eefc586134d0f8a51ce1f237bd293b72"
+    },
+    "supabase/migrations/010_warehouse_completion.sql": {
+      "sha256": "3024502b22ef8364dc364a9d325df887457afb611f0a2f1a7d3b4e534729e8c9"
+    },
+    "supabase/migrations/011_supplier_receiving_hardening.sql": {
+      "sha256": "fbd52f4b4bcb478f87888103b8ebba105e909e09513a6cff45b424d1f40a817d"
+    },
+    "supabase/migrations/012_supplier_purchasing_rbac.sql": {
+      "sha256": "557137bd89ba8e404cdcc7a4dadc7d926e86ff905ea1e33eea41ba1a73fe77a2"
+    },
+    "supabase/migrations/013_public_product_catalog.sql": {
+      "sha256": "c714996362dc9fadc2780285495c9d776262d7fb9bea54ed117e11cf9d3eef01"
+    },
+    "supabase/migrations/014_simple_inventory_operations.sql": {
+      "sha256": "4cd0c139fb18276982ea19119e01444489f2826dd837079204367a9adcd471f7"
+    },
+    "supabase/migrations/015_ramtha_receiving_location.sql": {
+      "sha256": "563d7970506ec26cfb37d09f03b3e9b01e953ac9d2013ebfdcc977f7d931e493"
+    },
+    "supabase/migrations/016_safe_paid_supplier_receipt_reversal.sql": {
+      "sha256": "8d5642c733b42c275b94d6f05516dd97eced31381ebf7d1fecb934da8969a6a2"
+    },
+    "supabase/migrations/017_orders_customers_accounts.sql": {
+      "sha256": "62f555c8dc8e77e62fed7a738efc49cfd2d8d516257be0c5f0228248fd86773d"
+    },
+    "supabase/migrations/018_customer_order_linking.sql": {
+      "sha256": "505b30d0cabecc0187afb5d3d56f74a1f36c2aeba993922987ac9d0df738e720"
+    },
+    "supabase/migrations/019_product_catalog_experience.sql": {
+      "sha256": "d2b8ed7af848957d40b9e866f76e88a228e82b3966670620a94eb4cf3602f980"
+    },
+    "supabase/migrations/020_product_image_storage.sql": {
+      "sha256": "79a4c3b15caffaa46f2c32aa1ea30f863cd99f15978697285757d09fa2c343cb"
+    },
+    "supabase/migrations/021_wholesale_sale_packages.sql": {
+      "sha256": "5c283104e929c1c4dca399d9c015b92a5bb35de1020a35bc5bd7da895078065f"
+    },
+    "supabase/migrations/022_operational_home_dashboard.sql": {
+      "sha256": "663394160187f6c1823ef9bf0a91787f6f601d843f914ca22ebd7296dccb5c37"
+    },
+    "supabase/migrations/023_wholesale_order_accounting.sql": {
+      "sha256": "c66270c9a269ad9a6794881c5e2a39e1fb4d4972576351929b3ea4bc0cf8e8ed"
+    },
+    "supabase/migrations/024_supplier_receiving_wholesale_guard.sql": {
+      "sha256": "17d97c42f6fcee8384ee9de4b0641f22f6e5d9c768aafc3fdd4117a71e02ba08"
+    },
+    "supabase/migrations/025_product_reference_data_management.sql": {
+      "sha256": "5b9db8671b547768450c33f2fa78990a028c39794cc8c5cfcbd80c4170d55f01"
+    },
+    "supabase/migrations/026_remove_production_test_rpcs.sql": {
+      "sha256": "a32901ed96ad719b7f2af9b7c3c98239110beacfc1af9506c2dd04863815bf65"
+    },
+    "supabase/migrations/027_require_customer_for_debt_sales.sql": {
+      "sha256": "edad64231edba425e1825d9892ae7fdfb92f2dcc8153af61689102e9f154b2a5"
+    },
+    "supabase/migrations/028_guest_order_submission_safety.sql": {
+      "sha256": "55b233de7e19301d3982272066481635db4c19da9e190d05d4c3fd755a48d6dc"
+    },
+    "supabase/migrations/029_guest_promotions_and_gps.sql": {
+      "sha256": "ae3cb386c64e7acc04aa48fc52e11a94cda5e194e49d923770f80c52228e9d5f"
+    },
+    "supabase/migrations/030_secure_order_entrypoints.sql": {
+      "sha256": "53d4d6701e3d665c70052a1b8c5d74eebd12debced4bc18dc6f8d7dd0764efe7"
+    },
+    "supabase/migrations/031_public_catalog_categories.sql": {
+      "sha256": "2f8aed8fc03706c9fe97aed948d3c3f3f8cd1e35f430e2d73fc22cc807a36140"
+    },
+    "supabase/migrations/032_require_active_erp_staff.sql": {
+      "sha256": "4eaa4401ecb00f5744d75d77709b264a1667a0081067a68d418a64111a943397"
+    },
+    "supabase/migrations/033_order_web_push_notifications.sql": {
+      "sha256": "1cbfa6a9ba1d467d344632e71cf5cb5d8883e191e75e6b950e654677865eeda3"
+    },
+    "supabase/migrations/034_prelaunch_test_data_cleanup.sql": {
+      "sha256": "33f2b940719ab24ccc69eeb2737be407a254197029f1be6ce12b0f0a7dc02414"
+    },
+    "supabase/migrations/035_remove_push_test_controls.sql": {
+      "sha256": "1cf50bf68241c9a083992ed913e556e8d56fd754d3f16c7f0746ac78bf0f008a"
+    },
+    "supabase/migrations/036_storefront_experience_and_payment.sql": {
+      "sha256": "71f366912366bce1ab62c79eadccad8415f92d59c28785944de26a7754be326d"
+    },
+    "supabase/migrations/037_storefront_management.sql": {
+      "sha256": "83133dea36e1a7483b44c51c588336ba549c9f41fa0b68f7f45a4ff949ade2e0"
+    },
+    "supabase/migrations/038_storefront_home_sections.sql": {
+      "sha256": "466dceffe057bdb2888b186ffbb159d760ae243215e4e96676e793e84d48aa01"
+    },
+    "supabase/migrations/039_storefront_home_sections_lint.sql": {
+      "sha256": "20a2d86788ecff64379b6735a72920edd1196b1ae9765f52252e4bfeadba1a8d"
+    },
+    "supabase/migrations/040_operational_expenses_and_cash_shifts.sql": {
+      "sha256": "89c406a3da18764b14d4cd25141de9b0fe2441b528da0d10f78392ba8f9879e1"
+    },
+    "supabase/migrations/041_require_open_shift_for_pos_sales.sql": {
+      "sha256": "3bc50070964d17be5c48e217cadc69b7431ec2b3a3591ae51b7f941c2391811c"
+    },
+    "supabase/migrations/042_website_order_payment_settlement.sql": {
+      "sha256": "d8ececb5e1221d49773e5405c7de77d2650866eafbdfcd01b7a3b523c52a92e8"
+    },
+    "supabase/migrations/043_sales_returns_and_refunds.sql": {
+      "sha256": "9ed93aa1d5b523ce0c26794ccd2ace0715a7926cfc3b83d63612268425c56b24"
+    },
+    "supabase/migrations/044_daily_shift_closing_report.sql": {
+      "sha256": "7fe9150b98b2cc5e77ee6a00c7bf8a9acbd701037182a26c21dfe78cf0c11d35"
+    },
+    "supabase/migrations/045_secure_delivery_map_links.sql": {
+      "sha256": "0b31c21c378cb76d55d68234566108b33b803ddbba6f6f4808b6aa78303dd25a"
+    },
+    "supabase/migrations/046_cancel_empty_cash_shift.sql": {
+      "sha256": "3b88deae19a722cfe1077001ca69a69018444e080aa8847ec2ed86a7f529869a"
+    },
+    "supabase/migrations/047_inventory_opening_setup.sql": {
+      "sha256": "cb7cecf7526b5a8959afbfd72167ced20925bbdfa493ac50348b4ff43ba104b5"
+    },
+    "supabase/migrations/048_public_storefront_promotion_offers.sql": {
+      "sha256": "c3efb273ae65de58c5e4ac990ed4be713a5a2a1e46c5d728294a1ca002268ddc"
+    },
+    "supabase/migrations/049_active_promotions_are_storefront_offers.sql": {
+      "sha256": "2d842035e109bf5b364183c659a013aadf2ff4cb7c478e7885125e0002baddd4"
+    },
+    "supabase/migrations/050_admin_api_security_hardening.sql": {
+      "sha256": "0f0c29aebf0f4335958322f55043b754b7f5ac2831c1d916c055c0f6eab30e4f"
+    },
+    "supabase/migrations/051_enrolled_staff_mfa_enforcement.sql": {
+      "sha256": "c82065d5df191826fc9e4f70bbbbb685f849f2c7559af5329fd096e4d881650a"
+    },
+    "supabase/migrations/052_owner_only_tagged_e2e_cleanup.sql": {
+      "sha256": "7df9bbfd545cd25692558bb110cac8381be48c0f35e6fd7fd8561780e28042ce"
+    },
+    "supabase/migrations/053_remove_tagged_e2e_cleanup_rpc.sql": {
+      "sha256": "03c6f10ef49491c2418e31732540d72089ab39c485c52c4f74e03abc93f8b95f"
+    },
+    "supabase/migrations/054_confirm_google_maps_coordinates.sql": {
+      "sha256": "8a49d98294807628323fdf5985d3a0a48a8530068b677ed717b8867aaf41eaeb"
+    },
+    "supabase/migrations/055_operational_business_reports.sql": {
+      "sha256": "e0234580b631befbc8335ef6582830b3737d7e46fbaaec56dd70b1c36501210c"
+    },
+    "supabase/migrations/056_inventory_movement_reports_and_public_pos_receipts.sql": {
+      "sha256": "03dc52269b0d075696d25604ff7f814dd98c8693949f8950d3f71719b04362cb"
+    },
+    "supabase/migrations/057_secure_n8n_automation_events.sql": {
+      "sha256": "f6bb003238a82972d449e7dfff1bb636704b9af282d883b55ffa7b0b896fd6a6"
+    },
+    "supabase/migrations/058_secure_order_delivery_tracking.sql": {
+      "sha256": "a7596ba5c12e2fab6ed425cb44324df57bb36d26fb419968441daf105e5aae51"
+    },
+    "supabase/migrations/059_delivery_driver_contact.sql": {
+      "sha256": "c469db52a024632ea13633accde3c24387c032fece660136499d06612ef7b4f6"
+    },
+    "supabase/migrations/060_simplified_order_settlement_and_receivables.sql": {
+      "sha256": "135c3609964b62b9a9702f30530b091104487c828c6f08d744e1c0a0fba70e5d"
+    },
+    "supabase/migrations/061_delivery_zone_pricing.sql": {
+      "sha256": "554238cd18ab26bf0e796eb9bfc84a253a9b59663d5dfcf5ee4594677edb5f23"
+    },
+    "supabase/migrations/062_finalize_automation_order_alerts.sql": {
+      "sha256": "ae61739e9186469f1939c12a4cdd0776c4731ec14faca7e3ca095db5b3a245ea"
+    },
+    "supabase/migrations/063_category_cover_images.sql": {
+      "sha256": "ebf44f277d9b12a48ce4480345fb4de599db847b2a4d2517991f8f19d79274bc"
+    },
+    "supabase/migrations/064_secure_staff_account_management.sql": {
+      "sha256": "3d018dae4e96d07193b8343a68759ee4340083349c932acdb7ebcc618b1e2160"
+    },
+    "supabase/migrations/065_multiple_system_owners.sql": {
+      "sha256": "568e78ee24560ade144aa1ebc13ef92ed0fe4cc5fca6f4ad34fc5a8f1cb6224e"
+    },
+    "supabase/migrations/066_secure_admin_ai_assistant.sql": {
+      "sha256": "5acf1874446fd4bf5579223400def4a61a7d7c48113a19b0c60449856a816608"
+    },
+    "supabase/migrations/067_admin_ai_inventory_lookup.sql": {
+      "sha256": "b4ffbd16d8f151c3b18684d9ab62a8991c9069f3b0db140ec68c6f6e57431b9b"
+    },
+    "supabase/migrations/068_admin_ai_operational_reports.sql": {
+      "sha256": "78ad145e41b92fad9b00af86a9299ce75430884bfff0d0b0fab378e438e27698"
+    },
+    "supabase/migrations/069_admin_ai_product_price_lookup.sql": {
+      "sha256": "d3c242a22d90db174efdb85aff39f5c03a8fb1354b49fcc4da8cd9725e63c72e"
+    },
+    "supabase/migrations/070_product_flavor_variants.sql": {
+      "sha256": "e593d90dc2354ea0887ab25830c827765ae62c381f0fa43b9376f08ed60d8709"
+    },
+    "supabase/migrations/071_atomic_product_family_creation.sql": {
+      "sha256": "5d783809e6902d53e58d3fc1d63dc9fa9c98a31dcb4db419c50b30f545dfb2df"
+    },
+    "supabase/migrations/072_manage_product_flavors.sql": {
+      "sha256": "90e6f44b3946ab7fbd46e71a5fa0ec88a31c75543590a8c3e385cc4bf57682b9"
+    },
+    "supabase/migrations/073_admin_dashboard_performance_indexes.sql": {
+      "sha256": "bbe23c0ec8808d7eda0df5f24c79d5c1eade9b72fc227a3a01a6ac6e7c243743"
+    },
+    "supabase/migrations/074_secure_warehouse_rpcs_and_self_profile.sql": {
+      "sha256": "facc48cadcefba71b3858bc004ed5ea31d91896737b633afda4ab536232066f4"
+    },
+    "supabase/migrations/075_operational_orders_pagination.sql": {
+      "sha256": "3eff5463e7dcb5d1f2224edb7981e462df24422a258e7e24eeb0fc8b94504048"
+    },
+    "supabase/migrations/076_admin_product_listing_read_model.sql": {
+      "sha256": "9623f60d11792a5076d177c54d5b109509b8ca1dc7da72b51341dd88bf2f8d84"
+    },
+    "supabase/migrations/077_paginated_inventory_and_crm_read_models.sql": {
+      "sha256": "18b1781550ceda776484208709a73a0698338989657abfae981f67e2a0eea48b"
+    },
+    "supabase/migrations/078_operational_accounting_integrity.sql": {
+      "sha256": "cbd3361b2545a54614a471302290e755c21a960f651b8106aad126e6ec506fa6"
+    },
+    "supabase/migrations/079_remove_retired_warehouse_rpcs.sql": {
+      "sha256": "a49dd3e78c7091da290814278a2c37e67514905314167f857358d961e7508637"
+    },
+    "supabase/migrations/080_supplier_payment_idempotency.sql": {
+      "sha256": "76b2592a70e7415104ee7aedfee9c513c75b972cfa3fe518a535d79fc480d5b3"
+    },
+    "supabase/migrations/081_storefront_catalog_server_pagination.sql": {
+      "sha256": "ed5e112969b6d6c34434d86355bb5a28fab1559466c507ee6d914532a368a8a6"
+    },
+    "supabase/migrations/082_admin_historical_read_models.sql": {
+      "sha256": "7be584aa19746012f75ad5a4bcefe6c02e304ddd7772ec9be9483c38c1455642"
+    },
+    "supabase/migrations/083_shift_reversal_primitives.sql": {
+      "sha256": "dcd204428be04bf45a7e64903fe2b82141c8ab59ec68ef61509461a142ec301e"
+    },
+    "supabase/migrations/084_full_cash_shift_reversal.sql": {
+      "sha256": "67fed225cc85175b28ec3f07b6355f9510333a95c955184e78d7d5fe2a8a8409"
+    },
+    "supabase/migrations/085_admin_customer_receivables_and_scalability.sql": {
+      "sha256": "2ee0984782ab02871ecbfd29c84298386f051d65703db4d240afd84cd003ab65"
+    },
+    "supabase/migrations/086_guest_order_abuse_gateway.sql": {
+      "sha256": "ffee86671b8614d6308d4f2c03da8b3c30731978c80ad3fa65e9518d50cc2211"
+    },
+    "supabase/migrations/087_guest_order_line_item_limit.sql": {
+      "sha256": "162d83c545b50e80e692cb5576d3f95b6b048c2f8b81336a87c2053a1a805f57"
+    },
+    "supabase/migrations/088_storefront_merchandising_rpc.sql": {
+      "sha256": "45657ccf6d297afd7a3586dc95dc532b11c830d49cdff7f581af9d5c41016b10"
+    },
+    "supabase/migrations/089_customer_order_tracking_receipt.sql": {
+      "sha256": "8c489a2908b98964a935253aab4b3903664bc1947921c0a268968330a5455e9d"
+    },
+    "supabase/migrations/090_optional_guest_delivery_details.sql": {
+      "sha256": "4b02e370dc7fc7a18ce3446e691325fcb9dade905d38cc934584596720a360ef"
+    },
+    "supabase/migrations/091_expire_stale_new_website_orders.sql": {
+      "sha256": "b66fa73b06fed8e695dc48260d325e0db88a294a7b26fb53ff955aed5f271d54"
+    },
+    "supabase/migrations/092_cleanup_guest_order_gateway_rate_limits.sql": {
+      "sha256": "e5c5d6c01b7e748c35b9cd34df96427c70244bdc63865edb19bdb3bad56c7702"
+    },
+    "supabase/migrations/093_cash_shift_archive.sql": {
+      "sha256": "ec6b3cdab4ffab6188b5ef3d633f126d64d44988d3a9cc674d51fa4b783b6a60"
+    },
+    "supabase/migrations/094_immutable_cash_shift_closing_report_snapshot.sql": {
+      "sha256": "049a81e78f4726a716a63872a50db278165e1152223caa367c3e677876163e37"
+    },
+    "supabase/migrations/095_remove_unused_transfer_product_name.sql": {
+      "sha256": "446766b75288ed9de3b33aabda0ee58cd94a3543f4bd01f54e3cc1bc139453e9"
+    },
+    "supabase/migrations/096_harden_automation_delivery_lifecycle.sql": {
+      "sha256": "856cd1464e2b39bf8988bdc2789120ed80681242b2d9c07cbc28acbcf17fea61"
+    },
+    "supabase/migrations/097_core_business_alerts.sql": {
+      "sha256": "d3afb579cd853a18c91100a2f29358bde29a91405bbaa701b93c3a8e580a67ee"
+    },
+    "supabase/migrations/098_business_summaries.sql": {
+      "sha256": "5b39ddab61ff704370de2ce9dce18bfe8f99f74108e97fb03db8fba1f653dbde"
+    },
+    "supabase/migrations/099_advanced_monitoring_and_business_integrity.sql": {
+      "sha256": "6f90f4a3e27f81082fdde1960d486d3bf1b87de7184ebd3c182c5fbb45cefcee"
+    },
+    "supabase/migrations/100_fix_cancelled_supplier_receipt_monitoring.sql": {
+      "sha256": "8ca133c0efcc2ac0faf5c5c7d8c943e034fde3c4526bb6e5b1d13ba92b27bd1b"
+    },
+    "supabase/migrations/101_scope_core_business_incident_recovery.sql": {
+      "sha256": "8efd0021375ae621b420db83e0bc71b5b8a9c324f788f8fd4bc4ed406255ee3c"
+    },
+    "supabase/migrations/102_privacy_minimize_business_alert_payload.sql": {
+      "sha256": "64bec51cc1a40e46431dc1d608aa48658831923b88608a45d25c88ef68139a51"
+    },
+    "supabase/migrations/103_flavor_receiving_hardening.sql": {
+      "sha256": "95321e321e11fbb0c4b923a43a682535587fad6e5c30ea256451a8fc8952b657"
+    },
+    "supabase/migrations/104_remove_unused_receive_purchase_order_product_id.sql": {
+      "sha256": "f333e4dd5950cb89ac2562d45b989d27bdbff540d9327e407b10219f40295c93"
+    },
+    "supabase/migrations/105_harden_business_alert_rules_and_thresholds.sql": {
+      "sha256": "0dee3dcca6fb2f75e47aefbf73dd0c73b0d1d77ed890bd26c793837559b1f1af"
+    },
+    "supabase/migrations/106_align_monitoring_owner_mfa_policy.sql": {
+      "sha256": "11ca27e89ccc48779702dad5faa9bf3f2d383053674b6f04a39ac3a716f0109f"
+    },
+    "supabase/migrations/107_canonical_schema_reconciliation.sql": {
+      "sha256": "7472dbdae40f1b66ff929d64abda94fe73a1b591359572844f74de920dcf11d9"
+    },
+    "supabase/migrations/108_harden_product_sku_barcode_integrity.sql": {
+      "sha256": "5d3569f28fd2e9f661697d0b4496236fee0257d9329e297cd329bfab1808af34"
+    },
+    "supabase/migrations/109_admin_large_catalog_read_models.sql": {
+      "sha256": "5e686d64a29a78fbc5a21c6961b5776d5f40614148fa1b6548c9ae82b3dd8505"
+    },
+    "supabase/migrations/110_fix_deferred_cash_shift_snapshot_guard_privileges.sql": {
+      "sha256": "ac1ca40eefaafc3fa1de1e4b26b0ec6ff94e6a9222053b6dc361cf6221b3e1e9"
+    },
+    "supabase/migrations/111_harden_pos_sale_idempotency_replays.sql": {
+      "sha256": "483c939a3bb0d9755628e79fa3b83efe23f02881a503692b7e79653420c8f973"
+    },
+    "supabase/migrations/112_configurable_parcel_foundation.sql": {
+      "sha256": "f169e9b1e5f2878a68cd02c294587c8a1c63689fbdad95e40b145eb227af57e3"
+    },
+    "supabase/migrations/113_configurable_parcel_receiving_and_exact_wac.sql": {
+      "sha256": "833d1ff666fc70c399ef0cd838948b817b167f7ba9771aec02e848e748627307"
+    },
+    "supabase/migrations/114_configurable_parcel_sales_contracts_and_safety_primitives.sql": {
+      "sha256": "14e9d2af64b19bd4f97b73bb58d0fb661f9c3231673bca23d448a9803594a986"
+    },
+    "supabase/migrations/115_configurable_parcel_pos_sale_coordinator.sql": {
+      "sha256": "19ccff06075cb532d03a80c56d088ad226c86fe30cf70cbbc76938d9d816ebc3"
+    },
+    "supabase/migrations/116_configurable_parcel_customer_reservation_coordinator.sql": {
+      "sha256": "d16276631f77d02777f24a1395709d335156211ed3a88614ce2760eda72dc359"
+    },
+    "supabase/migrations/117_customer_public_configurable_parcel_read_contract.sql": {
+      "sha256": "0447e1293c5c610b50e5fcc75a82950df058cd4d23cabb5610978a2c160c3c70"
+    },
+    "supabase/migrations/118_customer_guest_promotion_preview_v2.sql": {
+      "sha256": "3d0ddf0a2a0d8a184bc62bb0a001d8564399cda54d8b6f8ccef0adbd2fd881b5"
+    },
+    "supabase/migrations/119_exact_wac_and_commercial_quantity_reporting.sql": {
+      "sha256": "0416e25876bc92581a9b47398d5cf2953838f2cd7615486037b485df64bd412d"
+    },
+    "supabase/migrations/120_phase4_returns_refunds_foundation.sql": {
+      "sha256": "dc029f4d53460c743099ed44e5eb820eecb00a32316a82f8c301519ab510c982"
+    },
+    "supabase/migrations/121_phase42_atomic_return_coordinator.sql": {
+      "sha256": "9779212034a901dbb971a68ec485d16b0aa4be329478b9daf1a4263ce6989bdd"
+    },
+    "supabase/migrations/122_phase43_admin_aftercare_integration.sql": {
+      "sha256": "df991de73f32931b81c9c4b9c2f611f44731e99044acbc2f5f60f4fe1192c066"
+    },
+    "supabase/migrations/123_phase5_private_financial_evidence_foundation.sql": {
+      "sha256": "3f5fe7554b17bbc6be872175682c36d7f17b5f2b72f00bd32eae0f6a97483e80"
+    },
+    "supabase/migrations/124_phase5_canonical_collection_reversal_writers.sql": {
+      "sha256": "4b6a50442ddf0dbee24233cb9036469b428ce20991e0315eb6c1fafe4bdd4f41"
+    },
+    "supabase/migrations/125_phase5_collection_lock_lint_correction.sql": {
+      "sha256": "d1cda688b835c2791a0890f4e000a85fa7309b1a4e4de02f21819491330a546b"
+    },
+    "supabase/migrations/126_phase5_private_tender_coordinator.sql": {
+      "sha256": "4c099804ba1d6b97df6af3fa0c0a8d514fd616397bde1bc7f5e5dae3eb8b1d21"
+    },
+    "supabase/migrations/127_phase5_private_financial_read_model.sql": {
+      "sha256": "a2c9561ef071e959152d7dd06cafc0f9be933f18f845f4ae03d2b1a8971be60d"
+    },
+    "supabase/migrations/128_phase5_operational_payment_and_shift_refund_fixes.sql": {
+      "sha256": "f0f2648e6513ba9820c27b3d56b7222e3783378d07ea3189fc2616e32de6f39d"
+    },
+    "supabase/migrations/129_phase5_block_paid_order_receipt_reversal.sql": {
+      "sha256": "886af35898e5ae73df9427308ca322246330ddfb167814f44127d1e6c9cdb28e"
+    },
+    "supabase/migrations/130_phase5_review_followup_shift_refund_guards.sql": {
+      "sha256": "46b830dbe2712f7e396dba23c1971e33ab097dec9e8be95500b1074708ce496f"
+    },
+    "supabase/migrations/131_phase6_operational_report_readers.sql": {
+      "sha256": "790219c523ece5ef8f1853f45a0d5775c42509575e5f4e500d06a6df506f63a1"
+    },
+    "supabase/migrations/132_package_d_system_unification.sql": {
+      "sha256": "775274e9d8f34f98ebc408bbde883ef909c64bc751107a43dc7d486f8499526b"
+    },
+    "supabase/migrations/133_package_e_supplier_po_financial_consistency.sql": {
+      "sha256": "073787127aa6fa05448a43e20a97042969a185dac3fa1abed53ec12a874e16e4"
+    },
+    "supabase/migrations/134_package_e_read_performance.sql": {
+      "sha256": "de3a0f6fa2a52cc595a06f912fbb199470327e27459365a7fd0d49dbf536d3dd"
+    },
+    "supabase/migrations/135_package_f_pos_customer_inventory_reads.sql": {
+      "sha256": "2f699cac9eb167c1a44838ee9cf72894c0f7d47846125f698c211e2592ee3b52"
+    },
+    "supabase/migrations/136_package_f_customer_debt_aging.sql": {
+      "sha256": "b324874e401ccde88084314841f9f75dc64562c40ecbfb780b177f531fc40e24"
+    },
+    "supabase/migrations/137_package_f_crm_financial_filters.sql": {
+      "sha256": "4fee1c389f81d204bd6e781a968d0c7388d398847c6eadcb1b40253c1a609794"
+    },
+    "supabase/migrations/138_package_f_customer_statement.sql": {
+      "sha256": "ab01b7a1e2ffdb57404df92a6eb637f6ca0278eaefd9c02b685d27fabe6ad6b3"
+    },
+    "supabase/migrations/139_project_order_push_webhook_url.sql": {
+      "sha256": "c193211c782e4375092eb93aa74655f67f3429832010b7e0036e1db18847f262"
+    },
+    "supabase/migrations/150_explicit_application_table_read_privileges.sql": {
+      "sha256": "747e19115c0ccd5ff050159555d429de5933078cb5f94e63c8df2b6656a4c5b0"
+    },
+    "supabase/migrations/151_explicit_application_realtime_publication.sql": {
+      "sha256": "fd7f12e6ff97fec97e35fd04ba43b6954cd2a841accd8c2bebd6186db6823f62"
+    },
+    "supabase/migrations/160_go_live_setup_foundation.sql": {
+      "sha256": "a0a0a33d51bbbba08fce4ce9c87da194149c4683a640d64b4daaf16404d864bb"
+    },
+    "supabase/migrations/161_go_live_customer_opening_balances.sql": {
+      "sha256": "3456be3c07331beba1538a6f693dbe566696433a98a0a371bf2c82774fa619a6"
+    },
+    "supabase/migrations/162_go_live_supplier_opening_balances.sql": {
+      "sha256": "e9b76071095c5371eb537f40abc44d9091bac6a80a72ddbe92d559f1cda9957b"
+    },
+    "supabase/migrations/163_go_live_unified_collection_and_supplier_opening_payment.sql": {
+      "sha256": "b3a51f8f9dff65c533c864352b49d85786c0e0591402a7053682165785994345"
+    },
+    "supabase/migrations/164_go_live_receivables_in_reports.sql": {
+      "sha256": "6a3d49d4c0b1e95fd128d2a817f3d3f744ea624c597e6055dd0ba8927d5a0e03"
+    },
+    "supabase/migrations/170_product_edit_optimistic_concurrency.sql": {
+      "sha256": "78caaea4e7474d9c106a93b211c1c0ab9ecf3f836c834f21c25d02ed74069c73"
+    },
+    "supabase/migrations/171_product_cost_preserved_on_edit.sql": {
+      "sha256": "cbda4e226de0752df522a23c2b6990ccd984d69d8d1a4e34f11ae10af1618781"
+    },
+    "supabase/migrations/180_owner_cash_withdrawals.sql": {
+      "sha256": "080a6f155a3d6cbac1799e438e4698e899eb7d58258c0904d030cc56d752b9e1"
+    },
+    "supabase/migrations/181_owner_withdrawal_readers.sql": {
+      "sha256": "e3448dd3161618fb3b6574944b84d56260b5eeaae214688135926bd29ce477f6"
+    },
+    "supabase/migrations/182_owner_withdrawal_monitoring.sql": {
+      "sha256": "b8e7db1af4ef9111aa7c0476d0c6373a38df37bc168c018261a69b22637bb70e"
+    },
+    "supabase/migrations/190_deferred_cheques_evidence.sql": {
+      "sha256": "a8a6e933d20c0778a8c50e59620b44e9f5ba2cee4b74bb1320bea44d2857d983"
+    },
+    "supabase/migrations/191_cheque_unified_customer_collection.sql": {
+      "sha256": "3ced28e07c73c05871e67e7a76f669718952bfb517b2a477b21346a3994c9978"
+    },
+    "supabase/migrations/192_cheque_compensation_receivable_readers.sql": {
+      "sha256": "2fafaa9471b4556db4a898ee7e94473fa4199f742ebc89621d0df3588a05a007"
+    },
+    "supabase/migrations/193_deferred_cheque_lifecycle.sql": {
+      "sha256": "15d9fe88b01e79c325bd8bb68e479e8860efbfb5623f2f337b48906f23473295"
+    },
+    "supabase/migrations/194_cheque_shift_and_integrity.sql": {
+      "sha256": "9867016ffa4b61b4abd65fb2bdf189d5e42f09df6a756c2293fff0f449bc5ee8"
+    },
+    "supabase/migrations/195_deferred_cheque_readers_and_alerts.sql": {
+      "sha256": "c448f4726fb574a687402923759783ce0f859f1e56ee29221d8b24e53f3f6d4b"
+    },
+    "supabase/migrations/196_go_live_opening_cheques.sql": {
+      "sha256": "e80f31be94b225c12faf55baed8fe5478d7d433b572954f7fb3066f2c5ed211d"
+    },
+    "supabase/migrations/197_canonical_home_customer_receivables.sql": {
+      "sha256": "3caabd6c454a22a607761b57fff66e9c41119c468d468f54c1de9197111e7722"
+    },
+    "supabase/migrations/198_cashier_customer_collection_access.sql": {
+      "sha256": "1f494dc9f95b6a4db5887f5ef675c4e792ff7cd7ef681f37588489f88c094bab"
+    },
+    "supabase/migrations/199_owner_warehouse_management.sql": {
+      "sha256": "a34808ee64c80744fd8973559207983391aca0f53025f8f2764be74e52c2fcf0"
+    },
+    "supabase/migrations/200_revoke_legacy_product_cost_writers.sql": {
+      "sha256": "39aa40c6ca2099316eeb0243eefd6efc1564d23c735164a2a51d68a339ba98eb"
+    },
+    "supabase/migrations/201_home_collections_and_damage_losses.sql": {
+      "sha256": "ec24cfadafbd1fff55f0fe1e66c9480a04f490b41185d1be970fa2dfa23ad9de"
+    },
+    "supabase/migrations/202_all_customer_collections_read_model.sql": {
+      "sha256": "c6fd0cc7e0d1d79d2fd1e157225cf773431af1bddbe3bffa58a9d2a927645e12"
+    },
+    "supabase/migrations/203_customer_payment_receipts_without_completion.sql": {
+      "sha256": "6b5b9b7904874cf7359785f6dea882413fd0430a2709a0de0db32290f6ea4f64"
+    },
+    "supabase/migrations/204_sales_history_read_model.sql": {
+      "sha256": "fbfcfad595e67dfff6799188d74c86b2b8f4b1a6a266e7017732f0a88864d424"
+    },
+    "supabase/migrations/205_product_receiving_display_read_models.sql": {
+      "sha256": "da0f405bdafde93a66d99bef5999d22014657d440f04b8eb887a15e51d32a3d6"
+    },
+    "supabase/migrations/206_cash_shift_movement_read_model.sql": {
+      "sha256": "2b421a8206c56b5797b470bef0831f64824c00cfa5c9775bf9b5fc2259ad9d8e"
+    },
+    "supabase/migrations/207_document_correction_preview_and_once.sql": {
+      "sha256": "7f6a856c35d06dc53417540cef6f5b680e2cd52ae63776f440f986de1c564b69"
+    },
+    "supabase/migrations/208_supplier_replacement_and_damage.sql": {
+      "sha256": "9741b8183dfe074650f136225c1de2efa578223cd3ade9ad2eaf4379dc23ff65"
+    },
+    "supabase/migrations/209_product_sale_methods.sql": {
+      "sha256": "15a81c0d43bb9377b676d76fddbefc83939d30ecc47817af207c6215f5bcfcd7"
+    },
+    "supabase/migrations/210_public_pos_receipt_commercial_lines.sql": {
+      "sha256": "fd808af46d8f4e999ba1ed183e08e9a3533d750675f7ca4bf120f9dc1891e10b"
+    },
+    "supabase/migrations/211_aftercare_supplier_disposition.sql": {
+      "sha256": "b3018e787225a5bebe30e2adec0241d562687886e144c1fe59822a748b9f26a5"
+    },
+    "supabase/migrations/212_trial_readable_cash_product_choices_damage_history.sql": {
+      "sha256": "6bdbc906b38b4fd29dd4c5115e040cb1954b1bdb5abe0ee3aedaae634b6ce619"
+    },
+    "supabase/migrations/213_handover_security_hardening.sql": {
+      "sha256": "9748c01d4d55703d8586901146420f5232534034993cf8f9ba049ba05ece2b48"
+    },
+    "supabase/migrations/214_handover_z_corrections.sql": {
+      "sha256": "4d00ea65cb3f1c916bf75f542748a37d56d8b87a3e96f67679fd69309bddc6b6"
+    },
+    "supabase/migrations/215_inspected_aftercare_and_supplier_credit.sql": {
+      "sha256": "2d20594d6112c206a23130c43ce555ecc5357921cc9e4058019d0446223a4e57"
+    },
+    "supabase/migrations/216_pos_partial_payments.sql": {
+      "sha256": "3a30798f8f9dd385dd915ed74b25440b8e40c6b46893541aca049a5b94e09462"
+    },
+    "supabase/migrations/217_owner_telegram_dispatch.sql": {
+      "sha256": "958a3fea66085b27f169c1d8a4d2c64b604aae3243001894f7888b263affcecb"
+    },
+    "supabase/migrations/219_home_financial_facts_narrow_projection.sql": {
+      "sha256": "63e1907c2f89f7ffb0de1cfa659a5e7c5fbe5a2bda2f192bcc731e70c63d070c"
+    },
+    "supabase/seed.sql": {
+      "sha256": "20918118fd57a03ab2bf6feaa1fcd2b440f5985ca1847802012563447dd61973"
+    }
+  }
+}

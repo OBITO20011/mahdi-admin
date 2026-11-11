@@ -1,3 +1,5 @@
+import{historical220Text}from'../scripts/testing/lite220-historical-test-view.mjs';
+import{historical220Inventory as inventory}from'../scripts/testing/lite220-historical-test-view.mjs';
 import{pathsBeforeStorefrontImages}from'../scripts/audit/source-before-storefront-images.mjs';
 import{pathsBeforeProductWorkbook}from'../scripts/audit/source-before-product-workbook.mjs';
 import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
@@ -18,7 +20,7 @@ import {savedReceiptLine} from '../src/features/receipts/saleReceipt';
 import {receiptLineDescription} from '../customer-web/src/receipts/commercialReceipt';
 import {trialDItems} from '../e2e/trial-d-receipt.fixture';
 import {trialTAPins,sourceBeforeTrialTA} from '../scripts/audit/source-before-trial-ta.mjs';
-import {inventory} from '../scripts/audit/table-access-inventory.mjs';
+
 import {verifyProbeCoverage} from '../scripts/audit/table-access-probes.mjs';
 const read=(file:string)=>historicalProductWorkbookSource(sourceBeforeRehearsal219,file,readFileSync(file,'utf8').replaceAll('\r\n','\n'))!,hash=(s:string)=>createHash('sha256').update(s).digest('hex');
 
@@ -37,5 +39,6 @@ test('T-A exact inverse retains original historical bytes;DB,services and price 
 });
 
 test('T-A current actual SDK evidence binds all new presentation sources without rewriting frozen214 reference',async()=>{
- const current=await inventory(),state=JSON.parse(readFileSync('docs/agent/project-state.json','utf8')),proof=JSON.parse(readFileSync(state.currentTableReadinessEvidence,'utf8'));assert.equal(state.migrationCeiling,219);assert.equal(proof.migrationCeiling,219);assert.equal(proof.managedAccess,false);assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);assert.deepEqual(proof.sourceHashes,current.sources);assert.deepEqual(proof.coverage,verifyProbeCoverage(current,proof.results));
+ const current=await inventory({projectSource:sourceBeforeSalesOnlyPhase3}),state=JSON.parse(historical220Text('docs/agent/project-state.json',readFileSync('docs/agent/project-state.json','utf8'))),proof=JSON.parse(readFileSync(state.currentTableReadinessEvidence,'utf8'));assert.equal(state.migrationCeiling,219);assert.equal(proof.migrationCeiling,219);assert.equal(proof.managedAccess,false);assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);assert.deepEqual(proof.sourceHashes,current.sources);assert.deepEqual(proof.coverage,verifyProbeCoverage(current,proof.results));
 });
+import {sourceBeforeSalesOnlyPhase3} from '../scripts/audit/source-before-sales-only-phase3.mjs';

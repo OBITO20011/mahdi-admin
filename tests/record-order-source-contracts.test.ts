@@ -1,3 +1,4 @@
+import{historical220Text}from'../scripts/testing/lite220-historical-test-view.mjs';
 import {sourceBeforePgNetSequenceState} from '../scripts/audit/source-before-pg-net-sequence-state.mjs';
 import{pathsBeforeStorefrontImages}from'../scripts/audit/source-before-storefront-images.mjs';
 import{sourceBeforeProductScale}from'../scripts/audit/source-before-product-scale.mjs';
@@ -9,7 +10,7 @@ import {createHash} from 'node:crypto';
 import {sourceBeforeRecordOrder,recordOrderPins,baseline} from '../scripts/audit/source-before-record-order.mjs';
 import {parseSource} from '../scripts/audit/table-access-inventory.mjs';
 import {parseServices} from '../scripts/audit/service-access-inventory.mjs';
-const read=(file:string)=>readFileSync(file,'utf8');
+const read=(file:string)=>historical220Text(file,readFileSync(file,'utf8'));
 const hash=(s:string)=>createHash('sha256').update(s.replaceAll('\r\n','\n')).digest('hex');
 test('record presentation inverse binds full delivered bytes, exposes any unknown change and preserves all RPC/table content',()=>{
  for(const [file,pin] of Object.entries(recordOrderPins) as [string,{before:string|null;after:string}][]){

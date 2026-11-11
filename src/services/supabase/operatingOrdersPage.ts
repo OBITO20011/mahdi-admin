@@ -1,0 +1,12 @@
+import {isSupabaseConfigured,supabase} from '../../lib/supabase';
+type Response={data:unknown;error:{code?:string;message?:string}|null;status?:number};
+export type OrdersPageRpc=(name:'lite1_operational_orders_page2'|'get_operational_orders_page',args:Record<string,unknown>)=>PromiseLike<Response>;
+export async function readOperatingOrdersPageWithRpc(execute:OrdersPageRpc,args:Record<string,unknown>){const r=await execute('lite1_operational_orders_page2',args);return r.data==null&&r.status===404&&r.error?.code==='PGRST202'&&r.error.message?.includes('lite1_operational_orders_page2')?execute('get_operational_orders_page',args):r;}
+export async function readOperatingOrdersPage(args:Record<string,unknown>){const client=supabase;if(!isSupabaseConfigured||!client)throw Error('ORDER_PAGE_UNVERIFIED');return readOperatingOrdersPageWithRpc((name,input)=>name==='lite1_operational_orders_page2'?client.rpc('lite1_operational_orders_page2',input):client.rpc('get_operational_orders_page',input),args);}
+interface LiteAmount {orderId:string;amountPaidInMinorUnits:number;amountDueInMinorUnits:number;customerName:string}
+export function parseLiteOrderAmounts(value:unknown,orderIds:readonly string[]):ReadonlyMap<string,LiteAmount>{
+ if(!value||typeof value!=='object'||Array.isArray(value))throw Error('ORDER_PAGE_UNVERIFIED');const row=value as Record<string,unknown>;if(row.contractVersion===undefined)return new Map();
+ if(row.contractVersion!=='lite2-orders-page-v1'||!row.summary||typeof row.summary!=='object'||Array.isArray(row.summary)||['review_count','active_count','due_in_minor_units'].some(k=>!Number.isSafeInteger((row.summary as Record<string,unknown>)[k])||Number((row.summary as Record<string,unknown>)[k])<0)||!Array.isArray(row.liteAmounts)||row.liteAmounts.length>orderIds.length)throw Error('ORDER_PAGE_UNVERIFIED');const output=new Map<string,LiteAmount>();
+ for(const v of row.liteAmounts){if(!v||typeof v!=='object'||Array.isArray(v)||typeof v.orderId!=='string'||!orderIds.includes(v.orderId)||output.has(v.orderId)||!Number.isSafeInteger(v.amountPaidInMinorUnits)||v.amountPaidInMinorUnits<0||!Number.isSafeInteger(v.amountDueInMinorUnits)||v.amountDueInMinorUnits<0||typeof v.customerName!=='string'||!v.customerName.trim()||v.customerName.length>1000)throw Error('ORDER_PAGE_UNVERIFIED');output.set(v.orderId,{orderId:v.orderId,amountPaidInMinorUnits:v.amountPaidInMinorUnits,amountDueInMinorUnits:v.amountDueInMinorUnits,customerName:v.customerName});}
+ return output;
+}

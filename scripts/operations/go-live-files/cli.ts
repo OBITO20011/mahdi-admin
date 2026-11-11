@@ -5,7 +5,8 @@ import {pathToFileURL} from 'node:url';
 import {checkFiles,arabicReport,INPUT_FILES,type FileInput,type Kind,type ImageInput} from './check';
 
 export async function run(argv:string[]) {
- const options=new Map<string,string>();for(let i=0;i<argv.length;i+=2){if(!['--folder','--reference','--images','--output','--no-opening-cheques'].includes(argv[i])||!argv[i+1]||options.has(argv[i]))throw new Error('CHECK_INPUT_OPTIONS_INVALID');options.set(argv[i],argv[i+1]);}
+ const options=new Map<string,string>();for(let i=0;i<argv.length;i+=2){if(!['--folder','--reference','--images','--output','--no-opening-cheques','--operating-mode'].includes(argv[i])||!argv[i+1]||options.has(argv[i]))throw new Error('CHECK_INPUT_OPTIONS_INVALID');options.set(argv[i],argv[i+1]);}
+ const mode=options.get('--operating-mode')??'full';if(mode!=='full'&&mode!=='sales-only')throw Error('CHECK_MODE_INVALID');
  const folder=path.resolve(options.get('--folder')??'');if(!options.has('--folder'))throw new Error('CHECK_FOLDER_REQUIRED');
  const inputs:Partial<Record<Kind,FileInput>>={};
  for(const kind of Object.keys(INPUT_FILES) as Kind[]){const file=path.join(folder,INPUT_FILES[kind]);try{const info=await lstat(file);if(!info.isFile()||info.isSymbolicLink()||info.size>5*1024**2)continue;inputs[kind]={name:INPUT_FILES[kind],bytes:await readFile(file)};}catch{/* Missing or unreadable file is reported without its content. */}}
@@ -13,7 +14,7 @@ export async function run(argv:string[]) {
  try{const s=await stat(ref);if(s.isFile()&&s.size<=5*1024**2)reference=JSON.parse(await readFile(ref,'utf8'));}catch{/* Incomplete reference fails closed in report. */}
  let images:ImageInput[]|undefined;
  if(options.has('--images')){images=[];const imageRoot=path.resolve(options.get('--images')!);const dirs=[imageRoot];while(dirs.length){const dir=dirs.pop()!;const entries=await readdir(dir,{withFileTypes:true});for(const e of entries){const full=path.join(dir,e.name);if(e.isSymbolicLink())throw new Error('CHECK_IMAGE_LINK_REFUSED');if(e.isDirectory())dirs.push(full);else if(e.isFile()){images.push({name:e.name,size:(await stat(full)).size});if(images.length>500)throw new Error('CHECK_IMAGE_BATCH_OVER_500');}}}}
- const report=await checkFiles(inputs,reference,images,undefined,{noOpeningCheques:options.get('--no-opening-cheques')==='true'});
+ const report=await checkFiles(inputs,reference,images,undefined,{noOpeningCheques:options.get('--no-opening-cheques')==='true',operatingMode:mode});
  const output=path.resolve(options.get('--output')??path.join(folder,'تقرير-الفحص-'+new Date().toISOString().replace(/[:.]/gu,'-')));
  // Never write a report into a checkout; it may contain owner financial totals.
  let parent=output;while(true){try{await lstat(path.join(parent,'.git'));throw new Error('CHECK_REPORT_IN_REPOSITORY_REFUSED');}catch(e){if(e instanceof Error&&e.message==='CHECK_REPORT_IN_REPOSITORY_REFUSED')throw e;}const next=path.dirname(parent);if(next===parent)break;parent=next;}

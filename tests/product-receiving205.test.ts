@@ -1,3 +1,4 @@
+import{historical220Text}from'../scripts/testing/lite220-historical-test-view.mjs';
 import{historicalProductWorkbookInventory}from'../scripts/audit/source-before-product-workbook.mjs';
 import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import assert from 'node:assert/strict';
@@ -11,7 +12,7 @@ import {isContentUnitOption} from '../src/utils/unitLabels';
 import {receiving205Pins,sourceBeforeProductReceiving205,inventoryBeforeProductReceiving205} from '../scripts/audit/source-before-product-receiving205.mjs';
 import {assert205History} from '../scripts/operations/frankfurt-owner-upgrade205.mjs';
 import {verifyProbeCoverage} from '../scripts/audit/table-access-probes.mjs';
-const read=(f:string)=>readFileSync(f,'utf8').replaceAll('\r\n','\n');
+const read=(f:string)=>historical220Text(f,readFileSync(f,'utf8').replaceAll('\r\n','\n'));
 const quote:LastPurchaseQuote={receiptId:'receipt',receiptNumber:'GRN-205',source:'direct',receivedAt:'2026-10-20T08:00:00Z',supplierId:null,supplierName:null,grossInMinorUnits:100000,baseQuantity:200,baseUnitName:'باكيت'};
 test('old saved packet packaging displays parcels;physical/base quantities and no-package basis stay exact',()=>{
   const display=formatWholesaleInventory(203,10,'باكيت','باكيت');assert.equal(display.cartonFormatted,'20 طرد + 3 باكيتات');assert.equal(display.cartons,20);assert.equal(display.remainingPieces,3);assert.equal(display.totalPiecesFormatted,'(203 باكيت)');

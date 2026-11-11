@@ -1,3 +1,5 @@
+import type {OperatingMode} from '../../services/supabase/operatingMode.service';
+import {allowsOperatingDestination} from '../../features/operatingMode/navigationPolicy';
 import {installBrowserScreenHistory,screenHistoryBusy} from '../../utils/screenHistory';
 import {canUseNavigationAction} from '../../features/more/adminNavigation.config';
 import {useCallback, useEffect, useId, useLayoutEffect, useRef, useState, type ReactNode} from 'react';
@@ -11,7 +13,7 @@ import {NavigationDrawerContext,type NavigationDrawerState} from './navigationDr
 import {SideNav} from './SideNav';
 import './navigationDrawer.css';
 
-function MobileNavigationDrawer({onClose}: {onClose: () => void}) {
+function MobileNavigationDrawer({onClose,operatingMode}: {onClose: () => void;operatingMode:OperatingMode}) {
   const title = useId();
   const panel = useDialogFocus(true, onClose, false, true);
   const backdrop=useRef<HTMLDivElement>(null);
@@ -35,14 +37,14 @@ function MobileNavigationDrawer({onClose}: {onClose: () => void}) {
             <X className="h-5 w-5" aria-hidden="true"/>
           </UiButton>
         </div>
-        <SideNav mobile/>
+        <SideNav mobile operatingMode={operatingMode}/>
       </div>
     </div>, document.body,
   );
 }
 
 /** Lives inside IPhoneContainer's unlocked children; locking unmounts this state. */
-export function NavigationShell({children}: {children: ReactNode}) {
+export function NavigationShell({children,operatingMode='full'}: {children: ReactNode;operatingMode?:OperatingMode}) {
   const [isOpen, setOpen] = useState(false);
   const [entryIntent,setIntent]=useState<NavigationDrawerState['entryIntent']>(null);
   const intentRequest=useRef(0);
@@ -61,8 +63,8 @@ export function NavigationShell({children}: {children: ReactNode}) {
   useLayoutEffect(() => installBrowserScreenHistory(
     () => storeEngine.getState().activeTab,
     tab => storeEngine.setActiveTab(tab),
-    tab => canUseNavigationAction({type:'tab',destination:tab},roleName,roles),
-  ), [identity, roleName, roles]);
+    tab => canUseNavigationAction({type:'tab',destination:tab},roleName,roles)&&allowsOperatingDestination('tab',tab,operatingMode),
+  ), [identity, roleName, roles,operatingMode]);
 
   useEffect(() => {close();}, [activeTab, currentModal, identity, close]);
   useEffect(()=>{setIntent(null);},[identity]);
@@ -75,6 +77,6 @@ export function NavigationShell({children}: {children: ReactNode}) {
 
   return <NavigationDrawerContext.Provider value={{isOpen, open, close,entryIntent,setEntryIntent}}>
     {children}
-    {isOpen && <MobileNavigationDrawer onClose={close}/>}
+    {isOpen && <MobileNavigationDrawer onClose={close} operatingMode={operatingMode}/>}
   </NavigationDrawerContext.Provider>;
 }

@@ -1,3 +1,4 @@
+import {sourceBeforeSalesOnlyPhase3} from './source-before-sales-only-phase3.mjs';
 import {restoreSentrySourceHashes,sourceBeforeSentry,pathsBeforeSentry} from './source-before-sentry.mjs';
 // Exact inverse for frozen historical proofs only. Actual217 SDK inventory,
 // role execution and Edge runtime always inspect the current source directly.
@@ -18,7 +19,8 @@ export function restoreOwnerTelegram217SourceHashes(sources){return restoreSentr
 });}
 export function pathsBeforeOwnerTelegram217(files,reference){return pathsBeforeSentry(files,reference).filter(file=>{
  const pin=ownerTelegram217Pins.entries[file];if(!pin)return true;
- const raw=readFileSync(new URL('../../'+file,import.meta.url),'utf8').replaceAll('\r\n','\n');assert.equal(hash(raw),pin.after,'OWNER217_UNREVIEWED_PATH:'+file);
+ const current=readFileSync(new URL('../../'+file,import.meta.url),'utf8').replaceAll('\r\n','\n');
+ const raw=sourceBeforeSalesOnlyPhase3(file,current);assert.ok(raw!==null,'OWNER217_UNREVIEWED_PATH:'+file);assert.equal(hash(raw),pin.after,'OWNER217_UNREVIEWED_PATH:'+file);
  if(!reference||pin.beforeText===null)return false;
  let historical=null;try{historical=execFileSync('git',['show',reference+':'+file],{encoding:'utf8',windowsHide:true,stdio:['ignore','pipe','pipe'],maxBuffer:32*1024**2}).replaceAll('\r\n','\n');}catch{/* Absent at that exact historical Git reference. */}
  return historical!==pin.beforeText;

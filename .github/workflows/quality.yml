@@ -677,7 +677,7 @@ jobs:
 
       - name: Current219 strict SDK reference upgrade reset and resume
         if: matrix.suite == 'home219-operations'
-        run: node scripts/testing/run-home219-operations-gates.mjs
+        run: node scripts/testing/run-home219-operations-gates.mjs --sales-only-phase2
 
       - name: Current219 full-scale original and optimized performance
         if: matrix.suite == 'home-performance219'

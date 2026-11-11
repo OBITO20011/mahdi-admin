@@ -1,3 +1,4 @@
+import {fetchOperatingMode} from './operatingMode.service';
 /** Existing219 writers only. No service key,SQL endpoint or alternate privileges. */
 import {isSupabaseConfigured,supabase,sanitizedSupabaseUrl}from'../../lib/supabase';
 import {skuKey,type WorkbookProduct,type ProductWorkbookPlan}from'../../features/goLive/productWorkbook';
@@ -54,7 +55,8 @@ export function loadProductImportAttempt(storage:Storage,key:string):ProductImpo
 }
 const hash=async(value:string)=>[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(value)))].map(v=>v.toString(16).padStart(2,'0')).join('');
 async function inspectContext(plan:ProductWorkbookPlan,actor:string,storage:Storage){
- assert(!plan.errors.length&&plan.products.length>0,'PRODUCT_IMPORT_PLAN_INVALID');const context=await productImportContext(actor),key=productImportStorageKey(actor,context.project),planHash=await hash(JSON.stringify(plan.products));
+ assert(!plan.errors.length&&plan.products.length>0,'PRODUCT_IMPORT_PLAN_INVALID');const context=await productImportContext(actor),key=productImportStorageKey(actor,context.project),planHash=await hash(JSON.stringify(plan.operatingMode==='sales-only'?{operatingMode:'sales-only',products:plan.products}:plan.products));
+ if(plan.operatingMode==='sales-only'){const mode=await fetchOperatingMode();assert(mode.mode==='sales-only'&&mode.installed,'PRODUCT_IMPORT_MODE_CHANGED');}
  const attempt=loadProductImportAttempt(storage,key);if(attempt&&(attempt.planHash!==planHash||attempt.actor!==actor||attempt.project!==context.project))throw Error('PRODUCT_IMPORT_ATTEMPT_MISMATCH');
  const reference=await fetchProductWorkbookReference();
  // Only exact IDs belonging to this already-bound attempt may be excluded from
@@ -71,7 +73,8 @@ async function saveProductWorkbookUnlocked(plan:ProductWorkbookPlan,actor:string
  const assertFamily=(row:WorkbookProduct,current:ProductImportSnapshot)=>{compare(current.metadata!,wanted(row,reference),core);assert(current.barcode===row.data.barcode,'PRODUCT_IMPORT_CONCURRENT_CHANGE');assert(current.flavors.length===row.flavors.length);for(const f of row.flavors)assert(current.flavors.filter(c=>c.name===f.name).length===1);};
  const assertFinal=(row:WorkbookProduct,current:ProductImportSnapshot)=>{const target=wanted(row,reference);compare(current.metadata!,target);assertFamily(row,current);assert(Boolean(current.metadata!.is_flavor_master)===Boolean(row.flavors.length));for(const f of row.flavors){const c=unique(current.flavors.filter(c=>c.name===f.name));compare(c.metadata!,{...target,sku:f.sku,barcode:f.barcode||null,name_ar:row.data.name_ar+' - '+f.name},Object.keys(target));assert(str(c.metadata!.flavor_master_product_id)===current.id);}};
  return resumeProductImport(plan.products,{...context,planHash},{load:()=>loadProductImportAttempt(storage,key),persist:a=>storage.setItem(key,JSON.stringify(a)),findTemporary,read:readProductImportSnapshot,progress,assertCreated:assertFamily,
-  create:async(row,temp,operationKey)=>{const p=row.data,w=wanted(row,reference);let data:unknown;
+  create:async(row,temp,operationKey)=>{
+   if(plan.operatingMode==='sales-only'){const mode=await fetchOperatingMode();assert(mode.mode==='sales-only'&&mode.installed,'PRODUCT_IMPORT_MODE_CHANGED');}const p=row.data,w=wanted(row,reference);let data:unknown;
    if(row.flavors.length){const warehouse=row.warehouse?unique(reference.warehouses!.filter(x=>x.active&&skuKey(x.code)===skuKey(row.warehouse))).id:reference.warehouses?.find(w=>w.active)?.id;assert(warehouse,'PRODUCT_IMPORT_WAREHOUSE_REQUIRED');
     data=await result(db().rpc('create_product_family_with_flavors_v2',{p_sku:temp,p_barcode:null,p_name_ar:w.name_ar,p_description:w.description,p_category_id:w.category_id,p_brand_id:w.brand_id,p_unit_id:w.unit_id,p_purchase_unit_id:w.purchase_unit_id,p_units_per_purchase_unit:w.units_per_purchase_unit,p_default_purchase_price_in_minor_units:w.default_purchase_price_in_minor_units,p_sale_unit_id:w.sale_unit_id,p_units_per_sale_unit:w.units_per_sale_unit,p_default_sale_price_in_minor_units:w.default_sale_price_in_minor_units,p_cost_price_in_minor_units:w.cost_price_in_minor_units,p_min_stock_level:w.min_stock_level,p_max_stock_level:w.max_stock_level,p_warehouse_id:warehouse,p_image_url:null,p_flavors:row.flavors.map(f=>({nameAr:f.name,openingSalePackages:0,imageUrl:null})),p_parcel_only:w.parcel_only}));
    }else{
@@ -81,7 +84,7 @@ async function saveProductWorkbookUnlocked(plan:ProductWorkbookPlan,actor:string
     const unitCode=(id:unknown)=>unique(reference.units.filter(u=>u.id===id)).code;
     data=await result(db().rpc('import_go_live_products_v1',{p_idempotency_key:operationKey,p_rows:[{...p,sku:temp,category_name:category.name,base_unit_name:unitCode(w.unit_id),purchase_unit_name:unitCode(w.purchase_unit_id),sale_unit_name:unitCode(w.sale_unit_id)}],p_dry_run:false}));
    }assert(record(data).success===true);},
-  finalize:async(row,entry:ProductImportEntry)=>{let current=await readProductImportSnapshot(entry.masterId!);assertFamily(row,current);assert(current.sku===entry.temporarySku||current.sku===row.data.sku);
+  finalize:async(row,entry:ProductImportEntry)=>{if(plan.operatingMode==='sales-only'){const mode=await fetchOperatingMode();assert(mode.mode==='sales-only'&&mode.installed,'PRODUCT_IMPORT_MODE_CHANGED');}let current=await readProductImportSnapshot(entry.masterId!);assertFamily(row,current);assert(current.sku===entry.temporarySku||current.sku===row.data.sku);
    const target=wanted(row,reference);let final=false;try{compare(current.metadata!,target);final=true;}catch{/* Exact initial metadata may still need the reviewed enrichment phase. */}
    if(!final){const m=current.metadata!;for(const k of ['brand_id','description','max_stock_level'])assert(str(m[k])===''||str(m[k])===str(target[k]),'PRODUCT_IMPORT_CONCURRENT_CHANGE');await write(m,target,target.parcel_only as boolean);}
    current=await readProductImportSnapshot(entry.masterId!);assertFamily(row,current);
@@ -90,6 +93,7 @@ async function saveProductWorkbookUnlocked(plan:ProductWorkbookPlan,actor:string
 }
 export const productImportErrorText=(error:unknown)=>{
  const code=error instanceof Error?error.message:'';
+ if(code==='PRODUCT_IMPORT_MODE_CHANGED')return 'تغيّر وضع التشغيل أو تعذر التحقق منه. لا تبدأ محاولة جديدة؛ أعد قراءة الوضع ثم استأنف الملف نفسه (MODE-02).';
  if(code==='PRODUCT_IMPORT_BUSY')return 'هناك استيراد جارٍ في نافذة أخرى. انتظر اكتماله ثم استأنف الملف نفسه (IMP-05).';
  if(code==='PRODUCT_IMPORT_LOCK_REQUIRED')return 'افتح آخر إصدار من Chrome أو Safari للاستيراد الآمن، ومن جهاز ومتصفح واحد فقط (IMP-05).';
  if(code==='PRODUCT_IMPORT_ATTEMPT_MISMATCH')return 'توجد محاولة محفوظة لملف آخر. اختر الملف نفسه لاستئنافها؛ لا تبدأ استيراداً جديداً.';

@@ -40,19 +40,20 @@ for(const environment of ['production','staging','prelaunch-trial'] as const)tes
   await copyFile('scripts/environments/environment.mjs',path.join(dir,'scripts/environments/environment.mjs'));
   await copyFile('scripts/environments/prelaunch-trial-control.mjs',path.join(dir,'scripts/environments/prelaunch-trial-control.mjs'));
   await copyFile('customer-web/scripts/generate-seo-pages.mjs',path.join(customer,'scripts/generate-seo-pages.mjs'));
+  await mkdir(path.join(customer,'src/utils'),{recursive:true});await copyFile('customer-web/src/utils/operatingRead.ts',path.join(customer,'src/utils/operatingRead.ts'));
   const manifest=path.join(customer,'dist/nawasrah-environment.json');await writeFile(manifest,JSON.stringify(selected));
   await writeFile(path.join(customer,'dist/index.html'),'<html><head><title>shell</title></head><body></body></html>');
   const preload=path.join(dir,'guard.mjs'),calls=path.join(dir,'calls.json');
   await writeFile(preload,`import assert from 'node:assert/strict';import{writeFileSync}from'node:fs';
 const calls=[];globalThis.fetch=async(target,init)=>{
- assert.ok(['${selected.url}/rest/v1/rpc/get_public_storefront_catalog_page','${selected.url}/rest/v1/rpc/get_public_storefront_offers'].includes(target),'NETWORK_BLOCKED:'+target);
+ assert.ok(['${selected.url}/rest/v1/rpc/lite1_catalog_page2','${selected.url}/rest/v1/rpc/get_public_storefront_offers'].includes(target),'NETWORK_BLOCKED:'+target);
  assert.equal(init.method,'POST');assert.equal(init.headers.apikey,'${selected.key}');assert.equal(init.headers.Authorization,'Bearer ${selected.key}');
  calls.push({target,body:JSON.parse(init.body)});writeFileSync(${JSON.stringify(calls)},JSON.stringify(calls));
  return new Response(JSON.stringify(target.endsWith('_offers')?[]:{items:[{id:'proof',sku:'proof',nameAr:'دليل',salePackagePriceInMinorUnits:1000,isAvailable:true}],categories:[],total:1}),{status:200});};`);
   const env={...process.env};delete env.NAWASRAH_SEO_AUDIT_API_URL;delete env.NAWASRAH_SEO_AUDIT_API_KEY;
   const run=()=>promisify(execFile)(process.execPath,['--import',pathToFileURL(preload).href,path.join(customer,'scripts/generate-seo-pages.mjs')],{cwd:customer,env,windowsHide:true});
   await run();const seen=JSON.parse(await readFile(calls,'utf8'));
-  assert.deepEqual(seen.map((c:{target:string})=>c.target),[selected.url+'/rest/v1/rpc/get_public_storefront_catalog_page',selected.url+'/rest/v1/rpc/get_public_storefront_offers']);
+  assert.deepEqual(seen.map((c:{target:string})=>c.target),[selected.url+'/rest/v1/rpc/lite1_catalog_page2',selected.url+'/rest/v1/rpc/get_public_storefront_offers']);
   assert.deepEqual(seen[0].body,{p_limit:48,p_offset:0,p_category_id:null,p_search:null,p_availability:'available',p_sort:'recommended',p_brand_id:null,p_sale_unit_id:null,p_product_ids:null});
   assert.deepEqual(seen[1].body,{});assert.ok((await readFile(path.join(customer,'dist/product/proof/index.html'),'utf8')).includes(selected.storeOrigin+'/product/proof/'));
   await writeFile(manifest,JSON.stringify({...selected,url:'https://wrong.invalid'}));

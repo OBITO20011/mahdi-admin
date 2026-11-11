@@ -1,7 +1,8 @@
 export function getRemainingProductPackages(
-  availablePackages: number,
+  availablePackages: number|null,
   cartQuantity: number
-): number {
+): number|null {
+  if(availablePackages===null)return null;
   return Math.max(
     0,
     Math.floor(availablePackages) - Math.max(0, Math.floor(cartQuantity))
@@ -10,7 +11,7 @@ export function getRemainingProductPackages(
 
 export function clampProductSelectionQuantity(
   requestedQuantity: number,
-  availablePackages: number,
+  availablePackages: number|null,
   cartQuantity: number
 ): number {
   const remaining = getRemainingProductPackages(
@@ -18,6 +19,7 @@ export function clampProductSelectionQuantity(
     cartQuantity
   );
   if (remaining === 0) return 0;
+  if(remaining===null)return Math.max(1,Math.floor(requestedQuantity||1));
 
   return Math.min(
     remaining,

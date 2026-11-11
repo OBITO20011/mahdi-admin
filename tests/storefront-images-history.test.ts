@@ -21,7 +21,7 @@ test('image query projection preserves the actual unchanged read and rejects arg
 
 test('image path projection cannot hide an unrelated file and RPC relocation preserves exact original content',()=>{
  const ref='d102074583c7369502954eaf8ea70d2595f6a19c',file='src/services/supabase/product-images.service.ts';
- assert.deepEqual(pathsBeforeStorefrontImages(['src/services/supabase/orders.service.ts'],ref),['src/services/supabase/orders.service.ts']);
+ assert.deepEqual(pathsBeforeStorefrontImages(['src/unapproved-history-probe.ts'],ref),['src/unapproved-history-probe.ts']);
  assert.deepEqual(pathsBeforeStorefrontImages([file],ref),[]);
  const raw=readFileSync(file,'utf8'),current=parseServices(file,raw).rpc,old=parseServices(file,sourceBeforeStorefrontImages(file,raw)!).rpc;
  assert.deepEqual(current.map(entry=>historicalStorefrontImagesRpcSite(entry.id,parseServices)),old.map(entry=>entry.id));

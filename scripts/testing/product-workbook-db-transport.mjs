@@ -1,3 +1,4 @@
+import{assertActiveRehearsal220}from'../backup/complete-backup.mjs';
 // Real public RPC/SELECT transport for the fixed isolated product-template runner.
 // No hosted URL/client,AuthAdmin,service_role or arbitrary SQL endpoint.
 import assert from 'node:assert/strict';import vm from 'node:vm';import path from 'node:path';import{build}from'esbuild';import{webcrypto}from'node:crypto';
@@ -5,12 +6,15 @@ const root=path.resolve(import.meta.dirname,'../..');
 const functions=new Set(['get_go_live_setup_status_v1','import_go_live_products_v1','create_product_family_with_flavors_v2','update_product_master_v5','update_product_flavor_v2']);
 const tables=new Set(['products','categories','units','brands','warehouses']);
 const q=v=>v===null?'NULL':"'"+String(v).replaceAll("'","''")+"'";
-export async function productWorkbookDbTransport({json,auth,actor,container}){
- assert.equal(container,'supabase_db_nawasrah-product-template-test');
+export async function productWorkbookDbTransport({json,auth,actor,container,rehearsalContext}){
+ if(rehearsalContext){assertActiveRehearsal220(rehearsalContext);assert.equal(container,rehearsalContext.containerName);}
+ const lite=['supabase_db_nawasrah-sales-lite2-epoch-test','supabase_db_nawasrah-sales-lite3-epoch-test','supabase_db_nawasrah-sales-lite3-rehearsal-test'].includes(container)||Boolean(rehearsalContext);
+ assert.ok(lite||container==='supabase_db_nawasrah-product-template-test','FIXED_OWNED_PRODUCT_DATABASE_REQUIRED');
+ const allowedFunctions=lite?new Set([...functions,'lite1_operating_mode']):functions;
  let loseCreate=false,loseWrite=false,loseBarcode=false;const calls=[];
- const types=await json("SELECT jsonb_object_agg(p.proname,(SELECT jsonb_object_agg(p.proargnames[g],format_type(p.proargtypes[g-1],NULL)) FROM generate_series(1,p.pronargs)g)) FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace WHERE n.nspname='public' AND p.proname IN('get_go_live_setup_status_v1','import_go_live_products_v1','create_product_family_with_flavors_v2','update_product_master_v5','update_product_flavor_v2');");
+ const types=await json("SELECT jsonb_object_agg(p.proname,(SELECT jsonb_object_agg(p.proargnames[g],format_type(p.proargtypes[g-1],NULL)) FROM generate_series(1,p.pronargs)g)) FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace WHERE n.nspname='public' AND p.proname IN('get_go_live_setup_status_v1','import_go_live_products_v1','create_product_family_with_flavors_v2','update_product_master_v5','update_product_flavor_v2','lite1_operating_mode');");
  const db={auth:{getUser:async()=>({data:{user:{id:actor}},error:null})},rpc:async(name,args={})=>{
-  assert.ok(functions.has(name));const signature=types[name]??{};const parameters=Object.entries(args).map(([key,value])=>{assert.ok(Object.hasOwn(signature,key),key);const type=signature[key];assert.match(type,/^(?:text|jsonb|boolean|uuid|integer|bigint|timestamp with time zone)$/u);return key+':='+q(type==='jsonb'?JSON.stringify(value):value)+'::'+type;}).join(',');
+  assert.ok(allowedFunctions.has(name));const signature=types[name]??{};const parameters=Object.entries(args).map(([key,value])=>{assert.ok(Object.hasOwn(signature,key),key);const type=signature[key];assert.match(type,/^(?:text|jsonb|boolean|uuid|integer|bigint|timestamp with time zone)$/u);return key+':='+q(type==='jsonb'?JSON.stringify(value):value)+'::'+type;}).join(',');
   try{const data=await json(auth('SELECT public.'+name+'('+parameters+');'));calls.push({name,success:true});if((loseCreate&&name==='create_product_family_with_flavors_v2')||(loseWrite&&name==='update_product_master_v5'&&args.p_parcel_only===null)||(loseBarcode&&name==='update_product_flavor_v2')){loseCreate=false;loseWrite=false;loseBarcode=false;return{data:null,error:{code:'LOCAL_LOST_RESPONSE'}};}return{data,error:null};}catch(error){calls.push({name,success:false});return{data:null,error:{code:'LOCAL_RPC_REFUSED',message:error.message}};}
  },from:table=>{
   assert.ok(tables.has(table));let projection='id',filters=[],from=0,limit=500,single=false;

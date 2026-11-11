@@ -4,6 +4,34 @@ const adminBaseUrl = process.env.ADMIN_BASE_URL ?? 'http://127.0.0.1:4173';
 const actorId = '22222222-2222-4222-8222-222222222222';
 const orderId = '11111111-1111-4111-8111-111111111111';
 
+test('lite delivery survives reload with exact captured mode/key/body;one committed delivery and explicit non-stock cancellation',async({page})=>{
+ await page.route('**/*',route=>{const url=new URL(route.request().url());if(!['127.0.0.1','localhost'].includes(url.hostname))return route.abort();if(url.pathname==='/')return route.fulfill({contentType:'text/html',body:'<html></html>'});return route.continue();});
+ await page.goto(adminBaseUrl);await page.evaluate(()=>localStorage.clear());
+ const execute=async()=>page.evaluate(async({actorId:actor,orderId:order})=>{
+  // @ts-expect-error Isolated Vite module URL.
+  const lifecycle=await import('/src/services/supabase/adminCustomerV2Lifecycle.ts');
+  const request={accountingMode:'sales-only',paymentMethod:'cash',amountCollectedInMinorUnits:1000,deliveryFeeInMinorUnits:0,referenceNumber:null,notes:null};
+  const client={auth:{getUser:async()=>({data:{user:{id:actor}},error:null})},rpc:async(name:string,args:Record<string,unknown>)=>{
+   const sent=JSON.parse(localStorage.getItem('lite-test-sent')??'[]');sent.push({name,args});localStorage.setItem('lite-test-sent',JSON.stringify(sent));
+   if(sent.length===1){localStorage.setItem('lite-test-commits','1');return {data:null,error:{message:'network timeout'}};}
+   return {data:{success:true,accountingTracked:false,order_id:order,operation_id:'44444444-4444-4444-8444-444444444444',status:'completed',payment_method:'cash',payment_status:'paid',total_in_minor_units:1000,amount_paid_in_minor_units:1000,remaining_in_minor_units:0,customer_payment_number:null},error:null};
+  }};
+  return lifecycle.runCustomerV2AdminAction(client as never,order,'complete',request);
+ },{actorId,orderId});
+ expect((await execute()).error).toBeTruthy();await page.reload();expect((await execute()).data.success).toBe(true);
+ const evidence=await page.evaluate(()=>({sent:JSON.parse(localStorage.getItem('lite-test-sent')!),commits:localStorage.getItem('lite-test-commits')}));
+ expect(evidence.sent).toHaveLength(2);expect(evidence.sent[0]).toEqual(evidence.sent[1]);expect(evidence.sent[0].name).toBe('lite1_complete2');expect(evidence.commits).toBe('1');
+ await execute();expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('lite-test-sent')!).length)).toBe(2);
+ const cancel=await page.evaluate(async({actorId:actor,orderId:order})=>{
+  // @ts-expect-error Isolated Vite module URL.
+  const lifecycle=await import('/src/services/supabase/adminCustomerV2Lifecycle.ts');
+  const client={auth:{getUser:async()=>({data:{user:{id:actor}},error:null})},rpc:async(name:string,args:Record<string,unknown>)=>{
+   if(name!=='lite1_cancel_guest2'||args.p_order!==order)throw Error('WRONG_ROUTE');
+   return {data:{success:true,accountingTracked:false,order_id:order,operation_id:'44444444-4444-4444-8444-444444444445',status:'cancelled',reservation_state:'not_tracked',released_reservations:0},error:null};
+  }};return lifecycle.runCustomerV2AdminAction(client as never,order,'cancel',{reason:'سبب إلغاء محلي',accountingMode:'sales-only'});
+ },{actorId,orderId});expect(cancel.data.reservation_state).toBe('not_tracked');expect(cancel.data.released_reservations).toBe(0);
+});
+
 test('two real Admin tabs serialize one lifecycle attempt and share durable success', async ({browser}) => {
   const context = await browser.newContext();
   await context.route('**/*', (route) => {

@@ -15,6 +15,14 @@ const integerValue = (value: unknown) => {
   return Number.isFinite(parsed) ? Math.trunc(parsed) : 0;
 };
 
+interface ReceiptRpcResponse {data:unknown;error:{code?:string;message?:string}|null;status?:number}
+export async function readReceiptWithRpc(receiptToken:string,execute:(name:'lite1_public_pos_receipt2'|'get_public_pos_receipt',args:{p_receipt_token:string})=>PromiseLike<ReceiptRpcResponse>){
+  const args={p_receipt_token:receiptToken};
+  let result=await execute('lite1_public_pos_receipt2',args);
+  if(result.status===404&&result.data==null&&result.error?.code==='PGRST202'&&result.error.message?.includes('lite1_public_pos_receipt2'))result=await execute('get_public_pos_receipt',args);
+  return result;
+}
+
 export async function fetchPublicPosReceipt(
   receiptToken: string
 ): Promise<PublicPosReceipt> {
@@ -25,9 +33,7 @@ export async function fetchPublicPosReceipt(
     throw new Error('رابط الإيصال غير صحيح.');
   }
 
-  const { data, error } = await supabase.rpc('get_public_pos_receipt', {
-    p_receipt_token: receiptToken,
-  });
+  const { data, error } = await readReceiptWithRpc(receiptToken,(name,args)=>supabase!.rpc(name,args));
   if (error) throw new Error(error.message || 'تعذر تحميل الإيصال.');
 
   const payload = recordValue(data);
@@ -37,8 +43,11 @@ export async function fetchPublicPosReceipt(
 
   const branch = recordValue(payload.branch);
   const hasInitial=payload.initialPaymentMethod!==undefined;
+  const hasPayment=hasInitial||payload.amountPaidInMinorUnits!==undefined||payload.remainingInMinorUnits!==undefined;
   if(hasInitial&&(!['cash','cliq'].includes(String(payload.initialPaymentMethod))
     ||!Number.isSafeInteger(payload.amountPaidInMinorUnits)||Number(payload.amountPaidInMinorUnits)<0
+    ||!Number.isSafeInteger(payload.remainingInMinorUnits)||Number(payload.remainingInMinorUnits)<0))throw new Error('تفصيل الدفعة غير مكتمل. أعد تحميل الوصل.');
+  if(hasPayment&&(!Number.isSafeInteger(payload.amountPaidInMinorUnits)||Number(payload.amountPaidInMinorUnits)<0
     ||!Number.isSafeInteger(payload.remainingInMinorUnits)||Number(payload.remainingInMinorUnits)<0))throw new Error('تفصيل الدفعة غير مكتمل. أعد تحميل الوصل.');
   if(payload.paymentMethod==='exchange_credit'&&payload.exchange==null)throw new Error('تفصيل وصل التبديل غير متاح. أعد تحميل الرابط.');
   return {
@@ -48,7 +57,8 @@ export async function fetchPublicPosReceipt(
     status: stringValue(payload.status),
     paymentMethod: stringValue(payload.paymentMethod),
     paymentStatus: stringValue(payload.paymentStatus),
-    ...(hasInitial?{initialPaymentMethod:payload.initialPaymentMethod as 'cash'|'cliq',amountPaidInMinorUnits:Number(payload.amountPaidInMinorUnits),remainingInMinorUnits:Number(payload.remainingInMinorUnits)}:{}),
+    ...(hasInitial?{initialPaymentMethod:payload.initialPaymentMethod as 'cash'|'cliq'}:{}),
+    ...(hasPayment?{amountPaidInMinorUnits:Number(payload.amountPaidInMinorUnits),remainingInMinorUnits:Number(payload.remainingInMinorUnits)}:{}),
     subtotalInMinorUnits: integerValue(payload.subtotalInMinorUnits),
     discountInMinorUnits: integerValue(payload.discountInMinorUnits),
     totalInMinorUnits: integerValue(payload.totalInMinorUnits),

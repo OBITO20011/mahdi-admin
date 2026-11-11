@@ -1,8 +1,9 @@
+import{historical220Text}from'../scripts/testing/lite220-historical-test-view.mjs';
 import assert from 'node:assert/strict';import test from 'node:test';import {readFileSync} from 'node:fs';import {createHash} from 'node:crypto';
 import {assert210History} from '../scripts/operations/frankfurt-owner-upgrade210.mjs';
 import {publicReceiptDocument} from '../customer-web/src/receipts/publicReceipt';import {receiptLineDescription} from '../customer-web/src/receipts/commercialReceipt';
 import {trialDItems,trialDDescriptions} from '../e2e/trial-d-receipt.fixture';
-const read=(p:string)=>readFileSync(p,'utf8').replaceAll('\r\n','\n');
+const read=(p:string)=>historical220Text(p,readFileSync(p,'utf8').replaceAll('\r\n','\n'));
 test('210 only replaces same read-only token reader;no grants/table/writer change',()=>{
  const sql=read('supabase/migrations/210_public_pos_receipt_commercial_lines.sql'),state=JSON.parse(read('docs/agent/project-state.json'));
  assert.equal(createHash('sha256').update(sql).digest('hex').toUpperCase(),state.migration210CanonicalLfSha256);assert.equal(state.migrationCeiling,219);

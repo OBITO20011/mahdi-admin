@@ -281,11 +281,11 @@ test('no-payload modals continue to store null modalData', () => {
 test('the modal dispatcher preserves each current payload-to-prop mapping', () => {
   assert.match(
     allModalsSource,
-    /<ProductFormModal initialProduct=\{productFormInitialProduct\} onClose=\{closeModal\} \/>/,
+    /<ProductFormModal initialProduct=\{productFormInitialProduct\} onClose=\{closeModal\} operatingMode=\{operatingMode\} modeVerified=\{modeVerified\} \/>/,
   );
   assert.match(
     allModalsSource,
-    /<ProductDetailModal product=\{modalData\} onClose=\{closeModal\} \/>/,
+    /<ProductDetailModal product=\{modalData\} onClose=\{closeModal\} operatingMode=\{operatingMode\} modeVerified=\{modeVerified\} \/>/,
   );
   assert.match(allModalsSource, /product=\{modalData\.product\}/);
   assert.match(allModalsSource, /mode=\{modalData\.mode \|\| 'add'\}/);

@@ -1,3 +1,4 @@
+import type {OperatingMode} from '../../services/supabase/operatingMode.service';
 import {useAuthStore} from '../../stores/useAuthStore';
 import {FamilyBarcodeRecovery} from './FamilyBarcodeRecovery';
 import {completeFamilyBarcodes,pendingFamilyBarcodes,familyBarcodeErrorText} from '../../services/supabase/productFamilyBarcodes.service';
@@ -59,6 +60,8 @@ import {
 } from '../../utils/productIdentifiers';
 
 interface ProductFormModalProps {
+  operatingMode?:OperatingMode;
+  modeVerified?:boolean;
   initialProduct?: Product | null;
   onClose: () => void;
   startBarcodeScanner?: StartBarcodeCamera;
@@ -105,7 +108,12 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   initialProduct,
   onClose,
   startBarcodeScanner,
+  operatingMode='full',
+  modeVerified=true,
 }) => {
+  const salesOnly=operatingMode==='sales-only';
+  const modeNow=useRef({operatingMode,modeVerified});modeNow.current={operatingMode,modeVerified};
+  const [preservedAccounting,setPreservedAccounting]=useState(()=>({costPrice:initialProduct?.costPrice??0,defaultPurchasePrice:initialProduct?.defaultPurchasePrice??0,reorderLevel:initialProduct?.reorderLevel??0,maxStockLevel:initialProduct?.maxStockLevel}));
   const {user:barcodeActor}=useAuthStore();
   const [flavorCameraId,setFlavorCameraId]=useState<string|null>(null);
   const [barcodeRecovery,setBarcodeRecovery]=useState(()=>{try{return{ids:barcodeActor?.id?pendingFamilyBarcodes(barcodeActor.id,localStorage):[],error:''};}catch{return{ids:[] as string[],error:'تعذر قراءة سجل باركود النكهات. توقف وراجع المطوّر قبل إنشاء عائلة جديدة (FLV-01).'};}});
@@ -251,13 +259,13 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   // only from receiving (or an owner correction); the form shows it read-only.
   const [costState, setCostState] = useState<ProductCostState | null>(null);
   useEffect(() => {
-    if (!initialProduct?.id) return;
+    if (salesOnly||!initialProduct?.id) return;
     let live = true;
     fetchProductCostState(initialProduct.id)
       .then((state) => { if (live) setCostState(state); })
       .catch(() => undefined);
     return () => { live = false; };
-  }, [initialProduct?.id]);
+  }, [initialProduct?.id,salesOnly]);
   const costIsFromStock = Boolean(isEditing && costState?.hasCostHistory);
   const currentFlavors = useMemo(
     () =>
@@ -660,12 +668,14 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     setOpenedFields(editConflict.current);
     setOpenedVersion(editConflict.snapshot.updatedAt);
     setOpenedActive(editConflict.snapshot.isActive);
+    if(salesOnly)setPreservedAccounting({costPrice:editConflict.snapshot.costPriceInMinorUnits/1000,defaultPurchasePrice:editConflict.snapshot.defaultPurchasePriceInMinorUnits/1000,reorderLevel:editConflict.snapshot.minStockLevel,maxStockLevel:editConflict.snapshot.maxStockLevel??undefined});
     setEditConflict(null);
     setReappliedNotice(true);
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    if(!modeVerified){setToast('تعذر التحقق من وضع التشغيل؛ أعد قراءة الحالة قبل الحفظ. (MODE-02)','error');return;}
     if(!parcelMethodSelected&&!allowSingle){
       setSubmitError({message:'اختر طريقة بيع واحدة على الأقل: طرد أو باكيت مفرد.'});return;
     }
@@ -698,7 +708,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
       setToast('اختر المستودع الذي سيحمل الرصيد الافتتاحي.', 'error');
       return;
     }
-    if (validPackagePrice <= 0) {
+    if (!salesOnly && validPackagePrice <= 0) {
       setToast('سعر شراء الطرد يجب أن يكون أكبر من صفر.', 'error');
       return;
     }
@@ -735,7 +745,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         ? undefined
         : Math.max(0, Math.floor(Number(maxStockLevel) || 0));
     if (
-      maxSalePackages !== undefined &&
+      !salesOnly && maxSalePackages !== undefined &&
       maxSalePackages < minSalePackages
     ) {
       setToast('سقف المستودع يجب أن يساوي حد التنبيه أو يزيد عنه.', 'error');
@@ -780,6 +790,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
       // The form has no visibility control: an edit keeps the visibility it
       // opened with (or the current one after re-applying a conflict).
       status: isEditing && !openedActive ? 'hidden' : 'active',
+      ...(salesOnly?preservedAccounting:{}),
     };
 
     const uploadedStoragePaths: string[] = [];
@@ -835,6 +846,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           });
         }
 
+        if(modeNow.current.operatingMode!==operatingMode||!modeNow.current.modeVerified)throw Error('تغيّر وضع التشغيل؛ راجع النموذج قبل الحفظ. (MODE-02)');
         result = await createProductFamilyWithFlavorsInSupabase({
           sku: payload.sku || '',
           barcode: payload.barcode,
@@ -845,13 +857,13 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           unitName: unit,
           purchasePackage,
           unitsPerPackage: validUnitsPerPackage,
-          defaultPurchasePrice: validPackagePrice,
+          defaultPurchasePrice: salesOnly?0:validPackagePrice,
           salePackage,
           unitsPerSalePackage: validUnitsPerSalePackage,
           salePackagePrice: validSalePackagePrice,
-          costPrice: costPerUnit,
-          reorderLevel: minLevel,
-          maxStockLevel: maxLevel,
+          costPrice: salesOnly?0:costPerUnit,
+          reorderLevel: salesOnly?0:minLevel,
+          maxStockLevel: salesOnly?undefined:maxLevel,
           warehouseId,
           openingQuantity: 0,
           imageUrl: payload.imageUrl,
@@ -859,6 +871,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           parcelOnly: !allowSingle,
         });
       } else {
+        if(modeNow.current.operatingMode!==operatingMode||!modeNow.current.modeVerified)throw Error('تغيّر وضع التشغيل؛ راجع النموذج قبل الحفظ. (MODE-02)');
         result =
           isEditing && initialProduct?.id
             ? await updateProduct(initialProduct.id, payload, {
@@ -878,8 +891,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         if (hasFlavors && !isEditing) {
           await refreshProductsFromSupabase();
           setToast(
-            result.message ||
-              'تم إنشاء المنتج وجميع نكهاته ومخزونها بنجاح.',
+            salesOnly?'تم إنشاء المنتج ونكهاته؛ التوفر يُضبط يدوياً.':result.message||'تم إنشاء المنتج وجميع نكهاته ومخزونها بنجاح.',
             'success'
           );
         }
@@ -1152,9 +1164,10 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         {!parcelMethodSelected&&!allowSingle&&<p role="alert" className="text-nw-bad">اختر طريقة بيع واحدة على الأقل.</p>}
         {(isFlavorMaster||hasFlavors)&&<ProductFormParcelCapability familyId={initialProduct?.id} dirty={formChanged} busy={isSubmitting} onOpen={familyProductId=>openModal('parcel_configuration',{familyProductId})}/>}
         <div className="flex flex-wrap items-end gap-2">
-          {!withoutParcel && <label className="min-w-0 flex-1 text-xs font-bold">الطرد فيه<input inputMode="numeric" enterKeyHint="next" aria-label={'عدد '+unit+' في طرد الشراء'} type="number" min="1" step="1" required value={unitsPerPackage} onChange={event=>changeParcelContents(event.target.value)} className={numberInputClass}/></label>}
+          {!withoutParcel && <label className="min-w-0 flex-1 text-xs font-bold">الطرد فيه<input inputMode="numeric" enterKeyHint="next" aria-label={'عدد '+unit+(salesOnly?' في طرد التغليف':' في طرد الشراء')} type="number" min="1" step="1" required value={unitsPerPackage} onChange={event=>changeParcelContents(event.target.value)} className={numberInputClass}/></label>}
           <label className="min-w-0 flex-1 text-xs font-bold">{withoutParcel?'البيع بالوحدة':'محتوى الطرد'}<select aria-label="الوحدة الأساسية" className={inputClass} value={unit} onChange={event=>setUnit(event.target.value)} disabled={isEditing}>{Array.from(new Set([unit,...units.filter(isContentUnitOption).map(item=>item.nameAr)])).map(name=><option key={name} value={name}>{name}</option>)}</select></label>
         </div>
+        {!salesOnly&&<>
         <h4 className="border-t border-nw-border pt-3 font-black">سعر الشراء المقترح</h4>
         <div className={"grid min-w-0 items-end gap-2 "+(withoutParcel?"grid-cols-[auto_minmax(0,1fr)]":"grid-cols-[auto_minmax(0,1fr)_minmax(0,1fr)]")} role="group" aria-label="أسعار الشراء والبيع">
           <span/>{!withoutParcel&&<span className="text-center text-xs font-bold">الطرد</span>}<span className="text-center text-xs font-bold">{unit}</span>
@@ -1178,10 +1191,11 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             </p>
           </div>
         )}
+        </>}
       </Card>
 
       <details className="space-y-3 rounded-2xl border border-nw-border bg-nw-surface p-3.5">
-        <summary className="min-h-11 cursor-pointer font-bold">متقدم: التغليف والمخزون والصورة</summary>
+        <summary className="min-h-11 cursor-pointer font-bold">{salesOnly?'متقدم: التغليف والصورة':'متقدم: التغليف والمخزون والصورة'}</summary>
         <label className="flex min-h-11 items-center gap-2 font-bold"><input type="checkbox" checked={differentSaleParcel} disabled={withoutParcel} onChange={event=>{setDifferentSaleParcel(event.target.checked);if(!event.target.checked){setUnitsPerSalePackage(validUnitsPerPackage);setSalePackagePrice(calculatePackagePrice(derivedSalePricePerUnit,validUnitsPerPackage));}}}/>طرد بيع مختلف عن طرد الشراء</label>
         {differentSaleParcel&&<label className="block text-xs font-bold">عدد {unit} في طرد البيع<input inputMode="numeric" enterKeyHint="next" aria-label={'عدد '+unit+' في طرد البيع'} type="number" min="1" step="1" required value={unitsPerSalePackage} onChange={event=>setUnitsPerSalePackage(event.target.value===''?'':Number.parseInt(event.target.value,10))} className={numberInputClass}/></label>}
           <div>
@@ -1242,6 +1256,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             )}
           </div>
 
+      {!salesOnly&&<>
       <Card padded={false} className="rounded-2xl border border-nw-border bg-nw-surface p-3.5">
         <div className="mb-3 flex items-center gap-2">
           <Warehouse className="h-4 w-4 text-nw-info" />
@@ -1357,6 +1372,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           لأن كل شحنة قد تحمل صلاحية مختلفة.
         </div>
       </Card>
+      </>}
 
       {!isEditing && (
         <Card padded={false}
@@ -1382,7 +1398,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
                   هل لهذا المنتج نكهات؟
                 </h4>
                 <p className="mt-0.5 text-xs leading-4 text-nw-muted">
-                  السعر والطرد موحّدان، والمخزون يُتابع لكل نكهة وحدها
+                  {salesOnly?'السعر والطرد موحّدان، والتوفر يُضبط لكل نكهة يدوياً':'السعر والطرد موحّدان، والمخزون يُتابع لكل نكهة وحدها'}
                 </p>
               </div>
             </div>
@@ -1516,7 +1532,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
               <div className="flex items-start gap-2 rounded-xl border border-nw-border bg-nw-ok-bg p-2.5 text-xs leading-5 text-nw-muted">
                 <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-nw-ok" />
                 عند الحفظ يُنشأ تعريف المنتج ونكهاته معًا برصيد صفر. تدخل
-                البضاعة لاحقًا من الاستلام، ولكل نكهة مخزونها وتكلفتها.
+                {salesOnly?'التوفر لاحقاً من بطاقة المنتج، دون تتبع كميات أو تكلفة.':'البضاعة لاحقًا من الاستلام، ولكل نكهة مخزونها وتكلفتها.'}
               </div>
             </div>
           )}
@@ -1535,7 +1551,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
                   </h4>
                 </div>
                 <p className="mt-1 text-xs leading-4 text-nw-muted">
-                  لكل نكهة رمز صنف مستقل ومخزون وتكلفة خاصة بها.
+                  {salesOnly?'لكل نكهة رمز صنف مستقل وتوفر يدوي.':'لكل نكهة رمز صنف مستقل ومخزون وتكلفة خاصة بها.'}
                 </p>
               </div>
               <UiButton variant="plain"
@@ -1585,7 +1601,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
 
       {editConflict && (
         <ProductEditConflictPanel
-          rows={conflictRows}
+          rows={salesOnly?conflictRows.filter(row=>!['defaultPurchasePrice','reorderPackages','maxPackages'].includes(row.field)):conflictRows}
           statusChange={
             editConflict.snapshot.isActive !== openedActive
               ? { mine: openedActive, current: editConflict.snapshot.isActive }
@@ -1620,7 +1636,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
       <div className="sticky bottom-0 z-10 -mx-1 flex gap-2 border-t border-nw-border bg-nw-surface-2 px-1 pt-3 backdrop-blur">
         <UiButton variant="plain"
           type="submit"
-          disabled={isSubmitting}
+          disabled={isSubmitting||!modeVerified}
           className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-nw-primary py-3 font-black text-nw-on-primary shadow-lg shadow-none transition active:scale-[0.98] disabled:opacity-50"
         >
           <CheckCircle2

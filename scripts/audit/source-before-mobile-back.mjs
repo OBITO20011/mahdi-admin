@@ -1,3 +1,4 @@
+import{sourceBeforeSalesOnlyPhase2}from'./source-before-sales-only-phase2.mjs';
 // Exact navigation-only historical view. Unprojected current probes stay real.
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -45,7 +46,7 @@ export function projectMobileBackQuerySites(source,parseSource){
 }
 export function historicalMobileBackRpcSite(site,parseServices){
  const file=site.slice(0,site.lastIndexOf(':')),pin=mobileBackPins[file];if(!pin)return site;
- const raw=readFileSync(new URL('../../'+file,import.meta.url),'utf8').replaceAll('\r\n','\n');
+ const raw=sourceBeforeSalesOnlyPhase2(file,readFileSync(new URL('../../'+file,import.meta.url),'utf8')).replaceAll('\r\n','\n');
  assert.equal(hash(raw),pin.after,'MOBILE_BACK_RPC_CURRENT_SOURCE_CHANGED');
  const current=parseServices(file,raw).rpc,before=parseServices(file,mobileBackBeforeText(file,pin)).rpc;
  const content=rows=>rows.map(({id:_id,line:_line,...entry})=>entry);

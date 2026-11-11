@@ -27,6 +27,6 @@ test('202 full report missing,zero,malformed,error and loading never invent coll
  await open();let section=page.getByTestId('report-customer-collections');await expect(section).toContainText('غير متاح');await expect(section).not.toContainText('0.000');
  value=Object.fromEntries(Object.keys(amounts).map(k=>[k,0]));await open();section=page.getByTestId('report-customer-collections');await expect(section).toContainText('0.000');
  value={...amounts,totalInMinorUnits:0};await open();await expect(page.getByText('إجمالي المقبوض لا يطابق تفصيل طرق الدفع. أعد التحميل.',{exact:true})).toBeVisible();await expect(page.locator('.operational-report-print')).toHaveCount(0);
- failed=true;await open();await expect(page.getByText('خطأ قراءة معزول',{exact:true})).toBeVisible();await expect(page.getByTestId('report-customer-collections')).toHaveCount(0);
+ failed=true;await open();await expect(page.getByText('REPORTING-01: تعذر التحقق من التقرير؛ أعد القراءة ولا تعتمد بيانات ناقصة.',{exact:true})).toBeVisible();await expect(page.getByTestId('report-customer-collections')).toHaveCount(0);
  await page.goto(`${base}/e2e/package-f-home-harness.html?collections&allCollections&loading`);await expect(page.getByTestId('home-kpis')).toContainText('جاري التحميل…');await expect(page.getByTestId('home-kpis')).not.toContainText('288.887');
 });

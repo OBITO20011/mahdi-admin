@@ -1,5 +1,5 @@
 /** Workbook presentation/validation only. Existing RPCs remain authoritative. */
-import {GO_LIVE_COLUMNS,mapSheet,prepareProducts,parseJodToMinor,parseWholeNumber,normalizeDigits,type GoLiveColumn,type RowError,type ProductPayload} from './goLiveImport';
+import {GO_LIVE_COLUMNS,mapSheet,prepareProducts,parseJodToMinor,parseWholeNumber,normalizeDigits,type GoLiveColumn,type RowError,type ProductPayload,type ImportOperatingMode} from './goLiveImport';
 import {readXlsxFirstSheet,readXlsxSheet,readZip,decodeXml,columnIndex} from '../../lib/xlsx';
 import {normalizeImportDisplayText,importNormalizationNotice} from './importDisplayText';
 const renamed:Record<string,string>={sale_package_price:'سعر بيع الطرد للزبون (د.أ)',purchase_package_price:'سعر شراء الطرد من المورد (د.أ)',cost_per_base_unit:'سعر شراء الباكيت (التكلفة) (د.أ)',units_per_sale_unit:'كم باكيت في طرد البيع',units_per_purchase_unit:'كم باكيت في طرد الشراء'};
@@ -11,6 +11,9 @@ export const PRODUCT_WORKBOOK_COLUMNS:readonly GoLiveColumn[]=[...GO_LIVE_COLUMN
  {key:'warehouse_code',header:'رمز المستودع للجرد الافتتاحي',required:false,example:'WH-MAIN',width:28},
  {key:'max_stock_level',header:'سقف المستودع (باكيت)',required:false,example:'',width:24},
  {key:'opening_stock',header:'المخزون (باكيت) اختياري بعد الجرد',required:false,example:'',width:30}];
+const liteOmitted=new Set(['purchase_package_price','cost_per_base_unit','min_stock_level','max_stock_level','opening_stock','warehouse_code']);
+export const productWorkbookColumns=(mode:ImportOperatingMode='full')=>mode==='full'?PRODUCT_WORKBOOK_COLUMNS:PRODUCT_WORKBOOK_COLUMNS.filter(c=>!liteOmitted.has(c.key));
+export const flavorWorkbookColumns=(mode:ImportOperatingMode='full')=>mode==='full'?FLAVOR_WORKBOOK_COLUMNS:FLAVOR_WORKBOOK_COLUMNS.filter(c=>c.key!=='opening_stock');
 export const FLAVOR_WORKBOOK_COLUMNS:readonly GoLiveColumn[]=[
  {key:'master_sku',header:'رمز المنتج الأساسي',required:true,example:'CHO-001',width:24},
  {key:'name',header:'اسم النكهة',required:true,example:'ليمون',width:24},
@@ -39,7 +42,7 @@ export function deterministicFlavorSku(master:string,name:string){
 export interface WorkbookFlavor {row:number;name:string;sku:string;barcode:string;openingStock:number|null;generatedSku:boolean}
 export interface WorkbookProduct {row:number;data:ProductPayload;brand:string;description:string;warehouse:string;maxStock:number|null;openingStock:number|null;flavors:WorkbookFlavor[]}
 export type WorkbookIssue=RowError&{sheet?:'المنتجات'|'النكهات'};
-export interface ProductWorkbookPlan {products:WorkbookProduct[];errors:WorkbookIssue[];warnings:WorkbookIssue[];missingStock:number}
+export interface ProductWorkbookPlan {operatingMode?:'sales-only';products:WorkbookProduct[];errors:WorkbookIssue[];warnings:WorkbookIssue[];missingStock:number}
 const valueRow=(columns:readonly GoLiveColumn[],header:readonly string[],cells:readonly string[])=>Object.fromEntries(columns.map(c=>[c.key,(cells[header.indexOf(c.header)]??'').trim()]));
 export async function readProductWorkbook(bytes:Uint8Array){
  const products=await readXlsxFirstSheet(bytes),flavors=await readXlsxSheet(bytes,'النكهات'),identifierWarnings:WorkbookIssue[]=[];
@@ -54,12 +57,12 @@ export async function readProductWorkbook(bytes:Uint8Array){
  }
  return{products,flavors,identifierWarnings};
 }
-export function prepareProductWorkbook(productSheet:readonly(readonly string[])[],flavorSheet:readonly(readonly string[])[]=[]):ProductWorkbookPlan{
+export function prepareProductWorkbook(productSheet:readonly(readonly string[])[],flavorSheet:readonly(readonly string[])[]=[],mode:ImportOperatingMode='full'):ProductWorkbookPlan{
  const errors:WorkbookIssue[]=[],warnings:WorkbookIssue[]=[];const header=(productSheet[0]??[]).map(c=>c.trim());
  // Bind the renamed headings to the exact legacy pure validator; accept old headings too.
  const legacyHeader=header.map(h=>GO_LIVE_COLUMNS.products.find(c=>renamed[c.key]===h)?.header??h);
  for(const c of GO_LIVE_COLUMNS.products)if(legacyHeader.filter(h=>h===c.header).length>1)errors.push({row:1,message:`عنوان العمود مكرر: ${c.header}`});
- const mapped=mapSheet('products',[legacyHeader,...productSheet.slice(1)]);
+ const mapped=mapSheet('products',[legacyHeader,...productSheet.slice(1)],mode);
  let normalizedFields=mapped.normalizedFields;
  for(const message of mapped.fileErrors)errors.push({row:1,message});
  for(const h of new Set(header))if(h&&header.filter(c=>c===h).length>1)errors.push({row:1,message:'عنوان عمود مكرر؛ اترك عموداً واحداً لكل حقل.'});
@@ -86,8 +89,8 @@ export function prepareProductWorkbook(productSheet:readonly(readonly string[])[
    else if(parcel!==null&&size!==null&&BigInt(packet)!==(BigInt(parcel)+BigInt(Math.floor(size/2)))/BigInt(size))errors.push({row:row.row,message:'سعر الباكيت لا يطابق سعر الطرد مقسوماً على عدد الباكيتات بعد التقريب إلى الفلس؛ صحّح السعرين.'});
   }
  }
- const prepared=prepareProducts(mapped.rows);errors.push(...prepared.errors.map(e=>({...e,sheet:'المنتجات' as const})));
- const stock=(s:string,row:number,sheet:'المنتجات'|'النكهات'='المنتجات')=>{if(!s)return null;const n=parseWholeNumber(s,{max:9_999_999});if(n===null)errors.push({row,sheet,message:'المخزون: أدخل عدد باكيتات صحيحاً غير سالب أو اتركه فارغاً حتى الجرد.'});return n;};
+ const prepared=prepareProducts(mapped.rows,mode);errors.push(...prepared.errors.map(e=>({...e,sheet:'المنتجات' as const})));
+ const stock=(s:string,row:number,sheet:'المنتجات'|'النكهات'='المنتجات')=>{if(!s)return null;if(mode==='sales-only'){errors.push({row,sheet,message:'المخزون مطفأ في وضع المبيعات والذمم؛ أفرغ عمود المخزون ولا تستورده بهذا الوضع.'});return null;}const n=parseWholeNumber(s,{max:9_999_999});if(n===null)errors.push({row,sheet,message:'المخزون: أدخل عدد باكيتات صحيحاً غير سالب أو اتركه فارغاً حتى الجرد.'});return n;};
  const products=prepared.payload.map(p=>{const v=extra.get(p.sourceRow)!;const max=v.max_stock_level?parseWholeNumber(v.max_stock_level,{max:999_999}):null;
   if(v.max_stock_level&&(max===null||max<Number(p.min_stock_level)))errors.push({row:p.sourceRow,message:'سقف المستودع يجب أن يكون عدداً صحيحاً لا يقل عن حد التنبيه (بالباكيت).'});
   return{row:p.sourceRow,data:p,brand:v.brand_name,description:v.description,warehouse:v.warehouse_code,maxStock:max,openingStock:stock(v.opening_stock,p.sourceRow),flavors:[] as WorkbookFlavor[]};});
@@ -114,10 +117,12 @@ export function prepareProductWorkbook(productSheet:readonly(readonly string[])[
   for(const item of items)for(const code of new Set([item.sku,item.barcode].filter(Boolean).map(skuKey))){const prior=identifiers.get(code);if(prior)errors.push({row:item.row,sheet:item.sheet,message:`رمز أو باركود مكرر عبر ورقتي المنتجات والنكهات؛ راجع السطر ${prior.row}.`});else identifiers.set(code,{sku:item.sku,row:item.row});}
  }
  const missingStock=products.reduce((n,p)=>n+(p.flavors.length?p.flavors.filter(f=>f.openingStock===null).length:Number(p.openingStock===null)),0);
- if(missingStock)warnings.push({row:0,warning:true,message:`${missingStock} صنف بلا مخزون — يُعبأ بعد الجرد يوم D−1/يوم التشغيل.`});
+ if(missingStock&&mode==='full')warnings.push({row:0,warning:true,message:`${missingStock} صنف بلا مخزون — يُعبأ بعد الجرد يوم D−1/يوم التشغيل.`});
  if(normalizedFields)warnings.push({row:0,warning:true,message:importNormalizationNotice(normalizedFields)});
- return{products,errors,warnings,missingStock};
+ if(mode==='sales-only')warnings.push({row:0,warning:true,message:'وضع مبيعات وذمم: لا مخزون ولا تكلفة إلزامية؛ التكلفة الفارغة تُحفظ صفراً لتعريف الصنف، ولا تعني ربحاً محاسبياً. التوفر يدوي.'});
+ return{products,errors,warnings,missingStock,...(mode==='sales-only'?{operatingMode:'sales-only' as const}:{})};
 }
 export function productWorkbookStockRows(plan:ProductWorkbookPlan){
+ if(plan.operatingMode==='sales-only')return [];
  return plan.products.flatMap(p=>(p.flavors.length?p.flavors:[{sku:p.data.sku,openingStock:p.openingStock}]).filter(f=>f.openingStock!==null).map(f=>({sku:f.sku,...(p.warehouse?{warehouse:p.warehouse}:{}),packageCount:Math.floor(f.openingStock!/Number(p.data.units_per_purchase_unit)),looseUnits:f.openingStock!%Number(p.data.units_per_purchase_unit)})));
 }

@@ -1,0 +1,72 @@
+{
+  "ok": true,
+  "startedAt": "2026-11-09T07:14:55.924Z",
+  "hostedAccess": false,
+  "activeMigrationCeiling": 219,
+  "activeMigrationFiles": 180,
+  "cases": [
+    {
+      "name": "full cash/CliQ/debt/partial/return: exact reader JSON and every existing row/sequence unchanged; writer replay and frozen function bytes/ACL/config/owner equal",
+      "passed": true
+    },
+    {
+      "name": "new full write preserves 10000 sales/5000 COGS/5000 profit, -10 quantity and existing real close/snapshot",
+      "passed": true
+    },
+    {
+      "name": "mode transition refuses NOWAIT during an in-flight full writer and refuses OFF after its open shift commits",
+      "passed": true
+    },
+    {
+      "name": "lite cash/CliQ/debt/partial share real orders/customer_payments; exact 10000/4000/6000 and zero-write replay",
+      "passed": true
+    },
+    {
+      "name": "availability product/flavor/parent independent, CAS stale refused; logged POS override, guest refuses, store switch enforced, existing customer card untouched",
+      "passed": true
+    },
+    {
+      "name": "partial return 8000=6000 debt+2000 cash; debt return + existing protected collection exact, over-return/over-collection refused, CliQ refund",
+      "passed": true
+    },
+    {
+      "name": "expense separate from owner withdrawal, expected cash32500, zero discrepancy and cost-free immutable close; original full snapshot unchanged; all existing integrity checks zero",
+      "passed": true
+    },
+    {
+      "name": "independent sessions: one same-key sale and one competing refund; late failure rolls back all rows/private evidence (one existing receipt sequence gap only); new customer and immutable history/stock/writer guards",
+      "passed": true
+    },
+    {
+      "name": "anon ACL closed, no prototype activation shortcut, frozen636 functions differ only by8 exact bridge bodies with unchanged ACL/owner/search_path",
+      "passed": true
+    }
+  ],
+  "networkAttachments": 0,
+  "fullFunctions": 636,
+  "approvedBridgeFunctions": 8,
+  "inventoryChanged": false,
+  "liteClosingCash": 32500,
+  "sourceFreeze": {
+    "fileCount": 2664,
+    "sha256": "f64b7ba0501c913e508306e10f3e565a84a0a5433d1ec902ede6042cb3150fa4"
+  },
+  "cleanup": true,
+  "finishedAt": "2026-11-09T07:18:16.083Z",
+  "elapsedSeconds": 200.159,
+  "localVerification": {
+    "adminTests": {
+      "passed": 1865,
+      "failed": 0,
+      "skipped": 0
+    },
+    "focusedTests": 6,
+    "typecheck": "PASS",
+    "strictlint": "PASS",
+    "gitleaksHistory": {
+      "commits": 672,
+      "findings": 0
+    },
+    "note": "GitHub CI must pass separately on the exact Draft PR head; no merge authorization."
+  }
+}

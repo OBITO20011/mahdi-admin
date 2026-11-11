@@ -5,3 +5,8 @@
 817c98f83a12b776b0ddc5d2175f42de25dc0d4d:src/config/supabase-public-config.ts:generic-api-key:16
 # Test idempotency-key fixture misdetected as generic-api-key in Phase 5 proof runner (annotated inline afterwards).
 40bf9183c8f78d61a38b83792a2c95ad2406da1c:scripts/testing/run-phase5-operational-fixes-runtime.mjs:generic-api-key:208
+
+# Non-secret constant accepted only by the owned loopback SEO rehearsal proxy.
+# Removed from current source;exact two historical findings only,no path/rule exclusion.
+8f44286526154d060e3707a336e013d0e03acd1c:scripts/testing/rehearsal220-builds.mjs:generic-api-key:4
+8f44286526154d060e3707a336e013d0e03acd1c:scripts/testing/rehearsal220-builds.mjs:generic-api-key:9

@@ -31,8 +31,12 @@ test('binding SQL and all business/Auth validation remain byte-identical to deli
 test('first owner198 requires current real access identities,roles,history,catalog and complete source hashes',async()=>{
  const source=await historicalProductWorkbookInventory(inventory),proof=JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_STAGING_198.json','utf8'));
  const reference={migrationCeiling:198,catalog:proof.catalog,buildUtcDate:proof.startedAt.slice(0,10),manifest:proof.manifest.map((name:string)=>({name})),manifestDigest:'attested-by-readReady198Reference'};
- const accepted=assertFirstOwner198Access(reference,JSON.stringify(proof),source);assert.equal(accepted.queries,proof.results.length);
- const changedSource=structuredClone(source);changedSource.entries[0].id+=':unapproved';assert.throws(()=>assertFirstOwner198Access(reference,JSON.stringify(proof),changedSource),/INCOMPLETE_QUERY_PROBE_COVERAGE/u,'Historical source projection never bypasses exact query identities');
+ assert.throws(()=>assertFirstOwner198Access(reference,JSON.stringify(proof),source),/NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED/,'Current owner reader must reject current prototype sources for the old198 proof');
+ await withProductWorkbookBaseline(async(baselineRoot:string)=>{
+  const file='scripts/operations/first-owner-reference198.mjs';assert.equal(readFileSync(file,'utf8'),readFileSync(path.join(baselineRoot,file),'utf8'));
+  const {assertFirstOwner198Access:assertFrozenAccess}=await import(pathToFileURL(path.join(baselineRoot,file)).href);
+ const accepted=assertFrozenAccess(reference,JSON.stringify(proof),source);assert.equal(accepted.queries,proof.results.length);
+ const changedSource=structuredClone(source);changedSource.entries[0].id+=':unapproved';assert.throws(()=>assertFrozenAccess(reference,JSON.stringify(proof),changedSource),/INCOMPLETE_QUERY_PROBE_COVERAGE/u,'Historical source projection never bypasses exact query identities');
  for(const change of [
   (p:typeof proof)=>{p.migrationCeiling=182;},(p:typeof proof)=>{p.managedAccess=true;},
   (p:typeof proof)=>{p.infrastructureOk=false;},(p:typeof proof)=>{p.applicationReady=false;},
@@ -42,7 +46,8 @@ test('first owner198 requires current real access identities,roles,history,catal
   (p:typeof proof)=>{p.results[0].outcome='other_error';},
   (p:typeof proof)=>{p.catalog.tables.find((t:{schema:string;name:string})=>t.schema==='public'&&t.name==='products').rls=false;},
   (p:typeof proof)=>{p.catalog.functions.find((f:{schema:string})=>f.schema==='public').owner='authenticated';},
- ]){const changed=structuredClone(proof);change(changed);assert.throws(()=>assertFirstOwner198Access(reference,JSON.stringify(changed),source));}
+ ]){const changed=structuredClone(proof);change(changed);assert.throws(()=>assertFrozenAccess(reference,JSON.stringify(changed),source));}
+ });
 });
 
 test('old150/182 references are rejected before password,connection or report creation;no fallback reader',async()=>{

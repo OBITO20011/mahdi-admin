@@ -7,6 +7,7 @@ import {
   safeGatewayMessage,
   verifyTurnstileToken,
 } from './security.ts';
+import {decodeOperatingMode,liteGuestParameters} from './operatingMode.ts';
 
 declare const Deno: {
   env: {get(name: string): string | undefined};
@@ -292,7 +293,9 @@ export async function handleGuestOrderRequest(
   let orderResponse: Response;
   let orderResult: Record<string, unknown>;
   try {
-    const rpcName = 'submit_guest_customer_order_v2';
+    const modeResponse=await callRpc(supabaseUrl,serviceRoleKey,'lite1_operating_mode',{p_guest_key:idempotencyKey},fetchImpl);
+    const fullAccounting=decodeOperatingMode(modeResponse.ok,modeResponse.status,await modeResponse.json());
+    const rpcName = fullAccounting ? 'submit_guest_customer_order_v2' : 'lite1_guest2';
     const rpcPayload = {
       p_idempotency_key: idempotencyKey,
       p_guest_phone_hash: phoneHash,
@@ -330,7 +333,7 @@ export async function handleGuestOrderRequest(
       supabaseUrl,
       serviceRoleKey,
       rpcName,
-      rpcPayload,
+      fullAccounting ? rpcPayload : liteGuestParameters(rpcPayload),
       fetchImpl,
     );
     orderResult = await orderResponse.json() as Record<string, unknown>;

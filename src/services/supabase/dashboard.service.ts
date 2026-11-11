@@ -146,53 +146,7 @@ export async function fetchHomeDashboardFromSupabase(): Promise<DashboardResult>
       };
     }
 
-    const payload = data as Record<string, unknown>;
-    const summary =
-      payload.summary && typeof payload.summary === 'object'
-        ? (payload.summary as Record<string, unknown>)
-        : {};
-    const access =
-      payload.access && typeof payload.access === 'object'
-        ? (payload.access as Record<string, unknown>)
-        : {};
-
-    return {
-      success: true,
-      source: 'rpc',
-      data: {
-        generatedAt: String(payload.generatedAt || new Date().toISOString()),
-        financialFactsAvailable: payload.financialFactsStatus !== 'unavailable',
-        access: {
-          canViewProfit: Boolean(access.canViewProfit),
-        },
-        summary: mapSummary(summary),
-        chequeAlerts:payload.chequeAlerts&&typeof payload.chequeAlerts==='object'?{
-          due:numberValue((payload.chequeAlerts as Record<string,unknown>).dueWithinTwoDays),
-          overdue:numberValue((payload.chequeAlerts as Record<string,unknown>).overdue),
-          outgoingDue:numberValue((payload.chequeAlerts as Record<string,unknown>).outgoingDueInMinorUnits),
-        }:undefined,
-        latestOrders: Array.isArray(payload.latestOrders)
-          ? payload.latestOrders.map((item) =>
-              mapOrder(item as Record<string, unknown>)
-            )
-          : [],
-        stockAlerts: Array.isArray(payload.stockAlerts)
-          ? payload.stockAlerts.map((item) =>
-              mapStockAlert(item as Record<string, unknown>)
-            )
-          : [],
-        orderStatuses: Array.isArray(payload.orderStatuses)
-          ? payload.orderStatuses.map((item) =>
-              mapOrderStatus(item as Record<string, unknown>)
-            )
-          : [],
-        sevenDaySales: Array.isArray(payload.sevenDaySales)
-          ? payload.sevenDaySales.map((item) =>
-              mapSalesDay(item as Record<string, unknown>)
-            )
-          : [],
-      },
-    };
+    return {success:true,source:'rpc',data:parseHomeDashboard(data)};
   } catch (error) {
     return {
       success: false,
@@ -259,4 +213,50 @@ export function subscribeToDashboardRealtime(
     onConnectionChange?.(false);
     void client.removeChannel(channel);
   };
+}
+
+export function parseHomeDashboard(data:Record<string,unknown>):HomeDashboardData {
+    const payload = data as Record<string, unknown>;
+    const summary =
+      payload.summary && typeof payload.summary === 'object'
+        ? (payload.summary as Record<string, unknown>)
+        : {};
+    const access =
+      payload.access && typeof payload.access === 'object'
+        ? (payload.access as Record<string, unknown>)
+        : {};
+
+    return {
+        generatedAt: String(payload.generatedAt || new Date().toISOString()),
+        financialFactsAvailable: payload.financialFactsStatus !== 'unavailable',
+        access: {
+          canViewProfit: Boolean(access.canViewProfit),
+        },
+        summary: mapSummary(summary),
+        chequeAlerts:payload.chequeAlerts&&typeof payload.chequeAlerts==='object'?{
+          due:numberValue((payload.chequeAlerts as Record<string,unknown>).dueWithinTwoDays),
+          overdue:numberValue((payload.chequeAlerts as Record<string,unknown>).overdue),
+          outgoingDue:numberValue((payload.chequeAlerts as Record<string,unknown>).outgoingDueInMinorUnits),
+        }:undefined,
+        latestOrders: Array.isArray(payload.latestOrders)
+          ? payload.latestOrders.map((item) =>
+              mapOrder(item as Record<string, unknown>)
+            )
+          : [],
+        stockAlerts: Array.isArray(payload.stockAlerts)
+          ? payload.stockAlerts.map((item) =>
+              mapStockAlert(item as Record<string, unknown>)
+            )
+          : [],
+        orderStatuses: Array.isArray(payload.orderStatuses)
+          ? payload.orderStatuses.map((item) =>
+              mapOrderStatus(item as Record<string, unknown>)
+            )
+          : [],
+        sevenDaySales: Array.isArray(payload.sevenDaySales)
+          ? payload.sevenDaySales.map((item) =>
+              mapSalesDay(item as Record<string, unknown>)
+            )
+          : [],
+    };
 }

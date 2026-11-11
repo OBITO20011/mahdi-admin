@@ -1,3 +1,4 @@
+import{historical220Text}from'../scripts/testing/lite220-historical-test-view.mjs';
 import{historicalProductWorkbookInventory}from'../scripts/audit/source-before-product-workbook.mjs';
 import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import assert from 'node:assert/strict';
@@ -11,7 +12,7 @@ import {businessErrorMessage} from '../src/utils/businessError';
 import {pretrialP1Pins,sourceBeforePretrialP1,inventoryBeforePretrialP1} from '../scripts/audit/source-before-pretrial-p1.mjs';
 import {verifyProbeCoverage} from '../scripts/audit/table-access-probes.mjs';
 import {sourceBeforeTrialOwnerA,inventoryBeforeTrialOwnerA} from '../scripts/audit/source-before-trial-owner-a.mjs';
-const read=(file:string)=>readFileSync(file,'utf8').replaceAll('\r\n','\n');
+const read=(file:string)=>historical220Text(file,readFileSync(file,'utf8').replaceAll('\r\n','\n'));
 const base='b79a9e7bc5e4ff9551c8dab111edb6c04fc17dd3';
 
 test('P1 translates every exact207/208 rejection code and never exposes unknown server detail as success',()=>{

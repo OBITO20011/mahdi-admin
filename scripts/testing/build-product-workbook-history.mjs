@@ -37,6 +37,12 @@ try{
   try{if(name==='sourceBefore198Presentation'||name.startsWith('restore'))hashOperations[name]={[hashSig]:(await fn(current.sources)).map(intern)};
   else queryOperations[name]={[currentSig]:pack(await fn(current,parseSource))};}catch{unsupported.push(name);}
  }
+ // The198 owner reader also applies201's inverse to the already204 view.
+ // Evaluate this additional input with the actual Git63 module and sources;
+ // never use today's application files or replace the existing snapshots.
+ const {restoreHomeDamage201SourceHashes}=await import('./scripts/audit/source-before-home-damage201.mjs');
+ const sales204=views.inventoryBeforeSales204.sources.map(k=>records[k]);
+ hashOperations.restoreHomeDamage201SourceHashes[digest(sales204)]=(await restoreHomeDamage201SourceHashes(sales204)).map(intern);
  const {sourceBeforeStagingConfig}=await import('./scripts/audit/source-before-staging-config.mjs');hashOperations.sourceBeforeStagingConfig={};
  for(const candidate of [current.sources,...Object.values(views).map(v=>v.sources.map(k=>records[k]))])try{hashOperations.sourceBeforeStagingConfig[digest(candidate)]=(await sourceBeforeStagingConfig(candidate)).map(intern);}catch{/* Other historical input scopes remain unsupported and fail closed. */}
  console.log(JSON.stringify({baseline:${JSON.stringify(baseline)},records,current:pack(current),currentSignature:currentSig,currentHashSignature:hashSig,views,hashOperations,queryOperations,unsupported}));`;

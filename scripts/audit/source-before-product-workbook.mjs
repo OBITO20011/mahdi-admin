@@ -1,3 +1,5 @@
+import{projectSalesOnlyPhase2Inventory}from'../testing/sales-only-phase2-history.mjs';
+import{salesOnlyPhase2Pins}from'./source-before-sales-only-phase2.mjs';
 import{projectStorefrontImageQueries}from'./source-before-storefront-images.mjs';
 // Runtime inventories are ESM-only; synchronous legacy test readers import text.mjs.
 import{sourceBeforeProductWorkbook,restoreProductWorkbookHashes,entries}from'./source-before-product-workbook-text.mjs';
@@ -7,6 +9,10 @@ import{readFileSync}from'node:fs';import{createHash}from'node:crypto';import ass
 const hash=s=>createHash('sha256').update(s).digest('hex');
 // Frozen historical proofs only. Default/current runtime coverage stays unprojected.
 export function projectProductWorkbookQuerySites(source,parseSource=defaultParseSource){
+ if(source.sources.some(row=>salesOnlyPhase2Pins.entries[row.file]?.after===row.sha256)){
+  assert.equal(parseSource,defaultParseSource,'UNAPPROVED_HISTORICAL_PARSER');
+  try{return projectSalesOnlyPhase2Inventory(source);}catch(error){throw Error('HISTORICAL_QUERY_INVENTORY_DRIFT:WORKBOOK_QUERY_ARGUMENT_DRIFT',{cause:error});}
+ }
  source=projectStorefrontImageQueries(source,parseSource);
  const entriesOut=[];
  for(const file of new Set(source.entries.map(e=>e.file))){
@@ -34,10 +40,11 @@ const unpackRecord=k=>{assert.ok(Object.hasOwn(frozen.records,k),'FROZEN_HISTORY
 const unpackView=v=>({...structuredClone(v),sources:v.sources.map(unpackRecord),entries:v.entries.map(unpackRecord)});
 const core=e=>Object.fromEntries(Object.entries(e).filter(([k])=>!['callers','screenPaths','reachability'].includes(k)));
 const signature=v=>digest({sources:v.sources,entries:v.entries.map(core)});
-export function historicalProductWorkbookHashes(project,rows){const before=restoreProductWorkbookHashes(rows),known=frozen.hashOperations[project.name]?.[digest(before)];return known?known.map(unpackRecord):project(before);}
+export function historicalProductWorkbookHashes(project,rows){const before=restoreProductWorkbookHashes(rows),known=frozen.hashOperations[project.name]?.[digest(before)];return known?known.map(unpackRecord):Object.hasOwn(frozen.hashOperations,project.name)?before:project(before);}
 export function historicalProductWorkbookQuery(project,source,...rest){
  if(rest.length)assert.equal(rest[0],defaultParseSource,'UNAPPROVED_HISTORICAL_PARSER');
- const before=projectProductWorkbookQuerySites(source,defaultParseSource),known=frozen.queryOperations[project.name]?.[signature(before)];assert.ok(known,'HISTORICAL_QUERY_INVENTORY_DRIFT:WORKBOOK');return unpackView(known);
+ const phase2=source.sources.some(row=>salesOnlyPhase2Pins.entries[row.file]?.after===row.sha256);
+ const before=phase2?projectSalesOnlyPhase2Inventory(source):projectProductWorkbookQuerySites(source,defaultParseSource),known=frozen.queryOperations[project.name]?.[signature(before)];assert.ok(known,'HISTORICAL_QUERY_INVENTORY_DRIFT:WORKBOOK');return unpackView(known);
 }
 export async function historicalProductWorkbookInventory(project){
  const current=await currentInventory({projectSource:sourceBeforeProductWorkbook});assert.equal(signature(current),frozen.currentSignature,'HISTORICAL_QUERY_INVENTORY_DRIFT:WORKBOOK');const known=frozen.views[project.name];assert.ok(known,'UNKNOWN_FROZEN_INVENTORY_VIEW');return unpackView(known);

@@ -1,5 +1,6 @@
+import {pendingLiteDelivery,recoverLiteDelivery} from '../../services/supabase/salesOnlyDelivery';
 import {newestRecords} from '../../utils/newestRecords';
-import React, { useCallback, useState, useSyncExternalStore } from 'react';
+import React, { useCallback, useEffect, useState, useSyncExternalStore } from 'react';
 import {
   AlertTriangle,
   Banknote,
@@ -188,6 +189,10 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
     order.deliveryDriverPhone || ''
   );
   const [latestTrackingUrl, setLatestTrackingUrl] = useState('');
+  const [deliveryPending,setDeliveryPending]=useState(false),[deliveryJournalError,setDeliveryJournalError]=useState(false);
+  useEffect(()=>{let active=true;if(order.accountingTracked===false&&['preparing','ready','out_for_delivery'].includes(order.status))void pendingLiteDelivery(order.id).then(pending=>{if(active)setDeliveryPending(Boolean(pending));},()=>{if(active)setDeliveryJournalError(true);});return()=>{active=false;};},[order.id,order.accountingTracked,order.status]);
+  const recoverSavedDelivery=async()=>{if(busy)return;setBusy(true);try{const result=await recoverLiteDelivery(order.id);setLatestTrackingUrl(buildStorefrontTrackingUrl(result.tracking_token));setDeliveryDriverPhone(result.driver_phone);setDeliveryPending(false);setShowDeliveryEtaForm(false);await onOrderChanged?.();}catch{setToast('تعذر استرجاع التوصيل؛ احتفظ بالمحاولة ولا تبدأ مفتاحاً جديداً. (DELIVERY-01)','error');}finally{setBusy(false);}};
+
   const nextStep = nextOrderStep(order.status);
   const phoneViewport = useSyncExternalStore(subscribePhoneViewport, isPhoneViewport, () => false);
   const fullScreenDetail = embedded && phoneViewport && !historyContext;
@@ -314,6 +319,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
         deliveryEtaMinutes,
         normalizedDriverPhone
       );
+      if (!result.success&&order.accountingTracked===false){try{setDeliveryPending(Boolean(await pendingLiteDelivery(order.id)));}catch{setDeliveryJournalError(true);}}
       if (result.success) {
         setLatestTrackingUrl(result.trackingUrl || '');
         setDeliveryDriverPhone(
@@ -451,7 +457,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
                 ? 'راجع الأصناف ثم ابدأ التجهيز'
                 : order.status === 'out_for_delivery'
                   ? 'سجّل التسليم والتحصيل'
-                  : nextStep?.label || 'لا يوجد إجراء مطلوب الآن'}
+                  : order.accountingTracked===false&&nextStep?.status==='delivered'?'تأكيد التسليم والتحصيل':nextStep?.label || 'لا يوجد إجراء مطلوب الآن'}
             </h4>
             <p className="mt-1 text-[10px] text-nw-muted">
               الإجمالي {order.totalAmount.toFixed(3)} {CURRENCY} ·{' '}
@@ -461,6 +467,13 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
           <StatusBadge tone={getOrderStatus(order.status).tone}>{STATUS_LABELS[order.status] || order.status}</StatusBadge>
         </div>
 
+        {order.recipientProposal?.proposed&&<section aria-label="مراجعة بيانات مستلم الطلب" className="my-3 space-y-2 rounded-xl border border-nw-warn bg-nw-warn-bg p-3">
+          <h4 className="font-bold">بيانات مستلم مقترحة — بطاقة الزبون لم تتغير</h4>
+          <p>الاسم في البطاقة: {order.recipientProposal.customerCard.fullName} · المحافظة: {order.recipientProposal.customerCard.governorate??'غير مسجلة'}</p>
+          <p>المستلم في هذا الطلب: {order.recipientProposal.recipient.fullName} · {['governorate','city','area','street','building'].map(k=>order.recipientProposal?.recipient[k]).filter(Boolean).join(' - ')}</p>
+          <p className="text-sm">تأكد من الزبون قبل القبول. إذا أراد تغيير بطاقته الدائمة، افتح ملفه وعدّل البيانات يدوياً؛ الطلب لا يعدّلها تلقائياً.</p>
+          {order.customerId&&<UiButton onClick={()=>openCustomerProfile(order.customerId!)}>فتح بطاقة الزبون للمراجعة</UiButton>}
+        </section>}
         {order.status === 'new' && (
           <UiButton variant="primary"
             type="button"
@@ -522,7 +535,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
       <div id={`order-action-area-${order.id}`} className="space-y-2 scroll-mt-4">
         {order.source==='pos'&&(order.paymentMethod==='exchange_credit'?<p className="text-sm text-nw-muted">فاتورة البديل مرتبطة بتبديل موحّد. للإرجاع استخدم «إرجاع أو استبدال»؛ لا تعكسها كبيع نقدي مستقل.</p>:<DocumentCorrectionAction action="pos_sale" recordId={order.id} insideMenu={historyContext} onChanged={async()=>{await onOrderChanged?.();setToast('تم عكس البيع وحفظ أثره التدقيقي.','success');}}/>)}
 
-        {(showDeliveryEtaForm || order.status === 'out_for_delivery') && (
+        {(showDeliveryEtaForm || order.status === 'out_for_delivery'||deliveryPending||deliveryJournalError) && (
           <div className="space-y-3 rounded-2xl border border-nw-info bg-nw-info-bg p-3">
             <div className="flex items-start justify-between gap-2">
               <div>
@@ -563,7 +576,8 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
               </div>
             )}
 
-            {showDeliveryEtaForm && (
+            {order.accountingTracked===false&&(deliveryPending||deliveryJournalError)&&<div role="alert" className="space-y-2 rounded-xl border border-nw-warn p-3"><p>{deliveryJournalError?'تعذر قراءة سجل التوصيل؛ لا تمسحه ولا تبدأ محاولة جديدة. (DELIVERY-02)':'يوجد توصيل محفوظ غير محسوم؛ استرجع نفس الطلب قبل تعديل البيانات.'}</p>{deliveryPending&&<UiButton disabled={busy||deliveryJournalError} onClick={()=>void recoverSavedDelivery()}>استرجاع التوصيل المحفوظ</UiButton>}</div>}
+            {showDeliveryEtaForm&&!deliveryPending&&!deliveryJournalError && (
               <>
                 <div className="grid grid-cols-4 gap-1.5">
                   {[15, 30, 45, 60].map((minutes) => (
@@ -873,7 +887,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
         {['completed', 'delivered'].includes(order.status) && (
           <div className="flex items-center justify-center gap-1.5 rounded-xl border border-nw-ok bg-nw-ok-bg p-3 font-bold text-nw-text">
             <CheckCircle2 className="h-4 w-4" />
-            {historyContext ? "حالة الفاتورة: مكتملة" : "تم التسليم وخصم الكمية من المخزون"}
+            {historyContext ? "حالة الفاتورة: مكتملة" : order.accountingTracked===false?"تم التسليم وتسجيل التحصيل والذمة بلا تتبع مخزون":"تم التسليم وخصم الكمية من المخزون"}
           </div>
         )}
 
@@ -1044,9 +1058,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
         <div className="flex items-start gap-2">
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-nw-info" />
           <p>
-            كميات هذا الطلب محجوزة منذ إنشائه في المتجر. قبول الطلب يبدأ
-            التجهيز مباشرة، والخصم الفعلي من المخزون يحدث عند اعتماد
-            التسليم والحساب.
+            {order.accountingTracked===false?'هذا الطلب بلا تتبع مخزون أو حجز. القبول يبدأ التجهيز، والتسليم يسجل التحصيل والذمة.':'كميات هذا الطلب محجوزة منذ إنشائه في المتجر. قبول الطلب يبدأ التجهيز مباشرة، والخصم الفعلي من المخزون يحدث عند اعتماد التسليم والحساب.'}
           </p>
         </div>
       </div>

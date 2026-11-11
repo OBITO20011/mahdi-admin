@@ -1,3 +1,4 @@
+import type {OperatingMode} from '../../services/supabase/operatingMode.service';
 /**
  * Nawasrah Business Manager - iOS Header Component
  */
@@ -15,7 +16,7 @@ import { UserAvatar } from '../ui';
 import {Menu} from 'lucide-react';
 import {useNavigationDrawer} from '../layout/navigationDrawerContext';
 
-export const Header: React.FC = () => {
+export const Header: React.FC<{operatingMode?:OperatingMode}> = ({operatingMode='full'}) => {
   const drawer=useNavigationDrawer();
   const {
     activeBranch,
@@ -45,20 +46,23 @@ export const Header: React.FC = () => {
   } = useAppStoreActions();
   const { roleName } = useAuthStore();
   // Same role gate as before; on desktop the SideNav carries the assistant.
-  const canUseAssistant = ['owner', 'admin', 'manager', 'accountant'].includes(
+  const canUseAssistant = operatingMode==='full'&&['owner', 'admin', 'manager', 'accountant'].includes(
     roleName || '',
   );
 
   const [showBranchDropdown, setShowBranchDropdown] = useState(false);
-  const unreadCount = (notifications || []).filter((n) => !n?.read).length;
+  const unreadCount = (notifications || []).filter((n) => !n?.read&&(operatingMode==='full'||n.type!=='stock')).length;
   const knownStockAlertIds = useRef<Set<string>>(new Set());
 
   useEffect(() => {
+    if(operatingMode!=='full')return;
+    let active=true;
     let isInitialLoad = true;
     let initialRefreshTimer: number | null = null;
 
     const refreshAlerts = async () => {
       const latest = await refreshStockNotificationsFromSupabase();
+      if(!active)return;
       const newUnreadAlert = latest.find(
         (notification) =>
           !notification.read &&
@@ -91,10 +95,11 @@ export const Header: React.FC = () => {
     }, 400);
     const unsubscribe = subscribeToStockAlertChanges(refreshAlerts);
     return () => {
+      active=false;
       if (initialRefreshTimer) window.clearTimeout(initialRefreshTimer);
       unsubscribe();
     };
-  }, [refreshStockNotificationsFromSupabase]);
+  }, [refreshStockNotificationsFromSupabase,operatingMode]);
 
   return (
     <header className="admin-app-header z-20 flex items-center justify-between border-b border-nw-border bg-nw-surface px-3 py-2 text-nw-text shadow-sm">

@@ -1,3 +1,4 @@
+import{historical220Text}from'../scripts/testing/lite220-historical-test-view.mjs';
 import{historicalProductWorkbookInventory}from'../scripts/audit/source-before-product-workbook.mjs';
 import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import assert from 'node:assert/strict';
@@ -52,7 +53,7 @@ test('trial A exact inverse preserves every delivered source byte and rejects cu
 });
 test('trial A frozen SDK proof retains every accepted source and real query behind exact209 inverse',async()=>{
  const current=await historicalProductWorkbookInventory(inventoryBeforeParcel209),proof=JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_AFTER_TRIAL_A.json','utf8'));
- const state=JSON.parse(readFileSync('docs/agent/project-state.json','utf8'));
+ const state=JSON.parse(historical220Text('docs/agent/project-state.json',readFileSync('docs/agent/project-state.json','utf8')));
  assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_219.json');
  assert.equal(state.migrationCeiling,219);assert.deepEqual(current.sources,proof.sourceHashes);
  assert.deepEqual(verifyProbeCoverage(current,proof.results),proof.coverage);

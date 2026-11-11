@@ -1,4 +1,5 @@
 import {sourceBeforeD1Kit} from '../scripts/audit/source-before-d1-reference-kit.mjs';
+import {sourceBeforeSalesOnlyPhase2} from '../scripts/audit/source-before-sales-only-phase2.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -58,7 +59,7 @@ function businessFunctions(raw:string){
  assert.equal(Object.keys(result).length,names.size);return result;
 }
 test('every existing cart writer, amount, stock/recovery guard and message is identical to main',()=>{
- const file='customer-web/src/App.tsx';assert.deepEqual(businessFunctions(readFileSync(file,'utf8')),businessFunctions(previous(file)));
+ const file='customer-web/src/App.tsx';assert.deepEqual(businessFunctions(sourceBeforeSalesOnlyPhase2(file,readFileSync(file,'utf8'))!),businessFunctions(previous(file)));
 });
 
 test('CI changes only add bounded synthetic evidence upload, with no changed gate, timeout or retry',()=>{
@@ -72,16 +73,18 @@ test('CI changes only add bounded synthetic evidence upload, with no changed gat
           if-no-files-found: ignore
 
 `;
- const file='.github/workflows/quality.yml',raw=readFileSync(file,'utf8').replaceAll('\r\n','\n');
+ const file='.github/workflows/quality.yml',raw=sourceBeforeSalesOnlyPhase2(file,readFileSync(file,'utf8'))!.replaceAll('\r\n','\n');
  assert.ok(raw.includes(block));assert.equal(raw.replace(block,''),previous(file));
  const command=JSON.parse(readFileSync('package.json','utf8')).scripts.quality;
  assert.equal(command.replace(' && node scripts/testing/run-cart-flight-browser.mjs',''),JSON.parse(previous('package.json')).scripts.quality);
 });
 
-test('published local flight evidence binds the actual sources and all six mandatory browser cases',()=>{
+test('published original flight evidence binds exact reviewed sources and all six mandatory browser cases',()=>{
  const proof=JSON.parse(readFileSync('docs/operations/STOREFRONT_CART_FLIGHT_LOCAL.json','utf8'));
  assert.equal(proof.ok,true);assert.equal(proof.hostedAccess,false);assert.equal(proof.deployments,0);
- for(const[file,sha]of Object.entries(proof.sourceHashes))assert.equal(hash(readFileSync(file,'utf8')),sha,file);
+ // Keep the accepted historical measurements unchanged. Current source still
+ // runs all six cases through run-cart-flight-browser in the full quality gate.
+ for(const[file,sha]of Object.entries(proof.sourceHashes))assert.equal(hash(sourceBeforeSalesOnlyPhase2(file,readFileSync(file,'utf8'))!),sha,file);
  assert.deepEqual(proof.browser.map((r:{engine:string;width:number})=>[r.engine,r.width]),[['chromium',360],['chromium',390],['chromium',1440],['webkit',360],['webkit',390],['webkit',1440]]);
  assert.ok(proof.browser.every((r:{max:number;finalQuantity:number;adds:number;firstVisualEndMs:number;endpointMaxErrorPx:number;hiddenTarget:boolean})=>r.max===3&&r.finalQuantity===26&&r.adds<r.firstVisualEndMs&&r.endpointMaxErrorPx<1&&r.hiddenTarget));
  assert.ok(proof.budget.after.initialJsBytes<=proof.budget.before.initialJsBytes);

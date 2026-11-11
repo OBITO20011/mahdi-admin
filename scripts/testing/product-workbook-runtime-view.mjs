@@ -1,10 +1,22 @@
+import{sourceBeforeSalesOnlyPhase3,pathsBeforeSalesOnlyPhase3,salesOnlyPhase3Pins}from'../audit/source-before-sales-only-phase3.mjs';
 import{pathsBeforeD1Kit}from'../audit/source-before-d1-reference-kit.mjs';
 // Historical CI fixtures only. Owner tools and every SQL byte stay unmodified.
 import assert from'node:assert/strict';import{execFileSync}from'node:child_process';import{mkdtemp,writeFile,readFile,unlink,rm,lstat,readdir,realpath}from'node:fs/promises';import{symlinkSync}from'node:fs';import path from'node:path';import{tmpdir}from'node:os';import{createHash,randomUUID}from'node:crypto';import{pathToFileURL}from'node:url';
 export const workbookHistoricalSuites=Object.freeze(['operations-reset','warehouse-management','owner-withdrawals','deferred-cheques','opening-cheques','legacy-product-cost','home-damage201','all-collections202','all-collections203','sales-history204','product-receiving205','navigation-cash206','document-corrections207','supplier-replacement208','parcel209','receipt210','aftercare211','trial212','handover213','handover214','reset214-resume','aftercare215','partial216','owner-telegram217','owner-telegram217-operations','package-f-reads']);
 const root=path.resolve(import.meta.dirname,'../..'),baseline='2dafe8433bc4efef68a82fee904590aabf5fc8ad',prefix='nawasrah-workbook-runtime-view-',hash=v=>createHash('sha256').update(v).digest('hex'),git=(args,cwd=root)=>execFileSync('git',args,{cwd,windowsHide:true,maxBuffer:256*1024**2,stdio:['ignore','pipe','pipe']});
 const featureHarnessFiles=new Set(['e2e/package-f-product-workbook-harness.tsx','e2e/package-f-product-workbook-harness.html','e2e/package-f-product-workbook.fixture.ts','e2e/package-f-product-workbook.spec.ts','e2e/package-f-screen-history-harness.tsx','e2e/package-f-screen-history-harness.html','e2e/package-f-screen-history.spec.ts','e2e/package-f-record-order-harness.tsx','e2e/package-f-record-order-harness.html','e2e/package-f-record-order.spec.ts','e2e/package-f-iphone-dialogs-harness.tsx','e2e/package-f-iphone-dialogs-harness.html','e2e/package-f-iphone-dialogs.spec.ts']);
-const sourceScope=file=>typeof file==='string'&&!file.includes('\\')&&!file.includes(':')&&!file.split('/').some(p=>p==='..'||p==='.'||p==='')&&(file.startsWith('src/')||file.startsWith('customer-web/src/')||featureHarnessFiles.has(file));
+const guestSourceFiles=new Set(['supabase/functions/submit-guest-order/index.ts','supabase/functions/submit-guest-order/operatingMode.ts']);
+const phase3LegacySources=Object.freeze([
+ 'src/features/shifts/ShiftsView.tsx',
+ 'src/services/supabase/crm.service.ts',
+ 'src/services/supabase/customerDebtAging.service.ts',
+ 'src/services/supabase/expenses-shifts.service.ts',
+ 'src/services/supabase/operatingReceivables.ts',
+ 'src/services/supabase/operatingShiftReversal.ts',
+ 'src/utils/businessError.ts',
+ 'supabase/functions/_shared/owner-telegram-format.ts',
+]);
+const sourceScope=file=>typeof file==='string'&&!file.includes('\\')&&!file.includes(':')&&!file.split('/').some(p=>p==='..'||p==='.'||p==='')&&(file.startsWith('src/')||file.startsWith('customer-web/src/')||featureHarnessFiles.has(file)||guestSourceFiles.has(file));
 const noLinks=async folder=>{for(const e of await readdir(folder,{withFileTypes:true})){const p=path.join(folder,e.name),s=await lstat(p);assert.ok(!s.isSymbolicLink(),'HISTORICAL_VIEW_UNEXPECTED_LINK');if(s.isDirectory())await noLinks(p);}};
 export function projectWorkbookRuntimeSource(file,raw,pin){assert.ok(sourceScope(file),'HISTORICAL_VIEW_SOURCE_SCOPE');assert.equal(hash(raw.replaceAll('\r\n','\n')),pin.after,'HISTORICAL_VIEW_UNREVIEWED_SOURCE:'+file);if(pin.beforeText===null)return null;assert.equal(hash(pin.beforeText),pin.before,'HISTORICAL_VIEW_BASELINE_CORRUPT');return pin.beforeText;}
 export async function cleanupWorkbookRuntimeView(dir){
@@ -15,14 +27,15 @@ const runtimeLayers = Object.freeze({
  'storefront-images-source-pins.json': ['customer-web/src/App.tsx','customer-web/src/components/CategoryShowcase.tsx','customer-web/src/components/HomeCategoryMosaic.tsx','customer-web/src/components/ProductCard.tsx','customer-web/src/components/ProductDetailsModal.tsx','customer-web/src/components/ProductImage.tsx','customer-web/src/utils/productThumbnail.ts','src/services/supabase/product-images.service.ts','src/utils/productImageThumbnail.ts'],
  'cart-flight-source-pins.json': ['customer-web/src/App.tsx','customer-web/src/components/CargoAddButton.tsx','customer-web/src/components/ProductCard.tsx','customer-web/src/components/StoreHeader.tsx','customer-web/src/components/MobileStoreNav.tsx','customer-web/src/utils/cartAdditionAnimation.ts'],
 });
-const layerBaselines=Object.freeze({'cart-flight-source-pins.json':'f098f0afaa7b54b052b18d8266f3789d67e8de76','storefront-speed-source-pins.json':'d102074583c7369502954eaf8ea70d2595f6a19c','storefront-images-source-pins.json':'1ab2cd880547661390149a972a4794b0b5df29da'});
+const phase2RuntimeFiles=Object.freeze(["customer-web/src/App.tsx","customer-web/src/components/CartDrawer.tsx","customer-web/src/components/GuidedStoreAssistant.tsx","customer-web/src/components/GuidedStoreAssistantDialog.tsx","customer-web/src/components/MerchandisingSections.tsx","customer-web/src/components/ParcelBuilderModal.tsx","customer-web/src/components/ProductCard.tsx","customer-web/src/components/ProductDetailsModal.tsx","customer-web/src/components/ProductPurchaseControl.tsx","customer-web/src/components/StoreHero.tsx","customer-web/src/services/catalog.service.ts","customer-web/src/services/operatingCatalog.ts","customer-web/src/services/orders.service.ts","customer-web/src/services/receipts.service.ts","customer-web/src/types/catalog.ts","customer-web/src/utils/cart.ts","customer-web/src/utils/catalogView.ts","customer-web/src/utils/operatingRead.ts","customer-web/src/utils/productDetails.ts","customer-web/src/utils/storefrontUnits.ts","e2e/package-f-product-workbook-harness.tsx","src/App.tsx","src/components/common/Header.tsx","src/components/layout/BottomTabs.tsx","src/components/layout/NavigationShell.tsx","src/components/layout/SideNav.tsx","src/components/modals/AllModals.tsx","src/features/cheques/ChequeRegistrationForm.tsx","src/features/cheques/ChequesView.tsx","src/features/dashboard/DashboardHome.tsx","src/features/dashboard/DashboardView.tsx","src/features/dashboard/SalesOnlyDashboardView.tsx","src/features/goLive/GoLiveSetupView.tsx","src/features/goLive/OpeningChequesCard.tsx","src/features/goLive/ProductWorkbookImportPanel.tsx","src/features/goLive/goLiveImport.ts","src/features/goLive/openingChequesImport.ts","src/features/goLive/productWorkbook.ts","src/features/more/MoreMenuView.tsx","src/features/operatingMode/ManualAvailabilityPanel.tsx","src/features/operatingMode/OpeningEpochPanel.tsx","src/features/operatingMode/OperatingModePanel.tsx","src/features/operatingMode/OperatingModeProvider.tsx","src/features/operatingMode/modeReader.ts","src/features/operatingMode/navigationPolicy.ts","src/features/operatingMode/openingEpoch.ts","src/features/operatingMode/operatingModeContext.ts","src/features/orders/AdminAftercarePanel.tsx","src/features/orders/AftercareWizard215.tsx","src/features/orders/OrderDetailModal.tsx","src/features/orders/aftercare215Draft.ts","src/features/pos/PosParcelBuilder.tsx","src/features/pos/PosProductCard.tsx","src/features/pos/PosView.tsx","src/features/pos/posV2Cart.ts","src/features/pos/salesOnlyPos.ts","src/features/products/ProductDetailModal.tsx","src/features/products/ProductFormModal.tsx","src/features/products/ProductsView.tsx","src/features/reports/ReportsCenterView.tsx","src/features/reports/SalesOnlyReportsView.tsx","src/features/shifts/CashFlowSummary.tsx","src/features/shifts/SalesOnlyShiftClosingReportModal.tsx","src/features/shifts/ShiftClosingReportModal.tsx","src/features/shifts/ShiftsView.tsx","src/services/supabase/adminCustomerV2Lifecycle.ts","src/services/supabase/aftercare215.service.ts","src/services/supabase/aftercare215Rpc.ts","src/services/supabase/cashShiftMovements.service.ts","src/services/supabase/customerStatement.service.ts","src/services/supabase/dashboard.service.ts","src/services/supabase/expenses-shifts.service.ts","src/services/supabase/manualAvailability.service.ts","src/services/supabase/openingEpoch.service.ts","src/services/supabase/operatingMode.service.ts","src/services/supabase/operatingModeCommand.ts","src/services/supabase/operatingOrdersPage.ts","src/services/supabase/operatingShiftMovements.ts","src/services/supabase/operatingShiftReport.ts","src/services/supabase/operatingShiftReversal.ts","src/services/supabase/orders.service.ts","src/services/supabase/posV2.service.ts","src/services/supabase/posV2Recovery.ts","src/services/supabase/posV2Validation.ts","src/services/supabase/productWorkbook.service.ts","src/services/supabase/reportingDispatch.service.ts","src/services/supabase/reports.service.ts","src/services/supabase/salesAftercare.service.ts","src/services/supabase/salesOnlyDelivery.ts","src/services/supabase/salesOnlyHome.service.ts","src/services/supabase/salesOnlyOrderContext.ts","src/services/supabase/salesOnlyOrderTransition.ts","src/services/supabase/salesOnlyReport.service.ts","src/services/supabase/salesOnlyShiftReport.ts","src/types/index.ts","src/utils/aftercare215Contracts.ts","src/utils/posKnownRejectionCopy.ts","supabase/functions/submit-guest-order/index.ts","supabase/functions/submit-guest-order/operatingMode.ts"]);
+const layerBaselines=Object.freeze({'sales-only-phase2-source-pins.json':'b305421c40bd1e47a5cc4ce313d617762555eb1d','cart-flight-source-pins.json':'f098f0afaa7b54b052b18d8266f3789d67e8de76','storefront-speed-source-pins.json':'d102074583c7369502954eaf8ea70d2595f6a19c','storefront-images-source-pins.json':'1ab2cd880547661390149a972a4794b0b5df29da'});
 function historicalText(sha,file){try{return git(['show',sha+':'+file]).toString('utf8').replaceAll('\r\n','\n');}catch{return null;}}
-function validateRuntimeLayer(name,layer){assert.ok(Object.hasOwn(runtimeLayers,name),'HISTORICAL_RUNTIME_UNKNOWN_LAYER');assert.equal(layer.baseline,layerBaselines[name],'HISTORICAL_RUNTIME_LAYER_BASELINE');assert.equal(layer.format,1,'HISTORICAL_RUNTIME_LAYER_FORMAT');}
+function validateRuntimeLayer(name,layer){assert.ok(Object.hasOwn(runtimeLayers,name)||name==='sales-only-phase2-source-pins.json','HISTORICAL_RUNTIME_UNKNOWN_LAYER');assert.equal(layer.baseline,layerBaselines[name],'HISTORICAL_RUNTIME_LAYER_BASELINE');assert.equal(layer.format,1,'HISTORICAL_RUNTIME_LAYER_FORMAT');}
 export function composeWorkbookRuntimeLayer(pins,name,layer,lookup=historicalText){
  validateRuntimeLayer(name,layer);
  for(const[file,pin]of Object.entries(layer.entries)){
   if(!sourceScope(file))continue;
-  assert.ok(runtimeLayers[name].includes(file),'HISTORICAL_RUNTIME_LAYER_SCOPE');
+  assert.ok((name==='sales-only-phase2-source-pins.json'?phase2RuntimeFiles:runtimeLayers[name]).includes(file),'HISTORICAL_RUNTIME_LAYER_SCOPE');
   const previous=lookup(layer.baseline,file);assert.equal(previous===null?null:hash(previous),pin.before,'HISTORICAL_RUNTIME_LAYER_MAIN_DRIFT');
   const known=pins.entries[file];let before;
   if(known){assert.equal(known.after,pin.before,'HISTORICAL_RUNTIME_LAYER_INTERMEDIATE_DRIFT');before=known.beforeText;}
@@ -39,12 +52,28 @@ export function projectWorkbookRuntimeEvidence(raw,pin,layers,lookup=historicalT
  }
  assert.equal(hash(text),pin.after,'HISTORICAL_VIEW_UNREVIEWED_EVIDENCE');return text;
 }
-export async function prepareWorkbookRuntimeView(){
- const status=git(['status','--porcelain','-z']).toString('utf8').split('\0').filter(Boolean);assert.ok(status.every(line=>['docs/agent/ACTIVE_TASK.json','docs/agent/ACTIVE_TASK_FILES.json'].includes(line.slice(3))),'HISTORICAL_VIEW_REQUIRES_COMMITTED_SOURCES');assert.deepEqual(pathsBeforeD1Kit(git(['diff','--name-only',baseline,'HEAD','--','supabase']).toString('utf8').trim().split('\n').filter(Boolean),baseline),[],'HISTORICAL_VIEW_SQL_CHANGED');
+export async function prepareWorkbookRuntimeView({schemaOnly=false}={}){
+ const status=git(['status','--porcelain','-z']).toString('utf8').split('\0').filter(Boolean);assert.ok(status.every(line=>['docs/agent/ACTIVE_TASK.json','docs/agent/ACTIVE_TASK_FILES.json'].includes(line.slice(3))),'HISTORICAL_VIEW_REQUIRES_COMMITTED_SOURCES');assert.deepEqual(pathsBeforeD1Kit(pathsBeforeSalesOnlyPhase3(git(['diff','--name-only',baseline,'HEAD','--','supabase']).toString('utf8').trim().split('\n').filter(Boolean),baseline),baseline),[],'HISTORICAL_VIEW_SQL_CHANGED');
  const head=git(['rev-parse','HEAD']).toString('utf8').trim(),dir=await mkdtemp(path.join(tmpdir(),prefix)),marker={root:path.resolve(dir),sourceRoot:root,head,baseline,nonce:randomUUID()},changed=[];
  try{
   git(['clone','--shared','--no-checkout',root,dir]);git(['update-ref','--no-deref','HEAD',head],dir);git(['read-tree',head],dir);await writeFile(path.join(dir,'.git/info/exclude'),'\n/node_modules\n/.workbook-runtime-view.json\n',{flag:'a'});assert.equal(git(['rev-parse','HEAD'],dir).toString('utf8').trim(),head);
-  const tar=git(['archive','--format=tar',head]);execFileSync('tar',['-xf','-','-C',dir],{input:tar,windowsHide:true,maxBuffer:1024**2});await noLinks(dir);await writeFile(path.join(dir,'.workbook-runtime-view.json'),JSON.stringify(marker));
+  // Git materializes raw objects without buffering a full archive or tar filename conversion.
+  git(['config','core.autocrlf','false'],dir);git(['checkout-index','--all'],dir);await noLinks(dir);await writeFile(path.join(dir,'.workbook-runtime-view.json'),JSON.stringify(marker));
+  // Restore the exact Phase 2 application bytes first. The 219 readiness
+  // evidence includes them, so applying only the schema inverse would mix
+  // the Phase 3 readers and formatter with the 219 access proof.
+  for(const file of phase3LegacySources){
+   const pin=salesOnlyPhase3Pins.entries[file],target=path.join(dir,file);
+   assert.ok(pin,'LEGACY219_SOURCE_PIN_MISSING:'+file);
+   const current=(await readFile(target,'utf8')).replaceAll('\r\n','\n');
+   const before=sourceBeforeSalesOnlyPhase3(file,current);
+   assert.notEqual(before,current,'LEGACY219_UNREVIEWED_SOURCE:'+file);
+   assert.equal(before,historicalText(salesOnlyPhase3Pins.baseline,file),'LEGACY219_NOT_EXACT_PHASE2_GIT:'+file);
+   if(before===null)await unlink(target);
+   else await writeFile(target,before);
+   changed.push({file,after:pin.after,before:pin.before});
+  }
+  if(!schemaOnly){
   const pins=JSON.parse(await readFile(path.join(root,'scripts/audit/product-workbook-source-pins.json'),'utf8'));assert.equal(pins.baseline,baseline);
   // Compose only exact, new presentation bytes into the existing Git63 view.
   // Keep its old beforeText/hash untouched and prove the intervening main52 byte.
@@ -62,18 +91,28 @@ export async function prepareWorkbookRuntimeView(){
   }
   }
   const sourceLayers=[];for(const name of Object.keys(runtimeLayers)){let layer;try{layer=JSON.parse(await readFile(path.join(root,'scripts/audit',name),'utf8'));}catch(error){if(error.code==='ENOENT')continue;throw error;}sourceLayers.push({name,layer});composeWorkbookRuntimeLayer(pins,name,layer);}
+  // Apply only the exact reviewed phase2 source layer last; old suites still
+  // execute CURRENT runners/SQL/owner guards against their original app view.
+  const phase2Name='sales-only-phase2-source-pins.json',phase2=JSON.parse(await readFile(path.join(root,'scripts/audit',phase2Name),'utf8'));
+  sourceLayers.push({name:phase2Name,layer:phase2});composeWorkbookRuntimeLayer(pins,phase2Name,phase2);
   for(const[file,pin]of Object.entries(pins.entries)){if(!sourceScope(file))continue;const target=path.join(dir,file),raw=await readFile(target,'utf8'),before=projectWorkbookRuntimeSource(file,raw,pin);if(before===null)await unlink(target);else{assert.equal(git(['show',baseline+':'+file]).toString('utf8').replaceAll('\r\n','\n'),before,'HISTORICAL_VIEW_NOT_GIT63');await writeFile(target,before);}changed.push({file,after:pin.after,before:pin.before});}
   const evidencePins=JSON.parse(await readFile(path.join(root,'scripts/testing/product-workbook-runtime-view-pins.json'),'utf8'));assert.equal(evidencePins.baseline,baseline);assert.deepEqual(evidencePins.evidence.map(p=>p.file),['docs/operations/TABLE_ACCESS_AFTER_219.json']);for(const pin of evidencePins.evidence){const target=path.join(dir,pin.file);projectWorkbookRuntimeEvidence(await readFile(target,'utf8'),pin,sourceLayers);const old=git(['show',baseline+':'+pin.file]).toString('utf8').replaceAll('\r\n','\n');assert.equal(hash(old),pin.before,'HISTORICAL_VIEW_EVIDENCE_BASELINE_CORRUPT');await writeFile(target,old);}
+  }
+  // Exact prior219 metadata/doc and deletion of the hash-pinned220 addition
+  // in a disposable legacy fixture;original SQL001-219 and owner tools stay raw.
+  const schemaFiles=['docs/agent/project-state.json','docs/generated/DB_FUNCTIONS.md','docs/operations/SERVICE_ACCESS_INVENTORY.json','docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json','docs/operations/TABLE_ACCESS_INVENTORY.json','supabase/migrations/220_sales_only_operating_mode.sql'];
+  for(const file of schemaFiles){const raw=await readFile(path.join(root,file),'utf8'),before=sourceBeforeSalesOnlyPhase3(file,raw);assert.notEqual(before,raw,'LEGACY219_SCHEMA_SOURCE_NOT_PINNED:'+file);if(before===null)await unlink(path.join(dir,file));else await writeFile(path.join(dir,file),before);}
+  const legacyState=JSON.parse(await readFile(path.join(dir,'docs/agent/project-state.json'),'utf8'));assert.equal(legacyState.migrationCeiling,219);
   // Snapshot only these reviewed application substitutions; every test/script/SQL
   // comes from the CURRENT head,not a historical runner or a modified owner tool.
   const ownerPins=JSON.parse(await readFile(path.join(root,'scripts/testing/rehearsal219-owner-source-pins.json'),'utf8'));for(const[file]of ownerPins.files)assert.deepEqual(await readFile(path.join(root,file)),await readFile(path.join(dir,file)),'HISTORICAL_VIEW_OWNER_TOOL_CHANGED:'+file);
   await writeFile(path.join(dir,'.workbook-runtime-view.json'),JSON.stringify({...marker,changed}));symlinkSync(path.join(root,'node_modules'),path.join(dir,'node_modules'),process.platform==='win32'?'junction':'dir');
   const sourceCheck="import assert from'node:assert/strict';import{readFile}from'node:fs/promises';import{inventory}from'./scripts/audit/table-access-inventory.mjs';import{verifyProbeCoverage}from'./scripts/audit/table-access-probes.mjs';const source=await inventory(),proof=JSON.parse(await readFile('docs/operations/TABLE_ACCESS_AFTER_219.json','utf8'));assert.deepEqual(source.sources,proof.sourceHashes,'HISTORICAL_VIEW_PROOF_SOURCE_MISMATCH');assert.deepEqual(verifyProbeCoverage(source,proof.results),proof.coverage);console.log('HISTORICAL_VIEW_STRICT_SOURCE_AND_ROLE_COVERAGE_OK');";execFileSync(process.execPath,['--input-type=module','-e',sourceCheck],{cwd:dir,windowsHide:true,maxBuffer:1024**2});
-  return{...marker,changed};
+  return{...marker,changed,schemaOnly};
  }catch(error){const file=path.join(dir,'.workbook-runtime-view.json');await writeFile(file,JSON.stringify(marker));await cleanupWorkbookRuntimeView(dir);throw error;}
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){
  const args=process.argv.slice(2);assert.ok(!args.length||args.length===1&&args[0]==='--cleanup','HISTORICAL_VIEW_FIXED_OPTIONS');
  if(args[0]==='--cleanup'){const dir=process.env.NAWASRAH_WORKBOOK_VIEW_ROOT;assert.ok(dir,'HISTORICAL_VIEW_CONTEXT_REQUIRED');await cleanupWorkbookRuntimeView(dir);console.log(JSON.stringify({ok:true,cleaned:true}));}
- else{assert.ok(workbookHistoricalSuites.includes(process.env.NAWASRAH_WORKBOOK_SUITE),'HISTORICAL_VIEW_SUITE_REQUIRED');const view=await prepareWorkbookRuntimeView();if(process.env.GITHUB_OUTPUT)await writeFile(process.env.GITHUB_OUTPUT,'root='+view.root+'\n',{flag:'a'});console.log(JSON.stringify({ok:true,head:view.head,root:view.root,projectedApplicationFiles:view.changed.length,sqlChanged:false,ownerToolsChanged:false}));}
+ else{assert.ok(workbookHistoricalSuites.includes(process.env.NAWASRAH_WORKBOOK_SUITE),'HISTORICAL_VIEW_SUITE_REQUIRED');const view=await prepareWorkbookRuntimeView();if(process.env.GITHUB_OUTPUT)await writeFile(process.env.GITHUB_OUTPUT,'root='+view.root+'\n',{flag:'a'});console.log(JSON.stringify({ok:true,head:view.head,root:view.root,projectedApplicationFiles:view.changed.length,historicalCeiling:219,removedOnlyExact220:true,historicalSql001Through219Changed:false,ownerToolsChanged:false}));}
 }

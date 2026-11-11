@@ -1,3 +1,4 @@
+import {replyLegacy219MissingRpc} from './legacy219-rpc';
 import AxeBuilder from '@axe-core/playwright';
 import {analyzePackageFAccessibility} from './package-f-accessibility';
 import {checkLayout} from './package-f-layout';
@@ -13,7 +14,8 @@ const shellRequests = [
 
 for(const role of ['owner','cashier'])test(`Cash ${role} harness keeps exact shell reads plus only its authorized withdrawals read without Customers`,async({page})=>{
   const calls:Array<{name:string;args:Record<string,unknown>}>=[];
-  await page.route('**/rest/v1/rpc/**',route=>{
+  await page.route('**/rest/v1/rpc/**',async route=>{
+    if(await replyLegacy219MissingRpc(route))return;
     calls.push({name:route.request().url().split('/').at(-1)!,args:route.request().postDataJSON()});
     return route.fulfill({json:{items:[],unreadCount:0}});
   });
@@ -91,7 +93,8 @@ for(const theme of ['light','dark'])for(const width of [390,820,1440]) {
 
 test('existing real CRM adapter preserves every status/search/sort/page request;136 is the only new RPC',async({page})=>{
   const calls:Array<{name:string;args:Record<string,unknown>}>=[];
-  await page.route('**/rest/v1/rpc/**',route=>{
+  await page.route('**/rest/v1/rpc/**',async route=>{
+    if(await replyLegacy219MissingRpc(route))return;
     const name=route.request().url().split('/').at(-1)!;
     const args=route.request().postDataJSON();calls.push({name,args});
     const data=name==='get_crm_customer_page'?{customers:customersFixture,total_count:24}
@@ -120,7 +123,8 @@ test('four financial chips use the existing RPC,server total and off-page identi
   const calls:Array<{name:string;args:Record<string,unknown>}>=[];
   const financial=[['عليهم دين','has_debt'],['متأخرون','overdue'],['تجاوز الحد','over_limit'],['جملة','wholesale']] as const;
   const serverName=(status:string,index:number)=>`نتيجة ${status} خارج الصفحة ${index}`;
-  await page.route('**/rest/v1/rpc/**',route=>{
+  await page.route('**/rest/v1/rpc/**',async route=>{
+    if(await replyLegacy219MissingRpc(route))return;
     const name=route.request().url().split('/').at(-1)!,args=route.request().postDataJSON();calls.push({name,args});
     if(name==='get_crm_customer_page'){
       if(!financial.some(([,status])=>status===args.p_status))return route.fulfill({json:{customers:customersFixture,total_count:8}});

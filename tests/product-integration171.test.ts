@@ -1,3 +1,5 @@
+import{historical220Text}from'../scripts/testing/lite220-historical-test-view.mjs';
+import{historical220Inventory as inventory}from'../scripts/testing/lite220-historical-test-view.mjs';
 import {sourceBefore198Presentation} from '../scripts/testing/product-workbook-historical-views.mjs';
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
@@ -8,7 +10,7 @@ import {assert171History,allUpgrade171Versions} from '../scripts/operations/fran
 import {assertProduct171Catalog,assertReference171} from '../scripts/operations/frankfurt-reference171.mjs';
 import {startupTables} from '../scripts/operations/frankfurt-reference164.mjs';
 import {serviceInventory} from '../scripts/audit/service-access-inventory.mjs';
-import {inventory} from '../scripts/audit/table-access-inventory.mjs';
+
 import {verifyHistoricalWarehouseCoverage as verifyProbeCoverage} from '../scripts/testing/product-workbook-historical-views.mjs';
 
 for(const file of ['src/features/products/ProductFormModal.tsx','src/features/products/ProductDetailModal.tsx','src/stores/useAppStore.ts'])
@@ -50,7 +52,7 @@ test('historical171 real evidence has exact current-source query coverage,no err
  assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);assert.deepEqual(proof.sourceHashes,await sourceBefore198Presentation(source.sources));
  assert.deepEqual(verifyProbeCoverage(source,proof.results),proof.coverage);assert.ok(proof.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));
  assertProduct171Catalog(proof.catalog);
- const services=JSON.parse(readFileSync('docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json','utf8'));
+ const services=JSON.parse(historical220Text('docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json',readFileSync('docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json','utf8')));
  assert.equal(services.migrationCeiling,219);assert.equal(services.ok,true);
  assert.deepEqual(services.results.filter((r:{sqlstate:string|null})=>r.sqlstate==='42501').map((r:{name:string;appRole:string})=>[r.name,r.appRole]).sort(),['get_supplier_replacements_page_v1','execute_aftercare_supplier_v1','preview_aftercare_supplier_v1','get_aftercare_damage_candidates_v1','get_damage_history_page_v1','get_damage_ledger_page_v2','preview_supplier_replacement_credit_v1','get_supplier_replacement_credits_v1','settle_supplier_replacement_credit_v1'].flatMap(name=>['admin','cashier'].map(role=>[name,role])).sort());
 });

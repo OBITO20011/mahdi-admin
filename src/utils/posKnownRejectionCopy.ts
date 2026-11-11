@@ -2,6 +2,11 @@
  * The drift test requires exact identity/text equality with posV2.service.
  * No server message or financial decision is trusted here. */
 export const posKnownRejectionCopy: Readonly<Record<string, string>> = {
+  LITE1_UNAVAILABLE_CONFIRM_REQUIRED: 'الصنف غير متوفر يدوياً. راجع الأصناف وأكّد البيع رغم عدم التوفر قبل بدء محاولة جديدة.',
+  LITE2_REQUEST_INVALID: 'تعذر إثبات بيانات البيع أو وضع التشغيل. حدّث الشاشة واسترجع أي محاولة معلقة أولاً.',
+  LITE1_MODE_DISABLED: 'تغيّر وضع التشغيل. حدّث الشاشة واسترجع أي محاولة معلقة قبل بدء بيع جديد.',
+  LITE1_IDEMPOTENCY_CONFLICT: 'هوية المحاولة لا تطابق الطلب المحفوظ. استرجع المحاولة الأصلية ولا تنشئ بيعاً جديداً.',
+  PACKAGE_D_POS_ATTEMPT_CANCELLED: 'هذه المحاولة أُلغيت بإثبات الخادم. ابدأ محاولة جديدة من السلة بعد مراجعتها.',
   POS216_INITIAL_PAYMENT_INVALID: 'راجع المدفوع الآن؛ يجب أن يكون أقل من صافي الفاتورة للدفع الجزئي.',
   POS216_SALE_CONTRACT_CHANGED: 'تغيّرت بيانات البيع؛ لم تُحفظ العملية. راجع السلة قبل المحاولة مجدداً.',
   PARCEL209_UNIT_SALE_FORBIDDEN:

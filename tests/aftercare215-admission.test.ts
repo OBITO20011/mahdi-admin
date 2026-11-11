@@ -1,10 +1,11 @@
+import{historical220Text}from'../scripts/testing/lite220-historical-test-view.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {futureMigrationViolations} from '../scripts/testing/maintenance-db-contract.mjs';
 import {assert215History,upgrade215Versions} from '../scripts/operations/frankfurt-owner-upgrade215.mjs';
-const read=(file:string)=>readFileSync(file,'utf8').replaceAll('\r\n','\n');
+const read=(file:string)=>historical220Text(file,readFileSync(file,'utf8').replaceAll('\r\n','\n'));
 
 test('215 admits only the exact reviewed new migration;historical214 is unchanged and arbitrary helper/byte edits fail',()=>{
  const sql=read('supabase/migrations/215_inspected_aftercare_and_supplier_credit.sql');

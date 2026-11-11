@@ -47,7 +47,7 @@ export async function captureEvidence(session){
   const tables={};
   // Same all-public-row/sequence oracle used by the accepted logical restore tests,
   // extended to Auth, Storage and actual migration history. Contains hashes, no raw rows.
-  for(const table of catalog.tables.filter(t=>['public','auth','storage','supabase_migrations'].includes(t.schema)&&['r','p'].includes(t.kind))){
+  for(const table of catalog.tables.filter(t=>['public','auth','storage','supabase_migrations','sales_lite1','sales_lite2'].includes(t.schema)&&['r','p'].includes(t.kind))){
     const key=table.schema+'.'+table.name;
     tables[key]=await json(session,`SELECT jsonb_build_object('rows',count(*),'hash',md5(coalesce(string_agg(to_jsonb(t)::text,E'\\n' ORDER BY to_jsonb(t)::text COLLATE "C"),''))) FROM ${qi(table.schema)}.${qi(table.name)} t;`);
   }
@@ -108,7 +108,7 @@ export async function createCompleteBackup({projectRef,outputRoot,passphrase,ret
     await verifyBackupArchive({archivePath:partial,passphrase});const archivePath=path.join(outputRoot,name);await rename(partial,archivePath);
     const prior=(await readdir(outputRoot)).filter(n=>/^nawasrah-backup-[0-9TZ-]+\.nwb$/u.test(n)).sort().reverse();
     for(const old of prior.slice(retentionCount))await rm(path.join(outputRoot,old));
-    status={ok:true,projectRef,formatVersion:2,finishedAt:new Date().toISOString(),archiveName:name,archivePath,archiveBytes:(await stat(archivePath)).size,sha256:await sha256(archivePath),storageObjectCount:objects.length,historyCeiling:accepted.ceiling,historyFiles:accepted.files,retentionCount};return status;
+    status={ok:true,projectRef,formatVersion:2,finishedAt:new Date().toISOString(),archiveName:name,archivePath,archiveBytes:(await stat(archivePath)).size,sha256:await sha256(archivePath),sourceEvidenceSha256:createHash('sha256').update(JSON.stringify(before)).digest('hex'),storageObjectCount:objects.length,historyCeiling:accepted.ceiling,historyFiles:accepted.files,retentionCount};return status;
   }catch(cause){status={ok:false,projectRef,stage,finishedAt:new Date().toISOString(),error:'COMPLETE_BACKUP_FAILED_NO_SUCCESS_CLAIM',diagnostic:postgresDiagnostic(cause,{stage})};throw diagnosticError(status.error,status.diagnostic);}
   finally{await session?.close().catch(()=>{});await rm(partial,{force:true});await rm(work,{recursive:true,force:true});if(status)await writeFile(path.join(outputRoot,'last-backup-status.json'),JSON.stringify(status,null,2)+'\n');}
 }
@@ -116,7 +116,9 @@ export async function createCompleteBackup({projectRef,outputRoot,passphrase,ret
 // Only the explicit rehearsal wrapper can install this in-process callback.
 // The ordinary owner Restore API never accepts a target or a keep-container flag.
 const rehearsal219=Symbol('verified-local-rehearsal219');
+const rehearsal220=Symbol('verified-local-rehearsal220');
 const activeRehearsals=new WeakSet();
+const activeRehearsals220=new WeakSet();
 export function assertActiveRehearsal219(context){
   assert.ok(activeRehearsals.has(context),'REHEARSAL_VERIFIED_CONTEXT_REQUIRED');
 }
@@ -124,7 +126,11 @@ export async function withRestoredRehearsal219(options,afterVerified){
   assert.equal(typeof afterVerified,'function','REHEARSAL_CALLBACK_REQUIRED');
   return restoreCompleteBackup({...options,[rehearsal219]:afterVerified});
 }
-export async function restoreCompleteBackup({archivePath,passphrase,reportPath,readObjectAfterRestore,[rehearsal219]:afterVerified}){
+export function assertActiveRehearsal220(context){assert.ok(activeRehearsals220.has(context),'REHEARSAL220_VERIFIED_CONTEXT_REQUIRED');}
+export async function withRestoredRehearsal220(options,afterVerified){assert.equal(typeof afterVerified,'function','REHEARSAL_CALLBACK_REQUIRED');return restoreCompleteBackup({...options,[rehearsal220]:afterVerified});}
+export async function restoreCompleteBackup({archivePath,passphrase,reportPath,readObjectAfterRestore,[rehearsal219]:afterVerified219,[rehearsal220]:afterVerified220}){
+  assert.ok(!(afterVerified219&&afterVerified220),'REHEARSAL_ONE_CEILING_REQUIRED');
+  const afterVerified=afterVerified220??afterVerified219,rehearsalCeiling=afterVerified220?220:219;
   // Test-only rebuilds must recreate cron.nodeport exactly like Supabase.
   // Ordinary Restore keeps its existing private socket port unchanged.
   const restorePort=afterVerified?5432:25435;
@@ -135,7 +141,8 @@ export async function restoreCompleteBackup({archivePath,passphrase,reportPath,r
   const args=['exec','-i',container,'psql','-h','/tmp/socket','-p',String(restorePort),'-U','supabase_admin','-d','postgres','-X','-q','-A','-t','-w','-v','ON_ERROR_STOP=1','-v','VERBOSITY=verbose'];
   let session,rehearsalArchiveSha256,stage='archive-verification';
   try{
-    if(afterVerified){await protectResetPath(work,true);rehearsalArchiveSha256=await sha256(archivePath);}
+    rehearsalArchiveSha256=await sha256(archivePath);
+    if(afterVerified)await protectResetPath(work,true);
     await verifyBackupArchive({archivePath,passphrase,extractTo:content});const manifest=JSON.parse(await readFile(path.join(content,'manifest.json'),'utf8'));
     assert.equal(manifest.formatVersion,2);assertApprovedBackupProject(manifest.projectRef);
     const before=JSON.parse(await readFile(path.join(content,'database','source-evidence.json'),'utf8'));
@@ -196,21 +203,22 @@ export async function restoreCompleteBackup({archivePath,passphrase,reportPath,r
     const integrity=(scan?.checks??[]).filter(c=>c.key.startsWith('integrity:')).map(({key,status,issueCount})=>({key,status,issueCount}));
     assert.ok(integrity.length>5,'RESTORE_INTEGRITY_SCAN_MISSING');
     assert.ok(integrity.every(c=>c.status==='healthy'&&Number(c.issueCount)===0),'RESTORE_EXISTING_INTEGRITY_CHECK_FAILED');
-    report={ok:true,projectRef:manifest.projectRef,mode:'isolated-complete-restore',postgresImage:IMAGE,completedAt:new Date().toISOString(),hostedConnectionsMade:false,network:'none',liveVolumesModified:false,historyCeiling:accepted.ceiling,historyFiles:accepted.files,tablesCompared:Object.keys(before.tables).length,storageObjectsCompared:manifest.storageObjects.length,integrityChecks:integrity,tocCoverage:restorePartition.proof,extensions:extensionProof,platform:platformProof,cronSequenceAcl:cronAclProof,pgNetSequenceState:pgNetStateProof,...proof};
+    assert.equal(await sha256(archivePath),rehearsalArchiveSha256,'RESTORE_ARCHIVE_CHANGED_DURING_VERIFICATION');
+    report={ok:true,archiveSha256:rehearsalArchiveSha256,sourceEvidenceSha256:createHash('sha256').update(JSON.stringify(before)).digest('hex'),projectRef:manifest.projectRef,mode:'isolated-complete-restore',postgresImage:IMAGE,completedAt:new Date().toISOString(),hostedConnectionsMade:false,network:'none',liveVolumesModified:false,historyCeiling:accepted.ceiling,historyFiles:accepted.files,tablesCompared:Object.keys(before.tables).length,storageObjectsCompared:manifest.storageObjects.length,integrityChecks:integrity,tocCoverage:restorePartition.proof,extensions:extensionProof,platform:platformProof,cronSequenceAcl:cronAclProof,pgNetSequenceState:pgNetStateProof,...proof};
     if(afterVerified){
       // AFTER strict comparison and the rolled-back scanner. The same finally
       // owns cleanup even if the rehearsal throws. No default network changes.
       assert.equal(manifest.projectRef,'kzevmysfydaslxcerogt','REHEARSAL_FRANKFURT_ONLY');
-      assert.equal(accepted.ceiling,219,'REHEARSAL219_ONLY');assert.equal(accepted.files,180);
+      assert.equal(accepted.ceiling,rehearsalCeiling,'REHEARSAL_EXACT_CEILING_REQUIRED');assert.equal(accepted.files,rehearsalCeiling===220?181:180);
       const inspected=JSON.parse((await docker(['inspect',container])).stdout)[0];
       assert.equal(inspected.HostConfig.NetworkMode,'none');assert.deepEqual(inspected.Mounts,[]);
       assert.equal(await sha256(archivePath),rehearsalArchiveSha256,'REHEARSAL_ARCHIVE_CHANGED');
       const context=Object.freeze({containerId:inspected.Id,containerName:container,
-        archiveSha256:rehearsalArchiveSha256,projectRef:manifest.projectRef,ceiling:219,files:180,databasePort:restorePort,
+        archiveSha256:rehearsalArchiveSha256,projectRef:manifest.projectRef,ceiling:accepted.ceiling,files:accepted.files,databasePort:restorePort,
         storageDirectory:path.join(content,'storage','product-images'),restoreProof:structuredClone(report)});
-      stage='local-rehearsal219';await session.close();session=null;
-      activeRehearsals.add(context);
-      try{await afterVerified(context);}finally{activeRehearsals.delete(context);}
+      stage='local-rehearsal'+rehearsalCeiling;await session.close();session=null;
+      const active=rehearsalCeiling===220?activeRehearsals220:activeRehearsals;active.add(context);
+      try{await afterVerified(context);}finally{active.delete(context);}
       report.rehearsalCompleted=true;
     }
     return report;

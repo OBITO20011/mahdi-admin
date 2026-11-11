@@ -1,3 +1,4 @@
+import {readOperatingCatalog,quantityFreePayload,operatingCatalogRpc,validateOperatingCatalog} from './operatingCatalog';
 import { isSupabaseConfigured, supabase } from '../lib/supabase';
 import {
   CatalogFacet,
@@ -50,10 +51,13 @@ export function mapCatalogProduct(item: RawCatalogItem): CatalogProduct {
     1,
     integerValue(item.unitsPerSalePackage, 1)
   );
-  const availableQuantity = integerValue(item.availableQuantity);
-  const availableSalePackages = integerValue(
+  const untracked=item.quantityTracked===false;
+  if(untracked&&(item.availableQuantity!==null||item.availableSalePackages!==null||typeof item.manualAvailable!=='boolean'))throw Error('تعذر التحقق من توفر الصنف.');
+  if(item.quantityTracked!==undefined&&!untracked)throw Error('تعذر التحقق من تتبع كمية الصنف.');
+  const availableQuantity = untracked?null:integerValue(item.availableQuantity);
+  const availableSalePackages = untracked?null:integerValue(
     item.availableSalePackages,
-    Math.floor(availableQuantity / unitsPerSalePackage)
+    Math.floor((availableQuantity??0) / unitsPerSalePackage)
   );
   const salePackagePriceInMinorUnits = integerValue(
     item.salePackagePriceInMinorUnits
@@ -79,6 +83,7 @@ export function mapCatalogProduct(item: RawCatalogItem): CatalogProduct {
     parcelOnly: item.parcelOnly === true,
     salePriceInMinorUnits,
     salePackagePriceInMinorUnits,
+    ...(untracked?{quantityTracked:false,manualAvailable:item.manualAvailable as boolean}:{}),
     availableQuantity,
     availableSalePackages,
     minimumOrderPackages: Math.max(
@@ -88,7 +93,7 @@ export function mapCatalogProduct(item: RawCatalogItem): CatalogProduct {
     imageUrl: textValue(item.imageUrl),
     isAvailable:
       item.isAvailable === true &&
-      availableSalePackages > 0 &&
+      (untracked?item.manualAvailable===true:(availableSalePackages??0)>0) &&
       salePackagePriceInMinorUnits > 0,
     createdAt: textValue(item.createdAt),
     soldPackagesLast90Days: integerValue(item.soldPackagesLast90Days),
@@ -105,8 +110,10 @@ const mapParcelComponent = (value: unknown): PublicParcelComponentOption | null 
     ? value as RawCatalogItem
     : {};
   const productId = textValue(component.productId);
-  const availableQuantity = integerValue(component.availableQuantity);
-  if (!UUID_PATTERN.test(productId) || availableQuantity < 0) return null;
+  const untracked=component.quantityTracked===false;
+  if(untracked&&(component.availableQuantity!==null||component.manualAvailable!==true))throw Error('تعذر التحقق من توفر نكهة الطرد.');
+  const availableQuantity = untracked?null:integerValue(component.availableQuantity);
+  if (!UUID_PATTERN.test(productId) || (availableQuantity!==null&&availableQuantity < 0)) return null;
   return {
     productId,
     sku: textValue(component.sku),
@@ -114,6 +121,7 @@ const mapParcelComponent = (value: unknown): PublicParcelComponentOption | null 
     flavorNameAr: textValue(component.flavorNameAr),
     unitNameAr: textValue(component.unitNameAr) || 'وحدة',
     imageUrl: textValue(component.imageUrl),
+    ...(untracked?{quantityTracked:false,manualAvailable:true}:{}),
     availableQuantity,
   };
 };
@@ -139,7 +147,9 @@ const mapParcelOption = (value: unknown): PublicConfigurableParcelOption | null 
     parcelPriceInMinorUnits < 1 ||
     components.length === 0
   ) return null;
+  if(option.quantityTracked===false&&components.some(c=>c.quantityTracked!==false))throw Error('تعذر التحقق من مكونات الطرد.');
   return {
+    ...(option.quantityTracked===false?{quantityTracked:false}:{}),
     familyProductId,
     parcelConfigurationId,
     configurationRevision,
@@ -163,14 +173,19 @@ export async function fetchPublicConfigurableParcelOptions(
   if (!isSupabaseConfigured || !supabase) {
     throw new Error('إعدادات الاتصال بكتالوج Supabase غير مكتملة في موقع العملاء.');
   }
-  const { data, error } = await supabase.rpc(
-    'get_public_configurable_parcel_options',
+  const { data, error } = await readOperatingCatalog(operatingCatalogRpc,
+    'lite1_parcel_options2',
     { p_family_product_ids: requestedIds }
   );
   if (error) throw new Error(error.message || 'تعذر تحميل خيارات الطرد.');
+  return mapPublicConfigurableParcelResponse(data);
+}
+
+export function mapPublicConfigurableParcelResponse(data:unknown):PublicConfigurableParcelResponse {
   const payload = data && typeof data === 'object' && !Array.isArray(data)
     ? data as RawCatalogItem
     : {};
+  const untracked=quantityFreePayload(payload,'lite2-parcel-options-v1');
   const featureState = payload.featureState;
   if (!['OFF', 'OWNER_PILOT', 'ENABLED'].includes(String(featureState))) {
     throw new Error('تعذر التحقق من حالة ميزة الطرود.');
@@ -178,6 +193,7 @@ export async function fetchPublicConfigurableParcelOptions(
   const options = (Array.isArray(payload.options) ? payload.options : [])
     .map(mapParcelOption)
     .filter((item): item is PublicConfigurableParcelOption => Boolean(item));
+  if(untracked&&options.some(o=>o.quantityTracked!==false))throw Error('تعذر التحقق من خيارات الطرد.');
   return {
     featureState: featureState as PublicConfigurableParcelResponse['featureState'],
     guestCreationEnabled: payload.guestCreationEnabled === true,
@@ -185,7 +201,7 @@ export async function fetchPublicConfigurableParcelOptions(
   };
 }
 
-function mapCatalogItems(value: unknown): CatalogProduct[] {
+export function mapCatalogItems(value: unknown): CatalogProduct[] {
   const rawItems = Array.isArray(value) ? value : [];
   const flatItems = rawItems
     .map((item) => mapCatalogProduct(item as RawCatalogItem))
@@ -205,6 +221,8 @@ export function mapPublicMerchandisingResponse(
   const payload = value && typeof value === 'object' && !Array.isArray(value)
     ? value as RawCatalogItem
     : {};
+  const untracked=quantityFreePayload(payload,'lite2-merchandising-v1');
+  if(untracked&&['newest','bestSellers','offers','lowStock'].some(k=>(Array.isArray(payload[k])?payload[k] as RawCatalogItem[]:[]).some(p=>p.quantityTracked!==false)))throw Error('تعذر التحقق من مقترحات المنتجات.');
   return {
     newest: mapCatalogItems(payload.newest),
     bestSellers: mapCatalogItems(payload.bestSellers),
@@ -265,12 +283,13 @@ export function groupCatalogFlavorFamilies(
       isFlavorMaster: true,
       variants,
       imageUrl: root.imageUrl || variants.find((item) => item.imageUrl)?.imageUrl || '',
-      availableQuantity: variants.reduce(
-        (sum, item) => sum + item.availableQuantity,
+      ...(root.quantityTracked===false?{quantityTracked:false}:{}),
+      availableQuantity: root.quantityTracked===false?null:variants.reduce(
+        (sum, item) => sum + (item.availableQuantity??0),
         0
       ),
-      availableSalePackages: variants.reduce(
-        (sum, item) => sum + item.availableSalePackages,
+      availableSalePackages: root.quantityTracked===false?null:variants.reduce(
+        (sum, item) => sum + (item.availableSalePackages??0),
         0
       ),
       isAvailable: variants.some((item) => item.isAvailable),
@@ -304,9 +323,12 @@ function mapCatalogSummary(value: unknown): CatalogSummary {
   const rawSummary = value && typeof value === 'object'
     ? value as RawCatalogItem
     : {};
+  const untracked=rawSummary.quantityTracked===false;
+  if(untracked&&rawSummary.availableSalePackages!==null)throw Error('تعذر التحقق من ملخص التوفر.');
   return {
+    ...(untracked?{quantityTracked:false}:{}),
     availableProducts: integerValue(rawSummary.availableProducts),
-    availableSalePackages: integerValue(rawSummary.availableSalePackages),
+    availableSalePackages: untracked?null:integerValue(rawSummary.availableSalePackages),
     lowStockProducts: integerValue(rawSummary.lowStockProducts),
   };
 }
@@ -386,7 +408,7 @@ export async function fetchPublicProductCatalog(
     STOREFRONT_CATALOG_MAX_PAGE_SIZE,
     Math.max(1, Math.floor(query.limit ?? STOREFRONT_CATALOG_PAGE_SIZE))
   );
-  const { data, error } = await supabase.rpc('get_public_storefront_catalog_page', {
+  const { data, error } = await readOperatingCatalog(operatingCatalogRpc,'lite1_catalog_page2', {
     p_limit: requestedLimit,
     p_offset: Math.max(0, Math.floor(query.offset ?? 0)),
     p_category_id: query.categoryId || null,
@@ -402,9 +424,10 @@ export async function fetchPublicProductCatalog(
     throw new Error(error.message || 'تعذر تحميل كتالوج الجملة.');
   }
 
-  const items = mapCatalogItems(data?.items);
-  const rawCategories = Array.isArray(data?.categories)
-    ? data.categories
+  validateOperatingCatalog(data);const payload=data as RawCatalogItem;
+  const items = mapCatalogItems(payload.items);
+  const rawCategories = Array.isArray(payload.categories)
+    ? payload.categories
     : [];
   const mappedCategories: CatalogCategory[] = rawCategories
     .map((item: RawCatalogItem) => mapCatalogCategory(item))
@@ -413,8 +436,8 @@ export async function fetchPublicProductCatalog(
         Boolean(category.id) && Boolean(category.nameAr)
     );
 
-  const rawBrands = Array.isArray(data?.brands) ? data.brands : [];
-  const rawSaleUnits = Array.isArray(data?.saleUnits) ? data.saleUnits : [];
+  const rawBrands = Array.isArray(payload.brands) ? payload.brands : [];
+  const rawSaleUnits = Array.isArray(payload.saleUnits) ? payload.saleUnits : [];
   const categories = mappedCategories.length > 0
     ? mappedCategories
     : deriveCatalogCategories(items);
@@ -428,10 +451,10 @@ export async function fetchPublicProductCatalog(
     saleUnits: rawSaleUnits
       .map((item: RawCatalogItem) => mapCatalogFacet(item))
       .filter((item: CatalogFacet) => Boolean(item.id)),
-    summary: mapCatalogSummary(data?.summary),
-    total: resolveCatalogTotal(items.length, data?.total),
-    limit: integerValue(data?.limit, requestedLimit),
-    offset: integerValue(data?.offset),
+    summary: mapCatalogSummary(payload.summary),
+    total: resolveCatalogTotal(items.length, payload.total),
+    limit: integerValue(payload.limit, requestedLimit),
+    offset: integerValue(payload.offset),
   };
 }
 
@@ -444,7 +467,7 @@ export async function fetchPublicStorefrontMerchandising(): Promise<PublicMercha
     throw new Error('إعدادات الاتصال بكتالوج Supabase غير مكتملة في موقع العملاء.');
   }
 
-  const { data, error } = await supabase.rpc('get_public_storefront_merchandising');
+  const { data, error } = await readOperatingCatalog(operatingCatalogRpc,'lite1_merchandising2');
   if (error) {
     throw new Error(error.message || 'تعذر تحميل الاختيارات المميزة.');
   }

@@ -52,6 +52,10 @@ export async function fetchOperationalBusinessReportFromSupabase(
     throw new Error(error.message || 'تعذر تحميل التقرير من قاعدة البيانات.');
   }
 
+  return parseOperationalBusinessReport(data,branchId,dateFrom,dateTo);
+}
+
+export function parseOperationalBusinessReport(data:unknown,branchId:string,dateFrom:string,dateTo:string):OperationalBusinessReport {
   const payload = recordValue(data);
   if (payload.success !== true) {
     throw new Error(textValue(payload.message) || 'تعذر إنشاء التقرير.');

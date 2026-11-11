@@ -1,0 +1,46 @@
+{
+  "baseline": "b305421c40bd1e47a5cc4ce313d617762555eb1d",
+  "approval": "owner-2026-11-09-pending-guest-fallback-only",
+  "bridges": {
+    "_get_cash_shift_closing_report_before_snapshot": {
+      "beforeSha256": "4af4cceff34dfac1723f4635143bb1224d71f00dfeac483b0f381b8b87f4094c",
+      "approvedSha256": "4af4cceff34dfac1723f4635143bb1224d71f00dfeac483b0f381b8b87f4094c",
+      "changed": false
+    },
+    "enqueue_stock_automation_event": {
+      "beforeSha256": "ffabc105ad3ee2af3192b3870ccd1f19577f35b2955f66962de2a6f59c6c4884",
+      "approvedSha256": "ffabc105ad3ee2af3192b3870ccd1f19577f35b2955f66962de2a6f59c6c4884",
+      "changed": false
+    },
+    "get_cash_shift_summary": {
+      "beforeSha256": "d7ee91888e7fbedf78f7691df3dca7e3f03339738160d7f5f911dcf2d83c6be3",
+      "approvedSha256": "d7ee91888e7fbedf78f7691df3dca7e3f03339738160d7f5f911dcf2d83c6be3",
+      "changed": false
+    },
+    "phase42_order_financial_position_internal": {
+      "beforeSha256": "57edc4e2a11ef6934a5da0897e473ed578b021ef5fd5685412ee680979bcd238",
+      "approvedSha256": "57edc4e2a11ef6934a5da0897e473ed578b021ef5fd5685412ee680979bcd238",
+      "changed": false
+    },
+    "phase6_financial_facts_before208_internal": {
+      "beforeSha256": "759f86b58e2aaa38bb618a0040ac9061429525d03900625045f685f6df403a3b",
+      "approvedSha256": "759f86b58e2aaa38bb618a0040ac9061429525d03900625045f685f6df403a3b",
+      "changed": false
+    },
+    "populate_order_item_cost_snapshot": {
+      "beforeSha256": "b01d29f747162285a056bbda27440f17d065ceb638193c9b1a692109c9cf031e",
+      "approvedSha256": "b01d29f747162285a056bbda27440f17d065ceb638193c9b1a692109c9cf031e",
+      "changed": false
+    },
+    "run_advanced_monitoring_checks": {
+      "beforeSha256": "11951beb172efcf5a8d2177a3cdc768225d554dbe69e4061cf1e202d929c7062",
+      "approvedSha256": "27b9f70704db2d2d9a9a90544eb693ae161987b0aae1d4b0419cc58b807ca627",
+      "changed": true
+    },
+    "sync_stock_alert": {
+      "beforeSha256": "0751e2ebe8612347ea3ab2c0e7533bd14886b09e08e916e258178ad79545af1d",
+      "approvedSha256": "0751e2ebe8612347ea3ab2c0e7533bd14886b09e08e916e258178ad79545af1d",
+      "changed": false
+    }
+  }
+}

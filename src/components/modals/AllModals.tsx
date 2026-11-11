@@ -1,3 +1,5 @@
+import {allowsOperatingDestination} from '../../features/operatingMode/navigationPolicy';
+import type {OperatingMode} from '../../services/supabase/operatingMode.service';
 /**
  * Nawasrah Business Manager - Modal Dispatcher & Sheet Center
  */
@@ -42,7 +44,7 @@ import {
   PackageOpen,
 } from 'lucide-react';
 
-export const AllModals: React.FC = () => {
+export const AllModals: React.FC<{operatingMode?:OperatingMode;modeVerified?:boolean}> = ({operatingMode='full',modeVerified=true}) => {
   const {
     currentModal,
     modalData,
@@ -75,6 +77,9 @@ export const AllModals: React.FC = () => {
       ? modalData.productId
       : undefined;
 
+  if(currentModal&&!allowsOperatingDestination('modal',currentModal,operatingMode))return <Modal isOpen onClose={closeModal} title="غير متاح في وضع المبيعات والذمم"><p>هذه الشاشة خاصة بالمخزون والموردين؛ تبقى محفوظة حتى تفعيل المحاسبة.</p></Modal>;
+  const visibleNotifications=operatingMode==='full'?notifications:notifications.filter(n=>n.type!=='stock');
+
   return (
     <>
       {/* 1. Add / Edit Product Modal */}
@@ -82,20 +87,20 @@ export const AllModals: React.FC = () => {
         isOpen={currentModal === 'add_product' || currentModal === 'edit_product'}
         onClose={closeModal}
         title={currentModal === 'edit_product' ? 'تعديل بطاقة المنتج' : 'إضافة منتج جديد'}
-        subtitle="عرّف طرد الشراء وطرد بيع الجملة وحدود المخزون"
+        subtitle={operatingMode==='sales-only'?'عرّف المنتج وطرق بيعه ونكهاته؛ التوفر يُضبط يدوياً':'عرّف طرد الشراء وطرد بيع الجملة وحدود المخزون'}
       >
-        <ProductFormModal initialProduct={productFormInitialProduct} onClose={closeModal} />
+        <ProductFormModal initialProduct={productFormInitialProduct} onClose={closeModal} operatingMode={operatingMode} modeVerified={modeVerified} />
       </Modal>
 
       {/* 2. View Product Details Modal */}
       <Modal
         isOpen={currentModal === 'view_product' && isProductModalPayload(modalData)}
         onClose={closeModal}
-        title="تفاصيل الصنف والمخزون"
-        subtitle="عرض الأسعار والكميات والمستودع"
+        title={operatingMode==='sales-only'?'تفاصيل الصنف':'تفاصيل الصنف والمخزون'}
+        subtitle={operatingMode==='sales-only'?'الأسعار والنكهات والتوفر اليدوي':'عرض الأسعار والكميات والمستودع'}
       >
         {currentModal === 'view_product' && isProductModalPayload(modalData) && (
-          <ProductDetailModal product={modalData} onClose={closeModal} />
+          <ProductDetailModal product={modalData} onClose={closeModal} operatingMode={operatingMode} modeVerified={modeVerified} />
         )}
       </Modal>
 
@@ -289,7 +294,7 @@ export const AllModals: React.FC = () => {
             )}
           </div>
 
-          {notifications.length === 0 ? (
+          {visibleNotifications.length === 0 ? (
             <div className="rounded-2xl border border-nw-border bg-nw-surface p-7 text-center">
               <PackageOpen className="mx-auto mb-2 h-8 w-8 text-nw-ok" />
               <h4 className="font-extrabold text-nw-text">
@@ -300,7 +305,7 @@ export const AllModals: React.FC = () => {
               </p>
             </div>
           ) : (
-            notifications.map((notification) => (
+            visibleNotifications.map((notification) => (
               <button
                 type="button"
                 key={notification.id}

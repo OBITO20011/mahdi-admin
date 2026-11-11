@@ -1,3 +1,4 @@
+import {parseSalesOnlyShiftReport} from '../src/services/supabase/salesOnlyShiftReport';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -20,6 +21,9 @@ test('215 actual closing service retains all modern133 detail fields for215 and 
   const js=ts.transpileModule(readFileSync('src/services/supabase/expenses-shifts.service.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;
   let payload:unknown=report215();const exports:Record<string,(...a:unknown[])=>Promise<ShiftClosingReport>>={};
   runInNewContext(js,{exports,require:(name:string)=>{
+    if(name==='./operatingShiftReversal')return {};
+    if(name==='./operatingShiftReport')return {readOperatingShiftReport:async()=>({data:payload,error:null})};
+    if(name==='./salesOnlyShiftReport')return {parseSalesOnlyShiftReport};
     if(name==='../../utils/exchangeClosing215')return{exchangeClosingCredit215};
     if(name==='../../lib/supabase')return{isSupabaseConfigured:true,supabase:{rpc:async()=>({data:payload,error:null})}};throw Error(name);
   }});

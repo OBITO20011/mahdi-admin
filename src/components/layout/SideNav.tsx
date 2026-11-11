@@ -1,3 +1,5 @@
+import type {OperatingMode} from '../../services/supabase/operatingMode.service';
+import {allowsOperatingDestination,operatingNavigation} from '../../features/operatingMode/navigationPolicy';
 /**
  * Desktop and landscape-tablet side navigation (Package F spec §4.1).
  * Hidden below 1024px, where the phone bottom tab bar is used instead.
@@ -8,7 +10,7 @@ import React from 'react';
 import {ROLE_LABELS} from '../../utils/roleLabels';
 import { Plus } from 'lucide-react';
 import {useNavigationDrawer} from './navigationDrawerContext';
-import {canUseNavigationAction} from '../../features/more/adminNavigation.config';
+import {ADMIN_NAVIGATION_GROUPS,canUseNavigationAction} from '../../features/more/adminNavigation.config';
 import { SECONDARY_QUICK_ACTIONS } from './quickActions';
 import {
   shallowEqual,
@@ -30,9 +32,10 @@ const join = (...parts: Array<string | false | null | undefined>) =>
 interface SideNavProps {
   collapsed?: boolean;
   mobile?: boolean;
+  operatingMode?:OperatingMode;
 }
 
-export const SideNav: React.FC<SideNavProps> = ({ collapsed = false, mobile = false }) => {
+export const SideNav: React.FC<SideNavProps> = ({ collapsed = false, mobile = false, operatingMode='full' }) => {
   const drawer=useNavigationDrawer();
   const { activeTab, newOrdersCount, currentUserName, currentUserRole } = useAppStoreSelector(
     (state) => ({
@@ -45,11 +48,12 @@ export const SideNav: React.FC<SideNavProps> = ({ collapsed = false, mobile = fa
   );
   const { setActiveTab, openModal } = useAppStoreActions();
   const { roleName,roles } = useAuthStore();
-  const groups = buildSideNavigation(roleName,roles);
+  const visible=new Set(operatingNavigation(ADMIN_NAVIGATION_GROUPS,operatingMode).flatMap(g=>g.items.map(i=>i.id)));
+  const groups=buildSideNavigation(roleName,roles).map(g=>({...g,label:operatingMode==='sales-only'&&g.id==='products-inventory'?'المنتجات والطرود':g.label,items:g.items.filter(i=>i.id==='home'||visible.has(i.id))})).filter(g=>g.items.length);
 
 
   const run = (action: AdminNavigationAction) => {
-    if(!canUseNavigationAction(action,roleName,roles))return;
+    if(!canUseNavigationAction(action,roleName,roles)||!allowsOperatingDestination(action.type,action.destination,operatingMode))return;
     drawer?.close();
     drawer?.setEntryIntent(action.type==='tab'?action.intent??null:null);
     if (action.type === 'tab') {
@@ -107,7 +111,7 @@ export const SideNav: React.FC<SideNavProps> = ({ collapsed = false, mobile = fa
     );
   };
 
-  const quickActions = SECONDARY_QUICK_ACTIONS.filter(action=>canUseNavigationAction(action.action,roleName,roles)).map((action) => ({
+  const quickActions = SECONDARY_QUICK_ACTIONS.filter(action=>canUseNavigationAction(action.action,roleName,roles)&&allowsOperatingDestination(action.action.type,action.action.destination,operatingMode)).map((action) => ({
     id: action.id,
     label: action.shortLabel,
     icon: action.icon,

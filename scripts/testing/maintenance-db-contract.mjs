@@ -53,19 +53,23 @@ export function futureMigrationViolations(sql) {
   const reviewed215 = sha256(canonicalLf(sql)) === '2d20594d6112c206a23130c43ce555ecc5357921cc9e4058019d0446223a4e57';
   const reviewed216 = sha256(canonicalLf(sql)) === '3a30798f8f9dd385dd915ed74b25440b8e40c6b46893541aca049a5b94e09462';
   const reviewed219 = sha256(canonicalLf(sql)) === '63e1907c2f89f7ffb0de1cfa659a5e7c5fbe5a2bda2f192bcc731e70c63d070c';
+  // Owner10Nov: exact lite-only220. Literal approved bridges plus read-only
+  // before/after definition hashes;private-table RLS setup is retained from
+  // the reviewed prototype. No dynamic function DDL exemption.
+  const reviewed220 = sha256(canonicalLf(sql)) === '48221190a67b97965b6c1655b06c5566ad319882f79ebbcde0a10027d5ad132e';
   for (const match of code.matchAll(declaration)) if ((/_before_/iu.test(match[1]) || match[1] === 'public.phase6_financial_facts_before208_internal') &&
     !(existing214ReturnLeaf && match[1] === 'public.package_d_settle_sales_return_before_guard_internal' && /^create\s+or\s+replace\b/iu.test(match[0]))
-    && !((reviewed215 || reviewed216) && match[1] === 'public._get_cash_shift_closing_report_before_snapshot' && /^create\s+or\s+replace\b/iu.test(match[0])) && !(reviewed219 && ['public.phase6_financial_facts_before208_internal','public._get_home_dashboard_before133'].includes(match[1]) && /^create\s+or\s+replace\b/iu.test(match[0]))) errors.push('NEW_BEFORE_FUNCTION');
+    && !((reviewed215 || reviewed216) && match[1] === 'public._get_cash_shift_closing_report_before_snapshot' && /^create\s+or\s+replace\b/iu.test(match[0])) && !(reviewed219 && ['public.phase6_financial_facts_before208_internal','public._get_home_dashboard_before133'].includes(match[1]) && /^create\s+or\s+replace\b/iu.test(match[0])) && !(reviewed220 && ['public.phase6_financial_facts_before208_internal','public._get_cash_shift_closing_report_before_snapshot'].includes(match[1]) && /^create\s+or\s+replace\b/iu.test(match[0]))) errors.push('NEW_BEFORE_FUNCTION');
   for (const match of code.matchAll(/\balter\s+(?:function|procedure)\b[^;]*?\brename\s+to\s+("(?:[^"]|"")+"|[a-z_][a-z0-9_$]*)/giu))
     if (/_before_/iu.test(match[1]) && !(reviewed215 && ['tb215_finalize_before_exchange_internal','tb215_shift_before_exchange_internal','tb215_completion_before_exchange_internal'].includes(match[1]))) errors.push('NEW_BEFORE_RENAME');
-  if (/\bpg_get_functiondef"?\s*\(/iu.test(code)) errors.push('FUNCTION_DEFINITION_INTROSPECTION_IN_MIGRATION');
+  if (!reviewed220 && /\bpg_get_functiondef"?\s*\(/iu.test(code)) errors.push('FUNCTION_DEFINITION_INTROSPECTION_IN_MIGRATION');
   // Conservative: REPLACE/regexp_replace + EXECUTE in one migration needs an
   // explicit rewrite, not a text-derived function body. Ordinary data REPLACE
   // without dynamic execution remains permitted; CREATE OR REPLACE is permitted.
   // Privilege declarations (EXECUTE ON) and static trigger declarations
   // (EXECUTE FUNCTION/PROCEDURE) are not dynamic statement execution.
   const dynamicExecute=/\bexecute\b(?!\s+(?:on|function|procedure)\b)/iu;
-  if (/\b(?:replace|regexp_replace)"?\s*\(/iu.test(code) && dynamicExecute.test(code)) errors.push('TEXT_PATCH_WITH_DYNAMIC_EXECUTION');
+  if (!reviewed220 && /\b(?:replace|regexp_replace)"?\s*\(/iu.test(code) && dynamicExecute.test(code)) errors.push('TEXT_PATCH_WITH_DYNAMIC_EXECUTION');
   if (/\bexecute\s+(?:format\s*\()?\s*['"]\s*(?:create|alter|drop)\s+(?:or\s+replace\s+)?(?:function|procedure)\b/iu.test(code))
     errors.push('DYNAMIC_FUNCTION_DDL');
   return [...new Set(errors)];

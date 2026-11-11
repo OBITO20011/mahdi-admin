@@ -1,3 +1,5 @@
+import {assertResetCeiling as assertReset220Ceiling} from '../scripts/operations/reset220-foundation.mjs';
+import {reset220Arguments} from '../scripts/operations/frankfurt-owner-reset220.mjs';
 import test from 'node:test';import assert from 'node:assert/strict';
 import {readFileSync,existsSync} from 'node:fs';import path from 'node:path';
 import {operationalSchema,operationalManifest,assertOperationalManifest,assertOperationalHistory} from '../scripts/operations/operational-schema.mjs';
@@ -26,10 +28,11 @@ test('one project-state ceiling binds the full SQL manifest and every operationa
   assert.ok(readFileSync(`scripts/operations/${operationalSchema[key]}.mjs`,'utf8').includes('operationalManifest()'));
  }
  assert.equal(ownerPlan().supportedSchemaCeiling,state.migrationCeiling);assert.equal(ownerPlan().archiveFormatVersion,2);
- const core=readFileSync('scripts/operations/trial-reset214-core.mjs','utf8');
+ const core=readFileSync('scripts/operations/trial-reset220-core.mjs','utf8');
  assert.ok(core.includes(`const policy${state.migrationCeiling}={ceiling:${state.migrationCeiling},files:${manifest.length},`),'RESET_REBUILD_ADAPTER_MUST_ADVANCE_WITH_MIGRATION');
  assert.ok(readFileSync('scripts/backup/complete-backup.mjs','utf8').match(/assertOperationalHistory\(before.history\)/gu)!.length===2);
- assert.equal(reset219Arguments([]).reference.split(/[\\/]/u).at(-1),operationalSchema.readyReferenceName);
+ assert.equal(reset220Arguments([]).reference.split(/[\\/]/u).at(-1),operationalSchema.readyReferenceName);
+ assert.equal(reset219Arguments([]).reference.split(/[\\/]/u).at(-1),'local-reference-through219-ready.json');
  assert.equal(reset217Arguments([]).reference.split(/[\\/]/u).at(-1),'local-reference-through217-ready.json');
  assert.equal(reset216Arguments([]).reference.split(/[\\/]/u).at(-1),'local-reference-through216-ready.json');
  assert.equal(reset215Arguments([]).reference.split(/[\\/]/u).at(-1),'local-reference-through215-ready.json');
@@ -39,7 +42,8 @@ test('one project-state ceiling binds the full SQL manifest and every operationa
  assert.equal(assertResetCeiling({migrationCeiling:216,manifest:manifest.filter((m:{name:string})=>Number(m.name.slice(0,3))<=216)}),178);
  assert.equal(assertResetCeiling({migrationCeiling:217,manifest,manifestDigest:operationalSchema.manifestSha256}),179);
  assert.throws(()=>assertResetCeiling({migrationCeiling:218,manifest}),/RESET_REFERENCE_CEILING/);
- assert.throws(()=>assertResetCeiling({migrationCeiling:219,manifest,manifestDigest:'0'.repeat(64)}),/RESET_CURRENT_MANIFEST_UNREVIEWED/);
+ assert.equal(assertResetCeiling({migrationCeiling:219,manifest:manifest.filter((m:{name:string})=>Number(m.name.slice(0,3))<=219)}),180);
+ assert.throws(()=>assertReset220Ceiling({migrationCeiling:220,manifest,manifestDigest:'0'.repeat(64)}),/RESET_CURRENT_MANIFEST_UNREVIEWED/);
 });
 
 test('preceding215 rebuild selects exactly177 literal files only after the whole current216 manifest and exact reference prefix are verified',async()=>{

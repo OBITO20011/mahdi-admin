@@ -6,6 +6,7 @@ export function knownBusinessErrorMessage(message: unknown): string | null {
   if(rejectionCode&&rejectionMessages[rejectionCode])return rejectionMessages[rejectionCode];
   if(Object.values(rejectionMessages).includes(text))return text;
   const known: Array<[RegExp, string]> = [
+    [/^LITE3_COLLECTION_REVERSAL_HAS_LITE_REFUND$/u,'لا يمكن عكس سند القبض بعد رد مبلغ بمرتجع لهذه الفاتورة. راجع المرتجع والتحصيل أولاً.'],
     [/AFTERCARE215_EXCHANGE_REVERSAL_UNSUPPORTED/u,'فاتورة البديل مرتبطة بتبديل موحّد؛ استخدم المرتجع المفحوص ولا تعكسها كبيع نقدي مستقل.'],
     [/SUPPLIER215_CREDIT_EXCEEDS_PAYABLE/u,'قيمة المعيب أكبر من المستحق المؤيّد للمورد؛ لا يمكن خصمها أو إنشاء رصيد مصطنع. راجع مستحق المورد.'],
     [/SUPPLIER215_CREDIT_LATER_DEPENDENCY/u,'توجد حركة لاحقة للمورد أو للمعلّق تمنع عكس الخصم. راجع السجل قبل أي إجراء.'],

@@ -25,9 +25,10 @@ const branch={id:chequeBranch,name:'فرع الرمثا',address:'وسط الم�
 Object.defineProperty(storeEngine,'state',{value:{...storeEngine.getState(),activeTab:'cheques',activeBranch:branch,branches:[branch],notifications:[],
   currentShift:params.get('drawer')==='low'?{...cashShift,branchId:chequeBranch,expectedCash:5}:null},writable:true});
 storeEngine.setCurrentUser({id:'fixture-cheque-owner',name:'المالك',role:role==='owner'?'Owner':role==='cashier'?'Cashier':'Admin',themeMode:theme,avatarUrl:''});
+window.__phase2ChequeReads__={pages:[],supplierReads:0};
 const rows=structuredClone(chequeRows);
 let claimReversalReason:string|null=null;
-declare global {interface Window {__chequeFixture:{transition:(id:string,status:ChequeFixtureRow['status'])=>void;reverseClaimPayment:(reason:string)=>void}}}
+declare global {interface Window {__phase2ChequeReads__:{pages:Record<string,unknown>[];supplierReads:number};__phase2ChequeMode__:(mode:'full'|'sales-only')=>void;__chequeFixture:{transition:(id:string,status:ChequeFixtureRow['status'])=>void;reverseClaimPayment:(reason:string)=>void}}}
 window.__chequeFixture={transition:(id,status)=>{const c=rows.find(c=>c.id===id);if(c){c.status=status;c.version++;if(status==='endorsed')c.endorsed_supplier_id=chequeSupplier;}},
   reverseClaimPayment:reason=>{claimReversalReason=reason;}};
 const originalRpc=supabase.rpc.bind(supabase),originalFrom=supabase.from.bind(supabase);
@@ -38,6 +39,7 @@ Object.defineProperty(supabase,'rpc',{value:(name:string,args:Record<string,unkn
   if(name==='preview_customer_collection_v1')return ok({totalOutstandingInMinorUnits:27000,openingOutstandingInMinorUnits:0,ordersOutstandingInMinorUnits:27000,
     exceedsBalance:false,parts:[{kind:'order',id:'order198',reference:'W-198',debtAt:'2026-10-17T08:00:00Z',outstandingInMinorUnits:27000,allocateInMinorUnits:Number(args.p_amount_in_minor_units),remainingAfterInMinorUnits:27000-Number(args.p_amount_in_minor_units)}]});
   if(name==='get_deferred_cheques_page'){
+    window.__phase2ChequeReads__.pages.push(args);
     const filtered=rows.filter(c=>(args.p_direction==='all'||c.direction===args.p_direction)
       &&(args.p_status==='all'||c.status===args.p_status||(args.p_status==='due7'&&c.status==='pending')||(args.p_status==='overdue'&&c.status==='endorsed')));
     return ok({items:filtered,page:1,hasMore:false,totalCount:filtered.length,counts:{all:4,pending:2,endorsed:1,cleared:0,returned:1,cancelled:0,due7:2,overdue:1},
@@ -70,14 +72,16 @@ type Result={data:Record<string,unknown>[];error:null};
 interface Chain {select:()=>Chain;order:()=>Chain;eq:()=>Chain;then:(resolve:(result:Result)=>unknown)=>Promise<unknown>}
 Object.defineProperty(supabase,'from',{value:(name:string)=>{
   if(name!=='suppliers')return originalFrom(name);
+  window.__phase2ChequeReads__.supplierReads++;
   const chain:Chain={select:()=>chain,order:()=>chain,eq:()=>chain,then:resolve=>Promise.resolve({data:[{id:chequeSupplier,company_name:'شركة توريد المواد الغذائية',phone:'065000000',current_balance_in_minor_units:200000,is_active:true}],error:null} as Result).then(resolve)};
   return chain;
 }});
+function ModeCheques(){const [mode,setMode]=React.useState<'full'|'sales-only'>(params.has('sales-only')?'sales-only':'full');window.__phase2ChequeMode__=setMode;return <ChequesView operatingMode={mode}/>;}
 const view=params.get('view');
 createRoot(document.getElementById('root')!).render(<div className="min-h-screen bg-nw-bg text-nw-text">
   {view==='receive'?<main className="mx-auto max-w-xl p-4"><h1 className="mb-4 text-xl font-bold">استلام شيك عميل</h1><ChequeRegistrationForm direction="incoming" partyId={chequeCustomer}
     parties={[{id:chequeCustomer,name:'محمد أحمد العلي',phone:'0791111111'}]} branchId={chequeBranch} onClose={()=>undefined} onSaved={()=>undefined}/></main>
     :view==='collection'?<main className="mx-auto max-w-4xl p-4"><h1 className="mb-4 text-xl font-bold">تحصيل من الزبون</h1><CustomerCollectionModal customerId={chequeCustomer} onClose={()=>undefined} onSuccess={()=>undefined}/></main>
     :view==='statement'?<main className="mx-auto max-w-4xl p-4"><h1 className="mb-4 text-xl font-bold">كشف حساب العميل</h1><CustomerStatement customerId={chequeCustomer} revision={1}/></main>
-    :<><SideNav/><div className="lg:ms-[260px]"><ChequesView/></div><BottomTabs/></>}
+    :<><SideNav/><div className="lg:ms-[260px]"><ModeCheques/></div><BottomTabs/></>}
 </div>);

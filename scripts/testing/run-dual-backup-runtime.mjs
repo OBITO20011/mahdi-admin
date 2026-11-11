@@ -13,7 +13,7 @@ import {localR2Fixture} from './local-r2-fixture.mjs';
 import {nativeBackupTlsProbe} from './native-backup-tls-probe.mjs';
 import {proveComparisonRejectsSyntheticDifference} from './restore-comparison-negative.mjs';
 import {provePgNetSequenceStates} from './pg-net-sequence-runtime.mjs';
-import {proveRehearsal219Lifecycle} from './rehearsal219-lifecycle.mjs';
+import {proveRehearsal219Lifecycle} from './legacy219-restore-lifecycle220.mjs';
 import {ownerTableNames219} from './rehearsal219-table-acl.mjs';
 const exec=promisify(execFile),root=path.resolve(import.meta.dirname,'../..'),project='nawasrah-dual-backup-test',container='supabase_db_'+project;
 const output=await mkdtemp(path.join(tmpdir(),'nawasrah-dual-backup-proof-'));let local,report={ok:false,hostedConnectionsMade:false};

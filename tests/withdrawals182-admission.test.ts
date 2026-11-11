@@ -1,10 +1,12 @@
+import{historical220Text}from'../scripts/testing/lite220-historical-test-view.mjs';
+import{historical220Inventory as inventory}from'../scripts/testing/lite220-historical-test-view.mjs';
 import {sourceBefore198Presentation} from '../scripts/testing/product-workbook-historical-views.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFile} from 'node:fs/promises';
 import {allUpgrade182Versions,assert182History,inputs182} from '../scripts/operations/frankfurt-owner-upgrade182.mjs';
 import {assertReference182,assertWithdrawals182Catalog} from '../scripts/operations/frankfurt-reference182.mjs';
-import {inventory} from '../scripts/audit/table-access-inventory.mjs';
+
 import {verifyHistoricalWarehouseCoverage as verifyProbeCoverage} from '../scripts/testing/product-workbook-historical-views.mjs';
 
 test('182 history accepts only the exact ordered approved prefix,not gap backfills or unknown versions',async()=>{
@@ -27,7 +29,7 @@ test('182 current real table and service dispatch evidence is complete,and every
  }
  const disabled=structuredClone(proof.catalog);disabled.tables.find((r:{name:string})=>r.name==='owner_cash_withdrawals').rls=false;
  assert.throws(()=>assertWithdrawals182Catalog(disabled));
- const services=JSON.parse(await readFile('docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json','utf8'));
+ const services=JSON.parse(historical220Text('docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json',await readFile('docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json','utf8')));
  assert.equal(services.migrationCeiling,219);assert.equal(services.ok,true);
  assert.deepEqual(services.results.filter((r:{sqlstate:string|null})=>r.sqlstate==='42501').map((r:{name:string;appRole:string})=>[r.name,r.appRole]).sort(),['get_supplier_replacements_page_v1','execute_aftercare_supplier_v1','preview_aftercare_supplier_v1','get_aftercare_damage_candidates_v1','get_damage_history_page_v1','get_damage_ledger_page_v2','preview_supplier_replacement_credit_v1','get_supplier_replacement_credits_v1','settle_supplier_replacement_credit_v1'].flatMap(name=>['admin','cashier'].map(role=>[name,role])).sort());
 });

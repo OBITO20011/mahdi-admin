@@ -1,5 +1,6 @@
+import type {OperatingMode} from '../../services/supabase/operatingMode.service';
 import {ProductWorkbookImportPanel} from './ProductWorkbookImportPanel';
-import {PRODUCT_WORKBOOK_COLUMNS,FLAVOR_WORKBOOK_COLUMNS,PRODUCT_WORKBOOK_NOTES,readProductWorkbook} from './productWorkbook';
+import {PRODUCT_WORKBOOK_COLUMNS,PRODUCT_WORKBOOK_NOTES,readProductWorkbook,productWorkbookColumns,flavorWorkbookColumns} from './productWorkbook';
 import {BulkProductImagesPanel} from '../products/BulkProductImagesPanel';
 import React, { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { AlertTriangle, Boxes, CheckCircle2, Download, FileSpreadsheet, Lock, Package, PencilLine, ShieldAlert, Truck, Users } from 'lucide-react';
@@ -34,10 +35,11 @@ const kindTitle: Readonly<Record<GoLiveKind, string>> = {
 };
 const fieldClass = 'h-11 w-full rounded-xl border border-nw-border bg-nw-surface px-3 text-sm text-nw-text';
 
-function downloadTemplate(kind: GoLiveKind) {
-  const notes = (kind==='products'?PRODUCT_WORKBOOK_NOTES:GO_LIVE_TEMPLATE_NOTES[kind]).map(line => [line]);
+function downloadTemplate(kind: GoLiveKind,operatingMode:OperatingMode='full') {
+  const productColumns=productWorkbookColumns(operatingMode),flavorColumns=flavorWorkbookColumns(operatingMode);
+  const notes = (kind==='products'&&operatingMode==='sales-only'?['وضع مبيعات وذمم: لا تكلفة أو مخزون إلزامي. التوفر يدوي من بطاقة المنتج والنكهة.','الأقسام والوحدات تُعرّف مسبقاً؛ أسعار الباكيت والطرد بنفس قواعد شاشة المنتج.','الصور باسم رمز الصنف النهائي؛ عند الانقطاع استأنف الملف نفسه حتى المطابقة.']:kind==='products'?PRODUCT_WORKBOOK_NOTES:GO_LIVE_TEMPLATE_NOTES[kind]).map(line => [line]);
   const bytes = writeXlsx([
-    ...(kind==='products'?[{name:'المنتجات',rows:[PRODUCT_WORKBOOK_COLUMNS.map(c=>c.header),PRODUCT_WORKBOOK_COLUMNS.map(c=>c.key==='barcode'?'':c.example)],widths:PRODUCT_WORKBOOK_COLUMNS.map(c=>c.width??24)},{name:'النكهات',rows:[FLAVOR_WORKBOOK_COLUMNS.map(c=>c.header),FLAVOR_WORKBOOK_COLUMNS.map(c=>c.example)],widths:FLAVOR_WORKBOOK_COLUMNS.map(c=>c.width??24)}]:[{ name: 'البيانات', rows: templateRows(kind), widths: GO_LIVE_COLUMNS[kind].map(column => column.width ?? 22) }]),
+    ...(kind==='products'?[{name:'المنتجات',rows:[productColumns.map(c=>c.header),productColumns.map(c=>c.key==='barcode'?'':c.example)],widths:productColumns.map(c=>c.width??24)},{name:'النكهات',rows:[flavorColumns.map(c=>c.header),flavorColumns.map(c=>c.example)],widths:flavorColumns.map(c=>c.width??24)}]:[{ name: 'البيانات', rows: templateRows(kind), widths: GO_LIVE_COLUMNS[kind].map(column => column.width ?? 22) }]),
     { name: 'تعليمات', rows: [['تعليمات القالب'], ...notes, ['احذف سطر المثال قبل الاستيراد، ولا تغيّر عناوين الصف الأول.']], widths: [110] },
   ]);
   const url = URL.createObjectURL(new Blob([bytes as BlobPart], { type: XLSX_MIME }));
@@ -69,6 +71,7 @@ const ErrorList: React.FC<{ errors: readonly RowError[] }> = ({ errors }) => (
 );
 
 interface ImportPanelProps {
+  operatingMode?:OperatingMode;
   kind: GoLiveKind;
   disabled: boolean;
   warehouseId?: string;
@@ -76,7 +79,7 @@ interface ImportPanelProps {
 }
 
 /** Template → file → local checks → database dry run → summary → batched idempotent save. */
-const ImportPanel: React.FC<ImportPanelProps> = ({ kind, disabled, warehouseId, onSaved }) => {
+const ImportPanel: React.FC<ImportPanelProps> = ({ kind, disabled, warehouseId, onSaved,operatingMode='full' }) => {
   const [productBusy,setProductBusy]=useState(false);
   const [productFile,setProductFile]=useState<File|null>(null);
   const inputId = useId();
@@ -94,7 +97,7 @@ const ImportPanel: React.FC<ImportPanelProps> = ({ kind, disabled, warehouseId, 
       if(kind==='products'){
         const book=await readProductWorkbook(new Uint8Array(await file.arrayBuffer()));
         const enriched=book.products[0]?.some(h=>PRODUCT_WORKBOOK_COLUMNS.some(c=>c.header===h&&!GO_LIVE_COLUMNS.products.some(old=>old.header===h)));
-        if(book.flavors.length||enriched){setProductFile(file);return;}
+        if(operatingMode==='sales-only'||book.flavors.length||enriched){setProductFile(file);return;}
       }
       const sheet = await readXlsxFirstSheet(await file.arrayBuffer());
       const { rows, fileErrors, normalizedFields } = mapSheet(kind, sheet);
@@ -173,7 +176,7 @@ const ImportPanel: React.FC<ImportPanelProps> = ({ kind, disabled, warehouseId, 
         {(kind==='products'?PRODUCT_WORKBOOK_NOTES:GO_LIVE_TEMPLATE_NOTES[kind]).map(line => <li key={line}>{line}</li>)}
       </ul>
       <div className="flex flex-wrap gap-2">
-        <UiButton onClick={() => downloadTemplate(kind)}><Download className="h-4 w-4" aria-hidden="true" />تنزيل القالب</UiButton>
+        <UiButton onClick={() => downloadTemplate(kind,operatingMode)}><Download className="h-4 w-4" aria-hidden="true" />تنزيل القالب</UiButton>
         <label htmlFor={inputId} className={`inline-flex h-11 cursor-pointer items-center justify-center gap-2 rounded-xl border border-nw-border bg-nw-surface px-4 text-sm font-semibold text-nw-text hover:bg-nw-surface-2 ${disabled || busy || productBusy ? 'pointer-events-none opacity-60' : ''}`}>
           <FileSpreadsheet className="h-4 w-4" aria-hidden="true" />اختيار ملف Excel
         </label>
@@ -183,7 +186,7 @@ const ImportPanel: React.FC<ImportPanelProps> = ({ kind, disabled, warehouseId, 
       </div>
       {busy && <p role="status" className="m-0 text-sm text-nw-muted">{busy}</p>}
       {message && <p role={message.tone === 'bad' ? 'alert' : 'status'} className={`m-0 rounded-xl p-3 text-sm ${message.tone === 'bad' ? 'bg-nw-bad-bg text-nw-bad' : 'bg-nw-ok-bg text-nw-ok'}`}>{message.text}</p>}
-      {productFile&&<ProductWorkbookImportPanel onBusyChange={setProductBusy} file={productFile} disabled={disabled} onSaved={onSaved}/>}
+      {productFile&&<ProductWorkbookImportPanel operatingMode={operatingMode} onBusyChange={setProductBusy} file={productFile} disabled={disabled} onSaved={onSaved}/>}
       {preview && (
         <div className="space-y-3" data-testid={`go-live-preview-${kind}`}>
           <p className="m-0 text-sm font-semibold text-nw-text">{`معاينة الملف: ${preview.fileName}`}</p>
@@ -452,6 +455,7 @@ const EntryList: React.FC<{ kind: 'customers' | 'suppliers'; entries: OpeningEnt
 };
 
 interface SetupCardProps {
+  operatingMode?:OperatingMode;
   kind: GoLiveKind;
   icon: React.ReactNode;
   description: string;
@@ -466,7 +470,7 @@ interface SetupCardProps {
   onSaved: () => void;
 }
 
-const SetupCard: React.FC<SetupCardProps> = ({ kind, icon, description, progress, facts, manual, manualLabel, onManual, locked, extra, warehouseId, onSaved }) => {
+const SetupCard: React.FC<SetupCardProps> = ({ kind, icon, description, progress, facts, manual, manualLabel, onManual, locked, extra, warehouseId, onSaved,operatingMode='full' }) => {
   const [open, setOpen] = useState<'manual' | 'import' | null>(null);
   const titleId = useId();
   const done = progress.max > 0 && progress.value >= progress.max;
@@ -498,7 +502,7 @@ const SetupCard: React.FC<SetupCardProps> = ({ kind, icon, description, progress
         </UiButton>
       </div>
       {open === 'manual' && !onManual && manual}
-      {open === 'import' && <ImportPanel kind={kind} disabled={locked} warehouseId={warehouseId} onSaved={onSaved} />}
+      {open === 'import' && <ImportPanel operatingMode={operatingMode} kind={kind} disabled={locked} warehouseId={warehouseId} onSaved={onSaved} />}
     </Card>
   );
 };
@@ -537,7 +541,8 @@ const MainBranchCard: React.FC<{ status: GoLiveStatus; onSaved: () => void }> = 
   );
 };
 
-export const GoLiveSetupView: React.FC = () => {
+export const GoLiveSetupView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boolean}> = ({operatingMode='full',modeVerified=true}) => {
+  const salesOnly=operatingMode==='sales-only';
   const { roleName } = useAuthStore();
   const isOwner = roleName === 'owner';
   const warehouses = useAppStoreSelector(state => state.warehouses);
@@ -563,10 +568,10 @@ export const GoLiveSetupView: React.FC = () => {
   const refresh = useCallback(async () => {
     if (!isOwner) return;
     try {
-      const [nextStatus, customers, suppliers] = await Promise.all([fetchGoLiveStatus(), fetchCustomerOpenings(), fetchSupplierOpenings()]);
+      const [nextStatus, customers, suppliers] = await Promise.all([fetchGoLiveStatus(), fetchCustomerOpenings(), salesOnly?Promise.resolve([]):fetchSupplierOpenings()]);
       setStatus(nextStatus); setCustomerEntries(customers); setSupplierEntries(suppliers); setLoadError('');
     } catch (error) { setLoadError(errorText(error)); }
-  }, [isOwner]);
+  }, [isOwner,salesOnly]);
   useEffect(() => { void refresh(); }, [refresh]);
 
   if (!isOwner) {
@@ -581,8 +586,9 @@ export const GoLiveSetupView: React.FC = () => {
     );
   }
 
-  const locked = !status || status.finished;
+  const locked = !modeVerified || !status || status.finished;
   const finish = async () => {
+    if(!modeVerified){setFinishError('تعذر التحقق من وضع التشغيل؛ أعد قراءة الحالة. (MODE-02)');return;}
     setFinishing(true); setFinishError('');
     try { await finishGoLiveSetup(phrase.trim()); setConfirming(false); setPhrase(''); await refresh(); }
     catch (error) { setFinishError(errorText(error)); } finally { setFinishing(false); }
@@ -591,7 +597,7 @@ export const GoLiveSetupView: React.FC = () => {
   return (
     <div dir="rtl" className="min-h-full bg-nw-bg pb-28 lg:pb-8" data-testid="go-live-page">
       <PageHeader title="بداية التشغيل"
-        description="أدخل المنتجات والبضاعة الموجودة والأرصدة القديمة مرة واحدة قبل التشغيل الفعلي."
+        description={salesOnly?'عرّف المنتجات والنكهات وديون العملاء وشيكات البداية والدرج؛ لا جرد أو تكلفة إلزامية.':'أدخل المنتجات والبضاعة الموجودة والأرصدة القديمة مرة واحدة قبل التشغيل الفعلي.'}
         actions={status && (status.finished
           ? <StatusBadge tone="ok"><Lock className="me-1 h-3.5 w-3.5" aria-hidden="true" />منتهية ومقفلة</StatusBadge>
           : <StatusBadge tone="warn">مفتوحة للإدخال</StatusBadge>)} />
@@ -608,12 +614,12 @@ export const GoLiveSetupView: React.FC = () => {
         {status && <MainBranchCard status={status} onSaved={() => void refresh()} />}
         {status && (
           <div className="grid gap-4 xl:grid-cols-2">
-            <SetupCard kind="products" icon={<Package className="h-5 w-5" />} locked={locked} onSaved={() => void refresh()}
+            <SetupCard operatingMode={operatingMode} kind="products" icon={<Package className="h-5 w-5" />} locked={locked} onSaved={() => void refresh()}
               description="عرّف الأصناف بالأسعار والطرود؛ المنتج يبدأ برصيد صفر."
               progress={{ value: status.products.importedCount, max: Math.max(status.products.activeCount, status.products.importedCount), label: 'منتجات مستوردة من المعرّفة' }}
               facts={<>المنتجات المعرّفة في النظام: <Num value={status.products.activeCount} /></>}
               manualLabel="إدخال يدوي" manual={null} onManual={() => { setActiveTab('products'); openModal('add_product'); }} />
-            <SetupCard kind="stock" icon={<Boxes className="h-5 w-5" />} locked={locked} onSaved={() => void refresh()} warehouseId={warehouseId}
+            {!salesOnly&&<SetupCard kind="stock" icon={<Boxes className="h-5 w-5" />} locked={locked} onSaved={() => void refresh()} warehouseId={warehouseId}
               description="الكميات الموجودة فعلاً بالطرود والباكيتات، بتكلفة الصنف ودون فاتورة مورد."
               progress={{ value: status.stock.countedProductCount, max: status.stock.stockableCount, label: 'أصناف أُدخل رصيدها' }}
               facts={<>جلسات الرصيد الافتتاحي: <Num value={status.stock.sessionCount} /></>}
@@ -625,26 +631,26 @@ export const GoLiveSetupView: React.FC = () => {
                     {warehouseOptions.map(w => <option key={w.id} value={w.id}>{w.nameAr || w.name}</option>)}
                   </select>
                 </FormFields>
-              )} />
+              )} />}
             <SetupCard kind="customers" icon={<Users className="h-5 w-5" />} locked={locked} onSaved={() => void refresh()}
               description="دين كل عميل قبل النظام بتاريخه الأصلي. يظهر في كشف الحساب كـ«رصيد سابق قبل النظام» ولا يدخل المبيعات أو الأرباح أو الوردية."
               progress={{ value: status.customers.withOpeningCount, max: Math.max(status.customers.customerCount, status.customers.withOpeningCount), label: 'عملاء لهم دين سابق' }}
               facts={<>مجموع الديون السابقة: <Money minor={status.customers.activeTotalInMinorUnits} /></>}
               manualLabel="إدخال يدوي" manual={<ManualOpeningForm kind="customers" disabled={locked} onSaved={() => void refresh()} />}
               extra={<EntryList kind="customers" entries={customerEntries} disabled={!status} onChanged={() => void refresh()} />} />
-            <SetupCard kind="suppliers" icon={<Truck className="h-5 w-5" />} locked={locked} onSaved={() => void refresh()}
+            {!salesOnly&&<SetupCard kind="suppliers" icon={<Truck className="h-5 w-5" />} locked={locked} onSaved={() => void refresh()}
               description="رصيد كل مورد قبل النظام: «له» إن كنا مدينين له، «عليه» إن كان مديناً لنا."
               progress={{ value: status.suppliers.withOpeningCount, max: Math.max(status.suppliers.supplierCount, status.suppliers.withOpeningCount), label: 'موردون لهم رصيد سابق' }}
               facts={<>له: <Money minor={status.suppliers.payableTotalInMinorUnits} /> · عليه: <Money minor={status.suppliers.advanceTotalInMinorUnits} /></>}
               manualLabel="إدخال يدوي" manual={<ManualOpeningForm kind="suppliers" disabled={locked} onSaved={() => void refresh()} />}
-              extra={<EntryList kind="suppliers" entries={supplierEntries} disabled={!status} onChanged={() => void refresh()} />} />
+              extra={<EntryList kind="suppliers" entries={supplierEntries} disabled={!status} onChanged={() => void refresh()} />} />}
           </div>
         )}
         {status && <BulkProductImagesPanel />}
-        {status && <OpeningChequesCard branchId={status.mainBranchId} locked={locked} onSaved={() => void refresh()} />}
+        {status && <OpeningChequesCard operatingMode={operatingMode} branchId={status.mainBranchId} locked={locked} onSaved={() => void refresh()} />}
         {status && !status.finished && (
           <Card data-testid="go-live-finish">
-            <SectionHeader title="إنهاء بداية التشغيل" hint="خطوة نهائية لا رجعة فيها: بعدها ترفض قاعدة البيانات أي رصيد افتتاحي أو عكسه أو استيراده." />
+            <SectionHeader title="إنهاء بداية التشغيل" hint={salesOnly?'تُقفل أرصدة بداية التشغيل. إعادة المحاسبة لاحقاً من أداة جرد التفعيل المستقلة.':'خطوة نهائية لا رجعة فيها: بعدها ترفض قاعدة البيانات أي رصيد افتتاحي أو عكسه أو استيراده.'} />
             {!confirming
               ? <UiButton variant="danger" className="mt-3" onClick={() => setConfirming(true)}><AlertTriangle className="h-4 w-4" aria-hidden="true" />إنهاء بداية التشغيل</UiButton>
               : (

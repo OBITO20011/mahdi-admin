@@ -62,7 +62,7 @@ async function assertParity(customers){
 try{
   const {stdout}=await exec(process.execPath,[path.join(root,'scripts/testing/bootstrap-isolated-supabase.mjs')],{
     cwd:root,windowsHide:true,timeout:900000,maxBuffer:8*1024*1024,env:{...process.env,
-      NAWASRAH_ISOLATED_PROJECT_ID:projectId,NAWASRAH_SKIP_REDUNDANT_DB_RESET:'true',
+      NAWASRAH_ISOLATED_PROJECT_ID:projectId,NAWASRAH_MAX_MIGRATION:'219',NAWASRAH_SKIP_REDUNDANT_DB_RESET:'true',
       NAWASRAH_SUPABASE_EXCLUDE:'gotrue,kong,postgrest,realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor'}});
   const boot=JSON.parse(stdout);assert.equal(boot.ok,true);workdir=boot.isolatedProjectRoot;
   assert.equal(await sql(`SELECT max(version) FROM supabase_migrations.schema_migrations;`)>='164',true);

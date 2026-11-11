@@ -45,7 +45,8 @@ test('business reports are calculated by one authenticated role-checked RPC', ()
 
 test('report UI uses the RPC service and offers real browser print to Arabic PDF', () => {
   assert.match(service, /rpc\(\s*'get_operational_business_report'/);
-  assert.match(view, /fetchOperationalBusinessReportFromSupabase/);
+  assert.match(view, /fetchAccountingReport/);
+  assert.match(readFileSync('src/services/supabase/reportingDispatch.service.ts','utf8'),/client\.rpc\('get_operational_business_report',args\)/);
   assert.match(view, /window\.print\(\)/);
   assert.match(view, /@page \{ size: A4 portrait/);
   assert.match(view, /direction: rtl/);

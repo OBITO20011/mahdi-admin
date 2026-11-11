@@ -331,6 +331,7 @@ test('runtime gateway routes only the explicit Customer V2 contract and forwards
     getEnv: testEnvironment,
     fetchImpl: async (input, init) => {
       const url = String(input);
+      if(url.endsWith('/lite1_operating_mode'))return new Response(JSON.stringify({code:'PGRST202',message:'Could not find public.lite1_operating_mode'}),{status:404});
       if (url.includes('/siteverify')) {
         return new Response(JSON.stringify(validVerification), {status: 200});
       }
@@ -396,6 +397,7 @@ test('runtime gateway accepts exactly 50 line items and preserves their variant 
     getEnv: testEnvironment,
     fetchImpl: async (input, init) => {
       const url = String(input);
+      if(url.endsWith('/lite1_operating_mode'))return new Response(JSON.stringify({code:'PGRST202',message:'Could not find public.lite1_operating_mode'}),{status:404});
       if (url.includes('/siteverify')) {
         return new Response(JSON.stringify(validVerification), {status: 200});
       }
@@ -443,6 +445,7 @@ test('runtime gateway rejects invalid or replayed Turnstile before every databas
     let databaseCalls = 0;
     const fetchImpl: typeof fetch = async (input) => {
       const url = String(input);
+      if(url.endsWith('/lite1_operating_mode'))return new Response(JSON.stringify({code:'PGRST202',message:'Could not find public.lite1_operating_mode'}),{status:404});
       if (url.includes('/siteverify')) {
         return new Response(JSON.stringify({
           success: false,
@@ -536,6 +539,7 @@ test('runtime gateway retry keeps the same idempotency key and canonical order',
   let orderCalls = 0;
   const fetchImpl: typeof fetch = async (input, init) => {
     const url = String(input);
+    if(url.endsWith('/lite1_operating_mode'))return new Response(JSON.stringify({code:'PGRST202',message:'Could not find public.lite1_operating_mode'}),{status:404});
     if (url.includes('/siteverify')) {
       return new Response(JSON.stringify(validVerification), { status: 200 });
     }
@@ -600,6 +604,7 @@ test('V2 gateway timeout after a committed request requires an explicit same-key
   };
   const fetchImpl: typeof fetch = async (input, init) => {
     const url = String(input);
+    if(url.endsWith('/lite1_operating_mode'))return new Response(JSON.stringify({code:'PGRST202',message:'Could not find public.lite1_operating_mode'}),{status:404});
     if (url.includes('/siteverify')) {
       return new Response(JSON.stringify(validVerification), {status: 200});
     }

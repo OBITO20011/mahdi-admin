@@ -18,6 +18,7 @@ interface Props {order:Order;onChanged?:()=>Promise<void>;onContractResolved:(ca
 const rootQuantity=(representatives:AftercarePhysicalRepresentative[])=>representatives.reduce((sum,source)=>sum+source.remainingQuantity,0);
 export const AdminAftercarePanel:React.FC<Props>=({order,onChanged,onContractResolved,notify})=>{
   const {roles,roleName,user}=useAuthStore(),isOwner=roles.includes('owner')||roleName==='owner';
+  const salesOnly=order.accountingTracked===false;
   const supplierScope=`supplier-replacement208:return:${order.id}`;
   const [supplierAttempt,setSupplierAttempt]=useState<ReplacementAttempt|null>(null),[supplierRecoveryError,setSupplierRecoveryError]=useState('');
   const [context,setContext]=useState<AdminAftercareContext|null>(null),[loading,setLoading]=useState(true),[busy,setBusy]=useState(false);
@@ -32,7 +33,7 @@ export const AdminAftercarePanel:React.FC<Props>=({order,onChanged,onContractRes
   const load = useCallback(async () => {
     setLoading(true);
     setError(null);
-    const result = await fetchAdminAftercareContext(order.id);
+    const result = await fetchAdminAftercareContext(order.id,!salesOnly);
     if (!result.success || !result.data) {
       setError(operatorErrorMessage('aftercareRead',result.error));
       onContractResolved(null);
@@ -53,7 +54,7 @@ export const AdminAftercarePanel:React.FC<Props>=({order,onChanged,onContractRes
       }
     }
     setLoading(false);
-  }, [onContractResolved, order.id, refreshRecoveryStates]);
+  }, [onContractResolved, order.id, refreshRecoveryStates,salesOnly]);
 
   useEffect(() => { void load(); }, [load]);
 
@@ -67,7 +68,7 @@ export const AdminAftercarePanel:React.FC<Props>=({order,onChanged,onContractRes
   }, [context]);
   const hasPendingRecovery = Object.values(recoveryStates).some(state=>state?.recoverable===true)
     ||supplierAttempt?.status==='unknown'||supplierAttempt?.status==='prepared'
-    ||(isOwner&&safetyBlocked);
+    ||(isOwner&&!salesOnly&&safetyBlocked);
 
   if (loading) return (
     <div className="rounded-2xl border border-nw-border bg-nw-surface-2 p-3 text-center text-nw-muted">
@@ -144,7 +145,7 @@ export const AdminAftercarePanel:React.FC<Props>=({order,onChanged,onContractRes
       {context.order.withinWindow&&sources.length>0&&<AftercareWizard215 key={`${user?.id}:${[...roles].sort().join(',')}:${roleName}:${order.id}`} order={order} context={context}
         ownerAllowed={isOwner} disabled={busy||hasPendingRecovery||Boolean(supplierRecoveryError)||damageOpen} onBusyChange={setBusy} onRecoveryChange={refreshRecoveryStates}
         onChanged={async()=>{await load();await onChanged?.();}} notify={notify}/>}
-      {isOwner&&<>
+      {isOwner&&!salesOnly&&<>
         <AftercareSupplierSafety recoveryOnly orderId={order.id}
           disabled={busy||Object.values(recoveryStates).some(state=>state?.recoverable===true)||supplierAttempt?.status==='unknown'||supplierAttempt?.status==='prepared'}
           onPendingChange={setSafetyBlocked} onChanged={async()=>{await load();await onChanged?.();}} notify={notify}/>

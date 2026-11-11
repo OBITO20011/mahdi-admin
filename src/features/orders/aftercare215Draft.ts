@@ -62,6 +62,7 @@ export type BuiltWizard215={action:'sealed_return';payload:Aftercare215Payloads[
   |{action:'inspected_replacement';payload:Aftercare215Payloads['inspected_replacement']}
   |{action:'exchange';payload:Aftercare215Payloads['exchange']};
 export function buildWizard215(order:Order,context:AdminAftercareModernContext,input:WizardRequest215):BuiltWizard215{
+  if(context.capability==='sales_only'&&(input.intent!=='refund'||input.destination==='supplier'))throw Error('هذه فاتورة بلا محاسبة: المرتجع فقط، دون مورد أو حركة مخزون.');
   const selection=input.selection;
   const physical=inspectWizardPhysical215(selectWizardPhysical215(order,context,selection),input.inspection),sources=physical.map(v=>v.source);
   const bad=sources.reduce((s,x)=>s+x.defect_non_sellable_quantity,0),damage=sources.reduce((s,x)=>s+x.customer_damage_quantity,0);
