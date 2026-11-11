@@ -21,6 +21,7 @@ import {captureEvidence} from '../backup/complete-backup.mjs';
 import {read220BackupEvidence,assert220ProtectionComplete} from './upgrade220-protection.mjs';
 import {capture220RuntimeState,bind220CatalogTrigger} from './upgrade220-runtime-state.mjs';
 import {assert220SourceRowsPreserved} from './upgrade220-data.mjs';
+import {frozen220TriggerAclProfile,expectFrankfurt220TriggerAcl} from './frozen220-trigger-acl.mjs';
 const root=path.resolve(import.meta.dirname,'../..');
 export const upgrade220Versions=Object.freeze(['220']);
 export function assert220History(history,reference){
@@ -38,10 +39,13 @@ export async function read220SourceEvidence(executor){
 async function verify220Prefix(executor,output,reference,version,runtime,report){
  const read=await executeInput(executor,schemaCatalogSql);assert.equal(read.code,0,'UPGRADE220_CATALOG_READ_FAILED');const observed=JSON.parse(read.stdout.trim()),prefix=reference.prefixes[version];assert.ok(prefix);
  const expected=bind220CatalogTrigger(prefix.catalog,runtime),dates={beforeBuildDate:prefix.buildUtcDate,afterBuildDate:new Date().toISOString().slice(0,10)};
- // Save literal observed catalog and the exact runtime trigger binding,then compare everything.
+ await writeFile(path.join(output,'catalog-observed.json'),JSON.stringify(observed,null,2)+'\n');
+ assert.equal(frozen220TriggerAclProfile(observed.functions),'frankfurt','UPGRADE220_FRANKFURT_TRIGGER_ACL_REQUIRED');
+ expected.functions=expectFrankfurt220TriggerAcl(expected.functions);
+ // Compare the exact observed catalog against the Frankfurt-bound reference.
  await writeFile(path.join(output,'runtime-state.json'),JSON.stringify(runtime,null,2)+'\n');
  const comparison=await persistCatalogComparison(output,expected,observed,dates,report);assert.equal(comparison.unexpectedDifferenceCount,0,'UPGRADE220_UNEXPECTED_CATALOG_DIFFERENCE');
- const acl=compareApplicationAcl(prefix.catalog,observed);await writeFile(path.join(output,'application-acl-comparison.json'),JSON.stringify(acl,null,2)+'\n');assert.equal(acl.ok,true,'UPGRADE220_ACL_MISMATCH');
+ const acl=compareApplicationAcl(expected,observed);await writeFile(path.join(output,'application-acl-comparison.json'),JSON.stringify(acl,null,2)+'\n');assert.equal(acl.ok,true,'UPGRADE220_ACL_MISMATCH');
  if(version==='219')assertReady219Catalog(observed);else assertReady220Catalog(observed,{notificationTriggerEnabled:runtime.notifications.trigger.enabled});
  assert.deepEqual(await readRealtimePublication(executor),prefix.realtimePublication,'UPGRADE220_PUBLICATION_CHANGED');
  assert.deepEqual(await capture220RuntimeState(executor,reference),runtime,'UPGRADE220_RUNTIME_STATE_CHANGED');

@@ -1,3 +1,5 @@
+import {frankfurt220TriggerAclFixtureSql,frankfurt220TriggerAclReadSql} from './frankfurt220-trigger-acl-fixture.mjs';
+import {frozen220TriggerAclProfile} from '../operations/frozen220-trigger-acl.mjs';
 // One owned Docker219 source,real owner220 pipeline,encrypted backups and strict Restore.
 // No hosted URL,credentials or external transport is accepted.
 import assert from 'node:assert/strict';
@@ -43,6 +45,9 @@ try{
   roles:async destination=>{await owned();await exec('docker',['exec',container,'pg_dumpall','-U','supabase_admin','--roles-only','--no-role-passwords','--no-tablespaces','-f','/tmp/owner220-roles.sql'],{windowsHide:true});await exec('docker',['cp',container+':/tmp/owner220-roles.sql',destination],{windowsHide:true});},
   dump:async(snapshot,destination)=>{await owned();await exec('docker',['exec',container,'pg_dump','-U','postgres','-d','postgres','-Fc','--snapshot='+snapshot,'-f','/tmp/owner220.dump'],{windowsHide:true,timeout:600_000});await exec('docker',['cp',container+':/tmp/owner220.dump',destination],{windowsHide:true});}};
  const passphrase='disposable-local-owner220-fixture-only',backupRoot=path.join(output,'Frankfurt-kzevmysfydaslxcerogt');
+ await owned();await sql(frankfurt220TriggerAclFixtureSql);
+ const rawProfile=async()=>frozen220TriggerAclProfile(JSON.parse(await sql(frankfurt220TriggerAclReadSql)));
+ assert.equal(await rawProfile(),'frankfurt');
  stage='backup219';const before=await timed('backup219',()=>createCompleteBackup({projectRef:'kzevmysfydaslxcerogt',outputRoot:backupRoot,passphrase,source}));assert.equal(before.historyCeiling,219);const beforeFile=await save('backup219.json',before);
  await read220BackupEvidence(beforeFile,219);
  stage='restore219';report.restore219=await timed('restore219',()=>restoreCompleteBackup({archivePath:before.archivePath,passphrase,reportPath:path.join(output,'restore219.json')}));assert.equal(report.restore219.allRowsAndHashesMatch,true);
@@ -52,6 +57,7 @@ try{
   finalDryRun:async()=>{const r=await cliCall(['db','push','--dry-run','--skip-vault']);assert.match(r.stdout+r.stderr,/up to date/iu);}});};
  stage='negative-source-commitment';await assert.rejects(()=>run('wrong-backup',{...before,sourceEvidenceSha256:'0'.repeat(64)}),/SOURCE_CHANGED_SINCE_BACKUP/u);
  stage='apply220';report.apply=await timed('apply220',()=>run('apply'));report.apply.endedAt=new Date().toISOString();const applyFile=await save('apply220.json',report.apply);
+ assert.equal(await rawProfile(),'frankfurt','OWNER220_RAW_TRIGGER_ACL_CHANGED');
  assert.deepEqual(report.apply.applied,['220']);assert.deepEqual(report.apply.recorded,['220']);assert.equal(report.apply.protectionPending,true);assert.equal(report.apply.complete,false);
  assert.equal(await sql('SELECT enabled FROM public.owner_telegram_dispatch_settings;'),'t');assert.equal(await sql('SELECT daily_summary_enabled FROM public.business_alert_settings;'),'t');
  stage='replay';await assert.rejects(()=>run('replay'),/ALREADY_APPLIED_USE_VERIFY_ONLY/u);assert.equal(await sql('SELECT count(*) FROM supabase_migrations.schema_migrations;'),'181');

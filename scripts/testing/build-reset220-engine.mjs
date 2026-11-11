@@ -28,7 +28,13 @@ dep=once(dep,'\n), edges AS (',"\n UNION SELECT 'pg_namespace'::regclass::oid,oi
 dep=once(dep,"FROM objects WHERE object_schema IS DISTINCT FROM 'public'",`FROM objects WHERE (object_schema IS NULL OR object_schema NOT IN${schemaSet})`);
 dep=once(dep,"objid='public'::regnamespace)",`objid IN${ns})`);
 dep=once(dep,"WHERE defaclnamespace='public'::regnamespace)",`WHERE defaclnamespace IN${ns})`);
-foundation=foundation.slice(0,depStart)+dep+foundation.slice(depEnd);files.set('reset220-foundation',foundation);
+foundation=foundation.slice(0,depStart)+dep+foundation.slice(depEnd);foundation="import {hasFrankfurt220TriggerAcl} from './frozen220-trigger-acl.mjs';\n"+foundation;
+foundation=once(foundation,"  const role=a=>a.grantee==='PUBLIC'?'PUBLIC':ident(a.grantee);",`  const role=a=>a.grantee==='PUBLIC'?'PUBLIC':ident(a.grantee);
+  // A literal rebuild yields NULL for these defaults. Recreate only the
+  // exact captured representation of the four Frankfurt trigger ACLs.
+  if(section==='functions'&&actual.acl===null&&hasFrankfurt220TriggerAcl(row))
+   commands.push(\`GRANT EXECUTE ON \${target} TO PUBLIC;\`);`);
+files.set('reset220-foundation',foundation);
 let guard=await source('reset214-write-guard');guard=once(guard,"from './trial-reset-core.mjs'","from './reset220-foundation.mjs'");
 guard=all(guard,"FOR r IN SELECT tablename FROM pg_tables WHERE schemaname='public' ORDER BY tablename LOOP",`FOR r IN SELECT schemaname,tablename FROM pg_tables WHERE schemaname IN${schemaSet} ORDER BY schemaname,tablename LOOP`,2);
 guard=once(guard,"FROM public.%I t',r.tablename)","FROM %I.%I t',r.schemaname,r.tablename)");

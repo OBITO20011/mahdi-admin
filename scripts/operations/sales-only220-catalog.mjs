@@ -1,6 +1,7 @@
 // Literal public+private function and private-object commitments generated from
 // an independently compared fresh220/219->220 build,never from a hosted target.
 import assert from 'node:assert/strict';
+import {frozen220TriggerAclProfile,expectFrankfurt220TriggerAcl} from './frozen220-trigger-acl.mjs';
 import {readFileSync} from 'node:fs';
 import {sha256,canonicalLf} from '../testing/maintenance-db-contract.mjs';
 import {salesOnly220Name} from '../testing/sales-only220-compiler.mjs';
@@ -25,7 +26,9 @@ export function assertSalesOnly220PublicGuards(triggers,{notificationTriggerEnab
 }
 export function assertSalesOnly220Catalog(catalog,options){
  const p=readSalesOnly220Pins();
- assert.deepEqual(salesOnly220FunctionSnapshot(catalog),p.functions,'LITE220_EXACT_PUBLIC_PRIVATE_FUNCTIONS');
+ const profile=frozen220TriggerAclProfile(catalog.functions);
+ const expected=profile==='frankfurt'?expectFrankfurt220TriggerAcl(p.functions):p.functions;
+ assert.deepEqual(salesOnly220FunctionSnapshot(catalog),expected,'LITE220_EXACT_PUBLIC_PRIVATE_FUNCTIONS');
  assert.deepEqual(salesOnly220PrivateSnapshot(catalog),p.privateObjects,'LITE220_EXACT_PRIVATE_OBJECTS');
  assertSalesOnly220PublicGuards(catalog.triggers,options);
  return catalog;

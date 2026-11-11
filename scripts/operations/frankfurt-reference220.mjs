@@ -7,6 +7,7 @@ import {assertReady219Catalog} from './frankfurt-reference219.mjs';
 import {compareManagedCatalog} from './managed-catalog-policy.mjs';
 import {compareApplicationAcl} from './application-acl-verification.mjs';
 import {assertSalesOnly220Catalog} from './sales-only220-catalog.mjs';
+import {frankfurt220TriggerAcl,frozen220TriggerAclProfile} from './frozen220-trigger-acl.mjs';
 import {migrationManifest,manifestDigest,canonicalLf,sha256} from '../testing/maintenance-db-contract.mjs';
 import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
 import {realtimePublicationSql,realtime151Tables} from '../testing/realtime151-contract.mjs';
@@ -28,6 +29,8 @@ export function assertReady220Reference(reference,manifest,proofText,source){
  assert.deepEqual(reference.realtimePublication.tables.map(t=>t.schema+'.'+t.name).sort(),realtime151Tables.map(t=>'public.'+t).sort());assert.equal(reference.realtimePublication.publication.owner,'postgres');assert.equal(reference.realtimePublication.publication.allTables,false);
  assert.deepEqual(Object.keys(reference.prefixes),['219','220']);
  for(const version of ['219','220']){const prefix=reference.prefixes[version];assert.equal(prefix.catalogSha256,sha256(JSON.stringify(prefix.catalog)));assert.deepEqual(prefix.appliedVersions,manifest.filter(m=>Number(m.name.slice(0,3))<=Number(version)).map(m=>m.name.slice(0,3)));assert.deepEqual(prefix.realtimePublication,reference.realtimePublication);}
+ assert.deepEqual(reference.frankfurtFrozenTriggerAcl,frankfurt220TriggerAcl,'OWNER220_FRANKFURT_ACL_REFERENCE_DRIFT');
+ for(const prefix of Object.values(reference.prefixes))assert.equal(frozen220TriggerAclProfile(prefix.catalog.functions),'local','OWNER220_LOCAL_REFERENCE_PROFILE_REQUIRED');
  assertReady219Catalog(reference.prefixes['219'].catalog);assertReady220Catalog(reference.catalog);assert.deepEqual(reference.prefixes['220'].catalog,reference.catalog);assertExisting219AclPreserved(reference.prefixes['219'].catalog,reference.catalog);assert.equal(reference.freshIncrementalDifferenceCount,0);
  const proof=JSON.parse(proofText);assert.equal(proof.migrationCeiling,220);assert.equal(proof.managedAccess,false);assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);
  assert.deepEqual(proof.sourceHashes,source.sources);assert.deepEqual(proof.coverage,verifyProbeCoverage(source,proof.results));assert.ok(proof.results.every(r=>r.sqlstate===null));assert.deepEqual(proof.manifest,manifest.map(m=>m.name));

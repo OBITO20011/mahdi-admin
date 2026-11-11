@@ -1,7 +1,6 @@
--- OWNER READ ONLY: run on219 BEFORE upgrade/D-1;zero result rows required.
--- Uses EXACT literal frozen220_before values and raw ACL/config comparison.
--- Do not alter grants/owners/bodies to silence a difference;return it for review.
-BEGIN READ ONLY;
+-- OWNER READ ONLY: run on Frankfurt 219 before upgrade/D-1. Zero rows required.
+-- Paste this single statement into Supabase SQL Editor and read its result.
+-- The four exact Frankfurt ACLs override the fresh local raw values only here.
 WITH expected(signature,source_hash,definition_hash,owner_name,config,acl) AS(VALUES
 ('_archive_supplier_receipt_impl(uuid,boolean)','0307f405475c908e3e5eca343e6833c6713f813d6755c03705e0790d6ee7b572','0fa8d35048847084afde6de1433d4fa843c337754f8de2cba4b8d82cdd6ce2f1','postgres','["search_path=public, pg_temp"]'::jsonb,'{postgres=X/postgres}'),
 ('_build_business_summary_before133(text,date,date,timestamp with time zone)','b01e43721599a9191e4ba41d76f7448b50044b15d53d2e56baa6bf44de4c6f52','9d5497c4ea3e979a326d580233c99180f4d88b93e4fcf6707f94fdb5cac913f7','postgres','["search_path=public, pg_temp"]'::jsonb,'{postgres=X/postgres}'),
@@ -638,19 +637,24 @@ WITH expected(signature,source_hash,definition_hash,owner_name,config,acl) AS(VA
 ('validate_purchase_order_component_family_v2()','b412fa9ae152b20bba1406c35ec7514333a5a74b0e8a1f7f17032b5ea370f372','c9c6577d64a045f4e95dd38460de402cae8d107948980037c62bc8b654abf252','postgres','["search_path=public, pg_temp"]'::jsonb,'{postgres=X/postgres}'),
 ('validate_purchase_receipt_item_family_v2()','88aae725de38f4c0879cba69e85898547c87b7e8f85ed5ba6424718c125e5ed3','5845fc9a6f0e4c20bce090ceb6c7160542548a31989a7e29f4d6ce07bf83d51a','postgres','["search_path=public, pg_temp"]'::jsonb,'{postgres=X/postgres}'),
 ('validate_sales_return_item_line_kind()','1ac71ad2059663f4df17c9e1bb218e6588a1a9f5e2f9fd342301cb19cda2956e','d931e5778c395622152e58365f2b381bb2bcd67dbf82197c03cc3893b9ba3804','postgres','["search_path=public, pg_temp"]'::jsonb,'{postgres=X/postgres}'),
-('validate_supplier_receipt_item_commercial_family()','83f006c212cd9b4cd95de9e635a16ee1466072abc981ff45b1fd6cab51ae1dc7','2924086f5d13101b412c091f05de8ab8974fbb778727505f52c363d3f84100ec','postgres','["search_path=public, pg_temp"]'::jsonb,'{postgres=X/postgres}'))
-SELECT e.signature,array_remove(ARRAY[
- CASE WHEN p.oid IS NULL THEN 'missing_function' END,
- CASE WHEN p.oid IS NOT NULL AND encode(pg_catalog.sha256(convert_to(p.prosrc,'UTF8')),'hex') IS DISTINCT FROM e.source_hash THEN 'source_hash' END,
- CASE WHEN p.oid IS NOT NULL AND encode(pg_catalog.sha256(convert_to(pg_get_functiondef(p.oid),'UTF8')),'hex') IS DISTINCT FROM e.definition_hash THEN 'definition_hash' END,
- CASE WHEN p.oid IS NOT NULL AND p.proowner::regrole::text IS DISTINCT FROM e.owner_name THEN 'owner' END,
- CASE WHEN p.oid IS NOT NULL AND to_jsonb(p.proconfig) IS DISTINCT FROM NULLIF(e.config,'null'::jsonb) THEN 'config' END,
- CASE WHEN p.oid IS NOT NULL AND p.proacl::text IS DISTINCT FROM e.acl THEN 'raw_acl' END
-],NULL) AS mismatch_reasons
-FROM expected e LEFT JOIN pg_proc p ON p.oid=to_regprocedure('public.'||e.signature)
-WHERE p.oid IS NULL OR encode(pg_catalog.sha256(convert_to(p.prosrc,'UTF8')),'hex') IS DISTINCT FROM e.source_hash
- OR encode(pg_catalog.sha256(convert_to(pg_get_functiondef(p.oid),'UTF8')),'hex') IS DISTINCT FROM e.definition_hash
- OR p.proowner::regrole::text IS DISTINCT FROM e.owner_name OR to_jsonb(p.proconfig) IS DISTINCT FROM NULLIF(e.config,'null'::jsonb)
- OR p.proacl::text IS DISTINCT FROM e.acl
-ORDER BY e.signature;
-ROLLBACK;
+('validate_supplier_receipt_item_commercial_family()','83f006c212cd9b4cd95de9e635a16ee1466072abc981ff45b1fd6cab51ae1dc7','2924086f5d13101b412c091f05de8ab8974fbb778727505f52c363d3f84100ec','postgres','["search_path=public, pg_temp"]'::jsonb,'{postgres=X/postgres}')),
+frankfurt_acl(signature,acl) AS(VALUES
+ ('enforce_customer_for_debt_order()','{=X/postgres,postgres=X/postgres}'),
+ ('guard_cash_shift_closing_report_snapshot()','{=X/postgres,postgres=X/postgres}'),
+ ('set_website_new_order_reservation_expiry()','{=X/postgres,postgres=X/postgres}'),
+ ('sync_order_payment_state()','{=X/postgres,postgres=X/postgres}')),
+checked AS (
+ SELECT e.signature,array_remove(ARRAY[
+  CASE WHEN p.oid IS NULL THEN 'missing_function' END,
+  CASE WHEN p.oid IS NOT NULL AND encode(pg_catalog.sha256(convert_to(p.prosrc,'UTF8')),'hex') IS DISTINCT FROM e.source_hash THEN 'source_hash' END,
+  CASE WHEN p.oid IS NOT NULL AND encode(pg_catalog.sha256(convert_to(pg_get_functiondef(p.oid),'UTF8')),'hex') IS DISTINCT FROM e.definition_hash THEN 'definition_hash' END,
+  CASE WHEN p.oid IS NOT NULL AND p.proowner::regrole::text IS DISTINCT FROM e.owner_name THEN 'owner' END,
+  CASE WHEN p.oid IS NOT NULL AND to_jsonb(p.proconfig) IS DISTINCT FROM NULLIF(e.config,'null'::jsonb) THEN 'config' END,
+  CASE WHEN p.oid IS NOT NULL AND p.proacl::text IS DISTINCT FROM COALESCE(f.acl,e.acl) THEN 'raw_acl' END
+ ],NULL) AS mismatch_reasons
+ FROM expected e LEFT JOIN pg_proc p ON p.oid=to_regprocedure('public.'||e.signature)
+ LEFT JOIN frankfurt_acl f ON f.signature=e.signature
+)
+SELECT signature,mismatch_reasons FROM checked
+WHERE cardinality(mismatch_reasons)>0
+ORDER BY signature;
