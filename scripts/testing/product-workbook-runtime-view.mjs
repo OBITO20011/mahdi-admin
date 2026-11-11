@@ -1,4 +1,4 @@
-import{sourceBeforeSalesOnlyPhase3,pathsBeforeSalesOnlyPhase3}from'../audit/source-before-sales-only-phase3.mjs';
+import{sourceBeforeSalesOnlyPhase3,pathsBeforeSalesOnlyPhase3,salesOnlyPhase3Pins}from'../audit/source-before-sales-only-phase3.mjs';
 import{pathsBeforeD1Kit}from'../audit/source-before-d1-reference-kit.mjs';
 // Historical CI fixtures only. Owner tools and every SQL byte stay unmodified.
 import assert from'node:assert/strict';import{execFileSync}from'node:child_process';import{mkdtemp,writeFile,readFile,unlink,rm,lstat,readdir,realpath}from'node:fs/promises';import{symlinkSync}from'node:fs';import path from'node:path';import{tmpdir}from'node:os';import{createHash,randomUUID}from'node:crypto';import{pathToFileURL}from'node:url';
@@ -6,6 +6,16 @@ export const workbookHistoricalSuites=Object.freeze(['operations-reset','warehou
 const root=path.resolve(import.meta.dirname,'../..'),baseline='2dafe8433bc4efef68a82fee904590aabf5fc8ad',prefix='nawasrah-workbook-runtime-view-',hash=v=>createHash('sha256').update(v).digest('hex'),git=(args,cwd=root)=>execFileSync('git',args,{cwd,windowsHide:true,maxBuffer:256*1024**2,stdio:['ignore','pipe','pipe']});
 const featureHarnessFiles=new Set(['e2e/package-f-product-workbook-harness.tsx','e2e/package-f-product-workbook-harness.html','e2e/package-f-product-workbook.fixture.ts','e2e/package-f-product-workbook.spec.ts','e2e/package-f-screen-history-harness.tsx','e2e/package-f-screen-history-harness.html','e2e/package-f-screen-history.spec.ts','e2e/package-f-record-order-harness.tsx','e2e/package-f-record-order-harness.html','e2e/package-f-record-order.spec.ts','e2e/package-f-iphone-dialogs-harness.tsx','e2e/package-f-iphone-dialogs-harness.html','e2e/package-f-iphone-dialogs.spec.ts']);
 const guestSourceFiles=new Set(['supabase/functions/submit-guest-order/index.ts','supabase/functions/submit-guest-order/operatingMode.ts']);
+const phase3LegacySources=Object.freeze([
+ 'src/features/shifts/ShiftsView.tsx',
+ 'src/services/supabase/crm.service.ts',
+ 'src/services/supabase/customerDebtAging.service.ts',
+ 'src/services/supabase/expenses-shifts.service.ts',
+ 'src/services/supabase/operatingReceivables.ts',
+ 'src/services/supabase/operatingShiftReversal.ts',
+ 'src/utils/businessError.ts',
+ 'supabase/functions/_shared/owner-telegram-format.ts',
+]);
 const sourceScope=file=>typeof file==='string'&&!file.includes('\\')&&!file.includes(':')&&!file.split('/').some(p=>p==='..'||p==='.'||p==='')&&(file.startsWith('src/')||file.startsWith('customer-web/src/')||featureHarnessFiles.has(file)||guestSourceFiles.has(file));
 const noLinks=async folder=>{for(const e of await readdir(folder,{withFileTypes:true})){const p=path.join(folder,e.name),s=await lstat(p);assert.ok(!s.isSymbolicLink(),'HISTORICAL_VIEW_UNEXPECTED_LINK');if(s.isDirectory())await noLinks(p);}};
 export function projectWorkbookRuntimeSource(file,raw,pin){assert.ok(sourceScope(file),'HISTORICAL_VIEW_SOURCE_SCOPE');assert.equal(hash(raw.replaceAll('\r\n','\n')),pin.after,'HISTORICAL_VIEW_UNREVIEWED_SOURCE:'+file);if(pin.beforeText===null)return null;assert.equal(hash(pin.beforeText),pin.before,'HISTORICAL_VIEW_BASELINE_CORRUPT');return pin.beforeText;}
@@ -49,6 +59,20 @@ export async function prepareWorkbookRuntimeView({schemaOnly=false}={}){
   git(['clone','--shared','--no-checkout',root,dir]);git(['update-ref','--no-deref','HEAD',head],dir);git(['read-tree',head],dir);await writeFile(path.join(dir,'.git/info/exclude'),'\n/node_modules\n/.workbook-runtime-view.json\n',{flag:'a'});assert.equal(git(['rev-parse','HEAD'],dir).toString('utf8').trim(),head);
   // Git materializes raw objects without buffering a full archive or tar filename conversion.
   git(['config','core.autocrlf','false'],dir);git(['checkout-index','--all'],dir);await noLinks(dir);await writeFile(path.join(dir,'.workbook-runtime-view.json'),JSON.stringify(marker));
+  // Restore the exact Phase 2 application bytes first. The 219 readiness
+  // evidence includes them, so applying only the schema inverse would mix
+  // the Phase 3 readers and formatter with the 219 access proof.
+  for(const file of phase3LegacySources){
+   const pin=salesOnlyPhase3Pins.entries[file],target=path.join(dir,file);
+   assert.ok(pin,'LEGACY219_SOURCE_PIN_MISSING:'+file);
+   const current=(await readFile(target,'utf8')).replaceAll('\r\n','\n');
+   const before=sourceBeforeSalesOnlyPhase3(file,current);
+   assert.notEqual(before,current,'LEGACY219_UNREVIEWED_SOURCE:'+file);
+   assert.equal(before,historicalText(salesOnlyPhase3Pins.baseline,file),'LEGACY219_NOT_EXACT_PHASE2_GIT:'+file);
+   if(before===null)await unlink(target);
+   else await writeFile(target,before);
+   changed.push({file,after:pin.after,before:pin.before});
+  }
   if(!schemaOnly){
   const pins=JSON.parse(await readFile(path.join(root,'scripts/audit/product-workbook-source-pins.json'),'utf8'));assert.equal(pins.baseline,baseline);
   // Compose only exact, new presentation bytes into the existing Git63 view.
