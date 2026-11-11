@@ -1,4 +1,4 @@
-import{test,expect}from'./isolated-test';import{cashIds}from'./package-f-cash.fixture';import{customersFixture}from'./package-f-customers.fixture';
+import {test,expect} from './isolated-test';import{cashIds}from'./package-f-cash.fixture';import{customersFixture}from'./package-f-customers.fixture';
 test.use({hasTouch:true});
 test('lite220 all-lite shift block is Arabic,keeps dailyclose and never exposes reversal confirmation',async({page})=>{
  await page.setViewportSize({width:390,height:1000});const writes:string[]=[];

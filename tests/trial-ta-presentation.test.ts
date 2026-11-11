@@ -39,5 +39,6 @@ test('T-A exact inverse retains original historical bytes;DB,services and price 
 });
 
 test('T-A current actual SDK evidence binds all new presentation sources without rewriting frozen214 reference',async()=>{
- const current=await inventory(),state=JSON.parse(historical220Text('docs/agent/project-state.json',readFileSync('docs/agent/project-state.json','utf8'))),proof=JSON.parse(readFileSync(state.currentTableReadinessEvidence,'utf8'));assert.equal(state.migrationCeiling,219);assert.equal(proof.migrationCeiling,219);assert.equal(proof.managedAccess,false);assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);assert.deepEqual(proof.sourceHashes,current.sources);assert.deepEqual(proof.coverage,verifyProbeCoverage(current,proof.results));
+ const current=await inventory({projectSource:sourceBeforeSalesOnlyPhase3}),state=JSON.parse(historical220Text('docs/agent/project-state.json',readFileSync('docs/agent/project-state.json','utf8'))),proof=JSON.parse(readFileSync(state.currentTableReadinessEvidence,'utf8'));assert.equal(state.migrationCeiling,219);assert.equal(proof.migrationCeiling,219);assert.equal(proof.managedAccess,false);assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);assert.deepEqual(proof.sourceHashes,current.sources);assert.deepEqual(proof.coverage,verifyProbeCoverage(current,proof.results));
 });
+import {sourceBeforeSalesOnlyPhase3} from '../scripts/audit/source-before-sales-only-phase3.mjs';

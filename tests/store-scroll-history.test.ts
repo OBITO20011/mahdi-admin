@@ -1,4 +1,5 @@
 import{sourceBeforeSalesOnlyPhase2}from'../scripts/audit/source-before-sales-only-phase2.mjs';
+import {sourceBeforeSalesOnlyPhase3} from '../scripts/audit/source-before-sales-only-phase3.mjs';
 import{sourceBeforeStorefrontSpeed}from'../scripts/audit/source-before-storefront-speed.mjs';
 import{sourceBeforeStorefrontImages,historicalStorefrontImagesRpcSite}from'../scripts/audit/source-before-storefront-images.mjs';
 import{historicalProductWorkbookHashes}from'../scripts/audit/source-before-product-workbook.mjs';
@@ -21,7 +22,7 @@ test('scroll fallback exact view binds actual main bytes and refuses any unknown
 test('current219 actual SDK/services use real changed sources, preserve the catalog and retain all role checks',async()=>{
  const current=JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_AFTER_219.json','utf8'));
  const previous=JSON.parse(execFileSync('git',['show','fceb062:docs/operations/TABLE_ACCESS_AFTER_219.json'],{encoding:'utf8',maxBuffer:32*1024**2}));
- assert.deepEqual(current.sourceHashes,(await inventory()).sources);assert.equal(current.applicationReady,true);assert.equal(current.infrastructureOk,true);assert.equal(current.results.length,181);assert.ok(current.results.every((r:{sqlstate:null})=>r.sqlstate===null));
+ assert.deepEqual(current.sourceHashes,(await inventory({projectSource:sourceBeforeSalesOnlyPhase3})).sources);assert.equal(current.applicationReady,true);assert.equal(current.infrastructureOk,true);assert.equal(current.results.length,181);assert.ok(current.results.every((r:{sqlstate:null})=>r.sqlstate===null));
  const comparison=compareManagedCatalog(previous.catalog,current.catalog,{beforeBuildDate:previous.startedAt.slice(0,10),afterBuildDate:current.startedAt.slice(0,10)});assert.deepEqual(comparison.unexpected,[]);assert.deepEqual(comparison.expected,[]);
  const proofFile='docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json',raw=readFileSync(proofFile,'utf8'),currentServices=JSON.parse(raw),currentRpc=await serviceInventory();assert.equal(currentServices.ok,true);assert.deepEqual(currentServices.sourceHashes,currentRpc.sourceHashes);
  const sites:Array<{name:string|null;resolutions:{name:string}[];role:string}>=[...currentRpc.rpc,...currentRpc.gatewayRpc];let expected=0;for(const site of sites)for(const name of site.name?[site.name]:site.resolutions.map((r:{name:string})=>r.name))expected+=currentServices.functions.filter((f:{name:string})=>f.name===name).length*(site.role==='authenticated'?3:1);assert.equal(currentServices.results.length,expected);

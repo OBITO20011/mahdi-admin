@@ -16,9 +16,11 @@ export function sourceBeforeSalesOnlyPhase2(file,text){
  * unknown hashes/files are retained, never exempted. */
 export function restoreSalesOnlyPhase2Hashes(rows){return restoreSalesOnlyPhase3Hashes(rows).flatMap(row=>{
  const pin=salesOnlyPhase2Pins.entries[row.file];if(!pin||row.sha256!==pin.after)return[row];
- const raw=readFileSync(new URL('../../'+row.file,import.meta.url),'utf8');
- assert.equal(hash(raw),pin.after,'PHASE2_CURRENT_HASH_SOURCE_CHANGED:'+row.file);
- const before=sourceBeforeSalesOnlyPhase2(row.file,raw);
+ const current=readFileSync(new URL('../../'+row.file,import.meta.url),'utf8');
+ const phase2=sourceBeforeSalesOnlyPhase3(row.file,current);
+ assert.ok(phase2!==null,'PHASE2_CURRENT_HASH_SOURCE_CHANGED:'+row.file);
+ assert.equal(hash(phase2),pin.after,'PHASE2_CURRENT_HASH_SOURCE_CHANGED:'+row.file);
+ const before=sourceBeforeSalesOnlyPhase2(row.file,phase2);
  return before===null?[]:[{...row,sha256:hash(before)}];
 });}
 // Historical path inventories must apply the same exact-byte view as contents.

@@ -1,4 +1,4 @@
-import{historical220Inventory as inventory}from'../scripts/testing/lite220-historical-test-view.mjs';
+import {inventory} from '../scripts/audit/table-access-inventory.mjs';
 import{historical220Text}from'../scripts/testing/lite220-historical-test-view.mjs';
 import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
 import{sourceBeforeProductWorkbook}from'../scripts/audit/source-before-product-workbook.mjs';
@@ -26,12 +26,12 @@ test('bulk image historical projection is exact and rejects a changed upload wri
 });
 
 test('new image cleanup query and image-only writer have fresh unprojected actual role evidence',async()=>{
- const table=await inventory(),state=JSON.parse(read('docs/agent/project-state.json')),proof=JSON.parse(read(state.currentTableReadinessEvidence));
- assert.equal(proof.migrationCeiling,219);assert.equal(proof.applicationReady,true);assert.equal(proof.infrastructureOk,true);assert.equal(proof.managedAccess,false);assert.deepEqual(proof.sourceHashes,table.sources);assert.deepEqual(proof.coverage,verifyProbeCoverage(table,proof.results));
+ const table=await inventory(),state=JSON.parse(readFileSync('docs/agent/project-state.json','utf8')),proof=JSON.parse(readFileSync(state.currentTableReadinessEvidence,'utf8'));
+ assert.equal(proof.migrationCeiling,220);assert.equal(proof.migrationCeiling,state.migrationCeiling);assert.equal(table.migrationCeiling,state.migrationCeiling);assert.equal(proof.applicationReady,true);assert.equal(proof.infrastructureOk,true);assert.equal(proof.managedAccess,false);assert.deepEqual(proof.sourceHashes,table.sources);assert.deepEqual(proof.coverage,verifyProbeCoverage(table,proof.results));
  const site=table.entries.find((entry:{function:string})=>entry.function==='isUploadedImageReferenced');assert.ok(site);assert.equal(site.table,'product_images');
  const rows=proof.results.filter((row:{id:string})=>row.id===site.id);assert.ok(rows.length>=3);assert.ok(rows.every((row:{sqlstate:string|null})=>row.sqlstate===null));
  const services=await serviceInventory(),rpc=(services.rpc as {id:string;name:string}[]).find(entry=>entry.name==='set_product_primary_image');assert.ok(rpc);
- const actual=JSON.parse(read('docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json'));assert.deepEqual(actual.sourceHashes,services.sourceHashes);assert.equal(actual.ok,true);
+ const actual=JSON.parse(readFileSync('docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json','utf8'));assert.deepEqual(actual.sourceHashes,services.sourceHashes);assert.equal(actual.ok,true);assert.equal(actual.migrationCeiling,state.migrationCeiling);
  const calls=actual.results.filter((row:{site:string})=>row.site===rpc.id);assert.deepEqual(calls.map((row:{appRole:string})=>row.appRole).sort(),['admin','cashier','owner']);
  // This legacy image-only RPC uses P0001 for its role rejection. Neutral
  // dispatch is not a functional save;the mandatory fullstack suite exercises
