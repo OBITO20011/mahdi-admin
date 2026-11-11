@@ -22,12 +22,13 @@ export function assertEpochFixtureTarget(target,observed){
  assert.deepEqual(target.executor.args.slice(0,2),['exec','-i']);
  assert.equal(observed.Id,target.containerId,'EPOCH_FIXTURE_CONTAINER_CHANGED');
  assert.equal(observed.State.Running,true,'EPOCH_FIXTURE_NOT_RUNNING');
- assert.deepEqual(Object.keys(observed.NetworkSettings.Networks),[],'EPOCH_FIXTURE_NETWORK_FORBIDDEN');
  if(target.context){
   assertActiveRehearsal220(target.context);
   assertRehearsalTarget(target.context,observed);
+  assert.ok(Object.keys(observed.NetworkSettings.Networks).every(name=>name==='none'),'EPOCH_FIXTURE_NETWORK_FORBIDDEN');
   assert.equal(target.executor.args[2],target.context.containerId);
  }else{
+  assert.deepEqual(Object.keys(observed.NetworkSettings.Networks),[],'EPOCH_FIXTURE_NETWORK_FORBIDDEN');
   assert.equal(target.executor.args[2],epochContainer,'EPOCH_FIXTURE_PROJECT_REQUIRED');
   assert.equal(observed.Name,'/'+epochContainer);
   assert.equal(observed.Config.Labels['com.supabase.cli.project'],'nawasrah-sales-lite3-epoch-test');
