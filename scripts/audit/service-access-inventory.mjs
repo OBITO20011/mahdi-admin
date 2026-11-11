@@ -1,5 +1,6 @@
 // Companion audit: source-only RPC/Storage/Realtime/config inventory. No credentials.
 import ts from 'typescript';
+import {createHash} from 'node:crypto';
 import {readFile,writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
@@ -8,8 +9,37 @@ import {boundedRpcNames} from './bounded-rpc-names.mjs';
 const root=path.resolve(import.meta.dirname,'../..');
 const method=n=>ts.isCallExpression(n)&&ts.isPropertyAccessExpression(n.expression)?n.expression.name.text:null;
 const literal=n=>n&&ts.isStringLiteralLike(n)?n.text:null;
+const receivableHelper='src/services/supabase/operatingReceivables.ts';
+const receivableHelperSha='2ca69e1b84f99e001e5a502d23da8d17466deff5eb7054f885ce02c89381af26';
+
+// The imported adapter is reviewed as a whole. If its body or the forwarding
+// callback changes, the ordinary unresolved-sink guard must reject the audit.
+function importedReceivableNames(sf,sink,helper){
+ if(!helper||createHash('sha256').update(helper).digest('hex')!==receivableHelperSha)return null;
+ const callback=sink.parent;
+ if(!ts.isArrowFunction(callback)||callback.getText(sf)!=='(name,args)=>supabase!.rpc(name,args)')return null;
+ const call=callback.parent;
+ if(!ts.isCallExpression(call)||call.expression.getText(sf)!=='readOperatingReceivablesWithRpc'||call.arguments.length!==3||call.arguments[0]!==callback)return null;
+ const bindings=[];
+ const find=node=>{
+  if(ts.isIdentifier(node)&&node.text==='readOperatingReceivablesWithRpc')bindings.push(node);
+  ts.forEachChild(node,find);
+ };
+ find(sf);
+ const imported=bindings.find(node=>ts.isImportSpecifier(node.parent)&&node.parent.name===node&&!node.parent.propertyName);
+ if(bindings.length!==2||!imported||!bindings.includes(call.expression))return null;
+ const declaration=imported.parent.parent.parent.parent;
+ if(!ts.isImportDeclaration(declaration)||literal(declaration.moduleSpecifier)!=='./operatingReceivables'||
+  path.posix.join(path.posix.dirname(sf.fileName),'operatingReceivables.ts')!==receivableHelper)return null;
+ const variant=literal(call.arguments[1]);
+ const names=variant==='aging'?['lite1_debt_aging2','get_customer_debt_aging']:
+  variant==='crm'?['lite1_crm_page2','get_crm_customer_page']:null;
+ if(!names)return null;
+ const callsite=sf.fileName+':'+(sf.getLineAndCharacterOfPosition(call.getStart()).line+1);
+ return names.map(name=>({name,callsite,source:call.getText(sf),adapter:receivableHelper,adapterSha256:receivableHelperSha}));
+}
 function enclosing(node){for(let n=node.parent;n;n=n.parent)if(ts.isFunctionLike(n))return n.name?.getText()||n.parent?.name?.getText()||'<callback>';return '<module>';}
-export function parseServices(file,text){
+export function parseServices(file,text,receivableSource=null){
  const source=text.replaceAll('\r\n','\n'),sf=ts.createSourceFile(file,source,ts.ScriptTarget.Latest,true,file.endsWith('x')?ts.ScriptKind.TSX:ts.ScriptKind.TS);
  const rpc=[],storage=[],channels=[],env=[],wrapperCalls=[],bindings=[];
  const role=file.startsWith('customer-web/')?'anon':file.startsWith('supabase/functions/')?
@@ -21,9 +51,12 @@ export function parseServices(file,text){
   }
   if(ts.isCallExpression(n)){
    const name=method(n),line=sf.getLineAndCharacterOfPosition(n.getStart()).line+1;
-   if(name==='rpc')rpc.push({id:file+':'+line,file,line,role,receiver:n.expression.expression.getText(sf),function:enclosing(n),
+   if(name==='rpc'){
+    const resolutions=!literal(n.arguments[0])&&(boundedRpcNames(sf,n)??importedReceivableNames(sf,n,receivableSource));
+    rpc.push({id:file+':'+line,file,line,role,receiver:n.expression.expression.getText(sf),function:enclosing(n),
     name:literal(n.arguments[0]),dynamic:n.arguments[0]?.getText(sf),arguments:n.arguments.slice(1).map(a=>a.getText(sf)),source:n.getText(sf),
-    ...(!literal(n.arguments[0])&&boundedRpcNames(sf,n)?{resolutions:boundedRpcNames(sf,n)}:{})});
+    ...(resolutions?{resolutions}:{})});
+   }
    if(name==='from'&&n.expression.expression.getText(sf).includes('.storage')){
     let tail=n;while(ts.isPropertyAccessExpression(tail.parent)&&ts.isCallExpression(tail.parent.parent))tail=tail.parent.parent;
     storage.push({file,line,role,operation:method(tail),bucket:literal(n.arguments[0])||n.arguments[0]?.getText(sf),source:tail.getText(sf)});
@@ -43,7 +76,9 @@ export function parseServices(file,text){
  return {rpc,storage,channels,env,wrapperCalls};
 }
 export async function serviceInventory({projectSource=(_file,text)=>text}={}){const base=await inventory({projectSource}),result={schemaVersion:1,migrationCeiling:base.migrationCeiling,managedAccess:false,sourceHashes:base.sources,rpc:[],storage:[],channels:[],env:[],wrapperCalls:[]};
- for(const entry of base.sources){const parsed=parseServices(entry.file,projectSource(entry.file,(await readFile(path.join(root,entry.file),'utf8')).replaceAll('\r\n','\n')));
+ const readSource=async file=>projectSource(file,(await readFile(path.join(root,file),'utf8')).replaceAll('\r\n','\n'));
+ const adapter=base.sources.some(({file})=>file===receivableHelper)?await readSource(receivableHelper):null;
+ for(const entry of base.sources){const parsed=parseServices(entry.file,await readSource(entry.file),adapter);
   for(const key of ['rpc','storage','channels','env','wrapperCalls'])result[key].push(...parsed[key]);}
  // Resolve dynamic sinks by their actual wrapper invocations;fail unknown sinks.
  for(const r of result.rpc.filter(r=>!r.name)){

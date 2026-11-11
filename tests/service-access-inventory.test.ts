@@ -20,6 +20,16 @@ test('saved schema catalog cannot certify bucket row presence or realtime public
  assert.equal(result.storagePolicies.length,1);assert.equal(result.storageBucketRows,null);assert.equal(result.publicationMembership,null);
 });
 
+test('receivables audit resolves the reviewed imported adapter and rejects an unknown byte or import',async()=>{
+ const file='src/services/supabase/customerDebtAging.service.ts';
+ const source=await readFile(file,'utf8');
+ const helper=await readFile('src/services/supabase/operatingReceivables.ts','utf8');
+ const names=(caller:string,adapter:string)=>parseServices(file,caller,adapter).rpc[0].resolutions?.map((row:{name:string})=>row.name);
+ assert.deepEqual(names(source,helper.replaceAll('\r\n','\n')),['lite1_debt_aging2','get_customer_debt_aging']);
+ assert.equal(names(source,helper+'\nUNKNOWN_BYTE'),undefined);
+ assert.equal(names(source.replace('./operatingReceivables','./unknown'),helper),undefined);
+});
+
 test('all real source RPC sinks and gateway resolutions have real role-dispatch/EXECUTE evidence',async()=>{
  const source=await serviceInventory(),stored=JSON.parse(await readFile('docs/operations/SERVICE_ACCESS_INVENTORY.json','utf8')),
   evidence=JSON.parse(await readFile('docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json','utf8'));
