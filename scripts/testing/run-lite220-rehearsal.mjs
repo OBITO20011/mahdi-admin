@@ -1,4 +1,5 @@
 import{proveClosedTrial220}from'./rehearsal220-closed-trial.mjs';import{rehearseActivation220}from'./rehearsal220-activation.mjs';import{rehearseRealStart220}from'./rehearsal220-real-start.mjs';
+import {rehearseReview220,rehearseReviewEpoch220} from './rehearsal220-review.mjs';
 // Local220 rehearsal only. Default Restore still destroys its owned container.
 import assert from'node:assert/strict';import{execFile}from'node:child_process';import{promisify}from'node:util';import{mkdir,writeFile,mkdtemp,access}from'node:fs/promises';import path from'node:path';import{tmpdir}from'node:os';import{randomUUID}from'node:crypto';
 import{executorFor,executeInput}from'../operations/build-empty-supabase.mjs';import{SnapshotSession}from'../backup/snapshot-session.mjs';import{createCompleteBackup,restoreCompleteBackup,withRestoredRehearsal220}from'../backup/complete-backup.mjs';import{readReady220Reference}from'../operations/frankfurt-reference220.mjs';
@@ -35,7 +36,9 @@ try{
    await timed('6','store-rebuild-from-imported-live-local-catalog',()=>buildRehearsal220Apps(c));
    await timed('6a','actual-activation-transactions-rollback-and-midnight-clock',()=>rehearseActivation220(c));
    await timed('7','store-delivery-offer-mixed/POS-return-expense-close/stub',()=>rehearseLite220Sales(c,day));
+   const review=await timed('7a','review-debt-aging-refund-collection-and-shift-guards',()=>rehearseReview220(c,day));
    await timed('8','integrity-and-zero-inventory',async()=>{const scan=await json('SELECT public.run_advanced_monitoring_checks();');assert.equal(scan.integrityIssueCount,0);assert.equal(await sql('SELECT count(*) FROM order_inventory_reservations;'),'0');assert.equal(await sql('SELECT count(*) FROM inventory_movements;'),'0');assert.equal(await sql('SHOW cron.launch_active_jobs;'),'off');const clock=await json("SELECT jsonb_build_object('timezone',business_timezone,'dailyTime',daily_summary_local_time) FROM public.business_alert_settings WHERE id=true;");assert.deepEqual(clock,{timezone:'Asia/Amman',dailyTime:'00:00:00'});return{integrity0:true,reservations0:true,movements0:true,cronLauncher:'off',clock,noExternalMessages:true};});
+   await timed('9','real-opening-epoch-and-old-lite-shift-remains-blocked',()=>rehearseReviewEpoch220(c,review));
   }finally{await executor.closeLocal();}
  });
  await removeRehearsalPrivateSnapshots(out);assertVerificationSourceFreeze(freeze,await readVerificationSourceFreeze(root));report.network=guard.counts();assert.equal(report.network.blocked,0);report.ok=true;

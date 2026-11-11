@@ -713,7 +713,7 @@
     },
     {
       "file": "src/features/shifts/ShiftsView.tsx",
-      "sha256": "3f94af6c738cae638140a48378753664c3ca6ccb9098e8d482654211c74f5e97"
+      "sha256": "ba86d8c5c849129c207a6509c089b0c7068fac518f93cb51ea1c3218498f8e13"
     },
     {
       "file": "src/features/users/UserFormModal.tsx",
@@ -837,7 +837,7 @@
     },
     {
       "file": "src/services/supabase/crm.service.ts",
-      "sha256": "b096655ba7d8b4fa19fd1603b2888d892078f8e8d17c2bfcef36dcf015e8a1f0"
+      "sha256": "481a71e7145eec6089005b2a07862b471140b3b7fa966ed9824603aae85fcd2a"
     },
     {
       "file": "src/services/supabase/customerAccounts.service.ts",
@@ -845,7 +845,7 @@
     },
     {
       "file": "src/services/supabase/customerDebtAging.service.ts",
-      "sha256": "f9b3e95c290fd777d03da877ee3fae818d586d0dbd18c9dc6059d58ebd7771cb"
+      "sha256": "47888fec807abc3d02869dc5aa0fb61d3662cd20b1862bac1b067adf942dd62b"
     },
     {
       "file": "src/services/supabase/customerStatement.service.ts",
@@ -873,7 +873,7 @@
     },
     {
       "file": "src/services/supabase/expenses-shifts.service.ts",
-      "sha256": "961d4a0c30c137d5b884b1565200dc4b0b7a46ee31a3468532a24e7b56162fe8"
+      "sha256": "a1a16e4d5954e41e3fa5a98d8c86ce515b5aabc0f73fdbf9a457031ed2776328"
     },
     {
       "file": "src/services/supabase/goLive.service.ts",
@@ -928,6 +928,10 @@
       "sha256": "fad99b56ff100f476ac6081743177557645cae637d2aacca6e038410300108fe"
     },
     {
+      "file": "src/services/supabase/operatingReceivables.ts",
+      "sha256": "2ca69e1b84f99e001e5a502d23da8d17466deff5eb7054f885ce02c89381af26"
+    },
+    {
       "file": "src/services/supabase/operatingShiftMovements.ts",
       "sha256": "b32f2ee98ec8bbd44b260cd7ce60a9de967ed26165e931da93f9ff78c7c9cd31"
     },
@@ -937,7 +941,7 @@
     },
     {
       "file": "src/services/supabase/operatingShiftReversal.ts",
-      "sha256": "28a5308686f091bc39a345d66646e2f13f13b538a72e79427f3252f8f281a07d"
+      "sha256": "334cfa84ff552f7b3bebf75d9e0bebf1d26d25e9a92866bb47dee7789cb5d775"
     },
     {
       "file": "src/services/supabase/orders.service.ts",
@@ -1157,7 +1161,7 @@
     },
     {
       "file": "src/utils/businessError.ts",
-      "sha256": "5f79238a9cf4046795800ce9cd0cd5383c7b1a59a8fab310a2169fa92ccef29a"
+      "sha256": "6fd4660f387b8f9bdadb82fba150d3e84e378508eac6f7f55eb5a00cb6e8698f"
     },
     {
       "file": "src/utils/customerCollections.ts",
@@ -1649,7 +1653,7 @@
     },
     {
       "file": "supabase/functions/_shared/owner-telegram-format.ts",
-      "sha256": "1ea25cd00443e729b1d444fd2d6658252e7107bb3fa1abd2736533b26f5a38d9"
+      "sha256": "0593c97e29ae7d216c0f131cb823a5ae56535d584f0ac0026e7bf22e95a71c13"
     },
     {
       "file": "supabase/functions/admin-ai-assistant/index.ts",
@@ -2134,23 +2138,39 @@
       "source": "client().rpc('get_deferred_cheque_home_alerts',{p_branch_id:branchId})"
     },
     {
-      "id": "src/services/supabase/crm.service.ts:161",
+      "id": "src/services/supabase/crm.service.ts:162",
       "file": "src/services/supabase/crm.service.ts",
-      "line": 161,
+      "line": 162,
       "role": "authenticated",
-      "receiver": "supabase",
-      "function": "fetchCustomersCrmFromSupabase",
-      "name": "get_crm_customer_page",
-      "dynamic": "'get_crm_customer_page'",
+      "receiver": "supabase!",
+      "function": "<callback>",
+      "name": null,
+      "dynamic": "name",
       "arguments": [
-        "{\n      p_page: page,\n      p_page_size: Math.min(pageSize, 100),\n      p_search: params.searchQuery?.trim() || null,\n      p_status: statusFilter,\n      p_sort: sortBy,\n    }"
+        "args"
       ],
-      "source": "supabase.rpc('get_crm_customer_page', {\n      p_page: page,\n      p_page_size: Math.min(pageSize, 100),\n      p_search: params.searchQuery?.trim() || null,\n      p_status: statusFilter,\n      p_sort: sortBy,\n    })"
+      "source": "supabase!.rpc(name,args)",
+      "resolutions": [
+        {
+          "name": "lite1_crm_page2",
+          "callsite": "src/services/supabase/crm.service.ts:162",
+          "source": "readOperatingReceivablesWithRpc((name,args)=>supabase!.rpc(name,args),'crm', {\n      p_page: page,\n      p_page_size: Math.min(pageSize, 100),\n      p_search: params.searchQuery?.trim() || null,\n      p_status: statusFilter,\n      p_sort: sortBy,\n    })",
+          "adapter": "src/services/supabase/operatingReceivables.ts",
+          "adapterSha256": "2ca69e1b84f99e001e5a502d23da8d17466deff5eb7054f885ce02c89381af26"
+        },
+        {
+          "name": "get_crm_customer_page",
+          "callsite": "src/services/supabase/crm.service.ts:162",
+          "source": "readOperatingReceivablesWithRpc((name,args)=>supabase!.rpc(name,args),'crm', {\n      p_page: page,\n      p_page_size: Math.min(pageSize, 100),\n      p_search: params.searchQuery?.trim() || null,\n      p_status: statusFilter,\n      p_sort: sortBy,\n    })",
+          "adapter": "src/services/supabase/operatingReceivables.ts",
+          "adapterSha256": "2ca69e1b84f99e001e5a502d23da8d17466deff5eb7054f885ce02c89381af26"
+        }
+      ]
     },
     {
-      "id": "src/services/supabase/crm.service.ts:213",
+      "id": "src/services/supabase/crm.service.ts:214",
       "file": "src/services/supabase/crm.service.ts",
-      "line": 213,
+      "line": 214,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "fetchCustomerDetailsCrmFromSupabase",
@@ -2162,9 +2182,9 @@
       "source": "supabase.rpc(\n      'get_crm_customer_detail_page',\n      {\n        p_customer_id: customerId,\n        p_history_page: historyPage,\n        p_history_page_size: historyPageSize,\n      }\n    )"
     },
     {
-      "id": "src/services/supabase/crm.service.ts:366",
+      "id": "src/services/supabase/crm.service.ts:367",
       "file": "src/services/supabase/crm.service.ts",
-      "line": 366,
+      "line": 367,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "saveCustomerThroughRpc",
@@ -2176,9 +2196,9 @@
       "source": "supabase.rpc('save_customer', {\n      p_full_name: input.fullName,\n      p_phone: input.phone,\n      p_customer_id: customerId || null,\n      p_email: input.email || null,\n      p_governorate: input.governorate || null,\n      p_whatsapp: input.whatsapp || null,\n      p_notes: input.notes || null,\n      p_customer_type: input.customerType || 'retail',\n    })"
     },
     {
-      "id": "src/services/supabase/crm.service.ts:409",
+      "id": "src/services/supabase/crm.service.ts:410",
       "file": "src/services/supabase/crm.service.ts",
-      "line": 409,
+      "line": 410,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "setCustomerStatus",
@@ -2190,9 +2210,9 @@
       "source": "supabase.rpc('set_customer_status', {\n      p_customer_id: customerId,\n      p_action: action,\n    })"
     },
     {
-      "id": "src/services/supabase/crm.service.ts:458",
+      "id": "src/services/supabase/crm.service.ts:459",
       "file": "src/services/supabase/crm.service.ts",
-      "line": 458,
+      "line": 459,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "addCustomerAddressInSupabase",
@@ -2232,18 +2252,34 @@
       "source": "supabase.rpc(\n      'record_customer_order_payment_once',\n      {\n        p_order_id: input.orderId,\n        p_amount_in_minor_units: amountInMinorUnits,\n        p_payment_method: input.paymentMethod,\n        p_reference_number: input.referenceNumber || null,\n        p_notes: input.notes || null,\n        p_idempotency_key: input.idempotencyKey,\n      }\n    )"
     },
     {
-      "id": "src/services/supabase/customerDebtAging.service.ts:8",
+      "id": "src/services/supabase/customerDebtAging.service.ts:9",
       "file": "src/services/supabase/customerDebtAging.service.ts",
-      "line": 8,
+      "line": 9,
       "role": "authenticated",
-      "receiver": "supabase",
-      "function": "fetchCustomerDebtAging",
-      "name": "get_customer_debt_aging",
-      "dynamic": "'get_customer_debt_aging'",
+      "receiver": "supabase!",
+      "function": "<callback>",
+      "name": null,
+      "dynamic": "name",
       "arguments": [
-        "{p_customer_id: customerId}"
+        "args"
       ],
-      "source": "supabase.rpc('get_customer_debt_aging', {p_customer_id: customerId})"
+      "source": "supabase!.rpc(name,args)",
+      "resolutions": [
+        {
+          "name": "lite1_debt_aging2",
+          "callsite": "src/services/supabase/customerDebtAging.service.ts:9",
+          "source": "readOperatingReceivablesWithRpc((name,args)=>supabase!.rpc(name,args),'aging',{p_customer_id:customerId})",
+          "adapter": "src/services/supabase/operatingReceivables.ts",
+          "adapterSha256": "2ca69e1b84f99e001e5a502d23da8d17466deff5eb7054f885ce02c89381af26"
+        },
+        {
+          "name": "get_customer_debt_aging",
+          "callsite": "src/services/supabase/customerDebtAging.service.ts:9",
+          "source": "readOperatingReceivablesWithRpc((name,args)=>supabase!.rpc(name,args),'aging',{p_customer_id:customerId})",
+          "adapter": "src/services/supabase/operatingReceivables.ts",
+          "adapterSha256": "2ca69e1b84f99e001e5a502d23da8d17466deff5eb7054f885ce02c89381af26"
+        }
+      ]
     },
     {
       "id": "src/services/supabase/customerStatement.service.ts:17",
@@ -2438,9 +2474,9 @@
       "source": "client().rpc('execute_document_correction_once',{p_action:action,p_record_id:recordId,p_reason:attempt.reason,p_idempotency_key:attempt.key,p_preview_fingerprint:attempt.preview.fingerprint})"
     },
     {
-      "id": "src/services/supabase/expenses-shifts.service.ts:279",
+      "id": "src/services/supabase/expenses-shifts.service.ts:281",
       "file": "src/services/supabase/expenses-shifts.service.ts",
-      "line": 279,
+      "line": 281,
       "role": "authenticated",
       "receiver": "requireClient()",
       "function": "reverseCashShiftWithOperationsInSupabase",
@@ -2452,9 +2488,9 @@
       "source": "requireClient().rpc(\n    'reverse_cash_shift_with_operations',\n    {\n      p_shift_id: shiftId,\n      p_reason: reason.trim(),\n      p_idempotency_key: idempotencyKey,\n    }\n  )"
     },
     {
-      "id": "src/services/supabase/expenses-shifts.service.ts:485",
+      "id": "src/services/supabase/expenses-shifts.service.ts:487",
       "file": "src/services/supabase/expenses-shifts.service.ts",
-      "line": 485,
+      "line": 487,
       "role": "authenticated",
       "receiver": "requireClient()",
       "function": "fetchExpenseShiftCenterFromSupabase",
@@ -2466,9 +2502,9 @@
       "source": "requireClient().rpc(\n    'get_expense_shift_center',\n    { p_branch_id: branchId, p_expense_limit: 100 }\n  )"
     },
     {
-      "id": "src/services/supabase/expenses-shifts.service.ts:513",
+      "id": "src/services/supabase/expenses-shifts.service.ts:515",
       "file": "src/services/supabase/expenses-shifts.service.ts",
-      "line": 513,
+      "line": 515,
       "role": "authenticated",
       "receiver": "requireClient()",
       "function": "fetchCashShiftArchivePageFromSupabase",
@@ -2480,9 +2516,9 @@
       "source": "requireClient().rpc('get_cash_shift_archive_page', {\n    p_branch_id: input.branchId || null,\n    p_cashier_id: input.cashierId || null,\n    p_status: input.status || null,\n    p_shift_number: input.shiftNumber?.trim() || null,\n    p_date_from: input.dateFrom || null,\n    p_date_to: input.dateTo || null,\n    p_limit: input.limit,\n    p_offset: input.offset,\n  })"
     },
     {
-      "id": "src/services/supabase/expenses-shifts.service.ts:552",
+      "id": "src/services/supabase/expenses-shifts.service.ts:554",
       "file": "src/services/supabase/expenses-shifts.service.ts",
-      "line": 552,
+      "line": 554,
       "role": "authenticated",
       "receiver": "requireClient()",
       "function": "openCashShiftInSupabase",
@@ -2494,9 +2530,9 @@
       "source": "requireClient().rpc('open_cash_shift', {\n    p_branch_id: branchId,\n    p_opening_cash_in_minor_units: jodToMinorUnits(openingCash),\n  })"
     },
     {
-      "id": "src/services/supabase/expenses-shifts.service.ts:570",
+      "id": "src/services/supabase/expenses-shifts.service.ts:572",
       "file": "src/services/supabase/expenses-shifts.service.ts",
-      "line": 570,
+      "line": 572,
       "role": "authenticated",
       "receiver": "requireClient()",
       "function": "createOperationalExpenseInSupabase",
@@ -2508,9 +2544,9 @@
       "source": "requireClient().rpc(\n    'create_operational_expense',\n    {\n      p_branch_id: input.branchId,\n      p_category: input.category.trim(),\n      p_description: input.description.trim(),\n      p_amount_in_minor_units: jodToMinorUnits(input.amount),\n      p_payment_method: input.paymentMethod,\n      p_reference_number: input.referenceNumber?.trim() || null,\n    }\n  )"
     },
     {
-      "id": "src/services/supabase/expenses-shifts.service.ts:595",
+      "id": "src/services/supabase/expenses-shifts.service.ts:597",
       "file": "src/services/supabase/expenses-shifts.service.ts",
-      "line": 595,
+      "line": 597,
       "role": "authenticated",
       "receiver": "requireClient()",
       "function": "reverseOperationalExpenseInSupabase",
@@ -2522,9 +2558,9 @@
       "source": "requireClient().rpc(\n    'reverse_operational_expense',\n    {\n      p_expense_id: expenseId,\n      p_reason: reason.trim(),\n    }\n  )"
     },
     {
-      "id": "src/services/supabase/expenses-shifts.service.ts:617",
+      "id": "src/services/supabase/expenses-shifts.service.ts:619",
       "file": "src/services/supabase/expenses-shifts.service.ts",
-      "line": 617,
+      "line": 619,
       "role": "authenticated",
       "receiver": "requireClient()",
       "function": "closeCashShiftInSupabase",
@@ -2536,9 +2572,9 @@
       "source": "requireClient().rpc('close_cash_shift', {\n    p_shift_id: shiftId,\n    p_actual_cash_in_minor_units: jodToMinorUnits(actualCash),\n    p_discrepancy_reason: discrepancyReason?.trim() || null,\n  })"
     },
     {
-      "id": "src/services/supabase/expenses-shifts.service.ts:637",
+      "id": "src/services/supabase/expenses-shifts.service.ts:639",
       "file": "src/services/supabase/expenses-shifts.service.ts",
-      "line": 637,
+      "line": 639,
       "role": "authenticated",
       "receiver": "requireClient()",
       "function": "cancelEmptyCashShiftInSupabase",
@@ -5077,7 +5113,7 @@
   "channels": [
     {
       "file": "src/services/supabase/crm.service.ts",
-      "line": 519,
+      "line": 520,
       "role": "authenticated",
       "source": "client\n    .channel(`crm-realtime-${crypto.randomUUID()}`)"
     },
@@ -5624,6 +5660,8 @@
     "lite1_cancel_pos2_attempt",
     "lite1_catalog_page2",
     "lite1_complete2",
+    "lite1_crm_page2",
+    "lite1_debt_aging2",
     "lite1_delivery2",
     "lite1_epoch_catalog2",
     "lite1_guest2",

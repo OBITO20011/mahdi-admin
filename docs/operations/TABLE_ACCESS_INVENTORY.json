@@ -713,7 +713,7 @@
     },
     {
       "file": "src/features/shifts/ShiftsView.tsx",
-      "sha256": "3f94af6c738cae638140a48378753664c3ca6ccb9098e8d482654211c74f5e97"
+      "sha256": "ba86d8c5c849129c207a6509c089b0c7068fac518f93cb51ea1c3218498f8e13"
     },
     {
       "file": "src/features/users/UserFormModal.tsx",
@@ -837,7 +837,7 @@
     },
     {
       "file": "src/services/supabase/crm.service.ts",
-      "sha256": "b096655ba7d8b4fa19fd1603b2888d892078f8e8d17c2bfcef36dcf015e8a1f0"
+      "sha256": "481a71e7145eec6089005b2a07862b471140b3b7fa966ed9824603aae85fcd2a"
     },
     {
       "file": "src/services/supabase/customerAccounts.service.ts",
@@ -845,7 +845,7 @@
     },
     {
       "file": "src/services/supabase/customerDebtAging.service.ts",
-      "sha256": "f9b3e95c290fd777d03da877ee3fae818d586d0dbd18c9dc6059d58ebd7771cb"
+      "sha256": "47888fec807abc3d02869dc5aa0fb61d3662cd20b1862bac1b067adf942dd62b"
     },
     {
       "file": "src/services/supabase/customerStatement.service.ts",
@@ -873,7 +873,7 @@
     },
     {
       "file": "src/services/supabase/expenses-shifts.service.ts",
-      "sha256": "961d4a0c30c137d5b884b1565200dc4b0b7a46ee31a3468532a24e7b56162fe8"
+      "sha256": "a1a16e4d5954e41e3fa5a98d8c86ce515b5aabc0f73fdbf9a457031ed2776328"
     },
     {
       "file": "src/services/supabase/goLive.service.ts",
@@ -928,6 +928,10 @@
       "sha256": "fad99b56ff100f476ac6081743177557645cae637d2aacca6e038410300108fe"
     },
     {
+      "file": "src/services/supabase/operatingReceivables.ts",
+      "sha256": "2ca69e1b84f99e001e5a502d23da8d17466deff5eb7054f885ce02c89381af26"
+    },
+    {
       "file": "src/services/supabase/operatingShiftMovements.ts",
       "sha256": "b32f2ee98ec8bbd44b260cd7ce60a9de967ed26165e931da93f9ff78c7c9cd31"
     },
@@ -937,7 +941,7 @@
     },
     {
       "file": "src/services/supabase/operatingShiftReversal.ts",
-      "sha256": "28a5308686f091bc39a345d66646e2f13f13b538a72e79427f3252f8f281a07d"
+      "sha256": "334cfa84ff552f7b3bebf75d9e0bebf1d26d25e9a92866bb47dee7789cb5d775"
     },
     {
       "file": "src/services/supabase/orders.service.ts",
@@ -1157,7 +1161,7 @@
     },
     {
       "file": "src/utils/businessError.ts",
-      "sha256": "5f79238a9cf4046795800ce9cd0cd5383c7b1a59a8fab310a2169fa92ccef29a"
+      "sha256": "6fd4660f387b8f9bdadb82fba150d3e84e378508eac6f7f55eb5a00cb6e8698f"
     },
     {
       "file": "src/utils/customerCollections.ts",
@@ -1649,7 +1653,7 @@
     },
     {
       "file": "supabase/functions/_shared/owner-telegram-format.ts",
-      "sha256": "1ea25cd00443e729b1d444fd2d6658252e7107bb3fa1abd2736533b26f5a38d9"
+      "sha256": "0593c97e29ae7d216c0f131cb823a5ae56535d584f0ac0026e7bf22e95a71c13"
     },
     {
       "file": "supabase/functions/admin-ai-assistant/index.ts",
@@ -4885,7 +4889,7 @@
   "subscriptions": [
     {
       "file": "src/services/supabase/crm.service.ts",
-      "line": 519,
+      "line": 520,
       "event": "*",
       "schema": "public",
       "table": "orders",
@@ -4895,7 +4899,7 @@
     },
     {
       "file": "src/services/supabase/crm.service.ts",
-      "line": 519,
+      "line": 520,
       "event": "*",
       "schema": "public",
       "table": "customer_addresses",
@@ -4905,7 +4909,7 @@
     },
     {
       "file": "src/services/supabase/crm.service.ts",
-      "line": 519,
+      "line": 520,
       "event": "*",
       "schema": "public",
       "table": "customers",
@@ -5162,7 +5166,7 @@
     },
     {
       "file": "src/services/supabase/crm.service.ts",
-      "line": 512,
+      "line": 513,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {

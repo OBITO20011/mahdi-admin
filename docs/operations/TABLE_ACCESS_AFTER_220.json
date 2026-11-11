@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-10T14:50:54.158Z",
+  "startedAt": "2026-11-11T04:41:02.483Z",
   "managedAccess": false,
   "migrationCeiling": 220,
   "manifest": [
@@ -186,7 +186,7 @@
     "219_home_financial_facts_narrow_projection.sql",
     "220_sales_only_operating_mode.sql"
   ],
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-abpT6k",
+  "output": "local-isolated-220",
   "stage": "rls-and-acl",
   "results": [
     {
@@ -214,7 +214,7 @@
           "method": "eq",
           "args": [
             "id",
-            "fa007428-3f3d-4ae6-88da-e28fcd61ae26"
+            "c3088024-665c-4b1e-a9b9-aa379be7a3dd"
           ]
         },
         {
@@ -249,7 +249,7 @@
           "method": "eq",
           "args": [
             "id",
-            "fa007428-3f3d-4ae6-88da-e28fcd61ae26"
+            "c3088024-665c-4b1e-a9b9-aa379be7a3dd"
           ]
         },
         {
@@ -284,7 +284,7 @@
           "method": "eq",
           "args": [
             "id",
-            "fa007428-3f3d-4ae6-88da-e28fcd61ae26"
+            "c3088024-665c-4b1e-a9b9-aa379be7a3dd"
           ]
         },
         {
@@ -319,7 +319,7 @@
           "method": "eq",
           "args": [
             "id",
-            "fa007428-3f3d-4ae6-88da-e28fcd61ae26"
+            "c3088024-665c-4b1e-a9b9-aa379be7a3dd"
           ]
         },
         {
@@ -354,7 +354,7 @@
           "method": "eq",
           "args": [
             "id",
-            "fa007428-3f3d-4ae6-88da-e28fcd61ae26"
+            "c3088024-665c-4b1e-a9b9-aa379be7a3dd"
           ]
         },
         {
@@ -389,7 +389,7 @@
           "method": "eq",
           "args": [
             "id",
-            "fa007428-3f3d-4ae6-88da-e28fcd61ae26"
+            "c3088024-665c-4b1e-a9b9-aa379be7a3dd"
           ]
         },
         {
@@ -424,7 +424,7 @@
           "method": "eq",
           "args": [
             "id",
-            "3959a7d6-381e-4e9e-9908-dd6949778679"
+            "f1fc5578-8d58-47c2-8a18-2b14dc724e63"
           ]
         },
         {
@@ -459,7 +459,7 @@
           "method": "eq",
           "args": [
             "id",
-            "3959a7d6-381e-4e9e-9908-dd6949778679"
+            "f1fc5578-8d58-47c2-8a18-2b14dc724e63"
           ]
         },
         {
@@ -494,7 +494,7 @@
           "method": "eq",
           "args": [
             "id",
-            "3959a7d6-381e-4e9e-9908-dd6949778679"
+            "f1fc5578-8d58-47c2-8a18-2b14dc724e63"
           ]
         },
         {
@@ -727,7 +727,7 @@
           "method": "eq",
           "args": [
             "id",
-            "70d00925-8681-43a6-8a9a-4381a533208f"
+            "f533a5e3-40e3-4ca7-a8e5-d295c414e552"
           ]
         },
         {
@@ -762,7 +762,7 @@
           "method": "eq",
           "args": [
             "id",
-            "70d00925-8681-43a6-8a9a-4381a533208f"
+            "f533a5e3-40e3-4ca7-a8e5-d295c414e552"
           ]
         },
         {
@@ -797,7 +797,7 @@
           "method": "eq",
           "args": [
             "id",
-            "70d00925-8681-43a6-8a9a-4381a533208f"
+            "f533a5e3-40e3-4ca7-a8e5-d295c414e552"
           ]
         },
         {
@@ -832,7 +832,7 @@
           "method": "eq",
           "args": [
             "id",
-            "f505f82d-7e82-4908-b8a2-971b40243452"
+            "85a75066-08a4-472c-bdfc-00b4167117ef"
           ]
         },
         {
@@ -867,7 +867,7 @@
           "method": "eq",
           "args": [
             "id",
-            "f505f82d-7e82-4908-b8a2-971b40243452"
+            "85a75066-08a4-472c-bdfc-00b4167117ef"
           ]
         },
         {
@@ -902,7 +902,7 @@
           "method": "eq",
           "args": [
             "id",
-            "f505f82d-7e82-4908-b8a2-971b40243452"
+            "85a75066-08a4-472c-bdfc-00b4167117ef"
           ]
         },
         {
@@ -937,7 +937,7 @@
           "method": "eq",
           "args": [
             "id",
-            "70d00925-8681-43a6-8a9a-4381a533208f"
+            "f533a5e3-40e3-4ca7-a8e5-d295c414e552"
           ]
         },
         {
@@ -972,7 +972,7 @@
           "method": "eq",
           "args": [
             "id",
-            "70d00925-8681-43a6-8a9a-4381a533208f"
+            "f533a5e3-40e3-4ca7-a8e5-d295c414e552"
           ]
         },
         {
@@ -1007,7 +1007,7 @@
           "method": "eq",
           "args": [
             "id",
-            "70d00925-8681-43a6-8a9a-4381a533208f"
+            "f533a5e3-40e3-4ca7-a8e5-d295c414e552"
           ]
         },
         {
@@ -1538,7 +1538,7 @@
           "args": [
             "id",
             [
-              "fa007428-3f3d-4ae6-88da-e28fcd61ae26"
+              "c3088024-665c-4b1e-a9b9-aa379be7a3dd"
             ]
           ]
         }
@@ -1571,7 +1571,7 @@
           "args": [
             "id",
             [
-              "fa007428-3f3d-4ae6-88da-e28fcd61ae26"
+              "c3088024-665c-4b1e-a9b9-aa379be7a3dd"
             ]
           ]
         }
@@ -1604,7 +1604,7 @@
           "args": [
             "id",
             [
-              "fa007428-3f3d-4ae6-88da-e28fcd61ae26"
+              "c3088024-665c-4b1e-a9b9-aa379be7a3dd"
             ]
           ]
         }
@@ -1637,7 +1637,7 @@
           "args": [
             "order_id",
             [
-              "fa007428-3f3d-4ae6-88da-e28fcd61ae26"
+              "c3088024-665c-4b1e-a9b9-aa379be7a3dd"
             ]
           ]
         },
@@ -1703,7 +1703,7 @@
           "args": [
             "order_id",
             [
-              "fa007428-3f3d-4ae6-88da-e28fcd61ae26"
+              "c3088024-665c-4b1e-a9b9-aa379be7a3dd"
             ]
           ]
         },
@@ -1769,7 +1769,7 @@
           "args": [
             "order_id",
             [
-              "fa007428-3f3d-4ae6-88da-e28fcd61ae26"
+              "c3088024-665c-4b1e-a9b9-aa379be7a3dd"
             ]
           ]
         },
@@ -1834,7 +1834,7 @@
           "method": "eq",
           "args": [
             "id",
-            "fa007428-3f3d-4ae6-88da-e28fcd61ae26"
+            "c3088024-665c-4b1e-a9b9-aa379be7a3dd"
           ]
         },
         {
@@ -1869,7 +1869,7 @@
           "method": "eq",
           "args": [
             "id",
-            "fa007428-3f3d-4ae6-88da-e28fcd61ae26"
+            "c3088024-665c-4b1e-a9b9-aa379be7a3dd"
           ]
         },
         {
@@ -1904,7 +1904,7 @@
           "method": "eq",
           "args": [
             "id",
-            "fa007428-3f3d-4ae6-88da-e28fcd61ae26"
+            "c3088024-665c-4b1e-a9b9-aa379be7a3dd"
           ]
         },
         {
@@ -1939,7 +1939,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "fa007428-3f3d-4ae6-88da-e28fcd61ae26"
+            "c3088024-665c-4b1e-a9b9-aa379be7a3dd"
           ]
         },
         {
@@ -1976,7 +1976,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "fa007428-3f3d-4ae6-88da-e28fcd61ae26"
+            "c3088024-665c-4b1e-a9b9-aa379be7a3dd"
           ]
         },
         {
@@ -2013,7 +2013,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "fa007428-3f3d-4ae6-88da-e28fcd61ae26"
+            "c3088024-665c-4b1e-a9b9-aa379be7a3dd"
           ]
         },
         {
@@ -2051,7 +2051,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "648af0a5-1ace-4d75-ac01-bd77202a5f6d"
+              "0868a102-ad46-4874-bdb8-40807f208c21"
             ]
           ]
         }
@@ -2084,7 +2084,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "648af0a5-1ace-4d75-ac01-bd77202a5f6d"
+              "0868a102-ad46-4874-bdb8-40807f208c21"
             ]
           ]
         }
@@ -2117,7 +2117,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "648af0a5-1ace-4d75-ac01-bd77202a5f6d"
+              "0868a102-ad46-4874-bdb8-40807f208c21"
             ]
           ]
         }
@@ -4978,7 +4978,7 @@
           "method": "eq",
           "args": [
             "id",
-            "f505f82d-7e82-4908-b8a2-971b40243452"
+            "85a75066-08a4-472c-bdfc-00b4167117ef"
           ]
         },
         {
@@ -5013,7 +5013,7 @@
           "method": "eq",
           "args": [
             "id",
-            "f505f82d-7e82-4908-b8a2-971b40243452"
+            "85a75066-08a4-472c-bdfc-00b4167117ef"
           ]
         },
         {
@@ -5048,7 +5048,7 @@
           "method": "eq",
           "args": [
             "id",
-            "f505f82d-7e82-4908-b8a2-971b40243452"
+            "85a75066-08a4-472c-bdfc-00b4167117ef"
           ]
         },
         {
@@ -6735,7 +6735,7 @@
             {
               "event_key": "audit-local-dispatch",
               "event_type": "new_order",
-              "entity_id": "fa007428-3f3d-4ae6-88da-e28fcd61ae26",
+              "entity_id": "c3088024-665c-4b1e-a9b9-aa379be7a3dd",
               "status": "processing"
             }
           ]
@@ -6768,7 +6768,7 @@
           "method": "eq",
           "args": [
             "id",
-            "fa007428-3f3d-4ae6-88da-e28fcd61ae26"
+            "c3088024-665c-4b1e-a9b9-aa379be7a3dd"
           ]
         },
         {
@@ -6807,7 +6807,7 @@
               "status": "failed",
               "failed_count": 1,
               "last_error": "isolated diagnostic",
-              "completed_at": "2026-11-10T14:52:53.738Z"
+              "completed_at": "2026-11-11T04:42:58.494Z"
             }
           ]
         },
@@ -6843,7 +6843,7 @@
               "status": "failed",
               "failed_count": 1,
               "last_error": "isolated diagnostic",
-              "completed_at": "2026-11-10T14:52:53.757Z"
+              "completed_at": "2026-11-11T04:42:58.513Z"
             }
           ]
         },
@@ -6877,9 +6877,9 @@
           "args": [
             {
               "failure_count": 0,
-              "last_success_at": "2026-11-10T14:52:53.785Z",
+              "last_success_at": "2026-11-11T04:42:58.532Z",
               "last_failure_message": null,
-              "updated_at": "2026-11-10T14:52:53.785Z"
+              "updated_at": "2026-11-11T04:42:58.532Z"
             }
           ]
         },
@@ -6914,9 +6914,9 @@
             {
               "is_active": false,
               "failure_count": 1,
-              "last_failure_at": "2026-11-10T14:52:53.802Z",
+              "last_failure_at": "2026-11-11T04:42:58.564Z",
               "last_failure_message": "isolated diagnostic",
-              "updated_at": "2026-11-10T14:52:53.802Z"
+              "updated_at": "2026-11-11T04:42:58.564Z"
             }
           ]
         },
@@ -6953,7 +6953,7 @@
               "delivered_count": 1,
               "failed_count": 0,
               "last_error": null,
-              "completed_at": "2026-11-10T14:52:53.818Z"
+              "completed_at": "2026-11-11T04:42:58.579Z"
             }
           ]
         },
@@ -30525,131 +30525,6 @@
         ],
         "rls": false,
         "kind": "r",
-        "name": "messages_2026_11_09",
-        "view": null,
-        "owner": "supabase_realtime_admin",
-        "schema": "realtime",
-        "columns": [
-          {
-            "acl": null,
-            "name": "topic",
-            "type": "text",
-            "number": 1,
-            "default": null,
-            "notNull": true,
-            "identity": "",
-            "collation": "default",
-            "generated": ""
-          },
-          {
-            "acl": null,
-            "name": "extension",
-            "type": "text",
-            "number": 2,
-            "default": null,
-            "notNull": true,
-            "identity": "",
-            "collation": "default",
-            "generated": ""
-          },
-          {
-            "acl": null,
-            "name": "payload",
-            "type": "jsonb",
-            "number": 3,
-            "default": null,
-            "notNull": false,
-            "identity": "",
-            "collation": null,
-            "generated": ""
-          },
-          {
-            "acl": null,
-            "name": "event",
-            "type": "text",
-            "number": 4,
-            "default": null,
-            "notNull": false,
-            "identity": "",
-            "collation": "default",
-            "generated": ""
-          },
-          {
-            "acl": null,
-            "name": "private",
-            "type": "boolean",
-            "number": 5,
-            "default": "false",
-            "notNull": false,
-            "identity": "",
-            "collation": null,
-            "generated": ""
-          },
-          {
-            "acl": null,
-            "name": "updated_at",
-            "type": "timestamp without time zone",
-            "number": 6,
-            "default": "now()",
-            "notNull": true,
-            "identity": "",
-            "collation": null,
-            "generated": ""
-          },
-          {
-            "acl": null,
-            "name": "inserted_at",
-            "type": "timestamp without time zone",
-            "number": 7,
-            "default": "now()",
-            "notNull": true,
-            "identity": "",
-            "collation": null,
-            "generated": ""
-          },
-          {
-            "acl": null,
-            "name": "id",
-            "type": "uuid",
-            "number": 8,
-            "default": "gen_random_uuid()",
-            "notNull": true,
-            "identity": "",
-            "collation": null,
-            "generated": ""
-          },
-          {
-            "acl": null,
-            "name": "binary_payload",
-            "type": "bytea",
-            "number": 9,
-            "default": null,
-            "notNull": false,
-            "identity": "",
-            "collation": null,
-            "generated": ""
-          }
-        ],
-        "options": null,
-        "parents": [
-          {
-            "name": "messages",
-            "schema": "realtime"
-          }
-        ],
-        "forceRls": false,
-        "partition": "FOR VALUES FROM ('2026-11-09 00:00:00') TO ('2026-11-10 00:00:00')",
-        "persistence": "p",
-        "replicaIdentity": "d"
-      },
-      {
-        "acl": [
-          "supabase_realtime_admin=arwdDxtm/supabase_realtime_admin",
-          "postgres=arwdDxtm/supabase_realtime_admin",
-          "dashboard_user=arwdDxtm/supabase_realtime_admin"
-        ],
-        "rls": false,
-        "kind": "r",
         "name": "messages_2026_11_10",
         "view": null,
         "owner": "supabase_realtime_admin",
@@ -31139,6 +31014,131 @@
         ],
         "forceRls": false,
         "partition": "FOR VALUES FROM ('2026-11-13 00:00:00') TO ('2026-11-14 00:00:00')",
+        "persistence": "p",
+        "replicaIdentity": "d"
+      },
+      {
+        "acl": [
+          "supabase_realtime_admin=arwdDxtm/supabase_realtime_admin",
+          "postgres=arwdDxtm/supabase_realtime_admin",
+          "dashboard_user=arwdDxtm/supabase_realtime_admin"
+        ],
+        "rls": false,
+        "kind": "r",
+        "name": "messages_2026_11_14",
+        "view": null,
+        "owner": "supabase_realtime_admin",
+        "schema": "realtime",
+        "columns": [
+          {
+            "acl": null,
+            "name": "topic",
+            "type": "text",
+            "number": 1,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "extension",
+            "type": "text",
+            "number": 2,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "payload",
+            "type": "jsonb",
+            "number": 3,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "event",
+            "type": "text",
+            "number": 4,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "private",
+            "type": "boolean",
+            "number": 5,
+            "default": "false",
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "updated_at",
+            "type": "timestamp without time zone",
+            "number": 6,
+            "default": "now()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "inserted_at",
+            "type": "timestamp without time zone",
+            "number": 7,
+            "default": "now()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "id",
+            "type": "uuid",
+            "number": 8,
+            "default": "gen_random_uuid()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "binary_payload",
+            "type": "bytea",
+            "number": 9,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          }
+        ],
+        "options": null,
+        "parents": [
+          {
+            "name": "messages",
+            "schema": "realtime"
+          }
+        ],
+        "forceRls": false,
+        "partition": "FOR VALUES FROM ('2026-11-14 00:00:00') TO ('2026-11-15 00:00:00')",
         "persistence": "p",
         "replicaIdentity": "d"
       },
@@ -41018,32 +41018,6 @@
         "replicaIdentity": false
       },
       {
-        "name": "messages_2026_11_09_inserted_at_topic_idx",
-        "owner": "supabase_realtime_admin",
-        "ready": true,
-        "table": "messages_2026_11_09",
-        "valid": true,
-        "schema": "realtime",
-        "unique": false,
-        "primary": false,
-        "clustered": false,
-        "definition": "CREATE INDEX messages_2026_11_09_inserted_at_topic_idx ON realtime.messages_2026_11_09 USING btree (inserted_at DESC, topic) WHERE ((extension = 'broadcast'::text) AND (private IS TRUE))",
-        "replicaIdentity": false
-      },
-      {
-        "name": "messages_2026_11_09_pkey",
-        "owner": "supabase_realtime_admin",
-        "ready": true,
-        "table": "messages_2026_11_09",
-        "valid": true,
-        "schema": "realtime",
-        "unique": true,
-        "primary": true,
-        "clustered": false,
-        "definition": "CREATE UNIQUE INDEX messages_2026_11_09_pkey ON realtime.messages_2026_11_09 USING btree (id, inserted_at)",
-        "replicaIdentity": false
-      },
-      {
         "name": "messages_2026_11_10_inserted_at_topic_idx",
         "owner": "supabase_realtime_admin",
         "ready": true,
@@ -41145,6 +41119,32 @@
         "primary": true,
         "clustered": false,
         "definition": "CREATE UNIQUE INDEX messages_2026_11_13_pkey ON realtime.messages_2026_11_13 USING btree (id, inserted_at)",
+        "replicaIdentity": false
+      },
+      {
+        "name": "messages_2026_11_14_inserted_at_topic_idx",
+        "owner": "supabase_realtime_admin",
+        "ready": true,
+        "table": "messages_2026_11_14",
+        "valid": true,
+        "schema": "realtime",
+        "unique": false,
+        "primary": false,
+        "clustered": false,
+        "definition": "CREATE INDEX messages_2026_11_14_inserted_at_topic_idx ON realtime.messages_2026_11_14 USING btree (inserted_at DESC, topic) WHERE ((extension = 'broadcast'::text) AND (private IS TRUE))",
+        "replicaIdentity": false
+      },
+      {
+        "name": "messages_2026_11_14_pkey",
+        "owner": "supabase_realtime_admin",
+        "ready": true,
+        "table": "messages_2026_11_14",
+        "valid": true,
+        "schema": "realtime",
+        "unique": true,
+        "primary": true,
+        "clustered": false,
+        "definition": "CREATE UNIQUE INDEX messages_2026_11_14_pkey ON realtime.messages_2026_11_14 USING btree (id, inserted_at)",
         "replicaIdentity": false
       },
       {
@@ -41275,6 +41275,45 @@
         "primary": true,
         "clustered": false,
         "definition": "CREATE UNIQUE INDEX requests_pkey ON sales_lite1.requests USING btree (key)",
+        "replicaIdentity": false
+      },
+      {
+        "name": "lite3_returns_item_id_idx",
+        "owner": "postgres",
+        "ready": true,
+        "table": "returns",
+        "valid": true,
+        "schema": "sales_lite1",
+        "unique": false,
+        "primary": false,
+        "clustered": false,
+        "definition": "CREATE INDEX lite3_returns_item_id_idx ON sales_lite1.returns USING btree (item_id)",
+        "replicaIdentity": false
+      },
+      {
+        "name": "lite3_returns_order_id_idx",
+        "owner": "postgres",
+        "ready": true,
+        "table": "returns",
+        "valid": true,
+        "schema": "sales_lite1",
+        "unique": false,
+        "primary": false,
+        "clustered": false,
+        "definition": "CREATE INDEX lite3_returns_order_id_idx ON sales_lite1.returns USING btree (order_id)",
+        "replicaIdentity": false
+      },
+      {
+        "name": "lite3_returns_shift_id_idx",
+        "owner": "postgres",
+        "ready": true,
+        "table": "returns",
+        "valid": true,
+        "schema": "sales_lite1",
+        "unique": false,
+        "primary": false,
+        "clustered": false,
+        "definition": "CREATE INDEX lite3_returns_shift_id_idx ON sales_lite1.returns USING btree (shift_id)",
         "replicaIdentity": false
       },
       {
@@ -43291,6 +43330,13 @@
         "schema": "public",
         "enabled": "O",
         "definition": "CREATE TRIGGER trg_customer_opening_balances_no_truncate BEFORE TRUNCATE ON public.customer_opening_balances FOR EACH STATEMENT EXECUTE FUNCTION go_live_reject_truncate()"
+      },
+      {
+        "name": "lite3_payment_refund_guard",
+        "table": "customer_payments",
+        "schema": "public",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER lite3_payment_refund_guard BEFORE UPDATE OF is_reversed ON public.customer_payments FOR EACH ROW WHEN (((NOT old.is_reversed) AND new.is_reversed)) EXECUTE FUNCTION sales_lite2.guard_payment_lite_refund()"
       },
       {
         "name": "trg_cheque_original_customer_payment",
@@ -46697,7 +46743,7 @@
         "owner": "postgres",
         "schema": "public",
         "identity": "build_business_summary(p_summary_type text, p_period_start date, p_period_end date, p_generated_at timestamp with time zone)",
-        "definition": "CREATE OR REPLACE FUNCTION public.build_business_summary(p_summary_type text, p_period_start date, p_period_end date, p_generated_at timestamp with time zone DEFAULT now())\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nDECLARE v_result JSONB; BEGIN\n  v_result:=public._build_business_summary_before133(p_summary_type,p_period_start,p_period_end,p_generated_at);\n  RETURN jsonb_set(v_result,'{balances}',(v_result->'balances')||public.phase133_supplier_balances_internal());\nEND; $function$\n",
+        "definition": "CREATE OR REPLACE FUNCTION public.build_business_summary(p_summary_type text, p_period_start date, p_period_end date, p_generated_at timestamp with time zone DEFAULT now())\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nDECLARE v_result JSONB; BEGIN\n  IF sales_lite2.summary_uses_lite(p_period_start,p_period_end) THEN\n    RETURN sales_lite2.business_summary(p_summary_type,p_period_start,p_period_end,p_generated_at);\n  END IF;\n  v_result:=public._build_business_summary_before133(p_summary_type,p_period_start,p_period_end,p_generated_at);\n  RETURN jsonb_set(v_result,'{balances}',(v_result->'balances')||public.phase133_supplier_balances_internal());\nEND; $function$\n",
         "configuration": [
           "search_path=public, pg_temp"
         ]
@@ -49802,10 +49848,38 @@
         "kind": "f",
         "owner": "postgres",
         "schema": "public",
+        "identity": "lite1_crm_page2(p_page integer, p_page_size integer, p_search text, p_status text, p_sort text)",
+        "definition": "CREATE OR REPLACE FUNCTION public.lite1_crm_page2(p_page integer DEFAULT 1, p_page_size integer DEFAULT 10, p_search text DEFAULT NULL::text, p_status text DEFAULT 'all'::text, p_sort text DEFAULT 'latest'::text)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nDECLARE\n  v_page INTEGER := COALESCE(p_page, 1);\n  v_page_size INTEGER := COALESCE(p_page_size, 10);\n  v_search TEXT := NULLIF(BTRIM(p_search), '');\n  v_status TEXT := COALESCE(NULLIF(BTRIM(p_status), ''), 'all');\n  v_sort TEXT := COALESCE(NULLIF(BTRIM(p_sort), ''), 'latest');\n  v_offset INTEGER;\nBEGIN\n  PERFORM public.assert_erp_role(\n    ARRAY[\n      'owner', 'admin', 'manager', 'accountant', 'cashier', 'sales',\n      'warehouse_keeper', 'orders', 'delivery_driver', 'view_only'\n    ],\n    'عرض دليل العملاء'\n  );\n  IF v_page < 1 OR v_page > 100000 THEN RAISE EXCEPTION 'رقم الصفحة غير صالح.'; END IF;\n  IF v_page_size < 1 OR v_page_size > 100 THEN RAISE EXCEPTION 'حجم الصفحة يجب أن يكون بين 1 و100.'; END IF;\n  IF v_status NOT IN ('all', 'vip', 'active', 'inactive', 'blocked',\n    'has_debt', 'overdue', 'over_limit', 'wholesale') THEN RAISE EXCEPTION 'فلتر العملاء غير صالح.'; END IF;\n  IF v_sort NOT IN ('latest', 'highest_spending', 'most_orders') THEN RAISE EXCEPTION 'ترتيب العملاء غير صالح.'; END IF;\n  IF v_search IS NOT NULL AND CHAR_LENGTH(v_search) > 100 THEN RAISE EXCEPTION 'عبارة البحث طويلة جدًا.'; END IF;\n  v_offset := (v_page - 1) * v_page_size;\n\n  RETURN (\n    WITH candidates AS MATERIALIZED (\n      SELECT c.* FROM public.customers c\n      WHERE c.is_deleted = false\n        AND (v_search IS NULL OR c.full_name ILIKE '%' || v_search || '%'\n          OR COALESCE(c.phone, '') ILIKE '%' || v_search || '%'\n          OR COALESCE(c.email, '') ILIKE '%' || v_search || '%')\n        AND (v_status IN ('all', 'has_debt', 'overdue', 'over_limit')\n          OR (v_status = 'vip' AND c.is_vip = true)\n          OR (v_status = 'active' AND c.is_active = true AND c.is_blocked = false)\n          OR (v_status = 'inactive' AND c.is_active = false AND c.is_blocked = false)\n          OR (v_status = 'blocked' AND c.is_blocked = true)\n          OR (v_status = 'wholesale' AND c.customer_type = 'wholesale'))\n    ), eligible AS MATERIALIZED (\n      SELECT o.id, o.customer_id, o.total_in_minor_units,\n        o.amount_paid_in_minor_units, o.operation_id\n      FROM public.orders o JOIN candidates c ON c.id = o.customer_id\n      WHERE v_status IN ('has_debt', 'overdue', 'over_limit')\n        AND o.status IN ('completed', 'delivered')\n        AND (COALESCE(o.source, 'website') <> 'pos' OR o.payment_method = 'debt')\n        -- A fully covered order without an active payment has zero principal\n        -- and zero outstanding in136,so it cannot affect balance or FIFO.\n        -- Retain fully covered orders WITH active payments:their coverage still\n        -- pays the oldest principal (including a different,undated order).\n        AND (o.amount_paid_in_minor_units < o.total_in_minor_units\n          OR (v_status = 'overdue' AND o.id IN (\n            SELECT p.order_id FROM public.customer_payments p WHERE NOT p.is_reversed)))\n    ), prior_debt AS MATERIALIZED (\n      -- Same prior_debt source and set-based expression proven in136 against\n      -- phase42_customer_receivable_total_internal for every fixture customer.\n      SELECT e.order_id, SUM(e.debt_reduction_amount_in_minor_units)::BIGINT AS amount\n      FROM public.sales_return_events e JOIN eligible o ON o.id = e.order_id\n      WHERE e.settlement_status = 'settled' AND e.contract_version = 401\n        AND o.amount_paid_in_minor_units < o.total_in_minor_units\n      GROUP BY e.order_id\n    ), financial_positions AS NOT MATERIALIZED (\n      SELECT o.*, CASE\n        WHEN o.amount_paid_in_minor_units >= o.total_in_minor_units THEN 0::BIGINT\n        ELSE GREATEST(o.total_in_minor_units - o.amount_paid_in_minor_units\n          - COALESCE(d.amount, 0) - COALESCE((SELECT sum(r.debt_reduction) FROM sales_lite1.returns r WHERE r.order_id=o.id),0), 0)::BIGINT END AS outstanding\n      FROM eligible o LEFT JOIN prior_debt d ON d.order_id = o.id\n    ), opening_debts AS MATERIALIZED (\n      -- 161: active opening debts of candidate customers, original date kept.\n      SELECT opening.id, opening.customer_id, opening.principal, opening.outstanding AS amount,\n        opening.occurred_at\n      FROM public.go_live_customer_opening_positions_internal(NULL) opening\n      JOIN candidates c ON c.id = opening.customer_id\n      WHERE v_status IN ('has_debt', 'overdue', 'over_limit')\n      UNION ALL\n      SELECT d.id,d.customer_id,d.principal,d.outstanding,d.occurred_at\n      FROM public.cheque_customer_claim_positions_internal(NULL)d JOIN candidates c ON c.id=d.customer_id\n      WHERE v_status IN ('has_debt','overdue','over_limit')\n    ), balances AS (\n      SELECT customer_id, SUM(amount)::BIGINT AS amount\n      FROM (SELECT customer_id, outstanding AS amount FROM financial_positions\n        UNION ALL SELECT customer_id, amount FROM opening_debts) debt\n      GROUP BY customer_id\n    ), active_payments AS NOT MATERIALIZED (\n      SELECT p.order_id, SUM(p.amount_in_minor_units)::BIGINT AS amount\n      FROM public.customer_payments p JOIN eligible o ON o.id = p.order_id\n      WHERE v_status = 'overdue' AND NOT p.is_reversed\n      GROUP BY p.order_id\n    ), completion_history AS NOT MATERIALIZED (\n      SELECT h.order_id, MIN(h.created_at) AS at\n      FROM public.order_status_history h JOIN eligible o ON o.id = h.order_id\n      WHERE v_status = 'overdue' AND h.new_status = 'completed'\n      GROUP BY h.order_id\n    ), completion_operations AS NOT MATERIALIZED (\n      SELECT o.id AS order_id, MIN(b.completed_at) AS at\n      FROM eligible o JOIN public.business_operations b\n        ON b.operation_type = 'phase3_customer_completion_v1'\n        AND b.result_snapshot->>'order_id' = o.id::TEXT\n        AND b.request_identity_snapshot->>'order_id' = o.id::TEXT\n        AND b.completed_at IS NOT NULL\n      WHERE v_status = 'overdue'\n      GROUP BY o.id\n    ), principals AS NOT MATERIALIZED (\n      SELECT o.id, o.customer_id, o.outstanding,\n        LEAST(o.total_in_minor_units, GREATEST(\n          o.total_in_minor_units - o.amount_paid_in_minor_units\n            + COALESCE(p.amount, 0), o.outstanding, 0))::BIGINT AS principal,\n        COALESCE(h.at, c.at, (SELECT completed_at FROM sales_lite1.completions WHERE order_id=o.id), CASE\n          WHEN creation.operation_type = 'phase3_pos_sale_v1'\n            AND creation.result_snapshot->>'orderId' = o.id::TEXT\n          THEN creation.completed_at END) AS completed_at\n      FROM financial_positions o\n      LEFT JOIN active_payments p ON p.order_id = o.id\n      LEFT JOIN completion_history h ON h.order_id = o.id\n      LEFT JOIN completion_operations c ON c.order_id = o.id\n      LEFT JOIN public.business_operations creation ON creation.id = o.operation_id\n      WHERE v_status = 'overdue'\n      UNION ALL\n      SELECT opening.id, opening.customer_id, opening.amount, opening.principal, opening.occurred_at\n      FROM opening_debts opening WHERE v_status = 'overdue'\n    ), ordered AS (\n      SELECT *, SUM(principal - outstanding) OVER (PARTITION BY customer_id) AS coverage,\n        COALESCE(SUM(principal) OVER (PARTITION BY customer_id\n          ORDER BY completed_at NULLS FIRST, id\n          ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING), 0) AS prior_principal\n      FROM principals WHERE principal > 0\n    ), allocated AS (\n      SELECT *, GREATEST(principal - GREATEST(coverage - prior_principal, 0), 0)::BIGINT AS remaining,\n        CASE WHEN completed_at IS NOT NULL THEN GREATEST(\n          (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Amman')::DATE\n          - (completed_at AT TIME ZONE 'Asia/Amman')::DATE, 0) END AS age_days\n      FROM ordered\n    ), overdue AS (\n      SELECT customer_id, SUM(remaining)::BIGINT AS amount\n      FROM allocated\n      WHERE age_days > 30\n      GROUP BY customer_id\n    ), customer_directory AS (\n      SELECT c.id, c.full_name, c.phone, c.email, c.whatsapp, c.governorate,\n        c.notes, c.customer_type, c.is_active, c.is_vip, c.is_blocked, c.is_deleted,\n        c.credit_limit_in_minor_units, c.created_at, c.updated_at,\n        COALESCE(c.governorate, '') AS address_governorate,\n        COALESCE(order_stats.total_orders_count, 0)::INTEGER AS total_orders_count,\n        COALESCE(order_stats.total_spending_in_minor_units, 0)::BIGINT AS total_spending_in_minor_units\n      FROM candidates c\n      LEFT JOIN balances balance ON balance.customer_id = c.id\n      LEFT JOIN overdue debt_age ON debt_age.customer_id = c.id\n      LEFT JOIN LATERAL (\n        SELECT COUNT(*) FILTER (WHERE COALESCE(o.source, 'website') <> 'pos')::INTEGER AS total_orders_count,\n          COALESCE(SUM(o.total_in_minor_units) FILTER (\n            WHERE COALESCE(o.source, 'website') <> 'pos'\n              AND o.status IN ('completed', 'delivered')), 0)::BIGINT AS total_spending_in_minor_units\n        FROM public.orders o WHERE o.customer_id = c.id\n          AND v_sort IN ('highest_spending', 'most_orders')\n      ) order_stats ON true\n      WHERE (v_status <> 'has_debt' OR COALESCE(balance.amount, 0) > 0)\n        AND (v_status <> 'overdue' OR COALESCE(debt_age.amount, 0) > 0)\n        AND (v_status <> 'over_limit' OR (c.credit_limit_in_minor_units > 0\n          AND COALESCE(balance.amount, 0) > c.credit_limit_in_minor_units))\n    ), paged_customers AS (\n      SELECT * FROM customer_directory\n      ORDER BY\n        CASE WHEN v_sort = 'highest_spending' THEN total_spending_in_minor_units END DESC,\n        CASE WHEN v_sort = 'most_orders' THEN total_orders_count END DESC,\n        CASE WHEN v_sort = 'latest' THEN created_at END DESC,\n        id DESC\n      OFFSET v_offset LIMIT v_page_size\n    )\n    SELECT jsonb_build_object(\n      'customers', COALESCE((SELECT jsonb_agg(to_jsonb(pc) || jsonb_build_object(\n        -- Display-only fields are read for the page,not every matching client.\n        -- Historical spend/count are still computed before paging when sorting\n        -- by them;their old definitions and tie-break order are unchanged.\n        'address_governorate', COALESCE(address.governorate, pc.governorate, ''),\n        'total_orders_count', CASE WHEN v_sort = 'latest'\n          THEN COALESCE(order_stats.total_orders_count, 0) ELSE pc.total_orders_count END,\n        'total_spending_in_minor_units', CASE WHEN v_sort = 'latest'\n          THEN COALESCE(order_stats.total_spending_in_minor_units, 0) ELSE pc.total_spending_in_minor_units END,\n        'current_balance_in_minor_units', public.phase42_customer_receivable_total_internal(pc.id),\n        'outstanding_cheques_in_minor_units',COALESCE((SELECT SUM(q.amount_in_minor_units) FROM public.deferred_cheques q\n          WHERE q.customer_id=pc.id AND q.status IN ('pending','endorsed')),0),\n        'has_returned_cheque',EXISTS(SELECT 1 FROM public.deferred_cheques q WHERE q.customer_id=pc.id AND q.status='returned')))\n        FROM paged_customers pc\n        LEFT JOIN LATERAL (\n          SELECT ca.governorate FROM public.customer_addresses ca\n          WHERE ca.customer_id = pc.id\n          ORDER BY ca.is_default DESC, ca.created_at DESC LIMIT 1\n        ) address ON true\n        LEFT JOIN LATERAL (\n          SELECT COUNT(*) FILTER (WHERE COALESCE(o.source, 'website') <> 'pos')::INTEGER AS total_orders_count,\n            COALESCE(SUM(o.total_in_minor_units) FILTER (\n              WHERE COALESCE(o.source, 'website') <> 'pos'\n                AND o.status IN ('completed', 'delivered')), 0)::BIGINT AS total_spending_in_minor_units\n          FROM public.orders o WHERE o.customer_id = pc.id AND v_sort = 'latest'\n        ) order_stats ON true), '[]'::JSONB),\n      'total_count', (SELECT COUNT(*)::INTEGER FROM customer_directory)\n    )\n  );\nEND;\n$function$\n",
+        "configuration": [
+          "search_path=public, pg_temp"
+        ]
+      },
+      {
+        "acl": [
+          "postgres=X/postgres",
+          "authenticated=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
         "identity": "lite1_customer_statement2(p_customer_id uuid, p_page integer, p_page_size integer)",
         "definition": "CREATE OR REPLACE FUNCTION public.lite1_customer_statement2(p_customer_id uuid, p_page integer DEFAULT 1, p_page_size integer DEFAULT 25)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nDECLARE\n  v_page INTEGER := COALESCE(p_page, 1);\n  v_size INTEGER := LEAST(COALESCE(p_page_size, 25), 100);\n  v_result JSONB;\n  v_evidence_total BIGINT;\n  v_canonical BIGINT;\nBEGIN\n  PERFORM sales_lite1.owner();\n  PERFORM public.assert_erp_role(\n    ARRAY['owner', 'admin', 'manager', 'accountant', 'sales'],\n    'عرض كشف حساب العميل'\n  );\n  IF p_customer_id IS NULL OR v_page < 1 OR v_size < 1 THEN\n    RAISE EXCEPTION 'معرّف العميل ورقم الصفحة وحجمها مطلوبون وصالحون.';\n  END IF;\n  IF NOT EXISTS (SELECT 1 FROM public.customers WHERE id = p_customer_id) THEN\n    RETURN NULL;\n  END IF;\n\n  WITH scoped AS MATERIALIZED (\n    SELECT o.* FROM public.orders o\n    WHERE o.customer_id = p_customer_id\n      AND (COALESCE(o.source, 'website') <> 'pos' OR o.payment_method = 'debt')\n      AND (o.status IN ('completed', 'delivered') OR EXISTS (\n        SELECT 1 FROM public.pos_sale_reversals r WHERE r.order_id = o.id\n          AND (r.actual_effect->>'customer_receivable_in_minor_units')::BIGINT > 0\n      ))\n  ), vouchers AS MATERIALIZED (\n    SELECT p.* FROM public.customer_payments p JOIN scoped o ON o.id = p.order_id\n  ), active_payments AS (\n    SELECT order_id, SUM(amount_in_minor_units)::BIGINT AS amount\n    FROM vouchers WHERE NOT is_reversed GROUP BY order_id\n  ), completion_history AS (\n    SELECT h.order_id, MIN(h.created_at) AS at\n    FROM public.order_status_history h JOIN scoped o ON o.id = h.order_id\n    WHERE h.new_status = 'completed' GROUP BY h.order_id\n  ), completion_operations AS (\n    SELECT o.id AS order_id, MIN(b.completed_at) AS at\n    FROM scoped o JOIN public.business_operations b\n      ON b.operation_type = 'phase3_customer_completion_v1'\n      AND b.result_snapshot->>'order_id' = o.id::TEXT\n      AND b.request_identity_snapshot->>'order_id' = o.id::TEXT\n      AND b.completed_at IS NOT NULL GROUP BY o.id\n  ), exposure AS (\n    SELECT o.id, o.order_number,\n      LEAST(o.total_in_minor_units, GREATEST(\n        o.total_in_minor_units - o.amount_paid_in_minor_units\n          + COALESCE(p.amount, 0), 0))::BIGINT AS amount,\n      COALESCE(h.at, c.at, (SELECT completed_at FROM sales_lite1.completions WHERE order_id=o.id), CASE\n        WHEN creation.operation_type = 'phase3_pos_sale_v1'\n          AND creation.result_snapshot->>'orderId' = o.id::TEXT\n        THEN creation.completed_at END) AS at\n    FROM scoped o LEFT JOIN active_payments p ON p.order_id = o.id\n    LEFT JOIN completion_history h ON h.order_id = o.id\n    LEFT JOIN completion_operations c ON c.order_id = o.id\n    LEFT JOIN public.business_operations creation ON creation.id = o.operation_id\n  ), movements AS (\n    SELECT 'sale:' || id::TEXT AS movement_id, 'sale_debt'::TEXT AS movement_type,\n      'دين بيع'::TEXT AS type_label, id AS order_id, order_number AS reference,\n      at AS occurred_at, amount AS debit_in_minor_units, 0::BIGINT AS credit_in_minor_units\n    FROM exposure WHERE amount > 0\n    UNION ALL\n    SELECT 'payment:' || p.id::TEXT, 'payment', CASE WHEN p.payment_method='cheque' THEN 'تحصيل بشيك مؤجل' ELSE 'دفعة عميل' END, p.order_id,\n      p.payment_number, p.created_at, 0, p.amount_in_minor_units\n    FROM vouchers p\n    UNION ALL\n    SELECT 'payment_reversal:' || p.id::TEXT, 'payment_reversal', 'عكس دفعة',\n      p.order_id, p.payment_number, p.reversed_at, p.amount_in_minor_units, 0\n    FROM vouchers p WHERE p.is_reversed\n    UNION ALL\n    SELECT 'return:' || e.id::TEXT, 'return_debt_reduction', 'تخفيض دين بمرتجع',\n      e.order_id, o.order_number, e.settled_at, 0, e.debt_reduction_amount_in_minor_units\n    FROM public.sales_return_events e JOIN scoped o ON o.id = e.order_id\n    WHERE e.settlement_status = 'settled' AND e.contract_version = 401\n      AND e.debt_reduction_amount_in_minor_units > 0\n    UNION ALL\n    SELECT 'lite_return:'||r.id::TEXT, 'return_debt_reduction', 'تخفيض دين بمرتجع',\n      r.order_id, o.order_number, r.created_at, 0, r.debt_reduction\n    FROM sales_lite1.returns r JOIN scoped o ON o.id=r.order_id\n    WHERE r.debt_reduction>0 AND sales_lite1.is_order(r.order_id)\n    UNION ALL\n    SELECT 'sale_reversal:' || r.id::TEXT, 'sale_reversal', 'عكس دين بيع',\n      r.order_id, o.order_number, r.created_at, 0,\n      (r.actual_effect->>'customer_receivable_in_minor_units')::BIGINT\n    FROM public.pos_sale_reversals r JOIN scoped o ON o.id = r.order_id\n    WHERE (r.actual_effect->>'customer_receivable_in_minor_units')::BIGINT > 0\n    UNION ALL\n    -- 161: pre-system balance at its original date; a reversal keeps the\n    -- original debit and adds its own credit, like a voucher reversal.\n    SELECT 'opening:' || b.id::TEXT, 'opening_balance', 'رصيد سابق قبل النظام',\n      NULL::UUID, b.entry_number, b.occurred_at, b.amount_in_minor_units, 0\n    FROM public.customer_opening_balances b WHERE b.customer_id = p_customer_id\n    UNION ALL\n    SELECT 'opening_reversal:' || b.id::TEXT, 'opening_balance_reversal', 'عكس رصيد سابق',\n      NULL::UUID, b.entry_number, b.reversed_at, 0, b.amount_in_minor_units\n    FROM public.customer_opening_balances b\n    WHERE b.customer_id = p_customer_id AND b.is_reversed\n    UNION ALL\n    -- 163: the opening part of a unified collection, and its reversal. Order\n    -- parts are ordinary customer_payments and appear as payments above.\n    SELECT 'opening_collection:' || c.id::TEXT, 'opening_collection', 'تحصيل دين قديم',\n      NULL::UUID, c.operation_number, c.created_at, 0, c.opening_amount_in_minor_units\n    FROM public.customer_collection_operations c\n    WHERE c.customer_id = p_customer_id AND c.opening_amount_in_minor_units > 0\n    UNION ALL\n    SELECT 'opening_collection_reversal:' || c.id::TEXT, 'opening_collection_reversal', 'عكس تحصيل دين قديم',\n      NULL::UUID, c.operation_number, c.reversed_at, c.opening_amount_in_minor_units, 0\n    FROM public.customer_collection_operations c\n    WHERE c.customer_id = p_customer_id AND c.opening_amount_in_minor_units > 0 AND c.is_reversed\n    UNION ALL\n    SELECT 'cheque_claim:'||c.id::TEXT,\n      CASE WHEN c.claim_kind='returned' THEN 'cheque_return_compensation' ELSE 'cheque_cancellation_compensation' END,\n      CASE WHEN c.claim_kind='returned' THEN 'شيك راجع' ELSE 'إلغاء تسجيل شيك' END,\n      NULL::UUID,c.reference,c.created_at,c.amount_in_minor_units,0\n    FROM public.cheque_compensation_claims c WHERE c.party_kind='customer' AND c.party_id=p_customer_id\n    UNION ALL\n    SELECT 'cheque_claim_collection:'||c.id::TEXT,'cheque_claim_collection','تحصيل قيد شيك',\n      NULL::UUID,c.operation_number,c.created_at,0,c.compensation_amount_in_minor_units\n    FROM public.customer_collection_operations c WHERE c.customer_id=p_customer_id AND c.compensation_amount_in_minor_units>0\n    UNION ALL\n    SELECT 'cheque_claim_collection_reversal:'||c.id::TEXT,'cheque_claim_collection_reversal','عكس تحصيل قيد شيك',\n      NULL::UUID,c.operation_number,c.reversed_at,c.compensation_amount_in_minor_units,0\n    FROM public.customer_collection_operations c WHERE c.customer_id=p_customer_id AND c.compensation_amount_in_minor_units>0 AND c.is_reversed\n  ), running AS MATERIALIZED (\n    SELECT m.*, ROW_NUMBER() OVER (\n      ORDER BY occurred_at NULLS FIRST, movement_id COLLATE \"C\") AS sequence,\n      SUM(debit_in_minor_units - credit_in_minor_units) OVER (\n        ORDER BY occurred_at NULLS FIRST, movement_id COLLATE \"C\"\n        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)::BIGINT AS balance_in_minor_units\n    FROM movements m\n  ), page_rows AS MATERIALIZED (\n    SELECT * FROM running ORDER BY sequence DESC\n    OFFSET (v_page::BIGINT - 1) * v_size LIMIT v_size\n  )\n  SELECT JSONB_BUILD_OBJECT(\n    'customer_id', p_customer_id, 'page', v_page, 'page_size', v_size,\n    'total_count', (SELECT COUNT(*) FROM running),\n    'has_more', (v_page::BIGINT * v_size) < (SELECT COUNT(*) FROM running),\n    'timezone', 'Asia/Amman',\n    'closing_balance_in_minor_units', COALESCE((\n      SELECT balance_in_minor_units FROM running ORDER BY sequence DESC LIMIT 1), 0),\n    'page_opening_balance_in_minor_units', COALESCE((\n      SELECT balance_in_minor_units - debit_in_minor_units + credit_in_minor_units\n      FROM page_rows ORDER BY sequence LIMIT 1), 0),\n    'page_closing_balance_in_minor_units', COALESCE((\n      SELECT balance_in_minor_units FROM page_rows ORDER BY sequence DESC LIMIT 1), 0),\n    'movements', COALESCE((SELECT JSONB_AGG(JSONB_BUILD_OBJECT(\n      'movement_id', movement_id, 'movement_type', movement_type, 'type_label', type_label,\n      'order_id', order_id, 'reference', reference, 'occurred_at', occurred_at,\n      'original_debt_at',(SELECT c.original_debt_at FROM public.cheque_compensation_claims c WHERE movement_id='cheque_claim:'||c.id::TEXT),\n      'reason',(SELECT c.reason FROM public.cheque_compensation_claims c WHERE movement_id='cheque_claim:'||c.id::TEXT),\n      'occurred_at_amman', TO_CHAR(occurred_at AT TIME ZONE 'Asia/Amman',\n        'YYYY-MM-DD\"T\"HH24:MI:SS.US'),\n      'date_label', CASE WHEN occurred_at IS NULL THEN 'تاريخ غير متاح' ELSE NULL END,\n      'debit_in_minor_units', debit_in_minor_units, 'credit_in_minor_units', credit_in_minor_units,\n      'balance_in_minor_units', balance_in_minor_units, 'sequence', sequence\n    ) ORDER BY sequence DESC) FROM page_rows), '[]'::JSONB)\n  ), COALESCE((SELECT SUM(debit_in_minor_units - credit_in_minor_units) FROM movements), 0)::BIGINT\n  INTO v_result, v_evidence_total;\n\n  v_canonical := public.phase42_customer_receivable_total_internal(p_customer_id);\n  IF v_evidence_total IS DISTINCT FROM v_canonical THEN\n    -- Do not invent an adjustment to make corrupt/incomplete history balance.\n    RAISE EXCEPTION USING ERRCODE = 'P0001',\n      MESSAGE = 'CUSTOMER_STATEMENT_EVIDENCE_MISMATCH: أدلة الحركات لا تطابق رصيد العميل؛ يلزم مراجعتها.',\n      DETAIL = JSONB_BUILD_OBJECT('movements_in_minor_units', v_evidence_total,\n        'canonical_in_minor_units', v_canonical)::TEXT;\n  END IF;\n  RETURN v_result||jsonb_build_object(\n    'outstanding_cheques_in_minor_units',COALESCE((SELECT SUM(q.amount_in_minor_units) FROM public.deferred_cheques q\n      WHERE q.customer_id=p_customer_id AND q.status IN ('pending','endorsed')),0),\n    'has_returned_cheque',EXISTS(SELECT 1 FROM public.deferred_cheques q WHERE q.customer_id=p_customer_id AND q.status='returned'));\nEND;\n$function$\n",
         "configuration": [
           "search_path=pg_catalog, public"
+        ]
+      },
+      {
+        "acl": [
+          "postgres=X/postgres",
+          "authenticated=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "lite1_debt_aging2(p_customer_id uuid)",
+        "definition": "CREATE OR REPLACE FUNCTION public.lite1_debt_aging2(p_customer_id uuid DEFAULT NULL::uuid)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nDECLARE\n  v_result JSONB;\nBEGIN\n  PERFORM public.assert_erp_role(\n    ARRAY['owner', 'admin', 'manager', 'accountant', 'sales'],\n    'عرض عمر ذمم العملاء'\n  );\n\n  WITH eligible AS MATERIALIZED (\n    SELECT o.id, o.customer_id, o.total_in_minor_units,\n      o.amount_paid_in_minor_units, o.operation_id\n    FROM public.orders o\n    WHERE o.status IN ('completed', 'delivered')\n      AND o.customer_id IS NOT NULL\n      AND (p_customer_id IS NULL OR o.customer_id = p_customer_id)\n      AND (COALESCE(o.source, 'website') <> 'pos' OR o.payment_method = 'debt')\n  ), prior_debt AS MATERIALIZED (\n    -- Exact set-based form of121 phase42_order_financial_position_internal's\n    -- prior_debt source. Do not introduce a projection/cache or new authority.\n    SELECT e.order_id, SUM(e.debt_reduction_amount_in_minor_units)::BIGINT AS amount\n    FROM public.sales_return_events e JOIN eligible o ON o.id = e.order_id\n    WHERE e.settlement_status = 'settled' AND e.contract_version = 401\n      AND o.amount_paid_in_minor_units < o.total_in_minor_units\n    GROUP BY e.order_id\n  ), financial_positions AS MATERIALIZED (\n    SELECT o.*, CASE\n      WHEN o.amount_paid_in_minor_units >= o.total_in_minor_units THEN 0::BIGINT\n      ELSE GREATEST(o.total_in_minor_units - o.amount_paid_in_minor_units\n        - COALESCE(d.amount, 0) - COALESCE((SELECT sum(r.debt_reduction) FROM sales_lite1.returns r WHERE r.order_id=o.id),0), 0)::BIGINT END AS outstanding\n    FROM eligible o LEFT JOIN prior_debt d ON d.order_id = o.id\n  ), active_payments AS MATERIALIZED (\n    SELECT p.order_id, SUM(p.amount_in_minor_units)::BIGINT AS amount\n    FROM public.customer_payments p JOIN eligible o ON o.id = p.order_id\n    WHERE NOT p.is_reversed\n    GROUP BY p.order_id\n  ), completion_history AS MATERIALIZED (\n    SELECT h.order_id, MIN(h.created_at) AS at\n    FROM public.order_status_history h JOIN eligible o ON o.id = h.order_id\n    WHERE h.new_status = 'completed'\n    GROUP BY h.order_id\n  ), completion_operations AS MATERIALIZED (\n    SELECT o.id AS order_id, MIN(b.completed_at) AS at\n    FROM eligible o JOIN public.business_operations b\n      ON b.operation_type = 'phase3_customer_completion_v1'\n      AND b.result_snapshot->>'order_id' = o.id::TEXT\n      AND b.request_identity_snapshot->>'order_id' = o.id::TEXT\n      AND b.completed_at IS NOT NULL\n    GROUP BY o.id\n  ), principals AS MATERIALIZED (\n    SELECT o.id, o.customer_id, o.outstanding,\n      -- amount_paid contains initial collection plus effective later vouchers.\n      -- Remove only proven active vouchers to recover the original exposure;\n      -- the bounded difference to current outstanding is display FIFO coverage.\n      LEAST(o.total_in_minor_units, GREATEST(\n        o.total_in_minor_units - o.amount_paid_in_minor_units\n          + COALESCE(p.amount, 0), o.outstanding, 0))::BIGINT AS principal,\n      COALESCE(h.at, c.at, (SELECT completed_at FROM sales_lite1.completions WHERE order_id=o.id), CASE\n        WHEN creation.operation_type = 'phase3_pos_sale_v1'\n          AND creation.result_snapshot->>'orderId' = o.id::TEXT\n        THEN creation.completed_at END) AS completed_at\n    FROM financial_positions o\n    LEFT JOIN active_payments p ON p.order_id = o.id\n    LEFT JOIN completion_history h ON h.order_id = o.id\n    LEFT JOIN completion_operations c ON c.order_id = o.id\n    LEFT JOIN public.business_operations creation ON creation.id = o.operation_id\n    UNION ALL\n    -- 161: an active opening debt is a principal at its original date; its\n    -- allocated opening collections (163) are coverage like vouchers, and\n    -- FIFO still presents all coverage against the oldest principal first.\n    SELECT opening.id, opening.customer_id, opening.outstanding,\n      opening.principal, opening.occurred_at\n    FROM public.go_live_customer_opening_positions_internal(p_customer_id) opening\n    UNION ALL\n    SELECT c.id,c.customer_id,c.outstanding,c.principal,c.occurred_at\n    FROM public.cheque_customer_claim_positions_internal(p_customer_id)c\n  ), ordered AS (\n    SELECT *,\n      SUM(principal - outstanding) OVER (PARTITION BY customer_id) AS coverage,\n      COALESCE(SUM(principal) OVER (PARTITION BY customer_id\n        ORDER BY completed_at NULLS FIRST, id\n        ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING), 0) AS prior_principal\n    FROM principals\n    -- Zero principal contributes neither coverage nor remaining debt. Keep\n    -- positive fully-paid principals: their coverage still belongs in FIFO.\n    WHERE principal > 0\n  ), allocated AS (\n    SELECT *, GREATEST(principal - GREATEST(coverage - prior_principal, 0), 0)::BIGINT AS remaining,\n      CASE WHEN completed_at IS NOT NULL THEN GREATEST(\n        (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Amman')::DATE\n        - (completed_at AT TIME ZONE 'Asia/Amman')::DATE, 0) END AS age_days\n    FROM ordered\n  ), buckets AS (\n    SELECT customer_id, SUM(remaining)::BIGINT AS total,\n      COALESCE(SUM(remaining) FILTER (WHERE age_days BETWEEN 0 AND 7), 0)::BIGINT AS days_0_7,\n      COALESCE(SUM(remaining) FILTER (WHERE age_days BETWEEN 8 AND 30), 0)::BIGINT AS days_8_30,\n      COALESCE(SUM(remaining) FILTER (WHERE age_days > 30), 0)::BIGINT AS days_over_30,\n      COALESCE(SUM(remaining) FILTER (WHERE age_days IS NULL), 0)::BIGINT AS age_unavailable,\n      COUNT(*) FILTER (WHERE remaining > 0 AND age_days IS NULL)::INTEGER AS undated_debt_count,\n      CASE WHEN BOOL_OR(remaining > 0 AND age_days IS NULL) THEN NULL\n        ELSE MIN(completed_at) FILTER (WHERE remaining > 0) END AS oldest_debt_at,\n      CASE WHEN BOOL_OR(remaining > 0 AND age_days IS NULL) THEN NULL\n        ELSE MAX(age_days) FILTER (WHERE remaining > 0) END AS oldest_debt_age_days\n    FROM allocated GROUP BY customer_id\n  ), payment_dates AS (\n    SELECT customer_id, MAX(at) AS last_payment_at FROM (\n      SELECT p.customer_id, p.created_at AS at\n      FROM public.customer_payments p\n      WHERE NOT p.is_reversed\n        AND (p_customer_id IS NULL OR p.customer_id = p_customer_id)\n      UNION ALL\n      SELECT c.customer_id, c.created_at FROM public.customer_collection_operations c\n      WHERE NOT c.is_reversed AND c.opening_amount_in_minor_units+c.compensation_amount_in_minor_units > 0\n        AND (p_customer_id IS NULL OR c.customer_id = p_customer_id)\n    ) paid\n    GROUP BY customer_id\n  ), customers AS (\n    SELECT c.id AS customer_id, c.full_name, c.phone, c.credit_limit_in_minor_units,\n      COALESCE(b.total, 0) AS total_in_minor_units,\n      COALESCE(b.days_0_7, 0) AS days_0_7_in_minor_units,\n      COALESCE(b.days_8_30, 0) AS days_8_30_in_minor_units,\n      COALESCE(b.days_over_30, 0) AS days_over_30_in_minor_units,\n      COALESCE(b.age_unavailable, 0) AS age_unavailable_in_minor_units,\n      COALESCE(b.undated_debt_count, 0) AS undated_debt_count,\n      b.oldest_debt_at, b.oldest_debt_age_days, p.last_payment_at,\n      COALESCE((SELECT SUM(q.amount_in_minor_units) FROM public.deferred_cheques q\n        WHERE q.customer_id=c.id AND q.status IN ('pending','endorsed')),0)::BIGINT AS outstanding_cheques_in_minor_units,\n      EXISTS(SELECT 1 FROM public.deferred_cheques q WHERE q.customer_id=c.id AND q.status='returned') AS has_returned_cheque\n    FROM public.customers c LEFT JOIN buckets b ON b.customer_id = c.id\n    LEFT JOIN payment_dates p ON p.customer_id = c.id\n    WHERE p_customer_id IS NULL OR c.id = p_customer_id\n  )\n  SELECT CASE WHEN p_customer_id IS NOT NULL THEN\n    (SELECT TO_JSONB(c) FROM customers c)\n  ELSE JSONB_BUILD_OBJECT(\n    'total_in_minor_units', COALESCE(SUM(c.total_in_minor_units), 0),\n    'days_0_7_in_minor_units', COALESCE(SUM(c.days_0_7_in_minor_units), 0),\n    'days_8_30_in_minor_units', COALESCE(SUM(c.days_8_30_in_minor_units), 0),\n    'days_over_30_in_minor_units', COALESCE(SUM(c.days_over_30_in_minor_units), 0),\n    'age_unavailable_in_minor_units', COALESCE(SUM(c.age_unavailable_in_minor_units), 0),\n    'undated_debt_count', COALESCE(SUM(c.undated_debt_count), 0),\n    'overdue_customer_count', COUNT(*) FILTER (WHERE c.days_over_30_in_minor_units > 0),\n    'over_limit_customer_count', COUNT(*) FILTER (\n      WHERE c.credit_limit_in_minor_units > 0 AND c.total_in_minor_units > c.credit_limit_in_minor_units),\n    'top_overdue_limit', 50,\n    'top_overdue', COALESCE((SELECT JSONB_AGG(TO_JSONB(t)\n      ORDER BY t.days_over_30_in_minor_units DESC, t.customer_id)\n      FROM (SELECT * FROM customers WHERE days_over_30_in_minor_units > 0\n        ORDER BY days_over_30_in_minor_units DESC, customer_id LIMIT 50) t), '[]'::JSONB)\n  ) END INTO v_result FROM customers c;\n  RETURN v_result;\nEND;\n$function$\n",
+        "configuration": [
+          "search_path=public, pg_temp"
         ]
       },
       {
@@ -49838,8 +49912,7 @@
       },
       {
         "acl": [
-          "postgres=X/postgres",
-          "authenticated=X/postgres"
+          "postgres=X/postgres"
         ],
         "kind": "f",
         "owner": "postgres",
@@ -50072,7 +50145,7 @@
         "owner": "postgres",
         "schema": "public",
         "identity": "lite1_preview_shift_reversal2(p_shift_id uuid)",
-        "definition": "CREATE OR REPLACE FUNCTION public.lite1_preview_shift_reversal2(p_shift_id uuid)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nDECLARE result JSONB;\nBEGIN\n -- Preserve the existing owner/MFA permission check and full-only JSON.\n result:=public.preview_cash_shift_full_reversal(p_shift_id);\n IF EXISTS(SELECT 1 FROM sales_lite1.returns r WHERE r.shift_id=p_shift_id AND r.money_refund>0) THEN\n  RETURN result||jsonb_build_object('canExecute',false,'liteMonetaryRefundBlocked',true,'operations',\n   COALESCE(result->'operations','[]'::JSONB)||jsonb_build_array(jsonb_build_object(\n    'operationType','lite_monetary_refund','originalRecordId',p_shift_id,'status','BLOCKED',\n    'reason','الوردية تتضمن ردّ مبلغ لفاتورة قديمة بلا مخزون. لا يمكن إلغاؤها أو عكسها؛ استخدم عدّ الدرج والإغلاق اليومي.',\n    'expectedEffect','{}'::JSONB)));\n END IF;\n RETURN result;\nEND $function$\n",
+        "definition": "CREATE OR REPLACE FUNCTION public.lite1_preview_shift_reversal2(p_shift_id uuid)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nDECLARE result JSONB;\nBEGIN\n -- Preserve the existing owner/MFA permission check and full-only JSON.\n result:=public.preview_cash_shift_full_reversal(p_shift_id);\n IF EXISTS(SELECT 1 FROM sales_lite1.shifts s WHERE s.shift_id=p_shift_id)\n OR EXISTS(SELECT 1 FROM public.orders o JOIN sales_lite1.orders l ON l.order_id=o.id WHERE o.cash_shift_id=p_shift_id) THEN\n  RETURN result||jsonb_build_object('canExecute',false,'liteShiftBlocked',true,'operations',\n   COALESCE(result->'operations','[]'::JSONB)||jsonb_build_array(jsonb_build_object('operationType','lite_shift',\n    'originalRecordId',p_shift_id,'status','BLOCKED','reason','هذه الوردية تتبع وضع البيع المبسّط. لا يمكن إلغاؤها أو عكس عملياتها؛ استخدم المرتجع وعدّ الدرج والإغلاق اليومي.','expectedEffect','{}'::JSONB)));\n END IF;\n IF EXISTS(SELECT 1 FROM sales_lite1.returns r WHERE r.shift_id=p_shift_id AND r.money_refund>0) THEN\n  RETURN result||jsonb_build_object('canExecute',false,'liteMonetaryRefundBlocked',true,'operations',\n   COALESCE(result->'operations','[]'::JSONB)||jsonb_build_array(jsonb_build_object(\n    'operationType','lite_monetary_refund','originalRecordId',p_shift_id,'status','BLOCKED',\n    'reason','الوردية تتضمن ردّ مبلغ لفاتورة قديمة بلا مخزون. لا يمكن إلغاؤها أو عكسها؛ استخدم عدّ الدرج والإغلاق اليومي.',\n    'expectedEffect','{}'::JSONB)));\n END IF;\n RETURN result;\nEND $function$\n",
         "configuration": [
           "search_path=pg_catalog, public"
         ]
@@ -55096,7 +55169,7 @@
         "owner": "postgres",
         "schema": "sales_lite1",
         "identity": "integrity_count()",
-        "definition": "CREATE OR REPLACE FUNCTION sales_lite1.integrity_count()\n RETURNS bigint\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\n SELECT (SELECT count(*) FROM sales_lite1.orders l JOIN public.orders o ON o.id=l.order_id WHERE NOT sales_lite1.is_order(o.id) OR o.cost_finalized_at IS NOT NULL)\n +(SELECT count(*) FROM sales_lite1.orders l JOIN public.orders o ON o.id=l.order_id WHERE o.status='completed' AND NOT EXISTS(SELECT 1 FROM sales_lite1.completions c WHERE c.order_id=o.id))\n +(SELECT count(*) FROM public.inventory_movements m JOIN sales_lite1.orders l ON l.order_id=m.reference_id)\n +(SELECT count(*) FROM public.order_inventory_reservations r JOIN sales_lite1.orders l ON l.order_id=r.order_id)\n +(SELECT count(*) FROM public.order_items i JOIN sales_lite1.orders l ON l.order_id=i.order_id WHERE i.unit_cost_in_minor_units<>0 OR i.cogs_in_minor_units<>0 OR i.profit_in_minor_units<>0 OR i.cost_finalized_at IS NOT NULL OR i.exact_cogs_snapshot_in_minor_units IS NOT NULL OR i.unit_cost_snapshot_in_minor_units_exact IS NOT NULL)\n +(SELECT count(*) FROM sales_lite1.returns r JOIN public.order_items i ON i.id=r.item_id WHERE i.order_id<>r.order_id OR NOT sales_lite1.is_order(r.order_id))\n +(SELECT count(*) FROM (SELECT item_id,sum(quantity) q,sum(entitlement) e FROM sales_lite1.returns GROUP BY item_id) r JOIN public.order_items i ON i.id=r.item_id WHERE r.q>i.quantity OR r.e>i.net_refundable_amount_snapshot_in_minor_units);\n$function$\n",
+        "definition": "CREATE OR REPLACE FUNCTION sales_lite1.integrity_count()\n RETURNS bigint\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\n SELECT (SELECT count(*) FROM sales_lite1.orders l JOIN public.orders o ON o.id=l.order_id WHERE NOT sales_lite1.is_order(o.id) OR o.cost_finalized_at IS NOT NULL)\n +(SELECT count(*) FROM sales_lite1.orders l JOIN public.orders o ON o.id=l.order_id WHERE o.status='completed' AND NOT EXISTS(SELECT 1 FROM sales_lite1.completions c WHERE c.order_id=o.id))\n +(SELECT count(*) FROM public.inventory_movements m JOIN sales_lite1.orders l ON l.order_id=m.reference_id)\n +(SELECT count(*) FROM public.order_inventory_reservations r JOIN sales_lite1.orders l ON l.order_id=r.order_id)\n +(SELECT count(*) FROM public.order_items i JOIN sales_lite1.orders l ON l.order_id=i.order_id WHERE i.unit_cost_in_minor_units<>0 OR i.cogs_in_minor_units<>0 OR i.profit_in_minor_units<>0 OR i.cost_finalized_at IS NOT NULL OR i.exact_cogs_snapshot_in_minor_units IS NOT NULL OR i.unit_cost_snapshot_in_minor_units_exact IS NOT NULL)\n +(SELECT count(*) FROM sales_lite1.returns r JOIN public.order_items i ON i.id=r.item_id WHERE i.order_id<>r.order_id OR NOT sales_lite1.is_order(r.order_id))\n +(SELECT count(*) FROM (SELECT item_id,sum(quantity) q,sum(entitlement) e FROM sales_lite1.returns GROUP BY item_id) r JOIN public.order_items i ON i.id=r.item_id WHERE r.q>i.quantity OR r.e>i.net_refundable_amount_snapshot_in_minor_units)\n +(SELECT count(*) FROM (SELECT order_id,sum(money_refund) AS refunded FROM sales_lite1.returns GROUP BY order_id) r\n JOIN public.orders o ON o.id=r.order_id WHERE r.refunded>o.amount_paid_in_minor_units);\n$function$\n",
         "configuration": [
           "search_path=pg_catalog, public"
         ]
@@ -55199,6 +55272,19 @@
         "kind": "f",
         "owner": "postgres",
         "schema": "sales_lite2",
+        "identity": "business_summary(p_type text, p_from date, p_to date, p_generated timestamp with time zone)",
+        "definition": "CREATE OR REPLACE FUNCTION sales_lite2.business_summary(p_type text, p_from date, p_to date, p_generated timestamp with time zone)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nDECLARE zone TEXT;start_at TIMESTAMPTZ;end_at TIMESTAMPTZ;facts JSONB;result JSONB;sales JSONB;\nBEGIN\n IF p_type IS NULL OR p_type NOT IN('daily','weekly') OR p_from IS NULL OR p_to IS NULL OR p_generated IS NULL\n OR(p_type='daily' AND p_from<>p_to) OR(p_type='weekly' AND p_to<>p_from+6) THEN\n  RAISE EXCEPTION 'Invalid Business summary period.';\n END IF;\n SELECT business_timezone INTO STRICT zone FROM public.business_alert_settings WHERE id=true;\n start_at:=p_from::TIMESTAMP AT TIME ZONE zone;end_at:=(p_to+1)::TIMESTAMP AT TIME ZONE zone;\n facts:=sales_lite2.simple_facts(NULL,start_at,end_at,zone,true);\n -- Same monetary inspection/exchange evidence checks used by the owner reader.\n PERFORM public.tb215_assert_inspection_internal(i.operation_id) FROM public.aftercare215_inspections i\n WHERE i.created_at>=start_at AND i.created_at<end_at;\n PERFORM public.tb215_assert_return_internal(c.operation_id) FROM public.aftercare215_return_contexts c\n WHERE c.created_at>=start_at AND c.created_at<end_at;\n facts:=public.tb215_exchange_financial_adjustment_internal(facts,NULL,start_at,end_at,zone,true);\n SELECT coalesce(jsonb_object_agg(key,value),'{}'::jsonb) INTO sales FROM jsonb_each(facts->'sales')\n WHERE key=ANY(ARRAY['orderCount','completedOrderCount','returnCount','grossSalesInMinorUnits','netSalesInMinorUnits',\n 'refundsInMinorUnits','returnEntitlementInMinorUnits','debtReductionInMinorUnits','deliveryFeesInMinorUnits',\n 'collectedInMinorUnits','outstandingInMinorUnits','discountInMinorUnits']);\n result:=jsonb_build_object('contractVersion','lite220-business-summary-v1','accountingTracked',false,'summaryType',p_type,\n 'generatedAt',p_generated,'period',jsonb_build_object('dateFrom',p_from,'dateTo',p_to,'timezone',zone),\n 'sales',sales,'cashFlow',facts->'cashFlow','expenses',facts->'expenses','dailyBreakdown',facts->'dailyBreakdown',\n 'balances',jsonb_build_object('customerDueInMinorUnits',facts#>'{balances,customerDueInMinorUnits}',\n 'customerOrderCount',facts#>'{balances,customerOrderCount}','customerCount',facts#>'{balances,customerCount}'));\n IF jsonb_typeof(result)<>'object' OR octet_length(result::TEXT)>32768 THEN\n  RAISE EXCEPTION 'Business summary payload is invalid or too large.';\n END IF;\n RETURN result;\nEND $function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      },
+      {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "sales_lite2",
         "identity": "catalog_page(p_limit integer, p_offset integer, p_category_id uuid, p_search text, p_availability text, p_sort text, p_brand_id uuid, p_sale_unit_id uuid, p_product_ids uuid[])",
         "definition": "CREATE OR REPLACE FUNCTION sales_lite2.catalog_page(p_limit integer, p_offset integer, p_category_id uuid, p_search text, p_availability text, p_sort text, p_brand_id uuid, p_sale_unit_id uuid, p_product_ids uuid[])\n RETURNS jsonb\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\n  WITH  sales_by_product AS (\n    SELECT\n      oi.product_id,\n      COALESCE(SUM(COALESCE(oi.sale_package_quantity, 0)), 0)::BIGINT\n        AS sold_packages\n    FROM public.order_items oi\n    JOIN public.orders o ON o.id = oi.order_id\n    WHERE o.status = 'completed'\n      AND o.created_at >= NOW() - INTERVAL '90 days'\n    GROUP BY oi.product_id\n  ),\n  catalog_source AS (\n    SELECT\n      p.id,\n      p.sku,\n      p.barcode,\n      p.name_ar,\n      p.description,\n      p.category_id,\n      c.code AS category_code,\n      c.name_ar AS category_name_ar,\n      p.brand_id,\n      b.name_ar AS brand_name_ar,\n      p.unit_id,\n      base_unit.name_ar AS unit_name_ar,\n      p.sale_unit_id,\n      sale_unit.name_ar AS sale_unit_name_ar,\n      p.units_per_sale_unit,\n      p.parcel_only,\n      p.default_sale_price_in_minor_units,\n      p.sale_price_in_minor_units,\n      sales_lite1.available(p.id) AS manual_available,\n      image.image_url,\n      p.created_at,\n      COALESCE(sales.sold_packages, 0)::BIGINT AS sold_packages_last_90_days,\n      p.flavor_master_product_id,\n      p.flavor_name_ar,\n      p.is_flavor_master,\n      p.flavor_sort_order,\n      COALESCE(p.flavor_master_product_id, p.id) AS family_id\n    FROM public.products p\n    JOIN public.categories c ON c.id = p.category_id AND c.is_active = true\n    LEFT JOIN public.brands b ON b.id = p.brand_id\n    JOIN public.units base_unit ON base_unit.id = p.unit_id\n    JOIN public.units sale_unit ON sale_unit.id = p.sale_unit_id\n    LEFT JOIN sales_by_product sales ON sales.product_id = p.id\n    LEFT JOIN LATERAL (\n      SELECT pi.image_url\n      FROM public.product_images pi\n      WHERE pi.product_id = p.id\n      ORDER BY pi.is_primary DESC, pi.display_order, pi.created_at\n      LIMIT 1\n    ) image ON true\n    WHERE p.is_active = true\n      AND sale_unit.code <> 'PCS'\n      AND p.units_per_sale_unit > 0\n      AND p.default_sale_price_in_minor_units > 0\n  ),\n  family_summary AS (\n    SELECT\n      family_id,\n      MIN(category_id::TEXT)::UUID AS category_id,\n      MIN(category_code) AS category_code,\n      MIN(brand_id::TEXT)::UUID AS brand_id,\n      MIN(sale_unit_id::TEXT)::UUID AS sale_unit_id,\n      COALESCE(\n        MIN(name_ar) FILTER (WHERE flavor_master_product_id IS NULL),\n        MIN(name_ar)\n      ) AS family_name_ar,\n      MIN(default_sale_price_in_minor_units) AS sale_price_in_minor_units,\n      NULL::INTEGER AS available_sale_packages,\n      BOOL_OR(NOT is_flavor_master AND manual_available) AS is_available,\n      false AS is_low_stock,\n      MAX(created_at) AS created_at,\n      COALESCE(SUM(sold_packages_last_90_days) FILTER (WHERE NOT is_flavor_master), 0)::BIGINT\n        AS sold_packages_last_90_days\n    FROM catalog_source\n    GROUP BY family_id\n  ),\n  normalized_search AS (\n    SELECT LOWER(TRANSLATE(\n      REGEXP_REPLACE(COALESCE(NULLIF(BTRIM(p_search), ''), ''), '[ً-ٰٟـ]', '', 'g'),\n      'أإآى',\n      'اااي'\n    )) AS value\n  ),\n  matching_families AS (\n    SELECT fs.*\n    FROM family_summary fs\n    CROSS JOIN normalized_search normalized\n    WHERE (p_category_id IS NULL OR fs.category_id = p_category_id)\n      AND (p_brand_id IS NULL OR fs.brand_id = p_brand_id)\n      AND (p_sale_unit_id IS NULL OR fs.sale_unit_id = p_sale_unit_id)\n      AND (\n        p_product_ids IS NULL\n        OR fs.family_id = ANY (p_product_ids)\n        OR EXISTS (\n          SELECT 1\n          FROM catalog_source favorite_member\n          WHERE favorite_member.family_id = fs.family_id\n            AND favorite_member.id = ANY (p_product_ids)\n        )\n      )\n      AND (\n        p_availability NOT IN ('available', 'low_stock')\n        OR (p_availability = 'available' AND fs.is_available)\n        OR (p_availability = 'low_stock' AND fs.is_low_stock)\n      )\n      AND (p_sort <> 'offers' OR fs.category_code = 'CAT-OFFERS')\n      AND (p_sort <> 'low_stock' OR fs.is_low_stock)\n      AND (\n        normalized.value = ''\n        OR EXISTS (\n          SELECT 1\n          FROM catalog_source searched_member\n          WHERE searched_member.family_id = fs.family_id\n            AND (\n              LOWER(TRANSLATE(REGEXP_REPLACE(searched_member.name_ar, '[ً-ٰٟـ]', '', 'g'), 'أإآى', 'اااي')) LIKE '%' || normalized.value || '%'\n              OR LOWER(TRANSLATE(REGEXP_REPLACE(searched_member.sku, '[ً-ٰٟـ]', '', 'g'), 'أإآى', 'اااي')) LIKE '%' || normalized.value || '%'\n              OR LOWER(TRANSLATE(REGEXP_REPLACE(COALESCE(searched_member.barcode, ''), '[ً-ٰٟـ]', '', 'g'), 'أإآى', 'اااي')) LIKE '%' || normalized.value || '%'\n              OR LOWER(TRANSLATE(REGEXP_REPLACE(COALESCE(searched_member.description, ''), '[ً-ٰٟـ]', '', 'g'), 'أإآى', 'اااي')) LIKE '%' || normalized.value || '%'\n              OR LOWER(TRANSLATE(REGEXP_REPLACE(COALESCE(searched_member.brand_name_ar, ''), '[ً-ٰٟـ]', '', 'g'), 'أإآى', 'اااي')) LIKE '%' || normalized.value || '%'\n            )\n        )\n      )\n  ),\n  paged_families AS (\n    SELECT\n      mf.*,\n      ROW_NUMBER() OVER (\n        ORDER BY\n          mf.is_available DESC,\n          CASE WHEN p_sort = 'name_asc' THEN mf.family_name_ar END ASC,\n          CASE WHEN p_sort = 'price_asc' THEN mf.sale_price_in_minor_units END ASC,\n          CASE WHEN p_sort = 'price_desc' THEN mf.sale_price_in_minor_units END DESC,\n          CASE WHEN p_sort = 'stock_desc' THEN mf.available_sale_packages END DESC,\n          CASE WHEN p_sort = 'newest' THEN mf.created_at END DESC,\n          CASE WHEN p_sort = 'best_sellers' THEN mf.sold_packages_last_90_days END DESC,\n          CASE WHEN p_sort = 'low_stock' THEN mf.available_sale_packages END ASC,\n          mf.family_name_ar ASC,\n          mf.family_id ASC\n      ) AS page_order\n    FROM matching_families mf\n    ORDER BY\n      mf.is_available DESC,\n      CASE WHEN p_sort = 'name_asc' THEN mf.family_name_ar END ASC,\n      CASE WHEN p_sort = 'price_asc' THEN mf.sale_price_in_minor_units END ASC,\n      CASE WHEN p_sort = 'price_desc' THEN mf.sale_price_in_minor_units END DESC,\n      CASE WHEN p_sort = 'stock_desc' THEN mf.available_sale_packages END DESC,\n      CASE WHEN p_sort = 'newest' THEN mf.created_at END DESC,\n      CASE WHEN p_sort = 'best_sellers' THEN mf.sold_packages_last_90_days END DESC,\n      CASE WHEN p_sort = 'low_stock' THEN mf.available_sale_packages END ASC,\n      mf.family_name_ar ASC,\n      mf.family_id ASC\n    LIMIT LEAST(GREATEST(COALESCE(p_limit, 24), 1), 48)\n    OFFSET GREATEST(COALESCE(p_offset, 0), 0)\n  ),\n  page_items AS (\n    SELECT\n      pf.page_order,\n      cs.*\n    FROM paged_families pf\n    JOIN catalog_source cs ON cs.family_id = pf.family_id\n  ),\n  category_summary AS (\n    SELECT\n      c.id,\n      c.code,\n      c.name_ar,\n      c.image_url,\n      COUNT(fs.family_id)::INTEGER AS product_count,\n      COUNT(fs.family_id) FILTER (WHERE fs.is_available)::INTEGER AS available_product_count,\n      CASE c.code\n        WHEN 'CAT-BEV' THEN 10 WHEN 'CAT-WATER' THEN 20\n        WHEN 'CAT-ENERGY' THEN 30 WHEN 'CAT-BISCUIT' THEN 40\n        WHEN 'CAT-CAKE' THEN 50 WHEN 'CAT-CHOCO' THEN 60\n        WHEN 'CAT-CANDY' THEN 70 WHEN 'CAT-GUM' THEN 80\n        WHEN 'CAT-CHIPS' THEN 90 WHEN 'CAT-FOOD' THEN 100\n        WHEN 'CAT-GIFTS' THEN 110 WHEN 'CAT-OFFERS' THEN 120\n        ELSE 1000\n      END AS sort_order\n    FROM public.categories c\n    LEFT JOIN family_summary fs ON fs.category_id = c.id\n    WHERE c.is_active = true\n    GROUP BY c.id, c.code, c.name_ar, c.image_url\n  ),\n  brand_facets AS (\n    SELECT fs.brand_id AS id, MIN(cs.brand_name_ar) AS name_ar\n    FROM family_summary fs\n    JOIN catalog_source cs ON cs.family_id = fs.family_id\n    WHERE fs.brand_id IS NOT NULL\n    GROUP BY fs.brand_id\n  ),\n  sale_unit_facets AS (\n    SELECT fs.sale_unit_id AS id, MIN(cs.sale_unit_name_ar) AS name_ar\n    FROM family_summary fs\n    JOIN catalog_source cs ON cs.family_id = fs.family_id\n    WHERE fs.sale_unit_id IS NOT NULL\n    GROUP BY fs.sale_unit_id\n  )\n  SELECT jsonb_build_object(\n    'items', COALESCE((\n      SELECT jsonb_agg(\n        jsonb_build_object(\n          'id', id,\n          'sku', sku,\n          'barcode', barcode,\n          'nameAr', name_ar,\n          'description', description,\n          'categoryId', category_id,\n          'categoryCode', category_code,\n          'categoryNameAr', category_name_ar,\n          'brandId', brand_id,\n          'brandNameAr', brand_name_ar,\n          'unitId', unit_id,\n          'unitNameAr', unit_name_ar,\n          'saleUnitId', sale_unit_id,\n          'saleUnitNameAr', sale_unit_name_ar,\n          'unitsPerSalePackage', units_per_sale_unit,\n          'parcelOnly', parcel_only,\n          'salePackagePriceInMinorUnits', default_sale_price_in_minor_units,\n          'salePriceInMinorUnits', sale_price_in_minor_units,\n          'quantityTracked',false,\n          'manualAvailable',manual_available,\n          'availableQuantity',NULL,\n          'availableSalePackages',NULL,\n          'minimumOrderPackages', 1,\n          'imageUrl', image_url,\n          'isAvailable', manual_available AND NOT is_flavor_master,\n          'createdAt', created_at,\n          'soldPackagesLast90Days', sold_packages_last_90_days,\n          'flavorMasterProductId', flavor_master_product_id,\n          'flavorNameAr', flavor_name_ar,\n          'isFlavorMaster', is_flavor_master,\n          'flavorSortOrder', flavor_sort_order\n        )\n        ORDER BY page_order,\n          CASE WHEN flavor_master_product_id IS NULL THEN 0 ELSE 1 END,\n          flavor_sort_order,\n          name_ar,\n          id\n      )\n      FROM page_items\n    ), '[]'::jsonb),\n    'categories', COALESCE((\n      SELECT jsonb_agg(jsonb_build_object(\n        'id', id, 'code', code, 'nameAr', name_ar, 'imageUrl', image_url,\n        'productCount', product_count, 'availableProductCount', available_product_count\n      ) ORDER BY sort_order, name_ar, id)\n      FROM category_summary\n    ), '[]'::jsonb),\n    'brands', COALESCE((\n      SELECT jsonb_agg(jsonb_build_object('id', id, 'nameAr', name_ar) ORDER BY name_ar, id)\n      FROM brand_facets\n    ), '[]'::jsonb),\n    'saleUnits', COALESCE((\n      SELECT jsonb_agg(jsonb_build_object('id', id, 'nameAr', name_ar) ORDER BY name_ar, id)\n      FROM sale_unit_facets\n    ), '[]'::jsonb),\n    'summary', jsonb_build_object(\n      'availableProducts', (SELECT COUNT(*) FROM matching_families WHERE is_available),\n      'quantityTracked',false,\n      'availableSalePackages',NULL,\n      'lowStockProducts', (SELECT COUNT(*) FROM matching_families WHERE is_low_stock)\n    ),\n    'total', (SELECT COUNT(*) FROM matching_families),\n    'limit', LEAST(GREATEST(COALESCE(p_limit, 24), 1), 48),\n    'offset', GREATEST(COALESCE(p_offset, 0), 0)\n  );\n$function$\n",
         "configuration": [
@@ -55251,8 +55337,21 @@
         "kind": "f",
         "owner": "postgres",
         "schema": "sales_lite2",
+        "identity": "guard_payment_lite_refund()",
+        "definition": "CREATE OR REPLACE FUNCTION sales_lite2.guard_payment_lite_refund()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nBEGIN\n IF NOT OLD.is_reversed AND NEW.is_reversed AND EXISTS(\n  SELECT 1 FROM sales_lite1.returns r WHERE r.order_id=OLD.order_id AND r.money_refund>0\n ) THEN RAISE EXCEPTION USING ERRCODE='P0001',MESSAGE='LITE3_COLLECTION_REVERSAL_HAS_LITE_REFUND',\n  DETAIL='لا يمكن عكس سند القبض بعد رد مبلغ بمرتجع لهذه الفاتورة. راجع المرتجع والتحصيل أولاً.';\n END IF;\n RETURN NEW;\nEND $function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      },
+      {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "sales_lite2",
         "identity": "guard_shift_lite_refund()",
-        "definition": "CREATE OR REPLACE FUNCTION sales_lite2.guard_shift_lite_refund()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nBEGIN\n -- The UPDATE already owns the shift row lock. Do not add a mode/order lock\n -- with a different ordering. VOLATILE reads see a refund committed while\n -- the original reversal was waiting for that same row lock.\n IF NEW.status IS DISTINCT FROM OLD.status AND NEW.status IN('cancelled','reversed')\n AND EXISTS(SELECT 1 FROM sales_lite1.returns r WHERE r.shift_id=OLD.id AND r.money_refund>0)\n THEN RAISE EXCEPTION USING ERRCODE='P0001',MESSAGE='LITE2_SHIFT_REVERSAL_HAS_LITE_REFUND';END IF;\n RETURN NEW;\nEND $function$\n",
+        "definition": "CREATE OR REPLACE FUNCTION sales_lite2.guard_shift_lite_refund()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nBEGIN\n -- The UPDATE already owns the shift row lock. Do not add a mode/order lock\n -- with a different ordering. VOLATILE reads see a refund committed while\n -- the original reversal was waiting for that same row lock.\n IF NEW.status IS DISTINCT FROM OLD.status AND NEW.status IN('cancelled','reversed') AND(EXISTS(SELECT 1 FROM sales_lite1.shifts s WHERE s.shift_id=OLD.id)\n OR EXISTS(SELECT 1 FROM public.orders o JOIN sales_lite1.orders l ON l.order_id=o.id WHERE o.cash_shift_id=OLD.id)) THEN\n  RAISE EXCEPTION USING ERRCODE='P0001',MESSAGE='هذه الوردية تتبع وضع البيع المبسّط. لا يمكن إلغاؤها أو عكس عملياتها؛ استخدم المرتجع وعدّ الدرج والإغلاق اليومي.';\n END IF;\n IF NEW.status IS DISTINCT FROM OLD.status AND NEW.status IN('cancelled','reversed')\n AND EXISTS(SELECT 1 FROM sales_lite1.returns r WHERE r.shift_id=OLD.id AND r.money_refund>0)\n THEN RAISE EXCEPTION USING ERRCODE='P0001',MESSAGE='LITE2_SHIFT_REVERSAL_HAS_LITE_REFUND';END IF;\n RETURN NEW;\nEND $function$\n",
         "configuration": [
           "search_path=pg_catalog, public"
         ]
@@ -55265,7 +55364,7 @@
         "owner": "postgres",
         "schema": "sales_lite2",
         "identity": "guest(p_request jsonb, p_key text)",
-        "definition": "CREATE OR REPLACE FUNCTION sales_lite2.guest(p_request jsonb, p_key text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public', 'extensions'\nAS $function$\n<<guest_context>>\nDECLARE\n replay JSONB;plan JSONB;materialized JSONB;result JSONB;recipient JSONB;\n phone TEXT;name TEXT;method TEXT;zone TEXT;promotion TEXT;field TEXT;limit_length INTEGER;\n customer public.customers;cid UUID;bid UUID;wid UUID;oid UUID:=gen_random_uuid();op UUID:=gen_random_uuid();address_id UUID:=gen_random_uuid();tracking UUID:=gen_random_uuid();\n ids UUID[];pid UUID;promo_id UUID;reused BOOLEAN:=false;maps TEXT;lat DOUBLE PRECISION;lon DOUBLE PRECISION;recent INTEGER;\nBEGIN\n IF auth.role() IS DISTINCT FROM 'service_role' THEN RAISE EXCEPTION 'PHASE3_ACTOR_NOT_AUTHORIZED';END IF;\n IF jsonb_typeof(p_request) IS DISTINCT FROM 'object' OR octet_length(p_request::TEXT)>65536\n OR(p_request-ARRAY['phoneHash','sessionHash','recipient','lines','promotionCode','paymentMethod','deliveryZone','expectedQuote'])<>'{}'::JSONB\n OR p_key IS NULL OR p_key!~'^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'\n OR COALESCE(p_request->>'phoneHash','')!~'^[0-9a-f]{64}$' OR COALESCE(p_request->>'sessionHash','')!~'^[0-9a-f]{64}$'\n THEN RAISE EXCEPTION 'PHASE3_IDEMPOTENCY_INPUT_INVALID';END IF;\n recipient:=p_request->'recipient';\n IF jsonb_typeof(recipient) IS DISTINCT FROM 'object' OR(recipient-ARRAY['fullName','phone','governorate','city','area','street','building','addressNotes','googleMapsUrl','latitude','longitude','customerNotes'])<>'{}'::JSONB THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_INPUT_INVALID';END IF;\n name:=btrim(recipient->>'fullName');phone:=public.normalize_customer_phone(recipient->>'phone');\n IF name IS NULL OR length(name) NOT BETWEEN 2 AND 120 OR phone IS NULL OR phone!~'^07[789][0-9]{7}$' THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_INPUT_INVALID';END IF;\n FOREACH field IN ARRAY ARRAY['governorate','city','area','street','building','addressNotes','customerNotes'] LOOP\n  limit_length:=CASE field WHEN 'governorate' THEN 80 WHEN 'city' THEN 80 WHEN 'area' THEN 120 WHEN 'street' THEN 300 WHEN 'building' THEN 120 WHEN 'addressNotes' THEN 500 ELSE 1000 END;\n  IF(field IN('governorate','city','area','street') AND NULLIF(btrim(recipient->>field),'') IS NULL)\n  OR length(COALESCE(btrim(recipient->>field),''))>limit_length THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_INPUT_INVALID';END IF;\n END LOOP;\n lat:=(recipient->>'latitude')::DOUBLE PRECISION;lon:=(recipient->>'longitude')::DOUBLE PRECISION;\n IF(lat IS NULL)<>(lon IS NULL) OR(lat IS NOT NULL AND(lat NOT BETWEEN -90 AND 90 OR lon NOT BETWEEN -180 AND 180)) THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_INPUT_INVALID';END IF;\n maps:=COALESCE(NULLIF(btrim(recipient->>'googleMapsUrl'),''),CASE WHEN lat IS NOT NULL THEN 'https://www.google.com/maps?q='||lat::TEXT||','||lon::TEXT END);\n IF maps IS NOT NULL AND(length(maps)>1000 OR maps!~*'^https://') THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_INPUT_INVALID';END IF;\n method:=lower(btrim(p_request->>'paymentMethod'));zone:=lower(btrim(p_request->>'deliveryZone'));promotion:=upper(NULLIF(btrim(p_request->>'promotionCode'),''));\n IF method IS NULL OR method NOT IN('cash_on_delivery','cliq') OR zone IS NULL OR zone NOT IN('inside_ramtha','outside_ramtha') THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_QUOTE_INVALID';END IF;\n IF zone='inside_ramtha' AND concat_ws(' ',recipient->>'governorate',recipient->>'city',recipient->>'area') NOT ILIKE '%الرمثا%' THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_DELIVERY_ZONE_MISMATCH';END IF;\n PERFORM pg_advisory_xact_lock(hashtext(p_key));\n replay:=sales_lite1.lock_request(p_key,'guest2',p_request);IF replay IS NOT NULL THEN RETURN replay;END IF;\n SELECT warehouse.branch_id,warehouse.id INTO bid,wid FROM public.warehouses warehouse JOIN public.branches branch ON branch.id=warehouse.branch_id\n WHERE warehouse.is_active AND branch.is_active ORDER BY warehouse.created_at,warehouse.id LIMIT 1;\n IF wid IS NULL THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_LOCATION_UNAVAILABLE';END IF;\n PERFORM pg_advisory_xact_lock(hashtext(phone)::BIGINT);\n SELECT * INTO customer FROM public.customers c WHERE public.normalize_customer_phone(c.phone)=guest_context.phone AND NOT is_deleted ORDER BY id LIMIT 1 FOR UPDATE;\n IF FOUND THEN\n  IF NOT customer.is_active OR customer.is_blocked THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_UNAVAILABLE';END IF;\n  cid:=customer.id;reused:=true;\n END IF;\n -- Same promotion row lock as full checkout: preview alone does not reserve\n -- quota. Lock before the final plan and insert redemption in this transaction.\n IF promotion IS NOT NULL THEN SELECT id INTO promo_id FROM public.promotion_codes WHERE code=promotion FOR UPDATE;END IF;\n plan:=sales_lite2.plan(p_request->'lines','customer_v2',0,promotion,phone,zone);\n SELECT array_agg(DISTINCT id ORDER BY id) INTO ids FROM(\n  SELECT(value->>'product_id')::UUID id FROM jsonb_array_elements(plan->'lines')\n  UNION SELECT(c->>'product_id')::UUID FROM jsonb_array_elements(plan->'lines') l CROSS JOIN LATERAL jsonb_array_elements(l->'parcel_instances') i CROSS JOIN LATERAL jsonb_array_elements(i->'components') c\n ) x;\n PERFORM 1 FROM public.products WHERE id=ANY(ids) OR id IN(SELECT flavor_master_product_id FROM public.products WHERE id=ANY(ids)) ORDER BY id FOR UPDATE;\n plan:=sales_lite2.plan(p_request->'lines','customer_v2',0,promotion,phone,zone);\n FOREACH pid IN ARRAY ids LOOP IF NOT sales_lite1.available(pid) THEN RAISE EXCEPTION 'LITE1_UNAVAILABLE_CONFIRM_REQUIRED';END IF;END LOOP;\n IF jsonb_typeof(p_request->'expectedQuote') IS DISTINCT FROM 'object'\n OR(p_request->'expectedQuote') IS DISTINCT FROM(plan-ARRAY['lines']) THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_QUOTE_STALE';END IF;\n SELECT count(*) INTO recent FROM public.orders o JOIN public.customers c ON c.id=o.customer_id WHERE o.source='website' AND public.normalize_customer_phone(c.phone)=guest_context.phone AND o.created_at>=now()-interval '10 minutes';\n IF recent>=3 THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_RATE_LIMITED';END IF;\n IF cid IS NULL THEN INSERT INTO public.customers(full_name,phone,governorate,customer_type,is_active,is_blocked,is_deleted)\n VALUES(name,phone,btrim(recipient->>'governorate'),'wholesale',true,false,false) RETURNING id INTO cid;END IF;\n -- H1: never overwrite an existing card or clear/replace its default address.\n -- This row is an order delivery snapshot, always non-default. The private\n -- recipient evidence retains the submitted name for manual owner comparison.\n INSERT INTO public.customer_addresses(id,customer_id,governorate,city,area,street,building,notes,latitude,longitude,formatted_address,google_maps_url,location_source,location_confirmed,is_default)\n VALUES(address_id,cid,btrim(recipient->>'governorate'),btrim(recipient->>'city'),btrim(recipient->>'area'),btrim(recipient->>'street'),NULLIF(btrim(recipient->>'building'),''),NULLIF(btrim(recipient->>'addressNotes'),''),lat,lon,\n  concat_ws(' - ',btrim(recipient->>'governorate'),btrim(recipient->>'city'),btrim(recipient->>'area'),btrim(recipient->>'street'),NULLIF(btrim(recipient->>'building'),'')),maps,\n  CASE WHEN lat IS NOT NULL THEN 'gps' WHEN maps IS NOT NULL THEN 'map_pin' ELSE 'manual' END,lat IS NOT NULL,false);\n result:=jsonb_build_object('success',true,'idempotent_replay',false,'contract_version','lite2-guest-v1','operation_id',op,'order_id',oid,'order_number','L2-'||oid::TEXT,\n  'customer_id',cid,'customer_address_id',address_id,'customer_reused',reused,'status','new','subtotal',(plan->>'subtotalInMinorUnits')::BIGINT,'discount',(plan->>'discountInMinorUnits')::BIGINT,\n  'delivery_fee',(plan->>'deliveryFeeInMinorUnits')::BIGINT,'total',(plan->>'totalInMinorUnits')::BIGINT,'promotion_code',promotion,'payment_method',method,'payment_status','unpaid',\n  'tracking_token',tracking,'tracking_path','/#track='||tracking::TEXT,'accountingTracked',false);\n INSERT INTO public.business_operations(id,operation_type,idempotency_key,request_fingerprint,result_snapshot,completed_at)\n VALUES(op,'lite1_guest',p_key,(SELECT fingerprint FROM sales_lite1.requests WHERE key=p_key),result,now());\n INSERT INTO sales_lite1.orders VALUES(oid,op,recipient,'{}');\n INSERT INTO public.orders(id,order_number,customer_id,customer_address_id,customer_name_snapshot,branch_id,warehouse_id,status,payment_method,payment_status,\n  subtotal_in_minor_units,delivery_fee_in_minor_units,discount_in_minor_units,total_in_minor_units,amount_paid_in_minor_units,source,idempotency_key,operation_id,\n  delivery_zone,promotion_code_id,promotion_code_snapshot,tracking_token,customer_notes)\n VALUES(oid,'L2-'||oid::TEXT,cid,address_id,name,bid,wid,'new',method,'unpaid',(plan->>'subtotalInMinorUnits')::BIGINT,(plan->>'deliveryFeeInMinorUnits')::BIGINT,\n  (plan->>'discountInMinorUnits')::BIGINT,(plan->>'totalInMinorUnits')::BIGINT,0,'website',p_key,op,zone,promo_id,promotion,tracking,NULLIF(btrim(recipient->>'customerNotes'),''));\n materialized:=sales_lite2.materialize(oid,op,plan,'customer_v2',phone,promotion);\n INSERT INTO sales_lite2.sales(order_id,request_key,plan) VALUES(oid,p_key,plan||jsonb_build_object('lines',materialized->'lines'));\n IF promo_id IS NOT NULL THEN INSERT INTO public.promotion_redemptions(promotion_code_id,order_id,customer_id,customer_phone,code_snapshot,discount_in_minor_units)\n VALUES(promo_id,oid,cid,phone,promotion,(plan->>'discountInMinorUnits')::BIGINT);END IF;\n INSERT INTO public.order_status_history(order_id,old_status,new_status,changed_by,notes) VALUES(oid,NULL,'new',NULL,'طلب دون تتبع مخزون');\n INSERT INTO public.audit_logs(user_id,action,entity_name,entity_id,details) VALUES(NULL,'LITE2_GUEST','orders',oid,jsonb_build_object('operationId',op,'recipientChangeProposed',reused));\n RETURN sales_lite1.finish(p_key,result||jsonb_build_object('items',materialized->'items'));\nEND $function$\n",
+        "definition": "CREATE OR REPLACE FUNCTION sales_lite2.guest(p_request jsonb, p_key text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public', 'extensions'\nAS $function$\n<<guest_context>>\nDECLARE\n replay JSONB;plan JSONB;materialized JSONB;result JSONB;recipient JSONB;\n phone TEXT;name TEXT;method TEXT;zone TEXT;promotion TEXT;field TEXT;limit_length INTEGER;\n customer public.customers;cid UUID;bid UUID;wid UUID;oid UUID:=gen_random_uuid();op UUID:=gen_random_uuid();address_id UUID:=gen_random_uuid();tracking UUID:=gen_random_uuid();\n ids UUID[];pid UUID;promo_id UUID;reused BOOLEAN:=false;maps TEXT;lat DOUBLE PRECISION;lon DOUBLE PRECISION;recent INTEGER;\nBEGIN\n IF auth.role() IS DISTINCT FROM 'service_role' THEN RAISE EXCEPTION 'PHASE3_ACTOR_NOT_AUTHORIZED';END IF;\n IF jsonb_typeof(p_request) IS DISTINCT FROM 'object' OR octet_length(p_request::TEXT)>65536\n OR(p_request-ARRAY['phoneHash','sessionHash','recipient','lines','promotionCode','paymentMethod','deliveryZone','expectedQuote'])<>'{}'::JSONB\n OR p_key IS NULL OR p_key!~'^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'\n OR COALESCE(p_request->>'phoneHash','')!~'^[0-9a-f]{64}$' OR COALESCE(p_request->>'sessionHash','')!~'^[0-9a-f]{64}$'\n THEN RAISE EXCEPTION 'PHASE3_IDEMPOTENCY_INPUT_INVALID';END IF;\n recipient:=p_request->'recipient';\n IF jsonb_typeof(recipient) IS DISTINCT FROM 'object' OR(recipient-ARRAY['fullName','phone','governorate','city','area','street','building','addressNotes','googleMapsUrl','latitude','longitude','customerNotes'])<>'{}'::JSONB THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_INPUT_INVALID';END IF;\n name:=btrim(recipient->>'fullName');phone:=public.normalize_customer_phone(recipient->>'phone');\n IF name IS NULL OR length(name) NOT BETWEEN 2 AND 120 OR phone IS NULL OR phone!~'^07[789][0-9]{7}$' THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_INPUT_INVALID';END IF;\n FOREACH field IN ARRAY ARRAY['governorate','city','area','street','building','addressNotes','customerNotes'] LOOP\n  limit_length:=CASE field WHEN 'governorate' THEN 80 WHEN 'city' THEN 80 WHEN 'area' THEN 120 WHEN 'street' THEN 300 WHEN 'building' THEN 120 WHEN 'addressNotes' THEN 500 ELSE 1000 END;\n  IF(field IN('governorate','city','area','street') AND NULLIF(btrim(recipient->>field),'') IS NULL)\n  OR length(COALESCE(btrim(recipient->>field),''))>limit_length THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_INPUT_INVALID';END IF;\n END LOOP;\n lat:=(recipient->>'latitude')::DOUBLE PRECISION;lon:=(recipient->>'longitude')::DOUBLE PRECISION;\n IF(lat IS NULL)<>(lon IS NULL) OR(lat IS NOT NULL AND(lat NOT BETWEEN -90 AND 90 OR lon NOT BETWEEN -180 AND 180)) THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_INPUT_INVALID';END IF;\n maps:=COALESCE(NULLIF(btrim(recipient->>'googleMapsUrl'),''),CASE WHEN lat IS NOT NULL THEN 'https://www.google.com/maps?q='||lat::TEXT||','||lon::TEXT END);\n IF maps IS NOT NULL AND(length(maps)>1000 OR maps!~*'^https://') THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_INPUT_INVALID';END IF;\n method:=lower(btrim(p_request->>'paymentMethod'));zone:=lower(btrim(p_request->>'deliveryZone'));promotion:=upper(NULLIF(btrim(p_request->>'promotionCode'),''));\n IF method IS NULL OR method NOT IN('cash_on_delivery','cliq') OR zone IS NULL OR zone NOT IN('inside_ramtha','outside_ramtha') THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_QUOTE_INVALID';END IF;\n IF zone='inside_ramtha' AND concat_ws(' ',recipient->>'governorate',recipient->>'city',recipient->>'area') NOT ILIKE '%الرمثا%' THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_DELIVERY_ZONE_MISMATCH';END IF;\n PERFORM pg_advisory_xact_lock(hashtext(p_key));\n replay:=sales_lite1.lock_request(p_key,'guest2',p_request);IF replay IS NOT NULL THEN RETURN replay;END IF;\n SELECT warehouse.branch_id,warehouse.id INTO bid,wid FROM public.warehouses warehouse JOIN public.branches branch ON branch.id=warehouse.branch_id\n WHERE warehouse.is_active AND branch.is_active ORDER BY warehouse.created_at,warehouse.id LIMIT 1;\n IF wid IS NULL THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_LOCATION_UNAVAILABLE';END IF;\n PERFORM pg_advisory_xact_lock(hashtext(phone)::BIGINT);\n SELECT * INTO customer FROM public.customers c WHERE public.normalize_customer_phone(c.phone)=guest_context.phone AND NOT is_deleted ORDER BY id LIMIT 1 FOR UPDATE;\n IF FOUND THEN\n  IF NOT customer.is_active OR customer.is_blocked THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_UNAVAILABLE';END IF;\n  cid:=customer.id;reused:=true;\n END IF;\n -- Same promotion row lock as full checkout: preview alone does not reserve\n -- quota. Lock before the final plan and insert redemption in this transaction.\n IF promotion IS NOT NULL THEN SELECT id INTO promo_id FROM public.promotion_codes WHERE code=promotion FOR UPDATE;END IF;\n plan:=sales_lite2.plan(p_request->'lines','customer_v2',0,promotion,phone,zone);\n SELECT array_agg(DISTINCT id ORDER BY id) INTO ids FROM(\n  SELECT(value->>'product_id')::UUID id FROM jsonb_array_elements(plan->'lines')\n  UNION SELECT(c->>'product_id')::UUID FROM jsonb_array_elements(plan->'lines') l CROSS JOIN LATERAL jsonb_array_elements(l->'parcel_instances') i CROSS JOIN LATERAL jsonb_array_elements(i->'components') c\n ) x;\n PERFORM 1 FROM public.products WHERE id=ANY(ids) OR id IN(SELECT flavor_master_product_id FROM public.products WHERE id=ANY(ids)) ORDER BY id FOR UPDATE;\n plan:=sales_lite2.plan(p_request->'lines','customer_v2',0,promotion,phone,zone);\n FOREACH pid IN ARRAY ids LOOP IF NOT sales_lite1.available(pid) THEN RAISE EXCEPTION 'LITE1_UNAVAILABLE_CONFIRM_REQUIRED';END IF;END LOOP;\n IF jsonb_typeof(p_request->'expectedQuote') IS DISTINCT FROM 'object'\n OR(p_request->'expectedQuote') IS DISTINCT FROM(plan-ARRAY['lines']) THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_QUOTE_STALE';END IF;\n SELECT count(*) INTO recent FROM public.orders o JOIN public.customers c ON c.id=o.customer_id WHERE o.source='website' AND public.normalize_customer_phone(c.phone)=guest_context.phone AND o.created_at>=now()-interval '10 minutes';\n IF recent>=3 THEN RAISE EXCEPTION 'PHASE3_CUSTOMER_RATE_LIMITED';END IF;\n IF cid IS NULL THEN INSERT INTO public.customers(full_name,phone,governorate,customer_type,is_active,is_blocked,is_deleted)\n VALUES(name,phone,btrim(recipient->>'governorate'),'wholesale',true,false,false) RETURNING id INTO cid;END IF;\n -- H1: never overwrite an existing card or clear/replace its default address.\n -- This row is an order delivery snapshot, always non-default. The private\n -- recipient evidence retains the submitted name for manual owner comparison.\n INSERT INTO public.customer_addresses(id,customer_id,governorate,city,area,street,building,notes,latitude,longitude,formatted_address,google_maps_url,location_source,location_confirmed,is_default)\n VALUES(address_id,cid,btrim(recipient->>'governorate'),btrim(recipient->>'city'),btrim(recipient->>'area'),btrim(recipient->>'street'),NULLIF(btrim(recipient->>'building'),''),NULLIF(btrim(recipient->>'addressNotes'),''),lat,lon,\n  concat_ws(' - ',btrim(recipient->>'governorate'),btrim(recipient->>'city'),btrim(recipient->>'area'),btrim(recipient->>'street'),NULLIF(btrim(recipient->>'building'),'')),maps,\n  CASE WHEN lat IS NOT NULL THEN 'gps' WHEN maps IS NOT NULL THEN 'map_pin' ELSE 'manual' END,lat IS NOT NULL,false);\n result:=jsonb_build_object('success',true,'idempotent_replay',false,'contract_version','lite2-guest-v1','operation_id',op,'order_id',oid,'order_number','L2-'||oid::TEXT,\n  'customer_id',cid,'customer_address_id',address_id,'customer_reused',reused,'status','new','subtotal',(plan->>'subtotalInMinorUnits')::BIGINT,'discount',(plan->>'discountInMinorUnits')::BIGINT,\n  'delivery_fee',(plan->>'deliveryFeeInMinorUnits')::BIGINT,'total',(plan->>'totalInMinorUnits')::BIGINT,'promotion_code',promotion,'payment_method',method,'payment_status','unpaid',\n  'tracking_token',tracking,'tracking_path','/#track='||tracking::TEXT,'accountingTracked',false);\n INSERT INTO public.business_operations(id,operation_type,idempotency_key,request_fingerprint,result_snapshot,completed_at)\n VALUES(op,'lite1_guest',p_key,(SELECT fingerprint FROM sales_lite1.requests WHERE key=p_key),result,now());\n INSERT INTO sales_lite1.orders VALUES(oid,op,recipient,'{}');\n INSERT INTO public.orders(id,order_number,customer_id,customer_address_id,customer_name_snapshot,branch_id,warehouse_id,status,payment_method,payment_status,\n  subtotal_in_minor_units,delivery_fee_in_minor_units,discount_in_minor_units,total_in_minor_units,amount_paid_in_minor_units,source,idempotency_key,operation_id,\n  delivery_zone,promotion_code_id,promotion_code_snapshot,tracking_token,customer_notes,reservation_released_at)\n VALUES(oid,'L2-'||oid::TEXT,cid,address_id,name,bid,wid,'new',method,'unpaid',(plan->>'subtotalInMinorUnits')::BIGINT,(plan->>'deliveryFeeInMinorUnits')::BIGINT,\n  (plan->>'discountInMinorUnits')::BIGINT,(plan->>'totalInMinorUnits')::BIGINT,0,'website',p_key,op,zone,promo_id,promotion,tracking,NULLIF(btrim(recipient->>'customerNotes'),''),clock_timestamp());\n materialized:=sales_lite2.materialize(oid,op,plan,'customer_v2',phone,promotion);\n INSERT INTO sales_lite2.sales(order_id,request_key,plan) VALUES(oid,p_key,plan||jsonb_build_object('lines',materialized->'lines'));\n IF promo_id IS NOT NULL THEN INSERT INTO public.promotion_redemptions(promotion_code_id,order_id,customer_id,customer_phone,code_snapshot,discount_in_minor_units)\n VALUES(promo_id,oid,cid,phone,promotion,(plan->>'discountInMinorUnits')::BIGINT);END IF;\n INSERT INTO public.order_status_history(order_id,old_status,new_status,changed_by,notes) VALUES(oid,NULL,'new',NULL,'طلب دون تتبع مخزون');\n INSERT INTO public.audit_logs(user_id,action,entity_name,entity_id,details) VALUES(NULL,'LITE2_GUEST','orders',oid,jsonb_build_object('operationId',op,'recipientChangeProposed',reused));\n RETURN sales_lite1.finish(p_key,result||jsonb_build_object('items',materialized->'items'));\nEND $function$\n",
         "configuration": [
           "search_path=pg_catalog, public, extensions"
         ]
@@ -55409,6 +55508,19 @@
         "schema": "sales_lite2",
         "identity": "simple_facts(p_branch_id uuid, p_period_start timestamp with time zone, p_period_end timestamp with time zone, p_timezone text, p_verify_evidence boolean)",
         "definition": "CREATE OR REPLACE FUNCTION sales_lite2.simple_facts(p_branch_id uuid, p_period_start timestamp with time zone, p_period_end timestamp with time zone, p_timezone text, p_verify_evidence boolean)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nDECLARE\n  v_facts JSONB;\nBEGIN\n  IF p_period_start IS NULL OR p_period_end IS NULL\n    OR p_period_end <= p_period_start OR NULLIF(BTRIM(p_timezone), '') IS NULL\n  THEN\n    RAISE EXCEPTION 'Invalid Phase 6 financial facts period.';\n  END IF;\n\n  -- Fail closed on corrupt evidence for the rows this period reports.\n  IF p_verify_evidence THEN\n    PERFORM public.phase42_assert_operational_return_evidence_internal(e.operation_id, true)\n    FROM public.sales_return_events e\n    JOIN public.orders o ON o.id = e.order_id\n    JOIN public.business_operations creation ON creation.id = o.operation_id\n    WHERE e.contract_version = 401 AND e.settlement_status = 'settled'\n      AND creation.operation_type IN ('phase3_pos_sale_v1', 'phase3_customer_reservation_v1')\n      AND (p_branch_id IS NULL OR o.branch_id = p_branch_id)\n      AND e.settled_at >= p_period_start AND e.settled_at < p_period_end;\n\n    PERFORM public.phase43_assert_operational_replacement_evidence_internal(e.operation_id, true)\n    FROM public.sales_replacement_events e\n    JOIN public.orders o ON o.id = e.root_order_id\n    WHERE e.issuance_status = 'issued'\n      AND (p_branch_id IS NULL OR o.branch_id = p_branch_id)\n      AND e.issued_at >= p_period_start AND e.issued_at < p_period_end;\n  END IF;\n\n  WITH first_completion AS MATERIALIZED (\n    SELECT h.order_id, MIN(h.created_at) AS at\n    FROM (\n      SELECT order_id,created_at FROM public.order_status_history WHERE new_status='completed'\n      UNION ALL SELECT order_id,completed_at FROM sales_lite1.completions\n    ) h\n    GROUP BY h.order_id\n  ), completion_ops AS MATERIALIZED (\n    SELECT DISTINCT ON (b.result_snapshot->>'order_id')\n      b.result_snapshot->>'order_id' AS order_key,\n      b.result_snapshot, b.completed_at, b.request_identity_snapshot\n    FROM public.business_operations b\n    WHERE b.operation_type = 'phase3_customer_completion_v1'\n      AND b.result_snapshot->>'order_id' = b.request_identity_snapshot->>'order_id'\n    ORDER BY b.result_snapshot->>'order_id', b.completed_at, b.id\n  ), order_scope AS MATERIALIZED (\n    SELECT o.id, o.customer_id, o.branch_id, o.status, o.payment_method, o.delivery_fee_in_minor_units, o.total_in_minor_units, o.source, o.created_at, o.amount_paid_in_minor_units, o.operation_id, fc.at AS completion_at, creation.operation_type,\n      creation.result_snapshot AS creation_result, creation.completed_at AS creation_recorded_at,\n      completion.result_snapshot AS completion_result,\n      completion.completed_at AS completion_recorded_at,\n      completion.request_identity_snapshot AS completion_request\n    FROM public.orders o\n    JOIN first_completion fc ON fc.order_id = o.id\n    LEFT JOIN public.business_operations creation ON creation.id = o.operation_id\n    LEFT JOIN completion_ops completion ON completion.order_key = o.id::TEXT\n    WHERE p_branch_id IS NULL OR o.branch_id = p_branch_id\n  ), modern_returns AS MATERIALIZED (\n    SELECT e.*\n    FROM public.sales_return_events e JOIN order_scope o ON o.id = e.order_id\n    WHERE e.contract_version = 401 AND e.settlement_status = 'settled'\n      AND o.operation_type IN ('phase3_pos_sale_v1', 'phase3_customer_reservation_v1')\n  ), return_rows AS (\n    SELECT e.id, e.order_id, e.settled_at AS at,\n      e.debt_reduction_amount_in_minor_units AS debt,\n      e.money_refund_amount_in_minor_units AS refund, e.refund_method,\n      e.debt_reduction_amount_in_minor_units + e.money_refund_amount_in_minor_units AS entitlement,\n      0::NUMERIC AS recovery\n    FROM modern_returns e\n    UNION ALL\n    SELECT e.id, e.order_id, e.created_at, 0, e.refund_amount_in_minor_units, e.refund_method,\n      e.refund_amount_in_minor_units,\n      0::NUMERIC\n    FROM public.sales_returns e JOIN order_scope o ON o.id = e.order_id\n    WHERE o.operation_type IS NULL OR o.operation_type NOT IN\n      ('phase3_pos_sale_v1', 'phase3_customer_reservation_v1')\n    UNION ALL\n    SELECT r.id,r.order_id,r.created_at,r.debt_reduction,r.money_refund,r.method,r.entitlement,0::NUMERIC\n    FROM sales_lite1.returns r JOIN order_scope o ON o.id=r.order_id\n  ), initial_collections AS (\n    SELECT o.id AS order_id,\n      CASE WHEN o.operation_type = 'phase3_pos_sale_v1' THEN o.creation_recorded_at\n        ELSE COALESCE(o.completion_recorded_at, o.completion_at) END AS at,\n      CASE WHEN o.operation_type = 'phase3_pos_sale_v1' THEN o.creation_result->>'paymentMethod'\n        WHEN o.operation_type = 'phase3_customer_reservation_v1' THEN o.completion_request->>'payment_method'\n        WHEN o.payment_method = 'cash_on_delivery' THEN 'cash' ELSE o.payment_method END AS method,\n      CASE WHEN o.operation_type = 'phase3_pos_sale_v1' THEN (o.creation_result->>'amountPaidInMinorUnits')::BIGINT\n        WHEN o.operation_type = 'phase3_customer_reservation_v1' THEN\n          CASE WHEN NULLIF(o.completion_result->>'customer_payment_number', '') IS NOT NULL THEN 0\n            ELSE (o.completion_result->>'amount_paid_in_minor_units')::BIGINT END\n        WHEN o.payment_method = 'debt' THEN 0 ELSE o.total_in_minor_units END AS amount\n    FROM order_scope o\n  ), money_events AS (\n    SELECT order_id, at, method, amount AS collection, 0::BIGINT AS reversal, 0::BIGINT AS refund\n    FROM initial_collections WHERE amount > 0\n    UNION ALL\n    SELECT p.order_id, p.created_at, p.payment_method, p.amount_in_minor_units, 0, 0\n    FROM public.customer_payments p JOIN public.orders o ON o.id = p.order_id\n    WHERE p_branch_id IS NULL OR o.branch_id = p_branch_id\n    UNION ALL\n    SELECT p.order_id, p.reversed_at, p.payment_method, 0, p.amount_in_minor_units, 0\n    FROM public.customer_payments p JOIN public.orders o ON o.id = p.order_id\n    WHERE p.is_reversed AND (p_branch_id IS NULL OR o.branch_id = p_branch_id)\n    UNION ALL\n    SELECT r.order_id, r.created_at, m.method, 0, m.amount, 0\n    FROM public.pos_sale_reversals r JOIN order_scope o ON o.id = r.order_id\n    CROSS JOIN LATERAL (VALUES\n      ('cash', (r.actual_effect->>'cash_in_minor_units')::BIGINT),\n      ('cliq', (r.actual_effect->>'cliq_in_minor_units')::BIGINT)) m(method, amount)\n    WHERE m.amount > 0\n    UNION ALL\n    SELECT order_id, at, refund_method, 0, 0, refund FROM return_rows WHERE refund > 0\n    UNION ALL\n    SELECT NULL::UUID,c.created_at,c.payment_method,a.amount_in_minor_units,0,0\n    FROM public.customer_collection_operations c JOIN public.customer_collection_cheque_allocations a ON a.operation_id=c.id\n    JOIN public.cheque_compensation_claims k ON k.id=a.claim_id JOIN public.deferred_cheques q ON q.id=k.cheque_id\n    WHERE p_branch_id IS NULL OR COALESCE(c.branch_id,q.branch_id)=p_branch_id\n    UNION ALL\n    SELECT NULL::UUID,c.reversed_at,c.payment_method,0,a.amount_in_minor_units,0\n    FROM public.customer_collection_operations c JOIN public.customer_collection_cheque_allocations a ON a.operation_id=c.id\n    JOIN public.cheque_compensation_claims k ON k.id=a.claim_id JOIN public.deferred_cheques q ON q.id=k.cheque_id\n    WHERE c.is_reversed AND(p_branch_id IS NULL OR COALESCE(c.branch_id,q.branch_id)=p_branch_id)\n    UNION ALL\n    -- Opening allocation is not a customer_payment. The order allocation is\n    -- already counted above and must never be added from collection totals.\n    SELECT NULL::UUID,c.created_at,c.payment_method,a.amount_in_minor_units,0,0\n    FROM public.customer_collection_operations c\n    JOIN public.customer_collection_opening_allocations a ON a.operation_id=c.id\n    WHERE p_branch_id IS NULL OR COALESCE(c.branch_id,public.go_live_main_branch_internal())=p_branch_id\n    UNION ALL\n    SELECT NULL::UUID,c.reversed_at,c.payment_method,0,a.amount_in_minor_units,0\n    FROM public.customer_collection_operations c\n    JOIN public.customer_collection_opening_allocations a ON a.operation_id=c.id\n    WHERE c.is_reversed AND (p_branch_id IS NULL OR COALESCE(c.branch_id,public.go_live_main_branch_internal())=p_branch_id)\n  ), coverage_by_order AS (\n    SELECT order_id, SUM(collection - reversal)::BIGINT AS coverage\n    FROM money_events GROUP BY order_id\n  ), debt_by_order AS (\n    SELECT order_id, SUM(debt)::BIGINT AS debt_reduction\n    FROM return_rows GROUP BY order_id\n  ), positions AS (\n    SELECT o.id, o.customer_id, o.status, o.total_in_minor_units,\n      COALESCE(c.coverage, 0)::BIGINT AS coverage,\n      COALESCE(d.debt_reduction, 0)::BIGINT AS debt_reduction,\n      GREATEST(o.total_in_minor_units - COALESCE(c.coverage, 0) - COALESCE(d.debt_reduction, 0), 0)::BIGINT AS due\n    FROM order_scope o\n    LEFT JOIN coverage_by_order c ON c.order_id = o.id\n    LEFT JOIN debt_by_order d ON d.order_id = o.id\n  ), period_sales AS (\n    SELECT * FROM order_scope WHERE status IN ('completed', 'returned')\n      AND completion_at >= p_period_start AND completion_at < p_period_end\n  ), sales_totals AS (\n    SELECT COALESCE(SUM(total_in_minor_units), 0)::BIGINT AS gross,\n      COALESCE(SUM(delivery_fee_in_minor_units), 0)::BIGINT AS delivery,\n      COUNT(*) AS count FROM period_sales\n  ), period_returns AS (\n    SELECT COALESCE(SUM(entitlement), 0)::BIGINT AS entitlement,\n      COALESCE(SUM(refund), 0)::BIGINT AS refund, COALESCE(SUM(debt), 0)::BIGINT AS debt,\n      ROUND(COALESCE(SUM(recovery), 0))::BIGINT AS recovery, COUNT(*) AS count\n    FROM return_rows WHERE at >= p_period_start AND at < p_period_end\n  ), flows AS (\n    SELECT COALESCE(SUM(collection - reversal) FILTER (WHERE method = 'cash'), 0)::BIGINT AS cash_received,\n      COALESCE(SUM(collection - reversal) FILTER (WHERE method = 'cliq'), 0)::BIGINT AS cliq_received,\n      COALESCE(SUM(collection-reversal) FILTER(WHERE method='bank_transfer'),0)::BIGINT AS bank_received,\n      COALESCE(SUM(collection-reversal) FILTER(WHERE method='cheque'),0)::BIGINT AS cheque_received,\n      COALESCE(SUM(collection-reversal) FILTER(WHERE COALESCE(method,'') NOT IN ('cash','cliq','bank_transfer','cheque')),0)::BIGINT AS other_received,\n      COALESCE(SUM(collection-reversal),0)::BIGINT AS total_received,\n      COALESCE(SUM(refund) FILTER (WHERE method = 'cash'), 0)::BIGINT AS cash_refunded,\n      COALESCE(SUM(refund) FILTER (WHERE method = 'cliq'), 0)::BIGINT AS cliq_refunded\n    FROM money_events WHERE at >= p_period_start AND at < p_period_end\n  ), eligible AS MATERIALIZED (\n    SELECT o.id, o.customer_id, o.total_in_minor_units,\n      o.amount_paid_in_minor_units, o.operation_id\n    FROM public.orders o\n    WHERE o.status IN ('completed', 'delivered')\n      AND o.customer_id IS NOT NULL\n      AND (p_branch_id IS NULL OR o.branch_id = p_branch_id)\n      AND (COALESCE(o.source, 'website') <> 'pos' OR o.payment_method = 'debt')\n  ), prior_debt AS MATERIALIZED (\n    -- Exact set-based form of121 phase42_order_financial_position_internal's\n    -- prior_debt source. Do not introduce a projection/cache or new authority.\n    SELECT e.order_id, SUM(e.debt_reduction_amount_in_minor_units)::BIGINT AS amount\n    FROM public.sales_return_events e JOIN eligible o ON o.id = e.order_id\n    WHERE e.settlement_status = 'settled' AND e.contract_version = 401\n      AND o.amount_paid_in_minor_units < o.total_in_minor_units\n    GROUP BY e.order_id\n  ), financial_positions AS MATERIALIZED (\n    SELECT o.*, CASE\n      WHEN o.amount_paid_in_minor_units >= o.total_in_minor_units THEN 0::BIGINT\n      ELSE GREATEST(o.total_in_minor_units - o.amount_paid_in_minor_units\n        - COALESCE(d.amount, 0) - COALESCE((SELECT sum(r.debt_reduction) FROM sales_lite1.returns r WHERE r.order_id=o.id),0), 0)::BIGINT END AS outstanding\n    FROM eligible o LEFT JOIN prior_debt d ON d.order_id = o.id\n  ), canonical_order_due AS (\n    -- Same set-based canonical positions used by192 aging/CRM;see parity guard.\n    SELECT id, customer_id, outstanding AS due FROM financial_positions\n  ), opening_due AS (\n    -- Preserve164 main-branch attribution;do not clamp signed source values.\n    SELECT opening.customer_id, opening.outstanding AS due\n    FROM public.go_live_customer_opening_positions_internal(NULL) opening\n    WHERE p_branch_id IS NULL OR p_branch_id = public.go_live_main_branch_internal()\n  ), balances AS (\n    SELECT COALESCE(SUM(due), 0)::BIGINT AS due,\n      COUNT(*) FILTER (WHERE due > 0 AND is_order) AS orders,\n      COUNT(DISTINCT customer_id) FILTER (WHERE due > 0) AS customers\n    FROM (\n      SELECT true AS is_order, customer_id, due FROM canonical_order_due\n      UNION ALL\n      SELECT false, customer_id, due FROM opening_due\n      UNION ALL\n      SELECT false,c.customer_id,c.outstanding FROM public.cheque_customer_claim_positions_internal() c\n      JOIN public.cheque_compensation_claims k ON k.id=c.id JOIN public.deferred_cheques q ON q.id=k.cheque_id\n      WHERE p_branch_id IS NULL OR q.branch_id=p_branch_id\n    ) receivables\n  ), cohort AS (\n    SELECT COALESCE(SUM(p.coverage), 0)::BIGINT AS coverage,\n      COALESCE(SUM(p.due), 0)::BIGINT AS due\n    FROM positions p JOIN period_sales o ON o.id = p.id\n  ), expenses AS (\n    SELECT COALESCE(SUM(amount_in_minor_units), 0)::BIGINT AS amount,\n      COALESCE(SUM(amount_in_minor_units) FILTER (WHERE payment_method = 'cash'), 0)::BIGINT AS cash,\n      COALESCE(SUM(amount_in_minor_units) FILTER (WHERE payment_method = 'cliq'), 0)::BIGINT AS cliq,\n      COUNT(*) AS count\n    FROM public.operational_expenses\n    WHERE (p_branch_id IS NULL OR branch_id = p_branch_id)\n      AND NOT COALESCE(is_reversed, false)\n      AND created_at >= p_period_start AND created_at < p_period_end\n  ), daily_collections AS (\n    -- One period-local aggregation. Never rescan all money events twice for\n    -- every date in the month; collection/reversal equations are unchanged.\n    SELECT (m.at AT TIME ZONE p_timezone)::DATE AS day,\n      COALESCE(SUM(m.collection-m.reversal) FILTER(WHERE m.method='cash'),0)::BIGINT AS cash_collected,\n      COALESCE(SUM(m.collection-m.reversal) FILTER(WHERE m.method='cliq'),0)::BIGINT AS cliq_collected,\n      COALESCE(SUM(m.collection-m.reversal) FILTER(WHERE m.method='bank_transfer'),0)::BIGINT AS bank_collected,\n      COALESCE(SUM(m.collection-m.reversal) FILTER(WHERE m.method='cheque'),0)::BIGINT AS cheque_collected,\n      COALESCE(SUM(m.collection-m.reversal) FILTER(WHERE COALESCE(m.method,'') NOT IN ('cash','cliq','bank_transfer','cheque')),0)::BIGINT AS other_collected,\n      COALESCE(SUM(m.collection-m.reversal),0)::BIGINT AS total_collected\n    FROM money_events m WHERE m.at>=p_period_start AND m.at<p_period_end\n    GROUP BY (m.at AT TIME ZONE p_timezone)::DATE\n  ), days AS (\n    SELECT day::DATE AS day FROM generate_series((p_period_start AT TIME ZONE p_timezone)::DATE,\n      (p_period_end AT TIME ZONE p_timezone)::DATE - 1, INTERVAL '1 day') day\n  ), daily AS (\n    SELECT d.day,\n      COALESCE((SELECT SUM(o.total_in_minor_units) FROM period_sales o\n        WHERE (o.completion_at AT TIME ZONE p_timezone)::DATE = d.day), 0)::BIGINT AS gross,\n      (SELECT COUNT(*) FROM period_sales o\n        WHERE (o.completion_at AT TIME ZONE p_timezone)::DATE = d.day)::BIGINT AS count,\n      COALESCE((SELECT SUM(r.entitlement) FROM return_rows r\n        WHERE r.at >= p_period_start AND r.at < p_period_end\n          AND (r.at AT TIME ZONE p_timezone)::DATE = d.day), 0)::BIGINT AS returned,\n      COALESCE(dc.cash_collected,0)::BIGINT AS cash_collected,\n      COALESCE(dc.cliq_collected,0)::BIGINT AS cliq_collected,\n      COALESCE(dc.bank_collected,0)::BIGINT AS bank_collected,\n      COALESCE(dc.cheque_collected,0)::BIGINT AS cheque_collected,\n      COALESCE(dc.other_collected,0)::BIGINT AS other_collected,\n      COALESCE(dc.total_collected,0)::BIGINT AS total_collected\n    FROM days d LEFT JOIN daily_collections dc ON dc.day=d.day\n  ) SELECT jsonb_build_object(\n    'sales', jsonb_build_object('grossSalesInMinorUnits', s.gross, 'deliveryFeesInMinorUnits', s.delivery,\n      'returnEntitlementInMinorUnits', r.entitlement, 'refundsInMinorUnits', r.refund,\n      'debtReductionInMinorUnits', r.debt, 'netSalesInMinorUnits', s.gross - r.entitlement,\n      'collectedInMinorUnits', co.coverage, 'outstandingInMinorUnits', co.due, 'returnCount', r.count,\n      'orderCount', s.count, 'completedOrderCount', s.count),\n    'cashFlow', jsonb_build_object('customerCollections',jsonb_build_object(\n      'cashInMinorUnits',f.cash_received,'cliqInMinorUnits',f.cliq_received,\n      'bankTransferInMinorUnits',f.bank_received,'chequeInMinorUnits',f.cheque_received,\n      'otherInMinorUnits',f.other_received,'totalInMinorUnits',f.total_received),\n      'cashCollectedInMinorUnits', f.cash_received,\n      'cliqCollectedInMinorUnits', f.cliq_received, 'cashRefundedInMinorUnits', f.cash_refunded,\n      'cliqRefundedInMinorUnits', f.cliq_refunded, 'cashNetFlowInMinorUnits', f.cash_received - f.cash_refunded,\n      'cliqNetFlowInMinorUnits', f.cliq_received - f.cliq_refunded),\n    'balances', jsonb_build_object('customerDueInMinorUnits', b.due, 'customerOrderCount', b.orders,\n      'customerCount', b.customers),\n    'expenses', jsonb_build_object('totalInMinorUnits', x.amount, 'cashInMinorUnits', x.cash,\n      'cliqInMinorUnits', x.cliq, 'count', x.count),\n    'dailyBreakdown', (SELECT COALESCE(jsonb_agg(jsonb_build_object('date', day,\n      'completedOrderCount', count, 'grossSalesInMinorUnits', gross,\n      'returnEntitlementInMinorUnits', returned, 'netSalesInMinorUnits', gross - returned,\n      'cashCollectedInMinorUnits',cash_collected,'cliqCollectedInMinorUnits',cliq_collected,\n      'customerCollections',jsonb_build_object('cashInMinorUnits',cash_collected,'cliqInMinorUnits',cliq_collected,\n        'bankTransferInMinorUnits',bank_collected,'chequeInMinorUnits',cheque_collected,\n        'otherInMinorUnits',other_collected,'totalInMinorUnits',total_collected))\n      ORDER BY day), '[]'::JSONB) FROM daily)\n  ) INTO v_facts\n  FROM sales_totals s CROSS JOIN period_returns r CROSS JOIN flows f CROSS JOIN balances b\n    CROSS JOIN cohort co CROSS JOIN expenses x;\n\n  RETURN v_facts;\nEND;\n$function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      },
+      {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "sales_lite2",
+        "identity": "summary_uses_lite(p_from date, p_to date)",
+        "definition": "CREATE OR REPLACE FUNCTION sales_lite2.summary_uses_lite(p_from date, p_to date)\n RETURNS boolean\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nDECLARE zone TEXT;start_at TIMESTAMPTZ;end_at TIMESTAMPTZ;\nBEGIN\n IF sales_lite1.enabled() THEN RETURN true;END IF;\n SELECT business_timezone INTO STRICT zone FROM public.business_alert_settings WHERE id=true;\n start_at:=p_from::TIMESTAMP AT TIME ZONE zone;end_at:=(p_to+1)::TIMESTAMP AT TIME ZONE zone;\n -- All branches,including returns after the opening epoch. No NULL equality.\n RETURN EXISTS(SELECT 1 FROM sales_lite1.completions c WHERE c.completed_at>=start_at AND c.completed_at<end_at)\n OR EXISTS(SELECT 1 FROM sales_lite1.returns r WHERE r.created_at>=start_at AND r.created_at<end_at);\nEND $function$\n",
         "configuration": [
           "search_path=pg_catalog, public"
         ]
@@ -76057,38 +76169,6 @@
         "initiallyDeferred": false
       },
       {
-        "name": "messages_2026_11_09_pkey",
-        "type": "p",
-        "local": false,
-        "match": " ",
-        "table": "messages_2026_11_09",
-        "schema": "realtime",
-        "onDelete": " ",
-        "onUpdate": " ",
-        "noInherit": false,
-        "validated": true,
-        "deferrable": false,
-        "definition": "PRIMARY KEY (id, inserted_at)",
-        "inheritanceCount": 1,
-        "initiallyDeferred": false
-      },
-      {
-        "name": "messages_payload_exclusive",
-        "type": "c",
-        "local": false,
-        "match": " ",
-        "table": "messages_2026_11_09",
-        "schema": "realtime",
-        "onDelete": " ",
-        "onUpdate": " ",
-        "noInherit": false,
-        "validated": true,
-        "deferrable": false,
-        "definition": "CHECK (((payload IS NULL) OR (binary_payload IS NULL)))",
-        "inheritanceCount": 1,
-        "initiallyDeferred": false
-      },
-      {
         "name": "messages_2026_11_10_pkey",
         "type": "p",
         "local": false,
@@ -76206,6 +76286,38 @@
         "local": false,
         "match": " ",
         "table": "messages_2026_11_13",
+        "schema": "realtime",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "CHECK (((payload IS NULL) OR (binary_payload IS NULL)))",
+        "inheritanceCount": 1,
+        "initiallyDeferred": false
+      },
+      {
+        "name": "messages_2026_11_14_pkey",
+        "type": "p",
+        "local": false,
+        "match": " ",
+        "table": "messages_2026_11_14",
+        "schema": "realtime",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (id, inserted_at)",
+        "inheritanceCount": 1,
+        "initiallyDeferred": false
+      },
+      {
+        "name": "messages_payload_exclusive",
+        "type": "c",
+        "local": false,
+        "match": " ",
+        "table": "messages_2026_11_14",
         "schema": "realtime",
         "onDelete": " ",
         "onUpdate": " ",
@@ -78545,7 +78657,7 @@
     },
     {
       "file": "src/features/shifts/ShiftsView.tsx",
-      "sha256": "3f94af6c738cae638140a48378753664c3ca6ccb9098e8d482654211c74f5e97"
+      "sha256": "ba86d8c5c849129c207a6509c089b0c7068fac518f93cb51ea1c3218498f8e13"
     },
     {
       "file": "src/features/users/UserFormModal.tsx",
@@ -78669,7 +78781,7 @@
     },
     {
       "file": "src/services/supabase/crm.service.ts",
-      "sha256": "b096655ba7d8b4fa19fd1603b2888d892078f8e8d17c2bfcef36dcf015e8a1f0"
+      "sha256": "481a71e7145eec6089005b2a07862b471140b3b7fa966ed9824603aae85fcd2a"
     },
     {
       "file": "src/services/supabase/customerAccounts.service.ts",
@@ -78677,7 +78789,7 @@
     },
     {
       "file": "src/services/supabase/customerDebtAging.service.ts",
-      "sha256": "f9b3e95c290fd777d03da877ee3fae818d586d0dbd18c9dc6059d58ebd7771cb"
+      "sha256": "47888fec807abc3d02869dc5aa0fb61d3662cd20b1862bac1b067adf942dd62b"
     },
     {
       "file": "src/services/supabase/customerStatement.service.ts",
@@ -78705,7 +78817,7 @@
     },
     {
       "file": "src/services/supabase/expenses-shifts.service.ts",
-      "sha256": "961d4a0c30c137d5b884b1565200dc4b0b7a46ee31a3468532a24e7b56162fe8"
+      "sha256": "a1a16e4d5954e41e3fa5a98d8c86ce515b5aabc0f73fdbf9a457031ed2776328"
     },
     {
       "file": "src/services/supabase/goLive.service.ts",
@@ -78760,6 +78872,10 @@
       "sha256": "fad99b56ff100f476ac6081743177557645cae637d2aacca6e038410300108fe"
     },
     {
+      "file": "src/services/supabase/operatingReceivables.ts",
+      "sha256": "2ca69e1b84f99e001e5a502d23da8d17466deff5eb7054f885ce02c89381af26"
+    },
+    {
       "file": "src/services/supabase/operatingShiftMovements.ts",
       "sha256": "b32f2ee98ec8bbd44b260cd7ce60a9de967ed26165e931da93f9ff78c7c9cd31"
     },
@@ -78769,7 +78885,7 @@
     },
     {
       "file": "src/services/supabase/operatingShiftReversal.ts",
-      "sha256": "28a5308686f091bc39a345d66646e2f13f13b538a72e79427f3252f8f281a07d"
+      "sha256": "334cfa84ff552f7b3bebf75d9e0bebf1d26d25e9a92866bb47dee7789cb5d775"
     },
     {
       "file": "src/services/supabase/orders.service.ts",
@@ -78989,7 +79105,7 @@
     },
     {
       "file": "src/utils/businessError.ts",
-      "sha256": "5f79238a9cf4046795800ce9cd0cd5383c7b1a59a8fab310a2169fa92ccef29a"
+      "sha256": "6fd4660f387b8f9bdadb82fba150d3e84e378508eac6f7f55eb5a00cb6e8698f"
     },
     {
       "file": "src/utils/customerCollections.ts",
@@ -79481,7 +79597,7 @@
     },
     {
       "file": "supabase/functions/_shared/owner-telegram-format.ts",
-      "sha256": "1ea25cd00443e729b1d444fd2d6658252e7107bb3fa1abd2736533b26f5a38d9"
+      "sha256": "0593c97e29ae7d216c0f131cb823a5ae56535d584f0ac0026e7bf22e95a71c13"
     },
     {
       "file": "supabase/functions/admin-ai-assistant/index.ts",
@@ -79521,13 +79637,13 @@
     }
   ],
   "fixture": {
-    "orderId": "fa007428-3f3d-4ae6-88da-e28fcd61ae26",
-    "operationId": "3959a7d6-381e-4e9e-9908-dd6949778679",
-    "receiptId": "70d00925-8681-43a6-8a9a-4381a533208f",
-    "poId": "f505f82d-7e82-4908-b8a2-971b40243452",
+    "orderId": "c3088024-665c-4b1e-a9b9-aa379be7a3dd",
+    "operationId": "f1fc5578-8d58-47c2-8a18-2b14dc724e63",
+    "receiptId": "f533a5e3-40e3-4ca7-a8e5-d295c414e552",
+    "poId": "85a75066-08a4-472c-bdfc-00b4167117ef",
     "subscriptionId": "92600000-0000-4000-8000-000000000701",
     "instances": [
-      "648af0a5-1ace-4d75-ac01-bd77202a5f6d"
+      "0868a102-ad46-4874-bdb8-40807f208c21"
     ]
   },
   "access": [
@@ -85289,5 +85405,5 @@
     "zero_rows": 9,
     "other_error": 0
   },
-  "endedAt": "2026-11-10T14:54:33.994Z"
+  "endedAt": "2026-11-11T04:44:46.324Z"
 }
