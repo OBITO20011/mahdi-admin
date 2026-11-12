@@ -1,52 +1,55 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
+  "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner11Nov Fable review corrections delivered inDraft87;STOP for review before ready220reference,expanded rehearsal,finalFULLCI.",
-  "baselineSha": "925d998a149c696bee15eb5d2fffdcf427da9b30",
+  "objective": "Owner2026-11-12: preview operating-mode controls read-only;production unchanged;new PR/FULL CI,no merge/deploy/hosted access",
+  "baselineSha": "967036ee26a48e3f3a2439e1d78f3c559fa1617f",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
-  "branch": "codex/sales-only-phase3",
-  "phase": "SALES_ONLY_PHASE3",
+  "branch": "codex/prelaunch-accounting-off-lock",
+  "phase": "PRELAUNCH_MODE_READ_ONLY",
   "startedAt": "2026-11-10T14:07:21.558Z",
   "completed": [
-    "Phase2bfc72/72+54mobile historical;main/58/79/82/owner/env untouched.",
-    "FcaHTTP181/RPC695 donePASS;units1960/1986+26 source/history failures preserved.",
-    "PGRED49ab8/8 thenGREEN6db8/8;108CRM/fullJSON,globalaging0,fullcost5000/paymentreverse/guestexpiry parity;roles and ON-fixture shiftguard PASS.",
-    "Browser37:12/12 Chromium/WebKit390touch/retries0;25focusedEA8+2history/readiness+types/currentchangedlint PASS.",
-    "Fresh/incrementalEA8 zero;680public+38private/13Realtime;generatedpins627unchanged+9exact;SQL48221190;ownerreadonly636 zero/injectedbody-config-ACL/rollbackzero.",
-    "Ninthsummary implemented byowner10Nov approval;Fable Arabic acceptance/current external report corrected;owned Docker cleaned."
+    "Build-fixed preview read-only panel and command refusal implemented",
+    "Production panel markup matches main967 baseline;current and closed-preview unit cases5/5",
+    "Actual production/prelaunch admin builds and verify-dist passed",
+    "Fresh isolated currentHTTP181/RPC701;function bodies/owners/ACL and role outcomes unchanged",
+    "Historical after-hashes refreshed with original beforeText/unknown-byte guards preserved",
+    "Admin/store types and strict ESLint passed"
   ],
-  "inProgress": [],
+  "inProgress": [
+    "Full unit suite and exact-head GitHub FULL CI"
+  ],
   "notStarted": [
-    "Await owner review;no newready220reference,expanded rehearsal,finalFULLCI.",
-    "After review:currentaccess evidence,historicalprotection chain,fullrehearsal/finalCI andphase3 closure."
+    "Final Gitleaks and owner review"
   ],
   "testsPassed": [
-    "PG8RED→8GREEN+108fullCRM+roles+shiftpersistence;cleanup/network0.",
-    "25focused+2history/readiness;12mobile;types0/changedlint0;627/9exact andfreshincremental0."
+    "Preview/production unit5,including runtime browser override refusal and dist negative",
+    "Current accessHTTP181/RPC701;18 same expected RPC permission denials",
+    "Current table and service readiness checks",
+    "Actual production/prelaunch builds and verify-dist",
+    "Admin/store types;strict lint"
   ],
   "testsRemaining": [
-    "No finalFULLCI/currentreadyreference/rehearsal claim;fca26failures retained for subsequent closure."
+    "Full local units",
+    "Final head FULL CI and Gitleaks"
   ],
   "findings": [
-    "Only newlite definitions changed;original627/nine approved diffs identical.",
-    "ON guard negative fixture removesimmutable marker onlyinsideROLLBACK with trigger restoration;not a new openingepoch rehearsal.",
-    "Fixture UUID/immutable evidence andgenerator separator issues fixedwithout changingSQL48221190 or weakening assertions."
+    "Local OFF demo remains running;no shared owner files or environments edited"
   ],
   "blockers": [],
   "prohibitions": [
-    "No merge/main/58/deploy/hostedaccess;noowner/env edits",
-    "627originalbodies frozen;8exactprevious+approvedsummarydiff only;anyotherexpansionstopask",
-    "79 remainsDraft/deferred221;no adoption ofitsSQL;219 tools retained",
-    "No new627 body or ninebridge diff changes;Fable fixes additive only;no newreference/rehearsal/finalCI before review."
+    "No server/SQL/migration/frozen/RESET change",
+    "No merge or deployment",
+    "No hosted project access",
+    "Keep owner checkout/env and local demo untouched"
   ],
-  "nextExactAction": "STOP for owner review of Fable acceptance inDraft87;do not begin ready220reference,expanded rehearsal orfinalFULLCI without review.",
+  "nextExactAction": "Implementation and local builds/probes/types/lint passed;run full units,then open PR and wait FULL CI;no merge/deploy",
   "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "AA7E1BEB9E33AF6D66638C52C546101F72793A005AEECF061D58701DF90BBB38",
-  "checkpointedAt": "2026-11-10T21:57:48.099Z",
-  "filesTouchedCount": 0,
-  "filesTouchedManifestSha256": "b6429e7d08029a34589e9c8956ef86dffab2fb6dd9ee37c08d5e9204e14cdbe6"
+  "workingTreeFingerprint": "85BDF2C34C7F4BE944A14FC9E80C5D258B74293D7BC5CD5A610506E647C03749",
+  "checkpointedAt": "2026-11-12T11:19:11.230Z",
+  "filesTouchedCount": 1,
+  "filesTouchedManifestSha256": "ab672b7693fe2eab772e2d4018e4745288be61fa043d313ec0458408780b719f"
 }

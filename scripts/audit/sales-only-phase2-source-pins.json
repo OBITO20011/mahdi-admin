@@ -493,7 +493,7 @@
     },
     "src/features/operatingMode/OperatingModePanel.tsx": {
       "before": null,
-      "after": "15208f056c4fd09a5a25f790337d792b8f94810ceea395a620625dd301c01ab4",
+      "after": "90c6d5cd8962a727e5726d4ad1b28cf83fbb5d0a41008327d683586f3aa26d3b",
       "beforeText": null
     },
     "src/features/operatingMode/OperatingModeProvider.tsx": {
@@ -663,7 +663,7 @@
     },
     "src/services/supabase/operatingModeCommand.ts": {
       "before": null,
-      "after": "14da7b1c9f9f36c6dbab40f51b0dc048692643badf216aa3204af8660419c15e",
+      "after": "78040f906eba92e23987217f28c7ec1d3aaab0bd9e81e9268dabc85fc98f0e3c",
       "beforeText": null
     },
     "src/services/supabase/operatingOrdersPage.ts": {

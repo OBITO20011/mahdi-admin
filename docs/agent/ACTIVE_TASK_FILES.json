@@ -1,4 +1,9 @@
 {
   "schemaVersion": 1,
-  "files": []
+  "files": [
+    {
+      "code": " M",
+      "path": "tests/prelaunch-operating-mode.test.ts"
+    }
+  ]
 }
