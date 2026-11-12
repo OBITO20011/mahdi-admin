@@ -33,3 +33,19 @@ test('OFF conversion keeps the original selling unit X and requires a real count
  await form.getByRole('button',{name:'حفظ التعديلات',exact:true}).tap();await expect.poll(()=>writes.length).toBe(1);
  expect(writes[0]).toMatchObject({p_unit_id:ids.PKT,p_purchase_unit_id:ids.X,p_sale_unit_id:ids.X,p_units_per_purchase_unit:12,p_units_per_sale_unit:12,p_default_sale_price_in_minor_units:6000,p_parcel_only:true});
 });
+
+for(const unit of ['باكيت','صندوق','شرنك','كرتونة','طرد'])test(`OFF public saved receipt and share preserve actual unit ${unit}`,async({page})=>{
+ const calls:string[]=[];
+ await page.addInitScript(()=>Object.defineProperty(navigator,'share',{configurable:true,value:async(data:ShareData)=>{(window as unknown as {unitReceiptShare?:string}).unitReceiptShare=data.text;}}));
+ await page.route('**/rest/v1/**',route=>{
+  const name=new URL(route.request().url()).pathname;calls.push(name);
+  if(name.endsWith('/rpc/lite1_operating_mode'))return route.fulfill({json:{contractVersion:'sales-only-phase2-v1',fullAccounting:false}});
+  if(name.endsWith('/rpc/lite1_public_pos_receipt2'))return route.fulfill({json:{success:true,orderNumber:'LOCAL-UNIT',createdAt:'2026-11-12T08:00:00Z',status:'completed',paymentMethod:'cash',paymentStatus:'paid',subtotalInMinorUnits:3500,discountInMinorUnits:0,totalInMinorUnits:3500,branch:{name:'فرع وهمي'},items:[{productName:'صنف وحدة وهمي',sku:'LOCAL-UNIT',packageQuantity:1,packageName:unit,unitsPerPackage:1,packagePriceInMinorUnits:3500,lineTotalInMinorUnits:3500,commercialLineKind:'base_unit',baseQuantity:1,baseUnitName:unit}]}});
+  return route.fulfill({status:500,json:{message:'unexpected receipt request'}});
+ });
+ await page.goto('http://127.0.0.1:4174/#receipt=93400000-0000-4000-8000-000000000099');
+ const receipt=page.getByTestId('sale-receipt-document');await expect(receipt.locator('[data-receipt-line-description]')).toHaveText('1 '+unit);await expect(receipt).toContainText('3.500');
+ await page.getByRole('button',{name:'مشاركة الوصل',exact:true}).tap();
+ expect(await page.evaluate(()=>(window as unknown as {unitReceiptShare?:string}).unitReceiptShare)).toContain('1 '+unit);
+ expect(calls.every(p=>p.endsWith('/rpc/lite1_operating_mode')||p.endsWith('/rpc/lite1_public_pos_receipt2'))).toBe(true);
+});

@@ -32,5 +32,11 @@ test('deferred pages keep existing components and all cart financial/recovery fu
   assert.equal(read('src/components/'+name+'.tsx'),previous('src/components/'+name+'.tsx'));
  }
  const bodies=(text:string)=>{const sf=ts.createSourceFile('App.tsx',text,ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX),out:Record<string,string>={},names=new Set(['addQuantityToCart','addToCart','addBaseUnitToCart','saveParcelBuilder','updateCatalogCartQuantity']);const walk=(node:ts.Node)=>{if(ts.isVariableDeclaration(node)&&node.initializer&&names.has(node.name.getText(sf)))out[node.name.getText(sf)]=node.initializer.getText(sf);ts.forEachChild(node,walk);};walk(sf);assert.equal(Object.keys(out).length,5);return out;};
- assert.deepEqual(bodies(app),bodies(previous('src/App.tsx')));
+ // Owner12Nov approved only the OFF unit label in the toast. Unwind that
+ // single, exact presentation call; every financial/recovery byte stays pinned.
+ const actualLabel='storefrontUnitName(product.unitNameAr,product.quantityTracked)',legacyLabel='storefrontUnitName(product.unitNameAr)';
+ assert.equal(app.split(actualLabel).length-1,1);
+ const reviewed=bodies(app.replace(actualLabel,legacyLabel)),original=bodies(previous('src/App.tsx'));
+ assert.deepEqual(reviewed,original);
+ assert.notDeepEqual(bodies(app.replace(actualLabel,legacyLabel).replace('quantity: actualQuantity','quantity: actualQuantity + 1')),original,'unknown cart arithmetic remains visible');
 });
