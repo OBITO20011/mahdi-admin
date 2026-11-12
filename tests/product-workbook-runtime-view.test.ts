@@ -43,3 +43,14 @@ test('speed then image layers retain Git63 sources and unwind current role evide
 test('historical source scope admits only two reviewed guest TS files, never SQL or another Edge function',()=>{const after='reviewed',pin={after:hash(after),before:null,beforeText:null};for(const file of ['supabase/functions/submit-guest-order/index.ts','supabase/functions/submit-guest-order/operatingMode.ts'])assert.equal(projectWorkbookRuntimeSource(file,after,pin),null);for(const file of ['supabase/functions/send-order-push/index.ts','supabase/functions/submit-guest-order/unreviewed.ts','supabase/migrations/219.sql'])assert.throws(()=>projectWorkbookRuntimeSource(file,after,pin),/SOURCE_SCOPE/);});
 
 test('phase2 composition actually accepts the two reviewed guest sources with exact baseline hashes',()=>{const name='sales-only-phase2-source-pins.json',baseline='b305421c40bd1e47a5cc4ce313d617762555eb1d';for(const file of ['supabase/functions/submit-guest-order/index.ts','supabase/functions/submit-guest-order/operatingMode.ts']){const old=file.endsWith('/index.ts')?'same original219 and Git63':null,after='reviewed new guest routing';const pins={entries:{}},layer={format:1,baseline,entries:{[file]:{before:old===null?null:hash(old),beforeText:old,after:hash(after)}}};composeWorkbookRuntimeLayer(pins,name,layer,()=>old);assert.deepEqual(pins.entries[file as keyof typeof pins.entries],{beforeText:old,before:old===null?null:hash(old),after:hash(after)});}});
+
+test('phase2 POS harness composes exact Git bytes and rejects an unreviewed sibling',()=>{
+ const file='e2e/package-f-pos-harness.tsx',name='sales-only-phase2-source-pins.json',layer=JSON.parse(readFileSync('scripts/audit/'+name,'utf8'));
+ const text=(sha:string,path:string)=>execFileSync('git',['show',sha+':'+path],{encoding:'utf8'}).replaceAll('\r\n','\n');
+ const pin=layer.entries[file],before=text('2dafe8433bc4efef68a82fee904590aabf5fc8ad',file),middle=text(layer.baseline,file);
+ assert.equal(hash(middle),pin.before);
+ const previous={entries:{[file]:{beforeText:before,before:hash(before),after:hash(middle)}}};
+ const result=composeWorkbookRuntimeLayer(previous,name,{...layer,entries:{[file]:pin}},text);
+ assert.equal(result.entries[file].beforeText,before);assert.equal(result.entries[file].after,pin.after);
+ assert.throws(()=>projectWorkbookRuntimeSource('e2e/unreviewed-pos.tsx','unapproved',pin),/SOURCE_SCOPE/);
+});
