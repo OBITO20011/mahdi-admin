@@ -19,6 +19,7 @@ import {PosParcelBuilder, type PosParcelOption} from './PosParcelBuilder';
 import {posCartLines, posStockDemand, posWarehouseAvailable, posV2Invoice, receiptBaseUnitNames, type PosCartItem} from './posV2Cart';
 import {posSaleModeForProduct,posCartSaleMethodConflict,type PosSingleProductMode} from './saleMethods';
 import {PosProductCard} from './PosProductCard';
+import {singleSaleUnitLabel} from '../../../customer-web/src/utils/saleUnitLabels';
 import {shouldRestorePosSearchFocus,type PosAdditionSource} from './posSearchFocus';
 import {initialPaymentText216,partialPayment216} from './partialPayment216';
 import {jodToMinorUnits} from '../../utils/receivingCalculations';
@@ -360,7 +361,7 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
     const currentQuantity =
       existingIndex >= 0 ? cartItems[existingIndex].quantity : 0;
     if (!salesOnly && !canSetPosQuantity(currentQuantity + 1, availableSalePackages)) {
-      setToast(`المتاح من ${prod.nameAr} هو ${availableSalePackages} ${productSaleMode==='base_unit'?'باكيت':'طرد'} فقط.`, 'error');
+      setToast(`المتاح من ${prod.nameAr} هو ${availableSalePackages} ${productSaleMode==='base_unit'?singleSaleUnitLabel(prod.unit):'طرد'} فقط.`, 'error');
       return;
     }
 
@@ -690,7 +691,7 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
 
   const cartMethodConflict=recoveryBlocked?null:posCartSaleMethodConflict(cartItems,knownProductsRef.current);
   const cartBaseUnitTotals=Array.from(cartItems.reduce((totals,item)=>{
-    const name='باكيت';
+    const name=singleSaleUnitLabel(item.v2Line.commercial_line_kind==='base_unit'?item.unit:undefined);
     totals.set(name,(totals.get(name)??0)+item.baseQuantity);
     return totals;
   },new Map<string,number>()));
@@ -926,12 +927,14 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
           </div>
         ) : (
           <div className="space-y-3">
-            {cartItems.map((item) => (
-              <div key={item.id} data-pos-cart-line className="flex flex-wrap items-center justify-between gap-2 border-b border-nw-border py-3 text-sm">
+            {cartItems.map((item) => {
+              const kind=item.v2Line.commercial_line_kind;
+              const unitLabel=kind==='base_unit'?singleSaleUnitLabel(item.unit):kind==='legacy_single_sku_parcel'?'طرد':'طرد مشكّل';
+              return <div key={item.id} data-pos-cart-line className="flex flex-wrap items-center justify-between gap-2 border-b border-nw-border py-3 text-sm">
                 <div className="min-w-0 w-full">
-                  <div className="flex flex-wrap items-center gap-1"><h5 className="font-bold text-nw-text break-words">{item.productName}</h5><span data-pos-cart-line-kind className="text-xs font-bold">· {item.quantity} {item.v2Line.commercial_line_kind==='base_unit'?'باكيت':item.v2Line.commercial_line_kind==='legacy_single_sku_parcel'?'طرد':'طرد مشكّل'}</span></div>
-                  <StatusBadge tone={item.v2Line.commercial_line_kind === 'configurable_parcel' ? 'warn' : 'info'}>{item.v2Line.commercial_line_kind === 'base_unit' ? 'باكيت' : item.v2Line.commercial_line_kind === 'legacy_single_sku_parcel' ? 'طرد' : 'طرد مشكّل'}</StatusBadge><span className="nw-num text-xs text-nw-muted">
-                    {item.unitPrice.toFixed(3)} {CURRENCY} / {item.v2Line.commercial_line_kind==='base_unit'?'باكيت':item.v2Line.commercial_line_kind==='legacy_single_sku_parcel'?'طرد':'طرد مشكّل'}
+                  <div className="flex flex-wrap items-center gap-1"><h5 className="font-bold text-nw-text break-words">{item.productName}</h5><span data-pos-cart-line-kind className="text-xs font-bold">· {item.quantity} {unitLabel}</span></div>
+                  <StatusBadge tone={item.v2Line.commercial_line_kind === 'configurable_parcel' ? 'warn' : 'info'}>{unitLabel}</StatusBadge><span className="nw-num text-xs text-nw-muted">
+                    {item.unitPrice.toFixed(3)} {CURRENCY} / {unitLabel}
                   </span>
                 </div>
 
@@ -959,8 +962,8 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
                     {item.totalPrice.toFixed(3)} {CURRENCY}
                   </span>
                 </div>
-              </div>
-            ))}
+              </div>;
+            })}
           </div>
         )}
 

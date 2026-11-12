@@ -13,6 +13,22 @@ import type {PublicConfigurableParcelOption} from '../src/types/catalog';
 const id=(n:number)=>'12800000-0000-4000-8000-'+String(n).padStart(12,'0');
 const make=(unitNameAr:string,size=12)=>mapCatalogProduct({id:id(1),sku:'TRIAL-TA',nameAr:'صنف وهمي',unitNameAr,saleUnitNameAr:'كرتونة',unitsPerSalePackage:size,salePackagePriceInMinorUnits:6000,salePriceInMinorUnits:500,availableQuantity:26,availableSalePackages:2,isAvailable:true});
 
+test('a single carton keeps its saved carton label in the store, cart and receipt after conversion',()=>{
+ const product={...make('طرد',1),salePriceInMinorUnits:6000};
+ const cart=createCartItem(product);
+ assert.equal(storefrontSaleUnit(product),'طرد');
+ assert.equal(storefrontPackageDescription(product),'طرد');
+ assert.equal(storefrontCartUnit(cart),'طرد');
+ assert.equal(storefrontCartPackageDescription(cart),'طرد');
+ assert.equal(buildGuestOrderV2Lines([cart])[0].expected_unit_price_in_minor_units,6000);
+ const old={key:'before',name:product.nameAr,kind:'base_unit',quantity:1,baseQuantity:1,baseUnitName:'طرد',totalInMinorUnits:6000};
+ const next={...old,key:'after',kind:'legacy_single_sku_parcel',baseQuantity:12,baseUnitName:'باكيت'};
+ assert.equal(receiptLineDescription(old),'1 طرد');
+ assert.equal(receiptLineDescription({...old,kind:'legacy_single_sku_parcel'}),'1 طرد');
+ assert.equal(receiptLineDescription(next),'1 طرد (12 باكيت)');
+ assert.equal(receiptLineDescription({...old,baseUnitName:'قنينة'}),'1 باكيت');
+});
+
 test('every stored base unit displays packet while raw catalogue and cart metadata stay intact',()=>{
  for(const unit of ['قنينة','قنينة / زجاجة','علبة','شوال','باكيت','وحدة','']){
   const product=make(unit),snapshot=JSON.stringify(product),single=createBaseUnitCartItem(product),parcel=createCartItem(product),saved=JSON.stringify([single,parcel]);

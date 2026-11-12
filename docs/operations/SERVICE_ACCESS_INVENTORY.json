@@ -521,7 +521,7 @@
     },
     {
       "file": "src/features/pos/PosProductCard.tsx",
-      "sha256": "65166544001ee79b3a33a0e32a4024ebf6f697231464d690a9f5c74185fb8d14"
+      "sha256": "9263075435e3c7f44b0619ccbd3b611c3e14dc7d3926e711403478e29594b9fe"
     },
     {
       "file": "src/features/pos/posSearchFocus.ts",
@@ -533,7 +533,7 @@
     },
     {
       "file": "src/features/pos/PosView.tsx",
-      "sha256": "9ce1527e792fcbe88f022265ed5d6bd88565ed15424c8e070ad2f7cac85a92c7"
+      "sha256": "03aed6955f721ef7dcc24890f4a729fa8e8c28aa322788b57860fa6541b9b800"
     },
     {
       "file": "src/features/pos/saleMethods.ts",
@@ -585,7 +585,7 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "sha256": "60cd9c8968d899f7db7c5f3316cf96ec40053e0df6e732408e85d8793d22484f"
+      "sha256": "60dc1b760672a2f7d7abca073c84ab246d4d364e47b6e736b3ade427677a2264"
     },
     {
       "file": "src/features/products/ProductFormParcelCapability.tsx",
@@ -1513,7 +1513,7 @@
     },
     {
       "file": "customer-web/src/receipts/commercialReceipt.ts",
-      "sha256": "fddb4c76e92b3930e151552e5d317067aa8ad81d8640620c34458180186bf25c"
+      "sha256": "7a3614aadd0d00e7a7bbb0248084b089a22649dfaf7c5fe6a46785a986f382da"
     },
     {
       "file": "customer-web/src/receipts/exactMoney.ts",
@@ -1637,7 +1637,7 @@
     },
     {
       "file": "customer-web/src/utils/saleUnitLabels.ts",
-      "sha256": "6372ec26ba5a2470c845d68a4fa36dac7b49a8852dc999fc9b9d5d39a96618c1"
+      "sha256": "32094e3cfb71b64458a40b245eb9a66dc3e51260829d25e573db68cf5b0b6bf9"
     },
     {
       "file": "customer-web/src/utils/scroll.ts",
@@ -1649,7 +1649,7 @@
     },
     {
       "file": "customer-web/src/utils/storefrontUnits.ts",
-      "sha256": "1f9a383e5dc06e5a29004d38560080a4090d09c5bda248f932a3be4c92067270"
+      "sha256": "35588bba49bdd0fb505b6ed24646fbb877391cbb4f40bd10024afe3448effdc8"
     },
     {
       "file": "supabase/functions/_shared/owner-telegram-format.ts",
@@ -1694,9 +1694,9 @@
   ],
   "rpc": [
     {
-      "id": "src/features/pos/PosView.tsx:183",
+      "id": "src/features/pos/PosView.tsx:184",
       "file": "src/features/pos/PosView.tsx",
-      "line": 183,
+      "line": 184,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "<callback>",
@@ -1709,12 +1709,12 @@
       "resolutions": [
         {
           "name": "lite1_pos_options2",
-          "callsite": "src/features/pos/PosView.tsx:183",
+          "callsite": "src/features/pos/PosView.tsx:184",
           "source": "supabase.rpc(salesOnly?'lite1_pos_options2':'get_pos_configurable_parcel_options_v1', {p_warehouse_id: warehouseId})"
         },
         {
           "name": "get_pos_configurable_parcel_options_v1",
-          "callsite": "src/features/pos/PosView.tsx:183",
+          "callsite": "src/features/pos/PosView.tsx:184",
           "source": "supabase.rpc(salesOnly?'lite1_pos_options2':'get_pos_configurable_parcel_options_v1', {p_warehouse_id: warehouseId})"
         }
       ]

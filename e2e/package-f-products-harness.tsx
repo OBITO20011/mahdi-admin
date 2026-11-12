@@ -30,12 +30,19 @@ const rows=inventoryProducts.slice(0,7).map((p,i)=>({...p,warehouse_id:warehouse
  name_ar:i===4?'عائلة شيبس بنكهاته':i===5?'شيبس جبنة':i===6?'شيبس فلفل':p.name_ar,
  is_flavor_master:i===4,flavor_master_product_id:i>4?familyId:null,flavor_name_ar:i===5?'جبنة':i===6?'فلفل':null,
  flavor_sort_order:i>4?i-4:0,on_hand_quantity:i===4?0:p.on_hand_quantity,available_quantity:i===4?0:p.available_quantity}));
+if(params.has('single-carton')){
+ Object.assign(rows[0],{base_unit:{id:'single-carton',name_ar:'طرد',code:'SALE-CARTON'},
+   units_per_purchase_unit:1,units_per_sale_unit:1,parcel_only:false,
+   default_sale_price_in_minor_units:6000,sale_price_in_minor_units:6000,
+   cost_price_in_minor_units:0,default_purchase_price_in_minor_units:0,min_stock_level:0,max_stock_level:null,
+   updated_at:'2026-11-12T08:00:00.000001Z'});
+}
 const products=rows.map(mapAdminProductRecord);
 const auth=authStoreEngine as unknown as {state:AuthState;getState:()=>AuthState;initAuth:()=>Promise<void>};
 auth.state={...auth.getState(),user:{id:'88888888-8888-4888-8888-000000000098'} as NonNullable<AuthState['user']>,roleName:params.has('not-owner')?'sales':'owner',roles:params.has('not-owner')?['sales']:['owner'],isAuthenticated:true,isLoading:false};auth.initAuth=async()=>undefined;
 const store=storeEngine as unknown as {state:AppState;getState:()=>AppState};
 store.state={...store.getState(),products,units:[
- {id:'packet',nameAr:'باكيت',code:'PKT',conversionFactor:1},
+ {id:params.has('single-carton')?'88888888-8888-4888-8888-000000000121':'packet',nameAr:'باكيت',code:'PKT',conversionFactor:1},
  {id:'sack',nameAr:'شوال',code:'SACK',conversionFactor:1},
  {id:'bottle',nameAr:'قنينة',code:'BTL',conversionFactor:1},
  {id:'legacy',nameAr:'قطعة',code:'PCS',conversionFactor:1},
@@ -46,6 +53,8 @@ storeEngine.setCurrentUser({id:'fixture-owner',name:'مهدي',role:'Owner',them
 const original=supabase.rpc.bind(supabase);
 const client=supabase as unknown as {rpc:(name:string,args?:Record<string,unknown>)=>unknown};
 client.rpc=(name,args)=>{
+ if(params.has('single-carton')&&name==='search_admin_products')
+  return Promise.resolve({data:args?.p_product_id?rows.filter(row=>row.id===args.p_product_id):rows,error:null});
  // Display reads only: all mutations retain the original isolated transport.
  if(name==='get_admin_product_page'){
   const search=String(args?.p_search??'').toLowerCase(),status=String(args?.p_status??'all');
