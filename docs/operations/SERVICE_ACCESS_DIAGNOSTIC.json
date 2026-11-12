@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-11T04:55:08.055Z",
+  "startedAt": "2026-11-12T13:02:23.303Z",
   "migrationCeiling": 220,
   "managedAccess": false,
-  "output": "local-isolated-220",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-ENM9iI",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -523,7 +523,7 @@
     },
     {
       "file": "src/features/pos/PosProductCard.tsx",
-      "sha256": "65166544001ee79b3a33a0e32a4024ebf6f697231464d690a9f5c74185fb8d14"
+      "sha256": "ea4dc7c553269674fbc16811429efebc2157a3f4cfaac6ed8c72a59a5901ddea"
     },
     {
       "file": "src/features/pos/posSearchFocus.ts",
@@ -587,7 +587,7 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "sha256": "60cd9c8968d899f7db7c5f3316cf96ec40053e0df6e732408e85d8793d22484f"
+      "sha256": "60dc1b760672a2f7d7abca073c84ab246d4d364e47b6e736b3ade427677a2264"
     },
     {
       "file": "src/features/products/ProductFormParcelCapability.tsx",
@@ -1515,7 +1515,7 @@
     },
     {
       "file": "customer-web/src/receipts/commercialReceipt.ts",
-      "sha256": "fddb4c76e92b3930e151552e5d317067aa8ad81d8640620c34458180186bf25c"
+      "sha256": "7a3614aadd0d00e7a7bbb0248084b089a22649dfaf7c5fe6a46785a986f382da"
     },
     {
       "file": "customer-web/src/receipts/exactMoney.ts",
@@ -1639,7 +1639,7 @@
     },
     {
       "file": "customer-web/src/utils/saleUnitLabels.ts",
-      "sha256": "6372ec26ba5a2470c845d68a4fa36dac7b49a8852dc999fc9b9d5d39a96618c1"
+      "sha256": "32094e3cfb71b64458a40b245eb9a66dc3e51260829d25e573db68cf5b0b6bf9"
     },
     {
       "file": "customer-web/src/utils/scroll.ts",
@@ -1651,7 +1651,7 @@
     },
     {
       "file": "customer-web/src/utils/storefrontUnits.ts",
-      "sha256": "1f9a383e5dc06e5a29004d38560080a4090d09c5bda248f932a3be4c92067270"
+      "sha256": "35588bba49bdd0fb505b6ed24646fbb877391cbb4f40bd10024afe3448effdc8"
     },
     {
       "file": "supabase/functions/_shared/owner-telegram-format.ts",
@@ -51558,7 +51558,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-11-11T04:56:49.001Z",
+  "endedAt": "2026-11-12T13:02:43.997Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {
@@ -51955,7 +51955,7 @@
     {
       "file": "docs/operations/GO_LIVE_CUTOVER_AR.md",
       "lines": [
-        64
+        66
       ],
       "category": "HISTORICAL_DOCUMENTATION"
     },

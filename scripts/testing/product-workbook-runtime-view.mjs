@@ -7,6 +7,12 @@ const root=path.resolve(import.meta.dirname,'../..'),baseline='2dafe8433bc4efef6
 const featureHarnessFiles=new Set(['e2e/package-f-product-workbook-harness.tsx','e2e/package-f-product-workbook-harness.html','e2e/package-f-product-workbook.fixture.ts','e2e/package-f-product-workbook.spec.ts','e2e/package-f-screen-history-harness.tsx','e2e/package-f-screen-history-harness.html','e2e/package-f-screen-history.spec.ts','e2e/package-f-record-order-harness.tsx','e2e/package-f-record-order-harness.html','e2e/package-f-record-order.spec.ts','e2e/package-f-iphone-dialogs-harness.tsx','e2e/package-f-iphone-dialogs-harness.html','e2e/package-f-iphone-dialogs.spec.ts']);
 const guestSourceFiles=new Set(['supabase/functions/submit-guest-order/index.ts','supabase/functions/submit-guest-order/operatingMode.ts']);
 const phase3LegacySources=Object.freeze([
+ 'customer-web/src/receipts/commercialReceipt.ts',
+ 'customer-web/src/utils/saleUnitLabels.ts',
+ 'customer-web/src/utils/storefrontUnits.ts',
+ 'e2e/package-f-products-harness.tsx',
+ 'src/features/pos/PosProductCard.tsx',
+ 'src/features/products/ProductFormModal.tsx',
  'src/features/shifts/ShiftsView.tsx',
  'src/services/supabase/crm.service.ts',
  'src/services/supabase/customerDebtAging.service.ts',

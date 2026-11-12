@@ -1,5 +1,5 @@
 /** Receipt presentation uses saved commercial evidence only. No catalogue, prices or writes. */
-import {SINGLE_SALE_UNIT,savedSaleUnitLabel} from '../utils/saleUnitLabels';
+import {SINGLE_SALE_UNIT,savedSaleUnitLabel,singleSaleUnitLabel} from '../utils/saleUnitLabels';
 import {exchangeFundingLines,type ExchangeReceiptFunding} from './exchangeFunding';
 import {formatExactMinorJod} from './exactMoney';
 export interface ReceiptComponent {name:string;quantity:number;unitName:string}
@@ -29,8 +29,9 @@ function componentName(parent:string,name:string){
 }
 export function receiptLineDescription(line:CommercialReceiptLine):string {
   const quantity=count(line.quantity),unit=SINGLE_SALE_UNIT;
+  if(line.kind==='legacy_single_sku_parcel'&&line.baseQuantity===line.quantity&&singleSaleUnitLabel(line.baseUnitName)==='طرد')return `${quantity} طرد`;
   if(line.kind==='legacy_single_sku_parcel')return `${quantity} طرد (${line.baseQuantity===undefined?'المحتوى المحفوظ غير متاح':`${count(line.baseQuantity)} ${unit}`})`;
-  if(line.kind==='base_unit')return `${quantity} ${unit}`;
+  if(line.kind==='base_unit')return `${quantity} ${singleSaleUnitLabel(line.baseUnitName)}`;
   if(line.kind==='configurable_parcel'){
     if(!line.parcels?.length||line.parcels.length!==line.quantity||line.parcels.some(p=>!p.components.length))return `${quantity} طرد مشكّل (المكونات المحفوظة غير متاحة)`;
     const recipes=line.parcels.map(p=>p.components.map(c=>`${count(c.quantity)} ${componentName(line.name,c.name)}`).join(' + '));

@@ -114,7 +114,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   const salesOnly=operatingMode==='sales-only';
   const modeNow=useRef({operatingMode,modeVerified});modeNow.current={operatingMode,modeVerified};
   const [preservedAccounting,setPreservedAccounting]=useState(()=>({costPrice:initialProduct?.costPrice??0,defaultPurchasePrice:initialProduct?.defaultPurchasePrice??0,reorderLevel:initialProduct?.reorderLevel??0,maxStockLevel:initialProduct?.maxStockLevel}));
-  const {user:barcodeActor}=useAuthStore();
+  const {user:barcodeActor,roleName,roles}=useAuthStore();
   const [flavorCameraId,setFlavorCameraId]=useState<string|null>(null);
   const [barcodeRecovery,setBarcodeRecovery]=useState(()=>{try{return{ids:barcodeActor?.id?pendingFamilyBarcodes(barcodeActor.id,localStorage):[],error:''};}catch{return{ids:[] as string[],error:'تعذر قراءة سجل باركود النكهات. توقف وراجع المطوّر قبل إنشاء عائلة جديدة (FLV-01).'};}});
   const barcodeRecoveryIds=barcodeRecovery.ids;
@@ -136,6 +136,15 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   } = useAppStore();
 
   const isEditing = Boolean(initialProduct?.id);
+  const [openedAsSingleCarton,setOpenedAsSingleCarton]=useState(
+    isEditing && !initialProduct?.flavorMasterProductId && initialProduct?.unit.trim()==='طرد'
+      && initialProduct.unitsPerPackage===1 && initialProduct.unitsPerSalePackage===1 && !initialProduct.parcelOnly
+  );
+  const [cartonPacketCount,setCartonPacketCount]=useState('');
+  const [cartonConversionConfirmed,setCartonConversionConfirmed]=useState(false);
+  const packetUnit=units.find(item=>item.code==='PKT'&&item.nameAr==='باكيت'&&!item.isHidden);
+  const canConvertCarton=salesOnly&&modeVerified&&openedAsSingleCarton
+    && (roleName==='owner'||roles.includes('owner'))&&Boolean(packetUnit);
   const activeCategories = useMemo(
     () => categories.filter((category) => !category.isHidden),
     [categories]
@@ -665,6 +674,12 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     if (!editConflict || !openedFields) return;
     const merged = reapplyProductEdits(openedFields, readFormFields(), editConflict.current);
     applyFormFields(merged, editConflict.current.imageUrl);
+    const snapshot=editConflict.snapshot;
+    setUnit(snapshot.unitName);
+    setOpenedAsSingleCarton(!initialProduct?.flavorMasterProductId&&snapshot.unitName.trim()==='طرد'
+      && snapshot.unitsPerPackage===1&&snapshot.unitsPerSalePackage===1&&!snapshot.parcelOnly);
+    setCartonPacketCount('');
+    setCartonConversionConfirmed(false);
     setOpenedFields(editConflict.current);
     setOpenedVersion(editConflict.snapshot.updatedAt);
     setOpenedActive(editConflict.snapshot.isActive);
@@ -676,6 +691,12 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     if(!modeVerified){setToast('تعذر التحقق من وضع التشغيل؛ أعد قراءة الحالة قبل الحفظ. (MODE-02)','error');return;}
+    const convertCarton=cartonPacketCount!==''||cartonConversionConfirmed;
+    const packetCount=Number(cartonPacketCount);
+    if(convertCarton&&(!canConvertCarton||!cartonConversionConfirmed||!Number.isInteger(packetCount)||packetCount<2||packetCount>2147483647)){
+      setSubmitError({message:'أدخل عدد الباكيتات الفعلي في الطرد (اثنان فأكثر) وأكّد التحويل قبل الحفظ.'});
+      return;
+    }
     if(!parcelMethodSelected&&!allowSingle){
       setSubmitError({message:'اختر طريقة بيع واحدة على الأقل: طرد أو باكيت مفرد.'});return;
     }
@@ -791,6 +812,12 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
       // opened with (or the current one after re-applying a conflict).
       status: isEditing && !openedActive ? 'hidden' : 'active',
       ...(salesOnly?preservedAccounting:{}),
+      ...(convertCarton?{
+        unit:packetUnit!.nameAr,
+        unitsPerPackage:packetCount,
+        unitsPerSalePackage:packetCount,
+        parcelOnly:true,
+      }:{}),
     };
 
     const uploadedStoragePaths: string[] = [];
@@ -1152,15 +1179,27 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
       <Card padded={false} className="space-y-3 rounded-2xl border border-nw-border bg-nw-surface p-3.5">
         <h4 className="font-black">طريقة البيع</h4>
         <fieldset className="grid min-w-0 gap-3 sm:grid-cols-2" aria-label="طريقة البيع">
-          <div className="min-w-0 space-y-2 rounded-lg border border-nw-border p-3">
+          {!(salesOnly&&openedAsSingleCarton)&&<div className="min-w-0 space-y-2 rounded-lg border border-nw-border p-3">
             <label className="flex min-h-11 items-center gap-2 font-bold"><input type="checkbox" checked={parcelMethodSelected} onChange={event=>selectParcelMethod(event.target.checked)}/>طرد ({parcelMethodSize} باكيت)</label>
             <label className="block space-y-1 text-xs font-bold">سعر بيع الطرد<input inputMode="decimal" enterKeyHint="next" aria-label="سعر بيع الطرد" type="number" min="0.001" step="0.001" required disabled={!parcelMethodSelected} value={salePackagePrice === '' ? '' : parcelMethodSelected ? salePackagePrice : calculatePackagePrice(derivedSalePricePerUnit,parcelMethodSize)} onChange={event=>setSalePackagePrice(event.target.value===''?'':Number.parseFloat(event.target.value))} className={numberInputClass}/></label>
-          </div>
+          </div>}
           <div className="min-w-0 space-y-2 rounded-lg border border-nw-border p-3">
-            <label className="flex min-h-11 items-center gap-2 font-bold"><input type="checkbox" checked={allowSingle} onChange={event=>setAllowSingle(event.target.checked)}/>باكيت مفرد</label>
-            <label className="block space-y-1 text-xs font-bold">سعر بيع الباكيت<input inputMode="decimal" enterKeyHint="next" aria-label="سعر بيع الباكيت" type="number" min="0" step="0.0001" required disabled={!allowSingle} value={salePackagePrice===''?'':derivedSalePricePerUnit} onChange={event=>setSalePackagePrice(event.target.value===''?'':calculatePackagePrice(Number.parseFloat(event.target.value)||0,validUnitsPerSalePackage))} className={numberInputClass}/></label>
+            <label className="flex min-h-11 items-center gap-2 font-bold"><input type="checkbox" checked={allowSingle} disabled={salesOnly&&openedAsSingleCarton} onChange={event=>setAllowSingle(event.target.checked)}/>{openedAsSingleCarton?'طرد كوحدة واحدة':'باكيت مفرد'}</label>
+            <label className="block space-y-1 text-xs font-bold">{openedAsSingleCarton?'سعر الطرد كوحدة واحدة':'سعر بيع الباكيت'}<input inputMode="decimal" enterKeyHint="next" aria-label={openedAsSingleCarton?'سعر الطرد كوحدة واحدة':'سعر بيع الباكيت'} type="number" min="0" step="0.0001" required disabled={!allowSingle} value={salePackagePrice===''?'':derivedSalePricePerUnit} onChange={event=>setSalePackagePrice(event.target.value===''?'':calculatePackagePrice(Number.parseFloat(event.target.value)||0,validUnitsPerSalePackage))} className={numberInputClass}/></label>
           </div>
         </fieldset>
+        {canConvertCarton&&<fieldset className="space-y-2 rounded-lg border border-nw-border p-3">
+          <legend className="px-1 text-sm font-bold">تعريف محتوى الطرد</legend>
+          <p className="text-sm text-nw-muted">بعد الحفظ تصبح الوحدة الأساسية باكيت ويباع الصنف بالطرد فقط بالسعر المعروض. تبقى الفواتير السابقة بقيمها ووحداتها المسجّلة.</p>
+          <label className="block space-y-1 text-sm font-bold">عدد الباكيتات الفعلي في الطرد
+            <input type="number" inputMode="numeric" min="2" max="2147483647" step="1" value={cartonPacketCount}
+              onChange={event=>{setCartonPacketCount(event.target.value);setCartonConversionConfirmed(false);}} className={numberInputClass}/>
+          </label>
+          <label className="flex min-h-11 items-center gap-2 text-sm font-bold">
+            <input type="checkbox" checked={cartonConversionConfirmed} onChange={event=>setCartonConversionConfirmed(event.target.checked)}/>
+            أؤكد تحويل الوحدة إلى باكيت والبيع بالطرد فقط
+          </label>
+        </fieldset>}
         {!parcelMethodSelected&&!allowSingle&&<p role="alert" className="text-nw-bad">اختر طريقة بيع واحدة على الأقل.</p>}
         {(isFlavorMaster||hasFlavors)&&<ProductFormParcelCapability familyId={initialProduct?.id} dirty={formChanged} busy={isSubmitting} onOpen={familyProductId=>openModal('parcel_configuration',{familyProductId})}/>}
         <div className="flex flex-wrap items-end gap-2">

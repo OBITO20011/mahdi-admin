@@ -1,6 +1,7 @@
 import type {Product} from '../../types';
 import {MoneyText,ProductGlyph,UiButton} from '../../components/ui';
 import type {PosSingleProductMode} from './saleMethods';
+import {singleSaleUnitLabel} from '../../../customer-web/src/utils/saleUnitLabels';
 
 export function PosProductCard({product,stock,parcelQuantity,unitQuantity,disabled,onAdd,onReduce,quantityTracked=true,manualAvailable}:{
   product:Product;stock:number;parcelQuantity:number;unitQuantity:number;disabled:boolean;
@@ -9,7 +10,7 @@ export function PosProductCard({product,stock,parcelQuantity,unitQuantity,disabl
 }){
   const parcel=(product.unitsPerSalePackage??1)>1,unit=!product.parcelOnly;
   const methods=[...(parcel?[{mode:'legacy_single_sku_parcel' as const,label:'طرد',price:product.salePackagePrice,quantity:parcelQuantity}]:[]),
-    ...(unit?[{mode:'base_unit' as const,label:'باكيت',price:product.retailPrice,quantity:unitQuantity}]:[])];
+    ...(unit?[{mode:'base_unit' as const,label:singleSaleUnitLabel(product.unit),price:product.retailPrice,quantity:unitQuantity}]:[])];
   return <article data-pos-product={product.id} className={'min-w-0 space-y-3 rounded-2xl border bg-nw-surface p-3 '+(parcelQuantity+unitQuantity>0?'border-nw-primary ring-1 ring-nw-primary':'border-nw-border')}>
     <div className="flex min-w-0 items-center gap-3">
       <ProductGlyph name={product.nameAr} image={product.imageUrl} className="h-14 w-14 shrink-0"/>

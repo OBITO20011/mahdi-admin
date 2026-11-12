@@ -1,7 +1,7 @@
 import type {CatalogProduct, CartDisplayFields, CartItem} from '../types/catalog';
-import {SINGLE_SALE_UNIT} from './saleUnitLabels';
+import {SINGLE_SALE_UNIT,singleSaleUnitLabel} from './saleUnitLabels';
 
-export const storefrontUnitName = (_name: string) => SINGLE_SALE_UNIT;
+export const storefrontUnitName = singleSaleUnitLabel;
 export const storefrontSaleUnit = (product: CatalogProduct) =>
   product.unitsPerSalePackage > 1 ? 'طرد' : storefrontUnitName(product.unitNameAr);
 export const storefrontPackageDescription = (product: CatalogProduct) => product.unitsPerSalePackage > 1
