@@ -2,51 +2,39 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner11Nov Fable review corrections delivered inDraft87;STOP for review before ready220reference,expanded rehearsal,finalFULLCI.",
-  "baselineSha": "925d998a149c696bee15eb5d2fffdcf427da9b30",
+  "objective": "Owner12Nov:actual units in verified OFF;existing RPC only;new workbook and real local UI import;PR/FULLCI no merge no hosted.",
+  "baselineSha": "2da6059582dd1243648557220c616f0f65385f74",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
-  "branch": "codex/sales-only-phase3",
-  "phase": "SALES_ONLY_PHASE3",
-  "startedAt": "2026-11-10T14:07:21.558Z",
+  "branch": "codex/actual-sale-units",
+  "phase": "ACTUAL_SALE_UNITS",
+  "startedAt": "2026-11-12T20:12:57.615Z",
   "completed": [
-    "Phase2bfc72/72+54mobile historical;main/58/79/82/owner/env untouched.",
-    "FcaHTTP181/RPC695 donePASS;units1960/1986+26 source/history failures preserved.",
-    "PGRED49ab8/8 thenGREEN6db8/8;108CRM/fullJSON,globalaging0,fullcost5000/paymentreverse/guestexpiry parity;roles and ON-fixture shiftguard PASS.",
-    "Browser37:12/12 Chromium/WebKit390touch/retries0;25focusedEA8+2history/readiness+types/currentchangedlint PASS.",
-    "Fresh/incrementalEA8 zero;680public+38private/13Realtime;generatedpins627unchanged+9exact;SQL48221190;ownerreadonly636 zero/injectedbody-config-ACL/rollbackzero.",
-    "Ninthsummary implemented byowner10Nov approval;Fable Arabic acceptance/current external report corrected;owned Docker cleaned."
+    "OFF display/helpers and owner-confirmed unit rename/conversion implemented.",
+    "7 display/full-copy units;10 Chromium/WebKit product-form cases;12 PostgreSQL ordinary/family rename+conversion/receipt+refund cases PASS.",
+    "819+344 new external workbook;offline checker0errors;originals and duplicate list unchanged."
   ],
-  "inProgress": [],
-  "notStarted": [
-    "Await owner review;no newready220reference,expanded rehearsal,finalFULLCI.",
-    "After review:currentaccess evidence,historicalprotection chain,fullrehearsal/finalCI andphase3 closure."
+  "inProgress": [
+    "Refresh current access evidence,pins,full types/lint/units/CI;then authenticated local-demo refresh preservingTOTP and real UI import."
   ],
+  "notStarted": [],
   "testsPassed": [
-    "PG8RED→8GREEN+108fullCRM+roles+shiftpersistence;cleanup/network0.",
-    "25focused+2history/readiness;12mobile;types0/changedlint0;627/9exact andfreshincremental0."
+    "preflight"
   ],
-  "testsRemaining": [
-    "No finalFULLCI/currentreadyreference/rehearsal claim;fca26failures retained for subsequent closure."
-  ],
+  "testsRemaining": [],
   "findings": [
-    "Only newlite definitions changed;original627/nine approved diffs identical.",
-    "ON guard negative fixture removesimmutable marker onlyinsideROLLBACK with trigger restoration;not a new openingepoch rehearsal.",
-    "Fixture UUID/immutable evidence andgenerator separator issues fixedwithout changingSQL48221190 or weakening assertions."
+    "Inherited phase3 checkpoint is historical;phase3 merged in main. Latest owner authorizes new isolated task."
   ],
   "blockers": [],
   "prohibitions": [
-    "No merge/main/58/deploy/hostedaccess;noowner/env edits",
-    "627originalbodies frozen;8exactprevious+approvedsummarydiff only;anyotherexpansionstopask",
-    "79 remainsDraft/deferred221;no adoption ofitsSQL;219 tools retained",
-    "No new627 body or ninebridge diff changes;Fable fixes additive only;no newreference/rehearsal/finalCI before review."
+    "No migration/RPC/DB guard changes;no hostedaccess/deploy/merge;no primaryowner/env changes;58/79/82 untouched."
   ],
-  "nextExactAction": "STOP for owner review of Fable acceptance inDraft87;do not begin ready220reference,expanded rehearsal orfinalFULLCI without review.",
+  "nextExactAction": "Refresh current access evidence+source pins;full types/lint/units;PR+FULLCI;preserve demo Auth/TOTP then UI import actual-units workbook and verify all5 units.",
   "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "AA7E1BEB9E33AF6D66638C52C546101F72793A005AEECF061D58701DF90BBB38",
-  "checkpointedAt": "2026-11-10T21:57:48.099Z",
-  "filesTouchedCount": 0,
-  "filesTouchedManifestSha256": "b6429e7d08029a34589e9c8956ef86dffab2fb6dd9ee37c08d5e9204e14cdbe6"
+  "workingTreeFingerprint": "09BA29F5F44543933943338B66EE06496FF8280BBD17E471A8C688C70A9D4A4E",
+  "checkpointedAt": "2026-11-12T20:39:42.149Z",
+  "filesTouchedCount": 24,
+  "filesTouchedManifestSha256": "900222a79bbfcdb6605e005db377c85644673785c39e27087c03e7431e5a54c8"
 }

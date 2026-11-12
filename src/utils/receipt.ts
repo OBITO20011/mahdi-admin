@@ -16,6 +16,7 @@ export interface ReceiptShareItem {
 }
 
 export interface ReceiptShareInput {
+  actualUnitNames?:boolean;
   businessName: string;
   branchName: string;
   invoiceNumber: string;
@@ -56,8 +57,8 @@ export function buildReceiptShareText(input: ReceiptShareInput): string {
   if(input.paymentMethod==='exchange_credit'&&(!input.exchangeFunding||input.items.length!==1))throw new Error('تفصيل مقابل التبديل غير مكتمل؛ حدّث الفاتورة قبل مشاركة الوصل.');
   const lines = input.items.map(
     (item) =>
-      `• ${item.productName}: ${receiptLineDescription({key:'',name:item.productName,kind:item.commercialLineKind,quantity:item.quantity,
-        baseQuantity:item.baseQuantity,baseUnitName:item.baseUnitName,savedUnitName:item.unit||item.salePackage||'طرد',
+      `• ${item.productName}: ${receiptLineDescription({actualUnitNames:input.actualUnitNames,key:'',name:item.productName,kind:item.commercialLineKind,quantity:item.quantity,
+        baseQuantity:item.baseQuantity,baseUnitName:item.baseUnitName,savedUnitName:input.actualUnitNames?item.salePackage||item.unit:item.unit||item.salePackage||'طرد',
         parcels:item.parcelInstances?.map(p=>({components:p.components.map(c=>({name:c.name,quantity:c.quantity,unitName:c.unitName}))})),
         totalInMinorUnits:Math.round(item.totalPrice*1000)})} - ${input.exchangeFunding?formatExactMinorJod(input.exchangeFunding.newTotalInMinorUnits):money(item.totalPrice)}`
   );

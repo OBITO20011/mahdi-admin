@@ -1,6 +1,6 @@
 import {pendingLiteDelivery,recoverLiteDelivery} from '../../services/supabase/salesOnlyDelivery';
 import {newestRecords} from '../../utils/newestRecords';
-import React, { useCallback, useEffect, useState, useSyncExternalStore } from 'react';
+import React, { useCallback, useContext, useEffect, useState, useSyncExternalStore } from 'react';
 import {
   AlertTriangle,
   Banknote,
@@ -36,6 +36,7 @@ import { buildStorefrontTrackingUrl } from '../../services/supabase/orders.servi
 import type { AdminAftercareCapability } from '../../services/supabase/salesAftercare.service';
 import {DocumentCorrectionAction} from '../corrections/DocumentCorrectionAction';
 import {SaleReceiptDialog} from '../receipts/SaleReceiptDialog';
+import {OperatingModeContext} from '../operatingMode/operatingModeContext';
 import {orderReceipt} from '../receipts/saleReceipt';
 import {receiptDocumentShareText} from '../../../customer-web/src/receipts/commercialReceipt';
 
@@ -135,10 +136,12 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
     setToast,
   } = useAppStoreActions();
 
+  const unitMode=useContext(OperatingModeContext);
+  const actualUnitNames=unitMode?.verified===true&&unitMode.mode==='sales-only';
   const [busy, setBusy] = useState(false);
   const [showReceipt, setShowReceipt] = useState(false);
   const receiptBranch = useAppStoreSelector(state => state.branches.find(branch => branch.id === order.branchId));
-  const receiptResult=(()=>{try{return {receipt:orderReceipt(order,receiptBranch),error:''};}
+  const receiptResult=(()=>{try{return {receipt:orderReceipt(order,receiptBranch,actualUnitNames),error:''};}
     catch(cause){return {receipt:null,error:cause instanceof Error?cause.message:'تعذر قراءة دليل الوصل.'};}})();
   const savedReceipt=receiptResult.receipt;
   const copyReceiptLink = async () => {

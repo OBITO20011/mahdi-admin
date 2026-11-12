@@ -41,6 +41,12 @@ export async function fetchPublicPosReceipt(
     throw new Error(stringValue(payload.message) || 'الإيصال غير موجود.');
   }
 
+  // Read only the global display mode; never consult the current product catalogue for a saved receipt.
+  const displayMode=await supabase.rpc('lite1_operating_mode',{});
+  const modeValue=recordValue(displayMode.data);
+  const legacy=displayMode.status===404&&displayMode.data==null&&displayMode.error?.code==='PGRST202'&&displayMode.error.message?.includes('lite1_operating_mode');
+  if(!legacy&&(displayMode.error||modeValue.contractVersion!=='sales-only-phase2-v1'||typeof modeValue.fullAccounting!=='boolean'))throw Error('تعذر التحقق من وحدة عرض الوصل. أعد المحاولة.');
+  const actualUnitNames=!legacy&&modeValue.fullAccounting===false;
   const branch = recordValue(payload.branch);
   const hasInitial=payload.initialPaymentMethod!==undefined;
   const hasPayment=hasInitial||payload.amountPaidInMinorUnits!==undefined||payload.remainingInMinorUnits!==undefined;
@@ -51,6 +57,7 @@ export async function fetchPublicPosReceipt(
     ||!Number.isSafeInteger(payload.remainingInMinorUnits)||Number(payload.remainingInMinorUnits)<0))throw new Error('تفصيل الدفعة غير مكتمل. أعد تحميل الوصل.');
   if(payload.paymentMethod==='exchange_credit'&&payload.exchange==null)throw new Error('تفصيل وصل التبديل غير متاح. أعد تحميل الرابط.');
   return {
+    ...(actualUnitNames?{actualUnitNames:true}:{}),
     ...(payload.exchange!=null?{exchangeFunding:parseExchangeFunding(payload.exchange)}:{}),
     orderNumber: stringValue(payload.orderNumber),
     createdAt: stringValue(payload.createdAt),

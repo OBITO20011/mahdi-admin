@@ -1,4 +1,5 @@
 import {verifyLiteCartonUnitTransition} from './lite-carton-unit-runtime.mjs';
+import {verifyLiteActualUnitTransition} from './lite-actual-units-runtime.mjs';
 import{verifyLite220SummaryAfterEpoch}from'./lite220-summary-runtime.mjs';
 import {verifyKnownEpochVacuumBusy220} from './epoch220-known-vacuum.mjs';
 import {verifyShiftReversalGuard} from './sales-only-phase2-shift-guard-runtime.mjs';
@@ -43,6 +44,7 @@ export async function verifyOpeningEpoch220(c,report){
  await rpc('lite1_set_mode2(false)');
  await verifyLiteProductDefinitions(c,report);
  await verifyLiteCartonUnitTransition(c,report);
+ await verifyLiteActualUnitTransition(c,report);
  await verifyLiteWorkbookImport(c,report);
  // Synthetic catalog only:72 parent families,345 new flavors,820 leaf SKUs.
  const currentLeaves=Number(await sql('SELECT count(*) FROM public.products WHERE is_active AND NOT is_flavor_master;'));

@@ -405,7 +405,7 @@ export function ProductDetailsModal({
                   </div>
                   <p className="mt-2 text-sm font-black text-slate-900">
                     {product.unitsPerSalePackage.toLocaleString('ar-JO')}{' '}
-                    {storefrontUnitName(product.unitNameAr)}
+                    {storefrontUnitName(product.unitNameAr,product.quantityTracked)}
                   </p>
                 </div>
               </div>}
@@ -517,7 +517,7 @@ export function ProductDetailsModal({
             <ProductPurchaseControl label={packageDescription} unit={storefrontSaleUnit(product)} productName={product.nameAr}
               price={product.salePackagePriceInMinorUnits} quantity={quantity} remaining={remainingPackages}
               disabled={!product.isAvailable} onChange={handleQuantityChange} onAdd={handleAdd} />
-            {!product.parcelOnly&&product.unitsPerSalePackage > 1 && <ProductPurchaseControl label={storefrontUnitName(product.unitNameAr)} unit={storefrontUnitName(product.unitNameAr)} productName={product.nameAr}
+            {!product.parcelOnly&&product.unitsPerSalePackage > 1 && <ProductPurchaseControl label={storefrontUnitName(product.unitNameAr,product.quantityTracked)} unit={storefrontUnitName(product.unitNameAr,product.quantityTracked)} productName={product.nameAr}
               price={product.salePriceInMinorUnits} quantity={unitQuantity} remaining={remainingUnits}
               disabled={!product.isAvailable||product.salePriceInMinorUnits <= 0 || remainingUnits === 0}
               onChange={next => setUnitQuantity(clampProductSelectionQuantity(next, remainingUnits, 0))}

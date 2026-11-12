@@ -141,7 +141,7 @@ export function ProductCard({
             <p className="text-[9px] font-bold text-slate-600">محتوى الطرد</p>
             <p className="mt-1 text-xs font-black text-slate-800">
               {product.unitsPerSalePackage.toLocaleString('ar-JO')}{' '}
-              {storefrontUnitName(product.unitNameAr)}
+              {storefrontUnitName(product.unitNameAr,product.quantityTracked)}
             </p>
           </div>
         </div>}
