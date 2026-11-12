@@ -11,7 +11,8 @@
   "completed": [
     "OFF display/helpers and owner-confirmed unit rename/conversion implemented.",
     "7 display/full-copy units;10 Chromium/WebKit product-form cases;12 PostgreSQL ordinary/family rename+conversion/receipt+refund cases PASS.",
-    "819+344 new external workbook;offline checker0errors;originals and duplicate list unchanged."
+    "819+344 new external workbook;offline checker0errors;originals and duplicate list unchanged.",
+    "Current HTTP181/RPC702/18expecteddenials;catalog0diff;allpreviousrole results unchanged;14source/history/unknownbyte tests PASS."
   ],
   "inProgress": [
     "Refresh current access evidence,pins,full types/lint/units/CI;then authenticated local-demo refresh preservingTOTP and real UI import."
@@ -28,13 +29,13 @@
   "prohibitions": [
     "No migration/RPC/DB guard changes;no hostedaccess/deploy/merge;no primaryowner/env changes;58/79/82 untouched."
   ],
-  "nextExactAction": "Refresh current access evidence+source pins;full types/lint/units;PR+FULLCI;preserve demo Auth/TOTP then UI import actual-units workbook and verify all5 units.",
+  "nextExactAction": "Full types/strictlint/units,PR+FULLCI;preserve existing local Auth/TOTP during demo refresh;UI import actual units and verify5 unit receipts.",
   "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "09BA29F5F44543933943338B66EE06496FF8280BBD17E471A8C688C70A9D4A4E",
-  "checkpointedAt": "2026-11-12T20:39:42.149Z",
-  "filesTouchedCount": 24,
-  "filesTouchedManifestSha256": "900222a79bbfcdb6605e005db377c85644673785c39e27087c03e7431e5a54c8"
+  "workingTreeFingerprint": "140FABC4461936AB52002DC2092BC8C1E014B23B017B8367BD279F3225C3EA29",
+  "checkpointedAt": "2026-11-12T20:50:15.029Z",
+  "filesTouchedCount": 7,
+  "filesTouchedManifestSha256": "b29a35603e24335f2a8cdbfdb2c49f3e52d9db7805b6a29a94a6b0c8791ff0f6"
 }

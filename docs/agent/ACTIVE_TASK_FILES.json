@@ -3,99 +3,31 @@
   "files": [
     {
       "code": " M",
-      "path": "customer-web/src/App.tsx"
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
     },
     {
       "code": " M",
-      "path": "customer-web/src/components/ParcelBuilderModal.tsx"
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
     },
     {
       "code": " M",
-      "path": "customer-web/src/components/ProductCard.tsx"
+      "path": "docs/operations/TABLE_ACCESS_AFTER_220.json"
     },
     {
       "code": " M",
-      "path": "customer-web/src/components/ProductDetailsModal.tsx"
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
     },
     {
       "code": " M",
-      "path": "customer-web/src/receipts/commercialReceipt.ts"
+      "path": "scripts/audit/partial216-source-pins.json"
     },
     {
       "code": " M",
-      "path": "customer-web/src/receipts/publicReceipt.ts"
+      "path": "scripts/audit/sales-only-phase2-source-pins.json"
     },
     {
       "code": " M",
-      "path": "customer-web/src/services/receipts.service.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/types/catalog.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/types/receipt.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/utils/cart.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/utils/saleUnitLabels.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/utils/storefrontUnits.ts"
-    },
-    {
-      "code": " M",
-      "path": "e2e/package-f-products-harness.tsx"
-    },
-    {
-      "code": " M",
-      "path": "e2e/sales-only-phase2-product-form.spec.ts"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/sales-only220-epoch-runtime.mjs"
-    },
-    {
-      "code": " M",
-      "path": "src/features/orders/OrderDetailModal.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/features/pos/PosProductCard.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/features/pos/PosView.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/features/products/ProductFormModal.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/features/receipts/saleReceipt.ts"
-    },
-    {
-      "code": " M",
-      "path": "src/utils/receipt.ts"
-    },
-    {
-      "code": "??",
-      "path": "customer-web/tests/actual-sale-units.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "e2e/actual-sale-units.spec.ts"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/lite-actual-units-runtime.mjs"
+      "path": "scripts/audit/sales-only-phase3-source-pins.json"
     }
   ]
 }
