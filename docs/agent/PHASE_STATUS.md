@@ -1,3 +1,7 @@
+#12Nov2026 — actual sale units, owner-authorized OFF presentation only
+
+Independent PR91 from2da60595. Existing update_product_master_v5 only;no SQL/migration/frozen-body/guard changes. Actual unit labels,owner-confirmed rename/conversion and old snapshots/refunds proved locally. Full CI and real local UI import verification pending;no merge/deploy/hosted access. Primary owner20/env4 protected. Earlier phase3 closure entries below are historical.
+
 # 11 نوفمبر 2026 — تصحيحات Fable؛ توقف للمراجعة قبل المرجع والبروفة وCI النهائي
 
 مسودة87 فقط. اكتملت فحوص fca335f9 الجارية أولاً: HTTP181/RPC695 ناجحة، والوحدات1960/1986 مع26 فشل بصمات/مناظير تاريخية محفوظة. ثبتت الحالات الثماني RED49ab ثم GREEN6db مع108 مقارنة CRM/full، ذمم صفر، حراسة عكس التحصيل/وردية lite، أدوار القارئين، و12 متصفح موبايل ناجحاً. جميع التغييرات في تعريفات lite الجديدة؛627 أصلية وتسعة جسور كما هي. الجسر التاسع مطبق باعتماد المالك10نوفمبر، والفقرات الأقدم WAIT تاريخية. الكتالوج المحلي680+38/13Realtime/fresh-incremental0 والبصمات627/9 متحققة؛مرجع220 الجاهز والبروفة الموسعة وCI النهائي لم تُعتمد. انظر design/sales-only-phase3/FABLE_REVIEW_ACCEPTANCE_AR.md. لا دمج أو نشر أو اتصال مستضاف؛main/58/79/82/ملفات المالك والبيئة محفوظة.

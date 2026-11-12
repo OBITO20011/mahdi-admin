@@ -1,12 +1,12 @@
 import type {CatalogProduct, CartDisplayFields, CartItem} from '../types/catalog';
-import {SINGLE_SALE_UNIT,singleSaleUnitLabel} from './saleUnitLabels';
+import {SINGLE_SALE_UNIT,singleSaleUnitLabel,packageSaleUnitLabel} from './saleUnitLabels';
 
-export const storefrontUnitName = singleSaleUnitLabel;
+export const storefrontUnitName = (name:string|undefined,quantityTracked?:boolean) => singleSaleUnitLabel(name,quantityTracked===false);
 export const storefrontSaleUnit = (product: CatalogProduct) =>
-  product.unitsPerSalePackage > 1 ? 'طرد' : storefrontUnitName(product.unitNameAr);
+  product.unitsPerSalePackage > 1 ? packageSaleUnitLabel(product.saleUnitNameAr,undefined,product.quantityTracked===false) : storefrontUnitName(product.unitNameAr,product.quantityTracked);
 export const storefrontPackageDescription = (product: CatalogProduct) => product.unitsPerSalePackage > 1
-  ? `طرد (${product.unitsPerSalePackage.toLocaleString('ar-JO')} ${storefrontUnitName(product.unitNameAr)})`
-  : storefrontUnitName(product.unitNameAr);
+  ? `${storefrontSaleUnit(product)} (${product.unitsPerSalePackage.toLocaleString('ar-JO')} ${storefrontUnitName(product.unitNameAr,product.quantityTracked)})`
+  : storefrontUnitName(product.unitNameAr,product.quantityTracked);
 export function storefrontStock(product: CatalogProduct): string {
   if(product.quantityTracked===false)return product.isAvailable?'متوفر':'غير متوفر';
   const size = Math.max(1, product.unitsPerSalePackage);
@@ -25,12 +25,12 @@ export function remainingStorefrontParcels(product: CatalogProduct, reserved: nu
 }
 /** Saved commercial kinds/quantities/prices stay untouched; only packaging copy changes. */
 export function storefrontCartUnit(item: CartDisplayFields & {commercialLineKind: CartItem['commercialLineKind']}): string {
-  if (item.commercialLineKind !== 'base_unit' && item.unitsPerSalePackage > 1) return 'طرد';
-  return storefrontUnitName(item.saleUnitNameAr);
+  if (item.commercialLineKind !== 'base_unit' && item.unitsPerSalePackage > 1) return packageSaleUnitLabel(item.saleUnitNameAr,undefined,item.quantityTracked===false);
+  return storefrontUnitName(item.saleUnitNameAr,item.quantityTracked);
 }
 export function storefrontCartPackageDescription(item: CartDisplayFields & {commercialLineKind: CartItem['commercialLineKind']}): string {
   const unit=storefrontCartUnit(item);
-  return item.unitsPerSalePackage>1 ? `${unit} (${item.unitsPerSalePackage.toLocaleString('ar-JO')} ${SINGLE_SALE_UNIT})` : unit;
+  return item.unitsPerSalePackage>1 ? `${unit} (${item.unitsPerSalePackage.toLocaleString('ar-JO')} ${item.quantityTracked===false?singleSaleUnitLabel(item.baseUnitNameAr,true):SINGLE_SALE_UNIT})` : unit;
 }
 
 /** Null explicitly means quantity is not tracked,never a synthetic stock limit. */

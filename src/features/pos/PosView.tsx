@@ -19,7 +19,7 @@ import {PosParcelBuilder, type PosParcelOption} from './PosParcelBuilder';
 import {posCartLines, posStockDemand, posWarehouseAvailable, posV2Invoice, receiptBaseUnitNames, type PosCartItem} from './posV2Cart';
 import {posSaleModeForProduct,posCartSaleMethodConflict,type PosSingleProductMode} from './saleMethods';
 import {PosProductCard} from './PosProductCard';
-import {singleSaleUnitLabel} from '../../../customer-web/src/utils/saleUnitLabels';
+import {singleSaleUnitLabel,packageSaleUnitLabel} from '../../../customer-web/src/utils/saleUnitLabels';
 import {shouldRestorePosSearchFocus,type PosAdditionSource} from './posSearchFocus';
 import {initialPaymentText216,partialPayment216} from './partialPayment216';
 import {jodToMinorUnits} from '../../utils/receivingCalculations';
@@ -361,7 +361,7 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
     const currentQuantity =
       existingIndex >= 0 ? cartItems[existingIndex].quantity : 0;
     if (!salesOnly && !canSetPosQuantity(currentQuantity + 1, availableSalePackages)) {
-      setToast(`المتاح من ${prod.nameAr} هو ${availableSalePackages} ${productSaleMode==='base_unit'?singleSaleUnitLabel(prod.unit):'طرد'} فقط.`, 'error');
+      setToast(`المتاح من ${prod.nameAr} هو ${availableSalePackages} ${productSaleMode==='base_unit'?singleSaleUnitLabel(prod.unit,salesOnly):'طرد'} فقط.`, 'error');
       return;
     }
 
@@ -634,7 +634,7 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
       return;
     }
 
-    const text = buildReceiptShareText({
+    const text = buildReceiptShareText({actualUnitNames:salesOnly,
       businessName: 'النواصرة لتجارة الجملة والمواد الغذائية',
       branchName: receiptBranch?.name || lastInvoice.branchId,
       invoiceNumber: lastInvoice.invoiceNumber,
@@ -691,7 +691,7 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
 
   const cartMethodConflict=recoveryBlocked?null:posCartSaleMethodConflict(cartItems,knownProductsRef.current);
   const cartBaseUnitTotals=Array.from(cartItems.reduce((totals,item)=>{
-    const name=singleSaleUnitLabel(item.v2Line.commercial_line_kind==='base_unit'?item.unit:undefined);
+    const name=singleSaleUnitLabel(salesOnly?item.unit:item.v2Line.commercial_line_kind==='base_unit'?item.unit:undefined,salesOnly);
     totals.set(name,(totals.get(name)??0)+item.baseQuantity);
     return totals;
   },new Map<string,number>()));
@@ -923,13 +923,13 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
 
                     {cartItems.length === 0 ? (
           <div className="py-6 text-center text-nw-muted text-xs">
-            اختر + طرد أو + باكيت من بطاقة الصنف أعلاه لإضافته إلى الفاتورة
+            {salesOnly?'اختر وحدة البيع من بطاقة الصنف أعلاه لإضافته إلى الفاتورة':'اختر + طرد أو + باكيت من بطاقة الصنف أعلاه لإضافته إلى الفاتورة'}
           </div>
         ) : (
           <div className="space-y-3">
             {cartItems.map((item) => {
               const kind=item.v2Line.commercial_line_kind;
-              const unitLabel=kind==='base_unit'?singleSaleUnitLabel(item.unit):kind==='legacy_single_sku_parcel'?'طرد':'طرد مشكّل';
+              const unitLabel=kind==='base_unit'?singleSaleUnitLabel(item.unit,salesOnly):kind==='legacy_single_sku_parcel'?packageSaleUnitLabel(item.salePackage,undefined,salesOnly):'طرد مشكّل';
               return <div key={item.id} data-pos-cart-line className="flex flex-wrap items-center justify-between gap-2 border-b border-nw-border py-3 text-sm">
                 <div className="min-w-0 w-full">
                   <div className="flex flex-wrap items-center gap-1"><h5 className="font-bold text-nw-text break-words">{item.productName}</h5><span data-pos-cart-line-kind className="text-xs font-bold">· {item.quantity} {unitLabel}</span></div>
@@ -1013,7 +1013,7 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
         </div>
         <div className="grid grid-cols-1 items-center gap-2">{paymentControl}{completeSaleButton}</div>
       </StickyActionBar>
-      {showReceiptModal&&lastInvoice&&<SaleReceiptDialog completed receipt={invoiceReceipt(lastInvoice,receiptBranch)}
+      {showReceiptModal&&lastInvoice&&<SaleReceiptDialog completed receipt={invoiceReceipt(lastInvoice,receiptBranch,salesOnly)}
         onClose={()=>setShowReceiptModal(false)} onShare={()=>void handleShareReceipt()} onCopy={()=>void handleCopyReceiptLink()}/>}
 
       {unavailableSale&&<Modal isOpen title="تأكيد بيع صنف غير متوفر" onClose={()=>setUnavailableSale(null)}>

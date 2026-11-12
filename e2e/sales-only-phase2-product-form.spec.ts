@@ -19,7 +19,7 @@ test('lite product definition uses existing writer with no mandatory cost or sto
 test('owner converts a single carton only in verified OFF mode and saves through the versioned product writer',async({page})=>{
  const writes:Record<string,unknown>[]=[];
  const packet='88888888-8888-4888-8888-000000000121',carton='88888888-8888-4888-8888-000000000122';
- await page.route('**/rest/v1/units?**',route=>route.fulfill({json:[{id:carton,name_ar:'كرتونة',code:'CTN',is_active:true}]}));
+ await page.route('**/rest/v1/units?**',route=>{const name=new URL(route.request().url()).searchParams.get('name_ar');return route.fulfill({json:[{id:name==='eq.باكيت'?packet:carton,name_ar:name==='eq.باكيت'?'باكيت':'طرد',is_active:true}]});});
  await page.route('**/rpc/update_product_master_v5',route=>{
   writes.push(route.request().postDataJSON());
   return route.fulfill({json:{success:true,productId:id,updatedAt:'2026-11-12T08:01:00Z'}});
@@ -35,17 +35,17 @@ test('owner converts a single carton only in verified OFF mode and saves through
  }
  for(const query of ['single-carton','sales-only&single-carton&not-owner','sales-only&single-carton&unverified','sales-only']){
   const form=await open(query);
-  await expect(form.getByRole('group',{name:'تعريف محتوى الطرد'})).toHaveCount(0);
+  await expect(form.getByRole('group',{name:'تعريف محتوى وحدة البيع'})).toHaveCount(0);
   await expect(form.getByLabel('الوحدة الأساسية',{exact:true})).toBeDisabled();
  }
  const form=await open('sales-only&single-carton');
- const count=form.getByLabel('عدد الباكيتات الفعلي في الطرد',{exact:true});
- const confirm=form.getByRole('checkbox',{name:'أؤكد تحويل الوحدة إلى باكيت والبيع بالطرد فقط'});
+ const count=form.getByLabel('عدد وحدات المحتوى الفعلي في وحدة البيع',{exact:true});
+ const confirm=form.getByRole('checkbox',{name:'أؤكد التحويل والبيع بوحدة طرد فقط بالسعر نفسه'});
  const save=form.getByRole('button',{name:'حفظ التعديلات',exact:true});
  await expect(count).toHaveValue('');
  await count.fill('12');
  await save.tap();
- await expect(form.getByText(/أدخل عدد الباكيتات الفعلي.*وأكّد التحويل/)).toBeVisible();
+ await expect(form.getByText(/اختر وحدة المحتوى.*وأكّد التحويل/)).toBeVisible();
  expect(writes).toHaveLength(0);
  await confirm.check();
  await count.fill('13');

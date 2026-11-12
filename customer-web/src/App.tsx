@@ -953,7 +953,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         ? { ...item, localRevision: item.localRevision + 1, quantity: item.quantity + actualQuantity }
         : item);
     }).then(() => {
-      if (addedQuantity > 0) { showToast(`تمت إضافة ${addedQuantity.toLocaleString('ar-JO')} ${storefrontUnitName(product.unitNameAr)} من ${product.nameAr}.`); showCartAddition(); }
+      if (addedQuantity > 0) { showToast(`تمت إضافة ${addedQuantity.toLocaleString('ar-JO')} ${storefrontUnitName(product.unitNameAr,product.quantityTracked)} من ${product.nameAr}.`); showCartAddition(); }
       else showToast('وصلت السلة إلى كامل المخزون المتاح من هذا الصنف.', 'info');
     }).catch(() => showToast('تعذر حفظ الإضافة في السلة. راجع حالة السلة وحاول مجددًا.', 'error'));
   };

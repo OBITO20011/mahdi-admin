@@ -1,26 +1,29 @@
 import type {Product} from '../../types';
 import {MoneyText,ProductGlyph,UiButton} from '../../components/ui';
 import type {PosSingleProductMode} from './saleMethods';
-import {singleSaleUnitLabel} from '../../../customer-web/src/utils/saleUnitLabels';
+import {singleSaleUnitLabel,packageSaleUnitLabel} from '../../../customer-web/src/utils/saleUnitLabels';
 
 export function PosProductCard({product,stock,parcelQuantity,unitQuantity,disabled,onAdd,onReduce,quantityTracked=true,manualAvailable}:{
   product:Product;stock:number;parcelQuantity:number;unitQuantity:number;disabled:boolean;
   quantityTracked?:boolean;manualAvailable?:boolean;
   onAdd:(mode:PosSingleProductMode)=>void;onReduce:(mode:PosSingleProductMode)=>void;
 }){
-  const parcel=(product.unitsPerSalePackage??1)>1,unit=!product.parcelOnly;
-  const methods=[...(parcel?[{mode:'legacy_single_sku_parcel' as const,label:'طرد',price:product.salePackagePrice,quantity:parcelQuantity}]:[]),
-    ...(unit?[{mode:'base_unit' as const,label:singleSaleUnitLabel(product.unit),price:product.retailPrice,quantity:unitQuantity}]:[])];
+  const unitsPerPackage=product.unitsPerSalePackage??1;
+  const parcel=unitsPerPackage>1,unit=!product.parcelOnly;
+  const packageLabel=packageSaleUnitLabel(product.salePackage,product.purchasePackage,!quantityTracked);
+  const methods=[...(parcel?[{mode:'legacy_single_sku_parcel' as const,label:packageLabel,price:product.salePackagePrice,quantity:parcelQuantity}]:[]),
+    ...(unit?[{mode:'base_unit' as const,label:singleSaleUnitLabel(product.unit,!quantityTracked),price:product.retailPrice,quantity:unitQuantity}]:[])];
   return <article data-pos-product={product.id} className={'min-w-0 space-y-3 rounded-2xl border bg-nw-surface p-3 '+(parcelQuantity+unitQuantity>0?'border-nw-primary ring-1 ring-nw-primary':'border-nw-border')}>
     <div className="flex min-w-0 items-center gap-3">
       <ProductGlyph name={product.nameAr} image={product.imageUrl} className="h-14 w-14 shrink-0"/>
       <div className="min-w-0"><h3 className="break-words text-sm font-bold">{product.nameAr}</h3>
         <bdi dir="ltr" className="block break-all text-xs text-nw-muted">{product.barcode}</bdi>
-        {quantityTracked?<p className={'text-xs '+(stock<=product.reorderLevel?'text-nw-warn':'text-nw-muted')}><bdi dir="ltr">{stock}</bdi> {singleSaleUnitLabel(product.unit)} · {stock===0?'نفد':'متوفر'}</p>
+        {quantityTracked?<p className={'text-xs '+(stock<=product.reorderLevel?'text-nw-warn':'text-nw-muted')}><bdi dir="ltr">{stock}</bdi> {singleSaleUnitLabel(product.unit,!quantityTracked)} · {stock===0?'نفد':'متوفر'}</p>
           :<p className={'text-xs '+(manualAvailable===false?'text-nw-warn':'text-nw-muted')}>{manualAvailable===undefined?'جارٍ التحقق من التوفر':manualAvailable?'متوفر يدوياً':'غير متوفر — البيع يحتاج تأكيداً'}</p>}
       </div>
     </div>
     {product.parcelOnly&&<p className="text-xs font-bold text-nw-info">طرد فقط</p>}
+    {!quantityTracked&&parcel&&<p className="text-xs text-nw-muted">{packageLabel} ({unitsPerPackage} {singleSaleUnitLabel(product.unit,true)})</p>}
     <div className="space-y-2">
       {methods.map((method,index)=>{
         const priceReady=typeof method.price==='number'&&Number.isFinite(method.price)&&method.price>=0;

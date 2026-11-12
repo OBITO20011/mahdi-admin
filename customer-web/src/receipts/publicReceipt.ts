@@ -7,7 +7,7 @@ const paymentLabel = (method: string) => ({cash:'كاش',cliq:'CliQ',card:'بط�
 export function publicReceiptDocument(receipt:PublicPosReceipt):ReceiptDocumentData {
   if(receipt.exchangeFunding&&receipt.items.length!==1)throw new Error('تفصيل وصل التبديل غير مكتمل.');
   return {businessName:'النواصرة لتجارة الجملة والمواد الغذائية',number:receipt.orderNumber,createdAt:receipt.createdAt,branch:receipt.branch,
-    lines:receipt.items.map((item,index)=>({key:String(index),name:item.productName,kind:item.commercialLineKind,
+    lines:receipt.items.map((item,index)=>({...(receipt.actualUnitNames?{actualUnitNames:true}:{}),key:String(index),name:item.productName,kind:item.commercialLineKind,
       quantity:item.packageQuantity,baseQuantity:item.baseQuantity,baseUnitName:item.baseUnitName,
       savedUnitName:item.packageName,parcels:item.parcelInstances,totalInMinorUnits:item.lineTotalInMinorUnits,
       //215 funds exactly one saved line, with no order discount/delivery.

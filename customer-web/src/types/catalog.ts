@@ -96,6 +96,8 @@ export interface PublicMerchandisingResponse {
 }
 
 export interface CartDisplayFields {
+  /** Display-only base-unit snapshot, populated for OFF carts. */
+  baseUnitNameAr?: string;
   schemaVersion: 2;
   localLineId: string;
   localRevision: number;

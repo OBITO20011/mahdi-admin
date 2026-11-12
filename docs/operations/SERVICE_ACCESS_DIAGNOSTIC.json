@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-12T13:39:22.766Z",
+  "startedAt": "2026-11-12T20:42:08.350Z",
   "migrationCeiling": 220,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-8PZAcc",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-idilGF",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -499,7 +499,7 @@
     },
     {
       "file": "src/features/orders/OrderDetailModal.tsx",
-      "sha256": "1345a71e35310019197e0dc2ec243a4e8fed5345f341fc6558a81a37c3796044"
+      "sha256": "7375ea10a330bf8660c69814e0c40e599999ff3f92aa3d164ba97e41aca8ec8c"
     },
     {
       "file": "src/features/orders/OrdersCenterView.tsx",
@@ -523,7 +523,7 @@
     },
     {
       "file": "src/features/pos/PosProductCard.tsx",
-      "sha256": "9263075435e3c7f44b0619ccbd3b611c3e14dc7d3926e711403478e29594b9fe"
+      "sha256": "c654cefea0d4f6121b22f46ae42fc7265637ab9a4584234e020d89ac12fa9421"
     },
     {
       "file": "src/features/pos/posSearchFocus.ts",
@@ -535,7 +535,7 @@
     },
     {
       "file": "src/features/pos/PosView.tsx",
-      "sha256": "03aed6955f721ef7dcc24890f4a729fa8e8c28aa322788b57860fa6541b9b800"
+      "sha256": "e81227658d80232379a7a3eb6d2291815dc4e40bc888c99b2374c5686e7a7c8a"
     },
     {
       "file": "src/features/pos/saleMethods.ts",
@@ -587,7 +587,7 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "sha256": "60dc1b760672a2f7d7abca073c84ab246d4d364e47b6e736b3ade427677a2264"
+      "sha256": "c20a6830b7659fdaf748e41d6ecec8ddc63d3d95d7b57f73ff2081c73f354f39"
     },
     {
       "file": "src/features/products/ProductFormParcelCapability.tsx",
@@ -639,7 +639,7 @@
     },
     {
       "file": "src/features/receipts/saleReceipt.ts",
-      "sha256": "470bf5d412539ef25320df6825f0b1be4afe9b26cc2b5a63f9a4a48b3e1dac22"
+      "sha256": "5b521ad61fd4fc5d268a75fde807e08077ea386dd42b353f4db12f3e4f59492a"
     },
     {
       "file": "src/features/receipts/SaleReceiptDialog.tsx",
@@ -1259,7 +1259,7 @@
     },
     {
       "file": "src/utils/receipt.ts",
-      "sha256": "48b0264545056a17b5da624d7597f8e9ef18d8e5e127fe4563dee676280733f4"
+      "sha256": "ecac1c505a7ca08d48b4f107889bb27d771c2a67c71dd3cce1e03d51335674b3"
     },
     {
       "file": "src/utils/receivingCalculations.ts",
@@ -1319,7 +1319,7 @@
     },
     {
       "file": "customer-web/src/App.tsx",
-      "sha256": "0f8fb7ea5ac005efd1b697b76e022f2ddae5b7bad782a34fec4474832101e177"
+      "sha256": "fb8c69659e5ab1629ede682dd4df150177c89628e0652155a7828bea9067912d"
     },
     {
       "file": "customer-web/src/components/AboutStorePage.tsx",
@@ -1411,7 +1411,7 @@
     },
     {
       "file": "customer-web/src/components/ParcelBuilderModal.tsx",
-      "sha256": "a548e0eaf6d16aadae66bc73de0242b4fd9119affc71f6608b390e3f843a96a0"
+      "sha256": "002ac820ed5cc7c56928282d933f364bfbc260780f1a1a7a2ff14218d2068667"
     },
     {
       "file": "customer-web/src/components/PrivacyPolicyModal.tsx",
@@ -1419,11 +1419,11 @@
     },
     {
       "file": "customer-web/src/components/ProductCard.tsx",
-      "sha256": "02135daa7163ba51fd131f4d5734dbc6e72ab5a17319debee7c8cbe7640c508e"
+      "sha256": "b30898ce02d5439575fb828d8ffb5348cfa78f1cb9dd8dbbb5cae8ac6188f462"
     },
     {
       "file": "customer-web/src/components/ProductDetailsModal.tsx",
-      "sha256": "7ccd14d66eae6316c117ce0d41331ba622faf55be7fcd03ea06b82c44db249e2"
+      "sha256": "d11faba4bf9d96f23d1e29ec7f9a2126661d87a6dfd73372b67b84f4a6787aeb"
     },
     {
       "file": "customer-web/src/components/ProductImage.tsx",
@@ -1515,7 +1515,7 @@
     },
     {
       "file": "customer-web/src/receipts/commercialReceipt.ts",
-      "sha256": "7a3614aadd0d00e7a7bbb0248084b089a22649dfaf7c5fe6a46785a986f382da"
+      "sha256": "49d1ae347da105170ca60ccf361add4c79e2b5d35ce4276be06f50b654660622"
     },
     {
       "file": "customer-web/src/receipts/exactMoney.ts",
@@ -1527,7 +1527,7 @@
     },
     {
       "file": "customer-web/src/receipts/publicReceipt.ts",
-      "sha256": "66812607e162c9674fbf89ada7c2bce93e004725f2208c77fe259f7c6a8628dc"
+      "sha256": "3427a9a99ea423aad205e23bc86d90b4a0fc0711f454d44534ebc8df72fa0c2e"
     },
     {
       "file": "customer-web/src/receipts/ReceiptDocument.tsx",
@@ -1559,7 +1559,7 @@
     },
     {
       "file": "customer-web/src/services/receipts.service.ts",
-      "sha256": "0b83652a16e32eec79f8d711390a3f362735c1748e0304a401f0d0dd716b13a2"
+      "sha256": "504be10583aedc78ec678b3e929ca998eb918d420a47f5161ca6897121056d28"
     },
     {
       "file": "customer-web/src/services/storefront-settings.service.ts",
@@ -1567,7 +1567,7 @@
     },
     {
       "file": "customer-web/src/types/catalog.ts",
-      "sha256": "3d4e7f5529ab4e8a259f2aa8286dcc95d170bf12c6349fe33247b829cbe09e14"
+      "sha256": "0ffd1bbe88c6caeb332b9f26821c6a37b357c148b434fd5e9fac797f16a4a32b"
     },
     {
       "file": "customer-web/src/types/checkout.ts",
@@ -1579,7 +1579,7 @@
     },
     {
       "file": "customer-web/src/types/receipt.ts",
-      "sha256": "a9c3db32cf874877a19872e4ed07a62fd90101e8b1a4b52a292b880bd231a7e3"
+      "sha256": "34bef759ca36dfd744ba93c440b9be5449985083f5ed380d248fbfe4bc6d847d"
     },
     {
       "file": "customer-web/src/types/storefront.ts",
@@ -1587,7 +1587,7 @@
     },
     {
       "file": "customer-web/src/utils/cart.ts",
-      "sha256": "d8b5178372e6f8d1519661ec12fc69c2e3b4357091cee761bf9b506d2e82f2d0"
+      "sha256": "aeffd63f39ccb64922d653b3ed707f4541a9e5c87c92274272513757f3f91a3c"
     },
     {
       "file": "customer-web/src/utils/cartAdditionAnimation.ts",
@@ -1639,7 +1639,7 @@
     },
     {
       "file": "customer-web/src/utils/saleUnitLabels.ts",
-      "sha256": "32094e3cfb71b64458a40b245eb9a66dc3e51260829d25e573db68cf5b0b6bf9"
+      "sha256": "4af28cf740e6b8e1bbdfdba5f21154c472ea9d1bc6ba845c4b181005185c3481"
     },
     {
       "file": "customer-web/src/utils/scroll.ts",
@@ -1651,7 +1651,7 @@
     },
     {
       "file": "customer-web/src/utils/storefrontUnits.ts",
-      "sha256": "35588bba49bdd0fb505b6ed24646fbb877391cbb4f40bd10024afe3448effdc8"
+      "sha256": "1d479db187aee7ace823dab9e707939277e3de300d7c19e841186e37dd5c6519"
     },
     {
       "file": "supabase/functions/_shared/owner-telegram-format.ts",
@@ -27389,6 +27389,18 @@
       "command": "SELECT public.\"get_public_pos_receipt\"(NULL::uuid)"
     },
     {
+      "site": "customer-web/src/services/receipts.service.ts:45",
+      "name": "lite1_operating_mode",
+      "role": "anon",
+      "actor": null,
+      "appRole": "anon",
+      "identity": "lite1_operating_mode(text)",
+      "args": [
+        "NULL::text"
+      ],
+      "command": "SELECT public.\"lite1_operating_mode\"(NULL::text)"
+    },
+    {
       "site": "customer-web/src/services/storefront-settings.service.ts:70",
       "name": "get_public_storefront_settings",
       "role": "anon",
@@ -40446,6 +40458,22 @@
       "sqlstate": null
     },
     {
+      "site": "customer-web/src/services/receipts.service.ts:45",
+      "name": "lite1_operating_mode",
+      "role": "anon",
+      "actor": null,
+      "appRole": "anon",
+      "identity": "lite1_operating_mode(text)",
+      "args": [
+        "NULL::text"
+      ],
+      "command": "SELECT public.\"lite1_operating_mode\"(NULL::text)",
+      "probe": 653,
+      "message": "success rolled back",
+      "outcome": "success_rolled_back",
+      "sqlstate": null
+    },
+    {
       "site": "customer-web/src/services/storefront-settings.service.ts:70",
       "name": "get_public_storefront_settings",
       "role": "anon",
@@ -40454,7 +40482,7 @@
       "identity": "get_public_storefront_settings()",
       "args": [],
       "command": "SELECT public.\"get_public_storefront_settings\"()",
-      "probe": 653,
+      "probe": 654,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -40468,7 +40496,7 @@
       "identity": "authorize_admin_ai_assistant_request()",
       "args": [],
       "command": "SELECT public.\"authorize_admin_ai_assistant_request\"()",
-      "probe": 654,
+      "probe": 655,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -40482,7 +40510,7 @@
       "identity": "authorize_admin_ai_assistant_request()",
       "args": [],
       "command": "SELECT public.\"authorize_admin_ai_assistant_request\"()",
-      "probe": 655,
+      "probe": 656,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -40496,7 +40524,7 @@
       "identity": "authorize_admin_ai_assistant_request()",
       "args": [],
       "command": "SELECT public.\"authorize_admin_ai_assistant_request\"()",
-      "probe": 656,
+      "probe": 657,
       "message": "ليس لديك صلاحية استخدام مساعد الإدارة الذكي.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -40510,7 +40538,7 @@
       "identity": "get_admin_ai_inventory_snapshot()",
       "args": [],
       "command": "SELECT public.\"get_admin_ai_inventory_snapshot\"()",
-      "probe": 657,
+      "probe": 658,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -40524,7 +40552,7 @@
       "identity": "get_admin_ai_inventory_snapshot()",
       "args": [],
       "command": "SELECT public.\"get_admin_ai_inventory_snapshot\"()",
-      "probe": 658,
+      "probe": 659,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -40538,7 +40566,7 @@
       "identity": "get_admin_ai_inventory_snapshot()",
       "args": [],
       "command": "SELECT public.\"get_admin_ai_inventory_snapshot\"()",
-      "probe": 659,
+      "probe": 660,
       "message": "ليس لديك صلاحية قراءة مخزون وأسعار مساعد الإدارة الذكي.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -40552,7 +40580,7 @@
       "identity": "get_home_dashboard()",
       "args": [],
       "command": "SELECT public.\"get_home_dashboard\"()",
-      "probe": 660,
+      "probe": 661,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -40566,7 +40594,7 @@
       "identity": "get_home_dashboard()",
       "args": [],
       "command": "SELECT public.\"get_home_dashboard\"()",
-      "probe": 661,
+      "probe": 662,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -40580,7 +40608,7 @@
       "identity": "get_home_dashboard()",
       "args": [],
       "command": "SELECT public.\"get_home_dashboard\"()",
-      "probe": 662,
+      "probe": 663,
       "message": "ليس لديك صلاحية عرض الصفحة الرئيسية.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -40594,7 +40622,7 @@
       "identity": "get_admin_ai_monthly_report()",
       "args": [],
       "command": "SELECT public.\"get_admin_ai_monthly_report\"()",
-      "probe": 663,
+      "probe": 664,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -40608,7 +40636,7 @@
       "identity": "get_admin_ai_monthly_report()",
       "args": [],
       "command": "SELECT public.\"get_admin_ai_monthly_report\"()",
-      "probe": 664,
+      "probe": 665,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -40622,7 +40650,7 @@
       "identity": "get_admin_ai_monthly_report()",
       "args": [],
       "command": "SELECT public.\"get_admin_ai_monthly_report\"()",
-      "probe": 665,
+      "probe": 666,
       "message": "ليس لديك صلاحية قراءة التقرير الشهري لمساعد الإدارة الذكي.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -40638,7 +40666,7 @@
         "ARRAY[]::text[]"
       ],
       "command": "SELECT public.\"has_erp_role\"(ARRAY[]::text[])",
-      "probe": 666,
+      "probe": 667,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -40649,22 +40677,6 @@
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
       "appRole": "admin",
-      "identity": "has_erp_role(text[])",
-      "args": [
-        "ARRAY[]::text[]"
-      ],
-      "command": "SELECT public.\"has_erp_role\"(ARRAY[]::text[])",
-      "probe": 667,
-      "message": "success rolled back",
-      "outcome": "success_rolled_back",
-      "sqlstate": null
-    },
-    {
-      "site": "supabase/functions/manage-staff-users/index.ts:147",
-      "name": "has_erp_role",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000003",
-      "appRole": "cashier",
       "identity": "has_erp_role(text[])",
       "args": [
         "ARRAY[]::text[]"
@@ -40676,6 +40688,22 @@
       "sqlstate": null
     },
     {
+      "site": "supabase/functions/manage-staff-users/index.ts:147",
+      "name": "has_erp_role",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "has_erp_role(text[])",
+      "args": [
+        "ARRAY[]::text[]"
+      ],
+      "command": "SELECT public.\"has_erp_role\"(ARRAY[]::text[])",
+      "probe": 669,
+      "message": "success rolled back",
+      "outcome": "success_rolled_back",
+      "sqlstate": null
+    },
+    {
       "site": "supabase/functions/manage-staff-users/index.ts:158",
       "name": "get_erp_staff_accounts",
       "role": "authenticated",
@@ -40684,7 +40712,7 @@
       "identity": "get_erp_staff_accounts()",
       "args": [],
       "command": "SELECT public.\"get_erp_staff_accounts\"()",
-      "probe": 669,
+      "probe": 670,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -40698,7 +40726,7 @@
       "identity": "get_erp_staff_accounts()",
       "args": [],
       "command": "SELECT public.\"get_erp_staff_accounts\"()",
-      "probe": 670,
+      "probe": 671,
       "message": "ليس لديك صلاحية إدارة حسابات الموظفين.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -40712,7 +40740,7 @@
       "identity": "get_erp_staff_accounts()",
       "args": [],
       "command": "SELECT public.\"get_erp_staff_accounts\"()",
-      "probe": 671,
+      "probe": 672,
       "message": "ليس لديك صلاحية إدارة حسابات الموظفين.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -40728,7 +40756,7 @@
         "25::integer"
       ],
       "command": "SELECT public.\"get_erp_staff_account_audit_logs\"(25::integer)",
-      "probe": 672,
+      "probe": 673,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -40744,7 +40772,7 @@
         "25::integer"
       ],
       "command": "SELECT public.\"get_erp_staff_account_audit_logs\"(25::integer)",
-      "probe": 673,
+      "probe": 674,
       "message": "ليس لديك صلاحية عرض سجل إدارة الموظفين.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -40760,7 +40788,7 @@
         "25::integer"
       ],
       "command": "SELECT public.\"get_erp_staff_account_audit_logs\"(25::integer)",
-      "probe": 674,
+      "probe": 675,
       "message": "ليس لديك صلاحية عرض سجل إدارة الموظفين.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -40781,7 +40809,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"create_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 675,
+      "probe": 676,
       "message": "اسم المستخدم يجب أن يكون بين حرفين و120 حرفًا.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -40802,7 +40830,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"create_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 676,
+      "probe": 677,
       "message": "ليس لديك صلاحية إضافة حساب موظف أو مالك نظام.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -40823,7 +40851,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"create_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 677,
+      "probe": 678,
       "message": "ليس لديك صلاحية إضافة حساب موظف أو مالك نظام.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -40844,7 +40872,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"update_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 678,
+      "probe": 679,
       "message": "لا يمكن تعديل حسابك الحالي من إدارة المستخدمين.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -40865,7 +40893,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"update_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 679,
+      "probe": 680,
       "message": "ليس لديك صلاحية تعديل حساب موظف أو مالك نظام.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -40886,7 +40914,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"update_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 680,
+      "probe": 681,
       "message": "ليس لديك صلاحية تعديل حساب موظف أو مالك نظام.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -40903,7 +40931,7 @@
         "false"
       ],
       "command": "SELECT public.\"set_erp_staff_account_active\"('92600000-0000-4000-8000-000000000001'::uuid,false)",
-      "probe": 681,
+      "probe": 682,
       "message": "لا يمكن تعطيل أو تعديل حسابك الحالي.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -40920,7 +40948,7 @@
         "false"
       ],
       "command": "SELECT public.\"set_erp_staff_account_active\"('92600000-0000-4000-8000-000000000001'::uuid,false)",
-      "probe": 682,
+      "probe": 683,
       "message": "ليس لديك صلاحية تفعيل أو تعطيل حساب مستخدم.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -40937,7 +40965,7 @@
         "false"
       ],
       "command": "SELECT public.\"set_erp_staff_account_active\"('92600000-0000-4000-8000-000000000001'::uuid,false)",
-      "probe": 683,
+      "probe": 684,
       "message": "ليس لديك صلاحية تفعيل أو تعطيل حساب مستخدم.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -40953,7 +40981,7 @@
         "'92600000-0000-4000-8000-000000000001'::uuid"
       ],
       "command": "SELECT public.\"record_erp_staff_password_reset\"('92600000-0000-4000-8000-000000000001'::uuid)",
-      "probe": 684,
+      "probe": 685,
       "message": "لا يمكن إعادة تعيين كلمة مرور حسابك الحالي من هذه الشاشة.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -40969,7 +40997,7 @@
         "'92600000-0000-4000-8000-000000000001'::uuid"
       ],
       "command": "SELECT public.\"record_erp_staff_password_reset\"('92600000-0000-4000-8000-000000000001'::uuid)",
-      "probe": 685,
+      "probe": 686,
       "message": "ليس لديك صلاحية إعادة تعيين كلمة مرور مستخدم.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -40985,7 +41013,7 @@
         "'92600000-0000-4000-8000-000000000001'::uuid"
       ],
       "command": "SELECT public.\"record_erp_staff_password_reset\"('92600000-0000-4000-8000-000000000001'::uuid)",
-      "probe": 686,
+      "probe": 687,
       "message": "ليس لديك صلاحية إعادة تعيين كلمة مرور مستخدم.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -41003,7 +41031,7 @@
         "0::integer"
       ],
       "command": "SELECT public.\"claim_automation_deliveries\"(NULL::text,25::integer,0::integer)",
-      "probe": 687,
+      "probe": 688,
       "message": "Invalid automation delivery channel.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -41022,7 +41050,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"complete_automation_delivery\"(NULL::uuid,NULL::text,false,NULL::text)",
-      "probe": 688,
+      "probe": 689,
       "message": "Invalid automation delivery completion.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -41038,7 +41066,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"claim_owner_telegram_deliveries_v1\"(NULL::uuid)",
-      "probe": 689,
+      "probe": 690,
       "message": "OWNER_TELEGRAM_RUN_ID_REQUIRED",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -41054,7 +41082,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"owner_telegram_dispatch_lease_valid_v1\"(NULL::uuid)",
-      "probe": 690,
+      "probe": 691,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -41073,7 +41101,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"complete_owner_telegram_delivery_v1\"(NULL::uuid,NULL::uuid,false,NULL::text)",
-      "probe": 691,
+      "probe": 692,
       "message": "OWNER_TELEGRAM_LEASE_LOST",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -41089,7 +41117,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"release_owner_telegram_dispatch_v1\"(NULL::uuid)",
-      "probe": 692,
+      "probe": 693,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -41103,7 +41131,7 @@
       "identity": "get_push_webhook_secret()",
       "args": [],
       "command": "SELECT public.\"get_push_webhook_secret\"()",
-      "probe": 693,
+      "probe": 694,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -41119,7 +41147,7 @@
         "'92600000-0000-4000-8000-000000000001'::uuid"
       ],
       "command": "SELECT public.\"get_active_order_push_targets\"('92600000-0000-4000-8000-000000000001'::uuid)",
-      "probe": 694,
+      "probe": 695,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -41138,7 +41166,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"authorize_guest_order_gateway\"(NULL::uuid,NULL::text,NULL::text,NULL::text)",
-      "probe": 695,
+      "probe": 696,
       "message": "Invalid gateway request.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -41154,7 +41182,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"lite1_operating_mode\"(NULL::text)",
-      "probe": 696,
+      "probe": 697,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -41192,7 +41220,7 @@
         "0::bigint"
       ],
       "command": "SELECT public.\"submit_guest_customer_order_v2\"('isolated-service-audit-0000000000000000000001',NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,0::double precision,0::double precision,NULL::text,'[]'::jsonb,NULL::text,NULL::text,NULL::text,0::bigint,0::bigint,0::bigint,0::bigint)",
-      "probe": 697,
+      "probe": 698,
       "message": "PHASE3_IDEMPOTENCY_INPUT_INVALID: Customer operation identity is invalid.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -41209,7 +41237,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"lite1_guest2\"('{}'::jsonb,NULL::text)",
-      "probe": 698,
+      "probe": 699,
       "message": "PHASE3_IDEMPOTENCY_INPUT_INVALID",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -41227,7 +41255,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"finalize_guest_order_gateway\"(NULL::uuid,NULL::text,NULL::uuid)",
-      "probe": 699,
+      "probe": 700,
       "message": "Gateway authorization was not found.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -41245,7 +41273,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"finalize_guest_order_gateway\"(NULL::uuid,NULL::text,NULL::uuid)",
-      "probe": 700,
+      "probe": 701,
       "message": "Gateway authorization was not found.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -51558,7 +51586,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-11-12T13:39:47.220Z",
+  "endedAt": "2026-11-12T20:42:32.983Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {

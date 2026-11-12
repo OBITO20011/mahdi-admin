@@ -73,11 +73,11 @@ function cartDisplayFields(product: CatalogProduct) {
     sku: product.sku,
     nameAr: product.nameAr,
     imageUrl: product.imageUrl,
-    saleUnitNameAr: product.unitsPerSalePackage > 1 ? 'طرد' : product.unitNameAr || 'باكيت',
+    saleUnitNameAr: product.unitsPerSalePackage > 1 ? product.quantityTracked===false?product.saleUnitNameAr||'طرد':'طرد' : product.unitNameAr || 'باكيت',
     unitsPerSalePackage: product.unitsPerSalePackage,
     unitPriceInMinorUnits: product.salePackagePriceInMinorUnits,
     quantity: 1,
-    ...(product.quantityTracked===false?{quantityTracked:false}:{}),
+    ...(product.quantityTracked===false?{quantityTracked:false,baseUnitNameAr:product.unitNameAr}:{}),
     maxAvailablePackages: product.availableSalePackages,
   };
 }
@@ -130,7 +130,7 @@ export function createConfigurableParcelCartItem(
   instance: ParcelInstanceSelection
 ): ConfigurableParcelCartItem {
   if (parcelInstanceQuantity(instance) !== option.unitsPerParcel) {
-    throw new Error(`يجب اختيار ${option.unitsPerParcel} ${storefrontUnitName(option.baseUnitNameAr)} للطرد.`);
+    throw new Error(`يجب اختيار ${option.unitsPerParcel} ${storefrontUnitName(option.baseUnitNameAr,option.quantityTracked)} للطرد.`);
   }
   return {
     ...cartDisplayFields(familyProduct),
@@ -145,7 +145,7 @@ export function createConfigurableParcelCartItem(
     unitsPerSalePackage: option.unitsPerParcel,
     unitPriceInMinorUnits: option.parcelPriceInMinorUnits,
     quantity: 1,
-    ...(option.quantityTracked===false?{quantityTracked:false}:{}),
+    ...(option.quantityTracked===false?{quantityTracked:false,baseUnitNameAr:option.baseUnitNameAr}:{}),
     maxAvailablePackages: option.quantityTracked===false?null:Number.MAX_SAFE_INTEGER,
     parcelInstances: [instance],
   };
@@ -207,6 +207,7 @@ export function isCurrentCartItem(value: unknown): value is CartItem {
     typeof item.nameAr === 'string' &&
     typeof item.imageUrl === 'string' &&
     typeof item.saleUnitNameAr === 'string' &&
+    (item.baseUnitNameAr===undefined||typeof item.baseUnitNameAr==='string') &&
     Number.isInteger(item.unitsPerSalePackage) &&
     Number(item.unitsPerSalePackage) > 0 &&
     Number.isInteger(item.unitPriceInMinorUnits) &&
@@ -294,10 +295,10 @@ export function reconcileCart(
       sku: product.sku,
       nameAr: product.nameAr,
       imageUrl: product.imageUrl,
-      saleUnitNameAr: isBaseUnit || product.unitsPerSalePackage <= 1 ? product.unitNameAr || 'باكيت' : 'طرد',
+      saleUnitNameAr: isBaseUnit || product.unitsPerSalePackage <= 1 ? product.unitNameAr || 'باكيت' : product.quantityTracked===false?product.saleUnitNameAr||'طرد':'طرد',
       unitsPerSalePackage: isBaseUnit ? 1 : product.unitsPerSalePackage,
       unitPriceInMinorUnits: isBaseUnit ? product.salePriceInMinorUnits : product.salePackagePriceInMinorUnits,
-      ...(product.quantityTracked===false?{quantityTracked:false}:{}),
+      ...(product.quantityTracked===false?{quantityTracked:false,baseUnitNameAr:product.unitNameAr}:{}),
       maxAvailablePackages: product.quantityTracked===false?null:available,
       quantity: available===null?positiveInteger(item.quantity):Math.min(positiveInteger(item.quantity), available),
     } as CartItem];

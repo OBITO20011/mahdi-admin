@@ -16,6 +16,7 @@ export interface PublicPosReceiptItem {
 }
 
 export interface PublicPosReceipt {
+  actualUnitNames?:boolean;
   exchangeFunding?:ExchangeReceiptFunding;
   orderNumber: string;
   createdAt: string;

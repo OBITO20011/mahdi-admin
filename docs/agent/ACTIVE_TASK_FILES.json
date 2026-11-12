@@ -1,4 +1,17 @@
 {
   "schemaVersion": 1,
-  "files": []
+  "files": [
+    {
+      "code": " M",
+      "path": "docs/agent/PHASE_STATUS.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/product-workbook-runtime-view.mjs"
+    }
+  ]
 }

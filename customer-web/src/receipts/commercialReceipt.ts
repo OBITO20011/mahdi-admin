@@ -5,6 +5,7 @@ import {formatExactMinorJod} from './exactMoney';
 export interface ReceiptComponent {name:string;quantity:number;unitName:string}
 export interface ReceiptParcel {components:ReceiptComponent[]}
 export interface CommercialReceiptLine {
+  actualUnitNames?:boolean;
   key:string;name:string;kind?:string;quantity:number;baseQuantity?:number;
   baseUnitName?:string;savedUnitName?:string;parcels?:ReceiptParcel[];
   totalInMinorUnits:number;totalInMinorUnitsExact?:string;
@@ -28,10 +29,13 @@ function componentName(parent:string,name:string){
   return saved||'اسم النكهة غير متاح';
 }
 export function receiptLineDescription(line:CommercialReceiptLine):string {
-  const quantity=count(line.quantity),unit=SINGLE_SALE_UNIT;
+  const quantity=count(line.quantity),unit=line.actualUnitNames?singleSaleUnitLabel(line.baseUnitName,true):SINGLE_SALE_UNIT;
+  if(line.actualUnitNames&&line.kind==='legacy_single_sku_parcel')return line.baseQuantity===line.quantity
+    ? `${quantity} ${unit}`
+    : `${quantity} ${line.savedUnitName?.trim()||'طرد'} (${line.baseQuantity===undefined?'المحتوى المحفوظ غير متاح':`${count(line.baseQuantity)} ${unit}`})`;
   if(line.kind==='legacy_single_sku_parcel'&&line.baseQuantity===line.quantity&&singleSaleUnitLabel(line.baseUnitName)==='طرد')return `${quantity} طرد`;
   if(line.kind==='legacy_single_sku_parcel')return `${quantity} طرد (${line.baseQuantity===undefined?'المحتوى المحفوظ غير متاح':`${count(line.baseQuantity)} ${unit}`})`;
-  if(line.kind==='base_unit')return `${quantity} ${singleSaleUnitLabel(line.baseUnitName)}`;
+  if(line.kind==='base_unit')return `${quantity} ${singleSaleUnitLabel(line.baseUnitName,line.actualUnitNames)}`;
   if(line.kind==='configurable_parcel'){
     if(!line.parcels?.length||line.parcels.length!==line.quantity||line.parcels.some(p=>!p.components.length))return `${quantity} طرد مشكّل (المكونات المحفوظة غير متاحة)`;
     const recipes=line.parcels.map(p=>p.components.map(c=>`${count(c.quantity)} ${componentName(line.name,c.name)}`).join(' + '));
@@ -40,7 +44,7 @@ export function receiptLineDescription(line:CommercialReceiptLine):string {
   }
   // Historical fields remain unchanged;only the saved unit label is displayed
   // canonically. Never infer a commercial kind or multiply a quantity from N.
-  return `${quantity} ${savedSaleUnitLabel(line.savedUnitName)}`;
+  return `${quantity} ${line.actualUnitNames?line.savedUnitName?.trim()||unit:savedSaleUnitLabel(line.savedUnitName)}`;
 }
 export function receiptDocumentShareText(receipt:ReceiptDocumentData,url?:string):string {
   return [receipt.businessName,receipt.branch.name,`إيصال البيع رقم: ${receipt.number}`,

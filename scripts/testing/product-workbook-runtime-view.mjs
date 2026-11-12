@@ -7,6 +7,18 @@ const root=path.resolve(import.meta.dirname,'../..'),baseline='2dafe8433bc4efef6
 const featureHarnessFiles=new Set(['e2e/package-f-pos-harness.tsx','e2e/package-f-product-workbook-harness.tsx','e2e/package-f-product-workbook-harness.html','e2e/package-f-product-workbook.fixture.ts','e2e/package-f-product-workbook.spec.ts','e2e/package-f-screen-history-harness.tsx','e2e/package-f-screen-history-harness.html','e2e/package-f-screen-history.spec.ts','e2e/package-f-record-order-harness.tsx','e2e/package-f-record-order-harness.html','e2e/package-f-record-order.spec.ts','e2e/package-f-iphone-dialogs-harness.tsx','e2e/package-f-iphone-dialogs-harness.html','e2e/package-f-iphone-dialogs.spec.ts']);
 const guestSourceFiles=new Set(['supabase/functions/submit-guest-order/index.ts','supabase/functions/submit-guest-order/operatingMode.ts']);
 const phase3LegacySources=Object.freeze([
+ 'customer-web/src/App.tsx',
+ 'customer-web/src/components/ParcelBuilderModal.tsx',
+ 'customer-web/src/components/ProductCard.tsx',
+ 'customer-web/src/components/ProductDetailsModal.tsx',
+ 'customer-web/src/receipts/publicReceipt.ts',
+ 'customer-web/src/services/receipts.service.ts',
+ 'customer-web/src/types/catalog.ts',
+ 'customer-web/src/types/receipt.ts',
+ 'customer-web/src/utils/cart.ts',
+ 'src/features/orders/OrderDetailModal.tsx',
+ 'src/features/receipts/saleReceipt.ts',
+ 'src/utils/receipt.ts',
  'customer-web/src/receipts/commercialReceipt.ts',
  'customer-web/src/utils/saleUnitLabels.ts',
  'customer-web/src/utils/storefrontUnits.ts',
