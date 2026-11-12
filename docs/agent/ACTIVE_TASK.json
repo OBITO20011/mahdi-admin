@@ -29,13 +29,13 @@
   "prohibitions": [
     "No migration/RPC/DB guard changes;no hostedaccess/deploy/merge;no primaryowner/env changes;58/79/82 untouched."
   ],
-  "nextExactAction": "Full types/strictlint/units,PR+FULLCI;preserve existing local Auth/TOTP during demo refresh;UI import actual units and verify5 unit receipts.",
+  "nextExactAction": "PR91:move current display/source pins to exact phase3-to219 outer inverse;keep originalphase2/216 history. CurrentCI stage rejects four missing receipt views;extend explicit source list,verify locally thennewheadCI. Localdemo reset applied220+seed,restart timedout;recover ownedservices without repeatingreset,restoreAuth+TOTP and UIimport.",
   "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "140FABC4461936AB52002DC2092BC8C1E014B23B017B8367BD279F3225C3EA29",
-  "checkpointedAt": "2026-11-12T20:50:15.029Z",
-  "filesTouchedCount": 7,
-  "filesTouchedManifestSha256": "b29a35603e24335f2a8cdbfdb2c49f3e52d9db7805b6a29a94a6b0c8791ff0f6"
+  "workingTreeFingerprint": "793F68F6C6BED536B624768CC952178B5A28B1B754D820311BC3EAF822036602",
+  "checkpointedAt": "2026-11-12T21:29:46.515Z",
+  "filesTouchedCount": 3,
+  "filesTouchedManifestSha256": "756412e3de7624a5823b5e5cba2438838400d587ca3b1c8789f999e83ba6a333"
 }

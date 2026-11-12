@@ -3,31 +3,15 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+      "path": "docs/agent/PHASE_STATUS.md"
     },
     {
       "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+      "path": "docs/agent/project-state.json"
     },
     {
       "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_220.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/partial216-source-pins.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/sales-only-phase2-source-pins.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/sales-only-phase3-source-pins.json"
+      "path": "scripts/testing/product-workbook-runtime-view.mjs"
     }
   ]
 }
