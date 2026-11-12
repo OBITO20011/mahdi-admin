@@ -8,8 +8,10 @@ export function PosProductCard({product,stock,parcelQuantity,unitQuantity,disabl
   quantityTracked?:boolean;manualAvailable?:boolean;
   onAdd:(mode:PosSingleProductMode)=>void;onReduce:(mode:PosSingleProductMode)=>void;
 }){
-  const parcel=(product.unitsPerSalePackage??1)>1,unit=!product.parcelOnly;
-  const methods=[...(parcel?[{mode:'legacy_single_sku_parcel' as const,label:packageSaleUnitLabel(product.salePackage,product.purchasePackage,!quantityTracked),price:product.salePackagePrice,quantity:parcelQuantity}]:[]),
+  const unitsPerPackage=product.unitsPerSalePackage??1;
+  const parcel=unitsPerPackage>1,unit=!product.parcelOnly;
+  const packageLabel=packageSaleUnitLabel(product.salePackage,product.purchasePackage,!quantityTracked);
+  const methods=[...(parcel?[{mode:'legacy_single_sku_parcel' as const,label:packageLabel,price:product.salePackagePrice,quantity:parcelQuantity}]:[]),
     ...(unit?[{mode:'base_unit' as const,label:singleSaleUnitLabel(product.unit,!quantityTracked),price:product.retailPrice,quantity:unitQuantity}]:[])];
   return <article data-pos-product={product.id} className={'min-w-0 space-y-3 rounded-2xl border bg-nw-surface p-3 '+(parcelQuantity+unitQuantity>0?'border-nw-primary ring-1 ring-nw-primary':'border-nw-border')}>
     <div className="flex min-w-0 items-center gap-3">
@@ -21,6 +23,7 @@ export function PosProductCard({product,stock,parcelQuantity,unitQuantity,disabl
       </div>
     </div>
     {product.parcelOnly&&<p className="text-xs font-bold text-nw-info">طرد فقط</p>}
+    {!quantityTracked&&parcel&&<p className="text-xs text-nw-muted">{packageLabel} ({unitsPerPackage} {singleSaleUnitLabel(product.unit,true)})</p>}
     <div className="space-y-2">
       {methods.map((method,index)=>{
         const priceReady=typeof method.price==='number'&&Number.isFinite(method.price)&&method.price>=0;

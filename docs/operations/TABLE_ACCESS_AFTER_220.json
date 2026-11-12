@@ -78465,7 +78465,7 @@
     },
     {
       "file": "src/features/pos/PosProductCard.tsx",
-      "sha256": "a7d7eccb8e868a33a77d0f5ba120d5dfaf2b8f305bd59367f0fbd73d77b2aef1"
+      "sha256": "c654cefea0d4f6121b22f46ae42fc7265637ab9a4584234e020d89ac12fa9421"
     },
     {
       "file": "src/features/pos/posSearchFocus.ts",
