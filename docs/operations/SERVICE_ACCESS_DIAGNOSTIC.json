@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-11T04:55:08.055Z",
+  "startedAt": "2026-11-12T10:57:55.509Z",
   "migrationCeiling": 220,
   "managedAccess": false,
-  "output": "local-isolated-220",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-pYNiKy",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -459,7 +459,7 @@
     },
     {
       "file": "src/features/operatingMode/OperatingModePanel.tsx",
-      "sha256": "15208f056c4fd09a5a25f790337d792b8f94810ceea395a620625dd301c01ab4"
+      "sha256": "90c6d5cd8962a727e5726d4ad1b28cf83fbb5d0a41008327d683586f3aa26d3b"
     },
     {
       "file": "src/features/operatingMode/OperatingModeProvider.tsx",
@@ -923,7 +923,7 @@
     },
     {
       "file": "src/services/supabase/operatingModeCommand.ts",
-      "sha256": "14da7b1c9f9f36c6dbab40f51b0dc048692643badf216aa3204af8660419c15e"
+      "sha256": "78040f906eba92e23987217f28c7ec1d3aaab0bd9e81e9268dabc85fc98f0e3c"
     },
     {
       "file": "src/services/supabase/operatingOrdersPage.ts",
@@ -21789,7 +21789,7 @@
       "command": "SELECT public.\"lite1_operating_mode\"(NULL::text)"
     },
     {
-      "site": "src/services/supabase/operatingModeCommand.ts:16",
+      "site": "src/services/supabase/operatingModeCommand.ts:18",
       "name": "lite1_set_mode2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -21801,7 +21801,7 @@
       "command": "SELECT public.\"lite1_set_mode2\"(false)"
     },
     {
-      "site": "src/services/supabase/operatingModeCommand.ts:16",
+      "site": "src/services/supabase/operatingModeCommand.ts:18",
       "name": "lite1_set_mode2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -21813,7 +21813,7 @@
       "command": "SELECT public.\"lite1_set_mode2\"(false)"
     },
     {
-      "site": "src/services/supabase/operatingModeCommand.ts:16",
+      "site": "src/services/supabase/operatingModeCommand.ts:18",
       "name": "lite1_set_mode2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -33410,7 +33410,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/operatingModeCommand.ts:16",
+      "site": "src/services/supabase/operatingModeCommand.ts:18",
       "name": "lite1_set_mode2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -33426,7 +33426,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/operatingModeCommand.ts:16",
+      "site": "src/services/supabase/operatingModeCommand.ts:18",
       "name": "lite1_set_mode2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -33442,7 +33442,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/operatingModeCommand.ts:16",
+      "site": "src/services/supabase/operatingModeCommand.ts:18",
       "name": "lite1_set_mode2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -51558,7 +51558,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-11-11T04:56:49.001Z",
+  "endedAt": "2026-11-12T10:58:21.450Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {
@@ -51955,7 +51955,7 @@
     {
       "file": "docs/operations/GO_LIVE_CUTOVER_AR.md",
       "lines": [
-        64
+        66
       ],
       "category": "HISTORICAL_DOCUMENTATION"
     },

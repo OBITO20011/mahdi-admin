@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "project": "Nawasrah ERP",
-  "branch": "codex/sales-only-phase3",
+  "branch": "codex/prelaunch-accounting-off-lock",
   "approvedBaseline": "cab1c5aed8c2069e2919c566ea09c2da9757896d",
   "closedPhases": [
     "3",
@@ -14,7 +14,7 @@
     "6"
   ],
   "phase4Closed": true,
-  "currentPhase": "SALES_ONLY_PHASE3",
+  "currentPhase": "PRELAUNCH_MODE_READ_ONLY",
   "phase6Closed": true,
   "phase6ClosureBaseline": "5aaeab11e13c2be454af677ee176f77aa2d9cde4",
   "phase6ClosureExactShaCi": "PASS",
@@ -285,5 +285,6 @@
   "phaseSALES_ONLY_PHASE1ImplementationAllowed": true,
   "phaseSALES_ONLY_PHASE2ImplementationAllowed": true,
   "phaseSALES_ONLY_PHASE3ImplementationAllowed": true,
-  "migration220CanonicalLfSha256": "08BCD03CE79DC1421A49B66C7A0C44CABFDA4673ADBEFC9707AFDDFDE7EF49FA"
+  "migration220CanonicalLfSha256": "08BCD03CE79DC1421A49B66C7A0C44CABFDA4673ADBEFC9707AFDDFDE7EF49FA",
+  "phasePRELAUNCH_MODE_READ_ONLYImplementationAllowed": true
 }

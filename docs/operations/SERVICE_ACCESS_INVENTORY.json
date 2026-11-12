@@ -457,7 +457,7 @@
     },
     {
       "file": "src/features/operatingMode/OperatingModePanel.tsx",
-      "sha256": "15208f056c4fd09a5a25f790337d792b8f94810ceea395a620625dd301c01ab4"
+      "sha256": "90c6d5cd8962a727e5726d4ad1b28cf83fbb5d0a41008327d683586f3aa26d3b"
     },
     {
       "file": "src/features/operatingMode/OperatingModeProvider.tsx",
@@ -921,7 +921,7 @@
     },
     {
       "file": "src/services/supabase/operatingModeCommand.ts",
-      "sha256": "14da7b1c9f9f36c6dbab40f51b0dc048692643badf216aa3204af8660419c15e"
+      "sha256": "78040f906eba92e23987217f28c7ec1d3aaab0bd9e81e9268dabc85fc98f0e3c"
     },
     {
       "file": "src/services/supabase/operatingOrdersPage.ts",
@@ -3079,9 +3079,9 @@
       ]
     },
     {
-      "id": "src/services/supabase/operatingModeCommand.ts:16",
+      "id": "src/services/supabase/operatingModeCommand.ts:18",
       "file": "src/services/supabase/operatingModeCommand.ts",
-      "line": 16,
+      "line": 18,
       "role": "authenticated",
       "receiver": "client",
       "function": "disableFullAccountingWithClient",

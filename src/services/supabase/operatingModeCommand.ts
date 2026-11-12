@@ -9,6 +9,8 @@ const invalid=()=>Error('MODE-01');
 /** One mutation only. A failed/lost reply must be followed by a fresh read,
  * not by toggling again. ON is deliberately the separate opening-epoch tool. */
 export async function disableFullAccountingWithClient(client:CommandClient,actorId:string){
+ // The preview bundle must refuse every UI caller before auth reads or an RPC.
+ if(import.meta.env?.VITE_MONITORING_ENV==='prelaunch-trial')throw invalid();
  if(!actorId)throw invalid();
  const before=await client.auth.getUser();if(before.error||before.data.user?.id!==actorId)throw invalid();
  const aal=await client.auth.mfa.getAuthenticatorAssuranceLevel();if(aal.error||aal.data?.currentLevel!=='aal2')throw invalid();

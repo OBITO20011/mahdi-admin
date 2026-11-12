@@ -1,4 +1,21 @@
 {
   "schemaVersion": 1,
-  "files": []
+  "files": [
+    {
+      "code": " M",
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/sales-only-phase2-source-pins.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/sales-only-phase3-source-pins.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/product-workbook-runtime-view.mjs"
+    }
+  ]
 }
