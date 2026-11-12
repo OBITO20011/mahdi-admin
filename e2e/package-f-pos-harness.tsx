@@ -44,7 +44,8 @@ client.rpc = (name, args) => {
     const search = String(args?.p_search ?? '').toLowerCase();
     return success(posFixtureProducts.filter(product =>
       (!args?.p_category_id || product.category_id === args.p_category_id) &&
-      `${product.name_ar} ${product.sku} ${product.barcode}`.toLowerCase().includes(search)).map(product=>({...product,...(params.has('sales-only')?{available_quantity:0,on_hand_quantity:0,cost_price_in_minor_units:0}:{}),...(params.has('parcelOnly')?{parcel_only:true}:{}),...(params.has('unitOnly')?{units_per_sale_unit:1}:{}),...(params.get('base-unit')==='sack'?{base_unit:{code:'SACK',name_ar:'شوال'}}:{})})));
+      `${product.name_ar} ${product.sku} ${product.barcode}`.toLowerCase().includes(search)).map(product=>({...product,...(params.has('sales-only')?{available_quantity:0,on_hand_quantity:0,cost_price_in_minor_units:0}:{}),...(params.has('parcelOnly')?{parcel_only:true}:{}),...(params.has('unitOnly')?{units_per_sale_unit:1}:{}),...(params.get('base-unit')==='sack'?{base_unit:{code:'SACK',name_ar:'شوال'}}:{}),
+      ...(params.has('single-carton')&&product.id===posFixtureProducts[0].id?{units_per_sale_unit:1,base_unit:{code:'SALE-CARTON',name_ar:'طرد'}}:{})})));
   }
   if (name === 'lite1_pos_options2') return success({options:params.has('no-mix')?[]:[{...posFixtureParcel,quantityTracked:false,components:posFixtureParcel.components.map(({availableQuantity:_availableQuantity,...component})=>({...component,manualAvailable:true}))}]});
   if (name === 'get_pos_configurable_parcel_options_v1') return success({ options: params.has('no-mix')?[]:[posFixtureParcel] });

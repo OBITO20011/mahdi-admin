@@ -72,3 +72,17 @@ test('lite mixed builder enforces real parcel capacity without stock;uses same c
   parcel_instances:[{components:[{product_id:posFixtureProducts[2].id,base_quantity:10},{product_id:posFixtureProducts[3].id,base_quantity:20}]}]}]});
  expect(posFixtureIds.actor).toBe('11111111-1111-4111-8111-111111111111');
 });
+
+test('lite POS uses the single carton label on the card, cart line and quantity summary',async({page})=>{
+ await page.setViewportSize({width:390,height:1000});await availability(page);
+ await page.goto(fixture+'&no-mix&single-carton');
+ const carton=product(page),ordinary=page.locator('[data-pos-product="'+posFixtureProducts[1].id+'"]').locator('[data-pos-add-method="base_unit"]');
+ await expect(carton).toContainText('+ طرد');await expect(ordinary).toContainText('+ باكيت');
+ await carton.tap();await ordinary.tap();
+ await page.getByRole('button',{name:'مراجعة السلة والعميل',exact:true}).tap();
+ const cart=page.getByTestId('pos-cart-panel').filter({visible:true});
+ await expect(cart.locator('[data-pos-cart-line-kind]')).toHaveText(['· 1 طرد','· 1 باكيت']);
+ await expect(cart.getByTestId('pos-cart-base-units')).toHaveText('1 طرد، 1 باكيت');
+ await expect(cart).toContainText('0.900 د.أ / طرد');
+ await expect(cart).toContainText('0.250 د.أ / باكيت');
+});

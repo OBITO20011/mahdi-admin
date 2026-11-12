@@ -16,7 +16,7 @@ export function PosProductCard({product,stock,parcelQuantity,unitQuantity,disabl
       <ProductGlyph name={product.nameAr} image={product.imageUrl} className="h-14 w-14 shrink-0"/>
       <div className="min-w-0"><h3 className="break-words text-sm font-bold">{product.nameAr}</h3>
         <bdi dir="ltr" className="block break-all text-xs text-nw-muted">{product.barcode}</bdi>
-        {quantityTracked?<p className={'text-xs '+(stock<=product.reorderLevel?'text-nw-warn':'text-nw-muted')}><bdi dir="ltr">{stock}</bdi> باكيت · {stock===0?'نفد':'متوفر'}</p>
+        {quantityTracked?<p className={'text-xs '+(stock<=product.reorderLevel?'text-nw-warn':'text-nw-muted')}><bdi dir="ltr">{stock}</bdi> {singleSaleUnitLabel(product.unit)} · {stock===0?'نفد':'متوفر'}</p>
           :<p className={'text-xs '+(manualAvailable===false?'text-nw-warn':'text-nw-muted')}>{manualAvailable===undefined?'جارٍ التحقق من التوفر':manualAvailable?'متوفر يدوياً':'غير متوفر — البيع يحتاج تأكيداً'}</p>}
       </div>
     </div>

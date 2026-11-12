@@ -4,14 +4,16 @@ import{pathsBeforeD1Kit}from'../audit/source-before-d1-reference-kit.mjs';
 import assert from'node:assert/strict';import{execFileSync}from'node:child_process';import{mkdtemp,writeFile,readFile,unlink,rm,lstat,readdir,realpath}from'node:fs/promises';import{symlinkSync}from'node:fs';import path from'node:path';import{tmpdir}from'node:os';import{createHash,randomUUID}from'node:crypto';import{pathToFileURL}from'node:url';
 export const workbookHistoricalSuites=Object.freeze(['operations-reset','warehouse-management','owner-withdrawals','deferred-cheques','opening-cheques','legacy-product-cost','home-damage201','all-collections202','all-collections203','sales-history204','product-receiving205','navigation-cash206','document-corrections207','supplier-replacement208','parcel209','receipt210','aftercare211','trial212','handover213','handover214','reset214-resume','aftercare215','partial216','owner-telegram217','owner-telegram217-operations','package-f-reads']);
 const root=path.resolve(import.meta.dirname,'../..'),baseline='2dafe8433bc4efef68a82fee904590aabf5fc8ad',prefix='nawasrah-workbook-runtime-view-',hash=v=>createHash('sha256').update(v).digest('hex'),git=(args,cwd=root)=>execFileSync('git',args,{cwd,windowsHide:true,maxBuffer:256*1024**2,stdio:['ignore','pipe','pipe']});
-const featureHarnessFiles=new Set(['e2e/package-f-product-workbook-harness.tsx','e2e/package-f-product-workbook-harness.html','e2e/package-f-product-workbook.fixture.ts','e2e/package-f-product-workbook.spec.ts','e2e/package-f-screen-history-harness.tsx','e2e/package-f-screen-history-harness.html','e2e/package-f-screen-history.spec.ts','e2e/package-f-record-order-harness.tsx','e2e/package-f-record-order-harness.html','e2e/package-f-record-order.spec.ts','e2e/package-f-iphone-dialogs-harness.tsx','e2e/package-f-iphone-dialogs-harness.html','e2e/package-f-iphone-dialogs.spec.ts']);
+const featureHarnessFiles=new Set(['e2e/package-f-pos-harness.tsx','e2e/package-f-product-workbook-harness.tsx','e2e/package-f-product-workbook-harness.html','e2e/package-f-product-workbook.fixture.ts','e2e/package-f-product-workbook.spec.ts','e2e/package-f-screen-history-harness.tsx','e2e/package-f-screen-history-harness.html','e2e/package-f-screen-history.spec.ts','e2e/package-f-record-order-harness.tsx','e2e/package-f-record-order-harness.html','e2e/package-f-record-order.spec.ts','e2e/package-f-iphone-dialogs-harness.tsx','e2e/package-f-iphone-dialogs-harness.html','e2e/package-f-iphone-dialogs.spec.ts']);
 const guestSourceFiles=new Set(['supabase/functions/submit-guest-order/index.ts','supabase/functions/submit-guest-order/operatingMode.ts']);
 const phase3LegacySources=Object.freeze([
  'customer-web/src/receipts/commercialReceipt.ts',
  'customer-web/src/utils/saleUnitLabels.ts',
  'customer-web/src/utils/storefrontUnits.ts',
  'e2e/package-f-products-harness.tsx',
+ 'e2e/package-f-pos-harness.tsx',
  'src/features/pos/PosProductCard.tsx',
+ 'src/features/pos/PosView.tsx',
  'src/features/products/ProductFormModal.tsx',
  'src/features/shifts/ShiftsView.tsx',
  'src/services/supabase/crm.service.ts',

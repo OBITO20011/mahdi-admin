@@ -521,7 +521,7 @@
     },
     {
       "file": "src/features/pos/PosProductCard.tsx",
-      "sha256": "ea4dc7c553269674fbc16811429efebc2157a3f4cfaac6ed8c72a59a5901ddea"
+      "sha256": "9263075435e3c7f44b0619ccbd3b611c3e14dc7d3926e711403478e29594b9fe"
     },
     {
       "file": "src/features/pos/posSearchFocus.ts",
@@ -533,7 +533,7 @@
     },
     {
       "file": "src/features/pos/PosView.tsx",
-      "sha256": "9ce1527e792fcbe88f022265ed5d6bd88565ed15424c8e070ad2f7cac85a92c7"
+      "sha256": "03aed6955f721ef7dcc24890f4a729fa8e8c28aa322788b57860fa6541b9b800"
     },
     {
       "file": "src/features/pos/saleMethods.ts",
@@ -1694,9 +1694,9 @@
   ],
   "rpc": [
     {
-      "id": "src/features/pos/PosView.tsx:183",
+      "id": "src/features/pos/PosView.tsx:184",
       "file": "src/features/pos/PosView.tsx",
-      "line": 183,
+      "line": 184,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "<callback>",
@@ -1709,12 +1709,12 @@
       "resolutions": [
         {
           "name": "lite1_pos_options2",
-          "callsite": "src/features/pos/PosView.tsx:183",
+          "callsite": "src/features/pos/PosView.tsx:184",
           "source": "supabase.rpc(salesOnly?'lite1_pos_options2':'get_pos_configurable_parcel_options_v1', {p_warehouse_id: warehouseId})"
         },
         {
           "name": "get_pos_configurable_parcel_options_v1",
-          "callsite": "src/features/pos/PosView.tsx:183",
+          "callsite": "src/features/pos/PosView.tsx:184",
           "source": "supabase.rpc(salesOnly?'lite1_pos_options2':'get_pos_configurable_parcel_options_v1', {p_warehouse_id: warehouseId})"
         }
       ]
