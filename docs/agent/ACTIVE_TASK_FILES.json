@@ -3,7 +3,19 @@
   "files": [
     {
       "code": " M",
-      "path": "tests/prelaunch-operating-mode.test.ts"
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/sales-only-phase2-source-pins.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/sales-only-phase3-source-pins.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/product-workbook-runtime-view.mjs"
     }
   ]
 }

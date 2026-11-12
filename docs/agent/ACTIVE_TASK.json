@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner2026-11-12: preview operating-mode controls read-only;production unchanged;new PR/FULL CI,no merge/deploy/hosted access",
   "baselineSha": "967036ee26a48e3f3a2439e1d78f3c559fa1617f",
@@ -43,13 +43,13 @@
     "No hosted project access",
     "Keep owner checkout/env and local demo untouched"
   ],
-  "nextExactAction": "Implementation and local builds/probes/types/lint passed;run full units,then open PR and wait FULL CI;no merge/deploy",
+  "nextExactAction": "PR89 historical projection chain corrected;run focused/full units and exact historical runtime then final CI;no server/SQL/owner edits",
   "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "85BDF2C34C7F4BE944A14FC9E80C5D258B74293D7BC5CD5A610506E647C03749",
-  "checkpointedAt": "2026-11-12T11:19:11.230Z",
-  "filesTouchedCount": 1,
-  "filesTouchedManifestSha256": "ab672b7693fe2eab772e2d4018e4745288be61fa043d313ec0458408780b719f"
+  "workingTreeFingerprint": "0E7DBC7C77EEAFAB9E1C1245E24C7B87ACF490B9D819E98F3C3F1780FE682A57",
+  "checkpointedAt": "2026-11-12T11:34:44.422Z",
+  "filesTouchedCount": 4,
+  "filesTouchedManifestSha256": "2dad01562b6fd03c69575d33bf1f005b3ca004b424af30c6d89deb1adbd956c6"
 }
