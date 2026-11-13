@@ -96,6 +96,9 @@ test('current owner cutover uses actual units before the signed workbook and rec
   for(const value of['باكيت(PKT)','طرد(SALE-CARTON)','صندوق(BOX)','شرنك(SHRINK)','كرتونة(CTN)','15 اسماً','6دقائق و26ثانية'])assert.ok(current.includes(value),value);
   assert.equal(currentCard.split('<!-- PRINT_PAGE_BREAK -->').length,2);
   assert.ok(current.includes('مرجعD−1 جديد للـSHA النهائي'));
+  const preparation=current.split('| 1.4 البيانات الحقيقية')[1].split('\n')[0];
+  for(const value of['المنتجات-lite-بالوحدات-الفعلية.xlsx','بلا ديون قديمة ولا شيكات بداية','15اسماً'])assert.ok(preparation.includes(value),value);
+  assert.doesNotMatch(preparation,/14قسماً|ورقة ذمم وشيكات/u);
 });
 
 test('current cutover distinguishes a controlled acceptance opening from disabled orders and never invents a store deploy check',()=>{
