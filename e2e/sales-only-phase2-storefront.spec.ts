@@ -17,6 +17,14 @@ async function setup(page:Page){
  await page.goto(`${base}/#catalog`,{waitUntil:'domcontentloaded'});
  await expect(page.getByTestId('catalog-products-grid')).toBeVisible();return state;
 }
+test('OFF الرئيسية تصف التشكيلة دون ادعاء مخزون متتبع',async({page})=>{
+ await page.setViewportSize({width:390,height:844});await setup(page);
+ await page.goto(base+'/',{waitUntil:'domcontentloaded'});
+ await expect(page.getByRole('heading',{level:1})).toContainText('تشكيلة الجملة بين يديك');
+ await expect(page.getByRole('heading',{level:1})).not.toContainText('من المخزون مباشرة');
+ await expect(page.getByText('يحدد المحل توفر الأصناف',{exact:false})).toBeVisible();
+ await expect(page.getByTestId('hero-stats')).not.toContainText('طرد متاح');
+});
 async function lines(page:Page){return page.evaluate(()=>JSON.parse(localStorage.getItem('nawasrah-wholesale-cart-v1')??'{}').items??[]);}
 for(const width of [390,1440]){
  test(`lite storefront real prices + five immediate additions without fake quantities persist/reconcile ${width}`,async({page})=>{

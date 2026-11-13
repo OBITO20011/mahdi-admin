@@ -11,6 +11,20 @@ const xlsx=(name:string,rows:string[][])=>({name,mimeType:XLSX_MIME,buffer:Buffe
 type Calls={name:string;args:Record<string,unknown>}[];
 const calls=(page:Page)=>page.evaluate(()=>(window as unknown as {__goLiveCalls:Calls}).__goLiveCalls);
 
+test('بداية التشغيل: قراءة العدد تشمل النكهات وتبقى مطابقة الملف خطوة مستقلة',async({page})=>{
+  await page.setViewportSize({width:390,height:844});
+  await page.goto(url('sales-only&flavor-count'));
+  const card=page.getByTestId('go-live-card-products');
+  await expect(card).toContainText('1092 من 1092');
+  await expect(card).toContainText('مكتمل');await expect(card).not.toContainText('748');
+  await expect(card).toContainText('أصناف ونكهات نشطة معرّفة');
+  await expect(card).toContainText('طابق الملف من معاينة الاستيراد');
+  expect((await calls(page)).filter(c=>c.name==='import_go_live_products_v1')).toEqual([]);
+  await page.reload();await expect(card).toContainText('1092 من 1092');
+  await page.goto(url('sales-only&empty-products'));
+  await expect(card).toContainText('0 من 0');await expect(card).toContainText('لم يبدأ');
+});
+
 async function checkLayout(page:Page){
   const root=page$(page);
   await checkClipping(page,root);

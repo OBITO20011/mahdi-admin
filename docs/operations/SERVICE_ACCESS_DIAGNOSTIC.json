@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-12T20:42:08.350Z",
+  "startedAt": "2026-11-13T02:19:39.182Z",
   "migrationCeiling": 220,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-idilGF",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-7QUyxV",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -315,11 +315,11 @@
     },
     {
       "file": "src/features/goLive/goLiveImport.ts",
-      "sha256": "171be6709511c62ed2ca1e319006ea2606108e8cb01c22d85a541a423b1b5653"
+      "sha256": "4ba79173d31e5c881e954ab490292b3a1c94961f9927b6a60ea15f9e0b80f0b9"
     },
     {
       "file": "src/features/goLive/GoLiveSetupView.tsx",
-      "sha256": "fe8f1758679c726823906f5ec4077221038cada9027d75f750257d2719e3babb"
+      "sha256": "4188ee9e27decedfd6ec5830105ab752f890eb684663401aa9362c4affd7ffd4"
     },
     {
       "file": "src/features/goLive/importDisplayText.ts",
@@ -1455,7 +1455,7 @@
     },
     {
       "file": "customer-web/src/components/StoreHero.tsx",
-      "sha256": "dbbaa8e6ffe5a1a82369ccafe7ae04927432bc23bab609ff27d4f8a069358a25"
+      "sha256": "48803522458575eba919ce1c42f770e2c6892e6fa798e9dc3c8dc4bc8878fd81"
     },
     {
       "file": "customer-web/src/components/StoreInfoSection.tsx",
@@ -51586,7 +51586,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-11-12T20:42:32.983Z",
+  "endedAt": "2026-11-13T02:20:00.134Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {
@@ -51983,7 +51983,7 @@
     {
       "file": "docs/operations/GO_LIVE_CUTOVER_AR.md",
       "lines": [
-        66
+        107
       ],
       "category": "HISTORICAL_DOCUMENTATION"
     },

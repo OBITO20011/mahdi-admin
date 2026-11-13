@@ -34,6 +34,8 @@ const customers=[{id:'c1',full_name:'محمد العلي',phone:'0791111111'},{i
 const suppliers=[{id:'s1',company_name:'شركة التوزيع الأولى',phone:'065000000'},{id:'s2',company_name:'مؤسسة الحلويات',phone:''}];
 const state={finished:params.has('finished'),mainBranchId:null as string|null,products:12,imported:0,stockable:12,counted:0,sessions:0,
   customerEntries:[] as Row[],supplierEntries:[] as Row[],keys:new Set<string>(),calls:[] as {name:string;args:Row}[]};
+if(params.has('flavor-count')){state.products=1092;state.imported=748;}
+if(params.has('empty-products')){state.products=0;state.imported=0;}
 if(params.has('seeded')){
   state.customerEntries.push({id:'e1',entryNumber:'COB-001001',customerId:'c1',customerName:'محمد العلي',customerPhone:'0791111111',
     amountInMinorUnits:125500,originalDebtDate:'2025-03-15',notes:'',isReversed:false,reversalReason:null});
