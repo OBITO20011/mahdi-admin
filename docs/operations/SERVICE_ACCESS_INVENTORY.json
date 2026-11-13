@@ -57,7 +57,7 @@
     },
     {
       "file": "src/components/modals/AllModals.tsx",
-      "sha256": "3bb5933f55a64176fcba5a11d4844e7e9c83b2b1bb0a644e7df4576bc059b0b2"
+      "sha256": "2416ebcc435dd41d980270792d9489136d6fbea8df50688fb39b3637f80adf06"
     },
     {
       "file": "src/components/modals/BrandsModal.tsx",
@@ -413,7 +413,7 @@
     },
     {
       "file": "src/features/more/ParcelConfigurationModal.tsx",
-      "sha256": "bffb334bd193e5b226830568fc4cb4cc30b5e42b313120e349042f3d42cd24f6"
+      "sha256": "ab7d9d9a33ad393b9e6a541f218d0d49ad5c4425f1d1ac9df5a4eb1a251a301b"
     },
     {
       "file": "src/features/more/ProfileModal.tsx",
@@ -521,7 +521,7 @@
     },
     {
       "file": "src/features/pos/PosProductCard.tsx",
-      "sha256": "c654cefea0d4f6121b22f46ae42fc7265637ab9a4584234e020d89ac12fa9421"
+      "sha256": "9046e8a22ce0e1f5bdd77b473204e63a195366620593a8d737418ebe413a1d55"
     },
     {
       "file": "src/features/pos/posSearchFocus.ts",
@@ -533,7 +533,7 @@
     },
     {
       "file": "src/features/pos/PosView.tsx",
-      "sha256": "e81227658d80232379a7a3eb6d2291815dc4e40bc888c99b2374c5686e7a7c8a"
+      "sha256": "88ec695dca8d366cf411a0d5fa1de3a8df53b8bd27e4cfbbcd0cdc8e32ae56c7"
     },
     {
       "file": "src/features/pos/saleMethods.ts",
@@ -1228,6 +1228,10 @@
       "sha256": "f05d5c0efccca8ac7d3f6bc6770a18a4c5ad6222923060bb2cd02aab6d9c2edd"
     },
     {
+      "file": "src/utils/parcelFamilySearch.ts",
+      "sha256": "141cfa6c8761ae4f9857e9168ff90ee48bb3460df1bd24ad6a09ac9a91f4e0f8"
+    },
+    {
       "file": "src/utils/posCalculations.ts",
       "sha256": "183639642a22347fe9b8f8ed3ff24da451fd81f0fd4e4bdd187f8f5bea0fc59e"
     },
@@ -1317,7 +1321,7 @@
     },
     {
       "file": "customer-web/src/App.tsx",
-      "sha256": "fb8c69659e5ab1629ede682dd4df150177c89628e0652155a7828bea9067912d"
+      "sha256": "c7a86d98b1ca484409be9687e6e9ec98ff349cd8c8f5c4e93c7dbb903e1c9452"
     },
     {
       "file": "customer-web/src/components/AboutStorePage.tsx",
@@ -1417,11 +1421,11 @@
     },
     {
       "file": "customer-web/src/components/ProductCard.tsx",
-      "sha256": "b30898ce02d5439575fb828d8ffb5348cfa78f1cb9dd8dbbb5cae8ac6188f462"
+      "sha256": "84a85f51554ee6086c376b0520e2f3c834cc44b1a3802658106fa01882b47d5f"
     },
     {
       "file": "customer-web/src/components/ProductDetailsModal.tsx",
-      "sha256": "d11faba4bf9d96f23d1e29ec7f9a2126661d87a6dfd73372b67b84f4a6787aeb"
+      "sha256": "2c87f8eaa45981730f040e7a55de39f6784db17fc5d15c32fa57b85bfba7f4c4"
     },
     {
       "file": "customer-web/src/components/ProductImage.tsx",
@@ -1585,7 +1589,7 @@
     },
     {
       "file": "customer-web/src/utils/cart.ts",
-      "sha256": "aeffd63f39ccb64922d653b3ed707f4541a9e5c87c92274272513757f3f91a3c"
+      "sha256": "08c247cc75c981bf694bdfa12204c268a526df9cf3c33c8b6de8e855b23078ee"
     },
     {
       "file": "customer-web/src/utils/cartAdditionAnimation.ts",
@@ -1637,7 +1641,7 @@
     },
     {
       "file": "customer-web/src/utils/saleUnitLabels.ts",
-      "sha256": "4af28cf740e6b8e1bbdfdba5f21154c472ea9d1bc6ba845c4b181005185c3481"
+      "sha256": "ff0762002edfbc7fc3dc3e5727da54b32291f8e1b399ca716898b46c64e2724f"
     },
     {
       "file": "customer-web/src/utils/scroll.ts",
@@ -1649,7 +1653,7 @@
     },
     {
       "file": "customer-web/src/utils/storefrontUnits.ts",
-      "sha256": "1d479db187aee7ace823dab9e707939277e3de300d7c19e841186e37dd5c6519"
+      "sha256": "d5d12765ba4086bfe1d6214065f6d168fe6b865a08032675a3fad2b72b8a8242"
     },
     {
       "file": "supabase/functions/_shared/owner-telegram-format.ts",
@@ -1694,9 +1698,9 @@
   ],
   "rpc": [
     {
-      "id": "src/features/pos/PosView.tsx:184",
+      "id": "src/features/pos/PosView.tsx:186",
       "file": "src/features/pos/PosView.tsx",
-      "line": 184,
+      "line": 186,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "<callback>",
@@ -1709,12 +1713,12 @@
       "resolutions": [
         {
           "name": "lite1_pos_options2",
-          "callsite": "src/features/pos/PosView.tsx:184",
+          "callsite": "src/features/pos/PosView.tsx:186",
           "source": "supabase.rpc(salesOnly?'lite1_pos_options2':'get_pos_configurable_parcel_options_v1', {p_warehouse_id: warehouseId})"
         },
         {
           "name": "get_pos_configurable_parcel_options_v1",
-          "callsite": "src/features/pos/PosView.tsx:184",
+          "callsite": "src/features/pos/PosView.tsx:186",
           "source": "supabase.rpc(salesOnly?'lite1_pos_options2':'get_pos_configurable_parcel_options_v1', {p_warehouse_id: warehouseId})"
         }
       ]

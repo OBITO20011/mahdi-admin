@@ -1031,6 +1031,8 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     const duplicate = duplicateParcelInstance(instance);
     const requirements = requiredBaseUnitsByProductId(cartItems);
     const option = parcelOptionsByFamily.get(line.familyProductId);
+    const currentFamily=products.find(product=>product.id===line.familyProductId);
+    if(line.quantityTracked===false&&(!currentFamily||!option||unsafeLiteParcelPrice(true,option.unitsPerParcel,option.parcelPriceInMinorUnits,currentFamily.salePriceInMinorUnits))){showToast(PARCEL_DEFINITION_MESSAGE,'error');return;}
     const unavailable = duplicate.components.some((component) => {
       const current=option?.components.find(candidate=>candidate.productId===component.productId);
       if(!current)return true;if(current.quantityTracked===false)return current.manualAvailable!==true;

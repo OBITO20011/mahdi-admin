@@ -3,6 +3,14 @@
   "files": [
     {
       "code": " M",
+      "path": "customer-web/src/App.tsx"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/tests/sales-only-deferred-content.test.ts"
+    },
+    {
+      "code": " M",
       "path": "docs/agent/PHASE_STATUS.md"
     },
     {
@@ -11,7 +19,43 @@
     },
     {
       "code": " M",
-      "path": "scripts/testing/product-workbook-runtime-view.mjs"
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_220.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "e2e/lite-parcel-unit-guard.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/sales-only-phase3-source-pins.json"
+    },
+    {
+      "code": " M",
+      "path": "src/features/more/ParcelConfigurationModal.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/pos/PosView.tsx"
+    },
+    {
+      "code": " M",
+      "path": "tests/lite-parcel-unit-guard.test.ts"
+    },
+    {
+      "code": "A ",
+      "path": "src/utils/parcelFamilySearch.ts"
     }
   ]
 }

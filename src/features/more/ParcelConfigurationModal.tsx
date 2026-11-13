@@ -3,6 +3,7 @@ import {useEffect, useRef, useState, type FormEvent} from 'react';
 import {useAuthStore} from '../../stores/useAuthStore';
 import {fetchAdminProductById} from '../../services/supabase/products.service';
 import {unsafeLiteParcelPrice,PARCEL_DEFINITION_MESSAGE} from '../../../customer-web/src/utils/saleUnitLabels';
+import {filterParcelFamilies} from '../../utils/parcelFamilySearch';
 import {fetchParcelConfigurationContext, saveParcelConfiguration, setParcelFeatureState,
   type ParcelConfigurationContext, type ParcelConfigurationInput, type ParcelFeatureState} from '../../services/supabase/parcelConfiguration.service';
 
@@ -24,6 +25,7 @@ export function ParcelConfigurationModal({initialFamilyProductId,operatingMode='
   const [message,setMessage] = useState('');
   const [error,setError] = useState('');
   const [uncertain,setUncertain] = useState(false);
+  const [familySearch,setFamilySearch] = useState('');
   const select = (data: ParcelConfigurationContext, id: string) => {
     const candidates = flavorFamilies(data);
     const p = candidates.find(product => product.familyProductId === id) ?? candidates[0];
@@ -81,6 +83,7 @@ export function ParcelConfigurationModal({initialFamilyProductId,operatingMode='
   };
   if (role !== 'owner') return <p role="alert">إعداد الطرود متاح للمالك فقط.</p>;
   const product=context?.products.find(p=>p.familyProductId===form?.familyProductId);
+  const visibleFamilies=filterParcelFamilies(context?flavorFamilies(context):[],familySearch);
   const missingCandidates=(context ? flavorFamilies(context) : []).flatMap(p=>p.configuration?.is_active
     ? p.components.filter(c=>p.allowedProductIds.includes(c.productId) && c.packetPriceInMinorUnits===0) : []);
   const missingPacketPrices=missingCandidates.filter((c,index)=>missingCandidates.findIndex(other=>other.productId===c.productId)===index);
@@ -106,12 +109,16 @@ export function ParcelConfigurationModal({initialFamilyProductId,operatingMode='
       </fieldset></details>
       {!flavorFamilies(context).length ? <p>لا توجد منتجات لها نكهات بعد. أضف النكهات من نموذج المنتج، ثم جهّز الطرد المشكّل هنا.</p> : <form onSubmit={event=>void save(event)} aria-busy={busy} className="space-y-3">
         <fieldset disabled={busy || uncertain || !modeVerified} className="space-y-3">
-          <label>الصنف / العائلة<select className={inputClass} value={form?.familyProductId ?? ''} onChange={e=>select(context,e.target.value)}>
-            {flavorFamilies(context).map(p=><option key={p.familyProductId} value={p.familyProductId}>{p.nameAr} — {p.sku}</option>)}
+          <label>بحث الصنف / العائلة<input type="search" className={inputClass} value={familySearch} placeholder="جزء من الاسم أو رمز الصنف" onChange={e=>setFamilySearch(e.target.value)} onKeyDown={e=>{if(e.key==='Enter')e.preventDefault();}}/></label>
+          <label>الصنف / العائلة<select className={inputClass} value={visibleFamilies.some(p=>p.familyProductId===form?.familyProductId)?form?.familyProductId:''} onChange={e=>{if(e.target.value)select(context,e.target.value);}}>
+            {!visibleFamilies.some(p=>p.familyProductId===form?.familyProductId)&&<option value="" disabled>{visibleFamilies.length?'اختر العائلة من النتائج':'لا توجد عائلة مطابقة'}</option>}
+            {visibleFamilies.map(p=><option key={p.familyProductId} value={p.familyProductId}>{p.nameAr} — {p.sku}</option>)}
           </select></label>
+          {familySearch&&<p className="text-sm text-nw-muted" role="status">{visibleFamilies.length} نتيجة — العائلة المحددة: {product?.nameAr} — {product?.sku}</p>}
           {form && product && <>
             <label>كم حبة بالطرد<input readOnly={salesOnly} inputMode="numeric" enterKeyHint="next" className={inputClass} required type="number" min="1" step="1" value={form.units} onChange={e=>setForm({...form,units:Number(e.target.value)})}/></label>
             {salesOnly&&<p className="text-sm text-nw-muted">عدد الطرد ووحدته وسعره تُضبط من نموذج المنتج أولاً؛ هذه الشاشة تختار النكهات فقط. بعد تعديل المنتج أعد تحميل الإعداد.</p>}
+            {salesOnly&&<p className="text-sm text-nw-muted">لطرد نكهات حقيقي اختر وحدة بيع مختلفة عن وحدة المحتوى. للحفاظ على سعر الوحدة راجع أن سعر الطرد يساوي العدد × سعر الوحدة؛ الحفظ هنا لا يحوّل الأسعار تلقائياً.</p>}
               <div><label className="flex gap-2"><input type="checkbox" checked={form.active} onChange={e=>setForm({...form,active:e.target.checked})}/>الطرد المشكّل مفعّل للبيع</label>
                 <p className="mt-1 text-sm text-nw-muted">أزل الإشارة لإيقافه مؤقتاً؛ يبقى الإعداد محفوظاً.</p></div>
             {form.mode==='configurable_mix' && <fieldset className="space-y-2"><legend>النكهات المسموحة</legend>

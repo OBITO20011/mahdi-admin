@@ -161,8 +161,8 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
     return cartItems.length === 0 || window.confirm('السلة غير محفوظة. هل تريد مغادرة نقطة البيع وإفراغ السلة؟');
   });
   const knownProductsRef = useRef<Map<string, Product>>(new Map());
-  const parcelAddContext=useRef({cartItems,warehouseId,salesOnly,modeVerified,recoveryBlocked,isSubmitting,preparingSale});
-  parcelAddContext.current={cartItems,warehouseId,salesOnly,modeVerified,recoveryBlocked,isSubmitting,preparingSale};
+  const parcelAddContext=useRef({cartItems,warehouseId,salesOnly,modeVerified,recoveryBlocked,isSubmitting,preparingSale,parcelOption,editingParcelId});
+  parcelAddContext.current={cartItems,warehouseId,salesOnly,modeVerified,recoveryBlocked,isSubmitting,preparingSale,parcelOption,editingParcelId};
   const cartWarehouseRef = useRef<string>('');
   const searchInputRef = useRef<HTMLInputElement>(null);
 
@@ -452,7 +452,7 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
       try{
         const fresh=await fetchAdminProductById(option.familyProductId);
         const current=parcelAddContext.current;
-        if(current.cartItems!==captured.cartItems||current.warehouseId!==captured.warehouseId||!current.salesOnly||!current.modeVerified||current.recoveryBlocked||current.isSubmitting||current.preparingSale){setToast('تغيرت حالة البيع؛ أعد فتح الطرد.','error');return;}
+        if(current.cartItems!==captured.cartItems||current.warehouseId!==captured.warehouseId||current.parcelOption!==option||current.editingParcelId!==captured.editingParcelId||!current.salesOnly||!current.modeVerified||current.recoveryBlocked||current.isSubmitting||current.preparingSale){setToast('تغيرت حالة البيع؛ أعد فتح الطرد.','error');return;}
         if(!fresh||fresh.unitsPerSalePackage!==option.unitsPerParcel||unsafeLiteParcelPrice(true,option.unitsPerParcel,option.parcelPriceInMinorUnits/1000,fresh.retailPrice)){
           setToast(PARCEL_DEFINITION_MESSAGE,'error');return;
         }

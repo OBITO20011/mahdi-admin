@@ -1,4 +1,5 @@
 import {test,expect} from './isolated-test';
+import {formatJod} from '../customer-web/src/utils/money';
 test.use({hasTouch:true});
 test.beforeEach(async({page})=>{await page.setViewportSize({width:390,height:844});});
 const family='94300000-0000-4000-8000-000000000100',flavor='94300000-0000-4000-8000-000000000101',unit='94300000-0000-4000-8000-000000000120';
@@ -58,5 +59,17 @@ test('OFF store details block the inconsistent parcel while a single packet rema
 });
 test('OFF converted store parcel is named صندوق and can be added at its unchanged price',async({page})=>{
  await page.goto('/e2e/lite-parcel-unit-guard-harness.html?view=store&valid');
- const parcel=page.getByRole('region',{name:'إضافة صندوق',exact:true});await expect(parcel).toContainText('7.700');await parcel.getByRole('button',{name:/إلى السلة/}).tap();await expect(page.locator('html')).toHaveAttribute('data-parcel-added','true');
+ const parcel=page.getByRole('region',{name:'إضافة صندوق',exact:true});await expect(parcel).toContainText(formatJod(7700));await parcel.getByRole('button',{name:/إلى السلة/}).tap();await expect(page.locator('html')).toHaveAttribute('data-parcel-added','true');
+});
+
+test('71 flavor families filter immediately by Arabic name variants or partial SKU on touch mobile',async({page})=>{
+ const families=Array.from({length:71},(_,i)=>({familyProductId:'94300000-0000-4000-8000-'+String(500+i).padStart(12,'0'),nameAr:i===0?'ألواح توداي':i===1?'كرتونة حلوى':i===2?'إيس كريم':'عائلة وهمية '+i,sku:i===0?'NW-0268':'TEST-FAMILY-'+i,isFlavorMaster:true,unitsPerParcel:1,parcelPriceInMinorUnits:1100,configuration:null,allowedProductIds:[],components:[{productId:flavor,nameAr:'نكهة وهمية',sku:'TEST-F',flavorNameAr:'نكهة وهمية',packetPriceInMinorUnits:1100}]}));
+ await page.route('**/rest/v1/rpc/get_admin_parcel_configuration_context_v1',r=>r.fulfill({json:{featureState:'ENABLED',products:families}}));
+ await page.goto('/e2e/lite-parcel-unit-guard-harness.html');const search=page.getByLabel('بحث الصنف / العائلة',{exact:true}),choice=page.getByRole('combobox',{name:'الصنف / العائلة',exact:true});
+ await expect(choice.locator('option:not([disabled])')).toHaveCount(71);await expect(search).toBeVisible();expect(await search.evaluate(el=>parseFloat(getComputedStyle(el).fontSize))).toBeGreaterThanOrEqual(16);
+ for(const query of ['توداي','0268','الواح','إلواح','آلواح']){await search.fill(query);await expect(choice.locator('option:not([disabled])')).toHaveText(['ألواح توداي — NW-0268']);}
+ await choice.selectOption(families[0].familyProductId);await search.fill('كرتونه');await expect(choice.locator('option:not([disabled])')).toHaveText(['كرتونة حلوى — TEST-FAMILY-1']);
+ await choice.selectOption(families[1].familyProductId);await expect(page.getByRole('status')).toContainText('العائلة المحددة: كرتونة حلوى');
+ await search.fill('حلوي');await expect(choice.locator('option:not([disabled])')).toHaveCount(1);await search.fill('ايس');await expect(choice.locator('option:not([disabled])')).toHaveText(['إيس كريم — TEST-FAMILY-2']);
+ await search.fill('غير موجود');await expect(choice).toHaveValue('');await expect(choice).toContainText('لا توجد عائلة مطابقة');await search.clear();await expect(choice.locator('option:not([disabled])')).toHaveCount(71);
 });
