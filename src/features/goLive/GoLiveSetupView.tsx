@@ -18,7 +18,7 @@ import {
   type GoLiveStatus, type NewParty, type OpeningEntry, type PartyOption,
 } from '../../services/supabase/goLive.service';
 import {
-  ammanToday, chunk, GO_LIVE_BATCH_SIZE, GO_LIVE_COLUMNS, GO_LIVE_TEMPLATE_NOTES, mapServerErrors, mapSheet,
+  ammanToday, chunk, GO_LIVE_BATCH_SIZE, GO_LIVE_COLUMNS, GO_LIVE_TEMPLATE_NOTES, mapServerErrors, mapSheet, productSetupProgress,
   parseJodToMinor, prepareCustomers, prepareProducts, prepareStock, prepareSuppliers, stripSourceRow, templateRows,
   type GoLiveKind, type RowError,
 } from './goLiveImport';
@@ -616,8 +616,8 @@ export const GoLiveSetupView: React.FC<{operatingMode?:OperatingMode;modeVerifie
           <div className="grid gap-4 xl:grid-cols-2">
             <SetupCard operatingMode={operatingMode} kind="products" icon={<Package className="h-5 w-5" />} locked={locked} onSaved={() => void refresh()}
               description="عرّف الأصناف بالأسعار والطرود؛ المنتج يبدأ برصيد صفر."
-              progress={{ value: status.products.importedCount, max: Math.max(status.products.activeCount, status.products.importedCount), label: 'منتجات مستوردة من المعرّفة' }}
-              facts={<>المنتجات المعرّفة في النظام: <Num value={status.products.activeCount} /></>}
+              progress={productSetupProgress(status.products)}
+              facts={<>يشمل الأصناف المفردة والنكهات، دون المنتج الأساسي للعائلة. طابق الملف من معاينة الاستيراد قبل إنهاء البداية.</>}
               manualLabel="إدخال يدوي" manual={null} onManual={() => { setActiveTab('products'); openModal('add_product'); }} />
             {!salesOnly&&<SetupCard kind="stock" icon={<Boxes className="h-5 w-5" />} locked={locked} onSaved={() => void refresh()} warehouseId={warehouseId}
               description="الكميات الموجودة فعلاً بالطرود والباكيتات، بتكلفة الصنف ودون فاتورة مورد."

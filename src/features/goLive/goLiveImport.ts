@@ -328,3 +328,10 @@ export function mapServerErrors(batch: readonly { sourceRow: number }[], errors:
 }
 
 export const stripSourceRow = <T extends { sourceRow: number }>({ sourceRow: _sourceRow, ...rest }: T) => rest;
+
+/** Existing owner status counts ordinary products + flavors, excluding family
+ * masters. Batch history omits family/manual writers. This is definition
+ * progress; workbook reconciliation remains the import panel readback. */
+export function productSetupProgress(products: {activeCount: number; importedCount: number}) {
+  return {value: products.activeCount, max: products.activeCount, label: 'أصناف ونكهات نشطة معرّفة'};
+}

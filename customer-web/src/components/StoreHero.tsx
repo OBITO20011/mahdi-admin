@@ -71,13 +71,15 @@ export function StoreHero({
           <h1 className="max-w-3xl text-[1.7rem] font-black leading-[1.3] sm:text-5xl lg:text-6xl">
             بضاعتك بالجملة،
             <span className="block bg-gradient-to-l from-orange-300 to-orange-500 bg-clip-text text-transparent">
-              من المخزون مباشرة
+              {availablePackages === null ? 'تشكيلة الجملة بين يديك' : 'من المخزون مباشرة'}
             </span>
           </h1>
 
           <p className="mt-3 max-w-2xl text-[11px] font-medium leading-6 text-blue-50/85 sm:mt-6 sm:text-base sm:leading-8 sm:text-blue-100/75">
-            اختر الطرود المتوفرة فعليًا لدى النواصرة لتجارة الجملة والمواد الغذائية. السعر، نوع الطرد،
-            وعدد الطرود المتاحة تأتي من نظام الإدارة نفسه.
+            {availablePackages === null
+              ? 'تصفح أصناف النواصرة لتجارة الجملة والمواد الغذائية بأسعارها ووحداتها. يحدد المحل توفر الأصناف ويؤكد تفاصيل طلبك.'
+              : <>اختر الطرود المتوفرة فعليًا لدى النواصرة لتجارة الجملة والمواد الغذائية. السعر، نوع الطرد،
+                وعدد الطرود المتاحة تأتي من نظام الإدارة نفسه.</>}
           </p>
 
           <div className="mt-4 grid gap-2 sm:mt-8 sm:flex sm:flex-wrap sm:gap-3">

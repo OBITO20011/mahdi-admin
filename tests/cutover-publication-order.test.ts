@@ -105,6 +105,12 @@ test('current cutover distinguishes a controlled acceptance opening from disable
   const current=readFileSync('docs/operations/GO_LIVE_CUTOVER_AR.md','utf8');
   for(const value of['لا يمكن إنشاء طلب جديد معordersEnabled=false','لا يوجد تجاوز تجريبي في الخادم','نافذة قبول معلنة','أغلق الطلبات إن بقي توقيع/فحص','تغيير واتساب مؤجل إلى ما بعد التشغيل'])assert.ok(current.includes(value),value);
   assert.ok(current.includes('أمرcustomer-web deploy:cloudflare الحالي لا يدعم --check'));
+  assert.ok(current.includes('node scripts/deployment/check-customer.mjs --check'));
+  for(const file of ['docs/operations/GO_LIVE_CUTOVER_AR.md','docs/handover/ورقة-يوم-التشغيل.md','docs/handover/ورقة-يوم-التشغيل.html']){
+    const text=readFileSync(file,'utf8');assert.match(text,/0 دينار/u);
+    assert.match(text,/الحد الأدنى.*إعدادات المتجر|إعدادات المتجر.*الحد الأدنى/u);
+    assert.match(text,/بعد اكتمال التحسينات/u);
+  }
   assert.doesNotMatch(current,/npm\.cmd --prefix customer-web run deploy:cloudflare -- --check/u);
   assert.ok(current.includes('لا يُشغّل على220 بعد إفادة المالك'));
   assert.ok(current.includes('ناتجSEO المحليisolated-fixture مرفوض للنشر عمداً'));
