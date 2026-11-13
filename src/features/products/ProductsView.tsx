@@ -41,6 +41,7 @@ import {
 } from '../../services/supabase/products.service';
 
 import type {OperatingMode} from '../../services/supabase/operatingMode.service';
+import {packageSaleUnitLabel} from '../../../customer-web/src/utils/saleUnitLabels';
 
 type StatusFilter = 'all' | 'healthy' | 'low_stock' | 'out_of_stock' | 'hidden';
 type SortOption = 'name' | 'stock_asc' | 'stock_desc' | 'profit_desc';
@@ -723,16 +724,19 @@ const ProductCatalogCard: React.FC<{
       <div className="grid grid-cols-1 sm:grid-cols-3 border-t border-nw-border bg-nw-surface">
         <div className="border-l border-nw-border px-2 py-2.5 text-center">
           <span className="block text-xs font-bold text-nw-muted">
-            طرد البيع
+            {quantityTracked ? 'طرد البيع' : 'وحدة البيع'}
           </span>
           <strong className="mt-0.5 block text-xs text-nw-info">
-            {needsSalePackageSetup
+            {!quantityTracked && !needsSalePackageSetup
+              ? unitsPerSalePackage === 1 ? product.unit
+                : `${product.unit} ${formatJod(product.retailPrice)} · ${packageSaleUnitLabel(product.salePackage,product.purchasePackage,true,product.unit)} (${unitsPerSalePackage} ${product.unit}) ${formatJod(salePackagePrice)}`
+              : needsSalePackageSetup
               ? 'بحاجة ضبط'
               : unitsPerSalePackage === 1 ? product.unit : `طرد × ${unitsPerSalePackage} ${product.unit}`}
           </strong>
         </div>
         <PriceCell
-          label="سعر الطرد"
+          label={quantityTracked ? 'سعر الطرد' : 'السعر'}
           value={salePackagePrice}
           color={
             needsSalePackageSetup

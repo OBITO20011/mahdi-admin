@@ -74,7 +74,7 @@ test('71 flavor families filter immediately by Arabic name variants or partial S
  await search.fill('غير موجود');await expect(choice).toHaveValue('');await expect(choice).toContainText('لا توجد عائلة مطابقة');await search.clear();await expect(choice.locator('option:not([disabled])')).toHaveCount(71);
 });
 
-test('OFF product form defines a seven-packet flavor parcel with explicit price confirmation',async({page})=>{
+for(const kind of ['flavor','ordinary'])test(`OFF product form adds a ${kind} parcel with explicit price confirmation`,async({page})=>{
  const writes:Record<string,unknown>[]=[];
  const packet='88888888-8888-4888-8888-000000000121',box='88888888-8888-4888-8888-000000000124';
  await page.route('**/rest/v1/units?**',route=>{
@@ -85,26 +85,40 @@ test('OFF product form defines a seven-packet flavor parcel with explicit price 
   const body=route.request().postDataJSON();writes.push(body);
   return route.fulfill({json:{success:true,productId:body.p_product_id,updatedAt:'2026-11-12T08:01:00Z'}});
  });
- await page.goto('/e2e/package-f-products-harness.html?sales-only&flavor-parcel&family');
- await page.evaluate(async()=>{
+ await page.goto('/e2e/package-f-products-harness.html?sales-only&'+(kind==='flavor'?'flavor-parcel&family':'unit-parcel'));
+ await page.evaluate(async kind=>{
   // @ts-expect-error Isolated Vite module.
   const {storeEngine}=await import('/src/stores/useAppStore.ts');
-  const family=storeEngine.getState().products.find((p:{isFlavorMaster?:boolean})=>p.isFlavorMaster);
+  const family=kind==='flavor'?storeEngine.getState().products.find((p:{isFlavorMaster?:boolean})=>p.isFlavorMaster):storeEngine.getState().products[0];
   storeEngine.openModal('edit_product',family);
- });
+ },kind);
  const form=page.getByRole('dialog');
- const add=form.getByRole('checkbox',{name:'أضف طرد نكهات مع إبقاء البيع المفرد',exact:true});
+ const add=form.getByRole('checkbox',{name:'هاد السعر سعر حبة، بدي أضيف طرد',exact:true});
  await add.check();
- const pack=form.getByLabel('وحدة بيع طرد النكهات',{exact:false});
+ const pack=form.getByLabel('وحدة بيع الطرد المضاف',{exact:false});
  await expect(pack).toHaveValue('طرد');await expect(pack.locator('option[value="باكيت"]')).toHaveCount(0);
- await pack.selectOption('صندوق');await form.getByLabel('عدد وحدات طرد النكهات',{exact:false}).fill('7');
+ await pack.selectOption('صندوق');await form.getByLabel('عدد وحدات الطرد المضاف',{exact:false}).fill('7');
  const confirm=form.getByRole('checkbox',{name:/أؤكد سعر الطرد/});
- await expect(confirm).toHaveAccessibleName(/7\.700.*1\.100/);
+ await expect(confirm).toHaveAccessibleName(kind==='flavor'?/7\.700.*1\.100/:/5\.950.*0\.850/);
  await form.getByRole('button',{name:'حفظ التعديلات',exact:true}).tap();
  await expect(form.getByText(/وأكّد سعر الطرد/)).toBeVisible();expect(writes).toHaveLength(0);
- await confirm.check();await form.getByLabel('عدد وحدات طرد النكهات',{exact:false}).fill('8');
- await expect(confirm).not.toBeChecked();await form.getByLabel('عدد وحدات طرد النكهات',{exact:false}).fill('7');
+ await confirm.check();await form.getByLabel('عدد وحدات الطرد المضاف',{exact:false}).fill('8');
+ await expect(confirm).not.toBeChecked();await form.getByLabel('عدد وحدات الطرد المضاف',{exact:false}).fill('7');
  await confirm.check();await form.getByRole('button',{name:'حفظ التعديلات',exact:true}).tap();
  await expect.poll(()=>writes.length).toBe(1);
- expect(writes[0]).toMatchObject({p_unit_id:packet,p_sale_unit_id:box,p_units_per_sale_unit:7,p_default_sale_price_in_minor_units:7700,p_parcel_only:false});
+ expect(writes[0]).toMatchObject({p_unit_id:packet,p_sale_unit_id:box,p_units_per_sale_unit:7,p_default_sale_price_in_minor_units:kind==='flavor'?7700:5950,p_parcel_only:false});
+});
+
+test('OFF added parcel displays packet850 and parcel20400 in store and POS;admin single price uses its unit',async({page})=>{
+ await page.goto('/e2e/lite-parcel-unit-guard-harness.html?view=store&added');
+ await expect(page.getByRole('region',{name:'إضافة باكيت',exact:true})).toContainText(formatJod(850));
+ await expect(page.getByRole('region',{name:'إضافة طرد',exact:true})).toContainText(formatJod(20400));
+ await expect(page.getByText('طرد (٢٤ باكيت)',{exact:false}).first()).toBeVisible();
+ await page.goto('/e2e/lite-parcel-unit-guard-harness.html?view=pos&added');
+ await expect(page.locator('[data-pos-add-method="base_unit"]')).toContainText('0.850');
+ await expect(page.locator('[data-pos-add-method="legacy_single_sku_parcel"]')).toContainText('20.400');
+ await page.goto('/e2e/package-f-products-harness.html?sales-only&unit-parcel');
+ const card=page.locator('[data-product-catalog-card]').first();
+ await expect(card).toContainText('وحدة البيع');await expect(card).toContainText('باكيت');await expect(card).toContainText('0.850');
+ await expect(card).not.toContainText('سعر الطرد');
 });

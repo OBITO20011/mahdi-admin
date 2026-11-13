@@ -304,7 +304,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     initialProduct?.isFlavorMaster || (hasFlavors && !isEditing)
   );
 
-  const canDefineFlavorParcel = canEditSingleUnit && isFlavorMaster
+  const canDefineFlavorParcel = canEditSingleUnit
     && initialProduct?.retailPrice === openedSinglePrice && openedSinglePrice > 0;
   const [defineFlavorParcel, setDefineFlavorParcel] = useState(false);
   const [flavorParcelUnit, setFlavorParcelUnit] = useState(
@@ -1244,7 +1244,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         </fieldset>
 
         {canDefineFlavorParcel && <fieldset className="space-y-2 rounded-lg border border-nw-border p-3">
-          <legend className="px-1 text-sm font-bold">طرد النكهات</legend>
+          <legend className="px-1 text-sm font-bold">إضافة طرد مع إبقاء المفرد</legend>
           <label className="flex min-h-11 items-center gap-2 font-bold">
             <input type="checkbox" checked={defineFlavorParcel} onChange={event => {
               setDefineFlavorParcel(event.target.checked);
@@ -1252,10 +1252,10 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
               setSingleContentsCount('');
               setUnitConversionConfirmed(false);
             }}/>
-            أضف طرد نكهات مع إبقاء البيع المفرد
+            هاد السعر سعر حبة، بدي أضيف طرد
           </label>
           {defineFlavorParcel && <>
-            <label className="block space-y-1 text-sm font-bold">وحدة بيع طرد النكهات
+            <label className="block space-y-1 text-sm font-bold">وحدة بيع الطرد المضاف
               <select className={inputClass} value={flavorParcelUnit} onChange={event => {
                 setFlavorParcelUnit(event.target.value);
                 setFlavorParcelConfirmed(false);
@@ -1265,14 +1265,15 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
                   .map(item => <option key={item.id} value={item.nameAr}>{item.nameAr}</option>)}
               </select>
             </label>
-            <label className="block space-y-1 text-sm font-bold">عدد وحدات طرد النكهات
+            <label className="block space-y-1 text-sm font-bold">عدد وحدات الطرد المضاف
               <input className={numberInputClass} type="number" min="2" max="2147483647" step="1"
                 inputMode="numeric" value={flavorParcelCount} onChange={event => {
                   setFlavorParcelCount(event.target.value);
                   setFlavorParcelConfirmed(false);
                 }}/>
             </label>
-            <p className="text-sm text-nw-muted">بعد حفظ تعريف الطرد، اختر النكهات المسموحة من إعداد الطرد المشكّل.</p>
+            {isFlavorMaster && <p className="text-sm text-nw-muted">بعد حفظ تعريف الطرد، اختر النكهات المسموحة من إعداد الطرد المشكّل.</p>}
+            <p className="text-sm text-nw-muted">سعر الطرد = العدد × سعر المفرد الحالي؛ يبقى المفرد مفعّلاً بالسعر نفسه. سعر طرد مخفّض مستقل مؤجل لما بعد التشغيل مع العروض.</p>
             {flavorParcelReady && <label className="flex min-h-11 items-center gap-2 text-sm font-bold">
               <input type="checkbox" checked={flavorParcelConfirmed} onChange={event => setFlavorParcelConfirmed(event.target.checked)}/>
               أؤكد سعر الطرد {formatJod(flavorParcelPriceFils / 1000)} والإبقاء على سعر {openedUnitName} {formatJod(openedSinglePrice)}
@@ -1281,6 +1282,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         </fieldset>}
         {canEditSingleUnit&&!defineFlavorParcel&&<fieldset className="space-y-2 rounded-lg border border-nw-border p-3">
           <legend className="px-1 text-sm font-bold">تعريف محتوى وحدة البيع</legend>
+          <p className="text-sm font-bold">هاد السعر سعر طرد، بدي أعرّف محتواه</p>
           <p className="text-sm text-nw-muted">حوّل {openedUnitName} إلى عدد حقيقي من وحدات المحتوى. يبقى سعر {openedUnitName} نفسه والبيع بها فقط؛ يمكن تفعيل المفرد لاحقاً. الفواتير السابقة تبقى بوحداتها وأسعارها المسجّلة.</p>
           <label className="block space-y-1 text-sm font-bold">وحدة المحتوى بعد التحويل<select aria-label="وحدة المحتوى بعد التحويل" className={inputClass} value={contentUnit} onChange={event=>{setContentUnit(event.target.value);setUnitConversionConfirmed(false);}}><option value="">اختر الوحدة</option>{units.filter(item=>!item.isHidden&&item.nameAr!==openedUnitName).map(item=><option key={item.id} value={item.nameAr}>{item.nameAr}</option>)}</select></label>
           <label className="block space-y-1 text-sm font-bold">عدد وحدات المحتوى الفعلي في وحدة البيع

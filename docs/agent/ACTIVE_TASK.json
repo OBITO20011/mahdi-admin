@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
+  "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner13Nov:reproduce unsafe flavor parcel capacity/pricing on fresh isolated220 with rollback;OFF UI guard and accurate package labels;Draft PR/fullCI/Gitleaks. No DB/function changes.",
-  "baselineSha": "31b93b0af736fd8188b4527dd059debcca8f9fa4",
+  "objective": "Owner13Nov:OFF parcel safety/search and generic single-unit add-parcel through existing writer;Draft95/fullCI;separate final workbook and UI rehearsal. No DB/hosted/deploy/merge.",
+  "baselineSha": "eba224f0bf285e0a8d9a9a6863b4298b6ed8a139",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/lite-parcel-unit-guard",
   "phase": "LITE_PARCEL_UNIT_GUARD",
@@ -14,7 +14,7 @@
     "HTTP181/RPC702 current local role evidence refreshed;catalog unchanged;offline workbook819+344/71families/0errors,original unchanged."
   ],
   "inProgress": [
-    "Exact historical source projection repairs and final full units/CI"
+    "Repair exact product-ID fixture contract exposed by CI;generic add-parcel and actual-unit admin cards"
   ],
   "notStarted": [
     "Final Gitleaks",
@@ -41,13 +41,13 @@
   "prohibitions": [
     "No hosted/Frankfurt/deploy/merge/DB functions or migrations. No primary owner/env/private/auth/TOTP changes. Demo product writes only after green CI and only NW-0268 family through app writers."
   ],
-  "nextExactAction": "Verify historical projections and local units; push draft PR, await full CI, then correct NW-0268 only",
+  "nextExactAction": "Run generic parcel/legacy browser regressions;refresh source-only evidence and exact pins",
   "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "14AAD08318E04773364092C21846A63727A3CFD9443804B8A7F89473799D2EFF",
-  "checkpointedAt": "2026-11-13T16:22:28.794Z",
-  "filesTouchedCount": 14,
-  "filesTouchedManifestSha256": "9f7cafd50cf44cac3743e141ded4aee8d3cd362b6ff43f9f65ff9c7079a21273"
+  "workingTreeFingerprint": "A5323C89634D2B2B29AEA88974C1DFC74B79D7F64225BAF7601BCB40EBFA77D7",
+  "checkpointedAt": "2026-11-13T17:22:44.796Z",
+  "filesTouchedCount": 6,
+  "filesTouchedManifestSha256": "cf0eb3de4e49636c542d12f3ca74b7508b625c50262a70a09c1c73831e2e4f5a"
 }

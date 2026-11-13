@@ -3,39 +3,15 @@
   "files": [
     {
       "code": " M",
-      "path": "customer-web/src/App.tsx"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/tests/sales-only-deferred-content.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/project-state.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_220.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
       "path": "e2e/lite-parcel-unit-guard.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/package-f-pos-harness.tsx"
+    },
+    {
+      "code": " M",
+      "path": "e2e/package-f-products-harness.tsx"
     },
     {
       "code": " M",
@@ -43,19 +19,11 @@
     },
     {
       "code": " M",
-      "path": "src/features/more/ParcelConfigurationModal.tsx"
+      "path": "src/features/products/ProductFormModal.tsx"
     },
     {
       "code": " M",
-      "path": "src/features/pos/PosView.tsx"
-    },
-    {
-      "code": " M",
-      "path": "tests/lite-parcel-unit-guard.test.ts"
-    },
-    {
-      "code": "A ",
-      "path": "src/utils/parcelFamilySearch.ts"
+      "path": "src/features/products/ProductsView.tsx"
     }
   ]
 }

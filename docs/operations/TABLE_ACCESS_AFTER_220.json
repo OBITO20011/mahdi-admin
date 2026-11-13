@@ -78529,7 +78529,7 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "sha256": "b0f65ec71092dcce8ba39e48356950de9110be5a0463318838125887a07ce889"
+      "sha256": "7012d4dbeb54c96587b0ba994178bf374f0578365ced4b3be8b1e2a675d1d5d3"
     },
     {
       "file": "src/features/products/ProductFormParcelCapability.tsx",
@@ -78537,7 +78537,7 @@
     },
     {
       "file": "src/features/products/ProductsView.tsx",
-      "sha256": "f2d5073785ac8d968efb8ce93dc9c6db662338b7e5de73d9f4f86c64b125aa24"
+      "sha256": "f88cfcf1689c823685dc2e0d14baffb5e3186931dac5d7a0980c105ad5c381b8"
     },
     {
       "file": "src/features/products/StockAdjustmentModal.tsx",
