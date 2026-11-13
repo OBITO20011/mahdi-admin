@@ -2,52 +2,47 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner13Nov:OFF parcel safety/search and generic single-unit add-parcel through existing writer;Draft95/fullCI;separate final workbook and UI rehearsal. No DB/hosted/deploy/merge.",
-  "baselineSha": "eba224f0bf285e0a8d9a9a6863b4298b6ed8a139",
+  "objective": "Owner13Nov:final packet-default workbook and37 approved flavor families;new isolated actual UI import;update cutover/card;Draft docs PR/FULLCI,nomerge,noDBcode/hosted/demo changes.",
+  "baselineSha": "285b1e74ca84fadafc31ee11dd93acf75ce9d0f2",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
-  "branch": "codex/lite-parcel-unit-guard",
-  "phase": "LITE_PARCEL_UNIT_GUARD",
+  "branch": "codex/packet-default-import-docs",
+  "phase": "PACKET_DEFAULT_IMPORT_DOCS",
   "startedAt": "2026-11-12T20:12:57.615Z",
   "completed": [
-    "Shared209 rename→enable→save twice reproduced13rows/same1100 in fresh ON/OFF fixtures;allROLLBACK;clientguard GREEN.",
-    "OFF configuration guard,accurate labels,new parcel refusal and Arabic family search implemented;36 browser cases passed across Chromium/WebKit including prior actual-unit/receipt tests.",
-    "HTTP181/RPC702 current local role evidence refreshed;catalog unchanged;offline workbook819+344/71families/0errors,original unchanged."
+    "New external workbook750+444/108families/1086sellable;all819 old roots mapped;all barcodes/prices preserved;only4oat duplicates deleted.",
+    "Actual UI OFF/units/categories/import/readback347sec;1194 DB rows matched;zero inventory/reservations/cost.",
+    "Store family cards and NW0268singlepacket passed10 Chromium/WebKit390 cases;no demo data touched by this workbook rehearsal."
   ],
   "inProgress": [
-    "Repair exact product-ID fixture contract exposed by CI;generic add-parcel and actual-unit admin cards"
+    "Docs/hash/count/timing/print/static gates and draft FULLCI"
   ],
   "notStarted": [
-    "Final Gitleaks",
-    "After final green CI only:owner-authorized NW-0268 family correction via existing app writers and public/POS checks"
+    "Final docs tests/print/FULLCI/Gitleaks"
   ],
   "testsPassed": [
-    "admin/store types0",
-    "strictlint0",
-    "store227/227",
-    "focused5/5",
-    "browser36cases across two final runs on unchanged product source"
+    "Approved offline checker0errors/0incomplete;2 contextual notices only",
+    "Pure product parser0errors/0identifierwarnings",
+    "Actual UI import750+444;independent1194rows exact;10browser checks"
   ],
   "testsRemaining": [
-    "full admin units after exact pins",
-    "FULLCI exact final head",
-    "Gitleaks",
-    "owner target before/after"
+    "Docs/static/2A4/FULLCI/Gitleaks"
   ],
   "findings": [
-    "Shared209 writer is unchanged in ON and OFF;UI-only fallback approved.",
-    "Owner13Nov:1100 is per single packet;only NW-0268 family may be corrected after green CI."
+    "Fresh clone CRLF rejected by220 guard;copied literal Git SQL bytes,guard unchanged.",
+    "External Docker stdout chunk decoding fixed with Buffer.concat;small DB hex proof and all1194 rows exact.",
+    "Previous full RESET rehearsal remains e3bbe154;new proof is file/UI only."
   ],
   "blockers": [],
   "prohibitions": [
-    "No hosted/Frankfurt/deploy/merge/DB functions or migrations. No primary owner/env/private/auth/TOTP changes. Demo product writes only after green CI and only NW-0268 family through app writers."
+    "No merge/deploy/hosted/Frankfurt/migration/frozenfunction/operationalguard changes. Never reset ownerdemo or modify private/TOTP/env."
   ],
-  "nextExactAction": "Run generic parcel/legacy browser regressions;refresh source-only evidence and exact pins",
+  "nextExactAction": "Verify updated count/hash contracts and2A4;push Draft file-docs PR/fullCI",
   "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "A5323C89634D2B2B29AEA88974C1DFC74B79D7F64225BAF7601BCB40EBFA77D7",
-  "checkpointedAt": "2026-11-13T17:22:44.796Z",
-  "filesTouchedCount": 6,
-  "filesTouchedManifestSha256": "cf0eb3de4e49636c542d12f3ca74b7508b625c50262a70a09c1c73831e2e4f5a"
+  "workingTreeFingerprint": "BAB30012D96E7DC9E970C22B659D440AAE30B3E14E1F4AAEFDC0BEA91F26C095",
+  "checkpointedAt": "2026-11-13T19:10:22.067Z",
+  "filesTouchedCount": 8,
+  "filesTouchedManifestSha256": "ff69ccc5b3ba6b0d1cacc13b35b7219929296abe85b36f4c82c8bcfa72dc8ee2"
 }

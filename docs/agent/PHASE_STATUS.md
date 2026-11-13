@@ -1,3 +1,14 @@
+#13Nov2026 — final packet-default file and approved flavor families
+
+Owner-authorized separate Draft documentation PR. External workbook750roots,
+108families,444flavors,1194records/1086sellable;all819 original roots mapped and
+all prices/barcodes preserved,only four duplicate oat rows removed. Actual UI
+OFF/units/categories/import/readback on isolated main285b1e74 completed347sec;
+1194rows matched independently,10 Chromium/WebKit390 store checks passed.
+The previous complete cutover rehearsal remains e3bbe154,not repeated here.
+No DB/app/operational-guard changes,no hosted/deploy/merge or demo reimport.
+Print/static gates,FULLCI and Gitleaks remain to finish before owner review.
+
 #13Nov2026 — owner-approved OFF flavor parcel guard and searchable family picker
 
 Independent Draft PR from285b1e74;UI only, no SQL/migration/frozen-function changes. Real shared209 capacity drift reproduced in fresh owned220 with rollback;OFF capacity belongs to ProductForm. Accurate labels and unsafe new parcel refusal, Arabic name/SKU search;full writer unchanged. Local full units/history pins, final CI and Gitleaks remain pending. Owner authorized only NW-0268 family correction through existing app writers after final green CI;no owner demo/private/auth changes before then. No merge/deploy/hosted access;#58/#79/#82 untouched.

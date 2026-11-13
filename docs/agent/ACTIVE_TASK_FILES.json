@@ -3,15 +3,23 @@
   "files": [
     {
       "code": " M",
-      "path": "e2e/lite-parcel-unit-guard.spec.ts"
+      "path": "docs/agent/PHASE_STATUS.md"
     },
     {
       "code": " M",
-      "path": "e2e/package-f-pos-harness.tsx"
+      "path": "docs/agent/project-state.json"
     },
     {
       "code": " M",
-      "path": "e2e/package-f-products-harness.tsx"
+      "path": "docs/handover/ورقة-يوم-التشغيل.html"
+    },
+    {
+      "code": " M",
+      "path": "docs/handover/ورقة-يوم-التشغيل.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
     },
     {
       "code": " M",
@@ -19,11 +27,11 @@
     },
     {
       "code": " M",
-      "path": "src/features/products/ProductFormModal.tsx"
+      "path": "tests/cutover-publication-order.test.ts"
     },
     {
       "code": " M",
-      "path": "src/features/products/ProductsView.tsx"
+      "path": "tests/lite220-handover.test.ts"
     }
   ]
 }

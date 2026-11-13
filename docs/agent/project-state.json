@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "project": "Nawasrah ERP",
-  "branch": "codex/lite-parcel-unit-guard",
+  "branch": "codex/packet-default-import-docs",
   "approvedBaseline": "285b1e74ca84fadafc31ee11dd93acf75ce9d0f2",
   "closedPhases": [
     "3",
@@ -14,7 +14,7 @@
     "6"
   ],
   "phase4Closed": true,
-  "currentPhase": "LITE_PARCEL_UNIT_GUARD",
+  "currentPhase": "PACKET_DEFAULT_IMPORT_DOCS",
   "phase6Closed": true,
   "phase6ClosureBaseline": "5aaeab11e13c2be454af677ee176f77aa2d9cde4",
   "phase6ClosureExactShaCi": "PASS",
@@ -287,5 +287,7 @@
   "phaseSALES_ONLY_PHASE3ImplementationAllowed": true,
   "migration220CanonicalLfSha256": "08BCD03CE79DC1421A49B66C7A0C44CABFDA4673ADBEFC9707AFDDFDE7EF49FA",
   "phaseACTUAL_SALE_UNITSImplementationAllowed": true,
+  "expectedRoot": "C:/Users/TOP/NawasrahWorktrees/packet-default-import-docs/mahdi-admin",
+  "phasePACKET_DEFAULT_IMPORT_DOCSImplementationAllowed": true,
   "phaseLITE_PARCEL_UNIT_GUARDImplementationAllowed": true
 }
