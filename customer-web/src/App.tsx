@@ -1,3 +1,4 @@
+import {unsafeLiteParcelPrice,PARCEL_DEFINITION_MESSAGE} from './utils/saleUnitLabels';
 import {scrollWindowTo} from './utils/scroll';
 import {storefrontSaleUnit,storefrontUnitName, remainingStorefrontParcels,remainingStorefrontUnits,capStorefrontQuantity} from './utils/storefrontUnits';
 import {
@@ -880,6 +881,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       return;
     }
 
+    if(unsafeLiteParcelPrice(product.quantityTracked===false,product.unitsPerSalePackage,product.salePackagePriceInMinorUnits,product.salePriceInMinorUnits)){showToast(PARCEL_DEFINITION_MESSAGE,'error');return;}
     const remainingPackages = remainingStorefrontParcels(product, requiredBaseUnitsByProductId(cartItems).get(product.id) ?? 0);
     if (remainingPackages === 0) {
       showToast('وصلت إلى كامل الكمية المتاحة من هذا الصنف.', 'info');
@@ -960,6 +962,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
 
   const saveParcelBuilder = (instance: ParcelInstanceSelection) => {
     if (!parcelBuilder) return;
+    if(unsafeLiteParcelPrice(parcelBuilder.option.quantityTracked===false,parcelBuilder.option.unitsPerParcel,parcelBuilder.option.parcelPriceInMinorUnits,parcelBuilder.familyProduct.salePriceInMinorUnits)){showToast(PARCEL_DEFINITION_MESSAGE,'error');return;}
     if (cartStorageRecovery) {
       setParcelBuilder(null);
       setCartOpen(true);

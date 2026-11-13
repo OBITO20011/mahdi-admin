@@ -6,8 +6,8 @@ import {readApplicationFingerprint} from './backup-restore-contract.mjs';
 export async function verifyLiteParcelCapacityPath({json,id,q,j,executor},report,{full=false}={}){
  const before=await readApplicationFingerprint(executor);
  const proof=await json(`BEGIN;SELECT set_config('request.jwt.claims',${j({sub:id(1),role:'authenticated',aal:'aal2'})}::TEXT,true);SET LOCAL ROLE authenticated;
- CREATE TEMP TABLE parcel_unit_regression(result JSONB);DO $proof$
- DECLARE old_unit UUID;packet UUID;master UUID;allowed UUID[];p public.products;created JSONB;before_audit BIGINT;after_audit BIGINT;
+ DO $proof$
+ DECLARE old_unit UUID;packet UUID;master UUID;p public.products;created JSONB;
  BEGIN
   old_unit:=(public.save_product_unit('طرد','TEST-PARCEL-UNIT',1,NULL)->>'unitId')::UUID;
   SELECT id INTO STRICT packet FROM public.units WHERE code='PKT';
@@ -15,13 +15,17 @@ export async function verifyLiteParcelCapacityPath({json,id,q,j,executor},report
   master:=(created->>'productId')::UUID;SELECT * INTO STRICT p FROM public.products WHERE id=master;
   PERFORM public.update_product_master_v5(p.id,p.updated_at,p.sku,p.barcode,p.name_ar,p.description,p.category_id,p.brand_id,packet,packet,1,p.default_purchase_price_in_minor_units,packet,1,1100,p.cost_price_in_minor_units,p.min_stock_level,p.max_stock_level,p.is_active,NULL,false);
   PERFORM public.set_configurable_parcel_feature_state_v1('ENABLED');
+  PERFORM set_config('nawasrah.parcel_unit_fixture_master',master::TEXT,true);
+ END $proof$;
+ RESET ROLE;SELECT set_config('nawasrah.parcel_unit_fixture_audit',(SELECT count(*)::TEXT FROM public.audit_logs),true);
+ SET LOCAL ROLE authenticated;DO $save$
+ DECLARE master UUID:=current_setting('nawasrah.parcel_unit_fixture_master')::UUID;allowed UUID[];
+ BEGIN
   SELECT array_agg(id ORDER BY id) INTO allowed FROM public.products WHERE flavor_master_product_id=master;
-  SELECT count(*) INTO before_audit FROM public.audit_logs;
   PERFORM public.save_product_parcel_configuration_v1(master,'configurable_mix',true,7,allowed);
   PERFORM public.save_product_parcel_configuration_v1(master,'configurable_mix',true,7,allowed);
-  SELECT count(*) INTO after_audit FROM public.audit_logs;
-  INSERT INTO parcel_unit_regression SELECT jsonb_build_object('rows',(SELECT jsonb_agg(jsonb_build_object('n',r.units_per_sale_unit,'base',u.name_ar,'sale',s.name_ar,'sp',r.sale_price_in_minor_units,'dsp',r.default_sale_price_in_minor_units,'parcelOnly',r.parcel_only)) FROM public.products r JOIN public.units u ON u.id=r.unit_id JOIN public.units s ON s.id=r.sale_unit_id WHERE r.id=master OR r.flavor_master_product_id=master),'configurationAuditRows',after_audit-before_audit,'clientProduct',jsonb_build_object('id',master,'sku','TEST-PARCEL-REGRESSION','nameAr','عائلة نكهات وهمية','unitNameAr','باكيت','saleUnitNameAr','باكيت','unitsPerSalePackage',7,'salePriceInMinorUnits',1100,'salePackagePriceInMinorUnits',1100,'quantityTracked',false,'availableQuantity',NULL,'availableSalePackages',NULL,'isAvailable',true,'parcelOnly',false));
- END $proof$;SELECT result FROM parcel_unit_regression;ROLLBACK;`);
+ END $save$;RESET ROLE;
+ SELECT jsonb_build_object('rows',(SELECT jsonb_agg(jsonb_build_object('n',r.units_per_sale_unit,'base',u.name_ar,'sale',s.name_ar,'sp',r.sale_price_in_minor_units,'dsp',r.default_sale_price_in_minor_units,'parcelOnly',r.parcel_only)) FROM public.products r JOIN public.units u ON u.id=r.unit_id JOIN public.units s ON s.id=r.sale_unit_id WHERE r.id=current_setting('nawasrah.parcel_unit_fixture_master')::UUID OR r.flavor_master_product_id=current_setting('nawasrah.parcel_unit_fixture_master')::UUID),'configurationAuditRows',(SELECT count(*) FROM public.audit_logs)-current_setting('nawasrah.parcel_unit_fixture_audit')::BIGINT,'clientProduct',jsonb_build_object('id',current_setting('nawasrah.parcel_unit_fixture_master'),'sku','TEST-PARCEL-REGRESSION','nameAr','عائلة نكهات وهمية','unitNameAr','باكيت','saleUnitNameAr','باكيت','unitsPerSalePackage',7,'salePriceInMinorUnits',1100,'salePackagePriceInMinorUnits',1100,'quantityTracked',false,'availableQuantity',NULL,'availableSalePackages',NULL,'isAvailable',true,'parcelOnly',false));ROLLBACK;`);
  assert.deepEqual((await readApplicationFingerprint(executor)).tables,before.tables,'PARCEL_CAPACITY_ROLLBACK');
  assert.equal(proof.rows.length,13);assert.ok(proof.rows.every(r=>r.n===7&&r.base==='باكيت'&&r.sale==='باكيت'&&r.sp===1100&&r.dsp===1100&&r.parcelOnly===false));assert.equal(proof.configurationAuditRows,0);
  report.cases.push({name:full?'full shared209 capacity exposure (unchanged)':'OFF rename→enable→save twice;13rows keep1100;rollback',passed:true,rows:proof.rows.length,configurationAuditRows:proof.configurationAuditRows,rolledBack:true});

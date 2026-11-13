@@ -1,4 +1,5 @@
 import {storefrontCartUnit, storefrontUnitName} from './storefrontUnits';
+import {unsafeLiteParcelPrice, PARCEL_DEFINITION_MESSAGE} from './saleUnitLabels';
 import {
   BaseUnitCartItem,
   CartItem,
@@ -84,6 +85,7 @@ function cartDisplayFields(product: CatalogProduct) {
 
 /** Existing catalogue quick-add remains the explicit legacy single-SKU parcel path. */
 export function createCartItem(product: CatalogProduct): LegacyParcelCartItem {
+  if (unsafeLiteParcelPrice(product.quantityTracked===false,product.unitsPerSalePackage,product.salePackagePriceInMinorUnits,product.salePriceInMinorUnits)) throw new Error(PARCEL_DEFINITION_MESSAGE);
   return {
     ...cartDisplayFields(product),
     commercialLineKind: 'legacy_single_sku_parcel',
@@ -129,6 +131,7 @@ export function createConfigurableParcelCartItem(
   option: PublicConfigurableParcelOption,
   instance: ParcelInstanceSelection
 ): ConfigurableParcelCartItem {
+  if(unsafeLiteParcelPrice(option.quantityTracked===false,option.unitsPerParcel,option.parcelPriceInMinorUnits,familyProduct.salePriceInMinorUnits))throw new Error(PARCEL_DEFINITION_MESSAGE);
   if (parcelInstanceQuantity(instance) !== option.unitsPerParcel) {
     throw new Error(`يجب اختيار ${option.unitsPerParcel} ${storefrontUnitName(option.baseUnitNameAr,option.quantityTracked)} للطرد.`);
   }

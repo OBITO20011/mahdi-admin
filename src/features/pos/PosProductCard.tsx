@@ -1,7 +1,7 @@
 import type {Product} from '../../types';
 import {MoneyText,ProductGlyph,UiButton} from '../../components/ui';
 import type {PosSingleProductMode} from './saleMethods';
-import {singleSaleUnitLabel,packageSaleUnitLabel} from '../../../customer-web/src/utils/saleUnitLabels';
+import {singleSaleUnitLabel,packageSaleUnitLabel,unsafeLiteParcelPrice,PARCEL_DEFINITION_MESSAGE} from '../../../customer-web/src/utils/saleUnitLabels';
 
 export function PosProductCard({product,stock,parcelQuantity,unitQuantity,disabled,onAdd,onReduce,quantityTracked=true,manualAvailable}:{
   product:Product;stock:number;parcelQuantity:number;unitQuantity:number;disabled:boolean;
@@ -10,7 +10,8 @@ export function PosProductCard({product,stock,parcelQuantity,unitQuantity,disabl
 }){
   const unitsPerPackage=product.unitsPerSalePackage??1;
   const parcel=unitsPerPackage>1,unit=!product.parcelOnly;
-  const packageLabel=packageSaleUnitLabel(product.salePackage,product.purchasePackage,!quantityTracked);
+  const packageLabel=packageSaleUnitLabel(product.salePackage,product.purchasePackage,!quantityTracked,product.unit);
+  const unsafeParcel=unsafeLiteParcelPrice(!quantityTracked,unitsPerPackage,product.salePackagePrice,product.retailPrice);
   const methods=[...(parcel?[{mode:'legacy_single_sku_parcel' as const,label:packageLabel,price:product.salePackagePrice,quantity:parcelQuantity}]:[]),
     ...(unit?[{mode:'base_unit' as const,label:singleSaleUnitLabel(product.unit,!quantityTracked),price:product.retailPrice,quantity:unitQuantity}]:[])];
   return <article data-pos-product={product.id} className={'min-w-0 space-y-3 rounded-2xl border bg-nw-surface p-3 '+(parcelQuantity+unitQuantity>0?'border-nw-primary ring-1 ring-nw-primary':'border-nw-border')}>
@@ -23,13 +24,14 @@ export function PosProductCard({product,stock,parcelQuantity,unitQuantity,disabl
       </div>
     </div>
     {product.parcelOnly&&<p className="text-xs font-bold text-nw-info">طرد فقط</p>}
+    {unsafeParcel&&<p role="status" className="text-xs text-nw-warn">{PARCEL_DEFINITION_MESSAGE}</p>}
     {!quantityTracked&&parcel&&<p className="text-xs text-nw-muted">{packageLabel} ({unitsPerPackage} {singleSaleUnitLabel(product.unit,true)})</p>}
     <div className="space-y-2">
       {methods.map((method,index)=>{
         const priceReady=typeof method.price==='number'&&Number.isFinite(method.price)&&method.price>=0;
         return <div key={method.mode} data-pos-sale-method={method.mode} className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-2">
           <UiButton data-pos-product-card={index===0?product.id:undefined} data-pos-add-method={method.mode}
-            aria-label={`إضافة ${method.label} من ${product.nameAr}`} disabled={disabled||!priceReady||(quantityTracked&&stock<(method.mode==='base_unit'?1:product.unitsPerSalePackage??1))}
+            aria-label={`إضافة ${method.label} من ${product.nameAr}`} disabled={disabled||!priceReady||(unsafeParcel&&method.mode!=='base_unit')||(quantityTracked&&stock<(method.mode==='base_unit'?1:product.unitsPerSalePackage??1))}
             onKeyDown={event=>{if(event.key==='Enter'&&event.repeat)event.preventDefault();}}
             onClick={()=>onAdd(method.mode)} className="min-w-0 flex-wrap justify-start px-2 text-xs">
             + {method.label} {priceReady?<MoneyText amount={method.price!}/>:<span>السعر غير متاح</span>}

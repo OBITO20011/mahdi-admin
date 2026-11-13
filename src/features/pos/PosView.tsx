@@ -19,7 +19,7 @@ import {PosParcelBuilder, type PosParcelOption} from './PosParcelBuilder';
 import {posCartLines, posStockDemand, posWarehouseAvailable, posV2Invoice, receiptBaseUnitNames, type PosCartItem} from './posV2Cart';
 import {posSaleModeForProduct,posCartSaleMethodConflict,type PosSingleProductMode} from './saleMethods';
 import {PosProductCard} from './PosProductCard';
-import {singleSaleUnitLabel,packageSaleUnitLabel} from '../../../customer-web/src/utils/saleUnitLabels';
+import {singleSaleUnitLabel,packageSaleUnitLabel,unsafeLiteParcelPrice,PARCEL_DEFINITION_MESSAGE} from '../../../customer-web/src/utils/saleUnitLabels';
 import {shouldRestorePosSearchFocus,type PosAdditionSource} from './posSearchFocus';
 import {initialPaymentText216,partialPayment216} from './partialPayment216';
 import {jodToMinorUnits} from '../../utils/receivingCalculations';
@@ -69,7 +69,7 @@ import {
 import type {OperatingMode} from '../../services/supabase/operatingMode.service';
 import {readPosAvailability} from './salesOnlyPos';
 import {fetchManualAvailability} from '../../services/supabase/manualAvailability.service';
-import { searchAdminProducts } from '../../services/supabase/products.service';
+import { searchAdminProducts, fetchAdminProductById } from '../../services/supabase/products.service';
 
 const BarcodeScannerModal = lazy(() =>
   import('./BarcodeScannerModal').then((module) => ({
@@ -161,6 +161,8 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
     return cartItems.length === 0 || window.confirm('السلة غير محفوظة. هل تريد مغادرة نقطة البيع وإفراغ السلة؟');
   });
   const knownProductsRef = useRef<Map<string, Product>>(new Map());
+  const parcelAddContext=useRef({cartItems,warehouseId,salesOnly,modeVerified,recoveryBlocked,isSubmitting,preparingSale});
+  parcelAddContext.current={cartItems,warehouseId,salesOnly,modeVerified,recoveryBlocked,isSubmitting,preparingSale};
   const cartWarehouseRef = useRef<string>('');
   const searchInputRef = useRef<HTMLInputElement>(null);
 
@@ -345,6 +347,7 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
   };
   const addToCart = (prod: Product,preferred:PosSingleProductMode='legacy_single_sku_parcel',source:PosAdditionSource='pointer') => {
     const productSaleMode=posSaleModeForProduct(prod,preferred);
+    if(productSaleMode!=='base_unit'&&unsafeLiteParcelPrice(salesOnly,prod.unitsPerSalePackage??1,prod.salePackagePrice,prod.retailPrice)){setToast(PARCEL_DEFINITION_MESSAGE,'error');return;}
     if (isSubmitting || preparingSale || !modeVerified || recoveryBlocked || !warehouseId) {setToast('حدد المستودع واسترجع أي محاولة معلقة قبل البيع.', 'error'); return;}
     if (cartItems.length && cartWarehouseRef.current !== warehouseId) {setToast('تغير مستودع البيع؛ أفرغ السلة ثم أعد تركيبها.', 'error'); return;}
     cartWarehouseRef.current = warehouseId;
@@ -383,7 +386,7 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
         productName: prod.nameAr,
         productImage: prod.imageUrl,
         sku: prod.sku,
-        unit: productSaleMode === 'base_unit' ? prod.unit : 'طرد',
+        unit: productSaleMode === 'base_unit' || salesOnly ? prod.unit : 'طرد',
         unitPrice,
         costPrice: salesOnly ? null : prod.costPrice,
         ...(salesOnly?{accountingTracked:false}:{}),
@@ -441,9 +444,20 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
     setCartItems(updated);
   };
 
-  const addParcel = (line: PosV2ConfigurableParcelLine) => {
+  const addParcel = async (line: PosV2ConfigurableParcelLine) => {
     if (!parcelOption || recoveryBlocked || isSubmitting || preparingSale || !modeVerified) return;
     const option = parcelOption;
+    if(salesOnly){
+      const captured=parcelAddContext.current;
+      try{
+        const fresh=await fetchAdminProductById(option.familyProductId);
+        const current=parcelAddContext.current;
+        if(current.cartItems!==captured.cartItems||current.warehouseId!==captured.warehouseId||!current.salesOnly||!current.modeVerified||current.recoveryBlocked||current.isSubmitting||current.preparingSale){setToast('تغيرت حالة البيع؛ أعد فتح الطرد.','error');return;}
+        if(!fresh||fresh.unitsPerSalePackage!==option.unitsPerParcel||unsafeLiteParcelPrice(true,option.unitsPerParcel,option.parcelPriceInMinorUnits/1000,fresh.retailPrice)){
+          setToast(PARCEL_DEFINITION_MESSAGE,'error');return;
+        }
+      }catch{setToast('تعذر التحقق من تعريف الطرد؛ أعد تحميله.','error');return;}
+    }
     const item: PosCartItem = {id: crypto.randomUUID(), productId: option.familyProductId,
       productName: option.nameAr + ' — ' + line.parcel_instances[0].components.map(c =>
         `${option.components.find(p => p.productId === c.product_id)?.flavorNameAr || option.components.find(p => p.productId === c.product_id)?.nameAr}: ${c.base_quantity}`).join('، '),
@@ -929,7 +943,7 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
           <div className="space-y-3">
             {cartItems.map((item) => {
               const kind=item.v2Line.commercial_line_kind;
-              const unitLabel=kind==='base_unit'?singleSaleUnitLabel(item.unit,salesOnly):kind==='legacy_single_sku_parcel'?packageSaleUnitLabel(item.salePackage,undefined,salesOnly):'طرد مشكّل';
+              const unitLabel=kind==='base_unit'?singleSaleUnitLabel(item.unit,salesOnly):kind==='legacy_single_sku_parcel'?packageSaleUnitLabel(item.salePackage,undefined,salesOnly,item.unit):'طرد مشكّل';
               return <div key={item.id} data-pos-cart-line className="flex flex-wrap items-center justify-between gap-2 border-b border-nw-border py-3 text-sm">
                 <div className="min-w-0 w-full">
                   <div className="flex flex-wrap items-center gap-1"><h5 className="font-bold text-nw-text break-words">{item.productName}</h5><span data-pos-cart-line-kind className="text-xs font-bold">· {item.quantity} {unitLabel}</span></div>
