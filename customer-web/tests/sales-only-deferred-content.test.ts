@@ -36,7 +36,16 @@ test('deferred pages keep existing components and all cart financial/recovery fu
  // single, exact presentation call; every financial/recovery byte stays pinned.
  const actualLabel='storefrontUnitName(product.unitNameAr,product.quantityTracked)',legacyLabel='storefrontUnitName(product.unitNameAr)';
  assert.equal(app.split(actualLabel).length-1,1);
- const reviewed=bodies(app.replace(actualLabel,legacyLabel)),original=bodies(previous('src/App.tsx'));
+ // Owner13Nov: two exact early OFF refusals prevent the reproduced capacity
+ // drift. Unwind only these literal guard statements; arithmetic/recovery is
+ // still compared in full, and unknown guard bytes must remain visible.
+ const approvedGuards=[
+  "    if(unsafeLiteParcelPrice(product.quantityTracked===false,product.unitsPerSalePackage,product.salePackagePriceInMinorUnits,product.salePriceInMinorUnits)){showToast(PARCEL_DEFINITION_MESSAGE,'error');return;}\n",
+  "    if(unsafeLiteParcelPrice(parcelBuilder.option.quantityTracked===false,parcelBuilder.option.unitsPerParcel,parcelBuilder.option.parcelPriceInMinorUnits,parcelBuilder.familyProduct.salePriceInMinorUnits)){showToast(PARCEL_DEFINITION_MESSAGE,'error');return;}\n",
+ ];
+ let historical=app;for(const guard of approvedGuards){assert.equal(historical.split(guard).length-1,1);historical=historical.replace(guard,'');}
+ const reviewed=bodies(historical.replace(actualLabel,legacyLabel)),original=bodies(previous('src/App.tsx'));
  assert.deepEqual(reviewed,original);
- assert.notDeepEqual(bodies(app.replace(actualLabel,legacyLabel).replace('quantity: actualQuantity','quantity: actualQuantity + 1')),original,'unknown cart arithmetic remains visible');
+ assert.notDeepEqual(bodies(historical.replace(actualLabel,legacyLabel).replace('quantity: actualQuantity','quantity: actualQuantity + 1')),original,'unknown cart arithmetic remains visible');
+ assert.notDeepEqual({...reviewed,addQuantityToCart:reviewed.addQuantityToCart.replace('if (cartStorageRecovery)','if (true)')},original,'unknown recovery bytes remain visible');
 });

@@ -48,5 +48,11 @@ test('lite catalog keeps sell prices and names but omits inventory/profit filter
  await expect(page.getByRole('main')).not.toContainText(/تكلفة الرصيد|ربح متوقع|ربح \/ هامش|مخزون يحتاج انتباهك|طرد الشراء/);
  await expect(page.getByRole('button',{name:'استلام',exact:true})).toHaveCount(0);
  await expect(page.getByRole('option',{name:'الأعلى ربحًا',exact:true})).toHaveCount(0);await expect(page.getByRole('option',{name:'الأكثر مخزونًا',exact:true})).toHaveCount(0);
- await expect(page.getByRole('option',{name:'الاسم',exact:true})).toHaveCount(1);await expect(page.getByText('سعر الطرد',{exact:true})).toHaveCount(5);
+ await expect(page.getByRole('option',{name:'الاسم',exact:true})).toHaveCount(1);
+ await expect(page.getByText('السعر',{exact:true})).toHaveCount(5);
+ await expect(page.getByText('وحدة البيع',{exact:true})).toHaveCount(5);
+ await expect(page.getByText('سعر الطرد',{exact:true})).toHaveCount(0);
+ await page.goto('/e2e/package-f-products-harness.html');
+ await expect(page.getByText('سعر الطرد',{exact:true})).toHaveCount(5);
+ await expect(page.getByText('وحدة البيع',{exact:true})).toHaveCount(0);
 });

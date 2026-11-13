@@ -9,6 +9,10 @@ The previous complete cutover rehearsal remains e3bbe154,not repeated here.
 No DB/app/operational-guard changes,no hosted/deploy/merge or demo reimport.
 Print/static gates,FULLCI and Gitleaks remain to finish before owner review.
 
+#13Nov2026 — owner-approved OFF flavor parcel guard and searchable family picker
+
+Independent Draft PR from285b1e74;UI only, no SQL/migration/frozen-function changes. Real shared209 capacity drift reproduced in fresh owned220 with rollback;OFF capacity belongs to ProductForm. Accurate labels and unsafe new parcel refusal, Arabic name/SKU search;full writer unchanged. Local full units/history pins, final CI and Gitleaks remain pending. Owner authorized only NW-0268 family correction through existing app writers after final green CI;no owner demo/private/auth changes before then. No merge/deploy/hosted access;#58/#79/#82 untouched.
+
 #12Nov2026 — actual sale units, owner-authorized OFF presentation only
 
 Independent PR91 from2da60595. Existing update_product_master_v5 only;no SQL/migration/frozen-body/guard changes. Actual unit labels,owner-confirmed rename/conversion and old snapshots/refunds proved locally. Full CI and real local UI import verification pending;no merge/deploy/hosted access. Primary owner20/env4 protected. Earlier phase3 closure entries below are historical.

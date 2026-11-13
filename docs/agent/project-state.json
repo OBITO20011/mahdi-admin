@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "project": "Nawasrah ERP",
   "branch": "codex/packet-default-import-docs",
-  "approvedBaseline": "2da6059582dd1243648557220c616f0f65385f74",
+  "approvedBaseline": "285b1e74ca84fadafc31ee11dd93acf75ce9d0f2",
   "closedPhases": [
     "3",
     "4.1",
@@ -288,5 +288,6 @@
   "migration220CanonicalLfSha256": "08BCD03CE79DC1421A49B66C7A0C44CABFDA4673ADBEFC9707AFDDFDE7EF49FA",
   "phaseACTUAL_SALE_UNITSImplementationAllowed": true,
   "expectedRoot": "C:/Users/TOP/NawasrahWorktrees/packet-default-import-docs/mahdi-admin",
-  "phasePACKET_DEFAULT_IMPORT_DOCSImplementationAllowed": true
+  "phasePACKET_DEFAULT_IMPORT_DOCSImplementationAllowed": true,
+  "phaseLITE_PARCEL_UNIT_GUARDImplementationAllowed": true
 }

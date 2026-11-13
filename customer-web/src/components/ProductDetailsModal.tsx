@@ -16,6 +16,7 @@ import { useEffect, useMemo, useState } from 'react';
 import {useDialogFocus} from '../hooks/useDialogFocus';
 import { CatalogProduct, PublicConfigurableParcelOption } from '../types/catalog';
 import { formatJod } from '../utils/money';
+import {unsafeLiteParcelPrice,PARCEL_DEFINITION_MESSAGE} from '../utils/saleUnitLabels';
 import {ProductPurchaseControl} from './ProductPurchaseControl';
 import {storefrontSaleUnit, storefrontPackageDescription, storefrontStock, storefrontUnitName, remainingStorefrontUnits, remainingStorefrontParcels} from '../utils/storefrontUnits';
 import { ProductImage } from './ProductImage';
@@ -121,6 +122,7 @@ export function ProductDetailsModal({
   }, [onClose]);
 
   const packageDescription = storefrontPackageDescription(product);
+  const unsafeParcel=unsafeLiteParcelPrice(product.quantityTracked===false,product.unitsPerSalePackage,product.salePackagePriceInMinorUnits,product.salePriceInMinorUnits);
   const shareUrl = useMemo(
     () =>
       buildProductShareUrl(
@@ -514,9 +516,10 @@ export function ProductDetailsModal({
 
         <footer role="group" aria-label="إضافة المنتج للسلة" className="shrink-0 border-t border-slate-100 bg-white px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3 sm:px-7 sm:py-4">
           <div className={`mx-auto grid max-w-3xl gap-2 ${!product.parcelOnly&&product.unitsPerSalePackage > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
+            {unsafeParcel&&<p role="status" className="text-xs text-amber-800">{PARCEL_DEFINITION_MESSAGE}</p>}
             <ProductPurchaseControl label={packageDescription} unit={storefrontSaleUnit(product)} productName={product.nameAr}
               price={product.salePackagePriceInMinorUnits} quantity={quantity} remaining={remainingPackages}
-              disabled={!product.isAvailable} onChange={handleQuantityChange} onAdd={handleAdd} />
+              disabled={!product.isAvailable||unsafeParcel} onChange={handleQuantityChange} onAdd={handleAdd} />
             {!product.parcelOnly&&product.unitsPerSalePackage > 1 && <ProductPurchaseControl label={storefrontUnitName(product.unitNameAr,product.quantityTracked)} unit={storefrontUnitName(product.unitNameAr,product.quantityTracked)} productName={product.nameAr}
               price={product.salePriceInMinorUnits} quantity={unitQuantity} remaining={remainingUnits}
               disabled={!product.isAvailable||product.salePriceInMinorUnits <= 0 || remainingUnits === 0}
@@ -525,7 +528,7 @@ export function ProductDetailsModal({
           </div>
           {familyProduct.variants.length > 0 && parcelOption && <button type="button"
             onClick={() => parcelOption && onOpenParcelBuilder(familyProduct, parcelOption)}
-            disabled={!parcelOption || parcelOptionLoading}
+            disabled={!parcelOption || parcelOptionLoading || unsafeParcel}
             className="mx-auto mt-2 block min-h-11 w-full max-w-3xl rounded-2xl bg-violet-700 px-3 text-xs font-black text-white disabled:bg-slate-300 disabled:text-slate-700">
             {parcelOptionLoading ? 'جارٍ تحميل خيارات الطرد...' : 'كوّن طردًا بالنكهات'}
           </button>}

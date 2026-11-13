@@ -1,3 +1,4 @@
+import {verifyLiteParcelCapacityPath} from './lite-parcel-unit-runtime.mjs';
 import {verifyLiteCartonUnitTransition} from './lite-carton-unit-runtime.mjs';
 import {verifyLiteActualUnitTransition} from './lite-actual-units-runtime.mjs';
 import{verifyLite220SummaryAfterEpoch}from'./lite220-summary-runtime.mjs';
@@ -41,7 +42,9 @@ export async function verifyOpeningEpoch220(c,report){
  await rpc("set_configurable_parcel_feature_state_v1('ENABLED')");
  await sql(`UPDATE public.products SET wac_cost_in_minor_units_exact=NULL WHERE id IN(${q(id(101))},${q(id(102))});`);
  assert.deepEqual((await rpc(`get_pos_configurable_parcel_options_v1(${q(warehouse)})`)).options,[],'FULL_READER_STILL_REQUIRES_WAC_AND_STOCK');
+ await verifyLiteParcelCapacityPath(c,report,{full:true});
  await rpc('lite1_set_mode2(false)');
+ await verifyLiteParcelCapacityPath(c,report);
  await verifyLiteProductDefinitions(c,report);
  await verifyLiteCartonUnitTransition(c,report);
  await verifyLiteActualUnitTransition(c,report);

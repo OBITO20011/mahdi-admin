@@ -7,6 +7,10 @@ const root=path.resolve(import.meta.dirname,'../..'),baseline='2dafe8433bc4efef6
 const featureHarnessFiles=new Set(['e2e/package-f-pos-harness.tsx','e2e/package-f-product-workbook-harness.tsx','e2e/package-f-product-workbook-harness.html','e2e/package-f-product-workbook.fixture.ts','e2e/package-f-product-workbook.spec.ts','e2e/package-f-screen-history-harness.tsx','e2e/package-f-screen-history-harness.html','e2e/package-f-screen-history.spec.ts','e2e/package-f-record-order-harness.tsx','e2e/package-f-record-order-harness.html','e2e/package-f-record-order.spec.ts','e2e/package-f-iphone-dialogs-harness.tsx','e2e/package-f-iphone-dialogs-harness.html','e2e/package-f-iphone-dialogs.spec.ts']);
 const guestSourceFiles=new Set(['supabase/functions/submit-guest-order/index.ts','supabase/functions/submit-guest-order/operatingMode.ts']);
 const phase3LegacySources=Object.freeze([
+ 'src/features/products/ProductsView.tsx',
+ 'src/components/modals/AllModals.tsx',
+ 'src/features/more/ParcelConfigurationModal.tsx',
+ 'src/utils/parcelFamilySearch.ts',
  'src/features/goLive/goLiveImport.ts',
  'src/features/goLive/GoLiveSetupView.tsx',
  'customer-web/src/components/StoreHero.tsx',

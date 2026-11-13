@@ -1,3 +1,4 @@
+import {unsafeLiteParcelPrice,PARCEL_DEFINITION_MESSAGE} from '../utils/saleUnitLabels';
 import {storefrontSaleUnit,storefrontUnitName, remainingStorefrontParcels} from '../utils/storefrontUnits';
 import {
   Eye,
@@ -38,7 +39,8 @@ export function ProductCard({
 }: ProductCardProps) {
   const hasVariants = product.variants.length > 0;
   const remainingAfterCart = remainingStorefrontParcels(product, reservedQuantity);
-  const canAdd = product.isAvailable && (remainingAfterCart===null||remainingAfterCart>0);
+  const unsafeParcel=unsafeLiteParcelPrice(product.quantityTracked===false,product.unitsPerSalePackage,product.salePackagePriceInMinorUnits,product.salePriceInMinorUnits);
+  const canAdd = !unsafeParcel && product.isAvailable && (remainingAfterCart===null||remainingAfterCart>0);
   const isLowStock = isLowStockProduct(product);
   const shareProduct = () => {
     const url = buildProductShareUrl(window.location.href, product.sku || product.id);
@@ -130,6 +132,7 @@ export function ProductCard({
           </p>
         )}
 
+        {unsafeParcel&&<p role="status" className="mt-2 text-xs text-amber-800">{PARCEL_DEFINITION_MESSAGE}</p>}
         {product.unitsPerSalePackage > 1 && <div className="mt-4 hidden grid-cols-2 gap-2 sm:grid">
           <div className="rounded-2xl bg-blue-50 p-2.5">
             <p className="text-[9px] font-bold text-blue-700">طرد البيع</p>
