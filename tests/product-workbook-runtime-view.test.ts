@@ -54,3 +54,19 @@ test('phase2 POS harness composes exact Git bytes and rejects an unreviewed sibl
  assert.equal(result.entries[file].beforeText,before);assert.equal(result.entries[file].after,pin.after);
  assert.throws(()=>projectWorkbookRuntimeSource('e2e/unreviewed-pos.tsx','unapproved',pin),/SOURCE_SCOPE/);
 });
+
+
+test('cutover aftercare sources rewind exact phase2 bytes in schema-only219 fixtures;unknown bytes still fail',async()=>{
+ const {salesOnlyPhase3Pins,sourceBeforeSalesOnlyPhase3}=await import('../scripts/audit/source-before-sales-only-phase3.mjs');
+ const runtime=readFileSync('scripts/testing/product-workbook-runtime-view.mjs','utf8');
+ for(const file of ['src/features/goLive/goLiveImport.ts','src/features/goLive/GoLiveSetupView.tsx','customer-web/src/components/StoreHero.tsx']){
+  const pin=salesOnlyPhase3Pins.entries[file];assert.ok(pin,'exact outer pin required: '+file);
+  const old=execFileSync('git',['show',salesOnlyPhase3Pins.baseline+':'+file],{encoding:'utf8'}).replaceAll('\r\n','\n');
+  const current=readFileSync(file,'utf8').replaceAll('\r\n','\n');
+  assert.equal(pin.beforeText,old);assert.equal(pin.before,hash(old));assert.equal(pin.after,hash(current));
+  assert.equal(sourceBeforeSalesOnlyPhase3(file,current),old);
+  assert.equal(sourceBeforeSalesOnlyPhase3(file,current+'UNKNOWN_BYTE'),current+'UNKNOWN_BYTE');
+  assert.throws(()=>projectWorkbookRuntimeSource(file,current+'UNKNOWN_BYTE',pin),/UNREVIEWED_SOURCE/u);
+  assert.ok(runtime.split('const phase3LegacySources=Object.freeze([')[1].split(']);')[0].includes("'"+file+"'"));
+ }
+});
