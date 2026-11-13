@@ -3,15 +3,27 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
+      "path": "e2e/lite-parcel-unit-guard.spec.ts"
     },
     {
       "code": " M",
-      "path": "docs/agent/project-state.json"
+      "path": "e2e/package-f-pos-harness.tsx"
     },
     {
       "code": " M",
-      "path": "scripts/testing/product-workbook-runtime-view.mjs"
+      "path": "e2e/package-f-products-harness.tsx"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/sales-only-phase3-source-pins.json"
+    },
+    {
+      "code": " M",
+      "path": "src/features/products/ProductFormModal.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/products/ProductsView.tsx"
     }
   ]
 }

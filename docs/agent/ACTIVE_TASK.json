@@ -1,41 +1,53 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
+  "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner12Nov:actual units in verified OFF;existing RPC only;new workbook and real local UI import;PR/FULLCI no merge no hosted.",
-  "baselineSha": "2da6059582dd1243648557220c616f0f65385f74",
+  "objective": "Owner13Nov:OFF parcel safety/search and generic single-unit add-parcel through existing writer;Draft95/fullCI;separate final workbook and UI rehearsal. No DB/hosted/deploy/merge.",
+  "baselineSha": "eba224f0bf285e0a8d9a9a6863b4298b6ed8a139",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
-  "branch": "codex/actual-sale-units",
-  "phase": "ACTUAL_SALE_UNITS",
+  "branch": "codex/lite-parcel-unit-guard",
+  "phase": "LITE_PARCEL_UNIT_GUARD",
   "startedAt": "2026-11-12T20:12:57.615Z",
   "completed": [
-    "OFF display/helpers and owner-confirmed unit rename/conversion implemented.",
-    "7 display/full-copy units;10 Chromium/WebKit product-form cases;12 PostgreSQL ordinary/family rename+conversion/receipt+refund cases PASS.",
-    "819+344 new external workbook;offline checker0errors;originals and duplicate list unchanged.",
-    "Current HTTP181/RPC702/18expecteddenials;catalog0diff;allpreviousrole results unchanged;14source/history/unknownbyte tests PASS."
+    "Shared209 rename→enable→save twice reproduced13rows/same1100 in fresh ON/OFF fixtures;allROLLBACK;clientguard GREEN.",
+    "OFF configuration guard,accurate labels,new parcel refusal and Arabic family search implemented;36 browser cases passed across Chromium/WebKit including prior actual-unit/receipt tests.",
+    "HTTP181/RPC702 current local role evidence refreshed;catalog unchanged;offline workbook819+344/71families/0errors,original unchanged."
   ],
   "inProgress": [
-    "Refresh current access evidence,pins,full types/lint/units/CI;then authenticated local-demo refresh preservingTOTP and real UI import."
+    "Repair exact product-ID fixture contract exposed by CI;generic add-parcel and actual-unit admin cards"
   ],
-  "notStarted": [],
+  "notStarted": [
+    "Final Gitleaks",
+    "After final green CI only:owner-authorized NW-0268 family correction via existing app writers and public/POS checks"
+  ],
   "testsPassed": [
-    "preflight"
+    "admin/store types0",
+    "strictlint0",
+    "store227/227",
+    "focused5/5",
+    "browser36cases across two final runs on unchanged product source"
   ],
-  "testsRemaining": [],
+  "testsRemaining": [
+    "full admin units after exact pins",
+    "FULLCI exact final head",
+    "Gitleaks",
+    "owner target before/after"
+  ],
   "findings": [
-    "Inherited phase3 checkpoint is historical;phase3 merged in main. Latest owner authorizes new isolated task."
+    "Shared209 writer is unchanged in ON and OFF;UI-only fallback approved.",
+    "Owner13Nov:1100 is per single packet;only NW-0268 family may be corrected after green CI."
   ],
   "blockers": [],
   "prohibitions": [
-    "No migration/RPC/DB guard changes;no hostedaccess/deploy/merge;no primaryowner/env changes;58/79/82 untouched."
+    "No hosted/Frankfurt/deploy/merge/DB functions or migrations. No primary owner/env/private/auth/TOTP changes. Demo product writes only after green CI and only NW-0268 family through app writers."
   ],
-  "nextExactAction": "PR91:move current display/source pins to exact phase3-to219 outer inverse;keep originalphase2/216 history. CurrentCI stage rejects four missing receipt views;extend explicit source list,verify locally thennewheadCI. Localdemo reset applied220+seed,restart timedout;recover ownedservices without repeatingreset,restoreAuth+TOTP and UIimport.",
+  "nextExactAction": "Run generic parcel/legacy browser regressions;refresh source-only evidence and exact pins",
   "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "793F68F6C6BED536B624768CC952178B5A28B1B754D820311BC3EAF822036602",
-  "checkpointedAt": "2026-11-12T21:29:46.515Z",
-  "filesTouchedCount": 3,
-  "filesTouchedManifestSha256": "756412e3de7624a5823b5e5cba2438838400d587ca3b1c8789f999e83ba6a333"
+  "workingTreeFingerprint": "A5323C89634D2B2B29AEA88974C1DFC74B79D7F64225BAF7601BCB40EBFA77D7",
+  "checkpointedAt": "2026-11-13T17:22:44.796Z",
+  "filesTouchedCount": 6,
+  "filesTouchedManifestSha256": "cf0eb3de4e49636c542d12f3ca74b7508b625c50262a70a09c1c73831e2e4f5a"
 }

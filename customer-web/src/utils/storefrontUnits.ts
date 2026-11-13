@@ -3,7 +3,7 @@ import {SINGLE_SALE_UNIT,singleSaleUnitLabel,packageSaleUnitLabel} from './saleU
 
 export const storefrontUnitName = (name:string|undefined,quantityTracked?:boolean) => singleSaleUnitLabel(name,quantityTracked===false);
 export const storefrontSaleUnit = (product: CatalogProduct) =>
-  product.unitsPerSalePackage > 1 ? packageSaleUnitLabel(product.saleUnitNameAr,undefined,product.quantityTracked===false) : storefrontUnitName(product.unitNameAr,product.quantityTracked);
+  product.unitsPerSalePackage > 1 ? packageSaleUnitLabel(product.saleUnitNameAr,undefined,product.quantityTracked===false,product.unitNameAr) : storefrontUnitName(product.unitNameAr,product.quantityTracked);
 export const storefrontPackageDescription = (product: CatalogProduct) => product.unitsPerSalePackage > 1
   ? `${storefrontSaleUnit(product)} (${product.unitsPerSalePackage.toLocaleString('ar-JO')} ${storefrontUnitName(product.unitNameAr,product.quantityTracked)})`
   : storefrontUnitName(product.unitNameAr,product.quantityTracked);
@@ -25,7 +25,7 @@ export function remainingStorefrontParcels(product: CatalogProduct, reserved: nu
 }
 /** Saved commercial kinds/quantities/prices stay untouched; only packaging copy changes. */
 export function storefrontCartUnit(item: CartDisplayFields & {commercialLineKind: CartItem['commercialLineKind']}): string {
-  if (item.commercialLineKind !== 'base_unit' && item.unitsPerSalePackage > 1) return packageSaleUnitLabel(item.saleUnitNameAr,undefined,item.quantityTracked===false);
+  if (item.commercialLineKind !== 'base_unit' && item.unitsPerSalePackage > 1) return packageSaleUnitLabel(item.saleUnitNameAr,undefined,item.quantityTracked===false,item.baseUnitNameAr);
   return storefrontUnitName(item.saleUnitNameAr,item.quantityTracked);
 }
 export function storefrontCartPackageDescription(item: CartDisplayFields & {commercialLineKind: CartItem['commercialLineKind']}): string {

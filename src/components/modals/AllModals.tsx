@@ -215,7 +215,7 @@ export const AllModals: React.FC<{operatingMode?:OperatingMode;modeVerified?:boo
       </Modal>
       <Modal isOpen={currentModal === 'parcel_configuration'} onClose={closeModal}
         title="الطرد المشكّل (خلط النكهات)" subtitle="النكهات وكم حبة بالطرد — للمالك فقط">
-        <ParcelConfigurationModal initialFamilyProductId={modalData&&'familyProductId' in modalData?modalData.familyProductId:undefined}/>
+        <ParcelConfigurationModal operatingMode={operatingMode} modeVerified={modeVerified} initialFamilyProductId={modalData&&'familyProductId' in modalData?modalData.familyProductId:undefined}/>
       </Modal>
 
       <Modal

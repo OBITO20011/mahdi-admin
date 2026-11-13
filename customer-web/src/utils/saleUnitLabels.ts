@@ -6,8 +6,15 @@ export const singleSaleUnitLabel = (baseUnit: string | undefined, actualNames = 
   actualNames ? baseUnit?.trim() || SINGLE_SALE_UNIT
     : baseUnit?.trim() === 'طرد' ? 'طرد' : SINGLE_SALE_UNIT;
 /** OFF only: labels describe saved/configured packaging, never quantities. */
-export const packageSaleUnitLabel = (sale: string | undefined, purchase?: string, actualNames = false) =>
-  actualNames ? sale?.trim() || purchase?.trim() || 'طرد' : 'طرد';
+export const packageSaleUnitLabel = (sale: string | undefined, purchase?: string, actualNames = false, base?: string) => {
+  const label = actualNames ? sale?.trim() || purchase?.trim() || 'طرد' : 'طرد';
+  return actualNames && base?.trim() === label ? label === 'طرد' ? 'مجموعة' : 'طرد' : label;
+};
+/** Refuse new OFF parcel additions with the exact inconsistent price produced
+ * by changing capacity without converting the product. Never reprice a line. */
+export const unsafeLiteParcelPrice = (lite: boolean, units: number, parcelPrice: number | undefined, unitPrice: number | undefined) =>
+  lite && units > 1 && typeof unitPrice === 'number' && unitPrice > 0 && parcelPrice === unitPrice;
+export const PARCEL_DEFINITION_MESSAGE = 'راجع سعر ووحدة الطرد من نموذج المنتج قبل بيع الطرد؛ لا يمكن بيع عدة وحدات بسعر وحدة واحدة.';
 /** Older receipts may only have a saved packaging label, without a commercial
  * kind. Normalize that label without inferring a quantity, price or recipe. */
 export function savedSaleUnitLabel(saved: string | undefined): string {

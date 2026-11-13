@@ -1,6 +1,9 @@
 import {FormFields,UiButton,formatJod} from '../../components/ui';
-import {useEffect, useState, type FormEvent} from 'react';
+import {useEffect, useRef, useState, type FormEvent} from 'react';
 import {useAuthStore} from '../../stores/useAuthStore';
+import {fetchAdminProductById} from '../../services/supabase/products.service';
+import {unsafeLiteParcelPrice,PARCEL_DEFINITION_MESSAGE} from '../../../customer-web/src/utils/saleUnitLabels';
+import {filterParcelFamilies} from '../../utils/parcelFamilySearch';
 import {fetchParcelConfigurationContext, saveParcelConfiguration, setParcelFeatureState,
   type ParcelConfigurationContext, type ParcelConfigurationInput, type ParcelFeatureState} from '../../services/supabase/parcelConfiguration.service';
 
@@ -9,8 +12,11 @@ const labels = {OFF:'متوقفة',OWNER_PILOT:'تجربة المالك فقط',
 const flavorFamilies = (data: ParcelConfigurationContext) => data.products.filter(p =>
   p.isFlavorMaster && p.components.some(c => c.productId !== p.familyProductId)
   && p.configuration?.composition_mode!=='single_sku');
-export function ParcelConfigurationModal({initialFamilyProductId}:{initialFamilyProductId?:string}) {
+export function ParcelConfigurationModal({initialFamilyProductId,operatingMode='full',modeVerified=true}:{initialFamilyProductId?:string;operatingMode?:'full'|'sales-only';modeVerified?:boolean}) {
   const {roleName:role} = useAuthStore();
+  const salesOnly=operatingMode==='sales-only';
+  const authorization=useRef({role,operatingMode,modeVerified});
+  authorization.current={role,operatingMode,modeVerified};
   const [context,setContext] = useState<ParcelConfigurationContext | null>(null);
   const [form,setForm] = useState<ParcelConfigurationInput | null>(null);
   const [nextState,setNextState] = useState<ParcelFeatureState>('OFF');
@@ -19,6 +25,7 @@ export function ParcelConfigurationModal({initialFamilyProductId}:{initialFamily
   const [message,setMessage] = useState('');
   const [error,setError] = useState('');
   const [uncertain,setUncertain] = useState(false);
+  const [familySearch,setFamilySearch] = useState('');
   const select = (data: ParcelConfigurationContext, id: string) => {
     const candidates = flavorFamilies(data);
     const p = candidates.find(product => product.familyProductId === id) ?? candidates[0];
@@ -44,7 +51,16 @@ export function ParcelConfigurationModal({initialFamilyProductId}:{initialFamily
     event.preventDefault();if (!context || !form || busy || uncertain) return;
     const p=context.products.find(product=>product.familyProductId===form.familyProductId);if (!p) return;
     setBusy(true);setError('');setMessage('');
-    try {await saveParcelConfiguration(form,p);const data=await fetchParcelConfigurationContext();setContext(data);select(data,form.familyProductId);setMessage('تم حفظ إعداد الطرد.');}
+    try {
+      if(!modeVerified)throw new Error('أعد قراءة وضع التشغيل قبل حفظ إعداد الطرد.');
+      if(salesOnly){
+        const fresh=await fetchAdminProductById(form.familyProductId);
+        if(!fresh||authorization.current.role!=='owner'||!authorization.current.modeVerified||authorization.current.operatingMode!==operatingMode)throw new Error('تعذر التحقق من وضع التشغيل وتعريف المنتج؛ أعد التحميل.');
+        if(form.units!==fresh.unitsPerSalePackage)throw new Error('عدّل عدد الطرد من نموذج المنتج أولاً، ثم أعد تحميل إعداد النكهات.');
+        const sameUnit=fresh.baseUnitId===fresh.saleUnitId||fresh.unit?.trim()===fresh.salePackage?.trim();
+        if(form.active&&form.units>1&&(sameUnit||unsafeLiteParcelPrice(true,form.units,fresh.salePackagePrice,fresh.retailPrice)))throw new Error(PARCEL_DEFINITION_MESSAGE);
+      }
+      await saveParcelConfiguration(form,p);const data=await fetchParcelConfigurationContext();setContext(data);select(data,form.familyProductId);setMessage('تم حفظ إعداد الطرد.');}
     catch (reason) {setUncertain(true);setError(reason instanceof Error ? reason.message : 'تعذر تأكيد الحفظ؛ أعد تحميل الإعداد.');}
     finally {setBusy(false);}
   };
@@ -67,6 +83,7 @@ export function ParcelConfigurationModal({initialFamilyProductId}:{initialFamily
   };
   if (role !== 'owner') return <p role="alert">إعداد الطرود متاح للمالك فقط.</p>;
   const product=context?.products.find(p=>p.familyProductId===form?.familyProductId);
+  const visibleFamilies=filterParcelFamilies(context?flavorFamilies(context):[],familySearch);
   const missingCandidates=(context ? flavorFamilies(context) : []).flatMap(p=>p.configuration?.is_active
     ? p.components.filter(c=>p.allowedProductIds.includes(c.productId) && c.packetPriceInMinorUnits===0) : []);
   const missingPacketPrices=missingCandidates.filter((c,index)=>missingCandidates.findIndex(other=>other.productId===c.productId)===index);
@@ -81,7 +98,7 @@ export function ParcelConfigurationModal({initialFamilyProductId}:{initialFamily
     <UiButton variant="plain" type="button" disabled={busy} onClick={()=>void reload()} className="rounded-lg border p-2">إعادة تحميل الإعداد</UiButton>
     {!context ? <p>جارٍ تحميل إعداد الطرود...</p> : <>
       <details><summary className="min-h-11 cursor-pointer font-bold">متقدم: حالة الطرد المشكّل</summary>
-      <fieldset disabled={busy || uncertain} className="space-y-3 rounded-xl border border-nw-border p-3">
+      <fieldset disabled={busy || uncertain || !modeVerified} className="space-y-3 rounded-xl border border-nw-border p-3">
         <legend>حالة الطرد المشكّل — {labels[context.featureState]}</legend>
         <label>حالة الميزة<select aria-label="حالة الميزة" className={inputClass} value={nextState} onChange={e=>{setNextState(e.target.value as ParcelFeatureState);setConfirm(false);}}>
           {Object.entries(labels).map(([value,label])=><option key={value} value={value}>{label}</option>)}
@@ -91,12 +108,17 @@ export function ParcelConfigurationModal({initialFamilyProductId}:{initialFamily
           <UiButton variant="primary" type="button" disabled={!confirm} onClick={()=>void changeState()} className="rounded-lg p-2">تأكيد تغيير حالة الميزة</UiButton></>}
       </fieldset></details>
       {!flavorFamilies(context).length ? <p>لا توجد منتجات لها نكهات بعد. أضف النكهات من نموذج المنتج، ثم جهّز الطرد المشكّل هنا.</p> : <form onSubmit={event=>void save(event)} aria-busy={busy} className="space-y-3">
-        <fieldset disabled={busy || uncertain} className="space-y-3">
-          <label>الصنف / العائلة<select className={inputClass} value={form?.familyProductId ?? ''} onChange={e=>select(context,e.target.value)}>
-            {flavorFamilies(context).map(p=><option key={p.familyProductId} value={p.familyProductId}>{p.nameAr} — {p.sku}</option>)}
+        <fieldset disabled={busy || uncertain || !modeVerified} className="space-y-3">
+          <label>بحث العائلات<input type="search" enterKeyHint="search" className={`${inputClass} min-h-11`} value={familySearch} placeholder="جزء من الاسم أو رمز الصنف" onChange={e=>setFamilySearch(e.target.value)} onKeyDown={e=>{if(e.key==='Enter')e.preventDefault();}}/></label>
+          <label>الصنف / العائلة<select className={inputClass} value={visibleFamilies.some(p=>p.familyProductId===form?.familyProductId)?form?.familyProductId:''} onChange={e=>{if(e.target.value)select(context,e.target.value);}}>
+            {!visibleFamilies.some(p=>p.familyProductId===form?.familyProductId)&&<option value="" disabled>{visibleFamilies.length?'اختر العائلة من النتائج':'لا توجد عائلة مطابقة'}</option>}
+            {visibleFamilies.map(p=><option key={p.familyProductId} value={p.familyProductId}>{p.nameAr} — {p.sku}</option>)}
           </select></label>
+          {familySearch&&<p className="text-sm text-nw-muted" role="status">{visibleFamilies.length} نتيجة — العائلة المحددة: {product?.nameAr} — {product?.sku}</p>}
           {form && product && <>
-            <label>كم حبة بالطرد<input inputMode="numeric" enterKeyHint="next" className={inputClass} required type="number" min="1" step="1" value={form.units} onChange={e=>setForm({...form,units:Number(e.target.value)})}/></label>
+            <label>كم حبة بالطرد<input readOnly={salesOnly} inputMode="numeric" enterKeyHint="next" className={inputClass} required type="number" min="1" step="1" value={form.units} onChange={e=>setForm({...form,units:Number(e.target.value)})}/></label>
+            {salesOnly&&<p className="text-sm text-nw-muted">عدد الطرد ووحدته وسعره تُضبط من نموذج المنتج أولاً؛ هذه الشاشة تختار النكهات فقط. بعد تعديل المنتج أعد تحميل الإعداد.</p>}
+            {salesOnly&&<p className="text-sm text-nw-muted">لطرد نكهات حقيقي اختر وحدة بيع مختلفة عن وحدة المحتوى. للحفاظ على سعر الوحدة راجع أن سعر الطرد يساوي العدد × سعر الوحدة؛ الحفظ هنا لا يحوّل الأسعار تلقائياً.</p>}
               <div><label className="flex gap-2"><input type="checkbox" checked={form.active} onChange={e=>setForm({...form,active:e.target.checked})}/>الطرد المشكّل مفعّل للبيع</label>
                 <p className="mt-1 text-sm text-nw-muted">أزل الإشارة لإيقافه مؤقتاً؛ يبقى الإعداد محفوظاً.</p></div>
             {form.mode==='configurable_mix' && <fieldset className="space-y-2"><legend>النكهات المسموحة</legend>
