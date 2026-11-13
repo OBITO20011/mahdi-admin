@@ -9,7 +9,8 @@ for(const job of ['quality','core-webkit-browser','package-f-browser']){
   const image=block.match(/^ {6}image: (\S+)\r?$/m)?.[1];
   const version=image?.match(/^mcr\.microsoft\.com\/playwright:v(\d+\.\d+\.\d+)-noble@sha256:[a-f0-9]{64}$/u)?.[1];
   assert.ok(version,'Quality requires a versioned, digest-pinned Playwright image');
-  assert.match(block,/^ {4}timeout-minutes: 20\r?$/m);
+  const minutes=job==='quality'?35:20;
+  assert.match(block,new RegExp('^ {4}timeout-minutes: '+minutes+'\\r?$','m'));
   const lock=JSON.parse(readFileSync('package-lock.json','utf8'));
   for(const name of ['@playwright/test','playwright','playwright-core']){
     assert.equal(lock.packages[`node_modules/${name}`]?.version,version,`Update ${job} image together with ${name}`);
@@ -17,4 +18,4 @@ for(const job of ['quality','core-webkit-browser','package-f-browser']){
   images.push(image);
 }
 assert.ok(images.every(image=>image===images[0]),'All browser jobs must use the same pinned image');
-console.log('All isolated browser jobs match the lockfile, image digest and20m limit');
+console.log('All isolated browser jobs match the lockfile and image digest; quality35m, other browser jobs20m limit');

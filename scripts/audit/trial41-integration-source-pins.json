@@ -581,7 +581,7 @@
       }
     },
     "scripts/testing/verify-ci-playwright-image.mjs": {
-      "after": "34c13edcd2c053534ef2e06b5ad5699c8c9c4a2e8266366b444f9725b66e53c7",
+      "after": "4ca82bb45dfc1c4a326d8a71d97be96d9dd6cb88b596a6a2abe57c635574f42d",
       "targets": {
         "previousMain": {
           "text": "import assert from 'node:assert/strict';\nimport {readFileSync} from 'node:fs';\n\nconst workflow=readFileSync('.github/workflows/quality.yml','utf8');\nconst images=[];\nfor(const job of ['quality','package-f-browser']){\n  const block=workflow.match(new RegExp(`^  ${job}:\\\\r?\\\\n([\\\\s\\\\S]*?)(?=^  [\\\\w-]+:|$(?![\\\\s\\\\S]))`,'m'))?.[1];\n  assert.ok(block,`Required browser job ${job} must exist`);\n  const image=block.match(/^ {6}image: (\\S+)\\r?$/m)?.[1];\n  const version=image?.match(/^mcr\\.microsoft\\.com\\/playwright:v(\\d+\\.\\d+\\.\\d+)-noble@sha256:[a-f0-9]{64}$/u)?.[1];\n  assert.ok(version,'Quality requires a versioned, digest-pinned Playwright image');\n  assert.match(block,/^ {4}timeout-minutes: 20\\r?$/m);\n  const lock=JSON.parse(readFileSync('package-lock.json','utf8'));\n  for(const name of ['@playwright/test','playwright','playwright-core']){\n    assert.equal(lock.packages[`node_modules/${name}`]?.version,version,`Update ${job} image together with ${name}`);\n  }\n  images.push(image);\n}\nassert.equal(images[0],images[1],'Both browser jobs must use the same pinned image');\nconsole.log('Both isolated browser jobs match the lockfile, image digest and20m limit');\n",
