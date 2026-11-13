@@ -109,7 +109,7 @@ export function ParcelConfigurationModal({initialFamilyProductId,operatingMode='
       </fieldset></details>
       {!flavorFamilies(context).length ? <p>لا توجد منتجات لها نكهات بعد. أضف النكهات من نموذج المنتج، ثم جهّز الطرد المشكّل هنا.</p> : <form onSubmit={event=>void save(event)} aria-busy={busy} className="space-y-3">
         <fieldset disabled={busy || uncertain || !modeVerified} className="space-y-3">
-          <label>بحث العائلات<input type="search" className={inputClass} value={familySearch} placeholder="جزء من الاسم أو رمز الصنف" onChange={e=>setFamilySearch(e.target.value)} onKeyDown={e=>{if(e.key==='Enter')e.preventDefault();}}/></label>
+          <label>بحث العائلات<input type="search" enterKeyHint="search" className={`${inputClass} min-h-11`} value={familySearch} placeholder="جزء من الاسم أو رمز الصنف" onChange={e=>setFamilySearch(e.target.value)} onKeyDown={e=>{if(e.key==='Enter')e.preventDefault();}}/></label>
           <label>الصنف / العائلة<select className={inputClass} value={visibleFamilies.some(p=>p.familyProductId===form?.familyProductId)?form?.familyProductId:''} onChange={e=>{if(e.target.value)select(context,e.target.value);}}>
             {!visibleFamilies.some(p=>p.familyProductId===form?.familyProductId)&&<option value="" disabled>{visibleFamilies.length?'اختر العائلة من النتائج':'لا توجد عائلة مطابقة'}</option>}
             {visibleFamilies.map(p=><option key={p.familyProductId} value={p.familyProductId}>{p.nameAr} — {p.sku}</option>)}

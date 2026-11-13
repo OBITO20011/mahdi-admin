@@ -30,7 +30,8 @@ const rows=inventoryProducts.slice(0,7).map((p,i)=>({...p,warehouse_id:warehouse
  name_ar:i===4?'عائلة شيبس بنكهاته':i===5?'شيبس جبنة':i===6?'شيبس فلفل':p.name_ar,
  is_flavor_master:i===4,flavor_master_product_id:i>4?familyId:null,flavor_name_ar:i===5?'جبنة':i===6?'فلفل':null,
  flavor_sort_order:i>4?i-4:0,on_hand_quantity:i===4?0:p.on_hand_quantity,available_quantity:i===4?0:p.available_quantity}));
-const singleFixture=params.has('single-carton')||params.has('single-unit');
+const flavorParcelFixture=params.has('flavor-parcel');
+const singleFixture=params.has('single-carton')||params.has('single-unit')||flavorParcelFixture;
 const singleName=({BOX:'صندوق',SHRINK:'شرنك',CTN:'كرتونة',PKT:'باكيت'} as Record<string,string>)[params.get('single-unit')??'']??'طرد';
 if(singleFixture){
  Object.assign(rows[0],{base_unit:{id:'single-carton',name_ar:singleName,code:'SALE-CARTON'},
@@ -38,6 +39,17 @@ if(singleFixture){
    default_sale_price_in_minor_units:6000,sale_price_in_minor_units:6000,
    cost_price_in_minor_units:0,default_purchase_price_in_minor_units:0,min_stock_level:0,max_stock_level:null,
    updated_at:'2026-11-12T08:00:00.000001Z'});
+}
+
+if(flavorParcelFixture){
+ const packet={id:'88888888-8888-4888-8888-000000000121',name_ar:'باكيت',code:'PKT'};
+ for(const row of rows.slice(4)){
+  Object.assign(row,{category_id:'drinks',base_unit:packet,purchase_unit:packet,sale_unit:packet,
+   units_per_purchase_unit:1,units_per_sale_unit:1,parcel_only:false,
+   default_sale_price_in_minor_units:1100,sale_price_in_minor_units:1100,
+   cost_price_in_minor_units:0,default_purchase_price_in_minor_units:0,min_stock_level:0,max_stock_level:null,
+   updated_at:'2026-11-12T08:00:00.000001Z'});
+ }
 }
 const products=rows.map(mapAdminProductRecord);
 const auth=authStoreEngine as unknown as {state:AuthState;getState:()=>AuthState;initAuth:()=>Promise<void>};

@@ -413,7 +413,7 @@
     },
     {
       "file": "src/features/more/ParcelConfigurationModal.tsx",
-      "sha256": "84889cb4a07c3fea5b99828c83bbe3fef80f30e5ff709e6ce653a54d84a1c82c"
+      "sha256": "b8907f19a341c423abb1e238165d71b15706072201de2ec137bd2aa0a4826616"
     },
     {
       "file": "src/features/more/ProfileModal.tsx",
@@ -585,7 +585,7 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "sha256": "c20a6830b7659fdaf748e41d6ecec8ddc63d3d95d7b57f73ff2081c73f354f39"
+      "sha256": "b0f65ec71092dcce8ba39e48356950de9110be5a0463318838125887a07ce889"
     },
     {
       "file": "src/features/products/ProductFormParcelCapability.tsx",
@@ -5125,7 +5125,7 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "line": 1225,
+      "line": 1299,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {

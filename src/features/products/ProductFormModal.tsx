@@ -304,6 +304,29 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     initialProduct?.isFlavorMaster || (hasFlavors && !isEditing)
   );
 
+  const canDefineFlavorParcel = canEditSingleUnit && isFlavorMaster
+    && initialProduct?.retailPrice === openedSinglePrice && openedSinglePrice > 0;
+  const [defineFlavorParcel, setDefineFlavorParcel] = useState(false);
+  const [flavorParcelUnit, setFlavorParcelUnit] = useState(
+    () => units.find(item => !item.isHidden && item.nameAr === 'طرد' && item.nameAr !== openedUnitName)?.nameAr ?? '',
+  );
+  const [flavorParcelCount, setFlavorParcelCount] = useState('');
+  const [flavorParcelConfirmed, setFlavorParcelConfirmed] = useState(false);
+  const flavorParcelSize = Number(flavorParcelCount);
+  const flavorParcelPriceFils = Math.round(openedSinglePrice * 1000) * flavorParcelSize;
+  const flavorParcelReady = canDefineFlavorParcel
+    && Number.isInteger(flavorParcelSize) && flavorParcelSize >= 2 && flavorParcelSize <= 2147483647
+    && Number.isSafeInteger(flavorParcelPriceFils)
+    && units.some(item => !item.isHidden && item.code !== 'PCS'
+      && item.nameAr === flavorParcelUnit && item.nameAr !== openedUnitName);
+
+  const resetFlavorParcel = () => {
+    setDefineFlavorParcel(false);
+    setFlavorParcelCount('');
+    setFlavorParcelConfirmed(false);
+  };
+
+
   const captureBarcode = useCallback(
     (value: string) => {
       const capturedBarcode = value.trim();
@@ -687,6 +710,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     setUnitChangeConfirmed(false);
     setSingleContentsCount('');
     setUnitConversionConfirmed(false);
+    resetFlavorParcel();
     setOpenedFields(editConflict.current);
     setOpenedVersion(editConflict.snapshot.updatedAt);
     setOpenedActive(editConflict.snapshot.isActive);
@@ -698,6 +722,13 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     if(!modeVerified){setToast('تعذر التحقق من وضع التشغيل؛ أعد قراءة الحالة قبل الحفظ. (MODE-02)','error');return;}
+
+    if (defineFlavorParcel && (!flavorParcelReady || !flavorParcelConfirmed || unit !== openedUnitName
+      || singleContentsCount !== '' || unitConversionConfirmed
+      || Math.round(validSalePackagePrice * 1000) !== Math.round(openedSinglePrice * 1000))) {
+      setSubmitError({message:'اختر وحدتين مختلفتين، وأدخل العدد الفعلي وأكّد سعر الطرد. احفظ أي تغيير في سعر المفرد أو وحدته في عملية منفصلة.'});
+      return;
+    }
     const convertSingleUnit=singleContentsCount!==''||unitConversionConfirmed;
     const contentsCount=Number(singleContentsCount);
     if(convertSingleUnit&&(!canEditSingleUnit||!unitConversionConfirmed||!targetContentUnit||targetContentUnit.nameAr===openedUnitName||unit!==openedUnitName||!Number.isInteger(contentsCount)||contentsCount<2||contentsCount>2147483647)){
@@ -835,6 +866,12 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         unitsPerSalePackage:contentsCount,
         parcelOnly:true,
       }:{}),
+      ...(defineFlavorParcel ? {
+        salePackage: flavorParcelUnit,
+        unitsPerSalePackage: flavorParcelSize,
+        salePackagePrice: flavorParcelPriceFils / 1000,
+        parcelOnly: false,
+      } : {}),
     };
 
     const uploadedStoragePaths: string[] = [];
@@ -1205,7 +1242,44 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             <label className="block space-y-1 text-xs font-bold">{salesOnly?'سعر بيع '+unit:openedAsSingleUnit?'سعر الطرد كوحدة واحدة':'سعر بيع الباكيت'}<input inputMode="decimal" enterKeyHint="next" aria-label={salesOnly?'سعر بيع '+unit:openedAsSingleUnit?'سعر الطرد كوحدة واحدة':'سعر بيع الباكيت'} type="number" min="0" step="0.0001" required disabled={!allowSingle} value={salePackagePrice===''?'':derivedSalePricePerUnit} onChange={event=>setSalePackagePrice(event.target.value===''?'':calculatePackagePrice(Number.parseFloat(event.target.value)||0,validUnitsPerSalePackage))} className={numberInputClass}/></label>
           </div>
         </fieldset>
-        {canEditSingleUnit&&<fieldset className="space-y-2 rounded-lg border border-nw-border p-3">
+
+        {canDefineFlavorParcel && <fieldset className="space-y-2 rounded-lg border border-nw-border p-3">
+          <legend className="px-1 text-sm font-bold">طرد النكهات</legend>
+          <label className="flex min-h-11 items-center gap-2 font-bold">
+            <input type="checkbox" checked={defineFlavorParcel} onChange={event => {
+              setDefineFlavorParcel(event.target.checked);
+              setFlavorParcelConfirmed(false);
+              setSingleContentsCount('');
+              setUnitConversionConfirmed(false);
+            }}/>
+            أضف طرد نكهات مع إبقاء البيع المفرد
+          </label>
+          {defineFlavorParcel && <>
+            <label className="block space-y-1 text-sm font-bold">وحدة بيع طرد النكهات
+              <select className={inputClass} value={flavorParcelUnit} onChange={event => {
+                setFlavorParcelUnit(event.target.value);
+                setFlavorParcelConfirmed(false);
+              }}>
+                <option value="">اختر الوحدة</option>
+                {units.filter(item => !item.isHidden && item.code !== 'PCS' && item.nameAr !== openedUnitName)
+                  .map(item => <option key={item.id} value={item.nameAr}>{item.nameAr}</option>)}
+              </select>
+            </label>
+            <label className="block space-y-1 text-sm font-bold">عدد وحدات طرد النكهات
+              <input className={numberInputClass} type="number" min="2" max="2147483647" step="1"
+                inputMode="numeric" value={flavorParcelCount} onChange={event => {
+                  setFlavorParcelCount(event.target.value);
+                  setFlavorParcelConfirmed(false);
+                }}/>
+            </label>
+            <p className="text-sm text-nw-muted">بعد حفظ تعريف الطرد، اختر النكهات المسموحة من إعداد الطرد المشكّل.</p>
+            {flavorParcelReady && <label className="flex min-h-11 items-center gap-2 text-sm font-bold">
+              <input type="checkbox" checked={flavorParcelConfirmed} onChange={event => setFlavorParcelConfirmed(event.target.checked)}/>
+              أؤكد سعر الطرد {formatJod(flavorParcelPriceFils / 1000)} والإبقاء على سعر {openedUnitName} {formatJod(openedSinglePrice)}
+            </label>}
+          </>}
+        </fieldset>}
+        {canEditSingleUnit&&!defineFlavorParcel&&<fieldset className="space-y-2 rounded-lg border border-nw-border p-3">
           <legend className="px-1 text-sm font-bold">تعريف محتوى وحدة البيع</legend>
           <p className="text-sm text-nw-muted">حوّل {openedUnitName} إلى عدد حقيقي من وحدات المحتوى. يبقى سعر {openedUnitName} نفسه والبيع بها فقط؛ يمكن تفعيل المفرد لاحقاً. الفواتير السابقة تبقى بوحداتها وأسعارها المسجّلة.</p>
           <label className="block space-y-1 text-sm font-bold">وحدة المحتوى بعد التحويل<select aria-label="وحدة المحتوى بعد التحويل" className={inputClass} value={contentUnit} onChange={event=>{setContentUnit(event.target.value);setUnitConversionConfirmed(false);}}><option value="">اختر الوحدة</option>{units.filter(item=>!item.isHidden&&item.nameAr!==openedUnitName).map(item=><option key={item.id} value={item.nameAr}>{item.nameAr}</option>)}</select></label>
