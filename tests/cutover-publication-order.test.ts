@@ -82,3 +82,30 @@ test('closed-order verification documents both UI refusals and the current serve
   order(body,["v_replay->>'decision' = 'REPLAY'",'RETURN v_replay',"WHERE id = '00000000-0000-0000-0000-000000000001'::UUID FOR SHARE",'NOT COALESCE(v_settings.orders_enabled, false)','PHASE3_CUSTOMER_ORDERS_DISABLED','INSERT INTO public.orders']);
   for(const marker of ['ordersEnabled=false','get_public_storefront_settings','PHASE3_CUSTOMER_ORDERS_DISABLED','replay','لا ينشئ طلباً جديداً','عدم زيادة الطلبات','وليس تجربة رفض حية','لا ترسل طلباً حيّاً للتحقق من المنع قبل التوقيع'])assert.ok(plan.includes(marker),marker);
 });
+
+test('current owner cutover uses actual units before the signed workbook and records no opening debts or cheques',()=>{
+  const current=readFileSync('docs/operations/GO_LIVE_CUTOVER_AR.md','utf8').replaceAll('\r\n','\n');
+  const currentCard=readFileSync('docs/handover/ورقة-يوم-التشغيل.md','utf8').replaceAll('\r\n','\n');
+  const printed=readFileSync('docs/handover/ورقة-يوم-التشغيل.html','utf8').replaceAll('\r\n','\n');
+  order(current,['| 3.1 الفرع والوضع','| 3.1أ الوحدات','| 3.1ب الأقسام','| 3.2 المنتجات','| 3.5 عدّ الدرج','| 3.6 المطابقة','| 3.7 إنهاء البداية','| 3.8 إعدادات الطلبات']);
+  const data=current.split('## 3. إدخال البيانات الحقيقية')[1].split('## 4.')[0];
+  assert.doesNotMatch(data,/\| 3\.\d[^\n]*ديون العملاء القديمة|\| 3\.\d[^\n]*شيكات العملاء إن وجدت/u);
+  for(const text of[current,currentCard,printed]){
+    for(const value of['المنتجات-lite-بالوحدات-الفعلية.xlsx','1de0893f0fae400753d29227ddfa693987ceffe555d35203665636180b9be378','لا ديون قديمة ولا شيكات بداية','الوضع OFF مُثبت'])assert.ok(text.includes(value),value);
+  }
+  for(const value of['باكيت(PKT)','طرد(SALE-CARTON)','صندوق(BOX)','شرنك(SHRINK)','كرتونة(CTN)','15 اسماً','6دقائق و26ثانية'])assert.ok(current.includes(value),value);
+  assert.equal(currentCard.split('<!-- PRINT_PAGE_BREAK -->').length,2);
+  assert.ok(current.includes('مرجعD−1 جديد للـSHA النهائي'));
+  const preparation=current.split('| 1.4 البيانات الحقيقية')[1].split('\n')[0];
+  for(const value of['المنتجات-lite-بالوحدات-الفعلية.xlsx','بلا ديون قديمة ولا شيكات بداية','15اسماً'])assert.ok(preparation.includes(value),value);
+  assert.doesNotMatch(preparation,/14قسماً|ورقة ذمم وشيكات/u);
+});
+
+test('current cutover distinguishes a controlled acceptance opening from disabled orders and never invents a store deploy check',()=>{
+  const current=readFileSync('docs/operations/GO_LIVE_CUTOVER_AR.md','utf8');
+  for(const value of['لا يمكن إنشاء طلب جديد معordersEnabled=false','لا يوجد تجاوز تجريبي في الخادم','نافذة قبول معلنة','أغلق الطلبات إن بقي توقيع/فحص','تغيير واتساب مؤجل إلى ما بعد التشغيل'])assert.ok(current.includes(value),value);
+  assert.ok(current.includes('أمرcustomer-web deploy:cloudflare الحالي لا يدعم --check'));
+  assert.doesNotMatch(current,/npm\.cmd --prefix customer-web run deploy:cloudflare -- --check/u);
+  assert.ok(current.includes('لا يُشغّل على220 بعد إفادة المالك'));
+  assert.ok(current.includes('ناتجSEO المحليisolated-fixture مرفوض للنشر عمداً'));
+});
