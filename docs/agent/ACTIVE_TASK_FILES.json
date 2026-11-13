@@ -11,27 +11,63 @@
     },
     {
       "code": " M",
-      "path": "docs/handover/ورقة-يوم-التشغيل.html"
+      "path": "scripts/agent/lib.mjs"
     },
     {
       "code": " M",
-      "path": "docs/handover/ورقة-يوم-التشغيل.md"
+      "path": "scripts/agent/migration-numbering.mjs"
     },
     {
       "code": " M",
-      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
+      "path": "scripts/agent/preflight.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/audit/sales-only-phase3-source-pins.json"
+      "path": "src/features/goLive/productWorkbook.ts"
     },
     {
       "code": " M",
-      "path": "tests/cutover-publication-order.test.ts"
+      "path": "src/features/more/ParcelConfigurationModal.tsx"
     },
     {
       "code": " M",
-      "path": "tests/lite220-handover.test.ts"
+      "path": "src/features/products/ProductFormModal.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/services/supabase/products.service.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/services/supabase/productWorkbook.service.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/stores/useAppStore.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/utils/productEditConflict.ts"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/independent-parcel222-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/independent-parcel222-writers.mjs"
+    },
+    {
+      "code": "??",
+      "path": "src/utils/independentParcelPrices.ts"
+    },
+    {
+      "code": "??",
+      "path": "supabase/migrations/222_independent_lite_parcel_prices.sql"
+    },
+    {
+      "code": "??",
+      "path": "tests/independent-parcel-prices.test.ts"
     }
   ]
 }

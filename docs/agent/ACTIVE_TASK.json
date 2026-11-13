@@ -2,47 +2,53 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner13Nov:final packet-default workbook and37 approved flavor families;new isolated actual UI import;update cutover/card;Draft docs PR/FULLCI,nomerge,noDBcode/hosted/demo changes.",
-  "baselineSha": "285b1e74ca84fadafc31ee11dd93acf75ce9d0f2",
+  "objective": "Owner14Nov:OFF independent parcel/single prices; approved revised3-4days; new222 excluding221; Draft PR/fullCI/Gitleaks, post-CI no-reset demo update; no merge/hosted/deploy.",
+  "baselineSha": "bd4d696af6eef074bfd523ee54906059a0bb668c",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
-  "branch": "codex/packet-default-import-docs",
-  "phase": "PACKET_DEFAULT_IMPORT_DOCS",
-  "startedAt": "2026-11-12T20:12:57.615Z",
+  "branch": "codex/parcel-independent-price",
+  "phase": "PARCEL_INDEPENDENT_PRICE",
+  "startedAt": "2026-11-13T22:50:15.381Z",
   "completed": [
-    "New external workbook750+444/108families/1086sellable;all819 old roots mapped;all barcodes/prices preserved;only4oat duplicates deleted.",
-    "Actual UI OFF/units/categories/import/readback347sec;1194 DB rows matched;zero inventory/reservations/cost.",
-    "Store family cards and NW0268singlepacket passed10 Chromium/WebKit390 cases;no demo data touched by this workbook rehearsal."
+    "Owner explicitly approved revised3-4day estimate.",
+    "New222 three public writers/private validator;historical209/220/680functions unchanged in actualPG.",
+    "Actual explicit-price/create/family/ACL/CAS/audit/discountedPOS/oldreceipt+refund rollback proofs pass.",
+    "3pure price/workbook/conflict units pass;Admin typecheck0."
   ],
   "inProgress": [
-    "Docs/hash/count/timing/print/static gates and draft FULLCI"
+    "UI/import integration and current-ceiling operational adapters;browser/concurrency tests pending."
   ],
   "notStarted": [
-    "Final docs tests/print/FULLCI/Gitleaks"
+    "Final currentaccess/ready222/D1/reset/upgrade/backup compatibility proofs",
+    "FullCI/Gitleaks and DraftPR",
+    "Only after greenCI: demo no-reset migration/build/test/restore oneproduct."
   ],
   "testsPassed": [
-    "Approved offline checker0errors/0incomplete;2 contextual notices only",
-    "Pure product parser0errors/0identifierwarnings",
-    "Actual UI import750+444;independent1194rows exact;10browser checks"
+    "New222 three public writers/private validator;historical209/220/680functions unchanged in actualPG.",
+    "Actual explicit-price/create/family/ACL/CAS/audit/discountedPOS/oldreceipt+refund rollback proofs pass.",
+    "3pure price/workbook/conflict units pass;Admin typecheck0."
   ],
   "testsRemaining": [
-    "Docs/static/2A4/FULLCI/Gitleaks"
+    "Actual concurrent updates",
+    "Chromium/WebKit mobile",
+    "Operational/reference/backup/legacy gates",
+    "Fullunits/typesboth/strictlint/fullCI/Gitleaks"
   ],
   "findings": [
-    "Fresh clone CRLF rejected by220 guard;copied literal Git SQL bytes,guard unchanged.",
-    "External Docker stdout chunk decoding fixed with Buffer.concat;small DB hex proof and all1194 rows exact.",
-    "Previous full RESET rehearsal remains e3bbe154;new proof is file/UI only."
+    "Sales209/220 statically read independent fields; new runtime proof pending.",
+    "Parser currently enforces derived single price and importer must preserve explicit price.",
+    "Proposed222 (221 reserved) affects strict operational ceiling/reference/RESET paths.",
+    "All new/modified OFF wording must use actual unit, fallback packet; ON unchanged.",
+    "Owner explicitly approved revised3-4day estimate in text reply14Nov."
   ],
   "blockers": [],
-  "prohibitions": [
-    "No merge/deploy/hosted/Frankfurt/migration/frozenfunction/operationalguard changes. Never reset ownerdemo or modify private/TOTP/env."
-  ],
-  "nextExactAction": "Verify updated count/hash contracts and2A4;push Draft file-docs PR/fullCI",
+  "prohibitions": [],
+  "nextExactAction": "First implementation checkpoint:finish real concurrency/browser,strict222 source inverses,operational adapters/reference/backup/fullCI;demo untouched untilgreen.",
   "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "BAB30012D96E7DC9E970C22B659D440AAE30B3E14E1F4AAEFDC0BEA91F26C095",
-  "checkpointedAt": "2026-11-13T19:10:22.067Z",
-  "filesTouchedCount": 8,
-  "filesTouchedManifestSha256": "ff69ccc5b3ba6b0d1cacc13b35b7219929296abe85b36f4c82c8bcfa72dc8ee2"
+  "workingTreeFingerprint": "07BF7402A84510318FF5C3680C9DE9E021018B7C29B007D54BEF0F36BFBCDAD5",
+  "checkpointedAt": "2026-11-13T23:19:29.282Z",
+  "filesTouchedCount": 17,
+  "filesTouchedManifestSha256": "cef6c6fc90af2bdb7444689c3e8215f59a1d0f0add31d585966fcc8adbd4ee95"
 }

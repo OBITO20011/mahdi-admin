@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "project": "Nawasrah ERP",
-  "branch": "codex/packet-default-import-docs",
-  "approvedBaseline": "285b1e74ca84fadafc31ee11dd93acf75ce9d0f2",
+  "branch": "codex/parcel-independent-price",
+  "approvedBaseline": "bd4d696af6eef074bfd523ee54906059a0bb668c",
   "closedPhases": [
     "3",
     "4.1",
@@ -92,7 +92,7 @@
   "phase5Slice4ClosureExactShaCi": "PASS",
   "phase5Slice3AuthorizationBaseline": "6fac32ac422206a3b5e5716159304806f30d0aed",
   "phase5PublicActivationAllowed": false,
-  "migrationCeiling": 220,
+  "migrationCeiling": 222,
   "migration199CanonicalLfSha256": "A34808EE64C80744FD8973559207983391ACA0F53025F8F2764BE74E52C2FCF0",
   "migration197CanonicalLfSha256": "3CAABD6C454A22A607761B57FFF66E9C41119C468D468F54C1DE9197111E7722",
   "migration198CanonicalLfSha256": "1F494DC9F95B6A4DB5887F5EF675C4E792FF7CD7EF681F37588489F88C094BAB",
@@ -260,18 +260,19 @@
   "migration215CanonicalLfSha256": "2D20594D6112C206A23130C43CE555ECC5357921CC9E4058019D0446223A4E57",
   "trialTb215Status": "LOCAL_DB_UI_SDK_REFERENCE_OWNER_BACKUP_RESET_PASS_FULLQUALITY_EXACT_CI_PENDING",
   "operationalSchema": {
-    "manifestSha256": "5721801a702faa79bc01b8b3bc7d2cee4a7ce9029d4d4905b7ea95889adc1c5b",
+    "manifestSha256": "eb8d103f3a4fa0e3479359b59ce3d0e0ee52e41250c02c2a4fdc9866140483cc",
     "archiveFormatVersion": 2,
     "legacyArchiveCeilings": [
       214,
       215,
       216,
       217,
-      219
+      219,
+      220
     ],
-    "resetCommand": "frankfurt-owner-reset220",
-    "upgradeCommand": "frankfurt-owner-upgrade220",
-    "readyReferenceName": "local-reference-through220-ready.json"
+    "resetCommand": "frankfurt-owner-reset222",
+    "upgradeCommand": "frankfurt-owner-upgrade222",
+    "readyReferenceName": "local-reference-through222-ready.json"
   },
   "migration216CanonicalLfSha256": "3A30798F8F9DD385DD915ED74B25440B8E40C6B46893541ACA049A5B94E09462",
   "trialTc216Status": "LOCAL_DB_UI_HTTP_SDK_REFERENCE_UPGRADE_RESET_ARCHIVE_COMPAT_PASS_EXACT_FULL_CI_PENDING",
@@ -289,5 +290,9 @@
   "phaseACTUAL_SALE_UNITSImplementationAllowed": true,
   "expectedRoot": "C:/Users/TOP/NawasrahWorktrees/packet-default-import-docs/mahdi-admin",
   "phasePACKET_DEFAULT_IMPORT_DOCSImplementationAllowed": true,
-  "phaseLITE_PARCEL_UNIT_GUARDImplementationAllowed": true
+  "phaseLITE_PARCEL_UNIT_GUARDImplementationAllowed": true,
+  "ownerDeferredAccountingMigrationNumbers": [
+    221
+  ],
+  "migration222CanonicalLfSha256": "AA0318341141C61552EBAA2C115CA87A73741303B0935D235A1E98411992B405"
 }

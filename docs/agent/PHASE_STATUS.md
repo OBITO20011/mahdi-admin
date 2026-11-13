@@ -1,3 +1,7 @@
+#14Nov2026 — independent OFF parcel price; Draft implementation in progress
+
+Owner approved revised3–4day estimate. Separate codex/parcel-independent-price from mainbd4d696a;222 additive writers,221 reserved. Actual isolated writer/create/family/ACL/CAS/audit/discounted POS/oldreceipt/refund rollback proofs pass;old680public source/definition/owner/config/rawACL identical.3pure units and Admin types pass. UI/import dispatch and exact-price readback prepared;real concurrent/browser/current access/reference/RESET/backup/FULLCI/Gitleaks still pending. No tables or historical migrations/sales209+220/ON paths modified. Ownerdemo remains untouched until fullgreenCI. No merge/deploy/hosted/accounting activation. Earlier entries below are historical.
+
 #13Nov2026 — final packet-default file and approved flavor families
 
 Owner-authorized separate Draft documentation PR. External workbook750roots,

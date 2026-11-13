@@ -1048,7 +1048,7 @@ class StoreEngine {
 
   // --- Product CRUD & Operations ---
 
-  public async addProduct(productData: Partial<Product>): Promise<{
+  public async addProduct(productData: Partial<Product>,options:{independentSalePrice?:number}={}): Promise<{
     success: boolean;
     productId?: string;
     error?: string;
@@ -1073,6 +1073,7 @@ class StoreEngine {
 
         const unitObj = this.state.units.find((u) => u.nameAr === productData.unit || u.id === productData.unit);
         const res = await createProductWithOpeningStockInSupabase({
+          independentSalePrice:options.independentSalePrice,
           parcelOnly: productData.parcelOnly,
           sku: productData.sku.trim(),
           barcode: productData.barcode || undefined,
@@ -1161,7 +1162,7 @@ class StoreEngine {
   public async updateProduct(
     id: string,
     updates: Partial<Product>,
-    options: { expectedUpdatedAt?: string } = {}
+    options: { expectedUpdatedAt?: string;independentSalePrice?:number } = {}
   ) {
     const prodIndex = this.state.products.findIndex((p) => p.id === id);
     if (prodIndex === -1) {
@@ -1176,6 +1177,7 @@ class StoreEngine {
     );
 
     const result = await updateProductInSupabase({
+      independentSalePrice:options.independentSalePrice,
       parcelOnly: updates.parcelOnly,
       productId: id,
       sku: updates.sku || current.sku,
@@ -2319,8 +2321,8 @@ export function useAppStore() {
     markNotificationRead: (notificationId: string) =>
       storeEngine.markNotificationRead(notificationId),
     markAllNotificationsRead: () => storeEngine.markAllNotificationsRead(),
-    addProduct: (data: Partial<Product>) => storeEngine.addProduct(data),
-    updateProduct: (id: string, updates: Partial<Product>, options?: { expectedUpdatedAt?: string }) =>
+    addProduct: (data: Partial<Product>,options?:{independentSalePrice?:number}) => storeEngine.addProduct(data,options),
+    updateProduct: (id: string, updates: Partial<Product>, options?: { expectedUpdatedAt?: string;independentSalePrice?:number }) =>
       storeEngine.updateProduct(id, updates, options),
     deleteProduct: (id: string) => storeEngine.deleteProduct(id),
     hideProduct: (id: string) => storeEngine.hideProduct(id),

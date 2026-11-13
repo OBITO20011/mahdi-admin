@@ -8,6 +8,8 @@ import {
 } from '../../utils/productEditConflict';
 
 export interface CreateProductInput {
+  /** Explicit OFF price; omission preserves the historical ON writer. */
+  independentSalePrice?:number;
   parcelOnly?: boolean;
   sku: string;
   barcode?: string;
@@ -179,6 +181,8 @@ export function toProductMutationFailure(
 }
 
 export interface UpdateProductInput {
+  /** Explicit OFF price; omission preserves the historical ON writer. */
+  independentSalePrice?:number;
   /** Omission preserves the existing server flag. */
   parcelOnly?: boolean;
   productId: string;
@@ -678,8 +682,8 @@ export async function createProductWithOpeningStockInSupabase(
 
   try {
     const { data: res, error } = await supabase.rpc(
-      'create_product_with_opening_stock_v5',
-      {...rpcParams, p_parcel_only: input.parcelOnly ?? false}
+      input.independentSalePrice===undefined?'create_product_with_opening_stock_v5':'create_product_with_opening_stock_v6',
+      {...rpcParams, p_parcel_only: input.parcelOnly ?? false,...(input.independentSalePrice===undefined?{}:{p_sale_price_in_minor_units:Math.round(input.independentSalePrice*1000)})}
     );
 
     if (error) {
@@ -858,8 +862,9 @@ export async function createProductFamilyWithFlavorsInSupabase(
     saleUnitIdToUse = saleUnitIdToUse || purchaseUnitIdToUse || unitIdToUse;
 
     const { data, error } = await supabase.rpc(
-      'create_product_family_with_flavors_v2',
+      input.independentSalePrice===undefined?'create_product_family_with_flavors_v2':'create_product_family_with_flavors_v3',
       {
+        ...(input.independentSalePrice===undefined?{}:{p_sale_price_in_minor_units:Math.round(input.independentSalePrice*1000)}),
         p_parcel_only: input.parcelOnly ?? false,
         p_sku: input.sku.trim(),
         // Flavor-family masters are grouping records, never sellable barcode targets.
@@ -1053,7 +1058,8 @@ export async function updateProductInSupabase(
     saleUnitIdToUse =
       saleUnitIdToUse || purchaseUnitIdToUse || unitIdToUse;
 
-    const { data, error } = await supabase.rpc('update_product_master_v5', {
+    const { data, error } = await supabase.rpc(input.independentSalePrice===undefined?'update_product_master_v5':'update_product_master_v6', {
+      ...(input.independentSalePrice===undefined?{}:{p_sale_price_in_minor_units:Math.round(input.independentSalePrice*1000)}),
       p_parcel_only: input.parcelOnly ?? null,
       p_product_id: input.productId,
       p_expected_updated_at: input.expectedUpdatedAt,
