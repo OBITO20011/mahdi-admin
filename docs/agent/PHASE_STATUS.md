@@ -1,3 +1,14 @@
+#13Nov2026 — final packet-default file and approved flavor families
+
+Owner-authorized separate Draft documentation PR. External workbook750roots,
+108families,444flavors,1194records/1086sellable;all819 original roots mapped and
+all prices/barcodes preserved,only four duplicate oat rows removed. Actual UI
+OFF/units/categories/import/readback on isolated main285b1e74 completed347sec;
+1194rows matched independently,10 Chromium/WebKit390 store checks passed.
+The previous complete cutover rehearsal remains e3bbe154,not repeated here.
+No DB/app/operational-guard changes,no hosted/deploy/merge or demo reimport.
+Print/static gates,FULLCI and Gitleaks remain to finish before owner review.
+
 #12Nov2026 — actual sale units, owner-authorized OFF presentation only
 
 Independent PR91 from2da60595. Existing update_product_master_v5 only;no SQL/migration/frozen-body/guard changes. Actual unit labels,owner-confirmed rename/conversion and old snapshots/refunds proved locally. Full CI and real local UI import verification pending;no merge/deploy/hosted access. Primary owner20/env4 protected. Earlier phase3 closure entries below are historical.

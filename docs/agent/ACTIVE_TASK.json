@@ -1,41 +1,48 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
+  "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner12Nov:actual units in verified OFF;existing RPC only;new workbook and real local UI import;PR/FULLCI no merge no hosted.",
-  "baselineSha": "2da6059582dd1243648557220c616f0f65385f74",
+  "objective": "Owner13Nov:final packet-default workbook and37 approved flavor families;new isolated actual UI import;update cutover/card;Draft docs PR/FULLCI,nomerge,noDBcode/hosted/demo changes.",
+  "baselineSha": "285b1e74ca84fadafc31ee11dd93acf75ce9d0f2",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
-  "branch": "codex/actual-sale-units",
-  "phase": "ACTUAL_SALE_UNITS",
+  "branch": "codex/packet-default-import-docs",
+  "phase": "PACKET_DEFAULT_IMPORT_DOCS",
   "startedAt": "2026-11-12T20:12:57.615Z",
   "completed": [
-    "OFF display/helpers and owner-confirmed unit rename/conversion implemented.",
-    "7 display/full-copy units;10 Chromium/WebKit product-form cases;12 PostgreSQL ordinary/family rename+conversion/receipt+refund cases PASS.",
-    "819+344 new external workbook;offline checker0errors;originals and duplicate list unchanged.",
-    "Current HTTP181/RPC702/18expecteddenials;catalog0diff;allpreviousrole results unchanged;14source/history/unknownbyte tests PASS."
+    "New external workbook750+444/108families/1086sellable;all819 old roots mapped;all barcodes/prices preserved;only4oat duplicates deleted.",
+    "Actual UI OFF/units/categories/import/readback347sec;1194 DB rows matched;zero inventory/reservations/cost.",
+    "Store family cards and NW0268singlepacket passed10 Chromium/WebKit390 cases;no demo data touched by this workbook rehearsal."
   ],
   "inProgress": [
-    "Refresh current access evidence,pins,full types/lint/units/CI;then authenticated local-demo refresh preservingTOTP and real UI import."
+    "Docs/hash/count/timing/print/static gates and draft FULLCI"
   ],
-  "notStarted": [],
+  "notStarted": [
+    "Final docs tests/print/FULLCI/Gitleaks"
+  ],
   "testsPassed": [
-    "preflight"
+    "Approved offline checker0errors/0incomplete;2 contextual notices only",
+    "Pure product parser0errors/0identifierwarnings",
+    "Actual UI import750+444;independent1194rows exact;10browser checks"
   ],
-  "testsRemaining": [],
+  "testsRemaining": [
+    "Docs/static/2A4/FULLCI/Gitleaks"
+  ],
   "findings": [
-    "Inherited phase3 checkpoint is historical;phase3 merged in main. Latest owner authorizes new isolated task."
+    "Fresh clone CRLF rejected by220 guard;copied literal Git SQL bytes,guard unchanged.",
+    "External Docker stdout chunk decoding fixed with Buffer.concat;small DB hex proof and all1194 rows exact.",
+    "Previous full RESET rehearsal remains e3bbe154;new proof is file/UI only."
   ],
   "blockers": [],
   "prohibitions": [
-    "No migration/RPC/DB guard changes;no hostedaccess/deploy/merge;no primaryowner/env changes;58/79/82 untouched."
+    "No merge/deploy/hosted/Frankfurt/migration/frozenfunction/operationalguard changes. Never reset ownerdemo or modify private/TOTP/env."
   ],
-  "nextExactAction": "PR91:move current display/source pins to exact phase3-to219 outer inverse;keep originalphase2/216 history. CurrentCI stage rejects four missing receipt views;extend explicit source list,verify locally thennewheadCI. Localdemo reset applied220+seed,restart timedout;recover ownedservices without repeatingreset,restoreAuth+TOTP and UIimport.",
+  "nextExactAction": "Verify updated count/hash contracts and2A4;push Draft file-docs PR/fullCI",
   "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "793F68F6C6BED536B624768CC952178B5A28B1B754D820311BC3EAF822036602",
-  "checkpointedAt": "2026-11-12T21:29:46.515Z",
-  "filesTouchedCount": 3,
-  "filesTouchedManifestSha256": "756412e3de7624a5823b5e5cba2438838400d587ca3b1c8789f999e83ba6a333"
+  "workingTreeFingerprint": "BAB30012D96E7DC9E970C22B659D440AAE30B3E14E1F4AAEFDC0BEA91F26C095",
+  "checkpointedAt": "2026-11-13T19:10:22.067Z",
+  "filesTouchedCount": 8,
+  "filesTouchedManifestSha256": "ff69ccc5b3ba6b0d1cacc13b35b7219929296abe85b36f4c82c8bcfa72dc8ee2"
 }

@@ -91,13 +91,14 @@ test('current owner cutover uses actual units before the signed workbook and rec
   const data=current.split('## 3. إدخال البيانات الحقيقية')[1].split('## 4.')[0];
   assert.doesNotMatch(data,/\| 3\.\d[^\n]*ديون العملاء القديمة|\| 3\.\d[^\n]*شيكات العملاء إن وجدت/u);
   for(const text of[current,currentCard,printed]){
-    for(const value of['المنتجات-lite-بالوحدات-الفعلية.xlsx','1de0893f0fae400753d29227ddfa693987ceffe555d35203665636180b9be378','لا ديون قديمة ولا شيكات بداية','الوضع OFF مُثبت'])assert.ok(text.includes(value),value);
+    for(const value of['المنتجات-lite-باكيت-افتراضي.xlsx','d9ed1c82463df1985a2e629370d70993d17fda7546d82cac71d76d6c1176a088','لا ديون قديمة ولا شيكات بداية','الوضع OFF مُثبت','باكيت677، كرتونة33، صندوق31، شرنك9'])assert.ok(text.includes(value),value);
   }
-  for(const value of['باكيت(PKT)','طرد(SALE-CARTON)','صندوق(BOX)','شرنك(SHRINK)','كرتونة(CTN)','15 اسماً','6دقائق و26ثانية'])assert.ok(current.includes(value),value);
+  for(const value of['باكيت(PKT)','طرد(SALE-CARTON)','صندوق(BOX)','شرنك(SHRINK)','كرتونة(CTN)','15 اسماً','5دقائق و47ثانية'])assert.ok(current.includes(value),value);
+  for(const value of ['750 صفاً أساسياً +444 نكهة','108 عائلة','1194 سجلاً','1086 صنفاً','باكيت677، كرتونة33، صندوق31، شرنك9','37عائلة','NW-0290–NW-0293','285b1e74ca84fadafc31ee11dd93acf75ce9d0f2'])assert.ok(current.includes(value),value);
   assert.equal(currentCard.split('<!-- PRINT_PAGE_BREAK -->').length,2);
   assert.ok(current.includes('مرجعD−1 جديد للـSHA النهائي'));
   const preparation=current.split('| 1.4 البيانات الحقيقية')[1].split('\n')[0];
-  for(const value of['المنتجات-lite-بالوحدات-الفعلية.xlsx','بلا ديون قديمة ولا شيكات بداية','15اسماً'])assert.ok(preparation.includes(value),value);
+  for(const value of['المنتجات-lite-باكيت-افتراضي.xlsx','بلا ديون قديمة ولا شيكات بداية','15اسماً'])assert.ok(preparation.includes(value),value);
   assert.doesNotMatch(preparation,/14قسماً|ورقة ذمم وشيكات/u);
 });
 
