@@ -9,6 +9,7 @@ import {startPrices222Local} from './independent-prices222-local.mjs';
 import {readApplicationFingerprint} from './backup-restore-contract.mjs';
 import {canonicalLf,sha256} from './maintenance-db-contract.mjs';
 import {verifyOptionalQuantity223Lifecycle} from './optional-quantity223-lifecycle-runtime.mjs';
+import {verifyOptionalQuantity223FullParity} from './optional-quantity223-full-parity.mjs';
 
 assert.equal(process.argv.length,2,'QUANTITY223_NO_TARGET_ARGUMENTS');
 const root=path.resolve(import.meta.dirname,'../..');
@@ -16,7 +17,7 @@ const output=await mkdtemp(path.join(tmpdir(),'nawasrah-quantity223-core-'));
 const report={ok:false,output,hostedAccess:false,ownerDemoAccess:false,prototypeOnly:true,cases:[]};
 const prototype=canonicalLf(await readFile(path.join(root,'docs/design/off-quantity-counter223/prototype223.sql'),'utf8'));
 report.prototypeSha256=sha256(prototype);
-const sourcePaths=['docs/design/off-quantity-counter223/prototype223.sql','docs/design/off-quantity-counter223/lifecycle223.sql','docs/design/off-quantity-counter223/private-writers223.sql','scripts/testing/run-optional-quantity223-core.mjs','scripts/testing/optional-quantity223-lifecycle-runtime.mjs','scripts/testing/build-optional-quantity223-private.mjs'];
+const sourcePaths=['docs/design/off-quantity-counter223/prototype223.sql','docs/design/off-quantity-counter223/lifecycle223.sql','docs/design/off-quantity-counter223/private-writers223.sql','scripts/testing/run-optional-quantity223-core.mjs','scripts/testing/optional-quantity223-lifecycle-runtime.mjs','scripts/testing/optional-quantity223-full-parity.mjs','scripts/testing/build-optional-quantity223-private.mjs'];
 const sourceHashes=async()=>Object.fromEntries(await Promise.all(sourcePaths.map(async p=>[p,sha256(canonicalLf(await readFile(path.join(root,p),'utf8')))])));
 const sourceBefore=await sourceHashes();
 const id=n=>`92600000-0000-4000-8000-${String(n).padStart(12,'0')}`;
@@ -51,6 +52,8 @@ try{
  report.cases.push({name:'all existing public/lite1/lite2 functions exact;existing application data unchanged',passed:true,functions:oldCatalog.length});
  const context=()=>rpc(`lite3_counter_context223('${id(103)}')`);
  await assert.rejects(context(),/QUANTITY223_OFF_REQUIRED/u);
+ await verifyOptionalQuantity223FullParity({json,id,executor:db.executor},report);
+ await assertOldCatalog();
  await rpc('lite1_set_mode2(false)');
  const initial=await context();assert.equal(initial.products.length,1);
  assert.equal(initial.products[0].enabled,false);assert.equal(initial.products[0].quantity,0);assert.equal(initial.products[0].revision,0);

@@ -83,10 +83,20 @@ export async function verifyOptionalQuantity223Lifecycle(c,report){
  await rpc("set_configurable_parcel_feature_state_v1('ENABLED')");
  await set(id(101),5);await set(id(102),5);
  const mixed={commercial_line_kind:'configurable_parcel',family_product_id:id(100),parcel_configuration_id:configuration.id,configuration_revision:configuration.configuration_revision,parcel_instances:[{components:[{product_id:id(101),base_quantity:2},{product_id:id(102),base_quantity:3}]}]};
- await pos(request([mixed]));
+ const mixedSale=await pos(request([mixed]));
  assert.equal((await counter(id(101))).products[0].quantity,3);assert.equal((await counter(id(102))).products[0].quantity,2);
  assert.equal(await sql(`SELECT count(*) FROM sales_lite3.quantity_counters WHERE product_id='${id(100)}';`),'0');
  report.cases.push({name:'real mixed parcel consumes2/3 per flavor;non-sellable parent never has a counter',passed:true});
+ const returnedParcel=await json(`SELECT jsonb_build_object('item',i.id,'id',p.id,'components',(SELECT jsonb_agg(jsonb_build_object('id',c.id,'product',c.product_id,'quantity',c.base_quantity) ORDER BY c.product_id) FROM public.order_parcel_components c WHERE c.parcel_instance_id=p.id)) FROM public.order_items i JOIN public.order_parcel_instances p ON p.order_item_id=i.id WHERE i.order_id='${mixedSale.orderId}';`);
+ const mixedReturnPayload={orderId:mixedSale.orderId,reason:'مرتجع طرد مشكل صالح وتالف للعداد',refundMethod:'cash',supplierAssignments:[],
+  items:[{return_scope:'parcel_instance',order_item_id:returnedParcel.item,parcel_instance_id:returnedParcel.id,components:returnedParcel.components.map(component=>({parcel_component_id:component.id,accepted_quantity:component.quantity,rejected_quantity:0,accepted_condition:component.product===id(101)?'supplier_defect':'sellable',accepted_stock_disposition:component.product===id(101)?'non_sellable':'restock',rejection_reason:null,rejected_stock_disposition:null}))}],
+  physicalSources:returnedParcel.components.map(component=>({root_source_kind:'parcel_component',root_source_id:component.id,source_kind:'parcel_component',source_id:component.id,product_id:component.product,quantity:component.quantity,sellable_restock_quantity:component.product===id(101)?0:component.quantity,defect_non_sellable_quantity:component.product===id(101)?component.quantity:0,customer_damage_quantity:0}))};
+ const mixedPreview=await rpc(`lite1_preview_return2(${j(mixedReturnPayload)})`),mixedReturnKey=randomUUID();
+ const mixedReturnCommand=`lite1_settle_return2(${j(mixedReturnPayload)},${q(mixedReturnKey)},${q(mixedPreview.previewFingerprint)})`;
+ const mixedReturned=await rpc(mixedReturnCommand);assert.equal(mixedReturned.goodQuantity,3);assert.equal(mixedReturned.badQuantity,2);
+ assert.equal((await counter(id(101))).products[0].quantity,3);assert.equal((await counter(id(102))).products[0].quantity,5);
+ assert.deepEqual(await rpc(mixedReturnCommand),mixedReturned);assert.equal((await counter(id(102))).products[0].quantity,5);
+ report.cases.push({name:'real mixed-parcel return credits only the3 resellable units of their own flavor;2 defective units do not return;replay once',passed:true});
  // Real guest handler RPC with its authoritative quote and sealed idempotency.
  const guestRequest=async()=>{
   const lines=[{...base(),expected_unit_price_in_minor_units:1000}],plan=await json(`BEGIN;SELECT set_config('request.jwt.claims','{"role":"service_role"}',true);SELECT sales_lite2.plan(${j(lines)},'customer_v2',0,NULL,'0796600401','inside_ramtha');COMMIT;`);
