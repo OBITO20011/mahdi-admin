@@ -143,8 +143,10 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   );
   const [singleContentsCount,setSingleContentsCount]=useState('');
   const [unitConversionConfirmed,setUnitConversionConfirmed]=useState(false);
+  const [convertedUnitPrice,setConvertedUnitPrice]=useState<number|''|null>(null);
   const [openedUnitName,setOpenedUnitName]=useState(initialProduct?.unit||'');
   const [openedSinglePrice,setOpenedSinglePrice]=useState(initialProduct?.salePackagePrice??initialProduct?.retailPrice??0);
+  const conversionUnitPrice=convertedUnitPrice===null?Math.ceil(Math.round(openedSinglePrice*1000)/Math.max(1,Number(singleContentsCount)||1))/1000:Number(convertedUnitPrice)||0;
   const [unitChangeConfirmed,setUnitChangeConfirmed]=useState(false);
   const [contentUnit,setContentUnit]=useState(units.find(item=>item.code==='PKT'&&!item.isHidden)?.nameAr||'');
   const canEditSingleUnit=salesOnly&&modeVerified&&openedAsSingleUnit
@@ -747,6 +749,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
       setSubmitError({message:'اختر وحدة المحتوى وأدخل عددها الفعلي (اثنان فأكثر) وأكّد التحويل قبل الحفظ؛ لا تجمعه مع تغيير اسم الوحدة.'});
       return;
     }
+    if(salesOnly&&convertSingleUnit){const priceError=independentParcelPriceError(contentsCount,Math.round(conversionUnitPrice*1000),Math.round(openedSinglePrice*1000));if(priceError){setSubmitError({message:priceError});return;}}
     const renameSingleUnit=isEditing&&unit!==openedUnitName;
     if(renameSingleUnit&&(!canEditSingleUnit||!unitChangeConfirmed||!units.some(item=>!item.isHidden&&item.nameAr===unit))){
       setSubmitError({message:'تغيير وحدة البيع المفردة يحتاج المالك في وضع OFF موثّق وتأكيداً صريحاً.'});return;
@@ -877,7 +880,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         unitsPerPackage:contentsCount,
         unitsPerSalePackage:contentsCount,
         parcelOnly:true,
-        ...(salesOnly?{retailPrice:calculateUnitCost(openedSinglePrice,contentsCount),wholesalePrice:calculateUnitCost(openedSinglePrice,contentsCount)}:{}),
+        ...(salesOnly?{retailPrice:conversionUnitPrice,wholesalePrice:conversionUnitPrice}:{}),
       }:{}),
       ...(defineFlavorParcel ? {
         salePackage: flavorParcelUnit,
@@ -1260,7 +1263,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           </div>}
           <div className="min-w-0 space-y-2 rounded-lg border border-nw-border p-3">
             <label className="flex min-h-11 items-center gap-2 font-bold"><input type="checkbox" checked={allowSingle} disabled={salesOnly&&openedAsSingleUnit} onChange={event=>setAllowSingle(event.target.checked)}/>{salesOnly?unit+' مفرد':openedAsSingleUnit?'طرد كوحدة واحدة':'باكيت مفرد'}</label>
-            <label className="block space-y-1 text-xs font-bold">{salesOnly?'سعر بيع '+unit:openedAsSingleUnit?'سعر الطرد كوحدة واحدة':'سعر بيع الباكيت'}<input inputMode="decimal" enterKeyHint="next" aria-label={salesOnly?'سعر بيع '+unit:openedAsSingleUnit?'سعر الطرد كوحدة واحدة':'سعر بيع الباكيت'} type="number" min="0" step="0.0001" required disabled={!allowSingle} value={salesOnly?singleSalePrice:salePackagePrice===''?'':derivedSalePricePerUnit} onChange={event=>{const value=event.target.value===''?'':Number.parseFloat(event.target.value);if(salesOnly){setSingleSalePrice(value);if(validUnitsPerSalePackage===1)setSalePackagePrice(value);}else setSalePackagePrice(value===''?'':calculatePackagePrice(value||0,validUnitsPerSalePackage));}} className={numberInputClass}/></label>
+            <label className="block space-y-1 text-xs font-bold">{salesOnly?'سعر بيع '+unit:openedAsSingleUnit?'سعر الطرد كوحدة واحدة':'سعر بيع الباكيت'}<input inputMode="decimal" enterKeyHint="next" aria-label={salesOnly?'سعر بيع '+unit:openedAsSingleUnit?'سعر الطرد كوحدة واحدة':'سعر بيع الباكيت'} type="number" min="0" step={salesOnly?'0.001':'0.0001'} required disabled={!allowSingle} value={salesOnly?singleSalePrice:salePackagePrice===''?'':derivedSalePricePerUnit} onChange={event=>{const value=event.target.value===''?'':Number.parseFloat(event.target.value);if(salesOnly){setSingleSalePrice(value);if(validUnitsPerSalePackage===1)setSalePackagePrice(value);}else setSalePackagePrice(value===''?'':calculatePackagePrice(value||0,validUnitsPerSalePackage));}} className={numberInputClass}/></label>
           </div>
         </fieldset>
 
@@ -1321,6 +1324,11 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           <legend className="px-1 text-sm font-bold">تعريف محتوى وحدة البيع</legend>
           <p className="text-sm font-bold">{'هاد السعر سعر '+(openedUnitName||'باكيت')+'، بدي أعرّف محتواه'}</p>
           <p className="text-sm text-nw-muted">حوّل {openedUnitName} إلى عدد حقيقي من وحدات المحتوى. يبقى سعر {openedUnitName} نفسه والبيع بها فقط؛ يمكن تفعيل المفرد لاحقاً. الفواتير السابقة تبقى بوحداتها وأسعارها المسجّلة.</p>
+          {singleContentsCount!==''&&Number(singleContentsCount)>=2&&<label className="block space-y-1 text-sm font-bold">سعر {contentUnit||'باكيت'} المرجعي بعد تعريف المحتوى
+            <input aria-label="سعر الوحدة المرجعي بعد تعريف المحتوى" className={numberInputClass} type="number" min="0.001" step="0.001" inputMode="decimal" value={convertedUnitPrice===null?conversionUnitPrice:convertedUnitPrice}
+              onChange={event=>{setConvertedUnitPrice(event.target.value===''?'':Number(event.target.value));setUnitConversionConfirmed(false);}}/>
+            <span className="block text-xs font-normal text-nw-muted">البيع المفرد يبقى مطفأً؛ راجع هذا السعر قبل تفعيله. القيمة المقترحة مقربة إلى الفلس الأعلى، وسعر وحدة البيع القديمة يبقى كما هو.</span>
+          </label>}
           <label className="block space-y-1 text-sm font-bold">وحدة المحتوى بعد التحويل<select aria-label="وحدة المحتوى بعد التحويل" className={inputClass} value={contentUnit} onChange={event=>{setContentUnit(event.target.value);setUnitConversionConfirmed(false);}}><option value="">اختر الوحدة</option>{units.filter(item=>!item.isHidden&&item.nameAr!==openedUnitName).map(item=><option key={item.id} value={item.nameAr}>{item.nameAr}</option>)}</select></label>
           <label className="block space-y-1 text-sm font-bold">عدد وحدات المحتوى الفعلي في وحدة البيع
             <input type="number" inputMode="numeric" min="2" max="2147483647" step="1" value={singleContentsCount}

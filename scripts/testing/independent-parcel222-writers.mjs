@@ -59,6 +59,9 @@ export async function verifyIndependentParcel222Writers({json,sql,id,q,j,executo
   family:=(made->>'productId')::UUID;
   IF (SELECT count(*) FROM public.products WHERE (id=family OR flavor_master_product_id=family) AND sale_price_in_minor_units=900 AND wholesale_price_in_minor_units=900 AND default_sale_price_in_minor_units=17000)<>3 THEN RAISE EXCEPTION 'PRICES222_FAMILY_INHERITANCE';END IF;
   IF NOT pg_temp.price222_audit_matches(family) THEN RAISE EXCEPTION 'PRICES222_FINAL_AUDIT_MISSING';END IF;
+  SELECT * INTO STRICT p FROM public.products WHERE id=family;
+  PERFORM public.update_product_master_v6(p.id,p.updated_at,p.sku,p.barcode,p.name_ar,p.description,p.category_id,p.brand_id,p.unit_id,p.purchase_unit_id,p.units_per_purchase_unit,p.default_purchase_price_in_minor_units,p.sale_unit_id,20,16000,p.cost_price_in_minor_units,p.min_stock_level,p.max_stock_level,p.is_active,NULL,950,false);
+  IF (SELECT count(*) FROM public.products WHERE (id=family OR flavor_master_product_id=family) AND sale_price_in_minor_units=950 AND wholesale_price_in_minor_units=950 AND default_sale_price_in_minor_units=16000)<>3 THEN RAISE EXCEPTION 'PRICES222_FAMILY_EDIT_INHERITANCE';END IF;
   INSERT INTO price222_proof VALUES(jsonb_build_object('createdSingle',900,'createdParcel',17000,'changedSingle',950,'unchangedParcel',17000,'refusedWithoutWrites',refused,'staleRefused',true,'familyRows',3,'audit',true));
  END $proof$;
  SELECT jsonb_agg(result) FROM price222_proof;ROLLBACK;`);

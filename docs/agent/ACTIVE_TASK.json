@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner14Nov:OFF independent parcel/single prices; approved revised3-4days; new222 excluding221; Draft PR/fullCI/Gitleaks, post-CI no-reset demo update; no merge/hosted/deploy.",
-  "baselineSha": "bd4d696af6eef074bfd523ee54906059a0bb668c",
+  "baselineSha": "145ba89160405cb1de5e330ba4e8dbf120b32e88",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/parcel-independent-price",
   "phase": "PARCEL_INDEPENDENT_PRICE",
@@ -12,10 +12,16 @@
     "Owner explicitly approved revised3-4day estimate.",
     "New222 three public writers/private validator;historical209/220/680functions unchanged in actualPG.",
     "Actual explicit-price/create/family/ACL/CAS/audit/discountedPOS/oldreceipt+refund rollback proofs pass.",
-    "3pure price/workbook/conflict units pass;Admin typecheck0."
+    "3pure price/workbook/conflict units pass;Admin typecheck0.",
+    "First implementation milestone145ba891 pushed to GitHub;not finalCI.",
+    "OFF UI/import price dispatch+price preview;real service adapter loss/resume10units PASS.",
+    "54unique browser cases pass across completed groups (48/50 then corrected ON selector2/2;newconversion2/import2);no automatic retries.",
+    "ActualPG:independentprices/familyedit/audit/CAS/5atomicrefusals/receipt+refund rollback;real2writer lock race;actualPOS+guest mixed discount withdelivery PASS.",
+    "Current final workbook d9ed1c82... unchanged;750roots/108families/444flavors,parser0errors,allN1prices exact.",
+    "Source-frozen review:Admin types0/store types0/changed-source strictlint0 (CORE_LOCAL_REVIEW.json)."
   ],
   "inProgress": [
-    "UI/import integration and current-ceiling operational adapters;browser/concurrency tests pending."
+    "Prepare strict222 catalog/reference/upgrade/RESET/D1 and legacy220 compatibility;historical inverse guards."
   ],
   "notStarted": [
     "Final currentaccess/ready222/D1/reset/upgrade/backup compatibility proofs",
@@ -28,27 +34,31 @@
     "3pure price/workbook/conflict units pass;Admin typecheck0."
   ],
   "testsRemaining": [
-    "Actual concurrent updates",
-    "Chromium/WebKit mobile",
-    "Operational/reference/backup/legacy gates",
-    "Fullunits/typesboth/strictlint/fullCI/Gitleaks"
+    "Current access/generatedcatalog/ready222/reference/fresh-incremental/reset/backup/history/protection",
+    "All units with exact historical inverses",
+    "FullCI/Gitleaks",
+    "After fullgreenCI only:non-reset demo222/build/oneproducttest/restore"
   ],
   "findings": [
     "Sales209/220 statically read independent fields; new runtime proof pending.",
     "Parser currently enforces derived single price and importer must preserve explicit price.",
     "Proposed222 (221 reserved) affects strict operational ceiling/reference/RESET paths.",
     "All new/modified OFF wording must use actual unit, fallback packet; ON unchanged.",
-    "Owner explicitly approved revised3-4day estimate in text reply14Nov."
+    "Owner explicitly approved revised3-4day estimate in text reply14Nov.",
+    "No ON application/DB behavior changes;ON configuration tests retain old label and writer.",
+    "Only2 old focused assertions remain pending known historical source/literal-v5 view;22/24focused initially.",
+    "221 remains reserved,never treated as applied by222;accounting activation remains forbidden.",
+    "Existing conversion reference price is visible/editable and defaults ceiling-to-fils;single sale stays disabled and old parcel price unchanged."
   ],
   "blockers": [],
   "prohibitions": [],
-  "nextExactAction": "First implementation checkpoint:finish real concurrency/browser,strict222 source inverses,operational adapters/reference/backup/fullCI;demo untouched untilgreen.",
+  "nextExactAction": "Implement strict222 catalog/source inverse andversioned operational tools;allcurrentcore/UI/browser proofs saved externally. Ownerdemo untouched untilFULLCIgreen.",
   "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "07BF7402A84510318FF5C3680C9DE9E021018B7C29B007D54BEF0F36BFBCDAD5",
-  "checkpointedAt": "2026-11-13T23:19:29.282Z",
-  "filesTouchedCount": 17,
-  "filesTouchedManifestSha256": "cef6c6fc90af2bdb7444689c3e8215f59a1d0f0add31d585966fcc8adbd4ee95"
+  "workingTreeFingerprint": "00F16DC1F89696853A9F0B4D374B958157A6006AD60C94D41575568470CDC3BC",
+  "checkpointedAt": "2026-11-14T00:19:36.824Z",
+  "filesTouchedCount": 16,
+  "filesTouchedManifestSha256": "a15344ef26dd45125ca5c326ed72e9fe011a198d0b28f91afa1a4dc34bc9bd6d"
 }

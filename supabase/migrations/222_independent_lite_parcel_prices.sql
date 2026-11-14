@@ -89,7 +89,7 @@ BEGIN
  END IF;
  -- The existing family trigger copies both final prices to every flavor.
  UPDATE public.products SET sale_price_in_minor_units=p_sale_price_in_minor_units,
-  wholesale_price_in_minor_units=p_sale_price_in_minor_units,updated_at=clock_timestamp() WHERE id=v_id;
+  wholesale_price_in_minor_units=p_sale_price_in_minor_units,updated_at=NOW() WHERE id=v_id;
  IF NOT EXISTS(SELECT 1 FROM public.products WHERE id=v_id
   AND sale_price_in_minor_units=p_sale_price_in_minor_units
   AND default_sale_price_in_minor_units=p_default_sale_price_in_minor_units
@@ -142,7 +142,7 @@ BEGIN
  END IF;
  -- The existing family trigger copies both final prices to every flavor.
  UPDATE public.products SET sale_price_in_minor_units=p_sale_price_in_minor_units,
-  wholesale_price_in_minor_units=p_sale_price_in_minor_units,updated_at=clock_timestamp() WHERE id=v_id;
+  wholesale_price_in_minor_units=p_sale_price_in_minor_units,updated_at=NOW() WHERE id=v_id;
  IF NOT EXISTS(SELECT 1 FROM public.products WHERE id=v_id
   AND sale_price_in_minor_units=p_sale_price_in_minor_units
   AND default_sale_price_in_minor_units=p_default_sale_price_in_minor_units
@@ -194,7 +194,7 @@ BEGIN
  END IF;
  -- The existing family trigger copies both final prices to every flavor.
  UPDATE public.products SET sale_price_in_minor_units=p_sale_price_in_minor_units,
-  wholesale_price_in_minor_units=p_sale_price_in_minor_units,updated_at=clock_timestamp() WHERE id=v_id;
+  wholesale_price_in_minor_units=p_sale_price_in_minor_units,updated_at=NOW() WHERE id=v_id;
  IF NOT EXISTS(SELECT 1 FROM public.products WHERE id=v_id
   AND sale_price_in_minor_units=p_sale_price_in_minor_units
   AND default_sale_price_in_minor_units=p_default_sale_price_in_minor_units

@@ -3,31 +3,39 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
-    },
-    {
-      "code": " M",
       "path": "docs/agent/project-state.json"
     },
     {
       "code": " M",
-      "path": "scripts/agent/lib.mjs"
+      "path": "e2e/actual-sale-units.spec.ts"
     },
     {
       "code": " M",
-      "path": "scripts/agent/migration-numbering.mjs"
+      "path": "e2e/lite-parcel-unit-guard-harness.tsx"
     },
     {
       "code": " M",
-      "path": "scripts/agent/preflight.mjs"
+      "path": "e2e/lite-parcel-unit-guard.spec.ts"
     },
     {
       "code": " M",
-      "path": "src/features/goLive/productWorkbook.ts"
+      "path": "e2e/package-f-product-workbook.fixture.ts"
     },
     {
       "code": " M",
-      "path": "src/features/more/ParcelConfigurationModal.tsx"
+      "path": "e2e/package-f-product-workbook.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/package-f-products-harness.tsx"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/independent-parcel222-writers.mjs"
+    },
+    {
+      "code": " M",
+      "path": "src/features/goLive/ProductWorkbookImportPanel.tsx"
     },
     {
       "code": " M",
@@ -35,39 +43,27 @@
     },
     {
       "code": " M",
-      "path": "src/services/supabase/products.service.ts"
-    },
-    {
-      "code": " M",
-      "path": "src/services/supabase/productWorkbook.service.ts"
-    },
-    {
-      "code": " M",
-      "path": "src/stores/useAppStore.ts"
-    },
-    {
-      "code": " M",
-      "path": "src/utils/productEditConflict.ts"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/independent-parcel222-runtime.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/independent-parcel222-writers.mjs"
-    },
-    {
-      "code": "??",
-      "path": "src/utils/independentParcelPrices.ts"
-    },
-    {
-      "code": "??",
       "path": "supabase/migrations/222_independent_lite_parcel_prices.sql"
     },
     {
+      "code": " M",
+      "path": "tests/product-workbook-service.test.ts"
+    },
+    {
       "code": "??",
-      "path": "tests/independent-parcel-prices.test.ts"
+      "path": "e2e/independent-parcel-prices.spec.ts"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/independent-parcel222-concurrency.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/independent-parcel222-mixed.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-independent-parcel222.mjs"
     }
   ]
 }
