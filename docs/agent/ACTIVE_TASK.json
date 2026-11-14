@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner14Nov approved3-4days:OFF independent single/parcel prices;222 only,221reserved;Draft97/FULLCI/Gitleaks;only after greenCI no-reset iPhone demo update. No merge/hosted/deploy/ON behavior change.",
-  "baselineSha": "3e086b4c8a41c21a110e20c1bf39ea6bc8c79de2",
+  "baselineSha": "7fca59b8adbcc6c5327152a20a8a130c78fad5aa",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/parcel-independent-price",
   "phase": "PARCEL_INDEPENDENT_PRICE",
@@ -15,10 +15,14 @@
     "Actual220Backup/strictRestore ->222apply ->222Backup/strictRestore ->verify-only PASS;6negative cases;allbusiness/Auth/private rows/pgNet preserved.",
     "RESET222ordinary31.1sec +3resume cases26.6-29.7sec PASS;rawAuth/MFA/large money/4FrankfurtACL/pgNet/history182;badcronhold/snapshotfailure/foreignprivatewrite refused.",
     "Admin fulltypes0 after3newtest type fixes;fullstrictlint0 beforelast helper/doc additions;current cutoverHTML2A4 pages1010/891px under1046px with original fonts.",
-    "Milestone3e086b4c pushed;preflight0 and staged Gitleaks0 at that milestone."
+    "Milestone3e086b4c pushed;preflight0 and staged Gitleaks0 at that milestone.",
+    "Milestone7fca59b8 pushed;full strictlint0/preflight0;stagedGitleaks0 for both operational milestones.",
+    "Current222 inventories rebound to actual181HTTP/720RPC evidence;historical138-220 proofs retained. 70/71 focused plus corrected phase3/history focused20/20 PASS;new strict negative legacy220 dependency case4/4 PASS.",
+    "Legacy220 exact metadata-policy RED reproduced at222;literal220 admission restored without unknown-policy relaxation. Actual RESET22031.3s+3resumes21.1/21.7/22.4s PASS,rawAuth/MFA/ACL/pgNet preserved;owned Docker only.",
+    "Both applications full types0 and root strictlint0;adapted OFF editor6/6 Chromium/WebKit390 PASS,zero retries. Workbook Git63 history direct43.2s exit0 under unchanged120s."
   ],
   "inProgress": [
-    "Final historical/current unit compatibility,full types/strictlint/FULLCI/Gitleaks and docs."
+    "Finish exact committed legacy runtime-view proof and full units;push verified milestone then final FULLCI/Gitleaks."
   ],
   "notStarted": [
     "Only after FULLCIgreen:owner demo222 literal/noreset,build,oneproduct UI test/restore,sameAuth/TOTP/private/TLS."
@@ -30,7 +34,9 @@
     "222adds3publicwriters+1privatevalidator only;209/220/680existing functions unchanged;ON staysoldwriters.",
     "221 remains reserved and accountingactivation forbidden;no backfill.",
     "Concurrent CLI starts twice exited1 beforeSQL without a proved culprit;isolated serial runs pass;test-only start/stop lease now refuses overlap,no business retries.",
-    "Newready-reference reserved-number regex typo caught RED thenGREEN;211 retained,only218/221 excluded."
+    "Newready-reference reserved-number regex typo caught RED thenGREEN;211 retained,only218/221 excluded.",
+    "First7fca FULLCI failed on current/history schema bindings and legacy test mocks;new222 two-job actual SQL/protection workflow PASS. No workflow rerun.",
+    "Historical phase3 checkpoint round-trip binds exact prior Gitbd4;current mutable checkpoints remain visible and independently checked by agent-continuity."
   ],
   "blockers": [],
   "prohibitions": [
@@ -39,13 +45,13 @@
     "No old tables/sales209/220/ON changes"
   ],
   "evidence": "C:/Users/TOP/NawasrahLocalValidation/parcel-independent-price-20261114",
-  "nextExactAction": "Quiet full units from full-units222.mjs;repair narrow current/historical contracts preserving guards;final typesboth/strictlint/FULLCI/Gitleaks;then and only then no-reset iPhone demo222 update/test/restore.",
+  "nextExactAction": "Committed compatibility repairs: prove disposable Git63 runtime view then full units at concurrency4 with original assertions/timeouts; push then exact-headFULLCI;demo remains untouched until green.",
   "activeProcesses": [],
-  "checkpointedAt": "2026-11-14T02:19:52.301Z",
+  "checkpointedAt": "2026-11-14T02:59:07.615Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 27,
-  "filesTouchedManifestSha256": "6eab37feeed76680a64f690ca8649c17c51b5deea204db83b333139038602cd8",
-  "workingTreeFingerprint": "D444CAE218A7C76F47971402C973A44FA92E8A6DD911E45EB15CD363B485DD63"
+  "filesTouchedCount": 24,
+  "filesTouchedManifestSha256": "9404d4cb0b0bf94da430bb26c8f0b0253a6a12831440259fc234ee5347dba9d8",
+  "workingTreeFingerprint": "BC90EA91823EA35EE578E9556BC24BCBE3356C831486195F37AF51B47B754963"
 }

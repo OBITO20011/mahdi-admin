@@ -14,7 +14,10 @@ test('lite template omits stock/cost yet same commercial rules and presentation 
  assert.equal(plan.products[0].data.name_ar,'براوني');assert.equal(plan.products[0].data.sale_package_price_in_minor_units,'9000');assert.equal(plan.operatingMode,'sales-only');
  assert.ok(plan.warnings.some(w=>w.message.includes('التكلفة الفارغة')));assert.ok(!plan.warnings.some(w=>w.message.includes('يُعبأ بعد الجرد')));assert.deepEqual(productWorkbookStockRows(plan),[]);
  assert.ok(prepareProductWorkbook(sheet()).errors.some(e=>e.message.includes('التكلفة')||e.message.includes('تكلفة')));
- assert.ok(prepareProductWorkbook(sheet({packet_price:'0.751'}),[],'sales-only').errors.some(e=>e.message.includes('لا يطابق')));
+ const discounted=prepareProductWorkbook(sheet({packet_price:'0.751'}),[],'sales-only');assert.deepEqual(discounted.errors,[]);assert.equal(discounted.products[0].singlePriceInMinorUnits,'751');
+ assert.ok(prepareProductWorkbook(sheet({packet_price:'9.000'}),[],'sales-only').errors.length>0,'Reject multiple units at one unit price');
+ assert.ok(prepareProductWorkbook(sheet({packet_price:'0.700'}),[],'sales-only').errors.length>0,'Reject parcel above count times single price');
+ const fullRatio=prepareProductWorkbook(sheet({packet_price:'0.751',cost_per_base_unit:'0.100',purchase_package_price:'1.200'},PRODUCT_WORKBOOK_COLUMNS));assert.ok(fullRatio.errors.some(e=>e.message.includes('لا يطابق')),'ON retains the existing price-ratio rule');
  const legacy=GO_LIVE_COLUMNS.products.filter(c=>c.key!=='cost_per_base_unit');const mapped=mapSheet('products',[legacy.map(c=>c.header),legacy.map(c=>values[c.key]??'')],'sales-only');assert.deepEqual(mapped.fileErrors,[]);assert.equal(prepareProducts(mapped.rows,'sales-only').payload[0].cost_per_base_unit_in_minor_units,'0');
 });
 test('lite never silently imports filled stock;normalization/flavor IDs and leading barcode zeros retained',()=>{

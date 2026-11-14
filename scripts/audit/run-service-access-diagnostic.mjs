@@ -13,6 +13,7 @@ import {readFile,writeFile,mkdtemp} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {randomBytes} from 'node:crypto';
 import path from 'node:path';
+import {sourceBeforeSalesOnlyPhase3} from './source-before-sales-only-phase3.mjs';
 import {serviceInventory} from './service-access-inventory.mjs';
 import {executorFor,executeInput} from '../operations/build-empty-supabase.mjs';
 import {fixtureId as id} from './table-access-probes.mjs';
@@ -50,6 +51,9 @@ try{
  const sourceOptions={projectSource:migrationCeiling<215?sourceBeforeAftercare215:migrationCeiling===215?sourceBeforePartial216:migrationCeiling===216?sourceBeforeOwnerTelegram217:undefined};
  if(sourceOptions.projectSource){const historical=sourceOptions.projectSource;sourceOptions.projectSource=(file,text)=>historicalProductWorkbookSource(historical,file,text);}
  if(migrationCeiling<=220){const older=sourceOptions.projectSource;sourceOptions.projectSource=(file,text)=>{const before=sourceBeforeIndependentPrices222(file,text);return before===null?null:older?older(file,before):before;};}
+ // The219 quarantined overlay is Phase2,not literal220's later reader additions.
+ // Exact source inverse only;unknown bytes/functions still fail dispatch.
+ if(salesOnlyAudit)sourceOptions.projectSource=sourceBeforeSalesOnlyPhase3;
  const source=await serviceInventory(sourceOptions);report.sourceHashes=source.sourceHashes;
  if(!workdir){const boot=await exec(process.execPath,[path.join(root,'scripts/testing/bootstrap-isolated-supabase.mjs')],{cwd:root,windowsHide:true,maxBuffer:8*1024**2,env:{...process.env,
   NAWASRAH_ISOLATED_PROJECT_ID:project,NAWASRAH_MAX_MIGRATION:String(migrationCeiling),NAWASRAH_SKIP_REDUNDANT_DB_RESET:'true',

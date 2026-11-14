@@ -1,3 +1,7 @@
+#14Nov2026 — Draft97:222/current-history compatibility repaired;final gates pending
+
+No productSQL delta since7fca. Actual legacy220RESET31.3s and3resumes PASS after exact historical storage metadata-policy admission was retained at222;unknown dependencies still refuse. Actual source inventories222181HTTP/720RPC rebound without replacing historical proofs. Typesboth0,strictlint0,OFF editor6/6 Chromium/WebKit390 PASS. Git63 workbook-history direct43.2s0 under unchanged120s;full local units/final exact-headCI/Gitleaks remain. First7fca new222workflow passed;older gates exposed compatibility failures now repaired,not rerun. Ownerdemo stays unchanged untilfullgreenCI;no hosted/deploy/merge.
+
 #14Nov2026 — Draft97:real222 protection/RESET/reference PASS;FULLCI pending
 
 222 price-only additive to220;old680/627+9 unchanged,221reserved and activation forbidden. Actual fresh/incremental0diff,683public/39private;ready222local unapproved/uninstalled;HTTP181/0errors,RPC720/18expecteddenials. Real encrypted220BackupRestore→222apply8.4s→222BackupRestore→verify-only PASS+6negatives. RESET22231.1s and3resumes PASS with raw owner/MFA/money/ACL/pgNet;badhold/snapshot/foreignprivatewrite rejected. TypesAdmin0;strictlint0 beforelast helper/docs;2A4page fit1010/891<1046px with unchanged fonts. Allunits/finaltypeslint/FULLCI/Gitleaks and postCI-only demo noreset update remain. Primary/owner originals/demo/private untouched;no merge/hosted/deploy.

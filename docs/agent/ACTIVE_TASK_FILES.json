@@ -7,15 +7,35 @@
     },
     {
       "code": " M",
-      "path": "docs/handover/ورقة-يوم-التشغيل.html"
+      "path": "docs/agent/project-state.json"
     },
     {
       "code": " M",
-      "path": "docs/handover/ورقة-يوم-التشغيل.md"
+      "path": "docs/design/independent-parcel-prices222/tool222-source-pins.json"
     },
     {
       "code": " M",
-      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
+      "path": "docs/MAINTAINER_GUIDE_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_AUDIT.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "e2e/sales-only-phase2-product-form.spec.ts"
     },
     {
       "code": " M",
@@ -27,87 +47,55 @@
     },
     {
       "code": " M",
-      "path": "scripts/audit/run-table-access-diagnostic.mjs"
+      "path": "scripts/operations/reset220-foundation.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/operations/build-acl-reference222.mjs"
+      "path": "scripts/operations/reset222-foundation.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/operations/d1-known-owner222-files.json"
+      "path": "scripts/testing/product-workbook-runtime-view.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/operations/d1-reference222-ci.mjs"
+      "path": "tests/bulk-product-images-contracts.test.ts"
     },
     {
       "code": " M",
-      "path": "scripts/operations/d1-reference222-kit.mjs"
+      "path": "tests/lite220-historical-test-view.test.ts"
     },
     {
       "code": " M",
-      "path": "scripts/operations/frankfurt-owner-upgrade222.mjs"
+      "path": "tests/migration-integrity.test.ts"
     },
     {
       "code": " M",
-      "path": "scripts/operations/frankfurt-reference222.mjs"
+      "path": "tests/mobile-back-contracts.test.ts"
     },
     {
       "code": " M",
-      "path": "scripts/operations/trial-reset222-core.mjs"
+      "path": "tests/operational-schema.test.ts"
     },
     {
       "code": " M",
-      "path": "scripts/testing/build-independent-prices222-history.mjs"
+      "path": "tests/owner-tools220.test.ts"
     },
     {
       "code": " M",
-      "path": "scripts/testing/build-independent-prices222-tools.mjs"
+      "path": "tests/sales-only-phase1.test.ts"
     },
     {
       "code": " M",
-      "path": "scripts/testing/independent-prices222-local.mjs"
+      "path": "tests/sales-only-phase2-import.test.ts"
     },
     {
       "code": " M",
-      "path": "scripts/testing/render-lite220-cutover.mjs"
+      "path": "tests/sales-only-phase3-history.test.ts"
     },
     {
       "code": " M",
-      "path": "tests/independent-prices222-operations.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/lite220-handover.test.ts"
-    },
-    {
-      "code": "??",
-      "path": ".github/workflows/independent-prices222.yml"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/D1_REFERENCE_KIT222_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/RESET222_OWNER_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/SERVICE_ACCESS_AFTER_222.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/UPGRADE222_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/run-owner-upgrade222-runtime.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/run-reset222-runtime.mjs"
+      "path": "tests/service-access-inventory.test.ts"
     }
   ]
 }

@@ -1,3 +1,4 @@
+import{sourceBeforeIndependentPrices222}from'../scripts/audit/source-before-independent-prices222.mjs';
 import{pathsBeforeStorefrontImages}from'../scripts/audit/source-before-storefront-images.mjs';
 import{sourceBeforeSalesOnlyPhase2}from'../scripts/audit/source-before-sales-only-phase2.mjs';
 import{sourceBeforeStorefrontSpeed}from'../scripts/audit/source-before-storefront-speed.mjs';
@@ -54,7 +55,7 @@ test('all RPC/table calls and every StoreEngine method except the two navigation
   const printer=ts.createPrinter({removeComments:true});
   return Object.fromEntries(declaration.members.map(member=>[member.name?.getText(source)??'<constructor>',printer.printNode(ts.EmitHint.Unspecified,member,source)]));
  };
- const before=members(git(file)),current=members(readFileSync(file,'utf8'));
+ const before=members(git(file)),current=members(sourceBeforeIndependentPrices222(file,readFileSync(file,'utf8'))!);
  assert.deepEqual(Object.keys(current),Object.keys(before));
  for(const name of Object.keys(current))if(!['setActiveTab','openCustomerProfile'].includes(name))assert.equal(current[name],before[name],name);
  for(const name of ['setActiveTab','openCustomerProfile'])assert.match(current[name],/if \(!requestScreenNavigation\(/u);
