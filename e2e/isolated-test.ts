@@ -3,6 +3,7 @@ import {
   expect,
   test as base,
   type BrowserContext,
+  type Locator,
   type Page,
   type Route,
 } from '@playwright/test';
@@ -111,4 +112,4 @@ export const test = base.extend<{ productionNetworkIsolation: void }>({
 });
 
 export { expect };
-export type { BrowserContext, Page, Route };
+export type { BrowserContext, Locator, Page, Route };

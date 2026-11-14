@@ -1,4 +1,5 @@
 import{sourceBeforeIndependentPrices222}from'../audit/source-before-independent-prices222.mjs';
+import{sourceBeforePriceVisibility}from'../audit/source-before-price-visibility.mjs';
 import{sourceBeforeSalesOnlyPhase3,pathsBeforeSalesOnlyPhase3,salesOnlyPhase3Pins}from'../audit/source-before-sales-only-phase3.mjs';
 import{pathsBeforeD1Kit}from'../audit/source-before-d1-reference-kit.mjs';
 // Historical CI fixtures only. Owner tools and every SQL byte stay unmodified.
@@ -87,6 +88,19 @@ export async function prepareWorkbookRuntimeView({schemaOnly=false}={}){
   git(['clone','--shared','--no-checkout',root,dir]);git(['update-ref','--no-deref','HEAD',head],dir);git(['read-tree',head],dir);await writeFile(path.join(dir,'.git/info/exclude'),'\n/node_modules\n/.workbook-runtime-view.json\n',{flag:'a'});assert.equal(git(['rev-parse','HEAD'],dir).toString('utf8').trim(),head);
   // Git materializes raw objects without buffering a full archive or tar filename conversion.
   git(['config','core.autocrlf','false'],dir);git(['checkout-index','--all'],dir);await noLinks(dir);await writeFile(path.join(dir,'.workbook-runtime-view.json'),JSON.stringify(marker));
+  // Rewind every reviewed price-card source,including files that did not
+  // exist in the222 pin set. SQL/tools/evidence stay outside this source scope.
+  // The same complete-file hashes and literal inverse reject unknown bytes.
+  const priceLayout=JSON.parse(await readFile(path.join(root,'scripts/audit/price-visibility-source-pin.json'),'utf8'));
+  assert.equal(priceLayout.baseline,'0bd3b5b0fd149c9e92d802c6dabb55b236c127cc');
+  for(const[file]of Object.entries(priceLayout.files)){
+   if(!sourceScope(file))continue;
+   const target=path.join(dir,file),raw=await readFile(target,'utf8'),before=sourceBeforePriceVisibility(file,raw);
+   assert.notEqual(before,raw,'HISTORICAL_PRICE_UNREVIEWED_SOURCE:'+file);
+   assert.equal(before,historicalText(priceLayout.baseline,file),'HISTORICAL_PRICE_NOT_EXACT_GIT:'+file);
+   if(before===null)await unlink(target);else await writeFile(target,before);
+   changed.push({file,after:hash(raw.replaceAll('\r\n','\n')),before:before===null?null:hash(before)});
+  }
   // Rewind only exact approved222 application bytes before composing older views.
   // Current runners/owner tools and SQL001–220 remain untouched;remove only the
   // pinned222 addition from this disposable legacy fixture,never an unknown file.

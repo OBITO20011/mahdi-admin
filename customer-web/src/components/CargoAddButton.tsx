@@ -10,6 +10,7 @@ interface CargoAddButtonProps {
   trailing?: ReactNode;
   className?: string;
   itemLabel?: string;
+  detail?:ReactNode;
 }
 
 export function CargoAddButton({
@@ -20,6 +21,7 @@ export function CargoAddButton({
   label = 'إضافة للسلة',
   trailing,
   className = '',
+  detail,
 }: CargoAddButtonProps) {
   return (
     <button
@@ -36,7 +38,7 @@ export function CargoAddButton({
       <span className={`flex min-w-0 items-center ${compact ? '' : 'gap-2'}`}>
         <ShoppingCart className="h-5 w-5 shrink-0" aria-hidden="true" />
         {!compact && (
-          <span className="truncate text-xs font-black">{label}</span>
+          <span className={`${detail?'min-w-0 break-words text-center':'truncate'} text-xs font-black`}>{label}{detail&&<span className="mt-1 block whitespace-normal">{detail}</span>}</span>
         )}
       </span>
       {!compact && trailing && (
