@@ -90,6 +90,13 @@ BEGIN
  SELECT * INTO p FROM public.products WHERE id=p_product_id;
  IF NOT FOUND THEN RAISE EXCEPTION 'QUANTITY223_PRODUCT_REQUIRED';END IF;
  family:=p.is_flavor_master OR EXISTS(SELECT 1 FROM public.products c WHERE c.flavor_master_product_id=p.id);
+ -- Unit conversion policy is pending owner review. Never label a historical
+ -- count with a different current unit while that decision remains open.
+ IF EXISTS(SELECT 1 FROM public.products leaf JOIN sales_lite3.quantity_counters c ON c.product_id=leaf.id
+  WHERE c.ever_enabled AND c.unit_id IS DISTINCT FROM leaf.unit_id
+  AND((NOT family AND leaf.id=p.id) OR(family AND leaf.flavor_master_product_id=p.id))) THEN
+  RAISE EXCEPTION 'QUANTITY223_UNIT_REVIEW_REQUIRED';
+ END IF;
  SELECT COALESCE(jsonb_agg(jsonb_build_object(
   'productId',leaf.id,'name',leaf.name_ar,'flavorName',leaf.flavor_name_ar,'sku',leaf.sku,
   'unitId',leaf.unit_id,'unitName',COALESCE(u.name_ar,'باكيت'),

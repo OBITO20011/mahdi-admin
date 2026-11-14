@@ -37,6 +37,13 @@ export async function verifyOptionalQuantity223Lifecycle(c,report){
  assert.deepEqual((await readApplicationFingerprint(c.executor)).tables,fingerprint.tables,'UNTRACKED_PARITY_ROLLBACK');
  report.cases.push({name:'only3 allowed OFF-private leaves change;all public/other private exact;untracked actual POS JSON parity and rollback',passed:true});
  await set(id(103),3);
+ const trackedBefore=await readApplicationFingerprint(c.executor);
+ const privateSnapshot=()=>json("SELECT jsonb_build_object('counters',(SELECT jsonb_agg(to_jsonb(c) ORDER BY product_id) FROM sales_lite3.quantity_counters c),'events',(SELECT count(*) FROM sales_lite3.quantity_events),'counterRequests',(SELECT count(*) FROM sales_lite3.quantity_requests),'saleRequests',(SELECT count(*) FROM sales_lite1.requests));");
+ const privateBefore=await privateSnapshot();
+ await sql(transaction(`lite1_pos2(${j(request([base()]))},'quantity223-tracked-sale-rollback')`).replace('COMMIT;','ROLLBACK;'));
+ assert.deepEqual((await readApplicationFingerprint(c.executor)).tables,trackedBefore.tables,'TRACKED_POS_ROLLBACK_APPLICATION_ROWS');
+ assert.deepEqual(await privateSnapshot(),privateBefore,'TRACKED_POS_ROLLBACK_COUNTER_AUDIT_REQUESTS');
+ report.cases.push({name:'actual tracked POS rollback restores quantity/audit/outbox/financial rows and leaves no consumed request key',passed:true});
  const firstRequest=request([base()]),key=randomUUID(),first=await pos(firstRequest,key);
  assert.equal((await counter(id(103))).products[0].quantity,2);
  assert.equal((await pos(firstRequest,key)).orderId,first.orderId);
@@ -106,6 +113,18 @@ export async function verifyOptionalQuantity223Lifecycle(c,report){
  const eventRows=await alerts();assert.equal(eventRows.filter(e=>e.type==='low_stock').length,2);assert.equal(eventRows.length,3);
  assert.ok(eventRows.every(e=>e.payload.audience==='owner'&&e.payload.unitName==='باكيت'&&e.payload.accountingTracked===false));
  report.cases.push({name:'existing217 outbox types:one low crossing,one zero crossing,no per-sale repetition,rearm on replenishment,owner payload',passed:true});
+ await set(id(103),3);
+ const drift=await json(`BEGIN;UPDATE sales_lite3.quantity_counters SET unit_id=gen_random_uuid() WHERE product_id='${id(103)}';
+ SELECT set_config('request.jwt.claims',${j({sub:id(1),role:'authenticated',aal:'aal2'})}::TEXT,true);SET LOCAL ROLE authenticated;
+ DO $drift$ BEGIN
+  BEGIN PERFORM public.lite3_counter_context223('${id(103)}');RAISE EXCEPTION 'DRIFT_READ_WAS_NOT_REFUSED';
+  EXCEPTION WHEN OTHERS THEN IF SQLERRM<>'QUANTITY223_UNIT_REVIEW_REQUIRED' THEN RAISE;END IF;END;
+  BEGIN PERFORM public.lite1_pos2(${j(request([base()]))},'quantity223-unit-drift-refusal');RAISE EXCEPTION 'DRIFT_SALE_WAS_NOT_REFUSED';
+  EXCEPTION WHEN OTHERS THEN IF SQLERRM<>'QUANTITY223_UNIT_REVIEW_REQUIRED' THEN RAISE;END IF;END;
+ END $drift$;RESET ROLE;
+ SELECT jsonb_build_object('available',sales_lite3.effective_available223('${id(103)}'),'quantity',(SELECT quantity FROM sales_lite3.quantity_counters WHERE product_id='${id(103)}'),'keys',(SELECT count(*) FROM sales_lite1.requests WHERE key='quantity223-unit-drift-refusal'));ROLLBACK;`);
+ assert.deepEqual(drift,{available:false,quantity:3,keys:0});assert.equal((await counter(id(103))).products[0].quantity,3);
+ report.cases.push({name:'injected unit drift fails closed in owner read,store availability and sale;zero write/key effect;rollback restores original unit',passed:true});
  // The fixture intentionally leaves sales for later return/alert assertions.
  assert.equal(typeof root,'string');
 }

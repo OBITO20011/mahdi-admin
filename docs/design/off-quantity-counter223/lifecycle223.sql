@@ -6,8 +6,8 @@ BEGIN;
 CREATE FUNCTION sales_lite3.effective_available223(p_product UUID) RETURNS BOOLEAN
 LANGUAGE sql STABLE SECURITY DEFINER SET search_path=pg_catalog,public AS $$
  SELECT sales_lite1.available(p_product) AND NOT EXISTS(
-  SELECT 1 FROM sales_lite3.quantity_counters c
-  WHERE c.product_id=p_product AND c.enabled AND c.quantity=0
+  SELECT 1 FROM sales_lite3.quantity_counters c JOIN public.products p ON p.id=c.product_id
+  WHERE c.product_id=p_product AND c.enabled AND(c.quantity=0 OR c.unit_id IS DISTINCT FROM p.unit_id)
  )
 $$;
 

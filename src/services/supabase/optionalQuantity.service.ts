@@ -88,7 +88,12 @@ export async function readLowOptionalQuantityWithRpc(page:number,execute:Counter
 }
 const clientRpc:CounterRpc=(name,args)=>{
  if(!isSupabaseConfigured||!supabase)throw unverified();
- return supabase.rpc(name,args);
+ switch(name){
+  case 'lite3_counter_context223':return supabase.rpc('lite3_counter_context223',args);
+  case 'lite3_set_counter223':return supabase.rpc('lite3_set_counter223',args);
+  case 'lite3_pos_quantity_check223':return supabase.rpc('lite3_pos_quantity_check223',args);
+  case 'lite3_low_counters223':return supabase.rpc('lite3_low_counters223',args);
+ }
 };
 export const fetchOptionalQuantity=(productId:string)=>readOptionalQuantityWithRpc(productId,clientRpc);
 export const saveOptionalQuantity=(row:OptionalQuantityRow,values:{enabled:boolean;quantity:number;threshold:number},key:string)=>setOptionalQuantityWithRpc(row,values,key,clientRpc);
