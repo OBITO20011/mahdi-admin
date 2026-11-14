@@ -27,8 +27,9 @@ async function setup(page:Page){
  await page.route('**/rpc/lite3_counter_context223',route=>route.fulfill({json:{contractVersion:'optional-quantity223-v1',fullAccounting:false,productId,isFamily:false,products:[ownerRow()]}}));
  await page.route('**/rpc/lite3_set_counter223',route=>{
   const args=route.request().postDataJSON();expect(args.p_expected_revision).toBe(state.revision);expect(args.p_product_id).toBe(productId);
+  expect(args.p_expected_unit_id).toBe(id(20));
   state.quantity=args.p_quantity;state.revision++;state.ownerWrites++;
-  return route.fulfill({json:{success:true,idempotentReplay:false,productId,enabled:true,quantity:state.quantity,threshold:args.p_low_threshold,revision:state.revision}});
+  return route.fulfill({json:{success:true,idempotentReplay:false,productId,unitId:id(20),enabled:true,quantity:state.quantity,threshold:args.p_low_threshold,revision:state.revision}});
  });
  return state;
 }

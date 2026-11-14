@@ -9,7 +9,7 @@ export async function verifyOptionalQuantity223Lifecycle(c,report){
  const {sql,json,rpc,id,transaction,root,catalog}=c;
  const q=s=>"'"+String(s).replaceAll("'","''")+"'",j=value=>q(JSON.stringify(value))+'::JSONB';
  const counter=pid=>rpc(`lite3_counter_context223('${pid}')`);
- const set=async(pid,qty,enabled=true)=>{const row=(await counter(pid)).products[0];return rpc(`lite3_set_counter223('${pid}',${enabled},${qty},2,${row.revision},'${randomUUID()}')`);};
+ const set=async(pid,qty,enabled=true)=>{const row=(await counter(pid)).products[0];return rpc(`lite3_set_counter223('${pid}',${enabled},${qty},2,${row.revision},'${randomUUID()}','${row.unitId}')`);};
  const base=(quantity=1,pid=id(103))=>({commercial_line_kind:'base_unit',product_id:pid,base_quantity:quantity});
  const request=(lines,confirmed)=>({branchId:id(200),warehouseId:id(201),customerId:id(401),paymentMethod:'cash',lines,discountInMinorUnits:0,amountReceivedInMinorUnits:100000,...(confirmed?{unavailableConfirmed:confirmed}:{})});
  const pos=(r,key=randomUUID())=>rpc(`lite1_pos2(${j(r)},${q(key)})`);
@@ -36,6 +36,21 @@ export async function verifyOptionalQuantity223Lifecycle(c,report){
  assert.deepEqual(normalize(afterUntracked),normalize(baseline),'LIFECYCLE223_UNTRACKED_POS_BEHAVIOR_CHANGED');
  assert.deepEqual((await readApplicationFingerprint(c.executor)).tables,fingerprint.tables,'UNTRACKED_PARITY_ROLLBACK');
  report.cases.push({name:'only3 allowed OFF-private leaves change;all public/other private exact;untracked actual POS JSON parity and rollback',passed:true});
+ const legacySale=await pos(request([base(1,id(101))]));
+ const legacyItem=await sql(`SELECT id FROM public.order_items WHERE order_id='${legacySale.orderId}';`);
+ await set(id(101),4);
+ const beforeLegacyReturn=(await counter(id(101))).products[0];
+ const legacyReturn={orderId:legacySale.orderId,reason:'مرتجع بيع قبل تفعيل العدّاد',refundMethod:'cash',supplierAssignments:[],
+  items:[{return_scope:'base_unit',order_item_id:legacyItem,quantity:1,stock_disposition:'restock'}],
+  physicalSources:[{root_source_kind:'base_order_item',root_source_id:legacyItem,source_kind:'base_order_item',source_id:legacyItem,
+   product_id:id(101),quantity:1,sellable_restock_quantity:1,defect_non_sellable_quantity:0,customer_damage_quantity:0}]};
+ const legacyPreview=await rpc(`lite1_preview_return2(${j(legacyReturn)})`);
+ const legacyResult=await rpc(`lite1_settle_return2(${j(legacyReturn)},${q(randomUUID())},${q(legacyPreview.previewFingerprint)})`);
+ assert.equal(legacyResult.goodQuantity,1);
+ assert.equal(await sql(`SELECT count(*) FROM sales_lite1.returns WHERE id='${legacyResult.returnId}';`),'1');
+ assert.deepEqual((await counter(id(101))).products[0],beforeLegacyReturn,'PRE_COUNTER_RETURN_REQUIRES_MANUAL_COUNT');
+ assert.equal(await sql(`SELECT count(*) FROM sales_lite3.quantity_events WHERE order_id='${legacySale.orderId}';`),'0');
+ report.cases.push({name:'sale before tracking:financial return commits;quantity remains untouched for manual review',passed:true});
  await set(id(103),3);
  const beforePrecheck=await privateSnapshotForPrecheck();
  const shortage=await rpc(`lite3_pos_quantity_check223(${j([base(4)])})`);

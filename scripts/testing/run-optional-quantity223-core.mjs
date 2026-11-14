@@ -44,7 +44,7 @@ try{
   assert.deepEqual(current.filter(f=>!oldNames.has(f.identity)).map(f=>f.identity).sort(),[
    'public.lite3_counter_context223(uuid)',
    'public.lite3_low_counters223(integer,integer)',
-   'public.lite3_set_counter223(uuid,boolean,bigint,bigint,bigint,uuid)',
+   'public.lite3_set_counter223(uuid,boolean,bigint,bigint,bigint,uuid,uuid)',
   ].sort(),'QUANTITY223_UNEXPECTED_NEW_PUBLIC_FUNCTION');
  };
  await assertOldCatalog();
@@ -61,10 +61,34 @@ try{
  report.cases.push({name:'ON refuses counter API;OFF absent counter defaults disabled;reads create no rows',passed:true});
  const family=await rpc(`lite3_counter_context223('${id(100)}')`);
  assert.equal(family.isFamily,true);assert.deepEqual(family.products.map(p=>p.productId).sort(),[id(101),id(102)]);
- const setter=(pid,enabled,qty,threshold,rev,key)=>`lite3_set_counter223('${pid}',${enabled},${qty},${threshold},${rev},'${key}')`;
+ const setter=(pid,enabled,qty,threshold,rev,key,unit=id(10))=>`lite3_set_counter223('${pid}',${enabled},${qty},${threshold},${rev},'${key}','${unit}')`;
+ const staleUnit=await json(`BEGIN;
+ SELECT set_config('request.jwt.claims','${JSON.stringify({sub:id(1),role:'authenticated',aal:'aal2'})}',true);
+ SET LOCAL ROLE authenticated;
+ DO $unit$ DECLARE product public.products;replacement UUID;BEGIN
+  SELECT * INTO STRICT product FROM public.products WHERE id='${id(103)}';
+  PERFORM public.save_product_unit('وحدة اختبار القراءة القديمة','Q223-STALE-UNIT',1,NULL);
+  SELECT id INTO STRICT replacement FROM public.units WHERE code='Q223-STALE-UNIT';
+  PERFORM public.update_product_master_v6(product.id,product.updated_at,product.sku,product.barcode,product.name_ar,
+   product.description,product.category_id,product.brand_id,replacement,replacement,1,0,replacement,1,1000,0,0,NULL,true,NULL,1000,false);
+  BEGIN
+   PERFORM public.${setter(id(103),true,7,2,0,id(977))};
+   RAISE EXCEPTION 'STALE_UNIT_ACCEPTED';
+  EXCEPTION WHEN OTHERS THEN
+   IF SQLERRM NOT LIKE 'QUANTITY223_PRODUCT_UNIT_CHANGED:%' THEN RAISE;END IF;
+  END;
+ END $unit$;
+ RESET ROLE;
+ SELECT jsonb_build_object('counters',(SELECT count(*) FROM sales_lite3.quantity_counters),
+  'events',(SELECT count(*) FROM sales_lite3.quantity_events),'requests',(SELECT count(*) FROM sales_lite3.quantity_requests));
+ ROLLBACK;`);
+ assert.deepEqual(staleUnit,{counters:0,events:0,requests:0});
+ assert.equal((await context()).products[0].unitId,initial.products[0].unitId);
+ report.cases.push({name:'actual v6 unit change invalidates stale first activation;no counter,event or key written',passed:true});
  await assert.rejects(rpc(setter(id(100),true,3,2,0,id(900))),/QUANTITY223_SELLABLE_PRODUCT_REQUIRED/u);
  const firstCall=setter(id(103),true,3,2,0,id(901));
  const first=await rpc(firstCall);assert.equal(first.quantity,3);assert.equal(first.revision,1);
+ assert.equal(first.unitId,id(10));
  const replay=await rpc(firstCall);assert.equal(replay.idempotentReplay,true);assert.equal(replay.revision,1);
  assert.equal(await sql('SELECT count(*) FROM sales_lite3.quantity_events;'),'1');
  await assert.rejects(rpc(setter(id(103),true,4,2,0,id(901))),/QUANTITY223_IDEMPOTENCY_CONFLICT/u);

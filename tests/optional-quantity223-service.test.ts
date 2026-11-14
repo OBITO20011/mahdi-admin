@@ -18,9 +18,12 @@ test('quantity context verifies exact requested leaf,unit,revision and effective
 test('manual quantity uses one key and one CAS;errors or a lost reply cause no automatic retry',async()=>{
  let calls=0;const key='92600000-0000-4000-8000-000000000901';
  const result=await setOptionalQuantityWithRpc(row,{enabled:true,quantity:50,threshold:5},key,(name,args)=>{
-  calls++;assert.equal(name,'lite3_set_counter223');assert.deepEqual(args,{p_product_id:id,p_enabled:true,p_quantity:50,p_low_threshold:5,p_expected_revision:1,p_key:key});
-  return Promise.resolve({error:null,data:{success:true,idempotentReplay:false,productId:id,enabled:true,quantity:50,threshold:5,revision:2}});
+  calls++;assert.equal(name,'lite3_set_counter223');assert.deepEqual(args,{p_product_id:id,p_enabled:true,p_quantity:50,p_low_threshold:5,p_expected_revision:1,p_key:key,p_expected_unit_id:unit});
+  return Promise.resolve({error:null,data:{success:true,idempotentReplay:false,productId:id,unitId:unit,enabled:true,quantity:50,threshold:5,revision:2}});
  });assert.equal(result.revision,2);assert.equal(calls,1);
+ await assert.rejects(setOptionalQuantityWithRpc(row,{enabled:true,quantity:50,threshold:5},key,()=>Promise.resolve({
+  error:null,data:{success:true,idempotentReplay:false,productId:id,unitId:id,enabled:true,quantity:50,threshold:5,revision:2},
+ })),/OPTIONAL_QUANTITY_UNVERIFIED/u);
  for(const response of [{error:{code:'conflict'},data:null},{error:null,data:{success:true,revision:99}}]){
   calls=0;await assert.rejects(setOptionalQuantityWithRpc(row,{enabled:true,quantity:50,threshold:5},key,()=>{calls++;return Promise.resolve(response);}),/OPTIONAL_QUANTITY_UNVERIFIED/u);assert.equal(calls,1);
  }

@@ -47,11 +47,14 @@ export async function readOptionalQuantityWithRpc(productId:string,execute:Count
  if(error)throw unverified();return parseOptionalQuantityContext(data,productId);
 }
 export async function setOptionalQuantityWithRpc(row:OptionalQuantityRow,values:{enabled:boolean;quantity:number;threshold:number},key:string,execute:CounterRpc){
- if(!uuid(row.productId)||!uuid(key)||!whole(row.revision)||typeof values.enabled!=='boolean'||!whole(values.quantity)||values.quantity>1_000_000_000
+ if(!uuid(row.productId)||!uuid(row.unitId)||!uuid(key)||!whole(row.revision)||typeof values.enabled!=='boolean'||!whole(values.quantity)||values.quantity>1_000_000_000
  ||!whole(values.threshold)||values.threshold>1_000_000_000)throw unverified();
  // One owner intent,one key,one CAS. A lost response requires an explicit READ.
- const {data,error}=await execute('lite3_set_counter223',{p_product_id:row.productId,p_enabled:values.enabled,p_quantity:values.quantity,p_low_threshold:values.threshold,p_expected_revision:row.revision,p_key:key});
- if(error||!record(data)||data.success!==true||data.productId!==row.productId||data.enabled!==values.enabled
+ const {data,error}=await execute('lite3_set_counter223',{
+  p_product_id:row.productId,p_enabled:values.enabled,p_quantity:values.quantity,p_low_threshold:values.threshold,
+  p_expected_revision:row.revision,p_key:key,p_expected_unit_id:row.unitId,
+ });
+ if(error||!record(data)||data.success!==true||data.productId!==row.productId||data.unitId!==row.unitId||data.enabled!==values.enabled
  ||data.quantity!==values.quantity||data.threshold!==values.threshold||data.revision!==row.revision+1||typeof data.idempotentReplay!=='boolean')throw unverified();
  return {revision:row.revision+1};
 }

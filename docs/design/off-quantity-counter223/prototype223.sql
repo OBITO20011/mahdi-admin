@@ -90,8 +90,7 @@ BEGIN
  SELECT * INTO p FROM public.products WHERE id=p_product_id;
  IF NOT FOUND THEN RAISE EXCEPTION 'QUANTITY223_PRODUCT_REQUIRED';END IF;
  family:=p.is_flavor_master OR EXISTS(SELECT 1 FROM public.products c WHERE c.flavor_master_product_id=p.id);
- -- Unit conversion policy is pending owner review. Never label a historical
- -- count with a different current unit while that decision remains open.
+ -- Never label a previously tracked quantity with a different base unit.
  IF EXISTS(SELECT 1 FROM public.products leaf JOIN sales_lite3.quantity_counters c ON c.product_id=leaf.id
   WHERE c.ever_enabled AND c.unit_id IS DISTINCT FROM leaf.unit_id
   AND((NOT family AND leaf.id=p.id) OR(family AND leaf.flavor_master_product_id=p.id))) THEN
@@ -114,7 +113,8 @@ BEGIN
 END $$;
 
 CREATE FUNCTION public.lite3_set_counter223(
- p_product_id UUID,p_enabled BOOLEAN,p_quantity BIGINT,p_low_threshold BIGINT,p_expected_revision BIGINT,p_key UUID
+ p_product_id UUID,p_enabled BOOLEAN,p_quantity BIGINT,p_low_threshold BIGINT,p_expected_revision BIGINT,p_key UUID,
+ p_expected_unit_id UUID
 ) RETURNS JSONB LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog,public,extensions AS $$
 DECLARE p public.products;c sales_lite3.quantity_counters;r sales_lite3.quantity_requests;
  fingerprint TEXT;result JSONB;old_configuration JSONB;new_configuration JSONB;unit_name TEXT;
@@ -122,12 +122,12 @@ DECLARE p public.products;c sales_lite3.quantity_counters;r sales_lite3.quantity
 BEGIN
  PERFORM sales_lite3.assert_owner223();PERFORM sales_lite1.lock_mode();
  IF NOT sales_lite1.enabled() THEN RAISE EXCEPTION 'QUANTITY223_OFF_REQUIRED';END IF;
- IF p_product_id IS NULL OR p_key IS NULL OR p_enabled IS NULL OR p_expected_revision IS NULL OR p_expected_revision<0
+ IF p_product_id IS NULL OR p_key IS NULL OR p_expected_unit_id IS NULL OR p_enabled IS NULL OR p_expected_revision IS NULL OR p_expected_revision<0
  OR p_quantity IS NULL OR p_quantity NOT BETWEEN 0 AND 1000000000
  OR p_low_threshold IS NULL OR p_low_threshold NOT BETWEEN 0 AND 1000000000 THEN
   RAISE EXCEPTION 'QUANTITY223_INPUT_INVALID: أدخل كمية وحدّ تنبيه صحيحين وغير سالبين.';
  END IF;
- fingerprint:=encode(extensions.digest(jsonb_build_object('product',p_product_id,'enabled',p_enabled,'quantity',p_quantity,'threshold',p_low_threshold,'revision',p_expected_revision)::TEXT,'sha256'),'hex');
+ fingerprint:=encode(extensions.digest(jsonb_build_object('product',p_product_id,'enabled',p_enabled,'quantity',p_quantity,'threshold',p_low_threshold,'revision',p_expected_revision,'unit',p_expected_unit_id)::TEXT,'sha256'),'hex');
  PERFORM pg_advisory_xact_lock(hashtextextended('optional-quantity223:'||p_key::TEXT,0));
  SELECT * INTO r FROM sales_lite3.quantity_requests WHERE key=p_key;
  IF FOUND THEN
@@ -137,6 +137,9 @@ BEGIN
  SELECT * INTO p FROM public.products WHERE id=p_product_id FOR UPDATE;
  IF NOT FOUND OR p.is_flavor_master OR EXISTS(SELECT 1 FROM public.products child WHERE child.flavor_master_product_id=p.id) THEN
   RAISE EXCEPTION 'QUANTITY223_SELLABLE_PRODUCT_REQUIRED: عدّاد مستقل للمنتج القابل للبيع أو لكل نكهة؛ لا يُفعّل للأب.';
+ END IF;
+ IF p.unit_id IS DISTINCT FROM p_expected_unit_id THEN
+  RAISE EXCEPTION 'QUANTITY223_PRODUCT_UNIT_CHANGED: تغيّرت وحدة الأساس منذ قراءتها؛ أعد القراءة قبل حفظ الكمية.';
  END IF;
  SELECT * INTO c FROM sales_lite3.quantity_counters WHERE product_id=p.id FOR UPDATE;
  old_revision:=COALESCE(c.revision,0);old_quantity:=COALESCE(c.quantity,0);
@@ -162,7 +165,7 @@ BEGIN
  INSERT INTO public.audit_logs(user_id,action,entity_name,entity_id,details)
  VALUES(auth.uid(),'SET_OPTIONAL_QUANTITY','products',p.id,jsonb_build_object('before',old_configuration||jsonb_build_object('quantity',old_quantity,'revision',old_revision),
   'after',new_configuration||jsonb_build_object('quantity',p_quantity,'revision',next_revision),'requestKey',p_key));
- result:=jsonb_build_object('success',true,'idempotentReplay',false,'productId',p.id,'enabled',p_enabled,'quantity',p_quantity,'threshold',p_low_threshold,'revision',next_revision);
+ result:=jsonb_build_object('success',true,'idempotentReplay',false,'productId',p.id,'unitId',p.unit_id,'enabled',p_enabled,'quantity',p_quantity,'threshold',p_low_threshold,'revision',next_revision);
  INSERT INTO sales_lite3.quantity_requests(key,actor_id,fingerprint,result) VALUES(p_key,auth.uid(),fingerprint,result);
  RETURN result;
 END $$;
@@ -188,9 +191,9 @@ ALTER FUNCTION sales_lite3.immutable223() OWNER TO postgres;
 ALTER FUNCTION sales_lite3.assert_owner223() OWNER TO postgres;
 REVOKE ALL ON ALL FUNCTIONS IN SCHEMA sales_lite3 FROM PUBLIC,anon,authenticated,service_role;
 ALTER FUNCTION public.lite3_counter_context223(UUID) OWNER TO postgres;
-ALTER FUNCTION public.lite3_set_counter223(UUID,BOOLEAN,BIGINT,BIGINT,BIGINT,UUID) OWNER TO postgres;
+ALTER FUNCTION public.lite3_set_counter223(UUID,BOOLEAN,BIGINT,BIGINT,BIGINT,UUID,UUID) OWNER TO postgres;
 ALTER FUNCTION public.lite3_low_counters223(INTEGER,INTEGER) OWNER TO postgres;
-REVOKE ALL ON FUNCTION public.lite3_counter_context223(UUID),public.lite3_set_counter223(UUID,BOOLEAN,BIGINT,BIGINT,BIGINT,UUID),public.lite3_low_counters223(INTEGER,INTEGER) FROM PUBLIC,anon,authenticated,service_role;
-GRANT EXECUTE ON FUNCTION public.lite3_counter_context223(UUID),public.lite3_set_counter223(UUID,BOOLEAN,BIGINT,BIGINT,BIGINT,UUID),public.lite3_low_counters223(INTEGER,INTEGER) TO authenticated;
+REVOKE ALL ON FUNCTION public.lite3_counter_context223(UUID),public.lite3_set_counter223(UUID,BOOLEAN,BIGINT,BIGINT,BIGINT,UUID,UUID),public.lite3_low_counters223(INTEGER,INTEGER) FROM PUBLIC,anon,authenticated,service_role;
+GRANT EXECUTE ON FUNCTION public.lite3_counter_context223(UUID),public.lite3_set_counter223(UUID,BOOLEAN,BIGINT,BIGINT,BIGINT,UUID,UUID),public.lite3_low_counters223(INTEGER,INTEGER) TO authenticated;
 NOTIFY pgrst,'reload schema';
 COMMIT;

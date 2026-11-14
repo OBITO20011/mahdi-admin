@@ -14,12 +14,13 @@ async function setup(page:Page,query='',failure:'none'|'lost'|'stale'='none'){
  });
  await page.route('**/rpc/lite3_set_counter223',async route=>{
   const args=route.request().postDataJSON();writes.push(args);const previous=current(args.p_product_id);
+  expect(args.p_expected_unit_id).toBe(packet);
   if(failure==='stale')counters.set(args.p_product_id,{...previous,quantity:7,revision:previous.revision+1});
   if(args.p_expected_revision!==current(args.p_product_id).revision)return route.fulfill({status:400,json:{code:'P0001',message:'QUANTITY223_CONFLICT'}});
   const after={enabled:args.p_enabled,quantity:args.p_quantity,threshold:args.p_low_threshold,revision:previous.revision+1,everEnabled:previous.everEnabled||args.p_enabled};
   counters.set(args.p_product_id,after);
   if(failure==='lost')return route.abort('connectionreset');
-  return route.fulfill({json:{success:true,idempotentReplay:false,productId:args.p_product_id,enabled:after.enabled,quantity:after.quantity,threshold:after.threshold,revision:after.revision}});
+  return route.fulfill({json:{success:true,idempotentReplay:false,productId:args.p_product_id,unitId:packet,enabled:after.enabled,quantity:after.quantity,threshold:after.threshold,revision:after.revision}});
  });
  await page.route('**/rpc/lite3_low_counters223',route=>{
   lowReads++;return route.fulfill({json:{contractVersion:'optional-quantity223-v1',page:1,pageSize:20,total:1,products:[{productId:inventoryProducts[0].id,sku:'TEST-ZERO',name:'صنف قرب يخلص',unitName:'باكيت',quantity:0,threshold:2,revision:1}]}});

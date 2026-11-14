@@ -168,8 +168,8 @@ CREATE TRIGGER optional_quantity_unit223 BEFORE UPDATE OF unit_id ON public.prod
 FOR EACH ROW EXECUTE FUNCTION sales_lite3.guard_base_unit223();
 
 -- The existing return writer has already validated and sealed this physical
--- allocation. Credit only resellable goods, once per return/product. Legacy
--- untracked sales have no debit provenance and remain inert in this hook.
+-- allocation. Credit only resellable goods, once per return/product.
+-- The owner reviews returned quantities manually if the sale never debited the counter.
 CREATE FUNCTION sales_lite3.return_credit223() RETURNS TRIGGER
 LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog,public AS $$
 DECLARE oid UUID;r RECORD;c sales_lite3.quantity_counters;p public.products;configuration JSONB;unit_name TEXT;
