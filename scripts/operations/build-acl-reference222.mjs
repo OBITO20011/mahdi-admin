@@ -8,6 +8,7 @@ import {assertReady222Reference,ready222ReferenceName} from './frankfurt-referen
 import {operationalManifest} from './operational-schema.mjs';
 import {DEFAULT_WORKDIR,assertOutsideRepository} from './frankfurt-owner-build.mjs';
 import {inventory} from '../audit/table-access-inventory.mjs';
+import {sourceBeforeOptionalQuantity223} from '../audit/source-before-optional-quantity223.mjs';
 import {manifestDigest,canonicalLf,sha256} from '../testing/maintenance-db-contract.mjs';
 import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
 import {realtimePublicationSql} from '../testing/realtime151-contract.mjs';
@@ -19,12 +20,12 @@ export async function buildReady222Reference(args=[]){
  const target=path.resolve(args[1]??path.join(DEFAULT_WORKDIR,ready222ReferenceName));assert.equal(path.basename(target),ready222ReferenceName);assertOutsideRepository(target);await mkdir(path.dirname(target),{recursive:true});assertOutsideRepository(await realpath(path.dirname(target)),await realpath(root));await assert.rejects(()=>readFile(target),{code:'ENOENT'},'REFERENCE_ALREADY_EXISTS');
  const output=await mkdtemp(path.join(tmpdir(),'nawasrah-reference222-')),report={ok:false,output,target,managedAccess:false,ownerDemoAccess:false};
  try{
-  const freeze=await readVerificationSourceFreeze(root),manifest=(await operationalManifest()).filter(unit=>Number(unit.name.slice(0,3))<=222),source=await inventory({projectSource:(await import('../audit/source-before-optional-quantity223.mjs')).sourceBeforeOptionalQuantity223});
+  const freeze=await readVerificationSourceFreeze(root),manifest=(await operationalManifest()).filter(unit=>Number(unit.name.slice(0,3))<=222),source=await inventory({projectSource:sourceBeforeOptionalQuantity223});
   const proofText=canonicalLf(await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_222.json'),'utf8')),proof=JSON.parse(proofText);
   const captured=await capturePrices222Reference(output);assert.equal(captured.manifestSha256,manifestDigest(manifest));
   const final=captured.prefixes['222'];
   const reference={format:32,migrationCeiling:222,frankfurtFrozenTriggerAcl:frankfurt220TriggerAcl,manifest,manifestDigest:manifestDigest(manifest),...final,postgresVersion:captured.postgresVersion,catalogQuerySha256:sha256(schemaCatalogSql),functions:captured.functions,realtimeQuerySha256:sha256(realtimePublicationSql),realtimeSha256:sha256(JSON.stringify(final.realtimePublication)),prefixes:captured.prefixes,freshIncrementalDifferenceCount:0,notificationSnapshot:captured.notificationSnapshot,cronAudit:captured.cronAudit,readiness:{sourceHashes:source.sources,accessEvidenceSha256:sha256(proofText),coverage:proof.coverage,queries:proof.results.length,errors:0}};
-  assertReady222Reference(reference,manifest,proofText,source);assert.deepEqual((await inventory()).sources,source.sources);assertVerificationSourceFreeze(freeze,await readVerificationSourceFreeze(root));
+  assertReady222Reference(reference,manifest,proofText,source);assert.deepEqual((await inventory({projectSource:sourceBeforeOptionalQuantity223})).sources,source.sources);assertVerificationSourceFreeze(freeze,await readVerificationSourceFreeze(root));
   await writeFile(target,JSON.stringify(reference,null,2)+'\n',{flag:'wx'});Object.assign(report,{ok:true,repositoryStayedFrozen:true,migrations:182,functions:683,realtimeMembers:13,freshIncrementalDifferenceCount:0});
  }catch(error){report.error=String(error.message);report.bootstrapDiagnostic=error.localBootstrapDiagnostic??null;throw error;}
  finally{await writeFile(path.join(output,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));}

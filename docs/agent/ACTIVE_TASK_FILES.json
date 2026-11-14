@@ -7,18 +7,6 @@
     },
     {
       "code": " M",
-      "path": "docs/agent/project-state.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/design/off-quantity-counter223/OWNER_POLICY_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/generated/DB_FUNCTIONS.md"
-    },
-    {
-      "code": " M",
       "path": "docs/handover/ورقة-يوم-التشغيل.html"
     },
     {
@@ -27,43 +15,19 @@
     },
     {
       "code": " M",
+      "path": "docs/MAINTAINER_GUIDE_AR.md"
+    },
+    {
+      "code": " M",
       "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
     },
     {
       "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+      "path": "scripts/audit/optional-quantity223-source-pins.json"
     },
     {
       "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/agent/lib.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/agent/preflight.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/run-service-access-diagnostic.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/run-table-access-diagnostic.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/source-before-independent-prices222.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/backup/complete-backup.mjs"
+      "path": "scripts/audit/source-before-optional-quantity223.mjs"
     },
     {
       "code": " M",
@@ -71,203 +35,71 @@
     },
     {
       "code": " M",
-      "path": "scripts/operations/frankfurt-owner-reset220.mjs"
+      "path": "scripts/operations/reset222-foundation.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/operations/frankfurt-owner-reset222.mjs"
+      "path": "scripts/testing/generate-independent-prices222-catalog.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/operations/frankfurt-owner-upgrade220.mjs"
+      "path": "scripts/testing/package-f-ci-shards.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/operations/frankfurt-owner-upgrade222.mjs"
+      "path": "tests/bulk-product-images-contracts.test.ts"
     },
     {
       "code": " M",
-      "path": "scripts/operations/frankfurt-reference222.mjs"
+      "path": "tests/independent-prices222-operations.test.ts"
     },
     {
       "code": " M",
-      "path": "scripts/operations/function-reference222.mjs"
+      "path": "tests/independent-prices222-projection.test.ts"
     },
     {
       "code": " M",
-      "path": "scripts/operations/trial-reset222-core.mjs"
+      "path": "tests/lite220-handover.test.ts"
     },
     {
       "code": " M",
-      "path": "scripts/testing/build-independent-prices222-history.mjs"
+      "path": "tests/lite220-historical-test-view.test.ts"
     },
     {
       "code": " M",
-      "path": "scripts/testing/build-independent-prices222-tools.mjs"
+      "path": "tests/literal220-catalog-manifest.test.ts"
     },
     {
       "code": " M",
-      "path": "scripts/testing/independent-prices222-local.mjs"
+      "path": "tests/migration-integrity.test.ts"
     },
     {
       "code": " M",
-      "path": "scripts/testing/legacy219-restore-lifecycle220.mjs"
+      "path": "tests/operational-schema.test.ts"
     },
     {
       "code": " M",
-      "path": "scripts/testing/product-workbook-runtime-view.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-home219-operations-gates.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/service-access-inventory.test.ts"
-    },
-    {
-      "code": "??",
-      "path": ".github/workflows/optional-quantity223.yml"
-    },
-    {
-      "code": "??",
-      "path": "docs/design/off-quantity-counter223/catalog223-pins.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/design/off-quantity-counter223/tool222-source-pins.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/SERVICE_ACCESS_AFTER_223.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_223.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/UPGRADE223_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/optional-quantity223-source-pins.json"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/source-before-optional-quantity223.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/build-acl-reference223.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/d1-known-owner223-files.json"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/d1-reference223-ci.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/d1-reference223-install.ps1"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/d1-reference223-kit.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/d1-reference223-kit.ps1"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/d1-reference223-state.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/frankfurt-owner-reset223.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/frankfurt-owner-upgrade223.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/frankfurt-reference223.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/function-reference223.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/optional-quantity223-catalog.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/reset223-foundation.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/reset223-pg-cron-guard.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/reset223-private-state.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/reset223-session.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/reset223-write-guard.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/trial-reset223-core.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/upgrade223-data.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/upgrade223-protection.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/build-optional-quantity223-history.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/build-optional-quantity223-migration.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/build-optional-quantity223-tools.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/capture-optional-quantity223-catalog.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/run-owner-upgrade223-runtime.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/run-reset223-runtime.mjs"
-    },
-    {
-      "code": "??",
-      "path": "supabase/migrations/223_optional_sales_quantity.sql"
-    },
-    {
-      "code": "??",
       "path": "tests/optional-quantity223-operations.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/package-f-ci-shards.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/sales-only-phase1.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/D1_REFERENCE_KIT223_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/RESET223_OWNER_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "tests/d1-reference223-kit.test.ts"
     }
   ]
 }

@@ -3,32 +3,33 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner14Nov approved4-6days:optionalOFF quantity counter in separateDraft/new223(NOT221). Newprivate tables only;no accountingtables/220guard/ON changes. Stockdebit atwebsitecreation/POS;cancel/return/manualCAS/owner217alerts;RESET/D1/CI;postgreen no-resetdemo. No merge/hosted/deploy/owneroriginals.",
-  "baselineSha": "f0a344de33c74d06db9ab93a2275269dab2ff06c",
+  "baselineSha": "61795a8920d0bdf6d1fbe869e63e15f3dc12c365",
   "branch": "codex/off-quantity-counter",
   "phase": "OFF_QUANTITY_COUNTER",
   "startedAt": "2026-11-14T11:22:06.576Z",
   "completed": [
-    "Prerequisite97 main0bd green/primary ff-only/preflight/demo no-reset complete.",
-    "Core f0a344de pushed. Actual PG23 groups PASS: fullON money/stock/cost/receipt/shift parity; OFF untracked JSON parity; sale/cancel/goodreturn/CAS/unit-lock/roles/replay/rollback/concurrency; accounting tables empty.",
-    "Owner policies all resolved: good returns only; base unit frozen after first enable; no public exact count; pre-counter invoice quantity manual review.",
-    "True browser→Edge/SQL Chromium/WebKit390 2/2 PASS271669ms;6guestorders/2POS shortage audits; synthetic identity/siteverify, not GoTrue/TOTP proof.",
-    "223 actual catalog fresh/incremental0diff,687public/51private;HTTP181 reads0errors,RPC732probes18expecteddenials. Reference test-only ready20ca8266,notinstalled.",
-    "Actual encrypted222BackupRestore→223apply9878ms→223BackupRestore/verify PASS+six negatives;tracked-counterBackupRestore strict PASS. RESET223 normal24109ms and3resumes PASS with retainedAuth/MFA/rawmoney/ACL/pgnet; foreign write witness rejected."
+    "Prerequisite97 main0bd green;primary ff-only/preflight;demo no-reset complete. Coref0 and223operations61795a89 pushed.",
+    "PG23 PASS:ON full financial/stock/cost/receipt/shift parity;untrackedOFF JSON parity;counter lifecycle/CAS/unitidentity/legacyreturns/roles/replay/rollback/concurrency;accounting tables empty.",
+    "Owner policies resolved:resellable-only;unit frozen after first enable;no exact public count;pre-counter invoice quantity manual review. True browser→Edge/SQL2/2 Chromium/WebKit390 PASS;synthetic identity/siteverify,not GoTrue/TOTP.",
+    "223 actual fresh/incremental0diff,687public/51private;HTTP181/RPC732;ready223 test-only/uninstalled. Encrypted222BackupRestore→223apply9.9s→BackupRestore/verify PASS;tracked private archive strictPASS. RESET223+3resumes PASS.",
+    "From current223 sources:actual222 fresh/incremental0;683/39;ready222 PASS. Encrypted220BackupRestore→222apply8.8s→BackupRestore/verify PASS. RESET22241.1s+3resumes32.5/34.2/33.8s PASS,Auth/MFA/rawmoney/ACL/pgnet retained.",
+    "Final typesboth0/strictlint0;focused compatibility corrected with literal223/current counts and exact222 projection. Initial fullunits2022/2042,20failures:19 compatibility,one120s history timeout;direct history0/53.8s under unchanged120s.",
+    "Actual browser partition2002 identities:762core(393Chromium/369WebKit),1240 in same10shards;no missing/duplicates/settingsdelta. Focused routing/ops13PASS. Card2A4 content973/866px<1046,fonts unchanged."
   ],
   "inProgress": [
-    "Versioned223 adapters/access/cutover prepared; exact historical219–222 source projection under verification. Active223 migration now present."
+    "Final committed-head full units, DraftPR/fullCI and Gitleaks. No productSQL change since f0/d5d6397b."
   ],
   "notStarted": [
-    "Full units/types/strictlint/FULLCI/Gitleaks;post-green-only demo update withoutreset."
+    "Afterfullgreen only:demo223 application/build withoutreset;one product test then trackingoff."
   ],
   "testsPassed": [
-    "PG23;UI36;truefullstack2;223ops4units;operations/types/changedlint0 beforelatest legacy compatibility edits."
+    "PG23;UI/regression36;truefullstack2;223protection/RESET;actual222compatibility;13routing/ops;typesboth/strictlint0;printfit."
   ],
   "testsRemaining": [
-    "Historical tools generators/currentunits/types/strictlint;fullCI;Gitleaks;postCI demo."
+    "Fullcurrent units;FULLCI exacthead;Gitleaks;postCI demo."
   ],
   "findings": [
-    "223 adds private optional counters only;220 guards and accounting tables/writers unchanged. Migration SHA d5d6397bd5d676f766493b7a85b1f47ad6f1b6f6c465e7b4a32219ee49abc0af."
+    "Migration223 d5d6397bd5d676f766493b7a85b1f47ad6f1b6f6c465e7b4a32219ee49abc0af;220 guards/accounting tables/ON unchanged. Draft98 price76/78:cancelled40min opening-cheques/log404,unknown cause;no further rerun."
   ],
   "blockers": [],
   "prohibitions": [
@@ -37,15 +38,15 @@
     "No owneroriginals/private/MFA/TLS/demo changes beforeFULLgreenCI"
   ],
   "evidence": "C:/Users/TOP/NawasrahLocalValidation/off-quantity-counter-20261114",
-  "nextExactAction": "223 protection milestone verified;finish legacy/current unit compatibility, types/lint, DraftPR fullCI. Demo unchanged.",
+  "nextExactAction": "Final types/strictlint and real223+legacy222 protection PASS. Save/push;DraftPR/fullCI and full local units at concurrency2. No demo beforefullgreen.",
   "activeProcesses": [
-    "Ownerdemo running;no task-owned verification process. Draft98 price CI76/78:legacy opening-cheques job cancelled40min,logs404,causeunverified. No rerun."
+    "No task-owned DBs after compatibility gates;ownerdemo remains running."
   ],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "D502576BC57437C1485B8E4017811A77B2DCAEBCC040B0FF8993C87360363342",
-  "checkpointedAt": "2026-11-14T19:21:56.479Z",
-  "filesTouchedCount": 67,
-  "filesTouchedManifestSha256": "d46f348c9b8e0a961bc02441e1f21055256e020d0256041111480a8d03a74598"
+  "workingTreeFingerprint": "E2F9868E280F96F9A2251ADDA093183E3346713FFBA39A1E3CE2EC7CDE64087A",
+  "checkpointedAt": "2026-11-14T20:13:05.101Z",
+  "filesTouchedCount": 25,
+  "filesTouchedManifestSha256": "d5cf10f0a4bc75b312fceec846253db62228da7078b88313a012472542527326"
 }

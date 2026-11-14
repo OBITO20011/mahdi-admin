@@ -39,9 +39,13 @@ export function pathsBeforeOptionalQuantity223(files,reference){
   const projected=sourceBeforeOptionalQuantity223(file,raw);
   if(projected===null)return false;
   if(projected===raw||!reference)return true;
-  const original=execFileSync('git',['show',reference+':'+file],{
-   encoding:'utf8',stdio:['ignore','pipe','pipe'],windowsHide:true,maxBuffer:64*1024**2,
-  });
-  return canonicalLf(original)!==projected;
+  // An intervening layer can have introduced this path after reference.
+  // Keep it visible for that older layer instead of treating absence as equality.
+  try{
+   const original=execFileSync('git',['show',reference+':'+file],{
+    encoding:'utf8',stdio:['ignore','pipe','pipe'],windowsHide:true,maxBuffer:64*1024**2,
+   });
+   return canonicalLf(original)!==projected;
+  }catch{return true;}
  });
 }
