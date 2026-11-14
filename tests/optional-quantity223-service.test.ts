@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {parseOptionalQuantityContext,parseOptionalQuantityInput,readOptionalQuantityWithRpc,setOptionalQuantityWithRpc,readOptionalQuantityShortagesWithRpc} from '../src/services/supabase/optionalQuantity.service';
+import {parseOptionalQuantityContext,parseOptionalQuantityInput,readOptionalQuantityWithRpc,setOptionalQuantityWithRpc,readOptionalQuantityShortagesWithRpc,readLowOptionalQuantityWithRpc} from '../src/services/supabase/optionalQuantity.service';
 const id='92600000-0000-4000-8000-000000000103',unit='92600000-0000-4000-8000-000000000010';
 const row={productId:id,name:'اختبار الكمية',flavorName:null,sku:'Q-TEST',unitId:unit,unitName:'باكيت',enabled:true,quantity:3,threshold:2,revision:1,everEnabled:true,active:true,manualAvailable:true,effectiveAvailable:true};
 const context={contractVersion:'optional-quantity223-v1',fullAccounting:false,productId:id,isFamily:false,products:[row]};
@@ -39,4 +39,14 @@ test('owner POS shortage precheck validates current cart identities and actual u
  });
  assert.deepEqual(await read([shortage]),[shortage]);assert.equal(calls,1);assert.deepEqual(await read([]),[]);
  for(const wrong of [[shortage,shortage],[{...shortage,productId:unit}],[{...shortage,required:3}],[{...shortage,quantity:-1}],[{...shortage,unitName:''}]])await assert.rejects(read(wrong),/OPTIONAL_QUANTITY_UNVERIFIED/u);
+});
+test('owner low-counter list is bounded and verifies server page/count and actual low/zero rows',async()=>{
+ const low={productId:id,sku:'Q-LOW',name:'صنف قرب يخلص',unitName:'باكيت',quantity:1,threshold:2,revision:3};let calls=0;
+ const read=(products:unknown[],patch:Record<string,unknown>={})=>readLowOptionalQuantityWithRpc(1,(name,args)=>{
+  calls++;assert.equal(name,'lite3_low_counters223');assert.deepEqual(args,{p_page:1,p_page_size:20});return Promise.resolve({error:null,data:{contractVersion:'optional-quantity223-v1',page:1,pageSize:20,total:1,products,...patch}});
+ });
+ assert.deepEqual((await read([low])).products,[low]);assert.equal(calls,1);
+ for(const products of [[low,low],[{...low,quantity:2}],[{...low,revision:-1}]])await assert.rejects(read(products),/OPTIONAL_QUANTITY_UNVERIFIED/u);
+ await assert.rejects(read([low],{page:2}),/OPTIONAL_QUANTITY_UNVERIFIED/u);
+ await assert.rejects(read([low],{total:0}),/OPTIONAL_QUANTITY_UNVERIFIED/u);
 });

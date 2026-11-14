@@ -1,4 +1,5 @@
 import {BulkProductImagesPanel} from './BulkProductImagesPanel';
+import {LowOptionalQuantityList} from '../operatingMode/LowOptionalQuantityList';
 import {Card,FormFields,UiButton,PageHeader,MoneyText,formatJod} from '../../components/ui';
 import React, { useEffect, useMemo, useState } from 'react';
 import {
@@ -292,6 +293,7 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
       </div>
 
       <BulkProductImagesPanel onSaved={() => setRefreshToken(value => value + 1)} />
+      {salesOnly&&<LowOptionalQuantityList/>}
 
       {!salesOnly && (metrics.lowStock > 0 || metrics.outOfStock > 0) && (
         <div className="flex items-center justify-between rounded-2xl border border-nw-border bg-nw-warn-bg px-3 py-2.5">

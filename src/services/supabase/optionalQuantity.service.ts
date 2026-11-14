@@ -10,7 +10,7 @@ export interface OptionalQuantityRow {
 export interface OptionalQuantityContext {
  contractVersion:'optional-quantity223-v1';fullAccounting:false;productId:string;isFamily:boolean;products:OptionalQuantityRow[];
 }
-type CounterRpc=(name:'lite3_counter_context223'|'lite3_set_counter223'|'lite3_pos_quantity_check223',args:Record<string,unknown>)=>PromiseLike<{data:unknown;error:unknown}>;
+type CounterRpc=(name:'lite3_counter_context223'|'lite3_set_counter223'|'lite3_pos_quantity_check223'|'lite3_low_counters223',args:Record<string,unknown>)=>PromiseLike<{data:unknown;error:unknown}>;
 const uuid=(v:unknown):v is string=>typeof v==='string'&&/^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$/iu.test(v);
 const record=(v:unknown):v is Record<string,unknown>=>!!v&&typeof v==='object'&&!Array.isArray(v);
 const whole=(v:unknown):v is number=>typeof v==='number'&&Number.isSafeInteger(v)&&v>=0;
@@ -70,6 +70,22 @@ export async function readOptionalQuantityShortagesWithRpc(lines:readonly PosV2L
   return {productId:value.productId.toLowerCase(),name:value.name,unitName:value.unitName,quantity:value.quantity,required:value.required,revision:value.revision};
  });
 }
+export interface LowOptionalQuantity {productId:string;sku:string;name:string;unitName:string;quantity:number;threshold:number;revision:number}
+export async function readLowOptionalQuantityWithRpc(page:number,execute:CounterRpc){
+ if(!Number.isInteger(page)||page<1||page>100000)throw unverified();
+ const {data,error}=await execute('lite3_low_counters223',{p_page:page,p_page_size:20});
+ if(error||!record(data)||data.contractVersion!=='optional-quantity223-v1'||data.page!==page||data.pageSize!==20
+ ||!whole(data.total)||!Array.isArray(data.products)||data.products.length>20||data.total<data.products.length)throw unverified();
+ const seen=new Set<string>();
+ const products=data.products.map((value:unknown):LowOptionalQuantity=>{
+  if(!record(value)||!uuid(value.productId)||seen.has(value.productId.toLowerCase())||typeof value.name!=='string'||typeof value.sku!=='string'
+  ||typeof value.unitName!=='string'||!value.unitName.trim()||!whole(value.quantity)||!whole(value.threshold)||!whole(value.revision)
+  ||(value.quantity!==0&&value.quantity>=value.threshold))throw unverified();
+  seen.add(value.productId.toLowerCase());
+  return {productId:value.productId.toLowerCase(),sku:value.sku,name:value.name,unitName:value.unitName,quantity:value.quantity,threshold:value.threshold,revision:value.revision};
+ });
+ return {page,total:data.total,products};
+}
 const clientRpc:CounterRpc=(name,args)=>{
  if(!isSupabaseConfigured||!supabase)throw unverified();
  return supabase.rpc(name,args);
@@ -77,3 +93,4 @@ const clientRpc:CounterRpc=(name,args)=>{
 export const fetchOptionalQuantity=(productId:string)=>readOptionalQuantityWithRpc(productId,clientRpc);
 export const saveOptionalQuantity=(row:OptionalQuantityRow,values:{enabled:boolean;quantity:number;threshold:number},key:string)=>setOptionalQuantityWithRpc(row,values,key,clientRpc);
 export const fetchOptionalQuantityShortages=(lines:readonly PosV2Line[])=>readOptionalQuantityShortagesWithRpc(lines,clientRpc);
+export const fetchLowOptionalQuantity=(page:number)=>readLowOptionalQuantityWithRpc(page,clientRpc);
