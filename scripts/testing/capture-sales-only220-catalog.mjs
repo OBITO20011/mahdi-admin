@@ -1,3 +1,4 @@
+import {reviewed220CatalogManifest} from './literal220-catalog-manifest.mjs';
 import assert from 'node:assert/strict';
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
@@ -22,7 +23,7 @@ async function boot(ceiling){const r=await exec(process.execPath,['scripts/testi
 async function stop(){if(!local)return;await owned();await exec(process.execPath,[cli,'stop','--workdir',local,'--no-backup'],{cwd:root,windowsHide:true,maxBuffer:8*1024**2});local=null;ownedId=null;}
 const capture=async()=>({catalog:await json(schemaCatalogSql),realtime:await readRealtimePublication(executor),appliedVersions:await json('SELECT jsonb_agg(version ORDER BY version) FROM supabase_migrations.schema_migrations;'),buildUtcDate:await sql("SELECT(CURRENT_TIMESTAMP AT TIME ZONE 'UTC')::date;")});
 try{
- const freeze=await readVerificationSourceFreeze(root),manifest=await migrationManifest(root),artifact=await readFile(path.join(root,'supabase/migrations',salesOnly220Name),'utf8');
+ const freeze=await readVerificationSourceFreeze(root),manifest=reviewed220CatalogManifest(await migrationManifest(root)),artifact=await readFile(path.join(root,'supabase/migrations',salesOnly220Name),'utf8');
  await boot(219);const original=await capture(),rows=await json(functionCatalogSql);assert.equal(buildSalesOnly220(rows),artifact);
  await sql(artifact);await sql("INSERT INTO supabase_migrations.schema_migrations(version,name,statements) VALUES('220','sales_only_operating_mode','{}');");const incremental=await capture();await stop();
  await boot(220);const fresh=await capture(),difference=catalogDifference(incremental.catalog,fresh.catalog,{beforeBuildDate:incremental.buildUtcDate,afterBuildDate:fresh.buildUtcDate});

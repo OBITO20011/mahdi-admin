@@ -3,35 +3,19 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
-    },
-    {
-      "code": " M",
       "path": "scripts/audit/independent-prices222-source-pins.json"
     },
     {
       "code": " M",
-      "path": "scripts/testing/build-reset220-engine.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/legacy219-restore-lifecycle220.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/product-workbook-db-transport.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-home219-operations-gates.mjs"
+      "path": "scripts/testing/capture-sales-only220-catalog.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/testing/pre222-product-workbook-plugin.mjs"
+      "path": "scripts/testing/literal220-catalog-manifest.mjs"
     },
     {
       "code": "??",
-      "path": "tests/pre222-product-workbook-plugin.test.ts"
+      "path": "tests/literal220-catalog-manifest.test.ts"
     }
   ]
 }

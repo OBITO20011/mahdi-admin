@@ -3,7 +3,7 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner14Nov approved3-4days:OFF independent single/parcel prices;222 only,221reserved;Draft97/FULLCI/Gitleaks;only after greenCI no-reset iPhone demo update. No merge/hosted/deploy/ON behavior change.",
-  "baselineSha": "a223d0f907d08ab54246d671742cd2eb4db9f275",
+  "baselineSha": "80979b3b3ee824df7b20bbbf91583ce8409c4d5f",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/parcel-independent-price",
   "phase": "PARCEL_INDEPENDENT_PRICE",
@@ -13,11 +13,11 @@
     "Fresh/incremental2220diff,683public+39private;actual HTTP181/0errors,RPC720/18expecteddenials;ready222local unapproved/uninstalled. Encrypted220BackupRestore→222apply→222BackupRestore→verify-only PASS6negatives.",
     "RESET222+3resumes PASS. Legacy220RESET31.3s+3resumes PASS retaining rawAuth/MFA/money/ACL/pgNet;unknown metadata policies rejected. Workbook d9ed1c82 unchanged750roots108families444flavors/parser0errors.",
     "Typesboth0,strictlint0;OFF editor6/6 Chromium/WebKit390 PASS. Committed disposable Git63 runtime view194exact substitutions/roleproof PASS,ownedcopycleaned.",
-    "Local fullunits a223:2025/2027,0skip,0cancel;only oversized checkpoint and generator hunk failures. Git63history direct43.2s and full-suite history PASS under original120s. Sourcefrozen.",
+    "Local fullunits80979:2028/2028 PASS,0skip,0cancel,sourcefrozen,641844ms. Both historical timeout cases PASS under original limits.",
     "Posta223 corrections:exact220generator+negativefixtures14/14 PASS;real esbuild oldwriter bundle1/1 PASS. Owned local219epoch13groups PASS including actual workbook/response-loss/races/integrity/frozenfunctions,cleanuptrue. Finaltypes0/changedstrictlint0."
   ],
   "inProgress": [
-    "Repair two local failures and historical219/220 runtime compatibility;final FULLCI/Gitleaks."
+    "Fix literal220 catalog-proof prefix after full222manifest validation;final FULLCI/Gitleaks."
   ],
   "notStarted": [
     "Only after FULLCIgreen:owner demo222 literal/noreset,build,oneproduct UI test/restore,sameAuth/TOTP/private/TLS."
@@ -36,13 +36,13 @@
     "No old tables/sales209/220/ON changes"
   ],
   "evidence": "C:/Users/TOP/NawasrahLocalValidation/parcel-independent-price-20261114",
-  "nextExactAction": "Push verified compatibility;full units concurrency4 original limits;observe final fullCI including oldRestore/220rehearsal;postCI-only demo222 noreset.",
+  "nextExactAction": "Observe exact final-head FULLCI after strict220prefix proof;preserve SQL222/catalog/access/owner files. Then finalGitleaks and authorized demo222noreset,oneproduct UI restore.",
   "activeProcesses": [],
-  "checkpointedAt": "2026-11-14T03:28:29.462Z",
+  "checkpointedAt": "2026-11-14T03:44:17.410Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 8,
-  "filesTouchedManifestSha256": "87ec5e1fb81924373f352ca8d24ae6f012e78fc912d41a1adc6e0b8f5bc39c73",
-  "workingTreeFingerprint": "6A24911C5DC61AA2EAC0D5C9256CBC273D034C3B413BA389B6D6338413408160"
+  "filesTouchedCount": 4,
+  "filesTouchedManifestSha256": "c082cacfdf6ae2e0f9d682b50dbb0400989cb3555390cdc29b28b93e80a85c24",
+  "workingTreeFingerprint": "B9088486EA88FEC2CF4B209AFF0F8F63A1D972A3E4B764E25E46AE703C58FCF9"
 }
