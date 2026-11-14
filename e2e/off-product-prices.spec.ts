@@ -1,0 +1,43 @@
+import {test,expect,type Page,type Locator} from './isolated-test';
+import {mockOffPriceCatalog,offPriceProducts} from './off-product-prices.fixture';
+import {formatJod} from '../customer-web/src/utils/money';
+test.describe.configure({retries:0});
+test.use({hasTouch:true});
+const base=process.env.CUSTOMER_BASE_URL??'http://127.0.0.1:4174';
+const saved=(page:Page)=>page.evaluate(()=>JSON.parse(localStorage.getItem('nawasrah-wholesale-cart-v1')??'{}').items??[]);
+async function fullPrice(locator:Locator,expected:string){
+ await expect(locator).toBeVisible();await expect(locator).toContainText(expected);
+ const sizes=await locator.evaluate(node=>({client:node.clientWidth,scroll:node.scrollWidth,ellipsis:getComputedStyle(node).textOverflow}));
+ expect(sizes.client).toBeGreaterThan(0);expect(sizes.scroll).toBeLessThanOrEqual(sizes.client);expect(sizes.ellipsis).not.toBe('ellipsis');
+}
+for(const width of [320,390,1280])test(`OFF saved single/parcel prices and actual cart wiring ${width}`,async({page},info)=>{
+ await page.setViewportSize({width,height:1000});await mockOffPriceCatalog(page);
+ await page.goto(`${base}/products/`);const grid=page.getByTestId('catalog-products-grid');await expect(grid.locator('article')).toHaveCount(4);
+ await page.screenshot({path:info.outputPath('catalog-initial.png'),fullPage:true});
+ const card=(index:number)=>grid.locator('article').filter({has:page.getByRole('heading',{name:offPriceProducts[index].nameAr,exact:true})});
+ const discounted=card(0);
+ await fullPrice(discounted.locator('[data-sale-price=single] dd'),formatJod(1850));
+ await fullPrice(discounted.locator('[data-sale-price=parcel] dd'),formatJod(15000));
+ await expect(discounted.locator('[data-parcel-saving]')).toContainText(formatJod(3500));
+ await expect(discounted).toContainText('باكيت فيه 24 حبة');
+ await expect(discounted.getByText('طرد البيع',{exact:true})).toHaveCount(0);
+ await expect(discounted.getByText('محتوى الطرد',{exact:true})).toHaveCount(0);
+ await discounted.getByRole('button',{name:`إضافة باكيت من ${offPriceProducts[0].nameAr} إلى السلة`,exact:true}).tap();
+ await expect.poll(()=>saved(page)).toMatchObject([{commercialLineKind:'base_unit',unitPriceInMinorUnits:1850,quantity:1}]);
+ await discounted.getByRole('button',{name:`إضافة طرد من ${offPriceProducts[0].nameAr} إلى السلة`,exact:true}).tap();
+ await expect.poll(()=>saved(page)).toMatchObject([{commercialLineKind:'base_unit',unitPriceInMinorUnits:1850,quantity:1},{commercialLineKind:'legacy_single_sku_parcel',unitPriceInMinorUnits:15000,quantity:1}]);
+ const single=card(1);await expect(single.locator('[data-sale-price]')).toHaveCount(1);await fullPrice(single.locator('[data-sale-price] dd'),formatJod(1900));await expect(single.locator('[data-parcel-saving]')).toHaveCount(0);
+ await single.getByRole('button',{name:`إضافة ${offPriceProducts[1].nameAr} إلى السلة`,exact:true}).tap();
+ await expect.poll(async()=>(await saved(page)).find((item:{productId:string})=>item.productId===offPriceProducts[1].id)?.unitPriceInMinorUnits).toBe(1900);
+ const only=card(2);await expect(only.locator('[data-sale-price]')).toHaveCount(1);await expect(only.locator('[data-sale-price=single]')).toHaveCount(0);
+ await expect(only.locator('[data-lite-card-add] button')).toHaveCount(1);await fullPrice(only.locator('[data-sale-price=parcel] dd'),formatJod(15000));
+ const family=card(3);await fullPrice(family.locator('[data-family-starting-price]'),formatJod(1750));await expect(family).toContainText(`${(2).toLocaleString('ar-JO')} نكهات`);
+ await family.getByRole('button',{name:`اختيار نكهة ${offPriceProducts[3].nameAr}`,exact:true}).tap();await expect(page.getByRole('dialog')).toBeVisible();
+ await page.getByRole('dialog').getByRole('button',{name:'إغلاق',exact:true}).tap();
+ await discounted.getByRole('button',{name:`عرض تفاصيل ${offPriceProducts[0].nameAr}`,exact:true}).first().tap();const dialog=page.getByRole('dialog');
+ await fullPrice(dialog.locator('[data-sale-price=single] dd'),formatJod(1850));await fullPrice(dialog.locator('[data-sale-price=parcel] dd'),formatJod(15000));
+ await expect(dialog.locator('[data-parcel-saving]')).toHaveCount(2);
+ await expect(dialog.getByRole('button',{name:/إضافة .* طرد من/}).locator('[data-parcel-saving]')).toContainText(formatJod(3500));
+ await expect(dialog.getByText('طرد البيع',{exact:true})).toHaveCount(0);
+ await page.screenshot({path:info.outputPath('details-after.png'),fullPage:true});
+});

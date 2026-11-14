@@ -1325,7 +1325,7 @@
     },
     {
       "file": "customer-web/src/App.tsx",
-      "sha256": "c7a86d98b1ca484409be9687e6e9ec98ff349cd8c8f5c4e93c7dbb903e1c9452"
+      "sha256": "440d7c841705b3b1cf697f499632fc7a1274f08a2a62336942a3af4c8a934d73"
     },
     {
       "file": "customer-web/src/components/AboutStorePage.tsx",
@@ -1333,7 +1333,7 @@
     },
     {
       "file": "customer-web/src/components/CargoAddButton.tsx",
-      "sha256": "5fdb9851f76905d42ccd97cdcf62905d1ce9db379d98d1f5e14778683ba0fa91"
+      "sha256": "269e1af458c2ce488257d080e3a4ea60ea8304769bd03b419f3aca8c4eb4e5c6"
     },
     {
       "file": "customer-web/src/components/CartDrawer.tsx",
@@ -1388,6 +1388,10 @@
       "sha256": "0ef85482036d6c1c8a5873e22d8ba11a5e0246afd763865f894755a125bb0a28"
     },
     {
+      "file": "customer-web/src/components/LiteProductPrices.tsx",
+      "sha256": "8de66505e1039c6447a09962597a7e156c5c68ddab1c3f8a7fb212e7893a1d57"
+    },
+    {
       "file": "customer-web/src/components/MerchandisingSections.tsx",
       "sha256": "07c220fc8b667734b1c60355dacfc0a69fa2b119960c2004a70c0efeb9d090ff"
     },
@@ -1425,11 +1429,11 @@
     },
     {
       "file": "customer-web/src/components/ProductCard.tsx",
-      "sha256": "84a85f51554ee6086c376b0520e2f3c834cc44b1a3802658106fa01882b47d5f"
+      "sha256": "1a8fef6e0c24e052e9dc7644d328da95bb88f963fbc70aacbd0a2740ad3c0071"
     },
     {
       "file": "customer-web/src/components/ProductDetailsModal.tsx",
-      "sha256": "2c87f8eaa45981730f040e7a55de39f6784db17fc5d15c32fa57b85bfba7f4c4"
+      "sha256": "9dde002d63f43659ed85684b57a6b1998bb1e2009ea2272dfa6f333806b91822"
     },
     {
       "file": "customer-web/src/components/ProductImage.tsx",
@@ -1437,7 +1441,7 @@
     },
     {
       "file": "customer-web/src/components/ProductPurchaseControl.tsx",
-      "sha256": "8784616ca1748e10a44a50312f0a30d24e34a3fc0ade594d325494399322c62e"
+      "sha256": "539dbb1c1c389f384be4bc82ce902a210dcabda9353f8219dee8f9b2754621c1"
     },
     {
       "file": "customer-web/src/components/PromotionOffers.tsx",
@@ -1622,6 +1626,10 @@
     {
       "file": "customer-web/src/utils/heroMedia.ts",
       "sha256": "eee60486ed60b320ebbc04b92f163c87495c5f2b0b4258fe0fd1314530de7714"
+    },
+    {
+      "file": "customer-web/src/utils/liteProductPricing.ts",
+      "sha256": "1e7fedab43050ac026598196c8607f87974db2607f3a65908c147b1b297f07d9"
     },
     {
       "file": "customer-web/src/utils/money.ts",

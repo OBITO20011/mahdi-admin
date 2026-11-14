@@ -15,6 +15,8 @@ import { buildProductShareUrl } from '../utils/productDetails';
 import { isLowStockProduct } from '../utils/catalogView';
 import { ProductImage } from './ProductImage';
 import { getProductPath } from '../utils/publicRoutes';
+import {LiteProductPrices} from './LiteProductPrices';
+import {liteFamilyStartingPrice,liteProductDescription} from '../utils/liteProductPricing';
 
 interface ProductCardProps {
   product: CatalogProduct;
@@ -22,6 +24,7 @@ interface ProductCardProps {
   reservedQuantity?: number;
   isFavorite: boolean;
   onAdd: (product: CatalogProduct, source?: HTMLElement) => void;
+  onAddBaseUnit?: (product: CatalogProduct, source?: HTMLElement) => void;
   onQuantityChange: (productId: string, quantity: number, source?: HTMLElement) => void;
   onOpenDetails: (product: CatalogProduct) => void;
   onToggleFavorite: (product: CatalogProduct) => void;
@@ -33,11 +36,13 @@ export function ProductCard({
   reservedQuantity = 0,
   isFavorite,
   onAdd,
+  onAddBaseUnit,
   onQuantityChange,
   onOpenDetails,
   onToggleFavorite,
 }: ProductCardProps) {
   const hasVariants = product.variants.length > 0;
+  const salesOnly=product.quantityTracked===false;
   const remainingAfterCart = remainingStorefrontParcels(product, reservedQuantity);
   const unsafeParcel=unsafeLiteParcelPrice(product.quantityTracked===false,product.unitsPerSalePackage,product.salePackagePriceInMinorUnits,product.salePriceInMinorUnits);
   const canAdd = !unsafeParcel && product.isAvailable && (remainingAfterCart===null||remainingAfterCart>0);
@@ -67,8 +72,8 @@ export function ProductCard({
         <div className="absolute right-2 top-2 max-w-[calc(100%-3rem)] truncate rounded-lg border border-white/60 bg-white/90 px-1.5 py-1 text-[8px] font-extrabold text-blue-800 shadow-sm backdrop-blur sm:right-3 sm:top-3 sm:rounded-xl sm:px-2.5 sm:text-[10px]">
           {hasVariants ? (
             <>
-              <span className="sm:hidden">نكهات</span>
-              <span className="hidden sm:inline">
+              <span className={salesOnly?'hidden':'sm:hidden'}>نكهات</span>
+              <span className={salesOnly?'':'hidden sm:inline'}>
                 {product.variants.length.toLocaleString('ar-JO')} نكهات
               </span>
             </>
@@ -127,13 +132,13 @@ export function ProductCard({
         </div>
 
         {product.description && (
-          <p className="mt-3 hidden line-clamp-2 text-[11px] leading-5 text-slate-500 sm:block">
-            {product.description}
+          <p className={salesOnly?'mt-2 line-clamp-1 text-[11px] leading-5 text-slate-500':'mt-3 hidden line-clamp-2 text-[11px] leading-5 text-slate-500 sm:block'}>
+            {salesOnly?liteProductDescription(product):product.description}
           </p>
         )}
 
         {unsafeParcel&&<p role="status" className="mt-2 text-xs text-amber-800">{PARCEL_DEFINITION_MESSAGE}</p>}
-        {product.unitsPerSalePackage > 1 && <div className="mt-4 hidden grid-cols-2 gap-2 sm:grid">
+        {!salesOnly&&product.unitsPerSalePackage > 1 && <div className="mt-4 hidden grid-cols-2 gap-2 sm:grid">
           <div className="rounded-2xl bg-blue-50 p-2.5">
             <p className="text-[9px] font-bold text-blue-700">طرد البيع</p>
             <p className="mt-1 text-xs font-black text-blue-950">
@@ -149,12 +154,12 @@ export function ProductCard({
           </div>
         </div>}
 
-        <div className="mt-auto flex min-w-0 flex-col items-stretch gap-2 pt-3 sm:flex-row sm:items-end sm:justify-between sm:gap-3 sm:pt-5">
-          <div className="min-w-0">
+        <div className="mt-auto flex min-w-0 flex-col items-stretch gap-2 pt-3 sm:gap-3 sm:pt-5">
+          {salesOnly?(hasVariants?<div className="min-w-0 py-2"><p className="text-xs font-bold text-slate-600">{product.variants.length.toLocaleString('ar-JO')} نكهات</p><p data-family-starting-price dir="rtl" className="max-w-full break-words text-sm font-black text-orange-700 [overflow-wrap:anywhere] sm:text-lg">من {formatJod(liteFamilyStartingPrice(product))}</p></div>:<LiteProductPrices product={product}/>):<div className="min-w-0">
             <p className="hidden text-[9px] font-bold text-slate-600 sm:block">
               سعر {storefrontSaleUnit(product)}
             </p>
-            <p className="truncate text-sm font-black text-orange-700 sm:mt-0.5 sm:text-lg">
+            <p className="break-words text-sm font-black text-orange-700 sm:mt-0.5 sm:text-lg">
               {formatJod(product.salePackagePriceInMinorUnits)}
             </p>
             <p className="mt-0.5 truncate text-[9px] font-bold text-slate-500 sm:mt-1 sm:text-emerald-700">
@@ -163,9 +168,9 @@ export function ProductCard({
               {product.quantityTracked===false?(product.isAvailable?'متوفر':'غير متوفر'):<>متاح {product.availableSalePackages?.toLocaleString('ar-JO')}{' '}{storefrontSaleUnit(product)}</>}
               </span>
             </p>
-          </div>
+          </div>}
 
-          <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+          <div className="flex min-w-0 flex-wrap items-center gap-1.5 sm:gap-2">
             <button type="button" onClick={shareProduct} aria-label={`مشاركة ${product.nameAr} على واتساب`} className="hidden h-11 w-11 place-items-center rounded-2xl border border-emerald-100 bg-emerald-50 text-emerald-700 transition hover:bg-emerald-100 sm:grid"><Share2 className="h-4 w-4" /></button>
             <button
               type="button"
@@ -182,9 +187,19 @@ export function ProductCard({
                 aria-label={`اختيار نكهة ${product.nameAr}`}
                 className="grid h-11 w-full place-items-center rounded-2xl bg-blue-700 text-[10px] font-black text-white sm:block sm:w-auto sm:px-3"
               >
-                <span className="sm:hidden">اختر</span>
-                <span className="hidden sm:inline">اختر النكهة</span>
+                <span className={salesOnly?'hidden':'sm:hidden'}>اختر</span>
+                <span className={salesOnly?'':'hidden sm:inline'}>اختر النكهة</span>
               </button>
+            ) : salesOnly ? (
+              <div className="flex w-full min-w-0 flex-wrap gap-2" data-lite-card-add>
+                {!product.parcelOnly&&product.unitsPerSalePackage>1&&<button type="button" disabled={!product.isAvailable||product.salePriceInMinorUnits<=0||!onAddBaseUnit}
+                  aria-label={`إضافة ${storefrontUnitName(product.unitNameAr,false)} من ${product.nameAr} إلى السلة`}
+                  onClick={event=>onAddBaseUnit?.(product,event.currentTarget.closest('article')??undefined)}
+                  className="min-h-11 min-w-0 flex-1 rounded-xl bg-blue-700 px-2 py-2 text-xs font-black text-white disabled:bg-slate-200 disabled:text-slate-500">+ {storefrontUnitName(product.unitNameAr,false)}</button>}
+                <button type="button" disabled={!canAdd} aria-label={product.unitsPerSalePackage>1?`إضافة ${storefrontSaleUnit(product)} من ${product.nameAr} إلى السلة`:`إضافة ${product.nameAr} إلى السلة`}
+                  onClick={event=>onAdd(product,event.currentTarget.closest('article')??undefined)}
+                  className="min-h-11 min-w-0 flex-1 rounded-xl bg-blue-700 px-2 py-2 text-xs font-black text-white disabled:bg-slate-200 disabled:text-slate-500">{product.unitsPerSalePackage>1?`+ ${storefrontSaleUnit(product)}`:'أضف للسلة'}</button>
+              </div>
             ) : cartQuantity > 0 ? (
               <>
               <CargoAddButton
@@ -233,7 +248,7 @@ export function ProductCard({
           </div>
         </div>
 
-        {cartQuantity > 0 && !hasVariants && (
+        {!salesOnly&&cartQuantity > 0 && !hasVariants && (
           <div className="mt-3 hidden rounded-xl border border-orange-200 bg-orange-50 px-3 py-2 text-[10px] font-extrabold text-orange-700 sm:block">
             في السلة: {cartQuantity.toLocaleString('ar-JO')} {storefrontSaleUnit(product)}{remainingAfterCart!==null&&<> • المتبقي للإضافة: {remainingAfterCart.toLocaleString('ar-JO')}</>}
           </div>

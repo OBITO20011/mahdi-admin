@@ -1,0 +1,782 @@
+{
+  "file": "customer-web/src/components/ProductCard.tsx",
+  "before": "84a85f51554ee6086c376b0520e2f3c834cc44b1a3802658106fa01882b47d5f",
+  "after": "64ec44133d2e559de9c66241ac239559d985c0d1160729ac5b384686e6093431",
+  "hunks": [
+    {
+      "before": "mt-auto flex min-w-0 flex-col items-stretch gap-2 pt-3 sm:flex-row sm:items-end sm:justify-between sm:gap-3 sm:pt-5",
+      "after": "mt-auto flex min-w-0 flex-col items-stretch gap-2 pt-3 sm:gap-3 sm:pt-5"
+    },
+    {
+      "before": "truncate text-sm font-black text-orange-700 sm:mt-0.5 sm:text-lg",
+      "after": "break-words text-sm font-black text-orange-700 sm:mt-0.5 sm:text-lg"
+    },
+    {
+      "before": "flex shrink-0 items-center gap-1.5 sm:gap-2",
+      "after": "flex min-w-0 flex-wrap items-center gap-1.5 sm:gap-2"
+    }
+  ],
+  "baseline": "0bd3b5b0fd149c9e92d802c6dabb55b236c127cc",
+  "files": {
+    "customer-web/src/App.tsx": {
+      "before": "c7a86d98b1ca484409be9687e6e9ec98ff349cd8c8f5c4e93c7dbb903e1c9452",
+      "after": "440d7c841705b3b1cf697f499632fc7a1274f08a2a62336942a3af4c8a934d73",
+      "hunks": [
+        {
+          "before": "    addQuantityToCart(product, 1, source);\n  };\n\n  const addBaseUnitToCart = (product: CatalogProduct, requestedQuantity = 1) => {\n    if(product.parcelOnly){showToast('هذا الصنف بيتباع بالطرد بس؛ اختر طرداً.','info');return;}\n    if (cartStorageRecovery) {\n      setCartOpen(true);\n",
+          "after": "    addQuantityToCart(product, 1, source);\n  };\n\n  const addBaseUnitToCart = (product: CatalogProduct, requestedQuantity = 1, source?: HTMLElement) => {\n    if(product.parcelOnly){showToast('هذا الصنف بيتباع بالطرد بس؛ اختر طرداً.','info');return;}\n    if (cartStorageRecovery) {\n      setCartOpen(true);\n",
+          "offset": 34675
+        },
+        {
+          "before": "        ? { ...item, localRevision: item.localRevision + 1, quantity: item.quantity + actualQuantity }\n        : item);\n    }).then(() => {\n      if (addedQuantity > 0) { showToast(`تمت إضافة ${addedQuantity.toLocaleString('ar-JO')} ${storefrontUnitName(product.unitNameAr,product.quantityTracked)} من ${product.nameAr}.`); showCartAddition(); }\n      else showToast('وصلت السلة إلى كامل المخزون المتاح من هذا الصنف.', 'info');\n    }).catch(() => showToast('تعذر حفظ الإضافة في السلة. راجع حالة السلة وحاول مجددًا.', 'error'));\n  };\n",
+          "after": "        ? { ...item, localRevision: item.localRevision + 1, quantity: item.quantity + actualQuantity }\n        : item);\n    }).then(() => {\n      if (addedQuantity > 0) { showToast(`تمت إضافة ${addedQuantity.toLocaleString('ar-JO')} ${storefrontUnitName(product.unitNameAr,product.quantityTracked)} من ${product.nameAr}.`); showCartAddition(source); }\n      else showToast('وصلت السلة إلى كامل المخزون المتاح من هذا الصنف.', 'info');\n    }).catch(() => showToast('تعذر حفظ الإضافة في السلة. راجع حالة السلة وحاول مجددًا.', 'error'));\n  };\n",
+          "offset": 36428
+        },
+        {
+          "before": "                    reservedQuantity={reservedBaseUnits.get(product.id) ?? 0}\n                    isFavorite={favoriteProductIds.includes(product.id)}\n                    onAdd={addToCart}\n                    onQuantityChange={updateCatalogCartQuantity}\n                    onOpenDetails={openProductDetails}\n                    onToggleFavorite={toggleProductFavorite}\n",
+          "after": "                    reservedQuantity={reservedBaseUnits.get(product.id) ?? 0}\n                    isFavorite={favoriteProductIds.includes(product.id)}\n                    onAdd={addToCart}\n                    onAddBaseUnit={(item,source)=>addBaseUnitToCart(item,1,source)}\n                    onQuantityChange={updateCatalogCartQuantity}\n                    onOpenDetails={openProductDetails}\n                    onToggleFavorite={toggleProductFavorite}\n",
+          "offset": 77381
+        },
+        {
+          "before": "                          reservedQuantity={reservedBaseUnits.get(product.id) ?? 0}\n                          isFavorite={favoriteProductIds.includes(product.id)}\n                          onAdd={addToCart}\n                          onQuantityChange={updateCatalogCartQuantity}\n                          onOpenDetails={openProductDetails}\n                          onToggleFavorite={toggleProductFavorite}\n",
+          "after": "                          reservedQuantity={reservedBaseUnits.get(product.id) ?? 0}\n                          isFavorite={favoriteProductIds.includes(product.id)}\n                          onAdd={addToCart}\n                          onAddBaseUnit={(item,source)=>addBaseUnitToCart(item,1,source)}\n                          onQuantityChange={updateCatalogCartQuantity}\n                          onOpenDetails={openProductDetails}\n                          onToggleFavorite={toggleProductFavorite}\n",
+          "offset": 86591
+        }
+      ]
+    },
+    "customer-web/src/components/CargoAddButton.tsx": {
+      "before": "5fdb9851f76905d42ccd97cdcf62905d1ce9db379d98d1f5e14778683ba0fa91",
+      "after": "269e1af458c2ce488257d080e3a4ea60ea8304769bd03b419f3aca8c4eb4e5c6",
+      "hunks": [
+        {
+          "before": "  trailing?: ReactNode;\n  className?: string;\n  itemLabel?: string;\n}\n\nexport function CargoAddButton({\n",
+          "after": "  trailing?: ReactNode;\n  className?: string;\n  itemLabel?: string;\n  detail?:ReactNode;\n}\n\nexport function CargoAddButton({\n",
+          "offset": 249
+        },
+        {
+          "before": "  label = 'إضافة للسلة',\n  trailing,\n  className = '',\n}: CargoAddButtonProps) {\n  return (\n    <button\n",
+          "after": "  label = 'إضافة للسلة',\n  trailing,\n  className = '',\n  detail,\n}: CargoAddButtonProps) {\n  return (\n    <button\n",
+          "offset": 435
+        },
+        {
+          "before": "      <span className={`flex min-w-0 items-center ${compact ? '' : 'gap-2'}`}>\n        <ShoppingCart className=\"h-5 w-5 shrink-0\" aria-hidden=\"true\" />\n        {!compact && (\n          <span className=\"truncate text-xs font-black\">{label}</span>\n        )}\n      </span>\n      {!compact && trailing && (\n",
+          "after": "      <span className={`flex min-w-0 items-center ${compact ? '' : 'gap-2'}`}>\n        <ShoppingCart className=\"h-5 w-5 shrink-0\" aria-hidden=\"true\" />\n        {!compact && (\n          <span className={`${detail?'min-w-0 break-words text-center':'truncate'} text-xs font-black`}>{label}{detail&&<span className=\"mt-1 block whitespace-normal\">{detail}</span>}</span>\n        )}\n      </span>\n      {!compact && trailing && (\n",
+          "offset": 1226
+        }
+      ]
+    },
+    "customer-web/src/components/LiteProductPrices.tsx": {
+      "before": null,
+      "after": "8de66505e1039c6447a09962597a7e156c5c68ddab1c3f8a7fb212e7893a1d57",
+      "hunks": []
+    },
+    "customer-web/src/components/ProductCard.tsx": {
+      "before": "84a85f51554ee6086c376b0520e2f3c834cc44b1a3802658106fa01882b47d5f",
+      "after": "1a8fef6e0c24e052e9dc7644d328da95bb88f963fbc70aacbd0a2740ad3c0071",
+      "hunks": [
+        {
+          "before": "import { isLowStockProduct } from '../utils/catalogView';\nimport { ProductImage } from './ProductImage';\nimport { getProductPath } from '../utils/publicRoutes';\n\ninterface ProductCardProps {\n  product: CatalogProduct;\n",
+          "after": "import { isLowStockProduct } from '../utils/catalogView';\nimport { ProductImage } from './ProductImage';\nimport { getProductPath } from '../utils/publicRoutes';\nimport {LiteProductPrices} from './LiteProductPrices';\nimport {liteFamilyStartingPrice,liteProductDescription} from '../utils/liteProductPricing';\n\ninterface ProductCardProps {\n  product: CatalogProduct;\n",
+          "offset": 497
+        },
+        {
+          "before": "  reservedQuantity?: number;\n  isFavorite: boolean;\n  onAdd: (product: CatalogProduct, source?: HTMLElement) => void;\n  onQuantityChange: (productId: string, quantity: number, source?: HTMLElement) => void;\n  onOpenDetails: (product: CatalogProduct) => void;\n  onToggleFavorite: (product: CatalogProduct) => void;\n",
+          "after": "  reservedQuantity?: number;\n  isFavorite: boolean;\n  onAdd: (product: CatalogProduct, source?: HTMLElement) => void;\n  onAddBaseUnit?: (product: CatalogProduct, source?: HTMLElement) => void;\n  onQuantityChange: (productId: string, quantity: number, source?: HTMLElement) => void;\n  onOpenDetails: (product: CatalogProduct) => void;\n  onToggleFavorite: (product: CatalogProduct) => void;\n",
+          "offset": 886
+        },
+        {
+          "before": "  reservedQuantity = 0,\n  isFavorite,\n  onAdd,\n  onQuantityChange,\n  onOpenDetails,\n  onToggleFavorite,\n}: ProductCardProps) {\n  const hasVariants = product.variants.length > 0;\n  const remainingAfterCart = remainingStorefrontParcels(product, reservedQuantity);\n  const unsafeParcel=unsafeLiteParcelPrice(product.quantityTracked===false,product.unitsPerSalePackage,product.salePackagePriceInMinorUnits,product.salePriceInMinorUnits);\n  const canAdd = !unsafeParcel && product.isAvailable && (remainingAfterCart===null||remainingAfterCart>0);\n",
+          "after": "  reservedQuantity = 0,\n  isFavorite,\n  onAdd,\n  onAddBaseUnit,\n  onQuantityChange,\n  onOpenDetails,\n  onToggleFavorite,\n}: ProductCardProps) {\n  const hasVariants = product.variants.length > 0;\n  const salesOnly=product.quantityTracked===false;\n  const remainingAfterCart = remainingStorefrontParcels(product, reservedQuantity);\n  const unsafeParcel=unsafeLiteParcelPrice(product.quantityTracked===false,product.unitsPerSalePackage,product.salePackagePriceInMinorUnits,product.salePriceInMinorUnits);\n  const canAdd = !unsafeParcel && product.isAvailable && (remainingAfterCart===null||remainingAfterCart>0);\n",
+          "offset": 1335
+        },
+        {
+          "before": "        <div className=\"absolute right-2 top-2 max-w-[calc(100%-3rem)] truncate rounded-lg border border-white/60 bg-white/90 px-1.5 py-1 text-[8px] font-extrabold text-blue-800 shadow-sm backdrop-blur sm:right-3 sm:top-3 sm:rounded-xl sm:px-2.5 sm:text-[10px]\">\n          {hasVariants ? (\n            <>\n              <span className=\"sm:hidden\">نكهات</span>\n              <span className=\"hidden sm:inline\">\n                {product.variants.length.toLocaleString('ar-JO')} نكهات\n              </span>\n            </>\n",
+          "after": "        <div className=\"absolute right-2 top-2 max-w-[calc(100%-3rem)] truncate rounded-lg border border-white/60 bg-white/90 px-1.5 py-1 text-[8px] font-extrabold text-blue-800 shadow-sm backdrop-blur sm:right-3 sm:top-3 sm:rounded-xl sm:px-2.5 sm:text-[10px]\">\n          {hasVariants ? (\n            <>\n              <span className={salesOnly?'hidden':'sm:hidden'}>نكهات</span>\n              <span className={salesOnly?'':'hidden sm:inline'}>\n                {product.variants.length.toLocaleString('ar-JO')} نكهات\n              </span>\n            </>\n",
+          "offset": 3273
+        },
+        {
+          "before": "        </div>\n\n        {product.description && (\n          <p className=\"mt-3 hidden line-clamp-2 text-[11px] leading-5 text-slate-500 sm:block\">\n            {product.description}\n          </p>\n        )}\n\n        {unsafeParcel&&<p role=\"status\" className=\"mt-2 text-xs text-amber-800\">{PARCEL_DEFINITION_MESSAGE}</p>}\n        {product.unitsPerSalePackage > 1 && <div className=\"mt-4 hidden grid-cols-2 gap-2 sm:grid\">\n          <div className=\"rounded-2xl bg-blue-50 p-2.5\">\n            <p className=\"text-[9px] font-bold text-blue-700\">طرد البيع</p>\n            <p className=\"mt-1 text-xs font-black text-blue-950\">\n",
+          "after": "        </div>\n\n        {product.description && (\n          <p className={salesOnly?'mt-2 line-clamp-1 text-[11px] leading-5 text-slate-500':'mt-3 hidden line-clamp-2 text-[11px] leading-5 text-slate-500 sm:block'}>\n            {salesOnly?liteProductDescription(product):product.description}\n          </p>\n        )}\n\n        {unsafeParcel&&<p role=\"status\" className=\"mt-2 text-xs text-amber-800\">{PARCEL_DEFINITION_MESSAGE}</p>}\n        {!salesOnly&&product.unitsPerSalePackage > 1 && <div className=\"mt-4 hidden grid-cols-2 gap-2 sm:grid\">\n          <div className=\"rounded-2xl bg-blue-50 p-2.5\">\n            <p className=\"text-[9px] font-bold text-blue-700\">طرد البيع</p>\n            <p className=\"mt-1 text-xs font-black text-blue-950\">\n",
+          "offset": 6608
+        },
+        {
+          "before": "          </div>\n        </div>}\n\n        <div className=\"mt-auto flex min-w-0 flex-col items-stretch gap-2 pt-3 sm:flex-row sm:items-end sm:justify-between sm:gap-3 sm:pt-5\">\n          <div className=\"min-w-0\">\n            <p className=\"hidden text-[9px] font-bold text-slate-600 sm:block\">\n              سعر {storefrontSaleUnit(product)}\n            </p>\n            <p className=\"truncate text-sm font-black text-orange-700 sm:mt-0.5 sm:text-lg\">\n              {formatJod(product.salePackagePriceInMinorUnits)}\n            </p>\n            <p className=\"mt-0.5 truncate text-[9px] font-bold text-slate-500 sm:mt-1 sm:text-emerald-700\">\n",
+          "after": "          </div>\n        </div>}\n\n        <div className=\"mt-auto flex min-w-0 flex-col items-stretch gap-2 pt-3 sm:gap-3 sm:pt-5\">\n          {salesOnly?(hasVariants?<div className=\"min-w-0 py-2\"><p className=\"text-xs font-bold text-slate-600\">{product.variants.length.toLocaleString('ar-JO')} نكهات</p><p data-family-starting-price dir=\"rtl\" className=\"max-w-full break-words text-sm font-black text-orange-700 [overflow-wrap:anywhere] sm:text-lg\">من {formatJod(liteFamilyStartingPrice(product))}</p></div>:<LiteProductPrices product={product}/>):<div className=\"min-w-0\">\n            <p className=\"hidden text-[9px] font-bold text-slate-600 sm:block\">\n              سعر {storefrontSaleUnit(product)}\n            </p>\n            <p className=\"break-words text-sm font-black text-orange-700 sm:mt-0.5 sm:text-lg\">\n              {formatJod(product.salePackagePriceInMinorUnits)}\n            </p>\n            <p className=\"mt-0.5 truncate text-[9px] font-bold text-slate-500 sm:mt-1 sm:text-emerald-700\">\n",
+          "offset": 7802
+        },
+        {
+          "before": "              {product.quantityTracked===false?(product.isAvailable?'متوفر':'غير متوفر'):<>متاح {product.availableSalePackages?.toLocaleString('ar-JO')}{' '}{storefrontSaleUnit(product)}</>}\n              </span>\n            </p>\n          </div>\n\n          <div className=\"flex shrink-0 items-center gap-1.5 sm:gap-2\">\n            <button type=\"button\" onClick={shareProduct} aria-label={`مشاركة ${product.nameAr} على واتساب`} className=\"hidden h-11 w-11 place-items-center rounded-2xl border border-emerald-100 bg-emerald-50 text-emerald-700 transition hover:bg-emerald-100 sm:grid\"><Share2 className=\"h-4 w-4\" /></button>\n            <button\n              type=\"button\"\n",
+          "after": "              {product.quantityTracked===false?(product.isAvailable?'متوفر':'غير متوفر'):<>متاح {product.availableSalePackages?.toLocaleString('ar-JO')}{' '}{storefrontSaleUnit(product)}</>}\n              </span>\n            </p>\n          </div>}\n\n          <div className=\"flex min-w-0 flex-wrap items-center gap-1.5 sm:gap-2\">\n            <button type=\"button\" onClick={shareProduct} aria-label={`مشاركة ${product.nameAr} على واتساب`} className=\"hidden h-11 w-11 place-items-center rounded-2xl border border-emerald-100 bg-emerald-50 text-emerald-700 transition hover:bg-emerald-100 sm:grid\"><Share2 className=\"h-4 w-4\" /></button>\n            <button\n              type=\"button\"\n",
+          "offset": 8935
+        },
+        {
+          "before": "                aria-label={`اختيار نكهة ${product.nameAr}`}\n                className=\"grid h-11 w-full place-items-center rounded-2xl bg-blue-700 text-[10px] font-black text-white sm:block sm:w-auto sm:px-3\"\n              >\n                <span className=\"sm:hidden\">اختر</span>\n                <span className=\"hidden sm:inline\">اختر النكهة</span>\n              </button>\n            ) : cartQuantity > 0 ? (\n              <>\n              <CargoAddButton\n",
+          "after": "                aria-label={`اختيار نكهة ${product.nameAr}`}\n                className=\"grid h-11 w-full place-items-center rounded-2xl bg-blue-700 text-[10px] font-black text-white sm:block sm:w-auto sm:px-3\"\n              >\n                <span className={salesOnly?'hidden':'sm:hidden'}>اختر</span>\n                <span className={salesOnly?'':'hidden sm:inline'}>اختر النكهة</span>\n              </button>\n            ) : salesOnly ? (\n              <div className=\"flex w-full min-w-0 flex-wrap gap-2\" data-lite-card-add>\n                {!product.parcelOnly&&product.unitsPerSalePackage>1&&<button type=\"button\" disabled={!product.isAvailable||product.salePriceInMinorUnits<=0||!onAddBaseUnit}\n                  aria-label={`إضافة ${storefrontUnitName(product.unitNameAr,false)} من ${product.nameAr} إلى السلة`}\n                  onClick={event=>onAddBaseUnit?.(product,event.currentTarget.closest('article')??undefined)}\n                  className=\"min-h-11 min-w-0 flex-1 rounded-xl bg-blue-700 px-2 py-2 text-xs font-black text-white disabled:bg-slate-200 disabled:text-slate-500\">+ {storefrontUnitName(product.unitNameAr,false)}</button>}\n                <button type=\"button\" disabled={!canAdd} aria-label={product.unitsPerSalePackage>1?`إضافة ${storefrontSaleUnit(product)} من ${product.nameAr} إلى السلة`:`إضافة ${product.nameAr} إلى السلة`}\n                  onClick={event=>onAdd(product,event.currentTarget.closest('article')??undefined)}\n                  className=\"min-h-11 min-w-0 flex-1 rounded-xl bg-blue-700 px-2 py-2 text-xs font-black text-white disabled:bg-slate-200 disabled:text-slate-500\">{product.unitsPerSalePackage>1?`+ ${storefrontSaleUnit(product)}`:'أضف للسلة'}</button>\n              </div>\n            ) : cartQuantity > 0 ? (\n              <>\n              <CargoAddButton\n",
+          "offset": 10102
+        },
+        {
+          "before": "          </div>\n        </div>\n\n        {cartQuantity > 0 && !hasVariants && (\n          <div className=\"mt-3 hidden rounded-xl border border-orange-200 bg-orange-50 px-3 py-2 text-[10px] font-extrabold text-orange-700 sm:block\">\n            في السلة: {cartQuantity.toLocaleString('ar-JO')} {storefrontSaleUnit(product)}{remainingAfterCart!==null&&<> • المتبقي للإضافة: {remainingAfterCart.toLocaleString('ar-JO')}</>}\n          </div>\n",
+          "after": "          </div>\n        </div>\n\n        {!salesOnly&&cartQuantity > 0 && !hasVariants && (\n          <div className=\"mt-3 hidden rounded-xl border border-orange-200 bg-orange-50 px-3 py-2 text-[10px] font-extrabold text-orange-700 sm:block\">\n            في السلة: {cartQuantity.toLocaleString('ar-JO')} {storefrontSaleUnit(product)}{remainingAfterCart!==null&&<> • المتبقي للإضافة: {remainingAfterCart.toLocaleString('ar-JO')}</>}\n          </div>\n",
+          "offset": 13860
+        }
+      ]
+    },
+    "customer-web/src/components/ProductDetailsModal.tsx": {
+      "before": "2c87f8eaa45981730f040e7a55de39f6784db17fc5d15c32fa57b85bfba7f4c4",
+      "after": "9dde002d63f43659ed85684b57a6b1998bb1e2009ea2272dfa6f333806b91822",
+      "hunks": [
+        {
+          "before": "import { formatJod } from '../utils/money';\nimport {unsafeLiteParcelPrice,PARCEL_DEFINITION_MESSAGE} from '../utils/saleUnitLabels';\nimport {ProductPurchaseControl} from './ProductPurchaseControl';\nimport {storefrontSaleUnit, storefrontPackageDescription, storefrontStock, storefrontUnitName, remainingStorefrontUnits, remainingStorefrontParcels} from '../utils/storefrontUnits';\nimport { ProductImage } from './ProductImage';\nimport {\n",
+          "after": "import { formatJod } from '../utils/money';\nimport {unsafeLiteParcelPrice,PARCEL_DEFINITION_MESSAGE} from '../utils/saleUnitLabels';\nimport {ProductPurchaseControl} from './ProductPurchaseControl';\nimport {LiteProductPrices,LiteParcelSaving} from './LiteProductPrices';\nimport {liteProductDescription,liteParcelSaving} from '../utils/liteProductPricing';\nimport {storefrontSaleUnit, storefrontPackageDescription, storefrontStock, storefrontUnitName, remainingStorefrontUnits, remainingStorefrontParcels} from '../utils/storefrontUnits';\nimport { ProductImage } from './ProductImage';\nimport {\n",
+          "offset": 357
+        },
+        {
+          "before": "    familyProduct.variants.find((variant) => variant.id === selectedVariantId) ||\n    familyProduct;\n  const cartQuantity = cartQuantityByProduct.get(product.id) || 0;\n  const reserved = reservedBaseUnits.get(product.id) ?? 0;\n  const remainingUnits = remainingStorefrontUnits(product, reserved);\n  const remainingPackages = remainingStorefrontParcels(product, reserved);\n",
+          "after": "    familyProduct.variants.find((variant) => variant.id === selectedVariantId) ||\n    familyProduct;\n  const cartQuantity = cartQuantityByProduct.get(product.id) || 0;\n  const salesOnly=product.quantityTracked===false;\n  const reserved = reservedBaseUnits.get(product.id) ?? 0;\n  const remainingUnits = remainingStorefrontUnits(product, reserved);\n  const remainingPackages = remainingStorefrontParcels(product, reserved);\n",
+          "offset": 2622
+        },
+        {
+          "before": "\n              {product.description ? (\n                <p className=\"mt-3 text-xs font-semibold leading-7 text-slate-600 sm:text-sm\">\n                  {product.description}\n                </p>\n              ) : (\n                <p className=\"mt-3 text-xs font-semibold leading-6 text-slate-400\">\n                  السعر والمخزون موضحان أدناه.\n                </p>\n              )}\n\n",
+          "after": "\n              {product.description ? (\n                <p className=\"mt-3 text-xs font-semibold leading-7 text-slate-600 sm:text-sm\">\n                  {salesOnly?liteProductDescription(product):product.description}\n                </p>\n              ) : (\n                <p className=\"mt-3 text-xs font-semibold leading-6 text-slate-400\">\n                  {salesOnly?'الأسعار والتوفر موضحان أدناه.':'السعر والمخزون موضحان أدناه.'}\n                </p>\n              )}\n\n",
+          "offset": 12614
+        },
+        {
+          "before": "                </div>\n              )}\n\n              <div className=\"mt-5 rounded-3xl border border-orange-100 bg-orange-50 p-4\">\n                <p className=\"text-[10px] font-bold text-orange-500\">\n                  سعر {storefrontSaleUnit(product)}\n                </p>\n",
+          "after": "                </div>\n              )}\n\n              {salesOnly?<div className=\"mt-5 rounded-3xl border border-orange-100 bg-orange-50 p-4\"><LiteProductPrices product={product}/></div>:<div className=\"mt-5 rounded-3xl border border-orange-100 bg-orange-50 p-4\">\n                <p className=\"text-[10px] font-bold text-orange-500\">\n                  سعر {storefrontSaleUnit(product)}\n                </p>\n",
+          "offset": 16379
+        },
+        {
+          "before": "                <p className=\"mt-1 text-[10px] font-bold text-orange-700/70\">\n                  السعر لوحدة البيع: {storefrontSaleUnit(product)}\n                </p>\n              </div>\n\n              {product.unitsPerSalePackage > 1 && <div className=\"mt-4 grid grid-cols-2 gap-3\">\n                <div className=\"rounded-3xl border border-blue-100 bg-blue-50 p-4\">\n                  <div className=\"flex items-center gap-2 text-blue-600\">\n                    <Boxes className=\"h-4 w-4\" />\n",
+          "after": "                <p className=\"mt-1 text-[10px] font-bold text-orange-700/70\">\n                  السعر لوحدة البيع: {storefrontSaleUnit(product)}\n                </p>\n              </div>}\n\n              {!salesOnly&&product.unitsPerSalePackage > 1 && <div className=\"mt-4 grid grid-cols-2 gap-3\">\n                <div className=\"rounded-3xl border border-blue-100 bg-blue-50 p-4\">\n                  <div className=\"flex items-center gap-2 text-blue-600\">\n                    <Boxes className=\"h-4 w-4\" />\n",
+          "offset": 16948
+        },
+        {
+          "before": "            {unsafeParcel&&<p role=\"status\" className=\"text-xs text-amber-800\">{PARCEL_DEFINITION_MESSAGE}</p>}\n            <ProductPurchaseControl label={packageDescription} unit={storefrontSaleUnit(product)} productName={product.nameAr}\n              price={product.salePackagePriceInMinorUnits} quantity={quantity} remaining={remainingPackages}\n              disabled={!product.isAvailable||unsafeParcel} onChange={handleQuantityChange} onAdd={handleAdd} />\n            {!product.parcelOnly&&product.unitsPerSalePackage > 1 && <ProductPurchaseControl label={storefrontUnitName(product.unitNameAr,product.quantityTracked)} unit={storefrontUnitName(product.unitNameAr,product.quantityTracked)} productName={product.nameAr}\n              price={product.salePriceInMinorUnits} quantity={unitQuantity} remaining={remainingUnits}\n",
+          "after": "            {unsafeParcel&&<p role=\"status\" className=\"text-xs text-amber-800\">{PARCEL_DEFINITION_MESSAGE}</p>}\n            <ProductPurchaseControl label={packageDescription} unit={storefrontSaleUnit(product)} productName={product.nameAr}\n              price={product.salePackagePriceInMinorUnits} quantity={quantity} remaining={remainingPackages}\n              saving={salesOnly&&liteParcelSaving(product)>0?<LiteParcelSaving product={product} compact/>:undefined}\n              disabled={!product.isAvailable||unsafeParcel} onChange={handleQuantityChange} onAdd={handleAdd} />\n            {!product.parcelOnly&&product.unitsPerSalePackage > 1 && <ProductPurchaseControl label={storefrontUnitName(product.unitNameAr,product.quantityTracked)} unit={storefrontUnitName(product.unitNameAr,product.quantityTracked)} productName={product.nameAr}\n              price={product.salePriceInMinorUnits} quantity={unitQuantity} remaining={remainingUnits}\n",
+          "offset": 23299
+        }
+      ]
+    },
+    "customer-web/src/components/ProductPurchaseControl.tsx": {
+      "before": "8784616ca1748e10a44a50312f0a30d24e34a3fc0ade594d325494399322c62e",
+      "after": "539dbb1c1c389f384be4bc82ce902a210dcabda9353f8219dee8f9b2754621c1",
+      "hunks": [
+        {
+          "before": "import {CargoAddButton} from './CargoAddButton';\nimport {formatJod} from '../utils/money';\nimport {calculateProductSelectionTotal} from '../utils/productDetails';\n\ninterface Props {\n  label: string; unit: string; productName: string; price: number;\n  quantity: number; remaining: number|null; disabled: boolean;\n  onChange: (quantity: number) => void; onAdd: () => void;\n}\nexport function ProductPurchaseControl({label, unit, productName, price, quantity, remaining, disabled, onChange, onAdd}: Props) {\n  return <section aria-label={`إضافة ${unit}`} className=\"flex min-w-0 flex-col gap-2 rounded-2xl border border-blue-200 bg-blue-50 p-2\">\n    <p className=\"text-center text-xs font-black leading-5 text-blue-950\">{label} — {formatJod(price)}</p>\n    <div className=\"flex items-center justify-center rounded-xl border border-blue-200 bg-white\">\n",
+          "after": "import {CargoAddButton} from './CargoAddButton';\nimport {formatJod} from '../utils/money';\nimport {calculateProductSelectionTotal} from '../utils/productDetails';\nimport type {ReactNode} from 'react';\n\ninterface Props {\n  label: string; unit: string; productName: string; price: number;\n  quantity: number; remaining: number|null; disabled: boolean;\n  onChange: (quantity: number) => void; onAdd: () => void;\n  saving?:ReactNode;\n}\nexport function ProductPurchaseControl({label, unit, productName, price, quantity, remaining, disabled, onChange, onAdd,saving}: Props) {\n  return <section aria-label={`إضافة ${unit}`} className=\"flex min-w-0 flex-col gap-2 rounded-2xl border border-blue-200 bg-blue-50 p-2\">\n    <p className=\"text-center text-xs font-black leading-5 text-blue-950\">{label} — {formatJod(price)}</p>\n    <div className=\"flex items-center justify-center rounded-xl border border-blue-200 bg-white\">\n",
+          "offset": 42
+        },
+        {
+          "before": "    <CargoAddButton onAdd={onAdd} disabled={disabled || remaining === 0} itemLabel={unit}\n      ariaLabel={`إضافة ${quantity.toLocaleString('ar-JO')} ${unit} من ${productName} إلى السلة`}\n      label={remaining === 0 ? 'الكمية في السلة' : `إضافة ${quantity.toLocaleString('ar-JO')} ${unit}`}\n      className=\"min-h-11 justify-center !px-2 [&_.cargo-scene]:hidden\" />\n    <p className=\"text-center text-[10px] font-bold text-blue-900\">الإجمالي {formatJod(calculateProductSelectionTotal(price, quantity))}</p>\n  </section>;\n",
+          "after": "    <CargoAddButton onAdd={onAdd} disabled={disabled || remaining === 0} itemLabel={unit}\n      ariaLabel={`إضافة ${quantity.toLocaleString('ar-JO')} ${unit} من ${productName} إلى السلة`}\n      label={remaining === 0 ? 'الكمية في السلة' : `إضافة ${quantity.toLocaleString('ar-JO')} ${unit}`}\n      detail={saving}\n      className=\"min-h-11 justify-center !px-2 [&_.cargo-scene]:hidden\" />\n    <p className=\"text-center text-[10px] font-bold text-blue-900\">الإجمالي {formatJod(calculateProductSelectionTotal(price, quantity))}</p>\n  </section>;\n",
+          "offset": 1683
+        }
+      ]
+    },
+    "customer-web/src/utils/liteProductPricing.ts": {
+      "before": null,
+      "after": "1e7fedab43050ac026598196c8607f87974db2607f3a65908c147b1b297f07d9",
+      "hunks": []
+    },
+    "customer-web/tests/lite-product-pricing.test.ts": {
+      "before": null,
+      "after": "6d5efc43c2c40fd3138308cad25fb2a9467eb5b3e7cd84f18a43541e16a33517",
+      "hunks": []
+    },
+    "customer-web/tests/sales-only-deferred-content.test.ts": {
+      "before": "07be24a7181175867d6fb1fab2625551af507d17c4a8ca14ea96fd95321d103c",
+      "after": "e4f6020f316b1e37e122a2fcc637126592110f2412c6dbcc37de71ab268fd2f9",
+      "hunks": [
+        {
+          "before": "  \"    if(unsafeLiteParcelPrice(parcelBuilder.option.quantityTracked===false,parcelBuilder.option.unitsPerParcel,parcelBuilder.option.parcelPriceInMinorUnits,parcelBuilder.familyProduct.salePriceInMinorUnits)){showToast(PARCEL_DEFINITION_MESSAGE,'error');return;}\\n\",\n ];\n let historical=app;for(const guard of approvedGuards){assert.equal(historical.split(guard).length-1,1);historical=historical.replace(guard,'');}\n const reviewed=bodies(historical.replace(actualLabel,legacyLabel)),original=bodies(previous('src/App.tsx'));\n assert.deepEqual(reviewed,original);\n assert.notDeepEqual(bodies(historical.replace(actualLabel,legacyLabel).replace('quantity: actualQuantity','quantity: actualQuantity + 1')),original,'unknown cart arithmetic remains visible');\n assert.notDeepEqual({...reviewed,addQuantityToCart:reviewed.addQuantityToCart.replace('if (cartStorageRecovery)','if (true)')},original,'unknown recovery bytes remain visible');\n});\n",
+          "after": "  \"    if(unsafeLiteParcelPrice(parcelBuilder.option.quantityTracked===false,parcelBuilder.option.unitsPerParcel,parcelBuilder.option.parcelPriceInMinorUnits,parcelBuilder.familyProduct.salePriceInMinorUnits)){showToast(PARCEL_DEFINITION_MESSAGE,'error');return;}\\n\",\n ];\n let historical=app;for(const guard of approvedGuards){assert.equal(historical.split(guard).length-1,1);historical=historical.replace(guard,'');}\n // Owner14Nov: OFF cards pass an optional animation source into the existing\n // single-unit handler. Unwind exactly its signature/call,then compare all\n // five financial/recovery bodies including their unknown-byte mutations.\n const priceCardBodyView=(text:string):Record<string,string>=>{\n  const out=bodies(text),signature='(product: CatalogProduct, requestedQuantity = 1, source?: HTMLElement) =>';\n  assert.equal(out.addBaseUnitToCart.split(signature).length,2);\n  assert.equal(out.addBaseUnitToCart.split('showCartAddition(source)').length,2);\n  return {...out,addBaseUnitToCart:out.addBaseUnitToCart.replace(signature,'(product: CatalogProduct, requestedQuantity = 1) =>').replace('showCartAddition(source)','showCartAddition()')};\n };\n const reviewed=priceCardBodyView(historical.replace(actualLabel,legacyLabel)),original=bodies(previous('src/App.tsx'));\n assert.deepEqual(reviewed,original);\n assert.notDeepEqual(priceCardBodyView(historical.replace(actualLabel,legacyLabel).replace('quantity: actualQuantity','quantity: actualQuantity + 1')),original,'unknown cart arithmetic remains visible');\n assert.notDeepEqual({...reviewed,addQuantityToCart:reviewed.addQuantityToCart.replace('if (cartStorageRecovery)','if (true)')},original,'unknown recovery bytes remain visible');\n});\n",
+          "offset": 4405
+        }
+      ]
+    },
+    "docs/operations/SERVICE_ACCESS_AFTER_222.json": {
+      "before": "c8f9a5b12a1ccd92b1df8e3e8363bdefd7c72cbd6e3622d8a8d8f3539f553d64",
+      "after": "22ae81b685a47077c818cc89670b13ee4c321667c691fa678b9d856edfcde8bb",
+      "hunks": [
+        {
+          "before": "{\n  \"schemaVersion\": 1,\n  \"startedAt\": \"2026-11-14T01:24:53.857Z\",\n  \"migrationCeiling\": 222,\n  \"managedAccess\": false,\n  \"output\": \"C:\\\\Users\\\\TOP\\\\AppData\\\\Local\\\\Temp\\\\nawasrah-service-access-YPismm\",\n  \"sourceHashes\": [\n    {\n      \"file\": \"src/App.tsx\",\n",
+          "after": "{\n  \"schemaVersion\": 1,\n  \"startedAt\": \"2026-11-14T15:07:43.291Z\",\n  \"migrationCeiling\": 222,\n  \"managedAccess\": false,\n  \"output\": \"C:\\\\Users\\\\TOP\\\\AppData\\\\Local\\\\Temp\\\\nawasrah-service-access-qXuV51\",\n  \"sourceHashes\": [\n    {\n      \"file\": \"src/App.tsx\",\n",
+          "offset": 0
+        },
+        {
+          "before": "    },\n    {\n      \"file\": \"customer-web/src/App.tsx\",\n      \"sha256\": \"c7a86d98b1ca484409be9687e6e9ec98ff349cd8c8f5c4e93c7dbb903e1c9452\"\n    },\n    {\n      \"file\": \"customer-web/src/components/AboutStorePage.tsx\",\n",
+          "after": "    },\n    {\n      \"file\": \"customer-web/src/App.tsx\",\n      \"sha256\": \"440d7c841705b3b1cf697f499632fc7a1274f08a2a62336942a3af4c8a934d73\"\n    },\n    {\n      \"file\": \"customer-web/src/components/AboutStorePage.tsx\",\n",
+          "offset": 50858
+        },
+        {
+          "before": "    },\n    {\n      \"file\": \"customer-web/src/components/CargoAddButton.tsx\",\n      \"sha256\": \"5fdb9851f76905d42ccd97cdcf62905d1ce9db379d98d1f5e14778683ba0fa91\"\n    },\n    {\n      \"file\": \"customer-web/src/components/CartDrawer.tsx\",\n",
+          "after": "    },\n    {\n      \"file\": \"customer-web/src/components/CargoAddButton.tsx\",\n      \"sha256\": \"269e1af458c2ce488257d080e3a4ea60ea8304769bd03b419f3aca8c4eb4e5c6\"\n    },\n    {\n      \"file\": \"customer-web/src/components/CartDrawer.tsx\",\n",
+          "offset": 51156
+        },
+        {
+          "before": "      \"file\": \"customer-web/src/components/HomeCategoryMosaic.tsx\",\n      \"sha256\": \"0ef85482036d6c1c8a5873e22d8ba11a5e0246afd763865f894755a125bb0a28\"\n    },\n    {\n      \"file\": \"customer-web/src/components/MerchandisingSections.tsx\",\n      \"sha256\": \"07c220fc8b667734b1c60355dacfc0a69fa2b119960c2004a70c0efeb9d090ff\"\n",
+          "after": "      \"file\": \"customer-web/src/components/HomeCategoryMosaic.tsx\",\n      \"sha256\": \"0ef85482036d6c1c8a5873e22d8ba11a5e0246afd763865f894755a125bb0a28\"\n    },\n    {\n      \"file\": \"customer-web/src/components/LiteProductPrices.tsx\",\n      \"sha256\": \"8de66505e1039c6447a09962597a7e156c5c68ddab1c3f8a7fb212e7893a1d57\"\n    },\n    {\n      \"file\": \"customer-web/src/components/MerchandisingSections.tsx\",\n      \"sha256\": \"07c220fc8b667734b1c60355dacfc0a69fa2b119960c2004a70c0efeb9d090ff\"\n",
+          "offset": 53275
+        },
+        {
+          "before": "    },\n    {\n      \"file\": \"customer-web/src/components/ProductCard.tsx\",\n      \"sha256\": \"84a85f51554ee6086c376b0520e2f3c834cc44b1a3802658106fa01882b47d5f\"\n    },\n    {\n      \"file\": \"customer-web/src/components/ProductDetailsModal.tsx\",\n      \"sha256\": \"2c87f8eaa45981730f040e7a55de39f6784db17fc5d15c32fa57b85bfba7f4c4\"\n    },\n    {\n      \"file\": \"customer-web/src/components/ProductImage.tsx\",\n",
+          "after": "    },\n    {\n      \"file\": \"customer-web/src/components/ProductCard.tsx\",\n      \"sha256\": \"1a8fef6e0c24e052e9dc7644d328da95bb88f963fbc70aacbd0a2740ad3c0071\"\n    },\n    {\n      \"file\": \"customer-web/src/components/ProductDetailsModal.tsx\",\n      \"sha256\": \"9dde002d63f43659ed85684b57a6b1998bb1e2009ea2272dfa6f333806b91822\"\n    },\n    {\n      \"file\": \"customer-web/src/components/ProductImage.tsx\",\n",
+          "offset": 55066
+        },
+        {
+          "before": "    },\n    {\n      \"file\": \"customer-web/src/components/ProductPurchaseControl.tsx\",\n      \"sha256\": \"8784616ca1748e10a44a50312f0a30d24e34a3fc0ade594d325494399322c62e\"\n    },\n    {\n      \"file\": \"customer-web/src/components/PromotionOffers.tsx\",\n",
+          "after": "    },\n    {\n      \"file\": \"customer-web/src/components/ProductPurchaseControl.tsx\",\n      \"sha256\": \"539dbb1c1c389f384be4bc82ce902a210dcabda9353f8219dee8f9b2754621c1\"\n    },\n    {\n      \"file\": \"customer-web/src/components/PromotionOffers.tsx\",\n",
+          "offset": 55546
+        },
+        {
+          "before": "      \"file\": \"customer-web/src/utils/heroMedia.ts\",\n      \"sha256\": \"eee60486ed60b320ebbc04b92f163c87495c5f2b0b4258fe0fd1314530de7714\"\n    },\n    {\n      \"file\": \"customer-web/src/utils/money.ts\",\n      \"sha256\": \"22e3a604940ec4781c81a4f32d3608cad1d4f59dc29ed65a16bc38beca4f7d9e\"\n",
+          "after": "      \"file\": \"customer-web/src/utils/heroMedia.ts\",\n      \"sha256\": \"eee60486ed60b320ebbc04b92f163c87495c5f2b0b4258fe0fd1314530de7714\"\n    },\n    {\n      \"file\": \"customer-web/src/utils/liteProductPricing.ts\",\n      \"sha256\": \"1e7fedab43050ac026598196c8607f87974db2607f3a65908c147b1b297f07d9\"\n    },\n    {\n      \"file\": \"customer-web/src/utils/money.ts\",\n      \"sha256\": \"22e3a604940ec4781c81a4f32d3608cad1d4f59dc29ed65a16bc38beca4f7d9e\"\n",
+          "offset": 62715
+        },
+        {
+          "before": "  ],\n  \"currentOldRefFunctions\": [],\n  \"ok\": true,\n  \"endedAt\": \"2026-11-14T01:25:10.112Z\"\n}\n",
+          "after": "  ],\n  \"currentOldRefFunctions\": [],\n  \"ok\": true,\n  \"endedAt\": \"2026-11-14T15:07:59.566Z\"\n}\n",
+          "offset": 1686910
+        }
+      ]
+    },
+    "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json": {
+      "before": "1651ba9229ac95675846336c02813c77591b1128c447dea93fb686351d47f60e",
+      "after": "8e49439eed118df9bd423b1ea321e3ab0996b20bdbe972f08dbe1af642e7c7bc",
+      "hunks": [
+        {
+          "before": "{\n  \"schemaVersion\": 1,\n  \"startedAt\": \"2026-11-14T01:24:53.857Z\",\n  \"migrationCeiling\": 222,\n  \"managedAccess\": false,\n  \"output\": \"C:\\\\Users\\\\TOP\\\\AppData\\\\Local\\\\Temp\\\\nawasrah-service-access-YPismm\",\n  \"sourceHashes\": [\n    {\n      \"file\": \"src/App.tsx\",\n",
+          "after": "{\n  \"schemaVersion\": 1,\n  \"startedAt\": \"2026-11-14T15:07:43.291Z\",\n  \"migrationCeiling\": 222,\n  \"managedAccess\": false,\n  \"output\": \"C:\\\\Users\\\\TOP\\\\AppData\\\\Local\\\\Temp\\\\nawasrah-service-access-qXuV51\",\n  \"sourceHashes\": [\n    {\n      \"file\": \"src/App.tsx\",\n",
+          "offset": 0
+        },
+        {
+          "before": "    },\n    {\n      \"file\": \"customer-web/src/App.tsx\",\n      \"sha256\": \"c7a86d98b1ca484409be9687e6e9ec98ff349cd8c8f5c4e93c7dbb903e1c9452\"\n    },\n    {\n      \"file\": \"customer-web/src/components/AboutStorePage.tsx\",\n",
+          "after": "    },\n    {\n      \"file\": \"customer-web/src/App.tsx\",\n      \"sha256\": \"440d7c841705b3b1cf697f499632fc7a1274f08a2a62336942a3af4c8a934d73\"\n    },\n    {\n      \"file\": \"customer-web/src/components/AboutStorePage.tsx\",\n",
+          "offset": 50858
+        },
+        {
+          "before": "    },\n    {\n      \"file\": \"customer-web/src/components/CargoAddButton.tsx\",\n      \"sha256\": \"5fdb9851f76905d42ccd97cdcf62905d1ce9db379d98d1f5e14778683ba0fa91\"\n    },\n    {\n      \"file\": \"customer-web/src/components/CartDrawer.tsx\",\n",
+          "after": "    },\n    {\n      \"file\": \"customer-web/src/components/CargoAddButton.tsx\",\n      \"sha256\": \"269e1af458c2ce488257d080e3a4ea60ea8304769bd03b419f3aca8c4eb4e5c6\"\n    },\n    {\n      \"file\": \"customer-web/src/components/CartDrawer.tsx\",\n",
+          "offset": 51156
+        },
+        {
+          "before": "      \"file\": \"customer-web/src/components/HomeCategoryMosaic.tsx\",\n      \"sha256\": \"0ef85482036d6c1c8a5873e22d8ba11a5e0246afd763865f894755a125bb0a28\"\n    },\n    {\n      \"file\": \"customer-web/src/components/MerchandisingSections.tsx\",\n      \"sha256\": \"07c220fc8b667734b1c60355dacfc0a69fa2b119960c2004a70c0efeb9d090ff\"\n",
+          "after": "      \"file\": \"customer-web/src/components/HomeCategoryMosaic.tsx\",\n      \"sha256\": \"0ef85482036d6c1c8a5873e22d8ba11a5e0246afd763865f894755a125bb0a28\"\n    },\n    {\n      \"file\": \"customer-web/src/components/LiteProductPrices.tsx\",\n      \"sha256\": \"8de66505e1039c6447a09962597a7e156c5c68ddab1c3f8a7fb212e7893a1d57\"\n    },\n    {\n      \"file\": \"customer-web/src/components/MerchandisingSections.tsx\",\n      \"sha256\": \"07c220fc8b667734b1c60355dacfc0a69fa2b119960c2004a70c0efeb9d090ff\"\n",
+          "offset": 53275
+        },
+        {
+          "before": "    },\n    {\n      \"file\": \"customer-web/src/components/ProductCard.tsx\",\n      \"sha256\": \"84a85f51554ee6086c376b0520e2f3c834cc44b1a3802658106fa01882b47d5f\"\n    },\n    {\n      \"file\": \"customer-web/src/components/ProductDetailsModal.tsx\",\n      \"sha256\": \"2c87f8eaa45981730f040e7a55de39f6784db17fc5d15c32fa57b85bfba7f4c4\"\n    },\n    {\n      \"file\": \"customer-web/src/components/ProductImage.tsx\",\n",
+          "after": "    },\n    {\n      \"file\": \"customer-web/src/components/ProductCard.tsx\",\n      \"sha256\": \"1a8fef6e0c24e052e9dc7644d328da95bb88f963fbc70aacbd0a2740ad3c0071\"\n    },\n    {\n      \"file\": \"customer-web/src/components/ProductDetailsModal.tsx\",\n      \"sha256\": \"9dde002d63f43659ed85684b57a6b1998bb1e2009ea2272dfa6f333806b91822\"\n    },\n    {\n      \"file\": \"customer-web/src/components/ProductImage.tsx\",\n",
+          "offset": 55066
+        },
+        {
+          "before": "    },\n    {\n      \"file\": \"customer-web/src/components/ProductPurchaseControl.tsx\",\n      \"sha256\": \"8784616ca1748e10a44a50312f0a30d24e34a3fc0ade594d325494399322c62e\"\n    },\n    {\n      \"file\": \"customer-web/src/components/PromotionOffers.tsx\",\n",
+          "after": "    },\n    {\n      \"file\": \"customer-web/src/components/ProductPurchaseControl.tsx\",\n      \"sha256\": \"539dbb1c1c389f384be4bc82ce902a210dcabda9353f8219dee8f9b2754621c1\"\n    },\n    {\n      \"file\": \"customer-web/src/components/PromotionOffers.tsx\",\n",
+          "offset": 55546
+        },
+        {
+          "before": "      \"file\": \"customer-web/src/utils/heroMedia.ts\",\n      \"sha256\": \"eee60486ed60b320ebbc04b92f163c87495c5f2b0b4258fe0fd1314530de7714\"\n    },\n    {\n      \"file\": \"customer-web/src/utils/money.ts\",\n      \"sha256\": \"22e3a604940ec4781c81a4f32d3608cad1d4f59dc29ed65a16bc38beca4f7d9e\"\n",
+          "after": "      \"file\": \"customer-web/src/utils/heroMedia.ts\",\n      \"sha256\": \"eee60486ed60b320ebbc04b92f163c87495c5f2b0b4258fe0fd1314530de7714\"\n    },\n    {\n      \"file\": \"customer-web/src/utils/liteProductPricing.ts\",\n      \"sha256\": \"1e7fedab43050ac026598196c8607f87974db2607f3a65908c147b1b297f07d9\"\n    },\n    {\n      \"file\": \"customer-web/src/utils/money.ts\",\n      \"sha256\": \"22e3a604940ec4781c81a4f32d3608cad1d4f59dc29ed65a16bc38beca4f7d9e\"\n",
+          "offset": 62715
+        },
+        {
+          "before": "  ],\n  \"currentOldRefFunctions\": [],\n  \"ok\": true,\n  \"endedAt\": \"2026-11-14T01:25:10.112Z\",\n  \"savedCatalogAssessment\": {\n    \"storagePolicies\": [\n      {\n",
+          "after": "  ],\n  \"currentOldRefFunctions\": [],\n  \"ok\": true,\n  \"endedAt\": \"2026-11-14T15:07:59.566Z\",\n  \"savedCatalogAssessment\": {\n    \"storagePolicies\": [\n      {\n",
+          "offset": 1686910
+        },
+        {
+          "before": "      \"category\": \"TEST_CONTRACT\"\n    }\n  ],\n  \"historicalAclReviewProvenance\": \"Seven identities/revokedEntries and savedCatalogAssessment retain the original saved-catalog review;sites,EXECUTE and invocations are rebound to actual local222 evidence. No hosted observation.\"\n}\n",
+          "after": "      \"category\": \"TEST_CONTRACT\"\n    }\n  ],\n  \"historicalAclReviewProvenance\": \"Original seven-identity saved-catalog assessment retained;sites/EXECUTE/invocations bind isolated222 runtime after owner-approved OFF card/details prices. No hosted observation.\"\n}\n",
+          "offset": 1701728
+        }
+      ]
+    },
+    "docs/operations/SERVICE_ACCESS_INVENTORY.json": {
+      "before": "7157d4e733fa4e5619d87e2b6608e81a3003e48cec08b8117e8abfca83b4923a",
+      "after": "2010d92f68d862031f441418cc3db316b4d64f1f377774dd7ae7ee491ec5c814",
+      "hunks": [
+        {
+          "before": "    },\n    {\n      \"file\": \"customer-web/src/App.tsx\",\n      \"sha256\": \"c7a86d98b1ca484409be9687e6e9ec98ff349cd8c8f5c4e93c7dbb903e1c9452\"\n    },\n    {\n      \"file\": \"customer-web/src/components/AboutStorePage.tsx\",\n",
+          "after": "    },\n    {\n      \"file\": \"customer-web/src/App.tsx\",\n      \"sha256\": \"440d7c841705b3b1cf697f499632fc7a1274f08a2a62336942a3af4c8a934d73\"\n    },\n    {\n      \"file\": \"customer-web/src/components/AboutStorePage.tsx\",\n",
+          "offset": 50731
+        },
+        {
+          "before": "    },\n    {\n      \"file\": \"customer-web/src/components/CargoAddButton.tsx\",\n      \"sha256\": \"5fdb9851f76905d42ccd97cdcf62905d1ce9db379d98d1f5e14778683ba0fa91\"\n    },\n    {\n      \"file\": \"customer-web/src/components/CartDrawer.tsx\",\n",
+          "after": "    },\n    {\n      \"file\": \"customer-web/src/components/CargoAddButton.tsx\",\n      \"sha256\": \"269e1af458c2ce488257d080e3a4ea60ea8304769bd03b419f3aca8c4eb4e5c6\"\n    },\n    {\n      \"file\": \"customer-web/src/components/CartDrawer.tsx\",\n",
+          "offset": 51029
+        },
+        {
+          "before": "      \"file\": \"customer-web/src/components/HomeCategoryMosaic.tsx\",\n      \"sha256\": \"0ef85482036d6c1c8a5873e22d8ba11a5e0246afd763865f894755a125bb0a28\"\n    },\n    {\n      \"file\": \"customer-web/src/components/MerchandisingSections.tsx\",\n      \"sha256\": \"07c220fc8b667734b1c60355dacfc0a69fa2b119960c2004a70c0efeb9d090ff\"\n",
+          "after": "      \"file\": \"customer-web/src/components/HomeCategoryMosaic.tsx\",\n      \"sha256\": \"0ef85482036d6c1c8a5873e22d8ba11a5e0246afd763865f894755a125bb0a28\"\n    },\n    {\n      \"file\": \"customer-web/src/components/LiteProductPrices.tsx\",\n      \"sha256\": \"8de66505e1039c6447a09962597a7e156c5c68ddab1c3f8a7fb212e7893a1d57\"\n    },\n    {\n      \"file\": \"customer-web/src/components/MerchandisingSections.tsx\",\n      \"sha256\": \"07c220fc8b667734b1c60355dacfc0a69fa2b119960c2004a70c0efeb9d090ff\"\n",
+          "offset": 53148
+        },
+        {
+          "before": "    },\n    {\n      \"file\": \"customer-web/src/components/ProductCard.tsx\",\n      \"sha256\": \"84a85f51554ee6086c376b0520e2f3c834cc44b1a3802658106fa01882b47d5f\"\n    },\n    {\n      \"file\": \"customer-web/src/components/ProductDetailsModal.tsx\",\n      \"sha256\": \"2c87f8eaa45981730f040e7a55de39f6784db17fc5d15c32fa57b85bfba7f4c4\"\n    },\n    {\n      \"file\": \"customer-web/src/components/ProductImage.tsx\",\n",
+          "after": "    },\n    {\n      \"file\": \"customer-web/src/components/ProductCard.tsx\",\n      \"sha256\": \"1a8fef6e0c24e052e9dc7644d328da95bb88f963fbc70aacbd0a2740ad3c0071\"\n    },\n    {\n      \"file\": \"customer-web/src/components/ProductDetailsModal.tsx\",\n      \"sha256\": \"9dde002d63f43659ed85684b57a6b1998bb1e2009ea2272dfa6f333806b91822\"\n    },\n    {\n      \"file\": \"customer-web/src/components/ProductImage.tsx\",\n",
+          "offset": 54939
+        },
+        {
+          "before": "    },\n    {\n      \"file\": \"customer-web/src/components/ProductPurchaseControl.tsx\",\n      \"sha256\": \"8784616ca1748e10a44a50312f0a30d24e34a3fc0ade594d325494399322c62e\"\n    },\n    {\n      \"file\": \"customer-web/src/components/PromotionOffers.tsx\",\n",
+          "after": "    },\n    {\n      \"file\": \"customer-web/src/components/ProductPurchaseControl.tsx\",\n      \"sha256\": \"539dbb1c1c389f384be4bc82ce902a210dcabda9353f8219dee8f9b2754621c1\"\n    },\n    {\n      \"file\": \"customer-web/src/components/PromotionOffers.tsx\",\n",
+          "offset": 55419
+        },
+        {
+          "before": "      \"file\": \"customer-web/src/utils/heroMedia.ts\",\n      \"sha256\": \"eee60486ed60b320ebbc04b92f163c87495c5f2b0b4258fe0fd1314530de7714\"\n    },\n    {\n      \"file\": \"customer-web/src/utils/money.ts\",\n      \"sha256\": \"22e3a604940ec4781c81a4f32d3608cad1d4f59dc29ed65a16bc38beca4f7d9e\"\n",
+          "after": "      \"file\": \"customer-web/src/utils/heroMedia.ts\",\n      \"sha256\": \"eee60486ed60b320ebbc04b92f163c87495c5f2b0b4258fe0fd1314530de7714\"\n    },\n    {\n      \"file\": \"customer-web/src/utils/liteProductPricing.ts\",\n      \"sha256\": \"1e7fedab43050ac026598196c8607f87974db2607f3a65908c147b1b297f07d9\"\n    },\n    {\n      \"file\": \"customer-web/src/utils/money.ts\",\n      \"sha256\": \"22e3a604940ec4781c81a4f32d3608cad1d4f59dc29ed65a16bc38beca4f7d9e\"\n",
+          "offset": 62588
+        }
+      ]
+    },
+    "docs/operations/TABLE_ACCESS_AFTER_222.json": {
+      "before": "5bee24d5568ebf41489dcdf8a51b9cf02f4e8167eeb99d76b6a7b183bf5b43f6",
+      "after": "507696403e4110832ce6401b9c04428bcd6706e485d684e8b9bb9974351cb75b",
+      "hunks": [
+        {
+          "before": "{\n  \"schemaVersion\": 1,\n  \"startedAt\": \"2026-11-14T01:15:00.451Z\",\n  \"managedAccess\": false,\n  \"migrationCeiling\": 222,\n  \"manifest\": [\n",
+          "after": "{\n  \"schemaVersion\": 1,\n  \"startedAt\": \"2026-11-14T15:02:48.628Z\",\n  \"managedAccess\": false,\n  \"migrationCeiling\": 222,\n  \"manifest\": [\n",
+          "offset": 0
+        },
+        {
+          "before": "    \"220_sales_only_operating_mode.sql\",\n    \"222_independent_lite_parcel_prices.sql\"\n  ],\n  \"output\": \"C:\\\\Users\\\\TOP\\\\AppData\\\\Local\\\\Temp\\\\nawasrah-table-access-FLmd2z\",\n  \"stage\": \"rls-and-acl\",\n  \"results\": [\n    {\n",
+          "after": "    \"220_sales_only_operating_mode.sql\",\n    \"222_independent_lite_parcel_prices.sql\"\n  ],\n  \"output\": \"C:\\\\Users\\\\TOP\\\\AppData\\\\Local\\\\Temp\\\\nawasrah-table-access-K3D4ud\",\n  \"stage\": \"rls-and-acl\",\n  \"results\": [\n    {\n",
+          "offset": 8573
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"583854e7-40c3-4a9a-8b23-0ca816b73995\"\n          ]\n        },\n        {\n",
+          "offset": 9351
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"583854e7-40c3-4a9a-8b23-0ca816b73995\"\n          ]\n        },\n        {\n",
+          "offset": 10165
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"583854e7-40c3-4a9a-8b23-0ca816b73995\"\n          ]\n        },\n        {\n",
+          "offset": 10979
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"583854e7-40c3-4a9a-8b23-0ca816b73995\"\n          ]\n        },\n        {\n",
+          "offset": 11778
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"583854e7-40c3-4a9a-8b23-0ca816b73995\"\n          ]\n        },\n        {\n",
+          "offset": 12575
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"583854e7-40c3-4a9a-8b23-0ca816b73995\"\n          ]\n        },\n        {\n",
+          "offset": 13372
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"cb735545-91f2-40e7-b3a4-ddcf6ed60f56\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"00e8bdfb-631d-4acd-9ad3-56a042873246\"\n          ]\n        },\n        {\n",
+          "offset": 14186
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"cb735545-91f2-40e7-b3a4-ddcf6ed60f56\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"00e8bdfb-631d-4acd-9ad3-56a042873246\"\n          ]\n        },\n        {\n",
+          "offset": 14998
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"cb735545-91f2-40e7-b3a4-ddcf6ed60f56\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"00e8bdfb-631d-4acd-9ad3-56a042873246\"\n          ]\n        },\n        {\n",
+          "offset": 15810
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"2cbcd16e-a056-4bea-9d33-0ab859fe2e17\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"dc4d5e17-f603-4609-9c9c-a1e29db10919\"\n          ]\n        },\n        {\n",
+          "offset": 21516
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"2cbcd16e-a056-4bea-9d33-0ab859fe2e17\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"dc4d5e17-f603-4609-9c9c-a1e29db10919\"\n          ]\n        },\n        {\n",
+          "offset": 22452
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"2cbcd16e-a056-4bea-9d33-0ab859fe2e17\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"dc4d5e17-f603-4609-9c9c-a1e29db10919\"\n          ]\n        },\n        {\n",
+          "offset": 23388
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"abe288d4-5cf0-43ba-9e71-565cdefc02e5\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"a47eb20d-2813-4418-bb14-3cbec7dc78e4\"\n          ]\n        },\n        {\n",
+          "offset": 24398
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"abe288d4-5cf0-43ba-9e71-565cdefc02e5\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"a47eb20d-2813-4418-bb14-3cbec7dc78e4\"\n          ]\n        },\n        {\n",
+          "offset": 25406
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"abe288d4-5cf0-43ba-9e71-565cdefc02e5\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"a47eb20d-2813-4418-bb14-3cbec7dc78e4\"\n          ]\n        },\n        {\n",
+          "offset": 26414
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"2cbcd16e-a056-4bea-9d33-0ab859fe2e17\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"dc4d5e17-f603-4609-9c9c-a1e29db10919\"\n          ]\n        },\n        {\n",
+          "offset": 27562
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"2cbcd16e-a056-4bea-9d33-0ab859fe2e17\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"dc4d5e17-f603-4609-9c9c-a1e29db10919\"\n          ]\n        },\n        {\n",
+          "offset": 28708
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"2cbcd16e-a056-4bea-9d33-0ab859fe2e17\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"dc4d5e17-f603-4609-9c9c-a1e29db10919\"\n          ]\n        },\n        {\n",
+          "offset": 29854
+        },
+        {
+          "before": "          \"args\": [\n            \"id\",\n            [\n              \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n            ]\n          ]\n        }\n",
+          "after": "          \"args\": [\n            \"id\",\n            [\n              \"583854e7-40c3-4a9a-8b23-0ca816b73995\"\n            ]\n          ]\n        }\n",
+          "offset": 42630
+        },
+        {
+          "before": "          \"args\": [\n            \"id\",\n            [\n              \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n            ]\n          ]\n        }\n",
+          "after": "          \"args\": [\n            \"id\",\n            [\n              \"583854e7-40c3-4a9a-8b23-0ca816b73995\"\n            ]\n          ]\n        }\n",
+          "offset": 43716
+        },
+        {
+          "before": "          \"args\": [\n            \"id\",\n            [\n              \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n            ]\n          ]\n        }\n",
+          "after": "          \"args\": [\n            \"id\",\n            [\n              \"583854e7-40c3-4a9a-8b23-0ca816b73995\"\n            ]\n          ]\n        }\n",
+          "offset": 44802
+        },
+        {
+          "before": "          \"args\": [\n            \"order_id\",\n            [\n              \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n            ]\n          ]\n        },\n",
+          "after": "          \"args\": [\n            \"order_id\",\n            [\n              \"583854e7-40c3-4a9a-8b23-0ca816b73995\"\n            ]\n          ]\n        },\n",
+          "offset": 45604
+        },
+        {
+          "before": "          \"args\": [\n            \"order_id\",\n            [\n              \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n            ]\n          ]\n        },\n",
+          "after": "          \"args\": [\n            \"order_id\",\n            [\n              \"583854e7-40c3-4a9a-8b23-0ca816b73995\"\n            ]\n          ]\n        },\n",
+          "offset": 47001
+        },
+        {
+          "before": "          \"args\": [\n            \"order_id\",\n            [\n              \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n            ]\n          ]\n        },\n",
+          "after": "          \"args\": [\n            \"order_id\",\n            [\n              \"583854e7-40c3-4a9a-8b23-0ca816b73995\"\n            ]\n          ]\n        },\n",
+          "offset": 48398
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"583854e7-40c3-4a9a-8b23-0ca816b73995\"\n          ]\n        },\n        {\n",
+          "offset": 51716
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"583854e7-40c3-4a9a-8b23-0ca816b73995\"\n          ]\n        },\n        {\n",
+          "offset": 54503
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"583854e7-40c3-4a9a-8b23-0ca816b73995\"\n          ]\n        },\n        {\n",
+          "offset": 57290
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"order_id\",\n            \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"order_id\",\n            \"583854e7-40c3-4a9a-8b23-0ca816b73995\"\n          ]\n        },\n        {\n",
+          "offset": 58169
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"order_id\",\n            \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"order_id\",\n            \"583854e7-40c3-4a9a-8b23-0ca816b73995\"\n          ]\n        },\n        {\n",
+          "offset": 59094
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"order_id\",\n            \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"order_id\",\n            \"583854e7-40c3-4a9a-8b23-0ca816b73995\"\n          ]\n        },\n        {\n",
+          "offset": 60019
+        },
+        {
+          "before": "          \"args\": [\n            \"parcel_instance_id\",\n            [\n              \"cf128f97-cafd-484a-81e2-8c6b2def6c57\"\n            ]\n          ]\n        }\n",
+          "after": "          \"args\": [\n            \"parcel_instance_id\",\n            [\n              \"26820a6e-fe0c-4b50-85e2-e7685829f0e3\"\n            ]\n          ]\n        }\n",
+          "offset": 60992
+        },
+        {
+          "before": "          \"args\": [\n            \"parcel_instance_id\",\n            [\n              \"cf128f97-cafd-484a-81e2-8c6b2def6c57\"\n            ]\n          ]\n        }\n",
+          "after": "          \"args\": [\n            \"parcel_instance_id\",\n            [\n              \"26820a6e-fe0c-4b50-85e2-e7685829f0e3\"\n            ]\n          ]\n        }\n",
+          "offset": 61863
+        },
+        {
+          "before": "          \"args\": [\n            \"parcel_instance_id\",\n            [\n              \"cf128f97-cafd-484a-81e2-8c6b2def6c57\"\n            ]\n          ]\n        }\n",
+          "after": "          \"args\": [\n            \"parcel_instance_id\",\n            [\n              \"26820a6e-fe0c-4b50-85e2-e7685829f0e3\"\n            ]\n          ]\n        }\n",
+          "offset": 62734
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"abe288d4-5cf0-43ba-9e71-565cdefc02e5\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"a47eb20d-2813-4418-bb14-3cbec7dc78e4\"\n          ]\n        },\n        {\n",
+          "offset": 128004
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"abe288d4-5cf0-43ba-9e71-565cdefc02e5\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"a47eb20d-2813-4418-bb14-3cbec7dc78e4\"\n          ]\n        },\n        {\n",
+          "offset": 130089
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"abe288d4-5cf0-43ba-9e71-565cdefc02e5\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"a47eb20d-2813-4418-bb14-3cbec7dc78e4\"\n          ]\n        },\n        {\n",
+          "offset": 132174
+        },
+        {
+          "before": "            {\n              \"event_key\": \"audit-local-dispatch\",\n              \"event_type\": \"new_order\",\n              \"entity_id\": \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\",\n              \"status\": \"processing\"\n            }\n          ]\n",
+          "after": "            {\n              \"event_key\": \"audit-local-dispatch\",\n              \"event_type\": \"new_order\",\n              \"entity_id\": \"583854e7-40c3-4a9a-8b23-0ca816b73995\",\n              \"status\": \"processing\"\n            }\n          ]\n",
+          "offset": 174130
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"583854e7-40c3-4a9a-8b23-0ca816b73995\"\n          ]\n        },\n        {\n",
+          "offset": 174984
+        },
+        {
+          "before": "              \"status\": \"failed\",\n              \"failed_count\": 1,\n              \"last_error\": \"isolated diagnostic\",\n              \"completed_at\": \"2026-11-14T01:15:18.104Z\"\n            }\n          ]\n        },\n",
+          "after": "              \"status\": \"failed\",\n              \"failed_count\": 1,\n              \"last_error\": \"isolated diagnostic\",\n              \"completed_at\": \"2026-11-14T15:03:05.009Z\"\n            }\n          ]\n        },\n",
+          "offset": 175867
+        },
+        {
+          "before": "              \"status\": \"failed\",\n              \"failed_count\": 1,\n              \"last_error\": \"isolated diagnostic\",\n              \"completed_at\": \"2026-11-14T01:15:18.133Z\"\n            }\n          ]\n        },\n",
+          "after": "              \"status\": \"failed\",\n              \"failed_count\": 1,\n              \"last_error\": \"isolated diagnostic\",\n              \"completed_at\": \"2026-11-14T15:03:05.026Z\"\n            }\n          ]\n        },\n",
+          "offset": 176768
+        },
+        {
+          "before": "          \"args\": [\n            {\n              \"failure_count\": 0,\n              \"last_success_at\": \"2026-11-14T01:15:18.158Z\",\n              \"last_failure_message\": null,\n              \"updated_at\": \"2026-11-14T01:15:18.158Z\"\n            }\n          ]\n        },\n",
+          "after": "          \"args\": [\n            {\n              \"failure_count\": 0,\n              \"last_success_at\": \"2026-11-14T15:03:05.042Z\",\n              \"last_failure_message\": null,\n              \"updated_at\": \"2026-11-14T15:03:05.042Z\"\n            }\n          ]\n        },\n",
+          "offset": 177638
+        },
+        {
+          "before": "            {\n              \"is_active\": false,\n              \"failure_count\": 1,\n              \"last_failure_at\": \"2026-11-14T01:15:18.194Z\",\n              \"last_failure_message\": \"isolated diagnostic\",\n              \"updated_at\": \"2026-11-14T01:15:18.194Z\"\n            }\n          ]\n        },\n",
+          "after": "            {\n              \"is_active\": false,\n              \"failure_count\": 1,\n              \"last_failure_at\": \"2026-11-14T15:03:05.060Z\",\n              \"last_failure_message\": \"isolated diagnostic\",\n              \"updated_at\": \"2026-11-14T15:03:05.060Z\"\n            }\n          ]\n        },\n",
+          "offset": 178590
+        },
+        {
+          "before": "              \"delivered_count\": 1,\n              \"failed_count\": 0,\n              \"last_error\": null,\n              \"completed_at\": \"2026-11-14T01:15:18.222Z\"\n            }\n          ]\n        },\n",
+          "after": "              \"delivered_count\": 1,\n              \"failed_count\": 0,\n              \"last_error\": null,\n              \"completed_at\": \"2026-11-14T15:03:05.090Z\"\n            }\n          ]\n        },\n",
+          "offset": 179616
+        },
+        {
+          "before": "    },\n    {\n      \"file\": \"customer-web/src/App.tsx\",\n      \"sha256\": \"c7a86d98b1ca484409be9687e6e9ec98ff349cd8c8f5c4e93c7dbb903e1c9452\"\n    },\n    {\n      \"file\": \"customer-web/src/components/AboutStorePage.tsx\",\n",
+          "after": "    },\n    {\n      \"file\": \"customer-web/src/App.tsx\",\n      \"sha256\": \"440d7c841705b3b1cf697f499632fc7a1274f08a2a62336942a3af4c8a934d73\"\n    },\n    {\n      \"file\": \"customer-web/src/components/AboutStorePage.tsx\",\n",
+          "offset": 4868069
+        },
+        {
+          "before": "    },\n    {\n      \"file\": \"customer-web/src/components/CargoAddButton.tsx\",\n      \"sha256\": \"5fdb9851f76905d42ccd97cdcf62905d1ce9db379d98d1f5e14778683ba0fa91\"\n    },\n    {\n      \"file\": \"customer-web/src/components/CartDrawer.tsx\",\n",
+          "after": "    },\n    {\n      \"file\": \"customer-web/src/components/CargoAddButton.tsx\",\n      \"sha256\": \"269e1af458c2ce488257d080e3a4ea60ea8304769bd03b419f3aca8c4eb4e5c6\"\n    },\n    {\n      \"file\": \"customer-web/src/components/CartDrawer.tsx\",\n",
+          "offset": 4868367
+        },
+        {
+          "before": "      \"file\": \"customer-web/src/components/HomeCategoryMosaic.tsx\",\n      \"sha256\": \"0ef85482036d6c1c8a5873e22d8ba11a5e0246afd763865f894755a125bb0a28\"\n    },\n    {\n      \"file\": \"customer-web/src/components/MerchandisingSections.tsx\",\n      \"sha256\": \"07c220fc8b667734b1c60355dacfc0a69fa2b119960c2004a70c0efeb9d090ff\"\n",
+          "after": "      \"file\": \"customer-web/src/components/HomeCategoryMosaic.tsx\",\n      \"sha256\": \"0ef85482036d6c1c8a5873e22d8ba11a5e0246afd763865f894755a125bb0a28\"\n    },\n    {\n      \"file\": \"customer-web/src/components/LiteProductPrices.tsx\",\n      \"sha256\": \"8de66505e1039c6447a09962597a7e156c5c68ddab1c3f8a7fb212e7893a1d57\"\n    },\n    {\n      \"file\": \"customer-web/src/components/MerchandisingSections.tsx\",\n      \"sha256\": \"07c220fc8b667734b1c60355dacfc0a69fa2b119960c2004a70c0efeb9d090ff\"\n",
+          "offset": 4870486
+        },
+        {
+          "before": "    },\n    {\n      \"file\": \"customer-web/src/components/ProductCard.tsx\",\n      \"sha256\": \"84a85f51554ee6086c376b0520e2f3c834cc44b1a3802658106fa01882b47d5f\"\n    },\n    {\n      \"file\": \"customer-web/src/components/ProductDetailsModal.tsx\",\n      \"sha256\": \"2c87f8eaa45981730f040e7a55de39f6784db17fc5d15c32fa57b85bfba7f4c4\"\n    },\n    {\n      \"file\": \"customer-web/src/components/ProductImage.tsx\",\n",
+          "after": "    },\n    {\n      \"file\": \"customer-web/src/components/ProductCard.tsx\",\n      \"sha256\": \"1a8fef6e0c24e052e9dc7644d328da95bb88f963fbc70aacbd0a2740ad3c0071\"\n    },\n    {\n      \"file\": \"customer-web/src/components/ProductDetailsModal.tsx\",\n      \"sha256\": \"9dde002d63f43659ed85684b57a6b1998bb1e2009ea2272dfa6f333806b91822\"\n    },\n    {\n      \"file\": \"customer-web/src/components/ProductImage.tsx\",\n",
+          "offset": 4872277
+        },
+        {
+          "before": "    },\n    {\n      \"file\": \"customer-web/src/components/ProductPurchaseControl.tsx\",\n      \"sha256\": \"8784616ca1748e10a44a50312f0a30d24e34a3fc0ade594d325494399322c62e\"\n    },\n    {\n      \"file\": \"customer-web/src/components/PromotionOffers.tsx\",\n",
+          "after": "    },\n    {\n      \"file\": \"customer-web/src/components/ProductPurchaseControl.tsx\",\n      \"sha256\": \"539dbb1c1c389f384be4bc82ce902a210dcabda9353f8219dee8f9b2754621c1\"\n    },\n    {\n      \"file\": \"customer-web/src/components/PromotionOffers.tsx\",\n",
+          "offset": 4872757
+        },
+        {
+          "before": "      \"file\": \"customer-web/src/utils/heroMedia.ts\",\n      \"sha256\": \"eee60486ed60b320ebbc04b92f163c87495c5f2b0b4258fe0fd1314530de7714\"\n    },\n    {\n      \"file\": \"customer-web/src/utils/money.ts\",\n      \"sha256\": \"22e3a604940ec4781c81a4f32d3608cad1d4f59dc29ed65a16bc38beca4f7d9e\"\n",
+          "after": "      \"file\": \"customer-web/src/utils/heroMedia.ts\",\n      \"sha256\": \"eee60486ed60b320ebbc04b92f163c87495c5f2b0b4258fe0fd1314530de7714\"\n    },\n    {\n      \"file\": \"customer-web/src/utils/liteProductPricing.ts\",\n      \"sha256\": \"1e7fedab43050ac026598196c8607f87974db2607f3a65908c147b1b297f07d9\"\n    },\n    {\n      \"file\": \"customer-web/src/utils/money.ts\",\n      \"sha256\": \"22e3a604940ec4781c81a4f32d3608cad1d4f59dc29ed65a16bc38beca4f7d9e\"\n",
+          "offset": 4879926
+        },
+        {
+          "before": "    }\n  ],\n  \"fixture\": {\n    \"orderId\": \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\",\n    \"operationId\": \"cb735545-91f2-40e7-b3a4-ddcf6ed60f56\",\n    \"receiptId\": \"2cbcd16e-a056-4bea-9d33-0ab859fe2e17\",\n    \"poId\": \"abe288d4-5cf0-43ba-9e71-565cdefc02e5\",\n    \"subscriptionId\": \"92600000-0000-4000-8000-000000000701\",\n    \"instances\": [\n      \"cf128f97-cafd-484a-81e2-8c6b2def6c57\"\n    ]\n  },\n  \"access\": [\n",
+          "after": "    }\n  ],\n  \"fixture\": {\n    \"orderId\": \"583854e7-40c3-4a9a-8b23-0ca816b73995\",\n    \"operationId\": \"00e8bdfb-631d-4acd-9ad3-56a042873246\",\n    \"receiptId\": \"dc4d5e17-f603-4609-9c9c-a1e29db10919\",\n    \"poId\": \"a47eb20d-2813-4418-bb14-3cbec7dc78e4\",\n    \"subscriptionId\": \"92600000-0000-4000-8000-000000000701\",\n    \"instances\": [\n      \"26820a6e-fe0c-4b50-85e2-e7685829f0e3\"\n    ]\n  },\n  \"access\": [\n",
+          "offset": 4883209
+        },
+        {
+          "before": "    \"zero_rows\": 9,\n    \"other_error\": 0\n  },\n  \"endedAt\": \"2026-11-14T01:17:28.629Z\"\n}\n",
+          "after": "    \"zero_rows\": 9,\n    \"other_error\": 0\n  },\n  \"endedAt\": \"2026-11-14T15:04:55.830Z\"\n}\n",
+          "offset": 5030417
+        }
+      ]
+    },
+    "docs/operations/TABLE_ACCESS_INVENTORY.json": {
+      "before": "82905864adc01dbfd18a0b11a6e24ff145d992d22c34d500a63d88b456982e53",
+      "after": "7c49911599746437e08f11a435ad7238d3ac43e22c56f7b231b8afc5d6c2215e",
+      "hunks": [
+        {
+          "before": "    },\n    {\n      \"file\": \"customer-web/src/App.tsx\",\n      \"sha256\": \"c7a86d98b1ca484409be9687e6e9ec98ff349cd8c8f5c4e93c7dbb903e1c9452\"\n    },\n    {\n      \"file\": \"customer-web/src/components/AboutStorePage.tsx\",\n",
+          "after": "    },\n    {\n      \"file\": \"customer-web/src/App.tsx\",\n      \"sha256\": \"440d7c841705b3b1cf697f499632fc7a1274f08a2a62336942a3af4c8a934d73\"\n    },\n    {\n      \"file\": \"customer-web/src/components/AboutStorePage.tsx\",\n",
+          "offset": 50726
+        },
+        {
+          "before": "    },\n    {\n      \"file\": \"customer-web/src/components/CargoAddButton.tsx\",\n      \"sha256\": \"5fdb9851f76905d42ccd97cdcf62905d1ce9db379d98d1f5e14778683ba0fa91\"\n    },\n    {\n      \"file\": \"customer-web/src/components/CartDrawer.tsx\",\n",
+          "after": "    },\n    {\n      \"file\": \"customer-web/src/components/CargoAddButton.tsx\",\n      \"sha256\": \"269e1af458c2ce488257d080e3a4ea60ea8304769bd03b419f3aca8c4eb4e5c6\"\n    },\n    {\n      \"file\": \"customer-web/src/components/CartDrawer.tsx\",\n",
+          "offset": 51024
+        },
+        {
+          "before": "      \"file\": \"customer-web/src/components/HomeCategoryMosaic.tsx\",\n      \"sha256\": \"0ef85482036d6c1c8a5873e22d8ba11a5e0246afd763865f894755a125bb0a28\"\n    },\n    {\n      \"file\": \"customer-web/src/components/MerchandisingSections.tsx\",\n      \"sha256\": \"07c220fc8b667734b1c60355dacfc0a69fa2b119960c2004a70c0efeb9d090ff\"\n",
+          "after": "      \"file\": \"customer-web/src/components/HomeCategoryMosaic.tsx\",\n      \"sha256\": \"0ef85482036d6c1c8a5873e22d8ba11a5e0246afd763865f894755a125bb0a28\"\n    },\n    {\n      \"file\": \"customer-web/src/components/LiteProductPrices.tsx\",\n      \"sha256\": \"8de66505e1039c6447a09962597a7e156c5c68ddab1c3f8a7fb212e7893a1d57\"\n    },\n    {\n      \"file\": \"customer-web/src/components/MerchandisingSections.tsx\",\n      \"sha256\": \"07c220fc8b667734b1c60355dacfc0a69fa2b119960c2004a70c0efeb9d090ff\"\n",
+          "offset": 53143
+        },
+        {
+          "before": "    },\n    {\n      \"file\": \"customer-web/src/components/ProductCard.tsx\",\n      \"sha256\": \"84a85f51554ee6086c376b0520e2f3c834cc44b1a3802658106fa01882b47d5f\"\n    },\n    {\n      \"file\": \"customer-web/src/components/ProductDetailsModal.tsx\",\n      \"sha256\": \"2c87f8eaa45981730f040e7a55de39f6784db17fc5d15c32fa57b85bfba7f4c4\"\n    },\n    {\n      \"file\": \"customer-web/src/components/ProductImage.tsx\",\n",
+          "after": "    },\n    {\n      \"file\": \"customer-web/src/components/ProductCard.tsx\",\n      \"sha256\": \"1a8fef6e0c24e052e9dc7644d328da95bb88f963fbc70aacbd0a2740ad3c0071\"\n    },\n    {\n      \"file\": \"customer-web/src/components/ProductDetailsModal.tsx\",\n      \"sha256\": \"9dde002d63f43659ed85684b57a6b1998bb1e2009ea2272dfa6f333806b91822\"\n    },\n    {\n      \"file\": \"customer-web/src/components/ProductImage.tsx\",\n",
+          "offset": 54934
+        },
+        {
+          "before": "    },\n    {\n      \"file\": \"customer-web/src/components/ProductPurchaseControl.tsx\",\n      \"sha256\": \"8784616ca1748e10a44a50312f0a30d24e34a3fc0ade594d325494399322c62e\"\n    },\n    {\n      \"file\": \"customer-web/src/components/PromotionOffers.tsx\",\n",
+          "after": "    },\n    {\n      \"file\": \"customer-web/src/components/ProductPurchaseControl.tsx\",\n      \"sha256\": \"539dbb1c1c389f384be4bc82ce902a210dcabda9353f8219dee8f9b2754621c1\"\n    },\n    {\n      \"file\": \"customer-web/src/components/PromotionOffers.tsx\",\n",
+          "offset": 55414
+        },
+        {
+          "before": "      \"file\": \"customer-web/src/utils/heroMedia.ts\",\n      \"sha256\": \"eee60486ed60b320ebbc04b92f163c87495c5f2b0b4258fe0fd1314530de7714\"\n    },\n    {\n      \"file\": \"customer-web/src/utils/money.ts\",\n      \"sha256\": \"22e3a604940ec4781c81a4f32d3608cad1d4f59dc29ed65a16bc38beca4f7d9e\"\n",
+          "after": "      \"file\": \"customer-web/src/utils/heroMedia.ts\",\n      \"sha256\": \"eee60486ed60b320ebbc04b92f163c87495c5f2b0b4258fe0fd1314530de7714\"\n    },\n    {\n      \"file\": \"customer-web/src/utils/liteProductPricing.ts\",\n      \"sha256\": \"1e7fedab43050ac026598196c8607f87974db2607f3a65908c147b1b297f07d9\"\n    },\n    {\n      \"file\": \"customer-web/src/utils/money.ts\",\n      \"sha256\": \"22e3a604940ec4781c81a4f32d3608cad1d4f59dc29ed65a16bc38beca4f7d9e\"\n",
+          "offset": 62583
+        },
+        {
+          "before": "    },\n    {\n      \"file\": \"customer-web/src/App.tsx\",\n      \"line\": 2012,\n      \"reason\": \"JavaScript Array/typed-array, not Supabase\"\n    },\n    {\n",
+          "after": "    },\n    {\n      \"file\": \"customer-web/src/App.tsx\",\n      \"line\": 2013,\n      \"reason\": \"JavaScript Array/typed-array, not Supabase\"\n    },\n    {\n",
+          "offset": 197960
+        }
+      ]
+    },
+    "docs/reviews/price-visibility/after-1280.png": {
+      "before": null,
+      "after": "f10e1ebdc237bb7fe4a0e7eb3ae0c80b2fa1ce5dde31a28fca1deefcc8b20d34",
+      "binary": true,
+      "hunks": []
+    },
+    "docs/reviews/price-visibility/before-1280.png": {
+      "before": null,
+      "after": "aa3046c6ea06c6c0e10f825915858f1cccb645d077d4992f36bfb17ea30bddcb",
+      "binary": true,
+      "hunks": []
+    },
+    "docs/reviews/price-visibility/off-prices-after-1280.png": {
+      "before": null,
+      "after": "5a41c5c44b7f9f9985cac8a3c0e5f53e68f3bc1e47c66a57cb930aa5c9c8eef3",
+      "binary": true,
+      "hunks": []
+    },
+    "docs/reviews/price-visibility/off-prices-before-1280.png": {
+      "before": null,
+      "after": "a69242b4611af77bce0d873a1537f7c3ce07021e91c5462814471b3a7aa0bdbb",
+      "binary": true,
+      "hunks": []
+    },
+    "e2e/isolated-test.ts": {
+      "before": "a0f400f157b3f196aab4304e5b36862873d297af55aa19c6315ee37ffffb19ed",
+      "after": "7a2e983496f6e3e507e88b2d2deba1415c67281aaaa0a546e4ec77fd90b11d31",
+      "hunks": [
+        {
+          "before": "  expect,\n  test as base,\n  type BrowserContext,\n  type Page,\n  type Route,\n} from '@playwright/test';\n",
+          "after": "  expect,\n  test as base,\n  type BrowserContext,\n  type Locator,\n  type Page,\n  type Route,\n} from '@playwright/test';\n",
+          "offset": 66
+        },
+        {
+          "before": "});\n\nexport { expect };\nexport type { BrowserContext, Page, Route };\n",
+          "after": "});\n\nexport { expect };\nexport type { BrowserContext, Locator, Page, Route };\n",
+          "offset": 3847
+        }
+      ]
+    },
+    "e2e/off-product-prices.fixture.ts": {
+      "before": null,
+      "after": "3429976b64395e8364d537cdb9973020b080e25ce3060555139aee1ff2780665",
+      "hunks": []
+    },
+    "e2e/off-product-prices.spec.ts": {
+      "before": null,
+      "after": "9dec8439f014cd06134f06facbbd01ba011b6a986752500274123b9fce290f71",
+      "hunks": []
+    },
+    "e2e/price-visibility-harness.html": {
+      "before": null,
+      "after": "af71f31ff65ac2bc2e001b62014229f0f669925d1c07d58cc9a540a5c4c87610",
+      "hunks": []
+    },
+    "e2e/price-visibility-harness.tsx": {
+      "before": null,
+      "after": "62739b5568da2e750dfef2843251edea9bba61d49171e58f7b8c92678dee6db7",
+      "hunks": []
+    },
+    "e2e/price-visibility.spec.ts": {
+      "before": null,
+      "after": "fdf8dac27db928b9aeae240294e4b662d915dc251cabbfacc1a877c8b30ecd7b",
+      "hunks": []
+    },
+    "scripts/audit/source-before-independent-prices222.mjs": {
+      "before": "1522d5af7adc803fa2958aad845d7a8b4933edc524ff320cf5ad23b875de1246",
+      "after": "fadc28bac8b649245b5338fd1a2ed6b535ca8c688504dc872f430c28cfe3b952",
+      "hunks": [
+        {
+          "before": "// Exact source view for frozen historical evidence. Unknown bytes remain visible.\nimport assert from 'node:assert/strict';\nimport {readFileSync} from 'node:fs';\nimport {execFileSync} from 'node:child_process';\n",
+          "after": "// Exact source view for frozen historical evidence. Unknown bytes remain visible.\nimport{sourceBeforePriceVisibility,restorePriceVisibilityHashes,pathsBeforePriceVisibility}from'./source-before-price-visibility.mjs';\nimport assert from 'node:assert/strict';\nimport {readFileSync} from 'node:fs';\nimport {execFileSync} from 'node:child_process';\n",
+          "offset": 0
+        },
+        {
+          "before": "assert.equal(pins.format,1);assert.equal(pins.baseline,'bd4d696af6eef074bfd523ee54906059a0bb668c');\nconst hash=text=>createHash('sha256').update(text.replaceAll('\\r\\n','\\n')).digest('hex');\nexport function sourceBeforeIndependentPrices222(file,text){\n if(text===null)return null;\n const pin=pins.entries[file];if(!pin||hash(text)!==pin.after)return text;\n if(pin.beforeText===null){assert.equal(pin.before,null,'PRICES222_ADDED_SOURCE_PIN_CORRUPT');return null;}\n assert.equal(hash(pin.beforeText),pin.before,'PRICES222_BEFORE_SOURCE_PIN_CORRUPT');\n return pin.beforeText;\n}\nexport function restoreIndependentPrices222Hashes(rows){return rows.flatMap(row=>{\n const pin=pins.entries[row.file];if(!pin||row.sha256!==pin.after)return[row];\n const raw=readFileSync(new URL('../../'+row.file,import.meta.url),'utf8');\n assert.equal(hash(raw),pin.after,'PRICES222_CURRENT_SOURCE_CHANGED:'+row.file);\n const before=sourceBeforeIndependentPrices222(row.file,raw);\n return before===null?[]:[{...row,sha256:hash(before)}];\n});}\nexport function pathsBeforeIndependentPrices222(files,reference){return files.filter(file=>{\n if(!pins.entries[file])return true;\n const raw=readFileSync(new URL('../../'+file,import.meta.url),'utf8'),before=sourceBeforeIndependentPrices222(file,raw);\n if(before===null)return false;if(before===raw||!reference)return true;\n",
+          "after": "assert.equal(pins.format,1);assert.equal(pins.baseline,'bd4d696af6eef074bfd523ee54906059a0bb668c');\nconst hash=text=>createHash('sha256').update(text.replaceAll('\\r\\n','\\n')).digest('hex');\nexport function sourceBeforeIndependentPrices222(file,text){\n text=sourceBeforePriceVisibility(file,text);\n if(text===null)return null;\n const pin=pins.entries[file];if(!pin||hash(text)!==pin.after)return text;\n if(pin.beforeText===null){assert.equal(pin.before,null,'PRICES222_ADDED_SOURCE_PIN_CORRUPT');return null;}\n assert.equal(hash(pin.beforeText),pin.before,'PRICES222_BEFORE_SOURCE_PIN_CORRUPT');\n return pin.beforeText;\n}\nexport function restoreIndependentPrices222Hashes(rows){return restorePriceVisibilityHashes(rows).flatMap(row=>{\n const pin=pins.entries[row.file];if(!pin||row.sha256!==pin.after)return[row];\n const raw=sourceBeforePriceVisibility(row.file,readFileSync(new URL('../../'+row.file,import.meta.url),'utf8'));\n assert.equal(hash(raw),pin.after,'PRICES222_CURRENT_SOURCE_CHANGED:'+row.file);\n const before=sourceBeforeIndependentPrices222(row.file,raw);\n return before===null?[]:[{...row,sha256:hash(before)}];\n});}\nexport function pathsBeforeIndependentPrices222(files,reference){return pathsBeforePriceVisibility(files).filter(file=>{\n if(!pins.entries[file])return true;\n const raw=readFileSync(new URL('../../'+file,import.meta.url),'utf8'),before=sourceBeforeIndependentPrices222(file,raw);\n if(before===null)return false;if(before===raw||!reference)return true;\n",
+          "offset": 499
+        }
+      ]
+    },
+    "scripts/audit/source-before-price-visibility.mjs": {
+      "before": null,
+      "after": "dcfcb0b6887e6c0e28d73962c266a591168bf7e6cb12714f9a591007f69322eb",
+      "hunks": []
+    },
+    "scripts/testing/build-independent-prices222-history.mjs": {
+      "before": "cfddf3a096b57ead4941daa01f359d811b9f3331303d7033f3cf36a5e2fd40cb",
+      "after": "1cc5d9137e5c0cb87cf4376b8e5820fb1a5de6805ba5a4d830cb312d2ab05ac1",
+      "hunks": [
+        {
+          "before": "import {execFileSync} from 'node:child_process';\nimport {readFileSync,writeFileSync,existsSync} from 'node:fs';\nimport {canonicalLf,sha256} from './maintenance-db-contract.mjs';\nconst root=new URL('../../',import.meta.url),baseline='bd4d696af6eef074bfd523ee54906059a0bb668c';\nconst output='scripts/audit/independent-prices222-source-pins.json';\nassert.ok(process.argv.length===2||process.argv.length===3&&process.argv[2]==='--check','ONLY_CHECK_OPTION');\nconst git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',windowsHide:true,stdio:['ignore','pipe','pipe'],maxBuffer:32*1024**2});\nconst paths=[...new Set([...git(['diff','--name-only','-z',baseline]).split('\\0'),...git(['ls-files','--others','--exclude-standard','-z']).split('\\0')].filter(Boolean))].sort();\nconst previous=JSON.parse(readFileSync(new URL(output,root),'utf8')),entries={};\nfor(const file of paths){\n if(file===output||file.startsWith('docs/agent/ACTIVE_TASK')||file.startsWith('.env'))continue;\n assert.match(file,/\\.(?:[cm]?[jt]sx?|md|json|yml|yaml|html|ps1|sql|css)$/u,'TEXT_SOURCE_PIN_SCOPE:'+file);\n assert.ok(existsSync(new URL(file,root)),'DELETED_SOURCE_REQUIRES_EXPLICIT_HISTORY:'+file);\n const afterText=canonicalLf(readFileSync(new URL(file,root),'utf8'));let beforeText=null;\n try{beforeText=canonicalLf(git(['show',baseline+':'+file]));}catch{/* Exactly new path. */}\n const pin={before:beforeText===null?null:sha256(beforeText),after:sha256(afterText),beforeText};\n if(pin.before===pin.after)continue;\n",
+          "after": "import {execFileSync} from 'node:child_process';\nimport {readFileSync,writeFileSync,existsSync} from 'node:fs';\nimport {canonicalLf,sha256} from './maintenance-db-contract.mjs';\nimport {pathsBeforePriceVisibility,sourceBeforePriceVisibility} from '../audit/source-before-price-visibility.mjs';\nconst root=new URL('../../',import.meta.url),baseline='bd4d696af6eef074bfd523ee54906059a0bb668c';\nconst output='scripts/audit/independent-prices222-source-pins.json';\nassert.ok(process.argv.length===2||process.argv.length===3&&process.argv[2]==='--check','ONLY_CHECK_OPTION');\nconst git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',windowsHide:true,stdio:['ignore','pipe','pipe'],maxBuffer:32*1024**2});\nconst paths=pathsBeforePriceVisibility([...new Set([...git(['diff','--name-only','-z',baseline]).split('\\0'),...git(['ls-files','--others','--exclude-standard','-z']).split('\\0')].filter(Boolean))]).sort();\nconst previous=JSON.parse(readFileSync(new URL(output,root),'utf8')),entries={};\nfor(const file of paths){\n if(file===output||file.startsWith('docs/agent/ACTIVE_TASK')||file.startsWith('.env'))continue;\n assert.match(file,/\\.(?:[cm]?[jt]sx?|md|json|yml|yaml|html|ps1|sql|css)$/u,'TEXT_SOURCE_PIN_SCOPE:'+file);\n assert.ok(existsSync(new URL(file,root)),'DELETED_SOURCE_REQUIRES_EXPLICIT_HISTORY:'+file);\n const afterText=sourceBeforePriceVisibility(file,canonicalLf(readFileSync(new URL(file,root),'utf8')));let beforeText=null;\n if(afterText===null)continue;\n try{beforeText=canonicalLf(git(['show',baseline+':'+file]));}catch{/* Exactly new path. */}\n const pin={before:beforeText===null?null:sha256(beforeText),after:sha256(afterText),beforeText};\n if(pin.before===pin.after)continue;\n",
+          "offset": 117
+        }
+      ]
+    },
+    "scripts/testing/build-price-visibility-history.mjs": {
+      "before": null,
+      "after": "95edc0226a212a63b8e3ae48463d535e0d7bd07ed3ce39b43fea7f489541d13d",
+      "hunks": []
+    },
+    "scripts/testing/package-f-ci-shards.mjs": {
+      "before": "0b48be1bfe3eebdabc95e70b7255f31e26cf8c91fb525c679b46cfe31e594e45",
+      "after": "9d8f9f9e357a1f57da51c18dcd18938b5fa4917e07b09c8f937c77d2a6f2cd90",
+      "hunks": [
+        {
+          "before": "export const packageFShards = Object.freeze(Array.from({length: packageFShardCount}, (_, index) => index + 1));\n// These existing Package F interface suites keep their historical filenames\n// and test identities; share their work across the approved browser shards.\nconst packageFSpecName = /(?:package-f-[^/\\\\]+|admin-navigation-cash206|document-corrections207)\\.spec\\.ts/;\nexport const packageFSpecPattern = new RegExp(`[/\\\\\\\\]${packageFSpecName.source}$`, 'u');\nexport const notPackageFSpecPattern = new RegExp(`[/\\\\\\\\](?!${packageFSpecName.source}$)[^/\\\\\\\\]+$`, 'u');\nexport const isPackageFSpec = file => packageFSpecPattern.test('/' + file.replaceAll('\\\\', '/'));\n",
+          "after": "export const packageFShards = Object.freeze(Array.from({length: packageFShardCount}, (_, index) => index + 1));\n// These existing Package F interface suites keep their historical filenames\n// and test identities; share their work across the approved browser shards.\n// The two price-card suites are product-interface cases too. Keep every test\n// identity and the existing ten shards;do not add work to the20m core engine.\nconst packageFSpecName = /(?:package-f-[^/\\\\]+|admin-navigation-cash206|document-corrections207|off-product-prices|price-visibility)\\.spec\\.ts/;\nexport const packageFSpecPattern = new RegExp(`[/\\\\\\\\]${packageFSpecName.source}$`, 'u');\nexport const notPackageFSpecPattern = new RegExp(`[/\\\\\\\\](?!${packageFSpecName.source}$)[^/\\\\\\\\]+$`, 'u');\nexport const isPackageFSpec = file => packageFSpecPattern.test('/' + file.replaceAll('\\\\', '/'));\n",
+          "offset": 114
+        }
+      ]
+    },
+    "scripts/testing/product-workbook-runtime-view.mjs": {
+      "before": "bbd892df5f909a4edf4b3e8bea382f07c5699962ba32ecd184dbc8b0e1a16bab",
+      "after": "0cc9dc5325ba778ee9af141b734f40c1ce59a588ed32980e149c8d803a18d5f3",
+      "hunks": [
+        {
+          "before": "import{sourceBeforeIndependentPrices222}from'../audit/source-before-independent-prices222.mjs';\nimport{sourceBeforeSalesOnlyPhase3,pathsBeforeSalesOnlyPhase3,salesOnlyPhase3Pins}from'../audit/source-before-sales-only-phase3.mjs';\nimport{pathsBeforeD1Kit}from'../audit/source-before-d1-reference-kit.mjs';\n// Historical CI fixtures only. Owner tools and every SQL byte stay unmodified.\n",
+          "after": "import{sourceBeforeIndependentPrices222}from'../audit/source-before-independent-prices222.mjs';\nimport{sourceBeforePriceVisibility}from'../audit/source-before-price-visibility.mjs';\nimport{sourceBeforeSalesOnlyPhase3,pathsBeforeSalesOnlyPhase3,salesOnlyPhase3Pins}from'../audit/source-before-sales-only-phase3.mjs';\nimport{pathsBeforeD1Kit}from'../audit/source-before-d1-reference-kit.mjs';\n// Historical CI fixtures only. Owner tools and every SQL byte stay unmodified.\n",
+          "offset": 0
+        },
+        {
+          "before": "  git(['clone','--shared','--no-checkout',root,dir]);git(['update-ref','--no-deref','HEAD',head],dir);git(['read-tree',head],dir);await writeFile(path.join(dir,'.git/info/exclude'),'\\n/node_modules\\n/.workbook-runtime-view.json\\n',{flag:'a'});assert.equal(git(['rev-parse','HEAD'],dir).toString('utf8').trim(),head);\n  // Git materializes raw objects without buffering a full archive or tar filename conversion.\n  git(['config','core.autocrlf','false'],dir);git(['checkout-index','--all'],dir);await noLinks(dir);await writeFile(path.join(dir,'.workbook-runtime-view.json'),JSON.stringify(marker));\n  // Rewind only exact approved222 application bytes before composing older views.\n  // Current runners/owner tools and SQL001–220 remain untouched;remove only the\n  // pinned222 addition from this disposable legacy fixture,never an unknown file.\n",
+          "after": "  git(['clone','--shared','--no-checkout',root,dir]);git(['update-ref','--no-deref','HEAD',head],dir);git(['read-tree',head],dir);await writeFile(path.join(dir,'.git/info/exclude'),'\\n/node_modules\\n/.workbook-runtime-view.json\\n',{flag:'a'});assert.equal(git(['rev-parse','HEAD'],dir).toString('utf8').trim(),head);\n  // Git materializes raw objects without buffering a full archive or tar filename conversion.\n  git(['config','core.autocrlf','false'],dir);git(['checkout-index','--all'],dir);await noLinks(dir);await writeFile(path.join(dir,'.workbook-runtime-view.json'),JSON.stringify(marker));\n  // Rewind every reviewed price-card source,including files that did not\n  // exist in the222 pin set. SQL/tools/evidence stay outside this source scope.\n  // The same complete-file hashes and literal inverse reject unknown bytes.\n  const priceLayout=JSON.parse(await readFile(path.join(root,'scripts/audit/price-visibility-source-pin.json'),'utf8'));\n  assert.equal(priceLayout.baseline,'0bd3b5b0fd149c9e92d802c6dabb55b236c127cc');\n  for(const[file]of Object.entries(priceLayout.files)){\n   if(!sourceScope(file))continue;\n   const target=path.join(dir,file),raw=await readFile(target,'utf8'),before=sourceBeforePriceVisibility(file,raw);\n   assert.notEqual(before,raw,'HISTORICAL_PRICE_UNREVIEWED_SOURCE:'+file);\n   assert.equal(before,historicalText(priceLayout.baseline,file),'HISTORICAL_PRICE_NOT_EXACT_GIT:'+file);\n   if(before===null)await unlink(target);else await writeFile(target,before);\n   changed.push({file,after:hash(raw.replaceAll('\\r\\n','\\n')),before:before===null?null:hash(before)});\n  }\n  // Rewind only exact approved222 application bytes before composing older views.\n  // Current runners/owner tools and SQL001–220 remain untouched;remove only the\n  // pinned222 addition from this disposable legacy fixture,never an unknown file.\n",
+          "offset": 14708
+        }
+      ]
+    },
+    "tests/price-card-ci-routing.test.ts": {
+      "before": null,
+      "after": "e0900629b73b27156138e6e3a76f757faec8e3c638d8e1c6225cd6651594e07e",
+      "hunks": []
+    },
+    "tests/price-visibility-history.test.ts": {
+      "before": null,
+      "after": "7617a59115a1399d1b019ca8101c42c289160bf32de9913517a3b6ea711c34e4",
+      "hunks": []
+    }
+  }
+}
