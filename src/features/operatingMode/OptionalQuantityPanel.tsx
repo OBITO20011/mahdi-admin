@@ -17,12 +17,12 @@ function CounterRow({row,disabled,onSave}:{row:OptionalQuantityRow;disabled:bool
    <label className="space-y-1"><span>نبّهني إذا صارت أقل من — {row.unitName}</span><input className="w-full rounded-lg border border-nw-border bg-nw-surface p-2 text-base" inputMode="numeric" value={draft.threshold} disabled={disabled} onChange={e=>setDraft(d=>({...d,threshold:e.target.value}))}/></label>
   </div>
   {!valid&&<p role="alert" className="text-sm text-nw-bad">أدخل أعداداً صحيحة من صفر إلى مليار.</p>}
-  <p className="text-sm text-nw-muted">{row.enabled?`الكمية المحفوظة: ${row.quantity} ${row.unitName} — ${row.effectiveAvailable?'متوفر للمتجر':'غير متوفر للمتجر'}`:'التتبّع مطفأ؛ التوفّر اليدوي هو المعتمد.'}</p>
+  <p className="text-sm text-nw-muted">{row.enabled?`متبقي ${row.quantity} ${row.unitName} — ${row.effectiveAvailable?'متوفر للمتجر':'غير متوفر للمتجر'}`:'التتبّع مطفأ؛ التوفّر اليدوي هو المعتمد.'}</p>
   <UiButton type="button" disabled={disabled||!valid||!changed} onClick={()=>onSave(row,draft)}>حفظ كمية {row.flavorName||row.name}</UiButton>
  </div>;
 }
 
-export function OptionalQuantityPanel({productId,disabled=false}:{productId:string;disabled?:boolean}){
+export function OptionalQuantityPanel({productId,disabled=false,onBaseUnitLock}:{productId:string;disabled?:boolean;onBaseUnitLock?:(productId:string,locked:boolean)=>void}){
  const auth=useAuthStore(),actor=auth.isAuthenticated?auth.user?.id??'':'';
  const owner=auth.roleName==='owner'||auth.roles.includes('owner');
  const [state,setState]=useState<{actor:string;id:string;status:'loading'|'ready'|'error';context:OptionalQuantityContext|null}>({actor:'',id:'',status:'loading',context:null});
@@ -37,6 +37,7 @@ export function OptionalQuantityPanel({productId,disabled=false}:{productId:stri
  },[actor,owner,productId]);
  useEffect(()=>{const sequence=generation;void load();return()=>{sequence.current++;};},[load]);
  const ready=owner&&!!actor&&state.actor===actor&&state.id===productId&&state.status==='ready';
+ useEffect(()=>{onBaseUnitLock?.(productId,!ready||!state.context||state.context.products.some(row=>row.everEnabled));},[ready,state.context,productId,onBaseUnitLock]);
  const save=async(row:OptionalQuantityRow,draft:Draft)=>{
   if(!ready||disabled||busyRef.current)return;
   const quantity=parseOptionalQuantityInput(draft.quantity),threshold=parseOptionalQuantityInput(draft.threshold);
@@ -53,6 +54,7 @@ export function OptionalQuantityPanel({productId,disabled=false}:{productId:stri
   <h4 className="font-bold">عدّاد الكمية الاختياري</h4>
   <p className="text-sm text-nw-muted">التتبّع مستقل لكل منتج أو نكهة. احفظ تعديلات المنتج أولاً؛ حفظ الكمية هنا مستقل ويتطلب جلسة المالك المؤكدة.</p>
   {!ready&&<p role={state.status==='error'?'alert':'status'}>{state.status==='error'?'لم نتأكد من الكمية. أعد القراءة قبل تكرار التعديل. (QTY-01)':'جارٍ قراءة الكميات…'}</p>}
+  {ready&&state.context?.products.some(row=>row.everEnabled)&&<p className="text-sm text-nw-muted">وحدة الأساس ثابتة بعد أول تفعيل للعدّاد؛ تبقى إضافة الطرد وتعديل عدده وأسعاره متاحة.</p>}
   {ready&&state.context?.products.map(row=><CounterRow key={`${row.productId}:${row.revision}`} row={row} disabled={disabled||busy} onSave={(r,d)=>void save(r,d)}/>)}
   <UiButton type="button" disabled={disabled||busy||state.status==='loading'} onClick={()=>void load()}>إعادة قراءة الكميات</UiButton>
  </section>;

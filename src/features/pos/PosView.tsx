@@ -1034,7 +1034,7 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
       {unavailableSale&&<Modal isOpen title="تأكيد بيع صنف غير متوفر" onClose={()=>setUnavailableSale(null)}>
         <div className="space-y-4 p-4">
           {!!unavailableSale.names.length&&<p>هذه الأصناف معلّمة غير متوفرة: {unavailableSale.names.join('، ')}.</p>}
-          {unavailableSale.shortages?.map(row=><p key={row.productId}>الكمية المسجلة لا تكفي: {row.name} — المطلوب {row.required} {row.unitName}، والمتاح {row.quantity} {row.unitName}.</p>)}
+          {unavailableSale.shortages?.map(row=><p key={row.productId}>الكمية المسجلة لا تكفي: {row.name} — المطلوب {row.required} {row.unitName}، متبقي {row.quantity} {row.unitName}.</p>)}
           <p>هل تريد بيعها؟ يُسجّل تأكيدك مع العملية{unavailableSale.shortages?.length?'، ويتوقف العدّاد عند صفر مع تسجيل النقص':''}.</p>
           <UiButton disabled={isSubmitting||!modeVerified} variant="danger" onClick={()=>{const pending=unavailableSale;setUnavailableSale(null);void executeSale('START_NEW',{...pending.request,unavailableConfirmed:pending.ids});}}>أؤكد بيع الأصناف غير المتوفرة</UiButton>
           <UiButton onClick={()=>setUnavailableSale(null)}>العودة للسلة دون بيع</UiButton></div>

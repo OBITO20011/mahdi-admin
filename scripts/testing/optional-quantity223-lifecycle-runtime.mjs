@@ -37,6 +37,12 @@ export async function verifyOptionalQuantity223Lifecycle(c,report){
  assert.deepEqual((await readApplicationFingerprint(c.executor)).tables,fingerprint.tables,'UNTRACKED_PARITY_ROLLBACK');
  report.cases.push({name:'only3 allowed OFF-private leaves change;all public/other private exact;untracked actual POS JSON parity and rollback',passed:true});
  await set(id(103),3);
+ const beforePrecheck=await privateSnapshotForPrecheck();
+ const shortage=await rpc(`lite3_pos_quantity_check223(${j([base(4)])})`);
+ assert.deepEqual(shortage.shortages.map(row=>({productId:row.productId,quantity:row.quantity,required:row.required,unitName:row.unitName})),[{productId:id(103),quantity:3,required:4,unitName:'باكيت'}]);
+ assert.deepEqual(await privateSnapshotForPrecheck(),beforePrecheck,'POS_QUANTITY_READ_WROTE_ROWS');
+ async function privateSnapshotForPrecheck(){return json("SELECT jsonb_build_object('counter',(SELECT jsonb_agg(to_jsonb(c) ORDER BY product_id) FROM sales_lite3.quantity_counters c),'events',(SELECT count(*) FROM sales_lite3.quantity_events),'keys',(SELECT count(*) FROM sales_lite3.quantity_requests));");}
+ report.cases.push({name:'actual owner POS shortage precheck reports required4/remaining3 in real units and writes no rows',passed:true});
  const trackedBefore=await readApplicationFingerprint(c.executor);
  const privateSnapshot=()=>json("SELECT jsonb_build_object('counters',(SELECT jsonb_agg(to_jsonb(c) ORDER BY product_id) FROM sales_lite3.quantity_counters c),'events',(SELECT count(*) FROM sales_lite3.quantity_events),'counterRequests',(SELECT count(*) FROM sales_lite3.quantity_requests),'saleRequests',(SELECT count(*) FROM sales_lite1.requests));");
  const privateBefore=await privateSnapshot();
@@ -113,6 +119,58 @@ export async function verifyOptionalQuantity223Lifecycle(c,report){
  const eventRows=await alerts();assert.equal(eventRows.filter(e=>e.type==='low_stock').length,2);assert.equal(eventRows.length,3);
  assert.ok(eventRows.every(e=>e.payload.audience==='owner'&&e.payload.unitName==='باكيت'&&e.payload.accountingTracked===false));
  report.cases.push({name:'existing217 outbox types:one low crossing,one zero crossing,no per-sale repetition,rearm on replenishment,owner payload',passed:true});
+ await set(id(103),10);
+ const returnSale=await pos(request([base(4)]));
+ const itemId=await sql(`SELECT id FROM public.order_items WHERE order_id='${returnSale.orderId}';`);
+ const returnPayload=(quantity,good)=>({orderId:returnSale.orderId,reason:'اختبار إعادة الصالح فقط للعدّاد',notes:null,refundMethod:'cash',referenceNumber:null,
+  items:[{return_scope:'base_unit',order_item_id:itemId,quantity,stock_disposition:good?'restock':'damaged'}],
+  physicalSources:[{root_source_kind:'base_order_item',root_source_id:itemId,source_kind:'base_order_item',source_id:itemId,product_id:id(103),quantity,sellable_restock_quantity:good,defect_non_sellable_quantity:quantity-good,customer_damage_quantity:0}],supplierAssignments:[]});
+ const settle=async(payload,key,rollback=false)=>{
+  const preview=await rpc(`lite1_preview_return2(${j(payload)})`);
+  const command=transaction(`lite1_settle_return2(${j(payload)},${q(key)},${q(preview.previewFingerprint)})`);
+  return json(rollback?command.replace('COMMIT;','ROLLBACK;'):command);
+ };
+ const returnBefore=await readApplicationFingerprint(c.executor),counterBeforeReturn=await privateSnapshot();
+ await settle(returnPayload(2,1),randomUUID(),true);
+ assert.deepEqual((await readApplicationFingerprint(c.executor)).tables,returnBefore.tables,'RETURN_ROLLBACK_APPLICATION_ROWS');
+ assert.deepEqual(await privateSnapshot(),counterBeforeReturn,'RETURN_ROLLBACK_COUNTER_ROWS');
+ const partialPayload=returnPayload(2,1),partialKey=randomUUID(),partial=await settle(partialPayload,partialKey);
+ assert.equal(partial.goodQuantity,1);assert.equal(partial.badQuantity,1);
+ assert.equal((await counter(id(103))).products[0].quantity,7);
+ // The exact committed request/fingerprint is replayed,not a fresh preview
+ // after its entitlement has already been consumed.
+ const replayRow=await json(`SELECT result FROM sales_lite1.requests WHERE key=${q(partialKey)};`);
+ const replayPreview=await sql(`SELECT details->>'preview' FROM public.audit_logs WHERE action='LITE2_RETURN' AND details->>'returnId'='${partial.returnId}';`);
+ assert.deepEqual(await rpc(`lite1_settle_return2(${j(partialPayload)},${q(partialKey)},${q(replayPreview)})`),replayRow);
+ assert.equal((await counter(id(103))).products[0].quantity,7);
+ await settle(returnPayload(1,0),randomUUID());assert.equal((await counter(id(103))).products[0].quantity,7);
+ await settle(returnPayload(1,1),randomUUID());assert.equal((await counter(id(103))).products[0].quantity,8);
+ assert.equal(await sql(`SELECT count(*) FROM sales_lite3.quantity_events WHERE order_id='${returnSale.orderId}' AND kind='return';`),'2');
+ report.cases.push({name:'real partial good/bad returns credit resellable quantity only;bad return inert;exact replay and rollback preserve counters/financial rows',passed:true});
+
+ // Exercise the approved writer,not a direct unit update. A disabled counter
+ // still freezes its original base unit;never-tracked products remain free.
+ await rpc("save_product_unit('وحدة بديلة اختبار العدّاد','Q223-UNIT',1,NULL)");
+ const editUnit=(pid,target)=>transaction(`lite3_counter_context223('${pid}')`).replace(`SELECT public.lite3_counter_context223('${pid}')`,
+  `DO $unit$ DECLARE p public.products;target UUID;BEGIN SELECT * INTO STRICT p FROM public.products WHERE id='${pid}';SELECT id INTO STRICT target FROM public.units WHERE code='${target}';PERFORM public.update_product_master_v6(p.id,p.updated_at,p.sku,p.barcode,p.name_ar,p.description,p.category_id,p.brand_id,target,p.purchase_unit_id,p.units_per_purchase_unit,p.default_purchase_price_in_minor_units,p.sale_unit_id,p.units_per_sale_unit,p.default_sale_price_in_minor_units,p.cost_price_in_minor_units,p.min_stock_level,p.max_stock_level,p.is_active,NULL,p.sale_price_in_minor_units,p.parcel_only);END $unit$`);
+ const beforeFreeze=await readApplicationFingerprint(c.executor);
+ await assert.rejects(sql(editUnit(id(103),'Q223-UNIT')),/QUANTITY223_BASE_UNIT_FROZEN/u);
+ assert.deepEqual((await readApplicationFingerprint(c.executor)).tables,beforeFreeze.tables,'FROZEN_UNIT_REFUSAL_CHANGED_APPLICATION_ROWS');
+ await set(id(103),8,false);
+ const disabledFreeze=await readApplicationFingerprint(c.executor);
+ await assert.rejects(sql(editUnit(id(103),'Q223-UNIT')),/QUANTITY223_BASE_UNIT_FROZEN/u);
+ await assert.rejects(sql(editUnit(id(100),'Q223-UNIT')),/QUANTITY223_BASE_UNIT_FROZEN/u);
+ assert.deepEqual((await readApplicationFingerprint(c.executor)).tables,disabledFreeze.tables,'DISABLED_FROZEN_UNIT_REFUSAL_CHANGED_APPLICATION_ROWS');
+ const untrackedCommand=transaction(`lite3_counter_context223('${id(103)}')`).replace(`SELECT public.lite3_counter_context223('${id(103)}')`,
+  `SELECT public.create_product_with_opening_stock_v6(p_sku:='Q223-NEVER-TRACKED',p_name_ar:='صنف لم يفعل عداده',p_category_id:='${id(11)}',p_unit_id:='${id(10)}',p_purchase_unit_id:='${id(10)}',p_units_per_purchase_unit:=1,p_default_purchase_price_in_minor_units:=0,p_sale_unit_id:='${id(10)}',p_units_per_sale_unit:=1,p_default_sale_price_in_minor_units:=1000,p_sale_price_in_minor_units:=1000,p_cost_price_in_minor_units:=0,p_min_stock_level:=0,p_max_stock_level:=NULL,p_warehouse_id:='${id(201)}',p_opening_quantity:=0,p_parcel_only:=false)`);
+ await sql(untrackedCommand.replace('COMMIT;',`DO $never$ DECLARE p public.products;target UUID;BEGIN SELECT * INTO STRICT p FROM public.products WHERE sku='Q223-NEVER-TRACKED';SELECT id INTO STRICT target FROM public.units WHERE code='Q223-UNIT';PERFORM public.update_product_master_v6(p.id,p.updated_at,p.sku,p.barcode,p.name_ar,p.description,p.category_id,p.brand_id,target,p.purchase_unit_id,p.units_per_purchase_unit,p.default_purchase_price_in_minor_units,p.sale_unit_id,p.units_per_sale_unit,p.default_sale_price_in_minor_units,p.cost_price_in_minor_units,p.min_stock_level,p.max_stock_level,p.is_active,NULL,p.sale_price_in_minor_units,p.parcel_only);END $never$;ROLLBACK;`));
+ const counterBeforeParcel=await privateSnapshot(),financialBeforeParcel=await readApplicationFingerprint(c.executor);
+ await sql(transaction(`lite3_counter_context223('${id(103)}')`).replace(`SELECT public.lite3_counter_context223('${id(103)}')`,
+  `DO $outer$ DECLARE p public.products;box UUID;BEGIN SELECT * INTO STRICT p FROM public.products WHERE id='${id(103)}';SELECT id INTO STRICT box FROM public.units WHERE code='Q223-BOX';PERFORM public.update_product_master_v6(p.id,p.updated_at,p.sku,p.barcode,p.name_ar,p.description,p.category_id,p.brand_id,p.unit_id,p.purchase_unit_id,p.units_per_purchase_unit,p.default_purchase_price_in_minor_units,box,6,5500,p.cost_price_in_minor_units,p.min_stock_level,p.max_stock_level,p.is_active,NULL,1000,false);IF NOT EXISTS(SELECT 1 FROM public.products WHERE id=p.id AND unit_id=p.unit_id AND sale_unit_id=box AND units_per_sale_unit=6 AND sale_price_in_minor_units=1000 AND default_sale_price_in_minor_units=5500) THEN RAISE EXCEPTION 'COUNTER_BLOCKED_OUTER_PARCEL_EDIT';END IF;END $outer$`).replace('COMMIT;','ROLLBACK;'));
+ assert.deepEqual(await privateSnapshot(),counterBeforeParcel,'OUTER_PARCEL_EDIT_CHANGED_COUNTER');
+ assert.deepEqual((await readApplicationFingerprint(c.executor)).tables,financialBeforeParcel.tables,'OUTER_PARCEL_EDIT_ROLLBACK_CHANGED_FINANCIAL_ROWS');
+ await set(id(103),8);
+ report.cases.push({name:'actual v6 base-unit changes refused after first counter activation,even disabled/family;never-tracked writer remains usable',passed:true});
  await set(id(103),3);
  const drift=await json(`BEGIN;UPDATE sales_lite3.quantity_counters SET unit_id=gen_random_uuid() WHERE product_id='${id(103)}';
  SELECT set_config('request.jwt.claims',${j({sub:id(1),role:'authenticated',aal:'aal2'})}::TEXT,true);SET LOCAL ROLE authenticated;

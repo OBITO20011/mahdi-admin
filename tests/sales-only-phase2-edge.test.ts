@@ -74,3 +74,21 @@ test('fullmode keeps existing RPC payload andcannotbe switchedOFF byclient',asyn
  assert.equal((await handleGuestOrderRequest(request({fullAccounting:false}),{getEnv:env,fetchImpl})).status,200);
  assert.equal(submitted?.p_idempotency_key,key);assert.deepEqual(submitted?.p_lines,lines);assert.equal(submitted?.p_expected_total_in_minor_units,3000);
 });
+
+test('optional OFF quantity refusal uses a fixed public message without disclosing a count or internal error',async()=>{
+ for(const fullAccounting of [false,true]){
+  const finalized:Record<string,unknown>[]=[];
+  const response=await handleGuestOrderRequest(request(),{getEnv:env,fetchImpl:async(input,init)=>{
+   const path=new URL(String(input)).pathname;
+   if(path.endsWith('/siteverify'))return Response.json({success:true,action:TURNSTILE_ACTION,hostname:'nawasrah-store.pages.dev'});
+   if(path.endsWith('/authorize_guest_order_gateway'))return Response.json({allowed:true});
+   if(path.endsWith('/lite1_operating_mode'))return Response.json({contractVersion:'sales-only-phase2-v1',fullAccounting});
+   if(path.endsWith(fullAccounting?'/submit_guest_customer_order_v2':'/lite1_guest2'))return Response.json({code:'P0001',message:'QUANTITY223_INSUFFICIENT'},{status:400});
+   if(path.endsWith('/finalize_guest_order_gateway')){finalized.push(JSON.parse(String(init?.body)));return new Response(null,{status:204});}
+   throw Error('UNEXPECTED_UPSTREAM');
+  }});
+  assert.equal(response.status,400);assert.deepEqual(finalized,[{p_idempotency_key:key,p_outcome:'order_rejected',p_order_id:null}]);
+  assert.deepEqual(await response.json(),fullAccounting?{error:'تعذر إكمال الطلب بهذه البيانات. راجع الكميات وحاول مرة أخرى.',code:'order_rejected'}:
+   {error:'الكمية المطلوبة غير متوفرة حالياً، قلّل الكمية.',code:'quantity_unavailable'});
+ }
+});

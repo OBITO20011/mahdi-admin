@@ -24,7 +24,7 @@ async function setup(page:Page,query='',failure:'none'|'lost'|'stale'='none'){
  await page.route('**/rpc/lite3_low_counters223',route=>{
   lowReads++;return route.fulfill({json:{contractVersion:'optional-quantity223-v1',page:1,pageSize:20,total:1,products:[{productId:inventoryProducts[0].id,sku:'TEST-ZERO',name:'صنف قرب يخلص',unitName:'باكيت',quantity:0,threshold:2,revision:1}]}});
  });
- await page.goto('/e2e/package-f-products-harness.html?'+query);
+ await page.goto('/e2e/package-f-products-harness.html?counter-quantity&'+query);
  const edit=async()=>page.evaluate(()=>{
   // @ts-expect-error Isolated Vite module.
   return import('/src/stores/useAppStore.ts').then(({storeEngine})=>{
@@ -62,6 +62,18 @@ test('owner low list is explicitly opened and shows zero quantities with their a
  const c=await setup(page,'sales-only&unit-parcel');expect(c.lowReads()).toBe(0);
  const section=page.getByRole('region',{name:'أصناف قرب تخلص',exact:true});await section.getByRole('button',{name:'أصناف قرب تخلص',exact:true}).tap();
  await expect(section).toContainText('TEST-ZERO');await expect(section).toContainText('نفدت الكمية');await expect(section).toContainText('حد التنبيه: 2 باكيت');expect(c.lowReads()).toBe(1);
+});
+test('first counter activation freezes base-unit conversion but leaves adding a parcel available',async({page})=>{
+ const c=await setup(page,'sales-only&unit-parcel');await c.edit();
+ const panel=page.locator('[data-optional-quantity]'),unit=page.getByLabel('الوحدة الأساسية',{exact:true});
+ await expect(unit).toBeEnabled();
+ await panel.getByRole('checkbox',{name:'تتبّع الكمية'}).check();await panel.getByLabel('صار عندي — باكيت',{exact:true}).fill('3');
+ await panel.getByRole('button',{name:/حفظ كمية/}).tap();await expect.poll(()=>c.writes.length).toBe(1);
+ await expect(unit).toBeDisabled();await expect(panel).toContainText('وحدة الأساس ثابتة بعد أول تفعيل');
+ await expect(page.getByRole('checkbox',{name:/بدي أضيف طرد/})).toBeEnabled();
+ await expect(page.getByRole('group',{name:'تعريف محتوى وحدة البيع',exact:true})).toHaveCount(0);
+ await panel.getByRole('checkbox',{name:'تتبّع الكمية'}).uncheck();await panel.getByRole('button',{name:/حفظ كمية/}).tap();
+ await expect.poll(()=>c.writes.length).toBe(2);await expect(unit).toBeDisabled();
 });
 for(const query of ['unit-parcel','sales-only&unit-parcel&not-owner'])test(`full mode/non-owner never exposes optional controls: ${query}`,async({page})=>{
  const c=await setup(page,query);await c.edit();await expect(page.getByRole('dialog')).toBeVisible();

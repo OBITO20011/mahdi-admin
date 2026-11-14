@@ -153,6 +153,57 @@ END $$;
 CREATE TRIGGER optional_quantity_cancel223 AFTER UPDATE OF status ON public.orders
 FOR EACH ROW EXECUTE FUNCTION sales_lite3.cancel_credit223();
 
+-- Owner14Nov: once a counter has been enabled its base-unit identity stays
+-- fixed. Outer units, parcel size and both saved prices remain editable.
+CREATE FUNCTION sales_lite3.guard_base_unit223() RETURNS TRIGGER
+LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog,public AS $$ BEGIN
+ IF NOT sales_lite1.enabled() OR NEW.unit_id IS NOT DISTINCT FROM OLD.unit_id THEN RETURN NEW;END IF;
+ IF EXISTS(SELECT 1 FROM sales_lite3.quantity_counters c WHERE c.ever_enabled
+  AND(c.product_id=OLD.id OR EXISTS(SELECT 1 FROM public.products leaf WHERE leaf.id=c.product_id AND leaf.flavor_master_product_id=OLD.id))) THEN
+  RAISE EXCEPTION 'QUANTITY223_BASE_UNIT_FROZEN: وحدة الأساس ثابتة بعد تفعيل العدّاد؛ يمكنك إضافة طرد أو تعديل عدده وأسعاره.';
+ END IF;
+ RETURN NEW;
+END $$;
+CREATE TRIGGER optional_quantity_unit223 BEFORE UPDATE OF unit_id ON public.products
+FOR EACH ROW EXECUTE FUNCTION sales_lite3.guard_base_unit223();
+
+-- The existing return writer has already validated and sealed this physical
+-- allocation. Credit only resellable goods, once per return/product. Legacy
+-- untracked sales have no debit provenance and remain inert in this hook.
+CREATE FUNCTION sales_lite3.return_credit223() RETURNS TRIGGER
+LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog,public AS $$
+DECLARE oid UUID;r RECORD;c sales_lite3.quantity_counters;p public.products;configuration JSONB;unit_name TEXT;
+BEGIN
+ IF NOT sales_lite1.enabled() THEN RETURN NEW;END IF;
+ SELECT order_id INTO STRICT oid FROM sales_lite1.returns WHERE id=NEW.return_id;
+ IF NOT sales_lite1.is_order(oid) THEN RETURN NEW;END IF;
+ FOR r IN SELECT(source->>'product_id')::UUID AS product_id,sum((source->>'sellable_restock_quantity')::BIGINT)::BIGINT AS quantity
+  FROM jsonb_array_elements(NEW.request_snapshot->'physicalSources') source
+  WHERE(source->>'sellable_restock_quantity')::BIGINT>0
+  AND EXISTS(SELECT 1 FROM sales_lite3.quantity_events e WHERE e.kind='sale' AND e.order_id=oid AND e.product_id=(source->>'product_id')::UUID)
+  GROUP BY(source->>'product_id')::UUID ORDER BY(source->>'product_id')::UUID
+ LOOP
+  SELECT * INTO STRICT p FROM public.products WHERE id=r.product_id FOR UPDATE;
+  SELECT * INTO STRICT c FROM sales_lite3.quantity_counters WHERE product_id=r.product_id FOR UPDATE;
+  IF c.unit_id IS DISTINCT FROM p.unit_id OR EXISTS(SELECT 1 FROM sales_lite3.quantity_events e WHERE e.kind='sale' AND e.order_id=oid AND e.product_id=r.product_id AND e.unit_id IS DISTINCT FROM c.unit_id) THEN
+   RAISE EXCEPTION 'QUANTITY223_UNIT_REVIEW_REQUIRED';
+  END IF;
+  SELECT COALESCE(name_ar,'باكيت') INTO unit_name FROM public.units WHERE id=c.unit_id;
+  configuration:=jsonb_build_object('enabled',c.enabled,'threshold',c.low_threshold,'unitId',c.unit_id);
+  UPDATE sales_lite3.quantity_counters SET quantity=c.quantity+r.quantity,revision=c.revision+1,
+   low_sent=CASE WHEN c.quantity+r.quantity>=c.low_threshold THEN false ELSE c.low_sent END,
+   zero_sent=CASE WHEN c.quantity+r.quantity>0 THEN false ELSE c.zero_sent END,
+   updated_by=auth.uid(),updated_at=clock_timestamp() WHERE product_id=r.product_id;
+  INSERT INTO sales_lite3.quantity_events(product_id,sku_snapshot,name_snapshot,unit_id,unit_name_snapshot,kind,source_type,source_id,order_id,
+   quantity_before,quantity_after,requested_quantity,applied_quantity,shortage_quantity,revision_before,revision_after,configuration_before,configuration_after,created_by)
+  VALUES(p.id,p.sku,p.name_ar,c.unit_id,COALESCE(unit_name,'باكيت'),'return','customer_return',NEW.return_id,oid,
+   c.quantity,c.quantity+r.quantity,r.quantity,r.quantity,0,c.revision,c.revision+1,configuration,configuration,auth.uid());
+ END LOOP;
+ RETURN NEW;
+END $$;
+CREATE TRIGGER optional_quantity_return223 AFTER INSERT ON sales_lite2.return_details
+FOR EACH ROW EXECUTE FUNCTION sales_lite3.return_credit223();
+
 CREATE FUNCTION sales_lite3.alert_transition223() RETURNS TRIGGER
 LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog,public AS $$
 DECLARE event_type TEXT;p public.products;unit_name TEXT;changed BOOLEAN;

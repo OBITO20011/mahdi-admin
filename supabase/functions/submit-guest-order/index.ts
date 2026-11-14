@@ -292,9 +292,11 @@ export async function handleGuestOrderRequest(
 
   let orderResponse: Response;
   let orderResult: Record<string, unknown>;
+  let quantityCounterMode:boolean;
   try {
     const modeResponse=await callRpc(supabaseUrl,serviceRoleKey,'lite1_operating_mode',{p_guest_key:idempotencyKey},fetchImpl);
     const fullAccounting=decodeOperatingMode(modeResponse.ok,modeResponse.status,await modeResponse.json());
+    quantityCounterMode=!fullAccounting;
     const rpcName = fullAccounting ? 'submit_guest_customer_order_v2' : 'lite1_guest2';
     const rpcPayload = {
       p_idempotency_key: idempotencyKey,
@@ -372,11 +374,12 @@ export async function handleGuestOrderRequest(
     const message=typeof orderResult.message==='string'?orderResult.message:'';
     const parcelOnly=orderResult.code==='23514'&&message.startsWith('PARCEL209_UNIT_SALE_FORBIDDEN:');
     const changedFamily=orderResult.code==='40001'&&message.startsWith('PARCEL209_FAMILY_CHANGED_RETRY:');
+    const quantityUnavailable=quantityCounterMode&&orderResult.code==='P0001'&&message==='QUANTITY223_INSUFFICIENT';
     return jsonResponse({
-      error: parcelOnly?'أحد الأصناف بيتباع بالطرد بس. احذف سطر المفرد واختر طرداً؛ لم تتغيّر السلة تلقائياً.'
+      error: quantityUnavailable?'الكمية المطلوبة غير متوفرة حالياً، قلّل الكمية.':parcelOnly?'أحد الأصناف بيتباع بالطرد بس. احذف سطر المفرد واختر طرداً؛ لم تتغيّر السلة تلقائياً.'
         :changedFamily?'تغيّرت نكهات أحد الأصناف. حدّث السلة وراجعها قبل إرسال طلب جديد.'
         :'تعذر إكمال الطلب بهذه البيانات. راجع الكميات وحاول مرة أخرى.',
-      code: parcelOnly?'parcel_only_sale_required':changedFamily?'product_methods_changed':'order_rejected',
+      code: quantityUnavailable?'quantity_unavailable':parcelOnly?'parcel_only_sale_required':changedFamily?'product_methods_changed':'order_rejected',
     }, 400, origin);
   }
 

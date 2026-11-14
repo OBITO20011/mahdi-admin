@@ -150,8 +150,12 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   const conversionUnitPrice=convertedUnitPrice===null?Math.ceil(Math.round(openedSinglePrice*1000)/Math.max(1,Number(singleContentsCount)||1))/1000:Number(convertedUnitPrice)||0;
   const [unitChangeConfirmed,setUnitChangeConfirmed]=useState(false);
   const [contentUnit,setContentUnit]=useState(units.find(item=>item.code==='PKT'&&!item.isHidden)?.nameAr||'');
+  const [counterUnitLock,setCounterUnitLock]=useState({productId:"",locked:false});
+  const onCounterUnitLock=useCallback((productId:string,locked:boolean)=>setCounterUnitLock(previous=>previous.productId===productId&&previous.locked===locked?previous:{productId,locked}),[]);
+  const baseUnitLocked=salesOnly&&isEditing&&(counterUnitLock.productId!==initialProduct?.id||counterUnitLock.locked);
   const canEditSingleUnit=salesOnly&&modeVerified&&openedAsSingleUnit
     && (roleName==='owner'||roles.includes('owner'));
+  const canEditBaseUnit=canEditSingleUnit&&!baseUnitLocked;
   const targetContentUnit=units.find(item=>item.nameAr===contentUnit&&!item.isHidden);
   const activeCategories = useMemo(
     () => categories.filter((category) => !category.isHidden),
@@ -746,13 +750,13 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     }
     const convertSingleUnit=singleContentsCount!==''||unitConversionConfirmed;
     const contentsCount=Number(singleContentsCount);
-    if(convertSingleUnit&&(!canEditSingleUnit||!unitConversionConfirmed||!targetContentUnit||targetContentUnit.nameAr===openedUnitName||unit!==openedUnitName||!Number.isInteger(contentsCount)||contentsCount<2||contentsCount>2147483647)){
+    if(convertSingleUnit&&(!canEditBaseUnit||!unitConversionConfirmed||!targetContentUnit||targetContentUnit.nameAr===openedUnitName||unit!==openedUnitName||!Number.isInteger(contentsCount)||contentsCount<2||contentsCount>2147483647)){
       setSubmitError({message:'اختر وحدة المحتوى وأدخل عددها الفعلي (اثنان فأكثر) وأكّد التحويل قبل الحفظ؛ لا تجمعه مع تغيير اسم الوحدة.'});
       return;
     }
     if(salesOnly&&convertSingleUnit){const priceError=independentParcelPriceError(contentsCount,Math.round(conversionUnitPrice*1000),Math.round(openedSinglePrice*1000));if(priceError){setSubmitError({message:priceError});return;}}
     const renameSingleUnit=isEditing&&unit!==openedUnitName;
-    if(renameSingleUnit&&(!canEditSingleUnit||!unitChangeConfirmed||!units.some(item=>!item.isHidden&&item.nameAr===unit))){
+    if(renameSingleUnit&&(!canEditBaseUnit||!unitChangeConfirmed||!units.some(item=>!item.isHidden&&item.nameAr===unit))){
       setSubmitError({message:'تغيير وحدة البيع المفردة يحتاج المالك في وضع OFF موثّق وتأكيداً صريحاً.'});return;
     }
     if((renameSingleUnit||convertSingleUnit)&&Math.round(validSalePackagePrice*1000)!==Math.round(openedSinglePrice*1000)){
@@ -1041,7 +1045,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
 
   return (
     <>
-    {salesOnly&&initialProduct?.id&&<OptionalQuantityPanel productId={initialProduct.id} disabled={!modeVerified||isSubmitting||formChanged}/>}
+    {salesOnly&&initialProduct?.id&&<OptionalQuantityPanel productId={initialProduct.id} disabled={!modeVerified||isSubmitting||formChanged} onBaseUnitLock={onCounterUnitLock}/>}
     {salesOnly&&!initialProduct?.id&&<p className="mb-3 text-sm text-nw-muted">عدّاد الكمية اختياري ومطفأ عند الإنشاء. احفظ المنتج أولاً ثم فعّله من تعديل المنتج إذا أردت.</p>}
     <FormFields className="nw-products-fields min-w-0"><form onSubmit={handleSubmit} onChangeCapture={()=>setFormChanged(true)} onInvalidCapture={event=>{const details=(event.target as HTMLElement).closest('details');if(details)details.open=true;}} aria-busy={isSubmitting} data-unsaved={hasFlavors} dir="rtl" className="nw-products-fields min-w-0 space-y-4 text-nw-text text-sm">
       {(validUnitsPerSalePackage>1 || isFlavorMaster || initialProduct?.flavorMasterProductId) &&
@@ -1324,7 +1328,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             </label>}
           </>}
         </fieldset>}
-        {canEditSingleUnit&&!defineFlavorParcel&&<fieldset className="space-y-2 rounded-lg border border-nw-border p-3">
+        {canEditBaseUnit&&!defineFlavorParcel&&<fieldset className="space-y-2 rounded-lg border border-nw-border p-3">
           <legend className="px-1 text-sm font-bold">تعريف محتوى وحدة البيع</legend>
           <p className="text-sm font-bold">{'هاد السعر سعر '+(openedUnitName||'باكيت')+'، بدي أعرّف محتواه'}</p>
           <p className="text-sm text-nw-muted">حوّل {openedUnitName} إلى عدد حقيقي من وحدات المحتوى. يبقى سعر {openedUnitName} نفسه والبيع بها فقط؛ يمكن تفعيل المفرد لاحقاً. الفواتير السابقة تبقى بوحداتها وأسعارها المسجّلة.</p>
@@ -1347,7 +1351,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         {(isFlavorMaster||hasFlavors)&&<ProductFormParcelCapability familyId={initialProduct?.id} dirty={formChanged} busy={isSubmitting} onOpen={familyProductId=>openModal('parcel_configuration',{familyProductId})}/>}
         <div className="flex flex-wrap items-end gap-2">
           {!withoutParcel && <label className="min-w-0 flex-1 text-xs font-bold">الطرد فيه<input inputMode="numeric" enterKeyHint="next" aria-label={'عدد '+unit+(salesOnly?' في طرد التغليف':' في طرد الشراء')} type="number" min="1" step="1" required value={unitsPerPackage} onChange={event=>changeParcelContents(event.target.value)} className={numberInputClass}/></label>}
-          <label className="min-w-0 flex-1 text-xs font-bold">{withoutParcel?'البيع بالوحدة':'محتوى الطرد'}<select aria-label="الوحدة الأساسية" className={inputClass} value={unit} onChange={event=>{setUnit(event.target.value);setUnitChangeConfirmed(false);setSingleContentsCount('');setUnitConversionConfirmed(false);}} disabled={isEditing&&!canEditSingleUnit}>{Array.from(new Set([unit,...units.filter(item=>salesOnly?!item.isHidden:isContentUnitOption(item)).map(item=>item.nameAr)])).map(name=><option key={name} value={name}>{name}</option>)}</select></label>
+          <label className="min-w-0 flex-1 text-xs font-bold">{withoutParcel?'البيع بالوحدة':'محتوى الطرد'}<select aria-label="الوحدة الأساسية" className={inputClass} value={unit} onChange={event=>{setUnit(event.target.value);setUnitChangeConfirmed(false);setSingleContentsCount('');setUnitConversionConfirmed(false);}} disabled={isEditing&&!canEditBaseUnit}>{Array.from(new Set([unit,...units.filter(item=>salesOnly?!item.isHidden:isContentUnitOption(item)).map(item=>item.nameAr)])).map(name=><option key={name} value={name}>{name}</option>)}</select></label>
         </div>
         {canEditSingleUnit&&<p className="text-xs text-nw-muted">لإضافة وحدة جديدة: المنتجات ← الطرود والوحدات، ثم ارجع للتعديل. لا يُفترض عدد محتوى تلقائياً.</p>}
         {canEditSingleUnit&&unit!==openedUnitName&&<label className="flex min-h-11 items-center gap-2 text-sm font-bold"><input type="checkbox" checked={unitChangeConfirmed} onChange={event=>setUnitChangeConfirmed(event.target.checked)}/>أؤكد تغيير اسم وحدة البيع دون تغيير السعر</label>}
