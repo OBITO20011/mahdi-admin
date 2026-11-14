@@ -22,10 +22,13 @@ export function sourceBeforePriceVisibility(file,text){
  for(const hunk of pin.hunks){assert.equal(before.split(hunk.after).length,2,'PRICE_VISIBILITY_HUNK_CHANGED');before=before.replace(hunk.after,hunk.before);}
  assert.equal(hash(before),pin.before,'PRICE_VISIBILITY_INVERSE_CHANGED');return before;
 }
-export function restorePriceVisibilityHashes(rows){return rows.map(row=>{
- if(row.file!==pin.file||row.sha256!==pin.after)return row;
- const raw=readFileSync(new URL('../../'+pin.file,import.meta.url),'utf8');assert.equal(hash(raw),pin.after,'PRICE_VISIBILITY_SOURCE_CHANGED');
- return{...row,sha256:hash(sourceBeforePriceVisibility(pin.file,raw))};
+export function restorePriceVisibilityHashes(rows){return rows.flatMap(row=>{
+ const artifact=pin.files?.[row.file];
+ if(row.sha256!==artifact?.after&&(row.file!==pin.file||row.sha256!==pin.after))return[row];
+ const raw=readFileSync(new URL('../../'+row.file,import.meta.url),'utf8');
+ assert.ok(hash(raw)===artifact?.after||row.file===pin.file&&hash(raw)===pin.after,'PRICE_VISIBILITY_SOURCE_CHANGED:'+row.file);
+ const before=sourceBeforePriceVisibility(row.file,raw);
+ return before===null?[]:[{...row,sha256:hash(before)}];
 });}
 // Added review screenshots/harnesses never existed in older schema views.
 // Only their complete committed bytes may be omitted;unknown edits stay visible.

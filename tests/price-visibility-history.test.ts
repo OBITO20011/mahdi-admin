@@ -6,7 +6,7 @@ import {createHash} from 'node:crypto';
 import {sourceBeforePriceVisibility,restorePriceVisibilityHashes,pathsBeforePriceVisibility} from '../scripts/audit/source-before-price-visibility.mjs';
 const file='customer-web/src/components/ProductCard.tsx';
 const hash=(s:string)=>createHash('sha256').update(s.replaceAll('\r\n','\n')).digest('hex');
-test('price layout inverse admits only the reviewed three CSS edits and preserves unknown bytes',()=>{
+test('price layout inverse binds the OFF redesign and preserves the original exact three CSS inverse and every unknown byte',()=>{
  const raw=readFileSync(file,'utf8'),before=execFileSync('git',['show','0bd3b5b0fd149c9e92d802c6dabb55b236c127cc:'+file],{encoding:'utf8',maxBuffer:1024**2}).replaceAll('\r\n','\n');
  assert.equal(sourceBeforePriceVisibility(file,raw),before);
  assert.equal(sourceBeforePriceVisibility(file,raw+'\n// unknown byte'),raw+'\n// unknown byte');
@@ -14,11 +14,15 @@ test('price layout inverse admits only the reviewed three CSS edits and preserve
  assert.deepEqual(restorePriceVisibilityHashes([{file,sha256:hash(raw)}]),[{file,sha256:hash(before)}]);
  assert.deepEqual(restorePriceVisibilityHashes([{file,sha256:hash(raw+'x')}]),[{file,sha256:hash(raw+'x')}]);
  const pin=JSON.parse(readFileSync('scripts/audit/price-visibility-source-pin.json','utf8'));
- assert.equal(pin.hunks.length,3);assert.equal(pin.before,hash(before));assert.equal(pin.after,hash(raw));
+ const prior=execFileSync('git',['show','5b5e07bfe259cb04048dc9baef789aeee7a054c2:'+file],{encoding:'utf8',maxBuffer:1024**2}).replaceAll('\r\n','\n');
+ assert.equal(pin.hunks.length,3);assert.equal(pin.before,hash(before));assert.equal(pin.after,hash(prior));
+ assert.equal(sourceBeforePriceVisibility(file,prior),before);
+ assert.equal(pin.files[file].before,hash(before));assert.equal(pin.files[file].after,hash(raw));
 });
 
 test('price evidence projection restores exact prior Git bytes;new artifacts are hash-bound and unknown text remains visible',()=>{
  const pin=JSON.parse(readFileSync('scripts/audit/price-visibility-source-pin.json','utf8'));
+ assert.equal(pin.baseline,'0bd3b5b0fd149c9e92d802c6dabb55b236c127cc');
  for(const [path,entry] of Object.entries(pin.files) as [string,{before:string|null;after:string;binary?:boolean}][]){
   const bytes=readFileSync(path),raw=bytes.toString('utf8');
   assert.equal(entry.binary?createHash('sha256').update(bytes).digest('hex'):hash(raw),entry.after,path);

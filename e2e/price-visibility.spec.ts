@@ -29,9 +29,13 @@ for(const width of [320,390,1280])for(const mode of ['OFF','ON']){
   await page.setViewportSize({width,height:1000});const suffix=mode==='ON'?'&full':'';
   for(const columns of [4,1,2,3]){
    await page.goto(`/e2e/price-visibility-harness.html?view=cards&columns=${columns}${suffix}`);
-   const prices=page.getByTestId('price-grid').getByText(price,{exact:true});await expect(prices).toHaveCount(4);
+   const prices=page.getByTestId('price-grid').getByText(price,{exact:true});await expect(prices).toHaveCount(mode==='OFF'?2:4);
    await page.screenshot({path:info.outputPath(`cards-${width}-${mode}-${columns}.png`),fullPage:true});
    for(const item of await prices.all())await completePrice(item);
+   if(mode==='OFF'){
+    const starting=page.locator('[data-family-starting-price]');await expect(starting).toHaveCount(2);
+    for(const item of await starting.all())await completePrice(item,formatJod(70000));
+   }
   }
   for(const view of ['details','cart','pos','admin']){
    await page.goto(`/e2e/price-visibility-harness.html?view=${view}${suffix}`);

@@ -44,8 +44,17 @@ test('deferred pages keep existing components and all cart financial/recovery fu
   "    if(unsafeLiteParcelPrice(parcelBuilder.option.quantityTracked===false,parcelBuilder.option.unitsPerParcel,parcelBuilder.option.parcelPriceInMinorUnits,parcelBuilder.familyProduct.salePriceInMinorUnits)){showToast(PARCEL_DEFINITION_MESSAGE,'error');return;}\n",
  ];
  let historical=app;for(const guard of approvedGuards){assert.equal(historical.split(guard).length-1,1);historical=historical.replace(guard,'');}
- const reviewed=bodies(historical.replace(actualLabel,legacyLabel)),original=bodies(previous('src/App.tsx'));
+ // Owner14Nov: OFF cards pass an optional animation source into the existing
+ // single-unit handler. Unwind exactly its signature/call,then compare all
+ // five financial/recovery bodies including their unknown-byte mutations.
+ const priceCardBodyView=(text:string)=>{
+  const out=bodies(text),signature='(product: CatalogProduct, requestedQuantity = 1, source?: HTMLElement) =>';
+  assert.equal(out.addBaseUnitToCart.split(signature).length,2);
+  assert.equal(out.addBaseUnitToCart.split('showCartAddition(source)').length,2);
+  return {...out,addBaseUnitToCart:out.addBaseUnitToCart.replace(signature,'(product: CatalogProduct, requestedQuantity = 1) =>').replace('showCartAddition(source)','showCartAddition()')};
+ };
+ const reviewed=priceCardBodyView(historical.replace(actualLabel,legacyLabel)),original=bodies(previous('src/App.tsx'));
  assert.deepEqual(reviewed,original);
- assert.notDeepEqual(bodies(historical.replace(actualLabel,legacyLabel).replace('quantity: actualQuantity','quantity: actualQuantity + 1')),original,'unknown cart arithmetic remains visible');
+ assert.notDeepEqual(priceCardBodyView(historical.replace(actualLabel,legacyLabel).replace('quantity: actualQuantity','quantity: actualQuantity + 1')),original,'unknown cart arithmetic remains visible');
  assert.notDeepEqual({...reviewed,addQuantityToCart:reviewed.addQuantityToCart.replace('if (cartStorageRecovery)','if (true)')},original,'unknown recovery bytes remain visible');
 });

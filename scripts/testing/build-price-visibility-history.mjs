@@ -9,7 +9,7 @@ const pin=JSON.parse(readFileSync(output,'utf8')),files={};
 assert.ok(process.argv.length===2||process.argv.length===3&&process.argv[2]==='--check');
 const paths=[...new Set([...git(['diff','--name-only','-z',baseline]).split('\0'),...git(['ls-files','--others','--exclude-standard','-z']).split('\0')])].filter(Boolean).sort();
 for(const file of paths){
- if(file===output||file===pin.file||file.startsWith('docs/agent/')||file.startsWith('.env'))continue;
+ if(file===output||file.startsWith('docs/agent/')||file.startsWith('.env'))continue;
  const raw=readFileSync(file),binary=/\.png$/u.test(file),after=binary?raw:canonicalLf(raw.toString('utf8'));
  let before=null;try{before=canonicalLf(git(['show',baseline+':'+file]));}catch{/* New exact artifact. */}
  if(before===after)continue;
