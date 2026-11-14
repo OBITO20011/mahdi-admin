@@ -1,5 +1,6 @@
 import type {OperatingMode} from '../../services/supabase/operatingMode.service';
 import {ManualAvailabilityPanel} from '../operatingMode/ManualAvailabilityPanel';
+import {OptionalQuantityPanel} from '../operatingMode/OptionalQuantityPanel';
 import {Card,FormFields,UiButton,formatJod} from '../../components/ui';
 import React, { useCallback, useState } from 'react';
 import {
@@ -497,6 +498,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
       </Card>
 
       {salesOnly&&<ManualAvailabilityPanel disabled={!modeVerified} products={[{id:product.id,name:product.nameAr},...flavors.map(f=>({id:f.id,name:f.flavorNameAr||f.nameAr}))]}/>}
+      {salesOnly&&<OptionalQuantityPanel productId={product.id} disabled={!modeVerified}/>}
       {!product.flavorMasterProductId && (
         <Card padded={false} className="rounded-2xl border border-nw-border    p-3.5">
           <div className="flex items-start justify-between gap-3">

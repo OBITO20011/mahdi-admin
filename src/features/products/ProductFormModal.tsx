@@ -1,4 +1,5 @@
 import {independentParcelPriceError,parcelDiscountInMinorUnits} from '../../utils/independentParcelPrices';
+import {OptionalQuantityPanel} from '../operatingMode/OptionalQuantityPanel';
 import type {OperatingMode} from '../../services/supabase/operatingMode.service';
 import {useAuthStore} from '../../stores/useAuthStore';
 import {FamilyBarcodeRecovery} from './FamilyBarcodeRecovery';
@@ -1039,6 +1040,9 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   if(!isEditing&&barcodeRecoveryIds.length&&barcodeActor?.id)return <FamilyBarcodeRecovery actor={barcodeActor.id} familyIds={barcodeRecoveryIds} initialItems={flavorDrafts.map(f=>({name:f.nameAr.trim(),barcode:f.barcode.trim()}))} onComplete={async()=>{await refreshProductsFromSupabase();onClose();}}/>;
 
   return (
+    <>
+    {salesOnly&&initialProduct?.id&&<OptionalQuantityPanel productId={initialProduct.id} disabled={!modeVerified||isSubmitting||formChanged}/>}
+    {salesOnly&&!initialProduct?.id&&<p className="mb-3 text-sm text-nw-muted">عدّاد الكمية اختياري ومطفأ عند الإنشاء. احفظ المنتج أولاً ثم فعّله من تعديل المنتج إذا أردت.</p>}
     <FormFields className="nw-products-fields min-w-0"><form onSubmit={handleSubmit} onChangeCapture={()=>setFormChanged(true)} onInvalidCapture={event=>{const details=(event.target as HTMLElement).closest('details');if(details)details.open=true;}} aria-busy={isSubmitting} data-unsaved={hasFlavors} dir="rtl" className="nw-products-fields min-w-0 space-y-4 text-nw-text text-sm">
       {(validUnitsPerSalePackage>1 || isFlavorMaster || initialProduct?.flavorMasterProductId) &&
         (initialProduct?.retailPrice ?? derivedSalePricePerUnit)===0 &&
@@ -1847,6 +1851,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         startScanner={startBarcodeScanner}
       />
     </form></FormFields>
+    </>
   );
 };
 

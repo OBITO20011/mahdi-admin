@@ -68,6 +68,7 @@ import {
 } from '../../utils/productIdentifiers';
 import type {OperatingMode} from '../../services/supabase/operatingMode.service';
 import {readPosAvailability} from './salesOnlyPos';
+import {fetchOptionalQuantityShortages,type OptionalQuantityShortage} from '../../services/supabase/optionalQuantity.service';
 import {fetchManualAvailability} from '../../services/supabase/manualAvailability.service';
 import { searchAdminProducts, fetchAdminProductById } from '../../services/supabase/products.service';
 
@@ -82,7 +83,7 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
   const [manualAvailability,setManualAvailability]=useState<Record<string,boolean>>({});
   const [preparingSale,setPreparingSale]=useState(false);
   const preparingSaleRef=useRef(false);
-  const [unavailableSale,setUnavailableSale]=useState<{request:CreatePosSaleV2Input;ids:string[];names:string[]}|null>(null);
+  const [unavailableSale,setUnavailableSale]=useState<{request:CreatePosSaleV2Input;ids:string[];names:string[];shortages?:OptionalQuantityShortage[]}|null>(null);
   const {roles:chequeRoles}=useAuthStore();
   const canReceiveCheque=chequeRoles.some(role=>['owner','admin','manager','accountant','cashier','sales'].includes(role));
   const [isChequeOpen,setIsChequeOpen]=useState(false);
@@ -538,12 +539,12 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
     if(salesOnly){
       preparingSaleRef.current=true;setPreparingSale(true);
       try{
-        const availability=await readPosAvailability(request.lines);
+        const [availability,shortages]=await Promise.all([readPosAvailability(request.lines),fetchOptionalQuantityShortages(request.lines)]);
         const unavailable=availability.filter(p=>!p.effectiveAvailable);
-        if(unavailable.length){
+        if(unavailable.length||shortages.length){
           const names=unavailable.map(p=>knownProductsRef.current.get(p.productId)?.nameAr
             ||parcelOptions.flatMap(o=>[{productId:o.familyProductId,nameAr:o.nameAr},...o.components]).find(c=>c.productId===p.productId)?.nameAr||'صنف في السلة');
-          setUnavailableSale({request,ids:unavailable.map(p=>p.productId),names});return;
+          setUnavailableSale({request,ids:[...new Set([...unavailable.map(p=>p.productId),...shortages.map(p=>p.productId)])],names,shortages});return;
         }
         await executeSale('START_NEW',request);
       }catch{setToast('تعذر التحقق من التوفر ووضع التشغيل؛ لم نرسل بيعاً. أعد المحاولة بعد التحقق من الاتصال.','error');}
@@ -1031,7 +1032,10 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
         onClose={()=>setShowReceiptModal(false)} onShare={()=>void handleShareReceipt()} onCopy={()=>void handleCopyReceiptLink()}/>}
 
       {unavailableSale&&<Modal isOpen title="تأكيد بيع صنف غير متوفر" onClose={()=>setUnavailableSale(null)}>
-        <div className="space-y-4 p-4"><p>هذه الأصناف معلّمة غير متوفرة: {unavailableSale.names.join('، ')}. هل تريد بيعها؟ يُسجّل تأكيدك مع العملية.</p>
+        <div className="space-y-4 p-4">
+          {!!unavailableSale.names.length&&<p>هذه الأصناف معلّمة غير متوفرة: {unavailableSale.names.join('، ')}.</p>}
+          {unavailableSale.shortages?.map(row=><p key={row.productId}>الكمية المسجلة لا تكفي: {row.name} — المطلوب {row.required} {row.unitName}، والمتاح {row.quantity} {row.unitName}.</p>)}
+          <p>هل تريد بيعها؟ يُسجّل تأكيدك مع العملية{unavailableSale.shortages?.length?'، ويتوقف العدّاد عند صفر مع تسجيل النقص':''}.</p>
           <UiButton disabled={isSubmitting||!modeVerified} variant="danger" onClick={()=>{const pending=unavailableSale;setUnavailableSale(null);void executeSale('START_NEW',{...pending.request,unavailableConfirmed:pending.ids});}}>أؤكد بيع الأصناف غير المتوفرة</UiButton>
           <UiButton onClick={()=>setUnavailableSale(null)}>العودة للسلة دون بيع</UiButton></div>
       </Modal>}

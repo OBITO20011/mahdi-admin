@@ -8,6 +8,7 @@ import {performance} from 'node:perf_hooks';
 import {startPrices222Local} from './independent-prices222-local.mjs';
 import {readApplicationFingerprint} from './backup-restore-contract.mjs';
 import {canonicalLf,sha256} from './maintenance-db-contract.mjs';
+import {verifyOptionalQuantity223Lifecycle} from './optional-quantity223-lifecycle-runtime.mjs';
 
 assert.equal(process.argv.length,2,'QUANTITY223_NO_TARGET_ARGUMENTS');
 const root=path.resolve(import.meta.dirname,'../..');
@@ -15,6 +16,9 @@ const output=await mkdtemp(path.join(tmpdir(),'nawasrah-quantity223-core-'));
 const report={ok:false,output,hostedAccess:false,ownerDemoAccess:false,prototypeOnly:true,cases:[]};
 const prototype=canonicalLf(await readFile(path.join(root,'docs/design/off-quantity-counter223/prototype223.sql'),'utf8'));
 report.prototypeSha256=sha256(prototype);
+const sourcePaths=['docs/design/off-quantity-counter223/prototype223.sql','docs/design/off-quantity-counter223/lifecycle223.sql','docs/design/off-quantity-counter223/private-writers223.sql','scripts/testing/run-optional-quantity223-core.mjs','scripts/testing/optional-quantity223-lifecycle-runtime.mjs','scripts/testing/build-optional-quantity223-private.mjs'];
+const sourceHashes=async()=>Object.fromEntries(await Promise.all(sourcePaths.map(async p=>[p,sha256(canonicalLf(await readFile(path.join(root,p),'utf8')))])));
+const sourceBefore=await sourceHashes();
 const id=n=>`92600000-0000-4000-8000-${String(n).padStart(12,'0')}`;
 const q=s=>"'"+String(s).replaceAll("'","''")+"'";
 let db;const started=performance.now();
@@ -25,7 +29,7 @@ try{
   `BEGIN;SELECT set_config('request.jwt.claims',${q(JSON.stringify(claims))},true);SET LOCAL ROLE ${role};SET LOCAL statement_timeout='8s';SELECT public.${call};COMMIT;`;
  const rpc=(call,claims,role)=>json(transaction(call,claims,role));
  const catalog=()=>json(`SELECT jsonb_agg(to_jsonb(x) ORDER BY x.identity) FROM(
- SELECT n.nspname||'.'||p.oid::regprocedure::TEXT AS identity,p.prosrc,pg_get_functiondef(p.oid) AS definition,
+ SELECT n.nspname||'.'||p.oid::regprocedure::TEXT AS identity,n.nspname AS schema,p.proname AS name,p.prosrc,pg_get_functiondef(p.oid) AS definition,
  pg_get_userbyid(p.proowner) AS owner,p.proconfig,p.proacl::TEXT AS acl
  FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace
  WHERE n.nspname IN('public','sales_lite1','sales_lite2') AND p.prokind='f')x;`);
@@ -96,6 +100,11 @@ try{
  assert.equal(await sql('SELECT count(*) FROM public.inventory_movements;'),'0');
  assert.equal(await sql('SELECT count(*) FROM public.inventory_balances;'),'0');
  assert.equal(await sql('SELECT count(*) FROM public.order_inventory_reservations;'),'0');
+ await verifyOptionalQuantity223Lifecycle({sql,json,rpc,id,transaction,root,catalog,executor:db.executor},report);
+ assert.equal(await sql('SELECT count(*) FROM public.inventory_movements;'),'0');
+ assert.equal(await sql('SELECT count(*) FROM public.inventory_balances;'),'0');
+ assert.equal(await sql('SELECT count(*) FROM public.order_inventory_reservations;'),'0');
+ assert.deepEqual(await sourceHashes(),sourceBefore,'QUANTITY223_LIFECYCLE_SOURCE_CHANGED_DURING_VERIFICATION');
  assert.equal(sha256(canonicalLf(await readFile(path.join(root,'docs/design/off-quantity-counter223/prototype223.sql'),'utf8'))),report.prototypeSha256,'SOURCE_CHANGED_DURING_VERIFICATION');
  report.ok=true;
 }catch(error){report.error=String(error.stack??error).slice(0,6000);process.exitCode=1;}
