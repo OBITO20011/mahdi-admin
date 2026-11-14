@@ -1,8 +1,9 @@
+import {operationalManifest,operationalSchema} from '../operations/operational-schema.mjs';
+import {frozen220FunctionReferenceSha256} from '../operations/function-reference220.mjs';
 import assert from 'node:assert/strict';
 import {readFile,writeFile} from 'node:fs/promises';
-import {fileURLToPath} from 'node:url';
 import {salesOnly220FunctionSnapshot,salesOnly220PrivateSnapshot} from '../operations/sales-only220-catalog.mjs';
-import {migrationManifest,manifestDigest,renderFunctionReference,canonicalDefinitionLf,canonicalLf,sha256} from './maintenance-db-contract.mjs';
+import {manifestDigest,renderFunctionReference,canonicalDefinitionLf,canonicalLf,sha256} from './maintenance-db-contract.mjs';
 import {bridges,bridgedSource,replaceDefinitionSource} from './sales-only220-bridges.mjs';
 import {salesOnly220Name} from './sales-only220-compiler.mjs';
 assert.equal(process.argv.length,2,'NO_TARGET_OR_HOSTED_INPUT');
@@ -21,10 +22,16 @@ for(const f of originalFunctions){
 assert.equal(unchanged,627);
 const pins={migrationSha256:report.migrationSha256,publicFunctions:680,privateFunctions:38,frozenBodies:627,bridges:9,freshIncrementalDifferences:0,functions:salesOnly220FunctionSnapshot(current),privateObjects:salesOnly220PrivateSnapshot(current),publicTriggers:current.triggers.filter(r=>r.schema==='public')};
 assert.equal(pins.functions.length,718);
-const manifest=await migrationManifest(fileURLToPath(new URL('../..',import.meta.url)));assert.equal(manifestDigest(manifest),report.manifestSha256);
+const manifest=(await operationalManifest()).filter(m=>Number(m.name.slice(0,3))<=220);assert.equal(manifestDigest(manifest),report.manifestSha256);
 const publicFunctions=await read('public220-functions.json');assert.equal(publicFunctions.length,680);
 // Generation occurs only after the independent read-only build has finished
 // and cleaned its container. No tracked source is edited during verification.
-await writeFile(new URL('../../docs/design/sales-only-phase3/catalog220-pins.json',import.meta.url),JSON.stringify(pins,null,2)+'\n');
-await writeFile(new URL('../../docs/generated/DB_FUNCTIONS.md',import.meta.url),renderFunctionReference(manifest,publicFunctions.map(r=>({...r,definition:canonicalDefinitionLf(r.definition)}))));
+const pinText=JSON.stringify(pins,null,2)+'\n',rendered=renderFunctionReference(manifest,publicFunctions.map(r=>({...r,definition:canonicalDefinitionLf(r.definition)})));
+if(operationalSchema.ceiling===220){
+ await writeFile(new URL('../../docs/design/sales-only-phase3/catalog220-pins.json',import.meta.url),pinText);
+ await writeFile(new URL('../../docs/generated/DB_FUNCTIONS.md',import.meta.url),rendered);
+}else{
+ assert.equal(canonicalLf(await readFile(new URL('../../docs/design/sales-only-phase3/catalog220-pins.json',import.meta.url),'utf8')),pinText,'FROZEN220_CATALOG_PINS_CHANGED');
+ assert.equal(sha256(rendered),frozen220FunctionReferenceSha256,'FROZEN220_FUNCTIONS_CHANGED');
+}
 console.log(JSON.stringify({ok:true,functions:718,publicFunctions:680,privateFunctions:38,unchangedBodies:627,bridges:9,generatedAfterCleanup:true}));

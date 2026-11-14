@@ -1,3 +1,4 @@
+import {useAppStore} from '../../stores/useAppStore';
 import {FormFields,UiButton,formatJod} from '../../components/ui';
 import {useEffect, useRef, useState, type FormEvent} from 'react';
 import {useAuthStore} from '../../stores/useAuthStore';
@@ -15,6 +16,8 @@ const flavorFamilies = (data: ParcelConfigurationContext) => data.products.filte
 export function ParcelConfigurationModal({initialFamilyProductId,operatingMode='full',modeVerified=true}:{initialFamilyProductId?:string;operatingMode?:'full'|'sales-only';modeVerified?:boolean}) {
   const {roleName:role} = useAuthStore();
   const salesOnly=operatingMode==='sales-only';
+  const {products:catalogProducts}=useAppStore();
+  const contentUnit=(familyId:string)=>catalogProducts.find(product=>product.id===familyId)?.unit||'باكيت';
   const authorization=useRef({role,operatingMode,modeVerified});
   authorization.current={role,operatingMode,modeVerified};
   const [context,setContext] = useState<ParcelConfigurationContext | null>(null);
@@ -116,7 +119,7 @@ export function ParcelConfigurationModal({initialFamilyProductId,operatingMode='
           </select></label>
           {familySearch&&<p className="text-sm text-nw-muted" role="status">{visibleFamilies.length} نتيجة — العائلة المحددة: {product?.nameAr} — {product?.sku}</p>}
           {form && product && <>
-            <label>كم حبة بالطرد<input readOnly={salesOnly} inputMode="numeric" enterKeyHint="next" className={inputClass} required type="number" min="1" step="1" value={form.units} onChange={e=>setForm({...form,units:Number(e.target.value)})}/></label>
+            <label>{salesOnly?'كم '+contentUnit(form.familyProductId)+' بالطرد':'كم حبة بالطرد'}<input readOnly={salesOnly} inputMode="numeric" enterKeyHint="next" className={inputClass} required type="number" min="1" step="1" value={form.units} onChange={e=>setForm({...form,units:Number(e.target.value)})}/></label>
             {salesOnly&&<p className="text-sm text-nw-muted">عدد الطرد ووحدته وسعره تُضبط من نموذج المنتج أولاً؛ هذه الشاشة تختار النكهات فقط. بعد تعديل المنتج أعد تحميل الإعداد.</p>}
             {salesOnly&&<p className="text-sm text-nw-muted">لطرد نكهات حقيقي اختر وحدة بيع مختلفة عن وحدة المحتوى. للحفاظ على سعر الوحدة راجع أن سعر الطرد يساوي العدد × سعر الوحدة؛ الحفظ هنا لا يحوّل الأسعار تلقائياً.</p>}
               <div><label className="flex gap-2"><input type="checkbox" checked={form.active} onChange={e=>setForm({...form,active:e.target.checked})}/>الطرد المشكّل مفعّل للبيع</label>
@@ -136,7 +139,7 @@ export function ParcelConfigurationModal({initialFamilyProductId,operatingMode='
         <h3 className="font-bold">إعدادات قديمة للقراءة فقط</h3>
         <p className="text-sm text-nw-muted">الطرد العادي يُضبط من نموذج المنتج. تبقى هذه الإعدادات ومبيعاتها السابقة محفوظة؛ يمكنك إيقاف البيع الجديد بها.</p>
         {context.products.filter(p=>p.configuration?.composition_mode==='single_sku').map(p=><article key={p.familyProductId} className="space-y-2 border-t border-nw-border pt-3">
-          <h4 className="font-bold">{p.nameAr}</h4><p>كم حبة بالطرد: {p.unitsPerParcel} · {p.configuration?.is_active?'متاح للبيع':'متوقف'}</p>
+          <h4 className="font-bold">{p.nameAr}</h4><p>{salesOnly?'كم '+contentUnit(p.familyProductId)+' بالطرد':'كم حبة بالطرد'}: {p.unitsPerParcel} · {p.configuration?.is_active?'متاح للبيع':'متوقف'}</p>
           {p.configuration?.is_active&&<UiButton type="button" disabled={busy||uncertain} onClick={()=>void disableLegacy(p)}>إيقاف الإعداد القديم — {p.nameAr}</UiButton>}
         </article>)}
       </section>}

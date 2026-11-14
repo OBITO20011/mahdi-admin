@@ -7,6 +7,22 @@ const file=(flavors=true,changes:Record<string,string>={},flavorChanges:Record<s
 const load=(page:Page,bytes=file())=>page.getByLabel('ملف المنتجات',{exact:true}).setInputFiles(bytes);
 const fixture=(page:Page)=>page.evaluate(()=>(window as any).__workbookFixture.tables.products);
 
+test('OFF workbook previews and saves independent900/17000 for a family and flavor with final readback',async({page})=>{
+ await page.goto(url('sales-only'));
+ await load(page,file(true,{units_per_sale_unit:'20',sale_package_price:'17.000',packet_price:'0.900',purchase_package_price:'',cost_per_base_unit:''}));
+ const panel=page.getByTestId('product-workbook-preview');
+ await expect(panel.getByRole('columnheader',{name:'سعر الوحدة المفردة',exact:true})).toBeVisible();
+ await expect(panel).toContainText('0.900');await expect(panel).toContainText('17.000');
+ await page.getByRole('button',{name:'حفظ المنتجات والنكهات ومطابقتها'}).click();
+ await expect(page.getByTestId('saved')).toBeVisible();
+ const rows=await fixture(page);expect(rows).toHaveLength(2);
+ for(const row of rows){expect(String(row.sale_price_in_minor_units)).toBe('900');expect(String(row.default_sale_price_in_minor_units)).toBe('17000');expect(String(row.units_per_sale_unit)).toBe('20');}
+ expect(rows.find((r:any)=>r.flavor_master_product_id)?.barcode).toBe('000123');
+ const calls=await page.evaluate(()=>(window as any).__workbookFixture.calls);
+ expect(calls.filter((c:any)=>c.name==='create_product_family_with_flavors_v3')).toHaveLength(1);
+ expect(calls.some((c:any)=>c.name==='update_product_master_v5')).toBe(false);
+});
+
 test.beforeEach(async({page})=>{await page.setViewportSize({width:390,height:844});});
 
 test('actual generated workbook previews20columns and flavor autoSKU/leading zeros,zero writes',async({page})=>{

@@ -31,7 +31,7 @@ const rows=inventoryProducts.slice(0,7).map((p,i)=>({...p,warehouse_id:warehouse
  is_flavor_master:i===4,flavor_master_product_id:i>4?familyId:null,flavor_name_ar:i===5?'جبنة':i===6?'فلفل':null,
  flavor_sort_order:i>4?i-4:0,on_hand_quantity:i===4?0:p.on_hand_quantity,available_quantity:i===4?0:p.available_quantity}));
 const flavorParcelFixture=params.has('flavor-parcel');
-const singleFixture=params.has('single-carton')||params.has('single-unit')||flavorParcelFixture||params.has('unit-parcel');
+const singleFixture=params.has('single-carton')||params.has('single-unit')||flavorParcelFixture||params.has('unit-parcel')||params.has('independent-prices');
 const singleName=({BOX:'صندوق',SHRINK:'شرنك',CTN:'كرتونة',PKT:'باكيت'} as Record<string,string>)[params.get('single-unit')??'']??'طرد';
 if(singleFixture){
  Object.assign(rows[0],{base_unit:{id:'single-carton',name_ar:singleName,code:'SALE-CARTON'},
@@ -55,6 +55,10 @@ if(params.has('unit-parcel')){
  const packet={id:'88888888-8888-4888-8888-000000000121',name_ar:'باكيت',code:'PKT'};
  Object.assign(rows[0],{base_unit:packet,purchase_unit:packet,sale_unit:packet,
   default_sale_price_in_minor_units:850,sale_price_in_minor_units:850});
+}
+if(params.has('independent-prices')){
+ const packet={id:'88888888-8888-4888-8888-000000000121',name_ar:'باكيت',code:'PKT'},parcel={id:'88888888-8888-4888-8888-000000000122',name_ar:'طرد',code:'SALE-CARTON'};
+ Object.assign(rows[0],{base_unit:packet,purchase_unit:parcel,sale_unit:parcel,units_per_purchase_unit:20,units_per_sale_unit:20,default_sale_price_in_minor_units:17000,sale_price_in_minor_units:900,wholesale_price_in_minor_units:900,parcel_only:false});
 }
 const products=rows.map(mapAdminProductRecord);
 const auth=authStoreEngine as unknown as {state:AuthState;getState:()=>AuthState;initAuth:()=>Promise<void>};

@@ -1,0 +1,88 @@
+{
+  "format": 2,
+  "description": "Known owner bytes remain exact;project-state accepts only branch=main and the four reviewed ownerAcl212 delivery values by value hash over current HEAD222 state.",
+  "files": [
+    {
+      "file": "docs/agent/ACTIVE_TASK.json",
+      "sha256": "2a2689bebf4e55b5cd95e654847f70d25e131e32018685cd16ac51f2dfc03820"
+    },
+    {
+      "file": "docs/agent/ACTIVE_TASK_FILES.json",
+      "sha256": "4d504b3cfd4aa6564d94c082f08e52e733b338e345feaae808382051ec8ffe7d"
+    },
+    {
+      "file": "docs/agent/OWNER_ACL212_LOCAL.json",
+      "sha256": "95c209eeb26fc0d06342b9b577f92876d690a7299b5b311f8b4e5c7ee986e344"
+    },
+    {
+      "file": "docs/agent/PHASE_STATUS.md",
+      "sha256": "0782600e78c0535277bf6078558b3ddaf04d287d01106850948d677efe12f910"
+    },
+    {
+      "file": "docs/agent/PROJECT_OVERVIEW.md",
+      "sha256": "614da024c3c3d2bf0e1a58005434ac7eb9e60e7a95254767e988d7dd01c04d93"
+    },
+    {
+      "file": "docs/operations/TRIAL_OWNER_H_AR.md",
+      "sha256": "2f7c38ce227b60225656893439eca577ba12027701c5eaf241f726c0e9943112"
+    },
+    {
+      "file": "docs/operations/TRIAL_OWNER_UPGRADE211_AR.md",
+      "sha256": "053eae503ad772f8b36b9196a87f367dc5a5958acc421b6d27f337a9e7bfcdfe"
+    },
+    {
+      "file": "docs/agent/OWNER_ACL212_DELIVERY.json",
+      "sha256": "1f2d053bfea76a43b21da3d7fdc6c2bfeefb5e1ca5e1ebb6109c288472019feb"
+    },
+    {
+      "file": "docs/agent/OWNER_ACL212_FEATURE_CI.json",
+      "sha256": "970ebbc0bab5b52f87d21b09a523d137033d0a491dd223350813c116abd68e20"
+    },
+    {
+      "file": "docs/agent/OWNER_ACL212_MAIN_CI.json",
+      "sha256": "d60f2ba9132c4951392cfd43512671bd9688f163442288554392d4a43ece1447"
+    },
+    {
+      "file": "docs/agent/OWNER_ACL212_PRIMARY_SYNC.json",
+      "sha256": "df3d2b7857f08f3686afd2d50a4e2429f31aa8bc67e02c5b20ada6f9653b1c6b"
+    },
+    {
+      "file": "docs/operations/FRANKFURT_ACL211_ANALYSIS.json",
+      "sha256": "0fe70f5c2667309ff6698c60c331697eb6dab808835adc4b0d5a6294f40037b4"
+    },
+    {
+      "file": "docs/operations/FRANKFURT_ACL211_AR.md",
+      "sha256": "c5cb487ac4e85c373dafc63ecb2bfa12622c2b80d71048e72ae3fda84d15e99b"
+    },
+    {
+      "file": "docs/operations/FRANKFURT_ACL211_VERIFICATION.json",
+      "sha256": "9a871c3a41fb99f592a15a4178161e856d16572cbc7cf4862776910ba003e300"
+    },
+    {
+      "file": "docs/operations/FRANKFURT_FUNCTION_ACL211_OWNER.sql",
+      "sha256": "c42b8e2ae5686cbea21f8e552420d6d6aa84ec111cf899e90b447c829289496a"
+    },
+    {
+      "file": "docs/operations/TRIAL_OWNER_H_DELIVERY.json",
+      "sha256": "be13313a747cbe57b63d14170de30e5db6c2250bbeb1ae48d66e96f34a5fc0de"
+    },
+    {
+      "file": "docs/operations/TRIAL_OWNER_H_FEATURE_CI.json",
+      "sha256": "82612c091c3ed604807bfef3a6c1d8769439d1ced8e79132313337664f730d58"
+    },
+    {
+      "file": "docs/operations/TRIAL_OWNER_H_MAIN_CI.json",
+      "sha256": "1a113f52114baaeb0d3d35a2862ce8fff165fa516930fd4adf66b2ae064d249a"
+    },
+    {
+      "file": "scripts/operations/verify-frankfurt-acl211-offline.mjs",
+      "sha256": "e81d8767db438abf0a8860f15907095535283fb087687bdf97530d2654e48d4d"
+    }
+  ],
+  "ownerStateFieldsSha256": {
+    "ownerAcl212Delivered": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+    "ownerAcl212DeliveryBaseline": "29080a4536244f56402f83f991a409d4003b465117b052b7b4ffb9f557351e51",
+    "ownerAcl212DeliveryCiRuns": "0e63a9dd14ed748e5a5e0b555a2f173cec56d1fb995654d45116b4ee2aff30ff",
+    "ownerAcl212DeliveryEvidence": "e18eb29b080a420ce0680241633ba7971c04ad796733e0a1be6233dc29b985fb"
+  }
+}

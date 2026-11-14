@@ -3,35 +3,19 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
+      "path": "scripts/audit/independent-prices222-source-pins.json"
     },
     {
       "code": " M",
-      "path": "docs/agent/project-state.json"
+      "path": "scripts/testing/capture-sales-only220-catalog.mjs"
     },
     {
-      "code": " M",
-      "path": "docs/handover/ورقة-يوم-التشغيل.html"
+      "code": "??",
+      "path": "scripts/testing/literal220-catalog-manifest.mjs"
     },
     {
-      "code": " M",
-      "path": "docs/handover/ورقة-يوم-التشغيل.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/sales-only-phase3-source-pins.json"
-    },
-    {
-      "code": " M",
-      "path": "tests/cutover-publication-order.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/lite220-handover.test.ts"
+      "code": "??",
+      "path": "tests/literal220-catalog-manifest.test.ts"
     }
   ]
 }

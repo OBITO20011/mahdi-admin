@@ -1,6 +1,7 @@
 import {installSalesOnlyAudit,assertSalesOnlyAuditTarget,salesOnlyAuditEvidence} from '../testing/sales-only-phase2-audit-context.mjs';
 import{historicalProductWorkbookSource}from'./source-before-product-workbook.mjs';
 import {sourceBeforeOwnerTelegram217} from './source-before-owner-telegram217.mjs';
+import {sourceBeforeIndependentPrices222} from './source-before-independent-prices222.mjs';
 import {sourceBeforeAftercare215} from './source-before-aftercare215.mjs';
 import {sourceBeforePartial216} from './source-before-partial216.mjs';
 // Local-only RPC EXECUTE diagnostics;each invocation rolls back even on success.
@@ -12,6 +13,7 @@ import {readFile,writeFile,mkdtemp} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {randomBytes} from 'node:crypto';
 import path from 'node:path';
+import {sourceBeforeSalesOnlyPhase3} from './source-before-sales-only-phase3.mjs';
 import {serviceInventory} from './service-access-inventory.mjs';
 import {executorFor,executeInput} from '../operations/build-empty-supabase.mjs';
 import {fixtureId as id} from './table-access-probes.mjs';
@@ -26,7 +28,7 @@ if(options['--quarantined-prototype'])assert.equal(options['--quarantined-protot
 let workdir=suppliedWorkdir;
 if(workdir){assert.ok(options['--local-project'],'EXPLICIT_LOCAL_PROJECT_REQUIRED');const config=await readFile(path.join(workdir,'supabase/config.toml'),'utf8');assert.equal(config.match(/^project_id\s*=\s*"([^"]+)"/mu)?.[1],project,'LOCAL_WORKDIR_PROJECT_MISMATCH');}
 const migrationCeiling=Number(options['--migration-ceiling']??JSON.parse(await readFile(path.join(root,'docs/agent/project-state.json'),'utf8')).migrationCeiling);
-assert.ok([198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,219,220].includes(migrationCeiling),'APPROVED_SERVICE_AUDIT_CEILING_REQUIRED');
+assert.ok([198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,219,220,222].includes(migrationCeiling),'APPROVED_SERVICE_AUDIT_CEILING_REQUIRED');
 if(salesOnlyAudit)assertSalesOnlyAuditTarget({project,ceiling:migrationCeiling,existingWorkdir:suppliedWorkdir,executor:executorFor(['--container',container])});
 const output=await mkdtemp(path.join(tmpdir(),'nawasrah-service-access-')),
  report={schemaVersion:1,startedAt:new Date().toISOString(),migrationCeiling,managedAccess:false,output};
@@ -48,6 +50,10 @@ export function probeValue(name,type){
 try{
  const sourceOptions={projectSource:migrationCeiling<215?sourceBeforeAftercare215:migrationCeiling===215?sourceBeforePartial216:migrationCeiling===216?sourceBeforeOwnerTelegram217:undefined};
  if(sourceOptions.projectSource){const historical=sourceOptions.projectSource;sourceOptions.projectSource=(file,text)=>historicalProductWorkbookSource(historical,file,text);}
+ if(migrationCeiling<=220){const older=sourceOptions.projectSource;sourceOptions.projectSource=(file,text)=>{const before=sourceBeforeIndependentPrices222(file,text);return before===null?null:older?older(file,before):before;};}
+ // The219 quarantined overlay is Phase2,not literal220's later reader additions.
+ // Exact source inverse only;unknown bytes/functions still fail dispatch.
+ if(salesOnlyAudit)sourceOptions.projectSource=sourceBeforeSalesOnlyPhase3;
  const source=await serviceInventory(sourceOptions);report.sourceHashes=source.sourceHashes;
  if(!workdir){const boot=await exec(process.execPath,[path.join(root,'scripts/testing/bootstrap-isolated-supabase.mjs')],{cwd:root,windowsHide:true,maxBuffer:8*1024**2,env:{...process.env,
   NAWASRAH_ISOLATED_PROJECT_ID:project,NAWASRAH_MAX_MIGRATION:String(migrationCeiling),NAWASRAH_SKIP_REDUNDANT_DB_RESET:'true',

@@ -27,7 +27,7 @@ test('bulk image historical projection is exact and rejects a changed upload wri
 
 test('new image cleanup query and image-only writer have fresh unprojected actual role evidence',async()=>{
  const table=await inventory(),state=JSON.parse(readFileSync('docs/agent/project-state.json','utf8')),proof=JSON.parse(readFileSync(state.currentTableReadinessEvidence,'utf8'));
- assert.equal(proof.migrationCeiling,220);assert.equal(proof.migrationCeiling,state.migrationCeiling);assert.equal(table.migrationCeiling,state.migrationCeiling);assert.equal(proof.applicationReady,true);assert.equal(proof.infrastructureOk,true);assert.equal(proof.managedAccess,false);assert.deepEqual(proof.sourceHashes,table.sources);assert.deepEqual(proof.coverage,verifyProbeCoverage(table,proof.results));
+ assert.equal(proof.migrationCeiling,222);assert.equal(proof.migrationCeiling,state.migrationCeiling);assert.equal(table.migrationCeiling,state.migrationCeiling);assert.equal(proof.applicationReady,true);assert.equal(proof.infrastructureOk,true);assert.equal(proof.managedAccess,false);assert.deepEqual(proof.sourceHashes,table.sources);assert.deepEqual(proof.coverage,verifyProbeCoverage(table,proof.results));
  const site=table.entries.find((entry:{function:string})=>entry.function==='isUploadedImageReferenced');assert.ok(site);assert.equal(site.table,'product_images');
  const rows=proof.results.filter((row:{id:string})=>row.id===site.id);assert.ok(rows.length>=3);assert.ok(rows.every((row:{sqlstate:string|null})=>row.sqlstate===null));
  const services=await serviceInventory(),rpc=(services.rpc as {id:string;name:string}[]).find(entry=>entry.name==='set_product_primary_image');assert.ok(rpc);

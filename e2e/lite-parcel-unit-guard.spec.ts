@@ -12,12 +12,12 @@ async function fixture(page:import('@playwright/test').Page,options:{units?:numb
 }
 test('OFF real modal dispatcher keeps capacity in product definition, not flavor configuration',async({page})=>{
  await fixture(page);await page.goto('/e2e/lite-parcel-unit-guard-harness.html');
- await expect(page.getByLabel('كم حبة بالطرد')).toHaveJSProperty('readOnly',true);
+ await expect(page.getByLabel('كم باكيت بالطرد')).toHaveJSProperty('readOnly',true);
  await expect(page.getByText(/عدد الطرد.*نموذج المنتج/)).toBeVisible();
 });
 test('OFF forged capacity cannot invoke save RPC after the owner rename-to-packet path',async({page})=>{
  const writes=await fixture(page);await page.goto('/e2e/lite-parcel-unit-guard-harness.html');
- const input=page.getByLabel('كم حبة بالطرد');await input.evaluate(el=>(el as HTMLInputElement).readOnly=false);await input.fill('7');
+ const input=page.getByLabel('كم باكيت بالطرد');await input.evaluate(el=>(el as HTMLInputElement).readOnly=false);await input.fill('7');
  await page.getByRole('button',{name:'حفظ إعداد الطرد',exact:true}).tap();
  await expect(page.getByRole('alert')).toContainText(/نموذج المنتج/);expect(writes).toHaveLength(0);
 });
@@ -81,7 +81,7 @@ for(const kind of ['flavor','ordinary'])test(`OFF product form adds a ${kind} pa
   const name=new URL(route.request().url()).searchParams.get('name_ar');
   return route.fulfill({json:[{id:name==='eq.صندوق'?box:packet}]});
  });
- await page.route('**/rpc/update_product_master_v5',route=>{
+ await page.route('**/rpc/update_product_master_v6',route=>{
   const body=route.request().postDataJSON();writes.push(body);
   return route.fulfill({json:{success:true,productId:body.p_product_id,updatedAt:'2026-11-12T08:01:00Z'}});
  });
@@ -93,20 +93,20 @@ for(const kind of ['flavor','ordinary'])test(`OFF product form adds a ${kind} pa
   storeEngine.openModal('edit_product',family);
  },kind);
  const form=page.getByRole('dialog');
- const add=form.getByRole('checkbox',{name:'هاد السعر سعر حبة، بدي أضيف طرد',exact:true});
+ const add=form.getByRole('checkbox',{name:'هاد السعر سعر باكيت، بدي أضيف طرد',exact:true});
  await add.check();
  const pack=form.getByLabel('وحدة بيع الطرد المضاف',{exact:false});
  await expect(pack).toHaveValue('طرد');await expect(pack.locator('option[value="باكيت"]')).toHaveCount(0);
- await pack.selectOption('صندوق');await form.getByLabel('عدد وحدات الطرد المضاف',{exact:false}).fill('7');
+ await pack.selectOption('صندوق');await form.getByLabel('كم باكيت بالطرد المضاف',{exact:false}).fill('7');
  const confirm=form.getByRole('checkbox',{name:/أؤكد سعر الطرد/});
  await expect(confirm).toHaveAccessibleName(kind==='flavor'?/7\.700.*1\.100/:/5\.950.*0\.850/);
  await form.getByRole('button',{name:'حفظ التعديلات',exact:true}).tap();
  await expect(form.getByText(/وأكّد سعر الطرد/)).toBeVisible();expect(writes).toHaveLength(0);
- await confirm.check();await form.getByLabel('عدد وحدات الطرد المضاف',{exact:false}).fill('8');
- await expect(confirm).not.toBeChecked();await form.getByLabel('عدد وحدات الطرد المضاف',{exact:false}).fill('7');
+ await confirm.check();await form.getByLabel('كم باكيت بالطرد المضاف',{exact:false}).fill('8');
+ await expect(confirm).not.toBeChecked();await form.getByLabel('كم باكيت بالطرد المضاف',{exact:false}).fill('7');
  await confirm.check();await form.getByRole('button',{name:'حفظ التعديلات',exact:true}).tap();
  await expect.poll(()=>writes.length).toBe(1);
- expect(writes[0]).toMatchObject({p_unit_id:packet,p_sale_unit_id:box,p_units_per_sale_unit:7,p_default_sale_price_in_minor_units:kind==='flavor'?7700:5950,p_parcel_only:false});
+ expect(writes[0]).toMatchObject({p_unit_id:packet,p_sale_unit_id:box,p_units_per_sale_unit:7,p_default_sale_price_in_minor_units:kind==='flavor'?7700:5950,p_sale_price_in_minor_units:kind==='flavor'?1100:850,p_parcel_only:false});
 });
 
 test('OFF added parcel displays packet850 and parcel20400 in store and POS;admin single price uses its unit',async({page})=>{

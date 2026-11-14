@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "migrationCeiling": 220,
+  "migrationCeiling": 222,
   "managedAccess": false,
   "sources": [
     {
@@ -337,11 +337,11 @@
     },
     {
       "file": "src/features/goLive/productWorkbook.ts",
-      "sha256": "6293ceb5433dc69527e278cf085f4974188a31c1f6a2bd27aa32175402ebfdeb"
+      "sha256": "4a215ad88271b610518b74f37e94b45e58b91b02f664ebd0860ae152be513619"
     },
     {
       "file": "src/features/goLive/ProductWorkbookImportPanel.tsx",
-      "sha256": "3c3ff02e0944c4c6f9e084657247849511396d9197bc3abb8c6ce46704892bcf"
+      "sha256": "7411f8c4ee0eac88ddb3f6f3b2b67742145dc6be8e9450b4617e0d9f972f7a57"
     },
     {
       "file": "src/features/goLive/productWorkbookReference.ts",
@@ -413,7 +413,7 @@
     },
     {
       "file": "src/features/more/ParcelConfigurationModal.tsx",
-      "sha256": "b8907f19a341c423abb1e238165d71b15706072201de2ec137bd2aa0a4826616"
+      "sha256": "0a5553a01d0488921409c821b214e048168afa071da21921197e6514885bc415"
     },
     {
       "file": "src/features/more/ProfileModal.tsx",
@@ -585,7 +585,7 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "sha256": "7012d4dbeb54c96587b0ba994178bf374f0578365ced4b3be8b1e2a675d1d5d3"
+      "sha256": "2dfef175c277db51dc6d41dc5da8b689f05914387546396d0207b93b52343fd0"
     },
     {
       "file": "src/features/products/ProductFormParcelCapability.tsx",
@@ -985,11 +985,11 @@
     },
     {
       "file": "src/services/supabase/products.service.ts",
-      "sha256": "5104aca3528ea7fe18ce813f19945543a2c616b257694a234549b79bc9b3b5ec"
+      "sha256": "24a56d82723779128ea2c239d58a7ac4106c2f12d892fb8bed11ee6bfdfb2604"
     },
     {
       "file": "src/services/supabase/productWorkbook.service.ts",
-      "sha256": "7fb29a081a7db6d85c18908fce82153bef983dfde3e433b253d8656e4dc882a8"
+      "sha256": "f2592e46ffd3ec156c358e671d77d2a97bba1657f5b6802db856c22f0de01899"
     },
     {
       "file": "src/services/supabase/promotions.service.ts",
@@ -1101,7 +1101,7 @@
     },
     {
       "file": "src/stores/useAppStore.ts",
-      "sha256": "05586737be1f941b44a7bb9e9997b222389e889ec0cf89fa2023a5713dfb25b6"
+      "sha256": "f9274613aef3b9f745a63f5004b2e823327115365bd6191f54cc58b42c5eaba1"
     },
     {
       "file": "src/stores/useAuthStore.ts",
@@ -1200,6 +1200,10 @@
       "sha256": "ce458def64a203ed7364cfc3d9ebdfa42c40eeb0f23e8742056a96638bf32bdf"
     },
     {
+      "file": "src/utils/independentParcelPrices.ts",
+      "sha256": "90ae38b6fa8ee56ea31fe112b62e87fb231e25e7ded0903944dd1c400f4f99a0"
+    },
+    {
       "file": "src/utils/inventoryFormatter.ts",
       "sha256": "98c62f5906ae24925cbaaa68b364c1cd502cc33329bc9911af6f01af4a842296"
     },
@@ -1245,7 +1249,7 @@
     },
     {
       "file": "src/utils/productEditConflict.ts",
-      "sha256": "820a7a95f9e899d795a6d6aabb6f52df63e9839b97f4433958f55453f610c839"
+      "sha256": "cc702391d3d7bc6116533eba053025af461c8670460336326648733f727ebbc4"
     },
     {
       "file": "src/utils/productIdentifiers.ts",
@@ -2574,9 +2578,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/products.service.ts:590",
+      "id": "src/services/supabase/products.service.ts:594",
       "file": "src/services/supabase/products.service.ts",
-      "line": 590,
+      "line": 594,
       "table": "warehouses",
       "operation": "select",
       "role": "authenticated",
@@ -2618,9 +2622,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/products.service.ts:598",
+      "id": "src/services/supabase/products.service.ts:602",
       "file": "src/services/supabase/products.service.ts",
-      "line": 598,
+      "line": 602,
       "table": "categories",
       "operation": "select",
       "role": "authenticated",
@@ -2662,9 +2666,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/products.service.ts:606",
+      "id": "src/services/supabase/products.service.ts:610",
       "file": "src/services/supabase/products.service.ts",
-      "line": 606,
+      "line": 610,
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2699,9 +2703,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/products.service.ts:615",
+      "id": "src/services/supabase/products.service.ts:619",
       "file": "src/services/supabase/products.service.ts",
-      "line": 615,
+      "line": 619,
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2743,9 +2747,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/products.service.ts:628",
+      "id": "src/services/supabase/products.service.ts:632",
       "file": "src/services/supabase/products.service.ts",
-      "line": 628,
+      "line": 632,
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2787,9 +2791,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/products.service.ts:708",
+      "id": "src/services/supabase/products.service.ts:712",
       "file": "src/services/supabase/products.service.ts",
-      "line": 708,
+      "line": 712,
       "table": "products",
       "operation": "select",
       "role": "authenticated",
@@ -2829,9 +2833,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/products.service.ts:803",
+      "id": "src/services/supabase/products.service.ts:807",
       "file": "src/services/supabase/products.service.ts",
-      "line": 803,
+      "line": 807,
       "table": "warehouses",
       "operation": "select",
       "role": "authenticated",
@@ -2873,9 +2877,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/products.service.ts:815",
+      "id": "src/services/supabase/products.service.ts:819",
       "file": "src/services/supabase/products.service.ts",
-      "line": 815,
+      "line": 819,
       "table": "categories",
       "operation": "select",
       "role": "authenticated",
@@ -2917,9 +2921,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/products.service.ts:827",
+      "id": "src/services/supabase/products.service.ts:831",
       "file": "src/services/supabase/products.service.ts",
-      "line": 827,
+      "line": 831,
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2961,9 +2965,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/products.service.ts:834",
+      "id": "src/services/supabase/products.service.ts:838",
       "file": "src/services/supabase/products.service.ts",
-      "line": 834,
+      "line": 838,
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2998,9 +3002,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/products.service.ts:841",
+      "id": "src/services/supabase/products.service.ts:845",
       "file": "src/services/supabase/products.service.ts",
-      "line": 841,
+      "line": 845,
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3042,9 +3046,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/products.service.ts:852",
+      "id": "src/services/supabase/products.service.ts:856",
       "file": "src/services/supabase/products.service.ts",
-      "line": 852,
+      "line": 856,
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3086,9 +3090,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/products.service.ts:1023",
+      "id": "src/services/supabase/products.service.ts:1028",
       "file": "src/services/supabase/products.service.ts",
-      "line": 1023,
+      "line": 1028,
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3130,9 +3134,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/products.service.ts:1034",
+      "id": "src/services/supabase/products.service.ts:1039",
       "file": "src/services/supabase/products.service.ts",
-      "line": 1034,
+      "line": 1039,
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3174,9 +3178,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/products.service.ts:1046",
+      "id": "src/services/supabase/products.service.ts:1051",
       "file": "src/services/supabase/products.service.ts",
-      "line": 1046,
+      "line": 1051,
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3251,7 +3255,7 @@
       ],
       "extensions": [],
       "constants": {
-        "metadataColumns": "id,sku,barcode,name_ar,description,category_id,brand_id,unit_id,purchase_unit_id,units_per_purchase_unit,default_purchase_price_in_minor_units,sale_unit_id,units_per_sale_unit,default_sale_price_in_minor_units,cost_price_in_minor_units,min_stock_level,max_stock_level,is_active,parcel_only,updated_at,flavor_master_product_id,is_flavor_master,flavor_name_ar"
+        "metadataColumns": "id,sku,barcode,name_ar,description,category_id,brand_id,unit_id,purchase_unit_id,units_per_purchase_unit,default_purchase_price_in_minor_units,sale_unit_id,units_per_sale_unit,default_sale_price_in_minor_units,sale_price_in_minor_units,cost_price_in_minor_units,min_stock_level,max_stock_level,is_active,parcel_only,updated_at,flavor_master_product_id,is_flavor_master,flavor_name_ar"
       },
       "source": "db().from('categories').select('id,name_ar,is_active').order('id').range(from,from+499)",
       "embeddedTables": [],
@@ -3386,7 +3390,7 @@
       ],
       "extensions": [],
       "constants": {
-        "metadataColumns": "id,sku,barcode,name_ar,description,category_id,brand_id,unit_id,purchase_unit_id,units_per_purchase_unit,default_purchase_price_in_minor_units,sale_unit_id,units_per_sale_unit,default_sale_price_in_minor_units,cost_price_in_minor_units,min_stock_level,max_stock_level,is_active,parcel_only,updated_at,flavor_master_product_id,is_flavor_master,flavor_name_ar"
+        "metadataColumns": "id,sku,barcode,name_ar,description,category_id,brand_id,unit_id,purchase_unit_id,units_per_purchase_unit,default_purchase_price_in_minor_units,sale_unit_id,units_per_sale_unit,default_sale_price_in_minor_units,sale_price_in_minor_units,cost_price_in_minor_units,min_stock_level,max_stock_level,is_active,parcel_only,updated_at,flavor_master_product_id,is_flavor_master,flavor_name_ar"
       },
       "source": "db().from('units').select('id,code,name_ar').order('id').range(from,from+499)",
       "embeddedTables": [],
@@ -3521,7 +3525,7 @@
       ],
       "extensions": [],
       "constants": {
-        "metadataColumns": "id,sku,barcode,name_ar,description,category_id,brand_id,unit_id,purchase_unit_id,units_per_purchase_unit,default_purchase_price_in_minor_units,sale_unit_id,units_per_sale_unit,default_sale_price_in_minor_units,cost_price_in_minor_units,min_stock_level,max_stock_level,is_active,parcel_only,updated_at,flavor_master_product_id,is_flavor_master,flavor_name_ar"
+        "metadataColumns": "id,sku,barcode,name_ar,description,category_id,brand_id,unit_id,purchase_unit_id,units_per_purchase_unit,default_purchase_price_in_minor_units,sale_unit_id,units_per_sale_unit,default_sale_price_in_minor_units,sale_price_in_minor_units,cost_price_in_minor_units,min_stock_level,max_stock_level,is_active,parcel_only,updated_at,flavor_master_product_id,is_flavor_master,flavor_name_ar"
       },
       "source": "db().from('brands').select('id,name_ar,is_active').order('id').range(from,from+499)",
       "embeddedTables": [],
@@ -3656,7 +3660,7 @@
       ],
       "extensions": [],
       "constants": {
-        "metadataColumns": "id,sku,barcode,name_ar,description,category_id,brand_id,unit_id,purchase_unit_id,units_per_purchase_unit,default_purchase_price_in_minor_units,sale_unit_id,units_per_sale_unit,default_sale_price_in_minor_units,cost_price_in_minor_units,min_stock_level,max_stock_level,is_active,parcel_only,updated_at,flavor_master_product_id,is_flavor_master,flavor_name_ar"
+        "metadataColumns": "id,sku,barcode,name_ar,description,category_id,brand_id,unit_id,purchase_unit_id,units_per_purchase_unit,default_purchase_price_in_minor_units,sale_unit_id,units_per_sale_unit,default_sale_price_in_minor_units,sale_price_in_minor_units,cost_price_in_minor_units,min_stock_level,max_stock_level,is_active,parcel_only,updated_at,flavor_master_product_id,is_flavor_master,flavor_name_ar"
       },
       "source": "db().from('warehouses').select('id,code,name_ar,is_active').order('id').range(from,from+499)",
       "embeddedTables": [],
@@ -3791,7 +3795,7 @@
       ],
       "extensions": [],
       "constants": {
-        "metadataColumns": "id,sku,barcode,name_ar,description,category_id,brand_id,unit_id,purchase_unit_id,units_per_purchase_unit,default_purchase_price_in_minor_units,sale_unit_id,units_per_sale_unit,default_sale_price_in_minor_units,cost_price_in_minor_units,min_stock_level,max_stock_level,is_active,parcel_only,updated_at,flavor_master_product_id,is_flavor_master,flavor_name_ar"
+        "metadataColumns": "id,sku,barcode,name_ar,description,category_id,brand_id,unit_id,purchase_unit_id,units_per_purchase_unit,default_purchase_price_in_minor_units,sale_unit_id,units_per_sale_unit,default_sale_price_in_minor_units,sale_price_in_minor_units,cost_price_in_minor_units,min_stock_level,max_stock_level,is_active,parcel_only,updated_at,flavor_master_product_id,is_flavor_master,flavor_name_ar"
       },
       "source": "db().from('products').select('id,sku,barcode').order('id').range(from,from+499)",
       "embeddedTables": [],
@@ -3924,7 +3928,7 @@
       ],
       "extensions": [],
       "constants": {
-        "metadataColumns": "id,sku,barcode,name_ar,description,category_id,brand_id,unit_id,purchase_unit_id,units_per_purchase_unit,default_purchase_price_in_minor_units,sale_unit_id,units_per_sale_unit,default_sale_price_in_minor_units,cost_price_in_minor_units,min_stock_level,max_stock_level,is_active,parcel_only,updated_at,flavor_master_product_id,is_flavor_master,flavor_name_ar"
+        "metadataColumns": "id,sku,barcode,name_ar,description,category_id,brand_id,unit_id,purchase_unit_id,units_per_purchase_unit,default_purchase_price_in_minor_units,sale_unit_id,units_per_sale_unit,default_sale_price_in_minor_units,sale_price_in_minor_units,cost_price_in_minor_units,min_stock_level,max_stock_level,is_active,parcel_only,updated_at,flavor_master_product_id,is_flavor_master,flavor_name_ar"
       },
       "source": "db().from('products').select(metadataColumns).eq('id',id).single()",
       "embeddedTables": [],
@@ -3968,7 +3972,7 @@
       ],
       "extensions": [],
       "constants": {
-        "metadataColumns": "id,sku,barcode,name_ar,description,category_id,brand_id,unit_id,purchase_unit_id,units_per_purchase_unit,default_purchase_price_in_minor_units,sale_unit_id,units_per_sale_unit,default_sale_price_in_minor_units,cost_price_in_minor_units,min_stock_level,max_stock_level,is_active,parcel_only,updated_at,flavor_master_product_id,is_flavor_master,flavor_name_ar"
+        "metadataColumns": "id,sku,barcode,name_ar,description,category_id,brand_id,unit_id,purchase_unit_id,units_per_purchase_unit,default_purchase_price_in_minor_units,sale_unit_id,units_per_sale_unit,default_sale_price_in_minor_units,sale_price_in_minor_units,cost_price_in_minor_units,min_stock_level,max_stock_level,is_active,parcel_only,updated_at,flavor_master_product_id,is_flavor_master,flavor_name_ar"
       },
       "source": "db().from('products').select(metadataColumns).eq('flavor_master_product_id',id).order('id')",
       "embeddedTables": [],
@@ -4012,7 +4016,7 @@
       ],
       "extensions": [],
       "constants": {
-        "metadataColumns": "id,sku,barcode,name_ar,description,category_id,brand_id,unit_id,purchase_unit_id,units_per_purchase_unit,default_purchase_price_in_minor_units,sale_unit_id,units_per_sale_unit,default_sale_price_in_minor_units,cost_price_in_minor_units,min_stock_level,max_stock_level,is_active,parcel_only,updated_at,flavor_master_product_id,is_flavor_master,flavor_name_ar"
+        "metadataColumns": "id,sku,barcode,name_ar,description,category_id,brand_id,unit_id,purchase_unit_id,units_per_purchase_unit,default_purchase_price_in_minor_units,sale_unit_id,units_per_sale_unit,default_sale_price_in_minor_units,sale_price_in_minor_units,cost_price_in_minor_units,min_stock_level,max_stock_level,is_active,parcel_only,updated_at,flavor_master_product_id,is_flavor_master,flavor_name_ar"
       },
       "source": "db().from('products').select('id').eq('sku',sku).limit(2)",
       "embeddedTables": [],
@@ -5125,7 +5129,7 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "line": 1301,
+      "line": 1346,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {

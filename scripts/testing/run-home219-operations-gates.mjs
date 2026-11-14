@@ -5,7 +5,7 @@ import {execFile} from 'node:child_process';import {promisify} from 'node:util';
 import {inventory,writeInventory} from '../audit/table-access-inventory.mjs';import {serviceInventory,saveServices} from '../audit/service-access-inventory.mjs';import {enrichService217Evidence} from '../audit/enrich-service217-evidence.mjs';
 import {home219ServiceProbeArgs} from './home219-service-probe.mjs';
 const exec=promisify(execFile),root=path.resolve(import.meta.dirname,'../..');
-if(JSON.parse(await readFile(path.join(root,'docs/agent/project-state.json'),'utf8')).migrationCeiling===220){const view=await prepareWorkbookRuntimeView({schemaOnly:true});try{const result=await exec(process.execPath,['scripts/testing/run-home219-operations-gates.mjs',...process.argv.slice(2)],{cwd:view.root,windowsHide:true,maxBuffer:32*1024**2});process.stdout.write(result.stdout);process.stderr.write(result.stderr);}finally{await cleanupWorkbookRuntimeView(view.root);}process.exit(0);}
+if([220,222].includes(JSON.parse(await readFile(path.join(root,'docs/agent/project-state.json'),'utf8')).migrationCeiling)){const view=await prepareWorkbookRuntimeView({schemaOnly:true});try{const result=await exec(process.execPath,['scripts/testing/run-home219-operations-gates.mjs',...process.argv.slice(2)],{cwd:view.root,windowsHide:true,maxBuffer:32*1024**2});process.stdout.write(result.stdout);process.stderr.write(result.stderr);}finally{await cleanupWorkbookRuntimeView(view.root);}process.exit(0);}
 const serviceProbe=home219ServiceProbeArgs(process.argv.slice(2));
 const output=await mkdtemp(path.join(tmpdir(),'nawasrah-home219-operations-')),reference=path.join(output,'local-reference-through219-ready.json');
 for(const args of[

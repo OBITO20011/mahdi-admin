@@ -11,6 +11,8 @@ export const nextCloudMigrationNumbers=Object.freeze(Array.from({length:10},(_,i
 export const deferredMigrationNumbers=Object.freeze([...codexMigrationNumbers,165,166,167,168,169,172,173,174,175,176,177,178,179,183,184,185,186,187,188,189]);
 // Owner1Nov:218 remains reserved for the postponed backup role;219 is separate.
 export const ownerDeferredBackupMigrationNumbers=Object.freeze([218]);
+// Owner14Nov:221 remains reserved for accounting; independent OFF prices use222.
+export const ownerDeferredAccountingMigrationNumbers=Object.freeze([221]);
 export function assertMigrationNumbering(names,state){
  assert.deepEqual(state.unusedMigrationNumbers,unusedMigrationNumbers,'PERMANENT140_149_GAP_REQUIRED');
  assert.deepEqual(state.reservedMigrationNumbers,startupReservedNumbers,'STARTUP160_169_RESERVATION_REQUIRED');
@@ -25,9 +27,11 @@ export function assertMigrationNumbering(names,state){
  assert.ok(!numbers.some(n=>unusedMigrationNumbers.includes(n)),'RETIRED140_149_MUST_REMAIN_UNUSED');
  assert.ok(!numbers.some(n=>deferredMigrationNumbers.includes(n)),'DEFERRED152_159_MUST_REMAIN_UNUSED');
  assert.ok(!numbers.includes(218),'OWNER_DEFERRED_BACKUP218_MUST_REMAIN_UNUSED');
+ assert.ok(!numbers.includes(221),'OWNER_DEFERRED_ACCOUNTING221_MUST_REMAIN_UNUSED');
+ if(state.migrationCeiling>=222)assert.deepEqual(state.ownerDeferredAccountingMigrationNumbers,ownerDeferredAccountingMigrationNumbers,'ACCOUNTING221_RESERVATION_REQUIRED');
  if(state.migrationCeiling>=219)assert.deepEqual(state.ownerDeferredBackupMigrationNumbers,ownerDeferredBackupMigrationNumbers,'BACKUP218_RESERVATION_REQUIRED');
  assert.ok(Number.isSafeInteger(state.migrationCeiling)&&state.migrationCeiling>=151,'APPROVED_CEILING_REQUIRED');
- const expected=Array.from({length:state.migrationCeiling},(_,i)=>i+1).filter(n=>!unusedMigrationNumbers.includes(n)&&!deferredMigrationNumbers.includes(n)&&n!==218);
+ const expected=Array.from({length:state.migrationCeiling},(_,i)=>i+1).filter(n=>!unusedMigrationNumbers.includes(n)&&!deferredMigrationNumbers.includes(n)&&n!==218&&!ownerDeferredAccountingMigrationNumbers.includes(n));
  assert.deepEqual(numbers,expected,'MIGRATION_GAP_OR_ABOVE_CEILING');
  return {ceiling:state.migrationCeiling,files:numbers.length,unused:unusedMigrationNumbers,reserved:startupReservedNumbers};
 }

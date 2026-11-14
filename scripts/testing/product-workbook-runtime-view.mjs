@@ -1,3 +1,4 @@
+import{sourceBeforeIndependentPrices222}from'../audit/source-before-independent-prices222.mjs';
 import{sourceBeforeSalesOnlyPhase3,pathsBeforeSalesOnlyPhase3,salesOnlyPhase3Pins}from'../audit/source-before-sales-only-phase3.mjs';
 import{pathsBeforeD1Kit}from'../audit/source-before-d1-reference-kit.mjs';
 // Historical CI fixtures only. Owner tools and every SQL byte stay unmodified.
@@ -86,6 +87,19 @@ export async function prepareWorkbookRuntimeView({schemaOnly=false}={}){
   git(['clone','--shared','--no-checkout',root,dir]);git(['update-ref','--no-deref','HEAD',head],dir);git(['read-tree',head],dir);await writeFile(path.join(dir,'.git/info/exclude'),'\n/node_modules\n/.workbook-runtime-view.json\n',{flag:'a'});assert.equal(git(['rev-parse','HEAD'],dir).toString('utf8').trim(),head);
   // Git materializes raw objects without buffering a full archive or tar filename conversion.
   git(['config','core.autocrlf','false'],dir);git(['checkout-index','--all'],dir);await noLinks(dir);await writeFile(path.join(dir,'.workbook-runtime-view.json'),JSON.stringify(marker));
+  // Rewind only exact approved222 application bytes before composing older views.
+  // Current runners/owner tools and SQL001–220 remain untouched;remove only the
+  // pinned222 addition from this disposable legacy fixture,never an unknown file.
+  const prices222=JSON.parse(await readFile(path.join(root,'scripts/audit/independent-prices222-source-pins.json'),'utf8'));
+  assert.equal(prices222.baseline,'bd4d696af6eef074bfd523ee54906059a0bb668c');
+  for(const[file]of Object.entries(prices222.entries)){
+   if(!sourceScope(file)&&file!=='supabase/migrations/222_independent_lite_parcel_prices.sql')continue;
+   const target=path.join(dir,file),raw=await readFile(target,'utf8'),before=sourceBeforeIndependentPrices222(file,raw);
+   assert.notEqual(before,raw,'HISTORICAL222_UNREVIEWED_SOURCE:'+file);
+   assert.equal(before,historicalText(prices222.baseline,file),'HISTORICAL222_NOT_EXACT_GIT:'+file);
+   if(before===null)await unlink(target);else await writeFile(target,before);
+   changed.push({file,after:hash(raw.replaceAll('\r\n','\n')),before:before===null?null:hash(before)});
+  }
   // Restore the exact Phase 2 application bytes first. The 219 readiness
   // evidence includes them, so applying only the schema inverse would mix
   // the Phase 3 readers and formatter with the 219 access proof.
@@ -141,5 +155,5 @@ export async function prepareWorkbookRuntimeView({schemaOnly=false}={}){
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){
  const args=process.argv.slice(2);assert.ok(!args.length||args.length===1&&args[0]==='--cleanup','HISTORICAL_VIEW_FIXED_OPTIONS');
  if(args[0]==='--cleanup'){const dir=process.env.NAWASRAH_WORKBOOK_VIEW_ROOT;assert.ok(dir,'HISTORICAL_VIEW_CONTEXT_REQUIRED');await cleanupWorkbookRuntimeView(dir);console.log(JSON.stringify({ok:true,cleaned:true}));}
- else{assert.ok(workbookHistoricalSuites.includes(process.env.NAWASRAH_WORKBOOK_SUITE),'HISTORICAL_VIEW_SUITE_REQUIRED');const view=await prepareWorkbookRuntimeView();if(process.env.GITHUB_OUTPUT)await writeFile(process.env.GITHUB_OUTPUT,'root='+view.root+'\n',{flag:'a'});console.log(JSON.stringify({ok:true,head:view.head,root:view.root,projectedApplicationFiles:view.changed.length,historicalCeiling:219,removedOnlyExact220:true,historicalSql001Through219Changed:false,ownerToolsChanged:false}));}
+ else{assert.ok(workbookHistoricalSuites.includes(process.env.NAWASRAH_WORKBOOK_SUITE),'HISTORICAL_VIEW_SUITE_REQUIRED');const view=await prepareWorkbookRuntimeView();if(process.env.GITHUB_OUTPUT)await writeFile(process.env.GITHUB_OUTPUT,'root='+view.root+'\n',{flag:'a'});console.log(JSON.stringify({ok:true,head:view.head,root:view.root,projectedApplicationFiles:view.changed.length,historicalCeiling:219,removedOnlyReviewedMigrations:[220,222],historicalSql001Through219Changed:false,ownerToolsChanged:false}));}
 }

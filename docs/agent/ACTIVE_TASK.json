@@ -1,48 +1,48 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner13Nov:final packet-default workbook and37 approved flavor families;new isolated actual UI import;update cutover/card;Draft docs PR/FULLCI,nomerge,noDBcode/hosted/demo changes.",
-  "baselineSha": "285b1e74ca84fadafc31ee11dd93acf75ce9d0f2",
+  "objective": "Owner14Nov approved3-4days:OFF independent single/parcel prices;222 only,221reserved;Draft97/FULLCI/Gitleaks;only after greenCI no-reset iPhone demo update. No merge/hosted/deploy/ON behavior change.",
+  "baselineSha": "80979b3b3ee824df7b20bbbf91583ce8409c4d5f",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
-  "branch": "codex/packet-default-import-docs",
-  "phase": "PACKET_DEFAULT_IMPORT_DOCS",
-  "startedAt": "2026-11-12T20:12:57.615Z",
+  "branch": "codex/parcel-independent-price",
+  "phase": "PARCEL_INDEPENDENT_PRICE",
+  "startedAt": "2026-11-13T22:50:15.381Z",
   "completed": [
-    "New external workbook750+444/108families/1086sellable;all819 old roots mapped;all barcodes/prices preserved;only4oat duplicates deleted.",
-    "Actual UI OFF/units/categories/import/readback347sec;1194 DB rows matched;zero inventory/reservations/cost.",
-    "Store family cards and NW0268singlepacket passed10 Chromium/WebKit390 cases;no demo data touched by this workbook rehearsal."
+    "Core222:real writers/family/CAS/audit/roles/2writer race,old receipt+return,mixedPOS+guest PASS;54unique mobile browser cases across groups. SQL222 bcf55b1f...ff84a68;old680functions/220SQL unchanged.",
+    "Fresh/incremental2220diff,683public+39private;actual HTTP181/0errors,RPC720/18expecteddenials;ready222local unapproved/uninstalled. Encrypted220BackupRestore→222apply→222BackupRestore→verify-only PASS6negatives.",
+    "RESET222+3resumes PASS. Legacy220RESET31.3s+3resumes PASS retaining rawAuth/MFA/money/ACL/pgNet;unknown metadata policies rejected. Workbook d9ed1c82 unchanged750roots108families444flavors/parser0errors.",
+    "Typesboth0,strictlint0;OFF editor6/6 Chromium/WebKit390 PASS. Committed disposable Git63 runtime view194exact substitutions/roleproof PASS,ownedcopycleaned.",
+    "Local fullunits80979:2028/2028 PASS,0skip,0cancel,sourcefrozen,641844ms. Both historical timeout cases PASS under original limits.",
+    "Posta223 corrections:exact220generator+negativefixtures14/14 PASS;real esbuild oldwriter bundle1/1 PASS. Owned local219epoch13groups PASS including actual workbook/response-loss/races/integrity/frozenfunctions,cleanuptrue. Finaltypes0/changedstrictlint0."
   ],
   "inProgress": [
-    "Docs/hash/count/timing/print/static gates and draft FULLCI"
+    "Fix literal220 catalog-proof prefix after full222manifest validation;final FULLCI/Gitleaks."
   ],
   "notStarted": [
-    "Final docs tests/print/FULLCI/Gitleaks"
-  ],
-  "testsPassed": [
-    "Approved offline checker0errors/0incomplete;2 contextual notices only",
-    "Pure product parser0errors/0identifierwarnings",
-    "Actual UI import750+444;independent1194rows exact;10browser checks"
+    "Only after FULLCIgreen:owner demo222 literal/noreset,build,oneproduct UI test/restore,sameAuth/TOTP/private/TLS."
   ],
   "testsRemaining": [
-    "Docs/static/2A4/FULLCI/Gitleaks"
+    "All units with exact historical inverse;typesboth/strictlint on final source;FULLCI exacthead;finalGitleaks."
   ],
   "findings": [
-    "Fresh clone CRLF rejected by220 guard;copied literal Git SQL bytes,guard unchanged.",
-    "External Docker stdout chunk decoding fixed with Buffer.concat;small DB hex proof and all1194 rows exact.",
-    "Previous full RESET rehearsal remains e3bbe154;new proof is file/UI only."
+    "221reserved;accountingactivation forbidden. No old tables/sales209/220/ON delta.",
+    "Current CI exposes legacy219/220 fixture boundaries;new222 actual workflow passed7fca. Repair only strict source views/generators;no reruns or weakened assertions."
   ],
   "blockers": [],
   "prohibitions": [
-    "No merge/deploy/hosted/Frankfurt/migration/frozenfunction/operationalguard changes. Never reset ownerdemo or modify private/TOTP/env."
+    "No merge,hosted/Frankfurt/preview/deploy/accountingactivation",
+    "No owneroriginal/private/env/TOTP/TLS changes before authorized postCI demo step",
+    "No old tables/sales209/220/ON changes"
   ],
-  "nextExactAction": "Verify updated count/hash contracts and2A4;push Draft file-docs PR/fullCI",
+  "evidence": "C:/Users/TOP/NawasrahLocalValidation/parcel-independent-price-20261114",
+  "nextExactAction": "Observe exact final-head FULLCI after strict220prefix proof;preserve SQL222/catalog/access/owner files. Then finalGitleaks and authorized demo222noreset,oneproduct UI restore.",
   "activeProcesses": [],
+  "checkpointedAt": "2026-11-14T03:44:17.410Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "BAB30012D96E7DC9E970C22B659D440AAE30B3E14E1F4AAEFDC0BEA91F26C095",
-  "checkpointedAt": "2026-11-13T19:10:22.067Z",
-  "filesTouchedCount": 8,
-  "filesTouchedManifestSha256": "ff69ccc5b3ba6b0d1cacc13b35b7219929296abe85b36f4c82c8bcfa72dc8ee2"
+  "filesTouchedCount": 4,
+  "filesTouchedManifestSha256": "c082cacfdf6ae2e0f9d682b50dbb0400989cb3555390cdc29b28b93e80a85c24",
+  "workingTreeFingerprint": "B9088486EA88FEC2CF4B209AFF0F8F63A1D972A3E4B764E25E46AE703C58FCF9"
 }

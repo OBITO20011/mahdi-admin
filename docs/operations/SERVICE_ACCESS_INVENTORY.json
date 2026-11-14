@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "migrationCeiling": 220,
+  "migrationCeiling": 222,
   "managedAccess": false,
   "sourceHashes": [
     {
@@ -337,11 +337,11 @@
     },
     {
       "file": "src/features/goLive/productWorkbook.ts",
-      "sha256": "6293ceb5433dc69527e278cf085f4974188a31c1f6a2bd27aa32175402ebfdeb"
+      "sha256": "4a215ad88271b610518b74f37e94b45e58b91b02f664ebd0860ae152be513619"
     },
     {
       "file": "src/features/goLive/ProductWorkbookImportPanel.tsx",
-      "sha256": "3c3ff02e0944c4c6f9e084657247849511396d9197bc3abb8c6ce46704892bcf"
+      "sha256": "7411f8c4ee0eac88ddb3f6f3b2b67742145dc6be8e9450b4617e0d9f972f7a57"
     },
     {
       "file": "src/features/goLive/productWorkbookReference.ts",
@@ -413,7 +413,7 @@
     },
     {
       "file": "src/features/more/ParcelConfigurationModal.tsx",
-      "sha256": "b8907f19a341c423abb1e238165d71b15706072201de2ec137bd2aa0a4826616"
+      "sha256": "0a5553a01d0488921409c821b214e048168afa071da21921197e6514885bc415"
     },
     {
       "file": "src/features/more/ProfileModal.tsx",
@@ -585,7 +585,7 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "sha256": "7012d4dbeb54c96587b0ba994178bf374f0578365ced4b3be8b1e2a675d1d5d3"
+      "sha256": "2dfef175c277db51dc6d41dc5da8b689f05914387546396d0207b93b52343fd0"
     },
     {
       "file": "src/features/products/ProductFormParcelCapability.tsx",
@@ -985,11 +985,11 @@
     },
     {
       "file": "src/services/supabase/products.service.ts",
-      "sha256": "5104aca3528ea7fe18ce813f19945543a2c616b257694a234549b79bc9b3b5ec"
+      "sha256": "24a56d82723779128ea2c239d58a7ac4106c2f12d892fb8bed11ee6bfdfb2604"
     },
     {
       "file": "src/services/supabase/productWorkbook.service.ts",
-      "sha256": "7fb29a081a7db6d85c18908fce82153bef983dfde3e433b253d8656e4dc882a8"
+      "sha256": "f2592e46ffd3ec156c358e671d77d2a97bba1657f5b6802db856c22f0de01899"
     },
     {
       "file": "src/services/supabase/promotions.service.ts",
@@ -1101,7 +1101,7 @@
     },
     {
       "file": "src/stores/useAppStore.ts",
-      "sha256": "05586737be1f941b44a7bb9e9997b222389e889ec0cf89fa2023a5713dfb25b6"
+      "sha256": "f9274613aef3b9f745a63f5004b2e823327115365bd6191f54cc58b42c5eaba1"
     },
     {
       "file": "src/stores/useAuthStore.ts",
@@ -1200,6 +1200,10 @@
       "sha256": "ce458def64a203ed7364cfc3d9ebdfa42c40eeb0f23e8742056a96638bf32bdf"
     },
     {
+      "file": "src/utils/independentParcelPrices.ts",
+      "sha256": "90ae38b6fa8ee56ea31fe112b62e87fb231e25e7ded0903944dd1c400f4f99a0"
+    },
+    {
       "file": "src/utils/inventoryFormatter.ts",
       "sha256": "98c62f5906ae24925cbaaa68b364c1cd502cc33329bc9911af6f01af4a842296"
     },
@@ -1245,7 +1249,7 @@
     },
     {
       "file": "src/utils/productEditConflict.ts",
-      "sha256": "820a7a95f9e899d795a6d6aabb6f52df63e9839b97f4433958f55453f610c839"
+      "sha256": "cc702391d3d7bc6116533eba053025af461c8670460336326648733f727ebbc4"
     },
     {
       "file": "src/utils/productIdentifiers.ts",
@@ -3666,9 +3670,9 @@
       "source": "supabase.rpc('update_product_flavor_v2',{p_flavor_product_id:c.id,p_expected_updated_at:c.metadata!.updated_at,p_flavor_name_ar:c.name,p_barcode:item.barcode,p_image_url:null,p_is_active:c.metadata!.is_active})"
     },
     {
-      "id": "src/services/supabase/products.service.ts:387",
+      "id": "src/services/supabase/products.service.ts:391",
       "file": "src/services/supabase/products.service.ts",
-      "line": 387,
+      "line": 391,
       "role": "authenticated",
       "receiver": "requireProductClient()",
       "function": "fetchAdminProductPage",
@@ -3680,9 +3684,9 @@
       "source": "requireProductClient().rpc('get_admin_product_page', {\n    p_page: page,\n    p_page_size: pageSize,\n    p_search: input.search?.trim() || null,\n    p_category_id: input.categoryId || null,\n    p_status: input.status || 'all',\n    p_sort: input.sort || 'name',\n  })"
     },
     {
-      "id": "src/services/supabase/products.service.ts:428",
+      "id": "src/services/supabase/products.service.ts:432",
       "file": "src/services/supabase/products.service.ts",
-      "line": 428,
+      "line": 432,
       "role": "authenticated",
       "receiver": "requireProductClient()",
       "function": "searchAdminProducts",
@@ -3694,9 +3698,9 @@
       "source": "requireProductClient().rpc('search_admin_products', {\n    p_search: input.search?.trim() || null,\n    p_limit: limit,\n    p_category_id: input.categoryId || null,\n    p_purpose: input.purpose || 'stockable',\n    p_product_id: input.productId || null,\n  })"
     },
     {
-      "id": "src/services/supabase/products.service.ts:484",
+      "id": "src/services/supabase/products.service.ts:488",
       "file": "src/services/supabase/products.service.ts",
-      "line": 484,
+      "line": 488,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "fetchProductsFromSupabase",
@@ -3708,23 +3712,35 @@
       "source": "supabase.rpc(\n      'search_admin_products',\n      {\n        p_search: null,\n        p_limit: 50,\n        p_category_id: null,\n        p_purpose: 'any',\n        p_product_id: null,\n      },\n    )"
     },
     {
-      "id": "src/services/supabase/products.service.ts:680",
+      "id": "src/services/supabase/products.service.ts:684",
       "file": "src/services/supabase/products.service.ts",
-      "line": 680,
+      "line": 684,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "createProductWithOpeningStockInSupabase",
-      "name": "create_product_with_opening_stock_v5",
-      "dynamic": "'create_product_with_opening_stock_v5'",
+      "name": null,
+      "dynamic": "input.independentSalePrice===undefined?'create_product_with_opening_stock_v5':'create_product_with_opening_stock_v6'",
       "arguments": [
-        "{...rpcParams, p_parcel_only: input.parcelOnly ?? false}"
+        "{...rpcParams, p_parcel_only: input.parcelOnly ?? false,...(input.independentSalePrice===undefined?{}:{p_sale_price_in_minor_units:Math.round(input.independentSalePrice*1000)})}"
       ],
-      "source": "supabase.rpc(\n      'create_product_with_opening_stock_v5',\n      {...rpcParams, p_parcel_only: input.parcelOnly ?? false}\n    )"
+      "source": "supabase.rpc(\n      input.independentSalePrice===undefined?'create_product_with_opening_stock_v5':'create_product_with_opening_stock_v6',\n      {...rpcParams, p_parcel_only: input.parcelOnly ?? false,...(input.independentSalePrice===undefined?{}:{p_sale_price_in_minor_units:Math.round(input.independentSalePrice*1000)})}\n    )",
+      "resolutions": [
+        {
+          "name": "create_product_with_opening_stock_v5",
+          "callsite": "src/services/supabase/products.service.ts:684",
+          "source": "supabase.rpc(\n      input.independentSalePrice===undefined?'create_product_with_opening_stock_v5':'create_product_with_opening_stock_v6',\n      {...rpcParams, p_parcel_only: input.parcelOnly ?? false,...(input.independentSalePrice===undefined?{}:{p_sale_price_in_minor_units:Math.round(input.independentSalePrice*1000)})}\n    )"
+        },
+        {
+          "name": "create_product_with_opening_stock_v6",
+          "callsite": "src/services/supabase/products.service.ts:684",
+          "source": "supabase.rpc(\n      input.independentSalePrice===undefined?'create_product_with_opening_stock_v5':'create_product_with_opening_stock_v6',\n      {...rpcParams, p_parcel_only: input.parcelOnly ?? false,...(input.independentSalePrice===undefined?{}:{p_sale_price_in_minor_units:Math.round(input.independentSalePrice*1000)})}\n    )"
+        }
+      ]
     },
     {
-      "id": "src/services/supabase/products.service.ts:750",
+      "id": "src/services/supabase/products.service.ts:754",
       "file": "src/services/supabase/products.service.ts",
-      "line": 750,
+      "line": 754,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "createProductFlavorInSupabase",
@@ -3736,23 +3752,35 @@
       "source": "supabase.rpc('create_product_flavor_v1', {\n      p_master_product_id: input.masterProductId,\n      p_flavor_name_ar: flavorName,\n      p_opening_sale_packages: 0,\n      p_warehouse_id: isValidUuid(input.warehouseId)\n        ? input.warehouseId\n        : null,\n      p_image_url: input.imageUrl?.trim() || null,\n      p_barcode: input.barcode?.trim() || null,\n    })"
     },
     {
-      "id": "src/services/supabase/products.service.ts:860",
+      "id": "src/services/supabase/products.service.ts:864",
       "file": "src/services/supabase/products.service.ts",
-      "line": 860,
+      "line": 864,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "createProductFamilyWithFlavorsInSupabase",
-      "name": "create_product_family_with_flavors_v2",
-      "dynamic": "'create_product_family_with_flavors_v2'",
+      "name": null,
+      "dynamic": "input.independentSalePrice===undefined?'create_product_family_with_flavors_v2':'create_product_family_with_flavors_v3'",
       "arguments": [
-        "{\n        p_parcel_only: input.parcelOnly ?? false,\n        p_sku: input.sku.trim(),\n        // Flavor-family masters are grouping records, never sellable barcode targets.\n        p_barcode: null,\n        p_name_ar: input.nameAr.trim(),\n        p_description: input.description?.trim() || null,\n        p_category_id: categoryIdToUse,\n        p_brand_id: isValidUuid(input.brandId) ? input.brandId : null,\n        p_unit_id: unitIdToUse,\n        p_purchase_unit_id: purchaseUnitIdToUse,\n        p_units_per_purchase_unit: Math.max(\n          1,\n          Math.floor(Number(input.unitsPerPackage) || 1)\n        ),\n        p_default_purchase_price_in_minor_units: Math.round(\n          Math.max(0, Number(input.defaultPurchasePrice) || 0) * 1000\n        ),\n        p_sale_unit_id: saleUnitIdToUse,\n        p_units_per_sale_unit: Math.max(\n          1,\n          Math.floor(Number(input.unitsPerSalePackage) || 1)\n        ),\n        p_default_sale_price_in_minor_units: Math.round(\n          Math.max(0, Number(input.salePackagePrice) || 0) * 1000\n        ),\n        p_cost_price_in_minor_units: Math.round(\n          Math.max(0, Number(input.costPrice) || 0) * 1000\n        ),\n        p_min_stock_level: Math.max(\n          0,\n          Math.floor(Number(input.reorderLevel) || 0)\n        ),\n        p_max_stock_level:\n          input.maxStockLevel === undefined\n            ? null\n            : Math.max(0, Math.floor(Number(input.maxStockLevel) || 0)),\n        p_warehouse_id: warehouseIdToUse,\n        p_image_url: input.imageUrl?.trim() || null,\n        p_flavors: input.flavors.map((flavor) => ({\n          nameAr: flavor.nameAr.trim(),\n          openingSalePackages: 0,\n          imageUrl: flavor.imageUrl?.trim() || null,\n        })),\n      }"
+        "{\n        ...(input.independentSalePrice===undefined?{}:{p_sale_price_in_minor_units:Math.round(input.independentSalePrice*1000)}),\n        p_parcel_only: input.parcelOnly ?? false,\n        p_sku: input.sku.trim(),\n        // Flavor-family masters are grouping records, never sellable barcode targets.\n        p_barcode: null,\n        p_name_ar: input.nameAr.trim(),\n        p_description: input.description?.trim() || null,\n        p_category_id: categoryIdToUse,\n        p_brand_id: isValidUuid(input.brandId) ? input.brandId : null,\n        p_unit_id: unitIdToUse,\n        p_purchase_unit_id: purchaseUnitIdToUse,\n        p_units_per_purchase_unit: Math.max(\n          1,\n          Math.floor(Number(input.unitsPerPackage) || 1)\n        ),\n        p_default_purchase_price_in_minor_units: Math.round(\n          Math.max(0, Number(input.defaultPurchasePrice) || 0) * 1000\n        ),\n        p_sale_unit_id: saleUnitIdToUse,\n        p_units_per_sale_unit: Math.max(\n          1,\n          Math.floor(Number(input.unitsPerSalePackage) || 1)\n        ),\n        p_default_sale_price_in_minor_units: Math.round(\n          Math.max(0, Number(input.salePackagePrice) || 0) * 1000\n        ),\n        p_cost_price_in_minor_units: Math.round(\n          Math.max(0, Number(input.costPrice) || 0) * 1000\n        ),\n        p_min_stock_level: Math.max(\n          0,\n          Math.floor(Number(input.reorderLevel) || 0)\n        ),\n        p_max_stock_level:\n          input.maxStockLevel === undefined\n            ? null\n            : Math.max(0, Math.floor(Number(input.maxStockLevel) || 0)),\n        p_warehouse_id: warehouseIdToUse,\n        p_image_url: input.imageUrl?.trim() || null,\n        p_flavors: input.flavors.map((flavor) => ({\n          nameAr: flavor.nameAr.trim(),\n          openingSalePackages: 0,\n          imageUrl: flavor.imageUrl?.trim() || null,\n        })),\n      }"
       ],
-      "source": "supabase.rpc(\n      'create_product_family_with_flavors_v2',\n      {\n        p_parcel_only: input.parcelOnly ?? false,\n        p_sku: input.sku.trim(),\n        // Flavor-family masters are grouping records, never sellable barcode targets.\n        p_barcode: null,\n        p_name_ar: input.nameAr.trim(),\n        p_description: input.description?.trim() || null,\n        p_category_id: categoryIdToUse,\n        p_brand_id: isValidUuid(input.brandId) ? input.brandId : null,\n        p_unit_id: unitIdToUse,\n        p_purchase_unit_id: purchaseUnitIdToUse,\n        p_units_per_purchase_unit: Math.max(\n          1,\n          Math.floor(Number(input.unitsPerPackage) || 1)\n        ),\n        p_default_purchase_price_in_minor_units: Math.round(\n          Math.max(0, Number(input.defaultPurchasePrice) || 0) * 1000\n        ),\n        p_sale_unit_id: saleUnitIdToUse,\n        p_units_per_sale_unit: Math.max(\n          1,\n          Math.floor(Number(input.unitsPerSalePackage) || 1)\n        ),\n        p_default_sale_price_in_minor_units: Math.round(\n          Math.max(0, Number(input.salePackagePrice) || 0) * 1000\n        ),\n        p_cost_price_in_minor_units: Math.round(\n          Math.max(0, Number(input.costPrice) || 0) * 1000\n        ),\n        p_min_stock_level: Math.max(\n          0,\n          Math.floor(Number(input.reorderLevel) || 0)\n        ),\n        p_max_stock_level:\n          input.maxStockLevel === undefined\n            ? null\n            : Math.max(0, Math.floor(Number(input.maxStockLevel) || 0)),\n        p_warehouse_id: warehouseIdToUse,\n        p_image_url: input.imageUrl?.trim() || null,\n        p_flavors: input.flavors.map((flavor) => ({\n          nameAr: flavor.nameAr.trim(),\n          openingSalePackages: 0,\n          imageUrl: flavor.imageUrl?.trim() || null,\n        })),\n      }\n    )"
+      "source": "supabase.rpc(\n      input.independentSalePrice===undefined?'create_product_family_with_flavors_v2':'create_product_family_with_flavors_v3',\n      {\n        ...(input.independentSalePrice===undefined?{}:{p_sale_price_in_minor_units:Math.round(input.independentSalePrice*1000)}),\n        p_parcel_only: input.parcelOnly ?? false,\n        p_sku: input.sku.trim(),\n        // Flavor-family masters are grouping records, never sellable barcode targets.\n        p_barcode: null,\n        p_name_ar: input.nameAr.trim(),\n        p_description: input.description?.trim() || null,\n        p_category_id: categoryIdToUse,\n        p_brand_id: isValidUuid(input.brandId) ? input.brandId : null,\n        p_unit_id: unitIdToUse,\n        p_purchase_unit_id: purchaseUnitIdToUse,\n        p_units_per_purchase_unit: Math.max(\n          1,\n          Math.floor(Number(input.unitsPerPackage) || 1)\n        ),\n        p_default_purchase_price_in_minor_units: Math.round(\n          Math.max(0, Number(input.defaultPurchasePrice) || 0) * 1000\n        ),\n        p_sale_unit_id: saleUnitIdToUse,\n        p_units_per_sale_unit: Math.max(\n          1,\n          Math.floor(Number(input.unitsPerSalePackage) || 1)\n        ),\n        p_default_sale_price_in_minor_units: Math.round(\n          Math.max(0, Number(input.salePackagePrice) || 0) * 1000\n        ),\n        p_cost_price_in_minor_units: Math.round(\n          Math.max(0, Number(input.costPrice) || 0) * 1000\n        ),\n        p_min_stock_level: Math.max(\n          0,\n          Math.floor(Number(input.reorderLevel) || 0)\n        ),\n        p_max_stock_level:\n          input.maxStockLevel === undefined\n            ? null\n            : Math.max(0, Math.floor(Number(input.maxStockLevel) || 0)),\n        p_warehouse_id: warehouseIdToUse,\n        p_image_url: input.imageUrl?.trim() || null,\n        p_flavors: input.flavors.map((flavor) => ({\n          nameAr: flavor.nameAr.trim(),\n          openingSalePackages: 0,\n          imageUrl: flavor.imageUrl?.trim() || null,\n        })),\n      }\n    )",
+      "resolutions": [
+        {
+          "name": "create_product_family_with_flavors_v2",
+          "callsite": "src/services/supabase/products.service.ts:864",
+          "source": "supabase.rpc(\n      input.independentSalePrice===undefined?'create_product_family_with_flavors_v2':'create_product_family_with_flavors_v3',\n      {\n        ...(input.independentSalePrice===undefined?{}:{p_sale_price_in_minor_units:Math.round(input.independentSalePrice*1000)}),\n        p_parcel_only: input.parcelOnly ?? false,\n        p_sku: input.sku.trim(),\n        // Flavor-family masters are grouping records, never sellable barcode targets.\n        p_barcode: null,\n        p_name_ar: input.nameAr.trim(),\n        p_description: input.description?.trim() || null,\n        p_category_id: categoryIdToUse,\n        p_brand_id: isValidUuid(input.brandId) ? input.brandId : null,\n        p_unit_id: unitIdToUse,\n        p_purchase_unit_id: purchaseUnitIdToUse,\n        p_units_per_purchase_unit: Math.max(\n          1,\n          Math.floor(Number(input.unitsPerPackage) || 1)\n        ),\n        p_default_purchase_price_in_minor_units: Math.round(\n          Math.max(0, Number(input.defaultPurchasePrice) || 0) * 1000\n        ),\n        p_sale_unit_id: saleUnitIdToUse,\n        p_units_per_sale_unit: Math.max(\n          1,\n          Math.floor(Number(input.unitsPerSalePackage) || 1)\n        ),\n        p_default_sale_price_in_minor_units: Math.round(\n          Math.max(0, Number(input.salePackagePrice) || 0) * 1000\n        ),\n        p_cost_price_in_minor_units: Math.round(\n          Math.max(0, Number(input.costPrice) || 0) * 1000\n        ),\n        p_min_stock_level: Math.max(\n          0,\n          Math.floor(Number(input.reorderLevel) || 0)\n        ),\n        p_max_stock_level:\n          input.maxStockLevel === undefined\n            ? null\n            : Math.max(0, Math.floor(Number(input.maxStockLevel) || 0)),\n        p_warehouse_id: warehouseIdToUse,\n        p_image_url: input.imageUrl?.trim() || null,\n        p_flavors: input.flavors.map((flavor) => ({\n          nameAr: flavor.nameAr.trim(),\n          openingSalePackages: 0,\n          imageUrl: flavor.imageUrl?.trim() || null,\n        })),\n      }\n    )"
+        },
+        {
+          "name": "create_product_family_with_flavors_v3",
+          "callsite": "src/services/supabase/products.service.ts:864",
+          "source": "supabase.rpc(\n      input.independentSalePrice===undefined?'create_product_family_with_flavors_v2':'create_product_family_with_flavors_v3',\n      {\n        ...(input.independentSalePrice===undefined?{}:{p_sale_price_in_minor_units:Math.round(input.independentSalePrice*1000)}),\n        p_parcel_only: input.parcelOnly ?? false,\n        p_sku: input.sku.trim(),\n        // Flavor-family masters are grouping records, never sellable barcode targets.\n        p_barcode: null,\n        p_name_ar: input.nameAr.trim(),\n        p_description: input.description?.trim() || null,\n        p_category_id: categoryIdToUse,\n        p_brand_id: isValidUuid(input.brandId) ? input.brandId : null,\n        p_unit_id: unitIdToUse,\n        p_purchase_unit_id: purchaseUnitIdToUse,\n        p_units_per_purchase_unit: Math.max(\n          1,\n          Math.floor(Number(input.unitsPerPackage) || 1)\n        ),\n        p_default_purchase_price_in_minor_units: Math.round(\n          Math.max(0, Number(input.defaultPurchasePrice) || 0) * 1000\n        ),\n        p_sale_unit_id: saleUnitIdToUse,\n        p_units_per_sale_unit: Math.max(\n          1,\n          Math.floor(Number(input.unitsPerSalePackage) || 1)\n        ),\n        p_default_sale_price_in_minor_units: Math.round(\n          Math.max(0, Number(input.salePackagePrice) || 0) * 1000\n        ),\n        p_cost_price_in_minor_units: Math.round(\n          Math.max(0, Number(input.costPrice) || 0) * 1000\n        ),\n        p_min_stock_level: Math.max(\n          0,\n          Math.floor(Number(input.reorderLevel) || 0)\n        ),\n        p_max_stock_level:\n          input.maxStockLevel === undefined\n            ? null\n            : Math.max(0, Math.floor(Number(input.maxStockLevel) || 0)),\n        p_warehouse_id: warehouseIdToUse,\n        p_image_url: input.imageUrl?.trim() || null,\n        p_flavors: input.flavors.map((flavor) => ({\n          nameAr: flavor.nameAr.trim(),\n          openingSalePackages: 0,\n          imageUrl: flavor.imageUrl?.trim() || null,\n        })),\n      }\n    )"
+        }
+      ]
     },
     {
-      "id": "src/services/supabase/products.service.ts:936",
+      "id": "src/services/supabase/products.service.ts:941",
       "file": "src/services/supabase/products.service.ts",
-      "line": 936,
+      "line": 941,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "updateProductFlavorInSupabase",
@@ -3764,9 +3792,9 @@
       "source": "supabase.rpc('update_product_flavor_v2', {\n      p_flavor_product_id: input.flavorProductId,\n      p_expected_updated_at: input.expectedUpdatedAt,\n      p_flavor_name_ar: input.flavorNameAr.trim(),\n      p_barcode: input.barcode?.trim() || null,\n      p_image_url: input.imageUrl?.trim() || null,\n      p_is_active: input.isActive,\n    })"
     },
     {
-      "id": "src/services/supabase/products.service.ts:971",
+      "id": "src/services/supabase/products.service.ts:976",
       "file": "src/services/supabase/products.service.ts",
-      "line": 971,
+      "line": 976,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "reorderProductFlavorsInSupabase",
@@ -3778,18 +3806,30 @@
       "source": "supabase.rpc(\n      'reorder_product_flavors_v1',\n      {\n        p_master_product_id: masterProductId,\n        p_ordered_flavor_ids: orderedFlavorIds,\n      }\n    )"
     },
     {
-      "id": "src/services/supabase/products.service.ts:1056",
+      "id": "src/services/supabase/products.service.ts:1061",
       "file": "src/services/supabase/products.service.ts",
-      "line": 1056,
+      "line": 1061,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "updateProductInSupabase",
-      "name": "update_product_master_v5",
-      "dynamic": "'update_product_master_v5'",
+      "name": null,
+      "dynamic": "input.independentSalePrice===undefined?'update_product_master_v5':'update_product_master_v6'",
       "arguments": [
-        "{\n      p_parcel_only: input.parcelOnly ?? null,\n      p_product_id: input.productId,\n      p_expected_updated_at: input.expectedUpdatedAt,\n      p_sku: input.sku.trim(),\n      p_barcode: input.barcode?.trim() || null,\n      p_name_ar: input.nameAr.trim(),\n      p_description: input.description?.trim() || null,\n      p_category_id: isValidUuid(input.categoryId) ? input.categoryId : null,\n      p_brand_id: isValidUuid(input.brandId) ? input.brandId : null,\n      p_unit_id: unitIdToUse,\n      p_purchase_unit_id: purchaseUnitIdToUse,\n      p_units_per_purchase_unit: Math.max(\n        1,\n        Math.floor(Number(input.unitsPerPackage) || 1)\n      ),\n      p_default_purchase_price_in_minor_units: Math.round(\n        Math.max(0, Number(input.defaultPurchasePrice) || 0) * 1000\n      ),\n      p_sale_unit_id: saleUnitIdToUse,\n      p_units_per_sale_unit: Math.max(\n        1,\n        Math.floor(Number(input.unitsPerSalePackage) || 1)\n      ),\n      p_default_sale_price_in_minor_units: Math.round(\n        Math.max(0, Number(input.salePackagePrice) || 0) * 1000\n      ),\n      p_cost_price_in_minor_units: Math.round(\n        Math.max(0, Number(input.costPrice) || 0) * 1000\n      ),\n      p_min_stock_level: Math.max(\n        0,\n        Math.floor(Number(input.reorderLevel) || 0)\n      ),\n      p_max_stock_level:\n        input.maxStockLevel === undefined\n          ? null\n          : Math.max(0, Math.floor(Number(input.maxStockLevel) || 0)),\n      p_is_active: input.isActive,\n      p_image_url: input.imageUrl?.trim() || null,\n    }"
+        "{\n      ...(input.independentSalePrice===undefined?{}:{p_sale_price_in_minor_units:Math.round(input.independentSalePrice*1000)}),\n      p_parcel_only: input.parcelOnly ?? null,\n      p_product_id: input.productId,\n      p_expected_updated_at: input.expectedUpdatedAt,\n      p_sku: input.sku.trim(),\n      p_barcode: input.barcode?.trim() || null,\n      p_name_ar: input.nameAr.trim(),\n      p_description: input.description?.trim() || null,\n      p_category_id: isValidUuid(input.categoryId) ? input.categoryId : null,\n      p_brand_id: isValidUuid(input.brandId) ? input.brandId : null,\n      p_unit_id: unitIdToUse,\n      p_purchase_unit_id: purchaseUnitIdToUse,\n      p_units_per_purchase_unit: Math.max(\n        1,\n        Math.floor(Number(input.unitsPerPackage) || 1)\n      ),\n      p_default_purchase_price_in_minor_units: Math.round(\n        Math.max(0, Number(input.defaultPurchasePrice) || 0) * 1000\n      ),\n      p_sale_unit_id: saleUnitIdToUse,\n      p_units_per_sale_unit: Math.max(\n        1,\n        Math.floor(Number(input.unitsPerSalePackage) || 1)\n      ),\n      p_default_sale_price_in_minor_units: Math.round(\n        Math.max(0, Number(input.salePackagePrice) || 0) * 1000\n      ),\n      p_cost_price_in_minor_units: Math.round(\n        Math.max(0, Number(input.costPrice) || 0) * 1000\n      ),\n      p_min_stock_level: Math.max(\n        0,\n        Math.floor(Number(input.reorderLevel) || 0)\n      ),\n      p_max_stock_level:\n        input.maxStockLevel === undefined\n          ? null\n          : Math.max(0, Math.floor(Number(input.maxStockLevel) || 0)),\n      p_is_active: input.isActive,\n      p_image_url: input.imageUrl?.trim() || null,\n    }"
       ],
-      "source": "supabase.rpc('update_product_master_v5', {\n      p_parcel_only: input.parcelOnly ?? null,\n      p_product_id: input.productId,\n      p_expected_updated_at: input.expectedUpdatedAt,\n      p_sku: input.sku.trim(),\n      p_barcode: input.barcode?.trim() || null,\n      p_name_ar: input.nameAr.trim(),\n      p_description: input.description?.trim() || null,\n      p_category_id: isValidUuid(input.categoryId) ? input.categoryId : null,\n      p_brand_id: isValidUuid(input.brandId) ? input.brandId : null,\n      p_unit_id: unitIdToUse,\n      p_purchase_unit_id: purchaseUnitIdToUse,\n      p_units_per_purchase_unit: Math.max(\n        1,\n        Math.floor(Number(input.unitsPerPackage) || 1)\n      ),\n      p_default_purchase_price_in_minor_units: Math.round(\n        Math.max(0, Number(input.defaultPurchasePrice) || 0) * 1000\n      ),\n      p_sale_unit_id: saleUnitIdToUse,\n      p_units_per_sale_unit: Math.max(\n        1,\n        Math.floor(Number(input.unitsPerSalePackage) || 1)\n      ),\n      p_default_sale_price_in_minor_units: Math.round(\n        Math.max(0, Number(input.salePackagePrice) || 0) * 1000\n      ),\n      p_cost_price_in_minor_units: Math.round(\n        Math.max(0, Number(input.costPrice) || 0) * 1000\n      ),\n      p_min_stock_level: Math.max(\n        0,\n        Math.floor(Number(input.reorderLevel) || 0)\n      ),\n      p_max_stock_level:\n        input.maxStockLevel === undefined\n          ? null\n          : Math.max(0, Math.floor(Number(input.maxStockLevel) || 0)),\n      p_is_active: input.isActive,\n      p_image_url: input.imageUrl?.trim() || null,\n    })"
+      "source": "supabase.rpc(input.independentSalePrice===undefined?'update_product_master_v5':'update_product_master_v6', {\n      ...(input.independentSalePrice===undefined?{}:{p_sale_price_in_minor_units:Math.round(input.independentSalePrice*1000)}),\n      p_parcel_only: input.parcelOnly ?? null,\n      p_product_id: input.productId,\n      p_expected_updated_at: input.expectedUpdatedAt,\n      p_sku: input.sku.trim(),\n      p_barcode: input.barcode?.trim() || null,\n      p_name_ar: input.nameAr.trim(),\n      p_description: input.description?.trim() || null,\n      p_category_id: isValidUuid(input.categoryId) ? input.categoryId : null,\n      p_brand_id: isValidUuid(input.brandId) ? input.brandId : null,\n      p_unit_id: unitIdToUse,\n      p_purchase_unit_id: purchaseUnitIdToUse,\n      p_units_per_purchase_unit: Math.max(\n        1,\n        Math.floor(Number(input.unitsPerPackage) || 1)\n      ),\n      p_default_purchase_price_in_minor_units: Math.round(\n        Math.max(0, Number(input.defaultPurchasePrice) || 0) * 1000\n      ),\n      p_sale_unit_id: saleUnitIdToUse,\n      p_units_per_sale_unit: Math.max(\n        1,\n        Math.floor(Number(input.unitsPerSalePackage) || 1)\n      ),\n      p_default_sale_price_in_minor_units: Math.round(\n        Math.max(0, Number(input.salePackagePrice) || 0) * 1000\n      ),\n      p_cost_price_in_minor_units: Math.round(\n        Math.max(0, Number(input.costPrice) || 0) * 1000\n      ),\n      p_min_stock_level: Math.max(\n        0,\n        Math.floor(Number(input.reorderLevel) || 0)\n      ),\n      p_max_stock_level:\n        input.maxStockLevel === undefined\n          ? null\n          : Math.max(0, Math.floor(Number(input.maxStockLevel) || 0)),\n      p_is_active: input.isActive,\n      p_image_url: input.imageUrl?.trim() || null,\n    })",
+      "resolutions": [
+        {
+          "name": "update_product_master_v5",
+          "callsite": "src/services/supabase/products.service.ts:1061",
+          "source": "supabase.rpc(input.independentSalePrice===undefined?'update_product_master_v5':'update_product_master_v6', {\n      ...(input.independentSalePrice===undefined?{}:{p_sale_price_in_minor_units:Math.round(input.independentSalePrice*1000)}),\n      p_parcel_only: input.parcelOnly ?? null,\n      p_product_id: input.productId,\n      p_expected_updated_at: input.expectedUpdatedAt,\n      p_sku: input.sku.trim(),\n      p_barcode: input.barcode?.trim() || null,\n      p_name_ar: input.nameAr.trim(),\n      p_description: input.description?.trim() || null,\n      p_category_id: isValidUuid(input.categoryId) ? input.categoryId : null,\n      p_brand_id: isValidUuid(input.brandId) ? input.brandId : null,\n      p_unit_id: unitIdToUse,\n      p_purchase_unit_id: purchaseUnitIdToUse,\n      p_units_per_purchase_unit: Math.max(\n        1,\n        Math.floor(Number(input.unitsPerPackage) || 1)\n      ),\n      p_default_purchase_price_in_minor_units: Math.round(\n        Math.max(0, Number(input.defaultPurchasePrice) || 0) * 1000\n      ),\n      p_sale_unit_id: saleUnitIdToUse,\n      p_units_per_sale_unit: Math.max(\n        1,\n        Math.floor(Number(input.unitsPerSalePackage) || 1)\n      ),\n      p_default_sale_price_in_minor_units: Math.round(\n        Math.max(0, Number(input.salePackagePrice) || 0) * 1000\n      ),\n      p_cost_price_in_minor_units: Math.round(\n        Math.max(0, Number(input.costPrice) || 0) * 1000\n      ),\n      p_min_stock_level: Math.max(\n        0,\n        Math.floor(Number(input.reorderLevel) || 0)\n      ),\n      p_max_stock_level:\n        input.maxStockLevel === undefined\n          ? null\n          : Math.max(0, Math.floor(Number(input.maxStockLevel) || 0)),\n      p_is_active: input.isActive,\n      p_image_url: input.imageUrl?.trim() || null,\n    })"
+        },
+        {
+          "name": "update_product_master_v6",
+          "callsite": "src/services/supabase/products.service.ts:1061",
+          "source": "supabase.rpc(input.independentSalePrice===undefined?'update_product_master_v5':'update_product_master_v6', {\n      ...(input.independentSalePrice===undefined?{}:{p_sale_price_in_minor_units:Math.round(input.independentSalePrice*1000)}),\n      p_parcel_only: input.parcelOnly ?? null,\n      p_product_id: input.productId,\n      p_expected_updated_at: input.expectedUpdatedAt,\n      p_sku: input.sku.trim(),\n      p_barcode: input.barcode?.trim() || null,\n      p_name_ar: input.nameAr.trim(),\n      p_description: input.description?.trim() || null,\n      p_category_id: isValidUuid(input.categoryId) ? input.categoryId : null,\n      p_brand_id: isValidUuid(input.brandId) ? input.brandId : null,\n      p_unit_id: unitIdToUse,\n      p_purchase_unit_id: purchaseUnitIdToUse,\n      p_units_per_purchase_unit: Math.max(\n        1,\n        Math.floor(Number(input.unitsPerPackage) || 1)\n      ),\n      p_default_purchase_price_in_minor_units: Math.round(\n        Math.max(0, Number(input.defaultPurchasePrice) || 0) * 1000\n      ),\n      p_sale_unit_id: saleUnitIdToUse,\n      p_units_per_sale_unit: Math.max(\n        1,\n        Math.floor(Number(input.unitsPerSalePackage) || 1)\n      ),\n      p_default_sale_price_in_minor_units: Math.round(\n        Math.max(0, Number(input.salePackagePrice) || 0) * 1000\n      ),\n      p_cost_price_in_minor_units: Math.round(\n        Math.max(0, Number(input.costPrice) || 0) * 1000\n      ),\n      p_min_stock_level: Math.max(\n        0,\n        Math.floor(Number(input.reorderLevel) || 0)\n      ),\n      p_max_stock_level:\n        input.maxStockLevel === undefined\n          ? null\n          : Math.max(0, Math.floor(Number(input.maxStockLevel) || 0)),\n      p_is_active: input.isActive,\n      p_image_url: input.imageUrl?.trim() || null,\n    })"
+        }
+      ]
     },
     {
       "id": "src/services/supabase/productWorkbook.service.ts:46",
@@ -3798,12 +3838,24 @@
       "role": "authenticated",
       "receiver": "db()",
       "function": "write",
-      "name": "update_product_master_v5",
-      "dynamic": "'update_product_master_v5'",
+      "name": null,
+      "dynamic": "independent?'update_product_master_v6':'update_product_master_v5'",
       "arguments": [
-        "args"
+        "{...args,...(independent?{p_sale_price_in_minor_units:value.sale_price_in_minor_units}:{})}"
       ],
-      "source": "db().rpc('update_product_master_v5',args)"
+      "source": "db().rpc(independent?'update_product_master_v6':'update_product_master_v5',{...args,...(independent?{p_sale_price_in_minor_units:value.sale_price_in_minor_units}:{})})",
+      "resolutions": [
+        {
+          "name": "update_product_master_v6",
+          "callsite": "src/services/supabase/productWorkbook.service.ts:46",
+          "source": "db().rpc(independent?'update_product_master_v6':'update_product_master_v5',{...args,...(independent?{p_sale_price_in_minor_units:value.sale_price_in_minor_units}:{})})"
+        },
+        {
+          "name": "update_product_master_v5",
+          "callsite": "src/services/supabase/productWorkbook.service.ts:46",
+          "source": "db().rpc(independent?'update_product_master_v6':'update_product_master_v5',{...args,...(independent?{p_sale_price_in_minor_units:value.sale_price_in_minor_units}:{})})"
+        }
+      ]
     },
     {
       "id": "src/services/supabase/productWorkbook.service.ts:79",
@@ -3812,17 +3864,43 @@
       "role": "authenticated",
       "receiver": "db()",
       "function": "create",
-      "name": "create_product_family_with_flavors_v2",
-      "dynamic": "'create_product_family_with_flavors_v2'",
+      "name": null,
+      "dynamic": "plan.operatingMode==='sales-only'?'create_product_family_with_flavors_v3':'create_product_family_with_flavors_v2'",
       "arguments": [
-        "{p_sku:temp,p_barcode:null,p_name_ar:w.name_ar,p_description:w.description,p_category_id:w.category_id,p_brand_id:w.brand_id,p_unit_id:w.unit_id,p_purchase_unit_id:w.purchase_unit_id,p_units_per_purchase_unit:w.units_per_purchase_unit,p_default_purchase_price_in_minor_units:w.default_purchase_price_in_minor_units,p_sale_unit_id:w.sale_unit_id,p_units_per_sale_unit:w.units_per_sale_unit,p_default_sale_price_in_minor_units:w.default_sale_price_in_minor_units,p_cost_price_in_minor_units:w.cost_price_in_minor_units,p_min_stock_level:w.min_stock_level,p_max_stock_level:w.max_stock_level,p_warehouse_id:warehouse,p_image_url:null,p_flavors:row.flavors.map(f=>({nameAr:f.name,openingSalePackages:0,imageUrl:null})),p_parcel_only:w.parcel_only}"
+        "{...(plan.operatingMode==='sales-only'?{p_sale_price_in_minor_units:w.sale_price_in_minor_units}:{}),p_sku:temp,p_barcode:null,p_name_ar:w.name_ar,p_description:w.description,p_category_id:w.category_id,p_brand_id:w.brand_id,p_unit_id:w.unit_id,p_purchase_unit_id:w.purchase_unit_id,p_units_per_purchase_unit:w.units_per_purchase_unit,p_default_purchase_price_in_minor_units:w.default_purchase_price_in_minor_units,p_sale_unit_id:w.sale_unit_id,p_units_per_sale_unit:w.units_per_sale_unit,p_default_sale_price_in_minor_units:w.default_sale_price_in_minor_units,p_cost_price_in_minor_units:w.cost_price_in_minor_units,p_min_stock_level:w.min_stock_level,p_max_stock_level:w.max_stock_level,p_warehouse_id:warehouse,p_image_url:null,p_flavors:row.flavors.map(f=>({nameAr:f.name,openingSalePackages:0,imageUrl:null})),p_parcel_only:w.parcel_only}"
       ],
-      "source": "db().rpc('create_product_family_with_flavors_v2',{p_sku:temp,p_barcode:null,p_name_ar:w.name_ar,p_description:w.description,p_category_id:w.category_id,p_brand_id:w.brand_id,p_unit_id:w.unit_id,p_purchase_unit_id:w.purchase_unit_id,p_units_per_purchase_unit:w.units_per_purchase_unit,p_default_purchase_price_in_minor_units:w.default_purchase_price_in_minor_units,p_sale_unit_id:w.sale_unit_id,p_units_per_sale_unit:w.units_per_sale_unit,p_default_sale_price_in_minor_units:w.default_sale_price_in_minor_units,p_cost_price_in_minor_units:w.cost_price_in_minor_units,p_min_stock_level:w.min_stock_level,p_max_stock_level:w.max_stock_level,p_warehouse_id:warehouse,p_image_url:null,p_flavors:row.flavors.map(f=>({nameAr:f.name,openingSalePackages:0,imageUrl:null})),p_parcel_only:w.parcel_only})"
+      "source": "db().rpc(plan.operatingMode==='sales-only'?'create_product_family_with_flavors_v3':'create_product_family_with_flavors_v2',{...(plan.operatingMode==='sales-only'?{p_sale_price_in_minor_units:w.sale_price_in_minor_units}:{}),p_sku:temp,p_barcode:null,p_name_ar:w.name_ar,p_description:w.description,p_category_id:w.category_id,p_brand_id:w.brand_id,p_unit_id:w.unit_id,p_purchase_unit_id:w.purchase_unit_id,p_units_per_purchase_unit:w.units_per_purchase_unit,p_default_purchase_price_in_minor_units:w.default_purchase_price_in_minor_units,p_sale_unit_id:w.sale_unit_id,p_units_per_sale_unit:w.units_per_sale_unit,p_default_sale_price_in_minor_units:w.default_sale_price_in_minor_units,p_cost_price_in_minor_units:w.cost_price_in_minor_units,p_min_stock_level:w.min_stock_level,p_max_stock_level:w.max_stock_level,p_warehouse_id:warehouse,p_image_url:null,p_flavors:row.flavors.map(f=>({nameAr:f.name,openingSalePackages:0,imageUrl:null})),p_parcel_only:w.parcel_only})",
+      "resolutions": [
+        {
+          "name": "create_product_family_with_flavors_v3",
+          "callsite": "src/services/supabase/productWorkbook.service.ts:79",
+          "source": "db().rpc(plan.operatingMode==='sales-only'?'create_product_family_with_flavors_v3':'create_product_family_with_flavors_v2',{...(plan.operatingMode==='sales-only'?{p_sale_price_in_minor_units:w.sale_price_in_minor_units}:{}),p_sku:temp,p_barcode:null,p_name_ar:w.name_ar,p_description:w.description,p_category_id:w.category_id,p_brand_id:w.brand_id,p_unit_id:w.unit_id,p_purchase_unit_id:w.purchase_unit_id,p_units_per_purchase_unit:w.units_per_purchase_unit,p_default_purchase_price_in_minor_units:w.default_purchase_price_in_minor_units,p_sale_unit_id:w.sale_unit_id,p_units_per_sale_unit:w.units_per_sale_unit,p_default_sale_price_in_minor_units:w.default_sale_price_in_minor_units,p_cost_price_in_minor_units:w.cost_price_in_minor_units,p_min_stock_level:w.min_stock_level,p_max_stock_level:w.max_stock_level,p_warehouse_id:warehouse,p_image_url:null,p_flavors:row.flavors.map(f=>({nameAr:f.name,openingSalePackages:0,imageUrl:null})),p_parcel_only:w.parcel_only})"
+        },
+        {
+          "name": "create_product_family_with_flavors_v2",
+          "callsite": "src/services/supabase/productWorkbook.service.ts:79",
+          "source": "db().rpc(plan.operatingMode==='sales-only'?'create_product_family_with_flavors_v3':'create_product_family_with_flavors_v2',{...(plan.operatingMode==='sales-only'?{p_sale_price_in_minor_units:w.sale_price_in_minor_units}:{}),p_sku:temp,p_barcode:null,p_name_ar:w.name_ar,p_description:w.description,p_category_id:w.category_id,p_brand_id:w.brand_id,p_unit_id:w.unit_id,p_purchase_unit_id:w.purchase_unit_id,p_units_per_purchase_unit:w.units_per_purchase_unit,p_default_purchase_price_in_minor_units:w.default_purchase_price_in_minor_units,p_sale_unit_id:w.sale_unit_id,p_units_per_sale_unit:w.units_per_sale_unit,p_default_sale_price_in_minor_units:w.default_sale_price_in_minor_units,p_cost_price_in_minor_units:w.cost_price_in_minor_units,p_min_stock_level:w.min_stock_level,p_max_stock_level:w.max_stock_level,p_warehouse_id:warehouse,p_image_url:null,p_flavors:row.flavors.map(f=>({nameAr:f.name,openingSalePackages:0,imageUrl:null})),p_parcel_only:w.parcel_only})"
+        }
+      ]
     },
     {
-      "id": "src/services/supabase/productWorkbook.service.ts:85",
+      "id": "src/services/supabase/productWorkbook.service.ts:82",
       "file": "src/services/supabase/productWorkbook.service.ts",
-      "line": 85,
+      "line": 82,
+      "role": "authenticated",
+      "receiver": "db()",
+      "function": "create",
+      "name": "create_product_with_opening_stock_v6",
+      "dynamic": "'create_product_with_opening_stock_v6'",
+      "arguments": [
+        "{p_sku:temp,p_barcode:w.barcode,p_name_ar:w.name_ar,p_description:w.description,p_category_id:w.category_id,p_brand_id:w.brand_id,p_unit_id:w.unit_id,p_purchase_unit_id:w.purchase_unit_id,p_units_per_purchase_unit:w.units_per_purchase_unit,p_default_purchase_price_in_minor_units:w.default_purchase_price_in_minor_units,p_sale_unit_id:w.sale_unit_id,p_units_per_sale_unit:w.units_per_sale_unit,p_default_sale_price_in_minor_units:w.default_sale_price_in_minor_units,p_sale_price_in_minor_units:w.sale_price_in_minor_units,p_cost_price_in_minor_units:w.cost_price_in_minor_units,p_min_stock_level:w.min_stock_level,p_max_stock_level:w.max_stock_level,p_warehouse_id:warehouse,p_opening_quantity:0,p_image_url:null,p_parcel_only:w.parcel_only}"
+      ],
+      "source": "db().rpc('create_product_with_opening_stock_v6',{p_sku:temp,p_barcode:w.barcode,p_name_ar:w.name_ar,p_description:w.description,p_category_id:w.category_id,p_brand_id:w.brand_id,p_unit_id:w.unit_id,p_purchase_unit_id:w.purchase_unit_id,p_units_per_purchase_unit:w.units_per_purchase_unit,p_default_purchase_price_in_minor_units:w.default_purchase_price_in_minor_units,p_sale_unit_id:w.sale_unit_id,p_units_per_sale_unit:w.units_per_sale_unit,p_default_sale_price_in_minor_units:w.default_sale_price_in_minor_units,p_sale_price_in_minor_units:w.sale_price_in_minor_units,p_cost_price_in_minor_units:w.cost_price_in_minor_units,p_min_stock_level:w.min_stock_level,p_max_stock_level:w.max_stock_level,p_warehouse_id:warehouse,p_opening_quantity:0,p_image_url:null,p_parcel_only:w.parcel_only})"
+    },
+    {
+      "id": "src/services/supabase/productWorkbook.service.ts:88",
+      "file": "src/services/supabase/productWorkbook.service.ts",
+      "line": 88,
       "role": "authenticated",
       "receiver": "db()",
       "function": "create",
@@ -5590,8 +5668,10 @@
     "create_pos_sale_v2",
     "create_pos_sale_with_initial_payment_v1",
     "create_product_family_with_flavors_v2",
+    "create_product_family_with_flavors_v3",
     "create_product_flavor_v1",
     "create_product_with_opening_stock_v5",
+    "create_product_with_opening_stock_v6",
     "create_purchase_order",
     "delete_draft_purchase_order",
     "disable_push_subscription",
@@ -5786,6 +5866,7 @@
     "update_order_status",
     "update_product_flavor_v2",
     "update_product_master_v5",
+    "update_product_master_v6",
     "update_purchase_order",
     "update_purchase_order_status",
     "upsert_promotion_code"

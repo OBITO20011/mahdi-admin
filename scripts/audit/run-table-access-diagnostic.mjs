@@ -2,6 +2,7 @@ import {installSalesOnlyAudit,assertSalesOnlyAuditTarget,salesOnlyAuditEvidence}
 import{historicalProductWorkbookSource}from'./source-before-product-workbook.mjs';
 import{productWorkbookProbeScope}from'../testing/product-workbook-probe-scope.mjs';
 import {sourceBeforeOwnerTelegram217} from './source-before-owner-telegram217.mjs';
+import {sourceBeforeIndependentPrices222} from './source-before-independent-prices222.mjs';
 import {sourceBeforeAftercare215} from './source-before-aftercare215.mjs';
 import {sourceBeforePartial216} from './source-before-partial216.mjs';
 import {loadPinnedPostgrestImage} from '../testing/pinned-postgrest-image.mjs';
@@ -23,9 +24,9 @@ const option=n=>process.argv.includes(n)?process.argv[process.argv.indexOf(n)+1]
 const salesOnlyAudit=process.argv.includes('--sales-only-phase2');
 const suppliedWorkdir=option('--workdir');
 const ceiling=Number(option('--migration-ceiling')||(process.argv.includes('--require-access')?199:138));
-assert.ok([138,150,164,171,182,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,219,220].includes(ceiling),'ONLY_APPROVED_AUDIT_CEILINGS');
+assert.ok([138,150,164,171,182,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,219,220,222].includes(ceiling),'ONLY_APPROVED_AUDIT_CEILINGS');
 const historicSource=ceiling<215?sourceBeforeAftercare215:ceiling===215?sourceBeforePartial216:ceiling===216?sourceBeforeOwnerTelegram217:undefined;
-const projectSource=historicSource?(file,text)=>historicalProductWorkbookSource(historicSource,file,text):undefined;
+const projectSource=ceiling<=220?(file,text)=>{const before=sourceBeforeIndependentPrices222(file,text);return before===null?null:historicSource?historicalProductWorkbookSource(historicSource,file,before):before;}:undefined;
 const manifest=(await readdir(path.join(root,'supabase/migrations'))).filter(n=>/^\d{3}_.+\.sql$/u.test(n)&&Number(n.slice(0,3))<=ceiling).sort();
 const project=option('--local-project')||'nawasrah-table-audit-'+randomBytes(4).toString('hex')+'-test';
 assert.match(project,/^nawasrah-table-audit(?:-[a-f0-9]+)?-test$/u);

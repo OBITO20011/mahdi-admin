@@ -1,0 +1,67 @@
+{
+  "format": 1,
+  "beforeCeiling": 220,
+  "migrationCeiling": 222,
+  "publicFunctions": 683,
+  "privateFunctions": 39,
+  "freshIncrementalDifferences": 0,
+  "migrationSha256": "bcf55b1f43714e27d525dedac51cc7c3f85d0e1f2be422bbc422cafc6ff84a68",
+  "base220PinsSha256": "83e286b3fdfbc451e2fffa423edc421b92bf730429158a2e76a57db3fa7bff06",
+  "functions": [
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "create_product_family_with_flavors_v3(p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_sale_unit_id uuid, p_units_per_sale_unit integer, p_default_sale_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_warehouse_id uuid, p_image_url text, p_flavors jsonb, p_parcel_only boolean, p_sale_price_in_minor_units bigint)",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "definitionSha256": "db7c70468004ed00071304982feb08d4facee5a9a16adca982bf732d478636cc"
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "create_product_with_opening_stock_v6(p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_sale_unit_id uuid, p_units_per_sale_unit integer, p_default_sale_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_warehouse_id uuid, p_opening_quantity integer, p_notes text, p_image_url text, p_parcel_only boolean, p_sale_price_in_minor_units bigint)",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "definitionSha256": "51289f1cfef3311810790ee925073ccf7049fe008759ff9c16e2bd4608266740"
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "update_product_master_v6(p_product_id uuid, p_expected_updated_at timestamp with time zone, p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_sale_unit_id uuid, p_units_per_sale_unit integer, p_default_sale_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_is_active boolean, p_image_url text, p_sale_price_in_minor_units bigint, p_parcel_only boolean)",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "definitionSha256": "f742a4fa3e71d11ff91fbfdab7555d171ad5f268268dd7a14660b8a6c3ed22ba"
+    },
+    {
+      "acl": [
+        "postgres=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "sales_lite1",
+      "identity": "assert_prices222(p_unit_id uuid, p_sale_unit_id uuid, p_units integer, p_single bigint, p_parcel bigint, p_parcel_only boolean)",
+      "configuration": [
+        "search_path=pg_catalog, public"
+      ],
+      "definitionSha256": "a1735be75c28c81e864a6552b9a1cc6ad4d36b48fccc2ae0949693a72959d999"
+    }
+  ]
+}

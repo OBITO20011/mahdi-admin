@@ -1,0 +1,67 @@
+name: Nawasrah independent prices222
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: prices222-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || format('run-{0}', github.run_id) }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+jobs:
+  prices222:
+    name: Independent222 prices and full-mode parity
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: node --import tsx --test tests/independent-parcel-prices.test.ts tests/independent-prices222-operations.test.ts tests/independent-prices222-projection.test.ts tests/d1-reference222-kit.test.ts
+      - run: node scripts/testing/build-independent-prices222-tools.mjs --check
+      - run: node scripts/testing/build-independent-prices222-history.mjs --check
+      - run: node scripts/testing/run-independent-parcel222.mjs
+      - run: node scripts/testing/capture-independent-prices222-catalog.mjs
+      - run: node scripts/testing/generate-independent-prices222-catalog.mjs
+      - run: git diff --exit-code -- docs/generated/DB_FUNCTIONS.md docs/design/independent-parcel-prices222/catalog222-pins.json
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: independent222-price-catalog-proof
+          path: |
+            test-results/independent-parcel222/report.json
+            test-results/independent-prices222-catalog/report.json
+            test-results/independent-prices222-catalog/fresh-incremental-differences.json
+          retention-days: 7
+          if-no-files-found: error
+  tools222:
+    name: Independent222 owner protection and RESET
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: node scripts/operations/build-acl-reference222.mjs --output "$RUNNER_TEMP/local-reference-through222-ready.json"
+      - run: node scripts/testing/run-owner-upgrade222-runtime.mjs "$RUNNER_TEMP/local-reference-through222-ready.json"
+      - run: node scripts/testing/run-reset222-runtime.mjs "$RUNNER_TEMP/local-reference-through222-ready.json"
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: independent222-owner-protection-proof
+          path: |
+            test-results/owner-upgrade222/report.json
+            test-results/reset222/report.json
+          retention-days: 7
+          if-no-files-found: error

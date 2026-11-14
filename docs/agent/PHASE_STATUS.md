@@ -1,3 +1,23 @@
+#14Nov2026 — strict legacy compatibility verified;final CI pending
+
+Draft97 only. a223 localunits2025/2027,0skip:oversizecheckpoint+missing220generatorhunk now repaired;focused14/14 andreal esbuild1/1 PASS. Actual owned219epoch13groups PASS after exact pre222 source compilation;no newwriters injected into219,no productSQL change. Types0/changedstrictlint0. Fullunits/finalexactheadCI/Gitleaks and postCI-only demo update remain. No hosted/deploy/merge;owner originals/demo unchanged.
+
+#14Nov2026 — Draft97:222/current-history compatibility repaired;final gates pending
+
+No productSQL delta since7fca. Actual legacy220RESET31.3s and3resumes PASS after exact historical storage metadata-policy admission was retained at222;unknown dependencies still refuse. Actual source inventories222181HTTP/720RPC rebound without replacing historical proofs. Typesboth0,strictlint0,OFF editor6/6 Chromium/WebKit390 PASS. Git63 workbook-history direct43.2s0 under unchanged120s;full local units/final exact-headCI/Gitleaks remain. First7fca new222workflow passed;older gates exposed compatibility failures now repaired,not rerun. Ownerdemo stays unchanged untilfullgreenCI;no hosted/deploy/merge.
+
+#14Nov2026 — Draft97:real222 protection/RESET/reference PASS;FULLCI pending
+
+222 price-only additive to220;old680/627+9 unchanged,221reserved and activation forbidden. Actual fresh/incremental0diff,683public/39private;ready222local unapproved/uninstalled;HTTP181/0errors,RPC720/18expecteddenials. Real encrypted220BackupRestore→222apply8.4s→222BackupRestore→verify-only PASS+6negatives. RESET22231.1s and3resumes PASS with raw owner/MFA/money/ACL/pgNet;badhold/snapshot/foreignprivatewrite rejected. TypesAdmin0;strictlint0 beforelast helper/docs;2A4page fit1010/891<1046px with unchanged fonts. Allunits/finaltypeslint/FULLCI/Gitleaks and postCI-only demo noreset update remain. Primary/owner originals/demo/private untouched;no merge/hosted/deploy.
+
+#14Nov2026 — independent OFF prices, strict222 catalog proved;Draft97
+
+Core06b3c4c3:actual independent-price writers/family/CAS/audit/roles/discounted ordinary+mixed POS and guest/oldreceipt+return rollback+two-writer lock proof PASS;54unique mobile browser cases across source-frozen groups;typesboth/changed-source strictlint PASS. New222 adds3public+1private only;fresh/incremental0diff,683public/39private;old680public and exact220referenceSHA unchanged. HTTP222181reads172success9empty0errors;15focused D1/catalog/source-preservation cases PASS. Generated versioned222 RESET/D1/upgrade adapters in progress;actual encrypted protection/RESET/ready-reference/RPC/fullunits/FULLCI/Gitleaks NOT complete. Ownerdemo/primary owner/env/sourcefiles untouched. Migration222 bcf55b1f...ff84a68;221 reserved/accountingactivation forbidden. No merge/deploy/hosted.
+
+#14Nov2026 — independent OFF parcel price; Draft implementation in progress
+
+Owner approved revised3–4day estimate. Separate codex/parcel-independent-price from mainbd4d696a;222 additive writers,221 reserved. Actual isolated writer/create/family/ACL/CAS/audit/discounted POS/oldreceipt/refund rollback proofs pass;old680public source/definition/owner/config/rawACL identical.3pure units and Admin types pass. UI/import dispatch and exact-price readback prepared;real concurrent/browser/current access/reference/RESET/backup/FULLCI/Gitleaks still pending. No tables or historical migrations/sales209+220/ON paths modified. Ownerdemo remains untouched until fullgreenCI. No merge/deploy/hosted/accounting activation. Earlier entries below are historical.
+
 #13Nov2026 — final packet-default file and approved flavor families
 
 Owner-authorized separate Draft documentation PR. External workbook750roots,

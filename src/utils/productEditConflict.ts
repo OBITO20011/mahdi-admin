@@ -2,6 +2,7 @@ import type { Product } from '../types';
 
 /** Current values the database returns with PRODUCT_EDIT_CONFLICT (migration 170). */
 export interface ProductEditSnapshot {
+  salePriceInMinorUnits?:number;
   parcelOnly?: boolean;
   productId: string;
   updatedAt: string;
@@ -28,6 +29,7 @@ export interface ProductEditSnapshot {
 
 /** The product form's editable fields, in the form's own units (JOD, sale packages). */
 export interface ProductEditFields {
+  singleSalePrice?:number;
   parcelOnly?: boolean;
   nameAr: string;
   description: string;
@@ -65,6 +67,7 @@ export function readProductEditSnapshot(details: unknown): ProductEditSnapshot |
   if (!text(s.productId) || !text(s.updatedAt)) return null;
   return {
     productId: text(s.productId),
+    ...(s.salePriceInMinorUnits===undefined?{}:{salePriceInMinorUnits:number(s.salePriceInMinorUnits)}),
     parcelOnly: s.parcelOnly === true,
     updatedAt: text(s.updatedAt),
     nameAr: text(s.nameAr),
@@ -119,6 +122,7 @@ export function snapshotToEditFields(snapshot: ProductEditSnapshot): ProductEdit
   const perSale = snapshot.unitsPerSalePackage || 1;
   return {
     parcelOnly: snapshot.parcelOnly === true,
+    ...(snapshot.salePriceInMinorUnits===undefined?{}:{singleSalePrice:snapshot.salePriceInMinorUnits/1000}),
     nameAr: snapshot.nameAr,
     description: snapshot.description,
     sku: snapshot.sku,
@@ -138,6 +142,7 @@ export function snapshotToEditFields(snapshot: ProductEditSnapshot): ProductEdit
 }
 
 export const PRODUCT_EDIT_FIELD_LABELS: Readonly<Record<keyof ProductEditFields, string>> = {
+  singleSalePrice: 'سعر الوحدة المفردة',
   parcelOnly: 'طريقة البيع',
   nameAr: 'اسم المنتج',
   description: 'الوصف',
