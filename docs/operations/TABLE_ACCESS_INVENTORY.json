@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "migrationCeiling": 222,
+  "migrationCeiling": 223,
   "managedAccess": false,
   "sources": [
     {
@@ -432,6 +432,10 @@
       "sha256": "2acc4db74469a06760908d26b9306cbba725a701d90cee10ce1ce8f4bdf46025"
     },
     {
+      "file": "src/features/operatingMode/LowOptionalQuantityList.tsx",
+      "sha256": "3140e700a10fda8f4b441a81c70c2ed693b0a433a869f678ae511387f8171696"
+    },
+    {
       "file": "src/features/operatingMode/ManualAvailabilityPanel.tsx",
       "sha256": "e4fe77a483b67bf9fa8baf86db83fcc0d8839fad8dc53f3e3814fb179ef88a90"
     },
@@ -462,6 +466,10 @@
     {
       "file": "src/features/operatingMode/OperatingModeProvider.tsx",
       "sha256": "8f4f988f33d63103aff43ba35078f0d0d8fb9c433cf7f38075b8151ec34ca899"
+    },
+    {
+      "file": "src/features/operatingMode/OptionalQuantityPanel.tsx",
+      "sha256": "c33a2efc278daeb0b6724b7a81082a1c4d1e6cf370e6061e6c89bf2ecea0ccdf"
     },
     {
       "file": "src/features/orders/AdminAftercarePanel.tsx",
@@ -533,7 +541,7 @@
     },
     {
       "file": "src/features/pos/PosView.tsx",
-      "sha256": "88ec695dca8d366cf411a0d5fa1de3a8df53b8bd27e4cfbbcd0cdc8e32ae56c7"
+      "sha256": "cbb394b1cc6525a4f7c8615d38576b0abe33ee7dea16aedeb335e6c0005c175b"
     },
     {
       "file": "src/features/pos/saleMethods.ts",
@@ -577,7 +585,7 @@
     },
     {
       "file": "src/features/products/ProductDetailModal.tsx",
-      "sha256": "f0e807ec4f897df16159c960a1b2604b86faf35860e3b600e939108fd59407fd"
+      "sha256": "5e648166fbacd85b577f5b86d3cbfedf4033f087a2597935443ea55a5ad857c6"
     },
     {
       "file": "src/features/products/ProductEditConflictPanel.tsx",
@@ -585,7 +593,7 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "sha256": "2dfef175c277db51dc6d41dc5da8b689f05914387546396d0207b93b52343fd0"
+      "sha256": "0ef4b4e9cd0453540d906ae023093cea4061a708160ee3491ac300173633aea7"
     },
     {
       "file": "src/features/products/ProductFormParcelCapability.tsx",
@@ -593,7 +601,7 @@
     },
     {
       "file": "src/features/products/ProductsView.tsx",
-      "sha256": "f88cfcf1689c823685dc2e0d14baffb5e3186931dac5d7a0980c105ad5c381b8"
+      "sha256": "e0303a05df3b89192d29efee07000622373029f6ac89304df07b79815038d5a6"
     },
     {
       "file": "src/features/products/StockAdjustmentModal.tsx",
@@ -942,6 +950,10 @@
     {
       "file": "src/services/supabase/operatingShiftReversal.ts",
       "sha256": "334cfa84ff552f7b3bebf75d9e0bebf1d26d25e9a92866bb47dee7789cb5d775"
+    },
+    {
+      "file": "src/services/supabase/optionalQuantity.service.ts",
+      "sha256": "a09451cd8c36fe9588358d9d18331ac29d66a425fb5179573108b41b05f3a2b5"
     },
     {
       "file": "src/services/supabase/orders.service.ts",
@@ -1669,7 +1681,7 @@
     },
     {
       "file": "supabase/functions/_shared/owner-telegram-format.ts",
-      "sha256": "0593c97e29ae7d216c0f131cb823a5ae56535d584f0ac0026e7bf22e95a71c13"
+      "sha256": "8f9e8d0a129c1b728840f3972ef82205783630097c05680c596b2447052fb292"
     },
     {
       "file": "supabase/functions/admin-ai-assistant/index.ts",
@@ -1697,7 +1709,7 @@
     },
     {
       "file": "supabase/functions/submit-guest-order/index.ts",
-      "sha256": "ac5a3b9b1aa22b7c36e8c873b6908d1df8d162a3cb6a27eb56dc10053e371ea4"
+      "sha256": "4675f8039cfd6724ca025524dd5b92409d039dc0ad386bdd39ce65698e5a7334"
     },
     {
       "file": "supabase/functions/submit-guest-order/operatingMode.ts",
@@ -1710,9 +1722,9 @@
   ],
   "entries": [
     {
-      "id": "src/features/pos/PosView.tsx:566",
+      "id": "src/features/pos/PosView.tsx:567",
       "file": "src/features/pos/PosView.tsx",
-      "line": 566,
+      "line": 567,
       "table": "orders",
       "operation": "select",
       "role": "authenticated",
@@ -5127,7 +5139,7 @@
     },
     {
       "file": "src/features/pos/PosView.tsx",
-      "line": 707,
+      "line": 708,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
@@ -5137,7 +5149,7 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "line": 1346,
+      "line": 1354,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {

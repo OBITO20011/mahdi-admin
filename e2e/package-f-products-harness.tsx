@@ -77,6 +77,13 @@ storeEngine.setCurrentUser({id:'fixture-owner',name:'مهدي',role:'Owner',them
 const original=supabase.rpc.bind(supabase);
 const client=supabase as unknown as {rpc:(name:string,args?:Record<string,unknown>)=>unknown};
 client.rpc=(name,args)=>{
+ // Existing product-editor cases have never-enabled counters. Counter cases
+ // opt into the original transport and explicitly bind their own API fixture.
+ if(name==='lite3_counter_context223'&&!params.has('counter-quantity')){
+  const parent=rows.find(row=>row.id===args?.p_product_id),leaves=parent?.is_flavor_master?rows.filter(row=>row.flavor_master_product_id===parent.id):parent?[parent]:[];
+  return Promise.resolve({data:{contractVersion:'optional-quantity223-v1',fullAccounting:false,productId:args?.p_product_id,isFamily:!!parent?.is_flavor_master,products:leaves.map(row=>({productId:row.id,name:row.name_ar,sku:row.sku,flavorName:row.flavor_name_ar??null,unitId:'88888888-8888-4888-8888-000000000121',unitName:row.base_unit.name_ar,enabled:false,quantity:0,threshold:0,revision:0,everEnabled:false,active:row.is_active,manualAvailable:row.is_active,effectiveAvailable:row.is_active}))},error:null});
+ }
+
  if(singleFixture&&name==='search_admin_products')
   return Promise.resolve({data:args?.p_product_id?rows.filter(row=>row.id===args.p_product_id):rows,error:null});
  // Display reads only: all mutations retain the original isolated transport.

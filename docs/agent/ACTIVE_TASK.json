@@ -1,48 +1,52 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
+  "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner14Nov approved3-4days:OFF independent single/parcel prices;222 only,221reserved;Draft97/FULLCI/Gitleaks;only after greenCI no-reset iPhone demo update. No merge/hosted/deploy/ON behavior change.",
-  "baselineSha": "80979b3b3ee824df7b20bbbf91583ce8409c4d5f",
-  "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
-  "branch": "codex/parcel-independent-price",
-  "phase": "PARCEL_INDEPENDENT_PRICE",
-  "startedAt": "2026-11-13T22:50:15.381Z",
+  "objective": "Owner14Nov approved4-6days:optionalOFF quantity counter in separateDraft/new223(NOT221). Newprivate tables only;no accountingtables/220guard/ON changes. Stockdebit atwebsitecreation/POS;cancel/return/manualCAS/owner217alerts;RESET/D1/CI;postgreen no-resetdemo. No merge/hosted/deploy/owneroriginals.",
+  "baselineSha": "61795a8920d0bdf6d1fbe869e63e15f3dc12c365",
+  "branch": "codex/off-quantity-counter",
+  "phase": "OFF_QUANTITY_COUNTER",
+  "startedAt": "2026-11-14T11:22:06.576Z",
   "completed": [
-    "Core222:real writers/family/CAS/audit/roles/2writer race,old receipt+return,mixedPOS+guest PASS;54unique mobile browser cases across groups. SQL222 bcf55b1f...ff84a68;old680functions/220SQL unchanged.",
-    "Fresh/incremental2220diff,683public+39private;actual HTTP181/0errors,RPC720/18expecteddenials;ready222local unapproved/uninstalled. Encrypted220BackupRestore→222apply→222BackupRestore→verify-only PASS6negatives.",
-    "RESET222+3resumes PASS. Legacy220RESET31.3s+3resumes PASS retaining rawAuth/MFA/money/ACL/pgNet;unknown metadata policies rejected. Workbook d9ed1c82 unchanged750roots108families444flavors/parser0errors.",
-    "Typesboth0,strictlint0;OFF editor6/6 Chromium/WebKit390 PASS. Committed disposable Git63 runtime view194exact substitutions/roleproof PASS,ownedcopycleaned.",
-    "Local fullunits80979:2028/2028 PASS,0skip,0cancel,sourcefrozen,641844ms. Both historical timeout cases PASS under original limits.",
-    "Posta223 corrections:exact220generator+negativefixtures14/14 PASS;real esbuild oldwriter bundle1/1 PASS. Owned local219epoch13groups PASS including actual workbook/response-loss/races/integrity/frozenfunctions,cleanuptrue. Finaltypes0/changedstrictlint0."
+    "Prerequisite97 main0bd green;primary ff-only/preflight;demo no-reset complete. Coref0 and223operations61795a89 pushed.",
+    "PG23 PASS:ON full financial/stock/cost/receipt/shift parity;untrackedOFF JSON parity;counter lifecycle/CAS/unitidentity/legacyreturns/roles/replay/rollback/concurrency;accounting tables empty.",
+    "Owner policies resolved:resellable-only;unit frozen after first enable;no exact public count;pre-counter invoice quantity manual review. True browser→Edge/SQL2/2 Chromium/WebKit390 PASS;synthetic identity/siteverify,not GoTrue/TOTP.",
+    "223 actual fresh/incremental0diff,687public/51private;HTTP181/RPC732;ready223 test-only/uninstalled. Encrypted222BackupRestore→223apply9.9s→BackupRestore/verify PASS;tracked private archive strictPASS. RESET223+3resumes PASS.",
+    "From current223 sources:actual222 fresh/incremental0;683/39;ready222 PASS. Encrypted220BackupRestore→222apply8.8s→BackupRestore/verify PASS. RESET22241.1s+3resumes32.5/34.2/33.8s PASS,Auth/MFA/rawmoney/ACL/pgnet retained.",
+    "Final typesboth0/strictlint0;focused compatibility corrected with literal223/current counts and exact222 projection. Initial fullunits2022/2042,20failures:19 compatibility,one120s history timeout;direct history0/53.8s under unchanged120s.",
+    "Actual browser partition2002 identities:762core(393Chromium/369WebKit),1240 in same10shards;no missing/duplicates/settingsdelta. Focused routing/ops13PASS. Card2A4 content973/866px<1046,fonts unchanged."
   ],
   "inProgress": [
-    "Fix literal220 catalog-proof prefix after full222manifest validation;final FULLCI/Gitleaks."
+    "Final committed-head full units, DraftPR/fullCI and Gitleaks. No productSQL change since f0/d5d6397b."
   ],
   "notStarted": [
-    "Only after FULLCIgreen:owner demo222 literal/noreset,build,oneproduct UI test/restore,sameAuth/TOTP/private/TLS."
+    "Afterfullgreen only:demo223 application/build withoutreset;one product test then trackingoff."
+  ],
+  "testsPassed": [
+    "PG23;UI/regression36;truefullstack2;223protection/RESET;actual222compatibility;13routing/ops;typesboth/strictlint0;printfit."
   ],
   "testsRemaining": [
-    "All units with exact historical inverse;typesboth/strictlint on final source;FULLCI exacthead;finalGitleaks."
+    "Fullcurrent units;FULLCI exacthead;Gitleaks;postCI demo."
   ],
   "findings": [
-    "221reserved;accountingactivation forbidden. No old tables/sales209/220/ON delta.",
-    "Current CI exposes legacy219/220 fixture boundaries;new222 actual workflow passed7fca. Repair only strict source views/generators;no reruns or weakened assertions."
+    "Migration223 d5d6397bd5d676f766493b7a85b1f47ad6f1b6f6c465e7b4a32219ee49abc0af;220 guards/accounting tables/ON unchanged. Draft98 price76/78:cancelled40min opening-cheques/log404,unknown cause;no further rerun."
   ],
   "blockers": [],
   "prohibitions": [
-    "No merge,hosted/Frankfurt/preview/deploy/accountingactivation",
-    "No owneroriginal/private/env/TOTP/TLS changes before authorized postCI demo step",
-    "No old tables/sales209/220/ON changes"
+    "No accountingtables or220guard changes;no ON behavior delta",
+    "No221/merge/deploy/hosted/Frankfurt/preview/accountingactivation",
+    "No owneroriginals/private/MFA/TLS/demo changes beforeFULLgreenCI"
   ],
-  "evidence": "C:/Users/TOP/NawasrahLocalValidation/parcel-independent-price-20261114",
-  "nextExactAction": "Observe exact final-head FULLCI after strict220prefix proof;preserve SQL222/catalog/access/owner files. Then finalGitleaks and authorized demo222noreset,oneproduct UI restore.",
-  "activeProcesses": [],
-  "checkpointedAt": "2026-11-14T03:44:17.410Z",
+  "evidence": "C:/Users/TOP/NawasrahLocalValidation/off-quantity-counter-20261114",
+  "nextExactAction": "Final types/strictlint and real223+legacy222 protection PASS. Save/push;DraftPR/fullCI and full local units at concurrency2. No demo beforefullgreen.",
+  "activeProcesses": [
+    "No task-owned DBs after compatibility gates;ownerdemo remains running."
+  ],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "c082cacfdf6ae2e0f9d682b50dbb0400989cb3555390cdc29b28b93e80a85c24",
-  "workingTreeFingerprint": "B9088486EA88FEC2CF4B209AFF0F8F63A1D972A3E4B764E25E46AE703C58FCF9"
+  "workingTreeFingerprint": "E2F9868E280F96F9A2251ADDA093183E3346713FFBA39A1E3CE2EC7CDE64087A",
+  "checkpointedAt": "2026-11-14T20:13:05.101Z",
+  "filesTouchedCount": 25,
+  "filesTouchedManifestSha256": "d5cf10f0a4bc75b312fceec846253db62228da7078b88313a012472542527326"
 }

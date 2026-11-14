@@ -3,19 +3,103 @@
   "files": [
     {
       "code": " M",
-      "path": "scripts/audit/independent-prices222-source-pins.json"
+      "path": "docs/agent/PHASE_STATUS.md"
     },
     {
       "code": " M",
-      "path": "scripts/testing/capture-sales-only220-catalog.mjs"
+      "path": "docs/handover/ورقة-يوم-التشغيل.html"
     },
     {
-      "code": "??",
-      "path": "scripts/testing/literal220-catalog-manifest.mjs"
+      "code": " M",
+      "path": "docs/handover/ورقة-يوم-التشغيل.md"
     },
     {
-      "code": "??",
+      "code": " M",
+      "path": "docs/MAINTAINER_GUIDE_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/optional-quantity223-source-pins.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-optional-quantity223.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/build-acl-reference222.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/reset222-foundation.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/generate-independent-prices222-catalog.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/package-f-ci-shards.mjs"
+    },
+    {
+      "code": " M",
+      "path": "tests/bulk-product-images-contracts.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/independent-prices222-operations.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/independent-prices222-projection.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/lite220-handover.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/lite220-historical-test-view.test.ts"
+    },
+    {
+      "code": " M",
       "path": "tests/literal220-catalog-manifest.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/migration-integrity.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/operational-schema.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/optional-quantity223-operations.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/package-f-ci-shards.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/sales-only-phase1.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/D1_REFERENCE_KIT223_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/RESET223_OWNER_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "tests/d1-reference223-kit.test.ts"
     }
   ]
 }

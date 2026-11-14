@@ -1,0 +1,72 @@
+name: Nawasrah optional quantity223
+on:
+  pull_request:
+    paths:
+      - 'supabase/migrations/223_optional_sales_quantity.sql'
+      - 'docs/design/off-quantity-counter223/**'
+      - 'scripts/**/*223*'
+      - 'src/**'
+      - 'customer-web/**'
+      - 'supabase/functions/**'
+      - '.github/workflows/optional-quantity223.yml'
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: quantity223-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || format('run-{0}', github.run_id) }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+jobs:
+  lifecycle:
+    name: Optional223 database and browser lifecycle
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm ci --prefix customer-web
+      - run: npx playwright install --with-deps chromium webkit
+      - run: node scripts/testing/build-optional-quantity223-private.mjs --check
+      - run: node scripts/testing/build-optional-quantity223-migration.mjs --check
+      - run: node scripts/testing/build-optional-quantity223-tools.mjs --check
+      - run: node scripts/testing/run-optional-quantity223-core.mjs
+      - run: node scripts/testing/run-optional-quantity223-browser.mjs
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: optional223-lifecycle
+          path: |
+            ${{ runner.temp }}/nawasrah-quantity223-*/report.json
+            ${{ runner.temp }}/nawasrah-quantity223-browser-*/browser.log
+          retention-days: 7
+  tools:
+    name: Optional223 owner protection and RESET
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: node scripts/operations/build-acl-reference223.mjs --output "$RUNNER_TEMP/local-reference-through223-ready.json"
+      - run: node scripts/testing/run-owner-upgrade223-runtime.mjs "$RUNNER_TEMP/local-reference-through223-ready.json"
+      - run: node scripts/testing/run-reset223-runtime.mjs "$RUNNER_TEMP/local-reference-through223-ready.json"
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: optional223-owner-protection
+          path: |
+            test-results/owner-upgrade223/report.json
+            test-results/reset223/report.json
+          retention-days: 7

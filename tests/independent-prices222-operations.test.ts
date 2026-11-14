@@ -5,6 +5,7 @@ import {assert222History,upgrade222Arguments} from '../scripts/operations/frankf
 import {assert222SourceRowsPreserved} from '../scripts/operations/upgrade222-data.mjs';
 import {assertReady222Catalog,assertReady222Reference} from '../scripts/operations/frankfurt-reference222.mjs';
 import {price222Through220Catalog} from '../scripts/operations/independent-prices222-catalog.mjs';
+import {sourceBeforeOptionalQuantity223} from '../scripts/audit/source-before-optional-quantity223.mjs';
 import {inventory} from '../scripts/audit/table-access-inventory.mjs';
 import {schemaCatalogSql} from '../scripts/testing/schema-catalog.mjs';
 import {realtime151Tables,realtimePublicationSql} from '../scripts/testing/realtime151-contract.mjs';
@@ -38,7 +39,7 @@ test('222 exact catalog rejects injected body/owner/config/ACL and unknown funct
  const bad=structuredClone(catalog);bad.functions.push({...bad.functions[index],identity:'unexpected_writer222()'});assert.throws(()=>assertReady222Catalog(bad));
 });
 test('222 readiness admits the real211 history and forbids only the explicit218/221 reservations',async()=>{
- const proofText=readFileSync('docs/operations/TABLE_ACCESS_AFTER_222.json','utf8').replaceAll('\r\n','\n'),proof=JSON.parse(proofText),manifest=await migrationManifest(process.cwd()),source=await inventory();
+ const proofText=readFileSync('docs/operations/TABLE_ACCESS_AFTER_222.json','utf8').replaceAll('\r\n','\n'),proof=JSON.parse(proofText),manifest=(await migrationManifest(process.cwd())).filter(m=>Number(m.name.slice(0,3))<=222),source=await inventory({projectSource:sourceBeforeOptionalQuantity223});
  assert.ok(manifest.some(m=>m.name.startsWith('211_')));
  const realtimePublication={publication:{owner:'postgres',allTables:false},tables:realtime151Tables.map(name=>({schema:'public',name}))};
  const prefix=(ceiling:number,catalog:object)=>({catalog,catalogSha256:sha256(JSON.stringify(catalog)),appliedVersions:manifest.filter(m=>Number(m.name.slice(0,3))<=ceiling).map(m=>m.name.slice(0,3)),buildUtcDate:proof.startedAt.slice(0,10),realtimePublication});

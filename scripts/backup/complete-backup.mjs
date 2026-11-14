@@ -44,14 +44,24 @@ async function files(root,dir=root){const out=[];for(const e of await readdir(di
 const json=async(s,sql)=>JSON.parse((await s.query(sql)).trim());
 export async function captureEvidence(session){
   const catalog=await json(session,stripTransaction(schemaCatalogSql));
+  const history=await json(session,historySql);
+  const schemas=['public','auth','storage','supabase_migrations','sales_lite1','sales_lite2'];
+  if(history.at(-1)==='223')schemas.push('sales_lite3');
+  const hasCounterSchema=catalog.schemas.some(schema=>schema.name==='sales_lite3');
+  assert.equal(hasCounterSchema,history.at(-1)==='223','BACKUP_COUNTER_SCHEMA_HISTORY_MISMATCH');
+  if(hasCounterSchema){
+    assert.deepEqual(catalog.tables.filter(table=>table.schema==='sales_lite3').map(table=>[table.name,table.kind]),[
+      ['quantity_counters','r'],['quantity_events','r'],['quantity_requests','r'],
+    ],'BACKUP_COUNTER_RELATIONS_MISMATCH');
+  }
   const tables={};
   // Same all-public-row/sequence oracle used by the accepted logical restore tests,
   // extended to Auth, Storage and actual migration history. Contains hashes, no raw rows.
-  for(const table of catalog.tables.filter(t=>['public','auth','storage','supabase_migrations','sales_lite1','sales_lite2'].includes(t.schema)&&['r','p'].includes(t.kind))){
+  for(const table of catalog.tables.filter(t=>schemas.includes(t.schema)&&['r','p'].includes(t.kind))){
     const key=table.schema+'.'+table.name;
     tables[key]=await json(session,`SELECT jsonb_build_object('rows',count(*),'hash',md5(coalesce(string_agg(to_jsonb(t)::text,E'\\n' ORDER BY to_jsonb(t)::text COLLATE "C"),''))) FROM ${qi(table.schema)}.${qi(table.name)} t;`);
   }
-  return {catalog,tables,pgNetSequenceState:await capturePgNetSequenceState(session),roles:await json(session,rolesSql),memberships:await json(session,membershipSql),history:await json(session,historySql),sequences:await json(session,sequencesSql),storage:await json(session,storageSql),preload:(await session.query('SHOW shared_preload_libraries;')).trim()};
+  return {catalog,tables,pgNetSequenceState:await capturePgNetSequenceState(session),roles:await json(session,rolesSql),memberships:await json(session,membershipSql),history,sequences:await json(session,sequencesSql),storage:await json(session,storageSql),preload:(await session.query('SHOW shared_preload_libraries;')).trim()};
 }
 export function assertRestoreEvidence(before,after){
   return assertStrictRestoreComparison(before,after);

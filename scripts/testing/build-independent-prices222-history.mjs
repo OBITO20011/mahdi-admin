@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
 import {readFileSync,writeFileSync,existsSync} from 'node:fs';
 import {canonicalLf,sha256} from './maintenance-db-contract.mjs';
+import {sourceBeforeOptionalQuantity223} from '../audit/source-before-optional-quantity223.mjs';
 import {pathsBeforePriceVisibility,sourceBeforePriceVisibility} from '../audit/source-before-price-visibility.mjs';
 const root=new URL('../../',import.meta.url),baseline='bd4d696af6eef074bfd523ee54906059a0bb668c';
 const output='scripts/audit/independent-prices222-source-pins.json';
@@ -11,10 +12,10 @@ const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',windowsHide:tr
 const paths=pathsBeforePriceVisibility([...new Set([...git(['diff','--name-only','-z',baseline]).split('\0'),...git(['ls-files','--others','--exclude-standard','-z']).split('\0')].filter(Boolean))]).sort();
 const previous=JSON.parse(readFileSync(new URL(output,root),'utf8')),entries={};
 for(const file of paths){
- if(file===output||file.startsWith('docs/agent/ACTIVE_TASK')||file.startsWith('.env'))continue;
+ if(file===output||file==='scripts/audit/optional-quantity223-source-pins.json'||file.startsWith('docs/agent/ACTIVE_TASK')||file.startsWith('.env'))continue;
  assert.match(file,/\.(?:[cm]?[jt]sx?|md|json|yml|yaml|html|ps1|sql|css)$/u,'TEXT_SOURCE_PIN_SCOPE:'+file);
  assert.ok(existsSync(new URL(file,root)),'DELETED_SOURCE_REQUIRES_EXPLICIT_HISTORY:'+file);
- const afterText=sourceBeforePriceVisibility(file,canonicalLf(readFileSync(new URL(file,root),'utf8')));let beforeText=null;
+ const afterText=sourceBeforePriceVisibility(file,sourceBeforeOptionalQuantity223(file,canonicalLf(readFileSync(new URL(file,root),'utf8'))));let beforeText=null;
  if(afterText===null)continue;
  try{beforeText=canonicalLf(git(['show',baseline+':'+file]));}catch{/* Exactly new path. */}
  const pin={before:beforeText===null?null:sha256(beforeText),after:sha256(afterText),beforeText};

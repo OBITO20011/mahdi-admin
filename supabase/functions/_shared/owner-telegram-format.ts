@@ -88,6 +88,8 @@ export function formatOwnerMessage($json:OwnerEvent):string {
   const lines=[title,'رقم الطلب: '+h(p.orderNumber)];
   if(t==='new_order')lines.push('الإجمالي: '+m(p.totalInMinorUnits),'الدفع: '+(p.paymentMethod==='cliq'?'CliQ':p.paymentMethod==='cash_on_delivery'?'كاش عند الاستلام':missing));
   sections=[lines.join('\n')];
+ }else if((t==='low_stock'||t==='out_of_stock')&&p.quantitySource==='sales_only_counter'&&p.accountingTracked===false){
+  sections=[[t==='out_of_stock'?'<b>🔴 نفدت الكمية المسجلة</b>':'<b>🟠 الكمية المسجلة قربت تخلص</b>','الصنف: '+h(p.productName),'الرمز: '+h(p.sku),'الكمية: '+q(p.availableQuantity,p.unitName),'حد التنبيه: '+q(p.thresholdQuantity,p.unitName),'عدّاد الكمية الاختياري'].join('\n')];
  }else if(t==='low_stock'||t==='out_of_stock')sections=[[title,'الصنف: '+h(p.productName),'المتاح: '+h(available(),480),'حد التنبيه: '+q(p.thresholdQuantity,p.unitName||p.baseUnitName),'المستودع: '+h(p.warehouseName)].join('\n')];
  else if(t==='shift_closed'){
   const absolute=integer(p.cashDiscrepancyAbsoluteInMinorUnits??p.cashDiscrepancyInMinorUnits);
@@ -108,7 +110,10 @@ export function formatOwnerKeyboard($json:OwnerEvent):OwnerKeyboard {
  const p=$json.payload||{},t=$json.eventType;
  const uuid=(x:unknown):x is string=>typeof x==='string'&&/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(x);
  const base='https://admin.alnawasreh.com/';let text='',path='';
- if(['low_stock','out_of_stock'].includes(t)&&uuid(p.productId)){text='افتح المخزون';path='?screen=inventory';}
+ if(['low_stock','out_of_stock'].includes(t)&&uuid(p.productId)){
+  const counter=p.quantitySource==='sales_only_counter'&&p.accountingTracked===false;
+  text=counter?'افتح الإدارة':'افتح المخزون';path=counter?'':'?screen=inventory';
+ }
  else if(uuid($json.entityId)){
   if(['new_order','order_unprocessed','order_near_expiry','order_expired'].includes(t)){text='افتح الطلب';path='?screen=orders&order='+encodeURIComponent($json.entityId);}
   else if(['cheque_due','cheque_returned'].includes(t)){text='افتح الشيكات';path='?screen=cheques';}
