@@ -47,7 +47,7 @@ test('deferred pages keep existing components and all cart financial/recovery fu
  // Owner14Nov: OFF cards pass an optional animation source into the existing
  // single-unit handler. Unwind exactly its signature/call,then compare all
  // five financial/recovery bodies including their unknown-byte mutations.
- const priceCardBodyView=(text:string)=>{
+ const priceCardBodyView=(text:string):Record<string,string>=>{
   const out=bodies(text),signature='(product: CatalogProduct, requestedQuantity = 1, source?: HTMLElement) =>';
   assert.equal(out.addBaseUnitToCart.split(signature).length,2);
   assert.equal(out.addBaseUnitToCart.split('showCartAddition(source)').length,2);
