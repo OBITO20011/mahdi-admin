@@ -3,99 +3,11 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/project-state.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/design/independent-parcel-prices222/tool222-source-pins.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/MAINTAINER_GUIDE_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_AUDIT.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "e2e/sales-only-phase2-product-form.spec.ts"
-    },
-    {
-      "code": " M",
       "path": "scripts/audit/independent-prices222-source-pins.json"
     },
     {
       "code": " M",
-      "path": "scripts/audit/run-service-access-diagnostic.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/reset220-foundation.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/reset222-foundation.mjs"
-    },
-    {
-      "code": " M",
       "path": "scripts/testing/product-workbook-runtime-view.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/bulk-product-images-contracts.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/lite220-historical-test-view.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/migration-integrity.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/mobile-back-contracts.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/operational-schema.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/owner-tools220.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/sales-only-phase1.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/sales-only-phase2-import.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/sales-only-phase3-history.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/service-access-inventory.test.ts"
     }
   ]
 }

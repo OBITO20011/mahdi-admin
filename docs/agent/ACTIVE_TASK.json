@@ -3,7 +3,7 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner14Nov approved3-4days:OFF independent single/parcel prices;222 only,221reserved;Draft97/FULLCI/Gitleaks;only after greenCI no-reset iPhone demo update. No merge/hosted/deploy/ON behavior change.",
-  "baselineSha": "7fca59b8adbcc6c5327152a20a8a130c78fad5aa",
+  "baselineSha": "39309f074bbf1c6ed37cb8952e0c6f971d686f64",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/parcel-independent-price",
   "phase": "PARCEL_INDEPENDENT_PRICE",
@@ -19,7 +19,8 @@
     "Milestone7fca59b8 pushed;full strictlint0/preflight0;stagedGitleaks0 for both operational milestones.",
     "Current222 inventories rebound to actual181HTTP/720RPC evidence;historical138-220 proofs retained. 70/71 focused plus corrected phase3/history focused20/20 PASS;new strict negative legacy220 dependency case4/4 PASS.",
     "Legacy220 exact metadata-policy RED reproduced at222;literal220 admission restored without unknown-policy relaxation. Actual RESET22031.3s+3resumes21.1/21.7/22.4s PASS,rawAuth/MFA/ACL/pgNet preserved;owned Docker only.",
-    "Both applications full types0 and root strictlint0;adapted OFF editor6/6 Chromium/WebKit390 PASS,zero retries. Workbook Git63 history direct43.2s exit0 under unchanged120s."
+    "Both applications full types0 and root strictlint0;adapted OFF editor6/6 Chromium/WebKit390 PASS,zero retries. Workbook Git63 history direct43.2s exit0 under unchanged120s.",
+    "Committed39309f07 disposable historical runtime-view preparation58.99s PASS194exact substitutions;literal219source/181rolecoverage validated;current runners/owner tools retained,ownedcopycleaned.20focusedhistory/currentadapterunitsPASS."
   ],
   "inProgress": [
     "Finish exact committed legacy runtime-view proof and full units;push verified milestone then final FULLCI/Gitleaks."
@@ -45,13 +46,13 @@
     "No old tables/sales209/220/ON changes"
   ],
   "evidence": "C:/Users/TOP/NawasrahLocalValidation/parcel-independent-price-20261114",
-  "nextExactAction": "Committed compatibility repairs: prove disposable Git63 runtime view then full units at concurrency4 with original assertions/timeouts; push then exact-headFULLCI;demo remains untouched until green.",
+  "nextExactAction": "Run full units at process concurrency4 with all original limits/assertions;push exacthead then fullCI;postCI-only demo222 without reset.",
   "activeProcesses": [],
-  "checkpointedAt": "2026-11-14T02:59:07.615Z",
+  "checkpointedAt": "2026-11-14T03:01:51.742Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 24,
-  "filesTouchedManifestSha256": "9404d4cb0b0bf94da430bb26c8f0b0253a6a12831440259fc234ee5347dba9d8",
-  "workingTreeFingerprint": "BC90EA91823EA35EE578E9556BC24BCBE3356C831486195F37AF51B47B754963"
+  "filesTouchedCount": 2,
+  "filesTouchedManifestSha256": "f82325c5b129cf049cf1ac9d0dc43d0aa86758de8ab5588337cd086f64369eaf",
+  "workingTreeFingerprint": "1EBA6344353FB177885817B3F29755F2AAC6396ED057CFDB4A2C0AF71C45208E"
 }
