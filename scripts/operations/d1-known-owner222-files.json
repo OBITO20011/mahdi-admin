@@ -1,6 +1,6 @@
 {
   "format": 2,
-  "description": "Known owner bytes remain exact;project-state accepts only branch=main and the four reviewed ownerAcl212 delivery values by value hash over current HEAD220 state.",
+  "description": "Known owner bytes remain exact;project-state accepts only branch=main and the four reviewed ownerAcl212 delivery values by value hash over current HEAD222 state.",
   "files": [
     {
       "file": "docs/agent/ACTIVE_TASK.json",

@@ -3,10 +3,15 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {assert222History,upgrade222Arguments} from '../scripts/operations/frankfurt-owner-upgrade222.mjs';
 import {assert222SourceRowsPreserved} from '../scripts/operations/upgrade222-data.mjs';
-import {assertReady222Catalog} from '../scripts/operations/frankfurt-reference222.mjs';
+import {assertReady222Catalog,assertReady222Reference} from '../scripts/operations/frankfurt-reference222.mjs';
+import {price222Through220Catalog} from '../scripts/operations/independent-prices222-catalog.mjs';
+import {inventory} from '../scripts/audit/table-access-inventory.mjs';
+import {schemaCatalogSql} from '../scripts/testing/schema-catalog.mjs';
+import {realtime151Tables,realtimePublicationSql} from '../scripts/testing/realtime151-contract.mjs';
+import {frankfurt220TriggerAcl} from '../scripts/operations/frozen220-trigger-acl.mjs';
 import {reset222Arguments} from '../scripts/operations/frankfurt-owner-reset222.mjs';
 import {assertSupportedResetReference} from '../scripts/operations/operational-schema.mjs';
-import {manifestDigest,migrationManifest} from '../scripts/testing/maintenance-db-contract.mjs';
+import {manifestDigest,migrationManifest,sha256} from '../scripts/testing/maintenance-db-contract.mjs';
 import {verifyD1Ci} from '../scripts/operations/d1-reference222-ci.mjs';
 import {predecessor220Jobs,owner220DeliveryJobs} from '../scripts/operations/d1-reference220-ci.mjs';
 
@@ -19,7 +24,7 @@ test('222 admits precisely complete220 then222 and rejects the reserved221 or tr
 });
 test('222 source preservation covers lite/public/Auth rows;not only former full tables',()=>{
  const tables={'public.products':{rows:10,hash:'products'},'sales_lite1.mode':{rows:1,hash:'OFF'},'sales_lite1.returns':{rows:2,hash:'refunds'},'auth.users':{rows:1,hash:'owner'},'supabase_migrations.schema_migrations':{rows:181,hash:'220'}};
- const after={tables:{...tables,'supabase_migrations.schema_migrations':{rows:182,hash:'222'}}};assert222SourceRowsPreserved({tables},after);
+ const after:{tables:Record<string,{rows:number,hash:string}>}={tables:{...tables,'supabase_migrations.schema_migrations':{rows:182,hash:'222'}}};assert222SourceRowsPreserved({tables},after);
  for(const name of Object.keys(tables).filter(n=>n!=='supabase_migrations.schema_migrations')){const bad=structuredClone(after);bad.tables[name].hash='changed';assert.throws(()=>assert222SourceRowsPreserved({tables},bad),/ANY_EXISTING_ROWS_CHANGED/);}
 });
 test('versioned220 reference remains exact prefix;future SQL and an altered prefix are never admitted',async()=>{
@@ -31,6 +36,15 @@ test('222 exact catalog rejects injected body/owner/config/ACL and unknown funct
  const index=catalog.functions.findIndex((f:{identity:string})=>f.identity.startsWith('update_product_master_v6('));assert.ok(index>=0);
  for(const field of ['definition','owner','configuration','acl']){const bad=structuredClone(catalog);bad.functions[index][field]=field==='definition'?bad.functions[index][field]+' ':field==='owner'?'unapproved':field==='configuration'?['search_path=public']:['=X/postgres'];assert.throws(()=>assertReady222Catalog(bad));}
  const bad=structuredClone(catalog);bad.functions.push({...bad.functions[index],identity:'unexpected_writer222()'});assert.throws(()=>assertReady222Catalog(bad));
+});
+test('222 readiness admits the real211 history and forbids only the explicit218/221 reservations',async()=>{
+ const proofText=readFileSync('docs/operations/TABLE_ACCESS_AFTER_222.json','utf8').replaceAll('\r\n','\n'),proof=JSON.parse(proofText),manifest=await migrationManifest(process.cwd()),source=await inventory();
+ assert.ok(manifest.some(m=>m.name.startsWith('211_')));
+ const realtimePublication={publication:{owner:'postgres',allTables:false},tables:realtime151Tables.map(name=>({schema:'public',name}))};
+ const prefix=(ceiling:number,catalog:object)=>({catalog,catalogSha256:sha256(JSON.stringify(catalog)),appliedVersions:manifest.filter(m=>Number(m.name.slice(0,3))<=ceiling).map(m=>m.name.slice(0,3)),buildUtcDate:proof.startedAt.slice(0,10),realtimePublication});
+ const final=prefix(222,proof.catalog),reference={format:32,migrationCeiling:222,functions:683,manifest,manifestDigest:manifestDigest(manifest),...final,catalogQuerySha256:sha256(schemaCatalogSql),realtimeQuerySha256:sha256(realtimePublicationSql),realtimeSha256:sha256(JSON.stringify(realtimePublication)),prefixes:{220:prefix(220,price222Through220Catalog(proof.catalog)),222:final},frankfurtFrozenTriggerAcl:frankfurt220TriggerAcl,freshIncrementalDifferenceCount:0,readiness:{sourceHashes:source.sources,accessEvidenceSha256:sha256(proofText),coverage:proof.coverage,queries:proof.results.length,errors:0}};
+ assertReady222Reference(reference,manifest,proofText,source);
+ for(const reserved of ['218','221']){const bad=[...manifest.slice(0,-1),{name:reserved+'_unapproved.sql',sha256:'0'.repeat(64)},manifest.at(-1)!];assert.throws(()=>assertReady222Reference(reference,bad,proofText,source));}
 });
 test('D1 requires all existing FULL workflows plus both exact-head222 jobs;missing/red/skipped/stale is refused',async()=>{
  const head='a'.repeat(40),names=['Nawasrah code quality','Nawasrah secret scanning','Nawasrah complete backup recovery','Nawasrah lite220 owner tools','Quarantined sales-only phase1','Nawasrah independent prices222'];

@@ -7,7 +7,19 @@
     },
     {
       "code": " M",
-      "path": "docs/generated/DB_FUNCTIONS.md"
+      "path": "docs/handover/ورقة-يوم-التشغيل.html"
+    },
+    {
+      "code": " M",
+      "path": "docs/handover/ورقة-يوم-التشغيل.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/independent-prices222-source-pins.json"
     },
     {
       "code": " M",
@@ -19,183 +31,83 @@
     },
     {
       "code": " M",
-      "path": "scripts/audit/source-before-sales-only-phase3.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/build-acl-reference220.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-owner-reset220.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-owner-upgrade220.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-reference220.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/function-reference220.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/reset220-pg-cron-guard.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/trial-reset220-core.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/build-reset220-engine.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/generate-sales-only220-catalog-pins.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/product-edit-conflict.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "docs/design/independent-parcel-prices222/catalog222-pins.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/design/independent-parcel-prices222/tool222-source-pins.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_222.json"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/independent-prices222-source-pins.json"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/source-before-independent-prices222.mjs"
-    },
-    {
-      "code": "??",
       "path": "scripts/operations/build-acl-reference222.mjs"
     },
     {
-      "code": "??",
+      "code": " M",
       "path": "scripts/operations/d1-known-owner222-files.json"
     },
     {
-      "code": "??",
+      "code": " M",
       "path": "scripts/operations/d1-reference222-ci.mjs"
     },
     {
-      "code": "??",
-      "path": "scripts/operations/d1-reference222-install.ps1"
-    },
-    {
-      "code": "??",
+      "code": " M",
       "path": "scripts/operations/d1-reference222-kit.mjs"
     },
     {
-      "code": "??",
-      "path": "scripts/operations/d1-reference222-kit.ps1"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/d1-reference222-state.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/frankfurt-owner-reset222.mjs"
-    },
-    {
-      "code": "??",
+      "code": " M",
       "path": "scripts/operations/frankfurt-owner-upgrade222.mjs"
     },
     {
-      "code": "??",
+      "code": " M",
       "path": "scripts/operations/frankfurt-reference222.mjs"
     },
     {
-      "code": "??",
-      "path": "scripts/operations/function-reference222.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/independent-prices222-capture.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/independent-prices222-catalog.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/reset222-foundation.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/reset222-pg-cron-guard.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/reset222-private-state.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/reset222-session.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/reset222-write-guard.mjs"
-    },
-    {
-      "code": "??",
+      "code": " M",
       "path": "scripts/operations/trial-reset222-core.mjs"
     },
     {
-      "code": "??",
-      "path": "scripts/operations/upgrade222-data.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/upgrade222-protection.mjs"
-    },
-    {
-      "code": "??",
+      "code": " M",
       "path": "scripts/testing/build-independent-prices222-history.mjs"
     },
     {
-      "code": "??",
+      "code": " M",
       "path": "scripts/testing/build-independent-prices222-tools.mjs"
     },
     {
-      "code": "??",
-      "path": "scripts/testing/capture-independent-prices222-catalog.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/generate-independent-prices222-catalog.mjs"
-    },
-    {
-      "code": "??",
+      "code": " M",
       "path": "scripts/testing/independent-prices222-local.mjs"
     },
     {
-      "code": "??",
-      "path": "tests/d1-reference222-kit.test.ts"
+      "code": " M",
+      "path": "scripts/testing/render-lite220-cutover.mjs"
     },
     {
-      "code": "??",
+      "code": " M",
       "path": "tests/independent-prices222-operations.test.ts"
     },
     {
+      "code": " M",
+      "path": "tests/lite220-handover.test.ts"
+    },
+    {
       "code": "??",
-      "path": "tests/independent-prices222-projection.test.ts"
+      "path": ".github/workflows/independent-prices222.yml"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/D1_REFERENCE_KIT222_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/RESET222_OWNER_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/SERVICE_ACCESS_AFTER_222.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/UPGRADE222_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-owner-upgrade222-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-reset222-runtime.mjs"
     }
   ]
 }

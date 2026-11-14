@@ -47,7 +47,7 @@ async function verify222Prefix(executor,output,reference,version,runtime,report)
  await writeFile(path.join(output,'runtime-state.json'),JSON.stringify(runtime,null,2)+'\n');
  const comparison=await persistCatalogComparison(output,expected,observed,dates,report);assert.equal(comparison.unexpectedDifferenceCount,0,'UPGRADE222_UNEXPECTED_CATALOG_DIFFERENCE');
  const acl=compareApplicationAcl(expected,observed);await writeFile(path.join(output,'application-acl-comparison.json'),JSON.stringify(acl,null,2)+'\n');assert.equal(acl.ok,true,'UPGRADE222_ACL_MISMATCH');
- if(version==='220')assertReady220Catalog(observed);else assertReady222Catalog(observed,{notificationTriggerEnabled:runtime.notifications.trigger.enabled});
+ if(version==='220')assertReady220Catalog(observed,{notificationTriggerEnabled:runtime.notifications.trigger.enabled});else assertReady222Catalog(observed,{notificationTriggerEnabled:runtime.notifications.trigger.enabled});
  assert.deepEqual(await readRealtimePublication(executor),prefix.realtimePublication,'UPGRADE222_PUBLICATION_CHANGED');
  assert.deepEqual(await capture222RuntimeState(executor,reference),runtime,'UPGRADE222_RUNTIME_STATE_CHANGED');
  report.catalogUnexpectedDifferenceCount=0;report.runtimeStatePreserved=true;return observed;
@@ -67,7 +67,7 @@ export async function upgrade222WithExecutor({executor,reference,output,repair,f
  const after=await read222SourceEvidence(executor);
  // Only the officially recorded history row and reviewed DDL may differ.
  for(const key of ['roles','memberships','sequences','storage','pgNetSequenceState','preload'])assert.deepEqual(after[key],before[key],'UPGRADE222_PROTECTED_STATE_CHANGED:'+key);
- assert222SourceRowsPreserved(before,after,reference);
+ assert222SourceRowsPreserved(before,after);
  await finalDryRun();Object.assign(report,{ok:true,complete:false,protectionPending:true,realtimeMembers:13,allBusinessRowsPreserved:true,nextAction:'BACKUP222_THEN_ISOLATED_RESTORE_THEN_VERIFY_ONLY'});return report;
 }
 export async function offline222(args){

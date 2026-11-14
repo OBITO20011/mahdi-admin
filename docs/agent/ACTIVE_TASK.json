@@ -2,63 +2,50 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner14Nov:OFF independent parcel/single prices; approved revised3-4days; new222 excluding221; Draft PR/fullCI/Gitleaks, post-CI no-reset demo update; no merge/hosted/deploy.",
-  "baselineSha": "06b3c4c31f83415a696b465db71262b4bbeabe0e",
+  "objective": "Owner14Nov approved3-4days:OFF independent single/parcel prices;222 only,221reserved;Draft97/FULLCI/Gitleaks;only after greenCI no-reset iPhone demo update. No merge/hosted/deploy/ON behavior change.",
+  "baselineSha": "3e086b4c8a41c21a110e20c1bf39ea6bc8c79de2",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/parcel-independent-price",
   "phase": "PARCEL_INDEPENDENT_PRICE",
   "startedAt": "2026-11-13T22:50:15.381Z",
   "completed": [
-    "Owner explicitly approved revised3-4day estimate.",
-    "New222 three public writers/private validator;historical209/220/680functions unchanged in actualPG.",
-    "Actual explicit-price/create/family/ACL/CAS/audit/discountedPOS/oldreceipt+refund rollback proofs pass.",
-    "3pure price/workbook/conflict units pass;Admin typecheck0.",
-    "First implementation milestone145ba891 pushed to GitHub;not finalCI.",
-    "OFF UI/import price dispatch+price preview;real service adapter loss/resume10units PASS.",
-    "54unique browser cases pass across completed groups (48/50 then corrected ON selector2/2;newconversion2/import2);no automatic retries.",
-    "ActualPG:independentprices/familyedit/audit/CAS/5atomicrefusals/receipt+refund rollback;real2writer lock race;actualPOS+guest mixed discount withdelivery PASS.",
-    "Current final workbook d9ed1c82... unchanged;750roots/108families/444flavors,parser0errors,allN1prices exact.",
-    "Source-frozen review:Admin types0/store types0/changed-source strictlint0 (CORE_LOCAL_REVIEW.json).",
-    "Fresh222 versus incremental220-to222 fullcatalog0differences;683public+39private;exact old220reference renderedSHA retained.",
-    "ActualHTTP222 181reads:172success9empty0errors;15focusedD1/catalog/history/source-preservation tests PASS."
+    "Core06b3c4c3:actual writers/family/ACL/CAS/audit/oldreceipt+refund/mixedPOS+guestdelivery/real2writer race PASS;54unique Chromium/WebKit mobile cases across saved groups;current workbook d9ed1c82 unchanged,750roots/108families/444flavors/parser0errors.",
+    "Fresh versus incremental222 fullcatalog0diff;683public/39private;old220catalog and rendered220referenceSHA unchanged;222SQL bcf55b1f...ff84a68.",
+    "ActualHTTP181reads:172success9empty0errors;RPC720dispatch/18expecteddenials;ready222 built locally,unapproved/uninstalled.",
+    "Actual220Backup/strictRestore ->222apply ->222Backup/strictRestore ->verify-only PASS;6negative cases;allbusiness/Auth/private rows/pgNet preserved.",
+    "RESET222ordinary31.1sec +3resume cases26.6-29.7sec PASS;rawAuth/MFA/large money/4FrankfurtACL/pgNet/history182;badcronhold/snapshotfailure/foreignprivatewrite refused.",
+    "Admin fulltypes0 after3newtest type fixes;fullstrictlint0 beforelast helper/doc additions;current cutoverHTML2A4 pages1010/891px under1046px with original fonts.",
+    "Milestone3e086b4c pushed;preflight0 and staged Gitleaks0 at that milestone."
   ],
   "inProgress": [
-    "Versioned222 RESET/D1/upgrade adapters generated;real protection/RESET/service-access/CI pending."
+    "Final historical/current unit compatibility,full types/strictlint/FULLCI/Gitleaks and docs."
   ],
   "notStarted": [
-    "Final reference222 and actual upgrade/RESET/strictBackupRestore proofs",
-    "Fullunits/types/strictlint/FULLCI/Gitleaks",
-    "Only after FULLCIgreen:no-reset ownerdemo222/build/oneproduct restore"
-  ],
-  "testsPassed": [
-    "New222 three public writers/private validator;historical209/220/680functions unchanged in actualPG.",
-    "Actual explicit-price/create/family/ACL/CAS/audit/discountedPOS/oldreceipt+refund rollback proofs pass.",
-    "3pure price/workbook/conflict units pass;Admin typecheck0."
+    "Only after FULLCIgreen:owner demo222 literal/noreset,build,oneproduct UI test/restore,sameAuth/TOTP/private/TLS."
   ],
   "testsRemaining": [
-    "Current access/generatedcatalog/ready222/reference/fresh-incremental/reset/backup/history/protection",
-    "All units with exact historical inverses",
-    "FullCI/Gitleaks",
-    "After fullgreenCI only:non-reset demo222/build/oneproducttest/restore"
+    "All units with exact historical inverse;typesboth/strictlint on final source;FULLCI exacthead;finalGitleaks."
   ],
   "findings": [
-    "Parser currently enforces derived single price and importer must preserve explicit price.",
-    "Proposed222 (221 reserved) affects strict operational ceiling/reference/RESET paths.",
-    "All new/modified OFF wording must use actual unit, fallback packet; ON unchanged.",
-    "Owner explicitly approved revised3-4day estimate in text reply14Nov.",
-    "No ON application/DB behavior changes;ON configuration tests retain old label and writer.",
-    "221 remains reserved,never treated as applied by222;accounting activation remains forbidden.",
-    "Existing conversion reference price is visible/editable and defaults ceiling-to-fils;single sale stays disabled and old parcel price unchanged."
+    "222adds3publicwriters+1privatevalidator only;209/220/680existing functions unchanged;ON staysoldwriters.",
+    "221 remains reserved and accountingactivation forbidden;no backfill.",
+    "Concurrent CLI starts twice exited1 beforeSQL without a proved culprit;isolated serial runs pass;test-only start/stop lease now refuses overlap,no business retries.",
+    "Newready-reference reserved-number regex typo caught RED thenGREEN;211 retained,only218/221 excluded."
   ],
   "blockers": [],
-  "prohibitions": [],
-  "nextExactAction": "Finish actual222 RPC/access and ready reference;real encrypted protection/RESET;legacy220 compatibility;fullunits/types/lint/FULLCI/Gitleaks;only then no-reset demo update.",
+  "prohibitions": [
+    "No merge,hosted/Frankfurt/preview/deploy/accountingactivation",
+    "No owneroriginal/private/env/TOTP/TLS changes before authorized postCI demo step",
+    "No old tables/sales209/220/ON changes"
+  ],
+  "evidence": "C:/Users/TOP/NawasrahLocalValidation/parcel-independent-price-20261114",
+  "nextExactAction": "Quiet full units from full-units222.mjs;repair narrow current/historical contracts preserving guards;final typesboth/strictlint/FULLCI/Gitleaks;then and only then no-reset iPhone demo222 update/test/restore.",
   "activeProcesses": [],
+  "checkpointedAt": "2026-11-14T02:19:52.301Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "94EC63A41BC0E12F0F786D0530E2EC2982FC93AB611676518307C69C15E27647",
-  "checkpointedAt": "2026-11-14T01:21:27.665Z",
-  "filesTouchedCount": 49,
-  "filesTouchedManifestSha256": "65896dd2291ccf9bee99a6d1da05c197b59b81e758d382f25c2e5795e9c58ce5"
+  "filesTouchedCount": 27,
+  "filesTouchedManifestSha256": "6eab37feeed76680a64f690ca8649c17c51b5deea204db83b333139038602cd8",
+  "workingTreeFingerprint": "D444CAE218A7C76F47971402C973A44FA92E8A6DD911E45EB15CD363B485DD63"
 }

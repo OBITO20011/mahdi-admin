@@ -26,7 +26,7 @@ export async function buildReady222Reference(args=[]){
   const reference={format:32,migrationCeiling:222,frankfurtFrozenTriggerAcl:frankfurt220TriggerAcl,manifest,manifestDigest:manifestDigest(manifest),...final,postgresVersion:captured.postgresVersion,catalogQuerySha256:sha256(schemaCatalogSql),functions:captured.functions,realtimeQuerySha256:sha256(realtimePublicationSql),realtimeSha256:sha256(JSON.stringify(final.realtimePublication)),prefixes:captured.prefixes,freshIncrementalDifferenceCount:0,notificationSnapshot:captured.notificationSnapshot,cronAudit:captured.cronAudit,readiness:{sourceHashes:source.sources,accessEvidenceSha256:sha256(proofText),coverage:proof.coverage,queries:proof.results.length,errors:0}};
   assertReady222Reference(reference,manifest,proofText,source);assert.deepEqual((await inventory()).sources,source.sources);assertVerificationSourceFreeze(freeze,await readVerificationSourceFreeze(root));
   await writeFile(target,JSON.stringify(reference,null,2)+'\n',{flag:'wx'});Object.assign(report,{ok:true,repositoryStayedFrozen:true,migrations:182,functions:683,realtimeMembers:13,freshIncrementalDifferenceCount:0});
- }catch(error){report.error=String(error.message);throw error;}
+ }catch(error){report.error=String(error.message);report.bootstrapDiagnostic=error.localBootstrapDiagnostic??null;throw error;}
  finally{await writeFile(path.join(output,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));}
  return report;
 }

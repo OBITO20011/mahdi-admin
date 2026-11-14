@@ -7,7 +7,7 @@ const root=new URL('../../',import.meta.url),baseline='bd4d696af6eef074bfd523ee5
 const output='scripts/audit/independent-prices222-source-pins.json';
 assert.ok(process.argv.length===2||process.argv.length===3&&process.argv[2]==='--check','ONLY_CHECK_OPTION');
 const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',windowsHide:true,stdio:['ignore','pipe','pipe'],maxBuffer:32*1024**2});
-const paths=[...new Set((git(['diff','--name-only',baseline])+'\n'+git(['ls-files','--others','--exclude-standard'])).split(/\r?\n/u).filter(Boolean))].sort();
+const paths=[...new Set([...git(['diff','--name-only','-z',baseline]).split('\0'),...git(['ls-files','--others','--exclude-standard','-z']).split('\0')].filter(Boolean))].sort();
 const previous=JSON.parse(readFileSync(new URL(output,root),'utf8')),entries={};
 for(const file of paths){
  if(file===output||file.startsWith('docs/agent/ACTIVE_TASK')||file.startsWith('.env'))continue;

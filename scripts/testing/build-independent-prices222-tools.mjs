@@ -21,6 +21,7 @@ for(const name of ['reset220-foundation','reset220-write-guard','reset220-privat
   text=once(text,'219:reset219Marker,220:reset222Marker','219:reset219Marker,220:reset220Marker,222:reset222Marker');
  }
  if(name==='trial-reset220-core'){
+  text=once(text,'// Independent220 engine: literal219 engine plus pinned private-schema scope.','// Independent222 engine: reviewed220 retention/private fence plus four additive functions.');
   text=text.replaceAll('assertSupportedResetReference','assertCurrentResetReference');
   text=once(text,'ceiling:220,files:181','ceiling:222,files:182');
   text=text.replaceAll('policy.ceiling===220','policy.ceiling===222');
@@ -42,15 +43,18 @@ for(const file of ['d1-reference220-state.mjs','d1-reference220-kit.mjs','d1-ref
  let text=await source(file);
  text=text.replaceAll('d1-reference220','d1-reference222').replaceAll('d1-known-owner220','d1-known-owner222');
  if(file.endsWith('-state.mjs'))text=once(text,"state.migrationCeiling===220,'D1_CEILING220_REQUIRED'","state.migrationCeiling===222,'D1_CEILING222_REQUIRED'");
+ if(file==='d1-known-owner220-files.json')text=once(text,'current HEAD220 state','current HEAD222 state');
  if(file==='d1-reference220-kit.mjs'){
   for(const [from,to]of [['through220','through222'],['reset220','reset222'],['Reset220','Reset222'],['RESET220','RESET222'],['frankfurt-reference220','frankfurt-reference222'],['readReady220','readReady222'],['function-reference220','function-reference222'],['build-acl-reference220','build-acl-reference222'],['TABLE_ACCESS_AFTER_220','TABLE_ACCESS_AFTER_222'],['frankfurt-owner-reset220','frankfurt-owner-reset222']])text=text.replaceAll(from,to);
   text=once(text,'ref.migrationCeiling===220&&ref.manifest.length===181&&ref.functions===680','ref.migrationCeiling===222&&ref.manifest.length===182&&ref.functions===683');
   text=once(text,'migrations:181,functions:680','migrations:182,functions:683');
   text=text.replaceAll('220/181 ملفاً/680','222/182 ملفاً/683');
+  text=once(text,'النواة trial-reset214-core','النواة trial-reset222-core');
+  text=once(text,'النواة trial-reset-core','النواة reset222-foundation');
   text=once(text,'[214,215,216,217,219,220]','[214,215,216,217,219,220,222]');
   text=once(text,"'docs/operations/RESET222_BEFORE_D1_READ_ONLY.sql'","'docs/operations/RESET220_BEFORE_D1_READ_ONLY.sql','scripts/operations/independent-prices222-catalog.mjs','docs/design/independent-parcel-prices222/catalog222-pins.json','scripts/operations/independent-prices222-capture.mjs','scripts/testing/independent-prices222-local.mjs'");
  }
  outputs.set(file.replaceAll('220','222'),text);
 }
 for(const [file,text]of outputs){const url=new URL('scripts/operations/'+file,root);if(check)assert.equal(canonicalLf(await readFile(url,'utf8')),text,'GENERATED222_TOOL_DRIFT:'+file);else await writeFile(url,text);}
-console.log(JSON.stringify({ok:true,checkOnly:check,files:[...outputs.keys()],base220Unmodified:true}));
+console.log(JSON.stringify({ok:true,checkOnly:check,files:[...outputs.keys()],generationDoesNotWriteBase220:true}));

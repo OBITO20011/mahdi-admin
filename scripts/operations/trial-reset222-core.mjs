@@ -1,4 +1,4 @@
-// Independent220 engine: literal219 engine plus pinned private-schema scope.
+// Independent222 engine: reviewed220 retention/private fence plus four additive functions.
 import {assertReady222Catalog} from './frankfurt-reference222.mjs';
 // Versioned retained resets214/215/216 share the same write fence and resume
 // engine. Raw settings stay in protected external retention; Auth/MFA only hashes.

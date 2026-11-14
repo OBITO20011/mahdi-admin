@@ -15,7 +15,7 @@ export {assertReady222Catalog};
 export const ready222Ceiling=222,ready222ReferenceName='local-reference-through222-ready.json';
 export function assertReady222Reference(reference,manifest,proofText,source){
  assert.equal(reference.format,32);assert.equal(reference.migrationCeiling,222);assert.equal(manifest.length,182);assert.equal(manifest.at(-1).name,independentPrices222Name);
- assert.ok(!manifest.some(m=>/^21[18]_/u.test(m.name)),'PRICES222_RESERVED_HISTORY_REQUIRED');
+ assert.ok(!manifest.some(m=>/^(?:218|221)_/u.test(m.name)),'PRICES222_RESERVED_HISTORY_REQUIRED');
  assert.deepEqual(reference.manifest,manifest);assert.equal(reference.manifestDigest,manifestDigest(manifest));assert.deepEqual(reference.appliedVersions,manifest.map(m=>m.name.slice(0,3)));
  assert.equal(reference.catalogQuerySha256,sha256(schemaCatalogSql));assert.equal(reference.catalogSha256,sha256(JSON.stringify(reference.catalog)));
  assert.equal(reference.realtimeQuerySha256,sha256(realtimePublicationSql));assert.equal(reference.realtimeSha256,sha256(JSON.stringify(reference.realtimePublication)));
