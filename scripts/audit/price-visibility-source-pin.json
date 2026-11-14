@@ -741,6 +741,22 @@
       "after": "95edc0226a212a63b8e3ae48463d535e0d7bd07ed3ce39b43fea7f489541d13d",
       "hunks": []
     },
+    "scripts/testing/product-workbook-runtime-view.mjs": {
+      "before": "bbd892df5f909a4edf4b3e8bea382f07c5699962ba32ecd184dbc8b0e1a16bab",
+      "after": "0cc9dc5325ba778ee9af141b734f40c1ce59a588ed32980e149c8d803a18d5f3",
+      "hunks": [
+        {
+          "before": "import{sourceBeforeIndependentPrices222}from'../audit/source-before-independent-prices222.mjs';\nimport{sourceBeforeSalesOnlyPhase3,pathsBeforeSalesOnlyPhase3,salesOnlyPhase3Pins}from'../audit/source-before-sales-only-phase3.mjs';\nimport{pathsBeforeD1Kit}from'../audit/source-before-d1-reference-kit.mjs';\n// Historical CI fixtures only. Owner tools and every SQL byte stay unmodified.\n",
+          "after": "import{sourceBeforeIndependentPrices222}from'../audit/source-before-independent-prices222.mjs';\nimport{sourceBeforePriceVisibility}from'../audit/source-before-price-visibility.mjs';\nimport{sourceBeforeSalesOnlyPhase3,pathsBeforeSalesOnlyPhase3,salesOnlyPhase3Pins}from'../audit/source-before-sales-only-phase3.mjs';\nimport{pathsBeforeD1Kit}from'../audit/source-before-d1-reference-kit.mjs';\n// Historical CI fixtures only. Owner tools and every SQL byte stay unmodified.\n",
+          "offset": 0
+        },
+        {
+          "before": "  git(['clone','--shared','--no-checkout',root,dir]);git(['update-ref','--no-deref','HEAD',head],dir);git(['read-tree',head],dir);await writeFile(path.join(dir,'.git/info/exclude'),'\\n/node_modules\\n/.workbook-runtime-view.json\\n',{flag:'a'});assert.equal(git(['rev-parse','HEAD'],dir).toString('utf8').trim(),head);\n  // Git materializes raw objects without buffering a full archive or tar filename conversion.\n  git(['config','core.autocrlf','false'],dir);git(['checkout-index','--all'],dir);await noLinks(dir);await writeFile(path.join(dir,'.workbook-runtime-view.json'),JSON.stringify(marker));\n  // Rewind only exact approved222 application bytes before composing older views.\n  // Current runners/owner tools and SQL001–220 remain untouched;remove only the\n  // pinned222 addition from this disposable legacy fixture,never an unknown file.\n",
+          "after": "  git(['clone','--shared','--no-checkout',root,dir]);git(['update-ref','--no-deref','HEAD',head],dir);git(['read-tree',head],dir);await writeFile(path.join(dir,'.git/info/exclude'),'\\n/node_modules\\n/.workbook-runtime-view.json\\n',{flag:'a'});assert.equal(git(['rev-parse','HEAD'],dir).toString('utf8').trim(),head);\n  // Git materializes raw objects without buffering a full archive or tar filename conversion.\n  git(['config','core.autocrlf','false'],dir);git(['checkout-index','--all'],dir);await noLinks(dir);await writeFile(path.join(dir,'.workbook-runtime-view.json'),JSON.stringify(marker));\n  // Rewind every reviewed price-card source,including files that did not\n  // exist in the222 pin set. SQL/tools/evidence stay outside this source scope.\n  // The same complete-file hashes and literal inverse reject unknown bytes.\n  const priceLayout=JSON.parse(await readFile(path.join(root,'scripts/audit/price-visibility-source-pin.json'),'utf8'));\n  assert.equal(priceLayout.baseline,'0bd3b5b0fd149c9e92d802c6dabb55b236c127cc');\n  for(const[file]of Object.entries(priceLayout.files)){\n   if(!sourceScope(file))continue;\n   const target=path.join(dir,file),raw=await readFile(target,'utf8'),before=sourceBeforePriceVisibility(file,raw);\n   assert.notEqual(before,raw,'HISTORICAL_PRICE_UNREVIEWED_SOURCE:'+file);\n   assert.equal(before,historicalText(priceLayout.baseline,file),'HISTORICAL_PRICE_NOT_EXACT_GIT:'+file);\n   if(before===null)await unlink(target);else await writeFile(target,before);\n   changed.push({file,after:hash(raw.replaceAll('\\r\\n','\\n')),before:before===null?null:hash(before)});\n  }\n  // Rewind only exact approved222 application bytes before composing older views.\n  // Current runners/owner tools and SQL001–220 remain untouched;remove only the\n  // pinned222 addition from this disposable legacy fixture,never an unknown file.\n",
+          "offset": 14708
+        }
+      ]
+    },
     "tests/price-visibility-history.test.ts": {
       "before": null,
       "after": "7617a59115a1399d1b019ca8101c42c289160bf32de9913517a3b6ea711c34e4",
