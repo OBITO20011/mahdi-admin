@@ -741,6 +741,17 @@
       "after": "95edc0226a212a63b8e3ae48463d535e0d7bd07ed3ce39b43fea7f489541d13d",
       "hunks": []
     },
+    "scripts/testing/package-f-ci-shards.mjs": {
+      "before": "0b48be1bfe3eebdabc95e70b7255f31e26cf8c91fb525c679b46cfe31e594e45",
+      "after": "9d8f9f9e357a1f57da51c18dcd18938b5fa4917e07b09c8f937c77d2a6f2cd90",
+      "hunks": [
+        {
+          "before": "export const packageFShards = Object.freeze(Array.from({length: packageFShardCount}, (_, index) => index + 1));\n// These existing Package F interface suites keep their historical filenames\n// and test identities; share their work across the approved browser shards.\nconst packageFSpecName = /(?:package-f-[^/\\\\]+|admin-navigation-cash206|document-corrections207)\\.spec\\.ts/;\nexport const packageFSpecPattern = new RegExp(`[/\\\\\\\\]${packageFSpecName.source}$`, 'u');\nexport const notPackageFSpecPattern = new RegExp(`[/\\\\\\\\](?!${packageFSpecName.source}$)[^/\\\\\\\\]+$`, 'u');\nexport const isPackageFSpec = file => packageFSpecPattern.test('/' + file.replaceAll('\\\\', '/'));\n",
+          "after": "export const packageFShards = Object.freeze(Array.from({length: packageFShardCount}, (_, index) => index + 1));\n// These existing Package F interface suites keep their historical filenames\n// and test identities; share their work across the approved browser shards.\n// The two price-card suites are product-interface cases too. Keep every test\n// identity and the existing ten shards;do not add work to the20m core engine.\nconst packageFSpecName = /(?:package-f-[^/\\\\]+|admin-navigation-cash206|document-corrections207|off-product-prices|price-visibility)\\.spec\\.ts/;\nexport const packageFSpecPattern = new RegExp(`[/\\\\\\\\]${packageFSpecName.source}$`, 'u');\nexport const notPackageFSpecPattern = new RegExp(`[/\\\\\\\\](?!${packageFSpecName.source}$)[^/\\\\\\\\]+$`, 'u');\nexport const isPackageFSpec = file => packageFSpecPattern.test('/' + file.replaceAll('\\\\', '/'));\n",
+          "offset": 114
+        }
+      ]
+    },
     "scripts/testing/product-workbook-runtime-view.mjs": {
       "before": "bbd892df5f909a4edf4b3e8bea382f07c5699962ba32ecd184dbc8b0e1a16bab",
       "after": "0cc9dc5325ba778ee9af141b734f40c1ce59a588ed32980e149c8d803a18d5f3",
@@ -756,6 +767,11 @@
           "offset": 14708
         }
       ]
+    },
+    "tests/price-card-ci-routing.test.ts": {
+      "before": null,
+      "after": "e0900629b73b27156138e6e3a76f757faec8e3c638d8e1c6225cd6651594e07e",
+      "hunks": []
     },
     "tests/price-visibility-history.test.ts": {
       "before": null,
