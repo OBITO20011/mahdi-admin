@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner14Nov:OFF independent parcel/single prices; approved revised3-4days; new222 excluding221; Draft PR/fullCI/Gitleaks, post-CI no-reset demo update; no merge/hosted/deploy.",
-  "baselineSha": "145ba89160405cb1de5e330ba4e8dbf120b32e88",
+  "baselineSha": "06b3c4c31f83415a696b465db71262b4bbeabe0e",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/parcel-independent-price",
   "phase": "PARCEL_INDEPENDENT_PRICE",
@@ -18,15 +18,17 @@
     "54unique browser cases pass across completed groups (48/50 then corrected ON selector2/2;newconversion2/import2);no automatic retries.",
     "ActualPG:independentprices/familyedit/audit/CAS/5atomicrefusals/receipt+refund rollback;real2writer lock race;actualPOS+guest mixed discount withdelivery PASS.",
     "Current final workbook d9ed1c82... unchanged;750roots/108families/444flavors,parser0errors,allN1prices exact.",
-    "Source-frozen review:Admin types0/store types0/changed-source strictlint0 (CORE_LOCAL_REVIEW.json)."
+    "Source-frozen review:Admin types0/store types0/changed-source strictlint0 (CORE_LOCAL_REVIEW.json).",
+    "Fresh222 versus incremental220-to222 fullcatalog0differences;683public+39private;exact old220reference renderedSHA retained.",
+    "ActualHTTP222 181reads:172success9empty0errors;15focusedD1/catalog/history/source-preservation tests PASS."
   ],
   "inProgress": [
-    "Prepare strict222 catalog/reference/upgrade/RESET/D1 and legacy220 compatibility;historical inverse guards."
+    "Versioned222 RESET/D1/upgrade adapters generated;real protection/RESET/service-access/CI pending."
   ],
   "notStarted": [
-    "Final currentaccess/ready222/D1/reset/upgrade/backup compatibility proofs",
-    "FullCI/Gitleaks and DraftPR",
-    "Only after greenCI: demo no-reset migration/build/test/restore oneproduct."
+    "Final reference222 and actual upgrade/RESET/strictBackupRestore proofs",
+    "Fullunits/types/strictlint/FULLCI/Gitleaks",
+    "Only after FULLCIgreen:no-reset ownerdemo222/build/oneproduct restore"
   ],
   "testsPassed": [
     "New222 three public writers/private validator;historical209/220/680functions unchanged in actualPG.",
@@ -40,25 +42,23 @@
     "After fullgreenCI only:non-reset demo222/build/oneproducttest/restore"
   ],
   "findings": [
-    "Sales209/220 statically read independent fields; new runtime proof pending.",
     "Parser currently enforces derived single price and importer must preserve explicit price.",
     "Proposed222 (221 reserved) affects strict operational ceiling/reference/RESET paths.",
     "All new/modified OFF wording must use actual unit, fallback packet; ON unchanged.",
     "Owner explicitly approved revised3-4day estimate in text reply14Nov.",
     "No ON application/DB behavior changes;ON configuration tests retain old label and writer.",
-    "Only2 old focused assertions remain pending known historical source/literal-v5 view;22/24focused initially.",
     "221 remains reserved,never treated as applied by222;accounting activation remains forbidden.",
     "Existing conversion reference price is visible/editable and defaults ceiling-to-fils;single sale stays disabled and old parcel price unchanged."
   ],
   "blockers": [],
   "prohibitions": [],
-  "nextExactAction": "Implement strict222 catalog/source inverse andversioned operational tools;allcurrentcore/UI/browser proofs saved externally. Ownerdemo untouched untilFULLCIgreen.",
+  "nextExactAction": "Finish actual222 RPC/access and ready reference;real encrypted protection/RESET;legacy220 compatibility;fullunits/types/lint/FULLCI/Gitleaks;only then no-reset demo update.",
   "activeProcesses": [],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "00F16DC1F89696853A9F0B4D374B958157A6006AD60C94D41575568470CDC3BC",
-  "checkpointedAt": "2026-11-14T00:19:36.824Z",
-  "filesTouchedCount": 16,
-  "filesTouchedManifestSha256": "a15344ef26dd45125ca5c326ed72e9fe011a198d0b28f91afa1a4dc34bc9bd6d"
+  "workingTreeFingerprint": "94EC63A41BC0E12F0F786D0530E2EC2982FC93AB611676518307C69C15E27647",
+  "checkpointedAt": "2026-11-14T01:21:27.665Z",
+  "filesTouchedCount": 49,
+  "filesTouchedManifestSha256": "65896dd2291ccf9bee99a6d1da05c197b59b81e758d382f25c2e5795e9c58ce5"
 }

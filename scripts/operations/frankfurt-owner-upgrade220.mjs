@@ -90,7 +90,7 @@ export async function run220(args,{preflight=registeredBackupPreflight,manifest=
  const {forward,extra}=upgrade220Arguments(args);let backupEvidence,protection;
  if(forward.includes('--apply')){await preflight(root);backupEvidence=await read220BackupEvidence(extra['--backup-evidence'],219);}
  if(forward.includes('--verify-only'))protection=await assert220ProtectionComplete({backupFile:extra['--backup-evidence'],restoreFile:extra['--restore-evidence'],upgradeFile:extra['--upgrade-report']});
- await manifest();assert.equal(operationalSchema.upgradeCommand,'frankfurt-owner-upgrade220','UPGRADE_ADAPTER_NOT_CURRENT');
+ await manifest();assert.ok(operationalSchema.upgradeCommand==='frankfurt-owner-upgrade220'||operationalSchema.ceiling===222&&operationalSchema.legacyArchiveCeilings.includes(220),'UPGRADE_ADAPTER_NOT_CURRENT');
  return runOwner(forward,{loadReference:readReady220Reference,referenceName:ready220ReferenceName,pipeline:options=>upgrade220WithExecutor({...options,backupEvidence}),inputsFor:inputs220,versions:upgrade220Versions,label:'220',offlinePlan:offline220,
   verifyReadOnly:async(executor,output,reference,_original,_dates,report)=>{const runtime=await capture220RuntimeState(executor,reference);await verify220Prefix(executor,output,reference,'220',runtime,report);assert.equal(sha256(JSON.stringify(await read220SourceEvidence(executor))),protection.afterSourceEvidenceSha256,'UPGRADE220_SOURCE_CHANGED_SINCE_RESTORE');Object.assign(report,{targetCeiling:220,complete:true,protectionPending:false,protection});}});
 }

@@ -1,0 +1,18 @@
+{
+  "format": 1,
+  "baseCeiling": 220,
+  "files": {
+    "reset220-foundation.mjs": "d2d5a461c78fa7ff2d2009efc09139779f8c7faa7704627bd2f7a01040a9cbc9",
+    "reset220-write-guard.mjs": "a17c1661abaf28782a893d413f649efcc9695a5dde6957b5f17911d6e7c18997",
+    "reset220-private-state.mjs": "f0d1f8b42b7193d749abbe39102bd81ffb034483cad3fb707f6fec0f6ca7fc50",
+    "reset220-session.mjs": "22c09932d51fad34398bd380654d9884b10fcbc65c60e39e88952eeecd11a9f7",
+    "trial-reset220-core.mjs": "0c640ccb1df801356fdf7e5e9f5983d3f1523362e7bc49a134e2ccdb6ea8d55a",
+    "reset220-pg-cron-guard.mjs": "e1b4a79e661949b65ac0c08ed2c674cbd4e297f877ab24571edbcf07138a622a",
+    "frankfurt-owner-reset220.mjs": "45f0929bdad164f1c97fd0e4e8ad135bfff3716a108267f1529f461f72735438",
+    "d1-reference220-state.mjs": "c2153fce750824c0082e41bf8cef30c546e190a6f4f70e29e666a788afa5b0d4",
+    "d1-reference220-kit.mjs": "dd72fefcb2288fa57ef1a10db1b902f35c8416562abcccabf49a85ead653c17b",
+    "d1-reference220-kit.ps1": "6af3ac6814ddd5aabc800dfb778b945795cca1e94c3ac33a8954634c7dfaeb0c",
+    "d1-reference220-install.ps1": "408948824c5c3345677402a561cdb343ccf8f46ec39e69a92a89d40e145e024f",
+    "d1-known-owner220-files.json": "03bc83e0f98a555efcfa4836ae0ef42a26fc521d5367abdc4a99b8c4cb193499"
+  }
+}

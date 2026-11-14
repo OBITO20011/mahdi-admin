@@ -1,3 +1,5 @@
+import {sourceBeforeIndependentPrices222} from '../audit/source-before-independent-prices222.mjs';
+import {operationalManifest} from './operational-schema.mjs';
 // Lite-only220 readiness. PR79 is deferred221;219 admission stays independent.
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
@@ -8,7 +10,7 @@ import {compareManagedCatalog} from './managed-catalog-policy.mjs';
 import {compareApplicationAcl} from './application-acl-verification.mjs';
 import {assertSalesOnly220Catalog} from './sales-only220-catalog.mjs';
 import {frankfurt220TriggerAcl,frozen220TriggerAclProfile} from './frozen220-trigger-acl.mjs';
-import {migrationManifest,manifestDigest,canonicalLf,sha256} from '../testing/maintenance-db-contract.mjs';
+import {manifestDigest,canonicalLf,sha256} from '../testing/maintenance-db-contract.mjs';
 import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
 import {realtimePublicationSql,realtime151Tables} from '../testing/realtime151-contract.mjs';
 import {inventory} from '../audit/table-access-inventory.mjs';
@@ -37,4 +39,4 @@ export function assertReady220Reference(reference,manifest,proofText,source){
  const compared=compareManagedCatalog(proof.catalog,reference.catalog,{beforeBuildDate:proof.startedAt.slice(0,10),afterBuildDate:reference.buildUtcDate});assert.deepEqual(compared.unexpected,[]);assert.deepEqual(compared.expected,[]);
  assert.deepEqual(reference.readiness,{sourceHashes:source.sources,accessEvidenceSha256:sha256(canonicalLf(proofText)),coverage:proof.coverage,queries:proof.results.length,errors:0});assert.equal(reference.functions,680);return reference;
 }
-export async function readReady220Reference(root,filename){return assertReady220Reference(JSON.parse(await readFile(filename,'utf8')),await migrationManifest(root),await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_220.json'),'utf8'),await inventory());}
+export async function readReady220Reference(root,filename){return assertReady220Reference(JSON.parse(await readFile(filename,'utf8')),(await operationalManifest()).filter(m=>Number(m.name.slice(0,3))<=220),await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_220.json'),'utf8'),await inventory({projectSource:sourceBeforeIndependentPrices222}));}

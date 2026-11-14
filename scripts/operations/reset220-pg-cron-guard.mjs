@@ -2,6 +2,7 @@
 import assert from 'node:assert/strict';
 import {canonicalLf,sha256,migrationManifest} from '../testing/maintenance-db-contract.mjs';
 import {executeResetInput} from './reset214-io.mjs';
+import {assertOperationalManifest} from './operational-schema.mjs';
 export const reset220CronStatements=Object.freeze([
  {name:'091_expire_stale_new_website_orders.sql',line:211,sha256:'b66fa73b06fed8e695dc48260d325e0db88a294a7b26fb53ff955aed5f271d54'},
  {name:'097_core_business_alerts.sql',line:628,sha256:'d3afb579cd853a18c91100a2f29358bde29a91405bbaa701b93c3a8e580a67ee'},
@@ -51,6 +52,6 @@ export function guardedReset220CronUnits(units,reference){
  return {units:prepared,replaced,identity};
 }
 export async function verifyReset220MigrationManifest(root,reference){
- const actual=await migrationManifest(root);assert.deepEqual(actual,reference.manifest,'RESET220_FINAL_MIGRATION_SOURCE_CHANGED');
+ const actual=assertOperationalManifest(await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=220);assert.deepEqual(actual,reference.manifest,'RESET220_FINAL_MIGRATION_SOURCE_CHANGED');
  return {files:actual.length,manifestDigest:sha256(JSON.stringify(actual)),namesAndHashesUnchanged:true};
 }

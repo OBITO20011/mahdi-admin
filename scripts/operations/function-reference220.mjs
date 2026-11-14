@@ -3,8 +3,9 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import path from 'node:path';
 import {executeInput} from './build-empty-supabase.mjs';
-import {migrationManifest,canonicalDefinitionLf,canonicalLf,renderFunctionReference,sha256} from '../testing/maintenance-db-contract.mjs';
+import {migrationManifest,canonicalDefinitionLf,renderFunctionReference,sha256} from '../testing/maintenance-db-contract.mjs';
 const root=path.resolve(import.meta.dirname,'../..');
+export const frozen220FunctionReferenceSha256='8acafb18d9f2f575cca958719532cd2ccd0f773d6a90d7212f84e1d6d079dd62';
 export async function functionReference220(executor,ceiling=220){
  assert.ok([219,220].includes(ceiling),'OWNER220_FUNCTION_REFERENCE_SCOPE');
  const source=await readFile(path.join(root,'scripts/testing/generate-db-functions.mjs'),'utf8'),query=source.match(/const query = `(BEGIN READ ONLY;[\s\S]+?ROLLBACK;)`;/u)?.[1];
@@ -13,6 +14,6 @@ export async function functionReference220(executor,ceiling=220){
  const functions=JSON.parse(read.stdout.trim()).map(row=>({...row,definition:canonicalDefinitionLf(row.definition)}));assert.equal(functions.length,ceiling===219?636:680,'OWNER220_EXACT_FUNCTION_COUNT');
  const rendered=renderFunctionReference((await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=ceiling),functions);
  if(ceiling===219)assert.equal(sha256(rendered),'a95ef5a2015b144fa3ef028e19f30a8ca1b2bac1b3544f9e9bcc6c1de5a7edbf','FROZEN219_FUNCTIONS_CHANGED');
- else assert.equal(rendered,canonicalLf(await readFile(path.join(root,'docs/generated/DB_FUNCTIONS.md'),'utf8')),'DB_FUNCTIONS220_STALE');
+ else assert.equal(sha256(rendered),frozen220FunctionReferenceSha256,'FROZEN220_FUNCTIONS_CHANGED');
  return functions.length;
 }
