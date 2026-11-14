@@ -1,5 +1,5 @@
 // Exact source view for frozen historical evidence. Unknown bytes remain visible.
-import{sourceBeforePriceVisibility,restorePriceVisibilityHashes}from'./source-before-price-visibility.mjs';
+import{sourceBeforePriceVisibility,restorePriceVisibilityHashes,pathsBeforePriceVisibility}from'./source-before-price-visibility.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
@@ -17,12 +17,12 @@ export function sourceBeforeIndependentPrices222(file,text){
 }
 export function restoreIndependentPrices222Hashes(rows){return restorePriceVisibilityHashes(rows).flatMap(row=>{
  const pin=pins.entries[row.file];if(!pin||row.sha256!==pin.after)return[row];
- const raw=readFileSync(new URL('../../'+row.file,import.meta.url),'utf8');
+ const raw=sourceBeforePriceVisibility(row.file,readFileSync(new URL('../../'+row.file,import.meta.url),'utf8'));
  assert.equal(hash(raw),pin.after,'PRICES222_CURRENT_SOURCE_CHANGED:'+row.file);
  const before=sourceBeforeIndependentPrices222(row.file,raw);
  return before===null?[]:[{...row,sha256:hash(before)}];
 });}
-export function pathsBeforeIndependentPrices222(files,reference){return files.filter(file=>{
+export function pathsBeforeIndependentPrices222(files,reference){return pathsBeforePriceVisibility(files).filter(file=>{
  if(!pins.entries[file])return true;
  const raw=readFileSync(new URL('../../'+file,import.meta.url),'utf8'),before=sourceBeforeIndependentPrices222(file,raw);
  if(before===null)return false;if(before===raw||!reference)return true;

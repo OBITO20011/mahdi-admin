@@ -15,5 +15,408 @@
       "before": "flex shrink-0 items-center gap-1.5 sm:gap-2",
       "after": "flex min-w-0 flex-wrap items-center gap-1.5 sm:gap-2"
     }
-  ]
+  ],
+  "baseline": "0bd3b5b0fd149c9e92d802c6dabb55b236c127cc",
+  "files": {
+    "docs/operations/SERVICE_ACCESS_AFTER_222.json": {
+      "before": "c8f9a5b12a1ccd92b1df8e3e8363bdefd7c72cbd6e3622d8a8d8f3539f553d64",
+      "after": "c0682ab529083fd939fc53c2743ab48a1aeaaf5a954499cafaba9a2288969aff",
+      "hunks": [
+        {
+          "before": "{\n  \"schemaVersion\": 1,\n  \"startedAt\": \"2026-11-14T01:24:53.857Z\",\n  \"migrationCeiling\": 222,\n  \"managedAccess\": false,\n  \"output\": \"C:\\\\Users\\\\TOP\\\\AppData\\\\Local\\\\Temp\\\\nawasrah-service-access-YPismm\",\n  \"sourceHashes\": [\n    {\n      \"file\": \"src/App.tsx\",\n",
+          "after": "{\n  \"schemaVersion\": 1,\n  \"startedAt\": \"2026-11-14T11:09:33.121Z\",\n  \"migrationCeiling\": 222,\n  \"managedAccess\": false,\n  \"output\": \"C:\\\\Users\\\\TOP\\\\AppData\\\\Local\\\\Temp\\\\nawasrah-service-access-Q4i1lk\",\n  \"sourceHashes\": [\n    {\n      \"file\": \"src/App.tsx\",\n",
+          "offset": 0
+        },
+        {
+          "before": "    },\n    {\n      \"file\": \"customer-web/src/components/ProductCard.tsx\",\n      \"sha256\": \"84a85f51554ee6086c376b0520e2f3c834cc44b1a3802658106fa01882b47d5f\"\n    },\n    {\n      \"file\": \"customer-web/src/components/ProductDetailsModal.tsx\",\n",
+          "after": "    },\n    {\n      \"file\": \"customer-web/src/components/ProductCard.tsx\",\n      \"sha256\": \"64ec44133d2e559de9c66241ac239559d985c0d1160729ac5b384686e6093431\"\n    },\n    {\n      \"file\": \"customer-web/src/components/ProductDetailsModal.tsx\",\n",
+          "offset": 54903
+        },
+        {
+          "before": "  ],\n  \"currentOldRefFunctions\": [],\n  \"ok\": true,\n  \"endedAt\": \"2026-11-14T01:25:10.112Z\"\n}\n",
+          "after": "  ],\n  \"currentOldRefFunctions\": [],\n  \"ok\": true,\n  \"endedAt\": \"2026-11-14T11:09:47.348Z\"\n}\n",
+          "offset": 1686589
+        }
+      ]
+    },
+    "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json": {
+      "before": "1651ba9229ac95675846336c02813c77591b1128c447dea93fb686351d47f60e",
+      "after": "c25e242104fece25e3b2388d3752a4ca4dbe69658c008c881a626ac898645408",
+      "hunks": [
+        {
+          "before": "{\n  \"schemaVersion\": 1,\n  \"startedAt\": \"2026-11-14T01:24:53.857Z\",\n  \"migrationCeiling\": 222,\n  \"managedAccess\": false,\n  \"output\": \"C:\\\\Users\\\\TOP\\\\AppData\\\\Local\\\\Temp\\\\nawasrah-service-access-YPismm\",\n  \"sourceHashes\": [\n    {\n      \"file\": \"src/App.tsx\",\n",
+          "after": "{\n  \"schemaVersion\": 1,\n  \"startedAt\": \"2026-11-14T11:09:33.121Z\",\n  \"migrationCeiling\": 222,\n  \"managedAccess\": false,\n  \"output\": \"C:\\\\Users\\\\TOP\\\\AppData\\\\Local\\\\Temp\\\\nawasrah-service-access-Q4i1lk\",\n  \"sourceHashes\": [\n    {\n      \"file\": \"src/App.tsx\",\n",
+          "offset": 0
+        },
+        {
+          "before": "    },\n    {\n      \"file\": \"customer-web/src/components/ProductCard.tsx\",\n      \"sha256\": \"84a85f51554ee6086c376b0520e2f3c834cc44b1a3802658106fa01882b47d5f\"\n    },\n    {\n      \"file\": \"customer-web/src/components/ProductDetailsModal.tsx\",\n",
+          "after": "    },\n    {\n      \"file\": \"customer-web/src/components/ProductCard.tsx\",\n      \"sha256\": \"64ec44133d2e559de9c66241ac239559d985c0d1160729ac5b384686e6093431\"\n    },\n    {\n      \"file\": \"customer-web/src/components/ProductDetailsModal.tsx\",\n",
+          "offset": 54903
+        },
+        {
+          "before": "  ],\n  \"currentOldRefFunctions\": [],\n  \"ok\": true,\n  \"endedAt\": \"2026-11-14T01:25:10.112Z\",\n  \"savedCatalogAssessment\": {\n    \"storagePolicies\": [\n      {\n",
+          "after": "  ],\n  \"currentOldRefFunctions\": [],\n  \"ok\": true,\n  \"endedAt\": \"2026-11-14T11:09:47.348Z\",\n  \"savedCatalogAssessment\": {\n    \"storagePolicies\": [\n      {\n",
+          "offset": 1686589
+        },
+        {
+          "before": "      \"category\": \"TEST_CONTRACT\"\n    }\n  ],\n  \"historicalAclReviewProvenance\": \"Seven identities/revokedEntries and savedCatalogAssessment retain the original saved-catalog review;sites,EXECUTE and invocations are rebound to actual local222 evidence. No hosted observation.\"\n}\n",
+          "after": "      \"category\": \"TEST_CONTRACT\"\n    }\n  ],\n  \"historicalAclReviewProvenance\": \"Original seven-identity saved-catalog assessment retained;sites/EXECUTE/invocations bind new isolated222 runtime after exact price-only CSS changes. No hosted observation.\"\n}\n",
+          "offset": 1701407
+        }
+      ]
+    },
+    "docs/operations/SERVICE_ACCESS_INVENTORY.json": {
+      "before": "7157d4e733fa4e5619d87e2b6608e81a3003e48cec08b8117e8abfca83b4923a",
+      "after": "3b0525fb2dbd04bca97c241ac9f5dca303a3a9f6f95f4a2246ee9427ddd6b0e0",
+      "hunks": [
+        {
+          "before": "    },\n    {\n      \"file\": \"customer-web/src/components/ProductCard.tsx\",\n      \"sha256\": \"84a85f51554ee6086c376b0520e2f3c834cc44b1a3802658106fa01882b47d5f\"\n    },\n    {\n      \"file\": \"customer-web/src/components/ProductDetailsModal.tsx\",\n",
+          "after": "    },\n    {\n      \"file\": \"customer-web/src/components/ProductCard.tsx\",\n      \"sha256\": \"64ec44133d2e559de9c66241ac239559d985c0d1160729ac5b384686e6093431\"\n    },\n    {\n      \"file\": \"customer-web/src/components/ProductDetailsModal.tsx\",\n",
+          "offset": 54776
+        }
+      ]
+    },
+    "docs/operations/TABLE_ACCESS_AFTER_222.json": {
+      "before": "5bee24d5568ebf41489dcdf8a51b9cf02f4e8167eeb99d76b6a7b183bf5b43f6",
+      "after": "ad89c2c18d7a32ae186bc00f1a3da6e80440226ebe6b9c386bd2b781fe095fd4",
+      "hunks": [
+        {
+          "before": "{\n  \"schemaVersion\": 1,\n  \"startedAt\": \"2026-11-14T01:15:00.451Z\",\n  \"managedAccess\": false,\n  \"migrationCeiling\": 222,\n  \"manifest\": [\n",
+          "after": "{\n  \"schemaVersion\": 1,\n  \"startedAt\": \"2026-11-14T11:04:29.612Z\",\n  \"managedAccess\": false,\n  \"migrationCeiling\": 222,\n  \"manifest\": [\n",
+          "offset": 0
+        },
+        {
+          "before": "    \"220_sales_only_operating_mode.sql\",\n    \"222_independent_lite_parcel_prices.sql\"\n  ],\n  \"output\": \"C:\\\\Users\\\\TOP\\\\AppData\\\\Local\\\\Temp\\\\nawasrah-table-access-FLmd2z\",\n  \"stage\": \"rls-and-acl\",\n  \"results\": [\n    {\n",
+          "after": "    \"220_sales_only_operating_mode.sql\",\n    \"222_independent_lite_parcel_prices.sql\"\n  ],\n  \"output\": \"C:\\\\Users\\\\TOP\\\\AppData\\\\Local\\\\Temp\\\\nawasrah-table-access-oraioA\",\n  \"stage\": \"rls-and-acl\",\n  \"results\": [\n    {\n",
+          "offset": 8573
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"16776ee5-5600-4188-8aa3-a1a7576d527c\"\n          ]\n        },\n        {\n",
+          "offset": 9351
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"16776ee5-5600-4188-8aa3-a1a7576d527c\"\n          ]\n        },\n        {\n",
+          "offset": 10165
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"16776ee5-5600-4188-8aa3-a1a7576d527c\"\n          ]\n        },\n        {\n",
+          "offset": 10979
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"16776ee5-5600-4188-8aa3-a1a7576d527c\"\n          ]\n        },\n        {\n",
+          "offset": 11778
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"16776ee5-5600-4188-8aa3-a1a7576d527c\"\n          ]\n        },\n        {\n",
+          "offset": 12575
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"16776ee5-5600-4188-8aa3-a1a7576d527c\"\n          ]\n        },\n        {\n",
+          "offset": 13372
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"cb735545-91f2-40e7-b3a4-ddcf6ed60f56\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"a3b1321c-6fa4-4109-8019-16b9cf790160\"\n          ]\n        },\n        {\n",
+          "offset": 14186
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"cb735545-91f2-40e7-b3a4-ddcf6ed60f56\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"a3b1321c-6fa4-4109-8019-16b9cf790160\"\n          ]\n        },\n        {\n",
+          "offset": 14998
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"cb735545-91f2-40e7-b3a4-ddcf6ed60f56\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"a3b1321c-6fa4-4109-8019-16b9cf790160\"\n          ]\n        },\n        {\n",
+          "offset": 15810
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"2cbcd16e-a056-4bea-9d33-0ab859fe2e17\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"62892db6-7bf3-4b05-a741-5646e1d39f07\"\n          ]\n        },\n        {\n",
+          "offset": 21516
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"2cbcd16e-a056-4bea-9d33-0ab859fe2e17\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"62892db6-7bf3-4b05-a741-5646e1d39f07\"\n          ]\n        },\n        {\n",
+          "offset": 22452
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"2cbcd16e-a056-4bea-9d33-0ab859fe2e17\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"62892db6-7bf3-4b05-a741-5646e1d39f07\"\n          ]\n        },\n        {\n",
+          "offset": 23388
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"abe288d4-5cf0-43ba-9e71-565cdefc02e5\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"88b9c6de-c738-46d4-b839-ec26b3a94b0d\"\n          ]\n        },\n        {\n",
+          "offset": 24398
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"abe288d4-5cf0-43ba-9e71-565cdefc02e5\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"88b9c6de-c738-46d4-b839-ec26b3a94b0d\"\n          ]\n        },\n        {\n",
+          "offset": 25406
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"abe288d4-5cf0-43ba-9e71-565cdefc02e5\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"88b9c6de-c738-46d4-b839-ec26b3a94b0d\"\n          ]\n        },\n        {\n",
+          "offset": 26414
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"2cbcd16e-a056-4bea-9d33-0ab859fe2e17\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"62892db6-7bf3-4b05-a741-5646e1d39f07\"\n          ]\n        },\n        {\n",
+          "offset": 27562
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"2cbcd16e-a056-4bea-9d33-0ab859fe2e17\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"62892db6-7bf3-4b05-a741-5646e1d39f07\"\n          ]\n        },\n        {\n",
+          "offset": 28708
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"2cbcd16e-a056-4bea-9d33-0ab859fe2e17\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"62892db6-7bf3-4b05-a741-5646e1d39f07\"\n          ]\n        },\n        {\n",
+          "offset": 29854
+        },
+        {
+          "before": "          \"args\": [\n            \"id\",\n            [\n              \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n            ]\n          ]\n        }\n",
+          "after": "          \"args\": [\n            \"id\",\n            [\n              \"16776ee5-5600-4188-8aa3-a1a7576d527c\"\n            ]\n          ]\n        }\n",
+          "offset": 42630
+        },
+        {
+          "before": "          \"args\": [\n            \"id\",\n            [\n              \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n            ]\n          ]\n        }\n",
+          "after": "          \"args\": [\n            \"id\",\n            [\n              \"16776ee5-5600-4188-8aa3-a1a7576d527c\"\n            ]\n          ]\n        }\n",
+          "offset": 43716
+        },
+        {
+          "before": "          \"args\": [\n            \"id\",\n            [\n              \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n            ]\n          ]\n        }\n",
+          "after": "          \"args\": [\n            \"id\",\n            [\n              \"16776ee5-5600-4188-8aa3-a1a7576d527c\"\n            ]\n          ]\n        }\n",
+          "offset": 44802
+        },
+        {
+          "before": "          \"args\": [\n            \"order_id\",\n            [\n              \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n            ]\n          ]\n        },\n",
+          "after": "          \"args\": [\n            \"order_id\",\n            [\n              \"16776ee5-5600-4188-8aa3-a1a7576d527c\"\n            ]\n          ]\n        },\n",
+          "offset": 45604
+        },
+        {
+          "before": "          \"args\": [\n            \"order_id\",\n            [\n              \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n            ]\n          ]\n        },\n",
+          "after": "          \"args\": [\n            \"order_id\",\n            [\n              \"16776ee5-5600-4188-8aa3-a1a7576d527c\"\n            ]\n          ]\n        },\n",
+          "offset": 47001
+        },
+        {
+          "before": "          \"args\": [\n            \"order_id\",\n            [\n              \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n            ]\n          ]\n        },\n",
+          "after": "          \"args\": [\n            \"order_id\",\n            [\n              \"16776ee5-5600-4188-8aa3-a1a7576d527c\"\n            ]\n          ]\n        },\n",
+          "offset": 48398
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"16776ee5-5600-4188-8aa3-a1a7576d527c\"\n          ]\n        },\n        {\n",
+          "offset": 51716
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"16776ee5-5600-4188-8aa3-a1a7576d527c\"\n          ]\n        },\n        {\n",
+          "offset": 54503
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"16776ee5-5600-4188-8aa3-a1a7576d527c\"\n          ]\n        },\n        {\n",
+          "offset": 57290
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"order_id\",\n            \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"order_id\",\n            \"16776ee5-5600-4188-8aa3-a1a7576d527c\"\n          ]\n        },\n        {\n",
+          "offset": 58169
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"order_id\",\n            \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"order_id\",\n            \"16776ee5-5600-4188-8aa3-a1a7576d527c\"\n          ]\n        },\n        {\n",
+          "offset": 59094
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"order_id\",\n            \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"order_id\",\n            \"16776ee5-5600-4188-8aa3-a1a7576d527c\"\n          ]\n        },\n        {\n",
+          "offset": 60019
+        },
+        {
+          "before": "          \"args\": [\n            \"parcel_instance_id\",\n            [\n              \"cf128f97-cafd-484a-81e2-8c6b2def6c57\"\n            ]\n          ]\n        }\n",
+          "after": "          \"args\": [\n            \"parcel_instance_id\",\n            [\n              \"a6314b97-347e-42b6-b08b-5bf520b445cc\"\n            ]\n          ]\n        }\n",
+          "offset": 60992
+        },
+        {
+          "before": "          \"args\": [\n            \"parcel_instance_id\",\n            [\n              \"cf128f97-cafd-484a-81e2-8c6b2def6c57\"\n            ]\n          ]\n        }\n",
+          "after": "          \"args\": [\n            \"parcel_instance_id\",\n            [\n              \"a6314b97-347e-42b6-b08b-5bf520b445cc\"\n            ]\n          ]\n        }\n",
+          "offset": 61863
+        },
+        {
+          "before": "          \"args\": [\n            \"parcel_instance_id\",\n            [\n              \"cf128f97-cafd-484a-81e2-8c6b2def6c57\"\n            ]\n          ]\n        }\n",
+          "after": "          \"args\": [\n            \"parcel_instance_id\",\n            [\n              \"a6314b97-347e-42b6-b08b-5bf520b445cc\"\n            ]\n          ]\n        }\n",
+          "offset": 62734
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"abe288d4-5cf0-43ba-9e71-565cdefc02e5\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"88b9c6de-c738-46d4-b839-ec26b3a94b0d\"\n          ]\n        },\n        {\n",
+          "offset": 128004
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"abe288d4-5cf0-43ba-9e71-565cdefc02e5\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"88b9c6de-c738-46d4-b839-ec26b3a94b0d\"\n          ]\n        },\n        {\n",
+          "offset": 130089
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"abe288d4-5cf0-43ba-9e71-565cdefc02e5\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"88b9c6de-c738-46d4-b839-ec26b3a94b0d\"\n          ]\n        },\n        {\n",
+          "offset": 132174
+        },
+        {
+          "before": "            {\n              \"event_key\": \"audit-local-dispatch\",\n              \"event_type\": \"new_order\",\n              \"entity_id\": \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\",\n              \"status\": \"processing\"\n            }\n          ]\n",
+          "after": "            {\n              \"event_key\": \"audit-local-dispatch\",\n              \"event_type\": \"new_order\",\n              \"entity_id\": \"16776ee5-5600-4188-8aa3-a1a7576d527c\",\n              \"status\": \"processing\"\n            }\n          ]\n",
+          "offset": 174130
+        },
+        {
+          "before": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\"\n          ]\n        },\n        {\n",
+          "after": "          \"method\": \"eq\",\n          \"args\": [\n            \"id\",\n            \"16776ee5-5600-4188-8aa3-a1a7576d527c\"\n          ]\n        },\n        {\n",
+          "offset": 174984
+        },
+        {
+          "before": "              \"status\": \"failed\",\n              \"failed_count\": 1,\n              \"last_error\": \"isolated diagnostic\",\n              \"completed_at\": \"2026-11-14T01:15:18.104Z\"\n            }\n          ]\n        },\n",
+          "after": "              \"status\": \"failed\",\n              \"failed_count\": 1,\n              \"last_error\": \"isolated diagnostic\",\n              \"completed_at\": \"2026-11-14T11:04:42.768Z\"\n            }\n          ]\n        },\n",
+          "offset": 175867
+        },
+        {
+          "before": "              \"status\": \"failed\",\n              \"failed_count\": 1,\n              \"last_error\": \"isolated diagnostic\",\n              \"completed_at\": \"2026-11-14T01:15:18.133Z\"\n            }\n          ]\n        },\n",
+          "after": "              \"status\": \"failed\",\n              \"failed_count\": 1,\n              \"last_error\": \"isolated diagnostic\",\n              \"completed_at\": \"2026-11-14T11:04:42.783Z\"\n            }\n          ]\n        },\n",
+          "offset": 176768
+        },
+        {
+          "before": "          \"args\": [\n            {\n              \"failure_count\": 0,\n              \"last_success_at\": \"2026-11-14T01:15:18.158Z\",\n              \"last_failure_message\": null,\n              \"updated_at\": \"2026-11-14T01:15:18.158Z\"\n            }\n          ]\n        },\n",
+          "after": "          \"args\": [\n            {\n              \"failure_count\": 0,\n              \"last_success_at\": \"2026-11-14T11:04:42.817Z\",\n              \"last_failure_message\": null,\n              \"updated_at\": \"2026-11-14T11:04:42.817Z\"\n            }\n          ]\n        },\n",
+          "offset": 177638
+        },
+        {
+          "before": "            {\n              \"is_active\": false,\n              \"failure_count\": 1,\n              \"last_failure_at\": \"2026-11-14T01:15:18.194Z\",\n              \"last_failure_message\": \"isolated diagnostic\",\n              \"updated_at\": \"2026-11-14T01:15:18.194Z\"\n            }\n          ]\n        },\n",
+          "after": "            {\n              \"is_active\": false,\n              \"failure_count\": 1,\n              \"last_failure_at\": \"2026-11-14T11:04:42.835Z\",\n              \"last_failure_message\": \"isolated diagnostic\",\n              \"updated_at\": \"2026-11-14T11:04:42.835Z\"\n            }\n          ]\n        },\n",
+          "offset": 178590
+        },
+        {
+          "before": "              \"delivered_count\": 1,\n              \"failed_count\": 0,\n              \"last_error\": null,\n              \"completed_at\": \"2026-11-14T01:15:18.222Z\"\n            }\n          ]\n        },\n",
+          "after": "              \"delivered_count\": 1,\n              \"failed_count\": 0,\n              \"last_error\": null,\n              \"completed_at\": \"2026-11-14T11:04:42.854Z\"\n            }\n          ]\n        },\n",
+          "offset": 179616
+        },
+        {
+          "before": "    },\n    {\n      \"file\": \"customer-web/src/components/ProductCard.tsx\",\n      \"sha256\": \"84a85f51554ee6086c376b0520e2f3c834cc44b1a3802658106fa01882b47d5f\"\n    },\n    {\n      \"file\": \"customer-web/src/components/ProductDetailsModal.tsx\",\n",
+          "after": "    },\n    {\n      \"file\": \"customer-web/src/components/ProductCard.tsx\",\n      \"sha256\": \"64ec44133d2e559de9c66241ac239559d985c0d1160729ac5b384686e6093431\"\n    },\n    {\n      \"file\": \"customer-web/src/components/ProductDetailsModal.tsx\",\n",
+          "offset": 4872114
+        },
+        {
+          "before": "    }\n  ],\n  \"fixture\": {\n    \"orderId\": \"b4b419b6-fba3-42b0-a4fe-ac2f2dbc6c8c\",\n    \"operationId\": \"cb735545-91f2-40e7-b3a4-ddcf6ed60f56\",\n    \"receiptId\": \"2cbcd16e-a056-4bea-9d33-0ab859fe2e17\",\n    \"poId\": \"abe288d4-5cf0-43ba-9e71-565cdefc02e5\",\n    \"subscriptionId\": \"92600000-0000-4000-8000-000000000701\",\n    \"instances\": [\n      \"cf128f97-cafd-484a-81e2-8c6b2def6c57\"\n    ]\n  },\n  \"access\": [\n",
+          "after": "    }\n  ],\n  \"fixture\": {\n    \"orderId\": \"16776ee5-5600-4188-8aa3-a1a7576d527c\",\n    \"operationId\": \"a3b1321c-6fa4-4109-8019-16b9cf790160\",\n    \"receiptId\": \"62892db6-7bf3-4b05-a741-5646e1d39f07\",\n    \"poId\": \"88b9c6de-c738-46d4-b839-ec26b3a94b0d\",\n    \"subscriptionId\": \"92600000-0000-4000-8000-000000000701\",\n    \"instances\": [\n      \"a6314b97-347e-42b6-b08b-5bf520b445cc\"\n    ]\n  },\n  \"access\": [\n",
+          "offset": 4882888
+        },
+        {
+          "before": "    \"zero_rows\": 9,\n    \"other_error\": 0\n  },\n  \"endedAt\": \"2026-11-14T01:17:28.629Z\"\n}\n",
+          "after": "    \"zero_rows\": 9,\n    \"other_error\": 0\n  },\n  \"endedAt\": \"2026-11-14T11:06:29.592Z\"\n}\n",
+          "offset": 5030096
+        }
+      ]
+    },
+    "docs/operations/TABLE_ACCESS_INVENTORY.json": {
+      "before": "82905864adc01dbfd18a0b11a6e24ff145d992d22c34d500a63d88b456982e53",
+      "after": "c9126ca7422f43921d4fd1de99d16ec17a1ab59c9c04ca8e3a7b05ae2b0292d8",
+      "hunks": [
+        {
+          "before": "    },\n    {\n      \"file\": \"customer-web/src/components/ProductCard.tsx\",\n      \"sha256\": \"84a85f51554ee6086c376b0520e2f3c834cc44b1a3802658106fa01882b47d5f\"\n    },\n    {\n      \"file\": \"customer-web/src/components/ProductDetailsModal.tsx\",\n",
+          "after": "    },\n    {\n      \"file\": \"customer-web/src/components/ProductCard.tsx\",\n      \"sha256\": \"64ec44133d2e559de9c66241ac239559d985c0d1160729ac5b384686e6093431\"\n    },\n    {\n      \"file\": \"customer-web/src/components/ProductDetailsModal.tsx\",\n",
+          "offset": 54771
+        }
+      ]
+    },
+    "docs/reviews/price-visibility/after-1280.png": {
+      "before": null,
+      "after": "f10e1ebdc237bb7fe4a0e7eb3ae0c80b2fa1ce5dde31a28fca1deefcc8b20d34",
+      "binary": true,
+      "hunks": []
+    },
+    "docs/reviews/price-visibility/before-1280.png": {
+      "before": null,
+      "after": "aa3046c6ea06c6c0e10f825915858f1cccb645d077d4992f36bfb17ea30bddcb",
+      "binary": true,
+      "hunks": []
+    },
+    "e2e/isolated-test.ts": {
+      "before": "a0f400f157b3f196aab4304e5b36862873d297af55aa19c6315ee37ffffb19ed",
+      "after": "7a2e983496f6e3e507e88b2d2deba1415c67281aaaa0a546e4ec77fd90b11d31",
+      "hunks": [
+        {
+          "before": "  expect,\n  test as base,\n  type BrowserContext,\n  type Page,\n  type Route,\n} from '@playwright/test';\n",
+          "after": "  expect,\n  test as base,\n  type BrowserContext,\n  type Locator,\n  type Page,\n  type Route,\n} from '@playwright/test';\n",
+          "offset": 66
+        },
+        {
+          "before": "});\n\nexport { expect };\nexport type { BrowserContext, Page, Route };\n",
+          "after": "});\n\nexport { expect };\nexport type { BrowserContext, Locator, Page, Route };\n",
+          "offset": 3847
+        }
+      ]
+    },
+    "e2e/price-visibility-harness.html": {
+      "before": null,
+      "after": "af71f31ff65ac2bc2e001b62014229f0f669925d1c07d58cc9a540a5c4c87610",
+      "hunks": []
+    },
+    "e2e/price-visibility-harness.tsx": {
+      "before": null,
+      "after": "62739b5568da2e750dfef2843251edea9bba61d49171e58f7b8c92678dee6db7",
+      "hunks": []
+    },
+    "e2e/price-visibility.spec.ts": {
+      "before": null,
+      "after": "5b4d3f2528d66e8e598b9533b25fa80a154c53ade73fb7a60af2dd2f4d00f856",
+      "hunks": []
+    },
+    "scripts/audit/source-before-independent-prices222.mjs": {
+      "before": "1522d5af7adc803fa2958aad845d7a8b4933edc524ff320cf5ad23b875de1246",
+      "after": "fadc28bac8b649245b5338fd1a2ed6b535ca8c688504dc872f430c28cfe3b952",
+      "hunks": [
+        {
+          "before": "// Exact source view for frozen historical evidence. Unknown bytes remain visible.\nimport assert from 'node:assert/strict';\nimport {readFileSync} from 'node:fs';\nimport {execFileSync} from 'node:child_process';\n",
+          "after": "// Exact source view for frozen historical evidence. Unknown bytes remain visible.\nimport{sourceBeforePriceVisibility,restorePriceVisibilityHashes,pathsBeforePriceVisibility}from'./source-before-price-visibility.mjs';\nimport assert from 'node:assert/strict';\nimport {readFileSync} from 'node:fs';\nimport {execFileSync} from 'node:child_process';\n",
+          "offset": 0
+        },
+        {
+          "before": "assert.equal(pins.format,1);assert.equal(pins.baseline,'bd4d696af6eef074bfd523ee54906059a0bb668c');\nconst hash=text=>createHash('sha256').update(text.replaceAll('\\r\\n','\\n')).digest('hex');\nexport function sourceBeforeIndependentPrices222(file,text){\n if(text===null)return null;\n const pin=pins.entries[file];if(!pin||hash(text)!==pin.after)return text;\n if(pin.beforeText===null){assert.equal(pin.before,null,'PRICES222_ADDED_SOURCE_PIN_CORRUPT');return null;}\n assert.equal(hash(pin.beforeText),pin.before,'PRICES222_BEFORE_SOURCE_PIN_CORRUPT');\n return pin.beforeText;\n}\nexport function restoreIndependentPrices222Hashes(rows){return rows.flatMap(row=>{\n const pin=pins.entries[row.file];if(!pin||row.sha256!==pin.after)return[row];\n const raw=readFileSync(new URL('../../'+row.file,import.meta.url),'utf8');\n assert.equal(hash(raw),pin.after,'PRICES222_CURRENT_SOURCE_CHANGED:'+row.file);\n const before=sourceBeforeIndependentPrices222(row.file,raw);\n return before===null?[]:[{...row,sha256:hash(before)}];\n});}\nexport function pathsBeforeIndependentPrices222(files,reference){return files.filter(file=>{\n if(!pins.entries[file])return true;\n const raw=readFileSync(new URL('../../'+file,import.meta.url),'utf8'),before=sourceBeforeIndependentPrices222(file,raw);\n if(before===null)return false;if(before===raw||!reference)return true;\n",
+          "after": "assert.equal(pins.format,1);assert.equal(pins.baseline,'bd4d696af6eef074bfd523ee54906059a0bb668c');\nconst hash=text=>createHash('sha256').update(text.replaceAll('\\r\\n','\\n')).digest('hex');\nexport function sourceBeforeIndependentPrices222(file,text){\n text=sourceBeforePriceVisibility(file,text);\n if(text===null)return null;\n const pin=pins.entries[file];if(!pin||hash(text)!==pin.after)return text;\n if(pin.beforeText===null){assert.equal(pin.before,null,'PRICES222_ADDED_SOURCE_PIN_CORRUPT');return null;}\n assert.equal(hash(pin.beforeText),pin.before,'PRICES222_BEFORE_SOURCE_PIN_CORRUPT');\n return pin.beforeText;\n}\nexport function restoreIndependentPrices222Hashes(rows){return restorePriceVisibilityHashes(rows).flatMap(row=>{\n const pin=pins.entries[row.file];if(!pin||row.sha256!==pin.after)return[row];\n const raw=sourceBeforePriceVisibility(row.file,readFileSync(new URL('../../'+row.file,import.meta.url),'utf8'));\n assert.equal(hash(raw),pin.after,'PRICES222_CURRENT_SOURCE_CHANGED:'+row.file);\n const before=sourceBeforeIndependentPrices222(row.file,raw);\n return before===null?[]:[{...row,sha256:hash(before)}];\n});}\nexport function pathsBeforeIndependentPrices222(files,reference){return pathsBeforePriceVisibility(files).filter(file=>{\n if(!pins.entries[file])return true;\n const raw=readFileSync(new URL('../../'+file,import.meta.url),'utf8'),before=sourceBeforeIndependentPrices222(file,raw);\n if(before===null)return false;if(before===raw||!reference)return true;\n",
+          "offset": 499
+        }
+      ]
+    },
+    "scripts/audit/source-before-price-visibility.mjs": {
+      "before": null,
+      "after": "a8b574d9dcd44d51dee6003a826d880f7f814ebdce7a27ca22f63206edf16fcd",
+      "hunks": []
+    },
+    "scripts/testing/build-independent-prices222-history.mjs": {
+      "before": "cfddf3a096b57ead4941daa01f359d811b9f3331303d7033f3cf36a5e2fd40cb",
+      "after": "1cc5d9137e5c0cb87cf4376b8e5820fb1a5de6805ba5a4d830cb312d2ab05ac1",
+      "hunks": [
+        {
+          "before": "import {execFileSync} from 'node:child_process';\nimport {readFileSync,writeFileSync,existsSync} from 'node:fs';\nimport {canonicalLf,sha256} from './maintenance-db-contract.mjs';\nconst root=new URL('../../',import.meta.url),baseline='bd4d696af6eef074bfd523ee54906059a0bb668c';\nconst output='scripts/audit/independent-prices222-source-pins.json';\nassert.ok(process.argv.length===2||process.argv.length===3&&process.argv[2]==='--check','ONLY_CHECK_OPTION');\nconst git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',windowsHide:true,stdio:['ignore','pipe','pipe'],maxBuffer:32*1024**2});\nconst paths=[...new Set([...git(['diff','--name-only','-z',baseline]).split('\\0'),...git(['ls-files','--others','--exclude-standard','-z']).split('\\0')].filter(Boolean))].sort();\nconst previous=JSON.parse(readFileSync(new URL(output,root),'utf8')),entries={};\nfor(const file of paths){\n if(file===output||file.startsWith('docs/agent/ACTIVE_TASK')||file.startsWith('.env'))continue;\n assert.match(file,/\\.(?:[cm]?[jt]sx?|md|json|yml|yaml|html|ps1|sql|css)$/u,'TEXT_SOURCE_PIN_SCOPE:'+file);\n assert.ok(existsSync(new URL(file,root)),'DELETED_SOURCE_REQUIRES_EXPLICIT_HISTORY:'+file);\n const afterText=canonicalLf(readFileSync(new URL(file,root),'utf8'));let beforeText=null;\n try{beforeText=canonicalLf(git(['show',baseline+':'+file]));}catch{/* Exactly new path. */}\n const pin={before:beforeText===null?null:sha256(beforeText),after:sha256(afterText),beforeText};\n if(pin.before===pin.after)continue;\n",
+          "after": "import {execFileSync} from 'node:child_process';\nimport {readFileSync,writeFileSync,existsSync} from 'node:fs';\nimport {canonicalLf,sha256} from './maintenance-db-contract.mjs';\nimport {pathsBeforePriceVisibility,sourceBeforePriceVisibility} from '../audit/source-before-price-visibility.mjs';\nconst root=new URL('../../',import.meta.url),baseline='bd4d696af6eef074bfd523ee54906059a0bb668c';\nconst output='scripts/audit/independent-prices222-source-pins.json';\nassert.ok(process.argv.length===2||process.argv.length===3&&process.argv[2]==='--check','ONLY_CHECK_OPTION');\nconst git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',windowsHide:true,stdio:['ignore','pipe','pipe'],maxBuffer:32*1024**2});\nconst paths=pathsBeforePriceVisibility([...new Set([...git(['diff','--name-only','-z',baseline]).split('\\0'),...git(['ls-files','--others','--exclude-standard','-z']).split('\\0')].filter(Boolean))]).sort();\nconst previous=JSON.parse(readFileSync(new URL(output,root),'utf8')),entries={};\nfor(const file of paths){\n if(file===output||file.startsWith('docs/agent/ACTIVE_TASK')||file.startsWith('.env'))continue;\n assert.match(file,/\\.(?:[cm]?[jt]sx?|md|json|yml|yaml|html|ps1|sql|css)$/u,'TEXT_SOURCE_PIN_SCOPE:'+file);\n assert.ok(existsSync(new URL(file,root)),'DELETED_SOURCE_REQUIRES_EXPLICIT_HISTORY:'+file);\n const afterText=sourceBeforePriceVisibility(file,canonicalLf(readFileSync(new URL(file,root),'utf8')));let beforeText=null;\n if(afterText===null)continue;\n try{beforeText=canonicalLf(git(['show',baseline+':'+file]));}catch{/* Exactly new path. */}\n const pin={before:beforeText===null?null:sha256(beforeText),after:sha256(afterText),beforeText};\n if(pin.before===pin.after)continue;\n",
+          "offset": 117
+        }
+      ]
+    },
+    "scripts/testing/build-price-visibility-history.mjs": {
+      "before": null,
+      "after": "7191c4caaf00a1fcf93767f52602e3ae726feb9ac1a5b17a451d651a733c79b4",
+      "hunks": []
+    },
+    "tests/price-visibility-history.test.ts": {
+      "before": null,
+      "after": "915995ade0259341230479b723a7346cfc5d5dd270027c27aa35b5db4e960857",
+      "hunks": []
+    }
+  }
 }
