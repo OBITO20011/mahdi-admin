@@ -5,7 +5,7 @@ export const packageFShards = Object.freeze(Array.from({length: packageFShardCou
 // Every original engine, worker, retry, timeout and identity stays unchanged.
 // These existing Package F interface suites keep their historical filenames
 // and test identities; share their work across the approved browser shards.
-const packageFSpecName = /(?:package-f-[^/\\]+|admin-navigation-cash206|document-corrections207|optional-quantity223(?:-pos|-storefront)?)\.spec\.ts/;
+const packageFSpecName = /(?:package-f-[^/\\]+|admin-navigation-cash206|document-corrections207|optional-quantity223(?:-pos|-storefront)?|off-product-prices|price-visibility)\.spec\.ts/;
 export const packageFSpecPattern = new RegExp(`[/\\\\]${packageFSpecName.source}$`, 'u');
 export const notPackageFSpecPattern = new RegExp(`[/\\\\](?!${packageFSpecName.source}$)[^/\\\\]+$`, 'u');
 export const isPackageFSpec = file => packageFSpecPattern.test('/' + file.replaceAll('\\', '/'));

@@ -922,7 +922,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     addQuantityToCart(product, 1, source);
   };
 
-  const addBaseUnitToCart = (product: CatalogProduct, requestedQuantity = 1) => {
+  const addBaseUnitToCart = (product: CatalogProduct, requestedQuantity = 1, source?: HTMLElement) => {
     if(product.parcelOnly){showToast('هذا الصنف بيتباع بالطرد بس؛ اختر طرداً.','info');return;}
     if (cartStorageRecovery) {
       setCartOpen(true);
@@ -955,7 +955,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         ? { ...item, localRevision: item.localRevision + 1, quantity: item.quantity + actualQuantity }
         : item);
     }).then(() => {
-      if (addedQuantity > 0) { showToast(`تمت إضافة ${addedQuantity.toLocaleString('ar-JO')} ${storefrontUnitName(product.unitNameAr,product.quantityTracked)} من ${product.nameAr}.`); showCartAddition(); }
+      if (addedQuantity > 0) { showToast(`تمت إضافة ${addedQuantity.toLocaleString('ar-JO')} ${storefrontUnitName(product.unitNameAr,product.quantityTracked)} من ${product.nameAr}.`); showCartAddition(source); }
       else showToast('وصلت السلة إلى كامل المخزون المتاح من هذا الصنف.', 'info');
     }).catch(() => showToast('تعذر حفظ الإضافة في السلة. راجع حالة السلة وحاول مجددًا.', 'error'));
   };
@@ -1916,6 +1916,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
                     reservedQuantity={reservedBaseUnits.get(product.id) ?? 0}
                     isFavorite={favoriteProductIds.includes(product.id)}
                     onAdd={addToCart}
+                    onAddBaseUnit={(item,source)=>addBaseUnitToCart(item,1,source)}
                     onQuantityChange={updateCatalogCartQuantity}
                     onOpenDetails={openProductDetails}
                     onToggleFavorite={toggleProductFavorite}
@@ -2077,6 +2078,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
                           reservedQuantity={reservedBaseUnits.get(product.id) ?? 0}
                           isFavorite={favoriteProductIds.includes(product.id)}
                           onAdd={addToCart}
+                          onAddBaseUnit={(item,source)=>addBaseUnitToCart(item,1,source)}
                           onQuantityChange={updateCatalogCartQuantity}
                           onOpenDetails={openProductDetails}
                           onToggleFavorite={toggleProductFavorite}

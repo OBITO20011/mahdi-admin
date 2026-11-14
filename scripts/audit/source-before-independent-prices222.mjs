@@ -1,4 +1,5 @@
 import {sourceBeforeOptionalQuantity223,restoreOptionalQuantity223Hashes,pathsBeforeOptionalQuantity223} from './source-before-optional-quantity223.mjs';
+import{sourceBeforePriceVisibility,restorePriceVisibilityHashes,pathsBeforePriceVisibility}from'./source-before-price-visibility.mjs';
 // Exact source view for frozen historical evidence. Unknown bytes remain visible.
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -8,22 +9,22 @@ const pins=JSON.parse(readFileSync(new URL('./independent-prices222-source-pins.
 assert.equal(pins.format,1);assert.equal(pins.baseline,'bd4d696af6eef074bfd523ee54906059a0bb668c');
 const hash=text=>createHash('sha256').update(text.replaceAll('\r\n','\n')).digest('hex');
 export function sourceBeforeIndependentPrices222(file,text){
- text=sourceBeforeOptionalQuantity223(file,text);
+ text=sourceBeforePriceVisibility(file,sourceBeforeOptionalQuantity223(file,text));
  if(text===null)return null;
  const pin=pins.entries[file];if(!pin||hash(text)!==pin.after)return text;
  if(pin.beforeText===null){assert.equal(pin.before,null,'PRICES222_ADDED_SOURCE_PIN_CORRUPT');return null;}
  assert.equal(hash(pin.beforeText),pin.before,'PRICES222_BEFORE_SOURCE_PIN_CORRUPT');
  return pin.beforeText;
 }
-export function restoreIndependentPrices222Hashes(rows){return restoreOptionalQuantity223Hashes(rows).flatMap(row=>{
+export function restoreIndependentPrices222Hashes(rows){return restorePriceVisibilityHashes(restoreOptionalQuantity223Hashes(rows)).flatMap(row=>{
  const pin=pins.entries[row.file];if(!pin||row.sha256!==pin.after)return[row];
- const raw=sourceBeforeOptionalQuantity223(row.file,readFileSync(new URL('../../'+row.file,import.meta.url),'utf8'));
+ const raw=sourceBeforePriceVisibility(row.file,sourceBeforeOptionalQuantity223(row.file,readFileSync(new URL('../../'+row.file,import.meta.url),'utf8')));
  assert.ok(raw!==null,'PRICES222_CURRENT_SOURCE_REQUIRED');
   assert.equal(hash(raw),pin.after,'PRICES222_CURRENT_SOURCE_CHANGED:'+row.file);
  const before=sourceBeforeIndependentPrices222(row.file,raw);
  return before===null?[]:[{...row,sha256:hash(before)}];
 });}
-export function pathsBeforeIndependentPrices222(files,reference){return pathsBeforeOptionalQuantity223(files,reference).filter(file=>{
+export function pathsBeforeIndependentPrices222(files,reference){return pathsBeforePriceVisibility(pathsBeforeOptionalQuantity223(files,reference)).filter(file=>{
  if(!pins.entries[file])return true;
  const raw=readFileSync(new URL('../../'+file,import.meta.url),'utf8'),before=sourceBeforeIndependentPrices222(file,raw);
  if(before===null)return false;if(before===raw||!reference)return true;

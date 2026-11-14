@@ -18,6 +18,8 @@ import { CatalogProduct, PublicConfigurableParcelOption } from '../types/catalog
 import { formatJod } from '../utils/money';
 import {unsafeLiteParcelPrice,PARCEL_DEFINITION_MESSAGE} from '../utils/saleUnitLabels';
 import {ProductPurchaseControl} from './ProductPurchaseControl';
+import {LiteProductPrices,LiteParcelSaving} from './LiteProductPrices';
+import {liteProductDescription,liteParcelSaving} from '../utils/liteProductPricing';
 import {storefrontSaleUnit, storefrontPackageDescription, storefrontStock, storefrontUnitName, remainingStorefrontUnits, remainingStorefrontParcels} from '../utils/storefrontUnits';
 import { ProductImage } from './ProductImage';
 import {
@@ -77,6 +79,7 @@ export function ProductDetailsModal({
     familyProduct.variants.find((variant) => variant.id === selectedVariantId) ||
     familyProduct;
   const cartQuantity = cartQuantityByProduct.get(product.id) || 0;
+  const salesOnly=product.quantityTracked===false;
   const reserved = reservedBaseUnits.get(product.id) ?? 0;
   const remainingUnits = remainingStorefrontUnits(product, reserved);
   const remainingPackages = remainingStorefrontParcels(product, reserved);
@@ -312,11 +315,11 @@ export function ProductDetailsModal({
 
               {product.description ? (
                 <p className="mt-3 text-xs font-semibold leading-7 text-slate-600 sm:text-sm">
-                  {product.description}
+                  {salesOnly?liteProductDescription(product):product.description}
                 </p>
               ) : (
                 <p className="mt-3 text-xs font-semibold leading-6 text-slate-400">
-                  السعر والمخزون موضحان أدناه.
+                  {salesOnly?'الأسعار والتوفر موضحان أدناه.':'السعر والمخزون موضحان أدناه.'}
                 </p>
               )}
 
@@ -378,7 +381,7 @@ export function ProductDetailsModal({
                 </div>
               )}
 
-              <div className="mt-5 rounded-3xl border border-orange-100 bg-orange-50 p-4">
+              {salesOnly?<div className="mt-5 rounded-3xl border border-orange-100 bg-orange-50 p-4"><LiteProductPrices product={product}/></div>:<div className="mt-5 rounded-3xl border border-orange-100 bg-orange-50 p-4">
                 <p className="text-[10px] font-bold text-orange-500">
                   سعر {storefrontSaleUnit(product)}
                 </p>
@@ -388,9 +391,9 @@ export function ProductDetailsModal({
                 <p className="mt-1 text-[10px] font-bold text-orange-700/70">
                   السعر لوحدة البيع: {storefrontSaleUnit(product)}
                 </p>
-              </div>
+              </div>}
 
-              {product.unitsPerSalePackage > 1 && <div className="mt-4 grid grid-cols-2 gap-3">
+              {!salesOnly&&product.unitsPerSalePackage > 1 && <div className="mt-4 grid grid-cols-2 gap-3">
                 <div className="rounded-3xl border border-blue-100 bg-blue-50 p-4">
                   <div className="flex items-center gap-2 text-blue-600">
                     <Boxes className="h-4 w-4" />
@@ -519,6 +522,7 @@ export function ProductDetailsModal({
             {unsafeParcel&&<p role="status" className="text-xs text-amber-800">{PARCEL_DEFINITION_MESSAGE}</p>}
             <ProductPurchaseControl label={packageDescription} unit={storefrontSaleUnit(product)} productName={product.nameAr}
               price={product.salePackagePriceInMinorUnits} quantity={quantity} remaining={remainingPackages}
+              saving={salesOnly&&liteParcelSaving(product)>0?<LiteParcelSaving product={product} compact/>:undefined}
               disabled={!product.isAvailable||unsafeParcel} onChange={handleQuantityChange} onAdd={handleAdd} />
             {!product.parcelOnly&&product.unitsPerSalePackage > 1 && <ProductPurchaseControl label={storefrontUnitName(product.unitNameAr,product.quantityTracked)} unit={storefrontUnitName(product.unitNameAr,product.quantityTracked)} productName={product.nameAr}
               price={product.salePriceInMinorUnits} quantity={unitQuantity} remaining={remainingUnits}
