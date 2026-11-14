@@ -1,3 +1,15 @@
+#14Nov2026 — optional OFF quantity223; local protection proved, final gates pending
+
+Separate codex/off-quantity-counter above main0bd3b5b0. f0a344de saved/pushed:
+actual PG23 groups, fullON/untracked parity, Chromium/WebKit browser→Edge/SQL
+2/2, stale-unit CAS and legacy-invoice manual review proved. Active223 only:
+new sales_lite3 counters/events/requests;220 guards/accounting tables unchanged.
+Fresh/incremental0diff;687public/51private,HTTP181/RPC732,ready223 test-only.
+Actual222BackupRestore→223→BackupRestore/verify and RESET223+3resumes PASS;
+historical tools/source views and final fullCI/Gitleaks remain. No counter PR yet;
+no demo update beforefullgreen;no merge/hosted/deploy/owneroriginals. Draft98
+price separate:76/78,opening-cheques cancelled40min/log404,causeunverified.
+
 #14Nov2026 — strict legacy compatibility verified;final CI pending
 
 Draft97 only. a223 localunits2025/2027,0skip:oversizecheckpoint+missing220generatorhunk now repaired;focused14/14 andreal esbuild1/1 PASS. Actual owned219epoch13groups PASS after exact pre222 source compilation;no newwriters injected into219,no productSQL change. Types0/changedstrictlint0. Fullunits/finalexactheadCI/Gitleaks and postCI-only demo update remain. No hosted/deploy/merge;owner originals/demo unchanged.

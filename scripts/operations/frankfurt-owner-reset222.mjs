@@ -36,7 +36,7 @@ export function reset222Arguments(args){
 }
 export async function runOwnerReset222(args){
  if(args.includes('--apply')||args.includes('--resume'))await assertUpgradeAdministrator();
- await operationalManifest();assert.equal(operationalSchema.resetCommand,'frankfurt-owner-reset222','RESET_ADAPTER_NOT_CURRENT');
+ await operationalManifest();assert.ok(operationalSchema.resetCommand==='frankfurt-owner-reset222'||operationalSchema.ceiling===223&&operationalSchema.legacyArchiveCeilings.includes(222),'RESET_ADAPTER_NOT_CURRENT');
  const options=reset222Arguments(args),{workdir,ownerId,mode}=options;
  assertOutsideRepository(workdir);assertOutsideRepository(await realpath(workdir),await realpath(root));
  const output=path.join(workdir,'reset222-'+new Date().toISOString().replaceAll(/[:.]/gu,'-'));await mkdir(output);

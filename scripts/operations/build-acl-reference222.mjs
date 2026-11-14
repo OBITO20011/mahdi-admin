@@ -19,7 +19,7 @@ export async function buildReady222Reference(args=[]){
  const target=path.resolve(args[1]??path.join(DEFAULT_WORKDIR,ready222ReferenceName));assert.equal(path.basename(target),ready222ReferenceName);assertOutsideRepository(target);await mkdir(path.dirname(target),{recursive:true});assertOutsideRepository(await realpath(path.dirname(target)),await realpath(root));await assert.rejects(()=>readFile(target),{code:'ENOENT'},'REFERENCE_ALREADY_EXISTS');
  const output=await mkdtemp(path.join(tmpdir(),'nawasrah-reference222-')),report={ok:false,output,target,managedAccess:false,ownerDemoAccess:false};
  try{
-  const freeze=await readVerificationSourceFreeze(root),manifest=await operationalManifest(),source=await inventory();
+  const freeze=await readVerificationSourceFreeze(root),manifest=(await operationalManifest()).filter(unit=>Number(unit.name.slice(0,3))<=222),source=await inventory({projectSource:(await import('../audit/source-before-optional-quantity223.mjs')).sourceBeforeOptionalQuantity223});
   const proofText=canonicalLf(await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_222.json'),'utf8')),proof=JSON.parse(proofText);
   const captured=await capturePrices222Reference(output);assert.equal(captured.manifestSha256,manifestDigest(manifest));
   const final=captured.prefixes['222'];

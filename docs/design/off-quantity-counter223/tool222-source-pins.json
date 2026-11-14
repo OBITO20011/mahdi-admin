@@ -1,0 +1,16 @@
+{
+  "reset222-foundation.mjs": "768616132074615509b184f4e9769c2fa1d6e80cddc660875801dc5cf9c9c9d4",
+  "reset222-write-guard.mjs": "bfd12a917186fabbec0ef061b961bc637e6e7a58f24b4e3f7ab46c01ecfb9203",
+  "reset222-private-state.mjs": "becfe7234500b07aa4e340377358597268818d9a35b5c746c97b3c228dcb071e",
+  "reset222-session.mjs": "f200daa047ca706392760c68ffe387512989790aed9dcfddc7b317f0e0855a2b",
+  "reset222-pg-cron-guard.mjs": "d7df833f32dc91ebf43c39264b4a83cbf916b4111ea4e1e66c4db340353f30ff",
+  "trial-reset222-core.mjs": "dde5e871b5a8d08c66f1ab5f32a6fc5a71757cf042bd1465e9dd44177bc39b2c",
+  "frankfurt-owner-reset222.mjs": "0192ee40e9f7d17647b080c97943c452e171240076d70ac35b98e005ad523a51",
+  "frankfurt-owner-upgrade222.mjs": "30162e71a57cefad9cd8f46aa6fca694d75d8ac40aa79a15e90fd9b817ccd90c",
+  "upgrade222-protection.mjs": "9010a87ab3784cc14bcc438ff8bd38634f159e3dcff409981ed8c710648b2c24",
+  "d1-reference222-kit.mjs": "cb178fd1fa4fa97c0ea73c277dbf37d0bf822bb1ca2ac9abe12980d2b53db6ea",
+  "d1-reference222-state.mjs": "4f270c6df2d74021c58eea2d5f3cde625d25df5a653cfe52d039fa263154f004",
+  "d1-reference222-kit.ps1": "07ba1306317ddf3a82f9c474fc6656fd4db7201774414a51be7cb763c5ad7ff0",
+  "d1-reference222-install.ps1": "9fe85394676a1b8cd4348689857c52a5e28dca7b85f7b650b5ed3003d300c73d",
+  "d1-known-owner222-files.json": "e17890fdd904b967aceab6fa9385c185e3fd9e4e29153d45b52b21e58a6da3e3"
+}

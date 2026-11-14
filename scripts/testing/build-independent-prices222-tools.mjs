@@ -3,10 +3,11 @@
 import assert from 'node:assert/strict';
 import {readFile,writeFile} from 'node:fs/promises';
 import {canonicalLf,sha256} from './maintenance-db-contract.mjs';
+import {sourceBeforeOptionalQuantity223} from '../audit/source-before-optional-quantity223.mjs';
 const root=new URL('../../',import.meta.url),check=process.argv.includes('--check');
 assert.ok(process.argv.length===2||process.argv.length===3&&check,'ONLY_CHECK_OPTION');
 const bindings=JSON.parse(await readFile(new URL('docs/design/independent-parcel-prices222/tool222-source-pins.json',root),'utf8'));
-const source=async file=>{const text=canonicalLf(await readFile(new URL('scripts/operations/'+file,root),'utf8'));assert.equal(sha256(text),bindings.files[file],'EXACT222_TOOL_SOURCE:'+file);return text;};
+const source=async file=>{const text=sourceBeforeOptionalQuantity223('scripts/operations/'+file,canonicalLf(await readFile(new URL('scripts/operations/'+file,root),'utf8')));assert.ok(text!==null,'EXACT222_TOOL_SOURCE_REQUIRED:'+file);assert.equal(sha256(text),bindings.files[file],'EXACT222_TOOL_SOURCE:'+file);return text;};
 const once=(text,from,to)=>{assert.equal(text.split(from).length,2,'EXACT222_TOOL_HUNK:'+from.slice(0,90));return text.replace(from,()=>to);};
 const outputs=new Map();
 for(const name of ['reset220-foundation','reset220-write-guard','reset220-private-state','reset220-session','trial-reset220-core','reset220-pg-cron-guard','frankfurt-owner-reset220']){
@@ -56,5 +57,5 @@ for(const file of ['d1-reference220-state.mjs','d1-reference220-kit.mjs','d1-ref
  }
  outputs.set(file.replaceAll('220','222'),text);
 }
-for(const [file,text]of outputs){const url=new URL('scripts/operations/'+file,root);if(check)assert.equal(canonicalLf(await readFile(url,'utf8')),text,'GENERATED222_TOOL_DRIFT:'+file);else await writeFile(url,text);}
+for(const [file,text]of outputs){const url=new URL('scripts/operations/'+file,root);if(check)assert.equal(sourceBeforeOptionalQuantity223('scripts/operations/'+file,canonicalLf(await readFile(url,'utf8'))),text,'GENERATED222_TOOL_DRIFT:'+file);else await writeFile(url,text);}
 console.log(JSON.stringify({ok:true,checkOnly:check,files:[...outputs.keys()],generationDoesNotWriteBase220:true}));

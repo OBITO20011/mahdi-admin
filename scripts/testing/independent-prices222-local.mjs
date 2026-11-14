@@ -28,12 +28,12 @@ async function cliLease(project){
  return async()=>{assert.deepEqual(JSON.parse(await readFile(file,'utf8')),lease,'PRICES222_CLI_LEASE_CHANGED');await unlink(file);await rmdir(folder);};
 }
 export async function startPrices222Local(ceiling,purpose='reference'){
- assert.ok([220,222].includes(ceiling),'PRICES222_LOCAL_CEILING');
+ assert.ok([220,222,223].includes(ceiling),'PRICES222_LOCAL_CEILING');
  const projects={reference:'nawasrah-prices222-reference-test',tables:'nawasrah-table-audit-c222-test',services:'nawasrah-service-audit-c222-test',upgrade:'nawasrah-owner-upgrade222-test',reset:'nawasrah-reset222-resume-test'};
  assert.ok(Object.hasOwn(projects,purpose),'PRICES222_FIXED_TEST_PURPOSE');
  const project=projects[purpose],container='supabase_db_'+project;
  const manifest=(await operationalManifest()).filter(m=>Number(m.name.slice(0,3))<=ceiling);
- assert.equal(manifest.length,ceiling===220?181:182);
+ assert.equal(manifest.length,{220:181,222:182,223:183}[ceiling]);
  const names=(await docker('ps','-a','--format','{{.Names}}')).stdout.split(/\r?\n/u);
  assert.ok(!names.some(n=>n.endsWith('_'+project)),'PRICES222_OWN_STACK_ALREADY_EXISTS');
  const volumes=(await docker('volume','ls','--format','{{.Name}}')).stdout.split(/\r?\n/u);

@@ -1,0 +1,1633 @@
+{
+  "format": 1,
+  "migrationSha256": "d5d6397bd5d676f766493b7a85b1f47ad6f1b6f6c465e7b4a32219ee49abc0af",
+  "base222PinSha256": "73aaf19233e498a0700e6fea8ca38aa8f69b08bcf5a3453967e8b6242ae4869e",
+  "changes": [
+    {
+      "section": "tables",
+      "identity": "[\"sales_lite3\",null,\"quantity_counters\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=arwdDxtm/postgres"
+        ],
+        "rls": true,
+        "kind": "r",
+        "name": "quantity_counters",
+        "view": null,
+        "owner": "postgres",
+        "schema": "sales_lite3",
+        "columns": [
+          {
+            "acl": null,
+            "name": "product_id",
+            "type": "uuid",
+            "number": 1,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "unit_id",
+            "type": "uuid",
+            "number": 2,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "enabled",
+            "type": "boolean",
+            "number": 3,
+            "default": "false",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "quantity",
+            "type": "bigint",
+            "number": 4,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "low_threshold",
+            "type": "bigint",
+            "number": 5,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "revision",
+            "type": "bigint",
+            "number": 6,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "ever_enabled",
+            "type": "boolean",
+            "number": 7,
+            "default": "false",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "low_sent",
+            "type": "boolean",
+            "number": 8,
+            "default": "false",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "zero_sent",
+            "type": "boolean",
+            "number": 9,
+            "default": "false",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "updated_by",
+            "type": "uuid",
+            "number": 10,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "updated_at",
+            "type": "timestamp with time zone",
+            "number": 11,
+            "default": "clock_timestamp()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          }
+        ],
+        "options": null,
+        "parents": [],
+        "forceRls": false,
+        "partition": null,
+        "persistence": "p",
+        "replicaIdentity": "d"
+      }
+    },
+    {
+      "section": "tables",
+      "identity": "[\"sales_lite3\",null,\"quantity_events\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=arwdDxtm/postgres"
+        ],
+        "rls": true,
+        "kind": "r",
+        "name": "quantity_events",
+        "view": null,
+        "owner": "postgres",
+        "schema": "sales_lite3",
+        "columns": [
+          {
+            "acl": null,
+            "name": "id",
+            "type": "uuid",
+            "number": 1,
+            "default": "gen_random_uuid()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "product_id",
+            "type": "uuid",
+            "number": 2,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "sku_snapshot",
+            "type": "text",
+            "number": 3,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "name_snapshot",
+            "type": "text",
+            "number": 4,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "unit_id",
+            "type": "uuid",
+            "number": 5,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "unit_name_snapshot",
+            "type": "text",
+            "number": 6,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "kind",
+            "type": "text",
+            "number": 7,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "source_type",
+            "type": "text",
+            "number": 8,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "source_id",
+            "type": "uuid",
+            "number": 9,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "order_id",
+            "type": "uuid",
+            "number": 10,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "quantity_before",
+            "type": "bigint",
+            "number": 11,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "quantity_after",
+            "type": "bigint",
+            "number": 12,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "requested_quantity",
+            "type": "bigint",
+            "number": 13,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "applied_quantity",
+            "type": "bigint",
+            "number": 14,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "shortage_quantity",
+            "type": "bigint",
+            "number": 15,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "revision_before",
+            "type": "bigint",
+            "number": 16,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "revision_after",
+            "type": "bigint",
+            "number": 17,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "configuration_before",
+            "type": "jsonb",
+            "number": 18,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "configuration_after",
+            "type": "jsonb",
+            "number": 19,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "created_by",
+            "type": "uuid",
+            "number": 20,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "created_at",
+            "type": "timestamp with time zone",
+            "number": 21,
+            "default": "clock_timestamp()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          }
+        ],
+        "options": null,
+        "parents": [],
+        "forceRls": false,
+        "partition": null,
+        "persistence": "p",
+        "replicaIdentity": "d"
+      }
+    },
+    {
+      "section": "tables",
+      "identity": "[\"sales_lite3\",null,\"quantity_requests\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=arwdDxtm/postgres"
+        ],
+        "rls": true,
+        "kind": "r",
+        "name": "quantity_requests",
+        "view": null,
+        "owner": "postgres",
+        "schema": "sales_lite3",
+        "columns": [
+          {
+            "acl": null,
+            "name": "key",
+            "type": "uuid",
+            "number": 1,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "actor_id",
+            "type": "uuid",
+            "number": 2,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "fingerprint",
+            "type": "text",
+            "number": 3,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": "default",
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "result",
+            "type": "jsonb",
+            "number": 4,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "created_at",
+            "type": "timestamp with time zone",
+            "number": 5,
+            "default": "clock_timestamp()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          }
+        ],
+        "options": null,
+        "parents": [],
+        "forceRls": false,
+        "partition": null,
+        "persistence": "p",
+        "replicaIdentity": "d"
+      }
+    },
+    {
+      "section": "indexes",
+      "identity": "[\"sales_lite3\",\"quantity_counters\",\"quantity_counters_pkey\",null,null]",
+      "before": null,
+      "after": {
+        "name": "quantity_counters_pkey",
+        "owner": "postgres",
+        "ready": true,
+        "table": "quantity_counters",
+        "valid": true,
+        "schema": "sales_lite3",
+        "unique": true,
+        "primary": true,
+        "clustered": false,
+        "definition": "CREATE UNIQUE INDEX quantity_counters_pkey ON sales_lite3.quantity_counters USING btree (product_id)",
+        "replicaIdentity": false
+      }
+    },
+    {
+      "section": "indexes",
+      "identity": "[\"sales_lite3\",\"quantity_events\",\"quantity_events_kind_source_type_source_id_product_id_key\",null,null]",
+      "before": null,
+      "after": {
+        "name": "quantity_events_kind_source_type_source_id_product_id_key",
+        "owner": "postgres",
+        "ready": true,
+        "table": "quantity_events",
+        "valid": true,
+        "schema": "sales_lite3",
+        "unique": true,
+        "primary": false,
+        "clustered": false,
+        "definition": "CREATE UNIQUE INDEX quantity_events_kind_source_type_source_id_product_id_key ON sales_lite3.quantity_events USING btree (kind, source_type, source_id, product_id)",
+        "replicaIdentity": false
+      }
+    },
+    {
+      "section": "indexes",
+      "identity": "[\"sales_lite3\",\"quantity_events\",\"quantity_events_order223\",null,null]",
+      "before": null,
+      "after": {
+        "name": "quantity_events_order223",
+        "owner": "postgres",
+        "ready": true,
+        "table": "quantity_events",
+        "valid": true,
+        "schema": "sales_lite3",
+        "unique": false,
+        "primary": false,
+        "clustered": false,
+        "definition": "CREATE INDEX quantity_events_order223 ON sales_lite3.quantity_events USING btree (order_id, product_id) WHERE (order_id IS NOT NULL)",
+        "replicaIdentity": false
+      }
+    },
+    {
+      "section": "indexes",
+      "identity": "[\"sales_lite3\",\"quantity_events\",\"quantity_events_pkey\",null,null]",
+      "before": null,
+      "after": {
+        "name": "quantity_events_pkey",
+        "owner": "postgres",
+        "ready": true,
+        "table": "quantity_events",
+        "valid": true,
+        "schema": "sales_lite3",
+        "unique": true,
+        "primary": true,
+        "clustered": false,
+        "definition": "CREATE UNIQUE INDEX quantity_events_pkey ON sales_lite3.quantity_events USING btree (id)",
+        "replicaIdentity": false
+      }
+    },
+    {
+      "section": "indexes",
+      "identity": "[\"sales_lite3\",\"quantity_events\",\"quantity_events_product223\",null,null]",
+      "before": null,
+      "after": {
+        "name": "quantity_events_product223",
+        "owner": "postgres",
+        "ready": true,
+        "table": "quantity_events",
+        "valid": true,
+        "schema": "sales_lite3",
+        "unique": false,
+        "primary": false,
+        "clustered": false,
+        "definition": "CREATE INDEX quantity_events_product223 ON sales_lite3.quantity_events USING btree (product_id, created_at, id)",
+        "replicaIdentity": false
+      }
+    },
+    {
+      "section": "indexes",
+      "identity": "[\"sales_lite3\",\"quantity_requests\",\"quantity_requests_pkey\",null,null]",
+      "before": null,
+      "after": {
+        "name": "quantity_requests_pkey",
+        "owner": "postgres",
+        "ready": true,
+        "table": "quantity_requests",
+        "valid": true,
+        "schema": "sales_lite3",
+        "unique": true,
+        "primary": true,
+        "clustered": false,
+        "definition": "CREATE UNIQUE INDEX quantity_requests_pkey ON sales_lite3.quantity_requests USING btree (key)",
+        "replicaIdentity": false
+      }
+    },
+    {
+      "section": "schemas",
+      "identity": "[null,null,\"sales_lite3\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=UC/postgres"
+        ],
+        "name": "sales_lite3",
+        "owner": "postgres"
+      }
+    },
+    {
+      "section": "triggers",
+      "identity": "[\"public\",\"order_items\",\"optional_quantity_item223\",null,null]",
+      "before": null,
+      "after": {
+        "name": "optional_quantity_item223",
+        "table": "order_items",
+        "schema": "public",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER optional_quantity_item223 AFTER INSERT ON public.order_items FOR EACH ROW EXECUTE FUNCTION sales_lite3.item_debit223()"
+      }
+    },
+    {
+      "section": "triggers",
+      "identity": "[\"public\",\"order_parcel_components\",\"optional_quantity_component223\",null,null]",
+      "before": null,
+      "after": {
+        "name": "optional_quantity_component223",
+        "table": "order_parcel_components",
+        "schema": "public",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER optional_quantity_component223 AFTER INSERT ON public.order_parcel_components FOR EACH ROW EXECUTE FUNCTION sales_lite3.component_debit223()"
+      }
+    },
+    {
+      "section": "triggers",
+      "identity": "[\"public\",\"orders\",\"optional_quantity_cancel223\",null,null]",
+      "before": null,
+      "after": {
+        "name": "optional_quantity_cancel223",
+        "table": "orders",
+        "schema": "public",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER optional_quantity_cancel223 AFTER UPDATE OF status ON public.orders FOR EACH ROW EXECUTE FUNCTION sales_lite3.cancel_credit223()"
+      }
+    },
+    {
+      "section": "triggers",
+      "identity": "[\"public\",\"products\",\"optional_quantity_unit223\",null,null]",
+      "before": null,
+      "after": {
+        "name": "optional_quantity_unit223",
+        "table": "products",
+        "schema": "public",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER optional_quantity_unit223 BEFORE UPDATE OF unit_id ON public.products FOR EACH ROW EXECUTE FUNCTION sales_lite3.guard_base_unit223()"
+      }
+    },
+    {
+      "section": "triggers",
+      "identity": "[\"sales_lite2\",\"return_details\",\"optional_quantity_return223\",null,null]",
+      "before": null,
+      "after": {
+        "name": "optional_quantity_return223",
+        "table": "return_details",
+        "schema": "sales_lite2",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER optional_quantity_return223 AFTER INSERT ON sales_lite2.return_details FOR EACH ROW EXECUTE FUNCTION sales_lite3.return_credit223()"
+      }
+    },
+    {
+      "section": "triggers",
+      "identity": "[\"sales_lite3\",\"quantity_counters\",\"optional_quantity_alert223\",null,null]",
+      "before": null,
+      "after": {
+        "name": "optional_quantity_alert223",
+        "table": "quantity_counters",
+        "schema": "sales_lite3",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER optional_quantity_alert223 AFTER INSERT OR UPDATE OF quantity, enabled, low_threshold ON sales_lite3.quantity_counters FOR EACH ROW EXECUTE FUNCTION sales_lite3.alert_transition223()"
+      }
+    },
+    {
+      "section": "triggers",
+      "identity": "[\"sales_lite3\",\"quantity_events\",\"quantity_events_immutable223\",null,null]",
+      "before": null,
+      "after": {
+        "name": "quantity_events_immutable223",
+        "table": "quantity_events",
+        "schema": "sales_lite3",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER quantity_events_immutable223 BEFORE DELETE OR UPDATE ON sales_lite3.quantity_events FOR EACH ROW EXECUTE FUNCTION sales_lite3.immutable223()"
+      }
+    },
+    {
+      "section": "triggers",
+      "identity": "[\"sales_lite3\",\"quantity_events\",\"quantity_events_truncate223\",null,null]",
+      "before": null,
+      "after": {
+        "name": "quantity_events_truncate223",
+        "table": "quantity_events",
+        "schema": "sales_lite3",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER quantity_events_truncate223 BEFORE TRUNCATE ON sales_lite3.quantity_events FOR EACH STATEMENT EXECUTE FUNCTION sales_lite3.immutable223()"
+      }
+    },
+    {
+      "section": "triggers",
+      "identity": "[\"sales_lite3\",\"quantity_requests\",\"quantity_requests_immutable223\",null,null]",
+      "before": null,
+      "after": {
+        "name": "quantity_requests_immutable223",
+        "table": "quantity_requests",
+        "schema": "sales_lite3",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER quantity_requests_immutable223 BEFORE DELETE OR UPDATE ON sales_lite3.quantity_requests FOR EACH ROW EXECUTE FUNCTION sales_lite3.immutable223()"
+      }
+    },
+    {
+      "section": "triggers",
+      "identity": "[\"sales_lite3\",\"quantity_requests\",\"quantity_requests_truncate223\",null,null]",
+      "before": null,
+      "after": {
+        "name": "quantity_requests_truncate223",
+        "table": "quantity_requests",
+        "schema": "sales_lite3",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER quantity_requests_truncate223 BEFORE TRUNCATE ON sales_lite3.quantity_requests FOR EACH STATEMENT EXECUTE FUNCTION sales_lite3.immutable223()"
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"sales_lite2\",null,\"catalog_page(p_limit integer, p_offset integer, p_category_id uuid, p_search text, p_availability text, p_sort text, p_brand_id uuid, p_sale_unit_id uuid, p_product_ids uuid[])\",null,null]",
+      "before": {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "sales_lite2",
+        "identity": "catalog_page(p_limit integer, p_offset integer, p_category_id uuid, p_search text, p_availability text, p_sort text, p_brand_id uuid, p_sale_unit_id uuid, p_product_ids uuid[])",
+        "definition": "CREATE OR REPLACE FUNCTION sales_lite2.catalog_page(p_limit integer, p_offset integer, p_category_id uuid, p_search text, p_availability text, p_sort text, p_brand_id uuid, p_sale_unit_id uuid, p_product_ids uuid[])\n RETURNS jsonb\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\n  WITH  sales_by_product AS (\n    SELECT\n      oi.product_id,\n      COALESCE(SUM(COALESCE(oi.sale_package_quantity, 0)), 0)::BIGINT\n        AS sold_packages\n    FROM public.order_items oi\n    JOIN public.orders o ON o.id = oi.order_id\n    WHERE o.status = 'completed'\n      AND o.created_at >= NOW() - INTERVAL '90 days'\n    GROUP BY oi.product_id\n  ),\n  catalog_source AS (\n    SELECT\n      p.id,\n      p.sku,\n      p.barcode,\n      p.name_ar,\n      p.description,\n      p.category_id,\n      c.code AS category_code,\n      c.name_ar AS category_name_ar,\n      p.brand_id,\n      b.name_ar AS brand_name_ar,\n      p.unit_id,\n      base_unit.name_ar AS unit_name_ar,\n      p.sale_unit_id,\n      sale_unit.name_ar AS sale_unit_name_ar,\n      p.units_per_sale_unit,\n      p.parcel_only,\n      p.default_sale_price_in_minor_units,\n      p.sale_price_in_minor_units,\n      sales_lite1.available(p.id) AS manual_available,\n      image.image_url,\n      p.created_at,\n      COALESCE(sales.sold_packages, 0)::BIGINT AS sold_packages_last_90_days,\n      p.flavor_master_product_id,\n      p.flavor_name_ar,\n      p.is_flavor_master,\n      p.flavor_sort_order,\n      COALESCE(p.flavor_master_product_id, p.id) AS family_id\n    FROM public.products p\n    JOIN public.categories c ON c.id = p.category_id AND c.is_active = true\n    LEFT JOIN public.brands b ON b.id = p.brand_id\n    JOIN public.units base_unit ON base_unit.id = p.unit_id\n    JOIN public.units sale_unit ON sale_unit.id = p.sale_unit_id\n    LEFT JOIN sales_by_product sales ON sales.product_id = p.id\n    LEFT JOIN LATERAL (\n      SELECT pi.image_url\n      FROM public.product_images pi\n      WHERE pi.product_id = p.id\n      ORDER BY pi.is_primary DESC, pi.display_order, pi.created_at\n      LIMIT 1\n    ) image ON true\n    WHERE p.is_active = true\n      AND sale_unit.code <> 'PCS'\n      AND p.units_per_sale_unit > 0\n      AND p.default_sale_price_in_minor_units > 0\n  ),\n  family_summary AS (\n    SELECT\n      family_id,\n      MIN(category_id::TEXT)::UUID AS category_id,\n      MIN(category_code) AS category_code,\n      MIN(brand_id::TEXT)::UUID AS brand_id,\n      MIN(sale_unit_id::TEXT)::UUID AS sale_unit_id,\n      COALESCE(\n        MIN(name_ar) FILTER (WHERE flavor_master_product_id IS NULL),\n        MIN(name_ar)\n      ) AS family_name_ar,\n      MIN(default_sale_price_in_minor_units) AS sale_price_in_minor_units,\n      NULL::INTEGER AS available_sale_packages,\n      BOOL_OR(NOT is_flavor_master AND manual_available) AS is_available,\n      false AS is_low_stock,\n      MAX(created_at) AS created_at,\n      COALESCE(SUM(sold_packages_last_90_days) FILTER (WHERE NOT is_flavor_master), 0)::BIGINT\n        AS sold_packages_last_90_days\n    FROM catalog_source\n    GROUP BY family_id\n  ),\n  normalized_search AS (\n    SELECT LOWER(TRANSLATE(\n      REGEXP_REPLACE(COALESCE(NULLIF(BTRIM(p_search), ''), ''), '[ً-ٰٟـ]', '', 'g'),\n      'أإآى',\n      'اااي'\n    )) AS value\n  ),\n  matching_families AS (\n    SELECT fs.*\n    FROM family_summary fs\n    CROSS JOIN normalized_search normalized\n    WHERE (p_category_id IS NULL OR fs.category_id = p_category_id)\n      AND (p_brand_id IS NULL OR fs.brand_id = p_brand_id)\n      AND (p_sale_unit_id IS NULL OR fs.sale_unit_id = p_sale_unit_id)\n      AND (\n        p_product_ids IS NULL\n        OR fs.family_id = ANY (p_product_ids)\n        OR EXISTS (\n          SELECT 1\n          FROM catalog_source favorite_member\n          WHERE favorite_member.family_id = fs.family_id\n            AND favorite_member.id = ANY (p_product_ids)\n        )\n      )\n      AND (\n        p_availability NOT IN ('available', 'low_stock')\n        OR (p_availability = 'available' AND fs.is_available)\n        OR (p_availability = 'low_stock' AND fs.is_low_stock)\n      )\n      AND (p_sort <> 'offers' OR fs.category_code = 'CAT-OFFERS')\n      AND (p_sort <> 'low_stock' OR fs.is_low_stock)\n      AND (\n        normalized.value = ''\n        OR EXISTS (\n          SELECT 1\n          FROM catalog_source searched_member\n          WHERE searched_member.family_id = fs.family_id\n            AND (\n              LOWER(TRANSLATE(REGEXP_REPLACE(searched_member.name_ar, '[ً-ٰٟـ]', '', 'g'), 'أإآى', 'اااي')) LIKE '%' || normalized.value || '%'\n              OR LOWER(TRANSLATE(REGEXP_REPLACE(searched_member.sku, '[ً-ٰٟـ]', '', 'g'), 'أإآى', 'اااي')) LIKE '%' || normalized.value || '%'\n              OR LOWER(TRANSLATE(REGEXP_REPLACE(COALESCE(searched_member.barcode, ''), '[ً-ٰٟـ]', '', 'g'), 'أإآى', 'اااي')) LIKE '%' || normalized.value || '%'\n              OR LOWER(TRANSLATE(REGEXP_REPLACE(COALESCE(searched_member.description, ''), '[ً-ٰٟـ]', '', 'g'), 'أإآى', 'اااي')) LIKE '%' || normalized.value || '%'\n              OR LOWER(TRANSLATE(REGEXP_REPLACE(COALESCE(searched_member.brand_name_ar, ''), '[ً-ٰٟـ]', '', 'g'), 'أإآى', 'اااي')) LIKE '%' || normalized.value || '%'\n            )\n        )\n      )\n  ),\n  paged_families AS (\n    SELECT\n      mf.*,\n      ROW_NUMBER() OVER (\n        ORDER BY\n          mf.is_available DESC,\n          CASE WHEN p_sort = 'name_asc' THEN mf.family_name_ar END ASC,\n          CASE WHEN p_sort = 'price_asc' THEN mf.sale_price_in_minor_units END ASC,\n          CASE WHEN p_sort = 'price_desc' THEN mf.sale_price_in_minor_units END DESC,\n          CASE WHEN p_sort = 'stock_desc' THEN mf.available_sale_packages END DESC,\n          CASE WHEN p_sort = 'newest' THEN mf.created_at END DESC,\n          CASE WHEN p_sort = 'best_sellers' THEN mf.sold_packages_last_90_days END DESC,\n          CASE WHEN p_sort = 'low_stock' THEN mf.available_sale_packages END ASC,\n          mf.family_name_ar ASC,\n          mf.family_id ASC\n      ) AS page_order\n    FROM matching_families mf\n    ORDER BY\n      mf.is_available DESC,\n      CASE WHEN p_sort = 'name_asc' THEN mf.family_name_ar END ASC,\n      CASE WHEN p_sort = 'price_asc' THEN mf.sale_price_in_minor_units END ASC,\n      CASE WHEN p_sort = 'price_desc' THEN mf.sale_price_in_minor_units END DESC,\n      CASE WHEN p_sort = 'stock_desc' THEN mf.available_sale_packages END DESC,\n      CASE WHEN p_sort = 'newest' THEN mf.created_at END DESC,\n      CASE WHEN p_sort = 'best_sellers' THEN mf.sold_packages_last_90_days END DESC,\n      CASE WHEN p_sort = 'low_stock' THEN mf.available_sale_packages END ASC,\n      mf.family_name_ar ASC,\n      mf.family_id ASC\n    LIMIT LEAST(GREATEST(COALESCE(p_limit, 24), 1), 48)\n    OFFSET GREATEST(COALESCE(p_offset, 0), 0)\n  ),\n  page_items AS (\n    SELECT\n      pf.page_order,\n      cs.*\n    FROM paged_families pf\n    JOIN catalog_source cs ON cs.family_id = pf.family_id\n  ),\n  category_summary AS (\n    SELECT\n      c.id,\n      c.code,\n      c.name_ar,\n      c.image_url,\n      COUNT(fs.family_id)::INTEGER AS product_count,\n      COUNT(fs.family_id) FILTER (WHERE fs.is_available)::INTEGER AS available_product_count,\n      CASE c.code\n        WHEN 'CAT-BEV' THEN 10 WHEN 'CAT-WATER' THEN 20\n        WHEN 'CAT-ENERGY' THEN 30 WHEN 'CAT-BISCUIT' THEN 40\n        WHEN 'CAT-CAKE' THEN 50 WHEN 'CAT-CHOCO' THEN 60\n        WHEN 'CAT-CANDY' THEN 70 WHEN 'CAT-GUM' THEN 80\n        WHEN 'CAT-CHIPS' THEN 90 WHEN 'CAT-FOOD' THEN 100\n        WHEN 'CAT-GIFTS' THEN 110 WHEN 'CAT-OFFERS' THEN 120\n        ELSE 1000\n      END AS sort_order\n    FROM public.categories c\n    LEFT JOIN family_summary fs ON fs.category_id = c.id\n    WHERE c.is_active = true\n    GROUP BY c.id, c.code, c.name_ar, c.image_url\n  ),\n  brand_facets AS (\n    SELECT fs.brand_id AS id, MIN(cs.brand_name_ar) AS name_ar\n    FROM family_summary fs\n    JOIN catalog_source cs ON cs.family_id = fs.family_id\n    WHERE fs.brand_id IS NOT NULL\n    GROUP BY fs.brand_id\n  ),\n  sale_unit_facets AS (\n    SELECT fs.sale_unit_id AS id, MIN(cs.sale_unit_name_ar) AS name_ar\n    FROM family_summary fs\n    JOIN catalog_source cs ON cs.family_id = fs.family_id\n    WHERE fs.sale_unit_id IS NOT NULL\n    GROUP BY fs.sale_unit_id\n  )\n  SELECT jsonb_build_object(\n    'items', COALESCE((\n      SELECT jsonb_agg(\n        jsonb_build_object(\n          'id', id,\n          'sku', sku,\n          'barcode', barcode,\n          'nameAr', name_ar,\n          'description', description,\n          'categoryId', category_id,\n          'categoryCode', category_code,\n          'categoryNameAr', category_name_ar,\n          'brandId', brand_id,\n          'brandNameAr', brand_name_ar,\n          'unitId', unit_id,\n          'unitNameAr', unit_name_ar,\n          'saleUnitId', sale_unit_id,\n          'saleUnitNameAr', sale_unit_name_ar,\n          'unitsPerSalePackage', units_per_sale_unit,\n          'parcelOnly', parcel_only,\n          'salePackagePriceInMinorUnits', default_sale_price_in_minor_units,\n          'salePriceInMinorUnits', sale_price_in_minor_units,\n          'quantityTracked',false,\n          'manualAvailable',manual_available,\n          'availableQuantity',NULL,\n          'availableSalePackages',NULL,\n          'minimumOrderPackages', 1,\n          'imageUrl', image_url,\n          'isAvailable', manual_available AND NOT is_flavor_master,\n          'createdAt', created_at,\n          'soldPackagesLast90Days', sold_packages_last_90_days,\n          'flavorMasterProductId', flavor_master_product_id,\n          'flavorNameAr', flavor_name_ar,\n          'isFlavorMaster', is_flavor_master,\n          'flavorSortOrder', flavor_sort_order\n        )\n        ORDER BY page_order,\n          CASE WHEN flavor_master_product_id IS NULL THEN 0 ELSE 1 END,\n          flavor_sort_order,\n          name_ar,\n          id\n      )\n      FROM page_items\n    ), '[]'::jsonb),\n    'categories', COALESCE((\n      SELECT jsonb_agg(jsonb_build_object(\n        'id', id, 'code', code, 'nameAr', name_ar, 'imageUrl', image_url,\n        'productCount', product_count, 'availableProductCount', available_product_count\n      ) ORDER BY sort_order, name_ar, id)\n      FROM category_summary\n    ), '[]'::jsonb),\n    'brands', COALESCE((\n      SELECT jsonb_agg(jsonb_build_object('id', id, 'nameAr', name_ar) ORDER BY name_ar, id)\n      FROM brand_facets\n    ), '[]'::jsonb),\n    'saleUnits', COALESCE((\n      SELECT jsonb_agg(jsonb_build_object('id', id, 'nameAr', name_ar) ORDER BY name_ar, id)\n      FROM sale_unit_facets\n    ), '[]'::jsonb),\n    'summary', jsonb_build_object(\n      'availableProducts', (SELECT COUNT(*) FROM matching_families WHERE is_available),\n      'quantityTracked',false,\n      'availableSalePackages',NULL,\n      'lowStockProducts', (SELECT COUNT(*) FROM matching_families WHERE is_low_stock)\n    ),\n    'total', (SELECT COUNT(*) FROM matching_families),\n    'limit', LEAST(GREATEST(COALESCE(p_limit, 24), 1), 48),\n    'offset', GREATEST(COALESCE(p_offset, 0), 0)\n  );\n$function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      },
+      "after": {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "sales_lite2",
+        "identity": "catalog_page(p_limit integer, p_offset integer, p_category_id uuid, p_search text, p_availability text, p_sort text, p_brand_id uuid, p_sale_unit_id uuid, p_product_ids uuid[])",
+        "definition": "CREATE OR REPLACE FUNCTION sales_lite2.catalog_page(p_limit integer, p_offset integer, p_category_id uuid, p_search text, p_availability text, p_sort text, p_brand_id uuid, p_sale_unit_id uuid, p_product_ids uuid[])\n RETURNS jsonb\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\n  WITH  sales_by_product AS (\n    SELECT\n      oi.product_id,\n      COALESCE(SUM(COALESCE(oi.sale_package_quantity, 0)), 0)::BIGINT\n        AS sold_packages\n    FROM public.order_items oi\n    JOIN public.orders o ON o.id = oi.order_id\n    WHERE o.status = 'completed'\n      AND o.created_at >= NOW() - INTERVAL '90 days'\n    GROUP BY oi.product_id\n  ),\n  catalog_source AS (\n    SELECT\n      p.id,\n      p.sku,\n      p.barcode,\n      p.name_ar,\n      p.description,\n      p.category_id,\n      c.code AS category_code,\n      c.name_ar AS category_name_ar,\n      p.brand_id,\n      b.name_ar AS brand_name_ar,\n      p.unit_id,\n      base_unit.name_ar AS unit_name_ar,\n      p.sale_unit_id,\n      sale_unit.name_ar AS sale_unit_name_ar,\n      p.units_per_sale_unit,\n      p.parcel_only,\n      p.default_sale_price_in_minor_units,\n      p.sale_price_in_minor_units,\n      sales_lite3.effective_available223(p.id) AS manual_available,\n      image.image_url,\n      p.created_at,\n      COALESCE(sales.sold_packages, 0)::BIGINT AS sold_packages_last_90_days,\n      p.flavor_master_product_id,\n      p.flavor_name_ar,\n      p.is_flavor_master,\n      p.flavor_sort_order,\n      COALESCE(p.flavor_master_product_id, p.id) AS family_id\n    FROM public.products p\n    JOIN public.categories c ON c.id = p.category_id AND c.is_active = true\n    LEFT JOIN public.brands b ON b.id = p.brand_id\n    JOIN public.units base_unit ON base_unit.id = p.unit_id\n    JOIN public.units sale_unit ON sale_unit.id = p.sale_unit_id\n    LEFT JOIN sales_by_product sales ON sales.product_id = p.id\n    LEFT JOIN LATERAL (\n      SELECT pi.image_url\n      FROM public.product_images pi\n      WHERE pi.product_id = p.id\n      ORDER BY pi.is_primary DESC, pi.display_order, pi.created_at\n      LIMIT 1\n    ) image ON true\n    WHERE p.is_active = true\n      AND sale_unit.code <> 'PCS'\n      AND p.units_per_sale_unit > 0\n      AND p.default_sale_price_in_minor_units > 0\n  ),\n  family_summary AS (\n    SELECT\n      family_id,\n      MIN(category_id::TEXT)::UUID AS category_id,\n      MIN(category_code) AS category_code,\n      MIN(brand_id::TEXT)::UUID AS brand_id,\n      MIN(sale_unit_id::TEXT)::UUID AS sale_unit_id,\n      COALESCE(\n        MIN(name_ar) FILTER (WHERE flavor_master_product_id IS NULL),\n        MIN(name_ar)\n      ) AS family_name_ar,\n      MIN(default_sale_price_in_minor_units) AS sale_price_in_minor_units,\n      NULL::INTEGER AS available_sale_packages,\n      BOOL_OR(NOT is_flavor_master AND manual_available) AS is_available,\n      false AS is_low_stock,\n      MAX(created_at) AS created_at,\n      COALESCE(SUM(sold_packages_last_90_days) FILTER (WHERE NOT is_flavor_master), 0)::BIGINT\n        AS sold_packages_last_90_days\n    FROM catalog_source\n    GROUP BY family_id\n  ),\n  normalized_search AS (\n    SELECT LOWER(TRANSLATE(\n      REGEXP_REPLACE(COALESCE(NULLIF(BTRIM(p_search), ''), ''), '[ً-ٰٟـ]', '', 'g'),\n      'أإآى',\n      'اااي'\n    )) AS value\n  ),\n  matching_families AS (\n    SELECT fs.*\n    FROM family_summary fs\n    CROSS JOIN normalized_search normalized\n    WHERE (p_category_id IS NULL OR fs.category_id = p_category_id)\n      AND (p_brand_id IS NULL OR fs.brand_id = p_brand_id)\n      AND (p_sale_unit_id IS NULL OR fs.sale_unit_id = p_sale_unit_id)\n      AND (\n        p_product_ids IS NULL\n        OR fs.family_id = ANY (p_product_ids)\n        OR EXISTS (\n          SELECT 1\n          FROM catalog_source favorite_member\n          WHERE favorite_member.family_id = fs.family_id\n            AND favorite_member.id = ANY (p_product_ids)\n        )\n      )\n      AND (\n        p_availability NOT IN ('available', 'low_stock')\n        OR (p_availability = 'available' AND fs.is_available)\n        OR (p_availability = 'low_stock' AND fs.is_low_stock)\n      )\n      AND (p_sort <> 'offers' OR fs.category_code = 'CAT-OFFERS')\n      AND (p_sort <> 'low_stock' OR fs.is_low_stock)\n      AND (\n        normalized.value = ''\n        OR EXISTS (\n          SELECT 1\n          FROM catalog_source searched_member\n          WHERE searched_member.family_id = fs.family_id\n            AND (\n              LOWER(TRANSLATE(REGEXP_REPLACE(searched_member.name_ar, '[ً-ٰٟـ]', '', 'g'), 'أإآى', 'اااي')) LIKE '%' || normalized.value || '%'\n              OR LOWER(TRANSLATE(REGEXP_REPLACE(searched_member.sku, '[ً-ٰٟـ]', '', 'g'), 'أإآى', 'اااي')) LIKE '%' || normalized.value || '%'\n              OR LOWER(TRANSLATE(REGEXP_REPLACE(COALESCE(searched_member.barcode, ''), '[ً-ٰٟـ]', '', 'g'), 'أإآى', 'اااي')) LIKE '%' || normalized.value || '%'\n              OR LOWER(TRANSLATE(REGEXP_REPLACE(COALESCE(searched_member.description, ''), '[ً-ٰٟـ]', '', 'g'), 'أإآى', 'اااي')) LIKE '%' || normalized.value || '%'\n              OR LOWER(TRANSLATE(REGEXP_REPLACE(COALESCE(searched_member.brand_name_ar, ''), '[ً-ٰٟـ]', '', 'g'), 'أإآى', 'اااي')) LIKE '%' || normalized.value || '%'\n            )\n        )\n      )\n  ),\n  paged_families AS (\n    SELECT\n      mf.*,\n      ROW_NUMBER() OVER (\n        ORDER BY\n          mf.is_available DESC,\n          CASE WHEN p_sort = 'name_asc' THEN mf.family_name_ar END ASC,\n          CASE WHEN p_sort = 'price_asc' THEN mf.sale_price_in_minor_units END ASC,\n          CASE WHEN p_sort = 'price_desc' THEN mf.sale_price_in_minor_units END DESC,\n          CASE WHEN p_sort = 'stock_desc' THEN mf.available_sale_packages END DESC,\n          CASE WHEN p_sort = 'newest' THEN mf.created_at END DESC,\n          CASE WHEN p_sort = 'best_sellers' THEN mf.sold_packages_last_90_days END DESC,\n          CASE WHEN p_sort = 'low_stock' THEN mf.available_sale_packages END ASC,\n          mf.family_name_ar ASC,\n          mf.family_id ASC\n      ) AS page_order\n    FROM matching_families mf\n    ORDER BY\n      mf.is_available DESC,\n      CASE WHEN p_sort = 'name_asc' THEN mf.family_name_ar END ASC,\n      CASE WHEN p_sort = 'price_asc' THEN mf.sale_price_in_minor_units END ASC,\n      CASE WHEN p_sort = 'price_desc' THEN mf.sale_price_in_minor_units END DESC,\n      CASE WHEN p_sort = 'stock_desc' THEN mf.available_sale_packages END DESC,\n      CASE WHEN p_sort = 'newest' THEN mf.created_at END DESC,\n      CASE WHEN p_sort = 'best_sellers' THEN mf.sold_packages_last_90_days END DESC,\n      CASE WHEN p_sort = 'low_stock' THEN mf.available_sale_packages END ASC,\n      mf.family_name_ar ASC,\n      mf.family_id ASC\n    LIMIT LEAST(GREATEST(COALESCE(p_limit, 24), 1), 48)\n    OFFSET GREATEST(COALESCE(p_offset, 0), 0)\n  ),\n  page_items AS (\n    SELECT\n      pf.page_order,\n      cs.*\n    FROM paged_families pf\n    JOIN catalog_source cs ON cs.family_id = pf.family_id\n  ),\n  category_summary AS (\n    SELECT\n      c.id,\n      c.code,\n      c.name_ar,\n      c.image_url,\n      COUNT(fs.family_id)::INTEGER AS product_count,\n      COUNT(fs.family_id) FILTER (WHERE fs.is_available)::INTEGER AS available_product_count,\n      CASE c.code\n        WHEN 'CAT-BEV' THEN 10 WHEN 'CAT-WATER' THEN 20\n        WHEN 'CAT-ENERGY' THEN 30 WHEN 'CAT-BISCUIT' THEN 40\n        WHEN 'CAT-CAKE' THEN 50 WHEN 'CAT-CHOCO' THEN 60\n        WHEN 'CAT-CANDY' THEN 70 WHEN 'CAT-GUM' THEN 80\n        WHEN 'CAT-CHIPS' THEN 90 WHEN 'CAT-FOOD' THEN 100\n        WHEN 'CAT-GIFTS' THEN 110 WHEN 'CAT-OFFERS' THEN 120\n        ELSE 1000\n      END AS sort_order\n    FROM public.categories c\n    LEFT JOIN family_summary fs ON fs.category_id = c.id\n    WHERE c.is_active = true\n    GROUP BY c.id, c.code, c.name_ar, c.image_url\n  ),\n  brand_facets AS (\n    SELECT fs.brand_id AS id, MIN(cs.brand_name_ar) AS name_ar\n    FROM family_summary fs\n    JOIN catalog_source cs ON cs.family_id = fs.family_id\n    WHERE fs.brand_id IS NOT NULL\n    GROUP BY fs.brand_id\n  ),\n  sale_unit_facets AS (\n    SELECT fs.sale_unit_id AS id, MIN(cs.sale_unit_name_ar) AS name_ar\n    FROM family_summary fs\n    JOIN catalog_source cs ON cs.family_id = fs.family_id\n    WHERE fs.sale_unit_id IS NOT NULL\n    GROUP BY fs.sale_unit_id\n  )\n  SELECT jsonb_build_object(\n    'items', COALESCE((\n      SELECT jsonb_agg(\n        jsonb_build_object(\n          'id', id,\n          'sku', sku,\n          'barcode', barcode,\n          'nameAr', name_ar,\n          'description', description,\n          'categoryId', category_id,\n          'categoryCode', category_code,\n          'categoryNameAr', category_name_ar,\n          'brandId', brand_id,\n          'brandNameAr', brand_name_ar,\n          'unitId', unit_id,\n          'unitNameAr', unit_name_ar,\n          'saleUnitId', sale_unit_id,\n          'saleUnitNameAr', sale_unit_name_ar,\n          'unitsPerSalePackage', units_per_sale_unit,\n          'parcelOnly', parcel_only,\n          'salePackagePriceInMinorUnits', default_sale_price_in_minor_units,\n          'salePriceInMinorUnits', sale_price_in_minor_units,\n          'quantityTracked',false,\n          'manualAvailable',manual_available,\n          'availableQuantity',NULL,\n          'availableSalePackages',NULL,\n          'minimumOrderPackages', 1,\n          'imageUrl', image_url,\n          'isAvailable', manual_available AND NOT is_flavor_master,\n          'createdAt', created_at,\n          'soldPackagesLast90Days', sold_packages_last_90_days,\n          'flavorMasterProductId', flavor_master_product_id,\n          'flavorNameAr', flavor_name_ar,\n          'isFlavorMaster', is_flavor_master,\n          'flavorSortOrder', flavor_sort_order\n        )\n        ORDER BY page_order,\n          CASE WHEN flavor_master_product_id IS NULL THEN 0 ELSE 1 END,\n          flavor_sort_order,\n          name_ar,\n          id\n      )\n      FROM page_items\n    ), '[]'::jsonb),\n    'categories', COALESCE((\n      SELECT jsonb_agg(jsonb_build_object(\n        'id', id, 'code', code, 'nameAr', name_ar, 'imageUrl', image_url,\n        'productCount', product_count, 'availableProductCount', available_product_count\n      ) ORDER BY sort_order, name_ar, id)\n      FROM category_summary\n    ), '[]'::jsonb),\n    'brands', COALESCE((\n      SELECT jsonb_agg(jsonb_build_object('id', id, 'nameAr', name_ar) ORDER BY name_ar, id)\n      FROM brand_facets\n    ), '[]'::jsonb),\n    'saleUnits', COALESCE((\n      SELECT jsonb_agg(jsonb_build_object('id', id, 'nameAr', name_ar) ORDER BY name_ar, id)\n      FROM sale_unit_facets\n    ), '[]'::jsonb),\n    'summary', jsonb_build_object(\n      'availableProducts', (SELECT COUNT(*) FROM matching_families WHERE is_available),\n      'quantityTracked',false,\n      'availableSalePackages',NULL,\n      'lowStockProducts', (SELECT COUNT(*) FROM matching_families WHERE is_low_stock)\n    ),\n    'total', (SELECT COUNT(*) FROM matching_families),\n    'limit', LEAST(GREATEST(COALESCE(p_limit, 24), 1), 48),\n    'offset', GREATEST(COALESCE(p_offset, 0), 0)\n  );\n$function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"sales_lite2\",null,\"parcel_options(p_family_product_ids uuid[])\",null,null]",
+      "before": {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "sales_lite2",
+        "identity": "parcel_options(p_family_product_ids uuid[])",
+        "definition": "CREATE OR REPLACE FUNCTION sales_lite2.parcel_options(p_family_product_ids uuid[])\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nDECLARE\n  v_feature_state TEXT := public.get_configurable_parcel_feature_state();\n  v_requested_count INTEGER := COALESCE(CARDINALITY(p_family_product_ids), 0);\n  v_options JSONB;\nBEGIN\n  IF v_requested_count < 1\n    OR v_requested_count > 48\n    OR ARRAY_POSITION(p_family_product_ids, NULL) IS NOT NULL\n  THEN\n    RAISE EXCEPTION USING\n      ERRCODE = 'P0001',\n      MESSAGE = 'PUBLIC_CONFIGURABLE_PARCEL_REQUEST_INVALID: Provide between 1 and 48 valid Family IDs.';\n  END IF;\n\n  -- OWNER_PILOT intentionally grants no Customer guest creation capability.\n  -- Returning an empty projection also prevents stale configuration discovery\n  -- while creation is unavailable to the public guest actor.\n  IF v_feature_state IS DISTINCT FROM 'ENABLED' THEN\n    RETURN JSONB_BUILD_OBJECT(\n      'featureState', v_feature_state,\n      'guestCreationEnabled', false,\n      'options', '[]'::JSONB\n    );\n  END IF;\n\n  WITH requested_families AS (\n    SELECT DISTINCT requested.family_product_id\n    FROM UNNEST(p_family_product_ids) AS requested(family_product_id)\n  ), storefront_warehouse AS (\n    -- This is intentionally identical to the Customer V2 warehouse selector.\n    SELECT warehouse.id\n    FROM public.warehouses warehouse\n    JOIN public.branches branch\n      ON branch.id = warehouse.branch_id\n    WHERE warehouse.is_active\n      AND branch.is_active\n    ORDER BY warehouse.created_at, warehouse.id\n    LIMIT 1\n  ), configuration_source AS (\n    SELECT\n      configuration.id AS parcel_configuration_id,\n      configuration.family_product_id,\n      configuration.configuration_revision,\n      configuration.composition_mode,\n      family.units_per_sale_unit AS units_per_parcel,\n      family.default_sale_price_in_minor_units AS parcel_price_in_minor_units,\n      base_unit.name_ar AS base_unit_name_ar,\n      sale_unit.name_ar AS sale_unit_name_ar\n    FROM requested_families requested\n    JOIN public.product_parcel_configurations configuration\n      ON configuration.family_product_id = requested.family_product_id\n    JOIN public.products family\n      ON family.id = configuration.family_product_id\n    JOIN public.categories family_category\n      ON family_category.id = family.category_id\n      AND family_category.is_active\n    JOIN public.units base_unit\n      ON base_unit.id = family.unit_id\n    JOIN public.units sale_unit\n      ON sale_unit.id = family.sale_unit_id\n    WHERE configuration.is_active\n      AND configuration.composition_mode = 'configurable_mix'\n      AND configuration.configuration_revision > 0\n      AND family.is_active\n      AND sales_lite1.available(family.id)\n      AND family.is_flavor_master\n      AND family.units_per_sale_unit > 0\n      AND family.default_sale_price_in_minor_units > 0\n      AND sale_unit.code <> 'PCS'\n  ), eligible_components AS (\n    SELECT\n      configuration.parcel_configuration_id,\n      configuration.family_product_id,\n      configuration.configuration_revision,\n      configuration.composition_mode,\n      configuration.units_per_parcel,\n      configuration.parcel_price_in_minor_units,\n      configuration.base_unit_name_ar,\n      configuration.sale_unit_name_ar,\n      component.id AS product_id,\n      component.sku,\n      component.name_ar,\n      component.flavor_name_ar,\n      component_unit.name_ar AS component_unit_name_ar,\n      image.image_url,\n      sales_lite1.available(component.id) AS manual_available\n    FROM configuration_source configuration\n    CROSS JOIN storefront_warehouse warehouse\n    JOIN public.products component\n      ON component.flavor_master_product_id = configuration.family_product_id\n      AND component.is_active\n      AND NOT component.is_flavor_master\n    JOIN public.categories component_category\n      ON component_category.id = component.category_id\n      AND component_category.is_active\n    JOIN public.units component_unit\n      ON component_unit.id = component.unit_id\n    JOIN public.units component_sale_unit\n      ON component_sale_unit.id = component.sale_unit_id\n    LEFT JOIN LATERAL (\n      SELECT product_image.image_url\n      FROM public.product_images product_image\n      WHERE product_image.product_id = component.id\n      ORDER BY product_image.is_primary DESC,\n        product_image.display_order,\n        product_image.created_at,\n        product_image.id\n      LIMIT 1\n    ) image ON true\n    WHERE sales_lite1.available(component.id)\n      AND EXISTS(SELECT 1 FROM public.product_parcel_allowed_components allowed WHERE allowed.configuration_id=configuration.parcel_configuration_id AND allowed.product_id=component.id)\n      AND component.units_per_sale_unit > 0\n      AND component.default_sale_price_in_minor_units > 0\n      AND component_sale_unit.code <> 'PCS'\n  ), option_groups AS (\n    SELECT\n      component.parcel_configuration_id,\n      component.family_product_id,\n      component.configuration_revision,\n      component.composition_mode,\n      component.units_per_parcel,\n      component.parcel_price_in_minor_units,\n      component.base_unit_name_ar,\n      component.sale_unit_name_ar,\n      JSONB_AGG(\n        JSONB_BUILD_OBJECT(\n          'productId', component.product_id,\n          'sku', component.sku,\n          'nameAr', component.name_ar,\n          'flavorNameAr', component.flavor_name_ar,\n          'unitNameAr', component.component_unit_name_ar,\n          'imageUrl', component.image_url,\n          'quantityTracked',false,\n          'manualAvailable',component.manual_available,\n          'availableQuantity',NULL\n        )\n        ORDER BY component.flavor_name_ar NULLS LAST,\n          component.name_ar,\n          component.product_id\n      ) AS components\n    FROM eligible_components component\n    GROUP BY\n      component.parcel_configuration_id,\n      component.family_product_id,\n      component.configuration_revision,\n      component.composition_mode,\n      component.units_per_parcel,\n      component.parcel_price_in_minor_units,\n      component.base_unit_name_ar,\n      component.sale_unit_name_ar\n  )\n  SELECT COALESCE(\n    JSONB_AGG(\n      JSONB_BUILD_OBJECT(\n        'familyProductId', option_group.family_product_id,\n        'parcelConfigurationId', option_group.parcel_configuration_id,\n        'configurationRevision', option_group.configuration_revision,\n        'compositionMode', option_group.composition_mode,\n        'unitsPerParcel', option_group.units_per_parcel,\n        'parcelPriceInMinorUnits', option_group.parcel_price_in_minor_units,\n        'baseUnitNameAr', option_group.base_unit_name_ar,\n        'saleUnitNameAr', option_group.sale_unit_name_ar,\n        'quantityTracked',false,\n        'components', option_group.components\n      )\n      ORDER BY option_group.family_product_id,\n        option_group.parcel_configuration_id\n    ),\n    '[]'::JSONB\n  )\n  INTO v_options\n  FROM option_groups option_group;\n\n  RETURN JSONB_BUILD_OBJECT(\n    'featureState', v_feature_state,\n    'guestCreationEnabled', true,\n    'options', v_options\n  );\nEND;\n$function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      },
+      "after": {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "sales_lite2",
+        "identity": "parcel_options(p_family_product_ids uuid[])",
+        "definition": "CREATE OR REPLACE FUNCTION sales_lite2.parcel_options(p_family_product_ids uuid[])\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nDECLARE\n  v_feature_state TEXT := public.get_configurable_parcel_feature_state();\n  v_requested_count INTEGER := COALESCE(CARDINALITY(p_family_product_ids), 0);\n  v_options JSONB;\nBEGIN\n  IF v_requested_count < 1\n    OR v_requested_count > 48\n    OR ARRAY_POSITION(p_family_product_ids, NULL) IS NOT NULL\n  THEN\n    RAISE EXCEPTION USING\n      ERRCODE = 'P0001',\n      MESSAGE = 'PUBLIC_CONFIGURABLE_PARCEL_REQUEST_INVALID: Provide between 1 and 48 valid Family IDs.';\n  END IF;\n\n  -- OWNER_PILOT intentionally grants no Customer guest creation capability.\n  -- Returning an empty projection also prevents stale configuration discovery\n  -- while creation is unavailable to the public guest actor.\n  IF v_feature_state IS DISTINCT FROM 'ENABLED' THEN\n    RETURN JSONB_BUILD_OBJECT(\n      'featureState', v_feature_state,\n      'guestCreationEnabled', false,\n      'options', '[]'::JSONB\n    );\n  END IF;\n\n  WITH requested_families AS (\n    SELECT DISTINCT requested.family_product_id\n    FROM UNNEST(p_family_product_ids) AS requested(family_product_id)\n  ), storefront_warehouse AS (\n    -- This is intentionally identical to the Customer V2 warehouse selector.\n    SELECT warehouse.id\n    FROM public.warehouses warehouse\n    JOIN public.branches branch\n      ON branch.id = warehouse.branch_id\n    WHERE warehouse.is_active\n      AND branch.is_active\n    ORDER BY warehouse.created_at, warehouse.id\n    LIMIT 1\n  ), configuration_source AS (\n    SELECT\n      configuration.id AS parcel_configuration_id,\n      configuration.family_product_id,\n      configuration.configuration_revision,\n      configuration.composition_mode,\n      family.units_per_sale_unit AS units_per_parcel,\n      family.default_sale_price_in_minor_units AS parcel_price_in_minor_units,\n      base_unit.name_ar AS base_unit_name_ar,\n      sale_unit.name_ar AS sale_unit_name_ar\n    FROM requested_families requested\n    JOIN public.product_parcel_configurations configuration\n      ON configuration.family_product_id = requested.family_product_id\n    JOIN public.products family\n      ON family.id = configuration.family_product_id\n    JOIN public.categories family_category\n      ON family_category.id = family.category_id\n      AND family_category.is_active\n    JOIN public.units base_unit\n      ON base_unit.id = family.unit_id\n    JOIN public.units sale_unit\n      ON sale_unit.id = family.sale_unit_id\n    WHERE configuration.is_active\n      AND configuration.composition_mode = 'configurable_mix'\n      AND configuration.configuration_revision > 0\n      AND family.is_active\n      AND sales_lite3.effective_available223(family.id)\n      AND family.is_flavor_master\n      AND family.units_per_sale_unit > 0\n      AND family.default_sale_price_in_minor_units > 0\n      AND sale_unit.code <> 'PCS'\n  ), eligible_components AS (\n    SELECT\n      configuration.parcel_configuration_id,\n      configuration.family_product_id,\n      configuration.configuration_revision,\n      configuration.composition_mode,\n      configuration.units_per_parcel,\n      configuration.parcel_price_in_minor_units,\n      configuration.base_unit_name_ar,\n      configuration.sale_unit_name_ar,\n      component.id AS product_id,\n      component.sku,\n      component.name_ar,\n      component.flavor_name_ar,\n      component_unit.name_ar AS component_unit_name_ar,\n      image.image_url,\n      sales_lite3.effective_available223(component.id) AS manual_available\n    FROM configuration_source configuration\n    CROSS JOIN storefront_warehouse warehouse\n    JOIN public.products component\n      ON component.flavor_master_product_id = configuration.family_product_id\n      AND component.is_active\n      AND NOT component.is_flavor_master\n    JOIN public.categories component_category\n      ON component_category.id = component.category_id\n      AND component_category.is_active\n    JOIN public.units component_unit\n      ON component_unit.id = component.unit_id\n    JOIN public.units component_sale_unit\n      ON component_sale_unit.id = component.sale_unit_id\n    LEFT JOIN LATERAL (\n      SELECT product_image.image_url\n      FROM public.product_images product_image\n      WHERE product_image.product_id = component.id\n      ORDER BY product_image.is_primary DESC,\n        product_image.display_order,\n        product_image.created_at,\n        product_image.id\n      LIMIT 1\n    ) image ON true\n    WHERE sales_lite3.effective_available223(component.id)\n      AND EXISTS(SELECT 1 FROM public.product_parcel_allowed_components allowed WHERE allowed.configuration_id=configuration.parcel_configuration_id AND allowed.product_id=component.id)\n      AND component.units_per_sale_unit > 0\n      AND component.default_sale_price_in_minor_units > 0\n      AND component_sale_unit.code <> 'PCS'\n  ), option_groups AS (\n    SELECT\n      component.parcel_configuration_id,\n      component.family_product_id,\n      component.configuration_revision,\n      component.composition_mode,\n      component.units_per_parcel,\n      component.parcel_price_in_minor_units,\n      component.base_unit_name_ar,\n      component.sale_unit_name_ar,\n      JSONB_AGG(\n        JSONB_BUILD_OBJECT(\n          'productId', component.product_id,\n          'sku', component.sku,\n          'nameAr', component.name_ar,\n          'flavorNameAr', component.flavor_name_ar,\n          'unitNameAr', component.component_unit_name_ar,\n          'imageUrl', component.image_url,\n          'quantityTracked',false,\n          'manualAvailable',component.manual_available,\n          'availableQuantity',NULL\n        )\n        ORDER BY component.flavor_name_ar NULLS LAST,\n          component.name_ar,\n          component.product_id\n      ) AS components\n    FROM eligible_components component\n    GROUP BY\n      component.parcel_configuration_id,\n      component.family_product_id,\n      component.configuration_revision,\n      component.composition_mode,\n      component.units_per_parcel,\n      component.parcel_price_in_minor_units,\n      component.base_unit_name_ar,\n      component.sale_unit_name_ar\n  )\n  SELECT COALESCE(\n    JSONB_AGG(\n      JSONB_BUILD_OBJECT(\n        'familyProductId', option_group.family_product_id,\n        'parcelConfigurationId', option_group.parcel_configuration_id,\n        'configurationRevision', option_group.configuration_revision,\n        'compositionMode', option_group.composition_mode,\n        'unitsPerParcel', option_group.units_per_parcel,\n        'parcelPriceInMinorUnits', option_group.parcel_price_in_minor_units,\n        'baseUnitNameAr', option_group.base_unit_name_ar,\n        'saleUnitNameAr', option_group.sale_unit_name_ar,\n        'quantityTracked',false,\n        'components', option_group.components\n      )\n      ORDER BY option_group.family_product_id,\n        option_group.parcel_configuration_id\n    ),\n    '[]'::JSONB\n  )\n  INTO v_options\n  FROM option_groups option_group;\n\n  RETURN JSONB_BUILD_OBJECT(\n    'featureState', v_feature_state,\n    'guestCreationEnabled', true,\n    'options', v_options\n  );\nEND;\n$function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"sales_lite2\",null,\"pos(p_request jsonb, p_key text)\",null,null]",
+      "before": {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "sales_lite2",
+        "identity": "pos(p_request jsonb, p_key text)",
+        "definition": "CREATE OR REPLACE FUNCTION sales_lite2.pos(p_request jsonb, p_key text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public', 'extensions'\nAS $function$\nDECLARE\n replay JSONB;plan JSONB;line JSONB;instance JSONB;component JSONB;\n result JSONB;items JSONB:='[]';item JSONB;instances JSONB;proof_lines JSONB:='[]';proof_instances JSONB;proof_components JSONB;\n product public.products;leaf public.products;customer public.customers;\n bid UUID;wid UUID;cid UUID;shift_id UUID;oid UUID:=gen_random_uuid();op UUID:=gen_random_uuid();item_id UUID;instance_id UUID;component_id UUID;\n ids UUID[];unavailable UUID[]:='{}';pid UUID;name TEXT;method TEXT;paid BIGINT:=0;received BIGINT;change_due BIGINT:=0;\n payment JSONB;initial_method TEXT;initial_id UUID;initial_reference TEXT;initial_amount BIGINT;\n base_name TEXT;parcel_name TEXT;stored_quantity INTEGER;effective_price BIGINT;\nBEGIN\n PERFORM sales_lite1.owner();\n IF jsonb_typeof(p_request) IS DISTINCT FROM 'object' OR octet_length(p_request::TEXT)>65536\n OR(p_request-ARRAY['branchId','warehouseId','customerId','customerName','paymentMethod','lines','discountInMinorUnits','amountReceivedInMinorUnits','initialPayment','unavailableConfirmed'])<>'{}'::JSONB THEN RAISE EXCEPTION 'LITE2_REQUEST_INVALID';END IF;\n -- Preserve the raw-key coordinator used by the existing POS/partial writers,\n -- in addition to the private sealed-request guard introduced by phase1.\n PERFORM pg_advisory_xact_lock(hashtext(p_key));\n replay:=sales_lite1.lock_request(p_key,'pos2',p_request);IF replay IS NOT NULL THEN RETURN replay;END IF;\n IF EXISTS(SELECT 1 FROM public.pos_uncommitted_attempt_cancellations WHERE actor_id=auth.uid() AND idempotency_key=p_key) THEN RAISE EXCEPTION 'PACKAGE_D_POS_ATTEMPT_CANCELLED';END IF;\n bid:=(p_request->>'branchId')::UUID;wid:=(p_request->>'warehouseId')::UUID;cid:=NULLIF(p_request->>'customerId','')::UUID;\n method:=p_request->>'paymentMethod';received:=COALESCE((p_request->>'amountReceivedInMinorUnits')::BIGINT,0);\n IF method IS NULL OR method NOT IN('cash','cliq','debt') OR received<0 THEN RAISE EXCEPTION 'PHASE3_POS_PAYMENT_METHOD_INVALID';END IF;\n IF NOT EXISTS(SELECT 1 FROM public.branches WHERE id=bid AND is_active)\n OR NOT EXISTS(SELECT 1 FROM public.warehouses WHERE id=wid AND branch_id=bid AND is_active) THEN RAISE EXCEPTION 'PHASE3_POS_LOCATION_INVALID';END IF;\n IF cid IS NOT NULL THEN\n  SELECT * INTO customer FROM public.customers WHERE id=cid AND is_active AND NOT is_deleted AND NOT is_blocked FOR UPDATE;\n  IF NOT FOUND THEN RAISE EXCEPTION 'PHASE3_POS_CUSTOMER_INVALID';END IF;name:=customer.full_name;\n ELSE name:=COALESCE(NULLIF(btrim(p_request->>'customerName'),''),'زبون نقدي');END IF;\n IF length(name)>120 THEN RAISE EXCEPTION 'LITE2_CUSTOMER_NAME_INVALID';END IF;\n IF method='debt' AND cid IS NULL THEN RAISE EXCEPTION 'PHASE3_POS_DEBT_CUSTOMER_REQUIRED';END IF;\n SELECT id INTO shift_id FROM public.cash_shifts WHERE branch_id=bid AND status='open' FOR UPDATE;\n IF NOT FOUND THEN RAISE EXCEPTION 'PHASE3_POS_OPEN_SHIFT_REQUIRED';END IF;\n -- Validate/canonicalize first, then lock all products+parents in stable order\n -- and re-read commercial truth. No inventory rows or quantities are touched.\n plan:=sales_lite2.plan(p_request->'lines','admin_pos',COALESCE((p_request->>'discountInMinorUnits')::BIGINT,0));\n SELECT array_agg(DISTINCT id ORDER BY id) INTO ids FROM(\n  SELECT(value->>'product_id')::UUID id FROM jsonb_array_elements(plan->'lines')\n  UNION SELECT(c->>'product_id')::UUID FROM jsonb_array_elements(plan->'lines') l CROSS JOIN LATERAL jsonb_array_elements(l->'parcel_instances') i CROSS JOIN LATERAL jsonb_array_elements(i->'components') c\n ) x;\n PERFORM 1 FROM public.products WHERE id=ANY(ids) OR id IN(SELECT flavor_master_product_id FROM public.products WHERE id=ANY(ids)) ORDER BY id FOR UPDATE;\n plan:=sales_lite2.plan(p_request->'lines','admin_pos',COALESCE((p_request->>'discountInMinorUnits')::BIGINT,0));\n IF p_request?'unavailableConfirmed' AND jsonb_typeof(p_request->'unavailableConfirmed')<>'array' THEN RAISE EXCEPTION 'LITE2_CONFIRMATION_INVALID';END IF;\n FOREACH pid IN ARRAY ids LOOP\n  IF NOT sales_lite1.available(pid) THEN\n   IF NOT COALESCE(p_request->'unavailableConfirmed' @> jsonb_build_array(pid),false) THEN RAISE EXCEPTION 'LITE1_UNAVAILABLE_CONFIRM_REQUIRED';END IF;\n   unavailable:=array_append(unavailable,pid);\n  END IF;\n END LOOP;\n IF p_request?'initialPayment' THEN\n  IF method<>'debt' OR jsonb_typeof(p_request->'initialPayment')<>'object'\n  OR((p_request->'initialPayment')-ARRAY['amountInMinorUnits','method','referenceNumber'])<>'{}'::JSONB THEN RAISE EXCEPTION 'POS216_INITIAL_PAYMENT_INVALID';END IF;\n  initial_amount:=(p_request#>>'{initialPayment,amountInMinorUnits}')::BIGINT;initial_method:=p_request#>>'{initialPayment,method}';initial_reference:=NULLIF(btrim(p_request#>>'{initialPayment,referenceNumber}'),'');\n  IF initial_amount IS NULL OR initial_amount<=0 OR initial_amount>=(plan->>'totalInMinorUnits')::BIGINT OR initial_method IS NULL OR initial_method NOT IN('cash','cliq') OR length(COALESCE(initial_reference,''))>200 THEN RAISE EXCEPTION 'POS216_INITIAL_PAYMENT_INVALID';END IF;\n ELSIF method IN('cash','cliq') THEN paid:=(plan->>'totalInMinorUnits')::BIGINT;END IF;\n IF method='cash' AND received>0 AND received<paid THEN RAISE EXCEPTION 'PHASE3_POS_TENDER_INSUFFICIENT';END IF;\n IF method='cash' THEN change_due:=GREATEST(received-paid,0);END IF;\n -- Immutable operation envelope is inserted once, like the phase1 contract.\n -- The sealed request stores the complete DTO (including the subsequently\n -- generated partial-payment ID). Never UPDATE immutable business history.\n INSERT INTO public.business_operations(id,operation_type,idempotency_key,request_fingerprint,initiated_by,result_snapshot,completed_at)\n VALUES(op,'lite1_pos',p_key,(SELECT fingerprint FROM sales_lite1.requests WHERE key=p_key),auth.uid(),\n  jsonb_build_object('success',true,'orderId',oid,'operationId',op,'contractVersion','lite2-pos-v1','totalInMinorUnits',(plan->>'totalInMinorUnits')::BIGINT,'accountingTracked',false),now());\n INSERT INTO sales_lite1.orders VALUES(oid,op,'{}',unavailable);\n INSERT INTO public.orders(id,order_number,customer_id,customer_name_snapshot,branch_id,warehouse_id,status,payment_method,payment_status,\n  subtotal_in_minor_units,discount_in_minor_units,total_in_minor_units,amount_paid_in_minor_units,change_due_in_minor_units,source,idempotency_key,operation_id,cash_shift_id)\n VALUES(oid,'L2-'||oid::TEXT,cid,name,bid,wid,'completed',method,CASE WHEN method='debt' THEN 'unpaid' ELSE 'paid' END,\n  (plan->>'subtotalInMinorUnits')::BIGINT,(plan->>'discountInMinorUnits')::BIGINT,(plan->>'totalInMinorUnits')::BIGINT,paid,change_due,'pos',p_key,op,shift_id);\n INSERT INTO sales_lite1.completions(order_id) VALUES(oid);\n result:=sales_lite2.materialize(oid,op,plan,'admin_pos');items:=result->'items';proof_lines:=result->'lines';\n IF initial_amount IS NOT NULL THEN\n  payment:=public.record_customer_order_payment_once(oid,initial_amount,initial_method,initial_reference,NULL,'lite2-initial-'||op::TEXT);\n  initial_id:=(payment->>'payment_id')::UUID;paid:=initial_amount;\n END IF;\n result:=jsonb_build_object('success',true,'idempotentReplay',false,'orderId',oid,'operationId',op,'orderNumber','L2-'||oid::TEXT,'warehouseId',wid,'branchId',bid,'cashShiftId',shift_id,\n  'customerName',name,'subtotalInMinorUnits',(plan->>'subtotalInMinorUnits')::BIGINT,'discountInMinorUnits',(plan->>'discountInMinorUnits')::BIGINT,'totalInMinorUnits',(plan->>'totalInMinorUnits')::BIGINT,\n  'amountPaidInMinorUnits',paid,'changeDueInMinorUnits',change_due,'remainingInMinorUnits',(plan->>'totalInMinorUnits')::BIGINT-paid,'paymentMethod',method,\n  'paymentStatus',CASE WHEN initial_amount IS NOT NULL THEN 'partially_paid' WHEN method='debt' THEN 'unpaid' ELSE 'paid' END,'items',items,'unavailableConfirmed',to_jsonb(unavailable),'accountingTracked',false);\n IF initial_id IS NOT NULL THEN result:=result||jsonb_build_object('initialPaymentMethod',initial_method,'initialPaymentId',initial_id);END IF;\n INSERT INTO sales_lite2.sales(order_id,request_key,plan,initial_payment_id) VALUES(oid,p_key,plan||jsonb_build_object('lines',proof_lines),initial_id);\n INSERT INTO public.audit_logs(user_id,action,entity_name,entity_id,details) VALUES(auth.uid(),'LITE2_POS','orders',oid,jsonb_build_object('operationId',op,'unavailableConfirmed',to_jsonb(unavailable)));\n RETURN sales_lite1.finish(p_key,result);\nEND $function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public, extensions"
+        ]
+      },
+      "after": {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "sales_lite2",
+        "identity": "pos(p_request jsonb, p_key text)",
+        "definition": "CREATE OR REPLACE FUNCTION sales_lite2.pos(p_request jsonb, p_key text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public', 'extensions'\nAS $function$\nDECLARE\n replay JSONB;plan JSONB;line JSONB;instance JSONB;component JSONB;\n result JSONB;items JSONB:='[]';item JSONB;instances JSONB;proof_lines JSONB:='[]';proof_instances JSONB;proof_components JSONB;\n product public.products;leaf public.products;customer public.customers;\n bid UUID;wid UUID;cid UUID;shift_id UUID;oid UUID:=gen_random_uuid();op UUID:=gen_random_uuid();item_id UUID;instance_id UUID;component_id UUID;\n ids UUID[];unavailable UUID[]:='{}';pid UUID;name TEXT;method TEXT;paid BIGINT:=0;received BIGINT;change_due BIGINT:=0;\n payment JSONB;initial_method TEXT;initial_id UUID;initial_reference TEXT;initial_amount BIGINT;\n base_name TEXT;parcel_name TEXT;stored_quantity INTEGER;effective_price BIGINT;\nBEGIN\n PERFORM sales_lite1.owner();\n IF jsonb_typeof(p_request) IS DISTINCT FROM 'object' OR octet_length(p_request::TEXT)>65536\n OR(p_request-ARRAY['branchId','warehouseId','customerId','customerName','paymentMethod','lines','discountInMinorUnits','amountReceivedInMinorUnits','initialPayment','unavailableConfirmed'])<>'{}'::JSONB THEN RAISE EXCEPTION 'LITE2_REQUEST_INVALID';END IF;\n -- Preserve the raw-key coordinator used by the existing POS/partial writers,\n -- in addition to the private sealed-request guard introduced by phase1.\n PERFORM pg_advisory_xact_lock(hashtext(p_key));\n replay:=sales_lite1.lock_request(p_key,'pos2',p_request);IF replay IS NOT NULL THEN RETURN replay;END IF;\n IF EXISTS(SELECT 1 FROM public.pos_uncommitted_attempt_cancellations WHERE actor_id=auth.uid() AND idempotency_key=p_key) THEN RAISE EXCEPTION 'PACKAGE_D_POS_ATTEMPT_CANCELLED';END IF;\n bid:=(p_request->>'branchId')::UUID;wid:=(p_request->>'warehouseId')::UUID;cid:=NULLIF(p_request->>'customerId','')::UUID;\n method:=p_request->>'paymentMethod';received:=COALESCE((p_request->>'amountReceivedInMinorUnits')::BIGINT,0);\n IF method IS NULL OR method NOT IN('cash','cliq','debt') OR received<0 THEN RAISE EXCEPTION 'PHASE3_POS_PAYMENT_METHOD_INVALID';END IF;\n IF NOT EXISTS(SELECT 1 FROM public.branches WHERE id=bid AND is_active)\n OR NOT EXISTS(SELECT 1 FROM public.warehouses WHERE id=wid AND branch_id=bid AND is_active) THEN RAISE EXCEPTION 'PHASE3_POS_LOCATION_INVALID';END IF;\n IF cid IS NOT NULL THEN\n  SELECT * INTO customer FROM public.customers WHERE id=cid AND is_active AND NOT is_deleted AND NOT is_blocked FOR UPDATE;\n  IF NOT FOUND THEN RAISE EXCEPTION 'PHASE3_POS_CUSTOMER_INVALID';END IF;name:=customer.full_name;\n ELSE name:=COALESCE(NULLIF(btrim(p_request->>'customerName'),''),'زبون نقدي');END IF;\n IF length(name)>120 THEN RAISE EXCEPTION 'LITE2_CUSTOMER_NAME_INVALID';END IF;\n IF method='debt' AND cid IS NULL THEN RAISE EXCEPTION 'PHASE3_POS_DEBT_CUSTOMER_REQUIRED';END IF;\n SELECT id INTO shift_id FROM public.cash_shifts WHERE branch_id=bid AND status='open' FOR UPDATE;\n IF NOT FOUND THEN RAISE EXCEPTION 'PHASE3_POS_OPEN_SHIFT_REQUIRED';END IF;\n -- Validate/canonicalize first, then lock all products+parents in stable order\n -- and re-read commercial truth. No inventory rows or quantities are touched.\n plan:=sales_lite2.plan(p_request->'lines','admin_pos',COALESCE((p_request->>'discountInMinorUnits')::BIGINT,0));\n SELECT array_agg(DISTINCT id ORDER BY id) INTO ids FROM(\n  SELECT(value->>'product_id')::UUID id FROM jsonb_array_elements(plan->'lines')\n  UNION SELECT(c->>'product_id')::UUID FROM jsonb_array_elements(plan->'lines') l CROSS JOIN LATERAL jsonb_array_elements(l->'parcel_instances') i CROSS JOIN LATERAL jsonb_array_elements(i->'components') c\n ) x;\n PERFORM 1 FROM public.products WHERE id=ANY(ids) OR id IN(SELECT flavor_master_product_id FROM public.products WHERE id=ANY(ids)) ORDER BY id FOR UPDATE;\n plan:=sales_lite2.plan(p_request->'lines','admin_pos',COALESCE((p_request->>'discountInMinorUnits')::BIGINT,0));\n IF p_request?'unavailableConfirmed' AND jsonb_typeof(p_request->'unavailableConfirmed')<>'array' THEN RAISE EXCEPTION 'LITE2_CONFIRMATION_INVALID';END IF;\n FOREACH pid IN ARRAY ids LOOP\n  IF NOT sales_lite1.available(pid) THEN\n   IF NOT COALESCE(p_request->'unavailableConfirmed' @> jsonb_build_array(pid),false) THEN RAISE EXCEPTION 'LITE1_UNAVAILABLE_CONFIRM_REQUIRED';END IF;\n   unavailable:=array_append(unavailable,pid);\n  END IF;\n END LOOP;\n unavailable:=sales_lite3.confirm_plan223(plan,unavailable,p_request->'unavailableConfirmed');\n IF p_request?'initialPayment' THEN\n  IF method<>'debt' OR jsonb_typeof(p_request->'initialPayment')<>'object'\n  OR((p_request->'initialPayment')-ARRAY['amountInMinorUnits','method','referenceNumber'])<>'{}'::JSONB THEN RAISE EXCEPTION 'POS216_INITIAL_PAYMENT_INVALID';END IF;\n  initial_amount:=(p_request#>>'{initialPayment,amountInMinorUnits}')::BIGINT;initial_method:=p_request#>>'{initialPayment,method}';initial_reference:=NULLIF(btrim(p_request#>>'{initialPayment,referenceNumber}'),'');\n  IF initial_amount IS NULL OR initial_amount<=0 OR initial_amount>=(plan->>'totalInMinorUnits')::BIGINT OR initial_method IS NULL OR initial_method NOT IN('cash','cliq') OR length(COALESCE(initial_reference,''))>200 THEN RAISE EXCEPTION 'POS216_INITIAL_PAYMENT_INVALID';END IF;\n ELSIF method IN('cash','cliq') THEN paid:=(plan->>'totalInMinorUnits')::BIGINT;END IF;\n IF method='cash' AND received>0 AND received<paid THEN RAISE EXCEPTION 'PHASE3_POS_TENDER_INSUFFICIENT';END IF;\n IF method='cash' THEN change_due:=GREATEST(received-paid,0);END IF;\n -- Immutable operation envelope is inserted once, like the phase1 contract.\n -- The sealed request stores the complete DTO (including the subsequently\n -- generated partial-payment ID). Never UPDATE immutable business history.\n INSERT INTO public.business_operations(id,operation_type,idempotency_key,request_fingerprint,initiated_by,result_snapshot,completed_at)\n VALUES(op,'lite1_pos',p_key,(SELECT fingerprint FROM sales_lite1.requests WHERE key=p_key),auth.uid(),\n  jsonb_build_object('success',true,'orderId',oid,'operationId',op,'contractVersion','lite2-pos-v1','totalInMinorUnits',(plan->>'totalInMinorUnits')::BIGINT,'accountingTracked',false),now());\n INSERT INTO sales_lite1.orders VALUES(oid,op,'{}',unavailable);\n INSERT INTO public.orders(id,order_number,customer_id,customer_name_snapshot,branch_id,warehouse_id,status,payment_method,payment_status,\n  subtotal_in_minor_units,discount_in_minor_units,total_in_minor_units,amount_paid_in_minor_units,change_due_in_minor_units,source,idempotency_key,operation_id,cash_shift_id)\n VALUES(oid,'L2-'||oid::TEXT,cid,name,bid,wid,'completed',method,CASE WHEN method='debt' THEN 'unpaid' ELSE 'paid' END,\n  (plan->>'subtotalInMinorUnits')::BIGINT,(plan->>'discountInMinorUnits')::BIGINT,(plan->>'totalInMinorUnits')::BIGINT,paid,change_due,'pos',p_key,op,shift_id);\n INSERT INTO sales_lite1.completions(order_id) VALUES(oid);\n result:=sales_lite2.materialize(oid,op,plan,'admin_pos');items:=result->'items';proof_lines:=result->'lines';\n IF initial_amount IS NOT NULL THEN\n  payment:=public.record_customer_order_payment_once(oid,initial_amount,initial_method,initial_reference,NULL,'lite2-initial-'||op::TEXT);\n  initial_id:=(payment->>'payment_id')::UUID;paid:=initial_amount;\n END IF;\n result:=jsonb_build_object('success',true,'idempotentReplay',false,'orderId',oid,'operationId',op,'orderNumber','L2-'||oid::TEXT,'warehouseId',wid,'branchId',bid,'cashShiftId',shift_id,\n  'customerName',name,'subtotalInMinorUnits',(plan->>'subtotalInMinorUnits')::BIGINT,'discountInMinorUnits',(plan->>'discountInMinorUnits')::BIGINT,'totalInMinorUnits',(plan->>'totalInMinorUnits')::BIGINT,\n  'amountPaidInMinorUnits',paid,'changeDueInMinorUnits',change_due,'remainingInMinorUnits',(plan->>'totalInMinorUnits')::BIGINT-paid,'paymentMethod',method,\n  'paymentStatus',CASE WHEN initial_amount IS NOT NULL THEN 'partially_paid' WHEN method='debt' THEN 'unpaid' ELSE 'paid' END,'items',items,'unavailableConfirmed',to_jsonb(unavailable),'accountingTracked',false);\n IF initial_id IS NOT NULL THEN result:=result||jsonb_build_object('initialPaymentMethod',initial_method,'initialPaymentId',initial_id);END IF;\n INSERT INTO sales_lite2.sales(order_id,request_key,plan,initial_payment_id) VALUES(oid,p_key,plan||jsonb_build_object('lines',proof_lines),initial_id);\n INSERT INTO public.audit_logs(user_id,action,entity_name,entity_id,details) VALUES(auth.uid(),'LITE2_POS','orders',oid,jsonb_build_object('operationId',op,'unavailableConfirmed',to_jsonb(unavailable)));\n RETURN sales_lite1.finish(p_key,result);\nEND $function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public, extensions"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"public\",null,\"lite3_counter_context223(p_product_id uuid)\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres",
+          "authenticated=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "lite3_counter_context223(p_product_id uuid)",
+        "definition": "CREATE OR REPLACE FUNCTION public.lite3_counter_context223(p_product_id uuid)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nDECLARE p public.products;family BOOLEAN;rows JSONB;\nBEGIN\n PERFORM sales_lite3.assert_owner223();\n SELECT * INTO p FROM public.products WHERE id=p_product_id;\n IF NOT FOUND THEN RAISE EXCEPTION 'QUANTITY223_PRODUCT_REQUIRED';END IF;\n family:=p.is_flavor_master OR EXISTS(SELECT 1 FROM public.products c WHERE c.flavor_master_product_id=p.id);\n -- Never label a previously tracked quantity with a different base unit.\n IF EXISTS(SELECT 1 FROM public.products leaf JOIN sales_lite3.quantity_counters c ON c.product_id=leaf.id\n  WHERE c.ever_enabled AND c.unit_id IS DISTINCT FROM leaf.unit_id\n  AND((NOT family AND leaf.id=p.id) OR(family AND leaf.flavor_master_product_id=p.id))) THEN\n  RAISE EXCEPTION 'QUANTITY223_UNIT_REVIEW_REQUIRED';\n END IF;\n SELECT COALESCE(jsonb_agg(jsonb_build_object(\n  'productId',leaf.id,'name',leaf.name_ar,'flavorName',leaf.flavor_name_ar,'sku',leaf.sku,\n  'unitId',leaf.unit_id,'unitName',COALESCE(u.name_ar,'باكيت'),\n  'enabled',COALESCE(c.enabled,false),'quantity',COALESCE(c.quantity,0),\n  'threshold',COALESCE(c.low_threshold,0),'revision',COALESCE(c.revision,0),\n  'everEnabled',COALESCE(c.ever_enabled,false),'active',leaf.is_active,\n  'manualAvailable',COALESCE(sales_lite1.available(leaf.id),false),\n  'effectiveAvailable',COALESCE(sales_lite1.available(leaf.id),false) AND(NOT COALESCE(c.enabled,false) OR c.quantity>0)\n ) ORDER BY leaf.sku,leaf.id),'[]') INTO rows\n FROM public.products leaf LEFT JOIN public.units u ON u.id=leaf.unit_id\n LEFT JOIN sales_lite3.quantity_counters c ON c.product_id=leaf.id\n WHERE NOT leaf.is_flavor_master AND((NOT family AND leaf.id=p.id) OR(family AND leaf.flavor_master_product_id=p.id));\n IF jsonb_array_length(rows)>200 THEN RAISE EXCEPTION 'QUANTITY223_CONTEXT_LIMIT';END IF;\n RETURN jsonb_build_object('contractVersion','optional-quantity223-v1','fullAccounting',false,'productId',p.id,'isFamily',family,'products',rows);\nEND $function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"public\",null,\"lite3_low_counters223(p_page integer, p_page_size integer)\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres",
+          "authenticated=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "lite3_low_counters223(p_page integer, p_page_size integer)",
+        "definition": "CREATE OR REPLACE FUNCTION public.lite3_low_counters223(p_page integer DEFAULT 1, p_page_size integer DEFAULT 20)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nDECLARE rows JSONB;total BIGINT;\nBEGIN\n PERFORM sales_lite3.assert_owner223();\n IF p_page IS NULL OR p_page NOT BETWEEN 1 AND 100000 OR p_page_size IS NULL OR p_page_size NOT BETWEEN 1 AND 100 THEN RAISE EXCEPTION 'QUANTITY223_PAGE_INVALID';END IF;\n SELECT count(*) INTO total FROM sales_lite3.quantity_counters c JOIN public.products p ON p.id=c.product_id\n WHERE c.enabled AND p.is_active AND NOT p.is_flavor_master AND(c.quantity=0 OR c.quantity<c.low_threshold);\n SELECT COALESCE(jsonb_agg(to_jsonb(x) ORDER BY x.quantity,x.\"productId\"),'[]') INTO rows FROM(\n  SELECT p.id AS \"productId\",p.sku,p.name_ar AS name,COALESCE(u.name_ar,'باكيت') AS \"unitName\",c.quantity,c.low_threshold AS threshold,c.revision\n  FROM sales_lite3.quantity_counters c JOIN public.products p ON p.id=c.product_id LEFT JOIN public.units u ON u.id=c.unit_id\n  WHERE c.enabled AND p.is_active AND NOT p.is_flavor_master AND(c.quantity=0 OR c.quantity<c.low_threshold)\n  ORDER BY c.quantity,p.id LIMIT p_page_size OFFSET(p_page-1)::BIGINT*p_page_size\n ) x;\n RETURN jsonb_build_object('contractVersion','optional-quantity223-v1','products',rows,'total',total,'page',p_page,'pageSize',p_page_size);\nEND $function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"public\",null,\"lite3_pos_quantity_check223(p_lines jsonb)\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres",
+          "authenticated=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "lite3_pos_quantity_check223(p_lines jsonb)",
+        "definition": "CREATE OR REPLACE FUNCTION public.lite3_pos_quantity_check223(p_lines jsonb)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nDECLARE plan JSONB;rows JSONB;\nBEGIN\n PERFORM sales_lite3.assert_owner223();\n plan:=sales_lite2.plan(p_lines,'admin_pos',0);\n SELECT COALESCE(jsonb_agg(jsonb_build_object('productId',p.id,'name',p.name_ar,'unitName',COALESCE(u.name_ar,'باكيت'),\n  'quantity',c.quantity,'required',r.required_quantity,'revision',c.revision) ORDER BY p.id),'[]') INTO rows\n FROM sales_lite3.plan_quantities223(plan) r\n JOIN sales_lite3.quantity_counters c ON c.product_id=r.product_id AND c.enabled\n JOIN public.products p ON p.id=r.product_id LEFT JOIN public.units u ON u.id=p.unit_id\n WHERE c.quantity<r.required_quantity;\n RETURN jsonb_build_object('contractVersion','optional-quantity223-v1','fullAccounting',false,'shortages',rows);\nEND $function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"public\",null,\"lite3_set_counter223(p_product_id uuid, p_enabled boolean, p_quantity bigint, p_low_threshold bigint, p_expected_revision bigint, p_key uuid, p_expected_unit_id uuid)\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres",
+          "authenticated=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "lite3_set_counter223(p_product_id uuid, p_enabled boolean, p_quantity bigint, p_low_threshold bigint, p_expected_revision bigint, p_key uuid, p_expected_unit_id uuid)",
+        "definition": "CREATE OR REPLACE FUNCTION public.lite3_set_counter223(p_product_id uuid, p_enabled boolean, p_quantity bigint, p_low_threshold bigint, p_expected_revision bigint, p_key uuid, p_expected_unit_id uuid)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public', 'extensions'\nAS $function$\nDECLARE p public.products;c sales_lite3.quantity_counters;r sales_lite3.quantity_requests;\n fingerprint TEXT;result JSONB;old_configuration JSONB;new_configuration JSONB;unit_name TEXT;\n old_revision BIGINT;old_quantity BIGINT;next_revision BIGINT;ever_enabled BOOLEAN;low_sent BOOLEAN;zero_sent BOOLEAN;\nBEGIN\n PERFORM sales_lite3.assert_owner223();PERFORM sales_lite1.lock_mode();\n IF NOT sales_lite1.enabled() THEN RAISE EXCEPTION 'QUANTITY223_OFF_REQUIRED';END IF;\n IF p_product_id IS NULL OR p_key IS NULL OR p_expected_unit_id IS NULL OR p_enabled IS NULL OR p_expected_revision IS NULL OR p_expected_revision<0\n OR p_quantity IS NULL OR p_quantity NOT BETWEEN 0 AND 1000000000\n OR p_low_threshold IS NULL OR p_low_threshold NOT BETWEEN 0 AND 1000000000 THEN\n  RAISE EXCEPTION 'QUANTITY223_INPUT_INVALID: أدخل كمية وحدّ تنبيه صحيحين وغير سالبين.';\n END IF;\n fingerprint:=encode(extensions.digest(jsonb_build_object('product',p_product_id,'enabled',p_enabled,'quantity',p_quantity,'threshold',p_low_threshold,'revision',p_expected_revision,'unit',p_expected_unit_id)::TEXT,'sha256'),'hex');\n PERFORM pg_advisory_xact_lock(hashtextextended('optional-quantity223:'||p_key::TEXT,0));\n SELECT * INTO r FROM sales_lite3.quantity_requests WHERE key=p_key;\n IF FOUND THEN\n  IF r.actor_id IS DISTINCT FROM auth.uid() OR r.fingerprint<>fingerprint THEN RAISE EXCEPTION 'QUANTITY223_IDEMPOTENCY_CONFLICT';END IF;\n  RETURN r.result||jsonb_build_object('idempotentReplay',true);\n END IF;\n SELECT * INTO p FROM public.products WHERE id=p_product_id FOR UPDATE;\n IF NOT FOUND OR p.is_flavor_master OR EXISTS(SELECT 1 FROM public.products child WHERE child.flavor_master_product_id=p.id) THEN\n  RAISE EXCEPTION 'QUANTITY223_SELLABLE_PRODUCT_REQUIRED: عدّاد مستقل للمنتج القابل للبيع أو لكل نكهة؛ لا يُفعّل للأب.';\n END IF;\n IF p.unit_id IS DISTINCT FROM p_expected_unit_id THEN\n  RAISE EXCEPTION 'QUANTITY223_PRODUCT_UNIT_CHANGED: تغيّرت وحدة الأساس منذ قراءتها؛ أعد القراءة قبل حفظ الكمية.';\n END IF;\n SELECT * INTO c FROM sales_lite3.quantity_counters WHERE product_id=p.id FOR UPDATE;\n old_revision:=COALESCE(c.revision,0);old_quantity:=COALESCE(c.quantity,0);\n IF old_revision<>p_expected_revision THEN RAISE EXCEPTION 'QUANTITY223_CONFLICT: تغيّرت الكمية منذ قراءتها؛ أعد القراءة قبل تعديلها.';END IF;\n IF COALESCE(c.ever_enabled,false) AND c.unit_id IS DISTINCT FROM p.unit_id THEN\n  RAISE EXCEPTION 'QUANTITY223_UNIT_REVIEW_REQUIRED';\n END IF;\n SELECT COALESCE(name_ar,'باكيت') INTO unit_name FROM public.units WHERE id=p.unit_id;\n next_revision:=old_revision+1;ever_enabled:=COALESCE(c.ever_enabled,false) OR p_enabled;\n low_sent:=CASE WHEN NOT p_enabled OR p_low_threshold=0 OR p_quantity>=p_low_threshold THEN false ELSE COALESCE(c.low_sent,false) END;\n zero_sent:=CASE WHEN NOT p_enabled OR p_quantity>0 THEN false ELSE COALESCE(c.zero_sent,false) END;\n old_configuration:=jsonb_build_object('enabled',COALESCE(c.enabled,false),'threshold',COALESCE(c.low_threshold,0),'unitId',COALESCE(c.unit_id,p.unit_id));\n new_configuration:=jsonb_build_object('enabled',p_enabled,'threshold',p_low_threshold,'unitId',p.unit_id);\n INSERT INTO sales_lite3.quantity_counters(product_id,unit_id,enabled,quantity,low_threshold,revision,ever_enabled,low_sent,zero_sent,updated_by)\n VALUES(p.id,p.unit_id,p_enabled,p_quantity,p_low_threshold,next_revision,ever_enabled,low_sent,zero_sent,auth.uid())\n ON CONFLICT(product_id) DO UPDATE SET unit_id=excluded.unit_id,enabled=excluded.enabled,quantity=excluded.quantity,\n  low_threshold=excluded.low_threshold,revision=excluded.revision,ever_enabled=excluded.ever_enabled,\n  low_sent=excluded.low_sent,zero_sent=excluded.zero_sent,updated_by=excluded.updated_by,updated_at=clock_timestamp();\n INSERT INTO sales_lite3.quantity_events(product_id,sku_snapshot,name_snapshot,unit_id,unit_name_snapshot,kind,source_type,source_id,\n  quantity_before,quantity_after,requested_quantity,applied_quantity,shortage_quantity,revision_before,revision_after,configuration_before,configuration_after,created_by)\n VALUES(p.id,p.sku,p.name_ar,p.unit_id,COALESCE(unit_name,'باكيت'),'manual','quantity_request',p_key,\n  old_quantity,p_quantity,p_quantity,abs(p_quantity-old_quantity),0,old_revision,next_revision,old_configuration,new_configuration,auth.uid());\n INSERT INTO public.audit_logs(user_id,action,entity_name,entity_id,details)\n VALUES(auth.uid(),'SET_OPTIONAL_QUANTITY','products',p.id,jsonb_build_object('before',old_configuration||jsonb_build_object('quantity',old_quantity,'revision',old_revision),\n  'after',new_configuration||jsonb_build_object('quantity',p_quantity,'revision',next_revision),'requestKey',p_key));\n result:=jsonb_build_object('success',true,'idempotentReplay',false,'productId',p.id,'unitId',p.unit_id,'enabled',p_enabled,'quantity',p_quantity,'threshold',p_low_threshold,'revision',next_revision);\n INSERT INTO sales_lite3.quantity_requests(key,actor_id,fingerprint,result) VALUES(p_key,auth.uid(),fingerprint,result);\n RETURN result;\nEND $function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public, extensions"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"sales_lite3\",null,\"alert_transition223()\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "sales_lite3",
+        "identity": "alert_transition223()",
+        "definition": "CREATE OR REPLACE FUNCTION sales_lite3.alert_transition223()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nDECLARE event_type TEXT;p public.products;unit_name TEXT;changed BOOLEAN;\nBEGIN\n IF NOT sales_lite1.enabled() OR NOT NEW.enabled THEN RETURN NEW;END IF;\n changed:=TG_OP='INSERT';\n IF TG_OP='UPDATE' THEN changed:=NOT OLD.enabled OR NEW.quantity<OLD.quantity OR NEW.low_threshold>OLD.low_threshold;END IF;\n IF NOT changed THEN RETURN NEW;END IF;\n IF NEW.quantity=0 AND NOT NEW.zero_sent THEN event_type:='out_of_stock';\n ELSIF NEW.quantity>0 AND NEW.low_threshold>0 AND NEW.quantity<NEW.low_threshold AND NOT NEW.low_sent THEN event_type:='low_stock';\n ELSE RETURN NEW;END IF;\n SELECT * INTO STRICT p FROM public.products WHERE id=NEW.product_id;\n SELECT COALESCE(name_ar,'باكيت') INTO unit_name FROM public.units WHERE id=NEW.unit_id;\n PERFORM public.enqueue_automation_event('quantity223:'||event_type||':'||NEW.product_id::TEXT||':'||NEW.revision::TEXT,event_type,NEW.product_id,\n  jsonb_build_object('audience','owner','quantitySource','sales_only_counter','accountingTracked',false,\n   'productId',p.id,'productName',p.name_ar,'sku',p.sku,'availableQuantity',NEW.quantity,'unitName',COALESCE(unit_name,'باكيت'),'thresholdQuantity',NEW.low_threshold));\n UPDATE sales_lite3.quantity_counters SET low_sent=true,zero_sent=CASE WHEN event_type='out_of_stock' THEN true ELSE zero_sent END\n WHERE product_id=NEW.product_id;\n RETURN NEW;\nEND $function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"sales_lite3\",null,\"assert_owner223()\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "sales_lite3",
+        "identity": "assert_owner223()",
+        "definition": "CREATE OR REPLACE FUNCTION sales_lite3.assert_owner223()\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$ BEGIN\n IF auth.role() IS DISTINCT FROM 'authenticated' OR auth.jwt()->>'aal' IS DISTINCT FROM 'aal2' THEN\n  RAISE EXCEPTION USING ERRCODE='42501',MESSAGE='QUANTITY223_OWNER_AAL2_REQUIRED';\n END IF;\n PERFORM public.assert_erp_role(ARRAY['owner'],'إدارة عدّاد الكمية الاختياري');\n IF NOT sales_lite1.enabled() THEN RAISE EXCEPTION 'QUANTITY223_OFF_REQUIRED';END IF;\nEND $function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"sales_lite3\",null,\"cancel_credit223()\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "sales_lite3",
+        "identity": "cancel_credit223()",
+        "definition": "CREATE OR REPLACE FUNCTION sales_lite3.cancel_credit223()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nDECLARE r RECORD;c sales_lite3.quantity_counters;p public.products;configuration JSONB;unit_name TEXT;\nBEGIN\n IF NOT sales_lite1.enabled() OR NEW.status IS NOT DISTINCT FROM OLD.status OR NEW.status<>'cancelled'\n OR NOT sales_lite1.is_order(NEW.id) THEN RETURN NEW;END IF;\n -- A full order has no new provenance and returns above without any effect.\n -- Product locking follows the same UUID order as creation/manual correction.\n FOR r IN\n  SELECT product_id,sum(applied_quantity)::BIGINT AS quantity FROM sales_lite3.quantity_events\n  WHERE order_id=NEW.id AND kind='sale' GROUP BY product_id ORDER BY product_id\n LOOP\n  IF EXISTS(SELECT 1 FROM sales_lite3.quantity_events WHERE kind='cancel' AND source_type='order_cancel' AND source_id=NEW.id AND product_id=r.product_id) THEN\n   RAISE EXCEPTION 'QUANTITY223_DUPLICATE_CANCEL';\n  END IF;\n  SELECT * INTO STRICT p FROM public.products WHERE id=r.product_id FOR UPDATE;\n  SELECT * INTO STRICT c FROM sales_lite3.quantity_counters WHERE product_id=r.product_id FOR UPDATE;\n  IF c.unit_id IS DISTINCT FROM p.unit_id THEN RAISE EXCEPTION 'QUANTITY223_UNIT_REVIEW_REQUIRED';END IF;\n  SELECT COALESCE(name_ar,'باكيت') INTO unit_name FROM public.units WHERE id=c.unit_id;\n  configuration:=jsonb_build_object('enabled',c.enabled,'threshold',c.low_threshold,'unitId',c.unit_id);\n  UPDATE sales_lite3.quantity_counters SET quantity=c.quantity+r.quantity,revision=c.revision+1,\n   low_sent=CASE WHEN c.quantity+r.quantity>=c.low_threshold THEN false ELSE c.low_sent END,\n   zero_sent=CASE WHEN c.quantity+r.quantity>0 THEN false ELSE c.zero_sent END,\n   updated_by=auth.uid(),updated_at=clock_timestamp() WHERE product_id=r.product_id;\n  INSERT INTO sales_lite3.quantity_events(product_id,sku_snapshot,name_snapshot,unit_id,unit_name_snapshot,kind,source_type,source_id,order_id,\n   quantity_before,quantity_after,requested_quantity,applied_quantity,shortage_quantity,revision_before,revision_after,configuration_before,configuration_after,created_by)\n  VALUES(p.id,p.sku,p.name_ar,c.unit_id,COALESCE(unit_name,'باكيت'),'cancel','order_cancel',NEW.id,NEW.id,\n   c.quantity,c.quantity+r.quantity,r.quantity,r.quantity,0,c.revision,c.revision+1,configuration,configuration,auth.uid());\n END LOOP;\n RETURN NEW;\nEND $function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"sales_lite3\",null,\"component_debit223()\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "sales_lite3",
+        "identity": "component_debit223()",
+        "definition": "CREATE OR REPLACE FUNCTION sales_lite3.component_debit223()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nDECLARE order_id UUID;\nBEGIN\n IF NOT sales_lite1.enabled() THEN RETURN NEW;END IF;\n SELECT i.order_id INTO STRICT order_id FROM public.order_parcel_instances i WHERE i.id=NEW.parcel_instance_id;\n PERFORM sales_lite3.consume223(order_id,NEW.product_id,NEW.base_quantity,'parcel_component',NEW.id);\n RETURN NEW;\nEND $function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"sales_lite3\",null,\"confirm_plan223(p_plan jsonb, p_existing uuid[], p_confirmed jsonb)\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "sales_lite3",
+        "identity": "confirm_plan223(p_plan jsonb, p_existing uuid[], p_confirmed jsonb)",
+        "definition": "CREATE OR REPLACE FUNCTION sales_lite3.confirm_plan223(p_plan jsonb, p_existing uuid[], p_confirmed jsonb)\n RETURNS uuid[]\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nDECLARE r RECORD;confirmed UUID[]:=p_existing;\nBEGIN\n FOR r IN\n  SELECT required.product_id,required.required_quantity,c.quantity FROM sales_lite3.plan_quantities223(p_plan) required\n  JOIN sales_lite3.quantity_counters c ON c.product_id=required.product_id AND c.enabled\n  WHERE required.required_quantity>c.quantity ORDER BY required.product_id\n LOOP\n  IF NOT COALESCE(p_confirmed @> jsonb_build_array(r.product_id),false) THEN\n   RAISE EXCEPTION 'LITE1_UNAVAILABLE_CONFIRM_REQUIRED: QUANTITY223_SHORTAGE';\n  END IF;\n  IF NOT r.product_id=ANY(COALESCE(confirmed,'{}'::UUID[])) THEN confirmed:=array_append(confirmed,r.product_id);END IF;\n END LOOP;\n RETURN confirmed;\nEND $function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"sales_lite3\",null,\"consume223(p_order uuid, p_product uuid, p_quantity bigint, p_source_type text, p_source_id uuid)\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "sales_lite3",
+        "identity": "consume223(p_order uuid, p_product uuid, p_quantity bigint, p_source_type text, p_source_id uuid)",
+        "definition": "CREATE OR REPLACE FUNCTION sales_lite3.consume223(p_order uuid, p_product uuid, p_quantity bigint, p_source_type text, p_source_id uuid)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nDECLARE c sales_lite3.quantity_counters;p public.products;o public.orders;\n available BIGINT;shortage BIGINT;proof UUID[];unit_name TEXT;configuration JSONB;\nBEGIN\n IF NOT sales_lite1.enabled() OR NOT sales_lite1.is_order(p_order) THEN RETURN;END IF;\n IF p_quantity IS NULL OR p_quantity<=0 THEN RAISE EXCEPTION 'QUANTITY223_SALE_QUANTITY_INVALID';END IF;\n SELECT * INTO STRICT p FROM public.products WHERE id=p_product FOR UPDATE;\n SELECT * INTO c FROM sales_lite3.quantity_counters WHERE product_id=p_product FOR UPDATE;\n IF NOT FOUND OR NOT c.enabled THEN RETURN;END IF;\n IF c.unit_id IS DISTINCT FROM p.unit_id THEN RAISE EXCEPTION 'QUANTITY223_UNIT_REVIEW_REQUIRED';END IF;\n IF EXISTS(SELECT 1 FROM sales_lite3.quantity_events WHERE kind='sale' AND source_type=p_source_type AND source_id=p_source_id AND product_id=p_product) THEN\n  RAISE EXCEPTION 'QUANTITY223_DUPLICATE_DEBIT';\n END IF;\n SELECT * INTO STRICT o FROM public.orders WHERE id=p_order;\n shortage:=GREATEST(p_quantity-c.quantity,0);available:=LEAST(p_quantity,c.quantity);\n IF shortage>0 THEN\n  IF o.source='website' THEN RAISE EXCEPTION 'QUANTITY223_INSUFFICIENT';END IF;\n  IF o.source<>'pos' THEN RAISE EXCEPTION 'QUANTITY223_SOURCE_INVALID';END IF;\n  SELECT unavailable_confirmed INTO STRICT proof FROM sales_lite1.orders WHERE order_id=o.id;\n  IF NOT COALESCE(p_product=ANY(proof),false) THEN RAISE EXCEPTION 'LITE1_UNAVAILABLE_CONFIRM_REQUIRED: QUANTITY223_SHORTAGE';END IF;\n END IF;\n SELECT COALESCE(name_ar,'باكيت') INTO unit_name FROM public.units WHERE id=c.unit_id;\n configuration:=jsonb_build_object('enabled',c.enabled,'threshold',c.low_threshold,'unitId',c.unit_id);\n UPDATE sales_lite3.quantity_counters SET quantity=c.quantity-available,revision=c.revision+1,updated_by=auth.uid(),updated_at=clock_timestamp() WHERE product_id=p_product;\n INSERT INTO sales_lite3.quantity_events(product_id,sku_snapshot,name_snapshot,unit_id,unit_name_snapshot,kind,source_type,source_id,order_id,\n  quantity_before,quantity_after,requested_quantity,applied_quantity,shortage_quantity,revision_before,revision_after,configuration_before,configuration_after,created_by)\n VALUES(p.id,p.sku,p.name_ar,c.unit_id,COALESCE(unit_name,'باكيت'),'sale',p_source_type,p_source_id,o.id,\n  c.quantity,c.quantity-available,p_quantity,available,shortage,c.revision,c.revision+1,configuration,configuration,auth.uid());\n IF shortage>0 THEN\n  INSERT INTO public.audit_logs(user_id,action,entity_name,entity_id,details)\n  VALUES(auth.uid(),'OPTIONAL_QUANTITY_SHORTAGE','orders',o.id,jsonb_build_object('productId',p.id,'requested',p_quantity,'before',c.quantity,'deducted',available,'unavailableConfirmed',true,'shortage',shortage));\n END IF;\nEND $function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"sales_lite3\",null,\"effective_available223(p_product uuid)\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "sales_lite3",
+        "identity": "effective_available223(p_product uuid)",
+        "definition": "CREATE OR REPLACE FUNCTION sales_lite3.effective_available223(p_product uuid)\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\n SELECT sales_lite1.available(p_product) AND NOT EXISTS(\n  SELECT 1 FROM sales_lite3.quantity_counters c JOIN public.products p ON p.id=c.product_id\n  WHERE c.product_id=p_product AND c.enabled AND(c.quantity=0 OR c.unit_id IS DISTINCT FROM p.unit_id)\n )\n$function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"sales_lite3\",null,\"guard_base_unit223()\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "sales_lite3",
+        "identity": "guard_base_unit223()",
+        "definition": "CREATE OR REPLACE FUNCTION sales_lite3.guard_base_unit223()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$ BEGIN\n IF NOT sales_lite1.enabled() OR NEW.unit_id IS NOT DISTINCT FROM OLD.unit_id THEN RETURN NEW;END IF;\n IF EXISTS(SELECT 1 FROM sales_lite3.quantity_counters c WHERE c.ever_enabled\n  AND(c.product_id=OLD.id OR EXISTS(SELECT 1 FROM public.products leaf WHERE leaf.id=c.product_id AND leaf.flavor_master_product_id=OLD.id))) THEN\n  RAISE EXCEPTION 'QUANTITY223_BASE_UNIT_FROZEN: وحدة الأساس ثابتة بعد تفعيل العدّاد؛ يمكنك إضافة طرد أو تعديل عدده وأسعاره.';\n END IF;\n RETURN NEW;\nEND $function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"sales_lite3\",null,\"immutable223()\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "sales_lite3",
+        "identity": "immutable223()",
+        "definition": "CREATE OR REPLACE FUNCTION sales_lite3.immutable223()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO 'pg_catalog'\nAS $function$ BEGIN\n RAISE EXCEPTION 'QUANTITY223_IMMUTABLE_EVIDENCE';\nEND $function$\n",
+        "configuration": [
+          "search_path=pg_catalog"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"sales_lite3\",null,\"item_debit223()\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "sales_lite3",
+        "identity": "item_debit223()",
+        "definition": "CREATE OR REPLACE FUNCTION sales_lite3.item_debit223()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$ BEGIN\n IF NEW.commercial_line_kind IS DISTINCT FROM 'configurable_parcel' THEN\n  PERFORM sales_lite3.consume223(NEW.order_id,NEW.product_id,NEW.quantity,'order_item',NEW.id);\n END IF;\n RETURN NEW;\nEND $function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"sales_lite3\",null,\"plan_quantities223(p_plan jsonb)\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "sales_lite3",
+        "identity": "plan_quantities223(p_plan jsonb)",
+        "definition": "CREATE OR REPLACE FUNCTION sales_lite3.plan_quantities223(p_plan jsonb)\n RETURNS TABLE(product_id uuid, required_quantity bigint)\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\n SELECT required.product_id,sum(required.quantity)::BIGINT FROM(\n  SELECT(l->>'product_id')::UUID AS product_id,(l->>'base_quantity')::BIGINT AS quantity\n  FROM jsonb_array_elements(p_plan->'lines') l WHERE l->>'commercial_line_kind'<>'configurable_parcel'\n  UNION ALL\n  SELECT(c->>'product_id')::UUID,(c->>'base_quantity')::BIGINT\n  FROM jsonb_array_elements(p_plan->'lines') l\n  CROSS JOIN LATERAL jsonb_array_elements(l->'parcel_instances') i\n  CROSS JOIN LATERAL jsonb_array_elements(i->'components') c\n  WHERE l->>'commercial_line_kind'='configurable_parcel'\n ) required GROUP BY required.product_id ORDER BY required.product_id\n$function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"sales_lite3\",null,\"return_credit223()\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "sales_lite3",
+        "identity": "return_credit223()",
+        "definition": "CREATE OR REPLACE FUNCTION sales_lite3.return_credit223()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nDECLARE oid UUID;r RECORD;c sales_lite3.quantity_counters;p public.products;configuration JSONB;unit_name TEXT;\nBEGIN\n IF NOT sales_lite1.enabled() THEN RETURN NEW;END IF;\n SELECT order_id INTO STRICT oid FROM sales_lite1.returns WHERE id=NEW.return_id;\n IF NOT sales_lite1.is_order(oid) THEN RETURN NEW;END IF;\n FOR r IN SELECT(source->>'product_id')::UUID AS product_id,sum((source->>'sellable_restock_quantity')::BIGINT)::BIGINT AS quantity\n  FROM jsonb_array_elements(NEW.request_snapshot->'physicalSources') source\n  WHERE(source->>'sellable_restock_quantity')::BIGINT>0\n  AND EXISTS(SELECT 1 FROM sales_lite3.quantity_events e WHERE e.kind='sale' AND e.order_id=oid AND e.product_id=(source->>'product_id')::UUID)\n  GROUP BY(source->>'product_id')::UUID ORDER BY(source->>'product_id')::UUID\n LOOP\n  SELECT * INTO STRICT p FROM public.products WHERE id=r.product_id FOR UPDATE;\n  SELECT * INTO STRICT c FROM sales_lite3.quantity_counters WHERE product_id=r.product_id FOR UPDATE;\n  IF c.unit_id IS DISTINCT FROM p.unit_id OR EXISTS(SELECT 1 FROM sales_lite3.quantity_events e WHERE e.kind='sale' AND e.order_id=oid AND e.product_id=r.product_id AND e.unit_id IS DISTINCT FROM c.unit_id) THEN\n   RAISE EXCEPTION 'QUANTITY223_UNIT_REVIEW_REQUIRED';\n  END IF;\n  SELECT COALESCE(name_ar,'باكيت') INTO unit_name FROM public.units WHERE id=c.unit_id;\n  configuration:=jsonb_build_object('enabled',c.enabled,'threshold',c.low_threshold,'unitId',c.unit_id);\n  UPDATE sales_lite3.quantity_counters SET quantity=c.quantity+r.quantity,revision=c.revision+1,\n   low_sent=CASE WHEN c.quantity+r.quantity>=c.low_threshold THEN false ELSE c.low_sent END,\n   zero_sent=CASE WHEN c.quantity+r.quantity>0 THEN false ELSE c.zero_sent END,\n   updated_by=auth.uid(),updated_at=clock_timestamp() WHERE product_id=r.product_id;\n  INSERT INTO sales_lite3.quantity_events(product_id,sku_snapshot,name_snapshot,unit_id,unit_name_snapshot,kind,source_type,source_id,order_id,\n   quantity_before,quantity_after,requested_quantity,applied_quantity,shortage_quantity,revision_before,revision_after,configuration_before,configuration_after,created_by)\n  VALUES(p.id,p.sku,p.name_ar,c.unit_id,COALESCE(unit_name,'باكيت'),'return','customer_return',NEW.return_id,oid,\n   c.quantity,c.quantity+r.quantity,r.quantity,r.quantity,0,c.revision,c.revision+1,configuration,configuration,auth.uid());\n END LOOP;\n RETURN NEW;\nEND $function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"sales_lite3\",\"quantity_counters\",\"quantity_counters_low_threshold_check\",null,\"c\"]",
+      "before": null,
+      "after": {
+        "name": "quantity_counters_low_threshold_check",
+        "type": "c",
+        "local": true,
+        "match": " ",
+        "table": "quantity_counters",
+        "schema": "sales_lite3",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "CHECK ((low_threshold >= 0))",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"sales_lite3\",\"quantity_counters\",\"quantity_counters_pkey\",null,\"p\"]",
+      "before": null,
+      "after": {
+        "name": "quantity_counters_pkey",
+        "type": "p",
+        "local": true,
+        "match": " ",
+        "table": "quantity_counters",
+        "schema": "sales_lite3",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": true,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (product_id)",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"sales_lite3\",\"quantity_counters\",\"quantity_counters_product_id_fkey\",null,\"f\"]",
+      "before": null,
+      "after": {
+        "name": "quantity_counters_product_id_fkey",
+        "type": "f",
+        "local": true,
+        "match": "s",
+        "table": "quantity_counters",
+        "schema": "sales_lite3",
+        "onDelete": "c",
+        "onUpdate": "a",
+        "noInherit": true,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"sales_lite3\",\"quantity_counters\",\"quantity_counters_quantity_check\",null,\"c\"]",
+      "before": null,
+      "after": {
+        "name": "quantity_counters_quantity_check",
+        "type": "c",
+        "local": true,
+        "match": " ",
+        "table": "quantity_counters",
+        "schema": "sales_lite3",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "CHECK ((quantity >= 0))",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"sales_lite3\",\"quantity_counters\",\"quantity_counters_revision_check\",null,\"c\"]",
+      "before": null,
+      "after": {
+        "name": "quantity_counters_revision_check",
+        "type": "c",
+        "local": true,
+        "match": " ",
+        "table": "quantity_counters",
+        "schema": "sales_lite3",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "CHECK ((revision > 0))",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"sales_lite3\",\"quantity_counters\",\"quantity_counters_updated_by_fkey\",null,\"f\"]",
+      "before": null,
+      "after": {
+        "name": "quantity_counters_updated_by_fkey",
+        "type": "f",
+        "local": true,
+        "match": "s",
+        "table": "quantity_counters",
+        "schema": "sales_lite3",
+        "onDelete": "a",
+        "onUpdate": "a",
+        "noInherit": true,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (updated_by) REFERENCES profiles(id)",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"sales_lite3\",\"quantity_events\",\"quantity_events_applied_quantity_check\",null,\"c\"]",
+      "before": null,
+      "after": {
+        "name": "quantity_events_applied_quantity_check",
+        "type": "c",
+        "local": true,
+        "match": " ",
+        "table": "quantity_events",
+        "schema": "sales_lite3",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "CHECK ((applied_quantity >= 0))",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"sales_lite3\",\"quantity_events\",\"quantity_events_check\",null,\"c\"]",
+      "before": null,
+      "after": {
+        "name": "quantity_events_check",
+        "type": "c",
+        "local": true,
+        "match": " ",
+        "table": "quantity_events",
+        "schema": "sales_lite3",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "CHECK ((revision_after = (revision_before + 1)))",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"sales_lite3\",\"quantity_events\",\"quantity_events_configuration_after_check\",null,\"c\"]",
+      "before": null,
+      "after": {
+        "name": "quantity_events_configuration_after_check",
+        "type": "c",
+        "local": true,
+        "match": " ",
+        "table": "quantity_events",
+        "schema": "sales_lite3",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "CHECK ((jsonb_typeof(configuration_after) = 'object'::text))",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"sales_lite3\",\"quantity_events\",\"quantity_events_configuration_before_check\",null,\"c\"]",
+      "before": null,
+      "after": {
+        "name": "quantity_events_configuration_before_check",
+        "type": "c",
+        "local": true,
+        "match": " ",
+        "table": "quantity_events",
+        "schema": "sales_lite3",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "CHECK ((jsonb_typeof(configuration_before) = 'object'::text))",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"sales_lite3\",\"quantity_events\",\"quantity_events_created_by_fkey\",null,\"f\"]",
+      "before": null,
+      "after": {
+        "name": "quantity_events_created_by_fkey",
+        "type": "f",
+        "local": true,
+        "match": "s",
+        "table": "quantity_events",
+        "schema": "sales_lite3",
+        "onDelete": "a",
+        "onUpdate": "a",
+        "noInherit": true,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (created_by) REFERENCES profiles(id)",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"sales_lite3\",\"quantity_events\",\"quantity_events_kind_check\",null,\"c\"]",
+      "before": null,
+      "after": {
+        "name": "quantity_events_kind_check",
+        "type": "c",
+        "local": true,
+        "match": " ",
+        "table": "quantity_events",
+        "schema": "sales_lite3",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "CHECK ((kind = ANY (ARRAY['manual'::text, 'sale'::text, 'cancel'::text, 'return'::text])))",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"sales_lite3\",\"quantity_events\",\"quantity_events_kind_source_type_source_id_product_id_key\",null,\"u\"]",
+      "before": null,
+      "after": {
+        "name": "quantity_events_kind_source_type_source_id_product_id_key",
+        "type": "u",
+        "local": true,
+        "match": " ",
+        "table": "quantity_events",
+        "schema": "sales_lite3",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": true,
+        "validated": true,
+        "deferrable": false,
+        "definition": "UNIQUE (kind, source_type, source_id, product_id)",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"sales_lite3\",\"quantity_events\",\"quantity_events_order_id_fkey\",null,\"f\"]",
+      "before": null,
+      "after": {
+        "name": "quantity_events_order_id_fkey",
+        "type": "f",
+        "local": true,
+        "match": "s",
+        "table": "quantity_events",
+        "schema": "sales_lite3",
+        "onDelete": "a",
+        "onUpdate": "a",
+        "noInherit": true,
+        "validated": true,
+        "deferrable": true,
+        "definition": "FOREIGN KEY (order_id) REFERENCES orders(id) DEFERRABLE INITIALLY DEFERRED",
+        "inheritanceCount": 0,
+        "initiallyDeferred": true
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"sales_lite3\",\"quantity_events\",\"quantity_events_pkey\",null,\"p\"]",
+      "before": null,
+      "after": {
+        "name": "quantity_events_pkey",
+        "type": "p",
+        "local": true,
+        "match": " ",
+        "table": "quantity_events",
+        "schema": "sales_lite3",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": true,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (id)",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"sales_lite3\",\"quantity_events\",\"quantity_events_quantity_after_check\",null,\"c\"]",
+      "before": null,
+      "after": {
+        "name": "quantity_events_quantity_after_check",
+        "type": "c",
+        "local": true,
+        "match": " ",
+        "table": "quantity_events",
+        "schema": "sales_lite3",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "CHECK ((quantity_after >= 0))",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"sales_lite3\",\"quantity_events\",\"quantity_events_quantity_before_check\",null,\"c\"]",
+      "before": null,
+      "after": {
+        "name": "quantity_events_quantity_before_check",
+        "type": "c",
+        "local": true,
+        "match": " ",
+        "table": "quantity_events",
+        "schema": "sales_lite3",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "CHECK ((quantity_before >= 0))",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"sales_lite3\",\"quantity_events\",\"quantity_events_requested_quantity_check\",null,\"c\"]",
+      "before": null,
+      "after": {
+        "name": "quantity_events_requested_quantity_check",
+        "type": "c",
+        "local": true,
+        "match": " ",
+        "table": "quantity_events",
+        "schema": "sales_lite3",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "CHECK ((requested_quantity >= 0))",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"sales_lite3\",\"quantity_events\",\"quantity_events_revision_before_check\",null,\"c\"]",
+      "before": null,
+      "after": {
+        "name": "quantity_events_revision_before_check",
+        "type": "c",
+        "local": true,
+        "match": " ",
+        "table": "quantity_events",
+        "schema": "sales_lite3",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "CHECK ((revision_before >= 0))",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"sales_lite3\",\"quantity_events\",\"quantity_events_shortage_quantity_check\",null,\"c\"]",
+      "before": null,
+      "after": {
+        "name": "quantity_events_shortage_quantity_check",
+        "type": "c",
+        "local": true,
+        "match": " ",
+        "table": "quantity_events",
+        "schema": "sales_lite3",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "CHECK ((shortage_quantity >= 0))",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"sales_lite3\",\"quantity_events\",\"quantity_events_source_type_check\",null,\"c\"]",
+      "before": null,
+      "after": {
+        "name": "quantity_events_source_type_check",
+        "type": "c",
+        "local": true,
+        "match": " ",
+        "table": "quantity_events",
+        "schema": "sales_lite3",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "CHECK (((length(source_type) >= 2) AND (length(source_type) <= 50)))",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"sales_lite3\",\"quantity_requests\",\"quantity_requests_actor_id_fkey\",null,\"f\"]",
+      "before": null,
+      "after": {
+        "name": "quantity_requests_actor_id_fkey",
+        "type": "f",
+        "local": true,
+        "match": "s",
+        "table": "quantity_requests",
+        "schema": "sales_lite3",
+        "onDelete": "a",
+        "onUpdate": "a",
+        "noInherit": true,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (actor_id) REFERENCES profiles(id)",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"sales_lite3\",\"quantity_requests\",\"quantity_requests_fingerprint_check\",null,\"c\"]",
+      "before": null,
+      "after": {
+        "name": "quantity_requests_fingerprint_check",
+        "type": "c",
+        "local": true,
+        "match": " ",
+        "table": "quantity_requests",
+        "schema": "sales_lite3",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "CHECK ((fingerprint ~ '^[a-f0-9]{64}$'::text))",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"sales_lite3\",\"quantity_requests\",\"quantity_requests_pkey\",null,\"p\"]",
+      "before": null,
+      "after": {
+        "name": "quantity_requests_pkey",
+        "type": "p",
+        "local": true,
+        "match": " ",
+        "table": "quantity_requests",
+        "schema": "sales_lite3",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": true,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (key)",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"sales_lite3\",\"quantity_requests\",\"quantity_requests_result_check\",null,\"c\"]",
+      "before": null,
+      "after": {
+        "name": "quantity_requests_result_check",
+        "type": "c",
+        "local": true,
+        "match": " ",
+        "table": "quantity_requests",
+        "schema": "sales_lite3",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "CHECK ((jsonb_typeof(result) = 'object'::text))",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    }
+  ]
+}

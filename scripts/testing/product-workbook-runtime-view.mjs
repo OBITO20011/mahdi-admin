@@ -1,3 +1,4 @@
+import {sourceBeforeOptionalQuantity223,quantity223SourcePins,quantity223SourceBase} from '../audit/source-before-optional-quantity223.mjs';
 import{sourceBeforeIndependentPrices222}from'../audit/source-before-independent-prices222.mjs';
 import{sourceBeforeSalesOnlyPhase3,pathsBeforeSalesOnlyPhase3,salesOnlyPhase3Pins}from'../audit/source-before-sales-only-phase3.mjs';
 import{pathsBeforeD1Kit}from'../audit/source-before-d1-reference-kit.mjs';
@@ -90,6 +91,20 @@ export async function prepareWorkbookRuntimeView({schemaOnly=false}={}){
   // Rewind only exact approved222 application bytes before composing older views.
   // Current runners/owner tools and SQL001–220 remain untouched;remove only the
   // pinned222 addition from this disposable legacy fixture,never an unknown file.
+  for(const [file] of Object.entries(quantity223SourcePins)){
+   if(!sourceScope(file)&&file!=='supabase/migrations/223_optional_sales_quantity.sql')continue;
+   const target=path.join(dir,file);
+   let raw;
+   try{raw=await readFile(target,'utf8');}catch(error){
+    if(error.code==='ENOENT'&&quantity223SourcePins[file].before===null)continue;
+    throw error;
+   }
+   const before=sourceBeforeOptionalQuantity223(file,raw);
+   assert.notEqual(before,raw,'HISTORICAL223_UNREVIEWED_SOURCE:'+file);
+   assert.equal(before,historicalText(quantity223SourceBase,file),'HISTORICAL223_NOT_EXACT_GIT:'+file);
+   if(before===null)await unlink(target);else await writeFile(target,before);
+   changed.push({file,after:hash(raw.replaceAll('\r\n','\n')),before:before===null?null:hash(before)});
+  }
   const prices222=JSON.parse(await readFile(path.join(root,'scripts/audit/independent-prices222-source-pins.json'),'utf8'));
   assert.equal(prices222.baseline,'bd4d696af6eef074bfd523ee54906059a0bb668c');
   for(const[file]of Object.entries(prices222.entries)){
@@ -155,5 +170,5 @@ export async function prepareWorkbookRuntimeView({schemaOnly=false}={}){
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){
  const args=process.argv.slice(2);assert.ok(!args.length||args.length===1&&args[0]==='--cleanup','HISTORICAL_VIEW_FIXED_OPTIONS');
  if(args[0]==='--cleanup'){const dir=process.env.NAWASRAH_WORKBOOK_VIEW_ROOT;assert.ok(dir,'HISTORICAL_VIEW_CONTEXT_REQUIRED');await cleanupWorkbookRuntimeView(dir);console.log(JSON.stringify({ok:true,cleaned:true}));}
- else{assert.ok(workbookHistoricalSuites.includes(process.env.NAWASRAH_WORKBOOK_SUITE),'HISTORICAL_VIEW_SUITE_REQUIRED');const view=await prepareWorkbookRuntimeView();if(process.env.GITHUB_OUTPUT)await writeFile(process.env.GITHUB_OUTPUT,'root='+view.root+'\n',{flag:'a'});console.log(JSON.stringify({ok:true,head:view.head,root:view.root,projectedApplicationFiles:view.changed.length,historicalCeiling:219,removedOnlyReviewedMigrations:[220,222],historicalSql001Through219Changed:false,ownerToolsChanged:false}));}
+ else{assert.ok(workbookHistoricalSuites.includes(process.env.NAWASRAH_WORKBOOK_SUITE),'HISTORICAL_VIEW_SUITE_REQUIRED');const view=await prepareWorkbookRuntimeView();if(process.env.GITHUB_OUTPUT)await writeFile(process.env.GITHUB_OUTPUT,'root='+view.root+'\n',{flag:'a'});console.log(JSON.stringify({ok:true,head:view.head,root:view.root,projectedApplicationFiles:view.changed.length,historicalCeiling:219,removedOnlyReviewedMigrations:[220,222,223],historicalSql001Through219Changed:false,ownerToolsChanged:false}));}
 }

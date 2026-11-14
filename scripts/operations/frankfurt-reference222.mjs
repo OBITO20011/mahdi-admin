@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import path from 'node:path';
 import {operationalManifest} from './operational-schema.mjs';
+import {sourceBeforeOptionalQuantity223} from '../audit/source-before-optional-quantity223.mjs';
 import {assertReady222Catalog,assertPrice222Additive,independentPrices222Name} from './independent-prices222-catalog.mjs';
 import {manifestDigest,canonicalLf,sha256} from '../testing/maintenance-db-contract.mjs';
 import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
@@ -29,4 +30,9 @@ export function assertReady222Reference(reference,manifest,proofText,source){
  const comparison=compareManagedCatalog(proof.catalog,reference.catalog,{beforeBuildDate:proof.startedAt.slice(0,10),afterBuildDate:reference.buildUtcDate});assert.deepEqual(comparison.unexpected,[]);assert.deepEqual(comparison.expected,[]);
  assert.deepEqual(reference.readiness,{sourceHashes:source.sources,accessEvidenceSha256:sha256(canonicalLf(proofText)),coverage:proof.coverage,queries:proof.results.length,errors:0});assert.equal(reference.functions,683);return reference;
 }
-export async function readReady222Reference(root,filename){return assertReady222Reference(JSON.parse(await readFile(filename,'utf8')),await operationalManifest(),await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_222.json'),'utf8'),await inventory());}
+export async function readReady222Reference(root,filename){
+ const manifest=(await operationalManifest()).filter(unit=>Number(unit.name.slice(0,3))<=222);
+ return assertReady222Reference(JSON.parse(await readFile(filename,'utf8')),manifest,
+  await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_222.json'),'utf8'),
+  await inventory({projectSource:sourceBeforeOptionalQuantity223}));
+}

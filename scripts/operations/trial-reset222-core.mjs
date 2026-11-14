@@ -13,7 +13,7 @@ import {heldJobNames,readNotificationSnapshot,expectedHeldNotifications} from '.
 import {assertManagedCatalog} from './managed-catalog-policy.mjs';
 import {compareApplicationAcl} from './application-acl-verification.mjs';
 import {expectedHeld217Notifications,ownerTelegramJob,assertOwner217HeldSettings} from './owner-telegram217-notifications.mjs';
-import {assertCurrentResetReference} from './operational-schema.mjs';
+import {assertSupportedResetReference} from './operational-schema.mjs';
 import {readRealtimePublication} from '../testing/realtime151-contract.mjs';
 import {retainedSessionState,assertNoForeignWrites,withoutResetGuard,attachGuardSql,removeGuardSql,saveGuardRemovalProof} from './reset222-session.mjs';
 import {lockAndCheckGuardSql,publicFingerprint} from './reset222-write-guard.mjs';
@@ -37,7 +37,7 @@ export const reset214RetentionRawSql=id=>`WITH retained(v) AS (${reset214Retenti
  SELECT jsonb_object_agg(key,value::text) FROM retained,LATERAL jsonb_each(v);`;
 const fingerprints=raw=>Object.fromEntries(Object.entries(raw).map(([name,text])=>[name,{rows:JSON.parse(text).length,sha256:sha256(text)}]));
 const policy222={ceiling:222,files:182,assertCatalog:catalog=>assertReady222Catalog(catalog,{notificationTriggerEnabled:'D'})};
-export const captureReset222=options=>{assertCurrentResetReference(options.reference);return captureRetainedReset(options,policy222);};
+export const captureReset222=options=>{assertSupportedResetReference(options.reference);return captureRetainedReset(options,policy222);};
 async function captureRetainedReset({executor,ownerId,reference},policy){
  assert.equal(reference.migrationCeiling,policy.ceiling,'RESET_REFERENCE_REQUIRED');assert.equal(reference.manifest.length,policy.files);
  const sql=async input=>{const r=await executeInput(executor,input);assert.equal(r.code,0,'RESET214_READ_FAILED');return r.stdout.trim();};
@@ -81,7 +81,7 @@ export function restoreReset214Sql(rawTables){
 // Durable, sanitized journal: a failure/crash never leaves a successful report.
 // A failed destructive attempt requires restoration of the pre-reset archive,
 // not replay against a partial schema. This is NOT a cross-API transaction.
-export const reset222WithExecutor=options=>{assertCurrentResetReference(options.reference);return runRetainedReset(options,policy222);};
+export const reset222WithExecutor=options=>{assertSupportedResetReference(options.reference);return runRetainedReset(options,policy222);};
 async function runRetainedReset(options,policy){
  const {executor,reference,ownerId,output}=options;
  assert.equal(reference.migrationCeiling,policy.ceiling,'RESET_REFERENCE_REQUIRED');assert.equal(reference.manifest.length,policy.files);

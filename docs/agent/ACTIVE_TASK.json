@@ -1,48 +1,51 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
+  "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner14Nov approved3-4days:OFF independent single/parcel prices;222 only,221reserved;Draft97/FULLCI/Gitleaks;only after greenCI no-reset iPhone demo update. No merge/hosted/deploy/ON behavior change.",
-  "baselineSha": "80979b3b3ee824df7b20bbbf91583ce8409c4d5f",
-  "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
-  "branch": "codex/parcel-independent-price",
-  "phase": "PARCEL_INDEPENDENT_PRICE",
-  "startedAt": "2026-11-13T22:50:15.381Z",
+  "objective": "Owner14Nov approved4-6days:optionalOFF quantity counter in separateDraft/new223(NOT221). Newprivate tables only;no accountingtables/220guard/ON changes. Stockdebit atwebsitecreation/POS;cancel/return/manualCAS/owner217alerts;RESET/D1/CI;postgreen no-resetdemo. No merge/hosted/deploy/owneroriginals.",
+  "baselineSha": "f0a344de33c74d06db9ab93a2275269dab2ff06c",
+  "branch": "codex/off-quantity-counter",
+  "phase": "OFF_QUANTITY_COUNTER",
+  "startedAt": "2026-11-14T11:22:06.576Z",
   "completed": [
-    "Core222:real writers/family/CAS/audit/roles/2writer race,old receipt+return,mixedPOS+guest PASS;54unique mobile browser cases across groups. SQL222 bcf55b1f...ff84a68;old680functions/220SQL unchanged.",
-    "Fresh/incremental2220diff,683public+39private;actual HTTP181/0errors,RPC720/18expecteddenials;ready222local unapproved/uninstalled. Encrypted220BackupRestore→222apply→222BackupRestore→verify-only PASS6negatives.",
-    "RESET222+3resumes PASS. Legacy220RESET31.3s+3resumes PASS retaining rawAuth/MFA/money/ACL/pgNet;unknown metadata policies rejected. Workbook d9ed1c82 unchanged750roots108families444flavors/parser0errors.",
-    "Typesboth0,strictlint0;OFF editor6/6 Chromium/WebKit390 PASS. Committed disposable Git63 runtime view194exact substitutions/roleproof PASS,ownedcopycleaned.",
-    "Local fullunits80979:2028/2028 PASS,0skip,0cancel,sourcefrozen,641844ms. Both historical timeout cases PASS under original limits.",
-    "Posta223 corrections:exact220generator+negativefixtures14/14 PASS;real esbuild oldwriter bundle1/1 PASS. Owned local219epoch13groups PASS including actual workbook/response-loss/races/integrity/frozenfunctions,cleanuptrue. Finaltypes0/changedstrictlint0."
+    "Prerequisite97 main0bd green/primary ff-only/preflight/demo no-reset complete.",
+    "Core f0a344de pushed. Actual PG23 groups PASS: fullON money/stock/cost/receipt/shift parity; OFF untracked JSON parity; sale/cancel/goodreturn/CAS/unit-lock/roles/replay/rollback/concurrency; accounting tables empty.",
+    "Owner policies all resolved: good returns only; base unit frozen after first enable; no public exact count; pre-counter invoice quantity manual review.",
+    "True browser→Edge/SQL Chromium/WebKit390 2/2 PASS271669ms;6guestorders/2POS shortage audits; synthetic identity/siteverify, not GoTrue/TOTP proof.",
+    "223 actual catalog fresh/incremental0diff,687public/51private;HTTP181 reads0errors,RPC732probes18expecteddenials. Reference test-only ready20ca8266,notinstalled.",
+    "Actual encrypted222BackupRestore→223apply9878ms→223BackupRestore/verify PASS+six negatives;tracked-counterBackupRestore strict PASS. RESET223 normal24109ms and3resumes PASS with retainedAuth/MFA/rawmoney/ACL/pgnet; foreign write witness rejected."
   ],
   "inProgress": [
-    "Fix literal220 catalog-proof prefix after full222manifest validation;final FULLCI/Gitleaks."
+    "Versioned223 adapters/access/cutover prepared; exact historical219–222 source projection under verification. Active223 migration now present."
   ],
   "notStarted": [
-    "Only after FULLCIgreen:owner demo222 literal/noreset,build,oneproduct UI test/restore,sameAuth/TOTP/private/TLS."
+    "Full units/types/strictlint/FULLCI/Gitleaks;post-green-only demo update withoutreset."
+  ],
+  "testsPassed": [
+    "PG23;UI36;truefullstack2;223ops4units;operations/types/changedlint0 beforelatest legacy compatibility edits."
   ],
   "testsRemaining": [
-    "All units with exact historical inverse;typesboth/strictlint on final source;FULLCI exacthead;finalGitleaks."
+    "Historical tools generators/currentunits/types/strictlint;fullCI;Gitleaks;postCI demo."
   ],
   "findings": [
-    "221reserved;accountingactivation forbidden. No old tables/sales209/220/ON delta.",
-    "Current CI exposes legacy219/220 fixture boundaries;new222 actual workflow passed7fca. Repair only strict source views/generators;no reruns or weakened assertions."
+    "223 adds private optional counters only;220 guards and accounting tables/writers unchanged. Migration SHA d5d6397bd5d676f766493b7a85b1f47ad6f1b6f6c465e7b4a32219ee49abc0af."
   ],
   "blockers": [],
   "prohibitions": [
-    "No merge,hosted/Frankfurt/preview/deploy/accountingactivation",
-    "No owneroriginal/private/env/TOTP/TLS changes before authorized postCI demo step",
-    "No old tables/sales209/220/ON changes"
+    "No accountingtables or220guard changes;no ON behavior delta",
+    "No221/merge/deploy/hosted/Frankfurt/preview/accountingactivation",
+    "No owneroriginals/private/MFA/TLS/demo changes beforeFULLgreenCI"
   ],
-  "evidence": "C:/Users/TOP/NawasrahLocalValidation/parcel-independent-price-20261114",
-  "nextExactAction": "Observe exact final-head FULLCI after strict220prefix proof;preserve SQL222/catalog/access/owner files. Then finalGitleaks and authorized demo222noreset,oneproduct UI restore.",
-  "activeProcesses": [],
-  "checkpointedAt": "2026-11-14T03:44:17.410Z",
+  "evidence": "C:/Users/TOP/NawasrahLocalValidation/off-quantity-counter-20261114",
+  "nextExactAction": "223 protection milestone verified;finish legacy/current unit compatibility, types/lint, DraftPR fullCI. Demo unchanged.",
+  "activeProcesses": [
+    "Ownerdemo running;no task-owned verification process. Draft98 price CI76/78:legacy opening-cheques job cancelled40min,logs404,causeunverified. No rerun."
+  ],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "c082cacfdf6ae2e0f9d682b50dbb0400989cb3555390cdc29b28b93e80a85c24",
-  "workingTreeFingerprint": "B9088486EA88FEC2CF4B209AFF0F8F63A1D972A3E4B764E25E46AE703C58FCF9"
+  "workingTreeFingerprint": "D502576BC57437C1485B8E4017811A77B2DCAEBCC040B0FF8993C87360363342",
+  "checkpointedAt": "2026-11-14T19:21:56.479Z",
+  "filesTouchedCount": 67,
+  "filesTouchedManifestSha256": "d46f348c9b8e0a961bc02441e1f21055256e020d0256041111480a8d03a74598"
 }
