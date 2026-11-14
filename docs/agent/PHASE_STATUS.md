@@ -1,3 +1,7 @@
+#14Nov2026 — strict legacy compatibility verified;final CI pending
+
+Draft97 only. a223 localunits2025/2027,0skip:oversizecheckpoint+missing220generatorhunk now repaired;focused14/14 andreal esbuild1/1 PASS. Actual owned219epoch13groups PASS after exact pre222 source compilation;no newwriters injected into219,no productSQL change. Types0/changedstrictlint0. Fullunits/finalexactheadCI/Gitleaks and postCI-only demo update remain. No hosted/deploy/merge;owner originals/demo unchanged.
+
 #14Nov2026 — Draft97:222/current-history compatibility repaired;final gates pending
 
 No productSQL delta since7fca. Actual legacy220RESET31.3s and3resumes PASS after exact historical storage metadata-policy admission was retained at222;unknown dependencies still refuse. Actual source inventories222181HTTP/720RPC rebound without replacing historical proofs. Typesboth0,strictlint0,OFF editor6/6 Chromium/WebKit390 PASS. Git63 workbook-history direct43.2s0 under unchanged120s;full local units/final exact-headCI/Gitleaks remain. First7fca new222workflow passed;older gates exposed compatibility failures now repaired,not rerun. Ownerdemo stays unchanged untilfullgreenCI;no hosted/deploy/merge.

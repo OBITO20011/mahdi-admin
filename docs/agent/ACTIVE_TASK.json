@@ -3,27 +3,21 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner14Nov approved3-4days:OFF independent single/parcel prices;222 only,221reserved;Draft97/FULLCI/Gitleaks;only after greenCI no-reset iPhone demo update. No merge/hosted/deploy/ON behavior change.",
-  "baselineSha": "39309f074bbf1c6ed37cb8952e0c6f971d686f64",
+  "baselineSha": "a223d0f907d08ab54246d671742cd2eb4db9f275",
   "historyBaseline": "4f3d6409e284da89cc33972b3fac36e135bebd35",
   "branch": "codex/parcel-independent-price",
   "phase": "PARCEL_INDEPENDENT_PRICE",
   "startedAt": "2026-11-13T22:50:15.381Z",
   "completed": [
-    "Core06b3c4c3:actual writers/family/ACL/CAS/audit/oldreceipt+refund/mixedPOS+guestdelivery/real2writer race PASS;54unique Chromium/WebKit mobile cases across saved groups;current workbook d9ed1c82 unchanged,750roots/108families/444flavors/parser0errors.",
-    "Fresh versus incremental222 fullcatalog0diff;683public/39private;old220catalog and rendered220referenceSHA unchanged;222SQL bcf55b1f...ff84a68.",
-    "ActualHTTP181reads:172success9empty0errors;RPC720dispatch/18expecteddenials;ready222 built locally,unapproved/uninstalled.",
-    "Actual220Backup/strictRestore ->222apply ->222Backup/strictRestore ->verify-only PASS;6negative cases;allbusiness/Auth/private rows/pgNet preserved.",
-    "RESET222ordinary31.1sec +3resume cases26.6-29.7sec PASS;rawAuth/MFA/large money/4FrankfurtACL/pgNet/history182;badcronhold/snapshotfailure/foreignprivatewrite refused.",
-    "Admin fulltypes0 after3newtest type fixes;fullstrictlint0 beforelast helper/doc additions;current cutoverHTML2A4 pages1010/891px under1046px with original fonts.",
-    "Milestone3e086b4c pushed;preflight0 and staged Gitleaks0 at that milestone.",
-    "Milestone7fca59b8 pushed;full strictlint0/preflight0;stagedGitleaks0 for both operational milestones.",
-    "Current222 inventories rebound to actual181HTTP/720RPC evidence;historical138-220 proofs retained. 70/71 focused plus corrected phase3/history focused20/20 PASS;new strict negative legacy220 dependency case4/4 PASS.",
-    "Legacy220 exact metadata-policy RED reproduced at222;literal220 admission restored without unknown-policy relaxation. Actual RESET22031.3s+3resumes21.1/21.7/22.4s PASS,rawAuth/MFA/ACL/pgNet preserved;owned Docker only.",
-    "Both applications full types0 and root strictlint0;adapted OFF editor6/6 Chromium/WebKit390 PASS,zero retries. Workbook Git63 history direct43.2s exit0 under unchanged120s.",
-    "Committed39309f07 disposable historical runtime-view preparation58.99s PASS194exact substitutions;literal219source/181rolecoverage validated;current runners/owner tools retained,ownedcopycleaned.20focusedhistory/currentadapterunitsPASS."
+    "Core222:real writers/family/CAS/audit/roles/2writer race,old receipt+return,mixedPOS+guest PASS;54unique mobile browser cases across groups. SQL222 bcf55b1f...ff84a68;old680functions/220SQL unchanged.",
+    "Fresh/incremental2220diff,683public+39private;actual HTTP181/0errors,RPC720/18expecteddenials;ready222local unapproved/uninstalled. Encrypted220BackupRestore→222apply→222BackupRestore→verify-only PASS6negatives.",
+    "RESET222+3resumes PASS. Legacy220RESET31.3s+3resumes PASS retaining rawAuth/MFA/money/ACL/pgNet;unknown metadata policies rejected. Workbook d9ed1c82 unchanged750roots108families444flavors/parser0errors.",
+    "Typesboth0,strictlint0;OFF editor6/6 Chromium/WebKit390 PASS. Committed disposable Git63 runtime view194exact substitutions/roleproof PASS,ownedcopycleaned.",
+    "Local fullunits a223:2025/2027,0skip,0cancel;only oversized checkpoint and generator hunk failures. Git63history direct43.2s and full-suite history PASS under original120s. Sourcefrozen.",
+    "Posta223 corrections:exact220generator+negativefixtures14/14 PASS;real esbuild oldwriter bundle1/1 PASS. Owned local219epoch13groups PASS including actual workbook/response-loss/races/integrity/frozenfunctions,cleanuptrue. Finaltypes0/changedstrictlint0."
   ],
   "inProgress": [
-    "Finish exact committed legacy runtime-view proof and full units;push verified milestone then final FULLCI/Gitleaks."
+    "Repair two local failures and historical219/220 runtime compatibility;final FULLCI/Gitleaks."
   ],
   "notStarted": [
     "Only after FULLCIgreen:owner demo222 literal/noreset,build,oneproduct UI test/restore,sameAuth/TOTP/private/TLS."
@@ -32,12 +26,8 @@
     "All units with exact historical inverse;typesboth/strictlint on final source;FULLCI exacthead;finalGitleaks."
   ],
   "findings": [
-    "222adds3publicwriters+1privatevalidator only;209/220/680existing functions unchanged;ON staysoldwriters.",
-    "221 remains reserved and accountingactivation forbidden;no backfill.",
-    "Concurrent CLI starts twice exited1 beforeSQL without a proved culprit;isolated serial runs pass;test-only start/stop lease now refuses overlap,no business retries.",
-    "Newready-reference reserved-number regex typo caught RED thenGREEN;211 retained,only218/221 excluded.",
-    "First7fca FULLCI failed on current/history schema bindings and legacy test mocks;new222 two-job actual SQL/protection workflow PASS. No workflow rerun.",
-    "Historical phase3 checkpoint round-trip binds exact prior Gitbd4;current mutable checkpoints remain visible and independently checked by agent-continuity."
+    "221reserved;accountingactivation forbidden. No old tables/sales209/220/ON delta.",
+    "Current CI exposes legacy219/220 fixture boundaries;new222 actual workflow passed7fca. Repair only strict source views/generators;no reruns or weakened assertions."
   ],
   "blockers": [],
   "prohibitions": [
@@ -46,13 +36,13 @@
     "No old tables/sales209/220/ON changes"
   ],
   "evidence": "C:/Users/TOP/NawasrahLocalValidation/parcel-independent-price-20261114",
-  "nextExactAction": "Run full units at process concurrency4 with all original limits/assertions;push exacthead then fullCI;postCI-only demo222 without reset.",
+  "nextExactAction": "Push verified compatibility;full units concurrency4 original limits;observe final fullCI including oldRestore/220rehearsal;postCI-only demo222 noreset.",
   "activeProcesses": [],
-  "checkpointedAt": "2026-11-14T03:01:51.742Z",
+  "checkpointedAt": "2026-11-14T03:28:29.462Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 2,
-  "filesTouchedManifestSha256": "f82325c5b129cf049cf1ac9d0dc43d0aa86758de8ab5588337cd086f64369eaf",
-  "workingTreeFingerprint": "1EBA6344353FB177885817B3F29755F2AAC6396ED057CFDB4A2C0AF71C45208E"
+  "filesTouchedCount": 8,
+  "filesTouchedManifestSha256": "87ec5e1fb81924373f352ca8d24ae6f012e78fc912d41a1adc6e0b8f5bc39c73",
+  "workingTreeFingerprint": "6A24911C5DC61AA2EAC0D5C9256CBC273D034C3B413BA389B6D6338413408160"
 }

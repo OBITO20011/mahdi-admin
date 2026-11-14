@@ -12,6 +12,9 @@ const all=(s,from,to,count)=>{assert.equal(s.split(from).length-1,count,'EXACT22
 const schemaSet="('public','sales_lite1','sales_lite2')",ns=`(SELECT oid FROM pg_namespace WHERE nspname IN${schemaSet})`;
 let foundation=await source('trial-reset-core');
 foundation=once(foundation,'export const resetCeiling=182;','export const resetCeiling=220;');
+// Versioned220 keeps the exact existing213 metadata policy when the current
+// operational ceiling advances;unknown dependents remain rejected.
+foundation=once(foundation,'[213,214,215,216,217,operationalSchema.ceiling]','[213,214,215,216,217,220,operationalSchema.ceiling]');
 foundation=once(foundation,'217:179,219:180});','217:179,219:180,220:181});');
 foundation=once(foundation,'roles:0,storefront_settings:1,units:11,warehouses:0});',"roles:0,storefront_settings:1,units:11,warehouses:0,'sales_lite1.mode':1});");
 foundation=once(foundation,"FOR r IN SELECT tablename FROM pg_tables WHERE schemaname='public' ORDER BY tablename LOOP\n EXECUTE format('SELECT count(*) FROM public.%I',r.tablename) INTO n;v=v||jsonb_build_object(r.tablename,n);END LOOP;",`FOR r IN SELECT schemaname,tablename FROM pg_tables WHERE schemaname IN${schemaSet} ORDER BY schemaname,tablename LOOP
