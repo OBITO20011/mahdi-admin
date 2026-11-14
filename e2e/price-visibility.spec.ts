@@ -1,5 +1,4 @@
-import {test,expect} from './isolated-test';
-import type {Locator} from '@playwright/test';
+import {test,expect,type Locator} from './isolated-test';
 import {formatJod} from '../customer-web/src/utils/money';
 
 test.describe.configure({retries:0});

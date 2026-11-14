@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-14T01:24:53.857Z",
+  "startedAt": "2026-11-14T11:09:33.121Z",
   "migrationCeiling": 222,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-YPismm",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-Q4i1lk",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -1427,7 +1427,7 @@
     },
     {
       "file": "customer-web/src/components/ProductCard.tsx",
-      "sha256": "84a85f51554ee6086c376b0520e2f3c834cc44b1a3802658106fa01882b47d5f"
+      "sha256": "64ec44133d2e559de9c66241ac239559d985c0d1160729ac5b384686e6093431"
     },
     {
       "file": "customer-web/src/components/ProductDetailsModal.tsx",
@@ -53071,7 +53071,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-11-14T01:25:10.112Z",
+  "endedAt": "2026-11-14T11:09:47.348Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {
@@ -53670,5 +53670,5 @@
       "category": "TEST_CONTRACT"
     }
   ],
-  "historicalAclReviewProvenance": "Seven identities/revokedEntries and savedCatalogAssessment retain the original saved-catalog review;sites,EXECUTE and invocations are rebound to actual local222 evidence. No hosted observation."
+  "historicalAclReviewProvenance": "Original seven-identity saved-catalog assessment retained;sites/EXECUTE/invocations bind new isolated222 runtime after exact price-only CSS changes. No hosted observation."
 }

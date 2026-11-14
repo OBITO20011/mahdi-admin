@@ -1425,7 +1425,7 @@
     },
     {
       "file": "customer-web/src/components/ProductCard.tsx",
-      "sha256": "84a85f51554ee6086c376b0520e2f3c834cc44b1a3802658106fa01882b47d5f"
+      "sha256": "64ec44133d2e559de9c66241ac239559d985c0d1160729ac5b384686e6093431"
     },
     {
       "file": "customer-web/src/components/ProductDetailsModal.tsx",
