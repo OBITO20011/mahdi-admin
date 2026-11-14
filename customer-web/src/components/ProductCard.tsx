@@ -149,12 +149,12 @@ export function ProductCard({
           </div>
         </div>}
 
-        <div className="mt-auto flex min-w-0 flex-col items-stretch gap-2 pt-3 sm:flex-row sm:items-end sm:justify-between sm:gap-3 sm:pt-5">
+        <div className="mt-auto flex min-w-0 flex-col items-stretch gap-2 pt-3 sm:gap-3 sm:pt-5">
           <div className="min-w-0">
             <p className="hidden text-[9px] font-bold text-slate-600 sm:block">
               سعر {storefrontSaleUnit(product)}
             </p>
-            <p className="truncate text-sm font-black text-orange-700 sm:mt-0.5 sm:text-lg">
+            <p className="break-words text-sm font-black text-orange-700 sm:mt-0.5 sm:text-lg">
               {formatJod(product.salePackagePriceInMinorUnits)}
             </p>
             <p className="mt-0.5 truncate text-[9px] font-bold text-slate-500 sm:mt-1 sm:text-emerald-700">
@@ -165,7 +165,7 @@ export function ProductCard({
             </p>
           </div>
 
-          <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+          <div className="flex min-w-0 flex-wrap items-center gap-1.5 sm:gap-2">
             <button type="button" onClick={shareProduct} aria-label={`مشاركة ${product.nameAr} على واتساب`} className="hidden h-11 w-11 place-items-center rounded-2xl border border-emerald-100 bg-emerald-50 text-emerald-700 transition hover:bg-emerald-100 sm:grid"><Share2 className="h-4 w-4" /></button>
             <button
               type="button"

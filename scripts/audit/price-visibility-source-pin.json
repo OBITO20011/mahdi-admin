@@ -1,0 +1,19 @@
+{
+  "file": "customer-web/src/components/ProductCard.tsx",
+  "before": "84a85f51554ee6086c376b0520e2f3c834cc44b1a3802658106fa01882b47d5f",
+  "after": "64ec44133d2e559de9c66241ac239559d985c0d1160729ac5b384686e6093431",
+  "hunks": [
+    {
+      "before": "mt-auto flex min-w-0 flex-col items-stretch gap-2 pt-3 sm:flex-row sm:items-end sm:justify-between sm:gap-3 sm:pt-5",
+      "after": "mt-auto flex min-w-0 flex-col items-stretch gap-2 pt-3 sm:gap-3 sm:pt-5"
+    },
+    {
+      "before": "truncate text-sm font-black text-orange-700 sm:mt-0.5 sm:text-lg",
+      "after": "break-words text-sm font-black text-orange-700 sm:mt-0.5 sm:text-lg"
+    },
+    {
+      "before": "flex shrink-0 items-center gap-1.5 sm:gap-2",
+      "after": "flex min-w-0 flex-wrap items-center gap-1.5 sm:gap-2"
+    }
+  ]
+}
