@@ -3,47 +3,27 @@
   "files": [
     {
       "code": " M",
-      "path": "e2e/customer-checkout-isolated.spec.ts"
+      "path": "docs/handover/ورقة-يوم-التشغيل.html"
     },
     {
       "code": " M",
-      "path": "e2e/customer-checkout-simplification.spec.ts"
+      "path": "docs/handover/ورقة-يوم-التشغيل.md"
     },
     {
       "code": " M",
-      "path": "e2e/customer-compact-product-grid.spec.ts"
+      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
     },
     {
       "code": " M",
-      "path": "e2e/customer-order-tracking.spec.ts"
+      "path": "docs/reviews/FINAL_CATALOG_LOCAL_AR.md"
     },
     {
       "code": " M",
-      "path": "e2e/customer-presentational-characterization.spec.ts"
+      "path": "scripts/audit/final-catalog-source-pins.json"
     },
     {
       "code": " M",
-      "path": "e2e/customer-storefront-c6.spec.ts"
-    },
-    {
-      "code": " M",
-      "path": "e2e/lite-parcel-unit-guard.spec.ts"
-    },
-    {
-      "code": " M",
-      "path": "e2e/phase6-package-b.spec.ts"
-    },
-    {
-      "code": " M",
-      "path": "e2e/public-apps.spec.ts"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/latin-digits-source-pins.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/reviews/latin-digits/TEST_EXPECTATION_CHANGES.md"
+      "path": "tests/lite220-handover.test.ts"
     }
   ]
 }

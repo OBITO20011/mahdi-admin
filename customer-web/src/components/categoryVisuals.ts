@@ -15,6 +15,7 @@ import {
   Zap,
   type LucideIcon,
 } from 'lucide-react';
+import {categoryPresentationKey} from '../utils/categoryOrder';
 
 export interface CategoryVisual {
   icon: LucideIcon;
@@ -33,11 +34,23 @@ export const ALL_CATEGORY_VISUAL: CategoryVisual = {
 const DEFAULT_VISUAL: CategoryVisual = {
   icon: PackageOpen,
   accent: 'bg-slate-100 text-slate-700',
-  active: 'from-slate-700 to-slate-900',
-  glow: 'shadow-slate-900/20',
+  active: 'from-slate-500 to-slate-400',
+  glow: 'shadow-slate-500/20',
 };
 
 const CATEGORY_VISUALS: Record<string, CategoryVisual> = {
+  'PREMIUM-CHOCOLATE': {
+    icon: Sparkles,
+    accent: 'bg-amber-50 text-amber-950',
+    active: 'from-[#3c2415] to-[#b88730]',
+    glow: 'shadow-amber-950/25',
+  },
+  'BISCUIT-TEN': {
+    icon: CircleDot,
+    accent: 'bg-teal-50 text-teal-800',
+    active: 'from-teal-700 to-lime-500',
+    glow: 'shadow-teal-900/25',
+  },
   'CAT-BEV': {
     icon: CupSoda,
     accent: 'bg-blue-50 text-blue-700',
@@ -112,6 +125,6 @@ const CATEGORY_VISUALS: Record<string, CategoryVisual> = {
   },
 };
 
-export function getCategoryVisual(code: string): CategoryVisual {
-  return CATEGORY_VISUALS[code] ?? DEFAULT_VISUAL;
+export function getCategoryVisual(code: string, name = ''): CategoryVisual {
+  return CATEGORY_VISUALS[categoryPresentationKey(code, name)] ?? DEFAULT_VISUAL;
 }

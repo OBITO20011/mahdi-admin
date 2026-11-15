@@ -1,3 +1,13 @@
+#15Nov2026 — final catalog/local actual import proved;Draft final gates pending
+
+From main e80a5944 after100/main79green. New external workbook748roots,
+108families,444flavors,all prices/barcodes protected;checker0errors;56 supported
+unit changes. Official owned223 RESET36.3s retained12CAT exactly;UIOFF/units/
+3categories/import325.8s and1192readbacks pass. Public15nonempty/unique;store
+10cases,counter1084/1084,category6 Chromium/WebKit1280/390 and2A4 pass.
+HTTP181/RPC732,currentready223/fresh-incremental0 proved. Final full units,
+CI/Gitleaks remain. No SQL/merge/deploy/hosted/demo/originals changes.
+
 #15Nov2026 — Latin display local gates verified;DraftPR/fullCI next
 
 Display-only;SQL/values/parsers unchanged. Store230/230;new8mobile cases plus18price regressions;HTTP223181/0errors,RPC732/18expected;strict219schema/full views;typesboth/lint/4builds/budgetPASS. Initial root2058/2061 had2oldnumericexpectations+1exactHerohistory comparison,correctedfocused21/21;finalroot/FULLCI/Gitleaks pending. SourcebeforeText andunknown-byte guards retained. No demo/hosted/deploy/merge.

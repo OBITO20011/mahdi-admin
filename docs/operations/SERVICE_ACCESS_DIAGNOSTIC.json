@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-15T04:03:30.719Z",
+  "startedAt": "2026-11-15T09:25:32.164Z",
   "migrationCeiling": 223,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-bOqvY8",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-McOR51",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -1355,15 +1355,15 @@
     },
     {
       "file": "customer-web/src/components/CategoryDrawer.tsx",
-      "sha256": "c2677ea78526a571d9ed41bbdda2cf23d32202bd07769ec3891562f24c695f18"
+      "sha256": "7bb776061cb6efc0de73cefadb693404f2ba335a0651e006378061ec7fa1d16d"
     },
     {
       "file": "customer-web/src/components/CategoryShowcase.tsx",
-      "sha256": "0e292c7a4c3fa8456184a0f51443808d52127471108319271b53ada61ff6f61d"
+      "sha256": "270b3e1ba424a59e222fb0f0f433fbe5f7557598c9f63cadd773545d76052d60"
     },
     {
       "file": "customer-web/src/components/categoryVisuals.ts",
-      "sha256": "aec26f41b506e0f2cb072474fb11ed5e656e52492ab1ba08657c4b59634e2719"
+      "sha256": "a1b453053d2421508602a46af30da936a4e140636157540ba27ad0d1cb022d5d"
     },
     {
       "file": "customer-web/src/components/CheckoutModal.tsx",
@@ -1399,7 +1399,7 @@
     },
     {
       "file": "customer-web/src/components/HomeCategoryMosaic.tsx",
-      "sha256": "0ef85482036d6c1c8a5873e22d8ba11a5e0246afd763865f894755a125bb0a28"
+      "sha256": "fa865bfb145a44dd9472fdfd9de23cee4bacdcd572a10c7c7597774e65565428"
     },
     {
       "file": "customer-web/src/components/LiteProductPrices.tsx",
@@ -1620,6 +1620,10 @@
     {
       "file": "customer-web/src/utils/catalogView.ts",
       "sha256": "c702fdc04d7d0c9b7f7f21ea9b62b01269a43e01599133899c954534d8cb5bfe"
+    },
+    {
+      "file": "customer-web/src/utils/categoryOrder.ts",
+      "sha256": "e5eec62eef83fdedfb8fff651b40e0a9a65138ca813f14243fc8f7177ddafec3"
     },
     {
       "file": "customer-web/src/utils/checkout.ts",
@@ -53627,7 +53631,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-11-15T04:03:46.559Z",
+  "endedAt": "2026-11-15T09:25:48.600Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {

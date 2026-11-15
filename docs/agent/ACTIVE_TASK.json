@@ -1,49 +1,56 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
+  "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner14Nov Latin display policy,noSQL/values/parsers.15Novapproved18legacydisplayexpectationlines;futureonlysamevalueArabic-to-Latin assertions mayfix+ledger,otherfailureSTOP. Conditional100mergeafterfullgreen,mainCI+primarypreservedff/preflight;thenfreshmainbranchfinalcatalog. No deploy/hosted/demo reset orowneroriginalchanges.",
-  "baselineSha": "a03dbf263f6e7f69faf5c6e124354506e7718061",
-  "branch": "codex/latin-digits",
-  "phase": "LATIN_DIGITS",
-  "startedAt": "2026-11-15T03:10:03.353Z",
+  "objective": "Final owner-approved catalog and storefront category order/design. Draft PR/full CI only;no merge,deploy,hosted access,demo reset or owner originals edits.",
+  "baselineSha": "e80a594416b1e1136c6e1b6d8ed0d9de805e10a4",
+  "branch": "codex/final-catalog",
+  "phase": "FINAL_CATALOG",
+  "startedAt": "2026-11-15T08:46:28.587Z",
   "completed": [
-    "98/99 mergedmain99eb1846/fullgreen/primarypreservation+preflight. LatinDraft100a03dbf26 pushed.",
-    "Approved2oldnumerictexts only+2pins;64priorpinsidentical;affected28/28bothengines,fence0requests. NoUI/deadline/otherexpectationchange.",
-    "NewheadCI root2061/2061+store230/230;all10Fshards+sixsupportworkflowsPASS. Types/lint/build/access/history localPASS;Gitleaks777commits0."
+    "100:feature/main79green;merged e80a5944;primary protectedff/preflight complete.",
+    "Final workbook3310da57:748roots/108families/444flavors/1084sellable;56 supported unit changes;2explicit deletions;all protected fields/originalSHA intact;checker0errors.",
+    "Owned223 officialRESET36.329s:12CAT rows retained exactly;OFF+8units+3customcategories viaUI;actualUIimport325.755s/1192readback exact;zero inventory/reservations/debt/integrity.",
+    "Actual public15nonempty/no duplicates;family store10cases and definition counter1084/1084;category Chromium/WebKit6cases1280/390;2A4print1010/903px.",
+    "HTTP223181/0errors,RPC732/18expected;fresh/incremental0 andready223test-only687public51private13Realtime;no reference installed.",
+    "Category3+history2 andcutover focused12 pass;both types/strictlint passed before final doc assertions."
   ],
   "inProgress": [
-    "Ownerapproved16exactdisplaylines/9tests applied+lineledger;newpins/focusedguard thenfreshfullCI. Future same-value numeral expectations preapproved,anyotherfailureSTOP."
+    "Quiet complete unit suites,final types/lint/builds/budgets then final exact-head CI/Gitleaks/Draft PR."
   ],
   "notStarted": [
-    "Finalcatalog/workbook/categories notstarted:requires100fullgreen first. QueuedscopeexternalNEXT_FINAL_CATALOG_SCOPE.json."
+    "Final CI/Gitleaks and owner review stop;no merge."
   ],
   "testsPassed": [
-    "Root2061/2061;store230;mobile8+price18;actualaccess/history;types/lint/builds;Gitleaks0"
+    "Checker0errors;748root+444flavor protected comparisons",
+    "OfficialRESET/UIimport/readback/15nonemptyCAT/public/family10/counter1084",
+    "Category6browser andfocused12;2A4;HTTP181/RPC732/catalog0"
   ],
   "testsRemaining": [
-    "ExactnewheadfullCI/Gitleaks;conditional100merge/mainCI/primaryffpreserving20/4/5/preflight;thenfreshmainbranchfinalcatalog."
+    "Complete root/customer units;finaltypes/strictlint;isolatedbuild/budget;exactheadfullCI/Gitleaks"
   ],
   "findings": [
-    "Ownerlatestapproved ADDITIONAL_DISPLAY_EXPECTATIONS_PROPOSAL.patch literally;futureonlysamevalueArabic→Latin assertions preapproved withlineledger. OtherfailureSTOP.",
-    "No UI/SQL/value/parser/deadline change infollowups. BeforeText/allpriorpins stayexact;Arabicinput/SKU/name fixtures andnegativeguardsretained."
+    "No SQL/migration/financiallogic/ON changes;no owner originals/env/demo changes.",
+    "Known local fixture failures were fail-closed before destructive work;corrected only external harness transport/hold. No app or guard changes.",
+    "One audit bootstrap environmental rerun for Docker subnet exhaustion;only this task bridge moved to explicit subnet;other networks untouched.",
+    "Final store probe resumed only last case after detached search node;waits actual OFF reader;9 successful captures retained,not rerun."
   ],
   "blockers": [],
   "prohibitions": [
-    "NoSQL/migrations/financialvalues/businesslogicchanges",
-    "No deploy/hosted/Frankfurt/preview;noowneroriginals/env/TOTP/demo reset/update",
-    "100mergeONLYafterfullgreen;otherPRsno merge;58/79/82untouched;otherfailureSTOP"
+    "NoSQL/migrations/frozenfunctions/financiallogic orprice/barcode/SKU/familychanges except2approveddeletions",
+    "No merge/deploy/hosted/Frankfurt/preview;no demo/ownerTOTP/env/originalfilechanges",
+    "58/79/82untouched;onewriter;bankcommit/push milestones/~hour"
   ],
-  "evidence": "C:/Users/TOP/NawasrahLocalValidation/latin-digits-20261115",
-  "nextExactAction": "Push exact16approveddisplaylines+ledger/pins;awaitfreshfullCI. Samevalue numeral-only assertion mayfix+record;otherfailureSTOP. Green100merge/mainCI/safeff/preflight thenfinalcatalog.",
+  "evidence": "C:/Users/TOP/NawasrahLocalValidation/final-catalog-20261115",
+  "nextExactAction": "Commit the bounded current-file doc expectations and legacy-category UI cleanup proof;then quiet full root units again on corrected source. Do not rerun customer233 or category6 without source changes. Final types/lint/build/staticbudget/CI/Gitleaks,no merge.",
   "activeProcesses": [
-    "No localtaskprocesses;demo5012 untouchedsameLAN. Remotequality43678322407 maycontinue;sourcea03dbf26unchanged."
+    "OwnerdemoPID5012 untouched. Owned final-catalog15 Docker stack and loopback serverPID10864 remain;cron globally off inside this test only."
   ],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "66DCD5CE2D13DA918617EFB11494C0B006572D04905A80656CDC0A2DFA201B35",
-  "checkpointedAt": "2026-11-15T05:24:11.401Z",
-  "filesTouchedCount": 11,
-  "filesTouchedManifestSha256": "0f9d85cf1453ed802b38a210d44bbf5f3071da8b6ad7747c017e86bd4a7081db"
+  "workingTreeFingerprint": "0B18038A7AF41ABADDF7040F90E4EE082FDB2EEAD4D08CB67144A2A4DCFC49F0",
+  "checkpointedAt": "2026-11-15T10:20:25.917Z",
+  "filesTouchedCount": 6,
+  "filesTouchedManifestSha256": "655497f26276dd60668ac8a4d8505106756e63e9f1ee9438259bae902ed264c4"
 }

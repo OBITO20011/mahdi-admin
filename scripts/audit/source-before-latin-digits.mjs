@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {sourceBeforeFinalCatalog,restoreFinalCatalogHashes,pathsBeforeFinalCatalog} from './source-before-final-catalog.mjs';
 import {readFileSync} from 'node:fs';
 import {canonicalLf,sha256} from '../testing/maintenance-db-contract.mjs';
 const indexFile='scripts/audit/latin-digits-source-pins.json';
@@ -16,6 +17,7 @@ for(const [file,pin] of Object.entries(pins.entries)){
 }
 
 export function sourceBeforeLatinDigits(file,text){
+ text=sourceBeforeFinalCatalog(file,text);
  if(text===null)return null;
  // The index is metadata for this exact added layer,not historical source.
  if(file===indexFile&&canonicalLf(text)===indexText)return null;
@@ -25,19 +27,22 @@ export function sourceBeforeLatinDigits(file,text){
 }
 
 export function restoreLatinDigitsHashes(rows){
- return rows.flatMap(row=>{
+ return restoreFinalCatalogHashes(rows).flatMap(row=>{
   const pin=pins.entries[row.file];if(!pin||row.sha256!==pin.after)return[row];
   const bytes=readFileSync(new URL('../../'+row.file,import.meta.url));
-  assert.equal(sha256(pin.binary?bytes:canonicalLf(bytes.toString('utf8'))),pin.after,'LATIN_CURRENT_SOURCE_CHANGED:'+row.file);
+  const raw=sourceBeforeFinalCatalog(row.file,canonicalLf(bytes.toString('utf8')));
+  assert.ok(raw!==null,'LATIN_CURRENT_SOURCE_REQUIRED:'+row.file);
+  assert.equal(sha256(pin.binary?bytes:raw),pin.after,'LATIN_CURRENT_SOURCE_CHANGED:'+row.file);
   return pin.before===null?[]:[{...row,sha256:pin.before}];
  });
 }
 
 export function pathsBeforeLatinDigits(files){
- return files.filter(file=>{
+ return pathsBeforeFinalCatalog(files).filter(file=>{
   if(file===indexFile)return canonicalLf(readFileSync(new URL('../../'+file,import.meta.url),'utf8'))!==indexText;
   const pin=pins.entries[file];if(!pin||pin.before!==null)return true;
   const bytes=readFileSync(new URL('../../'+file,import.meta.url));
-  return sha256(pin.binary?bytes:canonicalLf(bytes.toString('utf8')))!==pin.after;
+  const raw=sourceBeforeFinalCatalog(file,canonicalLf(bytes.toString('utf8')));
+  return raw===null?false:sha256(pin.binary?bytes:raw)!==pin.after;
  });
 }
