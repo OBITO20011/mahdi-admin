@@ -1,3 +1,4 @@
+import {DISPLAY_LOCALE} from '../utils/displayLocale';
 import {unsafeLiteParcelPrice,PARCEL_DEFINITION_MESSAGE} from '../utils/saleUnitLabels';
 import {storefrontSaleUnit,storefrontUnitName, remainingStorefrontParcels} from '../utils/storefrontUnits';
 import {
@@ -74,7 +75,7 @@ export function ProductCard({
             <>
               <span className={salesOnly?'hidden':'sm:hidden'}>نكهات</span>
               <span className={salesOnly?'':'hidden sm:inline'}>
-                {product.variants.length.toLocaleString('ar-JO')} نكهات
+                {product.variants.length.toLocaleString(DISPLAY_LOCALE)} نكهات
               </span>
             </>
           ) : product.categoryNameAr}
@@ -148,14 +149,14 @@ export function ProductCard({
           <div className="rounded-2xl bg-slate-50 p-2.5">
             <p className="text-[9px] font-bold text-slate-600">محتوى الطرد</p>
             <p className="mt-1 text-xs font-black text-slate-800">
-              {product.unitsPerSalePackage.toLocaleString('ar-JO')}{' '}
+              {product.unitsPerSalePackage.toLocaleString(DISPLAY_LOCALE)}{' '}
               {storefrontUnitName(product.unitNameAr,product.quantityTracked)}
             </p>
           </div>
         </div>}
 
         <div className="mt-auto flex min-w-0 flex-col items-stretch gap-2 pt-3 sm:gap-3 sm:pt-5">
-          {salesOnly?(hasVariants?<div className="min-w-0 py-2"><p className="text-xs font-bold text-slate-600">{product.variants.length.toLocaleString('ar-JO')} نكهات</p><p data-family-starting-price dir="rtl" className="max-w-full break-words text-sm font-black text-orange-700 [overflow-wrap:anywhere] sm:text-lg">من {formatJod(liteFamilyStartingPrice(product))}</p></div>:<LiteProductPrices product={product}/>):<div className="min-w-0">
+          {salesOnly?(hasVariants?<div className="min-w-0 py-2"><p className="text-xs font-bold text-slate-600">{product.variants.length.toLocaleString(DISPLAY_LOCALE)} نكهات</p><p data-family-starting-price dir="rtl" className="max-w-full break-words text-sm font-black text-orange-700 [overflow-wrap:anywhere] sm:text-lg">من {formatJod(liteFamilyStartingPrice(product))}</p></div>:<LiteProductPrices product={product}/>):<div className="min-w-0">
             <p className="hidden text-[9px] font-bold text-slate-600 sm:block">
               سعر {storefrontSaleUnit(product)}
             </p>
@@ -165,7 +166,7 @@ export function ProductCard({
             <p className="mt-0.5 truncate text-[9px] font-bold text-slate-500 sm:mt-1 sm:text-emerald-700">
               <span className="sm:hidden">{storefrontSaleUnit(product)}</span>
               <span className="hidden sm:inline">
-              {product.quantityTracked===false?(product.isAvailable?'متوفر':'غير متوفر'):<>متاح {product.availableSalePackages?.toLocaleString('ar-JO')}{' '}{storefrontSaleUnit(product)}</>}
+              {product.quantityTracked===false?(product.isAvailable?'متوفر':'غير متوفر'):<>متاح {product.availableSalePackages?.toLocaleString(DISPLAY_LOCALE)}{' '}{storefrontSaleUnit(product)}</>}
               </span>
             </p>
           </div>}
@@ -221,7 +222,7 @@ export function ProductCard({
                   <Minus className="h-3.5 w-3.5" />
                 </button>
                 <span className="min-w-7 text-center text-xs font-black text-blue-950">
-                  {cartQuantity.toLocaleString('ar-JO')}
+                  {cartQuantity.toLocaleString(DISPLAY_LOCALE)}
                 </span>
                 <button
                   type="button"
@@ -250,7 +251,7 @@ export function ProductCard({
 
         {!salesOnly&&cartQuantity > 0 && !hasVariants && (
           <div className="mt-3 hidden rounded-xl border border-orange-200 bg-orange-50 px-3 py-2 text-[10px] font-extrabold text-orange-700 sm:block">
-            في السلة: {cartQuantity.toLocaleString('ar-JO')} {storefrontSaleUnit(product)}{remainingAfterCart!==null&&<> • المتبقي للإضافة: {remainingAfterCart.toLocaleString('ar-JO')}</>}
+            في السلة: {cartQuantity.toLocaleString(DISPLAY_LOCALE)} {storefrontSaleUnit(product)}{remainingAfterCart!==null&&<> • المتبقي للإضافة: {remainingAfterCart.toLocaleString(DISPLAY_LOCALE)}</>}
           </div>
         )}
       </div>

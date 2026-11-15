@@ -1,3 +1,4 @@
+import {latinDisplayDigits} from './displayLocale';
 import type {CatalogProduct} from '../types/catalog';
 import {parcelDiscountInMinorUnits} from '../../../src/utils/independentParcelPrices';
 import {storefrontPackageDescription,storefrontUnitName} from './storefrontUnits';
@@ -19,5 +20,5 @@ export function liteFamilyStartingPrice(product:CatalogProduct):number{
 }
 export function liteProductDescription(product:CatalogProduct):string{
  const description=product.description??'',match=description.trim().match(/^([0-9٠-٩۰-۹]+)\s*حب[ةه]$/u);
- return match?`${storefrontUnitName(product.unitNameAr,false)} فيه ${match[1]} حبة`:description;
+ return match?`${storefrontUnitName(product.unitNameAr,false)} فيه ${latinDisplayDigits(match[1])} حبة`:description;
 }

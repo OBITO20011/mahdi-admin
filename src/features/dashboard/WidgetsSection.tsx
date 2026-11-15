@@ -1,3 +1,4 @@
+import {DISPLAY_LOCALE} from '../../components/ui/uiFormat';
 /**
  * Nawasrah Business Manager - Executive Dashboard Widgets Section
  * Renders 5 live data widgets with direct quick triggers
@@ -106,7 +107,7 @@ export const WidgetsSection: React.FC<WidgetsSectionProps> = ({
                     </span>
                     <span className="text-[9px] text-nw-muted flex items-center gap-0.5">
                       <Clock className="w-2.5 h-2.5" />
-                      {new Date(o.createdAt).toLocaleTimeString('ar-JO', { hour: '2-digit', minute: '2-digit' })}
+                      {new Date(o.createdAt).toLocaleTimeString(DISPLAY_LOCALE, { hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>
                 </div>
@@ -241,7 +242,7 @@ export const WidgetsSection: React.FC<WidgetsSectionProps> = ({
                     {m.quantity > 0 ? `+${m.quantity}` : m.quantity}
                   </span>
                   <span className="text-[9px] text-nw-muted">
-                    {new Date(m.createdAt).toLocaleTimeString('ar-JO', { hour: '2-digit', minute: '2-digit' })}
+                    {new Date(m.createdAt).toLocaleTimeString(DISPLAY_LOCALE, { hour: '2-digit', minute: '2-digit' })}
                   </span>
                 </div>
               </div>
@@ -273,7 +274,7 @@ export const WidgetsSection: React.FC<WidgetsSectionProps> = ({
                   <p className="text-[11px] text-nw-text mt-0.5">{n.details}</p>
                 </div>
                 <span className="text-[9px] text-nw-muted whitespace-nowrap shrink-0">
-                  {new Date(n.createdAt).toLocaleTimeString('ar-JO', { hour: '2-digit', minute: '2-digit' })}
+                  {new Date(n.createdAt).toLocaleTimeString(DISPLAY_LOCALE, { hour: '2-digit', minute: '2-digit' })}
                 </span>
               </div>
             ))

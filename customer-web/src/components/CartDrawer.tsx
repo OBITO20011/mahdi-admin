@@ -1,3 +1,4 @@
+import {DISPLAY_LOCALE} from '../utils/displayLocale';
 import {scrollWindowTo} from '../utils/scroll';
 import {storefrontCartPackageDescription} from '../utils/storefrontUnits';
 import {
@@ -314,7 +315,7 @@ export function CartDrawer({
                           </p>
                           <p className="mt-1 text-[9px] font-bold text-blue-600">
                             السعر {formatJod(item.unitPriceInMinorUnits)} •
-                            {item.quantityTracked===false?'التوفر يدوي':<>المتاح {item.maxAvailablePackages?.toLocaleString('ar-JO')}</>}
+                            {item.quantityTracked===false?'التوفر يدوي':<>المتاح {item.maxAvailablePackages?.toLocaleString(DISPLAY_LOCALE)}</>}
                           </p>
                         </div>
                         <button
@@ -368,7 +369,7 @@ export function CartDrawer({
                             <Minus className="h-3 w-3" />
                           </button>
                           <span className="min-w-8 text-center text-xs font-black text-slate-900">
-                            {item.quantity.toLocaleString('ar-JO')}
+                            {item.quantity.toLocaleString(DISPLAY_LOCALE)}
                           </span>
                           <button
                             type="button"
@@ -389,7 +390,7 @@ export function CartDrawer({
                             <Plus className="h-3 w-3" />
                           </button>
                         </div>
-                        ) : <span className="text-[10px] font-black text-violet-700">{item.parcelInstances.length.toLocaleString('ar-JO')} طرد مكوّن</span>}
+                        ) : <span className="text-[10px] font-black text-violet-700">{item.parcelInstances.length.toLocaleString(DISPLAY_LOCALE)} طرد مكوّن</span>}
                         <p className="text-xs font-black text-orange-700">
                           {formatJod(
                             item.quantity * item.unitPriceInMinorUnits

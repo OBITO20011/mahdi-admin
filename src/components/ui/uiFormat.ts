@@ -1,3 +1,5 @@
+import {DISPLAY_LOCALE} from '../../../customer-web/src/utils/displayLocale';
+export {DISPLAY_LOCALE};
 /**
  * Pure presentation helpers for the Package F UI kit.
  * Money is Jordanian dinar with exactly three decimals (fils).
@@ -33,14 +35,14 @@ export function formatDayCount(count: number): string {
 
 /** Arabic date/time wording, with the same Latin digits used for money. */
 export function formatUiDate(value: Date | string, options: Intl.DateTimeFormatOptions): string {
-  return new Intl.DateTimeFormat('ar-JO-u-nu-latn', {
+  return new Intl.DateTimeFormat(DISPLAY_LOCALE, {
     timeZone: 'Asia/Amman', ...options, numberingSystem: 'latn',
   }).format(typeof value === 'string' ? new Date(value) : value);
 }
 
 /** Explicit time-first wording: 08:12 ص, independent of locale part order. */
 export function formatUiTime(value: Date | string): string {
-  const parts = new Intl.DateTimeFormat('ar-JO-u-nu-latn', {
+  const parts = new Intl.DateTimeFormat(DISPLAY_LOCALE, {
     timeZone: 'Asia/Amman', hour: '2-digit', minute: '2-digit', hour12: true,
   }).formatToParts(typeof value === 'string' ? new Date(value) : value);
   const part = (type: Intl.DateTimeFormatPartTypes) => parts.find((entry) => entry.type === type)?.value ?? '';

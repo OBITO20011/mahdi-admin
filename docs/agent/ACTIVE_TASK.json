@@ -2,51 +2,47 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner14Nov approved4-6days:optionalOFF quantity counter in separateDraft/new223(NOT221). Newprivate tables only;no accountingtables/220guard/ON changes. Stockdebit atwebsitecreation/POS;cancel/return/manualCAS/owner217alerts;RESET/D1/CI;postgreen no-resetdemo. No merge/hosted/deploy/owneroriginals.",
-  "baselineSha": "61795a8920d0bdf6d1fbe869e63e15f3dc12c365",
-  "branch": "codex/off-quantity-counter",
-  "phase": "OFF_QUANTITY_COUNTER",
-  "startedAt": "2026-11-14T11:22:06.576Z",
+  "objective": "Owner14Nov queued,15Novexplicitstart:Latin0-9 digits throughout store/admin/POS/print/WhatsApp/Telegram formatting and dates. Central locale ar-JO-u-nu-latn;decimal dot/thousands comma;Arabic wording/JOD label retained. No value/logic/SQL change. SeparatePR/fullCI;no merge/deploy/hosted/owner originals/demo reset.",
+  "baselineSha": "99eb18465d828b404764a18f1ff212f793e3fcc3",
+  "branch": "codex/latin-digits",
+  "phase": "LATIN_DIGITS",
+  "startedAt": "2026-11-15T03:10:03.353Z",
   "completed": [
-    "Prerequisite97 main0bd green;primary ff-only/preflight;demo no-reset complete. Coref0 and223operations61795a89 pushed.",
-    "PG23 PASS:ON full financial/stock/cost/receipt/shift parity;untrackedOFF JSON parity;counter lifecycle/CAS/unitidentity/legacyreturns/roles/replay/rollback/concurrency;accounting tables empty.",
-    "Owner policies resolved:resellable-only;unit frozen after first enable;no exact public count;pre-counter invoice quantity manual review. True browser→Edge/SQL2/2 Chromium/WebKit390 PASS;synthetic identity/siteverify,not GoTrue/TOTP.",
-    "223 actual fresh/incremental0diff,687public/51private;HTTP181/RPC732;ready223 test-only/uninstalled. Encrypted222BackupRestore→223apply9.9s→BackupRestore/verify PASS;tracked private archive strictPASS. RESET223+3resumes PASS.",
-    "From current223 sources:actual222 fresh/incremental0;683/39;ready222 PASS. Encrypted220BackupRestore→222apply8.8s→BackupRestore/verify PASS. RESET22241.1s+3resumes32.5/34.2/33.8s PASS,Auth/MFA/rawmoney/ACL/pgnet retained.",
-    "Final typesboth0/strictlint0;focused compatibility corrected with literal223/current counts and exact222 projection. Initial fullunits2022/2042,20failures:19 compatibility,one120s history timeout;direct history0/53.8s under unchanged120s.",
-    "Actual browser partition2002 identities:762core(393Chromium/369WebKit),1240 in same10shards;no missing/duplicates/settingsdelta. Focused routing/ops13PASS. Card2A4 content973/866px<1046,fonts unchanged."
+    "98 merged955bc41e main77/77;99 updatedc366e62b PR79/79 merged99eb1846 main79/79;primaryff-only/preflight twice preserving20ownerfiles/4env/fivefields. No CI reruns used.",
+    "New clean worktree from exact merged main99eb1846;existing dependencies linked;no env/private files copied.",
+    "Central Latin display policy and30 presentation modules implemented;price/quantity/date/WhatsApp changes only. Store230/230;history17 plus negativesPASS;typesboth/strictlint0. Telegram alreadyLatin,SQL untouched."
   ],
   "inProgress": [
-    "Final committed-head full units, DraftPR/fullCI and Gitleaks. No productSQL change since f0/d5d6397b."
+    "Browser startup correctly refused ownerdemo loopback4176;no test executed anddemo unchanged. Prepare separate4186 mockAPI/guard outsiderepo;then mobile26 cases,actual223access,currentfullunits/fullCI."
   ],
   "notStarted": [
-    "Afterfullgreen only:demo223 application/build withoutreset;one product test then trackingoff."
+    "Implementation/unit/mobile Chromium-WebKit screenshot proof/fullCI/Gitleaks/DraftPR.",
+    "Final workbook/categories separately queued,not started."
   ],
-  "testsPassed": [
-    "PG23;UI/regression36;truefullstack2;223protection/RESET;actual222compatibility;13routing/ops;typesboth/strictlint0;printfit."
-  ],
+  "testsPassed": [],
   "testsRemaining": [
-    "Fullcurrent units;FULLCI exacthead;Gitleaks;postCI demo."
+    "Mobile Chromium/WebKit+price regressions with separate mockAPI;fresh223table/RPCevidence;fullunits;historyviews;FULLCI/Gitleaks/DraftPR."
   ],
   "findings": [
-    "Migration223 d5d6397bd5d676f766493b7a85b1f47ad6f1b6f6c465e7b4a32219ee49abc0af;220 guards/accounting tables/ON unchanged. Draft98 price76/78:cancelled40min opening-cheques/log404,unknown cause;no further rerun."
+    "SQL-produced messages requiring DB change must stay unchanged and be reported only. No migrations/financial arithmetic/role/stock changes.",
+    "TS7016 for new JS history import resolved with precise adjacent .d.mts declarations,no any/cast/ignore. Regional month is existingJordanian تشرين الثاني,retained."
   ],
   "blockers": [],
   "prohibitions": [
-    "No accountingtables or220guard changes;no ON behavior delta",
-    "No221/merge/deploy/hosted/Frankfurt/preview/accountingactivation",
-    "No owneroriginals/private/MFA/TLS/demo changes beforeFULLgreenCI"
+    "No SQL/migrations/financial values or business logic changes",
+    "No merge/deploy/hosted/Frankfurt/preview;no owneroriginals/env/private/TOTP/demo writes/reset",
+    "No58/79/82;one evidence-backed environmental rerun max,otherwise STOP"
   ],
-  "evidence": "C:/Users/TOP/NawasrahLocalValidation/off-quantity-counter-20261114",
-  "nextExactAction": "Final types/strictlint and real223+legacy222 protection PASS. Save/push;DraftPR/fullCI and full local units at concurrency2. No demo beforefullgreen.",
+  "evidence": "C:/Users/TOP/NawasrahLocalValidation/latin-digits-20261115",
+  "nextExactAction": "Formatting/history17 and store230 units PASS. Run both types/strictlint and Chromium-WebKit mobile/price regressions;then actual fresh223 access evidence and fullunits. No owner/demo/DBlogic changes.",
   "activeProcesses": [
-    "No task-owned DBs after compatibility gates;ownerdemo remains running."
+    "Ownerdemo5012 preserved onfc309338,223/OFF,sameLAN. No writer/test process in new worktree."
   ],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "E2F9868E280F96F9A2251ADDA093183E3346713FFBA39A1E3CE2EC7CDE64087A",
-  "checkpointedAt": "2026-11-14T20:13:05.101Z",
-  "filesTouchedCount": 25,
-  "filesTouchedManifestSha256": "d5cf10f0a4bc75b312fceec846253db62228da7078b88313a012472542527326"
+  "workingTreeFingerprint": "B32B2D4CC6E9049137ADD8A4CC3D8E210C74A7DF15D9F18EA7C02E71D75FDAA3",
+  "checkpointedAt": "2026-11-15T03:31:14.826Z",
+  "filesTouchedCount": 50,
+  "filesTouchedManifestSha256": "4d729deaeef936781c3449f3c5943b7246b56d5fe9091923a3bd9f1ac2753b2e"
 }

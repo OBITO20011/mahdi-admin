@@ -1,3 +1,4 @@
+import {DISPLAY_LOCALE} from '../utils/displayLocale';
 import {storefrontCartUnit} from '../utils/storefrontUnits';
 import {
   AlertTriangle,
@@ -844,7 +845,7 @@ export function CheckoutModal({
                         <div className="min-w-0">
                           <p className="truncate text-xs font-black text-slate-900">{item.nameAr}</p>
                           <p className="mt-1 text-[10px] font-bold text-slate-500">
-                            {item.quantity.toLocaleString('ar-JO')} {storefrontCartUnit(item)} × {formatJod(item.unitPriceInMinorUnits)}
+                            {item.quantity.toLocaleString(DISPLAY_LOCALE)} {storefrontCartUnit(item)} × {formatJod(item.unitPriceInMinorUnits)}
                           </p>
                         </div>
                         <strong className="shrink-0 text-xs font-black text-orange-700">
@@ -963,7 +964,7 @@ export function CheckoutModal({
                           {item.nameAr}
                         </p>
                         <p className="mt-1 text-[9px] font-bold text-slate-500">
-                          {item.quantity.toLocaleString('ar-JO')}{' '}
+                          {item.quantity.toLocaleString(DISPLAY_LOCALE)}{' '}
                           {storefrontCartUnit(item)} ×{' '}
                           {formatJod(item.unitPriceInMinorUnits)}
                         </p>
@@ -1160,11 +1161,11 @@ export function CheckoutModal({
                               كيف تحدد محلًا أو منزلًا آخر؟
                             </strong>
                             <span className="mt-1 block">
-                              ١. افتح خرائط Google وحدد المكان المطلوب.
+                              1. افتح خرائط Google وحدد المكان المطلوب.
                               <br />
-                              ٢. اضغط «مشاركة» ثم «نسخ الرابط».
+                              2. اضغط «مشاركة» ثم «نسخ الرابط».
                               <br />
-                              ٣. ارجع للموقع واضغط «لصق رابط الموقع».
+                              3. ارجع للموقع واضغط «لصق رابط الموقع».
                             </span>
                           </div>
 

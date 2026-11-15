@@ -1,3 +1,4 @@
+import {DISPLAY_LOCALE} from '../../components/ui/uiFormat';
 /**
  * Nawasrah Business Manager - Executive Dashboard KPI Cards
  * Displays 10 real-time enterprise metrics
@@ -42,7 +43,7 @@ export const KpiCards: React.FC<KpiCardsProps> = ({
           </div>
         </div>
         <div className="text-base font-extrabold text-nw-text">
-          {kpis.todaySales.toLocaleString('ar-JO', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}
+          {kpis.todaySales.toLocaleString(DISPLAY_LOCALE, { minimumFractionDigits: 3, maximumFractionDigits: 3 })}
           <span className="text-[10px] font-normal text-nw-muted mr-1">{CURRENCY}</span>
         </div>
         <div
@@ -71,7 +72,7 @@ export const KpiCards: React.FC<KpiCardsProps> = ({
           </div>
         </div>
         <div className="text-base font-extrabold text-nw-text">
-          {kpis.weekSales.toLocaleString('ar-JO', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}
+          {kpis.weekSales.toLocaleString(DISPLAY_LOCALE, { minimumFractionDigits: 3, maximumFractionDigits: 3 })}
           <span className="text-[10px] font-normal text-nw-muted mr-1">{CURRENCY}</span>
         </div>
         <div className="text-[10px] text-nw-info font-semibold mt-1">حركة تراكمية أسبوعية</div>
@@ -86,7 +87,7 @@ export const KpiCards: React.FC<KpiCardsProps> = ({
           </div>
         </div>
         <div className="text-base font-extrabold text-nw-info">
-          {kpis.monthSales.toLocaleString('ar-JO', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}
+          {kpis.monthSales.toLocaleString(DISPLAY_LOCALE, { minimumFractionDigits: 3, maximumFractionDigits: 3 })}
           <span className="text-[10px] font-normal text-nw-muted mr-1">{CURRENCY}</span>
         </div>
         <div className="text-[10px] text-nw-info font-semibold mt-1">إجمالي الشهر الحالي</div>
@@ -101,7 +102,7 @@ export const KpiCards: React.FC<KpiCardsProps> = ({
           </div>
         </div>
         <div className="text-base font-extrabold text-nw-ok">
-          {kpis.totalRevenue.toLocaleString('ar-JO', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}
+          {kpis.totalRevenue.toLocaleString(DISPLAY_LOCALE, { minimumFractionDigits: 3, maximumFractionDigits: 3 })}
           <span className="text-[10px] font-normal text-nw-muted mr-1">{CURRENCY}</span>
         </div>
         <div className="text-[10px] text-nw-ok font-semibold mt-1">كافة المبيعات الصافية</div>
@@ -116,7 +117,7 @@ export const KpiCards: React.FC<KpiCardsProps> = ({
           </div>
         </div>
         <div className="text-base font-extrabold text-nw-ok">
-          {kpis.netProfit.toLocaleString('ar-JO', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}
+          {kpis.netProfit.toLocaleString(DISPLAY_LOCALE, { minimumFractionDigits: 3, maximumFractionDigits: 3 })}
           <span className="text-[10px] font-normal text-nw-muted mr-1">{CURRENCY}</span>
         </div>
         <div className="text-[10px] text-nw-ok font-semibold mt-1">

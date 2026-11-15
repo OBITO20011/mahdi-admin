@@ -1,3 +1,4 @@
+import {DISPLAY_LOCALE} from '../../components/ui/uiFormat';
 import {useEffect,useState} from 'react';
 import {Modal} from '../../components/common/Modal';
 import {RejectionNotice} from '../../components/common/RejectionNotice';
@@ -41,7 +42,7 @@ function CorrectionDialog({action,recordId,onClose,onChanged}:{action:Correction
             :!preview.eligible?<RejectionNotice reason={preview.blockedReason} role="status"/>:<p className="text-sm text-nw-muted">معاينة من قاعدة البيانات؛ يعاد فحصها عند التأكيد.</p>}
           <dl className="space-y-2 rounded-xl border border-nw-border p-3 text-sm" aria-label="أثر التصحيح">
             {([['الكاش في الدرج','cashInMinorUnits'],['CliQ خارج الدرج','cliqInMinorUnits'],['دين العميل','customerDebtInMinorUnits'],['رصيد المورد','supplierBalanceInMinorUnits']] as const).map(([label,key])=><div className="flex justify-between gap-3" key={key}><dt>{label}</dt><dd><MoneyText amount={preview.effect[key]/1000} currency/></dd></div>)}
-            <div className="flex justify-between gap-3"><dt>تغيّر المخزون بالوحدة الأساسية</dt><dd><bdi>{preview.effect.inventoryBaseUnits.toLocaleString('ar-JO')}</bdi></dd></div>
+            <div className="flex justify-between gap-3"><dt>تغيّر المخزون بالوحدة الأساسية</dt><dd><bdi>{preview.effect.inventoryBaseUnits.toLocaleString(DISPLAY_LOCALE)}</bdi></dd></div>
           </dl>
           {action==='purchase_receipt'&&<div className="text-xs text-nw-muted">{preview.effect.stock.filter(correctionRecord).map((row,i)=><p key={i}>{String(row.productName)} — متوسط التكلفة بعد الإلغاء: <bdi>{row.wacAfter===null?'غير محدد قبل الاستلام':String(row.wacAfter)}</bdi> فلس للوحدة.</p>)}<p>دفعات أمر الشراء العامة تبقى مقدّمة؛ تُعكس دفعات السند نفسه فقط.</p></div>}
           {(preview.eligible||recover)&&<label className="block space-y-2 text-sm font-semibold">سبب التصحيح<textarea aria-label="سبب التصحيح" value={reason} onChange={e=>setReason(e.target.value)} disabled={busy||recover} minLength={3} maxLength={500} rows={3} className="w-full rounded-xl border border-nw-border bg-nw-surface p-3 text-nw-text"/></label>}

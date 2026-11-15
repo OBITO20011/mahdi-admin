@@ -1,3 +1,4 @@
+import {DISPLAY_LOCALE} from '../components/ui/uiFormat';
 import type { OrderItem,PaymentMethod } from '../types';
 import {receiptLineDescription} from '../../customer-web/src/receipts/commercialReceipt';
 import {exchangeFundingLines,type ExchangeReceiptFunding} from '../../customer-web/src/receipts/exchangeFunding';
@@ -67,7 +68,7 @@ export function buildReceiptShareText(input: ReceiptShareInput): string {
     input.businessName,
     input.branchName,
     `إيصال البيع رقم: ${input.invoiceNumber}`,
-    `التاريخ: ${new Date(input.createdAt).toLocaleString('ar-JO')}`,
+    `التاريخ: ${new Date(input.createdAt).toLocaleString(DISPLAY_LOCALE)}`,
     `العميل: ${input.customerName || 'زبون نقدي'}`,
     '',
     ...lines,

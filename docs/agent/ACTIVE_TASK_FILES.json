@@ -3,27 +3,123 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
+      "path": "customer-web/src/App.tsx"
     },
     {
       "code": " M",
-      "path": "docs/handover/ورقة-يوم-التشغيل.html"
+      "path": "customer-web/src/components/CartDrawer.tsx"
     },
     {
       "code": " M",
-      "path": "docs/handover/ورقة-يوم-التشغيل.md"
+      "path": "customer-web/src/components/CategoryDrawer.tsx"
     },
     {
       "code": " M",
-      "path": "docs/MAINTAINER_GUIDE_AR.md"
+      "path": "customer-web/src/components/CategoryShowcase.tsx"
     },
     {
       "code": " M",
-      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
+      "path": "customer-web/src/components/CheckoutModal.tsx"
     },
     {
       "code": " M",
-      "path": "scripts/audit/optional-quantity223-source-pins.json"
+      "path": "customer-web/src/components/MerchandisingSections.tsx"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/components/MobileStoreNav.tsx"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/components/NetworkStatusBanner.tsx"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/components/OrderTrackingModal.tsx"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/components/orderTrackingPresentation.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/components/ParcelBuilderModal.tsx"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/components/ProductCard.tsx"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/components/ProductDetailsModal.tsx"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/components/ProductPurchaseControl.tsx"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/components/PromotionOffers.tsx"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/components/StoreHeader.tsx"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/components/StoreHero.tsx"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/components/StoreInfoSection.tsx"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/utils/cart.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/utils/liteProductPricing.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/utils/money.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/utils/storefrontUnits.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/tests/actual-sale-units.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/tests/catalog.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/tests/lite-product-pricing.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/tests/sales-only-deferred-content.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/tests/storefront-units.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/tests/trial-ta-sales-units.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": " M",
+      "path": "e2e/off-product-prices.spec.ts"
     },
     {
       "code": " M",
@@ -31,75 +127,79 @@
     },
     {
       "code": " M",
-      "path": "scripts/operations/build-acl-reference222.mjs"
+      "path": "scripts/audit/source-before-price-visibility.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/operations/reset222-foundation.mjs"
+      "path": "scripts/testing/build-independent-prices222-history.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/testing/generate-independent-prices222-catalog.mjs"
+      "path": "scripts/testing/product-workbook-runtime-view.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/testing/package-f-ci-shards.mjs"
+      "path": "src/components/modals/AllModals.tsx"
     },
     {
       "code": " M",
-      "path": "tests/bulk-product-images-contracts.test.ts"
+      "path": "src/components/ui/uiFormat.ts"
     },
     {
       "code": " M",
-      "path": "tests/independent-prices222-operations.test.ts"
+      "path": "src/features/corrections/DocumentCorrectionAction.tsx"
     },
     {
       "code": " M",
-      "path": "tests/independent-prices222-projection.test.ts"
+      "path": "src/features/dashboard/KpiCards.tsx"
     },
     {
       "code": " M",
-      "path": "tests/lite220-handover.test.ts"
+      "path": "src/features/dashboard/WidgetsSection.tsx"
     },
     {
       "code": " M",
-      "path": "tests/lite220-historical-test-view.test.ts"
+      "path": "src/features/inventory/InventoryOpeningSetupModal.tsx"
     },
     {
       "code": " M",
-      "path": "tests/literal220-catalog-manifest.test.ts"
+      "path": "src/utils/orderPresentation.ts"
     },
     {
       "code": " M",
-      "path": "tests/migration-integrity.test.ts"
+      "path": "src/utils/receipt.ts"
     },
     {
       "code": " M",
-      "path": "tests/operational-schema.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/optional-quantity223-operations.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/package-f-ci-shards.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/sales-only-phase1.test.ts"
+      "path": "tests/price-visibility-history.test.ts"
     },
     {
       "code": "??",
-      "path": "docs/operations/D1_REFERENCE_KIT223_AR.md"
+      "path": "customer-web/src/utils/displayLocale.ts"
     },
     {
       "code": "??",
-      "path": "docs/operations/RESET223_OWNER_AR.md"
+      "path": "e2e/latin-digits.spec.ts"
     },
     {
       "code": "??",
-      "path": "tests/d1-reference223-kit.test.ts"
+      "path": "scripts/audit/latin-digits-source-pins.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-latin-digits.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/build-latin-digits-history.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/latin-digit-formatting.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/latin-digit-history.test.ts"
     }
   ]
 }

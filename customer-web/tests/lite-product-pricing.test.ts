@@ -5,7 +5,7 @@ import {liteProductPriceRows,liteParcelSaving,liteFamilyStartingPrice,liteProduc
 const product=mapCatalogProduct({id:'12800000-0000-4000-8000-000000000173',sku:'PRICE-173',nameAr:'صنف وهمي',description:'24 حبة',unitNameAr:'باكيت',saleUnitNameAr:'طرد',unitsPerSalePackage:10,salePackagePriceInMinorUnits:15000,salePriceInMinorUnits:1850,quantityTracked:false,manualAvailable:true,availableQuantity:null,availableSalePackages:null,isAvailable:true});
 test('OFF price rows expose saved1850 single and15000 parcel without deriving or changing either price',()=>{
  const before=JSON.stringify(product);
- assert.deepEqual(liteProductPriceRows(product),[{kind:'single',label:'باكيت',price:1850},{kind:'parcel',label:`طرد (${(10).toLocaleString('ar-JO')} باكيت)`,price:15000}]);
+ assert.deepEqual(liteProductPriceRows(product),[{kind:'single',label:'باكيت',price:1850},{kind:'parcel',label:`طرد (10 باكيت)`,price:15000}]);
  assert.equal(liteParcelSaving(product),3500);assert.equal(JSON.stringify(product),before);
  assert.equal(liteParcelSaving({...product,salePackagePriceInMinorUnits:18500}),0);
  assert.equal(liteParcelSaving({...product,salePackagePriceInMinorUnits:1850}),0);

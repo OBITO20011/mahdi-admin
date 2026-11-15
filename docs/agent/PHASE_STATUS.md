@@ -1,3 +1,12 @@
+#15Nov2026 — approved98/99 merged;Latin display package in progress
+
+Main99eb1846 FULL79/79;both primary ff-only/preflight transitions preserved
+owner20/env4/five fields. New codex/latin-digits branches from exact main.
+Arabic display wording with explicit Latin digits;no SQL/money/quantity logic
+change. Store230 units,focused exact-history checks and both types/strictlint
+pass. Mobile proof/access/fullunits/exactheadCI remain pending. No merge of
+this package,deploy,hosted access or owner/demo changes.
+
 #14Nov2026 — quantity223 protection and historical222 compatibility PASS;final CI pending
 
 Actual223 PG23/browser→SQL2/catalog/access/BackupRestore/RESET3resumes PASS.

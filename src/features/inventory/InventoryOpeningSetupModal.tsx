@@ -1,3 +1,4 @@
+import {DISPLAY_LOCALE} from '../../components/ui/uiFormat';
 import {WarehouseChoice} from '../../components/ui/WarehouseChoice';
 import {SupplierReplacementSummary} from './SupplierReplacementSummary';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -708,7 +709,7 @@ export const InventoryOpeningSetupModal: React.FC<
                 </div>
                 <div className="text-left text-[9px] text-nw-muted">
                   <span className="block">
-                    {new Date(session.createdAt).toLocaleString('ar-JO')}
+                    {new Date(session.createdAt).toLocaleString(DISPLAY_LOCALE)}
                   </span>
                   <span>الإجمالي: {session.totalActualQuantity}</span>
                 </div>

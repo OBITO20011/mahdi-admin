@@ -169,7 +169,7 @@ test('cart prices complete wholesale packages in integer minor units', () => {
   const item = { ...createCartItem(wholesaleProduct), quantity: 3 };
   assert.equal(calculateCartPackages([item]), 3);
   assert.equal(calculateCartSubtotal([item]), 12000);
-  assert.equal(formatJod(12000), '١٢٫٠٠٠ د.أ');
+  assert.equal(formatJod(12000), '12.000 د.أ');
 });
 
 test('cart is reconciled with live price and available package changes', () => {

@@ -1,3 +1,4 @@
+import {DISPLAY_LOCALE} from '../utils/displayLocale';
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { Boxes, PackageCheck, ShieldCheck, Sparkles } from 'lucide-react';
 import { requestHeroVideoAfterLoad } from '../utils/heroMedia';
@@ -108,7 +109,7 @@ export function StoreHero({
                 <div className="flex flex-col-reverse items-center justify-between gap-2 text-center lg:flex-row lg:gap-4 lg:text-right">
                   <div className="min-w-0 w-full">
                     <p className="text-xl font-black sm:text-3xl">
-                      {stat.value.toLocaleString('ar-JO')}
+                      {stat.value.toLocaleString(DISPLAY_LOCALE)}
                     </p>
                     <p className="mt-1 truncate text-[9px] font-bold text-blue-100/70 sm:text-xs">
                       {stat.label}

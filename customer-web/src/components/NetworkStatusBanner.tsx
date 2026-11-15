@@ -1,3 +1,4 @@
+import {DISPLAY_LOCALE} from '../utils/displayLocale';
 import { CloudAlert, RefreshCw, WifiOff } from 'lucide-react';
 
 interface NetworkStatusBannerProps {
@@ -20,7 +21,7 @@ export function NetworkStatusBanner({
   const isOffline = !isOnline;
   const Icon = isOffline ? WifiOff : CloudAlert;
   const lastUpdatedLabel = lastUpdatedAt
-    ? lastUpdatedAt.toLocaleTimeString('ar-JO', {
+    ? lastUpdatedAt.toLocaleTimeString(DISPLAY_LOCALE, {
         hour: '2-digit',
         minute: '2-digit',
       })

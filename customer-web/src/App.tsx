@@ -1,3 +1,4 @@
+import {DISPLAY_LOCALE} from './utils/displayLocale';
 import {unsafeLiteParcelPrice,PARCEL_DEFINITION_MESSAGE} from './utils/saleUnitLabels';
 import {scrollWindowTo} from './utils/scroll';
 import {storefrontSaleUnit,storefrontUnitName, remainingStorefrontParcels,remainingStorefrontUnits,capStorefrontQuantity} from './utils/storefrontUnits';
@@ -913,7 +914,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
           : item
       );
     }).then(() => {
-      if (addedQuantity > 0) { showToast(`تمت إضافة ${addedQuantity.toLocaleString('ar-JO')} ${storefrontSaleUnit(product)} من ${product.nameAr}.`); showCartAddition(source); }
+      if (addedQuantity > 0) { showToast(`تمت إضافة ${addedQuantity.toLocaleString(DISPLAY_LOCALE)} ${storefrontSaleUnit(product)} من ${product.nameAr}.`); showCartAddition(source); }
       else showToast('وصلت السلة إلى كامل المخزون المتاح من هذا الصنف.', 'info');
     }).catch(() => showToast('تعذر حفظ الإضافة في السلة. راجع حالة السلة وحاول مجددًا.', 'error'));
   };
@@ -955,7 +956,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         ? { ...item, localRevision: item.localRevision + 1, quantity: item.quantity + actualQuantity }
         : item);
     }).then(() => {
-      if (addedQuantity > 0) { showToast(`تمت إضافة ${addedQuantity.toLocaleString('ar-JO')} ${storefrontUnitName(product.unitNameAr,product.quantityTracked)} من ${product.nameAr}.`); showCartAddition(source); }
+      if (addedQuantity > 0) { showToast(`تمت إضافة ${addedQuantity.toLocaleString(DISPLAY_LOCALE)} ${storefrontUnitName(product.unitNameAr,product.quantityTracked)} من ${product.nameAr}.`); showCartAddition(source); }
       else showToast('وصلت السلة إلى كامل المخزون المتاح من هذا الصنف.', 'info');
     }).catch(() => showToast('تعذر حفظ الإضافة في السلة. راجع حالة السلة وحاول مجددًا.', 'error'));
   };
@@ -1535,7 +1536,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
           return;
         }
 
-        const successNotice = `تمت إعادة ${restoration.items.length.toLocaleString('ar-JO')} أصناف من طلبك السابق بالأسعار الحالية.`;
+        const successNotice = `تمت إعادة ${restoration.items.length.toLocaleString(DISPLAY_LOCALE)} أصناف من طلبك السابق بالأسعار الحالية.`;
         const notice = [successNotice, ...notices].join(' ');
         await replaceCart(restoration.items);
         setCartSnapshotNotice(notice);
@@ -1754,7 +1755,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
                   {lastUpdatedAt && (
                     <span>
                       آخر تحديث:{' '}
-                      {lastUpdatedAt.toLocaleTimeString('ar-JO', {
+                      {lastUpdatedAt.toLocaleTimeString(DISPLAY_LOCALE, {
                         hour: '2-digit',
                         minute: '2-digit',
                       })}
@@ -1770,19 +1771,19 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
                       {
                         value: 'all',
                         label: `كل الحالات (${catalogTotal.toLocaleString(
-                          'ar-JO'
+                          DISPLAY_LOCALE
                         )})`,
                       },
                       {
                         value: 'available',
                         label: `متوفر (${availableProductsCount.toLocaleString(
-                          'ar-JO'
+                          DISPLAY_LOCALE
                         )})`,
                       },
                       {
                         value: 'low_stock',
                         label: `قارب على النفاد (${lowStockProductsCount.toLocaleString(
-                          'ar-JO'
+                          DISPLAY_LOCALE
                         )})`,
                       },
                     ] as const
@@ -1835,8 +1836,8 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
 
               <div className="mt-3 flex flex-wrap items-center justify-between gap-2 px-1">
                 <p className="text-[10px] font-bold text-slate-600">
-                  عرض {filteredProducts.length.toLocaleString('ar-JO')} من{' '}
-                  {catalogTotal.toLocaleString('ar-JO')} صنف
+                  عرض {filteredProducts.length.toLocaleString(DISPLAY_LOCALE)} من{' '}
+                  {catalogTotal.toLocaleString(DISPLAY_LOCALE)} صنف
                 </p>
                 {hasActiveCatalogView && (
                   <button
@@ -1981,7 +1982,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
                   </div>
                   {favoriteProductIds.length > 0 && (
                     <span className="inline-flex w-fit items-center rounded-full bg-rose-50 px-3 py-1.5 text-xs font-black text-rose-700">
-                      {favoriteProductIds.length.toLocaleString('ar-JO')} منتجات محفوظة
+                      {favoriteProductIds.length.toLocaleString(DISPLAY_LOCALE)} منتجات محفوظة
                     </span>
                   )}
                 </div>

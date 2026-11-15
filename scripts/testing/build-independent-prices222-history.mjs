@@ -3,13 +3,13 @@ import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
 import {readFileSync,writeFileSync,existsSync} from 'node:fs';
 import {canonicalLf,sha256} from './maintenance-db-contract.mjs';
-import {sourceBeforeOptionalQuantity223} from '../audit/source-before-optional-quantity223.mjs';
+import {sourceBeforeOptionalQuantity223,pathsBeforeOptionalQuantity223} from '../audit/source-before-optional-quantity223.mjs';
 import {pathsBeforePriceVisibility,sourceBeforePriceVisibility} from '../audit/source-before-price-visibility.mjs';
 const root=new URL('../../',import.meta.url),baseline='bd4d696af6eef074bfd523ee54906059a0bb668c';
 const output='scripts/audit/independent-prices222-source-pins.json';
 assert.ok(process.argv.length===2||process.argv.length===3&&process.argv[2]==='--check','ONLY_CHECK_OPTION');
 const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',windowsHide:true,stdio:['ignore','pipe','pipe'],maxBuffer:32*1024**2});
-const paths=pathsBeforePriceVisibility([...new Set([...git(['diff','--name-only','-z',baseline]).split('\0'),...git(['ls-files','--others','--exclude-standard','-z']).split('\0')].filter(Boolean))]).sort();
+const paths=pathsBeforePriceVisibility(pathsBeforeOptionalQuantity223([...new Set([...git(['diff','--name-only','-z',baseline]).split('\0'),...git(['ls-files','--others','--exclude-standard','-z']).split('\0')].filter(Boolean))])).sort();
 const previous=JSON.parse(readFileSync(new URL(output,root),'utf8')),entries={};
 for(const file of paths){
  if(file===output||file==='scripts/audit/optional-quantity223-source-pins.json'||file.startsWith('docs/agent/ACTIVE_TASK')||file.startsWith('.env'))continue;

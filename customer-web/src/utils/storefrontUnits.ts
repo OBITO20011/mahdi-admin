@@ -1,3 +1,4 @@
+import {DISPLAY_LOCALE} from './displayLocale';
 import type {CatalogProduct, CartDisplayFields, CartItem} from '../types/catalog';
 import {SINGLE_SALE_UNIT,singleSaleUnitLabel,packageSaleUnitLabel} from './saleUnitLabels';
 
@@ -5,15 +6,15 @@ export const storefrontUnitName = (name:string|undefined,quantityTracked?:boolea
 export const storefrontSaleUnit = (product: CatalogProduct) =>
   product.unitsPerSalePackage > 1 ? packageSaleUnitLabel(product.saleUnitNameAr,undefined,product.quantityTracked===false,product.unitNameAr) : storefrontUnitName(product.unitNameAr,product.quantityTracked);
 export const storefrontPackageDescription = (product: CatalogProduct) => product.unitsPerSalePackage > 1
-  ? `${storefrontSaleUnit(product)} (${product.unitsPerSalePackage.toLocaleString('ar-JO')} ${storefrontUnitName(product.unitNameAr,product.quantityTracked)})`
+  ? `${storefrontSaleUnit(product)} (${product.unitsPerSalePackage.toLocaleString(DISPLAY_LOCALE)} ${storefrontUnitName(product.unitNameAr,product.quantityTracked)})`
   : storefrontUnitName(product.unitNameAr,product.quantityTracked);
 export function storefrontStock(product: CatalogProduct): string {
   if(product.quantityTracked===false)return product.isAvailable?'متوفر':'غير متوفر';
   const size = Math.max(1, product.unitsPerSalePackage);
   const quantity = Math.max(0, Math.floor(product.availableQuantity??0));
-  if (size === 1) return `${quantity.toLocaleString('ar-JO')} ${storefrontUnitName(product.unitNameAr)}`;
+  if (size === 1) return `${quantity.toLocaleString(DISPLAY_LOCALE)} ${storefrontUnitName(product.unitNameAr)}`;
   const parcels = Math.floor(quantity / size), loose = quantity % size;
-  return [`${parcels.toLocaleString('ar-JO')} طرد`, loose ? `${loose.toLocaleString('ar-JO')} ${storefrontUnitName(product.unitNameAr)}` : ''].filter(Boolean).join(' + ');
+  return [`${parcels.toLocaleString(DISPLAY_LOCALE)} طرد`, loose ? `${loose.toLocaleString(DISPLAY_LOCALE)} ${storefrontUnitName(product.unitNameAr)}` : ''].filter(Boolean).join(' + ');
 }
 export function remainingStorefrontUnits(product: CatalogProduct, reserved: number): number|null {
   if(product.quantityTracked===false)return product.isAvailable?null:0;
@@ -30,7 +31,7 @@ export function storefrontCartUnit(item: CartDisplayFields & {commercialLineKind
 }
 export function storefrontCartPackageDescription(item: CartDisplayFields & {commercialLineKind: CartItem['commercialLineKind']}): string {
   const unit=storefrontCartUnit(item);
-  return item.unitsPerSalePackage>1 ? `${unit} (${item.unitsPerSalePackage.toLocaleString('ar-JO')} ${item.quantityTracked===false?singleSaleUnitLabel(item.baseUnitNameAr,true):SINGLE_SALE_UNIT})` : unit;
+  return item.unitsPerSalePackage>1 ? `${unit} (${item.unitsPerSalePackage.toLocaleString(DISPLAY_LOCALE)} ${item.quantityTracked===false?singleSaleUnitLabel(item.baseUnitNameAr,true):SINGLE_SALE_UNIT})` : unit;
 }
 
 /** Null explicitly means quantity is not tracked,never a synthetic stock limit. */

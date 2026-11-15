@@ -1,3 +1,4 @@
+import {DISPLAY_LOCALE} from '../utils/displayLocale';
 import {Minus, Plus} from 'lucide-react';
 import {CargoAddButton} from './CargoAddButton';
 import {formatJod} from '../utils/money';
@@ -15,12 +16,12 @@ export function ProductPurchaseControl({label, unit, productName, price, quantit
     <p className="text-center text-xs font-black leading-5 text-blue-950">{label} — {formatJod(price)}</p>
     <div className="flex items-center justify-center rounded-xl border border-blue-200 bg-white">
       <button type="button" aria-label={`إنقاص كمية ${unit}`} disabled={disabled || quantity <= 1} onClick={() => onChange(quantity - 1)} className="grid h-11 w-11 shrink-0 place-items-center text-blue-700 disabled:text-slate-400"><Minus className="h-4 w-4" /></button>
-      <output aria-label={`كمية ${unit}`} className="min-w-7 text-center text-sm font-black text-slate-950">{quantity.toLocaleString('ar-JO')}</output>
+      <output aria-label={`كمية ${unit}`} className="min-w-7 text-center text-sm font-black text-slate-950">{quantity.toLocaleString(DISPLAY_LOCALE)}</output>
       <button type="button" aria-label={`زيادة كمية ${unit}`} disabled={disabled || (remaining!==null&&quantity>=remaining)} onClick={() => onChange(quantity + 1)} className="grid h-11 w-11 shrink-0 place-items-center text-blue-700 disabled:text-slate-400"><Plus className="h-4 w-4" /></button>
     </div>
     <CargoAddButton onAdd={onAdd} disabled={disabled || remaining === 0} itemLabel={unit}
-      ariaLabel={`إضافة ${quantity.toLocaleString('ar-JO')} ${unit} من ${productName} إلى السلة`}
-      label={remaining === 0 ? 'الكمية في السلة' : `إضافة ${quantity.toLocaleString('ar-JO')} ${unit}`}
+      ariaLabel={`إضافة ${quantity.toLocaleString(DISPLAY_LOCALE)} ${unit} من ${productName} إلى السلة`}
+      label={remaining === 0 ? 'الكمية في السلة' : `إضافة ${quantity.toLocaleString(DISPLAY_LOCALE)} ${unit}`}
       detail={saving}
       className="min-h-11 justify-center !px-2 [&_.cargo-scene]:hidden" />
     <p className="text-center text-[10px] font-bold text-blue-900">الإجمالي {formatJod(calculateProductSelectionTotal(price, quantity))}</p>

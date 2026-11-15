@@ -1,3 +1,4 @@
+import {DISPLAY_LOCALE} from '../utils/displayLocale';
 import {ProductImage} from './ProductImage';
 import { ImageOff } from 'lucide-react';
 import type { CSSProperties } from 'react';
@@ -140,7 +141,7 @@ export function CategoryShowcase({
             </p>
           </div>
           <p className="rounded-full bg-white px-3 py-2 text-[10px] font-black text-slate-500 shadow-sm">
-            {categories.length.toLocaleString('ar-JO')} قسم مرتبط بتطبيق الإدارة
+            {categories.length.toLocaleString(DISPLAY_LOCALE)} قسم مرتبط بتطبيق الإدارة
           </p>
         </div>
       </div>
