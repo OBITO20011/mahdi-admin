@@ -3,10 +3,6 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
-    },
-    {
-      "code": " M",
       "path": "docs/handover/ورقة-يوم-التشغيل.html"
     },
     {
@@ -19,26 +15,6 @@
     },
     {
       "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_AFTER_223.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_223.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
       "path": "docs/reviews/FINAL_CATALOG_LOCAL_AR.md"
     },
     {
@@ -47,7 +23,7 @@
     },
     {
       "code": " M",
-      "path": "tests/cutover-publication-order.test.ts"
+      "path": "tests/lite220-handover.test.ts"
     }
   ]
 }

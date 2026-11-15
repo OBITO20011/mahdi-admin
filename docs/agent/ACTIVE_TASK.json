@@ -42,15 +42,15 @@
     "58/79/82untouched;onewriter;bankcommit/push milestones/~hour"
   ],
   "evidence": "C:/Users/TOP/NawasrahLocalValidation/final-catalog-20261115",
-  "nextExactAction": "Run quiet full root/customer units then final types/strictlint and four isolated builds/budget. Source/pins must remain frozen while checks run. Final Draft PR/full exact-head CI/Gitleaks;no merge/demo/hosted.",
+  "nextExactAction": "Commit the bounded current-file doc expectations and legacy-category UI cleanup proof;then quiet full root units again on corrected source. Do not rerun customer233 or category6 without source changes. Final types/lint/build/staticbudget/CI/Gitleaks,no merge.",
   "activeProcesses": [
     "OwnerdemoPID5012 untouched. Owned final-catalog15 Docker stack and loopback serverPID10864 remain;cron globally off inside this test only."
   ],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "408B3EE9B81CD8AE1DD412E1B89BB446C215D937B6443A4F650AC5CDBC32C7B5",
-  "checkpointedAt": "2026-11-15T09:58:23.941Z",
-  "filesTouchedCount": 12,
-  "filesTouchedManifestSha256": "ce65745b2b6841e6e147fc31c536eeb8031217124d3f829a25ba262564d557e6"
+  "workingTreeFingerprint": "0B18038A7AF41ABADDF7040F90E4EE082FDB2EEAD4D08CB67144A2A4DCFC49F0",
+  "checkpointedAt": "2026-11-15T10:20:25.917Z",
+  "filesTouchedCount": 6,
+  "filesTouchedManifestSha256": "655497f26276dd60668ac8a4d8505106756e63e9f1ee9438259bae902ed264c4"
 }
