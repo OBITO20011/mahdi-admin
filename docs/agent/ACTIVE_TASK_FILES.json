@@ -3,147 +3,163 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/project-state.json"
+      "path": "docs/handover/ورقة-يوم-التشغيل.html"
     },
     {
       "code": " M",
-      "path": "docs/generated/DB_FUNCTIONS.md"
+      "path": "docs/handover/ورقة-يوم-التشغيل.md"
     },
     {
       "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+      "path": "docs/MAINTAINER_GUIDE_AR.md"
     },
     {
       "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
     },
     {
       "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+      "path": "e2e/optional-quantity223.spec.ts"
     },
     {
       "code": " M",
-      "path": "scripts/audit/run-service-access-diagnostic.mjs"
+      "path": "scripts/audit/source-before-final-catalog.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/audit/run-table-access-diagnostic.mjs"
+      "path": "src/App.tsx"
     },
     {
       "code": " M",
-      "path": "scripts/backup/complete-backup.mjs"
+      "path": "src/components/layout/navigationDrawerContext.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/components/layout/NavigationShell.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/components/layout/SideNav.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/more/MoreMenuView.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/operatingMode/LowOptionalQuantityList.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/operatingMode/navigationPolicy.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/bulk-product-images-contracts.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/final-catalog-history.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/independent-prices222-projection.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/lite220-handover.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/lite220-historical-test-view.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/literal220-catalog-manifest.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/migration-integrity.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/operational-schema.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/optional-quantity223-operations.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/sales-only-phase1.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/service-access-inventory.test.ts"
     },
     {
       "code": "??",
-      "path": "docs/design/inventory224/tool223-source-pins.json"
+      "path": "docs/operations/D1_REFERENCE_KIT224_AR.md"
     },
     {
       "code": "??",
-      "path": "docs/operations/SERVICE_ACCESS_AFTER_224.json"
+      "path": "docs/operations/RESET224_OWNER_AR.md"
     },
     {
       "code": "??",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_224.json"
+      "path": "docs/operations/UPGRADE224_AR.md"
     },
     {
       "code": "??",
-      "path": "scripts/operations/build-acl-reference224.mjs"
+      "path": "e2e/inventory224-harness.html"
     },
     {
       "code": "??",
-      "path": "scripts/operations/d1-known-owner224-files.json"
+      "path": "e2e/inventory224-harness.tsx"
     },
     {
       "code": "??",
-      "path": "scripts/operations/d1-reference224-ci.mjs"
+      "path": "e2e/inventory224.spec.ts"
     },
     {
       "code": "??",
-      "path": "scripts/operations/d1-reference224-install.ps1"
+      "path": "scripts/audit/inventory224-source-pins.json"
     },
     {
       "code": "??",
-      "path": "scripts/operations/d1-reference224-kit.mjs"
+      "path": "scripts/audit/source-before-inventory224.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/operations/d1-reference224-kit.ps1"
+      "path": "scripts/testing/build-inventory224-history.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/operations/d1-reference224-state.mjs"
+      "path": "scripts/testing/run-inventory224-browser.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/operations/frankfurt-owner-reset224.mjs"
+      "path": "src/features/operatingMode/inventory224Contract.ts"
     },
     {
       "code": "??",
-      "path": "scripts/operations/frankfurt-owner-upgrade224.mjs"
+      "path": "src/features/operatingMode/Inventory224View.tsx"
     },
     {
       "code": "??",
-      "path": "scripts/operations/frankfurt-reference224.mjs"
+      "path": "src/services/supabase/inventory224.service.ts"
     },
     {
       "code": "??",
-      "path": "scripts/operations/function-reference224.mjs"
+      "path": "tests/d1-reference224-kit.test.ts"
     },
     {
       "code": "??",
-      "path": "scripts/operations/reset224-foundation.mjs"
+      "path": "tests/inventory224-history.test.ts"
     },
     {
       "code": "??",
-      "path": "scripts/operations/reset224-pg-cron-guard.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/reset224-private-state.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/reset224-session.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/reset224-write-guard.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/trial-reset224-core.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/upgrade224-data.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/upgrade224-protection.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/build-inventory224-tools.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/capture-inventory224-catalog.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/generate-inventory224-catalog.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/run-owner-upgrade224-runtime.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/run-reset224-runtime.mjs"
-    },
-    {
-      "code": "??",
-      "path": "tests/inventory224-tools.test.ts"
+      "path": "tests/inventory224-ui.test.ts"
     }
   ]
 }

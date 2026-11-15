@@ -59,10 +59,13 @@ test('family editor shows leaf counters together and never offers a parent count
  await leaf.getByRole('checkbox',{name:'تتبّع الكمية'}).check();await leaf.getByLabel('صار عندي — باكيت',{exact:true}).fill('٦');await leaf.getByRole('button',{name:/حفظ كمية/}).tap();
  await expect.poll(()=>c.writes.length).toBe(1);expect(c.writes[0]).toMatchObject({p_product_id:inventoryProducts[6].id,p_quantity:6});
 });
-test('owner low list is explicitly opened and shows zero quantities with their actual unit',async({page})=>{
+test('owner low list links to the new inventory screen without making a legacy low read',async({page})=>{
  const c=await setup(page,'sales-only&unit-parcel');expect(c.lowReads()).toBe(0);
- const section=page.getByRole('region',{name:'أصناف قرب تخلص',exact:true});await section.getByRole('button',{name:'أصناف قرب تخلص',exact:true}).tap();
- await expect(section).toContainText('TEST-ZERO');await expect(section).toContainText('نفدت الكمية');await expect(section).toContainText('حد التنبيه: 2 باكيت');expect(c.lowReads()).toBe(1);
+ await page.getByRole('button',{name:'أصناف قرب تخلص',exact:true}).tap();
+ await expect.poll(()=>page.evaluate(async()=>{
+  // @ts-expect-error Isolated Vite module.
+  const {storeEngine}=await import('/src/stores/useAppStore.ts');return storeEngine.getState().activeTab;
+ })).toBe('inventory');expect(c.lowReads()).toBe(0);
 });
 test('first counter activation freezes base-unit conversion but leaves adding a parcel available',async({page})=>{
  const c=await setup(page,'sales-only&unit-parcel');await c.edit();

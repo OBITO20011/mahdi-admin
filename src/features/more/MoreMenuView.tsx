@@ -34,7 +34,7 @@ export const MoreMenuView: React.FC<{operatingMode?:OperatingMode;showOperatingM
   const [isUpdatingBiometrics,setIsUpdatingBiometrics]=useState(false);
   const isDarkMode=state.themeMode!=='light';
   const userBranch=state.branches.find(branch=>branch.id===state.currentUserBranchId)?.name||state.activeBranch.name;
-  const groups=operatingNavigation(searchNavigationGroups(search,roleName,roles),operatingMode);
+  const groups=operatingNavigation(searchNavigationGroups(search,roleName,roles),operatingMode,roleName==='owner'||roles.includes('owner'));
   useEffect(()=>{let active=true;void isDeviceBiometricAvailable().then(value=>{if(active)setIsBiometricSupported(value);});return()=>{active=false;};},[]);
   const handleBiometricToggle=async()=>{setIsUpdatingBiometrics(true);try{await toggleBiometrics();}finally{setIsUpdatingBiometrics(false);}};
   const run=(action:AdminNavigationAction)=>{

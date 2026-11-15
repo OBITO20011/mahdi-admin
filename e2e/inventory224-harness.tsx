@@ -1,0 +1,13 @@
+import {createRoot} from 'react-dom/client';
+import '@fontsource/ibm-plex-sans-arabic/400.css';
+import '@fontsource/ibm-plex-sans-arabic/600.css';
+import '../src/index.css';
+import {Inventory224View} from '../src/features/operatingMode/Inventory224View';
+import {authStoreEngine,type AuthState} from '../src/stores/useAuthStore';
+import {supabase} from '../src/lib/supabase';
+if(!supabase||!['127.0.0.1','localhost'].includes(new URL(import.meta.env.VITE_SUPABASE_URL).hostname))throw Error('LOOPBACK_ONLY');
+const auth=authStoreEngine as unknown as {state:AuthState;getState:()=>AuthState;initAuth:()=>Promise<void>};
+const role=new URLSearchParams(location.search).has('nonowner')?'cashier':'owner';
+auth.state={...auth.getState(),user:{id:'92600000-0000-4000-8000-000000000001'} as NonNullable<AuthState['user']>,roleName:role,roles:[role],isAuthenticated:true,isLoading:false};auth.initAuth=async()=>undefined;
+document.documentElement.dataset.theme='light';document.documentElement.classList.add('theme-light');
+createRoot(document.getElementById('root')!).render(<Inventory224View/>);

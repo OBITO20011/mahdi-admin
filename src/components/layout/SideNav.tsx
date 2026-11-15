@@ -48,7 +48,7 @@ export const SideNav: React.FC<SideNavProps> = ({ collapsed = false, mobile = fa
   );
   const { setActiveTab, openModal } = useAppStoreActions();
   const { roleName,roles } = useAuthStore();
-  const visible=new Set(operatingNavigation(ADMIN_NAVIGATION_GROUPS,operatingMode).flatMap(g=>g.items.map(i=>i.id)));
+  const visible=new Set(operatingNavigation(ADMIN_NAVIGATION_GROUPS,operatingMode,roleName==='owner'||roles.includes('owner')).flatMap(g=>g.items.map(i=>i.id)));
   const groups=buildSideNavigation(roleName,roles).map(g=>({...g,label:operatingMode==='sales-only'&&g.id==='products-inventory'?'المنتجات والطرود':g.label,items:g.items.filter(i=>i.id==='home'||visible.has(i.id))})).filter(g=>g.items.length);
 
 

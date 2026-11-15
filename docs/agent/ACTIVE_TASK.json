@@ -3,7 +3,7 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner-approved224 inventory reader, SQL tests, protected owner tools/reference184/cutover; approved UI after backend/tools on same branch/PR.",
-  "baselineSha": "d26e1353821bf5479dbd77bd6a0a04b72504de79",
+  "baselineSha": "6fd2e3553539e5bc526973ae34ab9e402a6d45ca",
   "branch": "codex/inventory224-backend",
   "phase": "INVENTORY224",
   "startedAt": "2026-11-15T22:27:56.158Z",
@@ -12,19 +12,23 @@
     "Actual isolated223→224 SQL8/8 groups pass: search/digits/filters/global counts/events/roles/READ ONLY/zero writes; disposable fixture cleaned.",
     "Unit/catalog guards3/3; unknown byte and extra table/ACL rejected.184manifest/preflight hash admission prepared.",
     "Fresh/incremental224 catalogs identical:688public/51private/184history; PostgreSQL17.6,network0,owned cleanup.",
-    "Versioned224 owner adapters generated from exact223 pins; focused6/6. Current224 HTTP181 andRPC732 completed with18expected denials."
+    "Versioned224 owner adapters generated from exact223 pins; focused6/6. Current224 HTTP181 andRPC732 completed with18expected denials.",
+    "Ready224 true builder184/688/51; fresh/incremental0; strict223BackupRestore→apply2248.5s→224BackupRestore→verify-only and all negatives PASS.",
+    "RESET22427.7s;3resumes22.9–28.0s;12ACL/cron/retention/foreign-write cases PASS. D1 focused13/13.",
+    "Approved UI224 built; mobile/desktop Chromium+WebKit18/18, numeric contract3/3, focused source/history11/11 and D1 tests13/13.",
+    "First full units2064/2082,0skip:18 ceiling/history/current-access failures identified; scoped224 expectations fixed, access regeneration pending."
   ],
   "inProgress": [
-    "Versioned224 owner protection/RESET/D1/reference and historical compatibility."
+    "Current source access evidence, legacy gate preservation, real UI→SQL and finalCI."
   ],
   "notStarted": [
-    "Actual protected upgrade/Restore and RESET224; approved UI follows; full CI/review."
+    "Historical214–223 compatibility; final fullCI/Gitleaks/review."
   ],
   "testsPassed": [
     "Actual reader PostgreSQL8groups PASS; unit/catalog3/3; preflight224 PASS."
   ],
   "testsRemaining": [
-    "Fresh/incremental224 catalog and ready reference; encrypted Backup/Restore and upgrade/RESET224; historical214–223; approved UI; full CI/Gitleaks."
+    "Final current access; actual UI→SQL; historical214–223; finaltypes/lint/units/CI/Gitleaks."
   ],
   "findings": [
     "Two new-test expectations corrected to actual existing contracts: named catalog identity arguments, and assert_erp_role P0001+exact Arabic denial. No frozen guard modified.",
@@ -39,12 +43,12 @@
     "No221, table/trigger/sales-writer changes; migration224 may add only the approved reader.",
     "No owner original/private/env edits."
   ],
-  "checkpointedAt": "2026-11-15T23:06:57.105Z",
+  "checkpointedAt": "2026-11-15T23:49:19.976Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 36,
-  "filesTouchedManifestSha256": "5515f3f54dec9e90a178a1d51f6154eee0ba0c0d573e698b6a74ee09975e42e0",
-  "nextExactAction": "Build actual ready224 reference; prove protected223-to224 upgrade/Restore and RESET224/resume before approved UI.",
-  "workingTreeFingerprint": "F7C916C522EF5AD71CD8F687D2D5CDD838631F2F36BEFE93552282D86379BD55"
+  "filesTouchedCount": 40,
+  "filesTouchedManifestSha256": "e1ec76c0aabd09213f1ec106d5d682f86991575f5dd32b5e9decb9d4d3efa6b6",
+  "nextExactAction": "Preserve historical223 owner gate; actual224 UI-to-SQL test; regenerate current access then final gates.",
+  "workingTreeFingerprint": "7E892BCCBD1155FFC7C280EBD82DFEC4686D0CCE6AFD7450A32138F7827E0E9C"
 }
