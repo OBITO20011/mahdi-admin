@@ -1,4 +1,4 @@
-import {independentParcelPriceError,parcelDiscountInMinorUnits} from '../../utils/independentParcelPrices';
+import {independentParcelPriceError} from '../../utils/independentParcelPrices';
 import {OptionalQuantityPanel} from '../operatingMode/OptionalQuantityPanel';
 import type {OperatingMode} from '../../services/supabase/operatingMode.service';
 import {useAuthStore} from '../../stores/useAuthStore';
@@ -41,6 +41,7 @@ import {
 } from '../../utils/productEditConflict';
 import { ProductEditConflictPanel } from './ProductEditConflictPanel';
 import {ProductFormParcelCapability} from './ProductFormParcelCapability';
+import {OffParcelPriceSummary,OffPriceInput} from './OffParcelPriceSummary';
 import {
   currentUnitCostInMinorUnits,
   fetchProductCostState,
@@ -422,7 +423,27 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     validUnitsPerSalePackage
   );
   const pricesKey=[unit,salePackage,validUnitsPerSalePackage,Math.round(derivedSalePricePerUnit*1000),Math.round(validSalePackagePrice*1000)].join(':');
-  const parcelDiscount=parcelDiscountInMinorUnits(validUnitsPerSalePackage,Math.round(derivedSalePricePerUnit*1000),Math.round(validSalePackagePrice*1000));
+  const SalePriceInput=salesOnly?OffPriceInput:'input';
+  const offParcelPriceError=salesOnly&&parcelMethodSelected
+    ? independentParcelPriceError(validUnitsPerSalePackage,Math.round(derivedSalePricePerUnit*1000),Math.round(validSalePackagePrice*1000)) : null;
+  const offAddedPriceError=defineFlavorParcel
+    ? independentParcelPriceError(flavorParcelSize,Math.round(openedSinglePrice*1000),flavorParcelPriceFils) : null;
+  const offSameUnits=salesOnly&&(defineFlavorParcel?unit===flavorParcelUnit:parcelMethodSelected&&unit===salePackage);
+  const offUnitConflict=offSameUnits
+    ? 'وحدة الطرد نفس وحدة المفرد. خلّي وحدة المفرد «'+(openedUnitName||'باكيت')+'» واختار «طرد» للطرد بس.' : '';
+  const offBaseUnitField=salesOnly&&<div className="space-y-1">
+    <label className="block space-y-1 text-xs font-bold">{'وحدة البيع المفرد ('+(unit||'باكيت')+')'}
+      <select aria-label="الوحدة الأساسية" className={inputClass} value={unit}
+        onChange={event=>{setUnit(event.target.value);setUnitChangeConfirmed(false);setSingleContentsCount('');setUnitConversionConfirmed(false);}}
+        disabled={isEditing&&!canEditBaseUnit}>
+        {Array.from(new Set([unit,...units.filter(item=>!item.isHidden
+          && item.nameAr!==(defineFlavorParcel?flavorParcelUnit:parcelMethodSelected?salePackage:'')).map(item=>item.nameAr)]))
+          .map(name=><option key={name} value={name}>{name}</option>)}
+      </select>
+    </label>
+    {offUnitConflict&&<p role="alert" className="text-xs font-bold text-nw-bad">{offUnitConflict}</p>}
+    {canEditSingleUnit&&unit!==openedUnitName&&<label className="flex min-h-11 items-center gap-2 text-sm font-bold"><input type="checkbox" checked={unitChangeConfirmed} onChange={event=>setUnitChangeConfirmed(event.target.checked)}/>أؤكد تغيير اسم وحدة البيع دون تغيير السعر</label>}
+  </div>;
   const currentStockSalePackages = Math.floor(
     Math.max(0, initialProduct?.onHandQuantity || 0) /
       validUnitsPerSalePackage
@@ -1158,6 +1179,18 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           </div>
             </div>
           </div>
+          {salesOnly&&<div>
+            <label className="mb-1.5 block text-xs font-bold text-nw-text">
+              وصف مختصر
+            </label>
+            <textarea aria-label="وصف المنتج"
+              value={description}
+              onChange={(event) => setDescription(event.target.value)}
+              placeholder="الحجم أو النكهة أو أي وصف يساعد الفريق على تمييز المنتج"
+              rows={2}
+              className={`${inputClass} resize-none`}
+            />
+          </div>}
           <p className="text-xs text-nw-muted">الصورة اختيارية · JPG أو PNG أو WebP · بحد أقصى 5 ميجابايت.</p>
             {selectedImageFile && (
               <div className="mt-2 flex items-center justify-between rounded-lg bg-nw-surface px-2.5 py-2">
@@ -1267,17 +1300,19 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         <fieldset className="grid min-w-0 gap-3 sm:grid-cols-2" aria-label="طريقة البيع">
           {!(salesOnly&&openedAsSingleUnit)&&<div className="min-w-0 space-y-2 rounded-lg border border-nw-border p-3">
             <label className="flex min-h-11 items-center gap-2 font-bold"><input type="checkbox" checked={parcelMethodSelected} onChange={event=>selectParcelMethod(event.target.checked)}/>طرد ({parcelMethodSize} باكيت)</label>
-            <label className="block space-y-1 text-xs font-bold">سعر بيع الطرد<input inputMode="decimal" enterKeyHint="next" aria-label="سعر بيع الطرد" type="number" min="0.001" step="0.001" required disabled={!parcelMethodSelected} value={salePackagePrice === '' ? '' : parcelMethodSelected ? salePackagePrice : calculatePackagePrice(derivedSalePricePerUnit,parcelMethodSize)} onChange={event=>setSalePackagePrice(event.target.value===''?'':Number.parseFloat(event.target.value))} className={numberInputClass}/></label>
+            <label className="block space-y-1 text-xs font-bold">سعر بيع الطرد<SalePriceInput inputMode="decimal" enterKeyHint="next" aria-label="سعر بيع الطرد" type="number" min="0.001" step="0.001" required disabled={!parcelMethodSelected} value={salePackagePrice === '' ? '' : parcelMethodSelected ? salePackagePrice : calculatePackagePrice(derivedSalePricePerUnit,parcelMethodSize)} onChange={event=>setSalePackagePrice(event.target.value===''?'':Number.parseFloat(event.target.value))} className={numberInputClass}/></label>
+            {salesOnly&&parcelMethodSelected&&<OffParcelPriceSummary units={validUnitsPerSalePackage} single={Math.round(derivedSalePricePerUnit*1000)} parcel={Math.round(validSalePackagePrice*1000)} unit={unit}/>}
           </div>}
           <div className="min-w-0 space-y-2 rounded-lg border border-nw-border p-3">
+            {offBaseUnitField}
             <label className="flex min-h-11 items-center gap-2 font-bold"><input type="checkbox" checked={allowSingle} disabled={salesOnly&&openedAsSingleUnit} onChange={event=>setAllowSingle(event.target.checked)}/>{salesOnly?unit+' مفرد':openedAsSingleUnit?'طرد كوحدة واحدة':'باكيت مفرد'}</label>
             <label className="block space-y-1 text-xs font-bold">{salesOnly?'سعر بيع '+unit:openedAsSingleUnit?'سعر الطرد كوحدة واحدة':'سعر بيع الباكيت'}<input inputMode="decimal" enterKeyHint="next" aria-label={salesOnly?'سعر بيع '+unit:openedAsSingleUnit?'سعر الطرد كوحدة واحدة':'سعر بيع الباكيت'} type="number" min="0" step={salesOnly?'0.001':'0.0001'} required disabled={!allowSingle} value={salesOnly?singleSalePrice:salePackagePrice===''?'':derivedSalePricePerUnit} onChange={event=>{const value=event.target.value===''?'':Number.parseFloat(event.target.value);if(salesOnly){setSingleSalePrice(value);if(validUnitsPerSalePackage===1)setSalePackagePrice(value);}else setSalePackagePrice(value===''?'':calculatePackagePrice(value||0,validUnitsPerSalePackage));}} className={numberInputClass}/></label>
           </div>
         </fieldset>
 
         {salesOnly&&parcelMethodSelected&&!openedAsSingleUnit&&<div className="space-y-2 rounded-lg border border-nw-border p-3">
-          <button type="button" className="min-h-11 text-sm font-bold" onClick={()=>setSalePackagePrice(Math.round(derivedSalePricePerUnit*1000)*validUnitsPerSalePackage/1000)}>{'احسب الطرد = العدد × سعر '+(unit||'باكيت')}</button>
-          {parcelDiscount>0&&<p className="text-sm font-bold">خصم {formatJod(parcelDiscount/1000)} د.أ على الطرد</p>}
+          <UiButton type="button" variant="secondary" onClick={()=>setSalePackagePrice(Math.round(derivedSalePricePerUnit*1000)*validUnitsPerSalePackage/1000)}>{'احسب الطرد = العدد × سعر '+(unit||'باكيت')}</UiButton>
+
           <p className="text-sm text-nw-muted">تعديل سعر الوحدة لا يغيّر سعر الطرد تلقائياً.</p>
           <label className="flex min-h-11 items-center gap-2 font-bold"><input type="checkbox" checked={confirmedPrices===pricesKey} onChange={event=>setConfirmedPrices(event.target.checked?pricesKey:'')}/>
             أؤكد سعر {unit||'باكيت'} {formatJod(derivedSalePricePerUnit)} وسعر {salePackage||'طرد'} {formatJod(validSalePackagePrice)}
@@ -1301,7 +1336,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
                 setFlavorParcelConfirmed(false);
               }}>
                 <option value="">اختر الوحدة</option>
-                {units.filter(item => !item.isHidden && item.code !== 'PCS' && item.nameAr !== openedUnitName)
+                {units.filter(item => !item.isHidden && item.code !== 'PCS' && item.nameAr !== unit)
                   .map(item => <option key={item.id} value={item.nameAr}>{item.nameAr}</option>)}
               </select>
             </label>
@@ -1315,13 +1350,14 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             </label>
             {isFlavorMaster && <p className="text-sm text-nw-muted">بعد حفظ تعريف الطرد، اختر النكهات المسموحة من إعداد الطرد المشكّل.</p>}
             <label className="block space-y-1 text-sm font-bold">سعر الطرد المضاف
-              <input aria-label="سعر الطرد المضاف" className={numberInputClass} type="number" min="0.001" step="0.001" inputMode="decimal"
+              <OffPriceInput aria-label="سعر الطرد المضاف" className={numberInputClass} type="number" min="0.001" step="0.001" inputMode="decimal"
                 value={flavorParcelManualPrice===null?(Number.isSafeInteger(flavorParcelPriceFils)?flavorParcelPriceFils/1000:''):flavorParcelManualPrice}
                 onChange={event=>{setFlavorParcelManualPrice(event.target.value===''?'':Number(event.target.value));setFlavorParcelConfirmed(false);}}/>
             </label>
-            <button type="button" className="min-h-11 text-sm font-bold" onClick={()=>{setFlavorParcelManualPrice(null);setFlavorParcelConfirmed(false);}}>{'احسب الطرد = العدد × سعر '+(openedUnitName||'باكيت')}</button>
+            <OffParcelPriceSummary units={flavorParcelSize} single={Math.round(openedSinglePrice*1000)} parcel={flavorParcelPriceFils} unit={openedUnitName}/>
+            <UiButton type="button" variant="secondary" onClick={()=>{setFlavorParcelManualPrice(null);setFlavorParcelConfirmed(false);}}>{'احسب الطرد = العدد × سعر '+(openedUnitName||'باكيت')}</UiButton>
             <p className="text-sm text-nw-muted">{'يبقى سعر '+(openedUnitName||'باكيت')+' والبيع المفرد كما هما. يمكن تخفيض سعر الطرد دون زيادة على مجموع وحداته.'}</p>
-            {flavorParcelReady&&flavorParcelPriceFils<Math.round(openedSinglePrice*1000)*flavorParcelSize&&<p className="text-sm font-bold">خصم {formatJod((Math.round(openedSinglePrice*1000)*flavorParcelSize-flavorParcelPriceFils)/1000)} د.أ على الطرد</p>}
+
             {flavorParcelReady && <label className="flex min-h-11 items-center gap-2 text-sm font-bold">
               <input type="checkbox" checked={flavorParcelConfirmed} onChange={event => setFlavorParcelConfirmed(event.target.checked)}/>
               أؤكد سعر الطرد {formatJod(flavorParcelPriceFils / 1000)} والإبقاء على سعر {openedUnitName} {formatJod(openedSinglePrice)}
@@ -1348,13 +1384,13 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           </label>
         </fieldset>}
         {!parcelMethodSelected&&!allowSingle&&<p role="alert" className="text-nw-bad">اختر طريقة بيع واحدة على الأقل.</p>}
-        {(isFlavorMaster||hasFlavors)&&<ProductFormParcelCapability familyId={initialProduct?.id} dirty={formChanged} busy={isSubmitting} onOpen={familyProductId=>openModal('parcel_configuration',{familyProductId})}/>}
+        {(isFlavorMaster||hasFlavors)&&<ProductFormParcelCapability salesOnly={salesOnly} familyId={initialProduct?.id} dirty={formChanged} busy={isSubmitting} onOpen={familyProductId=>openModal('parcel_configuration',{familyProductId})}/>}
         <div className="flex flex-wrap items-end gap-2">
           {!withoutParcel && <label className="min-w-0 flex-1 text-xs font-bold">الطرد فيه<input inputMode="numeric" enterKeyHint="next" aria-label={'عدد '+unit+(salesOnly?' في طرد التغليف':' في طرد الشراء')} type="number" min="1" step="1" required value={unitsPerPackage} onChange={event=>changeParcelContents(event.target.value)} className={numberInputClass}/></label>}
-          <label className="min-w-0 flex-1 text-xs font-bold">{withoutParcel?'البيع بالوحدة':'محتوى الطرد'}<select aria-label="الوحدة الأساسية" className={inputClass} value={unit} onChange={event=>{setUnit(event.target.value);setUnitChangeConfirmed(false);setSingleContentsCount('');setUnitConversionConfirmed(false);}} disabled={isEditing&&!canEditBaseUnit}>{Array.from(new Set([unit,...units.filter(item=>salesOnly?!item.isHidden:isContentUnitOption(item)).map(item=>item.nameAr)])).map(name=><option key={name} value={name}>{name}</option>)}</select></label>
+          {!salesOnly&&<label className="min-w-0 flex-1 text-xs font-bold">{withoutParcel?'البيع بالوحدة':'محتوى الطرد'}<select aria-label="الوحدة الأساسية" className={inputClass} value={unit} onChange={event=>{setUnit(event.target.value);setUnitChangeConfirmed(false);setSingleContentsCount('');setUnitConversionConfirmed(false);}} disabled={isEditing&&!canEditBaseUnit}>{Array.from(new Set([unit,...units.filter(item=>salesOnly?!item.isHidden:isContentUnitOption(item)).map(item=>item.nameAr)])).map(name=><option key={name} value={name}>{name}</option>)}</select></label>}
         </div>
         {canEditSingleUnit&&<p className="text-xs text-nw-muted">لإضافة وحدة جديدة: المنتجات ← الطرود والوحدات، ثم ارجع للتعديل. لا يُفترض عدد محتوى تلقائياً.</p>}
-        {canEditSingleUnit&&unit!==openedUnitName&&<label className="flex min-h-11 items-center gap-2 text-sm font-bold"><input type="checkbox" checked={unitChangeConfirmed} onChange={event=>setUnitChangeConfirmed(event.target.checked)}/>أؤكد تغيير اسم وحدة البيع دون تغيير السعر</label>}
+        {!salesOnly&&canEditSingleUnit&&unit!==openedUnitName&&<label className="flex min-h-11 items-center gap-2 text-sm font-bold"><input type="checkbox" checked={unitChangeConfirmed} onChange={event=>setUnitChangeConfirmed(event.target.checked)}/>أؤكد تغيير اسم وحدة البيع دون تغيير السعر</label>}
         {!salesOnly&&<>
         <h4 className="border-t border-nw-border pt-3 font-black">سعر الشراء المقترح</h4>
         <div className={"grid min-w-0 items-end gap-2 "+(withoutParcel?"grid-cols-[auto_minmax(0,1fr)]":"grid-cols-[auto_minmax(0,1fr)_minmax(0,1fr)]")} role="group" aria-label="أسعار الشراء والبيع">
@@ -1383,9 +1419,11 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
       </Card>
 
       <details className="space-y-3 rounded-2xl border border-nw-border bg-nw-surface p-3.5">
-        <summary className="min-h-11 cursor-pointer font-bold">{salesOnly?'متقدم: التغليف والصورة':'متقدم: التغليف والمخزون والصورة'}</summary>
+        <summary className="min-h-11 cursor-pointer font-bold">{salesOnly?'متقدم: التغليف والعلامة التجارية':'متقدم: التغليف والمخزون والصورة'}</summary>
+        {!salesOnly&&<>
         <label className="flex min-h-11 items-center gap-2 font-bold"><input type="checkbox" checked={differentSaleParcel} disabled={withoutParcel} onChange={event=>{setDifferentSaleParcel(event.target.checked);if(!event.target.checked){setUnitsPerSalePackage(validUnitsPerPackage);setSalePackagePrice(calculatePackagePrice(derivedSalePricePerUnit,validUnitsPerPackage));}}}/>طرد بيع مختلف عن طرد الشراء</label>
         {differentSaleParcel&&<label className="block text-xs font-bold">عدد {unit} في طرد البيع<input inputMode="numeric" enterKeyHint="next" aria-label={'عدد '+unit+' في طرد البيع'} type="number" min="1" step="1" required value={unitsPerSalePackage} onChange={event=>setUnitsPerSalePackage(event.target.value===''?'':Number.parseInt(event.target.value,10))} className={numberInputClass}/></label>}
+        </>}
           <div>
             <label className="mb-1.5 block text-xs font-bold text-nw-text">
               العلامة التجارية
@@ -1404,7 +1442,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             </select>
           </div>
 
-          <div>
+          {!salesOnly&&<div>
             <label className="mb-1.5 block text-xs font-bold text-nw-text">
               وصف مختصر
             </label>
@@ -1415,9 +1453,9 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
               rows={2}
               className={`${inputClass} resize-none`}
             />
-          </div>
+          </div>}
 
-          <div className="space-y-2">
+          {!salesOnly&&<div className="space-y-2">
             <UiButton variant="plain"
               type="button"
               onClick={() => setShowImageUrlInput((value) => !value)}
@@ -1442,7 +1480,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
                 className={`${inputClass} mt-2`}
               />
             )}
-          </div>
+          </div>}
 
       {!salesOnly&&<>
       <Card padded={false} className="rounded-2xl border border-nw-border bg-nw-surface p-3.5">
@@ -1824,7 +1862,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
       <div className="sticky bottom-0 z-10 -mx-1 flex gap-2 border-t border-nw-border bg-nw-surface-2 px-1 pt-3 backdrop-blur">
         <UiButton variant="plain"
           type="submit"
-          disabled={isSubmitting||!modeVerified}
+          disabled={isSubmitting||!modeVerified||(salesOnly&&Boolean(offParcelPriceError||offAddedPriceError||offUnitConflict))}
           className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-nw-primary py-3 font-black text-nw-on-primary shadow-lg shadow-none transition active:scale-[0.98] disabled:opacity-50"
         >
           <CheckCircle2

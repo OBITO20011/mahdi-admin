@@ -1,4 +1,5 @@
 import {useAppStore} from '../../stores/useAppStore';
+import {OffParcelFeatureControl} from './OffParcelFeatureControl';
 import {FormFields,UiButton,formatJod} from '../../components/ui';
 import {useEffect, useRef, useState, type FormEvent} from 'react';
 import {useAuthStore} from '../../stores/useAuthStore';
@@ -100,6 +101,13 @@ export function ParcelConfigurationModal({initialFamilyProductId,operatingMode='
     {message && <p role="status" className="text-nw-ok">{message}</p>}
     <UiButton variant="plain" type="button" disabled={busy} onClick={()=>void reload()} className="rounded-lg border p-2">إعادة تحميل الإعداد</UiButton>
     {!context ? <p>جارٍ تحميل إعداد الطرود...</p> : <>
+      {salesOnly?<OffParcelFeatureControl featureState={context.featureState} nextState={nextState}
+        disabled={busy || uncertain || !modeVerified}
+        onToggle={()=>{setNextState(nextState==='ENABLED'?'OFF':'ENABLED');setConfirm(false);}}>
+        {nextState!==context.featureState && <><p>التغيير يؤثر على عمليات البيع الجديدة. إيقاف الميزة لا يلغي الطلبات السابقة.</p>
+          <label className="flex gap-2"><input type="checkbox" checked={confirm} onChange={e=>setConfirm(e.target.checked)}/>أؤكد تغيير الحالة إلى {labels[nextState]}</label>
+          <UiButton variant="primary" type="button" disabled={!confirm} onClick={()=>void changeState()} className="rounded-lg p-2">تأكيد تغيير حالة الميزة</UiButton></>}
+      </OffParcelFeatureControl>:<>
       <details><summary className="min-h-11 cursor-pointer font-bold">متقدم: حالة الطرد المشكّل</summary>
       <fieldset disabled={busy || uncertain || !modeVerified} className="space-y-3 rounded-xl border border-nw-border p-3">
         <legend>حالة الطرد المشكّل — {labels[context.featureState]}</legend>
@@ -109,7 +117,7 @@ export function ParcelConfigurationModal({initialFamilyProductId,operatingMode='
         {nextState!==context.featureState && <><p>التغيير يؤثر على عمليات البيع الجديدة. إيقاف الميزة لا يلغي الطلبات السابقة.</p>
           <label className="flex gap-2"><input type="checkbox" checked={confirm} onChange={e=>setConfirm(e.target.checked)}/>أؤكد تغيير الحالة إلى {labels[nextState]}</label>
           <UiButton variant="primary" type="button" disabled={!confirm} onClick={()=>void changeState()} className="rounded-lg p-2">تأكيد تغيير حالة الميزة</UiButton></>}
-      </fieldset></details>
+      </fieldset></details></>}
       {!flavorFamilies(context).length ? <p>لا توجد منتجات لها نكهات بعد. أضف النكهات من نموذج المنتج، ثم جهّز الطرد المشكّل هنا.</p> : <form onSubmit={event=>void save(event)} aria-busy={busy} className="space-y-3">
         <fieldset disabled={busy || uncertain || !modeVerified} className="space-y-3">
           <label>بحث العائلات<input type="search" enterKeyHint="search" className={`${inputClass} min-h-11`} value={familySearch} placeholder="جزء من الاسم أو رمز الصنف" onChange={e=>setFamilySearch(e.target.value)} onKeyDown={e=>{if(e.key==='Enter')e.preventDefault();}}/></label>
