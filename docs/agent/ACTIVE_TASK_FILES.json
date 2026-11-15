@@ -3,27 +3,11 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_AFTER_223.json"
+      "path": "docs/agent/PHASE_STATUS.md"
     },
     {
       "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_223.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "e2e/latin-digits.spec.ts"
+      "path": "docs/reviews/latin-digits/README.md"
     },
     {
       "code": " M",
@@ -31,23 +15,15 @@
     },
     {
       "code": " M",
-      "path": "scripts/testing/package-f-ci-shards.mjs"
+      "path": "tests/lite-parcel-unit-guard.test.ts"
     },
     {
       "code": " M",
-      "path": "tests/package-f-ci-shards.test.ts"
+      "path": "tests/phase6-package-b.test.ts"
     },
     {
-      "code": "??",
-      "path": "docs/reviews/latin-digits/pos-webkit-390.png"
-    },
-    {
-      "code": "??",
-      "path": "docs/reviews/latin-digits/README.md"
-    },
-    {
-      "code": "??",
-      "path": "docs/reviews/latin-digits/store-webkit-390.png"
+      "code": " M",
+      "path": "tests/product-workbook-runtime-view.test.ts"
     }
   ]
 }

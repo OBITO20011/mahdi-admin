@@ -1,3 +1,4 @@
+import {sourceBeforeLatinDigits} from '../scripts/audit/source-before-latin-digits.mjs';
 import{sourceBeforeCartFlight}from'../scripts/audit/source-before-cart-flight.mjs';
 import{sourceBeforeStorefrontSpeed}from'../scripts/audit/source-before-storefront-speed.mjs';
 import{sourceBeforeStorefrontImages}from'../scripts/audit/source-before-storefront-images.mjs';
@@ -62,7 +63,9 @@ test('cutover aftercare sources rewind exact phase2 bytes in schema-only219 fixt
  for(const file of ['src/features/goLive/goLiveImport.ts','src/features/goLive/GoLiveSetupView.tsx','customer-web/src/components/StoreHero.tsx']){
   const pin=salesOnlyPhase3Pins.entries[file];assert.ok(pin,'exact outer pin required: '+file);
   const old=execFileSync('git',['show',salesOnlyPhase3Pins.baseline+':'+file],{encoding:'utf8'}).replaceAll('\r\n','\n');
-  const current=readFileSync(file,'utf8').replaceAll('\r\n','\n');
+  const raw=readFileSync(file,'utf8').replaceAll('\r\n','\n');
+  const current=sourceBeforeLatinDigits(file,raw);assert.ok(current!==null,'historical source must remain present');
+  assert.equal(sourceBeforeLatinDigits(file,raw+'UNKNOWN_BYTE'),raw+'UNKNOWN_BYTE');
   assert.equal(pin.beforeText,old);assert.equal(pin.before,hash(old));assert.equal(pin.after,hash(current));
   assert.equal(sourceBeforeSalesOnlyPhase3(file,current),old);
   assert.equal(sourceBeforeSalesOnlyPhase3(file,current+'UNKNOWN_BYTE'),current+'UNKNOWN_BYTE');

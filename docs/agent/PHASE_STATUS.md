@@ -1,3 +1,7 @@
+#15Nov2026 — Latin display local gates verified;DraftPR/fullCI next
+
+Display-only;SQL/values/parsers unchanged. Store230/230;new8mobile cases plus18price regressions;HTTP223181/0errors,RPC732/18expected;strict219schema/full views;typesboth/lint/4builds/budgetPASS. Initial root2058/2061 had2oldnumericexpectations+1exactHerohistory comparison,correctedfocused21/21;finalroot/FULLCI/Gitleaks pending. SourcebeforeText andunknown-byte guards retained. No demo/hosted/deploy/merge.
+
 #15Nov2026 — approved98/99 merged;Latin display package in progress
 
 Main99eb1846 FULL79/79;both primary ff-only/preflight transitions preserved

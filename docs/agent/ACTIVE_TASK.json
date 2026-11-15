@@ -3,7 +3,7 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner14Nov queued,15Novexplicitstart:Latin0-9 digits throughout store/admin/POS/print/WhatsApp/Telegram formatting and dates. Central locale ar-JO-u-nu-latn;decimal dot/thousands comma;Arabic wording/JOD label retained. No value/logic/SQL change. SeparatePR/fullCI;no merge/deploy/hosted/owner originals/demo reset.",
-  "baselineSha": "9f373e54dee211784cc720e6bd0f5cb01ca7b93c",
+  "baselineSha": "27bfd7b1b9aeb6f789f3737a5c11d36f602cc34f",
   "branch": "codex/latin-digits",
   "phase": "LATIN_DIGITS",
   "startedAt": "2026-11-15T03:10:03.353Z",
@@ -11,18 +11,20 @@
     "98 merged955bc41e main77/77;99 updatedc366e62b PR79/79 merged99eb1846 main79/79;primaryff-only/preflight twice preserving20ownerfiles/4env/fivefields. No CI reruns used.",
     "New clean worktree from exact merged main99eb1846;existing dependencies linked;no env/private files copied.",
     "Central Latin display policy and30 presentation modules implemented;price/quantity/date/WhatsApp changes only. Store230/230;history17 plus negativesPASS;typesboth/strictlint0. Telegram alreadyLatin,SQL untouched.",
-    "9f373e54 milestone committed/pushed beforehour;core18 focused/currentstore230/typesboth/strictlint PASS;stagedGitleaks0. Fullroot/CI stillpending.",
-    "8/8final Latin mobilecases+18unchangedpricecases;HTTP223181/0errors,RPC732/18expecteddenials;newcases routed2028=762core+1266same10shards. Demo transportfencePASS,actualPOSscreenshot reviewed."
+    "Final UI8/8+priorprice18;HTTP223181/0errors,RPC732/18expected;219schema/full strictviewsPASS;discovery2028=762core+1266same10shards.",
+    "Rootinitial2058/2061:2oldnumericexpectations+Heroexactprojection,corrected21/21. Typesboth0,strictlint0,4isolatedbuilds/CSP/SEO/dist/budgetPASS;beforeText+unknownbyteguardsretained."
   ],
   "inProgress": [
-    "Bank current evidence;committed219schema/full runtime views,fullrootunits,typesboth,strictlint/build checks then DraftPR/FULLCI/Gitleaks."
+    "Final commit/push,DraftPR/fullCI;quiet complete rootunits once after three scoped corrections."
   ],
   "notStarted": [
     "Final workbook/categories separately queued."
   ],
-  "testsPassed": [],
+  "testsPassed": [
+    "Store230/230;mobile8+18;currentHTTP/RPC;historical219views;typesboth/strictlint/builds;corrected21/21"
+  ],
   "testsRemaining": [
-    "Fullrootunits/historyviews/finaltypes+strictlint/buildchecks/FULLCI/Gitleaks"
+    "Final2061rootunits;exact-headFULLCI/Gitleaks"
   ],
   "findings": [
     "SQL-produced messages requiring DB change must stay unchanged and be reported only. No migrations/financial arithmetic/role/stock changes.",
@@ -36,15 +38,15 @@
     "No58/79/82;one evidence-backed environmental rerun max,otherwise STOP"
   ],
   "evidence": "C:/Users/TOP/NawasrahLocalValidation/latin-digits-20261115",
-  "nextExactAction": "Commit/push evidence milestone;prove committed219views;fullrootunits quiet;types/lint/build;DraftPR/fullCI/Gitleaks. No hosted/demo/SQL writes.",
+  "nextExactAction": "Push final corrections/openDraftPR;initial missingphase1dispatch;fullrootunits quiet;monitor fullCI without automatic reruns;Gitleaks.",
   "activeProcesses": [
     "Ownerdemo5012 preserved onfc309338,223/OFF,sameLAN. No writer/test process in new worktree."
   ],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "16194426D68898DB2C58555DC2B40A894389C5536987ECB64D5C3DB7E0DC1262",
-  "checkpointedAt": "2026-11-15T04:07:46.869Z",
-  "filesTouchedCount": 12,
-  "filesTouchedManifestSha256": "a8c431394ae36c0a79100d7c012050a454f1158abf6c9a7c722e5aae39ad01cf"
+  "workingTreeFingerprint": "43386788213E5AB523BCDBA485C303B1F86F3F3FFBC5AB7D3435DC6770F8D825",
+  "checkpointedAt": "2026-11-15T04:26:22.256Z",
+  "filesTouchedCount": 6,
+  "filesTouchedManifestSha256": "9e02437056b857f661c8117c45f7190cf1ef9a6348f6f81c1cb928de278bdda9"
 }
