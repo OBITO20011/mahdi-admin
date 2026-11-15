@@ -1,4 +1,5 @@
 import {sourceBeforeLatinDigits,latinDigitsSourcePins,latinDigitsSourceBase} from '../audit/source-before-latin-digits.mjs';
+import {sourceBeforeFinalCatalog,finalCatalogSourcePins,finalCatalogSourceBase} from '../audit/source-before-final-catalog.mjs';
 import {sourceBeforeOptionalQuantity223,quantity223SourcePins,quantity223SourceBase} from '../audit/source-before-optional-quantity223.mjs';
 import{sourceBeforeIndependentPrices222}from'../audit/source-before-independent-prices222.mjs';
 import{sourceBeforePriceVisibility}from'../audit/source-before-price-visibility.mjs';
@@ -92,6 +93,14 @@ export async function prepareWorkbookRuntimeView({schemaOnly=false}={}){
   git(['config','core.autocrlf','false'],dir);git(['checkout-index','--all'],dir);await noLinks(dir);await writeFile(path.join(dir,'.workbook-runtime-view.json'),JSON.stringify(marker));
   // Rewind this exact presentation layer before the existing historical layers.
   // Original hashes/beforeText remain immutable;unknown bytes never project.
+  for(const[file]of Object.entries(finalCatalogSourcePins)){
+   if(!sourceScope(file))continue;
+   const target=path.join(dir,file),raw=await readFile(target,'utf8'),before=sourceBeforeFinalCatalog(file,raw);
+   assert.notEqual(before,raw,'HISTORICAL_FINAL_CATALOG_UNREVIEWED_SOURCE:'+file);
+   assert.equal(before,historicalText(finalCatalogSourceBase,file),'HISTORICAL_FINAL_CATALOG_NOT_EXACT_GIT:'+file);
+   if(before===null)await unlink(target);else await writeFile(target,before);
+   changed.push({file,after:hash(raw.replaceAll('\r\n','\n')),before:before===null?null:hash(before)});
+  }
   for(const[file]of Object.entries(latinDigitsSourcePins)){
    if(!sourceScope(file))continue;
    const target=path.join(dir,file),raw=await readFile(target,'utf8'),before=sourceBeforeLatinDigits(file,raw);

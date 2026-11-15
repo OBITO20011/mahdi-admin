@@ -1,3 +1,13 @@
+#15Nov2026 — final catalog and category presentation;local proofs in progress
+
+Owner-approved new Draft scope above main e80a5944 (100/main79/79 integrated).
+Final external workbook748roots/108families/444flavors,protected values literal,
+checker0errors;15 populated file categories and56 supported unit changes.
+Store fixed ordering/custom grey/premium/biscuit visuals and exact outer source
+projection implemented. HTTP223181/0errors;owned local223 UI import,RESET CAT
+retention,browser proofs,fullCI and Gitleaks remain. No merge/SQL/hosted/deploy
+or demo/original-file changes.
+
 #15Nov2026 — Latin display local gates verified;DraftPR/fullCI next
 
 Display-only;SQL/values/parsers unchanged. Store230/230;new8mobile cases plus18price regressions;HTTP223181/0errors,RPC732/18expected;strict219schema/full views;typesboth/lint/4builds/budgetPASS. Initial root2058/2061 had2oldnumericexpectations+1exactHerohistory comparison,correctedfocused21/21;finalroot/FULLCI/Gitleaks pending. SourcebeforeText andunknown-byte guards retained. No demo/hosted/deploy/merge.

@@ -157,6 +157,49 @@ async function waitForStableHomeCategoryGrid(page: Page) {
 }
 
 test.describe('شبكة تصنيفات متجر العملاء', () => {
+  test('ترتيب المالك والتصاميم ثابتة بعد الاستيراد والأقسام الجديدة قبل أخرى', async ({page}, testInfo) => {
+    const orderedNames = ['عروض خاصة', 'شوكلاتة غوالي', 'شوكولاتة', 'كاندي وسكاكر',
+      'شيبس وتسالي', 'بسكويت وويفر', 'بسكويت 10 قروش', 'كيك', 'علكة',
+      'مشروبات وعصائر', 'مشروبات طاقة', 'مياه', 'مواد غذائية', 'علب هدايا', 'ألبان جديدة', 'زينة جديدة', 'أخرى'];
+    const imported = orderedNames.map((nameAr,index) => ({...categories[0],
+      id:`10000000-0000-4000-8000-${String(index).padStart(12,'0')}`,
+      code:`CUTOVER-${index+1}`,nameAr,imageUrl:'',productCount:index+1,availableProductCount:index+1})).reverse();
+    const items = imported.map((category,index) => ({...products[0],id:`20000000-0000-4000-8000-${String(index).padStart(12,'0')}`,
+      sku:'CATEGORY-'+index,categoryId:category.id,categoryCode:category.code,categoryNameAr:category.nameAr}));
+    await mockCategoryResponses(page);
+    await page.route('**/rest/v1/rpc/get_public_storefront_catalog_page',route => route.fulfill({
+      contentType:'application/json',body:JSON.stringify({items,categories:imported,brands:[],saleUnits:[],summary:{availableProducts:items.length,availableSalePackages:170,lowStockProducts:0},total:items.length,limit:24,offset:0}),
+    }));
+    for(const width of [1280,390]){
+      await page.setViewportSize({width,height:900});
+      await page.goto(`${customerBaseUrl}/#categories`,{waitUntil:'domcontentloaded'});
+      await waitForStableCategoryGrid(page);
+      const grid=page.getByTestId('category-grid');
+      await expect(grid.getByRole('link')).toHaveCount(18);
+      expect(await grid.getByRole('link').evaluateAll(links=>links.map(e=>e.getAttribute('aria-label'))))
+        .toEqual(['جميع المنتجات',...orderedNames].map(name=>'فتح قسم '+name));
+      const paints=await grid.getByRole('link').evaluateAll(links=>links.map(e=>{
+        const surface=e.firstElementChild as HTMLElement;
+        return {gradient:getComputedStyle(surface).backgroundImage,icon:surface.querySelectorAll('svg').length};
+      }));
+      expect(paints.every(p=>p.gradient.includes('linear-gradient')&&p.icon>0)).toBe(true);
+      expect(paints[2].gradient).not.toBe(paints[3].gradient);
+      expect(paints[7].gradient).not.toBe(paints[6].gradient);
+      expect(paints.at(-1)?.gradient).toBe(paints.at(-2)?.gradient);
+      expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+      await page.screenshot({path:testInfo.outputPath(`category-order-${width}.png`),fullPage:true});
+      await page.getByRole('button',{name:'فتح قائمة الأقسام',exact:true}).click();
+      const drawer=page.getByRole('dialog',{name:'أقسام المنتجات'});
+      const buttons=drawer.locator('div.space-y-2 > button');
+      await expect(buttons).toHaveCount(18);
+      expect(await buttons.locator('span.block.truncate').allTextContents()).toEqual(['جميع المنتجات',...orderedNames]);
+      await drawer.getByRole('button',{name:'إغلاق',exact:true}).click();
+      await page.getByRole('button',{name:'العودة إلى الصفحة الرئيسية'}).click();
+      await waitForStableHomeCategoryGrid(page);
+      expect(await page.getByTestId('home-category-grid').getByRole('link').evaluateAll(links=>links.map(e=>e.getAttribute('aria-label'))))
+        .toEqual(orderedNames.slice(0,4).map(name=>'فتح قسم '+name));
+    }
+  });
   test('تعرض كل الأقسام كبطاقات مربعة بثلاثة أعمدة على الهاتف وتحافظ على الفلترة', async ({ page }) => {
     await mockCategoryResponses(page);
 

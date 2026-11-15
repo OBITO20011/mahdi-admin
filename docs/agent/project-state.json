@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "project": "Nawasrah ERP",
-  "branch": "codex/latin-digits",
-  "approvedBaseline": "99eb18465d828b404764a18f1ff212f793e3fcc3",
+  "branch": "codex/final-catalog",
+  "approvedBaseline": "e80a594416b1e1136c6e1b6d8ed0d9de805e10a4",
   "closedPhases": [
     "3",
     "4.1",
@@ -14,7 +14,7 @@
     "6"
   ],
   "phase4Closed": true,
-  "currentPhase": "LATIN_DIGITS",
+  "currentPhase": "FINAL_CATALOG",
   "phase6Closed": true,
   "phase6ClosureBaseline": "5aaeab11e13c2be454af677ee176f77aa2d9cde4",
   "phase6ClosureExactShaCi": "PASS",
@@ -289,7 +289,7 @@
   "phaseSALES_ONLY_PHASE3ImplementationAllowed": true,
   "migration220CanonicalLfSha256": "08BCD03CE79DC1421A49B66C7A0C44CABFDA4673ADBEFC9707AFDDFDE7EF49FA",
   "phaseACTUAL_SALE_UNITSImplementationAllowed": true,
-  "expectedRoot": "C:/Users/TOP/NawasrahWorktrees/latin-digits/mahdi-admin",
+  "expectedRoot": "C:/Users/TOP/NawasrahWorktrees/final-catalog/mahdi-admin",
   "phasePACKET_DEFAULT_IMPORT_DOCSImplementationAllowed": true,
   "phaseLITE_PARCEL_UNIT_GUARDImplementationAllowed": true,
   "ownerDeferredAccountingMigrationNumbers": [
@@ -299,5 +299,6 @@
   "migration223CanonicalLfSha256": "D5D6397BD5D676F766493B7A85B1F47AD6F1B6F6C465E7B4A32219EE49ABC0AF",
   "phasePARCEL_INDEPENDENT_PRICEImplementationAllowed": true,
   "phaseOFF_QUANTITY_COUNTERImplementationAllowed": true,
-  "phaseLATIN_DIGITSImplementationAllowed": true
+  "phaseLATIN_DIGITSImplementationAllowed": true,
+  "phaseFINAL_CATALOGImplementationAllowed": true
 }

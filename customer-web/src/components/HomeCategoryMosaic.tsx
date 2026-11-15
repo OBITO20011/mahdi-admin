@@ -3,6 +3,7 @@ import { ArrowLeft } from 'lucide-react';
 import type { CatalogCategory, CatalogProduct } from '../types/catalog';
 import { getCategoryVisual } from './categoryVisuals';
 import { getCategoryPath, getCategorySlug } from '../utils/publicRoutes';
+import {orderStorefrontCategories} from '../utils/categoryOrder';
 
 interface HomeCategoryMosaicProps {
   categories: CatalogCategory[];
@@ -17,9 +18,7 @@ export function HomeCategoryMosaic({
   onSelect,
   onShowAll,
 }: HomeCategoryMosaicProps) {
-  const featuredCategories = [...categories]
-    .sort((first, second) => second.productCount - first.productCount)
-    .slice(0, 4);
+  const featuredCategories = orderStorefrontCategories(categories).slice(0, 4);
 
   if (featuredCategories.length === 0) return null;
 
@@ -52,7 +51,7 @@ export function HomeCategoryMosaic({
         className="grid grid-cols-3 gap-2.5 sm:grid-cols-4 sm:gap-3 lg:grid-cols-4"
       >
         {featuredCategories.map((category) => {
-          const visual = getCategoryVisual(category.code);
+          const visual = getCategoryVisual(category.code, category.nameAr);
           const Icon = visual.icon;
           const coverUrl =
             category.imageUrl ||

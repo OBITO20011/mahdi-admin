@@ -1,49 +1,58 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
+  "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner14Nov Latin display policy,noSQL/values/parsers.15Novapproved18legacydisplayexpectationlines;futureonlysamevalueArabic-to-Latin assertions mayfix+ledger,otherfailureSTOP. Conditional100mergeafterfullgreen,mainCI+primarypreservedff/preflight;thenfreshmainbranchfinalcatalog. No deploy/hosted/demo reset orowneroriginalchanges.",
-  "baselineSha": "a03dbf263f6e7f69faf5c6e124354506e7718061",
-  "branch": "codex/latin-digits",
-  "phase": "LATIN_DIGITS",
-  "startedAt": "2026-11-15T03:10:03.353Z",
+  "objective": "Final owner-approved catalog and storefront category order/design. Draft PR/full CI only;no merge,deploy,hosted access,demo reset or owner originals edits.",
+  "baselineSha": "e80a594416b1e1136c6e1b6d8ed0d9de805e10a4",
+  "branch": "codex/final-catalog",
+  "phase": "FINAL_CATALOG",
+  "startedAt": "2026-11-15T08:46:28.587Z",
   "completed": [
-    "98/99 mergedmain99eb1846/fullgreen/primarypreservation+preflight. LatinDraft100a03dbf26 pushed.",
-    "Approved2oldnumerictexts only+2pins;64priorpinsidentical;affected28/28bothengines,fence0requests. NoUI/deadline/otherexpectationchange.",
-    "NewheadCI root2061/2061+store230/230;all10Fshards+sixsupportworkflowsPASS. Types/lint/build/access/history localPASS;Gitleaks777commits0."
+    "100 integrated:main e80a5944 and feature/main79/79;protected primaryff/preflight complete.",
+    "New final workbook SHA3310da57:748roots/108families/444flavors/1084sellable;all protected price/barcode/SKU/description cells literal;original8db/d9 SHA intact.",
+    "56 unit changes supported;15 populated file categories;offline sales-only checker0errors/1OFFnotice;separate before-after reviewxlsx.",
+    "Shared fixed category ordering and distinct custom/default visuals implemented;3 pure tests and2 exact history guards pass;customer types0.",
+    "Actual HTTP223 source-bound access181:172success9empty0errors after one network-pool environmental bootstrap rerun.",
+    "New owned223 rehearsal bootstrap/identity and two isolated builds pass;owner demo untouched."
   ],
   "inProgress": [
-    "Ownerapproved16exactdisplaylines/9tests applied+lineledger;newpins/focusedguard thenfreshfullCI. Future same-value numeral expectations preapproved,anyotherfailureSTOP."
+    "Current RPC evidence and ready223 reference before strict official RESET;then actual UI import."
   ],
   "notStarted": [
-    "Finalcatalog/workbook/categories notstarted:requires100fullgreen first. QueuedscopeexternalNEXT_FINAL_CATALOG_SCOPE.json."
+    "Chromium/WebKit category proof/screenshots andactual imported catalog15nonempty/no duplicates",
+    "Cutoverdocs/card2A4,alltypes/lint/units/build/budget",
+    "Full exact-head CI/Gitleaks and DraftPR owner-review stop"
   ],
   "testsPassed": [
-    "Root2061/2061;store230;mobile8+price18;actualaccess/history;types/lint/builds;Gitleaks0"
+    "Source/destination SKU protected column comparison748roots+444flavors;checker0errors",
+    "Category order/design3/3;final/Latin inverse history2/2;customer types0",
+    "Actual HTTP223181/0errors;local admin/store build0"
   ],
   "testsRemaining": [
-    "ExactnewheadfullCI/Gitleaks;conditional100merge/mainCI/primaryffpreserving20/4/5/preflight;thenfreshmainbranchfinalcatalog."
+    "Checker0;SKUrowdiff;realRESET/importUI;mobile1280/390bothengines;2pageprint;fullCI/Gitleaks"
   ],
   "findings": [
-    "Ownerlatestapproved ADDITIONAL_DISPLAY_EXPECTATIONS_PROPOSAL.patch literally;futureonlysamevalueArabic→Latin assertions preapproved withlineledger. OtherfailureSTOP.",
-    "No UI/SQL/value/parser/deadline change infollowups. BeforeText/allpriorpins stayexact;Arabicinput/SKU/name fixtures andnegativeguardsretained."
+    "Only NW-0240/NW-0460 removed;flavors already clean. Literal cell preservation needed to avoid Artifact numeric-text coercion.",
+    "RESET proof not yet run:old readiness reference correctly rejected new source hashes;new current-source evidence/reference required.",
+    "Docker default network pools full. No old networks deleted;dedicated local audit subnet10.223.15.0/24 resolved bootstrap.",
+    "No SQL/migration/financiallogic change;legacyLatin beforeText/index unchanged;new outer exact layer rejects unknown bytes."
   ],
   "blockers": [],
   "prohibitions": [
-    "NoSQL/migrations/financialvalues/businesslogicchanges",
-    "No deploy/hosted/Frankfurt/preview;noowneroriginals/env/TOTP/demo reset/update",
-    "100mergeONLYafterfullgreen;otherPRsno merge;58/79/82untouched;otherfailureSTOP"
+    "NoSQL/migrations/frozenfunctions/financiallogic orprice/barcode/SKU/familychanges except2approveddeletions",
+    "No merge/deploy/hosted/Frankfurt/preview;no demo/ownerTOTP/env/originalfilechanges",
+    "58/79/82untouched;onewriter;bankcommit/push milestones/~hour"
   ],
-  "evidence": "C:/Users/TOP/NawasrahLocalValidation/latin-digits-20261115",
-  "nextExactAction": "Push exact16approveddisplaylines+ledger/pins;awaitfreshfullCI. Samevalue numeral-only assertion mayfix+record;otherfailureSTOP. Green100merge/mainCI/safeff/preflight thenfinalcatalog.",
+  "evidence": "C:/Users/TOP/NawasrahLocalValidation/final-catalog-20261115",
+  "nextExactAction": "Current RPC proof;write actual source-bound HTTP/RPC evidence;build ready223 test reference then official RESET with exact CAT preservation and real UI import. Do not touch owner demo or original files.",
   "activeProcesses": [
-    "No localtaskprocesses;demo5012 untouchedsameLAN. Remotequality43678322407 maycontinue;sourcea03dbf26unchanged."
+    "OwnerdemoPID5012 unchanged;owned new final-catalog15 stack,loopback API27531;no task app server yet."
   ],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "66DCD5CE2D13DA918617EFB11494C0B006572D04905A80656CDC0A2DFA201B35",
-  "checkpointedAt": "2026-11-15T05:24:11.401Z",
-  "filesTouchedCount": 11,
-  "filesTouchedManifestSha256": "0f9d85cf1453ed802b38a210d44bbf5f3071da8b6ad7747c017e86bd4a7081db"
+  "workingTreeFingerprint": "0B9D84BFF35FE5C4D24AB5F2F2AF8AE903C9845918510C71010EBDB38FC00F52",
+  "checkpointedAt": "2026-11-15T09:23:40.996Z",
+  "filesTouchedCount": 17,
+  "filesTouchedManifestSha256": "8dbfe22f18200e2a985d9d6a419d4eda29fb98d7b28643a5bb67f48de79d6d2b"
 }

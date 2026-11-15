@@ -3,47 +3,71 @@
   "files": [
     {
       "code": " M",
-      "path": "e2e/customer-checkout-isolated.spec.ts"
+      "path": "customer-web/src/components/CategoryDrawer.tsx"
     },
     {
       "code": " M",
-      "path": "e2e/customer-checkout-simplification.spec.ts"
+      "path": "customer-web/src/components/CategoryShowcase.tsx"
     },
     {
       "code": " M",
-      "path": "e2e/customer-compact-product-grid.spec.ts"
+      "path": "customer-web/src/components/categoryVisuals.ts"
     },
     {
       "code": " M",
-      "path": "e2e/customer-order-tracking.spec.ts"
+      "path": "customer-web/src/components/HomeCategoryMosaic.tsx"
     },
     {
       "code": " M",
-      "path": "e2e/customer-presentational-characterization.spec.ts"
+      "path": "docs/agent/PHASE_STATUS.md"
     },
     {
       "code": " M",
-      "path": "e2e/customer-storefront-c6.spec.ts"
+      "path": "docs/agent/project-state.json"
     },
     {
       "code": " M",
-      "path": "e2e/lite-parcel-unit-guard.spec.ts"
+      "path": "e2e/customer-category-grid.spec.ts"
     },
     {
       "code": " M",
-      "path": "e2e/phase6-package-b.spec.ts"
+      "path": "scripts/audit/source-before-latin-digits.mjs"
     },
     {
       "code": " M",
-      "path": "e2e/public-apps.spec.ts"
+      "path": "scripts/testing/product-workbook-runtime-view.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/audit/latin-digits-source-pins.json"
+      "path": "tests/latin-digit-history.test.ts"
     },
     {
       "code": "??",
-      "path": "docs/reviews/latin-digits/TEST_EXPECTATION_CHANGES.md"
+      "path": "customer-web/src/utils/categoryOrder.ts"
+    },
+    {
+      "code": "??",
+      "path": "customer-web/tests/category-order.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "docs/reviews/FINAL_CATALOG_LOCAL_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/final-catalog-source-pins.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-final-catalog.d.mts"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-final-catalog.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/final-catalog-history.test.ts"
     }
   ]
 }

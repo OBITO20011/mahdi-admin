@@ -8,6 +8,7 @@ import {
   getCategoryVisual,
 } from './categoryVisuals';
 import { getCategoryPath } from '../utils/publicRoutes';
+import {orderStorefrontCategories} from '../utils/categoryOrder';
 
 interface CategoryShowcaseProps {
   categories: CatalogCategory[];
@@ -39,7 +40,7 @@ function CategoryCard({
   const resolvedVisual =
     category.id === 'all'
       ? ALL_CATEGORY_VISUAL
-      : getCategoryVisual(category.code);
+      : getCategoryVisual(category.code, category.name);
   const Icon = resolvedVisual.icon;
 
   return (
@@ -107,7 +108,7 @@ export function CategoryShowcase({
       code: 'ALL',
       coverUrl: firstCatalogImage,
     },
-    ...categories.map((category) => ({
+    ...orderStorefrontCategories(categories).map((category) => ({
       id: category.id,
       name: category.nameAr,
       count: category.productCount,

@@ -2,6 +2,7 @@ import {DISPLAY_LOCALE} from '../utils/displayLocale';
 import { Check, LayoutGrid, Menu, PackageSearch, X } from 'lucide-react';
 import { useEffect } from 'react';
 import type { CatalogCategory } from '../types/catalog';
+import {orderStorefrontCategories} from '../utils/categoryOrder';
 import {
   ALL_CATEGORY_VISUAL,
   getCategoryVisual,
@@ -53,7 +54,7 @@ export function CategoryDrawer({
       productCount: totalProducts,
       availableProductCount: totalProducts,
     },
-    ...categories,
+    ...orderStorefrontCategories(categories),
   ];
 
   return (
@@ -117,7 +118,7 @@ export function CategoryDrawer({
               const isAll = category.id === 'all';
               const visual = isAll
                 ? ALL_CATEGORY_VISUAL
-                : getCategoryVisual(category.code);
+                : getCategoryVisual(category.code, category.nameAr);
               const Icon = isAll ? LayoutGrid : visual.icon;
               const isSelected = selectedCategory === category.id;
 
