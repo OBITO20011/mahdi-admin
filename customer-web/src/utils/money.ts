@@ -1,4 +1,5 @@
-const jodFormatter = new Intl.NumberFormat('ar-JO', {
+import {DISPLAY_LOCALE} from './displayLocale';
+const jodFormatter = new Intl.NumberFormat(DISPLAY_LOCALE, {
   minimumFractionDigits: 3,
   maximumFractionDigits: 3,
 });

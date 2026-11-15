@@ -1,3 +1,4 @@
+import {DISPLAY_LOCALE} from '../ui/uiFormat';
 import {allowsOperatingDestination} from '../../features/operatingMode/navigationPolicy';
 import type {OperatingMode} from '../../services/supabase/operatingMode.service';
 /**
@@ -332,7 +333,7 @@ export const AllModals: React.FC<{operatingMode?:OperatingMode;modeVerified?:boo
                   {notification.message}
                 </p>
                 <span className="block text-[9px] text-nw-muted">
-                  {new Date(notification.createdAt).toLocaleString('ar-JO', {
+                  {new Date(notification.createdAt).toLocaleString(DISPLAY_LOCALE, {
                     dateStyle: 'short',
                     timeStyle: 'short',
                   })}

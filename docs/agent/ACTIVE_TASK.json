@@ -1,52 +1,49 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner14Nov approved4-6days:optionalOFF quantity counter in separateDraft/new223(NOT221). Newprivate tables only;no accountingtables/220guard/ON changes. Stockdebit atwebsitecreation/POS;cancel/return/manualCAS/owner217alerts;RESET/D1/CI;postgreen no-resetdemo. No merge/hosted/deploy/owneroriginals.",
-  "baselineSha": "61795a8920d0bdf6d1fbe869e63e15f3dc12c365",
-  "branch": "codex/off-quantity-counter",
-  "phase": "OFF_QUANTITY_COUNTER",
-  "startedAt": "2026-11-14T11:22:06.576Z",
+  "objective": "Owner14Nov Latin display policy,noSQL/values/parsers.15Novapproved18legacydisplayexpectationlines;futureonlysamevalueArabic-to-Latin assertions mayfix+ledger,otherfailureSTOP. Conditional100mergeafterfullgreen,mainCI+primarypreservedff/preflight;thenfreshmainbranchfinalcatalog. No deploy/hosted/demo reset orowneroriginalchanges.",
+  "baselineSha": "a03dbf263f6e7f69faf5c6e124354506e7718061",
+  "branch": "codex/latin-digits",
+  "phase": "LATIN_DIGITS",
+  "startedAt": "2026-11-15T03:10:03.353Z",
   "completed": [
-    "Prerequisite97 main0bd green;primary ff-only/preflight;demo no-reset complete. Coref0 and223operations61795a89 pushed.",
-    "PG23 PASS:ON full financial/stock/cost/receipt/shift parity;untrackedOFF JSON parity;counter lifecycle/CAS/unitidentity/legacyreturns/roles/replay/rollback/concurrency;accounting tables empty.",
-    "Owner policies resolved:resellable-only;unit frozen after first enable;no exact public count;pre-counter invoice quantity manual review. True browser→Edge/SQL2/2 Chromium/WebKit390 PASS;synthetic identity/siteverify,not GoTrue/TOTP.",
-    "223 actual fresh/incremental0diff,687public/51private;HTTP181/RPC732;ready223 test-only/uninstalled. Encrypted222BackupRestore→223apply9.9s→BackupRestore/verify PASS;tracked private archive strictPASS. RESET223+3resumes PASS.",
-    "From current223 sources:actual222 fresh/incremental0;683/39;ready222 PASS. Encrypted220BackupRestore→222apply8.8s→BackupRestore/verify PASS. RESET22241.1s+3resumes32.5/34.2/33.8s PASS,Auth/MFA/rawmoney/ACL/pgnet retained.",
-    "Final typesboth0/strictlint0;focused compatibility corrected with literal223/current counts and exact222 projection. Initial fullunits2022/2042,20failures:19 compatibility,one120s history timeout;direct history0/53.8s under unchanged120s.",
-    "Actual browser partition2002 identities:762core(393Chromium/369WebKit),1240 in same10shards;no missing/duplicates/settingsdelta. Focused routing/ops13PASS. Card2A4 content973/866px<1046,fonts unchanged."
+    "98/99 mergedmain99eb1846/fullgreen/primarypreservation+preflight. LatinDraft100a03dbf26 pushed.",
+    "Approved2oldnumerictexts only+2pins;64priorpinsidentical;affected28/28bothengines,fence0requests. NoUI/deadline/otherexpectationchange.",
+    "NewheadCI root2061/2061+store230/230;all10Fshards+sixsupportworkflowsPASS. Types/lint/build/access/history localPASS;Gitleaks777commits0."
   ],
   "inProgress": [
-    "Final committed-head full units, DraftPR/fullCI and Gitleaks. No productSQL change since f0/d5d6397b."
+    "Ownerapproved16exactdisplaylines/9tests applied+lineledger;newpins/focusedguard thenfreshfullCI. Future same-value numeral expectations preapproved,anyotherfailureSTOP."
   ],
   "notStarted": [
-    "Afterfullgreen only:demo223 application/build withoutreset;one product test then trackingoff."
+    "Finalcatalog/workbook/categories notstarted:requires100fullgreen first. QueuedscopeexternalNEXT_FINAL_CATALOG_SCOPE.json."
   ],
   "testsPassed": [
-    "PG23;UI/regression36;truefullstack2;223protection/RESET;actual222compatibility;13routing/ops;typesboth/strictlint0;printfit."
+    "Root2061/2061;store230;mobile8+price18;actualaccess/history;types/lint/builds;Gitleaks0"
   ],
   "testsRemaining": [
-    "Fullcurrent units;FULLCI exacthead;Gitleaks;postCI demo."
+    "ExactnewheadfullCI/Gitleaks;conditional100merge/mainCI/primaryffpreserving20/4/5/preflight;thenfreshmainbranchfinalcatalog."
   ],
   "findings": [
-    "Migration223 d5d6397bd5d676f766493b7a85b1f47ad6f1b6f6c465e7b4a32219ee49abc0af;220 guards/accounting tables/ON unchanged. Draft98 price76/78:cancelled40min opening-cheques/log404,unknown cause;no further rerun."
+    "Ownerlatestapproved ADDITIONAL_DISPLAY_EXPECTATIONS_PROPOSAL.patch literally;futureonlysamevalueArabic→Latin assertions preapproved withlineledger. OtherfailureSTOP.",
+    "No UI/SQL/value/parser/deadline change infollowups. BeforeText/allpriorpins stayexact;Arabicinput/SKU/name fixtures andnegativeguardsretained."
   ],
   "blockers": [],
   "prohibitions": [
-    "No accountingtables or220guard changes;no ON behavior delta",
-    "No221/merge/deploy/hosted/Frankfurt/preview/accountingactivation",
-    "No owneroriginals/private/MFA/TLS/demo changes beforeFULLgreenCI"
+    "NoSQL/migrations/financialvalues/businesslogicchanges",
+    "No deploy/hosted/Frankfurt/preview;noowneroriginals/env/TOTP/demo reset/update",
+    "100mergeONLYafterfullgreen;otherPRsno merge;58/79/82untouched;otherfailureSTOP"
   ],
-  "evidence": "C:/Users/TOP/NawasrahLocalValidation/off-quantity-counter-20261114",
-  "nextExactAction": "Final types/strictlint and real223+legacy222 protection PASS. Save/push;DraftPR/fullCI and full local units at concurrency2. No demo beforefullgreen.",
+  "evidence": "C:/Users/TOP/NawasrahLocalValidation/latin-digits-20261115",
+  "nextExactAction": "Push exact16approveddisplaylines+ledger/pins;awaitfreshfullCI. Samevalue numeral-only assertion mayfix+record;otherfailureSTOP. Green100merge/mainCI/safeff/preflight thenfinalcatalog.",
   "activeProcesses": [
-    "No task-owned DBs after compatibility gates;ownerdemo remains running."
+    "No localtaskprocesses;demo5012 untouchedsameLAN. Remotequality43678322407 maycontinue;sourcea03dbf26unchanged."
   ],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "E2F9868E280F96F9A2251ADDA093183E3346713FFBA39A1E3CE2EC7CDE64087A",
-  "checkpointedAt": "2026-11-14T20:13:05.101Z",
-  "filesTouchedCount": 25,
-  "filesTouchedManifestSha256": "d5cf10f0a4bc75b312fceec846253db62228da7078b88313a012472542527326"
+  "workingTreeFingerprint": "66DCD5CE2D13DA918617EFB11494C0B006572D04905A80656CDC0A2DFA201B35",
+  "checkpointedAt": "2026-11-15T05:24:11.401Z",
+  "filesTouchedCount": 11,
+  "filesTouchedManifestSha256": "0f9d85cf1453ed802b38a210d44bbf5f3071da8b6ad7747c017e86bd4a7081db"
 }

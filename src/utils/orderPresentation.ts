@@ -1,3 +1,4 @@
+import {DISPLAY_LOCALE} from '../components/ui/uiFormat';
 export function formatOperationalOrderContents(
   firstProductName: string,
   itemCount: number
@@ -8,7 +9,7 @@ export function formatOperationalOrderContents(
   if (!productName) {
     if (safeItemCount === 0) return 'طلب بدون أصناف';
     if (safeItemCount === 1) return 'طلب بصنف واحد';
-    return `طلب يحتوي ${safeItemCount.toLocaleString('ar-JO')} أصناف`;
+    return `طلب يحتوي ${safeItemCount.toLocaleString(DISPLAY_LOCALE)} أصناف`;
   }
 
   const additionalCount = Math.max(0, safeItemCount - 1);
@@ -16,7 +17,7 @@ export function formatOperationalOrderContents(
   if (additionalCount === 1) return `${productName} + صنف إضافي`;
   if (additionalCount === 2) return `${productName} + صنفان إضافيان`;
   if (additionalCount <= 10) {
-    return `${productName} + ${additionalCount.toLocaleString('ar-JO')} أصناف إضافية`;
+    return `${productName} + ${additionalCount.toLocaleString(DISPLAY_LOCALE)} أصناف إضافية`;
   }
-  return `${productName} + ${additionalCount.toLocaleString('ar-JO')} صنفًا إضافيًا`;
+  return `${productName} + ${additionalCount.toLocaleString(DISPLAY_LOCALE)} صنفًا إضافيًا`;
 }

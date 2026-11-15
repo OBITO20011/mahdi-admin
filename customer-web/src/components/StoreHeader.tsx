@@ -1,3 +1,4 @@
+import {DISPLAY_LOCALE} from '../utils/displayLocale';
 import {storefrontSaleUnit} from '../utils/storefrontUnits';
 import {
   Heart,
@@ -217,7 +218,7 @@ export function StoreHeader({
               type="button"
               onClick={onCartOpen}
               data-cart-target="header"
-              aria-label={`فتح السلة، ${cartSummary ?? `${cartPackages.toLocaleString('ar-JO')} طرد`}`}
+              aria-label={`فتح السلة، ${cartSummary ?? `${cartPackages.toLocaleString(DISPLAY_LOCALE)} طرد`}`}
               className="relative flex h-11 items-center gap-2 rounded-2xl bg-blue-700 px-3.5 font-extrabold text-white shadow-lg shadow-blue-900/15 transition hover:bg-blue-800"
             >
               <ShoppingCart className="h-4 w-4" />

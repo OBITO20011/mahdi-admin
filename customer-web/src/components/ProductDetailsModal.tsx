@@ -1,3 +1,4 @@
+import {DISPLAY_LOCALE} from '../utils/displayLocale';
 import {
   Barcode,
   Boxes,
@@ -335,7 +336,7 @@ export function ProductDetailsModal({
                       </p>
                     </div>
                     <span className="rounded-full bg-white px-2.5 py-1 text-[9px] font-black text-violet-700 shadow-sm">
-                      {familyProduct.variants.filter((variant) => variant.isAvailable).length.toLocaleString('ar-JO')} متوفرة
+                      {familyProduct.variants.filter((variant) => variant.isAvailable).length.toLocaleString(DISPLAY_LOCALE)} متوفرة
                     </span>
                   </div>
                   <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
@@ -369,7 +370,7 @@ export function ProductDetailsModal({
                               </strong>
                               <span className={`mt-0.5 block text-[8px] font-bold ${selected ? 'text-violet-100' : variant.isAvailable ? 'text-emerald-600' : 'text-rose-500'}`}>
                                 {variant.isAvailable
-                                  ? variant.quantityTracked===false?'متوفر':`${variant.availableSalePackages?.toLocaleString('ar-JO')} ${storefrontSaleUnit(variant)}`
+                                  ? variant.quantityTracked===false?'متوفر':`${variant.availableSalePackages?.toLocaleString(DISPLAY_LOCALE)} ${storefrontSaleUnit(variant)}`
                                   : 'نافدة حاليًا'}
                               </span>
                             </div>
@@ -409,7 +410,7 @@ export function ProductDetailsModal({
                     <p className="text-[10px] font-bold">محتوى الطرد</p>
                   </div>
                   <p className="mt-2 text-sm font-black text-slate-900">
-                    {product.unitsPerSalePackage.toLocaleString('ar-JO')}{' '}
+                    {product.unitsPerSalePackage.toLocaleString(DISPLAY_LOCALE)}{' '}
                     {storefrontUnitName(product.unitNameAr,product.quantityTracked)}
                   </p>
                 </div>
@@ -429,7 +430,7 @@ export function ProductDetailsModal({
                 </div>
                 {cartQuantity > 0 && (
                   <p className="mt-2 text-[10px] font-bold text-emerald-700">
-                    في سلتك حاليًا: {cartQuantity.toLocaleString('ar-JO')} {storefrontSaleUnit(product)}
+                    في سلتك حاليًا: {cartQuantity.toLocaleString(DISPLAY_LOCALE)} {storefrontSaleUnit(product)}
                   </p>
                 )}
               </div>

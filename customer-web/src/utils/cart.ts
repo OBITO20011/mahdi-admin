@@ -1,3 +1,4 @@
+import {DISPLAY_LOCALE} from './displayLocale';
 import {storefrontCartUnit, storefrontUnitName} from './storefrontUnits';
 import {unsafeLiteParcelPrice, PARCEL_DEFINITION_MESSAGE} from './saleUnitLabels';
 import {
@@ -410,7 +411,7 @@ export function formatCartQuantitySummary(cartItems: CartItem[]): string {
     const label = storefrontCartUnit(item);
     counts.set(label, (counts.get(label) ?? 0) + positiveInteger(item.quantity));
   }
-  return [...counts].map(([label, count]) => `${count.toLocaleString('ar-JO')} ${label}`).join(' + ') || 'السلة فارغة';
+  return [...counts].map(([label, count]) => `${count.toLocaleString(DISPLAY_LOCALE)} ${label}`).join(' + ') || 'السلة فارغة';
 }
 
 export function requiredBaseUnitsByProductId(cartItems: CartItem[]): Map<string, number> {

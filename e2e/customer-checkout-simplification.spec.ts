@@ -165,7 +165,7 @@ test('checkout keeps all required delivery data while showing one non-duplicated
   await checkout.getByLabel('الاسم الكامل*').fill('محمد أحمد');
   await checkout.getByLabel('رقم الهاتف*').fill('0791234567');
   await checkout.getByLabel('المنطقة أو الحي*').fill('الحي الشرقي');
-  await checkout.getByRole('button', { name: 'خارج الرمثا أجرة التوصيل ٢٫٥٠٠ د.أ' }).click();
+  await checkout.getByRole('button', { name: 'خارج الرمثا أجرة التوصيل 2.500 د.أ' }).click();
   await checkout.getByRole('button', { name: 'CliQ' }).click();
   await checkout.getByRole('button', { name: 'مراجعة الطلب قبل الإرسال' }).click();
   const review = page.getByRole('dialog', { name: 'راجع طلبك قبل الإرسال' });

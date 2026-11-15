@@ -1,3 +1,4 @@
+import {DISPLAY_LOCALE} from '../utils/displayLocale';
 import { Minus, PackageCheck, Plus, X } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import {
@@ -83,7 +84,7 @@ export function ParcelBuilderModal({
         <header className="flex items-center justify-between border-b border-slate-100 p-4 sm:p-5">
           <div>
             <p className="text-[10px] font-black text-violet-700">تكوين طرد بالنكهات</p>
-            <h2 id="parcel-builder-title" className="mt-1 text-lg font-black text-slate-950">اختر {option.unitsPerParcel.toLocaleString('ar-JO')} {storefrontUnitName(option.baseUnitNameAr,option.quantityTracked)}</h2>
+            <h2 id="parcel-builder-title" className="mt-1 text-lg font-black text-slate-950">اختر {option.unitsPerParcel.toLocaleString(DISPLAY_LOCALE)} {storefrontUnitName(option.baseUnitNameAr,option.quantityTracked)}</h2>
           </div>
           <button type="button" onClick={onClose} aria-label="إغلاق" className="grid h-11 w-11 place-items-center rounded-2xl bg-slate-100 text-slate-600"><X className="h-4 w-4" /></button>
         </header>
@@ -91,7 +92,7 @@ export function ParcelBuilderModal({
         <div className="min-h-0 flex-1 space-y-3 overflow-y-auto p-4 sm:p-5">
           <div className={`rounded-3xl border p-4 ${remaining === 0 ? 'border-emerald-200 bg-emerald-50' : 'border-violet-200 bg-violet-50'}`}>
             <div className="flex items-center justify-between gap-3">
-              <strong className="text-sm font-black text-slate-950">تم اختيار {selectedCount.toLocaleString('ar-JO')} من {option.unitsPerParcel.toLocaleString('ar-JO')}</strong>
+              <strong className="text-sm font-black text-slate-950">تم اختيار {selectedCount.toLocaleString(DISPLAY_LOCALE)} من {option.unitsPerParcel.toLocaleString(DISPLAY_LOCALE)}</strong>
               <span className="text-sm font-black text-violet-700">{formatJod(option.parcelPriceInMinorUnits)}</span>
             </div>
             <div className="mt-3 h-2 overflow-hidden rounded-full bg-white"><div className="h-full rounded-full bg-violet-600 transition-all" style={{ width: `${Math.min(100, selectedCount / option.unitsPerParcel * 100)}%` }} /></div>
@@ -106,11 +107,11 @@ export function ParcelBuilderModal({
                 <div className="h-14 w-14 shrink-0 overflow-hidden rounded-2xl bg-slate-100"><ProductImage src={component.imageUrl} alt={component.flavorNameAr || component.nameAr} imageClassName="h-full w-full object-contain" /></div>
                 <div className="min-w-0 flex-1">
                   <h3 className="truncate text-xs font-black text-slate-900">{component.flavorNameAr || component.nameAr}</h3>
-                  <p className="mt-1 text-[9px] font-bold text-slate-500">{component.quantityTracked===false?'متوفر':<>المتاح لهذه السلة: {available.toLocaleString('ar-JO')} {storefrontUnitName(component.unitNameAr,component.quantityTracked)}</>}</p>
+                  <p className="mt-1 text-[9px] font-bold text-slate-500">{component.quantityTracked===false?'متوفر':<>المتاح لهذه السلة: {available.toLocaleString(DISPLAY_LOCALE)} {storefrontUnitName(component.unitNameAr,component.quantityTracked)}</>}</p>
                 </div>
                 <div className="flex items-center rounded-2xl border border-slate-200 bg-slate-50">
                   <button type="button" aria-label={`إنقاص ${component.flavorNameAr}`} onClick={() => change(component.productId, -1)} disabled={quantity === 0} className="grid h-11 w-10 place-items-center disabled:text-slate-300"><Minus className="h-4 w-4" /></button>
-                  <span className="min-w-8 text-center text-sm font-black">{quantity.toLocaleString('ar-JO')}</span>
+                  <span className="min-w-8 text-center text-sm font-black">{quantity.toLocaleString(DISPLAY_LOCALE)}</span>
                   <button type="button" aria-label={`زيادة ${component.flavorNameAr}`} onClick={() => change(component.productId, 1)} disabled={remaining === 0 || quantity >= available} className="grid h-11 w-10 place-items-center text-violet-700 disabled:text-slate-300"><Plus className="h-4 w-4" /></button>
                 </div>
               </article>
@@ -123,7 +124,7 @@ export function ParcelBuilderModal({
             <PackageCheck className="h-5 w-5" />
             {initialInstance ? 'حفظ تعديل الطرد' : 'إضافة الطرد للسلة'}
           </button>
-          {!canSave && <p className="mt-2 text-center text-[10px] font-bold text-amber-700">أكمل {remaining.toLocaleString('ar-JO')} {storefrontUnitName(option.baseUnitNameAr,option.quantityTracked)} قبل الإضافة.</p>}
+          {!canSave && <p className="mt-2 text-center text-[10px] font-bold text-amber-700">أكمل {remaining.toLocaleString(DISPLAY_LOCALE)} {storefrontUnitName(option.baseUnitNameAr,option.quantityTracked)} قبل الإضافة.</p>}
         </footer>
       </section>
     </div>

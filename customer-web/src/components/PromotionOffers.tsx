@@ -1,3 +1,4 @@
+import {DISPLAY_LOCALE} from '../utils/displayLocale';
 import {
   BadgePercent,
   CalendarClock,
@@ -17,8 +18,8 @@ interface PromotionOffersProps {
 
 function discountLabel(offer: StorefrontOffer): string {
   return offer.discountType === 'percentage'
-    ? `${offer.discountValue.toLocaleString('ar-JO')}% خصم`
-    : `خصم ${offer.discountValue.toLocaleString('ar-JO', {
+    ? `${offer.discountValue.toLocaleString(DISPLAY_LOCALE)}% خصم`
+    : `خصم ${offer.discountValue.toLocaleString(DISPLAY_LOCALE, {
         minimumFractionDigits: 3,
         maximumFractionDigits: 3,
       })} د.أ`;
@@ -28,7 +29,7 @@ function formatExpiry(expiresAt?: string): string {
   if (!expiresAt) return 'لفترة محدودة';
   const date = new Date(expiresAt);
   if (Number.isNaN(date.getTime())) return 'لفترة محدودة';
-  return `حتى ${date.toLocaleDateString('ar-JO', {
+  return `حتى ${date.toLocaleDateString(DISPLAY_LOCALE, {
     day: 'numeric',
     month: 'short',
     year: 'numeric',
@@ -38,7 +39,7 @@ function formatExpiry(expiresAt?: string): string {
 function formatStart(startsAt: string): string {
   const date = new Date(startsAt);
   if (Number.isNaN(date.getTime())) return 'عرض مجدول';
-  return `يبدأ ${date.toLocaleDateString('ar-JO', {
+  return `يبدأ ${date.toLocaleDateString(DISPLAY_LOCALE, {
     day: 'numeric',
     month: 'short',
     year: 'numeric',

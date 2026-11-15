@@ -1,3 +1,4 @@
+import {sourceBeforeLatinDigits,restoreLatinDigitsHashes,pathsBeforeLatinDigits} from './source-before-latin-digits.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
@@ -10,6 +11,7 @@ assert.equal(pins.baseline,quantity223SourceBase);
 export const quantity223SourcePins=pins.entries;
 
 export function sourceBeforeOptionalQuantity223(file,text){
+ text=sourceBeforeLatinDigits(file,text);
  if(text===null)return null;
  const pin=quantity223SourcePins[file];
  if(!pin||sha256(canonicalLf(text))!==pin.after)return text;
@@ -22,10 +24,11 @@ export function sourceBeforeOptionalQuantity223(file,text){
 }
 
 export function restoreOptionalQuantity223Hashes(rows){
- return rows.flatMap(row=>{
+ return restoreLatinDigitsHashes(rows).flatMap(row=>{
   const pin=quantity223SourcePins[row.file];
   if(!pin||pin.after!==row.sha256)return [row];
-  const raw=canonicalLf(readFileSync(new URL('../../'+row.file,import.meta.url),'utf8'));
+  const raw=sourceBeforeLatinDigits(row.file,canonicalLf(readFileSync(new URL('../../'+row.file,import.meta.url),'utf8')));
+  assert.ok(raw!==null,'QUANTITY223_CURRENT_SOURCE_REQUIRED:'+row.file);
   assert.equal(sha256(raw),pin.after,'QUANTITY223_CURRENT_SOURCE_CHANGED:'+row.file);
   const previous=sourceBeforeOptionalQuantity223(row.file,raw);
   return previous===null?[]:[{...row,sha256:sha256(previous)}];
@@ -33,7 +36,7 @@ export function restoreOptionalQuantity223Hashes(rows){
 }
 
 export function pathsBeforeOptionalQuantity223(files,reference){
- return files.filter(file=>{
+ return pathsBeforeLatinDigits(files).filter(file=>{
   if(!quantity223SourcePins[file])return true;
   const raw=readFileSync(new URL('../../'+file,import.meta.url),'utf8');
   const projected=sourceBeforeOptionalQuantity223(file,raw);

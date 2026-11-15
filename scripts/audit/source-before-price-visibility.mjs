@@ -1,3 +1,4 @@
+import {sourceBeforeLatinDigits,restoreLatinDigitsHashes,pathsBeforeLatinDigits} from './source-before-latin-digits.mjs';
 // Historical assertions see only the exact approved CSS inverse. Unknown bytes stay visible.
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -6,6 +7,7 @@ const pin=JSON.parse(readFileSync(new URL('./price-visibility-source-pin.json',i
 const hash=text=>createHash('sha256').update(text.replaceAll('\r\n','\n')).digest('hex');
 const rawHash=bytes=>createHash('sha256').update(bytes).digest('hex');
 export function sourceBeforePriceVisibility(file,text){
+ text=sourceBeforeLatinDigits(file,text);
  if(text===null)return null;
  const artifact=pin.files?.[file];
  if(artifact&&hash(text)===artifact.after){
@@ -22,20 +24,23 @@ export function sourceBeforePriceVisibility(file,text){
  for(const hunk of pin.hunks){assert.equal(before.split(hunk.after).length,2,'PRICE_VISIBILITY_HUNK_CHANGED');before=before.replace(hunk.after,hunk.before);}
  assert.equal(hash(before),pin.before,'PRICE_VISIBILITY_INVERSE_CHANGED');return before;
 }
-export function restorePriceVisibilityHashes(rows){return rows.flatMap(row=>{
+export function restorePriceVisibilityHashes(rows){return restoreLatinDigitsHashes(rows).flatMap(row=>{
  const artifact=pin.files?.[row.file];
  if(row.sha256!==artifact?.after&&(row.file!==pin.file||row.sha256!==pin.after))return[row];
- const raw=readFileSync(new URL('../../'+row.file,import.meta.url),'utf8');
+ const raw=sourceBeforeLatinDigits(row.file,readFileSync(new URL('../../'+row.file,import.meta.url),'utf8'));
+ assert.ok(raw!==null,'PRICE_VISIBILITY_CURRENT_SOURCE_REQUIRED:'+row.file);
  assert.ok(hash(raw)===artifact?.after||row.file===pin.file&&hash(raw)===pin.after,'PRICE_VISIBILITY_SOURCE_CHANGED:'+row.file);
  const before=sourceBeforePriceVisibility(row.file,raw);
  return before===null?[]:[{...row,sha256:hash(before)}];
 });}
 // Added review screenshots/harnesses never existed in older schema views.
 // Only their complete committed bytes may be omitted;unknown edits stay visible.
-export function pathsBeforePriceVisibility(files){return files.filter(file=>{
+export function pathsBeforePriceVisibility(files){return pathsBeforeLatinDigits(files).filter(file=>{
  if(file==='scripts/audit/price-visibility-source-pin.json')return false;
  const artifact=pin.files?.[file];if(!artifact||artifact.before!==null)return true;
  const raw=readFileSync(new URL('../../'+file,import.meta.url));
- const current=artifact.binary?rawHash(raw):hash(raw.toString('utf8'));
+ const text=artifact.binary?null:sourceBeforeLatinDigits(file,raw.toString('utf8'));
+ if(!artifact.binary&&text===null)return false;
+ const current=artifact.binary?rawHash(raw):hash(text);
  return current!==artifact.after;
 });}

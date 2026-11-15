@@ -3,103 +3,47 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
+      "path": "e2e/customer-checkout-isolated.spec.ts"
     },
     {
       "code": " M",
-      "path": "docs/handover/ورقة-يوم-التشغيل.html"
+      "path": "e2e/customer-checkout-simplification.spec.ts"
     },
     {
       "code": " M",
-      "path": "docs/handover/ورقة-يوم-التشغيل.md"
+      "path": "e2e/customer-compact-product-grid.spec.ts"
     },
     {
       "code": " M",
-      "path": "docs/MAINTAINER_GUIDE_AR.md"
+      "path": "e2e/customer-order-tracking.spec.ts"
     },
     {
       "code": " M",
-      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
+      "path": "e2e/customer-presentational-characterization.spec.ts"
     },
     {
       "code": " M",
-      "path": "scripts/audit/optional-quantity223-source-pins.json"
+      "path": "e2e/customer-storefront-c6.spec.ts"
     },
     {
       "code": " M",
-      "path": "scripts/audit/source-before-optional-quantity223.mjs"
+      "path": "e2e/lite-parcel-unit-guard.spec.ts"
     },
     {
       "code": " M",
-      "path": "scripts/operations/build-acl-reference222.mjs"
+      "path": "e2e/phase6-package-b.spec.ts"
     },
     {
       "code": " M",
-      "path": "scripts/operations/reset222-foundation.mjs"
+      "path": "e2e/public-apps.spec.ts"
     },
     {
       "code": " M",
-      "path": "scripts/testing/generate-independent-prices222-catalog.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/package-f-ci-shards.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/bulk-product-images-contracts.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/independent-prices222-operations.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/independent-prices222-projection.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/lite220-handover.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/lite220-historical-test-view.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/literal220-catalog-manifest.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/migration-integrity.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/operational-schema.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/optional-quantity223-operations.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/package-f-ci-shards.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/sales-only-phase1.test.ts"
+      "path": "scripts/audit/latin-digits-source-pins.json"
     },
     {
       "code": "??",
-      "path": "docs/operations/D1_REFERENCE_KIT223_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/RESET223_OWNER_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "tests/d1-reference223-kit.test.ts"
+      "path": "docs/reviews/latin-digits/TEST_EXPECTATION_CHANGES.md"
     }
   ]
 }

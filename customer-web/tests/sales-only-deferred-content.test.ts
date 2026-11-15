@@ -7,6 +7,7 @@ import {createElement} from 'react';
 import * as React from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
 import {GuidedStoreAssistant} from '../src/components/GuidedStoreAssistant';
+import {sourceBeforeLatinDigits} from '../../scripts/audit/source-before-latin-digits.mjs';
 const read=(file:string)=>readFileSync(new URL('../'+file,import.meta.url),'utf8').replaceAll('\r\n','\n');
 const previous=(file:string)=>execFileSync('git',['show','6c80978775805a8d196b1168745b9d8e92fdcf99:customer-web/'+file],{encoding:'utf8',maxBuffer:32*1024**2}).replaceAll('\r\n','\n');
 test('assistant dialog content/handlers remain exact; trigger is immediate and lazy dialog uses established focus lifecycle',()=>{
@@ -25,7 +26,7 @@ test('assistant dialog content/handlers remain exact; trigger is immediate and l
  assert.match(html,/guided-store-assistant-trigger/);assert.doesNotMatch(html,/guided-store-assistant-panel|جارٍ تحميل/);
 });
 test('deferred pages keep existing components and all cart financial/recovery function bodies unchanged',()=>{
- const app=read('src/App.tsx');
+ const app=sourceBeforeLatinDigits('customer-web/src/App.tsx',read('src/App.tsx'));assert.ok(app!==null);
  for(const name of ['OffersPage','AboutStorePage']){
   assert.match(app,new RegExp("lazy\\(\\(\\) => import\\('\\./components/"+name+"'\\)"));
   assert.doesNotMatch(app,new RegExp("^import \\{ "+name+" \\} from",'mu'));

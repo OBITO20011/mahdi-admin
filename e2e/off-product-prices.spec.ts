@@ -31,7 +31,7 @@ for(const width of [320,390,1280])test(`OFF saved single/parcel prices and actua
  await expect.poll(async()=>(await saved(page)).find((item:{productId:string})=>item.productId===offPriceProducts[1].id)?.unitPriceInMinorUnits).toBe(1900);
  const only=card(2);await expect(only.locator('[data-sale-price]')).toHaveCount(1);await expect(only.locator('[data-sale-price=single]')).toHaveCount(0);
  await expect(only.locator('[data-lite-card-add] button')).toHaveCount(1);await fullPrice(only.locator('[data-sale-price=parcel] dd'),formatJod(15000));
- const family=card(3);await fullPrice(family.locator('[data-family-starting-price]'),formatJod(1750));await expect(family).toContainText(`${(2).toLocaleString('ar-JO')} نكهات`);
+ const family=card(3);await fullPrice(family.locator('[data-family-starting-price]'),formatJod(1750));await expect(family).toContainText(`2 نكهات`);
  await family.getByRole('button',{name:`اختيار نكهة ${offPriceProducts[3].nameAr}`,exact:true}).tap();await expect(page.getByRole('dialog')).toBeVisible();
  await page.getByRole('dialog').getByRole('button',{name:'إغلاق',exact:true}).tap();
  await discounted.getByRole('button',{name:`عرض تفاصيل ${offPriceProducts[0].nameAr}`,exact:true}).first().tap();const dialog=page.getByRole('dialog');

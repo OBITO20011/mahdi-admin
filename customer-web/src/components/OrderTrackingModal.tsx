@@ -1,3 +1,4 @@
+import {DISPLAY_LOCALE} from '../utils/displayLocale';
 import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Check,
@@ -434,7 +435,7 @@ export function OrderTrackingModal({
 
             {lastRefreshAt && (
               <p className="text-center text-[9px] font-bold text-slate-400">
-                تم جلب الحالة: {lastRefreshAt.toLocaleTimeString('ar-JO')}
+                تم جلب الحالة: {lastRefreshAt.toLocaleTimeString(DISPLAY_LOCALE)}
               </p>
             )}
           </div>

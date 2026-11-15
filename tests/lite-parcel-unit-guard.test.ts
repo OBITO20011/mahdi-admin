@@ -5,10 +5,10 @@ import type {CatalogProduct} from '../customer-web/src/types/catalog';
 import {filterParcelFamilies,parcelFamilySearchKey} from '../src/utils/parcelFamilySearch';
 const product:CatalogProduct={id:'94300000-0000-4000-8000-000000000100',nameAr:'عائلة اختبار وهمية',sku:'TEST-PARCEL',quantityTracked:false,unitNameAr:'باكيت',saleUnitNameAr:'باكيت',unitsPerSalePackage:7,salePriceInMinorUnits:1100,salePackagePriceInMinorUnits:1100,availableQuantity:null,availableSalePackages:null,variants:[],parcelOnly:false,isAvailable:true,barcode:'',description:'',categoryId:'',categoryCode:'',categoryNameAr:'',brandId:'',brandNameAr:'',unitId:'',saleUnitId:'',minimumOrderPackages:1,imageUrl:'',createdAt:'2026-11-13T00:00:00Z',soldPackagesLast90Days:0,isFlavorMaster:false,flavorMasterProductId:'',flavorNameAr:'',flavorSortOrder:0};
 test('OFF package name cannot repeat its content unit while full copy remains unchanged',()=>{
- assert.equal(storefrontPackageDescription(product),'طرد (٧ باكيت)');
- assert.equal(storefrontPackageDescription({...product,quantityTracked:true}),'طرد (٧ باكيت)');
+ assert.equal(storefrontPackageDescription(product),'طرد (7 باكيت)');
+ assert.equal(storefrontPackageDescription({...product,quantityTracked:true}),'طرد (7 باكيت)');
  assert.equal(storefrontPackageDescription({...product,unitsPerSalePackage:1}),'باكيت');
- assert.equal(storefrontPackageDescription({...product,unitNameAr:'طرد',saleUnitNameAr:'طرد'}),'مجموعة (٧ طرد)');
+ assert.equal(storefrontPackageDescription({...product,unitNameAr:'طرد',saleUnitNameAr:'طرد'}),'مجموعة (7 طرد)');
 });
 
 test('parcel family search reuses catalog normalization and folds Arabic variants without editing source names',()=>{

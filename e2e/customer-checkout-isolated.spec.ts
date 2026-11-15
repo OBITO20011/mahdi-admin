@@ -7,7 +7,7 @@ const isolatedControlUrl = process.env.M10_ISOLATED_CONTROL_URL;
 const enabled = Boolean(customerBaseUrl && publicSupabaseUrl && isolatedApiUrl);
 
 const productName = 'صنف اختبار M10';
-const parcelSizeLabel = (5).toLocaleString('ar-JO');
+const parcelSizeLabel = '5';
 const cartStorageKey = 'nawasrah-wholesale-cart-v1';
 const cartRecoveryBackupStorageKey = 'nawasrah-wholesale-cart-recovery-backup-v1';
 const attemptStorageKey = 'nawasrah-checkout-attempt-v1';

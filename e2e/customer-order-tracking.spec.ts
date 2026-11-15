@@ -58,7 +58,7 @@ test.describe('التتبع العام للطلب', () => {
     await expect(trackingDialog.getByText('وصلنا الطلب')).toBeVisible();
     await expect(trackingDialog.getByText('تمت مراجعة الطلب')).toBeVisible();
     await expect(trackingDialog.getByText('جاري تجهيز الطلب')).toBeVisible();
-    await expect(trackingDialog.getByText('١٢٫٧٥٠ د.أ')).toBeVisible();
+    await expect(trackingDialog.getByText('12.750 د.أ')).toBeVisible();
     await expect(trackingDialog.getByText('إلى العنوان المسجل')).toBeVisible();
     await expect(
       trackingDialog.getByText(/عنوان العميل|موقع التوصيل على الخريطة/),

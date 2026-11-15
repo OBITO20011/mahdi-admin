@@ -209,7 +209,7 @@ test('successful checkout preserves the complete receipt presentation and direct
   });
   await expect(receipt.getByText('وصل طلبك إلى تطبيق الإدارة')).toBeVisible();
   await expect(receipt.getByText('WEB-L3-0001')).toBeVisible();
-  await expect(receipt.getByText('٢٫٢٥٠ د.أ', { exact: true })).toBeVisible();
+  await expect(receipt.getByText('2.250 د.أ', { exact: true })).toBeVisible();
   await expect(
     receipt.getByText('تم إنشاء ملف عميل جديد وربطه بهذا الطلب تلقائيًا.'),
   ).toBeVisible();
@@ -272,7 +272,7 @@ test('secure tracking preserves the summary, actual status history and manual re
   await expect(tracking.getByText('وصلنا الطلب')).toBeVisible();
   await expect(tracking.getByText('تمت مراجعة الطلب')).toBeVisible();
   await expect(tracking.getByText('جاري تجهيز الطلب')).toBeVisible();
-  await expect(tracking.getByText('٢٫٢٥٠ د.أ')).toBeVisible();
+  await expect(tracking.getByText('2.250 د.أ')).toBeVisible();
   await expect(tracking.getByText('إلى العنوان المسجل')).toBeVisible();
   await expect(tracking.getByText('0790000000')).toBeVisible();
   expect(trackingRequests).toBe(1);

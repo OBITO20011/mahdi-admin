@@ -8,7 +8,7 @@ import {summarizeTimings,timingRecord} from '../scripts/testing/ci-browser-timin
 import {balanceBrowserCases} from '../scripts/testing/ci-browser-discovery.mjs';
 
 test('206/207 interface suites share existing F shards with exact historical filenames on both path styles',()=>{
-  for(const file of ['package-f-future.spec.ts','admin-navigation-cash206.spec.ts','document-corrections207.spec.ts','optional-quantity223.spec.ts','optional-quantity223-pos.spec.ts','optional-quantity223-storefront.spec.ts']){
+  for(const file of ['package-f-future.spec.ts','admin-navigation-cash206.spec.ts','document-corrections207.spec.ts','optional-quantity223.spec.ts','optional-quantity223-pos.spec.ts','optional-quantity223-storefront.spec.ts','off-product-prices.spec.ts','price-visibility.spec.ts','latin-digits.spec.ts']){
     for(const prefix of ['e2e/','C:\\repo\\e2e\\']){
       assert.equal(isPackageFSpec(prefix+file),true);
       assert.equal(packageFSpecPattern.test(prefix+file),true);

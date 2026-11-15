@@ -28,8 +28,8 @@ test('OFF package and cart describe saved packaging and contents; full copy stay
  const product=mapCatalogProduct({id:'12800000-0000-4000-8000-000000000001',sku:'UNIT',nameAr:'وهمي',unitNameAr:'قنينة',saleUnitNameAr:'صندوق',unitsPerSalePackage:12,salePackagePriceInMinorUnits:10000,salePriceInMinorUnits:833,quantityTracked:false,manualAvailable:true,availableQuantity:null,availableSalePackages:null,isAvailable:true});
  const item=createCartItem(product);
  assert.equal(storefrontSaleUnit(product),'صندوق');
- assert.equal(storefrontPackageDescription(product),`صندوق (${(12).toLocaleString('ar-JO')} قنينة)`);
- assert.equal(storefrontCartPackageDescription(item),`صندوق (${(12).toLocaleString('ar-JO')} قنينة)`);
+ assert.equal(storefrontPackageDescription(product),`صندوق (12 قنينة)`);
+ assert.equal(storefrontCartPackageDescription(item),`صندوق (12 قنينة)`);
  assert.equal(storefrontSaleUnit({...product,quantityTracked:undefined}),'طرد');
  assert.equal(receiptLineDescription({key:'old',name:'قديم',kind:'base_unit',quantity:1,baseQuantity:1,baseUnitName:'قنينة',totalInMinorUnits:10000}),'1 باكيت');
  assert.equal(receiptLineDescription({key:'old',name:'قديم',kind:'legacy_single_sku_parcel',quantity:1,baseQuantity:12,baseUnitName:'قنينة',savedUnitName:'صندوق',totalInMinorUnits:10000,actualUnitNames:true}),'1 صندوق (12 قنينة)');

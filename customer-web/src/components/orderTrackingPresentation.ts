@@ -1,3 +1,4 @@
+import {DISPLAY_LOCALE} from '../utils/displayLocale';
 export const ORDER_STATUS_LABELS: Record<string, string> = {
   new: 'وصلنا الطلب',
   pending_confirmation: 'بانتظار تأكيد الطلب',
@@ -17,7 +18,7 @@ export function formatTrackingDateTime(value?: string): string {
   if (!value) return 'غير محدد';
   const parsed = new Date(value);
   if (Number.isNaN(parsed.getTime())) return 'غير محدد';
-  return parsed.toLocaleString('ar-JO', {
+  return parsed.toLocaleString(DISPLAY_LOCALE, {
     hour: 'numeric',
     minute: '2-digit',
     day: 'numeric',

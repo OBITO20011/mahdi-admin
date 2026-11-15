@@ -1,3 +1,4 @@
+import {DISPLAY_LOCALE} from '../utils/displayLocale';
 import { Check, LayoutGrid, Menu, PackageSearch, X } from 'lucide-react';
 import { useEffect } from 'react';
 import type { CatalogCategory } from '../types/catalog';
@@ -147,7 +148,7 @@ export function CategoryDrawer({
                     </span>
                     <span className="mt-1 block text-[9px] font-bold text-slate-400">
                       {category.productCount > 0
-                        ? `${category.productCount.toLocaleString('ar-JO')} صنف`
+                        ? `${category.productCount.toLocaleString(DISPLAY_LOCALE)} صنف`
                         : 'لا توجد أصناف حاليًا'}
                     </span>
                   </span>

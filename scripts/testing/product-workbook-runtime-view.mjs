@@ -1,3 +1,4 @@
+import {sourceBeforeLatinDigits,latinDigitsSourcePins,latinDigitsSourceBase} from '../audit/source-before-latin-digits.mjs';
 import {sourceBeforeOptionalQuantity223,quantity223SourcePins,quantity223SourceBase} from '../audit/source-before-optional-quantity223.mjs';
 import{sourceBeforeIndependentPrices222}from'../audit/source-before-independent-prices222.mjs';
 import{sourceBeforePriceVisibility}from'../audit/source-before-price-visibility.mjs';
@@ -89,6 +90,16 @@ export async function prepareWorkbookRuntimeView({schemaOnly=false}={}){
   git(['clone','--shared','--no-checkout',root,dir]);git(['update-ref','--no-deref','HEAD',head],dir);git(['read-tree',head],dir);await writeFile(path.join(dir,'.git/info/exclude'),'\n/node_modules\n/.workbook-runtime-view.json\n',{flag:'a'});assert.equal(git(['rev-parse','HEAD'],dir).toString('utf8').trim(),head);
   // Git materializes raw objects without buffering a full archive or tar filename conversion.
   git(['config','core.autocrlf','false'],dir);git(['checkout-index','--all'],dir);await noLinks(dir);await writeFile(path.join(dir,'.workbook-runtime-view.json'),JSON.stringify(marker));
+  // Rewind this exact presentation layer before the existing historical layers.
+  // Original hashes/beforeText remain immutable;unknown bytes never project.
+  for(const[file]of Object.entries(latinDigitsSourcePins)){
+   if(!sourceScope(file))continue;
+   const target=path.join(dir,file),raw=await readFile(target,'utf8'),before=sourceBeforeLatinDigits(file,raw);
+   assert.notEqual(before,raw,'HISTORICAL_LATIN_UNREVIEWED_SOURCE:'+file);
+   assert.equal(before,historicalText(latinDigitsSourceBase,file),'HISTORICAL_LATIN_NOT_EXACT_GIT:'+file);
+   if(before===null)await unlink(target);else await writeFile(target,before);
+   changed.push({file,after:hash(raw.replaceAll('\r\n','\n')),before:before===null?null:hash(before)});
+  }
   // Rewind every reviewed price-card source,including files that did not
   // exist in the222 pin set. SQL/tools/evidence stay outside this source scope.
   // The same complete-file hashes and literal inverse reject unknown bytes.

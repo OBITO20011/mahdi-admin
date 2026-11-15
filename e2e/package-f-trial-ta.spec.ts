@@ -4,7 +4,7 @@ for(const width of [360,390,1440])test(`T-A formed parcel with bottle/can units 
  await page.setViewportSize({width,height:950});
  const writes:string[]=[];await page.route('**/rest/v1/**',route=>{writes.push(new URL(route.request().url()).pathname);return route.fulfill({json:[]});});
  await page.goto('/e2e/package-f-trial-ta-harness.html');const dialog=page.getByRole('dialog');
- await expect(dialog.getByRole('heading',{name:'اختر ٣ باكيت',exact:true})).toBeVisible();await expect(dialog).not.toContainText(/قنينة|زجاجة|علبة|كرتونة/u);
+ await expect(dialog.getByRole('heading',{name:'اختر 3 باكيت',exact:true})).toBeVisible();await expect(dialog).not.toContainText(/قنينة|زجاجة|علبة|كرتونة/u);
  await page.getByRole('button',{name:'زيادة توت',exact:true}).click();await page.getByRole('button',{name:'زيادة توت',exact:true}).click();await page.getByRole('button',{name:'زيادة برتقال',exact:true}).click();
  await page.getByRole('button',{name:'إضافة الطرد للسلة',exact:true}).click();
  const result=await page.evaluate(()=>(window as unknown as {trialTA:{payload:unknown;savedUnit:string;componentUnits:string[];catalogUnchanged:boolean}}).trialTA);
