@@ -39,6 +39,22 @@ try{
  assert.equal(frozen220TriggerAclProfile(canonicalCatalog.functions),'local');
  assert.equal(await verifyFunctions(canonicalCatalog),687);
  report.cases.push('final function check accepts the original NULL profile');
+ const unapproved='public.lite3_counter_context223(uuid)';
+ const anonGrant="SELECT has_function_privilege('anon',"+q(unapproved)+",'EXECUTE');";
+ assert.equal(await sql(anonGrant),'f');
+ try{
+  await sql('GRANT EXECUTE ON FUNCTION '+unapproved+' TO anon;');
+  assert.equal(await sql(anonGrant),'t');
+  const unapprovedCatalog=await json(schemaCatalogSql);
+  await assert.rejects(()=>verifyFunctions(unapprovedCatalog),
+   /RESET223_FINAL_FUNCTION_ACL_UNAPPROVED:lite3_counter_context223\(p_product_id uuid\)/);
+ }finally{await sql('REVOKE EXECUTE ON FUNCTION '+unapproved+' FROM anon;');}
+ assert.equal(await sql(anonGrant),'f');
+ report.cases.push('final function check refuses an unapproved ACL identical to the saved snapshot');
+ await sql(frankfurt220TriggerAclFixtureSql.split('\n')[0]);
+ const mixedCatalog=await json(schemaCatalogSql);
+ await assert.rejects(()=>verifyFunctions(mixedCatalog),/FROZEN220_TRIGGER_ACL_PROFILE_MISMATCH/);
+ report.cases.push('final function check refuses a partial Frankfurt profile');
  await sql(frankfurt220TriggerAclFixtureSql);
  await assert.rejects(()=>verifyFunctions(canonicalCatalog),/RESET223_FINAL_FUNCTION_ACL_CHANGED/);
  report.cases.push('final function check refuses newly explicit ACL even with unchanged effective EXECUTE');

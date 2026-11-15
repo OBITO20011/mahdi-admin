@@ -264,7 +264,7 @@
     },
     "scripts/operations/function-reference223.mjs": {
       "before": null,
-      "after": "af3bd389c299c3550bb6de461abe95421eadb051b0d87c31a2e9cb953ade82bd",
+      "after": "bd9e531b0d0e8a231ddde898f976c4a0319f82c70668738b09455072f98f835c",
       "beforeText": null
     },
     "scripts/operations/optional-quantity223-catalog.mjs": {
@@ -419,7 +419,7 @@
     },
     "scripts/testing/run-reset223-runtime.mjs": {
       "before": null,
-      "after": "4a0c11220e8c65c1dc3ba95c16fe7a6e5cb7519144b8e20b6a2f0b0fa332af1c",
+      "after": "af7e0e80a665363794910c806ff6a224d800be39fd526a914741483b0bb2122d",
       "beforeText": null
     },
     "src/features/operatingMode/LowOptionalQuantityList.tsx": {

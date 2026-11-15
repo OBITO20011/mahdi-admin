@@ -3,11 +3,12 @@ import {readFile} from 'node:fs/promises';
 import path from 'node:path';
 import {isDeepStrictEqual} from 'node:util';
 import {executeInput} from './build-empty-supabase.mjs';
+import {frozen220TriggerAclProfile,hasFrankfurt220TriggerAcl} from './frozen220-trigger-acl.mjs';
 import {operationalManifest} from './operational-schema.mjs';
 import {canonicalLf,canonicalDefinitionLf,renderFunctionReference} from '../testing/maintenance-db-contract.mjs';
 
 const root=path.resolve(import.meta.dirname,'../..');
-const publicAcls=catalog=>new Map(catalog.functions.filter(row=>row.schema==='public').map(row=>[row.identity,row.acl]));
+const publicFunctions=catalog=>catalog.functions.filter(row=>row.schema==='public');
 
 export async function functionReference223(executor,reference,beforeCatalog){
  const source=await readFile(path.join(root,'scripts/testing/generate-db-functions.mjs'),'utf8');
@@ -18,17 +19,24 @@ export async function functionReference223(executor,reference,beforeCatalog){
  const functions=JSON.parse(response.stdout.trim()).map(row=>({...row,definition:canonicalDefinitionLf(row.definition)}));
  assert.equal(functions.length,687,'EXACT223_PUBLIC_FUNCTIONS_REQUIRED');
  const expected=await readFile(path.join(root,'docs/generated/DB_FUNCTIONS.md'),'utf8');
- const preservedAcls=publicAcls(beforeCatalog),referenceAcls=publicAcls(reference.catalog);
- assert.equal(preservedAcls.size,functions.length,'RESET223_FINAL_FUNCTION_ACL_SNAPSHOT_MISMATCH');
+ const preservedFunctions=publicFunctions(beforeCatalog);
+ const preservedByIdentity=new Map(preservedFunctions.map(row=>[row.identity,row]));
+ const referenceAcls=new Map(publicFunctions(reference.catalog).map(row=>[row.identity,row.acl]));
+ assert.equal(preservedByIdentity.size,functions.length,'RESET223_FINAL_FUNCTION_ACL_SNAPSHOT_MISMATCH');
  assert.equal(referenceAcls.size,functions.length,'RESET223_FINAL_FUNCTION_ACL_REFERENCE_MISMATCH');
  const verified=functions.map(row=>{
-  assert.ok(preservedAcls.has(row.identity)&&referenceAcls.has(row.identity),'CURRENT223_FUNCTION_REFERENCE_CHANGED');
-  const preservedAcl=preservedAcls.get(row.identity);
-  assert.ok(isDeepStrictEqual(row.acl,preservedAcl),'RESET223_FINAL_FUNCTION_ACL_CHANGED:'+row.identity);
-  // Compare the generated reference with only the verified explicit ACL projected back.
-  // The saved pre-RESET value was checked exactly, including order, above.
-  return preservedAcl===null?row:{...row,acl:referenceAcls.get(row.identity)};
+  const preserved=preservedByIdentity.get(row.identity);
+  assert.ok(preserved&&referenceAcls.has(row.identity),'CURRENT223_FUNCTION_REFERENCE_CHANGED');
+  const referenceAcl=referenceAcls.get(row.identity);
+  const matchesReference=isDeepStrictEqual(preserved.acl,referenceAcl);
+  assert.ok(matchesReference||hasFrankfurt220TriggerAcl(preserved),'RESET223_FINAL_FUNCTION_ACL_UNAPPROVED:'+row.identity);
+  assert.ok(isDeepStrictEqual(row.acl,preserved.acl),'RESET223_FINAL_FUNCTION_ACL_CHANGED:'+row.identity);
+  return matchesReference?row:{...row,acl:referenceAcl};
  });
+ // Validate the complete profiles using the raw rows, before comparing the projected reference.
+ const restoredFunctions=functions.map(({identity,owner,acl})=>({schema:'public',identity,owner,acl}));
+ assert.equal(frozen220TriggerAclProfile(restoredFunctions),frozen220TriggerAclProfile(preservedFunctions),
+  'RESET223_FINAL_FUNCTION_ACL_PROFILE_CHANGED');
  assert.ok(renderFunctionReference(await operationalManifest(),verified)===canonicalLf(expected),
   'CURRENT223_FUNCTION_REFERENCE_CHANGED');
  return functions.length;
