@@ -3,27 +3,47 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/handover/ورقة-يوم-التشغيل.html"
+      "path": "docs/agent/project-state.json"
     },
     {
       "code": " M",
-      "path": "docs/handover/ورقة-يوم-التشغيل.md"
+      "path": "scripts/agent/lib.mjs"
     },
     {
       "code": " M",
-      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
+      "path": "scripts/agent/preflight.mjs"
     },
     {
-      "code": " M",
-      "path": "docs/reviews/FINAL_CATALOG_LOCAL_AR.md"
+      "code": "??",
+      "path": "docs/design/inventory224/catalog224-pins.json"
     },
     {
-      "code": " M",
-      "path": "scripts/audit/final-catalog-source-pins.json"
+      "code": "??",
+      "path": "docs/design/inventory224/CONTRACT_AR.md"
     },
     {
-      "code": " M",
-      "path": "tests/lite220-handover.test.ts"
+      "code": "??",
+      "path": "docs/design/inventory224/local223-source-pin.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/inventory224-catalog.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/inventory224-local.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-inventory224-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "supabase/migrations/224_optional_quantity_inventory_reader.sql"
+    },
+    {
+      "code": "??",
+      "path": "tests/inventory224-reader.test.ts"
     }
   ]
 }

@@ -1,56 +1,48 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "PAUSED",
   "owner": "codex",
-  "objective": "Final owner-approved catalog and storefront category order/design. Draft PR/full CI only;no merge,deploy,hosted access,demo reset or owner originals edits.",
-  "baselineSha": "e80a594416b1e1136c6e1b6d8ed0d9de805e10a4",
-  "branch": "codex/final-catalog",
-  "phase": "FINAL_CATALOG",
-  "startedAt": "2026-11-15T08:46:28.587Z",
+  "objective": "Owner-approved224 inventory reader, SQL tests, protected owner tools/reference184/cutover; approved UI after backend/tools on same branch/PR.",
+  "baselineSha": "3b35a263f7c20212c537bb61b2d20af778b7613d",
+  "branch": "codex/inventory224-backend",
+  "phase": "INVENTORY224",
+  "startedAt": "2026-11-15T22:27:56.158Z",
   "completed": [
-    "100:feature/main79green;merged e80a5944;primary protectedff/preflight complete.",
-    "Final workbook3310da57:748roots/108families/444flavors/1084sellable;56 supported unit changes;2explicit deletions;all protected fields/originalSHA intact;checker0errors.",
-    "Owned223 officialRESET36.329s:12CAT rows retained exactly;OFF+8units+3customcategories viaUI;actualUIimport325.755s/1192readback exact;zero inventory/reservations/debt/integrity.",
-    "Actual public15nonempty/no duplicates;family store10cases and definition counter1084/1084;category Chromium/WebKit6cases1280/390;2A4print1010/903px.",
-    "HTTP223181/0errors,RPC732/18expected;fresh/incremental0 andready223test-only687public51private13Realtime;no reference installed.",
-    "Category3+history2 andcutover focused12 pass;both types/strictlint passed before final doc assertions."
+    "New owner-only reader224 added; SQL delta is exactly one function, existing functions/tables/triggers/ACL unchanged.",
+    "Actual isolated223→224 SQL8/8 groups pass: search/digits/filters/global counts/events/roles/READ ONLY/zero writes; disposable fixture cleaned.",
+    "Unit/catalog guards3/3; unknown byte and extra table/ACL rejected.184manifest/preflight hash admission prepared."
   ],
   "inProgress": [
-    "Quiet complete unit suites,final types/lint/builds/budgets then final exact-head CI/Gitleaks/Draft PR."
+    "Versioned224 owner protection/RESET/D1/reference and historical compatibility."
   ],
   "notStarted": [
-    "Final CI/Gitleaks and owner review stop;no merge."
+    "SQL proofs; versioned224 protection/RESET/D1/reference and historical guards; approved UI; full CI/review."
   ],
   "testsPassed": [
-    "Checker0errors;748root+444flavor protected comparisons",
-    "OfficialRESET/UIimport/readback/15nonemptyCAT/public/family10/counter1084",
-    "Category6browser andfocused12;2A4;HTTP181/RPC732/catalog0"
+    "Actual reader PostgreSQL8groups PASS; unit/catalog3/3; preflight224 PASS."
   ],
   "testsRemaining": [
-    "Complete root/customer units;finaltypes/strictlint;isolatedbuild/budget;exactheadfullCI/Gitleaks"
+    "Fresh/incremental224 catalog and ready reference; encrypted Backup/Restore and upgrade/RESET224; historical214–223; approved UI; full CI/Gitleaks."
   ],
   "findings": [
-    "No SQL/migration/financiallogic/ON changes;no owner originals/env/demo changes.",
-    "Known local fixture failures were fail-closed before destructive work;corrected only external harness transport/hold. No app or guard changes.",
-    "One audit bootstrap environmental rerun for Docker subnet exhaustion;only this task bridge moved to explicit subnet;other networks untouched.",
-    "Final store probe resumed only last case after detached search node;waits actual OFF reader;9 successful captures retained,not rerun."
+    "Two new-test expectations corrected to actual existing contracts: named catalog identity arguments, and assert_erp_role P0001+exact Arabic denial. No frozen guard modified.",
+    "UI approved after initial backend scope; implement after backend/tools on this same branch/PR."
   ],
   "blockers": [],
-  "prohibitions": [
-    "NoSQL/migrations/frozenfunctions/financiallogic orprice/barcode/SKU/familychanges except2approveddeletions",
-    "No merge/deploy/hosted/Frankfurt/preview;no demo/ownerTOTP/env/originalfilechanges",
-    "58/79/82untouched;onewriter;bankcommit/push milestones/~hour"
-  ],
-  "evidence": "C:/Users/TOP/NawasrahLocalValidation/final-catalog-20261115",
-  "nextExactAction": "Commit the bounded current-file doc expectations and legacy-category UI cleanup proof;then quiet full root units again on corrected source. Do not rerun customer233 or category6 without source changes. Final types/lint/build/staticbudget/CI/Gitleaks,no merge.",
   "activeProcesses": [
-    "OwnerdemoPID5012 untouched. Owned final-catalog15 Docker stack and loopback serverPID10864 remain;cron globally off inside this test only."
+    "Owner demo/n8n externally running; not touched. No task test container yet."
   ],
+  "prohibitions": [
+    "No merge/deploy/hosted access/Docker restart/owner demo or n8n/container operations.",
+    "No221, table/trigger/sales-writer changes; migration224 may add only the approved reader.",
+    "No owner original/private/env edits."
+  ],
+  "checkpointedAt": "2026-11-15T22:50:04.717Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "0B18038A7AF41ABADDF7040F90E4EE082FDB2EEAD4D08CB67144A2A4DCFC49F0",
-  "checkpointedAt": "2026-11-15T10:20:25.917Z",
-  "filesTouchedCount": 6,
-  "filesTouchedManifestSha256": "655497f26276dd60668ac8a4d8505106756e63e9f1ee9438259bae902ed264c4"
+  "filesTouchedCount": 11,
+  "filesTouchedManifestSha256": "7b0dd5c0a01fec2da6dc84d4f0af1d43d2799bace7112b91d2ceff76493a70f7",
+  "nextExactAction": "Versioned224 tools/reference/protection and historical guards first; approved UI follows. No hosted/demo/n8n/Docker restart.",
+  "workingTreeFingerprint": "083FFF70FBA11CD51544605F5588FBFE3172FE33BA255991B2436D5D30533F72"
 }

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "project": "Nawasrah ERP",
-  "branch": "codex/final-catalog",
-  "approvedBaseline": "e80a594416b1e1136c6e1b6d8ed0d9de805e10a4",
+  "branch": "codex/inventory224-backend",
+  "approvedBaseline": "3b35a263f7c20212c537bb61b2d20af778b7613d",
   "closedPhases": [
     "3",
     "4.1",
@@ -14,7 +14,7 @@
     "6"
   ],
   "phase4Closed": true,
-  "currentPhase": "FINAL_CATALOG",
+  "currentPhase": "INVENTORY224",
   "phase6Closed": true,
   "phase6ClosureBaseline": "5aaeab11e13c2be454af677ee176f77aa2d9cde4",
   "phase6ClosureExactShaCi": "PASS",
@@ -92,7 +92,7 @@
   "phase5Slice4ClosureExactShaCi": "PASS",
   "phase5Slice3AuthorizationBaseline": "6fac32ac422206a3b5e5716159304806f30d0aed",
   "phase5PublicActivationAllowed": false,
-  "migrationCeiling": 223,
+  "migrationCeiling": 224,
   "migration199CanonicalLfSha256": "A34808EE64C80744FD8973559207983391ACA0F53025F8F2764BE74E52C2FCF0",
   "migration197CanonicalLfSha256": "3CAABD6C454A22A607761B57FFF66E9C41119C468D468F54C1DE9197111E7722",
   "migration198CanonicalLfSha256": "1F494DC9F95B6A4DB5887F5EF675C4E792FF7CD7EF681F37588489F88C094BAB",
@@ -260,7 +260,7 @@
   "migration215CanonicalLfSha256": "2D20594D6112C206A23130C43CE555ECC5357921CC9E4058019D0446223A4E57",
   "trialTb215Status": "LOCAL_DB_UI_SDK_REFERENCE_OWNER_BACKUP_RESET_PASS_FULLQUALITY_EXACT_CI_PENDING",
   "operationalSchema": {
-    "manifestSha256": "da7be0d23ca1a005629f6cc7f8f0a583c6aaf77571c3e0f394414b1867b141f5",
+    "manifestSha256": "a667b91fc46d40e64017d3791ba85d63d597913182ae93f9db83577af24c1a61",
     "archiveFormatVersion": 2,
     "legacyArchiveCeilings": [
       214,
@@ -269,11 +269,12 @@
       217,
       219,
       220,
-      222
+      222,
+      223
     ],
-    "resetCommand": "frankfurt-owner-reset223",
-    "upgradeCommand": "frankfurt-owner-upgrade223",
-    "readyReferenceName": "local-reference-through223-ready.json"
+    "resetCommand": "frankfurt-owner-reset224",
+    "upgradeCommand": "frankfurt-owner-upgrade224",
+    "readyReferenceName": "local-reference-through224-ready.json"
   },
   "migration216CanonicalLfSha256": "3A30798F8F9DD385DD915ED74B25440B8E40C6B46893541ACA049A5B94E09462",
   "trialTc216Status": "LOCAL_DB_UI_HTTP_SDK_REFERENCE_UPGRADE_RESET_ARCHIVE_COMPAT_PASS_EXACT_FULL_CI_PENDING",
@@ -289,7 +290,7 @@
   "phaseSALES_ONLY_PHASE3ImplementationAllowed": true,
   "migration220CanonicalLfSha256": "08BCD03CE79DC1421A49B66C7A0C44CABFDA4673ADBEFC9707AFDDFDE7EF49FA",
   "phaseACTUAL_SALE_UNITSImplementationAllowed": true,
-  "expectedRoot": "C:/Users/TOP/NawasrahWorktrees/final-catalog/mahdi-admin",
+  "expectedRoot": "C:/Users/TOP/NawasrahWorktrees/inventory224-backend/mahdi-admin",
   "phasePACKET_DEFAULT_IMPORT_DOCSImplementationAllowed": true,
   "phaseLITE_PARCEL_UNIT_GUARDImplementationAllowed": true,
   "ownerDeferredAccountingMigrationNumbers": [
@@ -300,5 +301,7 @@
   "phasePARCEL_INDEPENDENT_PRICEImplementationAllowed": true,
   "phaseOFF_QUANTITY_COUNTERImplementationAllowed": true,
   "phaseLATIN_DIGITSImplementationAllowed": true,
-  "phaseFINAL_CATALOGImplementationAllowed": true
+  "phaseFINAL_CATALOGImplementationAllowed": true,
+  "phaseINVENTORY224ImplementationAllowed": true,
+  "migration224CanonicalLfSha256": "9BB37DC38A8E6C09497BAA4E902FB3F5368C9A8275D24AE54D54302F334C3C36"
 }

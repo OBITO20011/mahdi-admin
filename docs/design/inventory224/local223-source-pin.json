@@ -1,0 +1,5 @@
+{
+  "source": "scripts/testing/independent-prices222-local.mjs",
+  "sha256": "772f966ebe79a605e268d2743fe105185d4176882cb4a788736cfdc5da4c09e0",
+  "purpose": "Exact223 DB-only bootstrap with only ceiling/project identity changes; shared CLI lease retained."
+}
