@@ -76,6 +76,7 @@ for(const width of [390,1280]){
     await form.getByRole('checkbox',{name:/أؤكد سعر باكيت/}).check();
     await price.scrollIntoViewIfNeeded();
     await page.screenshot({path:testInfo.outputPath('product-prices-'+width+'.png')});
+    await testInfo.attach('product-prices-'+width,{path:testInfo.outputPath('product-prices-'+width+'.png'),contentType:'image/png'});
     await form.getByRole('button',{name:'حفظ التعديلات',exact:true}).click();
     await expect.poll(()=>writes.length).toBe(1);
     expect(writes[0]).toMatchObject({p_sale_price_in_minor_units:1900,p_default_sale_price_in_minor_units:14000,p_units_per_sale_unit:8,p_parcel_only:false});
@@ -119,6 +120,7 @@ for(const width of [390,1280]){
     await form.getByRole('checkbox',{name:/أؤكد سعر الطرد/}).check();
     await price.scrollIntoViewIfNeeded();
     await page.screenshot({path:testInfo.outputPath('add-parcel-'+width+'.png')});
+    await testInfo.attach('add-parcel-'+width,{path:testInfo.outputPath('add-parcel-'+width+'.png'),contentType:'image/png'});
     await form.getByRole('button',{name:'حفظ التعديلات',exact:true}).click();
     await expect.poll(()=>writes.length).toBe(1);
     expect(writes[0]).toMatchObject({p_sale_price_in_minor_units:1900,p_default_sale_price_in_minor_units:14000,p_units_per_sale_unit:8,p_parcel_only:false});
@@ -153,6 +155,7 @@ for(const width of [390,1280]){
     expect(featureWrites).toEqual(['ENABLED','OFF']);
     await toggle.scrollIntoViewIfNeeded();
     await page.screenshot({path:testInfo.outputPath('global-feature-'+width+'.png')});
+    await testInfo.attach('global-feature-'+width,{path:testInfo.outputPath('global-feature-'+width+'.png'),contentType:'image/png'});
   });
 }
 

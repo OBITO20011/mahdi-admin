@@ -94,7 +94,7 @@
     },
     "e2e/off-product-form-presentation.spec.ts": {
       "before": null,
-      "after": "0d808ab38223161e53f62ab5047930891a969198ba10672990748b60d74b597b",
+      "after": "1a079215ac6115087d05eca91bf11132c8e95bc2a37901c3ec55767c234fdaac",
       "beforeText": null
     },
     "scripts/audit/source-before-final-catalog.d.mts": {
