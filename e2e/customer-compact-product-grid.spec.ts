@@ -141,7 +141,7 @@ test.describe('شبكة المنتجات المدمجة', () => {
 
     const longName = products[0].nameAr;
     await expect(page.getByRole('heading', { name: longName })).toBeVisible();
-    await expect(page.getByText('١٫٢٥٠ د.أ').first()).toBeVisible();
+    await expect(page.getByText('1.250 د.أ').first()).toBeVisible();
     await expect(
       page.getByTestId('catalog-products-grid').locator('article').first()
         .getByText('باكيت', { exact: true }).last()

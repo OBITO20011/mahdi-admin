@@ -303,7 +303,7 @@ test.describe('متجر العملاء العام', () => {
     await expect(cells).toHaveCount(3);
     const before = await cells.evaluateAll(nodes => nodes.map(node => node.getBoundingClientRect().width));
     release();
-    await expect(page.getByTestId('hero-stats').getByText('٦٬٠٠٠', {exact: true})).toBeVisible();
+    await expect(page.getByTestId('hero-stats').getByText('6,000', {exact: true})).toBeVisible();
     expect(await cells.evaluateAll(nodes => nodes.map(node => node.getBoundingClientRect().width))).toEqual(before);
     } finally { release(); }
   });

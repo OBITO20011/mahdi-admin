@@ -3,15 +3,47 @@
   "files": [
     {
       "code": " M",
-      "path": "e2e/document-corrections207.spec.ts"
+      "path": "e2e/customer-checkout-isolated.spec.ts"
     },
     {
       "code": " M",
-      "path": "e2e/package-f-trial-ta.spec.ts"
+      "path": "e2e/customer-checkout-simplification.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/customer-compact-product-grid.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/customer-order-tracking.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/customer-presentational-characterization.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/customer-storefront-c6.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/lite-parcel-unit-guard.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/phase6-package-b.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/public-apps.spec.ts"
     },
     {
       "code": " M",
       "path": "scripts/audit/latin-digits-source-pins.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/reviews/latin-digits/TEST_EXPECTATION_CHANGES.md"
     }
   ]
 }

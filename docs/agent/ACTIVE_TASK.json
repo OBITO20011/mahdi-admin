@@ -2,51 +2,48 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner14Nov queued,15Novexplicitstart:Latin0-9 digits throughout store/admin/POS/print/WhatsApp/Telegram formatting and dates. Central locale ar-JO-u-nu-latn;decimal dot/thousands comma;Arabic wording/JOD label retained. No value/logic/SQL change. SeparatePR/fullCI;no merge/deploy/hosted/owner originals/demo reset.",
-  "baselineSha": "8c390aba782b30086167ff9f152f24a79934f882",
+  "objective": "Owner14Nov Latin display policy,noSQL/values/parsers.15Novapproved18legacydisplayexpectationlines;futureonlysamevalueArabic-to-Latin assertions mayfix+ledger,otherfailureSTOP. Conditional100mergeafterfullgreen,mainCI+primarypreservedff/preflight;thenfreshmainbranchfinalcatalog. No deploy/hosted/demo reset orowneroriginalchanges.",
+  "baselineSha": "a03dbf263f6e7f69faf5c6e124354506e7718061",
   "branch": "codex/latin-digits",
   "phase": "LATIN_DIGITS",
   "startedAt": "2026-11-15T03:10:03.353Z",
   "completed": [
-    "98merged955bc41e+main77/77;99updatedc366PR79/79,merged99eb1846main79/79;primaryff-only/preflight preserving20owner/4env/5fields.",
-    "Latin Draft100/head8c390aba pushed;displayonly,noSQL/values/parserchange. Store230/230;8mobile+18pricecases;HTTP223181/0errors,RPC732/18expected;strict219schema/fullviews.",
-    "Bothtypes0/strictlint0/4isolatedbuilds+CSP/SEO/dist/budgetPASS;correctedlocalroot2061/2061,0skip;Gitleaks776commits0leaks.",
-    "Ownerapproved2browsernumerictexts+2newpins only;all64priorpinsunchanged;affectedChromium/WebKit28/28+literalpinnegativePASS,transportfence0attempts."
+    "98/99 mergedmain99eb1846/fullgreen/primarypreservation+preflight. LatinDraft100a03dbf26 pushed.",
+    "Approved2oldnumerictexts only+2pins;64priorpinsidentical;affected28/28bothengines,fence0requests. NoUI/deadline/otherexpectationchange.",
+    "NewheadCI root2061/2061+store230/230;all10Fshards+sixsupportworkflowsPASS. Types/lint/build/access/history localPASS;Gitleaks777commits0."
   ],
   "inProgress": [
-    "Commit/push exactapprovedtest-onlypatch;freshfullCI onnewhead,noUI/timeout/otherassertionchanges."
+    "Ownerapproved16exactdisplaylines/9tests applied+lineledger;newpins/focusedguard thenfreshfullCI. Future same-value numeral expectations preapproved,anyotherfailureSTOP."
   ],
   "notStarted": [
-    "Finalworkbook/categories after100fullgreen,newbranchfrommain."
+    "Finalcatalog/workbook/categories notstarted:requires100fullgreen first. QueuedscopeexternalNEXT_FINAL_CATALOG_SCOPE.json."
   ],
   "testsPassed": [
     "Root2061/2061;store230;mobile8+price18;actualaccess/history;types/lint/builds;Gitleaks0"
   ],
   "testsRemaining": [
-    "Exactnewhead fullCI;Gitleaks;then approvedfinalworkbook/categories task fromnewmainbranch."
+    "ExactnewheadfullCI/Gitleaks;conditional100merge/mainCI/primaryffpreserving20/4/5/preflight;thenfreshmainbranchfinalcatalog."
   ],
   "findings": [
-    "CI43676783605 deterministicoldnumeral expectations:document-corrections207:10 expects٢ not2;package-f-trial-ta:7 expectsاختر٣باكيت notاختر3باكيت. Shards2/3/6/7/8fail;notenvironmental.",
-    "Exactunapplied2linepatch+before/afterSHA in externalCI_EXPECTATION_PROPOSAL.patch/CI_FAILURE_DIAGNOSIS.json. Noapp/testedits orreruns afterfailure. AllsixotherCIworkflows green;remainingqualityjobs continue.",
-    "Initialroot2058/2061 had2numericexpectations+exactHerohistoryview;corrected21/21 thenfull2061/2061. ExistingbeforeText/unknownbyteguards preserved.",
-    "Owner15Nov approved exact2oldbrowsernumericexpectedtexts only+pins;noUI/deadline/otherexpectationchanges. Fullgreen thennewmainbranch workbook/categories;no100merge."
+    "Ownerlatestapproved ADDITIONAL_DISPLAY_EXPECTATIONS_PROPOSAL.patch literally;futureonlysamevalueArabic→Latin assertions preapproved withlineledger. OtherfailureSTOP.",
+    "No UI/SQL/value/parser/deadline change infollowups. BeforeText/allpriorpins stayexact;Arabicinput/SKU/name fixtures andnegativeguardsretained."
   ],
   "blockers": [],
   "prohibitions": [
-    "No SQL/migrations/financial values or business logic changes",
-    "No merge/deploy/hosted/Frankfurt/preview;no owneroriginals/env/private/TOTP/demo writes/reset",
-    "No58/79/82;one evidence-backed environmental rerun max,otherwise STOP"
+    "NoSQL/migrations/financialvalues/businesslogicchanges",
+    "No deploy/hosted/Frankfurt/preview;noowneroriginals/env/TOTP/demo reset/update",
+    "100mergeONLYafterfullgreen;otherPRsno merge;58/79/82untouched;otherfailureSTOP"
   ],
   "evidence": "C:/Users/TOP/NawasrahLocalValidation/latin-digits-20261115",
-  "nextExactAction": "Push exactapprovedtwoexpectations/pins;awaitfreshfullCI;othernonenvironmentalfailureSTOP. Fullgreenreport/no100merge thennewmainbranchfinalcatalog.",
+  "nextExactAction": "Push exact16approveddisplaylines+ledger/pins;awaitfreshfullCI. Samevalue numeral-only assertion mayfix+record;otherfailureSTOP. Green100merge/mainCI/safeff/preflight thenfinalcatalog.",
   "activeProcesses": [
-    "No localtaskprocesses;owner demoPID5012 listenssame8443/8444,untouched. RemotequalityCI43676783605 ongoing;no reruns."
+    "No localtaskprocesses;demo5012 untouchedsameLAN. Remotequality43678322407 maycontinue;sourcea03dbf26unchanged."
   ],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "C9DFF44CD24B38FB76915204E58530BCEF45D03AE7A3DA724B2551D923215DE3",
-  "checkpointedAt": "2026-11-15T04:47:53.746Z",
-  "filesTouchedCount": 3,
-  "filesTouchedManifestSha256": "b92fedf0aa2cf6ff0296d9723c10277be593541219673371c1171a5166fa294a"
+  "workingTreeFingerprint": "66DCD5CE2D13DA918617EFB11494C0B006572D04905A80656CDC0A2DFA201B35",
+  "checkpointedAt": "2026-11-15T05:24:11.401Z",
+  "filesTouchedCount": 11,
+  "filesTouchedManifestSha256": "0f9d85cf1453ed802b38a210d44bbf5f3071da8b6ad7747c017e86bd4a7081db"
 }

@@ -52,7 +52,7 @@ test('unverified operating mode cannot save parcel configuration',async({page})=
 
 test('OFF store details block the inconsistent parcel while a single packet remains buyable',async({page})=>{
  await page.goto('/e2e/lite-parcel-unit-guard-harness.html?view=store');
- await expect(page.getByText('باكيت (٧ باكيت)',{exact:false})).toHaveCount(0);
+ await expect(page.getByText('باكيت (7 باكيت)',{exact:false})).toHaveCount(0);
  const parcel=page.getByRole('region',{name:'إضافة طرد',exact:true}),single=page.getByRole('region',{name:'إضافة باكيت',exact:true});
  await expect(parcel.getByRole('button',{name:/إلى السلة/})).toBeDisabled();await single.getByRole('button',{name:/إلى السلة/}).tap();
  await expect(page.locator('html')).toHaveAttribute('data-unit-added','true');await expect(page.locator('html')).not.toHaveAttribute('data-parcel-added','true');
@@ -113,7 +113,7 @@ test('OFF added parcel displays packet850 and parcel20400 in store and POS;admin
  await page.goto('/e2e/lite-parcel-unit-guard-harness.html?view=store&added');
  await expect(page.getByRole('region',{name:'إضافة باكيت',exact:true})).toContainText(formatJod(850));
  await expect(page.getByRole('region',{name:'إضافة طرد',exact:true})).toContainText(formatJod(20400));
- await expect(page.getByText('طرد (٢٤ باكيت)',{exact:false}).first()).toBeVisible();
+ await expect(page.getByText('طرد (24 باكيت)',{exact:false}).first()).toBeVisible();
  await page.goto('/e2e/lite-parcel-unit-guard-harness.html?view=pos&added');
  await expect(page.locator('[data-pos-add-method="base_unit"]')).toContainText('0.850');
  await expect(page.locator('[data-pos-add-method="legacy_single_sku_parcel"]')).toContainText('20.400');
