@@ -412,8 +412,12 @@
       "sha256": "4e605b238f7ea90f71706e74bfc5f0fd3a117dac894a3168da9a3e5768cde89a"
     },
     {
+      "file": "src/features/more/OffParcelFeatureControl.tsx",
+      "sha256": "1d7cd2a123f4a28c00d47de66b3ca425de23c62e838b2599ae6c3e395a668a4c"
+    },
+    {
       "file": "src/features/more/ParcelConfigurationModal.tsx",
-      "sha256": "0a5553a01d0488921409c821b214e048168afa071da21921197e6514885bc415"
+      "sha256": "24ce554d6d0317ed14229ac2b4b02a2a6f0cc77783e882280383dacaa9ee88db"
     },
     {
       "file": "src/features/more/ProfileModal.tsx",
@@ -580,6 +584,10 @@
       "sha256": "92b253887689bae86d9dd46a41a5c713aa0575a6226147efe7d01d38a4fefb62"
     },
     {
+      "file": "src/features/products/OffParcelPriceSummary.tsx",
+      "sha256": "f3cb90d37d02b5fa9309cb7af0bb2cc8e7b51b659111e9a7cd86f9bc5631afa6"
+    },
+    {
       "file": "src/features/products/ProductCostCorrectionPanel.tsx",
       "sha256": "e0acc44140c6bdaaf049b6c869213fa8804f6d4139d94c027ccbe5f506490a71"
     },
@@ -593,11 +601,11 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "sha256": "0ef4b4e9cd0453540d906ae023093cea4061a708160ee3491ac300173633aea7"
+      "sha256": "da9dfe169392d012f700dc16de0feaf74e3aba387449058e4bcdaffcbabb9bff"
     },
     {
       "file": "src/features/products/ProductFormParcelCapability.tsx",
-      "sha256": "66fa9d03f7f19fc418cecf38d1a6bea6b7c5a0da9648596a65ebbba4ac04f865"
+      "sha256": "e6d4c492288e43066fccaa2a48a0bd3f4497233c4eb4b8e0aea0a6c40ff8d086"
     },
     {
       "file": "src/features/products/ProductsView.tsx",
@@ -1226,6 +1234,10 @@
     {
       "file": "src/utils/newestRecords.ts",
       "sha256": "1251e7a2ff40a5b498e239c4dd7e0da4df14bf39e40c0dc6c164b332f2b4a663"
+    },
+    {
+      "file": "src/utils/offParcelPricePresentation.ts",
+      "sha256": "910e0849d211a40c5e21de49df3e1c8171e4a46ae061460ba054340742fdc33d"
     },
     {
       "file": "src/utils/operatorError.ts",
