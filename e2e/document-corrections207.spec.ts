@@ -7,7 +7,7 @@ const mock=async(page:Page)=>{await page.route('**/rest/v1/rpc/get_document_corr
 for(const width of [390,1440])test(`207 preview reason confirmation and retained effect ${width}`,async({page})=>{
  await page.setViewportSize({width,height:900});await mock(page);let calls=0;
  await page.route('**/rest/v1/rpc/execute_document_correction_once',async route=>{calls++;const r=route.request().postDataJSON();expect(r.p_reason).toBe('البيع مسجل بالخطأ');expect(r.p_preview_fingerprint).toBe('a'.repeat(64));expect(r.p_idempotency_key).toMatch(/^correction207:/u);await route.fulfill({json:{success:true,contractVersion:207,action:'pos_sale',recordId,idempotent:false,preview:preview(),writerResult:{success:true}}});});
- await page.goto(url);const d=await open(page);await expect(d.getByLabel('أثر التصحيح')).toContainText('الكاش في الدرج');await expect(d.getByLabel('أثر التصحيح')).toContainText('٢');expect(calls).toBe(0);
+ await page.goto(url);const d=await open(page);await expect(d.getByLabel('أثر التصحيح')).toContainText('الكاش في الدرج');await expect(d.getByLabel('أثر التصحيح')).toContainText('2');expect(calls).toBe(0);
  await expect(d.getByRole('button',{name:'تأكيد التصحيح'})).toBeDisabled();await d.getByLabel('سبب التصحيح').fill('البيع مسجل بالخطأ');
  expect((await new AxeBuilder({page}).include('[data-testid="document-correction-dialog"]').analyze()).violations.filter(v=>v.impact==='critical'||v.impact==='serious')).toEqual([]);
  await d.getByRole('button',{name:'تأكيد التصحيح'}).click();await expect(page.getByTestId('saved')).toContainText('1');expect(calls).toBe(1);

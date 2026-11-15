@@ -3,27 +3,15 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/PHASE_STATUS.md"
+      "path": "e2e/document-corrections207.spec.ts"
     },
     {
       "code": " M",
-      "path": "docs/reviews/latin-digits/README.md"
+      "path": "e2e/package-f-trial-ta.spec.ts"
     },
     {
       "code": " M",
       "path": "scripts/audit/latin-digits-source-pins.json"
-    },
-    {
-      "code": " M",
-      "path": "tests/lite-parcel-unit-guard.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/phase6-package-b.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/product-workbook-runtime-view.test.ts"
     }
   ]
 }
