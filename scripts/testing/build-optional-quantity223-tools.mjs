@@ -42,6 +42,8 @@ for(const [file,digest] of Object.entries(pins)){
  if(file==='frankfurt-owner-reset222.mjs'){
   text=once(text,'migrationCeiling:223,migrations:182','migrationCeiling:223,migrations:183');
   text=once(text,'RESET(?:214|215|217|220|223)','RESET(?:214|215|217|220|222|223)');
+  text=once(text,'report.functions=await functionReference(executor);',
+   'report.functions=await functionReference(readOnly,reference,session.saved.catalog);');
  }
  if(file==='frankfurt-owner-upgrade222.mjs'){
   text=text.replaceAll("'220'","'222'").replaceAll('[181,182]','[182,183]').replaceAll('base.length,181','base.length,182')

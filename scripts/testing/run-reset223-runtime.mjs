@@ -18,6 +18,7 @@ import {sha256} from './maintenance-db-contract.mjs';
 import {schemaCatalogSql} from './schema-catalog.mjs';
 import {frankfurt220TriggerAclFixtureSql,frankfurt220TriggerAclReadSql} from './frankfurt220-trigger-acl-fixture.mjs';
 import {frozen220TriggerAclProfile} from '../operations/frozen220-trigger-acl.mjs';
+import {functionReference223} from '../operations/function-reference223.mjs';
 import {pgNetIdentitySql,provePgNetRunnable219} from './reset219-dependency-probe.mjs';
 import {readVerificationSourceFreeze,assertVerificationSourceFreeze} from './verification-source-freeze.mjs';
 const root=path.resolve(import.meta.dirname,'../..'),output=await mkdtemp(path.join(tmpdir(),'nawasrah-reset223-proof-'));
@@ -33,7 +34,50 @@ try{
  const fixture=await readFile(path.join(root,'scripts/testing/package-e-golden-day-fixture.sql'),'utf8');
  const unschedule="SELECT cron.unschedule(jobid) FROM cron.job WHERE jobname='run-advanced-monitoring';";assert.equal(fixture.split(unschedule).length,2);
  await sql(fixture.replace(unschedule,'-- Keep the six existing held job identities.'));
+ const verifyFunctions=before=>functionReference223(local.executor,reference,before);
+ const canonicalCatalog=await json(schemaCatalogSql);
+ assert.equal(frozen220TriggerAclProfile(canonicalCatalog.functions),'local');
+ assert.equal(await verifyFunctions(canonicalCatalog),687);
+ report.cases.push('final function check accepts the original NULL profile');
+ const unapproved='public.lite3_counter_context223(uuid)';
+ const anonGrant="SELECT has_function_privilege('anon',"+q(unapproved)+",'EXECUTE');";
+ assert.equal(await sql(anonGrant),'f');
+ try{
+  await sql('GRANT EXECUTE ON FUNCTION '+unapproved+' TO anon;');
+  assert.equal(await sql(anonGrant),'t');
+  const unapprovedCatalog=await json(schemaCatalogSql);
+  await assert.rejects(()=>verifyFunctions(unapprovedCatalog),
+   /RESET223_FINAL_FUNCTION_ACL_UNAPPROVED:lite3_counter_context223\(p_product_id uuid\)/);
+ }finally{await sql('REVOKE EXECUTE ON FUNCTION '+unapproved+' FROM anon;');}
+ assert.equal(await sql(anonGrant),'f');
+ report.cases.push('final function check refuses an unapproved ACL identical to the saved snapshot');
+ await sql(frankfurt220TriggerAclFixtureSql.split('\n')[0]);
+ const mixedCatalog=await json(schemaCatalogSql);
+ await assert.rejects(()=>verifyFunctions(mixedCatalog),/FROZEN220_TRIGGER_ACL_PROFILE_MISMATCH/);
+ report.cases.push('final function check refuses a partial Frankfurt profile');
  await sql(frankfurt220TriggerAclFixtureSql);
+ await assert.rejects(()=>verifyFunctions(canonicalCatalog),/RESET223_FINAL_FUNCTION_ACL_CHANGED/);
+ report.cases.push('final function check refuses newly explicit ACL even with unchanged effective EXECUTE');
+ const explicitCatalog=await json(schemaCatalogSql);
+ assert.equal(frozen220TriggerAclProfile(explicitCatalog.functions),'frankfurt');
+ assert.equal(await verifyFunctions(explicitCatalog),687);
+ const signature='public.enforce_customer_for_debt_order()';
+ try{
+  await sql('GRANT EXECUTE ON FUNCTION '+signature+' TO anon;');
+  await assert.rejects(()=>verifyFunctions(explicitCatalog),/RESET223_FINAL_FUNCTION_ACL_CHANGED:enforce_customer_for_debt_order/);
+ }finally{await sql('REVOKE EXECUTE ON FUNCTION '+signature+' FROM anon;');}
+ report.cases.push('final function check refuses a change to a preserved explicit ACL');
+ const definition=await sql('SELECT pg_get_functiondef('+q(signature)+'::regprocedure);');
+ const changed=definition.replace('AS $function$',()=> 'AS $function$ -- reset223 disposable definition drift');
+ assert.notEqual(changed,definition);
+ const explicitAcls=await json(frankfurt220TriggerAclReadSql);
+ try{
+  await sql(changed+';');
+  assert.deepEqual(await json(frankfurt220TriggerAclReadSql),explicitAcls);
+  await assert.rejects(()=>verifyFunctions(explicitCatalog),/CURRENT223_FUNCTION_REFERENCE_CHANGED/);
+ }finally{await sql(definition+';');}
+ assert.equal(await verifyFunctions(explicitCatalog),687);
+ report.cases.push('final function check refuses definition drift with the saved ACL unchanged');
  const ownerId=id(1);
  await sql(`UPDATE public.branches SET code='BR-MAIN' WHERE id=${q(id(200))};UPDATE public.warehouses SET code='WH-MAIN' WHERE id=${q(id(201))};UPDATE public.profiles SET branch_id=${q(id(200))} WHERE id=${q(ownerId)};
  INSERT INTO auth.mfa_factors(id,user_id,status,factor_type,secret,friendly_name,created_at,updated_at)VALUES(${q(id(500))},${q(ownerId)},'verified','totp','local-fixture-only','Disposable223 proof',now(),now());
@@ -68,6 +112,7 @@ try{
   assert.equal(await sql('SELECT count(*) FROM public.products;'),'0');assert.equal(await sql('SELECT count(*) FROM auth.users;'),'1');assert.equal(await sql('SELECT full_accounting FROM sales_lite1.mode;'),'t');
   assert.equal(frozen220TriggerAclProfile(await json(frankfurt220TriggerAclReadSql)),'frankfurt');assert.deepEqual(await json(pgNetIdentitySql),pgNetBefore);await provePgNetRunnable219(executor);
   for(const table of ['quantity_counters','quantity_events','quantity_requests'])assert.equal(await sql('SELECT count(*) FROM sales_lite3.'+table+';'),'0');
+  assert.equal(await verifyFunctions(session.saved.catalog),687);
   await finishResetSession(session);return Math.round(performance.now()-begin);
  };
  const initial=await captureReset223({executor,ownerId,reference});
