@@ -3,71 +3,51 @@
   "files": [
     {
       "code": " M",
-      "path": "customer-web/src/components/CategoryDrawer.tsx"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/components/CategoryShowcase.tsx"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/components/categoryVisuals.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/components/HomeCategoryMosaic.tsx"
-    },
-    {
-      "code": " M",
       "path": "docs/agent/PHASE_STATUS.md"
     },
     {
       "code": " M",
-      "path": "docs/agent/project-state.json"
+      "path": "docs/handover/ورقة-يوم-التشغيل.html"
     },
     {
       "code": " M",
-      "path": "e2e/customer-category-grid.spec.ts"
+      "path": "docs/handover/ورقة-يوم-التشغيل.md"
     },
     {
       "code": " M",
-      "path": "scripts/audit/source-before-latin-digits.mjs"
+      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
     },
     {
       "code": " M",
-      "path": "scripts/testing/product-workbook-runtime-view.mjs"
+      "path": "docs/operations/SERVICE_ACCESS_AFTER_223.json"
     },
     {
       "code": " M",
-      "path": "tests/latin-digit-history.test.ts"
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
     },
     {
-      "code": "??",
-      "path": "customer-web/src/utils/categoryOrder.ts"
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
     },
     {
-      "code": "??",
-      "path": "customer-web/tests/category-order.test.ts"
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_223.json"
     },
     {
-      "code": "??",
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
       "path": "docs/reviews/FINAL_CATALOG_LOCAL_AR.md"
     },
     {
-      "code": "??",
+      "code": " M",
       "path": "scripts/audit/final-catalog-source-pins.json"
     },
     {
-      "code": "??",
-      "path": "scripts/audit/source-before-final-catalog.d.mts"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/source-before-final-catalog.mjs"
-    },
-    {
-      "code": "??",
-      "path": "tests/final-catalog-history.test.ts"
+      "code": " M",
+      "path": "tests/cutover-publication-order.test.ts"
     }
   ]
 }
