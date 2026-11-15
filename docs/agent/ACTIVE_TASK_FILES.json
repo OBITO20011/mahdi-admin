@@ -3,203 +3,51 @@
   "files": [
     {
       "code": " M",
-      "path": "customer-web/src/App.tsx"
+      "path": "docs/operations/SERVICE_ACCESS_AFTER_223.json"
     },
     {
       "code": " M",
-      "path": "customer-web/src/components/CartDrawer.tsx"
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
     },
     {
       "code": " M",
-      "path": "customer-web/src/components/CategoryDrawer.tsx"
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
     },
     {
       "code": " M",
-      "path": "customer-web/src/components/CategoryShowcase.tsx"
+      "path": "docs/operations/TABLE_ACCESS_AFTER_223.json"
     },
     {
       "code": " M",
-      "path": "customer-web/src/components/CheckoutModal.tsx"
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
     },
     {
       "code": " M",
-      "path": "customer-web/src/components/MerchandisingSections.tsx"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/components/MobileStoreNav.tsx"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/components/NetworkStatusBanner.tsx"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/components/OrderTrackingModal.tsx"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/components/orderTrackingPresentation.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/components/ParcelBuilderModal.tsx"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/components/ProductCard.tsx"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/components/ProductDetailsModal.tsx"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/components/ProductPurchaseControl.tsx"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/components/PromotionOffers.tsx"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/components/StoreHeader.tsx"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/components/StoreHero.tsx"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/components/StoreInfoSection.tsx"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/utils/cart.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/utils/liteProductPricing.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/utils/money.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/utils/storefrontUnits.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/tests/actual-sale-units.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/tests/catalog.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/tests/lite-product-pricing.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/tests/sales-only-deferred-content.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/tests/storefront-units.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/tests/trial-ta-sales-units.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/project-state.json"
-    },
-    {
-      "code": " M",
-      "path": "e2e/off-product-prices.spec.ts"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/source-before-optional-quantity223.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/source-before-price-visibility.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/build-independent-prices222-history.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/product-workbook-runtime-view.mjs"
-    },
-    {
-      "code": " M",
-      "path": "src/components/modals/AllModals.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/components/ui/uiFormat.ts"
-    },
-    {
-      "code": " M",
-      "path": "src/features/corrections/DocumentCorrectionAction.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/features/dashboard/KpiCards.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/features/dashboard/WidgetsSection.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/features/inventory/InventoryOpeningSetupModal.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/utils/orderPresentation.ts"
-    },
-    {
-      "code": " M",
-      "path": "src/utils/receipt.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/price-visibility-history.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "customer-web/src/utils/displayLocale.ts"
-    },
-    {
-      "code": "??",
       "path": "e2e/latin-digits.spec.ts"
     },
     {
-      "code": "??",
+      "code": " M",
       "path": "scripts/audit/latin-digits-source-pins.json"
     },
     {
-      "code": "??",
-      "path": "scripts/audit/source-before-latin-digits.mjs"
+      "code": " M",
+      "path": "scripts/testing/package-f-ci-shards.mjs"
+    },
+    {
+      "code": " M",
+      "path": "tests/package-f-ci-shards.test.ts"
     },
     {
       "code": "??",
-      "path": "scripts/testing/build-latin-digits-history.mjs"
+      "path": "docs/reviews/latin-digits/pos-webkit-390.png"
     },
     {
       "code": "??",
-      "path": "tests/latin-digit-formatting.test.ts"
+      "path": "docs/reviews/latin-digits/README.md"
     },
     {
       "code": "??",
-      "path": "tests/latin-digit-history.test.ts"
+      "path": "docs/reviews/latin-digits/store-webkit-390.png"
     }
   ]
 }

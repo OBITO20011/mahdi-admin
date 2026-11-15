@@ -1,31 +1,33 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner14Nov queued,15Novexplicitstart:Latin0-9 digits throughout store/admin/POS/print/WhatsApp/Telegram formatting and dates. Central locale ar-JO-u-nu-latn;decimal dot/thousands comma;Arabic wording/JOD label retained. No value/logic/SQL change. SeparatePR/fullCI;no merge/deploy/hosted/owner originals/demo reset.",
-  "baselineSha": "99eb18465d828b404764a18f1ff212f793e3fcc3",
+  "baselineSha": "9f373e54dee211784cc720e6bd0f5cb01ca7b93c",
   "branch": "codex/latin-digits",
   "phase": "LATIN_DIGITS",
   "startedAt": "2026-11-15T03:10:03.353Z",
   "completed": [
     "98 merged955bc41e main77/77;99 updatedc366e62b PR79/79 merged99eb1846 main79/79;primaryff-only/preflight twice preserving20ownerfiles/4env/fivefields. No CI reruns used.",
     "New clean worktree from exact merged main99eb1846;existing dependencies linked;no env/private files copied.",
-    "Central Latin display policy and30 presentation modules implemented;price/quantity/date/WhatsApp changes only. Store230/230;history17 plus negativesPASS;typesboth/strictlint0. Telegram alreadyLatin,SQL untouched."
+    "Central Latin display policy and30 presentation modules implemented;price/quantity/date/WhatsApp changes only. Store230/230;history17 plus negativesPASS;typesboth/strictlint0. Telegram alreadyLatin,SQL untouched.",
+    "9f373e54 milestone committed/pushed beforehour;core18 focused/currentstore230/typesboth/strictlint PASS;stagedGitleaks0. Fullroot/CI stillpending.",
+    "8/8final Latin mobilecases+18unchangedpricecases;HTTP223181/0errors,RPC732/18expecteddenials;newcases routed2028=762core+1266same10shards. Demo transportfencePASS,actualPOSscreenshot reviewed."
   ],
   "inProgress": [
-    "Browser startup correctly refused ownerdemo loopback4176;no test executed anddemo unchanged. Prepare separate4186 mockAPI/guard outsiderepo;then mobile26 cases,actual223access,currentfullunits/fullCI."
+    "Bank current evidence;committed219schema/full runtime views,fullrootunits,typesboth,strictlint/build checks then DraftPR/FULLCI/Gitleaks."
   ],
   "notStarted": [
-    "Implementation/unit/mobile Chromium-WebKit screenshot proof/fullCI/Gitleaks/DraftPR.",
-    "Final workbook/categories separately queued,not started."
+    "Final workbook/categories separately queued."
   ],
   "testsPassed": [],
   "testsRemaining": [
-    "Mobile Chromium/WebKit+price regressions with separate mockAPI;fresh223table/RPCevidence;fullunits;historyviews;FULLCI/Gitleaks/DraftPR."
+    "Fullrootunits/historyviews/finaltypes+strictlint/buildchecks/FULLCI/Gitleaks"
   ],
   "findings": [
     "SQL-produced messages requiring DB change must stay unchanged and be reported only. No migrations/financial arithmetic/role/stock changes.",
-    "TS7016 for new JS history import resolved with precise adjacent .d.mts declarations,no any/cast/ignore. Regional month is existingJordanian تشرين الثاني,retained."
+    "TS7016 for new JS history import resolved with precise adjacent .d.mts declarations,no any/cast/ignore. Regional month is existingJordanian تشرين الثاني,retained.",
+    "No app URL guard changed or demo listener reused. External QA omits4176server and adds403transportcanary;first invalid4186 run interrupted andnotaccepted."
   ],
   "blockers": [],
   "prohibitions": [
@@ -34,15 +36,15 @@
     "No58/79/82;one evidence-backed environmental rerun max,otherwise STOP"
   ],
   "evidence": "C:/Users/TOP/NawasrahLocalValidation/latin-digits-20261115",
-  "nextExactAction": "Formatting/history17 and store230 units PASS. Run both types/strictlint and Chromium-WebKit mobile/price regressions;then actual fresh223 access evidence and fullunits. No owner/demo/DBlogic changes.",
+  "nextExactAction": "Commit/push evidence milestone;prove committed219views;fullrootunits quiet;types/lint/build;DraftPR/fullCI/Gitleaks. No hosted/demo/SQL writes.",
   "activeProcesses": [
     "Ownerdemo5012 preserved onfc309338,223/OFF,sameLAN. No writer/test process in new worktree."
   ],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "B32B2D4CC6E9049137ADD8A4CC3D8E210C74A7DF15D9F18EA7C02E71D75FDAA3",
-  "checkpointedAt": "2026-11-15T03:31:14.826Z",
-  "filesTouchedCount": 50,
-  "filesTouchedManifestSha256": "4d729deaeef936781c3449f3c5943b7246b56d5fe9091923a3bd9f1ac2753b2e"
+  "workingTreeFingerprint": "16194426D68898DB2C58555DC2B40A894389C5536987ECB64D5C3DB7E0DC1262",
+  "checkpointedAt": "2026-11-15T04:07:46.869Z",
+  "filesTouchedCount": 12,
+  "filesTouchedManifestSha256": "a8c431394ae36c0a79100d7c012050a454f1158abf6c9a7c722e5aae39ad01cf"
 }

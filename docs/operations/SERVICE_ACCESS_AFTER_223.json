@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-14T18:15:14.849Z",
+  "startedAt": "2026-11-15T04:03:30.719Z",
   "migrationCeiling": 223,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-U1ftKj",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-bOqvY8",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -59,7 +59,7 @@
     },
     {
       "file": "src/components/modals/AllModals.tsx",
-      "sha256": "2416ebcc435dd41d980270792d9489136d6fbea8df50688fb39b3637f80adf06"
+      "sha256": "f224c0b63f16c47f274e542afe13f32b81dbd090e8f15023352ee515c60da03e"
     },
     {
       "file": "src/components/modals/BrandsModal.tsx",
@@ -147,7 +147,7 @@
     },
     {
       "file": "src/components/ui/uiFormat.ts",
-      "sha256": "f5933fcafa8dca20ba5adf496af2c6f62cfc2bad9cd5acac3ce0e67d99c373da"
+      "sha256": "52c3d434aef47239d74867a21efe7ab093d892d65dfe66f6ac14806ef26d4b47"
     },
     {
       "file": "src/components/ui/UserAvatar.tsx",
@@ -207,7 +207,7 @@
     },
     {
       "file": "src/features/corrections/DocumentCorrectionAction.tsx",
-      "sha256": "141c7dd98d5821a08e4f3a2b0d77aeddbab73703efeb2902558f57b799ef82f0"
+      "sha256": "876927bb29ba6ff3a08c5b3657caaabd3d294dd4051fa12c723ad7fb6c2822d0"
     },
     {
       "file": "src/features/crm/AddAddressModal.tsx",
@@ -263,7 +263,7 @@
     },
     {
       "file": "src/features/dashboard/KpiCards.tsx",
-      "sha256": "384566b25aaa2d7f9bf7e7e3b101a5e26e54bc158882b0ff2a5ca3de1cc0edf9"
+      "sha256": "e7c9a2c0b18bb37b772810939d0325dcdf343ec376c179fbd727fa04306c1909"
     },
     {
       "file": "src/features/dashboard/QuickActions.tsx",
@@ -275,7 +275,7 @@
     },
     {
       "file": "src/features/dashboard/WidgetsSection.tsx",
-      "sha256": "9b79e41c71c24bf87c1387da7758d79940429be522dae2a12bf51149b2c7599c"
+      "sha256": "27a13e3f1b818a5ab310585e8736c1e613c0d74dd308f37355c55cb98afc2312"
     },
     {
       "file": "src/features/directReceiving/CancelSupplierReceiptDialog.tsx",
@@ -355,7 +355,7 @@
     },
     {
       "file": "src/features/inventory/InventoryOpeningSetupModal.tsx",
-      "sha256": "a2d297dfe204ffe05e7020403b579c6238d07676840adf1a78c4c98e5f44f4eb"
+      "sha256": "ff300430e0264c0d2ba96886bbe0e0a488cf70d59bafbdcbb1d7ffea55608cb6"
     },
     {
       "file": "src/features/inventory/InventoryView.tsx",
@@ -1243,7 +1243,7 @@
     },
     {
       "file": "src/utils/orderPresentation.ts",
-      "sha256": "f05d5c0efccca8ac7d3f6bc6770a18a4c5ad6222923060bb2cd02aab6d9c2edd"
+      "sha256": "8fc0b50c78e0d926b8982f9b82477ee20cdac59eed78a049dd0cbd8afb963413"
     },
     {
       "file": "src/utils/parcelFamilySearch.ts",
@@ -1279,7 +1279,7 @@
     },
     {
       "file": "src/utils/receipt.ts",
-      "sha256": "ecac1c505a7ca08d48b4f107889bb27d771c2a67c71dd3cce1e03d51335674b3"
+      "sha256": "42e66a399ad7802550f91f81d24264bc28e102605dc0374c5621282ae176f694"
     },
     {
       "file": "src/utils/receivingCalculations.ts",
@@ -1339,7 +1339,7 @@
     },
     {
       "file": "customer-web/src/App.tsx",
-      "sha256": "440d7c841705b3b1cf697f499632fc7a1274f08a2a62336942a3af4c8a934d73"
+      "sha256": "6e09e00a6dd708580e8d1e7e39742833e54f979c1a10fbbe0358e63ac38fa786"
     },
     {
       "file": "customer-web/src/components/AboutStorePage.tsx",
@@ -1351,15 +1351,15 @@
     },
     {
       "file": "customer-web/src/components/CartDrawer.tsx",
-      "sha256": "4aca430bc380ac2b9b5cc5b389b87badf1257f3d55373a5b8a198e1a05852c37"
+      "sha256": "22f253427f3a9308fc461309877c00d21124560b649ef19114d5aa174f192ba2"
     },
     {
       "file": "customer-web/src/components/CategoryDrawer.tsx",
-      "sha256": "7f577988947367fd548284ed5a34ff3405317d1a6faf8944f3451e1c7915935e"
+      "sha256": "c2677ea78526a571d9ed41bbdda2cf23d32202bd07769ec3891562f24c695f18"
     },
     {
       "file": "customer-web/src/components/CategoryShowcase.tsx",
-      "sha256": "e8cce67edbbdd205dc4f8350eab8dbedfcca434e1b17ffe1bdfe37f17d2720f8"
+      "sha256": "0e292c7a4c3fa8456184a0f51443808d52127471108319271b53ada61ff6f61d"
     },
     {
       "file": "customer-web/src/components/categoryVisuals.ts",
@@ -1367,7 +1367,7 @@
     },
     {
       "file": "customer-web/src/components/CheckoutModal.tsx",
-      "sha256": "fee549e463ceabafffae60cb0d5596553afb5f17304ef40ac394f100e9383d83"
+      "sha256": "0a1ff8348b9fc0c03b9160183756aedd1f46d40f2da2fd3bda646fb3a972b76e"
     },
     {
       "file": "customer-web/src/components/CheckoutProgress.tsx",
@@ -1407,15 +1407,15 @@
     },
     {
       "file": "customer-web/src/components/MerchandisingSections.tsx",
-      "sha256": "07c220fc8b667734b1c60355dacfc0a69fa2b119960c2004a70c0efeb9d090ff"
+      "sha256": "fdb46a6b16519e6e0bdd4b098603b3b99a8c171feeef3a17083ecf032d9d63a9"
     },
     {
       "file": "customer-web/src/components/MobileStoreNav.tsx",
-      "sha256": "708aa5b08f3ded75358a8f12608bece064be13c87be91ff44d365b152480cd3f"
+      "sha256": "362320704344990a676e6e2957cb85273766ed70738c4a6d44a3679791cfc573"
     },
     {
       "file": "customer-web/src/components/NetworkStatusBanner.tsx",
-      "sha256": "ac8312df98ba6b1f5c168beb2aa96166706e111cdbf2106cf39fb15d1af4051d"
+      "sha256": "626ce61e2e4cc3f6dfabd8c61ca0b19b9885470185b26aa519f5a864fd0ff2e5"
     },
     {
       "file": "customer-web/src/components/OffersPage.tsx",
@@ -1423,11 +1423,11 @@
     },
     {
       "file": "customer-web/src/components/OrderTrackingModal.tsx",
-      "sha256": "122ff2f7535ac8e0897b60ba9051ddf3e9a175028326e874cb440e274b174549"
+      "sha256": "db724ba1e96efd904d8c23dbe60de3ad0fb5a3635c6ada733efea9f2860b6168"
     },
     {
       "file": "customer-web/src/components/orderTrackingPresentation.ts",
-      "sha256": "b9a47eda700c1add33c82ffb94c6cdf1c88e9807827fc1461e6af25a6b58ad54"
+      "sha256": "30760ed87258c0ae16eb06fd7cb40a565d7c4252e05f4b35059b87202f1aae4a"
     },
     {
       "file": "customer-web/src/components/OrderTrackingTimeline.tsx",
@@ -1435,7 +1435,7 @@
     },
     {
       "file": "customer-web/src/components/ParcelBuilderModal.tsx",
-      "sha256": "002ac820ed5cc7c56928282d933f364bfbc260780f1a1a7a2ff14218d2068667"
+      "sha256": "b2b2e5b25990360b4956925ae85666b493accb04e8c40db0f39806ccc0e6ef16"
     },
     {
       "file": "customer-web/src/components/PrivacyPolicyModal.tsx",
@@ -1443,11 +1443,11 @@
     },
     {
       "file": "customer-web/src/components/ProductCard.tsx",
-      "sha256": "1a8fef6e0c24e052e9dc7644d328da95bb88f963fbc70aacbd0a2740ad3c0071"
+      "sha256": "cab06ac571d4e46010b2c5dba11a118c972fbf5234558ccfa80cda04e38975e2"
     },
     {
       "file": "customer-web/src/components/ProductDetailsModal.tsx",
-      "sha256": "9dde002d63f43659ed85684b57a6b1998bb1e2009ea2272dfa6f333806b91822"
+      "sha256": "425b59681dfaf5e2f4218ad38ce350f47fd0ff4e00a1bfa07d5d6c4d14d06504"
     },
     {
       "file": "customer-web/src/components/ProductImage.tsx",
@@ -1455,11 +1455,11 @@
     },
     {
       "file": "customer-web/src/components/ProductPurchaseControl.tsx",
-      "sha256": "539dbb1c1c389f384be4bc82ce902a210dcabda9353f8219dee8f9b2754621c1"
+      "sha256": "eb6f196647a980de190772e327bccfb60e8c01bc1307eee3364dfc8fa506a2fa"
     },
     {
       "file": "customer-web/src/components/PromotionOffers.tsx",
-      "sha256": "4d08c5a6589feb3418118dc2a0c87ad0de3488c89db04a4a5672486593de0a45"
+      "sha256": "780a1350ef98086adfd200400cd0b164d1fdf50c508ea02d61235ae5a6acb2d6"
     },
     {
       "file": "customer-web/src/components/PublicPosReceiptPage.tsx",
@@ -1475,15 +1475,15 @@
     },
     {
       "file": "customer-web/src/components/StoreHeader.tsx",
-      "sha256": "da024cba1ffbd92d23e613bd863e2e6b5defd17d801e8f3273d3d298d5df639e"
+      "sha256": "e6d381e3f5111fc763511766c711b5a4c3dbec2e7a31d1fca32865e3b7b1e657"
     },
     {
       "file": "customer-web/src/components/StoreHero.tsx",
-      "sha256": "48803522458575eba919ce1c42f770e2c6892e6fa798e9dc3c8dc4bc8878fd81"
+      "sha256": "72bc99d70fd1675a0b3550596e6822ea536269db42ae3bec27688840e6d26859"
     },
     {
       "file": "customer-web/src/components/StoreInfoSection.tsx",
-      "sha256": "977c93c13802d38ad8ebc91724991e818d97bc96abe05eea553a16036571445c"
+      "sha256": "c718f038a1e541f26f76f3be0cd502d8bfd9acc3faa7989ec259b1120a39069a"
     },
     {
       "file": "customer-web/src/components/StoreLogoMark.tsx",
@@ -1611,7 +1611,7 @@
     },
     {
       "file": "customer-web/src/utils/cart.ts",
-      "sha256": "08c247cc75c981bf694bdfa12204c268a526df9cf3c33c8b6de8e855b23078ee"
+      "sha256": "436d550ffb15d8dd41f6aa0bf799a9f77c9b7403a15aa19f36e513f1d6c24fd6"
     },
     {
       "file": "customer-web/src/utils/cartAdditionAnimation.ts",
@@ -1634,6 +1634,10 @@
       "sha256": "245e78a39c65e917015fa146ef52d209ecd4f7b1bb8ec2f80d7e94dfbdd7db8b"
     },
     {
+      "file": "customer-web/src/utils/displayLocale.ts",
+      "sha256": "2c6928b1818a8cb3caffe0c27c030b3709e569e59c457eafbcbb72756aaf95f4"
+    },
+    {
       "file": "customer-web/src/utils/googleMaps.ts",
       "sha256": "ce458def64a203ed7364cfc3d9ebdfa42c40eeb0f23e8742056a96638bf32bdf"
     },
@@ -1643,11 +1647,11 @@
     },
     {
       "file": "customer-web/src/utils/liteProductPricing.ts",
-      "sha256": "1e7fedab43050ac026598196c8607f87974db2607f3a65908c147b1b297f07d9"
+      "sha256": "8f0b2404dbf8de5506150263d81e1615f61479ce19070dcdc5c0daba12e765d1"
     },
     {
       "file": "customer-web/src/utils/money.ts",
-      "sha256": "22e3a604940ec4781c81a4f32d3608cad1d4f59dc29ed65a16bc38beca4f7d9e"
+      "sha256": "2cfe7546a03ecb9e1359bae4d09cbe52fc65b35bf4cee9820fe7194f2f66fb98"
     },
     {
       "file": "customer-web/src/utils/operatingRead.ts",
@@ -1679,7 +1683,7 @@
     },
     {
       "file": "customer-web/src/utils/storefrontUnits.ts",
-      "sha256": "d5d12765ba4086bfe1d6214065f6d168fe6b865a08032675a3fad2b72b8a8242"
+      "sha256": "2f8d411925293aea9ddb44b9407bfa75fb02b98d0b17a3f58fbe737644124796"
     },
     {
       "file": "supabase/functions/_shared/owner-telegram-format.ts",
@@ -53623,5 +53627,5 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-11-14T18:15:33.752Z"
+  "endedAt": "2026-11-15T04:03:46.559Z"
 }

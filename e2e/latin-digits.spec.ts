@@ -17,9 +17,11 @@ for(const mode of ['OFF','ON']){
  });
  test(`${mode} iPhone-width POS keeps its exact Latin amount and actual unit`,async({page},info)=>{
   await page.setViewportSize({width:390,height:844});
-  await page.goto(`/e2e/price-visibility-harness.html?view=pos${suffix}`);
-  const card=page.locator('[data-pos-product-card]');await expect(card).toBeVisible();
-  await expect(card).toContainText('1,234.750');await expect(card).not.toContainText(/[٠-٩۰-۹]/);
+  // This display test uses fixed reads; realtime must remain in-browser too.
+  await page.routeWebSocket(url=>url.hostname==='127.0.0.1'&&url.port==='4176',socket=>socket.close());
+  await page.goto('/e2e/package-f-pos-harness.html?toast&no-mix'+(mode==='OFF'?'&sales-only':''));
+  const card=page.getByTestId('pos-product-list').locator('article').first();await expect(card).toBeVisible();
+  await expect(card).toContainText('21.600');await expect(card).toContainText('0.900');await expect(card).not.toContainText(/[٠-٩۰-۹]/);
   await page.screenshot({path:info.outputPath(`pos-390-${mode}.png`),fullPage:true});
  });
 }
