@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-15T21:02:11.703Z",
-  "migrationCeiling": 223,
+  "startedAt": "2026-11-15T23:05:29.377Z",
+  "migrationCeiling": 224,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-jq9JN9",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-NBSG3e",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -9948,6 +9948,32 @@
         "uuid"
       ],
       "identity": "lite3_counter_context223(uuid)",
+      "returnType": "jsonb",
+      "configuration": [
+        "search_path=pg_catalog, public"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "name": "lite3_counters224",
+      "names": [
+        "p_search",
+        "p_filter",
+        "p_page",
+        "p_page_size"
+      ],
+      "owner": "postgres",
+      "types": [
+        "text",
+        "text",
+        "integer",
+        "integer"
+      ],
+      "identity": "lite3_counters224(text,text,integer,integer)",
       "returnType": "jsonb",
       "configuration": [
         "search_path=pg_catalog, public"
@@ -48455,6 +48481,21 @@
     {
       "role": "anon",
       "allowed": false,
+      "identity": "lite3_counters224(text,text,integer,integer)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": true,
+      "identity": "lite3_counters224(text,text,integer,integer)"
+    },
+    {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "lite3_counters224(text,text,integer,integer)"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
       "identity": "lite3_low_counters223(integer,integer)"
     },
     {
@@ -53643,7 +53684,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-11-15T21:02:27.557Z",
+  "endedAt": "2026-11-15T23:05:49.826Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {
@@ -54242,5 +54283,5 @@
       "category": "TEST_CONTRACT"
     }
   ],
-  "historicalAclReviewProvenance": "Seven identities and saved catalog review preserved. Current call sites and ACL outcomes are local 223 observations."
+  "historicalAclReviewProvenance": "Seven identities and saved catalog review preserved. Current call sites and ACL outcomes are local 224 observations."
 }

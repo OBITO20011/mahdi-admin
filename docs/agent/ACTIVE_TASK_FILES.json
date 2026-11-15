@@ -7,43 +7,143 @@
     },
     {
       "code": " M",
-      "path": "scripts/agent/lib.mjs"
+      "path": "docs/generated/DB_FUNCTIONS.md"
     },
     {
       "code": " M",
-      "path": "scripts/agent/preflight.mjs"
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/run-service-access-diagnostic.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/run-table-access-diagnostic.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/backup/complete-backup.mjs"
     },
     {
       "code": "??",
-      "path": "docs/design/inventory224/catalog224-pins.json"
+      "path": "docs/design/inventory224/tool223-source-pins.json"
     },
     {
       "code": "??",
-      "path": "docs/design/inventory224/CONTRACT_AR.md"
+      "path": "docs/operations/SERVICE_ACCESS_AFTER_224.json"
     },
     {
       "code": "??",
-      "path": "docs/design/inventory224/local223-source-pin.json"
+      "path": "docs/operations/TABLE_ACCESS_AFTER_224.json"
     },
     {
       "code": "??",
-      "path": "scripts/operations/inventory224-catalog.mjs"
+      "path": "scripts/operations/build-acl-reference224.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/testing/inventory224-local.mjs"
+      "path": "scripts/operations/d1-known-owner224-files.json"
     },
     {
       "code": "??",
-      "path": "scripts/testing/run-inventory224-runtime.mjs"
+      "path": "scripts/operations/d1-reference224-ci.mjs"
     },
     {
       "code": "??",
-      "path": "supabase/migrations/224_optional_quantity_inventory_reader.sql"
+      "path": "scripts/operations/d1-reference224-install.ps1"
     },
     {
       "code": "??",
-      "path": "tests/inventory224-reader.test.ts"
+      "path": "scripts/operations/d1-reference224-kit.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/d1-reference224-kit.ps1"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/d1-reference224-state.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/frankfurt-owner-reset224.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/frankfurt-owner-upgrade224.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/frankfurt-reference224.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/function-reference224.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/reset224-foundation.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/reset224-pg-cron-guard.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/reset224-private-state.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/reset224-session.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/reset224-write-guard.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/trial-reset224-core.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/upgrade224-data.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/upgrade224-protection.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/build-inventory224-tools.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/capture-inventory224-catalog.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/generate-inventory224-catalog.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-owner-upgrade224-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-reset224-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/inventory224-tools.test.ts"
     }
   ]
 }
