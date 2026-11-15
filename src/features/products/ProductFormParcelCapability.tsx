@@ -5,8 +5,8 @@ import {fetchParcelConfigurationContext,type ParcelConfigurationContext} from '.
 
 /** Configuration has its own owner RPC and uncertain-save contract. Show its
  * real state and direct destination instead of a second, non-atomic save. */
-export function ProductFormParcelCapability({familyId,dirty,busy,onOpen}:{
-  familyId?:string;dirty:boolean;busy:boolean;onOpen:(familyId:string)=>void;
+export function ProductFormParcelCapability({familyId,dirty,busy,onOpen,salesOnly=false}:{
+  familyId?:string;dirty:boolean;busy:boolean;onOpen:(familyId:string)=>void;salesOnly?:boolean;
 }) {
   const {roleName}=useAuthStore();
   const [context,setContext]=useState<ParcelConfigurationContext|null>(null);
@@ -30,6 +30,8 @@ export function ProductFormParcelCapability({familyId,dirty,busy,onOpen}:{
       :!product?<p role="alert">لم يعد المنتج ضمن عائلات الطرد المشكّل؛ حدّث بيانات المنتج.</p>
       :<><label className="flex min-h-11 items-center gap-2 font-bold"><input type="checkbox" checked={allowed} disabled readOnly/>مسموح طرد مشكّل بالنكهات</label>
         <p className="text-xs text-nw-muted">{allowed?'مسموح لهذا المنتج':'غير مسموح لهذا المنتج حالياً'}{context.featureState==='OFF'?'؛ الميزة العامة موقوفة حالياً.':context.featureState==='OWNER_PILOT'?'؛ متاحة حالياً لتجربة المالك فقط.':'.'}</p></>}
+    {salesOnly&&context&&context.featureState!=='ENABLED'&&<UiButton type="button" variant="secondary"
+      disabled={dirty||busy} onClick={()=>onOpen(familyId)}>فتح المفتاح العام للطرد المشكّل</UiButton>}
     <UiButton type="button" variant="plain" disabled={dirty||busy} onClick={()=>onOpen(familyId)}>فتح إعداد الطرد المشكّل لهذا المنتج</UiButton>
     {dirty&&<p className="text-xs text-nw-muted">احفظ تعديلات المنتج أولاً حتى لا تفقدها عند فتح الإعداد.</p>}
   </div>;
