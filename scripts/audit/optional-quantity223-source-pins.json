@@ -229,7 +229,7 @@
     },
     "scripts/operations/frankfurt-owner-reset223.mjs": {
       "before": null,
-      "after": "dd545e56c2457422ca7a63b7fadf47d663c421a5260cab33fc4917f6c71ccaad",
+      "after": "2a9558dde8e21ac48ac1500e045804110206350414199ee351607b46d9686134",
       "beforeText": null
     },
     "scripts/operations/frankfurt-owner-upgrade220.mjs": {
@@ -264,7 +264,7 @@
     },
     "scripts/operations/function-reference223.mjs": {
       "before": null,
-      "after": "a43785cd7bf51572eb8de818fe5c4d1a3520d80726d4c3a75f356972d2153549",
+      "after": "af3bd389c299c3550bb6de461abe95421eadb051b0d87c31a2e9cb953ade82bd",
       "beforeText": null
     },
     "scripts/operations/optional-quantity223-catalog.mjs": {
@@ -349,7 +349,7 @@
     },
     "scripts/testing/build-optional-quantity223-tools.mjs": {
       "before": null,
-      "after": "3b4b99b562e2f6579c1a2c17d704ccc9a15f67e5de7b6a454d448ead52583666",
+      "after": "2f57a883b9567a1dae8349cadee6bb263f815d063c273bf305dde1fccc9edeaf",
       "beforeText": null
     },
     "scripts/testing/capture-optional-quantity223-catalog.mjs": {
@@ -419,7 +419,7 @@
     },
     "scripts/testing/run-reset223-runtime.mjs": {
       "before": null,
-      "after": "0979d6fbc09f749fb5d36637729497dc31a359cf41e7384740f9a72785d54c37",
+      "after": "4a0c11220e8c65c1dc3ba95c16fe7a6e5cb7519144b8e20b6a2f0b0fa332af1c",
       "beforeText": null
     },
     "src/features/operatingMode/LowOptionalQuantityList.tsx": {

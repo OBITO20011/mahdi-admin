@@ -104,7 +104,7 @@ export async function runOwnerReset223(args){
    clearHistory:async()=>{await cliCall(['migration','repair','--linked','--status','reverted',...reference.appliedVersions]);await query('DELETE FROM supabase_migrations.seed_files;',executor);},
    repair:async v=>{await cliCall(['migration','repair','--linked','--status','applied',v]);},
    finalDryRun:async()=>{await cliCall(['migration','list','--linked']);const r=await cliCall(['db','push','--linked','--dry-run','--skip-vault']);assert.match(r.stdout+r.stderr,/up to date/iu,'RESET223_FINAL_DRY_RUN_FAILED');}});
-  report.functions=await functionReference(executor);
+  report.functions=await functionReference(readOnly,reference,session.saved.catalog);
   await copyFile(path.join(workdir,'notification-before.json'),path.join(output,'previous-notification-before.json'));
   await writeFile(path.join(workdir,'notification-before.json'),JSON.stringify(report.reset.notificationOriginal,null,2)+'\n');
   assert.equal(report.reset.complete,true);Object.assign(report,{ok:true,complete:true,stage:'complete'});return report;
