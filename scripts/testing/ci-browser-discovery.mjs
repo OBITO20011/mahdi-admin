@@ -4,6 +4,7 @@ import path from 'node:path';
 import {mkdtempSync,writeFileSync,rmSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {packageFShardCount,isPackageFShardArgument} from './package-f-ci-shards.mjs';
+import {coreWebkitShardCount,isCoreWebkitShardArgument} from './core-webkit-ci-shards.mjs';
 
 const root=path.resolve(import.meta.dirname,'../..');
 export const playwrightCli=path.join(root,'node_modules/@playwright/test/cli.js');
@@ -56,9 +57,15 @@ function testListFile(rows){
 }
 /** Actual Playwright discovery, with a per-project shard to balance engines too.
  * @param {string | undefined} group
- * @param {{files?:string[],shard?:number,ci?:boolean,coreGroup?:string}} options */
-export function listBrowserTests(group,{files=[],shard,ci=Boolean(process.env.CI),coreGroup}={}){
+ * @param {{files?:string[],shard?:number,ci?:boolean,coreGroup?:string,coreShard?:number}} options */
+export function listBrowserTests(group,{files=[],shard,ci=Boolean(process.env.CI),coreGroup,coreShard}={}){
   assert.ok(!coreGroup||group==='core','CORE_BROWSER_FILTER_REQUIRES_CORE');
+  if(coreShard!==undefined){
+    assert.ok(group==='core'&&coreGroup==='webkit'&&shard===undefined,'CORE_WEBKIT_SHARD_REQUIRES_WEBKIT_ONLY');
+    const argument=`--shard=${coreShard}/${coreWebkitShardCount}`;
+    assert.ok(isCoreWebkitShardArgument(argument),'CORE_WEBKIT_SHARD_INVALID');
+    return rawList(group,files,[argument],ci,coreGroup);
+  }
   if(!shard)return rawList(group,files,[],ci,coreGroup);
   assert.equal(group,'package-f');
   const argument=`--shard=${shard}/${packageFShardCount}`;assert.ok(isPackageFShardArgument(argument));

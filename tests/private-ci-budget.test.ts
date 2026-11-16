@@ -4,6 +4,7 @@ import {readFile} from 'node:fs/promises';
 import ts from 'typescript';
 import {ciRoute, selectAffectedSpecs, verifyCiBranches} from '../scripts/testing/private-ci-scope.mjs';
 import {verifyFullDeliveryJobs} from '../scripts/agent/verify-delivery-ci.mjs';
+import {coreWebkitJobNames} from '../scripts/testing/core-webkit-ci-shards.mjs';
 import {packageFShardCount,packageFShards} from '../scripts/testing/package-f-ci-shards.mjs';
 
 test('single private flag stays dormant for public/unset;dispatch always full;weekly dormant until private opt-in', () => {
@@ -71,7 +72,7 @@ test('release verification still requires ALL DB matrix jobs and full browsers,n
   const workflow = await readFile('.github/workflows/quality.yml', 'utf8');
   const suites = workflow.match(/suite: \[([^\]]+)\]/u)![1].split(',').map(s => s.trim());
   const names = ['CI full or affected scope','Complete quality delivery gate','Isolated database runtime regression','Installed admin app release update',
-    'Lint, test, build and browser QA','Core WebKit browser QA',...packageFShards.map(n=>`Package F browser QA (${n}/${packageFShardCount})`),
+    'Lint, test, build and browser QA',...coreWebkitJobNames,...packageFShards.map(n=>`Package F browser QA (${n}/${packageFShardCount})`),
     ...suites.map(s=>`Isolated current contracts (${s})`)];
   const jobs = names.map(name=>({name,conclusion:'success'})); verifyFullDeliveryJobs(jobs);
   for (const name of names) {

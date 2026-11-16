@@ -3,31 +3,31 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_AFTER_224.json"
+      "path": ".github/workflows/quality.yml"
     },
     {
       "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+      "path": "docs/agent/project-state.json"
     },
     {
       "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+      "path": "scripts/agent/verify-delivery-ci.mjs"
     },
     {
       "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_224.json"
+      "path": "scripts/audit/source-before-inventory224.mjs"
     },
     {
       "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+      "path": "scripts/testing/ci-browser-discovery.mjs"
     },
     {
       "code": " M",
-      "path": "e2e/inventory224-harness.tsx"
+      "path": "scripts/testing/run-core-webkit-ci.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/audit/inventory224-source-pins.json"
+      "path": "scripts/testing/verify-browser-ci-partition.mjs"
     },
     {
       "code": " M",
@@ -35,7 +35,27 @@
     },
     {
       "code": " M",
-      "path": "tests/operational-schema.test.ts"
+      "path": "tests/package-f-ci-shards.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/private-ci-budget.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/core-webkit-shards-source-pins.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-core-webkit-shards.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/core-webkit-ci-shards.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/core-webkit-ci-shards.test.ts"
     }
   ]
 }

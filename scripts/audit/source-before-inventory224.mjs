@@ -2,6 +2,7 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {canonicalLf,sha256} from '../testing/maintenance-db-contract.mjs';
+import {sourceBeforeCoreWebkitShards,restoreCoreWebkitShardHashes,pathsBeforeCoreWebkitShards} from './source-before-core-webkit-shards.mjs';
 const indexFile='scripts/audit/inventory224-source-pins.json';
 const indexText=canonicalLf(readFileSync(new URL('./inventory224-source-pins.json',import.meta.url),'utf8'));
 const pins=JSON.parse(indexText);
@@ -16,6 +17,7 @@ for(const[file,pin]of Object.entries(pins.entries)){
  assert.equal(pin.beforeText===null?null:sha256(pin.beforeText),pin.before,'INVENTORY224_BEFORE_CORRUPT:'+file);
 }
 export function sourceBeforeInventory224(file,text){
+ text=sourceBeforeCoreWebkitShards(file,text);
  if(text===null)return null;
  if(file===indexFile&&canonicalLf(text)===indexText)return null;
  const pin=pins.entries[file];
@@ -23,16 +25,17 @@ export function sourceBeforeInventory224(file,text){
  return pin.beforeText;
 }
 export function restoreInventory224Hashes(rows){
- return rows.flatMap(row=>{
+ return restoreCoreWebkitShardHashes(rows).flatMap(row=>{
   const pin=pins.entries[row.file];if(!pin||row.sha256!==pin.after)return[row];
-  const raw=canonicalLf(readFileSync(new URL('../../'+row.file,import.meta.url),'utf8'));
+  const raw=sourceBeforeCoreWebkitShards(row.file,canonicalLf(readFileSync(new URL('../../'+row.file,import.meta.url),'utf8')));
+  assert.ok(raw!==null,'INVENTORY224_HISTORICAL_SOURCE_REQUIRED:'+row.file);
   assert.equal(sha256(raw),pin.after,'INVENTORY224_CURRENT_SOURCE_CHANGED:'+row.file);
   return pin.before===null?[]:[{...row,sha256:pin.before}];
  });
 }
 export function pathsBeforeInventory224(files){
- return files.filter(file=>{
-  const raw=()=>canonicalLf(readFileSync(new URL('../../'+file,import.meta.url),'utf8'));
+ return pathsBeforeCoreWebkitShards(files).filter(file=>{
+  const raw=()=>sourceBeforeCoreWebkitShards(file,canonicalLf(readFileSync(new URL('../../'+file,import.meta.url),'utf8')));
   if(file===indexFile)return raw()!==indexText;
   const pin=pins.entries[file];if(!pin||pin.before!==null)return true;
   return sha256(raw())!==pin.after;

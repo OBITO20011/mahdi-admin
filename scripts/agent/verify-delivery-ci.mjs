@@ -4,10 +4,11 @@ import {readFileSync} from 'node:fs';
 import path from 'node:path';
 import {git,root} from './lib.mjs';
 import {packageFShardCount,packageFShards} from '../testing/package-f-ci-shards.mjs';
+import {coreWebkitShardCount,coreWebkitJobNames} from '../testing/core-webkit-ci-shards.mjs';
 
 export function verifyBrowserDeliveryJobs(jobs){
   for(const name of ['Lint, test, build and browser QA',
-    'Core WebKit browser QA',
+    ...coreWebkitJobNames,
     ...packageFShards.map(shard=>`Package F browser QA (${shard}/${packageFShardCount})`)]){
     const matches=jobs.filter(j=>j.name===name);
     assert.equal(matches.length,1,`Required CI job missing/duplicated: ${name}`);
@@ -15,6 +16,8 @@ export function verifyBrowserDeliveryJobs(jobs){
   }
   assert.equal(jobs.filter(j=>j.name.startsWith('Package F browser QA')).length,packageFShardCount,
     'Exactly all approved Package F shards required');
+  assert.equal(jobs.filter(j=>j.name.startsWith('Core WebKit browser QA')).length,coreWebkitShardCount,
+    'Exactly all approved Core WebKit shards required');
 }
 
 export function verifyFullDeliveryJobs(jobs){
