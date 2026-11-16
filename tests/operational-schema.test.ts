@@ -39,6 +39,7 @@ test('one project-state ceiling binds the full SQL manifest and every operationa
  assert.ok(readFileSync('scripts/backup/complete-backup.mjs','utf8').match(/assertOperationalHistory\(before.history\)/gu)!.length===2);
  assert.equal(state.migrationCeiling,224);assert.equal(manifest.length,184);
  assert.equal(reset224Arguments([]).reference.split(/[\\/]/u).at(-1),operationalSchema.readyReferenceName);
+ assert.equal(reset223Arguments([]).reference.split(/[\\/]/u).at(-1),'local-reference-through223-ready.json');
  assert.equal(reset222Arguments([]).reference.split(/[\\/]/u).at(-1),'local-reference-through222-ready.json');
  assert.equal(reset220Arguments([]).reference.split(/[\\/]/u).at(-1),'local-reference-through220-ready.json');
  assert.equal(reset219Arguments([]).reference.split(/[\\/]/u).at(-1),'local-reference-through219-ready.json');

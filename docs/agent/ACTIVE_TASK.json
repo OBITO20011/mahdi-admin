@@ -3,7 +3,7 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner-approved224 inventory reader, SQL tests, protected owner tools/reference184/cutover; approved UI after backend/tools on same branch/PR.",
-  "baselineSha": "b9b9523adf6354fbbcbe20bda3f27df7f42c2fbf",
+  "baselineSha": "ffce1cf65c91d8d8fa46c650e03106b43653d7d5",
   "branch": "codex/inventory224-backend",
   "phase": "INVENTORY224",
   "startedAt": "2026-11-15T22:27:56.158Z",
@@ -18,17 +18,22 @@
     "Approved UI224 built; mobile/desktop Chromium+WebKit18/18, numeric contract3/3, focused source/history11/11 and D1 tests13/13.",
     "First full units2064/2082,0skip:18 ceiling/history/current-access failures identified; scoped224 expectations fixed, access regeneration pending.",
     "Actual inventory UI→SQL Chromium/WebKit2/2:26receipt,9correction,CAS rejection,zero accounting tables; owned cleanup.",
-    "Historical223 and222 exact main3b refs/upgrade/strictBackupRestore/RESET+resume PASS; legacy workflows retain all original assertions. Focused closure18/18."
+    "Historical223 and222 exact main3b refs/upgrade/strictBackupRestore/RESET+resume PASS; legacy workflows retain all original assertions. Focused closure18/18.",
+    "Final-source HTTP181 and RPC735 with18 expected denials. Cutover card prints two pages. Final browser and real PostgreSQL paths passed."
   ],
   "inProgress": [
-    "Refresh final-source access, final types/lint/units,fullCI/Gitleaks and DraftPR."
+    "Finalize local lint/units, refresh ready reference binding, open exact-source Draft and verify full CI/Gitleaks."
   ],
   "notStarted": [],
   "testsPassed": [
-    "Actual reader PostgreSQL8groups PASS; unit/catalog3/3; preflight224 PASS."
+    "Actual reader PostgreSQL and 224 reference/RESET/restore",
+    "Historical 222/223 owner tools, retained previous approvals",
+    "Chromium/WebKit 390/1280 and real PostgreSQL quantity edits",
+    "Final-source HTTP181/RPC735; final TypeScript after fixture fix",
+    "Cutover two-page print"
   ],
   "testsRemaining": [
-    "Final-source HTTP/RPC and reference binding; finaltypes/lint/units/browser; fullCI/Gitleaks."
+    "Final admin lint/units and customer baseline; final reference binding; fullCI/Gitleaks"
   ],
   "findings": [
     "Two new-test expectations corrected to actual existing contracts: named catalog identity arguments, and assert_erp_role P0001+exact Arabic denial. No frozen guard modified.",
@@ -44,12 +49,12 @@
     "No221, table/trigger/sales-writer changes; migration224 may add only the approved reader.",
     "No owner original/private/env edits."
   ],
-  "checkpointedAt": "2026-11-16T00:42:15.762Z",
+  "checkpointedAt": "2026-11-16T00:56:40.670Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 17,
-  "filesTouchedManifestSha256": "3685689b694c3c16083363d847bb9c1a4cbdbd69e857791fdcd7794037b598f1",
-  "nextExactAction": "Regenerate final224 HTTP/RPC evidence; finish strict types/lint/units/browser,fullCI/Gitleaks; no merge/demo/hosted.",
-  "workingTreeFingerprint": "C6596E4976AC47A7583AC370D2AE4A76A49DBF9B0E90A93BAFA776A0E165A818"
+  "filesTouchedCount": 9,
+  "filesTouchedManifestSha256": "d5eefba08972d0f5063df4110df00553758a9f4b44637b266a04c90b75f04d65",
+  "nextExactAction": "Verify final lint and units, build ready224 reference bound to current access, then verify DraftPR CI and Gitleaks",
+  "workingTreeFingerprint": "40E27CDB08CE056CEBBAF95EF0F0FF1865E8307412531B78BE9DEC78AA81ECF9"
 }

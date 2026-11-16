@@ -5,7 +5,7 @@
   "sourceHashes": [
     {
       "file": "src/App.tsx",
-      "sha256": "e51d7e02587ec27e5e0c5392027fb61a9b8717b0d7a120ad94e7a760c3a7d82e"
+      "sha256": "3c6d3d6cb57778045a349affe124c4384b334d662e1b1765aeced0d549f10f18"
     },
     {
       "file": "src/components/common/AppErrorBoundary.tsx",
@@ -37,11 +37,11 @@
     },
     {
       "file": "src/components/layout/navigationDrawerContext.ts",
-      "sha256": "6d57b306dc8c79cc187ebf727d3a0866d547cf678110dde551e6d84b99f1472d"
+      "sha256": "17699fc8b315919dd617450335caae66cc393bc2359ef29d110a18de5f3c73fd"
     },
     {
       "file": "src/components/layout/NavigationShell.tsx",
-      "sha256": "6743209748c726bc157f9f55a2acdd1b14bd029800b5c3a1613433548fb3714d"
+      "sha256": "70db6d23cd84879f953ad8fae3a6bb94077272d7d16b3aa4d855f8c13307a0b4"
     },
     {
       "file": "src/components/layout/quickActions.ts",
@@ -49,7 +49,7 @@
     },
     {
       "file": "src/components/layout/SideNav.tsx",
-      "sha256": "d9612ed27a834222c943fbdf52bde46302cfec67c2f4b523d834af757c100b85"
+      "sha256": "2556b051474340fc79fe45cd3ab190288ad3628593d8a5615d7aced494d26397"
     },
     {
       "file": "src/components/layout/sideNavigationModel.ts",
@@ -409,7 +409,7 @@
     },
     {
       "file": "src/features/more/MoreMenuView.tsx",
-      "sha256": "4e605b238f7ea90f71706e74bfc5f0fd3a117dac894a3168da9a3e5768cde89a"
+      "sha256": "b9faafba0effb8519b6ab4e816880af00354a5a9a3b45ee5c8f71cfd0d1d2ca8"
     },
     {
       "file": "src/features/more/OffParcelFeatureControl.tsx",
@@ -436,8 +436,16 @@
       "sha256": "2acc4db74469a06760908d26b9306cbba725a701d90cee10ce1ce8f4bdf46025"
     },
     {
+      "file": "src/features/operatingMode/inventory224Contract.ts",
+      "sha256": "a6b513d42cf6874e8d8194bcdf25e560c255dfa0ced96f4936a4ba7502deaaaf"
+    },
+    {
+      "file": "src/features/operatingMode/Inventory224View.tsx",
+      "sha256": "f34c08ee3572fdc7a5d99e7f387f7732c49eed50476d92da6d8ed07e46436d22"
+    },
+    {
       "file": "src/features/operatingMode/LowOptionalQuantityList.tsx",
-      "sha256": "3140e700a10fda8f4b441a81c70c2ed693b0a433a869f678ae511387f8171696"
+      "sha256": "7eafc41c2ab06caeee917501a4e04c58f8239b41f90dda14cbed6470d8fa75aa"
     },
     {
       "file": "src/features/operatingMode/ManualAvailabilityPanel.tsx",
@@ -449,7 +457,7 @@
     },
     {
       "file": "src/features/operatingMode/navigationPolicy.ts",
-      "sha256": "c60f9aba54f2d011f82869c8c7792bc9a3d095f0e1967e7575ddbb168ac77e16"
+      "sha256": "766cbc8cc86d9fe9f689f378c0759e43582740827a279c860d4ae5a3c4059176"
     },
     {
       "file": "src/features/operatingMode/openingEpoch.ts",
@@ -906,6 +914,10 @@
     {
       "file": "src/services/supabase/inventory.service.ts",
       "sha256": "01fb51715644b7f6f0ef0fb22519dfd3dd6e8d9ad79e760de864420516b5ab0d"
+    },
+    {
+      "file": "src/services/supabase/inventory224.service.ts",
+      "sha256": "88beee15192001695d963be2b29f93bb64ee3183a71eaa44cdd6c918e8f5853e"
     },
     {
       "file": "src/services/supabase/manualAvailability.service.ts",
@@ -2954,6 +2966,20 @@
         "{\n      p_warehouse_id: input.warehouseId,\n      p_product_id: input.productId,\n      p_actual_quantity: Math.floor(Number(input.actualQuantity) || 0),\n      p_reason: input.reason.trim(),\n      p_adjustment_type: input.adjustmentType || 'stock_count',\n    }"
       ],
       "source": "supabase.rpc('adjust_inventory_stock', {\n      p_warehouse_id: input.warehouseId,\n      p_product_id: input.productId,\n      p_actual_quantity: Math.floor(Number(input.actualQuantity) || 0),\n      p_reason: input.reason.trim(),\n      p_adjustment_type: input.adjustmentType || 'stock_count',\n    })"
+    },
+    {
+      "id": "src/services/supabase/inventory224.service.ts:10",
+      "file": "src/services/supabase/inventory224.service.ts",
+      "line": 10,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "fetchInventory224",
+      "name": "lite3_counters224",
+      "dynamic": "'lite3_counters224'",
+      "arguments": [
+        "{p_search:normalized,p_filter:filter,p_page:page,p_page_size:20}"
+      ],
+      "source": "supabase.rpc('lite3_counters224',{p_search:normalized,p_filter:filter,p_page:page,p_page_size:20})"
     },
     {
       "id": "src/services/supabase/manualAvailability.service.ts:45",
@@ -5884,6 +5910,7 @@
     "lite1_statement_dispatch2",
     "lite1_transition2",
     "lite3_counter_context223",
+    "lite3_counters224",
     "lite3_low_counters223",
     "lite3_pos_quantity_check223",
     "lite3_set_counter223",

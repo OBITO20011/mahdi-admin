@@ -3,31 +3,27 @@
   "files": [
     {
       "code": " M",
-      "path": ".github/workflows/independent-prices222.yml"
+      "path": "docs/operations/SERVICE_ACCESS_AFTER_224.json"
     },
     {
       "code": " M",
-      "path": ".github/workflows/optional-quantity223.yml"
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
     },
     {
       "code": " M",
-      "path": "docs/handover/ورقة-يوم-التشغيل.html"
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
     },
     {
       "code": " M",
-      "path": "docs/handover/ورقة-يوم-التشغيل.md"
+      "path": "docs/operations/TABLE_ACCESS_AFTER_224.json"
     },
     {
       "code": " M",
-      "path": "docs/operations/D1_REFERENCE_KIT224_AR.md"
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
     },
     {
       "code": " M",
-      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/RESET224_OWNER_AR.md"
+      "path": "e2e/inventory224-harness.tsx"
     },
     {
       "code": " M",
@@ -35,39 +31,11 @@
     },
     {
       "code": " M",
-      "path": "scripts/testing/generate-independent-prices222-catalog.mjs"
+      "path": "tests/inventory224-history.test.ts"
     },
     {
       "code": " M",
-      "path": "scripts/testing/optional-quantity223-browser-api.mjs"
-    },
-    {
-      "code": " M",
-      "path": "src/features/operatingMode/inventory224Contract.ts"
-    },
-    {
-      "code": " M",
-      "path": "src/features/operatingMode/Inventory224View.tsx"
-    },
-    {
-      "code": "??",
-      "path": ".github/workflows/inventory224.yml"
-    },
-    {
-      "code": "??",
-      "path": "e2e/inventory224.fullstack.ts"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/run-inventory224-fullstack.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/run-inventory224-legacy223.mjs"
-    },
-    {
-      "code": "??",
-      "path": "tests/inventory224-ci.test.ts"
+      "path": "tests/operational-schema.test.ts"
     }
   ]
 }
