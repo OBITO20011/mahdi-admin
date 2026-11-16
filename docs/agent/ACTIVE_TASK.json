@@ -38,12 +38,12 @@
     "No SQL/Restore/RESET224/tool224 changes",
     "Retain rehearsal containers until complete success"
   ],
-  "checkpointedAt": "2026-11-16T20:01:47.581Z",
+  "checkpointedAt": "2026-11-16T20:11:14.647Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 23,
-  "filesTouchedManifestSha256": "d8b107f361b86736de9212dbf6d99d5964a5cbf2e7f9bfbf8fd08317b317ddb0",
-  "nextExactAction": "Run full units and exact-head CI;merge only if all approved conditions pass;then rehearse through RESET224 and stop before OFF",
-  "workingTreeFingerprint": "A3C13599C34618D83C4BFB136770AFB4EDE73E8806E98BF1B4B4CEF943AD9CD2"
+  "filesTouchedCount": 2,
+  "filesTouchedManifestSha256": "0a4d3cc5614b567de8522883b6dc65daf58d22aa1f33669397396de8d2d3cb97",
+  "nextExactAction": "Exact historical224 template projection corrected;run final full units and exact-head full CI",
+  "workingTreeFingerprint": "1822D363454BA515FFEDD0417FB83E9E4775285456F2BB37EEE0C9597A40F101"
 }
