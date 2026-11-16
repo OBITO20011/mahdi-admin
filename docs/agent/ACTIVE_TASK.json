@@ -2,53 +2,50 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Closed 222/223 upgrade admission from ceiling224 with exact historical references and offline cutover command proof",
-  "baselineSha": "780706fd2cad2c09046212bb56d641f1b2eafa9a",
-  "branch": "codex/supported-upgrades224",
-  "phase": "SUPPORTED_UPGRADES224",
+  "objective": "Approved 224 cutover holds and local shared rehearsal",
+  "baselineSha": "e9bb74744f4ecf6ff9eb470f75f64296858a78be",
+  "branch": "codex/owner-cutover-hold224",
+  "phase": "CUTOVER_HOLD224",
   "startedAt": "2026-11-16T19:32:22.218Z",
   "completed": [
-    "Closed 222/223 admission under224",
-    "Actual original/current whole-reference SHA equality for222 and223",
-    "Four real offline commands with network/subprocess rejection"
+    "Official hold-upgrade and hold-reset with read-only verification and preserved original flags.",
+    "Read-only ON study supplement and proposed225 plan delivered for approval."
   ],
   "inProgress": [
-    "Final full delivery gates"
+    "Full verification and owner-authorized integration, then shared rehearsal through RESET224."
   ],
   "notStarted": [],
   "testsPassed": [
-    "Full local units2105/2105 at a7588618;0fail/0skip",
-    "21 final focused tests including all three exact tool generators",
-    "Admin and customer types;strict lint0 before final test-only generator correction",
-    "222/223 original/current whole reference SHA equality;four actual offline commands",
-    "Final Admin types0 and strict lint0 after generator correction",
-    "Final command inventory21/21 plus Admin types0 and strict lint0"
+    "Actual220 hold verified with exact222 reference; malformed inventories rejected and repeated apply is a no-op.",
+    "Actual224 hold verified after protected registration-only recovery;stale proof rejected;trigger/dispatch held and cleanup active.",
+    "Final admin and customer types0;strict lint0.",
+    "Focused14/14 after task-state correction.",
+    "Initial full units2106/2108,0skip;one task metadata mismatch corrected and known historical generator120s timeout.",
+    "Direct original workbook history generator exited0 in39.275s without limit changes."
   ],
   "testsRemaining": [
-    "Exact-head full CI/types/lint/Gitleaks",
-    "Merge/main CI and shared rehearsal through RESET224 only",
-    "Read-only ON study"
+    "Exact-head complete CI and Gitleaks.",
+    "Primary ff-only/preflight and full mainCI.",
+    "Shared archive2230c606 rehearsal through RESET224 verification only."
   ],
   "findings": [
-    "No changes to SQL,tool224,RESET224 or Restore contract",
-    "Owner16Nov:after merged protection/reset proof stop beforeOFF/import;then ON study",
-    "Current223 generator comparison now projects only the exact approved adapter bytes;old templates/pins unchanged",
-    "Known own delivered baseline synchronized before final push;no other-writer change",
-    "Command audit covers inline and fenced commands,including224 resume and all four backup/offsite modes;none of the connected modes are executed"
+    "Original hold217 keeps cleanup active and cannot satisfy all-six-held Backup220 guard.",
+    "225 is proposal only and awaits owner approval."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hosted access/deploy/demo/n8n/Docker restart",
-    "No SQL/Restore/RESET224/tool224 changes",
-    "Retain rehearsal containers until complete success"
+    "No hosted project access/deployment.",
+    "Do not touch iPhone demo,n8n or restart Docker.",
+    "NoSQL migration or existing upgrade/RESET guard changes.",
+    "Do not implement225."
   ],
-  "checkpointedAt": "2026-11-16T20:45:15.783Z",
+  "checkpointedAt": "2026-11-16T22:51:12.729Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "97ed1be7b38cf25af7b29be1fab8e9e9b8696a3903bf626162b53f46a23a901a",
-  "nextExactAction": "Push final fenced-command inventory;wait fullCI at exact new head;Gitleaks;authorized merge then shared RESET224 rehearsal",
-  "workingTreeFingerprint": "66D5C719396AF2C5B87B0E9CD476A6AC137B18D603DA536010357143BCDB695E"
+  "filesTouchedCount": 14,
+  "filesTouchedManifestSha256": "41f950f84c00583c4cd4a0e87ca871cdecb3f59fe0c38c4f852888159c53531e",
+  "nextExactAction": "Exact-head CI includes current220 freeze in supported-upgrade proof and224 reset hold in owner runtime;then Gitleaks and conditional merge.",
+  "workingTreeFingerprint": "E8007E0F8A23CCEA4CED40DEC08E566F1BECF35BFE86EA353C20E15B2AF17A10"
 }

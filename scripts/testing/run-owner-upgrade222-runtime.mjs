@@ -15,6 +15,8 @@ import {SnapshotSession} from '../backup/snapshot-session.mjs';
 import {createCompleteBackup,restoreCompleteBackup} from '../backup/complete-backup.mjs';
 import {executorFor,executeInput} from '../operations/build-empty-supabase.mjs';
 import {readReady222Reference} from '../operations/frankfurt-reference222.mjs';
+import {cutoverHoldWithExecutor} from '../operations/frankfurt-owner-cutover-hold224.mjs';
+import {readNotificationSnapshot} from '../operations/frankfurt-notification-hold.mjs';
 import {upgrade222WithExecutor,run222} from '../operations/frankfurt-owner-upgrade222.mjs';
 import {read222BackupEvidence,assert222ProtectionComplete} from '../operations/upgrade222-protection.mjs';
 import {readOnlyPsqlSessionArgs} from '../operations/frankfurt-catalog-verification.mjs';
@@ -49,6 +51,42 @@ try{
  await owned();await sql(frankfurt220TriggerAclFixtureSql);
  const rawProfile=async()=>frozen220TriggerAclProfile(JSON.parse(await sql(frankfurt220TriggerAclReadSql)));
  assert.equal(await rawProfile(),'frankfurt');
+ stage='upgrade-hold';
+ await sql("UPDATE public.storefront_settings SET orders_enabled=true;SELECT cron.alter_job(jobid,active:=true) FROM cron.job WHERE jobname='cleanup-guest-order-gateway-requests';");
+ const holdFile=path.join(output,'cutover-hold224-original.json');
+ const hold=mode=>cutoverHoldWithExecutor({executor,reference,phase:'upgrade',mode,evidenceFile:holdFile});
+ const readHoldState=async()=>({notifications:await readNotificationSnapshot(executor),orders:await sql('SELECT orders_enabled FROM public.storefront_settings;')});
+ const beforeHold=await readHoldState();
+ await assert.rejects(()=>hold('verify'),/CUTOVER_HOLD_ORDERS_STILL_OPEN/u);
+ assert.equal((await hold('dry-run')).remoteWriteAttempted,false);
+ assert.deepEqual(await readHoldState(),beforeHold);
+ await assert.rejects(()=>readFile(holdFile),{code:'ENOENT'});
+ const normalInventory=await readNotificationSnapshot(executor);
+ const monitor=normalInventory.jobs.find(job=>job.name==='run-advanced-monitoring');
+ assert.ok(monitor);
+ for(const [mutate,undo] of [
+  ["SELECT cron.schedule('cutover-unexpected','0 0 * * *','SELECT 1;');","SELECT cron.unschedule('cutover-unexpected');"],
+  [`SELECT cron.unschedule(${monitor.id});`,null],
+  ["SELECT cron.schedule('cutover-renamed','0 0 * * *','SELECT 1;');","SELECT cron.unschedule('cutover-renamed');"],
+ ]){
+  await sql(mutate);
+  const malformed=await readHoldState();
+  await assert.rejects(()=>hold('apply'),/CUTOVER_HOLD_CRON_INVENTORY_MISMATCH/u);
+  assert.deepEqual(await readHoldState(),malformed);
+  await assert.rejects(()=>readFile(holdFile),{code:'ENOENT'});
+  if(undo)await sql(undo);
+ }
+ // Restore only the disposable test fixture to exercise the healthy case.
+ const quote=str=>"'"+str.replaceAll("'","''")+"'";
+ await sql(`SELECT cron.schedule(${quote(monitor.name)},${quote(monitor.schedule)},${quote(monitor.command)});SELECT cron.alter_job(jobid,active:=false) FROM cron.job WHERE jobname='run-advanced-monitoring';`);
+ const appliedHold=await hold('apply');assert.equal(appliedHold.remoteWriteAttempted,true);
+ const evidence=await readFile(holdFile,'utf8');
+ assert.equal(JSON.parse(evidence).original.ordersClosed,false);
+ assert.deepEqual(JSON.parse(evidence).original.jobs.filter(job=>job.active).map(job=>job.name),['cleanup-guest-order-gateway-requests']);
+ assert.equal((await hold('verify')).ordersClosed,true);
+ assert.equal((await hold('apply')).noOp,true);
+ assert.equal(await readFile(holdFile,'utf8'),evidence);
+ report.cutoverHold={dryRunReadOnly:true,malformedInventoryRejected:true,ordersClosed:true,allSixInactive:true,repeatedNoOp:true};
  stage='backup220';const before=await timed('backup220',()=>createCompleteBackup({projectRef:'kzevmysfydaslxcerogt',outputRoot:backupRoot,passphrase,source}));assert.equal(before.historyCeiling,220);const beforeFile=await save('backup220.json',before);
  await read222BackupEvidence(beforeFile,220);
  stage='restore220';report.restore220=await timed('restore220',()=>restoreCompleteBackup({archivePath:before.archivePath,passphrase,reportPath:path.join(output,'restore220.json')}));assert.equal(report.restore220.allRowsAndHashesMatch,true);
