@@ -7,7 +7,11 @@
     },
     {
       "code": " M",
-      "path": "tests/inventory224-tools.test.ts"
+      "path": "scripts/testing/build-optional-quantity223-tools.mjs"
+    },
+    {
+      "code": " M",
+      "path": "tests/supported-upgrades224.test.ts"
     }
   ]
 }

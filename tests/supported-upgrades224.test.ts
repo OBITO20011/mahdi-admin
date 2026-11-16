@@ -12,6 +12,11 @@ import {canonicalLf,sha256} from '../scripts/testing/maintenance-db-contract.mjs
 import {sourceBeforeSupportedUpgrades224,supportedUpgrades224Pins} from '../scripts/audit/source-before-supported-upgrades224.mjs';
 import {cutoverCommandDocuments,documentedCutoverCommands,classifyCutoverCommand} from '../scripts/testing/cutover-command-contract.mjs';
 
+test('all three versioned tool generators preserve their literal approved templates on current224',()=>{
+ for(const name of ['independent-prices222','optional-quantity223','inventory224'])
+  execFileSync(process.execPath,[`scripts/testing/build-${name}-tools.mjs`,'--check'],{windowsHide:true,stdio:['ignore','pipe','pipe']});
+});
+
 test('every documented official command has an explicit offline mode or a named no-offline limitation',()=>{
  const documents=Object.fromEntries(cutoverCommandDocuments.map(name=>[name,readFileSync('docs/operations/'+name+'.md','utf8')]));
  const commands=documentedCutoverCommands(documents);

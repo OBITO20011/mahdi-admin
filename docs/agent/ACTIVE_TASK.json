@@ -3,7 +3,7 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Closed 222/223 upgrade admission from ceiling224 with exact historical references and offline cutover command proof",
-  "baselineSha": "ff102b4019355987321a09a492d02c323f58d4b9",
+  "baselineSha": "a758861850a64e17fec8172a39f86350ec05a0fc",
   "branch": "codex/supported-upgrades224",
   "phase": "SUPPORTED_UPGRADES224",
   "startedAt": "2026-11-16T19:32:22.218Z",
@@ -17,19 +17,21 @@
   ],
   "notStarted": [],
   "testsPassed": [
-    "16 final focused tests;0fail/0skip",
-    "Admin and customer types;strict lint0",
-    "Migration222/223 raw bytes and complete reference hashes match original merges"
+    "Full local units2105/2105 at a7588618;0fail/0skip",
+    "21 final focused tests including all three exact tool generators",
+    "Admin and customer types;strict lint0 before final test-only generator correction",
+    "222/223 original/current whole reference SHA equality;four actual offline commands"
   ],
   "testsRemaining": [
-    "Full local units",
-    "Exact-head full CI and Gitleaks",
+    "Exact-head full CI/types/lint/Gitleaks",
     "Merge/main CI and shared rehearsal through RESET224 only",
     "Read-only ON study"
   ],
   "findings": [
     "No changes to SQL,tool224,RESET224 or Restore contract",
-    "Owner16Nov:after merged protection/reset proof stop beforeOFF/import;then ON study"
+    "Owner16Nov:after merged protection/reset proof stop beforeOFF/import;then ON study",
+    "Current223 generator comparison now projects only the exact approved adapter bytes;old templates/pins unchanged",
+    "Known own delivered baseline synchronized before final push;no other-writer change"
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -38,12 +40,12 @@
     "No SQL/Restore/RESET224/tool224 changes",
     "Retain rehearsal containers until complete success"
   ],
-  "checkpointedAt": "2026-11-16T20:11:14.647Z",
+  "checkpointedAt": "2026-11-16T20:26:23.981Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 2,
-  "filesTouchedManifestSha256": "0a4d3cc5614b567de8522883b6dc65daf58d22aa1f33669397396de8d2d3cb97",
-  "nextExactAction": "Exact historical224 template projection corrected;run final full units and exact-head full CI",
-  "workingTreeFingerprint": "1822D363454BA515FFEDD0417FB83E9E4775285456F2BB37EEE0C9597A40F101"
+  "filesTouchedCount": 3,
+  "filesTouchedManifestSha256": "17ba41fc1cdb54d61be8ad154273da17ab3adc215c9e253fd43c0bf7467d277a",
+  "nextExactAction": "Push generator projection correction after passed types/lint/focused gates;wait exact-head full CI",
+  "workingTreeFingerprint": "062F5A38FA68C970AFE25B2A8B202EC2DF2E5448E36C84963A564746DFDA294E"
 }
