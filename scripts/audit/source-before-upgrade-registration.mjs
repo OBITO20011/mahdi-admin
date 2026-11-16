@@ -1,3 +1,4 @@
+import {sourceBeforeRestoreFrozen220,restoreFrozen220Hashes,pathsBeforeRestoreFrozen220} from './source-before-restore-frozen220.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {canonicalLf,sha256} from '../testing/maintenance-db-contract.mjs';
@@ -15,6 +16,7 @@ for(const [file,pin] of Object.entries(upgradeRegistrationPins)){
  assert.equal(pin.beforeText===null?null:sha256(pin.beforeText),pin.before,'REGISTRATION_HISTORY_PIN_CORRUPT:'+file);
 }
 export function sourceBeforeUpgradeRegistration(file,text){
+ text=sourceBeforeRestoreFrozen220(file,text);
  if(text===null)return null;
  const raw=canonicalLf(text);
  if(file===indexFile&&raw===indexText)return null;
@@ -23,17 +25,17 @@ export function sourceBeforeUpgradeRegistration(file,text){
 }
 const current=file=>canonicalLf(readFileSync(new URL('../../'+file,import.meta.url),'utf8'));
 export function restoreUpgradeRegistrationHashes(rows){
- return rows.flatMap(row=>{
+ return restoreFrozen220Hashes(rows).flatMap(row=>{
   const pin=upgradeRegistrationPins[row.file];
   if(!pin||row.sha256!==pin.after)return [row];
-  assert.equal(sha256(current(row.file)),pin.after,'REGISTRATION_HISTORY_SOURCE_CHANGED:'+row.file);
+  assert.equal(sha256(sourceBeforeRestoreFrozen220(row.file,current(row.file))),pin.after,'REGISTRATION_HISTORY_SOURCE_CHANGED:'+row.file);
   return pin.before===null?[]:[{...row,sha256:pin.before}];
  });
 }
 export function pathsBeforeUpgradeRegistration(files){
- return files.filter(file=>{
-  if(file===indexFile)return current(file)!==indexText;
+ return pathsBeforeRestoreFrozen220(files).filter(file=>{
+  if(file===indexFile)return sourceBeforeRestoreFrozen220(file,current(file))!==indexText;
   const pin=upgradeRegistrationPins[file];
-  return !pin||pin.before!==null||sha256(current(file))!==pin.after;
+  return !pin||pin.before!==null||sha256(sourceBeforeRestoreFrozen220(file,current(file)))!==pin.after;
  });
 }

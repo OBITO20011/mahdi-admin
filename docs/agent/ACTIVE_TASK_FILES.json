@@ -3,15 +3,11 @@
   "files": [
     {
       "code": " M",
-      "path": "scripts/audit/upgrade-registration-source-pins.json"
+      "path": "scripts/audit/restore-frozen220-source-pins.json"
     },
     {
       "code": " M",
-      "path": "tests/upgrade224-registration.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "tests/fixtures/supabase-cli-2.114.0-migration-list-223.json"
+      "path": "scripts/audit/source-before-restore-frozen220.mjs"
     }
   ]
 }
