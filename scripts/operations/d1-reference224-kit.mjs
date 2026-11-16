@@ -61,7 +61,7 @@ export async function prepareD1({root,outputRoot=path.join(homedir(),'NawasrahFr
    '- الجاهزية:224/184 ملفاً/688 دالة/13Realtime/'+report.accessQueries+'فحص وصول؛fresh-incremental-differences.json=[]؛مصادر المستودع ثابتة.',
    '- CI: '+Object.values(ci.runs).map(r=>r.url).join(' · '),
    '',
-   '**ما يعتمده المالك:** هذا الملف بعينه وبصمته الكاملة على رأس main والبصمات أعلاه،للاستعمال مع RESET224 فقط بعد بروفة النسخة الفاصلة. لا يشمل توقيعه تنفيذ RESET أو النشر. لا تُقبل البصمة التاريخية A915…؛لا تركيب أثناء محاولة قائمة أوresume. أي تغيير في الرأس أو المصادر يستلزم مرشحاً ومراجعة جديدين.',
+   '**ما يعتمده المالك:** هذا الملف بعينه وبصمته الكاملة على رأس main والبصمات أعلاه،للتحقق في ترقية224، ومع RESET224 بعد بروفة النسخة الفاصلة. يُطلب إذن تنفيذ الترقية وRESET والنشر على حدة. لا تُقبل البصمة التاريخية A915…؛لا تركيب أثناء محاولة قائمة أوresume. أي تغيير في الرأس أو المصادر يستلزم مرشحاً ومراجعة جديدين.',
    'التوقيع: ____________________  التاريخ: ____________  القرار: قبول / رفض',
   ].join('\n')+'\n',{flag:'wx'});return report;
  }catch(error){await writeFile(path.join(folder,'failure.json'),JSON.stringify({ok:false,stage,code:d1ErrorCode(error),currentReferenceTouched:false,installed:false},null,2));throw error;}

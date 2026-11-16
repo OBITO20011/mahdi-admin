@@ -48,3 +48,12 @@ test('224 D1 composes every223 CI requirement and refuses partial reset/ACL pres
  assert.ok(kit.includes('ref.manifest.length===184&&ref.functions===688'));
  assert.ok(kit.includes('testCandidateOnly'));
 });
+
+test('the cutover instructions install the ready224 reference before the upgrade dry run',()=>{
+ const guide=read('docs/operations/UPGRADE224_AR.md');
+ const installed=guide.indexOf('واعتمده وثبّته في مجلّد العمل نفسه قبل فحص الترقية');
+ const dryRun=guide.indexOf('frankfurt-owner-upgrade224.mjs --dry-run');
+ assert.ok(installed>=0&&dryRun>installed);
+ assert.match(read('docs/handover/ورقة-يوم-التشغيل.html'),
+  /اعتماد وتثبيت مرجع224 ← Backup223\/Restore ← dry-run224 ثم apply224/u);
+});

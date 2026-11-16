@@ -48,6 +48,7 @@ for(const[file,digest]of Object.entries(pins)){
   text=once(text,'ref.manifest.length===183&&ref.functions===687','ref.manifest.length===184&&ref.functions===688');
   text=once(text,'migrations:183,functions:687','migrations:184,functions:688');
   text=once(text,'224/183 ملفاً/687','224/184 ملفاً/688');
+  text=once(text,'للاستعمال مع RESET224 فقط بعد بروفة النسخة الفاصلة. لا يشمل توقيعه تنفيذ RESET أو النشر.','للتحقق في ترقية224، ومع RESET224 بعد بروفة النسخة الفاصلة. يُطلب إذن تنفيذ الترقية وRESET والنشر على حدة.');
   text=once(text,'[214,215,216,217,219,220,222,224]','[214,215,216,217,219,220,222,223,224]');
   // Keep all predecessor/catalog dependencies, and bind the new reader/helper.
   text=text.replaceAll('optional-quantity224-catalog.mjs','optional-quantity223-catalog.mjs')
