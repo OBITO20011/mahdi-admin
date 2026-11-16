@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "project": "Nawasrah ERP",
-  "branch": "codex/supported-upgrades224",
+  "branch": "codex/owner-cutover-hold224",
   "approvedBaseline": "3b35a263f7c20212c537bb61b2d20af778b7613d",
   "closedPhases": [
     "3",
@@ -14,7 +14,7 @@
     "6"
   ],
   "phase4Closed": true,
-  "currentPhase": "SUPPORTED_UPGRADES224",
+  "currentPhase": "CUTOVER_HOLD224",
   "phase6Closed": true,
   "phase6ClosureBaseline": "5aaeab11e13c2be454af677ee176f77aa2d9cde4",
   "phase6ClosureExactShaCi": "PASS",
@@ -307,5 +307,6 @@
   "phaseCI_CORE_WEBKIT_SHARDSImplementationAllowed": true,
   "phaseUPGRADE_REGISTRATION_PREFLIGHTImplementationAllowed": true,
   "phaseRESTORE_FROZEN220_TRIGGER_ACLImplementationAllowed": true,
-  "phaseSUPPORTED_UPGRADES224ImplementationAllowed": true
+  "phaseSUPPORTED_UPGRADES224ImplementationAllowed": true,
+  "phaseCUTOVER_HOLD224ImplementationAllowed": true
 }

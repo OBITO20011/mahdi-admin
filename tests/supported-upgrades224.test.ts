@@ -10,6 +10,7 @@ import {operationalManifest} from '../scripts/operations/operational-schema.mjs'
 import {inventory} from '../scripts/audit/table-access-inventory.mjs';
 import {canonicalLf,sha256} from '../scripts/testing/maintenance-db-contract.mjs';
 import {sourceBeforeSupportedUpgrades224,supportedUpgrades224Pins} from '../scripts/audit/source-before-supported-upgrades224.mjs';
+import {sourceBeforeCutoverHold224} from '../scripts/audit/source-before-cutover-hold224.mjs';
 import {cutoverCommandDocuments,documentedCutoverCommands,classifyCutoverCommand} from '../scripts/testing/cutover-command-contract.mjs';
 
 test('all three versioned tool generators preserve their literal approved templates on current224',()=>{
@@ -81,8 +82,10 @@ test('222 refuses actual223 history and223 refuses actual220 history;no order or
 
 test('new exact historical projection admits only its reviewed bytes;unknown byte never disappears',()=>{
  for(const[file,pin]of Object.entries(supportedUpgrades224Pins)){
-  const raw=canonicalLf(readFileSync(file,'utf8'));
+  const current=canonicalLf(readFileSync(file,'utf8'));
+  const raw=sourceBeforeCutoverHold224(file,current);
+  assert.ok(raw!==null);
   assert.equal(sha256(raw),pin.after);assert.equal(sourceBeforeSupportedUpgrades224(file,raw),pin.beforeText);
-  assert.equal(sourceBeforeSupportedUpgrades224(file,raw+'\nUNKNOWN_BYTE'),raw+'\nUNKNOWN_BYTE');
+  assert.equal(sourceBeforeSupportedUpgrades224(file,current+'\nUNKNOWN_BYTE'),current+'\nUNKNOWN_BYTE');
  }
 });

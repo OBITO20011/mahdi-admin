@@ -64,6 +64,7 @@ jobs:
         with:
           name: inventory224-owner-protection
           path: |
+            test-results/owner-upgrade222/report.json
             test-results/owner-upgrade224/report.json
             test-results/reset224/report.json
             test-results/supported-upgrades224/report.json

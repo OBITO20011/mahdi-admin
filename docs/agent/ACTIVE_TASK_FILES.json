@@ -3,11 +3,23 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/operations/SUPPORTED_UPGRADES224_LOCAL_AR.md"
+      "path": ".github/workflows/inventory224.yml"
     },
     {
       "code": " M",
-      "path": "scripts/audit/supported-upgrades224-source-pins.json"
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/UPGRADE222_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-supported-upgrades224.mjs"
     },
     {
       "code": " M",
@@ -15,7 +27,35 @@
     },
     {
       "code": " M",
+      "path": "scripts/testing/run-owner-upgrade222-runtime.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-owner-upgrade224-runtime.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-supported-upgrades224-proof.mjs"
+    },
+    {
+      "code": " M",
       "path": "tests/supported-upgrades224.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/cutover-hold224-source-pins.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-cutover-hold224.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/frankfurt-owner-cutover-hold224.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/cutover-hold224.test.ts"
     }
   ]
 }

@@ -43,6 +43,11 @@ try{
   report.referenceProofs.push({version,originalCommit:pin.commit,migrationSha256:pin.migrationSha256,originalSha256,currentSha256,originalElapsedMs:before.elapsedMs,currentElapsedMs:after.elapsedMs});
  }
  await writeFile(path.join(workdir,'local-reference-through224-ready.json'),await readFile(path.resolve(process.argv[2])),{flag:'wx'});
+ const holdRuntime=await run(root,['scripts/testing/run-owner-upgrade222-runtime.mjs',path.join(workdir,'local-reference-through222-ready.json')],'current-owner222-hold');
+ const holdProof=JSON.parse(await readFile(path.join(root,'test-results/owner-upgrade222/report.json'),'utf8'));
+ assert.equal(holdProof.ok,true,'CURRENT220_HOLD_RUNTIME_REQUIRED');
+ assert.deepEqual(holdProof.cutoverHold,{dryRunReadOnly:true,malformedInventoryRejected:true,ordersClosed:true,allSixInactive:true,repeatedNoOp:true});
+ report.holdUpgradeProof={...holdProof.cutoverHold,elapsedMs:holdRuntime.elapsedMs,ok:true};
  const documents=Object.fromEntries(await Promise.all(cutoverCommandDocuments.map(async name=>[name,await readFile(path.join(root,'docs/operations',name+'.md'),'utf8')])));
  const commands=documentedCutoverCommands(documents),classifications=commands.map(row=>({...row,...classifyCutoverCommand(row.command)}));
  const oldLink=path.join(root,'supabase/.temp/project-ref');
@@ -52,15 +57,16 @@ try{
  const executed=new Map();
  for(const row of classifications){
   if(row.kind==='offline'){
-   const key=row.script+':'+row.mode;
+   const key=[row.script,row.mode,row.phase].filter(Boolean).join(':');
    if(!executed.has(key)){
-    const result=await run(root,['--require',guard,row.script,row.mode,'--workdir',workdir],'offline-'+path.basename(row.script),{...process.env,NODE_OPTIONS:''});
+    const result=await run(root,['--require',guard,row.script,...(row.phase?[row.phase]:[]),row.mode,'--workdir',workdir],'offline-'+path.basename(row.script)+(row.phase??''),{...process.env,NODE_OPTIONS:''});
     const final=JSON.parse(result.stdout.trim().split(/\r?\n/u).at(-1));assert.equal(final.ok,true,'CUTOVER_OFFLINE_COMMAND_REJECTED:'+key);
     executed.set(key,{ok:true,elapsedMs:result.elapsedMs});
    }
    report.commands.push({...row,...executed.get(key)});
   }else report.commands.push({...row,executed:false});
  }
+ for(const phase of ['upgrade','reset'])assert.ok(executed.has(`scripts/operations/frankfurt-owner-cutover-hold224.mjs:--plan:--hold-${phase}`),'CUTOVER_HOLD_PLAN_NOT_EXECUTED:'+phase);
  for(const version of [222,223,224])assert.ok(executed.has(`scripts/operations/frankfurt-owner-upgrade${version}.mjs:--dry-run`),'CUTOVER_UPGRADE_NOT_EXECUTED:'+version);
  assert.ok(executed.has('scripts/operations/frankfurt-owner-reset224.mjs:--plan'),'CUTOVER_RESET224_NOT_EXECUTED');
  for(const version of [222,223]){

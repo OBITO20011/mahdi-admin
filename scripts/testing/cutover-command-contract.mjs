@@ -20,6 +20,9 @@ export function documentedCutoverCommands(documents){
  return result;
 }
 export function classifyCutoverCommand(command){
+ const hold=/^node scripts\/operations\/frankfurt-owner-cutover-hold224\.mjs --hold-(upgrade|reset)(?:\s|$)/u.exec(command);
+ if(hold)return{kind:'offline',script:'scripts/operations/frankfurt-owner-cutover-hold224.mjs',mode:'--plan',phase:'--hold-'+hold[1],
+  limitation:'plan is offline;dry-run and verify read the linked project;apply requires owner confirmation'};
  const upgrade=/^node scripts\/operations\/frankfurt-owner-upgrade(222|223|224)\.mjs(?:\s|$)/u.exec(command);
  if(upgrade)return{kind:'offline',script:`scripts/operations/frankfurt-owner-upgrade${upgrade[1]}.mjs`,mode:'--dry-run',
   limitation:'apply/verify-only/preflight-registration/resume-registration require a connected database;only their actual offline adapter is executed here'};

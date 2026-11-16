@@ -19,6 +19,10 @@ import {read224SourceEvidence,upgrade224WithExecutor,run224} from '../operations
 import {checkRegistration224,pending224Registration} from '../operations/upgrade224-registration.mjs';
 import {read224BackupEvidence,assert224ProtectionComplete} from '../operations/upgrade224-protection.mjs';
 import {readOnlyPsqlSessionArgs} from '../operations/frankfurt-catalog-verification.mjs';
+import {cutoverHoldWithExecutor} from '../operations/frankfurt-owner-cutover-hold224.mjs';
+import {readNotificationSnapshot} from '../operations/frankfurt-notification-hold.mjs';
+import {upgrade220ServerBindingSql} from '../operations/upgrade220-runtime-state.mjs';
+import {manifestDigest,sha256} from './maintenance-db-contract.mjs';
 const root=path.resolve(import.meta.dirname,'../..'),exec=promisify(execFile);
 const project='nawasrah-owner-upgrade224-test',container='supabase_db_'+project,executor=executorFor(['--container',container]);
 const output=await mkdtemp(path.join(process.env.RUNNER_TEMP??tmpdir(),'nawasrah-owner-upgrade224-')),report={output,hostedAccess:false,ok:false,timings:{}};
@@ -128,7 +132,7 @@ try{
  stage='restore224';report.restore224=await timed('restore224',()=>restoreCompleteBackup({archivePath:after.archivePath,passphrase,reportPath:path.join(output,'restore224.json')}));
  const restoreFile=path.join(output,'restore224.json');report.protection=await assert224ProtectionComplete({backupFile:afterFile,restoreFile,upgradeFile:applyFile});assert.equal(report.protection.complete,true);
  const readonly={...executor,args:[...executor.args,...readOnlyPsqlSessionArgs]},verifyArgs=['--verify-only','--backup-evidence',afterFile,'--restore-evidence',restoreFile,'--upgrade-report',applyFile];
- const verify=async name=>{const dir=path.join(output,name);await mkdir(dir);return run224(verifyArgs,{runOwner:async(_args,configuration)=>{const result={};await configuration.verifyReadOnly(readonly,dir,reference,null,null,result);return result;}});};
+ const verify=async(name,args=verifyArgs)=>{const dir=path.join(output,name);await mkdir(dir);return run224(args,{runOwner:async(_args,configuration)=>{const result={};await configuration.verifyReadOnly(readonly,dir,reference,null,null,result);return result;}});};
  stage='verify-only';report.verify=await timed('verifyOnly',()=>verify('verify'));assert.equal(report.verify.complete,true);assert.equal(report.verify.protectionPending,false);
  report.negatives=['registration-preflight-no-write','pending-registration','resume-catalog-drift','resume-data-drift','resume-replay','wrong-source-commitment','apply-replay'];
  for(const [name,mutate,undo]of [
@@ -145,6 +149,31 @@ try{
  report.trackedRestore=await timed('restoreWithCounter',()=>restoreCompleteBackup({archivePath:tracked.archivePath,passphrase,reportPath:path.join(output,'tracked-restore224.json')}));
  assert.equal(report.trackedRestore.allRowsAndHashesMatch,true);
  assert.equal(report.trackedRestore.tablesCompared,report.restore224.tablesCompared);
+ stage='reset-hold';
+ const checked=await verify('verify-before-reset-hold',['--verify-only','--backup-evidence',await save('tracked-backup224.json',tracked),
+  '--restore-evidence',path.join(output,'tracked-restore224.json'),'--upgrade-report',applyFile]);
+ const proof={...checked,ok:true,mode:'verify-only',projectRef:'kzevmysfydaslxcerogt',remoteWriteAttempted:false};
+ const verification=await save('verify-before-reset-hold.json',proof);
+ const notifications=await readNotificationSnapshot(executor),binding=JSON.parse(await sql(upgrade220ServerBindingSql));
+ const cleanup='cleanup-guest-order-gateway-requests';
+ // This fixture starts at223. The real220 runtime exercises creation of this artifact.
+ const evidenceFile=await save('cutover-hold224-original.json',{format:1,projectRef:proof.projectRef,
+  baseManifestDigest:manifestDigest(reference.manifest.filter(unit=>Number(unit.name.slice(0,3))<=220)),
+  inventorySha256:sha256(JSON.stringify({binding,trigger:{...notifications.trigger,enabled:null},jobs:notifications.jobs.map(job=>({...job,active:null}))})),
+  original:{historyCeiling:220,historyFiles:181,ordersClosed:false,triggerEnabled:'O',dispatchEnabled:true,jobs:notifications.jobs.map(({id,name})=>({id,name,active:name===cleanup}))}});
+ const hold=(mode,file=verification)=>cutoverHoldWithExecutor({executor,reference,phase:'reset',mode,evidenceFile,verification:file});
+ await assert.rejects(()=>hold('verify'),/CUTOVER_HOLD_CRON_STATE_MISMATCH/u);
+ const stale=await save('verify-stale-hold.json',{...proof,protection:{...proof.protection,afterSourceEvidenceSha256:'0'.repeat(64)}});
+ await assert.rejects(()=>hold('apply',stale),/CUTOVER_HOLD_SOURCE_CHANGED_SINCE_VERIFY224/u);
+ assert.deepEqual(await readNotificationSnapshot(executor),notifications);
+ assert.equal((await hold('dry-run')).remoteWriteAttempted,false);
+ assert.deepEqual(await readNotificationSnapshot(executor),notifications);
+ assert.equal((await hold('apply')).remoteWriteAttempted,true);
+ assert.equal(await sql('SELECT enabled FROM public.owner_telegram_dispatch_settings;'),'f');
+ assert.equal((await readNotificationSnapshot(executor)).trigger.enabled,'D');
+ assert.deepEqual((await hold('verify')).jobs.filter(job=>job.active).map(job=>job.name),[cleanup]);
+ assert.equal((await hold('apply')).noOp,true);
+ report.cutoverHold={strict224ProofRequired:true,staleProofRejected:true,dryRunReadOnly:true,cleanupOnly:true,repeatedNoOp:true};
  assert.equal((await exec('docker',['ps','-aq','--filter','name=^/nawasrah-full-restore-'+process.pid+'-'],{windowsHide:true})).stdout.trim(),'','DEFAULT_RESTORE_MUST_REMOVE_OWN_CONTAINER');
  Object.assign(report,{ok:true,realMoneyAndInventoryRowsUnchanged:true,notificationSettingsPreserved:true,defaultRestoreContainerDeleted:true,noExternalTransportInvoked:true});
 }catch(error){Object.assign(report,{ok:false,stage,error:error.message.split('\n')[0],cause:error.cause?.message?.split('\n')[0],assertionCause:error.actual instanceof Error?{code:error.actual.code,message:error.actual.message.split('\n')[0],location:error.actual.stack?.split('\n').slice(1,4)}:undefined});process.exitCode=1;}
