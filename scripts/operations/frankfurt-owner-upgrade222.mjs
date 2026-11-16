@@ -16,6 +16,7 @@ import {compareApplicationAcl} from './application-acl-verification.mjs';
 import {persistCatalogComparison} from './frankfurt-catalog-verification.mjs';
 import {registeredBackupPreflight} from './backup-task-preflight.mjs';
 import {operationalManifest,operationalSchema} from './operational-schema.mjs';
+import {assertSupportedUpgrade224} from './supported-upgrades224.mjs';
 import {upgradePreparationCode} from './upgrade-preparation-errors.mjs';
 import {SnapshotSession} from '../backup/snapshot-session.mjs';
 import {captureEvidence} from '../backup/complete-backup.mjs';
@@ -91,7 +92,7 @@ export async function run222(args,{preflight=registeredBackupPreflight,manifest=
  const {forward,extra}=upgrade222Arguments(args);let backupEvidence,protection;
  if(forward.includes('--apply')){await preflight(root);backupEvidence=await read222BackupEvidence(extra['--backup-evidence'],220);}
  if(forward.includes('--verify-only'))protection=await assert222ProtectionComplete({backupFile:extra['--backup-evidence'],restoreFile:extra['--restore-evidence'],upgradeFile:extra['--upgrade-report']});
- await manifest();assert.ok(operationalSchema.upgradeCommand==='frankfurt-owner-upgrade222'||operationalSchema.ceiling===223&&operationalSchema.legacyArchiveCeilings.includes(222),'UPGRADE_ADAPTER_NOT_CURRENT');
+ await manifest();assertSupportedUpgrade224(222,operationalSchema);
  return runOwner(forward,{loadReference:readReady222Reference,referenceName:ready222ReferenceName,pipeline:options=>upgrade222WithExecutor({...options,backupEvidence}),inputsFor:inputs222,versions:upgrade222Versions,label:'222',offlinePlan:offline222,
   verifyReadOnly:async(executor,output,reference,_original,_dates,report)=>{const runtime=await capture222RuntimeState(executor,reference);await verify222Prefix(executor,output,reference,'222',runtime,report);assert.equal(sha256(JSON.stringify(await read222SourceEvidence(executor))),protection.afterSourceEvidenceSha256,'UPGRADE222_SOURCE_CHANGED_SINCE_RESTORE');Object.assign(report,{targetCeiling:222,complete:true,protectionPending:false,protection});}});
 }

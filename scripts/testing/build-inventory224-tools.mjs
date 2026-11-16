@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFile,writeFile} from 'node:fs/promises';
 import {canonicalLf,sha256} from './maintenance-db-contract.mjs';
 import {sourceBeforeUpgradeRegistration} from '../audit/source-before-upgrade-registration.mjs';
+import {sourceBeforeSupportedUpgrades224} from '../audit/source-before-supported-upgrades224.mjs';
 const root=new URL('../../',import.meta.url);
 const pins=JSON.parse(await readFile(new URL('docs/design/inventory224/tool223-source-pins.json',root),'utf8'));
 const check=process.argv[2]==='--check';
@@ -10,7 +11,8 @@ assert.ok(process.argv.length===2||process.argv.length===3&&check,'ONLY_CHECK_OP
 function once(text,from,to){assert.equal(text.split(from).length,2,'EXACT224_TOOL_HUNK:'+from.slice(0,100));return text.replace(from,()=>to);}
 const output=new Map();
 for(const[file,digest]of Object.entries(pins)){
- let text=canonicalLf(await readFile(new URL('scripts/operations/'+file,root),'utf8'));
+ let text=sourceBeforeSupportedUpgrades224('scripts/operations/'+file,canonicalLf(await readFile(new URL('scripts/operations/'+file,root),'utf8')));
+ assert.ok(text!==null,'EXACT224_TOOL_SOURCE_REQUIRED:'+file);
  assert.equal(sha256(text),digest,'EXACT224_TOOL_SOURCE:'+file);
  // SHA commitments are bytes, not version labels.
  const hashes=[];text=text.replace(/\b[a-f0-9]{64}\b/gu,value=>{hashes.push(value);return 'REVIEWED_HASH_'+(hashes.length-1)+'_END';});

@@ -3,11 +3,95 @@
   "files": [
     {
       "code": " M",
-      "path": "scripts/audit/restore-frozen220-source-pins.json"
+      "path": ".github/workflows/inventory224.yml"
+    },
+    {
+      "code": " M",
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/UPGRADE222_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/UPGRADE223_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/UPGRADE224_AR.md"
     },
     {
       "code": " M",
       "path": "scripts/audit/source-before-restore-frozen220.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/build-acl-reference222.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/build-acl-reference223.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/frankfurt-owner-upgrade222.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/frankfurt-owner-upgrade223.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/frankfurt-reference222.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/frankfurt-reference223.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/build-inventory224-tools.mjs"
+    },
+    {
+      "code": " M",
+      "path": "tests/restore-frozen220-trigger-acl.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/SUPPORTED_UPGRADES224_LOCAL_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-supported-upgrades224.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/supported-upgrades224-source-pins.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/supported-upgrades224.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/upgrade-versioned-reference.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/cutover-command-contract.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-supported-upgrades224-proof.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/supported-upgrades224.test.ts"
     }
   ]
 }

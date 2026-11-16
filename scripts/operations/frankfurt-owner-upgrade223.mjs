@@ -16,6 +16,7 @@ import {compareApplicationAcl} from './application-acl-verification.mjs';
 import {persistCatalogComparison} from './frankfurt-catalog-verification.mjs';
 import {registeredBackupPreflight} from './backup-task-preflight.mjs';
 import {operationalManifest,operationalSchema} from './operational-schema.mjs';
+import {assertSupportedUpgrade224} from './supported-upgrades224.mjs';
 import {upgradePreparationCode} from './upgrade-preparation-errors.mjs';
 import {SnapshotSession} from '../backup/snapshot-session.mjs';
 import {captureEvidence} from '../backup/complete-backup.mjs';
@@ -91,7 +92,7 @@ export async function run223(args,{preflight=registeredBackupPreflight,manifest=
  const {forward,extra}=upgrade223Arguments(args);let backupEvidence,protection;
  if(forward.includes('--apply')){await preflight(root);backupEvidence=await read223BackupEvidence(extra['--backup-evidence'],222);}
  if(forward.includes('--verify-only'))protection=await assert223ProtectionComplete({backupFile:extra['--backup-evidence'],restoreFile:extra['--restore-evidence'],upgradeFile:extra['--upgrade-report']});
- await manifest();assert.equal(operationalSchema.upgradeCommand,'frankfurt-owner-upgrade223','UPGRADE_ADAPTER_NOT_CURRENT');
+ await manifest();assertSupportedUpgrade224(223,operationalSchema);
  return runOwner(forward,{loadReference:readReady223Reference,referenceName:ready223ReferenceName,pipeline:options=>upgrade223WithExecutor({...options,backupEvidence}),inputsFor:inputs223,versions:upgrade223Versions,label:'223',offlinePlan:offline223,
   verifyReadOnly:async(executor,output,reference,_original,_dates,report)=>{const runtime=await capture223RuntimeState(executor,reference);await verify223Prefix(executor,output,reference,'223',runtime,report);assert.equal(sha256(JSON.stringify(await read223SourceEvidence(executor))),protection.afterSourceEvidenceSha256,'UPGRADE223_SOURCE_CHANGED_SINCE_RESTORE');Object.assign(report,{targetCeiling:223,complete:true,protectionPending:false,protection});}});
 }

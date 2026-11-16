@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {sourceBeforeSupportedUpgrades224,restoreSupportedUpgrades224Hashes,pathsBeforeSupportedUpgrades224} from './source-before-supported-upgrades224.mjs';
 import {readFileSync} from 'node:fs';
 import {canonicalLf,sha256} from '../testing/maintenance-db-contract.mjs';
 
@@ -15,6 +16,7 @@ for(const [file,pin] of Object.entries(restoreFrozen220Pins)){
  assert.equal(pin.beforeText===null?null:sha256(pin.beforeText),pin.before,'RESTORE_FROZEN220_HISTORY_PIN_CORRUPT:'+file);
 }
 export function sourceBeforeRestoreFrozen220(file,text){
+ text=sourceBeforeSupportedUpgrades224(file,text);
  if(text===null)return null;
  const raw=canonicalLf(text);
  if(file===indexFile&&raw===indexText)return null;
@@ -23,18 +25,18 @@ export function sourceBeforeRestoreFrozen220(file,text){
 }
 const current=file=>canonicalLf(readFileSync(new URL('../../'+file,import.meta.url),'utf8'));
 export function restoreFrozen220Hashes(rows){
- return rows.flatMap(row=>{
+ return restoreSupportedUpgrades224Hashes(rows).flatMap(row=>{
   const pin=restoreFrozen220Pins[row.file];
   if(!pin||row.sha256!==pin.after)return [row];
-  assert.equal(sha256(current(row.file)),pin.after,'RESTORE_FROZEN220_HISTORY_SOURCE_CHANGED:'+row.file);
+  assert.equal(sha256(sourceBeforeSupportedUpgrades224(row.file,current(row.file))),pin.after,'RESTORE_FROZEN220_HISTORY_SOURCE_CHANGED:'+row.file);
   return pin.before===null?[]:[{...row,sha256:pin.before}];
  });
 }
 /** @param {string[]} files */
 export function pathsBeforeRestoreFrozen220(files){
- return files.filter(file=>{
-  if(file===indexFile)return current(file)!==indexText;
+ return pathsBeforeSupportedUpgrades224(files).filter(file=>{
+  if(file===indexFile)return sourceBeforeSupportedUpgrades224(file,current(file))!==indexText;
   const pin=restoreFrozen220Pins[file];
-  return !pin||pin.before!==null||sha256(current(file))!==pin.after;
+  return !pin||pin.before!==null||sha256(sourceBeforeSupportedUpgrades224(file,current(file)))!==pin.after;
  });
 }

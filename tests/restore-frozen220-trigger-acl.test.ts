@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import {sourceBeforeSupportedUpgrades224} from '../scripts/audit/source-before-supported-upgrades224.mjs';
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {capturedFrozen220TriggerAcl,restoreFrozen220TriggerAcl} from '../scripts/backup/restore-frozen220-trigger-acl.mjs';
@@ -74,17 +75,24 @@ test('replay refuses a failed postcondition and rolls back without changing comp
  for(const file of ['scripts/testing/backup-restore-contract.mjs','scripts/backup/restore-comparison.mjs',
   'scripts/operations/frankfurt-owner-upgrade222.mjs','scripts/operations/frankfurt-owner-upgrade223.mjs',
   'scripts/operations/frankfurt-owner-upgrade224.mjs','scripts/operations/frozen220-trigger-acl.mjs']){
-  assert.equal(canonicalLf(readFileSync(file,'utf8')),canonicalLf(execFileSync('git',['show',baseline+':'+file],{encoding:'utf8'})),file);
+  assert.equal(sourceBeforeSupportedUpgrades224(file,canonicalLf(readFileSync(file,'utf8'))),canonicalLf(execFileSync('git',['show',baseline+':'+file],{encoding:'utf8'})),file);
  }
- assert.equal(execFileSync('git',['diff','--name-only',baseline,'--','supabase','scripts/operations'],{encoding:'utf8'}).trim(),'');
+ for(const file of execFileSync('git',['diff','--name-only',baseline,'--','supabase','scripts/operations'],{encoding:'utf8'}).trim().split('\n').filter(Boolean)){
+  const projected=sourceBeforeSupportedUpgrades224(file,canonicalLf(readFileSync(file,'utf8')));
+  let before:string|null=null;
+  try{before=canonicalLf(execFileSync('git',['show',baseline+':'+file],{encoding:'utf8',stdio:['ignore','pipe','pipe']}));}catch{/* Exact added source must project to null. */}
+  assert.equal(projected,before,file);
+ }
 });
 
 test('historical inverse preserves beforeText and rejects unknown physical bytes',()=>{
  for(const [file,pin] of Object.entries(restoreFrozen220Pins)){
-  const text=canonicalLf(readFileSync(file,'utf8'));
+  const raw=canonicalLf(readFileSync(file,'utf8')),text=sourceBeforeSupportedUpgrades224(file,raw);
+  assert.ok(text!==null);
   assert.equal(sha256(text),pin.after,file);
   assert.equal(sourceBeforeRestoreFrozen220(file,text),pin.beforeText,file);
   assert.equal(sourceBeforeRestoreFrozen220(file,text+'\nunknown'),text+'\nunknown',file);
+  assert.equal(sourceBeforeRestoreFrozen220(file,raw+'\nunknown'),raw+'\nunknown',file);
  }
  assert.equal(sourceBeforeRestoreFrozen220('unknown',null),null);
 });
