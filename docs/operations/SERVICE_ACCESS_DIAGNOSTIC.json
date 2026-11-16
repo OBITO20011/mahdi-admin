@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-16T00:51:07.774Z",
+  "startedAt": "2026-11-16T02:37:14.371Z",
   "migrationCeiling": 224,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-LhOQsK",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-r9v88z",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -443,7 +443,7 @@
     },
     {
       "file": "src/features/operatingMode/Inventory224View.tsx",
-      "sha256": "f34c08ee3572fdc7a5d99e7f387f7732c49eed50476d92da6d8ed07e46436d22"
+      "sha256": "6222b6ec57f58d095582e6ed6871a4c13bb14a30573569131672a24a6a9deb50"
     },
     {
       "file": "src/features/operatingMode/LowOptionalQuantityList.tsx",
@@ -53798,7 +53798,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-11-16T00:51:28.512Z",
+  "endedAt": "2026-11-16T02:37:33.949Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {

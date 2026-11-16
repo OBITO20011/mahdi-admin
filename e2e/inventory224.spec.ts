@@ -55,6 +55,33 @@ for(const width of [390,1280])test.describe(`inventory224 ${width}`,()=>{
   for(const text of ['صنف جديد','nw-0999','٠٠٧٧٧٧']){await search.fill(text);await expect.poll(()=>c.searches.at(-1)).toBe(text==='٠٠٧٧٧٧'?'007777':text);await expect(dialog.getByRole('button',{name:'اختيار',exact:true})).toBeEnabled();}
   await dialog.getByRole('button',{name:'اختيار',exact:true}).click();await expect(dialog).toContainText('بعد التفعيل وحدة «باكيت» بتنقفل');await dialog.getByLabel('الكمية الموجودة',{exact:true}).fill('12');await dialog.getByRole('button',{name:'ابدأ العدّ',exact:true}).click();await expect(dialog).toHaveCount(0);expect(c.writes).toHaveLength(1);expect(c.writes[0]).toMatchObject({p_product_id:id(105),p_quantity:12,p_enabled:true,p_expected_revision:0});
  });
+ test('edit retains the selected last movement beyond the first 20 SKU substring matches',async({page})=>{
+  await setup(page);
+  await page.route('**/rpc/lite3_counters224',route=>{
+   if(route.request().postDataJSON().p_search!=='NW-0268')return route.fallback();
+   const items=Array.from({length:20},(_,i)=>({productId:id(200+i),name:'صنف آخر',sku:'NW-0268-'+i,barcode:null,
+    flavorName:null,familyId:null,familyName:null,unitId:id(10),unitName:'باكيت',enabled:true,
+    quantity:2,threshold:4,revision:1,updatedAt:'2026-11-16T00:00:00Z',status:'low',lastEvent:null}));
+   return route.fulfill({json:{contractVersion:'inventory224-v1',fullAccounting:false,
+    counts:{tracked:22,low:22,zero:1},total:21,page:1,pageSize:20,items}});
+  });
+  await page.locator(`[data-counter-id="${id(103)}"]`).click();
+  const dialog=page.getByRole('dialog');
+  await expect(dialog.getByLabel('كم باكيت وصل؟',{exact:true})).toBeVisible();
+  await expect(dialog).toContainText('آخر تعديل: المالك (+2)');
+  await expect(dialog).not.toContainText('لا توجد حركة');
+ });
+ test('add distinguishes an empty catalog search from an unmatched search term',async({page})=>{
+  await setup(page);
+  await page.route('**/rpc/search_admin_products',route=>route.fulfill({json:[]}));
+  await page.getByRole('button',{name:'إضافة منتج للعدّ',exact:true}).click();
+  const dialog=page.getByRole('dialog');
+  await expect(dialog.getByRole('status')).toHaveText('ما في منتجات متاحة');
+  await dialog.getByRole('searchbox',{name:'بحث عن منتج للعدّ'}).fill('لايوجد');
+  await expect(dialog.getByRole('status')).toHaveText('ما في نتيجة لـ"لايوجد"');
+  await dialog.getByRole('button',{name:'مسح البحث',exact:true}).click();
+  await expect(dialog.getByRole('status')).toHaveText('ما في منتجات متاحة');
+ });
 });
 test('nonowner inventory renders no owner data and performs no RPC',async({page})=>{
  let calls=0;await page.route('**/rpc/**',route=>{calls++;return route.fulfill({status:403,json:{message:'forbidden'}});});

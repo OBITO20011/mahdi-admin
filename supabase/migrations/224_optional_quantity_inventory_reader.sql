@@ -32,7 +32,7 @@ BEGIN
   FROM sales_lite3.quantity_counters c JOIN public.products p ON p.id=c.product_id
   LEFT JOIN public.products parent ON parent.id=p.flavor_master_product_id
   LEFT JOIN public.units u ON u.id=c.unit_id
-  WHERE c.enabled AND NOT p.is_flavor_master
+  WHERE c.enabled AND p.is_active AND NOT p.is_flavor_master
    AND NOT EXISTS(SELECT 1 FROM public.products child WHERE child.flavor_master_product_id=p.id)
  ),filtered AS MATERIALIZED(
   SELECT * FROM tracked WHERE(needle='' OR strpos(search_text,needle)>0)

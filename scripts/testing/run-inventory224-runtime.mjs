@@ -69,6 +69,12 @@ try{
  assert.equal(inventory.items[1].lastEvent.actorDisplayName,'مالك يوم الاختبار');
  assert.equal(inventory.items[1].revision,1);assert.ok(inventory.items[1].updatedAt);
  report.cases.push({name:'OFF enabled sellable counters, quantities/units/family/revision, global counts, deterministic zero/low/name order',passed:true});
+ const inactive=await json(`BEGIN;UPDATE public.products SET is_active=false WHERE id='${id(101)}';
+ SELECT set_config('request.jwt.claims',${q(JSON.stringify(owner))},true);SET LOCAL ROLE authenticated;
+ SELECT public.${reader()};ROLLBACK;`);
+ assert.deepEqual(inactive.counts,{tracked:2,low:1,zero:0},'INVENTORY224_INACTIVE_TRACKED_COUNTS');
+ assert.equal(inactive.total,2);assert.ok(inactive.items.every(row=>row.productId!==id(101)));
+ report.cases.push({name:'Inactive product with enabled zero counter is excluded from the list and all global summary counts',passed:true});
  for(const search of ['توداي','  عائلة\tتوداي  ','nw-٠٢٦٨','NW-۰۲۶۸','00098765432']){
   const found=await rpc(reader(search));assert.equal(found.total,2,search);assert.deepEqual(found.counts,inventory.counts);
  }

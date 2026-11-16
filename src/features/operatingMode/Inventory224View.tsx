@@ -64,9 +64,9 @@ function EditPanel({item,onClose,onSaved}:{item:InventoryCounter224;onClose:()=>
  const [busy,setBusy]=useState(false),generation=useRef(0);
  const load=useCallback(async()=>{
   const sequence=++generation.current;setState({row:null,event:null,error:false,sequence});
-  try{const [data,page]=await Promise.all([fetchOptionalQuantity(item.productId),fetchInventory224(item.sku,'all',1)]);if(sequence===generation.current){if(data.isFamily||data.products.length!==1)throw Error('SELLABLE_REQUIRED');setState({row:data.products[0],event:page.items.find(row=>row.productId===item.productId)?.lastEvent??null,error:false,sequence});}}
+  try{const [data,page]=await Promise.all([fetchOptionalQuantity(item.productId),fetchInventory224(item.sku,'all',1)]);if(sequence===generation.current){if(data.isFamily||data.products.length!==1)throw Error('SELLABLE_REQUIRED');const current=page.items.find(row=>row.productId===item.productId);setState({row:data.products[0],event:current?current.lastEvent:item.lastEvent,error:false,sequence});}}
   catch{if(sequence===generation.current)setState({row:null,event:null,error:true,sequence});}
- },[item.productId,item.sku]);
+ },[item.productId,item.sku,item.lastEvent]);
  useEffect(()=>{const ref=generation;void load();return()=>{ref.current++;};},[load]);
  return <Modal isOpen title={[item.familyName||item.name,item.flavorName].filter(Boolean).join(' · ')} onClose={onClose} closeDisabled={busy} trackChanges={false}>
   <div className="space-y-4 p-4">{state.row?<QuantityEditor key={state.sequence} row={state.row} event={state.event} adding={false} onSaved={onSaved} onBusy={setBusy}/>:<p role={state.error?'alert':'status'}>{state.error?'تعذرت القراءة. أعد القراءة قبل التعديل. (QTY-01)':'جارٍ قراءة الكمية…'}</p>}
@@ -85,7 +85,7 @@ function AddPanel({onClose,onSaved}:{onClose:()=>void;onSaved:()=>void}){
   <div className="space-y-4 p-4">{selected?<><QuantityEditor key={`${selected.productId}:${refresh}`} row={selected} event={null} adding onSaved={onSaved} onBusy={setBusy}/>
    <UiButton type="button" variant="secondary" disabled={busy} onClick={()=>{setSelected(null);setRefresh(n=>n+1);}}>إعادة قراءة المنتجات</UiButton></>:<>
    <Search label="بحث عن منتج للعدّ" text={query.text} onChange={query.setText}/>
-   {state.loading?<p role="status">جارٍ البحث…</p>:state.error?<p role="alert">تعذرت قراءة المنتجات؛ أعد البحث.</p>:state.rows.length===0?<p role="status">ما في نتيجة لـ&quot;{query.search}&quot;</p>:<ul className="divide-y divide-nw-border">{state.rows.map(row=><li key={row.productId} className="flex min-w-0 items-center gap-2 py-3"><div className="min-w-0 flex-1"><strong className="break-words">{row.name}{row.flavorName?' · '+row.flavorName:''}</strong><p className="break-all text-xs text-nw-muted">{row.sku}</p></div><UiButton type="button" variant="secondary" disabled={row.enabled||query.text!==query.search} onClick={()=>setSelected(row)}>{row.enabled?'بالقائمة':'اختيار'}</UiButton></li>)}</ul>}
+   {state.loading?<p role="status">جارٍ البحث…</p>:state.error?<p role="alert">تعذرت قراءة المنتجات؛ أعد البحث.</p>:state.rows.length===0?<p role="status">{query.search.trim()?`ما في نتيجة لـ"${query.search}"`:'ما في منتجات متاحة'}</p>:<ul className="divide-y divide-nw-border">{state.rows.map(row=><li key={row.productId} className="flex min-w-0 items-center gap-2 py-3"><div className="min-w-0 flex-1"><strong className="break-words">{row.name}{row.flavorName?' · '+row.flavorName:''}</strong><p className="break-all text-xs text-nw-muted">{row.sku}</p></div><UiButton type="button" variant="secondary" disabled={row.enabled||query.text!==query.search} onClick={()=>setSelected(row)}>{row.enabled?'بالقائمة':'اختيار'}</UiButton></li>)}</ul>}
   </>}</div>
  </Modal>;
 }

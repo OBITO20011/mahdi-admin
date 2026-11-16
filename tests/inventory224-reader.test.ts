@@ -29,7 +29,7 @@ test('224 bounds the page and search, keeps global counts independent, and reads
  assert.match(sql,/p_page_size NOT BETWEEN 1 AND 100/u);
  assert.match(sql,/char_length\(p_search\)>256/u);
  assert.match(sql,/p_filter NOT IN\('all','low','zero'\)/u);
- assert.match(sql,/WHERE c\.enabled AND NOT p\.is_flavor_master/u);
+ assert.match(sql,/WHERE c\.enabled AND p\.is_active AND NOT p\.is_flavor_master/u);
  assert.match(sql,/FROM tracked\),/u);
  assert.match(sql,/LIMIT p_page_size OFFSET\(p_page-1\)::BIGINT\*p_page_size/u);
  assert.match(sql,/e\.quantity_after-e\.quantity_before/u);
