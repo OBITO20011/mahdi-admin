@@ -1,0 +1,68 @@
+name: Nawasrah inventory224
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: inventory224-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || format('run-{0}', github.run_id) }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+jobs:
+  reader:
+    name: Inventory224 reader and full-mode preservation
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium webkit
+      - run: node scripts/testing/build-inventory224-tools.mjs --check
+      - run: node scripts/testing/build-inventory224-history.mjs --check
+      - run: node scripts/testing/run-inventory224-runtime.mjs
+      - run: node scripts/testing/run-inventory224-browser.mjs
+      - run: node scripts/testing/run-inventory224-fullstack.mjs
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: inventory224-reader-browser
+          path: |
+            test-results/inventory224-runtime/report.json
+            ${{ runner.temp }}/nawasrah-inventory224-browser-*/report.json
+            ${{ runner.temp }}/nawasrah-inventory224-browser-*/browser.log
+            ${{ runner.temp }}/nawasrah-inventory224-browser-*/results/**/*.png
+            ${{ runner.temp }}/nawasrah-inventory224-fullstack-*/report.json
+            ${{ runner.temp }}/nawasrah-inventory224-fullstack-*/browser.log
+            ${{ runner.temp }}/nawasrah-inventory224-fullstack-*/results/**/*.png
+          retention-days: 7
+  tools:
+    name: Inventory224 owner protection and RESET
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: node scripts/operations/build-acl-reference224.mjs --output "$RUNNER_TEMP/local-reference-through224-ready.json"
+      - run: node scripts/testing/run-owner-upgrade224-runtime.mjs "$RUNNER_TEMP/local-reference-through224-ready.json"
+      - run: node scripts/testing/run-reset224-runtime.mjs "$RUNNER_TEMP/local-reference-through224-ready.json"
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: inventory224-owner-protection
+          path: |
+            test-results/owner-upgrade224/report.json
+            test-results/reset224/report.json
+          retention-days: 7

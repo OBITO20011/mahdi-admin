@@ -3,27 +3,39 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/handover/ورقة-يوم-التشغيل.html"
+      "path": "docs/operations/SERVICE_ACCESS_AFTER_224.json"
     },
     {
       "code": " M",
-      "path": "docs/handover/ورقة-يوم-التشغيل.md"
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
     },
     {
       "code": " M",
-      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
     },
     {
       "code": " M",
-      "path": "docs/reviews/FINAL_CATALOG_LOCAL_AR.md"
+      "path": "docs/operations/TABLE_ACCESS_AFTER_224.json"
     },
     {
       "code": " M",
-      "path": "scripts/audit/final-catalog-source-pins.json"
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
     },
     {
       "code": " M",
-      "path": "tests/lite220-handover.test.ts"
+      "path": "e2e/inventory224-harness.tsx"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/inventory224-source-pins.json"
+    },
+    {
+      "code": " M",
+      "path": "tests/inventory224-history.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/operational-schema.test.ts"
     }
   ]
 }

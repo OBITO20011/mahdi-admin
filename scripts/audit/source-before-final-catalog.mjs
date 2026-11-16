@@ -1,3 +1,4 @@
+import {sourceBeforeInventory224,restoreInventory224Hashes,pathsBeforeInventory224} from './source-before-inventory224.mjs';
 // Exact outer presentation/documentation layer. Never normalizes unknown bytes.
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -16,6 +17,7 @@ for(const[file,pin]of Object.entries(pins.entries)){
  assert.equal(pin.beforeText===null?null:sha256(pin.beforeText),pin.before,'FINAL_CATALOG_BEFORE_CORRUPT:'+file);
 }
 export function sourceBeforeFinalCatalog(file,text){
+ text=sourceBeforeInventory224(file,text);
  if(text===null)return null;
  if(file===indexFile&&canonicalLf(text)===indexText)return null;
  const pin=pins.entries[file];
@@ -23,16 +25,17 @@ export function sourceBeforeFinalCatalog(file,text){
  return pin.beforeText;
 }
 export function restoreFinalCatalogHashes(rows){
- return rows.flatMap(row=>{
+ return restoreInventory224Hashes(rows).flatMap(row=>{
   const pin=pins.entries[row.file];if(!pin||row.sha256!==pin.after)return[row];
-  const raw=canonicalLf(readFileSync(new URL('../../'+row.file,import.meta.url),'utf8'));
+  const raw=sourceBeforeInventory224(row.file,canonicalLf(readFileSync(new URL('../../'+row.file,import.meta.url),'utf8')));
+  assert.ok(raw!==null,'FINAL_CATALOG_HISTORICAL_SOURCE_REQUIRED:'+row.file);
   assert.equal(sha256(raw),pin.after,'FINAL_CATALOG_CURRENT_SOURCE_CHANGED:'+row.file);
   return pin.before===null?[]:[{...row,sha256:pin.before}];
  });
 }
 export function pathsBeforeFinalCatalog(files){
- return files.filter(file=>{
-  const raw=()=>canonicalLf(readFileSync(new URL('../../'+file,import.meta.url),'utf8'));
+ return pathsBeforeInventory224(files).filter(file=>{
+  const raw=()=>sourceBeforeInventory224(file,canonicalLf(readFileSync(new URL('../../'+file,import.meta.url),'utf8')));
   if(file===indexFile)return raw()!==indexText;
   const pin=pins.entries[file];if(!pin||pin.before!==null)return true;
   return sha256(raw())!==pin.after;

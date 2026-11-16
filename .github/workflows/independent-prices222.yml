@@ -53,15 +53,13 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - run: node scripts/operations/build-acl-reference222.mjs --output "$RUNNER_TEMP/local-reference-through222-ready.json"
-      - run: node scripts/testing/run-owner-upgrade222-runtime.mjs "$RUNNER_TEMP/local-reference-through222-ready.json"
-      - run: node scripts/testing/run-reset222-runtime.mjs "$RUNNER_TEMP/local-reference-through222-ready.json"
+      # Preserve all three historical222 commands at immutable approved223 source.
+      - run: node scripts/testing/run-inventory224-legacy223.mjs --ceiling 222
       - if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: independent222-owner-protection-proof
           path: |
-            test-results/owner-upgrade222/report.json
-            test-results/reset222/report.json
+            test-results/inventory224-legacy222/report.json
           retention-days: 7
           if-no-files-found: error

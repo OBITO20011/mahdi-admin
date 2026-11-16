@@ -48,7 +48,7 @@ export function NavigationShell({children,operatingMode='full'}: {children: Reac
   const [isOpen, setOpen] = useState(false);
   const [entryIntent,setIntent]=useState<NavigationDrawerState['entryIntent']>(null);
   const intentRequest=useRef(0);
-  const setEntryIntent=useCallback((type:'customer_return'|'owner_withdrawals'|null)=>setIntent(type?{type,request:++intentRequest.current}:null),[]);
+  const setEntryIntent=useCallback((type:'customer_return'|'owner_withdrawals'|'inventory_low'|null)=>setIntent(type?{type,request:++intentRequest.current}:null),[]);
   const openRef = useRef(false);
   const activeTab = useAppStoreSelector(state => state.activeTab);
   const currentModal = useAppStoreSelector(state => state.currentModal);

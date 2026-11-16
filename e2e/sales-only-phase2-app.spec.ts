@@ -17,9 +17,14 @@ for(const assurance of ['aal1','aal2'])test(`real App owner mode switch ${assura
   await expect(page.locator('[data-navigation-id="inventory-current"]')).toHaveCount(1);
  }else{
   await expect(panel).toContainText('تتبع المخزون والتكلفة مطفأ');expect(writes).toEqual([{p_full:false}]);
-  await expect(page.locator('[data-navigation-id="inventory-current"]')).toHaveCount(0);
+  await expect(page.locator('[data-navigation-id="inventory-current"]')).toHaveCount(1);
+  await expect(page.locator('[data-navigation-id="inventory-current"]')).toHaveText('المخزون');
   await expect(page.locator('[data-navigation-id="supplier-receiving"]')).toHaveCount(0);
   await expect(page.getByRole('button',{name:'فتح المساعد الإداري الذكي'})).toHaveCount(0);
+  await page.route('**/rpc/lite3_counters224',r=>r.fulfill({json:{contractVersion:'inventory224-v1',fullAccounting:false,counts:{tracked:0,low:0,zero:0},total:0,page:1,pageSize:20,items:[]}}));
+  await page.locator('[data-navigation-id="inventory-current"]').tap();
+  await expect(page.locator('[data-inventory224]')).toBeVisible();
+  await expect(page.getByRole('button',{name:'إضافة منتج للعدّ',exact:true}).first()).toBeVisible();
  }
 });
 

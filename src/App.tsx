@@ -49,6 +49,7 @@ const AccountsView = lazy(() =>
     default: module.AccountsView,
   }))
 );
+const Inventory224View=lazy(()=>import('./features/operatingMode/Inventory224View').then(module=>({default:module.Inventory224View})));
 const InventoryView = lazy(() =>
   import('./features/inventory/InventoryView').then((module) => ({
     default: module.InventoryView,
@@ -215,7 +216,7 @@ const AppShell: React.FC = () => {
       case 'accounts':
         return <AccountsView />;
       case 'inventory':
-        return <InventoryView />;
+        return operatingMode==='sales-only'?<Inventory224View/>:<InventoryView />;
       case 'expenses':
         return <ExpensesView />;
       case 'shifts':

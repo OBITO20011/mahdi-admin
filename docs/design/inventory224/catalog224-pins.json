@@ -1,0 +1,26 @@
+{
+  "format": 1,
+  "migrationSha256": "f706c9b09d76f0d28dc431320cae993f209142955c7b70f813f6514068ec631d",
+  "base223PinSha256": "1819f92984219e118b9472cbd73e4a8c6b7c65eb5458b9bc553f666fc26e22b1",
+  "changes": [
+    {
+      "section": "functions",
+      "identity": "[\"public\",null,\"lite3_counters224(p_search text, p_filter text, p_page integer, p_page_size integer)\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres",
+          "authenticated=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "lite3_counters224(p_search text, p_filter text, p_page integer, p_page_size integer)",
+        "definition": "CREATE OR REPLACE FUNCTION public.lite3_counters224(p_search text DEFAULT ''::text, p_filter text DEFAULT 'all'::text, p_page integer DEFAULT 1, p_page_size integer DEFAULT 20)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nDECLARE needle TEXT;result JSONB;\nBEGIN\n PERFORM sales_lite3.assert_owner223();\n IF p_search IS NOT NULL AND char_length(p_search)>256 THEN RAISE EXCEPTION 'INVENTORY224_SEARCH_INVALID';END IF;\n IF p_filter IS NULL OR p_filter NOT IN('all','low','zero') THEN RAISE EXCEPTION 'INVENTORY224_FILTER_INVALID';END IF;\n IF p_page IS NULL OR p_page NOT BETWEEN 1 AND 100000 OR p_page_size IS NULL OR p_page_size NOT BETWEEN 1 AND 100 THEN\n  RAISE EXCEPTION 'INVENTORY224_PAGE_INVALID';\n END IF;\n needle:=btrim(regexp_replace(translate(lower(normalize(COALESCE(p_search,''),NFKC)),\n  '٠١٢٣٤٥٦٧٨٩۰۱۲۳۴۵۶۷۸۹','01234567890123456789'),'[[:space:]]+',' ','g'));\n WITH tracked AS MATERIALIZED(\n  SELECT p.id,p.name_ar,p.flavor_name_ar,p.flavor_master_product_id,parent.name_ar AS family_name,\n   p.sku,p.barcode,c.unit_id,COALESCE(u.name_ar,'باكيت') AS unit_name,c.quantity,c.low_threshold,c.revision,c.updated_at,\n   CASE WHEN c.quantity=0 THEN 0 WHEN c.quantity<c.low_threshold THEN 1 ELSE 2 END AS priority,\n   btrim(regexp_replace(translate(lower(normalize(concat_ws(' ',p.name_ar,p.flavor_name_ar,parent.name_ar,p.sku,p.barcode),NFKC)),\n    '٠١٢٣٤٥٦٧٨٩۰۱۲۳۴۵۶۷۸۹','01234567890123456789'),'[[:space:]]+',' ','g')) AS search_text\n  FROM sales_lite3.quantity_counters c JOIN public.products p ON p.id=c.product_id\n  LEFT JOIN public.products parent ON parent.id=p.flavor_master_product_id\n  LEFT JOIN public.units u ON u.id=c.unit_id\n  WHERE c.enabled AND p.is_active AND NOT p.is_flavor_master\n   AND NOT EXISTS(SELECT 1 FROM public.products child WHERE child.flavor_master_product_id=p.id)\n ),filtered AS MATERIALIZED(\n  SELECT * FROM tracked WHERE(needle='' OR strpos(search_text,needle)>0)\n   AND(p_filter='all' OR(p_filter='low' AND priority IN(0,1)) OR(p_filter='zero' AND priority=0))\n ),page_rows AS MATERIALIZED(\n  SELECT * FROM filtered ORDER BY priority,name_ar,flavor_name_ar,sku,id\n  LIMIT p_page_size OFFSET(p_page-1)::BIGINT*p_page_size\n )\n SELECT jsonb_build_object('contractVersion','inventory224-v1','fullAccounting',false,\n  'counts',(SELECT jsonb_build_object('tracked',count(*),'low',count(*) FILTER(WHERE priority IN(0,1)),\n   'zero',count(*) FILTER(WHERE priority=0)) FROM tracked),\n  'total',(SELECT count(*) FROM filtered),'page',p_page,'pageSize',p_page_size,\n  'items',COALESCE((SELECT jsonb_agg(jsonb_build_object(\n   'productId',r.id,'name',r.name_ar,'flavorName',r.flavor_name_ar,\n   'familyId',r.flavor_master_product_id,'familyName',r.family_name,'sku',r.sku,'barcode',r.barcode,\n   'unitId',r.unit_id,'unitName',r.unit_name,'enabled',true,'quantity',r.quantity,'threshold',r.low_threshold,\n   'status',CASE r.priority WHEN 0 THEN 'zero' WHEN 1 THEN 'low' ELSE 'available' END,\n   'revision',r.revision,'updatedAt',r.updated_at,'lastEvent',event.data\n  ) ORDER BY r.priority,r.name_ar,r.flavor_name_ar,r.sku,r.id)\n  FROM page_rows r LEFT JOIN LATERAL(\n   SELECT jsonb_build_object('kind',e.kind,'delta',e.quantity_after-e.quantity_before,'at',e.created_at,\n    'actorDisplayName',NULLIF(btrim(actor.full_name),''),'source',o.source) AS data\n   FROM sales_lite3.quantity_events e LEFT JOIN public.profiles actor ON actor.id=e.created_by\n   LEFT JOIN public.orders o ON o.id=e.order_id\n   WHERE e.product_id=r.id ORDER BY e.created_at DESC,e.id DESC LIMIT 1\n  ) event ON true),'[]'::JSONB)) INTO result;\n RETURN result;\nEND $function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    }
+  ]
+}

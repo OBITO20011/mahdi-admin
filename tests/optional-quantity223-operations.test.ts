@@ -53,7 +53,7 @@ test('223 upgrade preserves existing row hashes and requires three empty counter
 });
 
 test('223 allows exact 222 archives and refuses reserved versions or wrong matching tool inputs',async()=>{
- const manifest=await operationalManifest();
+ const manifest=(await operationalManifest()).filter((m:{name:string})=>Number(m.name.slice(0,3))<=223);
  const versions=manifest.map((m:{name:string})=>m.name.slice(0,3));
  assert.equal(manifest.at(-1)?.name,'223_optional_sales_quantity.sql');
  assert.deepEqual(await assertOperationalHistory(versions),{ceiling:223,files:183});

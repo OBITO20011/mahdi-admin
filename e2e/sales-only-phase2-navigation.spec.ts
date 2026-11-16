@@ -5,8 +5,9 @@ test('verified lite navigation hides accounting everywhere and browser back reta
  await page.route('**/rpc/lite1_operating_mode',route=>route.fulfill({json:{contractVersion:'sales-only-phase2-v1',fullAccounting:false}}));
  await page.goto('/e2e/sales-only-phase2-navigation-harness.html');
  await expect(page.getByTestId('active-screen')).toHaveText('more');
- await expect(page.locator('[data-navigation-id="inventory-current"]')).toHaveCount(0);
- await expect(page.locator('[data-side-nav="inventory"]')).toHaveCount(0);
+ await expect(page.locator('[data-navigation-id="inventory-current"]')).toHaveCount(1);
+ await expect(page.locator('[data-navigation-id="inventory-current"]')).toHaveText('المخزون');
+ await expect(page.locator('[data-side-nav="inventory"]')).toHaveCount(1);
  await expect(page.locator('[data-navigation-id="supplier-receiving"]')).toHaveCount(0);
  await expect(page.getByRole('button',{name:'إطفاء المحاسبة والمخزون',exact:true})).toHaveCount(0);
  await page.locator('[data-bottom-tab="products"]').tap();await expect(page.getByTestId('active-screen')).toHaveText('products');
@@ -14,8 +15,10 @@ test('verified lite navigation hides accounting everywhere and browser back reta
  await page.goBack();await expect(page.getByTestId('active-screen')).toHaveText('products');
  await page.setViewportSize({width:1280,height:900});
  await expect(page.locator('[data-side-nav="products"]')).toBeVisible();
- await expect(page.locator('[data-side-nav="inventory"]')).toHaveCount(0);
+ await expect(page.locator('[data-side-nav="inventory"]')).toBeVisible();
  await expect(page.locator('[data-side-nav="purchases"]')).toHaveCount(0);
+ await page.locator('[data-side-nav="inventory"]').click();
+ await expect(page.getByTestId('active-screen')).toHaveText('inventory');
 });
 test('mode owner control keeps unknown result fenced and only reads again;nonowner has no control',async({page})=>{
  let mutations=0,reads=0;

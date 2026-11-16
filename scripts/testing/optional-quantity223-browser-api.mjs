@@ -11,11 +11,16 @@ const allowed=new Set(['get_public_storefront_settings','get_public_storefront_o
  'lite3_counter_context223','lite3_set_counter223','lite3_pos_quantity_check223','lite3_low_counters223',
  'authorize_guest_order_gateway','lite1_operating_mode','lite1_guest2','finalize_guest_order_gateway']);
 const q=value=>"'"+String(value).replaceAll("'","''")+"'";
-export async function optionalQuantity223BrowserApi(db,id){
+export const optionalQuantity223BrowserApi=(db,id)=>quantityBrowserApi(db,id,allowed);
+export async function inventory224BrowserApi(db,id){
+ assert.equal(await db.sql('SELECT max(version) FROM supabase_migrations.schema_migrations;'),'224','INVENTORY224_REAL_HISTORY_REQUIRED');
+ return quantityBrowserApi(db,id,new Set([...allowed,'lite3_counters224']));
+}
+async function quantityBrowserApi(db,id,allowedRpc){
  const token=randomBytes(32).toString('hex'),signatures=new Map(),calls=[];
  const json=async sql=>JSON.parse((await db.sql(sql)).split('\n').at(-1));
  async function rpc(name,args,role){
-  assert.ok(allowed.has(name),'COUNTER_BROWSER_RPC_NOT_ALLOWLISTED:'+name);
+  assert.ok(allowedRpc.has(name),'COUNTER_BROWSER_RPC_NOT_ALLOWLISTED:'+name);
   assert.ok(['anon','authenticated','service_role'].includes(role),'COUNTER_BROWSER_ROLE');
   assert.ok(args&&typeof args==='object'&&!Array.isArray(args),'COUNTER_BROWSER_ARGS');
   let signature=signatures.get(name);
