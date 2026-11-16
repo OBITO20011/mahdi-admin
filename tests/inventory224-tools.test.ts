@@ -5,13 +5,16 @@ import {test} from 'node:test';
 import {assert224SourceRowsPreserved} from '../scripts/operations/upgrade224-data.mjs';
 import {assert224History} from '../scripts/operations/frankfurt-owner-upgrade224.mjs';
 import {canonicalLf,sha256} from '../scripts/testing/maintenance-db-contract.mjs';
+import {sourceBeforeSupportedUpgrades224} from '../scripts/audit/source-before-supported-upgrades224.mjs';
 const read=(file:string)=>canonicalLf(readFileSync(file,'utf8'));
 
 test('224 adapters are exact generated copies of committed223 templates, retaining literal hashes',()=>{
  const pins=JSON.parse(read('docs/design/inventory224/tool223-source-pins.json')) as Record<string,string>;
  for(const[file,digest]of Object.entries(pins)){
-  assert.equal(sha256(read('scripts/operations/'+file)),digest);
-  const original=read('scripts/operations/'+file),generated=read('scripts/operations/'+file.replaceAll('223','224'));
+  const original=sourceBeforeSupportedUpgrades224('scripts/operations/'+file,read('scripts/operations/'+file));
+  assert.ok(original!==null);
+  assert.equal(sha256(original),digest);
+  const generated=read('scripts/operations/'+file.replaceAll('223','224'));
   for(const hash of original.match(/\b[a-f0-9]{64}\b/gu)??[])assert.ok(generated.includes(hash),file+': hash is immutable');
  }
  execFileSync(process.execPath,['scripts/testing/build-inventory224-tools.mjs','--check']);

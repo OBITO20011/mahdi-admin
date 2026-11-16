@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFile,writeFile} from 'node:fs/promises';
 import {canonicalLf,sha256} from './maintenance-db-contract.mjs';
 import {sourceBeforeOptionalQuantity223} from '../audit/source-before-optional-quantity223.mjs';
+import {sourceBeforeSupportedUpgrades224} from '../audit/source-before-supported-upgrades224.mjs';
 
 const root=new URL('../../',import.meta.url);
 const pins=JSON.parse(await readFile(new URL('docs/design/off-quantity-counter223/tool222-source-pins.json',root),'utf8'));
@@ -73,7 +74,9 @@ for(const [file,digest] of Object.entries(pins)){
 }
 for(const [name,text] of output){
  const target=new URL('scripts/operations/'+name,root);
- if(check)assert.equal(canonicalLf(await readFile(target,'utf8')),text,'GENERATED223_TOOL_DRIFT:'+name);
+ const source=await readFile(target,'utf8').catch(error=>{if(!check&&error.code==='ENOENT')return null;throw error;});
+ const current=source===null?null:canonicalLf(source),reviewed=sourceBeforeSupportedUpgrades224('scripts/operations/'+name,current);
+ if(check||reviewed!==current)assert.equal(reviewed,text,'GENERATED223_TOOL_DRIFT:'+name);
  else await writeFile(target,text);
 }
 console.log(JSON.stringify({ok:true,checkOnly:check,files:[...output.keys()]}));

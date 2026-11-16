@@ -56,6 +56,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: node scripts/operations/build-acl-reference224.mjs --output "$RUNNER_TEMP/local-reference-through224-ready.json"
+      - run: node scripts/testing/run-supported-upgrades224-proof.mjs "$RUNNER_TEMP/local-reference-through224-ready.json"
       - run: node scripts/testing/run-owner-upgrade224-runtime.mjs "$RUNNER_TEMP/local-reference-through224-ready.json"
       - run: node scripts/testing/run-reset224-runtime.mjs "$RUNNER_TEMP/local-reference-through224-ready.json"
       - if: always()
@@ -65,4 +66,6 @@ jobs:
           path: |
             test-results/owner-upgrade224/report.json
             test-results/reset224/report.json
+            test-results/supported-upgrades224/report.json
+            ${{ runner.temp }}/nawasrah-supported-upgrades224-*/*.log
           retention-days: 7

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "project": "Nawasrah ERP",
-  "branch": "codex/restore-frozen220-trigger-acl",
+  "branch": "codex/supported-upgrades224",
   "approvedBaseline": "3b35a263f7c20212c537bb61b2d20af778b7613d",
   "closedPhases": [
     "3",
@@ -14,7 +14,7 @@
     "6"
   ],
   "phase4Closed": true,
-  "currentPhase": "RESTORE_FROZEN220_TRIGGER_ACL",
+  "currentPhase": "SUPPORTED_UPGRADES224",
   "phase6Closed": true,
   "phase6ClosureBaseline": "5aaeab11e13c2be454af677ee176f77aa2d9cde4",
   "phase6ClosureExactShaCi": "PASS",
@@ -290,7 +290,7 @@
   "phaseSALES_ONLY_PHASE3ImplementationAllowed": true,
   "migration220CanonicalLfSha256": "08BCD03CE79DC1421A49B66C7A0C44CABFDA4673ADBEFC9707AFDDFDE7EF49FA",
   "phaseACTUAL_SALE_UNITSImplementationAllowed": true,
-  "expectedRoot": "C:/Users/TOP/NawasrahWorktrees/inventory224-backend/mahdi-admin",
+  "expectedRoot": "C:/Users/TOP/NawasrahWorktrees/supported-upgrades224/mahdi-admin",
   "phasePACKET_DEFAULT_IMPORT_DOCSImplementationAllowed": true,
   "phaseLITE_PARCEL_UNIT_GUARDImplementationAllowed": true,
   "ownerDeferredAccountingMigrationNumbers": [
@@ -306,5 +306,6 @@
   "migration224CanonicalLfSha256": "F706C9B09D76F0D28DC431320CAE993F209142955C7B70F813F6514068EC631D",
   "phaseCI_CORE_WEBKIT_SHARDSImplementationAllowed": true,
   "phaseUPGRADE_REGISTRATION_PREFLIGHTImplementationAllowed": true,
-  "phaseRESTORE_FROZEN220_TRIGGER_ACLImplementationAllowed": true
+  "phaseRESTORE_FROZEN220_TRIGGER_ACLImplementationAllowed": true,
+  "phaseSUPPORTED_UPGRADES224ImplementationAllowed": true
 }

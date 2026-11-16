@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import path from 'node:path';
-import {operationalManifest} from './operational-schema.mjs';
+import {upgradeReferenceManifest,upgradeReferenceProof,upgradeReferenceSource} from './upgrade-versioned-reference.mjs';
 import {assertReady222Catalog} from './independent-prices222-catalog.mjs';
 import {assertReady223Catalog,quantity223Migration,assertQuantity223CatalogDelta} from './optional-quantity223-catalog.mjs';
 import {manifestDigest,canonicalLf,sha256} from '../testing/maintenance-db-contract.mjs';
@@ -67,6 +66,6 @@ export function assertReady223Reference(reference,manifest,proofText,source){
 }
 
 export async function readReady223Reference(root,filename){
- return assertReady223Reference(JSON.parse(await readFile(filename,'utf8')),await operationalManifest(),
-  await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_223.json'),'utf8'),await inventory());
+ return assertReady223Reference(JSON.parse(await readFile(filename,'utf8')),await upgradeReferenceManifest(root,223),
+  await upgradeReferenceProof(root,223),await inventory({projectSource:(file,text)=>upgradeReferenceSource(223,file,text)}));
 }

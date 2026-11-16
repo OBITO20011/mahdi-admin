@@ -2,45 +2,53 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner-approved exact replay of the four Frankfurt trigger ACLs in isolated Restore, full CI and merge, then restart cutover rehearsal",
-  "baselineSha": "43fe6a6f1cd2bd0ff1c9c8f1b0017794d3aa2e57",
-  "branch": "codex/restore-frozen220-trigger-acl",
-  "phase": "RESTORE_FROZEN220_TRIGGER_ACL",
-  "startedAt": "2026-11-16T18:01:46.676Z",
+  "objective": "Closed 222/223 upgrade admission from ceiling224 with exact historical references and offline cutover command proof",
+  "baselineSha": "780706fd2cad2c09046212bb56d641f1b2eafa9a",
+  "branch": "codex/supported-upgrades224",
+  "phase": "SUPPORTED_UPGRADES224",
+  "startedAt": "2026-11-16T19:32:22.218Z",
   "completed": [
-    "Exact four-trigger ACL preflight and replay in official Restore",
-    "Encrypted local/frankfurt archive strict restores and partial/foreign rejection"
+    "Closed 222/223 admission under224",
+    "Actual original/current whole-reference SHA equality for222 and223",
+    "Four real offline commands with network/subprocess rejection"
   ],
   "inProgress": [
-    "Exact-head full GitHub CI before authorized merge"
+    "Final full delivery gates"
   ],
   "notStarted": [],
   "testsPassed": [
-    "32 focused unit tests;16 final source and guard contracts",
-    "Admin types and strict lint",
-    "Actual encrypted archive four-case PostgreSQL proof"
+    "Full local units2105/2105 at a7588618;0fail/0skip",
+    "21 final focused tests including all three exact tool generators",
+    "Admin and customer types;strict lint0 before final test-only generator correction",
+    "222/223 original/current whole reference SHA equality;four actual offline commands",
+    "Final Admin types0 and strict lint0 after generator correction",
+    "Final command inventory21/21 plus Admin types0 and strict lint0"
   ],
   "testsRemaining": [
-    "Exact-head full GitHub CI",
-    "Main fast-forward/preflight/CI",
-    "Restart original rehearsal from archive2230c606"
+    "Exact-head full CI/types/lint/Gitleaks",
+    "Merge/main CI and shared rehearsal through RESET224 only",
+    "Read-only ON study"
   ],
   "findings": [
-    "Live owner upgrade guards read their connected source;isolated Restore is protection evidence"
+    "No changes to SQL,tool224,RESET224 or Restore contract",
+    "Owner16Nov:after merged protection/reset proof stop beforeOFF/import;then ON study",
+    "Current223 generator comparison now projects only the exact approved adapter bytes;old templates/pins unchanged",
+    "Known own delivered baseline synchronized before final push;no other-writer change",
+    "Command audit covers inline and fenced commands,including224 resume and all four backup/offsite modes;none of the connected modes are executed"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hosted access, deployment, demo/n8n changes or Docker restart",
-    "Keep upgrade and RESET guards and migrations byte-identical",
-    "Retain prior rehearsal until repair is merged and new rehearsal starts"
+    "No hosted access/deploy/demo/n8n/Docker restart",
+    "No SQL/Restore/RESET224/tool224 changes",
+    "Retain rehearsal containers until complete success"
   ],
-  "checkpointedAt": "2026-11-16T18:19:43.548Z",
+  "checkpointedAt": "2026-11-16T20:45:15.783Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 2,
-  "filesTouchedManifestSha256": "39f740d8ba12bf157c41e884af653aa5df80d561b8572fec8a8837dd69b19322",
-  "nextExactAction": "Verify corrected exact-head CI;merge only the approved Restore scope,then restart the original rehearsal.",
-  "workingTreeFingerprint": "668D6219E1AF69F916C749AADF83F194DE18FB83F8A250A5C19B826BEA95C1A6"
+  "filesTouchedCount": 4,
+  "filesTouchedManifestSha256": "97ed1be7b38cf25af7b29be1fab8e9e9b8696a3903bf626162b53f46a23a901a",
+  "nextExactAction": "Push final fenced-command inventory;wait fullCI at exact new head;Gitleaks;authorized merge then shared RESET224 rehearsal",
+  "workingTreeFingerprint": "66D5C719396AF2C5B87B0E9CD476A6AC137B18D603DA536010357143BCDB695E"
 }
