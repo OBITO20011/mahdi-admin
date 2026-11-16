@@ -2,43 +2,45 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Capture real Supabase CLI 2.114.0 migration-list JSON for 223 and deliver PR 106 after exact-head CI",
-  "baselineSha": "ed184b03dbbc43d811549f1890e67e6404d9d6b9",
-  "branch": "codex/upgrade-registration-preflight",
-  "phase": "UPGRADE_REGISTRATION_PREFLIGHT",
-  "startedAt": "2026-11-16T15:04:07.460Z",
+  "objective": "Owner-approved exact replay of the four Frankfurt trigger ACLs in isolated Restore, full CI and merge, then restart cutover rehearsal",
+  "baselineSha": "43fe6a6f1cd2bd0ff1c9c8f1b0017794d3aa2e57",
+  "branch": "codex/restore-frozen220-trigger-acl",
+  "phase": "RESTORE_FROZEN220_TRIGGER_ACL",
+  "startedAt": "2026-11-16T18:01:46.676Z",
   "completed": [
-    "224-only linked registration preflight and guarded registration-only resume",
-    "Updated cutover and upgrade instructions and exact historical projection",
-    "Captured the pinned Supabase CLI 2.114.0 JSON from isolated PostgreSQL 223/183 and added the real fixture to the parser contract"
+    "Exact four-trigger ACL preflight and replay in official Restore",
+    "Encrypted local/frankfurt archive strict restores and partial/foreign rejection"
   ],
-  "inProgress": [],
+  "inProgress": [
+    "Exact-head full GitHub CI before authorized merge"
+  ],
   "notStarted": [],
   "testsPassed": [
+    "32 focused unit tests;16 final source and guard contracts",
     "Admin types and strict lint",
-    "27 focused tests, including unchanged shared historical sources",
-    "Isolated PostgreSQL registration interruption, drift refusals, resume, strict restores and verify-only",
-    "11 focused tests, Admin types and targeted lint for real CLI fixture"
+    "Actual encrypted archive four-case PostgreSQL proof"
   ],
   "testsRemaining": [
-    "Exact-head draft CI, owner-authorized merge if fixture only, primary fast-forward, preflight, exact main CI"
+    "Exact-head full GitHub CI",
+    "Main fast-forward/preflight/CI",
+    "Restart original rehearsal from archive2230c606"
   ],
   "findings": [
-    "Historical source guards require keeping the shared upgrader and its error mapper byte-identical"
+    "Live owner upgrade guards read their connected source;isolated Restore is protection evidence"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No Production or Frankfurt connections, deploy, or demo changes",
-    "Preserve earlier tools, historical pins and migrations",
-    "Merge only with exact-head green CI and fixture or narrow parser changes"
+    "No hosted access, deployment, demo/n8n changes or Docker restart",
+    "Keep upgrade and RESET guards and migrations byte-identical",
+    "Retain prior rehearsal until repair is merged and new rehearsal starts"
   ],
-  "checkpointedAt": "2026-11-16T16:15:50.045Z",
+  "checkpointedAt": "2026-11-16T18:11:32.607Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 3,
-  "filesTouchedManifestSha256": "83fa1d1355099ea135421ee81b988610847c9926ef679e3eea7dd9f01cebdd40",
-  "nextExactAction": "Verify the exact draft head on full GitHub CI, then perform the owner-approved merge, primary fast-forward and main CI.",
-  "workingTreeFingerprint": "4900BE3D176B6E3DA3D2817CA9D4229593037EC5731B002DE3660B35133446FA"
+  "filesTouchedCount": 11,
+  "filesTouchedManifestSha256": "665df55088b448a8369f63b88b02d9abac784e098785f8beb90ed5c412705bfb",
+  "nextExactAction": "Push narrow Restore PR, verify exact-head full CI, merge only the approved scope,then restart the retained-archive rehearsal.",
+  "workingTreeFingerprint": "5B279A4072CF0C79594707181D68A415B6BE079792C142AAA0CA892114B4F7DE"
 }

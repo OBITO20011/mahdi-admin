@@ -2,16 +2,48 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": " M",
-      "path": "scripts/audit/upgrade-registration-source-pins.json"
+      "code": "A ",
+      "path": "scripts/audit/restore-frozen220-source-pins.json"
     },
     {
-      "code": " M",
+      "code": "A ",
+      "path": "scripts/audit/source-before-restore-frozen220.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/backup/restore-frozen220-trigger-acl.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/testing/restore-frozen220-trigger-acl-archives.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "tests/restore-frozen220-trigger-acl.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/audit/source-before-upgrade-registration.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/backup/complete-backup.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/backup/postgres-diagnostic.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/testing/run-dual-backup-runtime.mjs"
+    },
+    {
+      "code": "M ",
       "path": "tests/upgrade224-registration.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "tests/fixtures/supabase-cli-2.114.0-migration-list-223.json"
     }
   ]
 }

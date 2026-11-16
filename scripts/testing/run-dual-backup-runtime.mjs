@@ -15,6 +15,7 @@ import {proveComparisonRejectsSyntheticDifference} from './restore-comparison-ne
 import {provePgNetSequenceStates} from './pg-net-sequence-runtime.mjs';
 import {proveRehearsal219Lifecycle} from './legacy219-restore-lifecycle220.mjs';
 import {ownerTableNames219} from './rehearsal219-table-acl.mjs';
+import {proveFrozen220TriggerAclArchives} from './restore-frozen220-trigger-acl-archives.mjs';
 const exec=promisify(execFile),root=path.resolve(import.meta.dirname,'../..'),project='nawasrah-dual-backup-test',container='supabase_db_'+project;
 const output=await mkdtemp(path.join(tmpdir(),'nawasrah-dual-backup-proof-'));let local,report={ok:false,hostedConnectionsMade:false};
 try{
@@ -40,6 +41,8 @@ try{
   const backup=await createCompleteBackup({projectRef:'kzevmysfydaslxcerogt',outputRoot:backupRoot,passphrase,source});
   const restored=await restoreCompleteBackup({archivePath:backup.archivePath,passphrase,reportPath:path.join(output,'restore.json')});
   assert.equal(restored.ok,true);assert.equal(restored.storageObjectsCompared,1);assert.ok(restored.tablesCompared>50);
+  const frozen220AclArchives=await proveFrozen220TriggerAclArchives({archivePath:backup.archivePath,passphrase,output});
+  assert.equal(frozen220AclArchives.ok,true);
   const profile=JSON.parse(await readFile(path.join(root,'scripts/testing/fixtures/frankfurt214-restore-platform.json'),'utf8'));
   const adminArgs=[...args];adminArgs[adminArgs.indexOf('-U')+1]='supabase_admin';
   const managedSession=new SnapshotSession('docker',adminArgs);let managedPlatform;
@@ -156,7 +159,7 @@ try{
   assert.equal(emptyRestore.catalogAclOwnerSettingsMatch,true);assert.equal(emptyRestore.allRowsAndHashesMatch,true);
   assert.deepEqual(emptyRestore.exceptionsApplied,[]);
   const pgNetSequenceStates=await provePgNetSequenceStates({source,passphrase,output,container});
-  report={...restored,ok:true,pgNetSequenceStates,rehearsalLifecycle,emptyStorageRestore219:emptyRestore,current219:{backup:backup219,restore:restore219,remoteRestore:remote219,old217ArchiveStillRestores:true},current217:{backup:backup217,restore:restore217,remoteRestore:remote217,old216ArchiveStillRestores:true},current216:{backup:backup216,restore:restore216,remoteRestore:remote216,watchdog:watchdog216,keepaliveTransport:'injected local SQL;no network',telegramCalls,initialPayment:paid216,old215ArchiveStillRestores:true},current215:{backup:backup215,restore:restore215,remoteRestore:remote215,inspectedOperation:inspected215,old214ArchiveStillRestores:true},nativeTls,comparisonNegative,syntheticExtraRoleConfigMembershipDefaultsAndCalledUncalledSequences:true,managedProfile:{sourceSha256:profile.sourceSha256,extensions:managedPlatform,restore:managedRestore,replaySameArchive:true},fixtureOnly:true,archiveEncrypted:true,storageBytesRestored:true,r2Transport:'local-in-memory-S3',remoteDownloadRestorePassed:true,immutableReplayPassed:true,tamperedDownloadRejected:true,legacyOffsiteUntouched:true,nonzeroFinancialFixture:{receivedQuantity:20,soldQuantity:2,remainingQuantity:18,supplierDebt:10000,salesCash:2000,openingCash:10000}};
+  report={...restored,ok:true,frozen220AclArchives,pgNetSequenceStates,rehearsalLifecycle,emptyStorageRestore219:emptyRestore,current219:{backup:backup219,restore:restore219,remoteRestore:remote219,old217ArchiveStillRestores:true},current217:{backup:backup217,restore:restore217,remoteRestore:remote217,old216ArchiveStillRestores:true},current216:{backup:backup216,restore:restore216,remoteRestore:remote216,watchdog:watchdog216,keepaliveTransport:'injected local SQL;no network',telegramCalls,initialPayment:paid216,old215ArchiveStillRestores:true},current215:{backup:backup215,restore:restore215,remoteRestore:remote215,inspectedOperation:inspected215,old214ArchiveStillRestores:true},nativeTls,comparisonNegative,syntheticExtraRoleConfigMembershipDefaultsAndCalledUncalledSequences:true,managedProfile:{sourceSha256:profile.sourceSha256,extensions:managedPlatform,restore:managedRestore,replaySameArchive:true},fixtureOnly:true,archiveEncrypted:true,storageBytesRestored:true,r2Transport:'local-in-memory-S3',remoteDownloadRestorePassed:true,immutableReplayPassed:true,tamperedDownloadRejected:true,legacyOffsiteUntouched:true,nonzeroFinancialFixture:{receivedQuantity:20,soldQuantity:2,remainingQuantity:18,supplierDebt:10000,salesCash:2000,openingCash:10000}};
 }catch(error){report.error=error.message;report.cause=error.cause?.message;process.exitCode=1;console.error(error);}
 finally{
   if(local)await exec(process.execPath,['node_modules/supabase/dist/supabase.js','stop','--no-backup','--workdir',local],{cwd:root,windowsHide:true});
