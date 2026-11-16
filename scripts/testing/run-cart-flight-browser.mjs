@@ -78,7 +78,7 @@ try{
     // Toasts auto-dismiss, and two unchanged completion callbacks may race.
     // Capture only fixed outcome codes from this fictional fixture, never DOM
     // text or customer inputs, so dismissal cannot erase the observation.
-    document.addEventListener('DOMContentLoaded',()=>new MutationObserver(()=>{for(const node of document.querySelectorAll('[role="status"]')){const text=node.textContent;const code=text==='وصلت السلة إلى كامل المخزون المتاح من هذا الصنف.'?'STOCK':text===`تمت إضافة ${(1).toLocaleString('ar-JO')} طرد من منتج وهمي 2 سكاكر.`?'ADDED':null;if(code&&!window.flightProof.statusCodes.includes(code))window.flightProof.statusCodes.push(code);}}).observe(document.body,{childList:true,subtree:true,characterData:true}));
+    document.addEventListener('DOMContentLoaded',()=>new MutationObserver(()=>{for(const node of document.querySelectorAll('[role="status"]')){const text=node.textContent;const code=text==='وصلت السلة إلى كامل المخزون المتاح من هذا الصنف.'?'STOCK':text===`تمت إضافة ${(1).toLocaleString('ar-JO-u-nu-latn')} طرد من منتج وهمي 2 سكاكر.`?'ADDED':null;if(code&&!window.flightProof.statusCodes.includes(code))window.flightProof.statusCodes.push(code);}}).observe(document.body,{childList:true,subtree:true,characterData:true}));
     const quantity=()=>JSON.parse(localStorage.getItem('nawasrah-wholesale-cart-v1')||'{}').items?.reduce((n,i)=>n+i.quantity,0)||0;
     const set=Storage.prototype.setItem;Storage.prototype.setItem=function(k,v){const result=set.call(this,k,v);if(k==='nawasrah-wholesale-cart-v1')window.flightProof.commits.push({at:performance.now(),quantity:quantity()});return result;};
     const animate=Element.prototype.animate;Element.prototype.animate=function(frames,options){
