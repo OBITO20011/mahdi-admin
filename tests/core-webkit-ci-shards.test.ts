@@ -68,5 +68,6 @@ test('CI inverse preserves literal old sources and old pins; unknown byte,null a
  assert.equal(sourceBeforeCoreWebkitShards('unapproved-file','unknown'),'unknown');
  const index='scripts/audit/core-webkit-shards-source-pins.json',text=canonicalLf(readFileSync(index,'utf8'));
  assert.equal(sourceBeforeCoreWebkitShards(index,text),null);assert.equal(sourceBeforeCoreWebkitShards(index,text+' '),text+' ');
+ assert.match(execFileSync(process.execPath,['scripts/testing/build-inventory224-history.mjs','--check'],{encoding:'utf8'}),/"ok":true/u);
  assert.equal(execFileSync('git',['diff',baseline,'--','supabase','src','customer-web/src','e2e'],{encoding:'utf8'}),'');
 });

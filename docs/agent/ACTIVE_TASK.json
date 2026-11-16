@@ -3,26 +3,31 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner-approved CI-only split of Core WebKit into two20m shards,exact identity coverage and strict complete delivery gate;Draft PR/fullCI then owner review,no merge.",
-  "baselineSha": "f108e72bbce2ac11b89bdc18b2ece8fb2c6493ae",
+  "baselineSha": "bb7283813e0e3d733a7f26caf9e4bef5d695d0da",
   "branch": "codex/ci-core-webkit-shards",
   "phase": "CI_CORE_WEBKIT_SHARDS",
   "completed": [
     "Native Playwright2shards with20m/image/isolation/case limits unchanged;206+184 exactly390WebKit cases;2070full browser identities unchanged.",
     "Strict delivery requiresboth shards;negative coverage/delivery/args tests pass. Exact CI inverse preserves oldpins andunknown-byte rejection.",
-    "Types both apps andstrictlint pass;fullunits2088/2089 withonlyscope-metadata mismatch;metadata corrected andfocused28/28 pass."
+    "Types both apps andstrictlint pass;fullunits2088/2089 withonlyscope-metadata mismatch;metadata corrected andfocused28/28 pass.",
+    "Fullunits2089/2089,0skip onbb728381. FirstPR WebKitshards green504s/618s. Historybuilder224check neededexactouter CIprojection;fixed,no oldpinchanges;11focused/types/strictlintpass."
   ],
   "inProgress": [
-    "Commit/push Draft andexact-head fullCI;final fullunit run on same source."
+    "Push exacthistorybuilder admission fix;final fullCI"
   ],
   "notStarted": [],
   "testsPassed": [
     "Actual discovery2070/804/390 withWebKit206+184",
     "Focused28/28",
-    "Types admin/store;strictlint;diffcheck"
+    "Types admin/store;strictlint;diffcheck",
+    "Gitleaks839commits,0leaks onbb728381",
+    "Fullunits2089/2089",
+    "TwoCIWebKitshards504s/618s",
+    "Historybuilder224check102sources andfocused11/11;types/lint"
   ],
   "testsRemaining": [
-    "Finalfullunits",
-    "Exact-headfullCI andGitleaks"
+    "FullCI onfinalhead",
+    "FinalGitleaks"
   ],
   "findings": [
     "Theonlyinitialfullunit failurewas stalephase metadata,corrected without changingtheguard."
@@ -33,13 +38,13 @@
     "No product,SQL,migration,timeout or assertion weakening",
     "No merge,deploy,hosted access,Docker restart or demo changes"
   ],
-  "nextExactAction": "Commit CI-only two-shard implementation;push Draft;full CI and owner review,no merge or demo upgrade",
+  "nextExactAction": "Push literal historical builder fix and await complete final-head PR CI,no merge or demo changes",
   "startedAt": "2026-11-16T12:17:25.264Z",
-  "checkpointedAt": "2026-11-16T12:38:07.308Z",
+  "checkpointedAt": "2026-11-16T13:40:47.724Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 14,
-  "filesTouchedManifestSha256": "902e9085edee3e4391f2bbc748e7298b76f722860d1a82f048ddfbf614f60c0b",
-  "workingTreeFingerprint": "928D71E0F4EC31E182B13B15A7EF4562D34A4BC6CA5C620A02B042FEE22D31CE"
+  "filesTouchedCount": 3,
+  "filesTouchedManifestSha256": "0a2b737f8c8b12c029a667ad7aec3dd9054324ba0608fee58761c6ee0729d111",
+  "workingTreeFingerprint": "36995390BD39C1D5AFBD7C4D999E251FE88B4985F6586FD414C9364FF2B7DD64"
 }
