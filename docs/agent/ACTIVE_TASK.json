@@ -3,7 +3,7 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner-approved224 inventory reader, SQL tests, protected owner tools/reference184/cutover; approved UI after backend/tools on same branch/PR.",
-  "baselineSha": "6fd2e3553539e5bc526973ae34ab9e402a6d45ca",
+  "baselineSha": "b9b9523adf6354fbbcbe20bda3f27df7f42c2fbf",
   "branch": "codex/inventory224-backend",
   "phase": "INVENTORY224",
   "startedAt": "2026-11-15T22:27:56.158Z",
@@ -16,23 +16,24 @@
     "Ready224 true builder184/688/51; fresh/incremental0; strict223BackupRestore→apply2248.5s→224BackupRestore→verify-only and all negatives PASS.",
     "RESET22427.7s;3resumes22.9–28.0s;12ACL/cron/retention/foreign-write cases PASS. D1 focused13/13.",
     "Approved UI224 built; mobile/desktop Chromium+WebKit18/18, numeric contract3/3, focused source/history11/11 and D1 tests13/13.",
-    "First full units2064/2082,0skip:18 ceiling/history/current-access failures identified; scoped224 expectations fixed, access regeneration pending."
+    "First full units2064/2082,0skip:18 ceiling/history/current-access failures identified; scoped224 expectations fixed, access regeneration pending.",
+    "Actual inventory UI→SQL Chromium/WebKit2/2:26receipt,9correction,CAS rejection,zero accounting tables; owned cleanup.",
+    "Historical223 and222 exact main3b refs/upgrade/strictBackupRestore/RESET+resume PASS; legacy workflows retain all original assertions. Focused closure18/18."
   ],
   "inProgress": [
-    "Current source access evidence, legacy gate preservation, real UI→SQL and finalCI."
+    "Refresh final-source access, final types/lint/units,fullCI/Gitleaks and DraftPR."
   ],
-  "notStarted": [
-    "Historical214–223 compatibility; final fullCI/Gitleaks/review."
-  ],
+  "notStarted": [],
   "testsPassed": [
     "Actual reader PostgreSQL8groups PASS; unit/catalog3/3; preflight224 PASS."
   ],
   "testsRemaining": [
-    "Final current access; actual UI→SQL; historical214–223; finaltypes/lint/units/CI/Gitleaks."
+    "Final-source HTTP/RPC and reference binding; finaltypes/lint/units/browser; fullCI/Gitleaks."
   ],
   "findings": [
     "Two new-test expectations corrected to actual existing contracts: named catalog identity arguments, and assert_erp_role P0001+exact Arabic denial. No frozen guard modified.",
-    "UI approved after initial backend scope; implement after backend/tools on this same branch/PR."
+    "UI approved after initial backend scope; implement after backend/tools on this same branch/PR.",
+    "Historical harness only: external evidence sibling fixed; one UTC-boundary environmental rebuild rerun documented (10Realtime partition rows,application unchanged); Windows snapshot fixed to literalLF before checkout,asserted exact SQL Git bytes. No SQL/pin/guard relaxation."
   ],
   "blockers": [],
   "activeProcesses": [
@@ -43,12 +44,12 @@
     "No221, table/trigger/sales-writer changes; migration224 may add only the approved reader.",
     "No owner original/private/env edits."
   ],
-  "checkpointedAt": "2026-11-15T23:49:19.976Z",
+  "checkpointedAt": "2026-11-16T00:42:15.762Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 40,
-  "filesTouchedManifestSha256": "e1ec76c0aabd09213f1ec106d5d682f86991575f5dd32b5e9decb9d4d3efa6b6",
-  "nextExactAction": "Preserve historical223 owner gate; actual224 UI-to-SQL test; regenerate current access then final gates.",
-  "workingTreeFingerprint": "7E892BCCBD1155FFC7C280EBD82DFEC4686D0CCE6AFD7450A32138F7827E0E9C"
+  "filesTouchedCount": 17,
+  "filesTouchedManifestSha256": "3685689b694c3c16083363d847bb9c1a4cbdbd69e857791fdcd7794037b598f1",
+  "nextExactAction": "Regenerate final224 HTTP/RPC evidence; finish strict types/lint/units/browser,fullCI/Gitleaks; no merge/demo/hosted.",
+  "workingTreeFingerprint": "C6596E4976AC47A7583AC370D2AE4A76A49DBF9B0E90A93BAFA776A0E165A818"
 }

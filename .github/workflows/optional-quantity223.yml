@@ -59,14 +59,13 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - run: node scripts/operations/build-acl-reference223.mjs --output "$RUNNER_TEMP/local-reference-through223-ready.json"
-      - run: node scripts/testing/run-owner-upgrade223-runtime.mjs "$RUNNER_TEMP/local-reference-through223-ready.json"
-      - run: node scripts/testing/run-reset223-runtime.mjs "$RUNNER_TEMP/local-reference-through223-ready.json"
+      # Execute the same three commands/assertions at the immutable reviewed223
+      # source. Current224 tools additionally prove actual223 archives in224 CI.
+      - run: node scripts/testing/run-inventory224-legacy223.mjs
       - if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: optional223-owner-protection
           path: |
-            test-results/owner-upgrade223/report.json
-            test-results/reset223/report.json
+            test-results/inventory224-legacy223/report.json
           retention-days: 7

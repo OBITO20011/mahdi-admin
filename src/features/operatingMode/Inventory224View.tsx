@@ -23,7 +23,7 @@ function Search({text,onChange,label}:{text:string;onChange:(value:string)=>void
   <UiButton type="button" variant="secondary" aria-label="مسح البحث" disabled={!text} onClick={()=>onChange('')}><X className="h-4 w-4"/></UiButton></div>;
 }
 function LastEvent({event}:{event:QuantityEvent224|null}){
- if(!event)return <p className="text-sm text-nw-muted">لا توجد حركة مسجّلة.</p>;
+ if(!event)return <p className="text-sm text-nw-muted">لا توجد حركة متاحة في هذه القراءة.</p>;
  const name=event.kind==='manual'?`آخر تعديل: ${event.actorDisplayName||'المالك'}`:event.kind==='sale'?event.source==='website'?'بيع من المتجر':'بيع من الكاشير':event.kind==='cancel'?'إلغاء طلب':'مرتجع صالح للبيع';
  return <p className="break-words text-sm text-nw-muted">{name} ({event.delta>0?'+':event.delta<0?'−':''}{count(Math.abs(event.delta))}) · {new Date(event.at).toLocaleString(DISPLAY_LOCALE,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})}</p>;
 }
@@ -51,7 +51,7 @@ function QuantityEditor({row,event,adding,onSaved,onBusy}:{row:OptionalQuantityR
   </div></label>
   {kind==='receive'&&next!==null&&<p role="status" className="break-words text-sm font-bold text-nw-ok">{count(row.quantity)} + {count(amountValue??0)} = الكمية الجديدة {count(next)} {row.unitName}</p>}
   <label className="block space-y-2"><span>نبّهني إذا صارت أقل من</span><input className={field} inputMode="numeric" value={threshold} disabled={busy||failed} onChange={e=>setThreshold(e.target.value)}/></label>
-  <label className="flex min-h-11 items-center gap-2"><input type="checkbox" checked={enabled} disabled={busy||failed} onChange={e=>setEnabled(e.target.checked)}/>تتبّع الكمية لهذا الصنف</label>
+  {!adding&&<label className="flex min-h-11 items-center gap-2"><input type="checkbox" checked={enabled} disabled={busy||failed} onChange={e=>setEnabled(e.target.checked)}/>تتبّع الكمية لهذا الصنف</label>}
   {adding&&<p className="rounded-xl bg-nw-warn-bg p-3 text-sm text-nw-warn">بعد التفعيل وحدة «{row.unitName}» بتنقفل لهالصنف وما بتتغيّر.</p>}
   {(amountValue===null||thresholdValue===null||next===null)&&<p role="alert" className="text-nw-bad">أدخل أعداداً صحيحة من صفر إلى مليار.</p>}
   {failed&&<p role="alert" className="text-nw-bad">لم نتأكد من الكمية أو تغيّرت أثناء التعديل. أعد القراءة قبل تكرار التعديل. (QTY-01)</p>}
@@ -60,16 +60,16 @@ function QuantityEditor({row,event,adding,onSaved,onBusy}:{row:OptionalQuantityR
  </div>;
 }
 function EditPanel({item,onClose,onSaved}:{item:InventoryCounter224;onClose:()=>void;onSaved:()=>void}){
- const [state,setState]=useState<{row:OptionalQuantityRow|null;error:boolean;sequence:number}>({row:null,error:false,sequence:0});
+ const [state,setState]=useState<{row:OptionalQuantityRow|null;event:QuantityEvent224|null;error:boolean;sequence:number}>({row:null,event:null,error:false,sequence:0});
  const [busy,setBusy]=useState(false),generation=useRef(0);
  const load=useCallback(async()=>{
-  const sequence=++generation.current;setState({row:null,error:false,sequence});
-  try{const data=await fetchOptionalQuantity(item.productId);if(sequence===generation.current){if(data.isFamily||data.products.length!==1)throw Error('SELLABLE_REQUIRED');setState({row:data.products[0],error:false,sequence});}}
-  catch{if(sequence===generation.current)setState({row:null,error:true,sequence});}
- },[item.productId]);
+  const sequence=++generation.current;setState({row:null,event:null,error:false,sequence});
+  try{const [data,page]=await Promise.all([fetchOptionalQuantity(item.productId),fetchInventory224(item.sku,'all',1)]);if(sequence===generation.current){if(data.isFamily||data.products.length!==1)throw Error('SELLABLE_REQUIRED');setState({row:data.products[0],event:page.items.find(row=>row.productId===item.productId)?.lastEvent??null,error:false,sequence});}}
+  catch{if(sequence===generation.current)setState({row:null,event:null,error:true,sequence});}
+ },[item.productId,item.sku]);
  useEffect(()=>{const ref=generation;void load();return()=>{ref.current++;};},[load]);
  return <Modal isOpen title={[item.familyName||item.name,item.flavorName].filter(Boolean).join(' · ')} onClose={onClose} closeDisabled={busy} trackChanges={false}>
-  <div className="space-y-4 p-4">{state.row?<QuantityEditor key={state.sequence} row={state.row} event={state.sequence===1?item.lastEvent:null} adding={false} onSaved={onSaved} onBusy={setBusy}/>:<p role={state.error?'alert':'status'}>{state.error?'تعذرت القراءة. أعد القراءة قبل التعديل. (QTY-01)':'جارٍ قراءة الكمية…'}</p>}
+  <div className="space-y-4 p-4">{state.row?<QuantityEditor key={state.sequence} row={state.row} event={state.event} adding={false} onSaved={onSaved} onBusy={setBusy}/>:<p role={state.error?'alert':'status'}>{state.error?'تعذرت القراءة. أعد القراءة قبل التعديل. (QTY-01)':'جارٍ قراءة الكمية…'}</p>}
    <UiButton type="button" variant="secondary" disabled={busy} onClick={()=>void load()}>إعادة قراءة الكمية</UiButton></div>
  </Modal>;
 }

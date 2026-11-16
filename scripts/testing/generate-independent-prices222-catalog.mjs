@@ -11,7 +11,7 @@ const root=new URL('../../',import.meta.url),read=name=>readFile(new URL('test-r
 const report=await read('report');assert.equal(report.ok,true);assert.equal(report.cleanup,true);assert.equal(report.hostedAccess,false);assert.equal(report.ownerDemoAccess,false);assert.equal(report.freshIncrementalDifferences,0);assert.equal(report.networkAttachments,0);
 const migration=canonicalLf(await readFile(new URL('supabase/migrations/'+independentPrices222Name,root),'utf8'));assert.equal(report.migrationSha256,sha256(migration));
 const currentManifest=await operationalManifest(),manifest=currentManifest.filter(m=>Number(m.name.slice(0,3))<=222);
-assert.ok([222,223].includes(Number(currentManifest.at(-1).name.slice(0,3))),'CATALOG222_UNKNOWN_SOURCE_CEILING');
+assert.ok([222,223,224].includes(Number(currentManifest.at(-1).name.slice(0,3))),'CATALOG222_UNKNOWN_SOURCE_CEILING');
 assert.equal(manifestDigest(manifest),report.manifestSha256);
 const before=await read('catalog220'),after=await read('catalog222-incremental'),fresh=await read('catalog222-fresh');
 assertPrice222Additive(before.catalog,after.catalog);

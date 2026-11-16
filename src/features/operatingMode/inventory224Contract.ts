@@ -30,7 +30,7 @@ export function parseInventory224(data:unknown,request:{search:string;filter:Inv
   if(v.status!==status||(request.filter==='zero'&&status!=='zero')||(request.filter==='low'&&status==='available'))throw inventoryReadError();
   let lastEvent:QuantityEvent224|null=null;
   if(v.lastEvent!==null){const e=v.lastEvent;
-   if(!record(e)||!['manual','sale','cancel','return'].includes(String(e.kind))||typeof e.delta!=='number'||!Number.isSafeInteger(e.delta)
+   if(!record(e)||(typeof e.kind!=='string'||!['manual','sale','cancel','return'].includes(e.kind))||typeof e.delta!=='number'||!Number.isSafeInteger(e.delta)
    ||!date(e.at)||!nullableText(e.actorDisplayName)||!nullableText(e.source))throw inventoryReadError();
    lastEvent={kind:e.kind as QuantityEvent224['kind'],delta:e.delta,at:e.at,actorDisplayName:e.actorDisplayName,source:e.source};
   }
@@ -42,6 +42,6 @@ export function parseInventory224(data:unknown,request:{search:string;filter:Inv
 }
 export function receivedQuantity224(current:number,added:number|null):number|null{
  if(!whole(current)||added===null||!whole(added))return null;
- const result=added===null?null:current+added;
- return result!==null&&whole(result)&&result<=1_000_000_000?result:null;
+ const result=current+added;
+ return whole(result)&&result<=1_000_000_000?result:null;
 }
