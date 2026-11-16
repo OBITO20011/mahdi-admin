@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {verifyBrowserDeliveryJobs} from '../scripts/agent/verify-delivery-ci.mjs';
+import {coreWebkitJobNames} from '../scripts/testing/core-webkit-ci-shards.mjs';
 import {packageFShardCount,packageFShards,isPackageFSpec,packageFSpecPattern,notPackageFSpecPattern} from '../scripts/testing/package-f-ci-shards.mjs';
 import {summarizeTimings,timingRecord} from '../scripts/testing/ci-browser-timing-reporter.mjs';
 import {balanceBrowserCases} from '../scripts/testing/ci-browser-discovery.mjs';
@@ -27,7 +28,7 @@ test('discovery rejects absent, duplicate, misrouted and substituted shard ident
 });
 
 test('delivery requires both core engines and exactly all ten successful Package F shards',()=>{
-  const jobs=['Lint, test, build and browser QA','Core WebKit browser QA',
+  const jobs=['Lint, test, build and browser QA',...coreWebkitJobNames,
     ...packageFShards.map(shard=>`Package F browser QA (${shard}/${packageFShardCount})`)]
     .map(name=>({name,conclusion:'success'}));
   verifyBrowserDeliveryJobs(jobs);

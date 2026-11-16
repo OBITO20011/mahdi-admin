@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import {packageFShardCount,packageFShards,isPackageFSpec} from './package-f-ci-shards.mjs';
 import {listBrowserTests} from './ci-browser-discovery.mjs';
 import {coreBrowserGroups,verifyCoreBrowserPartition} from './core-browser-ci-groups.mjs';
+import {coreWebkitShards,verifyCoreWebkitShardPartition} from './core-webkit-ci-shards.mjs';
 
 const list=(group,shard)=>listBrowserTests(group,{shard,ci:true});
 function verify(full,core,shards){
@@ -34,5 +35,7 @@ if(process.argv.includes('--self-test')){
 }else{
   const core=list('core');
   const coreGroups=verifyCoreBrowserPartition(core,coreBrowserGroups.map(coreGroup=>listBrowserTests('core',{coreGroup,ci:true})));
-  console.log(JSON.stringify({...verify(list(),core,packageFShards.map(shard=>list('package-f',shard))),coreGroups}));
+  const webkitShards=verifyCoreWebkitShardPartition(listBrowserTests('core',{coreGroup:'webkit',ci:true}),
+    coreWebkitShards.map(coreShard=>listBrowserTests('core',{coreGroup:'webkit',coreShard,ci:true})));
+  console.log(JSON.stringify({...verify(list(),core,packageFShards.map(shard=>list('package-f',shard))),coreGroups,webkitShards}));
 }

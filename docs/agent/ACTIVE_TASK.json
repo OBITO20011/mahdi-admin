@@ -2,59 +2,49 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner-approved224 inventory reader, SQL tests, protected owner tools/reference184/cutover; approved UI after backend/tools on same branch/PR.",
-  "baselineSha": "ffce1cf65c91d8d8fa46c650e03106b43653d7d5",
-  "branch": "codex/inventory224-backend",
-  "phase": "INVENTORY224",
-  "startedAt": "2026-11-15T22:27:56.158Z",
+  "objective": "Owner-approved CI-only split of Core WebKit into two20m shards,exact identity coverage and strict complete delivery gate;Draft PR/fullCI then owner review,no merge.",
+  "baselineSha": "bb7283813e0e3d733a7f26caf9e4bef5d695d0da",
+  "branch": "codex/ci-core-webkit-shards",
+  "phase": "CI_CORE_WEBKIT_SHARDS",
   "completed": [
-    "New owner-only reader224 added; SQL delta is exactly one function, existing functions/tables/triggers/ACL unchanged.",
-    "Actual isolated223→224 SQL8/8 groups pass: search/digits/filters/global counts/events/roles/READ ONLY/zero writes; disposable fixture cleaned.",
-    "Unit/catalog guards3/3; unknown byte and extra table/ACL rejected.184manifest/preflight hash admission prepared.",
-    "Fresh/incremental224 catalogs identical:688public/51private/184history; PostgreSQL17.6,network0,owned cleanup.",
-    "Versioned224 owner adapters generated from exact223 pins; focused6/6. Current224 HTTP181 andRPC732 completed with18expected denials.",
-    "Ready224 true builder184/688/51; fresh/incremental0; strict223BackupRestore→apply2248.5s→224BackupRestore→verify-only and all negatives PASS.",
-    "RESET22427.7s;3resumes22.9–28.0s;12ACL/cron/retention/foreign-write cases PASS. D1 focused13/13.",
-    "Approved UI224 built; mobile/desktop Chromium+WebKit18/18, numeric contract3/3, focused source/history11/11 and D1 tests13/13.",
-    "First full units2064/2082,0skip:18 ceiling/history/current-access failures identified; scoped224 expectations fixed, access regeneration pending.",
-    "Actual inventory UI→SQL Chromium/WebKit2/2:26receipt,9correction,CAS rejection,zero accounting tables; owned cleanup.",
-    "Historical223 and222 exact main3b refs/upgrade/strictBackupRestore/RESET+resume PASS; legacy workflows retain all original assertions. Focused closure18/18.",
-    "Final-source HTTP181 and RPC735 with18 expected denials. Cutover card prints two pages. Final browser and real PostgreSQL paths passed."
+    "Native Playwright2shards with20m/image/isolation/case limits unchanged;206+184 exactly390WebKit cases;2070full browser identities unchanged.",
+    "Strict delivery requiresboth shards;negative coverage/delivery/args tests pass. Exact CI inverse preserves oldpins andunknown-byte rejection.",
+    "Types both apps andstrictlint pass;fullunits2088/2089 withonlyscope-metadata mismatch;metadata corrected andfocused28/28 pass.",
+    "Fullunits2089/2089,0skip onbb728381. FirstPR WebKitshards green504s/618s. Historybuilder224check neededexactouter CIprojection;fixed,no oldpinchanges;11focused/types/strictlintpass."
   ],
   "inProgress": [
-    "Finalize local lint/units, refresh ready reference binding, open exact-source Draft and verify full CI/Gitleaks."
+    "Push exacthistorybuilder admission fix;final fullCI"
   ],
   "notStarted": [],
   "testsPassed": [
-    "Actual reader PostgreSQL and 224 reference/RESET/restore",
-    "Historical 222/223 owner tools, retained previous approvals",
-    "Chromium/WebKit 390/1280 and real PostgreSQL quantity edits",
-    "Final-source HTTP181/RPC735; final TypeScript after fixture fix",
-    "Cutover two-page print"
+    "Actual discovery2070/804/390 withWebKit206+184",
+    "Focused28/28",
+    "Types admin/store;strictlint;diffcheck",
+    "Gitleaks839commits,0leaks onbb728381",
+    "Fullunits2089/2089",
+    "TwoCIWebKitshards504s/618s",
+    "Historybuilder224check102sources andfocused11/11;types/lint"
   ],
   "testsRemaining": [
-    "Final admin lint/units and customer baseline; final reference binding; fullCI/Gitleaks"
+    "FullCI onfinalhead",
+    "FinalGitleaks"
   ],
   "findings": [
-    "Two new-test expectations corrected to actual existing contracts: named catalog identity arguments, and assert_erp_role P0001+exact Arabic denial. No frozen guard modified.",
-    "UI approved after initial backend scope; implement after backend/tools on this same branch/PR.",
-    "Historical harness only: external evidence sibling fixed; one UTC-boundary environmental rebuild rerun documented (10Realtime partition rows,application unchanged); Windows snapshot fixed to literalLF before checkout,asserted exact SQL Git bytes. No SQL/pin/guard relaxation."
+    "Theonlyinitialfullunit failurewas stalephase metadata,corrected without changingtheguard."
   ],
   "blockers": [],
-  "activeProcesses": [
-    "No task container; owner demo/n8n untouched."
-  ],
+  "activeProcesses": [],
   "prohibitions": [
-    "No merge/deploy/hosted access/Docker restart/owner demo or n8n/container operations.",
-    "No221, table/trigger/sales-writer changes; migration224 may add only the approved reader.",
-    "No owner original/private/env edits."
+    "No product,SQL,migration,timeout or assertion weakening",
+    "No merge,deploy,hosted access,Docker restart or demo changes"
   ],
-  "checkpointedAt": "2026-11-16T00:56:40.670Z",
+  "nextExactAction": "Push literal historical builder fix and await complete final-head PR CI,no merge or demo changes",
+  "startedAt": "2026-11-16T12:17:25.264Z",
+  "checkpointedAt": "2026-11-16T13:40:47.724Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 9,
-  "filesTouchedManifestSha256": "d5eefba08972d0f5063df4110df00553758a9f4b44637b266a04c90b75f04d65",
-  "nextExactAction": "Verify final lint and units, build ready224 reference bound to current access, then verify DraftPR CI and Gitleaks",
-  "workingTreeFingerprint": "40E27CDB08CE056CEBBAF95EF0F0FF1865E8307412531B78BE9DEC78AA81ECF9"
+  "filesTouchedCount": 3,
+  "filesTouchedManifestSha256": "0a2b737f8c8b12c029a667ad7aec3dd9054324ba0608fee58761c6ee0729d111",
+  "workingTreeFingerprint": "36995390BD39C1D5AFBD7C4D999E251FE88B4985F6586FD414C9364FF2B7DD64"
 }

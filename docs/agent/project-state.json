@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "project": "Nawasrah ERP",
-  "branch": "codex/inventory224-backend",
+  "branch": "codex/ci-core-webkit-shards",
   "approvedBaseline": "3b35a263f7c20212c537bb61b2d20af778b7613d",
   "closedPhases": [
     "3",
@@ -14,7 +14,7 @@
     "6"
   ],
   "phase4Closed": true,
-  "currentPhase": "INVENTORY224",
+  "currentPhase": "CI_CORE_WEBKIT_SHARDS",
   "phase6Closed": true,
   "phase6ClosureBaseline": "5aaeab11e13c2be454af677ee176f77aa2d9cde4",
   "phase6ClosureExactShaCi": "PASS",
@@ -303,5 +303,6 @@
   "phaseLATIN_DIGITSImplementationAllowed": true,
   "phaseFINAL_CATALOGImplementationAllowed": true,
   "phaseINVENTORY224ImplementationAllowed": true,
-  "migration224CanonicalLfSha256": "F706C9B09D76F0D28DC431320CAE993F209142955C7B70F813F6514068EC631D"
+  "migration224CanonicalLfSha256": "F706C9B09D76F0D28DC431320CAE993F209142955C7B70F813F6514068EC631D",
+  "phaseCI_CORE_WEBKIT_SHARDSImplementationAllowed": true
 }

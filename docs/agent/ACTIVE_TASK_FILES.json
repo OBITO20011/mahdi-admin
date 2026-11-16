@@ -3,39 +3,15 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_AFTER_224.json"
+      "path": "scripts/audit/core-webkit-shards-source-pins.json"
     },
     {
       "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+      "path": "scripts/testing/build-inventory224-history.mjs"
     },
     {
       "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_224.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "e2e/inventory224-harness.tsx"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/inventory224-source-pins.json"
-    },
-    {
-      "code": " M",
-      "path": "tests/inventory224-history.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/operational-schema.test.ts"
+      "path": "tests/core-webkit-ci-shards.test.ts"
     }
   ]
 }
