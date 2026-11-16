@@ -17,6 +17,13 @@ const list=(remote:string[])=>JSON.stringify({
  message:'Migrations listed',
 });
 
+test('accepts the real Supabase CLI 2.114.0 migration-list JSON for 223/183',async()=>{
+ // Captured using --db-url on an isolated PostgreSQL ledger with the 224 file pending.
+ const stdout=readFileSync(new URL('./fixtures/supabase-cli-2.114.0-migration-list-223.json',import.meta.url),'utf8');
+ const checked=await checkRegistration224({cli:async()=>({stdout}),reference,mode:'--apply'});
+ assert.deepEqual(checked,{ceiling:223,files:183});
+});
+
 test('pinned CLI JSON uses the complete ordered remote history for each mode',async()=>{
  for(const mode of ['--preflight-registration','--apply','--resume-registration','--verify-only']){
   const remote=mode==='--verify-only'?versions:before;

@@ -2,24 +2,26 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner-approved 224 registration preflight and guarded resume, CI-only historical provenance and runbook. Draft PR for owner review.",
-  "baselineSha": "d451b1a9aa726f2c576402289c412ee458ee76a1",
+  "objective": "Capture real Supabase CLI 2.114.0 migration-list JSON for 223 and deliver PR 106 after exact-head CI",
+  "baselineSha": "ed184b03dbbc43d811549f1890e67e6404d9d6b9",
   "branch": "codex/upgrade-registration-preflight",
   "phase": "UPGRADE_REGISTRATION_PREFLIGHT",
   "startedAt": "2026-11-16T15:04:07.460Z",
   "completed": [
     "224-only linked registration preflight and guarded registration-only resume",
-    "Updated cutover and upgrade instructions and exact historical projection"
+    "Updated cutover and upgrade instructions and exact historical projection",
+    "Captured the pinned Supabase CLI 2.114.0 JSON from isolated PostgreSQL 223/183 and added the real fixture to the parser contract"
   ],
   "inProgress": [],
   "notStarted": [],
   "testsPassed": [
     "Admin types and strict lint",
     "27 focused tests, including unchanged shared historical sources",
-    "Isolated PostgreSQL registration interruption, drift refusals, resume, strict restores and verify-only"
+    "Isolated PostgreSQL registration interruption, drift refusals, resume, strict restores and verify-only",
+    "11 focused tests, Admin types and targeted lint for real CLI fixture"
   ],
   "testsRemaining": [
-    "Full exact-head GitHub CI and owner review"
+    "Exact-head draft CI, owner-authorized merge if fixture only, primary fast-forward, preflight, exact main CI"
   ],
   "findings": [
     "Historical source guards require keeping the shared upgrader and its error mapper byte-identical"
@@ -27,15 +29,16 @@
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No Production or Frankfurt connections, deploy, merge or demo changes",
-    "Preserve older upgrader behavior, historical pins and every migration"
+    "No Production or Frankfurt connections, deploy, or demo changes",
+    "Preserve earlier tools, historical pins and migrations",
+    "Merge only with exact-head green CI and fixture or narrow parser changes"
   ],
-  "checkpointedAt": "2026-11-16T15:35:12.272Z",
+  "checkpointedAt": "2026-11-16T16:15:50.045Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 12,
-  "filesTouchedManifestSha256": "c2195e38af4b63242555ea82b02ec23431f5fc7ba27ec32b31154e03b23b9399",
-  "nextExactAction": "Verify full CI on the exact draft PR head and return it to the owner for review. Keep unmerged.",
-  "workingTreeFingerprint": "999395B53F0BC71A510E2021022B633C9836F49DC351C04609F84A97938B07EF"
+  "filesTouchedCount": 3,
+  "filesTouchedManifestSha256": "83fa1d1355099ea135421ee81b988610847c9926ef679e3eea7dd9f01cebdd40",
+  "nextExactAction": "Verify the exact draft head on full GitHub CI, then perform the owner-approved merge, primary fast-forward and main CI.",
+  "workingTreeFingerprint": "4900BE3D176B6E3DA3D2817CA9D4229593037EC5731B002DE3660B35133446FA"
 }
