@@ -9,7 +9,7 @@
     },
     "scripts/audit/source-before-restore-frozen220.mjs": {
       "before": null,
-      "after": "adac3bbead9df59f48eaca4be4b0cd8124b9b158938c6e278221c6b759e1e59a",
+      "after": "0121f97f66648991ff931f3a23ccff4b8b0f9c6580737b715a3071bf6ec0f1f7",
       "beforeText": null
     },
     "scripts/audit/source-before-upgrade-registration.mjs": {

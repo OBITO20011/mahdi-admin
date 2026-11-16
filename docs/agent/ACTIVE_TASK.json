@@ -35,12 +35,12 @@
     "Keep upgrade and RESET guards and migrations byte-identical",
     "Retain prior rehearsal until repair is merged and new rehearsal starts"
   ],
-  "checkpointedAt": "2026-11-16T18:11:32.607Z",
+  "checkpointedAt": "2026-11-16T18:19:43.548Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 11,
-  "filesTouchedManifestSha256": "665df55088b448a8369f63b88b02d9abac784e098785f8beb90ed5c412705bfb",
-  "nextExactAction": "Push narrow Restore PR, verify exact-head full CI, merge only the approved scope,then restart the retained-archive rehearsal.",
-  "workingTreeFingerprint": "5B279A4072CF0C79594707181D68A415B6BE079792C142AAA0CA892114B4F7DE"
+  "filesTouchedCount": 2,
+  "filesTouchedManifestSha256": "39f740d8ba12bf157c41e884af653aa5df80d561b8572fec8a8837dd69b19322",
+  "nextExactAction": "Verify corrected exact-head CI;merge only the approved Restore scope,then restart the original rehearsal.",
+  "workingTreeFingerprint": "668D6219E1AF69F916C749AADF83F194DE18FB83F8A250A5C19B826BEA95C1A6"
 }

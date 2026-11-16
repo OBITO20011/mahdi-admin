@@ -30,6 +30,7 @@ export function restoreFrozen220Hashes(rows){
   return pin.before===null?[]:[{...row,sha256:pin.before}];
  });
 }
+/** @param {string[]} files */
 export function pathsBeforeRestoreFrozen220(files){
  return files.filter(file=>{
   if(file===indexFile)return current(file)!==indexText;
