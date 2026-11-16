@@ -2,15 +2,51 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": " M",
-      "path": "scripts/audit/core-webkit-shards-source-pins.json"
+      "code": "A ",
+      "path": "scripts/audit/source-before-upgrade-registration.mjs"
     },
     {
-      "code": " M",
-      "path": "scripts/testing/build-inventory224-history.mjs"
+      "code": "A ",
+      "path": "scripts/audit/upgrade-registration-source-pins.json"
     },
     {
-      "code": " M",
+      "code": "A ",
+      "path": "scripts/operations/upgrade224-registration.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "tests/upgrade224-registration.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/UPGRADE224_AR.md"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/audit/source-before-core-webkit-shards.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/operations/frankfurt-owner-upgrade224.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/testing/build-inventory224-tools.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/testing/run-owner-upgrade224-runtime.mjs"
+    },
+    {
+      "code": "M ",
       "path": "tests/core-webkit-ci-shards.test.ts"
     }
   ]

@@ -2,6 +2,7 @@
 import assert from 'node:assert/strict';
 import {readFile,writeFile} from 'node:fs/promises';
 import {canonicalLf,sha256} from './maintenance-db-contract.mjs';
+import {sourceBeforeUpgradeRegistration} from '../audit/source-before-upgrade-registration.mjs';
 const root=new URL('../../',import.meta.url);
 const pins=JSON.parse(await readFile(new URL('docs/design/inventory224/tool223-source-pins.json',root),'utf8'));
 const check=process.argv[2]==='--check';
@@ -76,5 +77,15 @@ for(const[file,digest]of Object.entries(pins)){
  }
  output.set(file.replaceAll('223','224'),text);
 }
-for(const[name,text]of output){const target=new URL('scripts/operations/'+name,root);if(check)assert.equal(canonicalLf(await readFile(target,'utf8')),text,'GENERATED224_TOOL_DRIFT:'+name);else await writeFile(target,text);}
+for(const[name,text]of output){
+ const file='scripts/operations/'+name,target=new URL(file,root);
+ const source=await readFile(target,'utf8').catch(error=>{
+  if(!check&&error.code==='ENOENT')return null;
+  throw error;
+ });
+ const current=source===null?null:canonicalLf(source);
+ const reviewed=sourceBeforeUpgradeRegistration(file,current);
+ if(check||reviewed!==current)assert.equal(reviewed,text,'GENERATED224_TOOL_DRIFT:'+name);
+ else await writeFile(target,text);
+}
 console.log(JSON.stringify({ok:true,checkOnly:check,files:[...output.keys()]}));

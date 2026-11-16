@@ -15,7 +15,8 @@ import {SnapshotSession} from '../backup/snapshot-session.mjs';
 import {createCompleteBackup,restoreCompleteBackup} from '../backup/complete-backup.mjs';
 import {executorFor,executeInput} from '../operations/build-empty-supabase.mjs';
 import {readReady224Reference} from '../operations/frankfurt-reference224.mjs';
-import {upgrade224WithExecutor,run224} from '../operations/frankfurt-owner-upgrade224.mjs';
+import {read224SourceEvidence,upgrade224WithExecutor,run224} from '../operations/frankfurt-owner-upgrade224.mjs';
+import {checkRegistration224,pending224Registration} from '../operations/upgrade224-registration.mjs';
 import {read224BackupEvidence,assert224ProtectionComplete} from '../operations/upgrade224-protection.mjs';
 import {readOnlyPsqlSessionArgs} from '../operations/frankfurt-catalog-verification.mjs';
 const root=path.resolve(import.meta.dirname,'../..'),exec=promisify(execFile);
@@ -50,14 +51,75 @@ try{
  const rawProfile=async()=>frozen220TriggerAclProfile(JSON.parse(await sql(frankfurt220TriggerAclReadSql)));
  assert.equal(await rawProfile(),'frankfurt');
  await owner(`lite3_set_counter223('${id(103)}',true,16,4,0,'${id(990)}','${id(10)}')`);
+ const readHistory=async()=>JSON.parse(await sql('SELECT jsonb_agg(version ORDER BY version) FROM supabase_migrations.schema_migrations;'));
+ const listCli=async flags=>{
+  assert.deepEqual(flags,['migration','list','--linked','--output-format','json']);
+  return {stdout:JSON.stringify({migrations:(await readHistory()).map(version=>({local:version,remote:version}))})};
+ };
+ stage='registration-preflight-no-write';
+ const sourceBeforeRejection=await read224SourceEvidence(executor);
+ for(const cli of [async()=>{throw Error('synthetic CLI connection failure');},async()=>({stdout:'{"migrations":[]}'})]){
+  await assert.rejects(()=>run224(['--apply','--backup-evidence',path.join(output,'not-created.json')],{
+   preflight:async()=>{},runOwner:async(_args,configuration)=>configuration.registration.preflight({cli,reference,mode:'--apply'}),
+  }),/UPGRADE_REGISTRATION_PREFLIGHT_FAILED/u);
+ }
+ assert.deepEqual(await read224SourceEvidence(executor),sourceBeforeRejection);
+ await run224(['--preflight-registration'],{runOwner:async(_args,configuration)=>
+  configuration.registration.preflight({cli:listCli,reference,mode:'--preflight-registration'})});
  stage='backup223';const before=await timed('backup223',()=>createCompleteBackup({projectRef:'kzevmysfydaslxcerogt',outputRoot:backupRoot,passphrase,source}));assert.equal(before.historyCeiling,223);const beforeFile=await save('backup223.json',before);
  await read224BackupEvidence(beforeFile,223);
  stage='restore223';report.restore223=await timed('restore223',()=>restoreCompleteBackup({archivePath:before.archivePath,passphrase,reportPath:path.join(output,'restore223.json')}));assert.equal(report.restore223.allRowsAndHashesMatch,true);
- const run=async(name,backupEvidence=before)=>{const dir=path.join(output,name);await mkdir(dir);return upgrade224WithExecutor({executor,reference,output:dir,backupEvidence,report:{projectRef:'kzevmysfydaslxcerogt',startedAt:new Date().toISOString()},
-  repair:async version=>{assert.equal(version,'224');const unit=reference.manifest.find(m=>m.name.startsWith(version+'_'));await copyFile(path.join(root,'supabase/migrations',unit.name),path.join(local,'supabase/migrations',unit.name));await sql("INSERT INTO supabase_migrations.schema_migrations(version,name,statements) VALUES('224','optional_quantity_inventory_reader','{}');");},
-  finalDryRun:async()=>assert.deepEqual(JSON.parse(await sql('SELECT jsonb_agg(version ORDER BY version) FROM supabase_migrations.schema_migrations;')),reference.appliedVersions)});};
+ let registrations=0;
+ const record=async version=>{
+  assert.equal(version,'224');registrations++;
+  const unit=reference.manifest.find(m=>m.name.startsWith(version+'_'));
+  await copyFile(path.join(root,'supabase/migrations',unit.name),path.join(local,'supabase/migrations',unit.name));
+  await sql("INSERT INTO supabase_migrations.schema_migrations(version,name,statements) VALUES('224','optional_quantity_inventory_reader','{}');");
+ };
+ const finalDryRun=async()=>assert.deepEqual(await readHistory(),reference.appliedVersions);
+ const run=async(name,backupEvidence=before,repair=record,applyReport={projectRef:'kzevmysfydaslxcerogt',startedAt:new Date().toISOString()})=>{
+  const dir=path.join(output,name);await mkdir(dir);
+  return upgrade224WithExecutor({executor,reference,output:dir,backupEvidence,report:applyReport,repair,finalDryRun});
+ };
  stage='negative-source-commitment';await assert.rejects(()=>run('wrong-backup',{...before,sourceEvidenceSha256:'0'.repeat(64)}),/SOURCE_CHANGED_SINCE_BACKUP/u);
- stage='apply224';report.apply=await timed('apply224',()=>run('apply'));report.apply.endedAt=new Date().toISOString();const applyFile=await save('apply224.json',report.apply);
+ stage='apply224-registration-interrupted';
+ const first={projectRef:'kzevmysfydaslxcerogt',startedAt:new Date().toISOString()};
+ await timed('apply224',()=>assert.rejects(()=>run('upgrade224-2026-11-16T12-00-00-000Z',before,async()=>{throw Error('synthetic CLI refusal');},first),/SQL_APPLIED_REGISTRATION_PENDING/u));
+ assert.deepEqual(first.applied,['224']);assert.deepEqual(first.recorded,[]);
+ assert.equal(JSON.parse(await readFile(first.registrationState,'utf8')).status,pending224Registration);
+ assert.equal(registrations,0);
+ assert.deepEqual(await readHistory(),reference.prefixes['223'].appliedVersions);
+ assert.equal(await sql("SELECT to_regprocedure('public.lite3_counters224(text,text,integer,integer)') IS NOT NULL;"),'t');
+ const resume=async name=>{
+  const dir=path.join(output,name);await mkdir(dir);
+  return run224(['--resume-registration','--backup-evidence',beforeFile,'--registration-state',first.registrationState],{
+   preflight:async()=>{},runOwner:async(_args,configuration)=>{
+    await configuration.registration.preflight({cli:listCli,reference,mode:'--resume-registration'});
+    return configuration.registration.resume({executor,reference,output:dir,workdir:output,
+     report:{projectRef:'kzevmysfydaslxcerogt',startedAt:new Date().toISOString()},repair:record,finalDryRun});
+   },
+  });
+ };
+ stage='resume224-reject-changed-source';
+ const reader='public.lite3_counters224(text,text,integer,integer)';
+ for(const [name,mutate,undo] of [
+  ['catalog',`ALTER FUNCTION ${reader} RESET search_path;`,`ALTER FUNCTION ${reader} SET search_path=pg_catalog,public;`],
+  ['data',`UPDATE sales_lite3.quantity_counters SET low_threshold=5 WHERE product_id='${id(103)}';`,`UPDATE sales_lite3.quantity_counters SET low_threshold=4 WHERE product_id='${id(103)}';`],
+ ]){
+  await sql(mutate);
+  await assert.rejects(()=>resume('resume-refuses-'+name),/UPGRADE_REGISTRATION_SOURCE_CHANGED/u);
+  assert.equal(registrations,0);
+  await sql(undo);
+ }
+ stage='resume224-registration-only';
+ report.apply=await timed('resume224',()=>resume('resume'));
+ report.apply.endedAt=new Date().toISOString();
+ const applyFile=await save('apply224.json',report.apply);
+ assert.equal(registrations,1);assert.equal(report.apply.resumedRegistration,true);
+ assert.equal(JSON.parse(await readFile(first.registrationState,'utf8')).status,'REGISTRATION_COMPLETE');
+ await assert.rejects(()=>resume('resume-already-complete'),/UPGRADE_REGISTRATION_PREFLIGHT_FAILED/u);
+ assert.equal(registrations,1);
+ await checkRegistration224({cli:listCli,reference,mode:'--verify-only'});
  assert.equal(await rawProfile(),'frankfurt','OWNER224_RAW_TRIGGER_ACL_CHANGED');
  assert.deepEqual(report.apply.applied,['224']);assert.deepEqual(report.apply.recorded,['224']);assert.equal(report.apply.protectionPending,true);assert.equal(report.apply.complete,false);
  assert.equal(await sql('SELECT enabled FROM public.owner_telegram_dispatch_settings;'),'t');assert.equal(await sql('SELECT daily_summary_enabled FROM public.business_alert_settings;'),'t');
@@ -68,7 +130,7 @@ try{
  const readonly={...executor,args:[...executor.args,...readOnlyPsqlSessionArgs]},verifyArgs=['--verify-only','--backup-evidence',afterFile,'--restore-evidence',restoreFile,'--upgrade-report',applyFile];
  const verify=async name=>{const dir=path.join(output,name);await mkdir(dir);return run224(verifyArgs,{runOwner:async(_args,configuration)=>{const result={};await configuration.verifyReadOnly(readonly,dir,reference,null,null,result);return result;}});};
  stage='verify-only';report.verify=await timed('verifyOnly',()=>verify('verify'));assert.equal(report.verify.complete,true);assert.equal(report.verify.protectionPending,false);
- report.negatives=['wrong-source-commitment','apply-replay'];
+ report.negatives=['registration-preflight-no-write','pending-registration','resume-catalog-drift','resume-data-drift','resume-replay','wrong-source-commitment','apply-replay'];
  for(const [name,mutate,undo]of [
   ['acl','GRANT TRUNCATE ON public.products TO anon;','REVOKE TRUNCATE ON public.products FROM anon;'],
   ['body',"ALTER FUNCTION public.release_owner_telegram_dispatch_v1(uuid) RESET search_path;","ALTER FUNCTION public.release_owner_telegram_dispatch_v1(uuid) SET search_path=public,pg_temp;"],
