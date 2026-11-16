@@ -2,49 +2,43 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner-approved CI-only split of Core WebKit into two20m shards,exact identity coverage and strict complete delivery gate;Draft PR/fullCI then owner review,no merge.",
-  "baselineSha": "bb7283813e0e3d733a7f26caf9e4bef5d695d0da",
-  "branch": "codex/ci-core-webkit-shards",
-  "phase": "CI_CORE_WEBKIT_SHARDS",
+  "objective": "Capture real Supabase CLI 2.114.0 migration-list JSON for 223 and deliver PR 106 after exact-head CI",
+  "baselineSha": "ed184b03dbbc43d811549f1890e67e6404d9d6b9",
+  "branch": "codex/upgrade-registration-preflight",
+  "phase": "UPGRADE_REGISTRATION_PREFLIGHT",
+  "startedAt": "2026-11-16T15:04:07.460Z",
   "completed": [
-    "Native Playwright2shards with20m/image/isolation/case limits unchanged;206+184 exactly390WebKit cases;2070full browser identities unchanged.",
-    "Strict delivery requiresboth shards;negative coverage/delivery/args tests pass. Exact CI inverse preserves oldpins andunknown-byte rejection.",
-    "Types both apps andstrictlint pass;fullunits2088/2089 withonlyscope-metadata mismatch;metadata corrected andfocused28/28 pass.",
-    "Fullunits2089/2089,0skip onbb728381. FirstPR WebKitshards green504s/618s. Historybuilder224check neededexactouter CIprojection;fixed,no oldpinchanges;11focused/types/strictlintpass."
+    "224-only linked registration preflight and guarded registration-only resume",
+    "Updated cutover and upgrade instructions and exact historical projection",
+    "Captured the pinned Supabase CLI 2.114.0 JSON from isolated PostgreSQL 223/183 and added the real fixture to the parser contract"
   ],
-  "inProgress": [
-    "Push exacthistorybuilder admission fix;final fullCI"
-  ],
+  "inProgress": [],
   "notStarted": [],
   "testsPassed": [
-    "Actual discovery2070/804/390 withWebKit206+184",
-    "Focused28/28",
-    "Types admin/store;strictlint;diffcheck",
-    "Gitleaks839commits,0leaks onbb728381",
-    "Fullunits2089/2089",
-    "TwoCIWebKitshards504s/618s",
-    "Historybuilder224check102sources andfocused11/11;types/lint"
+    "Admin types and strict lint",
+    "27 focused tests, including unchanged shared historical sources",
+    "Isolated PostgreSQL registration interruption, drift refusals, resume, strict restores and verify-only",
+    "11 focused tests, Admin types and targeted lint for real CLI fixture"
   ],
   "testsRemaining": [
-    "FullCI onfinalhead",
-    "FinalGitleaks"
+    "Exact-head draft CI, owner-authorized merge if fixture only, primary fast-forward, preflight, exact main CI"
   ],
   "findings": [
-    "Theonlyinitialfullunit failurewas stalephase metadata,corrected without changingtheguard."
+    "Historical source guards require keeping the shared upgrader and its error mapper byte-identical"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No product,SQL,migration,timeout or assertion weakening",
-    "No merge,deploy,hosted access,Docker restart or demo changes"
+    "No Production or Frankfurt connections, deploy, or demo changes",
+    "Preserve earlier tools, historical pins and migrations",
+    "Merge only with exact-head green CI and fixture or narrow parser changes"
   ],
-  "nextExactAction": "Push literal historical builder fix and await complete final-head PR CI,no merge or demo changes",
-  "startedAt": "2026-11-16T12:17:25.264Z",
-  "checkpointedAt": "2026-11-16T13:40:47.724Z",
+  "checkpointedAt": "2026-11-16T16:15:50.045Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "filesTouchedCount": 3,
-  "filesTouchedManifestSha256": "0a2b737f8c8b12c029a667ad7aec3dd9054324ba0608fee58761c6ee0729d111",
-  "workingTreeFingerprint": "36995390BD39C1D5AFBD7C4D999E251FE88B4985F6586FD414C9364FF2B7DD64"
+  "filesTouchedManifestSha256": "83fa1d1355099ea135421ee81b988610847c9926ef679e3eea7dd9f01cebdd40",
+  "nextExactAction": "Verify the exact draft head on full GitHub CI, then perform the owner-approved merge, primary fast-forward and main CI.",
+  "workingTreeFingerprint": "4900BE3D176B6E3DA3D2817CA9D4229593037EC5731B002DE3660B35133446FA"
 }

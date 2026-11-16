@@ -2,6 +2,7 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {canonicalLf,sha256} from '../testing/maintenance-db-contract.mjs';
+import {sourceBeforeUpgradeRegistration,restoreUpgradeRegistrationHashes,pathsBeforeUpgradeRegistration} from './source-before-upgrade-registration.mjs';
 const indexFile='scripts/audit/core-webkit-shards-source-pins.json';
 const indexText=canonicalLf(readFileSync(new URL('./core-webkit-shards-source-pins.json',import.meta.url),'utf8'));
 const pins=JSON.parse(indexText);
@@ -17,6 +18,7 @@ for(const[file,pin]of Object.entries(pins.entries)){
  assert.equal(pin.beforeText===null?null:sha256(pin.beforeText),pin.before,'CORE_WEBKIT_BEFORE_CORRUPT:'+file);
 }
 export function sourceBeforeCoreWebkitShards(file,text){
+ text=sourceBeforeUpgradeRegistration(file,text);
  if(text===null)return null;
  if(file===indexFile&&canonicalLf(text)===indexText)return null;
  const pin=pins.entries[file];
@@ -24,16 +26,17 @@ export function sourceBeforeCoreWebkitShards(file,text){
  return pin.beforeText;
 }
 export function restoreCoreWebkitShardHashes(rows){
- return rows.flatMap(row=>{
+ return restoreUpgradeRegistrationHashes(rows).flatMap(row=>{
   const pin=pins.entries[row.file];if(!pin||row.sha256!==pin.after)return[row];
-  const raw=canonicalLf(readFileSync(new URL('../../'+row.file,import.meta.url),'utf8'));
+  const raw=sourceBeforeUpgradeRegistration(row.file,canonicalLf(readFileSync(new URL('../../'+row.file,import.meta.url),'utf8')));
+  assert.ok(raw!==null,'CORE_WEBKIT_HISTORICAL_SOURCE_REQUIRED:'+row.file);
   assert.equal(sha256(raw),pin.after,'CORE_WEBKIT_CURRENT_SOURCE_CHANGED:'+row.file);
   return pin.before===null?[]:[{...row,sha256:pin.before}];
  });
 }
 export function pathsBeforeCoreWebkitShards(files){
- return files.filter(file=>{
-  const raw=()=>canonicalLf(readFileSync(new URL('../../'+file,import.meta.url),'utf8'));
+ return pathsBeforeUpgradeRegistration(files).filter(file=>{
+  const raw=()=>sourceBeforeUpgradeRegistration(file,canonicalLf(readFileSync(new URL('../../'+file,import.meta.url),'utf8')));
   if(file===indexFile)return raw()!==indexText;
   const pin=pins.entries[file];if(!pin||pin.before!==null)return true;
   return sha256(raw())!==pin.after;

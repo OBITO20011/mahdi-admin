@@ -8,6 +8,7 @@ import {packageFShards,packageFShardCount} from '../scripts/testing/package-f-ci
 import {listBrowserTests} from '../scripts/testing/ci-browser-discovery.mjs';
 import {canonicalLf,sha256} from '../scripts/testing/maintenance-db-contract.mjs';
 import {coreWebkitSourcePins,sourceBeforeCoreWebkitShards,restoreCoreWebkitShardHashes,pathsBeforeCoreWebkitShards} from '../scripts/audit/source-before-core-webkit-shards.mjs';
+import {sourceBeforeUpgradeRegistration} from '../scripts/audit/source-before-upgrade-registration.mjs';
 
 const rows=Array.from({length:6},(_,i)=>({project:'mobile-webkit',key:`file-and-title-${i}`}));
 test('native WebKit partition proves exact original identities and rejects missing,duplicate,substituted and foreign cases',()=>{
@@ -57,9 +58,10 @@ test('two20-minute jobs keep pinned image,one worker,serial groups,isolation and
 test('CI inverse preserves literal old sources and old pins; unknown byte,null and extra paths cannot pass as an approved edit',()=>{
  const baseline='f108e72bbce2ac11b89bdc18b2ece8fb2c6493ae';
  for(const[file,pin]of Object.entries(coreWebkitSourcePins)){
-  const current=canonicalLf(readFileSync(file,'utf8'));assert.equal(sha256(current),pin.after,file);
+  const physical=canonicalLf(readFileSync(file,'utf8'));
+  const current=sourceBeforeUpgradeRegistration(file,physical);assert.ok(current!==null,file);assert.equal(sha256(current),pin.after,file);
   assert.equal(sourceBeforeCoreWebkitShards(file,current),pin.beforeText,file);
-  assert.equal(sourceBeforeCoreWebkitShards(file,current+'\n/*unknown byte*/'),current+'\n/*unknown byte*/',file);
+  assert.equal(sourceBeforeCoreWebkitShards(file,physical+'\n/*unknown byte*/'),physical+'\n/*unknown byte*/',file);
   assert.equal(sourceBeforeCoreWebkitShards(file,null),null);
   if(pin.beforeText!==null)assert.equal(pin.beforeText,canonicalLf(execFileSync('git',['show',baseline+':'+file],{encoding:'utf8'})));
   assert.deepEqual(restoreCoreWebkitShardHashes([{file,sha256:pin.after}]),pin.before===null?[]:[{file,sha256:pin.before}]);
