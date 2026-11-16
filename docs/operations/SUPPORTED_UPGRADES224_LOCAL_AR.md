@@ -17,7 +17,7 @@
 
 نجحت الأوامر الحقيقية `frankfurt-owner-upgrade222/223/224.mjs --dry-run` و`frankfurt-owner-reset224.mjs --plan` من الرأس الحالي، مع منع الشبكة والعمليات الفرعية. تحفظCI جرد كل أمر في الأوراق الست ونتيجته؛ أي أمر غير مصنف صراحة يفشل الاختبار. تشمل السلبيات سقفاً أو اسم أداة غير متوقع، إصداراً غير مدرج،222 على تاريخ223،223 على تاريخ220، ومرجعاً مختلف الالتزام.
 
-**لا تملك وضعاً offline:** أوامرD−1 prepare/install (تحتاجGitHub واعتماد المالك)، `backup:run` (مصدر النسخ المُعدّ)، و`frankfurt-backup-owner.ps1 -Mode Status` (حالة مهام المالك). كذلك verify-only214 التاريخي اتصال قرائي؛ `deploy:admin --check` يقرأorigin/main عبرالشبكة، و`check-customer --check` يحتاجمصدرSEO المحدد. لا ينفذها فحص الأوامر دون اتصال، ولا يخترع أوضاعاً لها. فحصRESET `--dry-run` نفسه متصل للقراءة؛ البديل الرسمي المحلي هو`--plan`. أوضاعapply/verify-only/registration لا تثبتها الخطة المحلية؛ تُختبر بحمايةالبروفة المعزولة.
+**لا تملك وضعاً offline معزولاً:** أوامرD−1 prepare/install (تحتاجGitHub واعتماد المالك)، `backup:run` (مصدر النسخ المُعدّ)، و`frankfurt-backup-owner.ps1 -Mode Status` (حالة مهام المالك المحلية). أوامر الأداة نفسها `Backup/Upload/VerifyRemote/RestoreRemote -Apply` تتصل بالمصدر أو الأرشيف البعيد، ولا تُنفّذ هنا. كذلك verify-only214 التاريخي اتصال قرائي؛ `deploy:admin --check` يقرأorigin/main عبرالشبكة، و`check-customer --check` يحتاجمصدرSEO المحدد. يشمل الجرد الأوامر داخل كتل الكود، ومنها `--resume-registration`، ويذكر الملف والسطر. لا يخترع أوضاعاً لها. فحصRESET `--dry-run` نفسه متصل للقراءة؛ البديل الرسمي المحلي هو`--plan`. أوضاعapply/verify-only/registration لا تثبتها الخطة المحلية؛ تُختبر بحمايةالبروفة المعزولة.
 
 ## الترتيب المحفوظ
 

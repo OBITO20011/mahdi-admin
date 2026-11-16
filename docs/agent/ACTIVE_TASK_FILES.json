@@ -3,11 +3,15 @@
   "files": [
     {
       "code": " M",
+      "path": "docs/operations/SUPPORTED_UPGRADES224_LOCAL_AR.md"
+    },
+    {
+      "code": " M",
       "path": "scripts/audit/supported-upgrades224-source-pins.json"
     },
     {
       "code": " M",
-      "path": "scripts/testing/build-optional-quantity223-tools.mjs"
+      "path": "scripts/testing/cutover-command-contract.mjs"
     },
     {
       "code": " M",

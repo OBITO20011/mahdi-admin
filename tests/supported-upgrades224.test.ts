@@ -20,6 +20,10 @@ test('all three versioned tool generators preserve their literal approved templa
 test('every documented official command has an explicit offline mode or a named no-offline limitation',()=>{
  const documents=Object.fromEntries(cutoverCommandDocuments.map(name=>[name,readFileSync('docs/operations/'+name+'.md','utf8')]));
  const commands=documentedCutoverCommands(documents);
+ assert.ok(commands.some(row=>row.command.includes('--resume-registration')),'FENCED_REGISTRATION_COMMAND_REQUIRED');
+ for(const mode of ['Backup','Upload','VerifyRemote','RestoreRemote'])
+  assert.ok(commands.some(row=>row.command.includes('-Mode '+mode+' -Apply')),'FENCED_BACKUP_COMMAND_REQUIRED:'+mode);
+ assert.ok(commands.every(row=>row.line>0));
  for(const row of commands)assert.ok(['offline','no-offline-mode'].includes(classifyCutoverCommand(row.command).kind));
  assert.throws(()=>classifyCutoverCommand('node scripts/operations/frankfurt-owner-upgrade225.mjs --dry-run'),/CUTOVER_COMMAND_UNREVIEWED/);
  const workflow=readFileSync('.github/workflows/inventory224.yml','utf8');

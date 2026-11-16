@@ -19,7 +19,7 @@
     },
     "docs/operations/SUPPORTED_UPGRADES224_LOCAL_AR.md": {
       "before": null,
-      "after": "dcec999361c4c0a50ed3dc71fe2277b3973df73c2af189f2070a5eed788ef5bf",
+      "after": "69d40a8ba669ca0e2b6cac6e551ba8fdbe367b6745fa47830d18f95f5421b51b",
       "beforeText": null
     },
     "docs/operations/UPGRADE222_AR.md": {
@@ -99,7 +99,7 @@
     },
     "scripts/testing/cutover-command-contract.mjs": {
       "before": null,
-      "after": "d80412c30937e492ac91bce380fe7403ea4ee9b08f30465d298b117246afea91",
+      "after": "cf24d4e04f5881db597f6e968680cf42ef59f7b2447204d9c202cf0c4cf34e42",
       "beforeText": null
     },
     "scripts/testing/run-supported-upgrades224-proof.mjs": {
@@ -119,7 +119,7 @@
     },
     "tests/supported-upgrades224.test.ts": {
       "before": null,
-      "after": "3730144420085c68ddc1b03285e905b6b245f85ed1e6c089cee4befdafb511ee",
+      "after": "971dae0de57fd0bb4d8d1318a4103f3d29664bd12dd98d04bd568f9eca830941",
       "beforeText": null
     }
   }
