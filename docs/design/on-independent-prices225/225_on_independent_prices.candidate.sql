@@ -727,6 +727,51 @@ ALTER FUNCTION public.public_storefront_catalog_page225(integer,integer,uuid,tex
 REVOKE ALL ON FUNCTION public.public_storefront_catalog_page225(integer,integer,uuid,text,text,text,uuid,uuid,uuid[]) FROM PUBLIC,anon,authenticated,service_role;
 GRANT EXECUTE ON FUNCTION public.public_storefront_catalog_page225(integer,integer,uuid,text,text,text,uuid,uuid,uuid[]) TO anon,authenticated;
 
--- POS and mixed-parcel options readers, import dispatch, UI and tooling remain pending.
+-- Existing readers keep their current role, feature, eligibility and stock
+-- checks. A separate ON layer filters known paused families after those checks.
+CREATE FUNCTION public.price225_filter_parcel_options_internal(p_payload JSONB)
+RETURNS JSONB LANGUAGE SQL STABLE SECURITY DEFINER SET search_path=pg_catalog,public AS $$
+ SELECT p_payload || jsonb_build_object('options',COALESCE((
+  SELECT jsonb_agg(option.value ORDER BY option.position)
+  FROM jsonb_array_elements(p_payload->'options') WITH ORDINALITY AS option(value,position)
+  LEFT JOIN public.product_sale_pricing_state225 state ON state.product_id=(option.value->>'familyProductId')::UUID
+  WHERE state.parcel_enabled IS DISTINCT FROM false
+ ),'[]'::JSONB));
+$$;
+ALTER FUNCTION public.price225_filter_parcel_options_internal(JSONB) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.price225_filter_parcel_options_internal(JSONB) FROM PUBLIC,anon,authenticated,service_role;
+
+CREATE FUNCTION public.get_public_parcel_options225(p_family_product_ids UUID[])
+RETURNS JSONB LANGUAGE SQL STABLE SECURITY DEFINER SET search_path=pg_catalog,public AS $$
+ SELECT CASE WHEN sales_lite1.enabled() THEN public.lite1_parcel_options2(p_family_product_ids)
+ ELSE public.price225_filter_parcel_options_internal(public.get_public_configurable_parcel_options(p_family_product_ids)) END;
+$$;
+ALTER FUNCTION public.get_public_parcel_options225(UUID[]) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.get_public_parcel_options225(UUID[]) FROM PUBLIC,anon,authenticated,service_role;
+GRANT EXECUTE ON FUNCTION public.get_public_parcel_options225(UUID[]) TO anon,authenticated;
+
+CREATE FUNCTION public.get_pos_parcel_options225(p_warehouse_id UUID)
+RETURNS JSONB LANGUAGE SQL STABLE SECURITY DEFINER SET search_path=pg_catalog,public AS $$
+ SELECT CASE WHEN sales_lite1.enabled() THEN public.lite1_pos_options2(p_warehouse_id)
+ ELSE public.price225_filter_parcel_options_internal(public.get_pos_configurable_parcel_options_v1(p_warehouse_id)) END;
+$$;
+ALTER FUNCTION public.get_pos_parcel_options225(UUID) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.get_pos_parcel_options225(UUID) FROM PUBLIC,anon,authenticated,service_role;
+GRANT EXECUTE ON FUNCTION public.get_pos_parcel_options225(UUID) TO authenticated;
+
+CREATE FUNCTION public.search_pos_products225(p_search TEXT,p_limit INTEGER,p_category_id UUID,p_product_id UUID,p_purpose TEXT DEFAULT 'sellable')
+RETURNS JSONB LANGUAGE SQL STABLE SECURITY DEFINER SET search_path=pg_catalog,public AS $$
+ SELECT COALESCE(jsonb_agg(CASE WHEN sales_lite1.enabled() THEN row.value
+   ELSE row.value || jsonb_build_object('parcel_sale_enabled',COALESCE(state.parcel_enabled,true)) END ORDER BY row.position),'[]'::JSONB)
+ FROM jsonb_array_elements(public.search_admin_products(p_search,p_limit,p_category_id,p_purpose,p_product_id))
+   WITH ORDINALITY AS row(value,position)
+ JOIN public.products product ON product.id=(row.value->>'id')::UUID
+ LEFT JOIN public.product_sale_pricing_state225 state ON state.product_id=COALESCE(product.flavor_master_product_id,product.id);
+$$;
+ALTER FUNCTION public.search_pos_products225(TEXT,INTEGER,UUID,UUID,TEXT) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.search_pos_products225(TEXT,INTEGER,UUID,UUID,TEXT) FROM PUBLIC,anon,authenticated,service_role;
+GRANT EXECUTE ON FUNCTION public.search_pos_products225(TEXT,INTEGER,UUID,UUID,TEXT) TO authenticated;
+
+-- Import dispatch, broader UI and tooling remain pending.
 -- This quarantined candidate is not deployable.
 COMMIT;

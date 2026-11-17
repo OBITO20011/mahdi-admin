@@ -12,8 +12,7 @@ export async function readOperatingCatalog(rpc:CatalogRpc,name:keyof typeof orig
  return result;
 }
 /** 225 supplies ON single-stock availability. Older ceilings retain their normal read. */
-export async function readCatalogPage225(rpc:CatalogRpc,args:Record<string,unknown>,previous:()=>Promise<Response>):Promise<Response>{
- const name='public_storefront_catalog_page225';
+export async function readCatalog225(rpc:CatalogRpc,name:'public_storefront_catalog_page225'|'get_public_parcel_options225',args:Record<string,unknown>,previous:()=>Promise<Response>):Promise<Response>{
  const result=await rpc(name,args);
  return isMissingCatalogRpc(result,name)?previous():result;
 }

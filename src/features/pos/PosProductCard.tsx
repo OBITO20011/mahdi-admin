@@ -9,7 +9,7 @@ export function PosProductCard({product,stock,parcelQuantity,unitQuantity,disabl
   onAdd:(mode:PosSingleProductMode)=>void;onReduce:(mode:PosSingleProductMode)=>void;
 }){
   const unitsPerPackage=product.unitsPerSalePackage??1;
-  const parcel=unitsPerPackage>1,unit=!product.parcelOnly;
+  const parcel=unitsPerPackage>1&&product.parcelSaleEnabled!==false,unit=!product.parcelOnly;
   const packageLabel=packageSaleUnitLabel(product.salePackage,product.purchasePackage,!quantityTracked,product.unit);
   const unsafeParcel=unsafeLiteParcelPrice(!quantityTracked,unitsPerPackage,product.salePackagePrice,product.retailPrice);
   const methods=[...(parcel?[{mode:'legacy_single_sku_parcel' as const,label:packageLabel,price:product.salePackagePrice,quantity:parcelQuantity}]:[]),
@@ -23,7 +23,7 @@ export function PosProductCard({product,stock,parcelQuantity,unitQuantity,disabl
           :<p className={'text-xs '+(manualAvailable===false?'text-nw-warn':'text-nw-muted')}>{manualAvailable===undefined?'جارٍ التحقق من التوفر':manualAvailable?'متوفر يدوياً':'غير متوفر — البيع يحتاج تأكيداً'}</p>}
       </div>
     </div>
-    {product.parcelOnly&&<p className="text-xs font-bold text-nw-info">طرد فقط</p>}
+    {product.parcelOnly&&parcel&&<p className="text-xs font-bold text-nw-info">طرد فقط</p>}
     {unsafeParcel&&<p role="status" className="text-xs text-nw-warn">{PARCEL_DEFINITION_MESSAGE}</p>}
     {!quantityTracked&&parcel&&<p className="text-xs text-nw-muted">{packageLabel} ({unitsPerPackage} {singleSaleUnitLabel(product.unit,true)})</p>}
     <div className="space-y-2">

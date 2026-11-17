@@ -3,14 +3,6 @@
   "files": [
     {
       "code": " M",
-      "path": "customer-web/src/components/ProductCard.tsx"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/components/ProductDetailsModal.tsx"
-    },
-    {
-      "code": " M",
       "path": "customer-web/src/services/catalog.service.ts"
     },
     {
@@ -19,23 +11,43 @@
     },
     {
       "code": " M",
-      "path": "customer-web/src/types/catalog.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/utils/liteProductPricing.ts"
-    },
-    {
-      "code": " M",
       "path": "customer-web/src/utils/operatingRead.ts"
     },
     {
       "code": " M",
-      "path": "customer-web/src/utils/storefrontUnits.ts"
+      "path": "customer-web/tests/on225-catalog.test.ts"
     },
     {
-      "code": "??",
-      "path": "customer-web/tests/on225-catalog.test.ts"
+      "code": " M",
+      "path": "docs/design/on-independent-prices225/225_on_independent_prices.candidate.sql"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/on-prices225-source-pins.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-on225-candidate-core.mjs"
+    },
+    {
+      "code": " M",
+      "path": "src/features/pos/PosProductCard.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/pos/PosView.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/pos/saleMethods.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/services/supabase/products.service.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/types/index.ts"
     }
   ]
 }

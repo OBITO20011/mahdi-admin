@@ -1,4 +1,4 @@
-import {readOperatingCatalog,readCatalogPage225,quantityFreePayload,operatingCatalogRpc,validateOperatingCatalog} from './operatingCatalog';
+import {readOperatingCatalog,readCatalog225,quantityFreePayload,operatingCatalogRpc,validateOperatingCatalog} from './operatingCatalog';
 import { isSupabaseConfigured, supabase } from '../lib/supabase';
 import {
   CatalogFacet,
@@ -178,10 +178,9 @@ export async function fetchPublicConfigurableParcelOptions(
   if (!isSupabaseConfigured || !supabase) {
     throw new Error('إعدادات الاتصال بكتالوج Supabase غير مكتملة في موقع العملاء.');
   }
-  const { data, error } = await readOperatingCatalog(operatingCatalogRpc,
-    'lite1_parcel_options2',
-    { p_family_product_ids: requestedIds }
-  );
+  const args = {p_family_product_ids:requestedIds};
+  const {data,error} = await readCatalog225(operatingCatalogRpc,'get_public_parcel_options225',args,
+    ()=>readOperatingCatalog(operatingCatalogRpc,'lite1_parcel_options2',args));
   if (error) throw new Error(error.message || 'تعذر تحميل خيارات الطرد.');
   return mapPublicConfigurableParcelResponse(data);
 }
@@ -424,7 +423,7 @@ export async function fetchPublicProductCatalog(
     p_sale_unit_id: query.saleUnitId || null,
     p_product_ids: query.productIds?.filter(Boolean) ?? null,
   };
-  const { data, error } = await readCatalogPage225(operatingCatalogRpc,args,
+  const { data, error } = await readCatalog225(operatingCatalogRpc,'public_storefront_catalog_page225',args,
     ()=>readOperatingCatalog(operatingCatalogRpc,'lite1_catalog_page2',args));
 
   if (error) {

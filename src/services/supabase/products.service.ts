@@ -339,6 +339,7 @@ export function mapAdminProductRecord(record: Record<string, any>): Product {
     salePackage: saleUnit?.name_ar || undefined,
     unitsPerSalePackage,
     parcelOnly: record.parcel_only === true,
+    ...(typeof record.parcel_sale_enabled==='boolean'?{parcelSaleEnabled:record.parcel_sale_enabled}:{}),
     salePackagePrice: saleUnit
       ? toFiniteNumber(record.default_sale_price_in_minor_units) / 1000
       : 0,
@@ -427,15 +428,26 @@ export async function searchAdminProducts(input: {
   categoryId?: string;
   purpose?: AdminProductSearchPurpose;
   productId?: string;
+  posPricing?: boolean;
 } = {}): Promise<Product[]> {
   const limit = Math.min(50, Math.max(1, Math.floor(input.limit || 24)));
-  const {data, error} = await requireProductClient().rpc('search_admin_products', {
+  const client=requireProductClient();
+  const args={
     p_search: input.search?.trim() || null,
     p_limit: limit,
     p_category_id: input.categoryId || null,
     p_purpose: input.purpose || 'stockable',
     p_product_id: input.productId || null,
-  });
+  };
+  if(input.posPricing){
+    const result=await client.rpc('search_pos_products225',args);
+    if(!(result.data==null&&result.status===404&&result.error?.code==='PGRST202'&&result.error.message?.includes('search_pos_products225'))){
+      if(result.error)throw new Error(result.error.message||'تعذر البحث في منتجات الكاشير.');
+      if(!Array.isArray(result.data))throw new Error('تعذر التحقق من بيانات منتجات الكاشير.');
+      return mapAdminProductRows(result.data);
+    }
+  }
+  const {data,error}=await client.rpc('search_admin_products',args);
   if (error) throw new Error(error.message || 'تعذر البحث في المنتجات.');
   return mapAdminProductRows(data);
 }

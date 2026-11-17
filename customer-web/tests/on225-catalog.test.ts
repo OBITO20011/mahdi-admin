@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {mapCatalogProduct} from '../src/services/catalog.service';
-import {readCatalogPage225,readOperatingCatalog} from '../src/utils/operatingRead';
+import {readCatalog225,readOperatingCatalog} from '../src/utils/operatingRead';
 import {liteParcelSaving,liteProductPriceRows} from '../src/utils/liteProductPricing';
 import {remainingStorefrontParcels,remainingStorefrontUnits} from '../src/utils/storefrontUnits';
 import {createBaseUnitCartItem,createCartItem,reconcileCartSnapshot} from '../src/utils/cart';
@@ -54,9 +54,9 @@ test('225 falls back only for a named PostgREST missing function',async()=>{
   assert.deepEqual(input,args);
   return name==='public_storefront_catalog_page225'?missing(name):fallback;
  };
- assert.equal(await readCatalogPage225(rpc,args,()=>readOperatingCatalog(rpc,'lite1_catalog_page2',args)),fallback);
+ assert.equal(await readCatalog225(rpc,'public_storefront_catalog_page225',args,()=>readOperatingCatalog(rpc,'lite1_catalog_page2',args)),fallback);
  assert.deepEqual(calls,['public_storefront_catalog_page225','lite1_catalog_page2']);
  for(const denied of [{...missing('other_rpc')},{...missing('public_storefront_catalog_page225'),status:503}]){
-  assert.equal(await readCatalogPage225(async()=>denied,args,async()=>{assert.fail('unexpected fallback');}),denied);
+  assert.equal(await readCatalog225(async()=>denied,'public_storefront_catalog_page225',args,async()=>{assert.fail('unexpected fallback');}),denied);
  }
 });

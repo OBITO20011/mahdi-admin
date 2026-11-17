@@ -3,7 +3,7 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Approved225 ON independent prices and golden financial proof;frozen COGS stays byte-identical.",
-  "baselineSha": "7c687a302e016cf6b39aeb0185a95a61968ae1ab",
+  "baselineSha": "c028ffb1f922d29cd717e6ecee0daaa763dcfd0f",
   "branch": "codex/on-independent-prices225",
   "phase": "ON_INDEPENDENT_PRICE225",
   "startedAt": "2026-11-17T04:55:09.912Z",
@@ -13,7 +13,8 @@
     "Quarantined225:protectedstate,strictpricepair/exactWACack,firstoriginal/restore/context,v7update andv7create/v4family;9newfunctionsonly.",
     "Candidate225 blocks new paused parcels at the order-item boundary while preserving independent single sales through current POS and guest RPCs.",
     "Additive public page selects in-stock single products before pagination even below a full parcel, and returns zero available parcels where paused.",
-    "Storefront 225 catalog distinct single/parcel availability, rendered price rows and paused cart reconciliation; 224 fallback restricted to the named missing RPC."
+    "Storefront 225 catalog distinct single/parcel availability, rendered price rows and paused cart reconciliation; 224 fallback restricted to the named missing RPC.",
+    "Additive POS product and configurable parcel readers hide paused parcels while preserving original role checks and prices."
   ],
   "inProgress": [
     "Connect the public and POS readers to checkout, then import and supplier receipt pricing. Candidate SQL stays quarantined."
@@ -27,7 +28,8 @@
     "Priorfocused8/8 beforelatestcreationextension;refreshnow.",
     "Isolated PostgreSQL 15/15 with row rollback, including ON POS and guest pause refusal and unchanged price/cost snapshots.",
     "Isolated PostgreSQL 17/17, including anon availability-filtered pages with three loose units and a paused parcel with 48 units.",
-    "Store 236/236 and store typecheck on the candidate reader. Candidate SQL remains outside migrations."
+    "Store 236/236 and store typecheck on the candidate reader. Candidate SQL remains outside migrations.",
+    "Isolated PostgreSQL candidate19/19;old functions unchanged, each case rolled back. Focused admin20/20,store236/236,both typechecks and strict lint pass."
   ],
   "testsRemaining": [
     "Creationpermission/concurrency/familyloss/import,pause oldRPC admission,publicavailability andUI.",
@@ -48,12 +50,12 @@
     "No ON fillin workbook/generator or ON cutover rewrite in this round.",
     "225Draft only;no merge before fullgolden day,CI andClaude review."
   ],
-  "checkpointedAt": "2026-11-17T16:28:26.880Z",
+  "checkpointedAt": "2026-11-17T19:39:28.232Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 9,
-  "filesTouchedManifestSha256": "d7a7840ca7446bfc9626614e2d53364f021427064edfab18e25f59f6c92b98fb",
-  "nextExactAction": "Connect POS and storefront parcel options to ON225, then complete import and receipt review",
-  "workingTreeFingerprint": "842F1D35899DB4C2A7DB3170A30D04FAC0B78F0BF7DA93495A321926E78FB0D8"
+  "filesTouchedCount": 12,
+  "filesTouchedManifestSha256": "d8badb0c9cba3846894c06f27a8a14737e85668fd9bfb6e714bc393655ac6a56",
+  "nextExactAction": "Implement independent-price product form and ON import routing while retaining the 224 writer fallback",
+  "workingTreeFingerprint": "26449E3A25773636DF03086EEFDC584899027A60490B838E3F3A0150622A1B68"
 }

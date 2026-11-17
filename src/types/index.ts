@@ -138,6 +138,7 @@ export interface Product {
   unitsPerSalePackage?: number; // Base pieces in one sale package
   /** New sale admission only; flavor children inherit their master. */
   parcelOnly?: boolean;
+  parcelSaleEnabled?: boolean;
   salePackagePrice?: number; // Selling price of the full package
   costPrice: number; // Cost per piece e.g. 0.300
   retailPrice: number; // Legacy derived price per base piece

@@ -27,12 +27,12 @@ try{
   assert.deepEqual(current,old,'EXISTING_FUNCTION_MUST_REMAIN_BYTE_IDENTICAL:'+old.identity);
  }
  const added=after.functions.filter(f=>!before.functions.some(old=>old.schema===f.schema&&old.identity===f.identity));
- assert.equal(added.length,11);
+ assert.equal(added.length,15);
  assert.deepEqual(added.map(f=>f.identity.slice(0,f.identity.indexOf('('))).sort(),[
   'create_product_family_with_flavors_v4','create_product_with_opening_stock_v7',
-  'get_product_pricing_context225','price225_assert_context_internal','price225_assert_prices_internal','price225_create_loss_confirmation_internal',
-  'price225_guard_new_parcel_internal','price225_loss_confirmation_internal','price225_record_state_internal',
-  'public_storefront_catalog_page225','update_product_master_v7']);
+  'get_pos_parcel_options225','get_product_pricing_context225','get_public_parcel_options225','price225_assert_context_internal','price225_assert_prices_internal','price225_create_loss_confirmation_internal',
+  'price225_filter_parcel_options_internal','price225_guard_new_parcel_internal','price225_loss_confirmation_internal','price225_record_state_internal',
+  'public_storefront_catalog_page225','search_pos_products225','update_product_master_v7']);
  report.existingFunctionObjectsUnchanged=true;
  report.candidateSha256=createHash('sha256').update(candidate).digest('hex');
  const check=async(name,body)=>{
@@ -204,6 +204,50 @@ try{
      OR row->>'availableSalePackages' IS DISTINCT FROM '0' OR row->>'availableQuantity' IS DISTINCT FROM '48'
      OR row->>'salePriceInMinorUnits' IS DISTINCT FROM '700' OR row->>'isAvailable' IS DISTINCT FROM 'true' THEN
    RAISE EXCEPTION 'PAUSED_CATALOG_AVAILABILITY_WRONG';
+  END IF;
+ END $proof$;`);
+ await check('sellable POS reader retains exact prices and exposes the temporary parcel pause',`${preparePausedSale}
+ DO $proof$ DECLARE row JSONB;BEGIN
+  row:=public.search_pos_products225(NULL,1,NULL,'${product}')->0;
+  IF row->>'id' IS DISTINCT FROM '${product}' OR row->>'parcel_sale_enabled' IS DISTINCT FROM 'false'
+     OR row->>'sale_price_in_minor_units' IS DISTINCT FROM '700' OR row->>'default_sale_price_in_minor_units' IS DISTINCT FROM '11000' THEN
+   RAISE EXCEPTION 'POS225_PRICE_OR_PAUSE_WRONG';
+  END IF;
+ END $proof$;`);
+ const family=id(100),a=id(101),b=id(102);
+ await check('public and POS mixed parcel readers retain eligible options and omit the paused family',`${authenticated}
+ SELECT public.set_go_live_main_branch_v1('${branch}');
+ RESET ROLE;
+ UPDATE public.products SET cost_price_in_minor_units=800,wac_cost_in_minor_units_exact=800 WHERE id IN('${a}','${b}');
+ SET LOCAL ROLE authenticated;
+ SELECT public.apply_inventory_opening_setup('${warehouse}',${quote(JSON.stringify([{productId:a,packageCount:1,looseUnits:0},{productId:b,packageCount:1,looseUnits:0}]))}::JSONB,'ON225 fixture','on225-mixed-parcel-opening-stock');
+ SELECT public.save_product_parcel_configuration_v1('${family}','configurable_mix',true,5,ARRAY['${a}','${b}']::UUID[]);
+ SELECT public.set_configurable_parcel_feature_state_v1('ENABLED');
+ DO $proof$ BEGIN
+  IF jsonb_array_length(public.get_pos_parcel_options225('${warehouse}')->'options')<1
+    OR public.get_pos_parcel_options225('${warehouse}') IS DISTINCT FROM public.get_pos_configurable_parcel_options_v1('${warehouse}') THEN
+   RAISE EXCEPTION 'ENABLED_POS_MIX_OPTION_CHANGED';
+  END IF;
+ END $proof$;
+ RESET ROLE;SET LOCAL ROLE anon;
+ DO $proof$ BEGIN
+  IF jsonb_array_length(public.get_public_parcel_options225(ARRAY['${family}']::UUID[])->'options')<>1
+    OR public.get_public_parcel_options225(ARRAY['${family}']::UUID[]) IS DISTINCT FROM public.get_public_configurable_parcel_options(ARRAY['${family}']::UUID[]) THEN
+   RAISE EXCEPTION 'ENABLED_PUBLIC_MIX_OPTION_CHANGED';
+  END IF;
+ END $proof$;
+ RESET ROLE;
+ INSERT INTO public.product_sale_pricing_state225(product_id,parcel_enabled,changed_by) VALUES('${family}',false,'${id(1)}');
+ SET LOCAL ROLE anon;
+ DO $proof$ BEGIN
+  IF public.get_public_parcel_options225(ARRAY['${family}']::UUID[])->'options' IS DISTINCT FROM '[]'::JSONB THEN
+   RAISE EXCEPTION 'PAUSED_PUBLIC_MIX_OPTION_PRESENT';
+  END IF;
+ END $proof$;
+ RESET ROLE;SET LOCAL ROLE authenticated;
+ DO $proof$ BEGIN
+  IF public.get_pos_parcel_options225('${warehouse}')->'options' IS DISTINCT FROM '[]'::JSONB THEN
+   RAISE EXCEPTION 'PAUSED_POS_MIX_OPTION_PRESENT';
   END IF;
  END $proof$;`);
  report.ok=true;
