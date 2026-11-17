@@ -250,6 +250,24 @@ try{
    RAISE EXCEPTION 'PAUSED_POS_MIX_OPTION_PRESENT';
   END IF;
  END $proof$;`);
+ await check('ON225 capability is read-only and the workbook can finish identifiers without changing either price',`${authenticated}
+ DO $proof$ DECLARE result JSONB;parent public.products;child public.products;BEGIN
+  IF public.get_product_pricing_context225(NULL) IS DISTINCT FROM '{"contractVersion":"on-independent-prices225-v1","mode":"full"}'::JSONB THEN RAISE EXCEPTION 'ON225_CAPABILITY_WRONG';END IF;
+  result:=public.create_product_family_with_flavors_v4(p_sku=>'ON225-TEMP',p_name_ar=>'عائلة استيراد وهمية',p_category_id=>'${id(11)}',p_unit_id=>'${id(10)}',p_purchase_unit_id=>'${id(225)}',p_units_per_purchase_unit=>12,p_default_purchase_price_in_minor_units=>9600,p_sale_unit_id=>'${id(225)}',p_units_per_sale_unit=>12,p_default_sale_price_in_minor_units=>11000,p_cost_price_in_minor_units=>800,p_warehouse_id=>'${id(201)}',p_flavors=>'[{"nameAr":"أ"}]'::JSONB,p_parcel_only=>false,p_sale_price_in_minor_units=>1000);
+  SELECT * INTO STRICT parent FROM public.products WHERE id=(result->>'productId')::UUID;
+  result:=public.update_product_master_v7(parent.id,parent.updated_at,'ON225-FINAL',NULL,parent.name_ar,parent.description,
+   parent.category_id,parent.brand_id,parent.unit_id,parent.purchase_unit_id,parent.units_per_purchase_unit,parent.default_purchase_price_in_minor_units,
+   parent.sale_unit_id,parent.units_per_sale_unit,parent.default_sale_price_in_minor_units,parent.cost_price_in_minor_units,parent.min_stock_level,parent.max_stock_level,
+   parent.is_active,NULL,parent.sale_price_in_minor_units,parent.parcel_only);
+  IF result->'originalUnitPrice'<>'null'::JSONB OR result->'originalParcelPrice'<>'null'::JSONB THEN RAISE EXCEPTION 'ON225_IMPORT_INITIAL_ORIGINALS';END IF;
+  SELECT * INTO STRICT child FROM public.products WHERE flavor_master_product_id=parent.id;
+  PERFORM public.update_product_master_v5(child.id,child.updated_at,'ON225-FINAL-A','000123',child.name_ar,child.description,
+   child.category_id,child.brand_id,child.unit_id,child.purchase_unit_id,child.units_per_purchase_unit,child.default_purchase_price_in_minor_units,
+   child.sale_unit_id,child.units_per_sale_unit,child.default_sale_price_in_minor_units,child.cost_price_in_minor_units,child.min_stock_level,child.max_stock_level,child.is_active,NULL,NULL);
+  IF (SELECT count(*) FROM public.products WHERE (id=parent.id OR flavor_master_product_id=parent.id)
+   AND sale_price_in_minor_units=1000 AND default_sale_price_in_minor_units=11000)<>2 OR
+   (SELECT barcode FROM public.products WHERE id=child.id) IS DISTINCT FROM '000123' THEN RAISE EXCEPTION 'ON225_IMPORT_FINISH_PRICE_OR_BARCODE_CHANGED';END IF;
+ END $proof$;`);
  report.ok=true;
 }catch(error){report.stage=stage;report.error=error.message.split('\n')[0];process.exitCode=1;}
 finally{await local?.stop();await writeFile(path.join(output,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({ok:report.ok,stage,output,cases:report.cases.length}));}

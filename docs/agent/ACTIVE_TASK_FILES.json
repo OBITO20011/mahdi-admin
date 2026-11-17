@@ -3,22 +3,6 @@
   "files": [
     {
       "code": " M",
-      "path": "customer-web/src/services/catalog.service.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/services/operatingCatalog.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/utils/operatingRead.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/tests/on225-catalog.test.ts"
-    },
-    {
-      "code": " M",
       "path": "docs/design/on-independent-prices225/225_on_independent_prices.candidate.sql"
     },
     {
@@ -31,23 +15,27 @@
     },
     {
       "code": " M",
-      "path": "src/features/pos/PosProductCard.tsx"
+      "path": "src/features/goLive/productWorkbook.ts"
     },
     {
       "code": " M",
-      "path": "src/features/pos/PosView.tsx"
+      "path": "src/features/goLive/ProductWorkbookImportPanel.tsx"
     },
     {
       "code": " M",
-      "path": "src/features/pos/saleMethods.ts"
+      "path": "src/services/supabase/productWorkbook.service.ts"
     },
     {
       "code": " M",
-      "path": "src/services/supabase/products.service.ts"
+      "path": "tests/product-workbook-service.test.ts"
     },
     {
-      "code": " M",
-      "path": "src/types/index.ts"
+      "code": "??",
+      "path": "src/services/supabase/onPrices225.service.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/on225-product-workbook.test.ts"
     }
   ]
 }

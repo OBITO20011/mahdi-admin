@@ -157,6 +157,9 @@ DECLARE p public.products;v_state public.product_sale_pricing_state225;v_require
 BEGIN
  PERFORM public.assert_erp_role(ARRAY['owner','admin','manager','warehouse_keeper'],'قراءة قرار أسعار المنتج');
  IF sales_lite1.enabled() THEN RAISE EXCEPTION 'PRICES225_ON_REQUIRED: هذه الأسعار للمحاسبة المفعّلة فقط.';END IF;
+ IF p_product_id IS NULL THEN
+  RETURN jsonb_build_object('contractVersion','on-independent-prices225-v1','mode','full');
+ END IF;
  SELECT * INTO p FROM public.products WHERE id=p_product_id;
  IF NOT FOUND THEN RAISE EXCEPTION 'PRICES225_PRODUCT_NOT_FOUND';END IF;
  IF p.flavor_master_product_id IS NOT NULL THEN
@@ -239,7 +242,14 @@ BEGIN
   AND default_sale_price_in_minor_units=v_parcel AND units_per_sale_unit=p_units_per_sale_unit) THEN
   RAISE EXCEPTION 'PRICES225_INDEPENDENT_PRICE_READBACK_FAILED';
  END IF;
- v_ack:=public.price225_loss_confirmation_internal(p_product_id,v_single,v_parcel,p_units_per_sale_unit,v_enabled,v_only,p_below_cost_confirmation);
+ -- An identity-only edit does not make a new price decision. All changed
+ -- commercial inputs and explicit restores still require the current WAC.
+ IF p_restore_original IS NOT NULL OR
+    (v_single,v_parcel,p_units_per_sale_unit,v_enabled,v_only,p_unit_id,coalesce(p_sale_unit_id,p_purchase_unit_id,p_unit_id))
+    IS DISTINCT FROM (p.sale_price_in_minor_units,p.default_sale_price_in_minor_units,p.units_per_sale_unit,
+      coalesce(v_state.parcel_enabled,true),p.parcel_only,p.unit_id,p.sale_unit_id) THEN
+  v_ack:=public.price225_loss_confirmation_internal(p_product_id,v_single,v_parcel,p_units_per_sale_unit,v_enabled,v_only,p_below_cost_confirmation);
+ END IF;
  PERFORM public.price225_record_state_internal(p_product_id,p.sale_price_in_minor_units,p.default_sale_price_in_minor_units,
   v_single,v_parcel,v_enabled,false,p_restore_original,v_ack);
  RETURN v_result||public.get_product_pricing_context225(p_product_id);
