@@ -1,5 +1,6 @@
 // RESET224 retains the reviewed223 counter schema and adds only the owner inventory reader.
 import {assertReady224Catalog} from './frankfurt-reference224.mjs';
+import {verifyReset224DdlCapability} from './reset224-ddl-capability.mjs';
 // Versioned retained resets214/215/216 share the same write fence and resume
 // engine. Raw settings stay in protected external retention; Auth/MFA only hashes.
 import assert from 'node:assert/strict';
@@ -39,6 +40,7 @@ const fingerprints=raw=>Object.fromEntries(Object.entries(raw).map(([name,text])
 const policy224={ceiling:224,files:184,assertCatalog:catalog=>assertReady224Catalog(catalog,{notificationTriggerEnabled:'D'})};
 export const captureReset224=options=>{assertCurrentResetReference(options.reference);return captureRetainedReset(options,policy224);};
 async function captureRetainedReset({executor,ownerId,reference},policy){
+ await verifyReset224DdlCapability(executor);
  assert.equal(reference.migrationCeiling,policy.ceiling,'RESET_REFERENCE_REQUIRED');assert.equal(reference.manifest.length,policy.files);
  const sql=async input=>{const r=await executeInput(executor,input);assert.equal(r.code,0,'RESET214_READ_FAILED');return r.stdout.trim();};
  const json=async input=>JSON.parse(await sql(input));
@@ -84,6 +86,7 @@ export function restoreReset214Sql(rawTables){
 export const reset224WithExecutor=options=>{assertCurrentResetReference(options.reference);return runRetainedReset(options,policy224);};
 async function runRetainedReset(options,policy){
  const {executor,reference,ownerId,output}=options;
+ await verifyReset224DdlCapability(executor);
  assert.equal(reference.migrationCeiling,policy.ceiling,'RESET_REFERENCE_REQUIRED');assert.equal(reference.manifest.length,policy.files);
  const target=options.report??{};
  const persist=()=>writeFileSync(path.join(output,`reset${policy.ceiling}-progress.json`),JSON.stringify(target,null,2)+'\n');

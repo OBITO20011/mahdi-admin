@@ -6,6 +6,7 @@ import {private220AclTables,capturedLite220PrivateAcl,restoreLite220PrivateAcl} 
 import {postgresDiagnostic} from '../scripts/backup/postgres-diagnostic.mjs';
 import {canonicalLf} from '../scripts/testing/maintenance-db-contract.mjs';
 import {sourceBeforeRestorePrivate220,restorePrivate220Pins} from '../scripts/audit/source-before-restore-private220.mjs';
+import {sourceBeforeReset224Ddl} from '../scripts/audit/source-before-reset224-ddl.mjs';
 
 const source=()=>({history:['220'],catalog:{
  tables:Object.entries(private220AclTables).flatMap(([schema,names])=>names.map(name=>({schema,name,kind:'r',owner:'postgres',acl:['postgres=arwdDxtm/postgres'] as string[]|null}))),
@@ -65,7 +66,7 @@ test('postcondition mismatch rolls back; no migration,guard,reference or four-tr
  const calls:string[]=[];await assert.rejects(restoreLite220PrivateAcl({query:async(sql:string)=>{calls.push(sql);return JSON.stringify(actual);}},source()),unsupported);
  assert.equal(calls.at(-1),'ROLLBACK;');assert.ok(!calls.includes('COMMIT;'));
  for(const file of ['scripts/backup/restore-frozen220-trigger-acl.mjs','scripts/operations/sales-only220-catalog.mjs','scripts/operations/frankfurt-owner-upgrade222.mjs','scripts/operations/frankfurt-owner-upgrade223.mjs','scripts/operations/frankfurt-owner-upgrade224.mjs','scripts/operations/frankfurt-owner-reset224.mjs','docs/design/sales-only-phase3/catalog220-pins.json']){
-  assert.equal(canonicalLf(readFileSync(file,'utf8')),canonicalLf(execFileSync('git',['show','98470d376894623247b7079426a9c29d1bf43f51:'+file],{encoding:'utf8'})),file);
+  assert.equal(sourceBeforeReset224Ddl(file,canonicalLf(readFileSync(file,'utf8'))),canonicalLf(execFileSync('git',['show','98470d376894623247b7079426a9c29d1bf43f51:'+file],{encoding:'utf8'})),file);
  }
 });
 test('exact inverse retains beforeText and rejects an unknown byte for every pin',()=>{

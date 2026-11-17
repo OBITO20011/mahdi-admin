@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {verifyReset224DdlCapability} from './reset224-ddl-capability.mjs';
 import {readFile,mkdir,access} from 'node:fs/promises';
 import path from 'node:path';
 import {randomUUID} from 'node:crypto';
@@ -104,6 +105,7 @@ export async function validateResetResume(session,executor){
  return session.writeCheck;
 }
 export async function startResetAttempt(session,executor){
+ if(session.reference.migrationCeiling===224)await verifyReset224DdlCapability(executor);
  if(!session.resume)await persistResetSession(session,executor);else await validateResetResume(session,executor);
  const originalAttemptId=session.saved.attemptId;
  const progress={ok:false,complete:false,originalAttemptId,attemptId:randomUUID(),resumedFrom:session.resume?session.previousOutput:null,stage:'snapshot-verified',applied:[],recorded:[],destructiveStarted:false};

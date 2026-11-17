@@ -1,4 +1,5 @@
 import {expectedHeld217Notifications} from './owner-telegram217-notifications.mjs';
+import {verifyReset224DdlCapability,reset224DdlArabicReason} from './reset224-ddl-capability.mjs';
 import {assertUpgradeAdministrator} from './backup-task-preflight.mjs';
 import {prepareResetSession,startResetAttempt,validateResetResume,finishResetSession,reset224Marker} from './reset224-session.mjs';
 import {reset214ArabicReason as reset224ArabicReason,reset214ResumeDisposition as reset224ResumeDisposition} from './reset214-diagnostics.mjs';
@@ -69,6 +70,7 @@ export async function runOwnerReset224(args){
   const readOnly={...executor,args:[...executor.args,...readOnlyPsqlSessionArgs]};
   const query=async (input,ex=readOnly)=>{const r=await executeInput(ex,input);assert.equal(r.code,0,'RESET224_SQL_FAILED');return r.stdout.trim();};
   report.networkAccess=true;report.stage='read-only-preflight';
+  report.ddlCapability=await verifyReset224DdlCapability(readOnly);
   assert.equal(await query("SELECT current_setting('server_version_num')::integer/10000;"),'17','RESET224_POSTGRES17_REQUIRED');
   if(mode!=='resume')assert.deepEqual(JSON.parse(await query(historySql)),reference.appliedVersions,'RESET224_COMPLETE_HISTORY_REQUIRED');
   let state;
@@ -111,7 +113,7 @@ export async function runOwnerReset224(args){
  }catch(error){
   report.ok=false;report.complete=false;
   report.code=/\bRESET(?:214|215|217|220|222|223|224)_[A-Z0-9_]+\b/u.exec(error.message)?.[0]??(error.code==='ENOENT'?'RESET224_REQUIRED_FILE_MISSING':'RESET224_PREFLIGHT_OR_OPERATION_FAILED');
-  report.reasonArabic=reset224ArabicReason(report.code);
+  report.reasonArabic=report.code.startsWith('RESET224_DDL_CAPABILITY_')?reset224DdlArabicReason:reset224ArabicReason(report.code);
   report.recoveryRequired=report.reset?.destructiveStarted===true;return report;
  }finally{
   if(guard)try{await guard.close();}catch{report.ok=false;report.complete=false;report.code='RESET224_GUARD_CLOSE_FAILED';}

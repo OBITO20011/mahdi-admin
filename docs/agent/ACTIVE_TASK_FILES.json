@@ -7,43 +7,59 @@
     },
     {
       "code": " M",
-      "path": "scripts/audit/source-before-cutover-hold224.mjs"
+      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
     },
     {
       "code": " M",
-      "path": "scripts/backup/complete-backup.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/backup/postgres-diagnostic.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-owner-upgrade222-runtime.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/cutover-hold224.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/restore-private220-source-pins.json"
-    },
-    {
-      "code": "??",
       "path": "scripts/audit/source-before-restore-private220.mjs"
     },
     {
-      "code": "??",
-      "path": "scripts/backup/restore-lite220-private-acl.mjs"
+      "code": " M",
+      "path": "scripts/operations/frankfurt-owner-reset224.mjs"
     },
     {
-      "code": "??",
-      "path": "scripts/testing/restore-lite220-private-acl-archives.mjs"
+      "code": " M",
+      "path": "scripts/operations/reset224-session.mjs"
     },
     {
-      "code": "??",
+      "code": " M",
+      "path": "scripts/operations/trial-reset224-core.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-reset224-runtime.mjs"
+    },
+    {
+      "code": " M",
       "path": "tests/restore-lite220-private-acl.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/RESET224_STORAGE_CAPABILITY_READ_ONLY.sql"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/RESET224_STORAGE_DIAGNOSIS_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/reset224-ddl-source-pins.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-reset224-ddl.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/reset224-ddl-capability.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/reset224-ddl-capability-proof.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/reset224-ddl-capability.test.ts"
     }
   ]
 }
