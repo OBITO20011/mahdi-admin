@@ -22,19 +22,19 @@ export function sourceBeforeRestoreRawAcl(file,text){
  return pin&&sha256(raw)===pin.after?pin.beforeText:text;
 }
 const current=file=>canonicalLf(readFileSync(new URL('../../'+file,import.meta.url),'utf8'));
-export function restoreRawAclHashes(rows){
+export function restoreRawAclHashes(rows,readCurrent=current){
  return rows.flatMap(row=>{
   const pin=restoreRawAclPins[row.file];
   if(!pin||row.sha256!==pin.after)return[row];
-  assert.equal(sha256(current(row.file)),pin.after,'RESTORE_RAW_ACL_HISTORY_SOURCE_CHANGED:'+row.file);
+  assert.equal(sha256(readCurrent(row.file)),pin.after,'RESTORE_RAW_ACL_HISTORY_SOURCE_CHANGED:'+row.file);
   return pin.before===null?[]:[{...row,sha256:pin.before}];
  });
 }
 /** @param {string[]} files */
-export function pathsBeforeRestoreRawAcl(files){
+export function pathsBeforeRestoreRawAcl(files,readCurrent=current){
  return files.filter(file=>{
-  if(file===indexFile)return current(file)!==indexText;
+  if(file===indexFile)return readCurrent(file)!==indexText;
   const pin=restoreRawAclPins[file];
-  return !pin||pin.before!==null||sha256(current(file))!==pin.after;
+  return !pin||pin.before!==null||sha256(readCurrent(file))!==pin.after;
  });
 }

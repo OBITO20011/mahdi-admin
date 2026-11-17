@@ -9,14 +9,15 @@ import {migrationLfEvidence} from '../scripts/agent/migration-lf.mjs';
 import {migrationLfPins,sourceBeforeMigrationLf} from '../scripts/audit/source-before-migration-lf.mjs';
 import {sourceBeforeRestoreRawAcl} from '../scripts/audit/source-before-restore-raw-acl.mjs';
 import {sourceBeforeOnPrices225} from '../scripts/audit/source-before-on-prices225.mjs';
+import {sourceBeforeOnUnitDisplay225} from '../scripts/audit/source-before-on-unit-display225.mjs';
 
 test('LF maintenance projects only exact reviewed source;historical beforeText and unknown bytes remain protected',()=>{
  for(const [file,pin]of Object.entries(migrationLfPins)){
   const current=readFileSync(file,'utf8').replace(/\r\n?/gu,'\n');
-  const beforeRestore=sourceBeforeRestoreRawAcl(file,sourceBeforeOnPrices225(file,current));
+  const beforeRestore=sourceBeforeRestoreRawAcl(file,sourceBeforeOnUnitDisplay225(file,sourceBeforeOnPrices225(file,current)));
   assert.notEqual(beforeRestore,null,file);
   assert.equal(sourceBeforeMigrationLf(file,beforeRestore),pin.beforeText,file);
-  assert.equal(sourceBeforeMigrationLf(file,sourceBeforeRestoreRawAcl(file,sourceBeforeOnPrices225(file,current+'UNKNOWN_BYTE'))),current+'UNKNOWN_BYTE',file);
+  assert.equal(sourceBeforeMigrationLf(file,sourceBeforeRestoreRawAcl(file,sourceBeforeOnUnitDisplay225(file,sourceBeforeOnPrices225(file,current+'UNKNOWN_BYTE')))),current+'UNKNOWN_BYTE',file);
  }
  assert.equal(execFileSync('git',['diff','--name-only','HEAD','--','supabase/migrations'],{encoding:'utf8'}).trim(),'');
 });

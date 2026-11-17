@@ -28,7 +28,7 @@ export const posKnownRejectionCopy: Readonly<Record<string, string>> = {
   PARCEL_COMPONENT_NOT_ALLOWED:
     'إحدى النكهات غير مسموحة في إعداد الطرد الحالي. أعد تركيب الطرد.',
   PHASE3_POS_INSUFFICIENT_INVENTORY:
-    'المخزون المتاح لأحد مكونات البيع غير كافٍ.',
+    'تغيّر المخزون قبل إتمام البيع. حدّث المتاح وراجع السلة',
   PHASE3_POS_OPEN_SHIFT_REQUIRED:
     'افتح وردية الصندوق قبل إتمام البيع.',
 };

@@ -24,6 +24,7 @@ import { HomeCategoryMosaic } from './components/HomeCategoryMosaic';
 import { NetworkStatusBanner } from './components/NetworkStatusBanner';
 import { MerchandisingSections } from './components/MerchandisingSections';
 import { MobileStoreNav } from './components/MobileStoreNav';
+import {cartUnitPresentation} from './utils/cartUnitPresentation';
 import { ProductCard } from './components/ProductCard';
 import { PromotionOffers } from './components/PromotionOffers';
 import { StoreHeader } from './components/StoreHeader';
@@ -1573,7 +1574,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
           }
         }}
         cartPackages={cartPackages}
-        cartSummary={formatCartQuantitySummary(cartItems)}
+        cartSummary={formatCartQuantitySummary(cartUnitPresentation(cartItems, products))}
         favoritesCount={favoriteProductIds.length}
         favoritesActive={favoritesActive}
         onCartOpen={() => openCart()}
@@ -2205,6 +2206,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       <CartDrawer
         isOpen={cartOpen}
         items={cartItems}
+        presentationProducts={products}
         onClose={() => setCartOpen(false)}
         onQuantityChange={updateCartQuantity}
         onRemove={(localLineId) =>
@@ -2258,6 +2260,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       <CheckoutModal
         isOpen={checkoutOpen}
         items={cartItems}
+        presentationProducts={products}
         storeWhatsAppNumber={storefrontSettings.whatsappNumber}
         storefrontSettings={storefrontSettings}
         settingsUnavailable={settingsUnavailable}
@@ -2306,7 +2309,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       />
       </DeferredDialog>
 
-      <MobileStoreNav cartPackages={cartPackages} cartSummary={formatCartQuantitySummary(cartItems)} cartTotal={cartSubtotal} whatsappUrl={storeWhatsappUrl} onHome={() => navigateStorePage('home')} onCategories={() => navigateStorePage('categories')} onSearch={() => { setActivePage('catalog'); changeStoreLocation(getStorePagePath('catalog')); setSearchOpenSignal((value) => value + 1); }} onCart={() => openCart()} />
+      <MobileStoreNav cartPackages={cartPackages} cartSummary={formatCartQuantitySummary(cartUnitPresentation(cartItems, products))} cartTotal={cartSubtotal} whatsappUrl={storeWhatsappUrl} onHome={() => navigateStorePage('home')} onCategories={() => navigateStorePage('categories')} onSearch={() => { setActivePage('catalog'); changeStoreLocation(getStorePagePath('catalog')); setSearchOpenSignal((value) => value + 1); }} onCart={() => openCart()} />
 
       <FloatingContactActions whatsappUrl={storeWhatsappUrl} />
 

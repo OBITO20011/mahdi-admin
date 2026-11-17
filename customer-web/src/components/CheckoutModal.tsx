@@ -1,5 +1,6 @@
 import {DISPLAY_LOCALE} from '../utils/displayLocale';
 import {storefrontCartUnit} from '../utils/storefrontUnits';
+import {cartUnitPresentation} from '../utils/cartUnitPresentation';
 import {
   AlertTriangle,
   BadgePercent,
@@ -30,7 +31,7 @@ import {
   previewGuestPromotionV2,
 } from '../services/orders.service';
 import { CheckoutRecoveryCoordinator } from '../services/checkoutRecoveryCoordinator';
-import { CartItem } from '../types/catalog';
+import { CartItem, type CatalogProduct } from '../types/catalog';
 import {
   CheckoutErrors,
   CheckoutField,
@@ -75,6 +76,7 @@ import { PublicStorefrontSettings } from '../types/storefront';
 interface CheckoutModalProps {
   isOpen: boolean;
   items: CartItem[];
+  presentationProducts?: CatalogProduct[];
   storeWhatsAppNumber: string;
   storefrontSettings: PublicStorefrontSettings;
   settingsUnavailable: boolean;
@@ -152,6 +154,7 @@ const inputClassName =
 export function CheckoutModal({
   isOpen,
   items,
+  presentationProducts = [],
   storeWhatsAppNumber,
   storefrontSettings,
   settingsUnavailable,
@@ -202,7 +205,12 @@ export function CheckoutModal({
   const displayedItems = receipt || pendingAttempt?.serverState === 'UNKNOWN'
     ? submittedItems
     : items;
-  const quantitySummary = formatCartQuantitySummary(displayedItems);
+  // Past/pending transactions retain their snapshots; current catalog labels
+  // are used only for the live cart's presentation, never for submission.
+  const presentationItems = receipt || pendingAttempt?.serverState === 'UNKNOWN'
+    ? displayedItems : cartUnitPresentation(displayedItems, presentationProducts);
+  const presentationById = new Map(presentationItems.map(item => [item.localLineId, item]));
+  const quantitySummary = formatCartQuantitySummary(presentationItems);
   const subtotal = calculateCartSubtotal(displayedItems);
   const currentPromotionContextKey = useMemo(
     () => createPromotionContextKey(form.phone, items),
@@ -845,7 +853,7 @@ export function CheckoutModal({
                         <div className="min-w-0">
                           <p className="truncate text-xs font-black text-slate-900">{item.nameAr}</p>
                           <p className="mt-1 text-[10px] font-bold text-slate-500">
-                            {item.quantity.toLocaleString(DISPLAY_LOCALE)} {storefrontCartUnit(item)} × {formatJod(item.unitPriceInMinorUnits)}
+                            {item.quantity.toLocaleString(DISPLAY_LOCALE)} {storefrontCartUnit(presentationById.get(item.localLineId) ?? item)} × {formatJod(item.unitPriceInMinorUnits)}
                           </p>
                         </div>
                         <strong className="shrink-0 text-xs font-black text-orange-700">
@@ -965,7 +973,7 @@ export function CheckoutModal({
                         </p>
                         <p className="mt-1 text-[9px] font-bold text-slate-500">
                           {item.quantity.toLocaleString(DISPLAY_LOCALE)}{' '}
-                          {storefrontCartUnit(item)} ×{' '}
+                          {storefrontCartUnit(presentationById.get(item.localLineId) ?? item)} ×{' '}
                           {formatJod(item.unitPriceInMinorUnits)}
                         </p>
                       </div>

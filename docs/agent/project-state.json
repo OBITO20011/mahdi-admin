@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "project": "Nawasrah ERP",
   "branch": "codex/on-independent-prices225",
-  "approvedBaseline": "a27864b92da1f84abba30b64421769283d27d7fe",
+  "approvedBaseline": "191712116e0b204dbebe507e24b1c4cb25f40674",
   "closedPhases": [
     "3",
     "4.1",
@@ -311,7 +311,8 @@
   "phaseCUTOVER_HOLD224ImplementationAllowed": true,
   "phaseRESTORE_PRIVATE220_ACLImplementationAllowed": true,
   "phaseRESET224_STORAGE_CAPABILITYImplementationAllowed": true,
-  "phaseRESTORE_RAW_DEFAULT_ACLImplementationAllowed": true,
+  "phaseON_DISPLAY225ImplementationAllowed": true,
   "phaseMIGRATION_LFImplementationAllowed": true,
+  "phaseRESTORE_RAW_DEFAULT_ACLImplementationAllowed": true,
   "phaseON_INDEPENDENT_PRICE225ImplementationAllowed": true
 }

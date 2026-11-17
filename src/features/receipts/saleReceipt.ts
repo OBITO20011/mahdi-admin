@@ -5,8 +5,10 @@ import type {CommercialReceiptLine,ReceiptDocumentData} from '../../../customer-
 import {parseExchangeFunding} from '../../../customer-web/src/receipts/exchangeFunding';
 
 export function savedReceiptLine(item:OrderItem):CommercialReceiptLine {
+  const savedUnitName=item.accountingTracked!==false&&item.baseUnitName?.trim()&&item.commercialLineKind==='legacy_single_sku_parcel'
+    ? item.salePackage||'طرد' : item.unit||item.salePackage;
   return {key:item.id,name:item.productName,kind:item.commercialLineKind,quantity:item.quantity,
-    baseQuantity:item.baseQuantity,baseUnitName:item.baseUnitName,savedUnitName:item.unit||item.salePackage,
+    baseQuantity:item.baseQuantity,baseUnitName:item.baseUnitName,savedUnitName,
     parcels:item.parcelInstances?.map(p=>({components:p.components.map(c=>({name:c.name,quantity:c.quantity,unitName:c.unitName}))})),
     totalInMinorUnits:jodToMinorUnits(item.totalPrice)};
 }

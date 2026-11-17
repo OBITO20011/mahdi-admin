@@ -6,7 +6,7 @@ const privateText='اسم خاص 0799999999 12345.678 token=secret basket=privat
 const id=(n:number)=>`92600000-0000-4000-8000-${String(n).padStart(12,'0')}`;
 const rejections=[
   ['PHASE3_POS_OPEN_SHIFT_REQUIRED','افتح وردية الصندوق قبل إتمام البيع.'],
-  ['PHASE3_POS_INSUFFICIENT_INVENTORY','المخزون المتاح لأحد مكونات البيع غير كافٍ.'],
+  ['PHASE3_POS_INSUFFICIENT_INVENTORY','تغيّر المخزون قبل إتمام البيع. حدّث المتاح وراجع السلة'],
   ['PARCEL209_UNIT_SALE_FORBIDDEN','هذا الصنف بيتباع بالطرد بس. احذف سطر المفرد وأضفه كطرد؛ لا تتغيّر السلة تلقائياً.'],
 ] as const;
 

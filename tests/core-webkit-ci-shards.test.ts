@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {readFileSync} from 'node:fs';
+import {readFileSync,existsSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {coreWebkitShardCount,coreWebkitShards,coreWebkitJobNames,isCoreWebkitShardArgument,verifyCoreWebkitShardPartition} from '../scripts/testing/core-webkit-ci-shards.mjs';
 import {verifyBrowserDeliveryJobs} from '../scripts/agent/verify-delivery-ci.mjs';
@@ -71,5 +71,16 @@ test('CI inverse preserves literal old sources and old pins; unknown byte,null a
  const index='scripts/audit/core-webkit-shards-source-pins.json',text=canonicalLf(readFileSync(index,'utf8'));
  assert.equal(sourceBeforeCoreWebkitShards(index,text),null);assert.equal(sourceBeforeCoreWebkitShards(index,text+' '),text+' ');
  assert.match(execFileSync(process.execPath,['scripts/testing/build-inventory224-history.mjs','--check'],{encoding:'utf8'}),/"ok":true/u);
- assert.equal(execFileSync('git',['diff',baseline,'--','supabase','src','customer-web/src','e2e'],{encoding:'utf8'}),'');
+ assert.equal(execFileSync('git',['diff',baseline,'--','supabase'],{encoding:'utf8'}),'');
+ const scope=['src','customer-web/src','e2e'];
+ const oldFiles=new Set(execFileSync('git',['ls-tree','-r','--name-only',baseline,'--',...scope],{encoding:'utf8'}).trim().split('\n'));
+ const changed=new Set([
+  ...execFileSync('git',['diff','--name-only',baseline,'--',...scope],{encoding:'utf8'}).trim().split('\n'),
+  ...execFileSync('git',['ls-files','--others','--exclude-standard','--',...scope],{encoding:'utf8'}).trim().split('\n'),
+ ].filter(Boolean));
+ for(const file of changed){
+  const physical=existsSync(file)?canonicalLf(readFileSync(file,'utf8')):null;
+  const expected=oldFiles.has(file)?canonicalLf(execFileSync('git',['show',baseline+':'+file],{encoding:'utf8'})):null;
+  assert.equal(sourceBeforeUpgradeRegistration(file,physical),expected,file);
+ }
 });

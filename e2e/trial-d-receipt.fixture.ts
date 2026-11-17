@@ -23,4 +23,4 @@ export const trialDOrder:Order={id:'93400000-0000-4000-8000-000000000001',orderN
   createdAt:'2026-10-22T08:30:00Z',updatedAt:'2026-10-22T08:30:00Z',statusHistory:[],
   publicReceiptUrl:'https://alnawasreh.com/#receipt=93400000-0000-4000-8000-000000000099',
 };
-export const trialDDescriptions=['1 طرد (10 باكيت)','2 طرد (10 باكيت)','1 طرد مشكّل (5 توت + 1 برتقال)','3 باكيت'];
+export const trialDDescriptions=['1 تغليف محفوظ قديم (10 باكيت)','2 تغليف محفوظ قديم (10 باكيت)','1 طرد مشكّل (5 توت + 1 برتقال)','3 باكيت'];

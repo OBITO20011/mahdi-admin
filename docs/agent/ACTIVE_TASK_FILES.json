@@ -2,120 +2,200 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": " M",
+      "code": "A ",
+      "path": "customer-web/src/utils/cartUnitPresentation.ts"
+    },
+    {
+      "code": "A ",
+      "path": "e2e/on-unit-display-harness.html"
+    },
+    {
+      "code": "A ",
+      "path": "e2e/on-unit-display-harness.tsx"
+    },
+    {
+      "code": "A ",
+      "path": "e2e/on-unit-display.spec.ts"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/audit/on-unit-display225-source-pins.json"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/audit/source-before-on-unit-display225.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "src/utils/posStockCopy.ts"
+    },
+    {
+      "code": "A ",
+      "path": "tests/on225-display.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/App.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/components/CartDrawer.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/components/CheckoutModal.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/receipts/commercialReceipt.ts"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/utils/storefrontUnits.ts"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/tests/actual-sale-units.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/tests/checkout.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/tests/storefront-units.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/tests/trial-ta-sales-units.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/SERVICE_ACCESS_AFTER_224.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_224.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": "M ",
+      "path": "e2e/customer-storefront-c6.spec.ts"
+    },
+    {
+      "code": "M ",
+      "path": "e2e/guided-store-assistant.spec.ts"
+    },
+    {
+      "code": "M ",
+      "path": "e2e/package-f-operator-errors.spec.ts"
+    },
+    {
+      "code": "M ",
+      "path": "e2e/package-f-pos-harness.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "e2e/package-f-public-receipt210.spec.ts"
+    },
+    {
+      "code": "M ",
+      "path": "e2e/package-f-trial-sale-receipts.spec.ts"
+    },
+    {
+      "code": "M ",
+      "path": "e2e/package-f-trial-ta.spec.ts"
+    },
+    {
+      "code": "M ",
+      "path": "e2e/package-f-unit-terminology.spec.ts"
+    },
+    {
+      "code": "M ",
+      "path": "e2e/phase6-package-b-harness.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "e2e/phase6-package-b.spec.ts"
+    },
+    {
+      "code": "M ",
+      "path": "e2e/trial-d-receipt.fixture.ts"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/audit/source-before-on-prices225.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/audit/source-before-reset224-ddl.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/audit/source-before-restore-raw-acl.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/testing/product-workbook-runtime-view.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "src/features/pos/PosProductCard.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/features/pos/PosView.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/features/receipts/saleReceipt.ts"
+    },
+    {
+      "code": "M ",
+      "path": "src/services/supabase/posV2.service.ts"
+    },
+    {
+      "code": "M ",
+      "path": "src/utils/posKnownRejectionCopy.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/core-webkit-ci-shards.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/migration-lf.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/phase6-package-b.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/trial-sale-receipts.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/trial-ta-presentation.test.ts"
+    },
+    {
+      "code": "MM",
       "path": "scripts/audit/on-prices225-source-pins.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/on-prices225-catalog.mjs"
-    },
-    {
-      "code": "??",
-      "path": "docs/design/on-independent-prices225/protection224-template-pins.json"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/build-acl-reference225.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/d1-known-owner225-files.json"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/d1-reference225-ci.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/d1-reference225-install.ps1"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/d1-reference225-kit.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/d1-reference225-kit.ps1"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/d1-reference225-state.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/frankfurt-owner-reset225.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/frankfurt-owner-upgrade225.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/frankfurt-reference225.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/function-reference225.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/reset225-ddl-capability.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/reset225-foundation.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/reset225-pg-cron-guard.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/reset225-private-state.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/reset225-session.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/reset225-write-guard.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/trial-reset225-core.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/upgrade225-data.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/upgrade225-protection.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/upgrade225-registration.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/capture-inventory225-catalog.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/inventory225-local.mjs"
-    },
-    {
-      "code": "??",
-      "path": "tests/d1-reference225-kit.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "tests/reset225-admission.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "tests/upgrade225-contract.test.ts"
     }
   ]
 }

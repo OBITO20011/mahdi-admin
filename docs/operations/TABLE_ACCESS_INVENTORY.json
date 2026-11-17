@@ -541,7 +541,7 @@
     },
     {
       "file": "src/features/pos/PosProductCard.tsx",
-      "sha256": "9046e8a22ce0e1f5bdd77b473204e63a195366620593a8d737418ebe413a1d55"
+      "sha256": "d506d09c2ecbc733e4b059fc64b4e6571177aab02fe4ae623291afbb46db0ea0"
     },
     {
       "file": "src/features/pos/posSearchFocus.ts",
@@ -553,7 +553,7 @@
     },
     {
       "file": "src/features/pos/PosView.tsx",
-      "sha256": "cbb394b1cc6525a4f7c8615d38576b0abe33ee7dea16aedeb335e6c0005c175b"
+      "sha256": "14cf13b75befff4968a788247f24fd4eda35c560ea3a848129687b956be27ef9"
     },
     {
       "file": "src/features/pos/saleMethods.ts",
@@ -661,7 +661,7 @@
     },
     {
       "file": "src/features/receipts/saleReceipt.ts",
-      "sha256": "5b521ad61fd4fc5d268a75fde807e08077ea386dd42b353f4db12f3e4f59492a"
+      "sha256": "2551bfc784596f462e9c66108d3df8743bf63d987d7542a39d61546988f94039"
     },
     {
       "file": "src/features/receipts/SaleReceiptDialog.tsx",
@@ -993,7 +993,7 @@
     },
     {
       "file": "src/services/supabase/posV2.service.ts",
-      "sha256": "7c4ce65b53781599a0b39bb556ef51f2355df5f44c399cecb360d1f2e2b31acc"
+      "sha256": "35ba16da838ac558c322e4c07c519d8d13cf0dd20d0c911f5e351c0178b7842a"
     },
     {
       "file": "src/services/supabase/posV2Recovery.ts",
@@ -1277,7 +1277,11 @@
     },
     {
       "file": "src/utils/posKnownRejectionCopy.ts",
-      "sha256": "f2dead0fdd1bda812f9246ab5a4b8d089ce8cc0fd778dd0927231b20aafd3da4"
+      "sha256": "34198297fa38cd3c656b6fd4772b5006f94938346b20db166ff205971ab6e7bb"
+    },
+    {
+      "file": "src/utils/posStockCopy.ts",
+      "sha256": "f1c15732148587a8c0a9deb894ceabe5e932f755463555b8599a43b8f76baa28"
     },
     {
       "file": "src/utils/productCalculations.ts",
@@ -1361,7 +1365,7 @@
     },
     {
       "file": "customer-web/src/App.tsx",
-      "sha256": "6e09e00a6dd708580e8d1e7e39742833e54f979c1a10fbbe0358e63ac38fa786"
+      "sha256": "39eebd29b9c54e2458143a819a1303e690f829939fccc7774af0b77dcf29ec98"
     },
     {
       "file": "customer-web/src/components/AboutStorePage.tsx",
@@ -1373,7 +1377,7 @@
     },
     {
       "file": "customer-web/src/components/CartDrawer.tsx",
-      "sha256": "22f253427f3a9308fc461309877c00d21124560b649ef19114d5aa174f192ba2"
+      "sha256": "c0a5a6faad5cbb331a768de90d843e316583412e9418212d95f510591b123b7f"
     },
     {
       "file": "customer-web/src/components/CategoryDrawer.tsx",
@@ -1389,7 +1393,7 @@
     },
     {
       "file": "customer-web/src/components/CheckoutModal.tsx",
-      "sha256": "0a1ff8348b9fc0c03b9160183756aedd1f46d40f2da2fd3bda646fb3a972b76e"
+      "sha256": "21a6e6faea7cd4cbf7458dc1b31b2a3464d9303ef7a6bbbe5783949008c6f3aa"
     },
     {
       "file": "customer-web/src/components/CheckoutProgress.tsx",
@@ -1561,7 +1565,7 @@
     },
     {
       "file": "customer-web/src/receipts/commercialReceipt.ts",
-      "sha256": "49d1ae347da105170ca60ccf361add4c79e2b5d35ce4276be06f50b654660622"
+      "sha256": "f8327326237190a0e63557ba2e8ca9f9804fd13ce180084528a1b059b9e3bd03"
     },
     {
       "file": "customer-web/src/receipts/exactMoney.ts",
@@ -1640,6 +1644,10 @@
       "sha256": "4456486bc983fd9fbbce6f163cc817ca3798e66dd96d4166b6891049381c5785"
     },
     {
+      "file": "customer-web/src/utils/cartUnitPresentation.ts",
+      "sha256": "76821b5bdce62a12792ec07eeb8e1e02d58205c657cbdf090554a259a0caa9a8"
+    },
+    {
       "file": "customer-web/src/utils/catalogView.ts",
       "sha256": "c702fdc04d7d0c9b7f7f21ea9b62b01269a43e01599133899c954534d8cb5bfe"
     },
@@ -1709,7 +1717,7 @@
     },
     {
       "file": "customer-web/src/utils/storefrontUnits.ts",
-      "sha256": "2f8d411925293aea9ddb44b9407bfa75fb02b98d0b17a3f58fbe737644124796"
+      "sha256": "6a2c4fdc412bb731014153602d920b25fe1353aa3323eeba72e9a26bddfcb34f"
     },
     {
       "file": "supabase/functions/_shared/owner-telegram-format.ts",
@@ -1754,9 +1762,9 @@
   ],
   "entries": [
     {
-      "id": "src/features/pos/PosView.tsx:567",
+      "id": "src/features/pos/PosView.tsx:578",
       "file": "src/features/pos/PosView.tsx",
-      "line": 567,
+      "line": 578,
       "table": "orders",
       "operation": "select",
       "role": "authenticated",
@@ -5186,7 +5194,7 @@
     },
     {
       "file": "src/features/pos/PosView.tsx",
-      "line": 708,
+      "line": 719,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
@@ -5323,22 +5331,22 @@
     },
     {
       "file": "customer-web/src/App.tsx",
-      "line": 1081,
+      "line": 1082,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
       "file": "customer-web/src/App.tsx",
-      "line": 1087,
+      "line": 1088,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
       "file": "customer-web/src/App.tsx",
-      "line": 1858,
+      "line": 1859,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
       "file": "customer-web/src/App.tsx",
-      "line": 2014,
+      "line": 2015,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
