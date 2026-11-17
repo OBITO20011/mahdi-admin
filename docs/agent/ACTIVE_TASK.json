@@ -3,7 +3,7 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner-approved display-only ON stock shortage Arabic copy and actual saved unit names;no calls,values,SQL or guards changed.",
-  "baselineSha": "a51191f6d2a95bf29be20841a549b20a8c60a8de",
+  "baselineSha": "191712116e0b204dbebe507e24b1c4cb25f40674",
   "branch": "codex/on-stock-unit-display225",
   "phase": "ON_DISPLAY225",
   "startedAt": "2026-11-17T08:26:51.856Z",
@@ -13,7 +13,8 @@
     "Canonical Chromium/WebKit12/12 in a new network-detached Linux sandbox;no demo/n8n/hosted changes.",
     "Actual224HTTP181:172success9empty0errors;RPC735 with18expecteddenials;fresh evidence written.",
     "Fresh actual224 HTTP181/RPC735 evidence rebound;formed-cart unit description uses only immutable recipe units,not currentcatalog.",
-    "C6 regression test terminology agrees with immutable carton/bottle/sack fixture names."
+    "C6 regression test terminology agrees with immutable carton/bottle/sack fixture names.",
+    "Integrated exact Restore and LF history; only task metadata and legacy source projections changed."
   ],
   "inProgress": [
     "Final quiet rootunits and actual historical schema-only view proof beforepush;no merge before exact-head fullCI/Gitleaks."
@@ -42,12 +43,12 @@
     "No SQL or RPC/quantity/price/guard/persistence changes.",
     "No original workbook/owner file changes."
   ],
-  "checkpointedAt": "2026-11-17T19:50:09.505Z",
+  "checkpointedAt": "2026-11-17T20:15:01.101Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 2,
-  "filesTouchedManifestSha256": "ca1e591c689c471d20dd9ba22f0b67747b22873cd7465a262f1824c2080fc417",
-  "nextExactAction": "Integrate the C6-proven display patch after the Restore rehearsal head is fixed",
-  "workingTreeFingerprint": "EFBE1003B14AC9378DB25E1997CA3CF86EBC54980A89223F6B5154B151E87B6D"
+  "filesTouchedCount": 21,
+  "filesTouchedManifestSha256": "54ef7131aa902e599f7253140d2e1f401653d4a94ebcd88fb2786359c81cc0f3",
+  "nextExactAction": "Open exact new display CI after the Restore merge gates are established",
+  "workingTreeFingerprint": "2D4D409B573BF0E70127A171CBA1857B4CA8D1FE4C33913019D70C1A328742D4"
 }

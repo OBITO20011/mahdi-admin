@@ -41,6 +41,11 @@ const messages=Object.freeze({
   RESTORE_CRON_SEQUENCE_ACL_UNSUPPORTED:'Captured pg_cron sequence privileges could not be restored exactly;no comparison exception applied.',
   RESTORE_FROZEN220_TRIGGER_ACL_UNSUPPORTED:'Captured four-trigger ACL profile is unsupported or could not be replayed exactly.',
   RESTORE_LITE220_PRIVATE_ACL_UNSUPPORTED:'Captured closed13object private ACL profile is unsupported or could not be replayed exactly.',
+  RESTORE_RAW_ACL_OBJECT_MISSING:'A captured ACL object is missing from the restored database.',
+  RESTORE_RAW_ACL_OBJECT_EXTRA:'The restored database contains an unexpected ACL object.',
+  RESTORE_RAW_ACL_OWNER_MISMATCH:'The restored ACL object has a different owner.',
+  RESTORE_RAW_ACL_KIND_MISMATCH:'The restored ACL object has a different kind.',
+  RESTORE_RAW_ACL_UNAPPROVED_DIFFERENCE:'The captured raw ACL differs beyond the permitted native default representation.',
   RESTORE_EXTENSION_UNAVAILABLE:'A required captured extension version is unavailable in the isolated image.',
   RESTORE_SQL_ERROR:'PostgreSQL rejected an object or data item during strict restore.',
   RESTORE_LOG_CAPTURE_FAILED:'A sanitized isolated restore log could not be saved.',
@@ -50,7 +55,7 @@ const messages=Object.freeze({
   OPERATION_FAILED:'The operation failed; raw error content was withheld.',
 });
 const tools=new Set(['psql','pg_dump','pg_dumpall','pg_restore','docker','node','powershell','filesystem','internal']);
-const stages=new Set(['config-load','owner-env','pg-bin-check','operation-lock','lock-cleanup','operation-report','snapshot','source-evidence','roles-dump','complete-dump','storage-download','consistency-postcheck','archive-encrypt-verify','archive-verification','isolated-cluster-start','restore-roles','restore-toc','restore-schemas','restore-extension-preflight','restore-complete-dump','restore-platform-postinit','restore-cron-sequence-acl','restore-frozen220-trigger-acl','restore-pg-net-sequence-state','restore-log-capture','compare-data-catalog-acl','existing-integrity-checks','tls-config','operation-preflight','restore-preflight','watchdog-read','unknown']);
+const stages=new Set(['config-load','owner-env','pg-bin-check','operation-lock','lock-cleanup','operation-report','snapshot','source-evidence','roles-dump','complete-dump','storage-download','consistency-postcheck','archive-encrypt-verify','archive-verification','isolated-cluster-start','restore-roles','restore-toc','restore-schemas','restore-extension-preflight','restore-complete-dump','restore-platform-postinit','restore-cron-sequence-acl','restore-raw-default-acl','restore-frozen220-trigger-acl','restore-pg-net-sequence-state','restore-log-capture','compare-data-catalog-acl','existing-integrity-checks','tls-config','operation-preflight','restore-preflight','watchdog-read','unknown']);
 export const OWNER_ENV_NAMES=Object.freeze(['NAWASRAH_FF_CONFIG','NAWASRAH_FF_DB_PASSWORD','NAWASRAH_FF_PASSPHRASE','NAWASRAH_R2_ACCOUNT_ID','NAWASRAH_R2_ACCESS_KEY_ID','NAWASRAH_R2_SECRET_ACCESS_KEY','NAWASRAH_DEV_TELEGRAM_BOT_TOKEN','NAWASRAH_DEV_TELEGRAM_CHAT_ID']);
 export const RESTORE_COMPARISON_CODES=Object.freeze(['RESTORE_CATALOG_ACL_OWNER_SETTINGS_DIFFER','RESTORE_TABLES_DIFFER','RESTORE_ROLES_DIFFER','RESTORE_MEMBERSHIPS_DIFFER','RESTORE_HISTORY_DIFFER','RESTORE_SEQUENCES_DIFFER','RESTORE_STORAGE_DIFFER']);
 const sqlstate=value=>typeof value==='string'&&/^(?:00|01|02|03|08|09|0A|0B|0F|0L|0P|0Z|20|21|22|23|24|25|26|27|28|2B|2D|2F|34|38|39|3B|3D|3F|40|42|44|53|54|55|57|58|72|F0|HV|P0|XX)[0-9A-Z]{3}$/u.test(value)?value:null;

@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "project": "Nawasrah ERP",
   "branch": "codex/on-stock-unit-display225",
-  "approvedBaseline": "3b35a263f7c20212c537bb61b2d20af778b7613d",
+  "approvedBaseline": "191712116e0b204dbebe507e24b1c4cb25f40674",
   "closedPhases": [
     "3",
     "4.1",
@@ -311,5 +311,7 @@
   "phaseCUTOVER_HOLD224ImplementationAllowed": true,
   "phaseRESTORE_PRIVATE220_ACLImplementationAllowed": true,
   "phaseRESET224_STORAGE_CAPABILITYImplementationAllowed": true,
-  "phaseON_DISPLAY225ImplementationAllowed": true
+  "phaseON_DISPLAY225ImplementationAllowed": true,
+  "phaseMIGRATION_LFImplementationAllowed": true,
+  "phaseRESTORE_RAW_DEFAULT_ACLImplementationAllowed": true
 }

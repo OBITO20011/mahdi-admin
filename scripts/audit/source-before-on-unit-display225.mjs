@@ -6,7 +6,7 @@ const indexFile='scripts/audit/on-unit-display225-source-pins.json';
 const indexText=canonicalLf(readFileSync(new URL('./on-unit-display225-source-pins.json',import.meta.url),'utf8'));
 const pins=JSON.parse(indexText);
 assert.equal(pins.format,1);
-assert.equal(pins.baseline,'a74070de584367f49cd1095ed8db5e5c2e5b8fba');
+assert.equal(pins.baseline,'191712116e0b204dbebe507e24b1c4cb25f40674');
 /** @type {Record<string,{before:string|null,after:string,beforeText:string|null}>} */
 export const onUnitDisplay225Pins=pins.entries;
 for(const [file,pin] of Object.entries(onUnitDisplay225Pins)){

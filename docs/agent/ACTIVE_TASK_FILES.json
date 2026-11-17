@@ -2,12 +2,88 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": " M",
-      "path": "e2e/customer-storefront-c6.spec.ts"
+      "code": "A ",
+      "path": ".gitattributes"
     },
     {
-      "code": " M",
+      "code": "A ",
+      "path": "docs/operations/MIGRATION_LF_BYTES_AR.md"
+    },
+    {
+      "code": "A ",
+      "path": "docs/operations/RESTORE_RAW_DEFAULT_ACL_AR.md"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/agent/migration-lf.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/audit/migration-lf-source-pins.json"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/audit/restore-raw-acl-source-pins.json"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/audit/source-before-migration-lf.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/audit/source-before-restore-raw-acl.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/backup/restore-raw-default-acl.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/testing/restore-raw-default-acl-proof.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/testing/run-restore-raw-default-acl-runtime.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "tests/migration-lf.test.ts"
+    },
+    {
+      "code": "A ",
+      "path": "tests/restore-raw-default-acl.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/agent/preflight.mjs"
+    },
+    {
+      "code": "M ",
       "path": "scripts/audit/on-unit-display225-source-pins.json"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/audit/source-before-on-unit-display225.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/audit/source-before-reset224-ddl.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/backup/complete-backup.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/backup/postgres-diagnostic.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/testing/run-dual-backup-runtime.mjs"
     }
   ]
 }
