@@ -6,7 +6,7 @@ const indexFile='scripts/audit/restore-raw-acl-source-pins.json';
 const indexText=canonicalLf(readFileSync(new URL('./restore-raw-acl-source-pins.json',import.meta.url),'utf8'));
 const pins=JSON.parse(indexText);
 assert.equal(pins.format,1);
-assert.equal(pins.baseline,'a74070de584367f49cd1095ed8db5e5c2e5b8fba');
+assert.equal(pins.baseline,'a27864b92da1f84abba30b64421769283d27d7fe');
 /** @type {Record<string,{before:string|null,after:string,beforeText:string|null}>} */
 export const restoreRawAclPins=pins.entries;
 for(const [file,pin] of Object.entries(restoreRawAclPins)){

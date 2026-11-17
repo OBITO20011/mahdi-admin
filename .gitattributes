@@ -1,0 +1,2 @@
+# Migration pins depend on literal LF bytes, including on Windows checkouts.
+/supabase/migrations/*.sql text eol=lf

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner-approved Restore-only explicit-default raw ACL replay;strict atom equality except order;new type snapshots,legacy archive coverage disclosed.",
   "baselineSha": "a74070de584367f49cd1095ed8db5e5c2e5b8fba",
@@ -8,12 +8,15 @@
   "phase": "RESTORE_RAW_DEFAULT_ACL",
   "startedAt": "2026-11-17T15:22:45.465Z",
   "completed": [
-    "Read-only source archive comparison:3161 ACL fields,33 explicit-to-null and48 order-only;no grant atom orowner differences."
+    "Read-only source archive comparison:3161 ACL fields,33 explicit-to-null and48 order-only;no grant atom orowner differences.",
+    "Integrated the exact #114 migration LF preflight, preserving its source pins with layered exact Restore projection."
   ],
   "inProgress": [
     "General fail-closed replay with native defaults and type evidence;no guards or reference changes."
   ],
-  "testsPassed": [],
+  "testsPassed": [
+    "Combined LF and Restore same-byte and unknown-byte unit cases 8/8."
+  ],
   "testsRemaining": [
     "Actual PostgreSQL default replay/negative/idempotency andold107/110 cases;fullCI/Gitleaks."
   ],
@@ -30,9 +33,9 @@
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "nextExactAction": "Wait for complete exact-head CI and run Gitleaks, then approved merge and rerun the isolated archived 224 rehearsal.",
-  "checkpointedAt": "2026-11-17T16:05:40.539Z",
-  "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "5fb56a0d741c16e8caaf775d26d02ab0ada5854e920304dd9a2d4dd58c21a1bb",
-  "workingTreeFingerprint": "2AA587FA04660C680254E2A87899A7C40194D9E70B32FF967FF16A4D06E0F4B0"
+  "nextExactAction": "Run complete CI for Restore on the merged LF base, then local rehearsal from 2230c606",
+  "checkpointedAt": "2026-11-17T16:37:37.527Z",
+  "filesTouchedCount": 11,
+  "filesTouchedManifestSha256": "e3e0f75911ab69d14d45a670e05002dbe9d658b1f4e906c3d41bdd4ca10218ff",
+  "workingTreeFingerprint": "D87A10A886F0A1957A2B1C5F28CB353999174BD16F11C52DB3FE9B8038C460BD"
 }
