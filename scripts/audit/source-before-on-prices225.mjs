@@ -6,7 +6,7 @@ const indexFile='scripts/audit/on-prices225-source-pins.json';
 const indexText=canonicalLf(readFileSync(new URL('./on-prices225-source-pins.json',import.meta.url),'utf8'));
 const pins=JSON.parse(indexText);
 assert.equal(pins.format,1);
-assert.equal(pins.baseline,'2508a9e5eff2762ab42933394a8243bb6c1af4a4');
+assert.equal(pins.baseline,'191712116e0b204dbebe507e24b1c4cb25f40674');
 /** @type {Record<string,{before:string|null,after:string,beforeText:string|null}>} */
 export const onPrices225Pins=pins.entries;
 for(const [file,pin] of Object.entries(onPrices225Pins)){

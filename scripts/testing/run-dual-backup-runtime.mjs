@@ -16,6 +16,7 @@ import {provePgNetSequenceStates} from './pg-net-sequence-runtime.mjs';
 import {proveRehearsal219Lifecycle} from './legacy219-restore-lifecycle220.mjs';
 import {ownerTableNames219} from './rehearsal219-table-acl.mjs';
 import {proveFrozen220TriggerAclArchives} from './restore-frozen220-trigger-acl-archives.mjs';
+import {proveRawDefaultAclRestore} from './restore-raw-default-acl-proof.mjs';
 const exec=promisify(execFile),root=path.resolve(import.meta.dirname,'../..'),project='nawasrah-dual-backup-test',container='supabase_db_'+project;
 const output=await mkdtemp(path.join(tmpdir(),'nawasrah-dual-backup-proof-'));let local,report={ok:false,hostedConnectionsMade:false};
 try{
@@ -24,6 +25,7 @@ try{
   const s=new SnapshotSession('docker',args);
   try{
     await s.query('ALTER TABLE orders DISABLE TRIGGER trg_notify_new_website_order_push;SELECT cron.alter_job(jobid,active:=false) FROM cron.job;');
+    report.rawDefaultAclRuntime=await proveRawDefaultAclRestore(s);
     await s.query(await readFile(path.join(root,'scripts/testing/package-e-golden-day-fixture.sql'),'utf8'));
     const id=n=>`92600000-0000-4000-8000-${String(n).padStart(12,'0')}`;
     const auth=sql=>`BEGIN;SELECT set_config('request.jwt.claims','{"sub":"${id(1)}","role":"authenticated","aal":"aal2"}',true);SET LOCAL ROLE authenticated;${sql}COMMIT;`;
@@ -159,7 +161,7 @@ try{
   assert.equal(emptyRestore.catalogAclOwnerSettingsMatch,true);assert.equal(emptyRestore.allRowsAndHashesMatch,true);
   assert.deepEqual(emptyRestore.exceptionsApplied,[]);
   const pgNetSequenceStates=await provePgNetSequenceStates({source,passphrase,output,container});
-  report={...restored,ok:true,frozen220AclArchives,pgNetSequenceStates,rehearsalLifecycle,emptyStorageRestore219:emptyRestore,current219:{backup:backup219,restore:restore219,remoteRestore:remote219,old217ArchiveStillRestores:true},current217:{backup:backup217,restore:restore217,remoteRestore:remote217,old216ArchiveStillRestores:true},current216:{backup:backup216,restore:restore216,remoteRestore:remote216,watchdog:watchdog216,keepaliveTransport:'injected local SQL;no network',telegramCalls,initialPayment:paid216,old215ArchiveStillRestores:true},current215:{backup:backup215,restore:restore215,remoteRestore:remote215,inspectedOperation:inspected215,old214ArchiveStillRestores:true},nativeTls,comparisonNegative,syntheticExtraRoleConfigMembershipDefaultsAndCalledUncalledSequences:true,managedProfile:{sourceSha256:profile.sourceSha256,extensions:managedPlatform,restore:managedRestore,replaySameArchive:true},fixtureOnly:true,archiveEncrypted:true,storageBytesRestored:true,r2Transport:'local-in-memory-S3',remoteDownloadRestorePassed:true,immutableReplayPassed:true,tamperedDownloadRejected:true,legacyOffsiteUntouched:true,nonzeroFinancialFixture:{receivedQuantity:20,soldQuantity:2,remainingQuantity:18,supplierDebt:10000,salesCash:2000,openingCash:10000}};
+  report={...restored,ok:true,rawDefaultAclRuntime:report.rawDefaultAclRuntime,frozen220AclArchives,pgNetSequenceStates,rehearsalLifecycle,emptyStorageRestore219:emptyRestore,current219:{backup:backup219,restore:restore219,remoteRestore:remote219,old217ArchiveStillRestores:true},current217:{backup:backup217,restore:restore217,remoteRestore:remote217,old216ArchiveStillRestores:true},current216:{backup:backup216,restore:restore216,remoteRestore:remote216,watchdog:watchdog216,keepaliveTransport:'injected local SQL;no network',telegramCalls,initialPayment:paid216,old215ArchiveStillRestores:true},current215:{backup:backup215,restore:restore215,remoteRestore:remote215,inspectedOperation:inspected215,old214ArchiveStillRestores:true},nativeTls,comparisonNegative,syntheticExtraRoleConfigMembershipDefaultsAndCalledUncalledSequences:true,managedProfile:{sourceSha256:profile.sourceSha256,extensions:managedPlatform,restore:managedRestore,replaySameArchive:true},fixtureOnly:true,archiveEncrypted:true,storageBytesRestored:true,r2Transport:'local-in-memory-S3',remoteDownloadRestorePassed:true,immutableReplayPassed:true,tamperedDownloadRejected:true,legacyOffsiteUntouched:true,nonzeroFinancialFixture:{receivedQuantity:20,soldQuantity:2,remainingQuantity:18,supplierDebt:10000,salesCash:2000,openingCash:10000}};
 }catch(error){report.error=error.message;report.cause=error.cause?.message;process.exitCode=1;console.error(error);}
 finally{
   if(local)await exec(process.execPath,['node_modules/supabase/dist/supabase.js','stop','--no-backup','--workdir',local],{cwd:root,windowsHide:true});
