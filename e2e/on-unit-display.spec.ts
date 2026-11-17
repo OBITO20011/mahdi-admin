@@ -35,6 +35,16 @@ for(const width of [390,1280]){
   await expect(card.getByRole('button',{name:'إضافة شوال من '+posFixtureProducts[0].name_ar,exact:true})).toBeDisabled();
   expect(writes).toEqual([]);
  });
+ test(`ON formed cart uses its saved units even after catalog labels differ ${width}`,async({page},info)=>{
+  await page.setViewportSize({width,height:1000});
+  await page.goto('/e2e/on-unit-display-harness.html?view=mixed-cart');
+  await expect(page.getByText('صندوق (3 قنينة)',{exact:true})).toBeVisible();
+  await expect(page.getByRole('dialog')).toContainText('1.500');
+  await expect(page.getByRole('dialog')).not.toContainText('شوال');
+  await expect(page.getByRole('dialog')).not.toContainText('شرنك');
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  await page.screenshot({path:info.outputPath(`on-formed-snapshots-${width}.png`),fullPage:true});
+ });
  test(`ON public receipt uses immutable snapshots and retains old receipt fallback ${width}`,async({page},info)=>{
   await page.setViewportSize({width,height:1000});const calls:string[]=[];
   await page.route('**/rest/v1/**',route=>{

@@ -65,3 +65,15 @@ test('cart presentation is wired without replacing raw checkout or persistence i
  assert.ok(drawer.includes('calculateCartSubtotal(items)'));
  assert.ok(drawer.includes('lockedLineIds.has(item.localLineId)'));
 });
+
+test('legacy runtime rewinds all reviewed display sources before old allowlists; new files disappear and unknown bytes refuse',()=>{
+ const source=readFileSync('scripts/testing/product-workbook-runtime-view.mjs','utf8');
+ assert.ok(source.indexOf('Object.entries(onUnitDisplay225Pins)')<source.indexOf('Object.entries(inventory224SourcePins)'));
+ assert.ok(source.includes("assert.notEqual(before,raw,'HISTORICAL_ON_DISPLAY225_UNREVIEWED_SOURCE:'+file)"));
+ assert.ok(source.includes("assert.equal(before,historicalText('a74070de584367f49cd1095ed8db5e5c2e5b8fba',file)"));
+ for(const file of ['src/services/supabase/posV2.service.ts','src/utils/posKnownRejectionCopy.ts','src/utils/posStockCopy.ts','customer-web/src/utils/cartUnitPresentation.ts']){
+  const pin=onUnitDisplay225Pins[file],raw=readFileSync(file,'utf8').replace(/\r\n?/gu,'\n');assert.ok(pin);
+  assert.equal(sourceBeforeOnUnitDisplay225(file,raw),pin.beforeText);
+  assert.equal(sourceBeforeOnUnitDisplay225(file,raw+'UNKNOWN_BYTE'),raw+'UNKNOWN_BYTE');
+ }
+});

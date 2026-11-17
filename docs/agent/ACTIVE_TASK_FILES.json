@@ -3,23 +3,15 @@
   "files": [
     {
       "code": " M",
-      "path": "customer-web/src/App.tsx"
+      "path": "customer-web/src/utils/cartUnitPresentation.ts"
     },
     {
       "code": " M",
-      "path": "customer-web/src/components/CartDrawer.tsx"
+      "path": "customer-web/tests/checkout.test.ts"
     },
     {
       "code": " M",
-      "path": "customer-web/src/components/CheckoutModal.tsx"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/tests/actual-sale-units.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/tests/storefront-units.test.ts"
+      "path": "customer-web/tests/trial-ta-sales-units.test.ts"
     },
     {
       "code": " M",
@@ -43,55 +35,23 @@
     },
     {
       "code": " M",
-      "path": "e2e/package-f-pos-harness.tsx"
+      "path": "e2e/on-unit-display-harness.tsx"
     },
     {
       "code": " M",
-      "path": "e2e/trial-d-receipt.fixture.ts"
+      "path": "e2e/on-unit-display.spec.ts"
     },
     {
       "code": " M",
-      "path": "scripts/audit/source-before-reset224-ddl.mjs"
+      "path": "scripts/audit/on-unit-display225-source-pins.json"
     },
     {
       "code": " M",
-      "path": "tests/core-webkit-ci-shards.test.ts"
+      "path": "scripts/testing/product-workbook-runtime-view.mjs"
     },
     {
       "code": " M",
       "path": "tests/on225-display.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/phase6-package-b.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/trial-sale-receipts.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/trial-ta-presentation.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "e2e/on-unit-display-harness.html"
-    },
-    {
-      "code": "??",
-      "path": "e2e/on-unit-display-harness.tsx"
-    },
-    {
-      "code": "??",
-      "path": "e2e/on-unit-display.spec.ts"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/on-unit-display225-source-pins.json"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/source-before-on-unit-display225.mjs"
     }
   ]
 }

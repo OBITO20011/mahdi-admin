@@ -1645,7 +1645,7 @@
     },
     {
       "file": "customer-web/src/utils/cartUnitPresentation.ts",
-      "sha256": "2357e852d89f717785af6b52da6a2e90aca762684b9f1bc5b1327b311e99f696"
+      "sha256": "76821b5bdce62a12792ec07eeb8e1e02d58205c657cbdf090554a259a0caa9a8"
     },
     {
       "file": "customer-web/src/utils/catalogView.ts",

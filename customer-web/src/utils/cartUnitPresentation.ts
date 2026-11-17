@@ -5,7 +5,11 @@ import type {CartItem,CatalogProduct} from '../types/catalog';
 export function cartUnitPresentation(items:CartItem[],products:CatalogProduct[]):CartItem[]{
   const byId=new Map(products.flatMap(p=>[p,...p.variants]).map(p=>[p.id,p]));
   return items.map(item=>{
-    if(item.quantityTracked===false||item.commercialLineKind==='configurable_parcel')return item;
+    if(item.quantityTracked===false)return item;
+    if(item.commercialLineKind==='configurable_parcel'){
+      const units=[...new Set(item.parcelInstances.flatMap(parcel=>parcel.components.map(component=>component.unitNameAr?.trim())).filter(Boolean))];
+      return {...item,baseUnitNameAr:item.baseUnitNameAr||(units.length>1?'وحدة':units[0]||'باكيت')};
+    }
     const product=byId.get(item.productId);
     if(!product)return item;
     if(item.commercialLineKind==='legacy_single_sku_parcel'&&item.unitsPerSalePackage!==product.unitsPerSalePackage)return item;

@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner-approved display-only ON stock shortage Arabic copy and actual saved unit names;no calls,values,SQL or guards changed.",
-  "baselineSha": "3d5218b699c550ab3cd5abd3f55793a83b2ec20c",
+  "baselineSha": "5ef5fd043b587a51dcf2393378b118e4c33e5ae3",
   "branch": "codex/on-stock-unit-display225",
   "phase": "ON_DISPLAY225",
   "startedAt": "2026-11-17T08:26:51.856Z",
@@ -11,21 +11,27 @@
     "ON actual unit labels throughout livecart/catalog/POS and immutable savedreceipts;rawcart persistence and financial payloads unchanged.",
     "Approved stockshortage Arabic messages with originalcartFits predicate/newPOSline object byte-identical.",
     "Canonical Chromium/WebKit12/12 in a new network-detached Linux sandbox;no demo/n8n/hosted changes.",
-    "Actual224HTTP181:172success9empty0errors;RPC735 with18expecteddenials;fresh evidence written."
+    "Actual224HTTP181:172success9empty0errors;RPC735 with18expecteddenials;fresh evidence written.",
+    "Fresh actual224 HTTP181/RPC735 evidence rebound;formed-cart unit description uses only immutable recipe units,not currentcatalog."
   ],
   "inProgress": [
-    "Save tested checkpoint before final local gate andCI."
+    "Final quiet rootunits and actual historical schema-only view proof beforepush;no merge before exact-head fullCI/Gitleaks."
   ],
   "notStarted": [],
   "testsPassed": [
     "Focused43/43,0skip;all historical beforeText andunknownbyte guards retained.",
-    "Types bothapps andfull strictlint exit0 beforefinalevidence pin refresh;all appcode unchanged sincebrowserproof."
+    "Types bothapps andfull strictlint exit0 beforefinalevidence pin refresh;all appcode unchanged sincebrowserproof.",
+    "Chromium/WebKit16/16 at390/1280;canonical networkguard teardown exit0;store233/233,0skip;focusedfinalevidence29/29.",
+    "Bothapp fulltypes exit0 andfullstrictlint exit0;store typecheck command is npm --prefix customer-web run lint."
   ],
   "testsRemaining": [
     "Quiet fullunits root/store after the14historical/display/evidence failures havebeen corrected;no retries/timeout changes.",
     "Finaltype/lint/sourcecheck/Gitleaks/exact-headFULLCI andDraftPR;notdeliveryready."
   ],
-  "findings": [],
+  "findings": [
+    "5ef CI: five store-label expectations corrected without values/payloadchanges; historical219 clone omitted four exact newdisplay sources,now projected toapprovedmain bytes withunknownbyte refusal.",
+    "Rehearsal stopped32rawACL diffs;readonly sourcearchive proves Restore lost explicit owner representation;no scope expansion orresume."
+  ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
@@ -33,12 +39,12 @@
     "No SQL or RPC/quantity/price/guard/persistence changes.",
     "No original workbook/owner file changes."
   ],
-  "checkpointedAt": "2026-11-17T14:12:39.277Z",
+  "checkpointedAt": "2026-11-17T14:56:26.041Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 23,
-  "filesTouchedManifestSha256": "dc4fea8d5510b309f105ef7eee9ec4475304eea3c0550c11c919707b4cf1ccdb",
-  "nextExactAction": "Quiet fullunits after corrected labels/history andfreshHTTP/RPC;thenDraftPR exact-head FULLCI/Gitleaks. B rehearsal remainsparked.",
-  "workingTreeFingerprint": "AFDA8612A1E46635E654DB0DE35F25E72C33D9A4C10B1507AB5602DD41DB92B4"
+  "filesTouchedCount": 13,
+  "filesTouchedManifestSha256": "02dc32f44b8fcebe455523272709ffc81d1a9ddc840f916b275da1106d9ddd11",
+  "nextExactAction": "Run exact committed schemaOnly219 view,then quiet fullrootunits once;push ifgreen;watch fullCI112;225remainsseparate;rehearsalSTOP32ACL needsownerreview.",
+  "workingTreeFingerprint": "D5F6FFC0DE6F8E74BE6CA75D6050CBD944FFBA83D62B9B972401DC5F37E45C36"
 }
