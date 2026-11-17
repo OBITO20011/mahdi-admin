@@ -3,55 +3,35 @@
   "files": [
     {
       "code": " M",
-      "path": "customer-web/src/utils/cartUnitPresentation.ts"
+      "path": "e2e/package-f-operator-errors.spec.ts"
     },
     {
       "code": " M",
-      "path": "customer-web/tests/checkout.test.ts"
+      "path": "e2e/package-f-public-receipt210.spec.ts"
     },
     {
       "code": " M",
-      "path": "customer-web/tests/trial-ta-sales-units.test.ts"
+      "path": "e2e/package-f-trial-sale-receipts.spec.ts"
     },
     {
       "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_AFTER_224.json"
+      "path": "e2e/package-f-trial-ta.spec.ts"
     },
     {
       "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+      "path": "e2e/package-f-unit-terminology.spec.ts"
     },
     {
       "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+      "path": "e2e/phase6-package-b-harness.tsx"
     },
     {
       "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_224.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "e2e/on-unit-display-harness.tsx"
-    },
-    {
-      "code": " M",
-      "path": "e2e/on-unit-display.spec.ts"
+      "path": "e2e/phase6-package-b.spec.ts"
     },
     {
       "code": " M",
       "path": "scripts/audit/on-unit-display225-source-pins.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/product-workbook-runtime-view.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/on225-display.test.ts"
     }
   ]
 }

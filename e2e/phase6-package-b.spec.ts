@@ -99,7 +99,7 @@ test('desktop/tablet expand; mobile shell dimensions and selectable operational 
 
 test('mixed cart shows parcels and base units separately without changing the lines', async ({page}) => {
   await page.goto(`${url}?kind=cart`);
-  const summary = `3 باكيت + 2 طرد`;
+  const summary = `3 وحدة + 2 طرد`;
   await expect(page.getByText(summary, {exact: true}).first()).toBeVisible();
   await expect(page.getByText('وحدة العصير', {exact: true})).toBeVisible();
   await expect(page.getByText('طرد العصير', {exact: true})).toBeVisible();

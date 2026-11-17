@@ -39,12 +39,12 @@
     "No SQL or RPC/quantity/price/guard/persistence changes.",
     "No original workbook/owner file changes."
   ],
-  "checkpointedAt": "2026-11-17T14:56:26.041Z",
+  "checkpointedAt": "2026-11-17T16:07:56.931Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 13,
-  "filesTouchedManifestSha256": "02dc32f44b8fcebe455523272709ffc81d1a9ddc840f916b275da1106d9ddd11",
-  "nextExactAction": "Run exact committed schemaOnly219 view,then quiet fullrootunits once;push ifgreen;watch fullCI112;225remainsseparate;rehearsalSTOP32ACL needsownerreview.",
-  "workingTreeFingerprint": "D5F6FFC0DE6F8E74BE6CA75D6050CBD944FFBA83D62B9B972401DC5F37E45C36"
+  "filesTouchedCount": 8,
+  "filesTouchedManifestSha256": "7c261115555e07051930193d26d10c954a8af6c34a70128601ad1f5a13fb9fcb",
+  "nextExactAction": "Verify complete CI on the test-only browser expectations update and merge after all approved gates pass.",
+  "workingTreeFingerprint": "7C78E24213714C7805C55B2CFFA6D7C2EB6C19AAFBA71B3AC64DFD13A66E3676"
 }
