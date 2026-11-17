@@ -22,9 +22,13 @@ test('LF maintenance projects only exact reviewed source;historical beforeText a
  assert.equal(execFileSync('git',['diff','--name-only','HEAD','--','supabase/migrations'],{encoding:'utf8'}).trim(),'');
 });
 
-test('literal222/223/224 pins and all current SQL bytes remain LF;preflight invokes the rejecting check',()=>{
- assert.deepEqual(migrationLfEvidence(process.cwd()),{ok:true,checkedFiles:184,invalid:[],code:null});
+test('literal222/223/224/225 pins and all current SQL bytes remain LF;preflight invokes the rejecting check',()=>{
+ assert.deepEqual(migrationLfEvidence(process.cwd()),{ok:true,checkedFiles:185,invalid:[],code:null});
  const state=JSON.parse(readFileSync('docs/agent/project-state.json','utf8'));
+ const approved225=readFileSync('docs/design/on-independent-prices225/225_on_independent_prices.candidate.sql');
+ const active225=readFileSync('supabase/migrations/225_on_independent_prices.sql');
+ assert.deepEqual(active225,approved225);
+ assert.equal(createHash('sha256').update(active225).digest('hex'),'63d4966612c07c02ed1d5624031dd7f2bce8accb23463668c4ac3126ee29b2ed');
  for(const [file,expected]of [
   ['222_independent_lite_parcel_prices.sql','bcf55b1f43714e27d525dedac51cc7c3f85d0e1f2be422bbc422cafc6ff84a68'],
   ['223_optional_sales_quantity.sql','d5d6397bd5d676f766493b7a85b1f47ad6f1b6f6c465e7b4a32219ee49abc0af'],

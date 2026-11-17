@@ -82,6 +82,7 @@ export function readPrice225CandidatePins(){
  const pins=JSON.parse(readFileSync(new URL('../../docs/design/on-independent-prices225/catalog225-candidate-pins.json',import.meta.url),'utf8'));
  assert.equal(pins.format,1);assert.equal(pins.beforeCeiling,224);assert.equal(pins.migrationCeiling,225);
  assert.equal(pins.migrationSha256,sha256(canonicalLf(readFileSync(new URL('../../'+price225CandidatePath,import.meta.url),'utf8'))),'PRICES225_CANDIDATE_PIN_CHANGED');
+ assert.equal(pins.migrationSha256,sha256(readFileSync(new URL('../../supabase/migrations/'+price225Migration,import.meta.url))),'PRICES225_ACTIVE_MIGRATION_PIN_CHANGED');
  assert.equal(pins.base224PinsSha256,sha256(canonicalLf(readFileSync(new URL('../../docs/design/inventory224/catalog224-pins.json',import.meta.url),'utf8'))),'PRICES225_BASE224_PINS_CHANGED');
  return pins;
 }

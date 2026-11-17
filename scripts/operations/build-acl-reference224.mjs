@@ -5,7 +5,9 @@ import {mkdir,readFile,realpath,writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {assertReady224Reference,ready224ReferenceName} from './frankfurt-reference224.mjs';
-import {operationalManifest} from './operational-schema.mjs';
+import {operationalManifest,operationalSchema} from './operational-schema.mjs';
+import {assertSupportedUpgrade225} from './supported-upgrades225.mjs';
+import {sourceBeforeOnPrices225} from '../audit/source-before-on-prices225.mjs';
 import {assertOutsideRepository} from './frankfurt-owner-build.mjs';
 import {inventory} from '../audit/table-access-inventory.mjs';
 import {manifestDigest,canonicalLf,sha256,canonicalDefinitionLf,renderFunctionReference} from '../testing/maintenance-db-contract.mjs';
@@ -38,7 +40,8 @@ export async function buildReady224Reference(args){
  assert.equal(capture.hostedAccess,false);
  const output=capture.output,read=name=>readFile(path.join(output,name+'.json'),'utf8').then(JSON.parse);
  assert.deepEqual(await read('fresh-incremental-differences'),[]);
- const manifest=await operationalManifest();
+ let manifest=await operationalManifest();
+ if(operationalSchema.ceiling===225){assertSupportedUpgrade225(224);manifest=manifest.filter(unit=>Number(unit.name.slice(0,3))<=224);}
  assert.equal(capture.manifestSha256,manifestDigest(manifest));
  const versionHistory=manifest.map(m=>m.name.slice(0,3));
  const prefix=(captured,versions)=>({...captured,catalogSha256:sha256(JSON.stringify(captured.catalog)),appliedVersions:versions});
@@ -47,10 +50,10 @@ export async function buildReady224Reference(args){
   224:prefix(await read('catalog224-incremental'),versionHistory),
  };
  const proofText=canonicalLf(await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_224.json'),'utf8'));
- const proof=JSON.parse(proofText),source=await inventory(),final=prefixes[224];
+ const proof=JSON.parse(proofText),source=await inventory({projectSource:sourceBeforeOnPrices225}),final=prefixes[224];
  const functions=(await read('public224-functions')).map(row=>({...row,definition:canonicalDefinitionLf(row.definition)}));
  const functionText=canonicalLf(await readFile(path.join(root,'docs/generated/DB_FUNCTIONS.md'),'utf8'));
- assert.equal(renderFunctionReference(manifest,functions),functionText,'EXACT224_FUNCTION_REFERENCE');
+ assert.equal(renderFunctionReference(manifest,functions),sourceBeforeOnPrices225('docs/generated/DB_FUNCTIONS.md',functionText),'EXACT224_FUNCTION_REFERENCE');
  const reference={
   format:34,migrationCeiling:224,manifest,manifestDigest:manifestDigest(manifest),...final,prefixes,
   functions:functions.length,postgresVersion:capture.postgresVersion,catalogQuerySha256:sha256(schemaCatalogSql),

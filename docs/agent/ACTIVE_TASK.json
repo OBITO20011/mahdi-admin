@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Approved225 ON independent prices and golden financial proof;frozen COGS stays byte-identical.",
-  "baselineSha": "11b493e0d995e474db29c01dd535c9e68fc28b52",
+  "baselineSha": "b32cece4ae25d6c64a5f96f5e624ced4bef2ffcc",
   "branch": "codex/on-independent-prices225",
   "phase": "ON_INDEPENDENT_PRICE225",
   "startedAt": "2026-11-17T04:55:09.912Z",
@@ -11,13 +11,17 @@
     "Implemented quarantined ON225 independent price writers, paused parcels, originals and committed receipt review.",
     "Confirmed fractional COGS 9650 in cash POS, partial POS and website completion on224 and225 with rollback and unchanged original functions.",
     "Captured the additive225 catalog: one private pricing-state table,17new functions,one line guard,six constraints and one index.",
-    "Shared224 rehearsal completed RESET successfully on19171211; report saved outside repository."
+    "Shared224 rehearsal completed RESET successfully on19171211; report saved outside repository.",
+    "Display112 merged as78f47ccd;exact main82/82 and isolated ff-only/preflight passed.",
+    "Active225 fresh/incremental0diff,705public+51private;HTTP181/RPC771,ready225 built;owner protection pipeline passed.",
+    "Main78f47ccd display112:82/82; isolatedff/preflight passed.225active705+51/fresh-incremental0diff/access181+771/readyreference proved.",
+    "Official225 native backup224/Restore/apply-registration-failure/resume-only/backup225/Restore/verify and remembered-originals protection passed."
   ],
   "inProgress": [
-    "Build and prove versioned225 upgrade/RESET/D-1 on real isolated PostgreSQL; candidate remains quarantined."
+    "Resolve strict225 historical test projections; prove native RESET225 and true-browser accounting day."
   ],
   "notStarted": [
-    "225 versioned upgrade/RESET/D-1 and final full CI; no merge authorization."
+    "Draft225 and full exact-head CI; no225 merge authorization."
   ],
   "testsPassed": [
     "PostgreSQL candidate25/25 on63d49666; family/CAS/authorization and prior reserved parcel settlement proved; original functions unchanged.",
@@ -26,11 +30,16 @@
     "Browser product14/14 and committed receipt4/4 on isolated Chromium/WebKit.",
     "Store237/237; focused financial/import27/27; additive catalog and literal-source guards10/10.",
     "Full admin typecheck and strict lint exited0 with the catalog contract; no skips or retries added.",
-    "Versioned225 protection admission17/17, including seven D-1 atomic/refusal tests; admin types and strict lint0."
+    "Versioned225 protection admission17/17, including seven D-1 atomic/refusal tests; admin types and strict lint0.",
+    "Current browser integration34/34 Chromium/WebKit; legacy224 named-404 reader fixture corrected without changing assertions.",
+    "Actual owner225 encrypted backup/restore,preflight-zero-writes,pending-registration/resume-only and private-price-state preservation passed.",
+    "Active225 current admin/customer typechecks and strict lint exit0.",
+    "Current34/34 Chromium/WebKit integration;both full types and strictlint exited0.",
+    "Protection/catalog focused20/20,0skip. Fullroot2164:2097pass/67fail/0skip;failures retained for exact-history/source-ceiling triage."
   ],
   "testsRemaining": [
-    "Integrate display112 main; prove fresh/incremental225, access, registration recovery and encrypted protection.",
-    "Complete true-browser ON golden day and final exact-head CI;225 remains unmerged."
+    "Repair and rerun67current/history unit failures without weakening guards; final fullroot/store gates.",
+    "Native RESET225 and real-browser golden day;workflow/fullCI/Gitleaks final."
   ],
   "findings": [
     "Prior209 COGS premise corrected by exact224/225 six-case parity; final current body unchanged.",
@@ -38,8 +47,8 @@
   ],
   "blockers": [],
   "activeProcesses": [
-    "Shared224 rehearsal pid23480 parked after successful verified RESET; evidence and containers retained.",
-    "Display112 merged78f47ccd; main CI under observation; no primary/demo/hosted access."
+    "Shared224 rehearsalpid23480 parked and evidence retained; browsercontainer cbee87c8 isolated.",
+    "No225 gate running at checkpoint; ownerdemo/n8n untouched."
   ],
   "prohibitions": [
     "No hosted/deploy/demo/n8n/Docker restart;no original workbook changes.",
@@ -47,12 +56,12 @@
     "No ON fillin workbook/generator or ON cutover rewrite in this round.",
     "225Draft only;no merge before fullgolden day,CI andClaude review."
   ],
-  "checkpointedAt": "2026-11-17T22:28:10.919Z",
+  "checkpointedAt": "2026-11-17T23:34:22.008Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 49,
-  "filesTouchedManifestSha256": "4b559e40f578f1fd3bf51f16ebb0eacd870da1c6e9c23b3dd15087610e84e151",
-  "nextExactAction": "Activate approved225 locally on this branch only; prove fresh/incremental catalog and current protection chain.",
-  "workingTreeFingerprint": "A7DC41E568117950F3CF1D21AC4EDCFC244330FA8337AE9C6609D14D313DE711"
+  "filesTouchedCount": 31,
+  "filesTouchedManifestSha256": "e06ee56c38029c3febd97bb4c98ea04fb8c9ec9e9cb726eba089c03cab30e826",
+  "nextExactAction": "Repair exact225 historical projections; run RESET225 and browser-native golden day; no225 merge.",
+  "workingTreeFingerprint": "69D7452178123D6A5DA373ADBFE7825288174991A2897D6D8357A019F0DB6DA7"
 }

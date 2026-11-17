@@ -1,7 +1,9 @@
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import path from 'node:path';
-import {operationalManifest} from './operational-schema.mjs';
+import {operationalManifest,operationalSchema} from './operational-schema.mjs';
+import {assertSupportedUpgrade225} from './supported-upgrades225.mjs';
+import {sourceBeforeOnPrices225} from '../audit/source-before-on-prices225.mjs';
 import {assertReady223Catalog} from './optional-quantity223-catalog.mjs';
 import {assertReady224Catalog,inventory224Migration,assertInventory224CatalogDelta} from './inventory224-catalog.mjs';
 import {manifestDigest,canonicalLf,sha256} from '../testing/maintenance-db-contract.mjs';
@@ -67,6 +69,8 @@ export function assertReady224Reference(reference,manifest,proofText,source){
 }
 
 export async function readReady224Reference(root,filename){
- return assertReady224Reference(JSON.parse(await readFile(filename,'utf8')),await operationalManifest(),
-  await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_224.json'),'utf8'),await inventory());
+ let manifest=await operationalManifest();
+ if(operationalSchema.ceiling===225){assertSupportedUpgrade225(224);manifest=manifest.filter(unit=>Number(unit.name.slice(0,3))<=224);}
+ return assertReady224Reference(JSON.parse(await readFile(filename,'utf8')),manifest,
+  await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_224.json'),'utf8'),await inventory({projectSource:sourceBeforeOnPrices225}));
 }

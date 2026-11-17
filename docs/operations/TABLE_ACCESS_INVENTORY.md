@@ -1,139 +1,14 @@
-# 4 نوفمبر2026 — قالب المنتجات والنكهات219
-
-جرد حالي62موضع قراءة و181سلسلة فعلية عبرPostgREST المحلي:172نجاحاً،9قراءات فارغة،0رفض صلاحية و0خطأ. الأدوار والمنح لم تتغير؛المصادر الحالية مطابقة لـTABLE_ACCESS_AFTER_219.json. لا اتصال مستضاف. دليل138 السلبي التاريخي محفوظ دون إعادة وسم.
-
----
-
-# تحديث214 — حزمة ز
-
-الجرد الحالي يشمل337 ملف مصدر و53 موضع استعلام مباشر. أثبت TABLE_ACCESS_AFTER_214.json نجاح154 استعلام SDK فعلياً بالأدوار والفروع نفسها، دون أي خطأ صلاحيات أو منح جديدة. التقارير التاريخية وإعدادات فرانكفورت اليدوية أدناه محفوظة كما هي. لا اتصال بفرانكفورت ضمن هذا التحقق.
-
-# الحالة الحالية لحزمة ي — مرجع213
-
-الجرد الحالي335مصدر؛154استعلاماً فعلياً ناجحاً في TABLE_ACCESS_AFTER_213.json بلا أخطاء صلاحيات. أدوار القراءة والتكلفة لم تتوسع. السجل التالي من مرجع التقرير المدموج703fc51،ويحتفظ بسياقه التاريخي وخطة تهيئة فرانكفورت؛لم يُفحص أي إعداد مستضاف هنا.
-
----
-
-# الحالة الحالية للحزمة ر —24 أكتوبر2026
-
-335 ملف مصدر و154 قراءة جداول فعلية ناجحة حتى212، و537 فحصRPC مع10حالات رفض متوقعة حسب الدور. الأدلة الحالية في TABLE_ACCESS_AFTER_212.json وTABLE_ACCESS_INVENTORY.json وSERVICE_ACCESS_INVENTORY.json وSERVICE_ACCESS_DIAGNOSTIC.json.212 معتمدة للقراءة فقط؛لا كتابة أو حساب أو صلاحيات قائمة تغيرت،ولا اتصال مستضاف.
-
-السجلات التالية محفوظة بسياقها التاريخي.
-
----
-
-# الحالة الحالية للحزمة و —23 أكتوبر2026
-
-الجرد الحالي الكامل في TABLE_ACCESS_INVENTORY.json وSERVICE_ACCESS_INVENTORY.json. أُعيد فحص328 ملف مصدر و148 طلب جداول فعلياً بلا أخطاء على قاعدة محلية حتى211، و534 فحص RPC مع8 حالات رفض متوقعة فقط. لا تغيير SQL أو RPC أو صلاحيات ولا اتصال بفرانكفورت.
-
-القسم التالي محفوظ من مرجع e96efc1 بسياقه وتواريخه؛الدليل الحالي للمصدر هو الملفات المذكورة أعلاه،وليس تشخيص138 التاريخي.
-
----
-
-# تحديث هوية المحل هـ —23أكتوبر2026
-
-أُعيد التحقق الفعلي محلياً بعد تحديث الاسم والأصول:327مصدر،148استعلاماً ناجحاً،534فحصRPC مع8رفض42501 متوقعة للمالك فقط. السقف211 والـSQL والمنح لم تتغير؛هذه أدلة المصدر الحالي وليست اتصالاً بفرانكفورت. السجلات السابقة أدناه محفوظة بتاريخها.
-
----
-
-# تحديث التحقق المحلي211 —23أكتوبر2026
-
-**الحالة الحالية:**327 ملف مصدر، و148 استدعاء جداول فعلياً بلا خطأ، و534 فحص RPC؛حالات42501 الثماني متوقعة لوظائف المالك فقط. لا اتصال مستضاف.
-
-الدليل الحالي:TABLE_ACCESS_AFTER_211.json وSERVICE_ACCESS_DIAGNOSTIC.json؛الأقسام الأقدم أدناه تاريخية بتواريخها،وليست وصفاً لفرانكفورت الآن. إعداد CSP_CONNECT_SRC وStorage وعضوية publication في المستضاف يحتاج تحقق المالك عند التحويل؛لم ينفّذه الوكيل.
-
----
-
-# الحالة الحالية C7 — السقف207
-
-142 فحص SDK ناجح بلا خطأ أو رفض، مطابق للمصدر الحالي في TABLE_ACCESS_AFTER_207.json.
-513 فحوص RPC بلا رفض EXECUTE في SERVICE_ACCESS_DIAGNOSTIC.json؛هذه بروفات dispatch،
-واختبار سير التصحيحات الفعلي منفصل في DOCUMENT_CORRECTIONS_207_RUNTIME.json.
-أدلة206 وC6 التاريخية ومراجع المالك ثابتة عبر العكس الدقيق؛لا وصول مستضاف.
-
-## أرشيف المصدر السابق وحدوده
-
-# الحالة الحاليةC6 — السقف206 والمصدر الحالي
-
-142فحصSDK أصلي ناجح،بلا رفض أو خطأ،في TABLE_ACCESS_AFTER_STOREFRONT_C6.json،
-مطابق لبصمات المصدر الحالي كاملاً. 507فحوصRPC بلا42501 في SERVICE_ACCESS_DIAGNOSTIC.json.
-TABLE_ACCESS_AFTER_206.json ومرجع المالك206 ثابتان لمصدر C5 عبر العكس الدقيق.
-لا ترحيل جديد ولا وصول مستضاف؛الملاحظات التالية أرشيف أدلة ما قبل C6.
-
-## أرشيف المصدر السابق وحدوده المسجلة
-
-# الحالة الحالية206 — وصول محلي مثبت
-
-142سلسلةSDK أصلية ناجحة بلا رفض أو خطأ؛الدليل TABLE_ACCESS_AFTER_206.json
-يطابق بصمات المصدر الحالي كاملة. 507فحوصRPC بلا42501 في SERVICE_ACCESS_DIAGNOSTIC.json،
-مع مراجعةEXECUTE السباعية محفوظة. المرجع المحلي520دالة؛لا وصول مستضاف أو قبولstaging.
-الأدلة والملاحظات التاريخية أدناه تبقى لنطاقها المسجل،ولا تحل محل دليل206.
-
----
-
-# 20Oct — current205 source readiness
-
-Current205 manual519 functions;SDK142/142 and RPC504 dispatches with zero42501
-verified on current296 sourcefiles. Historical reports below retain their own
-baselines;see TABLE_ACCESS_AFTER_205.json and PRODUCT_RECEIVING_205_INITIAL_QA.json.
-No hostedaccess or apply.
-
-# جرد الوصول الحالي204 — سجل المبيعات
-
-TABLE_ACCESS_AFTER_204.json:142/142فحصSDK ناجح؛RPC498بلا42501.
-204قارئ فواتيرواحدبنفسأدوارالطلبات؛لا كتّابأومنحجداول.
-الدليل517دالةو166ملفاً؛المرجعوالترقيةوالتصفيرالفعلية تليالجودة.
-النص التالي يحفظ تقارير203وماقبله كماهي.
-
-# جرد الوصول الحالي203 — دفعات الفواتير القديمة
-
-TABLE_ACCESS_AFTER_203.json:142/142فحصSDK ناجح وRPC495بلا42501.
-203تعدل قراءة واحدة فقط؛لا منح جديدة. المرجع165ملفاً و516دالة و13Realtime
-وبناءجديد=ترقية بلااختلاف. أمرالمالك فيALL_COLLECTIONS_203_AR.md.
-النص التالي يحفظ أدلة202وماقبله كما هي؛ليس وصفاً للحالة الحالية.
-
-# جرد الوصول الحالي202 —المقبوض الشامل
-
-الدليل TABLE_ACCESS_AFTER_202.json:142/142سلسلةSDK فعلية بلا42501/PGRST2xx،
-والتغطية والبصمات تطابق المصدر الحالي. RPC495بلا42501 في SERVICE_ACCESS_DIAGNOSTIC.json.
-لا منح جديدة في202؛تغيرت دالتا قراءة فقط.لا اتصال مستضاف ولا إذنapplyمنالوكيل.
-المرجع164ملف/516دالة/13Realtime وبناءجديد=ترقية0اختلاف.
-راجع ALL_COLLECTIONS_202_AR.md للأمر الحالي وSERVICE_ACCESS_AUDIT.md للإضافة الحالية.
-
-## سياق تاريخي محفوظ
-
-النص التالي يحفظ أدلة138السلبية والتحديثات199وماقبله؛ليس وصفاً لحالة202.
-
-# جرد الوصول الحالي199 —إدارة المستودعات
-
-19Oct:أُعيد الجرد على المصدر النهائي؛الدليل `TABLE_ACCESS_AFTER_199.json`
-142/142 سلسلةSDK فعلية بلا42501/PGRST2xx،والتغطية مطابقة للمصدر.
-دليل198 الحالي `TABLE_ACCESS_STAGING_198.json` أُعيد أيضاً142/142.
-شاشة المستودعات تضيفRPC فقط ولا تضيف كتابة مباشرة أومنح جداول.
-المنح التاريخية وأدلة138السلبية محفوظة،ولا اتصال مستضاف في هذا القياس.
-
-## الحالة السابقة198 —إعداد فرانكفورت العام
-
-CSP_CONNECT_SRC:أُغلق HTTPS/WSS للقديم؛لاAPP_FALLBACK/CSPقديمة في الجردالحالي.
-الدليل الحالي TABLE_ACCESS_STAGING_198.json:142/142؛باقيالأدلةتاريخيةمحفوظةببصماتها. انظر FRANKFURT_STAGING_PREPARATION_198_AR.md.
-
-# جرد الوصول — الحالة بعد150
-
-**الوصول المباشر المحلي ناجح: 142 سلسلةفعلية،صفر42501/PGRST2xx،والتغطيةكاملة.** [الدليل الإيجابي](TABLE_ACCESS_AFTER_150.md). --apply موقوف؛Auth/Storage/Realtime والإعداداتبواباتمنفصلة،لاادعاءقبولstaging. أدناهدليل138السلبي للمقارنة،لاهدفالمواءمة.
-
----
-
 # دليل المرجع138 قبل المنح — تاريخي،2026-10-15
 
 **هذه نتائج138 السلبية،وليست حالة الشجرة بعد150. اعتُمدت150 لاحقاً؛راجع TABLE_ACCESS_AFTER_150.md للإثبات الحالي. لا تشغّل `frankfurt-align-acl.mjs --apply`؛لا اتصال بفرانكفورت/Production و140–149 محجوزة.**
 
 ## النتيجة والنطاق
 
-- 50 موضع استعلام: 43 authenticated في الإدارة،7 service_role في send-order-push،0 anon. المتجر لا يقرأ الجداول مباشرة؛RPC/Gateway خارج جرد الجداول.
+- 62 موضع استعلام: 55 authenticated في الإدارة،7 service_role في send-order-push،0 anon. المتجر لا يقرأ الجداول مباشرة؛RPC/Gateway خارج جرد الجداول.
 - 30 جدولاً مع الموارد المضمّنة؛20 اشتراك Realtime موثّق منفصلاً. Storage وArray.from مستبعدان بأسباب صريحة فيJSON.
-- قاعدة جديدة001–138،138 سجلاً رسمياً. 142 إعادة تشغيل فعلية لسلاسل SDK الأصلية عبر PostgREST16.1/PostgreSQL17.6: 15 نجاح،127 رفض42501 في41 موضعاً،0 نتيجة صفرية،0 أخطاء أخرى.
-- جاهزية وصول التطبيق: **غير مقبول — المنح الحالية تعطل الوصول المباشر**. نجاح أداة التشخيص يعني جمع الأدلة فقط،لا قبول المنتج.
-- زمن الفحص:196.491ث؛2026-10-17T10:49:32.148Z إلى2026-10-17T10:52:48.639Z.
+- قاعدة جديدة001–138،138 سجلاً رسمياً. 181 إعادة تشغيل فعلية لسلاسل SDK الأصلية عبر PostgREST16.1/PostgreSQL17.6: 172 نجاح،0 رفض42501 في0 موضعاً،9 نتيجة صفرية،0 أخطاء أخرى.
+- جاهزية وصول التطبيق: **ناجح**. نجاح أداة التشخيص يعني جمع الأدلة فقط،لا قبول المنتج.
+- زمن الفحص:126.487ث؛2026-11-17T22:39:57.845Z إلى2026-11-17T22:42:04.332Z.
 
 ## طريقة الإثبات وحدودها
 
@@ -151,51 +26,63 @@ CSP_CONNECT_SRC:أُغلق HTTPS/WSS للقديم؛لاAPP_FALLBACK/CSPقديم�
 
 | الجدول/العملية | الملف:السطر والدالة | الدور/المسار/المستدعون | النتيجة (كل الأدوار/المتغيرات) |
 |---|---|---|---|
-| orders / select | src/features/pos/PosView.tsx:482 / executeSale | authenticated; pos; has-source-consumer | owner:42501؛ admin:42501؛ cashier:42501 |
-| orders / select | src/services/supabase/adminCustomerV2Lifecycle.ts:221 / isCustomerV2Order | authenticated; adminCustomerV2Lifecycle.ts; src/services/supabase/orders.service.ts | owner:42501؛ admin:42501؛ cashier:42501 |
-| business_operations / select | src/services/supabase/adminCustomerV2Lifecycle.ts:227 / isCustomerV2Order | authenticated; adminCustomerV2Lifecycle.ts; src/services/supabase/orders.service.ts | owner:success؛ admin:success؛ cashier:success |
-| profiles / select | src/services/supabase/auth.service.ts:222 / fetchUserProfileAndRole | authenticated; shared-store/auth-bootstrap; src/stores/useAuthStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
-| user_roles / select؛ embeds:roles | src/services/supabase/auth.service.ts:252 / fetchUserProfileAndRole | authenticated; shared-store/auth-bootstrap; src/stores/useAuthStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
-| supplier_receipts / select؛ embeds:branches,products,profiles,supplier_payments,supplier_receipt_items,suppliers,warehouses | src/services/supabase/directReceiving.service.ts:209 / fetchSupplierReceiptByIdFromSupabase | authenticated; directReceiving; src/features/directReceiving/DirectReceivingView.tsx | owner:42501؛ admin:42501؛ cashier:42501 |
-| suppliers / select | src/services/supabase/directReceiving.service.ts:533 / fetchSuppliersForReceivingFromSupabase | authenticated; directReceiving; src/features/directReceiving/CreateDirectReceiptModal.tsx,src/features/directReceiving/DirectReceivingView.tsx | owner:42501؛ admin:42501؛ cashier:42501 |
-| units / select | src/services/supabase/directReceiving.service.ts:606 / fetchUnitsForReceivingFromSupabase | authenticated; directReceiving; src/features/directReceiving/CreateDirectReceiptModal.tsx | owner:42501؛ admin:42501؛ cashier:42501 |
-| warehouses / select | src/services/supabase/directReceiving.service.ts:621 / fetchWarehousesForReceivingFromSupabase | authenticated; directReceiving; src/features/directReceiving/CreateDirectReceiptModal.tsx,src/features/directReceiving/DirectReceivingView.tsx | owner:42501؛ admin:42501؛ cashier:42501 |
-| branches / select | src/services/supabase/directReceiving.service.ts:641 / fetchBranchesForReceivingFromSupabase | authenticated; directReceiving; src/features/directReceiving/CreateDirectReceiptModal.tsx | owner:42501؛ admin:42501؛ cashier:42501 |
-| inventory_balances / select؛ embeds:products,warehouses | src/services/supabase/inventory.service.ts:150 / fetchInventoryBalancesFromSupabase | authenticated; inventory; no-static-consumer-found | owner:42501؛ admin:42501؛ cashier:42501 |
-| orders / select؛ embeds:customer_addresses,customers,order_items | src/services/supabase/orders.service.ts:274 / fetchOperationalOrderListRows | authenticated; orders; no-static-consumer-found | owner:42501؛ admin:42501؛ cashier:42501 |
-| order_items / select | src/services/supabase/orders.service.ts:278 / fetchOperationalOrderListRows | authenticated; orders; no-static-consumer-found | owner:42501؛ admin:42501؛ cashier:42501 |
-| orders / select؛ embeds:customer_addresses,customers,order_items,order_status_history,product_images,products,sales_returns,units | src/services/supabase/orders.service.ts:569 / fetchOrderByIdFromSupabase | authenticated; orders; src/features/orders/OrdersCenterView.tsx | owner:42501؛ admin:42501؛ cashier:42501 |
-| order_parcel_instances / select | src/services/supabase/orders.service.ts:590 / fetchOrderByIdFromSupabase | authenticated; orders; src/features/orders/OrdersCenterView.tsx | owner:success؛ admin:success؛ cashier:success |
-| order_parcel_components / select | src/services/supabase/orders.service.ts:596 / fetchOrderByIdFromSupabase | authenticated; orders; src/features/orders/OrdersCenterView.tsx | owner:success؛ admin:success؛ cashier:success |
-| warehouses / select | src/services/supabase/products.service.ts:581 / createProductWithOpeningStockInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
-| categories / select | src/services/supabase/products.service.ts:589 / createProductWithOpeningStockInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
-| units / select | src/services/supabase/products.service.ts:597 / createProductWithOpeningStockInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
-| units / select | src/services/supabase/products.service.ts:606 / createProductWithOpeningStockInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
-| units / select | src/services/supabase/products.service.ts:619 / createProductWithOpeningStockInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
-| products / select | src/services/supabase/products.service.ts:699 / createProductWithOpeningStockInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
-| warehouses / select | src/services/supabase/products.service.ts:794 / createProductFamilyWithFlavorsInSupabase | authenticated; products; src/features/products/ProductFormModal.tsx | owner:42501؛ admin:42501؛ cashier:42501 |
-| categories / select | src/services/supabase/products.service.ts:806 / createProductFamilyWithFlavorsInSupabase | authenticated; products; src/features/products/ProductFormModal.tsx | owner:42501؛ admin:42501؛ cashier:42501 |
-| units / select | src/services/supabase/products.service.ts:818 / createProductFamilyWithFlavorsInSupabase | authenticated; products; src/features/products/ProductFormModal.tsx | owner:42501؛ admin:42501؛ cashier:42501 |
-| units / select | src/services/supabase/products.service.ts:825 / createProductFamilyWithFlavorsInSupabase | authenticated; products; src/features/products/ProductFormModal.tsx | owner:42501؛ admin:42501؛ cashier:42501 |
-| units / select | src/services/supabase/products.service.ts:832 / createProductFamilyWithFlavorsInSupabase | authenticated; products; src/features/products/ProductFormModal.tsx | owner:42501؛ admin:42501؛ cashier:42501 |
-| units / select | src/services/supabase/products.service.ts:843 / createProductFamilyWithFlavorsInSupabase | authenticated; products; src/features/products/ProductFormModal.tsx | owner:42501؛ admin:42501؛ cashier:42501 |
-| units / select | src/services/supabase/products.service.ts:1013 / updateProductInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
-| units / select | src/services/supabase/products.service.ts:1024 / updateProductInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
-| units / select | src/services/supabase/products.service.ts:1036 / updateProductInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
-| suppliers / select | src/services/supabase/purchases.service.ts:62 / fetchSuppliersFromSupabase | authenticated; cheques,purchases; src/features/cheques/ChequesView.tsx,src/features/purchases/CreatePurchaseOrderModal.tsx,src/features/purchases/PurchasesView.tsx,src/features/purchases/SupplierPaymentModal.tsx,src/services/supabase/goLive.service.ts | owner:42501؛ owner:42501/extended؛ admin:42501؛ admin:42501/extended؛ cashier:42501؛ cashier:42501/extended |
-| purchase_orders / select؛ embeds:branches,products,purchase_order_items,purchase_receipt_items,purchase_receipts,supplier_payments,suppliers,units,warehouses | src/services/supabase/purchases.service.ts:381 / fetchPurchaseOrderByIdFromSupabase | authenticated; purchases; src/features/purchases/PurchaseOrderDetailView.tsx | owner:42501؛ admin:42501؛ cashier:42501 |
-| purchase_receipts / select؛ embeds:products,purchase_orders,purchase_receipt_items,suppliers,warehouses | src/services/supabase/purchases.service.ts:979 / fetchGoodsReceiptsFromSupabase | authenticated; purchases; src/features/purchases/PurchasesView.tsx | owner:42501؛ owner:42501/extended؛ admin:42501؛ admin:42501/extended؛ cashier:42501؛ cashier:42501/extended |
-| purchase_orders / select | src/services/supabase/purchases.service.ts:1061 / fetchSupplierPurchaseSummaryFromSupabase | authenticated; purchases; no-static-consumer-found | owner:42501؛ admin:42501؛ cashier:42501 |
-| categories / select | src/services/supabase/reference-data.service.ts:49 / fetchCategoriesFromSupabase | authenticated; shared-store/auth-bootstrap; src/stores/referenceData.storeSlice.ts,src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
-| products / select | src/services/supabase/reference-data.service.ts:53 / fetchCategoriesFromSupabase | authenticated; shared-store/auth-bootstrap; src/stores/referenceData.storeSlice.ts,src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
-| brands / select | src/services/supabase/reference-data.service.ts:184 / fetchBrandsFromSupabase | authenticated; shared-store/auth-bootstrap; src/stores/referenceData.storeSlice.ts,src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
-| products / select | src/services/supabase/reference-data.service.ts:188 / fetchBrandsFromSupabase | authenticated; shared-store/auth-bootstrap; src/stores/referenceData.storeSlice.ts,src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
-| units / select | src/services/supabase/reference-data.service.ts:309 / fetchUnitsFromSupabase | authenticated; shared-store/auth-bootstrap; src/stores/referenceData.storeSlice.ts,src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
-| products / select | src/services/supabase/reference-data.service.ts:313 / fetchUnitsFromSupabase | authenticated; shared-store/auth-bootstrap; src/stores/referenceData.storeSlice.ts,src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
-| branches / select | src/services/supabase/reference-data.service.ts:450 / fetchBranchesFromSupabase | authenticated; purchases,shared-store/auth-bootstrap; src/features/purchases/CreatePurchaseOrderModal.tsx,src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
-| warehouses / select | src/services/supabase/reference-data.service.ts:480 / fetchWarehousesFromSupabase | authenticated; purchases,shared-store/auth-bootstrap; src/features/purchases/CreatePurchaseOrderModal.tsx,src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
+| orders / select؛ embeds:order_items | src/features/pos/PosView.tsx:592 / executeSale | authenticated; pos; has-source-consumer | owner:success؛ admin:success؛ cashier:success |
+| orders / select | src/services/supabase/adminCustomerV2Lifecycle.ts:222 / readOrderLifecycleContract | authenticated; adminCustomerV2Lifecycle.ts; src/services/supabase/orders.service.ts | owner:success؛ admin:success؛ cashier:success |
+| business_operations / select | src/services/supabase/adminCustomerV2Lifecycle.ts:228 / readOrderLifecycleContract | authenticated; adminCustomerV2Lifecycle.ts; src/services/supabase/orders.service.ts | owner:success؛ admin:success؛ cashier:success |
+| profiles / select | src/services/supabase/auth.service.ts:222 / fetchUserProfileAndRole | authenticated; shared-store/auth-bootstrap; src/stores/useAuthStore.ts | owner:success؛ admin:success؛ cashier:success |
+| user_roles / select؛ embeds:roles | src/services/supabase/auth.service.ts:252 / fetchUserProfileAndRole | authenticated; shared-store/auth-bootstrap; src/stores/useAuthStore.ts | owner:success؛ admin:success؛ cashier:success |
+| supplier_receipts / select؛ embeds:products,supplier_receipt_items,suppliers,warehouses | src/services/supabase/cashDocumentDisplay.service.ts:14 / fetchCashReceiptDocument | authenticated; shifts; src/features/shifts/CashSourceDocumentLines.tsx | owner:success؛ admin:success؛ cashier:success |
+| purchase_orders / select؛ embeds:products,purchase_order_items,suppliers,units,warehouses | src/services/supabase/cashDocumentDisplay.service.ts:19 / fetchCashPurchaseDocument | authenticated; shifts; src/features/shifts/CashSourceDocumentLines.tsx | owner:success؛ admin:success؛ cashier:success |
+| supplier_receipts / select؛ embeds:branches,products,profiles,supplier_payments,supplier_receipt_items,suppliers,warehouses | src/services/supabase/directReceiving.service.ts:229 / fetchSupplierReceiptByIdFromSupabase | authenticated; directReceiving; src/features/directReceiving/DirectReceivingView.tsx | owner:success؛ admin:success؛ cashier:success |
+| suppliers / select | src/services/supabase/directReceiving.service.ts:556 / fetchSuppliersForReceivingFromSupabase | authenticated; directReceiving; src/features/directReceiving/CreateDirectReceiptModal.tsx,src/features/directReceiving/DirectReceivingView.tsx | owner:success؛ admin:success؛ cashier:success |
+| units / select | src/services/supabase/directReceiving.service.ts:631 / fetchUnitsForReceivingFromSupabase | authenticated; directReceiving; src/features/directReceiving/CreateDirectReceiptModal.tsx | owner:success؛ admin:success؛ cashier:success |
+| warehouses / select | src/services/supabase/directReceiving.service.ts:646 / fetchWarehousesForReceivingFromSupabase | authenticated; directReceiving; src/features/directReceiving/CreateDirectReceiptModal.tsx,src/features/directReceiving/DirectReceivingView.tsx | owner:success؛ admin:success؛ cashier:success |
+| branches / select | src/services/supabase/directReceiving.service.ts:666 / fetchBranchesForReceivingFromSupabase | authenticated; directReceiving; src/features/directReceiving/CreateDirectReceiptModal.tsx | owner:success؛ admin:success؛ cashier:success |
+| inventory_balances / select؛ embeds:products,warehouses | src/services/supabase/inventory.service.ts:150 / fetchInventoryBalancesFromSupabase | authenticated; inventory; no-static-consumer-found | owner:success؛ admin:success؛ cashier:success |
+| orders / select؛ embeds:customer_addresses,customers,order_items | src/services/supabase/orders.service.ts:289 / fetchOperationalOrderListRows | authenticated; orders; no-static-consumer-found | owner:success؛ admin:success؛ cashier:success |
+| order_items / select | src/services/supabase/orders.service.ts:293 / fetchOperationalOrderListRows | authenticated; orders; no-static-consumer-found | owner:success؛ admin:success؛ cashier:success |
+| orders / select؛ embeds:business_operations,customer_addresses,customers,order_items,order_status_history,product_images,products,sales_returns,units | src/services/supabase/orders.service.ts:590 / fetchOrderByIdFromSupabase | authenticated; orders,salesHistory; src/features/orders/OrdersCenterView.tsx,src/features/salesHistory/SalesInvoiceDialog.tsx | owner:success؛ admin:success؛ cashier:success |
+| order_parcel_instances / select | src/services/supabase/orders.service.ts:616 / fetchOrderByIdFromSupabase | authenticated; orders,salesHistory; src/features/orders/OrdersCenterView.tsx,src/features/salesHistory/SalesInvoiceDialog.tsx | owner:success؛ admin:success؛ cashier:success |
+| order_parcel_components / select | src/services/supabase/orders.service.ts:622 / fetchOrderByIdFromSupabase | authenticated; orders,salesHistory; src/features/orders/OrdersCenterView.tsx,src/features/salesHistory/SalesInvoiceDialog.tsx | owner:success؛ admin:success؛ cashier:success |
+| product_images / select | src/services/supabase/product-images.service.ts:155 / isUploadedImageReferenced | authenticated; products; src/features/products/bulkImages/api.ts | owner:zero_rows؛ admin:zero_rows؛ cashier:zero_rows |
+| warehouses / select | src/services/supabase/products.service.ts:617 / createProductWithOpeningStockInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:success؛ admin:success؛ cashier:success |
+| categories / select | src/services/supabase/products.service.ts:625 / createProductWithOpeningStockInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:success؛ admin:success؛ cashier:success |
+| units / select | src/services/supabase/products.service.ts:633 / createProductWithOpeningStockInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:success؛ admin:success؛ cashier:success |
+| units / select | src/services/supabase/products.service.ts:642 / createProductWithOpeningStockInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:success؛ admin:success؛ cashier:success |
+| units / select | src/services/supabase/products.service.ts:655 / createProductWithOpeningStockInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:success؛ admin:success؛ cashier:success |
+| products / select | src/services/supabase/products.service.ts:737 / createProductWithOpeningStockInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:success؛ admin:success؛ cashier:success |
+| warehouses / select | src/services/supabase/products.service.ts:832 / createProductFamilyWithFlavorsInSupabase | authenticated; products; src/features/products/ProductFormModal.tsx | owner:success؛ admin:success؛ cashier:success |
+| categories / select | src/services/supabase/products.service.ts:844 / createProductFamilyWithFlavorsInSupabase | authenticated; products; src/features/products/ProductFormModal.tsx | owner:success؛ admin:success؛ cashier:success |
+| units / select | src/services/supabase/products.service.ts:856 / createProductFamilyWithFlavorsInSupabase | authenticated; products; src/features/products/ProductFormModal.tsx | owner:success؛ admin:success؛ cashier:success |
+| units / select | src/services/supabase/products.service.ts:863 / createProductFamilyWithFlavorsInSupabase | authenticated; products; src/features/products/ProductFormModal.tsx | owner:success؛ admin:success؛ cashier:success |
+| units / select | src/services/supabase/products.service.ts:870 / createProductFamilyWithFlavorsInSupabase | authenticated; products; src/features/products/ProductFormModal.tsx | owner:success؛ admin:success؛ cashier:success |
+| units / select | src/services/supabase/products.service.ts:881 / createProductFamilyWithFlavorsInSupabase | authenticated; products; src/features/products/ProductFormModal.tsx | owner:success؛ admin:success؛ cashier:success |
+| units / select | src/services/supabase/products.service.ts:1055 / updateProductInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:success؛ admin:success؛ cashier:success |
+| units / select | src/services/supabase/products.service.ts:1066 / updateProductInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:success؛ admin:success؛ cashier:success |
+| units / select | src/services/supabase/products.service.ts:1078 / updateProductInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:success؛ admin:success؛ cashier:success |
+| categories / select | src/services/supabase/productWorkbook.service.ts:30 / all | authenticated; cheques,crm,dashboard,directReceiving,goLive,inventory,more,operatingMode,orders,pos,products,purchases,reports,salesHistory,shifts,users,shared-store/auth-bootstrap; customer-web/src/App.tsx,customer-web/src/components/CategoryDrawer.tsx,customer-web/src/components/CategoryShowcase.tsx,customer-web/src/components/CheckoutProgress.tsx,customer-web/src/components/FloatingContactActions.tsx,customer-web/src/components/MerchandisingSections.tsx,customer-web/src/components/ParcelBuilderModal.tsx,customer-web/src/services/catalog.service.ts,customer-web/src/types/catalog.ts,customer-web/src/utils/catalogView.ts,customer-web/src/utils/saleUnitLabels.ts,src/components/common/RejectionNotice.tsx,src/components/layout/IPhoneContainer.tsx,src/features/cheques/ChequesView.tsx,src/features/crm/CrmView.tsx,src/features/crm/CustomerFilters.tsx,src/features/crm/CustomerStatement.tsx,src/features/dashboard/ChartsSection.tsx,src/features/directReceiving/CreateDirectReceiptModal.tsx,src/features/directReceiving/DirectReceivingView.tsx,src/features/goLive/GoLiveSetupView.tsx,src/features/goLive/OpeningChequesCard.tsx,src/features/inventory/InventoryOpeningSetupModal.tsx,src/features/inventory/InventoryView.tsx,src/features/inventory/StockCountModal.tsx,src/features/inventory/SupplierReplacementPanel.tsx,src/features/inventory/WarehouseTransferModal.tsx,src/features/more/DamageHistoryPanel.tsx,src/features/more/adminNavigation.config.ts,src/features/operatingMode/Inventory224View.tsx,src/features/operatingMode/OpeningEpochPanel.tsx,src/features/operatingMode/inventory224Contract.ts,src/features/orders/CustomerLocationCard.tsx,src/features/orders/OrdersCenterView.tsx,src/features/orders/aftercarePresentation.ts,src/features/pos/PosProductCard.tsx,src/features/pos/PosView.tsx,src/features/products/BulkProductImagesPanel.tsx,src/features/products/ProductFormModal.tsx,src/features/products/ProductsView.tsx,src/features/products/bulkImages/api.ts,src/features/products/bulkImages/journal.ts,src/features/products/bulkImages/upload.ts,src/features/purchases/CreatePurchaseOrderModal.tsx,src/features/purchases/PurchaseOrderCard.tsx,src/features/purchases/PurchasesView.tsx,src/features/purchases/ReceiveGoodsModal.tsx,src/features/reports/ReportsCenterView.tsx,src/features/salesHistory/SalesHistoryView.tsx,src/features/shifts/ShiftsView.tsx,src/features/users/UserFormModal.tsx,src/features/users/UsersView.tsx,src/hooks/useCustomerAccounts.ts,src/services/supabase/adminAftercareRecovery.ts,src/services/supabase/cheques.service.ts,src/services/supabase/crm.service.ts,src/services/supabase/damageLedger215.service.ts,src/services/supabase/directReceiving.service.ts,src/services/supabase/goLive.service.ts,src/services/supabase/inventory.service.ts,src/services/supabase/inventory224.service.ts,src/services/supabase/mfa.service.ts,src/services/supabase/orders.service.ts,src/services/supabase/products.service.ts,src/services/supabase/purchases.service.ts,src/services/supabase/reference-data.service.ts,src/services/supabase/salesAftercare.service.ts,src/services/supabase/salesHistory.service.ts,src/services/supabase/supplierReceiptSearch.ts,src/services/supabase/supplierReplacement.service.ts,src/stores/useAppStore.ts,src/types/crm.ts,src/types/purchases.ts,src/utils/damageLedger215.ts,src/utils/orderCalculations.ts,src/utils/salesHistory.ts,supabase/functions/submit-guest-order/index.ts | owner:success؛ admin:success؛ cashier:success |
+| units / select | src/services/supabase/productWorkbook.service.ts:31 / all | authenticated; cheques,crm,dashboard,directReceiving,goLive,inventory,more,operatingMode,orders,pos,products,purchases,reports,salesHistory,shifts,users,shared-store/auth-bootstrap; customer-web/src/App.tsx,customer-web/src/components/CategoryDrawer.tsx,customer-web/src/components/CategoryShowcase.tsx,customer-web/src/components/CheckoutProgress.tsx,customer-web/src/components/FloatingContactActions.tsx,customer-web/src/components/MerchandisingSections.tsx,customer-web/src/components/ParcelBuilderModal.tsx,customer-web/src/services/catalog.service.ts,customer-web/src/types/catalog.ts,customer-web/src/utils/catalogView.ts,customer-web/src/utils/saleUnitLabels.ts,src/components/common/RejectionNotice.tsx,src/components/layout/IPhoneContainer.tsx,src/features/cheques/ChequesView.tsx,src/features/crm/CrmView.tsx,src/features/crm/CustomerFilters.tsx,src/features/crm/CustomerStatement.tsx,src/features/dashboard/ChartsSection.tsx,src/features/directReceiving/CreateDirectReceiptModal.tsx,src/features/directReceiving/DirectReceivingView.tsx,src/features/goLive/GoLiveSetupView.tsx,src/features/goLive/OpeningChequesCard.tsx,src/features/inventory/InventoryOpeningSetupModal.tsx,src/features/inventory/InventoryView.tsx,src/features/inventory/StockCountModal.tsx,src/features/inventory/SupplierReplacementPanel.tsx,src/features/inventory/WarehouseTransferModal.tsx,src/features/more/DamageHistoryPanel.tsx,src/features/more/adminNavigation.config.ts,src/features/operatingMode/Inventory224View.tsx,src/features/operatingMode/OpeningEpochPanel.tsx,src/features/operatingMode/inventory224Contract.ts,src/features/orders/CustomerLocationCard.tsx,src/features/orders/OrdersCenterView.tsx,src/features/orders/aftercarePresentation.ts,src/features/pos/PosProductCard.tsx,src/features/pos/PosView.tsx,src/features/products/BulkProductImagesPanel.tsx,src/features/products/ProductFormModal.tsx,src/features/products/ProductsView.tsx,src/features/products/bulkImages/api.ts,src/features/products/bulkImages/journal.ts,src/features/products/bulkImages/upload.ts,src/features/purchases/CreatePurchaseOrderModal.tsx,src/features/purchases/PurchaseOrderCard.tsx,src/features/purchases/PurchasesView.tsx,src/features/purchases/ReceiveGoodsModal.tsx,src/features/reports/ReportsCenterView.tsx,src/features/salesHistory/SalesHistoryView.tsx,src/features/shifts/ShiftsView.tsx,src/features/users/UserFormModal.tsx,src/features/users/UsersView.tsx,src/hooks/useCustomerAccounts.ts,src/services/supabase/adminAftercareRecovery.ts,src/services/supabase/cheques.service.ts,src/services/supabase/crm.service.ts,src/services/supabase/damageLedger215.service.ts,src/services/supabase/directReceiving.service.ts,src/services/supabase/goLive.service.ts,src/services/supabase/inventory.service.ts,src/services/supabase/inventory224.service.ts,src/services/supabase/mfa.service.ts,src/services/supabase/orders.service.ts,src/services/supabase/products.service.ts,src/services/supabase/purchases.service.ts,src/services/supabase/reference-data.service.ts,src/services/supabase/salesAftercare.service.ts,src/services/supabase/salesHistory.service.ts,src/services/supabase/supplierReceiptSearch.ts,src/services/supabase/supplierReplacement.service.ts,src/stores/useAppStore.ts,src/types/crm.ts,src/types/purchases.ts,src/utils/damageLedger215.ts,src/utils/orderCalculations.ts,src/utils/salesHistory.ts,supabase/functions/submit-guest-order/index.ts | owner:success؛ admin:success؛ cashier:success |
+| brands / select | src/services/supabase/productWorkbook.service.ts:32 / all | authenticated; cheques,crm,dashboard,directReceiving,goLive,inventory,more,operatingMode,orders,pos,products,purchases,reports,salesHistory,shifts,users,shared-store/auth-bootstrap; customer-web/src/App.tsx,customer-web/src/components/CategoryDrawer.tsx,customer-web/src/components/CategoryShowcase.tsx,customer-web/src/components/CheckoutProgress.tsx,customer-web/src/components/FloatingContactActions.tsx,customer-web/src/components/MerchandisingSections.tsx,customer-web/src/components/ParcelBuilderModal.tsx,customer-web/src/services/catalog.service.ts,customer-web/src/types/catalog.ts,customer-web/src/utils/catalogView.ts,customer-web/src/utils/saleUnitLabels.ts,src/components/common/RejectionNotice.tsx,src/components/layout/IPhoneContainer.tsx,src/features/cheques/ChequesView.tsx,src/features/crm/CrmView.tsx,src/features/crm/CustomerFilters.tsx,src/features/crm/CustomerStatement.tsx,src/features/dashboard/ChartsSection.tsx,src/features/directReceiving/CreateDirectReceiptModal.tsx,src/features/directReceiving/DirectReceivingView.tsx,src/features/goLive/GoLiveSetupView.tsx,src/features/goLive/OpeningChequesCard.tsx,src/features/inventory/InventoryOpeningSetupModal.tsx,src/features/inventory/InventoryView.tsx,src/features/inventory/StockCountModal.tsx,src/features/inventory/SupplierReplacementPanel.tsx,src/features/inventory/WarehouseTransferModal.tsx,src/features/more/DamageHistoryPanel.tsx,src/features/more/adminNavigation.config.ts,src/features/operatingMode/Inventory224View.tsx,src/features/operatingMode/OpeningEpochPanel.tsx,src/features/operatingMode/inventory224Contract.ts,src/features/orders/CustomerLocationCard.tsx,src/features/orders/OrdersCenterView.tsx,src/features/orders/aftercarePresentation.ts,src/features/pos/PosProductCard.tsx,src/features/pos/PosView.tsx,src/features/products/BulkProductImagesPanel.tsx,src/features/products/ProductFormModal.tsx,src/features/products/ProductsView.tsx,src/features/products/bulkImages/api.ts,src/features/products/bulkImages/journal.ts,src/features/products/bulkImages/upload.ts,src/features/purchases/CreatePurchaseOrderModal.tsx,src/features/purchases/PurchaseOrderCard.tsx,src/features/purchases/PurchasesView.tsx,src/features/purchases/ReceiveGoodsModal.tsx,src/features/reports/ReportsCenterView.tsx,src/features/salesHistory/SalesHistoryView.tsx,src/features/shifts/ShiftsView.tsx,src/features/users/UserFormModal.tsx,src/features/users/UsersView.tsx,src/hooks/useCustomerAccounts.ts,src/services/supabase/adminAftercareRecovery.ts,src/services/supabase/cheques.service.ts,src/services/supabase/crm.service.ts,src/services/supabase/damageLedger215.service.ts,src/services/supabase/directReceiving.service.ts,src/services/supabase/goLive.service.ts,src/services/supabase/inventory.service.ts,src/services/supabase/inventory224.service.ts,src/services/supabase/mfa.service.ts,src/services/supabase/orders.service.ts,src/services/supabase/products.service.ts,src/services/supabase/purchases.service.ts,src/services/supabase/reference-data.service.ts,src/services/supabase/salesAftercare.service.ts,src/services/supabase/salesHistory.service.ts,src/services/supabase/supplierReceiptSearch.ts,src/services/supabase/supplierReplacement.service.ts,src/stores/useAppStore.ts,src/types/crm.ts,src/types/purchases.ts,src/utils/damageLedger215.ts,src/utils/orderCalculations.ts,src/utils/salesHistory.ts,supabase/functions/submit-guest-order/index.ts | owner:success؛ admin:success؛ cashier:success |
+| warehouses / select | src/services/supabase/productWorkbook.service.ts:33 / all | authenticated; cheques,crm,dashboard,directReceiving,goLive,inventory,more,operatingMode,orders,pos,products,purchases,reports,salesHistory,shifts,users,shared-store/auth-bootstrap; customer-web/src/App.tsx,customer-web/src/components/CategoryDrawer.tsx,customer-web/src/components/CategoryShowcase.tsx,customer-web/src/components/CheckoutProgress.tsx,customer-web/src/components/FloatingContactActions.tsx,customer-web/src/components/MerchandisingSections.tsx,customer-web/src/components/ParcelBuilderModal.tsx,customer-web/src/services/catalog.service.ts,customer-web/src/types/catalog.ts,customer-web/src/utils/catalogView.ts,customer-web/src/utils/saleUnitLabels.ts,src/components/common/RejectionNotice.tsx,src/components/layout/IPhoneContainer.tsx,src/features/cheques/ChequesView.tsx,src/features/crm/CrmView.tsx,src/features/crm/CustomerFilters.tsx,src/features/crm/CustomerStatement.tsx,src/features/dashboard/ChartsSection.tsx,src/features/directReceiving/CreateDirectReceiptModal.tsx,src/features/directReceiving/DirectReceivingView.tsx,src/features/goLive/GoLiveSetupView.tsx,src/features/goLive/OpeningChequesCard.tsx,src/features/inventory/InventoryOpeningSetupModal.tsx,src/features/inventory/InventoryView.tsx,src/features/inventory/StockCountModal.tsx,src/features/inventory/SupplierReplacementPanel.tsx,src/features/inventory/WarehouseTransferModal.tsx,src/features/more/DamageHistoryPanel.tsx,src/features/more/adminNavigation.config.ts,src/features/operatingMode/Inventory224View.tsx,src/features/operatingMode/OpeningEpochPanel.tsx,src/features/operatingMode/inventory224Contract.ts,src/features/orders/CustomerLocationCard.tsx,src/features/orders/OrdersCenterView.tsx,src/features/orders/aftercarePresentation.ts,src/features/pos/PosProductCard.tsx,src/features/pos/PosView.tsx,src/features/products/BulkProductImagesPanel.tsx,src/features/products/ProductFormModal.tsx,src/features/products/ProductsView.tsx,src/features/products/bulkImages/api.ts,src/features/products/bulkImages/journal.ts,src/features/products/bulkImages/upload.ts,src/features/purchases/CreatePurchaseOrderModal.tsx,src/features/purchases/PurchaseOrderCard.tsx,src/features/purchases/PurchasesView.tsx,src/features/purchases/ReceiveGoodsModal.tsx,src/features/reports/ReportsCenterView.tsx,src/features/salesHistory/SalesHistoryView.tsx,src/features/shifts/ShiftsView.tsx,src/features/users/UserFormModal.tsx,src/features/users/UsersView.tsx,src/hooks/useCustomerAccounts.ts,src/services/supabase/adminAftercareRecovery.ts,src/services/supabase/cheques.service.ts,src/services/supabase/crm.service.ts,src/services/supabase/damageLedger215.service.ts,src/services/supabase/directReceiving.service.ts,src/services/supabase/goLive.service.ts,src/services/supabase/inventory.service.ts,src/services/supabase/inventory224.service.ts,src/services/supabase/mfa.service.ts,src/services/supabase/orders.service.ts,src/services/supabase/products.service.ts,src/services/supabase/purchases.service.ts,src/services/supabase/reference-data.service.ts,src/services/supabase/salesAftercare.service.ts,src/services/supabase/salesHistory.service.ts,src/services/supabase/supplierReceiptSearch.ts,src/services/supabase/supplierReplacement.service.ts,src/stores/useAppStore.ts,src/types/crm.ts,src/types/purchases.ts,src/utils/damageLedger215.ts,src/utils/orderCalculations.ts,src/utils/salesHistory.ts,supabase/functions/submit-guest-order/index.ts | owner:success؛ admin:success؛ cashier:success |
+| products / select | src/services/supabase/productWorkbook.service.ts:34 / all | authenticated; cheques,crm,dashboard,directReceiving,goLive,inventory,more,operatingMode,orders,pos,products,purchases,reports,salesHistory,shifts,users,shared-store/auth-bootstrap; customer-web/src/App.tsx,customer-web/src/components/CategoryDrawer.tsx,customer-web/src/components/CategoryShowcase.tsx,customer-web/src/components/CheckoutProgress.tsx,customer-web/src/components/FloatingContactActions.tsx,customer-web/src/components/MerchandisingSections.tsx,customer-web/src/components/ParcelBuilderModal.tsx,customer-web/src/services/catalog.service.ts,customer-web/src/types/catalog.ts,customer-web/src/utils/catalogView.ts,customer-web/src/utils/saleUnitLabels.ts,src/components/common/RejectionNotice.tsx,src/components/layout/IPhoneContainer.tsx,src/features/cheques/ChequesView.tsx,src/features/crm/CrmView.tsx,src/features/crm/CustomerFilters.tsx,src/features/crm/CustomerStatement.tsx,src/features/dashboard/ChartsSection.tsx,src/features/directReceiving/CreateDirectReceiptModal.tsx,src/features/directReceiving/DirectReceivingView.tsx,src/features/goLive/GoLiveSetupView.tsx,src/features/goLive/OpeningChequesCard.tsx,src/features/inventory/InventoryOpeningSetupModal.tsx,src/features/inventory/InventoryView.tsx,src/features/inventory/StockCountModal.tsx,src/features/inventory/SupplierReplacementPanel.tsx,src/features/inventory/WarehouseTransferModal.tsx,src/features/more/DamageHistoryPanel.tsx,src/features/more/adminNavigation.config.ts,src/features/operatingMode/Inventory224View.tsx,src/features/operatingMode/OpeningEpochPanel.tsx,src/features/operatingMode/inventory224Contract.ts,src/features/orders/CustomerLocationCard.tsx,src/features/orders/OrdersCenterView.tsx,src/features/orders/aftercarePresentation.ts,src/features/pos/PosProductCard.tsx,src/features/pos/PosView.tsx,src/features/products/BulkProductImagesPanel.tsx,src/features/products/ProductFormModal.tsx,src/features/products/ProductsView.tsx,src/features/products/bulkImages/api.ts,src/features/products/bulkImages/journal.ts,src/features/products/bulkImages/upload.ts,src/features/purchases/CreatePurchaseOrderModal.tsx,src/features/purchases/PurchaseOrderCard.tsx,src/features/purchases/PurchasesView.tsx,src/features/purchases/ReceiveGoodsModal.tsx,src/features/reports/ReportsCenterView.tsx,src/features/salesHistory/SalesHistoryView.tsx,src/features/shifts/ShiftsView.tsx,src/features/users/UserFormModal.tsx,src/features/users/UsersView.tsx,src/hooks/useCustomerAccounts.ts,src/services/supabase/adminAftercareRecovery.ts,src/services/supabase/cheques.service.ts,src/services/supabase/crm.service.ts,src/services/supabase/damageLedger215.service.ts,src/services/supabase/directReceiving.service.ts,src/services/supabase/goLive.service.ts,src/services/supabase/inventory.service.ts,src/services/supabase/inventory224.service.ts,src/services/supabase/mfa.service.ts,src/services/supabase/orders.service.ts,src/services/supabase/products.service.ts,src/services/supabase/purchases.service.ts,src/services/supabase/reference-data.service.ts,src/services/supabase/salesAftercare.service.ts,src/services/supabase/salesHistory.service.ts,src/services/supabase/supplierReceiptSearch.ts,src/services/supabase/supplierReplacement.service.ts,src/stores/useAppStore.ts,src/types/crm.ts,src/types/purchases.ts,src/utils/damageLedger215.ts,src/utils/orderCalculations.ts,src/utils/salesHistory.ts,supabase/functions/submit-guest-order/index.ts | owner:success؛ admin:success؛ cashier:success |
+| products / select | src/services/supabase/productWorkbook.service.ts:51 / readProductImportSnapshot | authenticated; productWorkbook; src/services/supabase/productFamilyBarcodes.service.ts | owner:success؛ admin:success؛ cashier:success |
+| products / select | src/services/supabase/productWorkbook.service.ts:52 / readProductImportSnapshot | authenticated; productWorkbook; src/services/supabase/productFamilyBarcodes.service.ts | owner:zero_rows؛ admin:zero_rows؛ cashier:zero_rows |
+| products / select | src/services/supabase/productWorkbook.service.ts:55 / findTemporary | authenticated; goLive; src/features/goLive/productImportAttempt.ts | owner:zero_rows؛ admin:zero_rows؛ cashier:zero_rows |
+| suppliers / select | src/services/supabase/purchases.service.ts:62 / fetchSuppliersFromSupabase | authenticated; cheques,purchases; src/features/cheques/ChequesView.tsx,src/features/purchases/CreatePurchaseOrderModal.tsx,src/features/purchases/PurchasesView.tsx,src/features/purchases/SupplierPaymentModal.tsx,src/services/supabase/goLive.service.ts | owner:success؛ owner:success/extended؛ admin:success؛ admin:success/extended؛ cashier:success؛ cashier:success/extended |
+| purchase_orders / select؛ embeds:branches,products,purchase_order_items,purchase_receipt_items,purchase_receipts,supplier_payments,suppliers,units,warehouses | src/services/supabase/purchases.service.ts:381 / fetchPurchaseOrderByIdFromSupabase | authenticated; purchases; src/features/purchases/PurchaseOrderDetailView.tsx | owner:success؛ admin:success؛ cashier:success |
+| purchase_receipts / select؛ embeds:products,purchase_orders,purchase_receipt_items,suppliers,warehouses | src/services/supabase/purchases.service.ts:979 / fetchGoodsReceiptsFromSupabase | authenticated; purchases; src/features/purchases/PurchasesView.tsx | owner:success؛ owner:success/extended؛ admin:success؛ admin:success/extended؛ cashier:success؛ cashier:success/extended |
+| purchase_orders / select | src/services/supabase/purchases.service.ts:1061 / fetchSupplierPurchaseSummaryFromSupabase | authenticated; purchases; no-static-consumer-found | owner:success؛ admin:success؛ cashier:success |
+| categories / select | src/services/supabase/reference-data.service.ts:49 / fetchCategoriesFromSupabase | authenticated; shared-store/auth-bootstrap; src/stores/referenceData.storeSlice.ts,src/stores/useAppStore.ts | owner:success؛ admin:success؛ cashier:success |
+| products / select | src/services/supabase/reference-data.service.ts:53 / fetchCategoriesFromSupabase | authenticated; shared-store/auth-bootstrap; src/stores/referenceData.storeSlice.ts,src/stores/useAppStore.ts | owner:success؛ admin:success؛ cashier:success |
+| brands / select | src/services/supabase/reference-data.service.ts:184 / fetchBrandsFromSupabase | authenticated; shared-store/auth-bootstrap; src/stores/referenceData.storeSlice.ts,src/stores/useAppStore.ts | owner:success؛ admin:success؛ cashier:success |
+| products / select | src/services/supabase/reference-data.service.ts:188 / fetchBrandsFromSupabase | authenticated; shared-store/auth-bootstrap; src/stores/referenceData.storeSlice.ts,src/stores/useAppStore.ts | owner:success؛ admin:success؛ cashier:success |
+| units / select | src/services/supabase/reference-data.service.ts:309 / fetchUnitsFromSupabase | authenticated; shared-store/auth-bootstrap; src/stores/referenceData.storeSlice.ts,src/stores/useAppStore.ts | owner:success؛ admin:success؛ cashier:success |
+| products / select | src/services/supabase/reference-data.service.ts:313 / fetchUnitsFromSupabase | authenticated; shared-store/auth-bootstrap; src/stores/referenceData.storeSlice.ts,src/stores/useAppStore.ts | owner:success؛ admin:success؛ cashier:success |
+| branches / select | src/services/supabase/reference-data.service.ts:450 / fetchBranchesFromSupabase | authenticated; purchases,shared-store/auth-bootstrap; src/features/purchases/CreatePurchaseOrderModal.tsx,src/stores/useAppStore.ts | owner:success؛ admin:success؛ cashier:success |
+| warehouses / select | src/services/supabase/reference-data.service.ts:480 / fetchWarehousesFromSupabase | authenticated; purchases,shared-store/auth-bootstrap; src/features/purchases/CreatePurchaseOrderModal.tsx,src/stores/useAppStore.ts | owner:success؛ admin:success؛ cashier:success |
+| supplier_receipts / select؛ embeds:branches,products,profiles,supplier_receipt_items,suppliers,warehouses | src/services/supabase/supplierReceiptSearch.ts:17 / searchSupplierReceiptRows | authenticated; supplierReceiptSearch.ts; src/services/supabase/directReceiving.service.ts | owner:success؛ owner:success/extended؛ admin:success؛ admin:success/extended؛ cashier:success؛ cashier:success/extended |
 | push_dispatches / insert | supabase/functions/send-order-push/index.ts:87 / <module> | service_role; Edge send-order-push; has-source-consumer | service_role:success |
-| orders / select | supabase/functions/send-order-push/index.ts:103 / <module> | service_role; Edge send-order-push; has-source-consumer | service_role:42501 |
+| orders / select | supabase/functions/send-order-push/index.ts:103 / <module> | service_role; Edge send-order-push; has-source-consumer | service_role:success |
 | push_dispatches / update | supabase/functions/send-order-push/index.ts:113 / <module> | service_role; Edge send-order-push; has-source-consumer | service_role:success |
 | push_dispatches / update | supabase/functions/send-order-push/index.ts:136 / <module> | service_role; Edge send-order-push; has-source-consumer | service_role:success |
 | push_subscriptions / update | supabase/functions/send-order-push/index.ts:173 / <module> | service_role; Edge send-order-push; has-source-consumer | service_role:success |
@@ -215,40 +102,40 @@ CSP_CONNECT_SRC:أُغلق HTTPS/WSS للقديم؛لاAPP_FALLBACK/CSPقديم�
 
 ## RLS والمنح الدنيا المقترحة150 — للمراجعة فقط
 
-المقترح:26 منحة جدول/عملية/دور جديدة. 0 علامة حمراء:منحة يحتاجها التطبيق على جدول بلا RLS (service_role لديهBYPASSRLS بطبيعته،مذكور ولا يُفترض أنه يحميهRLS). لا منح anon مقترحة. لا INSERT/UPDATE/DELETE من المتصفح:تظل الكتابات عبرRPC. لا نوسّع منح الأعمدة الحالية فيbusiness_operations إلىSELECT كامل.
+المقترح:0 منحة جدول/عملية/دور جديدة. 0 علامة حمراء:منحة يحتاجها التطبيق على جدول بلا RLS (service_role لديهBYPASSRLS بطبيعته،مذكور ولا يُفترض أنه يحميهRLS). لا منح anon مقترحة. لا INSERT/UPDATE/DELETE من المتصفح:تظل الكتابات عبرRPC. لا نوسّع منح الأعمدة الحالية فيbusiness_operations إلىSELECT كامل.
 
 | الجدول | الدور/العملية | المطلوب | RLS | السياسات |
 |---|---|---|---|---|
-| branches | authenticated/SELECT | اقتراح GRANT SELECT ON public.branches TO authenticated | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated users to read branches [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
-| brands | authenticated/SELECT | اقتراح GRANT SELECT ON public.brands TO authenticated | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated users to read brands [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
+| branches | authenticated/SELECT | إبقاء المنحة القائمة | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated users to read branches [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
+| brands | authenticated/SELECT | إبقاء المنحة القائمة | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated users to read brands [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
 | business_operations | authenticated/SELECT | إبقاء منح الأعمدة القائمة فقط | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Active ERP staff can read parcel foundation [r/authenticated] |
-| categories | authenticated/SELECT | اقتراح GRANT SELECT ON public.categories TO authenticated | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated users to read categories [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
-| customer_addresses | authenticated/SELECT | اقتراح GRANT SELECT ON public.customer_addresses TO authenticated | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated staff to read customer addresses [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
-| customers | authenticated/SELECT | اقتراح GRANT SELECT ON public.customers TO authenticated | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated staff to read customers [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
-| inventory_balances | authenticated/SELECT | اقتراح GRANT SELECT ON public.inventory_balances TO authenticated | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated users to view inventory balances [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
-| inventory_movements | authenticated/SELECT | اقتراح GRANT SELECT ON public.inventory_movements TO authenticated | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated users to view inventory movements [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
-| order_items | authenticated/SELECT | اقتراح GRANT SELECT ON public.order_items TO authenticated | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated staff to read order items [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
+| categories | authenticated/SELECT | إبقاء المنحة القائمة | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated users to read categories [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
+| customer_addresses | authenticated/SELECT | إبقاء المنحة القائمة | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated staff to read customer addresses [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
+| customers | authenticated/SELECT | إبقاء المنحة القائمة | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated staff to read customers [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
+| inventory_balances | authenticated/SELECT | إبقاء المنحة القائمة | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated users to view inventory balances [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
+| inventory_movements | authenticated/SELECT | إبقاء المنحة القائمة | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated users to view inventory movements [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
+| order_items | authenticated/SELECT | إبقاء المنحة القائمة | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated staff to read order items [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
 | order_parcel_components | authenticated/SELECT | إبقاء المنحة القائمة | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Active ERP staff can read parcel foundation [r/authenticated] |
 | order_parcel_instances | authenticated/SELECT | إبقاء المنحة القائمة | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Active ERP staff can read parcel foundation [r/authenticated] |
-| order_status_history | authenticated/SELECT | اقتراح GRANT SELECT ON public.order_status_history TO authenticated | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated staff to read order status history [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
-| orders | authenticated/SELECT | اقتراح GRANT SELECT ON public.orders TO authenticated | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated staff to read orders [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
-| product_images | authenticated/SELECT | اقتراح GRANT SELECT ON public.product_images TO authenticated | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated users to read product images [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
-| products | authenticated/SELECT | اقتراح GRANT SELECT ON public.products TO authenticated | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated users to read products [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
-| profiles | authenticated/SELECT | اقتراح GRANT SELECT ON public.profiles TO authenticated | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow users to read all profiles [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
-| purchase_order_items | authenticated/SELECT | اقتراح GRANT SELECT ON public.purchase_order_items TO authenticated | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated staff to read purchase order items [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
-| purchase_orders | authenticated/SELECT | اقتراح GRANT SELECT ON public.purchase_orders TO authenticated | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated staff to read purchase orders [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
-| purchase_receipt_items | authenticated/SELECT | اقتراح GRANT SELECT ON public.purchase_receipt_items TO authenticated | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated staff to read purchase receipt items [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
-| purchase_receipts | authenticated/SELECT | اقتراح GRANT SELECT ON public.purchase_receipts TO authenticated | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated staff to read purchase receipts [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
-| roles | authenticated/SELECT | اقتراح GRANT SELECT ON public.roles TO authenticated | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated users to read roles [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
+| order_status_history | authenticated/SELECT | إبقاء المنحة القائمة | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated staff to read order status history [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
+| orders | authenticated/SELECT | إبقاء المنحة القائمة | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated staff to read orders [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
+| product_images | authenticated/SELECT | إبقاء المنحة القائمة | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated users to read product images [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
+| products | authenticated/SELECT | إبقاء المنحة القائمة | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated users to read products [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
+| profiles | authenticated/SELECT | إبقاء المنحة القائمة | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow users to read all profiles [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
+| purchase_order_items | authenticated/SELECT | إبقاء المنحة القائمة | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated staff to read purchase order items [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
+| purchase_orders | authenticated/SELECT | إبقاء المنحة القائمة | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated staff to read purchase orders [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
+| purchase_receipt_items | authenticated/SELECT | إبقاء المنحة القائمة | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated staff to read purchase receipt items [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
+| purchase_receipts | authenticated/SELECT | إبقاء المنحة القائمة | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated staff to read purchase receipts [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
+| roles | authenticated/SELECT | إبقاء المنحة القائمة | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated users to read roles [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
 | sales_returns | authenticated/SELECT | إبقاء المنحة القائمة | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Active ERP staff can read sales returns [r/authenticated] |
-| supplier_payments | authenticated/SELECT | اقتراح GRANT SELECT ON public.supplier_payments TO authenticated | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated staff to read supplier payments [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
-| supplier_receipt_items | authenticated/SELECT | اقتراح GRANT SELECT ON public.supplier_receipt_items TO authenticated | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated users to select supplier receipt items [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
-| supplier_receipts | authenticated/SELECT | اقتراح GRANT SELECT ON public.supplier_receipts TO authenticated | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated users to select supplier receipts [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
-| suppliers | authenticated/SELECT | اقتراح GRANT SELECT ON public.suppliers TO authenticated | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated staff to read suppliers [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
-| units | authenticated/SELECT | اقتراح GRANT SELECT ON public.units TO authenticated | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated users to read units [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
-| user_roles | authenticated/SELECT | اقتراح GRANT SELECT ON public.user_roles TO authenticated | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated users to read user roles [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
-| warehouses | authenticated/SELECT | اقتراح GRANT SELECT ON public.warehouses TO authenticated | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated users to read warehouses [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
-| orders | service_role/SELECT | اقتراح GRANT SELECT ON public.orders TO service_role | مفعّل | BYPASSRLS;  |
+| supplier_payments | authenticated/SELECT | إبقاء المنحة القائمة | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated staff to read supplier payments [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
+| supplier_receipt_items | authenticated/SELECT | إبقاء المنحة القائمة | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated users to select supplier receipt items [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
+| supplier_receipts | authenticated/SELECT | إبقاء المنحة القائمة | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated users to select supplier receipts [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
+| suppliers | authenticated/SELECT | إبقاء المنحة القائمة | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated staff to read suppliers [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
+| units | authenticated/SELECT | إبقاء المنحة القائمة | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated users to read units [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
+| user_roles | authenticated/SELECT | إبقاء المنحة القائمة | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated users to read user roles [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
+| warehouses | authenticated/SELECT | إبقاء المنحة القائمة | مفعّل | PERMISSIVE_AND_APPLICABLE_RESTRICTIONS; Allow authenticated users to read warehouses [r/authenticated]؛ Require active ERP staff membership [*/authenticated] |
+| orders | service_role/SELECT | إبقاء المنحة القائمة | مفعّل | BYPASSRLS;  |
 | push_dispatches | service_role/INSERT | إبقاء المنحة القائمة | مفعّل | BYPASSRLS;  |
 | push_dispatches | service_role/UPDATE | إبقاء المنحة القائمة | مفعّل | BYPASSRLS;  |
 | push_subscriptions | service_role/UPDATE | إبقاء المنحة القائمة | مفعّل | BYPASSRLS;  |
@@ -263,60 +150,10 @@ CSP_CONNECT_SRC:أُغلق HTTPS/WSS للقديم؛لاAPP_FALLBACK/CSPقديم�
 
 ### منح زائدة غير لازمة للوصول المباشر — اقتراح REVOKE فقط
 
-وجدنا200 زوج (جدول،دور،صلاحية) ضمن جداول الجرد لا يحتاجه أي وصول مباشر في الواجهتين. خصوصاً TRUNCATE لا تحميه سياسات الصفوف؛لا تعتبر Dxtm بديلاً آمناً عنCRUD. لم نُنفّذTRUNCATE أو REVOKE. هذه قائمة مقترحة محدودة بالجداول التي جرى فحصها،وليست إذناً بمسح جميعACL أوEXECUTE/sequences أوservice_role. تُراجع آثارRPC/التبعيات قبل150.
+وجدنا0 زوج (جدول،دور،صلاحية) ضمن جداول الجرد لا يحتاجه أي وصول مباشر في الواجهتين. خصوصاً TRUNCATE لا تحميه سياسات الصفوف؛لا تعتبر Dxtm بديلاً آمناً عنCRUD. لم نُنفّذTRUNCATE أو REVOKE. هذه قائمة مقترحة محدودة بالجداول التي جرى فحصها،وليست إذناً بمسح جميعACL أوEXECUTE/sequences أوservice_role. تُراجع آثارRPC/التبعيات قبل150.
 
 | الجدول | الدور | اقتراح سحب |
 |---|---|---|
-| branches | anon | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| branches | authenticated | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| brands | anon | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| brands | authenticated | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| categories | anon | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| categories | authenticated | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| customer_addresses | anon | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| customer_addresses | authenticated | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| customers | anon | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| customers | authenticated | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| inventory_balances | anon | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| inventory_balances | authenticated | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| inventory_movements | anon | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| inventory_movements | authenticated | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| order_items | anon | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| order_items | authenticated | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| order_status_history | anon | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| order_status_history | authenticated | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| orders | anon | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| orders | authenticated | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| product_images | anon | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| product_images | authenticated | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| products | anon | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| products | authenticated | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| profiles | anon | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| profiles | authenticated | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| purchase_order_items | anon | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| purchase_order_items | authenticated | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| purchase_orders | anon | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| purchase_orders | authenticated | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| purchase_receipt_items | anon | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| purchase_receipt_items | authenticated | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| purchase_receipts | anon | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| purchase_receipts | authenticated | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| roles | anon | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| roles | authenticated | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| supplier_payments | anon | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| supplier_payments | authenticated | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| supplier_receipt_items | anon | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| supplier_receipt_items | authenticated | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| supplier_receipts | anon | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| supplier_receipts | authenticated | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| suppliers | anon | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| suppliers | authenticated | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| units | anon | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| units | authenticated | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| user_roles | anon | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| user_roles | authenticated | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| warehouses | anon | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
-| warehouses | authenticated | TRIGGER, MAINTAIN, TRUNCATE, REFERENCES |
 
 تُراجع كذلكdefault privileges لـpostgres فيpublic:سحبDxtm التلقائية للأدوارالعميلة عنداعتماد150 يمنع تكرارهاللجداولالجديدة. لا يُمنحSELECT افتراضياً لكل جدولجديد؛كلمنحةصريحةمعRLS واختبارها. service_role وEXECUTE وsequences خارجاقتراحالسحب الجدوليالحالي؛لا إعادةتطبيقخطة279REVOKE القديمة.
 
@@ -326,18 +163,18 @@ CSP_CONNECT_SRC:أُغلق HTTPS/WSS للقديم؛لاAPP_FALLBACK/CSPقديم�
 
 | الجدول | المصدر | الحدث |
 |---|---|---|
-| orders | src/services/supabase/crm.service.ts:518 | * |
-| customer_addresses | src/services/supabase/crm.service.ts:518 | * |
-| customers | src/services/supabase/crm.service.ts:518 | * |
-| suppliers | src/services/supabase/dashboard.service.ts:218 | * |
-| customers | src/services/supabase/dashboard.service.ts:218 | * |
-| products | src/services/supabase/dashboard.service.ts:218 | * |
-| inventory_balances | src/services/supabase/dashboard.service.ts:218 | * |
-| orders | src/services/supabase/dashboard.service.ts:218 | * |
-| supplier_payments | src/services/supabase/directReceiving.service.ts:673 | * |
-| supplier_receipt_items | src/services/supabase/directReceiving.service.ts:673 | * |
-| supplier_receipts | src/services/supabase/directReceiving.service.ts:673 | * |
-| orders | src/services/supabase/orders.service.ts:1217 | * |
+| orders | src/services/supabase/crm.service.ts:520 | * |
+| customer_addresses | src/services/supabase/crm.service.ts:520 | * |
+| customers | src/services/supabase/crm.service.ts:520 | * |
+| suppliers | src/services/supabase/dashboard.service.ts:180 | * |
+| customers | src/services/supabase/dashboard.service.ts:180 | * |
+| products | src/services/supabase/dashboard.service.ts:180 | * |
+| inventory_balances | src/services/supabase/dashboard.service.ts:180 | * |
+| orders | src/services/supabase/dashboard.service.ts:180 | * |
+| supplier_payments | src/services/supabase/directReceiving.service.ts:698 | * |
+| supplier_receipt_items | src/services/supabase/directReceiving.service.ts:698 | * |
+| supplier_receipts | src/services/supabase/directReceiving.service.ts:698 | * |
+| orders | src/services/supabase/orders.service.ts:1259 | * |
 | inventory_movements | src/services/supabase/purchases.service.ts:1124 | * |
 | inventory_balances | src/services/supabase/purchases.service.ts:1124 | * |
 | supplier_payments | src/services/supabase/purchases.service.ts:1124 | * |
@@ -368,21 +205,53 @@ node scripts/audit/table-access-report.mjs <مسار-diagnostic.json-المطب�
 
 ---
 
+537محاولةRPC محلية فعلية مع10رفض أدوار متوقعة. الصلاحيات الفعلية الحالية في SERVICE_ACCESS_DIAGNOSTIC.json بعد213؛مراجعةالدوالالسبعمنملفات15أكتوبرالمحفوظةسجلتاريخي،وeffectiveLocal أُعيدقياسهعلى213. لا اتصال مستضاف. التفاصيل التاريخية التالية محفوظة بسياقها.
+
+---
+
+# الحالة الحالية للحزمة ر —24 أكتوبر2026
+
+335مصدر و537فحصRPC فعلي على212المصححة مع10حالات رفض متوقعة حسب الدور. مراجعةالدوالالسبعمنملفيالمالكالمحفوظينبتاريخ15أكتوبرومربوطةبالأدواروالتنفيذالمحليالحالي؛لاحالةمستضافةأعيدفحصها.السجلأدناهمحفوظبسياقهالتاريخي،وأمر212الحاليفيTRIAL_OWNER_UPGRADE212_AR.mdبعدالتسليم.
+
+---
+
+# الحزمة و — تحقق محلي بعد تعديلات الواجهة و5+
+
+328 ملف مصدر، و148 طلب جداول ناجحاً بلا أخطاء، و534 فحص dispatch حقيقياً مع 8 رفض صلاحية متوقعة لوظائف المالك فقط. تعريفات الدوال مطابقة تماماً للدليل السابق. السقف211 بلا تغيير SQL أو RPC أو منح؛ لا اتصال بفرانكفورت. فحوص dispatch ذات قيم محايدة واختبارات rollback، وليست ادعاء نجاح كل حمولة مالية. بيانات الكتالوج المحفوظة والأقسام الأقدم أدناه سياق تاريخي بتواريخه.
+
+---
+
+# تحديث هوية المحل هـ —23أكتوبر2026
+
+أُعيد التحقق الفعلي محلياً بعد تحديث الاسم والأصول:327مصدر،148استعلاماً ناجحاً،534فحصRPC مع8رفض42501 متوقعة للمالك فقط. السقف211 والـSQL والمنح لم تتغير؛هذه أدلة المصدر الحالي وليست اتصالاً بفرانكفورت. السجلات السابقة أدناه محفوظة بتاريخها.
+
+---
+
+# تحديث التحقق المحلي211 —23أكتوبر2026
+
+**الحالة الحالية:**327 ملف مصدر، و148 استدعاء جداول فعلياً بلا خطأ، و534 فحص RPC؛حالات42501 الثماني متوقعة لوظائف المالك فقط. لا اتصال مستضاف.
+
+الدليل الحالي:TABLE_ACCESS_AFTER_211.json وSERVICE_ACCESS_DIAGNOSTIC.json؛الأقسام الأقدم أدناه تاريخية بتواريخها،وليست وصفاً لفرانكفورت الآن. إعداد CSP_CONNECT_SRC وStorage وعضوية publication في المستضاف يحتاج تحقق المالك عند التحويل؛لم ينفّذه الوكيل.
+
+---
+
+# إضافة جرد الخدمات والإعدادات —2026-10-15
+
 ## إضافة التحقيق: RPC وStorage وRealtime والإعدادات خارج migrations
 
 **لا تطبيق ACL ولا إعداد خدمات ولا نشر. هذا قياس محلي وقراءة ملفات محفوظة فقط؛الفجوة التشغيلية غير مغلقة.**
 
 ### أ. RPC — EXECUTE الفعلي،لا افتراض نجاح من mock
 
-167 موضعSDK .rpc و4 موضعRESTGateway،161 اسم دالة. أسماءالأغلفةالديناميكية موثقةبالاستدعاءالذييوردها؛أيرابطغيرمحسوميفشلالجرد. ثلاثمصارفديناميكية تشملPOSV2 وإعدادالطرود،والبوابةتحوّلrpcName إلىsubmit_guest_customer_order_v2.
+179 موضعSDK .rpc و4 موضعRESTGateway،173 اسم دالة. أسماءالأغلفةالديناميكية موثقةبالاستدعاءالذييوردها؛أيرابطغيرمحسوميفشلالجرد. ثلاثمصارفديناميكية تشملPOSV2 وإعدادالطرود،والبوابةتحوّلrpcName إلىsubmit_guest_customer_order_v2.
 
-قاعدة198 محلية جديدة: 489 dispatch حقيقي إلىتواقيعالدوالالمستدعاة/overloads بأدوارهاالحقيقية؛0 رفض42501،118 نجاحمعrollback،371 رفض/خطأداخلجسمالدالة. has_function_privilege موثق لكلتوقيع/دور. **فحصالصلاحيةلايعنيقبولكلدورحسبقواعدالعمل**؛المالك/admin/cashier منفصلون.
+قاعدة208 محلية جديدة: 525 dispatch حقيقي إلىتواقيعالدوالالمستدعاة/overloads بأدوارهاالحقيقية؛2 رفض42501،119 نجاحمعrollback،404 رفض/خطأداخلجسمالدالة. has_function_privilege موثق لكلتوقيع/دور. **فحصالصلاحيةلايعنيقبولكلدورحسبقواعدالعمل**؛المالك/admin/cashier منفصلون.
 
 حدالقياسصريح:أُرسلتقيممحليةمحايدةمُنمّطةحسبتوقيعSQL(معرفعميل/فرع/مستودعfixtureحيثيوجد،NULL/JSONفارغلغيره)،وليستجميعحمولاتالتدفّقاتالصحيحةمنواجهةالتطبيق. النصالأصليلكلاستدعاءومعاملاتهفيSERVICE_ACCESS_INVENTORY.json؛قيمةكلprobeوأثرهفيSERVICE_ACCESS_DIAGNOSTIC.json. لا نسمّي274خطأتحققنجاحاًوظيفياً ولا42501. كلنجاحوكلخطأداخلsubtransactionأُرجع؛لاأثرماليأومخزنيباقٍ. اختباراتالمساراتالمتكاملةالقائمةتبقىمطلوبة؛هذهالإضافةتثبتEXECUTE/dispatchوليسإتمامكلسيناريو.
 
 | الدالة/مصدر الاستدعاء | الدور | EXECUTE محلي / نتائج dispatch |
 |---|---|---|
-| get_pos_configurable_parcel_options_v1؛src/features/pos/PosView.tsx:166 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
+| get_pos_configurable_parcel_options_v1؛src/features/pos/PosView.tsx:167 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
 | report_admin_runtime_incident؛src/lib/errorMonitoring.ts:33 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | get_push_subscription_status؛src/services/pushNotifications.service.ts:48 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
 | save_push_subscription؛src/services/pushNotifications.service.ts:107 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
@@ -390,6 +259,7 @@ node scripts/audit/table-access-report.mjs <مسار-diagnostic.json-المطب�
 | cancel_customer_order_v2؛src/services/supabase/adminCustomerV2Lifecycle.ts:320 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | complete_website_order_with_settlement_v2؛src/services/supabase/adminCustomerV2Lifecycle.ts:322 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | update_my_erp_profile؛src/services/supabase/auth.service.ts:160 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| get_cash_shift_movement_page؛src/services/supabase/cashShiftMovements.service.ts:34 | authenticated | owner:22023؛ admin:22023؛ cashier:P0001 |
 | receive_customer_cheque_v1؛src/services/supabase/cheques.service.ts:55 | authenticated | owner:23502؛ admin:23502؛ cashier:23502 |
 | issue_supplier_cheque_v1؛src/services/supabase/cheques.service.ts:57 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | preview_customer_cheque_v1؛src/services/supabase/cheques.service.ts:61 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
@@ -412,14 +282,16 @@ node scripts/audit/table-access-report.mjs <مسار-diagnostic.json-المطب�
 | record_customer_order_payment_once؛src/services/supabase/customerAccounts.service.ts:135 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | get_customer_debt_aging؛src/services/supabase/customerDebtAging.service.ts:8 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
 | get_customer_statement؛src/services/supabase/customerStatement.service.ts:7 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
-| get_home_dashboard؛src/services/supabase/dashboard.service.ts:120 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
-| preview_supplier_receipt_cancellation؛src/services/supabase/directReceiving.service.ts:21 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| get_supplier_receipts_page؛src/services/supabase/directReceiving.service.ts:154 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
-| resolve_legacy_supplier_receipt_replay_v1؛src/services/supabase/directReceiving.service.ts:260 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
-| create_direct_supplier_receipt_v2؛src/services/supabase/directReceiving.service.ts:370 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| record_supplier_receipt_payment؛src/services/supabase/directReceiving.service.ts:431 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| archive_supplier_receipt؛src/services/supabase/directReceiving.service.ts:462 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| cancel_supplier_receipt؛src/services/supabase/directReceiving.service.ts:495 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| get_home_dashboard؛src/services/supabase/dashboard.service.ts:128 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
+| preview_supplier_receipt_cancellation؛src/services/supabase/directReceiving.service.ts:23 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| get_supplier_receipts_page؛src/services/supabase/directReceiving.service.ts:156 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
+| resolve_legacy_supplier_receipt_replay_v1؛src/services/supabase/directReceiving.service.ts:265 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
+| create_direct_supplier_receipt_v2؛src/services/supabase/directReceiving.service.ts:375 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| record_supplier_receipt_payment؛src/services/supabase/directReceiving.service.ts:436 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| archive_supplier_receipt؛src/services/supabase/directReceiving.service.ts:467 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| cancel_supplier_receipt؛src/services/supabase/directReceiving.service.ts:500 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| get_document_correction_preview؛src/services/supabase/documentCorrections.service.ts:20 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| execute_document_correction_once؛src/services/supabase/documentCorrections.service.ts:60 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | preview_cash_shift_full_reversal؛src/services/supabase/expenses-shifts.service.ts:207 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | reverse_cash_shift_with_operations؛src/services/supabase/expenses-shifts.service.ts:275 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | get_cash_shift_closing_report؛src/services/supabase/expenses-shifts.service.ts:304 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
@@ -458,16 +330,16 @@ node scripts/audit/table-access-report.mjs <مسار-diagnostic.json-المطب�
 | preview_go_live_cheques_v1؛src/services/supabase/openingCheques.service.ts:18 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | record_go_live_cheques_v1؛src/services/supabase/openingCheques.service.ts:23 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | get_go_live_cheques_v1؛src/services/supabase/openingCheques.service.ts:28 | authenticated | owner:success/rollback؛ admin:P0001؛ cashier:P0001 |
-| accept_order_for_preparation؛src/services/supabase/orders.service.ts:618 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| complete_website_order_with_payment؛src/services/supabase/orders.service.ts:652 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| update_order_status؛src/services/supabase/orders.service.ts:697 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| get_operational_orders_page؛src/services/supabase/orders.service.ts:740 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:success/rollback |
-| get_operational_orders_page؛src/services/supabase/orders.service.ts:852 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:success/rollback |
-| complete_website_order_with_settlement؛src/services/supabase/orders.service.ts:933 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| return_completed_website_order؛src/services/supabase/orders.service.ts:984 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| update_order_status؛src/services/supabase/orders.service.ts:1029 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| start_or_update_order_delivery؛src/services/supabase/orders.service.ts:1080 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| update_order_delivery_address؛src/services/supabase/orders.service.ts:1138 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| accept_order_for_preparation؛src/services/supabase/orders.service.ts:621 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| complete_website_order_with_payment؛src/services/supabase/orders.service.ts:655 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| update_order_status؛src/services/supabase/orders.service.ts:700 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| get_operational_orders_page؛src/services/supabase/orders.service.ts:743 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:success/rollback |
+| get_operational_orders_page؛src/services/supabase/orders.service.ts:855 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:success/rollback |
+| complete_website_order_with_settlement؛src/services/supabase/orders.service.ts:936 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| return_completed_website_order؛src/services/supabase/orders.service.ts:987 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| update_order_status؛src/services/supabase/orders.service.ts:1032 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| start_or_update_order_delivery؛src/services/supabase/orders.service.ts:1083 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| update_order_delivery_address؛src/services/supabase/orders.service.ts:1141 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | create_owner_cash_withdrawal_v1؛src/services/supabase/ownerWithdrawals.service.ts:77 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | reverse_owner_cash_withdrawal_v1؛src/services/supabase/ownerWithdrawals.service.ts:87 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | get_shift_owner_withdrawals_v1؛src/services/supabase/ownerWithdrawals.service.ts:96 | authenticated | owner:success/rollback؛ admin:P0001؛ cashier:P0001 |
@@ -510,23 +382,32 @@ node scripts/audit/table-access-report.mjs <مسار-diagnostic.json-المطب�
 | cancel_purchase_order؛src/services/supabase/purchases.service.ts:805 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | record_supplier_payment؛src/services/supabase/purchases.service.ts:835 | authenticated | owner:22004؛ admin:22004؛ cashier:P0001 |
 | get_supplier_payments_page؛src/services/supabase/purchases.service.ts:896 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
+| get_receiving_purchase_context؛src/services/supabase/receivingPurchaseContext.service.ts:8 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| get_supplier_receipt_display_context؛src/services/supabase/receivingPurchaseContext.service.ts:15 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | save_product_category؛src/services/supabase/reference-data.service.ts:107 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | set_product_category_active؛src/services/supabase/reference-data.service.ts:145 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | save_product_brand؛src/services/supabase/reference-data.service.ts:240 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | set_product_brand_active؛src/services/supabase/reference-data.service.ts:273 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | save_product_unit؛src/services/supabase/reference-data.service.ts:380 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | set_product_unit_active؛src/services/supabase/reference-data.service.ts:416 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| get_operational_business_report؛src/services/supabase/reports.service.ts:41 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
+| get_operational_business_report؛src/services/supabase/reports.service.ts:42 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
 | get_admin_sales_aftercare_context_v1؛src/services/supabase/salesAftercare.service.ts:131 | authenticated | owner:23503؛ admin:23503؛ cashier:P0001 |
 | settle_sales_replacement_v1؛src/services/supabase/salesAftercare.service.ts:166 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | settle_admin_sales_return_v1؛src/services/supabase/salesAftercare.service.ts:204 | authenticated | owner:22023؛ admin:22023؛ cashier:P0001 |
 | settle_sales_replacement_v1؛src/services/supabase/salesAftercare.service.ts:245 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | settle_admin_sales_return_v1؛src/services/supabase/salesAftercare.service.ts:255 | authenticated | owner:22023؛ admin:22023؛ cashier:P0001 |
+| get_sales_history_page؛src/services/supabase/salesHistory.service.ts:10 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | get_stock_alert_notifications؛src/services/supabase/stockAlerts.service.ts:72 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
 | mark_stock_alert_read؛src/services/supabase/stockAlerts.service.ts:95 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | mark_all_stock_alerts_read؛src/services/supabase/stockAlerts.service.ts:112 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
 | get_public_storefront_settings؛src/services/supabase/storefront-settings.service.ts:50 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:success/rollback |
 | save_storefront_settings_v3؛src/services/supabase/storefront-settings.service.ts:60 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| get_supplier_replacements_page_v1؛src/services/supabase/supplierReplacement.service.ts:23 | authenticated | owner:P0001؛ admin:42501؛ cashier:42501 |
+| get_supplier_replacement_options_v1؛src/services/supabase/supplierReplacement.service.ts:32 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| preview_supplier_replacement_v1؛src/services/supabase/supplierReplacement.service.ts:42 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| execute_supplier_replacement_v1؛src/services/supabase/supplierReplacement.service.ts:57 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| get_owner_warehouses_v1؛src/services/supabase/warehouses.service.ts:28 | authenticated | owner:success/rollback؛ admin:P0001؛ cashier:P0001 |
+| save_owner_warehouse_v1؛src/services/supabase/warehouses.service.ts:38 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | get_public_configurable_parcel_options؛customer-web/src/services/catalog.service.ts:165 | anon | anon:P0001 |
 | get_public_storefront_catalog_page؛customer-web/src/services/catalog.service.ts:388 | anon | anon:success/rollback |
 | get_public_storefront_merchandising؛customer-web/src/services/catalog.service.ts:446 | anon | anon:success/rollback |
@@ -615,9 +496,9 @@ publications/pg_publication_tables لايلتقطهماschema-catalogالحال�
 |---|---|---|
 | automation/n8n/workflows/nawasrah-alerts.json | 32, 89, 175, 228 | EXTERNAL_CONSUMER |
 | docs/agent/HANDOFF_HISTORY.md | 445 | HISTORICAL_DOCUMENTATION |
-| docs/agent/OWNER_DECISIONS.md | 477 | HISTORICAL_DOCUMENTATION |
+| docs/agent/OWNER_DECISIONS.md | 674 | HISTORICAL_DOCUMENTATION |
 | docs/operations/FRANKFURT_OWNER_BUILD_AR.md | 100 | HISTORICAL_DOCUMENTATION |
-| docs/operations/STAGING_FRANKFURT_AR.md | 224 | HISTORICAL_DOCUMENTATION |
+| docs/operations/STAGING_FRANKFURT_AR.md | 247 | HISTORICAL_DOCUMENTATION |
 | scripts/backup/README.md | 28 | PRESERVE_OLD_BACKUP_LINK |
 | scripts/backup/backup-public-config.mjs | 3, 5 | PRESERVE_OLD_BACKUP_LINK |
 | scripts/backup/create-backup.mjs | 430 | PRESERVE_OLD_BACKUP_LINK |
@@ -634,7 +515,7 @@ publications/pg_publication_tables لايلتقطهماschema-catalogالحال�
 | tests/build-cron-report.test.ts | 11, 19 | TEST_CONTRACT |
 | tests/fixtures/enqueue-order-push-before139.sql | 23 | TEST_CONTRACT |
 | tests/frankfurt-preparation.test.ts | 23, 55 | TEST_CONTRACT |
-| tests/frankfurt-public-config.test.ts | 17 | TEST_CONTRACT |
+| tests/frankfurt-public-config.test.ts | 18 | TEST_CONTRACT |
 | tests/frankfurt-reference150.test.ts | 75 | TEST_CONTRACT |
 | tests/frankfurt-staging-csp.test.ts | 5 | TEST_CONTRACT |
 | tests/order-push-url139.test.ts | 15 | TEST_CONTRACT |
@@ -693,4 +574,9 @@ node scripts/audit/run-service-access-diagnostic.mjs
 node scripts/audit/service-access-report.mjs <diagnostic.json> <local-reference.json> <catalog-observed.json>
 ```
 
-لاconnectionstringأومفتاحخدمةبعيدفيهذهالأوامر. الأمرالأخيرقراءةملفاتمحفوظةفقط؛لاقيملأسرارفيالمخرجات. قياسEXECUTE على198 ومصدرالاستدعاءاتالحالي؛150 لاتغيرEXECUTE بدليل مقارنةالكتالوجالكاملة،و139تغيّر جسمenqueueغيرالمستدعىمنالواجهةمعإبقاءACL.139سُلّمتمنفصلة3a3893b،وقياسهاالحقيقيأثبتصفرمرجعقديمفيتعريفاتpublic بعدالتطبيقالمحلي؛لايعنيهذاأنهاتطبقتعلىفرانكفورت.
+لاconnectionstringأومفتاحخدمةبعيدفيهذهالأوامر. الأمرالأخيرقراءةملفاتمحفوظةفقط؛لاقيملأسرارفيالمخرجات. قياسEXECUTE على208 ومصدرالاستدعاءاتالحالي؛150 لاتغيرEXECUTE بدليل مقارنةالكتالوجالكاملة،و139تغيّر جسمenqueueغيرالمستدعىمنالواجهةمعإبقاءACL.139سُلّمتمنفصلة3a3893b،وقياسهاالحقيقيأثبتصفرمرجعقديمفيتعريفاتpublic بعدالتطبيقالمحلي؛لايعنيهذاأنهاتطبقتعلىفرانكفورت.
+
+
+## قياس محلي حالي للسقف222 —14نوفمبر2026
+
+SERVICE_ACCESS_DIAGNOSTIC.json الحالي مربوط بمصادر222:720dispatch و18رفض صلاحية متوقعاً. القيم المحايدة لا تثبت إتمام كل سيناريو عمل. سجل الهويات السبع وخطة سحب المنح وsavedCatalogAssessment أعلاه تاريخي من اللقطة الأصلية؛مواقع الاستدعاء وEXECUTE ونتائجها أُعيد ربطها بالدليل المحلي222. publication المحلية الحالية محفوظة فيSERVICE_ACCESS_AFTER_222.json؛لا تُسقط عليها عبارةpublication الفارغة في القسم التاريخي138. لا اتصال مستضاف ولا إعدادات بعيدة مثبتة. الأدلة التاريخية تعاد حرفياً ببصمات المصدر المعتمدة،ولا تُحذف.

@@ -7,6 +7,7 @@ import {startInventory224Local} from './inventory224-local.mjs';
 import {schemaCatalogSql} from './schema-catalog.mjs';
 import {readApplicationFingerprint} from './backup-restore-contract.mjs';
 import {directReceiptV2Lines} from '../../src/utils/receivingV2.ts';
+import {price225Migration,readPrice225CandidatePins} from '../operations/on-prices225-catalog.mjs';
 
 assert.equal(process.argv.length,2,'ON225_GOLDEN_NO_TARGET_ARGUMENTS');
 const root=path.resolve(import.meta.dirname,'../..');
@@ -18,7 +19,7 @@ const json=v=>quote(JSON.stringify(v))+'::JSONB';
 const product=id(103),branch=id(200),warehouse=id(201),supplier=id(301),customer=id(402);
 const expected=golden225AccountingOracle();
 assert.deepEqual([expected.revenue,expected.cogs,expected.profit,expected.inventoryValue],[12500,11258,1242,10042]);
-const report={ok:false,isolated:true,candidateOnly:true,mainOrHostedAccess:false,expected,stages:[]};
+const report={ok:false,isolated:true,activeMigration:225,mainOrHostedAccess:false,expected,stages:[]};
 const ownerClaims="SELECT set_config('request.jwt.claims',"+quote(JSON.stringify({role:'authenticated',sub:id(1),aal:'aal2'}))+",true);SET LOCAL ROLE authenticated;";
 const serviceClaims="SELECT set_config('request.jwt.claims','{\"role\":\"service_role\"}',true);SET LOCAL ROLE service_role;";
 let stage='fresh224',local;
@@ -32,10 +33,15 @@ try{
  const catalog=async()=>JSON.parse(await sql(schemaCatalogSql));
  check('source',await rows("SELECT jsonb_build_object('ceiling',MAX(version),'count',COUNT(*),'on',(SELECT full_accounting FROM sales_lite1.mode)) FROM supabase_migrations.schema_migrations;"),{ceiling:'224',count:184,on:true});
  const before=await catalog();
- stage='apply quarantined 225 on fresh local224 only';
- const candidate=await readFile(path.join(root,'docs/design/on-independent-prices225/225_on_independent_prices.candidate.sql'),'utf8');
+ stage='apply exact active225 on fresh local224 only';
+ const candidate=await readFile(path.join(root,'supabase/migrations',price225Migration),'utf8');
  report.candidateSha256=createHash('sha256').update(candidate).digest('hex');
+ assert.equal(report.candidateSha256,readPrice225CandidatePins().migrationSha256);
  await sql(candidate);
+ // Disposable fixture history only; owner registration is proved separately
+ // through the protected official225 apply/resume pipeline.
+ await sql("INSERT INTO supabase_migrations.schema_migrations(version,name,statements) VALUES('225','on_independent_prices','{}');");
+ check('registered225',await rows("SELECT jsonb_build_object('ceiling',MAX(version),'count',COUNT(*),'on',(SELECT full_accounting FROM sales_lite1.mode)) FROM supabase_migrations.schema_migrations;"),{ceiling:'225',count:185,on:true});
  const after=await catalog();
  for(const old of before.functions)check('frozen '+old.identity,after.functions.find(f=>f.schema===old.schema&&f.identity===old.identity),old);
  report.previousFunctionsAllIdentical=true;

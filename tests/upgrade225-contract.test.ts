@@ -5,12 +5,22 @@ import {assert225SourceRowsPreserved} from '../scripts/operations/upgrade225-dat
 import {assert225History,upgrade225Arguments} from '../scripts/operations/frankfurt-owner-upgrade225.mjs';
 import {checkRegistration225} from '../scripts/operations/upgrade225-registration.mjs';
 import {operationalManifest} from '../scripts/operations/operational-schema.mjs';
+import {assertSupportedUpgrade225,supportedPriorUpgrades225} from '../scripts/operations/supported-upgrades225.mjs';
 
 const versions=(await operationalManifest()).filter((row:{name:string})=>Number(row.name.slice(0,3))<=224).map((row:{name:string})=>row.name.slice(0,3));
 assert.equal(versions.length,184);
 assert.equal(versions.at(-1),'224');
 const reference={prefixes:{224:{appliedVersions:versions},225:{appliedVersions:[...versions,'225']}},appliedVersions:[...versions,'225']};
 const empty={rows:0,hash:createHash('md5').update('').digest('hex')};
+
+test('225 admits only the closed222/223/224 upgrade sequence under its exact command and ceiling',()=>{
+ assert.deepEqual(supportedPriorUpgrades225,[222,223,224]);
+ const schema={ceiling:225,upgradeCommand:'frankfurt-owner-upgrade225',legacyArchiveCeilings:[220,222,223,224]};
+ for(const version of [222,223,224])assert.doesNotThrow(()=>assertSupportedUpgrade225(version,schema));
+ for(const version of [219,220,221,225,226])assert.throws(()=>assertSupportedUpgrade225(version,schema),/UPGRADE_ADAPTER_NOT_CURRENT/u);
+ for(const bad of [{...schema,ceiling:226},{...schema,upgradeCommand:'other'},{...schema,legacyArchiveCeilings:[222,223]}])
+  assert.throws(()=>assertSupportedUpgrade225(224,bad),/UPGRADE_ADAPTER_NOT_CURRENT/u);
+});
 
 test('225 accepts only the exact completed224 prefix followed by its one migration',()=>{
  assert.deepEqual(assert225History(versions,reference),['225']);
