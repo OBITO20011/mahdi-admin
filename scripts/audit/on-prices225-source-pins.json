@@ -45,12 +45,12 @@
     "docs/design/on-independent-prices225/225_on_independent_prices.candidate.sql": {
       "before": null,
       "beforeText": null,
-      "after": "40ae4299825a1553b401200f2b1b8e427bdeef47c5e68f1a0e986fff54474ba9"
+      "after": "5ce0227c523f8a7fee6afb346136e52d8093998ab18948d452293f8f6c13e4aa"
     },
     "scripts/testing/run-on225-candidate-core.mjs": {
       "before": null,
       "beforeText": null,
-      "after": "0f360df2e4ca63fa7fe8d0bd228153cbe5bedc3d81c5a79ea121eb6935b59146"
+      "after": "9b344b7eda85ea3403db2d6776b8654c8143042d8130ba0a8027c971ea5128a7"
     }
   }
 }

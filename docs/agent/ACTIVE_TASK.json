@@ -11,10 +11,11 @@
     "Actual224 COGS9650 for cash/partial/website;all prior functiondefinitions unchanged.",
     "Independent golden oracle:revenue12500,COGS11258,profit1242,inventory10042;full225golden notyetproved.",
     "Quarantined225:protectedstate,strictpricepair/exactWACack,firstoriginal/restore/context,v7update andv7create/v4family;9newfunctionsonly.",
-    "Candidate225 blocks new paused parcels at the order-item boundary while preserving independent single sales through current POS and guest RPCs."
+    "Candidate225 blocks new paused parcels at the order-item boundary while preserving independent single sales through current POS and guest RPCs.",
+    "Additive public page selects in-stock single products before pagination even below a full parcel, and returns zero available parcels where paused."
   ],
   "inProgress": [
-    "Build the ON catalog read path, import and supplier receipt pricing flow. The candidate SQL is still quarantined."
+    "Connect the public and POS readers to checkout, then import and supplier receipt pricing. Candidate SQL stays quarantined."
   ],
   "notStarted": [
     "Migration225 andproductwriters/parcelpause/originalprice/receiptwarning;no frozenbodyexceptionrequired bythisexample."
@@ -23,7 +24,8 @@
     "Actual fresh224 candidate13/13 rollback cases,oldfunctionobjects unchanged,helper/table ACL protected.",
     "Creation keeps both explicitprices/inheritance,initial originals empty;unconfirmedloss rollsback andstableSKU acknowledgment permitsconfirmedcreation.",
     "Priorfocused8/8 beforelatestcreationextension;refreshnow.",
-    "Isolated PostgreSQL 15/15 with row rollback, including ON POS and guest pause refusal and unchanged price/cost snapshots."
+    "Isolated PostgreSQL 15/15 with row rollback, including ON POS and guest pause refusal and unchanged price/cost snapshots.",
+    "Isolated PostgreSQL 17/17, including anon availability-filtered pages with three loose units and a paused parcel with 48 units."
   ],
   "testsRemaining": [
     "Creationpermission/concurrency/familyloss/import,pause oldRPC admission,publicavailability andUI.",
@@ -44,12 +46,12 @@
     "No ON fillin workbook/generator or ON cutover rewrite in this round.",
     "225Draft only;no merge before fullgolden day,CI andClaude review."
   ],
-  "checkpointedAt": "2026-11-17T16:14:38.786Z",
+  "checkpointedAt": "2026-11-17T16:20:36.003Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "filesTouchedCount": 3,
   "filesTouchedManifestSha256": "cbb7f92995029ba9aef50365bb54c32dfd38d92828f65d63e230ddb1c2eb871a",
-  "nextExactAction": "Implement the additive ON catalog availability reader and import pricing. Candidate pause gate is proved through current POS and guest RPCs.",
+  "nextExactAction": "Wire the additive storefront/POS readers, independent ON import and supplier receipt pricing. Candidate ON catalog and sale guards passed 17 isolated PostgreSQL cases.",
   "workingTreeFingerprint": "D58C0DF250B52C8AC0935A62000E50A79696B3720F7CF06B61A5F1B61D653657"
 }

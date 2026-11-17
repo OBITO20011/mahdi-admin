@@ -27,11 +27,12 @@ try{
   assert.deepEqual(current,old,'EXISTING_FUNCTION_MUST_REMAIN_BYTE_IDENTICAL:'+old.identity);
  }
  const added=after.functions.filter(f=>!before.functions.some(old=>old.schema===f.schema&&old.identity===f.identity));
- assert.equal(added.length,10);
+ assert.equal(added.length,11);
  assert.deepEqual(added.map(f=>f.identity.slice(0,f.identity.indexOf('('))).sort(),[
   'create_product_family_with_flavors_v4','create_product_with_opening_stock_v7',
   'get_product_pricing_context225','price225_assert_context_internal','price225_assert_prices_internal','price225_create_loss_confirmation_internal',
-  'price225_guard_new_parcel_internal','price225_loss_confirmation_internal','price225_record_state_internal','update_product_master_v7']);
+  'price225_guard_new_parcel_internal','price225_loss_confirmation_internal','price225_record_state_internal',
+  'public_storefront_catalog_page225','update_product_master_v7']);
  report.existingFunctionObjectsUnchanged=true;
  report.candidateSha256=createHash('sha256').update(candidate).digest('hex');
  const check=async(name,body)=>{
@@ -179,6 +180,31 @@ try{
  DO $proof$ BEGIN
   IF (SELECT count(*) FROM public.order_items WHERE product_id='${product}' AND commercial_line_kind='base_unit'
     AND line_total_in_minor_units=700)<>1 THEN RAISE EXCEPTION 'GUEST_SINGLE_SNAPSHOT_CHANGED';END IF;
+ END $proof$;`);
+ await check('ON catalog filters and pages by available single units even when no complete parcel fits',`${authenticated}
+ SELECT public.set_go_live_main_branch_v1('${branch}');
+ SELECT public.apply_inventory_opening_setup('${warehouse}',${quote(JSON.stringify([{productId:product,packageCount:0,looseUnits:3}]))}::JSONB,'ON225 fixture','on225-catalog-opening-stock');
+ RESET ROLE;SET LOCAL ROLE anon;
+ DO $proof$ DECLARE page JSONB;row JSONB; BEGIN
+  page:=public.public_storefront_catalog_page225(p_limit=>1,p_availability=>'available',p_product_ids=>ARRAY['${product}'::UUID]);
+  row:=page->'items'->0;
+  IF page->>'total' IS DISTINCT FROM '1' OR row->>'isAvailable' IS DISTINCT FROM 'true'
+     OR row->>'availableSalePackages' IS DISTINCT FROM '0' OR row->>'availableQuantity' IS DISTINCT FROM '3'
+     OR row->>'salePriceInMinorUnits' IS DISTINCT FROM '1000' OR row->>'salePackagePriceInMinorUnits' IS DISTINCT FROM '11000' THEN
+   RAISE EXCEPTION 'LOOSE_CATALOG_AVAILABILITY_WRONG';
+  END IF;
+  IF row ? 'wac' OR row ? 'costPriceInMinorUnits' THEN RAISE EXCEPTION 'PRIVATE_COST_EXPOSED';END IF;
+ END $proof$;`);
+ await check('ON public catalog marks paused parcels unavailable while retaining the product price',`${preparePausedSale}
+ RESET ROLE;SET LOCAL ROLE anon;
+ DO $proof$ DECLARE page JSONB;row JSONB;BEGIN
+  page:=public.public_storefront_catalog_page225(p_limit=>1,p_availability=>'available',p_product_ids=>ARRAY['${product}'::UUID]);
+  row:=page->'items'->0;
+  IF page->>'total' IS DISTINCT FROM '1' OR row->>'parcelSaleEnabled' IS DISTINCT FROM 'false'
+     OR row->>'availableSalePackages' IS DISTINCT FROM '0' OR row->>'availableQuantity' IS DISTINCT FROM '48'
+     OR row->>'salePriceInMinorUnits' IS DISTINCT FROM '700' OR row->>'isAvailable' IS DISTINCT FROM 'true' THEN
+   RAISE EXCEPTION 'PAUSED_CATALOG_AVAILABILITY_WRONG';
+  END IF;
  END $proof$;`);
  report.ok=true;
 }catch(error){report.stage=stage;report.error=error.message.split('\n')[0];process.exitCode=1;}
