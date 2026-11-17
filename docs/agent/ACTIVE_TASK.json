@@ -2,43 +2,46 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner-approved exact raw ACL Restore for11private tables+2schemas;conditional merge and shared rehearsal",
-  "baselineSha": "98470d376894623247b7079426a9c29d1bf43f51",
-  "branch": "codex/restore-lite220-private-acl",
-  "phase": "RESTORE_PRIVATE220_ACL",
-  "startedAt": "2026-11-17T03:37:43.475Z",
+  "objective": "Approved225 ON independent prices;first224COGS RED/proposed frozen exception only;no frozen body change",
+  "baselineSha": "2508a9e5eff2762ab42933394a8243bb6c1af4a4",
+  "branch": "codex/on-independent-prices225",
+  "phase": "ON_INDEPENDENT_PRICE225",
+  "startedAt": "2026-11-17T04:55:09.912Z",
   "completed": [
-    "Closed13object raw ACL replay with no guard/reference changes.",
-    "Actual owned220 encrypted archive valid and five malformed cases proved;idempotent and four-trigger preservation."
+    "Attempted224COGS RED oncash,partial andwebsite completion;all arecorrect9650,withcorrectPOSRPC/cache.",
+    "Exact livePOSwriterdefinition matches frozen220pin;allfunctiondefinitions unchanged.",
+    "Independentreview corrects209-only inference;214alreadyfixesexactWAC;proposedfrozenSQLdiff0."
   ],
   "inProgress": [
-    "Implement closed13object raw ACL restore and rejection/idempotency proofs."
+    "Remaining225 pricing,state,UI,import,tooling andgolden-day implementation."
   ],
-  "notStarted": [],
+  "notStarted": [
+    "Migration225 andproductwriters/parcelpause/originalprice/receiptwarning;no frozenbodyexceptionrequired bythisexample."
+  ],
   "testsPassed": [
-    "Focused10/10.",
-    "Owner222 actual220→222 with encryptedBackup/Restore before+after andverify-only PASS.",
-    "Typesadmin/customer andstrictlint exit0.",
-    "Final units2113/2113,zero fail/skip;typesadmin/customer0;strictlint0.",
-    "Historical cutover pin uses exact new-layer inverse and retains beforeText/unknown-byte refusal;focused12/12."
+    "Actual224ownedDockerthreecasesPASS;allpublicrows rollback;19300/24 oracle independent.",
+    "Focused9/9;types0;strictlint0."
   ],
   "testsRemaining": [
-    "Exact-head fullCI andGitleaks;conditionalmerge;mainCI andpreservedprimarysync;fresh sharedrehearsal."
+    "Full225 implementation,coverage,fullCI andownerreview."
   ],
-  "findings": [],
+  "findings": [
+    "Earlierstudyusedsuperseded209definition;214currentbodycorrect includingcachedPOSresult."
+  ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hostedaccess/deploy/demo/n8n/Dockerrestart.",
-    "No existing upgrade/RESET/catalog guard or reference changes.",
-    "225frozen writer exception not granted."
+    "No hosted/deploy/demo/n8n/Dockerrestart;no owneroriginal/workbookchanges.",
+    "No frozen209poswriter body change without explicit exception.",
+    "No ONfillinWorkbook/generator/cutoverdocs in thisround.",
+    "225Draft only,notmerge until frozen decision andClaude review."
   ],
-  "checkpointedAt": "2026-11-17T04:05:48.217Z",
+  "checkpointedAt": "2026-11-17T05:22:16.088Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 11,
-  "filesTouchedManifestSha256": "497986057b1086fd268388737872cf53d1455f003caf4d31b4e733f332264794",
-  "nextExactAction": "Push and DraftPR;exact-head fullCI thenGitleaks,conditionalmerge andsharedrehearsal.",
-  "workingTreeFingerprint": "E781D7FC37BCEAFB36F7377DAA7FA66AF3ACCD2DA10502230325B5A3702B931A"
+  "filesTouchedCount": 7,
+  "filesTouchedManifestSha256": "0700f96e4526bb5a8f18e864a5e3facbf5aebcf54033340de0a788c77266ed7a",
+  "nextExactAction": "Preserve proof milestone;complete110mainCI+sharedrehearsal;then remaining225 without frozenbody edits.",
+  "workingTreeFingerprint": "2FB378E4E0D9A6A5DE4C8D1E22429D52CD793F5F2324E02ADDE3E3F4DCCB9013"
 }
