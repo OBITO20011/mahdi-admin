@@ -1,5 +1,6 @@
-import assert from 'node:assert/strict';
 import {sourceBeforeOnPrices225,restoreOnPrices225Hashes,pathsBeforeOnPrices225} from './source-before-on-prices225.mjs';
+import {sourceBeforeReset224Ddl,restoreReset224DdlHashes,pathsBeforeReset224Ddl} from './source-before-reset224-ddl.mjs';
+import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {canonicalLf,sha256} from '../testing/maintenance-db-contract.mjs';
 
@@ -16,7 +17,7 @@ for(const [file,pin] of Object.entries(restorePrivate220Pins)){
  assert.equal(pin.beforeText===null?null:sha256(pin.beforeText),pin.before,'RESTORE_PRIVATE220_HISTORY_PIN_CORRUPT:'+file);
 }
 export function sourceBeforeRestorePrivate220(file,text){
- text=sourceBeforeOnPrices225(file,text);
+ text=sourceBeforeReset224Ddl(file,sourceBeforeOnPrices225(file,text));
  if(text===null)return null;
  const raw=canonicalLf(text);
  if(file===indexFile&&raw===indexText)return null;
@@ -25,18 +26,18 @@ export function sourceBeforeRestorePrivate220(file,text){
 }
 const current=file=>canonicalLf(readFileSync(new URL('../../'+file,import.meta.url),'utf8'));
 export function restoreRestorePrivate220Hashes(rows){
- return restoreOnPrices225Hashes(rows).flatMap(row=>{
+ return restoreReset224DdlHashes(restoreOnPrices225Hashes(rows)).flatMap(row=>{
   const pin=restorePrivate220Pins[row.file];
   if(!pin||row.sha256!==pin.after)return[row];
-  assert.equal(sha256(sourceBeforeOnPrices225(row.file,current(row.file))),pin.after,'RESTORE_PRIVATE220_HISTORY_SOURCE_CHANGED:'+row.file);
+  assert.equal(sha256(sourceBeforeReset224Ddl(row.file,sourceBeforeOnPrices225(row.file,current(row.file)))),pin.after,'RESTORE_PRIVATE220_HISTORY_SOURCE_CHANGED:'+row.file);
   return pin.before===null?[]:[{...row,sha256:pin.before}];
  });
 }
 /** @param {string[]} files */
 export function pathsBeforeRestorePrivate220(files){
- return pathsBeforeOnPrices225(files).filter(file=>{
-  if(file===indexFile)return sourceBeforeOnPrices225(file,current(file))!==indexText;
+ return pathsBeforeReset224Ddl(pathsBeforeOnPrices225(files)).filter(file=>{
+  if(file===indexFile)return sourceBeforeReset224Ddl(file,sourceBeforeOnPrices225(file,current(file)))!==indexText;
   const pin=restorePrivate220Pins[file];
-  return !pin||pin.before!==null||sha256(sourceBeforeOnPrices225(file,current(file)))!==pin.after;
+  return !pin||pin.before!==null||sha256(sourceBeforeReset224Ddl(file,sourceBeforeOnPrices225(file,current(file))))!==pin.after;
  });
 }

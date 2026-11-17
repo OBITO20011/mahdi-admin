@@ -6,6 +6,7 @@ import {readFile,writeFile,mkdir,mkdtemp} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {startInventory224Local} from './inventory224-local.mjs';
+import {proveReset224DdlCapability} from './reset224-ddl-capability-proof.mjs';
 import {persistentLocalExecutor} from './reset214-persistent-local.mjs';
 import {executeResetInput} from '../operations/reset214-io.mjs';
 import {readReady224Reference} from '../operations/frankfurt-reference224.mjs';
@@ -29,6 +30,7 @@ const id=n=>'92600000-0000-4000-8000-'+String(n).padStart(12,'0'),q=s=>"'"+Strin
 try{
  const frozen=await readVerificationSourceFreeze(root),reference=await readReady224Reference(root,process.argv[2]);
  local=await startInventory224Local(224,'reset');executor=persistentLocalExecutor(local.executor);
+ report.ddlCapability=await proveReset224DdlCapability(local,output);
  const sql=async(text,ex=executor)=>{const r=await executeResetInput(ex,text);assert.equal(r.code,0,r.stderr);return r.stdout.trim();},json=async text=>JSON.parse(await sql(text));
  await hold217Notifications(executor,await readNotificationSnapshot(executor));
  const fixture=await readFile(path.join(root,'scripts/testing/package-e-golden-day-fixture.sql'),'utf8');
