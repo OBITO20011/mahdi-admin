@@ -7,59 +7,35 @@
     },
     {
       "code": " M",
-      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
+      "path": "scripts/agent/preflight.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/audit/source-before-restore-private220.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-owner-reset224.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/reset224-session.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/trial-reset224-core.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-reset224-runtime.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/restore-lite220-private-acl.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/RESET224_STORAGE_CAPABILITY_READ_ONLY.sql"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/RESET224_STORAGE_DIAGNOSIS_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/reset224-ddl-source-pins.json"
-    },
-    {
-      "code": "??",
       "path": "scripts/audit/source-before-reset224-ddl.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/operations/reset224-ddl-capability.mjs"
+      "path": ".gitattributes"
     },
     {
       "code": "??",
-      "path": "scripts/testing/reset224-ddl-capability-proof.mjs"
+      "path": "docs/operations/MIGRATION_LF_BYTES_AR.md"
     },
     {
       "code": "??",
-      "path": "tests/reset224-ddl-capability.test.ts"
+      "path": "scripts/agent/migration-lf.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/migration-lf-source-pins.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-migration-lf.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/migration-lf.test.ts"
     }
   ]
 }
