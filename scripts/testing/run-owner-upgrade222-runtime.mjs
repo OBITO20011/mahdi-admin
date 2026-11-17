@@ -1,6 +1,7 @@
 import {startPrices222Local} from './independent-prices222-local.mjs';
 import {frankfurt220TriggerAclFixtureSql,frankfurt220TriggerAclReadSql} from './frankfurt220-trigger-acl-fixture.mjs';
 import {frozen220TriggerAclProfile} from '../operations/frozen220-trigger-acl.mjs';
+import {proveLite220PrivateAclArchives} from './restore-lite220-private-acl-archives.mjs';
 // One owned Docker220 source,real owner222 pipeline,encrypted backups and strict Restore.
 // No hosted URL,credentials or external transport is accepted.
 // Official history repair has a direct local SQL transport after network detach.
@@ -89,6 +90,7 @@ try{
  report.cutoverHold={dryRunReadOnly:true,malformedInventoryRejected:true,ordersClosed:true,allSixInactive:true,repeatedNoOp:true};
  stage='backup220';const before=await timed('backup220',()=>createCompleteBackup({projectRef:'kzevmysfydaslxcerogt',outputRoot:backupRoot,passphrase,source}));assert.equal(before.historyCeiling,220);const beforeFile=await save('backup220.json',before);
  await read222BackupEvidence(beforeFile,220);
+ stage='private220-raw-acl-archives';report.private220Archives=await timed('private220Archives',()=>proveLite220PrivateAclArchives({archivePath:before.archivePath,passphrase,output}));
  stage='restore220';report.restore220=await timed('restore220',()=>restoreCompleteBackup({archivePath:before.archivePath,passphrase,reportPath:path.join(output,'restore220.json')}));assert.equal(report.restore220.allRowsAndHashesMatch,true);
  const run=async(name,backupEvidence=before)=>{const dir=path.join(output,name);await mkdir(dir);return upgrade222WithExecutor({executor,reference,output:dir,backupEvidence,report:{projectRef:'kzevmysfydaslxcerogt',startedAt:new Date().toISOString()},
   repair:async version=>{assert.equal(version,'222');const unit=reference.manifest.find(m=>m.name.startsWith(version+'_'));await copyFile(path.join(root,'supabase/migrations',unit.name),path.join(local,'supabase/migrations',unit.name));await sql("INSERT INTO supabase_migrations.schema_migrations(version,name,statements) VALUES('222','independent_lite_parcel_prices','{}');");},

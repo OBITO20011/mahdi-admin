@@ -19,6 +19,7 @@ import {restoreToolError,saveRestoreLogs} from './restore-log.mjs';
 import {assertStrictRestoreComparison} from './restore-comparison.mjs';
 import {restoreCronSequenceAcl} from './restore-cron-acl.mjs';
 import {capturedFrozen220TriggerAcl,restoreFrozen220TriggerAcl} from './restore-frozen220-trigger-acl.mjs';
+import {capturedLite220PrivateAcl,restoreLite220PrivateAcl} from './restore-lite220-private-acl.mjs';
 import {capturePgNetSequenceState,planPgNetSequenceState,restorePgNetSequenceState} from './pg-net-sequence-state.mjs';
 import {verifiedSupabaseCa} from './supabase-ca.mjs';
 import {postgresDiagnostic,diagnosticError,classifiedError} from './postgres-diagnostic.mjs';
@@ -146,7 +147,7 @@ export async function restoreCompleteBackup({archivePath,passphrase,reportPath,r
   // Ordinary Restore keeps its existing private socket port unchanged.
   const restorePort=afterVerified?5432:25435;
   const work=await mkdtemp(path.join(tmpdir(),'nawasrah-full-restore-')),content=path.join(work,'content');
-  const container='nawasrah-full-restore-'+process.pid+'-'+randomBytes(4).toString('hex');let started=false,report,frozen220AclProof,restoreStderr='',restoreToc='',failure,logCapture,restorePartition,extensionProof,cronAclProof,pgNetStateProof,restoreContainerId;
+  const container='nawasrah-full-restore-'+process.pid+'-'+randomBytes(4).toString('hex');let started=false,report,frozen220AclProof,private220AclProof,restoreStderr='',restoreToc='',failure,logCapture,restorePartition,extensionProof,cronAclProof,pgNetStateProof,restoreContainerId;
   const localToolEnv={...process.env,LC_ALL:'C',LANG:'C',LANGUAGE:'C'};
   const docker=async args=>exec('docker',args,{env:localToolEnv,windowsHide:true,timeout:600_000,maxBuffer:16*1024**2});
   const args=['exec','-i',container,'psql','-h','/tmp/socket','-p',String(restorePort),'-U','supabase_admin','-d','postgres','-X','-q','-A','-t','-w','-v','ON_ERROR_STOP=1','-v','VERBOSITY=verbose'];
@@ -159,6 +160,7 @@ export async function restoreCompleteBackup({archivePath,passphrase,reportPath,r
     const before=JSON.parse(await readFile(path.join(content,'database','source-evidence.json'),'utf8'));
     const accepted=await assertOperationalHistory(before.history);
     stage='restore-frozen220-trigger-acl';capturedFrozen220TriggerAcl(before);
+    stage='restore-lite220-private-acl';capturedLite220PrivateAcl(before);
     stage='restore-pg-net-sequence-state';
     try{planPgNetSequenceState(before);}catch{throw classifiedError('RESTORE_PG_NET_SEQUENCE_STATE_UNSUPPORTED',{stage,tool:'internal'});}
     assert.match(before.preload,/^[a-z_]+(?:,\s*[a-z_]+)*$/u);
@@ -198,6 +200,7 @@ export async function restoreCompleteBackup({archivePath,passphrase,reportPath,r
     await session.query(postInit);
     const platformProof=assertPlatformTocRestored(restorePartition.platform,await json(session,restoredPlatformSql));
     stage='restore-frozen220-trigger-acl';frozen220AclProof=await restoreFrozen220TriggerAcl(session,before);
+    stage='restore-lite220-private-acl';private220AclProof=await restoreLite220PrivateAcl(session,before);
     // Compare as the source postgres role, including hidden sequence values and privileges.
     stage='compare-data-catalog-acl';await session.query('SET ROLE postgres;BEGIN READ ONLY;');const after=await captureEvidence(session);
     if(Object.hasOwn(before,'pgNetSequenceState'))assert.deepEqual(after.pgNetSequenceState,before.pgNetSequenceState,'RESTORE_PG_NET_RAW_STATE_DIFFER');
@@ -217,7 +220,7 @@ export async function restoreCompleteBackup({archivePath,passphrase,reportPath,r
     assert.ok(integrity.length>5,'RESTORE_INTEGRITY_SCAN_MISSING');
     assert.ok(integrity.every(c=>c.status==='healthy'&&Number(c.issueCount)===0),'RESTORE_EXISTING_INTEGRITY_CHECK_FAILED');
     assert.equal(await sha256(archivePath),rehearsalArchiveSha256,'RESTORE_ARCHIVE_CHANGED_DURING_VERIFICATION');
-    report={ok:true,archiveSha256:rehearsalArchiveSha256,sourceEvidenceSha256:createHash('sha256').update(JSON.stringify(before)).digest('hex'),projectRef:manifest.projectRef,mode:'isolated-complete-restore',postgresImage:IMAGE,completedAt:new Date().toISOString(),hostedConnectionsMade:false,network:'none',liveVolumesModified:false,historyCeiling:accepted.ceiling,historyFiles:accepted.files,tablesCompared:Object.keys(before.tables).length,storageObjectsCompared:manifest.storageObjects.length,integrityChecks:integrity,frozen220TriggerAcl:frozen220AclProof,tocCoverage:restorePartition.proof,extensions:extensionProof,platform:platformProof,cronSequenceAcl:cronAclProof,pgNetSequenceState:pgNetStateProof,...proof};
+    report={ok:true,archiveSha256:rehearsalArchiveSha256,sourceEvidenceSha256:createHash('sha256').update(JSON.stringify(before)).digest('hex'),projectRef:manifest.projectRef,mode:'isolated-complete-restore',postgresImage:IMAGE,completedAt:new Date().toISOString(),hostedConnectionsMade:false,network:'none',liveVolumesModified:false,historyCeiling:accepted.ceiling,historyFiles:accepted.files,tablesCompared:Object.keys(before.tables).length,storageObjectsCompared:manifest.storageObjects.length,integrityChecks:integrity,frozen220TriggerAcl:frozen220AclProof,private220Acl:private220AclProof,tocCoverage:restorePartition.proof,extensions:extensionProof,platform:platformProof,cronSequenceAcl:cronAclProof,pgNetSequenceState:pgNetStateProof,...proof};
     if(afterVerified){
       // AFTER strict comparison and the rolled-back scanner. The same finally
       // owns cleanup even if the rehearsal throws. No default network changes.
