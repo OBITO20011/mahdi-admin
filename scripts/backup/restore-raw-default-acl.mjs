@@ -2,6 +2,7 @@
 import assert from 'node:assert/strict';
 import {isDeepStrictEqual} from 'node:util';
 import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
+import {classifiedError} from './postgres-diagnostic.mjs';
 
 const qi=value=>'"'+String(value).replaceAll('"','""')+'"';
 const key=row=>JSON.stringify([row.family,row.schema,row.name]);
@@ -10,7 +11,14 @@ const atoms=acl=>{
  return acl===null?null:[...acl].sort();
 };
 const equalAcl=(a,b)=>isDeepStrictEqual(atoms(a),atoms(b));
-const fail=(code,row)=>{throw Object.assign(new Error(code+':'+key(row)),{code});};
+function fail(code,row){
+ const name=row.family==='schema'?row.name:row.name.split('(')[0];
+ const error=classifiedError(code,{
+  tool:'internal',stage:'restore-raw-default-acl',
+  toc:{type:row.family==='defaultPrivilege'?'DEFAULT ACL':'ACL',schema:row.schema||null,name},
+ });
+ throw Object.assign(error,{code});
+}
 
 // Additive evidence outside schemaCatalogSql: historical references/guards stay
 // byte-identical. Old archives explicitly report that this field was not captured.

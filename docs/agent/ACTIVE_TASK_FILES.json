@@ -3,47 +3,19 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/project-state.json"
+      "path": "scripts/audit/restore-raw-acl-source-pins.json"
     },
     {
       "code": " M",
-      "path": "scripts/audit/source-before-reset224-ddl.mjs"
+      "path": "scripts/backup/postgres-diagnostic.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/backup/complete-backup.mjs"
+      "path": "scripts/backup/restore-raw-default-acl.mjs"
     },
     {
       "code": " M",
       "path": "scripts/testing/run-dual-backup-runtime.mjs"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/RESTORE_RAW_DEFAULT_ACL_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/restore-raw-acl-source-pins.json"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/source-before-restore-raw-acl.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/backup/restore-raw-default-acl.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/restore-raw-default-acl-proof.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/run-restore-raw-default-acl-runtime.mjs"
-    },
-    {
-      "code": "??",
-      "path": "tests/restore-raw-default-acl.test.ts"
     }
   ]
 }

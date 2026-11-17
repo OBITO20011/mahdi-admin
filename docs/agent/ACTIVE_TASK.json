@@ -30,9 +30,9 @@
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "nextExactAction": "Commit Restore raw ACL repair, run the full encrypted backup and historical Restore suite, then verify exact-head CI.",
-  "checkpointedAt": "2026-11-17T15:51:11.775Z",
-  "filesTouchedCount": 11,
-  "filesTouchedManifestSha256": "6efedf61f24ae867151289e2b42090bdde2c92eff7136577c7f6a2bad7180fa8",
-  "workingTreeFingerprint": "BEA166AB4003D9A9B7511A5E6DD4F83B700F9CB2BA36835823D4D2FD33EB60A0"
+  "nextExactAction": "Run committed encrypted backup recovery suite and confirm exact-head CI before merge and the fresh 224 rehearsal.",
+  "checkpointedAt": "2026-11-17T15:53:54.248Z",
+  "filesTouchedCount": 4,
+  "filesTouchedManifestSha256": "cf1113e5a112444c224e1240ac27ade4a5c4ba4256fbc826e1f4be911d155160",
+  "workingTreeFingerprint": "BF846F0F7F9A6415F883CF096F6A3F000E758CDE9C0389DA05D149B3D8BB01F1"
 }
