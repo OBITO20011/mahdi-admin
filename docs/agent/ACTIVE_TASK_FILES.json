@@ -3,63 +3,47 @@
   "files": [
     {
       "code": " M",
+      "path": "customer-web/src/receipts/commercialReceipt.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/utils/storefrontUnits.ts"
+    },
+    {
+      "code": " M",
       "path": "docs/agent/project-state.json"
     },
     {
       "code": " M",
-      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
+      "path": "src/features/pos/PosProductCard.tsx"
     },
     {
       "code": " M",
-      "path": "scripts/audit/source-before-restore-private220.mjs"
+      "path": "src/features/pos/PosView.tsx"
     },
     {
       "code": " M",
-      "path": "scripts/operations/frankfurt-owner-reset224.mjs"
+      "path": "src/features/receipts/saleReceipt.ts"
     },
     {
       "code": " M",
-      "path": "scripts/operations/reset224-session.mjs"
+      "path": "src/services/supabase/posV2.service.ts"
     },
     {
       "code": " M",
-      "path": "scripts/operations/trial-reset224-core.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-reset224-runtime.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/restore-lite220-private-acl.test.ts"
+      "path": "src/utils/posKnownRejectionCopy.ts"
     },
     {
       "code": "??",
-      "path": "docs/operations/RESET224_STORAGE_CAPABILITY_READ_ONLY.sql"
+      "path": "customer-web/src/utils/cartUnitPresentation.ts"
     },
     {
       "code": "??",
-      "path": "docs/operations/RESET224_STORAGE_DIAGNOSIS_AR.md"
+      "path": "src/utils/posStockCopy.ts"
     },
     {
       "code": "??",
-      "path": "scripts/audit/reset224-ddl-source-pins.json"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/source-before-reset224-ddl.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/reset224-ddl-capability.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/reset224-ddl-capability-proof.mjs"
-    },
-    {
-      "code": "??",
-      "path": "tests/reset224-ddl-capability.test.ts"
+      "path": "tests/on225-display.test.ts"
     }
   ]
 }

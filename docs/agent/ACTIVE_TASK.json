@@ -1,46 +1,42 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner approved Storage readonly diagnosis,owner SQL and strict224 DDL preflight;source-exact isolated supautils only if proven.",
-  "baselineSha": "2508a9e5eff2762ab42933394a8243bb6c1af4a4",
-  "branch": "codex/reset224-storage-capability",
-  "phase": "RESET224_STORAGE_CAPABILITY",
+  "objective": "Owner-approved display-only ON stock shortage Arabic copy and actual saved unit names;no calls,values,SQL or guards changed.",
+  "baselineSha": "a74070de584367f49cd1095ed8db5e5c2e5b8fba",
+  "branch": "codex/on-stock-unit-display225",
+  "phase": "ON_DISPLAY225",
   "startedAt": "2026-11-17T08:26:51.856Z",
   "completed": [
-    "Readonly source/upstream diagnosis;owner SQL prepared and tested on preserved container.",
-    "Native PostgreSQL capable/denied policy proof;no marker or source change."
+    "Draft ON actual unit labels and immutable receipt names;stockcopy with original guards/line object unchanged.",
+    "Render-only cart unit projection;original cart persistence file exactlyunchanged."
   ],
   "inProgress": [
-    "Read-only local source and upstream Supabase evidence."
+    "Trace current stock guards and saved receipt snapshots."
   ],
   "notStarted": [],
   "testsPassed": [
-    "Focused11/11 thencontinuity9/9 after currentPhase synchronization.",
-    "Bothapp fulltypes0;strictlint0.",
-    "Fullunits first2116/2117;onlyphase metadata mismatch,fixed andfocusedpassed."
+    "Focused presentation4/4;no SQL/RPC payload/value/guard changes."
   ],
   "testsRemaining": [
-    "Fullunits on corrected metadata",
-    "Exact-head fullCI/Gitleaks",
-    "Conditionalmerge/mainCI/primarysync",
-    "New archive2230c606 rehearsal with existing exact supautils adapter"
+    "Wire render-only cart projection without changing storage/pending snapshots.",
+    "Update approved display expectations;Chromium/WebKit390/1280 snapshots.",
+    "Literal source inverse/fulltypes/lint/units/CI/Gitleaks;notreview-ready."
   ],
   "findings": [],
   "blockers": [],
-  "activeProcesses": [
-    "Preserved35556 holder in separate2508clone;no SQL writer."
-  ],
+  "activeProcesses": [],
   "prohibitions": [
-    "No hosted/project access or deploy;no demo/n8n/Dockerrestart.",
-    "Preserve saved failed containers;no historical SQL/reference/guard relaxation."
+    "No hosted/Frankfurt/production/deploy/demo/n8n/Dockerrestart.",
+    "No SQL or RPC/quantity/price/guard/persistence changes.",
+    "No original workbook/owner file changes."
   ],
-  "checkpointedAt": "2026-11-17T08:55:15.068Z",
+  "checkpointedAt": "2026-11-17T10:34:05.521Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 15,
-  "filesTouchedManifestSha256": "230bbe76c9adffd8aa92eb5b5c183fa05a8bd838462e84f2563e4f9a97d5a4b7",
-  "nextExactAction": "Fullunit corrected state + exact-headCI;no merge before all gates;new archive rehearsal only aftermerge.",
-  "workingTreeFingerprint": "3199B6918C1BF3B9F9FCAA8C82CBC3F72254CD899C9845D874B9E7A29DD7FAEB"
+  "filesTouchedCount": 11,
+  "filesTouchedManifestSha256": "b52b08a9f2007f18867aa5e53d47dd4945ae87b174b1f22b802d1900d5dd6c21",
+  "nextExactAction": "Resume draftdisplay after shared rehearsal;wireviewprojection,testbrowsers,pins/fullgates. No cart persistence changes.",
+  "workingTreeFingerprint": "AD25A5A9F443DF9133D43078FDA0AF4A91C17FC2F829FD58927021A4082796F7"
 }

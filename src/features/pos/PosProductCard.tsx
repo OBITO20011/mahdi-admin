@@ -1,4 +1,5 @@
 import type {Product} from '../../types';
+import {posStockShortageCopy} from '../../utils/posStockCopy';
 import {MoneyText,ProductGlyph,UiButton} from '../../components/ui';
 import type {PosSingleProductMode} from './saleMethods';
 import {singleSaleUnitLabel,packageSaleUnitLabel,unsafeLiteParcelPrice,PARCEL_DEFINITION_MESSAGE} from '../../../customer-web/src/utils/saleUnitLabels';
@@ -10,16 +11,16 @@ export function PosProductCard({product,stock,parcelQuantity,unitQuantity,disabl
 }){
   const unitsPerPackage=product.unitsPerSalePackage??1;
   const parcel=unitsPerPackage>1,unit=!product.parcelOnly;
-  const packageLabel=packageSaleUnitLabel(product.salePackage,product.purchasePackage,!quantityTracked,product.unit);
+  const packageLabel=packageSaleUnitLabel(product.salePackage,product.purchasePackage,true,product.unit);
   const unsafeParcel=unsafeLiteParcelPrice(!quantityTracked,unitsPerPackage,product.salePackagePrice,product.retailPrice);
   const methods=[...(parcel?[{mode:'legacy_single_sku_parcel' as const,label:packageLabel,price:product.salePackagePrice,quantity:parcelQuantity}]:[]),
-    ...(unit?[{mode:'base_unit' as const,label:singleSaleUnitLabel(product.unit,!quantityTracked),price:product.retailPrice,quantity:unitQuantity}]:[])];
+    ...(unit?[{mode:'base_unit' as const,label:singleSaleUnitLabel(product.unit,true),price:product.retailPrice,quantity:unitQuantity}]:[])];
   return <article data-pos-product={product.id} className={'min-w-0 space-y-3 rounded-2xl border bg-nw-surface p-3 '+(parcelQuantity+unitQuantity>0?'border-nw-primary ring-1 ring-nw-primary':'border-nw-border')}>
     <div className="flex min-w-0 items-center gap-3">
       <ProductGlyph name={product.nameAr} image={product.imageUrl} className="h-14 w-14 shrink-0"/>
       <div className="min-w-0"><h3 className="break-words text-sm font-bold">{product.nameAr}</h3>
         <bdi dir="ltr" className="block break-all text-xs text-nw-muted">{product.barcode}</bdi>
-        {quantityTracked?<p className={'text-xs '+(stock<=product.reorderLevel?'text-nw-warn':'text-nw-muted')}><bdi dir="ltr">{stock}</bdi> {singleSaleUnitLabel(product.unit,!quantityTracked)} · {stock===0?'نفد':'متوفر'}</p>
+        {quantityTracked?<p className={'text-xs '+(stock<=product.reorderLevel?'text-nw-warn':'text-nw-muted')}>{stock===0?posStockShortageCopy(product.nameAr,product.unit,0,1):<><bdi dir="ltr">{stock}</bdi> {singleSaleUnitLabel(product.unit,true)} · متوفر</>}</p>
           :<p className={'text-xs '+(manualAvailable===false?'text-nw-warn':'text-nw-muted')}>{manualAvailable===undefined?'جارٍ التحقق من التوفر':manualAvailable?'متوفر يدوياً':'غير متوفر — البيع يحتاج تأكيداً'}</p>}
       </div>
     </div>

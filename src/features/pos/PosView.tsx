@@ -1,4 +1,5 @@
 import {useScreenLeaveGuard} from '../../hooks/useScreenLeaveGuard';
+import {posStockShortageCopy,POS_STOCK_CHANGED_COPY} from '../../utils/posStockCopy';
 /**
  * Nawasrah Business Manager - POS (Point of Sale) View
  */
@@ -209,6 +210,16 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
     const available = product ? posWarehouseAvailable(product, warehouseId) : component?.availableQuantity;
     return Number.isSafeInteger(quantity) && quantity > 0 && (salesOnly || available !== undefined && quantity <= available);
   });
+  const stockRejectionCopy = (next: PosCartItem[]) => {
+    for(const [id,quantity] of posStockDemand(next)){
+      const product=knownProductsRef.current.get(id);
+      const component=parcelOptions.flatMap(p=>p.components).find(c=>c.productId===id);
+      const available=product?posWarehouseAvailable(product,warehouseId):component?.availableQuantity;
+      if(available!==undefined&&Number.isFinite(available)&&Number.isSafeInteger(quantity)&&quantity>available)
+        return posStockShortageCopy(product?.nameAr??component?.nameAr??'الصنف',product?.unit,available,quantity);
+    }
+    return POS_STOCK_CHANGED_COPY;
+  };
 
   useEffect(() => {
     let active = true;
@@ -365,7 +376,7 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
     const currentQuantity =
       existingIndex >= 0 ? cartItems[existingIndex].quantity : 0;
     if (!salesOnly && !canSetPosQuantity(currentQuantity + 1, availableSalePackages)) {
-      setToast(`المتاح من ${prod.nameAr} هو ${availableSalePackages} ${productSaleMode==='base_unit'?singleSaleUnitLabel(prod.unit,salesOnly):'طرد'} فقط.`, 'error');
+      setToast(posStockShortageCopy(prod.nameAr,productSaleMode==='base_unit'?singleSaleUnitLabel(prod.unit,true):packageSaleUnitLabel(prod.salePackage,prod.purchasePackage,true,prod.unit),availableSalePackages,currentQuantity+1), 'error');
       return;
     }
 
@@ -374,7 +385,7 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
       updated[existingIndex].quantity += 1;
       updated[existingIndex].baseQuantity = updated[existingIndex].quantity * unitsPerSalePackage;
       updated[existingIndex].totalPrice = updated[existingIndex].quantity * updated[existingIndex].unitPrice;
-      if (!cartFits(updated)) {setToast('الكمية المشتركة للقطع والطرود تتجاوز مخزون المستودع.', 'error'); return;}
+      if (!cartFits(updated)) {setToast(stockRejectionCopy(updated), 'error'); return;}
       setCartItems(updated);
     } else {
       const unitPrice = productSaleMode === 'base_unit' ? prod.retailPrice : prod.salePackagePrice;
@@ -398,7 +409,7 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
         discount: 0,
         totalPrice: unitPrice,
       };
-      if (!cartFits([...cartItems, newItem])) {setToast('الكمية المشتركة تتجاوز مخزون المستودع.', 'error'); return;}
+      if (!cartFits([...cartItems, newItem])) {setToast(stockRejectionCopy([...cartItems,newItem]), 'error'); return;}
       setCartItems([...cartItems, newItem]);
     }
     restoreSearchFocus(source);
@@ -424,7 +435,7 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
             !canSetPosQuantity(newQty, availableSalePackages)
           ) {
             setToast(
-              `المتاح من ${product.nameAr} هو ${availableSalePackages} طرد بيع فقط.`,
+              posStockShortageCopy(product.nameAr,item.v2Line.commercial_line_kind==='base_unit'?singleSaleUnitLabel(product.unit,true):packageSaleUnitLabel(product.salePackage,product.purchasePackage,true,product.unit),availableSalePackages,newQty),
               'error'
             );
             return item;
@@ -441,7 +452,7 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
       })
       .filter(Boolean) as PosCartItem[];
 
-    if (!cartFits(updated)) {setToast('الكمية المشتركة تتجاوز مخزون المستودع.', 'error'); return;}
+    if (!cartFits(updated)) {setToast(stockRejectionCopy(updated), 'error'); return;}
     setCartItems(updated);
   };
 
@@ -467,7 +478,7 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
       salePackage: 'طرد مرن', discount: 0, totalPrice: option.parcelPriceInMinorUnits / 1000, v2Line: line};
     if (cartItems.length && cartWarehouseRef.current !== warehouseId) {setToast('تغير مستودع البيع؛ أعد تركيب السلة.', 'error'); return;}
     const next = editingParcelId ? cartItems.map(c => c.id === editingParcelId ? {...item, id: c.id} : c) : [...cartItems, item];
-    if (!cartFits(next)) {setToast('مكونات السلة تتجاوز المخزون المتاح.', 'error'); return;}
+    if (!cartFits(next)) {setToast(stockRejectionCopy(next), 'error'); return;}
     cartWarehouseRef.current = warehouseId;
     setCartItems(next); setParcelOption(null); setEditingParcelId(null); restoreSearchFocus('pointer');
   };
@@ -486,7 +497,7 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
     if (cartItems.length === 0) return;
     const methodConflict=posCartSaleMethodConflict(cartItems,knownProductsRef.current);
     if(methodConflict){setToast(methodConflict,'error');return;}
-    if (cartWarehouseRef.current !== warehouseId || !cartFits(cartItems)) {setToast('تغير المستودع أو المخزون المتاح؛ راجع السلة قبل الإرسال.', 'error'); return;}
+    if (cartWarehouseRef.current !== warehouseId || !cartFits(cartItems)) {setToast(stockRejectionCopy(cartItems), 'error'); return;}
 
     if (!openPosShift) {
       setToast('افتح وردية الصندوق أولاً قبل إتمام البيع المباشر.', 'error');
@@ -706,7 +717,7 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
 
   const cartMethodConflict=recoveryBlocked?null:posCartSaleMethodConflict(cartItems,knownProductsRef.current);
   const cartBaseUnitTotals=Array.from(cartItems.reduce((totals,item)=>{
-    const name=singleSaleUnitLabel(salesOnly?item.unit:item.v2Line.commercial_line_kind==='base_unit'?item.unit:undefined,salesOnly);
+    const name=singleSaleUnitLabel(knownProductsRef.current.get(item.productId)?.unit??(item.v2Line.commercial_line_kind==='base_unit'?item.unit:undefined),true);
     totals.set(name,(totals.get(name)??0)+item.baseQuantity);
     return totals;
   },new Map<string,number>()));
@@ -938,13 +949,13 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
 
                     {cartItems.length === 0 ? (
           <div className="py-6 text-center text-nw-muted text-xs">
-            {salesOnly?'اختر وحدة البيع من بطاقة الصنف أعلاه لإضافته إلى الفاتورة':'اختر + طرد أو + باكيت من بطاقة الصنف أعلاه لإضافته إلى الفاتورة'}
+            اختر وحدة البيع من بطاقة الصنف أعلاه لإضافته إلى الفاتورة
           </div>
         ) : (
           <div className="space-y-3">
             {cartItems.map((item) => {
               const kind=item.v2Line.commercial_line_kind;
-              const unitLabel=kind==='base_unit'?singleSaleUnitLabel(item.unit,salesOnly):kind==='legacy_single_sku_parcel'?packageSaleUnitLabel(item.salePackage,undefined,salesOnly,item.unit):'طرد مشكّل';
+              const unitLabel=kind==='base_unit'?singleSaleUnitLabel(item.unit,true):kind==='legacy_single_sku_parcel'?packageSaleUnitLabel(item.salePackage,undefined,true,knownProductsRef.current.get(item.productId)?.unit):'طرد مشكّل';
               return <div key={item.id} data-pos-cart-line className="flex flex-wrap items-center justify-between gap-2 border-b border-nw-border py-3 text-sm">
                 <div className="min-w-0 w-full">
                   <div className="flex flex-wrap items-center gap-1"><h5 className="font-bold text-nw-text break-words">{item.productName}</h5><span data-pos-cart-line-kind className="text-xs font-bold">· {item.quantity} {unitLabel}</span></div>
