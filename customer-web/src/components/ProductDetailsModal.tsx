@@ -81,6 +81,7 @@ export function ProductDetailsModal({
     familyProduct;
   const cartQuantity = cartQuantityByProduct.get(product.id) || 0;
   const salesOnly=product.quantityTracked===false;
+  const usesUnitPriceRows=salesOnly||product.parcelSaleEnabled!==undefined;
   const reserved = reservedBaseUnits.get(product.id) ?? 0;
   const remainingUnits = remainingStorefrontUnits(product, reserved);
   const remainingPackages = remainingStorefrontParcels(product, reserved);
@@ -125,7 +126,10 @@ export function ProductDetailsModal({
     };
   }, [onClose]);
 
-  const packageDescription = storefrontPackageDescription(product);
+  const unitName = storefrontUnitName(product.unitNameAr,product.quantityTracked);
+  const packageDescription = product.parcelSaleEnabled===false?unitName:storefrontPackageDescription(product);
+  const sharedUnit = product.parcelSaleEnabled===false?unitName:storefrontSaleUnit(product);
+  const sharedPrice = product.parcelSaleEnabled===false?product.salePriceInMinorUnits:product.salePackagePriceInMinorUnits;
   const unsafeParcel=unsafeLiteParcelPrice(product.quantityTracked===false,product.unitsPerSalePackage,product.salePackagePriceInMinorUnits,product.salePriceInMinorUnits);
   const shareUrl = useMemo(
     () =>
@@ -137,9 +141,7 @@ export function ProductDetailsModal({
   );
 
   const handleShare = async () => {
-    const shareText = `${product.nameAr} — سعر ${storefrontSaleUnit(product)} ${formatJod(
-      product.salePackagePriceInMinorUnits
-    )}`;
+    const shareText = `${product.nameAr} — سعر ${sharedUnit} ${formatJod(sharedPrice)}`;
 
     try {
       if (navigator.share) {
@@ -166,7 +168,7 @@ export function ProductDetailsModal({
   };
 
   const shareOnWhatsApp = () => {
-    const text = `${product.nameAr} — سعر ${storefrontSaleUnit(product)} ${formatJod(product.salePackagePriceInMinorUnits)}\n${shareUrl}`;
+    const text = `${product.nameAr} — سعر ${sharedUnit} ${formatJod(sharedPrice)}\n${shareUrl}`;
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
   };
 
@@ -370,7 +372,7 @@ export function ProductDetailsModal({
                               </strong>
                               <span className={`mt-0.5 block text-[8px] font-bold ${selected ? 'text-violet-100' : variant.isAvailable ? 'text-emerald-600' : 'text-rose-500'}`}>
                                 {variant.isAvailable
-                                  ? variant.quantityTracked===false?'متوفر':`${variant.availableSalePackages?.toLocaleString(DISPLAY_LOCALE)} ${storefrontSaleUnit(variant)}`
+                                  ? variant.quantityTracked===false?'متوفر':variant.parcelSaleEnabled!==undefined?storefrontStock(variant):`${variant.availableSalePackages?.toLocaleString(DISPLAY_LOCALE)} ${storefrontSaleUnit(variant)}`
                                   : 'نافدة حاليًا'}
                               </span>
                             </div>
@@ -382,7 +384,7 @@ export function ProductDetailsModal({
                 </div>
               )}
 
-              {salesOnly?<div className="mt-5 rounded-3xl border border-orange-100 bg-orange-50 p-4"><LiteProductPrices product={product}/></div>:<div className="mt-5 rounded-3xl border border-orange-100 bg-orange-50 p-4">
+              {usesUnitPriceRows?<div className="mt-5 rounded-3xl border border-orange-100 bg-orange-50 p-4"><LiteProductPrices product={product}/></div>:<div className="mt-5 rounded-3xl border border-orange-100 bg-orange-50 p-4">
                 <p className="text-[10px] font-bold text-orange-500">
                   سعر {storefrontSaleUnit(product)}
                 </p>
@@ -394,7 +396,7 @@ export function ProductDetailsModal({
                 </p>
               </div>}
 
-              {!salesOnly&&product.unitsPerSalePackage > 1 && <div className="mt-4 grid grid-cols-2 gap-3">
+              {!usesUnitPriceRows&&product.unitsPerSalePackage > 1 && <div className="mt-4 grid grid-cols-2 gap-3">
                 <div className="rounded-3xl border border-blue-100 bg-blue-50 p-4">
                   <div className="flex items-center gap-2 text-blue-600">
                     <Boxes className="h-4 w-4" />
@@ -519,19 +521,19 @@ export function ProductDetailsModal({
         </div>
 
         <footer role="group" aria-label="إضافة المنتج للسلة" className="shrink-0 border-t border-slate-100 bg-white px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3 sm:px-7 sm:py-4">
-          <div className={`mx-auto grid max-w-3xl gap-2 ${!product.parcelOnly&&product.unitsPerSalePackage > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
+          <div className={`mx-auto grid max-w-3xl gap-2 ${!product.parcelOnly&&product.unitsPerSalePackage > 1&&product.parcelSaleEnabled!==false ? 'grid-cols-2' : 'grid-cols-1'}`}>
             {unsafeParcel&&<p role="status" className="text-xs text-amber-800">{PARCEL_DEFINITION_MESSAGE}</p>}
-            <ProductPurchaseControl label={packageDescription} unit={storefrontSaleUnit(product)} productName={product.nameAr}
+            {product.parcelSaleEnabled!==false&&<ProductPurchaseControl label={packageDescription} unit={storefrontSaleUnit(product)} productName={product.nameAr}
               price={product.salePackagePriceInMinorUnits} quantity={quantity} remaining={remainingPackages}
-              saving={salesOnly&&liteParcelSaving(product)>0?<LiteParcelSaving product={product} compact/>:undefined}
-              disabled={!product.isAvailable||unsafeParcel} onChange={handleQuantityChange} onAdd={handleAdd} />
+              saving={usesUnitPriceRows&&liteParcelSaving(product)>0?<LiteParcelSaving product={product} compact/>:undefined}
+              disabled={!product.isAvailable||unsafeParcel} onChange={handleQuantityChange} onAdd={handleAdd} />}
             {!product.parcelOnly&&product.unitsPerSalePackage > 1 && <ProductPurchaseControl label={storefrontUnitName(product.unitNameAr,product.quantityTracked)} unit={storefrontUnitName(product.unitNameAr,product.quantityTracked)} productName={product.nameAr}
               price={product.salePriceInMinorUnits} quantity={unitQuantity} remaining={remainingUnits}
               disabled={!product.isAvailable||product.salePriceInMinorUnits <= 0 || remainingUnits === 0}
               onChange={next => setUnitQuantity(clampProductSelectionQuantity(next, remainingUnits, 0))}
               onAdd={() => onAddBaseUnit(product, unitQuantity)} />}
           </div>
-          {familyProduct.variants.length > 0 && parcelOption && <button type="button"
+          {familyProduct.variants.length > 0 && familyProduct.parcelSaleEnabled!==false && parcelOption && <button type="button"
             onClick={() => parcelOption && onOpenParcelBuilder(familyProduct, parcelOption)}
             disabled={!parcelOption || parcelOptionLoading || unsafeParcel}
             className="mx-auto mt-2 block min-h-11 w-full max-w-3xl rounded-2xl bg-violet-700 px-3 text-xs font-black text-white disabled:bg-slate-300 disabled:text-slate-700">

@@ -12,7 +12,7 @@ export function storefrontStock(product: CatalogProduct): string {
   if(product.quantityTracked===false)return product.isAvailable?'متوفر':'غير متوفر';
   const size = Math.max(1, product.unitsPerSalePackage);
   const quantity = Math.max(0, Math.floor(product.availableQuantity??0));
-  if (size === 1) return `${quantity.toLocaleString(DISPLAY_LOCALE)} ${storefrontUnitName(product.unitNameAr)}`;
+  if (size === 1 || product.parcelSaleEnabled===false) return `${quantity.toLocaleString(DISPLAY_LOCALE)} ${storefrontUnitName(product.unitNameAr)}`;
   const parcels = Math.floor(quantity / size), loose = quantity % size;
   return [`${parcels.toLocaleString(DISPLAY_LOCALE)} طرد`, loose ? `${loose.toLocaleString(DISPLAY_LOCALE)} ${storefrontUnitName(product.unitNameAr)}` : ''].filter(Boolean).join(' + ');
 }
@@ -21,6 +21,7 @@ export function remainingStorefrontUnits(product: CatalogProduct, reserved: numb
   return Math.max(0, Math.floor(product.availableQuantity??0) - Math.max(0, Math.floor(reserved)));
 }
 export function remainingStorefrontParcels(product: CatalogProduct, reserved: number): number|null {
+  if(product.parcelSaleEnabled===false)return 0;
   if(product.quantityTracked===false)return product.isAvailable?null:0;
   return Math.min(product.availableSalePackages??0, Math.floor((remainingStorefrontUnits(product, reserved)??0) / Math.max(1, product.unitsPerSalePackage)));
 }

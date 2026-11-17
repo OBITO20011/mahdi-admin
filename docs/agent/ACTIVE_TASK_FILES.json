@@ -3,15 +3,39 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/design/on-independent-prices225/225_on_independent_prices.candidate.sql"
+      "path": "customer-web/src/components/ProductCard.tsx"
     },
     {
       "code": " M",
-      "path": "scripts/audit/on-prices225-source-pins.json"
+      "path": "customer-web/src/components/ProductDetailsModal.tsx"
     },
     {
       "code": " M",
-      "path": "scripts/testing/run-on225-candidate-core.mjs"
+      "path": "customer-web/src/services/catalog.service.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/services/operatingCatalog.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/types/catalog.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/utils/liteProductPricing.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/utils/operatingRead.ts"
+    },
+    {
+      "code": " M",
+      "path": "customer-web/src/utils/storefrontUnits.ts"
+    },
+    {
+      "code": "??",
+      "path": "customer-web/tests/on225-catalog.test.ts"
     }
   ]
 }

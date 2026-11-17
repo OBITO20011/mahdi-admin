@@ -15,6 +15,7 @@ export interface CatalogProduct {
   saleUnitNameAr: string;
   unitsPerSalePackage: number;
   parcelOnly?: boolean;
+  parcelSaleEnabled?: boolean;
   salePriceInMinorUnits: number;
   salePackagePriceInMinorUnits: number;
   quantityTracked?:boolean;

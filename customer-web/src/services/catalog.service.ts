@@ -1,4 +1,4 @@
-import {readOperatingCatalog,quantityFreePayload,operatingCatalogRpc,validateOperatingCatalog} from './operatingCatalog';
+import {readOperatingCatalog,readCatalogPage225,quantityFreePayload,operatingCatalogRpc,validateOperatingCatalog} from './operatingCatalog';
 import { isSupabaseConfigured, supabase } from '../lib/supabase';
 import {
   CatalogFacet,
@@ -63,6 +63,11 @@ export function mapCatalogProduct(item: RawCatalogItem): CatalogProduct {
     item.salePackagePriceInMinorUnits
   );
   const salePriceInMinorUnits = integerValue(item.salePriceInMinorUnits);
+  const parcelSaleEnabled = typeof item.parcelSaleEnabled === 'boolean' ? item.parcelSaleEnabled : undefined;
+  const hasSingleStock225 = parcelSaleEnabled !== undefined && item.parcelOnly !== true &&
+    (availableQuantity ?? 0) > 0 && salePriceInMinorUnits > 0;
+  const hasPackageStock = parcelSaleEnabled !== false &&
+    (availableSalePackages ?? 0) > 0 && salePackagePriceInMinorUnits > 0;
 
   return {
     id: textValue(item.id),
@@ -81,6 +86,7 @@ export function mapCatalogProduct(item: RawCatalogItem): CatalogProduct {
     saleUnitNameAr: textValue(item.saleUnitNameAr) || 'طرد',
     unitsPerSalePackage,
     parcelOnly: item.parcelOnly === true,
+    ...(parcelSaleEnabled===undefined?{}:{parcelSaleEnabled}),
     salePriceInMinorUnits,
     salePackagePriceInMinorUnits,
     ...(untracked?{quantityTracked:false,manualAvailable:item.manualAvailable as boolean}:{}),
@@ -93,8 +99,7 @@ export function mapCatalogProduct(item: RawCatalogItem): CatalogProduct {
     imageUrl: textValue(item.imageUrl),
     isAvailable:
       item.isAvailable === true &&
-      (untracked?item.manualAvailable===true:(availableSalePackages??0)>0) &&
-      salePackagePriceInMinorUnits > 0,
+      (untracked?item.manualAvailable===true&&salePackagePriceInMinorUnits>0:hasPackageStock||hasSingleStock225),
     createdAt: textValue(item.createdAt),
     soldPackagesLast90Days: integerValue(item.soldPackagesLast90Days),
     isFlavorMaster: item.isFlavorMaster === true,
@@ -408,7 +413,7 @@ export async function fetchPublicProductCatalog(
     STOREFRONT_CATALOG_MAX_PAGE_SIZE,
     Math.max(1, Math.floor(query.limit ?? STOREFRONT_CATALOG_PAGE_SIZE))
   );
-  const { data, error } = await readOperatingCatalog(operatingCatalogRpc,'lite1_catalog_page2', {
+  const args = {
     p_limit: requestedLimit,
     p_offset: Math.max(0, Math.floor(query.offset ?? 0)),
     p_category_id: query.categoryId || null,
@@ -418,7 +423,9 @@ export async function fetchPublicProductCatalog(
     p_brand_id: query.brandId || null,
     p_sale_unit_id: query.saleUnitId || null,
     p_product_ids: query.productIds?.filter(Boolean) ?? null,
-  });
+  };
+  const { data, error } = await readCatalogPage225(operatingCatalogRpc,args,
+    ()=>readOperatingCatalog(operatingCatalogRpc,'lite1_catalog_page2',args));
 
   if (error) {
     throw new Error(error.message || 'تعذر تحميل كتالوج الجملة.');

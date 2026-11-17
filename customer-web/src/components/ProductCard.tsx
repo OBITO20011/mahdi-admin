@@ -1,6 +1,6 @@
 import {DISPLAY_LOCALE} from '../utils/displayLocale';
 import {unsafeLiteParcelPrice,PARCEL_DEFINITION_MESSAGE} from '../utils/saleUnitLabels';
-import {storefrontSaleUnit,storefrontUnitName, remainingStorefrontParcels} from '../utils/storefrontUnits';
+import {storefrontSaleUnit,storefrontUnitName, remainingStorefrontParcels, remainingStorefrontUnits} from '../utils/storefrontUnits';
 import {
   Eye,
   Heart,
@@ -44,13 +44,15 @@ export function ProductCard({
 }: ProductCardProps) {
   const hasVariants = product.variants.length > 0;
   const salesOnly=product.quantityTracked===false;
+  const usesUnitPriceRows=salesOnly||product.parcelSaleEnabled!==undefined;
+  const remainingUnits=remainingStorefrontUnits(product,reservedQuantity);
   const remainingAfterCart = remainingStorefrontParcels(product, reservedQuantity);
   const unsafeParcel=unsafeLiteParcelPrice(product.quantityTracked===false,product.unitsPerSalePackage,product.salePackagePriceInMinorUnits,product.salePriceInMinorUnits);
   const canAdd = !unsafeParcel && product.isAvailable && (remainingAfterCart===null||remainingAfterCart>0);
   const isLowStock = isLowStockProduct(product);
   const shareProduct = () => {
     const url = buildProductShareUrl(window.location.href, product.sku || product.id);
-    const message = `${product.nameAr} — ${formatJod(product.salePackagePriceInMinorUnits)}\n${url}`;
+    const message = `${product.nameAr} — ${formatJod(product.parcelSaleEnabled===false?product.salePriceInMinorUnits:product.salePackagePriceInMinorUnits)}\n${url}`;
     window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
   };
 
@@ -139,7 +141,7 @@ export function ProductCard({
         )}
 
         {unsafeParcel&&<p role="status" className="mt-2 text-xs text-amber-800">{PARCEL_DEFINITION_MESSAGE}</p>}
-        {!salesOnly&&product.unitsPerSalePackage > 1 && <div className="mt-4 hidden grid-cols-2 gap-2 sm:grid">
+        {!usesUnitPriceRows&&product.unitsPerSalePackage > 1 && <div className="mt-4 hidden grid-cols-2 gap-2 sm:grid">
           <div className="rounded-2xl bg-blue-50 p-2.5">
             <p className="text-[9px] font-bold text-blue-700">طرد البيع</p>
             <p className="mt-1 text-xs font-black text-blue-950">
@@ -156,7 +158,7 @@ export function ProductCard({
         </div>}
 
         <div className="mt-auto flex min-w-0 flex-col items-stretch gap-2 pt-3 sm:gap-3 sm:pt-5">
-          {salesOnly?(hasVariants?<div className="min-w-0 py-2"><p className="text-xs font-bold text-slate-600">{product.variants.length.toLocaleString(DISPLAY_LOCALE)} نكهات</p><p data-family-starting-price dir="rtl" className="max-w-full break-words text-sm font-black text-orange-700 [overflow-wrap:anywhere] sm:text-lg">من {formatJod(liteFamilyStartingPrice(product))}</p></div>:<LiteProductPrices product={product}/>):<div className="min-w-0">
+          {usesUnitPriceRows?(hasVariants?<div className="min-w-0 py-2"><p className="text-xs font-bold text-slate-600">{product.variants.length.toLocaleString(DISPLAY_LOCALE)} نكهات</p><p data-family-starting-price dir="rtl" className="max-w-full break-words text-sm font-black text-orange-700 [overflow-wrap:anywhere] sm:text-lg">من {formatJod(liteFamilyStartingPrice(product))}</p></div>:<LiteProductPrices product={product}/>):<div className="min-w-0">
             <p className="hidden text-[9px] font-bold text-slate-600 sm:block">
               سعر {storefrontSaleUnit(product)}
             </p>
@@ -191,15 +193,15 @@ export function ProductCard({
                 <span className={salesOnly?'hidden':'sm:hidden'}>اختر</span>
                 <span className={salesOnly?'':'hidden sm:inline'}>اختر النكهة</span>
               </button>
-            ) : salesOnly ? (
+            ) : usesUnitPriceRows ? (
               <div className="flex w-full min-w-0 flex-wrap gap-2" data-lite-card-add>
-                {!product.parcelOnly&&product.unitsPerSalePackage>1&&<button type="button" disabled={!product.isAvailable||product.salePriceInMinorUnits<=0||!onAddBaseUnit}
+                {!product.parcelOnly&&product.unitsPerSalePackage>1&&<button type="button" disabled={!product.isAvailable||product.salePriceInMinorUnits<=0||remainingUnits===0||!onAddBaseUnit}
                   aria-label={`إضافة ${storefrontUnitName(product.unitNameAr,false)} من ${product.nameAr} إلى السلة`}
                   onClick={event=>onAddBaseUnit?.(product,event.currentTarget.closest('article')??undefined)}
                   className="min-h-11 min-w-0 flex-1 rounded-xl bg-blue-700 px-2 py-2 text-xs font-black text-white disabled:bg-slate-200 disabled:text-slate-500">+ {storefrontUnitName(product.unitNameAr,false)}</button>}
-                <button type="button" disabled={!canAdd} aria-label={product.unitsPerSalePackage>1?`إضافة ${storefrontSaleUnit(product)} من ${product.nameAr} إلى السلة`:`إضافة ${product.nameAr} إلى السلة`}
+                {product.parcelSaleEnabled!==false&&<button type="button" disabled={!canAdd} aria-label={product.unitsPerSalePackage>1?`إضافة ${storefrontSaleUnit(product)} من ${product.nameAr} إلى السلة`:`إضافة ${product.nameAr} إلى السلة`}
                   onClick={event=>onAdd(product,event.currentTarget.closest('article')??undefined)}
-                  className="min-h-11 min-w-0 flex-1 rounded-xl bg-blue-700 px-2 py-2 text-xs font-black text-white disabled:bg-slate-200 disabled:text-slate-500">{product.unitsPerSalePackage>1?`+ ${storefrontSaleUnit(product)}`:'أضف للسلة'}</button>
+                  className="min-h-11 min-w-0 flex-1 rounded-xl bg-blue-700 px-2 py-2 text-xs font-black text-white disabled:bg-slate-200 disabled:text-slate-500">{product.unitsPerSalePackage>1?`+ ${storefrontSaleUnit(product)}`:'أضف للسلة'}</button>}
               </div>
             ) : cartQuantity > 0 ? (
               <>
@@ -249,7 +251,7 @@ export function ProductCard({
           </div>
         </div>
 
-        {!salesOnly&&cartQuantity > 0 && !hasVariants && (
+        {!usesUnitPriceRows&&cartQuantity > 0 && !hasVariants && (
           <div className="mt-3 hidden rounded-xl border border-orange-200 bg-orange-50 px-3 py-2 text-[10px] font-extrabold text-orange-700 sm:block">
             في السلة: {cartQuantity.toLocaleString(DISPLAY_LOCALE)} {storefrontSaleUnit(product)}{remainingAfterCart!==null&&<> • المتبقي للإضافة: {remainingAfterCart.toLocaleString(DISPLAY_LOCALE)}</>}
           </div>
