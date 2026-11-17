@@ -2,45 +2,34 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner approved Storage readonly diagnosis,owner SQL and strict224 DDL preflight;source-exact isolated supautils only if proven.",
-  "baselineSha": "2508a9e5eff2762ab42933394a8243bb6c1af4a4",
-  "branch": "codex/reset224-storage-capability",
-  "phase": "RESET224_STORAGE_CAPABILITY",
-  "startedAt": "2026-11-17T08:26:51.856Z",
-  "completed": [
-    "Readonly source/upstream diagnosis;owner SQL prepared and tested on preserved container.",
-    "Native PostgreSQL capable/denied policy proof;no marker or source change."
-  ],
+  "objective": "Owner-approved migration LF attributes and rejecting read-only preflight;no SQL or pin changes.",
+  "baselineSha": "a74070de584367f49cd1095ed8db5e5c2e5b8fba",
+  "branch": "codex/migration-lf-preflight",
+  "phase": "MIGRATION_LF",
+  "startedAt": "2026-11-17T15:37:21.590Z",
+  "completed": [],
   "inProgress": [
-    "Read-only local source and upstream Supabase evidence."
+    "LF-only checkout rule,raw byte admission,and real autocrlf=true checkout proof."
   ],
-  "notStarted": [],
-  "testsPassed": [
-    "Focused11/11 thencontinuity9/9 after currentPhase synchronization.",
-    "Bothapp fulltypes0;strictlint0.",
-    "Fullunits first2116/2117;onlyphase metadata mismatch,fixed andfocusedpassed."
-  ],
+  "testsPassed": [],
   "testsRemaining": [
-    "Fullunits on corrected metadata",
-    "Exact-head fullCI/Gitleaks",
-    "Conditionalmerge/mainCI/primarysync",
-    "New archive2230c606 rehearsal with existing exact supautils adapter"
+    "Pinned dependency tests;fullunits/types/lint/CI/Gitleaks."
   ],
-  "findings": [],
+  "findings": [
+    "First npx test used temporary cache version before dependency junction;not accepted as pinned proof."
+  ],
   "blockers": [],
-  "activeProcesses": [
-    "Preserved35556 holder in separate2508clone;no SQL writer."
-  ],
+  "activeProcesses": [],
   "prohibitions": [
-    "No hosted/project access or deploy;no demo/n8n/Dockerrestart.",
-    "Preserve saved failed containers;no historical SQL/reference/guard relaxation."
+    "No hosted/deploy/demo/n8n/Docker restart.",
+    "No historical SQL,guards,reference orownerfile edits."
   ],
-  "checkpointedAt": "2026-11-17T08:55:15.068Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 15,
-  "filesTouchedManifestSha256": "230bbe76c9adffd8aa92eb5b5c183fa05a8bd838462e84f2563e4f9a97d5a4b7",
-  "nextExactAction": "Fullunit corrected state + exact-headCI;no merge before all gates;new archive rehearsal only aftermerge.",
-  "workingTreeFingerprint": "3199B6918C1BF3B9F9FCAA8C82CBC3F72254CD899C9845D874B9E7A29DD7FAEB"
+  "nextExactAction": "Commit and open LF-only PR, then verify full CI on the exact head.",
+  "checkpointedAt": "2026-11-17T15:49:22.366Z",
+  "filesTouchedCount": 9,
+  "filesTouchedManifestSha256": "39469a680f51da8175912361706585addd2266cd0a634ccdb443154cb692b9d8",
+  "workingTreeFingerprint": "0A8B6BDD667FAAB08006ED678CC7FD731FE8AA65EA06B128A4FA21079CDCFBCC"
 }
