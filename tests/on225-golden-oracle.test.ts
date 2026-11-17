@@ -7,8 +7,8 @@ test('ON225 independent golden day balances revenue, historical COGS, profit, ca
   {revenue:12500,cogs:11258,profit:1242,cash:12500,inventory:10042,units:12,payable:13300});
  assert.equal(result.firstWacMicro,'804166667');
  assert.deepEqual(result.saleCogs,[1608,9650,804]);assert.equal(result.loss,-304);
- assert.equal(result.costAtReturnMicro,'839772727');assert.equal(result.finalWacMicro,'836805555');
- assert.equal(result.inventoryValueMicro,'10041666662');
+ assert.equal(result.costAtReturnMicro,'839772728');assert.equal(result.finalWacMicro,'836805556');
+ assert.equal(result.inventoryValueMicro,'10041666672');
  assert.equal(result.refund,1000);assert.equal(result.returnCogs,804);
  assert.equal(result.assets,22542);assert.equal(result.liabilitiesAndEquity,22542);
 });

@@ -103,3 +103,52 @@ export async function confirmProductPriceWrite225<T extends {error:unknown}>(
  if(readLossConfirmation225(second.error))throw Error('تغيّرت تكلفة الصنف قبل الحفظ. راجع السعر والتكلفة ثم أعد المحاولة.');
  return second;
 }
+export interface ReceiptPriceWarning225 {
+ productId:string;
+ priceProductId:string;
+ name:string;
+ unit:string;
+ parcelUnit:string;
+ unitPrice:number;
+ parcelPrice:number;
+ originalUnitPrice:number|null;
+ originalParcelPrice:number|null;
+ parcelEnabled:boolean;
+ wacInMinorUnitsExact:string;
+ unitBelowCost:boolean;
+ parcelBelowCost:boolean;
+}
+
+const isMinorPrice=(value:unknown):value is number=>typeof value==='number'&&Number.isSafeInteger(value)&&value>=0;
+
+export async function readReceiptPriceWarnings225(productIds:readonly string[]):Promise<ReceiptPriceWarning225[]> {
+ if(!isSupabaseConfigured||!supabase)throw Error('PRICES225_RECEIPT_UNVERIFIED');
+ const client=supabase,ids=[...new Set(productIds)];
+ const warnings:ReceiptPriceWarning225[]=[];
+ const seen=new Set<string>();
+ for(let i=0;i<ids.length;i+=100){
+  const batch=ids.slice(i,i+100);
+  const {data,error,status}=await client.rpc('get_receipt_pricing_warnings225',{p_product_ids:batch});
+  if(i===0&&data==null&&status===404&&error?.code==='PGRST202'&&error.message.includes('get_receipt_pricing_warnings225'))return [];
+  if(error||!Array.isArray(data)||data.length>batch.length)throw Error('PRICES225_RECEIPT_UNVERIFIED');
+  for(const row of data){
+   if(!isRecord(row)||typeof row.productId!=='string'||!batch.includes(row.productId)||seen.has(row.productId)||typeof row.priceProductId!=='string'||
+      typeof row.name!=='string'||!isMinorPrice(row.unitPrice)||!isMinorPrice(row.parcelPrice)||
+      !(row.originalUnitPrice===null||isPositiveMinorUnit(row.originalUnitPrice))||
+      !(row.originalParcelPrice===null||isPositiveMinorUnit(row.originalParcelPrice))||
+      typeof row.wacInMinorUnitsExact!=='string'||!/^\d+(?:\.\d+)?$/u.test(row.wacInMinorUnitsExact)||
+      typeof row.parcelEnabled!=='boolean'||typeof row.unitBelowCost!=='boolean'||typeof row.parcelBelowCost!=='boolean'){
+    throw Error('PRICES225_RECEIPT_UNVERIFIED');
+   }
+   seen.add(row.productId);
+   warnings.push({
+    productId:row.productId,priceProductId:row.priceProductId,name:row.name,
+    unit:typeof row.unit==='string'&&row.unit?row.unit:'باكيت',
+    parcelUnit:typeof row.parcelUnit==='string'&&row.parcelUnit?row.parcelUnit:'طرد',
+    unitPrice:row.unitPrice,parcelPrice:row.parcelPrice,originalUnitPrice:row.originalUnitPrice,originalParcelPrice:row.originalParcelPrice,
+    wacInMinorUnitsExact:row.wacInMinorUnitsExact,parcelEnabled:row.parcelEnabled,unitBelowCost:row.unitBelowCost,parcelBelowCost:row.parcelBelowCost,
+   });
+  }
+ }
+ return warnings;
+}

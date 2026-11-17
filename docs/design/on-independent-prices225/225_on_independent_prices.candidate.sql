@@ -782,6 +782,46 @@ ALTER FUNCTION public.search_pos_products225(TEXT,INTEGER,UUID,UUID,TEXT) OWNER 
 REVOKE ALL ON FUNCTION public.search_pos_products225(TEXT,INTEGER,UUID,UUID,TEXT) FROM PUBLIC,anon,authenticated,service_role;
 GRANT EXECUTE ON FUNCTION public.search_pos_products225(TEXT,INTEGER,UUID,UUID,TEXT) TO authenticated;
 
--- Import dispatch, broader UI and tooling remain pending.
+-- Read current quotes only after a receipt has committed. A flavor's own
+-- WAC is compared with its inherited prices and the family's saved originals.
+CREATE FUNCTION public.get_receipt_pricing_warnings225(p_product_ids UUID[])
+RETURNS JSONB LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=pg_catalog,public AS $$
+DECLARE result JSONB;
+BEGIN
+ PERFORM public.assert_erp_role(ARRAY['owner','admin','manager','warehouse_keeper'],'قراءة تنبيهات السعر بعد الاستلام');
+ IF sales_lite1.enabled() THEN RAISE EXCEPTION 'PRICES225_ON_REQUIRED';END IF;
+ IF p_product_ids IS NULL OR cardinality(p_product_ids)>100 THEN RAISE EXCEPTION 'PRICES225_RECEIPT_BATCH_INVALID';END IF;
+ SELECT coalesce(jsonb_agg(jsonb_build_object(
+  'productId',q.product_id,'priceProductId',q.price_product_id,'name',q.name_ar,'unit',q.unit_name,'parcelUnit',q.parcel_name,
+  'unitPrice',q.single_price,'parcelPrice',q.parcel_price,'unitsPerParcel',q.units_per_sale_unit,
+  'parcelEnabled',q.parcel_enabled,'originalUnitPrice',q.original_unit_price,'originalParcelPrice',q.original_parcel_price,
+  'wacInMinorUnitsExact',q.wac::TEXT,'unitBelowCost',q.unit_loss,'parcelBelowCost',q.parcel_loss
+ ) ORDER BY q.name_ar,q.product_id),'[]'::JSONB) INTO result
+ FROM (
+  SELECT p.id AS product_id,root.id AS price_product_id,p.name_ar,
+   base.name_ar AS unit_name,parcel.name_ar AS parcel_name,
+   root.sale_price_in_minor_units AS single_price,root.default_sale_price_in_minor_units AS parcel_price,root.units_per_sale_unit,
+   coalesce(state.parcel_enabled,true) AS parcel_enabled,state.original_unit_price,state.original_parcel_price,
+   cost.wac,
+   NOT root.parcel_only AND root.sale_price_in_minor_units<cost.wac AS unit_loss,
+   coalesce(state.parcel_enabled,true) AND root.units_per_sale_unit>1
+    AND root.default_sale_price_in_minor_units<root.units_per_sale_unit::NUMERIC*cost.wac AS parcel_loss
+  FROM public.products p
+  JOIN public.products root ON root.id=coalesce(p.flavor_master_product_id,p.id)
+  LEFT JOIN public.units base ON base.id=root.unit_id
+  LEFT JOIN public.units parcel ON parcel.id=root.sale_unit_id
+  LEFT JOIN public.product_sale_pricing_state225 state ON state.product_id=root.id
+  CROSS JOIN LATERAL (SELECT coalesce(p.wac_cost_in_minor_units_exact,p.cost_price_in_minor_units::NUMERIC,0) AS wac) cost
+  WHERE p.id=ANY(p_product_ids) AND NOT p.is_flavor_master
+ ) q
+ WHERE q.original_unit_price IS NOT NULL OR q.original_parcel_price IS NOT NULL OR q.unit_loss OR q.parcel_loss;
+ RETURN result;
+END;
+$$;
+ALTER FUNCTION public.get_receipt_pricing_warnings225(UUID[]) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.get_receipt_pricing_warnings225(UUID[]) FROM PUBLIC,anon,authenticated,service_role;
+GRANT EXECUTE ON FUNCTION public.get_receipt_pricing_warnings225(UUID[]) TO authenticated;
+
+-- The ON golden day and versioned protection tooling remain pending.
 -- This quarantined candidate is not deployable.
 COMMIT;

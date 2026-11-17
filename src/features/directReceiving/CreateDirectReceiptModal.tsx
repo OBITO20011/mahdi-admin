@@ -34,6 +34,8 @@ import {
 import { CreateSupplierModal } from '../purchases/CreateSupplierModal';
 import {ReceivingPurchaseHint} from '../purchases/ReceivingPurchaseHint';
 import {ReceivingProductPriceEditor} from '../purchases/ReceivingProductPriceEditor';
+import {SavedReceiptPriceReview225} from '../purchases/SavedReceiptPriceReview225';
+import {readReceiptPriceWarnings225,type ReceiptPriceWarning225} from '../../services/supabase/onPrices225.service';
 import {useReceivingPurchaseContexts} from '../../hooks/useReceivingPurchaseContexts';
 import {quoteForQuantity} from '../../utils/receivingPurchaseContext';
 import {useAuthStore} from '../../stores/useAuthStore';
@@ -135,6 +137,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
 
   // Submitting state
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [savedPriceWarnings,setSavedPriceWarnings]=useState<ReceiptPriceWarning225[]|null>(null);
   const [legacyReplayResolution, setLegacyReplayResolution] =
     useState<LegacyReceiptReplayResolution | null>(null);
   const idempotencyKeyRef = useRef<string>(crypto.randomUUID());
@@ -529,8 +532,14 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
           'success'
         );
 
+        const warnings=canEditSale?await readReceiptPriceWarnings225(payload.items.map(item=>item.productId)).catch(()=>{
+          if(isMountedRef.current)setToast('تم حفظ الاستلام؛ تعذرت قراءة تنبيهات الأسعار الحالية.','info');
+          return [];
+        }):[];
+        if (!isMountedRef.current) return;
         onSuccess?.(res.data);
-        onClose();
+        if(warnings.length)setSavedPriceWarnings(warnings);
+        else onClose();
       } else {
         setLegacyReplayResolution(
           res.errorCode === 'LEGACY_IDEMPOTENCY_IDENTITY_UNPROVEN'
@@ -548,6 +557,8 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
       setIsSubmitting(false);
     }
   };
+
+  if(savedPriceWarnings)return <SavedReceiptPriceReview225 warnings={savedPriceWarnings} onClose={onClose}/>;
 
   if (isLoadingRefData) {
     return (

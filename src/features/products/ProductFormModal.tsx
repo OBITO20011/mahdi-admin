@@ -67,6 +67,7 @@ import {
 interface ProductFormModalProps {
   operatingMode?:OperatingMode;
   modeVerified?:boolean;
+  initialOnPriceRestore?:RestorePrice225;
   initialProduct?: Product | null;
   onClose: () => void;
   startBarcodeScanner?: StartBarcodeCamera;
@@ -115,6 +116,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   startBarcodeScanner,
   operatingMode='full',
   modeVerified=true,
+  initialOnPriceRestore,
 }) => {
   const salesOnly=operatingMode==='sales-only';
   const modeNow=useRef({operatingMode,modeVerified});modeNow.current={operatingMode,modeVerified};
@@ -160,9 +162,17 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
       if(!active)return;
       setAccountingRead({key:priceContextKey,enabled,error:false,context});
       setAccountingParcelEnabled(context?.parcelEnabled??true);
+      if(enabled&&initialOnPriceRestore&&context){
+        const remembered=initialOnPriceRestore==='single'?context.originalUnitPrice:context.originalParcelPrice;
+        if(remembered!==null){
+          if(initialOnPriceRestore==='single'||(initialProduct?.unitsPerSalePackage??1)<=1)setSingleSalePrice(remembered/1000);
+          if(initialOnPriceRestore==='parcel'||(initialProduct?.unitsPerSalePackage??1)<=1)setSalePackagePrice(remembered/1000);
+          setRestoreOriginal225(initialOnPriceRestore);
+        }
+      }
     }).catch(()=>{if(active)setAccountingRead({key:priceContextKey,enabled:false,error:true,context:null});});
     return ()=>{active=false;priceLossReply.current?.(false);priceLossReply.current=null;};
-  },[salesOnly,modeVerified,priceContextKey,initialProduct?.id]);
+  },[salesOnly,modeVerified,priceContextKey,initialProduct?.id,initialProduct?.unitsPerSalePackage,initialOnPriceRestore]);
   const respondToPriceLoss225=(confirmed:boolean)=>{
     priceLossReply.current?.(confirmed);
     priceLossReply.current=null;

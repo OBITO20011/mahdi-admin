@@ -27,10 +27,10 @@ try{
   assert.deepEqual(current,old,'EXISTING_FUNCTION_MUST_REMAIN_BYTE_IDENTICAL:'+old.identity);
  }
  const added=after.functions.filter(f=>!before.functions.some(old=>old.schema===f.schema&&old.identity===f.identity));
- assert.equal(added.length,15);
+ assert.equal(added.length,16);
  assert.deepEqual(added.map(f=>f.identity.slice(0,f.identity.indexOf('('))).sort(),[
   'create_product_family_with_flavors_v4','create_product_with_opening_stock_v7',
-  'get_pos_parcel_options225','get_product_pricing_context225','get_public_parcel_options225','price225_assert_context_internal','price225_assert_prices_internal','price225_create_loss_confirmation_internal',
+  'get_pos_parcel_options225','get_product_pricing_context225','get_public_parcel_options225','get_receipt_pricing_warnings225','price225_assert_context_internal','price225_assert_prices_internal','price225_create_loss_confirmation_internal',
   'price225_filter_parcel_options_internal','price225_guard_new_parcel_internal','price225_loss_confirmation_internal','price225_record_state_internal',
   'public_storefront_catalog_page225','search_pos_products225','update_product_master_v7']);
  report.existingFunctionObjectsUnchanged=true;
@@ -267,6 +267,24 @@ try{
   IF (SELECT count(*) FROM public.products WHERE (id=parent.id OR flavor_master_product_id=parent.id)
    AND sale_price_in_minor_units=1000 AND default_sale_price_in_minor_units=11000)<>2 OR
    (SELECT barcode FROM public.products WHERE id=child.id) IS DISTINCT FROM '000123' THEN RAISE EXCEPTION 'ON225_IMPORT_FINISH_PRICE_OR_BARCODE_CHANGED';END IF;
+ END $proof$;`);
+ const receiptLine=[{client_line_id:id(702),purchase_order_item_id:null,line_kind:'base_unit',commercial_quantity:2,
+  base_unit_name:'باكيت',gross_amount_in_minor_units:2000,line_discount_in_minor_units:0,components:[{product_id:product,base_quantity:2}]}];
+ await check('receipt warning uses the committed WAC and reading it leaves the remembered prices intact',`${preparePausedSale}
+ DO $proof$ DECLARE received JSONB;quote JSONB;before_prices JSONB;BEGIN
+  received:=public.create_direct_supplier_receipt_v2(p_supplier_id=>'${id(301)}',p_warehouse_id=>'${warehouse}',
+   p_branch_id=>'${branch}',p_supplier_invoice_number=>'ON225-PRICE-WARNING-1',
+   p_amount_paid_at_receipt_in_minor_units=>0,p_payment_method=>'deferred',p_idempotency_key=>'on225-receipt-pricing-warning-1',
+   p_lines=>${quote(JSON.stringify(receiptLine))}::JSONB);
+  IF received->>'success' IS DISTINCT FROM 'true' THEN RAISE EXCEPTION 'ON225_RECEIPT_NOT_COMMITTED';END IF;
+  before_prices:=public.get_product_pricing_context225('${product}');
+  quote:=public.get_receipt_pricing_warnings225(ARRAY['${product}']::UUID[])->0;
+  IF quote->>'unitPrice' IS DISTINCT FROM '700' OR quote->>'parcelPrice' IS DISTINCT FROM '11000'
+   OR quote->>'originalUnitPrice' IS DISTINCT FROM '1000' OR (quote->>'wacInMinorUnitsExact')::NUMERIC IS DISTINCT FROM 808::NUMERIC
+   OR quote->>'unitBelowCost' IS DISTINCT FROM 'true' OR quote->>'parcelEnabled' IS DISTINCT FROM 'false'
+   OR quote->>'parcelBelowCost' IS DISTINCT FROM 'false' THEN RAISE EXCEPTION 'ON225_RECEIPT_QUOTE_WRONG';END IF;
+  IF public.get_product_pricing_context225('${product}') IS DISTINCT FROM before_prices THEN RAISE EXCEPTION 'ON225_READ_WROTE_PRICES';END IF;
+  IF has_function_privilege('anon','public.get_receipt_pricing_warnings225(uuid[])','EXECUTE') THEN RAISE EXCEPTION 'ON225_PUBLIC_COST_LEAK';END IF;
  END $proof$;`);
  report.ok=true;
 }catch(error){report.stage=stage;report.error=error.message.split('\n')[0];process.exitCode=1;}
