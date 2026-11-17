@@ -27,9 +27,10 @@ try{
   assert.deepEqual(current,old,'EXISTING_FUNCTION_MUST_REMAIN_BYTE_IDENTICAL:'+old.identity);
  }
  const added=after.functions.filter(f=>!before.functions.some(old=>old.schema===f.schema&&old.identity===f.identity));
- assert.equal(added.length,6);
+ assert.equal(added.length,9);
  assert.deepEqual(added.map(f=>f.identity.slice(0,f.identity.indexOf('('))).sort(),[
-  'get_product_pricing_context225','price225_assert_context_internal','price225_assert_prices_internal',
+  'create_product_family_with_flavors_v4','create_product_with_opening_stock_v7',
+  'get_product_pricing_context225','price225_assert_context_internal','price225_assert_prices_internal','price225_create_loss_confirmation_internal',
   'price225_loss_confirmation_internal','price225_record_state_internal','update_product_master_v7']);
  report.existingFunctionObjectsUnchanged=true;
  report.candidateSha256=createHash('sha256').update(candidate).digest('hex');
@@ -120,6 +121,28 @@ try{
  RESET ROLE;DO $state$ BEGIN
   IF EXISTS(SELECT 1 FROM public.product_sale_pricing_state225 WHERE product_id='${product}') THEN RAISE EXCEPTION 'LOSS_REFUSAL_WROTE_STATE';END IF;
  END $state$;`);
+ const newProduct=(sku,single,parcel,confirmation='NULL')=>`public.create_product_with_opening_stock_v7(p_sku=>'${sku}',p_name_ar=>'صنف225 وهمي',p_category_id=>'${id(11)}',p_unit_id=>'${id(10)}',p_purchase_unit_id=>'${id(225)}',p_units_per_purchase_unit=>12,p_default_purchase_price_in_minor_units=>9600,p_sale_unit_id=>'${id(225)}',p_units_per_sale_unit=>12,p_default_sale_price_in_minor_units=>${parcel},p_cost_price_in_minor_units=>800,p_warehouse_id=>'${id(201)}',p_opening_quantity=>0,p_parcel_only=>false,p_sale_price_in_minor_units=>${single},p_below_cost_confirmation=>${confirmation})`;
+ await check('new ON product keeps explicit prices and has no remembered original price',`${authenticated}
+ DO $proof$ DECLARE result JSONB;BEGIN
+  result:=${newProduct('ON225-CREATE',1000,11000)};
+  IF result->>'singlePrice'<>'1000' OR result->>'parcelPrice'<>'11000' OR result->'originalUnitPrice'<>'null'::JSONB OR result->'originalParcelPrice'<>'null'::JSONB THEN RAISE EXCEPTION 'CREATE_INDEPENDENT_PRICES_OR_ORIGINALS_CHANGED';END IF;
+ END $proof$;`);
+ await check('creation below cost requires stable SKU confirmation and rolls back the unconfirmed product',`${authenticated}
+ DO $proof$ DECLARE result JSONB;ack JSONB;BEGIN
+  BEGIN result:=${newProduct('ON225-LOSS',500,6000)};RAISE EXCEPTION 'CREATE_LOSS_ACCEPTED';
+  EXCEPTION WHEN raise_exception THEN IF SQLERRM NOT LIKE 'PRICES225_BELOW_WAC_CONFIRMATION_REQUIRED:%' THEN RAISE;END IF;GET STACKED DIAGNOSTICS ack=PG_EXCEPTION_DETAIL;END;
+  IF EXISTS(SELECT 1 FROM public.products WHERE sku='ON225-LOSS') THEN RAISE EXCEPTION 'CREATE_LOSS_REFUSAL_WROTE_PRODUCT';END IF;
+  IF ack->>'productSku'<>'ON225-LOSS' OR ack->>'contractVersion'<>'on-prices225-create-confirmation-v1' OR ack->'risks'->0 ? 'productId' THEN RAISE EXCEPTION 'STABLE_CREATE_CONFIRMATION_REQUIRED';END IF;
+  result:=${newProduct('ON225-LOSS',500,6000,'ack')};
+  IF result->>'singlePrice'<>'500' OR result->>'parcelPrice'<>'6000' THEN RAISE EXCEPTION 'CREATE_LOSS_CONFIRMATION_NOT_APPLIED';END IF;
+ END $proof$;`);
+ await check('family creation shares both explicit prices with its flavors and keeps first-import originals empty',`${authenticated}
+ DO $proof$ DECLARE result JSONB;master UUID;BEGIN
+  result:=public.create_product_family_with_flavors_v4(p_sku=>'ON225-FAMILY',p_name_ar=>'عائلة225 وهمية',p_category_id=>'${id(11)}',p_unit_id=>'${id(10)}',p_purchase_unit_id=>'${id(225)}',p_units_per_purchase_unit=>12,p_default_purchase_price_in_minor_units=>9600,p_sale_unit_id=>'${id(225)}',p_units_per_sale_unit=>12,p_default_sale_price_in_minor_units=>11000,p_cost_price_in_minor_units=>800,p_warehouse_id=>'${id(201)}',p_flavors=>'[{"nameAr":"أ"},{"nameAr":"ب"}]'::JSONB,p_parcel_only=>false,p_sale_price_in_minor_units=>1000);
+  master:=(result->>'productId')::UUID;
+  IF master IS NULL OR (SELECT count(*) FROM public.products WHERE flavor_master_product_id=master)<>2 OR EXISTS(SELECT 1 FROM public.products WHERE flavor_master_product_id=master AND (sale_price_in_minor_units<>1000 OR default_sale_price_in_minor_units<>11000)) THEN RAISE EXCEPTION 'FAMILY_PRICE_INHERITANCE_FAILED';END IF;
+  IF result->'originalUnitPrice'<>'null'::JSONB OR result->'originalParcelPrice'<>'null'::JSONB THEN RAISE EXCEPTION 'FAMILY_FIRST_IMPORT_REMEMBERED_PRICE';END IF;
+ END $proof$;`);
  report.ok=true;
 }catch(error){report.stage=stage;report.error=error.message.split('\n')[0];process.exitCode=1;}
 finally{await local?.stop();await writeFile(path.join(output,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({ok:report.ok,stage,output,cases:report.cases.length}));}

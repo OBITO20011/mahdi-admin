@@ -8,12 +8,6 @@ DO $history225$ BEGIN
   RAISE EXCEPTION 'PRICES225_EXACT224_HISTORY_REQUIRED';
  END IF;
 END $history225$;
-DO $history225$ BEGIN
- IF (SELECT count(*) FROM supabase_migrations.schema_migrations)<>184
- OR (SELECT max(version::integer) FROM supabase_migrations.schema_migrations)<>224 THEN
-  RAISE EXCEPTION 'PRICES225_EXACT224_HISTORY_REQUIRED';
- END IF;
-END $history225$;
 
 CREATE TABLE public.product_sale_pricing_state225 (
  product_id UUID PRIMARY KEY REFERENCES public.products(id) ON DELETE CASCADE,
@@ -255,6 +249,139 @@ ALTER FUNCTION public.update_product_master_v7(UUID,TIMESTAMPTZ,TEXT,TEXT,TEXT,T
 REVOKE ALL ON FUNCTION public.update_product_master_v7(UUID,TIMESTAMPTZ,TEXT,TEXT,TEXT,TEXT,UUID,UUID,UUID,UUID,INTEGER,BIGINT,UUID,INTEGER,BIGINT,BIGINT,INTEGER,INTEGER,BOOLEAN,TEXT,BIGINT,BOOLEAN,BOOLEAN,JSONB,TEXT) FROM PUBLIC,anon,authenticated,service_role;
 GRANT EXECUTE ON FUNCTION public.update_product_master_v7(UUID,TIMESTAMPTZ,TEXT,TEXT,TEXT,TEXT,UUID,UUID,UUID,UUID,INTEGER,BIGINT,UUID,INTEGER,BIGINT,BIGINT,INTEGER,INTEGER,BOOLEAN,TEXT,BIGINT,BOOLEAN,BOOLEAN,JSONB,TEXT) TO authenticated;
 
--- Creation/family/import, pause admission on old sale entrances and tooling
--- are still pending. This quarantined candidate is not deployable.
+
+-- Creation cannot bind the acknowledgment to a random UUID that rolls back.
+-- Keep the exact cost/price snapshot, replacing only new product identity with
+-- its final unique SKU. A changed price, cost, flavor or SKU invalidates it.
+CREATE FUNCTION public.price225_create_loss_confirmation_internal(
+ p_product UUID,p_single BIGINT,p_parcel BIGINT,p_units INTEGER,p_parcel_only BOOLEAN,p_confirmation JSONB
+) RETURNS JSONB LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog,public AS $$
+DECLARE v_expected JSONB;v_risks JSONB;
+BEGIN
+ BEGIN
+  PERFORM public.price225_loss_confirmation_internal(p_product,p_single,p_parcel,p_units,true,p_parcel_only,NULL);
+ EXCEPTION WHEN raise_exception THEN
+  IF SQLERRM NOT LIKE 'PRICES225_BELOW_WAC_CONFIRMATION_REQUIRED:%' THEN RAISE;END IF;
+  GET STACKED DIAGNOSTICS v_expected=PG_EXCEPTION_DETAIL;
+ END;
+ IF v_expected IS NULL THEN RETURN NULL;END IF;
+ SELECT jsonb_agg((r.value-'productId')||jsonb_build_object('productSku',p.sku) ORDER BY p.sku)
+ INTO v_risks FROM jsonb_array_elements(v_expected->'risks') r(value)
+ JOIN public.products p ON p.id=(r.value->>'productId')::UUID;
+ v_expected:=(v_expected-'productId')||jsonb_build_object('contractVersion','on-prices225-create-confirmation-v1',
+  'productSku',(SELECT sku FROM public.products WHERE id=p_product),'risks',v_risks);
+ IF p_confirmation IS DISTINCT FROM v_expected THEN
+  RAISE EXCEPTION USING MESSAGE='PRICES225_BELOW_WAC_CONFIRMATION_REQUIRED: السعر أقل من التكلفة؛ راجع التحذير وأكّد قرار البيع بخسارة.',DETAIL=v_expected::TEXT;
+ END IF;
+ RETURN v_expected;
+END;
+$$;
+ALTER FUNCTION public.price225_create_loss_confirmation_internal(UUID,BIGINT,BIGINT,INTEGER,BOOLEAN,JSONB) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.price225_create_loss_confirmation_internal(UUID,BIGINT,BIGINT,INTEGER,BOOLEAN,JSONB) FROM PUBLIC,anon,authenticated,service_role;
+
+CREATE FUNCTION public.create_product_with_opening_stock_v7(
+ p_sku text,
+ p_barcode text DEFAULT NULL::text,
+ p_name_ar text DEFAULT NULL::text,
+ p_description text DEFAULT NULL::text,
+ p_category_id uuid DEFAULT NULL::uuid,
+ p_brand_id uuid DEFAULT NULL::uuid,
+ p_unit_id uuid DEFAULT NULL::uuid,
+ p_purchase_unit_id uuid DEFAULT NULL::uuid,
+ p_units_per_purchase_unit integer DEFAULT 1,
+ p_default_purchase_price_in_minor_units bigint DEFAULT 0,
+ p_sale_unit_id uuid DEFAULT NULL::uuid,
+ p_units_per_sale_unit integer DEFAULT 1,
+ p_default_sale_price_in_minor_units bigint DEFAULT 0,
+ p_cost_price_in_minor_units bigint DEFAULT 0,
+ p_min_stock_level integer DEFAULT 0,
+ p_max_stock_level integer DEFAULT NULL::integer,
+ p_warehouse_id uuid DEFAULT NULL::uuid,
+ p_opening_quantity integer DEFAULT 0,
+ p_notes text DEFAULT 'رصيد افتتاحي عند إضافة المنتج'::text,
+ p_image_url text DEFAULT NULL::text,
+ p_parcel_only boolean DEFAULT false,
+ p_sale_price_in_minor_units bigint DEFAULT NULL,
+ p_below_cost_confirmation JSONB DEFAULT NULL
+) RETURNS JSONB LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog,public AS $$
+DECLARE v_result JSONB;v_id UUID;v_ack JSONB;
+BEGIN
+ PERFORM public.price225_assert_context_internal();
+ PERFORM public.price225_assert_prices_internal(p_unit_id,COALESCE(p_sale_unit_id,p_purchase_unit_id,p_unit_id),p_units_per_sale_unit,p_sale_price_in_minor_units,p_default_sale_price_in_minor_units,true,p_parcel_only);
+ v_result:=public.create_product_with_opening_stock_v5(p_sku,p_barcode,p_name_ar,p_description,p_category_id,p_brand_id,p_unit_id,p_purchase_unit_id,p_units_per_purchase_unit,p_default_purchase_price_in_minor_units,p_sale_unit_id,p_units_per_sale_unit,p_default_sale_price_in_minor_units,p_cost_price_in_minor_units,p_min_stock_level,p_max_stock_level,p_warehouse_id,p_opening_quantity,p_notes,p_image_url,p_parcel_only);
+ v_id:=COALESCE(NULLIF(v_result->>'productId',''),NULLIF(v_result->>'product_id',''))::UUID;
+ IF v_id IS NULL OR COALESCE((v_result->>'success')::BOOLEAN,false) IS NOT TRUE THEN
+  RAISE EXCEPTION 'PRICES225_PRODUCT_WRITE_FAILED';
+ END IF;
+ -- The existing family trigger copies both final prices to every flavor.
+ UPDATE public.products SET sale_price_in_minor_units=p_sale_price_in_minor_units,
+  wholesale_price_in_minor_units=p_sale_price_in_minor_units,updated_at=NOW() WHERE id=v_id;
+ IF NOT EXISTS(SELECT 1 FROM public.products WHERE id=v_id
+  AND sale_price_in_minor_units=p_sale_price_in_minor_units
+  AND default_sale_price_in_minor_units=p_default_sale_price_in_minor_units
+  AND units_per_sale_unit=p_units_per_sale_unit) THEN
+  RAISE EXCEPTION 'PRICES225_FAMILY_PRICE_INHERITANCE_REQUIRED: عدّل سعر العائلة؛ النكهات ترث السعرين منها.';
+ END IF;
+ v_ack:=public.price225_create_loss_confirmation_internal(v_id,p_sale_price_in_minor_units,p_default_sale_price_in_minor_units,p_units_per_sale_unit,p_parcel_only,p_below_cost_confirmation);
+ PERFORM public.price225_record_state_internal(v_id,NULL,NULL,p_sale_price_in_minor_units,p_default_sale_price_in_minor_units,true,true,NULL,v_ack);
+ RETURN v_result||public.get_product_pricing_context225(v_id);
+END;
+$$;
+ALTER FUNCTION public.create_product_with_opening_stock_v7(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,integer,text,text,boolean,bigint,jsonb) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.create_product_with_opening_stock_v7(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,integer,text,text,boolean,bigint,jsonb) FROM PUBLIC,anon,authenticated,service_role;
+GRANT EXECUTE ON FUNCTION public.create_product_with_opening_stock_v7(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,integer,text,text,boolean,bigint,jsonb) TO authenticated;
+
+CREATE FUNCTION public.create_product_family_with_flavors_v4(
+ p_sku text,
+ p_barcode text DEFAULT NULL::text,
+ p_name_ar text DEFAULT NULL::text,
+ p_description text DEFAULT NULL::text,
+ p_category_id uuid DEFAULT NULL::uuid,
+ p_brand_id uuid DEFAULT NULL::uuid,
+ p_unit_id uuid DEFAULT NULL::uuid,
+ p_purchase_unit_id uuid DEFAULT NULL::uuid,
+ p_units_per_purchase_unit integer DEFAULT 1,
+ p_default_purchase_price_in_minor_units bigint DEFAULT 0,
+ p_sale_unit_id uuid DEFAULT NULL::uuid,
+ p_units_per_sale_unit integer DEFAULT 1,
+ p_default_sale_price_in_minor_units bigint DEFAULT 0,
+ p_cost_price_in_minor_units bigint DEFAULT 0,
+ p_min_stock_level integer DEFAULT 0,
+ p_max_stock_level integer DEFAULT NULL::integer,
+ p_warehouse_id uuid DEFAULT NULL::uuid,
+ p_image_url text DEFAULT NULL::text,
+ p_flavors jsonb DEFAULT '[]'::jsonb,
+ p_parcel_only boolean DEFAULT false,
+ p_sale_price_in_minor_units bigint DEFAULT NULL,
+ p_below_cost_confirmation JSONB DEFAULT NULL
+) RETURNS JSONB LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog,public AS $$
+DECLARE v_result JSONB;v_id UUID;v_ack JSONB;
+BEGIN
+ PERFORM public.price225_assert_context_internal();
+ PERFORM public.price225_assert_prices_internal(p_unit_id,COALESCE(p_sale_unit_id,p_purchase_unit_id,p_unit_id),p_units_per_sale_unit,p_sale_price_in_minor_units,p_default_sale_price_in_minor_units,true,p_parcel_only);
+ v_result:=public.create_product_family_with_flavors_v2(p_sku,p_barcode,p_name_ar,p_description,p_category_id,p_brand_id,p_unit_id,p_purchase_unit_id,p_units_per_purchase_unit,p_default_purchase_price_in_minor_units,p_sale_unit_id,p_units_per_sale_unit,p_default_sale_price_in_minor_units,p_cost_price_in_minor_units,p_min_stock_level,p_max_stock_level,p_warehouse_id,p_image_url,p_flavors,p_parcel_only);
+ v_id:=COALESCE(NULLIF(v_result->>'productId',''),NULLIF(v_result->>'product_id',''))::UUID;
+ IF v_id IS NULL OR COALESCE((v_result->>'success')::BOOLEAN,false) IS NOT TRUE THEN
+  RAISE EXCEPTION 'PRICES225_PRODUCT_WRITE_FAILED';
+ END IF;
+ -- The existing family trigger copies both final prices to every flavor.
+ UPDATE public.products SET sale_price_in_minor_units=p_sale_price_in_minor_units,
+  wholesale_price_in_minor_units=p_sale_price_in_minor_units,updated_at=NOW() WHERE id=v_id;
+ IF NOT EXISTS(SELECT 1 FROM public.products WHERE id=v_id
+  AND sale_price_in_minor_units=p_sale_price_in_minor_units
+  AND default_sale_price_in_minor_units=p_default_sale_price_in_minor_units
+  AND units_per_sale_unit=p_units_per_sale_unit) THEN
+  RAISE EXCEPTION 'PRICES225_FAMILY_PRICE_INHERITANCE_REQUIRED: عدّل سعر العائلة؛ النكهات ترث السعرين منها.';
+ END IF;
+ v_ack:=public.price225_create_loss_confirmation_internal(v_id,p_sale_price_in_minor_units,p_default_sale_price_in_minor_units,p_units_per_sale_unit,p_parcel_only,p_below_cost_confirmation);
+ PERFORM public.price225_record_state_internal(v_id,NULL,NULL,p_sale_price_in_minor_units,p_default_sale_price_in_minor_units,true,true,NULL,v_ack);
+ RETURN v_result||public.get_product_pricing_context225(v_id);
+END;
+$$;
+ALTER FUNCTION public.create_product_family_with_flavors_v4(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,text,jsonb,boolean,bigint,jsonb) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.create_product_family_with_flavors_v4(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,text,jsonb,boolean,bigint,jsonb) FROM PUBLIC,anon,authenticated,service_role;
+GRANT EXECUTE ON FUNCTION public.create_product_family_with_flavors_v4(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,text,jsonb,boolean,bigint,jsonb) TO authenticated;
+
+-- Sale-entry pause admission, UI/import dispatch and tooling remain pending.
+-- This quarantined candidate is not deployable.
 COMMIT;

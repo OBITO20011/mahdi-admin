@@ -3,6 +3,10 @@
   "files": [
     {
       "code": " M",
+      "path": "docs/design/on-independent-prices225/225_on_independent_prices.candidate.sql"
+    },
+    {
+      "code": " M",
       "path": "scripts/audit/on-prices225-source-pins.json"
     },
     {
