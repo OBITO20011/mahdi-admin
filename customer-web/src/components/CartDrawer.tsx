@@ -1,6 +1,7 @@
 import {DISPLAY_LOCALE} from '../utils/displayLocale';
 import {scrollWindowTo} from '../utils/scroll';
 import {storefrontCartPackageDescription} from '../utils/storefrontUnits';
+import {cartUnitPresentation} from '../utils/cartUnitPresentation';
 import {
   AlertTriangle,
   ArrowLeft,
@@ -15,7 +16,7 @@ import {
   X,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { CartItem, ParcelInstanceSelection } from '../types/catalog';
+import { CartItem, ParcelInstanceSelection, type CatalogProduct } from '../types/catalog';
 import { formatCartQuantitySummary, calculateCartSubtotal } from '../utils/cart';
 import { CartStorageRecovery } from '../utils/cart';
 import { formatJod } from '../utils/money';
@@ -26,6 +27,7 @@ import {useDialogFocus} from '../hooks/useDialogFocus';
 interface CartDrawerProps {
   isOpen: boolean;
   items: CartItem[];
+  presentationProducts?: CatalogProduct[];
   onClose: () => void;
   onQuantityChange: (localLineId: string, quantity: number) => void;
   onRemove: (localLineId: string) => void;
@@ -49,6 +51,7 @@ interface CartDrawerProps {
 export function CartDrawer({
   isOpen,
   items,
+  presentationProducts = [],
   onClose,
   onQuantityChange,
   onRemove,
@@ -73,7 +76,11 @@ export function CartDrawer({
     if (clearConfirmationOpen) setClearConfirmationOpen(false);
     else onClose();
   });
-  const quantitySummary = formatCartQuantitySummary(items);
+  const presentationItems = cartUnitPresentation(items, presentationProducts).map((item, index) =>
+    lockedLineIds.has(item.localLineId) || (item.commercialLineKind === 'configurable_parcel' && item.parcelInstances.some(instance => lockedParcelInstanceIds.has(instance.localInstanceId)))
+      ? items[index] : item);
+  const presentationById = new Map(presentationItems.map(item => [item.localLineId, item]));
+  const quantitySummary = formatCartQuantitySummary(presentationItems);
   const subtotal = calculateCartSubtotal(items);
 
   useEffect(() => {
@@ -311,7 +318,7 @@ export function CartDrawer({
                             {item.nameAr}
                           </h3>
                           <p className="mt-1 text-[9px] font-bold text-slate-400">
-                            {storefrontCartPackageDescription(item)}
+                            {storefrontCartPackageDescription(presentationById.get(item.localLineId) ?? item)}
                           </p>
                           <p className="mt-1 text-[9px] font-bold text-blue-600">
                             السعر {formatJod(item.unitPriceInMinorUnits)} •

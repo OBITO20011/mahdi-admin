@@ -2,40 +2,53 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner-approved Restore-only explicit-default raw ACL replay;strict atom equality except order;new type snapshots,legacy archive coverage disclosed.",
-  "baselineSha": "852c1d1abd6dae1cd5ce116baecfd744ee1dc174",
-  "branch": "codex/restore-raw-default-acl",
-  "phase": "RESTORE_RAW_DEFAULT_ACL",
-  "startedAt": "2026-11-17T15:22:45.465Z",
+  "objective": "Owner-approved display-only ON stock shortage Arabic copy and actual saved unit names;no calls,values,SQL or guards changed.",
+  "baselineSha": "191712116e0b204dbebe507e24b1c4cb25f40674",
+  "branch": "codex/on-stock-unit-display225",
+  "phase": "ON_DISPLAY225",
+  "startedAt": "2026-11-17T08:26:51.856Z",
   "completed": [
-    "Read-only source archive comparison:3161 ACL fields,33 explicit-to-null and48 order-only;no grant atom orowner differences.",
-    "Integrated the exact #114 migration LF preflight, preserving its source pins with layered exact Restore projection."
+    "ON actual unit labels throughout livecart/catalog/POS and immutable savedreceipts;rawcart persistence and financial payloads unchanged.",
+    "Approved stockshortage Arabic messages with originalcartFits predicate/newPOSline object byte-identical.",
+    "Canonical Chromium/WebKit12/12 in a new network-detached Linux sandbox;no demo/n8n/hosted changes.",
+    "Actual224HTTP181:172success9empty0errors;RPC735 with18expecteddenials;fresh evidence written.",
+    "Fresh actual224 HTTP181/RPC735 evidence rebound;formed-cart unit description uses only immutable recipe units,not currentcatalog.",
+    "C6 regression test terminology agrees with immutable carton/bottle/sack fixture names.",
+    "Integrated exact Restore and LF history; only task metadata and legacy source projections changed."
   ],
   "inProgress": [
-    "General fail-closed replay with native defaults and type evidence;no guards or reference changes."
+    "Final quiet rootunits and actual historical schema-only view proof beforepush;no merge before exact-head fullCI/Gitleaks."
   ],
+  "notStarted": [],
   "testsPassed": [
-    "Combined LF and Restore same-byte and unknown-byte unit cases 8/8."
+    "Focused43/43,0skip;all historical beforeText andunknownbyte guards retained.",
+    "Types bothapps andfull strictlint exit0 beforefinalevidence pin refresh;all appcode unchanged sincebrowserproof.",
+    "Chromium/WebKit16/16 at390/1280;canonical networkguard teardown exit0;store233/233,0skip;focusedfinalevidence29/29.",
+    "Bothapp fulltypes exit0 andfullstrictlint exit0;store typecheck command is npm --prefix customer-web run lint.",
+    "C6 16/16 Chromium/WebKit on isolated offline container;same money,quantity,cart identities,stock and axe."
   ],
   "testsRemaining": [
-    "Actual PostgreSQL default replay/negative/idempotency andold107/110 cases;fullCI/Gitleaks."
+    "Quiet fullunits root/store after the14historical/display/evidence failures havebeen corrected;no retries/timeout changes.",
+    "Finaltype/lint/sourcecheck/Gitleaks/exact-headFULLCI andDraftPR;notdeliveryready."
   ],
   "findings": [
-    "Legacy2230 archive has no typacl;owner approved limited historical coverage plus new backup type snapshot."
+    "5ef CI: five store-label expectations corrected without values/payloadchanges; historical219 clone omitted four exact newdisplay sources,now projected toapprovedmain bytes withunknownbyte refusal.",
+    "Rehearsal stopped32rawACL diffs;readonly sourcearchive proves Restore lost explicit owner representation;no scope expansion orresume.",
+    "a51191f6 CI timeout caused by outdated C6 fixed labels, not proven runner issue."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hosted/Frankfurt/Production/deploy/demo/n8n/Dockerrestart.",
-    "No guard/reference/020 or historical migration changes;no workbook changes.",
-    "All saved rehearsal containers remain preserved."
+    "No hosted/Frankfurt/production/deploy/demo/n8n/Dockerrestart.",
+    "No SQL or RPC/quantity/price/guard/persistence changes.",
+    "No original workbook/owner file changes."
   ],
+  "checkpointedAt": "2026-11-17T20:15:01.101Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "nextExactAction": "Wait for exact Restore #113 CI and repeat the 224 rehearsal",
-  "checkpointedAt": "2026-11-17T16:37:56.856Z",
-  "filesTouchedCount": 0,
-  "filesTouchedManifestSha256": "b6429e7d08029a34589e9c8956ef86dffab2fb6dd9ee37c08d5e9204e14cdbe6",
-  "workingTreeFingerprint": "AA7E1BEB9E33AF6D66638C52C546101F72793A005AEECF061D58701DF90BBB38"
+  "filesTouchedCount": 21,
+  "filesTouchedManifestSha256": "54ef7131aa902e599f7253140d2e1f401653d4a94ebcd88fb2786359c81cc0f3",
+  "nextExactAction": "Open exact new display CI after the Restore merge gates are established",
+  "workingTreeFingerprint": "2D4D409B573BF0E70127A171CBA1857B4CA8D1FE4C33913019D70C1A328742D4"
 }

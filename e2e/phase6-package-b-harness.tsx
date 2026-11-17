@@ -33,7 +33,7 @@ function Harness() {
       unitPriceInMinorUnits: 1000, maxAvailablePackages: 10};
     const items = [
       {...common, localLineId: 'base', productId: 'base', nameAr: 'وحدة العصير', commercialLineKind: 'base_unit', quantity: 3, unitsPerSalePackage: 1},
-      {...common, localLineId: 'parcel', productId: 'parcel', nameAr: 'طرد العصير', commercialLineKind: 'legacy_single_sku_parcel', quantity: 2, unitsPerSalePackage: 6},
+      {...common, localLineId: 'parcel', productId: 'parcel', nameAr: 'طرد العصير', saleUnitNameAr: 'طرد', commercialLineKind: 'legacy_single_sku_parcel', quantity: 2, unitsPerSalePackage: 6},
     ] as CartItem[];
     return <CartDrawer isOpen items={items} onClose={resolved} onQuantityChange={resolved}
       onRemove={resolved} onEditParcel={resolved} onDuplicateParcel={resolved}

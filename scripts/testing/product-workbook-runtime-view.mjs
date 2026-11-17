@@ -1,3 +1,4 @@
+import {sourceBeforeOnUnitDisplay225,onUnitDisplay225Pins} from '../audit/source-before-on-unit-display225.mjs';
 import {sourceBeforeInventory224,inventory224SourcePins,inventory224SourceBase} from '../audit/source-before-inventory224.mjs';
 import {sourceBeforeLatinDigits,latinDigitsSourcePins,latinDigitsSourceBase} from '../audit/source-before-latin-digits.mjs';
 import {sourceBeforeFinalCatalog,finalCatalogSourcePins,finalCatalogSourceBase} from '../audit/source-before-final-catalog.mjs';
@@ -93,6 +94,16 @@ export async function prepareWorkbookRuntimeView({schemaOnly=false}={}){
   git(['clone','--shared','--no-checkout',root,dir]);git(['update-ref','--no-deref','HEAD',head],dir);git(['read-tree',head],dir);await writeFile(path.join(dir,'.git/info/exclude'),'\n/node_modules\n/.workbook-runtime-view.json\n',{flag:'a'});assert.equal(git(['rev-parse','HEAD'],dir).toString('utf8').trim(),head);
   // Git materializes raw objects without buffering a full archive or tar filename conversion.
   git(['config','core.autocrlf','false'],dir);git(['checkout-index','--all'],dir);await noLinks(dir);await writeFile(path.join(dir,'.workbook-runtime-view.json'),JSON.stringify(marker));
+  // Rewind every exact reviewed display source before older layer allowlists.
+  // Newly added files must disappear; unknown bytes and changed baselines fail.
+  for(const[file,pin]of Object.entries(onUnitDisplay225Pins)){
+   if(!sourceScope(file))continue;
+   const target=path.join(dir,file),raw=await readFile(target,'utf8'),before=sourceBeforeOnUnitDisplay225(file,raw);
+   assert.notEqual(before,raw,'HISTORICAL_ON_DISPLAY225_UNREVIEWED_SOURCE:'+file);
+   assert.equal(before,historicalText('a74070de584367f49cd1095ed8db5e5c2e5b8fba',file),'HISTORICAL_ON_DISPLAY225_NOT_EXACT_GIT:'+file);
+   if(before===null)await unlink(target);else await writeFile(target,before);
+   changed.push({file,after:pin.after,before:pin.before});
+  }
   const reader224='supabase/migrations/224_optional_quantity_inventory_reader.sql';
   for(const[file,pin]of Object.entries(inventory224SourcePins)){
    if(!sourceScope(file)&&file!==reader224)continue;

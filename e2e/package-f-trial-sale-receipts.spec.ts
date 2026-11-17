@@ -60,7 +60,7 @@ for(const width of [390,1440])test(`D explicit per-product prices and independen
   await page.setViewportSize({width,height:1000});await page.goto('/e2e/package-f-pos-harness.html');
   const card=page.locator(`[data-pos-product="${posFixtureProducts[0].id}"]`);
   const parcel=card.locator('[data-pos-add-method="legacy_single_sku_parcel"]'),unit=card.locator('[data-pos-add-method="base_unit"]');
-  await expect(parcel).toContainText('+ طرد');await expect(parcel).toContainText('21.600');
+  await expect(parcel).toContainText('+ كرتونة');await expect(parcel).toContainText('21.600');
   await expect(unit).toContainText('+ باكيت');await expect(unit).toContainText('0.900');
   await expect(page.getByRole('radiogroup',{name:'وحدة البيع',exact:true})).toHaveCount(0);
   await parcel.click();await parcel.click();await unit.click();await unit.click();await unit.click();
@@ -72,9 +72,9 @@ for(const width of [390,1440])test(`D explicit per-product prices and independen
   await checkLayout(page,card);
   if(width===390)await page.getByRole('button',{name:'مراجعة السلة والعميل',exact:true}).click();
   const cart=page.getByTestId('pos-cart-panel').filter({visible:true});
-  await expect(cart.locator('[data-pos-cart-line-kind]')).toHaveText(['· 2 طرد','· 2 باكيت']);
+  await expect(cart.locator('[data-pos-cart-line-kind]')).toHaveText(['· 2 كرتونة','· 2 باكيت']);
   await expect(cart).toContainText('45.000');
-  await expect(cart).toContainText('21.600 د.أ / طرد');
+  await expect(cart).toContainText('21.600 د.أ / كرتونة');
   await expect(cart).toContainText('0.900 د.أ / باكيت');
 });
 
