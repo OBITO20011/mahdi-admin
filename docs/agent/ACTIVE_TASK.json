@@ -2,45 +2,37 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner approved Storage readonly diagnosis,owner SQL and strict224 DDL preflight;source-exact isolated supautils only if proven.",
-  "baselineSha": "2508a9e5eff2762ab42933394a8243bb6c1af4a4",
-  "branch": "codex/reset224-storage-capability",
-  "phase": "RESET224_STORAGE_CAPABILITY",
-  "startedAt": "2026-11-17T08:26:51.856Z",
+  "objective": "Owner-approved Restore-only explicit-default raw ACL replay;strict atom equality except order;new type snapshots,legacy archive coverage disclosed.",
+  "baselineSha": "a74070de584367f49cd1095ed8db5e5c2e5b8fba",
+  "branch": "codex/restore-raw-default-acl",
+  "phase": "RESTORE_RAW_DEFAULT_ACL",
+  "startedAt": "2026-11-17T15:22:45.465Z",
   "completed": [
-    "Readonly source/upstream diagnosis;owner SQL prepared and tested on preserved container.",
-    "Native PostgreSQL capable/denied policy proof;no marker or source change."
+    "Read-only source archive comparison:3161 ACL fields,33 explicit-to-null and48 order-only;no grant atom orowner differences."
   ],
   "inProgress": [
-    "Read-only local source and upstream Supabase evidence."
+    "General fail-closed replay with native defaults and type evidence;no guards or reference changes."
   ],
-  "notStarted": [],
-  "testsPassed": [
-    "Focused11/11 thencontinuity9/9 after currentPhase synchronization.",
-    "Bothapp fulltypes0;strictlint0.",
-    "Fullunits first2116/2117;onlyphase metadata mismatch,fixed andfocusedpassed."
-  ],
+  "testsPassed": [],
   "testsRemaining": [
-    "Fullunits on corrected metadata",
-    "Exact-head fullCI/Gitleaks",
-    "Conditionalmerge/mainCI/primarysync",
-    "New archive2230c606 rehearsal with existing exact supautils adapter"
+    "Actual PostgreSQL default replay/negative/idempotency andold107/110 cases;fullCI/Gitleaks."
   ],
-  "findings": [],
+  "findings": [
+    "Legacy2230 archive has no typacl;owner approved limited historical coverage plus new backup type snapshot."
+  ],
   "blockers": [],
-  "activeProcesses": [
-    "Preserved35556 holder in separate2508clone;no SQL writer."
-  ],
+  "activeProcesses": [],
   "prohibitions": [
-    "No hosted/project access or deploy;no demo/n8n/Dockerrestart.",
-    "Preserve saved failed containers;no historical SQL/reference/guard relaxation."
+    "No hosted/Frankfurt/Production/deploy/demo/n8n/Dockerrestart.",
+    "No guard/reference/020 or historical migration changes;no workbook changes.",
+    "All saved rehearsal containers remain preserved."
   ],
-  "checkpointedAt": "2026-11-17T08:55:15.068Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 15,
-  "filesTouchedManifestSha256": "230bbe76c9adffd8aa92eb5b5c183fa05a8bd838462e84f2563e4f9a97d5a4b7",
-  "nextExactAction": "Fullunit corrected state + exact-headCI;no merge before all gates;new archive rehearsal only aftermerge.",
-  "workingTreeFingerprint": "3199B6918C1BF3B9F9FCAA8C82CBC3F72254CD899C9845D874B9E7A29DD7FAEB"
+  "nextExactAction": "Commit Restore raw ACL repair, run the full encrypted backup and historical Restore suite, then verify exact-head CI.",
+  "checkpointedAt": "2026-11-17T15:51:11.775Z",
+  "filesTouchedCount": 11,
+  "filesTouchedManifestSha256": "6efedf61f24ae867151289e2b42090bdde2c92eff7136577c7f6a2bad7180fa8",
+  "workingTreeFingerprint": "BEA166AB4003D9A9B7511A5E6DD4F83B700F9CB2BA36835823D4D2FD33EB60A0"
 }

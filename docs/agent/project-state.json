@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "project": "Nawasrah ERP",
-  "branch": "codex/reset224-storage-capability",
-  "approvedBaseline": "3b35a263f7c20212c537bb61b2d20af778b7613d",
+  "branch": "codex/restore-raw-default-acl",
+  "approvedBaseline": "a74070de584367f49cd1095ed8db5e5c2e5b8fba",
   "closedPhases": [
     "3",
     "4.1",
@@ -14,7 +14,7 @@
     "6"
   ],
   "phase4Closed": true,
-  "currentPhase": "RESET224_STORAGE_CAPABILITY",
+  "currentPhase": "RESTORE_RAW_DEFAULT_ACL",
   "phase6Closed": true,
   "phase6ClosureBaseline": "5aaeab11e13c2be454af677ee176f77aa2d9cde4",
   "phase6ClosureExactShaCi": "PASS",
@@ -310,5 +310,6 @@
   "phaseSUPPORTED_UPGRADES224ImplementationAllowed": true,
   "phaseCUTOVER_HOLD224ImplementationAllowed": true,
   "phaseRESTORE_PRIVATE220_ACLImplementationAllowed": true,
-  "phaseRESET224_STORAGE_CAPABILITYImplementationAllowed": true
+  "phaseRESET224_STORAGE_CAPABILITYImplementationAllowed": true,
+  "phaseRESTORE_RAW_DEFAULT_ACLImplementationAllowed": true
 }
