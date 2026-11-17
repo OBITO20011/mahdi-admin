@@ -6,11 +6,7 @@
       "path": "scripts/audit/on-prices225-source-pins.json"
     },
     {
-      "code": "??",
-      "path": "docs/design/on-independent-prices225/225_on_independent_prices.candidate.sql"
-    },
-    {
-      "code": "??",
+      "code": " M",
       "path": "scripts/testing/run-on225-candidate-core.mjs"
     }
   ]

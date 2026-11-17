@@ -101,7 +101,8 @@ try{
   EXCEPTION WHEN raise_exception THEN IF SQLERRM NOT LIKE 'PRICES225_PARCEL_PRICE_TOO_HIGH:%' THEN RAISE;END IF;END;
   SELECT * INTO p FROM public.products WHERE id='${product}';
   IF public.get_product_pricing_context225('${product}')->>'originalParcelPrice'<>'11000' THEN RAISE EXCEPTION 'REFUSAL_CLEARED_ORIGINAL';END IF;
-  ${edit(700,6000,'NULL','NULL',"'single'")}
+  ack:=public.get_product_pricing_context225('${product}',1000,6000,12,true,false)->'belowCostConfirmation';
+  ${edit(700,6000,'NULL','ack',"'single'")}
   ${edit(1000,6000,'NULL','NULL',"'parcel'")}
   IF result->'originalUnitPrice'<>'null'::jsonb OR result->'originalParcelPrice'<>'null'::jsonb OR result->>'singlePrice'<>'1000' OR result->>'parcelPrice'<>'11000' THEN RAISE EXCEPTION 'RESTORE_PRICES_OR_CLEAR_FAILED';END IF;
   ack:=public.get_product_pricing_context225('${product}',500,11000,12,false,false)->'belowCostConfirmation';

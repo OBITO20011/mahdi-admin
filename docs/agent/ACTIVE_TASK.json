@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Approved225 ON independent prices and golden financial proof;frozen COGS stays byte-identical.",
-  "baselineSha": "b6f2887583ff50214403fa4a45db4e2c23e2b925",
+  "baselineSha": "ce91bb795eef279b5fd0a9bdb9852d9e7b4015df",
   "branch": "codex/on-independent-prices225",
   "phase": "ON_INDEPENDENT_PRICE225",
   "startedAt": "2026-11-17T04:55:09.912Z",
@@ -12,10 +12,11 @@
     "Exact livePOSwriterdefinition matches frozen220pin;allfunctiondefinitions unchanged.",
     "Independentreview corrects209-only inference;214alreadyfixesexactWAC;proposedfrozenSQLdiff0.",
     "Merged reviewed main111(a74070de);composed exact source inverses with beforeText preserved;focused13/13.",
-    "Quarantined225 candidate:protected state,strict paired-price validator,exact-WAC acknowledgment,first-original tracker,context reader andv7 wrapper;not active migrations."
+    "Quarantined225 candidate:protected state,strict paired-price validator,exact-WAC acknowledgment,first-original tracker,context reader andv7 wrapper;not active migrations.",
+    "Actual isolated224 candidate10/10 cases PASS includingv7 writes,first-original,restore rejection/success andexactWAC acknowledgment;all prior function objects unchanged."
   ],
   "inProgress": [
-    "Actualv7 runtime rerun after corrected fixture;waiting for independent UI access probes to release shared CLI lease."
+    "Checkpoint approved225 candidate proof;creation/family/import,pause sale-entry guards andgolden225 remain."
   ],
   "notStarted": [
     "Migration225 andproductwriters/parcelpause/originalprice/receiptwarning;no frozenbodyexceptionrequired bythisexample."
@@ -26,7 +27,8 @@
     "Independent golden oracle2/2;12500 revenue,11258 COGS,1242 profit,10042 inventory,asset/liability22542.",
     "Actual isolated224 kernel7cases pass;all existing function objects unchanged;private helper/table grants denied.",
     "After newv7 addition,SQL creates6new functions with frozen objects unchanged;writer test hit fixture-only missingp.image_url,nowNULLforimagelessfixture;write behavior not yet certified.",
-    "Latest source/oracle/DDL focused8/8;beforeText andunknownbyteguards retained."
+    "Latest source/oracle/DDL focused8/8;beforeText andunknownbyteguards retained.",
+    "Actual candidate10/10 rollback cases;report preserved externally inCANDIDATE_CORE_TEN_GREEN.json."
   ],
   "testsRemaining": [
     "v7runtime/permissions/concurrency;creation/family/import;old-entry pause guards;originalprice/receipt UI;newcatalogreader",
@@ -47,12 +49,12 @@
     "No ON fillin workbook/generator or ON cutover rewrite in this round.",
     "225Draft only;no merge before fullgolden day,CI andClaude review."
   ],
-  "checkpointedAt": "2026-11-17T14:04:55.927Z",
+  "checkpointedAt": "2026-11-17T14:46:50.530Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 3,
-  "filesTouchedManifestSha256": "e85ffa021d2597cce34a5ea75f3d47936df748267e9580fdcf7dcc450b74bcd1",
-  "nextExactAction": "Run actual225v7 candidate proof after UIaccess CLI release;candidate outside migrations;no frozen/hosted/demo changes.",
-  "workingTreeFingerprint": "60D6422C032C43DD94776DB2E0150F0F5CFB1CB69C811A907C2E73A22137D343"
+  "filesTouchedCount": 2,
+  "filesTouchedManifestSha256": "5d246d55cb03cd5a7cc8bb183eb3195ddcf84399e10e33ad0ac0fa6b2139b239",
+  "nextExactAction": "Build approved225 creation/family/import wrappers and explicit old-entry parcel-pause guards;all627/9 source unchanged;candidate remains quarantined.",
+  "workingTreeFingerprint": "2BEE06384510185CB1CCF57EA29035CFB07B61A4F1B0DF9FDE649AA9193DCA7D"
 }
