@@ -9,6 +9,15 @@ import {cartUnitPresentation} from '../customer-web/src/utils/cartUnitPresentati
 import {buildGuestOrderV2Lines} from '../customer-web/src/utils/checkout';
 import {storefrontSaleUnit,storefrontPackageDescription,storefrontCartPackageDescription} from '../customer-web/src/utils/storefrontUnits';
 import {receiptLineDescription} from '../customer-web/src/receipts/commercialReceipt';
+import {sourceBeforeOnUnitDisplay225,onUnitDisplay225Pins} from '../scripts/audit/source-before-on-unit-display225.mjs';
+
+test('display projection retains literal historical source and refuses an unknown byte',()=>{
+ for(const [file,pin] of Object.entries(onUnitDisplay225Pins)){
+  const current=readFileSync(file,'utf8').replace(/\r\n?/gu,'\n');
+  assert.equal(sourceBeforeOnUnitDisplay225(file,current),pin.beforeText,file);
+  assert.equal(sourceBeforeOnUnitDisplay225(file,current+'\nUNKNOWN_BYTE'),current+'\nUNKNOWN_BYTE',file);
+ }
+});
 
 test('ON stock copy names the item and exact commercial units with Latin digits',()=>{
  assert.equal(posStockShortageCopy('كندر بوينو عادي','باكيت',0,1),'نفد المخزون: كندر بوينو عادي — المتاح 0 باكيت');
@@ -43,4 +52,16 @@ test('the full stock predicate and new POS line object remain byte-identical to 
  const line=(text:string)=>text.slice(text.indexOf('      const newItem: PosCartItem = {'),text.indexOf('\n      };',text.indexOf('      const newItem: PosCartItem = {'))+9);
  assert.equal(guard(current),guard(before));assert.ok(guard(before).includes('quantity <= available'));
  assert.equal(line(current),line(before));assert.ok(line(before).includes('v2Line:'));
+});
+
+test('cart presentation is wired without replacing raw checkout or persistence inputs',()=>{
+ const checkout=readFileSync('customer-web/src/components/CheckoutModal.tsx','utf8');
+ assert.ok(checkout.includes('cartUnitPresentation(displayedItems, presentationProducts)'));
+ assert.ok(checkout.includes('receipt || pendingAttempt?.serverState'));
+ assert.ok(checkout.includes('buildGuestOrderV2Lines(items)'));
+ assert.ok(checkout.includes('coordinator.prepare(request, items)'));
+ assert.ok(checkout.includes('calculateCartSubtotal(displayedItems)'));
+ const drawer=readFileSync('customer-web/src/components/CartDrawer.tsx','utf8');
+ assert.ok(drawer.includes('calculateCartSubtotal(items)'));
+ assert.ok(drawer.includes('lockedLineIds.has(item.localLineId)'));
 });

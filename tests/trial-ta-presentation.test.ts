@@ -24,12 +24,12 @@ import {trialTAPins,sourceBeforeTrialTA} from '../scripts/audit/source-before-tr
 import {verifyProbeCoverage} from '../scripts/audit/table-access-probes.mjs';
 const read=(file:string)=>historicalProductWorkbookSource(sourceBeforeRehearsal219,file,readFileSync(file,'utf8').replaceAll('\r\n','\n'))!,hash=(s:string)=>createHash('sha256').update(s).digest('hex');
 
-test('T-A POS bottle product shows only parcel/packet sales methods and preserves exact outgoing lines',()=>{
+test('T-A POS uses actual bottle unit labels and preserves the exact commercial methods and outgoing lines',()=>{
  const product=mapAdminProductRecord({id:'12800000-0000-4000-8000-000000000001',name_ar:'صنف وهمي',sku:'TA',base_unit:{code:'BOTTLE',name_ar:'قنينة'},units_per_sale_unit:12,sale_price_in_minor_units:500,default_sale_price_in_minor_units:6000});
  const before=JSON.stringify(product),html=renderToStaticMarkup(React.createElement(PosProductCard,{product,stock:26,parcelQuantity:1,unitQuantity:2,disabled:false,onAdd:()=>undefined,onReduce:()=>undefined}));
- assert.equal(product.unit,'قنينة');assert.match(html,/إضافة باكيت من صنف وهمي/u);assert.match(html,/إضافة طرد من صنف وهمي/u);assert.doesNotMatch(html,/قنينة/u);assert.equal(JSON.stringify(product),before);
+ assert.equal(product.unit,'قنينة');assert.match(html,/إضافة قنينة من صنف وهمي/u);assert.match(html,/إضافة طرد من صنف وهمي/u);assert.doesNotMatch(html,/إضافة باكيت من صنف وهمي/u);assert.equal(JSON.stringify(product),before);
  const item:PosCartItem={...trialDItems[3],productId:product.id,unit:'قنينة',baseUnitName:'قنينة',quantity:3,baseQuantity:3,v2Line:{commercial_line_kind:'base_unit',product_id:product.id,base_quantity:3}};
- const snapshot=JSON.stringify(item);assert.equal(receiptLineDescription(savedReceiptLine(item)),'3 باكيت');assert.deepEqual(posCartLines([item]),[{commercial_line_kind:'base_unit',product_id:product.id,base_quantity:3}]);assert.equal(JSON.stringify(item),snapshot);
+ const snapshot=JSON.stringify(item);assert.equal(receiptLineDescription(savedReceiptLine(item)),'3 قنينة');assert.deepEqual(posCartLines([item]),[{commercial_line_kind:'base_unit',product_id:product.id,base_quantity:3}]);assert.equal(JSON.stringify(item),snapshot);
 });
 
 test('T-A exact inverse retains original historical bytes;DB,services and price calculation modules are unchanged',()=>{

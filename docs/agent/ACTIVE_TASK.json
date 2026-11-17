@@ -1,27 +1,29 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
+  "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner-approved display-only ON stock shortage Arabic copy and actual saved unit names;no calls,values,SQL or guards changed.",
-  "baselineSha": "a74070de584367f49cd1095ed8db5e5c2e5b8fba",
+  "baselineSha": "3d5218b699c550ab3cd5abd3f55793a83b2ec20c",
   "branch": "codex/on-stock-unit-display225",
   "phase": "ON_DISPLAY225",
   "startedAt": "2026-11-17T08:26:51.856Z",
   "completed": [
-    "Draft ON actual unit labels and immutable receipt names;stockcopy with original guards/line object unchanged.",
-    "Render-only cart unit projection;original cart persistence file exactlyunchanged."
+    "ON actual unit labels throughout livecart/catalog/POS and immutable savedreceipts;rawcart persistence and financial payloads unchanged.",
+    "Approved stockshortage Arabic messages with originalcartFits predicate/newPOSline object byte-identical.",
+    "Canonical Chromium/WebKit12/12 in a new network-detached Linux sandbox;no demo/n8n/hosted changes.",
+    "Actual224HTTP181:172success9empty0errors;RPC735 with18expecteddenials;fresh evidence written."
   ],
   "inProgress": [
-    "Trace current stock guards and saved receipt snapshots."
+    "Save tested checkpoint before final local gate andCI."
   ],
   "notStarted": [],
   "testsPassed": [
-    "Focused presentation4/4;no SQL/RPC payload/value/guard changes."
+    "Focused43/43,0skip;all historical beforeText andunknownbyte guards retained.",
+    "Types bothapps andfull strictlint exit0 beforefinalevidence pin refresh;all appcode unchanged sincebrowserproof."
   ],
   "testsRemaining": [
-    "Wire render-only cart projection without changing storage/pending snapshots.",
-    "Update approved display expectations;Chromium/WebKit390/1280 snapshots.",
-    "Literal source inverse/fulltypes/lint/units/CI/Gitleaks;notreview-ready."
+    "Quiet fullunits root/store after the14historical/display/evidence failures havebeen corrected;no retries/timeout changes.",
+    "Finaltype/lint/sourcecheck/Gitleaks/exact-headFULLCI andDraftPR;notdeliveryready."
   ],
   "findings": [],
   "blockers": [],
@@ -31,12 +33,12 @@
     "No SQL or RPC/quantity/price/guard/persistence changes.",
     "No original workbook/owner file changes."
   ],
-  "checkpointedAt": "2026-11-17T10:34:05.521Z",
+  "checkpointedAt": "2026-11-17T14:12:39.277Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 11,
-  "filesTouchedManifestSha256": "b52b08a9f2007f18867aa5e53d47dd4945ae87b174b1f22b802d1900d5dd6c21",
-  "nextExactAction": "Resume draftdisplay after shared rehearsal;wireviewprojection,testbrowsers,pins/fullgates. No cart persistence changes.",
-  "workingTreeFingerprint": "AD25A5A9F443DF9133D43078FDA0AF4A91C17FC2F829FD58927021A4082796F7"
+  "filesTouchedCount": 23,
+  "filesTouchedManifestSha256": "dc4fea8d5510b309f105ef7eee9ec4475304eea3c0550c11c919707b4cf1ccdb",
+  "nextExactAction": "Quiet fullunits after corrected labels/history andfreshHTTP/RPC;thenDraftPR exact-head FULLCI/Gitleaks. B rehearsal remainsparked.",
+  "workingTreeFingerprint": "AFDA8612A1E46635E654DB0DE35F25E72C33D9A4C10B1507AB5602DD41DB92B4"
 }

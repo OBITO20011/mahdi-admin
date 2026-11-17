@@ -66,7 +66,7 @@ test('cart display separates base units and parcels without changing commercial 
   const items = [{commercialLineKind: 'base_unit', quantity: 3, saleUnitNameAr: 'باكيت', unitsPerSalePackage: 1},
     {commercialLineKind: 'legacy_single_sku_parcel', quantity: 2, saleUnitNameAr: 'كرتونة', unitsPerSalePackage: 10},
     {commercialLineKind: 'configurable_parcel', quantity: 1, saleUnitNameAr: 'طرد', unitsPerSalePackage: 10}] as CartItem[];
-  assert.equal(formatCartQuantitySummary(items), '3 باكيت + 3 طرد');
+  assert.equal(formatCartQuantitySummary(items), '3 باكيت + 2 كرتونة + 1 طرد');
   assert.equal(calculateCartPackages(items), 6);
   assert.equal(formatCartQuantitySummary([items[0]]), '3 باكيت');
   assert.equal(formatCartQuantitySummary([]), 'السلة فارغة');

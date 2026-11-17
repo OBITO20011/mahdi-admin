@@ -3,47 +3,95 @@
   "files": [
     {
       "code": " M",
-      "path": "customer-web/src/receipts/commercialReceipt.ts"
+      "path": "customer-web/src/App.tsx"
     },
     {
       "code": " M",
-      "path": "customer-web/src/utils/storefrontUnits.ts"
+      "path": "customer-web/src/components/CartDrawer.tsx"
     },
     {
       "code": " M",
-      "path": "docs/agent/project-state.json"
+      "path": "customer-web/src/components/CheckoutModal.tsx"
     },
     {
       "code": " M",
-      "path": "src/features/pos/PosProductCard.tsx"
+      "path": "customer-web/tests/actual-sale-units.test.ts"
     },
     {
       "code": " M",
-      "path": "src/features/pos/PosView.tsx"
+      "path": "customer-web/tests/storefront-units.test.ts"
     },
     {
       "code": " M",
-      "path": "src/features/receipts/saleReceipt.ts"
+      "path": "docs/operations/SERVICE_ACCESS_AFTER_224.json"
     },
     {
       "code": " M",
-      "path": "src/services/supabase/posV2.service.ts"
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
     },
     {
       "code": " M",
-      "path": "src/utils/posKnownRejectionCopy.ts"
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
     },
     {
-      "code": "??",
-      "path": "customer-web/src/utils/cartUnitPresentation.ts"
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_224.json"
     },
     {
-      "code": "??",
-      "path": "src/utils/posStockCopy.ts"
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
     },
     {
-      "code": "??",
+      "code": " M",
+      "path": "e2e/package-f-pos-harness.tsx"
+    },
+    {
+      "code": " M",
+      "path": "e2e/trial-d-receipt.fixture.ts"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-reset224-ddl.mjs"
+    },
+    {
+      "code": " M",
+      "path": "tests/core-webkit-ci-shards.test.ts"
+    },
+    {
+      "code": " M",
       "path": "tests/on225-display.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/phase6-package-b.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-sale-receipts.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-ta-presentation.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "e2e/on-unit-display-harness.html"
+    },
+    {
+      "code": "??",
+      "path": "e2e/on-unit-display-harness.tsx"
+    },
+    {
+      "code": "??",
+      "path": "e2e/on-unit-display.spec.ts"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/on-unit-display225-source-pins.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-on-unit-display225.mjs"
     }
   ]
 }
