@@ -1,44 +1,46 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
+  "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner-approved exact raw ACL Restore for11private tables+2schemas;conditional merge and shared rehearsal",
-  "baselineSha": "98470d376894623247b7079426a9c29d1bf43f51",
-  "branch": "codex/restore-lite220-private-acl",
-  "phase": "RESTORE_PRIVATE220_ACL",
-  "startedAt": "2026-11-17T03:37:43.475Z",
+  "objective": "Owner approved Storage readonly diagnosis,owner SQL and strict224 DDL preflight;source-exact isolated supautils only if proven.",
+  "baselineSha": "2508a9e5eff2762ab42933394a8243bb6c1af4a4",
+  "branch": "codex/reset224-storage-capability",
+  "phase": "RESET224_STORAGE_CAPABILITY",
+  "startedAt": "2026-11-17T08:26:51.856Z",
   "completed": [
-    "Closed13object raw ACL replay with no guard/reference changes.",
-    "Actual owned220 encrypted archive valid and five malformed cases proved;idempotent and four-trigger preservation."
+    "Readonly source/upstream diagnosis;owner SQL prepared and tested on preserved container.",
+    "Native PostgreSQL capable/denied policy proof;no marker or source change."
   ],
   "inProgress": [
-    "Implement closed13object raw ACL restore and rejection/idempotency proofs."
+    "Read-only local source and upstream Supabase evidence."
   ],
   "notStarted": [],
   "testsPassed": [
-    "Focused10/10.",
-    "Owner222 actual220→222 with encryptedBackup/Restore before+after andverify-only PASS.",
-    "Typesadmin/customer andstrictlint exit0.",
-    "Final units2113/2113,zero fail/skip;typesadmin/customer0;strictlint0.",
-    "Historical cutover pin uses exact new-layer inverse and retains beforeText/unknown-byte refusal;focused12/12."
+    "Focused11/11 thencontinuity9/9 after currentPhase synchronization.",
+    "Bothapp fulltypes0;strictlint0.",
+    "Fullunits first2116/2117;onlyphase metadata mismatch,fixed andfocusedpassed."
   ],
   "testsRemaining": [
-    "Exact-head fullCI andGitleaks;conditionalmerge;mainCI andpreservedprimarysync;fresh sharedrehearsal."
+    "Fullunits on corrected metadata",
+    "Exact-head fullCI/Gitleaks",
+    "Conditionalmerge/mainCI/primarysync",
+    "New archive2230c606 rehearsal with existing exact supautils adapter"
   ],
   "findings": [],
   "blockers": [],
-  "activeProcesses": [],
-  "prohibitions": [
-    "No hostedaccess/deploy/demo/n8n/Dockerrestart.",
-    "No existing upgrade/RESET/catalog guard or reference changes.",
-    "225frozen writer exception not granted."
+  "activeProcesses": [
+    "Preserved35556 holder in separate2508clone;no SQL writer."
   ],
-  "checkpointedAt": "2026-11-17T04:05:48.217Z",
+  "prohibitions": [
+    "No hosted/project access or deploy;no demo/n8n/Dockerrestart.",
+    "Preserve saved failed containers;no historical SQL/reference/guard relaxation."
+  ],
+  "checkpointedAt": "2026-11-17T08:55:15.068Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 11,
-  "filesTouchedManifestSha256": "497986057b1086fd268388737872cf53d1455f003caf4d31b4e733f332264794",
-  "nextExactAction": "Push and DraftPR;exact-head fullCI thenGitleaks,conditionalmerge andsharedrehearsal.",
-  "workingTreeFingerprint": "E781D7FC37BCEAFB36F7377DAA7FA66AF3ACCD2DA10502230325B5A3702B931A"
+  "filesTouchedCount": 15,
+  "filesTouchedManifestSha256": "230bbe76c9adffd8aa92eb5b5c183fa05a8bd838462e84f2563e4f9a97d5a4b7",
+  "nextExactAction": "Fullunit corrected state + exact-headCI;no merge before all gates;new archive rehearsal only aftermerge.",
+  "workingTreeFingerprint": "3199B6918C1BF3B9F9FCAA8C82CBC3F72254CD899C9845D874B9E7A29DD7FAEB"
 }
