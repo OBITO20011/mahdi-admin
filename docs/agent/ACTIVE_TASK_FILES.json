@@ -6,20 +6,8 @@
       "path": "scripts/audit/on-prices225-source-pins.json"
     },
     {
-      "code": "??",
-      "path": "docs/design/on-independent-prices225/catalog225-candidate-pins.json"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/on-prices225-catalog.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/capture-on225-candidate-catalog.mjs"
-    },
-    {
-      "code": "??",
-      "path": "tests/on225-catalog-contract.test.ts"
+      "code": " M",
+      "path": "scripts/testing/run-on225-candidate-core.mjs"
     }
   ]
 }

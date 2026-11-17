@@ -50,7 +50,7 @@
     "scripts/testing/run-on225-candidate-core.mjs": {
       "beforeText": null,
       "before": null,
-      "after": "ad6bbb8c53d583b395bea0facb5a98e6db7c6f5a4a36af795ab7c579a90dbcca"
+      "after": "e8e91e915d850cadab1ac946839e31bd9799c84d59bd515ea89d9b5d1c1f9970"
     },
     "customer-web/src/components/ProductCard.tsx": {
       "before": "cab06ac571d4e46010b2c5dba11a118c972fbf5234558ccfa80cda04e38975e2",

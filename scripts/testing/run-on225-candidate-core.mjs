@@ -71,9 +71,9 @@ try{
   sale_price_in_minor_units=1000,wholesale_price_in_minor_units=1000,cost_price_in_minor_units=800,wac_cost_in_minor_units_exact=800
  WHERE id='${product}';`);
  const authenticated=`SELECT set_config('request.jwt.claims',${quote(JSON.stringify({sub:id(1),role:'authenticated',aal:'aal2'}))},true);SET LOCAL ROLE authenticated;`;
- const edit=(single,parcel,enabled='NULL',ack='NULL',restore='NULL')=>`
-  SELECT * INTO p FROM public.products WHERE id='${product}';
-  result:=public.update_product_master_v7(p.id,p.updated_at,p.sku,p.barcode,p.name_ar,p.description,
+ const edit=(single,parcel,enabled='NULL',ack='NULL',restore='NULL',target=product,version='p.updated_at')=>`
+  SELECT * INTO p FROM public.products WHERE id='${target}';
+  result:=public.update_product_master_v7(p.id,${version},p.sku,p.barcode,p.name_ar,p.description,
    p.category_id,p.brand_id,p.unit_id,p.purchase_unit_id,p.units_per_purchase_unit,p.default_purchase_price_in_minor_units,
    p.sale_unit_id,p.units_per_sale_unit,${parcel},p.cost_price_in_minor_units,p.min_stock_level,p.max_stock_level,
    p.is_active,NULL::TEXT,${single},p.parcel_only,${enabled},${ack},${restore});`;
@@ -122,7 +122,27 @@ try{
  RESET ROLE;DO $state$ BEGIN
   IF EXISTS(SELECT 1 FROM public.product_sale_pricing_state225 WHERE product_id='${product}') THEN RAISE EXCEPTION 'LOSS_REFUSAL_WROTE_STATE';END IF;
  END $state$;`);
+ await check('ON writer refuses a stale optimistic version before changing prices or remembered originals',`${authenticated}
+ DO $proof$ DECLARE p public.products;result JSONB;BEGIN
+  BEGIN ${edit(1000,11000,'true','NULL','NULL',product,"p.updated_at-interval '1 second'")}
+   RAISE EXCEPTION 'STALE_PRICE_VERSION_ACCEPTED';
+  EXCEPTION WHEN raise_exception THEN IF SQLERRM NOT LIKE 'PRODUCT_EDIT_CONFLICT:%' THEN RAISE;END IF;END;
+ END $proof$;`);
  const newProduct=(sku,single,parcel,confirmation='NULL')=>`public.create_product_with_opening_stock_v7(p_sku=>'${sku}',p_name_ar=>'صنف225 وهمي',p_category_id=>'${id(11)}',p_unit_id=>'${id(10)}',p_purchase_unit_id=>'${id(225)}',p_units_per_purchase_unit=>12,p_default_purchase_price_in_minor_units=>9600,p_sale_unit_id=>'${id(225)}',p_units_per_sale_unit=>12,p_default_sale_price_in_minor_units=>${parcel},p_cost_price_in_minor_units=>800,p_warehouse_id=>'${id(201)}',p_opening_quantity=>0,p_parcel_only=>false,p_sale_price_in_minor_units=>${single},p_below_cost_confirmation=>${confirmation})`;
+ await check('cashier cannot use ON price writers or read private pricing decisions',`
+ INSERT INTO auth.users(id,aud,role,email,email_confirmed_at,raw_app_meta_data,raw_user_meta_data)
+ VALUES('${id(901)}','authenticated','authenticated','on225-cashier@example.test',NOW(),'{}','{}');
+ INSERT INTO profiles(id,full_name,is_active) VALUES('${id(901)}','كاشير الاختبار',true);
+ INSERT INTO roles(code,name_ar) VALUES('cashier','كاشير') ON CONFLICT(code) DO NOTHING;
+ INSERT INTO user_roles(user_id,role_id) SELECT '${id(901)}',id FROM roles WHERE code='cashier';
+ SELECT set_config('request.jwt.claims',${quote(JSON.stringify({sub:id(901),role:'authenticated',aal:'aal2'}))},true);
+ SET LOCAL ROLE authenticated;
+ DO $proof$ BEGIN
+  BEGIN PERFORM ${newProduct('ON225-CASHIER-DENIED',1000,11000)};RAISE EXCEPTION 'CASHIER_PRICE_WRITE_ACCEPTED';
+  EXCEPTION WHEN raise_exception THEN IF SQLERRM NOT LIKE 'ليس لديك صلاحية%' THEN RAISE;END IF;END;
+  BEGIN PERFORM public.get_receipt_pricing_warnings225(ARRAY['${product}']::UUID[]);RAISE EXCEPTION 'CASHIER_PRIVATE_PRICING_READ_ACCEPTED';
+  EXCEPTION WHEN raise_exception THEN IF SQLERRM NOT LIKE 'ليس لديك صلاحية%' THEN RAISE;END IF;END;
+ END $proof$;`);
  await check('new ON product keeps explicit prices and has no remembered original price',`${authenticated}
  DO $proof$ DECLARE result JSONB;BEGIN
   result:=${newProduct('ON225-CREATE',1000,11000)};
@@ -221,6 +241,42 @@ try{
   END IF;
  END $proof$;`);
  const family=id(100),a=id(101),b=id(102);
+ await check('existing family updates keep both explicit prices on every flavor without changing costs',`
+ UPDATE public.products SET purchase_unit_id='${id(225)}',sale_unit_id='${id(225)}',
+  units_per_purchase_unit=12,units_per_sale_unit=12,default_sale_price_in_minor_units=11000,sale_price_in_minor_units=1000
+ WHERE id='${family}';
+ ${authenticated}
+ DO $proof$ DECLARE p public.products;result JSONB;BEGIN
+  ${edit(1500,17000,'true','NULL','NULL',family)}
+  IF (SELECT count(*) FROM public.products WHERE (id='${family}' OR flavor_master_product_id='${family}')
+    AND sale_price_in_minor_units=1500 AND default_sale_price_in_minor_units=17000 AND units_per_sale_unit=12)<>3 THEN
+   RAISE EXCEPTION 'UPDATED_FAMILY_EXPLICIT_PRICES_NOT_INHERITED';
+  END IF;
+  IF EXISTS(SELECT 1 FROM public.products WHERE flavor_master_product_id='${family}'
+    AND (wac_cost_in_minor_units_exact<>0 OR cost_price_in_minor_units<>0)) THEN RAISE EXCEPTION 'FAMILY_PRICE_EDIT_CHANGED_WAC';END IF;
+  BEGIN ${edit(1500,17000,'true','NULL','NULL',a)} RAISE EXCEPTION 'CHILD_PRICE_OVERRIDE_ACCEPTED';
+  EXCEPTION WHEN raise_exception THEN IF SQLERRM NOT LIKE 'PRICES225_EDIT_FAMILY_REQUIRED:%' THEN RAISE;END IF;END;
+ END $proof$;`);
+ await check('a reserved website parcel created before the pause still settles at its saved price',`${preparePausedSale}
+ DO $proof$ DECLARE p public.products;result JSONB;BEGIN ${edit(1000,11000,'true')} END $proof$;
+ RESET ROLE;SELECT set_config('request.jwt.claims','{"role":"service_role"}',true);SET LOCAL ROLE service_role;
+ SELECT set_config('on225.pending_order_id',(${guest(parcelLine,11000,id(509))}->>'order_id'),true);
+ RESET ROLE;${authenticated}
+ DO $proof$ DECLARE p public.products;result JSONB;BEGIN ${edit(1000,11000,'false')} END $proof$;
+ SELECT public.accept_order_for_preparation(current_setting('on225.pending_order_id')::UUID,'قبل الإيقاف');
+ SELECT public.update_order_status(current_setting('on225.pending_order_id')::UUID,'ready','قبل الإيقاف');
+ DO $proof$ BEGIN
+  IF NOT EXISTS(SELECT 1 FROM public.orders WHERE id=current_setting('on225.pending_order_id')::UUID
+    AND total_in_minor_units=12000 AND delivery_fee_in_minor_units=1000) THEN RAISE EXCEPTION 'PAUSE_CHANGED_SAVED_ORDER_TOTAL';END IF;
+ END $proof$;
+ SELECT public.complete_website_order_with_settlement_v2(current_setting('on225.pending_order_id')::UUID,'${id(510)}','cash',12000,NULL,NULL,'ON225 pending');
+ RESET ROLE;
+ DO $proof$ BEGIN
+  IF (SELECT count(*) FROM public.order_items WHERE order_id=current_setting('on225.pending_order_id')::UUID
+    AND product_id='${product}' AND quantity=12 AND line_total_in_minor_units=11000 AND cogs_in_minor_units=9600)<>1 THEN
+   RAISE EXCEPTION 'PAUSE_CHANGED_PRIOR_RESERVED_ORDER_SNAPSHOT';
+  END IF;
+ END $proof$;`);
  await check('public and POS mixed parcel readers retain eligible options and omit the paused family',`${authenticated}
  SELECT public.set_go_live_main_branch_v1('${branch}');
  RESET ROLE;
