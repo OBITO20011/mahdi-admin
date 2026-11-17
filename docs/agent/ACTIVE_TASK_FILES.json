@@ -6,32 +6,20 @@
       "path": "scripts/audit/on-prices225-source-pins.json"
     },
     {
-      "code": " M",
-      "path": "src/features/goLive/ProductWorkbookImportPanel.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/features/products/ProductFormModal.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/services/supabase/onPrices225.service.ts"
-    },
-    {
-      "code": " M",
-      "path": "src/services/supabase/products.service.ts"
-    },
-    {
-      "code": " M",
-      "path": "src/stores/useAppStore.ts"
+      "code": "??",
+      "path": "docs/design/on-independent-prices225/catalog225-candidate-pins.json"
     },
     {
       "code": "??",
-      "path": "e2e/on-independent-prices225.spec.ts"
+      "path": "scripts/operations/on-prices225-catalog.mjs"
     },
     {
       "code": "??",
-      "path": "src/features/products/PriceLossPrompt225.tsx"
+      "path": "scripts/testing/capture-on225-candidate-catalog.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/on225-catalog-contract.test.ts"
     }
   ]
 }

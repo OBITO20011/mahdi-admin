@@ -206,6 +206,26 @@
       "beforeText": null,
       "before": null,
       "after": "5e03eb22f79a262548b7796d899f1bca5c9acec79d3d9a6aec74044f00e9e8d9"
+    },
+    "docs/design/on-independent-prices225/catalog225-candidate-pins.json": {
+      "beforeText": null,
+      "before": null,
+      "after": "c2947124ba4c57be3e9d1ce76de12df67125ab5405d6ce8574c5ffd77359cf31"
+    },
+    "scripts/operations/on-prices225-catalog.mjs": {
+      "beforeText": null,
+      "before": null,
+      "after": "861aababd2294c95d433c0e330372d125efcf3f697fe3079c5c125a05fdf0e79"
+    },
+    "scripts/testing/capture-on225-candidate-catalog.mjs": {
+      "beforeText": null,
+      "before": null,
+      "after": "176bf2d2a21f15f8e4fe3e0d55c58aa478b9c88371c64dc6a5c2f369c98817b3"
+    },
+    "tests/on225-catalog-contract.test.ts": {
+      "beforeText": null,
+      "before": null,
+      "after": "7ea74be5e772a5e7a4a7ef044bbc0a7df69ed904eeadf84f822f7388a58e80a1"
     }
   }
 }

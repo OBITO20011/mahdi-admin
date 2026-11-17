@@ -1,0 +1,618 @@
+{
+  "format": 1,
+  "beforeCeiling": 224,
+  "migrationCeiling": 225,
+  "migrationSha256": "63d4966612c07c02ed1d5624031dd7f2bce8accb23463668c4ac3126ee29b2ed",
+  "base224PinsSha256": "bb9457c66c28804ba147b79fca78183de80b6a348b6cb9f8a3ed4b6d5dea59ed",
+  "changes": [
+    {
+      "section": "tables",
+      "identity": "[\"public\",null,\"product_sale_pricing_state225\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=arwdDxtm/postgres"
+        ],
+        "rls": true,
+        "kind": "r",
+        "name": "product_sale_pricing_state225",
+        "view": null,
+        "owner": "postgres",
+        "schema": "public",
+        "columns": [
+          {
+            "acl": null,
+            "name": "product_id",
+            "type": "uuid",
+            "number": 1,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "parcel_enabled",
+            "type": "boolean",
+            "number": 2,
+            "default": "true",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "original_unit_price",
+            "type": "bigint",
+            "number": 3,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "original_unit_price_at",
+            "type": "timestamp with time zone",
+            "number": 4,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "original_unit_price_by",
+            "type": "uuid",
+            "number": 5,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "original_parcel_price",
+            "type": "bigint",
+            "number": 6,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "original_parcel_price_at",
+            "type": "timestamp with time zone",
+            "number": 7,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "original_parcel_price_by",
+            "type": "uuid",
+            "number": 8,
+            "default": null,
+            "notNull": false,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "changed_at",
+            "type": "timestamp with time zone",
+            "number": 9,
+            "default": "now()",
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          },
+          {
+            "acl": null,
+            "name": "changed_by",
+            "type": "uuid",
+            "number": 10,
+            "default": null,
+            "notNull": true,
+            "identity": "",
+            "collation": null,
+            "generated": ""
+          }
+        ],
+        "options": null,
+        "parents": [],
+        "forceRls": false,
+        "partition": null,
+        "persistence": "p",
+        "replicaIdentity": "d"
+      }
+    },
+    {
+      "section": "indexes",
+      "identity": "[\"public\",\"product_sale_pricing_state225\",\"product_sale_pricing_state225_pkey\",null,null]",
+      "before": null,
+      "after": {
+        "name": "product_sale_pricing_state225_pkey",
+        "owner": "postgres",
+        "ready": true,
+        "table": "product_sale_pricing_state225",
+        "valid": true,
+        "schema": "public",
+        "unique": true,
+        "primary": true,
+        "clustered": false,
+        "definition": "CREATE UNIQUE INDEX product_sale_pricing_state225_pkey ON public.product_sale_pricing_state225 USING btree (product_id)",
+        "replicaIdentity": false
+      }
+    },
+    {
+      "section": "triggers",
+      "identity": "[\"public\",\"order_items\",\"trg_price225_guard_new_parcel\",null,null]",
+      "before": null,
+      "after": {
+        "name": "trg_price225_guard_new_parcel",
+        "table": "order_items",
+        "schema": "public",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER trg_price225_guard_new_parcel BEFORE INSERT OR UPDATE OF commercial_line_kind, product_id, family_product_id, units_per_sale_package ON public.order_items FOR EACH ROW EXECUTE FUNCTION price225_guard_new_parcel_internal()"
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"public\",null,\"create_product_family_with_flavors_v4(p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_sale_unit_id uuid, p_units_per_sale_unit integer, p_default_sale_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_warehouse_id uuid, p_image_url text, p_flavors jsonb, p_parcel_only boolean, p_sale_price_in_minor_units bigint, p_below_cost_confirmation jsonb)\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres",
+          "authenticated=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "create_product_family_with_flavors_v4(p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_sale_unit_id uuid, p_units_per_sale_unit integer, p_default_sale_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_warehouse_id uuid, p_image_url text, p_flavors jsonb, p_parcel_only boolean, p_sale_price_in_minor_units bigint, p_below_cost_confirmation jsonb)",
+        "definition": "CREATE OR REPLACE FUNCTION public.create_product_family_with_flavors_v4(p_sku text, p_barcode text DEFAULT NULL::text, p_name_ar text DEFAULT NULL::text, p_description text DEFAULT NULL::text, p_category_id uuid DEFAULT NULL::uuid, p_brand_id uuid DEFAULT NULL::uuid, p_unit_id uuid DEFAULT NULL::uuid, p_purchase_unit_id uuid DEFAULT NULL::uuid, p_units_per_purchase_unit integer DEFAULT 1, p_default_purchase_price_in_minor_units bigint DEFAULT 0, p_sale_unit_id uuid DEFAULT NULL::uuid, p_units_per_sale_unit integer DEFAULT 1, p_default_sale_price_in_minor_units bigint DEFAULT 0, p_cost_price_in_minor_units bigint DEFAULT 0, p_min_stock_level integer DEFAULT 0, p_max_stock_level integer DEFAULT NULL::integer, p_warehouse_id uuid DEFAULT NULL::uuid, p_image_url text DEFAULT NULL::text, p_flavors jsonb DEFAULT '[]'::jsonb, p_parcel_only boolean DEFAULT false, p_sale_price_in_minor_units bigint DEFAULT NULL::bigint, p_below_cost_confirmation jsonb DEFAULT NULL::jsonb)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nDECLARE v_result JSONB;v_id UUID;v_ack JSONB;\nBEGIN\n PERFORM public.price225_assert_context_internal();\n PERFORM public.price225_assert_prices_internal(p_unit_id,COALESCE(p_sale_unit_id,p_purchase_unit_id,p_unit_id),p_units_per_sale_unit,p_sale_price_in_minor_units,p_default_sale_price_in_minor_units,true,p_parcel_only);\n v_result:=public.create_product_family_with_flavors_v2(p_sku,p_barcode,p_name_ar,p_description,p_category_id,p_brand_id,p_unit_id,p_purchase_unit_id,p_units_per_purchase_unit,p_default_purchase_price_in_minor_units,p_sale_unit_id,p_units_per_sale_unit,p_default_sale_price_in_minor_units,p_cost_price_in_minor_units,p_min_stock_level,p_max_stock_level,p_warehouse_id,p_image_url,p_flavors,p_parcel_only);\n v_id:=COALESCE(NULLIF(v_result->>'productId',''),NULLIF(v_result->>'product_id',''))::UUID;\n IF v_id IS NULL OR COALESCE((v_result->>'success')::BOOLEAN,false) IS NOT TRUE THEN\n  RAISE EXCEPTION 'PRICES225_PRODUCT_WRITE_FAILED';\n END IF;\n -- The existing family trigger copies both final prices to every flavor.\n UPDATE public.products SET sale_price_in_minor_units=p_sale_price_in_minor_units,\n  wholesale_price_in_minor_units=p_sale_price_in_minor_units,updated_at=NOW() WHERE id=v_id;\n IF NOT EXISTS(SELECT 1 FROM public.products WHERE id=v_id\n  AND sale_price_in_minor_units=p_sale_price_in_minor_units\n  AND default_sale_price_in_minor_units=p_default_sale_price_in_minor_units\n  AND units_per_sale_unit=p_units_per_sale_unit) THEN\n  RAISE EXCEPTION 'PRICES225_FAMILY_PRICE_INHERITANCE_REQUIRED: عدّل سعر العائلة؛ النكهات ترث السعرين منها.';\n END IF;\n v_ack:=public.price225_create_loss_confirmation_internal(v_id,p_sale_price_in_minor_units,p_default_sale_price_in_minor_units,p_units_per_sale_unit,p_parcel_only,p_below_cost_confirmation);\n PERFORM public.price225_record_state_internal(v_id,NULL,NULL,p_sale_price_in_minor_units,p_default_sale_price_in_minor_units,true,true,NULL,v_ack);\n RETURN v_result||public.get_product_pricing_context225(v_id);\nEND;\n$function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"public\",null,\"create_product_with_opening_stock_v7(p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_sale_unit_id uuid, p_units_per_sale_unit integer, p_default_sale_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_warehouse_id uuid, p_opening_quantity integer, p_notes text, p_image_url text, p_parcel_only boolean, p_sale_price_in_minor_units bigint, p_below_cost_confirmation jsonb)\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres",
+          "authenticated=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "create_product_with_opening_stock_v7(p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_sale_unit_id uuid, p_units_per_sale_unit integer, p_default_sale_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_warehouse_id uuid, p_opening_quantity integer, p_notes text, p_image_url text, p_parcel_only boolean, p_sale_price_in_minor_units bigint, p_below_cost_confirmation jsonb)",
+        "definition": "CREATE OR REPLACE FUNCTION public.create_product_with_opening_stock_v7(p_sku text, p_barcode text DEFAULT NULL::text, p_name_ar text DEFAULT NULL::text, p_description text DEFAULT NULL::text, p_category_id uuid DEFAULT NULL::uuid, p_brand_id uuid DEFAULT NULL::uuid, p_unit_id uuid DEFAULT NULL::uuid, p_purchase_unit_id uuid DEFAULT NULL::uuid, p_units_per_purchase_unit integer DEFAULT 1, p_default_purchase_price_in_minor_units bigint DEFAULT 0, p_sale_unit_id uuid DEFAULT NULL::uuid, p_units_per_sale_unit integer DEFAULT 1, p_default_sale_price_in_minor_units bigint DEFAULT 0, p_cost_price_in_minor_units bigint DEFAULT 0, p_min_stock_level integer DEFAULT 0, p_max_stock_level integer DEFAULT NULL::integer, p_warehouse_id uuid DEFAULT NULL::uuid, p_opening_quantity integer DEFAULT 0, p_notes text DEFAULT 'رصيد افتتاحي عند إضافة المنتج'::text, p_image_url text DEFAULT NULL::text, p_parcel_only boolean DEFAULT false, p_sale_price_in_minor_units bigint DEFAULT NULL::bigint, p_below_cost_confirmation jsonb DEFAULT NULL::jsonb)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nDECLARE v_result JSONB;v_id UUID;v_ack JSONB;\nBEGIN\n PERFORM public.price225_assert_context_internal();\n PERFORM public.price225_assert_prices_internal(p_unit_id,COALESCE(p_sale_unit_id,p_purchase_unit_id,p_unit_id),p_units_per_sale_unit,p_sale_price_in_minor_units,p_default_sale_price_in_minor_units,true,p_parcel_only);\n v_result:=public.create_product_with_opening_stock_v5(p_sku,p_barcode,p_name_ar,p_description,p_category_id,p_brand_id,p_unit_id,p_purchase_unit_id,p_units_per_purchase_unit,p_default_purchase_price_in_minor_units,p_sale_unit_id,p_units_per_sale_unit,p_default_sale_price_in_minor_units,p_cost_price_in_minor_units,p_min_stock_level,p_max_stock_level,p_warehouse_id,p_opening_quantity,p_notes,p_image_url,p_parcel_only);\n v_id:=COALESCE(NULLIF(v_result->>'productId',''),NULLIF(v_result->>'product_id',''))::UUID;\n IF v_id IS NULL OR COALESCE((v_result->>'success')::BOOLEAN,false) IS NOT TRUE THEN\n  RAISE EXCEPTION 'PRICES225_PRODUCT_WRITE_FAILED';\n END IF;\n -- The existing family trigger copies both final prices to every flavor.\n UPDATE public.products SET sale_price_in_minor_units=p_sale_price_in_minor_units,\n  wholesale_price_in_minor_units=p_sale_price_in_minor_units,updated_at=NOW() WHERE id=v_id;\n IF NOT EXISTS(SELECT 1 FROM public.products WHERE id=v_id\n  AND sale_price_in_minor_units=p_sale_price_in_minor_units\n  AND default_sale_price_in_minor_units=p_default_sale_price_in_minor_units\n  AND units_per_sale_unit=p_units_per_sale_unit) THEN\n  RAISE EXCEPTION 'PRICES225_FAMILY_PRICE_INHERITANCE_REQUIRED: عدّل سعر العائلة؛ النكهات ترث السعرين منها.';\n END IF;\n v_ack:=public.price225_create_loss_confirmation_internal(v_id,p_sale_price_in_minor_units,p_default_sale_price_in_minor_units,p_units_per_sale_unit,p_parcel_only,p_below_cost_confirmation);\n PERFORM public.price225_record_state_internal(v_id,NULL,NULL,p_sale_price_in_minor_units,p_default_sale_price_in_minor_units,true,true,NULL,v_ack);\n RETURN v_result||public.get_product_pricing_context225(v_id);\nEND;\n$function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"public\",null,\"get_pos_parcel_options225(p_warehouse_id uuid)\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres",
+          "authenticated=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "get_pos_parcel_options225(p_warehouse_id uuid)",
+        "definition": "CREATE OR REPLACE FUNCTION public.get_pos_parcel_options225(p_warehouse_id uuid)\n RETURNS jsonb\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\n SELECT CASE WHEN sales_lite1.enabled() THEN public.lite1_pos_options2(p_warehouse_id)\n ELSE public.price225_filter_parcel_options_internal(public.get_pos_configurable_parcel_options_v1(p_warehouse_id)) END;\n$function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"public\",null,\"get_product_pricing_context225(p_product_id uuid, p_single_price bigint, p_parcel_price bigint, p_units integer, p_parcel_enabled boolean, p_parcel_only boolean)\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres",
+          "authenticated=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "get_product_pricing_context225(p_product_id uuid, p_single_price bigint, p_parcel_price bigint, p_units integer, p_parcel_enabled boolean, p_parcel_only boolean)",
+        "definition": "CREATE OR REPLACE FUNCTION public.get_product_pricing_context225(p_product_id uuid, p_single_price bigint DEFAULT NULL::bigint, p_parcel_price bigint DEFAULT NULL::bigint, p_units integer DEFAULT NULL::integer, p_parcel_enabled boolean DEFAULT NULL::boolean, p_parcel_only boolean DEFAULT NULL::boolean)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nDECLARE p public.products;v_state public.product_sale_pricing_state225;v_required JSONB;\nBEGIN\n PERFORM public.assert_erp_role(ARRAY['owner','admin','manager','warehouse_keeper'],'قراءة قرار أسعار المنتج');\n IF sales_lite1.enabled() THEN RAISE EXCEPTION 'PRICES225_ON_REQUIRED: هذه الأسعار للمحاسبة المفعّلة فقط.';END IF;\n IF p_product_id IS NULL THEN\n  RETURN jsonb_build_object('contractVersion','on-independent-prices225-v1','mode','full');\n END IF;\n SELECT * INTO p FROM public.products WHERE id=p_product_id;\n IF NOT FOUND THEN RAISE EXCEPTION 'PRICES225_PRODUCT_NOT_FOUND';END IF;\n IF p.flavor_master_product_id IS NOT NULL THEN\n  SELECT * INTO STRICT p FROM public.products WHERE id=p.flavor_master_product_id;\n END IF;\n SELECT * INTO v_state FROM public.product_sale_pricing_state225 WHERE product_id=p.id;\n BEGIN\n  PERFORM public.price225_loss_confirmation_internal(p.id,coalesce(p_single_price,p.sale_price_in_minor_units),\n   coalesce(p_parcel_price,p.default_sale_price_in_minor_units),coalesce(p_units,p.units_per_sale_unit),\n   coalesce(p_parcel_enabled,v_state.parcel_enabled,true),coalesce(p_parcel_only,p.parcel_only),NULL);\n EXCEPTION WHEN raise_exception THEN\n  IF SQLERRM NOT LIKE 'PRICES225_BELOW_WAC_CONFIRMATION_REQUIRED:%' THEN RAISE;END IF;\n  GET STACKED DIAGNOSTICS v_required=PG_EXCEPTION_DETAIL;\n END;\n RETURN jsonb_build_object('contractVersion','on-independent-prices225-v1','productId',p.id,\n  'requestedProductId',p_product_id,'updatedAt',p.updated_at,'singlePrice',p.sale_price_in_minor_units,\n  'parcelPrice',p.default_sale_price_in_minor_units,'unitsPerParcel',p.units_per_sale_unit,\n  'parcelEnabled',coalesce(v_state.parcel_enabled,true),'parcelOnly',p.parcel_only,\n  'baseUnit',(SELECT name_ar FROM public.units WHERE id=p.unit_id),\n  'parcelUnit',(SELECT name_ar FROM public.units WHERE id=p.sale_unit_id),\n  'originalUnitPrice',v_state.original_unit_price,'originalUnitPriceAt',v_state.original_unit_price_at,\n  'originalUnitPriceBy',v_state.original_unit_price_by,'originalParcelPrice',v_state.original_parcel_price,\n  'originalParcelPriceAt',v_state.original_parcel_price_at,'originalParcelPriceBy',v_state.original_parcel_price_by,\n  'currentWacInMinorUnitsExact',coalesce(p.wac_cost_in_minor_units_exact,p.cost_price_in_minor_units::NUMERIC)::TEXT,\n  'belowCostConfirmation',v_required);\nEND;\n$function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"public\",null,\"get_public_parcel_options225(p_family_product_ids uuid[])\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres",
+          "anon=X/postgres",
+          "authenticated=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "get_public_parcel_options225(p_family_product_ids uuid[])",
+        "definition": "CREATE OR REPLACE FUNCTION public.get_public_parcel_options225(p_family_product_ids uuid[])\n RETURNS jsonb\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\n SELECT CASE WHEN sales_lite1.enabled() THEN public.lite1_parcel_options2(p_family_product_ids)\n ELSE public.price225_filter_parcel_options_internal(public.get_public_configurable_parcel_options(p_family_product_ids)) END;\n$function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"public\",null,\"get_receipt_pricing_warnings225(p_product_ids uuid[])\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres",
+          "authenticated=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "get_receipt_pricing_warnings225(p_product_ids uuid[])",
+        "definition": "CREATE OR REPLACE FUNCTION public.get_receipt_pricing_warnings225(p_product_ids uuid[])\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nDECLARE result JSONB;\nBEGIN\n PERFORM public.assert_erp_role(ARRAY['owner','admin','manager','warehouse_keeper'],'قراءة تنبيهات السعر بعد الاستلام');\n IF sales_lite1.enabled() THEN RAISE EXCEPTION 'PRICES225_ON_REQUIRED';END IF;\n IF p_product_ids IS NULL OR cardinality(p_product_ids)>100 THEN RAISE EXCEPTION 'PRICES225_RECEIPT_BATCH_INVALID';END IF;\n SELECT coalesce(jsonb_agg(jsonb_build_object(\n  'productId',q.product_id,'priceProductId',q.price_product_id,'name',q.name_ar,'unit',q.unit_name,'parcelUnit',q.parcel_name,\n  'unitPrice',q.single_price,'parcelPrice',q.parcel_price,'unitsPerParcel',q.units_per_sale_unit,\n  'parcelEnabled',q.parcel_enabled,'originalUnitPrice',q.original_unit_price,'originalParcelPrice',q.original_parcel_price,\n  'wacInMinorUnitsExact',q.wac::TEXT,'unitBelowCost',q.unit_loss,'parcelBelowCost',q.parcel_loss\n ) ORDER BY q.name_ar,q.product_id),'[]'::JSONB) INTO result\n FROM (\n  SELECT p.id AS product_id,root.id AS price_product_id,p.name_ar,\n   base.name_ar AS unit_name,parcel.name_ar AS parcel_name,\n   root.sale_price_in_minor_units AS single_price,root.default_sale_price_in_minor_units AS parcel_price,root.units_per_sale_unit,\n   coalesce(state.parcel_enabled,true) AS parcel_enabled,state.original_unit_price,state.original_parcel_price,\n   cost.wac,\n   NOT root.parcel_only AND root.sale_price_in_minor_units<cost.wac AS unit_loss,\n   coalesce(state.parcel_enabled,true) AND root.units_per_sale_unit>1\n    AND root.default_sale_price_in_minor_units<root.units_per_sale_unit::NUMERIC*cost.wac AS parcel_loss\n  FROM public.products p\n  JOIN public.products root ON root.id=coalesce(p.flavor_master_product_id,p.id)\n  LEFT JOIN public.units base ON base.id=root.unit_id\n  LEFT JOIN public.units parcel ON parcel.id=root.sale_unit_id\n  LEFT JOIN public.product_sale_pricing_state225 state ON state.product_id=root.id\n  CROSS JOIN LATERAL (SELECT coalesce(p.wac_cost_in_minor_units_exact,p.cost_price_in_minor_units::NUMERIC,0) AS wac) cost\n  WHERE p.id=ANY(p_product_ids) AND NOT p.is_flavor_master\n ) q\n WHERE q.original_unit_price IS NOT NULL OR q.original_parcel_price IS NOT NULL OR q.unit_loss OR q.parcel_loss;\n RETURN result;\nEND;\n$function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"public\",null,\"price225_assert_context_internal()\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "price225_assert_context_internal()",
+        "definition": "CREATE OR REPLACE FUNCTION public.price225_assert_context_internal()\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nBEGIN\n PERFORM public.assert_erp_role(ARRAY['owner','admin','manager','warehouse_keeper'],'حفظ أسعار المنتج');\n PERFORM sales_lite1.lock_mode();\n IF sales_lite1.enabled() THEN\n  RAISE EXCEPTION 'PRICES225_ON_REQUIRED: هذا المسار مخصص لوضع المحاسبة المفعّل.';\n END IF;\nEND;\n$function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"public\",null,\"price225_assert_prices_internal(p_unit uuid, p_parcel_unit uuid, p_units integer, p_single bigint, p_parcel bigint, p_parcel_enabled boolean, p_parcel_only boolean)\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "price225_assert_prices_internal(p_unit uuid, p_parcel_unit uuid, p_units integer, p_single bigint, p_parcel bigint, p_parcel_enabled boolean, p_parcel_only boolean)",
+        "definition": "CREATE OR REPLACE FUNCTION public.price225_assert_prices_internal(p_unit uuid, p_parcel_unit uuid, p_units integer, p_single bigint, p_parcel bigint, p_parcel_enabled boolean, p_parcel_only boolean)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nBEGIN\n IF p_unit IS NULL OR p_parcel_unit IS NULL OR p_units IS NULL OR p_units<1\n OR p_parcel_enabled IS NULL OR p_parcel_only IS NULL THEN\n  RAISE EXCEPTION 'PRICES225_UNIT_REQUIRED: اختر الوحدة وعدد وحدات الطرد الصحيح.';\n END IF;\n IF p_single IS NULL OR p_parcel IS NULL OR p_single<=0 OR p_parcel<=0 THEN\n  RAISE EXCEPTION 'PRICES225_POSITIVE_PRICE_REQUIRED: يجب أن يكون السعر أكبر من صفر وبثلاث منازل.';\n END IF;\n IF p_units=1 THEN\n  IF p_single<>p_parcel OR p_parcel_only THEN\n   RAISE EXCEPTION 'PRICES225_SINGLE_PRICE_MISMATCH: البيع المفرد له سعر واحد ولا يُباع كطرد متعدد.';\n  END IF;\n ELSE\n  IF p_unit=p_parcel_unit THEN\n   RAISE EXCEPTION 'PRICES225_DISTINCT_PARCEL_UNIT_REQUIRED: اختر للطرد وحدة تختلف عن وحدة المحتوى.';\n  END IF;\n  -- A paused parcel preserves its recorded price. Only its reactivation is\n  -- admitted against the latest single price; no sale may bypass the pause.\n  IF p_parcel_enabled THEN\n   IF p_parcel=p_single THEN\n    RAISE EXCEPTION 'PRICES225_UNSAFE_PARCEL_PRICE: لا يمكن بيع عدة وحدات بسعر وحدة واحدة.';\n   END IF;\n   IF p_parcel::NUMERIC>p_units::NUMERIC*p_single::NUMERIC THEN\n    RAISE EXCEPTION 'PRICES225_PARCEL_PRICE_TOO_HIGH: سعر الطرد أعلى من مجموع الوحدات المفردة. عدّل سعر الطرد ثم أعد تفعيل بيعه.';\n   END IF;\n  END IF;\n END IF;\nEND;\n$function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"public\",null,\"price225_create_loss_confirmation_internal(p_product uuid, p_single bigint, p_parcel bigint, p_units integer, p_parcel_only boolean, p_confirmation jsonb)\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "price225_create_loss_confirmation_internal(p_product uuid, p_single bigint, p_parcel bigint, p_units integer, p_parcel_only boolean, p_confirmation jsonb)",
+        "definition": "CREATE OR REPLACE FUNCTION public.price225_create_loss_confirmation_internal(p_product uuid, p_single bigint, p_parcel bigint, p_units integer, p_parcel_only boolean, p_confirmation jsonb)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nDECLARE v_expected JSONB;v_risks JSONB;\nBEGIN\n BEGIN\n  PERFORM public.price225_loss_confirmation_internal(p_product,p_single,p_parcel,p_units,true,p_parcel_only,NULL);\n EXCEPTION WHEN raise_exception THEN\n  IF SQLERRM NOT LIKE 'PRICES225_BELOW_WAC_CONFIRMATION_REQUIRED:%' THEN RAISE;END IF;\n  GET STACKED DIAGNOSTICS v_expected=PG_EXCEPTION_DETAIL;\n END;\n IF v_expected IS NULL THEN RETURN NULL;END IF;\n SELECT jsonb_agg((r.value-'productId')||jsonb_build_object('productSku',p.sku) ORDER BY p.sku)\n INTO v_risks FROM jsonb_array_elements(v_expected->'risks') r(value)\n JOIN public.products p ON p.id=(r.value->>'productId')::UUID;\n v_expected:=(v_expected-'productId')||jsonb_build_object('contractVersion','on-prices225-create-confirmation-v1',\n  'productSku',(SELECT sku FROM public.products WHERE id=p_product),'risks',v_risks);\n IF p_confirmation IS DISTINCT FROM v_expected THEN\n  RAISE EXCEPTION USING MESSAGE='PRICES225_BELOW_WAC_CONFIRMATION_REQUIRED: السعر أقل من التكلفة؛ راجع التحذير وأكّد قرار البيع بخسارة.',DETAIL=v_expected::TEXT;\n END IF;\n RETURN v_expected;\nEND;\n$function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"public\",null,\"price225_filter_parcel_options_internal(p_payload jsonb)\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "price225_filter_parcel_options_internal(p_payload jsonb)",
+        "definition": "CREATE OR REPLACE FUNCTION public.price225_filter_parcel_options_internal(p_payload jsonb)\n RETURNS jsonb\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\n SELECT p_payload || jsonb_build_object('options',COALESCE((\n  SELECT jsonb_agg(option.value ORDER BY option.position)\n  FROM jsonb_array_elements(p_payload->'options') WITH ORDINALITY AS option(value,position)\n  LEFT JOIN public.product_sale_pricing_state225 state ON state.product_id=(option.value->>'familyProductId')::UUID\n  WHERE state.parcel_enabled IS DISTINCT FROM false\n ),'[]'::JSONB));\n$function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"public\",null,\"price225_guard_new_parcel_internal()\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "price225_guard_new_parcel_internal()",
+        "definition": "CREATE OR REPLACE FUNCTION public.price225_guard_new_parcel_internal()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nDECLARE v_product UUID; v_root UUID;\nBEGIN\n IF sales_lite1.enabled() THEN RETURN NEW; END IF;\n IF NEW.commercial_line_kind IS NULL THEN\n  -- The legacy customer writer sets its package snapshot in a later UPDATE.\n  IF coalesce(NEW.units_per_sale_package,1)<=1 THEN RETURN NEW; END IF;\n ELSIF NEW.commercial_line_kind NOT IN ('legacy_single_sku_parcel','configurable_parcel') THEN\n  RETURN NEW;\n END IF;\n IF TG_OP='UPDATE' AND ROW(NEW.commercial_line_kind,NEW.product_id,NEW.family_product_id,NEW.units_per_sale_package)\n   IS NOT DISTINCT FROM ROW(OLD.commercial_line_kind,OLD.product_id,OLD.family_product_id,OLD.units_per_sale_package) THEN\n  RETURN NEW;\n END IF;\n v_product:=coalesce(NEW.family_product_id,NEW.product_id);\n -- A product update locks this root before writing pricing state. Lock it\n -- even when the sidecar is absent, then read the state in a fresh statement.\n SELECT root.id INTO STRICT v_root\n FROM public.products item\n JOIN public.products root ON root.id=coalesce(item.flavor_master_product_id,item.id)\n WHERE item.id=v_product\n FOR SHARE OF root;\n IF EXISTS(SELECT 1 FROM public.product_sale_pricing_state225 WHERE product_id=v_root AND NOT parcel_enabled) THEN\n  RAISE EXCEPTION 'PRICES225_PARCEL_PAUSED: بيع الطرد متوقف مؤقتاً لهذا الصنف.';\n END IF;\n RETURN NEW;\nEND;\n$function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"public\",null,\"price225_loss_confirmation_internal(p_product uuid, p_single bigint, p_parcel bigint, p_units integer, p_parcel_enabled boolean, p_parcel_only boolean, p_confirmation jsonb)\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "price225_loss_confirmation_internal(p_product uuid, p_single bigint, p_parcel bigint, p_units integer, p_parcel_enabled boolean, p_parcel_only boolean, p_confirmation jsonb)",
+        "definition": "CREATE OR REPLACE FUNCTION public.price225_loss_confirmation_internal(p_product uuid, p_single bigint, p_parcel bigint, p_units integer, p_parcel_enabled boolean, p_parcel_only boolean, p_confirmation jsonb)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nDECLARE v_risks JSONB;v_expected JSONB;\nBEGIN\n SELECT coalesce(jsonb_agg(jsonb_build_object(\n  'productId',p.id,'name',p.name_ar,\n  'wacInMinorUnitsExact',coalesce(p.wac_cost_in_minor_units_exact,p.cost_price_in_minor_units::NUMERIC)::TEXT,\n  'unitBelowCost',NOT p_parcel_only AND p_single::NUMERIC<coalesce(p.wac_cost_in_minor_units_exact,p.cost_price_in_minor_units::NUMERIC),\n  'parcelBelowCost',p_parcel_enabled AND p_units>1 AND p_parcel::NUMERIC<p_units::NUMERIC*coalesce(p.wac_cost_in_minor_units_exact,p.cost_price_in_minor_units::NUMERIC)\n ) ORDER BY p.id),'[]') INTO v_risks\n FROM public.products p\n WHERE (p.id=p_product AND NOT p.is_flavor_master OR p.flavor_master_product_id=p_product)\n AND ((NOT p_parcel_only AND p_single::NUMERIC<coalesce(p.wac_cost_in_minor_units_exact,p.cost_price_in_minor_units::NUMERIC))\n   OR (p_parcel_enabled AND p_units>1 AND p_parcel::NUMERIC<p_units::NUMERIC*coalesce(p.wac_cost_in_minor_units_exact,p.cost_price_in_minor_units::NUMERIC)));\n IF jsonb_array_length(v_risks)=0 THEN RETURN NULL;END IF;\n v_expected:=jsonb_build_object('acknowledged',true,'unitPrice',p_single,'parcelPrice',p_parcel,\n  'unitsPerParcel',p_units,'parcelEnabled',p_parcel_enabled,'parcelOnly',p_parcel_only,'risks',v_risks);\n IF p_confirmation IS DISTINCT FROM v_expected THEN\n  RAISE EXCEPTION USING MESSAGE='PRICES225_BELOW_WAC_CONFIRMATION_REQUIRED: السعر أقل من التكلفة؛ راجع القيم الحالية وأكّد البيع بخسارة.',\n   DETAIL=v_expected::TEXT;\n END IF;\n RETURN v_expected;\nEND;\n$function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"public\",null,\"price225_record_state_internal(p_product uuid, p_before_single bigint, p_before_parcel bigint, p_single bigint, p_parcel bigint, p_enabled boolean, p_initial boolean, p_restore text, p_loss_confirmation jsonb)\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "price225_record_state_internal(p_product uuid, p_before_single bigint, p_before_parcel bigint, p_single bigint, p_parcel bigint, p_enabled boolean, p_initial boolean, p_restore text, p_loss_confirmation jsonb)",
+        "definition": "CREATE OR REPLACE FUNCTION public.price225_record_state_internal(p_product uuid, p_before_single bigint, p_before_parcel bigint, p_single bigint, p_parcel bigint, p_enabled boolean, p_initial boolean, p_restore text, p_loss_confirmation jsonb)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nDECLARE v_old public.product_sale_pricing_state225;v_state public.product_sale_pricing_state225;\nBEGIN\n SELECT * INTO v_old FROM public.product_sale_pricing_state225 WHERE product_id=p_product FOR UPDATE;\n INSERT INTO public.product_sale_pricing_state225(product_id,parcel_enabled,changed_by)\n VALUES(p_product,p_enabled,auth.uid()) ON CONFLICT(product_id) DO NOTHING;\n UPDATE public.product_sale_pricing_state225 SET\n  parcel_enabled=p_enabled,\n  original_unit_price=CASE WHEN p_restore IN('single','both') THEN NULL\n   WHEN original_unit_price IS NULL AND NOT p_initial AND p_single<p_before_single THEN p_before_single ELSE original_unit_price END,\n  original_unit_price_at=CASE WHEN p_restore IN('single','both') THEN NULL\n   WHEN original_unit_price IS NULL AND NOT p_initial AND p_single<p_before_single THEN now() ELSE original_unit_price_at END,\n  original_unit_price_by=CASE WHEN p_restore IN('single','both') THEN NULL\n   WHEN original_unit_price IS NULL AND NOT p_initial AND p_single<p_before_single THEN auth.uid() ELSE original_unit_price_by END,\n  original_parcel_price=CASE WHEN p_restore IN('parcel','both') THEN NULL\n   WHEN original_parcel_price IS NULL AND NOT p_initial AND p_parcel<p_before_parcel THEN p_before_parcel ELSE original_parcel_price END,\n  original_parcel_price_at=CASE WHEN p_restore IN('parcel','both') THEN NULL\n   WHEN original_parcel_price IS NULL AND NOT p_initial AND p_parcel<p_before_parcel THEN now() ELSE original_parcel_price_at END,\n  original_parcel_price_by=CASE WHEN p_restore IN('parcel','both') THEN NULL\n   WHEN original_parcel_price IS NULL AND NOT p_initial AND p_parcel<p_before_parcel THEN auth.uid() ELSE original_parcel_price_by END,\n  changed_at=now(),changed_by=auth.uid()\n WHERE product_id=p_product RETURNING * INTO v_state;\n IF p_enabled IS DISTINCT FROM coalesce(v_old.parcel_enabled,true) THEN\n  INSERT INTO public.audit_logs(user_id,action,entity_name,entity_id,details)\n  VALUES(auth.uid(),'SET_PRODUCT_PARCEL_AVAILABILITY225','products',p_product,\n   jsonb_build_object('before',coalesce(v_old.parcel_enabled,true),'after',p_enabled));\n END IF;\n INSERT INTO public.audit_logs(user_id,action,entity_name,entity_id,details)\n VALUES(auth.uid(),CASE WHEN p_restore IS NULL THEN 'SET_PRODUCT_ON_PRICES225' ELSE 'RESTORE_PRODUCT_ORIGINAL_PRICE225' END,\n  'products',p_product,jsonb_build_object('beforeSingle',p_before_single,'beforeParcel',p_before_parcel,\n   'singlePrice',p_single,'parcelPrice',p_parcel,'parcelEnabled',p_enabled,'restoredUnit',p_restore,\n   'beforeOriginals',to_jsonb(v_old),'afterOriginals',to_jsonb(v_state),'belowCostConfirmation',p_loss_confirmation));\nEND;\n$function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"public\",null,\"public_storefront_catalog_page225(p_limit integer, p_offset integer, p_category_id uuid, p_search text, p_availability text, p_sort text, p_brand_id uuid, p_sale_unit_id uuid, p_product_ids uuid[])\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres",
+          "anon=X/postgres",
+          "authenticated=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "public_storefront_catalog_page225(p_limit integer, p_offset integer, p_category_id uuid, p_search text, p_availability text, p_sort text, p_brand_id uuid, p_sale_unit_id uuid, p_product_ids uuid[])",
+        "definition": "CREATE OR REPLACE FUNCTION public.public_storefront_catalog_page225(p_limit integer DEFAULT 24, p_offset integer DEFAULT 0, p_category_id uuid DEFAULT NULL::uuid, p_search text DEFAULT NULL::text, p_availability text DEFAULT 'all'::text, p_sort text DEFAULT 'recommended'::text, p_brand_id uuid DEFAULT NULL::uuid, p_sale_unit_id uuid DEFAULT NULL::uuid, p_product_ids uuid[] DEFAULT NULL::uuid[])\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nBEGIN\n IF sales_lite1.enabled() THEN\n  RETURN public.lite1_catalog_page2(p_limit,p_offset,p_category_id,p_search,p_availability,p_sort,p_brand_id,p_sale_unit_id,p_product_ids);\n END IF;\n RETURN (WITH stock_by_product AS (\n    SELECT\n      ib.product_id,\n      COALESCE(SUM(GREATEST(ib.on_hand_quantity - ib.reserved_quantity, 0)), 0)::INTEGER\n        AS available_quantity\n    FROM public.inventory_balances ib\n    GROUP BY ib.product_id\n  ),\n  sales_by_product AS (\n    SELECT\n      oi.product_id,\n      COALESCE(SUM(COALESCE(oi.sale_package_quantity, 0)), 0)::BIGINT\n        AS sold_packages\n    FROM public.order_items oi\n    JOIN public.orders o ON o.id = oi.order_id\n    WHERE o.status = 'completed'\n      AND o.created_at >= NOW() - INTERVAL '90 days'\n    GROUP BY oi.product_id\n  ),\n  catalog_source AS (\n    SELECT\n      p.id,\n      p.sku,\n      p.barcode,\n      p.name_ar,\n      p.description,\n      p.category_id,\n      c.code AS category_code,\n      c.name_ar AS category_name_ar,\n      p.brand_id,\n      b.name_ar AS brand_name_ar,\n      p.unit_id,\n      base_unit.name_ar AS unit_name_ar,\n      p.sale_unit_id,\n      sale_unit.name_ar AS sale_unit_name_ar,\n      p.units_per_sale_unit,\n      p.parcel_only,\n      COALESCE(pricing.parcel_enabled,true) AS parcel_sale_enabled,\n      p.default_sale_price_in_minor_units,\n      p.sale_price_in_minor_units,\n      COALESCE(stock.available_quantity, 0)::INTEGER AS available_quantity,\n      image.image_url,\n      p.created_at,\n      COALESCE(sales.sold_packages, 0)::BIGINT AS sold_packages_last_90_days,\n      p.flavor_master_product_id,\n      p.flavor_name_ar,\n      p.is_flavor_master,\n      p.flavor_sort_order,\n      COALESCE(p.flavor_master_product_id, p.id) AS family_id\n    FROM public.products p\n    JOIN public.categories c ON c.id = p.category_id AND c.is_active = true\n    LEFT JOIN public.brands b ON b.id = p.brand_id\n    JOIN public.units base_unit ON base_unit.id = p.unit_id\n    JOIN public.units sale_unit ON sale_unit.id = p.sale_unit_id\n    LEFT JOIN stock_by_product stock ON stock.product_id = p.id\n    LEFT JOIN public.product_sale_pricing_state225 pricing ON pricing.product_id=coalesce(p.flavor_master_product_id,p.id)\n    LEFT JOIN sales_by_product sales ON sales.product_id = p.id\n    LEFT JOIN LATERAL (\n      SELECT pi.image_url\n      FROM public.product_images pi\n      WHERE pi.product_id = p.id\n      ORDER BY pi.is_primary DESC, pi.display_order, pi.created_at\n      LIMIT 1\n    ) image ON true\n    WHERE p.is_active = true\n      AND sale_unit.code <> 'PCS'\n      AND p.units_per_sale_unit > 0\n      AND p.default_sale_price_in_minor_units > 0\n  ),\n  method_availability AS (\n    SELECT catalog_source.*,\n      NOT is_flavor_master AND NOT parcel_only AND sale_price_in_minor_units>0\n        AND available_quantity>0 AS single_available,\n      NOT is_flavor_master AND parcel_sale_enabled\n        AND available_quantity>=units_per_sale_unit AS parcel_available,\n      CASE WHEN parcel_sale_enabled THEN floor(available_quantity::numeric/units_per_sale_unit)\n        ELSE 0 END::integer AS sale_packages\n    FROM catalog_source\n  ),\n  family_summary AS (\n    SELECT\n      family_id,\n      MIN(category_id::TEXT)::UUID AS category_id,\n      MIN(category_code) AS category_code,\n      MIN(brand_id::TEXT)::UUID AS brand_id,\n      MIN(sale_unit_id::TEXT)::UUID AS sale_unit_id,\n      COALESCE(\n        MIN(name_ar) FILTER (WHERE flavor_master_product_id IS NULL),\n        MIN(name_ar)\n      ) AS family_name_ar,\n      MIN(default_sale_price_in_minor_units) AS sale_price_in_minor_units,\n      COALESCE(SUM(sale_packages) FILTER (WHERE NOT is_flavor_master),0)::integer AS available_sale_packages,\n      BOOL_OR(single_available OR parcel_available) AS is_available,\n      BOOL_OR((single_available OR parcel_available) AND sale_packages<=5) AS is_low_stock,\n      MAX(created_at) AS created_at,\n      COALESCE(SUM(sold_packages_last_90_days) FILTER (WHERE NOT is_flavor_master), 0)::BIGINT\n        AS sold_packages_last_90_days\n    FROM method_availability\n    GROUP BY family_id\n  ),\n  normalized_search AS (\n    SELECT LOWER(TRANSLATE(\n      REGEXP_REPLACE(COALESCE(NULLIF(BTRIM(p_search), ''), ''), '[ً-ٰٟـ]', '', 'g'),\n      'أإآى',\n      'اااي'\n    )) AS value\n  ),\n  matching_families AS (\n    SELECT fs.*\n    FROM family_summary fs\n    CROSS JOIN normalized_search normalized\n    WHERE (p_category_id IS NULL OR fs.category_id = p_category_id)\n      AND (p_brand_id IS NULL OR fs.brand_id = p_brand_id)\n      AND (p_sale_unit_id IS NULL OR fs.sale_unit_id = p_sale_unit_id)\n      AND (\n        p_product_ids IS NULL\n        OR fs.family_id = ANY (p_product_ids)\n        OR EXISTS (\n          SELECT 1\n          FROM catalog_source favorite_member\n          WHERE favorite_member.family_id = fs.family_id\n            AND favorite_member.id = ANY (p_product_ids)\n        )\n      )\n      AND (\n        p_availability NOT IN ('available', 'low_stock')\n        OR (p_availability = 'available' AND fs.is_available)\n        OR (p_availability = 'low_stock' AND fs.is_low_stock)\n      )\n      AND (p_sort <> 'offers' OR fs.category_code = 'CAT-OFFERS')\n      AND (p_sort <> 'low_stock' OR fs.is_low_stock)\n      AND (\n        normalized.value = ''\n        OR EXISTS (\n          SELECT 1\n          FROM catalog_source searched_member\n          WHERE searched_member.family_id = fs.family_id\n            AND (\n              LOWER(TRANSLATE(REGEXP_REPLACE(searched_member.name_ar, '[ً-ٰٟـ]', '', 'g'), 'أإآى', 'اااي')) LIKE '%' || normalized.value || '%'\n              OR LOWER(TRANSLATE(REGEXP_REPLACE(searched_member.sku, '[ً-ٰٟـ]', '', 'g'), 'أإآى', 'اااي')) LIKE '%' || normalized.value || '%'\n              OR LOWER(TRANSLATE(REGEXP_REPLACE(COALESCE(searched_member.barcode, ''), '[ً-ٰٟـ]', '', 'g'), 'أإآى', 'اااي')) LIKE '%' || normalized.value || '%'\n              OR LOWER(TRANSLATE(REGEXP_REPLACE(COALESCE(searched_member.description, ''), '[ً-ٰٟـ]', '', 'g'), 'أإآى', 'اااي')) LIKE '%' || normalized.value || '%'\n              OR LOWER(TRANSLATE(REGEXP_REPLACE(COALESCE(searched_member.brand_name_ar, ''), '[ً-ٰٟـ]', '', 'g'), 'أإآى', 'اااي')) LIKE '%' || normalized.value || '%'\n            )\n        )\n      )\n  ),\n  paged_families AS (\n    SELECT\n      mf.*,\n      ROW_NUMBER() OVER (\n        ORDER BY\n          mf.is_available DESC,\n          CASE WHEN p_sort = 'name_asc' THEN mf.family_name_ar END ASC,\n          CASE WHEN p_sort = 'price_asc' THEN mf.sale_price_in_minor_units END ASC,\n          CASE WHEN p_sort = 'price_desc' THEN mf.sale_price_in_minor_units END DESC,\n          CASE WHEN p_sort = 'stock_desc' THEN mf.available_sale_packages END DESC,\n          CASE WHEN p_sort = 'newest' THEN mf.created_at END DESC,\n          CASE WHEN p_sort = 'best_sellers' THEN mf.sold_packages_last_90_days END DESC,\n          CASE WHEN p_sort = 'low_stock' THEN mf.available_sale_packages END ASC,\n          mf.family_name_ar ASC,\n          mf.family_id ASC\n      ) AS page_order\n    FROM matching_families mf\n    ORDER BY\n      mf.is_available DESC,\n      CASE WHEN p_sort = 'name_asc' THEN mf.family_name_ar END ASC,\n      CASE WHEN p_sort = 'price_asc' THEN mf.sale_price_in_minor_units END ASC,\n      CASE WHEN p_sort = 'price_desc' THEN mf.sale_price_in_minor_units END DESC,\n      CASE WHEN p_sort = 'stock_desc' THEN mf.available_sale_packages END DESC,\n      CASE WHEN p_sort = 'newest' THEN mf.created_at END DESC,\n      CASE WHEN p_sort = 'best_sellers' THEN mf.sold_packages_last_90_days END DESC,\n      CASE WHEN p_sort = 'low_stock' THEN mf.available_sale_packages END ASC,\n      mf.family_name_ar ASC,\n      mf.family_id ASC\n    LIMIT LEAST(GREATEST(COALESCE(p_limit, 24), 1), 48)\n    OFFSET GREATEST(COALESCE(p_offset, 0), 0)\n  ),\n  page_items AS (\n    SELECT\n      pf.page_order,\n      cs.*\n    FROM paged_families pf\n    JOIN method_availability cs ON cs.family_id = pf.family_id\n  ),\n  category_summary AS (\n    SELECT\n      c.id,\n      c.code,\n      c.name_ar,\n      c.image_url,\n      COUNT(fs.family_id)::INTEGER AS product_count,\n      COUNT(fs.family_id) FILTER (WHERE fs.is_available)::INTEGER AS available_product_count,\n      CASE c.code\n        WHEN 'CAT-BEV' THEN 10 WHEN 'CAT-WATER' THEN 20\n        WHEN 'CAT-ENERGY' THEN 30 WHEN 'CAT-BISCUIT' THEN 40\n        WHEN 'CAT-CAKE' THEN 50 WHEN 'CAT-CHOCO' THEN 60\n        WHEN 'CAT-CANDY' THEN 70 WHEN 'CAT-GUM' THEN 80\n        WHEN 'CAT-CHIPS' THEN 90 WHEN 'CAT-FOOD' THEN 100\n        WHEN 'CAT-GIFTS' THEN 110 WHEN 'CAT-OFFERS' THEN 120\n        ELSE 1000\n      END AS sort_order\n    FROM public.categories c\n    LEFT JOIN family_summary fs ON fs.category_id = c.id\n    WHERE c.is_active = true\n    GROUP BY c.id, c.code, c.name_ar, c.image_url\n  ),\n  brand_facets AS (\n    SELECT fs.brand_id AS id, MIN(cs.brand_name_ar) AS name_ar\n    FROM family_summary fs\n    JOIN catalog_source cs ON cs.family_id = fs.family_id\n    WHERE fs.brand_id IS NOT NULL\n    GROUP BY fs.brand_id\n  ),\n  sale_unit_facets AS (\n    SELECT fs.sale_unit_id AS id, MIN(cs.sale_unit_name_ar) AS name_ar\n    FROM family_summary fs\n    JOIN catalog_source cs ON cs.family_id = fs.family_id\n    WHERE fs.sale_unit_id IS NOT NULL\n    GROUP BY fs.sale_unit_id\n  )\n  SELECT jsonb_build_object(\n    'items', COALESCE((\n      SELECT jsonb_agg(\n        jsonb_build_object(\n          'id', id,\n          'sku', sku,\n          'barcode', barcode,\n          'nameAr', name_ar,\n          'description', description,\n          'categoryId', category_id,\n          'categoryCode', category_code,\n          'categoryNameAr', category_name_ar,\n          'brandId', brand_id,\n          'brandNameAr', brand_name_ar,\n          'unitId', unit_id,\n          'unitNameAr', unit_name_ar,\n          'saleUnitId', sale_unit_id,\n          'saleUnitNameAr', sale_unit_name_ar,\n          'unitsPerSalePackage', units_per_sale_unit,\n          'parcelOnly', parcel_only,\n          'salePackagePriceInMinorUnits', default_sale_price_in_minor_units,\n          'salePriceInMinorUnits', sale_price_in_minor_units,\n          'availableQuantity', available_quantity,\n          'availableSalePackages', sale_packages,\n          'parcelSaleEnabled', parcel_sale_enabled,\n          'minimumOrderPackages', 1,\n          'imageUrl', image_url,\n          'isAvailable', single_available OR parcel_available,\n          'createdAt', created_at,\n          'soldPackagesLast90Days', sold_packages_last_90_days,\n          'flavorMasterProductId', flavor_master_product_id,\n          'flavorNameAr', flavor_name_ar,\n          'isFlavorMaster', is_flavor_master,\n          'flavorSortOrder', flavor_sort_order\n        )\n        ORDER BY page_order,\n          CASE WHEN flavor_master_product_id IS NULL THEN 0 ELSE 1 END,\n          flavor_sort_order,\n          name_ar,\n          id\n      )\n      FROM page_items\n    ), '[]'::jsonb),\n    'categories', COALESCE((\n      SELECT jsonb_agg(jsonb_build_object(\n        'id', id, 'code', code, 'nameAr', name_ar, 'imageUrl', image_url,\n        'productCount', product_count, 'availableProductCount', available_product_count\n      ) ORDER BY sort_order, name_ar, id)\n      FROM category_summary\n    ), '[]'::jsonb),\n    'brands', COALESCE((\n      SELECT jsonb_agg(jsonb_build_object('id', id, 'nameAr', name_ar) ORDER BY name_ar, id)\n      FROM brand_facets\n    ), '[]'::jsonb),\n    'saleUnits', COALESCE((\n      SELECT jsonb_agg(jsonb_build_object('id', id, 'nameAr', name_ar) ORDER BY name_ar, id)\n      FROM sale_unit_facets\n    ), '[]'::jsonb),\n    'summary', jsonb_build_object(\n      'availableProducts', (SELECT COUNT(*) FROM matching_families WHERE is_available),\n      'availableSalePackages', (SELECT COALESCE(SUM(available_sale_packages), 0) FROM matching_families),\n      'lowStockProducts', (SELECT COUNT(*) FROM matching_families WHERE is_low_stock)\n    ),\n    'total', (SELECT COUNT(*) FROM matching_families),\n    'limit', LEAST(GREATEST(COALESCE(p_limit, 24), 1), 48),\n    'offset', GREATEST(COALESCE(p_offset, 0), 0)\n  ));\nEND;\n$function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"public\",null,\"public_storefront_merchandising225()\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres",
+          "anon=X/postgres",
+          "authenticated=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "public_storefront_merchandising225()",
+        "definition": "CREATE OR REPLACE FUNCTION public.public_storefront_merchandising225()\n RETURNS jsonb\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\n SELECT CASE WHEN sales_lite1.enabled() THEN public.lite1_merchandising2()\n ELSE jsonb_build_object(\n  'newest',public.public_storefront_catalog_page225(p_limit=>6,p_sort=>'newest')->'items',\n  'bestSellers',public.public_storefront_catalog_page225(p_limit=>6,p_sort=>'best_sellers')->'items',\n  'offers',public.public_storefront_catalog_page225(p_limit=>6,p_sort=>'offers')->'items',\n  'lowStock',public.public_storefront_catalog_page225(p_limit=>6,p_sort=>'low_stock')->'items'\n ) END;\n$function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"public\",null,\"search_pos_products225(p_search text, p_limit integer, p_category_id uuid, p_product_id uuid, p_purpose text)\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres",
+          "authenticated=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "search_pos_products225(p_search text, p_limit integer, p_category_id uuid, p_product_id uuid, p_purpose text)",
+        "definition": "CREATE OR REPLACE FUNCTION public.search_pos_products225(p_search text, p_limit integer, p_category_id uuid, p_product_id uuid, p_purpose text DEFAULT 'sellable'::text)\n RETURNS jsonb\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\n SELECT COALESCE(jsonb_agg(CASE WHEN sales_lite1.enabled() THEN row.value\n   ELSE row.value || jsonb_build_object('parcel_sale_enabled',COALESCE(state.parcel_enabled,true)) END ORDER BY row.position),'[]'::JSONB)\n FROM jsonb_array_elements(public.search_admin_products(p_search,p_limit,p_category_id,p_purpose,p_product_id))\n   WITH ORDINALITY AS row(value,position)\n JOIN public.products product ON product.id=(row.value->>'id')::UUID\n LEFT JOIN public.product_sale_pricing_state225 state ON state.product_id=COALESCE(product.flavor_master_product_id,product.id);\n$function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    },
+    {
+      "section": "functions",
+      "identity": "[\"public\",null,\"update_product_master_v7(p_product_id uuid, p_expected_updated_at timestamp with time zone, p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_sale_unit_id uuid, p_units_per_sale_unit integer, p_default_sale_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_is_active boolean, p_image_url text, p_sale_price_in_minor_units bigint, p_parcel_only boolean, p_parcel_enabled boolean, p_below_cost_confirmation jsonb, p_restore_original text)\",null,null]",
+      "before": null,
+      "after": {
+        "acl": [
+          "postgres=X/postgres",
+          "authenticated=X/postgres"
+        ],
+        "kind": "f",
+        "owner": "postgres",
+        "schema": "public",
+        "identity": "update_product_master_v7(p_product_id uuid, p_expected_updated_at timestamp with time zone, p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_sale_unit_id uuid, p_units_per_sale_unit integer, p_default_sale_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_is_active boolean, p_image_url text, p_sale_price_in_minor_units bigint, p_parcel_only boolean, p_parcel_enabled boolean, p_below_cost_confirmation jsonb, p_restore_original text)",
+        "definition": "CREATE OR REPLACE FUNCTION public.update_product_master_v7(p_product_id uuid, p_expected_updated_at timestamp with time zone, p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_sale_unit_id uuid, p_units_per_sale_unit integer, p_default_sale_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_is_active boolean, p_image_url text, p_sale_price_in_minor_units bigint, p_parcel_only boolean DEFAULT NULL::boolean, p_parcel_enabled boolean DEFAULT NULL::boolean, p_below_cost_confirmation jsonb DEFAULT NULL::jsonb, p_restore_original text DEFAULT NULL::text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nDECLARE p public.products;v_state public.product_sale_pricing_state225;v_result JSONB;\n v_single BIGINT:=p_sale_price_in_minor_units;v_parcel BIGINT:=p_default_sale_price_in_minor_units;\n v_enabled BOOLEAN;v_only BOOLEAN;v_ack JSONB;\nBEGIN\n PERFORM public.price225_assert_context_internal();\n PERFORM public.phase2_lock_inventory_products_internal(ARRAY[p_product_id]);\n SELECT * INTO p FROM public.products WHERE id=p_product_id FOR UPDATE;\n IF NOT FOUND THEN RAISE EXCEPTION 'PRICES225_PRODUCT_NOT_FOUND';END IF;\n IF p.flavor_master_product_id IS NOT NULL THEN\n  RAISE EXCEPTION 'PRICES225_EDIT_FAMILY_REQUIRED: عدّل سعر العائلة؛ النكهات ترث السعرين منها.';\n END IF;\n PERFORM public.product_edit_assert_version_internal(p_product_id,p_expected_updated_at);\n SELECT * INTO v_state FROM public.product_sale_pricing_state225 WHERE product_id=p_product_id FOR UPDATE;\n v_enabled:=coalesce(p_parcel_enabled,v_state.parcel_enabled,true);\n v_only:=coalesce(p_parcel_only,p.parcel_only);\n IF p_restore_original IS NOT NULL THEN\n  IF p_restore_original NOT IN('single','parcel','both') THEN RAISE EXCEPTION 'PRICES225_RESTORE_UNIT_INVALID';END IF;\n  IF p_restore_original IN('single','both') THEN\n   IF v_state.original_unit_price IS NULL THEN RAISE EXCEPTION 'PRICES225_ORIGINAL_PRICE_MISSING: لا يوجد سعر أصلي محفوظ لهذه الوحدة.';END IF;\n   v_single:=v_state.original_unit_price;\n  END IF;\n  IF p_restore_original IN('parcel','both') THEN\n   IF v_state.original_parcel_price IS NULL THEN RAISE EXCEPTION 'PRICES225_ORIGINAL_PRICE_MISSING: لا يوجد سعر أصلي محفوظ لهذا الطرد.';END IF;\n   v_parcel:=v_state.original_parcel_price;\n  END IF;\n END IF;\n PERFORM public.price225_assert_prices_internal(p_unit_id,coalesce(p_sale_unit_id,p_purchase_unit_id,p_unit_id),\n  p_units_per_sale_unit,v_single,v_parcel,v_enabled,v_only);\n -- Reuse the current CAS, unit/history restrictions, audit and WAC-preserving\n -- writer. The second update is the reviewed222 independent-price pattern.\n v_result:=public.update_product_master_v5(p_product_id,p_expected_updated_at,p_sku,p_barcode,p_name_ar,p_description,\n  p_category_id,p_brand_id,p_unit_id,p_purchase_unit_id,p_units_per_purchase_unit,p_default_purchase_price_in_minor_units,\n  p_sale_unit_id,p_units_per_sale_unit,v_parcel,p_cost_price_in_minor_units,p_min_stock_level,p_max_stock_level,\n  p_is_active,p_image_url,v_only);\n IF coalesce((v_result->>'success')::BOOLEAN,false) IS NOT TRUE THEN RAISE EXCEPTION 'PRICES225_PRODUCT_WRITE_FAILED';END IF;\n UPDATE public.products SET sale_price_in_minor_units=v_single,wholesale_price_in_minor_units=v_single,updated_at=now()\n WHERE id=p_product_id;\n IF NOT EXISTS(SELECT 1 FROM public.products WHERE id=p_product_id AND sale_price_in_minor_units=v_single\n  AND default_sale_price_in_minor_units=v_parcel AND units_per_sale_unit=p_units_per_sale_unit) THEN\n  RAISE EXCEPTION 'PRICES225_INDEPENDENT_PRICE_READBACK_FAILED';\n END IF;\n -- An identity-only edit does not make a new price decision. All changed\n -- commercial inputs and explicit restores still require the current WAC.\n IF p_restore_original IS NOT NULL OR\n    (v_single,v_parcel,p_units_per_sale_unit,v_enabled,v_only,p_unit_id,coalesce(p_sale_unit_id,p_purchase_unit_id,p_unit_id))\n    IS DISTINCT FROM (p.sale_price_in_minor_units,p.default_sale_price_in_minor_units,p.units_per_sale_unit,\n      coalesce(v_state.parcel_enabled,true),p.parcel_only,p.unit_id,p.sale_unit_id) THEN\n  v_ack:=public.price225_loss_confirmation_internal(p_product_id,v_single,v_parcel,p_units_per_sale_unit,v_enabled,v_only,p_below_cost_confirmation);\n END IF;\n PERFORM public.price225_record_state_internal(p_product_id,p.sale_price_in_minor_units,p.default_sale_price_in_minor_units,\n  v_single,v_parcel,v_enabled,false,p_restore_original,v_ack);\n RETURN v_result||public.get_product_pricing_context225(p_product_id);\nEND;\n$function$\n",
+        "configuration": [
+          "search_path=pg_catalog, public"
+        ]
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"public\",\"product_sale_pricing_state225\",\"product_sale_pricing_state225_check\",null,\"c\"]",
+      "before": null,
+      "after": {
+        "name": "product_sale_pricing_state225_check",
+        "type": "c",
+        "local": true,
+        "match": " ",
+        "table": "product_sale_pricing_state225",
+        "schema": "public",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "CHECK ((((original_unit_price IS NULL) = (original_unit_price_at IS NULL)) AND ((original_unit_price IS NULL) = (original_unit_price_by IS NULL))))",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"public\",\"product_sale_pricing_state225\",\"product_sale_pricing_state225_check1\",null,\"c\"]",
+      "before": null,
+      "after": {
+        "name": "product_sale_pricing_state225_check1",
+        "type": "c",
+        "local": true,
+        "match": " ",
+        "table": "product_sale_pricing_state225",
+        "schema": "public",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "CHECK ((((original_parcel_price IS NULL) = (original_parcel_price_at IS NULL)) AND ((original_parcel_price IS NULL) = (original_parcel_price_by IS NULL))))",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"public\",\"product_sale_pricing_state225\",\"product_sale_pricing_state225_original_parcel_price_check\",null,\"c\"]",
+      "before": null,
+      "after": {
+        "name": "product_sale_pricing_state225_original_parcel_price_check",
+        "type": "c",
+        "local": true,
+        "match": " ",
+        "table": "product_sale_pricing_state225",
+        "schema": "public",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "CHECK ((original_parcel_price > 0))",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"public\",\"product_sale_pricing_state225\",\"product_sale_pricing_state225_original_unit_price_check\",null,\"c\"]",
+      "before": null,
+      "after": {
+        "name": "product_sale_pricing_state225_original_unit_price_check",
+        "type": "c",
+        "local": true,
+        "match": " ",
+        "table": "product_sale_pricing_state225",
+        "schema": "public",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "CHECK ((original_unit_price > 0))",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"public\",\"product_sale_pricing_state225\",\"product_sale_pricing_state225_pkey\",null,\"p\"]",
+      "before": null,
+      "after": {
+        "name": "product_sale_pricing_state225_pkey",
+        "type": "p",
+        "local": true,
+        "match": " ",
+        "table": "product_sale_pricing_state225",
+        "schema": "public",
+        "onDelete": " ",
+        "onUpdate": " ",
+        "noInherit": true,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (product_id)",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    },
+    {
+      "section": "constraints",
+      "identity": "[\"public\",\"product_sale_pricing_state225\",\"product_sale_pricing_state225_product_id_fkey\",null,\"f\"]",
+      "before": null,
+      "after": {
+        "name": "product_sale_pricing_state225_product_id_fkey",
+        "type": "f",
+        "local": true,
+        "match": "s",
+        "table": "product_sale_pricing_state225",
+        "schema": "public",
+        "onDelete": "c",
+        "onUpdate": "a",
+        "noInherit": true,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE",
+        "inheritanceCount": 0,
+        "initiallyDeferred": false
+      }
+    }
+  ]
+}

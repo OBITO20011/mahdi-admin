@@ -3,20 +3,15 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Approved225 ON independent prices and golden financial proof;frozen COGS stays byte-identical.",
-  "baselineSha": "f85f0e3d3d71f1574be6275987d3ea25c3f4c12d",
+  "baselineSha": "300ff8eef2f11fb4d0b5366daa32f57e6fa88fe9",
   "branch": "codex/on-independent-prices225",
   "phase": "ON_INDEPENDENT_PRICE225",
   "startedAt": "2026-11-17T04:55:09.912Z",
   "completed": [
-    "Actual224 COGS9650 for cash/partial/website;all prior functiondefinitions unchanged.",
-    "Independent golden oracle:revenue12500,COGS11258,profit1242,inventory10042;full225golden notyetproved.",
-    "Quarantined225:protectedstate,strictpricepair/exactWACack,firstoriginal/restore/context,v7update andv7create/v4family;9newfunctionsonly.",
-    "Candidate225 blocks new paused parcels at the order-item boundary while preserving independent single sales through current POS and guest RPCs.",
-    "Additive public page selects in-stock single products before pagination even below a full parcel, and returns zero available parcels where paused.",
-    "Storefront 225 catalog distinct single/parcel availability, rendered price rows and paused cart reconciliation; 224 fallback restricted to the named missing RPC.",
-    "Additive POS product and configurable parcel readers hide paused parcels while preserving original role checks and prices.",
-    "ON225 workbook previews and writes independent prices through verified versioned capability; exact loss proof requires a separate explicit decision.",
-    "Product editor routes verified ON225 to v7/v4 for two prices, parcel pause, explicit loss confirmation, first-price restoration and safe status toggling."
+    "Implemented quarantined ON225 independent price writers, paused parcels, originals and committed receipt review.",
+    "Confirmed fractional COGS 9650 in cash POS, partial POS and website completion on224 and225 with rollback and unchanged original functions.",
+    "Captured the additive225 catalog: one private pricing-state table,17new functions,one line guard,six constraints and one index.",
+    "Shared224 rehearsal completed RESET successfully on19171211; report saved outside repository."
   ],
   "inProgress": [
     "Supplier receipt alert and preserving originals after receipt, followed by the full ON golden day and 225 protection tooling."
@@ -25,19 +20,17 @@
     "Migration225 andproductwriters/parcelpause/originalprice/receiptwarning;no frozenbodyexceptionrequired bythisexample."
   ],
   "testsPassed": [
-    "Actual fresh224 candidate13/13 rollback cases,oldfunctionobjects unchanged,helper/table ACL protected.",
-    "Creation keeps both explicitprices/inheritance,initial originals empty;unconfirmedloss rollsback andstableSKU acknowledgment permitsconfirmedcreation.",
-    "Priorfocused8/8 beforelatestcreationextension;refreshnow.",
-    "Isolated PostgreSQL 15/15 with row rollback, including ON POS and guest pause refusal and unchanged price/cost snapshots.",
-    "Isolated PostgreSQL 17/17, including anon availability-filtered pages with three loose units and a paused parcel with 48 units.",
-    "Store 236/236 and store typecheck on the candidate reader. Candidate SQL remains outside migrations.",
-    "Isolated PostgreSQL candidate19/19;old functions unchanged, each case rolled back. Focused admin20/20,store236/236,both typechecks and strict lint pass.",
-    "Local PG225 candidate20/20 with old functions byte-identical, plus actual writer identity-finalization; workbook adapter/parser11/11 and types/strict lint green.",
-    "14/14 isolated Chromium/WebKit cases at width390: two ON225 behaviors and existing OFF price paths. Initial red fixture lacked the ON purchase quote; no app guard changed."
+    "PostgreSQL candidate21/21 on63d49666; old function objects unchanged and row rollback exact.",
+    "Native224/225 financial snapshot parity6/6; finalization timestamps separately validated.",
+    "Native golden6stages: net12500,netCOGS11258,profit1242,inventory10042,balanced drawer12500.",
+    "Browser product14/14 and committed receipt4/4 on isolated Chromium/WebKit.",
+    "Store237/237; focused financial/import27/27; additive catalog and literal-source guards10/10.",
+    "Full admin typecheck and strict lint exited0 with the catalog contract; no skips or retries added."
   ],
   "testsRemaining": [
-    "Creationpermission/concurrency/familyloss/import,pause oldRPC admission,publicavailability andUI.",
-    "Actualgolden225 financialday/browser/parity;upgrade225/RESET225/D1/catalog/FULLCI;Draftonly."
+    "Finalize family updates,concurrency and pending-order pause cases.",
+    "Build upgrade225/RESET225/D-1,reference and backup/restore integration with current main.",
+    "Final native and real-browser golden day,full exact-head CI and draft review;225must not merge."
   ],
   "findings": [
     "Earlierstudyusedsuperseded209definition;214currentbodycorrect includingcachedPOSresult.",
@@ -45,8 +38,8 @@
   ],
   "blockers": [],
   "activeProcesses": [
-    "Shared rehearsal36132 parked at final32rawACL differences;no SQL writer;all saved containers preserved.",
-    "UI display validation is in a separate worktree and separate browser-only sandbox."
+    "Shared224 rehearsal pid23480 is parked after successful RESET; all archive containers and evidence retained.",
+    "PR112 at0eb04c8f awaits full CI; no primary checkout,demo or hosted database changes."
   ],
   "prohibitions": [
     "No hosted/deploy/demo/n8n/Docker restart;no original workbook changes.",
@@ -54,12 +47,12 @@
     "No ON fillin workbook/generator or ON cutover rewrite in this round.",
     "225Draft only;no merge before fullgolden day,CI andClaude review."
   ],
-  "checkpointedAt": "2026-11-17T20:10:54.697Z",
+  "checkpointedAt": "2026-11-17T21:41:35.488Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 8,
-  "filesTouchedManifestSha256": "e096644cddd704fd769057257b05e58cfcc6108db92f3032faa8aa1ba9e33ceb",
-  "nextExactAction": "Implement the receipt-time below-cost and remembered-price prompt, then the complete ON225 golden day",
-  "workingTreeFingerprint": "F4EF86D6515FF31233F6A28D69788C2BE017AB0C92E9C05F4AA2FE5564D0E02D"
+  "filesTouchedCount": 5,
+  "filesTouchedManifestSha256": "50a4e4778d4f48b3c9e5a0a239ae25b61989b0b5d592adffcd4ed926b7cee447",
+  "nextExactAction": "Integrate approved main maintenance before building the versioned225 protection tools; keep the finished rehearsal immutable.",
+  "workingTreeFingerprint": "85922A516E410F85ABBF401FB9D172B423F9B395D540F24212E5329590E17B40"
 }
