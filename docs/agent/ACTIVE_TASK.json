@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
+  "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Approved225 ON independent prices;first224COGS RED/proposed frozen exception only;no frozen body change",
-  "baselineSha": "2508a9e5eff2762ab42933394a8243bb6c1af4a4",
+  "objective": "Approved225 ON independent prices and golden financial proof;frozen COGS stays byte-identical.",
+  "baselineSha": "f7215e1b9214b42d47306d08cba20681c9e29ad9",
   "branch": "codex/on-independent-prices225",
   "phase": "ON_INDEPENDENT_PRICE225",
   "startedAt": "2026-11-17T04:55:09.912Z",
@@ -13,35 +13,41 @@
     "Independentreview corrects209-only inference;214alreadyfixesexactWAC;proposedfrozenSQLdiff0."
   ],
   "inProgress": [
-    "Remaining225 pricing,state,UI,import,tooling andgolden-day implementation."
+    "Independent golden-day oracle built while RESET224 capability PR111 CI runs."
   ],
   "notStarted": [
     "Migration225 andproductwriters/parcelpause/originalprice/receiptwarning;no frozenbodyexceptionrequired bythisexample."
   ],
   "testsPassed": [
     "Actual224ownedDockerthreecasesPASS;allpublicrows rollback;19300/24 oracle independent.",
-    "Focused9/9;types0;strictlint0."
+    "Focused9/9;types0;strictlint0.",
+    "Independent golden oracle2/2;12500 revenue,11258 COGS,1242 profit,10042 inventory,asset/liability22542."
   ],
   "testsRemaining": [
-    "Full225 implementation,coverage,fullCI andownerreview."
+    "Migration225/writers/guards/UI/tooling and full golden runtime/browser",
+    "Before/after225 same fractional9.650 COGS proof",
+    "FullCI/Gitleaks and ownerreview;225Draftonly"
   ],
   "findings": [
     "Earlierstudyusedsuperseded209definition;214currentbodycorrect includingcachedPOSresult."
   ],
   "blockers": [],
-  "activeProcesses": [],
-  "prohibitions": [
-    "No hosted/deploy/demo/n8n/Dockerrestart;no owneroriginal/workbookchanges.",
-    "No frozen209poswriter body change without explicit exception.",
-    "No ONfillinWorkbook/generator/cutoverdocs in thisround.",
-    "225Draft only,notmerge until frozen decision andClaude review."
+  "activeProcesses": [
+    "Sourceholder35556 waits forreview;container nawasrah-full-restore-35556-417dddb2;session13417;no continuingSQLwriter.",
+    "Earlier preserved rehearsalcontainers andiPhone/n8n unchanged."
   ],
-  "checkpointedAt": "2026-11-17T05:22:16.088Z",
+  "prohibitions": [
+    "No hosted/deploy/demo/n8n/Docker restart;no original workbook changes.",
+    "Frozen627 bodies andnine approvedbridges unchanged;no alternate COGS coordinator.",
+    "No ON fillin workbook/generator or ON cutover rewrite in this round.",
+    "225Draft only;no merge before fullgolden day,CI andClaude review."
+  ],
+  "checkpointedAt": "2026-11-17T09:23:28.918Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 7,
-  "filesTouchedManifestSha256": "0700f96e4526bb5a8f18e864a5e3facbf5aebcf54033340de0a788c77266ed7a",
-  "nextExactAction": "Preserve proof milestone;complete110mainCI+sharedrehearsal;then remaining225 without frozenbody edits.",
-  "workingTreeFingerprint": "2FB378E4E0D9A6A5DE4C8D1E22429D52CD793F5F2324E02ADDE3E3F4DCCB9013"
+  "filesTouchedCount": 3,
+  "filesTouchedManifestSha256": "af4f7c59ce604c08287179946182230eddc6e67a2e0857f8e562d1556a016607",
+  "nextExactAction": "After PR111 merge,synchronizemain andbuild225;oracle2/2,frozenCOGSzero;no hosted/demo/n8n.",
+  "workingTreeFingerprint": "C4C016804A98940744FD9DCC321DDD19C7E13C44D55125779005B0C5680FFEE7"
 }

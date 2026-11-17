@@ -31,6 +31,16 @@
       "beforeText": null,
       "before": null,
       "after": "eb330f4456fa14e48418ba9c72e04054c2678dc3fd030f604c1832214d05fa2a"
+    },
+    "scripts/testing/on225-golden-oracle.mjs": {
+      "before": null,
+      "after": "98becc774180bcdfd5a4ae567b7b72c57785c6f77ce33b16c7fbc2fc6ad099f5",
+      "beforeText": null
+    },
+    "tests/on225-golden-oracle.test.ts": {
+      "before": null,
+      "after": "2bc078825c2ed5c83474a12e06cf019ca93d74e771a8633126fd7d62ab93c1a0",
+      "beforeText": null
     }
   }
 }

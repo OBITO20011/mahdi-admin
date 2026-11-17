@@ -3,31 +3,15 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/project-state.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/source-before-restore-private220.mjs"
-    },
-    {
-      "code": "??",
-      "path": "docs/design/on-independent-prices225/COGS224_FROZEN_REVIEW_AR.md"
-    },
-    {
-      "code": "??",
       "path": "scripts/audit/on-prices225-source-pins.json"
     },
     {
       "code": "??",
-      "path": "scripts/audit/source-before-on-prices225.mjs"
+      "path": "scripts/testing/on225-golden-oracle.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/testing/run-on225-cogs224-proof.mjs"
-    },
-    {
-      "code": "??",
-      "path": "tests/on225-cogs224-proof.test.ts"
+      "path": "tests/on225-golden-oracle.test.ts"
     }
   ]
 }
