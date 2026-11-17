@@ -3,27 +3,19 @@
   "files": [
     {
       "code": " M",
-      "path": ".github/workflows/inventory224.yml"
-    },
-    {
-      "code": " M",
       "path": "docs/agent/project-state.json"
     },
     {
       "code": " M",
-      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
+      "path": "scripts/audit/source-before-cutover-hold224.mjs"
     },
     {
       "code": " M",
-      "path": "docs/operations/UPGRADE222_AR.md"
+      "path": "scripts/backup/complete-backup.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/audit/source-before-supported-upgrades224.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/cutover-command-contract.mjs"
+      "path": "scripts/backup/postgres-diagnostic.mjs"
     },
     {
       "code": " M",
@@ -31,31 +23,27 @@
     },
     {
       "code": " M",
-      "path": "scripts/testing/run-owner-upgrade224-runtime.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-supported-upgrades224-proof.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/supported-upgrades224.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/cutover-hold224-source-pins.json"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/source-before-cutover-hold224.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/operations/frankfurt-owner-cutover-hold224.mjs"
-    },
-    {
-      "code": "??",
       "path": "tests/cutover-hold224.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/restore-private220-source-pins.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-restore-private220.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/backup/restore-lite220-private-acl.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/restore-lite220-private-acl-archives.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/restore-lite220-private-acl.test.ts"
     }
   ]
 }

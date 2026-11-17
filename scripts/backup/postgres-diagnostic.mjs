@@ -40,6 +40,7 @@ const messages=Object.freeze({
   RESTORE_PG_NET_SEQUENCE_STATE_UNSUPPORTED:'Captured pg_net sequence state is ambiguous or does not match the isolated restore identity;restore was not accepted.',
   RESTORE_CRON_SEQUENCE_ACL_UNSUPPORTED:'Captured pg_cron sequence privileges could not be restored exactly;no comparison exception applied.',
   RESTORE_FROZEN220_TRIGGER_ACL_UNSUPPORTED:'Captured four-trigger ACL profile is unsupported or could not be replayed exactly.',
+  RESTORE_LITE220_PRIVATE_ACL_UNSUPPORTED:'Captured closed13object private ACL profile is unsupported or could not be replayed exactly.',
   RESTORE_EXTENSION_UNAVAILABLE:'A required captured extension version is unavailable in the isolated image.',
   RESTORE_SQL_ERROR:'PostgreSQL rejected an object or data item during strict restore.',
   RESTORE_LOG_CAPTURE_FAILED:'A sanitized isolated restore log could not be saved.',

@@ -4,6 +4,7 @@ import {test} from 'node:test';
 import {canonicalLf,sha256} from '../scripts/testing/maintenance-db-contract.mjs';
 import {parseCutoverHoldArgs,runCutoverHold224,cutoverHoldJobs} from '../scripts/operations/frankfurt-owner-cutover-hold224.mjs';
 import {sourceBeforeCutoverHold224,cutoverHold224Pins} from '../scripts/audit/source-before-cutover-hold224.mjs';
+import {sourceBeforeRestorePrivate220} from '../scripts/audit/source-before-restore-private220.mjs';
 
 test('owner cutover holds have separate modes and never infer apply',async()=>{
  assert.deepEqual([...cutoverHoldJobs].sort(),[
@@ -26,7 +27,9 @@ test('owner cutover holds have separate modes and never infer apply',async()=>{
 test('historical source projection recognizes only the reviewed cutover hold bytes',()=>{
  for(const [file,pin] of Object.entries(cutoverHold224Pins)){
   const raw=canonicalLf(readFileSync(file,'utf8'));
-  assert.equal(sha256(raw),pin.after);
+  const projected=sourceBeforeRestorePrivate220(file,raw);
+  assert.ok(projected!==null);
+  assert.equal(sha256(projected),pin.after);
   assert.equal(sourceBeforeCutoverHold224(file,raw),pin.beforeText);
   assert.equal(sourceBeforeCutoverHold224(file,raw+'\nUNKNOWN_BYTE'),raw+'\nUNKNOWN_BYTE');
  }

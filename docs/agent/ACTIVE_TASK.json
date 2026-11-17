@@ -2,50 +2,43 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Approved 224 cutover holds and local shared rehearsal",
-  "baselineSha": "e9bb74744f4ecf6ff9eb470f75f64296858a78be",
-  "branch": "codex/owner-cutover-hold224",
-  "phase": "CUTOVER_HOLD224",
-  "startedAt": "2026-11-16T19:32:22.218Z",
+  "objective": "Owner-approved exact raw ACL Restore for11private tables+2schemas;conditional merge and shared rehearsal",
+  "baselineSha": "98470d376894623247b7079426a9c29d1bf43f51",
+  "branch": "codex/restore-lite220-private-acl",
+  "phase": "RESTORE_PRIVATE220_ACL",
+  "startedAt": "2026-11-17T03:37:43.475Z",
   "completed": [
-    "Official hold-upgrade and hold-reset with read-only verification and preserved original flags.",
-    "Read-only ON study supplement and proposed225 plan delivered for approval."
+    "Closed13object raw ACL replay with no guard/reference changes.",
+    "Actual owned220 encrypted archive valid and five malformed cases proved;idempotent and four-trigger preservation."
   ],
   "inProgress": [
-    "Full verification and owner-authorized integration, then shared rehearsal through RESET224."
+    "Implement closed13object raw ACL restore and rejection/idempotency proofs."
   ],
   "notStarted": [],
   "testsPassed": [
-    "Actual220 hold verified with exact222 reference; malformed inventories rejected and repeated apply is a no-op.",
-    "Actual224 hold verified after protected registration-only recovery;stale proof rejected;trigger/dispatch held and cleanup active.",
-    "Final admin and customer types0;strict lint0.",
-    "Focused14/14 after task-state correction.",
-    "Initial full units2106/2108,0skip;one task metadata mismatch corrected and known historical generator120s timeout.",
-    "Direct original workbook history generator exited0 in39.275s without limit changes."
+    "Focused10/10.",
+    "Owner222 actual220→222 with encryptedBackup/Restore before+after andverify-only PASS.",
+    "Typesadmin/customer andstrictlint exit0.",
+    "Final units2113/2113,zero fail/skip;typesadmin/customer0;strictlint0.",
+    "Historical cutover pin uses exact new-layer inverse and retains beforeText/unknown-byte refusal;focused12/12."
   ],
   "testsRemaining": [
-    "Exact-head complete CI and Gitleaks.",
-    "Primary ff-only/preflight and full mainCI.",
-    "Shared archive2230c606 rehearsal through RESET224 verification only."
+    "Exact-head fullCI andGitleaks;conditionalmerge;mainCI andpreservedprimarysync;fresh sharedrehearsal."
   ],
-  "findings": [
-    "Original hold217 keeps cleanup active and cannot satisfy all-six-held Backup220 guard.",
-    "225 is proposal only and awaits owner approval."
-  ],
+  "findings": [],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hosted project access/deployment.",
-    "Do not touch iPhone demo,n8n or restart Docker.",
-    "NoSQL migration or existing upgrade/RESET guard changes.",
-    "Do not implement225."
+    "No hostedaccess/deploy/demo/n8n/Dockerrestart.",
+    "No existing upgrade/RESET/catalog guard or reference changes.",
+    "225frozen writer exception not granted."
   ],
-  "checkpointedAt": "2026-11-16T22:51:12.729Z",
+  "checkpointedAt": "2026-11-17T04:05:48.217Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 14,
-  "filesTouchedManifestSha256": "41f950f84c00583c4cd4a0e87ca871cdecb3f59fe0c38c4f852888159c53531e",
-  "nextExactAction": "Exact-head CI includes current220 freeze in supported-upgrade proof and224 reset hold in owner runtime;then Gitleaks and conditional merge.",
-  "workingTreeFingerprint": "E8007E0F8A23CCEA4CED40DEC08E566F1BECF35BFE86EA353C20E15B2AF17A10"
+  "filesTouchedCount": 11,
+  "filesTouchedManifestSha256": "497986057b1086fd268388737872cf53d1455f003caf4d31b4e733f332264794",
+  "nextExactAction": "Push and DraftPR;exact-head fullCI thenGitleaks,conditionalmerge andsharedrehearsal.",
+  "workingTreeFingerprint": "E781D7FC37BCEAFB36F7377DAA7FA66AF3ACCD2DA10502230325B5A3702B931A"
 }
