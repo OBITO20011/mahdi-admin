@@ -215,7 +215,7 @@
     "scripts/operations/on-prices225-catalog.mjs": {
       "beforeText": null,
       "before": null,
-      "after": "861aababd2294c95d433c0e330372d125efcf3f697fe3079c5c125a05fdf0e79"
+      "after": "1a1bb0bda37f79649429daa922dcf9a0a8da93ffc31a92eb81fc20be7eac8d3c"
     },
     "scripts/testing/capture-on225-candidate-catalog.mjs": {
       "beforeText": null,
@@ -231,6 +231,141 @@
       "beforeText": "import test from 'node:test';\nimport assert from 'node:assert/strict';\nimport {readFileSync,writeFileSync,mkdtempSync,mkdirSync,unlinkSync,realpathSync,rmSync} from 'node:fs';\nimport {execFileSync} from 'node:child_process';\nimport path from 'node:path';\nimport {tmpdir} from 'node:os';\nimport {createHash} from 'node:crypto';\nimport {migrationLfEvidence} from '../scripts/agent/migration-lf.mjs';\nimport {migrationLfPins,sourceBeforeMigrationLf} from '../scripts/audit/source-before-migration-lf.mjs';\nimport {sourceBeforeRestoreRawAcl} from '../scripts/audit/source-before-restore-raw-acl.mjs';\n\ntest('LF maintenance projects only exact reviewed source;historical beforeText and unknown bytes remain protected',()=>{\n for(const [file,pin]of Object.entries(migrationLfPins)){\n  const current=readFileSync(file,'utf8').replace(/\\r\\n?/gu,'\\n');\n  const beforeRestore=sourceBeforeRestoreRawAcl(file,current);\n  assert.notEqual(beforeRestore,null,file);\n  assert.equal(sourceBeforeMigrationLf(file,beforeRestore),pin.beforeText,file);\n  assert.equal(sourceBeforeMigrationLf(file,sourceBeforeRestoreRawAcl(file,current+'UNKNOWN_BYTE')),current+'UNKNOWN_BYTE',file);\n }\n assert.equal(execFileSync('git',['diff','--name-only','HEAD','--','supabase/migrations'],{encoding:'utf8'}).trim(),'');\n});\n\ntest('literal222/223/224 pins and all current SQL bytes remain LF;preflight invokes the rejecting check',()=>{\n assert.deepEqual(migrationLfEvidence(process.cwd()),{ok:true,checkedFiles:184,invalid:[],code:null});\n const state=JSON.parse(readFileSync('docs/agent/project-state.json','utf8'));\n for(const [file,expected]of [\n  ['222_independent_lite_parcel_prices.sql','bcf55b1f43714e27d525dedac51cc7c3f85d0e1f2be422bbc422cafc6ff84a68'],\n  ['223_optional_sales_quantity.sql','d5d6397bd5d676f766493b7a85b1f47ad6f1b6f6c465e7b4a32219ee49abc0af'],\n  ['224_optional_quantity_inventory_reader.sql','f706c9b09d76f0d28dc431320cae993f209142955c7b70f813f6514068ec631d'],\n ]){\n  const sqlPath='supabase/migrations/'+file,raw=readFileSync(sqlPath);\n  assert.equal(createHash('sha256').update(raw).digest('hex'),expected);\n  assert.equal(state['migration'+file.slice(0,3)+'CanonicalLfSha256'].toLowerCase(),expected);\n  assert.deepEqual(raw,execFileSync('git',['show','HEAD:'+sqlPath]));\n }\n const preflight=readFileSync('scripts/agent/preflight.mjs','utf8');\n assert.ok(preflight.includes('migrationLfEvidence(root)'));assert.ok(preflight.includes(\"if(!migrationLf.ok)failures.push('MIGRATION_SQL_LF_BYTES_REQUIRED:\"));\n});\n\ntest('a real Git checkout with autocrlf=true preserves migration LF;copied CRLF is detected without rewriting it',()=>{\n const directory=mkdtempSync(path.join(tmpdir(),'nawasrah-migration-lf-'));\n const git=(...args:string[])=>execFileSync('git',['-c','core.hooksPath='+path.join(directory,'empty-hooks'),...args],{cwd:directory,windowsHide:true,stdio:['ignore','pipe','pipe']});\n try{\n  mkdirSync(path.join(directory,'empty-hooks'));mkdirSync(path.join(directory,'supabase','migrations'),{recursive:true});\n  git('init','-q');git('config','core.autocrlf','true');\n  writeFileSync(path.join(directory,'.gitattributes'),readFileSync('.gitattributes'));\n  const relative='supabase/migrations/222_sample.sql',absolute=path.join(directory,relative),lf=Buffer.from('BEGIN;\\nSELECT 1;\\nROLLBACK;\\n');\n  writeFileSync(absolute,lf);git('add','--all');git('-c','user.name=Local QA','-c','user.email=qa@example.test','commit','-qm','LF checkout fixture','--no-gpg-sign');\n  unlinkSync(absolute);git('checkout','--',relative);\n  assert.deepEqual(readFileSync(absolute),lf);\n  assert.match(git('check-attr','eol','--',relative).toString(),/: eol: lf/u);\n  const crlf=Buffer.from(lf.toString().replaceAll('\\n','\\r\\n'));writeFileSync(absolute,crlf);\n  assert.deepEqual(migrationLfEvidence(directory),{ok:false,checkedFiles:1,invalid:['222_sample.sql'],code:'MIGRATION_SQL_LF_BYTES_REQUIRED'});\n  assert.deepEqual(readFileSync(absolute),crlf,'preflight must never rewrite the file');\n }finally{\n  const actual=realpathSync(directory),parent=realpathSync(tmpdir());\n  assert.equal(path.dirname(actual),parent);assert.ok(path.basename(actual).startsWith('nawasrah-migration-lf-'));\n  rmSync(actual,{recursive:true,force:true});\n }\n});\n",
       "before": "0073c07b7868e8618ded602797d37d1fa4bb440587ed590ac74999754147dc33",
       "after": "6a47badcaba8f1664c401494bc2d74b5f4c13d60c02f705d1b43646bc7f8e39f"
+    },
+    "docs/design/on-independent-prices225/protection224-template-pins.json": {
+      "beforeText": null,
+      "before": null,
+      "after": "683bd93f15f9ccd2c01440588a2e416751ead702e70415d23b3e6aeb94ea8b71"
+    },
+    "scripts/operations/build-acl-reference225.mjs": {
+      "beforeText": null,
+      "before": null,
+      "after": "8a1b78723199ad86efada57c448c4728cda53c3afe6406152ead29a5adb6f54c"
+    },
+    "scripts/operations/d1-known-owner225-files.json": {
+      "beforeText": null,
+      "before": null,
+      "after": "04d62408c4a9afce835bce3e07ae4b16af80a9f79f70e5eefb871393cb621474"
+    },
+    "scripts/operations/d1-reference225-ci.mjs": {
+      "beforeText": null,
+      "before": null,
+      "after": "8bca305871cc195239242457707b66ebeace7086cf88a2f80e08561232c6c3f4"
+    },
+    "scripts/operations/d1-reference225-install.ps1": {
+      "beforeText": null,
+      "before": null,
+      "after": "a40977b3f5953a004a55b81f24410ec1306bb81d6fc78b694dcf9e2596cb1f88"
+    },
+    "scripts/operations/d1-reference225-kit.mjs": {
+      "beforeText": null,
+      "before": null,
+      "after": "a3964270ec633e7a6e8e545cf7d627cb1382c6aee9038078b84f6e9e048d82b6"
+    },
+    "scripts/operations/d1-reference225-kit.ps1": {
+      "beforeText": null,
+      "before": null,
+      "after": "2d07a00c8eb8d765af2583e8c32f893024ea366ecc155b2b247b13991fedfbc1"
+    },
+    "scripts/operations/d1-reference225-state.mjs": {
+      "beforeText": null,
+      "before": null,
+      "after": "9c9a3a800c6118f7927ba44f2e894ac094b798925fdb174eb9773677e87ea478"
+    },
+    "scripts/operations/frankfurt-owner-reset225.mjs": {
+      "beforeText": null,
+      "before": null,
+      "after": "79468296ccaeb1264fcc6c7fa583e85260706647cc7a783a184ee0be183fb75a"
+    },
+    "scripts/operations/frankfurt-owner-upgrade225.mjs": {
+      "beforeText": null,
+      "before": null,
+      "after": "838901d849404efece2bb74fc760e2e9572388b0e9e025f8f30a76f45c989661"
+    },
+    "scripts/operations/frankfurt-reference225.mjs": {
+      "beforeText": null,
+      "before": null,
+      "after": "d82ce9d8d6229f9f0849d1c7a0caa93f571dd7d1725b963e4e781b0ba0edae59"
+    },
+    "scripts/operations/function-reference225.mjs": {
+      "beforeText": null,
+      "before": null,
+      "after": "d9ef1c3f37d521dd18150f385dc114c90b30e653bc7654c250333c627beeba73"
+    },
+    "scripts/operations/reset225-ddl-capability.mjs": {
+      "beforeText": null,
+      "before": null,
+      "after": "734e8ba0a4c17193c00f6fdc4215879c78427f0b3058347372eed0e456dcd54c"
+    },
+    "scripts/operations/reset225-foundation.mjs": {
+      "beforeText": null,
+      "before": null,
+      "after": "c246685399ffe13acf1564f13fef38df27984d9104aea43fb4aa73a2008d51ec"
+    },
+    "scripts/operations/reset225-pg-cron-guard.mjs": {
+      "beforeText": null,
+      "before": null,
+      "after": "dc318081d4dea1fd22d160c9689aafcfaf3fd75523b52417601c1bb112224776"
+    },
+    "scripts/operations/reset225-private-state.mjs": {
+      "beforeText": null,
+      "before": null,
+      "after": "67cf9b421e273489baa7c45108413708d039212c66d734dc9ae632e82140e350"
+    },
+    "scripts/operations/reset225-session.mjs": {
+      "beforeText": null,
+      "before": null,
+      "after": "6866f65d9ab83a29bc52f20f7d54c38a279359284e150f2d8c98247499757d80"
+    },
+    "scripts/operations/reset225-write-guard.mjs": {
+      "beforeText": null,
+      "before": null,
+      "after": "b2726f72f5d26b5a6f426bd89c26477f0be0459c0ce9c5050f18f450bbf7e068"
+    },
+    "scripts/operations/trial-reset225-core.mjs": {
+      "beforeText": null,
+      "before": null,
+      "after": "01077b4551c9f8c2d046736ee8e55f4a144c7287b9ef455f541bf667bb0cd495"
+    },
+    "scripts/operations/upgrade225-data.mjs": {
+      "beforeText": null,
+      "before": null,
+      "after": "0db959b40025bb3b3225a6a1116c1b6fc6d54c4f038691e1d285fbe45b38ae21"
+    },
+    "scripts/operations/upgrade225-protection.mjs": {
+      "beforeText": null,
+      "before": null,
+      "after": "ca2adebee68cd7a1a480b6d37a9cd282c6bf51cb673efd626c817d808c8eed39"
+    },
+    "scripts/operations/upgrade225-registration.mjs": {
+      "beforeText": null,
+      "before": null,
+      "after": "9611177206e5f813f2b14ffa577401bbb412380e6e94459986038df43dc628ee"
+    },
+    "scripts/testing/capture-inventory225-catalog.mjs": {
+      "beforeText": null,
+      "before": null,
+      "after": "b8078005a40c3935bcd78192c6044706bb9993d01afc821e423c0b77f35edfa0"
+    },
+    "scripts/testing/inventory225-local.mjs": {
+      "beforeText": null,
+      "before": null,
+      "after": "5952632e168d2aabdb6fa09502a9a969191bd7f031e2d0e3352b0438e82e6d11"
+    },
+    "tests/d1-reference225-kit.test.ts": {
+      "beforeText": null,
+      "before": null,
+      "after": "1e603dda6a989b9b609defb387f3e9456234b4c60cb14889afb14ca78fa0ba34"
+    },
+    "tests/reset225-admission.test.ts": {
+      "beforeText": null,
+      "before": null,
+      "after": "7533270082be727030c10cf6e34003e7056fab945376ede7f6158c225dda8257"
+    },
+    "tests/upgrade225-contract.test.ts": {
+      "beforeText": null,
+      "before": null,
+      "after": "7663956c45d79f40cc62c8787033daa3066f924ab395b9a319906224521ed3a1"
     }
   }
 }

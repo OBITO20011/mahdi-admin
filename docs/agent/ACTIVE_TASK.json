@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Approved225 ON independent prices and golden financial proof;frozen COGS stays byte-identical.",
-  "baselineSha": "62be27da8f8c5f5c1a94747ed9be17d18110b3ed",
+  "baselineSha": "af55a7090acd64766353ef4d9a1d8041edb58da5",
   "branch": "codex/on-independent-prices225",
   "phase": "ON_INDEPENDENT_PRICE225",
   "startedAt": "2026-11-17T04:55:09.912Z",
@@ -14,7 +14,7 @@
     "Shared224 rehearsal completed RESET successfully on19171211; report saved outside repository."
   ],
   "inProgress": [
-    "Supplier receipt alert and preserving originals after receipt, followed by the full ON golden day and 225 protection tooling."
+    "Build and prove versioned225 upgrade/RESET/D-1 on real isolated PostgreSQL; candidate remains quarantined."
   ],
   "notStarted": [
     "225 versioned upgrade/RESET/D-1 and final full CI; no merge authorization."
@@ -25,12 +25,12 @@
     "Native golden6stages: net12500,netCOGS11258,profit1242,inventory10042,balanced drawer12500.",
     "Browser product14/14 and committed receipt4/4 on isolated Chromium/WebKit.",
     "Store237/237; focused financial/import27/27; additive catalog and literal-source guards10/10.",
-    "Full admin typecheck and strict lint exited0 with the catalog contract; no skips or retries added."
+    "Full admin typecheck and strict lint exited0 with the catalog contract; no skips or retries added.",
+    "Versioned225 protection admission17/17, including seven D-1 atomic/refusal tests; admin types and strict lint0."
   ],
   "testsRemaining": [
-    "Prove real concurrent price/pause edits and complete final browser golden day.",
-    "Build upgrade225/RESET225/D-1,reference and backup/restore integration with current main.",
-    "Final native and real-browser golden day,full exact-head CI and draft review;225must not merge."
+    "Integrate display112 main; prove fresh/incremental225, access, registration recovery and encrypted protection.",
+    "Complete true-browser ON golden day and final exact-head CI;225 remains unmerged."
   ],
   "findings": [
     "Prior209 COGS premise corrected by exact224/225 six-case parity; final current body unchanged.",
@@ -47,12 +47,12 @@
     "No ON fillin workbook/generator or ON cutover rewrite in this round.",
     "225Draft only;no merge before fullgolden day,CI andClaude review."
   ],
-  "checkpointedAt": "2026-11-17T22:06:29.615Z",
+  "checkpointedAt": "2026-11-17T22:23:44.011Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 2,
-  "filesTouchedManifestSha256": "5d246d55cb03cd5a7cc8bb183eb3195ddcf84399e10e33ad0ac0fa6b2139b239",
-  "nextExactAction": "Build versioned225 protection tools; preserve native25 evidence and observe main78 CI.",
-  "workingTreeFingerprint": "2BEE06384510185CB1CCF57EA29035CFB07B61A4F1B0DF9FDE649AA9193DCA7D"
+  "filesTouchedCount": 29,
+  "filesTouchedManifestSha256": "919f32852d2d9e9a16b6979b224b8c549e82eb753d7c375ad1198c01b2ef8d24",
+  "nextExactAction": "Integrate approved main78 display fixes, then activate and prove local225 protection with current historical guards.",
+  "workingTreeFingerprint": "FE6BCB0F06737063005BDC254A59520D96BA04D80C6D4CB0BBEF31CB60EE6732"
 }

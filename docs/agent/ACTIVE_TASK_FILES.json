@@ -7,7 +7,115 @@
     },
     {
       "code": " M",
-      "path": "scripts/testing/run-on225-candidate-core.mjs"
+      "path": "scripts/operations/on-prices225-catalog.mjs"
+    },
+    {
+      "code": "??",
+      "path": "docs/design/on-independent-prices225/protection224-template-pins.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/build-acl-reference225.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/d1-known-owner225-files.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/d1-reference225-ci.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/d1-reference225-install.ps1"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/d1-reference225-kit.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/d1-reference225-kit.ps1"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/d1-reference225-state.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/frankfurt-owner-reset225.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/frankfurt-owner-upgrade225.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/frankfurt-reference225.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/function-reference225.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/reset225-ddl-capability.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/reset225-foundation.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/reset225-pg-cron-guard.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/reset225-private-state.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/reset225-session.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/reset225-write-guard.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/trial-reset225-core.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/upgrade225-data.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/upgrade225-protection.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/upgrade225-registration.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/capture-inventory225-catalog.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/inventory225-local.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/d1-reference225-kit.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/reset225-admission.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/upgrade225-contract.test.ts"
     }
   ]
 }

@@ -5,6 +5,7 @@ import {catalogDifference} from '../testing/schema-catalog.mjs';
 import {assertReady224Catalog} from './inventory224-catalog.mjs';
 
 export const price225StateTable='product_sale_pricing_state225';
+export const price225Migration='225_on_independent_prices.sql';
 export const price225CandidatePath='docs/design/on-independent-prices225/225_on_independent_prices.candidate.sql';
 export const price225FunctionNames=Object.freeze([
  'create_product_family_with_flavors_v4',
