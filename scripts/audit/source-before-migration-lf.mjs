@@ -22,19 +22,19 @@ export function sourceBeforeMigrationLf(file,text){
  return pin&&sha256(raw)===pin.after?pin.beforeText:text;
 }
 const current=file=>canonicalLf(readFileSync(new URL('../../'+file,import.meta.url),'utf8'));
-export function restoreMigrationLfHashes(rows){
+export function restoreMigrationLfHashes(rows,readCurrent=current){
  return rows.flatMap(row=>{
   const pin=migrationLfPins[row.file];
   if(!pin||row.sha256!==pin.after)return[row];
-  assert.equal(sha256(current(row.file)),pin.after,'MIGRATION_LF_HISTORY_SOURCE_CHANGED:'+row.file);
+  assert.equal(sha256(readCurrent(row.file)),pin.after,'MIGRATION_LF_HISTORY_SOURCE_CHANGED:'+row.file);
   return pin.before===null?[]:[{...row,sha256:pin.before}];
  });
 }
 /** @param {string[]} files */
-export function pathsBeforeMigrationLf(files){
+export function pathsBeforeMigrationLf(files,readCurrent=current){
  return files.filter(file=>{
-  if(file===indexFile)return current(file)!==indexText;
+  if(file===indexFile)return readCurrent(file)!==indexText;
   const pin=migrationLfPins[file];
-  return !pin||pin.before!==null||sha256(current(file))!==pin.after;
+  return !pin||pin.before!==null||sha256(readCurrent(file))!==pin.after;
  });
 }

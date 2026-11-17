@@ -1,41 +1,4 @@
 {
   "schemaVersion": 1,
-  "files": [
-    {
-      "code": " M",
-      "path": "docs/agent/project-state.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/agent/preflight.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/source-before-reset224-ddl.mjs"
-    },
-    {
-      "code": "??",
-      "path": ".gitattributes"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/MIGRATION_LF_BYTES_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "scripts/agent/migration-lf.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/migration-lf-source-pins.json"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/source-before-migration-lf.mjs"
-    },
-    {
-      "code": "??",
-      "path": "tests/migration-lf.test.ts"
-    }
-  ]
+  "files": []
 }

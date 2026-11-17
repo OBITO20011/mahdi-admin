@@ -7,12 +7,15 @@ import {tmpdir} from 'node:os';
 import {createHash} from 'node:crypto';
 import {migrationLfEvidence} from '../scripts/agent/migration-lf.mjs';
 import {migrationLfPins,sourceBeforeMigrationLf} from '../scripts/audit/source-before-migration-lf.mjs';
+import {sourceBeforeRestoreRawAcl} from '../scripts/audit/source-before-restore-raw-acl.mjs';
 
 test('LF maintenance projects only exact reviewed source;historical beforeText and unknown bytes remain protected',()=>{
  for(const [file,pin]of Object.entries(migrationLfPins)){
   const current=readFileSync(file,'utf8').replace(/\r\n?/gu,'\n');
-  assert.equal(sourceBeforeMigrationLf(file,current),pin.beforeText,file);
-  assert.equal(sourceBeforeMigrationLf(file,current+'UNKNOWN_BYTE'),current+'UNKNOWN_BYTE',file);
+  const beforeRestore=sourceBeforeRestoreRawAcl(file,current);
+  assert.notEqual(beforeRestore,null,file);
+  assert.equal(sourceBeforeMigrationLf(file,beforeRestore),pin.beforeText,file);
+  assert.equal(sourceBeforeMigrationLf(file,sourceBeforeRestoreRawAcl(file,current+'UNKNOWN_BYTE')),current+'UNKNOWN_BYTE',file);
  }
  assert.equal(execFileSync('git',['diff','--name-only','HEAD','--','supabase/migrations'],{encoding:'utf8'}).trim(),'');
 });

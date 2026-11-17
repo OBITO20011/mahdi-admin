@@ -1,35 +1,41 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner-approved migration LF attributes and rejecting read-only preflight;no SQL or pin changes.",
-  "baselineSha": "a74070de584367f49cd1095ed8db5e5c2e5b8fba",
-  "branch": "codex/migration-lf-preflight",
-  "phase": "MIGRATION_LF",
-  "startedAt": "2026-11-17T15:37:21.590Z",
-  "completed": [],
-  "inProgress": [
-    "LF-only checkout rule,raw byte admission,and real autocrlf=true checkout proof."
+  "objective": "Owner-approved Restore-only explicit-default raw ACL replay;strict atom equality except order;new type snapshots,legacy archive coverage disclosed.",
+  "baselineSha": "852c1d1abd6dae1cd5ce116baecfd744ee1dc174",
+  "branch": "codex/restore-raw-default-acl",
+  "phase": "RESTORE_RAW_DEFAULT_ACL",
+  "startedAt": "2026-11-17T15:22:45.465Z",
+  "completed": [
+    "Read-only source archive comparison:3161 ACL fields,33 explicit-to-null and48 order-only;no grant atom orowner differences.",
+    "Integrated the exact #114 migration LF preflight, preserving its source pins with layered exact Restore projection."
   ],
-  "testsPassed": [],
+  "inProgress": [
+    "General fail-closed replay with native defaults and type evidence;no guards or reference changes."
+  ],
+  "testsPassed": [
+    "Combined LF and Restore same-byte and unknown-byte unit cases 8/8."
+  ],
   "testsRemaining": [
-    "Pinned dependency tests;fullunits/types/lint/CI/Gitleaks."
+    "Actual PostgreSQL default replay/negative/idempotency andold107/110 cases;fullCI/Gitleaks."
   ],
   "findings": [
-    "First npx test used temporary cache version before dependency junction;not accepted as pinned proof."
+    "Legacy2230 archive has no typacl;owner approved limited historical coverage plus new backup type snapshot."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No hosted/deploy/demo/n8n/Docker restart.",
-    "No historical SQL,guards,reference orownerfile edits."
+    "No hosted/Frankfurt/Production/deploy/demo/n8n/Dockerrestart.",
+    "No guard/reference/020 or historical migration changes;no workbook changes.",
+    "All saved rehearsal containers remain preserved."
   ],
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "nextExactAction": "Commit and open LF-only PR, then verify full CI on the exact head.",
-  "checkpointedAt": "2026-11-17T15:49:22.366Z",
-  "filesTouchedCount": 9,
-  "filesTouchedManifestSha256": "39469a680f51da8175912361706585addd2266cd0a634ccdb443154cb692b9d8",
-  "workingTreeFingerprint": "0A8B6BDD667FAAB08006ED678CC7FD731FE8AA65EA06B128A4FA21079CDCFBCC"
+  "nextExactAction": "Wait for exact Restore #113 CI and repeat the 224 rehearsal",
+  "checkpointedAt": "2026-11-17T16:37:56.856Z",
+  "filesTouchedCount": 0,
+  "filesTouchedManifestSha256": "b6429e7d08029a34589e9c8956ef86dffab2fb6dd9ee37c08d5e9204e14cdbe6",
+  "workingTreeFingerprint": "AA7E1BEB9E33AF6D66638C52C546101F72793A005AEECF061D58701DF90BBB38"
 }
