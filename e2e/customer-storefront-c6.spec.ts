@@ -15,16 +15,16 @@ async function savedLines(page:Page){return page.evaluate(()=>JSON.parse(localSt
 for(const width of [390,1440]){
  test(`C6 clear equal parcel/unit controls and exact mixed cart quantities ${width}`,async({page},testInfo)=>{
   await page.setViewportSize({width,height:1000});const dialog=await setup(page,{unitNameAr:'قنينة'});
-  const parcels=dialog.getByRole('region',{name:'إضافة طرد',exact:true}),units=dialog.getByRole('region',{name:'إضافة باكيت',exact:true});
-  await expect(parcels).toContainText(`طرد (10 باكيت)`);
-  await expect(dialog).not.toContainText('قنينة');await expect(parcels).toContainText('5.500 د.أ');await expect(units).toContainText('0.550 د.أ');
+  const parcels=dialog.getByRole('region',{name:'إضافة كرتونة',exact:true}),units=dialog.getByRole('region',{name:'إضافة قنينة',exact:true});
+  await expect(parcels).toContainText(`كرتونة (10 قنينة)`);
+  await expect(dialog).not.toContainText('باكيت');await expect(parcels).toContainText('5.500 د.أ');await expect(units).toContainText('0.550 د.أ');
   await expect(dialog.getByRole('button',{name:/الطرد المختلط|كوّن طردًا/})).toHaveCount(0);
   const a=await parcels.boundingBox(),b=await units.boundingBox();expect(Math.abs(a!.width-b!.width)).toBeLessThanOrEqual(1);
-  await units.getByRole('button',{name:'زيادة كمية باكيت'}).click();await units.getByRole('button',{name:'زيادة كمية باكيت'}).click();
-  await units.getByRole('button',{name:/إضافة .* باكيت من/}).click();
-  await expect(page.getByText(`تمت إضافة 3 باكيت من ${product.nameAr}.`,{exact:true})).toBeVisible();
+  await units.getByRole('button',{name:'زيادة كمية قنينة'}).click();await units.getByRole('button',{name:'زيادة كمية قنينة'}).click();
+  await units.getByRole('button',{name:/إضافة .* قنينة من/}).click();
+  await expect(page.getByText(`تمت إضافة 3 قنينة من ${product.nameAr}.`,{exact:true})).toBeVisible();
   await expect.poll(()=>savedLines(page)).toMatchObject([{commercialLineKind:'base_unit',quantity:3,unitPriceInMinorUnits:550,saleUnitNameAr:'قنينة'}]);
-  await parcels.getByRole('button',{name:/إضافة .* طرد من/}).click();
+  await parcels.getByRole('button',{name:/إضافة .* كرتونة من/}).click();
   await expect.poll(()=>savedLines(page)).toMatchObject([{commercialLineKind:'base_unit',quantity:3},{commercialLineKind:'legacy_single_sku_parcel',quantity:1,unitPriceInMinorUnits:5500,unitsPerSalePackage:10}]);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   const axe=await new AxeBuilder({page}).include('[aria-label="إضافة المنتج للسلة"]').analyze();await testInfo.attach('C6-addition-axe',{body:JSON.stringify(axe.violations),contentType:'application/json'});expect(axe.violations.map(v=>({id:v.id,impact:v.impact}))).toEqual([]);
@@ -40,30 +40,30 @@ for(const width of [390,1440]){
  });
  test(`C6 mixed stock limits and no-parcel primary quote ${width}`,async({page})=>{
   await page.setViewportSize({width,height:1000});let dialog=await setup(page,{availableQuantity:12,availableSalePackages:1});
-  const parcels=dialog.getByRole('region',{name:'إضافة طرد',exact:true}),units=dialog.getByRole('region',{name:'إضافة باكيت',exact:true});
-  await parcels.getByRole('button',{name:/إضافة .* طرد من/}).click();
+  const parcels=dialog.getByRole('region',{name:'إضافة كرتونة',exact:true}),units=dialog.getByRole('region',{name:'إضافة باكيت',exact:true});
+  await parcels.getByRole('button',{name:/إضافة .* كرتونة من/}).click();
   await units.getByRole('button',{name:'زيادة كمية باكيت'}).click();
   await expect(units.getByRole('button',{name:'زيادة كمية باكيت'})).toBeDisabled();
   await units.getByRole('button',{name:/إضافة .* باكيت من/}).click();
   await expect.poll(()=>savedLines(page)).toMatchObject([{commercialLineKind:'legacy_single_sku_parcel',quantity:1},{commercialLineKind:'base_unit',quantity:2}]);
-  await expect(parcels.getByRole('button',{name:/إضافة .* طرد من/})).toBeDisabled();await expect(units.getByRole('button',{name:/إضافة .* باكيت من/})).toBeDisabled();
+  await expect(parcels.getByRole('button',{name:/إضافة .* كرتونة من/})).toBeDisabled();await expect(units.getByRole('button',{name:/إضافة .* باكيت من/})).toBeDisabled();
   await page.keyboard.press('Escape');
   await page.evaluate(()=>localStorage.clear());
   dialog=await setup(page,{unitsPerSalePackage:1,unitNameAr:'شوال',availableQuantity:3,availableSalePackages:3,salePackagePriceInMinorUnits:7000,salePriceInMinorUnits:6500});
-  await expect(dialog.getByRole('region',{name:'إضافة طرد',exact:true})).toHaveCount(0);
+  await expect(dialog.getByRole('region',{name:'إضافة كرتونة',exact:true})).toHaveCount(0);
   await expect(dialog.getByText('طرد البيع',{exact:true})).toHaveCount(0);await expect(dialog.getByText('محتوى الطرد',{exact:true})).toHaveCount(0);
-  const single=dialog.getByRole('region',{name:'إضافة باكيت',exact:true});await expect(single).toContainText('7.000 د.أ');
-  await single.getByRole('button',{name:/إضافة .* باكيت من/}).click();
+  const single=dialog.getByRole('region',{name:'إضافة شوال',exact:true});await expect(single).toContainText('7.000 د.أ');
+  await single.getByRole('button',{name:/إضافة .* شوال من/}).click();
   await expect.poll(()=>savedLines(page)).toMatchObject([{commercialLineKind:'legacy_single_sku_parcel',quantity:1,unitPriceInMinorUnits:7000,unitsPerSalePackage:1}]);
  });
 }
 
 test('C6 animated simultaneous additions keep exact stock and report only persisted quantity',async({page})=>{
  const dialog=await setup(page);await page.emulateMedia({reducedMotion:'no-preference'});
- const parcels=dialog.getByRole('region',{name:'إضافة طرد',exact:true}),units=dialog.getByRole('region',{name:'إضافة باكيت',exact:true});
- await parcels.getByRole('button',{name:'زيادة كمية طرد'}).click();
+ const parcels=dialog.getByRole('region',{name:'إضافة كرتونة',exact:true}),units=dialog.getByRole('region',{name:'إضافة باكيت',exact:true});
+ await parcels.getByRole('button',{name:'زيادة كمية كرتونة'}).click();
  for(let i=1;i<6;i++)await units.getByRole('button',{name:'زيادة كمية باكيت'}).click();
- await parcels.getByRole('button',{name:/إضافة .* طرد من/}).click();await units.getByRole('button',{name:/إضافة .* باكيت من/}).click();
+ await parcels.getByRole('button',{name:/إضافة .* كرتونة من/}).click();await units.getByRole('button',{name:/إضافة .* باكيت من/}).click();
  await expect.poll(()=>savedLines(page)).toMatchObject([{commercialLineKind:'legacy_single_sku_parcel',quantity:2},{commercialLineKind:'base_unit',quantity:3}]);
  await expect(page.getByText(`تمت إضافة 3 باكيت من ${product.nameAr}.`,{exact:true})).toBeVisible();
 });
@@ -79,6 +79,6 @@ test('C6 real flavor identity remains selected and capability absence is distinc
 for(const width of [390,1440])test('209 parcel only has no unit or unavailable mixed control '+width,async({page})=>{
  await page.setViewportSize({width,height:1000});const dialog=await setup(page,{parcelOnly:true});
  await expect(dialog.getByRole('region',{name:'إضافة باكيت',exact:true})).toHaveCount(0);await expect(dialog.getByText('الطرد المختلط غير متاح',{exact:true})).toHaveCount(0);await expect(dialog.getByRole('button',{name:'كوّن طردًا بالنكهات',exact:true})).toHaveCount(0);
- await dialog.getByRole('region',{name:'إضافة طرد',exact:true}).getByRole('button',{name:/إضافة .* طرد من/}).click();
+ await dialog.getByRole('region',{name:'إضافة كرتونة',exact:true}).getByRole('button',{name:/إضافة .* كرتونة من/}).click();
  await expect.poll(()=>savedLines(page)).toMatchObject([{commercialLineKind:'legacy_single_sku_parcel',quantity:1,unitsPerSalePackage:10,unitPriceInMinorUnits:5500}]);
 });

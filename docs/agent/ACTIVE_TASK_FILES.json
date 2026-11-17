@@ -3,31 +3,7 @@
   "files": [
     {
       "code": " M",
-      "path": "e2e/package-f-operator-errors.spec.ts"
-    },
-    {
-      "code": " M",
-      "path": "e2e/package-f-public-receipt210.spec.ts"
-    },
-    {
-      "code": " M",
-      "path": "e2e/package-f-trial-sale-receipts.spec.ts"
-    },
-    {
-      "code": " M",
-      "path": "e2e/package-f-trial-ta.spec.ts"
-    },
-    {
-      "code": " M",
-      "path": "e2e/package-f-unit-terminology.spec.ts"
-    },
-    {
-      "code": " M",
-      "path": "e2e/phase6-package-b-harness.tsx"
-    },
-    {
-      "code": " M",
-      "path": "e2e/phase6-package-b.spec.ts"
+      "path": "e2e/customer-storefront-c6.spec.ts"
     },
     {
       "code": " M",

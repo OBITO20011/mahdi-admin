@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner-approved display-only ON stock shortage Arabic copy and actual saved unit names;no calls,values,SQL or guards changed.",
-  "baselineSha": "5ef5fd043b587a51dcf2393378b118e4c33e5ae3",
+  "baselineSha": "a51191f6d2a95bf29be20841a549b20a8c60a8de",
   "branch": "codex/on-stock-unit-display225",
   "phase": "ON_DISPLAY225",
   "startedAt": "2026-11-17T08:26:51.856Z",
@@ -12,7 +12,8 @@
     "Approved stockshortage Arabic messages with originalcartFits predicate/newPOSline object byte-identical.",
     "Canonical Chromium/WebKit12/12 in a new network-detached Linux sandbox;no demo/n8n/hosted changes.",
     "Actual224HTTP181:172success9empty0errors;RPC735 with18expecteddenials;fresh evidence written.",
-    "Fresh actual224 HTTP181/RPC735 evidence rebound;formed-cart unit description uses only immutable recipe units,not currentcatalog."
+    "Fresh actual224 HTTP181/RPC735 evidence rebound;formed-cart unit description uses only immutable recipe units,not currentcatalog.",
+    "C6 regression test terminology agrees with immutable carton/bottle/sack fixture names."
   ],
   "inProgress": [
     "Final quiet rootunits and actual historical schema-only view proof beforepush;no merge before exact-head fullCI/Gitleaks."
@@ -22,7 +23,8 @@
     "Focused43/43,0skip;all historical beforeText andunknownbyte guards retained.",
     "Types bothapps andfull strictlint exit0 beforefinalevidence pin refresh;all appcode unchanged sincebrowserproof.",
     "Chromium/WebKit16/16 at390/1280;canonical networkguard teardown exit0;store233/233,0skip;focusedfinalevidence29/29.",
-    "Bothapp fulltypes exit0 andfullstrictlint exit0;store typecheck command is npm --prefix customer-web run lint."
+    "Bothapp fulltypes exit0 andfullstrictlint exit0;store typecheck command is npm --prefix customer-web run lint.",
+    "C6 16/16 Chromium/WebKit on isolated offline container;same money,quantity,cart identities,stock and axe."
   ],
   "testsRemaining": [
     "Quiet fullunits root/store after the14historical/display/evidence failures havebeen corrected;no retries/timeout changes.",
@@ -30,7 +32,8 @@
   ],
   "findings": [
     "5ef CI: five store-label expectations corrected without values/payloadchanges; historical219 clone omitted four exact newdisplay sources,now projected toapprovedmain bytes withunknownbyte refusal.",
-    "Rehearsal stopped32rawACL diffs;readonly sourcearchive proves Restore lost explicit owner representation;no scope expansion orresume."
+    "Rehearsal stopped32rawACL diffs;readonly sourcearchive proves Restore lost explicit owner representation;no scope expansion orresume.",
+    "a51191f6 CI timeout caused by outdated C6 fixed labels, not proven runner issue."
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -39,12 +42,12 @@
     "No SQL or RPC/quantity/price/guard/persistence changes.",
     "No original workbook/owner file changes."
   ],
-  "checkpointedAt": "2026-11-17T16:07:56.931Z",
+  "checkpointedAt": "2026-11-17T19:50:09.505Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 8,
-  "filesTouchedManifestSha256": "7c261115555e07051930193d26d10c954a8af6c34a70128601ad1f5a13fb9fcb",
-  "nextExactAction": "Verify complete CI on the test-only browser expectations update and merge after all approved gates pass.",
-  "workingTreeFingerprint": "7C78E24213714C7805C55B2CFFA6D7C2EB6C19AAFBA71B3AC64DFD13A66E3676"
+  "filesTouchedCount": 2,
+  "filesTouchedManifestSha256": "ca1e591c689c471d20dd9ba22f0b67747b22873cd7465a262f1824c2080fc417",
+  "nextExactAction": "Integrate the C6-proven display patch after the Restore rehearsal head is fixed",
+  "workingTreeFingerprint": "EFBE1003B14AC9378DB25E1997CA3CF86EBC54980A89223F6B5154B151E87B6D"
 }
