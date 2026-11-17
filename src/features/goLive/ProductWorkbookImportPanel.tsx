@@ -1,3 +1,4 @@
+import {PriceLossPrompt225} from '../products/PriceLossPrompt225';
 import type {ImportOperatingMode} from './goLiveImport';
 import{useEffect,useMemo,useState,useRef}from'react';
 import{useAuthStore}from'../../stores/useAuthStore';
@@ -51,12 +52,7 @@ export function ProductWorkbookImportPanel({file,disabled,onSaved,onBusyChange,o
   {message&&<p role={done?'status':'alert'} className="m-0 rounded-xl border border-nw-border p-3">{message}</p>}
   {plan&&<>
    <p className="m-0">منتجات أساسية: {plan.products.length} · نكهات: {plan.products.reduce((n,p)=>n+p.flavors.length,0)}</p>
-   {loss&&<section role="alert" className="space-y-2 rounded-xl border border-nw-warn p-3" aria-label="تأكيد السعر تحت التكلفة">
-     <p className="font-bold">السعر أقل من التكلفة. أكّد قرار البيع بخسارة لهذا الصنف.</p>
-     <p>سعر المفرد {formatJod(loss.unitPrice/1000)} · سعر الطرد {formatJod(loss.parcelPrice/1000)}</p>
-     <ul className="list-disc ps-5">{loss.risks.map((risk,index)=><li key={index}>{risk.name} — التكلفة {formatJod(Number(risk.wacInMinorUnitsExact)/1000)} · {risk.unitBelowCost?'المفرد تحت التكلفة':''}{risk.unitBelowCost&&risk.parcelBelowCost?'، ':''}{risk.parcelBelowCost?'الطرد تحت التكلفة':''}</li>)}</ul>
-     <div className="flex flex-wrap gap-2"><UiButton variant="primary" onClick={()=>respondToLoss(true)}>أكّد الحفظ بهذا السعر</UiButton><UiButton onClick={()=>respondToLoss(false)}>أوقف الاستيراد عند هذا الصنف</UiButton></div>
-    </section>}
+   {loss&&<PriceLossPrompt225 proof={loss} onRespond={respondToLoss}/>}
    {plan.warnings.map((w,i)=><p key={i} className="m-0 text-sm text-nw-warn">{w.message}</p>)}
    {!!plan.errors.length&&<ul className="m-0 space-y-1 ps-5 text-sm text-nw-bad" role="alert">{plan.errors.slice(0,200).map((e,i)=><li key={i}>{e.sheet??'المنتجات'}، السطر {e.row}: {e.message}</li>)}</ul>}
    {pages.length>1&&<nav aria-label="صفحات معاينة الملف" className="flex flex-wrap items-center gap-2"><UiButton disabled={page===0} onClick={()=>setPage(p=>p-1)}>السابق</UiButton><span aria-live="polite">صفحة {page+1} من {pages.length}</span><UiButton disabled={page>=pages.length-1} onClick={()=>setPage(p=>p+1)}>التالي</UiButton></nav>}

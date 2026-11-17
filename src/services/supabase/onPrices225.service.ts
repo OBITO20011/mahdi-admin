@@ -54,3 +54,52 @@ export function readLossConfirmation225(error:unknown):PriceLossConfirmation225|
  // only after the caller explicitly accepts displayed current cost and prices.
  return value as unknown as PriceLossConfirmation225;
 }
+export type RestorePrice225='single'|'parcel';
+export interface AccountingPrice225Write {
+ singlePriceInMinorUnits:number;
+ parcelEnabled?:boolean;
+ restoreOriginal?:RestorePrice225;
+ confirmLoss?:(proof:PriceLossConfirmation225)=>Promise<boolean>;
+}
+
+export interface OnPriceContext225 {
+ productId:string;
+ requestedProductId:string;
+ updatedAt:string;
+ parcelEnabled:boolean;
+ originalUnitPrice:number|null;
+ originalParcelPrice:number|null;
+ currentWacInMinorUnitsExact:string;
+}
+
+export async function readOnPriceContext225(productId:string):Promise<OnPriceContext225|null> {
+ if(!isSupabaseConfigured||!supabase)throw Error('PRICES225_CAPABILITY_UNVERIFIED');
+ const {data,error,status}=await supabase.rpc('get_product_pricing_context225',{p_product_id:productId});
+ if(data==null&&status===404&&error?.code==='PGRST202'&&error.message.includes(ON_PRICE_CONTEXT225_RPC))return null;
+ if(error||!isRecord(data)||data.contractVersion!=='on-independent-prices225-v1'||
+    typeof data.productId!=='string'||data.requestedProductId!==productId||typeof data.updatedAt!=='string'||
+    !Number.isFinite(Date.parse(data.updatedAt))||typeof data.parcelEnabled!=='boolean'||
+    !(data.originalUnitPrice===null||isPositiveMinorUnit(data.originalUnitPrice))||
+    !(data.originalParcelPrice===null||isPositiveMinorUnit(data.originalParcelPrice))||
+    typeof data.currentWacInMinorUnitsExact!=='string'||!/^\d+(?:\.\d+)?$/u.test(data.currentWacInMinorUnitsExact)){
+  throw Error('PRICES225_CAPABILITY_UNVERIFIED');
+ }
+ return {
+  productId:data.productId,requestedProductId:productId,updatedAt:data.updatedAt,parcelEnabled:data.parcelEnabled,
+  originalUnitPrice:data.originalUnitPrice,originalParcelPrice:data.originalParcelPrice,
+  currentWacInMinorUnitsExact:data.currentWacInMinorUnitsExact,
+ };
+}
+
+export async function confirmProductPriceWrite225<T extends {error:unknown}>(
+ call:(proof?:PriceLossConfirmation225)=>PromiseLike<T>,
+ confirm:AccountingPrice225Write['confirmLoss'],
+):Promise<T>{
+ const first=await call();
+ const proof=readLossConfirmation225(first.error);
+ if(!proof)return first;
+ if(!confirm||!(await confirm(proof)))throw Error('السعر تحت التكلفة ولم يُعتمد الحفظ.');
+ const second=await call(proof);
+ if(readLossConfirmation225(second.error))throw Error('تغيّرت تكلفة الصنف قبل الحفظ. راجع السعر والتكلفة ثم أعد المحاولة.');
+ return second;
+}
