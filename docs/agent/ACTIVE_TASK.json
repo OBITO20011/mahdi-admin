@@ -3,7 +3,7 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Owner-approved Restore-only explicit-default raw ACL replay;strict atom equality except order;new type snapshots,legacy archive coverage disclosed.",
-  "baselineSha": "a74070de584367f49cd1095ed8db5e5c2e5b8fba",
+  "baselineSha": "852c1d1abd6dae1cd5ce116baecfd744ee1dc174",
   "branch": "codex/restore-raw-default-acl",
   "phase": "RESTORE_RAW_DEFAULT_ACL",
   "startedAt": "2026-11-17T15:22:45.465Z",
@@ -33,9 +33,9 @@
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "nextExactAction": "Run complete CI for Restore on the merged LF base, then local rehearsal from 2230c606",
-  "checkpointedAt": "2026-11-17T16:37:37.527Z",
-  "filesTouchedCount": 11,
-  "filesTouchedManifestSha256": "e3e0f75911ab69d14d45a670e05002dbe9d658b1f4e906c3d41bdd4ca10218ff",
-  "workingTreeFingerprint": "D87A10A886F0A1957A2B1C5F28CB353999174BD16F11C52DB3FE9B8038C460BD"
+  "nextExactAction": "Wait for exact Restore #113 CI and repeat the 224 rehearsal",
+  "checkpointedAt": "2026-11-17T16:37:56.856Z",
+  "filesTouchedCount": 0,
+  "filesTouchedManifestSha256": "b6429e7d08029a34589e9c8956ef86dffab2fb6dd9ee37c08d5e9204e14cdbe6",
+  "workingTreeFingerprint": "AA7E1BEB9E33AF6D66638C52C546101F72793A005AEECF061D58701DF90BBB38"
 }
