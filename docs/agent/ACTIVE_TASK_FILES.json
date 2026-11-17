@@ -3,19 +3,19 @@
   "files": [
     {
       "code": " M",
+      "path": "docs/operations/RESTORE_RAW_DEFAULT_ACL_AR.md"
+    },
+    {
+      "code": " M",
       "path": "scripts/audit/restore-raw-acl-source-pins.json"
     },
     {
       "code": " M",
-      "path": "scripts/backup/postgres-diagnostic.mjs"
+      "path": "scripts/backup/complete-backup.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/backup/restore-raw-default-acl.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-dual-backup-runtime.mjs"
+      "path": "scripts/testing/restore-raw-default-acl-proof.mjs"
     }
   ]
 }

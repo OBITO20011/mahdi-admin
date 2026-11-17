@@ -45,7 +45,14 @@ async function files(root,dir=root){const out=[];for(const e of await readdir(di
   const full=path.join(dir,e.name);if(e.isDirectory())out.push(...await files(root,full));else{assert.ok(e.isFile());out.push({path:path.relative(root,full).replaceAll('\\','/'),size:(await stat(full)).size,sha256:await sha256(full)});}
 }return out;}
 const json=async(s,sql)=>JSON.parse((await s.query(sql)).trim());
-export async function captureEvidence(session,{includeTypeAcls=true}={}){
+// Upgrade/RESET commitments already bind this exact historical evidence shape.
+// The separately captured type ACLs are still bound by the archive manifest.
+export function backupSourceEvidenceSha256(evidence){
+ const upgradeEvidence={...evidence};
+ delete upgradeEvidence.typeAcls;
+ return createHash('sha256').update(JSON.stringify(upgradeEvidence)).digest('hex');
+}
+export async function captureEvidence(session,{includeTypeAcls=false}={}){
   const catalog=await json(session,stripTransaction(schemaCatalogSql));
   const history=await json(session,historySql);
   const schemas=['public','auth','storage','supabase_migrations','sales_lite1','sales_lite2'];
@@ -93,7 +100,7 @@ export async function createCompleteBackup({projectRef,outputRoot,passphrase,ret
     session=source.session();
     await session.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY;');
     const snapshot=(await session.query('SELECT pg_export_snapshot();')).trim();assert.match(snapshot,/^[0-9A-F]+-[0-9A-F]+-[0-9]+$/u);
-    stage='source-evidence';const before=await captureEvidence(session);
+    stage='source-evidence';const before=await captureEvidence(session,{includeTypeAcls:true});
     const accepted=await assertOperationalHistory(before.history);
     // dump roles under a separate connection; concurrent role/DDL/Storage/sequence changes abort below.
     stage='roles-dump';await source.roles(path.join(content,'database','roles.sql'));
@@ -122,7 +129,7 @@ export async function createCompleteBackup({projectRef,outputRoot,passphrase,ret
     await verifyBackupArchive({archivePath:partial,passphrase});const archivePath=path.join(outputRoot,name);await rename(partial,archivePath);
     const prior=(await readdir(outputRoot)).filter(n=>/^nawasrah-backup-[0-9TZ-]+\.nwb$/u.test(n)).sort().reverse();
     for(const old of prior.slice(retentionCount))await rm(path.join(outputRoot,old));
-    status={ok:true,projectRef,formatVersion:2,finishedAt:new Date().toISOString(),archiveName:name,archivePath,archiveBytes:(await stat(archivePath)).size,sha256:await sha256(archivePath),sourceEvidenceSha256:createHash('sha256').update(JSON.stringify(before)).digest('hex'),storageObjectCount:objects.length,historyCeiling:accepted.ceiling,historyFiles:accepted.files,retentionCount};return status;
+    status={ok:true,projectRef,formatVersion:2,finishedAt:new Date().toISOString(),archiveName:name,archivePath,archiveBytes:(await stat(archivePath)).size,sha256:await sha256(archivePath),sourceEvidenceSha256:backupSourceEvidenceSha256(before),storageObjectCount:objects.length,historyCeiling:accepted.ceiling,historyFiles:accepted.files,retentionCount};return status;
   }catch(cause){status={ok:false,projectRef,stage,finishedAt:new Date().toISOString(),error:'COMPLETE_BACKUP_FAILED_NO_SUCCESS_CLAIM',diagnostic:postgresDiagnostic(cause,{stage})};throw diagnosticError(status.error,status.diagnostic);}
   finally{await session?.close().catch(()=>{});await rm(partial,{force:true});await rm(work,{recursive:true,force:true});if(status)await writeFile(path.join(outputRoot,'last-backup-status.json'),JSON.stringify(status,null,2)+'\n');}
 }
@@ -230,7 +237,7 @@ export async function restoreCompleteBackup({archivePath,passphrase,reportPath,r
     assert.ok(integrity.length>5,'RESTORE_INTEGRITY_SCAN_MISSING');
     assert.ok(integrity.every(c=>c.status==='healthy'&&Number(c.issueCount)===0),'RESTORE_EXISTING_INTEGRITY_CHECK_FAILED');
     assert.equal(await sha256(archivePath),rehearsalArchiveSha256,'RESTORE_ARCHIVE_CHANGED_DURING_VERIFICATION');
-    report={ok:true,archiveSha256:rehearsalArchiveSha256,sourceEvidenceSha256:createHash('sha256').update(JSON.stringify(before)).digest('hex'),projectRef:manifest.projectRef,mode:'isolated-complete-restore',postgresImage:IMAGE,completedAt:new Date().toISOString(),hostedConnectionsMade:false,network:'none',liveVolumesModified:false,historyCeiling:accepted.ceiling,historyFiles:accepted.files,tablesCompared:Object.keys(before.tables).length,storageObjectsCompared:manifest.storageObjects.length,integrityChecks:integrity,rawDefaultAcl:rawDefaultAclProof,frozen220TriggerAcl:frozen220AclProof,private220Acl:private220AclProof,tocCoverage:restorePartition.proof,extensions:extensionProof,platform:platformProof,cronSequenceAcl:cronAclProof,pgNetSequenceState:pgNetStateProof,...proof};
+    report={ok:true,archiveSha256:rehearsalArchiveSha256,sourceEvidenceSha256:backupSourceEvidenceSha256(before),projectRef:manifest.projectRef,mode:'isolated-complete-restore',postgresImage:IMAGE,completedAt:new Date().toISOString(),hostedConnectionsMade:false,network:'none',liveVolumesModified:false,historyCeiling:accepted.ceiling,historyFiles:accepted.files,tablesCompared:Object.keys(before.tables).length,storageObjectsCompared:manifest.storageObjects.length,integrityChecks:integrity,rawDefaultAcl:rawDefaultAclProof,frozen220TriggerAcl:frozen220AclProof,private220Acl:private220AclProof,tocCoverage:restorePartition.proof,extensions:extensionProof,platform:platformProof,cronSequenceAcl:cronAclProof,pgNetSequenceState:pgNetStateProof,...proof};
     if(afterVerified){
       // AFTER strict comparison and the rolled-back scanner. The same finally
       // owns cleanup even if the rehearsal throws. No default network changes.

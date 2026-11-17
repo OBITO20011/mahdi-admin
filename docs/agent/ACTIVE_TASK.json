@@ -30,9 +30,9 @@
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "nextExactAction": "Run committed encrypted backup recovery suite and confirm exact-head CI before merge and the fresh 224 rehearsal.",
-  "checkpointedAt": "2026-11-17T15:53:54.248Z",
+  "nextExactAction": "Wait for complete exact-head CI and run Gitleaks, then approved merge and rerun the isolated archived 224 rehearsal.",
+  "checkpointedAt": "2026-11-17T16:05:40.539Z",
   "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "cf1113e5a112444c224e1240ac27ade4a5c4ba4256fbc826e1f4be911d155160",
-  "workingTreeFingerprint": "BF846F0F7F9A6415F883CF096F6A3F000E758CDE9C0389DA05D149B3D8BB01F1"
+  "filesTouchedManifestSha256": "5fb56a0d741c16e8caaf775d26d02ab0ada5854e920304dd9a2d4dd58c21a1bb",
+  "workingTreeFingerprint": "2AA587FA04660C680254E2A87899A7C40194D9E70B32FF967FF16A4D06E0F4B0"
 }

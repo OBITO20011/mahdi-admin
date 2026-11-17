@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {captureEvidence,assertRestoreEvidence} from '../backup/complete-backup.mjs';
+import {captureEvidence,assertRestoreEvidence,backupSourceEvidenceSha256} from '../backup/complete-backup.mjs';
 import {restoreRawDefaultAcl} from '../backup/restore-raw-default-acl.mjs';
 
 // Only the existing disposable CI database may call this proof. The fixed
@@ -9,7 +9,13 @@ export async function proveRawDefaultAclRestore(session){
  assert.equal((await session.query("SELECT to_regnamespace('restore_raw_acl_test') IS NULL;")).trim(),'t','RAW_ACL_PROOF_SCHEMA_ALREADY_EXISTS');
  const read=async()=>{
   await session.query('BEGIN READ ONLY;');
-  try{return await captureEvidence(session);}finally{await session.query('ROLLBACK;');}
+  try{
+   const evidence=await captureEvidence(session,{includeTypeAcls:true});
+   const prior=await captureEvidence(session);
+   assert.equal(Object.hasOwn(prior,'typeAcls'),false,'UPGRADE_EVIDENCE_SHAPE_CHANGED');
+   assert.equal(backupSourceEvidenceSha256(evidence),backupSourceEvidenceSha256(prior),'UPGRADE_EVIDENCE_DIGEST_CHANGED');
+   return evidence;
+  }finally{await session.query('ROLLBACK;');}
  };
  const original=await read();let created=false,stage='create native fixture',primaryError;
  const create=`SET ROLE postgres;
