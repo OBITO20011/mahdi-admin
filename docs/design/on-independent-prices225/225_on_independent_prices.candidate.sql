@@ -382,6 +382,44 @@ ALTER FUNCTION public.create_product_family_with_flavors_v4(text,text,text,text,
 REVOKE ALL ON FUNCTION public.create_product_family_with_flavors_v4(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,text,jsonb,boolean,bigint,jsonb) FROM PUBLIC,anon,authenticated,service_role;
 GRANT EXECUTE ON FUNCTION public.create_product_family_with_flavors_v4(text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,uuid,integer,bigint,bigint,integer,integer,uuid,text,jsonb,boolean,bigint,jsonb) TO authenticated;
 
--- Sale-entry pause admission, UI/import dispatch and tooling remain pending.
+-- New commercial lines are checked at the database write boundary so older
+-- public sale RPCs cannot bypass a paused parcel. Existing orders retain their
+-- snapshots and may still settle, cancel or return stock.
+CREATE FUNCTION public.price225_guard_new_parcel_internal()
+RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog,public AS $$
+DECLARE v_product UUID; v_root UUID;
+BEGIN
+ IF sales_lite1.enabled() THEN RETURN NEW; END IF;
+ IF NEW.commercial_line_kind IS NULL THEN
+  -- The legacy customer writer sets its package snapshot in a later UPDATE.
+  IF coalesce(NEW.units_per_sale_package,1)<=1 THEN RETURN NEW; END IF;
+ ELSIF NEW.commercial_line_kind NOT IN ('legacy_single_sku_parcel','configurable_parcel') THEN
+  RETURN NEW;
+ END IF;
+ IF TG_OP='UPDATE' AND ROW(NEW.commercial_line_kind,NEW.product_id,NEW.family_product_id,NEW.units_per_sale_package)
+   IS NOT DISTINCT FROM ROW(OLD.commercial_line_kind,OLD.product_id,OLD.family_product_id,OLD.units_per_sale_package) THEN
+  RETURN NEW;
+ END IF;
+ v_product:=coalesce(NEW.family_product_id,NEW.product_id);
+ -- A product update locks this root before writing pricing state. Lock it
+ -- even when the sidecar is absent, then read the state in a fresh statement.
+ SELECT root.id INTO STRICT v_root
+ FROM public.products item
+ JOIN public.products root ON root.id=coalesce(item.flavor_master_product_id,item.id)
+ WHERE item.id=v_product
+ FOR SHARE OF root;
+ IF EXISTS(SELECT 1 FROM public.product_sale_pricing_state225 WHERE product_id=v_root AND NOT parcel_enabled) THEN
+  RAISE EXCEPTION 'PRICES225_PARCEL_PAUSED: بيع الطرد متوقف مؤقتاً لهذا الصنف.';
+ END IF;
+ RETURN NEW;
+END;
+$$;
+ALTER FUNCTION public.price225_guard_new_parcel_internal() OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.price225_guard_new_parcel_internal() FROM PUBLIC,anon,authenticated,service_role;
+CREATE TRIGGER trg_price225_guard_new_parcel
+BEFORE INSERT OR UPDATE OF commercial_line_kind,product_id,family_product_id,units_per_sale_package ON public.order_items
+FOR EACH ROW EXECUTE FUNCTION public.price225_guard_new_parcel_internal();
+
+-- Product reader, import dispatch, UI and tooling remain pending.
 -- This quarantined candidate is not deployable.
 COMMIT;

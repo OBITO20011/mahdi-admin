@@ -27,11 +27,11 @@ try{
   assert.deepEqual(current,old,'EXISTING_FUNCTION_MUST_REMAIN_BYTE_IDENTICAL:'+old.identity);
  }
  const added=after.functions.filter(f=>!before.functions.some(old=>old.schema===f.schema&&old.identity===f.identity));
- assert.equal(added.length,9);
+ assert.equal(added.length,10);
  assert.deepEqual(added.map(f=>f.identity.slice(0,f.identity.indexOf('('))).sort(),[
   'create_product_family_with_flavors_v4','create_product_with_opening_stock_v7',
   'get_product_pricing_context225','price225_assert_context_internal','price225_assert_prices_internal','price225_create_loss_confirmation_internal',
-  'price225_loss_confirmation_internal','price225_record_state_internal','update_product_master_v7']);
+  'price225_guard_new_parcel_internal','price225_loss_confirmation_internal','price225_record_state_internal','update_product_master_v7']);
  report.existingFunctionObjectsUnchanged=true;
  report.candidateSha256=createHash('sha256').update(candidate).digest('hex');
  const check=async(name,body)=>{
@@ -142,6 +142,43 @@ try{
   master:=(result->>'productId')::UUID;
   IF master IS NULL OR (SELECT count(*) FROM public.products WHERE flavor_master_product_id=master)<>2 OR EXISTS(SELECT 1 FROM public.products WHERE flavor_master_product_id=master AND (sale_price_in_minor_units<>1000 OR default_sale_price_in_minor_units<>11000)) THEN RAISE EXCEPTION 'FAMILY_PRICE_INHERITANCE_FAILED';END IF;
   IF result->'originalUnitPrice'<>'null'::JSONB OR result->'originalParcelPrice'<>'null'::JSONB THEN RAISE EXCEPTION 'FAMILY_FIRST_IMPORT_REMEMBERED_PRICE';END IF;
+ END $proof$;`);
+ const branch=id(200),warehouse=id(201);
+ const preparePausedSale=`${authenticated}
+ SELECT public.set_go_live_main_branch_v1('${branch}');
+ SELECT public.apply_inventory_opening_setup('${warehouse}',${quote(JSON.stringify([{productId:product,packageCount:4,looseUnits:0}]))}::JSONB,'ON225 fixture','on225-open-item-stock');
+ SELECT public.open_cash_shift('${branch}',0);
+ DO $proof$ DECLARE p public.products;result JSONB;ack JSONB;BEGIN
+  ack:=public.get_product_pricing_context225('${product}',700,11000,12,false,false)->'belowCostConfirmation';
+  ${edit(700,11000,'false','ack')}
+ END $proof$;`;
+ const parcelLine={commercial_line_kind:'legacy_single_sku_parcel',product_id:product,parcel_quantity:1,units_per_parcel:12};
+ const singleLine={commercial_line_kind:'base_unit',product_id:product,base_quantity:1};
+ const pos=(line,amount,request)=>`public.create_pos_sale_v2('${warehouse}','${branch}',NULL,'ON225 test','cash',${quote(JSON.stringify([{...line,price_authority:'server_catalog',line_discount_in_minor_units:0}]))}::JSONB,0,${amount},'${request}')`;
+ await check('existing POS RPC rejects a paused parcel but retains the independent single sale price',`${preparePausedSale}
+ ${reject('PERFORM '+pos(parcelLine,11000,'on225-paused-pos-parcel')+';','PRICES225_PARCEL_PAUSED')}
+ SELECT ${pos(singleLine,700,'on225-paused-pos-single')};
+ RESET ROLE;
+ DO $proof$ BEGIN
+  IF (SELECT count(*) FROM public.order_items WHERE product_id='${product}' AND commercial_line_kind='base_unit'
+    AND line_total_in_minor_units=700 AND unit_cost_snapshot_in_minor_units_exact=800)<>1 THEN
+   RAISE EXCEPTION 'POS_SINGLE_SNAPSHOT_CHANGED';
+  END IF;
+ END $proof$;`);
+ const phone='0799000225',phoneHash=createHash('sha256').update(phone).digest('hex');
+ const guest=(line,amount,request)=>`public.submit_guest_customer_order_v2('${request}',repeat('c',64),'${phoneHash}',
+  'ON225 guest','${phone}','إربد','الرمثا','اختبار','اختبار',NULL,NULL,NULL,NULL,NULL,NULL,
+  ${quote(JSON.stringify([{...line,expected_unit_price_in_minor_units:amount}]))}::JSONB,NULL,'cash_on_delivery','inside_ramtha',
+  ${amount},0,1000,${amount+1000})`;
+ await check('existing guest RPC rejects a paused parcel and accepts a unit without changing saved price',`${preparePausedSale}
+ RESET ROLE;
+ SELECT set_config('request.jwt.claims','{"role":"service_role"}',true);SET LOCAL ROLE service_role;
+ ${reject('PERFORM '+guest(parcelLine,11000,id(503))+';','PRICES225_PARCEL_PAUSED')}
+ SELECT ${guest(singleLine,700,id(504))};
+ RESET ROLE;
+ DO $proof$ BEGIN
+  IF (SELECT count(*) FROM public.order_items WHERE product_id='${product}' AND commercial_line_kind='base_unit'
+    AND line_total_in_minor_units=700)<>1 THEN RAISE EXCEPTION 'GUEST_SINGLE_SNAPSHOT_CHANGED';END IF;
  END $proof$;`);
  report.ok=true;
 }catch(error){report.stage=stage;report.error=error.message.split('\n')[0];process.exitCode=1;}

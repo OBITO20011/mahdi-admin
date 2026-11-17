@@ -10,10 +10,11 @@
   "completed": [
     "Actual224 COGS9650 for cash/partial/website;all prior functiondefinitions unchanged.",
     "Independent golden oracle:revenue12500,COGS11258,profit1242,inventory10042;full225golden notyetproved.",
-    "Quarantined225:protectedstate,strictpricepair/exactWACack,firstoriginal/restore/context,v7update andv7create/v4family;9newfunctionsonly."
+    "Quarantined225:protectedstate,strictpricepair/exactWACack,firstoriginal/restore/context,v7update andv7create/v4family;9newfunctionsonly.",
+    "Candidate225 blocks new paused parcels at the order-item boundary while preserving independent single sales through current POS and guest RPCs."
   ],
   "inProgress": [
-    "Save13caseproof/checkpoint;priority Restore generalACL plusLF maintenance in separateworktrees."
+    "Build the ON catalog read path, import and supplier receipt pricing flow. The candidate SQL is still quarantined."
   ],
   "notStarted": [
     "Migration225 andproductwriters/parcelpause/originalprice/receiptwarning;no frozenbodyexceptionrequired bythisexample."
@@ -21,7 +22,8 @@
   "testsPassed": [
     "Actual fresh224 candidate13/13 rollback cases,oldfunctionobjects unchanged,helper/table ACL protected.",
     "Creation keeps both explicitprices/inheritance,initial originals empty;unconfirmedloss rollsback andstableSKU acknowledgment permitsconfirmedcreation.",
-    "Priorfocused8/8 beforelatestcreationextension;refreshnow."
+    "Priorfocused8/8 beforelatestcreationextension;refreshnow.",
+    "Isolated PostgreSQL 15/15 with row rollback, including ON POS and guest pause refusal and unchanged price/cost snapshots."
   ],
   "testsRemaining": [
     "Creationpermission/concurrency/familyloss/import,pause oldRPC admission,publicavailability andUI.",
@@ -42,12 +44,12 @@
     "No ON fillin workbook/generator or ON cutover rewrite in this round.",
     "225Draft only;no merge before fullgolden day,CI andClaude review."
   ],
-  "checkpointedAt": "2026-11-17T15:41:04.121Z",
+  "checkpointedAt": "2026-11-17T16:14:38.786Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "filesTouchedCount": 3,
   "filesTouchedManifestSha256": "cbb7f92995029ba9aef50365bb54c32dfd38d92828f65d63e230ddb1c2eb871a",
-  "nextExactAction": "Approved225 core13/13 actualPG andfocused8/8 saved;buildpause/import/UI/golden afterpriority Restore/LF;candidate staysquarantined.",
-  "workingTreeFingerprint": "61D19FA6EE7B0A270039FCBDBBD5DD29E4E9F6C484E63CF70788229D99AA3D47"
+  "nextExactAction": "Implement the additive ON catalog availability reader and import pricing. Candidate pause gate is proved through current POS and guest RPCs.",
+  "workingTreeFingerprint": "D58C0DF250B52C8AC0935A62000E50A79696B3720F7CF06B61A5F1B61D653657"
 }
