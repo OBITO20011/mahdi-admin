@@ -737,6 +737,22 @@ ALTER FUNCTION public.public_storefront_catalog_page225(integer,integer,uuid,tex
 REVOKE ALL ON FUNCTION public.public_storefront_catalog_page225(integer,integer,uuid,text,text,text,uuid,uuid,uuid[]) FROM PUBLIC,anon,authenticated,service_role;
 GRANT EXECUTE ON FUNCTION public.public_storefront_catalog_page225(integer,integer,uuid,text,text,text,uuid,uuid,uuid[]) TO anon,authenticated;
 
+-- The existing four home rails use the same availability as the catalog page.
+CREATE FUNCTION public.public_storefront_merchandising225() RETURNS JSONB
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path=pg_catalog,public
+AS $fn$
+ SELECT CASE WHEN sales_lite1.enabled() THEN public.lite1_merchandising2()
+ ELSE jsonb_build_object(
+  'newest',public.public_storefront_catalog_page225(p_limit=>6,p_sort=>'newest')->'items',
+  'bestSellers',public.public_storefront_catalog_page225(p_limit=>6,p_sort=>'best_sellers')->'items',
+  'offers',public.public_storefront_catalog_page225(p_limit=>6,p_sort=>'offers')->'items',
+  'lowStock',public.public_storefront_catalog_page225(p_limit=>6,p_sort=>'low_stock')->'items'
+ ) END;
+$fn$;
+ALTER FUNCTION public.public_storefront_merchandising225() OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.public_storefront_merchandising225() FROM PUBLIC,anon,authenticated,service_role;
+GRANT EXECUTE ON FUNCTION public.public_storefront_merchandising225() TO anon,authenticated;
+
 -- Existing readers keep their current role, feature, eligibility and stock
 -- checks. A separate ON layer filters known paused families after those checks.
 CREATE FUNCTION public.price225_filter_parcel_options_internal(p_payload JSONB)

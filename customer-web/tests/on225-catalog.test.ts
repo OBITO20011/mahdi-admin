@@ -60,3 +60,21 @@ test('225 falls back only for a named PostgREST missing function',async()=>{
   assert.equal(await readCatalog225(async()=>denied,'public_storefront_catalog_page225',args,async()=>{assert.fail('unexpected fallback');}),denied);
  }
 });
+
+test('225 home rails share current availability and preserve the named legacy fallback',async()=>{
+ const calls:string[]=[];
+ const legacy={data:{newest:[],bestSellers:[],offers:[],lowStock:[]},error:null,status:200};
+ const rpc=async(name:string,input?:Record<string,unknown>)=>{
+  calls.push(name);
+  assert.equal(input,undefined);
+  return name==='public_storefront_merchandising225'
+   ?{data:null,error:{code:'PGRST202',message:name},status:404}:legacy;
+ };
+ const result=await readCatalog225(rpc,'public_storefront_merchandising225',undefined,
+  ()=>readOperatingCatalog(rpc,'lite1_merchandising2'));
+ assert.equal(result,legacy);
+ assert.deepEqual(calls,['public_storefront_merchandising225','lite1_merchandising2']);
+ const unavailable={data:null,error:{code:'PGRST202',message:'other_rpc'},status:404};
+ assert.equal(await readCatalog225(async()=>unavailable,'public_storefront_merchandising225',undefined,
+  async()=>{assert.fail('Unrelated missing functions cannot fall back');}),unavailable);
+});

@@ -27,12 +27,12 @@ try{
   assert.deepEqual(current,old,'EXISTING_FUNCTION_MUST_REMAIN_BYTE_IDENTICAL:'+old.identity);
  }
  const added=after.functions.filter(f=>!before.functions.some(old=>old.schema===f.schema&&old.identity===f.identity));
- assert.equal(added.length,16);
+ assert.equal(added.length,17);
  assert.deepEqual(added.map(f=>f.identity.slice(0,f.identity.indexOf('('))).sort(),[
   'create_product_family_with_flavors_v4','create_product_with_opening_stock_v7',
   'get_pos_parcel_options225','get_product_pricing_context225','get_public_parcel_options225','get_receipt_pricing_warnings225','price225_assert_context_internal','price225_assert_prices_internal','price225_create_loss_confirmation_internal',
   'price225_filter_parcel_options_internal','price225_guard_new_parcel_internal','price225_loss_confirmation_internal','price225_record_state_internal',
-  'public_storefront_catalog_page225','search_pos_products225','update_product_master_v7']);
+  'public_storefront_catalog_page225','public_storefront_merchandising225','search_pos_products225','update_product_master_v7']);
  report.existingFunctionObjectsUnchanged=true;
  report.candidateSha256=createHash('sha256').update(candidate).digest('hex');
  const check=async(name,body)=>{
@@ -204,6 +204,12 @@ try{
      OR row->>'availableSalePackages' IS DISTINCT FROM '0' OR row->>'availableQuantity' IS DISTINCT FROM '48'
      OR row->>'salePriceInMinorUnits' IS DISTINCT FROM '700' OR row->>'isAvailable' IS DISTINCT FROM 'true' THEN
    RAISE EXCEPTION 'PAUSED_CATALOG_AVAILABILITY_WRONG';
+  END IF;
+  SELECT item INTO row FROM jsonb_array_elements(public.public_storefront_merchandising225()->'newest') item
+  WHERE item->>'id'='${product}';
+  IF row->>'parcelSaleEnabled' IS DISTINCT FROM 'false' OR row->>'availableSalePackages' IS DISTINCT FROM '0'
+     OR row->>'salePriceInMinorUnits' IS DISTINCT FROM '700' OR row->>'isAvailable' IS DISTINCT FROM 'true' THEN
+   RAISE EXCEPTION 'PAUSED_HOME_RAIL_AVAILABILITY_WRONG';
   END IF;
  END $proof$;`);
  await check('sellable POS reader retains exact prices and exposes the temporary parcel pause',`${preparePausedSale}

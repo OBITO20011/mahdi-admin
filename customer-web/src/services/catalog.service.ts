@@ -473,7 +473,8 @@ export async function fetchPublicStorefrontMerchandising(): Promise<PublicMercha
     throw new Error('إعدادات الاتصال بكتالوج Supabase غير مكتملة في موقع العملاء.');
   }
 
-  const { data, error } = await readOperatingCatalog(operatingCatalogRpc,'lite1_merchandising2');
+  const { data, error } = await readCatalog225(operatingCatalogRpc,'public_storefront_merchandising225',undefined,
+    () => readOperatingCatalog(operatingCatalogRpc,'lite1_merchandising2'));
   if (error) {
     throw new Error(error.message || 'تعذر تحميل الاختيارات المميزة.');
   }

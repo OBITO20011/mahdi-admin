@@ -15,6 +15,7 @@ export const operatingCatalogRpc:CatalogRpc=(name,args)=>{
   case 'get_public_parcel_options225':return supabase.rpc('get_public_parcel_options225',args);
   case 'lite1_parcel_options2':return supabase.rpc('lite1_parcel_options2',args);
   case 'get_public_configurable_parcel_options':return supabase.rpc('get_public_configurable_parcel_options',args);
+ case 'public_storefront_merchandising225':return supabase.rpc('public_storefront_merchandising225');
   case 'lite1_merchandising2':return supabase.rpc('lite1_merchandising2',args);
   case 'get_public_storefront_merchandising':return supabase.rpc('get_public_storefront_merchandising');
   default:throw Error('UNAPPROVED_CATALOG_RPC');

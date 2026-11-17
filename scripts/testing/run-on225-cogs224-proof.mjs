@@ -1,5 +1,5 @@
-// Actual224 regression proof: the proposed9650vs9648 defect does not reproduce.
-// No new migration or frozen writer changes; fixed disposable Docker target.
+// Prove the exact fractional COGS before and after the quarantined 225 SQL.
+// No frozen writer changes; fixed disposable Docker target.
 import assert from 'node:assert/strict';
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import path from 'node:path';
@@ -30,9 +30,10 @@ try{
  local=await startInventory224Local(224,'reference');const sql=local.sql;
  const json=async text=>JSON.parse((await sql(text)).trim().split(/\r?\n/u).at(-1));
  assert.deepEqual(await json("SELECT jsonb_build_object('max',max(version),'files',count(*),'full',(SELECT full_accounting FROM sales_lite1.mode)) FROM supabase_migrations.schema_migrations;"),{max:'224',files:184,full:true});
- const catalogHash=async()=>createHash('sha256').update(JSON.stringify(JSON.parse(await sql(schemaCatalogSql)).functions)).digest('hex');
- const frozenBefore=await catalogHash();
- const live=JSON.parse(await sql(schemaCatalogSql)).functions.find(f=>f.schema==='public'&&f.identity.startsWith('parcel209_pos_sale_internal('));assert.ok(live);report.posWriterDefinitionSha256=createHash('sha256').update(live.definition).digest('hex');
+ const functions=async()=>JSON.parse(await sql(schemaCatalogSql)).functions;
+ const oldFunctions=await functions();
+ const frozenBefore=createHash('sha256').update(JSON.stringify(oldFunctions)).digest('hex');
+ const live=oldFunctions.find(f=>f.schema==='public'&&f.identity.startsWith('parcel209_pos_sale_internal('));assert.ok(live);report.posWriterDefinitionSha256=createHash('sha256').update(live.definition).digest('hex');
  stage='catalog-identities-only';
  await sql('SELECT cron.alter_job(jobid,active:=false) FROM cron.job;ALTER TABLE public.orders DISABLE TRIGGER trg_notify_new_website_order_push;');
  const fixture=await readFile(path.join(root,'scripts/testing/package-e-golden-day-fixture.sql'),'utf8');await sql(fixture);
@@ -63,24 +64,46 @@ try{
  SELECT public.accept_order_for_preparation((current_setting('nawasrah.red_result')::jsonb->>'order_id')::uuid,'COGS');
  SELECT public.update_order_status((current_setting('nawasrah.red_result')::jsonb->>'order_id')::uuid,'ready','COGS');
  ${capture(`complete_website_order_with_settlement_v2((current_setting('nawasrah.red_result')::jsonb->>'order_id')::uuid,${q(randomUUID())},'cash',12000,0,NULL,'COGS')`)}`;
- for(const [name,body]of[['pos-cash',cash],['pos-partial',partial],['website-completion',website]]){
-  stage=name;const before=await readApplicationFingerprint(local.executor);
-  const observed=await json(`BEGIN;SET LOCAL statement_timeout='8s';${claims('authenticated')}${body}RESET ROLE;
-   SELECT jsonb_build_object('result',current_setting('nawasrah.red_result')::jsonb,'items',(SELECT jsonb_agg((SELECT jsonb_object_agg(key,value) FROM jsonb_each(to_jsonb(i)) WHERE key LIKE '%cost%' OR key LIKE '%cogs%' OR key LIKE '%profit%' OR key IN('quantity','line_total_in_minor_units','commercial_line_kind','sale_package_quantity','units_per_sale_package'))) FROM public.order_items i WHERE product_id='${product}'),'cache',(SELECT result_snapshot FROM public.business_operations WHERE id=(SELECT operation_id FROM public.orders WHERE id=(SELECT order_id FROM public.order_items WHERE product_id='${product}' LIMIT 1))));ROLLBACK;`);
-  assert.equal(observed.items.length,1);const actual=Number(observed.items[0].cogs_in_minor_units);
-  assert.equal(actual,expectedCogs,name+': stored COGS');
-  assert.equal(observed.items[0].profit_in_minor_units,12000-expectedCogs,name+': actual profit');
-  assert.equal(observed.items[0].unit_cost_snapshot_in_minor_units_exact,804.166667);
-  assert.equal(observed.items[0].exact_cogs_snapshot_in_minor_units,9650.000004);
-  const published=[];const walk=(value,path)=>{if(value===null||typeof value!=='object')return;for(const[key,entry]of Object.entries(value)){if(key==='cogsInMinorUnits'||key==='cogs_in_minor_units')published.push({path:path+'.'+key,value:entry});if(entry&&typeof entry==='object')walk(entry,path+'.'+key);}};
-  walk(observed.result,'result');walk(observed.cache,'cache');
-  for(const field of published)assert.equal(field.value,expectedCogs,name+': '+field.path);
-  if(name!=='website-completion')assert.equal(published.length,2,'Both RPC and cached POS COGS must be checked');
-  const after=await readApplicationFingerprint(local.executor);assert.deepEqual(after.tables,before.tables,'ROLLBACK_ALL_PUBLIC_ROWS');
-  report.cases.push({name,businessExpectationPassed:true,RED:false,expectedCogs,actualCogs:actual,publishedCogs:published,observed,rollbackRowsIdentical:true,sequencesMayAdvance:true});
-  console.log(JSON.stringify({stage:name,expectation:'GREEN',actualCogs:actual,expectedCogs,rpcAndCacheCompared:published.length,rollback:true}));
- }
- assert.equal(await catalogHash(),frozenBefore,'ALL_FUNCTIONS_UNCHANGED');
+ const runCases=async phase=>{
+  const results=[];
+  for(const [name,body]of[['pos-cash',cash],['pos-partial',partial],['website-completion',website]]){
+   stage=phase+': '+name;const before=await readApplicationFingerprint(local.executor);
+   const observed=await json(`BEGIN;SET LOCAL statement_timeout='8s';${claims('authenticated')}${body}RESET ROLE;
+    SELECT jsonb_build_object('result',current_setting('nawasrah.red_result')::jsonb,'items',(SELECT jsonb_agg((SELECT jsonb_object_agg(key,value) FROM jsonb_each(to_jsonb(i)) WHERE key LIKE '%cost%' OR key LIKE '%cogs%' OR key LIKE '%profit%' OR key IN('quantity','line_total_in_minor_units','commercial_line_kind','sale_package_quantity','units_per_sale_package'))) FROM public.order_items i WHERE product_id='${product}'),'cache',(SELECT result_snapshot FROM public.business_operations WHERE id=(SELECT operation_id FROM public.orders WHERE id=(SELECT order_id FROM public.order_items WHERE product_id='${product}' LIMIT 1))));ROLLBACK;`);
+   assert.equal(observed.items.length,1);const actual=Number(observed.items[0].cogs_in_minor_units);
+   assert.equal(actual,expectedCogs,name+': stored COGS');
+   assert.equal(observed.items[0].profit_in_minor_units,12000-expectedCogs,name+': actual profit');
+   assert.equal(observed.items[0].unit_cost_snapshot_in_minor_units_exact,804.166667);
+   assert.equal(observed.items[0].exact_cogs_snapshot_in_minor_units,9650.000004);
+   assert.equal(typeof observed.items[0].cost_finalized_at,'string');
+   assert.ok(Number.isFinite(Date.parse(observed.items[0].cost_finalized_at)),'COST_FINALIZATION_TIME_REQUIRED');
+   const published=[];const walk=(value,path)=>{if(value===null||typeof value!=='object')return;for(const[key,entry]of Object.entries(value)){if(key==='cogsInMinorUnits'||key==='cogs_in_minor_units')published.push({path:path+'.'+key,value:entry});if(entry&&typeof entry==='object')walk(entry,path+'.'+key);}};
+   walk(observed.result,'result');walk(observed.cache,'cache');
+   for(const field of published)assert.equal(field.value,expectedCogs,name+': '+field.path);
+   if(name!=='website-completion')assert.equal(published.length,2,'Both RPC and cached POS COGS must be checked');
+   const after=await readApplicationFingerprint(local.executor);assert.deepEqual(after.tables,before.tables,'ROLLBACK_ALL_PUBLIC_ROWS');
+   results.push({name,businessExpectationPassed:true,RED:false,expectedCogs,actualCogs:actual,publishedCogs:published,observed,rollbackRowsIdentical:true,sequencesMayAdvance:true});
+   console.log(JSON.stringify({stage,expectation:'GREEN',actualCogs:actual,expectedCogs,rpcAndCacheCompared:published.length,rollback:true}));
+  }
+  return results;
+ };
+ report.cases=await runCases('224');
+ assert.deepEqual(await functions(),oldFunctions,'ALL_FUNCTIONS_UNCHANGED');
+ stage='apply quarantined pricing candidate';
+ const candidate=await readFile(path.join(root,'docs/design/on-independent-prices225/225_on_independent_prices.candidate.sql'),'utf8');
+ await sql(candidate);
+ const updated=await functions();
+ const oldKeys=new Set(oldFunctions.map(row=>`${row.schema}.${row.identity}`));
+ assert.deepEqual(updated.filter(row=>oldKeys.has(`${row.schema}.${row.identity}`)),oldFunctions,'ALL_EXISTING_FUNCTIONS_BYTE_IDENTICAL');
+ report.candidateCases=await runCases('225 candidate');
+ // Separate rolled-back sales have distinct wall-clock finalization instants.
+ // Every captured price, quantity, cost and profit field must remain identical.
+ const projection=cases=>cases.map(row=>({case:row.name,items:row.observed.items.map(item=>{
+  const snapshot={...item};delete snapshot.cost_finalized_at;return snapshot;
+ }),publishedCogs:row.publishedCogs}));
+ assert.deepEqual(projection(report.candidateCases),projection(report.cases),'225_COGS_EXACT_PARITY');
+ report.candidateSha256=createHash('sha256').update(candidate).digest('hex');
+ report.candidateAccountingParity=true;
  Object.assign(report,{ok:true,knownGapCases:[],premise:'Not reproduced on224;214 already uses exact WAC',allFunctionDefinitionsUnchanged:true,frozenFunctionsSha256:frozenBefore});
 }catch(error){Object.assign(report,{ok:false,stage,error:error.message.split('\n')[0]});process.exitCode=1;}
 finally{await local?.stop();await writeFile(path.join(output,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({ok:report.ok,stage,output,knownGapCases:report.knownGapCases}));}
