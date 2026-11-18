@@ -1,3 +1,4 @@
+import {sourceBeforeOnCutover225} from '../scripts/audit/source-before-on-cutover225.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
@@ -8,6 +9,8 @@ import {sourceBeforeOnPrices225} from '../scripts/audit/source-before-on-prices2
 import {canonicalLf,sha256} from '../scripts/testing/maintenance-db-contract.mjs';
 import {sourceBeforeSupportedUpgrades224} from '../scripts/audit/source-before-supported-upgrades224.mjs';
 const read=(file:string)=>canonicalLf(readFileSync(file,'utf8'));
+
+const legacy=(file:string)=>sourceBeforeOnCutover225(file,read(file))!;
 
 test('224 adapters are exact generated copies of committed223 templates, retaining literal hashes',()=>{
  const pins=JSON.parse(read('docs/design/inventory224/tool223-source-pins.json')) as Record<string,string>;
@@ -55,10 +58,10 @@ test('224 D1 composes every223 CI requirement and refuses partial reset/ACL pres
 });
 
 test('the cutover instructions install the ready224 reference before the upgrade dry run',()=>{
- const guide=read('docs/operations/UPGRADE224_AR.md');
+ const guide=legacy('docs/operations/UPGRADE224_AR.md');
  const installed=guide.indexOf('واعتمده وثبّته في مجلّد العمل نفسه قبل فحص الترقية');
  const dryRun=guide.indexOf('frankfurt-owner-upgrade224.mjs --dry-run');
  assert.ok(installed>=0&&dryRun>installed);
- assert.match(read('docs/handover/ورقة-يوم-التشغيل.html'),
+ assert.match(legacy('docs/handover/ورقة-يوم-التشغيل.html'),
   /اعتماد وتثبيت مرجع224 ← Backup223\/Restore ← dry-run224 ثم apply224/u);
 });

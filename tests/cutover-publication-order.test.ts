@@ -1,3 +1,4 @@
+import {sourceBeforeOnCutover225} from '../scripts/audit/source-before-on-cutover225.mjs';
 import{historical220Text}from'../scripts/testing/lite220-historical-test-view.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -83,10 +84,12 @@ test('closed-order verification documents both UI refusals and the current serve
   for(const marker of ['ordersEnabled=false','get_public_storefront_settings','PHASE3_CUSTOMER_ORDERS_DISABLED','replay','لا ينشئ طلباً جديداً','عدم زيادة الطلبات','وليس تجربة رفض حية','لا ترسل طلباً حيّاً للتحقق من المنع قبل التوقيع'])assert.ok(plan.includes(marker),marker);
 });
 
-test('current owner cutover uses actual units before the signed workbook and records no opening debts or cheques',()=>{
-  const current=readFileSync('docs/operations/GO_LIVE_CUTOVER_AR.md','utf8').replaceAll('\r\n','\n');
-  const currentCard=readFileSync('docs/handover/ورقة-يوم-التشغيل.md','utf8').replaceAll('\r\n','\n');
-  const printed=readFileSync('docs/handover/ورقة-يوم-التشغيل.html','utf8').replaceAll('\r\n','\n');
+const legacy=(file:string)=>sourceBeforeOnCutover225(file,readFileSync(file,'utf8'))!;
+
+test('historical 224 owner cutover uses actual units before the signed workbook and records no opening debts or cheques',()=>{
+  const current=legacy('docs/operations/GO_LIVE_CUTOVER_AR.md').replaceAll('\r\n','\n');
+  const currentCard=legacy('docs/handover/ورقة-يوم-التشغيل.md').replaceAll('\r\n','\n');
+  const printed=legacy('docs/handover/ورقة-يوم-التشغيل.html').replaceAll('\r\n','\n');
   order(current,['| 3.1 الفرع والوضع','| 3.1أ الوحدات','| 3.1ب الأقسام','| 3.2 المنتجات','| 3.5 عدّ الدرج','| 3.6 المطابقة','| 3.7 إنهاء البداية','| 3.8 إعدادات الطلبات']);
   const data=current.split('## 3. إدخال البيانات الحقيقية')[1].split('## 4.')[0];
   assert.doesNotMatch(data,/\| 3\.\d[^\n]*ديون العملاء القديمة|\| 3\.\d[^\n]*شيكات العملاء إن وجدت/u);
@@ -103,13 +106,13 @@ test('current owner cutover uses actual units before the signed workbook and rec
   assert.doesNotMatch(preparation,/14قسماً|ورقة ذمم وشيكات/u);
 });
 
-test('current cutover distinguishes a controlled acceptance opening from disabled orders and never invents a store deploy check',()=>{
-  const current=readFileSync('docs/operations/GO_LIVE_CUTOVER_AR.md','utf8');
+test('historical 224 cutover distinguishes a controlled acceptance opening from disabled orders and never invents a store deploy check',()=>{
+  const current=legacy('docs/operations/GO_LIVE_CUTOVER_AR.md');
   for(const value of['لا يمكن إنشاء طلب جديد معordersEnabled=false','لا يوجد تجاوز تجريبي في الخادم','نافذة قبول معلنة','أغلق الطلبات إن بقي توقيع/فحص','تغيير واتساب مؤجل إلى ما بعد التشغيل'])assert.ok(current.includes(value),value);
   assert.ok(current.includes('أمرcustomer-web deploy:cloudflare الحالي لا يدعم --check'));
   assert.ok(current.includes('node scripts/deployment/check-customer.mjs --check'));
   for(const file of ['docs/operations/GO_LIVE_CUTOVER_AR.md','docs/handover/ورقة-يوم-التشغيل.md','docs/handover/ورقة-يوم-التشغيل.html']){
-    const text=readFileSync(file,'utf8');assert.match(text,/0 دينار/u);
+    const text=legacy(file);assert.match(text,/0 دينار/u);
     assert.match(text,/الحد الأدنى.*إعدادات المتجر|إعدادات المتجر.*الحد الأدنى/u);
     assert.match(text,/بعد اكتمال التحسينات/u);
   }

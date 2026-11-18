@@ -1,3 +1,4 @@
+import {sourceBeforeOnCutover225} from '../scripts/audit/source-before-on-cutover225.mjs';
 import{pathsBeforeSalesOnlyPhase3}from'../scripts/audit/source-before-sales-only-phase3.mjs';
 import{historical220Text}from'../scripts/testing/lite220-historical-test-view.mjs';
 import{historicalProductWorkbookSource}from'../scripts/audit/source-before-product-workbook.mjs';
@@ -44,7 +45,8 @@ test('H keeps live identity, contacts, historical SQL and media exact except the
  assert.deepEqual(pathsBeforeHandover213(pathsBeforeSalesOnlyPhase3(changed)).filter(f=>!['scripts/audit/trial-brand-hunks.json','scripts/audit/trial-owner-w-hunks.json','scripts/audit/trial-owner-r-hunks.json',approvedR,approvedMobileVideo].includes(f)),[]);
  assert.equal(hash(read(approvedR).replaceAll('\r\n','\n')),'6bdbc906b38b4fd29dd4c5115e040cb1954b1bdb5abe0ee3aedaae634b6ce619','Only the exact owner-approved read-only212 is admitted');
  for(const f of ['customer-web/src/App.tsx','customer-web/src/config/seoBrand.ts','customer-web/src/components/StoreHero.tsx'])assert.ok(!read(f).includes('nawasrah-banner-wide.webp'));
- assert.match(read('docs/operations/GO_LIVE_CUTOVER_AR.md'),/962785857700/u);
+ const cutover='docs/operations/GO_LIVE_CUTOVER_AR.md';
+ assert.match(sourceBeforeOnCutover225(cutover,read(cutover))!,/962785857700/u);
 });
 test('H exact outer inverse preserves delivered211 sources and rejects any unapproved mutation',()=>{
  const base='6a7d99e48d6fff5299eb2bc4550d67a8b8908bfb';

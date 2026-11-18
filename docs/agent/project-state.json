@@ -15,6 +15,7 @@
   ],
   "phase4Closed": true,
   "currentPhase": "ON225_CUTOVER_WORKBOOK",
+  "phaseON225_CUTOVER_WORKBOOKImplementationAllowed": true,
   "phase6Closed": true,
   "phase6ClosureBaseline": "5aaeab11e13c2be454af677ee176f77aa2d9cde4",
   "phase6ClosureExactShaCi": "PASS",

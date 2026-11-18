@@ -1,3 +1,4 @@
+import {sourceBeforeOnCutover225} from '../scripts/audit/source-before-on-cutover225.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -6,7 +7,9 @@ import {sourceBeforeOnPrices225,onPrices225Pins} from '../scripts/audit/source-b
 test('literal225 source layer preserves every beforeText and refuses unknown bytes',()=>{
  for(const [file,pin] of Object.entries(onPrices225Pins)){
   const current=canonicalLf(readFileSync(file,'utf8'));
-  assert.equal(sha256(current),pin.after,file);
+  const prior=sourceBeforeOnCutover225(file,current);
+  assert.ok(prior!==null,file);
+  assert.equal(sha256(prior),pin.after,file);
   assert.equal(sourceBeforeOnPrices225(file,current),pin.beforeText,file);
   assert.equal(sourceBeforeOnPrices225(file,current+'\nUNKNOWN_BYTE'),current+'\nUNKNOWN_BYTE',file);
  }

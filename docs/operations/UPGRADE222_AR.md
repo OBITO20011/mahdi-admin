@@ -1,6 +1,6 @@
 # 222 — سعران مستقلان في وضع OFF بعد220
 
-**رأس واحد بسقف224:** شغّل أدوات222 ثم223 ثم224 من رأس main نفسه. قبول الأداتين السابقتين محصور بالقائمة `{222,223}` تحت224؛ لا يدعم سقفاً مستقبلياً. ابنِ مرجع222 بالأداة المرقّمة من هذا الرأس؛ يلزم تطابقه مع التزام مرجعه الأصلي. أكمل Backup/Restore ثم `verify-only complete:true` لكل ترقية قبل التالية. المرجع النهائي للقطع وعدّةD−1 وRESET هي224؛ أقسام D−1 القديمة أدناه تاريخية ولا تحل محل224.
+**الرأس المعتمد بسقف 225.** نفّذ 222 ثم 223 ثم 224 ثم 225 من الرأس نفسه. جهّز مراجعها المرقّمة قبل النافذة وأكمل الحماية والنسخ والاسترجاع وverify-only لكل مرحلة قبل التالية. مرجع القطع النهائي وعدّة D−1 وRESET هي 225. اتبع خطة ON في [دليل القطع](GO_LIVE_CUTOVER_AR.md).
 
 هذه خطة تنفيذ **بعد اعتماد ودمج الحزمة وإذن المالك بالترقية**، وليست إذن تطبيق. مصدرها migration `222_independent_lite_parcel_prices.sql`؛ SHA-256 (LF): `bcf55b1f43714e27d525dedac51cc7c3f85d0e1f2be422bbc422cafc6ff84a68`. لا اتصال مستضاف ضمن الاختبارات المحلية.
 
@@ -14,19 +14,19 @@
 
 ## الترتيب قبل D−1
 
-1. ثبّت SHA main المعتمد وCI الكامل والأسرار والنسخ على الرأس نفسه. جمّد الكتّاب والمستهلكات وفق [قسم التجميد المشترك](GO_LIVE_CUTOVER_AR.md#تجميد-مشترك-قبل-backup220-والنسخة-الفاصلة). ضع مرجع222 المطابق للرأس في مجلّد الأداة، وراجع حالة220/181، وطبّق حجز الترقية، ثم تحقّق أن الطلبات مغلقة والوظائف الست موقوفة والـlease خامل. لا تغيّر الجداول أو ACL يدوياً.
+1. ثبّت SHA main المعتمد وCI الكامل والأسرار والنسخ على الرأس نفسه. جمّد الكتّاب والمستهلكات وفق [قسم التجميد المشترك](GO_LIVE_CUTOVER_AR.md#2-حجز-الترقية-ثم-الحماية-بالترتيب). ضع مرجع222 المطابق للرأس في مجلّد الأداة، وراجع حالة220/181، وطبّق حجز الترقية، ثم تحقّق أن الطلبات مغلقة والوظائف الست موقوفة والـlease خامل. لا تغيّر الجداول أو ACL يدوياً.
 
-   `node scripts/operations/frankfurt-owner-cutover-hold224.mjs --hold-upgrade --dry-run --workdir '<مجلد الأداة المعتمد>'`
+   `node scripts/operations/frankfurt-owner-cutover-hold225.mjs --hold-upgrade --dry-run --workdir '<مجلد الأداة المعتمد>'`
 
-   `node scripts/operations/frankfurt-owner-cutover-hold224.mjs --hold-upgrade --apply --workdir '<مجلد الأداة المعتمد>'`
+   `node scripts/operations/frankfurt-owner-cutover-hold225.mjs --hold-upgrade --apply --workdir '<مجلد الأداة المعتمد>'`
 
-   `node scripts/operations/frankfurt-owner-cutover-hold224.mjs --hold-upgrade --verify --workdir '<مجلد الأداة المعتمد>'`
+   `node scripts/operations/frankfurt-owner-cutover-hold225.mjs --hold-upgrade --verify --workdir '<مجلد الأداة المعتمد>'`
 2. أنشئ Backup220 حديثاً، وتحقق من بصمته واسترجاعه المعزول؛ احتفظ بتقرير الرجوع. بنية الأرشيف2 والمقارنة الصارمة وحالة pg_net تبقى كما هي. ترقية222 لا تحذف بيانات أو حسابات أو MFA.
 3. راجع الخطة دون كتابة: `node scripts/operations/frankfurt-owner-upgrade222.mjs --dry-run --workdir '<مجلد الأداة المعتمد>'`. هذه خطة محلية، لا تثبت الحالة المستضافة الحديثة.
 4. **المالك فقط بعد الإذن** يشغّل `node scripts/operations/frankfurt-owner-upgrade222.mjs --apply --workdir '<مجلد الأداة المعتمد>' --backup-evidence '<تقرير Backup220.json>'`. الحارس يطابق تاريخ220 وكتالوجه وبصمات SQL والنسخة، ويطبق222 وحدها ويسجلها بعد نجاح التحقق. يلزم الطرفية والتأكيد والصلاحيات المسجلة لأداة المالك؛ لا كلمة مرور في سطر الأمر أو تقرير.
 5. نتيجة apply الناجحة تبقى `protectionPending:true` و`complete:false`. أنشئ Backup222 ثم Restore معزولاً صارماً؛ أي فرق يوقف المتابعة. لا يكفي وجود أرشيف أو نجاح apply وحده.
 6. أكمل `node scripts/operations/frankfurt-owner-upgrade222.mjs --verify-only --workdir '<مجلد الأداة المعتمد>' --backup-evidence '<تقرير Backup222.json>' --restore-evidence '<تقرير Restore222.json>' --upgrade-report '<تقرير apply222.json>'`. المطلوب `complete:true`، دون استثناءات، وبصمة مصدر مطابقة للنسخة والاسترجاع. أي كتابة لاحقة تجعل الدليل السابق قديماً وتحتاج دورة حماية جديدة.
-7. في مسار224 الحالي، أبقِ حجز الترقية واستكمل [حماية223](UPGRADE223_AR.md) ثم [حماية224](UPGRADE224_AR.md). بعد `verify-only complete:true` لـ224، انتقل إلى حجز RESET وافحص أن cleanup وحدها نشطة وفق [قسم التجميد المشترك](GO_LIVE_CUTOVER_AR.md#تجميد-مشترك-قبل-backup220-والنسخة-الفاصلة). بعدها فقط أنشئ النسخة الفاصلة. لا تنفذ المسار التاريخي222 أدناه أثناء القطع224.
+7. أبقِ حجز الترقية وأكمل [223](UPGRADE223_AR.md) ثم [224](UPGRADE224_AR.md) ثم [225](UPGRADE225_AR.md) حتى complete:true لكل مرحلة. انتقل إلى حجز RESET225 ثم النسخة الفاصلة وفق خطة القطع.
 
 ### المسار التاريخي عند القطع بسقف222
 
