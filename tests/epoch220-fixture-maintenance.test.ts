@@ -1,3 +1,4 @@
+import {sourceBeforeOnCutover225} from '../scripts/audit/source-before-on-cutover225.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -33,7 +34,7 @@ test('owner cutover and opening guides forbid activation before221 and preserve 
   'docs/handover/ورقة-يوم-التشغيل.html','docs/operations/SALES_ONLY220_OWNER_AR.md',
   'docs/design/sales-only-phase2/OPENING_EPOCH_PROOF_AR.md'
  ]){
-  const text=readFileSync(file,'utf8');
+  const text=sourceBeforeOnCutover225(file,readFileSync(file,'utf8'))!;
   assert.match(text,/تفعيل المحاسبة ممنوع قبل migration 221/u,file);
   assert.match(text,/LITE2_EPOCH_BUSY/u,file);
   assert.match(text,/بعد دقيقة بالمفتاح نفسه/u,file);

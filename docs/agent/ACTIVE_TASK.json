@@ -1,59 +1,49 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
+  "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Approved225 ON independent prices and golden financial proof;frozen COGS stays byte-identical.",
-  "baselineSha": "8813580ef19a01aa69168e69265daf0eb5538857",
-  "branch": "codex/on-independent-prices225",
-  "phase": "ON_INDEPENDENT_PRICE225",
-  "startedAt": "2026-11-17T04:55:09.912Z",
+  "objective": "Owner18Nov:correct116 ON225 workbook/converter;merge after FULLCI and Gitleaks;new archived ON rehearsal from merged-main222-225 references.",
+  "baselineSha": "2f2f35ad0d6a1225ce06736fe9cbda432c24bfa9",
+  "branch": "codex/on-cutover225-workbook",
+  "phase": "ON225_CUTOVER_WORKBOOK",
+  "startedAt": "2026-11-18T15:13:28.076667+03:00",
   "completed": [
-    "Shared224 rehearsal complete through RESET, ON224/184, no import. #112 merged and main78f47ccd verified.",
-    "225 additive ON independent prices, pause/resume, first originals, receipt review and authorized loss acknowledgement.",
-    "Active225 fresh/incremental exact, 705 public +51 private, current reference and access evidence captured.",
-    "Native225 backup/Restore, registration recovery and RESET including three resumes passed.",
-    "Draft115 8813580e exact CI84/84 successful; extra push secret scan also successful.",
-    "Combined225 final comments and independent manual-original recovery; real RED then29/29 rollback GREEN."
+    "Purchase content/unit start blank;pack invoice/stock require real integer>1;24@12.000 gives0.500 and3packs+5single=77.",
+    "Optional sale parcel with strict225 bounds;full1084 conversion0errors/0warnings;source3310 unchanged.",
+    "Proved active monitoring reproduces exact DDL no-write failure;held probe passes;fixture hold moved before proof with literal224 source pin."
   ],
   "inProgress": [
-    "Approved8813 review corrections: final225 source pins, new reference/protection and exact-head CI."
+    "Exact-head CI for corrected116;merge only after fullgreen."
   ],
   "notStarted": [
-    "Mark115 Ready only after all green; owner final merge remains pending."
+    "New archived ON rehearsal from2230c606 and merged-main222/223/224/225 references;previous rehearsal preserved."
   ],
   "testsPassed": [
-    "CI84/84 on8813580e; application units2164/2164 and customer237/237, zero skips.",
-    "Actual PostgreSQL native candidate25 and224/225 six-case COGS9650 parity passed; frozen bodies exact.",
-    "Golden ON native and real Chromium1280/WebKit390 both reconcile revenue12500,COGS11258,profit1242,inventory10042,cash12500.",
-    "Official225 encrypted Backup/Restore/upgrade preflight/resume-only/verify and RESET185 with all recovery cases passed.",
-    "Exact legacy224 RESET184 and all12 checks passed; historical214-219 Restore green.",
-    "Current types for both apps and strict lint0; final Gitleaks0 on21 feature commits.",
-    "Finalready225 built frozen on8813580e,705public+51private,185migrations,fresh/incremental0diff.",
-    "Local storefront budget and cart animation passed in an isolated copy on4294/4295/4296; owner4176 untouched.",
-    "New225 fresh/incremental0diff; HTTP181/0errors; RPC771/18expected denials; one225 function delta only."
+    "Both app types0;strictlint0;focused46/46 plus23/23 fixture/converter/history;no skipped tests.",
+    "Excel formula/readback1084 pass;full conversion zeroerrors/warnings;sale1.000/parcel11.000 and opening77@0.500.",
+    "DDL isolated reproduction:checks22to27+metrics change;holding original job identities makes all unchanged-source assertions pass."
   ],
   "testsRemaining": [
-    "Newhash ready225/upgrade225 registration-recovery/RESET225, both golden browsers, exact-head FULLCI and Gitleaks."
+    "Local full units2178/2179:known product-workbook-history120s ETIMEDOUT only;no retry or timeout change. Final-head CI required.",
+    "CI84 and Gitleaks;main/primary preflight;new archived ON rehearsal,realUIimport/stock/shortday and timings."
   ],
   "findings": [
-    "Local final root2163/2164 with only the known120s workbook-history ETIMEDOUT; same-head CI2164/2164 is the unit attestation."
+    "CI2f2f RESET225 at14:50 and historical224 at15:00 failed before the late fixture hold. Only monitoring rows changed;deterministically reproduced locally. All guards,reference,SQL and assertions untouched."
   ],
   "blockers": [],
   "activeProcesses": [
-    "No local verification gate active; preserved rehearsal/demo/n8n untouched."
+    "Retained archive PID29592/nawasrah-full-restore-29592-44b4cc6a;networknone. No new archive rehearsal yet."
   ],
   "prohibitions": [
-    "No hosted/deploy/demo/n8n/Docker restart;no original workbook changes.",
-    "Frozen627 bodies andnine approvedbridges unchanged;no alternate COGS coordinator.",
-    "No ON fillin workbook/generator or ON cutover rewrite in this round.",
-    "No225 merge; Ready allowed after final green per owner review18Nov."
+    "No hostedDB/deploy/iPhone/n8n/Docker restart.",
+    "No SQL/migration/frozenbody/guard changes;immutable3310source."
   ],
-  "checkpointedAt": "2026-11-18T07:58:10.073Z",
+  "nextExactAction": "Commit and push the proved fixture hold correction; exact-head FULLCI/Gitleaks, authorized116 merge, then new archive ON rehearsal.",
+  "checkpointedAt": "2026-11-18T15:14:28.088Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 11,
-  "filesTouchedManifestSha256": "11e765ee94e69271f4540fa419c30daee8df4511b3056f21bc66ad7b052ae3a1",
-  "nextExactAction": "Verify review225 pins and types/lint; build new ready225 and rerun protection; no merge.",
-  "workingTreeFingerprint": "580D551A56B6D0D278723B8B7F0704CB21FC07A4114D3C3EAA2E4EAC47400560"
+  "filesTouchedCount": 5,
+  "filesTouchedManifestSha256": "f32b5b04bef14dcd85cd906425307dacc626587c2852db13eca89200e7b0a4d0",
+  "workingTreeFingerprint": "C7E7A1518E056222D4820EA9F0B2D6E03F57AD587B4AFA0E58E3578CCA18E166"
 }

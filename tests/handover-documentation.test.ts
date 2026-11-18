@@ -1,3 +1,4 @@
+import {sourceBeforeOnCutover225} from '../scripts/audit/source-before-on-cutover225.mjs';
 import{historical220Text}from'../scripts/testing/lite220-historical-test-view.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -100,7 +101,7 @@ test('print documents are standalone A4 RTL and cover cutover,emergencies and ge
  assert.ok(notes.includes('لا استيراد لهذا الملف'));assert.ok(notes.includes('صافية بعد الشيكات'));assert.ok(notes.includes('تحضير وعدّ يدوي فقط'));
  for(const marker of ['D-1','T+1','T+2/3','T+14','Backup','RestoreRemote','PRELAUNCH_TRIAL_OPEN=false','RESET219','dry-run','apply','00:00','Asia/Amman','Push','cron','+962785857700','انشر','افحص','resume','سنغافورة'])assert.ok(card.includes(marker),marker);
  for(const path of ['docs/operations/GO_LIVE_CUTOVER_AR.md','docs/operations/ENVIRONMENT_SEPARATION_AR.md','docs/operations/PRELAUNCH_TRIAL_AR.md','docs/agent/OWNER_DECISIONS.md','docs/handover/ورقة-يوم-التشغيل.md','docs/handover/ورقة-يوم-التشغيل.html']){
-  const source=readFileSync(path,'utf8');assert.ok(source.includes('T+2/3'),path);assert.ok(!source.includes('T+7'),path);
+  const source=sourceBeforeOnCutover225(path,readFileSync(path,'utf8'))!;assert.ok(source.includes('T+2/3'),path);assert.ok(!source.includes('T+7'),path);
   for(const condition of ['أول يومين','المتجر والطلبات والتنبيهات','لا تُمس سنغافورة قبل «انشر»','alnawasreh.com'])assert.ok(source.includes(condition),path+': '+condition);
  }
  assert.equal(evidence.print.find((p:{name:string})=>p.name==='ورقة-يوم-التشغيل').pages,2);

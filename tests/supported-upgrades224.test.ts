@@ -1,3 +1,4 @@
+import {sourceBeforeOnCutover225} from '../scripts/audit/source-before-on-cutover225.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -19,7 +20,7 @@ test('all three versioned tool generators preserve their literal approved templa
 });
 
 test('every documented official command has an explicit offline mode or a named no-offline limitation',()=>{
- const documents=Object.fromEntries(cutoverCommandDocuments.map(name=>[name,readFileSync('docs/operations/'+name+'.md','utf8')]));
+ const documents=Object.fromEntries(cutoverCommandDocuments.map(name=>{const file='docs/operations/'+name+'.md';return [name,sourceBeforeOnCutover225(file,readFileSync(file,'utf8'))!];}));
  const commands=documentedCutoverCommands(documents);
  assert.ok(commands.some(row=>row.command.includes('--resume-registration')),'FENCED_REGISTRATION_COMMAND_REQUIRED');
  for(const mode of ['Backup','Upload','VerifyRemote','RestoreRemote'])

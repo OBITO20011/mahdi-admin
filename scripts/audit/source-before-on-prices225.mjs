@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {sourceBeforeOnCutover225,restoreOnCutover225Hashes,pathsBeforeOnCutover225} from './source-before-on-cutover225.mjs';
 import {readFileSync} from 'node:fs';
 import {canonicalLf,sha256} from '../testing/maintenance-db-contract.mjs';
 
@@ -15,6 +16,7 @@ for(const [file,pin] of Object.entries(onPrices225Pins)){
  assert.equal(pin.beforeText===null?null:sha256(pin.beforeText),pin.before,'ON_PRICES225_HISTORY_PIN_CORRUPT:'+file);
 }
 export function sourceBeforeOnPrices225(file,text){
+ text=sourceBeforeOnCutover225(file,text);
  if(text===null)return null;
  const raw=canonicalLf(text);
  if(file===indexFile&&raw===indexText)return null;
@@ -23,18 +25,18 @@ export function sourceBeforeOnPrices225(file,text){
 }
 const current=file=>canonicalLf(readFileSync(new URL('../../'+file,import.meta.url),'utf8'));
 export function restoreOnPrices225Hashes(rows){
- return rows.flatMap(row=>{
+ return restoreOnCutover225Hashes(rows).flatMap(row=>{
   const pin=onPrices225Pins[row.file];
   if(!pin||row.sha256!==pin.after)return[row];
-  assert.equal(sha256(current(row.file)),pin.after,'ON_PRICES225_HISTORY_SOURCE_CHANGED:'+row.file);
+  assert.equal(sha256(sourceBeforeOnCutover225(row.file,current(row.file))),pin.after,'ON_PRICES225_HISTORY_SOURCE_CHANGED:'+row.file);
   return pin.before===null?[]:[{...row,sha256:pin.before}];
  });
 }
 /** @param {string[]} files */
 export function pathsBeforeOnPrices225(files){
- return files.filter(file=>{
+ return pathsBeforeOnCutover225(files).filter(file=>{
   if(file===indexFile)return current(file)!==indexText;
   const pin=onPrices225Pins[file];
-  return !pin||pin.before!==null||sha256(current(file))!==pin.after;
+  return !pin||pin.before!==null||sha256(sourceBeforeOnCutover225(file,current(file)))!==pin.after;
  });
 }

@@ -1,6 +1,7 @@
+import {sourceBeforeOnCutover225} from '../scripts/audit/source-before-on-cutover225.mjs';
 import test from'node:test';import assert from'node:assert/strict';import{readFileSync}from'node:fs';import{readProductWorkbook,prepareProductWorkbook,productWorkbookColumns,flavorWorkbookColumns}from'../src/features/goLive/productWorkbook';import{salesOnlyPhase3Pins,pathsBeforeSalesOnlyPhase3}from'../scripts/audit/source-before-sales-only-phase3.mjs';
-const read=(p:string)=>readFileSync(p,'utf8');
-test('current224 OFF cutover keeps protected220 upgrade,freeze before boundary backup,mode before no-stock import,and closed publication before rebuild/opening',()=>{
+const read=(p:string)=>sourceBeforeOnCutover225(p,readFileSync(p,'utf8'))!;
+test('historical224 OFF cutover keeps protected220 upgrade,freeze before boundary backup,mode before no-stock import,and closed publication before rebuild/opening',()=>{
  const plan=read('docs/operations/GO_LIVE_CUTOVER_AR.md'),card=read('docs/handover/ورقة-يوم-التشغيل.md');
  for(const text of [plan,card]){assert.match(text,/RESET224/u);assert.match(text,/UPGRADE224_AR/u);assert.match(text,/OFF/u);assert.match(text,/D1_REFERENCE_KIT224_AR/u);assert.match(text,/221/u);assert.match(text,/03:00/u);assert.match(text,/resume/u);assert.match(text,/pg_cron/u);assert.match(text,/بداية حقيقية/u);assert.match(text,/بلا (?:تكلفة|جرد)/u);}
  const markers=['حظر المعاينات وكل hash URLs فعلياً','إثبات وقت آخر كتابة','النسخة الفاصلة','RESET224: dry-run','8أ. Auth','8ب. Edge Secrets','كلمة المالك «انشر»','إعدادات التشغيل ← المحاسبة OFF','8و. قبل الاستيراد','المنتجات ← الطرود والوحدات','ثم الأقسام','9. إدخال الحقيقي','10. عدّ الدرج','«إنهاء بداية التشغيل»','عبارةالتأكيد','11. نسخة «بداية حقيقية','15. بعد القبول والتوقيع','16. نافذة قبول مضبوطة: فتح ordersEnabled','17. أول بيع'];

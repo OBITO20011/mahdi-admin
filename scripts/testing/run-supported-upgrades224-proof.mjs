@@ -1,3 +1,4 @@
+import {sourceBeforeOnCutover225} from '../audit/source-before-on-cutover225.mjs';
 // Real current-head commands and original merge builders. Local Docker only.
 import assert from 'node:assert/strict';
 import {execFile} from 'node:child_process';
@@ -50,7 +51,7 @@ try{
  assert.equal(holdProof.ok,true,'CURRENT220_HOLD_RUNTIME_REQUIRED');
  assert.deepEqual(holdProof.cutoverHold,{dryRunReadOnly:true,malformedInventoryRejected:true,ordersClosed:true,allSixInactive:true,repeatedNoOp:true});
  report.holdUpgradeProof={...holdProof.cutoverHold,elapsedMs:holdRuntime.elapsedMs,ok:true};
- const documents=Object.fromEntries(await Promise.all(cutoverCommandDocuments.map(async name=>[name,await readFile(path.join(root,'docs/operations',name+'.md'),'utf8')])));
+ const documents=Object.fromEntries(await Promise.all(cutoverCommandDocuments.map(async name=>{const file='docs/operations/'+name+'.md';return [name,sourceBeforeOnCutover225(file,await readFile(path.join(root,file),'utf8'))];})));
  const commands=documentedCutoverCommands(documents),classifications=commands.map(row=>({...row,...classifyCutoverCommand(row.command)}));
  const oldLink=path.join(root,'supabase/.temp/project-ref');
  try{assert.equal((await readFile(oldLink,'utf8')).trim(),OLD_REF);}catch(error){if(error.code!=='ENOENT')throw error;await mkdir(path.dirname(oldLink),{recursive:true});await writeFile(oldLink,OLD_REF+'\n',{flag:'wx'});createdOldLink=true;}

@@ -8,7 +8,7 @@ import {readFile,writeFile,mkdir,mkdtemp,copyFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {operationalManifest,operationalSchema} from '../operations/operational-schema.mjs';
-import {withLegacy224OwnerTools} from './legacy224-owner-tools.mjs';
+import {withLegacy224OwnerTools,legacy224HeldDdlFixture} from './legacy224-owner-tools.mjs';
 import {startInventory224Local} from './inventory224-local.mjs';
 import {proveReset224DdlCapability} from './reset224-ddl-capability-proof.mjs';
 import {persistentLocalExecutor} from './reset214-persistent-local.mjs';
@@ -30,10 +30,13 @@ const root=path.resolve(import.meta.dirname,'../..');
 assert.equal(process.argv.length,3,'LOCAL224_REFERENCE_REQUIRED');
 if(operationalSchema.ceiling===225){
  // RESET224 verifies its own complete 688-function document. Run the exact
- // 224 test and guard at their last shipped source instead of adapting them.
+ // 224 guard at its last shipped source. The only fixture adjustment holds
+ // monitoring before the DDL fingerprint probe; all assertions stay literal.
  await operationalManifest();
  const frozen=await readVerificationSourceFreeze(root);
  await withLegacy224OwnerTools(root,async checkout=>{
+  const runner=path.join(checkout,'scripts/testing/run-reset224-runtime.mjs');
+  await writeFile(runner,legacy224HeldDdlFixture(await readFile(runner,'utf8')));
   const evidence='test-results/reset224/report.json';
   const exec=promisify(execFile);
   const result=await exec(process.execPath,['scripts/testing/run-reset224-runtime.mjs',path.resolve(process.argv[2])],
