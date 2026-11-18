@@ -2,9 +2,13 @@
 // account/server/files are used. Auth/MFA rows here are disposable test rows;
 // actual GoTrue/TOTP transport remains covered by the unchanged220 gate.
 import assert from 'node:assert/strict';
-import {readFile,writeFile,mkdir,mkdtemp} from 'node:fs/promises';
+import {execFile} from 'node:child_process';
+import {promisify} from 'node:util';
+import {readFile,writeFile,mkdir,mkdtemp,copyFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
+import {operationalManifest,operationalSchema} from '../operations/operational-schema.mjs';
+import {withLegacy224OwnerTools} from './legacy224-owner-tools.mjs';
 import {startInventory224Local} from './inventory224-local.mjs';
 import {proveReset224DdlCapability} from './reset224-ddl-capability-proof.mjs';
 import {persistentLocalExecutor} from './reset214-persistent-local.mjs';
@@ -22,8 +26,29 @@ import {frozen220TriggerAclProfile} from '../operations/frozen220-trigger-acl.mj
 import {functionReference224} from '../operations/function-reference224.mjs';
 import {pgNetIdentitySql,provePgNetRunnable219} from './reset219-dependency-probe.mjs';
 import {readVerificationSourceFreeze,assertVerificationSourceFreeze} from './verification-source-freeze.mjs';
-const root=path.resolve(import.meta.dirname,'../..'),output=await mkdtemp(path.join(tmpdir(),'nawasrah-reset224-proof-'));
+const root=path.resolve(import.meta.dirname,'../..');
 assert.equal(process.argv.length,3,'LOCAL224_REFERENCE_REQUIRED');
+if(operationalSchema.ceiling===225){
+ // RESET224 verifies its own complete 688-function document. Run the exact
+ // 224 test and guard at their last shipped source instead of adapting them.
+ await operationalManifest();
+ const frozen=await readVerificationSourceFreeze(root);
+ await withLegacy224OwnerTools(root,async checkout=>{
+  const evidence='test-results/reset224/report.json';
+  const exec=promisify(execFile);
+  const result=await exec(process.execPath,['scripts/testing/run-reset224-runtime.mjs',path.resolve(process.argv[2])],
+   {cwd:checkout,windowsHide:true,maxBuffer:16*1024**2}).catch(error=>error);
+  process.stdout.write(result.stdout??'');
+  process.stderr.write(result.stderr??'');
+  await mkdir(path.join(root,path.dirname(evidence)),{recursive:true});
+  const copyFailure=await copyFile(path.join(checkout,evidence),path.join(root,evidence)).then(()=>null,error=>error);
+  if(result instanceof Error)throw Error('HISTORICAL_RESET224_RUNTIME_FAILED',{cause:result});
+  if(copyFailure)throw Error('HISTORICAL_RESET224_EVIDENCE_MISSING',{cause:copyFailure});
+ });
+ assertVerificationSourceFreeze(frozen,await readVerificationSourceFreeze(root));
+ process.exit(0);
+}
+const output=await mkdtemp(path.join(tmpdir(),'nawasrah-reset224-proof-'));
 const report={ok:false,hostedAccess:false,ownerDemoAccess:false,output,cases:[],timings:{}};let local,executor;
 const save=(name,value)=>writeFile(path.join(output,name),JSON.stringify(value,null,2)+'\n');
 const id=n=>'92600000-0000-4000-8000-'+String(n).padStart(12,'0'),q=s=>"'"+String(s).replaceAll("'","''")+"'";

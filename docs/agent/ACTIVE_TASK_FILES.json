@@ -3,23 +3,7 @@
   "files": [
     {
       "code": " M",
-      "path": "e2e/isolated-test.ts"
-    },
-    {
-      "code": " M",
-      "path": "e2e/optional-quantity223.fullstack.ts"
-    },
-    {
-      "code": " M",
-      "path": "e2e/package-f-iphone-dialogs-harness.tsx"
-    },
-    {
-      "code": " M",
-      "path": "e2e/package-f-pos-harness.tsx"
-    },
-    {
-      "code": " M",
-      "path": "e2e/package-f-screen-history-harness.tsx"
+      "path": "e2e/package-f-product-workbook-harness.tsx"
     },
     {
       "code": " M",
@@ -27,47 +11,15 @@
     },
     {
       "code": " M",
-      "path": "scripts/testing/generate-independent-prices222-catalog.mjs"
+      "path": "scripts/testing/run-reset224-runtime.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/testing/legacy219-restore-lifecycle220.mjs"
+      "path": "scripts/testing/storefront-speed-fixture.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/testing/on225-browser-fixture.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-home219-operations-gates.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-on225-browser-golden.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-owner-upgrade220-runtime.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-reset220-cli-contract.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-supported-upgrades224-proof.mjs"
-    },
-    {
-      "code": " M",
-      "path": "src/features/products/ProductFormModal.tsx"
-    },
-    {
-      "code": "??",
-      "path": "e2e/legacy224-prices-rpc.ts"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/legacy224-owner-tools.mjs"
+      "path": "tests/storefront-versioned-fixture.test.ts"
     }
   ]
 }

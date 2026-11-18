@@ -3,7 +3,10 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {speedRpc,speedRpcPath,fullSpeedRpcName} from '../scripts/testing/storefront-speed-fixture.mjs';
 test('public fixture accepts actual versioned RPC identifiers and keeps a finite reader-only contract',()=>{
- for(const [parallel,original] of [['lite1_catalog_page2','get_public_storefront_catalog_page'],['lite1_merchandising2','get_public_storefront_merchandising'],['lite1_parcel_options2','get_public_configurable_parcel_options']]){
+ for(const [parallel,original] of [['lite1_catalog_page2','get_public_storefront_catalog_page'],['lite1_merchandising2','get_public_storefront_merchandising'],['lite1_parcel_options2','get_public_configurable_parcel_options'],
+  ['public_storefront_catalog_page225','get_public_storefront_catalog_page'],
+  ['public_storefront_merchandising225','get_public_storefront_merchandising'],
+  ['get_public_parcel_options225','get_public_configurable_parcel_options']]){
   assert.match('/rest/v1/rpc/'+parallel,speedRpcPath);assert.equal(fullSpeedRpcName(parallel),original);assert.deepEqual(speedRpc(parallel,{}),speedRpc(original,{}));
  }
  for(const name of ['unreviewed','lite1_pos2','constructor','toString']){assert.equal(fullSpeedRpcName(name),name);assert.throws(()=>speedRpc(name,{}),/STOREFRONT_SPEED_UNEXPECTED_RPC/);}

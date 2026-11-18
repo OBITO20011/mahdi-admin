@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Approved225 ON independent prices and golden financial proof;frozen COGS stays byte-identical.",
-  "baselineSha": "48277a7583cf778085da3281b978e109e2c65568",
+  "baselineSha": "fc51d5e43ab977ff19c66495fed1982c54176c2e",
   "branch": "codex/on-independent-prices225",
   "phase": "ON_INDEPENDENT_PRICE225",
   "startedAt": "2026-11-17T04:55:09.912Z",
@@ -14,7 +14,7 @@
     "Native225 backup/Restore, registration recovery and RESET including three resumes passed."
   ],
   "inProgress": [
-    "Verify exact-head CI and local full gates."
+    "Verify updated speed and product fixtures plus historical RESET224 in full exact-head CI."
   ],
   "notStarted": [
     "Final owner/Claude review; no 225 merge authorization."
@@ -22,13 +22,15 @@
   "testsPassed": [
     "Candidate25/25; native224/225 parity6/6, unchanged frozen functions and fractional COGS9650.",
     "Native golden day: revenue12500, COGS11258, profit1242, inventory10042, drawer12500.",
-    "Chromium 1280 and mobile WebKit 390 real golden day both passed; live PostgREST + local PostgreSQL."
+    "Chromium 1280 and mobile WebKit 390 real golden day both passed; live PostgREST + local PostgreSQL.",
+    "fc51d5e4 local units admin2164/store237, zero skips; ON225 CI accounting and protection both green.",
+    "The exact legacy224 reset runner passed all 12 checks, including three real resumes."
   ],
   "testsRemaining": [
-    "Full local units/types/strict lint and exact-head GitHub CI."
+    "Updated head CI, final Gitleaks and local handoff sync."
   ],
   "findings": [
-    "First Draft115 CI compatibility fixes are in the runners/fixtures. Old admissions and frozen SQL are byte-identical."
+    "fc51d5e4 red required 225 speed reader mappings, old workbook named absence and exact224 RESET test runtime. No SQL or app change in this correction."
   ],
   "blockers": [],
   "activeProcesses": [
@@ -40,12 +42,12 @@
     "No ON fillin workbook/generator or ON cutover rewrite in this round.",
     "225Draft only;no merge before fullgolden day,CI andClaude review."
   ],
-  "checkpointedAt": "2026-11-18T06:07:15.345Z",
+  "checkpointedAt": "2026-11-18T06:46:01.209Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 17,
-  "filesTouchedManifestSha256": "5d916100157ca1983dd51474540b9885ae3fe8950bf6ad836475aeaf721bf44e",
-  "nextExactAction": "Confirm full exact-head Draft115 CI and local full gates, then report for review.",
-  "workingTreeFingerprint": "D31686EB69496D144A01F372110ADE1549EAF2B17C99D8FE2D1D1762B58C2197"
+  "filesTouchedCount": 5,
+  "filesTouchedManifestSha256": "e204d148c6ca2c67964b238174db5e3b268161a1b1202175856209169b5646ca",
+  "nextExactAction": "Wait for exact-head CI, validate standalone storefront fixtures and finish the review handoff.",
+  "workingTreeFingerprint": "76B18728BBBFCC84162022C54EEB2ED187BE55FA3958DD51161CA7F077DE1ABA"
 }
