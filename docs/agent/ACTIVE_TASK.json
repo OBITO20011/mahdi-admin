@@ -2,45 +2,48 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner18Nov:ON225 cutover md/html/upgrade guides,derived owner fillin workbook,offline converter/tests,and isolated archived ON rehearsal;separate PR no merge.",
-  "baselineSha": "6c8a02b75114b093bbae30e248630252d3d6a9e8",
+  "objective": "Owner18Nov:correct116 ON225 workbook/converter;merge after FULLCI and Gitleaks;new archived ON rehearsal from merged-main222-225 references.",
+  "baselineSha": "2f2f35ad0d6a1225ce06736fe9cbda432c24bfa9",
   "branch": "codex/on-cutover225-workbook",
   "phase": "ON225_CUTOVER_WORKBOOK",
   "startedAt": "2026-11-18T15:13:28.076667+03:00",
   "completed": [
-    "Review116 corrections: blank purchase content/unit inputs, strict package invoicing and stock controls, optional independent sale parcel exports, below-cost warnings.",
-    "Both app types and strict lint0. Focused46/46 and full1084-file conversion0errors/0warnings. Excel formula probes: reject1orblank, cost500fils and quantity77."
+    "Purchase content/unit start blank;pack invoice/stock require real integer>1;24@12.000 gives0.500 and3packs+5single=77.",
+    "Optional sale parcel with strict225 bounds;full1084 conversion0errors/0warnings;source3310 unchanged.",
+    "Proved active monitoring reproduces exact DDL no-write failure;held probe passes;fixture hold moved before proof with literal224 source pin."
   ],
   "inProgress": [
-    "Owner approved merge after exact new-head CI and Gitleaks, then new archived ON rehearsal from admitted main references222-225."
+    "Exact-head CI for corrected116;merge only after fullgreen."
   ],
   "notStarted": [
-    "Actual RESET225 and ON import/opening/short day in a new archive rehearsal; awaiting bounded restart decision."
+    "New archived ON rehearsal from2230c606 and merged-main222/223/224/225 references;previous rehearsal preserved."
   ],
   "testsPassed": [
-    "Both app types and strict lint exit0. Units admin2174/2175 and store237/237; lone admin ETIMEDOUT at unchanged120s on historical workbook builder. Direct unchanged internal command passed in 60.445s. No skipped tests.",
-    "Archive Restore and protections complete to223; verified local D1/225 and all seven offline commands. Full converted workbook 748+444, zero errors/warnings, source unchanged."
+    "Both app types0;strictlint0;focused46/46 plus23/23 fixture/converter/history;no skipped tests.",
+    "Excel formula/readback1084 pass;full conversion zeroerrors/warnings;sale1.000/parcel11.000 and opening77@0.500.",
+    "DDL isolated reproduction:checks22to27+metrics change;holding original job identities makes all unchanged-source assertions pass."
   ],
   "testsRemaining": [
-    "Actual archive rehearsal only after restart authorization. Build and admit same-head224 reference before archive; then RESET225, real browser catalog/opening stock/sale/receipt/return and timing."
+    "Local full units2178/2179:known product-workbook-history120s ETIMEDOUT only;no retry or timeout change. Final-head CI required.",
+    "CI84 and Gitleaks;main/primary preflight;new archived ON rehearsal,realUIimport/stock/shortday and timings."
   ],
   "findings": [
-    "First ON rehearsal applied and protected 222 and 223. The copied older 224 reference mismatches expected sourceHashes and accessEvidenceSha256. A 224 reference rebuilt from ceiling225 passes read-only readiness."
+    "CI2f2f RESET225 at14:50 and historical224 at15:00 failed before the late fixture hold. Only monitoring rows changed;deterministically reproduced locally. All guards,reference,SQL and assertions untouched."
   ],
   "blockers": [],
   "activeProcesses": [
-    "Owned isolated archive rehearsal PID29592 preserves nawasrah-full-restore-29592-44b4cc6a on network none; exact-head CI monitor stopped; no test jobs pending."
+    "Retained archive PID29592/nawasrah-full-restore-29592-44b4cc6a;networknone. No new archive rehearsal yet."
   ],
   "prohibitions": [
     "No hostedDB/deploy/iPhone/n8n/Docker restart.",
     "No SQL/migration/frozenbody/guard changes;immutable3310source."
   ],
-  "nextExactAction": "Push corrected converter/workbook contracts to116, exact-head FULLCI, Gitleaks, authorized merge, then new archive rehearsal.",
-  "checkpointedAt": "2026-11-18T14:44:53.453Z",
+  "nextExactAction": "Commit and push the proved fixture hold correction; exact-head FULLCI/Gitleaks, authorized116 merge, then new archive ON rehearsal.",
+  "checkpointedAt": "2026-11-18T15:14:28.088Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "filesTouchedCount": 5,
-  "filesTouchedManifestSha256": "469141ad681a544d13cebfb852ec687898ae2c28fdfc386ea5af308f70e41092",
-  "workingTreeFingerprint": "0B6549925FD98CCD0E2164BD191FB53A7DBB94773F704A56160A71BCD1CFF446"
+  "filesTouchedManifestSha256": "f32b5b04bef14dcd85cd906425307dacc626587c2852db13eca89200e7b0a4d0",
+  "workingTreeFingerprint": "C7E7A1518E056222D4820EA9F0B2D6E03F57AD587B4AFA0E58E3578CCA18E166"
 }

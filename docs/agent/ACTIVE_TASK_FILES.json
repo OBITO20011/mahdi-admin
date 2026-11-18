@@ -3,23 +3,23 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/operations/ON225_OPENING_WORKBOOK_AR.md"
-    },
-    {
-      "code": " M",
       "path": "scripts/audit/on-cutover225-source-pins.json"
     },
     {
       "code": " M",
-      "path": "scripts/operations/on-opening225/cli.ts"
+      "path": "scripts/testing/legacy224-owner-tools.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/operations/on-opening225/model.ts"
+      "path": "scripts/testing/run-reset224-runtime.mjs"
     },
     {
       "code": " M",
-      "path": "tests/on-opening225-converter.test.ts"
+      "path": "scripts/testing/run-reset225-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/reset-ddl-fixture-hold.test.ts"
     }
   ]
 }

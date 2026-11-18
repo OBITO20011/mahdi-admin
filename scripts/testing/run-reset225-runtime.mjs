@@ -30,9 +30,9 @@ const id=n=>'92600000-0000-4000-8000-'+String(n).padStart(12,'0'),q=s=>"'"+Strin
 try{
  const frozen=await readVerificationSourceFreeze(root),reference=await readReady225Reference(root,process.argv[2]);
  local=await startInventory225Local(225,'reset');executor=persistentLocalExecutor(local.executor);
+ await hold217Notifications(executor,await readNotificationSnapshot(executor));
  report.ddlCapability=await proveReset225DdlCapability(local,output);
  const sql=async(text,ex=executor)=>{const r=await executeResetInput(ex,text);assert.equal(r.code,0,r.stderr);return r.stdout.trim();},json=async text=>JSON.parse(await sql(text));
- await hold217Notifications(executor,await readNotificationSnapshot(executor));
  const fixture=await readFile(path.join(root,'scripts/testing/package-e-golden-day-fixture.sql'),'utf8');
  const unschedule="SELECT cron.unschedule(jobid) FROM cron.job WHERE jobname='run-advanced-monitoring';";assert.equal(fixture.split(unschedule).length,2);
  await sql(fixture.replace(unschedule,'-- Keep the six existing held job identities.'));
