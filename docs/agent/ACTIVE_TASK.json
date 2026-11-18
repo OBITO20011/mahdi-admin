@@ -1,51 +1,46 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
+  "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner18Nov:ON225 cutover md/html/upgrade guides,derived owner fillin workbook,offline converter/tests,and isolated archived ON rehearsal;separate PR no merge.",
-  "baselineSha": "452e3c0a88fe4e98bd2b5b7aa96d92e69e0bbb52",
+  "baselineSha": "6c8a02b75114b093bbae30e248630252d3d6a9e8",
   "branch": "codex/on-cutover225-workbook",
   "phase": "ON225_CUTOVER_WORKBOOK",
   "startedAt": "2026-11-18T15:13:28.076667+03:00",
   "completed": [
-    "Main 7482f86d CI 84/84 after one owner-approved environmental job rerun; primary preflight passed.",
-    "ON225 runbook, two A4 pages, upgrade/RESET/D1 guides; owner workbook readback 1084/1084 and offline converter 8/8."
+    "Review116 corrections: blank purchase content/unit inputs, strict package invoicing and stock controls, optional independent sale parcel exports, below-cost warnings.",
+    "Both app types and strict lint0. Focused46/46 and full1084-file conversion0errors/0warnings. Excel formula probes: reject1orblank, cost500fils and quantity77."
   ],
   "inProgress": [
-    "Draft PR review and local verification. Archive rehearsal preserved on 223 after historical reference readiness mismatch."
+    "Owner approved merge after exact new-head CI and Gitleaks, then new archived ON rehearsal from admitted main references222-225."
   ],
   "notStarted": [
     "Actual RESET225 and ON import/opening/short day in a new archive rehearsal; awaiting bounded restart decision."
   ],
   "testsPassed": [
-    "Main 7482f86d green 84/84, primary preflight0; D1 readiness and seven genuine offline plans passed with network denied.",
-    "Both app type checks and strict Admin lint exit0. Converter/ON guide coverage and exact legacy source projections passed focused 28/28 after four scoped continuity/documentation fixes.",
-    "Final owner workbook generated successfully and complete fictitious 1084 row conversion returned zero errors and warnings, with original catalog unchanged. Card fits two A4 pages."
+    "Both app types and strict lint exit0. Units admin2174/2175 and store237/237; lone admin ETIMEDOUT at unchanged120s on historical workbook builder. Direct unchanged internal command passed in 60.445s. No skipped tests.",
+    "Archive Restore and protections complete to223; verified local D1/225 and all seven offline commands. Full converted workbook 748+444, zero errors/warnings, source unchanged."
   ],
   "testsRemaining": [
-    "Full PR CI (local full administered before documentation fixes: known workbook-history timeout and four focused contract mismatches now corrected).",
-    "Actual ON archive rehearsal after reference rebuild and owner restart decision."
+    "Actual archive rehearsal only after restart authorization. Build and admit same-head224 reference before archive; then RESET225, real browser catalog/opening stock/sale/receipt/return and timing."
   ],
   "findings": [
     "First ON rehearsal applied and protected 222 and 223. The copied older 224 reference mismatches expected sourceHashes and accessEvidenceSha256. A 224 reference rebuilt from ceiling225 passes read-only readiness."
   ],
-  "blockers": [
-    "Rehearsal stopped at first unexpected failure; keep owned archive-restore container and wait for approved restart."
-  ],
+  "blockers": [],
   "activeProcesses": [
-    "Owned isolated archive rehearsal PID 29592 holds nawasrah-full-restore-29592-44b4cc6a for review; no published network."
+    "Owned isolated archive rehearsal PID29592 preserves nawasrah-full-restore-29592-44b4cc6a on network none; exact-head CI monitor stopped; no test jobs pending."
   ],
   "prohibitions": [
-    "No hostedDB/deploy/iPhone reset or upgrade/n8n/Docker restart.",
-    "No SQL/migration/RPC/frozenbody/guard changes;221reserved;immutable source3310workbook.",
-    "Newround PR review only,no merge without review."
+    "No hostedDB/deploy/iPhone/n8n/Docker restart.",
+    "No SQL/migration/frozenbody/guard changes;immutable3310source."
   ],
-  "nextExactAction": "Collect exact draft PR CI and protected rehearsal restart decision; keep the 223 container intact. Use same-head verified reference before new rehearsal.",
-  "checkpointedAt": "2026-11-18T13:24:31.850Z",
+  "nextExactAction": "Push corrected converter/workbook contracts to116, exact-head FULLCI, Gitleaks, authorized merge, then new archive rehearsal.",
+  "checkpointedAt": "2026-11-18T14:44:53.453Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 29,
-  "filesTouchedManifestSha256": "0685b5c33bd5c3c04812ffce378026774d8cb5d05c0c0989ac47506ca107a599",
-  "workingTreeFingerprint": "20D41F6759D0219924B65C4EBD2CC2CA95B62C69FEC810974BD82C8F4CCCB3AC"
+  "filesTouchedCount": 5,
+  "filesTouchedManifestSha256": "469141ad681a544d13cebfb852ec687898ae2c28fdfc386ea5af308f70e41092",
+  "workingTreeFingerprint": "0B6549925FD98CCD0E2164BD191FB53A7DBB94773F704A56160A71BCD1CFF446"
 }

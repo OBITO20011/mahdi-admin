@@ -49,7 +49,7 @@
     },
     "docs/operations/ON225_OPENING_WORKBOOK_AR.md": {
       "before": null,
-      "after": "0a2e7a016b0a29533ef5650b8e57176ca06cfae2ba50d4e50ea59cb1f8cb8fe6",
+      "after": "3f8bcc7fedf36e67efda82cbf46adc119cf3231c0ad34507e1c2f6822377a4d8",
       "beforeText": null
     },
     "docs/operations/RESET225_OWNER_AR.md": {
@@ -89,12 +89,12 @@
     },
     "scripts/operations/on-opening225/cli.ts": {
       "before": null,
-      "after": "325de910b95fb26f6f12f563240078f53af32f6ba302aa990636bc4cdec4b440",
+      "after": "b71b41b2c583124a438b18b520d8a40e4505baa16c5655a5b97c8e262827db7a",
       "beforeText": null
     },
     "scripts/operations/on-opening225/model.ts": {
       "before": null,
-      "after": "e0ee44c9cef12c54c341c17943f75b24aa618948095aeb9f3876b9c948a8635e",
+      "after": "ee8e43e59887000fed7ba142a1309dc4663648b409503b1ec6fbbdf0ec87177d",
       "beforeText": null
     },
     "scripts/testing/cutover-command225.mjs": {
@@ -139,7 +139,7 @@
     },
     "tests/on-opening225-converter.test.ts": {
       "before": null,
-      "after": "cdd459c973d37bc32edaf11c8da3f6b96d9947c12f986efc40147fe0047091de",
+      "after": "81ecffe2df4430b0f200455392cfc0e698629cff8742e5a625d3e8405ccaa869",
       "beforeText": null
     },
     "tests/on225-cogs224-proof.test.ts": {

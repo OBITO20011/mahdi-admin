@@ -43,7 +43,7 @@ export async function runOpening225(args:string[],{expectedSourceSha=OWNER_CATAL
  const output=await privateOutput(options.get('--output')!);
  const save=(name:string,value:unknown)=>writeFile(path.join(output,name),JSON.stringify(value,null,2)+'\n',{flag:'wx',mode:0o600});
  if(mode==='template'){
-  await save('owner-workbook-input.json',{format:1,source:sourceProof,prices:ownerPriceRows225(catalog),stock:ownerStockRows225(catalog),units:reference.units,warehouses:reference.warehouses??[],settings:{defaultWarehouse:'',valuationThreshold:'0.100'}});
+  await save('owner-workbook-input.json',{format:2,source:sourceProof,prices:ownerPriceRows225(catalog),stock:ownerStockRows225(catalog),units:reference.units,warehouses:reference.warehouses??[],settings:{defaultWarehouse:'',valuationThreshold:'0.100'}});
   await save('report.json',{ok:true,mode,offline:true,databaseWrites:0,source:sourceProof});
   console.log(JSON.stringify({ok:true,mode,offline:true,databaseWrites:0,counts:sourceProof.counts,output}));return 0;
  }

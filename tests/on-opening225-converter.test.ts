@@ -5,6 +5,7 @@ import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {writeXlsx,readXlsxSheet} from '../src/lib/xlsx';
+import {mapSheet,prepareStock} from '../src/features/goLive/goLiveImport';
 import {runOpening225} from '../scripts/operations/on-opening225/cli';
 import {PRODUCT_WORKBOOK_COLUMNS,FLAVOR_WORKBOOK_COLUMNS,prepareProductWorkbook} from '../src/features/goLive/productWorkbook';
 import {openingCatalog225,ownerPriceRows225,ownerStockRows225,convertOpening225,PRICE_COLUMNS225 as P,STOCK_COLUMNS225 as S,roundedUnitCost225} from '../scripts/operations/on-opening225/model';
@@ -46,10 +47,72 @@ test('zero quantities are explicit;missing counts or positive balance with zero/
  for(const changes of zeroCosts){
   const i=inputs();i.price(1,changes);assert.ok(i.run().errors.some(e=>e.code==='ZERO_COST'));
  }
- const blank=inputs();blank.stock(1,{packages:''});assert.ok(blank.run().errors.some(e=>e.code==='COUNT'));
+ const blank=inputs();blank.stock(1,{packages:'',loose:''});assert.ok(blank.run().errors.some(e=>e.code==='COUNT'));
+});
+test('package invoice needs known content and unit; 12.000 per 24 and 0.500 per unit both value 77 units at 38.500',()=>{
+ const i=inputs();
+ for(const n of ['','1','2.5']){
+  i.price(1,{purchaseCount:n});
+  assert.match(i.run().errors.find(e=>e.code==='PURCHASE_COUNT')?.message??'',/NW-0001 — صنف وهمي: أدخل عدد الوحدات في طرد الشراء/u);
+ }
+ i.price(1,{purchaseCount:'24',invoicePrice:'12.000',purchaseUnit:''});
+ assert.ok(i.run().errors.some(e=>e.code==='PURCHASE_UNIT'));
+ i.price(1,{purchaseUnit:'كرتونة'});i.stock(1,{packages:'3',loose:'5'});
+ for(const [basis,invoicePrice] of [['طرد','12.000'],['وحدة','0.500']]){
+  i.price(1,{basis,invoicePrice});
+  const r=i.run();assert.ok(r.ok,JSON.stringify(r.errors));
+  assert.deepEqual([r.audit[0].unitCostMinor,r.audit[0].quantity,r.totalOpeningValueMinor],['500','77','38500']);
+  assert.deepEqual(r.stockFiles[0].rows[1],['NW-0001','صنف وهمي','3','5']);
+ }
+});
+test('single-unit defaults leave packaging inputs blank and preserve loose counts through the official stock parser',()=>{
+ const i=inputs();
+ assert.deepEqual(ownerPriceRows225(i.catalog)[1].slice(6,9),['','','1.000']);
+ i.price(1,{purchaseCount:'',purchaseUnit:'',basis:'وحدة',invoicePrice:'0.500'});
+ for(const packages of ['1','0']){
+  i.stock(1,{packages,loose:'77'});
+  assert.ok(i.run().errors.some(e=>e.code==='STOCK_PACKAGE_CONTENT'&&e.message.includes('NW-0001')));
+ }
+ i.stock(1,{packages:''});
+ const r=i.run();assert.ok(r.ok,JSON.stringify(r.errors));assert.equal(r.audit[0].quantity,'77');
+ assert.deepEqual(r.stockFiles[0].rows[1],['NW-0001','صنف وهمي','77','0']);
+ const parsed=prepareStock(mapSheet('stock',r.stockFiles[0].rows).rows,[{
+  productId:'stock-test',sku:'NW-0001',barcode:'000123456789',productName:'صنف وهمي',eligible:true,unitsPerPackage:1,costPriceInMinorUnits:500,
+ }]);
+ assert.deepEqual(parsed.errors,[]);assert.equal(parsed.payload[0].baseQuantity,77);
+ const p=prepareProductWorkbook(r.productRows,r.flavorRows,'full',{independentFullPrices:true}).products[0];
+ assert.equal(p.data.units_per_sale_unit,'1');assert.equal(p.data.parcel_only,false);
+ assert.deepEqual([p.singlePriceInMinorUnits,p.data.sale_package_price_in_minor_units],['1000','1000']);
+});
+test('optional independent sale parcel exports both active prices and methods and rejects incomplete or invalid entries',()=>{
+ const i=inputs(),valid={saleUnit:'CTN',saleCount:'12',salePrice:'11.000',saleMethod:'الاثنين'};
+ for(const [changes,code] of [
+  [{salePrice:'13.000'},'SALE_PRICE'],[{salePrice:'1.000'},'SALE_PRICE'],[{saleCount:'1'},'SALE_COUNT'],
+  [{saleUnit:'باكيت'},'SALE_UNIT'],[{saleUnit:'UNKNOWN'},'SALE_UNIT'],[{salePrice:'0.000'},'SALE_PRICE'],
+  [{salePrice:'11.0001'},'SALE_PRICE'],[{saleMethod:''},'SALE_METHOD'],
+ ] as const){
+  i.price(1,{...valid,...changes});assert.ok(i.run().errors.some(e=>e.code===code&&e.message.includes('NW-0001')),code);
+ }
+ for(const saleMethod of ['الاثنين','طرد']){
+  i.price(1,{...valid,saleMethod});
+  const r=i.run();assert.ok(r.ok,JSON.stringify(r.errors));
+  const plan=prepareProductWorkbook(r.productRows,r.flavorRows,'full',{independentFullPrices:true});
+  assert.deepEqual(plan.errors,[]);
+  const p=plan.products[0];assert.deepEqual([p.singlePriceInMinorUnits,p.data.sale_package_price_in_minor_units],['1000','11000']);
+  assert.equal(p.data.units_per_sale_unit,'12');assert.equal(p.data.parcel_only,saleMethod==='طرد');
+ }
+});
+test('below-cost active prices warn and inherited flavor sales settings must match',()=>{
+ const i=inputs(true),sale={saleUnit:'CTN',saleCount:'12',salePrice:'9.000',saleMethod:'الاثنين'};
+ i.price(1,sale);assert.ok(i.run().errors.some(e=>e.code==='FAMILY_SALE'));
+ i.price(2,sale);const r=i.run();assert.ok(r.ok,JSON.stringify(r.errors));
+ assert.equal(r.warnings.filter(w=>w.code==='BELOW_COST'&&w.message.includes('سعر الطرد')).length,2);
+ const single=inputs();single.price(1,{purchaseUnit:'',purchaseCount:'',basis:'وحدة',invoicePrice:'1.100'});
+ single.stock(1,{packages:'',loose:'5'});
+ const result=single.run();assert.ok(result.ok);assert.match(result.warnings[0].message,/سعر المفرد أقل من التكلفة/u);
 });
 test('catalog identity,sales prices,all sellable SKUs and unique warehouse rows are immutable contracts',()=>{
- for(const [key,value]of [['single','0.900'],['parcel','1.200'],['name','غيره'],['unit','CTN'],['sku','UNKNOWN']]){
+ for(const [key,value]of [['single','0.900'],['name','غيره'],['unit','CTN'],['sku','UNKNOWN']]){
   const i=inputs();i.price(1,{[key]:value});assert.equal(i.run().ok,false,key);
  }
  const missing=inputs(true);missing.prices.pop();assert.ok(missing.run().errors.some(e=>e.code==='MISSING_SKU'));
@@ -88,6 +151,7 @@ async function cliFixture(){
 }
 test('real XLSX conversion is offline,keeps source bytes and produces official product/warehouse files with invoice evidence',async()=>{
  const f=await cliFixture(),output=path.join(f.directory,'output'),originalFetch=globalThis.fetch;
+ f.i.price(1,{saleUnit:'CTN',saleCount:'12',salePrice:'11.000',saleMethod:'الاثنين'});await f.writeFilled();
  globalThis.fetch=()=>{throw Error('OFFLINE_CONVERTER_NETWORK_FORBIDDEN');};
  try{
   assert.equal(await runOpening225(['--mode','convert',...f.common,'--filled',f.filled,'--output',output],f.dependency),0);
@@ -98,6 +162,9 @@ test('real XLSX conversion is offline,keeps source bytes and produces official p
   const products=await readXlsxSheet(await readFile(path.join(output,'المنتجات.xlsx')),'المنتجات');
   assert.equal(products[1][products[0].indexOf('الباركود')],'000123456789');
   assert.equal(products[1][products[0].indexOf('سعر شراء الباكيت (التكلفة) (د.أ)')],'0.833');
+  const imported=prepareProductWorkbook(products,[],'full',{independentFullPrices:true});
+  assert.deepEqual(imported.errors,[]);
+  assert.deepEqual([imported.products[0].singlePriceInMinorUnits,imported.products[0].data.sale_package_price_in_minor_units],['1000','11000']);
   const manifest=JSON.parse(await readFile(path.join(output,'import-manifest.json'),'utf8'));
   assert.equal(manifest.migrationCeiling,225);assert.equal(manifest.stock[0].warehouse,'WH-A');
   const stock=await readXlsxSheet(await readFile(path.join(output,manifest.stock[0].file)));

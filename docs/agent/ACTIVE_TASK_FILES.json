@@ -3,119 +3,23 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/project-state.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/handover/ورقة-يوم-التشغيل.html"
-    },
-    {
-      "code": " M",
-      "path": "docs/handover/ورقة-يوم-التشغيل.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/UPGRADE222_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/UPGRADE223_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/UPGRADE224_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/source-before-on-prices225.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-supported-upgrades224-proof.mjs"
-    },
-    {
-      "code": " M",
-      "path": "tests/cutover-publication-order.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/epoch220-fixture-maintenance.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/handover-documentation.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/inventory224-tools.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/lite220-handover.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/on225-cogs224-proof.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/supported-upgrades224.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/trial-brand-identity.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "docs/handover/ورقة-يوم-التشغيل-OFF-أرشيف.html"
-    },
-    {
-      "code": "??",
-      "path": "docs/handover/ورقة-يوم-التشغيل-OFF-أرشيف.md"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/D1_REFERENCE_KIT225_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/DEMO_UPGRADE225_PLAN_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/GO_LIVE_CUTOVER_OFF_ARCHIVE_AR.md"
-    },
-    {
-      "code": "??",
       "path": "docs/operations/ON225_OPENING_WORKBOOK_AR.md"
     },
     {
-      "code": "??",
-      "path": "docs/operations/RESET225_OWNER_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/UPGRADE225_AR.md"
-    },
-    {
-      "code": "??",
+      "code": " M",
       "path": "scripts/audit/on-cutover225-source-pins.json"
     },
     {
-      "code": "??",
-      "path": "scripts/audit/source-before-on-cutover225.mjs"
+      "code": " M",
+      "path": "scripts/operations/on-opening225/cli.ts"
     },
     {
-      "code": "??",
-      "path": "scripts/testing/cutover-command225.mjs"
+      "code": " M",
+      "path": "scripts/operations/on-opening225/model.ts"
     },
     {
-      "code": "??",
-      "path": "tests/on-cutover225-documentation.test.ts"
+      "code": " M",
+      "path": "tests/on-opening225-converter.test.ts"
     }
   ]
 }
