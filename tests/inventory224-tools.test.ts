@@ -4,6 +4,7 @@ import {execFileSync} from 'node:child_process';
 import {test} from 'node:test';
 import {assert224SourceRowsPreserved} from '../scripts/operations/upgrade224-data.mjs';
 import {assert224History} from '../scripts/operations/frankfurt-owner-upgrade224.mjs';
+import {sourceBeforeOnPrices225} from '../scripts/audit/source-before-on-prices225.mjs';
 import {canonicalLf,sha256} from '../scripts/testing/maintenance-db-contract.mjs';
 import {sourceBeforeSupportedUpgrades224} from '../scripts/audit/source-before-supported-upgrades224.mjs';
 const read=(file:string)=>canonicalLf(readFileSync(file,'utf8'));
@@ -21,7 +22,8 @@ test('224 adapters are exact generated copies of committed223 templates, retaini
 });
 
 test('224 upgrade admits exactly183→184 without221, preserves every existing counter/event/request',()=>{
- const state=JSON.parse(read('docs/agent/project-state.json'));
+ const file='docs/agent/project-state.json',prior=sourceBeforeOnPrices225(file,read(file));
+ assert.ok(prior!==null);const state=JSON.parse(prior);
  assert.equal(state.migrationCeiling,224);
  const names=readFileSync('docs/generated/DB_FUNCTIONS.md','utf8');assert.ok(names.includes('lite3_counters224'));
  const versions=readFileSync('supabase/migrations/224_optional_quantity_inventory_reader.sql','utf8');assert.ok(!versions.includes('CREATE TABLE'));

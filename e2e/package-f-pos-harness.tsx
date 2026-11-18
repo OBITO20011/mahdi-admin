@@ -1,3 +1,4 @@
+import {legacy224PriceRead} from './legacy224-prices-rpc';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import '@fontsource/ibm-plex-sans-arabic/400.css';
@@ -41,6 +42,8 @@ const client = supabase as unknown as { rpc: (name: string, args?: Record<string
 // isolated API,where browser tests explicitly intercept them;never fake a sale.
 client.rpc = (name, args) => {
   const success = (data: unknown) => Promise.resolve({ data, error: null });
+  const legacyPrice=legacy224PriceRead(name);
+  if(legacyPrice)return Promise.resolve(legacyPrice);
   if (name === 'search_admin_products') {
     const search = String(args?.p_search ?? '').toLowerCase();
     return success(posFixtureProducts.filter(product =>

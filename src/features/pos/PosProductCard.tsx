@@ -10,7 +10,7 @@ export function PosProductCard({product,stock,parcelQuantity,unitQuantity,disabl
   onAdd:(mode:PosSingleProductMode)=>void;onReduce:(mode:PosSingleProductMode)=>void;
 }){
   const unitsPerPackage=product.unitsPerSalePackage??1;
-  const parcel=unitsPerPackage>1,unit=!product.parcelOnly;
+  const parcel=unitsPerPackage>1&&product.parcelSaleEnabled!==false,unit=!product.parcelOnly;
   const packageLabel=packageSaleUnitLabel(product.salePackage,product.purchasePackage,true,product.unit);
   const unsafeParcel=unsafeLiteParcelPrice(!quantityTracked,unitsPerPackage,product.salePackagePrice,product.retailPrice);
   const methods=[...(parcel?[{mode:'legacy_single_sku_parcel' as const,label:packageLabel,price:product.salePackagePrice,quantity:parcelQuantity}]:[]),

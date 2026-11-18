@@ -1,6 +1,7 @@
 import { supabase, isSupabaseConfigured } from '../../lib/supabase';
 import { Product } from '../../types';
 import { businessErrorMessage } from '../../utils/businessError';
+import {confirmProductPriceWrite225,type AccountingPrice225Write,type PriceLossConfirmation225} from './onPrices225.service';
 import {
   PRODUCT_EDIT_CONFLICT_MESSAGE,
   readProductEditSnapshot,
@@ -10,6 +11,7 @@ import {
 export interface CreateProductInput {
   /** Explicit OFF price; omission preserves the historical ON writer. */
   independentSalePrice?:number;
+  accountingPrice225?:AccountingPrice225Write;
   parcelOnly?: boolean;
   sku: string;
   barcode?: string;
@@ -58,6 +60,14 @@ export interface SupabaseRpcResult {
   conflict?: ProductEditSnapshot;
   /** products.updated_at after a successful versioned save. */
   updatedAt?: string;
+}
+
+function productPriceParams(input:{independentSalePrice?:number;accountingPrice225?:AccountingPrice225Write},proof?:PriceLossConfirmation225){
+ if(input.accountingPrice225)return{
+  p_sale_price_in_minor_units:input.accountingPrice225.singlePriceInMinorUnits,
+  p_below_cost_confirmation:proof??null,
+ };
+ return input.independentSalePrice===undefined?{}:{p_sale_price_in_minor_units:Math.round(input.independentSalePrice*1000)};
 }
 
 function readErrorStatus(error: unknown): number | string | undefined {
@@ -183,6 +193,7 @@ export function toProductMutationFailure(
 export interface UpdateProductInput {
   /** Explicit OFF price; omission preserves the historical ON writer. */
   independentSalePrice?:number;
+  accountingPrice225?:AccountingPrice225Write;
   /** Omission preserves the existing server flag. */
   parcelOnly?: boolean;
   productId: string;
@@ -339,6 +350,7 @@ export function mapAdminProductRecord(record: Record<string, any>): Product {
     salePackage: saleUnit?.name_ar || undefined,
     unitsPerSalePackage,
     parcelOnly: record.parcel_only === true,
+    ...(typeof record.parcel_sale_enabled==='boolean'?{parcelSaleEnabled:record.parcel_sale_enabled}:{}),
     salePackagePrice: saleUnit
       ? toFiniteNumber(record.default_sale_price_in_minor_units) / 1000
       : 0,
@@ -427,15 +439,26 @@ export async function searchAdminProducts(input: {
   categoryId?: string;
   purpose?: AdminProductSearchPurpose;
   productId?: string;
+  posPricing?: boolean;
 } = {}): Promise<Product[]> {
   const limit = Math.min(50, Math.max(1, Math.floor(input.limit || 24)));
-  const {data, error} = await requireProductClient().rpc('search_admin_products', {
+  const client=requireProductClient();
+  const args={
     p_search: input.search?.trim() || null,
     p_limit: limit,
     p_category_id: input.categoryId || null,
     p_purpose: input.purpose || 'stockable',
     p_product_id: input.productId || null,
-  });
+  };
+  if(input.posPricing){
+    const result=await client.rpc('search_pos_products225',args);
+    if(!(result.data==null&&result.status===404&&result.error?.code==='PGRST202'&&result.error.message?.includes('search_pos_products225'))){
+      if(result.error)throw new Error(result.error.message||'تعذر البحث في منتجات الكاشير.');
+      if(!Array.isArray(result.data))throw new Error('تعذر التحقق من بيانات منتجات الكاشير.');
+      return mapAdminProductRows(result.data);
+    }
+  }
+  const {data,error}=await client.rpc('search_admin_products',args);
   if (error) throw new Error(error.message || 'تعذر البحث في المنتجات.');
   return mapAdminProductRows(data);
 }
@@ -681,10 +704,12 @@ export async function createProductWithOpeningStockInSupabase(
   };
 
   try {
-    const { data: res, error } = await supabase.rpc(
-      input.independentSalePrice===undefined?'create_product_with_opening_stock_v5':'create_product_with_opening_stock_v6',
-      {...rpcParams, p_parcel_only: input.parcelOnly ?? false,...(input.independentSalePrice===undefined?{}:{p_sale_price_in_minor_units:Math.round(input.independentSalePrice*1000)})}
+    const client=supabase;
+    const request=(proof?:PriceLossConfirmation225)=>client.rpc(
+      input.accountingPrice225?'create_product_with_opening_stock_v7':input.independentSalePrice===undefined?'create_product_with_opening_stock_v5':'create_product_with_opening_stock_v6',
+      {...rpcParams,p_parcel_only:input.parcelOnly??false,...productPriceParams(input,proof)}
     );
+    const {data:res,error}=input.accountingPrice225?await confirmProductPriceWrite225(request,input.accountingPrice225.confirmLoss):await request();
 
     if (error) {
       console.error(
@@ -861,10 +886,11 @@ export async function createProductFamilyWithFlavorsInSupabase(
     }
     saleUnitIdToUse = saleUnitIdToUse || purchaseUnitIdToUse || unitIdToUse;
 
-    const { data, error } = await supabase.rpc(
-      input.independentSalePrice===undefined?'create_product_family_with_flavors_v2':'create_product_family_with_flavors_v3',
+    const client=supabase;
+    const request=(proof?:PriceLossConfirmation225)=>client.rpc(
+      input.accountingPrice225?'create_product_family_with_flavors_v4':input.independentSalePrice===undefined?'create_product_family_with_flavors_v2':'create_product_family_with_flavors_v3',
       {
-        ...(input.independentSalePrice===undefined?{}:{p_sale_price_in_minor_units:Math.round(input.independentSalePrice*1000)}),
+        ...productPriceParams(input,proof),
         p_parcel_only: input.parcelOnly ?? false,
         p_sku: input.sku.trim(),
         // Flavor-family masters are grouping records, never sellable barcode targets.
@@ -910,6 +936,7 @@ export async function createProductFamilyWithFlavorsInSupabase(
         })),
       }
     );
+    const {data,error}=input.accountingPrice225?await confirmProductPriceWrite225(request,input.accountingPrice225.confirmLoss):await request();
 
     if (error) {
       return toProductMutationFailure(
@@ -1058,8 +1085,11 @@ export async function updateProductInSupabase(
     saleUnitIdToUse =
       saleUnitIdToUse || purchaseUnitIdToUse || unitIdToUse;
 
-    const { data, error } = await supabase.rpc(input.independentSalePrice===undefined?'update_product_master_v5':'update_product_master_v6', {
-      ...(input.independentSalePrice===undefined?{}:{p_sale_price_in_minor_units:Math.round(input.independentSalePrice*1000)}),
+    const client=supabase;
+    const request=(proof?:PriceLossConfirmation225)=>client.rpc(
+      input.accountingPrice225?'update_product_master_v7':input.independentSalePrice===undefined?'update_product_master_v5':'update_product_master_v6', {
+      ...productPriceParams(input,proof),
+      ...(input.accountingPrice225?{p_parcel_enabled:input.accountingPrice225.parcelEnabled??null,p_restore_original:input.accountingPrice225.restoreOriginal??null}:{}),
       p_parcel_only: input.parcelOnly ?? null,
       p_product_id: input.productId,
       p_expected_updated_at: input.expectedUpdatedAt,
@@ -1100,6 +1130,7 @@ export async function updateProductInSupabase(
       p_is_active: input.isActive,
       p_image_url: input.imageUrl?.trim() || null,
     });
+    const {data,error}=input.accountingPrice225?await confirmProductPriceWrite225(request,input.accountingPrice225.confirmLoss):await request();
 
     if (error) {
       return toProductMutationFailure(error, 'تعذر تحديث المنتج.');

@@ -58,7 +58,8 @@ export async function readProductWorkbook(bytes:Uint8Array){
  }
  return{products,flavors,identifierWarnings};
 }
-export function prepareProductWorkbook(productSheet:readonly(readonly string[])[],flavorSheet:readonly(readonly string[])[]=[],mode:ImportOperatingMode='full'):ProductWorkbookPlan{
+export function prepareProductWorkbook(productSheet:readonly(readonly string[])[],flavorSheet:readonly(readonly string[])[]=[],mode:ImportOperatingMode='full',options:{independentFullPrices?:boolean}={}):ProductWorkbookPlan{
+ const independent=mode==='sales-only'||options.independentFullPrices===true;
  const errors:WorkbookIssue[]=[],warnings:WorkbookIssue[]=[];const header=(productSheet[0]??[]).map(c=>c.trim());
  // Bind the renamed headings to the exact legacy pure validator; accept old headings too.
  const legacyHeader=header.map(h=>GO_LIVE_COLUMNS.products.find(c=>renamed[c.key]===h)?.header??h);
@@ -87,9 +88,9 @@ export function prepareProductWorkbook(productSheet:readonly(readonly string[])[
   if(v.packet_price){
    const packet=parseJodToMinor(v.packet_price),parcel=parseJodToMinor(row.values.sale_package_price);
    if(packet===null||packet==='0')errors.push({row:row.row,message:'سعر بيع الباكيت المفرد يجب أن يكون موجباً وبثلاث خانات كحد أقصى.'});
-   else if(mode!=='sales-only'&&parcel!==null&&size!==null&&BigInt(packet)!==(BigInt(parcel)+BigInt(Math.floor(size/2)))/BigInt(size))errors.push({row:row.row,message:'سعر الباكيت لا يطابق سعر الطرد مقسوماً على عدد الباكيتات بعد التقريب إلى الفلس؛ صحّح السعرين.'});
+   else if(!independent&&parcel!==null&&size!==null&&BigInt(packet)!==(BigInt(parcel)+BigInt(Math.floor(size/2)))/BigInt(size))errors.push({row:row.row,message:'سعر الباكيت لا يطابق سعر الطرد مقسوماً على عدد الباكيتات بعد التقريب إلى الفلس؛ صحّح السعرين.'});
   }
-  if(mode==='sales-only'&&v.packet_price){const single=parseJodToMinor(v.packet_price),parcel=parseJodToMinor(row.values.sale_package_price);
+  if(independent&&v.packet_price){const single=parseJodToMinor(v.packet_price),parcel=parseJodToMinor(row.values.sale_package_price);
    if(single!==null&&parcel!==null&&size!==null){const error=independentParcelPriceError(size,Number(single),Number(parcel));if(error)errors.push({row:row.row,message:error});}
   }
  }
@@ -97,7 +98,9 @@ export function prepareProductWorkbook(productSheet:readonly(readonly string[])[
  const stock=(s:string,row:number,sheet:'المنتجات'|'النكهات'='المنتجات')=>{if(!s)return null;if(mode==='sales-only'){errors.push({row,sheet,message:'المخزون مطفأ في وضع المبيعات والذمم؛ أفرغ عمود المخزون ولا تستورده بهذا الوضع.'});return null;}const n=parseWholeNumber(s,{max:9_999_999});if(n===null)errors.push({row,sheet,message:'المخزون: أدخل عدد باكيتات صحيحاً غير سالب أو اتركه فارغاً حتى الجرد.'});return n;};
  const products=prepared.payload.map(p=>{const v=extra.get(p.sourceRow)!;const max=v.max_stock_level?parseWholeNumber(v.max_stock_level,{max:999_999}):null;
   if(v.max_stock_level&&(max===null||max<Number(p.min_stock_level)))errors.push({row:p.sourceRow,message:'سقف المستودع يجب أن يكون عدداً صحيحاً لا يقل عن حد التنبيه (بالباكيت).'});
-  return{...(mode==='sales-only'?{singlePriceInMinorUnits:parseJodToMinor(v.packet_price)||((BigInt(p.sale_package_price_in_minor_units)+BigInt(p.units_per_sale_unit)-1n)/BigInt(p.units_per_sale_unit)).toString()}:{}),row:p.sourceRow,data:p,brand:v.brand_name,description:v.description,warehouse:v.warehouse_code,maxStock:max,openingStock:stock(v.opening_stock,p.sourceRow),flavors:[] as WorkbookFlavor[]};});
+  const explicitSingle=independent&&v.packet_price?parseJodToMinor(v.packet_price):null;
+  const singlePrice=explicitSingle??(mode==='sales-only'?((BigInt(p.sale_package_price_in_minor_units)+BigInt(p.units_per_sale_unit)-1n)/BigInt(p.units_per_sale_unit)).toString():null);
+  return{...(singlePrice===null?{}:{singlePriceInMinorUnits:singlePrice}),row:p.sourceRow,data:p,brand:v.brand_name,description:v.description,warehouse:v.warehouse_code,maxStock:max,openingStock:stock(v.opening_stock,p.sourceRow),flavors:[] as WorkbookFlavor[]};});
  const byMaster=new Map(products.map(p=>[skuKey(p.data.sku),p]));
  if(flavorSheet.length){const fh=(flavorSheet[0]??[]).map(c=>c.trim());
   for(const h of new Set(fh))if(h&&fh.filter(c=>c===h).length>1)errors.push({row:1,sheet:'النكهات',message:'النكهات: عنوان عمود مكرر؛ اترك عموداً واحداً لكل حقل.'});

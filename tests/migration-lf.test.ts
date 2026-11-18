@@ -8,22 +8,27 @@ import {createHash} from 'node:crypto';
 import {migrationLfEvidence} from '../scripts/agent/migration-lf.mjs';
 import {migrationLfPins,sourceBeforeMigrationLf} from '../scripts/audit/source-before-migration-lf.mjs';
 import {sourceBeforeRestoreRawAcl} from '../scripts/audit/source-before-restore-raw-acl.mjs';
+import {sourceBeforeOnPrices225} from '../scripts/audit/source-before-on-prices225.mjs';
 import {sourceBeforeOnUnitDisplay225} from '../scripts/audit/source-before-on-unit-display225.mjs';
 
 test('LF maintenance projects only exact reviewed source;historical beforeText and unknown bytes remain protected',()=>{
  for(const [file,pin]of Object.entries(migrationLfPins)){
   const current=readFileSync(file,'utf8').replace(/\r\n?/gu,'\n');
-  const beforeRestore=sourceBeforeRestoreRawAcl(file,sourceBeforeOnUnitDisplay225(file,current));
+  const beforeRestore=sourceBeforeRestoreRawAcl(file,sourceBeforeOnUnitDisplay225(file,sourceBeforeOnPrices225(file,current)));
   assert.notEqual(beforeRestore,null,file);
   assert.equal(sourceBeforeMigrationLf(file,beforeRestore),pin.beforeText,file);
-  assert.equal(sourceBeforeMigrationLf(file,sourceBeforeRestoreRawAcl(file,sourceBeforeOnUnitDisplay225(file,current+'UNKNOWN_BYTE'))),current+'UNKNOWN_BYTE',file);
+  assert.equal(sourceBeforeMigrationLf(file,sourceBeforeRestoreRawAcl(file,sourceBeforeOnUnitDisplay225(file,sourceBeforeOnPrices225(file,current+'UNKNOWN_BYTE')))),current+'UNKNOWN_BYTE',file);
  }
  assert.equal(execFileSync('git',['diff','--name-only','HEAD','--','supabase/migrations'],{encoding:'utf8'}).trim(),'');
 });
 
-test('literal222/223/224 pins and all current SQL bytes remain LF;preflight invokes the rejecting check',()=>{
- assert.deepEqual(migrationLfEvidence(process.cwd()),{ok:true,checkedFiles:184,invalid:[],code:null});
+test('literal222/223/224/225 pins and all current SQL bytes remain LF;preflight invokes the rejecting check',()=>{
+ assert.deepEqual(migrationLfEvidence(process.cwd()),{ok:true,checkedFiles:185,invalid:[],code:null});
  const state=JSON.parse(readFileSync('docs/agent/project-state.json','utf8'));
+ const approved225=readFileSync('docs/design/on-independent-prices225/225_on_independent_prices.candidate.sql');
+ const active225=readFileSync('supabase/migrations/225_on_independent_prices.sql');
+ assert.deepEqual(active225,approved225);
+ assert.equal(createHash('sha256').update(active225).digest('hex'),'c20975214dcc8f2c67cc6fc21235e04ed7e5ec96081db24b0eeecedc2553dde1');
  for(const [file,expected]of [
   ['222_independent_lite_parcel_prices.sql','bcf55b1f43714e27d525dedac51cc7c3f85d0e1f2be422bbc422cafc6ff84a68'],
   ['223_optional_sales_quantity.sql','d5d6397bd5d676f766493b7a85b1f47ad6f1b6f6c465e7b4a32219ee49abc0af'],

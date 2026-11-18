@@ -1,3 +1,4 @@
+import {legacy224PriceRead} from './legacy224-prices-rpc';
 import React,{useState} from 'react';
 import {createRoot} from 'react-dom/client';
 import '../src/index.css';
@@ -38,6 +39,8 @@ const client = supabase as unknown as { rpc: (name: string, args?: Record<string
 // Fixed READ fixtures only. Mutations still traverse the real service to the
 // isolated API,where browser tests explicitly intercept them;never fake a sale.
 client.rpc = (name, args) => {
+  const legacyPrice=legacy224PriceRead(name);
+  if(legacyPrice)return Promise.resolve(legacyPrice);
   const success = (data: unknown) => Promise.resolve({ data, error: null });
   if (name === 'search_admin_products') {
     const search = String(args?.p_search ?? '').toLowerCase();

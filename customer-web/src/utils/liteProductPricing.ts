@@ -3,14 +3,14 @@ import type {CatalogProduct} from '../types/catalog';
 import {parcelDiscountInMinorUnits} from '../../../src/utils/independentParcelPrices';
 import {storefrontPackageDescription,storefrontUnitName} from './storefrontUnits';
 
-export const liteParcelSaving=(product:CatalogProduct)=>product.quantityTracked===false&&!product.parcelOnly&&product.unitsPerSalePackage>1
+export const liteParcelSaving=(product:CatalogProduct)=>(product.quantityTracked===false||product.parcelSaleEnabled===true)&&!product.parcelOnly&&product.unitsPerSalePackage>1
  ?parcelDiscountInMinorUnits(product.unitsPerSalePackage,product.salePriceInMinorUnits,product.salePackagePriceInMinorUnits):0;
 export function liteProductPriceRows(product:CatalogProduct){
- const unit=storefrontUnitName(product.unitNameAr,false);
+ const unit=storefrontUnitName(product.unitNameAr,product.quantityTracked);
  if(product.unitsPerSalePackage<=1)return [{kind:'single' as const,label:unit,price:product.salePackagePriceInMinorUnits}];
  return [
   ...(!product.parcelOnly?[{kind:'single' as const,label:unit,price:product.salePriceInMinorUnits}]:[]),
-  {kind:'parcel' as const,label:storefrontPackageDescription(product),price:product.salePackagePriceInMinorUnits},
+  ...(product.parcelSaleEnabled!==false?[{kind:'parcel' as const,label:storefrontPackageDescription(product),price:product.salePackagePriceInMinorUnits}]:[]),
  ];
 }
 export function liteFamilyStartingPrice(product:CatalogProduct):number{

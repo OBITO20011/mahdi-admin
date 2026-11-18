@@ -23,6 +23,7 @@ import {capture220RuntimeState as capture224RuntimeState,bind220CatalogTrigger a
 import {assert224SourceRowsPreserved} from './upgrade224-data.mjs';
 import {frozen220TriggerAclProfile as frozen224TriggerAclProfile,expectFrankfurt220TriggerAcl as expectFrankfurt224TriggerAcl} from './frozen220-trigger-acl.mjs';
 import {checkRegistration224,pending224Registration,readPendingRegistration224,registrationFailure224,registrationState224Name,runUpgrade224Owner,saveRegistration224,sourceDigest224,upgrade224ErrorCode} from './upgrade224-registration.mjs';
+import {assertSupportedUpgrade225} from './supported-upgrades225.mjs';
 const root=path.resolve(import.meta.dirname,'../..');
 export const upgrade224Versions=Object.freeze(['224']);
 export function assert224History(history,reference){
@@ -146,7 +147,9 @@ export async function run224(args,{preflight=registeredBackupPreflight,manifest=
  const {forward,extra}=upgrade224Arguments(args);let protection;
  if(forward.includes('--apply')||forward.includes('--resume-registration'))await preflight(root);
  if(forward.includes('--verify-only'))protection=await assert224ProtectionComplete({backupFile:extra['--backup-evidence'],restoreFile:extra['--restore-evidence'],upgradeFile:extra['--upgrade-report']});
- await manifest();assert.equal(operationalSchema.upgradeCommand,'frankfurt-owner-upgrade224','UPGRADE_ADAPTER_NOT_CURRENT');
+ await manifest();
+ if(operationalSchema.ceiling===225)assertSupportedUpgrade225(224);
+ else assert.equal(operationalSchema.upgradeCommand,'frankfurt-owner-upgrade224','UPGRADE_ADAPTER_NOT_CURRENT');
  const loadBeforeBackup=()=>read224BackupEvidence(extra['--backup-evidence'],223);
  return runOwner(forward,{loadReference:readReady224Reference,referenceName:ready224ReferenceName,
   pipeline:async options=>upgrade224WithExecutor({...options,backupEvidence:await loadBeforeBackup()}),

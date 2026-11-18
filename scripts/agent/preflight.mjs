@@ -11,7 +11,7 @@ const productionNames = productionEnvironmentNames();
 const failures = [];
 const migrationLf=migrationLfEvidence(root);
 if(!migrationLf.ok)failures.push('MIGRATION_SQL_LF_BYTES_REQUIRED: '+migrationLf.invalid.join(', '));
-for(const number of [160,161,162,163,164,170,171,180,181,182,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,219,220,222,223,224]) {
+for(const number of [160,161,162,163,164,170,171,180,181,182,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,219,220,222,223,224,225]) {
   if(state.migrationCeiling>=number && (!state[`migration${number}CanonicalLfSha256`]
     || migrations.integrationPins[number]!==state[`migration${number}CanonicalLfSha256`]))
     failures.push(`Migration ${number} hash missing or mismatch`);

@@ -8,6 +8,7 @@ import {packageFShards,packageFShardCount} from '../scripts/testing/package-f-ci
 import {listBrowserTests} from '../scripts/testing/ci-browser-discovery.mjs';
 import {canonicalLf,sha256} from '../scripts/testing/maintenance-db-contract.mjs';
 import {coreWebkitSourcePins,sourceBeforeCoreWebkitShards,restoreCoreWebkitShardHashes,pathsBeforeCoreWebkitShards} from '../scripts/audit/source-before-core-webkit-shards.mjs';
+import {sourceBeforeOnPrices225} from '../scripts/audit/source-before-on-prices225.mjs';
 import {sourceBeforeUpgradeRegistration} from '../scripts/audit/source-before-upgrade-registration.mjs';
 
 const rows=Array.from({length:6},(_,i)=>({project:'mobile-webkit',key:`file-and-title-${i}`}));
@@ -71,7 +72,12 @@ test('CI inverse preserves literal old sources and old pins; unknown byte,null a
  const index='scripts/audit/core-webkit-shards-source-pins.json',text=canonicalLf(readFileSync(index,'utf8'));
  assert.equal(sourceBeforeCoreWebkitShards(index,text),null);assert.equal(sourceBeforeCoreWebkitShards(index,text+' '),text+' ');
  assert.match(execFileSync(process.execPath,['scripts/testing/build-inventory224-history.mjs','--check'],{encoding:'utf8'}),/"ok":true/u);
- assert.equal(execFileSync('git',['diff',baseline,'--','supabase'],{encoding:'utf8'}),'');
+ const sql='supabase/migrations/225_on_independent_prices.sql';
+ const supabaseChanges=execFileSync('git',['diff','--name-only',baseline,'--','supabase'],{encoding:'utf8'}).trim().split(/\r?\n/u);
+ assert.deepEqual(supabaseChanges,[sql]);
+ const sqlSource=readFileSync(sql,'utf8');
+ assert.equal(sourceBeforeOnPrices225(sql,sqlSource),null);
+ assert.equal(sourceBeforeOnPrices225(sql,sqlSource+'\nUNKNOWN_BYTE'),sqlSource+'\nUNKNOWN_BYTE');
  const scope=['src','customer-web/src','e2e'];
  const oldFiles=new Set(execFileSync('git',['ls-tree','-r','--name-only',baseline,'--',...scope],{encoding:'utf8'}).trim().split('\n'));
  const changed=new Set([

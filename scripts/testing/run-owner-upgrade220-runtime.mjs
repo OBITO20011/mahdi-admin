@@ -13,6 +13,9 @@ import {SnapshotSession} from '../backup/snapshot-session.mjs';
 import {createCompleteBackup,restoreCompleteBackup} from '../backup/complete-backup.mjs';
 import {executorFor,executeInput} from '../operations/build-empty-supabase.mjs';
 import {readReady220Reference} from '../operations/frankfurt-reference220.mjs';
+import {pathToFileURL} from 'node:url';
+import {operationalManifest,operationalSchema} from '../operations/operational-schema.mjs';
+import {withLegacy224OwnerTools} from './legacy224-owner-tools.mjs';
 import {upgrade220WithExecutor,run220} from '../operations/frankfurt-owner-upgrade220.mjs';
 import {read220BackupEvidence,assert220ProtectionComplete} from '../operations/upgrade220-protection.mjs';
 import {readOnlyPsqlSessionArgs} from '../operations/frankfurt-catalog-verification.mjs';
@@ -65,17 +68,25 @@ try{
  stage='restore220';report.restore220=await timed('restore220',()=>restoreCompleteBackup({archivePath:after.archivePath,passphrase,reportPath:path.join(output,'restore220.json')}));
  const restoreFile=path.join(output,'restore220.json');report.protection=await assert220ProtectionComplete({backupFile:afterFile,restoreFile,upgradeFile:applyFile});assert.equal(report.protection.complete,true);
  const readonly={...executor,args:[...executor.args,...readOnlyPsqlSessionArgs]},verifyArgs=['--verify-only','--backup-evidence',afterFile,'--restore-evidence',restoreFile,'--upgrade-report',applyFile];
- const verify=async name=>{const dir=path.join(output,name);await mkdir(dir);return run220(verifyArgs,{runOwner:async(_args,configuration)=>{const result={};await configuration.verifyReadOnly(readonly,dir,reference,null,null,result);return result;}});};
- stage='verify-only';report.verify=await timed('verifyOnly',()=>verify('verify'));assert.equal(report.verify.complete,true);assert.equal(report.verify.protectionPending,false);
+ const verify=async (name,adapter)=>{const dir=path.join(output,name);await mkdir(dir);return adapter(verifyArgs,{runOwner:async(_args,configuration)=>{const result={};await configuration.verifyReadOnly(readonly,dir,reference,null,null,result);return result;}});};
+ const verifyCases=async adapter=>{
+ const verifyUsing=name=>verify(name,adapter);
+ stage='verify-only';report.verify=await timed('verifyOnly',()=>verifyUsing('verify'));assert.equal(report.verify.complete,true);assert.equal(report.verify.protectionPending,false);
  report.negatives=['wrong-source-commitment','apply-replay'];
  for(const [name,mutate,undo]of [
   ['acl','GRANT TRUNCATE ON public.products TO anon;','REVOKE TRUNCATE ON public.products FROM anon;'],
   ['body',"ALTER FUNCTION public.release_owner_telegram_dispatch_v1(uuid) RESET search_path;","ALTER FUNCTION public.release_owner_telegram_dispatch_v1(uuid) SET search_path=public,pg_temp;"],
   ['extra-cron',"SELECT cron.schedule('owner220-unexpected','* * * * *','SELECT 1;');SELECT cron.alter_job(jobid,active:=false) FROM cron.job WHERE jobname='owner220-unexpected';","SELECT cron.unschedule(jobid) FROM cron.job WHERE jobname='owner220-unexpected';"],
- ]){stage='negative-'+name;await sql(mutate);await assert.rejects(()=>verify('negative-'+name));await sql(undo);report.negatives.push(name);}
+ ]){stage='negative-'+name;await sql(mutate);await assert.rejects(()=>verifyUsing('negative-'+name));await sql(undo);report.negatives.push(name);}
  // Extra-cron add/delete advances its sequence. A NEW backup/Restore is required;
  // do not pretend the old evidence still describes the source after any drift.
- stage='negative-stale-restore';await assert.rejects(()=>verify('negative-stale-restore'),/SOURCE_CHANGED_SINCE_RESTORE/u);report.negatives.push('stale-restore');
+ stage='negative-stale-restore';await assert.rejects(()=>verifyUsing('negative-stale-restore'),/SOURCE_CHANGED_SINCE_RESTORE/u);report.negatives.push('stale-restore');
+ };
+ await operationalManifest();
+ if(operationalSchema.ceiling===225)await withLegacy224OwnerTools(root,async checkout=>{
+  const historical=await import(pathToFileURL(path.join(checkout,'scripts/operations/frankfurt-owner-upgrade220.mjs')).href);
+  await verifyCases(historical.run220);
+ });else await verifyCases(run220);
  assert.equal((await exec('docker',['ps','-aq','--filter','name=^/nawasrah-full-restore-'+process.pid+'-'],{windowsHide:true})).stdout.trim(),'','DEFAULT_RESTORE_MUST_REMOVE_OWN_CONTAINER');
  Object.assign(report,{ok:true,realMoneyAndInventoryRowsUnchanged:true,notificationSettingsPreserved:true,defaultRestoreContainerDeleted:true,noExternalTransportInvoked:true});
 }catch(error){Object.assign(report,{ok:false,stage,error:error.message.split('\n')[0],cause:error.cause?.message?.split('\n')[0],assertionCause:error.actual instanceof Error?{code:error.actual.code,message:error.actual.message.split('\n')[0],location:error.actual.stack?.split('\n').slice(1,4)}:undefined});process.exitCode=1;}

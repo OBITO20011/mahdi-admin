@@ -6,10 +6,13 @@ import {run224,upgrade224Arguments} from '../scripts/operations/frankfurt-owner-
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {canonicalLf,sha256} from '../scripts/testing/maintenance-db-contract.mjs';
+import {sourceBeforeOnPrices225} from '../scripts/audit/source-before-on-prices225.mjs';
 import {sourceBeforeUpgradeRegistration,upgradeRegistrationPins} from '../scripts/audit/source-before-upgrade-registration.mjs';
 import {sourceBeforeRestoreFrozen220,pathsBeforeRestoreFrozen220} from '../scripts/audit/source-before-restore-frozen220.mjs';
 
-const versions=(await operationalManifest()).map(({name}:{name:string})=>name.slice(0,3));
+const versions=(await operationalManifest()).filter(({name}:{name:string})=>Number(name.slice(0,3))<=224).map(({name}:{name:string})=>name.slice(0,3));
+assert.equal(versions.length,184);
+assert.equal(versions.at(-1),'224');
 const before=versions.slice(0,-1);
 const reference={prefixes:{223:{appliedVersions:before},224:{appliedVersions:versions}}};
 const list=(remote:string[])=>JSON.stringify({
@@ -89,7 +92,11 @@ test('historical projection admits only approved registration bytes and preserve
   if(pin.beforeText!==null)assert.equal(pin.beforeText,canonicalLf(execFileSync('git',['show',baseline+':'+file],{encoding:'utf8'})),file);
  }
  const names=pathsBeforeRestoreFrozen220(execFileSync('git',['diff','--name-only',baseline,'--','supabase','scripts/audit'],{encoding:'utf8'}).split(/\r?\n/u).filter(Boolean));
- assert.ok(names.every(file=>file==='scripts/audit/source-before-core-webkit-shards.mjs'||file==='scripts/audit/upgrade-registration-source-pins.json'||file==='scripts/audit/source-before-upgrade-registration.mjs'));
+ const unchangedBefore225=['scripts/audit/run-service-access-diagnostic.mjs','scripts/audit/run-table-access-diagnostic.mjs'];
+ for(const file of unchangedBefore225){
+  assert.equal(sourceBeforeOnPrices225(file,canonicalLf(readFileSync(file,'utf8'))),canonicalLf(execFileSync('git',['show',baseline+':'+file],{encoding:'utf8'})),file);
+ }
+ assert.ok(names.filter(file=>!unchangedBefore225.includes(file)).every(file=>file==='scripts/audit/source-before-core-webkit-shards.mjs'||file==='scripts/audit/upgrade-registration-source-pins.json'||file==='scripts/audit/source-before-upgrade-registration.mjs'));
  for(const file of ['scripts/operations/frankfurt-owner-upgrade.mjs','scripts/operations/upgrade-preparation-errors.mjs']){
   assert.equal(canonicalLf(readFileSync(file,'utf8')),canonicalLf(execFileSync('git',['show',baseline+':'+file],{encoding:'utf8'})),file);
  }

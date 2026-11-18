@@ -42,6 +42,8 @@ import {
 import { ProductEditConflictPanel } from './ProductEditConflictPanel';
 import {ProductFormParcelCapability} from './ProductFormParcelCapability';
 import {OffParcelPriceSummary,OffPriceInput} from './OffParcelPriceSummary';
+import {PriceLossPrompt225} from './PriceLossPrompt225';
+import {readOnPriceCapability225,readOnPriceContext225,type OnPriceContext225,type AccountingPrice225Write,type RestorePrice225,type PriceLossConfirmation225} from '../../services/supabase/onPrices225.service';
 import {
   currentUnitCostInMinorUnits,
   fetchProductCostState,
@@ -65,6 +67,7 @@ import {
 interface ProductFormModalProps {
   operatingMode?:OperatingMode;
   modeVerified?:boolean;
+  initialOnPriceRestore?:RestorePrice225;
   initialProduct?: Product | null;
   onClose: () => void;
   startBarcodeScanner?: StartBarcodeCamera;
@@ -113,6 +116,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   startBarcodeScanner,
   operatingMode='full',
   modeVerified=true,
+  initialOnPriceRestore,
 }) => {
   const salesOnly=operatingMode==='sales-only';
   const modeNow=useRef({operatingMode,modeVerified});modeNow.current={operatingMode,modeVerified};
@@ -139,6 +143,41 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   } = useAppStore();
 
   const isEditing = Boolean(initialProduct?.id);
+  const priceContextKey=initialProduct?.id??'new';
+  const [accountingRead,setAccountingRead]=useState<{key:string;enabled:boolean;error:boolean;context:OnPriceContext225|null}|null>(null);
+  const [accountingParcelEnabled,setAccountingParcelEnabled]=useState(true);
+  const [restoreOriginal225,setRestoreOriginal225]=useState<RestorePrice225|undefined>();
+  const [priceLoss225,setPriceLoss225]=useState<PriceLossConfirmation225|null>(null);
+  const priceLossReply=useRef<((confirmed:boolean)=>void)|null>(null);
+  const accountingReady=salesOnly||accountingRead?.key===priceContextKey&&!accountingRead.error;
+  const accounting225=!salesOnly&&accountingRead?.key===priceContextKey&&accountingRead.enabled;
+  const accountingContext=accounting225?accountingRead.context:null;
+  useEffect(()=>{
+    if(salesOnly||!modeVerified)return;
+    let active=true;
+    const read=async()=>initialProduct?.id
+      ?readOnPriceContext225(initialProduct.id).then(context=>({enabled:context?.productId===initialProduct.id,context}))
+      :readOnPriceCapability225().then(enabled=>({enabled,context:null}));
+    void read().then(({enabled,context})=>{
+      if(!active)return;
+      setAccountingRead({key:priceContextKey,enabled,error:false,context});
+      setAccountingParcelEnabled(context?.parcelEnabled??true);
+      if(enabled&&initialOnPriceRestore&&context){
+        const remembered=initialOnPriceRestore==='single'?context.originalUnitPrice:context.originalParcelPrice;
+        if(remembered!==null){
+          if(initialOnPriceRestore==='single'||(initialProduct?.unitsPerSalePackage??1)<=1)setSingleSalePrice(remembered/1000);
+          if(initialOnPriceRestore==='parcel'||(initialProduct?.unitsPerSalePackage??1)<=1)setSalePackagePrice(remembered/1000);
+          setRestoreOriginal225(initialOnPriceRestore);
+        }
+      }
+    }).catch(()=>{if(active)setAccountingRead({key:priceContextKey,enabled:false,error:true,context:null});});
+    return ()=>{active=false;priceLossReply.current?.(false);priceLossReply.current=null;};
+  },[salesOnly,modeVerified,priceContextKey,initialProduct?.id,initialProduct?.unitsPerSalePackage,initialOnPriceRestore]);
+  const respondToPriceLoss225=(confirmed:boolean)=>{
+    priceLossReply.current?.(confirmed);
+    priceLossReply.current=null;
+    setPriceLoss225(null);
+  };
   const [openedAsSingleUnit,setOpenedAsSingleUnit]=useState(
     isEditing && !initialProduct?.flavorMasterProductId && (salesOnly||initialProduct?.unit.trim()==='طرد')
       && initialProduct?.unitsPerPackage===1 && initialProduct?.unitsPerSalePackage===1 && !initialProduct?.parcelOnly
@@ -418,12 +457,33 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     validSalePackagePrice,
     salePackageCost
   );
-  const derivedSalePricePerUnit = salesOnly ? Math.max(0,Number(singleSalePrice)||0) : calculateUnitCost(
+  const separatePrices=salesOnly||accounting225;
+  const derivedSalePricePerUnit = separatePrices ? Math.max(0,Number(singleSalePrice)||0) : calculateUnitCost(
     validSalePackagePrice,
     validUnitsPerSalePackage
   );
   const pricesKey=[unit,salePackage,validUnitsPerSalePackage,Math.round(derivedSalePricePerUnit*1000),Math.round(validSalePackagePrice*1000)].join(':');
-  const SalePriceInput=salesOnly?OffPriceInput:'input';
+  const SalePriceInput=separatePrices?OffPriceInput:'input';
+  const singleFils=Math.round(derivedSalePricePerUnit*1000),parcelFils=Math.round(validSalePackagePrice*1000);
+  const accountingPriceError=accounting225?(
+    !Number.isSafeInteger(singleFils)||!Number.isSafeInteger(parcelFils)||singleFils<=0||parcelFils<=0||
+      singleFils/1000!==derivedSalePricePerUnit||parcelFils/1000!==validSalePackagePrice
+      ?'أدخل السعرين الموجبين بثلاث خانات عشرية كحد أقصى.'
+      :parcelMethodSelected&&unit===salePackage?'اختر للطرد وحدة تختلف عن وحدة المحتوى.'
+      :!parcelMethodSelected||accountingParcelEnabled?independentParcelPriceError(validUnitsPerSalePackage,singleFils,parcelFils):null
+  ):null;
+  const onWac=Number(accountingContext?.currentWacInMinorUnitsExact??costPerUnit*1000);
+  const onLossWarning=accounting225&&onWac>0&&(
+    allowSingle&&singleFils>0&&singleFils<onWac||
+    parcelMethodSelected&&accountingParcelEnabled&&parcelFils>0&&parcelFils<onWac*validUnitsPerSalePackage
+  );
+  const restoreAccountingPrice=(kind:RestorePrice225)=>{
+    const remembered=kind==='single'?accountingContext?.originalUnitPrice:accountingContext?.originalParcelPrice;
+    if(remembered==null)return;
+    if(kind==='single'||!parcelMethodSelected)setSingleSalePrice(remembered/1000);
+    if(kind==='parcel'||!parcelMethodSelected)setSalePackagePrice(remembered/1000);
+    setRestoreOriginal225(kind);
+  };
   const offParcelPriceError=salesOnly&&parcelMethodSelected
     ? independentParcelPriceError(validUnitsPerSalePackage,Math.round(derivedSalePricePerUnit*1000),Math.round(validSalePackagePrice*1000)) : null;
   const offAddedPriceError=defineFlavorParcel
@@ -515,7 +575,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     if (!differentSaleParcel) {
       const count = Math.max(1, Number(rawValue) || 1);
       setUnitsPerSalePackage(rawValue === '' ? '' : count);
-      setSalePackagePrice(salePackagePrice === '' ? '' : calculatePackagePrice(derivedSalePricePerUnit, count));
+      if(!accounting225||count===1)setSalePackagePrice(salePackagePrice === '' ? '' : calculatePackagePrice(derivedSalePricePerUnit, count));
     }
   };
   const toggleWithoutParcel = (checked: boolean) => {
@@ -527,7 +587,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     if (!differentSaleParcel || checked) {
       setDifferentSaleParcel(false);
       setUnitsPerSalePackage(count);
-      setSalePackagePrice(salePackagePrice === '' ? '' : calculatePackagePrice(derivedSalePricePerUnit, count));
+      if(!accounting225||count===1)setSalePackagePrice(salePackagePrice === '' ? '' : calculatePackagePrice(derivedSalePricePerUnit, count));
     }
   };
   const selectParcelMethod = (enabled: boolean) => {
@@ -675,7 +735,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     salePackage,
     unitsPerSalePackage: validUnitsPerSalePackage,
     salePackagePrice: validSalePackagePrice,
-    ...(salesOnly?{singleSalePrice:derivedSalePricePerUnit}:{}),
+    ...(separatePrices?{singleSalePrice:derivedSalePricePerUnit}:{}),
     reorderPackages: Math.max(0, Math.floor(Number(reorderLevel) || 0)),
     maxPackages:
       maxStockLevel === '' ? '' : Math.max(0, Math.floor(Number(maxStockLevel) || 0)),
@@ -762,6 +822,18 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     if(!modeVerified){setToast('تعذر التحقق من وضع التشغيل؛ أعد قراءة الحالة قبل الحفظ. (MODE-02)','error');return;}
+    if(!accountingReady||accountingPriceError){
+      setSubmitError({message:accountingPriceError||'أعد فتح المنتج بعد التحقق من إعداد الأسعار.'});
+      return;
+    }
+    const pricing225:AccountingPrice225Write|undefined=accounting225?{
+      singlePriceInMinorUnits:singleFils,
+      parcelEnabled:parcelMethodSelected?accountingParcelEnabled:true,
+      restoreOriginal:restoreOriginal225,
+      confirmLoss:proof=>new Promise(resolve=>{
+        priceLossReply.current=resolve;setPriceLoss225(proof);
+      }),
+    }:undefined;
 
     if (defineFlavorParcel && (!flavorParcelReady || !flavorParcelConfirmed || unit !== openedUnitName
       || singleContentsCount !== '' || unitConversionConfirmed
@@ -998,6 +1070,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           imageUrl: payload.imageUrl,
           flavors: uploadedFlavors,
           ...(salesOnly?{independentSalePrice:derivedSalePricePerUnit}:{}),
+          accountingPrice225:pricing225,
           parcelOnly: !allowSingle,
         });
       } else {
@@ -1007,8 +1080,9 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             ? await updateProduct(initialProduct.id, payload, {
                 expectedUpdatedAt: openedVersion,
                 ...(salesOnly?{independentSalePrice:payload.retailPrice}:{}),
+                accountingPrice225:pricing225,
               })
-            : await addProduct(payload,salesOnly?{independentSalePrice:payload.retailPrice}:undefined);
+            : await addProduct(payload,salesOnly?{independentSalePrice:payload.retailPrice}:pricing225?{accountingPrice225:pricing225}:undefined);
       }
 
       if (result?.success) {
@@ -1300,16 +1374,31 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         <fieldset className="grid min-w-0 gap-3 sm:grid-cols-2" aria-label="طريقة البيع">
           {!(salesOnly&&openedAsSingleUnit)&&<div className="min-w-0 space-y-2 rounded-lg border border-nw-border p-3">
             <label className="flex min-h-11 items-center gap-2 font-bold"><input type="checkbox" checked={parcelMethodSelected} onChange={event=>selectParcelMethod(event.target.checked)}/>طرد ({parcelMethodSize} باكيت)</label>
-            <label className="block space-y-1 text-xs font-bold">سعر بيع الطرد<SalePriceInput inputMode="decimal" enterKeyHint="next" aria-label="سعر بيع الطرد" type="number" min="0.001" step="0.001" required disabled={!parcelMethodSelected} value={salePackagePrice === '' ? '' : parcelMethodSelected ? salePackagePrice : calculatePackagePrice(derivedSalePricePerUnit,parcelMethodSize)} onChange={event=>setSalePackagePrice(event.target.value===''?'':Number.parseFloat(event.target.value))} className={numberInputClass}/></label>
-            {salesOnly&&parcelMethodSelected&&<OffParcelPriceSummary units={validUnitsPerSalePackage} single={Math.round(derivedSalePricePerUnit*1000)} parcel={Math.round(validSalePackagePrice*1000)} unit={unit}/>}
+            <label className="block space-y-1 text-xs font-bold">سعر بيع الطرد<SalePriceInput inputMode="decimal" enterKeyHint="next" aria-label="سعر بيع الطرد" type="number" min="0.001" step="0.001" required disabled={!parcelMethodSelected} value={salePackagePrice === '' ? '' : parcelMethodSelected ? salePackagePrice : calculatePackagePrice(derivedSalePricePerUnit,parcelMethodSize)} onChange={event=>{setRestoreOriginal225(undefined);setSalePackagePrice(event.target.value===''?'':Number.parseFloat(event.target.value));}} className={numberInputClass}/></label>
+            {(salesOnly||accounting225&&accountingParcelEnabled)&&parcelMethodSelected&&<OffParcelPriceSummary units={validUnitsPerSalePackage} single={Math.round(derivedSalePricePerUnit*1000)} parcel={Math.round(validSalePackagePrice*1000)} unit={unit}/>}
           </div>}
           <div className="min-w-0 space-y-2 rounded-lg border border-nw-border p-3">
             {offBaseUnitField}
             <label className="flex min-h-11 items-center gap-2 font-bold"><input type="checkbox" checked={allowSingle} disabled={salesOnly&&openedAsSingleUnit} onChange={event=>setAllowSingle(event.target.checked)}/>{salesOnly?unit+' مفرد':openedAsSingleUnit?'طرد كوحدة واحدة':'باكيت مفرد'}</label>
-            <label className="block space-y-1 text-xs font-bold">{salesOnly?'سعر بيع '+unit:openedAsSingleUnit?'سعر الطرد كوحدة واحدة':'سعر بيع الباكيت'}<input inputMode="decimal" enterKeyHint="next" aria-label={salesOnly?'سعر بيع '+unit:openedAsSingleUnit?'سعر الطرد كوحدة واحدة':'سعر بيع الباكيت'} type="number" min="0" step={salesOnly?'0.001':'0.0001'} required disabled={!allowSingle} value={salesOnly?singleSalePrice:salePackagePrice===''?'':derivedSalePricePerUnit} onChange={event=>{const value=event.target.value===''?'':Number.parseFloat(event.target.value);if(salesOnly){setSingleSalePrice(value);if(validUnitsPerSalePackage===1)setSalePackagePrice(value);}else setSalePackagePrice(value===''?'':calculatePackagePrice(value||0,validUnitsPerSalePackage));}} className={numberInputClass}/></label>
+            <label className="block space-y-1 text-xs font-bold">{separatePrices?'سعر بيع '+unit:openedAsSingleUnit?'سعر الطرد كوحدة واحدة':'سعر بيع الباكيت'}<input inputMode="decimal" enterKeyHint="next" aria-label={separatePrices?'سعر بيع '+unit:openedAsSingleUnit?'سعر الطرد كوحدة واحدة':'سعر بيع الباكيت'} type="number" min="0" step={separatePrices?'0.001':'0.0001'} required disabled={!allowSingle&&!accounting225} value={separatePrices?singleSalePrice:salePackagePrice===''?'':derivedSalePricePerUnit} onChange={event=>{const value=event.target.value===''?'':Number.parseFloat(event.target.value);if(separatePrices){setRestoreOriginal225(undefined);setSingleSalePrice(value);if(validUnitsPerSalePackage===1)setSalePackagePrice(value);}else setSalePackagePrice(value===''?'':calculatePackagePrice(value||0,validUnitsPerSalePackage));}} className={numberInputClass}/></label>
           </div>
         </fieldset>
 
+        {accounting225&&<div className="space-y-2 rounded-lg border border-nw-border p-3" aria-label="أسعار البيع بالمحاسبة">
+          {parcelMethodSelected&&<div className="flex flex-wrap gap-2">
+            <UiButton type="button" aria-pressed={accountingParcelEnabled} disabled={!isEditing||isSubmitting} onClick={()=>setAccountingParcelEnabled(!accountingParcelEnabled)}>
+              {accountingParcelEnabled?'الطرد: متاح للبيع':'الطرد: موقوف مؤقتاً'}
+            </UiButton>
+            <UiButton type="button" variant="secondary" onClick={()=>{setRestoreOriginal225(undefined);setSalePackagePrice(singleFils*validUnitsPerSalePackage/1000);}}>{'احسب الطرد = العدد × سعر '+(unit||'باكيت')}</UiButton>
+          </div>}
+          {parcelMethodSelected&&!accountingParcelEnabled&&<p>سعر الطرد محفوظ. أعد تفعيله من هذا المفتاح عند الحاجة.</p>}
+          {accountingContext?.originalUnitPrice!=null&&<UiButton type="button" onClick={()=>restoreAccountingPrice('single')}>رجّع السعر الأصلي لـ{unit} ({formatJod(accountingContext.originalUnitPrice/1000)})</UiButton>}
+          {parcelMethodSelected&&accountingContext?.originalParcelPrice!=null&&<UiButton type="button" onClick={()=>restoreAccountingPrice('parcel')}>رجّع السعر الأصلي لـ{salePackage} ({formatJod(accountingContext.originalParcelPrice/1000)})</UiButton>}
+          {restoreOriginal225&&<p role="status">سيُستعاد السعر المحفوظ عند حفظ التعديلات.</p>}
+          {onLossWarning&&<p role="status" className="font-bold text-nw-warn">السعر أقل من التكلفة ({formatJod(onWac/1000)}) — ستبيع بخسارة، وسنطلب تأكيدك عند الحفظ.</p>}
+          {accountingPriceError&&<p role="alert" className="font-bold text-nw-bad">{accountingPriceError}</p>}
+        </div>}
+        {!accountingReady&&modeVerified&&<p role="status">{accountingRead?.error?'تعذر التحقق من إعداد الأسعار. أعد فتح النموذج.':'جارٍ التحقق من إعداد الأسعار.'}</p>}
         {salesOnly&&parcelMethodSelected&&!openedAsSingleUnit&&<div className="space-y-2 rounded-lg border border-nw-border p-3">
           <UiButton type="button" variant="secondary" onClick={()=>setSalePackagePrice(Math.round(derivedSalePricePerUnit*1000)*validUnitsPerSalePackage/1000)}>{'احسب الطرد = العدد × سعر '+(unit||'باكيت')}</UiButton>
 
@@ -1421,7 +1510,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
       <details className="space-y-3 rounded-2xl border border-nw-border bg-nw-surface p-3.5">
         <summary className="min-h-11 cursor-pointer font-bold">{salesOnly?'متقدم: التغليف والعلامة التجارية':'متقدم: التغليف والمخزون والصورة'}</summary>
         {!salesOnly&&<>
-        <label className="flex min-h-11 items-center gap-2 font-bold"><input type="checkbox" checked={differentSaleParcel} disabled={withoutParcel} onChange={event=>{setDifferentSaleParcel(event.target.checked);if(!event.target.checked){setUnitsPerSalePackage(validUnitsPerPackage);setSalePackagePrice(calculatePackagePrice(derivedSalePricePerUnit,validUnitsPerPackage));}}}/>طرد بيع مختلف عن طرد الشراء</label>
+        <label className="flex min-h-11 items-center gap-2 font-bold"><input type="checkbox" checked={differentSaleParcel} disabled={withoutParcel} onChange={event=>{setDifferentSaleParcel(event.target.checked);if(!event.target.checked){setUnitsPerSalePackage(validUnitsPerPackage);if(!accounting225||validUnitsPerPackage===1)setSalePackagePrice(calculatePackagePrice(derivedSalePricePerUnit,validUnitsPerPackage));}}}/>طرد بيع مختلف عن طرد الشراء</label>
         {differentSaleParcel&&<label className="block text-xs font-bold">عدد {unit} في طرد البيع<input inputMode="numeric" enterKeyHint="next" aria-label={'عدد '+unit+' في طرد البيع'} type="number" min="1" step="1" required value={unitsPerSalePackage} onChange={event=>setUnitsPerSalePackage(event.target.value===''?'':Number.parseInt(event.target.value,10))} className={numberInputClass}/></label>}
         </>}
           <div>
@@ -1844,6 +1933,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         </p>
       )}
 
+      {priceLoss225&&<PriceLossPrompt225 proof={priceLoss225} onRespond={respondToPriceLoss225}/>}
       {submitError && (
         <div className="rounded-2xl border border-nw-border bg-nw-bad-bg p-3 text-nw-bad">
           <div className="flex items-center gap-2 font-black text-nw-bad">
@@ -1862,7 +1952,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
       <div className="sticky bottom-0 z-10 -mx-1 flex gap-2 border-t border-nw-border bg-nw-surface-2 px-1 pt-3 backdrop-blur">
         <UiButton variant="plain"
           type="submit"
-          disabled={isSubmitting||!modeVerified||(salesOnly&&Boolean(offParcelPriceError||offAddedPriceError||offUnitConflict))}
+          disabled={isSubmitting||!modeVerified||!accountingReady||Boolean(accountingPriceError)||(salesOnly&&Boolean(offParcelPriceError||offAddedPriceError||offUnitConflict))}
           className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-nw-primary py-3 font-black text-nw-on-primary shadow-lg shadow-none transition active:scale-[0.98] disabled:opacity-50"
         >
           <CheckCircle2

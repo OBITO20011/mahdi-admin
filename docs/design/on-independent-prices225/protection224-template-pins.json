@@ -1,0 +1,52 @@
+{
+  "format": 1,
+  "beforeCeiling": 224,
+  "migrationCeiling": 225,
+  "templates": {
+    "frankfurt-owner-reset225.mjs": {
+      "source": "frankfurt-owner-reset224.mjs",
+      "sourceSha256": "6f5ec8b811805536c149caa29ac82e2cdb3e82a28a215a079ca4824608b718ad",
+      "initialTargetSha256": "79468296ccaeb1264fcc6c7fa583e85260706647cc7a783a184ee0be183fb75a"
+    },
+    "trial-reset225-core.mjs": {
+      "source": "trial-reset224-core.mjs",
+      "sourceSha256": "1fdd51fdd9b121eac36cca45e14c44fcd7b74279e7d12b795b6b6abe4a419be9",
+      "initialTargetSha256": "01077b4551c9f8c2d046736ee8e55f4a144c7287b9ef455f541bf667bb0cd495"
+    },
+    "reset225-foundation.mjs": {
+      "source": "reset224-foundation.mjs",
+      "sourceSha256": "76a07b6cd75efe07cd431c2421cc275c24c1c6e004ccd741c053354e0533d69c",
+      "initialTargetSha256": "c246685399ffe13acf1564f13fef38df27984d9104aea43fb4aa73a2008d51ec"
+    },
+    "reset225-session.mjs": {
+      "source": "reset224-session.mjs",
+      "sourceSha256": "d6dc7b6ad9b2bd12df07dab1adf5eed631e222a017ca8ef76516e0416d71cce2",
+      "initialTargetSha256": "6866f65d9ab83a29bc52f20f7d54c38a279359284e150f2d8c98247499757d80"
+    },
+    "reset225-private-state.mjs": {
+      "source": "reset224-private-state.mjs",
+      "sourceSha256": "5f3be1abe2b1b763b67d510dff18d0a2134d9cf2cf92c7c0083de0ae67a856da",
+      "initialTargetSha256": "67cf9b421e273489baa7c45108413708d039212c66d734dc9ae632e82140e350"
+    },
+    "reset225-write-guard.mjs": {
+      "source": "reset224-write-guard.mjs",
+      "sourceSha256": "4822ff4198385b4bb874a8fa66bc2e229445ed43715f2666cf826f9efd920203",
+      "initialTargetSha256": "b2726f72f5d26b5a6f426bd89c26477f0be0459c0ce9c5050f18f450bbf7e068"
+    },
+    "reset225-pg-cron-guard.mjs": {
+      "source": "reset224-pg-cron-guard.mjs",
+      "sourceSha256": "1e9d744b67cb1058fa40166bbc5e1994d61030454da604971f0f446c6b58735a",
+      "initialTargetSha256": "dc318081d4dea1fd22d160c9689aafcfaf3fd75523b52417601c1bb112224776"
+    },
+    "reset225-ddl-capability.mjs": {
+      "source": "reset224-ddl-capability.mjs",
+      "sourceSha256": "aa93845cb840aec67c43e1e0a4bfc6b7ac736f40f0624488c212b3079a847462",
+      "initialTargetSha256": "734e8ba0a4c17193c00f6fdc4215879c78427f0b3058347372eed0e456dcd54c"
+    },
+    "function-reference225.mjs": {
+      "source": "function-reference224.mjs",
+      "sourceSha256": "3e630d7f59f718760193e34f97e85e8c13db5b960167527ef06dac1ee222cf75",
+      "initialTargetSha256": "d9ef1c3f37d521dd18150f385dc114c90b30e653bc7654c250333c627beeba73"
+    }
+  }
+}

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "project": "Nawasrah ERP",
-  "branch": "codex/on-stock-unit-display225",
+  "branch": "codex/on-independent-prices225",
   "approvedBaseline": "191712116e0b204dbebe507e24b1c4cb25f40674",
   "closedPhases": [
     "3",
@@ -14,7 +14,7 @@
     "6"
   ],
   "phase4Closed": true,
-  "currentPhase": "ON_DISPLAY225",
+  "currentPhase": "ON_INDEPENDENT_PRICE225",
   "phase6Closed": true,
   "phase6ClosureBaseline": "5aaeab11e13c2be454af677ee176f77aa2d9cde4",
   "phase6ClosureExactShaCi": "PASS",
@@ -92,7 +92,7 @@
   "phase5Slice4ClosureExactShaCi": "PASS",
   "phase5Slice3AuthorizationBaseline": "6fac32ac422206a3b5e5716159304806f30d0aed",
   "phase5PublicActivationAllowed": false,
-  "migrationCeiling": 224,
+  "migrationCeiling": 225,
   "migration199CanonicalLfSha256": "A34808EE64C80744FD8973559207983391ACA0F53025F8F2764BE74E52C2FCF0",
   "migration197CanonicalLfSha256": "3CAABD6C454A22A607761B57FFF66E9C41119C468D468F54C1DE9197111E7722",
   "migration198CanonicalLfSha256": "1F494DC9F95B6A4DB5887F5EF675C4E792FF7CD7EF681F37588489F88C094BAB",
@@ -237,7 +237,7 @@
   "migration204CanonicalLfSha256": "FBFCFAD595E67DFFF6799188D74C86B2B8F4B1A6A266E7017732F0A88864D424",
   "migration205CanonicalLfSha256": "DA0F405BDAFDE93A66D99BEF5999D22014657D440F04B8EB887A15E51D32A3D6",
   "migration206CanonicalLfSha256": "2B421A8206C56B5797B470BEF0831F64824C00CFA5C9775BF9B5FC2259AD9D8E",
-  "currentTableReadinessEvidence": "docs/operations/TABLE_ACCESS_AFTER_224.json",
+  "currentTableReadinessEvidence": "docs/operations/TABLE_ACCESS_AFTER_225.json",
   "migration207CanonicalLfSha256": "7F6A856C35D06DC53417540CEF6F5B680E2CD52AE63776F440F986DE1C564B69",
   "migration208CanonicalLfSha256": "9741B8183DFE074650F136225C1DE2EFA578223CD3ADE9AD2EAF4379DC23FF65",
   "migration209CanonicalLfSha256": "15A81C0D43BB9377B676D76FDDBEFC83939D30ECC47817AF207C6215F5BCFCD7",
@@ -260,7 +260,7 @@
   "migration215CanonicalLfSha256": "2D20594D6112C206A23130C43CE555ECC5357921CC9E4058019D0446223A4E57",
   "trialTb215Status": "LOCAL_DB_UI_SDK_REFERENCE_OWNER_BACKUP_RESET_PASS_FULLQUALITY_EXACT_CI_PENDING",
   "operationalSchema": {
-    "manifestSha256": "67796893c148a6f53c2940991b2bd62c838b29cf2f2789226167067dd224f459",
+    "manifestSha256": "55ae9fcc6fa7f39644492fff153694650dc8eb0a97c867b2ae7401fa3281095b",
     "archiveFormatVersion": 2,
     "legacyArchiveCeilings": [
       214,
@@ -270,11 +270,12 @@
       219,
       220,
       222,
-      223
+      223,
+      224
     ],
-    "resetCommand": "frankfurt-owner-reset224",
-    "upgradeCommand": "frankfurt-owner-upgrade224",
-    "readyReferenceName": "local-reference-through224-ready.json"
+    "resetCommand": "frankfurt-owner-reset225",
+    "upgradeCommand": "frankfurt-owner-upgrade225",
+    "readyReferenceName": "local-reference-through225-ready.json"
   },
   "migration216CanonicalLfSha256": "3A30798F8F9DD385DD915ED74B25440B8E40C6B46893541ACA049A5B94E09462",
   "trialTc216Status": "LOCAL_DB_UI_HTTP_SDK_REFERENCE_UPGRADE_RESET_ARCHIVE_COMPAT_PASS_EXACT_FULL_CI_PENDING",
@@ -313,5 +314,8 @@
   "phaseRESET224_STORAGE_CAPABILITYImplementationAllowed": true,
   "phaseON_DISPLAY225ImplementationAllowed": true,
   "phaseMIGRATION_LFImplementationAllowed": true,
-  "phaseRESTORE_RAW_DEFAULT_ACLImplementationAllowed": true
+  "phaseRESTORE_RAW_DEFAULT_ACLImplementationAllowed": true,
+  "phaseON_INDEPENDENT_PRICE225ImplementationAllowed": true,
+  "migration225CanonicalLfSha256": "C20975214DCC8F2C67CC6FC21235E04ED7E5EC96081DB24B0EEECEDC2553DDE1",
+  "onIndependentPrices225Status": "REVIEW_CORRECTIONS_LOCAL_VALIDATION_DRAFT_ONLY"
 }

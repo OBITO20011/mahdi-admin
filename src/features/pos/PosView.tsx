@@ -185,7 +185,16 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
   useEffect(()=>{setParcelOptions([]);setParcelOption(null);},[warehouseId,salesOnly]);
   useEffect(() => {
     let active = true;
-    if (warehouseId && supabase && modeVerified) void Promise.resolve(supabase.rpc(salesOnly?'lite1_pos_options2':'get_pos_configurable_parcel_options_v1', {p_warehouse_id: warehouseId}))
+    const client=supabase;
+    const loadOptions=async()=>{
+      if(!client)throw Error('POS_PARCEL_OPTIONS_UNAVAILABLE');
+      const args={p_warehouse_id:warehouseId};
+      if(salesOnly)return client.rpc('lite1_pos_options2',args);
+      const result=await client.rpc('get_pos_parcel_options225',args);
+      return result.data==null&&result.status===404&&result.error?.code==='PGRST202'&&result.error.message?.includes('get_pos_parcel_options225')
+        ?client.rpc('get_pos_configurable_parcel_options_v1',args):result;
+    };
+    if (warehouseId && client && modeVerified) void loadOptions()
       .then(({data, error}) => {
         if (!active) return;
         if (error || !data || !Array.isArray(data.options)) {setToast('تعذر قراءة إعداد طرود الكاشير.', 'error'); return;}
@@ -231,6 +240,7 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
         limit: 40,
         categoryId: selectedCategory === 'all' ? undefined : selectedCategory,
         purpose: 'sellable',
+        posPricing:modeVerified&&!salesOnly,
       })
         .then((result) => {
           if (!active) return;
@@ -257,7 +267,7 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
       active = false;
       window.clearTimeout(timer);
     };
-  }, [cacheProductPage, productDataRevision, searchQuery, selectedCategory]);
+  }, [cacheProductPage, productDataRevision, searchQuery, selectedCategory,modeVerified,salesOnly]);
 
   useEffect(()=>{
     let active=true;
@@ -347,6 +357,7 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
       search: code,
       limit: 3,
       purpose: 'any',
+      posPricing:modeVerified&&!salesOnly,
     });
     matches.forEach((product) => knownProductsRef.current.set(product.id, product));
     return resolvePosProductCode(matches, code);
@@ -359,6 +370,9 @@ export const PosView: React.FC<{operatingMode?:OperatingMode;modeVerified?:boole
   };
   const addToCart = (prod: Product,preferred:PosSingleProductMode='legacy_single_sku_parcel',source:PosAdditionSource='pointer') => {
     const productSaleMode=posSaleModeForProduct(prod,preferred);
+    if(!salesOnly&&prod.parcelSaleEnabled===false&&productSaleMode!=='base_unit'){
+      setToast('بيع الطرد موقوف مؤقتاً لهذا الصنف.','error');return;
+    }
     if(productSaleMode!=='base_unit'&&unsafeLiteParcelPrice(salesOnly,prod.unitsPerSalePackage??1,prod.salePackagePrice,prod.retailPrice)){setToast(PARCEL_DEFINITION_MESSAGE,'error');return;}
     if (isSubmitting || preparingSale || !modeVerified || recoveryBlocked || !warehouseId) {setToast('حدد المستودع واسترجع أي محاولة معلقة قبل البيع.', 'error'); return;}
     if (cartItems.length && cartWarehouseRef.current !== warehouseId) {setToast('تغير مستودع البيع؛ أفرغ السلة ثم أعد تركيبها.', 'error'); return;}

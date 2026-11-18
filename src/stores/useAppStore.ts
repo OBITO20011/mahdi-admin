@@ -46,6 +46,8 @@ import {
   updateProductInSupabase,
   type SupabaseRpcResult,
 } from '../services/supabase/products.service';
+import {readOnPriceContext225,type AccountingPrice225Write} from '../services/supabase/onPrices225.service';
+import {fetchOperatingMode} from '../services/supabase/operatingMode.service';
 import {
   adjustInventoryStockInSupabase,
   fetchInventoryMovementsFromSupabase,
@@ -1048,7 +1050,7 @@ class StoreEngine {
 
   // --- Product CRUD & Operations ---
 
-  public async addProduct(productData: Partial<Product>,options:{independentSalePrice?:number}={}): Promise<{
+  public async addProduct(productData: Partial<Product>,options:{independentSalePrice?:number;accountingPrice225?:AccountingPrice225Write}={}): Promise<{
     success: boolean;
     productId?: string;
     error?: string;
@@ -1074,6 +1076,7 @@ class StoreEngine {
         const unitObj = this.state.units.find((u) => u.nameAr === productData.unit || u.id === productData.unit);
         const res = await createProductWithOpeningStockInSupabase({
           independentSalePrice:options.independentSalePrice,
+      accountingPrice225:options.accountingPrice225,
           parcelOnly: productData.parcelOnly,
           sku: productData.sku.trim(),
           barcode: productData.barcode || undefined,
@@ -1162,7 +1165,7 @@ class StoreEngine {
   public async updateProduct(
     id: string,
     updates: Partial<Product>,
-    options: { expectedUpdatedAt?: string;independentSalePrice?:number } = {}
+    options: { expectedUpdatedAt?: string;independentSalePrice?:number;accountingPrice225?:AccountingPrice225Write } = {}
   ) {
     const prodIndex = this.state.products.findIndex((p) => p.id === id);
     if (prodIndex === -1) {
@@ -1178,6 +1181,7 @@ class StoreEngine {
 
     const result = await updateProductInSupabase({
       independentSalePrice:options.independentSalePrice,
+          accountingPrice225:options.accountingPrice225,
       parcelOnly: updates.parcelOnly,
       productId: id,
       sku: updates.sku || current.sku,
@@ -1253,9 +1257,20 @@ class StoreEngine {
     const prod = this.state.products.find((p) => p.id === id);
     if (!prod) return { success: false, error: 'المنتج غير موجود.' };
 
-    return this.updateProduct(id, {
-      status: prod.status === 'hidden' ? 'active' : 'hidden',
-    });
+    const updates:Partial<Product>={status:prod.status==='hidden'?'active':'hidden'};
+    try{
+      const mode=await fetchOperatingMode();
+      const pricing=mode.mode==='full'&&mode.installed?await readOnPriceContext225(id):null;
+      if(pricing?.productId===id)return this.updateProduct(id,updates,{
+        expectedUpdatedAt:prod.updatedAt,
+        accountingPrice225:{singlePriceInMinorUnits:Math.round(prod.retailPrice*1000),parcelEnabled:pricing.parcelEnabled},
+      });
+      return this.updateProduct(id,updates);
+    }catch{
+      const error='تعذر التحقق من إعداد الأسعار؛ لم تتغير حالة المنتج.';
+      this.setToast(error,'error');
+      return {success:false,error};
+    }
   }
 
   public duplicateProduct(id: string): Product | undefined {
@@ -2321,8 +2336,8 @@ export function useAppStore() {
     markNotificationRead: (notificationId: string) =>
       storeEngine.markNotificationRead(notificationId),
     markAllNotificationsRead: () => storeEngine.markAllNotificationsRead(),
-    addProduct: (data: Partial<Product>,options?:{independentSalePrice?:number}) => storeEngine.addProduct(data,options),
-    updateProduct: (id: string, updates: Partial<Product>, options?: { expectedUpdatedAt?: string;independentSalePrice?:number }) =>
+    addProduct: (data: Partial<Product>,options?:{independentSalePrice?:number;accountingPrice225?:AccountingPrice225Write}) => storeEngine.addProduct(data,options),
+    updateProduct: (id: string, updates: Partial<Product>, options?: { expectedUpdatedAt?: string;independentSalePrice?:number;accountingPrice225?:AccountingPrice225Write }) =>
       storeEngine.updateProduct(id, updates, options),
     deleteProduct: (id: string) => storeEngine.deleteProduct(id),
     hideProduct: (id: string) => storeEngine.hideProduct(id),

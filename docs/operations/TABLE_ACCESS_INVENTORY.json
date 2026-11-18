@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "migrationCeiling": 224,
+  "migrationCeiling": 225,
   "managedAccess": false,
   "sources": [
     {
@@ -281,7 +281,7 @@
     },
     {
       "file": "src/features/directReceiving/CreateDirectReceiptModal.tsx",
-      "sha256": "8fc57e0d3d5b0452f27eaa90556d59a638aaf7fbdc2a7c5b97931d0ffb33b8fd"
+      "sha256": "3d556b33be160426863a8d98a42eceefda8b9201c9be8e467804a8f53477bf85"
     },
     {
       "file": "src/features/directReceiving/DirectReceivingView.tsx",
@@ -337,11 +337,11 @@
     },
     {
       "file": "src/features/goLive/productWorkbook.ts",
-      "sha256": "4a215ad88271b610518b74f37e94b45e58b91b02f664ebd0860ae152be513619"
+      "sha256": "d359c66bd85fd12d5ac75f95a992cc02c5aafd839ce5023450e50c513e9519e0"
     },
     {
       "file": "src/features/goLive/ProductWorkbookImportPanel.tsx",
-      "sha256": "7411f8c4ee0eac88ddb3f6f3b2b67742145dc6be8e9450b4617e0d9f972f7a57"
+      "sha256": "e11a09272d1beec683e76ea341b970bc757158ce46edf6ca294521c1b6a932cd"
     },
     {
       "file": "src/features/goLive/productWorkbookReference.ts",
@@ -541,7 +541,7 @@
     },
     {
       "file": "src/features/pos/PosProductCard.tsx",
-      "sha256": "d506d09c2ecbc733e4b059fc64b4e6571177aab02fe4ae623291afbb46db0ea0"
+      "sha256": "c50f6d1f4005088933ec3ebbf77617640f3675bd43f2ce600c0f5bc8fe601381"
     },
     {
       "file": "src/features/pos/posSearchFocus.ts",
@@ -553,11 +553,11 @@
     },
     {
       "file": "src/features/pos/PosView.tsx",
-      "sha256": "14cf13b75befff4968a788247f24fd4eda35c560ea3a848129687b956be27ef9"
+      "sha256": "6dae252669b36ab6c9a8fc739fc4936c3acdcad56447f57711d3c58e91200e04"
     },
     {
       "file": "src/features/pos/saleMethods.ts",
-      "sha256": "1e8a9c68d969b4dbabb7479c1bbac6d0e4ea03d4dd6a79e271f7d545cb4c8774"
+      "sha256": "9314af6f0d76f70088d81ccd35433f28177cceb970f6c8984c58f0b152bf3610"
     },
     {
       "file": "src/features/pos/salesOnlyPos.ts",
@@ -596,6 +596,10 @@
       "sha256": "f3cb90d37d02b5fa9309cb7af0bb2cc8e7b51b659111e9a7cd86f9bc5631afa6"
     },
     {
+      "file": "src/features/products/PriceLossPrompt225.tsx",
+      "sha256": "beb19af06067dc02f36830c8ee19fc818c9081f322548d6a8fd21ff2db67bc3c"
+    },
+    {
       "file": "src/features/products/ProductCostCorrectionPanel.tsx",
       "sha256": "e0acc44140c6bdaaf049b6c869213fa8804f6d4139d94c027ccbe5f506490a71"
     },
@@ -609,7 +613,7 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "sha256": "da9dfe169392d012f700dc16de0feaf74e3aba387449058e4bcdaffcbabb9bff"
+      "sha256": "950e1a9b1a20f9ae77c522a5b2abedc4a52f0c475cd57799d615c3538c36b795"
     },
     {
       "file": "src/features/products/ProductFormParcelCapability.tsx",
@@ -645,15 +649,19 @@
     },
     {
       "file": "src/features/purchases/ReceiveGoodsModal.tsx",
-      "sha256": "746253abefd21183266c21b50fdc41a10e3cae752e8ee7e755cc69b67284c48f"
+      "sha256": "21d12f1e7a67b858fb0933f1bb1a082bf3faaabae004913cbeb121d2b3a41ea5"
     },
     {
       "file": "src/features/purchases/ReceivingProductPriceEditor.tsx",
-      "sha256": "bf2ee274085c074aed6746941378cb3c494b2f59dfacaa02a9e865f979ac702e"
+      "sha256": "eeb3d939420f7144ba65ea337f882fbba9c809455ce8751d79780e672f4c6f34"
     },
     {
       "file": "src/features/purchases/ReceivingPurchaseHint.tsx",
       "sha256": "e29842b1597bc09580f03070dc0a8553e51df19f855a7e325c0a1435aa091616"
+    },
+    {
+      "file": "src/features/purchases/SavedReceiptPriceReview225.tsx",
+      "sha256": "f5e2e70bf4dbd8a15ff1c28f99b94c9bcf38b3e24eb332712d575a383d033f35"
     },
     {
       "file": "src/features/purchases/SupplierPaymentModal.tsx",
@@ -936,6 +944,10 @@
       "sha256": "a3a2600ef2fcd5330a5e90f4e73906833e6076a7f7c5633615a82951c2101241"
     },
     {
+      "file": "src/services/supabase/onPrices225.service.ts",
+      "sha256": "68c464264205e235d9855e616710594f94f9f8deb04273d0513e19307d09a014"
+    },
+    {
       "file": "src/services/supabase/openingCheques.service.ts",
       "sha256": "ece04150a0f42c31f51194337f82b4f3b839b12481361e74dd8776914e296a5b"
     },
@@ -1017,11 +1029,11 @@
     },
     {
       "file": "src/services/supabase/products.service.ts",
-      "sha256": "24a56d82723779128ea2c239d58a7ac4106c2f12d892fb8bed11ee6bfdfb2604"
+      "sha256": "adbd93a6f43cc38d6c4feb995176db7bdc2625eb9253a061e809f3c9805be8b3"
     },
     {
       "file": "src/services/supabase/productWorkbook.service.ts",
-      "sha256": "f2592e46ffd3ec156c358e671d77d2a97bba1657f5b6802db856c22f0de01899"
+      "sha256": "5b9bc3797d469a81cf402875feec89a68776e955056d942c3a3d032a4a8f013c"
     },
     {
       "file": "src/services/supabase/promotions.service.ts",
@@ -1133,7 +1145,7 @@
     },
     {
       "file": "src/stores/useAppStore.ts",
-      "sha256": "f9274613aef3b9f745a63f5004b2e823327115365bd6191f54cc58b42c5eaba1"
+      "sha256": "4913246240bad052d5fb23dc993419117f5698df59786fb188175a2519777d2b"
     },
     {
       "file": "src/stores/useAuthStore.ts",
@@ -1157,7 +1169,7 @@
     },
     {
       "file": "src/types/index.ts",
-      "sha256": "387230427432738b95f42278fc6806807999002550400d4c8a02cc8fc8ad0f1a"
+      "sha256": "54a80399743a71dc39afe36eaf2b6b50efce3b544de085ca1dc40370ddf8c690"
     },
     {
       "file": "src/types/monitoring.ts",
@@ -1469,11 +1481,11 @@
     },
     {
       "file": "customer-web/src/components/ProductCard.tsx",
-      "sha256": "cab06ac571d4e46010b2c5dba11a118c972fbf5234558ccfa80cda04e38975e2"
+      "sha256": "56c69b8c799da1aac5bf81a81229ed71de6ff32bde164b8a65a47133de4ee1fc"
     },
     {
       "file": "customer-web/src/components/ProductDetailsModal.tsx",
-      "sha256": "425b59681dfaf5e2f4218ad38ce350f47fd0ff4e00a1bfa07d5d6c4d14d06504"
+      "sha256": "0e993752295eef2a0c44380d5687049693c1fea9d96b5770732b5951581cfccf"
     },
     {
       "file": "customer-web/src/components/ProductImage.tsx",
@@ -1585,7 +1597,7 @@
     },
     {
       "file": "customer-web/src/services/catalog.service.ts",
-      "sha256": "899e55224f95799f92ecc28f0d1da0aeb9ba06e13fab41753487aa7bd85650dc"
+      "sha256": "b7789bd046e72879bc5ad3b6b43d07c6cf7e645d701031a47f2ca7a2eaf47692"
     },
     {
       "file": "customer-web/src/services/checkoutRecoveryCoordinator.ts",
@@ -1601,7 +1613,7 @@
     },
     {
       "file": "customer-web/src/services/operatingCatalog.ts",
-      "sha256": "7bd6f5ed4213ecd04ddcb4302ad4cb5ac7a325a72bb13f70075fc0a36b424025"
+      "sha256": "7f173f519a15e842117b0de409dad3367943886022d0ce58720fc9bc73d9a521"
     },
     {
       "file": "customer-web/src/services/orders.service.ts",
@@ -1617,7 +1629,7 @@
     },
     {
       "file": "customer-web/src/types/catalog.ts",
-      "sha256": "0ffd1bbe88c6caeb332b9f26821c6a37b357c148b434fd5e9fac797f16a4a32b"
+      "sha256": "e793cd980050920ce3ee886dd934e257b663a6caef2eb494e12b7c7764f67db4"
     },
     {
       "file": "customer-web/src/types/checkout.ts",
@@ -1681,7 +1693,7 @@
     },
     {
       "file": "customer-web/src/utils/liteProductPricing.ts",
-      "sha256": "8f0b2404dbf8de5506150263d81e1615f61479ce19070dcdc5c0daba12e765d1"
+      "sha256": "e09f701d8b2030e276854ef2ef4bc00f0426ac1b979ef6909b8c0a81d1415833"
     },
     {
       "file": "customer-web/src/utils/money.ts",
@@ -1689,7 +1701,7 @@
     },
     {
       "file": "customer-web/src/utils/operatingRead.ts",
-      "sha256": "064363ec2d363a1de28082fde4f21562f4718d4d086e9cec352225e434f60f34"
+      "sha256": "f6c9a1c4804dd75eca71b4e886c5a5d5f806c392736d2347ff0fd7a70bef36e6"
     },
     {
       "file": "customer-web/src/utils/productDetails.ts",
@@ -1717,7 +1729,7 @@
     },
     {
       "file": "customer-web/src/utils/storefrontUnits.ts",
-      "sha256": "6a2c4fdc412bb731014153602d920b25fe1353aa3323eeba72e9a26bddfcb34f"
+      "sha256": "2e5ad796d572333f2518b4007958fb6103de4f24d9e7010e4224eecaedb71a4b"
     },
     {
       "file": "supabase/functions/_shared/owner-telegram-format.ts",
@@ -1762,9 +1774,9 @@
   ],
   "entries": [
     {
-      "id": "src/features/pos/PosView.tsx:578",
+      "id": "src/features/pos/PosView.tsx:592",
       "file": "src/features/pos/PosView.tsx",
-      "line": 578,
+      "line": 592,
       "table": "orders",
       "operation": "select",
       "role": "authenticated",
@@ -2638,9 +2650,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/products.service.ts:594",
+      "id": "src/services/supabase/products.service.ts:617",
       "file": "src/services/supabase/products.service.ts",
-      "line": 594,
+      "line": 617,
       "table": "warehouses",
       "operation": "select",
       "role": "authenticated",
@@ -2682,9 +2694,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/products.service.ts:602",
+      "id": "src/services/supabase/products.service.ts:625",
       "file": "src/services/supabase/products.service.ts",
-      "line": 602,
+      "line": 625,
       "table": "categories",
       "operation": "select",
       "role": "authenticated",
@@ -2726,9 +2738,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/products.service.ts:610",
+      "id": "src/services/supabase/products.service.ts:633",
       "file": "src/services/supabase/products.service.ts",
-      "line": 610,
+      "line": 633,
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2763,9 +2775,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/products.service.ts:619",
+      "id": "src/services/supabase/products.service.ts:642",
       "file": "src/services/supabase/products.service.ts",
-      "line": 619,
+      "line": 642,
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2807,9 +2819,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/products.service.ts:632",
+      "id": "src/services/supabase/products.service.ts:655",
       "file": "src/services/supabase/products.service.ts",
-      "line": 632,
+      "line": 655,
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2851,9 +2863,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/products.service.ts:712",
+      "id": "src/services/supabase/products.service.ts:737",
       "file": "src/services/supabase/products.service.ts",
-      "line": 712,
+      "line": 737,
       "table": "products",
       "operation": "select",
       "role": "authenticated",
@@ -2893,9 +2905,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/products.service.ts:807",
+      "id": "src/services/supabase/products.service.ts:832",
       "file": "src/services/supabase/products.service.ts",
-      "line": 807,
+      "line": 832,
       "table": "warehouses",
       "operation": "select",
       "role": "authenticated",
@@ -2937,9 +2949,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/products.service.ts:819",
+      "id": "src/services/supabase/products.service.ts:844",
       "file": "src/services/supabase/products.service.ts",
-      "line": 819,
+      "line": 844,
       "table": "categories",
       "operation": "select",
       "role": "authenticated",
@@ -2981,9 +2993,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/products.service.ts:831",
+      "id": "src/services/supabase/products.service.ts:856",
       "file": "src/services/supabase/products.service.ts",
-      "line": 831,
+      "line": 856,
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3025,9 +3037,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/products.service.ts:838",
+      "id": "src/services/supabase/products.service.ts:863",
       "file": "src/services/supabase/products.service.ts",
-      "line": 838,
+      "line": 863,
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3062,9 +3074,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/products.service.ts:845",
+      "id": "src/services/supabase/products.service.ts:870",
       "file": "src/services/supabase/products.service.ts",
-      "line": 845,
+      "line": 870,
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3106,9 +3118,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/products.service.ts:856",
+      "id": "src/services/supabase/products.service.ts:881",
       "file": "src/services/supabase/products.service.ts",
-      "line": 856,
+      "line": 881,
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3150,9 +3162,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/products.service.ts:1028",
+      "id": "src/services/supabase/products.service.ts:1055",
       "file": "src/services/supabase/products.service.ts",
-      "line": 1028,
+      "line": 1055,
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3194,9 +3206,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/products.service.ts:1039",
+      "id": "src/services/supabase/products.service.ts:1066",
       "file": "src/services/supabase/products.service.ts",
-      "line": 1039,
+      "line": 1066,
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3238,9 +3250,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/products.service.ts:1051",
+      "id": "src/services/supabase/products.service.ts:1078",
       "file": "src/services/supabase/products.service.ts",
-      "line": 1051,
+      "line": 1078,
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3282,9 +3294,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/productWorkbook.service.ts:18",
+      "id": "src/services/supabase/productWorkbook.service.ts:30",
       "file": "src/services/supabase/productWorkbook.service.ts",
-      "line": 18,
+      "line": 30,
       "table": "categories",
       "operation": "select",
       "role": "authenticated",
@@ -3420,9 +3432,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/productWorkbook.service.ts:19",
+      "id": "src/services/supabase/productWorkbook.service.ts:31",
       "file": "src/services/supabase/productWorkbook.service.ts",
-      "line": 19,
+      "line": 31,
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3558,9 +3570,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/productWorkbook.service.ts:20",
+      "id": "src/services/supabase/productWorkbook.service.ts:32",
       "file": "src/services/supabase/productWorkbook.service.ts",
-      "line": 20,
+      "line": 32,
       "table": "brands",
       "operation": "select",
       "role": "authenticated",
@@ -3696,9 +3708,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/productWorkbook.service.ts:21",
+      "id": "src/services/supabase/productWorkbook.service.ts:33",
       "file": "src/services/supabase/productWorkbook.service.ts",
-      "line": 21,
+      "line": 33,
       "table": "warehouses",
       "operation": "select",
       "role": "authenticated",
@@ -3834,9 +3846,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/productWorkbook.service.ts:22",
+      "id": "src/services/supabase/productWorkbook.service.ts:34",
       "file": "src/services/supabase/productWorkbook.service.ts",
-      "line": 22,
+      "line": 34,
       "table": "products",
       "operation": "select",
       "role": "authenticated",
@@ -3972,9 +3984,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/productWorkbook.service.ts:39",
+      "id": "src/services/supabase/productWorkbook.service.ts:51",
       "file": "src/services/supabase/productWorkbook.service.ts",
-      "line": 39,
+      "line": 51,
       "table": "products",
       "operation": "select",
       "role": "authenticated",
@@ -4014,9 +4026,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/productWorkbook.service.ts:40",
+      "id": "src/services/supabase/productWorkbook.service.ts:52",
       "file": "src/services/supabase/productWorkbook.service.ts",
-      "line": 40,
+      "line": 52,
       "table": "products",
       "operation": "select",
       "role": "authenticated",
@@ -4058,9 +4070,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/productWorkbook.service.ts:43",
+      "id": "src/services/supabase/productWorkbook.service.ts:55",
       "file": "src/services/supabase/productWorkbook.service.ts",
-      "line": 43,
+      "line": 55,
       "table": "products",
       "operation": "select",
       "role": "authenticated",
@@ -5194,7 +5206,7 @@
     },
     {
       "file": "src/features/pos/PosView.tsx",
-      "line": 719,
+      "line": 733,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
@@ -5204,17 +5216,17 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "line": 439,
+      "line": 499,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "line": 1390,
+      "line": 1479,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
       "file": "src/features/purchases/ReceiveGoodsModal.tsx",
-      "line": 127,
+      "line": 132,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
@@ -5361,17 +5373,17 @@
     },
     {
       "file": "customer-web/src/services/catalog.service.ts",
-      "line": 169,
+      "line": 174,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
       "file": "customer-web/src/services/catalog.service.ts",
-      "line": 356,
+      "line": 360,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
       "file": "customer-web/src/services/catalog.service.ts",
-      "line": 362,
+      "line": 366,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {

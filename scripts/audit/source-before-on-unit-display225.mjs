@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {canonicalLf,sha256} from '../testing/maintenance-db-contract.mjs';
+import {sourceBeforeOnPrices225,restoreOnPrices225Hashes,pathsBeforeOnPrices225} from './source-before-on-prices225.mjs';
 
 const indexFile='scripts/audit/on-unit-display225-source-pins.json';
 const indexText=canonicalLf(readFileSync(new URL('./on-unit-display225-source-pins.json',import.meta.url),'utf8'));
@@ -15,6 +16,7 @@ for(const [file,pin] of Object.entries(onUnitDisplay225Pins)){
  assert.equal(pin.beforeText===null?null:sha256(pin.beforeText),pin.before,'ON_UNIT_DISPLAY225_HISTORY_PIN_CORRUPT:'+file);
 }
 export function sourceBeforeOnUnitDisplay225(file,text){
+ text=sourceBeforeOnPrices225(file,text);
  if(text===null)return null;
  const raw=canonicalLf(text);
  if(file===indexFile&&raw===indexText)return null;
@@ -23,18 +25,18 @@ export function sourceBeforeOnUnitDisplay225(file,text){
 }
 const current=file=>canonicalLf(readFileSync(new URL('../../'+file,import.meta.url),'utf8'));
 export function restoreOnUnitDisplay225Hashes(rows){
- return rows.flatMap(row=>{
+ return restoreOnPrices225Hashes(rows).flatMap(row=>{
   const pin=onUnitDisplay225Pins[row.file];
   if(!pin||row.sha256!==pin.after)return[row];
-  assert.equal(sha256(current(row.file)),pin.after,'ON_UNIT_DISPLAY225_HISTORY_SOURCE_CHANGED:'+row.file);
+  assert.equal(sha256(sourceBeforeOnPrices225(row.file,current(row.file))),pin.after,'ON_UNIT_DISPLAY225_HISTORY_SOURCE_CHANGED:'+row.file);
   return pin.before===null?[]:[{...row,sha256:pin.before}];
  });
 }
 /** @param {string[]} files */
 export function pathsBeforeOnUnitDisplay225(files){
- return files.filter(file=>{
-  if(file===indexFile)return current(file)!==indexText;
+ return pathsBeforeOnPrices225(files).filter(file=>{
+  if(file===indexFile)return sourceBeforeOnPrices225(file,current(file))!==indexText;
   const pin=onUnitDisplay225Pins[file];
-  return !pin||pin.before!==null||sha256(current(file))!==pin.after;
+  return !pin||pin.before!==null||sha256(sourceBeforeOnPrices225(file,current(file)))!==pin.after;
  });
 }

@@ -26,7 +26,7 @@ test('unbounded branches, shadowing, mutation and escaping callbacks never certi
 test('current RPC inventory resolves all real sinks without discarding dynamic choices',async()=>{
  const source:{rpc:Array<{name:string|null;resolutions:{name:string}[];file:string;dynamic:string;id:string}>}=await serviceInventory();
  for(const row of source.rpc)assert.ok(row.name||row.resolutions.length>0,row.id);
- const pos=source.rpc.find((row:{file:string;dynamic:string})=>row.file.endsWith('PosView.tsx')&&row.dynamic.includes('?'));
- assert.ok(pos);
- assert.deepEqual(pos.resolutions.map((row:{name:string})=>row.name),['lite1_pos_options2','get_pos_configurable_parcel_options_v1']);
+ const optionNames=['lite1_pos_options2','get_pos_parcel_options225','get_pos_configurable_parcel_options_v1'];
+ const options=source.rpc.filter(row=>row.file.endsWith('PosView.tsx')&&optionNames.includes(row.name??''));
+ assert.deepEqual(options.map(row=>row.name),optionNames);
 });

@@ -13,6 +13,8 @@ import {fetchProductsForReceivingFromSupabase} from '../../services/supabase/dir
 import type {ReceivingProduct} from '../../types/directReceiving';
 import {ReceivingPurchaseHint} from './ReceivingPurchaseHint';
 import {ReceivingProductPriceEditor} from './ReceivingProductPriceEditor';
+import {SavedReceiptPriceReview225} from './SavedReceiptPriceReview225';
+import {readReceiptPriceWarnings225,type ReceiptPriceWarning225} from '../../services/supabase/onPrices225.service';
 import {useReceivingPurchaseContexts} from '../../hooks/useReceivingPurchaseContexts';
 import {quoteForQuantity} from '../../utils/receivingPurchaseContext';
 import {useAuthStore} from '../../stores/useAuthStore';
@@ -62,6 +64,7 @@ export const ReceiveGoodsModal = ({
   const [notes, setNotes] = useState<string>('');
   const [items, setItems] = useState<ReceiveRow[]>([]);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [savedPriceWarnings,setSavedPriceWarnings]=useState<ReceiptPriceWarning225[]|null>(null);
   const [editingProductId,setEditingProductId]=useState<string|null>(null);
   const {roles,roleName}=useAuthStore();
   const canEditSale=[...roles,roleName].some(role=>role!==null&&['owner','admin','manager','warehouse_keeper'].includes(role));
@@ -84,7 +87,9 @@ export const ReceiveGoodsModal = ({
   };
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const idempotencyKey = useRef(crypto.randomUUID());
-  const panel = useDialogFocus(isOpen, () => { if (!isSubmitting) onClose(); }, true);
+  const closeSavedReview=()=>{setSavedPriceWarnings(null);onClose();};
+  const panel = useDialogFocus(isOpen&&savedPriceWarnings===null, () => { if (!isSubmitting) onClose(); }, true);
+  const reviewPanel = useDialogFocus(isOpen&&savedPriceWarnings!==null, closeSavedReview);
 
   useEffect(() => {
     if (isOpen && po?.id) idempotencyKey.current = crypto.randomUUID();
@@ -231,8 +236,15 @@ export const ReceiveGoodsModal = ({
 
       if (res.success) {
         storeEngine.setToast('تم استلام البضائع وزيادة المخزون بنجاح', 'success');
+        const currentKey=currentReceiptKey.current;
+        const warnings=canEditSale?await readReceiptPriceWarnings225(input.items.map(item=>item.productId)).catch(()=>{
+          storeEngine.setToast('تم حفظ الاستلام؛ تعذرت قراءة تنبيهات الأسعار الحالية.','info');
+          return [];
+        }):[];
         onSuccess();
-        onClose();
+        if(!currentKey||currentReceiptKey.current!==currentKey)return;
+        if(warnings.length)setSavedPriceWarnings(warnings);
+        else onClose();
       } else {
         setErrorMsg(res.error || 'حدث خطأ أثناء استلام البضائع');
       }
@@ -241,6 +253,13 @@ export const ReceiveGoodsModal = ({
       setIsSubmitting(false);
     }
   };
+
+  if(savedPriceWarnings)return <div ref={reviewPanel as React.RefObject<HTMLDivElement>} tabIndex={-1} role="dialog" aria-modal="true" aria-label="مراجعة الاستلام"
+    className="fixed inset-0 z-50 flex items-center justify-center bg-nw-overlay p-3">
+    <Card className="max-h-[90vh] w-full max-w-3xl overflow-y-auto">
+      <SavedReceiptPriceReview225 warnings={savedPriceWarnings} onClose={closeSavedReview}/>
+    </Card>
+  </div>;
 
   return (
     <FormFields ref={panel as React.RefObject<HTMLDivElement>} tabIndex={-1} role="dialog" aria-modal="true" aria-label="استلام البضائع" aria-busy={isSubmitting} className="nw-purchasing-fields fixed inset-0 z-50 flex items-center justify-center bg-nw-overlay backdrop-blur-sm p-3 sm:p-4 overflow-y-auto">
