@@ -2,112 +2,72 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": "A ",
-      "path": ".github/workflows/on-prices225.yml"
+      "code": " M",
+      "path": "e2e/isolated-test.ts"
     },
     {
-      "code": "A ",
-      "path": "e2e/on225-golden-harness.html"
+      "code": " M",
+      "path": "e2e/optional-quantity223.fullstack.ts"
     },
     {
-      "code": "A ",
-      "path": "e2e/on225-golden-harness.tsx"
+      "code": " M",
+      "path": "e2e/package-f-iphone-dialogs-harness.tsx"
     },
     {
-      "code": "A ",
-      "path": "scripts/testing/on225-browser-fixture.mjs"
+      "code": " M",
+      "path": "e2e/package-f-pos-harness.tsx"
     },
     {
-      "code": "A ",
-      "path": "scripts/testing/run-on225-browser-golden.mjs"
+      "code": " M",
+      "path": "e2e/package-f-screen-history-harness.tsx"
     },
     {
-      "code": "M ",
-      "path": "docs/MAINTAINER_GUIDE_AR.md"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/TABLE_ACCESS_DIAGNOSTIC.json"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/agent/lib.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/agent/preflight.mjs"
-    },
-    {
-      "code": "M ",
+      "code": " M",
       "path": "scripts/audit/on-prices225-source-pins.json"
     },
     {
-      "code": "M ",
-      "path": "scripts/audit/reset224-ddl-source-pins.json"
+      "code": " M",
+      "path": "scripts/testing/generate-independent-prices222-catalog.mjs"
     },
     {
-      "code": "M ",
-      "path": "scripts/operations/d1-reference225-kit.mjs"
+      "code": " M",
+      "path": "scripts/testing/legacy219-restore-lifecycle220.mjs"
     },
     {
-      "code": "M ",
-      "path": "scripts/testing/product-workbook-runtime-view.mjs"
+      "code": " M",
+      "path": "scripts/testing/on225-browser-fixture.mjs"
     },
     {
-      "code": "M ",
-      "path": "tests/bounded-rpc-names.test.ts"
+      "code": " M",
+      "path": "scripts/testing/run-home219-operations-gates.mjs"
     },
     {
-      "code": "M ",
-      "path": "tests/bulk-product-images-contracts.test.ts"
+      "code": " M",
+      "path": "scripts/testing/run-on225-browser-golden.mjs"
     },
     {
-      "code": "M ",
-      "path": "tests/core-webkit-ci-shards.test.ts"
+      "code": " M",
+      "path": "scripts/testing/run-owner-upgrade220-runtime.mjs"
     },
     {
-      "code": "M ",
-      "path": "tests/independent-prices222-projection.test.ts"
+      "code": " M",
+      "path": "scripts/testing/run-reset220-cli-contract.mjs"
     },
     {
-      "code": "M ",
-      "path": "tests/inventory224-tools.test.ts"
+      "code": " M",
+      "path": "scripts/testing/run-supported-upgrades224-proof.mjs"
     },
     {
-      "code": "M ",
-      "path": "tests/lite220-historical-test-view.test.ts"
+      "code": " M",
+      "path": "src/features/products/ProductFormModal.tsx"
     },
     {
-      "code": "M ",
-      "path": "tests/literal220-catalog-manifest.test.ts"
+      "code": "??",
+      "path": "e2e/legacy224-prices-rpc.ts"
     },
     {
-      "code": "M ",
-      "path": "tests/migration-integrity.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/operational-schema.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/package-f-remaining-batch3.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/sales-only-phase1.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/service-access-inventory.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/upgrade224-registration.test.ts"
+      "code": "??",
+      "path": "scripts/testing/legacy224-owner-tools.mjs"
     }
   ]
 }

@@ -1,3 +1,4 @@
+import {legacy224PriceRead} from './legacy224-prices-rpc';
 import {test,expect,type Page,type BrowserContext} from './isolated-test';
 const api=process.env.QUANTITY223_CONTROL_URL,token=process.env.QUANTITY223_CONTROL_TOKEN;
 test.describe.configure({retries:0});
@@ -11,6 +12,8 @@ async function transport(context:BrowserContext){
   const request=route.request(),url=new URL(request.url());
   if(request.method()==='OPTIONS')return route.fulfill({status:204,headers:{'access-control-allow-origin':'*','access-control-allow-headers':'*'}});
   const rpc=url.pathname.match(/^\/rest\/v1\/rpc\/([a-z0-9_]+)$/)?.[1];
+  const legacyPrice=rpc?legacy224PriceRead(rpc):null;
+  if(legacyPrice)return route.fulfill({status:legacyPrice.status,json:legacyPrice.error,headers:{'access-control-allow-origin':'*'}});
   const guest=url.pathname==='/functions/v1/submit-guest-order';
   if(rpc||guest){
    const role=request.frame().url().startsWith('http://127.0.0.1:4173')?'authenticated':'anon';

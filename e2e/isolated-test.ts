@@ -1,3 +1,4 @@
+import {legacy224PriceRead} from './legacy224-prices-rpc';
 import {legacy219MissingRpcName} from './legacy219-rpc';
 import {
   expect,
@@ -14,6 +15,8 @@ const isolatedSupabaseOrigin = 'http://127.0.0.1:4176';
 const isolatedApiResponse = (route: Route) => {
   const url = new URL(route.request().url());
   const path = url.pathname;
+  const legacyPrice=path.startsWith('/rest/v1/rpc/')?legacy224PriceRead(path.slice('/rest/v1/rpc/'.length)):null;
+  if(legacyPrice)return route.fulfill({status:legacyPrice.status,json:legacyPrice.error});
   const legacyMissing=legacy219MissingRpcName(path);
   if(legacyMissing)return route.fulfill({status:404,json:{code:'PGRST202',message:`Could not find public.${legacyMissing} in the legacy219 fixture`}});
   if (path.endsWith('/get_public_storefront_settings')) {

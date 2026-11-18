@@ -8,6 +8,8 @@ import path from 'node:path';
 import {sha256} from './maintenance-db-contract.mjs';
 import {readVerificationSourceFreeze,assertVerificationSourceFreeze} from './verification-source-freeze.mjs';
 import {upgradeReferenceOrigins} from '../operations/upgrade-versioned-reference.mjs';
+import {operationalManifest,operationalSchema} from '../operations/operational-schema.mjs';
+import {withLegacy224OwnerTools} from './legacy224-owner-tools.mjs';
 import {OLD_REF} from '../operations/frankfurt-owner-build.mjs';
 import {cutoverCommandDocuments,documentedCutoverCommands,classifyCutoverCommand} from './cutover-command-contract.mjs';
 
@@ -59,7 +61,10 @@ try{
   if(row.kind==='offline'){
    const key=[row.script,row.mode,row.phase].filter(Boolean).join(':');
    if(!executed.has(key)){
-    const result=await run(root,['--require',guard,row.script,...(row.phase?[row.phase]:[]),row.mode,'--workdir',workdir],'offline-'+path.basename(row.script)+(row.phase??''),{...process.env,NODE_OPTIONS:''});
+    const runOffline=cwd=>run(cwd,['--require',guard,row.script,...(row.phase?[row.phase]:[]),row.mode,'--workdir',workdir],'offline-'+path.basename(row.script)+(row.phase??''),{...process.env,NODE_OPTIONS:''});
+    const historicalReset=operationalSchema.ceiling===225&&row.script==='scripts/operations/frankfurt-owner-reset224.mjs';
+    if(historicalReset){assert.equal(row.mode,'--plan');await operationalManifest();}
+    const result=historicalReset?await withLegacy224OwnerTools(root,runOffline):await runOffline(root);
     const final=JSON.parse(result.stdout.trim().split(/\r?\n/u).at(-1));assert.equal(final.ok,true,'CUTOVER_OFFLINE_COMMAND_REJECTED:'+key);
     executed.set(key,{ok:true,elapsedMs:result.elapsedMs});
    }

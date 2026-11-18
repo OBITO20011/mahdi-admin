@@ -1,3 +1,4 @@
+import {legacy224PriceRead} from './legacy224-prices-rpc';
 import React,{useEffect,useState} from 'react';
 import {createRoot} from 'react-dom/client';
 import '../src/index.css';
@@ -14,7 +15,7 @@ import {supabase,sanitizedSupabaseUrl} from '../src/lib/supabase';
 import {productWorkbookFixture} from './package-f-product-workbook.fixture';
 if(!supabase||!['127.0.0.1','localhost'].includes(new URL(sanitizedSupabaseUrl).hostname))throw Error('LOCAL_ONLY');
 const actor='92600000-0000-4000-8000-000000000001',fixture=productWorkbookFixture(actor,()=>false);
-Object.assign(supabase,{from:fixture.client.from,rpc:fixture.client.rpc});Object.assign(supabase.auth,{getUser:fixture.client.auth.getUser,getSession:async()=>({data:{session:{user:{id:actor}}},error:null})});
+Object.assign(supabase,{from:fixture.client.from,rpc:(name:string,args?:Record<string,unknown>)=>Promise.resolve(legacy224PriceRead(name)??fixture.client.rpc(name,args))});Object.assign(supabase.auth,{getUser:fixture.client.auth.getUser,getSession:async()=>({data:{session:{user:{id:actor}}},error:null})});
 const auth=authStoreEngine as unknown as {state:AuthState;getState:()=>AuthState;initAuth:()=>Promise<void>};auth.state={...auth.getState(),user:{id:actor}as AuthState['user'],roleName:'owner',roles:['owner'],isAuthenticated:true,isLoading:false};auth.initAuth=async()=>undefined;
 const engine=storeEngine as unknown as {state:AppState;getState:()=>AppState};engine.state={...engine.getState(),products:[],categories:[{id:'cat',nameAr:'وهمي'}],units:[{id:'pkt',code:'PKT',nameAr:'باكيت',conversionFactor:1}],brands:[],warehouses:[]};
 let starts=0,stops=0;

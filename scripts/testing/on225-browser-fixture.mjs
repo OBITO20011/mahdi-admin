@@ -3,12 +3,13 @@ import {execFile} from 'node:child_process';
 import {createHmac,randomBytes} from 'node:crypto';
 import {promisify} from 'node:util';
 import {setTimeout as wait} from 'node:timers/promises';
-import {readFile} from 'node:fs/promises';
+import {readFile,mkdtemp,realpath,rm} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {build,preview} from 'vite';
 import path from 'node:path';
 import {startInventory225Local} from './inventory225-local.mjs';
 import {loadPinnedPostgrestImage} from './pinned-postgrest-image.mjs';
 import {executeInput} from '../operations/build-empty-supabase.mjs';
-import {startIsolatedVite} from './isolated-vite-server.mjs';
 
 const exec=promisify(execFile);
 const docker=(...args)=>exec('docker',args,{windowsHide:true,maxBuffer:16*1024**2});
@@ -19,9 +20,37 @@ const product=goldenId(103),branch=goldenId(200),warehouse=goldenId(201),owner=g
 const allowedReadTables=new Set(['branches','warehouses','units','brands','categories','products','suppliers',
   'purchase_orders','supplier_receipts','orders','order_items','profiles','customers','stock_notifications']);
 const rpcName=/^\/rest\/v1\/rpc\/([a-z][a-z0-9_]*)$/u;
-const adminUrl='http://127.0.0.1:4190',shopUrl='http://127.0.0.1:4191';
 
-export async function startOn225BrowserFixture(root){
+// Build the actual screens so browser execution does not depend on hundreds of
+// concurrent cold Vite transforms. Only the disposable loopback app is built.
+async function startBuiltApp(root,port,env,input,proxy){
+ const parent=await realpath(tmpdir());
+ const outDir=await mkdtemp(path.join(parent,'nawasrah-on225-built-'));
+ const clean=async()=>{
+  assert.equal(path.dirname(await realpath(outDir)),parent);
+  assert.ok(path.basename(outDir).startsWith('nawasrah-on225-built-'));
+  await rm(outDir,{recursive:true,force:true});
+ };
+ const variables={...env,NAWASRAH_DEPLOYMENT_ENV:'',VITE_BROWSER_QA_ISOLATED:'true'};
+ const before=new Map(Object.keys(variables).map(key=>[key,process.env[key]]));
+ Object.assign(process.env,variables);
+ try{
+  await build({root,mode:'test',logLevel:'error',build:{outDir,emptyOutDir:false,
+    ...(input?{rollupOptions:{input}}:{})}});
+  const server=await preview({root,mode:'test',logLevel:'error',build:{outDir},
+    plugins:[proxy],preview:{host:'127.0.0.1',port,strictPort:true}});
+  return {close:async()=>{try{await server.close();}finally{await clean();}}};
+ }catch(error){await clean();throw error;}
+ finally{
+  for(const [key,value] of before){if(value===undefined)delete process.env[key];else process.env[key]=value;}
+ }
+}
+
+export async function startOn225BrowserFixture(root,engine){
+  assert.ok(['Chromium','WebKit'].includes(engine));
+  const adminPort=engine==='Chromium'?4190:4192,shopPort=adminPort+1;
+  const adminUrl='http://127.0.0.1:'+adminPort,shopUrl='http://127.0.0.1:'+shopPort;
+  const navigations=[];
   const db=await startInventory225Local(225,'reference');
   const id=(await inspect(db.container)).Id;
   const network='supabase_network_nawasrah-inv225-reference-test';
@@ -90,9 +119,10 @@ export async function startOn225BrowserFixture(root){
     let originalOrderId=null;
     const proxy=(role)=>({
       name:'on225-golden-'+role,
-      configureServer(server){
+      configurePreviewServer(server){
         server.middlewares.use(async(request,response,next)=>{
           const url=new URL(request.url??'/',adminUrl);
+          if(url.pathname.endsWith('.html')||url.pathname==='/')response.once('finish',()=>navigations.push({pathname:url.pathname,status:response.statusCode}));
           const send=(status,value)=>{response.statusCode=status;response.setHeader('content-type','application/json');response.end(JSON.stringify(value));};
           try{
             if(role==='authenticated'&&url.pathname==='/__on225_fixture'){
@@ -133,9 +163,10 @@ export async function startOn225BrowserFixture(root){
       },
     });
     const env=origin=>({VITE_SUPABASE_URL:origin,VITE_SUPABASE_PUBLISHABLE_KEY:anonJwt,VITE_SUPABASE_ANON_KEY:anonJwt});
-    admin=await startIsolatedVite({root,port:4190,env:env(adminUrl),config:{plugins:[proxy('authenticated')]}});
-    shop=await startIsolatedVite({root:path.join(root,'customer-web'),port:4191,env:env('http://127.0.0.1:4176'),config:{plugins:[proxy('anon')]}});
-    return {adminUrl,shopUrl,admin,shop,product,branch,warehouse,history,calls,sql,json,rpc,close,
+    const entries=['on225-golden-harness','aftercare215-fullstack-harness'].map(name=>path.join(root,'e2e',name+'.html'));
+    admin=await startBuiltApp(root,adminPort,env(adminUrl),entries,proxy('authenticated'));
+    shop=await startBuiltApp(path.join(root,'customer-web'),shopPort,env('http://127.0.0.1:4176'),null,proxy('anon'));
+    return {adminUrl,shopUrl,admin,shop,product,branch,warehouse,history,calls,navigations,sql,json,rpc,close,
       selectReturnOrder:orderId=>{assert.match(orderId,/^[0-9a-f-]{36}$/u);originalOrderId=orderId;}};
   }catch(error){
     await close();

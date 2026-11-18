@@ -23,17 +23,11 @@ const settings=db=>db.json(`SELECT jsonb_build_object('unit',p.sale_price_in_min
  FROM public.products p LEFT JOIN public.product_sale_pricing_state225 s ON s.product_id=p.id WHERE p.id='${db.product}';`);
 
 async function runDay(browserType,engine,device){
-  const db=await startOn225BrowserFixture(root);
+  const db=await startOn225BrowserFixture(root,engine);
   let browser,page,stage='launch';
   const unexpected=[];
   const proof={engine,history:db.history};
   try{
-    stage='warm Vite modules without business writes';
-    await db.admin.server.warmupRequest('/e2e/on225-golden-harness.tsx');
-    await db.admin.server.warmupRequest('/e2e/aftercare215-fullstack-harness.tsx');
-    await db.admin.server.waitForRequestsIdle();
-    await db.shop.server.warmupRequest('/src/main.tsx');
-    await db.shop.server.waitForRequestsIdle();
     browser=await browserType.launch();
     const context=await browser.newContext({...device,locale:'ar-JO',serviceWorkers:'block',reducedMotion:'reduce'});
     context.on('response',response=>{
@@ -41,7 +35,8 @@ async function runDay(browserType,engine,device){
         unexpected.push({status:response.status(),path:new URL(response.url()).pathname});
     });
     const origins=new Set([db.adminUrl,db.shopUrl]);
-    await context.route('**/*',async route=>{
+    const routed=url=>!origins.has(url.origin)&&!['about:','blob:','data:'].includes(url.protocol);
+    await context.route(routed,async route=>{
       const request=route.request(),url=new URL(request.url());
       if(url.origin==='http://127.0.0.1:4176'){
         assert.ok(request.frame().url().startsWith(db.shopUrl+'/'),'ON225_GOLDEN_ONLY_SHOP_USES_VIRTUAL_ENDPOINT');
@@ -51,7 +46,6 @@ async function runDay(browserType,engine,device){
         const response=await route.fetch({url:db.shopUrl+url.pathname+url.search,maxRedirects:0});
         return route.fulfill({response,headers:{...response.headers(),...cors}});
       }
-      if(origins.has(url.origin)||['about:','blob:','data:'].includes(url.protocol))return route.continue();
       unexpected.push({origin:url.origin});
       return route.abort('blockedbyclient');
     });
@@ -61,7 +55,21 @@ async function runDay(browserType,engine,device){
       const url=new URL(request.url());
       if(origins.has(url.origin))unexpected.push({path:url.pathname,resource:request.resourceType(),result:request.failure()?.errorText});
     });
-    const view=name=>page.goto(db.adminUrl+'/e2e/on225-golden-harness.html?view='+name);
+    const pendingAssets=new Set();
+    let documentRequests=0,documentResponses=0;
+    context.on('request',request=>{if(origins.has(new URL(request.url()).origin)){pendingAssets.add(request);if(request.isNavigationRequest())documentRequests++;}});
+    context.on('response',response=>{if(response.request().isNavigationRequest())documentResponses++;});
+    context.on('requestfinished',request=>pendingAssets.delete(request));
+    context.on('requestfailed',request=>pendingAssets.delete(request));
+    const navigate=async(target,url)=>{
+      try{return await target.goto(url,{waitUntil:'domcontentloaded'});}
+      catch(error){
+        const paths=[...pendingAssets].map(request=>new URL(request.url()).pathname);
+        unexpected.push({navigationPath:new URL(url).pathname,pendingAssets:paths.slice(0,30),pendingCount:paths.length,documentRequests,documentResponses,server:db.navigations.slice(-8)});
+        throw error;
+      }
+    };
+    const view=name=>navigate(page,db.adminUrl+'/e2e/on225-golden-harness.html?view='+name);
     const saveImage=name=>page.screenshot({path:path.join(output,engine+'-'+name+'.png'),fullPage:true});
     const rpcResponse=(name,select=()=>true)=>page.waitForResponse(response=>response.url().endsWith('/rpc/'+name)&&response.request().method()==='POST'&&select(response.request().postDataJSON()));
     const submit=async(name,click,select)=>{
@@ -133,7 +141,7 @@ async function runDay(browserType,engine,device){
     const catalogue=async()=>{
       const shopPage=await context.newPage();
       shopPage.on('pageerror',error=>unexpected.push({pageError:error.name,area:'shop'}));
-      await shopPage.goto(db.shopUrl+'/#catalog');
+      await navigate(shopPage,db.shopUrl+'/#catalog');
       await expect(shopPage.getByTestId('catalog-products-grid')).toBeVisible();
       const detailsButton=shopPage.getByRole('button',{name:'عرض تفاصيل '+productName,exact:true});
       await detailsButton.first().click();
@@ -234,7 +242,7 @@ async function runDay(browserType,engine,device){
 
     stage='partial return from original invoice';
     db.selectReturnOrder(original.order);
-    await page.goto(db.adminUrl+'/e2e/aftercare215-fullstack-harness.html');
+    await navigate(page,db.adminUrl+'/e2e/aftercare215-fullstack-harness.html');
     await button(page,'إرجاع أو استبدال').click();
     await button(page,'التالي').click();
     await button(page,'باكيتات').click();
@@ -252,9 +260,9 @@ async function runDay(browserType,engine,device){
 
     stage='close and reconcile';
     await view('shift');
-    await page.getByTestId('cash-count-open').click();
-    await page.getByLabel('الكاش الفعلي بعد عدّ الصندوق',{exact:true}).fill(money(expected.cash));
-    await submit('close_cash_shift',()=>page.getByTestId('cash-close-submit').click());
+    if(device.isMobile)await page.getByTestId('cash-count-open').click();
+    await page.getByLabel('الكاش الفعلي بعد عدّ الصندوق',{exact:true}).filter({visible:true}).fill(money(expected.cash));
+    await submit('close_cash_shift',()=>page.getByTestId('cash-close-submit').filter({visible:true}).click());
     const reportDialog=page.getByRole('dialog',{name:'تقرير الإغلاق اليومي',exact:true});
     await expect(reportDialog).toContainText(money(expected.cash));
     await saveImage('closing');
