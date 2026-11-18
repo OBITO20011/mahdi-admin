@@ -56539,18 +56539,6 @@
         "permissive": true
       },
       {
-        "name": "ERP staff can read own product image metadata",
-        "check": null,
-        "roles": [
-          "authenticated"
-        ],
-        "table": "objects",
-        "using": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
-        "schema": "storage",
-        "command": "r",
-        "permissive": true
-      },
-      {
         "name": "ERP staff can update own product images",
         "check": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
         "roles": [
@@ -56573,6 +56561,18 @@
         "schema": "storage",
         "command": "a",
         "permissive": true
+      },
+      {
+        "name": "Public can read product images",
+        "check": null,
+        "roles": [
+          "PUBLIC"
+        ],
+        "table": "objects",
+        "using": "(bucket_id = 'product-images'::text)",
+        "schema": "storage",
+        "command": "r",
+        "permissive": true
       }
     ],
     "storageBucketRows": null,
@@ -56583,7 +56583,289 @@
       "No Auth,Edge environment or remote cron row snapshot in schema catalog"
     ]
   },
-  "sevenFunctions": [],
+  "sevenFunctions": [
+    {
+      "identity": "authorize_admin_ai_assistant_request()",
+      "sites": [
+        {
+          "file": "supabase/functions/admin-ai-assistant/index.ts",
+          "line": 1017,
+          "role": "authenticated"
+        }
+      ],
+      "revokedEntries": [
+        {
+          "grantee": "anon",
+          "grantor": "postgres",
+          "privilege": "EXECUTE",
+          "grantable": false
+        }
+      ],
+      "effectiveLocal": [
+        {
+          "role": "anon",
+          "allowed": false,
+          "identity": "authorize_admin_ai_assistant_request()"
+        },
+        {
+          "role": "authenticated",
+          "allowed": true,
+          "identity": "authorize_admin_ai_assistant_request()"
+        },
+        {
+          "role": "service_role",
+          "allowed": false,
+          "identity": "authorize_admin_ai_assistant_request()"
+        }
+      ],
+      "invocationResults": [
+        {
+          "site": "supabase/functions/admin-ai-assistant/index.ts:1017",
+          "role": "authenticated",
+          "appRole": "owner",
+          "sqlstate": null,
+          "outcome": "success_rolled_back"
+        },
+        {
+          "site": "supabase/functions/admin-ai-assistant/index.ts:1017",
+          "role": "authenticated",
+          "appRole": "admin",
+          "sqlstate": null,
+          "outcome": "success_rolled_back"
+        },
+        {
+          "site": "supabase/functions/admin-ai-assistant/index.ts:1017",
+          "role": "authenticated",
+          "appRole": "cashier",
+          "sqlstate": "P0001",
+          "outcome": "body_validation_or_error"
+        }
+      ],
+      "triggerOnly": false
+    },
+    {
+      "identity": "enforce_customer_for_debt_order()",
+      "sites": [],
+      "revokedEntries": [
+        {
+          "grantee": "anon",
+          "grantor": "postgres",
+          "privilege": "EXECUTE",
+          "grantable": false
+        },
+        {
+          "grantee": "authenticated",
+          "grantor": "postgres",
+          "privilege": "EXECUTE",
+          "grantable": false
+        }
+      ],
+      "effectiveLocal": [
+        {
+          "role": "anon",
+          "allowed": true,
+          "identity": "enforce_customer_for_debt_order()"
+        },
+        {
+          "role": "authenticated",
+          "allowed": true,
+          "identity": "enforce_customer_for_debt_order()"
+        },
+        {
+          "role": "service_role",
+          "allowed": true,
+          "identity": "enforce_customer_for_debt_order()"
+        }
+      ],
+      "invocationResults": [],
+      "triggerOnly": true
+    },
+    {
+      "identity": "enforce_product_flavor_inheritance()",
+      "sites": [],
+      "revokedEntries": [
+        {
+          "grantee": "anon",
+          "grantor": "postgres",
+          "privilege": "EXECUTE",
+          "grantable": false
+        },
+        {
+          "grantee": "authenticated",
+          "grantor": "postgres",
+          "privilege": "EXECUTE",
+          "grantable": false
+        }
+      ],
+      "effectiveLocal": [
+        {
+          "role": "anon",
+          "allowed": false,
+          "identity": "enforce_product_flavor_inheritance()"
+        },
+        {
+          "role": "authenticated",
+          "allowed": false,
+          "identity": "enforce_product_flavor_inheritance()"
+        },
+        {
+          "role": "service_role",
+          "allowed": false,
+          "identity": "enforce_product_flavor_inheritance()"
+        }
+      ],
+      "invocationResults": [],
+      "triggerOnly": true
+    },
+    {
+      "identity": "guard_cash_shift_closing_report_snapshot()",
+      "sites": [],
+      "revokedEntries": [
+        {
+          "grantee": "anon",
+          "grantor": "postgres",
+          "privilege": "EXECUTE",
+          "grantable": false
+        },
+        {
+          "grantee": "authenticated",
+          "grantor": "postgres",
+          "privilege": "EXECUTE",
+          "grantable": false
+        }
+      ],
+      "effectiveLocal": [
+        {
+          "role": "anon",
+          "allowed": true,
+          "identity": "guard_cash_shift_closing_report_snapshot()"
+        },
+        {
+          "role": "authenticated",
+          "allowed": true,
+          "identity": "guard_cash_shift_closing_report_snapshot()"
+        },
+        {
+          "role": "service_role",
+          "allowed": true,
+          "identity": "guard_cash_shift_closing_report_snapshot()"
+        }
+      ],
+      "invocationResults": [],
+      "triggerOnly": true
+    },
+    {
+      "identity": "set_website_new_order_reservation_expiry()",
+      "sites": [],
+      "revokedEntries": [
+        {
+          "grantee": "anon",
+          "grantor": "postgres",
+          "privilege": "EXECUTE",
+          "grantable": false
+        },
+        {
+          "grantee": "authenticated",
+          "grantor": "postgres",
+          "privilege": "EXECUTE",
+          "grantable": false
+        }
+      ],
+      "effectiveLocal": [
+        {
+          "role": "anon",
+          "allowed": true,
+          "identity": "set_website_new_order_reservation_expiry()"
+        },
+        {
+          "role": "authenticated",
+          "allowed": true,
+          "identity": "set_website_new_order_reservation_expiry()"
+        },
+        {
+          "role": "service_role",
+          "allowed": true,
+          "identity": "set_website_new_order_reservation_expiry()"
+        }
+      ],
+      "invocationResults": [],
+      "triggerOnly": true
+    },
+    {
+      "identity": "sync_order_payment_state()",
+      "sites": [],
+      "revokedEntries": [
+        {
+          "grantee": "anon",
+          "grantor": "postgres",
+          "privilege": "EXECUTE",
+          "grantable": false
+        },
+        {
+          "grantee": "authenticated",
+          "grantor": "postgres",
+          "privilege": "EXECUTE",
+          "grantable": false
+        }
+      ],
+      "effectiveLocal": [
+        {
+          "role": "anon",
+          "allowed": true,
+          "identity": "sync_order_payment_state()"
+        },
+        {
+          "role": "authenticated",
+          "allowed": true,
+          "identity": "sync_order_payment_state()"
+        },
+        {
+          "role": "service_role",
+          "allowed": true,
+          "identity": "sync_order_payment_state()"
+        }
+      ],
+      "invocationResults": [],
+      "triggerOnly": true
+    },
+    {
+      "identity": "sync_product_flavor_commercial_settings()",
+      "sites": [],
+      "revokedEntries": [
+        {
+          "grantee": "anon",
+          "grantor": "postgres",
+          "privilege": "EXECUTE",
+          "grantable": false
+        },
+        {
+          "grantee": "authenticated",
+          "grantor": "postgres",
+          "privilege": "EXECUTE",
+          "grantable": false
+        }
+      ],
+      "effectiveLocal": [
+        {
+          "role": "anon",
+          "allowed": false,
+          "identity": "sync_product_flavor_commercial_settings()"
+        },
+        {
+          "role": "authenticated",
+          "allowed": false,
+          "identity": "sync_product_flavor_commercial_settings()"
+        },
+        {
+          "role": "service_role",
+          "allowed": false,
+          "identity": "sync_product_flavor_commercial_settings()"
+        }
+      ],
+      "invocationResults": [],
+      "triggerOnly": true
+    }
+  ],
   "oldReferences": [
     {
       "file": "automation/n8n/workflows/nawasrah-alerts.json",
@@ -56839,5 +57121,6 @@
       ],
       "category": "TEST_CONTRACT"
     }
-  ]
+  ],
+  "historicalAclReviewProvenance": "Seven identities and saved catalog review preserved. Current call sites and ACL outcomes are local 225 observations."
 }

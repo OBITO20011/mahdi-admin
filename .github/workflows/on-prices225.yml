@@ -1,0 +1,64 @@
+name: Nawasrah ON prices225
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: on-prices225-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || format('run-{0}', github.run_id) }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+jobs:
+  accounting:
+    name: ON225 accounting and full-mode golden day
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm ci --prefix customer-web
+      - run: npx playwright install --with-deps chromium webkit
+      - run: node --import tsx scripts/testing/run-on225-candidate-core.mjs
+      - run: node --import tsx scripts/testing/run-on225-cogs224-proof.mjs
+      - run: node --import tsx scripts/testing/run-on225-accounting-golden.mjs
+      - run: node scripts/testing/run-on225-browser-golden.mjs
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: on225-accounting
+          path: |
+            test-results/on225-accounting-golden/report.json
+            test-results/on225-browser-golden/report.json
+            test-results/on225-browser-golden/*.png
+          retention-days: 7
+  protection:
+    name: ON225 owner protection and RESET
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: node scripts/operations/build-acl-reference225.mjs --output "$RUNNER_TEMP/local-reference-through225-ready.json"
+      - run: node scripts/testing/run-owner-upgrade225-runtime.mjs "$RUNNER_TEMP/local-reference-through225-ready.json"
+      - run: node scripts/testing/run-reset225-runtime.mjs "$RUNNER_TEMP/local-reference-through225-ready.json"
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: on225-owner-protection
+          path: |
+            test-results/owner-upgrade225/report.json
+            test-results/reset225/report.json
+          retention-days: 7

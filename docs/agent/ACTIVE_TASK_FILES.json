@@ -2,128 +2,112 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": " M",
-      "path": "docs/agent/project-state.json"
+      "code": "A ",
+      "path": ".github/workflows/on-prices225.yml"
     },
     {
-      "code": " M",
-      "path": "docs/generated/DB_FUNCTIONS.md"
+      "code": "A ",
+      "path": "e2e/on225-golden-harness.html"
     },
     {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_AUDIT.md"
+      "code": "A ",
+      "path": "e2e/on225-golden-harness.tsx"
     },
     {
-      "code": " M",
+      "code": "A ",
+      "path": "scripts/testing/on225-browser-fixture.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/testing/run-on225-browser-golden.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "docs/MAINTAINER_GUIDE_AR.md"
+    },
+    {
+      "code": "M ",
       "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
     },
     {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
+      "code": "M ",
       "path": "docs/operations/TABLE_ACCESS_DIAGNOSTIC.json"
     },
     {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+      "code": "M ",
+      "path": "scripts/agent/lib.mjs"
     },
     {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.md"
+      "code": "M ",
+      "path": "scripts/agent/preflight.mjs"
     },
     {
-      "code": " M",
-      "path": "e2e/package-f-pos-harness.tsx"
-    },
-    {
-      "code": " M",
+      "code": "M ",
       "path": "scripts/audit/on-prices225-source-pins.json"
     },
     {
-      "code": " M",
-      "path": "scripts/audit/run-service-access-diagnostic.mjs"
+      "code": "M ",
+      "path": "scripts/audit/reset224-ddl-source-pins.json"
     },
     {
-      "code": " M",
-      "path": "scripts/audit/run-table-access-diagnostic.mjs"
+      "code": "M ",
+      "path": "scripts/operations/d1-reference225-kit.mjs"
     },
     {
-      "code": " M",
-      "path": "scripts/backup/complete-backup.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/build-acl-reference224.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-owner-upgrade224.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-reference224.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/on-prices225-catalog.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/supported-upgrades224.mjs"
-    },
-    {
-      "code": " M",
+      "code": "M ",
       "path": "scripts/testing/product-workbook-runtime-view.mjs"
     },
     {
-      "code": " M",
-      "path": "scripts/testing/run-on225-accounting-golden.mjs"
+      "code": "M ",
+      "path": "tests/bounded-rpc-names.test.ts"
     },
     {
-      "code": " M",
-      "path": "src/services/supabase/productWorkbook.service.ts"
+      "code": "M ",
+      "path": "tests/bulk-product-images-contracts.test.ts"
     },
     {
-      "code": " M",
-      "path": "tests/migration-lf.test.ts"
+      "code": "M ",
+      "path": "tests/core-webkit-ci-shards.test.ts"
     },
     {
-      "code": " M",
-      "path": "tests/upgrade225-contract.test.ts"
+      "code": "M ",
+      "path": "tests/independent-prices222-projection.test.ts"
     },
     {
-      "code": "??",
-      "path": "docs/operations/SERVICE_ACCESS_AFTER_225.json"
+      "code": "M ",
+      "path": "tests/inventory224-tools.test.ts"
     },
     {
-      "code": "??",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_225.json"
+      "code": "M ",
+      "path": "tests/lite220-historical-test-view.test.ts"
     },
     {
-      "code": "??",
-      "path": "scripts/operations/frankfurt-owner-cutover-hold225.mjs"
+      "code": "M ",
+      "path": "tests/literal220-catalog-manifest.test.ts"
     },
     {
-      "code": "??",
-      "path": "scripts/operations/supported-upgrades225.mjs"
+      "code": "M ",
+      "path": "tests/migration-integrity.test.ts"
     },
     {
-      "code": "??",
-      "path": "scripts/testing/reset225-ddl-capability-proof.mjs"
+      "code": "M ",
+      "path": "tests/operational-schema.test.ts"
     },
     {
-      "code": "??",
-      "path": "scripts/testing/run-owner-upgrade225-runtime.mjs"
+      "code": "M ",
+      "path": "tests/package-f-remaining-batch3.test.ts"
     },
     {
-      "code": "??",
-      "path": "scripts/testing/run-reset225-runtime.mjs"
+      "code": "M ",
+      "path": "tests/sales-only-phase1.test.ts"
     },
     {
-      "code": "??",
-      "path": "supabase/migrations/225_on_independent_prices.sql"
+      "code": "M ",
+      "path": "tests/service-access-inventory.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/upgrade224-registration.test.ts"
     }
   ]
 }

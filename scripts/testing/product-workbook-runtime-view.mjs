@@ -107,7 +107,7 @@ export async function prepareWorkbookRuntimeView({schemaOnly=false}={}){
    assert.equal(before,historicalText('78f47ccdd7698cf95ee69dc1ae05ba2fd53da301',file),'HISTORICAL_ON_PRICE225_BASELINE_CHANGED:'+file);
    if(before===null)await unlink(target);else await writeFile(target,before);
    if(file===migration225){assert.equal(before,null);removedOnlyReviewedMigrations.push(225);}
-   changed.push(file);
+   changed.push({file,after:pin.after,before:pin.before});
   }
   // Rewind every exact reviewed display source before older layer allowlists.
   // Newly added files must disappear; unknown bytes and changed baselines fail.

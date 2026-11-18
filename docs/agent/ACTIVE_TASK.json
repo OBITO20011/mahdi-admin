@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Approved225 ON independent prices and golden financial proof;frozen COGS stays byte-identical.",
-  "baselineSha": "b32cece4ae25d6c64a5f96f5e624ced4bef2ffcc",
+  "baselineSha": "765e5299ec5a2ad72ca278bc0b0447c28a32133f",
   "branch": "codex/on-independent-prices225",
   "phase": "ON_INDEPENDENT_PRICE225",
   "startedAt": "2026-11-17T04:55:09.912Z",
@@ -15,13 +15,15 @@
     "Display112 merged as78f47ccd;exact main82/82 and isolated ff-only/preflight passed.",
     "Active225 fresh/incremental0diff,705public+51private;HTTP181/RPC771,ready225 built;owner protection pipeline passed.",
     "Main78f47ccd display112:82/82; isolatedff/preflight passed.225active705+51/fresh-incremental0diff/access181+771/readyreference proved.",
-    "Official225 native backup224/Restore/apply-registration-failure/resume-only/backup225/Restore/verify and remembered-originals protection passed."
+    "Official225 native backup224/Restore/apply-registration-failure/resume-only/backup225/Restore/verify and remembered-originals protection passed.",
+    "Native RESET225 plus all three resumes complete,185 migrations,zero catalog and ACL differences.",
+    "Chromium real PostgreSQL through the return writer; current UI tests validate beginning inventory, mixed receipt, saved prices, scarce-single availability, POS sales, loss acknowledgement and price restoration."
   ],
   "inProgress": [
-    "Resolve strict225 historical test projections; prove native RESET225 and true-browser accounting day."
+    "Finish Chromium and WebKit golden day with corrected SQL readback for the actual sales_return_events relation."
   ],
   "notStarted": [
-    "Draft225 and full exact-head CI; no225 merge authorization."
+    "Final owner/Claude review; no 225 merge authorization."
   ],
   "testsPassed": [
     "PostgreSQL candidate25/25 on63d49666; family/CAS/authorization and prior reserved parcel settlement proved; original functions unchanged.",
@@ -35,11 +37,13 @@
     "Actual owner225 encrypted backup/restore,preflight-zero-writes,pending-registration/resume-only and private-price-state preservation passed.",
     "Active225 current admin/customer typechecks and strict lint exit0.",
     "Current34/34 Chromium/WebKit integration;both full types and strictlint exited0.",
-    "Protection/catalog focused20/20,0skip. Fullroot2164:2097pass/67fail/0skip;failures retained for exact-history/source-ceiling triage."
+    "Protection/catalog focused20/20,0skip. Fullroot2164:2097pass/67fail/0skip;failures retained for exact-history/source-ceiling triage.",
+    "Native RESET225 ordinary and three resumes complete; 185 migrations and 0 catalog/application ACL differences.",
+    "Active225 native six-stage accounting proof: 9.650 parcel COGS, 0.304 loss, 1.000 original refund; reports and drawer exact.",
+    "History repair batch244:240 passed; four follow-up assertions repaired and focused35/35. Admin/customer types and strict lint exit0 before final browser fixture changes."
   ],
   "testsRemaining": [
-    "Repair and rerun67current/history unit failures without weakening guards; final fullroot/store gates.",
-    "Native RESET225 and real-browser golden day;workflow/fullCI/Gitleaks final."
+    "Browser golden day final for both engines, final full units and exact draft CI."
   ],
   "findings": [
     "Prior209 COGS premise corrected by exact224/225 six-case parity; final current body unchanged.",
@@ -56,12 +60,12 @@
     "No ON fillin workbook/generator or ON cutover rewrite in this round.",
     "225Draft only;no merge before fullgolden day,CI andClaude review."
   ],
-  "checkpointedAt": "2026-11-17T23:34:22.008Z",
+  "checkpointedAt": "2026-11-18T01:20:14.234Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 31,
-  "filesTouchedManifestSha256": "e06ee56c38029c3febd97bb4c98ea04fb8c9ec9e9cb726eba089c03cab30e826",
-  "nextExactAction": "Repair exact225 historical projections; run RESET225 and browser-native golden day; no225 merge.",
-  "workingTreeFingerprint": "69D7452178123D6A5DA373ADBFE7825288174991A2897D6D8357A019F0DB6DA7"
+  "filesTouchedCount": 27,
+  "filesTouchedManifestSha256": "3c1bcb41dc2992500aba85de41a38d888ce882aa04ead2015a4781097d26ad35",
+  "nextExactAction": "Finish browser golden day in Chromium and WebKit and full exact-head Draft CI.",
+  "workingTreeFingerprint": "363004AF509FB44FEDDC2891CCFD7EADCC2686A4DB3E6051297123FBAA6B9490"
 }

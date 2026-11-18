@@ -11,6 +11,23 @@ import {verifyD1Ci} from './d1-reference225-ci.mjs';
 const exec=promisify(execFile),name='local-reference-through225-ready.json';
 const policyFile=new URL('./d1-known-owner225-files.json',import.meta.url);
 const files=["scripts/operations/frankfurt-owner-reset224.mjs","scripts/operations/trial-reset224-core.mjs","scripts/operations/reset224-foundation.mjs","scripts/operations/reset224-pg-cron-guard.mjs","scripts/operations/frankfurt-owner-build.mjs","docs/operations/TABLE_ACCESS_AFTER_224.json","scripts/operations/reset224-write-guard.mjs","scripts/operations/reset224-session.mjs","scripts/operations/reset224-private-state.mjs","scripts/operations/sales-only220-catalog.mjs","docs/design/sales-only-phase3/catalog220-pins.json","scripts/operations/frankfurt-reference224.mjs","scripts/operations/function-reference224.mjs","scripts/operations/d1-reference224-kit.mjs","scripts/operations/d1-reference224-state.mjs","scripts/operations/build-acl-reference224.mjs","scripts/testing/sales-only220-compiler.mjs","scripts/operations/d1-reference224-ci.mjs","scripts/operations/d1-known-owner224-files.json","scripts/operations/frozen220-trigger-acl.mjs","docs/operations/RESET220_BEFORE_D1_READ_ONLY.sql","scripts/operations/independent-prices222-catalog.mjs","docs/design/independent-parcel-prices222/catalog222-pins.json","scripts/testing/independent-prices222-local.mjs","scripts/operations/optional-quantity223-catalog.mjs","docs/design/off-quantity-counter223/catalog223-pins.json","supabase/migrations/223_optional_sales_quantity.sql","scripts/operations/frankfurt-owner-upgrade224.mjs","scripts/operations/upgrade224-data.mjs","scripts/operations/upgrade224-protection.mjs","scripts/backup/complete-backup.mjs","scripts/operations/inventory224-catalog.mjs","docs/design/inventory224/catalog224-pins.json","supabase/migrations/224_optional_quantity_inventory_reader.sql","scripts/testing/inventory224-local.mjs","scripts/operations/d1-reference223-ci.mjs","scripts/operations/frankfurt-owner-reset225.mjs","scripts/operations/trial-reset225-core.mjs","scripts/operations/reset225-foundation.mjs","scripts/operations/reset225-pg-cron-guard.mjs","docs/operations/TABLE_ACCESS_AFTER_225.json","scripts/operations/reset225-write-guard.mjs","scripts/operations/reset225-session.mjs","scripts/operations/reset225-private-state.mjs","scripts/operations/frankfurt-reference225.mjs","scripts/operations/function-reference225.mjs","scripts/operations/d1-reference225-kit.mjs","scripts/operations/d1-reference225-state.mjs","scripts/operations/build-acl-reference225.mjs","scripts/operations/d1-reference225-ci.mjs","scripts/operations/d1-known-owner225-files.json","scripts/operations/frankfurt-owner-upgrade225.mjs","scripts/operations/upgrade225-data.mjs","scripts/operations/upgrade225-protection.mjs","scripts/testing/inventory225-local.mjs","scripts/operations/on-prices225-catalog.mjs","docs/design/on-independent-prices225/catalog225-candidate-pins.json","scripts/operations/upgrade225-registration.mjs","scripts/operations/reset225-ddl-capability.mjs","scripts/backup/restore-raw-default-acl.mjs","supabase/migrations/225_on_independent_prices.sql","scripts/testing/capture-inventory225-catalog.mjs","scripts/operations/upgrade224-registration.mjs"];
+// Bind the versioned predecessors and the exact current source projection.
+files.push(
+ "scripts/audit/on-prices225-source-pins.json",
+ "scripts/audit/source-before-on-prices225.mjs",
+ "scripts/operations/frankfurt-owner-cutover-hold225.mjs",
+ "scripts/operations/supported-upgrades224.mjs",
+ "scripts/operations/supported-upgrades225.mjs",
+ "scripts/operations/upgrade-versioned-reference.mjs",
+ "scripts/operations/frankfurt-owner-upgrade222.mjs",
+ "scripts/operations/frankfurt-owner-upgrade223.mjs",
+ "scripts/operations/frankfurt-reference222.mjs",
+ "scripts/operations/frankfurt-reference223.mjs",
+ "scripts/operations/build-acl-reference222.mjs",
+ "scripts/operations/build-acl-reference223.mjs",
+ "docs/generated/DB_FUNCTIONS.md",
+ "docs/agent/project-state.json",
+);
 const json=async file=>JSON.parse(await readFile(file,'utf8'));
 const exists=async file=>{try{await access(file);return true;}catch(e){if(e.code==='ENOENT')return false;throw e;}};
 export async function d1Readiness(root,file){const module=await import(pathToFileURL(path.join(root,'scripts/operations/frankfurt-reference225.mjs')).href);return module.readReady225Reference(root,file);}

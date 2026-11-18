@@ -16,14 +16,14 @@ test('222 exact inverse preserves historical text and never hides an unknown byt
  assert.deepEqual(pathsBeforeIndependentPrices222([added]),[]);
 });
 
-test('224 retains the explicit221 reservation, never arbitrary gaps or a221 backfill',()=>{
+test('225 retains the explicit221 reservation, never arbitrary gaps or a221 backfill',()=>{
  const state=JSON.parse(readFileSync('docs/agent/project-state.json','utf8'));
  const manifest=execFileSync('git',['ls-files','supabase/migrations'],{encoding:'utf8',windowsHide:true}).trim().split(/\r?\n/u).map(p=>p.split('/').at(-1)!).filter(p=>/^\d+_.+\.sql$/u.test(p)).sort();
- assert.equal(state.migrationCeiling,224);assert.deepEqual(state.ownerDeferredAccountingMigrationNumbers,[221]);
- assert.equal(assertMigrationNumbering(manifest,state).ceiling,224);
+ assert.equal(state.migrationCeiling,225);assert.deepEqual(state.ownerDeferredAccountingMigrationNumbers,[221]);
+ assert.equal(assertMigrationNumbering(manifest,state).ceiling,225);
  assert.throws(()=>assertMigrationNumbering([...manifest.slice(0,-1),'221_unapproved.sql',manifest.at(-1)!],state),/OWNER_DEFERRED_ACCOUNTING221/);
  assert.throws(()=>assertMigrationNumbering(manifest,{...state,ownerDeferredAccountingMigrationNumbers:[]}),/ACCOUNTING221_RESERVATION_REQUIRED/);
- assert.throws(()=>assertMigrationNumbering([...manifest,'225_unknown.sql'],state),/MIGRATION_GAP_OR_ABOVE_CEILING/);
+ assert.throws(()=>assertMigrationNumbering([...manifest,'226_unknown.sql'],state),/MIGRATION_GAP_OR_ABOVE_CEILING/);
 });
 
 test('222 product SQL is additive functions only with three authenticated public writers',()=>{
