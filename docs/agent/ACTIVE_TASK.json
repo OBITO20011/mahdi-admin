@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "PAUSED",
   "owner": "codex",
   "objective": "Approved225 ON independent prices and golden financial proof;frozen COGS stays byte-identical.",
-  "baselineSha": "fc51d5e43ab977ff19c66495fed1982c54176c2e",
+  "baselineSha": "8813580ef19a01aa69168e69265daf0eb5538857",
   "branch": "codex/on-independent-prices225",
   "phase": "ON_INDEPENDENT_PRICE225",
   "startedAt": "2026-11-17T04:55:09.912Z",
@@ -11,43 +11,49 @@
     "Shared224 rehearsal complete through RESET, ON224/184, no import. #112 merged and main78f47ccd verified.",
     "225 additive ON independent prices, pause/resume, first originals, receipt review and authorized loss acknowledgement.",
     "Active225 fresh/incremental exact, 705 public +51 private, current reference and access evidence captured.",
-    "Native225 backup/Restore, registration recovery and RESET including three resumes passed."
+    "Native225 backup/Restore, registration recovery and RESET including three resumes passed.",
+    "Draft115 8813580e exact CI84/84 successful; extra push secret scan also successful.",
+    "Combined225 final comments and independent manual-original recovery; real RED then29/29 rollback GREEN."
   ],
   "inProgress": [
-    "Verify updated speed and product fixtures plus historical RESET224 in full exact-head CI."
+    "Approved8813 review corrections: final225 source pins, new reference/protection and exact-head CI."
   ],
   "notStarted": [
-    "Final owner/Claude review; no 225 merge authorization."
+    "Mark115 Ready only after all green; owner final merge remains pending."
   ],
   "testsPassed": [
-    "Candidate25/25; native224/225 parity6/6, unchanged frozen functions and fractional COGS9650.",
-    "Native golden day: revenue12500, COGS11258, profit1242, inventory10042, drawer12500.",
-    "Chromium 1280 and mobile WebKit 390 real golden day both passed; live PostgREST + local PostgreSQL.",
-    "fc51d5e4 local units admin2164/store237, zero skips; ON225 CI accounting and protection both green.",
-    "The exact legacy224 reset runner passed all 12 checks, including three real resumes."
+    "CI84/84 on8813580e; application units2164/2164 and customer237/237, zero skips.",
+    "Actual PostgreSQL native candidate25 and224/225 six-case COGS9650 parity passed; frozen bodies exact.",
+    "Golden ON native and real Chromium1280/WebKit390 both reconcile revenue12500,COGS11258,profit1242,inventory10042,cash12500.",
+    "Official225 encrypted Backup/Restore/upgrade preflight/resume-only/verify and RESET185 with all recovery cases passed.",
+    "Exact legacy224 RESET184 and all12 checks passed; historical214-219 Restore green.",
+    "Current types for both apps and strict lint0; final Gitleaks0 on21 feature commits.",
+    "Finalready225 built frozen on8813580e,705public+51private,185migrations,fresh/incremental0diff.",
+    "Local storefront budget and cart animation passed in an isolated copy on4294/4295/4296; owner4176 untouched.",
+    "New225 fresh/incremental0diff; HTTP181/0errors; RPC771/18expected denials; one225 function delta only."
   ],
   "testsRemaining": [
-    "Updated head CI, final Gitleaks and local handoff sync."
+    "Newhash ready225/upgrade225 registration-recovery/RESET225, both golden browsers, exact-head FULLCI and Gitleaks."
   ],
   "findings": [
-    "fc51d5e4 red required 225 speed reader mappings, old workbook named absence and exact224 RESET test runtime. No SQL or app change in this correction."
+    "Local final root2163/2164 with only the known120s workbook-history ETIMEDOUT; same-head CI2164/2164 is the unit attestation."
   ],
   "blockers": [],
   "activeProcesses": [
-    "Shared224 rehearsal retained and owner demo untouched."
+    "No local verification gate active; preserved rehearsal/demo/n8n untouched."
   ],
   "prohibitions": [
     "No hosted/deploy/demo/n8n/Docker restart;no original workbook changes.",
     "Frozen627 bodies andnine approvedbridges unchanged;no alternate COGS coordinator.",
     "No ON fillin workbook/generator or ON cutover rewrite in this round.",
-    "225Draft only;no merge before fullgolden day,CI andClaude review."
+    "No225 merge; Ready allowed after final green per owner review18Nov."
   ],
-  "checkpointedAt": "2026-11-18T06:46:01.209Z",
+  "checkpointedAt": "2026-11-18T07:58:10.073Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 5,
-  "filesTouchedManifestSha256": "e204d148c6ca2c67964b238174db5e3b268161a1b1202175856209169b5646ca",
-  "nextExactAction": "Wait for exact-head CI, validate standalone storefront fixtures and finish the review handoff.",
-  "workingTreeFingerprint": "76B18728BBBFCC84162022C54EEB2ED187BE55FA3958DD51161CA7F077DE1ABA"
+  "filesTouchedCount": 11,
+  "filesTouchedManifestSha256": "11e765ee94e69271f4540fa419c30daee8df4511b3056f21bc66ad7b052ae3a1",
+  "nextExactAction": "Verify review225 pins and types/lint; build new ready225 and rerun protection; no merge.",
+  "workingTreeFingerprint": "580D551A56B6D0D278723B8B7F0704CB21FC07A4114D3C3EAA2E4EAC47400560"
 }

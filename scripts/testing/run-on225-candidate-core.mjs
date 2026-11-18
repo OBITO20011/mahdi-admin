@@ -92,6 +92,59 @@ try{
   SELECT * INTO p FROM public.products WHERE id='${product}';
   IF p.wac_cost_in_minor_units_exact<>800 OR p.cost_price_in_minor_units<>800 THEN RAISE EXCEPTION 'PRICE_WRITER_CHANGED_WAC';END IF;
  END $proof$;`);
+ for(const [label,newPrice,original] of [
+  ['manual equal restore clears single original',1000,null],
+  ['manual raise below original preserves first snapshot',800,1000],
+  ['manual raise above original clears single snapshot',1200,null],
+ ]){
+  await check(label,`${authenticated}
+ DO $proof$ DECLARE p public.products;result JSONB;ack JSONB;BEGIN
+  ${edit(1000,11000,'true')}
+  ack:=public.get_product_pricing_context225('${product}',500,11000,12,false,false)->'belowCostConfirmation';
+  ${edit(500,11000,'false','ack')}
+  IF result->>'originalUnitPrice' IS DISTINCT FROM '1000' THEN RAISE EXCEPTION 'FIRST_ORIGINAL_MISSING';END IF;
+  ${edit(newPrice,11000,'false')}
+  IF result->'originalUnitPrice' IS DISTINCT FROM '${JSON.stringify(original)}'::JSONB THEN RAISE EXCEPTION 'MANUAL_RECOVERY_SNAPSHOT_INCORRECT';END IF;
+  IF (result->'originalUnitPriceAt'='null'::JSONB) IS DISTINCT FROM ${original===null}
+    OR (result->'originalUnitPriceBy'='null'::JSONB) IS DISTINCT FROM ${original===null} THEN
+    RAISE EXCEPTION 'ORIGINAL_METADATA_CLEAR_MISMATCH';END IF;
+ END $proof$;
+ RESET ROLE;
+ DO $proof$ BEGIN
+  IF NOT EXISTS(SELECT 1 FROM public.audit_logs WHERE entity_id='${product}' AND user_id='${id(1)}'
+    AND action='SET_PRODUCT_ON_PRICES225' AND created_at IS NOT NULL
+    AND details->>'singlePrice'='${newPrice}'
+    AND details->'beforeOriginals'->>'original_unit_price'='1000'
+    AND details->'afterOriginals'->'original_unit_price'='${JSON.stringify(original)}'::JSONB
+    AND details->'clearedOriginalUnits'->>'single'='${original===null}') THEN
+    RAISE EXCEPTION 'MANUAL_RECOVERY_AUDIT_MISSING';END IF;
+ END $proof$;`);
+ }
+ await check('manual recovery keeps single and parcel snapshots independent',`${authenticated}
+ DO $proof$ DECLARE p public.products;result JSONB;ack JSONB;BEGIN
+  ack:=public.get_product_pricing_context225('${product}',500,6000,12,false,false)->'belowCostConfirmation';
+  ${edit(500,6000,'false','ack')}
+  IF result->>'originalUnitPrice' IS DISTINCT FROM '1000' OR result->>'originalParcelPrice' IS DISTINCT FROM '11000' THEN
+    RAISE EXCEPTION 'BOTH_FIRST_ORIGINALS_REQUIRED';END IF;
+  ${edit(1000,9000,'false')}
+  IF result->'originalUnitPrice' IS DISTINCT FROM 'null'::JSONB OR result->>'originalParcelPrice' IS DISTINCT FROM '11000' THEN
+    RAISE EXCEPTION 'SINGLE_RECOVERY_CHANGED_PARCEL_ORIGINAL';END IF;
+  ${edit(800,11000,'false')}
+  IF result->>'originalUnitPrice' IS DISTINCT FROM '1000' OR result->'originalParcelPrice' IS DISTINCT FROM 'null'::JSONB THEN
+    RAISE EXCEPTION 'PARCEL_RECOVERY_CHANGED_SINGLE_ORIGINAL';END IF;
+  IF result->'originalParcelPriceAt' IS DISTINCT FROM 'null'::JSONB
+    OR result->'originalParcelPriceBy' IS DISTINCT FROM 'null'::JSONB THEN
+    RAISE EXCEPTION 'PARCEL_ORIGINAL_METADATA_NOT_CLEARED';END IF;
+ END $proof$;
+ RESET ROLE;
+ DO $proof$ BEGIN
+  IF NOT EXISTS(SELECT 1 FROM public.audit_logs WHERE entity_id='${product}' AND user_id='${id(1)}'
+    AND action='SET_PRODUCT_ON_PRICES225' AND details->>'singlePrice'='800' AND details->>'parcelPrice'='11000'
+    AND details->'beforeOriginals'->>'original_parcel_price'='11000'
+    AND details->'afterOriginals'->'original_parcel_price'='null'::JSONB
+    AND details->'afterOriginals'->>'original_unit_price'='1000') THEN
+    RAISE EXCEPTION 'INDEPENDENT_RECOVERY_AUDIT_MISSING';END IF;
+ END $proof$;`);
  await check('restore reuses strict guards, clears only successful snapshots and never enables a paused parcel',`${authenticated}
  DO $proof$ DECLARE p public.products;result JSONB;ack JSONB;BEGIN
   ack:=public.get_product_pricing_context225('${product}',700,11000,12,false,false)->'belowCostConfirmation';

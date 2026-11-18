@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-17T22:44:57.332Z",
+  "startedAt": "2026-11-18T07:53:13.101Z",
   "migrationCeiling": 225,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-tyIpzD",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-x2DuYd",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -56523,5 +56523,5 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-11-17T22:45:19.765Z"
+  "endedAt": "2026-11-18T07:53:32.526Z"
 }

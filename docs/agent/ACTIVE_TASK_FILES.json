@@ -3,7 +3,27 @@
   "files": [
     {
       "code": " M",
-      "path": "e2e/package-f-product-workbook-harness.tsx"
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/design/on-independent-prices225/225_on_independent_prices.candidate.sql"
+    },
+    {
+      "code": " M",
+      "path": "docs/design/on-independent-prices225/catalog225-candidate-pins.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/generated/DB_FUNCTIONS.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_AFTER_225.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_225.json"
     },
     {
       "code": " M",
@@ -11,15 +31,19 @@
     },
     {
       "code": " M",
-      "path": "scripts/testing/run-reset224-runtime.mjs"
+      "path": "scripts/testing/run-on225-browser-golden.mjs"
     },
     {
       "code": " M",
-      "path": "scripts/testing/storefront-speed-fixture.mjs"
+      "path": "scripts/testing/run-on225-candidate-core.mjs"
     },
     {
       "code": " M",
-      "path": "tests/storefront-versioned-fixture.test.ts"
+      "path": "supabase/migrations/225_on_independent_prices.sql"
+    },
+    {
+      "code": " M",
+      "path": "tests/migration-lf.test.ts"
     }
   ]
 }

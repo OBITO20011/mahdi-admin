@@ -1,5 +1,5 @@
--- Owner-approved ON225 work in progress. Quarantined until its writers,
--- runtime/golden proofs and versioned protection tools are complete.
+-- ON225 independent unit and parcel prices, parcel availability and original-price recovery.
+-- Additive price writers, guarded order lines and owner receipt-price review.
 -- No historical body, inventory/cost table or existing sale writer is replaced.
 BEGIN;
 DO $history225$ BEGIN
@@ -120,17 +120,17 @@ BEGIN
  VALUES(p_product,p_enabled,auth.uid()) ON CONFLICT(product_id) DO NOTHING;
  UPDATE public.product_sale_pricing_state225 SET
   parcel_enabled=p_enabled,
-  original_unit_price=CASE WHEN p_restore IN('single','both') THEN NULL
+  original_unit_price=CASE WHEN p_restore IN('single','both') OR p_single>=original_unit_price THEN NULL
    WHEN original_unit_price IS NULL AND NOT p_initial AND p_single<p_before_single THEN p_before_single ELSE original_unit_price END,
-  original_unit_price_at=CASE WHEN p_restore IN('single','both') THEN NULL
+  original_unit_price_at=CASE WHEN p_restore IN('single','both') OR p_single>=original_unit_price THEN NULL
    WHEN original_unit_price IS NULL AND NOT p_initial AND p_single<p_before_single THEN now() ELSE original_unit_price_at END,
-  original_unit_price_by=CASE WHEN p_restore IN('single','both') THEN NULL
+  original_unit_price_by=CASE WHEN p_restore IN('single','both') OR p_single>=original_unit_price THEN NULL
    WHEN original_unit_price IS NULL AND NOT p_initial AND p_single<p_before_single THEN auth.uid() ELSE original_unit_price_by END,
-  original_parcel_price=CASE WHEN p_restore IN('parcel','both') THEN NULL
+  original_parcel_price=CASE WHEN p_restore IN('parcel','both') OR p_parcel>=original_parcel_price THEN NULL
    WHEN original_parcel_price IS NULL AND NOT p_initial AND p_parcel<p_before_parcel THEN p_before_parcel ELSE original_parcel_price END,
-  original_parcel_price_at=CASE WHEN p_restore IN('parcel','both') THEN NULL
+  original_parcel_price_at=CASE WHEN p_restore IN('parcel','both') OR p_parcel>=original_parcel_price THEN NULL
    WHEN original_parcel_price IS NULL AND NOT p_initial AND p_parcel<p_before_parcel THEN now() ELSE original_parcel_price_at END,
-  original_parcel_price_by=CASE WHEN p_restore IN('parcel','both') THEN NULL
+  original_parcel_price_by=CASE WHEN p_restore IN('parcel','both') OR p_parcel>=original_parcel_price THEN NULL
    WHEN original_parcel_price IS NULL AND NOT p_initial AND p_parcel<p_before_parcel THEN auth.uid() ELSE original_parcel_price_by END,
   changed_at=now(),changed_by=auth.uid()
  WHERE product_id=p_product RETURNING * INTO v_state;
@@ -143,7 +143,11 @@ BEGIN
  VALUES(auth.uid(),CASE WHEN p_restore IS NULL THEN 'SET_PRODUCT_ON_PRICES225' ELSE 'RESTORE_PRODUCT_ORIGINAL_PRICE225' END,
   'products',p_product,jsonb_build_object('beforeSingle',p_before_single,'beforeParcel',p_before_parcel,
    'singlePrice',p_single,'parcelPrice',p_parcel,'parcelEnabled',p_enabled,'restoredUnit',p_restore,
-   'beforeOriginals',to_jsonb(v_old),'afterOriginals',to_jsonb(v_state),'belowCostConfirmation',p_loss_confirmation));
+   'beforeOriginals',to_jsonb(v_old),'afterOriginals',to_jsonb(v_state),
+   'clearedOriginalUnits',jsonb_build_object(
+    'single',v_old.original_unit_price IS NOT NULL AND v_state.original_unit_price IS NULL,
+    'parcel',v_old.original_parcel_price IS NOT NULL AND v_state.original_parcel_price IS NULL),
+   'belowCostConfirmation',p_loss_confirmation));
 END;
 $$;
 ALTER FUNCTION public.price225_record_state_internal(UUID,BIGINT,BIGINT,BIGINT,BIGINT,BOOLEAN,BOOLEAN,TEXT,JSONB) OWNER TO postgres;
@@ -838,6 +842,5 @@ ALTER FUNCTION public.get_receipt_pricing_warnings225(UUID[]) OWNER TO postgres;
 REVOKE ALL ON FUNCTION public.get_receipt_pricing_warnings225(UUID[]) FROM PUBLIC,anon,authenticated,service_role;
 GRANT EXECUTE ON FUNCTION public.get_receipt_pricing_warnings225(UUID[]) TO authenticated;
 
--- The ON golden day and versioned protection tooling remain pending.
--- This quarantined candidate is not deployable.
+-- Complete the additive ON225 transaction.
 COMMIT;
