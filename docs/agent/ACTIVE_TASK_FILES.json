@@ -6,44 +6,16 @@
       "path": "docs/agent/project-state.json"
     },
     {
-      "code": " M",
-      "path": "docs/design/on-independent-prices225/225_on_independent_prices.candidate.sql"
+      "code": "??",
+      "path": "scripts/operations/on-opening225/cli.ts"
     },
     {
-      "code": " M",
-      "path": "docs/design/on-independent-prices225/catalog225-candidate-pins.json"
+      "code": "??",
+      "path": "scripts/operations/on-opening225/model.ts"
     },
     {
-      "code": " M",
-      "path": "docs/generated/DB_FUNCTIONS.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_AFTER_225.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_225.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/on-prices225-source-pins.json"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-on225-browser-golden.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/testing/run-on225-candidate-core.mjs"
-    },
-    {
-      "code": " M",
-      "path": "supabase/migrations/225_on_independent_prices.sql"
-    },
-    {
-      "code": " M",
-      "path": "tests/migration-lf.test.ts"
+      "code": "??",
+      "path": "tests/on-opening225-converter.test.ts"
     }
   ]
 }

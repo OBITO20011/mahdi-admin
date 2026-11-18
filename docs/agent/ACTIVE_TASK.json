@@ -2,58 +2,50 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "codex",
-  "objective": "Approved225 ON independent prices and golden financial proof;frozen COGS stays byte-identical.",
-  "baselineSha": "8813580ef19a01aa69168e69265daf0eb5538857",
-  "branch": "codex/on-independent-prices225",
-  "phase": "ON_INDEPENDENT_PRICE225",
-  "startedAt": "2026-11-17T04:55:09.912Z",
+  "objective": "Owner18Nov:ON225 cutover md/html/upgrade guides,derived owner fillin workbook,offline converter/tests,and isolated archived ON rehearsal;separate PR no merge.",
+  "baselineSha": "7482f86d5d62140c5605a6e6c3fb3c3e68a46aed",
+  "branch": "codex/on-cutover225-workbook",
+  "phase": "ON225_CUTOVER_WORKBOOK",
+  "startedAt": "2026-11-18T12:13:28.076667+00:00",
   "completed": [
-    "Shared224 rehearsal complete through RESET, ON224/184, no import. #112 merged and main78f47ccd verified.",
-    "225 additive ON independent prices, pause/resume, first originals, receipt review and authorized loss acknowledgement.",
-    "Active225 fresh/incremental exact, 705 public +51 private, current reference and access evidence captured.",
-    "Native225 backup/Restore, registration recovery and RESET including three resumes passed.",
-    "Draft115 8813580e exact CI84/84 successful; extra push secret scan also successful.",
-    "Combined225 final comments and independent manual-original recovery; real RED then29/29 rollback GREEN."
+    "115 merged7482f86d,primary ff-only/preflight preserved owner20/env4;main84/84 green after one authorized225 environmental rerun.",
+    "Pure offline converter and CLI:8/8 tests,including real XLSX,leadingzero barcode,source immutability,warehouse separation,rounding and rejection."
   ],
   "inProgress": [
-    "Approved8813 review corrections: final225 source pins, new reference/protection and exact-head CI."
+    "ArtifactTool owner workbook generation/render/calculation;ON cutover docs and actual archive rehearsal remain."
   ],
   "notStarted": [
-    "Mark115 Ready only after all green; owner final merge remains pending."
+    "Actual isolated archive2230→225 protection/RESET/ON UI import/opening/short day and timings.",
+    "FullnewPR CI/Gitleaks and owner review;demo225 upgrade plan only."
   ],
   "testsPassed": [
-    "CI84/84 on8813580e; application units2164/2164 and customer237/237, zero skips.",
-    "Actual PostgreSQL native candidate25 and224/225 six-case COGS9650 parity passed; frozen bodies exact.",
-    "Golden ON native and real Chromium1280/WebKit390 both reconcile revenue12500,COGS11258,profit1242,inventory10042,cash12500.",
-    "Official225 encrypted Backup/Restore/upgrade preflight/resume-only/verify and RESET185 with all recovery cases passed.",
-    "Exact legacy224 RESET184 and all12 checks passed; historical214-219 Restore green.",
-    "Current types for both apps and strict lint0; final Gitleaks0 on21 feature commits.",
-    "Finalready225 built frozen on8813580e,705public+51private,185migrations,fresh/incremental0diff.",
-    "Local storefront budget and cart animation passed in an isolated copy on4294/4295/4296; owner4176 untouched.",
-    "New225 fresh/incremental0diff; HTTP181/0errors; RPC771/18expected denials; one225 function delta only."
+    "Main7482f86d84/84 and primary preflight0.",
+    "Read-only source3310 catalog:748roots,108families,444flavors,1084sellable,15categories,0errors.",
+    "Application typecheck and changed-source strictlint0 after correcting test fixture typing;no app/SQL/RPC edits."
   ],
   "testsRemaining": [
-    "Newhash ready225/upgrade225 registration-recovery/RESET225, both golden browsers, exact-head FULLCI and Gitleaks."
+    "Converter edge cases/rounding/identity and official parser validation;artifact workbook render/recalc.",
+    "Actual UI rehearsal and final focused/types/lint/units/CI/Gitleaks."
   ],
   "findings": [
-    "Local final root2163/2164 with only the known120s workbook-history ETIMEDOUT; same-head CI2164/2164 is the unit attestation."
+    "Actual stockapply requires product import first;physical counts/cost preparation beforeimport.",
+    "Family cost and purchase packaging inherit from master;reject inconsistent flavor inputs,never silently average."
   ],
   "blockers": [],
   "activeProcesses": [
-    "No local verification gate active; preserved rehearsal/demo/n8n untouched."
+    "Owned artifact workbook builder30752/session29324 only;no owned Docker rehearsal started."
   ],
   "prohibitions": [
-    "No hosted/deploy/demo/n8n/Docker restart;no original workbook changes.",
-    "Frozen627 bodies andnine approvedbridges unchanged;no alternate COGS coordinator.",
-    "No ON fillin workbook/generator or ON cutover rewrite in this round.",
-    "No225 merge; Ready allowed after final green per owner review18Nov."
+    "No hostedDB/deploy/iPhone reset or upgrade/n8n/Docker restart.",
+    "No SQL/migration/RPC/frozenbody/guard changes;221reserved;immutable source3310workbook.",
+    "Newround PR review only,no merge without review."
   ],
-  "checkpointedAt": "2026-11-18T07:58:10.073Z",
+  "nextExactAction": "First converter8/8/types/lint checkpoint; finish owner workbook rendering,ON docs,and real archived rehearsal. No merge/demo.",
+  "checkpointedAt": "2026-11-18T12:32:33.911Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 11,
-  "filesTouchedManifestSha256": "11e765ee94e69271f4540fa419c30daee8df4511b3056f21bc66ad7b052ae3a1",
-  "nextExactAction": "Verify review225 pins and types/lint; build new ready225 and rerun protection; no merge.",
-  "workingTreeFingerprint": "580D551A56B6D0D278723B8B7F0704CB21FC07A4114D3C3EAA2E4EAC47400560"
+  "filesTouchedCount": 4,
+  "filesTouchedManifestSha256": "c84362157d2d45e6616d00a80b50a548e2ff31b41f183b259f3bcb54bf733d5b",
+  "workingTreeFingerprint": "9BFD83590571893974B17CAEF8CC8C92E7A5E3F61259F62E3D542950D2C9C201"
 }
