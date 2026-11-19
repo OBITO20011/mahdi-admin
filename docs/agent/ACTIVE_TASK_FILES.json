@@ -7,7 +7,31 @@
     },
     {
       "code": " M",
+      "path": "docs/operations/D1_REFERENCE_KIT225_AR.md"
+    },
+    {
+      "code": " M",
       "path": "scripts/audit/on-cutover225-source-pins.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/on-prices225-source-pins.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/d1-reference225-ci.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/d1-reference225-kit.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/d1-reference225-github.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/d1-reference225-github.test.ts"
     }
   ]
 }

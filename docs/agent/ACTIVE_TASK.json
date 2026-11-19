@@ -2,43 +2,43 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner19Nov PR-A:read-only GETprobe,snapshotreuse study,shellnote,17.65/5.38 timings;fullCI/Gitleaks,no merge",
+  "objective": "Owner19Nov PR-B:safe relative GitHubroute+HTTPstatus/networkclass failure report;greenconditions and timeout unchanged;fullCI/Gitleaks,no merge",
   "baselineSha": "c2942fdd344247cecc5c34ba3dd5f2aed8c1cd70",
-  "branch": "codex/on225-cutover-evidence",
-  "phase": "ON225_CUTOVER_EVIDENCE",
-  "startedAt": "2026-11-19T01:34:08.883Z",
+  "branch": "codex/d1-225-diagnostics",
+  "phase": "D1_225_DIAGNOSTICS",
+  "startedAt": "2026-11-19T01:34:13.564Z",
   "completed": [
-    "Copied owner-reviewed GETprobe/Arabicguide/snapshotstudy;9438 budget unchanged.",
-    "GO records measured17.65/5.38/3.25,slowerFrankfurt planningassumption and ownermeasurementlink;officialpowershell/UTF8note added.",
-    "Probe clears temporary credential references;10offlineprobe/docs tests plus10cutover/history tests PASS. Bothapptypes0 andstrictlint0.",
-    "Updated6exact documentation pins:onlyafter hashes forGO/state,beforeTextretained;newdocs/test before=null. No app/SQL/guards/migration/source-original change.",
-    "Localfull2190/2191,0skip:only declaredcurrentPhase metadata mismatch. CorrectedcurrentPhase+explicitowner scopeflag,not test. Focused25/25 continuity/cutover/probe pass on corrected source."
+    "225-only public GitHub reader keeps30000ms/no retries/sameheaders;closedrelativeroutes andprivatebranded diagnostics only.",
+    "InitialCI and finalrecheck writefailure.json withsafe githubRead;no approval/currentreference change. CLI prints onlysafe mintedmetadata.",
+    "Full CIdecision body unchanged byte-for-byte exceptreaderimport;legacy220/222/223/224 sources untouched. Newreader boundintoD1sourcehashes.",
+    "Focused18/18 pass inclHTTP502/bodyredaction/network/unsafe route/initial+finalfailure. Bothapptypes0 andstrictlint0;TS7053 correctedby truthfulreturnJSDoc,no cast/testweakening.",
+    "Onlyafter hashes updated;beforeText/unknown-byte guards kept. Currentphase/ownerpermissionmetadata rebound toexplicitnewtask."
   ],
   "inProgress": [
-    "Push/openDraftPRA and waitfullCI;no merge."
+    "Commit then full localunits beforepush."
   ],
   "notStarted": [],
   "testsPassed": [
-    "Bothapptypes0;strictlint0.",
-    "Focused25/25 on correctedsource;beforeText/unknownbyte guards retained."
+    "Focused18/18,0skip.",
+    "Bothapptypes0;strictlint0."
   ],
   "testsRemaining": [
-    "Exactfinalhead FULLCI (fullunitcertificate) and finalGitleaks."
+    "Full localunits;FULLCI exacthead;Gitleaks0."
   ],
   "findings": [
-    "Initial localfull2190/2191 metadataonly failure;fixedfocused25/25. Do not claimlocalfullgreen forfinalhead."
+    "Fresh ownworktree inherits prior task snapshot from approved main;rebound only local metadata to explicit new owner scope."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "No merge/deploy/hostedERP/iPhone/n8n/original3310changes."
   ],
-  "nextExactAction": "Pushfinalhead/openDraftPRA;FULLCI andGitleaks,no merge.",
-  "checkpointedAt": "2026-11-19T01:55:05.284Z",
+  "nextExactAction": "Full localunits then pushDraftPRB;FULLCI/Gitleaks,no merge.",
+  "checkpointedAt": "2026-11-19T02:03:25.567Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 2,
-  "filesTouchedManifestSha256": "88d4405ee75713dbc01bbc0c4d5d57d691d36e98f7729da04cfda8c5e50ce31a",
-  "workingTreeFingerprint": "5ACB630136807FB9B94A74A0DFB1A75F720C1E8FDECDDAB20E9555B84930C43C"
+  "filesTouchedCount": 8,
+  "filesTouchedManifestSha256": "594db307a0b6483d510bff3f29655401a9a9f561f9a0458371f1070328bdf081",
+  "workingTreeFingerprint": "D3BDB55803FB553E701FDF17B6C338435ECDF323A8300BCD1D116B7E641D9010"
 }
