@@ -1,5 +1,5 @@
 import {verifyD1Ci as verify224Ci} from './d1-reference224-ci.mjs';
-import {readD1Github} from './d1-reference220-ci.mjs';
+import {readD1Github225 as readD1Github} from './d1-reference225-github.mjs';
 import {requireD1} from './d1-reference225-state.mjs';
 
 /** @param {string} root @param {string} head @param {Parameters<typeof verify224Ci>[2]} [dependencies] */

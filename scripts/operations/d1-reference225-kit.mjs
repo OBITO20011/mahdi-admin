@@ -8,11 +8,13 @@ import {promisify} from 'node:util';
 import {pathToFileURL} from 'node:url';
 import {sha256,requireD1,repositoryState,externalPath,ordinaryPath} from './d1-reference225-state.mjs';
 import {verifyD1Ci} from './d1-reference225-ci.mjs';
+import {d1GithubDiagnostic} from './d1-reference225-github.mjs';
 const exec=promisify(execFile),name='local-reference-through225-ready.json';
 const policyFile=new URL('./d1-known-owner225-files.json',import.meta.url);
 const files=["scripts/operations/frankfurt-owner-reset224.mjs","scripts/operations/trial-reset224-core.mjs","scripts/operations/reset224-foundation.mjs","scripts/operations/reset224-pg-cron-guard.mjs","scripts/operations/frankfurt-owner-build.mjs","docs/operations/TABLE_ACCESS_AFTER_224.json","scripts/operations/reset224-write-guard.mjs","scripts/operations/reset224-session.mjs","scripts/operations/reset224-private-state.mjs","scripts/operations/sales-only220-catalog.mjs","docs/design/sales-only-phase3/catalog220-pins.json","scripts/operations/frankfurt-reference224.mjs","scripts/operations/function-reference224.mjs","scripts/operations/d1-reference224-kit.mjs","scripts/operations/d1-reference224-state.mjs","scripts/operations/build-acl-reference224.mjs","scripts/testing/sales-only220-compiler.mjs","scripts/operations/d1-reference224-ci.mjs","scripts/operations/d1-known-owner224-files.json","scripts/operations/frozen220-trigger-acl.mjs","docs/operations/RESET220_BEFORE_D1_READ_ONLY.sql","scripts/operations/independent-prices222-catalog.mjs","docs/design/independent-parcel-prices222/catalog222-pins.json","scripts/testing/independent-prices222-local.mjs","scripts/operations/optional-quantity223-catalog.mjs","docs/design/off-quantity-counter223/catalog223-pins.json","supabase/migrations/223_optional_sales_quantity.sql","scripts/operations/frankfurt-owner-upgrade224.mjs","scripts/operations/upgrade224-data.mjs","scripts/operations/upgrade224-protection.mjs","scripts/backup/complete-backup.mjs","scripts/operations/inventory224-catalog.mjs","docs/design/inventory224/catalog224-pins.json","supabase/migrations/224_optional_quantity_inventory_reader.sql","scripts/testing/inventory224-local.mjs","scripts/operations/d1-reference223-ci.mjs","scripts/operations/frankfurt-owner-reset225.mjs","scripts/operations/trial-reset225-core.mjs","scripts/operations/reset225-foundation.mjs","scripts/operations/reset225-pg-cron-guard.mjs","docs/operations/TABLE_ACCESS_AFTER_225.json","scripts/operations/reset225-write-guard.mjs","scripts/operations/reset225-session.mjs","scripts/operations/reset225-private-state.mjs","scripts/operations/frankfurt-reference225.mjs","scripts/operations/function-reference225.mjs","scripts/operations/d1-reference225-kit.mjs","scripts/operations/d1-reference225-state.mjs","scripts/operations/build-acl-reference225.mjs","scripts/operations/d1-reference225-ci.mjs","scripts/operations/d1-known-owner225-files.json","scripts/operations/frankfurt-owner-upgrade225.mjs","scripts/operations/upgrade225-data.mjs","scripts/operations/upgrade225-protection.mjs","scripts/testing/inventory225-local.mjs","scripts/operations/on-prices225-catalog.mjs","docs/design/on-independent-prices225/catalog225-candidate-pins.json","scripts/operations/upgrade225-registration.mjs","scripts/operations/reset225-ddl-capability.mjs","scripts/backup/restore-raw-default-acl.mjs","supabase/migrations/225_on_independent_prices.sql","scripts/testing/capture-inventory225-catalog.mjs","scripts/operations/upgrade224-registration.mjs"];
 // Bind the versioned predecessors and the exact current source projection.
 files.push(
+ "scripts/operations/d1-reference225-github.mjs",
  "scripts/audit/on-prices225-source-pins.json",
  "scripts/audit/source-before-on-prices225.mjs",
  "scripts/operations/frankfurt-owner-cutover-hold225.mjs",
@@ -31,6 +33,7 @@ files.push(
 const json=async file=>JSON.parse(await readFile(file,'utf8'));
 const exists=async file=>{try{await access(file);return true;}catch(e){if(e.code==='ENOENT')return false;throw e;}};
 export async function d1Readiness(root,file){const module=await import(pathToFileURL(path.join(root,'scripts/operations/frankfurt-reference225.mjs')).href);return module.readReady225Reference(root,file);}
+/** @param {string} root @returns {Promise<Record<string,string>>} */
 export async function d1SourceHashes(root){
  const protectedPins=await json(path.join(root,'scripts/testing/rehearsal219-owner-source-pins.json'));
  const hashes={};for(const file of [...new Set([...files,...protectedPins.files.map(p=>p[0])])].sort())hashes[file]=sha256(await readFile(path.join(root,file)));
@@ -46,19 +49,31 @@ async function defaultBuild(root,target,folder){
  await writeFile(path.join(folder,'build-report.json'),JSON.stringify(report,null,2)+'\n',{flag:'wx'});return report;
 }
 const defaultDeps={state:repositoryState,ci:verifyD1Ci,ready:d1Readiness,hashes:d1SourceHashes,build:defaultBuild};
-export async function prepareD1({root,outputRoot=path.join(homedir(),'NawasrahFrankfurt','D1-candidates'),testCandidateOnly=false},dependencies={}){
- const d={...defaultDeps,...dependencies},known=await json(policyFile),state=await d.state(root,known);root=state.root;
- const ci=await d.ci(root,state.head),before=await d.hashes(root);
+async function candidateFolder(root,outputRoot){
  const outside=await externalPath(root,outputRoot,{missing:true});requireD1(!outside.split(path.sep).some(p=>p.toLowerCase()==='nawasrah-fra-001-138'),'D1_OWNER_WORKDIR_REFUSED');
  await mkdir(outside,{recursive:true});await externalPath(root,outside);
  const folder=path.join(outside,'D1-'+new Date().toISOString().replaceAll(/[:.]/gu,'-')+'-'+randomUUID().slice(0,8));await mkdir(folder);
+ return folder;
+}
+async function writePreparationFailure(folder,stage,error){
+ const githubRead=d1GithubDiagnostic(error);
+ await writeFile(path.join(folder,'failure.json'),JSON.stringify({ok:false,stage,code:d1ErrorCode(error),currentReferenceTouched:false,installed:false,...(githubRead?{githubRead}:{})},null,2));
+}
+export async function prepareD1({root,outputRoot=path.join(homedir(),'NawasrahFrankfurt','D1-candidates'),testCandidateOnly=false},dependencies={}){
+ const d={...defaultDeps,...dependencies},known=await json(policyFile),state=await d.state(root,known);root=state.root;
+ let ci;
+ try{ci=await d.ci(root,state.head);}catch(error){
+  if(d1GithubDiagnostic(error))await writePreparationFailure(await candidateFolder(root,outputRoot),'ci',error);
+  throw error;
+ }
+ const before=await d.hashes(root),folder=await candidateFolder(root,outputRoot);
  const candidate=path.join(folder,name);let stage='build';
  try{
   const build=await d.build(root,candidate,folder);requireD1(build.ok===true&&build.repositoryStayedFrozen===true,'D1_REFERENCE_BUILD_FAILED');
   const differences=await json(path.join(folder,'fresh-incremental-differences.json'));requireD1(Array.isArray(differences)&&differences.length===0,'D1_CATALOG_DIFFERENCE');
   stage='readiness';const ref=await d.ready(root,candidate);requireD1(ref.migrationCeiling===225&&ref.manifest.length===185&&ref.functions===705&&ref.realtimePublication.tables.length===13&&ref.freshIncrementalDifferenceCount===0,'D1_REFERENCE_NOT_READY');
   requireD1(JSON.stringify(before)===JSON.stringify(await d.hashes(root)),'D1_SOURCE_CHANGED');requireD1(JSON.stringify(state)===JSON.stringify(await d.state(root,known)),'D1_SOURCE_CHANGED');
-  await d.ci(root,state.head); // Remote main/CI may have changed during the local build.
+  stage='ci-recheck';await d.ci(root,state.head); // Remote main/CI may have changed during the local build.
   const source={mainSha:state.head,hashes:before,dependencyHashesSha256:sha256(JSON.stringify(before))};
   const report={format:1,ok:true,status:'CANDIDATE_AWAITING_OWNER_APPROVAL',testCandidateOnly,createdAt:new Date().toISOString(),root,folder,candidate,candidateSha256:sha256(await readFile(candidate)),source,ci,localOnly:true,hostedAccess:false,currentReferenceTouched:false,installed:false,migrations:185,functions:705,realtime:13,accessQueries:ref.readiness.queries,freshIncrementalDifferences:0,ownerSignature:null};
   await writeFile(path.join(folder,'approval.json'),JSON.stringify(report,null,2)+'\n',{flag:'wx'});
@@ -81,7 +96,7 @@ export async function prepareD1({root,outputRoot=path.join(homedir(),'NawasrahFr
    '**ما يعتمده المالك:** هذا الملف بعينه وبصمته الكاملة على رأس main والبصمات أعلاه،للتحقق في ترقية225، ومع RESET225 بعد بروفة النسخة الفاصلة. يُطلب إذن تنفيذ الترقية وRESET والنشر على حدة. لا تُقبل البصمة التاريخية A915…؛لا تركيب أثناء محاولة قائمة أوresume. أي تغيير في الرأس أو المصادر يستلزم مرشحاً ومراجعة جديدين.',
    'التوقيع: ____________________  التاريخ: ____________  القرار: قبول / رفض',
   ].join('\n')+'\n',{flag:'wx'});return report;
- }catch(error){await writeFile(path.join(folder,'failure.json'),JSON.stringify({ok:false,stage,code:d1ErrorCode(error),currentReferenceTouched:false,installed:false},null,2));throw error;}
+ }catch(error){await writePreparationFailure(folder,stage,error);throw error;}
 }
 async function noAttempt(workdir){for(const version of [214,215,216,217,219,220,222,223,224,225])requireD1(!await exists(path.join(workdir,'RESET'+version+'_IN_PROGRESS.json')),'D1_RESET_IN_PROGRESS');}
 export async function installD1({root,candidate,approvedSha256,workdir=path.join(homedir(),'NawasrahFrankfurt','nawasrah-fra-001-138')},dependencies={}){
@@ -119,4 +134,4 @@ export async function d1Main(args){
  if(mode==='install')requireD1(options.candidate&&options.approvedSha256,'D1_FULL_APPROVED_HASH_REQUIRED');
  return mode==='prepare'?prepareD1(options):installD1(options);
 }
-if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){try{const r=await d1Main(process.argv.slice(2));console.log(JSON.stringify({ok:r.ok,folder:r.folder,candidate:r.candidate,candidateSha256:r.candidateSha256,mainSha:r.source?.mainSha??r.mainSha,installed:r.installed??r.readiness,testCandidateOnly:r.testCandidateOnly}));}catch(error){const code=d1ErrorCode(error);console.error((messages[code]??'توقف: فشل فحص محلي محروس؛ راجع الرمز قبل المتابعة.')+' ['+code+']');process.exitCode=1;}}
+if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){try{const r=await d1Main(process.argv.slice(2));console.log(JSON.stringify({ok:r.ok,folder:r.folder,candidate:r.candidate,candidateSha256:r.candidateSha256,mainSha:r.source?.mainSha??r.mainSha,installed:r.installed??r.readiness,testCandidateOnly:r.testCandidateOnly}));}catch(error){const code=d1ErrorCode(error);console.error((messages[code]??'توقف: فشل فحص محلي محروس؛ راجع الرمز قبل المتابعة.')+' ['+code+']');const githubRead=d1GithubDiagnostic(error);if(githubRead)console.error(JSON.stringify(githubRead));process.exitCode=1;}}
