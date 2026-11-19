@@ -7,14 +7,16 @@ import {pathToFileURL} from 'node:url';
 import {readProductWorkbook} from '../../../src/features/goLive/productWorkbook';
 import {readXlsxSheet,writeXlsx} from '../../../src/lib/xlsx';
 import {validReference} from '../go-live-files/check';
-import {OWNER_CATALOG225_SHA256,openingCatalog225,ownerPriceRows225,ownerStockRows225,convertOpening225} from './model';
+import {OWNER_CATALOG225_SHA256,openingCatalog225,ownerPriceRows225,ownerStockRows225,convertOpening225,convertStageBStock225} from './model';
+import {verifyStageB225} from '../two-stage225.mjs';
+import {unwrapStageB225} from '../two-stage225-cli.mjs';
 
 const root=path.resolve(import.meta.dirname,'../../..');
 const hash=(bytes:Uint8Array)=>createHash('sha256').update(bytes).digest('hex');
-async function externalInput(file:string){
+async function externalInput(file:string,maxBytes=5*1024**2){
  const name=path.resolve(file),relative=path.relative(root,name);
  assert.ok(relative==='..'||relative.startsWith('..'+path.sep)||path.isAbsolute(relative),'ON225_OWNER_INPUT_OUTSIDE_REPOSITORY_REQUIRED');
- const stat=await lstat(name);assert.ok(stat.isFile()&&!stat.isSymbolicLink()&&stat.size<=5*1024**2,'ON225_INPUT_FILE_REQUIRED');
+ const stat=await lstat(name);assert.ok(stat.isFile()&&!stat.isSymbolicLink()&&stat.size<=maxBytes,'ON225_INPUT_FILE_REQUIRED');
  assert.equal(await realpath(name),name,'ON225_INPUT_LINK_REFUSED');return readFile(name);
 }
 async function privateOutput(folder:string){
@@ -29,15 +31,16 @@ async function privateOutput(folder:string){
 }
 export async function runOpening225(args:string[],{expectedSourceSha=OWNER_CATALOG225_SHA256}={}){
  const options=new Map<string,string>();
- for(let i=0;i<args.length;i+=2){assert.ok(['--mode','--source','--filled','--reference','--output'].includes(args[i])&&args[i+1]&&!options.has(args[i]),'ON225_OPTIONS_INVALID');options.set(args[i],args[i+1]);}
- const mode=options.get('--mode');assert.ok(mode==='template'||mode==='convert','ON225_MODE_REQUIRED');
+ for(let i=0;i<args.length;i+=2){assert.ok(['--mode','--source','--filled','--reference','--output','--live-snapshot','--live-snapshot-sha256','--baseline','--baseline-sha256'].includes(args[i])&&args[i+1]&&!options.has(args[i]),'ON225_OPTIONS_INVALID');options.set(args[i],args[i+1]);}
+ const mode=options.get('--mode');assert.ok(mode==='template'||mode==='convert'||mode==='stock','ON225_MODE_REQUIRED');
  for(const key of ['--source','--reference','--output'])assert.ok(options.get(key),'ON225_REQUIRED_OPTION:'+key);
- assert.equal(mode==='convert',options.has('--filled'),'ON225_FILLED_CONVERT_ONLY');
+ assert.equal(mode!=='template',options.has('--filled'),'ON225_FILLED_CONVERT_ONLY');
+ for(const key of ['--live-snapshot','--live-snapshot-sha256','--baseline','--baseline-sha256'])assert.equal(mode==='stock',options.has(key),'ON225_STAGE_B_SNAPSHOT_OPTIONS_REQUIRED');
  const source=await externalInput(options.get('--source')!),before=hash(source);
  assert.equal(before,expectedSourceSha,'ON225_IMMUTABLE_SOURCE_SHA_MISMATCH');
  const reference=JSON.parse((await externalInput(options.get('--reference')!)).toString('utf8'));
  assert.ok(validReference(reference),'ON225_LOCAL_REFERENCE_INVALID');
- assert.equal(reference.products.length,0,'ON225_INITIAL_IMPORT_REQUIRES_EMPTY_PRODUCT_REFERENCE');
+ if(mode!=='stock')assert.equal(reference.products.length,0,'ON225_INITIAL_IMPORT_REQUIRES_EMPTY_PRODUCT_REFERENCE');
  const book=await readProductWorkbook(source),catalog=openingCatalog225(book.products,book.flavors,reference.units);
  const sourceProof={sha256:before,sourceFile:path.basename(options.get('--source')!),counts:{products:catalog.products.length,families:catalog.products.filter(p=>p.flavors.length).length,flavors:catalog.products.reduce((n,p)=>n+p.flavors.length,0),sellable:catalog.sellable.length}};
  const output=await privateOutput(options.get('--output')!);
@@ -50,20 +53,33 @@ export async function runOpening225(args:string[],{expectedSourceSha=OWNER_CATAL
  const filled=await externalInput(options.get('--filled')!);
  const settingsSheet=await readXlsxSheet(filled,'الإعدادات');
  const settings=new Map(settingsSheet.slice(1).map(row=>[row[0],row[1]??'']));
- const result=convertOpening225(catalog,await readXlsxSheet(filled,'التكلفة'),await readXlsxSheet(filled,'الجرد'),{
+ const priceSheet=await readXlsxSheet(filled,'التكلفة'),stockSheet=await readXlsxSheet(filled,'الجرد');
+ const conversionSettings={
   defaultWarehouse:settings.get('رمز المستودع الأساسي')??'',valuationThreshold:settings.get('حد تنبيه فرق التقييم (د.أ)')??'',
- },reference);
- const report={...result,source:sourceProof,filledSha256:hash(filled),offline:true,databaseWrites:0};
+ };
+ let live,liveSha,stageBProof;
+ if(mode==='stock'){
+  const snapshot=await externalInput(options.get('--live-snapshot')!,32*1024**2);liveSha=hash(snapshot);
+  assert.equal(liveSha,options.get('--live-snapshot-sha256'),'ON225_LIVE_SNAPSHOT_SHA_MISMATCH');
+  const baseline=await externalInput(options.get('--baseline')!);
+  assert.equal(hash(baseline),options.get('--baseline-sha256'),'ON225_BASELINE_SHA_MISMATCH');
+  live=unwrapStageB225(JSON.parse(snapshot.toString('utf8')));stageBProof=verifyStageB225(JSON.parse(baseline.toString('utf8')),live);
+ }
+ const result=mode==='stock'?convertStageBStock225(catalog,priceSheet,stockSheet,conversionSettings,reference,live.products):convertOpening225(catalog,priceSheet,stockSheet,conversionSettings,reference);
+ const report={...result,source:sourceProof,filledSha256:hash(filled),offline:true,databaseWrites:0,...(mode==='stock'?{liveSnapshotSha256:liveSha,stageBProof,productWrites:0}:{} )};
  if(report.ok){
-  const productFile=writeXlsx([{name:'المنتجات',rows:result.productRows},{name:'النكهات',rows:result.flavorRows}]);
-  await writeFile(path.join(output,'المنتجات.xlsx'),productFile,{flag:'wx',mode:0o600});
+  let productFile:Uint8Array|undefined;
+  if('productRows' in result){
+   productFile=writeXlsx([{name:'المنتجات',rows:result.productRows},{name:'النكهات',rows:result.flavorRows}]);
+   await writeFile(path.join(output,'المنتجات.xlsx'),productFile,{flag:'wx',mode:0o600});
+  }
   const stockManifest=[];
   for(const[index,file]of result.stockFiles.entries()){
    const folder='المستودع-'+String(index+1).padStart(2,'0'),name=folder+'/البضاعة-الموجودة.xlsx';await mkdir(path.join(output,folder),{mode:0o700});
    const bytes=writeXlsx([{name:'البيانات',rows:file.rows}]);await writeFile(path.join(output,name),bytes,{flag:'wx',mode:0o600});
    stockManifest.push({warehouse:file.warehouse,file:name,sha256:hash(bytes),rows:file.rows.length-1});
   }
-  await save('import-manifest.json',{sourceSha256:before,productFile:'المنتجات.xlsx',productSha256:hash(productFile),stock:stockManifest,order:['تعريف الوحدات والأقسام','استيراد المنتجات ومطابقتها','استيراد ملف كل مستودع من البضاعة الموجودة','عد الدرج0 ثم إنهاء البداية'],operatingMode:'full',migrationCeiling:225});
+  await save('import-manifest.json',{sourceSha256:before,...(productFile?{productFile:'المنتجات.xlsx',productSha256:hash(productFile)}:{stage:'B',productWrites:0,liveSnapshotSha256:liveSha}),stock:stockManifest,order:mode==='stock'?['فحص عدم وجود عمليات منذ نسخة نهاية أ','مطابقة تكلفة ومحتوى الشراء الحيين','استيراد ملف كل مستودع من البضاعة الموجودة','عد الدرج0 ثم إنهاء البداية']:['تعريف الوحدات والأقسام','استيراد المنتجات ومطابقتها','استيراد ملف كل مستودع من البضاعة الموجودة','عد الدرج0 ثم إنهاء البداية'],operatingMode:'full',migrationCeiling:225});
  }
  assert.equal(hash(await externalInput(options.get('--source')!)),before,'ON225_SOURCE_CHANGED_DURING_CONVERSION');
  await save('report.json',report);

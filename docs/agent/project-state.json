@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "project": "Nawasrah ERP",
-  "branch": "codex/d1-225-diagnostics",
+  "branch": "codex/on225-two-stage-cutover",
   "approvedBaseline": "7482f86d5d62140c5605a6e6c3fb3c3e68a46aed",
   "closedPhases": [
     "3",
@@ -14,7 +14,7 @@
     "6"
   ],
   "phase4Closed": true,
-  "currentPhase": "D1_225_DIAGNOSTICS",
+  "currentPhase": "ON225_TWO_STAGE_CUTOVER",
   "phaseON225_CUTOVER_WORKBOOKImplementationAllowed": true,
   "phase6Closed": true,
   "phase6ClosureBaseline": "5aaeab11e13c2be454af677ee176f77aa2d9cde4",
@@ -320,5 +320,6 @@
   "migration225CanonicalLfSha256": "C20975214DCC8F2C67CC6FC21235E04ED7E5EC96081DB24B0EEECEDC2553DDE1",
   "onIndependentPrices225Status": "REVIEW_CORRECTIONS_LOCAL_VALIDATION_DRAFT_ONLY",
   "phaseD1_225_DIAGNOSTICSImplementationAllowed": true,
-  "phaseON225_CUTOVER_EVIDENCEImplementationAllowed": true
+  "phaseON225_CUTOVER_EVIDENCEImplementationAllowed": true,
+  "phaseON225_TWO_STAGE_CUTOVERImplementationAllowed": true
 }
