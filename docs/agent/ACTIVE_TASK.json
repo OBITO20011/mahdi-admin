@@ -11,33 +11,34 @@
     "Copied owner-reviewed GETprobe/Arabicguide/snapshotstudy;9438 budget unchanged.",
     "GO records measured17.65/5.38/3.25,slowerFrankfurt planningassumption and ownermeasurementlink;officialpowershell/UTF8note added.",
     "Probe clears temporary credential references;10offlineprobe/docs tests plus10cutover/history tests PASS. Bothapptypes0 andstrictlint0.",
-    "Updated6exact documentation pins:onlyafter hashes forGO/state,beforeTextretained;newdocs/test before=null. No app/SQL/guards/migration/source-original change."
+    "Updated6exact documentation pins:onlyafter hashes forGO/state,beforeTextretained;newdocs/test before=null. No app/SQL/guards/migration/source-original change.",
+    "Localfull2190/2191,0skip:only declaredcurrentPhase metadata mismatch. CorrectedcurrentPhase+explicitowner scopeflag,not test. Focused25/25 continuity/cutover/probe pass on corrected source."
   ],
   "inProgress": [
-    "Prepare exactreview commit then fullunits and CI."
+    "Push/openDraftPRA and waitfullCI;no merge."
   ],
   "notStarted": [],
   "testsPassed": [
-    "Focused20/20,no skips.",
-    "Admin/store types0;strictlint0."
+    "Bothapptypes0;strictlint0.",
+    "Focused25/25 on correctedsource;beforeText/unknownbyte guards retained."
   ],
   "testsRemaining": [
-    "Full localunit suites;exacthead FULLCI;final Gitleaks."
+    "Exactfinalhead FULLCI (fullunitcertificate) and finalGitleaks."
   ],
   "findings": [
-    "Fresh ownworktree inherits prior task snapshot from approved main;rebound only local metadata to explicit new owner scope."
+    "Initial localfull2190/2191 metadataonly failure;fixedfocused25/25. Do not claimlocalfullgreen forfinalhead."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "No merge/deploy/hostedERP/iPhone/n8n/original3310changes."
   ],
-  "nextExactAction": "Runfullunits then pushDraftPRA;FULLCI/Gitleaks;no merge.",
-  "checkpointedAt": "2026-11-19T01:44:40.269Z",
+  "nextExactAction": "Pushfinalhead/openDraftPRA;FULLCI andGitleaks,no merge.",
+  "checkpointedAt": "2026-11-19T01:55:05.284Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 7,
-  "filesTouchedManifestSha256": "50484530bb0c6da25660f283a4e78f4bf59fda5905ca2215b7b1f15eefdeb997",
-  "workingTreeFingerprint": "4899951195791B14AD8C66B2409CE8E80E47E5A773F0A53239EDE29ABB921279"
+  "filesTouchedCount": 2,
+  "filesTouchedManifestSha256": "88d4405ee75713dbc01bbc0c4d5d57d691d36e98f7729da04cfda8c5e50ce31a",
+  "workingTreeFingerprint": "5ACB630136807FB9B94A74A0DFB1A75F720C1E8FDECDDAB20E9555B84930C43C"
 }

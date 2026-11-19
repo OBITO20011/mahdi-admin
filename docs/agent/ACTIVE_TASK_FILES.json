@@ -2,31 +2,11 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": "AM",
-      "path": "docs/operations/IMPORT225_BROWSER_LATENCY_READ_ONLY_AR.md"
-    },
-    {
-      "code": "AM",
-      "path": "docs/operations/IMPORT225_FRESH_SNAPSHOT_REUSE_STUDY_AR.md"
-    },
-    {
-      "code": "AM",
-      "path": "docs/operations/MEASURE_IMPORT225_GET_READ_ONLY.js"
-    },
-    {
-      "code": "AM",
-      "path": "tests/import225-browser-latency.test.ts"
-    },
-    {
-      "code": "M ",
+      "code": " M",
       "path": "docs/agent/project-state.json"
     },
     {
-      "code": "M ",
-      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
-    },
-    {
-      "code": "MM",
+      "code": " M",
       "path": "scripts/audit/on-cutover225-source-pins.json"
     }
   ]
