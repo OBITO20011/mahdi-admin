@@ -2,48 +2,42 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner18Nov:correct116 ON225 workbook/converter;merge after FULLCI and Gitleaks;new archived ON rehearsal from merged-main222-225 references.",
-  "baselineSha": "2f2f35ad0d6a1225ce06736fe9cbda432c24bfa9",
-  "branch": "codex/on-cutover225-workbook",
-  "phase": "ON225_CUTOVER_WORKBOOK",
-  "startedAt": "2026-11-18T15:13:28.076667+03:00",
+  "objective": "Owner19Nov PR-A:read-only GETprobe,snapshotreuse study,shellnote,17.65/5.38 timings;fullCI/Gitleaks,no merge",
+  "baselineSha": "c2942fdd344247cecc5c34ba3dd5f2aed8c1cd70",
+  "branch": "codex/on225-cutover-evidence",
+  "phase": "ON225_CUTOVER_EVIDENCE",
+  "startedAt": "2026-11-19T01:34:08.883Z",
   "completed": [
-    "Purchase content/unit start blank;pack invoice/stock require real integer>1;24@12.000 gives0.500 and3packs+5single=77.",
-    "Optional sale parcel with strict225 bounds;full1084 conversion0errors/0warnings;source3310 unchanged.",
-    "Proved active monitoring reproduces exact DDL no-write failure;held probe passes;fixture hold moved before proof with literal224 source pin."
+    "Copied owner-reviewed GETprobe/Arabicguide/snapshotstudy;9438 budget unchanged.",
+    "GO records measured17.65/5.38/3.25,slowerFrankfurt planningassumption and ownermeasurementlink;officialpowershell/UTF8note added.",
+    "Probe clears temporary credential references;10offlineprobe/docs tests plus10cutover/history tests PASS. Bothapptypes0 andstrictlint0.",
+    "Updated6exact documentation pins:onlyafter hashes forGO/state,beforeTextretained;newdocs/test before=null. No app/SQL/guards/migration/source-original change."
   ],
   "inProgress": [
-    "Exact-head CI for corrected116;merge only after fullgreen."
+    "Prepare exactreview commit then fullunits and CI."
   ],
-  "notStarted": [
-    "New archived ON rehearsal from2230c606 and merged-main222/223/224/225 references;previous rehearsal preserved."
-  ],
+  "notStarted": [],
   "testsPassed": [
-    "Both app types0;strictlint0;focused46/46 plus23/23 fixture/converter/history;no skipped tests.",
-    "Excel formula/readback1084 pass;full conversion zeroerrors/warnings;sale1.000/parcel11.000 and opening77@0.500.",
-    "DDL isolated reproduction:checks22to27+metrics change;holding original job identities makes all unchanged-source assertions pass."
+    "Focused20/20,no skips.",
+    "Admin/store types0;strictlint0."
   ],
   "testsRemaining": [
-    "Local full units2178/2179:known product-workbook-history120s ETIMEDOUT only;no retry or timeout change. Final-head CI required.",
-    "CI84 and Gitleaks;main/primary preflight;new archived ON rehearsal,realUIimport/stock/shortday and timings."
+    "Full localunit suites;exacthead FULLCI;final Gitleaks."
   ],
   "findings": [
-    "CI2f2f RESET225 at14:50 and historical224 at15:00 failed before the late fixture hold. Only monitoring rows changed;deterministically reproduced locally. All guards,reference,SQL and assertions untouched."
+    "Fresh ownworktree inherits prior task snapshot from approved main;rebound only local metadata to explicit new owner scope."
   ],
   "blockers": [],
-  "activeProcesses": [
-    "Retained archive PID29592/nawasrah-full-restore-29592-44b4cc6a;networknone. No new archive rehearsal yet."
-  ],
+  "activeProcesses": [],
   "prohibitions": [
-    "No hostedDB/deploy/iPhone/n8n/Docker restart.",
-    "No SQL/migration/frozenbody/guard changes;immutable3310source."
+    "No merge/deploy/hostedERP/iPhone/n8n/original3310changes."
   ],
-  "nextExactAction": "Commit and push the proved fixture hold correction; exact-head FULLCI/Gitleaks, authorized116 merge, then new archive ON rehearsal.",
-  "checkpointedAt": "2026-11-18T15:14:28.088Z",
+  "nextExactAction": "Runfullunits then pushDraftPRA;FULLCI/Gitleaks;no merge.",
+  "checkpointedAt": "2026-11-19T01:44:40.269Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 5,
-  "filesTouchedManifestSha256": "f32b5b04bef14dcd85cd906425307dacc626587c2852db13eca89200e7b0a4d0",
-  "workingTreeFingerprint": "C7E7A1518E056222D4820EA9F0B2D6E03F57AD587B4AFA0E58E3578CCA18E166"
+  "filesTouchedCount": 7,
+  "filesTouchedManifestSha256": "50484530bb0c6da25660f283a4e78f4bf59fda5905ca2215b7b1f15eefdeb997",
+  "workingTreeFingerprint": "4899951195791B14AD8C66B2409CE8E80E47E5A773F0A53239EDE29ABB921279"
 }
