@@ -68,7 +68,7 @@ function invoiceDate(value:string):string|null{
  if(!/^\d{4}-\d{2}-\d{2}$/u.test(text))return null;
  const date=new Date(text+'T00:00:00Z');return Number.isFinite(date.getTime())&&date.toISOString().slice(0,10)===text?text:null;
 }
-export function convertOpening225(catalog:OpeningCatalog225,priceSheet:Sheet,stockSheet:Sheet,settings:OpeningSettings225,reference?:ProductWorkbookReference){
+export function convertOpening225(catalog:OpeningCatalog225,priceSheet:Sheet,stockSheet:Sheet,settings:OpeningSettings225,reference?:ProductWorkbookReference,{stockOnly=false}={}){
  const errors:OpeningIssue225[]=[],warnings:OpeningIssue225[]=[];
  const add=(sheet:string,row:number,code:string,message:string)=>errors.push({sheet,row,code,message});
  const prices=sheetInputs(priceSheet,PRICE_COLUMNS225,'التكلفة',errors),stocks=sheetInputs(stockSheet,STOCK_COLUMNS225,'الجرد',errors);
@@ -169,7 +169,7 @@ export function convertOpening225(catalog:OpeningCatalog225,priceSheet:Sheet,sto
   const row=costs.get(item.sku);if(!row)continue;
   const key=item.product.data.sku,prior=roots.get(key);
   if(!prior){roots.set(key,row);continue;}
-  if(prior.purchaseUnit!==row.purchaseUnit||prior.count!==row.count||prior.cost!==row.cost||prior.minimum!==row.minimum)
+  if(prior.purchaseUnit!==row.purchaseUnit||prior.count!==row.count||(!stockOnly&&prior.cost!==row.cost)||prior.minimum!==row.minimum)
    add('التكلفة',0,'FAMILY_COST','طابق التكلفة ووحدة وعدد طرد الشراء والحد لكل نكهات العائلة: '+key);
   if(prior.saleUnit!==row.saleUnit||prior.saleCount!==row.saleCount||prior.salePrice!==row.salePrice||prior.saleMethod!==row.saleMethod)
    add('التكلفة',0,'FAMILY_SALE','طابق وحدة وعدد وسعر طرد البيع وطريقة البيع لكل نكهات العائلة: '+key);
@@ -200,4 +200,39 @@ export function convertOpening225(catalog:OpeningCatalog225,priceSheet:Sheet,sto
  return {ok:errors.length===0,errors,warnings,productRows,flavorRows,stockFiles,audit,
   counts:{products:catalog.products.length,families:catalog.products.filter(p=>p.flavors.length).length,flavors:catalog.products.reduce((n,p)=>n+p.flavors.length,0),sellable:catalog.sellable.length,stockRows:preparedStock.length,warehouses:warehouses.length},
   totalOpeningValueMinor:audit.reduce((n,r)=>n+BigInt(r.openingValueMinor),0n).toString()};
+}
+
+export interface StageBProduct225 {
+ id:string;sku:string;name:string;active:boolean;master:boolean;unitCode:string;unitName:string;
+ purchaseUnitCode:string;unitsPerPackage:number;costPriceInMinorUnits:number;wacExact:string|null;updatedAt:string;
+}
+/** Stage B writes no product file: quantities alone, using the current product cost/content. */
+export function convertStageBStock225(catalog:OpeningCatalog225,priceSheet:Sheet,stockSheet:Sheet,
+ settings:OpeningSettings225,reference:ProductWorkbookReference,liveProducts:StageBProduct225[]){
+ const result=convertOpening225(catalog,priceSheet,stockSheet,settings,{...reference,products:[]},{stockOnly:true});
+ const {productRows,flavorRows,...stock}=result;
+ const plan=prepareProductWorkbook(productRows,flavorRows,'full',{independentFullPrices:true});
+ const planned=new Map(plan.products.flatMap(p=>[{sku:p.data.sku,data:p.data},...p.flavors.map(f=>({sku:f.sku,data:p.data}))]).map(p=>[p.sku,p.data]));
+ const add=(sku:string,code:string,message:string)=>stock.errors.push({sheet:'الجرد',row:0,code,message:sku+' — '+message});
+ const liveBySku=new Map<string,StageBProduct225>();
+ for(const p of liveProducts){if(liveBySku.has(p.sku))add(p.sku,'LIVE_DUPLICATE','رمز مكرر في القراءة الحية؛ توقف.');liveBySku.set(p.sku,p);}
+ for(const item of catalog.sellable){
+  const live=liveBySku.get(item.sku),expected=planned.get(item.sku);
+  if(!live||!live.active||live.master){add(item.sku,'LIVE_PRODUCT','الصنف غير موجود أو موقوف أو أساسي عائلة؛ راجع تغييرات ما بين المرحلتين.');continue;}
+  if(!expected)continue;
+  if(!Number.isSafeInteger(live.costPriceInMinorUnits)||live.costPriceInMinorUnits<0||!Number.isSafeInteger(live.unitsPerPackage)||live.unitsPerPackage<1){add(item.sku,'LIVE_COST_INVALID','تكلفة أو محتوى شراء غير صالح في القراءة الحية.');continue;}
+  if(skuKey(live.unitCode)!==skuKey(expected.base_unit_name)||skuKey(live.purchaseUnitCode)!==skuKey(expected.purchase_unit_name)||String(live.unitsPerPackage)!==expected.units_per_purchase_unit)
+   add(item.sku,'LIVE_PURCHASE_MISMATCH','وحدة الأساس أو طرد الشراء ومحتواه تختلف عن المنتج الحي؛ صحّح الورقة وأعد التحويل قبل الجرد.');
+  const expectedCost=stock.audit.find(row=>row.sku===item.sku)?.unitCostMinor;
+  if(expectedCost!==undefined&&String(live.costPriceInMinorUnits)!==expectedCost)
+   add(item.sku,'LIVE_COST_MISMATCH','تكلفة الورقة '+jod(BigInt(expectedCost))+' تختلف عن تكلفة المنتج الحي '+jod(BigInt(live.costPriceInMinorUnits))+'؛ الورقة لا تحدّث التكلفة. عدّلها بالمسار المعتمد ثم أعد القراءة والتحويل.');
+  if(live.wacExact!==null&&(!/^\d+(?:\.\d{1,6})?$/u.test(live.wacExact)||Number(live.wacExact)!==live.costPriceInMinorUnits))
+   add(item.sku,'LIVE_WAC_MISMATCH','WAC الحالي يختلف عن تكلفة الافتتاح؛ راجع التصحيح المعتمد قبل الجرد.');
+ }
+ for(const file of stock.stockFiles)for(const row of file.rows.slice(1)){
+  const live=liveBySku.get(row[0]);if(live)row[1]=live.name;
+ }
+ for(const warning of stock.warnings)if(warning.code==='BELOW_COST')warning.message+=' في المرحلة ب لا يُعاد استيراد المنتجات ولا تتغير أسعار البيع؛ راجع السعر في شاشة المنتج.';
+ stock.ok=stock.errors.length===0;
+ return {...stock,stage:'B' as const,productWrites:0,liveCostCompared:true};
 }

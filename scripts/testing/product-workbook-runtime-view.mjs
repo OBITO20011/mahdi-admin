@@ -103,7 +103,7 @@ export async function prepareWorkbookRuntimeView({schemaOnly=false}={}){
    assert.equal(hash(raw.replaceAll('\r\n','\n')),pin.after,'HISTORICAL_OWNER_FIXES225_UNREVIEWED_SOURCE:'+file);
    const before=sourceBeforeOn225OwnerFixes(file,raw);
    assert.notEqual(before,raw,'HISTORICAL_OWNER_FIXES225_UNREVIEWED_SOURCE:'+file);
-   assert.equal(before,historicalText('3fda5f90d6fe380bcff677f494476bc9a6a6ab69',file),'HISTORICAL_OWNER_FIXES225_NOT_EXACT_GIT:'+file);
+   assert.equal(before,historicalText('db1f1a13784d35632c1f2b33a91567392ef64271',file),'HISTORICAL_OWNER_FIXES225_NOT_EXACT_GIT:'+file);
    if(before===null)await unlink(target);else await writeFile(target,before);
    changed.push({file,after:pin.after,before:pin.before});
   }

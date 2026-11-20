@@ -1,38 +1,67 @@
 {
   "schemaVersion": 1,
   "status": "PAUSED",
-  "owner": "claude",
-  "objective": "Owner20Nov ON225 trial fixes batch1 UI-only(no migration): parcel conversion+طرد name, remove damage log from order, refund method/drawer warning, parcel-mix defaults, withdrawals nav; owner authorized branch/commit/push/PR/merge on green CI",
+  "owner": "codex",
+  "objective": "Owner19Nov two-stage ON225 cutover:read-only pre-B activity guard,live cost mismatch refusal,docs/card and isolated archive rehearsal;DraftPR no merge",
   "baselineSha": "3fda5f90d6fe380bcff677f494476bc9a6a6ab69",
-  "branch": "claude/on225-owner-fixes-b2",
-  "phase": "ON225_OWNER_TRIAL_FIXES",
-  "startedAt": "2026-11-20T06:04:30.000Z",
-  "completed": [],
+  "branch": "codex/on225-two-stage-cutover",
+  "phase": "ON225_TWO_STAGE_CUTOVER",
+  "startedAt": "2026-11-19T05:20:37.123Z",
+  "completed": [
+    "Fresh v3 two-stage rehearsal passed throughopening:123tables protected;stockalerttimestamp-only1row;all9609HTTP200/unexpectedempty.",
+    "StageA1176995ms;StageB79937ms;stock2599ms;catalog748/108/444/1084/15.",
+    "OwnerUI renamed/repriced/correctedcost to600;oldcostrefused;quantityonly77@600;independentrevenue12200/COGS7800/profit4400/inventory39600/quantity66 matched.",
+    "Units2242/2242,focused54/54,types/strictlint0;card2pages."
+  ],
   "inProgress": [
-    "Batch1 UI fixes"
+    "Final docs/pins/PR/no merge;FULLCI and Gitleaks."
   ],
   "notStarted": [
-    "Batch2 receivables/returns display+reports+shift summary",
-    "Migration226 address/CliQ/delivery"
+    "Demo225 upgrade only after this task report;read state before writing and stop if OFF requires221/reset."
   ],
-  "testsPassed": [],
+  "testsPassed": [
+    "2242units",
+    "54focused",
+    "types/strictlint",
+    "2pagecard",
+    "v3fullrehearsal/independentaccounting"
+  ],
   "testsRemaining": [
-    "lint,types,units,full CI"
+    "ExactPRheadFULLCI/Gitleaks",
+    "After currenttaskreport:demo225 read/reportstate beforebackup;stop if OFF requires221/reset"
   ],
   "findings": [
-    "Fresh own worktree inherits prior task snapshot from main;rebound local metadata to explicit owner scope 2026-11-20."
+    "Read-only archive/DB row comparison:only last_updated_at on1 NW-0365 stock_alert row changed;1192rows otherwise exact;all other122 protected tables exact,operations and balances0.",
+    "Sourcechain v7→v5→v4→v3→v2→base SETmin_stock_level/is_active fires stockalert sync even unchanged values;220 updates alert timestamp.9503HTTP200/unexpectedempty.",
+    "Ownerexplicitly approved deleting only first-round27684;PIDidentity/target verified,process stopped and that container removed;lastfailed19340 retained."
   ],
   "blockers": [],
-  "activeProcesses": [],
-  "prohibitions": [
-    "No deploy/Frankfurt/Production/hosted access; no historical migration edits."
+  "activeProcesses": [
+    {
+      "pid": 19340,
+      "kind": "idle retained failed rehearsal",
+      "container": "nawasrah-full-restore-19340-fa3f1ef9",
+      "network": "none",
+      "interfacesClosed": true
+    },
+    {
+      "pid": 27316,
+      "kind": "idle successful evidence retention",
+      "container": "nawasrah-full-restore-27316-bf83a761",
+      "network": "none",
+      "interfacesClosed": true
+    }
   ],
-  "nextExactAction": "Push claude/on225-owner-fixes-ui, open PR, merge on 100% green CI; then batch3 UI items 11/14/15/17 and migration226 items 2/3/6/9/10",
-  "checkpointedAt": "2026-11-20T07:01:44.922Z",
+  "prohibitions": [
+    "No merge/deploy/hosted/n8n/Docker restart/original3310file changes.",
+    "Demo only after current rehearsal success and DraftPR;read/report state then backup;stop if OFF requires221/reset."
+  ],
+  "nextExactAction": "DraftPR review only;v3rehearsal clean;wait exactheadFULLCI/Gitleaks then demo approved readbackup;no merge/hosted/deploy",
+  "checkpointedAt": "2026-11-19T14:59:05.959Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 16,
-  "filesTouchedManifestSha256": "3b5ae5215fe5e78b20cc07429ea86a5030262ab5cc0d0fd9152e8c4df73cd56d",
-  "workingTreeFingerprint": "081C70DCC7073617D49908126E14B178CB1ABF84836DFDBED5348C2962A594C3"
+  "filesTouchedCount": 18,
+  "filesTouchedManifestSha256": "ad3c06761db3fb4c25e9090717a89d5e3566bde83459cb0dcc000cda16fb4bad",
+  "workingTreeFingerprint": "630AD822718968E962A8DA7DB80749CE5FA8EC11D79BE99D6F1DA26196561406"
 }

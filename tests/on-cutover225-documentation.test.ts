@@ -15,12 +15,13 @@ const card='docs/handover/ورقة-يوم-التشغيل.md';
 const html=card.replace('.md','.html');
 const baseline='7482f86d5d62140c5605a6e6c3fb3c3e68a46aed';
 
-test('225 ON cutover keeps all protected upgrades, RESET, signed ON, import, stock and open in order',()=>{
+test('225 two-stage ON cutover keeps protections and A backup before the read-only B check, stock, finish and open',()=>{
  const document=read(plan);
  const order=['--hold-upgrade --apply','220/181 إلى 222/182','222/182 إلى 223/183','223/183 إلى 224/184',
   '224/184 إلى 225/185','أعد مطابقة مرجع D−1/225','RESET224_STORAGE_CAPABILITY_READ_ONLY.sql',
-  '--hold-reset --apply','خذ Backup225 فاصلة','13. اتبع [RESET225]','الوضع ON مُثبت',
-  '15. من «بداية التشغيل»','16. ارفع','17. عدّ الدرج','18. بعد قبول الكتالوج','21. افتح الطلبات'];
+  '--hold-reset --apply','خذ Backup225 فاصلة','12. اتبع [RESET225]','الوضع ON مُثبت',
+  '14. من «بداية التشغيل»','نسخة نهاية المرحلة أ','## بين المرحلتين','## المرحلة ب',
+  '16. جمّد','--mode verify','نسخة **قبل جرد ب**','--mode stock','19. ارفع','20. عدّ الدرج','21. خذ نسخة','23. اعتمد'];
  let previous=-1;
  for(const marker of order){
   const at=document.indexOf(marker);
@@ -30,6 +31,13 @@ test('225 ON cutover keeps all protected upgrades, RESET, signed ON, import, sto
  assert.match(document,/policy_configuration_allows=true/u);
  assert.match(document,/غير مستخدم في هذا القطع/u);
  assert.match(document,/لا ديون قديمة ولا شيكات افتتاحية. الدرج 0 دينار/u);
+ assert.match(document,/التكلفة ووحدة طرد الشراء ومحتواه قبل أ/u);
+ assert.match(document,/لا جرد ولا إنهاء ولا فتح/u);
+ assert.match(document,/منع البيع عند الصفر يحمي POS فعلياً قبل الجرد/u);
+ assert.match(document,/الاستلام قبل الجرد يرفض جرد الصنف الافتتاحي/u);
+ assert.match(document,/122.43\s*ms.*106.9.*163.4.*9438.*19.26/u);
+ assert.match(document,/45–60.*10–15.*إدخال الجرد/u);
+ assert.match(document,/لا تنفيذ لإعادة استعمال اللقطات/u);
  for(const name of ['A','B']) assert.equal(extractCutoverActivation(document,name),
   extractCutoverActivation(read('docs/operations/GO_LIVE_CUTOVER_OFF_ARCHIVE_AR.md'),name));
  assert.match(read(card),/الوضع ON مُثبت/u);
@@ -62,6 +70,9 @@ test('current ON225 documented commands have explicit versioned offline or conne
   'frankfurt-owner-reset225.mjs --plan',
   'd1-reference225-kit.ps1',
   'on-opening225/cli.ts --mode convert',
+  'on-opening225/cli.ts --mode stock',
+  'two-stage225-cli.mjs --mode query',
+  'two-stage225-cli.mjs --mode verify',
  ]) assert.ok(commands.some(row=>row.command.includes(command)),command);
  assert.throws(()=>classifyCutover225Command('node scripts/operations/frankfurt-owner-upgrade226.mjs --dry-run'),/CUTOVER_COMMAND_UNREVIEWED/u);
 });
