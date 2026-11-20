@@ -40,6 +40,7 @@ import {OperatingModeContext} from '../operatingMode/operatingModeContext';
 import {orderReceipt} from '../receipts/saleReceipt';
 import {receiptDocumentShareText} from '../../../customer-web/src/receipts/commercialReceipt';
 import {cliqReferenceForServer} from '../../utils/cliqReference';
+import {OrderReturnBadgeForOrder} from './OrderReturnBadge';
 
 interface OrderDetailModalProps {
   order: Order;
@@ -414,6 +415,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
         </div>
         <div className="flex min-w-0 flex-wrap items-center gap-2">
           <StatusBadge tone={getOrderStatus(order.status).tone}>{STATUS_LABELS[order.status] || order.status}</StatusBadge>
+          <OrderReturnBadgeForOrder orderId={order.id} refreshKey={order} />
           <UiButton
             type="button"
             onClick={onClose}

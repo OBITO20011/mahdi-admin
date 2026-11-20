@@ -1,6 +1,7 @@
 import {isSalesOnlyShiftReport,type CashShiftClosingResult} from '../../services/supabase/salesOnlyShiftReport';
 import {SalesOnlyShiftClosingReportModal} from './SalesOnlyShiftClosingReportModal';
 import {CashFlowSummary} from './CashFlowSummary';
+import {ShiftOwnerSummary} from './ShiftOwnerSummary';
 import React from 'react';
 import {
   Banknote,
@@ -139,6 +140,8 @@ export const ShiftClosingReportModal: React.FC<
             </div>
           </section>
 
+          <ShiftOwnerSummary report={report}/>
+
           <CashFlowSummary shift={report.shift}/>
 
           <section>
@@ -197,7 +200,7 @@ export const ShiftClosingReportModal: React.FC<
             {(detailedSales || report.shift.totalCardSales !== 0) && <div className="rounded-xl border border-nw-border bg-nw-info-bg p-3">
               <WalletCards className="mb-1 h-4 w-4 text-nw-info" />
               <span className="block text-[10px] text-nw-muted">
-                {detailedSales ? 'آجل متبقي' : 'مبيعات بطاقة'}
+                {detailedSales ? 'آجل وقت البيع' : 'مبيعات بطاقة'}
               </span>
               <b className="text-nw-info">{money(report.sales.creditSales ?? report.shift.totalCardSales)}</b>
             </div>}
@@ -232,7 +235,7 @@ export const ShiftClosingReportModal: React.FC<
           </section>
 
           <section className="space-y-2 rounded-2xl border border-nw-border bg-nw-surface-2 p-3">
-            <h4 className="font-black text-nw-text">الحركة المالية خلال الوردية</h4>
+            <h4 className="font-black text-nw-text">الحركة المالية خلال الوردية (كاش + CliQ معاً · للمحاسب)</h4>
             <div className="flex justify-between text-nw-ok">
               <span>إجمالي الداخل</span>
               <b>{money(report.reconciliation.totalInflows)}</b>

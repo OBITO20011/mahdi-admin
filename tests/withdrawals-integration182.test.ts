@@ -8,11 +8,12 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {homeDamage201Pins} from '../scripts/audit/source-before-home-damage201.mjs';
 import {execFileSync} from 'node:child_process';
+import {sourceBeforeOn225OwnerFixes} from '../scripts/audit/source-before-on225-owner-fixes.mjs';
 import {readFileSync} from 'node:fs';
 import {approvedWithdrawals182Source,withdrawals182Files} from './approved-withdrawals182-source';
 
 for(const file of withdrawals182Files)test('withdrawals182 exact approved additions preserve entire pre-integration file:'+file,()=>{
- const source=readFileSync(file,'utf8'),before=execFileSync('git',['show','b72aa55:'+file],{encoding:'utf8'}).replaceAll('\r\n','\n');
+ const source=sourceBeforeOn225OwnerFixes(file,readFileSync(file,'utf8')) as string,before=execFileSync('git',['show','b72aa55:'+file],{encoding:'utf8'}).replaceAll('\r\n','\n');
  assert.equal(approvedWithdrawals182Source(file,source),before,'All legacy calls,payloads,guards,confirmations and bindings preserved');
  const outside=source+'\nfunction unapproved(){return changeMoney(1);}\n';
  if(Object.hasOwn(navigation206Pins,file))assert.throws(()=>approvedWithdrawals182Source(file,outside),/NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED/u,'newest full-file pin rejects extra logic');

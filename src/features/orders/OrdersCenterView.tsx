@@ -8,6 +8,10 @@ import type { OperationalOrderFilter } from '../../utils/orderCalculations';
 import { formatOperationalOrderContents } from '../../utils/orderPresentation';
 import { Card, DetailLayout, DetailPanel, MainColumn, FilterChips, SearchField, PageHeader, TableShell, Th, Tr, Td, StatusBadge, MoneyText, UiButton, formatUiDate } from '../../components/ui';
 import { OrderDetailModal } from './OrderDetailModal';
+import { OrderReturnBadge, ReturnedAfterSaleOrders } from './OrderReturnBadge';
+import { useOrderReturnStates } from './useOrderReturnStates';
+import type { OrderReturnState } from '../../utils/orderReturnState';
+import { useOrdersReceivables } from './useOrdersReceivables';
 
 const FILTERS: Array<{ id: OperationalOrderFilter; label: string }> = [
   { id: 'all', label: 'الكل' }, { id: 'action', label: 'بحاجة لمراجعة' },
@@ -19,8 +23,8 @@ const PAGE_SIZE = 25;
 const PAYMENT_LABELS: Record<string, string> = { cash: 'كاش', cliq: 'CliQ', cash_on_delivery: 'كاش عند الاستلام', debt: 'دين', mixed: 'مختلط', card: 'بطاقة', bank_transfer: 'تحويل بنكي' };
 
 export const OperationalOrderCard: React.FC<{
-  order: OperationalOrderListItem; onOpen: (orderId: string) => void; selected?: boolean; source?: string;
-}> = ({ order, onOpen, selected = false, source }) => {
+  order: OperationalOrderListItem; onOpen: (orderId: string) => void; selected?: boolean; source?: string; returnState?: OrderReturnState;
+}> = ({ order, onOpen, selected = false, source, returnState }) => {
   const status = getOrderStatus(order.status);
   const payment = getPaymentLabel(order);
   const contentsLabel = formatOperationalOrderContents(order.firstProductName, order.itemCount);
@@ -28,7 +32,7 @@ export const OperationalOrderCard: React.FC<{
     <button type="button" onClick={() => onOpen(order.id)} aria-label={`فتح الطلب ${order.orderNumber}`} aria-pressed={selected} className="min-h-11 w-full space-y-2 text-right">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <bdi dir="ltr" title={order.orderNumber} className="min-w-0 break-all text-sm font-bold">{order.orderNumber}</bdi>
-        <StatusBadge tone={status.tone}>{status.label}</StatusBadge>
+        <span className="flex flex-wrap items-center gap-1"><StatusBadge tone={status.tone}>{status.label}</StatusBadge><OrderReturnBadge state={returnState} /></span>
       </div>
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div className="min-w-0 flex-1"><h3 className="m-0 break-words text-sm font-bold">{order.customerName}</h3><p className="m-0 mt-1 break-words text-xs text-nw-muted">{contentsLabel}</p></div>
@@ -53,9 +57,11 @@ interface OrdersWorkbenchProps {
   onOpen: (id: string) => void; onFilter: (value: OperationalOrderFilter) => void;
   onSearch: (value: string) => void; onSort: (value: OperationalOrdersSort) => void;
   onPage: (value: number) => void; onRefresh: () => void;
+  /** Owner trial items 9 and 10: presentation-only extras, absent in older callers. */
+  returnStates?: ReadonlyMap<string, OrderReturnState>; receivables?: number | null; returnedExtra?: React.ReactNode;
 }
 export const OrdersWorkbench: React.FC<OrdersWorkbenchProps> = (props) => {
-  const { orders, activeFilter, counts, summary, searchQuery, sort, page, totalCount, totalPages, selectedOrderId, sourceFor, detail, loading, refreshing, error, listLoadVersion = 0, restoreAfterVersion = 0, onOpen, onFilter, onSearch, onSort, onPage, onRefresh } = props;
+  const { orders, activeFilter, counts, summary, searchQuery, sort, page, totalCount, totalPages, selectedOrderId, sourceFor, detail, loading, refreshing, error, listLoadVersion = 0, restoreAfterVersion = 0, onOpen, onFilter, onSearch, onSort, onPage, onRefresh, returnStates, receivables, returnedExtra } = props;
   const rootRef = useRef<HTMLDivElement>(null);
   const returnPointRef = useRef<{ orderId: string; container: HTMLElement; scrollTop: number } | null>(null);
   const returnPanelRef = useRef<HTMLElement | null>(null);
@@ -105,16 +111,17 @@ export const OrdersWorkbench: React.FC<OrdersWorkbenchProps> = (props) => {
         <MainColumn>
           <FilterChips touchSize label="حالات الطلبات" value={activeFilter} onChange={onFilter} options={FILTERS.map((filter) => ({ value: filter.id, label: filter.label, count: counts[filter.id] }))} />
           <SearchField label="البحث في الطلبات" placeholder="ابحث برقم الطلب أو اسم العميل أو الهاتف" value={searchQuery} onChange={(event) => onSearch(event.target.value)} className="w-full sm:max-w-md" />
-          <p className="m-0 text-xs text-nw-muted">بحاجة لمراجعة: {summary.review} · قيد التنفيذ: {summary.active} · ذمم الطلبات المكتملة: <MoneyText amount={summary.due} />. تتحدث القائمة تلقائياً.</p>
+          <p className="m-0 text-xs text-nw-muted">بحاجة لمراجعة: {summary.review} · قيد التنفيذ: {summary.active} {receivables != null && <> · ديون لك على الزبائن: <MoneyText amount={receivables} /></>}. تتحدث القائمة تلقائياً.</p>
+          {activeFilter === 'returned' && returnedExtra}
           {error && <Card role="alert" className="flex items-center gap-2 text-nw-bad"><AlertCircle className="h-4 w-4 shrink-0" />{error}</Card>}
           {loading ? <Card role="status" className="text-center text-nw-muted"><RefreshCw className="mx-auto mb-2 h-6 w-6 animate-spin" />جاري تحميل الطلبات...</Card> : orders.length === 0 ? <Card className="text-center"><h2 className="text-base font-bold">لا توجد طلبات في هذا القسم</h2><p className="text-sm text-nw-muted">غيّر القسم أو البحث لعرض الطلبات.</p></Card> : <>
-            <div className="space-y-3 md:hidden">{orders.map((order) => <OperationalOrderCard key={order.id} order={order} onOpen={openFromList} selected={selectedOrderId === order.id} source={sourceFor(order.id)} />)}</div>
+            <div className="space-y-3 md:hidden">{orders.map((order) => <OperationalOrderCard key={order.id} order={order} onOpen={openFromList} selected={selectedOrderId === order.id} source={sourceFor(order.id)} returnState={returnStates?.get(order.id)} />)}</div>
             <div className="hidden md:block"><TableShell caption="قائمة الطلبات" minWidth={650} head={<>{['رقم الطلب', 'العميل', 'المصدر', 'الدفع', 'الحالة', 'الوقت', 'الإجمالي'].map((label) => <Th key={label}>{label}</Th>)}</>}>
               {orders.map((order) => { const status = getOrderStatus(order.status); const payment = getPaymentLabel(order); return <Tr key={order.id} selected={selectedOrderId === order.id}>
                 <Td className="whitespace-nowrap"><UiButton onClick={() => onOpen(order.id)} aria-label={`فتح الطلب ${order.orderNumber}`} className="whitespace-nowrap px-1"><bdi dir="ltr" data-order-number className="whitespace-nowrap font-bold">{order.orderNumber}</bdi></UiButton></Td>
                 <Td className="max-w-[180px] break-words">{order.customerName}</Td><Td className="text-xs text-nw-muted">{orderSourceLabel(sourceFor(order.id))}</Td>
                 <Td><span className="text-xs">{PAYMENT_LABELS[order.paymentMethod] ?? order.paymentMethod}</span><div className="mt-1"><StatusBadge tone={payment.tone}>{payment.label}</StatusBadge></div></Td>
-                <Td><StatusBadge tone={status.tone}>{status.label}</StatusBadge></Td><Td className="whitespace-nowrap"><bdi dir="ltr" data-order-time className="whitespace-nowrap text-xs text-nw-muted">{formatUiDate(order.createdAt, { hour: '2-digit', minute: '2-digit', hour12: false })}</bdi></Td>
+                <Td><StatusBadge tone={status.tone}>{status.label}</StatusBadge>{returnStates?.get(order.id) && <div className="mt-1"><OrderReturnBadge state={returnStates.get(order.id)} /></div>}</Td><Td className="whitespace-nowrap"><bdi dir="ltr" data-order-time className="whitespace-nowrap text-xs text-nw-muted">{formatUiDate(order.createdAt, { hour: '2-digit', minute: '2-digit', hour12: false })}</bdi></Td>
                 <Td><MoneyText amount={order.totalAmount} className="font-bold" /></Td>
               </Tr>; })}
             </TableShell></div>
@@ -153,6 +160,8 @@ export const OrdersCenterView: React.FC = () => {
   const detailRequestVersionRef = useRef(0);
   const [listLoadVersion, setListLoadVersion] = useState(0);
   const [restoreAfterVersion, setRestoreAfterVersion] = useState(0);
+  const returnStates = useOrderReturnStates(orders.map((order) => order.id), listLoadVersion);
+  const receivables = useOrdersReceivables(listLoadVersion);
 
   useEffect(() => {
     const timer = window.setTimeout(
@@ -278,7 +287,8 @@ export const OrdersCenterView: React.FC = () => {
   };
 
   return <OrdersWorkbench orders={orders} activeFilter={activeFilter} counts={counts} summary={summary} searchQuery={searchQuery} sort={sort} page={page} totalCount={totalCount} totalPages={totalPages}
-    listLoadVersion={listLoadVersion} restoreAfterVersion={restoreAfterVersion}
+    listLoadVersion={listLoadVersion} restoreAfterVersion={restoreAfterVersion} returnStates={returnStates} receivables={receivables}
+    returnedExtra={<ReturnedAfterSaleOrders onOpen={openOrderDetails} refreshKey={listLoadVersion} />}
     selectedOrderId={selectedOrderId} sourceFor={(id) => orders.find(order => order.id === id)?.source} loading={loading} refreshing={refreshing} error={error}
     onOpen={openOrderDetails} onFilter={(value) => { setActiveFilter(value); setPage(1); }}
     onSearch={(value) => { setSearchQuery(value); setCounts({}); setPage(1); }} onSort={(value) => { setSort(value); setPage(1); }} onPage={setPage} onRefresh={() => void handleRefresh()}

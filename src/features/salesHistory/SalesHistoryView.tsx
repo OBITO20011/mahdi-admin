@@ -7,6 +7,9 @@ import {useSalesHistory} from '../../hooks/useSalesHistory';
 import {canReadSalesHistory,type SalesHistoryPeriod,type SalesHistoryMethod,type SalesHistorySource,type SalesHistoryItem} from '../../utils/salesHistory';
 import {getOrderStatus,orderSourceLabel,PAYMENT_METHOD_LABELS} from '../orders/orderStatus';
 import {SalesInvoiceDialog} from './SalesInvoiceDialog';
+import {OrderReturnBadge} from '../orders/OrderReturnBadge';
+import {useOrderReturnStates} from '../orders/useOrderReturnStates';
+import {SalesReturnsLine} from './SalesReturnsLine';
 const methods:Array<[SalesHistoryMethod,string]>=[['all','كل طرق الدفع'],['cash','كاش'],['cliq','CliQ'],['debt','دين'],['bank_transfer','تحويل بنكي'],['cheque','شيك'],['card','بطاقة'],['mixed','مختلط'],['unknown','غير مسجّلة']];
 const periods:Array<[SalesHistoryPeriod,string]>=[['day','اليوم'],['week','آخر 7 أيام'],['month','الشهر'],['range','مدى'],['all','كل التواريخ']];
 const payment=(row:SalesHistoryItem)=>row.paymentMethod?PAYMENT_METHOD_LABELS[row.paymentMethod]??row.paymentMethod:'غير مسجّلة';
@@ -24,6 +27,7 @@ export function SalesHistoryView() {
   useEffect(()=>{const timer=window.setTimeout(()=>{setSearch({customer,number});setPage(1);},250);return ()=>window.clearTimeout(timer);},[customer,number]);
   useEffect(()=>{setSelected(null);},[user?.id,allowed]);
   const state=useSalesHistory({page,pageSize:25,period,fromDate:from,toDate:to,paymentMethod:method,source,customerSearch:search.customer,numberSearch:search.number},allowed,user?.id);
+  const returnStates=useOrderReturnStates(state.data?.rows.map(row=>row.id)??[],state.data);
   useEffect(()=>{if(state.data&&page>state.data.totalPages)setPage(state.data.totalPages);},[state.data,page]);
   if(!allowed)return <div dir="rtl" className="p-4 lg:p-8"><Card role="alert">لا تملك صلاحية قراءة سجل المبيعات.</Card></div>;
   const change=(action:()=>void)=>{action();setPage(1);};
@@ -44,12 +48,13 @@ export function SalesHistoryView() {
     </Card>
     {state.loading?<Card role="status">جاري تحميل سجل المبيعات…</Card>:state.error?<Card role="alert"><p>{state.error}</p><UiButton className="mt-3" onClick={()=>void state.reload()}>إعادة المحاولة</UiButton></Card>:!state.data?<Card role="status">سجل المبيعات غير متاح حالياً.</Card>:<>
       <Card data-testid="sales-history-summary"><div className="flex flex-wrap items-center justify-between gap-3"><div><p className="text-sm text-nw-muted">{period==='day'?'مبيعات اليوم':'مبيعات الفترة'} · {state.data.summary.salesCount} فواتير مؤرخة</p><MoneyText amount={state.data.summary.salesInMinorUnits/1000} currency className="text-2xl font-bold"/></div><p className="text-sm text-nw-muted">{state.data.totalCount} فاتورة في السجل</p></div>
+        {(period==='day'||period==='range')&&<SalesReturnsLine fromDate={period==='day'?today:from} toDate={period==='day'?today:to} refreshKey={state.data}/>}
         {state.data.summary.undatedInvoiceCount>0&&<p className="mt-3 text-sm text-nw-muted">{state.data.summary.undatedInvoiceCount} فواتير قديمة بلا وقت بيع مسجّل؛ تظهر بتاريخ الإنشاء ولا تدخل إجمالي المبيعات.</p>}
         <p className="mt-2 text-xs text-nw-muted">الإجمالي للفواتير المكتملة والمرتجعة بحسب وقت البيع، قبل خصم المرتجعات. طريقة الدفع الأصلية لا تتغير بسبب تحصيل لاحق.</p>
       </Card>
       {!state.data.rows.length?<Card><p className="py-6 text-center text-nw-muted">لا توجد فواتير ضمن هذه الفلاتر.</p></Card>:<>
-        <div className="space-y-3 lg:hidden">{state.data.rows.map(row=><Card key={row.id} data-sales-invoice={row.id}><div className="flex flex-wrap items-center justify-between gap-2">{openButton(row)}<StatusBadge tone={getOrderStatus(row.status).tone}>{getOrderStatus(row.status).label}</StatusBadge></div><p className="mt-2 break-words font-semibold">{row.customerName}</p><div className="mt-2 flex flex-wrap justify-between gap-3 text-sm"><span>{date(row)}</span><MoneyText amount={row.totalInMinorUnits/1000} className="font-bold"/></div><p className="mt-2 text-xs text-nw-muted">{payment(row)} · {orderSourceLabel(row.source??undefined)}</p></Card>)}</div>
-        <div className="hidden lg:block"><TableShell caption="كل فواتير المبيعات" minWidth={850} head={<><Th>الفاتورة</Th><Th>الوقت</Th><Th>الزبون</Th><Th>المبلغ</Th><Th>الدفع</Th><Th>المصدر</Th><Th>الحالة</Th></>}>{state.data.rows.map(row=><Tr key={row.id}><Td>{openButton(row)}</Td><Td className="text-xs">{date(row)}</Td><Td className="max-w-48 break-words">{row.customerName}</Td><Td><MoneyText amount={row.totalInMinorUnits/1000}/></Td><Td>{payment(row)}</Td><Td>{orderSourceLabel(row.source??undefined)}</Td><Td><StatusBadge tone={getOrderStatus(row.status).tone}>{getOrderStatus(row.status).label}</StatusBadge></Td></Tr>)}</TableShell></div>
+        <div className="space-y-3 lg:hidden">{state.data.rows.map(row=><Card key={row.id} data-sales-invoice={row.id}><div className="flex flex-wrap items-center justify-between gap-2">{openButton(row)}<span className="flex flex-wrap items-center gap-1"><StatusBadge tone={getOrderStatus(row.status).tone}>{getOrderStatus(row.status).label}</StatusBadge><OrderReturnBadge state={returnStates.get(row.id)}/></span></div><p className="mt-2 break-words font-semibold">{row.customerName}</p><div className="mt-2 flex flex-wrap justify-between gap-3 text-sm"><span>{date(row)}</span><MoneyText amount={row.totalInMinorUnits/1000} className="font-bold"/></div><p className="mt-2 text-xs text-nw-muted">{payment(row)} · {orderSourceLabel(row.source??undefined)}</p></Card>)}</div>
+        <div className="hidden lg:block"><TableShell caption="كل فواتير المبيعات" minWidth={850} head={<><Th>الفاتورة</Th><Th>الوقت</Th><Th>الزبون</Th><Th>المبلغ</Th><Th>الدفع</Th><Th>المصدر</Th><Th>الحالة</Th></>}>{state.data.rows.map(row=><Tr key={row.id}><Td>{openButton(row)}</Td><Td className="text-xs">{date(row)}</Td><Td className="max-w-48 break-words">{row.customerName}</Td><Td><MoneyText amount={row.totalInMinorUnits/1000}/></Td><Td>{payment(row)}</Td><Td>{orderSourceLabel(row.source??undefined)}</Td><Td><StatusBadge tone={getOrderStatus(row.status).tone}>{getOrderStatus(row.status).label}</StatusBadge>{returnStates.get(row.id)&&<div className="mt-1"><OrderReturnBadge state={returnStates.get(row.id)}/></div>}</Td></Tr>)}</TableShell></div>
       </>}
       <nav aria-label="صفحات سجل المبيعات" className="flex flex-wrap items-center justify-center gap-3"><UiButton disabled={page<=1} onClick={()=>setPage(v=>v-1)}><ChevronRight className="h-4 w-4" aria-hidden="true"/>السابق</UiButton><span className="text-sm">صفحة {page} من {state.data.totalPages}</span><UiButton disabled={page>=state.data.totalPages} onClick={()=>setPage(v=>v+1)}>التالي<ChevronLeft className="h-4 w-4" aria-hidden="true"/></UiButton></nav>
     </>}

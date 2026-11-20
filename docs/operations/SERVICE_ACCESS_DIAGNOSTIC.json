@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-20T13:12:03.144Z",
+  "startedAt": "2026-11-20T15:10:29.646Z",
   "migrationCeiling": 225,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-o58M2m",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-yUmOyo",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -519,15 +519,27 @@
     },
     {
       "file": "src/features/orders/OrderDetailModal.tsx",
-      "sha256": "ff75fd0968444ef5d44c18833ae6e1cf8a97b3c6a2776b480ebf3cc02176ebd6"
+      "sha256": "6718aeaea823a20c9fdd0a73757d6caa3a91a0e22af7d595f57933399e78aa0f"
+    },
+    {
+      "file": "src/features/orders/OrderReturnBadge.tsx",
+      "sha256": "bf77578315f8d6caba0e243f10940317078b23ac7573fc6dfa5940ad974f325b"
     },
     {
       "file": "src/features/orders/OrdersCenterView.tsx",
-      "sha256": "9d1217e90ab1016e6c68fa37e63bbd09bd28d36d044ecda58375d58d3fe8836a"
+      "sha256": "b1a41f2e4ff7ee5deb2f681fcdd53de71df7e2b915ccb7a2cb7ef0cfbcb1709e"
     },
     {
       "file": "src/features/orders/orderStatus.ts",
       "sha256": "c9e0468c1d8e221f1b11af1d54eaebdd88435fa69718a3bdf47b8d4c66bc2188"
+    },
+    {
+      "file": "src/features/orders/useOrderReturnStates.ts",
+      "sha256": "f5cd9155527d0bae7fa3606f5a31f8544bb5a05e9c056d89f6fd3578c3a84b92"
+    },
+    {
+      "file": "src/features/orders/useOrdersReceivables.ts",
+      "sha256": "b2cf1a0380e76d6c1fce7ea0b94120ffc15eb27a9a099df347e17040a34b0695"
     },
     {
       "file": "src/features/pos/BarcodeScannerModal.tsx",
@@ -703,11 +715,15 @@
     },
     {
       "file": "src/features/salesHistory/SalesHistoryView.tsx",
-      "sha256": "7207e7f62977463f0400d2fa5a67606eef777597f721c4531655f723450d4229"
+      "sha256": "24ddea87fca2769ca05efbd6154b99bbe44fa51a33b7d900728528e3deb130ca"
     },
     {
       "file": "src/features/salesHistory/SalesInvoiceDialog.tsx",
       "sha256": "7f28fff7005c6ce927664469c32b478e16c3e1b185895b6a75090bb1f5fd56d0"
+    },
+    {
+      "file": "src/features/salesHistory/SalesReturnsLine.tsx",
+      "sha256": "44d1033f70a779c5b1532e8e0cc1eacb5710c85172e7f26eb9a02aed2d863a67"
     },
     {
       "file": "src/features/shifts/CashFlowDetails.tsx",
@@ -743,7 +759,11 @@
     },
     {
       "file": "src/features/shifts/ShiftClosingReportModal.tsx",
-      "sha256": "f74487b2c32b1384b49d63aec48bf292bb232c599bdb88072fdea8a0bf8c74c4"
+      "sha256": "dd76de9e7938cee27255d3f4f3cb01e794e0181441b7297c3ce8d47f5fe38bfb"
+    },
+    {
+      "file": "src/features/shifts/ShiftOwnerSummary.tsx",
+      "sha256": "839cc035b721deab634831b09d14f19fd884f3256fc2a7f5146126c6ebae56a5"
     },
     {
       "file": "src/features/shifts/ShiftsView.tsx",
@@ -988,6 +1008,10 @@
     {
       "file": "src/services/supabase/optionalQuantity.service.ts",
       "sha256": "a09451cd8c36fe9588358d9d18331ac29d66a425fb5179573108b41b05f3a2b5"
+    },
+    {
+      "file": "src/services/supabase/orderReturnStates.service.ts",
+      "sha256": "f2afbebfc4546f40f9131959cad2f3e5e53de12dc880b38ef1b678307c810105"
     },
     {
       "file": "src/services/supabase/orders.service.ts",
@@ -1286,6 +1310,10 @@
       "sha256": "8fc0b50c78e0d926b8982f9b82477ee20cdac59eed78a049dd0cbd8afb963413"
     },
     {
+      "file": "src/utils/orderReturnState.ts",
+      "sha256": "4f839c7782201ec344ddf5c5d46eecbe642bfdc9f0971ed39d0dbbbfc1292a9d"
+    },
+    {
       "file": "src/utils/parcelFamilySearch.ts",
       "sha256": "141cfa6c8761ae4f9857e9168ff90ee48bb3460df1bd24ad6a09ac9a91f4e0f8"
     },
@@ -1356,6 +1384,10 @@
     {
       "file": "src/utils/screenHistory.ts",
       "sha256": "ee9a1fe9e328a7086a1157e23fc17b85974eb69488dc32aa8f55e3513b7d3634"
+    },
+    {
+      "file": "src/utils/shiftOwnerSummary.ts",
+      "sha256": "880d7a53d77e71b928807cf70b3bba5689b8d362aadb6908c1d024dc33b87d97"
     },
     {
       "file": "src/utils/supplierCancellationPreview.ts",
@@ -56531,7 +56563,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-11-20T13:13:40.501Z",
+  "endedAt": "2026-11-20T15:12:16.478Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {

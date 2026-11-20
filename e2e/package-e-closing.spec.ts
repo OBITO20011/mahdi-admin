@@ -31,7 +31,7 @@ test('new closing shows first receipts and sale-time credit without moving CliQ 
   await expect(row('صافي المبيعات')).toContainText('52.000');
   await expect(page.locator('section.grid-cols-3').getByText('مبيعات كاش',{exact:true}).locator('..')).toContainText('21.000');
   await expect(page.locator('section.grid-cols-3').getByText('مبيعات CliQ',{exact:true}).locator('..')).toContainText('18.000');
-  await expect(row('آجل متبقي')).toContainText('22.000');
+  await expect(row('آجل وقت البيع')).toContainText('22.000');
   await expect(row('دفعات أولى عند الاستلام (مسجلة ضمن سندات القبض)')).toContainText('6.000');
   await expect(page.getByText(/منها 6\.000.*دفعات أولى عند البيع/u)).toContainText('CliQ: 6.000');
   await expect(row('إجمالي الداخل')).toContainText('48.000');
@@ -44,7 +44,7 @@ test('historical snapshot does not invent initial-payment or credit fields',asyn
   await expect(page.getByText('إجمالي المبيعات',{exact:true}).locator('..')).toContainText('39.000');
   await expect(page.getByText('مبيعات بطاقة',{exact:true})).toHaveCount(0);
   await expect(page.getByText(/Invalid Date/u)).toHaveCount(0);
-  await expect(page.getByText('آجل متبقي',{exact:true})).toHaveCount(0);
+  await expect(page.getByText('آجل وقت البيع',{exact:true})).toHaveCount(0);
   await expect(page.getByText('توزيع استحقاق المرتجعات',{exact:true})).toHaveCount(0);
   await expect(page.getByText('دفعات أولى عند الاستلام (مسجلة ضمن سندات القبض)',{exact:true})).toHaveCount(0);
   await expect(page.getByText(/منها .*دفعات أولى عند البيع/u)).toHaveCount(0);
@@ -58,6 +58,6 @@ test('historical nonzero card sales remain visible without inventing modern cred
   await expect(page.getByText('إجمالي المبيعات',{exact:true}).locator('..')).toContainText('39.000');
   await expect(page.getByText('إجمالي الداخل',{exact:true}).locator('..')).toContainText('48.000');
   await expect(page.getByText('الكاش المتوقع',{exact:true}).locator('..')).toContainText('190.300');
-  await expect(page.getByText('آجل متبقي',{exact:true})).toHaveCount(0);
+  await expect(page.getByText('آجل وقت البيع',{exact:true})).toHaveCount(0);
   await expect(page.getByText(/Invalid Date/u)).toHaveCount(0);
 });

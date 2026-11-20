@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "status": "PAUSED",
   "owner": "claude",
-  "objective": "Owner20Nov ON225 trial fixes batch C UI/settings-only (no migration): item2 map-pinned address optional, item3 CliQ reference optional everywhere (blank=«بدون مرجع»), item6 delivery fee paid to driver outside shop invoice; owner authorized branch/commit/push/PR/merge on green CI",
+  "objective": "Owner20Nov ON225 trial fixes batch D UI-only (no migration): item9 return badges (list/detail/invoice/sales history), returned-after-sale section in «مرتجعة» tab, sales-history gross/returns/net; item10 orders centre shows canonical home receivables; item17 shift owner summary (profit, net sales, CliQ, drawer badge, top3 by profit).",
   "baselineSha": "628f504743dc42424dc2b163693cfa8ad8a1f34f",
-  "branch": "claude/on225-owner-fixes-c",
+  "branch": "claude/on225-owner-fixes-d",
   "phase": "ON225_OWNER_TRIAL_FIXES",
   "startedAt": "2026-11-20T12:00:00.000Z",
   "completed": [
@@ -30,7 +30,7 @@
   "prohibitions": [
     "No deploy/Frankfurt/Production/hosted access; no historical migration edits."
   ],
-  "nextExactAction": "Push claude/on225-owner-fixes-c, open PR, merge on 100% green CI; then items 9/10/17 per owner choice",
+  "nextExactAction": "Merge main after #122, regenerate pins/evidence, push claude/on225-owner-fixes-d (items 9/10/17 UI-only), open PR, show owner, merge on 100% green CI",
   "checkpointedAt": "2026-11-19T14:59:05.959Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"

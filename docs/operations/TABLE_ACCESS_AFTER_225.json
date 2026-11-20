@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-20T13:08:16.376Z",
+  "startedAt": "2026-11-20T15:05:57.239Z",
   "managedAccess": false,
   "migrationCeiling": 225,
   "manifest": [
@@ -190,7 +190,7 @@
     "224_optional_quantity_inventory_reader.sql",
     "225_on_independent_prices.sql"
   ],
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-tHzRxv",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-aMFPbE",
   "stage": "rls-and-acl",
   "results": [
     {
@@ -218,7 +218,7 @@
           "method": "eq",
           "args": [
             "id",
-            "cceaa55b-6bfa-437b-a6e8-647f9599c371"
+            "358517f9-957c-4953-a46f-69dbb34ae91a"
           ]
         },
         {
@@ -253,7 +253,7 @@
           "method": "eq",
           "args": [
             "id",
-            "cceaa55b-6bfa-437b-a6e8-647f9599c371"
+            "358517f9-957c-4953-a46f-69dbb34ae91a"
           ]
         },
         {
@@ -288,7 +288,7 @@
           "method": "eq",
           "args": [
             "id",
-            "cceaa55b-6bfa-437b-a6e8-647f9599c371"
+            "358517f9-957c-4953-a46f-69dbb34ae91a"
           ]
         },
         {
@@ -323,7 +323,7 @@
           "method": "eq",
           "args": [
             "id",
-            "cceaa55b-6bfa-437b-a6e8-647f9599c371"
+            "358517f9-957c-4953-a46f-69dbb34ae91a"
           ]
         },
         {
@@ -358,7 +358,7 @@
           "method": "eq",
           "args": [
             "id",
-            "cceaa55b-6bfa-437b-a6e8-647f9599c371"
+            "358517f9-957c-4953-a46f-69dbb34ae91a"
           ]
         },
         {
@@ -393,7 +393,7 @@
           "method": "eq",
           "args": [
             "id",
-            "cceaa55b-6bfa-437b-a6e8-647f9599c371"
+            "358517f9-957c-4953-a46f-69dbb34ae91a"
           ]
         },
         {
@@ -428,7 +428,7 @@
           "method": "eq",
           "args": [
             "id",
-            "1c7a912e-0349-4cb5-befd-2ea67185c29a"
+            "a341318c-5283-4c24-bf16-fe17779c3d24"
           ]
         },
         {
@@ -463,7 +463,7 @@
           "method": "eq",
           "args": [
             "id",
-            "1c7a912e-0349-4cb5-befd-2ea67185c29a"
+            "a341318c-5283-4c24-bf16-fe17779c3d24"
           ]
         },
         {
@@ -498,7 +498,7 @@
           "method": "eq",
           "args": [
             "id",
-            "1c7a912e-0349-4cb5-befd-2ea67185c29a"
+            "a341318c-5283-4c24-bf16-fe17779c3d24"
           ]
         },
         {
@@ -731,7 +731,7 @@
           "method": "eq",
           "args": [
             "id",
-            "ccf222b0-c8a4-4ef8-a8a8-9933a38a0cef"
+            "cc339d54-5c66-477e-9ecf-6814f2763886"
           ]
         },
         {
@@ -766,7 +766,7 @@
           "method": "eq",
           "args": [
             "id",
-            "ccf222b0-c8a4-4ef8-a8a8-9933a38a0cef"
+            "cc339d54-5c66-477e-9ecf-6814f2763886"
           ]
         },
         {
@@ -801,7 +801,7 @@
           "method": "eq",
           "args": [
             "id",
-            "ccf222b0-c8a4-4ef8-a8a8-9933a38a0cef"
+            "cc339d54-5c66-477e-9ecf-6814f2763886"
           ]
         },
         {
@@ -836,7 +836,7 @@
           "method": "eq",
           "args": [
             "id",
-            "bc4c9b77-034f-4211-a699-9d151eacc719"
+            "c4e1b5b8-77c3-4335-841c-a4831e452893"
           ]
         },
         {
@@ -871,7 +871,7 @@
           "method": "eq",
           "args": [
             "id",
-            "bc4c9b77-034f-4211-a699-9d151eacc719"
+            "c4e1b5b8-77c3-4335-841c-a4831e452893"
           ]
         },
         {
@@ -906,7 +906,7 @@
           "method": "eq",
           "args": [
             "id",
-            "bc4c9b77-034f-4211-a699-9d151eacc719"
+            "c4e1b5b8-77c3-4335-841c-a4831e452893"
           ]
         },
         {
@@ -941,7 +941,7 @@
           "method": "eq",
           "args": [
             "id",
-            "ccf222b0-c8a4-4ef8-a8a8-9933a38a0cef"
+            "cc339d54-5c66-477e-9ecf-6814f2763886"
           ]
         },
         {
@@ -976,7 +976,7 @@
           "method": "eq",
           "args": [
             "id",
-            "ccf222b0-c8a4-4ef8-a8a8-9933a38a0cef"
+            "cc339d54-5c66-477e-9ecf-6814f2763886"
           ]
         },
         {
@@ -1011,7 +1011,7 @@
           "method": "eq",
           "args": [
             "id",
-            "ccf222b0-c8a4-4ef8-a8a8-9933a38a0cef"
+            "cc339d54-5c66-477e-9ecf-6814f2763886"
           ]
         },
         {
@@ -1517,6 +1517,462 @@
       "appRole": "cashier"
     },
     {
+      "id": "src/services/supabase/orderReturnStates.service.ts:15",
+      "table": "sales_return_events",
+      "operation": "select",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "variant": "original-chain",
+      "status": 200,
+      "sqlstate": null,
+      "message": null,
+      "details": null,
+      "hint": null,
+      "rows": 0,
+      "outcome": "zero_rows",
+      "evaluated": [
+        {
+          "method": "select",
+          "args": [
+            "order_id,merchandise_refund_amount_in_minor_units"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "settlement_status",
+            "settled"
+          ]
+        },
+        {
+          "method": "in",
+          "args": [
+            "order_id",
+            [
+              "358517f9-957c-4953-a46f-69dbb34ae91a"
+            ]
+          ]
+        }
+      ],
+      "appRole": "owner"
+    },
+    {
+      "id": "src/services/supabase/orderReturnStates.service.ts:15",
+      "table": "sales_return_events",
+      "operation": "select",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "variant": "original-chain",
+      "status": 200,
+      "sqlstate": null,
+      "message": null,
+      "details": null,
+      "hint": null,
+      "rows": 0,
+      "outcome": "zero_rows",
+      "evaluated": [
+        {
+          "method": "select",
+          "args": [
+            "order_id,merchandise_refund_amount_in_minor_units"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "settlement_status",
+            "settled"
+          ]
+        },
+        {
+          "method": "in",
+          "args": [
+            "order_id",
+            [
+              "358517f9-957c-4953-a46f-69dbb34ae91a"
+            ]
+          ]
+        }
+      ],
+      "appRole": "admin"
+    },
+    {
+      "id": "src/services/supabase/orderReturnStates.service.ts:15",
+      "table": "sales_return_events",
+      "operation": "select",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "variant": "original-chain",
+      "status": 200,
+      "sqlstate": null,
+      "message": null,
+      "details": null,
+      "hint": null,
+      "rows": 0,
+      "outcome": "zero_rows",
+      "evaluated": [
+        {
+          "method": "select",
+          "args": [
+            "order_id,merchandise_refund_amount_in_minor_units"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "settlement_status",
+            "settled"
+          ]
+        },
+        {
+          "method": "in",
+          "args": [
+            "order_id",
+            [
+              "358517f9-957c-4953-a46f-69dbb34ae91a"
+            ]
+          ]
+        }
+      ],
+      "appRole": "cashier"
+    },
+    {
+      "id": "src/services/supabase/orderReturnStates.service.ts:21",
+      "table": "orders",
+      "operation": "select",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "variant": "original-chain",
+      "status": 200,
+      "sqlstate": null,
+      "message": null,
+      "details": null,
+      "hint": null,
+      "rows": 1,
+      "outcome": "success",
+      "evaluated": [
+        {
+          "method": "select",
+          "args": [
+            "id,total_in_minor_units,delivery_fee_in_minor_units"
+          ]
+        },
+        {
+          "method": "in",
+          "args": [
+            "id",
+            [
+              "358517f9-957c-4953-a46f-69dbb34ae91a"
+            ]
+          ]
+        }
+      ],
+      "appRole": "owner"
+    },
+    {
+      "id": "src/services/supabase/orderReturnStates.service.ts:21",
+      "table": "orders",
+      "operation": "select",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "variant": "original-chain",
+      "status": 200,
+      "sqlstate": null,
+      "message": null,
+      "details": null,
+      "hint": null,
+      "rows": 1,
+      "outcome": "success",
+      "evaluated": [
+        {
+          "method": "select",
+          "args": [
+            "id,total_in_minor_units,delivery_fee_in_minor_units"
+          ]
+        },
+        {
+          "method": "in",
+          "args": [
+            "id",
+            [
+              "358517f9-957c-4953-a46f-69dbb34ae91a"
+            ]
+          ]
+        }
+      ],
+      "appRole": "admin"
+    },
+    {
+      "id": "src/services/supabase/orderReturnStates.service.ts:21",
+      "table": "orders",
+      "operation": "select",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "variant": "original-chain",
+      "status": 200,
+      "sqlstate": null,
+      "message": null,
+      "details": null,
+      "hint": null,
+      "rows": 1,
+      "outcome": "success",
+      "evaluated": [
+        {
+          "method": "select",
+          "args": [
+            "id,total_in_minor_units,delivery_fee_in_minor_units"
+          ]
+        },
+        {
+          "method": "in",
+          "args": [
+            "id",
+            [
+              "358517f9-957c-4953-a46f-69dbb34ae91a"
+            ]
+          ]
+        }
+      ],
+      "appRole": "cashier"
+    },
+    {
+      "id": "src/services/supabase/orderReturnStates.service.ts:40",
+      "table": "sales_return_events",
+      "operation": "select",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "variant": "original-chain",
+      "status": 200,
+      "sqlstate": null,
+      "message": null,
+      "details": null,
+      "hint": null,
+      "rows": 0,
+      "outcome": "zero_rows",
+      "evaluated": [
+        {
+          "method": "select",
+          "args": [
+            "order_id,created_at"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "settlement_status",
+            "settled"
+          ]
+        },
+        {
+          "method": "order",
+          "args": [
+            "created_at",
+            {
+              "ascending": false
+            }
+          ]
+        },
+        {
+          "method": "limit",
+          "args": [
+            200
+          ]
+        }
+      ],
+      "appRole": "owner"
+    },
+    {
+      "id": "src/services/supabase/orderReturnStates.service.ts:40",
+      "table": "sales_return_events",
+      "operation": "select",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "variant": "original-chain",
+      "status": 200,
+      "sqlstate": null,
+      "message": null,
+      "details": null,
+      "hint": null,
+      "rows": 0,
+      "outcome": "zero_rows",
+      "evaluated": [
+        {
+          "method": "select",
+          "args": [
+            "order_id,created_at"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "settlement_status",
+            "settled"
+          ]
+        },
+        {
+          "method": "order",
+          "args": [
+            "created_at",
+            {
+              "ascending": false
+            }
+          ]
+        },
+        {
+          "method": "limit",
+          "args": [
+            200
+          ]
+        }
+      ],
+      "appRole": "admin"
+    },
+    {
+      "id": "src/services/supabase/orderReturnStates.service.ts:40",
+      "table": "sales_return_events",
+      "operation": "select",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "variant": "original-chain",
+      "status": 200,
+      "sqlstate": null,
+      "message": null,
+      "details": null,
+      "hint": null,
+      "rows": 0,
+      "outcome": "zero_rows",
+      "evaluated": [
+        {
+          "method": "select",
+          "args": [
+            "order_id,created_at"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "settlement_status",
+            "settled"
+          ]
+        },
+        {
+          "method": "order",
+          "args": [
+            "created_at",
+            {
+              "ascending": false
+            }
+          ]
+        },
+        {
+          "method": "limit",
+          "args": [
+            200
+          ]
+        }
+      ],
+      "appRole": "cashier"
+    },
+    {
+      "id": "src/services/supabase/orderReturnStates.service.ts:54",
+      "table": "orders",
+      "operation": "select",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "variant": "original-chain",
+      "status": 200,
+      "sqlstate": null,
+      "message": null,
+      "details": null,
+      "hint": null,
+      "rows": 1,
+      "outcome": "success",
+      "evaluated": [
+        {
+          "method": "select",
+          "args": [
+            "id,order_number,customer_name_snapshot"
+          ]
+        },
+        {
+          "method": "in",
+          "args": [
+            "id",
+            [
+              "358517f9-957c-4953-a46f-69dbb34ae91a"
+            ]
+          ]
+        }
+      ],
+      "appRole": "owner"
+    },
+    {
+      "id": "src/services/supabase/orderReturnStates.service.ts:54",
+      "table": "orders",
+      "operation": "select",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "variant": "original-chain",
+      "status": 200,
+      "sqlstate": null,
+      "message": null,
+      "details": null,
+      "hint": null,
+      "rows": 1,
+      "outcome": "success",
+      "evaluated": [
+        {
+          "method": "select",
+          "args": [
+            "id,order_number,customer_name_snapshot"
+          ]
+        },
+        {
+          "method": "in",
+          "args": [
+            "id",
+            [
+              "358517f9-957c-4953-a46f-69dbb34ae91a"
+            ]
+          ]
+        }
+      ],
+      "appRole": "admin"
+    },
+    {
+      "id": "src/services/supabase/orderReturnStates.service.ts:54",
+      "table": "orders",
+      "operation": "select",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "variant": "original-chain",
+      "status": 200,
+      "sqlstate": null,
+      "message": null,
+      "details": null,
+      "hint": null,
+      "rows": 1,
+      "outcome": "success",
+      "evaluated": [
+        {
+          "method": "select",
+          "args": [
+            "id,order_number,customer_name_snapshot"
+          ]
+        },
+        {
+          "method": "in",
+          "args": [
+            "id",
+            [
+              "358517f9-957c-4953-a46f-69dbb34ae91a"
+            ]
+          ]
+        }
+      ],
+      "appRole": "cashier"
+    },
+    {
       "id": "src/services/supabase/orders.service.ts:289",
       "table": "orders",
       "operation": "select",
@@ -1542,7 +1998,7 @@
           "args": [
             "id",
             [
-              "cceaa55b-6bfa-437b-a6e8-647f9599c371"
+              "358517f9-957c-4953-a46f-69dbb34ae91a"
             ]
           ]
         }
@@ -1575,7 +2031,7 @@
           "args": [
             "id",
             [
-              "cceaa55b-6bfa-437b-a6e8-647f9599c371"
+              "358517f9-957c-4953-a46f-69dbb34ae91a"
             ]
           ]
         }
@@ -1608,7 +2064,7 @@
           "args": [
             "id",
             [
-              "cceaa55b-6bfa-437b-a6e8-647f9599c371"
+              "358517f9-957c-4953-a46f-69dbb34ae91a"
             ]
           ]
         }
@@ -1641,7 +2097,7 @@
           "args": [
             "order_id",
             [
-              "cceaa55b-6bfa-437b-a6e8-647f9599c371"
+              "358517f9-957c-4953-a46f-69dbb34ae91a"
             ]
           ]
         },
@@ -1707,7 +2163,7 @@
           "args": [
             "order_id",
             [
-              "cceaa55b-6bfa-437b-a6e8-647f9599c371"
+              "358517f9-957c-4953-a46f-69dbb34ae91a"
             ]
           ]
         },
@@ -1773,7 +2229,7 @@
           "args": [
             "order_id",
             [
-              "cceaa55b-6bfa-437b-a6e8-647f9599c371"
+              "358517f9-957c-4953-a46f-69dbb34ae91a"
             ]
           ]
         },
@@ -1838,7 +2294,7 @@
           "method": "eq",
           "args": [
             "id",
-            "cceaa55b-6bfa-437b-a6e8-647f9599c371"
+            "358517f9-957c-4953-a46f-69dbb34ae91a"
           ]
         },
         {
@@ -1873,7 +2329,7 @@
           "method": "eq",
           "args": [
             "id",
-            "cceaa55b-6bfa-437b-a6e8-647f9599c371"
+            "358517f9-957c-4953-a46f-69dbb34ae91a"
           ]
         },
         {
@@ -1908,7 +2364,7 @@
           "method": "eq",
           "args": [
             "id",
-            "cceaa55b-6bfa-437b-a6e8-647f9599c371"
+            "358517f9-957c-4953-a46f-69dbb34ae91a"
           ]
         },
         {
@@ -1943,7 +2399,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "cceaa55b-6bfa-437b-a6e8-647f9599c371"
+            "358517f9-957c-4953-a46f-69dbb34ae91a"
           ]
         },
         {
@@ -1980,7 +2436,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "cceaa55b-6bfa-437b-a6e8-647f9599c371"
+            "358517f9-957c-4953-a46f-69dbb34ae91a"
           ]
         },
         {
@@ -2017,7 +2473,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "cceaa55b-6bfa-437b-a6e8-647f9599c371"
+            "358517f9-957c-4953-a46f-69dbb34ae91a"
           ]
         },
         {
@@ -2055,7 +2511,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "6543a8eb-6426-4ee9-b763-4dcc720da5a6"
+              "3e9bd750-065e-4beb-9c08-96c8430dd8b4"
             ]
           ]
         }
@@ -2088,7 +2544,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "6543a8eb-6426-4ee9-b763-4dcc720da5a6"
+              "3e9bd750-065e-4beb-9c08-96c8430dd8b4"
             ]
           ]
         }
@@ -2121,7 +2577,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "6543a8eb-6426-4ee9-b763-4dcc720da5a6"
+              "3e9bd750-065e-4beb-9c08-96c8430dd8b4"
             ]
           ]
         }
@@ -4982,7 +5438,7 @@
           "method": "eq",
           "args": [
             "id",
-            "bc4c9b77-034f-4211-a699-9d151eacc719"
+            "c4e1b5b8-77c3-4335-841c-a4831e452893"
           ]
         },
         {
@@ -5017,7 +5473,7 @@
           "method": "eq",
           "args": [
             "id",
-            "bc4c9b77-034f-4211-a699-9d151eacc719"
+            "c4e1b5b8-77c3-4335-841c-a4831e452893"
           ]
         },
         {
@@ -5052,7 +5508,7 @@
           "method": "eq",
           "args": [
             "id",
-            "bc4c9b77-034f-4211-a699-9d151eacc719"
+            "c4e1b5b8-77c3-4335-841c-a4831e452893"
           ]
         },
         {
@@ -6739,7 +7195,7 @@
             {
               "event_key": "audit-local-dispatch",
               "event_type": "new_order",
-              "entity_id": "cceaa55b-6bfa-437b-a6e8-647f9599c371",
+              "entity_id": "358517f9-957c-4953-a46f-69dbb34ae91a",
               "status": "processing"
             }
           ]
@@ -6772,7 +7228,7 @@
           "method": "eq",
           "args": [
             "id",
-            "cceaa55b-6bfa-437b-a6e8-647f9599c371"
+            "358517f9-957c-4953-a46f-69dbb34ae91a"
           ]
         },
         {
@@ -6811,7 +7267,7 @@
               "status": "failed",
               "failed_count": 1,
               "last_error": "isolated diagnostic",
-              "completed_at": "2026-11-20T13:09:50.573Z"
+              "completed_at": "2026-11-20T15:08:02.226Z"
             }
           ]
         },
@@ -6847,7 +7303,7 @@
               "status": "failed",
               "failed_count": 1,
               "last_error": "isolated diagnostic",
-              "completed_at": "2026-11-20T13:09:50.589Z"
+              "completed_at": "2026-11-20T15:08:02.259Z"
             }
           ]
         },
@@ -6881,9 +7337,9 @@
           "args": [
             {
               "failure_count": 0,
-              "last_success_at": "2026-11-20T13:09:50.603Z",
+              "last_success_at": "2026-11-20T15:08:02.275Z",
               "last_failure_message": null,
-              "updated_at": "2026-11-20T13:09:50.603Z"
+              "updated_at": "2026-11-20T15:08:02.275Z"
             }
           ]
         },
@@ -6918,9 +7374,9 @@
             {
               "is_active": false,
               "failure_count": 1,
-              "last_failure_at": "2026-11-20T13:09:50.621Z",
+              "last_failure_at": "2026-11-20T15:08:02.307Z",
               "last_failure_message": "isolated diagnostic",
-              "updated_at": "2026-11-20T13:09:50.621Z"
+              "updated_at": "2026-11-20T15:08:02.307Z"
             }
           ]
         },
@@ -6957,7 +7413,7 @@
               "delivered_count": 1,
               "failed_count": 0,
               "last_error": null,
-              "completed_at": "2026-11-20T13:09:50.633Z"
+              "completed_at": "2026-11-20T15:08:02.339Z"
             }
           ]
         },
@@ -79691,7 +80147,7 @@
     ]
   },
   "sourceTotals": {
-    "queries": 62,
+    "queries": 66,
     "tableNames": [
       "branches",
       "brands",
@@ -79715,6 +80171,7 @@
       "push_dispatches",
       "push_subscriptions",
       "roles",
+      "sales_return_events",
       "sales_returns",
       "supplier_payments",
       "supplier_receipt_items",
@@ -79724,7 +80181,7 @@
       "user_roles",
       "warehouses"
     ],
-    "authenticated": 55,
+    "authenticated": 59,
     "service_role": 7,
     "anon": 0,
     "subscriptions": 20
@@ -80244,15 +80701,27 @@
     },
     {
       "file": "src/features/orders/OrderDetailModal.tsx",
-      "sha256": "ff75fd0968444ef5d44c18833ae6e1cf8a97b3c6a2776b480ebf3cc02176ebd6"
+      "sha256": "6718aeaea823a20c9fdd0a73757d6caa3a91a0e22af7d595f57933399e78aa0f"
+    },
+    {
+      "file": "src/features/orders/OrderReturnBadge.tsx",
+      "sha256": "bf77578315f8d6caba0e243f10940317078b23ac7573fc6dfa5940ad974f325b"
     },
     {
       "file": "src/features/orders/OrdersCenterView.tsx",
-      "sha256": "9d1217e90ab1016e6c68fa37e63bbd09bd28d36d044ecda58375d58d3fe8836a"
+      "sha256": "b1a41f2e4ff7ee5deb2f681fcdd53de71df7e2b915ccb7a2cb7ef0cfbcb1709e"
     },
     {
       "file": "src/features/orders/orderStatus.ts",
       "sha256": "c9e0468c1d8e221f1b11af1d54eaebdd88435fa69718a3bdf47b8d4c66bc2188"
+    },
+    {
+      "file": "src/features/orders/useOrderReturnStates.ts",
+      "sha256": "f5cd9155527d0bae7fa3606f5a31f8544bb5a05e9c056d89f6fd3578c3a84b92"
+    },
+    {
+      "file": "src/features/orders/useOrdersReceivables.ts",
+      "sha256": "b2cf1a0380e76d6c1fce7ea0b94120ffc15eb27a9a099df347e17040a34b0695"
     },
     {
       "file": "src/features/pos/BarcodeScannerModal.tsx",
@@ -80428,11 +80897,15 @@
     },
     {
       "file": "src/features/salesHistory/SalesHistoryView.tsx",
-      "sha256": "7207e7f62977463f0400d2fa5a67606eef777597f721c4531655f723450d4229"
+      "sha256": "24ddea87fca2769ca05efbd6154b99bbe44fa51a33b7d900728528e3deb130ca"
     },
     {
       "file": "src/features/salesHistory/SalesInvoiceDialog.tsx",
       "sha256": "7f28fff7005c6ce927664469c32b478e16c3e1b185895b6a75090bb1f5fd56d0"
+    },
+    {
+      "file": "src/features/salesHistory/SalesReturnsLine.tsx",
+      "sha256": "44d1033f70a779c5b1532e8e0cc1eacb5710c85172e7f26eb9a02aed2d863a67"
     },
     {
       "file": "src/features/shifts/CashFlowDetails.tsx",
@@ -80468,7 +80941,11 @@
     },
     {
       "file": "src/features/shifts/ShiftClosingReportModal.tsx",
-      "sha256": "f74487b2c32b1384b49d63aec48bf292bb232c599bdb88072fdea8a0bf8c74c4"
+      "sha256": "dd76de9e7938cee27255d3f4f3cb01e794e0181441b7297c3ce8d47f5fe38bfb"
+    },
+    {
+      "file": "src/features/shifts/ShiftOwnerSummary.tsx",
+      "sha256": "839cc035b721deab634831b09d14f19fd884f3256fc2a7f5146126c6ebae56a5"
     },
     {
       "file": "src/features/shifts/ShiftsView.tsx",
@@ -80713,6 +81190,10 @@
     {
       "file": "src/services/supabase/optionalQuantity.service.ts",
       "sha256": "a09451cd8c36fe9588358d9d18331ac29d66a425fb5179573108b41b05f3a2b5"
+    },
+    {
+      "file": "src/services/supabase/orderReturnStates.service.ts",
+      "sha256": "f2afbebfc4546f40f9131959cad2f3e5e53de12dc880b38ef1b678307c810105"
     },
     {
       "file": "src/services/supabase/orders.service.ts",
@@ -81011,6 +81492,10 @@
       "sha256": "8fc0b50c78e0d926b8982f9b82477ee20cdac59eed78a049dd0cbd8afb963413"
     },
     {
+      "file": "src/utils/orderReturnState.ts",
+      "sha256": "4f839c7782201ec344ddf5c5d46eecbe642bfdc9f0971ed39d0dbbbfc1292a9d"
+    },
+    {
       "file": "src/utils/parcelFamilySearch.ts",
       "sha256": "141cfa6c8761ae4f9857e9168ff90ee48bb3460df1bd24ad6a09ac9a91f4e0f8"
     },
@@ -81081,6 +81566,10 @@
     {
       "file": "src/utils/screenHistory.ts",
       "sha256": "ee9a1fe9e328a7086a1157e23fc17b85974eb69488dc32aa8f55e3513b7d3634"
+    },
+    {
+      "file": "src/utils/shiftOwnerSummary.ts",
+      "sha256": "880d7a53d77e71b928807cf70b3bba5689b8d362aadb6908c1d024dc33b87d97"
     },
     {
       "file": "src/utils/supplierCancellationPreview.ts",
@@ -81508,13 +81997,13 @@
     }
   ],
   "fixture": {
-    "orderId": "cceaa55b-6bfa-437b-a6e8-647f9599c371",
-    "operationId": "1c7a912e-0349-4cb5-befd-2ea67185c29a",
-    "receiptId": "ccf222b0-c8a4-4ef8-a8a8-9933a38a0cef",
-    "poId": "bc4c9b77-034f-4211-a699-9d151eacc719",
+    "orderId": "358517f9-957c-4953-a46f-69dbb34ae91a",
+    "operationId": "a341318c-5283-4c24-bf16-fe17779c3d24",
+    "receiptId": "cc339d54-5c66-477e-9ecf-6814f2763886",
+    "poId": "c4e1b5b8-77c3-4335-841c-a4831e452893",
     "subscriptionId": "92600000-0000-4000-8000-000000000701",
     "instances": [
-      "6543a8eb-6426-4ee9-b763-4dcc720da5a6"
+      "3e9bd750-065e-4beb-9c08-96c8430dd8b4"
     ]
   },
   "access": [
@@ -85765,6 +86254,169 @@
       ]
     },
     {
+      "table": "sales_return_events",
+      "role": "authenticated",
+      "rls": true,
+      "forceRls": false,
+      "privileges": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": true,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "selectableColumns": [
+        "id",
+        "return_number",
+        "operation_id",
+        "order_id",
+        "branch_id",
+        "warehouse_id",
+        "cash_shift_id",
+        "reason",
+        "refund_method",
+        "merchandise_refund_amount_in_minor_units",
+        "reference_number",
+        "notes",
+        "created_by",
+        "created_at",
+        "contract_version",
+        "settlement_status",
+        "outstanding_debt_before_snapshot_in_minor_units",
+        "net_collected_before_snapshot_in_minor_units",
+        "debt_reduction_amount_in_minor_units",
+        "money_refund_amount_in_minor_units",
+        "raw_customer_damage_deduction_in_minor_units",
+        "applied_customer_damage_deduction_in_minor_units",
+        "settled_at",
+        "settlement_coordinator_version"
+      ],
+      "policies": [
+        {
+          "name": "Active ERP staff can read parcel foundation",
+          "check": null,
+          "roles": [
+            "authenticated"
+          ],
+          "table": "sales_return_events",
+          "using": "( SELECT is_active_erp_staff() AS is_active_erp_staff)",
+          "schema": "public",
+          "command": "r",
+          "permissive": true
+        }
+      ],
+      "fixtureRows": 0,
+      "visible": [
+        {
+          "appRole": "owner",
+          "sqlstate": null,
+          "rows": 0,
+          "outcome": "fixture_empty"
+        },
+        {
+          "appRole": "admin",
+          "sqlstate": null,
+          "rows": 0,
+          "outcome": "fixture_empty"
+        },
+        {
+          "appRole": "cashier",
+          "sqlstate": null,
+          "rows": 0,
+          "outcome": "fixture_empty"
+        },
+        {
+          "appRole": "no-erp-role",
+          "sqlstate": null,
+          "rows": 0,
+          "outcome": "fixture_empty"
+        }
+      ]
+    },
+    {
+      "table": "sales_return_events",
+      "role": "anon",
+      "rls": true,
+      "forceRls": false,
+      "privileges": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "selectableColumns": [],
+      "policies": [
+        {
+          "name": "Active ERP staff can read parcel foundation",
+          "check": null,
+          "roles": [
+            "authenticated"
+          ],
+          "table": "sales_return_events",
+          "using": "( SELECT is_active_erp_staff() AS is_active_erp_staff)",
+          "schema": "public",
+          "command": "r",
+          "permissive": true
+        }
+      ],
+      "fixtureRows": 0,
+      "visible": [
+        {
+          "appRole": "anon",
+          "sqlstate": "42501",
+          "rows": null,
+          "outcome": "permission_denied"
+        }
+      ]
+    },
+    {
+      "table": "sales_return_events",
+      "role": "service_role",
+      "rls": true,
+      "forceRls": false,
+      "privileges": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": true,
+        "MAINTAIN": true,
+        "TRUNCATE": true,
+        "REFERENCES": true
+      },
+      "selectableColumns": [],
+      "policies": [
+        {
+          "name": "Active ERP staff can read parcel foundation",
+          "check": null,
+          "roles": [
+            "authenticated"
+          ],
+          "table": "sales_return_events",
+          "using": "( SELECT is_active_erp_staff() AS is_active_erp_staff)",
+          "schema": "public",
+          "command": "r",
+          "permissive": true
+        }
+      ],
+      "fixtureRows": 0,
+      "visible": [
+        {
+          "appRole": "service_role",
+          "sqlstate": "42501",
+          "rows": null,
+          "outcome": "permission_denied"
+        }
+      ]
+    },
+    {
       "table": "sales_returns",
       "role": "authenticated",
       "rls": true,
@@ -87264,17 +87916,17 @@
   ],
   "coverage": {
     "complete": true,
-    "sourceSites": 62,
-    "expected": 181,
-    "actual": 181
+    "sourceSites": 66,
+    "expected": 193,
+    "actual": 193
   },
   "infrastructureOk": true,
   "applicationReady": true,
   "counts": {
-    "success": 172,
+    "success": 178,
     "permission_denied": 0,
-    "zero_rows": 9,
+    "zero_rows": 15,
     "other_error": 0
   },
-  "endedAt": "2026-11-20T13:12:01.756Z"
+  "endedAt": "2026-11-20T15:10:28.200Z"
 }
