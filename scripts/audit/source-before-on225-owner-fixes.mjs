@@ -7,7 +7,7 @@ const indexFile='scripts/audit/on225-owner-fixes-source-pins.json';
 const indexText=canonicalLf(readFileSync(new URL('./on225-owner-fixes-source-pins.json',import.meta.url),'utf8'));
 const index=JSON.parse(indexText);
 assert.equal(index.format,1);
-assert.equal(index.baseline,'3fda5f90d6fe380bcff677f494476bc9a6a6ab69');
+assert.equal(index.baseline,'db1f1a13784d35632c1f2b33a91567392ef64271');
 
 /** @type {Record<string,{before:string|null,after:string,beforeText:string|null}>} */
 export const on225OwnerFixesPins=index.entries;

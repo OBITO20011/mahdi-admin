@@ -1,0 +1,919 @@
+{
+  "format": 1,
+  "source": {
+    "mainSha": "3fda5f90d6fe380bcff677f494476bc9a6a6ab69",
+    "referenceSha256": "dd71179daa33f981487a3ce9398d6a895be0d3d1d22234f20ee83dfbe989ae58",
+    "fields": "exact schema/name/kind projection from real reference; no row or synthetic relation"
+  },
+  "history": [
+    "001",
+    "002",
+    "003",
+    "004",
+    "005",
+    "006",
+    "007",
+    "008",
+    "009",
+    "010",
+    "011",
+    "012",
+    "013",
+    "014",
+    "015",
+    "016",
+    "017",
+    "018",
+    "019",
+    "020",
+    "021",
+    "022",
+    "023",
+    "024",
+    "025",
+    "026",
+    "027",
+    "028",
+    "029",
+    "030",
+    "031",
+    "032",
+    "033",
+    "034",
+    "035",
+    "036",
+    "037",
+    "038",
+    "039",
+    "040",
+    "041",
+    "042",
+    "043",
+    "044",
+    "045",
+    "046",
+    "047",
+    "048",
+    "049",
+    "050",
+    "051",
+    "052",
+    "053",
+    "054",
+    "055",
+    "056",
+    "057",
+    "058",
+    "059",
+    "060",
+    "061",
+    "062",
+    "063",
+    "064",
+    "065",
+    "066",
+    "067",
+    "068",
+    "069",
+    "070",
+    "071",
+    "072",
+    "073",
+    "074",
+    "075",
+    "076",
+    "077",
+    "078",
+    "079",
+    "080",
+    "081",
+    "082",
+    "083",
+    "084",
+    "085",
+    "086",
+    "087",
+    "088",
+    "089",
+    "090",
+    "091",
+    "092",
+    "093",
+    "094",
+    "095",
+    "096",
+    "097",
+    "098",
+    "099",
+    "100",
+    "101",
+    "102",
+    "103",
+    "104",
+    "105",
+    "106",
+    "107",
+    "108",
+    "109",
+    "110",
+    "111",
+    "112",
+    "113",
+    "114",
+    "115",
+    "116",
+    "117",
+    "118",
+    "119",
+    "120",
+    "121",
+    "122",
+    "123",
+    "124",
+    "125",
+    "126",
+    "127",
+    "128",
+    "129",
+    "130",
+    "131",
+    "132",
+    "133",
+    "134",
+    "135",
+    "136",
+    "137",
+    "138",
+    "139",
+    "150",
+    "151",
+    "160",
+    "161",
+    "162",
+    "163",
+    "164",
+    "170",
+    "171",
+    "180",
+    "181",
+    "182",
+    "190",
+    "191",
+    "192",
+    "193",
+    "194",
+    "195",
+    "196",
+    "197",
+    "198",
+    "199",
+    "200",
+    "201",
+    "202",
+    "203",
+    "204",
+    "205",
+    "206",
+    "207",
+    "208",
+    "209",
+    "210",
+    "211",
+    "212",
+    "213",
+    "214",
+    "215",
+    "216",
+    "217",
+    "219",
+    "220",
+    "222",
+    "223",
+    "224",
+    "225"
+  ],
+  "catalog": {
+    "tables": [
+      {
+        "schema": "public",
+        "name": "admin_ai_assistant_usage_events",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "admin_ai_assistant_usage_events_id_seq",
+        "kind": "S"
+      },
+      {
+        "schema": "public",
+        "name": "advanced_monitoring_checks",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "advanced_monitoring_metrics",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "advanced_monitoring_runtime_incidents",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "advanced_monitoring_settings",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "aftercare215_exchange_results",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "aftercare215_exchanges",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "aftercare215_inspection_items",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "aftercare215_inspections",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "aftercare215_return_contexts",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "aftercare215_return_results",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "aftercare_supplier_links",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "audit_logs",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "automation_event_deliveries",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "automation_events",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "branches",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "brands",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "business_alert_incidents",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "business_alert_settings",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "business_operations",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "business_summary_runs",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "cash_shift_number_seq",
+        "kind": "S"
+      },
+      {
+        "schema": "public",
+        "name": "cash_shift_reversal_operations",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "cash_shift_reversals",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "cash_shifts",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "categories",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "cheque_compensation_claims",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "cheque_party_keys",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "configurable_parcel_feature_settings",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "customer_addresses",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "customer_collection_cheque_allocations",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "customer_collection_opening_allocations",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "customer_collection_operation_number_seq",
+        "kind": "S"
+      },
+      {
+        "schema": "public",
+        "name": "customer_collection_operations",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "customer_collection_order_payments",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "customer_opening_balance_number_seq",
+        "kind": "S"
+      },
+      {
+        "schema": "public",
+        "name": "customer_opening_balances",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "customer_payment_number_seq",
+        "kind": "S"
+      },
+      {
+        "schema": "public",
+        "name": "customer_payments",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "customers",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "deferred_cheque_allocations",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "deferred_cheque_events",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "deferred_cheque_number_seq",
+        "kind": "S"
+      },
+      {
+        "schema": "public",
+        "name": "deferred_cheques",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "go_live_import_batches",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "go_live_setup_state",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "guest_order_gateway_requests",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "guest_order_tracking_limits",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "inventory_balances",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "inventory_damage_events",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "inventory_movement_mutation_seq",
+        "kind": "S"
+      },
+      {
+        "schema": "public",
+        "name": "inventory_movements",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "inventory_opening_items",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "inventory_opening_session_number_seq",
+        "kind": "S"
+      },
+      {
+        "schema": "public",
+        "name": "inventory_opening_sessions",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "operational_expense_number_seq",
+        "kind": "S"
+      },
+      {
+        "schema": "public",
+        "name": "operational_expenses",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "order_inventory_reservations",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "order_items",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "order_parcel_components",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "order_parcel_instances",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "order_status_history",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "orders",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "owner_cash_withdrawal_number_seq",
+        "kind": "S"
+      },
+      {
+        "schema": "public",
+        "name": "owner_cash_withdrawal_reversals",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "owner_cash_withdrawals",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "owner_telegram_dispatch_settings",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "phase2_receipt_wac_snapshots",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "phase3_customer_cost_finalization_guards",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "phase3_customer_lifecycle_transition_guards",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "phase42_return_inventory_effects",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "phase42_return_settlement_evidence",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "phase42_return_settlement_guards",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "phase43_replacement_inventory_effects",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "phase43_replacement_issuance_guards",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "phase43_replacement_settlement_evidence",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "pos216_initial_payments",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "pos_sale_number_seq",
+        "kind": "S"
+      },
+      {
+        "schema": "public",
+        "name": "pos_sale_reversals",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "pos_uncommitted_attempt_cancellations",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "product_cost_corrections",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "product_images",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "product_parcel_allowed_components",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "product_parcel_configurations",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "product_sale_pricing_state225",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "products",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "profiles",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "promotion_codes",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "promotion_redemptions",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "purchase_order_item_components",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "purchase_order_items",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "purchase_orders",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "purchase_receipt_commercial_lines",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "purchase_receipt_items",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "purchase_receipts",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "push_dispatches",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "push_subscriptions",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "roles",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "sales_aftercare_consumptions",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "sales_replacement_events",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "sales_replacement_items",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "sales_return_component_inspections",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "sales_return_events",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "sales_return_items",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "sales_return_number_seq",
+        "kind": "S"
+      },
+      {
+        "schema": "public",
+        "name": "sales_returns",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "stock_alert_reads",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "stock_alerts",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "storefront_settings",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "supplier215_credits",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "supplier_cheque_claim_payments",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "supplier_cheque_claim_reversals",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "supplier_financial_invoice_identities",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "supplier_opening_balance_number_seq",
+        "kind": "S"
+      },
+      {
+        "schema": "public",
+        "name": "supplier_opening_balances",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "supplier_opening_payments",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "supplier_payment_reversals",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "supplier_payments",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "supplier_receipt_commercial_lines",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "supplier_receipt_items",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "supplier_receipt_seq",
+        "kind": "S"
+      },
+      {
+        "schema": "public",
+        "name": "supplier_receipts",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "supplier_replacement_cases",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "supplier_replacement_events",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "supplier_replacement_inventory_effects",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "suppliers",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "units",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "user_roles",
+        "kind": "r"
+      },
+      {
+        "schema": "public",
+        "name": "warehouses",
+        "kind": "r"
+      },
+      {
+        "schema": "sales_lite1",
+        "name": "availability",
+        "kind": "r"
+      },
+      {
+        "schema": "sales_lite1",
+        "name": "completions",
+        "kind": "r"
+      },
+      {
+        "schema": "sales_lite1",
+        "name": "mode",
+        "kind": "r"
+      },
+      {
+        "schema": "sales_lite1",
+        "name": "orders",
+        "kind": "r"
+      },
+      {
+        "schema": "sales_lite1",
+        "name": "requests",
+        "kind": "r"
+      },
+      {
+        "schema": "sales_lite1",
+        "name": "returns",
+        "kind": "r"
+      },
+      {
+        "schema": "sales_lite1",
+        "name": "shifts",
+        "kind": "r"
+      },
+      {
+        "schema": "sales_lite2",
+        "name": "opening_epoch_items",
+        "kind": "r"
+      },
+      {
+        "schema": "sales_lite2",
+        "name": "opening_epochs",
+        "kind": "r"
+      },
+      {
+        "schema": "sales_lite2",
+        "name": "return_details",
+        "kind": "r"
+      },
+      {
+        "schema": "sales_lite2",
+        "name": "sales",
+        "kind": "r"
+      },
+      {
+        "schema": "sales_lite3",
+        "name": "quantity_counters",
+        "kind": "r"
+      },
+      {
+        "schema": "sales_lite3",
+        "name": "quantity_events",
+        "kind": "r"
+      },
+      {
+        "schema": "sales_lite3",
+        "name": "quantity_requests",
+        "kind": "r"
+      }
+    ]
+  }
+}

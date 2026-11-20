@@ -7,47 +7,35 @@
     },
     {
       "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_AFTER_225.json"
+      "path": "docs/handover/ورقة-يوم-التشغيل.html"
     },
     {
       "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+      "path": "docs/handover/ورقة-يوم-التشغيل.md"
     },
     {
       "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+      "path": "docs/operations/GO_LIVE_CUTOVER_AR.md"
     },
     {
       "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_225.json"
+      "path": "docs/operations/ON225_OPENING_WORKBOOK_AR.md"
     },
     {
       "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+      "path": "scripts/audit/on-cutover225-source-pins.json"
     },
     {
       "code": " M",
-      "path": "scripts/audit/source-before-on-cutover225.mjs"
+      "path": "scripts/operations/on-opening225/cli.ts"
     },
     {
       "code": " M",
-      "path": "src/features/more/ParcelConfigurationModal.tsx"
+      "path": "scripts/operations/on-opening225/model.ts"
     },
     {
       "code": " M",
-      "path": "src/features/orders/AdminAftercarePanel.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/features/orders/AftercareWizard215.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/features/products/ProductFormModal.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/features/shifts/ShiftsView.tsx"
+      "path": "scripts/testing/cutover-command225.mjs"
     },
     {
       "code": " M",
@@ -55,15 +43,35 @@
     },
     {
       "code": "??",
-      "path": "scripts/audit/on225-owner-fixes-source-pins.json"
+      "path": "docs/operations/TWO_STAGE225_CODE_REVIEW_AR.md"
     },
     {
       "code": "??",
-      "path": "scripts/audit/source-before-on225-owner-fixes.mjs"
+      "path": "docs/operations/TWO_STAGE225_REHEARSAL_LOCAL_AR.md"
     },
     {
       "code": "??",
-      "path": "tests/on225-owner-trial-fixes.test.ts"
+      "path": "scripts/operations/two-stage225-backup.ps1"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/two-stage225-cli.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/two-stage225.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/fixtures/two-stage225-reference-tables.json"
+    },
+    {
+      "code": "??",
+      "path": "tests/on-opening225-stage-b.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/two-stage225.test.ts"
     }
   ]
 }
