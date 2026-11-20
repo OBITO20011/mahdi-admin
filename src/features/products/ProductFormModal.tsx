@@ -593,10 +593,14 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   const selectParcelMethod = (enabled: boolean) => {
     if (!enabled) {toggleWithoutParcel(true);return;}
     const count = parcelMethodSize;
+    // A single-unit product (purchase pack = 1) cannot name its new parcel after
+    // its own content unit; owner 2026-11-20: the sale parcel is called «طرد».
+    const parcelName = units.find(item => item.nameAr.trim() === 'طرد')?.nameAr
+      ?? units.find(item => item.code === 'PARCEL')?.nameAr
+      ?? units.find(item => item.code === 'CTN')?.nameAr ?? 'طرد';
     const purchaseName = validUnitsPerPackage > 1 ? purchasePackage
-      : ['PCS','HABBA','UNIT'].includes(initialProduct?.purchaseUnitCode ?? '')
-        ? units.find(item => item.code === 'PARCEL')?.nameAr
-          ?? units.find(item => item.code === 'CTN')?.nameAr ?? 'طرد'
+      : ['PCS','HABBA','UNIT'].includes(initialProduct?.purchaseUnitCode ?? '') || purchasePackage.trim() === unit.trim()
+        ? parcelName
         : purchasePackage;
     setWithoutParcel(false);
     if (validUnitsPerPackage <= 1) {

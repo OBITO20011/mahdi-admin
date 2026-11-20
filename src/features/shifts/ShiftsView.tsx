@@ -252,7 +252,19 @@ export const ShiftsView: React.FC<{operatingMode?:OperatingMode}> = ({operatingM
   }[operationType] ?? operationType);
   const isOwner = hasNavigationRole(['owner'],roleName,roles);
   const withdrawalShiftId=currentShift?.id;
-  useEffect(()=>{if(entry?.type==='owner_withdrawals'&&isOwner&&withdrawalShiftId){withdrawalsEntry.current?.scrollIntoView({block:'start'});withdrawalsEntry.current?.focus();}},[entry,isOwner,withdrawalShiftId]);
+  // Owner 2026-11-20: scrollIntoView also moved the app shell and left a blank strip on laptops.
+  // Scroll only the nearest scrolling ancestor, then flash the card so the owner sees where they landed.
+  useEffect(()=>{
+    const card=withdrawalsEntry.current;
+    if(!(entry?.type==='owner_withdrawals'&&isOwner&&withdrawalShiftId&&card))return;
+    let scroller=card.parentElement;
+    while(scroller&&!(scroller.scrollHeight>scroller.clientHeight&&/(auto|scroll)/u.test(getComputedStyle(scroller).overflowY)))scroller=scroller.parentElement;
+    if(scroller)scroller.scrollTo({top:card.getBoundingClientRect().top-scroller.getBoundingClientRect().top+scroller.scrollTop-12});
+    card.focus({preventScroll:true});
+    card.classList.add('ring-2','ring-nw-warn');
+    const timer=window.setTimeout(()=>card.classList.remove('ring-2','ring-nw-warn'),2000);
+    return()=>window.clearTimeout(timer);
+  },[entry,isOwner,withdrawalShiftId]);
 
   const closeDisabled = isSubmitting || !Number.isFinite(actualCash) || actualCash < 0 || (needsReason && discrepancyReason.trim().length < 2);
   const started = currentShift ? new Date(currentShift.startTime) : null;

@@ -1,44 +1,38 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
-  "owner": "codex",
-  "objective": "Owner19Nov PR-B:safe relative GitHubroute+HTTPstatus/networkclass failure report;greenconditions and timeout unchanged;fullCI/Gitleaks,no merge",
-  "baselineSha": "c2942fdd344247cecc5c34ba3dd5f2aed8c1cd70",
-  "branch": "codex/d1-225-diagnostics",
-  "phase": "D1_225_DIAGNOSTICS",
-  "startedAt": "2026-11-19T01:34:13.564Z",
-  "completed": [
-    "225-only public GitHub reader keeps30000ms/no retries/sameheaders;closedrelativeroutes andprivatebranded diagnostics only.",
-    "InitialCI and finalrecheck writefailure.json withsafe githubRead;no approval/currentreference change. CLI prints onlysafe mintedmetadata.",
-    "Full CIdecision body unchanged byte-for-byte exceptreaderimport;legacy220/222/223/224 sources untouched. Newreader boundintoD1sourcehashes.",
-    "Focused18/18 pass inclHTTP502/bodyredaction/network/unsafe route/initial+finalfailure. Bothapptypes0 andstrictlint0;TS7053 correctedby truthfulreturnJSDoc,no cast/testweakening.",
-    "Onlyafter hashes updated;beforeText/unknown-byte guards kept. Currentphase/ownerpermissionmetadata rebound toexplicitnewtask."
-  ],
+  "status": "PAUSED",
+  "owner": "claude",
+  "objective": "Owner20Nov ON225 trial fixes batch1 UI-only(no migration): parcel conversion+طرد name, remove damage log from order, refund method/drawer warning, parcel-mix defaults, withdrawals nav; owner authorized branch/commit/push/PR/merge on green CI",
+  "baselineSha": "3fda5f90d6fe380bcff677f494476bc9a6a6ab69",
+  "branch": "claude/on225-owner-fixes-ui",
+  "phase": "ON225_OWNER_TRIAL_FIXES",
+  "startedAt": "2026-11-20T06:04:30.000Z",
+  "completed": [],
   "inProgress": [
-    "Commit then full localunits beforepush."
+    "Batch1 UI fixes"
   ],
-  "notStarted": [],
-  "testsPassed": [
-    "Focused18/18,0skip.",
-    "Bothapptypes0;strictlint0."
+  "notStarted": [
+    "Batch2 receivables/returns display+reports+shift summary",
+    "Migration226 address/CliQ/delivery"
   ],
+  "testsPassed": [],
   "testsRemaining": [
-    "Full localunits;FULLCI exacthead;Gitleaks0."
+    "lint,types,units,full CI"
   ],
   "findings": [
-    "Fresh ownworktree inherits prior task snapshot from approved main;rebound only local metadata to explicit new owner scope."
+    "Fresh own worktree inherits prior task snapshot from main;rebound local metadata to explicit owner scope 2026-11-20."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No merge/deploy/hostedERP/iPhone/n8n/original3310changes."
+    "No deploy/Frankfurt/Production/hosted access; no historical migration edits."
   ],
-  "nextExactAction": "Full localunits then pushDraftPRB;FULLCI/Gitleaks,no merge.",
-  "checkpointedAt": "2026-11-19T02:03:25.567Z",
+  "nextExactAction": "Push claude/on225-owner-fixes-ui, open PR, merge on 100% green CI; then batch3 UI items 11/14/15/17 and migration226 items 2/3/6/9/10",
+  "checkpointedAt": "2026-11-20T07:01:44.922Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 8,
-  "filesTouchedManifestSha256": "594db307a0b6483d510bff3f29655401a9a9f561f9a0458371f1070328bdf081",
-  "workingTreeFingerprint": "D3BDB55803FB553E701FDF17B6C338435ECDF323A8300BCD1D116B7E641D9010"
+  "filesTouchedCount": 16,
+  "filesTouchedManifestSha256": "3b5ae5215fe5e78b20cc07429ea86a5030262ab5cc0d0fd9152e8c4df73cd56d",
+  "workingTreeFingerprint": "081C70DCC7073617D49908126E14B178CB1ABF84836DFDBED5348C2962A594C3"
 }

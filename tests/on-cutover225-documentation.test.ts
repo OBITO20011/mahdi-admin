@@ -4,6 +4,7 @@ import {readFileSync} from 'node:fs';
 import test from 'node:test';
 import {canonicalLf,sha256} from '../scripts/testing/maintenance-db-contract.mjs';
 import {onCutover225Pins,sourceBeforeOnCutover225} from '../scripts/audit/source-before-on-cutover225.mjs';
+import {sourceBeforeOn225OwnerFixes} from '../scripts/audit/source-before-on225-owner-fixes.mjs';
 import {extractCutoverActivation} from '../scripts/testing/rehearsal220-activation.mjs';
 import {classifyCutover225Command,cutover225CommandDocuments} from '../scripts/testing/cutover-command225.mjs';
 import {documentedCutoverCommands} from '../scripts/testing/cutover-command-contract.mjs';
@@ -43,7 +44,7 @@ test('cutover retains exact archived runbook and card and never projects unknown
   assert.equal(read(archive),canonicalLf(historical.toString('utf8')),archive);
  }
  for(const [file,pin] of Object.entries(onCutover225Pins)){
-  const current=read(file);
+  const current=sourceBeforeOn225OwnerFixes(file,read(file));
   assert.equal(sha256(current),pin.after,file);
   assert.equal(sourceBeforeOnCutover225(file,current),pin.beforeText,file);
   assert.equal(sourceBeforeOnCutover225(file,current+'\nUNKNOWN_BYTE'),current+'\nUNKNOWN_BYTE',file);
