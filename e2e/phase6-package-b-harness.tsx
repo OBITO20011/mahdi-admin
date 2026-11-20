@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {createRoot} from 'react-dom/client';
 import '../src/index.css';
 import {AdminAftercarePanel} from '../src/features/orders/AdminAftercarePanel';
+import {DamageHistoryPanel} from '../src/features/more/DamageHistoryPanel';
 import {IPhoneContainer} from '../src/components/layout/IPhoneContainer';
 import {Header} from '../src/components/common/Header';
 import {authStoreEngine, type AuthState} from '../src/stores/useAuthStore';
@@ -28,6 +29,7 @@ const order = {id: '66660000-0000-4000-8000-000000000002', items: [
 const resolved = () => undefined;
 function Harness() {
   const [message, setMessage] = useState('');
+  const [damageOpen, setDamageOpen] = useState(false);
   if (new URLSearchParams(location.search).get('kind') === 'cart') {
     const common = {schemaVersion: 2, localRevision: 0, sku: 'test', imageUrl: '', saleUnitNameAr: 'وحدة',
       unitPriceInMinorUnits: 1000, maxAvailablePackages: 10};
@@ -44,6 +46,12 @@ function Harness() {
     <p data-testid="notice">{message}</p>
     <p data-testid="selectable-identity" dir="ltr">P6-B-123</p>
     <AdminAftercarePanel order={order} onContractResolved={resolved} notify={setMessage}/>
+    {/* The shop-wide damage list left the invoice (owner 2026-11-20); it lives in More → التالف.
+        This owner-only stand-in keeps the same panel reachable next to the invoice in the harness. */}
+    {role === 'owner' && <details data-testid="more-damage-screen" open={damageOpen} onToggle={event => setDamageOpen(event.currentTarget.open)}>
+      <summary className="min-h-11 cursor-pointer py-3 text-sm font-semibold">التالف</summary>
+      {damageOpen && <DamageHistoryPanel/>}
+    </details>}
   </div></IPhoneContainer>;
 }
 createRoot(document.getElementById('root')!).render(<Harness/>);
