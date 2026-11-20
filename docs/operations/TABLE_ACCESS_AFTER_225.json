@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-20T06:33:31.186Z",
+  "startedAt": "2026-11-20T07:47:56.113Z",
   "managedAccess": false,
   "migrationCeiling": 225,
   "manifest": [
@@ -190,7 +190,7 @@
     "224_optional_quantity_inventory_reader.sql",
     "225_on_independent_prices.sql"
   ],
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-tnMhEe",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-9E4nn3",
   "stage": "rls-and-acl",
   "results": [
     {
@@ -218,7 +218,7 @@
           "method": "eq",
           "args": [
             "id",
-            "95a1fc07-9d43-4655-86d8-9712926addee"
+            "e0b5b771-eba0-4b7f-879a-6e4e111cc4c7"
           ]
         },
         {
@@ -253,7 +253,7 @@
           "method": "eq",
           "args": [
             "id",
-            "95a1fc07-9d43-4655-86d8-9712926addee"
+            "e0b5b771-eba0-4b7f-879a-6e4e111cc4c7"
           ]
         },
         {
@@ -288,7 +288,7 @@
           "method": "eq",
           "args": [
             "id",
-            "95a1fc07-9d43-4655-86d8-9712926addee"
+            "e0b5b771-eba0-4b7f-879a-6e4e111cc4c7"
           ]
         },
         {
@@ -323,7 +323,7 @@
           "method": "eq",
           "args": [
             "id",
-            "95a1fc07-9d43-4655-86d8-9712926addee"
+            "e0b5b771-eba0-4b7f-879a-6e4e111cc4c7"
           ]
         },
         {
@@ -358,7 +358,7 @@
           "method": "eq",
           "args": [
             "id",
-            "95a1fc07-9d43-4655-86d8-9712926addee"
+            "e0b5b771-eba0-4b7f-879a-6e4e111cc4c7"
           ]
         },
         {
@@ -393,7 +393,7 @@
           "method": "eq",
           "args": [
             "id",
-            "95a1fc07-9d43-4655-86d8-9712926addee"
+            "e0b5b771-eba0-4b7f-879a-6e4e111cc4c7"
           ]
         },
         {
@@ -428,7 +428,7 @@
           "method": "eq",
           "args": [
             "id",
-            "ca4d4e33-6a7c-4647-ad2c-c88fde315275"
+            "b96a1ba6-a590-4d1c-98d5-d55b720a3df0"
           ]
         },
         {
@@ -463,7 +463,7 @@
           "method": "eq",
           "args": [
             "id",
-            "ca4d4e33-6a7c-4647-ad2c-c88fde315275"
+            "b96a1ba6-a590-4d1c-98d5-d55b720a3df0"
           ]
         },
         {
@@ -498,7 +498,7 @@
           "method": "eq",
           "args": [
             "id",
-            "ca4d4e33-6a7c-4647-ad2c-c88fde315275"
+            "b96a1ba6-a590-4d1c-98d5-d55b720a3df0"
           ]
         },
         {
@@ -731,7 +731,7 @@
           "method": "eq",
           "args": [
             "id",
-            "43c86859-716d-4dde-b397-10636edd4024"
+            "1c5bd607-ddb9-4286-9d6f-935820e14217"
           ]
         },
         {
@@ -766,7 +766,7 @@
           "method": "eq",
           "args": [
             "id",
-            "43c86859-716d-4dde-b397-10636edd4024"
+            "1c5bd607-ddb9-4286-9d6f-935820e14217"
           ]
         },
         {
@@ -801,7 +801,7 @@
           "method": "eq",
           "args": [
             "id",
-            "43c86859-716d-4dde-b397-10636edd4024"
+            "1c5bd607-ddb9-4286-9d6f-935820e14217"
           ]
         },
         {
@@ -836,7 +836,7 @@
           "method": "eq",
           "args": [
             "id",
-            "bf176fc2-c814-4f0b-b7be-bb53ea894296"
+            "9211852b-0972-44fd-9a16-fcbbaa1bedc9"
           ]
         },
         {
@@ -871,7 +871,7 @@
           "method": "eq",
           "args": [
             "id",
-            "bf176fc2-c814-4f0b-b7be-bb53ea894296"
+            "9211852b-0972-44fd-9a16-fcbbaa1bedc9"
           ]
         },
         {
@@ -906,7 +906,7 @@
           "method": "eq",
           "args": [
             "id",
-            "bf176fc2-c814-4f0b-b7be-bb53ea894296"
+            "9211852b-0972-44fd-9a16-fcbbaa1bedc9"
           ]
         },
         {
@@ -941,7 +941,7 @@
           "method": "eq",
           "args": [
             "id",
-            "43c86859-716d-4dde-b397-10636edd4024"
+            "1c5bd607-ddb9-4286-9d6f-935820e14217"
           ]
         },
         {
@@ -976,7 +976,7 @@
           "method": "eq",
           "args": [
             "id",
-            "43c86859-716d-4dde-b397-10636edd4024"
+            "1c5bd607-ddb9-4286-9d6f-935820e14217"
           ]
         },
         {
@@ -1011,7 +1011,7 @@
           "method": "eq",
           "args": [
             "id",
-            "43c86859-716d-4dde-b397-10636edd4024"
+            "1c5bd607-ddb9-4286-9d6f-935820e14217"
           ]
         },
         {
@@ -1542,7 +1542,7 @@
           "args": [
             "id",
             [
-              "95a1fc07-9d43-4655-86d8-9712926addee"
+              "e0b5b771-eba0-4b7f-879a-6e4e111cc4c7"
             ]
           ]
         }
@@ -1575,7 +1575,7 @@
           "args": [
             "id",
             [
-              "95a1fc07-9d43-4655-86d8-9712926addee"
+              "e0b5b771-eba0-4b7f-879a-6e4e111cc4c7"
             ]
           ]
         }
@@ -1608,7 +1608,7 @@
           "args": [
             "id",
             [
-              "95a1fc07-9d43-4655-86d8-9712926addee"
+              "e0b5b771-eba0-4b7f-879a-6e4e111cc4c7"
             ]
           ]
         }
@@ -1641,7 +1641,7 @@
           "args": [
             "order_id",
             [
-              "95a1fc07-9d43-4655-86d8-9712926addee"
+              "e0b5b771-eba0-4b7f-879a-6e4e111cc4c7"
             ]
           ]
         },
@@ -1707,7 +1707,7 @@
           "args": [
             "order_id",
             [
-              "95a1fc07-9d43-4655-86d8-9712926addee"
+              "e0b5b771-eba0-4b7f-879a-6e4e111cc4c7"
             ]
           ]
         },
@@ -1773,7 +1773,7 @@
           "args": [
             "order_id",
             [
-              "95a1fc07-9d43-4655-86d8-9712926addee"
+              "e0b5b771-eba0-4b7f-879a-6e4e111cc4c7"
             ]
           ]
         },
@@ -1838,7 +1838,7 @@
           "method": "eq",
           "args": [
             "id",
-            "95a1fc07-9d43-4655-86d8-9712926addee"
+            "e0b5b771-eba0-4b7f-879a-6e4e111cc4c7"
           ]
         },
         {
@@ -1873,7 +1873,7 @@
           "method": "eq",
           "args": [
             "id",
-            "95a1fc07-9d43-4655-86d8-9712926addee"
+            "e0b5b771-eba0-4b7f-879a-6e4e111cc4c7"
           ]
         },
         {
@@ -1908,7 +1908,7 @@
           "method": "eq",
           "args": [
             "id",
-            "95a1fc07-9d43-4655-86d8-9712926addee"
+            "e0b5b771-eba0-4b7f-879a-6e4e111cc4c7"
           ]
         },
         {
@@ -1943,7 +1943,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "95a1fc07-9d43-4655-86d8-9712926addee"
+            "e0b5b771-eba0-4b7f-879a-6e4e111cc4c7"
           ]
         },
         {
@@ -1980,7 +1980,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "95a1fc07-9d43-4655-86d8-9712926addee"
+            "e0b5b771-eba0-4b7f-879a-6e4e111cc4c7"
           ]
         },
         {
@@ -2017,7 +2017,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "95a1fc07-9d43-4655-86d8-9712926addee"
+            "e0b5b771-eba0-4b7f-879a-6e4e111cc4c7"
           ]
         },
         {
@@ -2055,7 +2055,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "7162278c-cf4e-4381-9c00-953dfaddac78"
+              "a11803ca-932c-4c94-ba23-9de99d4c144f"
             ]
           ]
         }
@@ -2088,7 +2088,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "7162278c-cf4e-4381-9c00-953dfaddac78"
+              "a11803ca-932c-4c94-ba23-9de99d4c144f"
             ]
           ]
         }
@@ -2121,7 +2121,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "7162278c-cf4e-4381-9c00-953dfaddac78"
+              "a11803ca-932c-4c94-ba23-9de99d4c144f"
             ]
           ]
         }
@@ -4982,7 +4982,7 @@
           "method": "eq",
           "args": [
             "id",
-            "bf176fc2-c814-4f0b-b7be-bb53ea894296"
+            "9211852b-0972-44fd-9a16-fcbbaa1bedc9"
           ]
         },
         {
@@ -5017,7 +5017,7 @@
           "method": "eq",
           "args": [
             "id",
-            "bf176fc2-c814-4f0b-b7be-bb53ea894296"
+            "9211852b-0972-44fd-9a16-fcbbaa1bedc9"
           ]
         },
         {
@@ -5052,7 +5052,7 @@
           "method": "eq",
           "args": [
             "id",
-            "bf176fc2-c814-4f0b-b7be-bb53ea894296"
+            "9211852b-0972-44fd-9a16-fcbbaa1bedc9"
           ]
         },
         {
@@ -6739,7 +6739,7 @@
             {
               "event_key": "audit-local-dispatch",
               "event_type": "new_order",
-              "entity_id": "95a1fc07-9d43-4655-86d8-9712926addee",
+              "entity_id": "e0b5b771-eba0-4b7f-879a-6e4e111cc4c7",
               "status": "processing"
             }
           ]
@@ -6772,7 +6772,7 @@
           "method": "eq",
           "args": [
             "id",
-            "95a1fc07-9d43-4655-86d8-9712926addee"
+            "e0b5b771-eba0-4b7f-879a-6e4e111cc4c7"
           ]
         },
         {
@@ -6811,7 +6811,7 @@
               "status": "failed",
               "failed_count": 1,
               "last_error": "isolated diagnostic",
-              "completed_at": "2026-11-20T06:35:08.709Z"
+              "completed_at": "2026-11-20T07:49:25.249Z"
             }
           ]
         },
@@ -6847,7 +6847,7 @@
               "status": "failed",
               "failed_count": 1,
               "last_error": "isolated diagnostic",
-              "completed_at": "2026-11-20T06:35:08.744Z"
+              "completed_at": "2026-11-20T07:49:25.268Z"
             }
           ]
         },
@@ -6881,9 +6881,9 @@
           "args": [
             {
               "failure_count": 0,
-              "last_success_at": "2026-11-20T06:35:08.774Z",
+              "last_success_at": "2026-11-20T07:49:25.287Z",
               "last_failure_message": null,
-              "updated_at": "2026-11-20T06:35:08.774Z"
+              "updated_at": "2026-11-20T07:49:25.287Z"
             }
           ]
         },
@@ -6918,9 +6918,9 @@
             {
               "is_active": false,
               "failure_count": 1,
-              "last_failure_at": "2026-11-20T06:35:08.797Z",
+              "last_failure_at": "2026-11-20T07:49:25.304Z",
               "last_failure_message": "isolated diagnostic",
-              "updated_at": "2026-11-20T06:35:08.798Z"
+              "updated_at": "2026-11-20T07:49:25.304Z"
             }
           ]
         },
@@ -6957,7 +6957,7 @@
               "delivered_count": 1,
               "failed_count": 0,
               "last_error": null,
-              "completed_at": "2026-11-20T06:35:08.823Z"
+              "completed_at": "2026-11-20T07:49:25.337Z"
             }
           ]
         },
@@ -80008,7 +80008,7 @@
     },
     {
       "file": "src/features/directReceiving/CreateDirectReceiptModal.tsx",
-      "sha256": "3d556b33be160426863a8d98a42eceefda8b9201c9be8e467804a8f53477bf85"
+      "sha256": "180124a4a7f85e9cc5c3d86421dfa05714489e776f75406c689f91088bdcf475"
     },
     {
       "file": "src/features/directReceiving/DirectReceivingView.tsx",
@@ -80408,7 +80408,7 @@
     },
     {
       "file": "src/features/reports/DamageLossReportSection.tsx",
-      "sha256": "73cf137158e311d95610fb8a6c5ffbbe878cb0d92e627a4e90c0dee839fc5a9c"
+      "sha256": "babd927dc4bb4b4351359a37a225adb069b13651179051d45ba4be79394a08b1"
     },
     {
       "file": "src/features/reports/OwnerWithdrawalsReportSection.tsx",
@@ -80416,7 +80416,7 @@
     },
     {
       "file": "src/features/reports/ReportsCenterView.tsx",
-      "sha256": "7fc849f9ef1ae75420cf79cff2afe93b31f2af543b1e3c946869888aa013b1f3"
+      "sha256": "a6d5ded7898cd25a38bf0f6526c85f4645046a5c57d60e0d81015a04587e10c1"
     },
     {
       "file": "src/features/reports/SalesOnlyReportsView.tsx",
@@ -81500,13 +81500,13 @@
     }
   ],
   "fixture": {
-    "orderId": "95a1fc07-9d43-4655-86d8-9712926addee",
-    "operationId": "ca4d4e33-6a7c-4647-ad2c-c88fde315275",
-    "receiptId": "43c86859-716d-4dde-b397-10636edd4024",
-    "poId": "bf176fc2-c814-4f0b-b7be-bb53ea894296",
+    "orderId": "e0b5b771-eba0-4b7f-879a-6e4e111cc4c7",
+    "operationId": "b96a1ba6-a590-4d1c-98d5-d55b720a3df0",
+    "receiptId": "1c5bd607-ddb9-4286-9d6f-935820e14217",
+    "poId": "9211852b-0972-44fd-9a16-fcbbaa1bedc9",
     "subscriptionId": "92600000-0000-4000-8000-000000000701",
     "instances": [
-      "7162278c-cf4e-4381-9c00-953dfaddac78"
+      "a11803ca-932c-4c94-ba23-9de99d4c144f"
     ]
   },
   "access": [
@@ -87268,5 +87268,5 @@
     "zero_rows": 9,
     "other_error": 0
   },
-  "endedAt": "2026-11-20T06:37:26.636Z"
+  "endedAt": "2026-11-20T07:51:37.412Z"
 }

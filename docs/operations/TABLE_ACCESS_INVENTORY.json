@@ -281,7 +281,7 @@
     },
     {
       "file": "src/features/directReceiving/CreateDirectReceiptModal.tsx",
-      "sha256": "3d556b33be160426863a8d98a42eceefda8b9201c9be8e467804a8f53477bf85"
+      "sha256": "180124a4a7f85e9cc5c3d86421dfa05714489e776f75406c689f91088bdcf475"
     },
     {
       "file": "src/features/directReceiving/DirectReceivingView.tsx",
@@ -681,7 +681,7 @@
     },
     {
       "file": "src/features/reports/DamageLossReportSection.tsx",
-      "sha256": "73cf137158e311d95610fb8a6c5ffbbe878cb0d92e627a4e90c0dee839fc5a9c"
+      "sha256": "babd927dc4bb4b4351359a37a225adb069b13651179051d45ba4be79394a08b1"
     },
     {
       "file": "src/features/reports/OwnerWithdrawalsReportSection.tsx",
@@ -689,7 +689,7 @@
     },
     {
       "file": "src/features/reports/ReportsCenterView.tsx",
-      "sha256": "7fc849f9ef1ae75420cf79cff2afe93b31f2af543b1e3c946869888aa013b1f3"
+      "sha256": "a6d5ded7898cd25a38bf0f6526c85f4645046a5c57d60e0d81015a04587e10c1"
     },
     {
       "file": "src/features/reports/SalesOnlyReportsView.tsx",

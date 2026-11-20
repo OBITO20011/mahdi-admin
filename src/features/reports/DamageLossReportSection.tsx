@@ -4,7 +4,7 @@ import type {DamageLosses} from '../../types/reports';
 const reasons: Record<string,string> = {
   shop_breakage: 'انكسر بالمحل', expired: 'انتهت الصلاحية', storage_damage: 'تلف تخزين',
   other: 'أخرى', customer_return_final: 'مرتجع زبون تالف نهائي',
-  supplier_writeoff:'رفض المورد للاستبدال',customer_return_supplier_hold:'إعادة تصنيف عيب إلى معلّق',
+  supplier_writeoff:'رفض المورد للاستبدال',customer_return_supplier_hold:'معيوب أُرسل للمورد (معلّق عنده)',
   supplier_writeoff_reversal:'عكس رفض المورد',shop_damage_reversal:'عكس تلف المحل',customer_return_supplier_hold_reversal:'عكس تعليق العيب لدى المورد',
   customer_replacement_inspected:'صافي تكلفة استبدالات الزبائن بعد استرداد السليم',
 };
@@ -14,6 +14,13 @@ export function DamageLossReportSection({losses}: {losses?: DamageLosses}) {
   return <Card data-testid="report-damage-losses" className="print-section space-y-4">
     <SectionHeader title="خسائر التلف" hint="التلف المسجل خلال الفترة بتكلفته وقت الحركة" />
     {losses ? <>
+      {/* Owner 2026-11-20: one plain line first. Net profit already subtracts `additional`,
+          so its effect on profit is the opposite sign: + raises profit, − lowers it. */}
+      {(()=>{const effect=losses.additional===0?0:-losses.additional;return <div data-testid="report-damage-plain" className="space-y-1 rounded-xl border border-nw-border p-3 text-sm">
+        <p className="m-0 font-bold">أثر التلف على ربحك بهذه الفترة: <bdi dir="ltr" className={effect<0?'text-nw-bad':effect>0?'text-nw-ok':''}>{effect>0?'+':''}<MoneyText amount={effect} currency /></bdi> — {effect<0?'نقص ربحك':effect>0?'زاد ربحك (رجعت خسارة محسوبة قبل)':'ما في أثر إضافي'}</p>
+        <p className="m-0 text-nw-muted">التلف اللي داخل أصلاً بالمرتجع أو الاستبدال ما بنخصمه مرة ثانية. لتشوف كل صنف وحالته عند المورد افتح: المزيد ← التالف.</p>
+      </div>;})()}
+      <p className="m-0 text-xs font-bold text-nw-muted">تفاصيل للمحاسب</p>
       <dl className="grid gap-4 sm:grid-cols-3">
         <div><dt className="text-sm text-nw-muted">{net?'صافي خسائر التلف':'إجمالي خسائر التلف'}</dt><dd className="m-0 mt-1 text-xl font-bold text-nw-bad"><MoneyText amount={losses.total} currency /></dd></div>
         <div><dt className="text-sm text-nw-muted">{losses.contractVersion===215?'منها محتسب أصلاً ضمن المرتجع والاستبدال':'منها محتسب أصلاً ضمن المرتجعات'}</dt><dd className="m-0 mt-1 text-xl font-bold"><MoneyText amount={losses.alreadyIncluded} currency /></dd></div>
