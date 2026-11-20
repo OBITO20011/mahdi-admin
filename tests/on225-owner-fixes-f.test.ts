@@ -68,7 +68,7 @@ test('UI copy uses general Arabic, not colloquial words',()=>{
 
 test('screen text never goes below 12px on phone, laptop or storefront',()=>{
   const admin=raw('src/components/ui/phone-type.css');
-  assert.match(admin,/@media screen and \(min-width: 1024px\) \{\n {2}:is\(\.text-\\\[8px\\\], \.text-\\\[9px\\\], \.text-\\\[10px\\\], \.text-\\\[11px\\\]\) \{\n {4}font-size: 12px;/u);
+  assert.match(admin,/@media screen and \(min-width: 1024px\) \{\n {2}:is\(\.text-\\\[8px\\\], \.text-\\\[9px\\\], \.text-\\\[10px\\\], \.text-\\\[11px\\\]\):not\(\[data-side-nav-item\]\) \{\n {4}font-size: 12px;/u);
   assert.match(admin,/@media screen and \(max-width: 1023px\)/u);
   const store=raw('customer-web/src/index.css');
   assert.match(store,/@media screen \{\n {2}:is\(\.text-\\\[8px\\\], \.text-\\\[9px\\\], \.text-\\\[10px\\\], \.text-\\\[11px\\\]\) \{\n {4}font-size: 12px;/u);

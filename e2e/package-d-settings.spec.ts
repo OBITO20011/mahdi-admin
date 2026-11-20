@@ -44,7 +44,7 @@ test('missing packet price warns on active allowed flavors without blocking conf
     allowedProductIds:[child],components:[{productId:child,nameAr:'نكهة ناقصة السعر',sku:'D-A',flavorNameAr:'نكهة',packetPriceInMinorUnits:0}]}]};
   await page.route('**/rest/v1/rpc/get_admin_parcel_configuration_context_v1',route=>route.fulfill({json:data}));
   await page.goto('/e2e/package-d-settings-harness.html');
-  await expect(page.getByText('عبّي سعر الباكيت؛ بدونه لا يُحسب خصم ضرر العميل')).toBeVisible();
+  await expect(page.getByText('أدخل سعر الباكيت؛ بدونه لا يُحسب خصم ضرر العميل')).toBeVisible();
   await expect(page.getByText('نكهة ناقصة السعر — D-A')).toBeVisible();
   await expect(page.getByRole('button',{name:'حفظ إعداد الطرد'})).toBeEnabled();
 });
