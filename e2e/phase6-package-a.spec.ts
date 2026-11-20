@@ -28,8 +28,8 @@ test('التقرير يحذر من أدلة فاشلة أو متقادمة دو�
   status='critical';
   await page.reload();
   await expect(page.getByTestId('aftercare-integrity-warning')).toContainText('لم ينجح');
-  // The plain summary (owner 2026-11-20) repeats this label; the warning must leave the metric cards intact.
-  await expect(page.locator('main > section > article').getByText('صافي المبيعات', {exact:true})).toBeVisible();
+  // The warning must leave the plain summary (owner design A, 2026-11-20) intact.
+  await expect(page.getByTestId('report-plain-net-sales').getByText('صافي المبيعات', {exact:true})).toBeVisible();
   status='healthy';checkedAt=new Date(Date.now()-25*60*60*1000).toISOString();
   await page.reload();
   await expect(page.getByTestId('aftercare-integrity-warning')).toContainText('24 ساعة');
@@ -39,17 +39,22 @@ test('التقرير بسيط، والتكلفة في تفاصيل؛ الدقة 
   await page.route('**/rest/v1/rpc/get_operational_business_report', route => route.fulfill({json: report}));
   await page.goto('/e2e/phase6-package-a-harness.html');
   const main = page.locator('main');
-  await expect(main.locator(':scope > section > article')).toHaveCount(9);
-  for (const label of ['المبيعات', 'المرتجعات', 'صافي المبيعات', 'المقبوض — كاش', 'المقبوض — CliQ', 'المصاري المرجّعة', 'الذمم', 'المصاريف', 'الربح']) {
-    await expect(main.locator(':scope > section').getByText(label, {exact: true})).toBeVisible();
-  }
+  // Owner design A: profit first, four plain numbers and how the profit was made; the accountant cards fold away.
+  const signed = (-0.333).toLocaleString('en-US', {minimumFractionDigits: 3, maximumFractionDigits: 3});
+  await expect(page.getByTestId('report-plain-net-profit')).toContainText(signed);
+  for (const key of ['net-sales', 'customers', 'cash', 'cliq']) await expect(page.getByTestId('report-plain-' + key)).toBeVisible();
+  await expect(page.getByTestId('report-profit-step-profit')).toContainText(signed);
   const details = page.getByTestId('report-details');
   await expect(details).not.toHaveAttribute('open', '');
+  const cards = details.locator(':scope > section').first().locator(':scope > article');
+  await expect(cards).toHaveCount(9);
+  await expect(cards.first()).not.toBeVisible();
   await expect(main.getByText('تكلفة الاستبدال', {exact: true})).not.toBeVisible();
-  const profit = main.locator(':scope > section > article').filter({has: page.getByText('الربح', {exact: true})});
-  const signed = (-0.333).toLocaleString('en-US', {minimumFractionDigits: 3, maximumFractionDigits: 3});
-  await expect(profit).toContainText(signed);
   await details.locator('summary').click();
+  for (const label of ['المبيعات', 'المرتجعات', 'صافي المبيعات', 'المقبوض — كاش', 'المقبوض — CliQ', 'المصاري المرجّعة', 'الذمم', 'المصاريف', 'الربح']) {
+    await expect(cards.getByText(label, {exact: true})).toBeVisible();
+  }
+  await expect(cards.filter({has: page.getByText('الربح', {exact: true})})).toContainText(signed);
   await expect(main.getByText('تكلفة الاستبدال', {exact: true})).toBeVisible();
   await expect(main.getByText('استرجاع التكلفة', {exact: true})).toBeVisible();
   await expect(main.getByText('ذمم الموردين', {exact: true})).toBeVisible();

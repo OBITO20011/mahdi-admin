@@ -37,6 +37,7 @@ import { OwnerWithdrawalsReportSection } from './OwnerWithdrawalsReportSection';
 import type {AftercareIntegrityStatus} from '../../types/monitoring';
 import {getAftercareIntegrityStatus} from '../../services/supabase/monitoring.service';
 import {aftercareIntegrityWarning} from '../../utils/aftercareIntegrity';
+import {reportProfitSteps} from '../../utils/reportProfitSteps';
 import {Card, FormFields, UiButton, DataTable, Th, Tr, Td, formatJod, formatUiDate} from '../../components/ui';
 
 const pad = (value: number) => String(value).padStart(2, '0');
@@ -178,7 +179,7 @@ const FullReportsCenterView: React.FC = () => {
   // section before printing, from the button and from the browser's own print.
   const openReportDetails = () => {
     document
-      .querySelectorAll<HTMLDetailsElement>('details[data-testid="report-details"]')
+      .querySelectorAll<HTMLDetailsElement>('details[data-report-details]')
       .forEach((details) => { details.open = true; });
   };
 
@@ -186,6 +187,8 @@ const FullReportsCenterView: React.FC = () => {
     window.addEventListener('beforeprint', openReportDetails);
     return () => window.removeEventListener('beforeprint', openReportDetails);
   }, []);
+
+  const profitSteps = report ? reportProfitSteps(report.sales, report.expenses.total) : null;
 
   const handlePrint = () => {
     if (!report&&!mixedReport) {
@@ -336,39 +339,43 @@ const FullReportsCenterView: React.FC = () => {
             </div>
           </header>
 
-          {/* Owner 2026-11-20: the few numbers that matter first, in plain words; zero cards hidden.
-              Same server values as the cards below — nothing is recomputed here. */}
-          <div data-testid="report-plain-summary" className="print-section rounded-2xl border border-nw-border bg-nw-surface p-4">
-            <h2 className="m-0 mb-3 text-sm font-black text-nw-text">الملخص</h2>
-            <dl className="m-0 grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
+          {/* Owner 2026-11-20 (design A): profit first, four key numbers and how the profit was made;
+              everything else folds away below. Same server values as the accountant cards. */}
+          <div data-testid="report-plain-summary" className="print-section space-y-3 rounded-2xl border border-nw-border bg-nw-surface p-4">
+            <div data-testid="report-plain-net-profit" className="rounded-xl bg-nw-surface-2 p-3">
+              <p className="m-0 text-xs font-bold text-nw-muted">صافي الربح</p>
+              <p className={`m-0 mt-1 text-2xl font-black ${report.sales.netProfit<0?'text-nw-bad':'text-nw-ok'}`}><bdi dir="ltr" className="nw-num">{money(report.sales.netProfit)}</bdi></p>
+              <p className="m-0 mt-1 text-[11px] text-nw-muted">بعد خصم تكلفة البضاعة والمرتجعات والمصاريف</p>
+            </div>
+            <dl className="m-0 grid grid-cols-2 gap-2 xl:grid-cols-5">
               {[
-                {key:'net-sales',label:'صافي المبيعات',value:report.sales.netSales,meaning:'المبيعات بعد ما نطرح المرتجعات',always:true},
-                {key:'net-profit',label:'ربحك الصافي',value:report.sales.netProfit,meaning:'اللي ضل إلك بعد تكلفة البضاعة والمرتجعات والاستبدال والتلف والمصاريف',always:true,tone:report.sales.netProfit<0?'text-nw-bad':'text-nw-ok'},
-                {key:'cash',label:'صافي الكاش',value:report.cashFlow.cashNetFlow,meaning:'الكاش اللي دخل ناقص الكاش اللي رجّعته'},
-                {key:'cliq',label:'صافي CliQ',value:report.cashFlow.cliqNetFlow,meaning:'تحويلات CliQ اللي دخلت ناقص اللي رجّعته'},
-                {key:'customers',label:'ديون لك على الزبائن',value:report.balances.customerDue,meaning:'رصيد الزبائن عليك تحصيله الآن'},
-                {key:'suppliers',label:'عليك للموردين',value:report.balances.supplierDue,meaning:'اللي لسا ما دفعته للموردين الآن'},
+                {key:'net-sales',label:'صافي المبيعات',value:report.sales.netSales,meaning:'بعد خصم المرتجعات',always:true},
+                {key:'customers',label:'الديون على الزبائن',value:report.balances.customerDue,meaning:'مستحقة التحصيل حالياً',always:true},
+                {key:'cash',label:'صافي النقد (كاش)',value:report.cashFlow.cashNetFlow,meaning:'المقبوض بعد خصم المبالغ المُعادة',always:true},
+                {key:'cliq',label:'صافي CliQ',value:report.cashFlow.cliqNetFlow,meaning:'التحويلات بعد خصم المبالغ المُعادة',always:true},
+                {key:'suppliers',label:'المستحق للموردين',value:report.balances.supplierDue,meaning:'لم يُدفع بعد',always:false},
               ].filter(row=>row.always||row.value!==0).map(row=>(
-                <div key={row.key} data-testid={`report-plain-${row.key}`} className="rounded-xl border border-nw-border p-3">
+                <div key={row.key} data-testid={`report-plain-${row.key}`} className="min-w-0 rounded-xl border border-nw-border p-3">
                   <dt className="text-xs font-bold text-nw-muted">{row.label}</dt>
-                  <dd className={`m-0 mt-1 text-lg font-black ${row.tone??'text-nw-text'}`}>{money(row.value)}</dd>
-                  <dd className="m-0 mt-1 text-[11px] text-nw-muted">يعني: {row.meaning}</dd>
+                  <dd className="m-0 mt-1 text-base font-black text-nw-text"><bdi dir="ltr" className="nw-num">{money(row.value)}</bdi></dd>
+                  <dd className="m-0 mt-1 text-[11px] leading-4 text-nw-muted">{row.meaning}</dd>
                 </div>
               ))}
             </dl>
+            {profitSteps && (
+              <div data-testid="report-profit-steps" className="rounded-xl border border-nw-border p-3">
+                <p className="m-0 mb-2 text-xs font-black text-nw-text">كيف تم حساب الربح</p>
+                <dl className="m-0 space-y-1 text-sm">
+                  {profitSteps.map((step) => (
+                    <div key={step.key} data-testid={`report-profit-step-${step.key}`} className={`flex justify-between gap-3 ${step.key==='profit'?'border-t border-nw-border pt-1 font-black':''}`}>
+                      <dt className={step.sign==='−'?'text-nw-bad':step.key==='profit'?'text-nw-text':'text-nw-muted'}>{step.sign==='+'?'':`${step.sign} `}{step.label}</dt>
+                      <dd className="m-0"><bdi dir="ltr" className="nw-num">{money(step.amount)}</bdi></dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            )}
           </div>
-
-          <section className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
-            <MetricCard label="المبيعات" value={money(report.sales.grossSales)} hint="مبيعات الفترة بعد الخصم، قبل المرتجعات" icon={ShoppingCart} tone="blue" />
-            <MetricCard label="المرتجعات" value={money(report.sales.returnEntitlement)} hint="خفض الذمة والمبلغ المسترد معًا" icon={PackageCheck} tone="rose" />
-            <MetricCard label="صافي المبيعات" value={money(report.sales.netSales)} hint="المبيعات ناقص استحقاق المرتجعات" icon={ShoppingCart} tone="blue" />
-            <MetricCard label="المقبوض — كاش" value={money(report.cashFlow.cashCollected)} hint="تحصيل الفترة بعد عكس الدفعات، قبل الرد" icon={Banknote} tone="emerald" />
-            <MetricCard label="المقبوض — CliQ" value={money(report.cashFlow.cliqCollected)} hint="تحصيل الفترة بعد عكس الدفعات، قبل الرد" icon={Banknote} tone="cyan" />
-            <MetricCard label="المصاري المرجّعة" value={money(report.sales.refunds)} hint="كاش وCliQ؛ لا تشمل خفض الذمة" icon={HandCoins} tone="rose" />
-            <MetricCard label="الذمم" value={money(report.balances.customerDue)} hint="رصيد العملاء الحالي وقت قراءة التقرير" icon={Users} tone="rose" />
-            <MetricCard label="المصاريف" value={money(report.expenses.total)} hint="المصاريف غير المعكوسة خلال الفترة" icon={ReceiptText} tone="amber" />
-            <MetricCard label="الربح" value={money(report.sales.netProfit)} hint="بعد المرتجعات والاستبدال واسترجاع التكلفة والمصاريف والتلف" icon={TrendingUp} tone={report.sales.netProfit >= 0 ? 'emerald' : 'rose'} />
-          </section>
 
           <SupplierReplacementSummary ownerOnly />
           <DamageLossReportSection losses={report.sales.damageLosses} />
@@ -379,20 +386,26 @@ const FullReportsCenterView: React.FC = () => {
               totals={report.ownerWithdrawals} onChanged={() => void loadReport()} />
           )}
 
-          <details className="space-y-4" data-testid="report-details">
-            <summary className="cursor-pointer rounded-xl border border-nw-border bg-nw-surface p-3 font-bold text-nw-text">تفاصيل</summary>
-            <section className="grid grid-cols-1 gap-3 text-xs sm:grid-cols-2 xl:grid-cols-3">
-              <MetricCard label="ذمم الموردين" value={money(report.balances.supplierDue)} hint={`${report.balances.supplierCount} مورد لهم رصيد`} icon={Truck} tone="violet" />
-              {report.balances.supplierAdvances !== undefined && <MetricCard label="دفعات مقدّمة للموردين" value={money(report.balances.supplierAdvances)} hint="أرصدة سالبة منفصلة؛ لا تُخصم من ذمم موردين آخرين" icon={Truck} tone="emerald" />}
-              <MetricCard label="تكلفة البيع الأصلية" value={money(report.sales.cogs)} hint="COGS التاريخي لا يعاد تسعيره" icon={Boxes} tone="blue" />
-              <MetricCard label="تكلفة الاستبدال" value={money(report.sales.replacementCost)} hint="من تكلفة الإصدار المحفوظة" icon={Boxes} tone="amber" />
-              <MetricCard label="استرجاع التكلفة" value={money(report.sales.restockRecovery)} hint="للمخزون القابل للبيع فقط، بتكلفة القطعة الحالية التاريخية" icon={PackageCheck} tone="emerald" />
-              <MetricCard label="خفض الذمم بالمرتجعات" value={money(report.sales.debtReduction)} hint="ليس حركة كاش أو CliQ" icon={Users} tone="cyan" />
-              <MetricCard label="هامش البيع الأصلي" value={money(report.sales.grossProfit)} hint="البضاعة بعد الخصم ناقص تكلفتها؛ دون التوصيل" icon={TrendingUp} tone="emerald" />
-              <MetricCard label="هامش ما بعد البيع" value={money(report.sales.aftercareAdjustedMargin)} hint="يشمل التوصيل؛ قبل المصاريف" icon={TrendingUp} tone="violet" />
-              <MetricCard label="صافي حركة الكاش" value={money(report.cashFlow.cashNetFlow)} hint="المقبوض بعد العكس ناقص المصاري المرجّعة" icon={Banknote} tone="cyan" />
-              <MetricCard label="صافي حركة CliQ" value={money(report.cashFlow.cliqNetFlow)} hint="المقبوض بعد العكس ناقص المصاري المرجّعة" icon={Banknote} tone="cyan" />
-            </section>
+          <details className="space-y-3" data-report-details data-testid="report-top-products">
+            <summary className="cursor-pointer rounded-xl border border-nw-border bg-nw-surface p-3 font-bold text-nw-text">الأصناف الأكثر مبيعاً وربحاً</summary>
+          <section className="print-section rounded-2xl border border-nw-border bg-nw-surface p-4">
+            <h3 className="mb-3 flex items-center gap-2 text-sm font-black text-nw-text"><TrendingUp className="h-4 w-4 text-nw-ok" />الأصناف الأكثر بيعًا</h3>
+            {report.topProducts.length === 0 ? (
+              <p className="text-[10px] text-nw-muted">لا توجد أصناف مباعة خلال الفترة المحددة.</p>
+            ) : (
+              <DataTable caption="الأصناف الأكثر بيعاً">
+                <thead><Tr><Th>الصنف</Th><Th>الطرود</Th><Th>المبيعات</Th></Tr></thead><tbody>
+                {report.topProducts.map((product) => (
+                  <Tr key={`${product.sku}-${product.productName}`}><Td><b className="block text-nw-text">{product.productName}</b><small className="text-xs text-nw-muted">{product.sku}</small></Td><Td>{product.packageCount}</Td><Td><bdi dir="ltr" className="nw-num block whitespace-nowrap">{money(product.revenue)}</bdi><small className="text-xs text-nw-ok">ربح <bdi dir="ltr" className="nw-num">{money(product.profit)}</bdi></small></Td></Tr>
+                ))}
+                </tbody>
+              </DataTable>
+            )}
+          </section>
+          </details>
+
+          <details className="space-y-3" data-report-details data-testid="report-stock-purchases">
+            <summary className="cursor-pointer rounded-xl border border-nw-border bg-nw-surface p-3 font-bold text-nw-text">المخزون والمشتريات</summary>
           <section className="print-section space-y-3 rounded-2xl border border-nw-border bg-nw-surface p-4">
             <div className="flex items-center justify-between gap-3">
               <h3 className="flex items-center gap-2 text-sm font-black text-nw-text">
@@ -447,6 +460,49 @@ const FullReportsCenterView: React.FC = () => {
             )}
           </section>
 
+          <section className="grid grid-cols-1 gap-3 md:grid-cols-2">
+            <article className="print-card space-y-2 rounded-2xl border border-nw-border bg-nw-surface p-3">
+              <h3 className="flex items-center gap-2 text-xs font-black text-nw-text"><PackageCheck className="h-4 w-4 text-nw-info" />المخزون الحالي</h3>
+              <div className="flex justify-between text-[10px]"><span className="text-nw-muted">قيمة التكلفة</span><b>{money(report.inventory.value)}</b></div>
+              <div className="flex justify-between text-[10px]"><span className="text-nw-muted">أصناف لها رصيد</span><b>{report.inventory.stockedProducts}</b></div>
+              <div className="flex justify-between text-[10px]"><span className="text-nw-muted">باكيتات فعلية / محجوزة</span><b>{report.inventory.baseUnitsOnHand} / {report.inventory.baseUnitsReserved}</b></div>
+              <div className="flex justify-between text-[10px]"><span className="text-nw-muted">قربت تنفد</span><b className="text-nw-warn">{report.inventory.lowStockProducts}</b></div>
+            </article>
+            <article className="print-card space-y-2 rounded-2xl border border-nw-border bg-nw-surface p-3">
+              <h3 className="flex items-center gap-2 text-xs font-black text-nw-text"><Boxes className="h-4 w-4 text-nw-info" />مشتريات الموردين</h3>
+              <div className="flex justify-between text-[10px]"><span className="text-nw-muted">سندات الاستلام</span><b>{report.purchases.receiptCount}</b></div>
+              <div className="flex justify-between text-[10px]"><span className="text-nw-muted">إجمالي البضاعة</span><b>{money(report.purchases.total)}</b></div>
+              <div className="flex justify-between text-[10px]"><span className="text-nw-muted">المدفوع</span><b className="text-nw-ok">{money(report.purchases.paid)}</b></div>
+              <div className="flex justify-between text-[10px]"><span className="text-nw-muted">المتبقي</span><b className="text-nw-bad">{money(report.purchases.due)}</b></div>
+            </article>
+          </section>
+          </details>
+
+          <details className="space-y-4" data-report-details data-testid="report-details">
+            <summary className="cursor-pointer rounded-xl border border-nw-border bg-nw-surface p-3 font-bold text-nw-text">تفاصيل للمحاسب</summary>
+            <section className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
+              <MetricCard label="المبيعات" value={money(report.sales.grossSales)} hint="مبيعات الفترة بعد الخصم، قبل المرتجعات" icon={ShoppingCart} tone="blue" />
+              <MetricCard label="المرتجعات" value={money(report.sales.returnEntitlement)} hint="خفض الذمة والمبلغ المسترد معًا" icon={PackageCheck} tone="rose" />
+              <MetricCard label="صافي المبيعات" value={money(report.sales.netSales)} hint="المبيعات ناقص استحقاق المرتجعات" icon={ShoppingCart} tone="blue" />
+              <MetricCard label="المقبوض — كاش" value={money(report.cashFlow.cashCollected)} hint="تحصيل الفترة بعد عكس الدفعات، قبل الرد" icon={Banknote} tone="emerald" />
+              <MetricCard label="المقبوض — CliQ" value={money(report.cashFlow.cliqCollected)} hint="تحصيل الفترة بعد عكس الدفعات، قبل الرد" icon={Banknote} tone="cyan" />
+              <MetricCard label="المصاري المرجّعة" value={money(report.sales.refunds)} hint="كاش وCliQ؛ لا تشمل خفض الذمة" icon={HandCoins} tone="rose" />
+              <MetricCard label="الذمم" value={money(report.balances.customerDue)} hint="رصيد العملاء الحالي وقت قراءة التقرير" icon={Users} tone="rose" />
+              <MetricCard label="المصاريف" value={money(report.expenses.total)} hint="المصاريف غير المعكوسة خلال الفترة" icon={ReceiptText} tone="amber" />
+              <MetricCard label="الربح" value={money(report.sales.netProfit)} hint="بعد المرتجعات والاستبدال واسترجاع التكلفة والمصاريف والتلف" icon={TrendingUp} tone={report.sales.netProfit >= 0 ? 'emerald' : 'rose'} />
+            </section>
+            <section className="grid grid-cols-1 gap-3 text-xs sm:grid-cols-2 xl:grid-cols-3">
+              <MetricCard label="ذمم الموردين" value={money(report.balances.supplierDue)} hint={`${report.balances.supplierCount} مورد لهم رصيد`} icon={Truck} tone="violet" />
+              {report.balances.supplierAdvances !== undefined && <MetricCard label="دفعات مقدّمة للموردين" value={money(report.balances.supplierAdvances)} hint="أرصدة سالبة منفصلة؛ لا تُخصم من ذمم موردين آخرين" icon={Truck} tone="emerald" />}
+              <MetricCard label="تكلفة البيع الأصلية" value={money(report.sales.cogs)} hint="COGS التاريخي لا يعاد تسعيره" icon={Boxes} tone="blue" />
+              <MetricCard label="تكلفة الاستبدال" value={money(report.sales.replacementCost)} hint="من تكلفة الإصدار المحفوظة" icon={Boxes} tone="amber" />
+              <MetricCard label="استرجاع التكلفة" value={money(report.sales.restockRecovery)} hint="للمخزون القابل للبيع فقط، بتكلفة القطعة الحالية التاريخية" icon={PackageCheck} tone="emerald" />
+              <MetricCard label="خفض الذمم بالمرتجعات" value={money(report.sales.debtReduction)} hint="ليس حركة كاش أو CliQ" icon={Users} tone="cyan" />
+              <MetricCard label="هامش البيع الأصلي" value={money(report.sales.grossProfit)} hint="البضاعة بعد الخصم ناقص تكلفتها؛ دون التوصيل" icon={TrendingUp} tone="emerald" />
+              <MetricCard label="هامش ما بعد البيع" value={money(report.sales.aftercareAdjustedMargin)} hint="يشمل التوصيل؛ قبل المصاريف" icon={TrendingUp} tone="violet" />
+              <MetricCard label="صافي حركة الكاش" value={money(report.cashFlow.cashNetFlow)} hint="المقبوض بعد العكس ناقص المصاري المرجّعة" icon={Banknote} tone="cyan" />
+              <MetricCard label="صافي حركة CliQ" value={money(report.cashFlow.cliqNetFlow)} hint="المقبوض بعد العكس ناقص المصاري المرجّعة" icon={Banknote} tone="cyan" />
+            </section>
           <section className="print-section space-y-3 rounded-2xl border border-nw-border bg-nw-surface p-4">
             <h3 className="flex items-center gap-2 text-sm font-black text-nw-text"><ShoppingCart className="h-4 w-4 text-nw-info" />تفاصيل المبيعات والربح</h3>
             <div className="grid grid-cols-1 gap-x-4 gap-y-3 text-sm md:grid-cols-2">
@@ -466,23 +522,6 @@ const FullReportsCenterView: React.FC = () => {
           </section>
 
           <section className="grid grid-cols-1 gap-3 md:grid-cols-2">
-            <article className="print-card space-y-2 rounded-2xl border border-nw-border bg-nw-surface p-3">
-              <h3 className="flex items-center gap-2 text-xs font-black text-nw-text"><PackageCheck className="h-4 w-4 text-nw-info" />المخزون الحالي</h3>
-              <div className="flex justify-between text-[10px]"><span className="text-nw-muted">قيمة التكلفة</span><b>{money(report.inventory.value)}</b></div>
-              <div className="flex justify-between text-[10px]"><span className="text-nw-muted">أصناف لها رصيد</span><b>{report.inventory.stockedProducts}</b></div>
-              <div className="flex justify-between text-[10px]"><span className="text-nw-muted">باكيتات فعلية / محجوزة</span><b>{report.inventory.baseUnitsOnHand} / {report.inventory.baseUnitsReserved}</b></div>
-              <div className="flex justify-between text-[10px]"><span className="text-nw-muted">قربت تنفد</span><b className="text-nw-warn">{report.inventory.lowStockProducts}</b></div>
-            </article>
-            <article className="print-card space-y-2 rounded-2xl border border-nw-border bg-nw-surface p-3">
-              <h3 className="flex items-center gap-2 text-xs font-black text-nw-text"><Boxes className="h-4 w-4 text-nw-info" />مشتريات الموردين</h3>
-              <div className="flex justify-between text-[10px]"><span className="text-nw-muted">سندات الاستلام</span><b>{report.purchases.receiptCount}</b></div>
-              <div className="flex justify-between text-[10px]"><span className="text-nw-muted">إجمالي البضاعة</span><b>{money(report.purchases.total)}</b></div>
-              <div className="flex justify-between text-[10px]"><span className="text-nw-muted">المدفوع</span><b className="text-nw-ok">{money(report.purchases.paid)}</b></div>
-              <div className="flex justify-between text-[10px]"><span className="text-nw-muted">المتبقي</span><b className="text-nw-bad">{money(report.purchases.due)}</b></div>
-            </article>
-          </section>
-
-          <section className="grid grid-cols-1 gap-3 md:grid-cols-2">
             <article className="print-card rounded-2xl border border-nw-border bg-nw-surface p-3">
               <h3 className="mb-2 flex items-center gap-2 text-xs font-black text-nw-text"><HandCoins className="h-4 w-4 text-nw-ok" />طرق الدفع</h3>
               {report.paymentMethods.length === 0 ? <p className="text-[10px] text-nw-muted">لا توجد مبيعات في الفترة.</p> : report.paymentMethods.map((method) => (
@@ -499,21 +538,6 @@ const FullReportsCenterView: React.FC = () => {
                 </div>
               ))}
             </article>
-          </section>
-
-          <section className="print-section rounded-2xl border border-nw-border bg-nw-surface p-4">
-            <h3 className="mb-3 flex items-center gap-2 text-sm font-black text-nw-text"><TrendingUp className="h-4 w-4 text-nw-ok" />الأصناف الأكثر بيعًا</h3>
-            {report.topProducts.length === 0 ? (
-              <p className="text-[10px] text-nw-muted">لا توجد أصناف مباعة خلال الفترة المحددة.</p>
-            ) : (
-              <DataTable caption="الأصناف الأكثر بيعاً">
-                <thead><Tr><Th>الصنف</Th><Th>الطرود</Th><Th>المبيعات</Th></Tr></thead><tbody>
-                {report.topProducts.map((product) => (
-                  <Tr key={`${product.sku}-${product.productName}`}><Td><b className="block text-nw-text">{product.productName}</b><small className="text-xs text-nw-muted">{product.sku}</small></Td><Td>{product.packageCount}</Td><Td><bdi dir="ltr" className="nw-num block whitespace-nowrap">{money(product.revenue)}</bdi><small className="text-xs text-nw-ok">ربح <bdi dir="ltr" className="nw-num">{money(product.profit)}</bdi></small></Td></Tr>
-                ))}
-                </tbody>
-              </DataTable>
-            )}
           </section>
 
           <footer className="print-section rounded-xl border border-nw-border p-3 text-center text-[9px] leading-5 text-nw-muted">

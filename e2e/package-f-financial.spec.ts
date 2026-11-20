@@ -29,7 +29,7 @@ for(const theme of ['light','dark'])for(const width of [390,820,1440])test(`expe
  await page.getByRole('button',{name:'التقارير',exact:true}).click();
  await expect(page.getByRole('heading',{name:'التقرير المالي والتشغيلي',exact:true})).toBeVisible();
  await expect(page.getByRole('button',{name:'طباعة / PDF',exact:true})).toBeInViewport();
- await expect(page.locator('.operational-report-print > section > article')).toHaveCount(9);
+ await expect(page.getByTestId('report-plain-summary')).toBeVisible();await expect(page.getByTestId('report-details').locator(':scope > section').first().locator(':scope > article')).toHaveCount(9);
  await expect(page.getByText('تكلفة الاستبدال',{exact:true})).not.toBeVisible();await audit(page);
  await page.getByTestId('report-details').locator('summary').click();
  await expect(page.getByText('تكلفة الاستبدال',{exact:true})).toBeVisible();await audit(page);
