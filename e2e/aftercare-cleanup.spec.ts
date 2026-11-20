@@ -8,17 +8,19 @@ async function contextMock(page:Page,scenario='cash'){
   await page.route('**/rest/v1/rpc/get_admin_sales_aftercare_context_v1',r=>r.fulfill({json:context}));
 }
 for(const width of [390,1440]){
-  test(`cleaned invoice has one entry, no legacy duplicate controls, and lazy real three-state damage UI at${width}`,async({page},info)=>{
+  test(`cleaned invoice has one entry, no legacy duplicate controls, and the damage list only under More at${width}`,async({page},info)=>{
     await page.setViewportSize({width,height:900});await contextMock(page);let reads=0;
     await page.route('**/rest/v1/rpc/get_damage_ledger_page_v2',r=>{reads++;const args=r.request().postDataJSON(),raw=structuredClone(damage215Page);Object.assign(raw,{from:args.p_from,to:args.p_to,state:args.p_state,page:args.p_page});return r.fulfill({json:raw});});
     await page.goto('/e2e/aftercare-cleanup-harness.html');const panel=page.getByTestId('phase43-admin-aftercare');
     await expect(panel.getByRole('button',{name:'إرجاع أو استبدال',exact:true})).toBeEnabled();
     for(const name of ['مرتجع','استبدال طرد','إرجاع الطرد كاملاً','استبدال الطرد كاملاً','خيارات التالف النهائي'])await expect(panel.getByRole('button',{name,exact:true})).toHaveCount(0);
-    expect(reads).toBe(0);await panel.locator('summary').filter({hasText:/^التالف$/}).click();
-    await expect(panel.getByTestId('damage-history')).toBeVisible();
-    await expect(panel.getByLabel('الحالة',{exact:true})).toHaveValue('all');
-    await expect(panel.getByLabel('الحالة',{exact:true}).locator('option')).toHaveText(['كل الحالات','بانتظار المورد','انتهى مع المورد','خسارة نهائية عليّ']);
-    await expect(panel.getByLabel('سبب التلف',{exact:true}).locator('option[value="customer_replacement"]')).toHaveText('استبدال باكيت معيب');
+    // Owner 2026-11-20: the shop-wide damage list left the invoice; it opens only from More → التالف.
+    await expect(panel.locator('summary').filter({hasText:/^التالف$/})).toHaveCount(0);expect(reads).toBe(0);
+    await page.goto('/e2e/package-f-trial-owner-r-harness.html');await page.getByRole('tab',{name:'سجل التالف',exact:true}).click();
+    const damage=page.getByTestId('damage-history');await expect(damage).toBeVisible();
+    await expect(damage.getByLabel('الحالة',{exact:true})).toHaveValue('all');
+    await expect(damage.getByLabel('الحالة',{exact:true}).locator('option')).toHaveText(['كل الحالات','بانتظار المورد','انتهى مع المورد','خسارة نهائية عليّ']);
+    await expect(damage.getByLabel('سبب التلف',{exact:true}).locator('option[value="customer_replacement"]')).toHaveText('استبدال باكيت معيب');
     await expect.poll(()=>reads).toBe(1);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
     await page.screenshot({path:info.outputPath(`aftercare-cleanup-${width}.png`),fullPage:true});
   });

@@ -8,6 +8,7 @@ import {previewAftercare215,settleAftercare215} from '../../services/supabase/af
 import {fetchSupplierReplacementOptions,type ReplacementOptions} from '../../services/supabase/supplierReplacement.service';
 import {searchAdminProducts} from '../../services/supabase/products.service';
 import {businessErrorMessage} from '../../utils/businessError';
+import {useDrawerShortfallConfirm} from '../../hooks/useDrawerShortfallConfirm';
 import type {Preview215} from '../../utils/aftercare215Contracts';
 import {formatExactMinorJod,formatExactUnitCostJod,parcelPacketQuantity} from '../../utils/aftercare215Money';
 import {buildWizard215,selectWizardPhysical215,inspectWizardPhysical215,physicalKey215,
@@ -32,6 +33,7 @@ export function AftercareWizard215({order,context,ownerAllowed,disabled,onBusyCh
   const [replacement,setReplacement]=useState<'same'|'other'>('same'),[products,setProducts]=useState<Product[]>([]),[selectedProduct,setSelectedProduct]=useState<Product|null>(null);
   const [search,setSearch]=useState(''),[productsLoading,setProductsLoading]=useState(false),[productsError,setProductsError]=useState('');
   const [replacementKind,setReplacementKind]=useState<'base_unit'|'legacy_single_sku_parcel'>('base_unit'),[replacementQuantity,setReplacementQuantity]=useState(1);
+  const drawer=useDrawerShortfallConfirm();
   const [refundMethod,setRefundMethod]=useState(defaultRefund(order)),[differenceMethod,setDifferenceMethod]=useState<'cash'|'cliq'|null>(order.paymentMethod==='cliq'?'cliq':'cash'),[reference,setReference]=useState('');
   const [reason,setReason]=useState('فحص بضاعة راجعة من الزبون'),[notes,setNotes]=useState(''),[preview,setPreview]=useState<Preview215|null>(null),[built,setBuilt]=useState<BuiltWizard215|null>(null);
   const [busy,setBusy]=useState(false),[error,setError]=useState('');const revision=useRef(0),mounted=useRef(true),heading=useRef<HTMLHeadingElement>(null),alert=useRef<HTMLParagraphElement>(null);
@@ -88,6 +90,9 @@ export function AftercareWizard215({order,context,ownerAllowed,disabled,onBusyCh
   };
   const confirm=async()=>{
     if(disabled||busy||!preview?.canConfirm||!built)return;
+    // Owner 2026-11-20: a cash refund larger than the drawer is warned once (never blocked), like supplier payments/expenses.
+    const cashOut=preview.kind==='sealed_return'?(preview.refundMethod==='cash'?preview.moneyRefundInMinorUnits:'0'):preview.kind==='exchange'&&preview.differenceMethod==='cash'?preview.moneyRefundInMinorUnits:'0';
+    if(!drawer.confirmCash(Number(cashOut)/1000,BigInt(cashOut)>0n))return;
     setBusy(true);onBusyChange(true);setError('');
     try{const result=await settleAftercare215(built.action,built.payload,preview.previewFingerprint,!salesOnly);
       if(!mounted.current)return;if(!result.success)throw new Error(result.error||'نتيجة العملية غير محسومة؛ استعد نفس المحاولة.');
@@ -178,6 +183,7 @@ export function AftercareWizard215({order,context,ownerAllowed,disabled,onBusyCh
       {preview.issues.length>0&&<div role="alert" className="space-y-2 text-sm text-nw-bad">{preview.issues.map((issue,index)=><p key={index}>{issue.field==='referenceNumber'?'مرجع CliQ':issue.field==='cashShift'?'الوردية':issue.field==='differenceMethod'?'طريقة فرق المال':'طريقة رد المال'}: {businessErrorMessage(issue.code)}</p>)}<p>ارجع للخطوة السابقة وأكمل الخانة المذكورة، ثم أعد المعاينة.</p></div>}
     </div>}
     </fieldset>
+    {drawer.warningNode}
     <div className="flex flex-wrap gap-2">
       {step>1&&<UiButton disabled={busy} onClick={()=>{changed();setStep(step-1);}}>رجوع</UiButton>}
       {step<5&&<UiButton variant="primary" disabled={locked} onClick={next}>التالي</UiButton>}

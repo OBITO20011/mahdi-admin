@@ -7,31 +7,63 @@
     },
     {
       "code": " M",
-      "path": "docs/operations/D1_REFERENCE_KIT225_AR.md"
+      "path": "docs/operations/SERVICE_ACCESS_AFTER_225.json"
     },
     {
       "code": " M",
-      "path": "scripts/audit/on-cutover225-source-pins.json"
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
     },
     {
       "code": " M",
-      "path": "scripts/audit/on-prices225-source-pins.json"
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
     },
     {
       "code": " M",
-      "path": "scripts/operations/d1-reference225-ci.mjs"
+      "path": "docs/operations/TABLE_ACCESS_AFTER_225.json"
     },
     {
       "code": " M",
-      "path": "scripts/operations/d1-reference225-kit.mjs"
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-on-cutover225.mjs"
+    },
+    {
+      "code": " M",
+      "path": "src/features/more/ParcelConfigurationModal.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/orders/AdminAftercarePanel.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/orders/AftercareWizard215.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/products/ProductFormModal.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/shifts/ShiftsView.tsx"
+    },
+    {
+      "code": " M",
+      "path": "tests/on-cutover225-documentation.test.ts"
     },
     {
       "code": "??",
-      "path": "scripts/operations/d1-reference225-github.mjs"
+      "path": "scripts/audit/on225-owner-fixes-source-pins.json"
     },
     {
       "code": "??",
-      "path": "tests/d1-reference225-github.test.ts"
+      "path": "scripts/audit/source-before-on225-owner-fixes.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/on225-owner-trial-fixes.test.ts"
     }
   ]
 }
