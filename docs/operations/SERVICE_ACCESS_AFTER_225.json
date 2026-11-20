@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-18T07:53:13.101Z",
+  "startedAt": "2026-11-20T07:51:38.753Z",
   "migrationCeiling": 225,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-x2DuYd",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-jb9hE4",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -283,7 +283,7 @@
     },
     {
       "file": "src/features/directReceiving/CreateDirectReceiptModal.tsx",
-      "sha256": "3d556b33be160426863a8d98a42eceefda8b9201c9be8e467804a8f53477bf85"
+      "sha256": "180124a4a7f85e9cc5c3d86421dfa05714489e776f75406c689f91088bdcf475"
     },
     {
       "file": "src/features/directReceiving/DirectReceivingView.tsx",
@@ -419,7 +419,7 @@
     },
     {
       "file": "src/features/more/ParcelConfigurationModal.tsx",
-      "sha256": "24ce554d6d0317ed14229ac2b4b02a2a6f0cc77783e882280383dacaa9ee88db"
+      "sha256": "310b04fa0d9330aa2795881b713df379fe530d477929d563aa30d1c1e94ffc1f"
     },
     {
       "file": "src/features/more/ProfileModal.tsx",
@@ -487,7 +487,7 @@
     },
     {
       "file": "src/features/orders/AdminAftercarePanel.tsx",
-      "sha256": "1f16da254970cd560f4c3ed7b408513cc4114152f6bec2d397fc82ebe5256075"
+      "sha256": "cb93e9e647b3924cf29204185ccc3eb9fe48cdab9b95260c157edd8506b38768"
     },
     {
       "file": "src/features/orders/aftercare215Draft.ts",
@@ -503,7 +503,7 @@
     },
     {
       "file": "src/features/orders/AftercareWizard215.tsx",
-      "sha256": "c843ac3f578da5adf812d0b6935d6ffd9fc1b91e1679bb50f500046f9c801c06"
+      "sha256": "e57582d23da56109ad9cbb7457df7c4e88dcdc1d981a54f21324e4204519d0ae"
     },
     {
       "file": "src/features/orders/CustomerLocationCard.tsx",
@@ -615,7 +615,7 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "sha256": "950e1a9b1a20f9ae77c522a5b2abedc4a52f0c475cd57799d615c3538c36b795"
+      "sha256": "61b66d2fc8017840968119fe51c0fe772196e3b8921c391f835847f1ec6dcb23"
     },
     {
       "file": "src/features/products/ProductFormParcelCapability.tsx",
@@ -683,7 +683,7 @@
     },
     {
       "file": "src/features/reports/DamageLossReportSection.tsx",
-      "sha256": "73cf137158e311d95610fb8a6c5ffbbe878cb0d92e627a4e90c0dee839fc5a9c"
+      "sha256": "babd927dc4bb4b4351359a37a225adb069b13651179051d45ba4be79394a08b1"
     },
     {
       "file": "src/features/reports/OwnerWithdrawalsReportSection.tsx",
@@ -691,7 +691,7 @@
     },
     {
       "file": "src/features/reports/ReportsCenterView.tsx",
-      "sha256": "7fc849f9ef1ae75420cf79cff2afe93b31f2af543b1e3c946869888aa013b1f3"
+      "sha256": "a6d5ded7898cd25a38bf0f6526c85f4645046a5c57d60e0d81015a04587e10c1"
     },
     {
       "file": "src/features/reports/SalesOnlyReportsView.tsx",
@@ -747,7 +747,7 @@
     },
     {
       "file": "src/features/shifts/ShiftsView.tsx",
-      "sha256": "ba86d8c5c849129c207a6509c089b0c7068fac518f93cb51ea1c3218498f8e13"
+      "sha256": "848e18ba83745d2ba60233bbbf76cf9f1be99c019e95fdad84da6ef64d2f76fe"
     },
     {
       "file": "src/features/users/UserFormModal.tsx",
@@ -56523,5 +56523,5 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-11-18T07:53:32.526Z"
+  "endedAt": "2026-11-20T07:53:17.455Z"
 }

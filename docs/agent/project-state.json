@@ -320,6 +320,7 @@
   "migration225CanonicalLfSha256": "C20975214DCC8F2C67CC6FC21235E04ED7E5EC96081DB24B0EEECEDC2553DDE1",
   "onIndependentPrices225Status": "REVIEW_CORRECTIONS_LOCAL_VALIDATION_DRAFT_ONLY",
   "phaseD1_225_DIAGNOSTICSImplementationAllowed": true,
+  "phaseON225_OWNER_TRIAL_FIXESImplementationAllowed": true,
   "phaseON225_CUTOVER_EVIDENCEImplementationAllowed": true,
   "phaseON225_TWO_STAGE_CUTOVERImplementationAllowed": true
 }

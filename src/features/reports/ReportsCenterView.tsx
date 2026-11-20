@@ -336,6 +336,28 @@ const FullReportsCenterView: React.FC = () => {
             </div>
           </header>
 
+          {/* Owner 2026-11-20: the few numbers that matter first, in plain words; zero cards hidden.
+              Same server values as the cards below — nothing is recomputed here. */}
+          <div data-testid="report-plain-summary" className="print-section rounded-2xl border border-nw-border bg-nw-surface p-4">
+            <h2 className="m-0 mb-3 text-sm font-black text-nw-text">الملخص</h2>
+            <dl className="m-0 grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
+              {[
+                {key:'net-sales',label:'صافي المبيعات',value:report.sales.netSales,meaning:'المبيعات بعد ما نطرح المرتجعات',always:true},
+                {key:'net-profit',label:'ربحك الصافي',value:report.sales.netProfit,meaning:'اللي ضل إلك بعد تكلفة البضاعة والمرتجعات والاستبدال والتلف والمصاريف',always:true,tone:report.sales.netProfit<0?'text-nw-bad':'text-nw-ok'},
+                {key:'cash',label:'صافي الكاش',value:report.cashFlow.cashNetFlow,meaning:'الكاش اللي دخل ناقص الكاش اللي رجّعته'},
+                {key:'cliq',label:'صافي CliQ',value:report.cashFlow.cliqNetFlow,meaning:'تحويلات CliQ اللي دخلت ناقص اللي رجّعته'},
+                {key:'customers',label:'ديون لك على الزبائن',value:report.balances.customerDue,meaning:'رصيد الزبائن عليك تحصيله الآن'},
+                {key:'suppliers',label:'عليك للموردين',value:report.balances.supplierDue,meaning:'اللي لسا ما دفعته للموردين الآن'},
+              ].filter(row=>row.always||row.value!==0).map(row=>(
+                <div key={row.key} data-testid={`report-plain-${row.key}`} className="rounded-xl border border-nw-border p-3">
+                  <dt className="text-xs font-bold text-nw-muted">{row.label}</dt>
+                  <dd className={`m-0 mt-1 text-lg font-black ${row.tone??'text-nw-text'}`}>{money(row.value)}</dd>
+                  <dd className="m-0 mt-1 text-[11px] text-nw-muted">يعني: {row.meaning}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+
           <section className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
             <MetricCard label="المبيعات" value={money(report.sales.grossSales)} hint="مبيعات الفترة بعد الخصم، قبل المرتجعات" icon={ShoppingCart} tone="blue" />
             <MetricCard label="المرتجعات" value={money(report.sales.returnEntitlement)} hint="خفض الذمة والمبلغ المسترد معًا" icon={PackageCheck} tone="rose" />

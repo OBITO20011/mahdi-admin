@@ -128,6 +128,7 @@ export function ParcelConfigurationModal({initialFamilyProductId,operatingMode='
           {familySearch&&<p className="text-sm text-nw-muted" role="status">{visibleFamilies.length} نتيجة — العائلة المحددة: {product?.nameAr} — {product?.sku}</p>}
           {form && product && <>
             <label>{salesOnly?'كم '+contentUnit(form.familyProductId)+' بالطرد':'كم حبة بالطرد'}<input readOnly={salesOnly} inputMode="numeric" enterKeyHint="next" className={inputClass} required type="number" min="1" step="1" value={form.units} onChange={e=>setForm({...form,units:Number(e.target.value)})}/></label>
+            {!salesOnly&&<p className="text-xs text-nw-muted" data-testid="parcel-mix-product-size">{product.unitsPerParcel>1?`طرد هذا المنتج: ${product.unitsPerParcel} ${contentUnit(form.familyProductId)}`:'لا يوجد طرد معرّف لهذا المنتج — اكتب العدد'}</p>}
             {salesOnly&&<p className="text-sm text-nw-muted">عدد الطرد ووحدته وسعره تُضبط من نموذج المنتج أولاً؛ هذه الشاشة تختار النكهات فقط. بعد تعديل المنتج أعد تحميل الإعداد.</p>}
             {salesOnly&&<p className="text-sm text-nw-muted">لطرد نكهات حقيقي اختر وحدة بيع مختلفة عن وحدة المحتوى. للحفاظ على سعر الوحدة راجع أن سعر الطرد يساوي العدد × سعر الوحدة؛ الحفظ هنا لا يحوّل الأسعار تلقائياً.</p>}
               <div><label className="flex gap-2"><input type="checkbox" checked={form.active} onChange={e=>setForm({...form,active:e.target.checked})}/>الطرد المشكّل مفعّل للبيع</label>

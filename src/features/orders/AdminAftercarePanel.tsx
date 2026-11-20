@@ -2,7 +2,7 @@ import {FormFields,UiButton} from '../../components/ui';
 import {useAuthStore} from '../../stores/useAuthStore';
 import {submitSupplierReplacement,supplierReplacementRecovery} from '../../services/supabase/supplierReplacement.service';
 import type {ReplacementAttempt} from '../../services/supabase/supplierReplacementIntent';
-import React,{lazy,Suspense,useCallback,useEffect,useMemo,useState} from 'react';
+import React,{useCallback,useEffect,useMemo,useState} from 'react';
 import {RefreshCw} from 'lucide-react';
 import {CURRENCY} from '../../constants';
 import type {Order} from '../../types';
@@ -12,7 +12,6 @@ import {AftercareWizard215} from './AftercareWizard215';
 import type {AdminAftercareAction} from '../../services/supabase/adminAftercareRecovery';
 import {fetchAdminAftercareContext,fetchAdminAftercareRecoveryStates,recoverAdminAftercare,
   type AdminAftercareCapability,type AdminAftercareContext,type AftercarePhysicalRepresentative} from '../../services/supabase/salesAftercare.service';
-const DamageHistoryPanel=lazy(()=>import('../more/DamageHistoryPanel').then(m=>({default:m.DamageHistoryPanel})));
 interface Props {order:Order;onChanged?:()=>Promise<void>;onContractResolved:(capability:AdminAftercareCapability|null)=>void;
   notify:(message:string,type?:'success'|'error'|'info')=>void}
 const rootQuantity=(representatives:AftercarePhysicalRepresentative[])=>representatives.reduce((sum,source)=>sum+source.remainingQuantity,0);
@@ -22,14 +21,14 @@ export const AdminAftercarePanel:React.FC<Props>=({order,onChanged,onContractRes
   const supplierScope=`supplier-replacement208:return:${order.id}`;
   const [supplierAttempt,setSupplierAttempt]=useState<ReplacementAttempt|null>(null),[supplierRecoveryError,setSupplierRecoveryError]=useState('');
   const [context,setContext]=useState<AdminAftercareContext|null>(null),[loading,setLoading]=useState(true),[busy,setBusy]=useState(false);
-  const [safetyBlocked,setSafetyBlocked]=useState(true),[error,setError]=useState<string|null>(null),[damageOpen,setDamageOpen]=useState(false);
+  const [safetyBlocked,setSafetyBlocked]=useState(true),[error,setError]=useState<string|null>(null);
   const [recoveryStates,setRecoveryStates]=useState<Awaited<ReturnType<typeof fetchAdminAftercareRecoveryStates>>>({});
   const refreshRecoveryStates=useCallback(async()=>{
     setRecoveryStates(await fetchAdminAftercareRecoveryStates(order.id));
     if(isOwner)try{setSupplierAttempt(await supplierReplacementRecovery(supplierScope));setSupplierRecoveryError('');}
     catch(cause){setSupplierRecoveryError(operatorErrorMessage('aftercareRead',cause));}
   },[order.id,isOwner,supplierScope]);
-  useEffect(()=>{setSupplierAttempt(null);setSupplierRecoveryError('');setDamageOpen(false);},[user?.id,isOwner,order.id]);
+  useEffect(()=>{setSupplierAttempt(null);setSupplierRecoveryError('');},[user?.id,isOwner,order.id]);
   const load = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -143,19 +142,12 @@ export const AdminAftercarePanel:React.FC<Props>=({order,onChanged,onContractRes
       </div>}
 
       {context.order.withinWindow&&sources.length>0&&<AftercareWizard215 key={`${user?.id}:${[...roles].sort().join(',')}:${roleName}:${order.id}`} order={order} context={context}
-        ownerAllowed={isOwner} disabled={busy||hasPendingRecovery||Boolean(supplierRecoveryError)||damageOpen} onBusyChange={setBusy} onRecoveryChange={refreshRecoveryStates}
+        ownerAllowed={isOwner} disabled={busy||hasPendingRecovery||Boolean(supplierRecoveryError)} onBusyChange={setBusy} onRecoveryChange={refreshRecoveryStates}
         onChanged={async()=>{await load();await onChanged?.();}} notify={notify}/>}
       {isOwner&&!salesOnly&&<>
         <AftercareSupplierSafety recoveryOnly orderId={order.id}
           disabled={busy||Object.values(recoveryStates).some(state=>state?.recoverable===true)||supplierAttempt?.status==='unknown'||supplierAttempt?.status==='prepared'}
           onPendingChange={setSafetyBlocked} onChanged={async()=>{await load();await onChanged?.();}} notify={notify}/>
-        <details open={damageOpen} onToggle={event=>setDamageOpen(event.currentTarget.open)} className="space-y-3">
-          <summary aria-disabled={busy||hasPendingRecovery} onClick={event=>{if(busy||hasPendingRecovery)event.preventDefault();}} className="min-h-11 cursor-pointer py-3 text-sm font-semibold">التالف</summary>
-          <p className="text-sm text-nw-muted">أغلق قائمة التالف قبل بدء إرجاع أو استبدال. سجل المحل كله: بانتظار المورد · انتهى مع المورد · خسارة نهائية عليّ. رقم المستند يوضح الفاتورة المرتبطة؛ تحويل التالف المسجّل متاح من قائمة سطره.</p>
-          {damageOpen&&<fieldset disabled={busy||hasPendingRecovery||Boolean(supplierRecoveryError)}>
-            <Suspense fallback={<p role="status">جاري فتح سجل التالف…</p>}><DamageHistoryPanel/></Suspense>
-          </fieldset>}
-        </details>
       </>}
       <div className="flex items-center justify-between text-[10px] text-nw-muted">
         <span>{context.returns.length} مرتجع · {context.replacements.length} استبدال</span>
