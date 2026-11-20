@@ -39,8 +39,7 @@ export const ExpenseFormModal: React.FC<ExpenseFormModalProps> = ({
     Boolean(currentShift) &&
     Number.isFinite(numericAmount) &&
     numericAmount > 0 &&
-    description.trim().length >= 2 &&
-    (paymentMethod !== 'cliq' || referenceNumber.trim().length > 0);
+    description.trim().length >= 2;
 
   if (!currentShift) {
     return (
@@ -151,7 +150,7 @@ export const ExpenseFormModal: React.FC<ExpenseFormModalProps> = ({
       {paymentMethod === 'cliq' && (
         <div>
           <label htmlFor="expense-reference" className="mb-1 block font-bold text-nw-muted">
-            رقم مرجع CliQ *
+            رقم مرجع CliQ (اختياري)
           </label>
           <input
             id="expense-reference"

@@ -102,7 +102,7 @@ test('stock action cards use native keyboard buttons and payment labels bind exa
   await page.getByRole('button', {name: 'فتح النافذة', exact: true}).click();
   await expect(page.getByLabel(/مبلغ الدفعة/)).toHaveAttribute('type', 'number');
   await page.getByLabel('طريقة الدفع *').selectOption('cliq');
-  await expect(page.getByLabel('رقم مرجع CliQ *')).toHaveAttribute('required', '');
+  await expect(page.getByLabel('رقم مرجع CliQ (اختياري)')).not.toHaveAttribute('required', '');
   await expect(page.getByLabel('ملاحظات (اختياري)')).toBeVisible();
 });
 test('Cart Escape dismisses confirmation first, then restores opener without changing cart', async ({page}) => {

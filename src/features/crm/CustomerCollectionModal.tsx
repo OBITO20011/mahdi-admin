@@ -68,7 +68,6 @@ export const CustomerCollectionModal: React.FC<CustomerCollectionModalProps> = (
   const save = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!previewIsCurrent || !preview || preview.exceedsBalance) { await runPreview(); return; }
-    if (method === 'cliq' && !reference.trim()) { setError('رقم مرجع CliQ مطلوب.'); return; }
     setBusy(true); setError('');
     try {
       const operation = await collectCustomerBalance({ customerId, amountInMinorUnits: preview.minor, method,
@@ -109,7 +108,7 @@ export const CustomerCollectionModal: React.FC<CustomerCollectionModalProps> = (
           </div>
           {method !== 'cash' && (
             <div>
-              <label htmlFor={ids.reference} className="mb-1 block text-[13px] font-semibold">{method === 'cliq' ? 'رقم مرجع CliQ *' : 'رقم مرجع التحويل'}</label>
+              <label htmlFor={ids.reference} className="mb-1 block text-[13px] font-semibold">{method === 'cliq' ? 'رقم مرجع CliQ (اختياري)' : 'رقم مرجع التحويل'}</label>
               <input id={ids.reference} className={fieldClass} dir="ltr" maxLength={100} value={reference} onChange={event => setReference(event.target.value)} />
             </div>
           )}

@@ -149,7 +149,7 @@ test('all active order flows remain reachable with identical action identity and
   await page.getByRole('button', { name: 'دفع جزئي', exact: true }).click();
   await page.getByLabel(/المبلغ المقبوض الآن/).fill('50');
   await page.getByRole('button', { name: 'CliQ', exact: true }).click();
-  await page.getByLabel('رقم مرجع CliQ *').fill('CLIQ-TEST-123');
+  await page.getByLabel('رقم مرجع CliQ (اختياري)').fill('CLIQ-TEST-123');
   await page.getByRole('button', { name: 'اعتماد التسليم والحساب', exact: true }).click();
   await expect(page.getByTestId('orders-action')).toContainText('"method":"completeWebsiteOrderWithSettlement"');
   await expect(page.getByTestId('orders-action')).toContainText('"amountCollected":50,"deliveryFee":2,"referenceNumber":"CLIQ-TEST-123"');

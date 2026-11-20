@@ -39,6 +39,7 @@ import {SaleReceiptDialog} from '../receipts/SaleReceiptDialog';
 import {OperatingModeContext} from '../operatingMode/operatingModeContext';
 import {orderReceipt} from '../receipts/saleReceipt';
 import {receiptDocumentShareText} from '../../../customer-web/src/receipts/commercialReceipt';
+import {cliqReferenceForServer} from '../../utils/cliqReference';
 
 interface OrderDetailModalProps {
   order: Order;
@@ -269,15 +270,6 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
       );
       return;
     }
-    if (
-      settlementMode !== 'debt' &&
-      collectedBy === 'cliq' &&
-      !paymentReference.trim()
-    ) {
-      setToast('اكتب رقم مرجع عملية CliQ قبل تأكيد القبض.', 'error');
-      return;
-    }
-
     setBusy(true);
     try {
       const success = await completeWebsiteOrderWithSettlement({
@@ -286,7 +278,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
           settlementMode === 'debt' ? 'debt' : collectedBy,
         amountCollected: settlementCollectedAmount,
         deliveryFee: settlementDeliveryFee,
-        referenceNumber: paymentReference.trim(),
+        referenceNumber: cliqReferenceForServer(settlementMode === 'debt' ? 'debt' : collectedBy, paymentReference) ?? '',
         notes: paymentNotes.trim(),
       });
       if (success) {
@@ -725,6 +717,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
                 onChange={(event) => setDeliveryFeeInput(event.target.value)}
                 className="w-full rounded-xl border border-nw-border bg-nw-surface-2 p-2.5 font-black text-nw-text"
               />
+              <span className="mt-1 block text-[10px] leading-5 text-nw-muted">خلّيها 0 إذا الزبون دفع الأجرة للسائق مباشرة؛ ساعتها ما بتدخل فاتورة المحل.</span>
             </label>
 
             <div className="grid grid-cols-3 gap-2">
@@ -818,7 +811,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
             {settlementMode !== 'debt' && collectedBy === 'cliq' && (
               <label className="block">
                 <span className="mb-1 block font-bold text-nw-text">
-                  رقم مرجع CliQ *
+                  رقم مرجع CliQ (اختياري)
                 </span>
                 <input
                   value={paymentReference}

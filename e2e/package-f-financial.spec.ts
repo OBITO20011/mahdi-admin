@@ -58,8 +58,9 @@ test('expense Cash/CliQ payloads unchanged;missing CliQ reference blocks;busy gu
  await d.getByLabel('المبلغ (د.أ) *',{exact:true}).fill('12.345');
  await d.getByLabel('البيان / الوصف *',{exact:true}).fill('  فاتورة الكهرباء  ');
  await d.getByRole('button',{name:'CliQ',exact:true}).click();
- await expect(d.getByRole('button',{name:'اعتماد وتسجيل المصروف'})).toBeDisabled();expect(captured).toEqual([]);
- await d.getByLabel('رقم مرجع CliQ *',{exact:true}).fill(' REF-22 ');
+ // Owner 2026-11-20: CliQ reference optional; the button stays enabled without it.
+ await expect(d.getByRole('button',{name:'اعتماد وتسجيل المصروف'})).toBeEnabled();expect(captured).toEqual([]);
+ await d.getByLabel('رقم مرجع CliQ (اختياري)',{exact:true}).fill(' REF-22 ');
  await d.getByRole('button',{name:'اعتماد وتسجيل المصروف'}).click();
  await expect.poll(()=>captured.length).toBe(1);
  await expect(d.locator('[aria-busy="true"]')).toHaveCount(1);await page.keyboard.press('Escape');await expect(d).toBeVisible();

@@ -16,6 +16,7 @@ import {
   buildDeliveryAddress,
   MAX_GUEST_DELIVERY_DETAILS_LENGTH,
   normalizeJordanPhone,
+  withMapLocationAddress,
 } from '../utils/checkout';
 
 type RpcPayload = Record<string, unknown>;
@@ -178,7 +179,8 @@ export async function submitGuestCustomerOrder(
     throw new Error('رقم الهاتف الأردني غير صحيح.');
   }
 
-  const deliveryAddress = buildDeliveryAddress(request.customer);
+  const customer = withMapLocationAddress(request.customer);
+  const deliveryAddress = buildDeliveryAddress(customer);
   if (!deliveryAddress || deliveryAddress.length > MAX_GUEST_DELIVERY_DETAILS_LENGTH) {
     throw new Error(`تفاصيل العنوان والتوصيل يجب ألا تتجاوز ${MAX_GUEST_DELIVERY_DETAILS_LENGTH} حرفًا.`);
   }
@@ -191,17 +193,17 @@ export async function submitGuestCustomerOrder(
       turnstileToken: request.turnstileToken,
       clientSessionId: request.clientSessionId,
       customer: {
-        ...request.customer,
-        fullName: request.customer.fullName.trim(),
+        ...customer,
+        fullName: customer.fullName.trim(),
         phone: normalizedPhone,
-        governorate: request.customer.governorate.trim(),
-        city: request.customer.city.trim(),
-        area: request.customer.area.trim(),
-        street: request.customer.street.trim(),
-        building: request.customer.building.trim(),
-        addressNotes: request.customer.addressNotes.trim(),
-        googleMapsUrl: request.customer.googleMapsUrl.trim(),
-        customerNotes: request.customer.customerNotes.trim(),
+        governorate: customer.governorate.trim(),
+        city: customer.city.trim(),
+        area: customer.area.trim(),
+        street: customer.street.trim(),
+        building: customer.building.trim(),
+        addressNotes: customer.addressNotes.trim(),
+        googleMapsUrl: customer.googleMapsUrl.trim(),
+        customerNotes: customer.customerNotes.trim(),
       },
       items: request.items,
       promotionCode: request.promotionCode?.trim() || null,

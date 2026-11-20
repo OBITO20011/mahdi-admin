@@ -62,7 +62,7 @@ test('لا يعرض التقرير القديم الناقص كأرقام صحي
   await expect(page.locator('main')).toHaveCount(0);
 });
 
-test('سند القبض Cash/CliQ فقط ومرجع CliQ مطلوب؛ البحث الخالي ليس ذممًا صفرًا', async ({page}) => {
+test('سند القبض Cash/CliQ فقط ومرجع CliQ اختياري يُرسل «بدون مرجع»؛ البحث الخالي ليس ذممًا صفرًا', async ({page}) => {
   let submitted = 0;
   await page.route('**/rest/v1/rpc/record_customer_order_payment_once', route => { submitted++; return route.fulfill({json: {success: true}}); });
   await page.route('**/rest/v1/rpc/get_customer_outstanding_orders_page', route => {
@@ -74,8 +74,8 @@ test('سند القبض Cash/CliQ فقط ومرجع CliQ مطلوب؛ البحث
   await expect(method.locator('option')).toHaveCount(2);
   expect(await method.locator('option').evaluateAll(options => options.map(o => (o as HTMLOptionElement).value))).toEqual(['cash', 'cliq']);
   await method.selectOption('cliq');
-  await expect(page.getByPlaceholder('رقم مرجع CliQ')).toHaveAttribute('required', '');
-  await page.getByRole('button', {name: 'حفظ سند القبض وتحديث الذمة'}).click();
+  await expect(page.getByPlaceholder('رقم مرجع CliQ')).not.toHaveAttribute('required', '');
+  await expect(page.getByText('رقم مرجع CliQ (اختياري)', {exact: true})).toBeVisible();
   expect(submitted).toBe(0);
   await page.getByPlaceholder('ابحث برقم الطلب أو العميل أو الهاتف').fill('غير موجود');
   await expect(page.getByText('لا توجد نتائج لهذا البحث', {exact: true})).toBeVisible();
