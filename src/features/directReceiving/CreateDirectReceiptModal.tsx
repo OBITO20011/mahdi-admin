@@ -347,21 +347,34 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
     });
   };
 
+  const lineInMode=<T extends (typeof items)[number]>(item:T,mode:ReceivingUnitMode):T=>{
+    const product=selectedProductsRef.current.get(item.productId);
+    if(!product)return item;
+    const contents=normalizeIntegerQuantity(product.unitsPerPackage);
+    if(mode==='package'&&contents<=1)return item;
+    const quote=purchaseRead.status==='ready'?purchaseRead.quotes[item.productId]:null;
+    const packagePrice=quote?quoteForQuantity(quote,contents):product.defaultPackagePriceInMinorUnits||product.costPriceInMinorUnits*contents;
+    const price=mode==='base_unit'?Math.round(packagePrice/contents):packagePrice;
+    return {...item,receivingMode:mode,unitsPerPackage:mode==='base_unit'?1:contents,
+      purchaseUnitName:mode==='base_unit'?product.baseUnitName:product.purchaseUnitName,
+      purchaseUnitId:mode==='base_unit'?product.baseUnitId:product.purchaseUnitId,
+      pkgPriceJod:minorUnitsToJod(price),packagePriceInMinorUnits:price};
+  };
   const changeReceivingMode=(index:number,mode:ReceivingUnitMode)=>{
-    setItems(current=>current.map((item,i)=>{
-      if(i!==index)return item;
-      const product=selectedProductsRef.current.get(item.productId);
-      if(!product)return item;
-      const contents=normalizeIntegerQuantity(product.unitsPerPackage);
-      if(mode==='package'&&contents<=1)return item;
-      const quote=purchaseRead.status==='ready'?purchaseRead.quotes[item.productId]:null;
-      const packagePrice=quote?quoteForQuantity(quote,contents):product.defaultPackagePriceInMinorUnits||product.costPriceInMinorUnits*contents;
-      const price=mode==='base_unit'?Math.round(packagePrice/contents):packagePrice;
-      return {...item,receivingMode:mode,unitsPerPackage:mode==='base_unit'?1:contents,
-        purchaseUnitName:mode==='base_unit'?product.baseUnitName:product.purchaseUnitName,
-        purchaseUnitId:mode==='base_unit'?product.baseUnitId:product.purchaseUnitId,
-        pkgPriceJod:minorUnitsToJod(price),packagePriceInMinorUnits:price};
-    }));
+    setItems(current=>current.map((item,i)=>i===index?lineInMode(item,mode):item));
+  };
+  // Owner 2026-11-20: receive parcels and loose packets of the same product in one receipt.
+  // Each unit is its own line (own client line id, quantity and price); the server applies WAC per line.
+  const addCompanionLine=(index:number)=>{
+    setItems(current=>{
+      const item=current[index];
+      if(!item)return current;
+      const mode:ReceivingUnitMode=item.receivingMode==='package'?'base_unit':'package';
+      const companion=lineInMode({...item,tempId:`${item.productId}-${Date.now()}`,clientLineId:crypto.randomUUID(),
+        packageQuantity:1,discountInMinorUnits:0,discountJod:0},mode);
+      if(companion.receivingMode!==mode)return current;
+      return [...current.slice(0,index+1),companion,...current.slice(index+1)];
+    });
   };
 
   // Remove Item row
@@ -881,6 +894,11 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
                     onContents={value=>updateItemField(index,'unitsPerPackage',value)}
                     onPrice={value=>updateItemField(index,'pkgPriceJod',value)}
                     onPackageName={value=>updateItemField(index,'purchaseUnitName',value)}/>
+                  {(sourceProduct?.unitsPerPackage??1)>1&&!items.some(other=>other!==item&&other.productId===item.productId&&other.receivingMode!==item.receivingMode)&&
+                    <UiButton variant="secondary" type="button" disabled={isSubmitting} data-testid="receiving-companion-line"
+                      onClick={()=>addCompanionLine(index)}>
+                      {item.receivingMode==='package'?`+ ${item.baseUnitName} فرط لنفس الصنف`:`+ ${sourceProduct?.purchaseUnitName??'طرد'} لنفس الصنف`}
+                    </UiButton>}
                   <details className="rounded-lg border border-nw-border p-2">
                     <summary className="min-h-11 cursor-pointer font-bold">متقدم: خصم الصنف</summary>
                     {/* Discount (JOD) */}

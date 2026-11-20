@@ -28,7 +28,8 @@ test('التقرير يحذر من أدلة فاشلة أو متقادمة دو�
   status='critical';
   await page.reload();
   await expect(page.getByTestId('aftercare-integrity-warning')).toContainText('لم ينجح');
-  await expect(page.locator('main').getByText('صافي المبيعات', {exact:true})).toBeVisible();
+  // The plain summary (owner 2026-11-20) repeats this label; the warning must leave the metric cards intact.
+  await expect(page.locator('main > section > article').getByText('صافي المبيعات', {exact:true})).toBeVisible();
   status='healthy';checkedAt=new Date(Date.now()-25*60*60*1000).toISOString();
   await page.reload();
   await expect(page.getByTestId('aftercare-integrity-warning')).toContainText('24 ساعة');

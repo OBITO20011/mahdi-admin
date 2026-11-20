@@ -4,7 +4,7 @@
   "owner": "claude",
   "objective": "Owner20Nov ON225 trial fixes batch1 UI-only(no migration): parcel conversion+طرد name, remove damage log from order, refund method/drawer warning, parcel-mix defaults, withdrawals nav; owner authorized branch/commit/push/PR/merge on green CI",
   "baselineSha": "3fda5f90d6fe380bcff677f494476bc9a6a6ab69",
-  "branch": "claude/on225-owner-fixes-ui",
+  "branch": "claude/on225-owner-fixes-b2",
   "phase": "ON225_OWNER_TRIAL_FIXES",
   "startedAt": "2026-11-20T06:04:30.000Z",
   "completed": [],

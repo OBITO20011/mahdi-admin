@@ -41,3 +41,28 @@ test('owner withdrawals entry scrolls only its own container and flashes the car
  assert.match(shifts,/card\.focus\(\{preventScroll:true\}\)/u);
  assert.match(shifts,/scroller\.scrollTo\(/u);
 });
+
+test('receiving can add loose packets (or a parcel) of the same product as its own line',()=>{
+ const modal=raw('src/features/directReceiving/CreateDirectReceiptModal.tsx');
+ const add=modal.slice(modal.indexOf('const addCompanionLine='),modal.indexOf('// Remove Item row'));
+ assert.match(add,/clientLineId:crypto\.randomUUID\(\)/u);
+ assert.match(add,/item\.receivingMode==='package'\?'base_unit':'package'/u);
+ assert.match(modal,/data-testid="receiving-companion-line"/u);
+ assert.match(modal,/فرط لنفس الصنف/u);
+});
+
+test('damage report leads with one plain profit line whose sign follows profit',()=>{
+ const section=raw('src/features/reports/DamageLossReportSection.tsx');
+ assert.match(section,/const effect=losses\.additional===0\?0:-losses\.additional/u);
+ assert.match(section,/أثر التلف على ربحك بهذه الفترة/u);
+ assert.match(section,/تفاصيل للمحاسب/u);
+ assert.doesNotMatch(section,/'إعادة تصنيف عيب إلى معلّق'/u);
+});
+
+test('reports open with a plain summary of server values and hide zero extras',()=>{
+ const view=raw('src/features/reports/ReportsCenterView.tsx');
+ const summary=view.slice(view.indexOf('data-testid="report-plain-summary"'),view.indexOf('<section className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">'));
+ for(const value of ['report.sales.netSales','report.sales.netProfit','report.cashFlow.cashNetFlow','report.cashFlow.cliqNetFlow','report.balances.customerDue','report.balances.supplierDue'])assert.ok(summary.includes(value),value);
+ assert.match(summary,/filter\(row=>row\.always\|\|row\.value!==0\)/u);
+ assert.doesNotMatch(summary,/<section|<article/u);
+});
