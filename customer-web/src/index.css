@@ -256,3 +256,10 @@ button:disabled {
     scroll-behavior: auto;
   }
 }
+
+/* Owner UX batch F (2026-11-20): no storefront screen text below 12px. */
+@media screen {
+  :is(.text-\[8px\], .text-\[9px\], .text-\[10px\], .text-\[11px\]) {
+    font-size: 12px;
+  }
+}

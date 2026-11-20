@@ -925,7 +925,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   };
 
   const addBaseUnitToCart = (product: CatalogProduct, requestedQuantity = 1, source?: HTMLElement) => {
-    if(product.parcelOnly){showToast('هذا الصنف بيتباع بالطرد بس؛ اختر طرداً.','info');return;}
+    if(product.parcelOnly){showToast('هذا الصنف يُباع بالطرد فقط؛ اختر طرداً.','info');return;}
     if (cartStorageRecovery) {
       setCartOpen(true);
       showToast('راجع حالة السلة المحفوظة قبل إضافة أصناف جديدة.', 'info');

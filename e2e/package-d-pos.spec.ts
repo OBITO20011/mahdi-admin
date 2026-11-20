@@ -32,7 +32,7 @@ test('POS base and single-SKU parcel share physical capacity in the selected war
   const unit=page.locator(`[data-pos-product="${productId}"] [data-pos-add-method="base_unit"]`);
   await unit.click(); await unit.click(); // Two additional physical units.
   await openCart(page);
-  await expect(page.getByRole('heading', {name: 'سلة المبيعات الحالية (2)'})).toBeVisible();
+  await expect(page.getByRole('heading', {name: 'السلة (2)'})).toBeVisible();
   const rows = page.getByRole('heading', {name: 'منتج الاختبار', level: 5});
   await expect(rows).toHaveCount(2);
   await closeCart(page);
@@ -65,12 +65,12 @@ test('POS parcel builder requires exact allowed composition and edits one instan
   await dialog.getByLabel('كمية نكهة ب').fill('1'); await expect(add).toBeEnabled();
   await add.click(); await expect(dialog).toHaveCount(0);
   await openCart(page);
-  await expect(page.getByRole('heading', {name: 'سلة المبيعات الحالية (1)'})).toBeVisible();
+  await expect(page.getByRole('heading', {name: 'السلة (1)'})).toBeVisible();
   await page.getByRole('button', {name: 'تعديل الطرد'}).click();
   await expect(dialog.getByLabel('كمية نكهة أ')).toHaveValue('2');
   await expect(dialog.getByLabel('كمية نكهة ب')).toHaveValue('1');
   await dialog.getByLabel('كمية نكهة أ').fill('1'); await dialog.getByLabel('كمية نكهة ب').fill('2');
-  await add.click(); await expect(page.getByRole('heading', {name: 'سلة المبيعات الحالية (1)'})).toBeVisible();
+  await add.click(); await expect(page.getByRole('heading', {name: 'السلة (1)'})).toBeVisible();
 });
 
 test('POS unknown response reload recovers the immutable request instead of starting a new sale', async ({page}) => {

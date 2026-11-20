@@ -13,7 +13,7 @@ function CounterRow({row,disabled,onSave}:{row:OptionalQuantityRow;disabled:bool
   <div><strong>{row.flavorName||row.name}</strong><span className="ms-2 text-xs text-nw-muted">{row.sku}</span></div>
   <label className="flex min-h-11 items-center gap-2"><input type="checkbox" checked={draft.enabled} disabled={disabled} onChange={e=>setDraft(d=>({...d,enabled:e.target.checked}))}/>تتبّع الكمية</label>
   <div className="grid gap-3 sm:grid-cols-2">
-   <label className="space-y-1"><span>صار عندي — {row.unitName}</span><input className="w-full rounded-lg border border-nw-border bg-nw-surface p-2 text-base" inputMode="numeric" value={draft.quantity} disabled={disabled} onChange={e=>setDraft(d=>({...d,quantity:e.target.value}))}/></label>
+   <label className="space-y-1"><span>الكمية الحالية — {row.unitName}</span><input className="w-full rounded-lg border border-nw-border bg-nw-surface p-2 text-base" inputMode="numeric" value={draft.quantity} disabled={disabled} onChange={e=>setDraft(d=>({...d,quantity:e.target.value}))}/></label>
    <label className="space-y-1"><span>نبّهني إذا صارت أقل من — {row.unitName}</span><input className="w-full rounded-lg border border-nw-border bg-nw-surface p-2 text-base" inputMode="numeric" value={draft.threshold} disabled={disabled} onChange={e=>setDraft(d=>({...d,threshold:e.target.value}))}/></label>
   </div>
   {!valid&&<p role="alert" className="text-sm text-nw-bad">أدخل أعداداً صحيحة من صفر إلى مليار.</p>}

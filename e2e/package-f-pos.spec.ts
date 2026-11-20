@@ -46,7 +46,7 @@ for (const theme of ['light', 'dark']) for (const width of [390, 820, 1440]) {
       const bounds = (await submit(page).boundingBox())!;
       expect(bounds.y).toBeGreaterThan(0); expect(bounds.y + bounds.height).toBeLessThan(844 - 78);
       await page.getByRole('button', { name: 'مراجعة السلة والعميل', exact: true }).click();
-      const panel = page.getByRole('dialog', { name: 'سلة المبيعات الحالية (1)' });
+      const panel = page.getByRole('dialog', { name: 'السلة (1)' });
       await expect(panel).toBeInViewport(); await expect(submit(page)).toBeInViewport();
       await expect(panel.getByRole('combobox', { name: 'اختيار العميل' })).toBeVisible();
       await expect(panel).not.toContainText('الدين الحالي');

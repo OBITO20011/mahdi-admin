@@ -51,7 +51,7 @@ test('item 10: orders centre shows canonical receivables, not Σ(total − paid)
   const center=source('src/features/orders/OrdersCenterView.tsx');
   assert.doesNotMatch(center,/ذمم الطلبات المكتملة/);
   assert.doesNotMatch(center,/summary\.due/);
-  assert.match(center,/ديون لك على الزبائن: <MoneyText amount=\{receivables\} \/>/);
+  assert.match(center,/الديون على الزبائن: <MoneyText amount=\{receivables\} \/>/);
   const hook=source('src/features/orders/useOrdersReceivables.ts');
   assert.match(hook,/customerReceivablesInMinorUnits \/ 1000/);
   assert.match(hook,/destination: 'home'/);

@@ -190,7 +190,7 @@ test.describe('Package D POS browser to real isolated RPC', () => {
     const sold=await state(page); const orderId=sold.result.orderId;
     await mountAftercare(page,orderId);
     await openAftercare(page,'refund','طرد كامل');
-    await page.getByLabel(/^الخربان ·/).fill('1');
+    await page.getByLabel(/^التالف ·/).fill('1');
     await page.getByText('متقدم · ضرر من الزبون',{exact:true}).click();
     await page.getByLabel(/^ضرر الزبون ·/).fill('2');
     await expect(page.getByText('السليم الذي يرجع للمخزون: 2 باكيت',{exact:true})).toBeVisible();

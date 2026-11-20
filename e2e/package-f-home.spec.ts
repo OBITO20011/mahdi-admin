@@ -38,6 +38,7 @@ for (const theme of ['light', 'dark']) {
       await page.goto(url(`theme=${theme}&long`));
       await expect(page.getByRole('heading', { name: 'أهلاً مهدي النواصرة' })).toBeVisible();
       await page.evaluate(() => document.fonts.ready);
+      await page.getByTestId('home-more').locator('summary').click();
       await assertLayout(page);
       await expect(page.getByTestId('dashboard-home')).not.toContainText(/[٠-٩]/);
       const labels = page.locator('[data-chart-amount]');
@@ -78,12 +79,10 @@ test('Home actions and period selector preserve existing intent; net is never gr
   await expect(page.getByTestId('home-action')).toHaveText('accounts');
   await page.getByRole('button', { name: 'الصندوق', exact: true }).click();
   await expect(page.getByTestId('home-action')).toHaveText('shifts');
-  await page.getByRole('button', { name: 'استلام', exact: true }).first().click();
-  await expect(page.getByTestId('home-action')).toHaveText('receive_goods:p1');
-  await page.getByRole('button', { name: 'ضبط', exact: true }).click();
-  await expect(page.getByTestId('home-action')).toHaveText('products');
-  await page.getByRole('button', { name: 'تسجيل مصروف' }).click();
-  await expect(page.getByTestId('home-action')).toHaveText('add_expense');
+  await page.getByRole('button', { name: /تنبيه مخزون/ }).click();
+  await expect(page.getByTestId('home-action')).toHaveText('inventory');
+  // Owner UX batch F: sell/receive/expense shortcuts live in the bottom bar and More, not on Home.
+  for (const name of ['تسجيل مصروف', 'إجراءات سريعة', 'تفاصيل إضافية']) await expect(page.getByTestId('dashboard-home')).not.toContainText(name);
 });
 
 test('token Header keeps branch, notifications, profile and assistant actions and role gate', async ({ page }) => {
@@ -148,7 +147,8 @@ test('208 Home separates unavailable financial facts from a pending-asset read f
   await page.route('**/rest/v1/rpc/get_supplier_replacements_page_v1',route=>route.fulfill({status:500,json:{message:'تعذر قراءة المعلّق في تجربة208.'}}));
   await page.goto(url('theme=dark&unavailable&noShift'));
   await expect(page.getByTestId('dashboard-home').getByRole('status').filter({hasText:'الأرقام المالية غير متاحة'})).toHaveCount(1);
-  const pending=page.getByTestId('supplier-replacement-summary');await expect(pending.getByRole('alert')).toContainText('تعذر قراءة المعلّق في تجربة208.');await expect(pending).not.toContainText('مجموع كميات الأصناف المعلّقة:');
+  // Owner UX batch F: the pending-replacement summary lives in Reports and Inventory, never on Home.
+  await expect(page.getByTestId('supplier-replacement-summary')).toHaveCount(0);
   for(const amount of ['1,284.500','4,100.000','8,420.750'])await expect(page.getByTestId('home-kpis')).not.toContainText(amount);
   await expect(page.getByRole('button',{name:'فتح الصندوق'})).toBeVisible();
 });

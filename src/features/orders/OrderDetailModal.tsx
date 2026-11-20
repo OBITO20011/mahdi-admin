@@ -2,7 +2,6 @@ import {pendingLiteDelivery,recoverLiteDelivery} from '../../services/supabase/s
 import {newestRecords} from '../../utils/newestRecords';
 import React, { useCallback, useContext, useEffect, useState, useSyncExternalStore } from 'react';
 import {
-  AlertTriangle,
   Banknote,
   BookUser,
   CheckCircle2,
@@ -441,8 +440,6 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
           <UiButton onClick={onPrint ?? (() => window.print())}><Printer className="h-4 w-4" />طباعة ورقة التجهيز</UiButton>
         </details>
       </div>
-      {embedded && <OrderCommercialSummary order={order} />}
-
       <section className="rounded-2xl border border-nw-info p-3 md:sticky md:top-0 md:z-10 md:bg-nw-surface">
         <div className="flex items-start justify-between gap-3">
           <div>
@@ -456,12 +453,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
                   ? 'سجّل التسليم والتحصيل'
                   : order.accountingTracked===false&&nextStep?.status==='delivered'?'تأكيد التسليم والتحصيل':nextStep?.label || 'لا يوجد إجراء مطلوب الآن'}
             </h4>
-            <p className="mt-1 text-[10px] text-nw-muted">
-              الإجمالي {order.totalAmount.toFixed(3)} {CURRENCY} ·{' '}
-              {(order.items || []).length} أصناف
-            </p>
           </div>
-          <StatusBadge tone={getOrderStatus(order.status).tone}>{STATUS_LABELS[order.status] || order.status}</StatusBadge>
         </div>
 
         {order.recipientProposal?.proposed&&<section aria-label="مراجعة بيانات مستلم الطلب" className="my-3 space-y-2 rounded-xl border border-nw-warn bg-nw-warn-bg p-3">
@@ -527,6 +519,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
           </UiButton>
         )}
       </section>
+      {embedded && <OrderCommercialSummary order={order} />}
 
       <details open={!historyContext} className={historyContext ? "sales-invoice-rare-actions rounded-xl border border-nw-border p-3" : "contents"}><summary className={historyContext ? "min-h-11 cursor-pointer py-3 font-semibold" : "hidden"}>⋯ إجراءات الفاتورة والمرتجع</summary>
       <div id={`order-action-area-${order.id}`} className="space-y-2 scroll-mt-4">
@@ -719,7 +712,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
                 onChange={(event) => setDeliveryFeeInput(event.target.value)}
                 className="w-full rounded-xl border border-nw-border bg-nw-surface-2 p-2.5 font-black text-nw-text"
               />
-              <span className="mt-1 block text-[10px] leading-5 text-nw-muted">خلّيها 0 إذا الزبون دفع الأجرة للسائق مباشرة؛ ساعتها ما بتدخل فاتورة المحل.</span>
+              <span className="mt-1 block text-[10px] leading-5 text-nw-muted">اتركها 0 إذا دفع الزبون الأجرة للسائق مباشرة؛ عندها لا تدخل في فاتورة المحل.</span>
             </label>
 
             <div className="grid grid-cols-3 gap-2">
@@ -1001,13 +994,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
       </details>
 
       <details open={!embedded} className="rounded-xl border border-nw-border p-3"><summary className="min-h-11 cursor-pointer py-2 font-bold text-nw-primary">التواصل وملف العميل</summary>
-      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-nw-border bg-nw-surface-2 p-3">
-        <div>
-          <strong className="block text-nw-text">{order.customerName}</strong>
-          <bdi dir="ltr" className="select-text font-mono text-[10px] text-nw-ok">
-            {order.customerPhone || 'لا يوجد رقم هاتف'}
-          </bdi>
-        </div>
+      <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-nw-border bg-nw-surface-2 p-3">
         <div className="flex flex-wrap gap-1.5">
           {order.customerId && (
             <UiButton variant="primary"
@@ -1052,15 +1039,6 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
           <ChevronLeft className="h-4 w-4 text-nw-muted transition group-open:-rotate-90" />
         </summary>
         <div className="mt-3 space-y-4">
-          <div className="rounded-2xl border border-nw-info bg-nw-primary p-3 text-[11px] leading-5 text-nw-on-primary">
-        <div className="flex items-start gap-2">
-          <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-nw-info" />
-          <p>
-            {order.accountingTracked===false?'هذا الطلب بلا تتبع مخزون أو حجز. القبول يبدأ التجهيز، والتسليم يسجل التحصيل والذمة.':'كميات هذا الطلب محجوزة منذ إنشائه في المتجر. قبول الطلب يبدأ التجهيز مباشرة، والخصم الفعلي من المخزون يحدث عند اعتماد التسليم والحساب.'}
-          </p>
-        </div>
-      </div>
-
       <details className="rounded-xl border border-nw-border p-3"><summary className="min-h-11 cursor-pointer py-3 font-bold text-nw-primary">العنوان والخريطة وتعديل الموقع</summary>
       <CustomerLocationCard
         order={order}
@@ -1070,6 +1048,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
       />
       </details>
 
+      {!embedded&&<>
       <div className="space-y-2 rounded-2xl border border-nw-border bg-nw-surface-2 p-3">
         <h4 className="font-bold text-nw-text">أصناف الطلب</h4>
         {(order.items || []).map((item) => (
@@ -1144,12 +1123,9 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
           </span>
         </div>
       </div>
+      </>}
 
       <details open={!embedded} className="rounded-2xl border border-nw-border bg-nw-surface-2 p-3"><summary className="min-h-11 cursor-pointer py-2 font-bold">تفاصيل الدفع والتحصيل</summary>
-        <div className="mb-2 flex items-center gap-1.5 font-bold text-nw-text">
-          <ReceiptText className="h-4 w-4 text-nw-info" />
-          الدفع والتحصيل
-        </div>
         <div className="grid grid-cols-3 gap-2 text-center">
           <div className="rounded-xl bg-nw-surface p-2">
             <span className="block text-[9px] text-nw-muted">الطريقة</span>

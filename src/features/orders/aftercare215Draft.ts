@@ -48,7 +48,7 @@ export function inspectWizardPhysical215(physical:readonly WizardPhysical215[],i
   return physical.map(leaf=>{
     const value=inspection[physicalKey215(leaf.source)]??{bad:0,customerDamage:0};
     if(!Number.isSafeInteger(value.bad)||!Number.isSafeInteger(value.customerDamage)||value.bad<0||value.customerDamage<0||value.bad+value.customerDamage>leaf.source.quantity)
-      throw new Error(`${leaf.name}: الخربان وضرر الزبون معاً يجب أن يكونا بين 0 و${leaf.source.quantity} باكيت.`);
+      throw new Error(`${leaf.name}: التالف وضرر الزبون معاً يجب أن يكونا بين 0 و${leaf.source.quantity} باكيت.`);
     return{...leaf,source:{...leaf.source,sellable_restock_quantity:leaf.source.quantity-value.bad-value.customerDamage,
       defect_non_sellable_quantity:value.bad,customer_damage_quantity:value.customerDamage}};
   });

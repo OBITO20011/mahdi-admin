@@ -94,7 +94,7 @@ export function ParcelConfigurationModal({initialFamilyProductId,operatingMode='
   return <FormFields dir="rtl" aria-busy={busy} className="nw-products-fields min-w-0 space-y-4 text-nw-text">
     <p className="text-sm">هنا تجهّز طرداً مشكّلاً من نكهات المنتج. الطرد العادي يُضبط من نموذج المنتج ولا يحتاج هذه الشاشة.</p>
     {missingPacketPrices.length>0 && <aside role="status" className="rounded-lg border border-nw-border p-3 text-nw-warn">
-      <p>عبّي سعر الباكيت؛ بدونه لا يُحسب خصم ضرر العميل</p>
+      <p>أدخل سعر الباكيت؛ بدونه لا يُحسب خصم ضرر العميل</p>
       <ul>{missingPacketPrices.map(c=><li key={c.productId}>{c.nameAr} — {c.sku}</li>)}</ul>
     </aside>}
     {error && <p role="alert" className="text-nw-bad">{error}</p>}

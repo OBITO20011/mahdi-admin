@@ -6,7 +6,9 @@ test('lite guest recipient proposal keeps customer card distinct and offers manu
  await page.setViewportSize({width:390,height:1000});await page.goto('/e2e/package-f-orders-harness.html?liteRecipient&select');
  const proposal=page.getByRole('region',{name:'مراجعة بيانات مستلم الطلب'});await expect(proposal).toContainText('اسم البطاقة المحفوظ');await expect(proposal).toContainText('مستلم الطلب المقترح');
  await expect(proposal).toContainText('غير مسجلة');await expect(proposal).toContainText('الطلب لا يعدّلها تلقائياً');await expect(proposal.getByRole('button',{name:'فتح بطاقة الزبون للمراجعة'})).toBeVisible();
- await page.getByText('تفاصيل الطلب والحساب',{exact:true}).tap();await expect(page.getByText('هذا الطلب بلا تتبع مخزون أو حجز. القبول يبدأ التجهيز، والتسليم يسجل التحصيل والذمة.',{exact:true})).toBeVisible();
+ await page.getByText('تفاصيل الطلب والحساب',{exact:true}).tap();
+ // Owner UX batch F: the long explanation box is gone; the next-step button already says what happens.
+ await expect(page.getByRole('main')).not.toContainText('هذا الطلب بلا تتبع مخزون أو حجز');
  await expect(page.getByRole('main')).not.toContainText('كميات هذا الطلب محجوزة منذ إنشائه');
 });
 test('lite mobile return reuses inspection,server money and durable recovery;no replacement,supplier,cost or stock promise',async({page})=>{

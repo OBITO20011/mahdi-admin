@@ -48,7 +48,9 @@ test('stock alerts use configured wholesale sale packages', () => {
   assert.match(migration, /p\.units_per_sale_unit/);
   assert.match(migration, /p\.default_sale_price_in_minor_units/);
   assert.match(migration, /availableSalePackages/);
-  assert.match(presentation, /الجاهزية محسوبة حسب طرد البيع/);
+  // Owner UX batch F: Home keeps only the alert count; the list lives in المخزون.
+  assert.match(presentation, /تنبيه مخزون/);
+  assert.doesNotMatch(presentation, /الجاهزية محسوبة حسب طرد البيع/);
 });
 
 test('the operational home removes the legacy dashboard overload', () => {
@@ -59,7 +61,7 @@ test('the operational home removes the legacy dashboard overload', () => {
 });
 
 test('the home is a focused daily work center, not a reports shortcut', () => {
-  for (const label of ['مركز اليوم', 'طلبات تحتاج إجراء', 'ذمم العملاء', 'المخزون']) assert.ok(presentation.includes(label), label);
+  for (const label of ['مركز اليوم', 'طلبات تحتاج إجراء', 'الديون على الزبائن', 'تنبيه مخزون']) assert.ok(presentation.includes(label), label);
   assert.match(view, /setActiveTab\('orders'\)/);
   assert.match(view, /setActiveTab\('sales_history'\)/);
   assert.match(presentation, /RecentSalesCard/);

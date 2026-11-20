@@ -1096,7 +1096,7 @@ export function CheckoutModal({
                       className={`${inputClassName} resize-none`}
                     />
                     <p className="mt-1.5 text-[10px] font-bold text-slate-500">
-                      {mapLocation ? 'موقعك على الخريطة يكفي؛ أضف تفاصيل فقط إذا بتساعد السائق.' : 'اكتب الشارع أو رقم المبنى أو أقرب معلم ليسهل الوصول إليك، أو حدّد موقعك على الخريطة.'} {form.street.length}/{MAX_GUEST_DELIVERY_DETAILS_LENGTH}
+                      {mapLocation ? 'موقعك على الخريطة يكفي؛ أضف تفاصيل فقط إذا كانت تساعد السائق.' : 'اكتب الشارع أو رقم المبنى أو أقرب معلم ليسهل الوصول إليك، أو حدّد موقعك على الخريطة.'} {form.street.length}/{MAX_GUEST_DELIVERY_DETAILS_LENGTH}
                     </p>
                   </Field>
                 </div>
@@ -1254,7 +1254,7 @@ export function CheckoutModal({
                   <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-sky-600 text-white"><Truck className="h-5 w-5" /></span>
                   <div>
                     <p className="text-xs font-black text-sky-950">منطقة التوصيل</p>
-                    <p className="mt-1 text-[10px] font-bold leading-5 text-sky-700">{driverPaysDelivery ? 'أجرة التوصيل تُدفع لعامل التوصيل مباشرة، وما بتنحسب بفاتورة المحل.' : 'اختر المنطقة ليظهر المجموع النهائي شامل أجرة التوصيل.'}</p>
+                    <p className="mt-1 text-[10px] font-bold leading-5 text-sky-700">{driverPaysDelivery ? 'أجرة التوصيل تُدفع لعامل التوصيل مباشرة، ولا تُحسب في فاتورة المحل.' : 'اختر المنطقة ليظهر المجموع النهائي شامل أجرة التوصيل.'}</p>
                     {driverPaysDelivery && driverFeeNote && <p data-testid="checkout-driver-fee-areas" className="mt-1 text-[10px] font-bold leading-5 text-sky-900">{driverFeeNote}</p>}
                   </div>
                 </div>

@@ -31,7 +31,7 @@ for(const width of [390,1440]){
     await page.getByRole('button',{name:'يبدّل',exact:true}).click();await page.getByRole('button',{name:'التالي',exact:true}).click();
     await page.locator('summary').filter({hasText:'متقدم · البديل الذي أعطيته · عصير تجريبي'}).click();
     await page.getByRole('button',{name:'البديل الذي أعطيته · عصير تجريبي · 1 · المتبقي 2 باكيت',exact:true}).click();
-    await page.getByRole('button',{name:'التالي',exact:true}).click();await page.getByLabel('الخربان · عصير تجريبي',{exact:true}).fill('1');
+    await page.getByRole('button',{name:'التالي',exact:true}).click();await page.getByLabel('التالف · عصير تجريبي',{exact:true}).fill('1');
     await page.getByLabel('فحصت الباكيتات الراجعة',{exact:true}).check();await page.getByRole('button',{name:'التالي',exact:true}).click();
     await page.getByRole('button',{name:'خسارة عليّ — تالف نهائي',exact:true}).click();await page.getByRole('button',{name:'التالي',exact:true}).click();
     await page.getByRole('button',{name:'معاينة التفاصيل',exact:true}).click();await expect(page.getByTestId('aftercare215-preview')).toBeVisible();
@@ -45,7 +45,7 @@ for(const width of [390,1440]){
     await page.getByRole('button',{name:'يبدّل',exact:true}).click();await page.getByRole('button',{name:'التالي',exact:true}).click();
     await page.locator('summary').filter({hasText:'متقدم · البديل الذي أعطيته · طرد مشكّل 1'}).click();
     await page.getByRole('button',{name:'البديل الذي أعطيته · توت · 1 · المتبقي 1 باكيت',exact:true}).click();
-    await page.getByRole('button',{name:'التالي',exact:true}).click();await page.getByLabel('الخربان · توت',{exact:true}).fill('1');
+    await page.getByRole('button',{name:'التالي',exact:true}).click();await page.getByLabel('التالف · توت',{exact:true}).fill('1');
     await page.getByLabel('فحصت الباكيتات الراجعة',{exact:true}).check();await page.getByRole('button',{name:'التالي',exact:true}).click();
     await page.getByRole('button',{name:'خسارة عليّ — تالف نهائي',exact:true}).click();await page.getByRole('button',{name:'التالي',exact:true}).click();
     await page.getByRole('button',{name:'معاينة التفاصيل',exact:true}).click();await expect(page.getByTestId('aftercare215-preview')).toBeVisible();
@@ -56,7 +56,7 @@ for(const width of [390,1440]){
     await page.getByRole('button',{name:'إرجاع أو استبدال',exact:true}).click();await page.getByRole('button',{name:'يبدّل',exact:true}).click();await page.getByRole('button',{name:'التالي',exact:true}).click();
     await expect(page.locator('summary').filter({hasText:/متقدم · البديل الذي أعطيته/})).toHaveCount(0);
     await page.getByRole('button',{name:'طرد كامل',exact:true}).click();await page.getByRole('button',{name:'التالي',exact:true}).click();
-    await expect(page.getByText('البديل الذي أعطيته · 2 باكيت',{exact:true})).toBeVisible();await expect(page.getByLabel('الخربان · عصير تجريبي',{exact:true})).toHaveCount(2);
+    await expect(page.getByText('البديل الذي أعطيته · 2 باكيت',{exact:true})).toBeVisible();await expect(page.getByLabel('التالف · عصير تجريبي',{exact:true})).toHaveCount(2);
   });
   test(`old replacement recovery remains visible and reuses the same saved request after button removal at${width}`,async({page})=>{
     await page.setViewportSize({width,height:900});await contextMock(page);await page.goto('/e2e/aftercare-cleanup-harness.html');
