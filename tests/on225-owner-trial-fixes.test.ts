@@ -61,9 +61,9 @@ test('damage report leads with one plain profit line whose sign follows profit',
 
 test('reports open with a plain summary of server values and hide zero extras',()=>{
  const view=raw('src/features/reports/ReportsCenterView.tsx');
- const summary=view.slice(view.indexOf('data-testid="report-plain-summary"'),view.indexOf('<section className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">'));
+ const summary=view.slice(view.indexOf('data-testid="report-plain-summary"'),view.indexOf('<SupplierReplacementSummary ownerOnly />'));
  for(const value of ['report.sales.netSales','report.sales.netProfit','report.cashFlow.cashNetFlow','report.cashFlow.cliqNetFlow','report.balances.customerDue','report.balances.supplierDue'])assert.ok(summary.includes(value),value);
- assert.match(summary,/filter\(row=>row\.always\|\|row\.value!==0\)/u);
+ assert.ok(summary.includes('filter(row=>row.always||row.value!==0)'));
  assert.doesNotMatch(summary,/<section|<article/u);
 });
 

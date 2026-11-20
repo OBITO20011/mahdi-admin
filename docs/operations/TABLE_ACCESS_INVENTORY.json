@@ -701,7 +701,7 @@
     },
     {
       "file": "src/features/reports/ReportsCenterView.tsx",
-      "sha256": "a6d5ded7898cd25a38bf0f6526c85f4645046a5c57d60e0d81015a04587e10c1"
+      "sha256": "648bbe06fe8a9951e2914cfe0edda5ca6a77be8288eb0b0bc0cd053dab15b373"
     },
     {
       "file": "src/features/reports/SalesOnlyReportsView.tsx",
@@ -1370,6 +1370,10 @@
     {
       "file": "src/utils/reportPeriodSelection.ts",
       "sha256": "8cbc0dca86c7c72330669c1f38dc83a5d0b2f08afd9a97d9dbc1169dcda13216"
+    },
+    {
+      "file": "src/utils/reportProfitSteps.ts",
+      "sha256": "9c33b4c36f73609f74466d7230ce39b40147eeae96b9b542df75b310c69e5c6c"
     },
     {
       "file": "src/utils/roleLabels.ts",
