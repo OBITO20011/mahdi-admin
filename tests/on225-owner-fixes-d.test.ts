@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {orderReturnBadgeLabel,orderReturnState,summarizeOrderReturns} from '../src/utils/orderReturnState';
-import {shiftDurationLabel,shiftReportDays,topProfitProducts} from '../src/utils/shiftOwnerSummary';
+import {canShowShiftOwnerSummary,shiftDurationLabel,shiftReportDays,topProfitProducts} from '../src/utils/shiftOwnerSummary';
 
 const source=(path:string)=>readFileSync(new URL(`../${path}`,import.meta.url),'utf8');
 
@@ -62,6 +62,12 @@ test('item 17: shift days, duration and top profit items', () => {
   // Closes after Amman midnight: both days.
   assert.deepEqual(shiftReportDays('2026-11-20T15:00:00Z','2026-11-20T22:30:00Z'),{from:'2026-11-20',to:'2026-11-21'});
   assert.deepEqual(shiftReportDays('2026-11-20T05:00:00Z',undefined,new Date('2026-11-20T09:00:00Z')),{from:'2026-11-20',to:'2026-11-20'});
+  assert.equal(shiftReportDays(undefined),null);
+  assert.equal(shiftReportDays('not-a-date'),null);
+  // Partial/legacy payloads (no start time or missing figures) keep the detailed report alone instead of crashing it.
+  assert.equal(canShowShiftOwnerSummary({shift:{},sales:{},reconciliation:{}}),false);
+  assert.equal(canShowShiftOwnerSummary({shift:{startTime:'2026-11-20T05:00:00Z'},sales:{netSales:1},reconciliation:{}}),false);
+  assert.equal(canShowShiftOwnerSummary({shift:{startTime:'2026-11-20T05:00:00Z'},sales:{netSales:1},reconciliation:{netCliqMovement:0}}),true);
   assert.equal(shiftDurationLabel('2026-11-20T05:00:00Z','2026-11-20T07:30:00Z'),'2 ساعة و30 دقيقة');
   assert.equal(shiftDurationLabel('2026-11-20T05:00:00Z','2026-11-20T05:40:00Z'),'40 دقيقة');
   const top=topProfitProducts([{productName:'أ',sku:'1',profit:1},{productName:'ب',sku:'2',profit:5},{productName:'ج',sku:'3',profit:-2},{productName:'د',sku:'4',profit:3},{productName:'ه',sku:'5',profit:2}]);

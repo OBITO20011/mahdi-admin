@@ -53,7 +53,8 @@ test('D missing saved public link still permits reprint without creating a token
   await expect(page.getByRole('button',{name:'نسخ الرابط',exact:true})).toHaveCount(0);
   await page.getByRole('button',{name:'طباعة الوصل',exact:true}).click();
   await expect(page.getByTestId('sale-receipt-document').locator('[data-receipt-line-description]')).toHaveText(trialDDescriptions);
-  expect(requests.every(url=>url.endsWith('/get_admin_sales_aftercare_context_v1'))).toBe(true);
+  // Owner trial item 9: the detail badge reads settled return events (GET only); every other request stays the aftercare context reader.
+  expect(requests.every(url=>url.endsWith('/get_admin_sales_aftercare_context_v1')||new URL(url).pathname.endsWith('/rest/v1/sales_return_events'))).toBe(true);
 });
 
 for(const width of [390,1440])test(`D explicit per-product prices and independent parcel/unit counters ${width}`,async({page})=>{

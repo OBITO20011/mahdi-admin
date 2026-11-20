@@ -3,7 +3,7 @@ import {CheckCircle2,RefreshCw,Smartphone,TrendingUp,TriangleAlert,Wallet} from 
 import {MoneyText} from '../../components/ui';
 import {fetchAccountingReport} from '../../services/supabase/reportingDispatch.service';
 import type {ShiftClosingReport} from '../../types';
-import {shiftDurationLabel,shiftReportDays,topProfitProducts,type ShiftProfitFacts} from '../../utils/shiftOwnerSummary';
+import {canShowShiftOwnerSummary,shiftDurationLabel,shiftReportDays,topProfitProducts,type ShiftProfitFacts} from '../../utils/shiftOwnerSummary';
 
 type ProfitState={status:'loading'}|{status:'ready';facts:ShiftProfitFacts}|{status:'unavailable';reason:string};
 
@@ -14,8 +14,12 @@ type ProfitState={status:'loading'}|{status:'ready';facts:ShiftProfitFacts}|{sta
  * the shift's Amman day(s), so they include every sale booked on those days.
  */
 export function ShiftOwnerSummary({report}:{report:ShiftClosingReport}) {
+  return canShowShiftOwnerSummary(report)?<ShiftOwnerSummaryCard report={report}/>:null;
+}
+
+function ShiftOwnerSummaryCard({report}:{report:ShiftClosingReport}) {
   const {shift,reconciliation}=report;
-  const days=shiftReportDays(shift.startTime,shift.endTime);
+  const days=shiftReportDays(shift.startTime,shift.endTime)!;
   const [profit,setProfit]=useState<ProfitState>({status:'loading'});
   useEffect(()=>{
     let active=true;setProfit({status:'loading'});

@@ -4,11 +4,19 @@ import {reportToday} from './reportPeriodSelection';
 export interface ShiftTopItem {productName:string;sku:string;profit:number}
 export interface ShiftProfitFacts {netProfit:number;top:ShiftTopItem[]}
 
-/** Amman calendar days the shift touched; an open shift runs to today. */
-export function shiftReportDays(startTime:string,endTime?:string,now=new Date()):{from:string;to:string} {
-  const from=reportToday(new Date(startTime));
-  const to=reportToday(endTime?new Date(endTime):now);
+const validDate=(value:unknown)=>{const date=typeof value==='string'&&value?new Date(value):null;return date&&Number.isFinite(date.getTime())?date:null;};
+
+/** Amman calendar days the shift touched; an open shift runs to today. Null when the start is unknown. */
+export function shiftReportDays(startTime:string|undefined,endTime?:string,now=new Date()):{from:string;to:string}|null {
+  const start=validDate(startTime);if(!start)return null;
+  const from=reportToday(start);
+  const to=reportToday(validDate(endTime)??now);
   return to<from?{from,to:from}:{from,to};
+}
+
+/** The plain summary only renders for a complete server report; partial or legacy payloads keep the detailed report alone. */
+export function canShowShiftOwnerSummary(report:{shift:{startTime?:string};sales:{netSales?:number};reconciliation:{netCliqMovement?:number}}):boolean {
+  return shiftReportDays(report.shift.startTime)!==null&&Number.isFinite(report.sales.netSales)&&Number.isFinite(report.reconciliation.netCliqMovement);
 }
 
 export function topProfitProducts(items:ReadonlyArray<{productName:string;sku:string;profit:number}>,count=3):ShiftTopItem[] {

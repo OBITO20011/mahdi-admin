@@ -761,7 +761,7 @@
     },
     {
       "file": "src/features/shifts/ShiftOwnerSummary.tsx",
-      "sha256": "3dcdd3350a8d6ee23470103c77385663344c6b26b45588c93b7f222818890853"
+      "sha256": "839cc035b721deab634831b09d14f19fd884f3256fc2a7f5146126c6ebae56a5"
     },
     {
       "file": "src/features/shifts/ShiftsView.tsx",
@@ -1385,7 +1385,7 @@
     },
     {
       "file": "src/utils/shiftOwnerSummary.ts",
-      "sha256": "37c13a2f373099922199041fcd77a83d3c9344e9063f5a4a2182efae7e56ae1a"
+      "sha256": "880d7a53d77e71b928807cf70b3bba5689b8d362aadb6908c1d024dc33b87d97"
     },
     {
       "file": "src/utils/supplierCancellationPreview.ts",

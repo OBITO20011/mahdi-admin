@@ -26,6 +26,8 @@ async function api(page:Page,mode:{empty?:boolean;failed?:boolean;malformed?:boo
     if(name==='get_supplier_replacements_page_v1'){replacementReads.push(request.postDataJSON());return route.fulfill({json:{contractVersion:208,page:1,pageSize:25,totalCount:0,pendingQuantity:0,pendingValueInMinorUnitsExact:'0.000000',cases:[]}});}
     if(name==='get_home_dashboard')return route.fulfill({json:{...homeFixture,financialFactsStatus:'available',summary:{...homeFixture.summary,todaySalesInMinorUnits:56050,todayCompletedOrders:3}}});
     if(name==='get_admin_sales_aftercare_context_v1')return route.fulfill({json:{contractVersion:403,serverTime:at,supported:false,capability:'legacy_pos_v1_unsupported',baseItems:[],parcelInstances:[],returns:[],replacements:[],order:{id:request.postDataJSON().p_order_id,orderNumber:'INV-001',status:'completed',saleContract:null,source:'pos',branchId:id(200),warehouseId:id(201),completedAt:null,deadlineAt:null,withinWindow:false}}});
+    // Owner trial item 9: the gross/returns/net line reads the canonical report (a POST reader, not a write). Failing it here keeps that line hidden.
+    if(name==='get_operational_business_report')return route.fulfill({status:503,json:{message:'report not part of sales204 harness'}});
     if(request.method()!=='GET'){writes.push(name);return route.fulfill({status:403,json:{message:'Mutations forbidden in sales204 harness'}});}
     if(name==='orders'){
       const orderId=url.searchParams.get('id')?.replace(/^eq\./u,'')??id(1),row=rows.find(r=>r.id===orderId)??rows[0];
