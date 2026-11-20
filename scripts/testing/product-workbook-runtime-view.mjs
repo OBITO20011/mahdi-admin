@@ -100,9 +100,7 @@ export async function prepareWorkbookRuntimeView({schemaOnly=false}={}){
   for(const[file,pin]of Object.entries(on225OwnerFixesPins)){
    if(!sourceScope(file))continue;
    const target=path.join(dir,file),raw=await readFile(target,'utf8');
-   assert.equal(hash(raw.replaceAll('
-','
-')),pin.after,'HISTORICAL_OWNER_FIXES225_UNREVIEWED_SOURCE:'+file);
+   assert.equal(hash(raw.replaceAll('\r\n','\n')),pin.after,'HISTORICAL_OWNER_FIXES225_UNREVIEWED_SOURCE:'+file);
    const before=sourceBeforeOn225OwnerFixes(file,raw);
    assert.notEqual(before,raw,'HISTORICAL_OWNER_FIXES225_UNREVIEWED_SOURCE:'+file);
    assert.equal(before,historicalText('3fda5f90d6fe380bcff677f494476bc9a6a6ab69',file),'HISTORICAL_OWNER_FIXES225_NOT_EXACT_GIT:'+file);
